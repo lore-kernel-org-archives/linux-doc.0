@@ -1,95 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.19
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793729727;
-	b=rHNVUn6k4+ZzyIYeA9EEMk8C/noj20kXawEac37cZapPRpvqcT9BN31lS/J4HG0YW922
-	 obNjKKTOb9pyZw3nwBGR8UsGFE/LwIWIPLlIk/EuctIJ9v19gYneSDDgT6qkSh72K36ix
-	 t/Kno4Hzlwuq3zQzUpii8UhDXRPzp8PodAZl8AKHK1zs2IOunnaDKbRTVgtQ0RCM9/XzD
-	 jfMkyvosxR41GOVlcUV7y/A5O9vwMxbMAcsZgFauGdHViPP6ET4LjT7y1y8xDYhJT7heJ
-	 3iPWUZJNA5jtuKpFzNMN6JW5sguSCVEDnMiZ3RtzBf1rNEhCHPivh5V3N5Ra1MJNXZg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793729727;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-ID:References:In-Reply-To:To:CC:X-Mailer:X-Originating-IP:
-	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=HOywpAhArP7yN0NXrZ/jQS4dMQ7BX5AdrJO33AvBhdI=;
-	b=w5ALNMkI1oG5l5btneqpHV+C8ZQt8alvTSDlhY44PBokxRDpjofIt35lARPr34goO7QX
-	 5mGQlPFhSxswN1X+O4cKjr73Vda/fiAfA1VF7oqHuFX07L1AIsXIPOyqvhHAFAFXzBFxz
-	 EHIUD8LPfMyEYURGIwmlZTcdE/Tu/P1Z/PymbxfmWdfH9E9zFd/vSYs+1kx3Qw369yi9C
-	 iNngiSD1L6DEXC8sT9PDQyMTHEGgcKTs0P7dC1tPf0taADV7biM994EHte66+I6i9lOZ5
-	 o3PvPnOcKFZuYsoPciBZmmUtVl6Ny4VaEMzfwThYtCWxfiNbhNuvvqL7Wd3jCtPzvdw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=LSj1aG6M;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.195.19
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012019.outbound.protection.outlook.com [40.93.195.19])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.132.183.11
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793730464;
+	b=lEkT6MJ8H51dBu5TmRAvQd4/T8MuAnCrjQbt0GAMfbanTDKTvNaes5OPACFB5V7hQnif
+	 W6dtsQ3kPpWBIX/2dvcXEUWxdreJTKoMgvhhwuprDk7gZa7D/plnPlocOW+54CZKO5ND5
+	 Ez/1hlWsOm3jKcs22bZdZxtaDXAc/oxajXfUuQIen31biDNs94r644+iL5sy/DJPHY8/9
+	 ndAJCFvrUr3e1ZPTWRr3dSx2fyuEMxAHiEkexkgODIEYMXj+6kHIZ2l5q90sAmDSl7r4p
+	 gN5wmGbdzRJXyZfE6x+edKWWl9J/ScSd9buA03pNjCvDmwxKqFGlZNYN8nWlr3viOog==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793730464;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 X-Proofpoint-Reinject:X-Sony-BusinessRelay-GUID:
+	 X-Proofpoint-Virus-Version:X-Sony-EdgeRelay-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Sony-Outbound-GUID:
+	 X-Proofpoint-Virus-Version;
+	bh=FcQW18igFmNwpgQ52DefJQ/lR+8v8LNa/utHyEf9HUM=;
+	b=yZkszklANJv/1Mq/XtRqqMa7xWx+iYm0mXZEVD7Qu+0f2dLeu8Fsa3FRTjOkBa0Zaucn
+	 zdc8v6EWXlodKM51dlSUH/lXi7YsqlTxE0XJh7BIy7cChr70nh49vxcFiJBZ12nZKLw/n
+	 QfEGbZAoRlt7pyqbzTP10UdLfPUc8R4tGtJ60zM8sylTA/zpoeVXA6UzPI/e/EmkSk6cG
+	 3ojdDc4YYliY4obu8oPVENo63bxqcgDVnS5FLhAzyhbj4AKnwe/vAy9TebhnfrVarm313
+	 bmAvyterPS3AYz7ktoe2KstV3QW01WgGxsY6scs7kfSg3Y0EhSa4Bx/I8Ui7TV+JiPw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=sony.com;
+	spf=pass smtp.mailfrom=sony.com;
+	dkim=pass header.d=sony.com header.i=@sony.com header.a=rsa-sha256 header.s=p1 header.b=DpFMXIsA;
+	arc=none smtp.remote-ip=185.132.183.11
+Received: from mx07-001d1705.pphosted.com (mx07-001d1705.pphosted.com [185.132.183.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29B7606D837;
-	Tue,  3 Nov 2026 18:15:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D29B7606D837
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F37C606A324;
+	Tue,  3 Nov 2026 18:27:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F37C606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=LSj1aG6M
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=O+bW0fG4mlGn/r5VcY0snFtbnZyqZh5GQdbnJ5DA5GC5HEt6ztRpmMKcA7fxhpv/cI8DmL0cdB84VFTesX8IhGrZuttKKSt0DBG7NIpx545SmRfaZlMHJQk2kZYtsUXwBeldzvMBMSwHo10oiAcv8ugWyoowGj2SmdGTz/RpVBFhkEQ3JItooMEtRXP5DgrXsgKSz5A20dZRUNQ0xfbSWWhrttYgbetssGaHd/bc8M6guphOoi3POq3NPqNbJg4tf8FE84mzyxk1jLNez+lm4GmhKYrFfzmpCWWH2wvmyOkyPKikAWs8uX7dCiUWwE65X/6jX1PFIF3FslG2Ebs3UQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HOywpAhArP7yN0NXrZ/jQS4dMQ7BX5AdrJO33AvBhdI=;
- b=IkVTlSFuk1l+RYWK3tsCEPt3z831DUBOUOBrsYqsve5x0kB105BMhR7ywQgjsYXdWJjfRue9SKSGzohTS+OT7ceqXpXD+2kXiNLRSL06PKQ+wcmYAGSE2AecWfBVNYKV9Bq00Q+2hC0cXBPhnxXawljo/Ev3Gu10U9Bahdov83YIO09eQ3pO1RSYNBTweFuLxj5K0GTmYX4m4lDXoGlXYm5P2wfTunYILkYepsSj4PyIOW+tr+wy1r8NGK4eRJgAndork8Kf88YYjbbZLBmbynWFtrZZMxDk+bMylm34opik2C8ubJhDK+SpuXsrdku6hG7BFM7dXLB8y+PY52UgKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HOywpAhArP7yN0NXrZ/jQS4dMQ7BX5AdrJO33AvBhdI=;
- b=LSj1aG6MysMrobX1+zz9WSqR2IxpLDz8zQ6jf2Y70qzFjGUhTd5Mdl21Himeqx5z4K93T8uEIFSBBGvGZwexLpTVNKM4CU4DkVn8Zk4XekWeqJoL5XEZAqa05PeQzV6s3Y39qOI5ptU1KJ5brFAxA6oy9dpenCD3D5NjrkPzrzw=
-Received: from ROAP284CA0442.BRAP284.PROD.OUTLOOK.COM (2603:10d6:10:147::7) by
- SN7PR12MB7372.namprd12.prod.outlook.com (2603:10b6:806:29b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Tue, 3 Nov 2026
- 18:15:16 +0000
-Received: from BN2PEPF0000A88F.namprd04.prod.outlook.com
- (2603:10d6:10:147:cafe::16) by ROAP284CA0442.outlook.office365.com
- (2603:10d6:10:147::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.8 via Frontend Transport; Tue, 3
- Nov 2026 18:15:14 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- BN2PEPF0000A88F.mail.protection.outlook.com (10.167.248.181) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.592.5 via Frontend Transport; Tue, 3 Nov 2026 18:15:14 +0000
-Received: from [192.168.0.1] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Tue, 3 Nov
- 2026 12:15:11 -0600
-From: "Nikhil P. Rao" <nikhil.rao@amd.com>
-Date: Tue, 3 Nov 2026 18:14:49 +0000
-Subject: [PATCH net-next 4/4] hwmon: add AMD Pensando ionic sensor driver
+	dkim=pass (2048-bit key, unprotected) header.d=sony.com header.i=@sony.com header.a=rsa-sha256 header.s=p1 header.b=DpFMXIsA
+Received: from pps.filterd (m0209326.ppops.net [127.0.0.1])
+	by mx08-001d1705.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3Hl3OC3946215;
+	Tue, 3 Nov 2026 18:27:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sony.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=p1; bh=FcQW18igFmNwpgQ52D
+	efJQ/lR+8v8LNa/utHyEf9HUM=; b=DpFMXIsA96CrqDFKV/HB5MqvW8wQQpUh/U
+	0M9xN5GalUnRrcUwt15sA907iv2PyibF7GWXe07c4pFlpy1qnKTa4sYxJYSLnfnO
+	pUut4mYxnq+920nx0BegtwpvBaSKNOO6W/uot8YFCoDJy3JVD0Dg8oRLQoIN/Wb4
+	7SJaHcj/blx9klV36F6HBsLanqqpvmKYm7JXyAk8W+QBj7Ie/hPqLFJWsRF5m1lj
+	d8tcrXhReiZ/u5t2XuwA0RUucPlXuoa/G0NUkdS7hMKIaFipPvyn5d39pxm0Bv/x
+	qzIHqZPeD7q5Sv9ibWPGD+SaDnzTNSWotq8hYBEMH7QipRacegfQ==
+Received: from sgppsea02v.sg.gdce.sony.com.sg ([121.100.43.226])
+	by mx08-001d1705.pphosted.com (PPS) with ESMTPS id 4hn6hbc6g8-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Tue, 03 Nov 2026 18:27:27 +0000 (GMT)
+Received: from pps.filterd (SGPPSEA02v.sg.gdce.sony.com.sg [127.0.0.1])
+	by SGPPSEA02v.sg.gdce.sony.com.sg (8.18.1.11/8.18.1.11) with ESMTP id 6A3HQc8d1602142;
+	Tue, 3 Nov 2026 18:27:26 GMT
+Received: from usculxsnt14v.am.sony.com ([146.215.230.38])
+	by SGPPSEA02v.sg.gdce.sony.com.sg (PPS) with ESMTPS id 4hn9dgdva1-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 03 Nov 2026 18:27:25 +0000 (GMT)
+Received: from pps.filterd (usculxsnt14v.am.sony.com [127.0.0.1])
+	by usculxsnt14v.am.sony.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3HNsvj020765;
+	Tue, 3 Nov 2026 10:27:23 -0800
+Received: from us842f57abef3e.ad.gaikai.biz ([10.10.10.214])
+	by usculxsnt14v.am.sony.com (PPS) with ESMTPS id 4hp1wap27r-3
+	(version=TLSv1.3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256 verify=NOT);
+	Tue, 03 Nov 2026 10:27:23 -0800 (PST)
+From: Maciej Grochowski <Maciej.Grochowski@sony.com>
+To: bhelgaas@google.com, ilpo.jarvinen@linux.intel.com
+Cc: Maciej Grochowski <maciej.grochowski@sony.com>, linux-pci@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        linux-doc@vger.kernel.org
+Subject: [RFC PATCH v2 2/2] PCI: Allow hpbussize for specific hotplug bridges
+Date: Tue,  3 Nov 2026 10:27:20 -0800
+Message-ID: <4ba0c23099e4a4f5ade2b4754871dfbcf896f7dc.1793724065.git.Maciej.Grochowski@sony.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1793724065.git.Maciej.Grochowski@sony.com>
+References: <cover.1793724065.git.Maciej.Grochowski@sony.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -99,715 +89,325 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20261103-pr46-b4-v1-4-850ab7fbec19@amd.com>
-References: <20261103-pr46-b4-v1-0-850ab7fbec19@amd.com>
-In-Reply-To: <20261103-pr46-b4-v1-0-850ab7fbec19@amd.com>
-To: Brett Creeley <brett.creeley@amd.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
-	<rdunlap@infradead.org>, Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva"
-	<gustavoars@kernel.org>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-hwmon@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-hardening@vger.kernel.org>, Abhijit Gangurde
-	<abhijit.gangurde@amd.com>, Arun Kumar Prakash <ArunKumar.Prakash@amd.com>,
-	Eric Joyner <eric.joyner@amd.com>, "Nikhil P. Rao" <nikhil.rao@amd.com>
-X-Mailer: b4 0.15.2
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF0000A88F:EE_|SN7PR12MB7372:EE_
-X-MS-Office365-Filtering-Correlation-Id: b7c4350f-8d5c-4374-ac5d-08df39d66858
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700016|23010399003|1800799024|261026140227099003|261026135527099003|261028144727099003|261026121527099003|261026130827099003|261009223027099003|261021121427099003|261022075727099003|261102123227099003|261022113327099003|261021133027099003|261021135927099003|261022105027099003|261022115727099003|261021123027099003|11063799006|261021130227099003|56012099006|6133799003|10067099003|18002099003|22082099003|921020;
-X-Microsoft-Antispam-Message-Info:
-	08n0yw5566eQmVbZwTyPz2jRPsBdo95eQTM6TSpG5OShslXoTD3axzFNW3vrYU7v1GFdhxS4bHn1u/IAhU9yHkEWSdPgtwhuhWzxKI6ibvpnb271DzZcyNzBi9gLgU2r4+gfv8vRnwk4DPOKr2LadmHpgFH1U2lZ6WUuP0KX78oqO4JCCicx9ugJ4iKhLKih6zYa/z+O+8RQ8JWUxSfF2EEeWKh5wuJeOyaPdcj37TcReUwBAFW9MUoiUdCeI8PqVwzfh3PADVzD6o7jUu6PNC4Bo5/vpIbCew4FXKwZjT4vCnAHoe9JEPsm41HVwvgL4ikLR2LRfUJTVbRitAC8CONJ4ANE0BMbxVZAi1ppFeC/w5JbT/girWn8aWvxpez8gDlq4jdwUPzG7vIpq11b+m5RtJjwWZzTujoQUWR2kW/HNsmaSraQW30Viw4NdEgk+0+MNxKqItf9IsuggAkS+wKqX6paXnvG2aqINsNUw1GY9IXW6l1BRjiQMwCKzrq39hl3PLUTIDLsY+BTvw5HhB4D1xMduHgQP4TMP5FlkluVwj+Mk6iKTZx4mx3+G36bzXyxMwmguIX9G1UL3IlcKEUJw4E7eMt/DISmiG8P/ejT3Caah99x56kEN2vTEBSYome7uLN3rr5aB/3E4bYBVjpEwjhUjwWsT+I6rWJumBCCTXquMxXkXaFHFrPwGFQYr9I9wcK3qhO1KXUS2oFT4FK18i/QkABEB00VZ1Cu8rXFCv0as7pfjXkkeSZXua7e
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700016)(23010399003)(1800799024)(261026140227099003)(261026135527099003)(261028144727099003)(261026121527099003)(261026130827099003)(261009223027099003)(261021121427099003)(261022075727099003)(261102123227099003)(261022113327099003)(261021133027099003)(261021135927099003)(261022105027099003)(261022115727099003)(261021123027099003)(11063799006)(261021130227099003)(56012099006)(6133799003)(10067099003)(18002099003)(22082099003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	Fb+SiPM1eNXCsDB92txNr1R22iuBLkkDdSK4Uckbkc2xM2cOq2j3O3zsl+BKbnKY2adQF7eT/ug77Glz74SpVb5830vaeR6UTOgALoBrg4Ii2tnxsvY5HToIPbGlfT5M1U04VpFOa3vK/aH29tr02Ccwqs35TKAtJtJY6h3WFtGq9NMQo35DK0Mei0OXthCBEPp/7uK9SCHIDHrrrS1GBkwOPF9LO8Nw3cEL4RiTYsTa5EwfzetiNSC6Ocp7xFf/1ZKT3CwHxsOhMZcLCmqGNRilT3ax0t6DmcZ+sDktP57Nvi4Bx5yD/8SPx4+nD74ELRsHv+3ZJ3Z5qPlGmlKkCfeVlG0YXR2x8o5J1/gl1vyiRDtwHXMnHSKbuI5IgsC9HGWfXIh1rjMJWJ35zeuuNgzykd618jEUu5RomJrFK6ySsa6y58YBrHaAZ4RJL4Uz
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2026 18:15:14.5889
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7c4350f-8d5c-4374-ac5d-08df39d66858
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF0000A88F.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7372
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Sony-BusinessRelay-GUID: g23xSiXS_vmfchh8AqlAsLzdGqkq_AHk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-03_04,2026-11-03_03,2025-10-01_01
+X-Sony-EdgeRelay-GUID: MnqbqhS2oEkJH6tLewsRD28KslyWvvu9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-03_04,2026-11-03_03,2025-10-01_01
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAzMDA3MyBTYWx0ZWRfX3g72AxNxV/UA
+ JYY7+L0yoIjFkrWWZTzHXMo5Noc01IBZ7q4Xi2//tjcKmOYt8U3HlFLl8MEAi/C/PAG4OsKU6DE
+ OB3UYZBXnxspzOC2qjsy9Mnvkne88vusBnPQzggw0AvUOe/EeTJr
+X-Proofpoint-ORIG-GUID: _zFsMFWvLRq18LoEbNXBiR4exrrKXPvs
+X-Proofpoint-GUID: _zFsMFWvLRq18LoEbNXBiR4exrrKXPvs
+X-Authority-Analysis: v=2.4 cv=E7ZYNqdl c=1 sm=1 tr=0 ts=6aea2790 cx=c_pps
+ a=6mgWUpd4vGE96FGw1JXD8A==:117 a=6mgWUpd4vGE96FGw1JXD8A==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=KAb5x4SsHD3PzxGk7EmX:22
+ a=lmptg-Pxpg44AF-n8Qp9:22 a=z6gsHLkEAAAA:8 a=NnfKt6W3vqzboaULA5AA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAzMDA3MyBTYWx0ZWRfX2DqBTgxOP5C/
+ TBUdMTW0edHyvpAgMwmakrqpv/DLDCoke0sBJriWd5eJBu0+cRpquM51lvRqQ2InGun5Y0MyvK/
+ b0Y/k9fcObkhl8nAxDti1GIu7/aQaRk6+Amtu/fCIQ/3tig/Gl252AYqnguZwYizeBAhlkT/Jcr
+ HkGdaUDK8WpEXELI5ghry0AMvSsHs9rM9b87x84DacEaGFFgeVpR7w4AhcY483H1ZqD3R7rdg3P
+ j2Iz0AxfW4tqEzS1M+YjWceQlpHA9j8DeAdFKq8H3Taovl8YHg1CvmMGUQ0y75gl3R5IPHFRdT2
+ v4TwWkBS0QyHHC4T85sJzX8l+fdl+cuAJLRX76CJlccMgwvSXfMqPvDOMBDKLReXjlCfACb52TA
+ pSJ+rEHv5Z2k6gqfdjigYU9cHKwtdmq3E3M1DEvFT80S0LCY1MKdhQFvki6ERx4LkyL1itJk/43
+ y13fVtvJKvtX9WqdxZw==
+X-Sony-Outbound-GUID: _zFsMFWvLRq18LoEbNXBiR4exrrKXPvs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-03_04,2026-11-03_03,2025-10-01_01
 
-From: Arun Kumar Prakash <ArunKumar.Prakash@amd.com>
+From: Maciej Grochowski <maciej.grochowski@sony.com>
 
-Add an auxiliary driver that binds to the "ionic.hwmon" device created
-by the ionic Ethernet driver and reports the adapter's temperature,
-voltage and power sensors through hwmon.
+Spare bus numbers below a switch are divided between its hotplug ports.
+A nested switch that appears later can need more than its port's share.
+After a top-switch reset on our PM50052 hierarchy, five downstream ports
+split 15 bus numbers equally, leaving the nested switch's port three
+buses although its hierarchy needs 11.
 
-The sensor set depends on the board and firmware, so the driver reads
-it from the device at probe rather than hard-coding it. A sensor type
-with a channel the driver does not recognise is skipped as a whole,
-since hwmon channel numbers must match the firmware's.
+A global hpbussize of 11 asks for the same minimum on all five ports, so
+earlier siblings consume the range before the selected port is reached.
 
-The hwmon device is parented to the adapter's PCI function rather than
-to the auxiliary device, so lm-sensors names it by PCI address instead
-of as a virtual device.
+Allow hpbussize to take "<count>@<pci_dev>" entries, separated by
+semicolons, using the lookup added by the memory-window patch:
 
-Signed-off-by: Arun Kumar Prakash <ArunKumar.Prakash@amd.com>
-Signed-off-by: Eric Joyner <eric.joyner@amd.com>
-Reviewed-by: Brett Creeley <brett.creeley@amd.com>
-Co-developed-by: Nikhil P. Rao <nikhil.rao@amd.com>
-Signed-off-by: Nikhil P. Rao <nikhil.rao@amd.com>
+  pci=hpbussize=11@0000:80:01.1/00.0/03.0
+
+Recompute each unconfigured hotplug bridge's share from the bus numbers
+still free and the remaining minima. The selected bridge's count replaces
+its global minimum; the other bridges share the remainder. In this case,
+the split becomes 1/1/1/11/1 instead of 3/3/3/3/3.
+
+Include the global minimum for unselected bridges in that calculation.
+Clamp scoped counts to 255 and stop before looking up a secondary bus
+number above 255, so a large request cannot wrap the lookup to bus zero.
+
+Apply the selected minimum when scanning the bridge's own child bus too.
+Parent capacity still limits the reservation, and configured firmware
+ranges are kept. A bare option keeps its existing global meaning.
+
+Assisted-by: Opus 5.5 (implementation/testing), GPT-6.1 (review)
+Signed-off-by: Maciej Grochowski <maciej.grochowski@sony.com>
 ---
- Documentation/hwmon/index.rst       |   1 +
- Documentation/hwmon/ionic-hwmon.rst |  61 +++++
- MAINTAINERS                         |   8 +
- drivers/hwmon/Kconfig               |  13 +
- drivers/hwmon/Makefile              |   1 +
- drivers/hwmon/ionic-hwmon.c         | 492 ++++++++++++++++++++++++++++++++++++
- 6 files changed, 576 insertions(+)
+ .../admin-guide/kernel-parameters.txt         | 16 ++++
+ drivers/pci/pci.c                             | 34 ++++++--
+ drivers/pci/probe.c                           | 87 ++++++++++++++++++-
+ 3 files changed, 126 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 199ca79621e9..91ecaca9edcd 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -106,6 +106,7 @@ Hardware Monitoring Kernel Drivers
-    ina3221
-    inspur-ipsps1
-    intel-m10-bmc-hwmon
-+   ionic-hwmon
-    ir35221
-    ir38064
-    ir36021
-diff --git a/Documentation/hwmon/ionic-hwmon.rst b/Documentation/hwmon/ionic-hwmon.rst
-new file mode 100644
-index 000000000000..23035d617365
---- /dev/null
-+++ b/Documentation/hwmon/ionic-hwmon.rst
-@@ -0,0 +1,61 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: <isonum.txt>
-+
-+Kernel driver ionic-hwmon
-+=========================
-+
-+Supported chips:
-+
-+  * AMD Pensando Ethernet adapters whose firmware advertises
-+    ``IONIC_DEV_CAP_HWMON``
-+
-+    Prefix: 'ionic'
-+
-+Author:
-+
-+	Arun Kumar Prakash <ArunKumar.Prakash@amd.com>
-+
-+Description
-+-----------
-+
-+AMD Pensando Ethernet adapters carry on-board sensors that the adapter
-+firmware can report.  The ionic Ethernet driver creates an ``ionic.hwmon``
-+auxiliary device for adapters whose firmware advertises sensors, and the
-+ionic-hwmon driver binds to it and exposes the readings to the Linux hwmon
-+subsystem, so userspace utilities such as ``sensors`` can read them.  The
-+hwmon device is a child of the adapter's PCI function.
-+
-+The adapter reports which sensors it has when the hwmon device is created,
-+so the files that appear depend on the adapter and its firmware version.
-+The hwmon device is removed and re-created across a firmware recovery, and
-+the sensors are read again when it is re-created.
-+
-+The labels are reported once, with the capabilities, and do not change while
-+the device is bound.
-+
-+sysfs interface
-+---------------
-+
-+Attribute files exist only for the channels and attributes the firmware
-+reports, within ``/sys/class/hwmon/hwmon[X]``:
-+
-+========================= ======= =====================================
-+Name                      Perm    Description
-+========================= ======= =====================================
-+``temp[X]_input``         RO      Temperature in millidegrees Celsius
-+                                  (m\ |deg|\ C).  May read below zero.
-+``temp[X]_label``         RO      Temperature sensor label.
-+``temp[X]_crit``          RO      Critical temperature threshold, in
-+                                  millidegrees Celsius.
-+``temp[X]_crit_alarm``    RO      Critical temperature alarm indicator.
-+``in[X]_input``           RO      Voltage in millivolts (mV).
-+``in[X]_label``           RO      Voltage sensor label.
-+``power[X]_input``        RO      Power in microwatts (uW).
-+``power[X]_label``        RO      Power sensor label.
-+``power[X]_max``          RO      Maximum power threshold, in
-+                                  microwatts.
-+========================= ======= =====================================
-+
-+Labels are strings supplied by the firmware.  A channel that reports an
-+empty label has no ``_label`` attribute.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 220b26c73b37..a4934e9206e2 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1276,6 +1276,14 @@ F:	Documentation/networking/device_drivers/ethernet/amd/pds_core.rst
- F:	drivers/net/ethernet/amd/pds_core/
- F:	include/linux/pds/
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 19defbe2a1d6..f07ee41f7feb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5253,6 +5253,22 @@ Kernel parameters
+ 		hpbussize=nn	The minimum amount of additional bus numbers
+ 				reserved for buses below a hotplug bridge.
+ 				Default is 1.
++		hpbussize=nn@<pci_dev>[; ...]
++				The minimum amount of bus numbers for the
++				hotplug bridges specified (in the format
++				described above) instead of the default
++				amount above.  When the kernel numbers the
++				buses below the hotplug bridges on a bus,
++				e.g. after a switch is hot-added, these
++				bridges request at least nn bus numbers where
++				space permits; other hotplug bridges share
++				what is left.
++				Bridges numbered by firmware are kept.  For
++				example,
++				  pci=hpbussize=11@0000:80:01.1/00.0/03.0
++				gives 11 bus numbers to the downstream port
++				at devfn 03.0 of the switch behind root port
++				0000:80:01.1.
+ 		realloc=	Enable/disable reallocating PCI bridge resources
+ 				if allocations done by BIOS are too small to
+ 				accommodate resources required by all child
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 7a6ce1d3360d..a02220e5aaf2 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -413,11 +413,13 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
+ }
  
-+AMD PENSANDO IONIC HARDWARE MONITORING DRIVER
-+M:	Brett Creeley <brett.creeley@amd.com>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/ionic-hwmon.rst
-+F:	drivers/hwmon/ionic-hwmon.c
-+F:	include/linux/ionic/ionic_hwmon.h
-+
- AMD PENSANDO RDMA DRIVER
- M:	Abhijit Gangurde <abhijit.gangurde@amd.com>
- M:	Allen Hubbe <allen.hubbe@amd.com>
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 18c682e1a475..a832eae289f8 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -914,6 +914,19 @@ config SENSORS_IIO_HWMON
- 	  for those channels specified in the map.  This map can be provided
- 	  either via platform data or the device tree bindings.
+ /*
+- * "<size>@<pci_dev>" entries of "pci=hpmmiosize=" and "pci=hpmmioprefsize=",
+- * set in pci_setup() and copied in pci_realloc_setup_params().
++ * "<size>@<pci_dev>" entries of "pci=hpmmiosize=", "pci=hpmmioprefsize=" and
++ * "pci=hpbussize=", set in pci_setup() and copied in
++ * pci_realloc_setup_params().
+  */
+ static const char *hotplug_mmio_size_param;
+ static const char *hotplug_mmio_pref_size_param;
++static const char *hotplug_bus_size_param;
  
-+config SENSORS_IONIC
-+	tristate "AMD Pensando ionic adapter sensors"
-+	depends on IONIC
-+	help
-+	  If you say yes here you get support for the on-board sensors of
-+	  AMD Pensando Ethernet adapters, such as temperature, voltage and
-+	  power.  The adapter firmware describes which sensors are present,
-+	  so the set of attributes varies between adapters and firmware
-+	  versions.
+ /* Match @bridge against a "<size>@<pci_dev>[;...]" list; first match wins */
+ static bool pci_hotplug_size_match(struct pci_dev *bridge, const char *p,
+@@ -455,23 +457,33 @@ static bool pci_hotplug_size_match(struct pci_dev *bridge, const char *p,
+ /**
+  * pci_hotplug_dev_size - get a hotplug size given for a specific bridge
+  * @bridge: the bridge
+- * @type: IORESOURCE_MEM, optionally with IORESOURCE_PREFETCH
++ * @type: IORESOURCE_MEM, optionally with IORESOURCE_PREFETCH, or IORESOURCE_BUS
+  * @size: set to the size given for @bridge
+  *
+- * Look up @bridge in the "<size>@<pci_dev>" entries of "pci=hpmmiosize=" or
+- * "pci=hpmmioprefsize=".  Only hotplug bridges are considered.
++ * Look up @bridge in the "<size>@<pci_dev>" entries of "pci=hpmmiosize=",
++ * "pci=hpmmioprefsize=" or "pci=hpbussize=".  Only hotplug bridges are
++ * considered.
+  *
+  * Return: true if a size was given for @bridge.
+  */
+ bool pci_hotplug_dev_size(struct pci_dev *bridge, unsigned long type,
+ 			  unsigned long *size)
+ {
+-	if (!bridge->is_hotplug_bridge || !(type & IORESOURCE_MEM))
++	const char *p;
 +
-+	  This driver can also be built as a module. If so, the module
-+	  will be called ionic-hwmon.
++	if (!bridge->is_hotplug_bridge)
++		return false;
 +
- config SENSORS_I5500
- 	tristate "Intel 5500/5520/X58 temperature sensor"
- 	depends on X86 && PCI
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index d4c345ed7261..553e51cb3c9f 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -111,6 +111,7 @@ obj-$(CONFIG_SENSORS_INA2XX)	+= ina2xx.o
- obj-$(CONFIG_SENSORS_INA238)	+= ina238.o
- obj-$(CONFIG_SENSORS_INA3221)	+= ina3221.o
- obj-$(CONFIG_SENSORS_INTEL_M10_BMC_HWMON) += intel-m10-bmc-hwmon.o
-+obj-$(CONFIG_SENSORS_IONIC)	+= ionic-hwmon.o
- obj-$(CONFIG_SENSORS_ISL28022)	+= isl28022.o
- obj-$(CONFIG_SENSORS_IT87)	+= it87.o
- obj-$(CONFIG_SENSORS_JC42)	+= jc42.o
-diff --git a/drivers/hwmon/ionic-hwmon.c b/drivers/hwmon/ionic-hwmon.c
-new file mode 100644
-index 000000000000..78143df75a8f
---- /dev/null
-+++ b/drivers/hwmon/ionic-hwmon.c
-@@ -0,0 +1,492 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/* Copyright(c) 2026 Advanced Micro Devices, Inc */
++	if (type & IORESOURCE_BUS)
++		p = hotplug_bus_size_param;
++	else if (type & IORESOURCE_PREFETCH)
++		p = hotplug_mmio_pref_size_param;
++	else if (type & IORESOURCE_MEM)
++		p = hotplug_mmio_size_param;
++	else
+ 		return false;
+ 
+-	return pci_hotplug_size_match(bridge, type & IORESOURCE_PREFETCH ?
+-				      hotplug_mmio_pref_size_param :
+-				      hotplug_mmio_size_param, size);
++	return pci_hotplug_size_match(bridge, p, size);
+ }
+ 
+ static u8 __pci_find_next_cap(struct pci_bus *bus, unsigned int devfn,
+@@ -6966,6 +6978,9 @@ static int __init pci_setup(char *str)
+ 			} else if (!strncmp(str, "hpmemsize=", 10)) {
+ 				pci_hotplug_mmio_size = memparse(str + 10, &str);
+ 				pci_hotplug_mmio_pref_size = pci_hotplug_mmio_size;
++			} else if (!strncmp(str, "hpbussize=", 10) &&
++				   strchr(str + 10, '@')) {
++				hotplug_bus_size_param = str + 10;
+ 			} else if (!strncmp(str, "hpbussize=", 10)) {
+ 				pci_hotplug_bus_size =
+ 					simple_strtoul(str + 10, &str, 0);
+@@ -7013,6 +7028,7 @@ static int __init pci_realloc_setup_params(void)
+ 	hotplug_mmio_size_param = kstrdup(hotplug_mmio_size_param, GFP_KERNEL);
+ 	hotplug_mmio_pref_size_param = kstrdup(hotplug_mmio_pref_size_param,
+ 					       GFP_KERNEL);
++	hotplug_bus_size_param = kstrdup(hotplug_bus_size_param, GFP_KERNEL);
+ 
+ 	return 0;
+ }
+diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+index 9a178e0e5f7f..b79a931edce5 100644
+--- a/drivers/pci/probe.c
++++ b/drivers/pci/probe.c
+@@ -1519,6 +1519,9 @@ static int pci_scan_bridge_extend(struct pci_bus *bus, struct pci_dev *dev,
+ 		else
+ 			next_busnr = max + 1;
+ 
++		if (next_busnr > 0xff)
++			goto out;
 +
-+#include <linux/auxiliary_bus.h>
-+#include <linux/ctype.h>
-+#include <linux/hwmon.h>
-+#include <linux/ionic/ionic_hwmon.h>
-+#include <linux/module.h>
-+
-+struct ionic_hwmon {
-+	struct auxiliary_device *adev;
-+	struct device *dev;
-+	struct hwmon_chip_info chip_info;
-+	struct hwmon_channel_info chan_info[IONIC_HWMON_TYPE_MAX];
-+	const struct hwmon_channel_info *info[IONIC_HWMON_TYPE_MAX + 1];
-+	u16 n_channels[IONIC_HWMON_TYPE_MAX];
-+	u16 total_channels;
-+	struct ionic_hwmon_chan_caps channels[] __counted_by(total_channels);
-+};
-+
-+static const enum hwmon_sensor_types
-+ionic_hwmon_linux_type[IONIC_HWMON_TYPE_MAX] = {
-+	[IONIC_HWMON_TYPE_TEMP]		= hwmon_temp,
-+	[IONIC_HWMON_TYPE_VOLTAGE]	= hwmon_in,
-+	[IONIC_HWMON_TYPE_POWER]	= hwmon_power,
-+	[IONIC_HWMON_TYPE_CHIP]		= hwmon_chip,
-+	[IONIC_HWMON_TYPE_CURRENT]	= hwmon_curr,
-+	[IONIC_HWMON_TYPE_ENERGY]	= hwmon_energy,
-+	[IONIC_HWMON_TYPE_HUMIDITY]	= hwmon_humidity,
-+	[IONIC_HWMON_TYPE_FAN]		= hwmon_fan,
-+	[IONIC_HWMON_TYPE_PWM]		= hwmon_pwm,
-+	[IONIC_HWMON_TYPE_INTRUSION]	= hwmon_intrusion,
-+};
-+
-+static const char * const ionic_hwmon_type_name[IONIC_HWMON_TYPE_MAX] = {
-+	[IONIC_HWMON_TYPE_TEMP]		= "temp",
-+	[IONIC_HWMON_TYPE_VOLTAGE]	= "in",
-+	[IONIC_HWMON_TYPE_POWER]	= "power",
-+	[IONIC_HWMON_TYPE_CHIP]		= "chip",
-+	[IONIC_HWMON_TYPE_CURRENT]	= "curr",
-+	[IONIC_HWMON_TYPE_ENERGY]	= "energy",
-+	[IONIC_HWMON_TYPE_HUMIDITY]	= "humidity",
-+	[IONIC_HWMON_TYPE_FAN]		= "fan",
-+	[IONIC_HWMON_TYPE_PWM]		= "pwm",
-+	[IONIC_HWMON_TYPE_INTRUSION]	= "intrusion",
-+};
-+
-+static unsigned int ionic_hwmon_sysfs_channel(unsigned int ionic_type,
-+					      unsigned int channel)
+ 		/*
+ 		 * Prevent assigning a bus number that already exists.
+ 		 * This can happen when a bridge is hot-plugged, so in this
+@@ -3076,6 +3079,62 @@ void __weak pcibios_fixup_bus(struct pci_bus *bus)
+        /* nothing to do, expected to be removed in the future */
+ }
+ 
++/* Bus numbers given for @bridge with "pci=hpbussize=<n>@<pci_dev>", or 0 */
++static unsigned int pci_hotplug_bus_reserve(struct pci_dev *bridge)
 +{
-+	enum hwmon_sensor_types type = ionic_hwmon_linux_type[ionic_type];
++	unsigned long size;
 +
-+	if (type == hwmon_in || type == hwmon_intrusion)
-+		return channel;
++	if (!pci_hotplug_dev_size(bridge, IORESOURCE_BUS, &size))
++		return 0;
 +
-+	return channel + 1;
++	return min(size, 255UL);
 +}
 +
-+static unsigned int ionic_hwmon_chan_idx(const struct ionic_hwmon *hwmon,
-+					 enum hwmon_sensor_types type,
-+					 int channel)
++/*
++ * Return the bus numbers for the next hotplug bridge on @bus that is not
++ * configured yet, out of the @left that the next bridge can still take.
++ * The secondary bus of each such bridge is already counted as used, so
++ * together they have @left plus one less than their count.  A bridge with
++ * its own "pci=hpbussize=" gets at least that many; the others share the
++ * rest equally.
++ */
++static unsigned int pci_hotplug_bus_share(struct pci_bus *bus,
++					  struct pci_dev *bridge,
++					  unsigned int left)
 +{
-+	unsigned int i, start = 0;
++	unsigned int n, sum, share = UINT_MAX, prev, reserve;
++	struct pci_dev *dev;
 +
-+	for (i = 0; i < IONIC_HWMON_TYPE_MAX; i++) {
-+		if (ionic_hwmon_linux_type[i] == type)
-+			break;
-+		start += hwmon->n_channels[i];
-+	}
++	n = 0;
++	for_each_pci_bridge(dev, bus)
++		if (dev->is_hotplug_bridge && !dev->subordinate)
++			n++;
++	if (!n)
++		return 0;
++	left += n - 1;
 +
-+	return start + channel;
-+}
++	/* Each bridge above the share lowers it for the others */
++	do {
++		prev = share;
++		n = 0;
++		sum = 0;
++		for_each_pci_bridge(dev, bus) {
++			if (!dev->is_hotplug_bridge || dev->subordinate)
++				continue;
 +
-+struct ionic_hwmon_attr {
-+	u8 ionic;
-+	u8 hwmon;
-+};
-+
-+struct ionic_hwmon_attr_map {
-+	const struct ionic_hwmon_attr *attrs;
-+	unsigned int n_attrs;
-+};
-+
-+static const struct ionic_hwmon_attr ionic_hwmon_temp_attr_map[] = {
-+	{ IONIC_HWMON_TEMP_ATTR_INPUT,		hwmon_temp_input },
-+	{ IONIC_HWMON_TEMP_ATTR_LABEL,		hwmon_temp_label },
-+	{ IONIC_HWMON_TEMP_ATTR_CRIT,		hwmon_temp_crit },
-+	{ IONIC_HWMON_TEMP_ATTR_CRIT_ALARM,	hwmon_temp_crit_alarm },
-+};
-+
-+static const struct ionic_hwmon_attr ionic_hwmon_voltage_attr_map[] = {
-+	{ IONIC_HWMON_VOLTAGE_ATTR_INPUT,	hwmon_in_input },
-+	{ IONIC_HWMON_VOLTAGE_ATTR_LABEL,	hwmon_in_label },
-+};
-+
-+static const struct ionic_hwmon_attr ionic_hwmon_power_attr_map[] = {
-+	{ IONIC_HWMON_POWER_ATTR_INPUT,		hwmon_power_input },
-+	{ IONIC_HWMON_POWER_ATTR_LABEL,		hwmon_power_label },
-+	{ IONIC_HWMON_POWER_ATTR_MAX,		hwmon_power_max },
-+};
-+
-+static const struct ionic_hwmon_attr_map ionic_hwmon_attr_maps[] = {
-+	[hwmon_temp]	= { ionic_hwmon_temp_attr_map,
-+			    ARRAY_SIZE(ionic_hwmon_temp_attr_map) },
-+	[hwmon_in]	= { ionic_hwmon_voltage_attr_map,
-+			    ARRAY_SIZE(ionic_hwmon_voltage_attr_map) },
-+	[hwmon_power]	= { ionic_hwmon_power_attr_map,
-+			    ARRAY_SIZE(ionic_hwmon_power_attr_map) },
-+};
-+
-+static const struct ionic_hwmon_attr_map *
-+ionic_hwmon_attr_map(enum hwmon_sensor_types type)
-+{
-+	if (type >= ARRAY_SIZE(ionic_hwmon_attr_maps) ||
-+	    !ionic_hwmon_attr_maps[type].n_attrs)
-+		return NULL;
-+
-+	return &ionic_hwmon_attr_maps[type];
-+}
-+
-+static int ionic_hwmon_attr_to_ionic_attr(enum hwmon_sensor_types type,
-+					  u32 attr, unsigned int *ionic_attr)
-+{
-+	const struct ionic_hwmon_attr_map *map = ionic_hwmon_attr_map(type);
-+	unsigned int i;
-+
-+	if (!map)
-+		return -EOPNOTSUPP;
-+
-+	for (i = 0; i < map->n_attrs; i++) {
-+		if (map->attrs[i].hwmon == attr) {
-+			*ionic_attr = map->attrs[i].ionic;
-+			return 0;
++			reserve = pci_hotplug_bus_reserve(dev) ?: pci_hotplug_bus_size;
++			if (reserve > prev)
++				sum += reserve;
++			else
++				n++;
 +		}
-+	}
++		share = n && left > sum ? (left - sum) / n : 0;
++	} while (share < prev);
 +
-+	return -EOPNOTSUPP;
++	reserve = pci_hotplug_bus_reserve(bridge) ?: pci_hotplug_bus_size;
++	return max(reserve, share);
 +}
 +
-+static void ionic_hwmon_check_labels(struct device *dev,
-+				     struct ionic_hwmon *hwmon)
-+{
-+	unsigned int type, j, idx = 0;
-+	char *label, *p;
+ /**
+  * pci_scan_child_bus_extend() - Scan devices below a bus
+  * @bus: Bus to scan for devices
+@@ -3094,6 +3153,8 @@ static unsigned int pci_scan_child_bus_extend(struct pci_bus *bus,
+ 	unsigned int used_buses, normal_bridges = 0, hotplug_bridges = 0;
+ 	unsigned int start = bus->busn_res.start;
+ 	unsigned int devnr, cmax, max = start;
++	bool hotplug_reserve = false;
++	unsigned int reserve;
+ 	struct pci_dev *dev;
+ 
+ 	dev_dbg(&bus->dev, "scanning bus\n");
+@@ -3126,6 +3187,8 @@ static unsigned int pci_scan_child_bus_extend(struct pci_bus *bus,
+ 			hotplug_bridges++;
+ 		else
+ 			normal_bridges++;
++		if (pci_hotplug_bus_reserve(dev))
++			hotplug_reserve = true;
+ 	}
+ 
+ 	/*
+@@ -3150,6 +3213,8 @@ static unsigned int pci_scan_child_bus_extend(struct pci_bus *bus,
+ 	for_each_pci_bridge(dev, bus) {
+ 		unsigned int buses = 0;
+ 
++		reserve = 0;
 +
-+	for (type = 0; type < IONIC_HWMON_TYPE_MAX; type++) {
-+		for (j = 0; j < hwmon->n_channels[type]; j++, idx++) {
-+			label = hwmon->channels[idx].label;
-+			label[sizeof(hwmon->channels[idx].label) - 1] = '\0';
-+
-+			for (p = label; *p; p++) {
-+				if (isascii(*p) && isprint(*p))
-+					continue;
-+				dev_warn(dev,
-+					 "%s%u_label is not printable, ignoring it\n",
-+					 ionic_hwmon_type_name[type],
-+					 ionic_hwmon_sysfs_channel(type, j));
-+				label[0] = '\0';
-+				break;
+ 		if (!hotplug_bridges && normal_bridges == 1) {
+ 			/*
+ 			 * There is only one bridge on the bus (upstream
+@@ -3163,7 +3228,16 @@ static unsigned int pci_scan_child_bus_extend(struct pci_bus *bus,
+ 			 * Distribute the extra buses between hotplug
+ 			 * bridges if any.
+ 			 */
+-			buses = available_buses / hotplug_bridges;
++			if (hotplug_reserve && available_buses) {
++				if (!dev->subordinate) {
++					reserve = pci_hotplug_bus_reserve(dev);
++					buses = available_buses + 1 > used_buses ?
++						available_buses + 1 - used_buses : 0;
++					buses = pci_hotplug_bus_share(bus, dev, buses);
++				}
++			} else {
++				buses = available_buses / hotplug_bridges;
 +			}
-+		}
-+	}
-+}
-+
-+static struct ionic_hwmon *ionic_hwmon_create(struct device *dev,
-+					      struct auxiliary_device *adev,
-+					      const void *buf, size_t buf_len)
-+{
-+	unsigned int channels_offset, num_types, total_channels, i;
-+	const struct ionic_hwmon_caps_hdr *hdr = buf;
-+	u16 chan_counts[IONIC_HWMON_TYPE_MAX];
-+	struct ionic_hwmon *hwmon;
-+	u16 fw_num_types;
-+
-+	if (buf_len < sizeof(*hdr))
-+		return ERR_PTR(-EINVAL);
-+
-+	fw_num_types = le16_to_cpu(READ_ONCE(hdr->num_types));
-+
-+	channels_offset = struct_size(hdr, n_channels, fw_num_types);
-+	if (channels_offset > buf_len)
-+		return ERR_PTR(-EINVAL);
-+
-+	num_types = min_t(unsigned int, fw_num_types, IONIC_HWMON_TYPE_MAX);
-+
-+	total_channels = 0;
-+	for (i = 0; i < num_types; i++) {
-+		chan_counts[i] = le16_to_cpu(READ_ONCE(hdr->n_channels[i]));
-+		total_channels += chan_counts[i];
-+	}
-+
-+	if (total_channels >
-+	    (buf_len - channels_offset) / sizeof(struct ionic_hwmon_chan_caps))
-+		return ERR_PTR(-EINVAL);
-+
-+	hwmon = devm_kzalloc(dev, struct_size(hwmon, channels, total_channels),
-+			     GFP_KERNEL);
-+	if (!hwmon)
-+		return ERR_PTR(-ENOMEM);
-+
-+	hwmon->adev = adev;
-+
-+	for (i = 0; i < num_types; i++)
-+		hwmon->n_channels[i] = chan_counts[i];
-+
-+	hwmon->total_channels = total_channels;
-+	memcpy(hwmon->channels, buf + channels_offset,
-+	       flex_array_size(hwmon, channels, total_channels));
-+
-+	ionic_hwmon_check_labels(dev, hwmon);
-+
-+	return hwmon;
-+}
-+
-+static umode_t ionic_hwmon_file_mode(u32 mode)
-+{
-+	if ((mode & ~IONIC_HWMON_MODE_MASK) || !(mode & IONIC_HWMON_MODE_READ))
-+		return 0;
-+
-+	/* No attribute is writable: hwmon refuses to register the device if
-+	 * any attribute has write permission without a .write op.
-+	 */
-+	return 0444;
-+}
-+
-+static bool ionic_hwmon_attr_is_label(enum hwmon_sensor_types type, u32 attr)
-+{
-+	return (type == hwmon_temp && attr == hwmon_temp_label) ||
-+	       (type == hwmon_in && attr == hwmon_in_label) ||
-+	       (type == hwmon_power && attr == hwmon_power_label);
-+}
-+
-+static umode_t ionic_hwmon_is_visible(const void *data,
-+				      enum hwmon_sensor_types type,
-+				      u32 attr, int channel)
-+{
-+	const struct ionic_hwmon_chan_caps *chan_caps;
-+	const struct ionic_hwmon *hwmon = data;
-+	unsigned int idx, ionic_attr;
-+
-+	if (ionic_hwmon_attr_to_ionic_attr(type, attr, &ionic_attr))
-+		return 0;
-+
-+	idx = ionic_hwmon_chan_idx(hwmon, type, channel);
-+	chan_caps = &hwmon->channels[idx];
-+
-+	if (ionic_hwmon_attr_is_label(type, attr) && !chan_caps->label[0])
-+		return 0;
-+
-+	return ionic_hwmon_file_mode(le32_to_cpu(chan_caps->mode[ionic_attr]));
-+}
-+
-+static int ionic_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
-+			    u32 attr, int channel, long *val)
-+{
-+	struct ionic_hwmon *hwmon = dev_get_drvdata(dev);
-+	enum ionic_hwmon_sensor_type sensor_type;
-+	unsigned int ionic_attr;
-+	u32 data;
-+	int err;
-+
-+	err = ionic_hwmon_attr_to_ionic_attr(type, attr, &ionic_attr);
-+	if (err)
-+		return err;
-+
-+	switch (type) {
-+	case hwmon_temp:
-+		sensor_type = IONIC_HWMON_TYPE_TEMP;
-+		break;
-+	case hwmon_in:
-+		sensor_type = IONIC_HWMON_TYPE_VOLTAGE;
-+		break;
-+	case hwmon_power:
-+		sensor_type = IONIC_HWMON_TYPE_POWER;
-+		break;
-+	default:
-+		return -EOPNOTSUPP;
-+	}
-+
-+	err = ionic_hwmon_get_attr(hwmon->adev, sensor_type, channel,
-+				   ionic_attr, &data);
-+	if (err)
-+		return err;
-+
-+	/* Temperatures are signed millidegrees Celsius and can read below
-+	 * zero, so convert them to s32 rather than doing a zero extension.
-+	 */
-+	if (type == hwmon_temp) {
-+		if (attr == hwmon_temp_crit_alarm)
-+			*val = !!data;
-+		else
-+			*val = (s32)data;
-+	} else {
-+		*val = data;
-+	}
-+
-+	/* The device reports power in milliwatts, sysfs wants microwatts */
-+	if (type == hwmon_power)
-+		*val *= 1000;
-+
-+	return 0;
-+}
-+
-+static int ionic_hwmon_read_label(struct device *dev,
-+				  enum hwmon_sensor_types type,
-+				  u32 attr, int channel, const char **str)
-+{
-+	struct ionic_hwmon *hwmon = dev_get_drvdata(dev);
-+	unsigned int idx;
-+
-+	idx = ionic_hwmon_chan_idx(hwmon, type, channel);
-+	*str = hwmon->channels[idx].label;
-+
-+	return 0;
-+}
-+
-+static const struct hwmon_ops ionic_hwmon_ops = {
-+	.is_visible = ionic_hwmon_is_visible,
-+	.read = ionic_hwmon_read,
-+	.read_string = ionic_hwmon_read_label,
-+};
-+
-+static u32
-+ionic_hwmon_attr_caps_to_config(u32 attr_caps,
-+				const struct ionic_hwmon_attr_map *map)
-+{
-+	unsigned int i;
-+	u32 config = 0;
-+
-+	for (i = 0; i < map->n_attrs; i++) {
-+		if (attr_caps & BIT(map->attrs[i].ionic))
-+			config |= BIT(map->attrs[i].hwmon);
-+	}
-+
-+	return config;
-+}
-+
-+static u32 *
-+ionic_hwmon_type_config(struct device *dev, unsigned int ionic_type,
-+			const struct ionic_hwmon_attr_map *map,
-+			const struct ionic_hwmon_chan_caps *chan_caps,
-+			unsigned int n_channels)
-+{
-+	unsigned int j;
-+	u32 *config;
-+
-+	config = devm_kcalloc(dev, n_channels + 1, sizeof(*config), GFP_KERNEL);
-+	if (!config)
-+		return ERR_PTR(-ENOMEM);
-+
-+	for (j = 0; j < n_channels; j++) {
-+		u32 attr_caps = le32_to_cpu(chan_caps[j].attr_caps);
-+
-+		config[j] = ionic_hwmon_attr_caps_to_config(attr_caps, map);
-+		if (!config[j]) {
-+			dev_warn(dev,
-+				 "%s%u has no usable attributes, ignoring all %s channels\n",
-+				 ionic_hwmon_type_name[ionic_type],
-+				 ionic_hwmon_sysfs_channel(ionic_type, j),
-+				 ionic_hwmon_type_name[ionic_type]);
-+			devm_kfree(dev, config);
-+			return NULL;
-+		}
-+	}
-+
-+	return config;
-+}
-+
-+static int ionic_hwmon_build_channel_info(struct device *dev,
-+					  struct ionic_hwmon *hwmon)
-+{
-+	unsigned int i, n_types, chan_idx;
-+
-+	chan_idx = 0;
-+	n_types = 0;
-+
-+	for (i = 0; i < IONIC_HWMON_TYPE_MAX; i++) {
-+		enum hwmon_sensor_types type = ionic_hwmon_linux_type[i];
-+		unsigned int n_channels = hwmon->n_channels[i];
-+		const struct ionic_hwmon_chan_caps *chan_caps;
-+		const struct ionic_hwmon_attr_map *map;
-+		struct hwmon_channel_info *chan_info;
-+		u32 *config;
-+
-+		if (!n_channels)
-+			continue;
-+
-+		chan_caps = &hwmon->channels[chan_idx];
-+		chan_idx += n_channels;
-+
-+		map = ionic_hwmon_attr_map(type);
-+		if (!map)
-+			continue;
-+
-+		config = ionic_hwmon_type_config(dev, i, map, chan_caps,
-+						 n_channels);
-+		if (IS_ERR(config))
-+			return PTR_ERR(config);
-+
-+		if (!config)
-+			continue;
-+
-+		chan_info = &hwmon->chan_info[n_types];
-+		chan_info->type = type;
-+		chan_info->config = config;
-+		hwmon->info[n_types++] = chan_info;
-+	}
-+
-+	return n_types ? 0 : -ENODEV;
-+}
-+
-+static int ionic_hwmon_probe(struct auxiliary_device *adev,
-+			     const struct auxiliary_device_id *id)
-+{
-+	struct device *dev = &adev->dev;
-+	struct ionic_hwmon *hwmon;
-+	const void *buf;
-+	size_t len;
-+	int err;
-+	u8 ver;
-+
-+	err = ionic_hwmon_get_caps(adev, IONIC_HWMON_CAPS_VERSION_0, &buf,
-+				   &len, &ver);
-+	if (err)
-+		return dev_err_probe(dev, err,
-+				     "cannot read sensor capabilities\n");
-+
-+	if (ver != IONIC_HWMON_CAPS_VERSION_0)
-+		return dev_err_probe(dev, -EOPNOTSUPP,
-+				     "unsupported capabilities version %u\n",
-+				     ver);
-+
-+	hwmon = ionic_hwmon_create(dev, adev, buf, len);
-+	if (IS_ERR(hwmon))
-+		return dev_err_probe(dev, PTR_ERR(hwmon),
-+				     "invalid sensor capabilities\n");
-+
-+	err = ionic_hwmon_build_channel_info(dev, hwmon);
-+	if (err == -ENODEV) {
-+		dev_info(dev, "no sensors this driver supports\n");
-+		return err;
-+	}
-+	if (err)
-+		return dev_err_probe(dev, err,
-+				     "cannot build sensor configuration\n");
-+
-+	hwmon->chip_info.ops = &ionic_hwmon_ops;
-+	hwmon->chip_info.info = hwmon->info;
-+
-+	/* The hwmon device is parented to the PCI function, not to adev, so
-+	 * userspace finds the sensors by PCI endpoint.  Its chip_info and
-+	 * config arrays are devres on adev, so it is unregistered in remove
-+	 * rather than through devm.
-+	 */
-+	hwmon->dev = hwmon_device_register_with_info(ionic_hwmon_dev(adev),
-+						     "ionic", hwmon,
-+						     &hwmon->chip_info, NULL);
-+	if (IS_ERR(hwmon->dev))
-+		return dev_err_probe(dev, PTR_ERR(hwmon->dev),
-+				     "cannot register hwmon device\n");
-+
-+	auxiliary_set_drvdata(adev, hwmon);
-+
-+	return 0;
-+}
-+
-+static void ionic_hwmon_remove(struct auxiliary_device *adev)
-+{
-+	struct ionic_hwmon *hwmon = auxiliary_get_drvdata(adev);
-+
-+	/* Unregister before the devres on adev frees chip_info and config */
-+	hwmon_device_unregister(hwmon->dev);
-+}
-+
-+static const struct auxiliary_device_id ionic_hwmon_id_table[] = {
-+	{ .name = "ionic.hwmon", },
-+	{}
-+};
-+MODULE_DEVICE_TABLE(auxiliary, ionic_hwmon_id_table);
-+
-+static struct auxiliary_driver ionic_hwmon_driver = {
-+	.name = "hwmon",
-+	.probe = ionic_hwmon_probe,
-+	.remove = ionic_hwmon_remove,
-+	.id_table = ionic_hwmon_id_table,
-+};
-+module_auxiliary_driver(ionic_hwmon_driver);
-+
-+MODULE_AUTHOR("Arun Kumar Prakash <ArunKumar.Prakash@amd.com>");
-+MODULE_DESCRIPTION("AMD Pensando ionic hardware monitoring driver");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("NET_IONIC");
-
--- 
-2.43.0
-
+ 			buses = min(buses, available_buses - used_buses + 1);
+ 		}
+ 
+@@ -3172,6 +3246,12 @@ static unsigned int pci_scan_child_bus_extend(struct pci_bus *bus,
+ 		/* One bus is already accounted so don't add it again */
+ 		if (max - cmax > 1)
+ 			used_buses += max - cmax - 1;
++
++		if (reserve > max - cmax)
++			pci_warn(dev, "only %u of %u bus numbers available\n",
++				 max - cmax, reserve);
++		else if (reserve)
++			pci_info(dev, "reserving %u bus numbers\n", max - cmax);
+ 	}
+ 
+ 	/*
+@@ -3180,7 +3260,10 @@ static unsigned int pci_scan_child_bus_extend(struct pci_bus *bus,
+ 	 * bus number if there is room.
+ 	 */
+ 	if (bus->self && bus->self->is_hotplug_bridge) {
+-		used_buses = max(available_buses, pci_hotplug_bus_size - 1);
++		unsigned long bus_size = pci_hotplug_bus_reserve(bus->self) ?:
++					 pci_hotplug_bus_size;
++
++		used_buses = max(available_buses, bus_size - 1);
+ 		if (max - start < used_buses) {
+ 			max = start + used_buses;
+ 
