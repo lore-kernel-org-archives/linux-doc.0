@@ -1,103 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=206.189.79.184
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793664287;
-	b=fKaMvJfSXRnLOBZAMkSiq7+JxUoJqZ+rTuVO+G5ORTwBbF4x8p2D6EAcfYOn11/cHN3l
-	 20T/gVscNxVkAoCV8dXs+cfPQ0YeXfqY2Ou5Z4hURLOO2hfJPLU3PhzGXk4aJFCGADFpz
-	 oU8wqNz9uW8aRsCTobMO+yYH17mDswK8+5OuyQBp0iNjSxJ1yeziUcCfaeM+pU9FCz+zu
-	 Etgt1RFp+qQvlqQGLmG13AgC9oN5K7Dws1g1Mog0ijICJEAn75ygZrTuzISKuMns8S6Th
-	 ex9m4R9UsIlFW7vJB6ACsOH+LnLLgR6ZQDhE/I4gth6W3hC81OFW3+UioNsy0jveAMg==
+	t=1793664985;
+	b=qYuNG/f0FTCa2vCR9u5Is503Leg5xOlQQ25gimnhvVjUHw9ZB2zu/PmjTIMgLktBo+fK
+	 cvTaNH2TWgt1O5ys6JOUJcCnjTATyUt/ZyIYiyywa9oKoMyqR3OxbqzkR0S97lxIcuDdA
+	 cN6D3pZMuXkggOLTfcvktow5FHKew+WIPFhuOVQCKdOM0ayT/P6nNy2tLM2/ZaC9EbUQ4
+	 //1lRS1o22J55NINHjMFdCBpNJrZH5lgwCMKBP5ubwYQVJ7CpZvIxvdzqnqzb8YbUqjXQ
+	 pu+bLIGzR5227ZL4Xl5Rj2VZeD0lUkdMIKOP2MEEElym/YN+is0ArVDTD8qqXsK5XOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793664287;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=YeGo5xYJrpnxNAew8vJ5guu9FtuzQOdSkjYnhG+rvTc=;
-	b=idceXtScMtBocfbfFbKjxVogXINfeXFtI5cs/2fhbluF4jhA6RBJHrw2vxkGAmzlN0c1
-	 SvQ+EJoWtgHjibTq4S97gAAalHR2tFUFSdADL8ixLUvuEKhI36IarVWdOZ0f2q/X3W9bG
-	 e6+NMPQzpho488zY0FbchFpGEdJ0K9stdv+to+wl3R1yMvkwtLE4V39mSqoV6tLwe8ALM
-	 VjS0zggil6El5iyqrAYeNaUy4iqpNse1RzWhaQqMlKD+ecTc9gkiuLziIUxoOLrIMTLKv
-	 qHgh87NKnu8PUvO+41A3UXR+eT2U/bBWfU3+lifbI2Xp1nUmITI+hNnjSzlV6oysuKA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793664985;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=QiqjkBCOMtE2jhYiPZJ8T+B3Yye5QUJH8d9wksbGitw=;
+	b=bOgB7QXS19fRrAnLNfjjetakQXMHXz4sE606/FezONJitJDxG3PBbKFqmaXLeZYxlbuN
+	 UqARfVDHXTxlm5nJe8qNPSAmhmaXJr/3O5dIOUmJ3tHpunTf74F0yZaEGuWmCkHwSodId
+	 JFYx189xbw5IGVCY/CjFD682wtXTYqBlOJmdOjmJCO5eNeYp2zE04grAsnjvgHijymSa4
+	 9m2pe015Uk2NEkrf90D6i16fdf2qarAM1lG5DqMCKw1YkDhposp5/qY9f6zCU9AcJJOaO
+	 sTZNAq48pIbhqZeJoHMxQG4tZbTJLweUW7Rd6D1hiwbV77E+xeqTAgvggMIAPXLCdxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AAp2WmZq;
-	arc=none smtp.remote-ip=209.85.216.52
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF5E606A339
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 00:04:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AF5E606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AAp2WmZq
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3ae6b4c669fso97450a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 16:04:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793664287; x=1794269087; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YeGo5xYJrpnxNAew8vJ5guu9FtuzQOdSkjYnhG+rvTc=;
-        b=AAp2WmZqH4lFkiQxMuPQDFOnleVHB5UP8Z0ExbOAQOUg2Ktwk9r0z5zhWiZ+vH1L8c
-         O9gRQOAfoIPyyhtZ73n8FaRR5rwo+x1PzEf7SdnCorC9rr8/FKNaKI7kzH62MEqKLPIz
-         HQMmt7+vq+yvJ4Per09QL5/T+YzTFOtT+iIByB6GEkMQPJJPYQQU8B3XP8jZuh/IDTlk
-         pNcagp7Kb3nAHm10gAyDB/4VUsRUIOziIOqHVi/pO2VKRGOVkmMcHgNowQ3lNRi4MzM3
-         VKv42ry2krMBnGPEOyPyCbCdnBnuI7XvOTutKa8pZk331GEjWJXnk6WSWkn255kWcoXq
-         9s+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793664287; x=1794269087;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YeGo5xYJrpnxNAew8vJ5guu9FtuzQOdSkjYnhG+rvTc=;
-        b=y1cCio50zdasf8ekRykmdSVVNCunELO8V2y0pkezGjUw+MRayNvoZUNtiDHuYDYQl9
-         nnWNFUZv/2KfkvtZR8qC3cwSCTV8mUPOIcp/argLueXDjIo9fxhFCF0xmNa90kpxX8CC
-         qGK0C1uRQd81puh+V5CJ+i+3ZpAtqq6IpDxJeN9OylOIn4wsMhTyAKozRNwQDGgjZl0a
-         5XXUkNA4vjfAdT3dtJ3ZUX5dKVljIbLej+GjWSdLNgve+vR4k/D3NTG+SUEGI3nvl7Qo
-         6pvcMAyTTi8m+b1MyG7bMJjJKYThK4sd/UQwqTvnqsL/wzC5RMZp8Y80PFhvvKRNiueS
-         6F1w==
-X-Forwarded-Encrypted: i=1; AKwUvBw7SUg/AfZiNuk39q3DgDHTZvMOIb22DL2vR02yceDJ9p/fEE78KOn4bu6eBNkL9NygmSnOxQQcVnc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9slams6aIU+0kpHYhZ78i0T8f2kiEepjZFvArdWTUQj+w3hwKW
-	u7x1bGBvmyELIstCLmU/3aP4Ufg4UuqMcg6EeuzAjZzRyF74I46BbgBm
-X-Gm-Gg: AYBFou0oBpiRj9raK3yNGuUCvc+gFdK1xD5RaJH7d8VYFvYgpFoN1IE8geiUrhRpLI8
-	e0cT/KDlBoidsJZkRBa6YG+PQ0ACBDqel0fuQQHvCEfdWebhHenXfA4YkINoCuj/IeIWIn5OUde
-	dwuoPKtRQOKpO6BZXiDA6MZtLnRc8OoUiSzOJ2/NUsXceUy3wOBhIbAtXuXWa5pjtXKKng/g2Pd
-	AcnyrCtUUapQkZ2A3SLZ0YNOAvgveor1pqyOzJlgWGO4uSOR45PPPEwr2MbtZv4uQGg7gyLNDSL
-	/rrSIeMY78rJ7YMkfzOJq/xlFgjS+uM2dNJUJtxPjpXepfotaAOzZlxC+XEqXMMdyjq5EIpBa1W
-	oDtmEChrnqIP3S+qAo3tXq1ZeFUwRz4ZNT0XEdemqSsIXvdR1n3mKgxAK+yTZEYuFfVg2RXP65f
-	XihCeGc7yGD4/aubiYsGbb4vAhiwj/0IEHBftmg3/Ze8vfSY1acIW3ukLOciz+0UPJ1GVr7ULhV
-	nZsnA3h8GCGTSnFTrIGiubgDmkMf9CgnPR70BZjxybMkoHqm3evtr1C6Ex7eLBme8NZBPcRJuTl
-	JAkXGqrsdQYGBM06boimPdCVFVVltLrmMiWnfLGRJ5XubFCV/IyJQ3Q8RpYAT2tKfl6mlkrEbfi
-	mLuev19MIZ8UsQ8E6UM1tH4kVlZKBaFZdiXM5LcUcyCWlf4uvKtUqgp8kFJfrvJTHip7g
-X-Received: by 2002:a17:90b:4a4d:b0:3a0:d7f2:5a58 with SMTP id 98e67ed59e1d1-3ae89542f3dmr6388084a91.3.1793664286684;
-        Mon, 02 Nov 2026 16:04:46 -0800 (PST)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c6b3493sm1339225a91.13.2026.11.02.16.04.43
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 02 Nov 2026 16:04:46 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v12 11/12] ALSA: virtio: prioritize staged capture period work
-Date: Tue,  3 Nov 2026 09:04:02 +0900
-Message-ID: <20261103000403.67106-12-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261103000403.67106-1-mynameisjune111@gmail.com>
-References: <20261103000403.67106-1-mynameisjune111@gmail.com>
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=206.189.79.184
+Received: from zg8tmja2lje4os43os4xodqa.icoremail.net (zg8tmja2lje4os43os4xodqa.icoremail.net [206.189.79.184])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EECCC606A326;
+	Tue,  3 Nov 2026 00:16:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EECCC606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMB2nnfTJ+lqELVtAA--.23090S2;
+	Tue, 03 Nov 2026 08:16:19 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wA3wz3NJ+lqOfQUAA--.29381S2;
+	Tue, 03 Nov 2026 08:16:16 +0800 (CST)
+Message-ID: <deea3016-1322-4bd2-9c03-05e9e32b486d@hust.edu.cn>
+Date: Tue, 3 Nov 2026 08:16:13 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,32 +45,105 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] get_maintainer: stop sending every patch to LKML
+To: Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, users@kernel.org,
+ Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>,
+ Carlos Bilbao <carlos.bilbao@kernel.org>, Avadhut Naik
+ <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Chen-Yu Yeh <chenyou910331@gmail.com>,
+ Weijie Yuan <wy@wyuan.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, Petr Pavlu <petr.pavlu@suse.com>
+References: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20261020-get-maintainer-the-rest-fallback-v2-0-162aea473488@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:IQEQrMB2nnfTJ+lqELVtAA--.23090S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxCFWrWrWfWw1kXF1xCw1xKrg_yoW5XF4kpF
+	Z0gFnxGa1DtF1fCwn7W3WUCF1Yqa1fCay5GF17Ka1YyFZ0qwnIgrZ2yr43ua4UXF45Cry2
+	qF42qa4UGayUCFJanT9S1TB71UUUUbDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQKb7Iv0xC_Kw4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4UJVWxJr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	1q6r43M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUtVW8ZwCY02
+	Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r1q6r43MI8I3I0E5I8CrVAFwI0_Jr0_Jr
+	4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVW8ZVWrXwCIc40Y0x0EwIxG
+	rwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJw
+	CI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IUYHnQ5UUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Queue staged capture period notifications on system_highpri_wq through
-the common scheduling helper. This allows capture notifications to make
-progress when ordinary workqueue workers are delayed by CPU contention.
-Playback and ordinary capture keep schedule_work().
 
-This preserves the existing priority proposal without mixing RESET or
-lifecycle changes into it. It provides no hard real-time deadline and
-cannot prevent a userspace reader from overrunning its buffer.
+On 10/20/26 11:35 PM, Konstantin Ryabitsev wrote:
+> LKML has become mostly a firehose of patches that are already going to a
+> subsystem list. The reason is THE REST: it matches every file in the
+> tree, so get_maintainer.pl adds linux-kernel@vger.kernel.org to every
+> single patch. During the week of Oct 1-7, 2026:
+>
+>    - LKML carried 13,641 messages (~1,950/day), 90% of which were also
+>      sent to at least one other list;
+>    - with ~2,100 subscribers, that is about 29 million deliveries per
+>      week for LKML alone.
+>
+> This issue came up during the 2026 Maintainer Summit and the consensus
+> was that "always include linux-kernel for every patch" was never the
+> intent.
+>
+> This series makes THE REST a fallback as initially intended: it is only
+> added for a file when no other matching MAINTAINERS section provides a
+> mailing list that get_maintainer.pl would actually output for it.
+> Patch 2 updates submitting-patches.rst, which currently tells submitters
+> to send every patch to LKML.
+>
+> Several v1 reviewers asked for a catch-all list that would keep carrying
+> every patch for those who want to follow all kernel development. That
+> is a worthwhile discussion, but it is separate from this series, which
+> only restores THE REST to its original role.
+>
+> Translation maintainers are Cc'd because the it_IT, ja_JP, sp_SP, zh_CN
+> and zh_TW versions of submitting-patches.rst carry the same "send every
+> patch to LKML" advice and will need a follow-up update once the English
+> text is settled.
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+Will update the zh_CN translation once the patchset is accepted.
 
----
-diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
---- a/sound/virtio/virtio_pcm.h
-+++ b/sound/virtio/virtio_pcm.h
-@@ -167,6 +167,10 @@
- static inline bool
- virtsnd_pcm_schedule_period_elapsed(struct virtio_pcm_substream *vss)
- {
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE &&
-+	    vss->capture_staging)
-+		return queue_work(system_highpri_wq, &vss->elapsed_period);
-+
- 	return schedule_work(&vss->elapsed_period);
- }
- 
+Dongliang Mu
+
+>
+> ---
+> Changes in v2:
+> - Don't count subscribers-only lists (or moderated lists with
+>    --no-moderated) as a destination, since get_maintainer.pl doesn't
+>    output them; v1 sent patches to e.g. fs/squashfs/ to no list at all
+> - Add submitting-patches.rst update describing LKML as the list of last
+>    resort (Petr Pavlu)
+> - Rebase on v7.3
+> - Link to v1: https://patch.msgid.link/20261008-get-maintainer-the-rest-fallback-v1-1-7d26d0b7aa34@linuxfoundation.org
+>
+> ---
+> Konstantin Ryabitsev (2):
+>        get_maintainer: only use THE REST as a fallback
+>        docs: submitting-patches: make LKML a list of last resort again
+>
+>   Documentation/process/submitting-patches.rst |  9 ++++--
+>   scripts/get_maintainer.pl                    | 43 ++++++++++++++++++++++++++++
+>   2 files changed, 49 insertions(+), 3 deletions(-)
+> ---
+> base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+> base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> change-id: 20261008-get-maintainer-the-rest-fallback-6655e8a648d4
+>
+> Best regards,
+> --
+> Konstantin Ryabitsev <konstantin@linuxfoundation.org>
+
