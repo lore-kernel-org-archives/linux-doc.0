@@ -1,65 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793698818;
-	b=UHqEhM+dorotF07H6fRKmBIj6ioEH2N0fhLnzO5QYPgEBKHoeVWiCsqMZow8HpBi1Xv6
-	 82zcrlMX81vI8ROcwYIWB36e/3tbGI36bMxC6xHOxMPQsxYTjGZO/RFpAhZ7KKfnF6r2I
-	 xdImND/PWh6TonkO/+LDDpy32Ubm/tVG6TGsBTtZJlO/B3Uvi+3WfvCxTyMSg2xl+nihO
-	 9gN4nu14OAgF+B93V87uyWztT5QV/ZDNvPCSYXN465u2O2y8hnAFaUOGsnyugBv4RFFWO
-	 9YZPVnJCnKqso06k8RFI79Aku5znXavTsBy5w9/5zAYf4K3SbrkGi5lPptjH4xbqSfg==
+	t=1793698828;
+	b=w6Jf+E5Iv8CAFUSmkQtnYy3vukORE3uznc5zBqtDzaFghRTm+vQjNzC+88Obp3JhKh4v
+	 JtMmutXzxEdyI3WVU8nyiLrif0rT0PXB6ZP6KCiehNmWtmgfmAUDI0EYY58gWUPcHtxWj
+	 SGsoqFuEu/pqn2BCYbKcFMilnwuj8+5jnqaLYXe1OmftQAYgyKwTVx8r4xwuGANJBVN3o
+	 wxfWGHs6URATndz6D2XXnh1H+M3k/eqAWihiw7UQ7H/9+g5x5KskYttOjSh+1oSovLEOF
+	 IV6RGS28O5YTy5JYX9NcYeAusbHFmq6aeX9TkNOiLuF6+e6HJGdsc8zWbAIgoWPwXqQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793698818;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793698828;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=Mx2XMqgF8eug2rq+roYGzDO6Igo6yslKBiLjwdQmkWk=;
-	b=GxyeEaaODjuAVAgi9NSaATDU5RyBPHhYlPT6yT0JbAXLByS9Ar5nDxvdrd4sShQq4v6b
-	 B0zaRFJXH9VGQJjPdJjQpJj+0hDoYUdp65TSBaX3i27o7lPcwgmB93FWaOFyxcY2Ee5Qk
-	 EKfvbwXltDv/Pncjvoy8s/djN8dGhKgvO5yVFzwy7YMO8Fe+N7omdOAe82sedIelgJgF3
-	 nzvUsOr9tAh0gGdB6eJmEXLL7+vdv9/BouTKzPNBhYoUORrqdFQEbGuCys9ZSKKEjt4A8
-	 +QKwKPe7NNcXOkMsOZVT4LDG6rbnTqk8R3p2VeHFnf9KfUYaJkKFRxL3qKrbq31pIPQ==
+	bh=p/ldGN+nO0FTKxlIwPgUvFWgOTT8F/z04T8/ZdFM2K4=;
+	b=hlzzNxULstQ+4xgOZQhtQpi2e5PnwQSgCgQA1oDEAUNmTjTq5rZPRyTbtHxYcX0kVJtF
+	 L1xbVM14CsxseaSS04w+1uUx5bxTKSc1UzzZBg8HXRPmyFv8K/ox0l02jRkhhizLa5bFz
+	 ZZYugX1PwAbRCV/i3eN4/1JPZLDdJMx95/s7MTT3cHU4nGI+81tyPOk8Yyx4+fcmGvk/L
+	 dXCOfH9+EdSUoA/dgz+HpX5HWDJF/1mXg3Ahl5dv2iRyEUNQDjCa0+SsyMx5tqf+RJJI4
+	 Gpuc3ISoyLpcsZgHN8RQ96PlsN+g3DxO2Lqr8NtMKvCvrcxxzbfqSOofK4C5EsFUVzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=YaCoeb3M;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=idwCT5QK;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B51606D836
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 09:40:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66B51606D836
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EA7606EEB2
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 09:40:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06EA7606EEB2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=YaCoeb3M
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=idwCT5QK
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793698817;
+	s=mimecast20190719; t=1793698827;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Mx2XMqgF8eug2rq+roYGzDO6Igo6yslKBiLjwdQmkWk=;
-	b=YaCoeb3M0TYNdZJKal6aJggmk0Ci44fc9CM9oK/t1F7IDdYEwbBl4Ec7NzQkNjaBrTS3RL
-	yyPv1HuDN0CqdvG//VUgDy/vrOMtfaCaLXGusutYyvh5vw0RwHKGIpnnWfWG3cOpvrzK82
-	aYr0DF7yB4jqQXFcJRC3AOt0nr/cWy8=
+	bh=p/ldGN+nO0FTKxlIwPgUvFWgOTT8F/z04T8/ZdFM2K4=;
+	b=idwCT5QK+Q5VzqIvO8bKBDJ2lryttlN4v6A89U2U8zl+vaKkF/AJ+Lmf2NyIfxvtCMdgH3
+	GCf9zc1eEf68CXc8Iwio7b/TOqUcKJpQ6cTRqVTpU00EtH5KWH29JUuvv+GAcu4wX4mphj
+	rM+RInKt4Sd6oomAW1Pbi/Ryq6aS47o=
 Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-441-COqjxwjKPKCf0eZv_xnREw-1; Tue,
- 03 Nov 2026 04:40:12 -0500
-X-MC-Unique: COqjxwjKPKCf0eZv_xnREw-1
-X-Mimecast-MFC-AGG-ID: COqjxwjKPKCf0eZv_xnREw_1793698810
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-50-u41nQiapNtSKlbuYnRkd1A-1; Tue,
+ 03 Nov 2026 04:40:21 -0500
+X-MC-Unique: u41nQiapNtSKlbuYnRkd1A-1
+X-Mimecast-MFC-AGG-ID: u41nQiapNtSKlbuYnRkd1A_1793698820
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3C84F19540D4;
-	Tue,  3 Nov 2026 09:40:10 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D55FD19539B4;
+	Tue,  3 Nov 2026 09:40:19 +0000 (UTC)
 Received: from poros-thinkpadp16vgen1.tpbc.com (unknown [10.44.32.42])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 22E6F7EB;
-	Tue,  3 Nov 2026 09:40:05 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D43927F0;
+	Tue,  3 Nov 2026 09:40:14 +0000 (UTC)
 From: Petr Oros <poros@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Petr Oros <poros@redhat.com>,
@@ -77,9 +77,9 @@ Cc: Petr Oros <poros@redhat.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH net-next 08/14] selftests: dpll: add pin priority test
-Date: Tue,  3 Nov 2026 10:39:04 +0100
-Message-ID: <20261103093910.596225-9-poros@redhat.com>
+Subject: [PATCH net-next 10/14] selftests: dpll: add pin frequency test
+Date: Tue,  3 Nov 2026 10:39:06 +0100
+Message-ID: <20261103093910.596225-11-poros@redhat.com>
 In-Reply-To: <20261103093910.596225-1-poros@redhat.com>
 References: <20261103093910.596225-1-poros@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -94,248 +94,131 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Add a test that sets a new priority on an input pin, reads it back and
-restores the original value. The range of priorities a device accepts is
-not advertised over netlink, so the test tries one below the current
-value and then the small values every driver accepts, since a large
-current value may mark an unused pin outside the settable range, as the
-ice driver does with 255. A driver may still refuse all of them for a
-constraint the interface does not tell, so that is a skip on a device
-provided by the user, with the reason the tool reported, and a failure
-on the device the script created, whose simulator accepts every
-priority. The test skips when the dpll tool lacks the prio keyword of
-pin set, and the restore is deferred right after the original value is
-read so that an interrupted run restores it too. A pin that does not
-advertise the priority-can-change capability or does not report a
-priority is a skip on a device provided by the user and a failure on the
-device the script created, whose pins have both.
+Add a test that picks a supported frequency other than the current one
+from the frequency-supported list of an input pin, sets it, reads it
+back and restores the original value. Both ends of every advertised
+range are candidates, so that a pin advertising a single range wider
+than one value still has one. It skips when the dpll tool lacks the
+frequency keyword of pin set, and the restore is deferred right after
+the original value is read so that an interrupted run restores it too.
+A pin that reports no frequency or advertises a single frequency only
+is a skip on a device provided by the user and a failure on the device
+the script created, whose pins advertise several.
 
-The dpllsim_add_pin helper gains an optional priority argument, which is
-written only when it is given, so that a pin without one keeps the
-default of the simulator. A priority is accepted for input pins only,
-so the callers pass one for those alone.
-
-The standard device lays its inputs out as gnss0 with priority 0 and
-ext0 with priority 1, and the stress devices get random priorities on
-their input pins.
+The driver may refuse the candidate. A driver without a frequency
+setter refuses every value with EOPNOTSUPP, and a driver with
+constraints of its own refuses values the advertised ranges allow,
+zl3073x for instance wants the frequencies of an output pair to divide
+each other. On a device provided by the user a refused set is a skip
+that names the reason the tool reported, which the setter keeps in
+DPLL_LAST_ERR, on the created device the simulator accepts every
+advertised value and the refusal is a failure. Once the set went
+through, a refused restore is a failure on either.
 
 Signed-off-by: Petr Oros <poros@redhat.com>
 ---
- .../drivers/net/dpll/dpll_features.sh         | 65 +++++++++++++++++++
- .../selftests/drivers/net/dpll/dpll_stress.sh | 15 +++--
- .../selftests/drivers/net/lib/sh/dpll_lib.sh  | 32 +++++++--
- 3 files changed, 100 insertions(+), 12 deletions(-)
+ .../drivers/net/dpll/dpll_features.sh         | 64 +++++++++++++++++++
+ .../selftests/drivers/net/lib/sh/dpll_lib.sh  |  5 ++
+ 2 files changed, 69 insertions(+)
 
 diff --git a/tools/testing/selftests/drivers/net/dpll/dpll_features.sh b/tools/testing/selftests/drivers/net/dpll/dpll_features.sh
-index 42271769b2e706..941b7ee848f951 100755
+index 941b7ee848f951..66e11f7f44eec9 100755
 --- a/tools/testing/selftests/drivers/net/dpll/dpll_features.sh
 +++ b/tools/testing/selftests/drivers/net/dpll/dpll_features.sh
-@@ -16,11 +16,76 @@ source "$SCRIPTDIR/../lib/sh/dpll_lib.sh"
- 
+@@ -17,6 +17,7 @@ source "$SCRIPTDIR/../lib/sh/dpll_lib.sh"
  ALL_TESTS="
  	test_pin_state_transitions
-+	test_pin_priority_get_set
+ 	test_pin_priority_get_set
++	test_pin_frequency_set_get
  "
  
  ##############################################################################
- # Pin-level feature tests
+@@ -165,6 +166,69 @@ test_pin_state_transitions()
+ 	log_test "DPLL pin state transitions"
+ }
  
-+test_pin_priority_get_set()
++test_pin_frequency_set_get()
 +{
-+	local before target after reason candidate
++	local before target after reason
 +
 +	RET=0
 +
 +	if [ -z "$PIN_TUNE_ID" ]; then
-+		dpll_log_test_skip_or_fail "DPLL pin priority set/get" \
++		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
 +		    "no spare input pin"
 +		return
 +	fi
-+	if ! dpll_pin_set_supports prio; then
-+		log_test_skip "DPLL pin priority set/get" \
-+		    "dpll tool lacks pin set prio"
-+		return
-+	fi
-+	if ! dpll_pin_has_capability "$PIN_TUNE_ID" priority-can-change; then
-+		dpll_log_test_skip_or_fail "DPLL pin priority set/get" \
-+		    "priority cannot change"
++	if ! dpll_pin_set_supports frequency; then
++		log_test_skip "DPLL pin frequency set/get" \
++		    "dpll tool lacks pin set frequency"
 +		return
 +	fi
 +
-+	before=$(dpll_pin_get_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID")
++	before=$(dpll_pin_get_frequency "$PIN_TUNE_ID")
 +	if [ -z "$before" ]; then
-+		dpll_log_test_skip_or_fail "DPLL pin priority set/get" \
-+		    "prio not reported"
++		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
++		    "frequency not reported"
 +		return
 +	fi
-+	defer dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" "$before"
++	defer dpll_pin_set_frequency "$PIN_TUNE_ID" "$before"
 +
-+	# The accepted range is not advertised, so try one below the current
-+	# value and then small values, a refusal of all of them is a skip on
-+	# a device the user provided, the simulator accepts every priority.
-+	target=""
-+	for candidate in $((before - 1)) 1 7; do
-+		[ "$candidate" -ge 0 ] && [ "$candidate" != "$before" ] ||
-+			continue
-+		if dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" \
-+				     "$candidate"; then
-+			target=$candidate
-+			break
-+		fi
-+		reason=${DPLL_LAST_ERR%%$'\n'*}
-+	done
++	# Pick a supported frequency different from the current one. Both
++	# ends of every supported range are candidates, so a pin with a
++	# single range still has an alternative unless it is one value wide.
++	target=$(dpll_pin_json "$PIN_TUNE_ID" | \
++		 jq -r --argjson cur "$before" \
++		    '[.["frequency-supported"][]? |
++		      .["frequency-min"], .["frequency-max"] |
++		      numbers | select(. != $cur)][0] // empty')
 +	if [ -z "$target" ]; then
-+		dpll_log_test_skip_or_fail "DPLL pin priority set/get" \
-+		    "cannot set a new prio${reason:+, $reason}"
++		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
++		    "no alternative supported frequency"
 +		return
 +	fi
-+	after=$(dpll_pin_get_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID")
++
++	# A driver without a frequency setter or with constraints of its own
++	# may refuse the candidate, a skip on a device the user provided, the
++	# simulator accepts every advertised value.
++	if ! dpll_pin_set_frequency "$PIN_TUNE_ID" "$target"; then
++		reason=${DPLL_LAST_ERR%%$'\n'*}
++		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
++		    "cannot set frequency=$target${reason:+, $reason}"
++		return
++	fi
++	after=$(dpll_pin_get_frequency "$PIN_TUNE_ID")
 +	if [ "$after" != "$target" ]; then
-+		check_err 1 "priority expected $target, got '$after'"
++		check_err 1 "frequency expected $target, got '$after'"
 +	fi
 +
-+	dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" "$before"
-+	check_err $? "cannot restore pin priority"
-+	after=$(dpll_pin_get_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID")
++	dpll_pin_set_frequency "$PIN_TUNE_ID" "$before"
++	check_err $? "cannot restore frequency"
++	after=$(dpll_pin_get_frequency "$PIN_TUNE_ID")
 +	if [ "$after" != "$before" ]; then
-+		check_err 1 "priority not restored, got '$after'"
++		check_err 1 "frequency not restored, got '$after'"
 +	fi
 +
-+	log_test "DPLL pin priority set/get"
-+}
-+
- test_pin_state_transitions()
- {
- 	local before state after reason
-diff --git a/tools/testing/selftests/drivers/net/dpll/dpll_stress.sh b/tools/testing/selftests/drivers/net/dpll/dpll_stress.sh
-index ee543e2cd8703c..60e42107c67efe 100755
---- a/tools/testing/selftests/drivers/net/dpll/dpll_stress.sh
-+++ b/tools/testing/selftests/drivers/net/dpll/dpll_stress.sh
-@@ -77,13 +77,13 @@ create_stress_device()
- 	local clock_id=$1
- 	local num_pins=$2
- 	local name="st$clock_id"
--	local i type freq dir
-+	local i type freq dir prio
- 	local dirs=(input output)
- 
- 	dpllsim_create_device "$name" "$clock_id" || return 1
- 
- 	# Always have at least one plain input pin, then random ones
--	if ! dpllsim_add_pin "$name" ext0 ext 10000000 input; then
-+	if ! dpllsim_add_pin "$name" ext0 ext 10000000 input 1; then
- 		dpllsim_delete_device "$name"
- 		return 1
- 	fi
-@@ -94,8 +94,11 @@ create_stress_device()
- 		# output one
- 		dir=${dirs[RANDOM % 2]}
- 		[ "$type" = mux ] && dir=input
--		if ! dpllsim_add_pin "$name" "pin$i" "$type" "$freq" \
--				     "$dir"; then
-+		# Only input pins accept a priority
-+		prio=""
-+		[ "$dir" = input ] && prio=$((RANDOM % 128))
-+		if ! dpllsim_add_pin "$name" "pin$i" "$type" "$freq" "$dir" \
-+				     "$prio"; then
- 			dpllsim_delete_device "$name"
- 			return 1
- 		fi
-@@ -205,8 +208,8 @@ test_deploy_cycle()
- 	fi
- 	track_device "$name"
- 
--	if ! dpllsim_add_pin "$name" gnss0 gnss 1 input ||
--	   ! dpllsim_add_pin "$name" ext0 ext 10000000 input ||
-+	if ! dpllsim_add_pin "$name" gnss0 gnss 1 input 0 ||
-+	   ! dpllsim_add_pin "$name" ext0 ext 10000000 input 1 ||
- 	   ! dpllsim_add_pin "$name" out0 ext 10000000 output; then
- 		check_err 1 "cannot add pins"
- 		log_test "DPLL deploy/undeploy cycling"
-diff --git a/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh b/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-index badb787815d42f..613ed365e3e311 100644
---- a/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-+++ b/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-@@ -373,6 +373,11 @@ dpll_pin_has_capability()
- 	   <<< "$out" &> /dev/null
- }
- 
-+dpll_pin_get_prio()
-+{
-+	__dpll_pin_dev_field "$1" "$2" '.prio'
++	log_test "DPLL pin frequency set/get"
 +}
 +
  ##############################################################################
- # Pin setters
- #
-@@ -394,6 +399,16 @@ dpll_pin_set_state()
- 			     state "$state" 2>&1 >/dev/null)
+ 
+ cleanup()
+diff --git a/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh b/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
+index 613ed365e3e311..191948442ef8bd 100644
+--- a/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
++++ b/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
+@@ -409,6 +409,11 @@ dpll_pin_set_prio()
+ 			     prio "$prio" 2>&1 >/dev/null)
  }
  
-+dpll_pin_set_prio()
++dpll_pin_set_frequency()
 +{
-+	local dev_id=$1
-+	local pin_id=$2
-+	local prio=$3
-+
-+	DPLL_LAST_ERR=$(dpll pin set id "$pin_id" parent-device "$dev_id" \
-+			     prio "$prio" 2>&1 >/dev/null)
++	DPLL_LAST_ERR=$(dpll pin set id "$1" frequency "$2" 2>&1 >/dev/null)
 +}
 +
  ##############################################################################
  # dpllsim configfs interface
  #
-@@ -475,7 +490,9 @@ dpllsim_create_device()
- 
- # $1: device name, $2: pin name (becomes the board-label), $3: type (gnss,
- # int-oscillator, ext, synce-eth-port, mux), $4: frequency in Hz,
--# $5: direction (input/output)
-+# $5: direction (input/output), $6: prio (optional, input pins only).
-+# The priority is written only when one is given, so a pin without one
-+# keeps the default of the simulator.
- dpllsim_add_pin()
- {
- 	local dev=$1
-@@ -483,13 +500,16 @@ dpllsim_add_pin()
- 	local type=$3
- 	local frequency=$4
- 	local direction=$5
-+	local prio=${6:-}
- 	local pin_path="$DPLLSIM_CFG/$dev/pins/$pin"
- 
- 	mkdir "$pin_path" 2>/dev/null || return 1
- 
- 	if ! echo "$type" 2>/dev/null > "$pin_path/type" ||
- 	   ! echo "$frequency" 2>/dev/null > "$pin_path/frequency" ||
--	   ! echo "$direction" 2>/dev/null > "$pin_path/direction"; then
-+	   ! echo "$direction" 2>/dev/null > "$pin_path/direction" ||
-+	   { [ -n "$prio" ] &&
-+	     ! echo "$prio" 2>/dev/null > "$pin_path/prio"; }; then
- 		rmdir "$pin_path" 2>/dev/null
- 		return 1
- 	fi
-@@ -537,8 +557,8 @@ dpllsim_alloc_clock_id()
- # Create a device with the standard 3-pin layout, deploy it and resolve
- # the netlink device id. Sets DPLLSIM_CREATED_NAME, DPLLSIM_CLOCK_ID and
- # DPLLSIM_DEV_ID.
--#   gnss0: GNSS, 1 Hz, input
--#   ext0: EXT, 10 MHz, input
-+#   gnss0: GNSS, 1 Hz, input, prio 0 (active reference)
-+#   ext0: EXT, 10 MHz, input, prio 1
- #   out0: EXT, 10 MHz, output
- dpllsim_setup_standard_device()
- {
-@@ -549,8 +569,8 @@ dpllsim_setup_standard_device()
- 	name="std$clock_id"
- 	dpllsim_create_device "$name" "$clock_id" || return 1
- 
--	if ! dpllsim_add_pin "$name" gnss0 gnss 1 input ||
--	   ! dpllsim_add_pin "$name" ext0 ext 10000000 input ||
-+	if ! dpllsim_add_pin "$name" gnss0 gnss 1 input 0 ||
-+	   ! dpllsim_add_pin "$name" ext0 ext 10000000 input 1 ||
- 	   ! dpllsim_add_pin "$name" out0 ext 10000000 output; then
- 		dpllsim_delete_device "$name"
- 		return 1
 -- 
 2.56.0
 
