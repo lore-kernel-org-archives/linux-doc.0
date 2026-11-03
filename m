@@ -1,72 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793740468;
-	b=K9ml6lSNMotm6+AYSkJFjKLaufhL32sRcDfuqlR3XcpIaAe3SCwuyDpYRNmnf+kAWjlO
-	 eSUYnIl8mhAeRq4nBHEWj4agTRgZp1gH6L2dwwNPnFfqrqdQ+oMl1uRY700dMMlQHSH8F
-	 Lxhqa29f6W8KD8JPMA/VN12sl7oZFuxa5+zL26PnGbRfpiDVitsg+7BNaKv4+uchrzRgD
-	 Ua2drJuzERIA7jR3LFdY6uTXiyGSrfVUAhUBGRC/fs3h8yYbVpub6VUjeXKpN6UUB9+id
-	 /k7PD6XC/5dDu814vhXHo3W2SKVIZIJcVE3DV75y9q28VRKcHCk5XYF+qu7Rtl/JkgA==
+	t=1793740470;
+	b=yNCJAxF283tKfFZUohHpgVSrM4Miqrd7xUU7IVCq9zku5cWFrRPDuaUDtcHbG6/ywlyV
+	 SMPvL/z45jRRpQwpp1SUKUwyPY43IPLo/jz3mqminzkcfqmfeSRtZ8GBF3N2zaKZgUAwF
+	 o7cHYnkAvyxQWDX4sMvEGQwgOifflcT3sYRJfwNlXxzJ3E41iuRVvLVmuj6zpzyjKUolg
+	 OR3OTiCCmAY+L91Y49jAYGag4qZNg3Yn1I8BUeEHIdmawibWH3/bfR+ut5Bn/Jz6PfO2i
+	 lfEETUG4PCJKla6HqcNTM46PHOG4qdx4aaeFLuKrgXjQIExG2JPfJ3CfTyfDYZ8lktw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793740468;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793740470;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=rCZOGfXGfTlvYX61DgrqEZD2JIOIr5P64Jg4OP2t30A=;
-	b=JpAWUEbi8w0eLYHe4XygpGjhdR2utwr0rUuCjbcsl/ZBECx+u+40m58qfrpYvpHMp1MD
-	 FH9xhFDM+uGZN7uXXoYyd98HsshKU6MVmC6BNx1obTDXjylo2sWaD6zB3vFYWrBE1+3RW
-	 zCzemSQmq5/efJqgOQdRsYGSOsaSrUAOb8zW5084fV5DvbZw0G41DDPQsZ0lC81mgzCWv
-	 czl9A8nrHw4eCefxvU4hrYNwviTkKhWlYZyMW6wBhMTHfYzcOx+VrCXnq4hLKMuCGVoZq
-	 RME4kYzJ4ptow46xwVG7IGYTAI+ebDt/SgorUxWkdC+jlt3uK3QqiGMP0cq/a+n4kdA==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=Mqx62j/MS4Vpw2prk2XGbtfQUzR6R3P7OHsZIxuKjsE=;
+	b=h3K/yAAorH3nADf6x4B920jIlOZmgcrkeH/xqCMRBk/8elrCeZfUh2GR/qyxmSp1x0de
+	 W4A3BIcQOc1Cs5X57KjHIsbA6hg/eKpAGnUKHNO7izqVnFIGb9k0m8oWFPre462khgb7p
+	 4eDHfLOcwLt5TqTL56AdodEDr3vvCUjJN/GNVWoNdNa2wDHlYhC9t6Tpt+bglIJv4YnMv
+	 pzNiRKRYyUDVJdlChaVKxFy3QHUZ5ffCAumbotbZezzz+idzGr8pekpCzdyEF+wthEfH2
+	 VZjXwjcdOrb9X8AfdSf2sedibzqFMU3NxAM+hGANhuRkTsCdAmacyELsobO5hZzlU5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=BZ8BCqIE;
-	arc=none smtp.remote-ip=74.125.82.70
-Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=mYGS1684;
+	arc=none smtp.remote-ip=74.125.82.197
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31970606A31B
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 21:14:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31970606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA1F0606D80B
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 21:14:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA1F0606D80B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=BZ8BCqIE
-Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-1acbaf81bebso79783c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 13:14:27 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=mYGS1684
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-36a190c53a3so1505720eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 13:14:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793740466; x=1794345266; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rCZOGfXGfTlvYX61DgrqEZD2JIOIr5P64Jg4OP2t30A=;
-        b=BZ8BCqIE2+YoFtfGaPL7TgJhevJcfhgHpnLZc9Vh6fMaUbvQwI38kX59ONPYPy52mv
-         pEnIF40lh/VvDKb0Bgn72pHWnISyl7DVl1+m0ATNHVZ2tQ3UZazHYFT60EVADdLcbBtL
-         UkapxIJAaEHJnoLGNu0v8MHHQp62a4B4BnzV2+rLK1p8kVazwOerSQ/PhLxXYK0zBC5q
-         3b6mJhHr1awiPbCeRgDa0Q+8DYW/8MlkXgm9Ashe9HNO+QWRIsL1qR1++Ku/alAfkRoj
-         rdFfxmaToxkIQNjSvFhcMsag8+CTa6Ms96iWMto26XUrGdc3139J/Ou9IWQ+/yseE3a4
-         /zuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793740466; x=1794345266;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1793740469; x=1794345269; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rCZOGfXGfTlvYX61DgrqEZD2JIOIr5P64Jg4OP2t30A=;
-        b=qf3zooXjmUI4PdfZm0Ho385caGwRdMWwmJ9mH2ssxtLZVA//4lnk1oNYKjFbe+SKNG
-         ve6VtgQa3f/E3sm4W91cK6qTrREt9d+5HvgcCrONaNGUiCwlsusudcFTVsCnQ/J1LT77
-         ict6s0ds9GbbTnypwAF2FTjqHzZp8dcI3MhWsID6zGhHB5GKuN6vpUFPV5w1j4hvvHPY
-         KRD2rmVUCXeOQTf/5O39BcgoNHwzsnrumzzRopxhzEVASPABUrt7JZ2b87EnUxNcR3Fl
-         oyJ7AuWgw/z1n40+TAtptCQrUOaMpbigrwu0RuDzK3ga1zYpgB0agFzWdTQut7RQifZc
-         Dx1w==
-X-Forwarded-Encrypted: i=1; AKwUvBwqJadCAFAHvO6eLE6b5dr0hLXZSdGMpnrGhbMvkdWW+7pjyXoh0gctn+c4IPWRtxPrc7e1INjLAlI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/VQ2RAhSHwFRpu7jN7TegoJaxJD9c/CG08DJv+OT6e3qSL3QHl
-	4rrlPapgwNIG73efmmFWw6AZaxO3Tv39msrrfyFHTIhupuZk8ZqSzPT05GdeUR6pV4ALpmgFS05
-	DCCc899vvnYapLtkrAgJkHSilfw==
-X-Received: from dlep5-n2.prod.google.com ([2002:a05:701b:4585:20b0:191:63a3:7273])
+        bh=Mqx62j/MS4Vpw2prk2XGbtfQUzR6R3P7OHsZIxuKjsE=;
+        b=mYGS1684RqdpIK3Jfjbz6kYwRHrgKYWCC1uuvnoOTjJXIBein+s1KCDC7vlL6NmdcJ
+         YJPv4Ur4CgDzErAdxwqLrsAYqUPSYXuMC+qmyYuTQmhquyhpS1vDQ1xYZkjIsf/pDFjB
+         i0rug4OnGvOLknH2N8uBjGDfXXfMRGoKRaYD3ZW+YE/tCe/zBJ92Uf0jrZLRbv5IUuvp
+         bcVIfchr0lzb86bMjOB5CRy60S2UB+LyHa0kxDCebJFLBzbJgIDOgVBURVQBbTo+GSYd
+         cralVlMDdP3a1YXMxNbNxMJ2kWKOG/aFb1PN492xf7orGbZIp1/xLN61vOkM/ykO6NNX
+         We0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793740469; x=1794345269;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Mqx62j/MS4Vpw2prk2XGbtfQUzR6R3P7OHsZIxuKjsE=;
+        b=YFdy1qVWvEQBtyn32ALMj4FwNoaX7a19TEYRw/K1ohv9M/ZUMmsO2syBeJOp9OlfW9
+         j9j/XvjqDm+jZdWxLIAtjM8nKJecXHZjv2FVwES/Qfi0J2OAA9iv6WdPlezJfik0yaT0
+         /AGDNetVLB9vA2pZee9IMSsgdHIBNUz2vL5gBFAUFOWOJ6s1RtOAYUZuXy94rxozuBbm
+         ujMnAUA8NUy7r964Wmsl211iwbhz9+Iz4rVn/cA8P+3H4HsvbQL3WEueRl2QBg0O4DU0
+         cskM3dCXpjVbBCccerdU1yZjenioBv0sEPtFIQ5kkqjsbNyl1ZiEex7SuU6yne23BoBQ
+         M1oA==
+X-Forwarded-Encrypted: i=1; AKwUvBxY6/Ux1SJeLQqC/flRJgL46Eh0u2SfzjgF7grJJt9NLX5z3JdGYFCyhPfVofVOnk2wEsmlGBCdNno=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/57Kr6FWg+/ZLinCi7FuLyRUxIO6bU8izHEH+QAPWGnhkB07gl
+	CBAgn3NKmmUym/GHQ7t2jO1mQU4INvgiXt/miuoxrnjzpCqZgbV6Afu6tYBD/bgNUEVAXAG5NI8
+	aq/HM/1SuYnCvDV1CGKTYn5EQbQ==
+X-Received: from dycmb15-n2.prod.google.com ([2002:a05:693c:20cf:20b0:369:f67f:7a43])
  (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7022:5e09:b0:1a4:3169:cb with SMTP id a92af1059eb24-1ac5cfe5610mr18759756c88.17.1793740465374;
- Tue, 03 Nov 2026 13:14:25 -0800 (PST)
-Date: Tue,  3 Nov 2026 21:14:19 +0000
+ 2002:a05:693c:20d2:20b0:368:2c6d:ddfe with SMTP id 5a478bee46e88-36a30008535mr24191511eec.9.1793740468575;
+ Tue, 03 Nov 2026 13:14:28 -0800 (PST)
+Date: Tue,  3 Nov 2026 21:14:21 +0000
+In-Reply-To: <20261103211424.127627-1-almasrymina@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,9 +79,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
+References: <20261103211424.127627-1-almasrymina@google.com>
 X-Mailer: git-send-email 2.56.0.385.gac671c819a-goog
-Message-ID: <20261103211424.127627-1-almasrymina@google.com>
-Subject: [PATCH net-next v1 0/5] net: deprecate skb->pp_recycle and skb_mark_for_recycle()
+Message-ID: <20261103211424.127627-3-almasrymina@google.com>
+Subject: [PATCH net-next v1 2/5] net: skbuff: refcount spliced page_pool frags
+ via skb_pipe_buf_ops
 From: Mina Almasry <almasrymina@google.com>
 To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	virtualization@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
@@ -147,101 +152,89 @@ Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.ne
 	Jacob Keller <jacob.e.keller@intel.com>, StanleyYP Wang <StanleyYP.Wang@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Remove the per-SKB skb->pp_recycle bitfield and skb_mark_for_recycle()
-helper, and reference-count netmems directly by their underlying type
-via netmem_is_pp() inside netmem_inc_ref() and netmem_dec_ref().
+Update skb_splice_bits() (spd_fill_page(), sock_spd_release(), and
+skb_pipe_buf_ops) and skb_append_pagefrags() to acquire and release
+references via netmem_inc_ref(), netmem_dec_ref(), and skb_frag_ref()
+so page_pool RX fragments spliced into a pipe remain pinned in the pool
+while in the pipe and pair with skb_append_pagefrags() and
+skb_release_data() when spliced into a TX socket once netmem_inc_ref()
+and netmem_dec_ref() handle page_pool netmems.
 
-This series simplifies SKB and netmem reference counting:
-- Reclaims 1 bit from struct sk_buff (skb->pp_recycle).
-- Unifies reference counting of SKB fragment netmems and regular netmems
-  under netmem_inc_ref() and netmem_dec_ref(), eliminating the separate
-  skb_netmem_ref(), skb_netmem_unref(), and skb_mark_for_recycle() APIs.
-- Removes 110 net lines of non-test/doc code across 63 files (196
-  insertions, 306 deletions).
+Caveats:
+- Because pipe buffers created by skb_splice_bits() hold pp_ref_count
+  until released (including across tee()), user pipes holding
+  unconsumed spliced data keep those page_pool pages in-flight and
+  DMA-mapped in the pool (bounded by pipe capacity and RLIMIT_NOFILE
+  rather than sk_rcvbuf) until the pipe buffers are consumed or closed,
+  with page_pool_destroy() deferring pool release via its periodic
+  workqueue and page_pool_scrub() unmapping DMA.
 
-1/5: net: skbuff: skip managed zerocopy frags in skb_frag_ref()
-2/5: net: skbuff: refcount spliced page_pool frags via skb_pipe_buf_ops
-3/5: net: datagram: refcount page_pool frags in zerocopy_fill_skb_from_iter()
-4/5: net: remove skb->pp_recycle and consolidate netmem refcounting
-5/5: net: remove skb_mark_for_recycle()
+Signed-off-by: Mina Almasry <almasrymina@google.com>
+---
+ net/core/skbuff.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
-Mina Almasry (5):
-  net: skbuff: skip managed zerocopy frags in skb_frag_ref()
-  net: skbuff: refcount spliced page_pool frags via skb_pipe_buf_ops
-  net: datagram: refcount page_pool frags in
-    zerocopy_fill_skb_from_iter()
-  net: remove skb->pp_recycle and consolidate netmem refcounting
-  net: remove skb_mark_for_recycle()
-
- Documentation/networking/page_pool.rst        |   1 -
- drivers/net/ethernet/airoha/airoha_eth.c      |   1 -
- drivers/net/ethernet/alibaba/eea/eea_rx.c     |   3 -
- .../net/ethernet/broadcom/asp2/bcmasp_intf.c  |   1 -
- .../net/ethernet/broadcom/bnge/bnge_txrx.c    |   5 -
- drivers/net/ethernet/broadcom/bnxt/bnxt.c     |   8 -
- .../net/ethernet/broadcom/genet/bcmgenet.c    |   2 -
- drivers/net/ethernet/cisco/enic/enic_rq.c     |   1 -
- drivers/net/ethernet/engleder/tsnep_main.c    |   2 -
- drivers/net/ethernet/freescale/fec_main.c     |   1 -
- drivers/net/ethernet/google/gve/gve_rx_dqo.c  |   9 -
- .../net/ethernet/hisilicon/hibmcge/hbg_txrx.c |   1 -
- .../net/ethernet/hisilicon/hns3/hns3_enet.c   |   6 -
- .../net/ethernet/huawei/hinic3/hinic3_rx.c    |   1 -
- drivers/net/ethernet/intel/iavf/iavf_txrx.c   |   2 -
- drivers/net/ethernet/marvell/mvneta.c         |   2 -
- .../net/ethernet/marvell/mvpp2/mvpp2_main.c   |   2 -
- .../marvell/octeontx2/nic/otx2_txrx.c         |   1 -
- drivers/net/ethernet/mediatek/mtk_eth_soc.c   |   1 -
- drivers/net/ethernet/mellanox/mlx4/en_rx.c    |   1 -
- .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   8 -
- drivers/net/ethernet/mellanox/mlxsw/pci.c     |   2 -
- .../ethernet/microchip/lan966x/lan966x_fdma.c |   2 -
- .../microchip/sparx5/lan969x/lan969x_fdma.c   |   1 -
- drivers/net/ethernet/microsoft/mana/mana_en.c |   3 -
- .../net/ethernet/mucse/rnpgbe/rnpgbe_lib.c    |   1 -
- .../net/ethernet/pensando/ionic/ionic_txrx.c  |   2 -
- .../net/ethernet/realtek/rtase/rtase_main.c   |   1 -
- drivers/net/ethernet/renesas/ravb_main.c      |   2 -
- drivers/net/ethernet/socionext/netsec.c       |   1 -
- .../net/ethernet/stmicro/stmmac/stmmac_main.c |   1 -
- drivers/net/ethernet/tehuti/tn40.c            |   1 -
- drivers/net/ethernet/ti/am65-cpsw-nuss.c      |   1 -
- drivers/net/ethernet/ti/cpsw.c                |   2 -
- drivers/net/ethernet/ti/cpsw_new.c            |   2 -
- drivers/net/ethernet/ti/icssg/icssg_common.c  |   1 -
- drivers/net/ethernet/wangxun/libwx/wx_lib.c   |   2 -
- drivers/net/veth.c                            |   3 +-
- drivers/net/virtio_net.c                      |  16 +-
- drivers/net/vmxnet3/vmxnet3_xdp.c             |   1 -
- drivers/net/wireless/mediatek/mt76/dma.c      |   1 -
- .../net/wireless/mediatek/mt76/mt7996/mac.c   |   1 -
- drivers/net/wireless/mediatek/mt76/npu.c      |   1 -
- drivers/net/wireless/mediatek/mt76/usb.c      |   1 -
- drivers/net/xen-netfront.c                    |   1 -
- include/linux/mm.h                            |   2 +-
- include/linux/skbuff.h                        |  12 +-
- include/linux/skbuff_ref.h                    |  60 +--
- include/net/netmem.h                          |  39 +-
- include/net/page_pool/helpers.h               |  46 ++-
- net/core/datagram.c                           |   5 +
- net/core/gro.c                                |   9 -
- net/core/net_test.c                           | 369 +++++++++++-------
- net/core/netmem_priv.h                        |  23 +-
- net/core/page_pool.c                          |   8 +-
- net/core/skbuff.c                             |  78 ++--
- net/core/xdp.c                                |  13 +-
- net/ipv4/esp4.c                               |  11 +-
- net/ipv6/esp6.c                               |  11 +-
- net/tls/tls_device.c                          |  14 +-
- net/tls/tls_device_fallback.c                 |   6 +-
- net/tls/tls_main.c                            |   4 +-
- net/wireless/util.c                           |  31 +-
- net/xfrm/trace_iptfs.h                        |   6 +-
- net/xfrm/xfrm_iptfs.c                         |  16 +-
- 65 files changed, 418 insertions(+), 454 deletions(-)
-
-
-base-commit: 7b6ab4dbc156e2f96419715130b3d5738a306c93
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 48f6764117243..32a9dcdf2cb22 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -3114,9 +3114,27 @@ EXPORT_SYMBOL(skb_copy_bits);
+  */
+ static void sock_spd_release(struct splice_pipe_desc *spd, unsigned int i)
+ {
+-	put_page(spd->pages[i]);
++	netmem_dec_ref(page_to_netmem(spd->pages[i]));
+ }
+ 
++static void skb_pipe_buf_release(struct pipe_inode_info *pipe,
++				 struct pipe_buffer *buf)
++{
++	netmem_dec_ref(page_to_netmem(buf->page));
++}
++
++static bool skb_pipe_buf_get(struct pipe_inode_info *pipe,
++			     struct pipe_buffer *buf)
++{
++	netmem_inc_ref(page_to_netmem(buf->page));
++	return true;
++}
++
++static const struct pipe_buf_operations skb_pipe_buf_ops = {
++	.release	= skb_pipe_buf_release,
++	.get		= skb_pipe_buf_get,
++};
++
+ static struct page *linear_to_page(struct page *page, unsigned int *len,
+ 				   unsigned int *offset,
+ 				   struct sock *sk)
+@@ -3165,7 +3183,7 @@ static bool spd_fill_page(struct splice_pipe_desc *spd, struct page *page,
+ 		spd->partial[spd->nr_pages - 1].len += *len;
+ 		return false;
+ 	}
+-	get_page(page);
++	netmem_inc_ref(page_to_netmem(page));
+ 	spd->pages[spd->nr_pages] = page;
+ 	spd->partial[spd->nr_pages].len = *len;
+ 	spd->partial[spd->nr_pages].offset = offset;
+@@ -3281,7 +3299,7 @@ int skb_splice_bits(struct sk_buff *skb, struct sock *sk, unsigned int offset,
+ 		.pages = pages,
+ 		.partial = partial,
+ 		.nr_pages_max = MAX_SKB_FRAGS,
+-		.ops = &nosteal_pipe_buf_ops,
++		.ops = &skb_pipe_buf_ops,
+ 		.spd_release = sock_spd_release,
+ 	};
+ 	int ret = 0;
+@@ -4692,8 +4710,8 @@ int skb_append_pagefrags(struct sk_buff *skb, struct page *page,
+ 		skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], size);
+ 	} else if (i < max_frags) {
+ 		skb_zcopy_downgrade_managed(skb);
+-		get_page(page);
+ 		skb_fill_page_desc_noacc(skb, i, page, offset, size);
++		skb_frag_ref(skb, i);
+ 	} else {
+ 		return -EMSGSIZE;
+ 	}
 -- 
 2.56.0.385.gac671c819a-goog
 
