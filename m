@@ -1,54 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.153
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793725650;
-	b=L26ZBYP557c0u89L7rxFDv7d5V/AUx4GN5nTeMoHPbbUFmEuY1gNwhDO0kBf1lMuTwXw
-	 E8+aNpggA01XJqpg8KEb+Ygc3RgL3dUOu99vvaBo7eLbrQ81Lwhl25nCduHOYGkF5iqg7
-	 wiioAdQsFA0+Wf9X3RAqCn7WnI22/AGVzK21Kt1Kg/9LXITlCEzuvIBV/Z5zOuc196UGf
-	 q/PoetDg2ODDSKA1fj4hLjCKwB6AO2lhGPf1W/ypS7X3BViR3qPj28E++fPiEJh8hRbK4
-	 ZH4gM50oUANy/j1c08WGa/Axw3zjDaWxe4hI2Szepezgf0Z46oieBBvpDAKmNfiW02w==
+	t=1793726271;
+	b=H+S8BKKapAlruYIyYTL4BEvNnQStrftRhBmP0BRP/t7tdRlA8wyAEqfizQ81RMvaX2os
+	 IkDk5+evnr3IcC2MkCK73KQ4HycYC0IKF58etpvgze+eTQWXgdvN6sEtWC/lYKwmjjyv2
+	 llI2gpmpLh0GDTMGlLHmsWLEDjw1uIHSweN/QEUzHO1s81pKNfrRrgH+bOvwhsTj/7k8Z
+	 3/AQOnxmTJETdpAo3PgJ1JqvB3f8JAnbh6Ef8Usq3O7+mhtyjs1pfrTSYHIX+nMH90bUz
+	 MqlperHDi2mAvRZbZSrMFzfeVa4fw1Cq3Br2r+8igQtv9/XveLqpAlxJS1urQ9ospNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793725650;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=KLRMVFFyvrLd0GX9ll6qf9ApFCeqabmtblqncpF8arc=;
-	b=08FLB8QCo2ik911Ddoo4+GMzcjYGlpqLXLB8tDlIqeioeZcPoWy/WfxGYg/vzqOV8rH3
-	 hpQ19uVGqLAkkuGQAkI99N/+LJgjrfKsdj4gqxXtFsFGd36uRbXuTcXX9rWAvImMfSQlR
-	 4yjluj2+qelT+0douuiEeFkG6AwFSIKqR7o/KDuIHZBJUNWEjwiGzt85F9pKg8x/soHBk
-	 yCnfl6Uozm9+W/qQJaTXfptZBxZhzXxtNojxTgETDljHrF6vX4gYObZzOMcEzkjeTw+4f
-	 K9rkDxAUCqrWxJ4q8ilgBfP446x96Ynd8rnmDbOZUlZvwUumbFlDrQTHs1/AKAVQOVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793726271;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding;
+	bh=/0eFtgdWCT9ievg6BvBpvg8HubF+eG36xt5HuaU9W+I=;
+	b=lFT0K98gkMYVNwYPh/CQh06dBoBGsRDnI8GcUJae/18JGLQJnwoMNPNlg/BPAhCPG+ZB
+	 xLVtexmMxLjfgpxDJzTG+D542u4abX+MSyLg+zlbRiEuofm64xaD4CuEqtigILMU557RQ
+	 FVk6VqaYfn1SBuB1gpkOdgvRcM4qYO2aKZ+Knz02VcJHgNJLCnjI3Of5BJgkwgzFwbx2W
+	 AFLVWvHkxjpTmSayEC39IOCjNj/AWfl1Ar9roKdtGpOrO+hV178oFyFNQ0pFKS14edqUN
+	 FR3uqJnp/t9QMH1vSwuGLH+D6JfsMqWizcVov9RGj4Se/cBY2kYAaQ0eNx8pIIRojgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=CnTckfzZ;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dmarc=pass header.from=fastmail.org;
+	spf=pass smtp.mailfrom=fastmail.org;
+	dkim=pass header.d=fastmail.org header.i=@fastmail.org header.a=rsa-sha256 header.s=fm3 header.b=K7CP5YGl;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=RWJGMlgd;
+	arc=none smtp.remote-ip=202.12.124.153
+Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7AB606A32D;
-	Tue,  3 Nov 2026 17:07:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC7AB606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C57606A31B
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 17:17:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 83C57606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=CnTckfzZ
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=KLRMVFFyvrLd0GX9ll6qf9ApFCeqabmtblqncpF8arc=; b=CnTckfzZiffq8PwgNoxN5RlRgX
-	ftARL5taRaNTM/p1tPzrI3mU3xogFiaHlJrsL/CvbbHN7B9UvvxNLy5bsO9WYx7swhTc+L4M7+3Tb
-	dcJO5+vHUS1bvy18mjDzhUws1m16j5IG7h97XgqruKDnD1wWoVJbzN0RsQNc+vgMfUmEMOtTR0xp9
-	cfvuLGMbA2aHEZLH3s8P+mv9uKy2dDfvuzRbP1yfNnHRsrWFkhaqTpjkX7OgRWN/2aTie9Gl+9C/C
-	RsGovsTg72IAyx2T0JyvJa1qdIHemZfgnlI/z6u9HS/ivdUyzGI6zCmvbTUNvLmxjPPDW5lofQ8+n
-	irxuq6LQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOHyq-00000003Gom-2rTF;
-	Tue, 03 Nov 2026 17:07:28 +0000
-Message-ID: <cead23d2-30ea-46ae-9a44-036148e943cc@infradead.org>
-Date: Tue, 3 Nov 2026 09:07:28 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=fastmail.org header.i=@fastmail.org header.a=rsa-sha256 header.s=fm3 header.b=K7CP5YGl;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=RWJGMlgd
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id DD8187A017B
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 12:17:49 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Tue, 03 Nov 2026 12:17:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.org; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1793726268; x=
+	1793812668; bh=/0eFtgdWCT9ievg6BvBpvg8HubF+eG36xt5HuaU9W+I=; b=K
+	7CP5YGlTXxCYIOmseDiowX4hiJJtJLhc38w+iDX2GJ0Zeo14/HRLLvwggsIcLUqg
+	+soWdbJy1COc5biytiZyBrxWlcQbds3R14jbDRQc9Ssxsi9aXXQYokPRXGN00qHH
+	p/zDotqamxDOogeOb63zksxzBrccatjPB4Lx7qQ4wxMWzRwcb874QM/VY5h5h3+M
+	OWb831DDW8PbfCsiJHfbXh9jVejGHw1sH5rwiIKuWbqgPijMf0hifjsjoz3Q8VpJ
+	wGqQQvtvwbDeD9tJzc+A5PVZ1zyIYs68TrUptgfH47gGgCgcPmPLDs/cATYxTsKF
+	dlxcmj0ctNtjGoF22CirA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1793726268; x=1793812668; bh=/
+	0eFtgdWCT9ievg6BvBpvg8HubF+eG36xt5HuaU9W+I=; b=RWJGMlgdxjNY/ZaFY
+	wskV9/34Vrp+acAAFZfWXiAnz3MSCXZFaP5jJZUnwmOn7OHr0vWqUqkpx1IFsD+u
+	U+YyMc33IspoRiZJpEs5tsBpsDbuK/TsrxiN+jBB9XjjJh7maZCtnC6CMo8A87S2
+	soys19Z9to5tG9aYHc11tjO7fLoptkQ67L7K7o7ff4EosyJn0pITZ07iGvt+9Mbj
+	8y/hcw/a2NdgHw+k/VqEvyIgf3ZoSImbKlRdsaUjHSxrKxCFx/J14eBBH9rqajdg
+	XLMh2ArxlVljjiWIz60Ilt4mxv4i8SQRUH4SdSXE8D1D693XyusCvISYp8JNOU0r
+	RUG2A==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=fastmail.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793726268; d=fastmail.org;
+	mf=PGljYkBmYXN0bWFpbC5vcmc+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm3:rsa-sha256:ERFs6S89pDApJf1ot8m1NzeXB9+TRGaU/Ykmshc7Cj3O0dV
+	9q27R34fMcmEKuZKyv6zCDXRJxv+keFPWbXQJ8UWB69q5qlY/tCiuUbLW4EzIdDR
+	+KYUjywNLMeo+jVkvvGKiEjfhIPM1dxYcfTqkCV7g3EoKHAED4bULAAlZM0+w+KC
+	0OAdpIVOhuBxat4eYH3wx8hm3Nc7WbVoc5zA8tWfT4Pg1mXuIwBwgTWLpeKwQ4Cp
+	FucdctNWBNb+b8v82V3DFvY4dd52LQ6hy4Cpy2VYBGPD85QAbhrE1AQCi9rPf8S5
+	eRuZf4kjACCzGAXqWweLdMYD2eUxP0idKcIe4ng==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=11;
+	hn=cc,content-transfer-encoding,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:x1og4i9NDhPD4bFSB+EtGtr1eRBzzoGXLC74GmldXxc=:/0eFtgdWCT9ievg6BvBpvg8HubF+eG36xt5HuaU9W+I=;
+X-ME-Sender: <xms:Oxfqar_QDTewW3ciSbVwFHEbAdqm2MW2Cw5Shm2oivPxhA5w0FIBNg>
+    <xme:OxfqalHkQYCAdUvz7uDnEObiNbIfbQffMuhszGNdsk64pKjHDwjptOT-sHvVrYcM5
+    CkdK58tz-2HAGk9c43Zq1xjPDxzF-mjGJthpCyeWF81DJTiJ6Jgkjk>
+X-ME-Received: <xmr:OxfqaigNTUqLWt63OFjUh3K8EwbGgcyhegr6kPKBb7Rs8m6iCymsGVM-V_Pq00X6>
+X-ME-Proxy-Cause: dmFkZTFrKKiluzU9F/faxFNTYz8OEzrdlp/+P1qopLzgYZTahfODAjENwYGXpf1A5UmCh3
+    JzBOYS65Awfj6tV/+k1isntrPCiC5T6/iK/4jotiqccvnXNyPJsgJeZOJe0fBLW9z+r9Hq
+    uARKg56uZat2hdIbaf6uedLqzqTYFknS19lGFvqGdXfEcSAPG60cxrca13Wn16NGJ4ABMC
+    jloGmfFJjY9ipgNQCebBNE0cVARDOBORlZx0yrTBdIscubR1e0HXLfk5LYRwgqJ3M+etLZ
+    zBj0LQcQzYqWFn2R/PQCfT7qqpUuIK7T2kLLLJxQHYFZNCOvpA5Y465NieQ9f0yPRnWecp
+    oc0bRGDCaHV56erFQrxudOQMw9nVmBs3urlJw1zYGOabTZJj1u/ipOhCZq+E+/d0gcIwXs
+    cM2M4JogJej9qHn27oe/H7r3XXEASpdfLGMR9jPl0HZzqhCQfwECMexMRlu4TaZZJlXAry
+    tTQYCDs6XAW0KdxszlnI8Ay++hugKXuQuM75GGfbFt4QY5vrSkUrhd9/gRmLPGdg1UF+af
+    lrS2dvpSsOwTd7a46UjmIdA1Jkc9XoP43IADlvn4BXJbvUKx00AyF6wUjBdQL5j9oGYZCq
+    4+SwOSXY22TLUnOKTbiYMPG0pxGTvkDi5rfcdZuR1ji/piex9fKztgfbd8aA
+X-ME-Proxy: <xmx:OxfqaitM-zYmscBAxi6X8GMHGFlseFe5WAZ7wrVm9v5q5YDlnzdMJQ>
+    <xmx:OxfqaluWihOKKD3_IOkpVsJ4FWjkBZalXRHgK6a8PXkdb-esmn6XgQ>
+    <xmx:OxfqanEKSlJYcWRlA0CHFCRJYUj5V2kzNxzY1jXsqi1aU5J5XZtluQ>
+    <xmx:OxfqagPL-COEgepbht8CoWdoM29KnFc6mGegh3f0DsvKOoTOz6g_Gw>
+    <xmx:PBfqatwIbMCzae6PdLu7SbgrsT29_OlJNHOF-_0Cqh3PJ2lQ6b-Y4AjT>
+Feedback-ID: ib53e4b78:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 3 Nov 2026 12:17:46 -0500 (EST)
+From: Ian Bridges <icb@fastmail.org>
+To: mike.michalo@gmail.com
+Cc: linkinjeon@kernel.org,
+	senozhatsky@chromium.org,
+	tom@talpey.com,
+	chenxiaosong@chenxiaosong.com,
+	ematsumiya@suse.de,
+	linux-cifs@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ian Bridges <icb@fastmail.org>
+Subject: Re: [PATCH 2/2] ksmbd: add AES-GMAC signing support
+Date: Tue,  3 Nov 2026 11:17:42 -0600
+Message-ID: <20261103171742.18816-1-icb@fastmail.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261103111453.84804-3-mike.michalo@gmail.com>
+References: <20261103111453.84804-1-mike.michalo@gmail.com> <20261103111453.84804-3-mike.michalo@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,56 +132,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fuse: fix typos in fuse-caches.rst
-To: Viacheslav Shevchuk <slavik.a.shevchuk@gmail.com>, miklos@szeredi.hu
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, fuse-devel@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261103094407.912-1-slavik.a.shevchuk@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261103094407.912-1-slavik.a.shevchuk@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Hi Michail,
 
+With patch 2, an existing gap in SMB3 binding request verification
+leads to AES-GMAC nonce reuse. It needs
+"server multi channel support = yes", which is disabled by default.
 
-On 11/3/26 1:44 AM, Viacheslav Shevchuk wrote:
-> Fix two misspellings of "successfully" and change "then next time"
-> to "the next time".
-> 
-> The misspellings were found with the help of an AI coding assistant
-> (Claude Opus 5.5) by grepping Documentation/ for the entries in
-> scripts/spelling.txt.
-> 
-> Signed-off-by: Viacheslav Shevchuk <slavik.a.shevchuk@gmail.com>
+In the multichannel branch of smb2_sess_setup(), ksmbd checks that
+SMB2_FLAGS_SIGNED is present but does not verify the request with the
+existing Session.SigningKey, as MS-SMB2 3.3.5.2.4 requires. The request
+can then reach authentication processing, and a non-success
+SESSION_SETUP response is signed with that session key.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+I reproduced this with multichannel enabled and AES-GMAC negotiated.
+Three new connections sent binding SESSION_SETUP requests for an
+existing session, each with MessageId 1 and a random signature. All
+three returned STATUS_MORE_PROCESSING_REQUIRED. Each response was
+signed with the existing session's key and used the nonce
+010000000000000001000000.
 
-> ---
->  Documentation/filesystems/fuse/fuse-caches.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentation/filesystems/fuse/fuse-caches.rst
-> index 0778dd3d..d19592c6 100644
-> --- a/Documentation/filesystems/fuse/fuse-caches.rst
-> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
-> @@ -156,11 +156,11 @@ in several occasions:
->  
->  - When a new file system object is created (e.g. ``FUSE_CREATE``,
->    ``FUSE_MKDIR``, etc).
-> -- When a lookup is sucessfully performed.
-> -- When a dentry is sucessfully revalidated (``->d_revalidate()``).
-> +- When a lookup is successfully performed.
-> +- When a dentry is successfully revalidated (``->d_revalidate()``).
->  
->  A dentry expiry time can be set to 0, indicating that it is stale. This means
-> -that a ``FUSE_LOOKUP`` will be sent to user-space then next time it needs to be
-> +that a ``FUSE_LOOKUP`` will be sent to user-space the next time it needs to be
->  looked up. It can be set to 0 in several occasions:
->  
->  - When the user-space FUSE server explicitly requests a dentry to be invalidated
+The responses contained different NTLM challenges, so distinct
+messages were authenticated with the same AES-GMAC key and nonce.
 
--- 
-~Randy
+This violates GMAC's nonce-uniqueness requirement (NIST SP 800-38D).
+The same test with AES-CMAC confirms the pre-existing signing oracle,
+but does not create the GMAC nonce-reuse problem.
+
+The probe also recovers the GHASH key from four of these responses,
+two pairs of different lengths, without the signing key. With the
+GHASH key and one more response, it computes a tag for a different
+message at MessageId 7 that verifies under the session's signing key.
+A single connection reaches other MessageIds by stepping through the
+credits the server grants, 64 per response.
+
+Could the binding request be verified with Session.SigningKey before
+it is processed or any response is signed with that key?
+
+Thanks,
+Ian
