@@ -1,65 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793698828;
-	b=w6Jf+E5Iv8CAFUSmkQtnYy3vukORE3uznc5zBqtDzaFghRTm+vQjNzC+88Obp3JhKh4v
-	 JtMmutXzxEdyI3WVU8nyiLrif0rT0PXB6ZP6KCiehNmWtmgfmAUDI0EYY58gWUPcHtxWj
-	 SGsoqFuEu/pqn2BCYbKcFMilnwuj8+5jnqaLYXe1OmftQAYgyKwTVx8r4xwuGANJBVN3o
-	 wxfWGHs6URATndz6D2XXnh1H+M3k/eqAWihiw7UQ7H/9+g5x5KskYttOjSh+1oSovLEOF
-	 IV6RGS28O5YTy5JYX9NcYeAusbHFmq6aeX9TkNOiLuF6+e6HJGdsc8zWbAIgoWPwXqQ==
+	t=1793698832;
+	b=zNNqJsde+Rjcx743eQkJjVtUguSCEl+YAfcKMy4/a15iT3sMtUZW9elKiycSKofOMqUH
+	 O0MSVMs3lNzKeiHW4vtr38aHj00eSnHL6swWRrHpZMq6FzJ2AT6L2wXZvM8it5YuXgWf6
+	 rNYtfCo0rZuO4D4N0onv+L/fchVU7MsRRhxvqz5vtf+9tdrSI70XXg/SXnCd0dzn+sbej
+	 KKQCkiC/lH8Hat6cOB8JVPup0FXTcg3CDRzxp0tJ7c/m8ojqLjE5PsquILB9tVqY/cp2i
+	 z9LeeQbgS/0vevWlemc2SeeVTTe4VJWu305VxAEmBarjd+gcTWqArqrTp+XQHO6M2Ug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793698828;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793698832;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=p/ldGN+nO0FTKxlIwPgUvFWgOTT8F/z04T8/ZdFM2K4=;
-	b=hlzzNxULstQ+4xgOZQhtQpi2e5PnwQSgCgQA1oDEAUNmTjTq5rZPRyTbtHxYcX0kVJtF
-	 L1xbVM14CsxseaSS04w+1uUx5bxTKSc1UzzZBg8HXRPmyFv8K/ox0l02jRkhhizLa5bFz
-	 ZZYugX1PwAbRCV/i3eN4/1JPZLDdJMx95/s7MTT3cHU4nGI+81tyPOk8Yyx4+fcmGvk/L
-	 dXCOfH9+EdSUoA/dgz+HpX5HWDJF/1mXg3Ahl5dv2iRyEUNQDjCa0+SsyMx5tqf+RJJI4
-	 Gpuc3ISoyLpcsZgHN8RQ96PlsN+g3DxO2Lqr8NtMKvCvrcxxzbfqSOofK4C5EsFUVzg==
+	bh=BDBlOY8W9b3BZZK/0rBE+HxFIA8B69zgRNZ3n8k1JjM=;
+	b=GMQAkMRtXBDzYFRUqH6U2wSelehzMWJBCbB17690JuwRvzo+5QDjxiEaUCQPjAss13rM
+	 G6fA2OqqeKjahdf8ua+CeNVYPh9z8gmh6uNbGXRrFNJVFs0AyJG4PZjY7pfyI47JuQoir
+	 gJz7z4Mn26jhTwyCGc/Isb6nsN+1SgVJeKaOSqWT8OfcHMS0mFdsYxl+ZE/oGUtAoKpsC
+	 4rk/4slHNl2i/K+wMnI/FBzO4yr05Rm8aWrPbiW3W0kQ8AUvAdeDmIXV3OMxxzoNane2u
+	 z9gM5syFIo3LXV3nKb+YRhcmLEo1Sd/fvGZby2VDmYITgkeEduj7zTg/rbnI3UXV7Yg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=idwCT5QK;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="A5U/Y2A/";
 	arc=none smtp.remote-ip=170.10.133.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EA7606EEB2
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 09:40:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06EA7606EEB2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B260606EEB9
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 09:40:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B260606EEB9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=idwCT5QK
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=A5U/Y2A/
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793698827;
+	s=mimecast20190719; t=1793698831;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p/ldGN+nO0FTKxlIwPgUvFWgOTT8F/z04T8/ZdFM2K4=;
-	b=idwCT5QK+Q5VzqIvO8bKBDJ2lryttlN4v6A89U2U8zl+vaKkF/AJ+Lmf2NyIfxvtCMdgH3
-	GCf9zc1eEf68CXc8Iwio7b/TOqUcKJpQ6cTRqVTpU00EtH5KWH29JUuvv+GAcu4wX4mphj
-	rM+RInKt4Sd6oomAW1Pbi/Ryq6aS47o=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=BDBlOY8W9b3BZZK/0rBE+HxFIA8B69zgRNZ3n8k1JjM=;
+	b=A5U/Y2A/J2rgvBIpBq+avWs3H80p55mr5C+3v/QtvZddDgYX2s+buQRF/HiP0Q6tx/mr+n
+	D728e1Q8QC6mV0wye91Bh5Fgt2A7SazGMhZ5fANA6Nf+qeCfE7Ci/VCDxqKFrqxeoLImUk
+	1NC0AQa604i95h/KDL9GBpE55uLWTUE=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-50-u41nQiapNtSKlbuYnRkd1A-1; Tue,
- 03 Nov 2026 04:40:21 -0500
-X-MC-Unique: u41nQiapNtSKlbuYnRkd1A-1
-X-Mimecast-MFC-AGG-ID: u41nQiapNtSKlbuYnRkd1A_1793698820
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-214-erQRI_foPuGjgIt_7VeGOw-1; Tue,
+ 03 Nov 2026 04:40:26 -0500
+X-MC-Unique: erQRI_foPuGjgIt_7VeGOw-1
+X-Mimecast-MFC-AGG-ID: erQRI_foPuGjgIt_7VeGOw_1793698824
 Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D55FD19539B4;
-	Tue,  3 Nov 2026 09:40:19 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0C8221800BC8;
+	Tue,  3 Nov 2026 09:40:24 +0000 (UTC)
 Received: from poros-thinkpadp16vgen1.tpbc.com (unknown [10.44.32.42])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D43927F0;
-	Tue,  3 Nov 2026 09:40:14 +0000 (UTC)
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 44BED7EE;
+	Tue,  3 Nov 2026 09:40:20 +0000 (UTC)
 From: Petr Oros <poros@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Petr Oros <poros@redhat.com>,
@@ -77,9 +77,9 @@ Cc: Petr Oros <poros@redhat.com>,
 	Paolo Abeni <pabeni@redhat.com>,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH net-next 10/14] selftests: dpll: add pin frequency test
-Date: Tue,  3 Nov 2026 10:39:06 +0100
-Message-ID: <20261103093910.596225-11-poros@redhat.com>
+Subject: [PATCH net-next 11/14] dpll: dpllsim: Add support to adjust phase
+Date: Tue,  3 Nov 2026 10:39:07 +0100
+Message-ID: <20261103093910.596225-12-poros@redhat.com>
 In-Reply-To: <20261103093910.596225-1-poros@redhat.com>
 References: <20261103093910.596225-1-poros@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -94,131 +94,120 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-Add a test that picks a supported frequency other than the current one
-from the frequency-supported list of an input pin, sets it, reads it
-back and restores the original value. Both ends of every advertised
-range are candidates, so that a pin advertising a single range wider
-than one value still has one. It skips when the dpll tool lacks the
-frequency keyword of pin set, and the restore is deferred right after
-the original value is read so that an interrupted run restores it too.
-A pin that reports no frequency or advertises a single frequency only
-is a skip on a device provided by the user and a failure on the device
-the script created, whose pins advertise several.
-
-The driver may refuse the candidate. A driver without a frequency
-setter refuses every value with EOPNOTSUPP, and a driver with
-constraints of its own refuses values the advertised ranges allow,
-zl3073x for instance wants the frequencies of an output pair to divide
-each other. On a device provided by the user a refused set is a skip
-that names the reason the tool reported, which the setter keeps in
-DPLL_LAST_ERR, on the created device the simulator accepts every
-advertised value and the refusal is a failure. Once the set went
-through, a refused restore is a failure on either.
+Add support to get and set the phase adjustment of input and output
+pins. The pins advertise a granularity of 100 ps and a symmetric range
+whose ends are the largest multiples of the granularity that fit a
+32-bit signed value, so that the advertised ends themselves are
+settable, the core validates the requested value against both and the
+driver stores it. The adjustment is reset to zero every time the device
+goes live, so that repeated deploy cycles start from a known state. It
+becomes the baseline of the simulated phase offset measurements once
+those exist.
 
 Signed-off-by: Petr Oros <poros@redhat.com>
 ---
- .../drivers/net/dpll/dpll_features.sh         | 64 +++++++++++++++++++
- .../selftests/drivers/net/lib/sh/dpll_lib.sh  |  5 ++
- 2 files changed, 69 insertions(+)
+ drivers/dpll/dpllsim/dpll.c    | 40 ++++++++++++++++++++++++++++++++++
+ drivers/dpll/dpllsim/dpllsim.h |  1 +
+ 2 files changed, 41 insertions(+)
 
-diff --git a/tools/testing/selftests/drivers/net/dpll/dpll_features.sh b/tools/testing/selftests/drivers/net/dpll/dpll_features.sh
-index 941b7ee848f951..66e11f7f44eec9 100755
---- a/tools/testing/selftests/drivers/net/dpll/dpll_features.sh
-+++ b/tools/testing/selftests/drivers/net/dpll/dpll_features.sh
-@@ -17,6 +17,7 @@ source "$SCRIPTDIR/../lib/sh/dpll_lib.sh"
- ALL_TESTS="
- 	test_pin_state_transitions
- 	test_pin_priority_get_set
-+	test_pin_frequency_set_get
- "
+diff --git a/drivers/dpll/dpllsim/dpll.c b/drivers/dpll/dpllsim/dpll.c
+index 3caccd38a7e74a..77e7ae994bf104 100644
+--- a/drivers/dpll/dpllsim/dpll.c
++++ b/drivers/dpll/dpllsim/dpll.c
+@@ -12,6 +12,11 @@
  
- ##############################################################################
-@@ -165,6 +166,69 @@ test_pin_state_transitions()
- 	log_test "DPLL pin state transitions"
+ #include "dpllsim.h"
+ 
++#define DPLLSIM_PHASE_ADJUST_GRAN		100	/* ps */
++/* Largest multiple of the granularity, so the range ends are settable */
++#define DPLLSIM_PHASE_ADJUST_MAX \
++	(S32_MAX - S32_MAX % DPLLSIM_PHASE_ADJUST_GRAN)
++
+ static struct dpll_pin_frequency dpllsim_freq_1pps[] = {
+ 	DPLL_PIN_FREQUENCY_RANGE(1, 1),
+ };
+@@ -159,6 +164,33 @@ static int dpllsim_pin_prio_set(const struct dpll_pin *pin, void *pin_priv,
+ 	return 0;
  }
  
-+test_pin_frequency_set_get()
++static int dpllsim_pin_phase_adjust_get(const struct dpll_pin *pin,
++					void *pin_priv,
++					const struct dpll_device *dpll,
++					void *dpll_priv, s32 *phase_adjust,
++					struct netlink_ext_ack *extack)
 +{
-+	local before target after reason
++	struct dpllsim_pin *sim_pin = pin_priv;
 +
-+	RET=0
-+
-+	if [ -z "$PIN_TUNE_ID" ]; then
-+		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
-+		    "no spare input pin"
-+		return
-+	fi
-+	if ! dpll_pin_set_supports frequency; then
-+		log_test_skip "DPLL pin frequency set/get" \
-+		    "dpll tool lacks pin set frequency"
-+		return
-+	fi
-+
-+	before=$(dpll_pin_get_frequency "$PIN_TUNE_ID")
-+	if [ -z "$before" ]; then
-+		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
-+		    "frequency not reported"
-+		return
-+	fi
-+	defer dpll_pin_set_frequency "$PIN_TUNE_ID" "$before"
-+
-+	# Pick a supported frequency different from the current one. Both
-+	# ends of every supported range are candidates, so a pin with a
-+	# single range still has an alternative unless it is one value wide.
-+	target=$(dpll_pin_json "$PIN_TUNE_ID" | \
-+		 jq -r --argjson cur "$before" \
-+		    '[.["frequency-supported"][]? |
-+		      .["frequency-min"], .["frequency-max"] |
-+		      numbers | select(. != $cur)][0] // empty')
-+	if [ -z "$target" ]; then
-+		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
-+		    "no alternative supported frequency"
-+		return
-+	fi
-+
-+	# A driver without a frequency setter or with constraints of its own
-+	# may refuse the candidate, a skip on a device the user provided, the
-+	# simulator accepts every advertised value.
-+	if ! dpll_pin_set_frequency "$PIN_TUNE_ID" "$target"; then
-+		reason=${DPLL_LAST_ERR%%$'\n'*}
-+		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
-+		    "cannot set frequency=$target${reason:+, $reason}"
-+		return
-+	fi
-+	after=$(dpll_pin_get_frequency "$PIN_TUNE_ID")
-+	if [ "$after" != "$target" ]; then
-+		check_err 1 "frequency expected $target, got '$after'"
-+	fi
-+
-+	dpll_pin_set_frequency "$PIN_TUNE_ID" "$before"
-+	check_err $? "cannot restore frequency"
-+	after=$(dpll_pin_get_frequency "$PIN_TUNE_ID")
-+	if [ "$after" != "$before" ]; then
-+		check_err 1 "frequency not restored, got '$after'"
-+	fi
-+
-+	log_test "DPLL pin frequency set/get"
++	guard(mutex)(&sim_pin->dev->lock);
++	*phase_adjust = sim_pin->phase_adjust;
++	return 0;
 +}
 +
- ##############################################################################
++static int dpllsim_pin_phase_adjust_set(const struct dpll_pin *pin,
++					void *pin_priv,
++					const struct dpll_device *dpll,
++					void *dpll_priv,
++					const s32 phase_adjust,
++					struct netlink_ext_ack *extack)
++{
++	struct dpllsim_pin *sim_pin = pin_priv;
++
++	guard(mutex)(&sim_pin->dev->lock);
++	sim_pin->phase_adjust = phase_adjust;
++	return 0;
++}
++
+ static const struct dpll_pin_ops dpllsim_input_pin_ops = {
+ 	.frequency_get = dpllsim_pin_frequency_get,
+ 	.frequency_set = dpllsim_pin_frequency_set,
+@@ -167,6 +199,8 @@ static const struct dpll_pin_ops dpllsim_input_pin_ops = {
+ 	.state_on_dpll_set = dpllsim_pin_state_set,
+ 	.prio_get = dpllsim_pin_prio_get,
+ 	.prio_set = dpllsim_pin_prio_set,
++	.phase_adjust_get = dpllsim_pin_phase_adjust_get,
++	.phase_adjust_set = dpllsim_pin_phase_adjust_set,
+ };
  
- cleanup()
-diff --git a/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh b/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-index 613ed365e3e311..191948442ef8bd 100644
---- a/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-+++ b/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-@@ -409,6 +409,11 @@ dpll_pin_set_prio()
- 			     prio "$prio" 2>&1 >/dev/null)
+ static const struct dpll_pin_ops dpllsim_output_pin_ops = {
+@@ -174,6 +208,8 @@ static const struct dpll_pin_ops dpllsim_output_pin_ops = {
+ 	.frequency_set = dpllsim_pin_frequency_set,
+ 	.direction_get = dpllsim_pin_direction_get,
+ 	.state_on_dpll_get = dpllsim_pin_state_get,
++	.phase_adjust_get = dpllsim_pin_phase_adjust_get,
++	.phase_adjust_set = dpllsim_pin_phase_adjust_set,
+ };
+ 
+ static const struct dpll_pin_ops *
+@@ -189,6 +225,9 @@ static void dpllsim_pin_props(struct dpllsim_pin *pin,
+ {
+ 	prop->type = pin->type;
+ 	prop->board_label = config_item_name(&pin->item);
++	prop->phase_range.min = -DPLLSIM_PHASE_ADJUST_MAX;
++	prop->phase_range.max = DPLLSIM_PHASE_ADJUST_MAX;
++	prop->phase_gran = DPLLSIM_PHASE_ADJUST_GRAN;
+ 
+ 	switch (pin->type) {
+ 	case DPLL_PIN_TYPE_GNSS:
+@@ -250,6 +289,7 @@ static void dpllsim_pin_reset(struct dpllsim_pin *pin)
+ {
+ 	pin->ops = dpllsim_pin_select_ops(pin);
+ 	pin->state = DPLL_PIN_STATE_DISCONNECTED;
++	pin->phase_adjust = 0;
  }
  
-+dpll_pin_set_frequency()
-+{
-+	DPLL_LAST_ERR=$(dpll pin set id "$1" frequency "$2" 2>&1 >/dev/null)
-+}
-+
- ##############################################################################
- # dpllsim configfs interface
- #
+ /* Build sim->pins in registration order, the order the pins were created */
+diff --git a/drivers/dpll/dpllsim/dpllsim.h b/drivers/dpll/dpllsim/dpllsim.h
+index f59447d26a8668..886ac27f5f92d6 100644
+--- a/drivers/dpll/dpllsim/dpllsim.h
++++ b/drivers/dpll/dpllsim/dpllsim.h
+@@ -43,6 +43,7 @@ struct dpllsim_pin {
+ 
+ 	/* Simulated state, guarded by dev->lock */
+ 	enum dpll_pin_state state;
++	s32 phase_adjust;
+ };
+ 
+ struct dpllsim_dev {
 -- 
 2.56.0
 
