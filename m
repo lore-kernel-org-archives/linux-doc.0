@@ -1,101 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793748915;
-	b=wENI2DJl93aMcV93byOF/JJOtAKC4AlwY5BLdMR4bjHr5gqvxG1nSu09RbgPo8alN+mA
-	 prpOdJYxRNqpMdi/8YjonNVpU7z9Bh+gwunnCG2BAn/XtFxmOUPtDv4TGrbrrKgmroePu
-	 Jnz2kTPW/TgJBtVRbeOqlO7ZWFibu7H88jju3H2Z3M9qT+nZ8x1F92JfPlgJuW1+VBOOS
-	 7DN7DscEZaVX68Fqi9llEHcsCJtAMyTtSpkg2Rp0kLZAWY5umw06A2zyedZcuLUqk1d38
-	 0RGtSqec7WdY7esgr0kxAsgrlT5sWKZZo9m/96KwlxzQyurn0V2gAv0nS80Y4+2QaBg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793748915;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=nKxJiX2hq5njbsbRPPasik6GSDqBNI5NA8L85r6kDpk=;
-	b=qfbTsa3Da3m3bodQIIz5LD6COWA8576Ckfyh0LzFZECFoi8rlgu2W/LXZNB5IMskk1P3
-	 tspaTfrVPtM4gsuPGx9Jcr66Lf0vAkQYGrM/IUbd0sHsGEBLI/Bg+4IjouIL+9wKx2jPu
-	 plWngim+ZHIZVQjKXX25yXbZiH5O9RB00v+bxRA162h58dXw8nBCqaYW7iB87bAxqewVj
-	 VPzzVo4tJiEJZP+nLieVGo2sntpD84VF63YIL5ceTKV/5WQFd+9rM/MW+Wt+iae3xgXwV
-	 nPnQq957RdSy99Dkeb/i1j+9r7KAIDP9GP3JteslCK7ZtfX5ig4nq7ZCkjeVYL9tjrw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VxTJ+4aJ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.45
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793749064;
+	b=r/rQhe0JfnAm8CO8dkb63y+Eqqnt/9W1EajzMGaUJg4psFKTNhM3G6xTHYnhS5vAwDR6
+	 lieIoiFd/cor4HFBcy/JWr7sU43AwtsCtTz6iR3APh8Rcx42cyXjwkuKN1lHdlUQyYekx
+	 70b3Yw+Ppif6X4cMEze4TEKA/9/L+bq79CY6Mm54Z6XZ1XxH3a3DQXvVfxofroChlc2V6
+	 /ixQJyvPXhK33RgmUnBJ0OuiD4moHt2gSVDHqPrbaXmvmeuF4TZEl1YkaOKfL51ZCet87
+	 cdfk0x3BSrdcl8LSUTVXpTtfOnjNjqUswVDaVRtQSTr5vcEkRue5bVm6cLct+WgwgYQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793749064;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=4wfqiCZwxR1HfUPAhThr9gcJLD7YNx6kTBnqWyt9+bI=;
+	b=njvtOnwKJMW3FN6E5VQCdBguP09Ds5pf9MJKCtR9pJ0zGAyCuxqqdUOWV7AMIln08NMF
+	 UJGW2oP5jvEROg6J/XLt0muBhBopftNVP8rdOa97GTyO7WzaYagYKvuXRi/F//7UQ6w88
+	 pPCrMUlIEz6L8fM2NRPFm2loz87MBSNXswdnlmbvRF9OVqgoo2DqXIlmLNhL6s2hNDFEQ
+	 7MjdcE5yv/8ZqjWREXJLXK7jAdIveMBuafqu6yQ8mtiwREX2AY1HluswfrzeoPIpEBEG9
+	 Z8Ib6qJgHqwzRL5hh1FjKKIa2G1+KoReQfqdc+NUQ4FTL27qD+FJ5MJ40AAWbcq7GaA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OF6RH6Xa;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FE7606A326
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 23:35:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41FE7606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC412606A31B;
+	Tue,  3 Nov 2026 23:37:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VxTJ+4aJ
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-91befe703c4so1716266d6.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 15:35:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793748914; cv=none;
-        d=google.com; s=arc-20260327;
-        b=o/d10rkYloo0rmYPhXVeA4GxBqGCu0astzhW+6WcIEPI6M5ho/dPRkIEDIf0e5mqRm
-         Xc1oUCerUTDN9BiYPeENE0Kp6+WEbG6q/riJdI3BehAdOOlzRKB6AP00Y84sNSiUimIf
-         TfvExxi2/oEzPuiiiKwEA5YofOihUc4FC+3Aztnpzsax3IZ1j4a6Wc2wnEPplvdxQ/44
-         Smt/MEfriifPNmHUy0wKW8QhRP4pkAj7YaL+0EqLDLF7ScOprPcLsTLIwNgPCdaHV7Ja
-         fkjgeiQH6suyKjYkafUurISN+eJKAyH7c8fUE2zTBsJpltVkhZ1d/1R1IVJHrylSI3bk
-         TX/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=nKxJiX2hq5njbsbRPPasik6GSDqBNI5NA8L85r6kDpk=;
-        fh=Z9MBQDSM4mhcKBlOpFIH1cM0rZou+E86YRZhvxEXFjU=;
-        b=Ue+9h9y9XBbOtKBaa6Lb3u0/d4FIMvauOu2D3aaEv8nQZtrNEB93twGrCS9Hz5QUP3
-         ilGHNH1YbcVmgP/iWkIHpNJc5PKk1LF1NA2ZTw9pHGfYXDmnZxsXoHH/7mCyEhmP28pE
-         lWHmzPZopwv9JwUKRpAp1QbDe6xJNtv6wjHq8KJgibPW6hgyYLlU/45KGtP2LyUk6YuU
-         B33bGmxMmkZB3+wL1F9vqrQmtP1WsVt7sD+kE0O1vWj5HYbxvV9Q1gixOslOY+8zeBxL
-         vMpnwIWYcm14OdEuHCujzLXzyyV0TOmHqVUgEW6IGFwfhRNcBe0ehtFuuW7cyJgr+Jwz
-         x2ng==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793748914; x=1794353714; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=nKxJiX2hq5njbsbRPPasik6GSDqBNI5NA8L85r6kDpk=;
-        b=VxTJ+4aJ4hoGXlN0OEblscqsEQ8ZIHoVlcPvCs4QWOtOxiB6KfhsX9LnWXJ1+88jC5
-         0JTCj2E5N2/3fs3r1e+RvaE9uLU+ENzivEnj2ssqal8mv3UOGemtl16V1KRc5jm/UX3C
-         RxanjYA2i4+D/A+cmNKKG0E8C4enpHVo0ZPMBVFtUDmR5OiNohPGtyk0ZJGJRTkv93uX
-         v7hCXNF/t2IwvnBd8lnfDtMCDVh7ykrqTzVw9MjHzF74JPrJRs78yx3S2MLuciYisYU+
-         qAU9pf9YwEGQt2oG/HcPePOzm8xYVcD/4WEYZIKmHy4+NwBYlOcYGNmtY8HhfcBa5r8h
-         1msA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793748914; x=1794353714;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=nKxJiX2hq5njbsbRPPasik6GSDqBNI5NA8L85r6kDpk=;
-        b=zM9vvvICnOxgfse/eu/nYqaPpp3nnttLeKdx/0540UtTEynejwn9JAzba7fH9j9Tp7
-         cn1cjIsBYd5t0pfyMWlCuxDfLbp1vC/dmMo7V71Ja7v4Q7tHNzZzjcnU6BPHSjBB8SvO
-         dKhG2fwCy6CoTGxu0tUYk/6XKurZyDuH6tzzx9k7sFwTYC3d2Ka1ueBj39O5A0vAk6yF
-         JiygLxtYUFEP3l9QzuK5whpwIEYybJXNPUT1fiHosLY6Q3MWmD3VNbHl9J26ea/G68t5
-         mAjk1ggaB5RIizmUAFwSUUSImc9WsxnqAWHXDwLmQCk9pE1dv/a2N6ZkwfYB3zClifPa
-         5wVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzYbUQW0rRcUHyAwuQoBo0/5099ThE31Wl4X+vh1AbS4wpVSI2ZnbPUOBkNh/AOXbm1vQBNVohZDzA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ip2qDo8dBheC9HExCaFf4x1heInmjHuts/z7rhHB5ACG2/+xZ
-	AwcsANEcucZwGegTC8TdMjVwk9MvKLSqF30XN0Ljpm11mI9ULZAa3ewN1yIbxgHTZlxBteMnbAj
-	4BezNi2R8v+HtZHk3v6TTi0LcJjjkntw=
-X-Gm-Gg: AYBFou1bAqYKKsKgX2XJs//zCFOyAO4/7kGsiO7HAJQzlDUdHopwU/AEKgjVOUnz+fY
-	+GPjya/qFgqsoHW8bwKyjgQT43kdnkXX28uRAjQ1ShXIElJpk7X8cIRxtrWSV/qlfzr4T/iuAxR
-	rshoGTNXgPii/vy9LWcVwa8iahaHHYRlzNTLUw6JYKPI4Mior4FUSPlI5hxBAxTdSlw1V3Zj137
-	7LdRQKnvu4XqBZT3+HkUlDeqH7z13cuguU0BoDVyRovB2eARYIUcr/mo8D/ECbpnKZlvXIM1tMZ
-	/QjJtNFU+XLMbRTL2AN+j/Haw5zampsUEHTgPkybZTvSaTsMuLAtkiGrNyA31SESutFxjK6bBQK
-	jwu35uAdzQ9HR0i2z0jt7gorfvXpWjHF5l62RJP9GWMSD7I1BzaMC3vJZQYWnAEpw67HCXVuuAr
-	znh5Kmm2i3esKvoTX6O0wyl9T8cR8EBv+T6BQ9Wyw+9pCSh7kSnsuEdrqFyRFIg6o4iL/anC7SP
-	/Ddl/O2nU7Tko/rzvJYWSpXLQ==
-X-Received: by 2002:a05:6214:300b:b0:91c:7f1f:2c9e with SMTP id
- 6a1803df08f44-91ca4c1bea5mr239516046d6.55.1793748913967; Tue, 03 Nov 2026
- 15:35:13 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OF6RH6Xa
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DFB01F000C1;
+	Tue,  3 Nov 2026 23:37:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793749063;
+	bh=4wfqiCZwxR1HfUPAhThr9gcJLD7YNx6kTBnqWyt9+bI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To;
+	b=OF6RH6XajejLEaRO0+BM9d4/sTm6iiR9bIeg3XYuSSa2A+LO5xgR2HmpjIEdeX6fW
+	 z3bMl5cSQIuuqrSouIOdJl+uCkv3nwz/KMTQPQT2lUg+vSbaQPIJ/CvQ83rOichkfM
+	 FwPnVMVNVwXi/9aVHMXY+pwwAcjESqhFUUmYjYdkPZbGWAntl3YDAvxuii2TG2PTMW
+	 +/GU17Tr0k9A7KTV7Q9vDfe/2OquHv4t5UckT5Psg3Q5BV26x76amGq8GcXRaGtN6Z
+	 3SmkHQLYucXN4npjf7JIu12aZwxaQ+1PB+0lCVi6LmUqhF5VtFlf2/NaOLxuO/uUMD
+	 9QxoYKERoXfwg==
+Date: Tue, 3 Nov 2026 17:37:42 -0600
+From: Bjorn Helgaas <helgaas@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v12 00/19] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Message-ID: <20261103233742.GA1162403@bhelgaas>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,36 +72,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261103-keyupdate-rfc-v5-0-de1ab90a88d5@gmail.com> <20261103-keyupdate-rfc-v5-4-de1ab90a88d5@gmail.com>
-In-Reply-To: <20261103-keyupdate-rfc-v5-4-de1ab90a88d5@gmail.com>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 3 Nov 2026 20:35:03 -0300
-X-Gm-Features: AclHuK9j19hhkEsExp91lQWmWztn20ZPkjs1fSHVQiEkHUWk4-OotQ7EK4u8uqk
-Message-ID: <CAMAsx6d0kMWT+QLBVGnGjfbEUDuOfrBaoCaizMNKZKn+NmkG=Q@mail.gmail.com>
-Subject: Re: [PATCH net-next v5 4/6] tls: update the RX key when a KeyUpdate
- is received
-To: martin.belanger@dell.com
-Cc: martin.nvme.dev@gmail.com, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kuba@kernel.org, sd@queasysnail.net, 
-	davem@davemloft.net, edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org, 
-	john.fastabend@gmail.com, hare@kernel.org, cel@kernel.org, 
-	alistair.francis@wdc.com, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103-fix-p2p-acs-v4-0-v12-0-912101f93517@nvidia.com>
 
-<devnull+martin.nvme.dev.gmail.com@kernel.org> wrote:
-On Tue, Nov 03, 2026 06:57 PM, Martin Belanger via B4 Relay
->
-> From: Martin Belanger <martin.belanger@dell.com>
->
-> When a KeyUpdate arrives, kTLS blocks reads with -EKEYEXPIRED until
-> the user installs the next key. A kernel user such as nvme-tcp or
-> sunrpc never does, so the connection stalls.
->
-Hi Martin,
+On Tue, Nov 03, 2026 at 10:29:39AM +0200, Leon Romanovsky wrote:
+> PCI P2PDMA applies Request and Completion Redirect throughout both paths.
+> This misclassifies asymmetric and nested switches, and reports one answer
+> for every kind of TLP.
+> 
+> Three ACS controls act on TLP attributes the Requester chooses rather
+> than on the topology: Translation Blocking and Direct Translated P2P act on
+> a Request's Address Type, and Completion Redirect skips Completions carrying
+> Relaxed Ordering.
+> 
+> Evaluate each direction at the path divergence, decide every class from the
+> one walk, and treat a client with ATS enabled as translating unless its
+> driver declares per-mapping ATS.
+> 
+> This completes the P2PDMA side; dma-buf and mlx5 follow separately.
 
-Reviewed-by: Daniel Pereira <danielmaraboo@gmail.com>
-
-Thanks,
-Daniel
+Is there a one- or two-sentence explainer of why we want this?  I'm
+thinking in terms of what Linus will want in the merge request: a fix
+for something that's broken or some new functionality.  It sounds like
+this is solving a problem, but I don't know enough to translate the
+nitty-gritty details to the higher-level user-visible problem or
+feature.
