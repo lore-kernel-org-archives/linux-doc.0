@@ -1,59 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793702542;
-	b=0jmoqICQd82WPjw4NCXYsEptlOOjm3Ur0r1qeHBCtEUwUg2LnjC0hxQJDyTqjoojgXtX
-	 5+wAJ5wWyQHE2limJY0oOBqoSW/D6glm644yfzmv1O/yuoGcbxJQCO4vv1VmZoDe/mYOf
-	 xBC6JYNTQvCxYPRBMBnFF+g/IlHcY56Yt1tuuRs5nELcJYfkCkI11HrTeu5IkrXaM7xjK
-	 tt/uUckDPjx6GpY3g1/K/mScMV8wLvYbHhxQf9mvw/Acml5mELmjPaiI4rA2xBBLq5vgr
-	 Kh+X81wRM2AJPyhEVsT3B+VI6VWnK5aQHs0Ymj123IUomilWn9K7bIupzjQadpLtoaw==
+	t=1793704312;
+	b=dkflVgQ4dv6rXi81fi6OoSBEY7Kj4Ssc+MqKQbcD02X+mREteyTds7+lYlP5arhuS1DE
+	 3ovGLkpRcdhxmH5T8Iq06IVOgHjn+Nira28ce0i5Ci3rYQJxj/GE2X2dlNbHwoLgMUqAQ
+	 E11kSkZ5qYUb/HSWyxftCdjfxJ1jrtqJDsU5yLKG2mLnovkUQZhQJLGj5WwG0ufSnWRtj
+	 ByJXwo0xj9sYTQeAXnxrlkZWKPKCbFXPv+y3p28VGPAi1NBmWq7EKJDkkMwginOqOxaw1
+	 jsEYWq6wtzfF9PTRzpVStHvLdmg3b5ViF06kAlLbDj/oTsffPEMeQ8MkbxIagY8NzeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793702542;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
-	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Debian-User;
-	bh=QhNR3Po97MF9R874Cs9wHXXLXgG9MKZ5vAmEXZ16U6o=;
-	b=w6t10zGHvSsM3zXWvW8BMPh3ESTgdQWQPZ0DJRDxvzaJVMBIMKTxMn1GmJa4v1ACa1Wn
-	 z5HXIpMkdhJ2pOIV0NIPTx/x6F/xpAhPr7megJfHpkQdRAYpeQkvVGqc6HA/mqiixKhHw
-	 uo9HX40evurK5ZLi0mG95UnUfHPudj93JjWCVuU2vqX9fjO3jprWCsrt5WOZtL34y5mSF
-	 Iz2J8DXoa3uffCooXs7UWzFMwGRPiiRPmL2jNqNFh4PX6yXsUpw6gWthi640l3tgD44JZ
-	 XAGIGqQhbW9x5R5awG1sAtL9qDYHRtPTd8ZINI7FjM0cWEuY3ZeAT3aSE9i/d1ofeVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793704312;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=DRSP5dNsS3mHl0mDMeYY/G8SJ9kad2UxpOHnBXBI684=;
+	b=uw/AxYcO5yuWhCMKsPrwb+fwUpNfOuilBcR6y+Tr8cEjkVWL4h1xHe84TvEjQ+YttUdf
+	 lqpu5Y4iyALift8fGjfAZPI/rbmKVTtsJd5TAhnoFQ+eLQAgPBsbN8wL2RUkkImUY2p4m
+	 LbxZpEjOJtpMIl12Ia/ol+hUj9RcKNLoKteeYoi0zy0yYY31NU22cmkMnImGli0yO+lG0
+	 9rtp3vzqukw1v4yYBZqXyEivi7A/0HTiq4i7+nb8R0XeQoCyHZP7smVIfoa99orlV0VWm
+	 W9Kw3J1Mc31sjOHSg8uN3RPZ8Axs5T0c0yeLhlLBB9UmDF3mwAaanDEQNOaG0QC0LDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=debian.org;
-	spf=pass smtp.mailfrom=debian.org;
-	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=E+oc8t8M;
-	arc=none smtp.remote-ip=82.195.75.108
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=VoneIZrI;
+	arc=none smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA6D606D82C;
-	Tue,  3 Nov 2026 10:42:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AA6D606D82C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B42606BFA0
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 11:11:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1B42606BFA0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=E+oc8t8M
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=QhNR3Po97MF9R874Cs9wHXXLXgG9MKZ5vAmEXZ16U6o=; b=E+oc8t8Mpj32IyBCA0ukZmBz/r
-	8B4chCsnHONSIs09h7Rfl/WXJqP/Y2pUbDbVwD11ObTyWQogojmYjnLdZWBWaW3BZNCud3qmIHDJD
-	LIJz+RCus9NE0AT6w9DaspOPc46srJ583FSq2JEZ0rvbGEHHkd8iz4qR8xwVRkFG7xBxvohrGTEF1
-	LJsxqh12Xy6pxP6XKsJar1lUtdZfd5xvta13IrDtGj/lG9TqbdiEmR2ARm8oenpZ5ahPx7LxWFiYC
-	xpyX9od4J6jRPIMf+m4ZIFiLqa8RnM9On6jG0mWg3/x5zUDLLdl9PRjlOMwCTPYgY32k8jnLPND/C
-	x6RxxVhw==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1xOBy7-006sO8-1r;
-	Tue, 03 Nov 2026 10:42:19 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Tue, 03 Nov 2026 02:37:50 -0800
-Subject: [PATCH net-next v4 5/5] docs: netconsole: document rate limit
- feature
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=VoneIZrI
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48dfdd0678dso2817393f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 03:11:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793704310; x=1794309110; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DRSP5dNsS3mHl0mDMeYY/G8SJ9kad2UxpOHnBXBI684=;
+        b=VoneIZrIjqDgDNQeYh6sNuFncCLUEz4sf+KffVyKU9JPgoaAuPHSaQJ09adwOf//iX
+         dvPKugxOP47c6kXcmwY5r0qNnfa1PcceKJqRdFG1U9/xtwkoanCLczpPiq9NZhE899qm
+         nMxXQHZGzkH1p2y4RHJoqNYuTsnWSndOXkBTdPwCT5qg39EMRe8IZPdo3kzQwBQJCDcA
+         3LfpVp6B5Ua4Z11wn3xESWu+CQgFscxaE1qWW/TT7qqd6/6bjqPDKYplAQ4kv4h1lv0R
+         mJAd5YRbV2vczxRExpaYmpDM8Xf1A63Sezd1/uA8XBs0oWDOVh9UDqn/mwXh6NR8xiUZ
+         2+Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793704310; x=1794309110;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DRSP5dNsS3mHl0mDMeYY/G8SJ9kad2UxpOHnBXBI684=;
+        b=YCbmvwOCVpuyy7s/VNVcJnMvk4l/GgZOgFQU8+nOoR7UTvlIjPfUY2NClw503gtCw4
+         ywYXlzNe62WvOgFa5yQQexV8NKv/3snRvX6r0F5yLXlX6txq9a2Prne4FQyWWxWCPIJH
+         giL1p0VD07Q8tYX0XXYogb6+eSV/7e9G9/XnRAGkxHEZo+er6el+kRPJ5eXCkslkkh2K
+         p+oPxrhyk9aVEi6t6nOniqJPee8+aoWzl6/xM/mjTjverE4NAYzpB9kN0Xeo4aFu6vzf
+         kW8/DzZC7Oqad6TYSoOaQQqFJs9ByGv00vvTKk8wOVqTQ/cBAG813kyx2b73UuAzIoPh
+         SvBA==
+X-Forwarded-Encrypted: i=1; AKwUvByS3D716IC3K//YjXD2dX0eEErymH2gO3W3AH6d6UC8664KLJjYJWS13ADFZcIDv9It5p9CTkZ51SY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8q687sGgdxTxvzRhHxmkIg+/uqrRze4r7M/T5frgaQsXJ4dUVg
+	v/g1aEDR8kC9bqMFCZ3VGUYHj79NNKTrWO2gaKpBp8Bmn8fRCZ7B/9qaO/ADcIJPpQA=
+X-Gm-Gg: AYBFou2RsHwWR94gdjxlMfb8clFidfnHYcj4jNZDqMaatU7lZtRA1XFihbIPryZluNC
+	SpyUA8NpONlTTj4YtjKs/OuVKi8l7aJCvzOQRK0M4h6pQDSmBdjX/Df5C7ObYtPXb0gEKEW8zMr
+	732QtfYbrBFNigolsYVWyq14SCYB7lfdGhpPySWIB1PVodkbaXy+vmXJG6WnXiHlHt2XU818gVP
+	fE0/xhT6JmGYueF6KFDzOqTohUVqyHtoV9mh7qMUBTNw2W88A/YeYUNWhc/k7flWfPGN+yDbj7x
+	PM5nprtjVYu759V+8CHybKjRniLezPlP87/gNgv9oCPVkJzn4aGctgGnKp7iBaYMSamfCnQ4QUK
+	3e0p0dgDDVY+Zrs3QOGRlj7GST6a1MGShXm4ywh9r8KBj0pa2jQ8sNS9T1fdSKAdgZhu9o2dfqh
+	ZxBUYFQ1SM4aMYZLFG3g1T2zV22QlocuwQ9losSpzoMeQ8n8Pb3LBEX7fIWiXbR50RF9u3j8cIA
+	jtNGCwY7RWhcfENtGh3BtGGy1TcZmAtYEb6x3yYveEeJHmvMhB/9HIRglaH8p/9Xil9orW6LeU8
+	uLx0nqr3RQvNrYKlN5NI+JnaPM4KXgoa7ifIS4sqHcQJMlbU+nM=
+X-Received: by 2002:a05:6000:22c8:b0:48e:2c2f:59eb with SMTP id ffacd0b85a97d-48e6e303c74mr28712071f8f.12.1793704310107;
+        Tue, 03 Nov 2026 03:11:50 -0800 (PST)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b78c10sm24062838f8f.25.2026.11.03.03.11.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 03:11:49 -0800 (PST)
+Date: Tue, 3 Nov 2026 12:11:47 +0100
+From: Petr Mladek <pmladek@suse.com>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: John Ogness <john.ogness@linutronix.de>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>, Naveen N Rao <naveen@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tiezhu Yang <yangtiezhu@loongson.cn>, linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/3] probes: Use trace_printk() in probe handlers
+Message-ID: <aunBcxXXNhXDd-U5@pathway.suse.cz>
+References: <179360345418.115681.193455787480210412.stgit@devnote2>
+ <20261102123408.0fb950bf@gandalf.local.home>
+ <871p9251ve.fsf@jogness.linutronix.de>
+ <undine-1793671566795563056-fb7169cffcc7ac3c@undined.local>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,165 +106,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261103-netcons_ratelimit-v4-5-b554c27ba27a@debian.org>
-References: <20261103-netcons_ratelimit-v4-0-b554c27ba27a@debian.org>
-In-Reply-To: <20261103-netcons_ratelimit-v4-0-b554c27ba27a@debian.org>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Shuah Khan <shuah@kernel.org>, Eric Dumazet <edumazet@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>, paulmck@kernel.org, 
- gustavold@gmail.com, asantostc@gmail.com, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6081; i=leitao@debian.org;
- h=from:subject:message-id; bh=3APHITqA3pi74DTigtQLSzRZ08LNZ7qlYhrwAAIs07w=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBq6bprxYkNilhD7F5NE6LcG0/3hsVHHcp7UtYJn
- cI7VDunoBWJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCaum6awAKCRA1o5Of/Hh3
- bcNPD/9gDcuf+tW3kZ3fZqLHQkHLr+MjCqym4QE4vnX3xd14nxPPTSlWt7Zhkio6rV7RMJS0gas
- GyDdiSU+aN1jmOKcHvbGJ9oU1JBV3QNw2USfUSoDd6oxywTV1vBxbE7mFNrwtf4jzRN7xxtXjCJ
- uU6C9usaZd4kWVjnjvDv+e3do+1LBYchGMUSaxGotL8Xp8cd/Dg7zgjRFma2ZwAY+lTLvR92oPr
- FXo19u3uPlMri0hPAGL29njcy8U+RxBb16rJuMdoD9X5LpDJRoB7kcIKxHrU9rCjkR8JqazbB7L
- JnNYvb3k/WzeQmuiNZ96eQYKN8dtjej8QMcnevPqsbAQon4gpmVcTXNuxwFOtEjy6hAyJh7HPdE
- xPDUl3ss7LzVc5/nLTllHN8ZOncnDJNtSgNSnqa0VuQDzr7MNH3AyrFDnrMj4p5uY5NxXGdp/d0
- nHrUbT281pDITT+Fz49lI1TCnvBZCqwcJ6J0pD/3D88GgzEHY0CVY4/woM7gvIHTQBIxHeN7CNL
- JuCjcVHCvhn9lhMEMFj3cYs/dq6C4n/LgEnwXZiYVHJQrTs2CJnQKcr2e10zeb4AvlgFXOOCyhq
- x8lnnN4rbqZcvqU+flXFH79mPfnLLOlVrAQm7q6CdMfdwvMAupdFmd/kuN+MKZwKkBw1l/Lp3z5
- n5QYMwShwzEA0MQ==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <undine-1793671566795563056-fb7169cffcc7ac3c@undined.local>
 
-Describe the per-target token bucket and the two configfs files that
-drive it: ratelimit_interval_ms and ratelimit_burst.
+On Tue 2026-11-03 11:06:06, Masami Hiramatsu (Google) wrote:
+> On Mon, 02 Nov 2026 23:07:41 +0106, John Ogness <john.ogness@linutronix.de> wrote:
+> > [ Cc'ing Petr Mladek ]
+> > 
+> > On 2026-11-02, Steven Rostedt <rostedt@goodmis.org> wrote:
+> > > [ Cc'ing John Ogness ]
+> > 
+> > Thanks.
+> > 
+> > >
+> > > On Mon,  2 Nov 2026 16:10:54 +0900
+> > > "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+> > >> Here are patches to update the probe sample code to use trace_printk
+> > >> instead of normal printk. Since the fprobe and kprobe/kretprobe handlers
+> > >> can be called from somewhere where console is locked, using printk() is
+> > >> basically unsafe. Only the unoptimized kprobe on x86 is safe because it
+> > >> is ran with NMI context (in this case, the kernel uses printk_deferred()
+> > >> automatically), but optimized kprobe/kretprobe/fprobe are not.
+> > >
+> > > I don't think printk() is unsafe in these situations anymore.
+> > 
+> > Since we still support legacy consoles, it is true that printk() is not
+> > safe in these contexts when a legacy console is registered.
+> > 
+> > However, the printk_deferred() variant _is_ safe from any context. Once
+> > we convert the legacy consoles (including boot consoles) to nbcon,
+> > printk_deferred() can become printk() and still be safe from any
+> > context.
+> 
+> Got it. But since printk_deferred() is not exposed to modules,
+> these sample modules can not use it. (printk_deferred_enter/exit()
+> are also not exposed.)
 
-Spell out the two properties that are not obvious from the file names.
-The limit is accounted per message rather than per packet, so a message
-split into several ncfrag packets is never truncated by the bucket
-running dry halfway through.
+We could export it if it would be useful for kprobes...
 
-List both files in the target parameter table too, and qualify the rule
-underneath it. Only a disabled target can have its parameters updated,
-these two aside.
+> > It is misfortunate to add documentation saying printk() is not safe,
+> > since the problem is converting the remaining legacy consoles. But we
+> > can cleanup all such documentation later once the legacy consoles are
+> > gone.
+> 
+> So, until it is done, this series is valid. Please let me know it.
+> After that version, I can revert these.
 
-Note in the message ID section that a message the bucket discards never
-reaches the counter, so those drops leave no gap in the IDs.
+I do not have strong opinion here.
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
-Reviewed-by: Gustavo Luiz Duarte <gustavold@gmail.com>
----
- Documentation/networking/netconsole.rst | 71 ++++++++++++++++++++++++++-------
- 1 file changed, 57 insertions(+), 14 deletions(-)
+It just looks to me that using trace_printk() everywhere is an
+overkill. It is true that printk() is not safe when probing some
+locations, e.g. where a console is locked. But these are locations
+where you could not use printk() even in the probed code.
 
-diff --git a/Documentation/networking/netconsole.rst b/Documentation/networking/netconsole.rst
-index 694bca4803d50b..82b5d169d200aa 100644
---- a/Documentation/networking/netconsole.rst
-+++ b/Documentation/networking/netconsole.rst
-@@ -127,19 +127,21 @@ To remove a target::
- 
- The interface exposes these parameters of a netconsole target to userspace:
- 
--	=============== =================================       ============
--	enabled		Is this target currently enabled?	(read-write)
--	extended	Extended mode enabled			(read-write)
--	release		Prepend kernel release to message	(read-write)
--	dev_name	Local network interface name		(read-write)
--	local_port	Source UDP port to use			(read-write)
--	remote_port	Remote agent's UDP port			(read-write)
--	local_ip	Source IP address to use		(read-write)
--	remote_ip	Remote agent's IP address		(read-write)
--	local_mac	Local interface's MAC address		(read-only)
--	remote_mac	Remote agent's MAC address		(read-write)
--	transmit_errors	Number of packet send errors		(read-only)
--	=============== =================================       ============
-+	===================== ================================= ============
-+	enabled               Is this target currently enabled? (read-write)
-+	extended              Extended mode enabled             (read-write)
-+	release               Prepend kernel release to message (read-write)
-+	dev_name              Local network interface name      (read-write)
-+	local_port            Source UDP port to use            (read-write)
-+	remote_port           Remote agent's UDP port           (read-write)
-+	local_ip              Source IP address to use          (read-write)
-+	remote_ip             Remote agent's IP address         (read-write)
-+	local_mac             Local interface's MAC address     (read-only)
-+	remote_mac            Remote agent's MAC address        (read-write)
-+	transmit_errors       Number of packet send errors      (read-only)
-+	ratelimit_interval_ms Rate limit interval, milliseconds (read-write)
-+	ratelimit_burst       Messages allowed per interval     (read-write)
-+	===================== ================================= ============
- 
- local_ip is optional: if it is left unset, netconsole derives a source
- address from the egress interface when the target is enabled. Writing any
-@@ -148,7 +150,8 @@ automatic selection.
- 
- The "enabled" attribute is also used to control whether the parameters of
- a target can be updated or not -- you can modify the parameters of only
--disabled targets (i.e. if "enabled" is 0).
-+disabled targets (i.e. if "enabled" is 0). The two rate limit parameters
-+are the exception, see `Rate limiting`_.
- 
- To update a target's parameters::
- 
-@@ -182,6 +185,43 @@ You can modify these targets in runtime by creating the following targets::
-  cat cmdline1/remote_ip
-  10.0.0.3
- 
-+Rate limiting
-+-------------
-+
-+Netconsole hands every console message to every enabled target, so a host that
-+logs continuously can saturate the receiving agent. Each target carries a token
-+bucket that drops messages once the configured rate is exceeded, controlled by
-+two files in the target directory:
-+
-+        ===================== ================================================
-+        ratelimit_interval_ms Length of the accounting interval, in
-+                              milliseconds. Zero, the default, sends
-+                              everything.
-+        ratelimit_burst       Messages allowed per interval. Defaults to
-+                              10; zero drops every message once an
-+                              interval is set.
-+        ===================== ================================================
-+
-+Unlike most target parameters, both knobs can be written while the target is
-+enabled, which is when a flooding target most likely needs them. Either write
-+restarts the interval with a full burst, so a new limit applies from that
-+moment on.
-+
-+The limit is applied per message, not per packet, so a message big enough to be
-+split into several `ncfrag` packets is either sent whole or not at all.
-+
-+Crash output bypasses the bucket. Every message is sent while a panic is in
-+progress, and an oops or a BUG() turns the limit off for the rest of the boot,
-+so a small burst cannot cost you part of a crash dump.
-+
-+A drop leaves nothing on the wire. On an extended target it shows up as a gap
-+in the sequence number the header carries; a basic target has no such marker.
-+
-+Capping a target at 500 messages a minute::
-+
-+  echo 60000 > ratelimit_interval_ms
-+  echo 500 > ratelimit_burst
-+
- Append User Data
- ----------------
- 
-@@ -364,6 +404,9 @@ indicate that a message was dropped during transmission, as it may never have
- been sent via netconsole. The message ID, on the other hand, is only assigned
- to messages that are actually transmitted via netconsole.
- 
-+A message the target's rate limit discards is dropped before the ID is
-+assigned, so those drops leave no gap in the sequence of IDs either.
-+
- Example::
- 
-   echo "This is message #1" > /dev/kmsg
+I believe that trace_printk() has a similar problem. You could
+not use it inside the code used by trace_printk() because
+it might cause an unbound recursion.
 
--- 
-2.53.0-Meta
+I agree that the scope of the code used by trace_printk() is
+smaller than the code used by console drivers. Also it is better
+located. And maybe, the recursion can be even detected and handled.
 
+But still, the point is that even trace_printk() is not a 100%
+safe cure. So, maybe, instead of proposing trace_printk() everywhere,
+it might be enough to propose it only for probing the printk/console
+related code. Well, I know that it involves also some less obvious
+areas, for example, irq_work, some timer and scheduler code.
+
+That said, I do not want to block this patchset. It is solving
+some real problems...
+
+Best Regards,
+Petr
