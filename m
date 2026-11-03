@@ -1,73 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793663747;
-	b=CPR3gJbFJ3YK7sR7DZpAH3T0cDSHePGX4f1KXmJ3vCILiCRM1IWnUBNRamS+S8PetaPq
-	 5HIAEY57fp5Mt+nzjHhBJhhBqUXuKTt7TteB1uGDN3Ny7EiHaupXi6UgWbgr2STfm4Xt5
-	 YEq8baTJgZ3SVrV5y0husnywZBh022xBSieCWipZMpzEdXWhb3O5GWJWj8SBNonOo7Q/0
-	 S8POVGeOEgxTJnz+GJ7N5+YdUgpF3o/oEKubcTW++PPg4zkWvEahGZsAah+Ox2aoYIiCO
-	 H/6nxOHLb/3URg266eLuqjfI5KLJ/P8jvufdYZFzv1UwvTRybAPj5yyGUAChUBklhhQ==
+	t=1793664253;
+	b=gdljFyV2ObUk/KgW8UgZlLgw5Ox2VsXDHD6VZQ3t8uNLghj10vai5oF4zT0jXtE5yuUK
+	 XUzCmr/QT0NApCggJjOnLfNGbBau1Zu76l2SgR7JTZnqKHA0/MVaRCs2V7qqY6ps8gXTr
+	 mEcOp8/PCo/rZIJi4Sp2Po4ofwTOa6BxnuAsKzRCNhBkr/fCEyABQDoKmzZvK3kap17ue
+	 wo87lLva6tUNigC/0ZUSQgn+9E2VL/e1vEuM/Uz+fvzGi/a9ZHb2h5GXl/9MjV2g8rmS6
+	 1f0xYub5BI/7H/iCpvxF960TFSlQzn0BwQXN9sQgF9PWvrHMZl3o66qTzIqE9/z/ODg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793663747;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
-	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=F4n++keOagJIBuB8PIFrFl3w5ax9Zf0me7QPKabVUgs=;
-	b=jV9HCFLO1dh6C9WikWFMPDVjULeA1Lp70v+rDY/T60Stih9Xv1aPjR38pO4kLERwFd5o
-	 7G5tok1T1BpTydtzkvaQgPt3oqrb0bVktUy3Y0/jcCtUC71SO7RIan7ASYGkDABUfCCqs
-	 FwbeArfIgUv5AKd7lFfqWgvei9mq2XSpFikZNmVYCaqt6Bn5mDgcKpzPFd2JdRoNaSZSP
-	 kUZZxhsmAWmnxU+SRZLfHUyva+WHaO9ynJMc5SgEOkVdBL0xP1pN8mRYRxhnMwAZi18FY
-	 CDco4OmGxwe82vw88Ou/RpprZLG0luQmq1m+YYG4c5k7YabfJz1HeEwCzabeLBMn1bA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793664253;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=tOERZEIQ6bWpFjXc/IYsfYbCQo0wq413M2Hd4FsT6W0=;
+	b=Ej90CqUC5NnXYhYKxlhq6W37rOeB8JEoD0sA4pZHte01GVT3CE4kr/hPAlT8v52qlWV7
+	 rkpk7soFA49nAiVuMpp60wXxHSVwul+lBYk6c7/spSJgIDvP7a1VJu3hL/zwfoaBhfF/v
+	 WJMSSWwAhtrHocL/LAcrwvuLLysb6XvwyZBtItcPDy3FW5im51ky9ZgDlNBsAyDHGj91X
+	 X+R3wbv5BybO5hV4d1gZFXCZX05o5ns2sSKHIF5xzGm5nbcasIUpMkXKoXeFYv8Z7mnVE
+	 iXwM4K+GVILwi8l2fmF3nfTx1r8TB11RLDIFfG8HQWYHs1KoqRrB8QsDHGRj9oBza2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=telaak.dev;
+	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.128.174
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="hvLtR5j/";
+	arc=none smtp.remote-ip=209.85.214.178
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B784D606A326
-	for <linux-doc@vger.kernel.org>; Mon,  2 Nov 2026 23:55:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B784D606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64419606A332
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 00:04:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64419606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8ac525c1f05so33375327b3.1
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 15:55:46 -0800 (PST)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hvLtR5j/
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2e985106c0cso33797415ad.2
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 16:04:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793664253; x=1794269053; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tOERZEIQ6bWpFjXc/IYsfYbCQo0wq413M2Hd4FsT6W0=;
+        b=hvLtR5j/7+P+cVBrxYbQPwWVmTnGoaaaH9aINayHPktqIof+EX04hpYqRJy51dqN+T
+         QrQpMf3cKpJHacFg8dhDIKyiANgeg5udhBosu4w+bOAieR79yj5zIH8jWD85zarMYWz1
+         C9GE5xmyLr6xYgnDZ2cvF1gWBvq7bva41e3OfeotqYviN/lmB1mAriuyA2jFDYdmYyWs
+         4zBtsh0oE82UU+AtjnC0HnGtPV8UuIgMkin2Ly/Z9+i0YGBcBOqP1whmFMEq9qJgJE+B
+         uRr/+/dDZ9pZ0WqKl2XjGYtgc0XAluuDAN12lzqej839D+87XPtNwUUzEZgtwoScoFco
+         BQIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793663746; x=1794268546;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=F4n++keOagJIBuB8PIFrFl3w5ax9Zf0me7QPKabVUgs=;
-        b=CqL3+vpOnaDBvLUVK4/RiEAjQtEEtzz5dXmOm9ydklvclDZqQBXcqCT5CZ19clit7P
-         MNntXLP2VzPlsNgA2sTrSBcCg+fkGbT0klrJCely4a3nmySrOYGLR76FP5tc2UZ1xmnx
-         PRy/gmjGS7wItNTrW5BzyXOLH/ZLsu8XPHVOk3fUozrsv4w1avNwxsJU/211pGyh8LJu
-         f5FZl/SMFwrEcmTEB74pu+uomC6xFFcqaa4JBGWyp9JeAqcqy+GIAVOx3HQwzJRXNT5F
-         P4oe5VH56tltQAo+irh7GEkOQM3MXLK7Q+a/NN8tEfWfZAroqCq49JzdN+RTS1QQ9mQ0
-         +fBw==
-X-Forwarded-Encrypted: i=1; AKwUvBxCFVIQ4nTZFv/yMBZNds1eHbgdOdaj/aIW13qKjwqmvEBL+VF7snDmo4UCrFvWj27psHTlYB7uy+M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9JP68Y5JDQ8Y+4l6Z8E+NbJl1Ud1M9LjGjy8deCIRZ/BDPsAot
-	FOfijQY4FNE27KbDPdbow369cdGXpx/XF2JsiP4c/iHJ5rJK/ip/awEJ
-X-Gm-Gg: AYBFou1CMZBdGbUqfghxFdE3+FTXqz0US3ItVCfgXVfI5lt+AMwIe5leEsEctNQJTh5
-	Sq1vf+7ltoCAQ0/IkD7QScKplMWJhRlCOpPBITzik1DcCrAAS8fiF5G54UTopR02DSE7jBdxWCV
-	G5fRz+HlhxT8Wv2E3d0AKsofTwRKIQB49b+QlHZhLeXqxhgCyIOyrV7nOYQQ35U3ZRJJwaQco3n
-	JSmqRIjOG01NkEpyBNVI0/LBRrozMqMFnvPGTkTLD/Q0NhMNWDVibIb4Bi3axQyM8HdSUhl1jJd
-	5RHvEQx0PxjxggGuZxpo+EwKyTGByFjpPnoCApq60jkoAxKr/EzzUMgj90xdbNWGxEhwYJ8igRp
-	R1lobtN6dyVSXdvTKDWzsdsKgl+/bennee7IQBPgC1AjYlh3lr9fiowrU55DW/foskPbLHE+GJH
-	klCDrrSwaYjfGjKd4+ZR1osvJMtYCnv7w6d06BBJDZ98QTIYZjpWt0G8EOUl/rgun73N5RSYjvx
-	+IiRr9bVp4CV6Im6I4VO0ofGqUHhFc9Yho0wX0O5TK5aKe5BunzCdLVNI6sIPmCG7wGfMFQSp7N
-	+0uNvTrFjkxZytkboT5dvGyn2u2C4U8nXgnyXnx2pEkUg7EwkfT6+hgsHEQGJO7QkfpD5OyWyrg
-	4ex9Nnebb1nEnjq8GZz5qR4zC++/nS/8n7pPemJnTQD81Vu2ljqwVZuJeEIhuAjPmnr6dAbvMXh
-	eiPn/L5OYcfngoah2wA2fyl13F
-X-Received: by 2002:a05:690e:4085:b0:67a:86a1:69a5 with SMTP id 956f58d0204a3-67ba510e5e9mr8454213d50.97.1793663745568;
-        Mon, 02 Nov 2026 15:55:45 -0800 (PST)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([71.68.170.161])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67baf3303ebsm6006920d50.18.2026.11.02.15.55.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 15:55:45 -0800 (PST)
-From: Joseph Telaak <joseph@telaak.dev>
-Date: Mon, 02 Nov 2026 18:55:23 -0500
-Subject: [PATCH] ALSA: hda/generic: Add indep_dig_outs hint
+        d=1e100.net; s=20260707; t=1793664253; x=1794269053;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tOERZEIQ6bWpFjXc/IYsfYbCQo0wq413M2Hd4FsT6W0=;
+        b=UIzSbu5Z+HyOAVOW8VjZizzaBgxOORk9UTbuYNO8dCF5WZ2K2p3tAZKTZXWKgacy8i
+         VRPTpz7EE9TTEnZM70NDZD51byb7GPM7JMTSkES/QHSux+OdJNrtrZyhQOuJX3uwFwae
+         mtQa3Isl5OVlbAGO7n40A9VxrbFQL6w0cxx0Qt10mcWvE1AGj8EPrAXpXqSLjOvqhqo8
+         SqKGTC4kr2LxF6gdIBqm7Mkxj5b0NFJ99TGtStngISz6CQ8VjoKXVzGqWxVzhrmH0aA0
+         hCuXLKaOiqAxKxIwYIoNm60ZssuOFx7Dpy51QIGdVEZzDcANVWFVVZM19pTo27GSDq/g
+         4VAg==
+X-Forwarded-Encrypted: i=1; AKwUvBx1VgrKLDHOZLFjZU3bKYkd7tZ082P5nu9ZajbRDEWp9LRHydYkVCA0c0cOmjNnSI0piA9vVB0Zcr0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/a4EYuivgysk4+XMZy1vRo+6LnUpEmg3QXqdA8ulBMyBC47ehN
+	bwVdEdA6sUMKHLTmhPBOW9EZOhghMo6UhdrOx+EvY4sfDUxJ6x4Z2C+1
+X-Gm-Gg: AYBFou24q+VMCEe0CXZec+dgZ9fpTjocqgpZhulPO1YPiJ1jCLVX/ern29RvMX5Hjt7
+	tfevbXPENXbWyrlU9PKJzpmv7ltqmu6V3UkmgDWH1HjHE2H/pM1VcuakVfM2ZxPUr7Bgu2Rcwo7
+	3FeBKg6edxUz3Ru1693OztLMUKccZ4uvhrjf6J26CbaIC1MsHn7K7Wds5q2iGYaOkMXVvr3Kdrm
+	UbFN/Wl7fv6RdUleeXmoeDhvajQ/DUT3Z7omI5iQxN6kkquDt2yGviZZ+rXNYPyk8zPQaDtvP7N
+	vruTZ0W+NmRCl6nGYXYdHCenWLywzKK6g6mD1n3PdTxyoQRD1fGEb7Mr1khesb9BOrEq3SoqoH/
+	xs8gqXZlfjGAKLxMZidoVTO5l6lDBRv9z19nd6pkXDfDwdKNHqc5o/NgAyc9ikA1CBv6GG1/Cwp
+	D/nwqtPuAdk8bEMj9ML/dSfwuxmjRtyqz3At4LyxLrlCPxLRGFKjKYFYjBjvkIU/JdcCaB++gQc
+	p9QmvplY7qTTXrl33z7bBFFjlfX5jtJ/itwgEaC7joIbQRqwQySj/KojomaF+vHi4U9Sr3loZ03
+	ihXzQLuoY+IvaG8yJhyj3uP69ams9tBaGx4zQd5f0cY0wUS5xzsPSfxQ4P+fwVvFhcHCfpvN42l
+	qY5cYmCYkeRxzs6Fb7Q6dkLCyi+IxYyxqUKtAw3juzDMEr3Y=
+X-Received: by 2002:a17:90b:1b02:b0:3ac:929d:ba5c with SMTP id 98e67ed59e1d1-3ae89847b50mr8986443a91.45.1793664252625;
+        Mon, 02 Nov 2026 16:04:12 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c6b3493sm1339225a91.13.2026.11.02.16.04.09
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 02 Nov 2026 16:04:12 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.de,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	Joonho Lee <mynameisjune111@gmail.com>
+Subject: [PATCH v12 01/12] ALSA: virtio: Propagate PCM send failures through ACK
+Date: Tue,  3 Nov 2026 09:03:52 +0900
+Message-ID: <20261103000403.67106-2-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261103000403.67106-1-mynameisjune111@gmail.com>
+References: <20261103000403.67106-1-mynameisjune111@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,266 +107,161 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-indep-dig-outs-v1-1-b468f76bdd2e@telaak.dev>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/yXMTQ5AMBBA4avIrE2i9Ze4ili0OhiLkg4iEXdXL
- L/FexcIBSaBJrkg0MHCi49QaQL9ZPxIyC4adKYrpTKN7B2t6HjEZd8EjXVWlfWQF7qEGK2BBj6
- /Ydv9lt3O1G/vBe77AQCRXo9yAAAA
-X-Change-ID: 20261102-indep-dig-outs-abdb157f3425
-To: Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-sound@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Joseph Telaak <joseph@telaak.dev>
-X-Mailer: b4 0.16.0
+Content-Transfer-Encoding: 8bit
 
-The generic parser gives a codec one digital playback PCM. Any further
-digital output pin is set up as a follower of the first: it gets the
-same stream tag, so every digital jack plays the same stream. That is
-the right default for a codec with, say, a coax and an optical jack.
+virtsnd_pcm_msg_send() can fail while queueing a transfer. Restore the
+failed message's length and notify the device about earlier messages
+queued by the same call, so they do not remain stranded.
 
-Some boards wire two digital converters to different places instead.
-On the Control4 HC-800, an ALC888 has converter 0x10 driving pin 0x11,
-which feeds an HDMI transmitter, and converter 0x06 driving pin 0x1e,
-the S/PDIF coax jack. These are two outputs that should play different
-streams at the same time. The follower setup cannot express that, and
-userspace cannot split one stream tag in two.
+Propagate that failure through the indirect PCM transfer callback instead
+of discarding it. Commit the updated indirect state only after successful
+submission and stop further transfers when a send fails. Return an XRUN
+error to ALSA so the stream can recover.
 
-Add an "indep_dig_outs" hint. Like indep_hp does for the headphone DAC,
-it gives the second digital output pin its own stream: its own
-hda_multi_out and its own PCM, "Alt Digital", typed from its pin and
-with its own IEC958 controls. The digital playback ops pick the
-multiout by the stream's NID. The analog "IEC958 Default PCM"
-duplication stays on the first digital output only. Unlike indep_hp,
-the split is fixed at parse time; there is no mixer switch. A codec
-driver can also set spec->indep_dig_outs itself. Without the hint or
-the flag nothing changes.
+Keep the polling feature path unchanged.
 
-The new PCM takes the next free device number of its type. With an
-HDMI-typed first output and an S/PDIF-typed second one, as on the
-HC-800, the HDMI output stays the "Digital" PCM (device 3) and the
-coax output becomes "Alt Digital" (device 1), with its IEC958 controls
-at index 16.
-
+Fixes: fe981e67568c ("ALSA: virtio: use ack callback")
 Assisted-by: LLM
-Signed-off-by: Joseph Telaak <joseph@telaak.dev>
----
-Tested on a Control4 HC-800 (Atom D525, ALC888-VD) with this patch on 7.1.8,
-with [hint] indep_dig_outs = yes in an hda patch file: HDMI and coax run at
-the same time on separate stream tags, also at different rates (48 kHz and
-44.1 kHz) and alongside the analog output. Each IEC958 switch affects only
-its own converter, and closing or reopening one output leaves the other
-running. The HDMI transmitter fed from pin 0x11 (an ADV7513) decodes the
-sample rate of the Digital PCM in every combination, and never the Alt
-Digital one. With the coax output connected to an external S/PDIF receiver,
-the coax carries the Alt Digital PCM bit-exact and never the Digital one, at
-equal and at different rates. Built on sound.git for-next with W=1, with no
-new warnings.
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
-The HC-800 turns this on with a patch file, and the patch adds no quirk for
-it. It is meant as a generic option for any board whose digital outputs go
-to different places.
 ---
- Documentation/sound/hd-audio/notes.rst |  5 +++
- sound/hda/codecs/generic.c             | 63 +++++++++++++++++++++++++++++-----
- sound/hda/codecs/generic.h             |  7 +++-
- 3 files changed, 65 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/sound/hd-audio/notes.rst b/Documentation/sound/hd-audio/notes.rst
-index c16f83875..c618bb2d7 100644
---- a/Documentation/sound/hd-audio/notes.rst
-+++ b/Documentation/sound/hd-audio/notes.rst
-@@ -486,6 +486,11 @@ inv_dmic_split (bool)
- indep_hp (bool)
-     provide the independent headphone PCM stream and the corresponding
-     mixer control, if available
-+indep_dig_outs (bool)
-+    give the second digital output pin (in parsing order) its own PCM
-+    stream, "Alt Digital", instead of making it follow the first one's
-+    stream. The PCM takes the next free device number of its type, so
-+    two S/PDIF outputs need dynamic minors. Default false
- add_stereo_mix_input (bool)
-     add the stereo mix (analog-loopback mix) to the input mux if
-     available
-diff --git a/sound/hda/codecs/generic.c b/sound/hda/codecs/generic.c
-index ca780b7f6..12e40c382 100644
---- a/sound/hda/codecs/generic.c
-+++ b/sound/hda/codecs/generic.c
-@@ -168,6 +168,9 @@ static void parse_user_hints(struct hda_codec *codec)
- 	val = snd_hda_get_bool_hint(codec, "indep_hp");
- 	if (val >= 0)
- 		spec->indep_hp = !!val;
-+	val = snd_hda_get_bool_hint(codec, "indep_dig_outs");
-+	if (val >= 0)
-+		spec->indep_dig_outs = !!val;
- 	val = snd_hda_get_bool_hint(codec, "add_stereo_mix_input");
- 	if (val >= 0)
- 		spec->add_stereo_mix_input = !!val;
-@@ -4000,7 +4003,9 @@ static void parse_digital(struct hda_codec *codec)
- 	int i, nums;
- 	hda_nid_t dig_nid, pin;
+diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
+--- a/sound/virtio/virtio_pcm_msg.c
++++ b/sound/virtio/virtio_pcm_msg.c
+@@ -260,6 +260,18 @@
+ 				dev_err(&vdev->dev,
+ 					"SID %u: failed to send I/O message\n",
+ 					vss->sid);
++				msg->length -= n;
++
++				/*
++				 * Do not leave earlier messages queued without notifying
++				 * the device when a later message could not be added.
++				 */
++				if (msg_count != vss->msg_count &&
++				    !(vss->features &
++				      (1U << VIRTIO_SND_PCM_F_MSG_POLLING)) &&
++				    virtqueue_kick_prepare(vqueue))
++					virtqueue_notify(vqueue);
++
+ 				return rc;
+ 			}
  
--	/* support multiple SPDIFs; the secondary is set up as a follower */
-+	/* support multiple SPDIFs; the secondary is set up as a follower,
-+	 * or as an independent PCM with the indep_dig_outs hint
-+	 */
- 	nums = 0;
- 	for (i = 0; i < spec->autocfg.dig_outs; i++) {
- 		pin = spec->autocfg.dig_out_pins[i];
-@@ -4018,6 +4023,10 @@ static void parse_digital(struct hda_codec *codec)
- 		if (!nums) {
- 			spec->multiout.dig_out_nid = dig_nid;
- 			spec->dig_out_type = spec->autocfg.dig_out_type[0];
-+		} else if (spec->indep_dig_outs) {
-+			/* autocfg gives at most two digital outs */
-+			spec->alt_dig_multiout.dig_out_nid = dig_nid;
-+			spec->alt_dig_out_type = spec->autocfg.dig_out_type[i];
- 		} else {
- 			spec->multiout.follower_dig_outs = spec->follower_dig_outs;
- 			if (nums >= ARRAY_SIZE(spec->follower_dig_outs) - 1)
-@@ -5228,6 +5237,14 @@ int snd_hda_gen_build_controls(struct hda_codec *codec)
- 			spec->multiout.share_spdif = 1;
- 		}
- 	}
-+	if (spec->alt_dig_multiout.dig_out_nid) {
-+		err = snd_hda_create_dig_out_ctls(codec,
-+						  spec->alt_dig_multiout.dig_out_nid,
-+						  spec->alt_dig_multiout.dig_out_nid,
-+						  spec->pcm_rec[3]->pcm_type);
-+		if (err < 0)
-+			return err;
-+	}
- 	if (spec->dig_in_nid) {
- 		err = snd_hda_create_spdif_in_ctls(codec, spec->dig_in_nid);
- 		if (err < 0)
-@@ -5450,12 +5467,24 @@ static int alt_playback_pcm_cleanup(struct hda_pcm_stream *hinfo,
- /*
-  * Digital out
-  */
+diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
+--- a/sound/virtio/virtio_pcm_ops.c
++++ b/sound/virtio/virtio_pcm_ops.c
+@@ -466,36 +466,100 @@
+ 		vss->hw_ptr);
+ }
+ 
++struct virtsnd_pcm_transfer {
++	struct snd_pcm_indirect indirect;
++	int error;
++};
 +
-+/* the independent second digital out has its own multiout */
-+static struct hda_multi_out *dig_multiout(struct hda_codec *codec,
-+					  struct hda_pcm_stream *hinfo)
-+{
-+	struct hda_gen_spec *spec = codec->spec;
+ static void virtsnd_pcm_trans_copy(struct snd_pcm_substream *substream,
+ 				   struct snd_pcm_indirect *rec, size_t bytes)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+-
+-	virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
++	struct virtsnd_pcm_transfer *transfer =
++		container_of(rec, struct virtsnd_pcm_transfer, indirect);
 +
-+	if (spec->alt_dig_multiout.dig_out_nid &&
-+	    hinfo->nid == spec->alt_dig_multiout.dig_out_nid)
-+		return &spec->alt_dig_multiout;
-+	return &spec->multiout;
++	if (transfer->error)
++		return;
++
++	transfer->error = virtsnd_pcm_msg_send(vss, rec->sw_data, bytes);
 +}
 +
- static int dig_playback_pcm_open(struct hda_pcm_stream *hinfo,
- 				 struct hda_codec *codec,
- 				 struct snd_pcm_substream *substream)
- {
--	struct hda_gen_spec *spec = codec->spec;
--	return snd_hda_multi_out_dig_open(codec, &spec->multiout);
-+	return snd_hda_multi_out_dig_open(codec, dig_multiout(codec, hinfo));
++/* Caller holds vss->lock. */
++static void virtsnd_pcm_transfer_failed(struct virtio_pcm_substream *vss)
++{
++	vss->xfer_enabled = false;
++	vss->stopped = true;
++	vss->substream->runtime->stop_operating = true;
  }
  
- static int dig_playback_pcm_prepare(struct hda_pcm_stream *hinfo,
-@@ -5464,8 +5493,7 @@ static int dig_playback_pcm_prepare(struct hda_pcm_stream *hinfo,
- 				    unsigned int format,
- 				    struct snd_pcm_substream *substream)
+ static int virtsnd_pcm_pb_ack(struct snd_pcm_substream *substream)
  {
--	struct hda_gen_spec *spec = codec->spec;
--	return snd_hda_multi_out_dig_prepare(codec, &spec->multiout,
-+	return snd_hda_multi_out_dig_prepare(codec, dig_multiout(codec, hinfo),
- 					     stream_tag, format, substream);
- }
- 
-@@ -5473,16 +5501,14 @@ static int dig_playback_pcm_cleanup(struct hda_pcm_stream *hinfo,
- 				    struct hda_codec *codec,
- 				    struct snd_pcm_substream *substream)
- {
--	struct hda_gen_spec *spec = codec->spec;
--	return snd_hda_multi_out_dig_cleanup(codec, &spec->multiout);
-+	return snd_hda_multi_out_dig_cleanup(codec, dig_multiout(codec, hinfo));
- }
- 
- static int dig_playback_pcm_close(struct hda_pcm_stream *hinfo,
- 				  struct hda_codec *codec,
- 				  struct snd_pcm_substream *substream)
- {
--	struct hda_gen_spec *spec = codec->spec;
--	return snd_hda_multi_out_dig_close(codec, &spec->multiout);
-+	return snd_hda_multi_out_dig_close(codec, dig_multiout(codec, hinfo));
- }
- 
- /*
-@@ -5775,6 +5801,25 @@ int snd_hda_gen_build_pcms(struct hda_codec *codec)
- 					 spec->dig_in_nid);
- 	}
- 
-+	/* independent second digital out, stream index #3 */
-+	if (spec->alt_dig_multiout.dig_out_nid) {
-+		fill_pcm_stream_name(spec->stream_name_alt_digital,
-+				     sizeof(spec->stream_name_alt_digital),
-+				     " Alt Digital", codec->core.chip_name);
-+		info = snd_hda_codec_pcm_new(codec, "%s",
-+					     spec->stream_name_alt_digital);
-+		if (!info)
-+			return -ENOMEM;
-+		spec->pcm_rec[3] = info;
-+		if (spec->alt_dig_out_type)
-+			info->pcm_type = spec->alt_dig_out_type;
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
+-
+-	guard(spinlock_irqsave)(&queue->lock);
+-	guard(spinlock)(&vss->lock);
+-
+-	return snd_pcm_indirect_playback_transfer(substream, &vss->pcm_indirect,
+-						  virtsnd_pcm_trans_copy);
++	struct virtsnd_pcm_transfer transfer = {};
++	int rc;
++
++	scoped_guard(spinlock_irqsave, &queue->lock) {
++		guard(spinlock)(&vss->lock);
++		transfer.indirect = vss->pcm_indirect;
++		if (vss->stopped) {
++			rc = -EPIPE;
++		} else {
++			rc = snd_pcm_indirect_playback_transfer(substream,
++								&transfer.indirect,
++								virtsnd_pcm_trans_copy);
++		}
++		if (!rc)
++			rc = transfer.error;
++		if (rc)
++			virtsnd_pcm_transfer_failed(vss);
 +		else
-+			info->pcm_type = HDA_PCM_TYPE_SPDIF;
-+		setup_pcm_stream(&info->stream[SNDRV_PCM_STREAM_PLAYBACK],
-+				 &pcm_digital_playback, NULL,
-+				 spec->alt_dig_multiout.dig_out_nid);
++			vss->pcm_indirect = transfer.indirect;
++	}
++	if (rc) {
++		dev_err(&vss->snd->vdev->dev,
++			"SID %u: playback ACK transfer failed: %d\n",
++			vss->sid, rc);
++		/* ALSA treats -EPIPE as an XRUN in ACK and pointer paths. */
++		return -EPIPE;
 +	}
 +
- 	if (spec->no_analog)
- 		return 0;
++	return 0;
+ }
  
-diff --git a/sound/hda/codecs/generic.h b/sound/hda/codecs/generic.h
-index 524591821..e6971ff66 100644
---- a/sound/hda/codecs/generic.h
-+++ b/sound/hda/codecs/generic.h
-@@ -93,6 +93,7 @@ struct hda_gen_spec {
- 	const struct hda_pcm_stream *stream_analog_capture;
+ static int virtsnd_pcm_cp_ack(struct snd_pcm_substream *substream)
+ {
+ 	struct virtio_pcm_substream *vss = snd_pcm_substream_chip(substream);
+ 	struct virtio_snd_queue *queue = virtsnd_pcm_queue(vss);
+-
+-	guard(spinlock_irqsave)(&queue->lock);
+-	guard(spinlock)(&vss->lock);
+-
+-	return snd_pcm_indirect_capture_transfer(substream, &vss->pcm_indirect,
+-						 virtsnd_pcm_trans_copy);
++	struct virtsnd_pcm_transfer transfer = {};
++	int rc;
++
++	scoped_guard(spinlock_irqsave, &queue->lock) {
++		guard(spinlock)(&vss->lock);
++		transfer.indirect = vss->pcm_indirect;
++		if (vss->stopped) {
++			rc = -EPIPE;
++		} else {
++			rc = snd_pcm_indirect_capture_transfer(substream,
++							       &transfer.indirect,
++							       virtsnd_pcm_trans_copy);
++		}
++		if (!rc)
++			rc = transfer.error;
++		if (rc)
++			virtsnd_pcm_transfer_failed(vss);
++		else
++			vss->pcm_indirect = transfer.indirect;
++	}
++	if (rc) {
++		dev_err(&vss->snd->vdev->dev,
++			"SID %u: capture ACK transfer failed: %d\n",
++			vss->sid, rc);
++		/* ALSA treats -EPIPE as an XRUN in ACK and pointer paths. */
++		return -EPIPE;
++	}
++
++	return 0;
+ }
  
- 	char stream_name_alt_analog[32]; /* alternative analog PCM stream */
-+	char stream_name_alt_digital[32]; /* independent 2nd digital PCM */
- 	const struct hda_pcm_stream *stream_analog_alt_playback;
- 	const struct hda_pcm_stream *stream_analog_alt_capture;
- 
-@@ -112,6 +113,9 @@ struct hda_gen_spec {
- 	hda_nid_t alt_dac_nid;
- 	hda_nid_t follower_dig_outs[3];	/* optional - for auto-parsing */
- 	int dig_out_type;
-+	/* the 2nd digital out with the indep_dig_outs hint */
-+	struct hda_multi_out alt_dig_multiout;
-+	int alt_dig_out_type;
- 
- 	/* capture */
- 	unsigned int num_adc_nids;
-@@ -148,7 +152,7 @@ struct hda_gen_spec {
- 	int const_channel_count;	/* channel count for all */
- 
- 	/* PCM information */
--	struct hda_pcm *pcm_rec[3];	/* used in build_pcms() */
-+	struct hda_pcm *pcm_rec[4];	/* used in build_pcms() */
- 
- 	/* dynamic controls, init_verbs and input_mux */
- 	struct auto_pin_cfg autocfg;
-@@ -226,6 +230,7 @@ struct hda_gen_spec {
- 	unsigned int vmaster_mute_led:1; /* add SPK-LED flag to vmaster mute switch */
- 	unsigned int mic_mute_led:1; /* add MIC-LED flag to capture mute switch */
- 	unsigned int indep_hp:1; /* independent HP supported */
-+	unsigned int indep_dig_outs:1; /* 2nd digital out has its own PCM */
- 	unsigned int prefer_hp_amp:1; /* enable HP amp for speaker if any */
- 	unsigned int add_stereo_mix_input:2; /* add aamix as a capture src */
- 	unsigned int add_jack_modes:1; /* add i/o jack mode enum ctls */
-
----
-base-commit: 3f2882212c558336d0bf3b1c03b8e1a6b348a6e0
-change-id: 20261102-indep-dig-outs-abdb157f3425
-
-Best regards,
---  
-Joseph Telaak <joseph@telaak.dev>
-
+ /* PCM substream operators map. */
