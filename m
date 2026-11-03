@@ -1,72 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793708561;
-	b=tDJ4hujcwKuXNLNJu1nTefJsvzmXrYQIH3JL/zg9F/zFx3WJ6aU/Mnm4fu0wbcHpLTqZ
-	 YAC8/zyAKXU229q3X+G2aUcf9eFO3SZ9y1dY9XPmX9i/iUqgXrRjkbaqA8ALTOTh0g6b1
-	 nxGbZPZLTUvJb8GrWl0iFaDpkmmR7v/7Dv8Xsyefy3WdTpi6PZ3ilqSeNMYm+JcdR5U2Q
-	 Pf8sXhQIMPexqPxsqGs09kHJafwvqnZDPxqqcgGE79cC7OYSstFkbB2kthghqEUN6e8/z
-	 q+qspuXqbO3dYAgKDbdNcSAvK8EWYLRL/oIPzH871lSfiXqUA9qr6MO3iHJ4g9ErvYg==
+	t=1793709122;
+	b=DFqQGj+8RTsqj6716Jdk76Ysj/qt2KfugHWccFo2NYAmFNk4ZxQ3Uzh8Er/8vOih6fOw
+	 3G/h7AwEgPKbgAo08HTFL+lDAh/MEvkcvYOefcoY1uifvhNSTgeSGPIhR0gWH7HwkbiHx
+	 zsyaEiQurVuiA0kBi3kV0c7TBtXBjR+M1SXr6Iq/rE3X3i5cpGZg3nbbyS3+au9NzaNKw
+	 0gLy2UBfxb+3i6UmrbCvTcyBVlQljhON2TOWu03DleMlOw1ir4K6DICXVIwFnQ7hBRD5n
+	 7zCPOQjnUxIRib2lT3QUIzsUEr8NkgVVJjCJJgjX6hBXp0ucajMzwzN7upvc3RiiopA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793708561;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-ID:X-MBO-RS-META;
-	bh=jgY0YRLdw++1SlF9Oy8/8aCNKHiboset4+rGgzfeZCM=;
-	b=ExCOY5oaAFrtqWiXzbYYQ0Z0nCJ3PcnPrpSd0dPso5Uj7L8+O1bajP5b7F6+7smzAAQz
-	 BIN5SKv4OFpDwpBY8nteZ8EEwsq/JStCURm4FhobbFKU0k875EJCq+ndDlc4JRSt6Gpte
-	 B2bCGf1NqBijIahMPkHH7ewrCElEiu9tOunGkHa0IbWF2IUn8JVhX9RtnhyXaoab39xGg
-	 Xcc5qd3UvTuJaaYTUimbn7paZY1Ww5r8e3P0jOLO/pbVkrrEWlNMTHfmhYup/GEDFEJHY
-	 tMt8reFamSQjLrwhsqWObseyKbCNU5na+sNe0F+0LLP8fqwN0nXQ8am8Xd3zsHhCMRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793709122;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=IIfayYr3RFxyM2EsZlquLXo5wwHb0/isaRrVtj+Bh6Q=;
+	b=Q/EDIVlMJv+uKyL3YaoMvi7NcO2Dh7iY6pwAKMFtIS+1SfHI2dYIzzz1mXgH8etCokCc
+	 oVurzOE1O5VbasN71zpHjZOtvgEqidkdOJFzidcpioJorgxZ1QQTp0BO5e+bFyvmYn4N9
+	 0i93j3GDdk13ohzG+gd1n3SL2WY7FX1+LylhJ9wA3JCCxtZbqiyOCtDGV8w23UuqSrmU/
+	 BboG+jwujvYLRMYjrMvcbuImC2yMQR/BJqZ4kNBeHyWU9/pE8D+/Gf6tWa3WsQBwMzjw8
+	 3S9rjnFAKPm2LQJlyFOHBDgaIe2mF8fwAtTvyU3cbPHzQAgtSzxIm7fclxuYEseGGkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=L62vpwCn;
-	arc=none smtp.remote-ip=80.241.56.152
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=wW5Sb8Bh;
+	arc=none smtp.remote-ip=209.85.167.54
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26CE1606A328;
-	Tue,  3 Nov 2026 12:22:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26CE1606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95117606A329
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 12:32:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95117606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=L62vpwCn
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4jJnlJ2pc8zKp1r;
-	Tue, 03 Nov 2026 13:22:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1793708556;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=jgY0YRLdw++1SlF9Oy8/8aCNKHiboset4+rGgzfeZCM=;
-	b=L62vpwCnobxNZTz6ftk/Kg05RFP9iL6z3reG9JEMYnXjcajfPE1MAiPqEnIm9virjrFGfh
-	mi6rPxLZFb0sNv/YBL+h/UpipLXadX7pRkhCJjErRivuY8MGZcTySN30ezJyJ4HOdr9d2Q
-	NwsZTP6ZiGAQ2AhCe9Dlo86CbNS+TpKvXJNr6X/zSX0rYzJ2AkgJkIxJ+AAdMFpt92wfOI
-	0qiLVsI+etRWL+k8b5uYm0+oiQt4z6SPykpLonjUWDnHGnLacgbNGmU0IIYap3i8i4XkjC
-	Vo8JNb1USplZcHIW/7I4jHvmpLayGoC7WA1N4AFg4ga2y3fUuvKQ6HvAWhhkxw==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] Documentation: exception-tables.rst: fix bracket
-Date: Tue,  3 Nov 2026 13:17:16 +0100
-Message-ID: <20261103121716.102730-2-manuelebnerli@mailbox.org>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=wW5Sb8Bh
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5ba36cc21cdso5752330e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 04:32:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli.us; s=google; t=1793709119; x=1794313919; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IIfayYr3RFxyM2EsZlquLXo5wwHb0/isaRrVtj+Bh6Q=;
+        b=wW5Sb8Bh1tOSyGxMONymW2Vgt9LtgwvewWE3HdVh0cNKhUCkJ/YCPaEPxV9Ihr422L
+         HyjMb5JsoDLbqcJSqhfZO34LE8WMGK70+JC/vz0DFTgNW5faDqqJczrOPqhedMpvy/7f
+         mvt6q07q+UtCxxElc7JUCoCImPQ7uE3q3emliaxs3+TkpL83NAhzBTaV+hpVrRvA5OB7
+         2fxj1g+zKHunZsWpo/2qWrqrD+x9xwKugBRhCk+DsP/HsdZR1btPOzjItqnSuAAU/utq
+         eS0r5SYLcARtF49KqRWddUtulh6agloHpu+759V5ENZdj4Sojbl4mOsew/qSbyiez4Ep
+         1J+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793709119; x=1794313919;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IIfayYr3RFxyM2EsZlquLXo5wwHb0/isaRrVtj+Bh6Q=;
+        b=JIFgCLtk1l1/72CiyftVs2pws85PnHKoXHH7hMAVCWqQ3RKRQe9n/NoNZfUkt36n2V
+         EpJJdpQF+cxreZaobUQzKBriw6EwW+h7f1HTkO+UgMlCoNsvu982mf9AHVKle+niwm0v
+         b8vAgxvovFamzVU7ZK95Tb4AjBZLHrVdyy50tmAXHQMaj/IHH6QA141IyWIGeUmfMPvi
+         hqGZ3BpkMyZ+6aZys8zSD8L+iRzqCccXA2EVspWjHRhDF0ywmTynRBV99HY1jL/Z1PKD
+         wogw1Vjvw2IatPF92jEg2p2cm36A8+9ML9eTq9sidhLHVnSra5F+PpFQQpXOAc79D6C2
+         2c1Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxYgPPp372R+VNR4b8GpAl/Si/1ju69hok3Q5P3Tj+eLIlVQRbVEx5MoOyck/NnKJAmgs8WGXsCkBw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9wggsD6UsCG2MabezBxUrpKoVPiacVpY7kCsm9lVV5ULzagKzK
+	EJQ8XZ9u8rG/cuYjDFxLZI2X9dGJRJ1HWMrTTdesRb6uUP7wr35TlOr2hL4Xppc9hII=
+X-Gm-Gg: AYBFou0xNcPYixq3/+PFn+6+LwjTDZxJNjvP5gisjLEBcJd5yoGsmxhY0gf4VMOHNLk
+	DMlutHZ+JVBPjYRUVt4/NNcjYNWnBb+I0q6Ct6dDrmilPF8ozfVb90nfVmg9YXkVPwdpIaSKuR8
+	1HgOzdgZ+knYEkmqkvtkYbjpTO4xnH1iq4juDFq37pFbDtEsizznydcIoZ8Pr3MWGwf1ihMurxm
+	Mskt7kfVeBmGawc+hsC3uy7MlNM9XgMAeDIP7xyKdg9xbQ+PXPEiHQvjt9cA0jSXsVSnJ1VieOc
+	XCHt1CdoLkxE6F6BEv6QxWxZ3uFMr9fGjocxNmyFWWtRWdKiZnwFzwxHvA9x1dBnuuD8KzHUwSX
+	XA/RSeBfCgD7VWnkJTb+Sa/XnAUV9Fo2zWWTiKtQxnwQ3IhFsecwxINS222q4pYfVoH6bTknZPr
+	Hma7TnalqhMk/9ftTf9Q44xq8k1Bn70C4jzv3yxPgbnnfV6cCJU9o0S5VcVIqipWvep06c1MQTS
+	5H/ELaPvf56fgf/xSUXhVP10WgRGioxZtnd9y5qQlaU3l+QQ6NZAwnk+NBokx+WjxO47U1tkYky
+	zED2RwAdJ6LxjNhNz3E5yXwu3ZRlvzoMftyf
+X-Received: by 2002:a05:6512:31c7:b0:5bf:cfcc:5440 with SMTP id 2adb3069b0e04-5bfd951d842mr4004970e87.8.1793709118568;
+        Tue, 03 Nov 2026 04:31:58 -0800 (PST)
+Received: from localhost ([208.127.45.21])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfea410206sm964002e87.10.2026.11.03.04.31.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 04:31:57 -0800 (PST)
+Date: Tue, 3 Nov 2026 13:31:53 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Petr Oros <poros@redhat.com>
+Cc: netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, 
+	Ivan Vecera <ivecera@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH net-next 00/14] dpll: add a simulated DPLL device driver
+Message-ID: <aunT5wlkgVJ9xyTb@FV6GYCPJ69>
+References: <20261103093910.596225-1-poros@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,33 +101,19 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 8aab7e8b7aea86ebc49
-X-MBO-RS-META: 6pcqng9waph6xmihdnzmtzam4xxizchq
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103093910.596225-1-poros@redhat.com>
 
-Remove needless pair of brackets.
+Tue, Nov 03, 2026 at 10:38:56AM +0100, poros@redhat.com wrote:
+>The DPLL subsystem has no in-tree driver that can run without real
+>hardware, so core changes and userspace tooling are hard to exercise in
+>CI, and the pin-on-pin and reference sync paths see almost no coverage
+>outside the vendors' labs. This series adds dpllsim, a simulated DPLL
+>device driver, together with selftests that run against it.
+>
+>The driver is controlled through configfs, following gpio-sim. Writing a
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
- Documentation/arch/x86/exception-tables.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Why not debugfs? Works good for netdevsim.
 
-diff --git a/Documentation/arch/x86/exception-tables.rst b/Documentation/arch/x86/exception-tables.rst
-index 6e7177363f..de776bfdd1 100644
---- a/Documentation/arch/x86/exception-tables.rst
-+++ b/Documentation/arch/x86/exception-tables.rst
-@@ -72,9 +72,9 @@ The preprocessor output (edited to become somewhat readable)::
-     {
-       long __gu_err = - 14 , __gu_val = 0;
-       const __typeof__(*( (  buf ) )) *__gu_addr = ((buf));
--      if (((((0 + current_set[0])->tss.segment) == 0x18 )  ||
-+      if ((((0 + current_set[0])->tss.segment) == 0x18 )  ||
-         (((sizeof(*(buf))) <= 0xC0000000UL) &&
--        ((unsigned long)(__gu_addr ) <= 0xC0000000UL - (sizeof(*(buf)))))))
-+        ((unsigned long)(__gu_addr ) <= 0xC0000000UL - (sizeof(*(buf))))))
-         do {
-           __gu_err  = 0;
-           switch ((sizeof(*(buf)))) {
--- 
-2.55.0
-
+[..]
