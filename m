@@ -1,101 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793688111;
-	b=S+QxwvfXUnNb1Elk0nJeswWTY+S+LYae6ka7Z4FUPPE2/uIiOdVAdUupLEwAG3NlUguJ
-	 FxaXIXexK7DDksjmOWq/jXFwWmuHQ9s468kqQB8Sw2lpAjVFe+Z673ZzQKHWLLrreArJN
-	 tkOvFA+H7Z9dVDdLH+NHhF2HAiDTpfh0g0IPb4lAYN4UHKTyxoQxJZkxg8cRuyfy4Is70
-	 44vyytGngBofLOuXgJttwgypDdObrC/Sy7AJVkkeWFv0OlXPGZOcL2DFoW5Qsb1LcI1uV
-	 qI4PskfKjNSiOC47SBA8vY4x/tYs7SjB1qb5xNjEatv4b3LBIgkgmIScsgH78M7uH4w==
+	t=1793688876;
+	b=hzgqnxm3zgzuf0aUiAo+TwbFOHepCXmvsaus4+O16k1bbnO3tlMmS7GNAK/SQbdP73Wx
+	 xzOwuyw17pzLskYehOZKR01L4HyqMkAwrhloAtnQYaLWRgX5Rs/yrtIHrweYslhVn6IcK
+	 5eqreAaTkJs7AG6hEGnM44Bx1G2OzTfXuk+OMdgcjYlJEbhMEwrN+GEiyDeuvQrQThuPC
+	 Ouk0Qu8+orBy7D4vdsbuDAohgoazM3TDZGQOq89zItMIirS0tNttMsfXc/Dh5VDgdO4mg
+	 13lD5Y/t/jfmnd6XcL+jeZEx6/Imiv0ZTsk8HzaRaTu+LUKiTj28eRMK++TurW7lIWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793688111;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=XZbFiyKP41aFFQ9gy0xVXRe5kyE6xQOvIotkPQSuTqo=;
-	b=gjOvPbA8NT1BX9gq/8gmATp6smaKHOm8Yc/wRV899SiMGIFdGcK1ncpB1IU3KizeZePg
-	 t/gPHPOxMPqr+7DDqewBlF8BeQK98s3rANlkC+btBS6efArGhwSI4TyVkVW2HQtsMMoCz
-	 4i4RLi+WukzP77qX+tcBMY20/5MB+bQ3bvCLkupGv8pNWTb6oj8A3BmbfJlBnUisz4JtC
-	 G8j9xoNRKg2hVX62vQq4I8N49g4Qg+ai/T8oOGRaXnM9rquBAJ4+LhFFB6Zr7CwAEWwIa
-	 O4MHaHCp5pHXurpYd8PxdttUafrztJ6dP/5NAA8k03F5Mxhg6PCJ55QaGZdjNl9rETw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793688876;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=pI+R0vssS3+rBEwGlEmrhAJtAWwC+K6R2fL7Q2wxluc=;
+	b=kHpHcYPZNySrVpcXOaZLKz7xVjV1Av85dZ82VFATW6ctQdNLvHkXM8xPm8vTEwpgtxuC
+	 PzvUVZcMmuK4xW9wuQUrRhISAEDM/i2eLIbmqaHah1ydPBfvqtdCLKxILkTz/bClasLEb
+	 02/LAN95Mz+aVP9ZIR9IYM7nDdFt7t1Zl+JJIuoupoibtIcnfINE5AVg7WrJGidH1jGI4
+	 829cycOww4c4If2fp9RJAZeSjSVW50H8YBv7rAHGwNexqAYmGBxmtJ1E4ZwXseO87faFy
+	 jrFAKpILH896Zgxs8XETeVpx2YPPDQbndp4cA+JCgBmecLIy2XG4qj3v57PsvEJEw6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=oluP6zyi;
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HVwwGpgK;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FDF2606A32D
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 06:41:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FDF2606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3EAD606A334;
+	Tue,  3 Nov 2026 06:54:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=oluP6zyi
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a20bde60a0so28743055e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 22:41:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1793688109; x=1794292909; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=XZbFiyKP41aFFQ9gy0xVXRe5kyE6xQOvIotkPQSuTqo=;
-        b=oluP6zyiXVY9kgI2Vf/ouNfKZtMzfELewZ1/UdCsAmA4IaIYYA9oFhy33tOcWN5jCh
-         Mm1Ky/FhuxFAqUTNq5FU51Or/apgIuRHipx6NIzTFHTWsS6qmen0tffq21jUhZ183rux
-         aFYASSvrM8X5eHcXGYTIJmskC95WgDrc90fOtVgTug/hfJLkmYp/q0A/Z5cdlpo5MtZP
-         fq/CHGGYumh0QHxJx45J0TaZ01isaULs7dCdTn9fBjAxEvoWV/LwV6UYwdYqR0RLdRfc
-         +kVKTESs1ocbnIVwJFH+oZMS1gd3U0PkyY92RFt8dyOzQFvlJ3bA2DPdPLVp/HCzT7km
-         jB2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793688109; x=1794292909;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=XZbFiyKP41aFFQ9gy0xVXRe5kyE6xQOvIotkPQSuTqo=;
-        b=Hs3hjkjgrDFOqMIOh51IGSWifcelGAlwApWrVgHJFW7XMtRLAnpqFZ6/ze3DmRVqxO
-         Bb9koZuaoqd8+N9NPurlHfV/z0vAxPXBBK/8+4R5VJBkF2j08wLC3cbsbp+/X4Bxtoix
-         Ri0/9cStUma2pHI+nvuTcIMR4khBNNIKv+dvkoFixOwVgkIKJOAuplsVLSEL7NI3g30U
-         Vz1T+VZtZFXpMXXVHqRFC1oYt91IiT/3atBSu3RDA6PzqQv0mntwoT+6dMdPGl8Ytbt3
-         0sGosVANrsO6JXo1UVKFNXLH1e9BcF4eMyas6euZzcL+S4xPcugYIwzdNYs4+GmReaq4
-         ypPA==
-X-Forwarded-Encrypted: i=1; AKwUvByIZzJcAgrPPk/z4H4+jB8yY14p5+9Pc0fR1cxKwhdZlPuJSZ+zdmzmKfSC/Ygev6OppcKOrissTGk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+lwF1JaKZwrW8fids7XpnPpR926F5QOJizjbSdlx7TyPwm63W1
-	oNr25JPcccDuWcDJYvkOPiv07ifdHM3F2DiqEX92ihykjrZwJIASxVtXtv4c4IW9EsM=
-X-Gm-Gg: AYBFou19AyMnJzO80tcDYB3ox4SP2G8GWwnq1glom7xq4VsqdAT9x3WHO9SGBBnuIs0
-	Mgr51m722D/j1hJ7v0FMqFvYTaq+dlqvAKPhCVW5Vcz9nB/NI5kPaUV2dY8bhH5yOV1y+Iyk437
-	cYrq6lW5Q3mpLIT3fauZXcwQm72S1k6hAUs8NZAqZqaSCZBo06WVlhID1ivx5yTqzOdmQj5w36G
-	/UdGMYQJBC7R0pP+Nr+xLDo77ynKNOHtOjuCKMpYYoKIYpx00TYG8cyf8OwVO7g7IWOO3KaEYHt
-	CXivN52ZPDerjgxAZHMUpcFQcplfaaFMY1D75xfrQxBFgti0RJ6TLV5HoNKlZG9xor2YHCmDos0
-	oby6vII2YnW7/ssDhnEWS1dxUZddPrXrlOXx7MY0/Aa5GV84Rsktx2TrDKQ1hhfheG2t3ZLutjU
-	Z9cVDn9b+Qlr4r24PtdvfxJnR/VY+iAHlGM5GfENLLHqmQqpz7nqM8IjDPcOiNOxODBbCzxZ6+Y
-	I85tWkXu6GcQGIogGGe7szeUIQguSXQQLLX9VJ9khcgp1uvY/3jfXDd1NbfkOTxXnInNIjaf6HW
-	iad0jMKQ/2PlmltXXlBmnV8GdCKEcHEUBA==
-X-Received: by 2002:a05:600c:6211:b0:4a1:80d8:aed5 with SMTP id 5b1f17b1804b1-4ac17191046mr289485365e9.6.1793688108839;
-        Mon, 02 Nov 2026 22:41:48 -0800 (PST)
-Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4b2aae24b32sm33736825e9.12.2026.11.02.22.41.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2026 22:41:48 -0800 (PST)
-Date: Tue, 3 Nov 2026 07:41:46 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Arthur Kiyanovski <akiyano@amazon.com>
-Cc: David Arinzon <darinzon@amazon.com>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Guangshuo Li <lgs201920130244@gmail.com>, 
-	Ioana Ciornei <ioana.ciornei@nxp.com>, Sang-Heon Jeon <ekffu200098@gmail.com>, 
-	Dawei Feng <dawei.feng@seu.edu.cn>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] net: ena: Fold header containing PCI id
- definitions into driver
-Message-ID: <aumBQIUAj0qhlB0e@monoceros>
-References: <20261102110907.356621-2-u.kleine-koenig@baylibre.com>
- <179365616498.28818.15452478866037209509.b4-review@b4>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HVwwGpgK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57D471F000C1;
+	Tue,  3 Nov 2026 06:54:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793688875;
+	bh=pI+R0vssS3+rBEwGlEmrhAJtAWwC+K6R2fL7Q2wxluc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=HVwwGpgKph2PTCR3kNBpzgeJl9Fiv96ILTSVlqr7otzEN5KOe+3Oq36TZyy3FWiTn
+	 B5JC9rU3ADl82tq64bDRGFlV2NLyjhAO9fPnLejhbwzeG1Z9dc6ee0GVq9fDWJMr9G
+	 uEn9b1MhNhFVniqfmxfA0bqOs/QBhcC6kPjZ8hJFtdA34IHlyTNGGcCj68Y62ICtjk
+	 Ouq+kpEpWGx9PHR9MkFKZswgqiZXimSJHDR7+eldSuTYGotHgFLXgZCx0dKYEpIAcw
+	 6pYXyTE/pVVs21IvMkWqyQ4k+6ZNZ7Rqbrs3FA5NB7/Klj97W0Huza14rR1CDkHC3E
+	 tLDaFtIRr3wRA==
+Message-ID: <a0736b1b-707e-4f24-8249-c7363c673a43@kernel.org>
+Date: Tue, 3 Nov 2026 07:54:21 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,77 +51,140 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fmbssy6xzbjtangh"
-Content-Disposition: inline
-In-Reply-To: <179365616498.28818.15452478866037209509.b4-review@b4>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 19/23] tty: sysrq: let procfs copy in writes to
+ /proc/sysrq-trigger
+To: Christian Brauner <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>,
+ Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
+ Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados
+ <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+ coreteam@netfilter.org, kexec@lists.infradead.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-doc@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>,
+ linux-input@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
+References: <20261102-work-procfs-drivers-v1-0-a994bd4d3b1a@kernel.org>
+ <20261102-work-procfs-drivers-v1-19-a994bd4d3b1a@kernel.org>
+Content-Language: en-US
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ xsFNBE6S54YBEACzzjLwDUbU5elY4GTg/NdotjA0jyyJtYI86wdKraekbNE0bC4zV+ryvH4j
+ rrcDwGs6tFVrAHvdHeIdI07s1iIx5R/ndcHwt4fvI8CL5PzPmn5J+h0WERR5rFprRh6axhOk
+ rSD5CwQl19fm4AJCS6A9GJtOoiLpWn2/IbogPc71jQVrupZYYx51rAaHZ0D2KYK/uhfc6neJ
+ i0WqPlbtIlIrpvWxckucNu6ZwXjFY0f3qIRg3Vqh5QxPkojGsq9tXVFVLEkSVz6FoqCHrUTx
+ wr+aw6qqQVgvT/McQtsI0S66uIkQjzPUrgAEtWUv76rM4ekqL9stHyvTGw0Fjsualwb0Gwdx
+ ReTZzMgheAyoy/umIOKrSEpWouVoBt5FFSZUyjuDdlPPYyPav+hpI6ggmCTld3u2hyiHji2H
+ cDpcLM2LMhlHBipu80s9anNeZhCANDhbC5E+NZmuwgzHBcan8WC7xsPXPaiZSIm7TKaVoOcL
+ 9tE5aN3jQmIlrT7ZUX52Ff/hSdx/JKDP3YMNtt4B0cH6ejIjtqTd+Ge8sSttsnNM0CQUkXps
+ w98jwz+Lxw/bKMr3NSnnFpUZaxwji3BC9vYyxKMAwNelBCHEgS/OAa3EJoTfuYOK6wT6nadm
+ YqYjwYbZE5V/SwzMbpWu7Jwlvuwyfo5mh7w5iMfnZE+vHFwp/wARAQABzSFKaXJpIFNsYWJ5
+ IDxqaXJpc2xhYnlAa2VybmVsLm9yZz7CwXcEEwEIACEFAlW3RUwCGwMFCwkIBwIGFQgJCgsC
+ BBYCAwECHgECF4AACgkQvSWxBAa0cEnVTg//TQpdIAr8Tn0VAeUjdVIH9XCFw+cPSU+zMSCH
+ eCZoA/N6gitEcnvHoFVVM7b3hK2HgoFUNbmYC0RdcSc80pOF5gCnACSP9XWHGWzeKCARRcQR
+ 4s5YD8I4VV5hqXcKo2DFAtIOVbHDW+0okOzcecdasCakUTr7s2fXz97uuoc2gIBB7bmHUGAH
+ XQXHvdnCLjDjR+eJN+zrtbqZKYSfj89s/ZHn5Slug6w8qOPT1sVNGG+eWPlc5s7XYhT9z66E
+ l5C0rG35JE4PhC+tl7BaE5IwjJlBMHf/cMJxNHAYoQ1hWQCKOfMDQ6bsEr++kGUCbHkrEFwD
+ UVA72iLnnnlZCMevwE4hc0zVhseWhPc/KMYObU1sDGqaCesRLkE3tiE7X2cikmj/qH0CoMWe
+ gjnwnQ2qVJcaPSzJ4QITvchEQ+tbuVAyvn9H+9MkdT7b7b2OaqYsUP8rn/2k1Td5zknUz7iF
+ oJ0Z9wPTl6tDfF8phaMIPISYrhceVOIoL+rWfaikhBulZTIT5ihieY9nQOw6vhOfWkYvv0Dl
+ o4GRnb2ybPQpfEs7WtetOsUgiUbfljTgILFw3CsPW8JESOGQc0Pv8ieznIighqPPFz9g+zSu
+ Ss/rpcsqag5n9rQp/H3WW5zKUpeYcKGaPDp/vSUovMcjp8USIhzBBrmI7UWAtuedG9prjqfO
+ wU0ETpLnhgEQAM+cDWLL+Wvc9cLhA2OXZ/gMmu7NbYKjfth1UyOuBd5emIO+d4RfFM02XFTI
+ t4MxwhAryhsKQQcA4iQNldkbyeviYrPKWjLTjRXT5cD2lpWzr+Jx7mX7InV5JOz1Qq+P+nJW
+ YIBjUKhI03ux89p58CYil24Zpyn2F5cX7U+inY8lJIBwLPBnc9Z0An/DVnUOD+0wIcYVnZAK
+ DiIXODkGqTg3fhZwbbi+KAhtHPFM2fGw2VTUf62IHzV+eBSnamzPOBc1XsJYKRo3FHNeLuS8
+ f4wUe7bWb9O66PPFK/RkeqNX6akkFBf9VfrZ1rTEKAyJ2uqf1EI1olYnENk4+00IBa+BavGQ
+ 8UW9dGW3nbPrfuOV5UUvbnsSQwj67pSdrBQqilr5N/5H9z7VCDQ0dhuJNtvDSlTf2iUFBqgk
+ 3smln31PUYiVPrMP0V4ja0i9qtO/TB01rTfTyXTRtqz53qO5dGsYiliJO5aUmh8swVpotgK4
+ /57h3zGsaXO9PGgnnAdqeKVITaFTLY1ISg+Ptb4KoliiOjrBMmQUSJVtkUXMrCMCeuPDGHo7
+ 39Xc75lcHlGuM3yEB//htKjyprbLeLf1y4xPyTeeF5zg/0ztRZNKZicgEmxyUNBHHnBKHQxz
+ 1j+mzH0HjZZtXjGu2KLJ18G07q0fpz2ZPk2D53Ww39VNI/J9ABEBAAHCwV8EGAECAAkFAk6S
+ 54YCGwwACgkQvSWxBAa0cEk3tRAAgO+DFpbyIa4RlnfpcW17AfnpZi9VR5+zr496n2jH/1ld
+ wRO/S+QNSA8qdABqMb9WI4BNaoANgcg0AS429Mq0taaWKkAjkkGAT7mD1Q5PiLr06Y/+Kzdr
+ 90eUVneqM2TUQQbK+Kh7JwmGVrRGNqQrDk+gRNvKnGwFNeTkTKtJ0P8jYd7P1gZb9Fwj9YLx
+ jhn/sVIhNmEBLBoI7PL+9fbILqJPHgAwW35rpnq4f/EYTykbk1sa13Tav6btJ+4QOgbcezWI
+ wZ5w/JVfEJW9JXp3BFAVzRQ5nVrrLDAJZ8Y5ioWcm99JtSIIxXxt9FJaGc1Bgsi5K/+dyTKL
+ wLMJgiBzbVx8G+fCJJ9YtlNOPWhbKPlrQ8+AY52Aagi9WNhe6XfJdh5g6ptiOILm330mkR4g
+ W6nEgZVyIyTq3ekOuruftWL99qpP5zi+eNrMmLRQx9iecDNgFr342R9bTDlb1TLuRb+/tJ98
+ f/bIWIr0cqQmqQ33FgRhrG1+Xml6UXyJ2jExmlO8JljuOGeXYh6ZkIEyzqzffzBLXZCujlYQ
+ DFXpyMNVJ2ZwPmX2mWEoYuaBU0JN7wM+/zWgOf2zRwhEuD3A2cO2PxoiIfyUEfB9SSmffaK/
+ S4xXoB6wvGENZ85Hg37C7WDNdaAt6Xh2uQIly5grkgvWppkNy4ZHxE+jeNsU7tg=
+In-Reply-To: <20261102-work-procfs-drivers-v1-19-a994bd4d3b1a@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+
+On 02. 11. 26, 16:07, Christian Brauner wrote:
+> Implement ->proc_write_buf() so procfs copies in what is written before
+> it pins the entry, and handle the keys from that copy. Writes larger
+> than PAGE_SIZE - 1 bytes fail with -EINVAL now. They used to trigger the
+> first key, or all of them in bulk mode. procfs allocates the copy, which
+> is as small as the write, opening the file allocated as much already.
+> 
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+
+Reviewed-by: Jiri Slaby <jirislaby@kernel.org>
+
+> ---
+>   drivers/tty/sysrq.c | 9 +++------
+>   1 file changed, 3 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/tty/sysrq.c b/drivers/tty/sysrq.c
+> index f4571d05b496..99363e1b59ed 100644
+> --- a/drivers/tty/sysrq.c
+> +++ b/drivers/tty/sysrq.c
+> @@ -1200,17 +1200,14 @@ EXPORT_SYMBOL(unregister_sysrq_key);
+>    * However, if the first character is an underscore,
+>    * all characters are processed.
+>    */
+> -static ssize_t write_sysrq_trigger(struct file *file, const char __user *buf,
+> +static ssize_t write_sysrq_trigger(struct file *file, char *buf,
+>   				   size_t count, loff_t *ppos)
+>   {
+>   	bool bulk = false;
+>   	size_t i;
+>   
+>   	for (i = 0; i < count; i++) {
+> -		char c;
+> -
+> -		if (get_user(c, buf + i))
+> -			return -EFAULT;
+> +		char c = buf[i];
+>   
+>   		if (c == '_')
+>   			bulk = true;
+> @@ -1225,7 +1222,7 @@ static ssize_t write_sysrq_trigger(struct file *file, const char __user *buf,
+>   }
+>   
+>   static const struct proc_ops sysrq_trigger_proc_ops = {
+> -	.proc_write	= write_sysrq_trigger,
+> +	.proc_write_buf	= write_sysrq_trigger,
+>   	.proc_lseek	= noop_llseek,
+>   };
+>   
+> 
 
 
---fmbssy6xzbjtangh
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH net-next] net: ena: Fold header containing PCI id
- definitions into driver
-MIME-Version: 1.0
-
-Hello Arthur,
-
-On Mon, Nov 02, 2026 at 09:49:24PM +0000, Arthur Kiyanovski wrote:
-> On Mon, 02 Nov 2026 12:09:05 +0100, Uwe Kleine-K=F6nig <u.kleine-koenig@b=
-aylibre.com> wrote:
-> > The file ena_pci_id_tbl.h is only included once. Fold it into its only
-> > consumer, simplifying a bit en passant.
-> >=20
-> > Note that I took out the trailing comma from the expanded value of
-> > ENA_PCI_ID_TABLE_ENTRY() and thus these commas have to be added when the
-> > macro is used improving readability.
-> >=20
-> > Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
->
-> I'd prefer to keep ena_pci_id_tbl.h as a separate file - ena_netdev.c is
-> already by far the largest file in the driver, and I'd rather not grow it
-> further when there's an alternative.
-
-File size isn't a relevant metric for me, but I can live with it that
-it's one for you.
-
-> You're right about the missing definition though, and I think we can fix
-> that by adding #include <linux/pci.h> to ena_pci_id_tbl.h instead. Would
-> that satisfy your check script?
-
-It would, the minimal header to achieve that is <linux/device-id/pci.h>.
-I'd stick to that for v2.
-
-> The rest of the cleanup can be applied to the header instead:
->=20
->  - drop the #ifndef guards around the PCI_DEV_ID_ENA_* defines, nothing
->    defines those names anymore
->  - drop the PCI_VENDOR_ID_AMAZON fallback too, <linux/pci_ids.h> has had
->    it since 4.18
->  - keep the trailing comma change, that's how the other drivers do it
->    (mlx4, e1000, cxgb4, qlcnic, ...)
->=20
-> Would you mind respinning along those lines?
-
-Will respin later today or tomorrow.
-
-Best regards
-Uwe
-
---fmbssy6xzbjtangh
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrpgicACgkQj4D7WH0S
-/k4h4wf7BnWnpyFdy5t4kYuzGwH0D4hl5r6jwwVpNlRESO2NGcbD42sXBuT1L79v
-GSMzWDB7jllHfMen947CoYaPAb5N5svMpDw9TjY1MO8hiTnzwzBCvIjaSvI6+nfS
-SOTcbPkPoBLrdHlwk45oaFZ1CqCYYmud16tIkvA2G/Rrp+S9wQ6I1h0wZkWZ5ncC
-37KbLYNcuhRRYQli/XCeIrQ6nKTF7f59q01bJdrMQWXrcHrNmMzYLxkxKFg3FREu
-jBYBvuX44fxKZHDGcH09Uy134k3yQ+I+JoXGh2v8ylG42xzQ27jGjq/UEXz0iISz
-uuuhFvyoIGTp5OBOsDhGMkb5UntSGQ==
-=I/JX
------END PGP SIGNATURE-----
-
---fmbssy6xzbjtangh--
+-- 
+js
+suse labs
