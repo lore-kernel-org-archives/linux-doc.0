@@ -1,103 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793693349;
-	b=lMYU6oXmLSaO/hBXJbqIfL3ysWfONUvr+ZijDTOF29xhASMOGJXeQbjnUdlv0WUazgXJ
-	 CT3mJJcVrhzKXUlYHEfSz4TY3hlVZ6q8T7yKPJYOVeN3X7qhSfOhfDWGwfTV154lJT5Th
-	 LAWWmQK9GfL+S5RoHj+f9TMO5gnltNF6YLXCW+63O51JBWsFYAHhKIqU9h8HZD5pHIIp1
-	 n4d0ZDxWzjUiUD/4ZoHsy7XZ36ggP8ErYedgkcipiGsbD9lcNOmgYzL9EdXjMNCBpSj0k
-	 mtur4cGU/WQdB208MYOwjIY+DEEirQMYNYgCc2MWA6q+KE+O1h8Vnbc+9GStyDQ0tpg==
+	t=1793693380;
+	b=1oyWwl0zrhMuhHZdDqC6f/YGNo3XGM74o25ausBtSGiEv+GJzkq3Unp3E9L1TxsXefLY
+	 LHGxR7TLQGzkw2ZzHe7IApbZopdlSMmKsPOzHqrC0+bwuTcpLp6ZXTIUl4YBChO+nCLyh
+	 WE7CmuHPD5CS2vxx00/Lv7rV+RgcKcDJ6F16RTsI1b9L/kvwZkAwhsZ4d33PUgpqyX/DH
+	 KnwKUq76Qa+TH9JohGeB1ah8OzXv9DzYg1Etl7Z97ZfnNqoVHCAbQN6qWaQVBWEPc/YNR
+	 KaPCYhvAmmnDsuBkJCDfQV86qin4l1TmU/0GwV/LeTVMiXms2oF8iMeCd0IQLSo/g4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793693349;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=vOwlBcev1S8HKV7nx+URCpkHr4Kt/un4+8T7BIrH814=;
-	b=Zo6K1/1/g7pB6J7XZnJwElRKmaL4KapUTQ0qRxV8smHtTJOB6JsmYdXibMfKiBxn79v0
-	 XvCpWRWsY8GwxUwqNMAlg2z0aW+igwK2zDrtvLx4Iu1DX02lL2Yywlm5dYvlQjy/VieCX
-	 eRYBcKX8t4CIpmlK4Lx4mOz8nRejMc5ILLFc0cEvEsNAej/23am/7aeMEPBTLqHc7Mxuq
-	 ffe+M5F/CoinlRJEmIE5MWFgYO245uSnDgjY3vVLy4Nm7KbOvp0X3PJomkdqVjz+iSbtu
-	 omJrV+sWbYFbqevhiv/cIhS8ZHumv6M8oM++w+cg0WvfTm5iY4V66P1utqmVk/8EvUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793693380;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=2on3ft6XH1eubxEl0nHP4ZK9AQjcmYaJw++Tp033neA=;
+	b=2ZZxU1TgypeRyTKl0ARemZdE331gz08kvEQox0MfJxN4l42vkBeNyP8QzvZ1SBnhVvg6
+	 7DuTuGLorJvtPfIdX2nL6Vk/Rt0MLjOKOJoYPQd5+hoSCTsOYvxNZtVrfzpdBSQpHC5o6
+	 Tvh0/aPjRsSv7GhhDP1csM2wkMZq7CWvd8eYZfRSS55B02bdQnv0mAN2Snfq8Z5oiH8LP
+	 0dp83o3osc7JlpHs4xbJy9ST5OSvh2DfO/zUZXGBDyOFkc/teJtNsb5aJHZWpwOEQFlom
+	 b6F593/vy46t0VUC77/UU1ksyhbcQhm1jMdwUNn93UVUa+D3u5tcXl49bt20Ve+87lQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LLAOPlZV;
-	arc=none smtp.remote-ip=74.125.82.176
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1259E606D80B
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 08:09:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1259E606D80B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LLAOPlZV
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-3514b90bb89so8045539eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 00:09:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793693348; x=1794298148; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vOwlBcev1S8HKV7nx+URCpkHr4Kt/un4+8T7BIrH814=;
-        b=LLAOPlZV7KPzNmDYlzDokDkrmFSdi2KAjN1Ua8m1mfIGID1L0l7glCXrdPkRLfmK17
-         +Enh7KuaBEptKFeoIsmBzqslqMTte/7pdXJKFIo3QmmkwWPrmVBpQ7xxlJmq8NpkJ9fG
-         ybuD76d1YsNxzD+bSmLFksuH9hR59zljUaVZk4Mwf3nlQVyCimPSUnecEqQ1a6mJzc6d
-         9hYVk9jjVVgcWLCTDjM2z1ty11jjURy45k3SbalYMFPbEyk/Lg+u6pXmWEfF/ZoyEFgY
-         A7pnbenVnSvcgvGldM0rtNfyerhDlf1fMP6/5WelSGG8TKAd+zecMXIDVzCFyOrFkWtw
-         vQ1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793693348; x=1794298148;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vOwlBcev1S8HKV7nx+URCpkHr4Kt/un4+8T7BIrH814=;
-        b=NodizBl0C4+aBxwhtx4yHlr64SSsNFGgbGkYudAf0qO2gcz8FohqsE0vUCCA5UaF+p
-         5PeQ0FSy6W0hPYpVEl/fn6Pa+v2znFikPcoL4Gm6T9WadbJv4m1gLa/lYG0U2GsOFodn
-         k5APsF6merakExqK7m3VSQkYWVr2HhTPPvToQaDvIRApJBOBwOinyi/Deq389KCi9/eH
-         8ctTpfJbAbUSyFLOBkRkq26T3sqGyb9WAr53FF50X8AUaZmpc0rSIngqyAVm4SKKiQzu
-         var8wZbpsqsGpb54QdfVTU2tdYF+reokaQ7LjVdzLTj2a17FlR4Hnqgpn1y5a3AOBVST
-         +41A==
-X-Forwarded-Encrypted: i=1; AKwUvByEl+lfUih4fUBKeBcdHvauPLQedaY9nCpkxoYkf1EsoZ8zZ9lQOX6JhsAJWVWiwzkKfmYsh0kELQo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9BLfjjwAnVs+kR6CRBD4MnBz/yCF1OnYzFBiw+CMR5F2IU8+Az
-	ndqtvRwGIZBpIIwRuF1WbcKaIc6rkai9tRSpE8VcxGb9ThEYmEcyfaf4
-X-Gm-Gg: AYBFou1/H81Fk8AQi9V+5cK1ltyzVX3/YWMQyU1DxsjiaVDerQpQl3gkYD9GOnmlIBu
-	QyvpluavxOM+k2QBz2wJW7L01DKrbhl8nMFr3kBIMxXhdYEUd79THty3vlr5O6S1XfCFg8T+pGi
-	50eVDISFHfqAqDO/w9i+HHNeT8I/IVJZqMON8qOYKpuWk6/dZuIO3KNA44nQL2JBvTW7oRUi2NH
-	ribs3jsTJcFBrEEDWxQMS9OFKzt8thTykafwrguqlSmC+0xa2Ox5eK6JAxOvCt4mwpB7jroYj2v
-	0facq6ts/MiHJ3LdWh84IPNrcEXT6xkjw4GqtxkjQVQFC/hD4XYVzBn0GG9B12XcvxEt5BOJgef
-	HRlrDQ3XEgmQKuWO7b49ueO9O3DiIHJGxiDVUMVR+YcmNIy60EVC8J4hA0xcMEbpSMZp/TspzBc
-	mRElinfT3bYSUbuvO1+f3Wx2Gf+pqIO1aKUcxVQgoxrRQ9oOFeuLaNVBwl96aMeix/K2t3EMrQp
-	yN9B5ur02+U1eE+pXFYBvRxBn9ekxdtH/HorACIoR9ea7BiMgGawcnqF9oSlUIKyU8e5VBa4P66
-	O8MsZ8SZH5DFfmI5DYAl73rMtJ5/q26luiWD1E/pnwrpoNCYBeksStlb7z3vApLzSkAoxsuBWmY
-	ivOUuzte/cm+8WnUjGRnnAVLvLrbTxb2/0QVipc5maqvvM7o=
-X-Received: by 2002:a05:693c:638e:20b0:369:ef63:ea95 with SMTP id 5a478bee46e88-36a423624c8mr18389092eec.6.1793693348178;
-        Tue, 03 Nov 2026 00:09:08 -0800 (PST)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428fa380sm41468466eec.12.2026.11.03.00.09.05
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 03 Nov 2026 00:09:07 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.de,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v13 12/12] docs: describe virtio-sound capture options
-Date: Tue,  3 Nov 2026 17:08:21 +0900
-Message-ID: <20261103080821.16983-13-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261103080821.16983-1-mynameisjune111@gmail.com>
-References: <20261103080821.16983-1-mynameisjune111@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC50F606A334;
+	Tue,  3 Nov 2026 08:09:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC50F606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 1E82268B05; Tue,  3 Nov 2026 09:09:34 +0100 (CET)
+Date: Tue, 3 Nov 2026 09:09:33 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Luigi Rizzo <lrizzo@google.com>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Willem de Bruijn <willemb@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Joshua Washington <joshwash@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
+	netdev@vger.kernel.org, linux-mm@kvack.org,
+	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+Message-ID: <20261103080933.GA4213@lst.de>
+References: <20261003212241.3432303-1-lrizzo@google.com> <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org> <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com> <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com> <20261022201229.GH3381610@ziepe.ca> <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com> <20261023140107.GC3977851@ziepe.ca> <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com> <20261023145023.GH3977851@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,60 +76,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023145023.GH3977851@ziepe.ca>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Document the five opt-in capture module parameters introduced by this
-series. All default to false. Describe the startup-empty, short-payload,
-packed-status and pause-restart compatibility behavior alongside staging,
-and require validation with the target device.
+On Fri, Oct 23, 2026 at 11:50:23AM -0300, Jason Gunthorpe wrote:
+> > Disk I/O is still potentially affected by the same problems
+> > (cost if io mapping/unmapping, iotlb thrashing, bounce buffers
+> > in confidential computing...)
+> 
+> The disk folks already have a proposal to address all of this using
+> io_uring and preallocated buffers. I really doubt yet another version
+> is going to be interesting there.
 
-Keep the virtio_snd entries after virtio_mmio in alphabetical order.
-Include a diffstat in every mail patch.
+Huh?  If you mean the dma-buf I/O it doesn't really have anything
+to do with disks, except that this is the first user.  The dma-buf
+iovec can work for every ->read_iter/->write_iter consumer, and
+should be adopted more broadly.  Including by networking instead of
+their own totally weird different world.
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
-
----
- Documentation/admin-guide/kernel-parameters.txt |   30 +++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8344,6 +8344,36 @@
- 
- 			Can be used multiple times for multiple devices.
- 
-+	virtio_snd.capture_allow_empty= [HW,SOUND]
-+			Retry a bounded number of empty startup capture replies.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_allow_short= [HW,SOUND]
-+			Accept non-empty, frame-aligned short capture replies.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_packed_status= [HW,SOUND]
-+			Read status immediately after the returned capture data.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_pause_restart= [HW,SOUND]
-+			Release and reprepare capture streams across pause.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
-+	virtio_snd.capture_staging= [HW,SOUND]
-+			Use request-owned buffers for capture data.
-+			Format: <bool>
-+			Default: false. Compatibility option for devices that
-+			require staged capture; validate with the target device.
-+
- 	vga=		[BOOT,X86-32] Select a particular video mode
- 			See Documentation/arch/x86/boot.rst and
- 			Documentation/admin-guide/svga.rst.
