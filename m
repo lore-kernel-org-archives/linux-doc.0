@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717967;
-	b=UfktYrBYSeIgxzPpY93mVZilKRH1+PLBJ3OYoFHVsLjasiMQqbx486SPe4Ru7eWo+955
-	 vzOR1+ZYbh3Wq63YGA47HI7pAWb6N4ZKt6EZm4bCXeF+5iuI6K5C78Iw6ByIA53yEzrIQ
-	 ZRRbJ5dTnBjtsUFi4FZqIe0GfJFm3Isd0hvGhEVEAEM3AFCISENCKLDjsWVUCvIixe8iz
-	 vievVkc2l3fXb7WygK02YCyPH55uvbA8+lLxCV4e8wje4dHvZJbY4XMbtEjW2grDY0/IZ
-	 hC8UKtP3JkAaJL5r8ecrp0kO37yx6p+Iyja+Vwl8TJAEUgLVoRKqpx0dzm4eYTXkONQ==
+	t=1793717972;
+	b=1hMGk6OhD+jOOOS3iJm1dcueVZGGXBlnPaTGHOS57iy3WezzhbN/cXxewOLV6+lK9vmK
+	 tz/GtDYmX5pXlw7Wd7Q7UCuCfSCXzTEw0E3uT/gzmhYskstg3bNwawciCzrriB1E1hTIx
+	 w1aAirKWm8EhnOuUssnKwYpjW9jrXjZ9eNWKPxx9WR6l4/7uAgKA2XPdBXzkymHja1pgD
+	 +6gNO38MkgFf9vkolQ9wqJJVOqttyjh0zKttt1sPnueHRkoaourULPFin9F6Ax8Zza4Kc
+	 f95/IYy5Jmw0eJzwpKbnXS+2H0gDb4K6HjXhE4d+rgPuu+xTQt4sbyv30rJ4mwRekGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717967;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793717972;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=QOOunG6x00mFeX/w/BnxH7O4uOunqE+8oUGxItzATdk=;
-	b=FODlVbn1w9pO7igfqfxUlJ2Sv2ewsYIJ6kENpmlhOGigkXmgPjzNHN/xqYWwsDqzH2me
-	 K4PW8Hg0YdwdSDW017QS8XIXwm5jRndrIeQ0yE1CFNigX6OgNAlEWDEFc8izxt8giOkE+
-	 f93Ue1w+y8lvLN6jeMtBdnOZ/qBRRkWI6ckS2cHln8SewDSOIVw/Xkc69JOUsfhzEWkyx
-	 np/kVebUjKtB2WtoU56Tjf2bXuqzSWlyr0BeYymCB7WIaxK+IScPzqHN27Q/KRVI0SJPf
-	 Lx2U2Iz/UOr8VpW7oe3+KO15ijrq/VSDLvglNj/dj6ftdbJRY3fP/j6WpchAFvUGslg==
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=GbntQKEvlhXxNlhy2QXWj+xhaVgnnTUEgCuGSk8ZKVc=;
+	b=PIH94SI7mAsMbyWayMy0p/0Lq7f3MMOpJ2lygoD2E5JL6hn7M4gw0sj3jrlc7aj80aiX
+	 BuZ918FvtWs5VyscFB2sKNymB+Bo1C9MvmZK2L4sSKO+iEItbNgQI9hKpo7MLqttC8pdU
+	 qR/SCqOT8mUhDolOJIvTLDoNlh4HIA2sJHwGi+C9s2mFWb8OI/3HPkqN6Q6pxvPEG6nfq
+	 JT4dTFB02ZQwqnitPZqtJCOaLgl8zujTXDwT4IQn4B7e1e6CJK/iK85JHzMaL9xm9Rjsl
+	 cUvV7pNEgtckfHdOU/cHgBaa4M3ZDTIa5HG1yNp2oAvG74TEIChndUu+yCcUYSpyqtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KwPLw8iM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SNmoE+em;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CD9606BA15;
-	Tue,  3 Nov 2026 14:59:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151546071A15;
+	Tue,  3 Nov 2026 14:59:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KwPLw8iM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44FA71F000C1;
-	Tue,  3 Nov 2026 14:59:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SNmoE+em
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71DEC1F000C1;
+	Tue,  3 Nov 2026 14:59:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793717966;
-	bh=QOOunG6x00mFeX/w/BnxH7O4uOunqE+8oUGxItzATdk=;
-	h=From:To:Cc:Subject:Date;
-	b=KwPLw8iM34+GvDWpXRn2Qk8kaaFw+xTRTbO0wP6xXONGTNYdC+FO/VBJgaYxNuPw+
-	 MCVn0zi8zem0QPnXDxgl2iyqx/dEmryVQTzh4ELr/fIliRqjxnDGlA06M/+ueGPRD9
-	 ImqLuWyacvMaeup2FkUAx+5n7b8/HdxNABmDPCxxF6bvRtA/inNwxnEBS1GMgjh6EO
-	 7ccz3kY/MF501KOz0iEGAWwKQ7gMXX2owHIpSKOkeRAoh+/dIj0Zi19Mj6KExVRIiU
-	 9on7CyBGTS44PWpddAUvLk4PxSQ2oVetK/MkXtX6UsUHVlQ1n9ufAqLm+ulQijVNdy
-	 eOXnwdlOdOE7Q==
+	s=k20260515; t=1793717971;
+	bh=GbntQKEvlhXxNlhy2QXWj+xhaVgnnTUEgCuGSk8ZKVc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=SNmoE+emblrWvwUykZbBCTFbNZCRHdK8DC/Ay4S/o18hSzqUMZc4iVjKLuSF2K5pr
+	 HRxlV/uBVmwzv5kAAgZ1PxxkvR4rN7gsNPauRjuW+3Ua0aOH9IqCwHe7WEUrSjOssX
+	 DIXp1Utx1ix7VMkOnBoCiLdl6iesQuG71OR5P2EMBC3FnhIzH+CW/XE5oHXu+Zc4rM
+	 /tn/UoxhZRazaYow1ZuGmgRK8xFF3kOURxSBjeTnZo4hjIKyuUAy7duF6l1JyPJI5N
+	 6ONGdHBi0cD7/D6uLX8qtlMMI+ZPd5sxCe7CAadjPgfZ43owgtiuVrzVieOgq/Ctwt
+	 Dok8Y0XGWxlxg==
 From: Thorsten Blum <blum@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
@@ -60,11 +60,14 @@ To: Jonathan Corbet <corbet@lwn.net>,
 	x86@kernel.org
 Cc: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Thorsten Blum <blum@kernel.org>
-Subject: [PATCH RESEND 0/3] x86/vdso: Improve vdso=/vdso32= boot parameter validation
-Date: Tue,  3 Nov 2026 15:58:49 +0100
-Message-ID: <20261103145848.427309-5-blum@kernel.org>
+	Thorsten Blum <blum@kernel.org>,
+	=?UTF-8?q?Habil=20Eren=20T=C3=BCrker?= <habilerenturker@hotmail.com>
+Subject: [PATCH RESEND 1/3] x86/vdso: Use kstrtouint() to validate vdso= boot parameter
+Date: Tue,  3 Nov 2026 15:58:50 +0100
+Message-ID: <20261103145848.427309-6-blum@kernel.org>
 X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261103145848.427309-5-blum@kernel.org>
+References: <20261103145848.427309-5-blum@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,24 +78,42 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=881; i=blum@kernel.org; h=from:subject; bh=uwB5tWMT98tHP7TVpJKSs4ixsyhtyBoJgd2JGHUineg=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFkvv614yuRlc+BOaBW3aNHVy56crxf6rft7/c5Uf/53A r0+dVYyHaUsDGJcDLJiiiwPZv2Y4VtaU7nJJGInzBxWJpAhDFycAjCROxsY/grN7Cow9/eV9u4K WXq/zyB4i4rBFdZnMfEVRwQjnE2nGDEynNXJfP+6NEnp3jzu9beTy9znM9zf9a7p1v2axTdclk8 qZwMA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1330; i=blum@kernel.org; h=from:subject; bh=EblFhRIe2mw5ShrwkG8VppCB8GG0zmF+3AyLWzgda70=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFkvv21UXWp6lkeiUFe2KnNdyOWvXlfCaqxYOncp3E7gN eKq/ybUUcrCIMbFICumyPJg1o8ZvqU1lZtMInbCzGFlAhnCwMUpABPZmM/I8LiYNWz7Ve6VLi0e RVPtAspuz+E9rt/+ZP6CoLJf7JN7CxgZvjPOl+B49DDP7IX7qoKelwKTP7nO255p2hNwzm0D7/k kVgA=
 X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
 
-Replace the deprecated simple_strtoul() [1] with kstrtouint() when
-parsing the vDSO boot parameters. This provides strict input validation,
-rejects partial input, and warns when disabling vDSO for invalid values.
+Replace the deprecated simple_strtoul() with kstrtouint() when parsing
+the vdso= boot parameter.
 
-Adjust both warnings for consistency and update the documentation.
+simple_strtoul() accepts partial input and silently converts invalid
+input to 0. Use kstrtouint() for strict input validation instead and
+reject malformed input. Accept only 0 and 1; warn and disable vDSO
+support otherwise.
 
-[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#simple-strtol-simple-strtoll-simple-strtoul-simple-strtoull
+kstrtouint() converts the input string directly to an unsigned int,
+avoiding an implicit conversion when assigning to vdso64_enabled.
 
-Thorsten Blum (3):
-  x86/vdso: Use kstrtouint() to validate vdso= boot parameter
-  x86/vdso: Use kstrtouint() to validate vdso32= boot parameter
-  Documentation/arch/x86: Remove obsolete vdso32=2 compatibility note
+Reviewed-by: Habil Eren Türker <habilerenturker@hotmail.com>
+Tested-by: Habil Eren Türker <habilerenturker@hotmail.com>
+Signed-off-by: Thorsten Blum <blum@kernel.org>
+---
+ arch/x86/entry/vdso/vma.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
- Documentation/admin-guide/kernel-parameters.txt |  5 +----
- arch/x86/entry/vdso/vdso32-setup.c              | 10 ++++------
- arch/x86/entry/vdso/vma.c                       |  6 +++++-
- 3 files changed, 10 insertions(+), 11 deletions(-)
+diff --git a/arch/x86/entry/vdso/vma.c b/arch/x86/entry/vdso/vma.c
+index 4bd3b22beea9..6e59bad7cf01 100644
+--- a/arch/x86/entry/vdso/vma.c
++++ b/arch/x86/entry/vdso/vma.c
+@@ -298,7 +298,11 @@ bool arch_syscall_is_vdso_sigreturn(struct pt_regs *regs)
+ #ifdef CONFIG_X86_64
+ static __init int vdso_setup(char *s)
+ {
+-	vdso64_enabled = simple_strtoul(s, NULL, 0);
++	if (kstrtouint(s, 0, &vdso64_enabled) || vdso64_enabled > 1) {
++		pr_warn("vdso= values other than 0 and 1 are invalid; vdso disabled\n");
++		vdso64_enabled = 0;
++	}
++
+ 	return 1;
+ }
+ __setup("vdso=", vdso_setup);
