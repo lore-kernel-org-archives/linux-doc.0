@@ -1,61 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793697900;
-	b=onOYPNNmvoj7VRTayZ0ky56Y1jojvm80heCtxT2iRObiC3ZHkMfr/LGm0APoJuc5akd2
-	 fW5029BGkOrXJN4SWYmzjPZWipvslz4UXNY+s3MKvqjTo1igGPrjSSYTuszqYnwQiH4cj
-	 cuLJpu5xsRke+T9SpFLXZKV/36aDf1Lzm8YXy8FKgMvNgN+c+e/jLoFW1MJW6E4HvVGYd
-	 MtFmagJBI32YrZCoSVbGeuUJkeedWlbDS/ycXIAmAqWHwiJWkJJqi0zUYlZC7t/Dxdkqh
-	 PCBfH6VXmzdcYepHBpV83Bb3ZMPme8obnq52ystMtnyZLekbrKehd2Jhlo4BiYfjHuw==
+	t=1793698199;
+	b=WwT3NOecR4ySVxSnCO02JDzTDzLNJrPEYe5iVZznYQuS3ufz9bs0B0jHdZVWf0JKMjOL
+	 K6/EKDKL+OY3oIlqOb0xN/l0lL22vC0SCIU8cOwP2UbtcZnuayg8igGhHwpZJhk057PPb
+	 huQUNQceSWsP1kOA38Bup0384K+6pA7ZyUt1l8HF4oBew7g71htMewrr1lBP/3mc1ZUpt
+	 nBmNc2nu02gZ5RDe94E+UWaYn4HqyyhoheDWUbGuT5Gime390Ct6oCfgZ/1k5tJp3DABj
+	 3fiDfotKMGDvnoUW4YcqBxdcBCanleLvvbStsm9wQ2kqZnLwGNu/G9ouqqghWKhXCuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793697900;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Y53QIYpD7wjqmJYR8fzWA4+4yo7uKK86RU2Kss38ssY=;
-	b=YRpQdlqeYPni/McJJusRZPtG97f0u1U3WfEXgQtkJfoob6cSpgwu/Sg3FYNEERCZBB4+
-	 xKxU1W46zy33hNaw9yhNuZuk3xgp2kZjSHFGm3oo080CrkOIOLX6twX+Z16dU8R+ZH2hD
-	 8UwQwr3S2KZOb5ktP70ZzaWpKvPUacX9HmCHfT956AkgvyAAMsl+ISP3zD1o4Z2F8MQ/b
-	 Wqca4okiOksTuK/KbqvXTHI/CYamgPuviTrXfws/gtNZu/7FAJ4nhHSvpXNL0MQy1vJbc
-	 NrHOvIDgGMFTGXn+dHFUd+fzod6iUVj8nx/fjIFfAy8abL78xHpMEqpHIC8H8GeUvBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793698199;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=CkFM9E5nfWdnLbDGQzZA+rThnrcRob04z1+EqW99MTE=;
+	b=2lPHkvXlIAwUJvyy5y3Bu/Ebnb4KjxU2OjvXtC4W1yPb6CttK01XpHAt4LBlrPnSuy8X
+	 6Hg1CCNaV3fwXZJ5rJK7fM1LzACVdkzgfy6Dxf4YdFwTEF+71Swz9OfdTDcFt/sk7X5uq
+	 LfXY7T9BhY56w1tY3c6NDBHw4RipgavyXLCtmB9iQRAQfqbndvBr2xM5UcBiIEFgmGQF7
+	 WlFfULtcT7MaT8XfndYJ5kpVk5n1NIfC2DndeC0zIy6DPEQ2flheAdVGOlGNcg6u5I8Po
+	 ZwsTxypwag2Sg9KXxup5jzrSQb/OWDzpwbZKLDhepdF8Xgi04VnWJycgcp/z2QhU5JQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K3yrovMq;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458C6606A324;
-	Tue,  3 Nov 2026 09:25:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=K3yrovMq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21911F000C1;
-	Tue,  3 Nov 2026 09:24:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793697899;
-	bh=Y53QIYpD7wjqmJYR8fzWA4+4yo7uKK86RU2Kss38ssY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=K3yrovMqdy6HhmOPbm4Ti0es2kgNpyacjrgDG2XoZVRiiVLu0G5H2da3S8d05b9/8
-	 F25G+k7Hbws5INlfoVJyodRN8+tqKBgNLv3xBa+p6v3ZjY4D8UNwFiBVhzAW7We/Oo
-	 iInPY9idqDd596i70NbQkSZBL+/tooOLc5y681PjOKaXIog/+gKNpeOagk/tD4jWPB
-	 moTQRizAWIp3QwGwCqxy/DiIlWUwNdR/dC6z0ZYnz3e3LvbfUcmsCH7qkmWX+N2ndV
-	 fT2z2TPd6EXmtl1JAzKEs2ouxyltBOCHOEL5U3B8c1TCOyqGFSnowgZXDcbjVxycrW
-	 54WNB0JVOz8Hg==
-Date: Tue, 3 Nov 2026 10:24:56 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Ian Rogers <irogers@google.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Dom Cobley <popcornmix@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>, Stefan Wahren <wahrenst@gmx.net>, Ray Jui <rjui@broadcom.com>, 
-	Scott Branden <sbranden@broadcom.com>, bcm-kernel-feedback-list@broadcom.com, 
-	linux-perf-users@vger.kernel.org, linux-rpi-kernel@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v16 1/3] dt-bindings: perf: Add Broadcom Raspberry Pi AXI
- PMU definition
-Message-ID: <20261103-electronic-teal-kraken-5ebcec@quoll>
-References: <20261103041416.2940213-1-irogers@google.com>
- <20261103041416.2940213-2-irogers@google.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D33D606A327
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 09:29:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D33D606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48afcfc4bf5so4040788f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 01:29:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli.us; s=google; t=1793698191; x=1794302991; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CkFM9E5nfWdnLbDGQzZA+rThnrcRob04z1+EqW99MTE=;
+        b=nD17MX4VzW88+nrnz9SgdcaYPQcOIkfh/S0yrXnMfUgiGGl0fkKSlltWyjDbQPyYMJ
+         eyJkJVCpvVbC4gP0OT8sEk1TVUj+BlCLU49pQgURFggfuzWLnbpspFwvtmXmiSM7p97k
+         Avk1+QdCZOKyymL8Xg/4fiDOAl4JzMdXU+h4yuR2KLxssHGZ1M6W1XKjWStlpIxt+gQG
+         EFvhWnv2HNS5oUqS9tj0RFT7ennBps/r5yNAsEvJLGB++paTLGgKMOvxgHjaZHrL2mF/
+         ShzDEeNLBnaPa9J3paZGOvdsYyNmHo4uMXZnKOLeuiZJYrrkShVMAtnqhblAA5vTMEZM
+         xpHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793698191; x=1794302991;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CkFM9E5nfWdnLbDGQzZA+rThnrcRob04z1+EqW99MTE=;
+        b=BpSpyk8iiEX5o7kcvpY9vUU37Xi5ggrdd6AiaF9q50v6tt9xQCiUwHkB1EU6tcCbzW
+         BWJzyiSC8/NJv4Yxtz/p8oghH2Sw0o38nFDWjvF2LCwoao9QxTCYVecdv0KwXkzjh8UE
+         MYCWcC8Jm0w2NckINaMGDdFNlgY7MRLkYvTgoxNxxUl+V9Q73LGXErz5McfI87eHk/ej
+         MYbP8nPX/G6v/Lsv/xPzYhg+ssXFBAnkzS99ZvA2+hcWMAoqDYFvdAa3woZFfs/cev20
+         M1iK/Cd0NUp5A4ckKEfkvyKyyM/MnYNNVthrhU1VqNRpKd9jjxoiIL8Cvsn+2eSaSSC4
+         UvBA==
+X-Forwarded-Encrypted: i=1; AKwUvBx35eiFvUvVvEf+haeTVFfuUdgzGFhTCSZouiAVpJPQxDRH67RptiKlEjgee0MWUGlcU6e1bWx6RF8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+LkjZ+cvWh3YShxdP4LORki/ccv4WnDlBgcpdceesnrjskkMGP
+	VZPhZgUxNbWIkpXg+4EwifNtTRD32zWLUil1X4DJzH8JgyTsn3tY1dLWF78mRHo+LCU=
+X-Gm-Gg: AYBFou0crgXnyfM33yLkRE7zUSbZCUveh4nezA0nbHStBzEwfVLO4CpsFFEV8SstoTc
+	IauMqqBMqVUmGJR2euF6U6ZLNPyYfvDMNiI1CCnwWgpX9aaCjqU28RWVllf8dGDZqNjVEuPo0ck
+	R5B0Vl0LFF6fDFz0N23DhTakd/km4uSig3QGJcsaivzdjdG4+YRii6uMbJUsDL7/8RMPLKsULDL
+	Xapnxr4I6wEWp2iYZ5f26xOhHVSCKNBWY6t3+aLi8ga3isLxgHgs010Fus7usIYztuNf+1EkiHX
+	W6Z5ZF85xbktA/2dJN6xfck+DI7K0z48l+4dljeTjefsfDcB+iAOTFuEGxpLSnettOudln+U6Ey
+	M1XvDbIYmcveOtO/92yISezYR3H7yH0p6N07Y32X1rZmTLouH7rJd6vf3qBcDlSvrZ8JH4Q4n83
+	GMiL9gORBoLPFc2KQhXDxuEG1EUoJuqgi/mXTpBq5ZBaTvKGPY+si39Y0YdKQ3rU+6dwYTmzSlx
+	ACuXkKMuryQ0oLmqFQn3YYj3mLR8qdUXrLwVpuZjsQS0xj8GbpF+oiIgZcXM8NC58Zbfhe6/Do3
+	iC9/xE/Oe3SQ/yDPBfajIiO4q/hFAwb5BWhr
+X-Received: by 2002:a05:6000:26c1:b0:48e:870:7791 with SMTP id ffacd0b85a97d-48e6e30b824mr25816174f8f.26.1793698190820;
+        Tue, 03 Nov 2026 01:29:50 -0800 (PST)
+Received: from localhost ([208.127.45.21])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71b80eb1sm25441683f8f.34.2026.11.03.01.29.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 01:29:50 -0800 (PST)
+Date: Tue, 3 Nov 2026 10:29:45 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com, 
+	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 11/20] ctlv: Prepare runtime introspection
+Message-ID: <aumogVKtYnY0QJ2r@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-12-jiri@resnulli.us>
+ <179302367452.58760.11808905856343064399.b4-review@b4>
+ <auRmMPfaFINUIchi@FV6GYCPJ69>
+ <20261103010537.GI3889730@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,77 +104,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261103041416.2940213-2-irogers@google.com>
+In-Reply-To: <20261103010537.GI3889730@ziepe.ca>
 
-On Mon, Nov 02, 2026 at 08:14:14PM -0800, Ian Rogers wrote:
-> Add device tree bindings for the Broadcom Raspberry Pi AXI PMU block
-> found on BCM2835, BCM2711, and BCM2712 SoCs.
-> 
-> Depending on the SoC and security configuration, these PMUs support
-> either direct MMIO access for the System monitor or routing via the
-> Raspberry Pi firmware mailbox IPC for the VideoCore VPU monitor.
+Tue, Nov 03, 2026 at 02:05:37AM +0100, jgg@ziepe.ca wrote:
+>On Fri, Oct 30, 2026 at 10:53:11AM +0100, Jiri Pirko wrote:
+>> >So.. how about could we drop the sets, use a direct description of the
+>> >layout and do something else for the ID numbering? Maybe the numbering
+>> >can be solved directly by only listing the names in:
+>> >
+>> >numbering:
+>> >  - device-get.reply
+>> >  - device-get.reply.caps
+>> >  - device-get.caps.evidence
+>> >  -[..]
+>> >
+>> >?
+>> 
+>> I'm still committed to implicit numbering. For "inline records" I
+>> resolved it by having it encoded as a tree with 4 levels:
+>> 
+>>  63         48 47 46 45        32 31  28 27  24 23  20 19  16 15               0
+>> +-------------+-----+------------+------+------+------+------+------------------+
+>> |   family    |kind |   index    |  L1  |  L2  |  L3  |  L4  |      field       |
+>> +-------------+-----+------------+------+------+------+------+------------------+
+>>               |<------------------ record ------------------>|
+>
+>Fascinating idea. Sort of like an oid
+>
+>I guarentee we will run out of bits someday :) I saw recently we ran
+>out of bits in RDMA :\ 3 bits seems like quite a small number..
 
-In such case, where is mboxes property?
+Well, this is just for inlines. I think if user comes to the point this
+will not be enough, he can use named record, as he probably should with
+more than 8 inline records anyway :) Also, we can introduce "mapping"
+mechanism to allow inline conversion to named record without breaking
+userspace. I just didn't bother to implement now as it is a theoretical
+problem now as I see it.
 
-> 
-> Co-developed-by: Dom Cobley <popcornmix@gmail.com>
-> Signed-off-by: Dom Cobley <popcornmix@gmail.com>
-> Signed-off-by: Ian Rogers <irogers@google.com>
-> ---
->  .../bindings/perf/brcm,bcm2835-axiperf.yaml   | 50 +++++++++++++++++++
->  MAINTAINERS                                   |  7 +++
->  2 files changed, 57 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/perf/brcm,bcm2835-axiperf.yaml
 
-...
-
-> +description: |
-
-Do not need '|' unless you need to preserve formatting.
-
-> +  The Broadcom BCM2835 series (including BCM2711 and BCM2712) features hardware
-> +  performance monitors on the AXI bus for evaluating memory bandwidth and
-> +  system traffic. Two monitor register blocks are present: the primary monitor
-> +  evaluates the System fabric, while the secondary monitor evaluates the
-> +  VideoCore VPU fabric. This block is distinct from the BCM5301X AXI Trace
-> +  Module.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - brcm,bcm2711-axiperf
-> +      - brcm,bcm2712-axiperf
-> +      - brcm,bcm2835-axiperf
-> +
-> +  reg:
-> +    items:
-> +      - description: System monitor registers
-> +      - description: VPU monitor registers
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    pmu@7e009800 {
-> +        compatible = "brcm,bcm2835-axiperf";
-> +        reg = <0x7e009800 0x100>,
-> +              <0x7ee08000 0x100>;
-> +    };
-> +  - |
-> +    pmu@7c012800 {
-> +        compatible = "brcm,bcm2712-axiperf";
-> +        reg = <0x7c012800 0x100>,
-> +              <0x7ee00000 0x100>;
-> +    };
-
-Drop the second example, redundant. They are the same.
-
-Best regards,
-Krzysztof
-
+>
+>Maybe increasing op to 128 bits?
+>
+>Maybe family/kind/index/field spread over the first 64 and then the
+>Lx's over the second?
+>
+>At the very least there should be an escape hatch so that if this
+>becomes too small there is a way to opt into some new layout and fix
+>it without breaking everything.
+>
+>Jason
