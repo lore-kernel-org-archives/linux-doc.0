@@ -1,65 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793671668;
-	b=Vt1oNz33cLxATFl9//xx5PBTjfeg8UxwvLFZ1/oXHBH2mguUOkqMZMDQGcHdNTNEhEYT
-	 aaRMuWlrN10576ChviubgSpAEFmioBAzrS32yMu+lohn98XKQ2kCdGbM0QOMJkDzfsdRZ
-	 PobOVZh5QkZGX+2KXZEyigqSmZZeCzwrcZyzdGO73RhXwtr/Caq68KTHZ62OzT+sW9XQF
-	 VX4o50Ma6kSgGWh8Xb4RJwBevj5TsfVhQnsrh9iSk/lVi79AyFdy+BKVra3m2aBE6Wph6
-	 jdh/hbN/geR0PM9bPofeys3Y3vopDV4WP4vABasvwCOHwdmAgnlbbCjT+EBtQiD3Fvw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793671668;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=bwHOQTJQeV7B3NmJTLbFBlniH4YO+jWdF1Fi2dFZaZ8=;
-	b=vKKmjX574mgjWTZ5rou6mz9j9cMIfvXcV5o7c2CVVxqcEp4+IYnVw/X3jQuIg1Ct1O2p
-	 NYpu3PtWv0KY5j5nob6bS3NhhrBU9tlttvTqL9rAfy9/q8MuEspN5CnzeUIXGxZ+hOkCQ
-	 5uwCCYpqHt1qy4l8ka5U8LZUOFvu6OOHceG5qgYnc6RZF+luPbGfGo1KDartQuQA4tPhP
-	 h4neGePSTmX8SdYsFtkx255ymsmbosLbSfmnm84e3gbLO18swcWNtYgrJRvIUtd9W2/fn
-	 9TA22LB1uqcHJ2FTwdUwPHXMzOtGgBNWjSyynbwCt1rKQy3C8oDC95f2p1JvusmRvlA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=o3kwZcw7;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793671951;
+	b=vIp/0s89S6mM+uZP8lNlojeWHGFBa9N9N6+8WjI07LdvO5xDNMD/sqM+CuNeguvlt8D5
+	 p5aI4wbNjnkUeIJdgz3aLTAhdYfLzHD9D2CDg+qxTxOJmueqH2rXgn6ToGxyGYjTWK+KM
+	 0vcAUyFOQ5bXRRMbtBvhRs8h3RQKk8/vB79+YvHfZL8isEbYKY2Xuv9eoJqK0YG2AXsiG
+	 dnOvq/6lN9n+hhC5Rf4q1NmEJB37dYdghlf6Mu61yEkV9srCgTJf0AbuKkoDcgDjSDBCv
+	 06Rb7Mou4pzTnkR2Tq+55SodUKq7nRqFI44I6s1H2n4CCGfdaXOcjmz6EJNoQK24Imw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793671951;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=gbxtANkKD+no5T6EiXK6Tea/adYVuoSud4wUlEix+Yo=;
+	b=nXBcP/KV88hlgS4A6h3Zeg+Y/er1fIkt+QMji958drNVmQNiP0QFjMwXovASbEr8D4CM
+	 cgmRY5OB5BhSs5dg16QAFIMUwQuC2qZ2aSZ4VoXEHTND0lFwNBdQEzMdy2W78QkkZAkZX
+	 Gk0xkjntPvqfeF7oUuAhzCsXmO2JZbIE7YdV/1ReMGrlzvspQZXtEI/Wa8C32zJJCGlv0
+	 9+8cvedg1f98zXepXnuLSv9HCtyPcyd0PS6YLgvg1HoNrXHsvcUdwwdqIYYPEhUJaYxQP
+	 eS4wLftqsnZrg+f9lg1x1BLf8zCAVtIqP3KdBUobLQF2YGNL2lsvTxgaCOrWYF86PHQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fF6G9Jhk;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.219.47
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CEC4606A336;
-	Tue,  3 Nov 2026 02:07:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4CEC4606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE6F4606A326
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 02:12:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE6F4606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=o3kwZcw7
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=bwHOQTJQeV7B3NmJTLbFBlniH4YO+jWdF1Fi2dFZaZ8=; b=o3kwZcw7uwx8xryMF8q5LYBYO1
-	vzW9vX5RjiBpS7fnDiIZd0+XcxSqsLWLzmAjRyIdItO5cXx4yKsbdLFuk2d+km1wyL5BFoaHEz8lD
-	GIYltlJt5TTbm+06lfkLdZpCR50Z3rRoGcgHI6YfFieII9eYoHoEp4ufU+Q2D0qucbu84h2sOwGAP
-	lRIMKhAXH0TvXS7Sj+GZZJJd9D4WLPzmhaKzVvWlnP9kTvYHR3T3BZba/mhjDJjg8VHH3dsTnjiDh
-	6kHLpjjMXrxl1LlRkPgRSAaYW8IEwZUDwp1G3nmj8qWNWd0PJjgz0v2ooXB0fmeHRofxV6E6x4XRT
-	9nix7eZw==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO3wB-00000000qyY-2q9E;
-	Tue, 03 Nov 2026 02:07:47 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	"Derek J. Clark" <derekjohn.clark@gmail.com>,
-	Jiri Kosina <jkosina@suse.com>,
-	Benjamin Tissoires <bentiss@kernel.org>,
-	linux-input@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] HID: correct typos in hid-lenovo-go-s ABI doc.
-Date: Mon,  2 Nov 2026 18:07:47 -0800
-Message-ID: <20261103020747.2510497-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fF6G9Jhk
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-917bab38b14so47016746d6.3
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 18:12:30 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793671950; cv=none;
+        d=google.com; s=arc-20260327;
+        b=P/nvL8WEpiUU710vzt8HTj5Xvdhn0+kZ/eIbbQeG0U/4HghY/lFSLa/hlsoOJmB/9x
+         iqRBcLYYlFdG8kiyL+MFGT/JtuPPIZm0HHf5aHe9VIRBeR4Jxbr6OAgPBZsSeN3CqEvU
+         WLkdmdyAsnKuno6GWhvgHg2Ky6sr+dVX9l3cqZ1x8RqbmylCb5GkF8zt2zs26d+P78jV
+         y8XfR2z+IPL2df8zJydt68DcYhlNSsKMoky8WcEXiNt0lh1gL/0VcZtCkppQRZfZFlgq
+         JiNNvy8ullGST65A2/SX6+1lPvREMBClGES9bdcEv8z/OoOL4/6bisqpTErO7C9rQEiU
+         bHHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=gbxtANkKD+no5T6EiXK6Tea/adYVuoSud4wUlEix+Yo=;
+        fh=ycWY0+/2cDvmHu491G/XrwcBq64MyQSnbsV7Cj7UzpY=;
+        b=QEfVzuGx8hbjrelWoOvsCAO+eUUzOM1xO2ig2f3GOBYORnIzwNTcq6CYYlGLf4DR5L
+         idA8kej+0/ZMG0jK9ew05mvqxmKo9tzOzQHsKM/JdqRAJpo8TMBoWj7Q32WUeKjVZV5K
+         ut3Hgbc2gMPbB47SGjaepLrInFUHq63XdyGL9jTcY9BBv//OGdaaKlD1E62t/qx0KVl6
+         JgQpWHRYTBgxkabVKWlSEaKQzFhBwG7rh4VIreUmYG7oC9TAOQzSGqRh2bVhwRKj1jWZ
+         LM+BhkOtn13EFn817O5o2f6+3Hpmk5LPiE4Nc7UG/87rIB19yHumUbydv5czSOm/qltT
+         MO9g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793671950; x=1794276750; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gbxtANkKD+no5T6EiXK6Tea/adYVuoSud4wUlEix+Yo=;
+        b=fF6G9Jhk66eL2YXQUxSOw+szWa/NhEq79A2zPZQQzPiUgVMfgGeuZOOKG8KL4Qf5/f
+         /Vlq7oZGdPTmWtI2vO/ONJ9ixUgGU+hQnkxA86yN5VBnHpMLfQdA/CSv/TtV29ZvNY9d
+         +bvU24SjSIrs5JoFQsMrQ2wfXz7F53jvyRwVJSieB4K05orjtGfa7jHaRAOL1Ya+SKqC
+         gCqKxVTHJpwXhdON6MwmTMWbQD+bNNJ7JYrnNbmlDevNYPY6nOnpnstG1f2xma4oZPNc
+         JgfJ3GbMPdRN3jfaWDpwbFtioHNzS9yJXyXsy4u07dlfU3ccv/Hi5fb2zrU1yTHTEor6
+         dWdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793671950; x=1794276750;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=gbxtANkKD+no5T6EiXK6Tea/adYVuoSud4wUlEix+Yo=;
+        b=y1bnhnRll/rrUMdjD+F8YAvHso3dyg4EYNQRqRkqbmBbJ93Jce9wLFg9xg3yKzWU4o
+         TD8Q46OuaqlNu74t7gbuIxAa2agylfw2HXSIsIfrtspJKt1zzG8T0bsNog17TcTesPo0
+         mNt1B105cp8ZZcnbh8BnOddLbqsmxT7h9+PyOEgplqH7vD3wM/yIAupTGbuAjtCVJ9BB
+         uOK4bBvpZwtAysgu8d0gZgWwwADWBOI3OeawYnJzIR7hcW5BJUdOGKa3Tx5OJ9mjUdeT
+         6HebtduEjECt5SAn85/twe0+GlKsGL6bUkSkQafH0cvwLvMBdlljz/URle26R/jJkgbg
+         CNhQ==
+X-Forwarded-Encrypted: i=1; AKwUvByn+jT72TeJDt7SF5aDLrbWYIlDoshc9IVjCv7BOSxJKSQzd3SsOadtUVg9OfG+5amQ0f7Xa73M1xs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/xKoq6DDfmWaVaapmguIlNU66dYxv6hfarYvY9Um2yULboKKFG
+	2YQdZBxet6lb4gqrWYI8pVetDfEcIFNBuVunxFixSR9tOurngGzSOpJaVq3xQw4Tp703uBRXe+A
+	x0wTVFMnMpznmH/ACun5vznE5MtPw7D5gLJYfw8p58A==
+X-Gm-Gg: AYBFou3a05ozgX1sYUzGMT4W7UDGQoaFrLogHtY6RNDfp3hMDNaYBZ179CztozMHzxQ
+	jjrg9tPL88/7jwA5Xo6bSPT5LtbAbBF8EfLvKYPghY69m4YcvVk7chKy9je1tPdKcuYVCq6R3Rn
+	SWB7zRq1WiLycvlZOLUixTasqAFdPn6Zhgm3R54DkSjv2pdc4YnDybZJ7NZQ0uirVrOS8xWSP+/
+	BoQGaxqEAFM96S1zTE4qSTPBwNcJI8g7eDUyy5cUFf/xYWnw6fKB/qih7NrFilCXi3bV3C45eFz
+	Sc7n6FZyNHm7fVKfd/BJ8ch8yLszd9+v8wBhTXuI3/tEtPDUFNX1H7kK7t733gLEtdKrZNZPeTD
+	Y7EeWYri/wBBfo6jKlVDHuTSGmu3cyrK0dLlXxg8YxRjDlfn3p+ZsDydtjWnZllwXGK+pauqpnL
+	wujYtPmM0rbPGAL1sM2nD5zDjBzsrB2qwWvweOqNngL8ps9B7ZX94QgwSqmgM2s1e/bauQwIkY3
+	uI8PMOXtHLqDEjRUQLsIFzcpA==
+X-Received: by 2002:a05:6214:e87:b0:91c:7a51:ee57 with SMTP id
+ 6a1803df08f44-91ca4aeaac5mr203416566d6.15.1793671949650; Mon, 02 Nov 2026
+ 18:12:29 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,40 +105,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261101022257.52819-1-mhklinux@outlook.com>
+In-Reply-To: <20261101022257.52819-1-mhklinux@outlook.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Mon, 2 Nov 2026 23:12:17 -0300
+X-Gm-Features: AclHuK9uvtjaaPHlebO_GILeXhtM4eF9Xw6fUbaddVzuMdSO3LAS3jPBYG1eB3c
+Message-ID: <CAMAsx6eCrbcseb=eM_GW+3k2YF3t38Was35oQHW+3UkidsvKWA@mail.gmail.com>
+Subject: Re: [PATCH 1/1] Documentation: hyperv: Update docs for PCI pass-thru
+ device support
+To: mhkelley58@gmail.com
+Cc: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org, 
+	decui@microsoft.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, linux-kernel@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Fix spellos/typos as reported by codespell:
+Michael Kelley <mhkelley58@gmail.com> writes:
 
-sysfs-driver-hid-lenovo-go-s:185: intertial ==> inertial
-sysfs-driver-hid-lenovo-go-s:185: measurment ==> measurement
+Hi !
 
-Fixes: 168c91839139 ("HID: Add documentation for Lenovo Legion Go drivers")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
-v2: add Rev-by: from Derek;
-    rebase & resend;
-    add linux-doc & Jon;
+> +and unmask interrupts. It becomes the parent domain for the per
+> +device IRQ domain created by the normal Linux driver for the
 
-Cc: Derek J. Clark <derekjohn.clark@gmail.com>
-Cc: Jiri Kosina <jkosina@suse.com>
-Cc: Benjamin Tissoires <bentiss@kernel.org>
-Cc: linux-input@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+I think "per-device" should have a hyphen here too, since it's an adjective.
 
- Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> +"irqchip@<paddr>" domain created by the GICv3 driver when it
+> +initiaizes the virtual GICv3 hardware provided to the guest
 
---- linux-next-20260911.orig/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
-+++ linux-next-20260911/Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s
-@@ -182,7 +182,7 @@ Description:	This displays the available
- What:		/sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/imu/manufacturer
- Date:		April 2026
- Contact:	linux-input@vger.kernel.org
--Description:	This displays the manufacturer of the intertial measurment unit.
-+Description:	This displays the manufacturer of the inertial measurement unit.
- 
- 		Values are Bosch or ST.
- 
+Is "initiaizes" a typo? Shouldn't it be "initializes"?
+
+> +device's MSI/MSI-X registers/tables. The guest writes a virutal
+
+I think this one is also a typo, right? Shouldn't it be "virtual"?
+
+> +Once the host-valid MSI message is obtained, the guest must treat it
+> +as a black-box that the guest does not interpret or modify. The only
+
+"black box" (no hyphen) it's used as a noun here, so it shouldn't be hyphenated.
+
+> +valid guest action is to write it to the MSI/MSI-X registers/tables
+> +using the .irq_chip_write_msi_msg function on the HV-PCI-MSIX-<PCIaddr>
+
+struct irq_chip has no .irq_chip_write_msi_msg; shouldn't this be
+.irq_write_msi_msg? Same in the last paragraph.
+
+Thanks,
+Daniel
