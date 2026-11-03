@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793667593;
-	b=KYKREUZX2avJHC5tWQT2jHITtuwdMPjhS/BtFJh90PkonidYMqvwv7WAUQN74Yn+Ws2f
-	 f5ioyCxbsjGpfTirUaiaKZyUw4ttt+cAo3aVEoLe7TsuB4ziJRNLP/06t+i2JuPTO2SZK
-	 1yP6JXBbCOfetLTxMRXJRYnXj7lEvgWoCw/tCeLKE4mez/XJaKvvhE+kcRYDYtDnJUtOk
-	 bplkuI9FP8Znr8C49KAH7BRnU3ht4Vb341l9qFbHixJHmIYPP2qVIkUKT+2BG3VIdw97m
-	 Fbu4/1LyZZbSdml2PpWUEuPfSmJT0Quga29TQOT2a2vTFTUkyBYcLp0KqvVgkeU/rSA==
+	t=1793667590;
+	b=SX2Ia86wXSmC8lIAm9Dzlj6gO3qsTTcSC57BPnzrgiiX+cThZIkJf1LRSOnOOsXxFjtq
+	 A8zQWZuxlrug54LesybmpoFO00cOgqrH8iuo1QojptAmFb0na9m3aemow7RxDTYUdXipN
+	 U7lLy3x2h6D0Oflc+i3PB2tHnEYVyLQR6bXhw8c0NbaDIdw4E5nQuL7a13/EcM1V44JJt
+	 t66vmnRE1jVtmu0K40U8kFAaLynDcf6Ma8uHXoM3LBWwk+SiN2jdjVh/ZpYsDt4XKr4wC
+	 EkczHAEiYUNRE8Vowu39wUDmg8Mq76VOsmBFFIJR6mWY6P7id+JSyPSInzJDEgyMRuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793667593;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793667590;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=U+/s7Vb6ZoZJ6uW3ceyKnu6jy4tym2GZzS23JZFD/TI=;
-	b=Qy59FVf5dvOLACJ3TJ/jXDDyuzPH81Elx5V1dvOUA5hTTxX3pAyspSJdKFHh/XP6ZXzV
-	 3ZQFmmfPU0Aoj3H8cduXJjn2Q4gLSuDJ07xTS7xlgqgseZyI7WPXVtvuXRWngbD+tU9xL
-	 G6koSW2LR51OsnD+fvfnUi7rNFVWygzaJ40dPXKSFi5sTG4bKXJTVcDNbqA4WMrn2kfyn
-	 0i88E+bNlZwKCh3CiiSsDnZt0n5Pzy5xisk/VeNaUgvavWSLkvslipNmfPWpn/ZaGAfkp
-	 iBerP6LqRRc/10L2OM9k02Bij2RIbKt/m6Vbi9MS80hCiyzNrI9QHlvr1wIfUpvNZ5Q==
+	bh=eAIEk27vq7SBMU3eK04a7ELsfUgkQKJdZcdW3LgEO4Y=;
+	b=suiSAv+hDV8XRQhHlYpGsLDEkZwa6P59nG3g55vnyclZErIfVh1b9swdvhhEucEf8Ese
+	 Vy2+ItgV18n7pb+5XRImj5cImBblWqrdtVy5s8uPzWDmclWHVNy8eIx/00+xDZD14bnwr
+	 7z0HG+euJ2w3sD+Nw8qiO0mxoB1umU9LyLV5dtUzPazU7haIRPaZirArmdMGsPEtVyRbj
+	 n/tyy8Md8WcRcWgS1b8QVMtP6wsRB7PC+mZG4oToowHJoTWvGAI2zXPlGx+dG0KxOgsRb
+	 wVq2kZbEIiFesKafwlU5Ci2D6LiMmqXW3s9M/Zhdf+zvd1W5Sv77gJA2Lq1QxiUhZ1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UWjpaNQo;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ILFSQTAa;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A0C606D808;
-	Tue,  3 Nov 2026 00:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48C0E606D807;
+	Tue,  3 Nov 2026 00:59:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UWjpaNQo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27B4B1F00A1A;
-	Tue,  3 Nov 2026 00:59:52 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ILFSQTAa
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E02F1F0093A;
+	Tue,  3 Nov 2026 00:59:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793667592;
-	bh=U+/s7Vb6ZoZJ6uW3ceyKnu6jy4tym2GZzS23JZFD/TI=;
+	s=k20260515; t=1793667589;
+	bh=eAIEk27vq7SBMU3eK04a7ELsfUgkQKJdZcdW3LgEO4Y=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=UWjpaNQowfbD0Vr9Rqfp3WWh/eEkoo573HHDC4GEyaHcoDnyaWD1gx4XydqwYQGtL
-	 JzjaII3d6YxhQYdBOXoqXrLrjmkIwPgrk3uEcuAGnBB7wBEQdlYLJDtrgL094RZggq
-	 i0IiGGl+UR/kidKZjutj3NXc7xj1rW39loo3GmqtebQeUU3WuTa3Hen5TCR7OVdT0S
-	 IBOsCKzTiZw5CZntoy/SG32ySxgasubhGHV4uN2LNnNOgzthrr1aZBRGL7kAqCKKZE
-	 K5yuaLOE0vJt+TgpafXM7hPbpRNvXGC7GtUf2/1bmk48mRQSDBtoLUiQl2ol2aOgow
-	 uaQLHrqs8QDOA==
+	b=ILFSQTAaF6kJrx/TYSoWIT/QtO9KF/QFp2Zk8INMjPaYjb2f+UqWTET9sOtVdHKdQ
+	 m8TZi2CIjLtn+FhaonI+i17T/s7K09H8tj71lT+I1Mq3hA7A692+pBT5oRytXct5YY
+	 +wZT6hXli590DAaPdla5HkprTqm1LdFV9J/4G8f/Z1Cra8pCKyh3FAy76gQiJixkTC
+	 vR7if78QAz+tbYCvCeLfpWujf713hFllfnpeAD+d2ndXzjnASNLxfqQHMkQrXGyzTz
+	 etgyoOVKLJMp/HIZnuT6wIqfKl1fpgCA/WuaZPueIUHxZdNsB5uoReJXdCKgwt+uWx
+	 6Jx/1Qz/yrgxQ==
 From: SJ Park <sj@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>
 Cc: Aveline Noir <jm5905938@gmail.com>,
@@ -52,9 +52,9 @@ Cc: Aveline Noir <jm5905938@gmail.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: [PATCH v2 8/8] Docs/mm/damon/monitoring_intervals_tuning_example: fix grammar and typos
-Date: Mon,  2 Nov 2026 16:59:38 -0800
-Message-ID: <20261103005940.91432-9-sj@kernel.org>
+Subject: [PATCH v2 3/8] Docs/admin-guide/mm/damon/usage: fix grammar
+Date: Mon,  2 Nov 2026 16:59:33 -0800
+Message-ID: <20261103005940.91432-4-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261103005940.91432-1-sj@kernel.org>
 References: <20261103005940.91432-1-sj@kernel.org>
@@ -72,12 +72,10 @@ Content-Transfer-Encoding: 8bit
 
 From: Aveline Noir <jm5905938@gmail.com>
 
-Fix a few typos, including "Moniting" in the title, and some grammar in
-the interval tuning example.
-
-"starts looking degrading" should be "start looking degraded for", as I
-think the sentence means the cold region detection starts to look worse.
-Rewrap where the lines got too long.
+Fix a handful of grammar mistakes in the usage doc, mostly
+subject-verb agreement and a missing or extra "be".  Also turn "Below
+commands applies" into "The commands below apply", which I think reads
+better.  Rewrap where the lines got too long.
 
 Cc: Jonathan Corbet <corbet@lwn.net>
 Cc: Shuah Khan <skhan@linuxfoundation.org>
@@ -87,92 +85,111 @@ Signed-off-by: Aveline Noir <jm5905938@gmail.com>
 Reviewed-by: SJ Park <sj@kernel.org>
 Signed-off-by: SJ Park <sj@kernel.org>
 ---
- .../monitoring_intervals_tuning_example.rst   | 28 +++++++++----------
- 1 file changed, 14 insertions(+), 14 deletions(-)
+ Documentation/admin-guide/mm/damon/usage.rst | 31 ++++++++++----------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/mm/damon/monitoring_intervals_tuning_example.rst b/Documentation/mm/damon/monitoring_intervals_tuning_example.rst
-index 7207cbed591f9..367b031ce55a3 100644
---- a/Documentation/mm/damon/monitoring_intervals_tuning_example.rst
-+++ b/Documentation/mm/damon/monitoring_intervals_tuning_example.rst
-@@ -1,8 +1,8 @@
- .. SPDX-License-Identifier: GPL-2.0
+diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
+index bd687d89ea4c0..cc7465251bb6f 100644
+--- a/Documentation/admin-guide/mm/damon/usage.rst
++++ b/Documentation/admin-guide/mm/damon/usage.rst
+@@ -23,7 +23,7 @@ DAMON provides below interfaces for different users.
+   want more optimized use of DAMON.  Using this, users can use DAMON’s major
+   features by reading from and writing to special sysfs files.  Therefore,
+   you can write and use your personalized DAMON sysfs wrapper programs that
+-  reads/writes the sysfs files instead of you.  The `DAMON user space tool
++  read/write the sysfs files instead of you.  The `DAMON user space tool
+   <https://github.com/damonitor/damo>`_ is one example of such programs.
+ - *Kernel Space Programming Interface.*
+   :doc:`This </mm/damon/api>` is for kernel space programmers.  Using this,
+@@ -155,7 +155,7 @@ Users can write below commands for the kdamond to the ``state`` file.
+ - ``on``: Start running.
+ - ``off``: Stop running.
+ - ``commit``: Read the user inputs in the sysfs files except ``state`` file
+-  again.  Monitoring :ref:`target region <sysfs_regions>` inputs are also be
++  again.  Monitoring :ref:`target region <sysfs_regions>` inputs are also
+   ignored if no target region is specified.
+ - ``update_tuned_intervals``: Update the contents of ``sample_us`` and
+   ``aggr_us`` files of the kdamond with the auto-tuning applied ``sampling
+@@ -250,7 +250,7 @@ writing to and reading from the files.
  
--=================================================
--DAMON Moniting Interval Parameters Tuning Example
--=================================================
-+===================================================
-+DAMON Monitoring Interval Parameters Tuning Example
-+===================================================
+ Under ``nr_regions`` directory, two files for the lower-bound and upper-bound
+ of DAMON's monitoring regions (``min`` and ``max``, respectively), which
+-controls the monitoring overhead, exist.  You can set and get the values by
++control the monitoring overhead, exist.  You can set and get the values by
+ writing to and reading from the files.
  
- DAMON's monitoring parameters need tuning based on given workload and the
- monitoring purpose.  There is a :ref:`tuning guide
-@@ -38,7 +38,7 @@ access-hotness of a region.  It is calculated as a weighted sum of the access
- frequency and the age of the region.  If the access frequency is 0 %, the
- temperature is multiplied by minus one.  That is, if a region is not accessed,
- it gets minus temperature and it gets lower as not accessed for longer time.
--The sorting is in temperature-ascendint order, so the region at the top of the
-+The sorting is in temperature-ascending order, so the region at the top of the
- list is the coldest, and the one at the bottom is the hottest one. ::
+ For more details about the intervals and monitoring regions range, please refer
+@@ -268,7 +268,7 @@ Under the directory, four files for the auto-tuning control, namely
+ Please refer to  the :ref:`design document of the feature
+ <damon_design_monitoring_intervals_autotuning>` for the internal of the tuning
+ mechanism.  Reading and writing the four files under ``intervals_goal``
+-directory shows and updates the tuning parameters that described in the
++directory shows and updates the tuning parameters that are described in the
+ :ref:`design doc <damon_design_monitoring_intervals_autotuning>` with the same
+ names.  The tuning starts with the user-set ``sample_us`` and ``aggr_us``.  The
+ tuning-applied current values of the two intervals can be read from the
+@@ -496,8 +496,8 @@ Among the multiple feedback, the best one is used.
+ Each goal directory contains six files, namely ``target_metric``,
+ ``complement``, ``target_value``, ``current_value``, ``nid``, and ``path``.
+ Users can set and get the six parameters for the quota auto-tuning goals that
+-specified on the :ref:`design doc <damon_design_damos_quotas_auto_tuning>` by
+-writing to and reading from each of the files.  Because the kernel does not
++are specified on the :ref:`design doc <damon_design_damos_quotas_auto_tuning>`
++by writing to and reading from each of the files.  Because the kernel does not
+ update ``current_value``, reading it only makes sense when ``target_metric`` is
+ ``user_input``.  Note that users should further write
+ ``commit_schemes_quota_goals`` to the ``state`` file of the :ref:`kdamond
+@@ -535,8 +535,9 @@ DAMON-based operation scheme.
+ ``core_filters`` and ``ops_filters`` directories are for the filters handled by
+ the DAMON core layer and operations set layer, respectively.  ``filters``
+ directory can be used for installing filters regardless of their handled
+-layers.  Filters that requested by ``core_filters`` and ``ops_filters`` will be
+-installed before those of ``filters``.  All three directories have same files.
++layers.  Filters that are requested by ``core_filters`` and ``ops_filters`` will
++be installed before those of ``filters``.  All three directories have same
++files.
  
-     # damo report access --sort_regions_by temperature
-@@ -56,7 +56,7 @@ list is the coldest, and the one at the bottom is the hottest one. ::
-     total size: 62.000 GiB
+ Use of ``filters`` directory can make filters evaluation orders confusing to
+ expect.  For this reason, ``filters`` directory is deprecated.  It is still
+@@ -612,16 +613,16 @@ Users can write and read the identifier of the destination to ``id`` file.
+ For ``DAMOS_MIGRATE_{HOT,COLD}`` actions, the migrate destination node's node
+ id should be written to ``id`` file.  Users can write and read the weight of
+ the destination among the given destinations to the ``weight`` file.  The
+-weight can be an arbitrary integer.  When DAMOS apply the action to each entity
+-of the memory region, it will select the destination of the action based on the
+-relative weights of the destinations.
++weight can be an arbitrary integer.  When DAMOS applies the action to each
++entity of the memory region, it will select the destination of the action based
++on the relative weights of the destinations.
  
- The list shows not seemingly hot regions, and only minimum access pattern
--diversity.  Every region has zero access frequency.  The number of region is
-+diversity.  Every region has zero access frequency.  The number of regions is
- 10, which is the default ``min_nr_regions value``.  Size of each region is also
- nearly identical.  We can suspect this is because “adaptive regions adjustment”
- mechanism was not well working.  As the guide suggested, we can get relative
-@@ -91,7 +91,7 @@ aggregation interval.
- 100ms/2s intervals: Starts Showing Small Hot Regions
- ====================================================
+ .. _sysfs_schemes_stats:
  
--Following the guide, increase the interval 20 times (100 milliseocnds and 2
-+Following the guide, increase the interval 20 times (100 milliseconds and 2
- seconds for sampling and aggregation intervals, respectively). ::
+ schemes/<N>/stats/
+ ------------------
  
-     # damo start -s 100ms -a 2s
-@@ -129,17 +129,17 @@ seconds for sampling and aggregation intervals, respectively). ::
-     [50,400,010,000, 59,720,011,000)   4.000 KiB  |*                   |
-     total size: 62.000 GiB
+-DAMON counts statistics for each scheme.  This statistics can be used for
++DAMON counts statistics for each scheme.  These statistics can be used for
+ online analysis or tuning of the schemes.  Refer to :ref:`design doc
+ <damon_design_damos_stat>` for more details about the stats.
  
--DAMON found two distinct 4 KiB regions that pretty hot.  The regions are also
--well aged.  The hottest 4 KiB region was keeping the access frequency for about
--8 minutes, and the coldest region was keeping no access for about 7 minutes.
--The distribution on the histogram also looks like having a pattern.
-+DAMON found two distinct 4 KiB regions that are pretty hot.  The regions are
-+also well aged.  The hottest 4 KiB region was keeping the access frequency for
-+about 8 minutes, and the coldest region was keeping no access for about 7
-+minutes.  The distribution on the histogram also looks like having a pattern.
+@@ -680,15 +681,15 @@ tried_regions/<N>/probes/
+ -------------------------
  
- Especially, the finding of the 4 KiB regions among the 62 GiB total memory
- shows DAMON’s adaptive regions adjustment is working as designed.
+ In each region directory, one directory (``probes``) also exists.  In the
+-directory, subdirectories named ``0`` to ``N-1`` exists.  ``N`` is the number
+-of installed probes.  In each number-named directory, a file (``hits``) exist.
++directory, subdirectories named ``0`` to ``N-1`` exist.  ``N`` is the number
++of installed probes.  In each number-named directory, a file (``hits``) exists.
+ Reading the file shows the number of data attributes monitoring probe-hit
+ positive samples of the region.
  
- Still the number of regions is close to the ``min_nr_regions``, and sizes of
- cold regions are similar, though.  Apparently it is improved, but it still has
--rooms to improve.
-+room to improve.
+ Example
+ ~~~~~~~
  
- 400ms/8s intervals: Pretty Improved Results
- ===========================================
-@@ -196,8 +196,8 @@ good enough to make some meaningful memory management efficiency changes.
- =================================
- 
- Further double the intervals (800 milliseconds and 16 seconds for sampling
--and aggregation intervals, respectively).  The results is more improved for the
--hot regions detection, but starts looking degrading cold regions detection. ::
-+and aggregation intervals, respectively).  The results are more improved for the
-+hot regions detection, but start looking degraded for cold regions detection. ::
- 
-     # damo start -s 800ms -a 16s
-     # sleep 600
-@@ -243,5 +243,5 @@ Conclusion
- ==========
- 
- With the above experimental tuning results, we can conclude the theory and the
--guide makes sense to at least this workload, and could be applied to similar
-+guide make sense to at least this workload, and could be applied to similar
- cases.
+-Below commands applies a scheme saying "If a memory region of size in [4KiB,
++The commands below apply a scheme saying "If a memory region of size in [4KiB,
+ 8KiB] is showing accesses per aggregate interval in [0, 5] for aggregate
+ interval in [10, 20], page out the region.  For the paging out, use only up to
+ 10ms per second, and also don't page out more than 1GiB per second.  Under the
 -- 
 2.47.3
