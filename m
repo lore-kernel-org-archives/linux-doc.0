@@ -1,73 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793717985;
-	b=k3oeTtfr1MQvmej17lpJR142i2citJ1KfBpXDfnhze9Guq+LqnYmeu4SkqufbFVan3sf
-	 vkvAnLipxWySJgF/ISNFPAhY0ivla7403OSMAffYmT1dp8w2jwB+Z8xfM6tP/93tlZihR
-	 sdixjOfiMWM4Ssx9hUqR557eBQUBizsgCvAvKDMkIG2qaGE2Spr1tgjwuJjzUV5WPP2Ry
-	 +nelSOsi8iIgHYCzd5++yD4lOs2IOQU1rzJcQaxSIts7rdHx4MbqHVOa9Uoafw0ncktBM
-	 4H8lNzxRQWTL0w5pYJfyEus3k4XuVZFLg0MA7ml5PDQHlhsgIh98/mkmbSzxmVzdZsQ==
+	t=1793718336;
+	b=o3lGi7K0Ckz1D47YwOdXmkken00iz3ZQVE/84G1SN6QTzwUT0hjkEi7HE8+6QgE5SOsv
+	 Ryr6v5hfkbY5OpirPbRCbckqo4Lo3LbpL3tkePYHGIPR58xD963l0MFkhLPfneDbv8gcW
+	 kxw8mJvZw+ssfsw59PTrVvQCvACsmGS/g6hTTsfDNUy6V4iTnMFrV5JW4J9IoeMHPmynS
+	 UhYyVYpriHWsuv5ObnL0iqzSBMyGEpd35R+H4Bjr188OG9ryzs10LRdgrYP/9s6LG344z
+	 FEU25ju466UJyb5QHmJVC0x3M3IR7t82lrAssocxfpO+rIvsddXpJfh4/V+akdouwnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793717985;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793718336;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=IM+1RgzSobDQIBX09DxtUeK1N1jGgq/jWUn0IK/XZXU=;
-	b=hR22BFldOqren+KuFjVpUvw4pd8AmSh8pQf8IQ3ECVUzjFZjpALfhvvWJGllNdNZjsQq
-	 8Exp7h4kdCoZ/iHgY779Y5KZkcp6Xq2cLfbWKOfCllWHE+mbt+II0AfAsigqWaaUTGtd+
-	 FL2uyuRvx8wKGzxgUhwXDAoNlWPnjE5tU+uQ6zDHekO38Rd199fBpWQwqAsCIHs7s01uQ
-	 7YLY0gIDn0xhmBkuYj8MmAnSrmcJJZqoSrlIs+t3dLS7kpSaze2q7dKZ9lMS42MXqS3ml
-	 nhpyCdfGe7zEWudeU5PlVCWXhiQ5D/5MX+1xhKlk0tlSKVmIFypeJtgIv3ARCabCyOQ==
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=IPfcmrcYcWX5lHrSru9Jn6n30jillltoM7EEkw0R5FY=;
+	b=KPhLbc6GNS2tYaLgfO/30NRE83AeWL3nTwW/5+0OcN9uncPmspt83z818a5EihctZ/C2
+	 Og57DI7m6GUZAaUk3imIoLuZD6+Su/CXsWDH/fDRvajTW0kwbF3QSYHTeP87NL7KCM8a6
+	 i/VWJQBefzC4sI9AoNi2v+Wh6MXqWaetcx1gcUkkk0TUnW9eN3ASfU102BwHhV1mUddQV
+	 o1Ks0RigGZzJ+SyRnXnVqCVE1XR/U6iW8NW8+wcjK3alrkNmQXuFv4t8yRVfHdsQaPtjz
+	 50/l+rpc+5ha15O2pWXSsn+BT4BhPjC9Sgc6pV/tvHsltUJS+6vgRMPf04Q0dkOclRA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PzT2bDRS;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i7EFxg3V;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3051606D2CF;
-	Tue,  3 Nov 2026 14:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97183606C822;
+	Tue,  3 Nov 2026 15:05:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PzT2bDRS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B6B61F00919;
-	Tue,  3 Nov 2026 14:59:39 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i7EFxg3V
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE301F000C1;
+	Tue,  3 Nov 2026 15:05:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793717984;
-	bh=IM+1RgzSobDQIBX09DxtUeK1N1jGgq/jWUn0IK/XZXU=;
+	s=k20260515; t=1793718336;
+	bh=IPfcmrcYcWX5lHrSru9Jn6n30jillltoM7EEkw0R5FY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=PzT2bDRSrhqQ0F2rOrBFcBhjI8gdRExkYj9hPpc9rrwURLCrkPkC6XgRMwfKkL986
-	 m5n3nx3Q8Y29xpvr6Nd3NcDraqQsMM6HfN1+IF5D5cojzrHofCFeWBNT72iZgxxLsT
-	 oR5OE8oaKIBeKnnUtevP377Bzu4r8uSoOdSol+ItkDH/1vEfv73IENJgk8RKwDCDT6
-	 7MIApaI9cUWb+OYQeMhGzybtu7a/N2HaDukAklS7J3vsvazsVLWLUsydNbtrLEn44t
-	 1/+Hsr8zZfnE8YWElzA0e14Mx5IFkqtQUBpIZTxodbqguUdFT+m3gNddk0R8UoQJAF
-	 h1HsNBGihLwTw==
-From: Thorsten Blum <blum@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
+	b=i7EFxg3V7LiVQlqu8g676hJBANeRvsSGORz8SVztNkzVPMstOH8WIxPuhsKQjBDCt
+	 Jmw3i2bsC8Nr9dlBur0QU12T0/idc3zOpSS4jruSjYWDlqHDfphVroG5rpf0HOkwY7
+	 d3tPTNrgnLhntZI+F9MEB3J34SQ0hvuSOqL2dIVjnS3bElYdlmrJ4GUurhiPgO7312
+	 0hdKRAcooUqT9/OF/D3wsE1mAW7cMg4am0VtyypFQDLBQDzoSCjuQZxP6EobwPLLlt
+	 JpVGZ1H8EptRPXzvCCNasSFlCEErCWvk/Cqjj0KmyQhweuHYzUpdyX3q3fjT2zYGb/
+	 OvneJ4V790e/Q==
+From: SJ Park <sj@kernel.org>
+To: Manuel Ebner <manuelebnerli@mailbox.org>
+Cc: SJ Park <sj@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Marco Elver <elver@google.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	x86@kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Thorsten Blum <blum@kernel.org>,
-	=?UTF-8?q?Habil=20Eren=20T=C3=BCrker?= <habilerenturker@hotmail.com>
-Subject: [PATCH RESEND 3/3] Documentation/arch/x86: Remove obsolete vdso32=2 compatibility note
-Date: Tue,  3 Nov 2026 15:58:52 +0100
-Message-ID: <20261103145848.427309-8-blum@kernel.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261103145848.427309-5-blum@kernel.org>
-References: <20261103145848.427309-5-blum@kernel.org>
+	Aveline Noir <jm5905938@gmail.com>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] Docs/admin-guide/mm/damon/reclaim: improve language
+Date: Tue,  3 Nov 2026 07:05:28 -0800
+Message-ID: <20261103150528.88546-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261103120043.100887-2-manuelebnerli@mailbox.org>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,46 +65,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1587; i=blum@kernel.org; h=from:subject; bh=iRTIBZSKgDjBlKzRDHcpEWeGBaUEIKpSqY712sM0Jmg=; b=owGbwMvMwCUWt7pQ4caZUj3G02pJDFkvv22pDg+YmPzjyxvPyl+63zTzODZpnTL11XD8cZ2dt aKzfsfbjlIWBjEuBlkxRZYHs37M8C2tqdxkErETZg4rE8gQBi5OAZhI+HtGhvWpVk/PfRfzK5Vm +c7mkb1p0c9Pp1weaDO93nYiZgYjhwAjwwJbo06JHLtp5zodPnO9qPl7S3btmS9ld41/d6oYXTw nyQcA
-X-Developer-Key: i=blum@kernel.org; a=openpgp; fpr=1D60735E8AEF3BE473B69D84733678FD8DFEEAD4
 Content-Transfer-Encoding: 8bit
 
-Commit b0b49f2673f0 ("x86, vdso: Remove compat vdso support") removed
-compat vDSO support and documented vdso32=2 as an alias for vdso32=0.
+Hello Manuel,
 
-However, since commit c06989da39cd ("x86/vdso: Ensure vdso32_enabled
-gets set to valid values only"), vdso32_setup() accepts only 0 and 1.
+On Tue,  3 Nov 2026 13:00:42 +0100 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
 
-Remove the obsolete vdso32=2 compatibility note and document only the
-supported values.
+> Fix upper case.  Fix tenses.  Replace 'set as' with 'set to'.  Add space after
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Habil Eren Türker <habilerenturker@hotmail.com>
-Tested-by: Habil Eren Türker <habilerenturker@hotmail.com>
-Signed-off-by: Thorsten Blum <blum@kernel.org>
----
- Documentation/admin-guide/kernel-parameters.txt | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+Please wrap lines for 75 chars per line, from the next time.  Otherwise,
+checkpatch.pl will warn like below:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0b3c140babd9..695403c8aa7f 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8333,15 +8333,12 @@ Kernel parameters
- 
- 	vdso32=		[X86] Control the 32-bit vDSO
- 			vdso32=1: enable 32-bit VDSO
--			vdso32=0 or vdso32=2: disable 32-bit VDSO
-+			vdso32=0: disable 32-bit VDSO
- 
- 			See the help text for CONFIG_COMPAT_VDSO for more
- 			details.  If CONFIG_COMPAT_VDSO is set, the default is
- 			vdso32=0; otherwise, the default is vdso32=1.
- 
--			For compatibility with older kernels, vdso32=2 is an
--			alias for vdso32=0.
--
- 			Try vdso32=0 if you encounter an error that says:
- 			dl_main: Assertion `(void *) ph->p_vaddr == _rtld_local._dl_sysinfo_dso' failed!
- 
+    WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+
+> sentence to make it double space.  Rewrite and refine complex sentences.
+> 
+> CC: Aveline Noir <jm5905938@gmail.com>
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+> That's the final version.
+
+Thank you for revisioning.
+
+[...]
+> --- a/Documentation/admin-guide/mm/damon/reclaim.rst
+> +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
+> @@ -4,7 +4,7 @@
+>  DAMON-based Reclamation
+>  =======================
+>  
+> -DAMON-based Reclamation (DAMON_RECLAIM) is a static kernel module that aimed to
+> +DAMON-based reclamation (DAMON_RECLAIM) is a static kernel module that aimes to
+
+Sashiko suggested [1] s/aimes/aims/ ?
+
+[...]
+> @@ -88,7 +89,7 @@ identifies the region as cold, and reclaims it.
+>  autotune_monitoring_intervals
+>  -----------------------------
+>  
+> -If this parameter is set as ``Y``, DAMON_RECLAIM automatically tunes DAMON's
+> +If this parameter is set to ``Y``, DAMON_RECLAIM automatically tunes DAMON's
+>  sampling and aggregation intervals.  The auto-tuning aims to capture meaningful
+>  amount of access events in each DAMON-snapshot, while keeping the sampling
+>  interval 5 milliseconds in minimum, and 10 seconds in maximum.  Setting this as
+
+Sashiko also suggested [1] to update above 'Setting this as' to 'Setting this
+to'.
+
+Other than above two,
+
+Reviewed-by: SJ Park <sj@kernel.org>
+
+Assuming you don't mind accepting above two Sashiko suggestions, I applied this
+patch with the suggested changes to damon/next [1] tree.  I will repost it soon
+(~1 week) as an mm.git merge request.  So, no action from your side is needed
+for now.
+
+[1] https://lore.kernel.org
+[2] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
+
+
+Thanks,
+SJ
+
+[...]
