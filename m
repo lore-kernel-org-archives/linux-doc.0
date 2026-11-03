@@ -1,85 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793714795;
-	b=KB3ufiQ9yfHbnv7h2ghI8SWjDyrfB1lU8E9TbK0oAt9HKe+PojlY5siN+JsvUN52EdZY
-	 RylcqNeXjdnpQyOjmHp4B80VrWP59HGaxwB4ObQtzgU9mLE53mZeyk8NKazwrLBc435eS
-	 rArtAya2sCxoTImeCwSiG132SDRBjqkfm+aQbNradaQXR7snjVEfh11rI+yCUUe4ddkDo
-	 DuV34VwGe59Ux0ONzQB6YHaDcsgdXtQg1wrhNqTADxA2Yb8eknlQG3DaLVrCsacRzNkfr
-	 UkIDWakS4zgqyoH1tY3Vq8x27n0eG+U4vMuZ6ozJW//psO94NA4joiOxOA495WF1PEA==
+	t=1793714955;
+	b=Ul5YaEvosntLfneYsM1QJh5j4erCqtptGrMVNxqkH/lm+8jvklDHThD+uMRlZiqzw3tc
+	 QualWS+dxnnwglrW2frl/WV32hFBEiPF6iGlM7ZCaSkbfiX+1L0cHZJECsVuu7hmDjj1u
+	 IEme45UDIkUhVkr0YfBqGtUXREfyVOT2UUd++2aXQO/r/aO10j4riIpeHcfQLyhiQUVu/
+	 /Nh4orNA6Owh4BOfBEv+GSTNnbAQKwkzUaa7vK7AeZb7p2bZJRy6sWHE9LpXn0sUeSKaF
+	 E+d/zaCWAdryvJ74ImS5Kw+xRy8Qzko4ekksJCTGrJ5C/SM05X0CfxFbJJw+gzLNN7Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793714795;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
-	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
-	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
-	 X-Local-Domain:X-CMAE-Envelope;
-	bh=t9xteX2xGuMkIJkhxfrkuc80ADp9/4k5b+edGPUq4fc=;
-	b=MoB7dLATqCqu0Kenr4vy9dPnXdyeFaZlaKmgeSYqZ8aHo8TEzofRkPpflMitdp7A6NDA
-	 kilnqVR6cygh2YNmvmlXzrzo87WIDM3zBSaZkCUI/a1YQVpePVS1wzj6I1s9TzeqUKAJT
-	 Ru6j3YhQXQ95Ujn+1RM1VR/iwH46gacwlpQVpFrTQ1l1odbI8hRQeJ/bjvcBLKttJnobM
-	 nJm72wpy0FYP6RaTJ7WOXiIhx4KQpk+uJb2UO9b8KyI79AfkVGiYe18i1xaqjxNcnPykH
-	 5z4ic56FC4NLwLiNgHUnwuNsq43H+0DkfBsGWY4/OQpWwsUjoYPd47ESL9UAC4PNyPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793714955;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Stat-Signature:X-Rspamd-Server:
+	 X-Rspamd-Queue-Id:X-Spam-Status:X-Session-Marker:X-Session-ID:
+	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
+	bh=v+uRgwbRUU4aheoQPyto2Oz4JzeLx90BnFlBnJNi9qE=;
+	b=mwDttaefKD8Wn3qaoNwUWrUdJptMkZfGwmy4UnFAVS/h4VhZ/OXQphbf44KZRvjyGC5R
+	 2mB7L1ENXIcp3MmF0kNuATfFt6MmRzDqUJQ8NM6PQbF8v1/Fi4Br10HAqlqLWOUxuU4Ob
+	 UI8/3NzAgyzWURyDvcDfE1oSHmwu3Vwayb3Re5AT6joNIHHfrmKxMZ4/n3rsyG6h6TDT6
+	 99D9DxqoPMD4DXd7662+RW0SXGw+93SKBggeAgv4jkEEMoeJSABzX3r1OtnO5rj81H2Au
+	 mEJp5Zdo+HcTRfUZ8WZPlt2uPgKlcdiFCZcuonDZ+ll95IGf+aLgd22zbauxzAP75lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=WbReQISJ;
-	arc=none smtp.remote-ip=35.89.44.35
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=goodmis.org;
+	spf=pass smtp.mailfrom=goodmis.org;
+	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b="RcA/7teZ";
+	arc=none smtp.remote-ip=216.40.44.13
+Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D421606EE93
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 14:06:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D421606EE93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0DA606A324;
+	Tue,  3 Nov 2026 14:09:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C0DA606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=WbReQISJ
-Received: from eig-obgw-5003b.ext.cloudfilter.net ([10.0.29.155])
-	by cmsmtp with ESMTPS
-	id OCxuxGrXvusRSOF9mxyam5; Tue, 03 Nov 2026 14:06:35 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id OF9lxOnq2btpUOF9lxv6dh; Tue, 03 Nov 2026 14:06:33 +0000
-X-Authority-Analysis: v=2.4 cv=dIqmmPZb c=1 sm=1 tr=0 ts=6ae9ea6a
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
- a=FzxAIiGUqTgkHgvMK3YA:9 a=CjuIK1q_8ugA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
-	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
-	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=t9xteX2xGuMkIJkhxfrkuc80ADp9/4k5b+edGPUq4fc=; b=WbReQISJVjZ9SKK4v8Lk919q/S
-	QTS26pV4lYlANCIoJX843UZDmeNC13XMJ7bB0Wqvu1IeqMZGLj5gPPTYFPogkSeumAPrkqdhz8JWM
-	LBpnM6UXBgskJ8KW5j6JAZg+Av9jqqE5HYXz6jjqepwYxCBr6t6I2+OPEbUUiw5dYY26ictnnczDR
-	er9Ur6IHHtxttRzzWkPTX5kgg2WNWpfc0BHUU8S+DnvyLW3c0EF54IayDnqoce1GmzP/i655QgJrp
-	tIy7l0Cl4IHGOaziz1OIFk8S/dLVOPMSI9ml6YfTtOCF52l10PVQG3kjzS+h5i4ptuLxI0Bcf3N2a
-	l7cITQMA==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:52734 helo=server.roeck-us.net)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xOF9j-00000002ZuZ-352a;
-	Tue, 03 Nov 2026 19:36:31 +0530
-Date: Tue, 3 Nov 2026 06:06:30 -0800
-From: Guenter Roeck <linux@roeck-us.net>
-To: Kevin Jia <kjia@nexthop.ai>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Abdurrahman Hussain <abdurrahman@nexthop.ai>
-Subject: Re: [PATCH v3 2/2] hwmon: (fs1603) Add driver for TDK FS160x and
- FS1006 uPOL converters
-Message-ID: <85bc9a12-9674-4fb0-9dc3-11ef8695599e@roeck-us.net>
-References: <20261030-fs1603-v3-0-6f8963a74def@nexthop.ai>
- <20261030-fs1603-v3-2-6f8963a74def@nexthop.ai>
+	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=RcA/7teZ
+Received: from omf01.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 8F06640454;
+	Tue,  3 Nov 2026 14:09:05 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf01.hostedemail.com (Postfix) with ESMTPA id B861F60016;
+	Tue,  3 Nov 2026 14:09:02 +0000 (UTC)
+Date: Tue, 3 Nov 2026 09:09:01 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Petr Mladek <pmladek@suse.com>
+Cc: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>, John Ogness
+ <john.ogness@linutronix.de>, Jonathan Corbet <corbet@lwn.net>, Naveen N Rao
+ <naveen@kernel.org>, "David S . Miller" <davem@davemloft.net>, Mathieu
+ Desnoyers <mathieu.desnoyers@efficios.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Tiezhu
+ Yang <yangtiezhu@loongson.cn>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/3] probes: Use trace_printk() in probe handlers
+Message-ID: <20261103090901.0b5957e9@gandalf.local.home>
+In-Reply-To: <aunBcxXXNhXDd-U5@pathway.suse.cz>
+References: <179360345418.115681.193455787480210412.stgit@devnote2>
+	<20261102123408.0fb950bf@gandalf.local.home>
+	<871p9251ve.fsf@jogness.linutronix.de>
+	<undine-1793671566795563056-fb7169cffcc7ac3c@undined.local>
+	<aunBcxXXNhXDd-U5@pathway.suse.cz>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,67 +68,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261030-fs1603-v3-2-6f8963a74def@nexthop.ai>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xOF9j-00000002ZuZ-352a
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:52734
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 13
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfKw8osGveEg5ZPXYvKsXNF68onJJ4bVbOeiEJ0uzZTd8CINKEKCX5L3XmgQi+xAYOXLxloJ0hNDPqQgU+NTUOAuhQlNUXlQ0pq0vPaDsgtJ8fcx7BP/v
- auJyrJy/I98+Tg/OhdhpdXRwo6JKW546SL/HYW0+badgetYdAaVGwmKBBbdT+r1P77DjilE1EJVgRNAim79WXaR9kewzHHOQErcVWd1m7O84XNzJCGDAbrJt
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Stat-Signature: nq4s4fjsfjocj8t6iixs6h4humbp4ruq
+X-Rspamd-Server: rspamout04
+X-Rspamd-Queue-Id: B861F60016
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1/QnPlfa3I395bqi8l8xsN2mnoDaFGMewc=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=v+uRgwbRUU4aheoQPyto2Oz4JzeLx90BnFlBnJNi9qE=; b=RcA/7teZrODlM5KYH8KSEoVpU9j+dS0QzO/mc6D1E+jRxUPuqH2Cz6ZCUrK3AT3Z/IwKoNHIsvGfj2xrlx3t3LDvl7Bz7JchdPFVwr9uanXdvVth6hMwYGLkXz+7XGA8UUuf+TwiYRJtt4vYKKE+tYyH1U/bXFsJUxbP9qLbrTo=
+X-HE-Tag: 1793714942-743349
+X-HE-Meta: U2FsdGVkX1/3qNtaCofL59FjZEa84TUZgw3Trz2OZkzfhk3I3l4+qiIfQnr1P2qj0FRkGu9WhokLbcR5J4EAU3BbnVEimd2bqlqnNPrewt/Dua1s5+6CrZLk7sxitIndDGTbqqEzY84oKQ3Tzntwg1nR7CtZpMx1QiIyJ8zRorLweoKnmK5K7VAK1l/rw5w3iJ6N0bpyEDqPB8MtcsZW8nZIVYBeztctiovl41KH5gaB8uwuZpSMXFmx91OEMVjxpHbV5LRepnFO9icODD+X3xHwp8JsahuROZflTCfaAJwT7GfhjpEGb9FwrjSordW4Ui58wK+0+lhiYDBsKeaX6L6WFLfkJM+8gaim7OvZVy9KQ4PHHZiRXlUI3EP5f4gX
 
-On Fri, Oct 30, 2026 at 08:35:38PM +0000, Kevin Jia wrote:
-> The TDK FS1603, FS1604, FS1606 and FS1006 are uPOL DC-DC converters with
-> an integrated inductor. They report input voltage, output voltage, output
-> current and temperature, plus over-voltage, over-current and
-> over-temperature status, over a proprietary I2C register map. They are
-> not PMBus devices, and their register numbers collide with PMBus command
-> codes: 0x21 is a status byte here where PMBus defines VOUT_COMMAND.
-> 
-> The parts have no ID register, and the FS1606-0600 and FS1606-2500
-> presets change how telemetry is encoded: the -2500 uses the 20mV steps
-> of the higher voltage parts, and the -0600 needs a current correction
-> derived from the IOUT_GAIN register and the output voltage. The model is
-> therefore taken from the device name or compatible.
-> 
-> The over-voltage and over-temperature protection thresholds are
-> reported as in1_crit and temp1_crit. The over-voltage threshold is a
-> percentage of the VOUT_SET target, so the driver reads VOUT_SET but
-> never writes it: VOUT_SET is a two-byte pair, and a partial write leaves
-> the part silently ignoring all register writes until its input power is
-> cycled. The driver is read-only.
-> 
-> Power good is not exposed. It also deasserts while the output is
-> disabled or soft-starting, so it would report a deliberately disabled
-> output as a fault.
-> 
-> On boards that raise the rail with a feedback divider, VOUT_SET holds
-> the feedback-pin target while the output voltage telemetry reports the
-> rail. The driver measures the divider ratio at probe from the output
-> voltage and the Fb register and scales the over-voltage threshold by
-> it, so in1_crit is in the same domain as in1_input. A part whose Fb
-> reads within four steps of the output keeps a ratio of one.
-> 
-> Co-developed-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-> Signed-off-by: Abdurrahman Hussain <abdurrahman@nexthop.ai>
-> Signed-off-by: Kevin Jia <kjia@nexthop.ai>
+On Tue, 3 Nov 2026 12:11:47 +0100
+Petr Mladek <pmladek@suse.com> wrote:
 
-Applied.
+> I believe that trace_printk() has a similar problem. You could
+> not use it inside the code used by trace_printk() because
+> it might cause an unbound recursion.
 
-Thanks,
-Guenter
+That is slightly incorrect. I use trace_printk() to debug tracing! ;-)
+
+Well, adding trace_printk() to the trace_printk() function itself will have
+issues, but the ring buffer logic allows trace_printk() to be injected into
+it. The ring buffer has recursion protection, so adding trace_printk() into
+the ftrace ring buffer will print the trace_printk(). You may need to add a
+way to not do the trace_printk() again, otherwise you may get multiple
+prints until the nested limit is reached.
+
+But I just wanted to point out that I do use trace_printk() to debug the
+ring buffer even though trace_printk itself uses the ring buffer too.
+
+-- Steve
