@@ -1,58 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.223
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793672160;
-	b=MFyX/onwd3OfvidL7iaj7klm6v0xGxZshm+twdPc8JoF9EnJPBVuB270xSHeDsFrK2V0
-	 EhAMwxw2KUCGJEmTH2Ndwfc22NZhfH+YTLSxD7nUTGyeTlww/584egi70+/iCIdsm1OMl
-	 FULf3iR5FlJhTyWr7w9j7gW7SziVCccG9pi20+NrvKnlxajG70lypYbPry3n0E070LG9o
-	 0lKFLpoBtqWvlfZeWc/huqbKpKpToRN428UvAUveQjDiH/h2/wJYUh02P6vdm+TiI8B2p
-	 zXKIjQLMexk25XinhoTVwbj8iFgZ+cFsBREfm5EL5aJsX4w1AKY6AQX+I4SqH7e7NGA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793672160;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=h2jSleEyCdCf1WyjqdW65FR18D28p9mvgGWHAtd6NJ4=;
-	b=RMEwTWiZy31ZC+uqZESG/M7pDFfPwEcePwAnfWGQoT0aKlkYiAlPnIGK1cVAobH6SKmN
-	 2VgPywmKrb2o87dIjtvA2nhDTE87CMKZiFBWMRtcXnxhIBgjrdlmUih9t+j2yQnupcYlH
-	 dyxt9QHCXAag2b93SIaOBk8j35s3mnYzIF4zdKzJjKrI0iY6xKkvDcLTSXPFxITxq9Nk9
-	 fqg6vMsn7NEHWRjWpeutTTSBM0+0GNOOp8bf7hsN8RJ9hjAU8GrpWF6itM1I1Mhe+X8PG
-	 HagueuGr9aTGD+SUk02YqmrHRGeHUhJgLJyg8Q9q8SdUz1JTgTvgT/dTtTXzkU8Ej1w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="aYo/SUJZ";
-	arc=none smtp.remote-ip=113.46.200.223
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.172
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793672913;
+	b=N6VWoOS/K6gZEdaKR7sb3Bnl3ML3LPS/Iywg11UKNoEiQQgRgKdbzPvTpaCCcr2+Ck5T
+	 M7fjcA1m42YZeQVU3YZs62mLlcjvdMZRER76PrP3xWjO2I2v59zWi7fqSk4Is8QSKa8cm
+	 RZmLSY6W2KIxKeBTcPxoZ+wvdWTDzgepYjCmuQEgRi8rtGgdd60empZmGGLSbjs2mZGmu
+	 ZF/qNjolbBjZTI7k4oVkw99Ban68U3HusBlwj3p97HQtJC7ORCaYvVVkDa0stemEUEZOy
+	 O6dyYn9N9yOh2rgOIQn+X0NP+uCZFBCe2xpRPA+YBvptwWq+1nUqEUoxdiNbnNHQIPg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793672913;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=43k2JoRgmvLGktezxg5Tqe/6VKPUAsfo21mLYAXJ+uI=;
+	b=KCL9lpFJsT1d32EuL2IS61DGhKBQpO9+Dv0Wd28hzhTuYxO5tUdN+uAHv3792B2te3mS
+	 9j6TQkpVjPcIpp//nZ1cvP2/UOCO3MLfvrAqDt25TFajN/4uuT0zpo/yjQrD9gSno0JBR
+	 IhQSgEEIzdESj8GaE9E7u4Db96VZsgLsZMq7CcjPfNPSYelB02x1T5d1No92U8Oo5Enn0
+	 c0XFw2PzgFUPNdhXD4P+6D9pzUzc/JVJBhshV/6SyqDsihl0cFk1n+tolBoJGV1DzgSuT
+	 2pVrbtw5eh1sXJ7TivFLoI+v2AEWoq2Ie0H9T90U/OJkROoOkMxSN15S51tqq7hQajg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TBcVpV3N;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.172
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5568A606A32D;
-	Tue,  3 Nov 2026 02:15:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5568A606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2962B606A329
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 02:28:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2962B606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=aYo/SUJZ
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=h2jSleEyCdCf1WyjqdW65FR18D28p9mvgGWHAtd6NJ4=;
-	b=aYo/SUJZ/pwFqsMNlQd3WzocHdxLHqoQEchORj0CGyFU1Ue3rmBNFwDvIJmiCUEfnf/mb6YD5
-	ht9zqhYhRPllvZcACkCnvmfsavAao3ySdhTvNkzM1Dp/c2TYQ7MhFZW4nHyQXGhUhr1CYFUl6vO
-	jgAfqZQXzUYpOVrwF00FabM=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4jJXH62d8pzmV76;
-	Tue,  3 Nov 2026 10:15:46 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 47D3640572;
-	Tue,  3 Nov 2026 10:15:56 +0800 (CST)
-Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 3 Nov
- 2026 10:15:55 +0800
-Message-ID: <3d2968f2-5171-4558-92a3-41cab745d282@huawei.com>
-Date: Tue, 3 Nov 2026 10:15:54 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TBcVpV3N
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5365f9a04c5so62215011cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 18:28:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793672912; cv=none;
+        d=google.com; s=arc-20260327;
+        b=PA1aOxlPXR9h3+73Y7fQ6noxHktevzmxwvrbvzZg3w/gVG3iwWfsOZEiWuPyPAHmKG
+         GZjl6gkvKKrPLxWmq3jeE2Ob92+WyIyY17XpZnlw1sCoA2pwqT3FM7MeniQRs6krh9LW
+         8aO9ZZh2w0cydFyFMp28mq/YzQLZMz3l43RBo8kQILdh1fbxdS2BCDpPHAonilMFbfCh
+         fV9za+cL00o+8PiO60bVYdXtH9VGpr/UR1tdOniFW1bu1/oHxTOXAzYlgk92wK2w2ZNz
+         CBvjGqEzCiJpnXOG7OaDGROzmgiWyziYWsy2kbHeK+PP4zeNXjbJaDetLs/5Npgi/Q9s
+         MWLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=43k2JoRgmvLGktezxg5Tqe/6VKPUAsfo21mLYAXJ+uI=;
+        fh=ul5dg1tIliFktvX1K39wengK8k1pVXO6PQegamvxvZA=;
+        b=Q4jCpnl9ydzifFssKDG9vWaBLFi53S16fV1AXywrZLF8pL0jcNQsxcFXRA5TiCJZZ9
+         GeAevIqiXfAwDBERrQuRiiflcUlCNMrZZDSPg1Z7jPJ/s9MwnlDjMbduowGiIbiRaS8D
+         PwooNBn+xf6/ut4xazneYK8B0Ffp0a3PBGh5SffD+gQbjr+ZjiBbELBEyZ/1SWjL8l5n
+         7ADAHhMceXXF77hemXA8PwM6abiGCJs6+fqPAi3p/xXuoXzEua2osNqSpS5Snwf05ljY
+         QXa7OHkPRvT2n+OUy36Y3jSom+MsDQQsrIq2wA4pY/w42/PTqi911FBieKy3ylBf8w/T
+         HCHA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793672912; x=1794277712; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=43k2JoRgmvLGktezxg5Tqe/6VKPUAsfo21mLYAXJ+uI=;
+        b=TBcVpV3Nm0DEYNMpivFPwbeMW+Qgh+kb04TIohJNdNrJXXHNLdU09nGHewGUewzNB9
+         kGC2oUWJ6M26At3CDIR3ChUKw8t/UezDkoB22nnJOwjzv3syJrngkTRCnZp90UBO+KJR
+         jw2tK1G9qf563Dq/aHrzwejkDJKKaNuQ1oPPe9Wu+sk8CrTm01ftG8UFfK+Op3Ky5V3K
+         a1J7/HcjRla/z9oh2iSNS34iC5Dy0pJSl4thJ8LmoAhb81bYvvJ5JCBeB8gO4pD8WLtK
+         zJEMycOpLbu7GrSQ9VNPnvdK0Y9R0s398SjtBGUIQg+zf5y7TWhZpymUFUFrUSS0me02
+         shaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793672912; x=1794277712;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=43k2JoRgmvLGktezxg5Tqe/6VKPUAsfo21mLYAXJ+uI=;
+        b=U0GLcx2TdsS7zT6pqIJYam76jQBsLr54BQWfn2cQH9eKn3ZTArwwhSQ5tNJ5XXCCK4
+         2maeRvsMJG9USJWEN6Xo24X4VaYL9T9lXZkgTiFkZeOTGGr6d6ls4CD1vo5wRnGKQ4gy
+         jbx3sNsRmxqRa2sCjVVC2HjuwvxnFXpdxXCv/p+YdYgAOEVAvALeLZegz4a5O67MRUJN
+         ETmTmNULNCRXWOh2+3O25Rh8jR6nRZqjCjIbftlSU8dzuxFQ5RUM8CXYKO4Ef3F56cfA
+         0YTqp0+zdeer49qmDjDAboFU9PZbsIhRosIxKQ30jgComT61KxKBHZ3Hn85Ax/atiPYg
+         O4PQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzskd8w8NopQz8rC3U5feId/wISwsfq0bBr3ACYHrmPEp9TIiJfNTMobfoRwedpl/5rggeukj6Zke0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+XU9hxoaG61az3akeZp1WSZc5TEvmtkcBAe9c8su1VVV6jh1g5
+	vdSGVkWmXVLSTSS8nqlHi5oE8t9gK7hxVD6Vb2SaVbanT1uwPy6ue5NUSSpv/cSom32nl/GZ2dI
+	Vn9PQBamZyaQqN7R1HvQTN+k7AhcF4c8=
+X-Gm-Gg: AYBFou2cm2bkGFePEX2Z5FBoEDp04V9jq+unZLVIzMv5Zkxuqx75FGFsWfb/uu1RAs3
+	pRWOKpflGa2vXAIXxv+QdSXnnlmZ95qosVQ71nuQPHnthUCUs1mXCUjVwWrhNtM2+GSnIRh6gxM
+	izNOefoPj2TNA8jWdUPkLVmM/MHxxweQ0QE7erWQTSsHdceaQLCMFJjTVlL3iLkShki9aEEzQyG
+	Yw4yyctGsma2ZR9tOLCTb11taQiyOAnv5Cf0UdbQGPoGVmekp/CFg3dT7qcokXeUX5nl1WFPr6v
+	CwUbdhT05TTQuXTKOIs4vKnR5hidjwis691jcSJe7sEec2g9NyuTRqkXr6ob7bK4a2gfoCwD3Os
+	P9d7FXGV1Elez8QUWvqkGGFwS+s+fl55aAsLCYBSq6UbO5T4LdcLxC060XCRO7KPvuepxOxilLJ
+	et/ezYlyNWa50Hyqsbc0DXvcIzGKhT7+VFDKEBRZ2nABHCcnWBsv60g1VcvSgvzsolEXSzL/yth
+	8Oz5feT/HUzkY6mwNuNL5oXJg==
+X-Received: by 2002:ac8:59d3:0:b0:536:3a49:f76 with SMTP id
+ d75a77b69052e-542b62a60f2mr208129931cf.27.1793672912039; Mon, 02 Nov 2026
+ 18:28:32 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,87 +105,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: sched-preemption: Fix the list of
- runtime-selectable models
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<clrkwllms@kernel.org>, <rostedt@goodmis.org>, <rppt@kernel.org>,
-	<arnd@arndb.de>, <bp@alien8.de>, <kmehltretter@gmail.com>,
-	<dapeng1.mi@linux.intel.com>, <elver@google.com>, <enelsonmoore@gmail.com>,
-	<jlayton@kernel.org>, <quchaosheng000406@163.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-rt-devel@lists.linux.dev>
-References: <20261028024333.795917-1-ruanjinjie@huawei.com>
- <20261028024333.795917-3-ruanjinjie@huawei.com>
- <20261102133424.rJTJIkFX@linutronix.de>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20261102133424.rJTJIkFX@linutronix.de>
+References: <20261013-sahara_protocol_new_v2-v9-0-dc9f24357c4a@oss.qualcomm.com>
+ <20261013-sahara_protocol_new_v2-v9-1-dc9f24357c4a@oss.qualcomm.com>
+In-Reply-To: <20261013-sahara_protocol_new_v2-v9-1-dc9f24357c4a@oss.qualcomm.com>
+From: Daniel Pereira <danielmaraboo@gmail.com>
+Date: Mon, 2 Nov 2026 23:28:20 -0300
+X-Gm-Features: AclHuK-mWSKXd9lnXqiSNJlntbzfXiWNAcEZqwA15ieqTiGdj9OVEQ3Jtku0h9M
+Message-ID: <CAMAsx6dwZVCVQpfh9DYVU3NoTrsbRLOiORdMKm3Yo-vQLmpyFQ@mail.gmail.com>
+Subject: Re: [PATCH v9 1/7] Add documentation for Sahara protocol
+To: kishore.batta@oss.qualcomm.com
+Cc: jeff.hugo@oss.qualcomm.com, carl.vanderlip@oss.qualcomm.com, 
+	ogabbay@kernel.org, mani@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemk200008.china.huawei.com (7.202.194.74)
 
+Hi Kishore,
 
+> +| SAHARA_MODE_MEMORY_DBEUG | 0x2 | Memory debug mode. The host should |
 
-在 2026/11/2 21:34, Sebastian Andrzej Siewior 写道:
-> On 2026-10-28 10:43:33 [+0800], Jinjie Ruan wrote:
->> --- a/Documentation/scheduler/sched-preemption.rst
->> +++ b/Documentation/scheduler/sched-preemption.rst
->> @@ -20,9 +20,6 @@ change.
->>  The models selectable at runtime are:
->>  
->>  	=========	====================================================
->> -	none		No preemption of kernel code other than at explicit
->> -			``cond_resched()`` / blocking points.
->> -	voluntary	As ``none``, plus ``might_sleep()`` sites.
->>  	full		Any section that is not explicitly preempt disabled
->>  			may be preempted at any time.
->>  	lazy		As ``full``, except that the scheduling request is
-> 
-> This is fine.
-> 
->> @@ -31,10 +28,12 @@ The models selectable at runtime are:
->>  			apply to real-time tasks.
->>  	=========	====================================================
->>  
->> -Not every model is available on every kernel.  An architecture that provides
->> -lazy-preempt support offers only ``full`` and ``lazy``, and ``none`` and
->> -``voluntary`` are rejected there.  A PREEMPT_RT kernel always offers ``full``,
->> -and ``lazy`` as well if the architecture provides it.
->> +CONFIG_PREEMPT_DYNAMIC depends on CONFIG_ARCH_HAS_PREEMPT_LAZY, so ``none``
->> +and ``voluntary`` are never selectable at runtime; passing either is
->> +rejected with "Dynamic Preempt: unsupported mode".  The two models are only
->> +left as build-time choices on architectures without lazy-preempt support.
->> +A PREEMPT_RT kernel always offers ``full``, and ``lazy`` as well if the
->> +architecture provides it.
-> 
-> What about:
->  Not every model is available on every kernel.  An architecture that provides
->  preemption support supports ``full``. If additionally lazy-preempt is
->  supported then the choice ``lazy`` becomes available. An architecture
->  without preemption support can not enable CONFIG_PREEMPT_DYNAMIC. On
+Is "DBEUG" a typo? Shouldn't it be "SAHARA_MODE_MEMORY_DEBUG"? The
+rest of the document spells it "debug".
 
-Hi Sebastian,
+> +| target. The Sahar client interprets|
 
-There seems to be an issue with this sentence: PREEMPT_DYNAMIC depends
-on ARCH_HAS_PREEMPT_LAZY, not “preemption support.”
+I think this one is also a typo, right? Shouldn't it be "Sahara client"?
 
-What about:
-
-Not every model is available on every kernel.  A kernel built with
-CONFIG_PREEMPT_DYNAMIC offers only ``full`` and ``lazy``; ``none`` and
-``voluntary`` can only be chosen at build time, on architectures where
-they are available.  A PREEMPT_RT kernel always offers ``full``, and
-``lazy`` as well if the architecture provides it.
-
-
->  such an architecture the preemption model can only be selected at
->  compile time. 
-> 
-> Sebastian
-
--- 
-Best regards,
-Jinjie
-
+Thanks,
+Daniel
