@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793718535;
-	b=48UpBbf1NWJIdU4B5muix7JJGSQOMCkx9cpsytrX3opLy62ToWH8eJ5epw5tYfpKKynS
-	 mtTwgZ5znmbegAdKk34n1W/0brPbYQFjYrUNNeLzIvMLnQrJKPH1offaEDWCNvdErlLg+
-	 RrU23VKmjWEhtJSHUXfETWVRX95QrnW/L41DpqzT645PiTUHWk9D5HfJjUml653TH42ux
-	 7dpWV/VUmSYLDdynBQUGoPVbVXkxAh5GEuKCJKMpaHeAFSLEcCn6xruXFHk+0ZD/neDPD
-	 QfW5Lu5ngtHZRT4q+YVF60e7IBYR3P6y7x5cxx7tn2Km9qxUW+MbjiHV1zU/qWyiQiw==
+	t=1793718539;
+	b=A+VDL+wbgQT0wc1TSPeNOX8OtlFT7s9GM+2QmEt+pRgbPf53fian7zsMxqb9mvUlqcEF
+	 wBC1Q1tWTgmxDj3057Whn6GLE54kXLWFeIZc6I2SdSnMX8iLWQGdC3IJDaEqgDT2Pq2TQ
+	 wbMmml9TjTOcco29fykhb2R288jmPeOO+2H7F/hP/kUXOoDPhtIOWS+BvKm3d7retOWNM
+	 Bkw7kPLCjp/3Ti7B68/dRjIcD2HYlL6+fUB5Aj4C0jIsVeaj/IyNS7vWbBqxVmNwQ7h8t
+	 PNg3RvN4OF182O0jFSqIlmGg/gtPhMU2879p1HlVeKdmW4pPestM6ow2OGQVQTS/c5A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793718535;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793718539;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=TYS9NFes0pX3u5RGLOyKL2oHpVaqbTMJYMFIjZ8YRdw=;
-	b=MhisyjEd2gHxhqZaGaDGdjsC6STYzC1FB1Dbl5zXjpxx4wZs1W3lKg5DfnSTqNmatEA1
-	 lbpcxHUbvR/ZJL2M+YesE46Pw0RUTxOlBlPWc+a03j2qkgTu06/yvd8ZJ20443SZla4Lo
-	 dyMwXX3173InVMcwWszCKgZwPO+SPHZlUACeWtTZnhFi8EMh3pnRaklg8Jjaz1ZXEOJ4I
-	 tpSFNQrxHh2wEIhFAQwl2xgWCihBBKBUrnnBbUgPP1uuFfH2eROd/xFxRLZlp9fKDDIWK
-	 U1uN9I86UK3EZP5Rm/tX2NH9DWA3fQ0gHVIoj70FVWP1tUHokF/LLpWghD57BQtW0KA==
+	bh=Dp6aJNGB8lo0vS7oBSbCWY8gtENxx6aHpIo+LlsAank=;
+	b=vIbSXMElRJUyiKhYH7oUGdz0u+/snnkYolqk4fkM3wGYWMOfMjkx4Hp4l6/0O4H8X9o9
+	 OJ/kE//CH5vEqk49jpeKr2PwSnG5PXPcGtWjMSBNZyFRs4p9opNQ+Gvc94Fh6mAElWMPv
+	 atAMIHYzBAyuAI9BUM7+9vLUV55ghd1hlCtZLvEowmfeKCbNDerSaou7BTkbMpGQp9bLf
+	 rMXPyGsrI+h0eqqyKeUMh2QsLEHvoGCiIbzZVKPA6TOQw96cheuOTNEFt2RJNoT1S4HKo
+	 bDYd3lVgvWsq29pBPcqRC8MgLX54ydV7W/Rclyl5QSxaPdWvUolweM99/rb0AtnoDgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rWtI4kiT;
-	arc=none smtp.remote-ip=209.85.160.46
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dw4SVkPI;
+	arc=none smtp.remote-ip=209.85.160.41
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9E1606FCCA
-	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 15:08:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E9E1606FCCA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C945606EEB2
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 15:08:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C945606EEB2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rWtI4kiT
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-47b47de8b4cso2363633fac.3
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 07:08:54 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dw4SVkPI
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-4a75a5fa32dso1030632fac.1
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 07:08:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793718533; x=1794323333; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793718537; x=1794323337; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TYS9NFes0pX3u5RGLOyKL2oHpVaqbTMJYMFIjZ8YRdw=;
-        b=rWtI4kiTGNoXT1C1bcQXiqVVGk33DsXyXg55gK/LPhNvgn/rJxJKGg6NSiEm5XEdUz
-         b4bbFzR1k6G/LhvCBDODi+6ji9CApnN8bT9czaNaGOD8daFTcafGnghXbEHJYwINixdV
-         ZKsZlDQ6Qh1r1hnNhzKhJlYRm1E6/ZJD6GUqVzUHjjfrlqTzSP++28bIb6Ju2LnxdWA8
-         Vf/zzz+cRLbe19vXNecUM8yh9Y7fWhUU1PIbg+C6VeYq4akTz+eQ6H8Pl1rqKfrYN/fU
-         loukcK2AF3waKQG34iJRYRjSBHoeALxeQbSmQqui4kVS+Px4/OQGr23vUKuEouefi2l6
-         lP/A==
+        bh=Dp6aJNGB8lo0vS7oBSbCWY8gtENxx6aHpIo+LlsAank=;
+        b=dw4SVkPIAhGVb8A5bqDSuAhmBFZVLL288jS/9HXRAGHmPCAolOsl1cBL9PtoAZxpJ6
+         TkMg++r3BTb5CWOPAMHxBTDCGxKoL0W+Xk9xJCvIIsBnbXn3YU6dpeqj6FJ+rb0MvRZl
+         +EhF2V65djYkf0hhTsNmlM1kvPV3y8qqGGU3+57LQTP2mBNlE+WwCRiJwup0FPn/fbbI
+         67bT5ALaB83KuKJYXruBHVpFEjXVX8phfg1eb6sEfoQVPtEIguISF/9Yt0pCDxuL3+ss
+         VRKN0qdOdxGyhjZ0ko3dZxHPenmGLCRh8+8zRDwP4wclatBm5AMkNBKYlFnK9e2sgdY+
+         B2kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793718533; x=1794323333;
+        d=1e100.net; s=20260707; t=1793718537; x=1794323337;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TYS9NFes0pX3u5RGLOyKL2oHpVaqbTMJYMFIjZ8YRdw=;
-        b=wpMkttiQiEYIlqQFgw4cRKlbaCtO+ll0M02Nz5TqHx69aO0aEqRh775jblecWNuHqT
-         svyxXLfwKFHmlheGf5zjvIdjnozAiJawfWKEzFIsPw/9EMc+Q8Je0FxX0zDznE7zX6yY
-         BcU8fdO5ws6TYR7KlT4XTAMFB2wWHsA0HuZOW9OyG5p3WlupPWqS7yZaPaX652Z3J1w2
-         HljYSJBypnEJSQIpQNOR4O1VfdjRM0DsT53M2dOw17g0r6kSfsiZ5s6GZyW5244SJB/b
-         mzKxg9hTVJca4oEd7mJeFnlbZm2VZTUPuEdAnHbSml9jK8QVmv4K3vxcZxevhpR7Pqay
-         hA4Q==
-X-Gm-Message-State: APuU4Z97tSR8ESP2ePauv69DFCZjM97s5iSMnjxkvWetHiMnr5qrzBJK
-	LIaXGLfyL/mS23VFqwsD0cWuS7zuXU5VpLm1lmPSACtjzlwZ8rB70G9KC34dAEE1PEc=
-X-Gm-Gg: AYBFou0FQtDrBdAB01e0Krcb9m1K+IImpnFvlvKn6mGnjLohdAQL8LTeEWtx/P/YxlT
-	CJnM+QVgMvVQ0hrFaHAcADYElKpWVVgVjzWmZkJ77usKcIioMs447Rz5jKIeBdefMT9ROeMJFyu
-	UNAEP1U4dAQdPo2XTnEwraLsKRixJQLpJep3WlFNypMEFWJHaWsd386RaugHVmlbyjMnW7z8O2j
-	e+IPTx4bFMisxDW/FT6VunWPHmZ6+moQxU0TjUpDlwl5qBWgoFMR9GGAFPCOmHd+jnbLaJxkenK
-	QH+JT6S5Xo7Xzbcz0cUHDS4cLk+JeSz0lkRQqlX0YunKJfD95sQfcQmp/52oJV0jAXqanu+2myP
-	rzX9s1nPPfnwh+o3zU1vOLGKZCooizp7u+iJkVsrqBkvclSUMYqu1eH/GLbO5/XE+0sZ1ZPS+YC
-	IxdFna7cHOrWU1RF2alUFas/z5RXOqLEGdIcbHiVaINAzilct9c91wDVxw8p9pIdPWOqKcO3cKv
-	uduCmBaMX37liusUP0vPJPV1o0pCeqL7g/ecC19jG6kSu/Zu2AhtlzK/zbUWLsJGM9ycCGCFzt3
-	5+UyisjliTSLqhsCQlS1UzQRMqkFjxHVbOFSFg==
-X-Received: by 2002:a05:6870:7a18:b0:4a6:f698:df8f with SMTP id 586e51a60fabf-4a907781260mr8302880fac.42.1793718533281;
-        Tue, 03 Nov 2026 07:08:53 -0800 (PST)
+        bh=Dp6aJNGB8lo0vS7oBSbCWY8gtENxx6aHpIo+LlsAank=;
+        b=lKFHlLsUH9dUnI2633IqwqlsQpD7BSkE0P0e2Cd0Q30980Bun/GpdhTKkquM5s552G
+         /K1BW5mI0u/Q/9auRnGihiIxbETXPekkN0LCpzJxD95bpCGhsyi5lv5+v3e7cA9dcY5s
+         ynA5SVarhQlkXZ+Ob1BG+e21ds8QaIgExsvWLJ1UFbk/5LeiLhq8kFyuC4uykMYwJGfy
+         xxiNeylF7y25/LcsIyuT+QxOhK4JnJSbksJ7mUFH7W1m5ffKymwQ/ejFXYtC6tuXa1cK
+         W9FIN8Vs8417UAVMgTBo4xVO56DdF33GngYlCmkqSMdF6ot5XZcwjJH4RqZxvOI8Ye2x
+         0eBw==
+X-Gm-Message-State: APuU4Z9DznUqvkzyMdER9K46mQA0yi3o+dtMqhWEhO/BGLaqrN5YGc/W
+	qrunZW/A1AUhjvqrNsmq3z8zRF949sxbgE4yIsc9yPEZ9Lyl7aw1Yt/L
+X-Gm-Gg: AYBFou2HdsFOKvmZ8iOyNEf5Kwn2yIRp6hfVau2HFfb7hiNevDfGt9tYKmwNhWG8hDX
+	G8qdqrVbc2hlqCFLIo5YmQjGNbQbA839kimlgOMQWPrKKbetP+v6bVjA1E0g8Xc5CMnG/y5ewvm
+	zeItWmRIScC75mJc8UH/o3z8HYTLzkY+51pPnxNIoV1SKt2oktu023hCYiIhYK6fVasPBfyQjBY
+	+fau2OBmvmLIGnHlhlSUM9K5YMo1AwSOSyLuYC69Hf90SOCsHEv5PjNFBFB8U2/kHwMXfnTHaQG
+	1RJW/1OT9KKlB4QjNcNMaVI9/DtHYjO6eTk4cNbTJoSO0VTED8gCeQC2CGqRLjZIEiyevMIdcDm
+	3HLOL2k9sWf2UL5nunstGakfYOgsVG5PlfvglNe2vHZEN1Bvai5QQ23UyqvFIxFB9oE7XE8i+5q
+	HjA6Fy0n1C0IRKmIP8jzmR4dci5cqD320vrtZWwoP0iBXcqrTwMwOnnw/84oCtgb4zAr4gaStXC
+	/G3csfx3DPa3lgujSnQ9W+h5BN8wIApCReGuxokIKz2hhF/7yjXUaiTH+YefHhHmF9zBNm7deL7
+	4/xkXun/ffNnPmqN/VNMOMux2pz/pQlDgdLKTWg=
+X-Received: by 2002:a05:6870:8a07:b0:48f:e0f6:c45c with SMTP id 586e51a60fabf-4a90771acb3mr7517359fac.42.1793718536446;
+        Tue, 03 Nov 2026 07:08:56 -0800 (PST)
 Received: from penguin.lxd ([2605:3f84:842:3300:216:3eff:fe58:9322])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a95d970b9bsm4730448fac.8.2026.11.03.07.08.50
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a95d970b9bsm4730448fac.8.2026.11.03.07.08.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 07:08:51 -0800 (PST)
+        Tue, 03 Nov 2026 07:08:54 -0800 (PST)
 From: Matthew Weber <matthew.l.weber@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
@@ -89,9 +89,9 @@ Cc: linux-doc@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	kasan-dev@googlegroups.com,
 	Matthew Weber <matthew.l.weber@gmail.com>
-Subject: [PATCH] Documentation: kcov: clarify coverage example
-Date: Tue,  3 Nov 2026 09:08:42 -0600
-Message-Id: <20261103150845.13008-2-matthew.l.weber@gmail.com>
+Subject: [PATCH 2/4] scripts: Add kernel-sloc helper script
+Date: Tue,  3 Nov 2026 09:08:43 -0600
+Message-Id: <20261103150845.13008-3-matthew.l.weber@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261103150845.13008-1-matthew.l.weber@gmail.com>
 References: <20261103150845.13008-1-matthew.l.weber@gmail.com>
@@ -106,94 +106,345 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Clarify that the saved count bounds the printed entries while KCOV
-remains enabled, including during output. The examples continue to disable
-KCOV after printing, as before.
+Add a helper script scripts/kernel-sloc to count source lines of code
+(SLOC) for a configured Linux kernel build. It supports counting whole
+compiled sources from compile_commands.json as well as estimating
+distinct source lines represented in a vmlinux ELF using DWARF
+line-table addresses.
 
-Document the KCOV configuration requirements and how to symbolize
-collected PCs.
+It is intended for system integrators and application developers who
+analyze a trimmed kernel, for example for safety critical applications,
+and need to report how much kernel code a given configuration builds
+and links. Add a MAINTAINERS entry for the script.
 
 Signed-off-by: Matthew Weber <matthew.l.weber@gmail.com>
 ---
- Documentation/dev-tools/kcov.rst | 44 +++++++++++++++++++++++++++++---
- 1 file changed, 41 insertions(+), 3 deletions(-)
+ MAINTAINERS         |   6 +
+ scripts/kernel-sloc | 299 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 305 insertions(+)
+ create mode 100755 scripts/kernel-sloc
 
-diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
-index 8127849d4..0c3099c06 100644
---- a/Documentation/dev-tools/kcov.rst
-+++ b/Documentation/dev-tools/kcov.rst
-@@ -31,6 +31,15 @@ Collecting comparison operands is supported with GCC 8+ or with Clang.
- To enable KCOV, configure the kernel with::
+diff --git a/MAINTAINERS b/MAINTAINERS
+index d009e2da2..d83f37c3a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -13762,6 +13762,12 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
+ F:	Documentation/dev-tools/kselftest*
+ F:	tools/testing/selftests/
  
-         CONFIG_KCOV=y
-+        CONFIG_DEBUG_FS=y
++KERNEL SLOC HELPER
++M:	Matthew Weber <matthew.l.weber@gmail.com>
++L:	linux-kbuild@vger.kernel.org
++S:	Maintained
++F:	scripts/kernel-sloc
 +
-+``CONFIG_KCOV_INSTRUMENT_ALL=y`` (the default) instruments eligible kernel
-+code throughout the build. If it is disabled, only explicitly selected code
-+is instrumented.
+ KERNEL SMB3 SERVER (KSMBD)
+ M:	Namjae Jeon <linkinjeon@kernel.org>
+ M:	Namjae Jeon <linkinjeon@samba.org>
+diff --git a/scripts/kernel-sloc b/scripts/kernel-sloc
+new file mode 100755
+index 000000000..ed8b787e5
+--- /dev/null
++++ b/scripts/kernel-sloc
+@@ -0,0 +1,299 @@
++#!/bin/sh
++# SPDX-License-Identifier: BSD-3-Clause
++#
++# kernel-sloc - Count source lines of code for a configured kernel build.
++#
++# Adapted from the Unikraft build-time SLOC reporting approach
++# (https://github.com/orgs/unikraft/discussions/1849#discussioncomment-19352529),
++# which counts compiled sources rather than the whole source tree.
++#
++# The kernel mode counts whole compiled files, including inactive #if branches,
++# but not the headers they include. The dwarf mode estimates source lines
++# represented by debug information in a linked ELF; it does not measure runtime
++# coverage. Neither count is a certification or structural-coverage result.
 +
-+To resolve collected PCs to source locations, also build with debug information
-+(``CONFIG_DEBUG_INFO=y``) and retain the matching ``vmlinux``. Debug information
-+is not required for collection itself.
- 
- To enable comparison operands collection, set::
- 
-@@ -94,7 +103,7 @@ single syscall from within a test program:
- 	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
- 	/* Call the target syscall call. */
- 	read(-1, NULL, 0);
--	/* Read number of PCs collected. */
-+	/* Save the output count; KCOV continues recording until disabled. */
- 	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
- 	for (i = 0; i < n; i++)
- 		printf("0x%lx\n", cover[i + 1]);
-@@ -111,7 +120,36 @@ single syscall from within a test program:
- 	return 0;
-     }
- 
--After piping through ``addr2line`` the output of the program looks as follows::
-+In PC mode, the first ``unsigned long`` holds the count and the remaining
-+``COVER_SIZE - 1`` slots hold PCs. KCOV stops adding entries when the buffer
-+is full, so increase the buffer or shorten the collection window if the count
-+reaches it. An empty buffer can indicate that the target path was not
-+instrumented; it is not proof that no kernel code ran.
++set -eu
 +
-+The count is read while KCOV is enabled and sets the number of entries printed.
-+KCOV remains enabled while those entries are printed, so the output syscalls
-+may add entries to the buffer. They are not included in the printed list,
-+because the loop is bounded by the saved count. Syscall entry/return paths
-+around the target can also appear.
++die() {
++	echo "ERROR: $*" >&2
++	exit 1
++}
 +
-+Symbolizing PCs
-+~~~~~~~~~~~~~~~
++need_command() {
++	command -v "$1" >/dev/null 2>&1 || die "required command not found: $1"
++}
 +
-+Save the example as ``kcov-example.c``, compile it for the target, and run it
-+where debugfs is mounted and accessible::
++need_cloc() {
++	command -v cloc >/dev/null 2>&1 ||
++		die "required command not found: cloc (install cloc to use kernel, tree, or files mode)"
++}
 +
-+    cc -O2 -o kcov-example kcov-example.c
-+    sudo ./kcov-example > kcov-pcs.txt
-+    addr2line -f -i -e /path/to/matching/vmlinux < kcov-pcs.txt > kcov-symbols.txt
++usage() {
++	printf 'Usage: %s [--report JSON_FILE] MODE TARGET...\n' "$0"
++	printf '%s\n' \
++		'  kernel BUILD_DIR  Count whole compiled sources from compile_commands.json.' \
++		'                    Requires cloc and python3. Generate the database after' \
++		'                    a clean build of the configuration being measured.' \
++		'  dwarf ELF         Estimate distinct source lines using DWARF addresses.' \
++		'                    Requires GNU objdump, addr2line, and python3, plus' \
++		'                    an ELF built with debug information (CONFIG_DEBUG_INFO).' \
++		'                    Set OBJDUMP and ADDR2LINE for cross builds, or set' \
++		'                    CROSS_COMPILE to the toolchain prefix.' \
++		'  tree DIR          Count all C, C++, and header sources; requires cloc.' \
++		'  files FILE...     Count individual source files; requires cloc.' \
++		'  --report FILE     JSON inventory for kernel or dwarf; parent must exist.' \
++		'                    Lists compiled files, or DWARF source_lines and functions.' \
++		'                    Does not measure execution or list every linked symbol.' \
++		'  -h, --help        Show this help and exit successfully.' \
++		'' \
++		'Success prints one integer on stdout and a summary on stderr.' \
++		'Errors exit non-zero without printing a count.' \
++		'Counts depend on the tool versions and build options; record both.' \
++		'' \
++		'Examples:'
++	printf '  %s --report compiled.json kernel .\n' "$0"
++	printf '  %s --report linked.json dwarf vmlinux\n' "$0"
++	printf '  %s files foo.c\n' "$0"
++	printf '  %s tree /path/to/files\n' "$0"
++	printf '%s\n' \
++		'files omits linked libc; tree includes unused C/C++/headers, not other' \
++		'languages. Neither is a deployed-footprint total.'
++}
 +
-+For a cross-built target, use the matching toolchain's compiler and
-+``addr2line`` (for example ``aarch64-linux-gnu-addr2line``). Use the exact build's
-+debug ELF, not another build's ``vmlinux``. KCOV subtracts the kernel's KASLR
-+offset on architectures that support it; do not apply an assumed relocation
-+adjustment. Instrumented modules need their own debug ELF and load-address
-+handling rather than symbolization against ``vmlinux``.
++# Extract the code total from cloc CSV, including the empty-tree case.
++cloc_sum() {
++	awk -F',' '$2 == "SUM" {total = $5} END {print total + 0}'
++}
 +
-+The output can look as follows::
- 
-     SyS_read
-     fs/read_write.c:562
-@@ -184,7 +222,7 @@ Comparison operands collection is similar to coverage collection:
- 		perror("ioctl"), exit(1);
- 	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
- 	read(-1, NULL, 0);
--	/* Read number of comparisons collected. */
-+	/* Save the output count, as in PC mode. */
- 	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
- 	for (i = 0; i < n; i++) {
- 		uint64_t ip;
++cloc_sum_from_list() {
++	cloc --list-file="$1" --skip-uniqueness --csv --quiet >"$2" ||
++		die "cloc failed while counting source files"
++	cloc_sum <"$2"
++}
++
++# Write the report before printing the count; failed writes are not success.
++write_report() {
++	[ -n "$report" ] || return 0
++	python3 - "$report" "$mode" "$target" "$1" "$2" <<'PYREPORT'
++import json
++import os
++import sys
++import tempfile
++
++path, mode, target, count, inventory = sys.argv[1:]
++with open(inventory, encoding="utf-8") as stream:
++    data = ({"files": sorted(stream.read().splitlines())} if mode == "kernel"
++            else json.load(stream))
++data.update(mode=mode, target=os.path.abspath(target), sloc=int(count))
++protected = [target] + data["files"]
++if mode == "kernel":
++    protected.append(os.path.join(target, "compile_commands.json"))
++if os.path.realpath(path) in {os.path.realpath(p) for p in protected}:
++    sys.exit("ERROR: report must not overwrite a measured input")
++if os.path.exists(path) and any(os.path.exists(p) and os.path.samefile(path, p)
++                                for p in protected):
++    sys.exit("ERROR: report must not overwrite a measured input")
++temporary = None
++try:
++    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8",
++                                     dir=os.path.dirname(os.path.abspath(path)),
++                                     delete=False) as output:
++        temporary = output.name
++        json.dump(data, output, indent=2, sort_keys=True)
++        output.write("\n")
++    os.replace(temporary, path)
++except OSError as error:
++    sys.exit(f"ERROR: cannot write report {path}: {error}")
++finally:
++    if temporary and os.path.exists(temporary):
++        os.unlink(temporary)
++PYREPORT
++}
++
++report=""
++if [ "${1:-}" = --report ]; then
++	if [ "$#" -lt 4 ] || [ -z "$2" ]; then
++		usage >&2
++		exit 2
++	fi
++	case "$2" in
++	-*) usage >&2; exit 2 ;;
++	esac
++	report="$2"
++	shift 2
++fi
++case "${1:-}" in
++-h|--help)
++	[ "$#" -eq 1 ] && [ -z "$report" ] || { usage >&2; exit 2; }
++	usage
++	exit 0
++	;;
++kernel|dwarf|tree)
++	[ "$#" -eq 2 ] || { usage >&2; exit 2; }
++	;;
++files)
++	[ "$#" -ge 2 ] || { usage >&2; exit 2; }
++	;;
++*)
++	usage >&2
++	exit 2
++	;;
++esac
++
++mode="$1"
++target="$2"
++if [ -n "$report" ] && [ "$mode" != kernel ] && [ "$mode" != dwarf ]; then
++	die "--report supports only kernel and dwarf modes"
++fi
++
++case "$mode" in
++kernel)
++	need_cloc
++	need_command python3
++	[ -d "$target" ] || die "kernel build dir not found: $target"
++	ccj="$target/compile_commands.json"
++	if [ ! -f "$ccj" ]; then
++		# Use the source-tree generator even for an out-of-tree build.
++		script_dir="$(cd "$(dirname "$0")" && pwd)"
++		gen="$script_dir/clang-tools/gen_compile_commands.py"
++		[ -f "$gen" ] || die "no compile_commands.json or generator (build the kernel first)"
++		echo "generating compile_commands.json ..." >&2
++		python3 "$gen" -d "$target" -o "$ccj" ||
++			die "gen_compile_commands.py failed"
++	fi
++	tmpdir="$(mktemp -d)" || die "cannot create temporary directory"
++	trap 'rm -rf "$tmpdir"' 0
++	trap 'exit 1' HUP INT TERM
++	list="$tmpdir/sources"
++	python3 - "$ccj" >"$list" <<'PY'
++import json
++import os
++import sys
++
++with open(sys.argv[1], encoding="utf-8") as database:
++    commands = json.load(database)
++base = os.path.dirname(os.path.abspath(sys.argv[1]))
++seen = set()
++for entry in commands:
++    source = entry.get("file")
++    if not source:
++        continue
++    directory = os.path.join(base, entry.get("directory", ""))
++    path = os.path.realpath(os.path.join(directory, source))
++    if not os.path.isfile(path):
++        sys.exit(f"ERROR: compiled source not found: {path}")
++    if "\n" in path or "\r" in path:
++        sys.exit("ERROR: source paths must not contain newlines")
++    if path not in seen:
++        seen.add(path)
++        print(path)
++PY
++	[ -s "$list" ] || die "no compiled sources found (build the kernel first)"
++	n="$(cloc_sum_from_list "$list" "$tmpdir/cloc.csv")"
++	write_report "$n" "$list"
++	echo "kernel compiled sources: $(wc -l <"$list") files, ${n} SLOC" >&2
++	echo "$n"
++	;;
++dwarf)
++	[ -f "$target" ] || die "ELF not found: $target (build with debug information)"
++	OBJDUMP="${OBJDUMP:-${CROSS_COMPILE:-}objdump}"
++	# Preserve the prefix when only a conventional OBJDUMP name is overridden.
++	case "$OBJDUMP" in
++	*objdump)
++		ADDR2LINE="${ADDR2LINE:-${OBJDUMP%objdump}addr2line}"
++		;;
++	*)
++		ADDR2LINE="${ADDR2LINE:-${CROSS_COMPILE:-}addr2line}"
++		;;
++	esac
++	need_command "$OBJDUMP"
++	need_command "$ADDR2LINE"
++	need_command python3
++	tmpdir="$(mktemp -d)" || die "cannot create temporary directory"
++	trap 'rm -rf "$tmpdir"' 0
++	trap 'exit 1' HUP INT TERM
++	inventory="$tmpdir/inventory.json"
++	# Resolve full paths before deduplicating line-table addresses.
++	LC_ALL=C "$OBJDUMP" --dwarf=decodedline "$target" >"$tmpdir/decodedline"
++	awk 'NF >= 3 && $2 ~ /^[0-9]+$/ {print $3}' "$tmpdir/decodedline" \
++		>"$tmpdir/addresses"
++	sort -u "$tmpdir/addresses" >"$tmpdir/sorted-addresses"
++	if [ -n "$report" ]; then
++		LC_ALL=C "$ADDR2LINE" -f -e "$target" <"$tmpdir/sorted-addresses" >"$tmpdir/locations"
++	else
++		LC_ALL=C "$ADDR2LINE" -e "$target" <"$tmpdir/sorted-addresses" >"$tmpdir/locations"
++	fi
++	python3 -c '
++import json
++import os
++import re
++import sys
++
++seen = set()
++functions = set()
++rows = iter(sys.stdin)
++for row in rows:
++    function = None
++    if sys.argv[1]:
++        function = row.strip()
++        row = next(rows, None)
++        if row is None:
++            sys.exit("ERROR: incomplete addr2line function/location pair")
++    match = re.fullmatch(r"(.*):([0-9]+)(?: \(discriminator [0-9]+\))?", row.strip())
++    if match and match[1] != "??" and int(match[2]) > 0:
++        file = os.path.normpath(match[1])
++        seen.add((file, int(match[2])))
++        if function and function != "??":
++            functions.add((function, file))
++if sys.argv[1]:
++    with open(sys.argv[2], "w", encoding="utf-8") as output:
++        json.dump({"files": sorted({file for file, line in seen}),
++                   "source_lines": [{"file": file, "line": line}
++                                    for file, line in sorted(seen)],
++                   "functions": [{"name": name, "file": file}
++                                 for name, file in sorted(functions)]}, output)
++print(len(seen))
++' "$report" "$inventory" <"$tmpdir/locations" >"$tmpdir/count"
++	n="$(cat "$tmpdir/count")"
++	[ "$n" -gt 0 ] || die "no DWARF source lines found (build with CONFIG_DEBUG_INFO)"
++	write_report "$n" "$inventory"
++	echo "dwarf distinct source lines (debug-info estimate): ${n}" >&2
++	echo "$n"
++	;;
++tree)
++	need_cloc
++	[ -d "$target" ] || die "source dir not found: $target"
++	tmpfile="$(mktemp)" || die "cannot create temporary file"
++	trap 'rm -f "$tmpfile"' 0
++	trap 'exit 1' HUP INT TERM
++	cloc --include-lang=C,C++,'C/C++ Header' --skip-uniqueness \
++		--csv --quiet "$target" >"$tmpfile" ||
++		die "cloc failed while counting source tree"
++	n="$(cloc_sum <"$tmpfile")"
++	echo "source tree $target (C/C++ and headers): ${n} SLOC" >&2
++	echo "$n"
++	;;
++files)
++	need_cloc
++	shift
++	newline='
++'
++	carriage_return="$(printf '\r')"
++	for source in "$@"; do
++		[ -f "$source" ] || die "source file not found: $source"
++		case "$source" in
++		*"$newline"*|*"$carriage_return"*)
++			die "source paths must not contain newlines"
++			;;
++		esac
++	done
++	tmpdir="$(mktemp -d)" || die "cannot create temporary directory"
++	trap 'rm -rf "$tmpdir"' 0
++	trap 'exit 1' HUP INT TERM
++	list="$tmpdir/sources"
++	printf '%s\n' "$@" >"$list"
++	n="$(cloc_sum_from_list "$list" "$tmpdir/cloc.csv")"
++	echo "files: $# path(s), ${n} SLOC" >&2
++	echo "$n"
++	;;
++esac
 -- 
 2.39.5
-
