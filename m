@@ -1,49 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.216
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793695385;
-	b=paTS3MiUcSKbMQvbnxyQT8hQIdOBnwBZLO6YumnUf4xLI2OSgkwsbl6fvD/eaQ6XrCRb
-	 TRcWLOeJ7Yz3M4ezuJnyPxwEoOJI1GJ4MFC6RErW2XdVKY9s7NVHymAJEoAIRtrij3uad
-	 vcWhl2Y8DVFtyVmlBOVa5KvSZsICNuzQALJw17I5ifd7foeTi7Fn/uyOwQvVN/aNhEPmA
-	 hiA1ZoBCep+LBWXHyUIXBdAf56fkCLkF2+sTbO1xAaoygf1UPKc9u15jC86uNCAi8V8IF
-	 3IgAOxdLDBidsM253ohqrQM7KJroCR7OACTsl361qnMjIo9hitAweEFXinElCDJ3hRA==
+	t=1793696334;
+	b=UhcicjjMkyzW3wrm6E4yxbZvf4H94jp2vptFybI+doQ3UM5/axTR62KSjOx0+RTkCKdk
+	 ZxNU0zY3QKnM/IU04PHC2b5SGMB1NYDv0xxmsFhXzPJjTKaYhVxMv+PTReJ2BFJqxUZaf
+	 yfVl8PmizwI4+voQNrS/EhMHbuWZvVpsG+0oU7NwxOaHA4IsEN0Yo2HeVfPV91janpmOg
+	 PO/+5Tve94v7Uno/3s3TyX1v65oOKTgrl7pugcdkM3ZOpkaS0Kq80DoRoDFDKCvuuUWnj
+	 RcPQC+MUkhhOtO1Uy8fXC/o0VJWGmlNcBtJjz7FyqhtHGTGu0xb26N9Zbd7Wx0LGrBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793695385;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=R3G95yWaf+sWcTEm63d9FXQfK/5a79F3ruZBzma63A8=;
-	b=yEfq3wLnrsFPcsstQdLGCvWfu7+0eqpQFx4iQn0NRmRjn1Wd3/jJHYfZjlFQY0gOo633
-	 eob1HNRtMr2kpOoun7S8henqq5B7QTa4XvM0nV4mPEo7kFLqOcC6lnHOJP5nwviDsnAx4
-	 mJ6F9Q80K9I3ZigBs5VmNQv85bgdpeXgaGBF+eHVX9Y+Ur+OPl0y6+yit77M25FNSKOvE
-	 H9YvEhFVaqHPmIwIMKq3moV7sMPSZePzkskfQyGBFYQ9YyZA22ACOIVaZ+zUKMvxbK9Zj
-	 UzljZ2F7ve6RIVRzylLz2/WmPWXoxTz+uPijPcxObwIuo5EVg5V9dCpew1vgt4+m6Ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793696334;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=2Wui6IZ8+3IGT64LYdI3jyRRUf+/gPZP21F0NxyFocQ=;
+	b=01Kh5S1p2xNQSCso6U+92W2494D2IO9GCdio2RUhFv5UIAk/jvXtk3QeoIm1wLryZp9P
+	 pcxtfws2wUA1MmneVmsrrJHlVcKPBgjXdHY6mk2UjRxsDYUf8HpGZsLDT3qVLcUGBIv+n
+	 oDuBwEjG94d2uMjgOittHjWnSX1RmckQAkdtevVd1WG3e+6/y30uPcFE3cuvfuNwRKGk4
+	 a24h+ANmuo5Ej0YeqXInPDRNmPv4o0/DVzstC9O754riOBhlNhPZRmK1CTHE1AyhtGZvO
+	 EoeiFJUgewP9qfFfZ8JpZFi5Cg0p8LPz5hygtJ+LCv0ae8enJHl148QONDiKQncvMyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=DXJPWLzn;
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AF5D606A95E;
-	Tue,  3 Nov 2026 08:43:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AF5D606A95E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=isrv22Qo;
+	arc=none smtp.remote-ip=113.46.200.216
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 954EC606A324;
+	Tue,  3 Nov 2026 08:58:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 954EC606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=DXJPWLzn
-Received: from [10.95.64.190] (unknown [4.194.122.136])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 87A4A20B7166;
-	Tue,  3 Nov 2026 00:42:47 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 87A4A20B7166
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1793695370;
-	bh=R3G95yWaf+sWcTEm63d9FXQfK/5a79F3ruZBzma63A8=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=DXJPWLznZPYVXr3OmPYzZcQG1HlwtFfSG+/+kJHkWVF9KBIh8nLsRrdttdQlAdfcM
-	 YrcqZmod/F1py7b2yxaEtICrqh3jba6UjP71iSIv/9FQqSK+oTSNUQxFDEQ9t6OZYs
-	 G7sLeIYyi2a4f6h1I1R58pUHBgc2+6FMl+Ko4pxk=
-Message-ID: <e7eacfc8-7bf1-4dde-b62a-607a490fdd06@linux.microsoft.com>
-Date: Tue, 3 Nov 2026 14:12:59 +0530
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=isrv22Qo
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=2Wui6IZ8+3IGT64LYdI3jyRRUf+/gPZP21F0NxyFocQ=;
+	b=isrv22QophiKZJmHwiKj18ROMvnstRKjIO5KG/TqqRwa3SnAL84BCdjX2f4IR7ndwUDmEt0vg
+	3m/9phItTB9i/QXD7Df5zIhq1zWhXy9o1/Xw2X7yFJ42Ax0X5f6AxY85HkyFW13SzTiN8vvC/bI
+	0tTDoXsiI2Bt3HAvPJ+LmNU=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4jJjCp3g83z1T4GB;
+	Tue,  3 Nov 2026 16:58:30 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id BDAE64057F;
+	Tue,  3 Nov 2026 16:58:48 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 3 Nov
+ 2026 16:58:47 +0800
+Message-ID: <432a92de-bd62-4d89-b0b8-3e89086660e0@huawei.com>
+Date: Tue, 3 Nov 2026 16:58:45 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -54,121 +63,41 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] Documentation: hyperv: Update docs for PCI pass-thru
- device support
-To: mhklinux@outlook.com, haiyangz@microsoft.com, wei.liu@kernel.org,
- decui@microsoft.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, linux-kernel@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20261101022257.52819-1-mhklinux@outlook.com>
-Content-Language: en-US
-From: Naman Jain <namjain@linux.microsoft.com>
-In-Reply-To: <20261101022257.52819-1-mhklinux@outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH v2 19/19] Documentation: arm64: mpam: Describe the L2
+ monitor events
+To: Daniel Pereira <danielmaraboo@gmail.com>
+CC: <reinette.chatre@intel.com>, <james.morse@arm.com>, <ben.horgan@arm.com>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+References: <20261029123611.1108424-1-ruanjinjie@huawei.com>
+ <20261029123611.1108424-20-ruanjinjie@huawei.com>
+ <CAMAsx6c655ZN6YkwCSmgo9rdddUG9sjYQE_1XQi6=J=i=7N_Jw@mail.gmail.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <CAMAsx6c655ZN6YkwCSmgo9rdddUG9sjYQE_1XQi6=J=i=7N_Jw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
 
 
-On 11/1/2026 7:52 AM, Michael Kelley wrote:
-> Add a section to the documentation describing the IRQ domain and IRQ chip
-> hierarchy that is created for virtual PCI devices, including the
-> differences on x86 and arm64, and the reasons for those differences.
+在 2026/11/3 10:29, Daniel Pereira 写道:
+> Hi Jinjie,
 > 
-> In the context of the IRQ domain and chip hierarchies, describe how the
-> CPU selected for effective affinity is spread across CPUs in the affinity
-> masks. Again, account for the differences in x86 and arm64.
+>> Say why a bandwidth counter is assigned for the life of the monitoring
+>> group: rewriting its filter restarts the count.
 > 
-> Finally, rework existing text on how MSI messages are composed. Provide
-> an expanded section on the overall approach that Hyper-V takes to MSI
-> messages. The section provides more context on the handling of MSI messages
-> in the Hyper-V vPCI driver, and why it is structured the way it is.
+> I could not find this explanation in the diff. Is my analysis correct,
+> or was the paragraph left out of this version?
+
+This is an outdated message leftover by mistake; please ignore it.
+
 > 
-> Signed-off-by: Michael Kelley <mhklinux@outlook.com>
-> ---
+> Thanks,
+> Daniel
 
-<snip>
-
-> +MSI Messages
-> +------------
-> +In a typical guest on KVM, the VMM traps guest writes to a vPCI
-> +device's MSI/MSI-X registers/tables. The guest writes a virutal
-> +message (with a guest APIC address and a guest vector), and VMM
-> +emulation translates the message to program the physical device and
-> +physical device interrupt remapping (IR) tables on the guest's
-> +behalf. The guest never sees or handles the host-level MSI message.
-> +
-> +Hyper-V takes a different approach in which MSI/MSI-X register or
-> +table writes are not trapped. The guest writes the device's MSI/MSI-X
-> +registers/tables directly with a host-valid MSI message. The physical
-> +IOMMU and its remapping table are still owned by the host, so the
-> +guest must ask the host for the proper message.
-> +
-
-Could we distinguish MSI-X table writes from MSI configuration-space
-writes here?
-
-pci_write_msg_msi() programs the MSI address/data through
-pci_write_config_*(), which goes through the Hyper-V config-space
-access mechanism. As described in the existing "PCI Device Setup"
-and "PCI config space access in a CoCo VM" sections, those accesses
-trap to Hyper-V in normal VMs, or use explicit hypercalls in CoCo VMs.
-
-The distinction seems to be that Hyper-V requires the guest to obtain
-a host-valid MSI message explicitly over VMBus, rather than relying
-on interception of guest MSI programming to establish the interrupt
-mapping. That is separate from whether the programming accesses
-themselves are trapped. We should probably make that distinction instead
-of saying that both MSI and MSI-X writes are untrapped?
-
-> +The "asking" is done by the .irq_compose_msi_msg function for the
-> +"Hyper-V PCIe MSI" chip, which is hv_compose_msi_msg(). The
-> +implementation requires sending a VMBus message to the Hyper-V host
-> +and awaiting an interrupt indicating receipt of a reply message.
-> +Since .irq_compose_msi_msg can be called with IRQ spin locks held, it
-> +doesn't work to do the normal sleep until awakened by the interrupt.
-> +Instead hv_compose_msi_msg() must send the VMBus message, and
-> +poll for the completion message. As further complexity, the vPCI
-> +device could be ejected/rescinded while the polling is in progress,
-> +so this scenario must be detected as well. See comments in the code
-> +regarding this very tricky area. A synchronous hypercall to get the
-> +MSI message would be a much nicer interface, but the code makes do
-> +with what's available.
-> +
-> +Once the host-valid MSI message is obtained, the guest must treat it
-> +as a black-box that the guest does not interpret or modify. The only
-> +valid guest action is to write it to the MSI/MSI-X registers/tables
-> +using the .irq_chip_write_msi_msg function on the HV-PCI-MSIX-<PCIaddr>
-> +chip. That function is pci_msi_domain_write_msg(), which calls
-> +__pci_write_msi_msg().
-> +
-> +If the affinity of an IRQ changes, the steps must be
-> +repeated. A new host-valid MSI message is requested via the
-> +.irq_compose_msi_msg function and that message is written
-> +to the MSI/MSI-X registers using the .irq_chip_write_msi_msg
-> +function.
-
-I don't think ordinary affinity changes require a new MSI message,
-including with the companion arm64 spreading patch applied.
-
-hv_pcie_init_dev_msi_info() installs irq_chip_set_affinity_parent
-instead of the generic compose-and-write affinity handler.
-
-On arm64, the new hv_pci_arm64_set_affinity() selects a CPU and passes
-a single-CPU mask to the parent. gic_set_affinity() then updates the
-SPI's GICD_IROUTER and effective affinity, without recomposing or
-rewriting the device's MSI message.
-
-Similarly, on x86, the new CPU/vector is communicated through the
-Hyper-V unmask/retarget path using the existing MSI descriptor.
-
-Could this paragraph describe updating the routing of the existing
-message, rather than obtaining and programming a new one?
-
-Regards,
-Naman
-
-> +
->   DMA
->   ---
->   By default, Hyper-V pins all guest VM memory in the host
+-- 
+Best regards,
+Jinjie
 
