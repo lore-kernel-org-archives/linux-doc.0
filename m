@@ -1,65 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793674406;
-	b=2RvDZtyfOEf9h5PuZYnNKR9xlZqyb42E9fig5cIk4DSbc6/m7yGAt94bJes+eQmhbtem
-	 qm01uIKqQsOvdK5UluLJpgC1OabnDiwEagHq5xJXmuA7JSC93u7oJlUO/bWlT92HZEZFa
-	 c4ndL2n2Z7v/RzGJ+hyiAhvFH5fiHdb7/+GlSvsozWwOmMcgjyPqh+TKJB/E+Zfze5QKP
-	 zNYEC1MkzduT7v6qHug39Qjsqtm9ob7/SUqXUPcz12M+usyOzNJvRNMZX5CmC3jP3rJuG
-	 PRbhS/b1GFiVPURhHuq96AvRPXphofJvR8bgdzZNj2nysbgYvC/mlZ/eUT3jRfbzaCQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793674406;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=sU/GcVPlW21T35kJzeaSNLA7JSbtg+ZsWk7Dtu8zbgc=;
-	b=s5z/R7iZQSN6Zg6tE6ZZH+QoJaiHhnkrh8a2+s6ucSgr/zUgOJ1GESC+MrU1l7tKaSir
-	 i3f5tdVkd0F6FumHVJapM7psnJ7QDbpxE2k+apSQJRWecdnwT2khqb0cH2pf/DtHzeOIt
-	 UAM6Erfur46f//sBeTvcPAY0a4pn7WfMoaG7h3IwlT1SYVchkedzg3gfcGnHU+8kX3owH
-	 cTYhcEL/P1/RDTkkG+kTtX59291SRElFZBLOVjYwjgP2SeefSWrektPvjY5aNt1n1Ywyz
-	 RbtvqaZphbMfyLXu1FR/cwssLJum0JsxRJGctwFgoqlyJ1vnWl4Hp0edw4Hf8r24Z3Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1P9hjvsg;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793674742;
+	b=AcBAdOXdH7vT3U3ZIqYGUWBKfHKgK4JJXK0vQ+nsc7BrmWIo6DMLnVpbh0ljMRel9HWz
+	 L67myHKBXuIYgXzY1Q0r8VoKwBfGG6q4euEJs8BME2pXe2ZZdCdYxNHiCqL396yFs4THn
+	 Tlb6wZ2tsOgMH7njKjZMUwV60S95015b+ovLiTvdvM4gVBJm1bw52fTK88j/vH5keNty2
+	 goj2MtGE0W/noI76cjid5LBEr7s5SwE1TO+IEGKiEYW3HB09pkHXH+epgWij/MXlqzvo3
+	 f8vICq1Cfazx3rdUCE9esfOyaairzkBg1mb42hto08WB7A87cHz+GS7fmn33uS250Bw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793674742;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=UeAgzZLdotti0IHP6YHs9fQ/pnjZZ1tIB55pQGz1Z2g=;
+	b=kcwvfp6TQ2HNxpCMEmUEhbvi0UhkBcSuq2R0cpI3cHpnVWX58dPDWmFENst5SL5ItCnZ
+	 MLUrmNtrtaL14SO+/Bo9U84mnyteXiyQVx2TeHeHKIwITKsW/vIi6HRLLO5MKsSTKpONu
+	 suMdDCfTfhT7JqGPEvDXXlp+IscXKovqiSekIQZVoF2D1dJnewL3un0EU8pTFOIaVzLlU
+	 H1qW+9ZYS77PePazD9Oxgv4fWyYh8R8FT2pbrkx+hEdy4t/EOn3blwKcb8NV7lMstZulI
+	 NWbFYJZWGyyOK0INK6lmWQeAWSRDxD1H78zA4YGSBzK4nsZSKqc8vgT06XJe8sjv4aA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SWftFRzf;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.47
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4A7D606A324;
-	Tue,  3 Nov 2026 02:53:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4A7D606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D43C606A329
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 02:59:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D43C606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=1P9hjvsg
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=sU/GcVPlW21T35kJzeaSNLA7JSbtg+ZsWk7Dtu8zbgc=; b=1P9hjvsgrTat8MFhh2NwP5S/Q5
-	ByySuesphYtqI535SSzcmC6A95JPJeXLE5aqBKtg8axbzisNx8Pn1x8Tl6oxz80B4uKu7RWOFCRa8
-	4MlZbA0Sa1S1AxnbCEKbQdgrLfN2eRXZRmitiyLrSJvVEU49tIhPNika7yd8vnyrAtobwxSAryTmB
-	X2YamLNDwaRN4RVHphPTIG9t0mwgvc3yc5lde2hT3nMco/dpcaxWJSy4aVPmO3tOx9u5dsHZOetD7
-	BUZKUo+C7H+4c4+bpnEus8+3HPzkZ9CGQ26iYpKoF96/JlFBbFmVCUYQqgvIYBdmpTLLwXiGYS3JY
-	8DgV4Yog==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xO4eJ-00000000u56-2CVo;
-	Tue, 03 Nov 2026 02:53:23 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-doc@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	kernel test robot <lkp@intel.com>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	linux-fsdevel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v2] fs: porting.rst: use literal string to avoid warning
-Date: Mon,  2 Nov 2026 18:53:22 -0800
-Message-ID: <20261103025322.2549225-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SWftFRzf
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b1b12de661so5014a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 02 Nov 2026 18:59:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793674740; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eURKLvuXPU/5edble3QGggbV03FhIECp9zleyCiJU1fybS0ddLOAc+M+jUuMkMJ13x
+         vZeqyFBGa4IoKjU4YWuvOyC6wqIaAIzrLPfytpppy0UV5zJ6GTBUjVTsTN3ptzRU+Y5U
+         mS4x6YsD0vuaYzDhfKXsQ4fm1MZ+DTsFVVt9puFAECRnBxuLRIunZAFZLO4HDUYW4xHF
+         Vh5BimNhsxhpXYNpXfaFurnu7BcFq94QIPvrZzuDZKbGH6XKFju8b2h5Bab9IMp8hGYX
+         rkk2ha4XdKoMozhvSVV2xy//rwmpTCvVSqZ0TpEWB0O+Tg1/khzSvFNcboTeApToH86K
+         6X2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UeAgzZLdotti0IHP6YHs9fQ/pnjZZ1tIB55pQGz1Z2g=;
+        fh=NRg55tnO5c3L2ParYRfeJ8PrjLV7m5xBgwuojHcj5Fg=;
+        b=N1GU6QMOJdbFA4mIP4dPNraKODW9imQ706Dve8ceYpfFx2PeRQga83XWEEMw5igbKk
+         KkQyBl4I8cfwH8/gnsjDcTd8LK1Ho9Kn9s6HInZvQ8HsNHSpUTshKDgS0vrd56yxOCy3
+         8CheI3m0l9iFEErdkFA3W8Mu5ECA7tidlMr8HcjETbbAwJ4aXHJfgUbk+0EZ2VyOYEX+
+         Y4ezhgSx84zyS3CHyplCYgP8icf7zFkU7w0Ncn2pI3kMqFrxV2FxvPauHADBdi1S04Qw
+         3x+vnUHudL7sQgzGwnBRbrlJ4llk7fMFyNGg98Y2miv3EgWjYuaHmTANI04P6GdDIGUx
+         SMtg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793674740; x=1794279540; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UeAgzZLdotti0IHP6YHs9fQ/pnjZZ1tIB55pQGz1Z2g=;
+        b=SWftFRzfsr6HRx4mZ7jlKL9NBy880MECjOX0cGycb8yBgGDCdwhmaMudA5uCPfnCsr
+         12rC+qqqvmSvKFG7NqLjNYRVUZE34khfj2SjffiiS8W5B5WZr/ZYboQR6rm2ybo5agl6
+         KXtEvNcgHqwKMkLMR95tW4NLAlMHOmoqEX0mXlVeJqVOqHwpQ7u/x7oYcJcbK6Whw0Yv
+         SxHXuClHnSuLcYRwTHj9cfFqZT5eWfkatAmjmPJy9ZR93RGnD24qRv3ORgNWVvy0TSYi
+         DHvVQHYtwo4qQKosyCBDfYGYqALpH+v6Yh7R/cORV1TV7J7hYBYNhA+WlDn9ASn3KBGH
+         lUHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793674740; x=1794279540;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UeAgzZLdotti0IHP6YHs9fQ/pnjZZ1tIB55pQGz1Z2g=;
+        b=zSZCr5ODD5BA0OFULKtlSFkNYWlilruc+ELt4sb0H30AZWryl1Rzm7bm0zvJuRP5SQ
+         gJLVEvUoBKguzRHlU2WODOGSMa7KT1EPy9v0oKqu/N6+KkbY79GoEUKmxo44V1tacH7a
+         4Gteugy/2AL7D1XJ6TLXIGaDNUhnE4eChUEzjPgpHDFnU1/z+rc4U0zQwEuZALykQtg3
+         OLXmBYsQsgX8RLG4iOy39jmATIK9XKFkTgYJSWmlDvBNO2zNiNe9SGb2wPaxs3rJdL2R
+         Uw+DQUGjh3LoaGBBJaollORvCXtJVJYR0QoqMBxin3K6g4jKmkHHO7tlezDEIXBRZN/P
+         LYTA==
+X-Forwarded-Encrypted: i=1; AKwUvByYtT8nQn24ma59djxmDibkvAb/F1hRIb38d5AmSU7YIZU0t5DgmX14ZvnRrtS1lbmiUM/qkwBqkBY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9g5V5neecNCDWpmNKzKaelfP6HfuVwvHHyRgb/jM9l57CD4Byt
+	UWYXaCAUF9tRAUPO2NbOuu/Nmxf9XgQCffoJZ3Tqnox+VekA8gkbZEVxo0h1PGvV8EA5NDajyqm
+	5wE0vrGFCrNa92LOkurhpooTFojoNdlnJEjuKImx3
+X-Gm-Gg: AYBFou3bBqChioA37ZrqSPZHTSNJpevuTx+l/W+uoImqNaoV8rdcyDvQuSIvWSU6rTe
+	EIZ+8vA6hui5YOlYwVDijyGbPLwOBV3PMzM6La1ewuTtXANIG98w6/GA86SstzTTWw78v3GeqiM
+	/Dg0pagTGuhgtgs6DlL2Hs4kVMJ1Hv1OCNwzE94ZB5WDuXcXPmLB5SaTwxBCxrdj7qhTxNS4xB5
+	j7/CAeeh2DmDo1Cac+oADXRSrtewlchgop+ETMAEVb3Km8ZRGqqJX3lEzn1lrP+A3/bvweDbvd5
+	xD9gceNgsbEFmHzbBtgYbR7Kjob8KQKLkmWCGJrxOqoWoV35Y7yqKHqSGiJ/tingxXSPmHsnqWz
+	wntf1R6Y2MOszpwelk4nk59U17DtY6LFfns6cHCU=
+X-Received: by 2002:a05:6402:438d:b0:6b3:f12d:7405 with SMTP id
+ 4fb4d7f45d1cf-6b53e778d41mr32077a12.14.1793674739712; Mon, 02 Nov 2026
+ 18:58:59 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,42 +104,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261102191438.1059771-1-sdf@fomichev.me> <20261102191438.1059771-8-sdf@fomichev.me>
+In-Reply-To: <20261102191438.1059771-8-sdf@fomichev.me>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 2 Nov 2026 18:58:48 -0800
+X-Gm-Features: AclHuK9Z5oWBbhWwMCS_z-DuUMSaT3p8QPAgg8n9KeMCHplfWy0Bv6rYsGa7af8
+Message-ID: <CAHS8izMyGmLC0yg+WT7eAZ0tkSoJ5K80t-J8-WfYegvjDXonMA@mail.gmail.com>
+Subject: Re: [PATCH net-next 7/7] selftests: drv-net: devmem: TX from a
+ hugepage-backed dmabuf
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch, 
+	edumazet@kernel.org, horms@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, michael.chan@broadcom.com, 
+	pavan.chebbi@broadcom.com, sdf@fomichev.me, bobbyeshleman@meta.com, 
+	asml.silence@gmail.com, daniel@iogearbox.net, razor@blackwall.org, 
+	leitao@debian.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Avoid the docutils warning:
+On Mon, Nov 2, 2026 at 11:14=E2=80=AFAM Stanislav Fomichev <sdf.kernel@gmai=
+l.com> wrote:
+>
+> TX net_iovs are now sized from the dmabuf layout, but the TX tests
+> use a regular memfd, which usually keeps them small. Add -H to ncdevmem
+> to back the udmabuf with 2MB hugepages and a TX test which sends a 3MB
+> buffer from it, so that frags end at and continue past the 2MB net_iov
+> boundary. The payload has a 7 byte period to catch offset errors.
+>
+> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 
-Documentation/filesystems/porting.rst:1417: WARNING: Inline emphasis start-string without end-string. [docutils]
+Acked-by: Mina Almasry <almasrymina@google.com>
 
-by quoting the const pointer in literal quotation marks.
-(Adding a space between the '*' and the '.' also works but it looks odd.)
-
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202609231806.ILZP6Fy0-lkp@intel.com/
-Fixes: 025756ee7b47 ("fs: port mnt_idmap() and file_mnt_idmap() to const mnt_idmap")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Reviewed-by: Jan Kara <jack@suse.cz>
----
-v2: add Rev-by: from Jan;
-    rebase & resend
-
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>
-Cc: Christian Brauner <brauner@kernel.org>
-Cc: Jan Kara <jack@suse.cz>
-Cc: linux-fsdevel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-
- Documentation/filesystems/porting.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
---- linux-next-20261102.orig/Documentation/filesystems/porting.rst
-+++ linux-next-20261102/Documentation/filesystems/porting.rst
-@@ -1418,7 +1418,7 @@ All struct mnt_idmap pointers handed to
- ->create(), ->mkdir(), ->mknod(), ->symlink(), ->rename(), ->setattr(),
- ->getattr(), ->permission(), ->tmpfile(), ->get_acl(), ->set_acl() and
- ->fileattr_set() as well as the xattr ->set() handler and the vfs_*()
--helpers take a const struct mnt_idmap *. mnt_idmap() and file_mnt_idmap()
-+helpers take a ``const struct mnt_idmap *``. mnt_idmap() and file_mnt_idmap()
- return one. The idmapping is immutable so nothing should have modified it
- anyway. References are taken and dropped via mnt_idmap_get() and
- mnt_idmap_put() as before, both accept a const pointer.
+--=20
+Thanks,
+Mina
