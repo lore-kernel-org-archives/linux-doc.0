@@ -1,61 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793718336;
-	b=o3lGi7K0Ckz1D47YwOdXmkken00iz3ZQVE/84G1SN6QTzwUT0hjkEi7HE8+6QgE5SOsv
-	 Ryr6v5hfkbY5OpirPbRCbckqo4Lo3LbpL3tkePYHGIPR58xD963l0MFkhLPfneDbv8gcW
-	 kxw8mJvZw+ssfsw59PTrVvQCvACsmGS/g6hTTsfDNUy6V4iTnMFrV5JW4J9IoeMHPmynS
-	 UhYyVYpriHWsuv5ObnL0iqzSBMyGEpd35R+H4Bjr188OG9ryzs10LRdgrYP/9s6LG344z
-	 FEU25ju466UJyb5QHmJVC0x3M3IR7t82lrAssocxfpO+rIvsddXpJfh4/V+akdouwnQ==
+	t=1793718532;
+	b=slrQ9BpUEU1Vk++3uf79ft5VGebLBq94gu+VUtPj/FIvrDB259G4AnlUGnTOlRWIUH+B
+	 SoT3xVJ5+tfJ9NJbbmcF84xiUDTLhEuHREbwv9xCFW/UrXJlW55/xAE1ra5fk2wpLZQsp
+	 9tJH+MfS9CwT8yH1vPIXH1xXyBZKm5XggA1cOxhutaZGqOA+aiAOCiplFSi1BCrm8k0LE
+	 Rr/in1EnBlsFgTcaLfMdbH9nlnHSGT0Z//1uA2eQ2vX2Z8AHlTVatrxcr9D0wd+cWduSR
+	 tf3F+iVM2C/dPHxCw36k7BwIqAg3EYWGmYnHI9ItIBTD3YHJzcxlaGo9iMJ5+ndaOBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793718336;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=IPfcmrcYcWX5lHrSru9Jn6n30jillltoM7EEkw0R5FY=;
-	b=KPhLbc6GNS2tYaLgfO/30NRE83AeWL3nTwW/5+0OcN9uncPmspt83z818a5EihctZ/C2
-	 Og57DI7m6GUZAaUk3imIoLuZD6+Su/CXsWDH/fDRvajTW0kwbF3QSYHTeP87NL7KCM8a6
-	 i/VWJQBefzC4sI9AoNi2v+Wh6MXqWaetcx1gcUkkk0TUnW9eN3ASfU102BwHhV1mUddQV
-	 o1Ks0RigGZzJ+SyRnXnVqCVE1XR/U6iW8NW8+wcjK3alrkNmQXuFv4t8yRVfHdsQaPtjz
-	 50/l+rpc+5ha15O2pWXSsn+BT4BhPjC9Sgc6pV/tvHsltUJS+6vgRMPf04Q0dkOclRA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793718532;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=ztc4qLkMwN1NoVUWOEPMzFNWuHwPq9rAxrAFP/pyv3k=;
+	b=hmcCkphSbbhMIqwoOjA2PtkiDvbv7MD5A917tC883kCC2wGuxBF8U62BpGTuRQrI7Nsa
+	 QD0T1xt64nCiV5U4lC5upHf3K7GwzOCze72jt1YpDFfsyhn7GiH7GD2jOUOc9C7KFhXWe
+	 IMjyXwZTBkP1RcKd8pR19BGtLiV0b73v1aKRHtvLbWd/tFCgVN7ZZsirBOE46JKD0LXNQ
+	 loFOiM0pW8MSKxebhsOzLuVeEV9idZTfmq167pfPTqVISFyVhgiMCdSFRQ9LuQ4naWxd8
+	 H3ZcAtLJQPM0BbenrPhH7GcSjUkVM1JIyw7zjyU4NCbUgHU88PP4yQG58nrBWH7ZiCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i7EFxg3V;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LPAosJaQ;
+	arc=none smtp.remote-ip=209.85.160.45
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97183606C822;
-	Tue,  3 Nov 2026 15:05:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A78606FCC0
+	for <linux-doc@vger.kernel.org>; Tue,  3 Nov 2026 15:08:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91A78606FCC0
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i7EFxg3V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE301F000C1;
-	Tue,  3 Nov 2026 15:05:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793718336;
-	bh=IPfcmrcYcWX5lHrSru9Jn6n30jillltoM7EEkw0R5FY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i7EFxg3V7LiVQlqu8g676hJBANeRvsSGORz8SVztNkzVPMstOH8WIxPuhsKQjBDCt
-	 Jmw3i2bsC8Nr9dlBur0QU12T0/idc3zOpSS4jruSjYWDlqHDfphVroG5rpf0HOkwY7
-	 d3tPTNrgnLhntZI+F9MEB3J34SQ0hvuSOqL2dIVjnS3bElYdlmrJ4GUurhiPgO7312
-	 0hdKRAcooUqT9/OF/D3wsE1mAW7cMg4am0VtyypFQDLBQDzoSCjuQZxP6EobwPLLlt
-	 JpVGZ1H8EptRPXzvCCNasSFlCEErCWvk/Cqjj0KmyQhweuHYzUpdyX3q3fjT2zYGb/
-	 OvneJ4V790e/Q==
-From: SJ Park <sj@kernel.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LPAosJaQ
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-4a76f0cce5fso2039542fac.2
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 07:08:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793718530; x=1794323330; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ztc4qLkMwN1NoVUWOEPMzFNWuHwPq9rAxrAFP/pyv3k=;
+        b=LPAosJaQomkk+3IHBdKD17odPMqzTKcRQQntLNNF8saauK6Rh/eeGGF/aRJsr6Pmqf
+         89D2mNvu8k13XA45/c6ZfhELpGbAs/+9ANPLrocgsTrV22jHjbWQ4i72WoBWv07wK/D0
+         XcMkEuouJUjRghaccdaAzKgPsoAt+Vut83CeeKLT7h+wVQ5zx7Go8m80wYT2dYOqM0j2
+         t+sDXay6dzIYWdO9dEGFuCl7Ck4Ut1zOB4adrqQKZAcJY/Z2helMv4nQ9GNGiV8bTCNx
+         nDj4lWBNaWI7CaMz6RV2YcS2jlwNqU4AJaSYjcqfafn6v0pGG7ZB8dmp3U8IjhJgpP0P
+         8rVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793718530; x=1794323330;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ztc4qLkMwN1NoVUWOEPMzFNWuHwPq9rAxrAFP/pyv3k=;
+        b=pZtm03fyg9V9gaBk0zB6bWk6tThHsUqyoe4bw6BNMTB0BHeT6M2G6G9MhF49rXYkfp
+         x+JfAAw5n+/qALPLpI9cUZ6owQCvufP7sTMJGh97EM8EpjRNKRdGIipTBzsq8Gwt9Vif
+         f3iEuNg0GHvz9CGz4ahlR6R58JYnIaebP+fYenmTOJ0Sl6HcOibVjAr4OZNY3WTcmGzy
+         yePtMb4kfUjadDMFGjoyiuA+pTZLBkX9vG889ujPFR+d47DWEAp3+dT3OZp1Qu3b1HfT
+         GA56gClMiEzIdNtjBixdVLMwPjR4ynW5tMMmFjVkuzzoR50PpemByNk5/DA5tH69cCvP
+         gYvg==
+X-Gm-Message-State: APuU4Z/vMwuloQGuC/S1EUHXJ8ANcQVMHqLaMAT9yW1ghDcmSE/Omre9
+	XYb+saykqzkk+W/BDNLFqf3fERDF6fxOe86QyVo+4aCZIYRExftjP5Ck
+X-Gm-Gg: AYBFou19GIlXkE2FbD2FCnu/wueo64ERC6ABbWUqDAxdvs+LU4lSZ8rj29H/QcAwRs+
+	Ml+1rWxOTCIw6FDzKUk8Ii7ebOcv+2uNuL69x1s1WL4Ba7aNodgIdMpR3y11tWcsvYyeJoEJK6h
+	LEmXnFZPzXszpEMD8HbuL8yQliyZF8DJbVbk9QwCpqs5q0xBphVyeYLoRZPTCZ0KMEFmQou2UPK
+	3Zgqiv2HkIDz/axABLFTlN5KKC/icKvICtQXHzCVerjqqJk0580VTUS+HSLuN8wTjI6Fwh+jDwk
+	O5UJmZVqgXAkLAeTPIPcpY81uHfnZsmkLCMky6fO2Np6utIJ9acJFzFY6HP+S1RlpYwcmGd10jz
+	nGRoeJcsZ4ScRjq4rKxdDC3hTDEgIjTw9Ebldj0hf8wcNNBiKUJepmhSaR23iUexGI2Fa888YWR
+	zfFEwk/i9cpxfHMbnMhUB0uPyo68PmHHdMuM1WGn2Fi1sz2beYpv98etjUp85wJaFV4+A3kLX31
+	iO8pd8WyXMio3r742gLRfDjBa8Oc4JF9Bp9V1gT9jXdR9H6rcU3DqCYpPESgDYnRhA3i+16GeEF
+	B4UMaPuymzOF+RQNHN4VX9uVDSzO9cSChx7K/Q==
+X-Received: by 2002:a05:6870:15d5:b0:483:bdb3:a524 with SMTP id 586e51a60fabf-4a9072ccf3fmr7956354fac.4.1793718530479;
+        Tue, 03 Nov 2026 07:08:50 -0800 (PST)
+Received: from penguin.lxd ([2605:3f84:842:3300:216:3eff:fe58:9322])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4a95d970b9bsm4730448fac.8.2026.11.03.07.08.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Nov 2026 07:08:49 -0800 (PST)
+From: Matthew Weber <matthew.l.weber@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Aveline Noir <jm5905938@gmail.com>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] Docs/admin-guide/mm/damon/reclaim: improve language
-Date: Tue,  3 Nov 2026 07:05:28 -0800
-Message-ID: <20261103150528.88546-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261103120043.100887-2-manuelebnerli@mailbox.org>
-References: 
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	kasan-dev@googlegroups.com,
+	Matthew Weber <matthew.l.weber@gmail.com>
+Subject: [PATCH 0/4] Documentation: Add kernel minimization guide
+Date: Tue,  3 Nov 2026 09:08:41 -0600
+Message-Id: <20261103150845.13008-1-matthew.l.weber@gmail.com>
+X-Mailer: git-send-email 2.39.5
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,66 +102,98 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello Manuel,
+Hi all,
 
-On Tue,  3 Nov 2026 13:00:42 +0100 Manuel Ebner <manuelebnerli@mailbox.org> wrote:
+This series adds documentation and a script for measuring source lines of
+code (SLOC) in kernel builds, supporting developers and system integrators
+who need to trim a Linux kernel.
 
-> Fix upper case.  Fix tenses.  Replace 'set as' with 'set to'.  Add space after
+The Workload analysis section of the admin-guide already describes tracing
+a workload. This series builds on that guidance with a worked example of
+using workload observations to inform kernel minimization and measure the
+resulting configuration. The guide is intended for developers working on
+embedded and safety-critical use cases, including work related to ELISA.
 
-Please wrap lines for 75 chars per line, from the next time.  Otherwise,
-checkpatch.pl will warn like below:
+The series builds on the ELISA Aerospace Working Group's ongoing
+minimization discussions and iterations in
+https://github.com/elisa-tech/wg-aerospace/pull/257. That effort explores a
+generic, newcomer-oriented workflow for tracing a workload, iterating on a
+kernel configuration, measuring kernel metrics, and understanding userspace
+metrics. The ELISA documentation aims to present a complete containerized
+workflow, with analysis steps to guide users through successive iterations.
+This series contributes reusable, general-purpose kernel documentation and
+tooling upstream to support that broader process. Clear upstream guidance can
+also give AI-assisted tools reliable steering context as they help users
+iterate on kernel configurations. One likely early application is producing
+minimized release configurations for Space Grade Linux.
 
-    WARNING: Prefer a maximum 75 chars per line (possible unwrapped commit description?)
+Rendered drafts are available online:
 
-> sentence to make it double space.  Rewrite and refine complex sentences.
-> 
-> CC: Aveline Noir <jm5905938@gmail.com>
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> ---
-> That's the final version.
+  Kernel minimization:
+  https://matthew-l-weber.github.io/linux/admin-guide/kernel-minimization.html
 
-Thank you for revisioning.
+  Workload tracing:
+  https://matthew-l-weber.github.io/linux/admin-guide/workload-tracing.html
 
-[...]
-> --- a/Documentation/admin-guide/mm/damon/reclaim.rst
-> +++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-> @@ -4,7 +4,7 @@
->  DAMON-based Reclamation
->  =======================
->  
-> -DAMON-based Reclamation (DAMON_RECLAIM) is a static kernel module that aimed to
-> +DAMON-based reclamation (DAMON_RECLAIM) is a static kernel module that aimes to
+The series and its review discussion are in PR #1:
+https://github.com/matthew-l-weber/linux/pull/1
 
-Sashiko suggested [1] s/aimes/aims/ ?
+The patches are:
 
-[...]
-> @@ -88,7 +89,7 @@ identifies the region as cold, and reclaims it.
->  autotune_monitoring_intervals
->  -----------------------------
->  
-> -If this parameter is set as ``Y``, DAMON_RECLAIM automatically tunes DAMON's
-> +If this parameter is set to ``Y``, DAMON_RECLAIM automatically tunes DAMON's
->  sampling and aggregation intervals.  The auto-tuning aims to capture meaningful
->  amount of access events in each DAMON-snapshot, while keeping the sampling
->  interval 5 milliseconds in minimum, and 10 seconds in maximum.  Setting this as
+  1/4 Documentation: kcov: clarify coverage example
+      Clarify that the saved count bounds the printed entries while KCOV
+      remains enabled until the disable ioctl. Document the relevant
+      config requirements and PC symbolization.
 
-Sashiko also suggested [1] to update above 'Setting this as' to 'Setting this
-to'.
+  2/4 scripts: Add kernel-sloc helper script
+      Add a helper to count source lines from compile_commands.json or
+      estimate distinct source lines represented in a vmlinux DWARF line
+      table.
 
-Other than above two,
+  3/4 Documentation: admin-guide: Add kernel minimization guide
+      Add the guide to the Workload analysis section and add its
+      MAINTAINERS coverage.
 
-Reviewed-by: SJ Park <sj@kernel.org>
+  4/4 Documentation: admin-guide: Update workload tracing guide
+      Expand workload tracing guidance with ftrace function-graph
+      tracing, syscall tracing under QEMU with the GDB stub, and mapping
+      observations to kernel configuration symbols.
 
-Assuming you don't mind accepting above two Sashiko suggestions, I applied this
-patch with the suggested changes to damon/next [1] tree.  I will repost it soon
-(~1 week) as an mm.git merge request.  So, no action from your side is needed
-for now.
+Tool-use disclosure: I used GitHub Copilot CLI while preparing this series.
+It helped revise the KCOV example, edit parts of the documentation, add
+MAINTAINERS entries, and integrate error-handling revisions to kernel-sloc.
+I reviewed the changes and take responsibility for the series.
 
-[1] https://lore.kernel.org
-[2] https://origin.kernel.org/doc/html/latest/mm/damon/maintainer-profile.html#scm-trees
+I checked kernel-sloc syntax and help output, and ran
+checkpatch.pl --strict on all four patches. The GitHub Actions htmldocs
+build completed successfully with no warnings from the changed files; the
+published documentation is available at
+https://matthew-l-weber.github.io/linux/admin-guide/index.html#workload-analysis.
+I did not run make htmldocs locally.
 
+Any feedback is appreciated.
 
 Thanks,
-SJ
+Matthew
 
-[...]
+Matthew Weber (4):
+  Documentation: kcov: clarify coverage example
+  scripts: Add kernel-sloc helper script
+  Documentation: admin-guide: Add kernel minimization guide
+  Documentation: admin-guide: Update workload tracing guide
+
+ Documentation/admin-guide/index.rst           |   1 +
+ .../admin-guide/kernel-minimization.rst       | 413 ++++++++++++++++++
+ .../quickly-build-trimmed-linux.rst           |   4 +
+ .../admin-guide/workload-tracing.rst          | 139 +++++-
+ Documentation/dev-tools/kcov.rst              |  44 ++-
+ MAINTAINERS                                   |  13 +
+ scripts/kernel-sloc                           | 299 +++++++++++++
+ 7 files changed, 903 insertions(+), 10 deletions(-)
+ create mode 100644 Documentation/admin-guide/kernel-minimization.rst
+ create mode 100755 scripts/kernel-sloc
+
+
+base-commit: a592a36e49372172d7c7551ec19ed18184c935e1
+-- 
+2.39.5
