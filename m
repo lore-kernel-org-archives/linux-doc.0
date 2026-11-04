@@ -1,47 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793808468;
-	b=FeKI1cs4n0i4fAUJ7oVAWCFQ/FyCFgJZuq/FJSbpEtn0KWWJM61FX9JKDVGvql93bjH2
-	 fE22WrWyISGvh4APZvPGxksQslsUh3K2Tmyf++rK/DWOn+vfahgWDX0hQOEA6eIPK7UsK
-	 G+WCL8mjOAw1NID4suUEiBZNS3ZPWXRgaenO7l2o5gpSA0sPj/vPE0aLNlnXEygp1adYT
-	 CZBUUB3lYFYMxo9SEqJOAqj3Wm0etZKjJWtHNyZ24ljiIfENJ2Nys175A4R5v+4eIYzDm
-	 TE9ii3mfl1MKSASP5QJz+f1XhM0kwqPifFpvKGWfu5WDTjIs1whYHPagHFmDA7eahDg==
+	t=1793808948;
+	b=jyqYhEd2xBzZIMt7fq+25CloE690R4HUTmScMamuQ5D8cWIZzp0az+icviFOSGwAuNpH
+	 yh8MAMcxvYWRbPlYJ3eMg0dHKfjvtjNB4yEn0wSjh5G9RhXkLupDl5gDE+06gDbfqUJjy
+	 qsylxyXtSku+GJSz5l7+YfNbxvOj0qOQc20AoiCPcZo6X4u+2zBAflqgcm9Ybs0jVPffZ
+	 KJGrzrE9GcvRKmUkDsnoQREB3wEjQyB3lFfKXP8GjtIcms1ZkXrtLEItcNmlr/WxaTM5E
+	 ge6/hEJtvIC9+e6Par3wHTNvbYLQ+49oT/HngNK9UT1VsdB8zG/h8ksvttrJzICWfJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793808468;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=flMXNxiWEHoQiHXSBFrkZmNU7RGBVxxqF50tkqZe2B4=;
-	b=EBUqpXwhpnjNKj4iVKPqdUs1a9Lt91YGy6ETmR8+I0INUl38O9uPAEhc24xTMQRdLAEF
-	 4AxtvfYtGTqbBXQ0vCbxsZS7eYgQce+NQZVkGU+AkcC+L5tCSz41r5HrNWtVVEZaJf28D
-	 louan1ns+YZqAai//vsR7KocEhwqDHf3iKJgDABscayoitcScKIQKte6rLl0omc066NQf
-	 /T/vVD5wbPGW9hdBtzI7x2JuIaUAofadk022fGPmveXQz3DQCuFxhS5KV2RKdI1uWR1mw
-	 HwxZqwWT8tD8hVqRr/noS1Wy7zk5fWSlwfczXJC6VEMIvfnVLXa9OGufUjTJkirSrGg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793808948;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=OJqTJ4xyg07hJqswmJ5AikQ26UFbu12PW8dHC4PPKvs=;
+	b=K18fqRBWcoZP2RBLtdtQznBkb2XAWIeUwHNh+jfjApI1KUQKbJqee4b5s1MPtCloDpm6
+	 BMjVcFI/xdDOa+hZdHTAJvpCZBwLv+sZKEllszIH3OmMN3kEbE1nQjKwZcGUGU3W8/rNr
+	 Xb7HD3Y9a6rmVzDpov2WMJ9brs+x81/YB26ULgrhnTfrMC4+VByDKnlyiWYmteR4NFj05
+	 WKsMMGllKRQguM9+eEN7MZCwda+Cdtb+y9WIkGySXl4hsE9EXgviKZCywcj9VmNIqkhbL
+	 kK+PJiymMx1b9ZizVJ1IfSqDcR0sxgWFFrWQQgSNLQ3bvQncBaLsOuKy4NqEZW600mg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lbPC9u+W;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=soleen.com;
+	spf=pass smtp.mailfrom=soleen.com;
+	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=OzvPmeDW;
+	arc=none smtp.remote-ip=209.85.222.44
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DE49606A329;
-	Wed,  4 Nov 2026 16:07:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB46606A332
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:15:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFB46606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lbPC9u+W
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D060B1F00919;
-	Wed,  4 Nov 2026 16:07:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793808468;
-	bh=flMXNxiWEHoQiHXSBFrkZmNU7RGBVxxqF50tkqZe2B4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=lbPC9u+WqYTYnkkFYDRtOoONdVem35rdhn1WaS6YkI8WISarsntkV4jhI5q2fjK9+
-	 zspoBxzyTUkVHUYhcWT+UZhrrzs06Ytq2pzC5iTmI2HNz1qFMVfT/9i4abcyJ65Tki
-	 oEmwxGDSQC4cp9XWKAjS2WiCXIuTzH2lGkKajODaW77el/K7fQrd9jIp8mR2vqwPXV
-	 w18nv7QajlOZt3UEKAZm5dlTzI5S6awAYFSiiZEX9loTMWocH5GahmjM3U+Wfo4DEP
-	 YmlN9NpzVlydvVlh91CES/Dgm0Jom6aqg6OBuQ+IL2qClJ3+H5VDMcS4mmLRNU9zyZ
-	 6gxO/iPPf1cvA==
-Message-ID: <92e52f59-e096-4cb1-bce8-8081f489002c@kernel.org>
-Date: Wed, 4 Nov 2026 17:07:34 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=OzvPmeDW
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-980c4f5c921so286467241.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:15:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1793808947; x=1794413747; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=OJqTJ4xyg07hJqswmJ5AikQ26UFbu12PW8dHC4PPKvs=;
+        b=OzvPmeDW5bBy+zfv1z1W+Hmr2oI47pvOy3dB2/UBfqW2eCXCyi9tDXfI1TlMvDh/rl
+         Nm2x9kE47US+HAkFxSooytHhU9bNEBF7Anl4SHKfnGI5RJhiNbRUq+CLiQtBws3hzBfb
+         UPAjgPGjSaLt0PZlNevCOa9kBEtMkl30A3wq5rHlIE4Vyrnsiin2y3A2Q9JDein/WeUT
+         nZpeL3Lp5JvX5cX+oy8ByhLUpP8fEbIvuV0jmpmf1JIiPRaeYWMr24XjK8gw5gsR4vrz
+         iNZXpFU3ev7+1CybZzNzBhEdzleQ6Ti8vJ1TsXIgjQc0UjvVAbaP5rN4oFy5egP6V9RO
+         8/Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793808947; x=1794413747;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OJqTJ4xyg07hJqswmJ5AikQ26UFbu12PW8dHC4PPKvs=;
+        b=WmMSTKZ5aIKqmAk8L286BwPcqJJne1rJlyY9nyNsBDW5K2EeJAPObCp3qoZja2UK2b
+         18UiZbwx4lCSZWbCdkBDWinUgAkahozpWgGDHqo5Dc1IaHWNIGv5pM5yFIZO3EJXbk1v
+         EswszKsZTOHNRbwyWt0Zt+IzCvB03SjhbMyKejTUDkaxtuTnNRxzsZ28VWpunGgMHgXU
+         Vj6TkqTnJ59R3901JPKorHcFkh8Rnhyfz87yACfuv2q6uGoQNxbXVknPyQWgZjEDjKRo
+         y3o3iTW4W9FAEM3oOfTG+a/L9ie/a5ltjTrO6e5UrD11EUnL6EklbT72SNYyNVmiy150
+         f8yw==
+X-Forwarded-Encrypted: i=1; AKwUvBwbgT6KsGtGYuuKIVlhYrRASKB7Mr15MsPSEBUPOegYvzrHkUhrmDuaKuJX7zAzZ3a3U4LNzJBInBk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8k1Sbdq9kgp4mm6f34BhhNcRebrxfYXOKDGSy3vJfWyA99C4k+
+	35dNZkjVIkbbQIwTW+5eiVDN5Rj84owD+a2vjE4MPBktjOXxmMcFTCDzQnuqFo9IGm8=
+X-Gm-Gg: AYBFou0OHaLR0iIigm7nkEQbj7B9vqEWmn7SNXLCTNpFtCP4kbxRags8SFtT5TEcEWH
+	txOnb94AyjtsMCkkpDrHKn+YMTBB8giG7SDk7XmXmbFh4a9BDdQeXwmaHvfT1PMxgheAEg/eq3U
+	uQtsWldfz6pDsbgE8TiTTwXiLGTJSzATlPRgjcRc08oVdAnwPDaZ0OVXRU5KtzCLvjd0ACT8x/Q
+	V0GAVC53ONhweDXlnmyrohJBgfPy916MWBTFbarFLMMBnZeW758YOkNYg3CgeLQ7ZI592/XCi2U
+	r6W/H2svy4QVoU3qHmlqnvDLIRmjU2oTyTiXmACWj4Oaxass5orvC9NfkscDUF5tsCSsd4U/psM
+	MUIK+E8l7b5bgbS65Ka/bkjBZKLAp5H9MiUR5GqxtIs7TSebe+9qM5DYowbAd5XZQwvJRtY4Q8O
+	HwtfsIBnaWm7V3ek0r0cxXaVFVbghuyImB9jWXfHyvOhCnPGY8H6E52dvT8G60ITUQhg31VCcVY
+	D2yYTC6out6pDkS0KdnQoqw4TT+hwKCXioj/PaqZSMXwv2wazgO2rOrqCQMpe/fqt3EVYJBbcmu
+	akmO5VWvQwi0qQCbzWW7djSE38FNCER2Er7WgAlRduHOOWPBT96LOo+9zhCc8E2x0iBQ7FXL+dH
+	TIOHEaM22PPhC13HkYeVedhvTwUBg
+X-Received: by 2002:a05:6102:8092:b0:7cc:9d82:61e2 with SMTP id ada2fe7eead31-7d0725cfd86mr6050535137.13.1793808946717;
+        Wed, 04 Nov 2026 08:15:46 -0800 (PST)
+Received: from google.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-998d8afbfe6sm2262989241.3.2026.11.04.08.15.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 08:15:46 -0800 (PST)
+Date: Wed, 4 Nov 2026 11:15:45 -0500
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Pratyush Yadav <pratyush@kernel.org>
+Cc: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-mm@kvack.org, Alexander Graf <graf@amazon.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Christian Brauner <brauner@kernel.org>, David Hildenbrand <david@kernel.org>, 
+	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>, 
+	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>
+Subject: Re: [PATCH v3 03/10] liveupdate: Allow file handlers to mark
+ retrieve failures as retryable
+Message-ID: <autW_3fjUS_hEhZf@google.com>
+References: <20261103010216.3447716-1-dmatlack@google.com>
+ <20261103010216.3447716-4-dmatlack@google.com>
+ <2vxzv76ck7n9.fsf@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,87 +109,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mm/hugetlb: allow crashkernel to reuse hugetlb CMA memory
-To: Kiryl Shutsemau <kas@kernel.org>, Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, baoquan.he@linux.dev,
- rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org,
- ruirui.yang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, muchun.song@linux.dev, osalvador@suse.de,
- jbohac@suse.cz, sourabhjain@linux.ibm.com, ruanjinjie@huawei.com,
- leitao@debian.org, linux-kernel@vger.kernel.org, kexec@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, hannes@cmpxchg.org,
- riel@surriel.com, shakeel.butt@linux.dev, kernel-team@meta.com
-References: <20261104142727.2894800-1-usama.arif@linux.dev>
- <autMHwldMudQOO3j@thinkstation>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <autMHwldMudQOO3j@thinkstation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2vxzv76ck7n9.fsf@kernel.org>
 
-On 11/4/26 16:20, Kiryl Shutsemau wrote:
-> On Wed, Nov 04, 2026 at 06:27:27AM -0800, Usama Arif wrote:
->> Use a separate suffix to make the exclusion of existing HugeTLB
->> allocations from the vmcore an explicit choice.
+On 11-04 15:12, Pratyush Yadav wrote:
+> On Tue, Nov 03 2026, David Matlack wrote:
 > 
-> The crashkernel=size,cma documentation already says that pages allocated
-> from the range are not in the vmcore and that it should not be used if
-> dumping of userspace memory is intended. HugeTLB pages are userspace
-> memory. I don't see what a new suffix makes explicit that ",cma" does
-> not already.
+> > From: Pasha Tatashin <pasha.tatashin@soleen.com>
+> >
+> > When luo_retrieve_file() invokes a handler's .retrieve() callback and it
+> > returns an error, LUO currently records the error in
+> > luo_file->retrieve_status and blocks any subsequent retrieve attempts.
+> > This is necessary when the handler has already partially consumed or
+> > freed the preserved KHO state.
+> >
+> > However, with user arguments passed to .retrieve(), a handler may fail
+> > early while validating caller-supplied parameters (such as a missing
+> > argument, an invalid or read-only target file descriptor, or a non-empty
+> > target file) before touching any preserved KHO state. In such cases,
+> > userspace should be able to fix the argument and retry
+> > LIVEUPDATE_SESSION_RETRIEVE_FD, and if the file is never retrieved,
+> > .finish() must still run to release the preserved KHO state.
+> >
+> > Add a retryable output flag to struct liveupdate_file_op_args. When a
+> > handler sets args->retryable = true on error, luo_retrieve_file() leaves
+> > luo_file->retrieve_status at 0 so the retrieve operation can be retried
+> > and .finish() will still clean up the unconsumed preserved state if the
+> > session is finished without retrieving the file.
 > 
-> Why not let crashkernel=size,cma take hugetlb CMA first and reserve a
-> dedicated area only for what hugetlb CMA does not cover? With
-> hugetlb_cma=6G crashkernel=2G,cma there would be no extra CMA at all.
+> Should we give some sort of signal to userspace whether the error is
+> retriable or not? How would it know it can or should try again?
 
-Hiding that complexity from the user would indeed be nice.
+The goal of args->retryable is internal kernel state tracking.
 
--- 
-Cheers,
-
-David
+From userspace's perspective, LUO ioctls behave like any other syscall 
+where errno is the signal: userspace decides whether and how to retry 
+based on the error code (e.g. retrying on -EAGAIN, or picking a 
+different mount on -EROFS/-EACCES, or adjusting flags/arguments on 
+-EINVAL).
