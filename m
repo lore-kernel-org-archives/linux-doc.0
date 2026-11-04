@@ -1,55 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793823309;
-	b=YwSr37luB5hks+KSwa9jJGW1zZ5JJid3Vxy32V9eUEDUApYgmJsfkRZf0YGFc400cnyc
-	 FnBhtXOatKZYBNLFfpNnuA9h1c34Duy1N9mIPbWQKp/W6ZgPif21+xKcgbsexcJlaxIiY
-	 nvhhu6X2SINJje3JsrUzOw7eSxDfHoxZcr4Qh9rxCvo6z5tHAwfouLagroYYgWQVKuieJ
-	 w5DAUGLlRsjUxEmV0jVpaGW3vXcjTHNleLMHdqgi7FeC9EI+tyOlEpOeCQ0vVbzJn212o
-	 jbhnsiXAJexbY5Mht7wfadkUgSB/lx4akgIr8PT/3ufrwlXt7S5E/tNOyq8Zxgiic4w==
+	t=1793823735;
+	b=snw1MxC+Y9Phu+FEmEEpyBNqRZpJci/oT6m/cFZjLRaht0Br+w78u+GVqq6K1BEymOZX
+	 Pr1It1c28m/FsXxwh2mTlQHCT5Cp+HYp3afjQPX9Q6V2Ti4+KmCc2zT0lo2q4kPLQdZct
+	 Vm/FIDbpvNsCxS66OeuzdonjM+aLsNMjkDwkVAScy+I5bqEOiJPTMJANmE4/SENJVrrYN
+	 yCzDT+VNlOLmi9y3cJOtp6/CskR1V0alsjLCl6YgSZskdJhcP0Nm/P2z8YzsI0Ph75Bzv
+	 L+Lzpq/CkQFT6kN6+tAaxJS4BHsyWAKfNd5+2udjARYEJoOjisnkDcLItiBC/tX+rZg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793823309;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=5hs0yObu632v5VqYscPdHVqsnq/hS9vQJRHPhHsRg0A=;
-	b=NZLUJqeZcHpceOcWsVKtazo6abVqXH7QSldn9vgmSqB8qF9VHeTOawJzKSZbtswBqin3
-	 l4TT+vQ1Cu+DYkyDOk08i0NWlbzIiBwnGJOG7biBXZfELR9rP+9WC67IjkGLwtRPDOGiL
-	 D0sX80IufqXOKlL0oxFpyiqUMz3yu4IpsOLMbR3Ai8AsKr3XDTZkm1HL4lv+485vOJGxW
-	 91mHHsDR/Glg42xQUSfB05+XWUcG31Dk1OK2ycEFwmiljHLo8vrxnv58T7Ls5WNWoJ3xB
-	 DBMINgm6w45muR2L2gGkmn06rIGFMUZfuipt9hxI/m6m0RFsJ1GKI4HylCldN0k3DUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793823735;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=1q6t4nFYUEkBz7z+xoP8zNbSPnKXpREiK7TaFNztaTo=;
+	b=Eez26wAjAga7wURtg2c77IChf7yNGZK3vnyN/3qXbTqBZ3gZKfpE4P3RfdWEUVS60eIb
+	 3jzegSF/adJ+PaR5TFzxEBv166N3zm323u7DSw0H+MgoZpZO5E6GwRku+zz9dXPA65h6X
+	 nJZuIBweI2d77BE4hGoSpkL7Gb8+fjXG6AWpyOBwx95+/X3T8Oe9e3uueSIzLzbeRPk9B
+	 Xy/NVLPw/5VMKfeMCwwFk8VnRv/blskkmNLs1nZWbr6AX3Rnqondi/32ehIyudg70Ke+r
+	 oD1fJVsRQATC4nHYC8QAjGctQyUfG7dShOp/Ioh2x530pmk0ajpFWpmZWVaMjTLh5rA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jntMCYXR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YsG8D40s;
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 314B56071A01
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 20:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32B39606EEB6;
+	Wed,  4 Nov 2026 20:22:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32B39606EEB6
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jntMCYXR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F3791F00A17
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 20:15:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793823309;
-	bh=5hs0yObu632v5VqYscPdHVqsnq/hS9vQJRHPhHsRg0A=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=jntMCYXR3W1rZcXXXOFyG8UkNWM1zptt1zDKpmY/3jOcAGPvEuxMZ+WffuO6qEarm
-	 RXltF/saZTDN+mSpF4Y1fRmkhNqU68n+uDYsM5u8Uxhwl3OzxfHw4Awgfj5xG6FU7q
-	 Pesy/LAyU3SBa0H5DOvWI3fCmCYEqW3STMLi3qhAvI7uUPzTSiLXnXdX/WugJ/AVZc
-	 1f47yXHjQONASzabXPWHALxSYWAPGhuwxS6dBRcVA8+bydeoc7pZHOe6Uv0AOjHhKS
-	 zmC7LE+jcSa1XJlUPNCb2vcqyizu64WLFSjJ5U9OEYxoih8QjYWD1u2EYn474vwuoO
-	 vK8x8ON4bKLFg==
-Received: by mail-dl1-f49.google.com with SMTP id a92af1059eb24-15dd124bbe7so2280830c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 12:15:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBwYSvHBiTH/H818pmEyz6dhcxxO5ztc1CqEwj/AKmaXFpnzNdBJ2tjDZK/CZ25oeOupCdJTgYyvfQk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+u39mJsx1Bem9UE8UR9soAG9Jehdf1IM4ZNcr1b80mrcObzYBN
-	Kxnmt9RaYMv1+3KyMn8nbP/HFtUqmKBt2elRnrotq7ORZt9pWwobWglwpN0BUBKoT3IoVPS309x
-	drQlxoKvWoEQiHTT3nhO0j8AzLNi/StU=
-X-Received: by 2002:a05:7022:5f0b:b0:1ab:de8b:5f0f with SMTP id
- a92af1059eb24-1ac5cb18717mr23723691c88.40.1793823308323; Wed, 04 Nov 2026
- 12:15:08 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YsG8D40s
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793823735; x=1825359735;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FMIi+WxOIJkYfJDxyuNJSMRa8IbgzEpLC7IDMUiiy1k=;
+  b=YsG8D40s2/oX+b3QxvcyuL5/ukIX1pF80hex6Qe11aBxcPQd9kGxCiN0
+   dw143qIQxx4m7hDZK9q6VJz+9YNlBoi9/1q06aCfbeypH/rVLcZ5zk8Bx
+   6Q0rcGxSPjuLLY1F805m7D1nipq5OULCI8cUDigh8c3Lc+zHVX1TeYS8+
+   lV8E4YDCU6X3Zy3yJjAgcnUwRD8gbX9R16Sj2TvUeqAHAvhaLSXKVTgtw
+   LaSTL1HzbR4B4yWKpjAlxB/U3z7mV5GBuJgCtB2irb0u0AxHX0ASirCuN
+   u8wQq/vO0aIGZPsZGc3pNy0xCz6dz9FpJwh0yljXvuupRBQGUBtT0GDke
+   w==;
+X-CSE-ConnectionGUID: CteQ1Q+LTK6b8DWdvTrC0Q==
+X-CSE-MsgGUID: SrSIdXVLSbG07R0HQbZzAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2478703"
+X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
+   d="scan'208";a="2478703"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 12:22:14 -0800
+X-CSE-ConnectionGUID: HM934INXTnu1L+MDYncFlw==
+X-CSE-MsgGUID: 0wCh21S1QnKZTYVCTCWxzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
+   d="scan'208";a="7170684"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.24])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 12:22:10 -0800
+Date: Wed, 4 Nov 2026 22:22:07 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Joshua Crofts <crofts@kernel.org>,
+	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] iio: adc: ad7625: add LTC2387 and ADAQ2387x
+ support
+Message-ID: <auuT754d-bwSeL1Z@ashevche-desk.local>
+References: <20261104132143.215581-1-Nicolae-daniel.Deaconescu@analog.com>
+ <20261104132143.215581-6-Nicolae-daniel.Deaconescu@analog.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,92 +93,311 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261029-b4-ipe-keyring-rfc-v2-0-77727b205844@nvidia.com> <20261029-b4-ipe-keyring-rfc-v2-1-77727b205844@nvidia.com>
-In-Reply-To: <20261029-b4-ipe-keyring-rfc-v2-1-77727b205844@nvidia.com>
-From: Fan Wu <wufan@kernel.org>
-Date: Wed, 4 Nov 2026 12:14:57 -0800
-X-Gmail-Original-Message-ID: <CAKtyLkHtZeToq7YN7n2jffK0DmR7Axu3cQ+Kac_+RYvtsF=+cw@mail.gmail.com>
-X-Gm-Features: AclHuK825M3Tp0Q3mYcH1rJyDUZVk5uCyEMH07CZFl9zj20qOO90PZscL7Din2Q
-Message-ID: <CAKtyLkHtZeToq7YN7n2jffK0DmR7Axu3cQ+Kac_+RYvtsF=+cw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] ipe: add the .ipe policy keyring
-To: manuelh@nvidia.com
-Cc: Fan Wu <wufan@kernel.org>, David Howells <dhowells@redhat.com>, 
-	Jarkko Sakkinen <jarkko@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	Andrew Halaney <andrew@amutable.com>, Paul Moore <paul@paul-moore.com>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Luca Boccassi <luca.boccassi@gmail.com>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	linux-security-module@vger.kernel.org, keyrings@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	kexec@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104132143.215581-6-Nicolae-daniel.Deaconescu@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On Wed, Oct 28, 2026 at 5:31=E2=80=AFPM Manuel Huber via B4 Relay
-<devnull+manuelh.nvidia.com@kernel.org> wrote:
->
-> From: Manuel Huber <manuelh@nvidia.com>
->
-> Add a dedicated .ipe keyring for IPE policy signature verification.
-> With this, userspace can provision its own keys into the keyring,
-> then restrict it and activate it for IPE policy signature verification.
->
-> Gate creation of the keyring behind a new by-default disabled
-> CONFIG_SECURITY_IPE_KEYRING Kconfig option. When created, the keyring
-> is empty and writable. The keyring is used as a fallback after the
-> existing policy trust sources only when it is created, non-empty, and
-> restricted with restrict_link_reject.
->
-> This enables scenarios in which a trusted userspace component generates
-> an IPE policy, and creates an ephemeral policy-signing key pair,
-> provisions its public certificate, and restricts the IPE keyring during
-> the early lifetime of a system. The trusted component can then sign the
-> IPE policy, destroy the private key, and load and activate the policy.
-> During that phase, the system is considered in a trusted state whereas
-> the system transitions into a possibly untrusted state afterwards,
-> running arbitrary user-provided applications. In such a scenario, the
-> trusted userspace component could reside on a dm-verity protected
-> rootfs disk, and applications would reside on additional dm-verity
-> protected disks. The latter disks would be dynamically attached and
-> their dm-verity root hashes and/or signatures not known a priori to
-> launching the system.
->
-> A concrete usage scenario could be Kata Containers, which enables
-> running Kubernetes pods in ephemeral, headless utility VMs, possibly
-> without systemd. The rootfs disk is static and known beforehand, but
-> containerd's image layers might be acquired and transported into the
-> VM using the erofs snapshotter and dynamic block device attachment
-> using dm-verity. While in that usage scenario, signing a per-guest
-> policy with a pre-provisioned policy-signing certificate in the
-> builtin, secondary, or platform keyrings would be technically possible,
-> it would require including its corresponding private key in the guest
-> build artifacts. Making it possible to use an ephemeral,
-> userspace-provided key avoids shipping a static policy-signing private
-> key with the guest rootfs.
->
+On Wed, Nov 04, 2026 at 03:21:43PM +0200, Nicolae-Daniel Deaconescu wrote:
+> 
+> Add the LTC2387-16, LTC2387-18, ADAQ23875, ADAQ23876 and ADAQ23878 as
+> chip data of this driver. They are read through the same two PWMs and
+> IIO backend. They differ in a few ways that the chip data and a few
+> quirks cover, see the binding patch for the list:
+> 
+> - Data is output at double data rate on one or two lanes, so the CLK
+>   burst is the number of bits divided by 2 or by 4 pulses long.
+> - The burst of one conversion starts at least t_FIRSTCLK after its CNV
+>   and has to end at most t_LASTCLK after the next CNV, so at the maximum
+>   rate it runs into the next conversion period.
+> - They have no EN pins.
+> - The ADAQ parts divide the scale by the gain of their front end.
+> 
+> The changes are:
+> 
+> - Add chip info for the five parts, with a maximum sampling frequency of
+>   15 MSPS, and the OF and platform device ID entries for them.
+> - Add struct ad7625_ddr_timing with t_CNVH, t_FIRSTCLK and t_LASTCLK, and
+>   point the chip info of the new parts to it. A non-NULL pointer marks a
+>   part with DDR output.
+> - Add ad7625_set_sampling_freq_ddr(). Unlike for the AD762x and AD796x,
+>   the sampling period is raised until the CLK burst fits t_LASTCLK, so the
+>   maximum rate isn't limited to 10 MSPS by the period clamp.
+> - Build the waveforms in whole steps of the PWMs, which are read with
+>   pwm_get_waveform_step_might_sleep() when probing and each time the
+>   sampling frequency changes.
+> - Get the second PWM as "clk" for the new parts and "clk_gate" for the
+>   existing ones, and don't get a reference clock for the new parts, as the
+>   step already tells the clock rate of the PWM.
+> - Add ad7625_parse_ddr() to read adi,use-two-lanes and adi,gain-milli. The
+>   gain defaults to the fixed gain of the ADAQ23875 and to 1 for the
+>   LTC2387, and is required for the ADAQ23876 and ADAQ23878, whose gain is
+>   pin strapped and has to be one of the supported values.
+> - Divide the scale by the gain of the front end for the new parts.
+> - Enable the supplies of the new parts, and read their optional
+>   ref-supply, using the internal reference when it is absent.
+> - Set the number of lanes of the backend for the new parts. This can only
+>   be skipped if the backend can't set it and one lane is used.
+> - Limit the default sampling frequency of the new parts to the clock rate
+>   of the PWMs.
+> - Move the setup of the EN pin mode into ad7625_set_initial_mode(), which
+>   does nothing for the parts without EN pins. The code that sets the pins
+>   of the existing parts is unchanged.
+> - Include math64.h and minmax.h for the helpers that the new code uses.
+> - Add the new parts to the Kconfig help and Documentation/iio/ad7625.rst,
+>   and new maintainer entries.
 
-Reading through this scenario again, I have a question about the design.
+...
 
-I suspect the reason you need a signing key inside the guest rootfs is
-that you are running the snapshotter inside the VM. Have you
-considered generating the snapshots on the VM host, signing the policy
-there, and passing it into the guest?
+>  config AD7625
+> -	tristate "Analog Devices AD7625/AD7626 High Speed ADC driver"
+> +	tristate "Analog Devices AD762x, AD796x, LTC2387 and ADAQ2387x ADC driver"
 
-The workflow would be:
+This does not scale. Please, make it more generic and make sure the text in the
+top comment of the driver along with MODULE_DESCRIPTION() is quite similar to
+this (maybe without "driver" word).
 
-1. The host generates an ephemeral signing key pair for the VM and
-injects the public certificate into the guest's platform keyring via
-firmware.
-2. The host prepares the image snapshots, computes their dm-verity
-root hashes, and signs the resulting IPE policy which allows execution
-by dm-verity root hash with the ephemeral private key.
-3. The host attaches the snapshot block devices and passes the signed
-policy into the guest, where the guest simply loads and activates it
-against .platform.
+...
 
-That way no private key ever needs to live in the guest, and it
-confines the TCB to the VM host. Would this approach work for your
-setup?
+>  	  * AD7626 16-Bit, 10 MSPS PulSAR Analog-to-Digital Converter
+>  	  * AD7960 18-Bit, 5 MSPS PulSAR Analog-to-Digital Converter
+>  	  * AD7961 16-Bit, 5 MSPS PulSAR Analog-to-Digital Converter
+> +	  * LTC2387-16 16-Bit, 15 MSPS SAR Analog-to-Digital Converter
+> +	  * LTC2387-18 18-Bit, 15 MSPS SAR Analog-to-Digital Converter
+> +	  * ADAQ23875 and ADAQ23876 16-Bit, 15 MSPS uModule Data Acquisition
+> +	    Systems
+> +	  * ADAQ23878 18-Bit, 15 MSPS uModule Data Acquisition System
 
-Fan
+Why not keep this list sorted by a part number?
+
+...
+
+>  struct ad7625_chip_info {
+>  	const char *name;
+>  	const unsigned int max_sample_freq_hz;
+
+>  	const bool has_power_down_state;
+>  	const bool has_bandwidth_control;
+>  	const bool has_internal_vref;
+
+Side note: What the point in const to these (plain booleans, integers)?
+Chip info as a whole should be const, no?
+
+...
+
+> +	/*
+> +	 * The LTC2387 and ADAQ2387x output data on one or two lanes at double
+> +	 * data rate, have no EN pins and learn their timing from the PWMs.
+> +	 * They are the parts with @ddr_timing set.
+> +	 */
+> +	const struct ad7625_ddr_timing *ddr_timing;
+> +	const char * const *supplies;
+
+Again, why the second const here...
+
+> +	int num_supplies;
+> +	/* Gain * 1000 of the ADAQ front end, 0 if the board has to provide it. */
+> +	const u16 default_gain_milli;
+
+...and the const here?
+
+milli is multiplier and not a unit. But if you think it's better this way, I am
+not going to object.
+
+>  };
+
+...
+
+> +static const char * const adaq2387x_supplies[] = {
+> +	"vdd", "vio", "vs-p", "vs-n"
+
+When not on a single line, add a trailing comma.
+
+> +};
+
+...
+
+> +static const struct ad7625_chip_info ltc2387_16_chip_info = {
+> +	.name = "ltc2387-16",
+> +	.max_sample_freq_hz = 15 * MEGA,
+
+No, we have HZ_PER_MHZ for this.
+
+> +	.chan_spec = AD7625_CHAN_SPEC(16),
+> +	.has_internal_vref = true,
+> +	.ddr_timing = &ltc2387_ddr_timing,
+> +	.supplies = ltc2387_supplies,
+> +	.num_supplies = ARRAY_SIZE(ltc2387_supplies),
+> +	.default_gain_milli = 1000,
+
+As I mentioned above this multiplier without unit is confusing.
+Simply
+
+	.default_gain = 1 * MILLI,
+
+?
+
+> +};
+
+Same comments to all added chip info:s.
+
+...
+
+> +	/*
+> +	 * The waveforms are whole steps, so nothing should have to grow. If it
+> +	 * did, a minimum time of the part is no longer met.
+> +	 */
+> +	ret = pwm_round_waveform_might_sleep(st->cnv_pwm, &cnv_wf);
+> +	if (ret)
+> +		return ret < 0 ? ret : -EINVAL;
+> +
+> +	ret = pwm_round_waveform_might_sleep(st->clk_gate_pwm, &clk_gate_wf);
+> +	if (ret)
+> +		return ret < 0 ? ret : -EINVAL;
+
+Don't nest branches, you can just move ret == 0 check out of that in both cases.
+
+...
+
+> +static int ad7625_parse_ddr(struct device *dev, struct ad7625_state *st)
+> +{
+> +	int ret, i;
+
+Why is 'i' signed and why can't it be defined inside for-loop?
+
+> +	st->two_lanes = device_property_read_bool(dev, "adi,use-two-lanes");
+> +
+> +	/* A fixed gain part has no adi,gain-milli, the others are pin strapped. */
+> +	st->gain_milli = st->info->default_gain_milli;
+> +	if (st->gain_milli)
+> +		return 0;
+> +
+> +	if (!device_property_present(dev, "adi,gain-milli"))
+> +		return dev_err_probe(dev, -EINVAL, "adi,gain-milli must be set\n");
+> +
+> +	ret = device_property_read_u16(dev, "adi,gain-milli", &st->gain_milli);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to read adi,gain-milli\n");
+
+	const char *propname;
+	...
+	propname = "adi,gain-milli";
+
+	// Why do we even need the presence check?
+	if (!device_property_present(dev, propname))
+		return dev_err_probe(dev, -EINVAL, "%s must be set\n", propname);
+
+	ret = device_property_read_u16(dev, propname, &st->gain_milli);
+	if (ret)
+		return dev_err_probe(dev, ret, "failed to read %s\n", propname);
+
+
+> +	/* The scale shifts the gain by up to 17 bits, so it has to stay small. */
+> +	for (i = 0; i < ARRAY_SIZE(ad7625_gains_milli); i++)
+> +		if (st->gain_milli == ad7625_gains_milli[i])
+> +			return 0;
+> +
+> +	return dev_err_probe(dev, -EINVAL, "unsupported adi,gain-milli %u\n",
+> +			     st->gain_milli);
+> +}
+
+...
+
+> +static int devm_ad7625_ddr_regulator_setup(struct device *dev,
+> +					   struct ad7625_state *st)
+> +{
+> +	int ret;
+> +
+> +	ret = devm_regulator_bulk_get_enable(dev, st->info->num_supplies,
+> +					     st->info->supplies);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to enable supplies\n");
+> +
+> +	ret = devm_regulator_get_enable_read_voltage(dev, "ref");
+> +	if (ret < 0 && ret != -ENODEV)
+
+Too many ENODEV checks, see below how to deduplicate.
+
+> +		return dev_err_probe(dev, ret, "failed to get REF voltage\n");
+> +	if (!ret)
+> +		return dev_err_probe(dev, -EINVAL, "REF voltage must not be 0\n");
+
+	ret = devm_regulator_get_enable_read_voltage(dev, "ref");
+	if (ret == -ENODEV)
+		/* Without ref-supply the internal reference is used. */
+		st->vref_mv = AD7625_INTERNAL_REF_MV;
+	else if (ret < 0)
+		return dev_err_probe(dev, ret, "failed to get REF voltage\n");
+	else if (ret == 0)
+		return dev_err_probe(dev, -EINVAL, "REF voltage must not be 0\n");
+
+	st->vref_mv = ret / (MICRO / MILLI);
+
+> +	/* Without ref-supply the internal reference is used. */
+> +	st->vref_mv = ret == -ENODEV ? AD7625_INTERNAL_REF_MV : ret / (MICRO / MILLI);
+> +
+> +	return 0;
+> +}
+
+...
+
+> -		/*
+> -		 * If neither sampling mode is available, then report an error,
+> -		 * since the other modes are not useful defaults.
+> -		 */
+> -		if (st->can_wide_bandwidth) {
+> -			ret = ad7960_set_mode(st, AD7960_MODE_WIDE_BANDWIDTH,
+> -					      st->have_refin, st->vref_mv);
+> -		} else if (st->can_narrow_bandwidth) {
+> -			ret = ad7960_set_mode(st, AD7960_MODE_NARROW_BANDWIDTH,
+> -					      st->have_refin, st->vref_mv);
+> -		} else {
+> -			return dev_err_probe(dev, -EINVAL,
+> -				"couldn't set device to wide or narrow bandwidth modes\n");
+> -		}
+> -
+> -		if (ret)
+> -			return dev_err_probe(dev, -EINVAL,
+> -					     "failed to set EN pins\n");
+
+AFAICS the above can be moved to a helper in the separate patch and moved as a
+couple of lines only in this patch.
+
+...
+
+> +	if (st->info->ddr_timing) {
+> +		ret = iio_backend_num_lanes_set(st->back, st->two_lanes ? 2 : 1);
+> +		/* Without the op, a backend can only be left on one lane. */
+> +		if (ret && (ret != -EOPNOTSUPP || st->two_lanes))
+> +			return dev_err_probe(dev, ret, "failed to set the number of lanes\n");
+> +	}
+
+Same problem, too many (hidden) branches makes code unreadable.
+
+	if (st->info->ddr_timing) {
+		if (st->two_lanes) {
+			ret = iio_backend_num_lanes_set(st->back, 2);
+		} else {
+			ret = iio_backend_num_lanes_set(st->back, 1);
+			/* Without the op, a backend can only be left on one lane. */
+			if (ret == -EOPNOTSUPP)
+				ret = 0;
+		}
+		if (ret)
+			return dev_err_probe(dev, ret, "failed to set the number of lanes\n");
+	}
+
+...
+
+> +	/* The DDR parts reject rates above the clock of the PWMs. */
+> +	if (st->info->ddr_timing)
+> +		default_sample_freq = min_t(u32, default_sample_freq, st->step.clk_rate_hz);
+
+No min_t().
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
