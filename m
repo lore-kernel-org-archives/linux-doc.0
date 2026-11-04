@@ -1,57 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=15.235.86.235
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793809517;
-	b=qxN8onXp6RGHrd7fB/WniGtaw3cPt3b2NdsCCPeC3Hdepy3mEPXWg9q1sz4WEtG8Am0E
-	 opygFi9Ye/liPRgIDL02X+aV3v4LjcUAvH4gPcxjH7cWlbNqdZ3n/6GS6LdmGo8yFmVWi
-	 I3sZetS3GxiLxy67PAtw2AB8WH9puf9azVVOoJktxcFDEEurH2ShDrLeg0fWs+b/bpM7k
-	 IZ6Sq9TAIrLGA016V7REg7R8X3l9iYcb3T8FV714Z9ZSf6xbRbyB178bTZbjubeyq2z/w
-	 SkMV6UkpxuBXF4+i5iDDdotR74IRI8clwzwrUV/bHXXEM/o9RDG2+v+A+g+r+ABy+oA==
+	t=1793809682;
+	b=eCh15zW36wMZR91Fq3AZ55vOlohBLpVJEcPUWbdUZ9cqIPmw/nDCZ66Ng6gUa6h52gkW
+	 qFYS26CTnAFMPVQikCKHZ2XqxdxmeuRNAN5ComOcXi4GN4j8kVqRwV+EsTKfC2+VAk1ka
+	 6AsJ/lnHHpyNMOGdYgCEKGYqHQh9AjXeo2qSSF76sBkSSJOdthlOs1vbHibA4cTA1wSnh
+	 p2vsqmjXh0lPNSEANGfjF6SEMD/kN+9atPYZunR0GEdz1Qy90610oLxR42coE2rm6PqvZ
+	 b+WBtFXO1Y303VVKjTi/lkO4iRkgb3ZINcbVoN4jfagDyJgghpaYAiOMNpHP8Elb9dA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793809517;
-	h=DMARC-Filter:DKIM-Signature:Received:MIME-Version:Date:From:To:Cc:
-	 Subject:User-Agent:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-Get-Message-Sender-Via:
-	 X-Authenticated-Sender:X-Source:X-Source-Args:X-Source-Dir;
-	bh=wD/QHaZslVWOw1QCJrhbOzZ2WnZobijXSMCR13xatio=;
-	b=JceuUIvJ0O1FmbhWgixGPyuo2Sl+2N+c6VeecwNIaDHuFp6I6z5wn/nIvpww6uv1fLks
-	 erGZhLxhOwkNW23Nts0VEvfc6QKRCBxgAFagcIRlV7hiZwgwXs3rRjqZJHiydmvAWqY2z
-	 1aD9LUTwtNnvKWwRdtV82Wo/zmVCPkEbCGiqusHDO2kXOFg8wRY3GcDT6JjjJECcj7XiM
-	 dIOZ3T5+YGGd6VnShetAAELIVZgKh9rf2Fp5Tm+ovdzWwCbAwvz1hGMi5VNqLwedOD0ob
-	 xCw2zTLFM/24EYjLOYueL3VuId+3fRMboTE5yBd61i1/nHIUTD6Ahb/mjN9apI434cQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793809682;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=2o1xSWH41eRGioUp99pWM6BOJpN9/lkZ30jd8REpeEk=;
+	b=BO3jgSzixEQ/rzci2cNRh9b3sn6+3TJWsuT18DBU7N+Z3EUnq8KZYob6WR5aepZjdqQT
+	 +oXK8N9+b0LfRBE5QPwN/rDOsLNrOULG1Dw7ORByA/I8HVMOZh53GZk/vTMa2H0q5n9Qv
+	 DrOfnZIsC8zro6sEC0o+D7Kq/+8sKWsduoy/di4dY+SK0rdFgfjeUtmTJV0nJ7LsYl5zS
+	 VyYfIyoZH7ahWbwbrdVOpqyKKcjgqeid6p6pQqk8KSM/rGAfAraFbW08Xt5Iu1tqK4V2/
+	 FS7PosCClb5284g/qoE9TNsLOdpf/50ZQ1l0Jc+5ArkDW7gJ+0Tlu4nnWYK83kDSqzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ulshe.ai;
-	spf=pass smtp.mailfrom=ulshe.ai;
-	dkim=pass header.d=ulshe.ai header.i=@ulshe.ai header.a=rsa-sha256 header.s=default header.b=Ma7L+ZWm;
-	arc=none smtp.remote-ip=15.235.86.235
-Received: from hosting.1uhost.com (hosting.1uhost.com [15.235.86.235])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T7dIWjzH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE110606A326;
-	Wed,  4 Nov 2026 16:25:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE110606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ulshe.ai
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ulshe.ai
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921D5606A32E;
+	Wed,  4 Nov 2026 16:28:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ulshe.ai header.i=@ulshe.ai header.a=rsa-sha256 header.s=default header.b=Ma7L+ZWm
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ulshe.ai;
-	s=default; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To:
-	From:Date:MIME-Version:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=wD/QHaZslVWOw1QCJrhbOzZ2WnZobijXSMCR13xatio=; b=Ma7L+ZWmUQoBSeTM7MTbNmV1Un
-	lBMHeB+qpHCzI2xS62uWCzmz2BmpRrFFbE8t9Nd7c2XSlBLfWe0sTuLOI4PF7g48BnVFUFTz7pOzW
-	l3Qk6H71yZgP0XQzPLkQZayenhUCxtiuXbs1XV/3j8nrH8qAeLO/TiCcQ9se6cNA/wCmH2L/HExo/
-	H9iW4lDuUFKDzl45WhC5FxRO81dfYPaci3Wy1oStB5zCe4Ys0wssQAaDZGU+NTmENn3hc6PMS7Dje
-	eHKcx3L+xV6nsKUgOeI+xHOizOl6gL7F2weMZgvebHNvqP5JwwmKFW9P4epjiTfMTYQblOkXTnf5a
-	+Aphjlbw==;
-Received: from [::1] (port=54148 helo=hosting.1uhost.com)
-	by hosting.1uhost.com with esmtpa (Exim 4.100.1)
-	(envelope-from <joreag@ulshe.ai>)
-	id 1xOdnT-00000007ohH-0pBr;
-	Wed, 04 Nov 2026 16:25:09 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T7dIWjzH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 396D21F00A16;
+	Wed,  4 Nov 2026 16:27:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793809681;
+	bh=2o1xSWH41eRGioUp99pWM6BOJpN9/lkZ30jd8REpeEk=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=T7dIWjzH420vabRCZt1hlsRWgbeewd+9+Zbxi2QElCIebeMvXiL+RukQgvn6kStuP
+	 LVm2xPS7K+eINJa576BgWUeOCfSSpw70cewlGicwh6SF7fMEtQXZXj5DHHTelNQZxJ
+	 8+502haEgKz9tDZiV4+LeB0ddsAGm2DsTkp2iocFtTlF7r0rMRiOD6htW3iGAaN6sb
+	 12lYdJ7Uqcaeh9iEdtjG6XMsDFhOCAWxLRDrJ/9JCs3FcpJTC8KGB3yYbvGX43ZdCD
+	 ADNhwslgMFkMmbq5twfKZKyruo1N+cUkekNOeKu9jBno8KLxi9Dn0aCzqh0o/Uxpb6
+	 22UqBwos+w+qA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,
+  linux-mm@kvack.org,  Alexander Graf <graf@amazon.com>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
+  Christian Brauner <brauner@kernel.org>,  David Hildenbrand
+ <david@kernel.org>,  Hugh Dickins <hughd@google.com>,  Jonathan Corbet
+ <corbet@lwn.net>,  "Liam R. Howlett" <liam@infradead.org>,  Lorenzo
+ Stoakes <ljs@kernel.org>,  Michal Hocko <mhocko@suse.com>,  Mike Rapoport
+ <rppt@kernel.org>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
+ Yadav <pratyush@kernel.org>,  Randy Dunlap <rdunlap@infradead.org>,
+  Samiullah Khawaja <skhawaja@google.com>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  Suren Baghdasaryan <surenb@google.com>,
+  Vlastimil Babka <vbabka@kernel.org>
+Subject: Re: [PATCH v3 07/10] mm/shmem_luo: Retrieve tmpfs files onto a
+ tmpfs mount chosen by userspace
+In-Reply-To: <20261103010216.3447716-8-dmatlack@google.com> (David Matlack's
+	message of "Tue, 3 Nov 2026 01:02:13 +0000")
+References: <20261103010216.3447716-1-dmatlack@google.com>
+	<20261103010216.3447716-8-dmatlack@google.com>
+Date: Wed, 04 Nov 2026 17:27:55 +0100
+Message-ID: <2vxzecd0k1dg.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,528 +72,559 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Wed, 04 Nov 2026 16:25:09 +0000
-From: joreag@ulshe.ai
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [SECURITY / STATIC AUDIT] 44 CRITICAL/HIGH Open Manifold(s) in
- `Documentation/.renames.txt` (linux-master 7.4rc)
-User-Agent: Roundcube Webmail/1.6.20
-Message-ID: <fde979b5281d3b85cf7a544ba86baadd@ulshe.ai>
-X-Sender: joreag@ulshe.ai
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - hosting.1uhost.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - ulshe.ai
-X-Get-Message-Sender-Via: hosting.1uhost.com: authenticated_id: joreag@ulshe.ai
-X-Authenticated-Sender: hosting.1uhost.com: joreag@ulshe.ai
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain
 
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [SECURITY / STATIC AUDIT] 44 CRITICAL/HIGH Open Manifold(s) in 
-`Documentation/.renames.txt` (linux-master (2))
+Hi David,
 
-Hello Maintainer(s) of `Documentation/.renames.txt`:
+On Tue, Nov 03 2026, David Matlack wrote:
 
-During an automated topological boundary audit of `linux-master (2)` 
-using Logic Archaeologist Pro (v8.5),
-we identified 44 CRITICAL/HIGH Open Topological Manifold(s) in 
-`Documentation/.renames.txt` that may warrant review.
+> Retrieve files that were preserved from a tmpfs mount onto a tmpfs mount
+> chosen by userspace, instead of as memfds on the internal tmpfs mount.
+> Add struct liveupdate_shmem_retrieve_arg, which userspace passes as the
+> retrieve argument of LIVEUPDATE_SESSION_RETRIEVE_FD to choose the mount.
+> Record which mount a file was on with a new SHMEM_LUO_FLAG_TMPFS flag in
+> struct shmem_luo_ser, based on the superblock of the file.
+>
+> shmem_luo already accepts unlinked tmpfs files, such as files created
+> with O_TMPFILE, and a following commit also accepts linked ones. The
 
-================================================================================
-MODULE / FILE : Documentation/.renames.txt
-MAINTAINER(S) : Jonathan Corbet <corbet@lwn.net>
-LIST / CC     : linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-================================================================================
+Nit: that's a bug, not a supported feature (well, before this patch at
+least).
 
-[#1] [CRITICAL] Line 24 (Step 0) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "arch/x86/resctrl filesystems/resctrl"
+> mount such a file was on doesn't exist in the new kernel, and userspace
+> may want to put the file elsewhere anyway.
+>
+> Model struct liveupdate_shmem_retrieve_arg on open(): The kernel creates
+> a new file as if by openat(dirfd, ".", O_TMPFILE | flags, mode), so the
+> file gets the owner, permission checks and security labels of any new
+> file in that directory, and is charged to that mount. The kernel then
+> fills the file with the preserved contents, size, position and seals
+> before returning it, so nothing else can access the file before it is
+> complete. Userspace links the file at the path it wants with linkat(),
+> or passes O_EXCL to keep it unlinked. Neither the path nor any other
+> inode attribute of the file is part of the preserved state, which keeps
+> them out of the KHO ABI.
+>
+> Pass the flags from userspace to file_open_root(), so that the VFS
+> checks them like for open(). file_open_root() silently ignores unknown
+> flags and mode bits, so reject those like openat2() does. Also reject
+> O_PATH, with which file_open_root() would ignore O_TMPFILE and open the
+> directory.
+>
+> Keep the type of the file: memfds can only be retrieved as memfds, and
+> files on tmpfs mounts only onto tmpfs mounts, so that e.g. a file
+> can't be moved off the mount whose size limit and quotas it was subject
 
-[#2] [CRITICAL] Line 129 (Step 1) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "cgroup-v1/freezer-subsystem 
-admin-guide/cgroup-v1/freezer-subsystem"
+Nit: that's not true. It only can't be moved to the internal mount. All
+other tmpfs mounts are fair game. You can take 5 files from a single
+mount on preserve, and put them on 5 different mounts on retrieve.
+Nothing wrong with that, just that this claim isn't exactly accurate.
 
-[#3] [CRITICAL] Line 220 (Step 5) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/binderfs admin-guide/binderfs"
+> to. Passing the argument when retrieving a memfd, or not passing it when
+> retrieving a file from a tmpfs mount, fails with -EINVAL. Unlinked tmpfs
+> files were retrieved as memfds until now, but nothing relies on that, as
+> the LUO uAPI is not stable yet.
 
-[#4] [CRITICAL] Line 221 (Step 6) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/cifs/cifsd filesystems/smb/ksmbd"
+LUO uAPI _is_ stable. We have to keep backwards compatibility. It is
+only the preservation ABI that is not stable.
 
-[#5] [CRITICAL] Line 222 (Step 7) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/cifs/cifsroot 
-filesystems/smb/cifsroot"
+And as I said above, that was a bug and not a supported feature. This
+patch happens to fix that bug, and hopefully no user was relying on it.
+If a user is relying on it, we'd either have to ask them to move to the
+new uAPI or reinstate the old bug (as long as the end result is
+reasonable and secure). That's the promise we have to keep with uAPI.
 
-[#6] [CRITICAL] Line 223 (Step 8) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/cifs/index filesystems/smb/index"
+>
+> Like the other failures before the folios are restored, problems with
+> the argument and with creating the file can be retried.
+>
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  Documentation/mm/shmem_preservation.rst |   8 +-
+>  include/linux/kho/abi/shmem.h           |  21 ++-
+>  include/uapi/linux/liveupdate.h         |  35 +++++
+>  kernel/liveupdate/Kconfig               |   6 +-
+>  mm/internal.h                           |   1 +
+>  mm/shmem.c                              |   9 ++
+>  mm/shmem_luo.c                          | 180 ++++++++++++++++++++----
+>  7 files changed, 221 insertions(+), 39 deletions(-)
+>
+> diff --git a/Documentation/mm/shmem_preservation.rst b/Documentation/mm/shmem_preservation.rst
+> index e79bf8afaa9e..030a8f18680c 100644
+> --- a/Documentation/mm/shmem_preservation.rst
+> +++ b/Documentation/mm/shmem_preservation.rst
+> @@ -1,11 +1,11 @@
+>  .. SPDX-License-Identifier: GPL-2.0-or-later
+>  
+> -==========================
+> -Memfd Preservation via LUO
+> -==========================
+> +====================================
+> +Memfd and Tmpfs Preservation via LUO
+> +====================================
+>  
+>  .. kernel-doc:: mm/shmem_luo.c
+> -   :doc: Memfd Preservation via LUO
+> +   :doc: Memfd and Tmpfs Preservation via LUO
+>  
+>  Memfd Preservation ABI
+>  ======================
+> diff --git a/include/linux/kho/abi/shmem.h b/include/linux/kho/abi/shmem.h
+> index b61687e358a2..88ef7d49b5f3 100644
+> --- a/include/linux/kho/abi/shmem.h
+> +++ b/include/linux/kho/abi/shmem.h
+> @@ -18,8 +18,8 @@
+>   * DOC: shmem Live Update ABI
+>   *
+>   * The shmem file handler, which preserves memfds created without
+> - * ``MFD_HUGETLB``, uses the ABI defined below for preserving their state across
+> - * a kexec reboot using the LUO.
+> + * ``MFD_HUGETLB`` and tmpfs files, uses the ABI defined below for preserving
+> + * their state across a kexec reboot using the LUO.
+>   *
+>   * The state is serialized into a packed structure `struct shmem_luo_ser`
+>   * which is handed over to the next kernel via the KHO mechanism.
+> @@ -69,12 +69,25 @@ struct shmem_luo_folio_ser {
+>  			     F_SEAL_EXEC)
+>  
+>  /**
+> - * struct shmem_luo_ser - Main serialization structure for a memfd.
+> + * SHMEM_LUO_FLAG_TMPFS - The file was on a tmpfs mount.
+> + *
+> + * Set for files that were not on the internal shmem mount that memfds are
+> + * created on. Such a file is retrieved onto a tmpfs mount chosen by userspace,
+> + * instead of as a memfd.
+> + */
 
-[#7] [CRITICAL] Line 224 (Step 9) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/cifs/ksmbd filesystems/smb/ksmbd"
+Nit: perhaps the below is slightly better?
 
-[#8] [CRITICAL] Line 225 (Step 10) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ext4 admin-guide/ext4"
+    Set for files on a user-visible tmpfs mount. Such files can only be
+    retrieved into a tmpfs mount, and never as a memfd.
 
-[#9] [CRITICAL] Line 226 (Step 11) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/about 
-filesystems/ext4/about"
+> +#define SHMEM_LUO_FLAG_TMPFS		BIT(0)
+> +
+> +/* The set of flags this version supports. */
+> +#define SHMEM_LUO_ALL_FLAGS		SHMEM_LUO_FLAG_TMPFS
+> +
+> +/**
+> + * struct shmem_luo_ser - Main serialization structure for a memfd or tmpfs file.
+>   * @pos:       The file's current position (f_pos).
+>   * @size:      The total size of the file in bytes (i_size).
+>   * @seals:     The seals present on the memfd. The seals are uABI so it is safe
+>   *             to directly use them in the ABI.
+> - * @flags:     Flags for the file. Unused flag bits must be set to 0.
+> + * @flags:     Flags for the file (SHMEM_LUO_FLAG_*). Unused flag bits must be
+> + *             set to 0.
+>   * @nr_folios: Number of folios in the folios array.
+>   * @folios:    KHO vmalloc descriptor pointing to the array of
+>   *             struct shmem_luo_folio_ser.
+> diff --git a/include/uapi/linux/liveupdate.h b/include/uapi/linux/liveupdate.h
+> index 953ffe0823be..a9dcc4fcc87b 100644
+> --- a/include/uapi/linux/liveupdate.h
+> +++ b/include/uapi/linux/liveupdate.h
+> @@ -247,4 +247,39 @@ struct liveupdate_session_get_name {
+>  #define LIVEUPDATE_SESSION_GET_NAME					\
+>  	_IO(LIVEUPDATE_IOCTL_TYPE, LIVEUPDATE_CMD_SESSION_GET_NAME)
+>  
+> +/**
+> + * struct liveupdate_shmem_retrieve_arg - Argument to retrieve a tmpfs file
+> + * @size:  Input; sizeof(struct liveupdate_shmem_retrieve_arg)
+> + * @dirfd: Input; A file descriptor for a directory on the tmpfs mount to create
+> + *         the file on.
+> + * @flags: Input; The flags of the file, like the flags argument of open(),
+> + *         except for O_TMPFILE, which is implied, and O_PATH, which is not
+> + *         allowed.
+> + * @mode:  Input; The mode of the file, like the mode argument of open().
+> + *
+> + * Passed via &struct liveupdate_session_retrieve_fd.arg to retrieve a file that
+> + * was preserved from a tmpfs mount. Such files can only be retrieved with this
+> + * argument, and memfds, i.e. files that were preserved from the kernel's
+> + * internal shmem mount, can only be retrieved without it. Otherwise, the
 
-[#10] [CRITICAL] Line 227 (Step 12) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/allocators 
-filesystems/ext4/allocators"
+Nit: "internal shmem mount" is a kernel internal detail, no point of it
+in user facing documentation.
 
-[#11] [CRITICAL] Line 228 (Step 13) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/attributes 
-filesystems/ext4/attributes"
+> + * retrieve fails with -EINVAL.
+> + *
+> + * The kernel creates a new file as if by openat(@dirfd, ".", O_TMPFILE |
+> + * @flags, @mode), fills it with the preserved contents, and returns it in
+> + * &struct liveupdate_session_retrieve_fd.fd. Like any O_TMPFILE file, the file
+> + * is not linked into the filesystem. Userspace can link it with linkat(),
+> + * unless @flags contains O_EXCL.
+> + *
+> + * If @flags contains unknown flags or O_PATH, if @mode contains unknown mode
+> + * bits, or if @dirfd is not on a tmpfs mount, the retrieve fails with -EINVAL.
+> + * If the file can't be created, the retrieve fails with the same errors as
+> + * open(). A retrieve that fails before the preserved contents are restored can
+> + * be retried.
 
-[#12] [CRITICAL] Line 229 (Step 14) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/bigalloc 
-filesystems/ext4/bigalloc"
+How is userspace supposed to tell if preserved contents were restored?
 
-[#13] [CRITICAL] Line 230 (Step 15) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/bitmaps 
-filesystems/ext4/bitmaps"
+> + */
+> +struct liveupdate_shmem_retrieve_arg {
+> +	__u32		size;
+> +	__s32		dirfd;
+> +	__aligned_u64	flags;
+> +	__aligned_u64	mode;
+> +};
+> +
+>  #endif /* _UAPI_LIVEUPDATE_H */
+> diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
+> index 9a1c49e2e0c4..61d01f5a336e 100644
+> --- a/kernel/liveupdate/Kconfig
+> +++ b/kernel/liveupdate/Kconfig
+> @@ -70,14 +70,14 @@ config LIVEUPDATE
+>  	  If unsure, say N.
+>  
+>  config LIVEUPDATE_SHMEM
+> -	bool "Live update support for memfd"
+> +	bool "Live update support for memfd and tmpfs files"
+>  	depends on LIVEUPDATE
+>  	depends on MEMFD_CREATE
+>  	depends on SHMEM
+>  	default LIVEUPDATE
+>  	help
+> -	  Enable live update support for memfd regions. This allows preserving
+> -	  memfd-backed memory across kernel live updates.
+> +	  Enable live update support for memfds and tmpfs files. This allows
+> +	  preserving their contents across kernel live updates.
+>  
+>  	  This can be used to back VM memory with memfds, allowing the guest
+>  	  memory to persist, or for other user workloads needing to preserve
+> diff --git a/mm/internal.h b/mm/internal.h
+> index 38b1165212c9..630ae0297dd5 100644
+> --- a/mm/internal.h
+> +++ b/mm/internal.h
+> @@ -1436,6 +1436,7 @@ int shmem_add_to_page_cache(struct folio *folio,
+>  			    pgoff_t index, void *expected, gfp_t gfp);
+>  int shmem_inode_acct_blocks(struct inode *inode, long pages);
+>  bool shmem_recalc_inode(struct inode *inode, long alloced, long swapped);
+> +bool shmem_inode_on_internal_mount(const struct inode *inode);
+>  
+>  #ifdef CONFIG_SHRINKER_DEBUG
+>  static inline __printf(2, 0) int shrinker_debugfs_name_alloc(
+> diff --git a/mm/shmem.c b/mm/shmem.c
+> index 897fa2b61346..9c67daa35d66 100644
+> --- a/mm/shmem.c
+> +++ b/mm/shmem.c
+> @@ -468,6 +468,15 @@ bool shmem_recalc_inode(struct inode *inode, long alloced, long swapped)
+>  	return first_swapped;
+>  }
+>  
+> +/*
+> + * Whether @inode is on the internal shmem mount, which is used by
+> + * shmem_file_setup() and thus by memfd_create().
+> + */
+> +bool shmem_inode_on_internal_mount(const struct inode *inode)
+> +{
+> +	return inode->i_sb == shm_mnt->mnt_sb;
+> +}
+> +
+>  bool shmem_charge(struct inode *inode, long pages)
+>  {
+>  	struct address_space *mapping = inode->i_mapping;
+> diff --git a/mm/shmem_luo.c b/mm/shmem_luo.c
+> index bcac1bbb3db3..ecbeb37d33a8 100644
+> --- a/mm/shmem_luo.c
+> +++ b/mm/shmem_luo.c
+> @@ -9,19 +9,20 @@
+>   */
+>  
+>  /**
+> - * DOC: Memfd Preservation via LUO
+> + * DOC: Memfd and Tmpfs Preservation via LUO
+>   *
+>   * Overview
+>   * ========
+>   *
+> - * Memory file descriptors (memfd) can be preserved over a kexec using the Live
+> - * Update Orchestrator (LUO) file preservation. This allows userspace to
+> - * transfer its memory contents to the next kernel after a kexec.
+> + * Memory file descriptors (memfd) and tmpfs files can be preserved over a kexec
+> + * using the Live Update Orchestrator (LUO) file preservation. This allows
+> + * userspace to transfer its memory contents to the next kernel after a kexec.
+>   *
+>   * Here, a memfd is a memfd created without ``MFD_HUGETLB``, which is a shmem
+> - * file on the kernel's internal shmem mount. Memfds created with
+> - * ``MFD_HUGETLB`` are hugetlbfs files, which this file handler doesn't
+> - * preserve. Preserving them fails with ``-ENOENT``.
+> + * file on the kernel's internal shmem mount, and a tmpfs file is a file on any
+> + * other tmpfs mount. Memfds created with ``MFD_HUGETLB`` and other files on
+> + * hugetlbfs are not shmem files, and this file handler doesn't preserve them.
+> + * Preserving them fails with ``-ENOENT``.
+>   *
+>   * The preservation is not intended to be transparent. Only select properties of
+>   * the file are preserved. All others are reset to default. The preserved
+> @@ -29,12 +30,13 @@
+>   *
+>   * .. note::
+>   *    The LUO API is not stabilized yet, so the preserved properties of a memfd
+> - *    are also not stable and are subject to backwards incompatible changes.
+> + *    or tmpfs file are also not stable and are subject to backwards
+> + *    incompatible changes.
+>   *
+>   * Preserved Properties
+>   * ====================
+>   *
+> - * The following properties of the memfd are preserved across kexec:
+> + * The following properties of the file are preserved across kexec:
+>   *
+>   * File Contents
+>   *   All data stored in the file is preserved.
+> @@ -49,10 +51,12 @@
+>   *
+>   * File Status Flags
+>   *   memfds are always opened with ``O_RDWR`` and ``O_LARGEFILE``. This property
+> - *   is maintained.
+> + *   is maintained. The file status flags of tmpfs files are not preserved.
+> + *   Userspace chooses the flags when retrieving them, as described in
+> + *   "Retrieving Tmpfs Files" below.
+>   *
+>   * Seals
+> - *   File seals set on the memfd are preserved and re-applied on restore.
+> + *   The seals of the file are preserved and re-applied on restore.
+>   *   Only seals known to this LUO version (see ``SHMEM_LUO_ALL_SEALS``) may
+>   *   be present; preservation fails with ``-EOPNOTSUPP`` otherwise.
+>   *
+> @@ -67,12 +71,50 @@
+>   *   A memfd can be created with the ``MFD_CLOEXEC`` flag that sets the
+>   *   ``FD_CLOEXEC`` on the file. This flag is not preserved and must be set
+>   *   again after restore via ``fcntl()``.
+> + *
+> + * Inode Attributes
+> + *   The name, path, owner, mode, timestamps and extended attributes of the
+> + *   file are not preserved.
+> + *
+> + * Retrieving Tmpfs Files
+> + * ======================
+> + *
+> + * A tmpfs file can be retrieved onto any tmpfs mount that userspace chooses.
+> + * The mount that the file was on doesn't exist in the new kernel, and userspace
+> + * may want to put the file elsewhere anyway.
+> + *
+> + * To retrieve a tmpfs file, userspace passes a
+> + * ``struct liveupdate_shmem_retrieve_arg`` to
+> + * ``LIVEUPDATE_SESSION_RETRIEVE_FD``. The argument specifies a directory on the
+> + * target mount, and the flags and mode of the new file. The kernel creates the
+> + * file as if by ``openat(dirfd, ".", O_TMPFILE | flags, mode)``, so the file
+> + * gets the same flags, owner, permission checks and security labels as any
+> + * other new file in that directory. The kernel then fills the file with the
+> + * preserved contents, size, position and seals before it returns the file, so
+> + * nothing else can access the file before it is complete.
+> + *
+> + * Like any ``O_TMPFILE`` file, the new file is not linked into the filesystem.
+> + * Userspace can link it at the path it wants with ``linkat()``, unless it asked
+> + * for ``O_EXCL``. Like with ``open()``, the file must be opened for writing.
+> + * LUO keeps the file open until the session is finished, so a retrieved binary
+> + * can't be executed until then.
 
-[#14] [CRITICAL] Line 231 (Step 16) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/blockgroup 
-filesystems/ext4/blockgroup"
+Nit: this information seems to be repeated in the uAPI documentation.
+Perhaps keep it only there and refer to it from here?
 
-[#15] [CRITICAL] Line 232 (Step 17) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/blockmap 
-filesystems/ext4/blockmap"
+> + *
+> + * The blocks of the file are charged to the target mount, so the size limit
+> + * and quotas of the mount apply. If the file doesn't fit, the retrieve fails
+> + * permanently, since the preserved contents have already been restored at that
+> + * point. If the argument is invalid or the file can't be created, the retrieve
+> + * fails before the preserved contents are restored, so it can be retried.
+> + *
+> + * memfds can only be retrieved as memfds, and files on tmpfs mounts can only be
+> + * retrieved onto tmpfs mounts. Retrieving a memfd with the argument, or a tmpfs
+> + * file without it, fails with ``-EINVAL``.
+>   */
+>  
+>  #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+>  
+>  #include <linux/bits.h>
+>  #include <linux/err.h>
+> +#include <linux/fcntl.h>
+>  #include <linux/file.h>
+>  #include <linux/io.h>
+>  #include <linux/kexec_handover.h>
+> @@ -81,6 +123,7 @@
+>  #include <linux/shmem_fs.h>
+>  #include <linux/vmalloc.h>
+>  #include <linux/memfd.h>
+> +#include <uapi/linux/magic.h>
+>  #include <uapi/linux/memfd.h>
+>  
+>  #include "internal.h"
+> @@ -299,6 +342,8 @@ static int shmem_luo_preserve(struct liveupdate_file_op_args *args)
+>  
+>  	ser->size = inode_size;
+>  	ser->seals = seals;
+> +	if (!shmem_inode_on_internal_mount(inode))
+> +		ser->flags |= SHMEM_LUO_FLAG_TMPFS;
+>  
+>  	err = shmem_luo_preserve_folios(args->file, &ser->folios,
+>  					&folios_ser, &nr_folios);
+> @@ -515,6 +560,92 @@ static int shmem_luo_retrieve_folios(struct file *file,
+>  	return err;
+>  }
+>  
+> +/* Create the memfd to retrieve a file from the internal shmem mount into. */
+> +static struct file *shmem_luo_create_memfd(const struct liveupdate_shmem_retrieve_arg *arg,
+> +					   unsigned int seals)
+> +{
+> +	struct file *file;
+> +	int err;
+> +
+> +	/* memfds are retrieved as memfds, so there is nothing to choose. */
 
-[#16] [CRITICAL] Line 233 (Step 18) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/blocks 
-filesystems/ext4/blocks"
+Nit: I can't make any sense of this comment. "memfds are retrieved as
+memfds": well I'd hope so. "there is nothing to choose": ... what are we
+choosing?
 
-[#17] [CRITICAL] Line 234 (Step 19) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/checksums 
-filesystems/ext4/checksums"
+Perhaps something simpler like "no arguments needed with memfds".
+Something along these lines.
 
-[#18] [CRITICAL] Line 235 (Step 20) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/directory 
-filesystems/ext4/directory"
+> +	if (arg)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	/*
+> +	 * The seals are preserved. Allow sealing here so they can be added
+> +	 * later.
+> +	 */
+> +	file = memfd_alloc_file("", MFD_ALLOW_SEALING);
+> +	if (IS_ERR(file)) {
+> +		pr_err("failed to setup file: %pe\n", file);
+> +		return file;
+> +	}
+> +
+> +	err = memfd_add_seals(file, seals);
+> +	if (err) {
+> +		pr_err("failed to add seals: %pe\n", ERR_PTR(err));
+> +		fput(file);
+> +		return ERR_PTR(err);
+> +	}
+> +
+> +	return file;
+> +}
+> +
+> +/*
+> + * Create the file to retrieve a file from a tmpfs mount into, on the tmpfs
+> + * mount chosen by userspace.
+> + */
+> +static struct file *shmem_luo_create_tmpfs_file(const struct liveupdate_shmem_retrieve_arg *arg,
+> +						unsigned int seals)
+> +{
+> +	struct file *file;
+> +	int err;
+> +
+> +	if (!arg)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	/*
+> +	 * Like openat2(), reject unknown flags and mode bits instead of
+> +	 * ignoring them. Also reject O_PATH, which would make file_open_root()
+> +	 * ignore O_TMPFILE and open the directory instead of creating a file.
+> +	 */
+> +	if (arg->flags & ~(u64)VALID_OPEN_FLAGS || arg->flags & O_PATH ||
+> +	    arg->mode & ~(u64)S_IALLUGO)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	CLASS(fd_raw, dir)(arg->dirfd);
+> +	if (fd_empty(dir))
+> +		return ERR_PTR(-EBADF);
+> +
+> +	if (fd_file(dir)->f_path.dentry->d_sb->s_magic != TMPFS_MAGIC)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	/*
+> +	 * Create the file like open(O_TMPFILE) does, so that it gets the same
+> +	 * flag checks, permission checks, owner and security labels.
+> +	 */
+> +	file = file_open_root(&fd_file(dir)->f_path, ".",
+> +			      O_TMPFILE | O_LARGEFILE | arg->flags, arg->mode);
+> +	if (IS_ERR(file))
+> +		return file;
+> +
+> +	/*
+> +	 * Nothing else can access the new file yet, so set the preserved seals
+> +	 * directly. memfd_add_seals() refuses to, since files on tmpfs mounts
+> +	 * are created with F_SEAL_SEAL.
+> +	 */
+> +	if (seals & F_SEAL_WRITE) {
+> +		err = mapping_deny_writable(file->f_mapping);
+> +		if (err) {
+> +			fput(file);
+> +			return ERR_PTR(err);
+> +		}
+> +	}
+> +	SHMEM_I(file_inode(file))->seals = seals;
 
-[#19] [CRITICAL] Line 236 (Step 21) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/dynamic 
-filesystems/ext4/dynamic"
+No, no, no. If a tmpfs payload has seals other than F_SEAL_SEAL, it is
+_invalid_ and must be rejected. Let's not do things on retrieve that
+can't be done on a normal file.
 
-[#20] [CRITICAL] Line 237 (Step 22) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/eainode 
-filesystems/ext4/eainode"
+> +
+> +	return file;
+> +}
+> +
+>  static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
+>  {
+>  	struct shmem_luo_folio_ser *folios_ser;
+> @@ -533,25 +664,18 @@ static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
+>  	 */
+>  	args->retryable = true;
+>  
+> -	/* Make sure the file only has seals supported by this version. */
+> -	if (ser->seals & ~SHMEM_LUO_ALL_SEALS)
+> +	/* Make sure the file only has seals and flags this version supports. */
+> +	if ((ser->seals & ~SHMEM_LUO_ALL_SEALS) ||
+> +	    (ser->flags & ~SHMEM_LUO_ALL_FLAGS))
 
-[#21] [CRITICAL] Line 238 (Step 23) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/globals 
-filesystems/ext4/globals"
+As I said above, the set of valid seals depends on memfd or tmpfs, so it
+should be checked in their respective functions.
 
-[#22] [CRITICAL] Line 239 (Step 24) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/group_descr 
-filesystems/ext4/group_descr"
+This also isn't backwards compatible, but we haven't solved that problem
+yet so it's fine for now.
 
-[#23] [CRITICAL] Line 240 (Step 25) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/ifork 
-filesystems/ext4/ifork"
+>  		return -EOPNOTSUPP;
+>  
+> -	/*
+> -	 * The seals are preserved. Allow sealing here so they can be added
+> -	 * later.
+> -	 */
+> -	file = memfd_alloc_file("", MFD_ALLOW_SEALING);
+> -	if (IS_ERR(file)) {
+> -		pr_err("failed to setup file: %pe\n", file);
+> +	/* Retrieve memfds as memfds, and other files onto a tmpfs mount. */
 
-[#24] [CRITICAL] Line 241 (Step 26) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/inlinedata 
-filesystems/ext4/inlinedata"
+Nit: this comment doesn't add any value.
 
-[#25] [CRITICAL] Line 242 (Step 27) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/inodes 
-filesystems/ext4/inodes"
+> +	if (ser->flags & SHMEM_LUO_FLAG_TMPFS)
+> +		file = shmem_luo_create_tmpfs_file(args->arg, ser->seals);
+> +	else
+> +		file = shmem_luo_create_memfd(args->arg, ser->seals);
+> +	if (IS_ERR(file))
+>  		return PTR_ERR(file);
+> -	}
+> -
+> -	err = memfd_add_seals(file, ser->seals);
+> -	if (err) {
+> -		pr_err("failed to add seals: %pe\n", ERR_PTR(err));
+> -		goto put_file;
+> -	}
+>  
+>  	vfs_setpos(file, ser->pos, MAX_LFS_FILESIZE);
+>  	i_size_write(file_inode(file), ser->size);
+> @@ -579,7 +703,6 @@ static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
+>  
+>  free_ser:
+>  	kho_restore_free(ser);
+> -put_file:
+>  	fput(file);
+>  	return err;
+>  }
+> @@ -605,6 +728,7 @@ static const struct liveupdate_file_ops shmem_luo_file_ops = {
+>  	.unpreserve = shmem_luo_unpreserve,
+>  	.can_preserve = shmem_luo_can_preserve,
+>  	.get_id = shmem_luo_get_id,
+> +	.rarg = LIVEUPDATE_ARG(struct liveupdate_shmem_retrieve_arg, mode),
+>  	.owner = THIS_MODULE,
+>  };
 
-[#26] [CRITICAL] Line 243 (Step 28) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/journal 
-filesystems/ext4/journal"
-
-[#27] [CRITICAL] Line 244 (Step 29) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/mmp 
-filesystems/ext4/mmp"
-
-[#28] [CRITICAL] Line 245 (Step 30) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/overview 
-filesystems/ext4/overview"
-
-[#29] [CRITICAL] Line 246 (Step 31) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/special_inodes 
-filesystems/ext4/special_inodes"
-
-[#30] [CRITICAL] Line 247 (Step 32) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/ext4/ondisk/super 
-filesystems/ext4/super"
-
-[#31] [CRITICAL] Line 248 (Step 33) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/sysfs-pci PCI/sysfs-pci"
-
-[#32] [CRITICAL] Line 249 (Step 34) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/sysfs-tagging 
-networking/sysfs-tagging"
-
-[#33] [CRITICAL] Line 250 (Step 35) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/xfs-delayed-logging-design 
-filesystems/xfs/xfs-delayed-logging-desig"
-
-[#34] [CRITICAL] Line 251 (Step 36) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/xfs-maintainer-entry-profile 
-filesystems/xfs/xfs-maintainer-entry-pr"
-
-[#35] [CRITICAL] Line 252 (Step 37) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/xfs-online-fsck-design 
-filesystems/xfs/xfs-online-fsck-design"
-
-[#36] [CRITICAL] Line 253 (Step 38) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "filesystems/xfs-self-describing-metadata 
-filesystems/xfs/xfs-self-describing-met"
-
-[#37] [CRITICAL] Line 438 (Step 39) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "media/uapi/dvb/frontend-property-cable-systems 
-userspace-api/media/dvb/frontend-"
-
-[#38] [CRITICAL] Line 439 (Step 40) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: 
-"media/uapi/dvb/frontend-property-satellite-systems 
-userspace-api/media/dvb/front"
-
-[#39] [CRITICAL] Line 440 (Step 41) — [Mandalic Resonance: 0 Dissonance] 
-Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: 
-"media/uapi/dvb/frontend-property-terrestrial-systems 
-userspace-api/media/dvb/fro"
-
-[#40] [CRITICAL] Line 632 (Step 42) — [Mandalic Resonance: 0 Dissonance] 
-Legacy Unchecked Input (Direct Stack Overflow)
-   • Standard / Control : MITRE CWE-693 | NIST 800-53 SA-11 (Developer 
-Security Testing)
-   • Requirement        : Protection Mechanism Failure / Open Topological 
-Manifold. Enforce explicit bounds, null checks, and deterministic 
-resource closure.
-   • Execution Context  : Open Manifold: Unbounded stream or format 
-string operation. Flow: "media/uapi/v4l/selection-api-003 
-userspace-api/media/v4l/selection-api-targets"
-
-[#41] [CRITICAL] Line 639 (Step 43) — [Mandalic Resonance: 0 Dissonance] 
-Legacy Unchecked Input (Direct Stack Overflow)
-   • Standard / Control : MITRE CWE-693 | NIST 800-53 SA-11 (Developer 
-Security Testing)
-   • Requirement        : Protection Mechanism Failure / Open Topological 
-Manifold. Enforce explicit bounds, null checks, and deterministic 
-resource closure.
-   • Execution Context  : Open Manifold: Unbounded stream or format 
-string operation. Flow: "media/uapi/v4l/selection-api-targets 
-userspace-api/media/v4l/selection-api-targe"
-
-[#42] [CRITICAL] Line 651 (Step 44) — [Mandalic Resonance: 0 Dissonance] 
-Legacy Unchecked Input (Direct Stack Overflow)
-   • Standard / Control : MITRE CWE-693 | NIST 800-53 SA-11 (Developer 
-Security Testing)
-   • Requirement        : Protection Mechanism Failure / Open Topological 
-Manifold. Enforce explicit bounds, null checks, and deterministic 
-resource closure.
-   • Execution Context  : Open Manifold: Unbounded stream or format 
-string operation. Flow: "media/uapi/v4l/v4l2-selection-targets 
-userspace-api/media/v4l/v4l2-selection-tar"
-
-[#43] [CRITICAL] Line 1160 (Step 66) — [Mandalic Resonance: 0 
-Dissonance] Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "x86/resctrl filesystems/resctrl"
-
-[#44] [CRITICAL] Line 1161 (Step 67) — [Mandalic Resonance: 0 
-Dissonance] Untrusted Command Execution (Shell Injection)
-   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
-Input Validation) | DISA STIG CCI-001310
-   • Requirement        : Improper Neutralization of Special Elements 
-used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
-interpolation; use parameterized argument arrays.
-   • Execution Context  : Open Manifold: Unbounded command execution with 
-dynamic variables. Flow: "x86/resctrl_ui filesystems/resctrl"
-
---------------------------------------------------------------------------------
-Generated by Logic Archaeologist Pro v8.5 (ulshe.ai) — Sovereign 
-Topological SAST
-
-John Reagan
-ulshe.ai
-702-788-6888
+-- 
+Regards,
+Pratyush Yadav
