@@ -1,65 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.61
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793779585;
-	b=0k0YDWrovV2D4Cyps69d/DKheX+vCRzB2vT4zDKbhV7H43evgEARvazzV7l/koBKxzvF
-	 16voVQqXrYaQvvA1tpxpVSoIX0X4we4A3vpr3fve5f+h9OPoNiskFFZ0VLPFIpO41m4Oe
-	 r8jw5wpIr5cSk1bGDVEVi7qcPIjRiPj/VhBZwOEW1T2jhi1EDuArTCtViTRvgVWzDy0k/
-	 ClhzQEJhN1okMsQyI1PJjqCNT6u8ISta64ic73hApQO4XyWWAODC9nDP1HiM5vitCBHON
-	 RTqGC3uswetYhfoq585STlr+JiS5m4No2boVwbLKASgaGimud3vYf8wgE2ldkui0Cmg==
+	t=1793780061;
+	b=yTNpNa70RlbyIGQN9igUThTU8pYHnWC5T+QTVt1ffE+9Q0arUQEh93oEWzMt41dqgkRw
+	 Z6++ISLQ02idojA0/HUr3gqkINmNDTkDynQSM3J8plvTZUpq/bh3mGLfTZREIZ0stYl4T
+	 fYHf0WAJuw9Z1rwLi0sLn3r2gjTWo8kNelvxKkHVk7NddYYKJD1Tdzn/oZrD6y+jKeWxR
+	 YmziYjNaXvlck4Tc1RW6Zv4AGfbVUhYXE+hBC4giT1IzKdQ8cLbZfCkyVbGrcYCsvn4mR
+	 sT0jU8vVfgLUerzooEo12ojt3OAZzNYvp5W3hTLoscNXyRr5rDvRgoB7HlpBOxZAhzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793779585;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-XMRINFO:X-QQ-XMAILINFO:From:To:Cc:
-	 Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Date:
-	 X-Priority:Message-ID:X-QQ-MIME:X-Mailer:X-QQ-Mailer:References:
-	 In-Reply-To:X-QQ-mid;
-	bh=WgxEiGMcAXeHim/OCpv0zMeF0d48h/zJZ1XH8xX5r4w=;
-	b=fW8KS9JDFNdGN4lxDNFmfL5FHEiYz7KsS8OFWlWj8jMHRnK9cz2Rz6TAbsYUxC7yJVDw
-	 fsfPn9i1Cjq8ZiEyhTCideEQDEo28fRKHKRAu3c9X0gsQCFutBgvBe7uMoeo8UJJnSMWW
-	 X6Mib0c2l3YQ/sBS8pn2g+aZgp9mqaRRn+9ZPMqh4fMfYZogtnGbMIcMHPmbju2F9FrGY
-	 /KrVrZuRWVXach1OWRAnCDcI29XpsVGlUtFvNa1vvH0rBOTEd8UUetnAyOuK3+SIyOReU
-	 /fbzAkGA9goxjfj37nciGGNjCzpuDdwGUb/r2HxdYqrYErBEdgEhWT9zPW4/AWtF+RA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793780061;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=u0mvGpqtlZfjINxokBP1apiF5s2E5H2P+33Mg4nhuuU=;
+	b=WshBX1kkmpcG7BKbWJRM37+XdP9bvEEOj0VQVuuAUqeO+EbGhr36GRyN7xpCLOMzBb0X
+	 VoIfx4aO90rmOF7PdONnEANMYQkvaj4Y4PgdJfHbBA4Kf6RkPD+7Gh4yjU7cN3ATOalws
+	 DxvuTex49Rt/+RQDNFahV7Wq0N7dlbjtBtIWZEKx4fYlu8LVfyxhLFnE2Pn39OSZvKp6/
+	 PvATPeJDqAslNZFQfLX4khFgXMxvmkhwDp7+0+cm5g1AwqFISmwkK5ug8i9IS9GGG3P6i
+	 LvT012XkBWE+WZP4YaWGpbvMGnb0U8bzbHI6HXn68Je7rRDV2elkvERvF+kgoK0yzaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=fOEj9ig5;
-	arc=none smtp.remote-ip=162.62.58.216
-Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=qYJ1xFAn;
+	arc=none smtp.remote-ip=91.218.175.61
+Received: from mta0.migadu.com (out-61.mta0.migadu.com [91.218.175.61])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 809B5606A334;
-	Wed,  4 Nov 2026 08:06:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 809B5606A334
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92159606A31B
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 08:14:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92159606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=fOEj9ig5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793779579; bh=WgxEiGMcAXeHim/OCpv0zMeF0d48h/zJZ1XH8xX5r4w=;
-	h=From:To:Cc:Subject:Date:References:In-Reply-To;
-	b=fOEj9ig5JXN09CLHqNfTNgbw330Bh/WIacL9+P9J5rKELZqrG/iX3nWAuCG41tSLn
-	 3v2RfVVwIiWX9HMUBlu8oX6dbosXWswYQ2tpi76OJJHbKygZRed3lrS1MI5Ic3xMoR
-	 7P5ESqp3MzxmK8aiNu8ZZuBBgwpvf5duWSzGefiE=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-X-QQ-XMAILINFO: Nze9Gsl2QAyr5RxeywbNGg6T5cysE3+3MmOq0TdLhgaEbwUJeN9vA51HWHzzUm
-	 8+OJbKEXn/feXKvOo/2TOKWuMMaZCIRy0UWsahrowRynnMa1jlpI0vfs9ZOmuX96Xaup7yVWAnGAv
-	 r6wM66C+1UYEho16kdBhDsLpHI+JddESc7SYXXmZFx+74oaXiw1W84KD1+73Doq2momM1ZyOLpLVm
-	 fV1uRXtsx6533qpYQG0c/4T9nSYawztosAet8uI+nIP0baYUxMTrZM6eK6ENU6GbdUALaUjqa0nRi
-	 JnOK5vl0RU0PdywsI/aetYv7E9OSBwmGX/iD5HmmDmiizWHdl/1TqbAd/oR/algyGG2OKdfBXDKKs
-	 HYqgTOgGjUruMQ4c8dzbqe2eny2nQmPRQJzS/PZl+J8H0qcVkrNQTuWxK9xo6H+CFbLfKBVfUZYbr
-	 YFzatZMYpuAeERkWN/EVm/6nx6H3BGOnp6RfaVyYhAG3R6IXVMAT0xrRZqUkHNvRb4f1imVoF9rs1
-	 AgJ4Nim5PyXcsyshlnwttdra7XpG5Ls3uNC36X5MeDQ1quwW6q3FR7XldERP8bD0LnpebQ6n0k6ut
-	 ckQyxhQSLVEBGkgDVS03MOpisqtOZEZUdkSTHf8r8nTSBNlw3vLQbj7qrPJUQH3T8fvb7f6ApkmI3
-	 oKSY3zzZhEtVBvUu+4Z8tkOqR6AxKoiFdFU5fJKc6g3r9j8J9HxW4uw65lrmt1oX2qWz9vD1R4MQi
-	 oGDAWCUPBoJDgw0g9uG7UTzINOwf29Qfz4hq2mV93CqttBx9jgEFeEU6VLR2o4ZoXtFvdhutAE9aM
-	 6x7HpA6IltYkk0VpbHrv7WyxWvTIyjGN1CVBT1rfTLKTEZQdeSZWj+r2UrpU9TxRd7GvadgTmsEpb
-	 gZhqcpqIdrU4vRN1thMDTweEEW5ZOrTmuoFywATQS6FxrleaLOG/Wpq6Ff2xANFsj9ceWelW2BxeQ
-	 rtkA9lMeex1XHsrHi3eRcpdnX2oz4zD+rIDRa/nMGR4jboJp0+BFH+GoAmUjwEwcQlLuusR5xtYtb
-	 JRCvoxORlO2iH+BN6Q7T2DXhPGw==
-From: "=?utf-8?B?Q3VuaGFvIEx1?=" <1579567540@qq.com>
-To: "=?utf-8?B?bmV0ZGV2LWJvdCtzYXNoaWtv?=" <netdev-bot+sashiko@kernel.org>
-Cc: "=?utf-8?B?bWts?=" <mkl@pengutronix.de>, "=?utf-8?B?bWFpbGhvbA==?=" <mailhol@kernel.org>, "=?utf-8?B?aGVpa28=?=" <heiko@sntech.de>, "=?utf-8?B?ZGF2ZW0=?=" <davem@davemloft.net>, "=?utf-8?B?d2c=?=" <wg@grandegger.com>, "=?utf-8?B?c29ja2V0Y2Fu?=" <socketcan@hartkopp.net>, "=?utf-8?B?a2VybmVs?=" <kernel@pengutronix.de>, "=?utf-8?B?ZWR1bWF6ZXQ=?=" <edumazet@kernel.org>, "=?utf-8?B?a3ViYQ==?=" <kuba@kernel.org>, "=?utf-8?B?cGFiZW5p?=" <pabeni@redhat.com>, "=?utf-8?B?aG9ybXM=?=" <horms@kernel.org>, "=?utf-8?B?Y29yYmV0?=" <corbet@lwn.net>, "=?utf-8?B?c2toYW4=?=" <skhan@linuxfoundation.org>, "=?utf-8?B?cmR1bmxhcA==?=" <rdunlap@infradead.org>, "=?utf-8?B?bGludXgtY2Fu?=" <linux-can@vger.kernel.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, 
-	"=?utf-8?B?bGludXgtYXJtLWtlcm5lbA==?=" <linux-arm-kernel@lists.infradead.org>, "=?utf-8?B?bGludXgtcm9ja2NoaXA=?=" <linux-rockchip@lists.infradead.org>, "=?utf-8?B?bmV0ZGV2?=" <netdev@vger.kernel.org>, "=?utf-8?B?bGludXgtZG9j?=" <linux-doc@vger.kernel.org>, "=?utf-8?B?c3RhYmxl?=" <stable@vger.kernel.org>
-Subject: Re: [PATCH net v6 3/6] can: rockchip_canfd: cancel bus-off restart before closing the device
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=qYJ1xFAn
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=MRcHoX4dU+DYPgRvfaDTMzQP1NWT0V4zukTujIDg3DY=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793780057; v=1; x=1794384857;
+ b=qYJ1xFAnsK72RQHQN77urdzv+mfzfWmIcdNYff/qxrwfaM4m934Pfcj7ZaHRBFpQ7hVBBfD6
+ ZI/5iycOuZzES0SsATx5zaHHyizV+uf4HXH4PTv6zmgL/k7BL1GvChVr9zb/G3Ve0HwrAJaPaLv
+ JVjqbimDyZ/S/ewnU2dtExvQZ2v0nHJmR0f1+R17DkM70iYFUSVa1hKU5pmS34P+lujbyFMmHoZ
+ iuzg23OS5viiddw0TT7SueeDQJg3cOrlKXZDpUFPUA4E3KJZpOntKGVsbldB//8217T3ll6um9g
+ V7duFzw1D5xMY+kPSf+NVJohIvzP2ci3peXpDvKhwKHZQ==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 4e16cbf5b501e931;
+	Wed, 04 Nov 2026 08:14:17 +0000
+X-Mizu-Trace-ID: 4e16cbf5b501e931
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 4 Nov 2026 16:14:10 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Weijie Yuan <kernel@wyuan.org>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: How to attempt to gradually eliminate the compilation output?
+Message-ID: <aurpUltnbwWw3eyx@wyuan.org>
+References: <aurU4uKyIUBl9-CJ@wyuan.org>
+ <87y0b99i6p.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,44 +67,58 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Wed, 4 Nov 2026 16:06:17 +0800
-X-Priority: 3
-Message-ID: <tencent_2E7A44783FBE26011A7319CF849111D78007@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20261017-rockchip-canfd-restart-close-v6-3-ed605feb4b6e@qq.com>
-	<179237864073.3135.8117104622491949177@kernel.org>
-In-Reply-To: <179237864073.3135.8117104622491949177@kernel.org>
-X-QQ-mid: xmsezb41-0t1793779577t7nbgj69z
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87y0b99i6p.fsf@trenco.lwn.net>
 
-SGksCgo+IElzIHJrY2FuZmRfc3RhcnRfeG1pdCgpIHNlcmlhbGl6ZWQgYWdhaW5zdCB0aGlz
-IHJlaW5pdGlhbGl6YXRpb24gYXQgYWxsPwo+IFdvdWxkIHRoaXMgbGVhdmUgSU5UX01BU0sg
-dW5tYXNrZWQgYW5kIHRoZSBUWCBxdWV1ZSBhd2FrZSBvbiBhCj4gY29udHJvbGxlciB0aGF0
-IGlzIGluIHJlc2V0IHdpdGggdGhlIENBTiBzdGF0ZSBhdCBDQU5fU1RBVEVfQlVTX09GRj8K
-CkJvdGggd2luZG93cyBwcmVkYXRlIHRoaXMgcGF0Y2guIEl0cyBhZGRlZCB3YWl0cyBjYW4g
-ZXh0ZW5kIHRoZSBUWCByYWNlCmFmdGVyIHRoZSBjb3JlIHJlc3RvcmVzIGNhcnJpZXIuIFBh
-dGNoIDUgb2YgdjYgY2xvc2VzIGJvdGggd2luZG93cy4KSSB3aWxsIGZpeCB0aGlzIGlzc3Vl
-IGluIHY3IGJ5IGludHJvZHVjaW5nIHJlc3RhcnQgc3luY2hyb25pemF0aW9uIGFuZApUWCBw
-cm90ZWN0aW9uIHRvZ2V0aGVyLgoKSW4gdGhlIGNvbXBsZXRlIHY2IHNlcmllcywgYm90aCBy
-ZXN0YXJ0IGFuZCBvcGVuIHVzZQpya2NhbmZkX2NoaXBfc3RhcnRfZmluaXNoKCkuIEl0IGhv
-bGRzIHR4X2xvY2sgd2hpbGUgY2xlYXJpbmcgdGhlIElSUSBnYXRlLAp1bm1hc2tpbmcgaW50
-ZXJydXB0cyBhbmQgd2FraW5nIHRoZSBxdWV1ZS4gQSBuZXcgYnVzLW9mZiBtdXN0IGFjcXVp
-cmUgdGhlCnNhbWUgbG9jayBpbiBya2NhbmZkX3R4X2Rpc2FibGUoKSBiZWZvcmUgcHVibGlz
-aGluZyBCVVNfT0ZGIGFuZCBzdG9wcGluZwp0aGUgY29udHJvbGxlciwgc28gaXQgdGFrZXMg
-cHJlY2VkZW5jZSBvdmVyIHN0YXJ0dXAuIFRoZSBmbGFnIGlzIG5vdCB0aGUKb25seSBzeW5j
-aHJvbml6YXRpb24gaGVyZTsgYW4gYWRkaXRpb25hbCBsb2NrIGFyb3VuZCB0aGUgd2hvbGUg
-aGFuZGxlcgppcyBub3QgbmVlZGVkIGZvciB0aGUgcmVwb3J0ZWQgaW50ZXJsZWF2aW5nLgoK
-PiBDYW4gdGhlIGhhbmRsZXIgc2VlIGEgbmV3IGN5Y2xlX2xhc3QgdG9nZXRoZXIgd2l0aCBh
-biBvbGQgbnNlYz8KClllcywgYmVmb3JlIHBhdGNoIDYgb2YgdjYuIFRoYXQgcHJlLWV4aXN0
-aW5nIHJhY2UgaXMgZml4ZWQgYnkgdGFraW5nCnRpbWVzdGFtcF9sb2NrIGZvciBjb252ZXJz
-aW9uIGFzIHdlbGwgYXMgdGltZWNvdW50ZXIgdXBkYXRlcy4gSSB3aWxsCnJldGFpbiB0aGF0
-IGZpeCBpbiB2Ny4gVGhlIHdvcmtlciByZWFybWluZyBpc3N1ZSBpcyBhbHJlYWR5IGZpeGVk
-IGJ5IHRoZQpsb2NrZWQgYWN0aXZlIGNoZWNrIGluIHBhdGNoIDQgb2YgdjYgYW5kIHdpbGwg
-YWxzbyByZW1haW4gZml4ZWQuCgpCZXN0IHJlZ2FyZHMsCkN1bmhhbyBMdQoKcHctYm90OiBj
-cgo=
+Jonathan Corbet <corbet@lwn.net> writes:
 
+> Weijie Yuan <kernel@wyuan.org> writes:
+> 
+> > Recently I've sent several patches to fix warnings.  But since I am not
+> > familiar with the actual codes of theirs, I'm not confident enough to
+> > touch some parts, but only the most obvious ones.
+> >
+> > Since this is a goal that Jon has spent years for, I'm wondering if it's
+> > possible to periodically send out some email notifications, which will
+> > use the file paths from the compiled output to find the recipients and
+> > kindly ask them to to deal with these annoying outputs? Perhaps we could
+> > use a script to do this.?
+> 
+> I think that nagging others to fix warnings is not going to make anybody
+> happy.
+
+That's sure and that wasn't what I intended. 
+
+I'd be happy to do the work, but putting myself in their shoes, I worry
+they might think, "Someone from nowhere, who isn't familiar with our
+development process/workflow, is sending patches and just adding noise.
+It would be quicker and easier if they simply pointed out the problems
+and let us fix them ourselves."
+
+For example, last week I was about to send a small patch when,
+fortunately, I searched lore one more time and found that an equivalent
+patch had already been posted to their list, but hadn't been merged yet.
+
+These warnings span many subsystems, and I worry that sending patches
+before I understand their respective workflows might come across as a
+bit impolite: "We already have this fix in our development tree; you
+should have checked first."
+
+> The best we can do in that regard is to try to prevent the
+> addition of new ones.
+
+I haven't looked into this in detail yet, but I suspect some new
+warnings crop up after each merge window from other subsystems' trees
+without our side noticing. So could we be fixing roughly as many
+warnings as we gain each cycle? :)
+
+> Beyond that, it is far better to send a patch than a request for
+> somebody else to make one.  If nothing else, an incorrect patch is
+> usually the best way to get somebody else to create a correct one :)
+
+Ah yes, true. ;-) So please bear with my poor patches then, low-quality
+patch is unintentional but inevitable. ;)
+
+Thanks!
