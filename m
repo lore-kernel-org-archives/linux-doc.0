@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.89
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.37
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793784114;
-	b=ZdgNc9uqJF4kZ7DEkg/QYD0FP5dbwMLb5XuSBNpBFcDAf5on35/YhwwJ5/ooV82KYEMi
-	 jWb22I10a3fkayDfsRtX969RcOSLycsK+vl3raTRWCtqo21HVuJMAdtnH6dMZcY4isBin
-	 ypZonBZdNHZS6CYPWhk/HHh+BreKl+APlQEPYlXDod1sp3nvd7JYqpcmS8sFugFw3lMx3
-	 qVskPvjAZ8n78DB1OuLX4tbs0aS+GpbdQdh/IUnRHWQlhvwlw7QN4yas93Q13oeiaOjLo
-	 RXBq19psY0ylNs1ZRoKOyYQfSGfX+B3Y2VN32mRKjumFaL8izfU+RlPiZVwWqCHjMwQ==
+	t=1793784122;
+	b=f25m9YBVEMGjwnyH3FP4tSN8/cVAunw2fot9NlRPd/EywIdteF5m2j4F+D1eS74Gline
+	 NFHs1Psmwga7X+rgOlW+DiEcrIc2asX5Aj1zJDi2ICA7AYQIkrHQhhRTXV2nGXzaJerPI
+	 mOHLbdWvUk0bpYg018usM6gTYY+vVcpix2kVFUpXsORySRDlcx/E8PUQDj00DK2vx6byj
+	 t27T7yEs1xLM43NaI1vV54OG/vGIByz2rESxq/khAX0dOZDodivMsqFkF7mCuOKYQNfV0
+	 iAsOYUzokn1w7N1I8B6AZKjr718nM4qGL0GOLVT/6s3kr69EafiY9P9v2mAHcsD2asQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793784114;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793784122;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:
@@ -24,51 +24,51 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-Id:
 	 X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Ap7ftiFf8LYhu3DQ5HRD8bLP9HT9yZX1j3hNOn3QXS8=;
-	b=5ktyGaTBbgiXjbOlRK/N3JakwqTpYaASCnKQ6vSJ4989WPzP6a8v/tUBxy9GOwB6tRVM
-	 PQkGDAQAchtS2HvYZR8OB98uB+WlLeXuKnxz27tYD7KSkxZziDrI3ZXdJuAfLwvpDU91W
-	 ckzVGtDU3K3y6kqLsO6+iWnLBx1AfoUPlngmzU+CfhXL9Qw9mBfco6sMyTj6IqMDZxWfK
-	 he6WTm/f4X9nyOwO4Q1nAjaO2MZ0j+TPmdVG3++VI7HBsMllT9PqyaKwcZc9aBscnTTXo
-	 cjFAlcx3y52a5avTdatxSNcsWEgWEAAl0Fe2tTd3NN32aImbl41m2JSrvXVJ8vsP9wA==
+	bh=9Y3RpzT7qKKEV2JOmdhoM6TwfDlK7nSQ7jeHaLgFzQk=;
+	b=Z0nxUIp3OK1oGt/OxMxg0VkO3u7yAM9Rf71XNQWnkDEtgSBtPLT8jOqi/ssUvJDrI7ji
+	 djNJ+DxK+FJkj+6QWsnF8mx4xxJ/ZAA3BDnHtleOFgVGxQVPr03k7cUL0yvoqS/7QvsK/
+	 Y4n3O5rbXdiMWX8BSwiTfTXLW+Gs1WDRrdo2wZCMOdzJS5BpUz3y++QBuz/b3EtLWBzcB
+	 EZSkBHEd2HEwjpRp0P/oH9sx6Qzp/3I3SayKkbg6nV5kWVH02sWf8liq2z6iWlV6MAdgp
+	 tf22NkD/6yVegiy9i3Uw/nbo7Plba0vAvG88+6/VXfYE8g8yQitZhrSkp37nt9LE0Mg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=hotmail.com;
 	spf=pass smtp.mailfrom=hotmail.com;
-	dkim=pass header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=ONSKx2qI;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.89
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azolkn19010089.outbound.protection.outlook.com [52.103.10.89])
+	dkim=pass header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b="NwJLya/E";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.103.10.37
+Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azolkn19010037.outbound.protection.outlook.com [52.103.10.37])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD78606EEA6;
-	Wed,  4 Nov 2026 09:21:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DD78606EEA6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C50606A329;
+	Wed,  4 Nov 2026 09:22:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29C50606A329
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=ONSKx2qI
+	dkim=pass (2048-bit key, unprotected) header.d=hotmail.com header.i=@hotmail.com header.a=rsa-sha256 header.s=selector1 header.b=NwJLya/E
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dRMZ9W0cxNnGbWuwGW/7dF5BSab1qEVaAs+5e3JOPhB3OC1tgV9oPpKgCvTxY4sWJSHYgJbVjp9sCC3cCoWJqtWpzpVKdrvJ61WXeq0EA1zDe2bfOtQMhqa0btOffegxprD94zKEujZGpNRkLkuPYffgTsnxEsFHZJwf+ryYT8P2fwOOTgePHY5PGJ/9Hv02VTrm4jL6/bn/x+vyRTxTgbLnJHxjx6i17QxPQP5VRzLyraF98jer0HoQB7bHzwKdyK/xhPB8frLjmyF/E9fLoFoBOH1EM3F2OL2qUyaAmS2982zr1kVTgyPTtd1GsQhYqrU07ng3AO2ylrnKBnPvgw==
+ b=Nm3GWuZkRFfCQcJKzTl++plmbvU3kbz5dnvyzPyS6mIf9z0vt9ck1+fPMeGvlLLBkOvjYZdCk550EtwuUugzFPd/f8fDcwe74vsRuFDaDXnQeaqC/xlNv0Ld70vwx/S2N5/5m9av0ZlHb1lOkeYF/W43Rl0dyqjuIE9chCx8f9ZlQo67sjUIlkGmtE+xO1Ej3VRNgjkVPdc+3GjzKC0FxGaRm2sIVVOA0LgSpZpOnXqOstXx8Z/oaF+JSnXjxsWVMdkxQPrP6gw4iik2CDS8lPN4oiABd1Mo0dgFtzbMJ5n8OlLkq1Al0dCP6G1UzEHOc0paX5Plzkt4JeIwBXgeeA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ap7ftiFf8LYhu3DQ5HRD8bLP9HT9yZX1j3hNOn3QXS8=;
- b=YNVfx8Wb/LGNSyRK2F+1tH5nkZ5OAkuB1d0VgE9ph9e0iolX7wAb8YcmKdJ7sDAkkyJIV3A6kXEikgOPvSfBVf2j9r5PlqdUFVAbcpWFnEJ7CxSmJu7pncrvqyiXBloibr7hpWjQL8WOaiBImn68akjwlk+9m6eLrqvMdZYDJH8hn+J8UjexN9zv5cCPDNCTOqlOGyoGY2vcAu6egrj6h1xnMdCcG1dleJ5oEeJf9fmfMXuwpEvHs547RtfuS4po81lrgNVPh/Glmv2aNXr7OGnBGw4DDc43ezgobf9HZhb2Omc7kSkx4h5qgsx76RYm9QXJJol4n0RONM3YcaEGgg==
+ bh=9Y3RpzT7qKKEV2JOmdhoM6TwfDlK7nSQ7jeHaLgFzQk=;
+ b=MRtUt7E0Axqx5UTytzz2m69LIn5srHfh3uPB/A4nvLJMvp9s7ThPlgKbMNVYaiJd4ZtxRTU6US6Qp2QeU/TjY4UdbBRW03jznu2pGhM5gCONoOOWhhuzfWSHlqxEczSdhvb8xpVFyD7vclVggQ8DnuLC5cXrqgGd3/CPLO0wnBC/C4zNa8qgLCXvU/XeJp8TVfcE78pnRCpzLS6adyi9xGjbjr81wBEioCqJ7poHF2FxMLQxTUGcv1dnQbRuDPxuzgfKpUOZxLd4YrlGGnxb/987PawG+P+CThFStu4PnwSyXfc8Knj+MUrgTd31JytuC6yjan0qr+ccsWcL5kKKSw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
  dkim=none; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ap7ftiFf8LYhu3DQ5HRD8bLP9HT9yZX1j3hNOn3QXS8=;
- b=ONSKx2qIOkPUTT5vI09UMr902clKt9IoEBqi8BTvqcCevoKt6PBrSr+R0N4WVtxY7cynUquKnc0FL5c0d7ft7hzGIlSyD+JyWnRZnEbZax5WEOfFyRbuP8BhqnYTYsqQlpyiUxIEpXUZJzWUuSLfD9ELzjmwiQFZyReUiUGOCiZa9K/b9hHAOHwvSvvq3CGqyq+1s/2wb9ACQX0mUGeg17e4sz26IGqt+GAQI3Bis/LL9/6dPV2daS6CnaKbG9jzjKqOxPDY8YwuUdb/fo8ZLrBIehY7ETFGlTwFgcOSWtD3Kmjap22FsZT/v7+qma/ZBIqNaxqux5JyO41vzK1VxQ==
+ bh=9Y3RpzT7qKKEV2JOmdhoM6TwfDlK7nSQ7jeHaLgFzQk=;
+ b=NwJLya/Ex2WT28s7dybHou5NqLuQjajJ/HJzqr+WTS6FjiDHc3npvIcIHK2XWFgyOIoTdzgmKnEmjDAP2i4mZnzXmXwCULIxrn+EQsA/bDv7R4lub2/KQP4vkHgbSpZ+9fxssnNjaf3OVepRtR5XEhbi5NIuAKncmJA9fAWktH1XiqqnpBWw3LtRktugsV21WzpJmW84whInnXAVRy0WcV95Q2Fug5M2hgTpPHvV4IvZ6pL4gMSPq/Ucd2R/43fhS4v7crIRiPiS+dsXBzC4arHXuZztewmradabbGUCp4FUBHcMaGglJbpxdP++chc4OpEJC46wVlMBjEhO8kAQKw==
 Received: from CY8PR19MB7009.namprd19.prod.outlook.com (2603:10b6:930:5b::17)
  by MN2PR19MB4063.namprd19.prod.outlook.com (2603:10b6:208:1e3::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Wed, 4 Nov 2026
- 09:21:52 +0000
+ 09:22:00 +0000
 Received: from CY8PR19MB7009.namprd19.prod.outlook.com
  ([fe80::905f:ec34:5f65:aaeb]) by CY8PR19MB7009.namprd19.prod.outlook.com
  ([fe80::905f:ec34:5f65:aaeb%6]) with mapi id 15.21.0592.007; Wed, 4 Nov 2026
- 09:21:51 +0000
+ 09:22:00 +0000
 From: Wei Li <liwei1412@hotmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
 	Gabriele Monaco <gmonaco@redhat.com>,
@@ -81,10 +81,10 @@ To: Steven Rostedt <rostedt@goodmis.org>,
 Cc: linux-trace-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	liwei391@huawei.com
-Subject: [PATCH 3/6] rv: Show the mixed enable state of containers
-Date: Wed,  4 Nov 2026 17:21:22 +0800
+Subject: [PATCH 5/6] tools/rv: Parse the mixed enable state of containers
+Date: Wed,  4 Nov 2026 17:21:24 +0800
 Message-ID:
- <CY8PR19MB70099F2263C408361053B295B7682@CY8PR19MB7009.namprd19.prod.outlook.com>
+ <CY8PR19MB700974075298C61A1DB70C3EB7682@CY8PR19MB7009.namprd19.prod.outlook.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <CY8PR19MB70098BF493A3B67418C7B9ABB7682@CY8PR19MB7009.namprd19.prod.outlook.com>
 References: <CY8PR19MB70098BF493A3B67418C7B9ABB7682@CY8PR19MB7009.namprd19.prod.outlook.com>
@@ -94,7 +94,7 @@ X-ClientProxiedBy: SEWP216CA0095.KORP216.PROD.OUTLOOK.COM
  (2603:1096:101:2bf::15) To CY8PR19MB7009.namprd19.prod.outlook.com
  (2603:10b6:930:5b::17)
 X-Microsoft-Original-Message-ID:
- <20261104092125.915254-4-liwei1412@hotmail.com>
+ <20261104092125.915254-6-liwei1412@hotmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,59 +107,61 @@ MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CY8PR19MB7009:EE_|MN2PR19MB4063:EE_
-X-MS-Office365-Filtering-Correlation-Id: 22cf2361-d193-4d64-6998-08df3a550f76
+X-MS-Office365-Filtering-Correlation-Id: a627a59e-edc8-4d56-f5e1-08df3a5514bf
 X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|8060799015|25010399006|19110799012|24021099003|260925184616899003|15080799012|5072599009|23021999003|25031999004|41001999006|51005399006|40105399003|26104999009|3412199025|440099028;
+	BCL:0;ARA:14566002|8060799015|16051099003|55001999006|25010399006|19110799012|12121999013|24021099003|260925184616899003|15080799012|5072599009|23021999003|25031999004|41001999006|51005399006|12091999003|40105399003|26104999009|3412199025|440099028;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kxb1sword7GcgBKHkgzF9yPSpuvunZeyGdefmol45mS2CjsT5tRUfIU7elpX?=
- =?us-ascii?Q?4110dbMpXyPHOsiWCWcrzzZVSdTB6nF0e4lqVHnXZU4AXNzJL8yjk9UbrePp?=
- =?us-ascii?Q?rewQmgfpgL31PHeyHepybYcOwfFnrT5BDpmnBordg1Q92xbDSoCH0/edFHOm?=
- =?us-ascii?Q?dA+If292atRKB+qM+APKOsJ1J6LDe0EnIRtXq3K2CDZAUJl+9uLGqKdbl8aH?=
- =?us-ascii?Q?rPgvxF7ywqoPNudfaysc+ZlOxpvKc0zjHwmiOGkZXywBNa0hk9nD6XYorNJQ?=
- =?us-ascii?Q?nxaBtbJpLkUd7fZfNdKpnupkyDfxHF+VVwRHmMZ7ql/FvQkiUcHBFo8SRMaK?=
- =?us-ascii?Q?PxDN4WZcznVOX+rqjq4wjwWlfLhDqPa9z0jetuymRdOHhwcdFpCJudJb4DV/?=
- =?us-ascii?Q?x5a5D5lzo7/KD0vJjkplfGHZzlGxWpmt3B1r646UdBVyIGiUFGGZtIF+cP96?=
- =?us-ascii?Q?sxY30MVGBYJFvwF6YMgZM8Qzp8rh1lHWDCtTASQLsIQxy4TYB2BTumRtMUjU?=
- =?us-ascii?Q?49QoAgoIgfZz5SNd86z5WCiXo2BvnsCb/ZHQgYb3ekrTiP1St63FDDUmQEmu?=
- =?us-ascii?Q?HLYIGVZvF6j9gnE7TkE9+WHQjHLW4rqZ1LUXhbZaULT9yjjrgW74sj8QelZy?=
- =?us-ascii?Q?nmh6EYd2nlsJB7ISgKcPUDOUh99CacjMTmrjyZiFXiUEuOwxW8KdZL1oYGjg?=
- =?us-ascii?Q?eGBn8F9n7ivatT0tbiEqSD4eqIwpo9kKK2N9dcXSjr+mUa05srH2Z8m9Jhe/?=
- =?us-ascii?Q?mef5muf2170Y7EYsT5aBbIed+nFmN/WsSIwTqb3vpxU+bblI894VUXByCxpx?=
- =?us-ascii?Q?1IzAMEgwOCXcTT29MfOhL/dCfpn0ga7o8mTvV4kfRRdwa8gs6IFXJU+7l12u?=
- =?us-ascii?Q?1iazWXqoy8NW9HBjrFjzrCUl8BDPrUcmTMxkYKMAnJBiRzH4I8X9w1NLXp6Y?=
- =?us-ascii?Q?fmHL3VAYKlSTc7tlXEveMzogLgZqXBM/0yTsTWwMq7F1LzRzlc1EHfZ38CTO?=
- =?us-ascii?Q?J8ZX?=
+	=?us-ascii?Q?rgAwRNlrEh2ZwCCPmqoI+2iSvLpKLBbR1ud29/R9m9iDkqUAfXO+rICjBCTI?=
+ =?us-ascii?Q?HW8uDOtEQP9+E3y4kpwFequEdjmQDQNeGijJzHmL6WXW4gQUbgpBPkg73x+1?=
+ =?us-ascii?Q?w7bDa/TNuzFHvPHK9HPoHD6uNEw9pkcZxsY0hstM5KE3XFXO77sfCTZx3KmD?=
+ =?us-ascii?Q?scyXLF0tomYqJn0Vkj5eK9+BTuDGVh0q3J5veI9si+aYYr4k3IjlkcwmNQ0I?=
+ =?us-ascii?Q?j6OA29IVlhDlh31CIhnYB+8UKpHLvGBE3XM4TwEjjCQZBHkZZXrjkU510Rb8?=
+ =?us-ascii?Q?24Y35+wLKQYUMJYoSjkci0PuuYACJ9nEMr1B0DL8keFIhfDBUum6our7ejZF?=
+ =?us-ascii?Q?ulcvgutjro4RaIhSRdoZRphH+fQBpF8z25cPvHm8GLm2zSfHAUr1jmPQiudl?=
+ =?us-ascii?Q?K5DQmoEU9dD25mhO7N/pagfyxIpW/Ncit2JJ2x2MvEZPL36Q+RcIVp8LOOre?=
+ =?us-ascii?Q?BnQP5aq422ZlmjnJ3xY5b9wZ79AgwLIuAdTsARsb+MUAB6Yn/5RPc4gGjnpF?=
+ =?us-ascii?Q?+TTFPaJHUDRJeJn01yxZz5mLFeU08+xYHPi3k6eNs7HF7in+12tP2ZnwOzXO?=
+ =?us-ascii?Q?1HCGIykmFhOmu4F+hiYoenDtluegaEzpCGi/o4nY5ZaROrVJFxrd/BHws4t8?=
+ =?us-ascii?Q?6eYssTU/un4oKU+kykv3QmpVdUyJXHwe5kTeu4mzRgF+mJMXcelUQKGjmGmx?=
+ =?us-ascii?Q?ctv9ge+06z1ELLmrr2BZY5tmvRyn/AwLV3Q07G0szgMJKRxTNyPxQEEIeXsX?=
+ =?us-ascii?Q?25JwPZgM23iwoOHu1e0MPcdtYBk03NtH/BiewHkCfkHdQFPVpKjpb52Hehd3?=
+ =?us-ascii?Q?1KlNd5cyxga6VKxesraW55rlWGhpM/blOAfDEBwpqDs9RCx44/ONysJ3hlZx?=
+ =?us-ascii?Q?FaF0/xayMxaJgpT2o+a8nUP0JT1uRTN1mIciyRKXsorAHLDTmzoVltPur2N2?=
+ =?us-ascii?Q?zpIKZDH1ZWrXDKtc8K1bfl7oqimoLCARQnUZbrqoTl0TLZUoBY7GlhfZyGIS?=
+ =?us-ascii?Q?HqGPtlUdKeUy4KORqWZZrd6Hva7PvN4pmKgj5h+nfkT/qFWCC1qyeNCruiaI?=
+ =?us-ascii?Q?cZXclx7DGzPbLxRKms/MHNIYJkyBRiZkz9JTc3T98ugjfi6sQV9Zz0uhgNVm?=
+ =?us-ascii?Q?Za9Z4yYEiwS3?=
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MMpwi5XHlilrVX7shxjc6jx6sFvUwEFV4BFgTaLE9AOnI5l75lmrtvSWduQ8?=
- =?us-ascii?Q?X5H52AqUIJs3O1TeorVYdmMLnx4YS4Y4Gh2lksbvOD8B36p4kuYB5ktd+AE5?=
- =?us-ascii?Q?SvtBaEOtiP9NrhgxEiOb+Ze/kFk3yy+pLMorpAA8XHw+ukH1Wgrm4IEBVlvj?=
- =?us-ascii?Q?Ccv8xLj0Q8d9aLeCCGsEcIuQZAaHldsjlFQR6EhiZq2W+4QMpz5AEwxHNB97?=
- =?us-ascii?Q?PRkHep0ZAL88l6OP3VA374TWTZCourhdmsKqOCZDhid5Uc/ArxZBEzYVulhD?=
- =?us-ascii?Q?06DK5Qyf7hTXh/wnHnonP75+QYmha7eSN+6xpWBNoIW8nPlmTGjR/ev0BT8X?=
- =?us-ascii?Q?BK6/lsHEMf7zSIUwAUnacinKWVSct4X6UTuOibtkxdl8CUmMZ3L0xWsLxLHd?=
- =?us-ascii?Q?eDIq2kV0niQKpGo24GHHk32sXbEvTCNjwwepSbZyHz1mPmeaESXUSo7xbB37?=
- =?us-ascii?Q?Y1eMTJ53vgDwrmaYjXDT7Cz1bUkaTDkKFrrT6HFgeQrJVocix+IndW2YoaJK?=
- =?us-ascii?Q?F+/kl+yxQPlBEGFBOVViGfhKjNE+sRcGu4DzQldLf++jGL0RtyjBak2rePQJ?=
- =?us-ascii?Q?VfkZ7X571ypD5zMBDJ8jQaYIGaGAoo34YOyUpJxYg71zDbbWc5AtM5ZPgWQv?=
- =?us-ascii?Q?eJv6nrWyEGtPjy8sZZ+S9JZEYkxGc6hUBUGQI7xS25ISGl4UogXuKW76Gvp9?=
- =?us-ascii?Q?h5Qcd9tGZIEvhD0qXKUdSHwcaucDYY3IZ5SlE7wyIICU17qBOJUyNI9vk29y?=
- =?us-ascii?Q?CIRBRMu4iQKrum7MJrYIAltNEyCy1zQny5ZAkDldJF0VIlU4sdh0/9eItJey?=
- =?us-ascii?Q?tJpx+Ij2rjOT5Jx00fUfCVmYK9nSR2PQVDpQcW4ptym6D49y4vzSMRyIQxAU?=
- =?us-ascii?Q?AiPL5VBtB8dalcGqNYN4PFN+6uGJw7zEGyZx58ULY2Fsy5G7WSs2NLSqWBvQ?=
- =?us-ascii?Q?M0vpmovpkBYR2orl0AsZ6CKeuCbkfyjOiIB2l//qMpJkMDVR5qdDtT89TaCq?=
- =?us-ascii?Q?f01kSiryIDvieFg3L6/l4puKm8xA4lCLNtRJ000F3G8til9YpQpOZC9NrADD?=
- =?us-ascii?Q?rRN+faWb0raIqoCtYFLovhLqWM5UtnRcNwK16drXU8bsGeP9YpAZ6Bf5+ifs?=
- =?us-ascii?Q?qtHyCFM//OWVg5Kxtme45Xf+0Sv2zD8me6wZYHpBf7swY2O0+YzgTC2JL7Ms?=
- =?us-ascii?Q?AWj5YGnehYq0kMGQVMCgNMVZRUhgE3mzTTc6lVK6uKehHnw2ZHCvoClWW7Yu?=
- =?us-ascii?Q?WRndAng/p360E6TCaseZo+a2VwigzN/e5YrTBMAdyNP6N4NjOpkALElUAKbZ?=
- =?us-ascii?Q?VdQaPWYWCJjxhdzT62a/d5uvZacZgtvsXcci6PqTag3EXN0y4gfMdaWEbUHW?=
- =?us-ascii?Q?oPap3+GlZko5p5/JmzicwU6OoReb?=
+	=?us-ascii?Q?fXQf07e73AoFtKLeFLPz9LNQYkSGCSLGnYRB6OdBfHYURhHQRLEKBdMdwd5w?=
+ =?us-ascii?Q?nSSCmP+HPhqpqM0bMaP43QHQMt6SBZlb+qeeFzpLd1h1b4bF0noKi6r67VW0?=
+ =?us-ascii?Q?/RuYE1RguAlD5kyakVU6wc5l0nALLeZBIRex7QCtZmGB2nGccSN0yrsmvOE+?=
+ =?us-ascii?Q?CKnAXBz0fZtjDUQ+/rItDfo8UyQfMzPQcF105woGxk1MsbGRmTj/un8PVtHe?=
+ =?us-ascii?Q?adkQIzIouORNpa52mPWDx6udBMZxb4uZXkJW6QK9v96oqyTkvHy0kBe6Blys?=
+ =?us-ascii?Q?yBJ5HSWicHbCPhL8TpyFATpxKMUmBTGa9f6KvmFF7uu300ETgvaRcZ3Ch8yi?=
+ =?us-ascii?Q?eWXZoENHoSHBLYUspTb1Da/Kg1FJqdi81eQfIZe/sqSrXCYlIEhj4c4FG1Lf?=
+ =?us-ascii?Q?urcKzeTm4gwj1CdPHh7jWXOZ+Wtw/u8bPXd130whNWSW0yH1Xw9A+E0dEizj?=
+ =?us-ascii?Q?me8u+/c0P3kpMdG8KUUh7MkxcaM4YtLBIL7KnXC1goFDo31x0TqAtJ8PLxcE?=
+ =?us-ascii?Q?yBywjpycgD9bO0otEum7XSR7krlJa3ukToQAyiXHZcGLcaz8gdkiNLIdUuUB?=
+ =?us-ascii?Q?Rz8RkAWzyvpZrxu2pWKpY39vQXmf1V5NdyeZf41Sf4w0k26SLGCij5TrcvKM?=
+ =?us-ascii?Q?th5lYINLENkGy3OBx9O/cXDs9OsXxcbBCwJvoNxWhuLxgDkIOPhEeXGx5g4U?=
+ =?us-ascii?Q?g+U7lF3r/U64sREghIGLRoZTOpujasit/0NUGwaKJEz/JEGBbn39cBU3mR1s?=
+ =?us-ascii?Q?+O4ER4gkL2n3+yPz3GUdCIwa8+PaXMmLnAakDVtMOz8PiIkZq8mlA+xXYDC8?=
+ =?us-ascii?Q?7xTUFwe47c+iI/Z1VTJ5DXnM69SS496MzGCkHJqAV7u0kvjCL2XY1bWRsSr3?=
+ =?us-ascii?Q?BQ7WqgREqFsf5Pc8nj0hEId5SMOsgpPP0T6kiGtmiJAVSc8UBkjiXD4EI764?=
+ =?us-ascii?Q?aWC6mSa8wXYSGMC4rQYX4KImmAUYDjnbK3JAJRiE3nfDyrx+uLglJ5PkkbSs?=
+ =?us-ascii?Q?ZYS2lK1nqv8ZgLXDQ1FOtBe1AYCrKIbmHBlkXxIp+rMMQofb6uWdkjnb/qZm?=
+ =?us-ascii?Q?89zIkaB5dY0f1xULg27Rh/8TP41FxvHyesXSQGxgFLvRydv5kicaSkPRuPN8?=
+ =?us-ascii?Q?iLv7JSBjCFIVCAwKuRIa8A8+x1h4AhsRgEquWb111v8HPrVEfmXRZK01ZPRu?=
+ =?us-ascii?Q?WemkdmNnj1w7fJ0qD2ZEulPXmdtHRj2C2e3DXu/L3TlrWfvFjt7u1/EtLVBO?=
+ =?us-ascii?Q?SWex2P4SZ57xxT9od6dO1dglyCRLc+FwvLANdqY9V87CxTJDViXEk7W2bVNA?=
+ =?us-ascii?Q?OCMjV5gwwkX/GLXsY3eEgMLX6lm2O2/lFZqPclHu8NHULGz4aOJh49Z721JK?=
+ =?us-ascii?Q?0XhKcrj0naSwKoKzDEPINe0pMOpr?=
 X-OriginatorOrg: sct-15-20-9412-4-msonline-outlook-990eb.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 22cf2361-d193-4d64-6998-08df3a550f76
+X-MS-Exchange-CrossTenant-Network-Message-Id: a627a59e-edc8-4d56-f5e1-08df3a5514bf
 X-MS-Exchange-CrossTenant-AuthSource: CY8PR19MB7009.namprd19.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 09:21:51.9253
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 09:22:00.6570
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
@@ -169,147 +171,93 @@ X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR19MB4063
 
 From: Wei Li <liwei391@huawei.com>
 
-The enable file of a container reports 0 or 1 only currently. A
-partially enabled container is indistinguishable from a fully enabled
-one. Tracefs draws this distinction with the "X" value in
-system_enable_read().
+A container reports "X" in its enable file when its children have mixed
+states. The rv tool fails to list or start such a container.
 
-Turn the enabled field into enum rv_monitor_state.  Refresh the
-container state when a nested monitor is enabled or disabled.
+__ikm_read_enable() cannot parse "X" now and returns -1. 'rv list'
+skips the container line and reports "error reading". 'rv mon' takes -1
+as a true value and reports a spurious "already enabled" info.
+
+Add support of parsing the mixed enable state of containers. Show a
+mixed container as [MIX] in 'rv list'.
 
 Signed-off-by: Wei Li <liwei391@huawei.com>
 ---
- include/linux/rv.h   | 12 ++++++++++-
- kernel/trace/rv/rv.c | 50 +++++++++++++++++++++++++++++++++++++-------
- 2 files changed, 54 insertions(+), 8 deletions(-)
+ tools/verification/rv/src/in_kernel.c | 32 +++++++++++++++++++++------
+ tools/verification/rv/tests/rv_list.t |  2 +-
+ 2 files changed, 26 insertions(+), 8 deletions(-)
 
-diff --git a/include/linux/rv.h b/include/linux/rv.h
-index 541ba404926a..37ca94d3c4a4 100644
---- a/include/linux/rv.h
-+++ b/include/linux/rv.h
-@@ -136,10 +136,20 @@ struct rv_reactor {
- };
- #endif
- 
-+/*
-+ * Monitor state. A plain monitor is either disabled or enabled. A container
-+ * monitor tracks its children, may be mixed if only some are.
-+ */
-+enum rv_monitor_state {
-+	RV_MON_DISABLED		= 0,
-+	RV_MON_ENABLED		= 1,
-+	RV_MON_MIXED		= 2,
-+};
-+
- struct rv_monitor {
- 	const char		*name;
- 	const char		*description;
--	bool			enabled;
-+	enum rv_monitor_state	enabled;
- 	int			(*enable)(void);
- 	void			(*disable)(void);
- 	void			(*reset)(void);
-diff --git a/kernel/trace/rv/rv.c b/kernel/trace/rv/rv.c
-index 4e689d4590ae..7846e4092b9c 100644
---- a/kernel/trace/rv/rv.c
-+++ b/kernel/trace/rv/rv.c
-@@ -235,12 +235,15 @@ bool rv_is_container_monitor(struct rv_monitor *mon)
- static ssize_t monitor_enable_read_data(struct file *filp, char __user *user_buf, size_t count,
- 					loff_t *ppos)
+diff --git a/tools/verification/rv/src/in_kernel.c b/tools/verification/rv/src/in_kernel.c
+index e6dea4040f8f..0f2e9f1eca51 100644
+--- a/tools/verification/rv/src/in_kernel.c
++++ b/tools/verification/rv/src/in_kernel.c
+@@ -29,21 +29,38 @@ static char *config_reactor;
+  *
+  * __does not log errors.
+  *
+- * Returns the current status, or -1 if the monitor does not exist,
+- * __hence not logging errors.
++ * Returns 0 if disabled, 1 if enabled, 2 if a container with children
++ * in mixed states, or -1 if the monitor does not exist, __hence not
++ * logging errors.
+  */
+ static int __ikm_read_enable(char *monitor_name)
  {
-+	const char set_to_char[3] = { '0', '1', 'X' };
- 	struct rv_monitor *mon = filp->private_data;
--	const char *buff;
-+	char buff[2];
+ 	char path[MAX_PATH];
+-	long long enabled;
+-	int retval;
++	char *buffer;
++	int enabled;
  
--	buff = mon->enabled ? "1\n" : "0\n";
-+	guard(mutex)(&rv_interface_lock);
-+	buff[0] = set_to_char[mon->enabled];
-+	buff[1] = '\n';
+ 	snprintf(path, MAX_PATH, "rv/monitors/%s/enable", monitor_name);
  
--	return simple_read_from_buffer(user_buf, count, ppos, buff, strlen(buff)+1);
-+	return simple_read_from_buffer(user_buf, count, ppos, buff, 2);
- }
+-	retval = tracefs_instance_file_read_number(NULL, path, &enabled);
+-	if (retval < 0)
++	buffer = tracefs_instance_file_read(NULL, path, NULL);
++	if (!buffer)
+ 		return -1;
  
- /*
-@@ -269,10 +272,22 @@ static int __rv_disable_monitor(struct rv_monitor *mon, bool sync)
- 
- static void rv_disable_single(struct rv_monitor *mon)
- {
-+	struct rv_monitor *cntr = mon->parent;
-+	struct rv_monitor *p = cntr;
-+
- 	__rv_disable_monitor(mon, true);
-+	if (!cntr)
-+		return;
-+	cntr->enabled = 0;
-+	list_for_each_entry_continue(p, &rv_monitors_list, list) {
-+		if (p->parent != cntr)
-+			break;
-+		if (p->enabled)
-+			cntr->enabled = 2;
-+	}
- }
- 
--static int rv_enable_single(struct rv_monitor *mon)
-+static int __rv_enable_monitor(struct rv_monitor *mon)
- {
- 	int retval;
- 
-@@ -289,6 +304,27 @@ static int rv_enable_single(struct rv_monitor *mon)
- 	return retval;
- }
- 
-+static int rv_enable_single(struct rv_monitor *mon)
-+{
-+	struct rv_monitor *cntr = mon->parent;
-+	struct rv_monitor *p = cntr;
-+	int retval;
-+
-+	retval = __rv_enable_monitor(mon);
-+
-+	if (!retval && cntr) {
-+		cntr->enabled = 1;
-+		list_for_each_entry_continue(p, &rv_monitors_list, list) {
-+			if (p->parent != cntr)
-+				break;
-+			if (!p->enabled)
-+				cntr->enabled = 2;
-+		}
++	switch (buffer[0]) {
++	case '0':
++		enabled = 0;
++		break;
++	case '1':
++		enabled = 1;
++		break;
++	case 'X':
++		enabled = 2;
++		break;
++	default:
++		enabled = -1;
 +	}
 +
-+	return retval;
-+}
++	free(buffer);
 +
- static int rv_update_single(struct rv_monitor *mon, rvmon_update_fn_t update, void *data)
- {
- 	int retval = 0;
-@@ -297,7 +333,7 @@ static int rv_update_single(struct rv_monitor *mon, rvmon_update_fn_t update, vo
- 	enabled = __rv_disable_monitor(mon, true);
- 	update(mon, data);
- 	if (enabled)
--		retval = rv_enable_single(mon);
-+		retval = __rv_enable_monitor(mon);
- 
- 	return retval;
+ 	return enabled;
  }
-@@ -325,7 +361,7 @@ static int rv_enable_container(struct rv_monitor *mon)
- 	list_for_each_entry_continue(p, &rv_monitors_list, list) {
- 		if (retval || p->parent != mon)
- 			break;
--		retval = rv_enable_single(p);
-+		retval = __rv_enable_monitor(p);
- 	}
- 	if (retval)
- 		rv_disable_container(mon);
-@@ -533,7 +569,7 @@ static void *enabled_monitors_next(struct seq_file *m, void *p, loff_t *pos)
- 	(*pos)++;
  
- 	list_for_each_entry_continue(mon, &rv_monitors_list, list) {
--		if (mon->enabled)
-+		if (mon->enabled == RV_MON_ENABLED)
- 			return &mon->list;
- 	}
+@@ -370,7 +387,8 @@ int ikm_list_monitors(char *container)
+ 			list_monitor = 1;
+ 			printf("%s%-*s %s %s\n", indent ? " - " : "",
+ 			       indent ? MAX_DA_NAME_LEN - 3 : MAX_DA_NAME_LEN,
+-			       ikm.name, ikm.desc, ikm.enabled ? "[ON]" : "[OFF]");
++			       ikm.name, ikm.desc,
++			       ikm.enabled == 2 ? "[MIX]" : ikm.enabled ? "[ON]" : "[OFF]");
+ 		}
+ 		curr = ++next;
+ 
+diff --git a/tools/verification/rv/tests/rv_list.t b/tools/verification/rv/tests/rv_list.t
+index 201af33a52cc..f63697a903c1 100644
+--- a/tools/verification/rv/tests/rv_list.t
++++ b/tools/verification/rv/tests/rv_list.t
+@@ -17,7 +17,7 @@ check "verify list subcommand help" \
+ all_nested=$(grep : $RVDIR/available_monitors | cut -d: -f2 | paste -s | sed 's/\t/\\|/g')
+ all_non_nested=$(grep -v : $RVDIR/available_monitors | cut -d: -f2 | paste -s | sed 's/\t/\\|/g')
+ sched_monitors=$(grep sched: $RVDIR/available_monitors | cut -d: -f2 | paste -s | sed 's/\t/\\|/g')
+-description_state="[[:space:]]\+[[:print:]]\+\[\(OFF\|ON\)\]"
++description_state="[[:space:]]\+[[:print:]]\+\[\(OFF\|ON\|MIX\)\]"
+ line_nested=" - \($all_nested\)${description_state}"
+ line_non_nested="\($all_non_nested\)${description_state}"
  
 -- 
 2.55.0
