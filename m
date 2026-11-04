@@ -1,56 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.144
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793799649;
-	b=oXRQnOt4gDTruGoURX5p8lMJ3zy/3m0Jf53okgv2+Sici37cJghwUdpHd6ABIwbcD3DA
-	 EequzyH3vs8KvfgoSVb5cdvM99DJMm4L7nuwzBZ2EzmHDfUJJhQ6FkvpOKo9vjF8XCZBK
-	 InHm9sdsurw6RSpa2IpXG4rRTscQgeoO4eJ4ElNeIz3XXHFoSq9eFqQuNE1r/HoGrspzg
-	 7ynPuwrPRHUXOuRZMOUJQHhl1GzP9gVukTQbEaIt/WKl9X3v2V0SSXDJtlHrLoVhXZCbK
-	 oakNqm2SGdF+QFMdbAdXULXpJJrZyJFTeh5jzzJ83sGU+kX26kfpZ8X0TgAugVFX0SA==
+	t=1793799738;
+	b=jhN6zW0iSO+/pOQ8l7KkUFu66km5zywMWjxjBGmDaEYxLL2ChWpuN3A5w1qVlUpwDce1
+	 ygZnPLQoeL7rb/597ssXgb2YlmogMpESWJeYZ+melalJLqHFFkJQAdFWtodzCtDsNuRz7
+	 zTEJL4UERrNw8JUSsUoSRUxjewL7L2PteX+RNusvy6WhuVMMvcmMlLupwjLdJBa/+7d4U
+	 i6mtIZwtlerQg21OGXwoqL9mdb7jZNllKoYXHXu8iOHOOnTc07Lh6oLRHDdiqoRgOIZLc
+	 jJwojTdIgQTYlgHakqTgj5E/3ZVUbtvkedU7DpX4A722srmsRHrYm18TNUnzDaMLhMw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793799649;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=EZAUQMhN3rMe7FCapRNk/7rrtwkPUHUoi09OPENdnHg=;
-	b=GUbx+u8yytqEt4RRy392qsQ7Spuh2+oYqX10qNWcUm6KL2Kbj0rnR5A/8UPCiKNCpBGl
-	 EX/uHP6a4SeZN97EQiP4N7a1IXkfC9lykN+V8huLIryo616QxnKONFxF0AuZNQhy78Z3U
-	 ttXyZoGsiQpk4P/Ei8GM3On+edkLZhVRVaY61BOlTaJ5yAvrRiXailahfF2re83+YyEYw
-	 REiYW0SBa0OW1Ct7fhXeMsvRTPMxYPdBTJIwlZAU5W5Fo2CtSzX0WYt3bCR217qjtGTll
-	 SOXlElSkW9CbhFs34j3jZZOKQ6rWlDSDvN9y7zu0X56+gQfx2OLFPow3tqIDG5Mpcug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793799738;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=7A6EzrmD/6cLs5gAPRszzGcnzuhra3AG0PLg82V945o=;
+	b=n9C7+dwsqxDFd35fTpZirK94GlN0SbPEc4bqtciga4NT2juGMvvqWPzYthcWgfLGwDyx
+	 4ogxBm0BlNL/hTXhTvJ6MvEbOz+xg/fNp4kkoMsS7nEg5vuhmCOwXXIDOzza6dsHwZCHo
+	 hQ7WMszM2bgMid+9VOV5sYmrc+Z5qPRYj63TtPOtiKf+LOtBfGj6+XVT0C5eK/MYgf/Z4
+	 wHZhoaNx7ORtGfBVN0jU3q0sCkTmi619KrS1XUdpcSkl/h3KIL9AYoSSmvqr4emYN+6bQ
+	 D2s6kt4iaoKYcbX6BOJFzQR3Aq4rt7v08vesAR4dfEmNBp5BWS9tOXrbKrlChsZNsLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mIrbZaDl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b="vYs/eRYe";
+	arc=none smtp.remote-ip=95.215.58.144
+Received: from mta1.migadu.com (out-144.mta1.migadu.com [95.215.58.144])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66F7606A31B;
-	Wed,  4 Nov 2026 13:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FFE1606A31B
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 13:42:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FFE1606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mIrbZaDl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263761F000C1;
-	Wed,  4 Nov 2026 13:40:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793799648;
-	bh=EZAUQMhN3rMe7FCapRNk/7rrtwkPUHUoi09OPENdnHg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mIrbZaDlsoXr337Dd1aQvpZtyvWkUbui9aNsdGO39rnOez9/LC9vHEkL6oLEMmOjM
-	 5ZS/EHVquAEEDjPxCrKhN3kshP7TS3JrO7w5Z0n0AQEv2MP6imfd5lntHJRp9EEZzU
-	 AO1b/xidJ4xZJiAUB8EK5i2yqdQFoIbjV2rlSzG1AWl8xYdHcII+CrKkb2amyd2Tgn
-	 siqgy24+C2iDDSdGuvES7WbPh2sAvX4J3wa6ToVDiYzL70KuyKjQ1uvZiShbArseLU
-	 OZvXeGJ81KpgtvCcDjm84M+yrDFCeHPphdgMb/Wl3mb7UkVZo1aN5xTbwtXqV3KT5q
-	 Uk3jtazUmpszg==
-Date: Wed, 4 Nov 2026 15:40:42 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>,
-	David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH v10 00/13] PCI: liveupdate: PCI core support for Live
- Update
-Message-ID: <aus12iOdLyiIiywZ@kernel.org>
-References: <20261013162529.1928093-1-dmatlack@google.com>
- <179373348545.623992.16522569527665218421.b4-ty@b4>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=vYs/eRYe
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=DqIybH6UEWiAwWj9+XITZFNv0qfSjLYASB0w2MeWhvw=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793799734; v=1; x=1794404534;
+ b=vYs/eRYe9o3Tqmb+rM59Sx1h9DAEvLYvn69TncnRlsTv2bSVHUIP98wrvSPPyc/yiDebyeTV
+ gYMZBhNtuc4nxh3wuaAGoRn4tMUlgNfq9uXuErr3J4od/vEwx6CNLe3+C1fS+FsEQkwtQI0OgWO
+ atJUigbJ0j/+nzQ99mx8v1V3175oVHwxyKxptedg7chCAwAvwznUPVq9JntSgq8fdaoNqVZkn8O
+ HjhT7YV3MsFazPkRQZ1hQZi7MlNqoKSTImjy/SFUqJUHyiGfKElmYx3D4BrejFtvYkaYDu8gGEA
+ Knj+Y3xiS0RDfpPTA4GpqfrdQ/VmFkWRzU9riNpZvYJ1A==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 1d539b880dcd73fa;
+	Wed, 04 Nov 2026 13:42:14 +0000
+X-Mizu-Trace-ID: 1d539b880dcd73fa
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 4 Nov 2026 21:42:05 +0800
+From: Weijie Yuan <kernel@wyuan.org>
+To: =?iso-8859-1?Q?R=E9nich_Bon_=B4Ciri=B4c?= <renich@evalinux.com>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: fix stale :Original: reference in
+ xfrm_proc.rst
+Message-ID: <aus2LTFjmZaZPomM@wyuan.org>
+References: <20260920073144.546566-1-renich@evalinux.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -60,36 +72,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <179373348545.623992.16522569527665218421.b4-ty@b4>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260920073144.546566-1-renich@evalinux.com>
 
-On Tue, Nov 03, 2026 at 02:21:10PM -0500, Pasha Tatashin wrote:
-> On Tue, 13 Oct 2026 16:25:16 +0000, David Matlack wrote:
-> > This series can be found on GitHub:
-> > 
-> >   https://github.com/dmatlack/linux/tree/liveupdate/pci/base/v10
-> > 
-> > This series introduces support in the PCI core for Live Update, enabling
-> > drivers to preserve PCI devices across a kexec-based kernel update
-> > without interrupting the device. This functionality is critical for
-> > minimizing downtime in environments where PCI devices (e.g., those
-> > assigned to VMs via VFIO) must continue operating or maintain state
-> > across a host kernel upgrade.
-> > 
-> > [...]
+On Sun, Sep 20, 2026 at 01:31:44AM -0600, Rénich Bon ´Ciri´c wrote:
+> Commit 03e23b18c720 ("net: Move XFRM documentation into its own
+> subdirectory") relocated Documentation/networking/xfrm_proc.rst to
+> Documentation/networking/xfrm/xfrm_proc.rst.
 > 
-> Applied, thanks!
+> The Simplified Chinese translation was not updated accordingly,
+> leaving its :Original: tag pointing to a nonexistent file and causing
+> tools/docs/documentation-file-ref-check to report an invalid reference.
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/liveupdate/linux.git/log/?h=lu-pci-preservation
- 
-And luckily we have a few weeks chase Bjorn and Alex for Acks ;-)
- 
-> Best regards,
-> -- 
-> Pasha
+> Update the :Original: path to point to the new location.
 > 
+> Fixes: 03e23b18c720 ("net: Move XFRM documentation into its own subdirectory")
+> Signed-off-by: Rénich Bon ´Ciri´c <renich@evalinux.com>
+> ---
+>  Documentation/translations/zh_CN/networking/xfrm_proc.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/translations/zh_CN/networking/xfrm_proc.rst b/Documentation/translations/zh_CN/networking/xfrm_proc.rst
+> index a2ae86c44707..6990f8e2fdb4 100644
+> --- a/Documentation/translations/zh_CN/networking/xfrm_proc.rst
+> +++ b/Documentation/translations/zh_CN/networking/xfrm_proc.rst
+> @@ -2,7 +2,7 @@
+>  
+>  .. include:: ../disclaimer-zh_CN.rst
+>  
+> -:Original: Documentation/networking/xfrm_proc.rst
+> +:Original: Documentation/networking/xfrm/xfrm_proc.rst
 
--- 
-Sincerely yours,
-Mike.
+I simply checked it and the patch itself seems to be fine.
+
+But I guess the better solution is to sync the path of Chinese
+translation file?
+
+Sorry for the delay and thanks.
+
+
