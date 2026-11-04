@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793811367;
-	b=5RI3jzbe6BXT5UXqLZJzu0p2NAp8QGH33rK1b1ObKBg/55BRKevIDfrgFPyUxXJs1i3P
-	 M1MwBYQxtiXvLe7oulwgs0rXLwyaeEHVqpxnUxsZxNmn7C+U9gHuhKTRMQk1GEMv7dWVb
-	 RB8wS1uQb8DXX8j0ntgYplpDCo0O2m4woOIR5sp7/1HmY3vExNetQ10qWII+l8iSgATog
-	 o7QhVCnysM9bUm4QGdKqdnnD9hF9KqnQ0rM7fLvo4fjWl5SQj3xRsRLCX6elKU7h9tG0A
-	 +VhuyLHHHIwoZ1hxOaGRM/MwJeuNAxOoJ8MG/auSkmRZ+vootA4AQOUoVsHDSsz7NXQ==
+	t=1793811377;
+	b=BtF+DshSd9XvoyI2Vyxkd4pVvCe3dsUmW3AdxIHB9n0xDaeqzq7dCcy5uQ4vKP0imEaM
+	 C+8lBvfAxWXp/UDNWN/Z+n2ip1GttOKi+YjG9S8DYpaR0PiLw8KK/Xj+95uaNzucOjD+9
+	 ex6Pbhcwbn7Q+TFvb/IL60A2PD4LgOzN+B3pmGHW1DUqSCxjjPCSJtoTotGEBUPksCf9F
+	 0BJfBvnt2jdWEvSALe/6L0jQjscI+LJVCaFoRHv5hWJouA73R6zJjSkVnbloQ7INvjMJQ
+	 BP/yR2B5I83ziacRRuKr8xn+4ClAP3xIfvnhTsAONjBwT4gonyM/dW53b2pfUcuvfjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793811367;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793811377;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=K4ahvqtjxwDZW1z/zIOwgCxGi6bAPzcPods0jeXHn0Q=;
-	b=jJon36h1l78FfaaPrmlPFZ5/i2YndpRujm1UUTuaRXs0dL1a334M9noP6GZrHe8h4MAs
-	 W0Cit0cVeEeL4WI0/UqeIfbHy5Xu5Fkjj8Cb5aU2L5SPi2KZx2yiY+QrA/sDIJYGwCILK
-	 +364jx60qFqknyd03u50XqYQx946IsOpq89PXcvZ2HC5H64c4jBgMbinlcxRZpjEiMlMU
-	 XD6qy6mPxZfYrvXK0HcfcjlM1TTZLqOWqX40bt+s622L1VrqTzl7SMAgc7lA8+XVjWV3G
-	 u/8by8rMKITmy8DP5gdfJ+F1nwtmGcPpzts9QMeYsRPC5ZRvMmT9zqu0itYFzQtPVOw==
+	bh=nKRyKe5HAwN5rnftg1fZEx1NjIirnpES4D9l2YLy3Hc=;
+	b=uVPwkOBnnnFV6bsW29UI1FVtZhzbjKQyGPZ+HeHI9fE65t29kezG4aboYkuLdXgFE7lp
+	 Pu3iai0pZvxLszSPWbadZ3lGlmKPAhlSJ6xs8vfPomr4vEYrxc9kQPoBssdPjsCzmatsT
+	 cbI+tESbgOoDNIHh+vDA8ZA4m1w+La8jS1JUji2ROSytmM59nfviVve3OUiWS7QhU1PxU
+	 W91TCWGWNUlztvEdGs30YX9Yww71LUUh96NhTWIYUtPLnQsGy2wslAORhQWoTdtZXeYn+
+	 gI5ILdSdnyFg+7ZAKzr6d9n3KybE1GMwzC6vbVNMtmqWkccQylagXm7nu2zYC7iAk5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UGUkONor;
-	arc=none smtp.remote-ip=74.125.82.175
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HJx8CYfD;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71572606A336
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:56:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71572606A336
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F157606D802
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:56:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F157606D802
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UGUkONor
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-36a18fc7a38so2023520eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:56:07 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HJx8CYfD
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36a315ed211so918466eec.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:56:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793811366; x=1794416166; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793811376; x=1794416176; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=K4ahvqtjxwDZW1z/zIOwgCxGi6bAPzcPods0jeXHn0Q=;
-        b=UGUkONorfwM+zbVj6eSQLZ/CtHpB5o6WUk5r6DRCTGw9BsZ3jYHEXXgAeUMXpdkKHw
-         rOZh0cr3KpIP5HIpA47NNa2SvdgBzVZO9ouBTKR1uZ7I/v8x7qERHplfE42RZ9WkV9rA
-         WhTMYE7yMWjkIdRnqeFALhk6GGbkABiCkQLU/LhORN/exgEintJBo2+52BvPekR5iiCg
-         JaiaFNJVcOrSF5SWDQcIfnWQzeik44hR0n1dwFRYF1zMjcPvRGBJLcLTj5Qezw261wSm
-         VRmyrgJiAM2eYvZ3x5IdrrkO1UP6/IpCBNjSbQFnbFoLKEC4WWZ2HEP12RSgYhlCsYXq
-         akpg==
+        bh=nKRyKe5HAwN5rnftg1fZEx1NjIirnpES4D9l2YLy3Hc=;
+        b=HJx8CYfDIWJR5BxeLKAMWOYvIZbEog2kUXnrtJDRdSpUfdmh0HmTSZ19XuvWLXrCAe
+         Ky0i5oMjyTdDQEQi/vWkK7LRip7d0uc22R2FwngdRvNmVlH/BrjpALMLN37dEdQI05BR
+         qWg6LOJlanVMuZ3EEIj4K1+hiJy5rPEstLhpVNZD4crGuuwmzechnuz8MK7pYnU0mnDC
+         RPut3X2Iik9HLYXsIPq+9uxxAKsWBv/wIZbfkvNzPtTlqQWfialaDUaamzNlZcOO0dqk
+         yZ35EIhmitWCvoDair+nYT7gGgqD97EiaPStAb4/gM6Hy4brt9vcDlHdzBnZNwf6OUU3
+         39dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793811366; x=1794416166;
+        d=1e100.net; s=20260707; t=1793811376; x=1794416176;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=K4ahvqtjxwDZW1z/zIOwgCxGi6bAPzcPods0jeXHn0Q=;
-        b=fLEpq3kLP6+xH2Nlj3haTgs2HqMc11BMwh7vltG6PP7SStD2acgDcWYTcB1uPFYy1T
-         oTywrHnm4pjiq0bWwQwlPou7ELOpITL+fRm1k8Mzc4fjHoX04TqJc7pzJJqqtdM31rdi
-         qU3AsY1T/n1usQHZCM6+/QdYaecjnYT799tXqdxVgyukBFykUXxVIGUhrg0R4yEIGDsL
-         NTW2zUzERzYkSkWTMF4KHRaw+IiEMQgpdf1JN7dXMlDngEVtPuRSzuIpBiEejr4ljHGu
-         V7XAbrWw7X0jydbn3FqVddPtz56zlLeyo9At0mdxgH/0ZRqswarI3r3z2U5ecPXjMR0D
-         Ah4w==
-X-Forwarded-Encrypted: i=1; AKwUvBwYBg7wFoTIwhphGypugxeAwJERAiB9s9xWm4mtlAfcZ9yjRP2qZZWepEpjOHM9jT9dLdKrPC39rFU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/dt1a74+K6xyhGfaFlyVXqcxLcTPlFJfIKZ4EusrQcolIRh3vd
-	6+Mw52PQ1WdBgcBawaMuhGAKAN5WjhuwFx08fqYwt3Yn8UfNfSu231/1
-X-Gm-Gg: AYBFou2egQdYnn52slNAaUDmoXMVrdBKWkZzsS5c3ObfeTj5lzJyNRor/zfKWlAzsCN
-	hLc2sQpPy4RwbX0457fNDP7ZhVApCDMIBTR9MEwQ7t3sPjOkO4DKmbjnNz6KvFt33SNSHuAKN7S
-	WgSbNEIVEP//0xY+rc7BWmWyoAk4mLbqN/pOtAw4lICrOYbsUuN1LcoRVUGSlmKKcQdWxikNM7U
-	u5cPhvFrB7SSMVtZvyvv/yTeznqIQDx8+aXtS/qPNYjTr/mn2oIByWLHMYUlKh+K3AhNF0gvRRp
-	ztaAYmdOGjwWKk27R54qouRBFmM2qxRwM0E0aJ1qJclXRNfYqscwTOMI7D2Cybr5+rq7FpGAv/8
-	mLsAEw+oxC1W0bHnzfc2L75lmqPHK9n8DaG6fhwahzt3E3Vf5fS+aiNTvKnyCmIRTApEH0TBkCq
-	FTuLX2Q2EowCblBnBIw1ORMA/Q+D5mGibMQkhwX6DgWlwo9C4D9GUyWgl4tjz4e/fyS8Vbm4JTW
-	m3SS/SezXWqQcy1pyOOkuYv8wQQXPBMhDDLe4taUeKmqdBd6CVa1HafXEGKoi5oGQ76oZlSkfOr
-	+BkN5IlX01XRm8LJ4OSbAToPKVKVQT8gpaBvaQQ=
-X-Received: by 2002:a05:693c:895c:10b0:369:f05d:6c5c with SMTP id 5a478bee46e88-36a4240f66emr26391236eec.28.1793811366010;
-        Wed, 04 Nov 2026 08:56:06 -0800 (PST)
+        bh=nKRyKe5HAwN5rnftg1fZEx1NjIirnpES4D9l2YLy3Hc=;
+        b=t22XgcSH6XWFATqyiRn7YI8jFz9opnbEOarxw++lGjrLyI3bAEV9vg6GSvWAKwEG/N
+         xIxSDcpfi3GhAqR8QcSf0VVFfh7Js28tarQ2oQliYo+6Qbev4ayp689cy2PdH83BpjQk
+         67H4H8hCsX3hS4B1lvWg8uzsALASnD1VUl5BuUvJufwiE4rYZm7zjzL/LMol0SfBxING
+         rpnFCNTAEPjdpOhbkJuzG8Jg158uLBfWx8Bemlae7peehxVUlNZXZN9NqgHoXECbiNzW
+         Ok+Q8vI35RUuXFmebhcdjq3gzBHz3jvwSRt0nNqWRmDAjk2Bfa758EooNyaNBX6z76Uu
+         ziuw==
+X-Forwarded-Encrypted: i=1; AKwUvBzELjWH9FlI4CWaAE0CQw0ZkcuqFpJwzQJ5tAqjfoMEtAhsEFHb0VG7PqdM5g58pPJJJqeUhu2iOkg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/ZsXzPfRPQJHiM4DqxVAwQoqhM2sIBP5Uk19rSLY8AfYVBmC1T
+	NvZ56LgAUG5Pc13D5CaBDPMNSER9dE7DIq5qMACLWUrDQvPAOiuj2A6b
+X-Gm-Gg: AYBFou3HL+tKPRJSytx8BOHcuMbNkZodsxdaIRB6WUS2uOujd9LoeVXTuUFWkuY8pVg
+	z/ZOWZbDQw4I1fi0JlCmkzrUDTonWcSvRKzg9aMf+Nv0RkG8iLQ0eyZWFDiXTMga/v1NDoGpfzX
+	tMjoq5uf/p8FapEj/jb+oKpErimn99+Vi8Os6n9HKDwqEMHDtnQPEVVDSg7qJCdU94Hgryi1Sg4
+	jdZfSlQ2cLxLt/VHLLG+BiqdMlE5fmlsvvcv69PYapUZKv86sW6Pk7KhlxFvQydHC70Fe6mN3lP
+	Mgs+QFATqAVlzxmq5zZbRdIDKOyW7GH3UyLONHIvN7YUts8ErpjCJHKWxqvOKhDlsJL/P1ueslG
+	eDfNcbiIQMdGXfOrmXE8J+kBF3oFycZ8Cr8tP6LsgJSjIi9tFdgoK3LlOYJtNBvNDips4bgxpu9
+	/Jf4GfMG0kMZMZR/MXSLbwcnQSgItuNp1KktVz5rBG3Ck0GGkGp7TrsqApvb/ihXzzQ53EOIVsW
+	lVU3DQhr2u5yuCktPLbtJLXRwIGUfY6uKETRSU03iHduer0mDIV9uZvJhsksQK3mRqX+dhXZ/dG
+	absxBT9ZdP7kmRp8ZEMNB2/ujMlRElBJGpIdaZM=
+X-Received: by 2002:a05:7301:781:b0:36c:a351:fb31 with SMTP id 5a478bee46e88-36de5f6fa87mr70409eec.7.1793811375449;
+        Wed, 04 Nov 2026 08:56:15 -0800 (PST)
 Received: from kernel.. ([216.195.201.23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38d46fcsm9019567eec.13.2026.11.04.08.55.56
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38d46fcsm9019567eec.13.2026.11.04.08.56.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 08:56:05 -0800 (PST)
+        Wed, 04 Nov 2026 08:56:14 -0800 (PST)
 From: Kunwu Chan <kunwu.chan@gmail.com>
 To: paulmck@kernel.org,
 	boqun@kernel.org,
@@ -112,9 +112,9 @@ Cc: stern@rowland.harvard.edu,
 	linux-doc@vger.kernel.org,
 	rcu@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH 05/28] Documentation/litmus-tests: Add hazptr wildcard-flip escape test
-Date: Thu,  5 Nov 2026 00:54:23 +0800
-Message-ID: <20261104165504.2430480-6-kunwu.chan@gmail.com>
+Subject: [PATCH 06/28] Documentation/litmus-tests: Add hazptr acquire-before-scan test
+Date: Thu,  5 Nov 2026 00:54:24 +0800
+Message-ID: <20261104165504.2430480-7-kunwu.chan@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261104165504.2430480-1-kunwu.chan@gmail.com>
 References: <20261104165504.2430480-1-kunwu.chan@gmail.com>
@@ -129,72 +129,98 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a three-process litmus test for the in-flight wildcard window
-of the single-pass scan: a straggling acquire which published the
-old wildcard after the final walk cannot still load the
-unpublished object.
+Add a two-process litmus test for the hazard-pointer publication
+protocol: the reclaimer unpublishes the pointer, executes smp_mb(),
+then scans; the reader publishes the hazard pointer, executes
+smp_mb(), then loads the pointer.  The smp_mb() pair forbids the
+reclaimer from missing the publication while the reader still
+observes the pre-unpublish pointer.
 
-Verified with herd7 (linux-kernel.cfg): Never 0 13.
+This is the publication protocol used by the lockdep
+is_dynamic_key()/lockdep_unregister_key() conversion.
+
+Verified with herd7: Never 0 3.
 
 Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
 Acked-by: Bradley Morgan <brads@mainlining.org>
 ---
- .../hazptr/hazptr-wildcard-flip-escape.litmus | 46 +++++++++++++++++++
- 1 file changed, 46 insertions(+)
- create mode 100644 Documentation/litmus-tests/hazptr/hazptr-wildcard-flip-escape.litmus
+ Documentation/litmus-tests/README             | 13 ++++++
+ .../hazptr/hazptr-acquire-before-scan.litmus  | 45 +++++++++++++++++++
+ 2 files changed, 58 insertions(+)
+ create mode 100644 Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
 
-diff --git a/Documentation/litmus-tests/hazptr/hazptr-wildcard-flip-escape.litmus b/Documentation/litmus-tests/hazptr/hazptr-wildcard-flip-escape.litmus
+diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
+index 4d4ec9c6f2cc..c2bf20fa4092 100644
+--- a/Documentation/litmus-tests/README
++++ b/Documentation/litmus-tests/README
+@@ -97,3 +97,16 @@ SRCU-fastpath-scan-before-anchor.litmus
+     period, violating the SRCU grace-period guarantee.  See
+     SRCU-fastpath-anchor-before-scan.litmus for the opposite
+     ordering.
++
++
++hazptr (/hazptr directory)
++--------------------------
++
++hazptr-acquire-before-scan.litmus
++    Test the resolved-publication ordering between hazard-pointer
++    publication and the scan.
++
++hazptr-wildcard-flip-escape.litmus
++    Test the in-flight wildcard window of the single-pass wildcard-flip
++    scan: a straggling acquire that published the old wildcard after
++    the final walk cannot still load the unpublished object.
+diff --git a/Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus b/Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
 new file mode 100644
-index 000000000000..de467bb82d20
+index 000000000000..6dc13830c07c
 --- /dev/null
-+++ b/Documentation/litmus-tests/hazptr/hazptr-wildcard-flip-escape.litmus
-@@ -0,0 +1,46 @@
-+C hazptr-wildcard-flip-escape
++++ b/Documentation/litmus-tests/hazptr/hazptr-acquire-before-scan.litmus
+@@ -0,0 +1,45 @@
++C hazptr-acquire-before-scan
 +
 +(*
 + * Result: Never
 + *
-+ * Check that a straggling acquire which published the old
-+ * wildcard after the final walk cannot still load the
-+ * unpublished object.
++ * The reclaimer unpublishes the pointer, executes smp_mb(), then
++ * scans the hazard-pointer slot.  The reader publishes the
++ * protected address, executes smp_mb(), then loads the pointer.
++ *
++ * The smp_mb() pair forbids the reclaimer from missing the
++ * publication while the reader still observes the pre-unpublish
++ * pointer.
++ *
++ * This is the publication protocol used by the lockdep
++ * is_dynamic_key()/lockdep_unregister_key() conversion.
++ *
++ * This models the resolved-publication case.  The in-flight
++ * wildcard window of the wildcard-flip scan is covered by
++ * hazptr-wildcard-flip-escape.litmus.
 + *)
 +
 +{
-+	int ptr = 3;
-+	int hp = 0;
-+	int wildcard = 1;
-+	int enq = 0;
++int ptr = 1;
++int hp = 0;
 +}
 +
-+P0(int *ptr, int *enq)
-+{
-+	WRITE_ONCE(*ptr, 0);
-+	smp_mb();
-+	smp_store_release(enq, 1);
-+}
-+
-+P1(int *enq, int *wildcard, int *hp)
-+{
-+	int r1;
-+	int r2;
-+
-+	r1 = smp_load_acquire(enq);
-+	WRITE_ONCE(*wildcard, 2);
-+	r2 = READ_ONCE(*hp);
-+}
-+
-+P2(int *wildcard, int *hp, int *ptr)
++P0(int *ptr, int *hp)
 +{
 +	int r0;
-+	int r3;
 +
-+	r0 = READ_ONCE(*wildcard);
-+	WRITE_ONCE(*hp, r0);
++	WRITE_ONCE(*ptr, 0);	/* Unpublish. */
 +	smp_mb();
-+	r3 = READ_ONCE(*ptr);
++	r0 = READ_ONCE(*hp);	/* Scan. */
 +}
 +
-+exists (1:r1=1 /\ 1:r2=0 /\ 2:r3=3)
++P1(int *ptr, int *hp)
++{
++	int r0;
++
++	WRITE_ONCE(*hp, 1);	/* Publish. */
++	smp_mb();
++	r0 = READ_ONCE(*ptr);	/* Load pointer. */
++}
++
++exists (0:r0=0 /\ 1:r0=1)
 -- 
 2.43.0
 
