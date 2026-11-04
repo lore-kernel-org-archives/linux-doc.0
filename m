@@ -1,111 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793819191;
-	b=0K8Dzd97EohlLNnWJfwaDhwzXAeeB5qpI8XR66XGoKyIshrKWuRT1asLYGGcZLZu1Eog
-	 95PSefxN8bSmA4qM8uu5p/agNFg4eWwovn0i7IIPzeC5XMnbVsuCjOTvyBf0BqSSTLCxU
-	 XXlpVDgjsoTZiaB8mQnGAVffsnXEb0UIvSZkywHwQeuAavnwmzoJ/t3/QJKRXmuxCYYuB
-	 FQ4M4MOwPqmMUldquVEwGI1zvPrrwgIwGCALNgXDY7ywmi7Vsok+F6+t7Jk4skhuUXlRf
-	 1DPjYxc4q+Mit0jdwxqFhzL/npQHaMebh7aoK5Sf2dPiUpqrYOubp1XQ5CyovqgIx+Q==
+	t=1793819511;
+	b=41j2JzXN4IlsQywk5Z/0s3FIuwbMHpiJujL88cp7XoIwl3MDhmf1AK1RKUTq/7OM1Fnm
+	 9VOTtGfgoTf7ZnyuUQXVC9+sPDkIgubV4HedrHTKER5kYeOB8kIO+icY/kN3z2P3nIqBC
+	 XBWqtEdb4iS82hnlCkdhGZk20Y0wdHcOQ7FrMJ+9ejWI2z8UfTsKvlyFhIDh4iKMa+Ihw
+	 TKoJUFwXnh3btBiVZYvPhorEwAq0T2LlP971lH7fyWKC+l46t9A0jGRhbX466qCuYw4Z7
+	 UlfGLUNjlubED6MA6HS0rsafVBYXOT9DQxmI5hvgaz+k5GCIah5/v0fxZO0yN78RObA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793819191;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=Em8mdDwLTSxa5ZBRNu+oIoQ2F8Zgf6ZNSHVwHsLTxqQ=;
-	b=SDv5iSIHXR1YlkvO1rJM4bGCfiPkqjFqz+TIrOaojTOLujSbO/a3T8dfH7YjrTh07dGf
-	 geHK+8Xmzr4LOl76m+k5VbTTEVbwgRb4pW/IpybkvySDm0mgHNhhbYY5/LXn0ecu7avhC
-	 y7ahNJbAFoRmB9mZvqcXL4dVUPK3CXgggnh1iVuryRHLcTJxQrHGVEc5AHJr/An3rJNK4
-	 dTdpOlTBCrXOUE2lR3CH8U5kdQLyeJOxr+OLroPRUmd+DjAGE3BaTrZilb0ocCA9Ldrbn
-	 PKWr5Wnslyy2O7JItAItvepEpVURnNg1nYGifCEMHcAnfy6gClJe5Ccrkdvl6dH7+yA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793819511;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=xiigALyHFVH3PBK5TlmDEvHxWG7fkvXh1nD+cSek+7w=;
+	b=2Vw2UqUUmrJrywqM+Lrex2uibsM0B7FZ5Jq30SWLLO9L+3Ucpe+UwwNalxidIVhO2BMf
+	 goR7G+ZohjRGX8Pzpt+FgMYtaF94XCFv/cSIzhOkLUsGm2kVxrrPJnEyf3jq06cp7sZH7
+	 nP3UkVRMdPlEb3OFPmqizuQxmHTKNsP86NHfres7ZjOCc4KOAnQ7Thh6BNRrtAaUSG+rK
+	 jMxVZDnH6u9KT76mbMXuLxyHavA8Tl+VCzlatXWlYvKhwcEmPTOsqsddN3B4LZqORuBJf
+	 VYw19ZnbhJaxt3RVmTOk5+mmr6IofmRQ60dWSnVg5IplpKnOuF1ryDoSmyY27vigYHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I+rigGmZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F510606D808;
-	Wed,  4 Nov 2026 19:06:31 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ZSBvcPKu;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE68A606A330;
+	Wed,  4 Nov 2026 19:11:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE68A606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I+rigGmZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C07691F000C1;
-	Wed,  4 Nov 2026 19:06:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793819191;
-	bh=Em8mdDwLTSxa5ZBRNu+oIoQ2F8Zgf6ZNSHVwHsLTxqQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=I+rigGmZOHwTEm4j8esTdHrM/VIiE0INnQhd67U/op8joUgvrnIpOWQaZW/5O6v8W
-	 YxEI7BBt7v7/iIbWMDqC5P5gDErHxVHWNk1oGdOPy0hEJ+WUpryJaozkMYgBUtrWg0
-	 sWZCtiuywTFRHSkiBUPK4QLCU0lZ7vJCTHK/XMxCkqriiS2yD20bZTUzzbqGfPLf90
-	 fwuSv2m2/wipu/jn3L2lYjPBm4qGv0ChVoXWzavogJKkLpjbp4SSDjOwlmAhi9kDBE
-	 eeqtjf+Oh+xvRu78j7yJ+V4rVi+09wJxB+QXcwZqc6PJmh+iNzSxkYcNL9ohdK55Dr
-	 qQwSCTNUDjgiw==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH RESEND v2 01/51] alloc_tag: don't remove /proc/allocinfo under the codetag module lock
-Date: Wed,  4 Nov 2026 20:06:06 +0100
-Message-ID: <20261104-work-procfs-bugfixes-v2-1-021c84d852e0@kernel.org>
-In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
-References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ZSBvcPKu
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 050331650;
+	Wed,  4 Nov 2026 11:11:47 -0800 (PST)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8441D3F673;
+	Wed,  4 Nov 2026 11:11:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793819510; bh=V+Gx6zriHP0k0OYX76UFXlquTwkTO7eEmccEIw5TWIQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZSBvcPKuvW9846WhqDxus2zzmbVzHBvQ2UweWIf4wiyhi/2k9qHhmDLZ+LBvgD6Eo
+	 OkIOMfAobMVc9DAoHw0tLZbvynJqNY0E8VZdfwkXbBqeQVmQsVBbqczJ79gsxGfxsv
+	 2rqZfNgXPAX1lTvK3p+MbYdBH7l/8jJYxXL241Y0=
+Date: Wed, 4 Nov 2026 19:11:44 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, jgg@ziepe.ca, david.quigley@intel.com,
+	lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com,
+	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 17/20] attestation: Add CTLV operation handling
+Message-ID: <auuDcABX27EeTApl@e129823.arm.com>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-18-jiri@resnulli.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,101 +69,47 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3465; i=brauner@kernel.org; h=from:subject:message-id; bh=C5Mw1tWGzCvAVdyOdBCkcSqd8MeBZuRbzsUttoDJMVc=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9bjx9IHaO3wuTJ1+WO4i+5dMLjYtY9+Wvw48Lyxdt2 LlN5/Ib145SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJHH3KyLB8S3D4hzs35nf3 6kca3bE/MoFXXPH/QrfldyYEbj711Med4b/vz9/V52SPbSoPmzq9udhnRnl3scqhkl1dHNJhZhI 7fLgB
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261015145053.3664509-18-jiri@resnulli.us>
 
-codetag_alloc_module_section() takes the codetag type's mod_lock for
-writing and calls reserve_module_tags() with it held. When that can't
-reserve the tags, because the section's alignment doesn't fit, because
-there are too many tags for the page flag bits or because the memory
-for them can't be allocated, it shuts memory allocation profiling down
-and removes /proc/allocinfo, still with mod_lock held.
+[..snip..]
 
-remove_proc_entry() waits until every reader of the entry has let go of
-it, and a reader of /proc/allocinfo takes mod_lock for reading in
-allocinfo_start() while it holds the entry. So a module load that hits
-one of those paths while /proc/allocinfo is being read waits for the
-reader and the reader waits for the module load, for good.
+> +static int attestation_evidence_request_decode(struct attestation *att, struct ctlv_op_ctx *ctx,
+> +					       const struct ctlv_cursor *request,
+> +					       struct attestation_evidence_request *decoded,
+> +					       struct attestation_evidence_object_request **objects)
+> +{
+> +	const struct attestation_evidence_caps *caps = att->provider->evidence_caps;
+> +	u32 challenge_length;
+> +
+> +	decoded->challenge =
+> +		ctlv_attestation_evidence_get_evidence_challenge_get(request, &challenge_length);
+> +	decoded->challenge_length = challenge_length;
+> +	if (challenge_length < caps->min_challenge_length ||
+> +	    challenge_length > caps->max_challenge_length)
 
-Let a work item remove the entry in that case. The profiling is shut
-down right away like before, the file just goes a moment later.
+Hmm, I'm not sure whether this check is required for
+ATTESTATION_EVIDENCE_BLOB_EVENT_LOG blob type.
 
-Fixes: 4835f747d3ed ("alloc_tag: support for page allocation tag compression")
-Cc: stable@vger.kernel.org
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- mm/alloc_tag.c | 27 ++++++++++++++++++++++++---
- 1 file changed, 24 insertions(+), 3 deletions(-)
+for example, if the provider provides two evidence:
+  - ATTESTATION_EVIDENCE_BLOB_PRIMARY (might attestation token)
+  - ATTESTATION_EVIDENCE_BLOB_EVENT_LOG
 
-diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
-index 82e2c3448dcf..7d7ad6704953 100644
---- a/mm/alloc_tag.c
-+++ b/mm/alloc_tag.c
-@@ -15,6 +15,7 @@
- #include <linux/seq_file.h>
- #include <linux/string_choices.h>
- #include <linux/vmalloc.h>
-+#include <linux/workqueue.h>
- #include <linux/kmemleak.h>
- #include <uapi/linux/alloc_tag.h>
- 
-@@ -604,6 +605,26 @@ static void shutdown_mem_profiling(bool remove_file)
- 	mem_profiling_support = false;
- }
- 
-+static void remove_allocinfo_file(struct work_struct *work)
-+{
-+	remove_proc_entry(ALLOCINFO_FILE_NAME, NULL);
-+}
-+static DECLARE_WORK(remove_allocinfo_work, remove_allocinfo_file);
-+
-+/*
-+ * A module's tags are reserved with the codetag module lock held for
-+ * writing, and a reader of /proc/allocinfo takes that lock with the entry
-+ * pinned. Removing the entry there would wait for that reader for good, so
-+ * let a work item do it.
-+ */
-+static void shutdown_mem_profiling_async(void)
-+{
-+	if (!mem_profiling_support)
-+		return;
-+	shutdown_mem_profiling(false);
-+	schedule_work(&remove_allocinfo_work);
-+}
-+
- void __init alloc_tag_sec_init(void)
- {
- 	struct alloc_tag *last_codetag;
-@@ -855,7 +876,7 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
- 		align = 1;
- 
- 	if (!ensure_alignment(align, &prepend)) {
--		shutdown_mem_profiling(true);
-+		shutdown_mem_profiling_async();
- 		pr_err("%s: alignment %lu is incompatible with allocation tag indexing. Memory allocation profiling is disabled!\n",
- 			mod->name, align);
- 		return ERR_PTR(-EINVAL);
-@@ -905,14 +926,14 @@ unlock:
- 
- 		module_tags.size = offset + size;
- 		if (mem_alloc_profiling_enabled() && !tags_addressable()) {
--			shutdown_mem_profiling(true);
-+			shutdown_mem_profiling_async();
- 			pr_warn("With module %s there are too many tags to fit in %d page flag bits. Memory allocation profiling is disabled!\n",
- 				mod->name, NR_UNUSED_PAGEFLAG_BITS);
- 		}
- 
- 		grow_res = vm_module_tags_populate();
- 		if (grow_res) {
--			shutdown_mem_profiling(true);
-+			shutdown_mem_profiling_async();
- 			pr_err("Failed to allocate memory for allocation tags in the module %s. Memory allocation profiling is disabled!\n",
- 			       mod->name);
- 			return ERR_PTR(grow_res);
+might challenge is reuiqred for generating the token
+and this would be marked at min/max_challenge_size in evidence_cap.
+
+However, in case of eventlog, it wouldn't require challenge.
+for example, TPM event log or CCEL event log.
+
+Do we need some field on attestation_evidence_supported_object whether
+it requires challenge or not and applies this sanity check per the object?
+
+Otherwise, to get eventlog, it would need to send *dummy* challenge
+always.
+
+[...]
 
 -- 
-2.53.0
-
+Sincerely,
+Yeoreum Yun
