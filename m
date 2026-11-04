@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793811440;
-	b=5dRuUCDJgL4YAJHbj7wksaVIW3SMou9WlB0JLZIIeE1wfHsJ9WZnyNcwp/3nGsJDvLkt
-	 5s1di51J5Q8MOAJAcq34lECZZaMPHfZvbpQxH108rwQX7XJzBBTGZRKMSeXOC1yJw+DLV
-	 CAqTUF3CxCTVmu0Bc61l9+nEDAt54X5KYgLFr5Kr/4zZ7LcZYeBwMOTTFB141076R+Znz
-	 eZQFYGRwHMxIHfcYlOcPHDyewUVYVYygY1uxtvbqFupM197LYd4ECYyyc1B7UexE8kICh
-	 ghHvJPN2Wz6P872RfNRldHU1kiVlqO7f4hJ4Rl6v0QmmXwgCF2D+AlBw8HylRwFNcjA==
+	t=1793811450;
+	b=EIMsJ4Yx4DVj2gpTMnPXA5bAxADldFyGB1yGg2pJ8CNXkBwFvanov9APntJ7eJoAmP/G
+	 amPkgjelEuVJ4FvgqI+OkWJAIWUA8/H+2HZu+9KvamM+qJlXHc61dPCCb9y3VxAKucSc3
+	 BhIGKl3id1gX1UFuxjicvpS05vJB0BjKNqbkYzxQK4Jx4ynsg5GTueKu3jCilKx5chuR8
+	 d+yHEWNCEw7N5Eke83eczK89zY4cDqHWKSg6w6rZzlDqJEFzdYnZ3X+/8MG0d6P5v/yhd
+	 4vu/+eqeZxMrJfpXf2aX5ip18bUZrlbCccsQ0dweF3CFX1Y9Ejs8J31oibaFJPSXvJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793811440;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793811450;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=T7J8ny2XgS4VVLgay75kRvU9FcVv7Jejhnbg0Ab9f3s=;
-	b=M5z4b1x/Y5T3JCwLTWZXeTpoe2Jsg2Weib35ZqbdO9c5IM08TD/rv1xHC/wzHzUUOadP
-	 Lr+tbErm3gsHOODd4zMCDMlGKYTbI09P59htyts4gCnLGOSnQ6B3JbJxm2319Ir6CTUaM
-	 uEpBbxZ6pDc4LMBqlSxjs/emFhbnmXh4a97lN8XMQLQcbRAxpOjl6cPLXVY06LctAN0nM
-	 kse5Khm/LVIZYChQ+I3rXTt1/xEy+8YHW2WdAjDwbx9C2VokVhA5xuYqCVX+cbpuE128r
-	 BSBRKY19yJCwM8OGraT3vL/v8Zpxk9ViOoP3ehLTv35E5jFPGEHdmJJQQImXAFPXm3A==
+	bh=/bXC1O9YosHJxDYIJ1dzMZcse+i5XFbEaQqM6b3audU=;
+	b=ing4R5CVKgZ/ZXbYzW96MBzFWL6wHfL/XhDTGZQ0o6sOKZAlItllcWclEl7ednGOnw8o
+	 fwhEAQ/prHhxuvPL1v7bp03hCA+J1TGotsa6WX7HDwJSU+rUtYEesG82dRMZyoaZxtQiB
+	 7ncblUki/u68P/qWhy/ygl/IBLMfkqs/x0uj3RpgktUaDt42wFKjHEH6xYnCt1CEC4yjG
+	 HB+HJt1CofypIx0K7pCpCWtEYWbGbmwa+vtB/xEzwcbfpvYVf0inZd6I6hFD9Hkm4EZrA
+	 dhyKYTkCFkoqEoELaMKto6wN3/viNuwVH3UGcmUKFK/Avd345ZYtICTqWPoCs4zkhtQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=s2vGqyXw;
-	arc=none smtp.remote-ip=74.125.82.44
-Received: from mail-dl1-f44.google.com (mail-dl1-f44.google.com [74.125.82.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oERYq9vD;
+	arc=none smtp.remote-ip=74.125.82.50
+Received: from mail-dl1-f50.google.com (mail-dl1-f50.google.com [74.125.82.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545C6606D81D
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:57:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 545C6606D81D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD198606A33D
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:57:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD198606A33D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=s2vGqyXw
-Received: by mail-dl1-f44.google.com with SMTP id a92af1059eb24-15ea896ddc8so1615350c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:57:20 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oERYq9vD
+Received: by mail-dl1-f50.google.com with SMTP id a92af1059eb24-1b244fb7fffso1310641c88.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:57:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793811439; x=1794416239; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793811449; x=1794416249; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=T7J8ny2XgS4VVLgay75kRvU9FcVv7Jejhnbg0Ab9f3s=;
-        b=s2vGqyXwPr8s8Gwnu+VGfdfhZQeEInJKusCv7m1LoH8gsWmASFBvbyNMs9FBKJlW4O
-         w/PVKNUu/g2ucDcu6JfiST2Wof2Fl94gdHZ4+ToBlnIzT/4AIJVZdBXNtfPGgAsBSqgL
-         1/H7gD79joZjeV2l7BTgbhHhmsrcUArqUyxofoaxNIRNKZ6pXyvjQoIzVqbOhoi8nuhZ
-         fkgYG+m4CXSEayHsN/tPLXn4fNqtbBO24dqtc4eImBmZZc46UFPcDPz6pSP8397LHEzs
-         VPar8yqhNIXgw10k7ke3w5+ezHaZBRs6WLV+x1r+x1dxeu/U2t3tk2qW6oum4qlCYTQ4
-         cs9g==
+        bh=/bXC1O9YosHJxDYIJ1dzMZcse+i5XFbEaQqM6b3audU=;
+        b=oERYq9vDte3OR9AG/I37hHAb2AOWwCdiALPPm9kSJa7+KjvO/js3kEDEvedmpE2dOD
+         KKPHwO9zWrTs3+mFG0LeYCQl6e+VbEYVXyKHvDEiqFNGKO6gDN4PthaEnwDa8OYo4O/G
+         nenVx0Fl0l6tHNOX6g7N/JUZOu/uO/ROT2odCvfbaHYz2HjpyW5Q8G1u0FeXNREcm+Bd
+         yjnFaaryaMX2DwqdJ8syR+ngs4BuuOapokcddQcecYMwUUQsRWBQw2n5UpGFlWTkuwHH
+         N2R3WRi91ymJ0sotc+VI+xHzcMHPhvmhA59DsZZGrSFUL/0DJ6OVeiHnWeSgsO1dEiwt
+         C51g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793811439; x=1794416239;
+        d=1e100.net; s=20260707; t=1793811449; x=1794416249;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=T7J8ny2XgS4VVLgay75kRvU9FcVv7Jejhnbg0Ab9f3s=;
-        b=yW2ROwOvNftPCKg1cMdZsYXcvfnpCT87DQGc9y7OBOzdoHzNi5VYJBJQhf/+x6UmPl
-         KKIwybjJJt5SXcfio1JahhndOGthZuR4/+2+wITj4Sm1pwComMowk9c4T2SVmPHpKaB7
-         5tlkhRstOgqhvBr3Ygy/bIGILw88DSc5f+n2OQnLr+gBYrXtf9obth+BYpyAOwJEmlYh
-         mQFJ1KpnTC3VJVZ9AiHjMPzr6Vfc01KmsLE+hlW7lXA2gE9bdY688aiTg7R6WHMoBpGN
-         H6c/nw1ot9k8U8RY9NIdtO/IfAtCTdjPYIwAJ0dICjgyKBnNgA+rYGQoKpLVBKJC2KVJ
-         +v7Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzA0yhATPJ8eX6eU4x7uHPHI7eXwGAVQivJhANuDl5dr1vE6Ie5Uc2Bl+oB3ZAco7gJOAVwCdpcnKg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8pwssgyKNLZeYxu6sZ15m1oNlfDD9luZcnbr3+y7QB1b/0Au2Z
-	Ou7HrDVMGfNtaX0h0NpXEmvw4owOcgZF3ENZgJXIX2idfZV+b9vrIGh6
-X-Gm-Gg: AYBFou0yr6YTDrJlvgLyCvlUGMr3TvvltdLjCeHP9OKgbHU59r3scOr+iJgqu6onytC
-	tYFg7n4Fy8N7yW10zB5e+payPmvqWTAI2dHBfJs1ZOB+xZgMAFChh2nMEsFJSAEMZKwFJv3LQml
-	jQRv3MykLg8tKVwnidvJ3z/HiRylX31ge3pNSthPScBVE4HUaFJFlxB4xA2wMksdgh8dMTDFbO1
-	YIpc2TOBad4IuTzdFgqmOh1u7kpmIpXbFNvqne4btFSkIhC9hxv/GGFYFk1KD0L57VKRRG0Axl1
-	PzIKTfzi0vXrCZqNxNetXpwWkceNaUIWfQR6mySN1x2n7ZCKg/xeGN546xVY+mkdjCsYKAP8w29
-	fFTeLNJoOEcxFqKGuz2nSnGECL9i7tjCBew5NwRTapArJaAEwdZOSNA8V/fW7O3aSOB2NQx/+kC
-	sdJSL+tjbPRrl62brFZ6aPy7F4LG9lqBGxq7x4/Ghuh8+XVvtt4+LCeTcwDyQITgYcUrUXCTiaj
-	j0L6NOQyx7U0KtMos4VLbhfsIUX2gdg4d98Ye4icQvqVSmv0Xnbru1XHhZs09D2NKI5s8dcY6LA
-	aaCZZEkPmeAqCzUmJn3eRhpuibluySHG688bvMY=
-X-Received: by 2002:a05:7022:eb42:20b0:190:3950:43e2 with SMTP id a92af1059eb24-1ac5a0b8867mr24847940c88.8.1793811439033;
-        Wed, 04 Nov 2026 08:57:19 -0800 (PST)
+        bh=/bXC1O9YosHJxDYIJ1dzMZcse+i5XFbEaQqM6b3audU=;
+        b=m51Pjks5i6feNA6TPUZWFdo3XYkNfsdpOYmDgKhgf62MrA3EplGUqGkyr3Pj+Hocqx
+         O9WeBIzqX3oFKPfImZwo3dUdow2F8PWJio0lWlvtKKOfaz0ssEoeXKUVRmaob3Chvy+c
+         jZmkSl9eJvC5UcmSkcYg36WS368MFBd6Nvw52FpPrXyKiGi1j3x/upiq/QWik3tsL0tK
+         V1IzEF2kZYoJ6+YIiEUq41bSgJZse3PImK29kt2bK6dyGelwPzbhGhGd30XjgkWjj6YT
+         PvY68OU11nrQwaxxbiiMQ8y2ap6W6PTPcTvtSW3a5SoB1WAzlKrLNoo91N8EgmQRC4xT
+         TfVg==
+X-Forwarded-Encrypted: i=1; AKwUvBw9gyH0995GMMrgNUdvUFkUcnNjOXx+wPJFl3qRRBRxfz8KFKkOJ8WuRqpVuLhs9NK5Ic+aiGju+Hg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/wuEC/gwWWzhcgvD8AhEj0XZJT4rYQPLyHBe4ycoWhtav1lCiP
+	nGZiV2WF+I8jJEMIicX3UhUnnSfcjcH4XgvZlwZl7oK3ZcocTrSIjFmI
+X-Gm-Gg: AYBFou1DBHaeMFICcnae4p0ADYPq73c6hcOomI5vGtVcGq7hxBldRUkzB4FVHEPjkts
+	Jf2BczAiLCq+ZlCktE/+R6tS9p/S9Y/tEFkfsuyXTLk/XPKY7jZdp4QL/S+lj2zycbs1gOYTEz9
+	jaxkcnn5J3Tvw3DAyQSOpxzSWEOl7h8aYzc+hLK/zUlLSCyd7fq6+y6cdaK9YSwU3tmhjrNGIQG
+	lIdt9eSrvuENHwy2BKe/7Lep5YJBChoZy/FZ5pwWBIVWnUC32axfvQfDVrz0uDrrwdguGr3hTfs
+	EL//HwAjRpLdUS4sIy8N8qcANxtWeWae/2zOxd4A61SkJ4fiLiFmo3ou98yP8sS4moK1TkMou3t
+	LjDhvBimD2o5oj7pI5pd48ui7kR0cEcPOHHS0szFQkpQtWY1Nrcam6oTlYoM5+2GRLE/zyO8cXM
+	ZKDYIeQm8No5CtAPz3vlCkJCwnw3OcdDRayCO2/w9OJzWHmMftPEYuV3lNCdU/sxQJGo2G0M+Ra
+	55wlSlk64w5VrcorzjOG1Mwl6titV93Bl7tm1OlxFEncYaqGSNUidvv0pnfh5ALsunjfeccwUXh
+	M86yjenT2FfbP8b8eF6lBAl3f3TrGQscJJQ60Lg=
+X-Received: by 2002:a05:701b:455a:20b0:1b2:42db:8a54 with SMTP id a92af1059eb24-1b242db8f29mr6324036c88.23.1793811448238;
+        Wed, 04 Nov 2026 08:57:28 -0800 (PST)
 Received: from kernel.. ([216.195.201.23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38d46fcsm9019567eec.13.2026.11.04.08.57.10
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38d46fcsm9019567eec.13.2026.11.04.08.57.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 08:57:18 -0800 (PST)
+        Wed, 04 Nov 2026 08:57:27 -0800 (PST)
 From: Kunwu Chan <kunwu.chan@gmail.com>
 To: paulmck@kernel.org,
 	boqun@kernel.org,
@@ -112,9 +112,9 @@ Cc: stern@rowland.harvard.edu,
 	linux-doc@vger.kernel.org,
 	rcu@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH 13/28] hazptr: Add waiter-enqueue tracepoint
-Date: Thu,  5 Nov 2026 00:54:31 +0800
-Message-ID: <20261104165504.2430480-14-kunwu.chan@gmail.com>
+Subject: [PATCH 14/28] hazptr: Add waiter stall detector
+Date: Thu,  5 Nov 2026 00:54:32 +0800
+Message-ID: <20261104165504.2430480-15-kunwu.chan@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261104165504.2430480-1-kunwu.chan@gmail.com>
 References: <20261104165504.2430480-1-kunwu.chan@gmail.com>
@@ -129,76 +129,443 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Production tracepoint fired when hazptr_synchronize() enqueues a
-waiter onto the scan kthread's pending list.  Downstream users
-include hazptrtorture's staged hot-address scenario, which uses
-it to confirm enqueue before running its controls.
+RCU-CPU-stall-style diagnostic for hazptr_synchronize() waiters
+that remain blocked beyond a configurable timeout
+(CONFIG_HAZPTR_STALL_DETECTOR, default y; timeout 21s,
+CONFIG_HAZPTR_STALL_TIMEOUT).  Purely observational: never
+changes synchronization semantics or completion conditions.
 
+The scan kthread checks still-blocked waiters after each cycle.
+On timeout, an exact-match walk collects holder blame: per-CPU
+slot (cpu, idx), overflow-list entry, and under
+CONFIG_HAZPTR_DEBUG the holder's pid, held time, acquire caller,
+and task stack (sched_show_task).  Per-holder held times are
+evidence, not classification.
+
+/sys/kernel/hazptr/hazptr_stall_count exposes the cumulative
+event count.  Adds acquire_jiffies to hazptr_ctx under
+CONFIG_HAZPTR_DEBUG so held time can be reported.
+
+Suggested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
 ---
- include/trace/events/hazptr.h | 29 +++++++++++++++++++++++++++++
- kernel/hazptr.c               |  5 +++++
- 2 files changed, 34 insertions(+)
- create mode 100644 include/trace/events/hazptr.h
+ include/linux/hazptr.h   |  13 ++
+ kernel/hazptr.c          | 263 ++++++++++++++++++++++++++++++++++++++-
+ kernel/rcu/Kconfig.debug |  16 +++
+ 3 files changed, 288 insertions(+), 4 deletions(-)
 
-diff --git a/include/trace/events/hazptr.h b/include/trace/events/hazptr.h
-new file mode 100644
-index 000000000000..1eed4c9fd682
---- /dev/null
-+++ b/include/trace/events/hazptr.h
-@@ -0,0 +1,29 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+#undef TRACE_SYSTEM
-+#define TRACE_SYSTEM hazptr
-+
-+#if !defined(_TRACE_HAZPTR_H) || defined(TRACE_HEADER_MULTI_READ)
-+#define _TRACE_HAZPTR_H
-+
-+#include <linux/tracepoint.h>
-+
-+TRACE_EVENT(hazptr_waiter_enqueue,
-+
-+	TP_PROTO(void *addr),
-+
-+	TP_ARGS(addr),
-+
-+	TP_STRUCT__entry(
-+		__field(void *, addr)
-+	),
-+
-+	TP_fast_assign(
-+		__entry->addr = addr;
-+	),
-+
-+	TP_printk("addr=%p", __entry->addr)
-+);
-+
-+#endif /* _TRACE_HAZPTR_H */
-+
-+#include <trace/define_trace.h>
+diff --git a/include/linux/hazptr.h b/include/linux/hazptr.h
+index 0fb48518525b..ebf804315a26 100644
+--- a/include/linux/hazptr.h
++++ b/include/linux/hazptr.h
+@@ -24,6 +24,7 @@
+ #include <linux/percpu.h>
+ #include <linux/types.h>
+ #include <linux/cleanup.h>
++#include <linux/jiffies.h>
+ #include <linux/sched.h>
+ #include <linux/ptr_eq.h>
+ 
+@@ -55,6 +56,7 @@ struct hazptr_ctx {
+ 	bool detach_task, detach_cpu;	/* Whether the ctx has been detached from task/cpu. */
+ 	int acquire_pid, acquire_cpu;	/* Note the task and cpu number at acquire. */
+ 	unsigned long acquire_caller;	/* Acquire instruction pointer. */
++	unsigned long acquire_jiffies;	/* Acquire-attempt time, for stall diagnostics. */
+ #endif
+ };
+ 
+@@ -65,6 +67,11 @@ struct hazptr_slot_ctx {
+ struct hazptr_slot_item {
+ 	struct hazptr_slot slot;
+ 	struct hazptr_slot_ctx ctx;
++#ifdef CONFIG_HAZPTR_DEBUG
++	int acquire_pid;
++	unsigned long acquire_caller;
++	unsigned long acquire_jiffies;
++#endif
+ };
+ 
+ struct hazptr_percpu_slots {
+@@ -270,6 +277,7 @@ void *hazptr_acquire(struct hazptr_ctx *ctx, void * const *addr_p)
+ 	ctx->acquire_pid = current->pid;
+ 	ctx->acquire_cpu = smp_processor_id();
+ 	ctx->acquire_caller = _THIS_IP_;
++	ctx->acquire_jiffies = jiffies;
+ #endif
+ 	if (IS_ENABLED(CONFIG_HAZPTR_ACQUIRE_FORCE_SLOWPATH))
+ 		return __hazptr_acquire(ctx, addr_p);
+@@ -278,6 +286,11 @@ void *hazptr_acquire(struct hazptr_ctx *ctx, void * const *addr_p)
+ 		return __hazptr_acquire(ctx, addr_p);
+ 	slot_item->ctx.ctx = ctx;
+ 	ctx->slot = slot;
++#ifdef CONFIG_HAZPTR_DEBUG
++	slot_item->acquire_pid = ctx->acquire_pid;
++	slot_item->acquire_caller = ctx->acquire_caller;
++	slot_item->acquire_jiffies = ctx->acquire_jiffies;
++#endif
+ 	return addr;
+ }
+ 
 diff --git a/kernel/hazptr.c b/kernel/hazptr.c
-index 4784df78be4e..16f6e2acaf87 100644
+index 16f6e2acaf87..8de194c07eea 100644
 --- a/kernel/hazptr.c
 +++ b/kernel/hazptr.c
-@@ -19,6 +19,10 @@
+@@ -16,6 +16,8 @@
+ #include <linux/kthread.h>
+ #include <linux/swait.h>
+ #include <linux/sched.h>
++#include <linux/sched/debug.h>
++#include <linux/nmi.h>
  #include <linux/bitops.h>
  #include <linux/bitmap.h>
  
-+#define CREATE_TRACE_POINTS
-+#include <trace/events/hazptr.h>
-+EXPORT_TRACEPOINT_SYMBOL_GPL(hazptr_waiter_enqueue);
+@@ -107,6 +109,11 @@ void *__hazptr_acquire(struct hazptr_ctx *ctx, void * const *addr_p)
+ 			 */
+ 			item->ctx.ctx = ctx;
+ 			ctx->slot = slot;
++#ifdef CONFIG_HAZPTR_DEBUG
++			item->acquire_pid = ctx->acquire_pid;
++			item->acquire_caller = ctx->acquire_caller;
++			item->acquire_jiffies = ctx->acquire_jiffies;
++#endif
+ 			return addr;
+ 		}
+ 	}
+@@ -387,6 +394,14 @@ struct hazptr_waiter {
+ 	struct list_head node;
+ 	void *addr;
+ 	struct completion done;
++#ifdef CONFIG_HAZPTR_STALL_DETECTOR
++	unsigned long enqueue_jiffies;
++	unsigned long last_report;
++	unsigned int cycles;
++	unsigned int reports;
++	int pid;
++	unsigned long caller;
++#endif
+ };
+ 
+ struct hazptr_scan_state {
+@@ -400,11 +415,14 @@ struct hazptr_scan_state {
+ };
+ static struct hazptr_scan_state hazptr_scan;
+ 
++/* Sysfs counters, cf. RCU's rcu_stall_count. */
++static atomic_t hazptr_stall_count = ATOMIC_INIT(0);
 +
- #define HAZPTR_WILDCARD	((void *) 1UL)
+ /*
+- * Queue @addr for the shared scan.  The waiter lives on the caller's
+- * stack, so no allocation is needed.
++ * Queue @addr for the shared scan.  The waiter lives on the
++ * caller's stack, so no allocation is needed.
+  */
+-static void hazptr_synchronize_queued(void *addr)
++static void hazptr_synchronize_queued(void *addr, unsigned long caller)
+ {
+ 	struct hazptr_waiter waiter = {
+ 		.addr = addr,
+@@ -412,7 +430,16 @@ static void hazptr_synchronize_queued(void *addr)
  
- static DEFINE_MUTEX(hazptr_phase_lock);	/* Protect the list phase flip. */
-@@ -411,6 +415,7 @@ static void hazptr_synchronize_queued(void *addr)
+ 	init_completion(&waiter.done);
+ 	INIT_LIST_HEAD(&waiter.node);
++#ifdef CONFIG_HAZPTR_STALL_DETECTOR
++	waiter.enqueue_jiffies = jiffies;
++	waiter.last_report = jiffies;
++	waiter.cycles = 0;
++	waiter.reports = 0;
++	waiter.pid = task_pid_nr(current);
++	waiter.caller = caller;
++#endif
  
++	/* Enqueue and wake the scan kthread. */
  	mutex_lock(&hazptr_scan.lock);
  	list_add_tail(&waiter.node, &hazptr_scan.pending);
-+	trace_hazptr_waiter_enqueue(addr);
- 	if (!READ_ONCE(hazptr_scan.wakeup)) {
- 		WRITE_ONCE(hazptr_scan.wakeup, true);
- 		swake_up_one(&hazptr_scan.wq);
+ 	trace_hazptr_waiter_enqueue(addr);
+@@ -422,9 +449,14 @@ static void hazptr_synchronize_queued(void *addr)
+ 	}
+ 	mutex_unlock(&hazptr_scan.lock);
+ 
++	/* Sleep until the scan kthread completes this waiter. */
+ 	wait_for_completion(&waiter.done);
+ }
+ 
++#ifdef CONFIG_HAZPTR_STALL_DETECTOR
++static void hazptr_waiter_stall_check(struct hazptr_waiter *w);
++#endif
++
+ static void hazptr_scan_do_cycle(void)
+ {
+ 	struct hazptr_waiter *w, *n;
+@@ -471,8 +503,201 @@ static void hazptr_scan_do_cycle(void)
+ 		list_del_init(&w->node);
+ 		complete(&w->done);
+ 	}
++
++#ifdef CONFIG_HAZPTR_STALL_DETECTOR
++	/* Stall diagnostics for waiters still blocked. */
++	list_for_each_entry_safe(w, n, &hazptr_scan.scanning, node)
++		hazptr_waiter_stall_check(w);
++#endif
++}
++
++
++#ifdef CONFIG_HAZPTR_STALL_DETECTOR
++
++/*
++ * Holder blame collected by the stall walk.  Under
++ * CONFIG_HAZPTR_DEBUG, the per-CPU slot's ctx pointer and the
++ * overflow-list node's embedding ctx provide pid and acquire
++ * caller.  These reads are racy diagnostics: the holder may be
++ * releasing concurrently, so blame may be stale -- acceptable for
++ * a debug splat, never used for correctness.
++ */
++struct hazptr_stall_holder {
++	int cpu;		/* -1: overflow-list entry */
++	int idx;
++	int pid;
++	unsigned long caller;
++	unsigned long held;	/* jiffies held at observation (DEBUG) */
++};
++
++/*
++ * Exact-match walk for stall diagnostics: count slots holding
++ * @addr and fill up to @max holders with blame.  Unlike the
++ * wildcard drain, this is safe outside hazptr_phase_lock: it
++ * matches plain slot values and takes the overflow-list locks.
++ * Expensive: only called for stalled waiters, never per cycle.
++ *
++ * The result is a concurrent observation, not an atomic snapshot:
++ * holders may release, re-acquire, or migrate to the overflow list
++ * while the walk runs.  The per-holder fields (pid, held) are
++ * racy reads best-effort diagnostics.
++ */
++static int hazptr_stall_walk(void *addr,
++			     struct hazptr_stall_holder *holders, int max)
++{
++	int cpu, n = 0;
++
++	for_each_possible_cpu(cpu) {
++		struct hazptr_percpu_slots *percpu_slots = per_cpu_ptr(&hazptr_percpu_slots, cpu);
++		struct hazptr_overflow_list_flip *overflow_list_flip = per_cpu_ptr(&percpu_overflow_list_flip, cpu);
++		unsigned int idx;
++
++		for (idx = 0; idx < NR_HAZPTR_PERCPU_SLOTS; idx++) {
++			struct hazptr_slot_item *item = &percpu_slots->items[idx];
++			struct hazptr_stall_holder *h;
++
++			if (smp_load_acquire(&item->slot.addr) != addr)
++				continue;
++			if (n < max) {
++				h = &holders[n];
++				h->cpu = cpu;
++				h->idx = idx;
++				h->pid = -1;
++				h->caller = 0;
++				h->held = 0;
++#ifdef CONFIG_HAZPTR_DEBUG
++				/*
++				 * Read diagnostics from the stable per-CPU
++				 * slot_item rather than the ctx pointer,
++				 * which may belong to a reader that has
++				 * already exited its scope.
++				 */
++				/*
++				 * Best-effort: fields are written after
++				 * the slot address is published, so they
++				 * may briefly describe the previous
++				 * holder.  held is measured from the
++				 * acquire attempt start, not from slot
++				 * publication.
++				 */
++				h->pid = READ_ONCE(item->acquire_pid);
++				h->caller = READ_ONCE(item->acquire_caller);
++				h->held = jiffies - READ_ONCE(item->acquire_jiffies);
++#endif
++			}
++			n++;
++		}
++		for (int i = 0; i < 2; i++) {
++			struct hazptr_overflow_list *list = &overflow_list_flip->array[i];
++			struct hazptr_backup_slot *b;
++			unsigned long flags;
++
++			raw_spin_lock_irqsave(&list->lock, flags);
++			hlist_for_each_entry(b, &list->head, overflow_node) {
++				struct hazptr_stall_holder *h;
++
++				if (smp_load_acquire(&b->slot.addr) != addr)
++					continue;
++				if (n < max) {
++					h = &holders[n];
++					h->cpu = -1;
++					h->idx = i;
++					h->pid = -1;
++					h->caller = 0;
++					h->held = 0;
++#ifdef CONFIG_HAZPTR_DEBUG
++					{
++						struct hazptr_ctx *ctx = container_of(b, struct hazptr_ctx, backup_slot);
++
++						h->pid = READ_ONCE(ctx->acquire_pid);
++						h->caller = READ_ONCE(ctx->acquire_caller);
++						h->held = jiffies - READ_ONCE(ctx->acquire_jiffies);
++					}
++#endif
++				}
++				n++;
++			}
++			raw_spin_unlock_irqrestore(&list->lock, flags);
++		}
++	}
++	return n;
++}
++
++/*
++ * Collect and print holder blame for a stalled waiter.
++ */
++static void hazptr_waiter_stall_report(struct hazptr_waiter *w)
++{
++	struct hazptr_stall_holder holders[16];
++	unsigned long waited = jiffies - w->enqueue_jiffies;
++	int n, i;
++
++	pr_warn("hazptr: waiter stall: pid %d blocked %ums in hazptr_synchronize(%p) caller %pS, %u scan cycles, report #%u\n",
++		w->pid, jiffies_to_msecs(waited), w->addr,
++		(void *)w->caller, w->cycles, w->reports);
++
++	n = hazptr_stall_walk(w->addr, holders, 16);
++	if (!n) {
++		pr_warn("hazptr: stall: no matching holder found during diagnostic walk\n");
++		return;
++	}
++	pr_warn("hazptr: stall: %d slot(s) hold this address\n", n);
++	pr_warn("hazptr: stall: long-lived references are a hazard-pointer feature, so a long wait is not necessarily a problem.  Evidence for interpretation: across reports, per-holder held times that reset mean that slot was re-acquired; growing held times on the same slot mean that acquisition persists (long-held reference, or a holder stuck in its critical section -- check the task).  Compare the full holder set across reports to help interpret re-publication vs. a single long-held reference.\n");
++	for (i = 0; i < min(n, 16); i++) {
++		if (holders[i].cpu >= 0)
++			pr_warn("hazptr: stall:   cpu=%d slot=%d",
++				holders[i].cpu, holders[i].idx);
++		else
++			pr_warn("hazptr: stall:   overflow-list%d",
++				holders[i].idx);
++#ifdef CONFIG_HAZPTR_DEBUG
++		if (holders[i].pid >= 0) {
++			struct task_struct *t;
++
++			pr_cont(" pid=%d held=%ums caller=%pS",
++				holders[i].pid,
++				jiffies_to_msecs(holders[i].held),
++				(void *)holders[i].caller);
++			rcu_read_lock();
++			t = find_task_by_vpid(holders[i].pid);
++			if (t) {
++				touch_nmi_watchdog();
++				sched_show_task(t);
++			}
++			rcu_read_unlock();
++		}
++#endif
++		pr_cont("\n");
++	}
++	if (n > 16)
++		pr_warn("hazptr: stall:   ... and %d more\n", n - 16);
+ }
+ 
++/*
++ * Stall check for one still-blocked waiter, called from the scan
++ * kthread after each cycle.  Purely diagnostic: never changes
++ * completion conditions.  First report at the timeout, re-reports
++ * at twice the timeout while the wait continues.
++ */
++static void hazptr_waiter_stall_check(struct hazptr_waiter *w)
++{
++	unsigned long now = jiffies;
++	unsigned long timeout = msecs_to_jiffies(CONFIG_HAZPTR_STALL_TIMEOUT);
++	unsigned long deadline;
++
++	w->cycles++;
++	deadline = w->reports ? w->last_report + 2 * timeout
++			      : w->enqueue_jiffies + timeout;
++	if (time_before(now, deadline))
++		return;
++	w->reports++;
++	hazptr_waiter_stall_report(w);
++	atomic_inc(&hazptr_stall_count);
++	w->last_report = jiffies;
++}
++
++#endif /* CONFIG_HAZPTR_STALL_DETECTOR */
++
+ static int hazptr_scan_kthread(void *unused)
+ {
+ 	for (;;) {
+@@ -543,7 +768,7 @@ void hazptr_synchronize(void *addr)
+ 
+ 	/* Pairs with smp_store_release in hazptr_scan_init(). */
+ 	if (smp_load_acquire(&hazptr_scan.kthread)) {
+-		hazptr_synchronize_queued(addr);
++		hazptr_synchronize_queued(addr, _RET_IP_);
+ 		return;
+ 	}
+ 
+@@ -592,3 +817,33 @@ void __init hazptr_init(void)
+ 		}
+ 	}
+ }
++#ifdef CONFIG_SYSFS
++
++static ssize_t hazptr_stall_count_show(struct kobject *kobj,
++					struct kobj_attribute *attr,
++					char *page)
++{
++	return sysfs_emit(page, "%d\n", atomic_read(&hazptr_stall_count));
++}
++
++static struct kobj_attribute hazptr_stall_count_attr =
++	__ATTR_RO(hazptr_stall_count);
++
++static struct attribute *hazptr_sysfs_attrs[] = {
++	&hazptr_stall_count_attr.attr,
++	NULL,
++};
++
++static struct attribute_group hazptr_sysfs_group = {
++	.name = "hazptr",
++	.attrs = hazptr_sysfs_attrs,
++};
++
++static __init int hazptr_sysfs_init(void)
++{
++	return sysfs_create_group(kernel_kobj, &hazptr_sysfs_group);
++}
++
++late_initcall(hazptr_sysfs_init);
++
++#endif /* CONFIG_SYSFS */
+diff --git a/kernel/rcu/Kconfig.debug b/kernel/rcu/Kconfig.debug
+index 3a2e9d7f58f8..b64ae06f3298 100644
+--- a/kernel/rcu/Kconfig.debug
++++ b/kernel/rcu/Kconfig.debug
+@@ -275,4 +275,20 @@ config HAZPTR_ACQUIRE_FORCE_SLOWPATH
+ 	  with lockdep.  It also lets hazptrtorture exercise the slow
+ 	  path without filling the per-CPU slots.
+ 
++config HAZPTR_STALL_DETECTOR
++	bool "Hazard-pointer waiter stall detector"
++	default y
++	help
++	  Print diagnostics when a hazptr_synchronize() waiter remains
++	  blocked for longer than the stall timeout, like RCU's CPU
++	  stall detector.  Purely observational.
++
++config HAZPTR_STALL_TIMEOUT
++	int "Hazard-pointer waiter stall timeout (ms)"
++	range 1 3600000
++	default 21000
++	depends on HAZPTR_STALL_DETECTOR
++	help
++	  Waiter stall timeout in milliseconds, defaulting to RCU's 21s.
++
+ endmenu # "RCU Debugging"
 -- 
 2.43.0
 
