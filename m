@@ -1,68 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.187.6.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793802729;
-	b=I9Thh7UvT8njzFBU/r5Y2QVtYKdGXg++SbzqUd3zpALD9t1SuUGhoifDe6apPnY6cUMs
-	 bFpMFVXUO1XJMZe18TtoXzrbb8Bh1IllBV1ZNvnTVuNu0sGj5lavVXc8K1k3r4OctU4vh
-	 Q+7RWAO6Xxcbz5CF8N3zctx92QUo2/dKSwP36kwKE9JamWwjPxUhttqzkA9Vu0W8+pWPN
-	 3Csm06sWDy29Rh/BwqG2chDghhfIVypkerSPrdroTStQA24dL5mpAznES86U0y9UOxD8n
-	 n1kE39rxPr6nfuSUplZZwLbXTY5Du43O40k+WwhPFYYreoCUGO0s253tZGw34BnvvAQ==
+	t=1793802785;
+	b=t09hult4dcVVbr3OYb3N/ikS3GHuOrR3kvahGe3TxCluyKFuVh9OUNIc6FPGttO9UH+l
+	 s5FZ/5x98c9G4FME/OwT5cIpmn7/92BSVCV+RajgU8Pf2Jxh7R5P33FTfnWS6Zy68DfbF
+	 7cqL+FYx1Pmhp+uIvDejFLjdpOziI2yH0WNjptGmlNydzE/GyCxn1/unEM2NquNiyYfTD
+	 xsNKdss6s8w8fMx0JCcx+1gKH60kLfvhrvzGLIVGmSUKVcsXxqzaWmyUsvSgwDFvWUqhQ
+	 GTGeSLbh51ZvntaOfciTfe9IwDF5fl8b0ywgDdO+iSVsaquOc6IXwZ18Aa6L4J/XCeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793802729;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=ensURHApHSqZx6uOyzhFmn+kTScsXcNRPyYQC1uz1CU=;
-	b=q0Ed9WAg/MWpG5hVIy9VRf0OBT8NpuhMRoAzPk56AE3qKBmTZ9mdGTJoVeraj14GVNvl
-	 tCcj2tdCsVS56l7w/BXRA7bwP84ejOfy0zQXwPYiMuLfjVfdKVI9lR9OGrXfuf/0SD6rP
-	 dyWhsUPb7SILMLj62KE8eF/Ikwdi8HU8Vj795j2K1VRgRH6ry+vYfxP4zqYvpECMWDjMC
-	 lObghlvuZqjIoGyxpea/WFwFGMA6Y83YCwdjrc5lSrAQiDe5P/ubHmWSXuMYs44rjmDf0
-	 lwHCWh7NZLoM7FYXYSNg5IVmAU0uCoad3qmJG1Y/P80FYus05g803GQvKPQ3llmp4Bg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793802785;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=uC48wbYZzsJzBENDo+5c6rw2nfd9EDxqoIJuOc7Fyik=;
+	b=n4hSkIgT5FTyg+qK9qEULujkNVf9zBZ9dITNTTFxiyZd/WDFcuHIk+4YCspCIEZI13Nv
+	 NZP59S++9zUy+R2EgYX2b7sKo+Mh4hXNHcs5PnGZYMn28iOD2aae4UqE/LUYjwgaz8YOf
+	 xDoqeBNjyYjplDkdEUt4vgxz/Wu5D7Oyw9GJtMrqWFkTdrKouZJJr/80m8B+PPbByVTNd
+	 bLc8iRxahrrbivNbX/fuqr7znXswMtYFvl3Zo0QoKvhvK1uD/ecsHI5ZyUx35a36soBAX
+	 B1yMzME2sKeUKFEwutbcspnrcl7ADo5/lvhVR2KjVXADPLpuzGQFH7t53rTEU2jES5Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TcOpgZef;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C56606A326;
-	Wed,  4 Nov 2026 14:32:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TcOpgZef
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 753631F000C1;
-	Wed,  4 Nov 2026 14:32:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793802729;
-	bh=ensURHApHSqZx6uOyzhFmn+kTScsXcNRPyYQC1uz1CU=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=TcOpgZefoJQDj0LMKZN2iBGkvhXFOXPKKWcv/EELG3wUHGxyUFmCRM1ItUL21vHPU
-	 NL30EdFERhZSC/XY5znlGdQMZm3hLLB8tDKOgM7sntuTcodKpH25Nl4e8MahputugX
-	 iGMxROzfrdCI5MWnXSfHTdb6BnKnjgcxrpA7aF11iws3kFyfpO2J9N2x0jW5LvDTHw
-	 1Las9U1zCRWFyJBh+l9Tz6tJ6e3xFAroBm5WNtxAiFB2PQC4jsJo5mfffKhohxhdco
-	 VgFwwZhMbiGRqPCJ/D1rhtDZiR9/MTBL0jU1idXwszX9SprqNES9MFPDmEX9CyJneA
-	 hXNHIUwLK6FZw==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org,  linux-doc@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,
-  linux-mm@kvack.org,  Alexander Graf <graf@amazon.com>,  Andrew Morton
- <akpm@linux-foundation.org>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
-  Christian Brauner <brauner@kernel.org>,  David Hildenbrand
- <david@kernel.org>,  Hugh Dickins <hughd@google.com>,  Jonathan Corbet
- <corbet@lwn.net>,  "Liam R. Howlett" <liam@infradead.org>,  Lorenzo
- Stoakes <ljs@kernel.org>,  Michal Hocko <mhocko@suse.com>,  Mike Rapoport
- <rppt@kernel.org>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
- Yadav <pratyush@kernel.org>,  Randy Dunlap <rdunlap@infradead.org>,
-  Samiullah Khawaja <skhawaja@google.com>,  Shuah Khan
- <skhan@linuxfoundation.org>,  Suren Baghdasaryan <surenb@google.com>,
-  Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [PATCH v3 05/10] liveupdate: Don't WARN if tracking a retrieved
- file fails
-In-Reply-To: <20261103010216.3447716-6-dmatlack@google.com> (David Matlack's
-	message of "Tue, 3 Nov 2026 01:02:11 +0000")
-References: <20261103010216.3447716-1-dmatlack@google.com>
-	<20261103010216.3447716-6-dmatlack@google.com>
-Date: Wed, 04 Nov 2026 15:32:04 +0100
-Message-ID: <2vxzmrrok6qj.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=52.187.6.220
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.187.6.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01B29606A31B;
+	Wed,  4 Nov 2026 14:33:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01B29606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with UTF8SMTP id IAEQrMBmL2sUQutq3FEAAA--.2360S2;
+	Wed, 04 Nov 2026 22:32:52 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wC3sN8MQutqlBMbAA--.36795S2;
+	Wed, 04 Nov 2026 22:32:46 +0800 (CST)
+Message-ID: <78d0a4ea-d621-4408-8efd-d8c9bb1f6841@hust.edu.cn>
+Date: Wed, 4 Nov 2026 22:32:43 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,70 +45,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: fix stale :Original: reference in
+ xfrm_proc.rst
+To: =?UTF-8?B?UsOpbmljaCBCb24gxIZpcmnEhw==?= <renich@evalinux.com>,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Steffen Klassert <steffen.klassert@secunet.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260920073144.546566-1-renich@evalinux.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <20260920073144.546566-1-renich@evalinux.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IAEQrMBmL2sUQutq3FEAAA--.2360S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7KFWUKFy5Ww4fJFWkGw1Utrb_yoW8AF1Dp3
+	WFkF1xJa13C3WYkws7Wr4xGFWUG3W8Wa9rKF17Jw10vrn5JFsYkF4ag3s09F97JryrAFy5
+	X3WfKryYqFyjy37anT9S1TB71UUUUbUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQCb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r1q6r43MxkIec
+	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
+	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E
+	87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUsqjgDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Tue, Nov 03 2026, David Matlack wrote:
 
-> Handle a failure to add a retrieved file to luo_preserved_files instead
-> of triggering a WARN_ON(). Make the failure permanent, and keep the file
-> until the file set is finished, like any other retrieved file.
+On 9/20/26 3:31 PM, Rénich Bon Ćirić wrote:
+> Commit 03e23b18c720 ("net: Move XFRM documentation into its own
+> subdirectory") relocated Documentation/networking/xfrm_proc.rst to
+> Documentation/networking/xfrm/xfrm_proc.rst.
 >
-> xa_insert() can fail with -ENOMEM, and userspace can trigger that with
-> LIVEUPDATE_SESSION_RETRIEVE_FD, so warning about it lets userspace crash
-> systems with panic_on_warn.
+> The Simplified Chinese translation was not updated accordingly,
+> leaving its :Original: tag pointing to a nonexistent file and causing
+> tools/docs/documentation-file-ref-check to report an invalid reference.
 >
-> The handler has already consumed the preserved state when this happens,
-> so the retrieve can't be retried. Keeping the file ensures that its
-> resources are not released before the file set is finished. Finishing
-> the file set then erases the file from luo_preserved_files, which does
-> nothing for a file that was never added.
+> Update the :Original: path to point to the new location.
 >
-> Fixes: 00d0b372374f ("liveupdate: prevent double management of files")
-> Signed-off-by: David Matlack <dmatlack@google.com>
-> Acked-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+> Fixes: 03e23b18c720 ("net: Move XFRM documentation into its own subdirectory")
+> Signed-off-by: Rénich Bon Ćirić <renich@evalinux.com>
+
+Hi Rénich Bon Ćiri,
+
+I have proposed a patchset to revise all the inconsistency between the 
+path of Chinese translation and English documentation and these invalid 
+original fields.
+
+Please refer to this patch - [PATCH v3 8/9] docs/zh_CN: update 
+networking/xfrm/xfrm_proc.rst translation
+
+https://lore.kernel.org/all/c641a11c-39c8-40c4-b162-10f3a3db57ff@linux.dev/
+
 > ---
->  kernel/liveupdate/luo_file.c | 19 +++++++++++++++----
->  1 file changed, 15 insertions(+), 4 deletions(-)
+>   Documentation/translations/zh_CN/networking/xfrm_proc.rst | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/kernel/liveupdate/luo_file.c b/kernel/liveupdate/luo_file.c
-> index 908ae124ea5e..5a82e45b9062 100644
-> --- a/kernel/liveupdate/luo_file.c
-> +++ b/kernel/liveupdate/luo_file.c
-> @@ -684,14 +684,25 @@ int luo_retrieve_file(struct luo_file_set *file_set, u64 token, u64 arg,
->  		return err;
->  	}
->  
-> +	err = xa_insert(&luo_preserved_files,
-> +			luo_get_id(luo_file->fh, args.file), args.file,
-> +			GFP_KERNEL);
-> +	if (err) {
+> diff --git a/Documentation/translations/zh_CN/networking/xfrm_proc.rst b/Documentation/translations/zh_CN/networking/xfrm_proc.rst
+> index a2ae86c44707..6990f8e2fdb4 100644
+> --- a/Documentation/translations/zh_CN/networking/xfrm_proc.rst
+> +++ b/Documentation/translations/zh_CN/networking/xfrm_proc.rst
+> @@ -2,7 +2,7 @@
+>   
+>   .. include:: ../disclaimer-zh_CN.rst
+>   
+> -:Original: Documentation/networking/xfrm_proc.rst
+> +:Original: Documentation/networking/xfrm/xfrm_proc.rst
+>   
+>   :翻译:
+>   
 
-I think you should do a WARN_ON_ONCE(err == -EBUSY) here. Because if
-someone can somehow retrieve the same file twice, something really bad
-has happened and must be reported.
-
-> +		/*
-> +		 * The handler has consumed the preserved state, so the retrieve
-> +		 * can't be retried. Keep the file until the file set is
-> +		 * finished, so that its resources are released at the same
-> +		 * time as those of other retrieved files.
-> +		 */
-> +		luo_file->file = args.file;
-> +		luo_file->retrieve_status = err;
-> +		return err;
-> +	}
-> +
->  	luo_file->file = args.file;
->  	/* Get reference so we can keep this file in LUO until finish */
->  	get_file(luo_file->file);
->  
-> -	WARN_ON(xa_insert(&luo_preserved_files,
-> -			  luo_get_id(luo_file->fh, luo_file->file),
-> -			  luo_file->file, GFP_KERNEL));
-> -
->  	*filep = luo_file->file;
->  	luo_file->retrieve_status = 1;
-
--- 
-Regards,
-Pratyush Yadav
