@@ -1,75 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793806058;
-	b=czDKxlqENWZlS/MhdqQ+xf6ekdZ0LPs0MyCtuyiTRPCG3gFnHQ7cnSUsDP7WlbsQJW3o
-	 ANO1rmsKJR82PG/1Rw+WYdtr5z+HRLGOQaoXt1NDz4nEQwpYflk/Igk6IC2Ilbup0yrdd
-	 4Tz/lRxXRM4FdJlbMDdkM06F+0PmEE1rvFHy9DBxofcBJfAATWm9bQDNPvP9Ng5t2/YWM
-	 EyT9uN6Z38FVc8UNnW9D8w2XAcAxyb5MPGOwMOBxpPa9DhDMlFC05h6XgGYAIvYyAOXfP
-	 rNoC5tWSR0xhbPZgOexPjrUSXz9rgmcMv2MyDMEDn+MJFTgviJp92ju9t2wwJFgODAQ==
+	t=1793806619;
+	b=tvJkbHXC+o1gg3i9OFwx9mUtaMv59SjCAqi04d/pr6m8EdCFMRU1bEWVBcwy5FXQG4R+
+	 KHB48bvahcfuhuKZzznUEjDu2VxtBX0LyZ9zvZyECrkBENvLrhhaf3FpCcPyFw3RNGMur
+	 7RWByHHdhLPTB2UszL2T8hOEho1nYlbwKGZ+vy0w6XTotW03q60oIXmKwzBaOxK23xxqU
+	 x1N3fnHWY9SJ4qaWjbl3kreGSUgABRk0XyJ7rHNpKoFbEwoavdYE5/zPeEoKDlNXZ47si
+	 h3PU8D4LzFHCBOBrOt7s3SeKgZiO2yeRNTHZc/c50ml/U2Rrl1cc5b3JEKMvf66YDsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793806058;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=CIpKMto3juCBWIXYogyz/kuSz8z9yPBH98tdVVEJ+Nw=;
-	b=MFWq8VvZEGDX9lZRlNY2IEK5nV6Imrgg1zfrCcb7zWX2r5kvRA3SBH/zTgEO6bDVQyIt
-	 8N3I2Hm5iRzy7NktUeHn3BGxhDxin1t/KjEEp0O/idyx8Z8oqglGiKX/MpfJH+c3jIqVn
-	 p4gXhCQ4SvdQXZqdU/A1AuwEvWTFfYnbkE8bn3onPZpO9u5SyaewGtQFzP+sWNdKiqSEt
-	 ElXM9LVQ5XzueiKi7l/1h2oH9HAO8KdZru7+3sdJFK1nQFo1AMdI8qWJNJy4bKLTcui0W
-	 532+MSEaVbLc1rErh7znNPylL3bxWdadZlKu21BFFRPzbS5To3gsjevji4b/hb39wZg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793806619;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=+ifUpgMT6EQwsUbOKCDjOEEW6HfkKKK5IRMwF1JmJ+M=;
+	b=pHhkZHoco7hG2AnTXlZnyDU6GLy4AUKgc+ZoTF0n1NXIZq5kS9bpq34IjjLmmbwt5FqN
+	 x8ha19bWbK/AfDyMt/088Cv5tCcD1sTYgt9d4rJhnAt3s+sjN/M93vHEMNN4y8222wvOe
+	 pU8Vi1ikllYu8mvbbYfUEhNFNETkfmWOUfgGT6CUR6cVWpjbX6pIPZjB/Q3IgnOpjlgP1
+	 IG9FKqESod2QAiOS2XevGvqgZip7KBEwWdb8rR3Y22/lnd1hg+QYo6Y0Fhi7IC/WsbmAY
+	 5GwOW1b7VelVTf0hGW39Ysoj+tqrx8Kc6ONDcPvVRyIFgXvBPM6H/a4otQjvop6CIyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--stanleyjhu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LJl5RNQ5;
-	arc=none smtp.remote-ip=74.125.82.197
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PjVHjVCX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A91E606EE9F
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 15:27:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A91E606EE9F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--stanleyjhu.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D90606A32E;
+	Wed,  4 Nov 2026 15:36:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LJl5RNQ5
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso1534096eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 07:27:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793806053; x=1794410853; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CIpKMto3juCBWIXYogyz/kuSz8z9yPBH98tdVVEJ+Nw=;
-        b=LJl5RNQ5b7c50OYJXgxlRs5H5LxDFdVXsRyml3D92U9/ULyM26t4vzd5tEZjDmhgN5
-         S9P9RQ/lPI5015Q+QPS8ja7fGIy7ddh53e4tPbW0ZXa+b6Xqj50UufcjriYjVxqgwgYZ
-         ybQy95yMR4ZKpTLszyt+tjRYf0FsDqFXqDLqKj2nUN/lmiFQSrP0EfTaPf0TGrwURsg/
-         qtFgzOyC+9pQ+GP3bcLTSKy2RogBXRzXCn7lOK7BrNmsuIUSmR8cmjeitjasVBLNSkWs
-         y041Uuls6bE+MJII7SrNxXR7rStb/j9x7o+jlyQJqHkOBOj5+q5qvHsxvCQoJ5z/bdS/
-         L1Yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793806053; x=1794410853;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CIpKMto3juCBWIXYogyz/kuSz8z9yPBH98tdVVEJ+Nw=;
-        b=ToNxHrP9TxouHEpCRT+plNF3cQauIS3hZApbJIhO4DG/3X+QrMpFch3sUSH0x7W5yU
-         4MCSfodIKni/wfLXGadhX9ks7bgMSOpZkC+KVAQVWZNH0LZe9HaEl3jBOjMqKNjWTb6C
-         S1pZHIOYzcpA2sUsibIrO0WuJgLPLelg47xUkUGiO017tZEfTGHDvBpFaS93XdvCuCU2
-         JPA5eFN3bicrHiNUxIFEG6ft4xGh9DyIArv7iq9SrhTJLVin1PVcCKD8K18jH7Qppho6
-         1a0B/e3+qqJwLl2dv3O9kfwEcGmbpnoP1USVmMRYCdMKCI6egDvLg4FbEHWsxCwrFd7R
-         yUgQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwPJl3YZZRda6rbg0h9YJWg6mCD0MNZ1O+PxehRk8iAhBQnAuQJh8RBqJIz91tOeb81qJ2aHcwGGKY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/okNKX1TY7urCYWfO4nm81CR+7shx7KUhspvbKT90Nzc26odMf
-	FojCu8tmeIx85zv6C0410KvTERwKzEdrSuykL4TeBAhVZsK2Eu26dMqiodcyBX/qjmDRBQD95ia
-	2/HbuBYL1u0tiYnMt7AL4NQ==
-X-Received: from dyjm35.prod.google.com ([2002:a05:7300:16a3:b0:358:f250:485f])
- (user=stanleyjhu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:693c:88d2:20b0:36a:6d52:e16c with SMTP id 5a478bee46e88-36a6d52e261mr13279550eec.12.1793806051988;
- Wed, 04 Nov 2026 07:27:31 -0800 (PST)
-Date: Wed,  4 Nov 2026 23:27:30 +0800
-In-Reply-To: <auo6bvjDtwAMKOid@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PjVHjVCX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 530891F0093A;
+	Wed,  4 Nov 2026 15:36:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793806618;
+	bh=+ifUpgMT6EQwsUbOKCDjOEEW6HfkKKK5IRMwF1JmJ+M=;
+	h=From:To:Cc:Subject:Date;
+	b=PjVHjVCXwsQleO9uRLbpJSinsi5d3LRFo/G9J1Bzv1LPVBoTHgcokBBKC6jpRHBCV
+	 +BsePRwfbD6YkfPBM9D2HPn9SeDvkXkMlrWPR1AsHT4eCEdom2o9rks0hN4KWwo18f
+	 VeRI9RtocuzWtehKYcIbxJmabPCa8GwJ9fUS6PgUAia+83qqO20BgbeTIrm+QHtn+H
+	 aWevTdrtu5rVzbJ/LCnSHdX2OMk8dMFPWzNJ2zfVmOEI50a11LuNEHunryfzSfEu5a
+	 lmNZmWzLNDpMt7FyBWE4Vfmu9KCCwsdA2L90m5CKEitRnGw8sezdjpPOp55AcfbI9I
+	 CNyUHbDJjZ2qQ==
+From: SJ Park <sj@kernel.org>
+To: 
+Cc: SJ Park <sj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH 0/4] DAMOS access pattern supports selecting regions to apply a given
+Date: Wed,  4 Nov 2026 07:36:39 -0800
+Message-ID: <20261104153645.82945-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,39 +62,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261029040005.2100005-1-stanleyjhu@google.com> <auo6bvjDtwAMKOid@google.com>
-X-Mailer: git-send-email 2.56.0.385.gac671c819a-goog
-Message-ID: <20261104152730.3102376-1-stanleyjhu@google.com>
-Subject: Re: [PATCH] PM: runtime: Update runtime_pm.rst for non-fatal resume errors
-From: Stanley Jhu <stanleyjhu@google.com>
-To: Brian Norris <briannorris@chromium.org>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Praveen Talari <praveen.talari@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Mark Brown <broonie@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>, linux-pm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Stanley Jhu <stanleyjhu@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 03, 2026 at 11:47:58AM -0800, Brian Norris wrote:
-> Those need a close eye, as the code involved is a bit subtle. I tried to
-> review, but I'm not really an expert in those subsystems. (I'm also not
-> quite sure the second one was 100% a regression, vs further exposing an
-> existing underlying problem.)
+One straightforward solution is extending the DAMOS access pattern for
+specific deterministic time based age specification.  However, DAMOS
+core filter is a better option.  It is playing a similar role in a more
+flexible way.  It can be used for both accepting and rejecting regions
+based on if they matched or unmatched to a given criteria.  Multiple
+filters can also be combined for more flexible and detailed rules.
 
-Agreed on the UFS clock-gating hold release. Keeping the hold until
-resume succeeds was cleaner regardless of retry behavior. That fix has
-been applied to 7.4/scsi-fixes. I have also sent v2 of the block-layer
-q->pm_only fix.
+Extend DAMOS core filter to support milliseconds unit based age
+criteria.
 
-> I think it would be better to flip the comparison to the other
-> direction, and deemphasize power.runtime_error. For example:
->
->   "Unlike with the suspend callback, failures in the resume callback are
->   never considered fatal, [...]"
+Implement a new DAMOS core filter type, DAMOS_FILTER_TYPE_AGE_MS, in
+core layer and expose to DAMON API, via patch 1.  Add the support of the
+feature on DAMON sysfs ABI with patch 2.  Update the design and usage
+documents to explain the new features with patches 3 and 4,
+respectively.
 
-I have sent v2 using that comparison, without mentioning -EBUSY,
--EAGAIN, or power.runtime_error, and added Fixes for commit
-aedc51762a0d covering the ->runtime_idle() paragraph.
+SJ Park (4):
+  mm/damon/core: add DAMOS_FILTER_TYPE_AGE_MS
+  mm/damon/sysfs-schemes: support DAMOS_FILTER_TYPE_AGE_MS
+  Docs/mm/damon/design: update for age_ms damos core filter type
+  Docs/admin-guide/mm/damon/usage: update for age_ms damos core filter
+
+ Documentation/admin-guide/mm/damon/usage.rst |  3 +++
+ Documentation/mm/damon/design.rst            |  3 +++
+ include/linux/damon.h                        | 16 ++++++++++------
+ mm/damon/core.c                              |  9 ++++++++-
+ mm/damon/sysfs-schemes.c                     |  5 +++++
+ 5 files changed, 29 insertions(+), 7 deletions(-)
+
+
+base-commit: 32e967f279b24f952a5482e2c427894787848ee0
+-- 
+2.47.3
