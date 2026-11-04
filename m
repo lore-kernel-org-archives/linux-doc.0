@@ -1,72 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793805415;
-	b=1lOFbUjBO7aWySD0KNi+OKSoyADiRPq8o34IfzcJLYG9YEiD6NtyV0CCKezzXHXzG5HN
-	 42KQ4NAXoefRCWPn3AWNTu3aKo3PWOwjKR4NGUgyiO6MOLpEEauOFLq99+2Aio1A4Emq/
-	 yujQzOOGESZT7A2cXgwHK+VkWoJUB8iq2rT+fpDcSPrXLi4lqzQ7sRwgTYbOGUCXea3w/
-	 AbiZ7ppiJXahhb9yOZyGmnOhLnemogKYC1PXCycS9a0pbPvp1WQf+SS2aAE7s+ea3pzzM
-	 MJbGObZs3TIihr/Z18crwlASdvL0FJWPLhElFDMKznfGy6MqaxwECLqOK3G4qZG6kHw==
+	t=1793805659;
+	b=M0YML0iIoBPp5cNSjxpIHstxHm8YEHyYF4VQ3noO2E0dr2wqI8K+GFFBoEj9oyW82gHn
+	 TrpK43WeJ/R5eqzckZg9wqnRkJnEPKlS3TJ7/a/hPaPdx//aikEWMtIvDin5sd9/esE3E
+	 iU2G+6EeNIOJz3rNEYaDO7ys9UhmxcEJL+o+yOS876hQkajMBaN44r62aUFEo1exqnHr3
+	 JvJmmA8Xpv4vvYuSxoehEc6bFYEGMIKHqOemhKhISfWK45rYu76+8qaqgdT5Rv/Gg6wXd
+	 qNpMVcbwPGpWJAG3g97l5yVN+1QWX3AK0NTPX0Mu1mt3nljLjieMYc15aQ0iMnDZbjg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793805415;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=Uq1e7jWuoceT2x7ZhYRUZ6C4jiC0NbfgYNrjkiRron4=;
-	b=J37EoZUS0ENPVfsd147dLCue2sdySikqTnsBXWgguVody1J0QTASPvYZFLf9Ds2i2Jjn
-	 cimdcNqV0zHRfCG+ttbI7kD+lTnG1s74fUnAQf3DMYEuCGDAHdXOWd6O/IxfOGAy2XixL
-	 VSc9ZBWAtUYFoNICQr3+D38Fh8xyI6SWhyAZJlFAyfM5I3MO0KsZz59CG361USFdiC7Xm
-	 s9XOLRJrgtKHCd/TF3YhruD2eip66ZCyZrGRf/gAGdZwyOQ7QpaXOvDnphOwuu0goAe9+
-	 EtQCQibWEcfIkX2hKmctb1ibRvpEbtZHozWEDxqpbQEe1MV8vBbOaYukCcyCgJmE7eg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793805659;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=kJ//CR0rNJB7v4/EWrk6Rgg5jN7w2KYrl2J7vZDJGZY=;
+	b=4M9y0I0O1bSMCEueVbW8Uoh0hJvrPYQstaT3KT5D8l2UuDmCz8CLXZPdLnczoNp5sL5K
+	 NwYFw72x19r3Imh/QoPwTAnghfHaxcdbmJNGq+p8jm1HfrME88MfFtLDJYrqCQzqyACUU
+	 ezEe2v928T4ksyIp7MTZ1GTnW8oA3TBUhwiEcmmJZWotDdpO/HXyaaPKHqrBkujIw6xzh
+	 EgtW6kxQvLYSh9tjxY5eEFgxXWqwZiri51ulFF5tB+XbDIKg77CYylW7+mY/xkEHtyowr
+	 QR7xQ/K0nZCTuYcT/84vnIDBpRPhWlwxBP0Vsl2POd5zhH0kQPi9FIXKzNF2TGa/WVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--stanleyjhu.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=V5qxMC8i;
-	arc=none smtp.remote-ip=209.85.215.200
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J04GpwmK;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6446074769
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 15:16:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F6446074769
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--stanleyjhu.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AD0606EE98
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 15:20:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=V5qxMC8i
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cd60a365440so654590a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 07:16:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793805414; x=1794410214; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Uq1e7jWuoceT2x7ZhYRUZ6C4jiC0NbfgYNrjkiRron4=;
-        b=V5qxMC8iNZRNUbCry/IYAuCXjsz2S2to3mmREdQL2kfZUuTj1juBWz+30iE/aIiyVh
-         Nh6k0qHuKdq+p6gJXqz6NIGfOsBjLQKw79EaJ/OFVsblemYIH++/duGw4REg3H9mixk1
-         zxavgu7KdB/IYCfpdOYnKLcTq68HP92rwv63DXx8ZHX7QkjG2P6rtA4BNv8Ek3NGyS4C
-         6OU1A4wocJ7FZPg8DdyqykUFYoaD4mcsUva/MaMFM4gAzua4Ep7Nwy0VuZrP1NPCMghs
-         mCmGUnGcPA6PrSFj+pn6r3qe2Izap8G51Jh6+OOB7pKI5eQWRYz8e5KvGAOBe/t6oime
-         mZOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793805414; x=1794410214;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Uq1e7jWuoceT2x7ZhYRUZ6C4jiC0NbfgYNrjkiRron4=;
-        b=YQqOKckGDgr4ZLdb11fOgQcfGIpTNytk0uXzOmU/TkWESNOpd8diV2UIVPWdOywj5G
-         qyaLRuXAe9ghERgECK6hefizDjxn9xTq4fHnJhFedk6IaM/wBOjcZLv06iDADpPJvI52
-         yEkFfTlNcsLncwRrndW844O0FJdOjLE55Yk/KjhTLfHugALz5c4DTBBXgDYjl1EWM77+
-         rKlfTJOWdrwTUFqh133NPXDZja3IZKMI7nYUrVlHmSGzxow7oPcbwWst50uYl8GvaNgJ
-         ZoFrzfj0slBPU6kyAjwAwfqM1MILexFye9e9Fim7VIGBWjQVIX1sWFfHY6YnqTGbqomd
-         lELg==
-X-Forwarded-Encrypted: i=1; AKwUvByIGAGN6kbCZVn8gLr7rd2XRJv0sa12V6OhZGzbGQPpagR8jQoAeeeoEckjaaC8eD0A1hizssISArU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/TA34dd80oCP3f+KvYndEtlkolhYAJbfOv3tQj8OTMTqrKG6wf
-	4OPHo9WCGej5EfqFseIlTgumUc/vd4XYNYmvB5f0Sme45MxgxfT2ZXMZXohOBKgoBzRub+cwK2x
-	8Iyjs34zKSWPDjaJlb11iWQ==
-X-Received: from pfblt3.prod.google.com ([2002:a05:6a00:7443:b0:89f:6242:b2d2])
- (user=stanleyjhu job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a20:a107:b0:3e2:117a:6307 with SMTP id adf61e73a8af0-3e928d4476cmr14928062637.22.1793805413627;
- Wed, 04 Nov 2026 07:16:53 -0800 (PST)
-Date: Wed,  4 Nov 2026 23:16:51 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J04GpwmK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C63BF1F000C1;
+	Wed,  4 Nov 2026 15:20:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793805658;
+	bh=kJ//CR0rNJB7v4/EWrk6Rgg5jN7w2KYrl2J7vZDJGZY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=J04GpwmKvwAvs5rvSq6YwT5Zq9je2GxUIiTrhVG2nBwZcdPfHjPQfInyEK880+tG1
+	 wfkOfIVxeHWCezi8+24T/FuHWcz/MenvLN1yjdAWCXC2ZrjmfrTiZUJcVWGaYqItqX
+	 HNEvdX6ssO5Bd5Y9pBuoM3uEqEv4B6EB6MR5ozg/OwrjyfE2G6NoaTFenz5GecG1fy
+	 Z3HGwO3J755E9uCjFAWDfqCtB+33seQlaND6Miab8V8rbnvOD7Y3Wq6fC5/3i7/g3y
+	 uy/6Ft2l/oJqLiMSM4D82qyRmP26bj6XroqOSTrEY73f/+vP5RL5C1pDGVj8cb/eaM
+	 DXKMiygT229uQ==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.ams.internal (Postfix) with ESMTP id 577C3198003A;
+	Wed,  4 Nov 2026 10:20:51 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Wed, 04 Nov 2026 10:20:55 -0500
+X-ME-Sender: <xms:Uk3rasYNqcr0e7oX_N81eL0LZXGbBpMgeTVyguwhoWE1deuGbU8VRA>
+    <xme:Uk3raqkRwJA3NCHdCd2e-3d3UsbBBd3_hWmmG-yaagIX-Kj_QLSPl46GRUdZjMXmd
+    9egYpQCqDMYyaNxmKYvMlKUQybVmyetKPdMIXU-MOb4diUc1NZa-UGKAQ>
+X-ME-Received: <xmr:Uk3rajF3y4JOG8Lz_bJnitNrMmWcxB_a1dEiDKLOgwUebEP4zXW8dXTCBG0>
+X-ME-Proxy-Cause: dmFkZTFtxpiu2LP14cIYcyJ7X5qabzm2BzpkyynMyiWriFQOhwO4iOlilGAYuG72swqRJi
+    Bz8ZzcQ02LzCtXShfIs8nQwvr70QyU4BQ3QGSMTor0iqq1/umFVKzuPdZvGyZHpuAWbgUk
+    YtJYpDNQU5eGtxkWAafn6R00XepYhmon5wsUybRAp1fyx25PodgGzm5XnTdaZ8/m/W318m
+    ueFHNJOCuNFrSnRbN0ljsfFnJhIFQ1CTjoWhk+jPLi5y1GCZF4hKgzXGkldAtCAQq2wM97
+    9+7I0RiDOJ1Wn8GcLWLH9LY1cuCc5mxnJslpqjVhHYjF7KE/HVWL6z7MRT7MuPxGnS/eYj
+    T29jPgd4eodMdNH4DcjlWcD14WrHarLiWrEOrqYlYVpu7KKm0ZWeANy+dECylIIuTFu7zy
+    LTGcyz27eAnQByqLr1NdcAwSH4C/6Q4Bw7Ogwvph1gYdZ2MyCiBaNIH6FMK2y3o0f84Q3L
+    p2xKs8qurGukJ22IwBPNoSfbzPpC/KCrGS4y2MDhjbX0uO8R1lWRLw5Qh9VCcyR9s65+qZ
+    4KID4H9Y7zzBUjd4hNNMTPEGBXRHn1y5jVskNGYt0nAzzYpN4X2CTMXrDWclf4ZfOq2tgp
+    viuCv95jefJTx+bdkT9rAn8PUT0PqPIMnfKlV4uWjYXWOLnG2GEbuK84Ba6A
+X-ME-Proxy: <xmx:Uk3rahHKq18GiQZ3nyDskj6S66qC9l5zFlQ6NBrq42V8pWmtDTHxnw>
+    <xmx:Uk3rakxgzWtRN7zjBavMjABxjpDUcgRkOH59QIjhgCPm_pfj6wLIXg>
+    <xmx:Uk3raqTPchiT8nft2yn3Rv82synIhoZ_VU2xumyCcOXC-vhPUYonZQ>
+    <xmx:Uk3raqp12uS3JTOm8qXzawV8IlzevdpwPwxlmD4GdeuBWbxDd4IM1Q>
+    <xmx:Uk3raqvxVr0tfkuHZM52LGQpZuZBFJbugGo5z2yo_9nC6sElCg_8FRO6>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 Nov 2026 10:20:50 -0500 (EST)
+Date: Wed, 4 Nov 2026 15:20:49 +0000
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, baoquan.he@linux.dev, 
+	rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org, 
+	ruirui.yang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	muchun.song@linux.dev, osalvador@suse.de, david@kernel.org, jbohac@suse.cz, 
+	sourabhjain@linux.ibm.com, ruanjinjie@huawei.com, leitao@debian.org, 
+	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-mm@kvack.org, hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev, 
+	kernel-team@meta.com
+Subject: Re: [PATCH] mm/hugetlb: allow crashkernel to reuse hugetlb CMA memory
+Message-ID: <autMHwldMudQOO3j@thinkstation>
+References: <20261104142727.2894800-1-usama.arif@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,85 +90,33 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.0.385.gac671c819a-goog
-Message-ID: <20261104151651.3035537-1-stanleyjhu@google.com>
-Subject: [PATCH v2] PM: runtime: Update runtime_pm.rst for non-fatal resume errors
-From: Stanley Jhu <stanleyjhu@google.com>
-To: "Rafael J . Wysocki" <rafael@kernel.org>
-Cc: Brian Norris <briannorris@chromium.org>, Len Brown <lenb@kernel.org>, 
-	Pavel Machek <pavel@kernel.org>, Praveen Talari <praveen.talari@oss.qualcomm.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
-	Alan Stern <stern@rowland.harvard.edu>, Jens Axboe <axboe@kernel.dk>, 
-	Bart Van Assche <bvanassche@acm.org>, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Stanley Jhu <stanleyjhu@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104142727.2894800-1-usama.arif@linux.dev>
 
-Since commit eef1d74bf88f ("PM: runtime: Only set runtime_error on
-suspend callback failures"), rpm_callback() no longer sets
-dev->power.runtime_error when ->runtime_resume() returns an error.
-However, Documentation/power/runtime_pm.rst still states in both the
-resume callback rules and the ->runtime_idle() comparison that the PM
-core treats ->runtime_resume() errors as fatal device errors and blocks
-runtime PM helper functions until the status is manually reset.
+On Wed, Nov 04, 2026 at 06:27:27AM -0800, Usama Arif wrote:
+> Use a separate suffix to make the exclusion of existing HugeTLB
+> allocations from the vmcore an explicit choice.
 
-Update the resume callback semantics bullet to state that on error the
-PM core resets the runtime PM status to 'suspended', returns the error
-code from synchronous resume helpers, and unlike with the suspend
-callback never treats resume failures as fatal, leaving the Section 4
-runtime PM helpers unblocked so a subsequent resume request can run
-->runtime_resume() again. Also drop ->runtime_resume() from the
-->runtime_idle() fatal-error comparison.
+The crashkernel=size,cma documentation already says that pages allocated
+from the range are not in the vmcore and that it should not be used if
+dumping of userspace memory is intended. HugeTLB pages are userspace
+memory. I don't see what a new suffix makes explicit that ",cma" does
+not already.
 
-Fixes: eef1d74bf88f ("PM: runtime: Only set runtime_error on suspend callback failures")
-Fixes: aedc51762a0d ("PM: runtime: Clarify ->runtime_idle() callback return value handling")
-Signed-off-by: Stanley Jhu <stanleyjhu@google.com>
----
-Differences from v1:
-- Contrast resume failures with the suspend callback instead of citing
-  -EBUSY, -EAGAIN, or power.runtime_error (Brian Norris)
-- Add Fixes tag for commit aedc51762a0d covering ->runtime_idle()
-- Link to v1: https://lore.kernel.org/r/20261029040005.2100005-1-stanleyjhu@google.com
+Why not let crashkernel=size,cma take hugetlb CMA first and reserve a
+dedicated area only for what hugetlb CMA does not cover? With
+hugetlb_cma=6G crashkernel=2G,cma there would be no extra CMA at all.
+With hugetlb_cma=2G crashkernel=4G,cma the crash kernel would reuse the
+2G and a dedicated 2G area would be reserved for the rest. Either way,
+nobody has to learn a new option.
 
- Documentation/power/runtime_pm.rst | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+The catch is ordering. reserve_crashkernel_cma() runs from setup_arch(),
+but hugetlb_cma_reserve() runs later, from mm_core_init_early(). The arch
+code could record the size and leave the reservation to generic code
+right after hugetlb_cma_reserve(). That is still memblock time, so the
+remainder can be declared there. An early_initcall is too late for that.
 
-diff --git a/Documentation/power/runtime_pm.rst b/Documentation/power/runtime_pm.rst
-index 40a5c23d5259..09072c576087 100644
---- a/Documentation/power/runtime_pm.rst
-+++ b/Documentation/power/runtime_pm.rst
-@@ -222,11 +222,12 @@ what to do to handle the device).
-     I/O operations as needed.  The runtime PM status of the device is then
-     'active'.
- 
--  * If the resume callback returns an error code, the PM core regards this as a
--    fatal error and will refuse to run the helper functions described in
--    `Section 4`_ for the device, until its status is directly set to either
--    'active', or 'suspended' (by means of special helper functions provided by
--    the PM core for this purpose).
-+  * If the resume callback returns an error code, the PM core sets the
-+    device's runtime PM status back to 'suspended' and returns the error
-+    code from synchronous resume helpers.  Unlike with the suspend
-+    callback, failures in the resume callback are never considered fatal,
-+    so the helper functions described in `Section 4`_ are not blocked and
-+    a subsequent resume request can run the resume callback again.
- 
- The idle callback (a subsystem-level one, if present, or the driver one) is
- executed by the PM core whenever the device appears to be idle, which is
-@@ -250,9 +251,9 @@ call to pm_runtime_autosuspend().
- To prevent this suspension (for example, if the callback routine has scheduled
- a delayed suspend or determined the device cannot be idle), the routine must
- return a non-zero value (typically -EBUSY or -EAGAIN).  Unlike
--->runtime_suspend() and ->runtime_resume(), the PM core does not treat negative
--return codes from ->runtime_idle() as a fatal device error; any non-zero value
--simply stops the PM core from suspending the device.
-+->runtime_suspend(), the PM core does not treat negative return codes from
-+->runtime_idle() as a fatal device error, and any non-zero value simply stops
-+the PM core from suspending the device.
- 
- Core Guarantees and Synchronization Rules
- -----------------------------------------
 -- 
-2.56.0.385.gac671c819a-goog
-
+  Kiryl Shutsemau / Kirill A. Shutemov
