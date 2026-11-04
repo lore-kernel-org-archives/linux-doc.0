@@ -1,55 +1,111 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793819528;
-	b=pN5QKEWU9/oQvMC0RHleNSRi8Y0djDA5DbrzC7Yc7df0qh5xPjs0f+Gflg9jijyNoyGs
-	 eBAF8UtLUmP7JgNXZzsVhnLlooxmnW7cC4vQHE8KsVLdzGsB4trTiGl7l9MDTPOuwizgl
-	 g71CnLnx17QJzcbe56eauIhlSX/BI3g1h7pX77m5jAXA3OfDk2np3VSm2qM/1QiOoMs7S
-	 A/ZTlQkZfBrhGEvqSkNiFucozR20vYQHt5Z9Ol2SGkhhZi+6YgUPq9YPlY7MkageDkK3e
-	 bxESpYSltNMgb690SUm5K2O4B0lGOJTvcDkCVmQ18ylFkqmPgT0JNtKptCxMf/bGSkQ==
+	t=1793819805;
+	b=prYIHfrcNamfrTFBhddQ7Mu8juo7D3U77vRjnhofDee9uQRhPJZgJnabJcdanfr6HifT
+	 ocLtgFl1+bHcigEgNkZWktvyBMbIOjmpz+EyICHEOQM/sySy/VvrJeKBvrFRlbzPfRlCU
+	 AWo/lhPnXXcxDa+04mRQ3q0auQu5zrXdZPJkskefVXB9bxXacXtX4QgwPKnSnbpGimQgZ
+	 BfKWNCV9732uLOuhF0yP3dpBU6YtiYLCpYHyShe3EQbbnTx5qV2ewF66OqbpchPh7ZHEL
+	 EVHjDf6VtoFZ4r+VFQnyPOaOY9fyGH8pkJXTXJfM3Tp1P6apkSNBB4zxAN5YI1AHYdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793819528;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=3DKxUDhIGrS0XKk3YGxhQanUk4e1Hk17J0HKDnLrC4w=;
-	b=tVQ3mEMMaCR/VxfAZIuWqwEhSH/GiwfTI3Rvj4BXasqwCSZVa4ae5HdnMDPS5Zra0AOM
-	 DKBOlFw8PF+uBjHUWxXWJ15nQFeTOLYoEngQUbFzzACPZgPnL2DLT0Y62xxVfjOFAs9J4
-	 0zx1T95//5HGiF2OcAiIgUWzAYGqsAZPjJ49NrkwElJMskUw2o5NHTQ2Vyw5iKhLGpVJ3
-	 X2fKRGGpmAtkCtJZp6eq/K3dDVS9rRH9ItlWNpIJd7APpbT7t1rRms3qtHsIBraygcnbd
-	 F1yUxtozsyfJW4gRjGhZq7efUJdLHU2qPe3Y7nAH+5Vk5VTCXRCOXD760WgHW8r/X4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793819805;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=iSk3nsArFOOtW91DExIIvIg+E3fTnIkI1uYFn4dT7G8=;
+	b=wNyb7wkWytn63/Hp7EBF4PCzwNqExF3okYnT2PcMlbD2BdCGgaWP0k6oAvAqDESupJWm
+	 c9boXz2V7cB1uSW3DkK179Zz9d+l01c6zi1viWciET4VdFWHt9HUF+4TUuf0LSfZCWy57
+	 3+QIzxi2oC78Z5/2NSUzHv7LMBh6Ypv9Y+kpxhuKd0nRR/WgVxWevQYlaFjv1ut9qiXoR
+	 M0EqR5XR6fk6som3zmRVCTGHKTW0L1hxaeOqWn50cNPCFEuvUnqgsOSG6f8xoKWhfuimB
+	 OvlWRkZYLTDXC+kO/Y8RTWIESbMAApj8XhfF6Qb68Trp8uA08y0emP53HaRI064gkFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E6BWhVAu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=adc5P9d8;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71D5606A32E
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 19:12:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B145A606A32C;
+	Wed,  4 Nov 2026 19:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E6BWhVAu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDEA41F00A1B
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 19:12:07 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=adc5P9d8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 406881F000C1;
+	Wed,  4 Nov 2026 19:16:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793819527;
-	bh=3DKxUDhIGrS0XKk3YGxhQanUk4e1Hk17J0HKDnLrC4w=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=E6BWhVAujpHKz0HBPWfMuhI0XXUt+yp9/6ZuVZ1TU6mTuV1ZzSVOS4IdADWTV8hCr
-	 LQ0ZrqnUh8V6ahlcAptxCCUaE6Gsii+LRJ95oD1ujXoR3XbM/+ofsUOdw+flCmWzAR
-	 tttyyhsFOuA6Z0TxoapeB1vau8qI2/5E4/UzlYEuphhqT2EeBJbfzA8hT9tPzK8ywM
-	 jCTFhnfQtIW+Fb095szIl4Z4sdfi55VrPT7ZKY/bHSNwiUYMBnmIUdR5yjUYyJQBGP
-	 Cn0ZOAWu/WkWXoVsVW3JIW8PBN3Jb5C0XImVmkt64vm16BgdsraokB2p6S8dsAC5JH
-	 5EEok3qIQ/DlQ==
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-3acc7a0b558so8897361fa.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 11:12:07 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBwcx8FmAwpfUejcwMaTic2oz8xpYwDXVBM+ZApca119nXXVkp+sYdqZRbxyPkoWkeE6bTs76jrzxjY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/6tSaqHsDRg/uW6upvAIjXKz6jNiv17CHDBJWcq93mU9qsnFx5
-	e9TCK79eFmZ1yI0oHeQhxlq2MvMb70Y1N/RL3M0BYylEVOgb96irB1O8E9Vow7sbDMWVsnuOBiX
-	p7qb6Y1dI8EMp+3OnKeiLfe60EnSOFFY=
-X-Received: by 2002:a05:6512:1247:b0:5bf:b144:fcbd with SMTP id
- 2adb3069b0e04-5bfd95871afmr6554848e87.42.1793819526207; Wed, 04 Nov 2026
- 11:12:06 -0800 (PST)
+	s=k20260515; t=1793819804;
+	bh=iSk3nsArFOOtW91DExIIvIg+E3fTnIkI1uYFn4dT7G8=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=adc5P9d8MahDP5MWnF8/BQZpdhwQF+Ch+DamqvSkAjn9rCUlBnkqECo/i8i5m6rCU
+	 r+0D3t4BrnoadvsSIYVAap135Zl9/uPV+3cWE1MIZO02KbRYUYm6qut6Iw4ZTKqOu/
+	 6k7TrsWTmBmMQUM3tHfS92Olrwro6VG7uRQk7JNC9KNK3inBXn1gscAHaKpctq+lkz
+	 NHgRnuuGNNngzWx7kkuO/bS69mOTmSTRK/+7SYlvkts5zOYpp6/1gj+SaDwhe5nUBd
+	 NQB1zsZF5ExMRUSJm8geywWpAxhsrbuzBIhJsIT/iETtc8kHozEESlyxMXTZO60F+g
+	 m408MmhemLThg==
+From: Christian Brauner <brauner@kernel.org>
+To: linux-fsdevel@vger.kernel.org
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Jann Horn <jannh@google.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Chris Mason <mason@kernel.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	NeilBrown <neil@brown.name>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Al Viro <viro@zeniv.linux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Greg Kroah-Hartman <gregkh@suse.de>,
+	Joel Granados <joel.granados@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	Jan Kara <jack@suse.cz>,
+	Jan Kara <jack@suse.com>,
+	linux-kernel@vger.kernel.org,
+	linux-nfs@vger.kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-s390@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-wireless@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	netdev@vger.kernel.org,
+	ntfs3@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org,
+	coreteam@netfilter.org,
+	kexec@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	netfilter-devel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	ibm-acpi-devel@lists.sourceforge.net,
+	jfs-discussion@lists.sourceforge.net,
+	linux-alpha@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-cifs@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-hwmon@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-sh@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	samba-technical@lists.samba.org,
+	sparclinux@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-doc@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	Takashi Iwai <tiwai@suse.de>,
+	linux-input@vger.kernel.org,
+	linux-raid@vger.kernel.org,
+	linux-ext4@vger.kernel.org,
+	linux-modules@vger.kernel.org,
+	linux-debuggers@vger.kernel.org,
+	"Christian Brauner (Amutable)" <brauner@kernel.org>,
+	Chuck Lever <cel@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH RESEND v2 02/51] scsi: esas2r: don't copy kernel pointers out in EXPRESS_IOCTL_GET_MOD_INFO
+Date: Wed,  4 Nov 2026 20:16:30 +0100
+Message-ID: <20261104-work-procfs-bugfixes-v2-2-021c84d852e0@kernel.org>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,49 +115,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261104151651.3035537-1-stanleyjhu@google.com> <8adcbd80-f684-4e00-81b3-a2661fac895b@acm.org>
-In-Reply-To: <8adcbd80-f684-4e00-81b3-a2661fac895b@acm.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Wed, 4 Nov 2026 20:11:54 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0guHKxUKXqB2MO037X_hn9B4Qr6mfqgKShP7xLaXt0xtg@mail.gmail.com>
-X-Gm-Features: AclHuK82fCXfTCCutppNy8n6kl31mTAu99xE8kGJzMIP4eRpp98LhfMeiJfG6w0
-Message-ID: <CAJZ5v0guHKxUKXqB2MO037X_hn9B4Qr6mfqgKShP7xLaXt0xtg@mail.gmail.com>
-Subject: Re: [PATCH v2] PM: runtime: Update runtime_pm.rst for non-fatal
- resume errors
-To: Bart Van Assche <bvanassche@acm.org>, Stanley Jhu <stanleyjhu@google.com>
-Cc: Brian Norris <briannorris@chromium.org>, Pavel Machek <pavel@kernel.org>, 
-	Praveen Talari <praveen.talari@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Mark Brown <broonie@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Jens Axboe <axboe@kernel.dk>, linux-pm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1380; i=brauner@kernel.org; h=from:subject:message-id; bh=dmwAod4+27NCncmw2oz8APM07k66EUOhHcJdusbTjjg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9bjzbuC42lkN5rrFaxyvfJQdiNbQZ7W/e2Jquu5RPe /ZM3ftRHaUsDGJcDLJiiiwO7Sbhcst5KjYbZWrAzGFlAhnCwMUpABNpfM3wzy5cJTFdotRbNPeq 5U63fQ+S03+85HippbBf44binOdz1BgZPlpuOyXM5rh4Ucv0N+t5PzZYf39meEdz+QFRtsctyxa 1cQAA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 4, 2026 at 6:11=E2=80=AFPM Bart Van Assche <bvanassche@acm.org>=
- wrote:
->
-> On 11/4/26 7:16 AM, Stanley Jhu wrote:
->  > +  * If the resume callback returns an error code, the PM core sets th=
-e
->  > +    device's runtime PM status back to 'suspended' and returns the er=
-ror
->  > +    code from synchronous resume helpers.  Unlike with the suspend
->  > +    callback, failures in the resume callback are never considered
-> fatal,
->  > +    so the helper functions described in `Section 4`_ are not
-> blocked and
->  > +    a subsequent resume request can run the resume callback again.
->
-> Hi Stanley,
->
-> This matches what rpm_resume() does since commit eef1d74bf88f. A nit:
-> suspend callback failures with -EBUSY / -EAGAIN are not fatal either,
-> so "Unlike most suspend callback errors" may be slightly more accurate.
-> Either way:
+EXPRESS_IOCTL_GET_MOD_INFO fills in the addresses of the adapter, its
+pci_dev and its Scsi_Host and copies the whole struct back to userspace.
+Nothing in userspace can do anything with those addresses, and the
+ioctl is reachable through /proc/scsi/esas2r/ATTONode, which is created
+with mode 0444. Only pass the host number.
 
-Adjusted accordingly while applying.
+Fixes: 26780d9e12ed ("[SCSI] esas2r: ATTO Technology ExpressSAS 6G SAS/SATA RAID Adapter Driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+---
+ drivers/scsi/esas2r/esas2r_ioctl.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-> Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+diff --git a/drivers/scsi/esas2r/esas2r_ioctl.c b/drivers/scsi/esas2r/esas2r_ioctl.c
+index 3f7c1d131ec3..c93d9265e100 100644
+--- a/drivers/scsi/esas2r/esas2r_ioctl.c
++++ b/drivers/scsi/esas2r/esas2r_ioctl.c
+@@ -1468,9 +1468,10 @@ int esas2r_ioctl_handler(void *hostdata, unsigned int cmd, void __user *arg)
+ 
+ 	case EXPRESS_IOCTL_GET_MOD_INFO:
+ 
+-		ioctl->data.modinfo.adapter = a;
+-		ioctl->data.modinfo.pci_dev = a->pcid;
+-		ioctl->data.modinfo.scsi_host = a->host;
++		/* these are kernel pointers, userspace has no use for them */
++		ioctl->data.modinfo.adapter = NULL;
++		ioctl->data.modinfo.pci_dev = NULL;
++		ioctl->data.modinfo.scsi_host = NULL;
+ 		ioctl->data.modinfo.host_no = a->host->host_no;
+ 
+ 		break;
 
-Applied as 7.4-rc material, thanks!
+-- 
+2.53.0
+
