@@ -1,104 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.192
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793778173;
-	b=G5tXNL7UYhdYnYT4w4XnnIQFHkVeOpghs0wUVjf+p84BaC7MdUsJrB3bDZZJ4rWOuFSl
-	 R5Mfhh9j5IWVEx3wg8jnNx8m6IWpugHav0FxvBf0vEMK+4TULc1DISE/8yZLxnkL2ucqe
-	 qwrh6VGSvrEuSaxxv5lmHyoZvMCmV8ofYHjKgOAPbAVqS+3I51KD5FzURtJVsYe7mtZy8
-	 7+VYKJuFd+BoT8vb4q9qaEvumj1V3WWXSSm256hXbx1+GxvDW7sa0QmjdUTx6GZwZwqct
-	 1qsW4ukaEWi3hg7y0BBuo0iVktvEr5fxP2tFpPA5hEXCoIOBvs4KUcHC92LDpnlluZQ==
+	t=1793778744;
+	b=wdOXsho8NaSV04PkhGA1Dp4MhXU7gs7CCkBBWgWuooO1IAnlawygux4diJ62l0F8DWq0
+	 oiuR1YrqMmznnprCUbPielVO1eZXSCwvtG2/AQ8Gihvj+zHaIEDKhsA4TYSgFYQITCHBh
+	 GGCyHweUdAWAgBRqIV6ZhiGucb+I5dPAbKe59E1heET/ALZdQxqR2Dwy12U9jDfRqBHwq
+	 cZOHBKG1x8rLjVJ79xhx1XFdoUYrvjhD5ZsMhramSQ+OU6VAnBcuKrKdNm7T+I6v2c/OE
+	 xeL8vnHXvCvRggD+zd/mbwxiTaXudKDWpla/Di8OJy2WamutLZiqNTLt8tSnrga1MgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793778173;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Rspamd-Queue-Id:X-Spam-Level:
-	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:
-	 X-Spam-Score;
-	bh=2zLFLCL/b9bAd9ZrT8hb8cfeRX98D+M8elHb874j11k=;
-	b=YoGVSA4bHohs9f6mfinKDxdd3QsjdenLrstjdnxspjbCgmka5FcqU6lvaBl0l2cqFCYO
-	 +VHJX3uXoPlr3Wi/EBiz3i3zzcpveLsFWUTCkN4nX1LJ8cXFTGpFvlYA/4jXLW9yHUZbZ
-	 IfZ8WxOdije5zWQBkBLQ0eSy51BG27Q9FOOr8kicVhSFnSSGza7TXim+Hry5FOFru4LDm
-	 H/jEFbaZjN/KdjcBxqLlxMpcpcnWjcu/KaLdB2JSyBGQtj++decwJGhbltZZoIws3B3aq
-	 ktz0w0LeVFvRv8xidWA9E53Xt4JxRp/brcCOzzvMTC1dSaNFZiHbpDuzWbDTdYfHFPw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793778744;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-XMRINFO:X-QQ-XMAILINFO:From:To:Cc:
+	 Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Date:
+	 X-Priority:Message-ID:X-QQ-MIME:X-Mailer:X-QQ-Mailer:References:
+	 In-Reply-To:X-QQ-mid;
+	bh=rr2v31AaKAWwYmMIc7r6Adi1RCicIPCQioImctiyPsI=;
+	b=QXhDzccNag6piJIDX1j6mX9RxbQ/iklP0K9CytreHhfoDYbUn9mmg2Xsm5YmM+r27e1l
+	 Y2GG1HhM7OvXzIMk2nhHqrMZ+5gz2/Ri++dIp/Az3SZ7JpgHInIfHbTOmklsDUWIhH2xP
+	 EEehK5hwQObTNffv6FFM046KjYC4fU0hb3vj8WL5M3fWHyuu0RD93NMaPx0BU0MxuIh62
+	 bUhz4zp9gq6vQwhlezKD+n88hT4Fa3PlgA3KDr70eCScORTWbQA7Auf62H+Lq2Bcgpajj
+	 0uT319K7A2VhHM26g1cQJL/GViTr/SWnyUpFVoqlGDMMobJJzToKplGYbxgkONZZKxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=s4Evfq1Y;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=V9fgRPoN;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NzxAaNfH;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y2jgEy39;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=NlzusISO;
+	arc=none smtp.remote-ip=203.205.221.192
+Received: from out203-205-221-192.mail.qq.com (out203-205-221-192.mail.qq.com [203.205.221.192])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5525606A328;
-	Wed,  4 Nov 2026 07:42:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5525606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551FD606A328;
+	Wed,  4 Nov 2026 07:52:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 551FD606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=s4Evfq1Y;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=V9fgRPoN;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=NzxAaNfH;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Y2jgEy39
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id E187E1F7A7;
-	Wed,  4 Nov 2026 07:42:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793778171; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2zLFLCL/b9bAd9ZrT8hb8cfeRX98D+M8elHb874j11k=;
-	b=s4Evfq1Y+dJcpjvdG0aHRWvmAfmvylOxuRcbGH7qsc4lyOF8yEBVcHK2IbFGy1HyiDOYpO
-	KFoUKP7w3lNyQD/Rkg5nN0cE8PTDQ2E3cdmsVyYbZk3WPom7coqTvCqGNmzN4scqzfA8Jx
-	bjH6kNDL8qUWMdMaEpPiWaooZPjavho=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793778171;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2zLFLCL/b9bAd9ZrT8hb8cfeRX98D+M8elHb874j11k=;
-	b=V9fgRPoNibtncpOanIoZ+FbCYxwlPRSxcNNUso/5N2egeSUzX6PXyRpU/7jtrAQv46+rfl
-	KnWDkShuSlCp5ACA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NzxAaNfH;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=Y2jgEy39
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793778170; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2zLFLCL/b9bAd9ZrT8hb8cfeRX98D+M8elHb874j11k=;
-	b=NzxAaNfHMiG458vk55hoBIn50+WjabvpKeQfMENuM8ivPpb18CsK6KlehpvbXYpSe2FdvN
-	Hi9eThl8XpLaj90OWG0g1t8SobnN7yjXIwoFhumU/cIWirUYtL9zMN8rGUGvh+AmOjQnc/
-	M9Hi79hJu6qpwtimnuSuit0hxgnSMCY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793778170;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=2zLFLCL/b9bAd9ZrT8hb8cfeRX98D+M8elHb874j11k=;
-	b=Y2jgEy39SpR0Lj2CyUyfOfe5r2LxrffO4fQEcuwl5J5GYINEHKRx5prql+8m6dlpVrxgmN
-	eX+eHaRoiiG2HEDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1B89B134A5;
-	Wed,  4 Nov 2026 07:42:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id tMCDN/nh6mreSAAAD6G6ig
-	(envelope-from <hare@suse.de>); Wed, 04 Nov 2026 07:42:50 +0000
-Message-ID: <cfe020a7-a622-4a7e-ace3-aa427551796d@suse.de>
-Date: Wed, 4 Nov 2026 08:42:49 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=NlzusISO
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793778733; bh=rr2v31AaKAWwYmMIc7r6Adi1RCicIPCQioImctiyPsI=;
+	h=From:To:Cc:Subject:Date:References:In-Reply-To;
+	b=NlzusISOe4VyviO+Fh5QTwmSxrxrLtqdqrhxKfDnon8OW6c/9QNr1CsmyY0Wm+UTd
+	 gGAWtRvvKlAotx/iLQNa2SKd37eyEVloK7J9f915e4ZGsBxXcOCCAVydkEwHfdfwpx
+	 zqL+JPmAY4AiiYPQpJ5HgNkRKNkEkXhAKtYs6rYk=
+X-QQ-XMRINFO: MSVp+SPm3vtSI1QTLgDHQqIV1w2oNKDqfg==
+X-QQ-XMAILINFO: Ml3saj0rxilewwLbXqRKjCErbc4xuxuyWPmsVBMNNss3RQEAP6yAd1CEVl1F7O
+	 bR6f/5s7YcgQ5cqBNSYf1rOOnHvXyA0G9/TQ/BMPQfStW+NFrSbzmfwfvKuW//fod4aP2qWJSQSqQ
+	 ISA1O0h0AFCQPKed1baTxGlZn/ehdIr+NHT7tUX1ixp+aQh3sLxMql3MBxcSrVMo07XzOis8RlJiX
+	 4ZKXHpFH6/tq9EdGDwAr9oig+AIVYrYtpWzwGOMuWH9tejSa0YS6rK9r/b5Wpl1j4q2aO2U4geLNO
+	 9ASkPSkqQdE/IWsxC6BYW3rV9lIfoX3ZuFTXtU3Tfzs3CZnOJEHoJOjvepkFISq4xK2B2Cyvyu26q
+	 N0aimYeyPjqHgQkZbWEqchA2ZmDYOF4zqxEGiq0eFXa1nFq8mq6RgcKgqb4W++Z+bvPme28MbMGrS
+	 JE6TcVj9aFGxn0CQoYRR4pWvPcQ+GQDefvKgVeXpzMYqEWQmfx9lMgHakL2qzHq/Znxm7MQ8cJx/6
+	 FvPiGPGKxNAbGECmXIe7QCvslhM3GRcpggmpRz0WAyM22nun9RjyeyhaOzm22xIFpKGYsuQ9VdZah
+	 ykKVU5j/IDEa+OtNPQYyUxIJcsup1215kBJdSie8N6YOCUwrTSKfqd2Ybb2KSG48yp8103BHSiJpV
+	 0IAsRLmsfsUD89xvymLhkytcYuESXI6AfIun8lesINyedj6JmQTZh+r5rYz1+D0zr2XcfMs6ME2GO
+	 no8+dqg5LWThs5n7H7f+F7U7A9cBqMSPNVP7nC90/n5PIVyI6DTICU4VwNm2yn/ey08WGL1AYtGKQ
+	 KsDZClpFqTfBKA8BDQ59dTiemuRiV+RhZL+yLvD7slOKZswJPE+aZl/ogYbNfYMJvhrWZlG0PG+Yy
+	 NZmp/TJI5ZilR2HctJ1yJwb7/si/gvl8Q+mWBiyfCaNCs3hPSXouQ4feA+rV9XCJgnJD1+5VJIGUo
+	 5Re2nEnuwlBFN9MWmJcbxUN8rhPoSibRgqHSnjuNphZWU3vIUnegbkPwXWqlkabnP+D+Pmu3Gdn0a
+	 437bc
+From: "=?utf-8?B?Q3VuaGFvIEx1?=" <1579567540@qq.com>
+To: "=?utf-8?B?bmV0ZGV2LWJvdCtzYXNoaWtv?=" <netdev-bot+sashiko@kernel.org>
+Cc: "=?utf-8?B?bWts?=" <mkl@pengutronix.de>, "=?utf-8?B?bWFpbGhvbA==?=" <mailhol@kernel.org>, "=?utf-8?B?aGVpa28=?=" <heiko@sntech.de>, "=?utf-8?B?ZGF2ZW0=?=" <davem@davemloft.net>, "=?utf-8?B?d2c=?=" <wg@grandegger.com>, "=?utf-8?B?c29ja2V0Y2Fu?=" <socketcan@hartkopp.net>, "=?utf-8?B?a2VybmVs?=" <kernel@pengutronix.de>, "=?utf-8?B?ZWR1bWF6ZXQ=?=" <edumazet@kernel.org>, "=?utf-8?B?a3ViYQ==?=" <kuba@kernel.org>, "=?utf-8?B?cGFiZW5p?=" <pabeni@redhat.com>, "=?utf-8?B?aG9ybXM=?=" <horms@kernel.org>, "=?utf-8?B?Y29yYmV0?=" <corbet@lwn.net>, "=?utf-8?B?c2toYW4=?=" <skhan@linuxfoundation.org>, "=?utf-8?B?cmR1bmxhcA==?=" <rdunlap@infradead.org>, "=?utf-8?B?bGludXgtY2Fu?=" <linux-can@vger.kernel.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, 
+	"=?utf-8?B?bGludXgtYXJtLWtlcm5lbA==?=" <linux-arm-kernel@lists.infradead.org>, "=?utf-8?B?bGludXgtcm9ja2NoaXA=?=" <linux-rockchip@lists.infradead.org>, "=?utf-8?B?bmV0ZGV2?=" <netdev@vger.kernel.org>, "=?utf-8?B?bGludXgtZG9j?=" <linux-doc@vger.kernel.org>, "=?utf-8?B?c3RhYmxl?=" <stable@vger.kernel.org>
+Subject: Re: [PATCH net v6 1/6] can: dev: prevent bus-off recovery when the interface is not running
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,101 +68,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 4/6] tls: update the RX key when a KeyUpdate
- is received
-To: martin.nvme.dev@gmail.com, John Fastabend <john.fastabend@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>,
- kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Martin Belanger <martin.belanger@dell.com>
-References: <20261103-keyupdate-rfc-v5-0-de1ab90a88d5@gmail.com>
- <20261103-keyupdate-rfc-v5-4-de1ab90a88d5@gmail.com>
-Content-Language: en-US
-From: Hannes Reinecke <hare@suse.de>
-In-Reply-To: <20261103-keyupdate-rfc-v5-4-de1ab90a88d5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: E187E1F7A7
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.00 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[22];
-	FREEMAIL_TO(0.00)[gmail.com,kernel.org,queasysnail.net,davemloft.net,redhat.com,lwn.net,linuxfoundation.org,infradead.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.de:dkim,suse.de:email]
-X-Spam-Score: -12.00
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Wed, 4 Nov 2026 15:52:11 +0800
+X-Priority: 3
+Message-ID: <tencent_CD800791DD8FA7E989A65526222168C42605@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+References: <20261017-rockchip-canfd-restart-close-v6-1-ed605feb4b6e@qq.com>
+	<179237863891.3135.16148468658160918424@kernel.org>
+In-Reply-To: <179237863891.3135.16148468658160918424@kernel.org>
+X-QQ-mid: xmsezb41-0t1793778731ti26akn17
 
-On 11/3/26 10:43 PM, Martin Belanger via B4 Relay wrote:
-> From: Martin Belanger <martin.belanger@dell.com>
-> 
-> When a KeyUpdate arrives, kTLS blocks reads with -EKEYEXPIRED until
-> the user installs the next key. A kernel user such as nvme-tcp or
-> sunrpc never does, so the connection stalls.
-> 
-> For a socket with a registered RX secret, derive the next key and
-> install it when the KeyUpdate is decrypted. The record is not passed to
-> the user, so recvmsg(), splice() and read_sock() go on to the next
-> record. Without a registered secret the behavior is unchanged.
-> 
-> A KeyUpdate that is not alone in its record, has a wrong length or an
-> invalid request_update value ends the connection, as RFC 9846 section
-> 4.7.3 requires. So does a peer that sends more than 8 KeyUpdates in one
-> second, the same limit as GnuTLS. That case is counted as
-> TlsRxRekeyError and logged, rate limited.
-> 
-> Reviewed-by: Chuck Lever <cel@kernel.org>
-> Signed-off-by: Martin Belanger <martin.belanger@dell.com>
-> ---
->   include/net/tls.h       |   7 +++
->   net/tls/Makefile        |   3 +-
->   net/tls/tls.h           |   2 +
->   net/tls/tls_keyupdate.c | 155 ++++++++++++++++++++++++++++++++++++++++++++++++
->   net/tls/tls_sw.c        |  38 +++++++++++-
->   5 files changed, 201 insertions(+), 4 deletions(-)
-> 
-Reviewed-by: Hannes Reinecke <hare@kernel.org>
+SGksCgo+IERvZXMgdGhpcyBjaGVjayBhY3R1YWxseSBjbG9zZSB0aGUgd2luZG93IHRoZSBz
+dWJqZWN0IGxpbmUgZGVzY3JpYmVzPwoKTm8uIFRoZSBjaGVja3MgcmVqZWN0IHJlY292ZXJ5
+IHRoYXQgb2JzZXJ2ZXMgdGhlIGludGVyZmFjZSBkb3duLCBidXQgZG8Kbm90IHNlcmlhbGl6
+ZSByZWNvdmVyeSB3aXRoIGNsb3NlLiBUaGUgRmxleENBTiB0ZWFyZG93biByYWNlIGFuZCB0
+aGUKSEkzMTEwIHN0YWxlLXdvcmsgY2FzZSBhcmUgcmVhbCwgcHJlLWV4aXN0aW5nIGlzc3Vl
+cy4gVGhpcyBwYXRjaCBuYXJyb3dzCnRoZWlyIGVudHJ5IHdpbmRvd3Mgd2l0aG91dCBjbG9z
+aW5nIHRoZW0uIFJvY2tjaGlwJ3MgZWFybHkgY2FuY2VsbGF0aW9uCmFuZCBmaW5hbCBjYW5j
+ZWxsYXRpb24gYWZ0ZXIgSVJRIHRlYXJkb3duIGRvIG5vdCBmaXggb3RoZXIgZHJpdmVycy4K
+Cj4gQ2FuIHJlc3RhcnRfd29yayBzdGlsbCBiZSBxdWV1ZWQgYWZ0ZXIgY2xvc2VfY2FuZGV2
+KCkgYW5kIHRoZW4KPiBvdXRsaXZlIHRoZSBuZXRfZGV2aWNlPwoKWWVzLiBISTMxMTAncyBJ
+UlEgdGhyZWFkIGNhbiByZXRhaW4gYSB0cnVlIHJ1bm5pbmcgc25hcHNob3QgYWNyb3NzIHRo
+ZQpjYW5jZWwsIHRoZW4gcXVldWUgdGhlIGNvcmUgd29yayBiZWZvcmUgZnJlZV9pcnEoKSBm
+aW5pc2hlcy4gUmVtb3ZhbCBoYXMKbm8gbGF0ZXIgY2FuY2VsbGF0aW9uIG9mIHRoYXQgd29y
+ay4gRGVzdHJveWluZyB0aGUgZHJpdmVyJ3MgcHJpdmF0ZQp3b3JrcXVldWUgZG9lcyBub3Qg
+ZHJhaW4gdGhlIGNvcmUgcmVzdGFydCB3b3JrIG9uIHRoZSBzeXN0ZW0gd29ya3F1ZXVlLgpD
+aGVja2luZyBuZXRpZl9ydW5uaW5nKCkgZnJvbSB0aGUgY2FsbGJhY2sgY2Fubm90IHByb3Rl
+Y3QgZnJlZWQgbWVtb3J5LgoKQmVzdCByZWdhcmRzLApDdW5oYW8gTHU=
 
-Cheerx,
-
-Hannes
--- 
-Dr. Hannes Reinecke                  Kernel Storage Architect
-hare@suse.de                                +49 911 74053 688
-SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
-HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
