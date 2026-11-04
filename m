@@ -1,73 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793802256;
-	b=ALs6TT6D3BSFEkLOCXD4lbZMQK1kaztbHrVt2E6nNQsM5FJbu5/fzBV7VIrBy2+yOSU1
-	 g9/IvPneA5l+yzlvIPZS8EV8snAoxTaHho+FxVN0taifBDBdYeppYAvziCxNWmjzP3Kub
-	 T/VQ0jE89Fx8qK7JfjuwItqITP7F5JOTJ6Xue9cT0VIAeYwWCcA7bxHCufX1sgiHe2FfS
-	 B+ODNmmh9Cow+K2ZXbZvKwOB6kvtpOCgU2ad/KPlFu7cfX/f6YHOXFjeuKRmeqIZfd3Ce
-	 TblhO/EShuvH+BtwnnZA0XPsdjebQCtAbOGH34Wp8PgSB4UeFy1r8OMvpxHuXjIgUfg==
+	t=1793802313;
+	b=yJtu3yXwwiz4jbtqHNFRHqGeEkMsuo4h8JNIDZoV5ptcO+g4bB4hEudArRN3LGfBtFW0
+	 y7U5+jNBUK0hy4/BJSj1XBVYDDzgLwuor3F9XJsCiS0WjuKGnj0fq+Ana5ZU1mC71s3TC
+	 EZIdyMsYcQMl6Yw/QTekwCIlA6pcU9Rsv70CM8oZHOFK84LdaH/KWpRKsMZpuzoTZkRtq
+	 FsWRyX4DedYVHfBSK3dmb46aerW97MOQwspGqp4uB7z4OR3HLwX9X3cznPS/hNJNLVEhF
+	 JQCzkq8zFArXlBOvMG7f3YBrNBY2qzzONkkSkjykpe19Vwtq1lFGt7NnyL39oHzROoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793802256;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=LT4QhNCuGhtvYaGuZ1YT+0MRJJqhUJ12cQ6XYhOTJgY=;
-	b=mHABGTdJ0gsBtS5u3Sm4qPvSOP0Kv9ZkDc/L1pY4yF8Qow0tFhTmfIpa++qMIIMQTtT0
-	 pde3abpV5pzbZocuBmHhyS6rDFXGUQ6GaErE8KYjx3VJL8zHF0AqykoRfUc711cggO/+h
-	 iFYF627/kbZw4NeTjmtAz34iKBFFCMc6/BIagBfgHFvcy3yk+hPkW6ZshG8AW9wosQ5GK
-	 DqY57Wx1NjdJMrsNW3RQjWWp5KUTycojQ0eU/g8tJbNBTUBO43DtTwHSENqwZqxmkEQcK
-	 NegCnyVqodzEtCBt/0ts+nm8VhzoDXvNI6O1RTmL+vrxE9eNGInjQQLFnmm1n8NTq7g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793802313;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=tZW6BR9vwrayTNKI8W7w9kReBz4l5H0o0D9sCFw8bAc=;
+	b=0pfwTA+rciTDR03zqmz7OjcIvDxDAveEcVKnZd0eyW+xUXlBcISRGmTguzdoT87e8EsN
+	 s+MOaaFydjOHPLBGLhJTjoQ2E8iVCsCnhHQ31IboQx9AwftvyKY0SquekeWvyvGQSeBWV
+	 eQQ+9cfc9BEaOgfdhqLGphOejP8OCwtNVUMzLvKRbZ2XDD6yhPAGlfAV3NdAdciFTnKkO
+	 vKYmEL2tZGLRRwN+4vp0vX3+pkwjw6DUL3h6MD4trkmgIFkmyqCDqQ4YqfFc85ZHd4RFF
+	 x4MmHRyg1ul5GF1/mwigg/lbEKUXmv4/HoUjmpVqm24IX0zudh5gCg/HC7UrJcjoeCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ejUyoupl;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141D4606A31B;
-	Wed,  4 Nov 2026 14:24:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 141D4606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bABADEyK;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 733E7606A334;
+	Wed,  4 Nov 2026 14:25:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=ejUyoupl
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 36AF81D34;
-	Wed,  4 Nov 2026 06:24:12 -0800 (PST)
-Received: from localhost (unknown [10.2.196.114])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DAD8A3F673;
-	Wed,  4 Nov 2026 06:24:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793802255; bh=p/DbzJh9fxRbnRCpJa3VaWBb0VSwvoJXFXtDwP7M4UM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ejUyouplR6xIahybJGnDj5M0O72FEHZUsM4v7yfuiYbScyq64hyzW8kFrpxd5j3vu
-	 pdyVMZvfh3SZPkOBo7jMB7qqAXuV9Zf7Z0zhGTI2WMSDrSCL9ZIUSxfLYOCY7oMGPC
-	 4QacAJ6NY8RdcO9bbXighOJU3kREXelzU/b11eI4=
-Date: Wed, 4 Nov 2026 14:24:12 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Leo Yan <leo.yan@linux.dev>, Adrian Hunter <adrian.hunter@intel.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>, Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
-	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, John Garry <john.garry@linux.dev>
-Subject: Re: [PATCH v3 04/18] perf cs-etm: Use per-CPU queues for per-thread
- mode
-Message-ID: <20261104142412.GI9176@e132581.arm.com>
-References: <20261102-james-cs-unformatted-per-thread-fix-v3-0-dbcb0c281b9b@linaro.org>
- <20261102-james-cs-unformatted-per-thread-fix-v3-4-dbcb0c281b9b@linaro.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bABADEyK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94BA41F00A16;
+	Wed,  4 Nov 2026 14:25:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793802313;
+	bh=tZW6BR9vwrayTNKI8W7w9kReBz4l5H0o0D9sCFw8bAc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=bABADEyKkYq/reQcFV5A5OykrD/wWoqqHZBgx0Szo9PbBI5tzJy/dZXWQvg2Znfqm
+	 cflloeK9kR25Chxa9tAsmFgj+p+k0cCGvh3/9RCbOAIRfiMoBg7EGjsH3X9JOYfr0+
+	 yB+9+dDSJ1ZQI3jInQk7zdTkXpXVaU8vJWJe0H7ejwtozZVFoDQhacUZ4b493LVl7I
+	 xURyeQf86+6Ec2VztQ7g4gywOAqevw/7/AmnYzAf7L6+eI8HtmQldkvLL1NwOMI1l4
+	 47C2WZk92rcr8F55j+CCG0lHXt8qLf0kk/seS/g7cjgwDMFgFgN/hka9xRHjt8LFvK
+	 6ctdlGadIMgMA==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org,  linux-doc@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,
+  linux-mm@kvack.org,  Alexander Graf <graf@amazon.com>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
+  Christian Brauner <brauner@kernel.org>,  David Hildenbrand
+ <david@kernel.org>,  Hugh Dickins <hughd@google.com>,  Jonathan Corbet
+ <corbet@lwn.net>,  "Liam R. Howlett" <liam@infradead.org>,  Lorenzo
+ Stoakes <ljs@kernel.org>,  Michal Hocko <mhocko@suse.com>,  Mike Rapoport
+ <rppt@kernel.org>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
+ Yadav <pratyush@kernel.org>,  Randy Dunlap <rdunlap@infradead.org>,
+  Samiullah Khawaja <skhawaja@google.com>,  Shuah Khan
+ <skhan@linuxfoundation.org>,  Suren Baghdasaryan <surenb@google.com>,
+  Vlastimil Babka <vbabka@kernel.org>
+Subject: Re: [PATCH v3 04/10] mm: Rename memfd_luo to shmem_luo
+In-Reply-To: <20261103010216.3447716-5-dmatlack@google.com> (David Matlack's
+	message of "Tue, 3 Nov 2026 01:02:10 +0000")
+References: <20261103010216.3447716-1-dmatlack@google.com>
+	<20261103010216.3447716-5-dmatlack@google.com>
+Date: Wed, 04 Nov 2026 15:25:08 +0100
+Message-ID: <2vxzqzh0k723.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,56 +71,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102-james-cs-unformatted-per-thread-fix-v3-4-dbcb0c281b9b@linaro.org>
+Content-Type: text/plain
 
-On Mon, Nov 02, 2026 at 12:15:18PM +0000, James Clark wrote:
+On Tue, Nov 03 2026, David Matlack wrote:
 
+> Rename the memfd Live Update file handler from memfd_luo to shmem_luo,
+> including the source file, its KHO ABI header, its documentation and its
+> Kconfig option (CONFIG_LIVEUPDATE_MEMFD to CONFIG_LIVEUPDATE_SHMEM).
+>
+> The handler preserves shmem files. Today those are memfds, but following
+> commits extend it to other files on tmpfs mounts, for which the memfd
+> name is confusing. Preserving memfds created with MFD_HUGETLB, which are
+> hugetlbfs files, will need a separate handler, so naming the handler
+> after the filesystem that backs the files also avoids having to rename
+> it again then.
+>
+> Don't change the compatible string of the handler, "memfd-v2". It is
+> matched against the preserved state from the previous kernel, so
+> changing it would break live updates from kernels that use the old
+> name. The serialized format doesn't change either.
+>
+> Also clarify in the documentation that memfd means a memfd created
+> without MFD_HUGETLB, and name the ABI documentation after the handler.
+>
+> No functional change intended.
+>
+[...]
+> diff --git a/kernel/liveupdate/Kconfig b/kernel/liveupdate/Kconfig
+> index f50daee8eff0..9a1c49e2e0c4 100644
+> --- a/kernel/liveupdate/Kconfig
+> +++ b/kernel/liveupdate/Kconfig
+> @@ -69,7 +69,7 @@ config LIVEUPDATE
+>  
+>  	  If unsure, say N.
+>  
+> -config LIVEUPDATE_MEMFD
+> +config LIVEUPDATE_SHMEM
+
+Update the description too?
+
+LGTM otherwise.
+
+Acked-by: Pratyush Yadav (Google) <pratyush@kernel.org>
+
+>  	bool "Live update support for memfd"
+>  	depends on LIVEUPDATE
+>  	depends on MEMFD_CREATE
 [...]
 
-> @@ -2215,6 +2209,29 @@ static int cs_etm__get_data_block(struct cs_etm_queue *etmq)
->  	 */
->  	cs_etm__flush_all_stack(etmq);
->  
-> +	/*
-> +	 * Per-thread mode still uses a queue for each CPU, but that CPU can run
-> +	 * different threads. When the TID from the AUX record on a CPU changes,
-> +	 * re-initialize the thread using the AUX record/buffer fragment TID so
-> +	 * we can start decoding even if the context ID packet was cropped or
-> +	 * they're disabled.
-> +	 */
-> +	if (etm->per_thread_decoding) {
-> +		struct cs_etm_traceid_queue *tidq = cs_etm__etmq_get_traceid_queue(etmq,
-> +							CS_ETM_PER_THREAD_TRACEID);
-> +
-> +		if (thread__tid(tidq->decode_thread) != etmq->buffer->tid) {
-> +			thread__zput(tidq->frontend_thread);
-> +			thread__zput(tidq->decode_thread);
-> +			tidq->frontend_thread = machine__findnew_thread(
-> +				&etm->session->machines.host, -1,
-> +				etmq->buffer->tid);
-> +			tidq->decode_thread = machine__findnew_thread(
-> +				&etm->session->machines.host, -1,
-> +				etmq->buffer->tid);
-> +		}
-> +	}
-
-Why not use PERF_RECORD_AUX events as an opportunity to update threads,
-similar to how we handle PERF_RECORD_SWITCH_CPU_WIDE?
-
-> +
->  	return 1;
->  }
->  
-> @@ -3288,7 +3305,9 @@ static int cs_etm__queue_aux_fragment(struct perf_session *session, off_t file_o
->  
->  	if (aux_offset >= auxtrace_event->offset &&
->  	    aux_offset + aux_size <= auxtrace_event->offset + auxtrace_event->size) {
-> -		struct cs_etm_queue *etmq = cs_etm__get_queue(etm, auxtrace_event->cpu);
-> +		/* Old per-thread files have no CPU (before v6.4) */
-> +		int queue_idx = sample->cpu == (u32)-1 ? 0 : sample->cpu;
-> +		struct cs_etm_queue *etmq = cs_etm__get_queue(etm, queue_idx);
-
-For per-thread mode, auxtrace_event->cpu is -1. So this is why we
-resort sample->cpu to retrieve CPU ID. This makes sense to me.
+-- 
+Regards,
+Pratyush Yadav
