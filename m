@@ -1,89 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.252
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793763065;
-	b=vqY+dTowO2k7S/OBT0u20sG/mWGsF+8z0g1WgI9ErIkh59lkjL82UR2qN/YvaRVDt+de
-	 XZB8hXeS4awzxkJaW89GaMDGxHuHn2jkc2O+1Ic0OCGW8o+bbHb4CCPvgK81HbaAmyiHe
-	 hs5Jz5T3EDVhqCDx1OvnSjoPjnlT+pi+Wqj+NQN0/4UZH6MzA8l1euxjo+qJgWpwSxxaW
-	 xIMtmuwlWYTZ6EWDvvGUeykcIaVqU57yw2eEZ3ETEh6KxSkPnt8f0cQM4oS4tV+JbBVdJ
-	 3uNLz+SVUwSZDEgFXpvPzgsXKnXYHjUrCqrX1dITjlKn06lAJbxyYm/JViRIXgnanhA==
+	t=1793763370;
+	b=s3xrEY7Qox/WDtlnXQObwsaC/HXLAKXUxYdxTKqdRQuFos5tuOiE+8gsBI2UZzSq2nrz
+	 aYbOZ8oFbr2rvHNdTMoP/6uN3X3ukuosqNB0nmqF+fg+9HvmdBkSWLHQOwK7UE8eAnAQe
+	 DeXD56rbyXUvdBAH5T3t//uOm0v+3jVBac9SdrIJ+Cu82ozxfOFZkEkzjRhDeT8IU1fkz
+	 M/5VcwzyYcYxpSlLBIWuTRn4dNCe5DbCd9ItpuqnijUvkTpUnyzJLqv9xUWO4eme9H9kr
+	 T3FSq5SUEdhqvDz7NjRHt4ZJEBys2fJLA0ytMHSoKIC0rQQnbtY1krm+kFV69wabm/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793763065;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:Received:Received:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-ID:References:
-	 In-Reply-To:To:CC:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-ADIRuleOP-NewSCL:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=gYmfumV77hgTcrnkAYA73Eynhf0dC8zy2SHDeEzL2rc=;
-	b=SvgOZviXdkxPqW2p4cqQw2SXei1IULcyaCYR+0KB7CuEAuUzOzNLXlgJzK7Y0VKV5W7p
-	 kYtuJtXzacMx7QGHGKusMbNkncxAdqIKPXYjI3eCIdQ6W861txjWeAucMnV5Jp9m4kWPK
-	 iQwxA6nAjvDJuXncOImDGzE4KdLe0i6CqwYrsbN4CDb1npY7/6XpHc6XuQrpoWOVNfvU9
-	 by7lPu0PUuDycQj7EeeFIKwjEZ7KasKBQdJPAjsgwKpkWd8qzEhIf5omvgPoEuSNEOyTb
-	 BeCvmu3dkCQ5Thv4AWAwJITg+PoHO879yJgEpmRebiGMUL9nQfdCZJFMVR98OtgqCHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793763370;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=qpopuN+doQba10jwAd2uL5NWTJlgEoGqpws2vkRC128=;
+	b=K+8f7+Ptss9CI8FhkC+wIpaRK5uksZA9lFZyXcAG4/gvVeR3ZjPFxDaZPxMWggtMQ/LO
+	 JGWpk0SJ4lqCVDy4rDZmLRnnsyYIagULugMdx5cxnToSRWMbDce7jbqFjF+vgLM2zHhjX
+	 zjdhZeqh99eK7v9R1OfEegKIzhkA9/qlYmbnfRJTaUmg67N1u0/k4UlNw5qQmsroslsQL
+	 d0rNK47lDmVIbTX486vFa5BB0AAqY4F2VdbeQXDVQjrLtW6kQ7/sdmMCTppjMHxKly1HW
+	 XsiaHMETq4tO8gSXz50TIW5LXhlaUGt2k0oDClbkQQJ8Ayw9vOFcYEWcwB9MC6aSBYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=analog.com;
-	spf=pass smtp.mailfrom=analog.com;
-	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=jNOY79xH;
-	dkim=temperror header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=xEYgEfII;
-	arc=none smtp.remote-ip=148.163.135.77
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=xOVFg9lH;
+	arc=none smtp.remote-ip=162.62.57.252
+Received: from out162-62-57-252.mail.qq.com (out162-62-57-252.mail.qq.com [162.62.57.252])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48711606A32F;
-	Wed,  4 Nov 2026 03:30:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 48711606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B45606A329;
+	Wed,  4 Nov 2026 03:36:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15B45606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=jNOY79xH;
-	dkim=temperror header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=xEYgEfII
-Received: from pps.filterd (m0167089.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A42vx0l581426;
-	Tue, 3 Nov 2026 22:30:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	DKIM; bh=gYmfumV77hgTcrnkAYA73Eynhf0dC8zy2SHDeEzL2rc=; b=jNOY79x
-	HtJqySNgy5GqZzopjYPb7pRcjqlTHnuMq14b/vQ6rQ16ZtiOMXhjuFVoZ/J5ijRg
-	829AReRml5Ce6Fn0GmXHxxRZWhnM5/YD88H/K/B0rnGfOzJ2FElINlVjNl5KbCq4
-	aTmt61MLsFl4+u3w2xiuhFakeAD7WaBQIsc2Bv5SKoFRvL3EmkFZTXi0DP6HtuA8
-	BSBBiSzrwyS+s8v89JNP8XNayTbSE6mjNcKxHMxynr+YhY7GlrxsYhV+lqbn3Ti8
-	tpDcmvYyeYjaWpTlhrUNRbIb3EZDH/ClACKZXhgfxuT6WpomaxfcuhQa00BmLqCf
-	PDLNCP1GJEo00+w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=gYmfu
-	mV77hgTcrnkAYA73Eynhf0dC8zy2SHDeEzL2rc=; b=xEYgEfII3HIXf/fe/OoG8
-	AZwEexdVw2rpwtTpbtS/Ah+uNabnqHCQwKkVCLEeoy+PW8EbYTqDBA6QWmYUvv4F
-	aTP/Q2vBL938Z+ZHFZlYxNQE1QbDJDrlFcUmMZ+zBoOR67z9GET0wil0sX+vzKV1
-	soBEOn6Akeu9L0V9JZJ+oUJsXw7p2b+/e7XAU+KGjYiv9y8k/C03Saf7//PFMSlZ
-	irqHePRYI04tH9pvfReI2N+j3f69zkgihBqXEmK9OI3zlL5cMoZ89v6n5JGP+JQd
-	qQHXLlEPNiM8IDgi2nPZj8cgurxuO546P9cfFwNSC98Di3oRGOu7NkwB8zNWwL9d
-	A==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4hqk2pu4sa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 03 Nov 2026 22:30:31 -0500 (EST)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6A43UUU0039061
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 3 Nov 2026 22:30:30 -0500
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Tue, 3 Nov
- 2026 22:30:30 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Tue, 3 Nov 2026 22:30:30 -0500
-Received: from ATORRENO-L02.ad.analog.com ([10.66.6.191])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6A43U7Ha022108;
-	Tue, 3 Nov 2026 22:30:21 -0500
-From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Date: Wed, 4 Nov 2026 11:30:00 +0800
-Subject: [PATCH 1/3] dt-bindings: hwmon: ltc4283: add ltc4284
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=xOVFg9lH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793763364; bh=qpopuN+doQba10jwAd2uL5NWTJlgEoGqpws2vkRC128=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=xOVFg9lH4YTSIAE/AXyJCGsXfAz+7y1ZhZ5MKJ9xf/EDnKqRu+B80lAE5+GgpbTAT
+	 wpni1abKj3hPREZ+zWkVN8NDCcocXMfYPsL0hhD4OaFhNEUEwXsm1ka1SDNB80XH1d
+	 rxetMxzR8gn8x8fhJyrhXNSCcSC1jkf02jlSRJyQ=
+Received: from hub.zhongying.com.zhongying.com ([2409:891f:8f46:1a8b:2dd5:45b2:eebc:59b4])
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id 8DBB9AD2; Wed, 04 Nov 2026 11:35:27 +0800
+X-QQ-mid: xmsmtpt1793763361th133irx5
+Message-ID: <tencent_1E208C03035DF063166FD46C1DA1978F6306@qq.com>
+X-QQ-XMAILINFO: MZtEYADUG4AgHR8pUw7izfIXguPi5//qyNitnHngK09yoAuitbbDAMiCye2ku5
+	 wEPVkXHIN4weRhn5RKColmvGD39TvYSlOJKmX7ooq2FJg8gEce0l0wSIELnzlptvQpUfOj8rBTp1
+	 6EMzwuiQ1U8LGoD0LMaYxOhAqIygsTXtY+5R1y+oTg/EYkec8IFq1fkxiN+2i1dHK0ex/vSZ5QgU
+	 Pf7/h8ckpxN9Wx7ag60uv1tryRnt90r7y8HjMQa+WFeY3ZCkxxdoAU762leBFitDSuQECPnROJFv
+	 FGk12iiemQoz97ysigqYrRtZBmYNM5pVP2/ImgiZb+oyluZ4K7UwfTHkR9khTDUAn1a4uM943wq4
+	 SIXb1NjsjkdvjWvUAOk/ajaPX+CWu5mWUqCLExXBuubW9LvjmsjGjOUqwfI1EfDytWWBAv5jiaO5
+	 BZYlglfyBLlwPicG4sf+sm6xgVI3KlfadOAmwo1qvlBK00WQ+xy9YIupOW9HR4IoF8s63P2VtZW/
+	 fCTFfcCHYa868Hu+XQQ38QWApmCl8oIpHr33+qC3kYK4xWcVtHXAz0+Vu0Fsda8+of2By0HVmrfc
+	 mh35RiUmH5rNmCjLgBGhSRyKpToKP897qMjRTAbYKE7dKCOLgeoMsGGXjJaSTM60wvXsj/iqeP1s
+	 dVPRQ/2jw4IlRAt6DXu9gbk4Y7hjww88nQPwlCT921FaWg2GqvyD+orBLGkLM+QbvOXAgwyZ7QK5
+	 NkmhVXpHSaK3+ibMVFtZpmyuTw4ch/4swYZNIym3dsjwZVPxYfNeQ9ZRLZ1n3y0fM39RP6qnPb9B
+	 kDiG6Ol76/s1zdCv61V06Lo8R99UurHXGquNuTCoHtZxGWFLileb13KjoD6B4J4g7eDujsBRNN9t
+	 brct2OoK4o5KbWAsgMjUvm7qGSnT3GQr7/fRb4IjIIpvuc4uZB51DUjm86fBLMo8HHonJ3GpHTZE
+	 kyGBlRAH5vMfrI/cVYFKe9ZX4ZBTuaFH+GkfuuwKFCj+nh8KC4f8LOL9BofNBUijJ8lKe63W4R2N
+	 WTf89P08YNqNTWGs4nXwENeq/W/l+mfUvIzRtf93tlA8uowgLWnsnCbPBp2pZIhSlsydikx6L/0m
+	 mdvjap
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+From: patrick <work_patrick@qq.com>
+To: netdev@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	linux-kselftest@vger.kernel.org,
+	linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next 1/2] netlink: add an optional per-netns ROUTE multicast index
+Date: Wed,  4 Nov 2026 11:35:25 +0800
+X-OQ-MSGID: <20261104033526.2917590-2-work_patrick@qq.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261104033526.2917590-1-work_patrick@qq.com>
+References: <20261104033526.2917590-1-work_patrick@qq.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,171 +90,279 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-ID: <20261104-staging-ltc4284-v1-1-49fce67ebc48@analog.com>
-References: <20261104-staging-ltc4284-v1-0-49fce67ebc48@analog.com>
-In-Reply-To: <20261104-staging-ltc4284-v1-0-49fce67ebc48@analog.com>
-To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-        Guenter Roeck
-	<linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
-	<rdunlap@infradead.org>,
-        Linus Walleij <linusw@kernel.org>,
-        Bartosz
- Golaszewski <brgl@kernel.org>
-CC: <linux-gpio@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>,
-        Alexis Czezar Torreno
-	<alexisczezar.torreno@analog.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1793763007; l=3536;
- i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
- bh=ACu8B+VQwMlj+xO1RLKzl0xgoDpW97SlVRbOYHQd84I=;
- b=w20T5jdj2UqSG/Irhp6w8q5f707t399cv7mbq0iSh49SFSYoOgCctTEjTDqMc/Xvj1wR2f8il
- NhWgxxHnw1yBYm+W7dWSa6u04Pwf/7Tx+x3VOZ2w/XScm2yrvhJAFq0
-X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
- pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-GUID: Sx-IsEG8UAdakJt6DgX7PNASqu7bvnZF
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDAxMyBTYWx0ZWRfX85edNpGHFIyt
- Z4qFC/5RoeoY1XlQwRpOP1rqo3haKGb/aWy746/XHb0sROLIT8rhMcCbzEuLV+9Bt1jNABxzeKA
- msu72ocGbGH5AWLxKn1HbTmQ7p9pI4dXlsm1/wicY+2PoD+Zv5X6
-X-Authority-Analysis: v=2.4 cv=NPlAaE6g c=1 sm=1 tr=0 ts=6aeaa6d7 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=Z0pTeXoby7EwIRygza74:22 a=gAnH3GRIAAAA:8
- a=YjxJmSmyZUQDncK08pIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: Sx-IsEG8UAdakJt6DgX7PNASqu7bvnZF
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDAxMyBTYWx0ZWRfX4k7sKCix1qud
- AIEZ+E2BzGu4/ZK6IXHe4fFKkRsl1aeDLh8cidwFR6enYIYkBJ9f1nQRlA/J5zlkfAHNoYGAA3t
- IhsDy3eXBrZZjHwnpPPt0Jbroqwb/WXxlAbdT9qgCAR+vTOhAd3P1OI6+CxI7PjflufR0c7Qt0g
- yDGslHHNZn7SJQtoKG8F814r8iH+50JJspjFZP6WTfbDlV68/EwAZsc8CwTBoeMSTW81IJP/TTX
- qgaZvP4quDHckrLP3NJ8MJo+npP1bVydw0QhncdjS/10/DQoGOQ2bYClwG2iqlnpm6YRyvQvTKk
- p/WD6vX91REHFSc0bvOAZ3csZQGqojPHzQwuWc4ka/rgUEy+P1Ydr9aFihLnCMTNSVkqpFm1RTb
- KBaD+IKSo5aEPa94Is3rRbSGR6ITDE9WT9PCuc0VmP+rNnwmRX0NQ23N4zWSjtNUrAFbNr/bZiq
- Y4F3VnTJkmK0y1S44YA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-04_01,2026-11-03_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 impostorscore=0 suspectscore=0 bulkscore=0
- clxscore=1011 priorityscore=1501 spamscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611040013
 
-The LTC4284 is a negative voltage hot swap controller that drives an
-external N-channel MOSFET to allow a board to be safely inserted and
-removed from a live backplane.
+NETLINK_ROUTE broadcasts visit subscribers in unrelated network namespaces
+before checking whether they can receive a notification.
 
-Note that this device has a MODE pin that is determined by differing
-voltage levels (VEE, VIN, INTVCC, or left open) and cannot be
-controlled via software or GPIO.
+Maintain one ROUTE subscriber list per network namespace and one global
+LISTEN_ALL_NSID list. Select those candidate lists when the new
+net.core.netlink_route_mc_index sysctl is enabled. Exclude local sockets
+from the second list to avoid duplicate delivery.
 
-Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Preserve do_one_broadcast and the existing broadcast initialization,
+locking, completion and error handling. Change only candidate selection
+inside netlink_broadcast_filtered; do not force function inlining or add
+separate broadcast setup, completion or indexed-walk helpers.
+
+Use the existing table-grab protection for index maintenance at
+subscription, option and removal transitions. Keep both indexes populated
+while disabled so switching modes includes existing sockets immediately.
+The sysctl defaults to zero, is visible only in init_net and affects all
+network namespaces. Other Netlink protocols retain the original walk.
+Disabling the switch retains index maintenance and memory costs.
+
+AI assistance: An LLM assisted with implementation adaptation and
+simplification.
+
+Signed-off-by: patrick <work_patrick@qq.com>
 ---
- .../devicetree/bindings/hwmon/adi,ltc4283.yaml     | 57 ++++++++++++++++++++--
- 1 file changed, 53 insertions(+), 4 deletions(-)
+ Documentation/admin-guide/sysctl/net.rst |  27 ++++++
+ net/netlink/af_netlink.c                 | 109 ++++++++++++++++++++++-
+ net/netlink/af_netlink.h                 |   4 +
+ 3 files changed, 137 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-index 05e2132ad4d8621ab76ee89aa166c131fed08e85..c850390ddc4a33ed3fd877bf4620f7f009366ff5 100644
---- a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-@@ -10,22 +10,42 @@ maintainers:
-   - Nuno Sá <nuno.sa@analog.com>
+diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+index fe43e8595..0cda347ed 100644
+--- a/Documentation/admin-guide/sysctl/net.rst
++++ b/Documentation/admin-guide/sysctl/net.rst
+@@ -280,6 +280,33 @@ checksums.
+ These messages are now emitted at KERN_DEBUG and can generally be enabled
+ and controlled by the dynamic_debug facility.
  
- description: |
--  The LTC4283 negative voltage hot swap controller drives an external N-channel
--  MOSFET to allow a board to be safely inserted and removed from a live
--  backplane.
-+  The LTC4283 and LTC4284 are negative voltage hot swap controllers that drive
-+  external N-channel MOSFETs to allow a board to be safely inserted and removed
-+  from a live backplane.
++netlink_route_mc_index
++---------------------
 +
-+  The LTC4284 features dual-gate drivers with four operating modes (single
-+  driver, parallel, high stress staged start, and low stress staged start)
-+  configured via the hardware MODE pin. The MODE pin must be connected to the
-+  appropriate voltage level (VEE, VIN, INTVCC, or left open) and cannot be
-+  controlled via software or GPIO.
++Selects the multicast candidate lists used for NETLINK_ROUTE notifications.
++This setting is available only in the initial network namespace and applies
++to notifications originating in all network namespaces.
++
++Values:
++
++	- 0 - walk the original global subscription list (default).
++	- 1 - walk the sender's network namespace subscription list and the
++	  global NETLINK_LISTEN_ALL_NSID subscription list, regardless of the
++	  number of subscribers.
++
++Both auxiliary indexes are maintained in either mode.
++Existing sockets are therefore included immediately when the index is enabled.
++Each broadcast reads the setting once and completes using its selected path;
++changing the setting does not restart broadcasts already in progress.
++Group membership, namespace, permission and socket filter checks still apply
++in both modes. Other Netlink protocols continue to use their original lists.
++
++The indexed path can reduce notification costs when there are many ordinary
++subscribers in other network namespaces. It may add overhead when most
++subscribers are local or listen across network namespaces. Disabling the
++indexed path does not remove its memory or subscription maintenance costs.
++Without CONFIG_SYSCTL, the setting remains at its default value of 0.
++
+ netdev_budget
+ -------------
  
-   https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4283.pdf
-+  https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4284.pdf
+diff --git a/net/netlink/af_netlink.c b/net/netlink/af_netlink.c
+index 1281c42a3..fa21290be 100644
+--- a/net/netlink/af_netlink.c
++++ b/net/netlink/af_netlink.c
+@@ -31,6 +31,7 @@
+ #include <linux/string.h>
+ #include <linux/stat.h>
+ #include <linux/socket.h>
++#include <linux/sysctl.h>
+ #include <linux/un.h>
+ #include <linux/fcntl.h>
+ #include <linux/termios.h>
+@@ -93,6 +94,69 @@ EXPORT_SYMBOL_GPL(nl_table);
  
- properties:
-   compatible:
-     enum:
-       - adi,ltc4283
-+      - adi,ltc4284
+ static DECLARE_WAIT_QUEUE_HEAD(nl_table_wait);
  
-   reg:
-     maxItems: 1
++/*
++ * Auxiliary NETLINK_ROUTE candidate indexes. Writers hold the table grabbed;
++ * broadcasts pin the same table with netlink_lock_table(). Socket/netns
++ * lifetime therefore follows the original mc_list, without another RCU domain.
++ */
++struct netlink_route_net {
++	struct hlist_head mc_list;
++};
++
++static unsigned int netlink_route_net_id;
++static HLIST_HEAD(netlink_route_all_nsid);
++
++/* Indexes stay populated in both modes; each broadcast samples this once. */
++static int netlink_route_mc_index __read_mostly;
++
++#ifdef CONFIG_SYSCTL
++static const struct ctl_table netlink_route_sysctls[] = {
++	{
++		.procname	= "netlink_route_mc_index",
++		.data		= &netlink_route_mc_index,
++		.maxlen		= sizeof(netlink_route_mc_index),
++		.mode		= 0644,
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ZERO,
++		.extra2		= SYSCTL_ONE,
++	},
++};
++
++static int __init netlink_route_sysctl_init(void)
++{
++	if (!register_net_sysctl(&init_net, "net/core", netlink_route_sysctls))
++		return -ENOMEM;
++	return 0;
++}
++fs_initcall(netlink_route_sysctl_init);
++#endif
++
++static void netlink_update_route_mc(struct sock *sk, unsigned int subscriptions)
++{
++	struct netlink_sock *nlk = nlk_sk(sk);
++	struct netlink_route_net *nn;
++
++	if (sk->sk_protocol != NETLINK_ROUTE)
++		return;
++
++	lockdep_assert_held(&nl_table_lock);
++	nn = net_generic(sock_net(sk), netlink_route_net_id);
++	if (subscriptions) {
++		if (hlist_unhashed(&nlk->mc_net_node))
++			hlist_add_head(&nlk->mc_net_node, &nn->mc_list);
++	} else if (!hlist_unhashed(&nlk->mc_net_node)) {
++		hlist_del_init(&nlk->mc_net_node);
++	}
++
++	if (subscriptions && nlk_test_bit(LISTEN_ALL_NSID, sk)) {
++		if (hlist_unhashed(&nlk->mc_all_nsid_node))
++			hlist_add_head(&nlk->mc_all_nsid_node,
++				       &netlink_route_all_nsid);
++	} else if (!hlist_unhashed(&nlk->mc_all_nsid_node)) {
++		hlist_del_init(&nlk->mc_all_nsid_node);
++	}
++}
++
+ static struct lock_class_key nlk_cb_mutex_keys[MAX_LINKS];
  
-   adi,rsense-nano-ohms:
--    description: Value of the sense resistor.
-+    description:
-+      Value of the sense resistor. For LTC4283, this is the resistor connected
-+      between SENSE+/SENSE- pins. For LTC4284, this is the resistor connected
-+      between SENSE1+/SENSE1- pins.
-+
-+  adi,rsense2-nano-ohms:
-+    description:
-+      Value of the SENSE2 current sense resistor. This resistor is connected
-+      between SENSE2+ and SENSE2- pins.
-+
-+  adi,radc-nano-ohms:
-+    description:
-+      Value of the effective resistance seen by the ADC+/ADC- pins.
+ static const char *const nlk_cb_mutex_key_strings[MAX_LINKS + 1] = {
+@@ -598,6 +662,7 @@ static void netlink_remove(struct sock *sk)
+ 		__sock_put(sk);
  
-   adi,current-limit-sense-microvolt:
-     description:
-@@ -195,6 +215,20 @@ required:
-   - adi,rsense-nano-ohms
+ 	netlink_table_grab();
++	netlink_update_route_mc(sk, 0);
+ 	if (nlk_sk(sk)->subscriptions) {
+ 		__sk_del_bind_node(sk);
+ 		netlink_update_listeners(sk);
+@@ -628,6 +693,8 @@ static int __netlink_create(struct net *net, struct socket *sock,
+ 	sock_init_data(sock, sk);
  
- allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: adi,ltc4284
-+    then:
-+      required:
-+        - adi,rsense2-nano-ohms
-+        - adi,radc-nano-ohms
-+    else:
-+      properties:
-+        adi,rsense2-nano-ohms: false
-+        adi,radc-nano-ohms: false
+ 	nlk = nlk_sk(sk);
++	INIT_HLIST_NODE(&nlk->mc_net_node);
++	INIT_HLIST_NODE(&nlk->mc_all_nsid_node);
+ 	mutex_init(&nlk->nl_cb_mutex);
+ 	lockdep_set_class_and_name(&nlk->nl_cb_mutex,
+ 					   nlk_cb_mutex_keys + protocol,
+@@ -915,6 +982,7 @@ netlink_update_subscriptions(struct sock *sk, unsigned int subscriptions)
+ 	else if (!nlk->subscriptions && subscriptions)
+ 		sk_add_bind_node(sk, &nl_table[sk->sk_protocol].mc_list);
+ 	nlk->subscriptions = subscriptions;
++	netlink_update_route_mc(sk, subscriptions);
+ }
+ 
+ static int netlink_realloc_groups(struct sock *sk)
+@@ -1555,8 +1623,25 @@ int netlink_broadcast_filtered(struct sock *ssk, struct sk_buff *skb,
+ 
+ 	netlink_lock_table();
+ 
+-	sk_for_each_bound(sk, &nl_table[ssk->sk_protocol].mc_list)
+-		do_one_broadcast(sk, &info);
++	if (ssk->sk_protocol == NETLINK_ROUTE &&
++	    READ_ONCE(netlink_route_mc_index)) {
++		struct netlink_route_net *nn;
++		struct netlink_sock *nlk;
 +
-   - if:
-       properties:
-         adi,pgio1-func:
-@@ -269,4 +303,19 @@ examples:
-             #gpio-cells = <2>;
-         };
-     };
++		nn = net_generic(net, netlink_route_net_id);
++		hlist_for_each_entry(nlk, &nn->mc_list, mc_net_node)
++			do_one_broadcast(&nlk->sk, &info);
 +
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
++		/* Local all-nsid listeners were visited above. */
++		hlist_for_each_entry(nlk, &netlink_route_all_nsid,
++				     mc_all_nsid_node) {
++			if (!net_eq(sock_net(&nlk->sk), net))
++				do_one_broadcast(&nlk->sk, &info);
++		}
++	} else {
++		sk_for_each_bound(sk, &nl_table[ssk->sk_protocol].mc_list)
++			do_one_broadcast(sk, &info);
++	}
+ 
+ 	consume_skb(skb);
+ 
+@@ -1722,6 +1807,13 @@ static int netlink_setsockopt(struct socket *sock, int level, int optname,
+ 	case NETLINK_LISTEN_ALL_NSID:
+ 		if (!ns_capable(sock_net(sk)->user_ns, CAP_NET_BROADCAST))
+ 			return -EPERM;
++		if (sk->sk_protocol == NETLINK_ROUTE) {
++			netlink_table_grab();
++			assign_bit(NETLINK_F_LISTEN_ALL_NSID, &nlk->flags, val);
++			netlink_update_route_mc(sk, nlk->subscriptions);
++			netlink_table_ungrab();
++			return 0;
++		}
+ 		nr = NETLINK_F_LISTEN_ALL_NSID;
+ 		break;
+ 	case NETLINK_CAP_ACK:
+@@ -2867,6 +2959,9 @@ static const struct net_proto_family netlink_family_ops = {
+ 
+ static int __net_init netlink_net_init(struct net *net)
+ {
++	struct netlink_route_net *nn = net_generic(net, netlink_route_net_id);
 +
-+        swap-controller@20 {
-+            compatible = "adi,ltc4284";
-+            reg = <0x20>;
++	INIT_HLIST_HEAD(&nn->mc_list);
+ #ifdef CONFIG_PROC_FS
+ 	if (!proc_create_net("netlink", 0, net->proc_net, &netlink_seq_ops,
+ 			sizeof(struct nl_seq_iter)))
+@@ -2877,6 +2972,11 @@ static int __net_init netlink_net_init(struct net *net)
+ 
+ static void __net_exit netlink_net_exit(struct net *net)
+ {
++	struct netlink_route_net *nn = net_generic(net, netlink_route_net_id);
 +
-+            adi,rsense-nano-ohms = <1000>;
-+            adi,rsense2-nano-ohms = <1000>;
-+            adi,radc-nano-ohms = <500>;
-+        };
-+    };
- ...
-
--- 
-2.34.1
++	netlink_table_grab();
++	WARN_ON_ONCE(!hlist_empty(&nn->mc_list));
++	netlink_table_ungrab();
+ #ifdef CONFIG_PROC_FS
+ 	remove_proc_entry("netlink", net->proc_net);
+ #endif
+@@ -2905,6 +3005,8 @@ static void __init netlink_add_usersock_entry(void)
+ static struct pernet_operations __net_initdata netlink_net_ops = {
+ 	.init = netlink_net_init,
+ 	.exit = netlink_net_exit,
++	.id = &netlink_route_net_id,
++	.size = sizeof(struct netlink_route_net),
+ };
+ 
+ static inline u32 netlink_hash(const void *data, u32 len, u32 seed)
+@@ -2980,7 +3082,8 @@ static int __init netlink_proto_init(void)
+ 	netlink_add_usersock_entry();
+ 
+ 	sock_register(&netlink_family_ops);
+-	register_pernet_subsys(&netlink_net_ops);
++	if (register_pernet_subsys(&netlink_net_ops))
++		goto panic;
+ 	register_pernet_subsys(&netlink_tap_net_ops);
+ 	/* The netlink device handler may be needed early. */
+ 	rtnetlink_init();
+diff --git a/net/netlink/af_netlink.h b/net/netlink/af_netlink.h
+index 778a38093..bc7b38d4f 100644
+--- a/net/netlink/af_netlink.h
++++ b/net/netlink/af_netlink.h
+@@ -47,6 +47,10 @@ struct netlink_sock {
+ 						   unsigned long *groups);
+ 	struct module		*module;
+ 
++	/* NETLINK_ROUTE auxiliary multicast indexes; nl_table_lock protected. */
++	struct hlist_node	mc_net_node;
++	struct hlist_node	mc_all_nsid_node;
++
+ 	struct rhash_head	node;
+ 	struct rcu_head		rcu;
+ };
 
