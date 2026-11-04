@@ -1,140 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793751650;
-	b=sEXrcSFWF+EW1B/GKssQNvHLmVmQb070KGQT4ZyW9PbZxC+YQmAm2AZV7PTKGXWiC+3w
-	 lPXh3MzEEPovZc3VhhR+BgYLuPCysU/OPkmCuZtDHzerLz8JOTJhjdNSZUB4l6LTy4tDp
-	 uAW/HLYxY5mc1n/FwjBuNuG7X8OEYug0/cHMOEmMBhNqfQImJjMGJ3IeOEgMy6iDUKvEG
-	 mYZXC0nlPCnY35DF5Ldpyp9iH+dw+2tM0p7BjVmd648v2wjrNaUu/Oo82V2iO3KpjtmPu
-	 ddhTvqpUdUCyDijjOfbSjw6fS1Qq+lDRU27nfeFhRWX8LmkV33wRvwXL5sAZ1csL40A==
+	t=1793752475;
+	b=0ZmQs60M8cvUKLKj+m3EjY7oKKDq44xV/UT0iwAB1mMjGK9PLqW1aE795UrrC6Ulf7Tj
+	 FWGj00WGxjWJc9VMFqpKofF0CO18xKtmU4NpgagzqpDVLQe8bedpiyA2UXJfMuaQp1+Eb
+	 4kIumE4AIRjX01U+UlReX5kaN1hwY0NDHEfYwjGV+t2duNhJWkqoYQZw0Tt/oO22U4bHl
+	 YejrYyvdVqv9Wa54w3hG0WeJat2kOgM/B+aQ0DYjtiyWOHjNjD40kXdTWadQOcFBuzha3
+	 vssjJEhpNdqNFEpaM28sVWjpR04mQN2YrlpCYFyltrKJqWyTDTc4kOxYZIx+kN1iYXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793751650;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=OfnNX61NtQ31WOejDUqbkK4HwJYzLMGKN6Wyl9m2oIs=;
-	b=GotmfAog8BGqcFBjjQFNRolRydGy9Cvhdnzv2E33udl4k3YowrcurtWoxtOOQT44utHX
-	 bO+A74KWtPOYUvd70/h0unDMIVzFPGVAHFmZO0D+02JAjBmHBJk6d4Ugv1rJ812U8EabR
-	 T9HHE8IK9Vz6BKbetCmCR521G7M+x9BQZ4QGooppg4guXyc3ZP116+u5mzsJn5v+wHxgi
-	 /HBBaoW9RK6Wjg4cxq2U5Jri2lMfnZaGASihAD+O3bxik2AioAkPYq3O74+aQLLMvegZv
-	 9SulVWlyRJs6zcNQdZRJGNm13hsF8bdBn8/Wzsjc9qmnXSCay2yItdE7ytYJsak8Sfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793752475;
+	h=DMARC-Filter:Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Rspamd-Server:X-Rspamd-Queue-Id:
+	 X-Stat-Signature:X-Spam-Status:X-Session-Marker:X-Session-ID:
+	 DKIM-Signature:X-HE-Tag:X-HE-Meta;
+	bh=S/N+F00fZjYK5bQ5EspDDlJ3W88B+dtGIBUElMlMpkk=;
+	b=wvyLhymMZ4dav3eUBZHoYzIDQGQh18vyXhK+gckAv5kVX3yb+ika8HYiGti33IntF0tK
+	 SUEJ+Vsy4hJYFx3Rw+dofIS7vqw7/ezbUjZZDY7o7EXj7+NARJCEW6BvklmT5UW8Qk5xP
+	 npch7d0E9jug5JEl9sexohxyODiVbeS3UMrfz7utvouBnjNMDoMKzlD3eOmGNsoQRQHBD
+	 K3aL6cnSApawOI8LxDEjRCnTwYRfkhwdffvh3mqdXObollGwZrxILYtxNhz+Sv4rKLmhp
+	 PTfJaszpNSI9lYL5vx0m9O6ZATi+ja+DDMGthozc5QgDHJqPYJcAH8i2xW3aY2mf19g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=O9aA2zlY;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="Y7G/sx/h";
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dmarc=pass header.from=goodmis.org;
+	spf=pass smtp.mailfrom=goodmis.org;
+	dkim=pass header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b="F/iDtX73";
+	arc=none smtp.remote-ip=216.40.44.14
+Received: from relay.hostedemail.com (smtprelay0014.hostedemail.com [216.40.44.14])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5209606A328
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 00:20:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5209606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95FD0606A31B;
+	Wed,  4 Nov 2026 00:34:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 95FD0606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=O9aA2zlY;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Y7G/sx/h
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A3LKshC415299
-	for <linux-doc@vger.kernel.org>; Wed, 4 Nov 2026 00:20:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	OfnNX61NtQ31WOejDUqbkK4HwJYzLMGKN6Wyl9m2oIs=; b=O9aA2zlY2c8+9sxr
-	hXQL4F6wd2IkKQ+VwK7lMQzQ46GiOvIpxp91H2p0JDnpQL8YFnWTpiDbyrffdXu7
-	ypY463gCS0OkSDzuxQzxK/Fbbir96u+n7p0fYBJeRuc9C875OBzhe9jDYuN2NPjL
-	kvpKI4W6w90/l1N8jpg98FvxduvmBFocU8BHFyTU0S89lQLzNwifnlKqgytRaF6h
-	mIYsWzV32M5cjjVSu7FDv46pqfrwr8BKkbkjOeqD7M8Vvy2X4rdwzkuJrz6tPmTT
-	+4mKx6bfXbBsk9xVem0omadSRCKRthgz4+7mXvn7GJecdizYtWODemcR+ODHZpA3
-	ou5kgw==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hqkgp9qgc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 00:20:48 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3ae73921fd1so213149a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 16:20:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793751648; x=1794356448; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=OfnNX61NtQ31WOejDUqbkK4HwJYzLMGKN6Wyl9m2oIs=;
-        b=Y7G/sx/hkyqa7plfa6wvCEbOgFJjXACTY/Q9dWAqr4XFbRQqx4RKWhNoHxtlKW6u0o
-         ICRvbwMs6+XRgTMt8A8Ix5IPX5DKYBkDRLlhJO7d2/gKO2yMnRlcXLS7fDjIto9osA93
-         eDhOgPR3fVpF3/J1yTwph/607e2A1Q5Gfh/1dVJSBMKm5OCMLc+zowF66ekVuXcvk3jr
-         ARYpzIFR1okZb7AF8AEfazXOtF1S24DUhbO3s9jlyliLGtj0MlPObTgwzeJfByU0ye+P
-         XQ6iNYOfXQCMNLnXlT34cIKG0dO+OUM+DbWUDDwpjx5LKpzLojgNYDoXT1ysnRkKtmI2
-         rKqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793751648; x=1794356448;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OfnNX61NtQ31WOejDUqbkK4HwJYzLMGKN6Wyl9m2oIs=;
-        b=TCI2n/WLaVhDhJe4TSc/T6JWoXcpHIRvn7uQU1EhHnSh1lFbRK29ZgYjum5HtVThEk
-         RrSrJ5LMv44tpxlK+McVk12oWkMbEHpC4PWkzw8QKBydBilWqLoP5Qyt41eHjlUwDRL5
-         go7RomkNA8Sc3ubUdR5jp8cpyji53m70yod3cvmnWamGTicb4vqFDVTPJ5h3mak36ivR
-         dRs68up0a3fx9p1HxfH3Yc/+zWQRNNmPbaLXfgLmftWvNj2rN2fpRVKHgT1Gwxk2BX5F
-         jqj7nHBX9rmkbn6MOzAk+5Z13v7ASsT8sd/BBB41PhgRNqWfhO9bD0fv+5x2/VJZx+6M
-         m7zg==
-X-Forwarded-Encrypted: i=1; AKwUvBw8mH877DvMWPXZ3VfM6zoo0iO0r7iNX8MZY4xYynCfCnje6USUpVlJXL6LvZm4z+DF5Klsr9AbRwY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9YsGKL471hxjcq4snmmkXEUsH80fbqOmF6Ja82C6J0CSz7yug8
-	9NYxwyNHwkE0Ldq66+mEdA1zFUg+5uf55uf2MWmVCOghl1mPXYih6Sml2ZepJwHxQxDmAIhAqs9
-	JXuutCOp0pbjp5JFKa00UrXUTMgL0OYA/NRxq7lN+ZXcBIW2A9418LZYiv7085G8=
-X-Gm-Gg: AYBFou221htGV9llGep0nLO3GT77HAXD/4wST1ymJAKAAiU/qPDSVJ5A+OW3BdzuP4s
-	ZeowB9kFLgmECKIQkhuGrPVO1o9ODF37WKfytgd5HlehenjM6srIiJhe+r9l825kPDi5PPJxbfn
-	mFrIXihCuYIOgznv9yPm87j0dfSqVxAEUObG7cA8WrjOLYC4aUALJ4kDJcQ7BPLeGlJtBLDXKhh
-	zjBBCR2UqnommjY5QlFr15qy5WOqWdu/XhTy/+qkiw5dNv1jpVf7Fl52oja6ok78yw/eVhR5RIr
-	PtqOMlvHsbRwKH7s8cnN95t6BljtmrRbdamhDVV294IGIRWkKAcmmFWBYvdz8+JnMUE2HUv0+FU
-	Q+XGdZ1rfuTSatyh+5e17z9XoNFXZ3DKNm9+wP6LRFh3//A4tonlxYyr9xASGKPHtEA==
-X-Received: by 2002:a17:90b:4c12:b0:3ae:5572:c4d1 with SMTP id 98e67ed59e1d1-3ae8986e3bamr13180550a91.62.1793751647538;
-        Tue, 03 Nov 2026 16:20:47 -0800 (PST)
-X-Received: by 2002:a17:90b:4c12:b0:3ae:5572:c4d1 with SMTP id 98e67ed59e1d1-3ae8986e3bamr13180527a91.62.1793751647042;
-        Tue, 03 Nov 2026 16:20:47 -0800 (PST)
-Received: from jic23-hlaptop ([50.35.44.179])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b094453532sm1090412a91.3.2026.11.03.16.20.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 16:20:46 -0800 (PST)
-Date: Wed, 4 Nov 2026 00:20:42 +0000
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux@analog.com,
-        devicetree@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-doc@vger.kernel.org,
-        Olivier Moysan
- <olivier.moysan@foss.st.com>,
-        Jonathan Cameron <jic23@kernel.org>,
-        David
- Lechner <dlechner@baylibre.com>,
-        Andy Shevchenko <andy@kernel.org>,
-        Michael
- Hennerich <Michael.Hennerich@analog.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <ukleinek@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan
- <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 01/10] iio: frequency: ad9910: powerdown fix
-Message-ID: <20261104002042.10064e8b@jic23-hlaptop>
-In-Reply-To: <20261103-ad9910-backend-support-v3-1-0e9224ddf7b7@analog.com>
-References: <20261103-ad9910-backend-support-v3-0-0e9224ddf7b7@analog.com>
-	<20261103-ad9910-backend-support-v3-1-0e9224ddf7b7@analog.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=goodmis.org header.i=@goodmis.org header.a=rsa-sha256 header.s=dkim1 header.b=F/iDtX73
+Received: from omf07.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay08.hostedemail.com (Postfix) with ESMTP id C76D11405BB;
+	Wed,  4 Nov 2026 00:34:30 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf07.hostedemail.com (Postfix) with ESMTPA id BE06E2002E;
+	Wed,  4 Nov 2026 00:34:27 +0000 (UTC)
+Date: Tue, 3 Nov 2026 19:34:21 -0500
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Li Pengfei <ljdlns1987@gmail.com>
+Cc: mhiramat@kernel.org, mathieu.desnoyers@efficios.com,
+ mark.rutland@arm.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ lkp@intel.com, linux-trace-kernel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, zhangbo56@xiaomi.com,
+ lipengfei28@xiaomi.com
+Subject: Re: [RFC PATCH v7 02/10] trace: use the stackmap from the ftrace
+ stack recording path
+Message-ID: <20261103193421.63f4454a@gandalf.local.home>
+In-Reply-To: <20260912083753.3426176-3-lipengfei28@xiaomi.com>
+References: <20260912083753.3426176-1-lipengfei28@xiaomi.com>
+	<20260912083753.3426176-3-lipengfei28@xiaomi.com>
+X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -144,111 +65,606 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDAwMCBTYWx0ZWRfX8BtmrvMK+44b
- DL8zeCxa0/H4OUjiYz4if94fMDz/VPlrP8FGhvJJt8DKOYJ5WoyaSVh/zzGVqDqnsxbTql9oCSA
- 8/BFq1gzUPJOcqfvCiKn3QP2ykRATl64roiPU0j9QT4m6Gw7BQrdlLLLr9uzlP0LaYTlFTWFQd8
- nOHQXTQZ5l3n3gXCn3PwU0FefQBrPRmrvvU2RmqBMjIelfvJIQKFY1VterfTzOpCf2LsENWmVGb
- Mu48o2sRI2pmvhNMyukQdg7hRGKub7oXvOch/J7OqK7BMcZuy+RvngnVOWCraDjeCMaesRVsccH
- IZWMDOoSn6XNkLgsl77xm9qqg2u8Y/d8j87+TgZAcdxIRt+UpOdX7+OewOZrk8NxV0mJhxFC3s0
- lGtjc8aY2DG1/ve/lOaTaC3cwcbVOLe33qSPoPKHC8kTypftiYVFUNcTN+zRESHRQLJ7Dvcpxxh
- Fej5Ij66Sb9DDJrNQgw==
-X-Proofpoint-GUID: OsSA4F72E7KJ4Nfiu9ZgXlD7P2Knm9Ni
-X-Authority-Analysis: v=2.4 cv=Yoya1IYX c=1 sm=1 tr=0 ts=6aea7a60 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=aNnz9XPx1a4JIXSYt2cE/A==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8 a=Pob1JPmMRzAnXopCxDUA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDAwMCBTYWx0ZWRfX8WbdLY/ba9Ms
- yca/xREAqgdNdT6sYDLWOSanVitD1jb3PHPONZ+TvC7FtWEyFWzeg2OBrY+8pttkwqn3QbtY/qy
- jAS7ob7y0mHwYkEIw8ONBSfPSprgvek=
-X-Proofpoint-ORIG-GUID: OsSA4F72E7KJ4Nfiu9ZgXlD7P2Knm9Ni
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-03_05,2026-11-03_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 clxscore=1015 suspectscore=0 spamscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611040000
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: BE06E2002E
+X-Stat-Signature: ubbfsuba5xjjds7u9skiqbryrfmxjc39
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX18HjDEmAZrCiJFNhjxyKfES+9Y4hyGJnMg=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=S/N+F00fZjYK5bQ5EspDDlJ3W88B+dtGIBUElMlMpkk=; b=F/iDtX73+AV4gHag9EUIZ+cFdQBXNrwXvfO2lTbq1KLtvB2GFAkzUAqDIvDHATVvfkYSQRs5BZDK9m14yiWM+vyiUndv8sFwZZ/cwBLKXrcSaULkpd6MYpxK3dM3sXEpE1f5SFKXmljzT9IBL+4aAFBQ9FULjbOCF/kaZPY89NE=
+X-HE-Tag: 1793752467-576457
+X-HE-Meta: U2FsdGVkX18AfA7zNO2x5s3fK70vx43IefI7lydkcq/8ugq7fmNDYM4YWa7iMXzDsRGOUdqtuU9RsM/fDpAwU5deWhgbqScV3jdUPE7pryer7rOpZjRc0u805JGEKtl3lNV2Tj9ASlXwWD8DpqXPURiuCHm99TTm4Tm4dq8JzimSf2dxTpevqN0GFAKQOiEhdYYGiF/i4tNml0TTWROmfiUC1FqPWQ/puUuDWIpjDLJqmTGU+suAWjGK7a8elJiz7UzIZjiW8mEf98FMUJCZ+lX7m4+yEymfONwU9wBcNP34Cz7j41eKFKlOxpnj95iZqxTMJzsdSAI6o8pHwL1kIlezr3LOyspx/Ictg4RS7n/JVi0yuyyhsQ==
 
-On Tue, 03 Nov 2026 11:52:57 -0300
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org=
-> wrote:
+On Sat, 12 Sep 2026 16:37:45 +0800
+Li Pengfei <ljdlns1987@gmail.com> wrote:
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
->=20
-> Enable the software powerdown on all the applicable CFR1 register bits at
-> once with an IO update.
->=20
-> It turns out that DIGITAL and REFCLK_INPUT powerdown do need an IO update
-> when enabling the powerdown, but that is not the case when powering it up
-> again. It is an asymmetric behavior, which was observed while profiling
-> power consumption in the lab.
+Hi Li,
 
-Just to be absolutely sure I understand this right... The bug today
-wastes power but otherwise doesn't break using the device?
+FYI, the tracing subsystem requires starting subjects with capital letters:
 
-I'm just trying to judge urgency of applying this. Is it fine
-to go with the changes that follow later in the series or do
-I need to rush it in, potentially delaying the rest.
+  trace: Use the stackmap from the ftrace stack recording path
 
-Thanks
+Also, did you use AI for this? Most of the comments are useless, and sound
+like they come from AI.
 
-Jonathan
-
->=20
-> Fixes: 22452fe6cd08 ("iio: frequency: ad9910: initial driver implementati=
-on")
-> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> From: Pengfei Li <lipengfei28@xiaomi.com>
+> 
+> Wire ftrace_stackmap into __ftrace_trace_stack(). With 'stackmap' and
+> 'stacktrace' enabled, the recording path tries to place a 4-byte
+> stack_id in the ring buffer and stack_map resolves the id.
+> 
+> Reserve the stack-id ring-buffer slot before consulting the map. This
+> keeps map records and counters untouched when that reservation fails.
+> If get_id() then fails, discard the reserved slot. Both paths try the
+> existing full-stack fallback, whose own ring-buffer reservation can
+> still fail under normal ring-buffer semantics.
+> 
+> Stacks deeper than FTRACE_STACKMAP_MAX_DEPTH bypass the map so a
+> recorded stack is never silently truncated or merged with another stack
+> sharing the same prefix. Other map failures, including capacity,
+> reset, and an unpublished map, also try the full-stack path.
+> 
+> Confine the option to the global trace instance through
+> TOP_LEVEL_TRACE_FLAGS, ZEROED_TRACE_FLAGS and a set_tracer_flag()
+> check. This also rejects writes through a secondary instance's
+> aggregate trace_options file.
+> 
+> Create stack_map before publishing global_trace.stackmap. Boot-time
+> options may be set while initialization is pending; the recording path
+> uses full-stack fallback until publication. A permanent initialization
+> failure clears and rejects the option.
+> 
+> Also add TRACE_STACK_ID, its output handler, and validation needed by
+> ftrace startup selftests.
+> 
+> Signed-off-by: Pengfei Li <lipengfei28@xiaomi.com>
 > ---
->  drivers/iio/frequency/ad9910.c | 26 ++++++++------------------
->  1 file changed, 8 insertions(+), 18 deletions(-)
->=20
-> diff --git a/drivers/iio/frequency/ad9910.c b/drivers/iio/frequency/ad991=
-0.c
-> index 04a4e184b873..8bc24d0b7442 100644
-> --- a/drivers/iio/frequency/ad9910.c
-> +++ b/drivers/iio/frequency/ad9910.c
-> @@ -621,26 +621,16 @@ static int ad9910_sw_powerdown_set(struct ad9910_st=
-ate *st, bool enable)
->  	if (ad9910_sw_powerdown_get(st) =3D=3D enable)
->  		return 0;
-> =20
-> -	/*
-> -	 * When powering down, the DAC and AUX_DAC (SW1) must be powered down
-> -	 * first, as they require an I/O update to take effect. The opposite is
-> -	 * true when powering up, the DAC and AUX_DAC must be powered up last,
-> -	 * i.e., after the DIGITAL and REFCLK_INPUT (SW0) power up.
-> -	 */
-> -	if (enable) {
-> -		ret =3D ad9910_reg32_update(st, AD9910_REG_CFR1,
-> -					  AD9910_CFR1_SW1_POWER_DOWN_MSK,
-> -					  AD9910_CFR1_SW1_POWER_DOWN_MSK,
-> -					  true);
-> -		if (ret)
-> -			return ret;
-> -
-> +	if (enable)
->  		return ad9910_reg32_update(st, AD9910_REG_CFR1,
-> -					   AD9910_CFR1_SW0_POWER_DOWN_MSK,
-> -					   AD9910_CFR1_SW0_POWER_DOWN_MSK,
-> -					   false);
-> -	}
-> +					   AD9910_CFR1_SW_POWER_DOWN_MSK,
-> +					   AD9910_CFR1_SW_POWER_DOWN_MSK,
-> +					   true);
-> =20
+>  kernel/trace/Kconfig                 |   9 ++
+>  kernel/trace/trace.c                 | 218 ++++++++++++++++++++++++++-
+>  kernel/trace/trace.h                 |  16 ++
+>  kernel/trace/trace_entries.h         |  15 ++
+>  kernel/trace/trace_functions_graph.c |   1 +
+>  kernel/trace/trace_output.c          |  23 +++
+>  kernel/trace/trace_selftest.c        |   1 +
+>  7 files changed, 280 insertions(+), 3 deletions(-)
+> 
+> diff --git a/kernel/trace/Kconfig b/kernel/trace/Kconfig
+> index 6c40535a46e1..7001453bbfd3 100644
+> --- a/kernel/trace/Kconfig
+> +++ b/kernel/trace/Kconfig
+> @@ -426,6 +426,15 @@ config FTRACE_STACKMAP
+>  	  significantly reducing trace buffer usage when the same call stacks
+>  	  appear repeatedly.
+>  
+> +	  Automatic per-event stack capture requires the stacktrace option:
+> +
+> +	    echo 1 > /sys/kernel/debug/tracing/options/stacktrace
+> +	    echo 1 > /sys/kernel/debug/tracing/options/stackmap
+> +
+> +	  Explicit stack records requested through tracing APIs are also
+> +	  deduplicated when stackmap is enabled for their trace array. Stackmap
+> +	  is currently available only for the global trace array.
+> +
+>  	  The deduplicated stacks are exported via:
+>  	    /sys/kernel/debug/tracing/stack_map
+>  
+> diff --git a/kernel/trace/trace.c b/kernel/trace/trace.c
+> index 18710c190c92..06ae8ed11475 100644
+> --- a/kernel/trace/trace.c
+> +++ b/kernel/trace/trace.c
+> @@ -57,6 +57,7 @@
+>  
+>  #include "trace.h"
+>  #include "trace_output.h"
+> +#include "trace_stackmap.h"
+>  
+>  #ifdef CONFIG_FTRACE_STARTUP_TEST
+>  /*
+> @@ -509,12 +510,13 @@ EXPORT_SYMBOL_GPL(unregister_ftrace_export);
+>  /* trace_options that are only supported by global_trace */
+>  #define TOP_LEVEL_TRACE_FLAGS (TRACE_ITER(PRINTK) |			\
+>  	       TRACE_ITER(PRINTK_MSGONLY) | TRACE_ITER(RECORD_CMD) |	\
+> -	       TRACE_ITER(PROF_TEXT_OFFSET) | FPROFILE_DEFAULT_FLAGS)
+> +	       TRACE_ITER(PROF_TEXT_OFFSET) | TRACE_ITER(STACKMAP) |	\
+> +	       FPROFILE_DEFAULT_FLAGS)
+>  
+>  /* trace_flags that are default zero for instances */
+>  #define ZEROED_TRACE_FLAGS \
+>  	(TRACE_ITER(EVENT_FORK) | TRACE_ITER(FUNC_FORK) | TRACE_ITER(TRACE_PRINTK) | \
+> -	 TRACE_ITER(COPY_MARKER))
+> +	 TRACE_ITER(COPY_MARKER) | TRACE_ITER(STACKMAP))
+>  
+>  /*
+>   * The global_trace is the descriptor that holds the top-level tracing
+> @@ -2184,6 +2186,76 @@ void __ftrace_trace_stack(struct trace_array *tr,
+>  	}
+>  #endif
+>  
+> +#ifdef CONFIG_FTRACE_STACKMAP
 > +	/*
-> +	 * When powering up, the DIGITAL and REFCLK_INPUT (SW0) must be powered
-> +	 * up first, as they do not require an I/O update to take effect.
+> +	 * If stackmap dedup is enabled, try to store only the stack_id
+> +	 * in the ring buffer instead of the full stack trace.
+> +	 *
+> +	 * Reserve the TRACE_STACK_ID ring-buffer slot BEFORE calling
+> +	 * get_id(). This guarantees get_id(), and therefore any map mutation
+> +	 * or counter update it performs, is attempted only after the stack-id
+> +	 * reservation succeeds:
+> +	 *   - reservation fails  -> try full-stack fallback, map untouched
+> +	 *   - get_id() fails      -> discard the reserved slot, then try
+> +	 *                            full-stack fallback
+> +	 * A failed stack-id reservation therefore never consumes a map slot
+> +	 * or updates the map counters.
 > +	 */
->  	ret =3D ad9910_reg32_update(st, AD9910_REG_CFR1,
->  				  AD9910_CFR1_SW0_POWER_DOWN_MSK, 0, false);
->  	if (ret)
->=20
+
+It's better to turn this into a function, where we have something like this:
+
+#ifdef CONFIG_FTRACE_STACKMAP
+static inline bool
+record_stackmap(struct trace_array *tr, struct trace_buffer *buffer,
+		struct ftrace_stack *fstack, unsigned int nr_entries, unsigned int trace_ctx)
+{
+	[..]
+}
+#else
+static inline bool
+record_stackmap(struct trace_array *tr, struct trace_buffer *buffer,
+		struct ftrace_stack *fstack, unsigned int nr_entries, unsigned int trace_ctx)
+{
+	return false;
+}
+#endif /* CONFIG_FTRACE_STACKMAP */
+
+Where it returns true if it processed the map and false otherwise, that way you can do:
+
+	if (record_stackmap(tr, buffer, fstack, nr_entries, trace_ctx))
+		goto out;
+
+
+> +	if (tr->trace_flags & TRACE_ITER(STACKMAP)) {
+> +		struct ftrace_stackmap *smap;
+> +		struct stack_id_entry *sid_entry;
+> +		int sid;
+> +
+> +		/*
+> +		 * Pairs with the smp_store_release() that publishes the
+> +		 * fully initialized global stackmap at tracefs init.
+> +		 */
+> +		smap = smp_load_acquire(&tr->stackmap);
+> +		if (!smap)
+> +			goto full_stack;
+> +
+> +		/*
+> +		 * The stackmap stores at most FTRACE_STACKMAP_MAX_DEPTH
+> +		 * frames per entry. A deeper trace would be truncated, and
+> +		 * two distinct stacks that share the first MAX_DEPTH frames
+> +		 * would hash and compare equal, silently merging into one
+> +		 * stack_id. Use the conservative full-stack path for deep
+> +		 * traces to avoid truncating or misattributing a recorded stack.
+> +		 * The ring-buffer reservation can still fail.
+
+The above comment really isn't needed here. If the nr_entries is greater
+than the max stackmap then we just don't use stackmap. No need to go into
+details about why. It's explained elsewhere.
+
+> +		 */
+> +		if (nr_entries > FTRACE_STACKMAP_MAX_DEPTH)
+> +			goto full_stack;
+
+Why not do this check before getting smap?
+
+> +
+> +		event = __trace_buffer_lock_reserve(buffer, TRACE_STACK_ID,
+> +						    sizeof(*sid_entry), trace_ctx);
+> +		if (!event)
+> +			goto full_stack;
+> +
+> +		sid = ftrace_stackmap_get_id(smap, fstack->calls, nr_entries);
+> +		if (sid < 0) {
+> +			/*
+> +			 * If get_id() cannot return an ID, discard the reserved
+> +			 * stack_id slot, then try the full-stack fallback. Its
+> +			 * ring-buffer reservation can still fail.
+> +			 */
+> +			__trace_event_discard_commit(buffer, event);
+> +			goto full_stack;
+> +		}
+> +
+> +		sid_entry = ring_buffer_event_data(event);
+> +		sid_entry->stack_id = sid;
+> +		/*
+> +		 * stack_id is a synthetic side-event attached to a
+> +		 * primary trace event that was already subject to
+> +		 * filtering. No per-event filter is defined for
+> +		 * TRACE_STACK_ID, so commit unconditionally.
+> +		 */
+
+You don't need the above comment. The original code does this too without
+the need to comment it here.
+
+> +		__buffer_unlock_commit(buffer, event);
+> +		goto out;
+> +	}
+> +full_stack:
+> +#endif
+> +
+>  	event = __trace_buffer_lock_reserve(buffer, TRACE_STACK,
+>  				    struct_size(entry, caller, nr_entries),
+>  				    trace_ctx);
+> @@ -3976,6 +4048,50 @@ int trace_keep_overwrite(struct tracer *tracer, u64 mask, int set)
+>  	return 0;
+>  }
+>  
+> +#ifdef CONFIG_FTRACE_STACKMAP
+> +/*
+> + * Tracks tracefs-time initialization of the global stackmap so that
+> + * set_tracer_flag() can distinguish "not initialized yet" from
+> + * "initialization permanently failed".
+> + *
+> + * Boot-time options (trace_options=stackmap,stacktrace) are applied
+> + * very early, before tracer_init_tracefs() creates and publishes the
+> + * map. We must allow the STACKMAP flag to be set during that window
+> + * (the hot path falls back to a full stack while tr->stackmap is NULL,
+> + * then starts using the map once it is published). We must, however,
+> + * reject the enable once init has *failed*, so options/stackmap never
+> + * reports an enabled no-op.
+> + *
+> + * Written once from the tracefs init work before any concurrent
+> + * userspace writer to trace_options can run, then only read; a plain
+> + * int is therefore sufficient.
+
+The above is way too verbose, and honestly, doesn't even make sense. I need
+to look at the code to determine what it means. If you need to look at the
+code to understand the comments, it means the comments are useless.
+
+> + */
+> +enum {
+
+Name the emum.
+
+> +	STACKMAP_INIT_PENDING,	/* tracer_init_tracefs() not run yet */
+> +	STACKMAP_INIT_DONE,	/* map published, stack_map file created */
+> +	STACKMAP_INIT_FAILED,	/* permanent failure, never available */
+
+The above comments are good though.
+
+> +};
+> +
+> +static int stackmap_init_state = STACKMAP_INIT_PENDING;
+
+This variable should be of that enum type.
+
+> +
+> +/*
+> + * Mark the global stackmap init as permanently failed.
+> + *
+> + * Clears any boot-time STACKMAP flag (trace_options=stackmap applied before
+> + * the map was created) so options/stackmap does not report an enabled no-op
+> + * and later userspace enables return -EINVAL. The flag is cleared under
+> + * trace_types_lock because set_tracer_flag() updates trace_flags under that
+> + * lock; the tracefs init runs in an unlocked workqueue context that can race
+> + * with a concurrent trace_options write.
+> + */
+> +static void __init stackmap_mark_init_failed(void)
+> +{
+> +	guard(mutex)(&trace_types_lock);
+> +	WRITE_ONCE(stackmap_init_state, STACKMAP_INIT_FAILED);
+> +	global_trace.trace_flags &= ~TRACE_ITER(STACKMAP);
+> +}
+> +#endif
+> +
+>  int set_tracer_flag(struct trace_array *tr, u64 mask, int enabled)
+>  {
+>  	switch (mask) {
+> @@ -3990,6 +4106,33 @@ int set_tracer_flag(struct trace_array *tr, u64 mask, int enabled)
+>  	if (!!(tr->trace_flags & mask) == !!enabled)
+>  		return 0;
+>  
+> +#ifdef CONFIG_FTRACE_STACKMAP
+> +	/*
+> +	 * STACKMAP is intentionally global-instance-only: the dedup map,
+> +	 * its tracefs files and the lifetime/reset semantics are tied
+> +	 * to the global trace
+> +	 * array. options/stackmap is hidden on secondary instances via
+> +	 * TOP_LEVEL_TRACE_FLAGS, but writes still reach set_tracer_flag()
+> +	 * through the aggregate trace_options file. Reject the enable on
+> +	 * a secondary instance so it cannot be silently accepted and then
+> +	 * become a no-op in the hot path (where tr->stackmap is NULL and
+> +	 * the code falls back to a full stack trace).
+> +	 *
+> +	 * On the global instance, allow the enable while init is still
+> +	 * pending (boot-time trace_options=stackmap is applied before the
+> +	 * tracefs init work creates the map; the hot path falls back
+> +	 * until the map is published). Only reject once init has
+> +	 * permanently failed, so options/stackmap never reports an
+> +	 * enabled no-op. READ_ONCE() suffices: this only inspects the
+> +	 * init state, it does not dereference the map (the hot path uses
+> +	 * smp_load_acquire(&tr->stackmap) for that).
+
+The entire comment above can be replaced with just:
+
+	/* The stack map is only for the top_level trace array. */
+
+The rest is way too verbose. The failed description is obvious and doesn't
+need explaining.
+
+> +	 */
+> +	if (mask == TRACE_ITER(STACKMAP) && enabled &&
+> +	    (tr != &global_trace ||
+> +	     READ_ONCE(stackmap_init_state) == STACKMAP_INIT_FAILED))
+> +		return -EINVAL;
+> +#endif
+> +
+>  	/* Give the tracer a chance to approve the change */
+>  	if (tr->current_trace->flag_changed)
+>  		if (tr->current_trace->flag_changed(tr, mask, !!enabled))
+> @@ -9222,6 +9365,70 @@ static __init void tracer_init_tracefs_work_func(struct work_struct *work)
+>  			NULL, &tracing_dyn_info_fops);
+>  #endif
+>  
+> +#ifdef CONFIG_FTRACE_STACKMAP
+> +	{
+
+Do not add anonymous blocks. This should be another helper function that is
+defined in the above #if block that defined the other one I suggested.
+
+> +		struct ftrace_stackmap *smap;
+> +		struct dentry *map_file;
+> +
+> +		smap = ftrace_stackmap_create(&global_trace);
+> +		if (!IS_ERR(smap)) {
+
+If this was a helper function than you can make this into:
+
+		if (IS_ERR(smap)) {
+			pr_warn("ftrace stackmap init failed, dedup disabled\n");
+			stackmap_mark_init_failed();
+			return PTR_ERR(smap);
+		}
+
+And remove the indentation for the rest.
+
+> +			/*
+> +			 * Failure-atomic init: stack_map is the single
+> +			 * required tracefs file (it doubles as the reset
+> +			 * interface and the human-readable resolver). If
+> +			 * we cannot create it, the hot path must not be
+> +			 * able to emit <stack_id N> events that no one can
+> +			 * resolve or clear, so refuse to publish the map
+> +			 * and tear it down.
+> +			 *
+> +			 * Create stack_map BEFORE smp_store_release() so an
+> +			 * observed non-NULL global_trace.stackmap implies
+> +			 * its resolver/reset file exists.
+> +			 */
+
+You know that if this is only for top level trace array, this is done
+before user space starts. The above comment is really useless. Nuke it.
+
+> +			map_file = trace_create_file("stack_map",
+> +						     TRACE_MODE_WRITE, NULL,
+> +						     smap,
+> +						     &ftrace_stackmap_fops);
+> +			if (!map_file) {
+> +				pr_warn("ftrace stackmap init: stack_map create failed, dedup disabled\n");
+> +				ftrace_stackmap_destroy(smap);
+> +				/*
+> +				 * Permanent failure. Record it and clear a
+> +				 * boot-time STACKMAP flag (under
+> +				 * trace_types_lock) so options/stackmap does
+> +				 * not report an enabled no-op and later
+> +				 * userspace enables return -EINVAL.
+> +				 */
+
+Nuke this comment.
+
+> +				stackmap_mark_init_failed();
+> +			} else {
+> +				/*
+> +				 * smp_store_release pairs with the
+> +				 * smp_load_acquire() in
+> +				 * __ftrace_trace_stack(). Publishing only
+> +				 * after the required file exists keeps
+> +				 * "smap visible" => "resolver/reset
+> +				 * available".
+> +				 */
+> +				smp_store_release(&global_trace.stackmap, smap);
+> +				WRITE_ONCE(stackmap_init_state, STACKMAP_INIT_DONE);
+> +			}
+> +		} else {
+> +			pr_warn("ftrace stackmap init failed, dedup disabled\n");
+> +			/*
+> +			 * global_trace is statically defined; its stackmap
+> +			 * field is zero-initialized via BSS, so leaving it
+> +			 * NULL ensures the smp_load_acquire() in
+> +			 * __ftrace_trace_stack() falls back to full stack.
+> +			 * Mark init failed and clear any boot-time STACKMAP
+> +			 * flag so userspace enables are rejected rather than
+> +			 * becoming silent no-ops. Use the helper so the flag
+> +			 * clear happens under trace_types_lock, matching the
+> +			 * stack_map-create failure path above.
+> +			 */
+
+Again. Useless comment. These comments make it harder to understand what is
+happening :-(
+
+> +			stackmap_mark_init_failed();
+> +		}
+> +	}
+> +#endif
+>  	create_trace_instances(NULL);
+>  
+>  	update_tracer_options();
+> @@ -9234,8 +9441,13 @@ static __init int tracer_init_tracefs(void)
+>  	trace_access_lock_init();
+>  
+>  	ret = tracing_init_dentry();
+> -	if (ret)
+> +	if (ret) {
+> +#ifdef CONFIG_FTRACE_STACKMAP
+> +		/* No later path can create or publish the global stackmap. */
+
+Obvious comment. Not needed.
+
+> +		stackmap_mark_init_failed();
+
+Get rid of the #ifdef here. When not defined, the above function should be defined as:
+
+static inline void stackmap_mark_init_failed(void) { }
+
+-- Steve
+
+> +#endif
+>  		return 0;
+> +	}
+>  
+>  	if (trace_init_wq) {
+>  		INIT_WORK(&tracerfs_init_work, tracer_init_tracefs_work_func);
+> diff --git a/kernel/trace/trace.h b/kernel/trace/trace.h
+> index 80fe152af1dd..7e7d5e5a35ff 100644
+> --- a/kernel/trace/trace.h
+> +++ b/kernel/trace/trace.h
+> @@ -57,6 +57,7 @@ enum trace_type {
+>  	TRACE_TIMERLAT,
+>  	TRACE_RAW_DATA,
+>  	TRACE_FUNC_REPEATS,
+> +	TRACE_STACK_ID,
+>  
+>  	__TRACE_LAST_TYPE,
+>  };
+> @@ -453,6 +454,9 @@ struct trace_array {
+>  	struct cond_snapshot	*cond_snapshot;
+>  #endif
+>  	struct trace_func_repeats	__percpu *last_func_repeats;
+> +#ifdef CONFIG_FTRACE_STACKMAP
+> +	struct ftrace_stackmap		*stackmap;
+> +#endif
+>  	/*
+>  	 * On boot up, the ring buffer is set to the minimum size, so that
+>  	 * we do not waste memory on systems that are not using tracing.
+> @@ -579,6 +583,8 @@ extern void __ftrace_bad_type(void);
+>  			  TRACE_GRAPH_RET);		\
+>  		IF_ASSIGN(var, ent, struct func_repeats_entry,		\
+>  			  TRACE_FUNC_REPEATS);				\
+> +		IF_ASSIGN(var, ent, struct stack_id_entry,		\
+> +			  TRACE_STACK_ID);				\
+>  		__ftrace_bad_type();					\
+>  	} while (0)
+>  
+> @@ -1449,7 +1455,16 @@ extern int trace_get_user(struct trace_parser *parser, const char __user *ubuf,
+>  # define STACK_FLAGS
+>  #endif
+>  
+> +#ifdef CONFIG_FTRACE_STACKMAP
+> +# define STACKMAP_FLAGS				\
+> +			C(STACKMAP,		"stackmap"),
+> +#else
+> +# define STACKMAP_FLAGS
+> +# define TRACE_ITER_STACKMAP_BIT	-1
+> +#endif
+> +
+>  #ifdef CONFIG_FUNCTION_PROFILER
+> +
+>  # define PROFILER_FLAGS					\
+>  		C(PROF_TEXT_OFFSET,	"prof-text-offset"),
+>  # ifdef CONFIG_FUNCTION_GRAPH_TRACER
+> @@ -1506,6 +1521,7 @@ extern int trace_get_user(struct trace_parser *parser, const char __user *ubuf,
+>  		FUNCTION_FLAGS					\
+>  		FGRAPH_FLAGS					\
+>  		STACK_FLAGS					\
+> +		STACKMAP_FLAGS					\
+>  		BRANCH_FLAGS					\
+>  		PROFILER_FLAGS					\
+>  		FPROFILE_FLAGS
+> diff --git a/kernel/trace/trace_entries.h b/kernel/trace/trace_entries.h
+> index 54417468fdeb..89ed14b7e5fd 100644
+> --- a/kernel/trace/trace_entries.h
+> +++ b/kernel/trace/trace_entries.h
+> @@ -250,6 +250,21 @@ FTRACE_ENTRY(user_stack, userstack_entry,
+>  		 (void *)__entry->caller[6], (void *)__entry->caller[7])
+>  );
+>  
+> +/*
+> + * Stack ID entry - stores only a stack_id referencing the stackmap.
+> + * Used when CONFIG_FTRACE_STACKMAP is enabled to deduplicate stacks.
+> + */
+> +FTRACE_ENTRY(stack_id, stack_id_entry,
+> +
+> +	TRACE_STACK_ID,
+> +
+> +	F_STRUCT(
+> +		__field(	int,		stack_id	)
+> +	),
+> +
+> +	F_printk("<stack_id %d>", __entry->stack_id)
+> +);
+> +
+>  /*
+>   * trace_printk entry:
+>   */
+> diff --git a/kernel/trace/trace_functions_graph.c b/kernel/trace/trace_functions_graph.c
+> index 0d2d3a2ea7dd..0e1a390a6130 100644
+> --- a/kernel/trace/trace_functions_graph.c
+> +++ b/kernel/trace/trace_functions_graph.c
+> @@ -1492,6 +1492,7 @@ print_graph_function_flags(struct trace_iterator *iter, u32 flags)
+>  		return print_graph_return(field, s, entry, iter, flags);
+>  	}
+>  	case TRACE_STACK:
+> +	case TRACE_STACK_ID:
+>  	case TRACE_FN:
+>  		/* dont trace stack and functions as comments */
+>  		return TRACE_TYPE_UNHANDLED;
+> diff --git a/kernel/trace/trace_output.c b/kernel/trace/trace_output.c
+> index a5ad76175d10..68678ea88159 100644
+> --- a/kernel/trace/trace_output.c
+> +++ b/kernel/trace/trace_output.c
+> @@ -1517,6 +1517,28 @@ static struct trace_event trace_user_stack_event = {
+>  	.funcs		= &trace_user_stack_funcs,
+>  };
+>  
+> +/* TRACE_STACK_ID */
+> +static enum print_line_t trace_stack_id_print(struct trace_iterator *iter,
+> +					      int flags, struct trace_event *event)
+> +{
+> +	struct stack_id_entry *field;
+> +	struct trace_seq *s = &iter->seq;
+> +
+> +	trace_assign_type(field, iter->ent);
+> +	trace_seq_printf(s, "<stack_id %d>\n", field->stack_id);
+> +
+> +	return trace_handle_return(s);
+> +}
+> +
+> +static struct trace_event_functions trace_stack_id_funcs = {
+> +	.trace		= trace_stack_id_print,
+> +};
+> +
+> +static struct trace_event trace_stack_id_event = {
+> +	.type		= TRACE_STACK_ID,
+> +	.funcs		= &trace_stack_id_funcs,
+> +};
+> +
+>  /* TRACE_HWLAT */
+>  static enum print_line_t
+>  trace_hwlat_print(struct trace_iterator *iter, int flags,
+> @@ -1908,6 +1930,7 @@ static struct trace_event *events[] __initdata = {
+>  	&trace_wake_event,
+>  	&trace_stack_event,
+>  	&trace_user_stack_event,
+> +	&trace_stack_id_event,
+>  	&trace_bputs_event,
+>  	&trace_bprint_event,
+>  	&trace_print_event,
+> diff --git a/kernel/trace/trace_selftest.c b/kernel/trace/trace_selftest.c
+> index 929c84075315..0c97065b0d68 100644
+> --- a/kernel/trace/trace_selftest.c
+> +++ b/kernel/trace/trace_selftest.c
+> @@ -14,6 +14,7 @@ static inline int trace_valid_entry(struct trace_entry *entry)
+>  	case TRACE_CTX:
+>  	case TRACE_WAKE:
+>  	case TRACE_STACK:
+> +	case TRACE_STACK_ID:
+>  	case TRACE_PRINT:
+>  	case TRACE_BRANCH:
+>  	case TRACE_GRAPH_ENT:
 
