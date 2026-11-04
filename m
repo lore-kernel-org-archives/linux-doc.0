@@ -1,56 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.85.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=199.89.1.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793812071;
-	b=fvM9SW91rN2RUdHrEtepFfTky2ih6PhfWNNtNeZ7FgHmIRvdmx6atKRK2IgasTWtZjXb
-	 tXVxAYMP/ggOBen47x38/du7w/BWfWW2l+Se+s9ObdPGnk8+Hmt8KSQ/2s/uRrKfVnNLC
-	 r8PpnEwbYwLqLRBC//7WBddjXQ+DFkGDDdOR+nfM0+SdSiYfF6WL3dHnGiD7v2txEnRA/
-	 wIXk7wXXS+Qu5pfJuPOzwBq6GwM+yvCZWYN6wGTYfGphke9IBIjAl+Y7dlqeYNTp9xTEh
-	 2ngf5YDUF5vUqzOi9ZuF5FFh84Sbx6srqjT2K1o4BuhWqav+sxTfeJaTlL7ozfo8WGQ==
+	t=1793812306;
+	b=UN83V74W5bVdWHadBjoA6pzQ4qcbqe1Emh57qRYSNIN2Il0FkH6Io4T+x2FU6kEaN7ZD
+	 lko3bo1ojbf2mrM7FDbrtlC5NvRcOE3Nggj8HESWbSXyalHrhONee8zbkPx5sa7tICM7L
+	 CsgMEnZ5kCZeScjkV70TGQE8N8kLGAv5P7h1LxW31W9sW5+7yH2xLl1vJjaaXwqCaMRbr
+	 zp2t6ZvMWSiHFh4Lix9zj0G6iiPmqZSqnyQ+WOGHW+GyGL8R5PkYNJiQs8q+AKTCfIxMM
+	 AhqhxMB46eCY0Zd6fvGwKxWZmrMFNAyqY0LNXz6cvjmMElGrP/kYm367ZZAQRNMW8yQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793812071;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Mime-Version:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:To:From:
-	 Subject:Cc:X-Mailer:References:In-Reply-To:
-	 X-Last-TLS-Session-Version;
-	bh=XGTKa+A0EJ4L1pLNTThftimEUnixWjJ49siVoGkapLY=;
-	b=dy4JsGcXmi/U8cEWXy4uyaY6RHZxKd+Do4D60YryxctJK0E688W5o2mwUyJ0tEX7A0nd
-	 BiBzyAIR+uzgiEtaj/vDzUHtUse2uWRutB89+ll9BZC5xEhYdEg1d3CvB93FqUnWJCZYN
-	 ZHrxH9L0eb2t2NlK/8vdkJ2rm1TCqHBUD7/m57V5ikNXOfnWRI4jW5+Dyei3Jzlaii3Zo
-	 Dyv+ZdtvBdOI5IvlwRiDqhNiPjZvDHVWEz+vpwvUcw3tIqtdadL9QoUjJWxANZ9cf7/5X
-	 Sn4iDhcKRc6WnjGuvcdSAVzv88qJvdnvBTli5mQF5tLuwHV0sPQPL7tHVV5wl/OQQig==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793812306;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Virus-Scanned:Received:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=mlKVFicyJ09eC0P3851CJPrmUizXit4zBavA6Qb+JgU=;
+	b=hTYoykNxwj76y0A+NPJg/kFHiOOb0GpFkNT7ibpiD4+dl2096liTcINCqNctYteuhQd9
+	 hvWfWJLMq1SEGST5iaYR0q5QlryaMpDg79olHYI9gAYQ7MfcuXz9Ptk7EGavcbUYEEh+z
+	 ZJLwwk4SGu/o+op+urFltyxwB/5Qng4l84VTnrjWOyWiMwPiusU9LsnrO3hlWzHdeSwEH
+	 ytixyUKMp58V8lDzYdFNOJ/bc0T7Iu171Ql+psHa8wyPgOfEQJOpZBVJkEFHk7geQgL11
+	 +sfQgzyxFAQD88x4p6hvadBm2Ep9GJSjH2XFoMNkEa1kjrEjPVV+DNzgI/vRayShyiw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=kpW9EzxD;
-	arc=none smtp.remote-ip=185.246.85.4
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+	dmarc=pass header.from=acm.org;
+	spf=pass smtp.mailfrom=acm.org;
+	dkim=pass header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=2Lzfm64f;
+	arc=none smtp.remote-ip=199.89.1.16
+Received: from 013.lax.mailroute.net (013.lax.mailroute.net [199.89.1.16])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2193606A31B;
-	Wed,  4 Nov 2026 17:07:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2193606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16344606A31B;
+	Wed,  4 Nov 2026 17:11:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16344606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=kpW9EzxD
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 54F1E4E4140B;
-	Wed,  4 Nov 2026 17:07:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1EBE760772;
-	Wed,  4 Nov 2026 17:07:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 82B7610329251;
-	Wed,  4 Nov 2026 18:07:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793812059; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=XGTKa+A0EJ4L1pLNTThftimEUnixWjJ49siVoGkapLY=;
-	b=kpW9EzxDmdwtKwJxISj/gutIXqyN7MmDRignbWZN1ektWTrrUIPrzso7gUlAIzRlYfmlqW
-	wBKlXNUQhCfopQRniPYcBz+T3i6olaSdwJWoGYq/d1bCvLPhFP25igvjueEGcFOAbK2C+g
-	lOlAG7F4VENL7Shxg3rR1VCK0QcwJEj51ZVM4g87fG/ThwFB2lU6YrCm+VpFntbpEluzhB
-	BIvWkeRvI9t8CN65COyeHnV708XPaCXT8itYVl+McadgV2i2dutDVKHVPTlYkR75obUlkZ
-	aOVlJuGAspv0NyRdMHKWaxq4ALVvic2JukDp9T7B6la1y8qyGG6ZYjuBUnDOVA==
+	dkim=pass (2048-bit key, unprotected) header.d=acm.org header.i=@acm.org header.a=rsa-sha256 header.s=mr01 header.b=2Lzfm64f
+Received: from localhost (localhost [127.0.0.1])
+	by 013.lax.mailroute.net (Postfix) with ESMTP id 4jKX6T332pzlfcTw;
+	Wed,  4 Nov 2026 17:11:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
+	content-transfer-encoding:content-type:content-type:in-reply-to
+	:from:from:content-language:references:subject:subject
+	:user-agent:mime-version:date:date:message-id:received:received;
+	 s=mr01; t=1793812302; x=1796404303; bh=mlKVFicyJ09eC0P3851CJPrm
+	UizXit4zBavA6Qb+JgU=; b=2Lzfm64fUv5Qx9EFSr84etmN2esaCCmR2AGo1psu
+	4IquYX/jAgS4TAxWFkNP42MuyTSGrA+q2Q+2EA7FrW92hJDNfOOZnNKGYmv5NaAJ
+	Cda0+ediHESmSHOBkD39raj93GFbcZLwizHsmNcbLtx9NRQe8kNNLj7WaAIbiT+/
+	3JJtupTUZcIDW1HY5xasuxLqZIxXFoQrQyXS2NNYdcSCLVkLJhjEgougaqRIl5mh
+	O3q3s22+WQFK1lvoCvJ2eJTY4x7uWOmZwgPrsiJgjayOqntp2M9RLkvmRlliTRvM
+	ggd/5Bx+r+VchieruBNBATla6GIFYNmgPCV2lgk9q9ZMMw==
+X-Virus-Scanned: by MailRoute
+Received: from 013.lax.mailroute.net ([127.0.0.1])
+ by localhost (013.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
+ id cGQNmq_n9wrT; Wed,  4 Nov 2026 17:11:42 +0000 (UTC)
+Received: from [100.80.231.125] (unknown [104.135.182.41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bvanassche@acm.org)
+	by 013.lax.mailroute.net (Postfix) with ESMTPSA id 4jKX6Q0rwKzlffvb;
+	Wed,  4 Nov 2026 17:11:42 +0000 (UTC)
+Message-ID: <8adcbd80-f684-4e00-81b3-a2661fac895b@acm.org>
+Date: Wed, 4 Nov 2026 09:11:40 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,95 +69,50 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Nov 2026 18:07:11 +0100
-Message-Id: <DMMLAMPXDLC2.3SN65B5N7R4M5@bootlin.com>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Dmitry Baryshkov"
- <dmitry.baryshkov@oss.qualcomm.com>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH 02/35] drm/panel: remove the unused struct panel_bridge
-Cc: "Douglas Anderson" <dianders@chromium.org>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Jessica Zhang" <jesszhan0024@gmail.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jyri
- Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, "Andrzej Hajda"
- <andrzej.hajda@intel.com>, "Robert Foss" <rfoss@kernel.org>, "Laurent
- Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
- <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Paul
- Cercueil" <paul@crapouillou.net>, "Marek Vasut" <marex@denx.de>, "Stefan
- Agner" <stefan@agner.ch>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
- <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
- <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Laurent
- Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
- <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
- <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
- <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Biju
- Das" <biju.das.jz@bp.renesas.com>, "Linus Walleij" <linusw@kernel.org>,
- "Sandy Huang" <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, "Andy Yan" <andy.yan@rock-chips.com>, "Jonathan Corbet"
- <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
- <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
- "Krzysztof Kozlowski" <krzk@kernel.org>, "Peter Griffin"
- <peter.griffin@linaro.org>, "Alim Akhtar" <alim.akhtar@samsung.com>,
- "Alison Wang" <alison.wang@nxp.com>, "Paul Kocialkowski"
- <paulk@sys-base.io>, "Yannick Fertre" <yannick.fertre@foss.st.com>,
- "Raphael Gallais-Pou" <raphael.gallais-pou@foss.st.com>, "Philippe Cornu"
- <philippe.cornu@foss.st.com>, "Maxime Coquelin"
- <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
- <alexandre.torgue@foss.st.com>, "Chen-Yu Tsai" <wens@kernel.org>, "Samuel
- Holland" <samuel@sholland.org>, "Thierry Reding"
- <thierry.reding@kernel.org>, "Mikko Perttunen" <mperttunen@nvidia.com>,
- "Jonathan Hunter" <jonathanh@nvidia.com>, "Jagan Teki"
- <jagan@amarulasolutions.com>, "Ondrej Jirman" <megi@xff.cz>, "Javier
- Martinez Canillas" <javierm@redhat.com>, "Igor Reznichenko"
- <igor@reznichenko.net>, "Michael Walle" <mwalle@kernel.org>, "Dario
- Binacchi" <dario.binacchi@amarulasolutions.com>, "Jagan Teki"
- <jagan@edgeble.ai>, "Jianhua Lu" <lujianhua000@gmail.com>,
- =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, "Purism Kernel Team"
- <kernel@puri.sm>, "Jerry Han" <hanxu5@huaqin.corp-partner.google.com>,
- "Joel Selvaraj" <jo@jsfamily.in>, "Icenowy Zheng" <icenowy@aosc.io>,
- "Michael Trimarchi" <michael@amarulasolutions.com>, "Sumit Semwal"
- <sumit.semwal@linaro.org>, "Casey Connolly" <casey.connolly@linaro.org>,
- "Michael Tretter" <m.tretter@pengutronix.de>, "Cristian Cozzolino"
- <cristian_ci@protonmail.com>, "Junjie Cao" <junjie.cao@linux.dev>, "Ryan
- Brue" <ryanbrue.dev@gmail.com>, "Nickolay Goppen" <setotau@mainlining.org>,
- "Stefan Mavrodiev" <stefan@olimex.com>, "Florian Fainelli"
- <florian.fainelli@broadcom.com>, "Broadcom internal kernel review list"
- <bcm-kernel-feedback-list@broadcom.com>, "Robert Chiras"
- <robert.chiras@nxp.com>, "Alexander Koskovich" <akoskovich@pm.me>, "Markuss
- Broks" <markuss.broks@gmail.com>, "Artur Weber" <aweber.kernel@gmail.com>,
- "David Heidelberg" <david@ixit.cz>, "Dzmitry Sankouski"
- <dsankouski@gmail.com>, "Yedaya Katsman" <yedaya.ka@gmail.com>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-mips@vger.kernel.org>, <imx@lists.linux.dev>,
- <linux-arm-kernel@lists.infradead.org>,
- <linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
- <linux-doc@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
- <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
- <linux-tegra@vger.kernel.org>, <linux-rpi-kernel@lists.infradead.org>
-X-Mailer: aerc 0.22.0
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
- <20261026-drm-panel-funcs-v1-2-5e3070a3478f@oss.qualcomm.com>
- <179338130510.3009485.7743956655769667889.b4-review@b4>
-In-Reply-To: <179338130510.3009485.7743956655769667889.b4-review@b4>
-X-Last-TLS-Session-Version: TLSv1.3
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] PM: runtime: Update runtime_pm.rst for non-fatal
+ resume errors
+To: Stanley Jhu <stanleyjhu@google.com>,
+ "Rafael J . Wysocki" <rafael@kernel.org>
+Cc: Brian Norris <briannorris@chromium.org>, Len Brown <lenb@kernel.org>,
+ Pavel Machek <pavel@kernel.org>,
+ Praveen Talari <praveen.talari@oss.qualcomm.com>,
+ Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>,
+ Alan Stern <stern@rowland.harvard.edu>, Jens Axboe <axboe@kernel.dk>,
+ linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261104151651.3035537-1-stanleyjhu@google.com>
+Content-Language: en-US
+From: Bart Van Assche <bvanassche@acm.org>
+In-Reply-To: <20261104151651.3035537-1-stanleyjhu@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri Oct 30, 2026 at 6:28 PM CET, Luca Ceresoli wrote:
-> On Mon, 26 Oct 2026 13:09:51 +0200, Dmitry Baryshkov <dmitry.baryshkov@os=
-s.qualcomm.com> wrote:
->> The bridge is embedded into struct drm_panel now, nothing uses the
->> separate wrapper struct any more.
->
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+On 11/4/26 7:16 AM, Stanley Jhu wrote:
+ > +  * If the resume callback returns an error code, the PM core sets the
+ > +    device's runtime PM status back to 'suspended' and returns the error
+ > +    code from synchronous resume helpers.  Unlike with the suspend
+ > +    callback, failures in the resume callback are never considered 
+fatal,
+ > +    so the helper functions described in `Section 4`_ are not 
+blocked and
+ > +    a subsequent resume request can run the resume callback again.
 
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Hi Stanley,
 
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+This matches what rpm_resume() does since commit eef1d74bf88f. A nit:
+suspend callback failures with -EBUSY / -EAGAIN are not fatal either,
+so "Unlike most suspend callback errors" may be slightly more accurate.
+Either way:
+
+Reviewed-by: Bart Van Assche <bvanassche@acm.org>
+
+Additionally, the kerneldoc of @runtime_error in include/linux/pm.h
+("Fatal error code returned by a failing callback") could be updated
+in a follow-up patch to mention ->runtime_suspend() explicitly.
+
+Thanks,
+
+Bart.
