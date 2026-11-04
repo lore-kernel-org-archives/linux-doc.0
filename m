@@ -1,85 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793831432;
-	b=h0jYmZFZq0y1MMTYK9SImgH2f9RLA3ltA5S7wLEpqP2vNpBVXPP6lAPBHui2SNH/OKEP
-	 JBfaRZuqPz1ajKb3vuM9jJzwGrhdNnlHDKSTzVUXQrM9aj0/sikPLzcHdPO5WIQFFbH6D
-	 mbA54zRWAs46Z8zb2r5JcSifgEkmjDjbBPUjEo8CXfPKFbzm0Ij/7ZjQTqzxC7wY15tcF
-	 8xka8s3zhKOYF3EjZvlC07L+zlvhYWQ04YpwimpFhYIVyEqhcv6WFWVlRyjN9QZ5XHQeb
-	 x8uX3WBl0Sk6G7JheDG5purQf6cayHqa2rtEtaWtTazNKAzFwc5PlA+/20KJrbge8ug==
+	t=1793831542;
+	b=xEPPR4/2OtrKxobHQHMsVpGDJUKNphvgMUq3mujxFvoDDGa4yAptmohZOBr4QGme/U02
+	 lkSzehSvpvA66TlGKtP+rrb3NKGe6A0OindoUgYjb5davo4RfKolej1j4f/FmzFxzvz5D
+	 WkxjPNTpb1sziyKstdu10sk3CtkFK0c7RGu/2s9CBIifIXvJux/efZgA0JjmoJ4Zse4SK
+	 MWNngnKCuxcmndbCEzOO9P/FulFffBJGLOXuhVyGjGfadBOBslzw28Xu1KQm3IBfjbM1k
+	 RfZUrRZMUkb6T/KUDZGsMvGZ66LWHDEM6W2Zdzh1PZ8dCuOCrgNdotJ2s+EixjPD1Xg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793831432;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793831542;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=45IHMvHuNfQHmQp3e/l7ZQyBPSv/bWU1s+/SnIhe5+k=;
-	b=HQAHZu0Eias6QPKySjReJCckSmXpfE1CeIYOqhMGB+t6MyLK4ub8G4Yooab4JIFxETHd
-	 WK2FF4NhnGrgQPYlN0yW+AqDyRobUIrqLjvuM4yJMZ1WUsC5+/J7AlhD8qnV1Y+xlF6Gr
-	 6rNdejiNAIbw7BdIHlEU8KFMCIVc8hHXGCdcJXdVBX12zmb9U+HxJc+PjjhwGAI9mcFwK
-	 8A6uXLbcws4w/hYBdacfMQPsdUNj5PGulrvaXhnJpFg3zpfQiV2/lWWG1aGdElsh9HXgk
-	 +FWMNK/o5IJcbnntwzSwfAVHq2N6BQqvvWgOLwUmqTYPNqEKsiYWNCF9THcVQIZL8XQ==
+	bh=AqrMQTautnZWVcHeal8+VHryjxTdMHJnQLEYqFDhRfQ=;
+	b=2zYoVP7mZ4adX1fNXOq6cZINN6ESsUrj6KTb/xjUmXBhPZVCE6GIzsEnAmyJUBXcazkD
+	 qWjBr/rf6yCYX9x6xrSRundmfkn6YLiG2RtXldXsvQt83Hw2GMcz4wjsS728soFk0IMyN
+	 Wsl0XvIFHt1rOlsGS5rz4s39fpG5jNs1xibx6Q0Q0uEf0W7AbZpNsuIowyoCsrCY0+7zR
+	 ECU1nOIaArwGMj3nTPhQBIEHN3m+qY6JiVlxMCN+77kXcmZsqR6T7a+co66QkuEhuzQu4
+	 YFyT7WSxYXroyXAjA5gjIIGUMzOOY+72I3xQDNvf0V8MUf3QvsAzqik8zK+MA3Il0Xg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GSTNqouf;
-	arc=none smtp.remote-ip=209.85.215.171
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Z7LHOZQ0;
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1BB606B2D1
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 22:30:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D1BB606B2D1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2902F606A849
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 22:32:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2902F606A849
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GSTNqouf
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cdb2e0062bbso516774a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 14:30:31 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Z7LHOZQ0
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e95bd1c14cso10352475ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 14:32:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793831431; x=1794436231; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793831541; x=1794436341; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=45IHMvHuNfQHmQp3e/l7ZQyBPSv/bWU1s+/SnIhe5+k=;
-        b=GSTNqoufmOCpxSxB6DIpnTk/eG5C/2yBvhJutiJie6deAzBZ820GjEL0CwYPGLbU12
-         EGLHaicSIjyD5q59jnIYNF/yUOO0e7lkkX4gor5VSz4qsPiv1W68/jSR9STrKAh/pYtD
-         rnge8JQSnBOwRVZw85l6zX2S2zaRLkfH0DzEs+F8IRPdZP+8NAT2VOD4XZNQuhBu9eUL
-         MKWZ5opKy6BtnPv3UuxcBNcMz/E85flXa/LbKJD+lWdihEadWL1HmlWmyuxUseRN+ZP6
-         0jBi7LZgNJcl5EC8H4nxpA4XIVD0kGDgTjMHs54S6JHs5tUFCaTzvLOmGRUZ6MrG2+gw
-         PSJg==
+        bh=AqrMQTautnZWVcHeal8+VHryjxTdMHJnQLEYqFDhRfQ=;
+        b=Z7LHOZQ0+vcoKUS7yCEOrnmDL9Gq4YrSvwIsK5QMV9vH139XeuBqLTQbiHcG5nbodq
+         QSX1ZySWx29FjN/EplLMWd24FBt+mCyTuKSInC8DFEzr0ky1W9Tq4E3HhzCZkPwqe8YJ
+         PE92jDwE5ZT7DweBwdwmPnLE69d+fhrINoPAd4J/HxFH2PLl3esJAJbJDAZ25lTbiSHY
+         M8z4PiYBS6k/3rqlAk1XbEvkp0km0XPgMugi4y8LbTQ5DucCb+VusJmKXS76B+JZ1z9E
+         TAudHtwEEiDLzHGvErFDbIxa+pNY1DN8Je7gGT4t0smJlGP8fHhtAoBBDorN5UKEhFDs
+         RqDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793831431; x=1794436231;
+        d=1e100.net; s=20260707; t=1793831541; x=1794436341;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=45IHMvHuNfQHmQp3e/l7ZQyBPSv/bWU1s+/SnIhe5+k=;
-        b=RTbyTIPkkRrkxJJpmG7nOajVc8HSYPWxCgv5DZjzupfKeYHkHE+pHnJ3zuIKO85fHE
-         oz9XKZ17oU4q1xZMCxEnm8jD1E/1kuhn0OKENuXCmkEB0zVG+sPCayAiukTsBlWjntyu
-         vHHlGx0DX0NgqB/ommc/hv1xq/e6lzpaEdoUVdQulwcnEwBEhmr49JUVZ67Eww1832XO
-         YHC6zwr/+Bf8z8v4E4gyIFBRSX7W2sPu3jaBcvPHIN89hVu58YMlY4mPbSqcgZtwO5R/
-         2AialRPkW57FrxIYwrsyOPgTA3TlLmRdErgeflD6ffsEAjJIo1wHIYGzbqqL6oz290X6
-         KNZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw2G2bNRdKeJfjNv0yu7axJLs02vvA7R48uYORs2PKsiKJLc91sn3WE0vqnKxwVCkh017oCm1C/ec8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ErJ/aTGK2TXkfPOCTn+sUC+fwq0T4EYdvBkdK4Reylsx9X287
-	mDc3uT9AV1zsp4aQVbHUBhz41LOo2HaWVGvSA9JY9sR9NLBFSx1h4MYVdM63ijcumw==
-X-Gm-Gg: AYBFou3RnxIgI/RkY6w8ecaKOjgkLIQxzSvdMWWuSL9Mec4AxYjldhSkNa78xmk0F9r
-	zhC/wuYui+GnPAbtyrs2WzMa+nhY+ijMrfaynrAx5L4mKP5QWNw0D+bmCraFLEXFXQtfElHqLN2
-	n0T7rm8401Yn1oW8tMbvHtkuG8XR9VmWS9b8tgYZKL39dppXF9fc9VMqx0+NFIj5dLmUdXoPiE8
-	nLM/uBThxIICdnK5uoN2vunMiO2melIKN2hMb4RIT86g0A6WXt2IdDk9Y4Xveh3zuD9hAD3Ffyo
-	+Rmptl85qe3qyYpeyB63gAufPyC3oosIldtU8O/RKhu8voy7rmMffCuVRFikvPCXCBdowLX+9Id
-	QGITNTNDam9vepgsQ3FAAQTlheH+oAyvto2PECM+KwHl601fkk2SsaYvHBCVKgaCHG23jw9Ahvs
-	Y+3kfEfOuqcO8lcDGH80IrMvlpN99AW6eWLXfRCq90IQ2Qg9KhIGaCfFhhqAUBurgLwFWneHZyU
-	pGe5hKkSeCMqeU5+Zy+BcRgNJSjwLZhmHPnUBEDcy9rywrqU57MrNuw/M5r1A+3UEnK3ZLdzPwX
-	mKkSwTxdnYKDnhIo/ffSlJR/ekUnNQGfG5vpGR7TgvTqR3vEjJtsKpSP3DBu0xIX
-X-Received: by 2002:a17:90b:3d8e:b0:3ac:8897:7baa with SMTP id 98e67ed59e1d1-3ae8979a140mr13152373a91.40.1793831430846;
-        Wed, 04 Nov 2026 14:30:30 -0800 (PST)
+        bh=AqrMQTautnZWVcHeal8+VHryjxTdMHJnQLEYqFDhRfQ=;
+        b=CPIEMFWmW5xdP9e7JjsEJPoKml81ssV67AgxVt4Nf9cKNEJZawtjrHZKDWnFK87eih
+         WpDGHrEb72a/TBfogKwgDbNB+dmwT2HHnkNCdE2t/evqsrY8lRu8cEqrluYPn7L7tnIU
+         DUjtAbGbuLAAhrpvZevsiYbCF9e4/UlJqYqQnlWiJTDJMjeSQFhoM4+oHGUhgLoWMd1S
+         Krh49nQgOu+Si7bvXNIuJ9mjHz9yNNUDCutVbGSAq5UtgMTGO+okFMvACnORnO5Dqr/z
+         LdmxCeMrYS7rr3Oqp2pHvoc6ybzAcYKGJU2g4BSFYkkmvgv9gx/YBK5lAbgrmimVlLFp
+         BPkw==
+X-Forwarded-Encrypted: i=1; AKwUvBwP9UDkhy1mtSecAioZmPcubi6y9SQ0BGuMhsCrc9lUwB6fGA1Kzbjoj8u9qNjHxYW5CndQsMDIp+w=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9hYpj6zHRZ0q0zd+n6VLvPo/NC8nBhVABMsixuoFc6mj7/9yGx
+	REccp0TM8ocgNwdLrGSpEJsUNSbo1Y0nMRmZH55ftDo3rmw7qwIZpG2GGNI4GRKsiA==
+X-Gm-Gg: AYBFou1+vfvS5gsEQiELBP4JCwWtwUJdc5A9DApH6a+kbpYRP5Jjp2l2Ry7vSkqvgLA
+	K3m1w/JjuFSP6qPmH44+zAqMKktrQyy6ieiDIdaI80CqCS+AAlMoWBLcs3hEwr2aXEMPdKumWdM
+	ktNBzlaqPZoFryhMHPsZz2DFGOadI6rqhotcsr9TBcp2AUJ5t0X2XV7h+nxjSCBgi+U/UM71beu
+	i2ZAmZ5hj8JjtbUtA0MiBfEs0gtVhQd7H/bwcv95vf6ShtdCU4aI8iWyWcJy+9DQfH05TX4mAfT
+	DUqUBQF75pFAuUv7xn2eq3nJAJ91emuEmHGxeKKPdLs6Q5B5tM38CcEqWlNltKBW2TT7lNp0lwF
+	Z1A8Lxo19HXgu5B5CJAPmOhLUKIXEtKav6JM4Y5wLpExmBfpyREQ2hwDjJ2DeyeZZjg93jN7N7r
+	9HWl9fHvqYPrHkS71KaopCk9I8sIpvi8jT/z1usQdRAye2iu0nOqaIGd/AG+Hj5ZUOUusVE/1Jz
+	0Esu/6XO6nu+yrEz5m/UvFgX7gNvXgY+iO8u7bhRjrlIhMbvTZiKZwjgMUIuPPVDkufg1fGA72i
+	jo+03Oy8nn+uWQLT68I0ys7hy2tfhLnxAGge3oXuM/TbYo/llHjFzsFeHO6ljwsHYe1fzhxKao7
+	RNnWNtL6zdQ==
+X-Received: by 2002:a17:902:f603:b0:2ed:130f:869d with SMTP id d9443c01a7336-2ed130fba9bmr22390155ad.43.1793831541004;
+        Wed, 04 Nov 2026 14:32:21 -0800 (PST)
 Received: from google.com (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31638fdsm743618a91.8.2026.11.04.14.30.29
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ed090a1475sm11919255ad.41.2026.11.04.14.32.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 14:30:29 -0800 (PST)
-Date: Wed, 4 Nov 2026 22:30:26 +0000
+        Wed, 04 Nov 2026 14:32:20 -0800 (PST)
+Date: Wed, 4 Nov 2026 22:32:15 +0000
 From: David Matlack <dmatlack@google.com>
 To: Pratyush Yadav <pratyush@kernel.org>
 Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
@@ -99,12 +100,12 @@ Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Suren Baghdasaryan <surenb@google.com>,
 	Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [PATCH v3 07/10] mm/shmem_luo: Retrieve tmpfs files onto a tmpfs
- mount chosen by userspace
-Message-ID: <auuyAseOISaOWwbO@google.com>
+Subject: Re: [PATCH v3 08/10] mm/shmem_luo: Allow preserving tmpfs files that
+ are still linked
+Message-ID: <auuyb7FYBX7xdr5z@google.com>
 References: <20261103010216.3447716-1-dmatlack@google.com>
- <20261103010216.3447716-8-dmatlack@google.com>
- <2vxzecd0k1dg.fsf@kernel.org>
+ <20261103010216.3447716-9-dmatlack@google.com>
+ <2vxza4nok0ji.fsf@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,24 +117,22 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2vxzecd0k1dg.fsf@kernel.org>
+In-Reply-To: <2vxza4nok0ji.fsf@kernel.org>
 
-On 2026-11-04 05:27 PM, Pratyush Yadav wrote:
-
-> > + * If @flags contains unknown flags or O_PATH, if @mode contains unknown mode
-> > + * bits, or if @dirfd is not on a tmpfs mount, the retrieve fails with -EINVAL.
-> > + * If the file can't be created, the retrieve fails with the same errors as
-> > + * open(). A retrieve that fails before the preserved contents are restored can
-> > + * be retried.
+On 2026-11-04 05:45 PM, Pratyush Yadav wrote:
+[...]
+> > + * Preserving a file requires it to be opened for reading, since the retrieved
+> > + * file can be read. It also requires permission to write to the file, since
+> > + * preserving it affects all of its users, as described below. But the file
+> > + * doesn't need to be opened for writing. For example, a binary that is being
+> > + * executed can be preserved through a read-only file descriptor. The owner of
 > 
-> How is userspace supposed to tell if preserved contents were restored?
+> Why are you talking about preserving binaries being executed? Seems
+> oddly specific. I didn't know that was a use case we cared about.
 
-Through the error code, like Pasha said on patch 3. I'll reword this in
-v4 in terms of errors instead of kernel internals: errors from checking
-the argument and creating the file, e.g. -EINVAL, -EBADF and the errors
-that open() returns, can be retried after fixing the argument. Errors
-while restoring the contents, e.g. -ENOMEM, or -ENOSPC when the contents
-don't fit on the mount, are permanent, and retrieving the token again
-returns the same error.
-
-Thanks for the review. I'll address the rest in v4.
+It's the reason the check looks at permission on the inode instead of
+requiring an fd opened for writing: a running binary can't be opened for
+writing (-ETXTBSY), so requiring a writable fd would make it impossible
+to preserve. Preserving binaries is a use case we care about, e.g. to
+carry over the binaries of services across a Live Update. I'll keep the
+comment shorter and more general in v4.
