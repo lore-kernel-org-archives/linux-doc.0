@@ -1,110 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793827021;
-	b=PNUOLaGZ+bmtcj2aomMyQxJEOo2PR+9oXReT48TytTZt04vhK46XfJnjwGg9XgGPCKF4
-	 CEUqsyfC7YwzCU1z3bt+z/oM68vOnNQjgp4cxC7s2TjsV3imb1cYa0XafQ2xr49QXDWky
-	 OEkGNYBl92nCAZvHa23Y9gwClDfRWW4l9Dseurga1iwKP6Q9D0lL5ryqCWwx9JKvATdN0
-	 hSE4GSGrWHgtjBTV0qOf/nO3Es66DTsojH9I94OwaqC4UF9KESHWeiJuXRaSaoCPXsnFk
-	 qIYo2Lszcg18HnbLfckPvLYiWK2bCoFlTLHjRrl1AId5A3jrP68a3rEK2nV5u1THCag==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793827021;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
-	bh=zeHs9UAP7YIb3jk19VW8WXuXpSby7HHZ4SLZ7Ya7qeg=;
-	b=NJug/H7Ioiu5StT7XnG/xBB9AEC2kOTlGoMob8Jmh/2hAWFJv9eFF/HjTSOj3p8o0RZn
-	 QwuxbQB0wrAhKAh+mOOXdn7TpaL8o9H6IiglnwCyq73yjziWdXZHQ5LtOLYZc7s8uFT6h
-	 6ROcD5HYmmHxibKVXD7UGQ2RlHXHwEfU6mZYgN6uy+lboOaWBt83jtle4WPOwH3hgUw0o
-	 tszlQt1iivaDWQHF+O+k3D6Hyv+qZR+RNjuDds+htZGDL9esajIPovSox2MAKnFrAE+j+
-	 DeJ/e+PI56jhGWfySq14GTzUOGzee0Qyk0xdI/GGuWh5UmuM7LziPNS0s+tI9mAqLJw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S3SzdWSz;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.43
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793827992;
+	b=r0IlYhvG1S1zDP33SA+dDJMLjk8wMtcTFTeiRlzh+17HzqORQYgnUuiOMGM6I6VYXi2F
+	 yw48ob4GHuGOQObEGa5lv1CGUtG1AVWPtRQQ/SDvxuudw9O7hGr6DD7t9QXJrUxB6H7pm
+	 WFZrV0SFOlLhUI7im6HacJTROfWQM+YRt14auXJkj5BhLOd8f20GXwTkVDQehveZ5RT7i
+	 ZcF+MJ1nWxTugUYjaRGT5x/XxUXp8XzX6NFgkfj8nVV4eqhJi8RHGTcn9dBIqoDOODWtZ
+	 Lp3jk+jk5037Xj9AfNfiX873OekOjNXTXZuEDfdO1EeyUyGtT0PHOIGCA4wBD1Vy7yw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793827992;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:Content-Type:Content-Disposition:
+	 In-Reply-To:X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=z3d4nvRcvFNEOKESR3K7UWzlJ8ktE+p7y5zJfcTkRoE=;
+	b=r5vLZ43K/DhOMOpCVu2+GRPVbtRGnF/wz1X5Mru/QPgly1XSNeiAYLOgarkSKd13Pgij
+	 9qyzcGAL7r/i/pFOWG5XXZxwjtIuvfQ0Pht7F06GAaUEuwKpWb0QvXN8YGmB6d/GLXf/6
+	 220NMugWNmAFgfXxvdxk4DxIXJ51yWdpduf7pywOmOTfQwowYCeMgC00Wm76OUbi8U1PQ
+	 daqu4yLlbM1PIGEtGP7akBEbw2ewtCOU/I8I8wbfQg9AuHoOgRHeV35EREJ0PllLoZV2j
+	 2wQxgpn6YNpAV/vJ8RXRZL323thE3IMf9lIRAr6QEDhqk6nm3cUkIBEDpc87i8k6Mfw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=l+ukF+vV;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.43
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011043.outbound.protection.outlook.com [40.107.208.43])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31780606A863;
-	Wed,  4 Nov 2026 21:17:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC2BD606C902;
+	Wed,  4 Nov 2026 21:33:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC2BD606C902
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S3SzdWSz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07AC31F00A02;
-	Wed,  4 Nov 2026 21:16:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793827021;
-	bh=zeHs9UAP7YIb3jk19VW8WXuXpSby7HHZ4SLZ7Ya7qeg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=S3SzdWSzW86Oi7IX1tUBoRNN3T1qaKpCsD195aJc0q3DFSVT8WBvY060bSLKhgobb
-	 ozqt92gwXbw5PQb0azuNQvXlPB7WnJ6cBECkdsTADqTj+zV4KFstm2CIoVK3RnyKHw
-	 qukYCNAdRUYdRI6RQkFYFD46MOjD+1c8YqXVIsSOalpjdzN976W0rXYKybUDWkvkIa
-	 rfbNpjRPuRxsQxtxAfSij5iqz5tsGOkFhdPq9CXCzRhQ5vabAbm6JESEBXYkE7I8Zz
-	 Xcw2dOWqmhnKSnz+HejYopwm49XOlRK/JAYtCOxhFx3vpJFr7q8EZmlKY7qc7HALif
-	 bf0zrDFVpbYqg==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org,
-	"Christian Brauner (Amutable)" <brauner@kernel.org>,
-	Chuck Lever <cel@kernel.org>
-Subject: [PATCH RESEND v2 6/6] proc: drop the poll_table from ->proc_poll()
-Date: Wed,  4 Nov 2026 22:16:46 +0100
-Message-ID: <20261104-work-procfs-cleanup-v2-6-1e6687e226b1@kernel.org>
-In-Reply-To: <20261104-work-procfs-cleanup-v2-0-1e6687e226b1@kernel.org>
-References: <20261104-work-procfs-cleanup-v2-0-1e6687e226b1@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=l+ukF+vV
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ZdP6UEwYIONZYKKonmUZIZK2xLOh+8E/9Hm98MjV/ZivYXhYgv8lWljO1bMFwe4Tw+PtVzvwAudv72vJ+2Lu28kPIprai0RNI00HRB7RXZ4jhX5mg/i1NLg/zvxyJpG6kVpK0gK7cP+X6+qHKYb94C3AkaGKfJnEPXi4oucSwVEZkNbXZSidQ/JdsxC9UmRb99s4zWqhQnEADXRFPxhi/9iNFxt0l615pY37Yk0y+xHFtF842r0Y8rBanYiiDEKMlY9DBbyzduGygxh3qWgb1ryaRx6HO19STJtf2M7UbE+TdlPrK6RPySbOY43vlWRN3TCiTcF6olo76tEIK8RD1Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z3d4nvRcvFNEOKESR3K7UWzlJ8ktE+p7y5zJfcTkRoE=;
+ b=antf2GDY4IoUshe+l1ZK9lG8+AG5ju18geUKQfynje1g7ZASxyFMqRauzoFCSFTZy1bVEiEnbvN4/yxoErY43c2eAVSuhnbm6W3gs8PlTrepp/M3Exm1Gj96XIutBrMwpN+E2midwiqs/0/lpKLgeUX9f83MiRWxn/Jo06FyTRmwCxRj1RGI5PAismRYTeC4qw9gJwfrPS8PJ9Rfmz10S64M1rF/AIEQQECMw4yuQoNqU2Y2PW0zJmQG3ChtsK9YybzvklcA1WSDFnS7okvNmhcrBPprgc01J5UzFAQn6632HacIbFu9OO1FHbSSnNHwNMiskh95vX6LM4B9BuXDhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z3d4nvRcvFNEOKESR3K7UWzlJ8ktE+p7y5zJfcTkRoE=;
+ b=l+ukF+vVyIPMKk3iKxPVk1wkobsVVf+T9Uaw8ebWTRNd36lMEfsNNkwqzC4rFAlhVe7H+33BYCF2+O3fkCnaspACjjoi5B0NMm7yliTZqXeqAl/WyZFPYp0pRFZbtuwHajijGjURM12ArLv3sKiazpKxKLphnjdbnCWfS68nQAk=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from CH8PR12MB594730.namprd12.prod.outlook.com
+ (2603:10b6:610:32e::18) by PH8PR12MB6748.namprd12.prod.outlook.com
+ (2603:10b6:510:1c4::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Wed, 4 Nov 2026
+ 21:32:59 +0000
+Received: from CH8PR12MB594730.namprd12.prod.outlook.com
+ ([fe80::c219:e548:cc1f:b733]) by CH8PR12MB594730.namprd12.prod.outlook.com
+ ([fe80::c219:e548:cc1f:b733%6]) with mapi id 15.21.0592.009; Wed, 4 Nov 2026
+ 21:32:57 +0000
+Date: Wed, 4 Nov 2026 15:32:55 -0600
+From: Wei Huang <wei.huang2@amd.com>
+To: bhelgaas@google.com
+Cc: linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+	corbet@lwn.net, rdunlap@infradead.org, fengchengwen@huawei.com
+Subject: Re: [PATCH RFC 0/3] PCI/TPH: Expose CPU-to-Steering Tag mappings via
+ debugfs
+Message-ID: <auukh0rUCTC8M7fc@weiserver>
+References: <20261001155551.4182899-1-wei.huang2@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261001155551.4182899-1-wei.huang2@amd.com>
+X-ClientProxiedBy: CH0PR13CA0030.namprd13.prod.outlook.com
+ (2603:10b6:610:b1::35) To CH8PR12MB594730.namprd12.prod.outlook.com
+ (2603:10b6:610:32e::18)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,161 +96,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5605; i=brauner@kernel.org; h=from:subject:message-id; bh=xctjOvW/3SEZoVIWJreYFKvLSI3LgHd/aggSpp1K3Wc=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9XpDCwWfSYe8eveS8yHFO7St6c86UqkTd43v8XXbxs eORD9pDOkpZGMS4GGTFFFkc2k3C5ZbzVGw2ytSAmcPKBDKEgYtTACYivoGRYdl9h7P19TJf4stb 3x3lv8VUfL7o3Cmvh99vBMo/PlY8S4bhn/KGbxquT4Jf+f7xcV3IcHfqg01FBpdsX2pJecw75bG miBMA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH8PR12MB594730:EE_|PH8PR12MB6748:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9b420df6-0512-4e89-1c56-08df3abb31a2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|11063799006|56012099006|261021123027099003|261021121427099003|261009223027099003|261026121527099003|261102123227099003|10067099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	GpKGp1WFRGxY4oO3uZWjoPtoFrYsL+k8ySQWuNql9ZGzX6naFEQ12D9R1nAt5IUyAor4+5mq66tIOp6GEbvBE2hbG88MQYmRPCjHF0E9EGcSiOWmeMHL5bb3+NQnEBZ1LsnfnHyid2NZ8p+gTnBm0VND45pfZ8bwbvnUMnPdwEGm/r9udcW0qX1JPULENm6Az6WwOfltHiiJ7VaoWWG9kIXiBoRUfH2s1c1BaszA0EMrAHt2kJUpD2UuDoDs+V+C4j0wI9i9HkGOWkxNvC77yyIgiJal0KihDYz4Vtuq7KxXpw94iDDMosHlPOTNQj3vGCBqrY1tdvorJz2xOLoS0XSCCkvIGmEhKo5exJj4bcgxqH1KiE1TFj0NSAb8CUoT2Yi8CFJPMq8TCRoR3bOWVKxJxbUishg1H2Xb9XOD9VsK6yU/SvrTds44SGL1IMO/5Ani9xcN5Md0pD514NBDZKQyhsi7KbZvgM/1ZhcGftkjUauvyBoM/WPSZvOACcZ9cBG3UsMW5qWM1VUaxhly3Sv+NUgT7OkOYVoRT7MeOAEh+TeiOw5NXFKn3kE9QelWFrvRN19wAVrnVURlmnycfZ2+HiM6s3I9nzNyL5M/I6ThkVSja2sjZbUKkw4fDIUtdie4y3u5SZWGb6QVA2TFtJUkl4W4nBP0hKvA7JoB7aw=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH8PR12MB594730.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(11063799006)(56012099006)(261021123027099003)(261021121427099003)(261009223027099003)(261026121527099003)(261102123227099003)(10067099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?WeFFLU2eudvrrxggI1azgt251fwslV9KY9AJk0ecA3siUczc/NbgGM99sEOx?=
+ =?us-ascii?Q?j7MPFfIPBqrsENLVdHLXH/n4zl6V9yvSufea4WJx2Hu20LY1SpCH8kFu/LQq?=
+ =?us-ascii?Q?GPoefIfgZ3lueQlTIncWXuhBHa6dMW8DZJxcBCnazEE12lUG3OEdsUczpMeu?=
+ =?us-ascii?Q?NRnpIj9YuJt4HnPX4+MBpcB0UnFAigPLuYg5XR24QR4ACLOx84F2v6fw4eNR?=
+ =?us-ascii?Q?39Pczjmk9LmM6/z7cmwJNPmR7hNhHlmSyRotKm4gRZBR1nUZSJ7+0tA0vMlW?=
+ =?us-ascii?Q?epAlT7emTvwgdD13G4eINhszQ05nERVFLhJQbQcxS5BhwZwNsFCb7WyQc07A?=
+ =?us-ascii?Q?NwSIEQ70QAAVflujZNcyt4bY2t+RxNAJhnOHhmXC45nDdwijNz/cXeZCIHBl?=
+ =?us-ascii?Q?HK18LJxNHOV+f8kp6v0VW2C6uWP/4tiQPslirUiKRtXzSLeGWQ7XjiQlgQ6H?=
+ =?us-ascii?Q?bSYrF0Ej+H+XRMS8femdjin7z5Nu1OCYYWNZ2LlNDWP8BT6sg6OMIU1kSn8j?=
+ =?us-ascii?Q?KUlr7MKMZErenNLw9U1mfhNfS+vhsUBc7kcHaGDeapxYHQ0+gfSce4pDXGzM?=
+ =?us-ascii?Q?RjCkMSJqhCKPRf7szvJnjjP4tJn20Ej4BmL/XXg7nzyFQ6bnc4jUX9/zG+3r?=
+ =?us-ascii?Q?DgOqY3qIC3YiK066yC7ShyZiHKPzg5upHeAL83So0gCKy6F0eCd36reTy21h?=
+ =?us-ascii?Q?XMAqyMD1taGUFHhu1OkuGE6pJSvXJN1u+HaHRDwjQYh666TJZ4tIBlTCUbxX?=
+ =?us-ascii?Q?sHXqC1WUcpZapkUiZSppl+QR9zpxBFoS4bpALz60i5ljmH0w4wO4q0t449JV?=
+ =?us-ascii?Q?KKrRGu1y7JZy5sCIh0moNRdRgUrWihSurHTfsgA87LtjnxWibPafklFYIhfZ?=
+ =?us-ascii?Q?maPYsYvcCu9cgt6msBO82uFJl82Z55Q2q6hfgICFhDrFwvuw6MiwxUUaq1Ze?=
+ =?us-ascii?Q?j/y6rPrK/FCd9z5xyOX0v3M3TTbxx5S0xKimvY8V6y/N1bDLLID68g6Tn/IF?=
+ =?us-ascii?Q?/Sp98qqJJmFx+O4HfV0USCx8wr0NM5S8wE8E4tdUR7VnbvmdrBKLXLRUX/Of?=
+ =?us-ascii?Q?vWHe/84+lOjakPURsLX+Og8hx9b35czR82/p65GZ60p5lvr2dPjdcJ6RUwDc?=
+ =?us-ascii?Q?mdvuekHtjdohDFuHCvuJz0j51pi82Ua4yxL9CkBDEANXa0Rd0PBhKqg3JsTf?=
+ =?us-ascii?Q?X7bKSd9LTftiVee3FfZ7cbo5z0/JDa/cnL80xKCCCtqjjN5kcxG3D/xlyg9y?=
+ =?us-ascii?Q?eIv2aGUfsDZPYAaki1WyvjTpwrMUac7/M85XLuJGifV0Aczk/+fBduFAQdSF?=
+ =?us-ascii?Q?33gfOY/fuuQ7yodwWdQZNLprebGmotvKjsmHZrzXX2ATJzbZspM5F+M2g6ZC?=
+ =?us-ascii?Q?DLmj8CkB0fFppWc5HHxBLQomomxGixB9VutZEQzAh6tyysvlGQMqjfWR1cnA?=
+ =?us-ascii?Q?qoSEBHggE+kks9FjQj9dVXX0nfOlNsPyOss3mytRiIP9Nqfye877t6TY1Nvy?=
+ =?us-ascii?Q?8yECge5Edot+FT8n/Bb++u67U0IheHUIbOOI5w4pNAxikhvcTsa+fyAcg171?=
+ =?us-ascii?Q?ocBCh4YjylEp21O8uSvoov9jJccYcHlm8i4FzHBth/xktJ5JzRJ1nGTpj9ue?=
+ =?us-ascii?Q?JvL8/mrqxpQFTUpCQz+Yk9oTwzXTKpGY1lsU5UewPFQ8AnHXTiaxtBemh8Bk?=
+ =?us-ascii?Q?/D2fze0TjA+arrm0RnESbOm+SKdgLLk313feasFUSnK4MWmb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b420df6-0512-4e89-1c56-08df3abb31a2
+X-MS-Exchange-CrossTenant-AuthSource: CH8PR12MB594730.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 21:32:57.7025
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: UTa5igkrLo9odsu96Wet3jxnfGUIH2FAlaeOKSlRV42UpAp8bXPXqIIjIYANgNO+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6748
 
-Every entry sleeps its pollers on the wait queue procfs owns for it
-now, so take the poll_table away from the method. An entry can't hand
-procfs a queue of its own anymore then, which is what went wrong for
-sunrpc, and the method only reports the mask.
+Hi Bjorn,
 
-Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
----
- arch/powerpc/kernel/rtasd.c | 2 +-
- drivers/input/input.c       | 2 +-
- drivers/md/md.c             | 2 +-
- fs/proc/inode.c             | 2 +-
- include/linux/proc_fs.h     | 9 +++++----
- kernel/sched/psi.c          | 4 ++--
- mm/swapfile.c               | 2 +-
- net/sunrpc/cache.c          | 2 +-
- sound/core/info.c           | 2 +-
- 9 files changed, 14 insertions(+), 13 deletions(-)
+Gentle ping on this patch series. Do you have any feedback, or would you be
+comfortable to add this support into PCI TPH?
 
-diff --git a/arch/powerpc/kernel/rtasd.c b/arch/powerpc/kernel/rtasd.c
-index 49036790b67c..34705234db57 100644
---- a/arch/powerpc/kernel/rtasd.c
-+++ b/arch/powerpc/kernel/rtasd.c
-@@ -343,7 +343,7 @@ static ssize_t rtas_log_read(struct file * file, char * buf,
- 	return error;
- }
- 
--static __poll_t rtas_log_poll(struct file *file, poll_table * wait)
-+static __poll_t rtas_log_poll(struct file *file)
- {
- 	if (rtas_log_size)
- 		return EPOLLIN | EPOLLRDNORM;
-diff --git a/drivers/input/input.c b/drivers/input/input.c
-index a984810eb80d..5a0547296c6c 100644
---- a/drivers/input/input.c
-+++ b/drivers/input/input.c
-@@ -1097,7 +1097,7 @@ struct input_seq_state {
- 	int input_devices_state;
- };
- 
--static __poll_t input_proc_devices_poll(struct file *file, poll_table *wait)
-+static __poll_t input_proc_devices_poll(struct file *file)
- {
- 	struct seq_file *seq = file->private_data;
- 	struct input_seq_state *state = seq->private;
-diff --git a/drivers/md/md.c b/drivers/md/md.c
-index 7560dcf0f5c8..94926a7c3d6f 100644
---- a/drivers/md/md.c
-+++ b/drivers/md/md.c
-@@ -9176,7 +9176,7 @@ static int md_seq_open(struct inode *inode, struct file *file)
- 	return 0;
- }
- 
--static __poll_t mdstat_poll(struct file *filp, poll_table *wait)
-+static __poll_t mdstat_poll(struct file *filp)
- {
- 	struct seq_file *seq = filp->private_data;
- 	__poll_t mask;
-diff --git a/fs/proc/inode.c b/fs/proc/inode.c
-index 7f6c63885f53..c35e13b44eed 100644
---- a/fs/proc/inode.c
-+++ b/fs/proc/inode.c
-@@ -546,7 +546,7 @@ static __poll_t proc_reg_poll(struct file *file, struct poll_table_struct *pts)
- 	poll_wait(file, &pde->open->poll, pts);
- 	if (!pde_pin(pde))
- 		return DEFAULT_POLLMASK | EPOLLERR | EPOLLPRI;
--	rv = pde->proc_ops->proc_poll(file, pts);
-+	rv = pde->proc_ops->proc_poll(file);
- 	pde_unpin(pde);
- 	return rv;
- }
-diff --git a/include/linux/proc_fs.h b/include/linux/proc_fs.h
-index 872f3bd54c11..6e2bcdf3c1b5 100644
---- a/include/linux/proc_fs.h
-+++ b/include/linux/proc_fs.h
-@@ -84,11 +84,12 @@ struct proc_ops {
- 	int	(*proc_release)(struct inode *, struct file *);
- 	/*
- 	 * procfs owns a wait queue for an entry with a ->proc_poll() and
--	 * does the poll_wait() on it before it calls the method. The owner
--	 * wakes the pollers with proc_poll_notify(). A poll on a removed
--	 * entry reports EPOLLERR | EPOLLPRI.
-+	 * does the poll_wait() on it before it calls the method, which only
-+	 * reports the mask. The owner wakes the pollers with
-+	 * proc_poll_notify(). A poll on a removed entry reports
-+	 * EPOLLERR | EPOLLPRI.
- 	 */
--	__poll_t (*proc_poll)(struct file *, struct poll_table_struct *);
-+	__poll_t (*proc_poll)(struct file *);
- 	/*
- 	 * procfs pins the entry around ->proc_mmap() and wraps the
- 	 * vm_operations of the mapping so that ->open(), ->fault(),
-diff --git a/kernel/sched/psi.c b/kernel/sched/psi.c
-index 9362c27d47ab..ecb9028b5c49 100644
---- a/kernel/sched/psi.c
-+++ b/kernel/sched/psi.c
-@@ -1606,11 +1606,11 @@ static ssize_t psi_cpu_write(struct file *file, char *buf, size_t nbytes,
- 	return psi_write(file, buf, nbytes, PSI_CPU);
- }
- 
--static __poll_t psi_fop_poll(struct file *file, poll_table *wait)
-+static __poll_t psi_fop_poll(struct file *file)
- {
- 	struct seq_file *seq = file->private_data;
- 
--	return psi_trigger_poll(&seq->private, wait);
-+	return psi_trigger_poll(&seq->private, NULL);
- }
- 
- static int psi_fop_release(struct inode *inode, struct file *file)
-diff --git a/mm/swapfile.c b/mm/swapfile.c
-index 1d063a1cef43..e7c019871e35 100644
---- a/mm/swapfile.c
-+++ b/mm/swapfile.c
-@@ -3315,7 +3315,7 @@ SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
- }
- 
- #ifdef CONFIG_PROC_FS
--static __poll_t swaps_poll(struct file *file, poll_table *wait)
-+static __poll_t swaps_poll(struct file *file)
- {
- 	struct seq_file *seq = file->private_data;
- 
-diff --git a/net/sunrpc/cache.c b/net/sunrpc/cache.c
-index b8f70d8c3b0c..4854a42d43a2 100644
---- a/net/sunrpc/cache.c
-+++ b/net/sunrpc/cache.c
-@@ -1588,7 +1588,7 @@ static ssize_t cache_write_procfs(struct file *filp, char *buf, size_t count,
- 	return ret ? ret : count;
- }
- 
--static __poll_t cache_poll_procfs(struct file *filp, poll_table *wait)
-+static __poll_t cache_poll_procfs(struct file *filp)
- {
- 	struct cache_detail *cd = pde_data(file_inode(filp));
- 
-diff --git a/sound/core/info.c b/sound/core/info.c
-index 3439ae341e26..8e64d8e3e5b2 100644
---- a/sound/core/info.c
-+++ b/sound/core/info.c
-@@ -184,7 +184,7 @@ static ssize_t snd_info_entry_write(struct file *file, char *buffer,
- 	return size;
- }
- 
--static __poll_t snd_info_entry_poll(struct file *file, poll_table *wait)
-+static __poll_t snd_info_entry_poll(struct file *file)
- {
- 	struct snd_info_private_data *data = file->private_data;
- 	struct snd_info_entry *entry = data->entry;
+Thanks,
+-Wei
 
--- 
-2.53.0
-
+On Thu, Oct 01, 2026 at 10:55:48AM -0500, Wei Huang wrote:
+> Add reusable per-device PCI debugfs directories and use them to expose
+> the firmware-provided CPU-to-Steering Tag mapping for each Root Port.
+> Factor the ACPI _DSM query path for reuse and document the new read-only
+> interface.
+> 
+> Wei Huang (3):
+>   PCI/TPH: Factor out the ST _DSM evaluation
+>   PCI: Add per-device debugfs directories
+>   Expose the CPU/Steering Tag mapping via debugfs
+> 
+>  Documentation/PCI/tph.rst |  32 ++++++
+>  drivers/pci/Makefile      |   1 +
+>  drivers/pci/debugfs.c     |  60 ++++++++++++
+>  drivers/pci/pci.h         |  12 +++
+>  drivers/pci/remove.c      |   1 +
+>  drivers/pci/tph.c         | 201 ++++++++++++++++++++++++++++++++++----
+>  include/linux/pci.h       |   3 +
+>  7 files changed, 290 insertions(+), 20 deletions(-)
+>  create mode 100644 drivers/pci/debugfs.c
+> 
+> -- 
+> 2.55.0
+> 
