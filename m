@@ -1,68 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793787579;
-	b=2ETsbH7UP3T8nPaQQzGIrVSybKpgZg3ra26oOHvvZjBr+er8P9m4D0Ui9z3mc9Z/5+22
-	 1efjFwrOFzxRKgM9O7T7Y9TtrY8LdI7zk6zcTjHoP4+2uOIUMKwPjl/YhXZ9dKmC+pGs/
-	 bkmTLgs3wZnajwkBIcHp2dSqaiClu3OkD3UEG2wyCASVKcoUxFwHnr7/vxvgomF8NDKL0
-	 zaT26a+BhhB5xLHJq0JTKY/K+Q2ZRfDaiYTGTS9u6tzxv5X8fDB5LSlm2DvYDKRx3VGY6
-	 128eYH6yOOSKSptbKIUAjjqdRLCqhpZOrEtEiaVF0FBk1SBGBwirTdSshL4ICFAikJw==
+	t=1793789225;
+	b=fdfSqlDA48f0s41mgFbrRDpWLrsnmmPROl3tbCBis0vhjBPv7qFT/FcQbmiM276Km4l7
+	 bnJJgx+G91CZlQRJmJWpZJfqrtlI1kSBMX+pTNK7lTeETjtnHFhUNMDt5yl2mCMrxDrkk
+	 Rquhqsv8sr8qD1XzfYJSKup7jhB+ucGhND5JCqD4oidpXCIMMQ7/W9W28fvFzBLkbqx0T
+	 +H2KDlhOGGpdNlgLHilopMcacYJyXWDrBW29kQc/kLLsf1OjGlf6FRRQwy9ZtDPP6v7AM
+	 DvCCU1lFxmhhgvTX+X90CVU9n0bh8fmrgEJXJrtRlssZRmsYjGs8eL6Z+P6mfUWoCiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793787579;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=KJn6XSHeMbhPBetiy5kOmfJqFrJfZVU+mS+17u1fQmA=;
-	b=k/eC+geKXW7TWCsZCWLnLfdkUCXeqCqzsbSgyyj7YIpjhCRzP6KEeHVz9vrI6tnT4s63
-	 t1DGA6yTIPtB+/CBNuy5KPP7ECbSaXF085VXIYosJDys3Vj/PjMzu7YvznbGu7A8Ib5yc
-	 sXVFFwZIH2QNVpnNctRHWjCnNLSyFHUdiK+8dMVZmGAKo8Tlp/Q0Ru0USw5os6ytkVVWE
-	 nsfShzt6Nt3rKqSlEgM7Dfo42m9MGwVH3KpABq/I8nlQRbfhErq22+TuOMBIpnZE18IxH
-	 zCa5XwAy5zzTDivxVnIKI00N6rALmKxw7t+XBky32CSG6P/JvMDDCNX5FZvm+hiTjtA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793789225;
+	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
+	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type:Content-Transfer-Encoding;
+	bh=bhOmEa952md/X2FxyjNFbUxSEKG6z2HGY2NSxyblu7s=;
+	b=UqKPE4K8/4iFd1Jd6AkM0E/pKnbJHhPaTg2j3Ovl+ykfSHW8LxfZMbm0Uz5nNMC1kx5w
+	 tFQCVlQsNknqYhBSlGVIEQKfrrwNV20J5bc4CiD4iQHYbgKYlTDL7xJI/uDRRNl3YbEIn
+	 MnW6IDDJYaYwxx7Ikx/KBRhor2CgzpVjdwno/vsHbcm7v648y4EtV0QDPh5Zo8/u5SEOP
+	 u7y2TeP92mmYHsxis4PjtfCjUTpEVz4xVaFKCyM5o/G5aIL2grjD6RrdPQqfU6UHn58kL
+	 EtQayShi9sMU6wUwx/A3B3MU/z+fYMza7/39LkripRv6yP2gYJTEak0YU9CO1C8nFPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="38K2/wcs";
-	arc=none smtp.remote-ip=113.46.200.222
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="VJrT2/1Q";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B89606A33C;
-	Wed,  4 Nov 2026 10:19:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92B89606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E977D606A329;
+	Wed,  4 Nov 2026 10:47:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=38K2/wcs
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=KJn6XSHeMbhPBetiy5kOmfJqFrJfZVU+mS+17u1fQmA=;
-	b=38K2/wcsycMHEcPqxY5RSG7iHScFXnvmjPYSzzyX9SzlKfo5sbgT69ajbN/uJTOz5FgRHVecM
-	zc58PYh35PJus+FH0MVOrpN4xepI4Re8tWeSCdMqWQCsI1oPLs0zSmp4jNnPk/zwD6XQS9M1nY+
-	IdTd6ELE0MzZAV6o0OW/gl0=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4jKLyh2FCnzLlTf;
-	Wed,  4 Nov 2026 18:19:24 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2BCCB4048B;
-	Wed,  4 Nov 2026 18:19:35 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 4 Nov
- 2026 18:19:34 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <jic23@kernel.org>,
-	<tan.shaopeng@jp.fujitsu.com>, <gshan@redhat.com>, <zengheng4@huawei.com>,
-	<x86@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <ben.horgan@arm.com>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH] fs/resctrl: Disallow monitor group rename when the RMID changes
-Date: Wed, 4 Nov 2026 18:19:13 +0800
-Message-ID: <20261104101913.586595-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VJrT2/1Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CDC51F00A16;
+	Wed,  4 Nov 2026 10:47:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793789224;
+	bh=bhOmEa952md/X2FxyjNFbUxSEKG6z2HGY2NSxyblu7s=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=VJrT2/1QLEtsT7IAJHPVIQ2ISxt4hMdc3map/aD2+trIBN9mSj3nx2Q9bTpfMT3MF
+	 cGNw4vlunjJnW2IgqkdannjrufnBjkEyqAdwxHFKLVUEMfE+G1hX5DaeWBXjmWX36S
+	 imsPN3k2zFxiGZhrAEtQPYo34cnkB1wIfefgCgCRieHnN8ascqJ5oPN4Fh4QbYtHlq
+	 7/wVgTJuM16kHNFu8An5p+QSkHTadJXmkvy+7t9tMNoYCB9OvYjalYNNGUIRajXJbd
+	 YN4n/cPqhT0kWRFpjhDg6dKdJbl4dZ4IR8N3yu9oo0FcspYKIrDgWmd+hMBEXfPmLJ
+	 lIvFousnuVg2A==
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfauth.ams.internal (Postfix) with ESMTP id BE33A198003A;
+	Wed,  4 Nov 2026 05:47:00 -0500 (EST)
+Received: from ams-imap-11 ([10.64.2.31])
+  by ams-compute-02.internal (MEProxy); Wed, 04 Nov 2026 05:47:00 -0500
+X-ME-Sender: <xms:Hw3ranMJL85RL35ZdIqlVZy7B5jeINP5BbPezeQrDi-SF2g1QOUblw>
+    <xme:Hw3raswrF1gip8laAtOzF-VI-pmh8_xio3Iv18-kjvZb7gAJgZagRdgIgdR_Z9VpH
+    3aGcEn9wEYZRA1vkqbcSrpJfGBueP2SI-2Ks1wLLANcLZGoARC6PFs>
+X-ME-Proxy-Cause: dmFkZTFcPavaLWIfgpoRM8kguzVyv4s6FUkLYAQNGvkUHQVN3xVxVzv9NryfTRmBx2+1+T
+    O8Nt36zML1hPcpqbZ31+TrK5u1pojcuEtJ4d9wGWUhJ3PA4GR64AER0KVm/mg5J8CEvDjb
+    87JxU7ByEHQUkd87rjl5YJ6VpVGYEteXdzVHpDfaZbUb25I8yUXHEzXzvTki5YhHrX0+Ff
+    dEw6DUI60ChXVG7qPis8rKSRSBjgm3FH41orMrqi8AzmwVObG7DSV0A/n08w8QClZ1o7l+
+    535jOrxx7Ryk22b71pTU7piz9TOaOxspVPbT5mctmMzGlgM03lWJfWSB8QGDefxIJWbjYs
+    SWRWaf8wtqVtG/y8VhcGvWaXz0LsELuUcWCWXl8uYz0FlppVOkjLlTI83jJnQvIsR6wW9A
+    CHbjI9SRCOspRJI14AvVQ1gcqqNFg/aukBnzTQSgDXsMSAvOzAUMquE+WlSukqk5s0kWpa
+    njVLPVqOL6PMp5x3IoZtBkRTGd/N3jxEy8pK1FCY/kEv9MN3SOjavcn9IuRnWmh/83Rc77
+    6GG8VVWJng4fdcHXdysUYGD2mMNjsZxD/N6+r+yDqOve4t+C3EzK9VWq9skd3rDm5qfSyS
+    0v1Q3nZRYNBxw1A74kxjY01EsAfvmnziAM0IIiwwBMPqwOU9vx9fO+TEwqTQ
+X-ME-Proxy: <xmx:JA3rarOc2on3e1xb7iUIdCss_xeJ3zdgPplKMTBac8Yz3xu00QXGXA>
+    <xmx:JA3rakancmdTtLZDM22WzdIgr8lJQn3ocDdsi_RjrSD_VtAdD8coHg>
+    <xmx:JA3ras7McSax5611gqIhLQldHowrwdBi4-xbCgqokzbp7BU_VCYGyw>
+    <xmx:JA3rarBd0hh0XKEJUgCfUXIrbQcvdDWVyz9bN0fiE8VImxPs8sd5Dg>
+    <xmx:JA3rar7rbi7TJSfdSFS58Fu87suf-sHWjoQzGw8ON1-8MnFv5N6AUirL>
+Feedback-ID: ice86485a:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 3A57AF8008E; Wed,  4 Nov 2026 05:46:55 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,79 +77,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Date: Wed, 04 Nov 2026 11:46:33 +0100
+From: "Ard Biesheuvel" <ardb@kernel.org>
+To: "Jason Gunthorpe" <jgg@nvidia.com>
+Cc: "Alexandre Ghiti" <alex@ghiti.fr>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "David Sterba" <dsterba@suse.com>,
+ "Ilias Apalodimas" <ilias.apalodimas@linaro.org>, linux-arch@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-efi@vger.kernel.org, linux-riscv@lists.infradead.org,
+ "Mark Rutland" <mark.rutland@arm.com>, "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Paul Walmsley" <pjw@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
+ "Simon Glass" <sjg@chromium.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Nick Terrell" <terrelln@fb.com>, "Will Deacon" <will@kernel.org>,
+ "Alexandre Ghiti" <alexghiti@rivosinc.com>,
+ "Conor Dooley" <conor.dooley@microchip.com>,
+ "Jonathan Cameron" <jonathan.cameron@oss.qualcomm.com>,
+ linux-integrity@vger.kernel.org, "Palmer Dabbelt" <palmer@rivosinc.com>,
+ patches@lists.linux.dev, =?UTF-8?Q?Piotr_Kr=C3=B3l?= <piotr.krol@3mdeb.com>,
+ "Ross Philipson" <ross.philipson@gmail.com>,
+ "Sami Tolvanen" <samitolvanen@google.com>,
+ "Song Shuai" <songshuaishuai@tinylab.org>
+Message-Id: <cc4d09b6-a56b-44a2-a137-f27bc87e96e3@app.fastmail.com>
+In-Reply-To: <20261103160138.GA3165945@nvidia.com>
+References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+ <4-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
+ <20261103160138.GA3165945@nvidia.com>
+Subject: Re: [PATCH v2 04/15] efi/libstub: Add a general way to get symbols from the
+ vmlinux into zboot
 Content-Type: text/plain
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Transfer-Encoding: 7bit
 
-From: Peter Newman <peternewman@google.com>
 
-Renaming a monitor group to move it below a different control group
-changes the CLOSID of its tasks. Where the RMID only has meaning
-together with the CLOSID, the RMID index changes as well: on arm64 MPAM
-the RMID is a PMG that extends the PARTID, so the group's counters
-belong to the old PARTID and cannot follow the move. The monitor data
-would be reset and would then report the new PARTID's traffic.
 
-Check that the RMID index is unchanged before moving the group and
-reject the rename with -EOPNOTSUPP otherwise. Only MPAM systems are
-affected; architectures where the RMID is independent of the CLOSID,
-such as x86, keep the same index and still allow the move. Document
-the restriction in resctrl.rst.
+On Tue, 3 Nov 2026, at 17:01, Jason Gunthorpe wrote:
+> On Fri, Oct 02, 2026 at 08:31:41PM -0300, Jason Gunthorpe wrote:
+>> Currently the zboot stub has no access to symbols in the vmlinux. In
+>> contrast x86 has a voffsets.h header that allows the stub to know whatever
+>> symbols it wants for the decompressed image. ARM DRTM needs another 4
+>> symbol locations to work, and it also wants to compile the DRTM libstub
+>> code once and have it work in both zboot and embedded.
+>> 
+>> The current solution in arm is "code_size" from commit 45dd403da851
+>> ("efi/zboot: arm64: Inject kernel code size symbol into the zboot
+>> payload"). This is neat, but it makes the zboot and embedded cases
+>> work differently.
+>> 
+>> The x86 voffsets.h approach is also nice, but it can only work in zboot
+>> since it relies on 'nm vmlinux' to extract the locations. That's a
+>> circular dependency for the embedded stub.
+>
+> Ard,
+>
+> Did you have any further thoughts on this patch? Did the sketch you
+> showed me at LPC turn into anything?
+>
 
-Fixes: 3e9b35823aab ("arm_mpam: resctrl: Add rmid index helpers")
-Suggested-by: Ben Horgan <ben.horgan@arm.com>
-Signed-off-by: Peter Newman <peternewman@google.com>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: <stable@vger.kernel.org> # 7.1.x
-Link: https://lore.kernel.org/lkml/20241205153845.394714-1-peternewman@google.com/
----
- Documentation/filesystems/resctrl.rst |  7 ++++---
- fs/resctrl/rdtgroup.c                 | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index b52795e03303..5f21ab20030a 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -552,9 +552,10 @@ will automatically remove all MON groups below it.
- Moving MON group directories to a new parent CTRL_MON group is supported
- for the purpose of changing the resource allocations of a MON group
- without impacting its monitoring data or assigned tasks. This operation
--is not allowed for MON groups which monitor CPUs. No other move
--operation is currently allowed other than simply renaming a CTRL_MON or
--MON group.
-+is not allowed for MON groups which monitor CPUs, and fails with
-+-EOPNOTSUPP on systems where the RMID depends on the CLOSID, such as
-+arm64 MPAM. No other move operation is currently allowed other than
-+simply renaming a CTRL_MON or MON group.
- 
- All groups contain the following files:
- 
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 9290a346386e..358f2dc8301d 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -4405,6 +4405,19 @@ static int rdtgroup_rename(struct kernfs_node *kn,
- 		goto out;
- 	}
- 
-+	/*
-+	 * Moving the group changes the CLOSID. Where the RMID is only
-+	 * meaningful together with the CLOSID, the RMID index changes and the
-+	 * monitor state cannot follow the move.
-+	 */
-+	if (rdtgrp->mon.parent != new_prdtgrp && resctrl_arch_mon_capable() &&
-+	    resctrl_arch_rmid_idx_encode(rdtgrp->closid, rdtgrp->mon.rmid) !=
-+	    resctrl_arch_rmid_idx_encode(new_prdtgrp->closid, rdtgrp->mon.rmid)) {
-+		rdt_last_cmd_puts("Changing parent control group not supported\n");
-+		ret = -EOPNOTSUPP;
-+		goto out;
-+	}
-+
- 	/*
- 	 * If the MON group is monitoring CPUs, the CPUs must be assigned to the
- 	 * current parent CTRL_MON group and therefore cannot be assigned to
--- 
-2.34.1
+I will get back to you before the end of the week.
 
