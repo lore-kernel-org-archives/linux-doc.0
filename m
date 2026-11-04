@@ -1,51 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.36
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793784284;
-	b=iZMYKmUfEXEaNw+Fl2+D3JCklFdXSjodNL9swebbb1GG+mMPA/YHMvEoiD5Oq/1f+EGW
-	 MO8++UlCpBCh+WKP3qEcnH+FAqE3ENW/hWfVuP0mcE+Lsg9Dl4CrkoK+ybQZAmLws8+km
-	 kE5xQ6d21EbKiMksHaynmK1FdmfnWx6F3XGiELuxqJa6s3tv7nd+8o0t4tKgJUc3PAoag
-	 f7C1zZpq3bTeEtFA5YbP/zlJaHCg89m6Wld5iac1cFQo13Ur3MUU5AUC3vjXAl8gGTEH6
-	 EwfdnLDjLtfNrTXf+DXQfOEuHPACLx3LGELDITmSNJulTkm57JT7Dc4pKKxtadJrVRw==
+	t=1793786172;
+	b=obTaHFC5MOaR41no0lUnseBK638cU/q/Kl6tNRHHbKXhwiM3dlcV4KgJaASZU6doei+S
+	 cugItDYQEnYZRsoHXxnqsli3Mgt39r1jBofsvLwzGBmijvNKnXj7YFiKsBAMQP6ETwR86
+	 r593kP11O3nWbrPRjCfhXSC99B3M6VStNuhofIG2V8koTHBsyPbkoKqctlL+crbdwTuNB
+	 /zxAkmZPVp8oSzWbXFQg1yZyfugRtuS+mx54iCywUCffUkw5KzX/zUHoFWsdFC0qZgFWs
+	 ZUynABQzIUUdGbThFiJdCj6nG8t+8GxtyXT1XLxPseJPpVvnrOTqDhvUjCPGa4KRpdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793784284;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793786172;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
 	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
 	 To:X-Mailer;
-	bh=Z94cg7ac1Y7ssrM7pMXNVdha6WnPl9D8zeq/vd59B+M=;
-	b=fJ5Z7djJ4CJNdxXe9yEXhKRkPK+zdjytRjUyzkTZcONrRLlI1QrcD1bFjqgp4sKGvmTM
-	 DP2GuJhR0lEyc6pub43sWuyeV/FrHqgBG61TS0PXBEbXInibtrTDCfJPCK8tT86p7x8eF
-	 EUS2bOzo0gc51FsZxHXfGHbMKDjoOkXCybW47Qz5h4LhgoukvVFlFqMJztTm7VwNj2x1Q
-	 bxxwTiRVpYkUnEVy87PTDUYVoiP3DCbDhUxnglK3rBQg45GRA8tPVZs5K5vuknisL2Njj
-	 MPxxyQAPWz5RmBvj/jbXy32FKbHj9htFmhNKei0gNBs/9K1n7y5WvgaYg/Mwj2J5hMw==
+	bh=pUBQPp4DgGesu/zc45i1HHgbshamqgArN5rt8GOl5tk=;
+	b=c6NueUmApT9rQnggesJfQ8XTDZOkPkYanf0L8Xy5jBaZ/ncIs3AFrMp932/vfcFX+vnb
+	 lCfL0CSMNgPhduPSD/4Myw1L7lxFTykYWSmLLKxrFzN7iP0oaN5r7PNugGumt26iBmUY4
+	 ds9i8kRrLfRr9k1uKXTI8njofunm6z0y26IW8ZDMf9zxsZZ0H61L9K10MrYCbkQJt+cuM
+	 Cd+PvLCpQmVByN57fUW1ppEKXOLJJrBXb44OEL6qyD59mp16qU8ENlyZKs3VqVYdHWDUO
+	 u3AsMmKf0vguGWADlq1CTqd6NOzZcnDr3eTX9inm7knEvjCVMUDb3yN00WDCSbuZdTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EX7ppEPP;
-	arc=none smtp.remote-ip=95.215.58.36
-Received: from mta1.migadu.com (out-36.mta1.migadu.com [95.215.58.36])
+	arc=none smtp.remote-ip=91.218.175.16
+Received: from mta0.migadu.com (out-16.mta0.migadu.com [91.218.175.16])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DB44606A32F
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 09:24:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DB44606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAEC606A328
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 09:56:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8AAEC606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=EX7ppEPP
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Z94cg7ac1Y7ssrM7pMXNVdha6WnPl9D8zeq/vd59B+M=;
+DKIM-Signature: a=rsa-sha256; bh=pUBQPp4DgGesu/zc45i1HHgbshamqgArN5rt8GOl5tk=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793784280; v=1; x=1794389080;
- b=EX7ppEPPaFtlHsu2VqjM1UaT7IQavLpZc2tjUMAdBemJipD4+ckQP/d52rZ59F0cF1x9DsBH
- IUxWJTDKJjptoy2MXwV8C9p+CbZwomGUWtnnf8b1zOhNujFY3axwLVkXUxUArQOvjUusimSdkPy
- NFEKajGaMsHkhUmJaP47nn6k=
+ t=1793786163; v=1; x=1794390963;
+ b=uUMXzD5u9LbfomWLcrC2JIgPQCBBTO3LbzHp+2JUyWLJ6xQdE2ZY1BMAOjdbQnBuSYP1qFjF
+ 1kVjlex4v2hhEIm4aXGxezQoohio+Baq+fuznIdzLaWT6CPUvg34hb8PWHYCrHxsPlWU02MiA01
+ gVFlQhnLVU61YtHNeRs2gfcA=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id 0fb9feb80626b30b;
-	Wed, 04 Nov 2026 09:24:39 +0000
-X-Mizu-Trace-ID: 0fb9feb80626b30b
+Received: by mta12.migadu.com with ESMTPS id c43ff3afd577f723;
+	Wed, 04 Nov 2026 09:56:02 +0000
+X-Mizu-Trace-ID: c43ff3afd577f723
 X-Migadu-Flow: FLOW_OUT
 Content-Type: text/plain;
 	charset=us-ascii
@@ -58,11 +55,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH 09/15] mm/memfd: recheck the page cache before allocating
- a hugetlb folio
+Subject: Re: [PATCH 11/15] hugetlbfs: do not grow a sealed file in mmap()
 From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261028-fixes_hugetlb-v1-9-a0a033db180f@kernel.org>
-Date: Wed, 4 Nov 2026 17:24:00 +0800
+In-Reply-To: <20261028-fixes_hugetlb-v1-11-a0a033db180f@kernel.org>
+Date: Wed, 4 Nov 2026 17:55:32 +0800
 Cc: Oscar Salvador <osalvador@suse.de>,
  Naoya Horiguchi <nao.horiguchi@gmail.com>,
  Andrew Morton <akpm@linux-foundation.org>,
@@ -102,11 +98,12 @@ Cc: Oscar Salvador <osalvador@suse.de>,
  linux-doc@vger.kernel.org,
  linux-arch@vger.kernel.org,
  linux-s390@vger.kernel.org,
- Josef Bacik <josef@toxicpanda.com>
+ Chris Mason <mason@kernel.org>,
+ stable@kernel.org
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <DC756308-6AB4-4A6F-9DF7-E66F337A320D@linux.dev>
+Message-Id: <140D6576-3DB1-464D-8934-6857B84EA784@linux.dev>
 References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <20261028-fixes_hugetlb-v1-9-a0a033db180f@kernel.org>
+ <20261028-fixes_hugetlb-v1-11-a0a033db180f@kernel.org>
 To: "David Hildenbrand (Arm)" <david@kernel.org>
 X-Mailer: Apple Mail (2.3901.200.71.1.16)
 
@@ -115,31 +112,37 @@ X-Mailer: Apple Mail (2.3901.200.71.1.16)
 > On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
 wrote:
 >=20
-> A concurrent fault or PIN request can populate the page cache
-> after memfd_pin_folios() misses it in the page cache but before
-> memfd_alloc_folio() takes the fault mutex. The latter still tries to
-> allocate another folio and can return -ENOMEM even though the =
-requested
-> folio is already cached.
+> From: Chris Mason <mason@kernel.org>
 >=20
-> In particular, hugetlb_reserve_pages() finds the existing =
-reservation-map
-> entry and reserves nothing. If no global reservations remain,
-> alloc_hugetlb_folio_reserve() fails even when the pool has free pages,
-> effectively failing memfd_pin_folios().
+> hugetlbfs_file_mmap() grows a file when a writable mapping extends =
+beyond
+> EOF. We are missing seal checks similar to hugetlbfs_setattr() and
+> hugetlbfs_fallocate(), allowing a user to grow a file that has =
+F_SEAL_GROW
+> set.
 >=20
-> Recheck the page cache before reserving or allocating. If the folio is
-> present, drop the lookup reference and return -EEXIST so
-> memfd_pin_folios() retries its lookup.
+> To fix it, skip the resize when F_SEAL_GROW is set; mmap() still =
+succeeds
+> without growing the file.
 >=20
-> This is probably not worth backporting to stable.
+> We currently also allow CoW mappings to grow a file. Disallowing this,
+> maybe even only for read-only file descriptors, could break existing
+> userspace, so we have to be more careful. QEMU's file backend is an
+> example user that might rely on such things, and would suddenly start
+> getting SIGBUS when faulting in memory outside EOF.
 >=20
-> Fixes: 89c1905d9c14 ("mm/gup: introduce memfd_pin_folios() for pinning =
-memfd folios")
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> So be careful and focus on F_SEAL_GROW for now.
+>=20
+> Fix generated by an LLM and sent by Chris Mason in private.
+>=20
+> Fixes: ff62a3421044 ("hugetlb: implement memfd sealing")
+> Cc: stable@kernel.org
+> Signed-off-by: Chris Mason <mason@kernel.org>
+> [ david: drop comment; simplify+extend description ]
 > Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
 
 Acked-by: Muchun Song <muchun.song@linux.dev>
 
 Thanks.
+
 
