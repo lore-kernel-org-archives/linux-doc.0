@@ -1,68 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.77
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793798229;
-	b=2h/B0jHGgOeorZNlBTQA8gd6v/Blu/ZczJUZdVQyjyXoboWz4g0f6YmgHD4pQVhaprIa
-	 sdXaEy4HCsJ7jEQMnOUeRmeFEsDue1d3UgSc0hzRvEf59AoHDUg2yykpCikIzp5b/6RB8
-	 5N+lO7wAtXmsVol3eTMPvgDw4tW7bzxE5CN+BubAvQVOfCYmLPJiuByWRJTQQHWtftDHL
-	 KqezitQu9D6PZ5GqL626OZDq9nPpWvsio7I2E+eJw0ciddUVf85icM/Bkjwd+UCGFyse0
-	 0VJ4TrWiqLhf8GGR6UiLyMsOpMom+85a8C2MPBxWhibDsfF0453KWRXCBELsV93wEWQ==
+	t=1793798534;
+	b=ospOLwAelfbooqMxg5aYwschULrykCMNJTOqZKkbel0So0716Es3FxcY9jRGB5g6Vgnt
+	 KXkzj7oWA8ALf3vMO/CfWDkTvsNvek4HydN/WmlftaTTJlJinzythFR2Xd9WDp8JwRYYM
+	 Ucpe86vljylY5EypTq1J41oXzNtKwoELSfQZiO73KxCxA6ctjvWc2SkN9jl0jmscwG/ID
+	 7LZXje3TA79SBz2iE/CP0xiOi9CaCkb00lr4gh6p+udBcfCHghUsMO31LYDQbRmexpwKt
+	 eAR8711jonatIL2l4VCM2Sl1kPatW5pIK8cAlw6yp9ExFe390jz6y3DAEBlDO/gekkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793798229;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
-	bh=3H/gLjqgtzADma/hPoTM38pVJFvPU8bwDzlEhV95qGo=;
-	b=0W6Ql/f+IkNRgrO0dU35S2XUrBoG1WXZuPs2WSn+KXctcw3wEENyhdOLO/n4h42twDE8
-	 HcvPZnFrDdSfro4DBFOF/NG7Fy5GrxQr1i6Mz0zActOPJtcbcwv5s59xXnyyPp8uuLqcR
-	 Gxg9o0cR8ryVurpKKF5oM1/jm/gyGlCEP/Q8E0P/1MccSRoLcO5sD/YSEMrbBTLYxt4rB
-	 tAiS7EMThGO1pFO/SLqhFQ5Ps5bcKmvD+Yhq0mtnyY3PzdXiThzRN8fkSt2HI7r2f53Yv
-	 PsgEENI9JOSVwF5ZtFR1ZneDVpdPwvQuDJYzG47tgjBPpqMB8M/0q04tMlj2FtC3oVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793798534;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:Received:Received:Received:From:To:CC:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type:X-ADIRuleOP-NewSCL:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=ZSnMlVdo+fDOwZWDnMzKFtRjw1qYZbIIDQ1iNEEW1Fw=;
+	b=ZJ/Xfpro6cPJxx4mj6Sx2Thvx+0MEu63nDf7fVfhk4IrfVKmqlvK16cYMHZXwgQltHEV
+	 ThhghWFtxSIuacE1tvr8+AhsZgsbfhKCLF5P1+w3z76L7GZgJdHTVzEqcNwWI9k/Q/D2C
+	 8HZuqcuqIi5Q2Au8FaNxX/vkxgwa0G5aZRj5Q+TtdrUEn0xBdvUeJrp3uN1l0KUr+BWmO
+	 TqQYiOCalT4l5YUuaI6Bi0+6emKekNiiR8W/3bd1ZOY46seczid0HQpd5QsH2fjNbJ8li
+	 x8ebqqgRzOjgBQSSuGvYVZ6/cDW9MlhJ9uG6oBazXIYxMegN7ETYRztH2lizFV3Xp4Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HE2Tpn85;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=analog.com;
+	spf=pass smtp.mailfrom=analog.com;
+	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=ai1ohK5M;
+	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=jn289os9;
+	arc=none smtp.remote-ip=148.163.135.77
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655A1606A31B;
-	Wed,  4 Nov 2026 13:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B941606A31B;
+	Wed,  4 Nov 2026 13:22:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B941606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HE2Tpn85
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37A701F000C1;
-	Wed,  4 Nov 2026 13:17:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793798229;
-	bh=3H/gLjqgtzADma/hPoTM38pVJFvPU8bwDzlEhV95qGo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=HE2Tpn85fZMvn0+DJkYUDDR3jn5ssQG2Eg7aG5vFhVPpRV1s3R+3WJBlk7TTjy7x4
-	 pZsV3SR6ixdLdbJYGtXX4sGRinDgIuoe7jrOgEo6H/XoULroAaHXYnmepfg1Pmoy3T
-	 gsppAx8YM6H9D4OWt74plOz9XYcZrIH2wMjveDKgKoVSDmBpM+HP4cBEaL+Nx6RsLD
-	 pL4J6YPdDrFzvy0I9nTJViPT9GvF5vCHLYQZn3uN9/SrHgUxOvfm8gzjQLrPmy7pgE
-	 ApvfvNTHjEFSKLtdxVCBWYA1FOnJUxipVPYl4iaIKuZPc+HND7ewVf/ObCmGnSvSkh
-	 PnFVazMO0ayQg==
-From: Pratyush Yadav <pratyush@kernel.org>
-To: David Matlack <dmatlack@google.com>
-Cc: kexec@lists.infradead.org,  linux-doc@vger.kernel.org,
-  linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org,
-  linux-mm@kvack.org,  Alexander Graf <graf@amazon.com>,  Andrew Morton
- <akpm@linux-foundation.org>,  Baolin Wang <baolin.wang@linux.alibaba.com>,
-  Christian Brauner <brauner@kernel.org>,  David Hildenbrand
- <david@kernel.org>,  Hugh Dickins <hughd@google.com>,  Jonathan Corbet
- <corbet@lwn.net>,  "Liam R. Howlett" <liam@infradead.org>,  Lorenzo
- Stoakes <ljs@kernel.org>,  Michal Hocko <mhocko@suse.com>,  Mike Rapoport
- <rppt@kernel.org>,  Pasha Tatashin <pasha.tatashin@soleen.com>,  Pratyush
- Yadav <pratyush@kernel.org>,  Randy Dunlap <rdunlap@infradead.org>,
-  Samiullah Khawaja <skhawaja@google.com>,  Shuah Khan
- <skhan@linuxfoundation.org>,  Suren Baghdasaryan <surenb@google.com>,
-  Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [PATCH v3 01/10] liveupdate: Pass user argument to file
- preserve and retrieve
-In-Reply-To: <20261103010216.3447716-2-dmatlack@google.com> (David Matlack's
-	message of "Tue, 3 Nov 2026 01:02:07 +0000")
-References: <20261103010216.3447716-1-dmatlack@google.com>
-	<20261103010216.3447716-2-dmatlack@google.com>
-Date: Wed, 04 Nov 2026 14:17:03 +0100
-Message-ID: <2vxz4idwlos0.fsf@kernel.org>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key, unprotected) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=ai1ohK5M;
+	dkim=pass (2048-bit key, unprotected) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=jn289os9
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A4BcGAa1243214;
+	Wed, 4 Nov 2026 08:22:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=DKIM; bh=ZSnMlVdo+fDOwZWD
+	nMzKFtRjw1qYZbIIDQ1iNEEW1Fw=; b=ai1ohK5M3eSwvQPGm+AawvK373D1K5Bi
+	6TOdl6zKIOTtceuXS3bnnpLj3lOTQNOLUYJ4v2kSlFiNZtRWWgOzQfVyYCJjUCFV
+	VUkZNCJHuIBQz48dNNW+q9m4YHApTtfwLg/dqtU5xNX+Yj3fSi9a7atJEujHjZ/g
+	NLY+eXUEmPtHjEJBwuTwyv8Kcx0Kq10O4C5+ciyel9p2sRAAwQxzDadM2Zt0pUGn
+	DSjsHLIDiDycy5zvWggYaOrVGe0x8SwRwXKH/ZByjxKd/asrOocyL3zlG5pADqQq
+	EMfFVyxBZKjyUvnh0Fz79hFCcqJIVkToOKlQQtzAlC/hc4BHTVuWww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=ZSnMlVdo+fDOwZWDnMzKFtRjw1q
+	YZbIIDQ1iNEEW1Fw=; b=jn289os9caAifXYrxoxMVsxj1oek+tRoueou8xiu8E/
+	vdXeNUJou7kjyDJp+6c/QQlfP55kMiMEr6ifVBFtJUzM9FTkfqdH02hBR2r+Johx
+	mBVZT+gLhquO7yOPqS5qiios8XfsjOsCRkVbVhhXISBulu/6tIbalQ1toOp0PglW
+	ChC2c3LPTLp0yKrb8Z6DSEZVLQSoNCKixB03FlROSpPfOqEmuTWg2+gyX+onKHap
+	Ymzdf5y3svAnLosrFjVBplKAuyY32PXl3GIMM/to9CKbsrYTAHPj6ztiwPLjUNEg
+	qlPebgNwG9NwX37pAAdrG8stwAhWmbIOSp/ST7XBUBA==
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4hqnfhn4hr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Nov 2026 08:22:08 -0500 (EST)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 6A4DM7Fr028013
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 4 Nov 2026 08:22:07 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Wed, 4 Nov
+ 2026 08:22:07 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Wed, 4 Nov 2026 08:22:07 -0500
+Received: from HYB-aFjnqsVU6Ag.ad.analog.com ([10.66.6.192])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6A4DLnal008011;
+	Wed, 4 Nov 2026 08:21:52 -0500
+From: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
+To: Jonathan Cameron <jic23@kernel.org>
+CC: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>, David Lechner <dlechner@baylibre.com>,
+        =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+        Andy Shevchenko
+	<andy@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        Trevor
+ Gamblin <tgamblin@baylibre.com>,
+        Joshua Crofts <crofts@kernel.org>,
+        Sergiu
+ Cuciurean <sergiu.cuciurean@analog.com>,
+        <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Nicolae-Daniel
+ Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
+Subject: [PATCH v2 0/5] iio: adc: ad7625: add LTC2387 and ADAQ2387x support
+Date: Wed, 4 Nov 2026 15:21:38 +0200
+Message-ID: <20261104132143.215581-1-Nicolae-daniel.Deaconescu@analog.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,142 +113,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Authority-Analysis: v=2.4 cv=I6Pw19gg c=1 sm=1 tr=0 ts=6aeb3180 cx=c_pps
+ a=PpDZqlmH/M8setHirZLBMw==:117 a=PpDZqlmH/M8setHirZLBMw==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
+ a=N--XFCr6TIEc_64PeIT2:22 a=VwQbUJbxAAAA:8 a=gAnH3GRIAAAA:8
+ a=uswTXiEBe0Z7XUS-pM0A:9
+X-Proofpoint-GUID: eyFXndJRqEKYsB45abcWxyB0Ap-IDb5D
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA0MDA1MyBTYWx0ZWRfX+mnsrokxwq48
+ 9sl7wMHqpKMUiy2FLe2JWfUjGtT6jHBUhvlZWr3Ufk7vAQH2IpwO9HIv17RcFFrOaTu/Gg2Dm3h
+ G67jqSjA5eWz3l9nQHq8dMTWMb7SpxS4MaGZt6dsxat8+WoVm/6JnsDv3jnLwY83unDP0LJ+uCS
+ 7bXp1DKkJGVgJ8O8tL5xj5GeiBS6Z3pbLJApIovp5dCR6knml86xxFK61906x/XJTbNeEFHkQZp
+ YZQKWJj52EFnsLOLztHUt5tsT1W1ldul6O7SM0qpG2C3zG1cSXgnmkXnqg+B9zvyR0tjQWjumrZ
+ b8gqY4+oTBznB/fupZetQoWJ7abA/jdgNz3xX7J38pYzhHGqYL6HNyDccmATteiixHtbRf5u3s4
+ a3q+lFQQVON5Bw7xc+4IJknyhuAal2Ue7G1JIUxgo61yuc4SeTrpirorvFkFoXvL+aqRvVVTxxK
+ o9/DtxVaqAcmnhLq8dw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA0MDA1MyBTYWx0ZWRfX5Xdn39cBVjUE
+ uS1Qbirh8tXj6V9Ffmyo3jQ9vypzmgctv6PGaIzQSkY83eUAzfAtLc76lH2Xh+11vyVotaKQuke
+ 42o3rmE1YZsLol00PQNAhpSYqR3W+Xe/dvksobpIK/U6XfzdixcO
+X-Proofpoint-ORIG-GUID: eyFXndJRqEKYsB45abcWxyB0Ap-IDb5D
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-04_04,2026-11-03_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 adultscore=0 clxscore=1011
+ impostorscore=0 suspectscore=0 bulkscore=0 phishscore=0 malwarescore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611040053
 
-Hi David,
+Hi all,
 
-On Tue, Nov 03 2026, David Matlack wrote:
+This adds the LTC2387-16, LTC2387-18, ADAQ23875, ADAQ23876 and ADAQ23878
+to the ad7625 driver and binding. v1 added them as a separate ltc2387
+driver. After receiving feedback, this version refactors the driver
+into the existing ad7625 and modifies the pwm backend for clear
+layering.
 
-> From: Pasha Tatashin <pasha.tatashin@soleen.com>
->
-> Allow userspace to pass a file-handler-specific argument structure when
-> preserving or retrieving an FD via LUO. File handlers may need
-> additional context during preservation or retrieval, such as a target
-> FD, device location, or handler-specific parameters, without introducing
-> separate ioctls for each file type. Whether the argument is required,
-> optional, or unused is defined by the file handler.
->
-> Extend struct liveupdate_session_preserve_fd and
-> struct liveupdate_session_retrieve_fd with a 64-bit arg field pointing
-> to a handler-defined argument structure that begins with a 32-bit size
-> field. Because IOCTL_OP validates a minimum size up to the token field,
-> existing callers passing the 16-byte struct remain compatible and have
-> arg zero-filled by copy_struct_from_user().
->
-> Add parg and rarg (struct liveupdate_arg_spec) to
-> struct liveupdate_file_ops, initialized via LIVEUPDATE_ARG(_struct,
-> _min_last), which records the full struct size and minimum required size
-> while enforcing at compile time that handler argument structures begin
-> with a 32-bit size field. When arg is non-zero, LUO validates the
-> minimum size and copies the user argument via copy_struct_from_user() up
-> to the handler's expected size and passes the kernel copy in
-> struct liveupdate_file_op_args, or returns -EOPNOTSUPP if the handler
-> does not accept an argument.
->
-> The argument only applies to the retrieve that restores the file.
-> Retrieving a token that was already retrieved returns the existing file,
-> so fail with -EBUSY if a non-zero argument is passed then, instead of
-> silently ignoring it.
->
-> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
-> Signed-off-by: David Matlack <dmatlack@google.com>
+The parts are single channel differential 16 and 18 bit SAR ADCs, up to
+15 MSPS. Like the AD762x and AD796x they are read with two PWMs (CNV and
+CLK) and an IIO backend that captures the LVDS data. The differences are
+handled as chip data and a few quirks:
 
-LGTM for the most part, only a couple nitpicks below.
+- Output is double data rate on one or two lanes (TWOLANES pin), so the
+  CLK burst is resolution / 4 or resolution / 2 pulses long.
+- The burst has to start at least t_FIRSTCLK after CNV and end at most
+  t_LASTCLK after the next CNV, so at high rates it runs into the next
+  conversion period. The sampling period is raised until it fits. With two
+  lanes 15 MSPS is reachable, with one lane the limit is about 10.9 MSPS
+  (16 bit) and 10 MSPS (18 bit) at a 120 MHz PWM clock.
+- No EN pins. The second PWM is named "clk" for these parts, as Conor
+  asked, and keeps the name "clk_gate" for the existing parts, as renaming
+  it would change their binding.
+- The ADAQ modules have a fully differential amplifier in front of the
+  ADC, so the scale is divided by its gain. The gain is fixed on the
+  ADAQ23875 and pin strapped on the ADAQ23876 and ADAQ23878, so it is
+  given in the devicetree (adi,gain-milli).
 
-[...]
-> @@ -173,12 +178,17 @@ struct liveupdate_session_preserve_fd {
->   * attempts to retrieve the token fail with the same error code. Failed
->   * retrieves are not retried.
->   *
-> + * Retrieving a token that was already retrieved successfully returns a new file
-> + * descriptor for the same file. The @arg only applies to the retrieve that
-> + * restores the file, so passing a non-zero @arg then fails with -EBUSY.
-> + *
+Patches 1 and 2 add what the driver needs from the PWM. The timing of the
+burst has to be placed in whole steps of the PWM, and a rounding function
+that rounds down can't tell the consumer how big a step is. Conor pointed
+out that reading the rate from a clock breaks if the PWM provider has
+a mandatory divider. So the provider now reports the clock rate and the
+number of clock cycles per step.
 
-Hmm, let's see how that plays out in practice. I would guess that code
-which does multiple retrieves isn't smart enough to know the file was
-already retrieved by someone else.
+Changes since v1 (separate ltc2387 driver):
+- Joined to ad7625 (binding, driver, Kconfig and documentation).
+- Dropped the clocks property of the ADC, added the PWM waveform step API.
+- Compatibles use the adi, prefix and the datasheet part numbers.
+- Dropped the x4 parts.
+- Fixed The missing return of dev_err_probe() for the initial sampling
+ frequency.
+- Added the maintainers of the new parts to the AD7625 entry.
 
-Anyway, that's not really a kernel problem, so no need to change
-anything. Just thinking out loud.
+AI disclosure: parts of the commit text and the code were checked with an
+AI coding assistant (Claude): the first version of the merge into ad7625,
+the PWM step API, the timing arithmetic and the test scripts. I reviewed
+every change, built it and ran tests on the ADAQ23875 + ZedBoard.
 
-[...]
->  /**
->   * luo_preserve_file - Initiate the preservation of a file descriptor.
->   * @file_set: The file_set to which the preserved file will be added.
->   * @token:    A unique, user-provided identifier for the file.
->   * @fd:       The file descriptor to be preserved.
-> + * @arg:      User-space pointer to the handler argument structure, or 0.
->   *
->   * This function orchestrates the first phase of preserving a file. Upon entry,
->   * it takes a reference to the 'struct file' via fget(), effectively making LUO
-> @@ -222,9 +257,11 @@ static bool luo_token_is_used(struct luo_file_set *file_set, u64 token)
->   *    (allocates if needed).
->   * 3. Iterates through registered handlers, calling can_preserve() to find one
->   *    compatible with the given @fd.
-> - * 4. Calls the handler's .preserve() operation, which saves the file's state
-> + * 4. Copies the user argument structure (if @arg is non-zero) according to the
-> + *    handler's parg specification.
-> + * 5. Calls the handler's .preserve() operation, which saves the file's state
->   *    and returns an opaque private data handle.
-> - * 5. Adds the new instance to the file_set's internal list.
-> + * 6. Adds the new instance to the file_set's internal list.
+Link to v1: https://lore.kernel.org/all/20261027134409.76824-1-Nicolae-daniel.Deaconescu@analog.com/
 
-TBH, I think this whole list is pointless. There is no reason to list
-what the code does in a comment. It's only purpose would be to go stale.
-The comment should be a high level description of the function, and the
-details are already in the code.
+Nicolae-Daniel Deaconescu (3):
+  pwm: core: add pwm_get_waveform_step_might_sleep()
+  pwm: axi-pwmgen: report the waveform step
+  iio: adc: ad7625: fix sampling frequency handling
 
-It would be very nice if you add a preparatory patch deleting the whole
-thing, but since it isn't something added by your patch, I won't insist
-on it. It's optional for this series.
+Sergiu Cuciurean (2):
+  dt-bindings: iio: adc: adi,ad7625: add LTC2387 and ADAQ2387x
+  iio: adc: ad7625: add LTC2387 and ADAQ2387x support
 
->   *
->   * On success, LUO takes a reference to the 'struct file' and considers it
->   * under its management until it is unpreserved or finished.
-> @@ -239,10 +276,12 @@ static bool luo_token_is_used(struct luo_file_set *file_set, u64 token)
->   *         -EBADF if the file descriptor is invalid.
->   *         -ENOSPC if the file_set is full.
->   *         -ENOENT if no compatible handler is found.
-> + *         -EOPNOTSUPP if @arg is non-zero and the handler does not accept an arg.
->   *         -ENOMEM on memory allocation failure.
->   *         Other erros might be returned by .preserve().
->   */
-[...]
-> diff --git a/kernel/liveupdate/luo_session.c b/kernel/liveupdate/luo_session.c
-> index f48e9a4185f9..ed9d53c7db77 100644
-> --- a/kernel/liveupdate/luo_session.c
-> +++ b/kernel/liveupdate/luo_session.c
-> @@ -267,7 +267,8 @@ static int luo_session_preserve_fd(struct luo_session *session,
->  	int err;
->  
->  	guard(mutex)(&session->mutex);
-> -	err = luo_preserve_file(&session->file_set, argp->token, argp->fd);
-> +	err = luo_preserve_file(&session->file_set, argp->token, argp->fd,
-> +				argp->arg);
+ .../bindings/iio/adc/adi,ad7625.yaml          | 193 ++++++++-
+ Documentation/iio/ad7625.rst                  |  34 +-
+ MAINTAINERS                                   |   2 +
+ drivers/iio/adc/Kconfig                       |   7 +-
+ drivers/iio/adc/ad7625.c                      | 402 ++++++++++++++++--
+ drivers/pwm/core.c                            |  63 +++
+ drivers/pwm/pwm-axi-pwmgen.c                  |  13 +
+ include/linux/pwm.h                           |  32 ++
+ 8 files changed, 703 insertions(+), 43 deletions(-)
 
-Nit: I would prefer to start marking this as __user from here on out,
-instead of keeping it u64 and hiding the fact that this is a user
-pointer.
 
-So luo_preserve_file() should take a "const void __user *arg" as
-argument, instead of "u64 arg". And here we should pass
-u64_to_user_ptr(argp->arg). Same for retrieve.
-
->  	if (err)
->  		return err;
->  
-> @@ -290,7 +291,8 @@ static int luo_session_retrieve_fd(struct luo_session *session,
->  		return argp->fd;
->  
->  	mutex_lock(&session->mutex);
-> -	err = luo_retrieve_file(&session->file_set, argp->token, &file);
-> +	err = luo_retrieve_file(&session->file_set, argp->token, argp->arg,
-> +				&file);
->  	mutex_unlock(&session->mutex);
->  	if (err < 0)
->  		goto err_put_fd;
-
+base-commit: 43ffda3c7f8456bbe641ae8249a077a361b97880
 -- 
-Regards,
-Pratyush Yadav
+2.34.1
+
