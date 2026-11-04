@@ -1,105 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.115
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793808948;
-	b=jyqYhEd2xBzZIMt7fq+25CloE690R4HUTmScMamuQ5D8cWIZzp0az+icviFOSGwAuNpH
-	 yh8MAMcxvYWRbPlYJ3eMg0dHKfjvtjNB4yEn0wSjh5G9RhXkLupDl5gDE+06gDbfqUJjy
-	 qsylxyXtSku+GJSz5l7+YfNbxvOj0qOQc20AoiCPcZo6X4u+2zBAflqgcm9Ybs0jVPffZ
-	 KJGrzrE9GcvRKmUkDsnoQREB3wEjQyB3lFfKXP8GjtIcms1ZkXrtLEItcNmlr/WxaTM5E
-	 ge6/hEJtvIC9+e6Par3wHTNvbYLQ+49oT/HngNK9UT1VsdB8zG/h8ksvttrJzICWfJg==
+	t=1793808951;
+	b=paztmmaFBzDrV0UUxdJAMmczbwzisc7F3HD/n7Ls3IHBPyzUMp1FXlmDE1WhyZtOqCb/
+	 Mn8ndVVXPIimc/vroAuxTAOBH3dyH7tP8wkoyCQxLMwMEisujRQvgpeCSxQMEtC+Rp6Fs
+	 0A56hhlKmkP6oYVygh1yA1nzLNR0nH6oECpWOM3rM4hPa55LWNvef/wBaBxcij2jV4Eff
+	 +waJlQbdgLhwDO1A12rQlOT9We1MBK+/G57QwWdjQ6vnhqN6xwueyYFxMqvFxvRpOlhev
+	 p/L9qQFj3mur31i1HuI+rSXPZq0n02lz2xbeAUCnMoKxaRsFuNmX17ui3IbiQSF8QPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793808948;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=OJqTJ4xyg07hJqswmJ5AikQ26UFbu12PW8dHC4PPKvs=;
-	b=K18fqRBWcoZP2RBLtdtQznBkb2XAWIeUwHNh+jfjApI1KUQKbJqee4b5s1MPtCloDpm6
-	 BMjVcFI/xdDOa+hZdHTAJvpCZBwLv+sZKEllszIH3OmMN3kEbE1nQjKwZcGUGU3W8/rNr
-	 Xb7HD3Y9a6rmVzDpov2WMJ9brs+x81/YB26ULgrhnTfrMC4+VByDKnlyiWYmteR4NFj05
-	 WKsMMGllKRQguM9+eEN7MZCwda+Cdtb+y9WIkGySXl4hsE9EXgviKZCywcj9VmNIqkhbL
-	 kK+PJiymMx1b9ZizVJ1IfSqDcR0sxgWFFrWQQgSNLQ3bvQncBaLsOuKy4NqEZW600mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793808951;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=8fU8AEGdDcjq9JBv57injpYEq2ySiH6tspHTe3WsEnE=;
+	b=4T3qFFiR7Tt4S/axWFlERdq9djHWoDL1mXDY8iHePcPM1nJZaGwK4evv62DByTund2Vw
+	 OYh3oORUwAGu4sIBxSpZvrxNnuQeDgd1NrfhnWQSuFgDeX+2Vcw6NYz5sU6YHQc7A8VzH
+	 jap0vua3WXf2LgLBSxr3q0a9Pqiz4Qsn7oI8qDh1qSQ3yMuYJFF7vWsEt/4iERHmUVXu5
+	 4dAACOmGApYf72ORi8slX/xXksIqkLAltlLeXJoTeyfgm9VmDwQy8FCyK9mFZaoURHIlA
+	 gGQumcr0hYNEIrrZ9tQLtsv8E8LMlUrXxhayWd1mQw7tSlFe1B7Fk2ev6Bmci5aN8VA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=soleen.com;
-	spf=pass smtp.mailfrom=soleen.com;
-	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=OzvPmeDW;
-	arc=none smtp.remote-ip=209.85.222.44
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=oO5llueb;
+	arc=none smtp.remote-ip=91.218.175.115
+Received: from mta0.migadu.com (out-115.mta0.migadu.com [91.218.175.115])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB46606A332
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:15:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFB46606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93340606A329
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:15:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 93340606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=OzvPmeDW
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-980c4f5c921so286467241.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:15:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1793808947; x=1794413747; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=OJqTJ4xyg07hJqswmJ5AikQ26UFbu12PW8dHC4PPKvs=;
-        b=OzvPmeDW5bBy+zfv1z1W+Hmr2oI47pvOy3dB2/UBfqW2eCXCyi9tDXfI1TlMvDh/rl
-         Nm2x9kE47US+HAkFxSooytHhU9bNEBF7Anl4SHKfnGI5RJhiNbRUq+CLiQtBws3hzBfb
-         UPAjgPGjSaLt0PZlNevCOa9kBEtMkl30A3wq5rHlIE4Vyrnsiin2y3A2Q9JDein/WeUT
-         nZpeL3Lp5JvX5cX+oy8ByhLUpP8fEbIvuV0jmpmf1JIiPRaeYWMr24XjK8gw5gsR4vrz
-         iNZXpFU3ev7+1CybZzNzBhEdzleQ6Ti8vJ1TsXIgjQc0UjvVAbaP5rN4oFy5egP6V9RO
-         8/Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793808947; x=1794413747;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OJqTJ4xyg07hJqswmJ5AikQ26UFbu12PW8dHC4PPKvs=;
-        b=WmMSTKZ5aIKqmAk8L286BwPcqJJne1rJlyY9nyNsBDW5K2EeJAPObCp3qoZja2UK2b
-         18UiZbwx4lCSZWbCdkBDWinUgAkahozpWgGDHqo5Dc1IaHWNIGv5pM5yFIZO3EJXbk1v
-         EswszKsZTOHNRbwyWt0Zt+IzCvB03SjhbMyKejTUDkaxtuTnNRxzsZ28VWpunGgMHgXU
-         Vj6TkqTnJ59R3901JPKorHcFkh8Rnhyfz87yACfuv2q6uGoQNxbXVknPyQWgZjEDjKRo
-         y3o3iTW4W9FAEM3oOfTG+a/L9ie/a5ltjTrO6e5UrD11EUnL6EklbT72SNYyNVmiy150
-         f8yw==
-X-Forwarded-Encrypted: i=1; AKwUvBwbgT6KsGtGYuuKIVlhYrRASKB7Mr15MsPSEBUPOegYvzrHkUhrmDuaKuJX7zAzZ3a3U4LNzJBInBk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8k1Sbdq9kgp4mm6f34BhhNcRebrxfYXOKDGSy3vJfWyA99C4k+
-	35dNZkjVIkbbQIwTW+5eiVDN5Rj84owD+a2vjE4MPBktjOXxmMcFTCDzQnuqFo9IGm8=
-X-Gm-Gg: AYBFou0OHaLR0iIigm7nkEQbj7B9vqEWmn7SNXLCTNpFtCP4kbxRags8SFtT5TEcEWH
-	txOnb94AyjtsMCkkpDrHKn+YMTBB8giG7SDk7XmXmbFh4a9BDdQeXwmaHvfT1PMxgheAEg/eq3U
-	uQtsWldfz6pDsbgE8TiTTwXiLGTJSzATlPRgjcRc08oVdAnwPDaZ0OVXRU5KtzCLvjd0ACT8x/Q
-	V0GAVC53ONhweDXlnmyrohJBgfPy916MWBTFbarFLMMBnZeW758YOkNYg3CgeLQ7ZI592/XCi2U
-	r6W/H2svy4QVoU3qHmlqnvDLIRmjU2oTyTiXmACWj4Oaxass5orvC9NfkscDUF5tsCSsd4U/psM
-	MUIK+E8l7b5bgbS65Ka/bkjBZKLAp5H9MiUR5GqxtIs7TSebe+9qM5DYowbAd5XZQwvJRtY4Q8O
-	HwtfsIBnaWm7V3ek0r0cxXaVFVbghuyImB9jWXfHyvOhCnPGY8H6E52dvT8G60ITUQhg31VCcVY
-	D2yYTC6out6pDkS0KdnQoqw4TT+hwKCXioj/PaqZSMXwv2wazgO2rOrqCQMpe/fqt3EVYJBbcmu
-	akmO5VWvQwi0qQCbzWW7djSE38FNCER2Er7WgAlRduHOOWPBT96LOo+9zhCc8E2x0iBQ7FXL+dH
-	TIOHEaM22PPhC13HkYeVedhvTwUBg
-X-Received: by 2002:a05:6102:8092:b0:7cc:9d82:61e2 with SMTP id ada2fe7eead31-7d0725cfd86mr6050535137.13.1793808946717;
-        Wed, 04 Nov 2026 08:15:46 -0800 (PST)
-Received: from google.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-998d8afbfe6sm2262989241.3.2026.11.04.08.15.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 08:15:46 -0800 (PST)
-Date: Wed, 4 Nov 2026 11:15:45 -0500
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: David Matlack <dmatlack@google.com>, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, Alexander Graf <graf@amazon.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Christian Brauner <brauner@kernel.org>, David Hildenbrand <david@kernel.org>, 
-	Hugh Dickins <hughd@google.com>, Jonathan Corbet <corbet@lwn.net>, 
-	"Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Mike Rapoport <rppt@kernel.org>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>
-Subject: Re: [PATCH v3 03/10] liveupdate: Allow file handlers to mark
- retrieve failures as retryable
-Message-ID: <autW_3fjUS_hEhZf@google.com>
-References: <20261103010216.3447716-1-dmatlack@google.com>
- <20261103010216.3447716-4-dmatlack@google.com>
- <2vxzv76ck7n9.fsf@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=oO5llueb
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=QhoInTD0Xt4NBSuls0AgRrgTJDXjCSOPGY4pmRsoD08=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793808948; v=1; x=1794413748;
+ b=oO5llueb2uLLHAIztGoWQ9k0aJwHtRxomO9r6ciLu/m9aaoJCGqWBQobUJ4/gK0SNhXJ97nr
+ ElLpG14EwNXY8YlLuxiBnZE31ra/RtD3OJcdO8OVaX39YfomEKzpN1x2NQniWCLhSg/wVqkFKSJ
+ jiEDYnwTN7uWGrVGtczbdmrY=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c6ae390f292ebaa1;
+	Wed, 04 Nov 2026 16:15:48 +0000
+X-Mizu-Trace-ID: c6ae390f292ebaa1
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <81096741-0e14-4469-bdbb-497aba541fbb@linux.dev>
+Date: Wed, 4 Nov 2026 16:15:46 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -109,42 +58,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2vxzv76ck7n9.fsf@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] mm/hugetlb: allow crashkernel to reuse hugetlb CMA memory
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, baoquan.he@linux.dev,
+ rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org,
+ ruirui.yang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, muchun.song@linux.dev, osalvador@suse.de,
+ david@kernel.org, jbohac@suse.cz, sourabhjain@linux.ibm.com,
+ ruanjinjie@huawei.com, leitao@debian.org, linux-kernel@vger.kernel.org,
+ kexec@lists.infradead.org, linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev,
+ kernel-team@meta.com
+References: <20261104142727.2894800-1-usama.arif@linux.dev>
+ <autMHwldMudQOO3j@thinkstation>
+Content-Language: en-US
+From: Usama Arif <usama.arif@linux.dev>
+In-Reply-To: <autMHwldMudQOO3j@thinkstation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 11-04 15:12, Pratyush Yadav wrote:
-> On Tue, Nov 03 2026, David Matlack wrote:
+
+
+On 04/11/2026 15:20, Kiryl Shutsemau wrote:
+> On Wed, Nov 04, 2026 at 06:27:27AM -0800, Usama Arif wrote:
+>> Use a separate suffix to make the exclusion of existing HugeTLB
+>> allocations from the vmcore an explicit choice.
 > 
-> > From: Pasha Tatashin <pasha.tatashin@soleen.com>
-> >
-> > When luo_retrieve_file() invokes a handler's .retrieve() callback and it
-> > returns an error, LUO currently records the error in
-> > luo_file->retrieve_status and blocks any subsequent retrieve attempts.
-> > This is necessary when the handler has already partially consumed or
-> > freed the preserved KHO state.
-> >
-> > However, with user arguments passed to .retrieve(), a handler may fail
-> > early while validating caller-supplied parameters (such as a missing
-> > argument, an invalid or read-only target file descriptor, or a non-empty
-> > target file) before touching any preserved KHO state. In such cases,
-> > userspace should be able to fix the argument and retry
-> > LIVEUPDATE_SESSION_RETRIEVE_FD, and if the file is never retrieved,
-> > .finish() must still run to release the preserved KHO state.
-> >
-> > Add a retryable output flag to struct liveupdate_file_op_args. When a
-> > handler sets args->retryable = true on error, luo_retrieve_file() leaves
-> > luo_file->retrieve_status at 0 so the retrieve operation can be retried
-> > and .finish() will still clean up the unconsumed preserved state if the
-> > session is finished without retrieving the file.
+> The crashkernel=size,cma documentation already says that pages allocated
+> from the range are not in the vmcore and that it should not be used if
+> dumping of userspace memory is intended. HugeTLB pages are userspace
+> memory. I don't see what a new suffix makes explicit that ",cma" does
+> not already.
 > 
-> Should we give some sort of signal to userspace whether the error is
-> retriable or not? How would it know it can or should try again?
+> Why not let crashkernel=size,cma take hugetlb CMA first and reserve a
+> dedicated area only for what hugetlb CMA does not cover? With
+> hugetlb_cma=6G crashkernel=2G,cma there would be no extra CMA at all.
+> With hugetlb_cma=2G crashkernel=4G,cma the crash kernel would reuse the
+> 2G and a dedicated 2G area would be reserved for the rest. Either way,
+> nobody has to learn a new option.
+> 
+> The catch is ordering. reserve_crashkernel_cma() runs from setup_arch(),
+> but hugetlb_cma_reserve() runs later, from mm_core_init_early(). The arch
+> code could record the size and leave the reservation to generic code
+> right after hugetlb_cma_reserve(). That is still memblock time, so the
+> remainder can be declared there. An early_initcall is too late for that.
+> 
 
-The goal of args->retryable is internal kernel state tracking.
+Makes sense to me, I will rewrite it in the above way and send v2.
 
-From userspace's perspective, LUO ioctls behave like any other syscall 
-where errno is the signal: userspace decides whether and how to retry 
-based on the error code (e.g. retrying on -EAGAIN, or picking a 
-different mount on -EROFS/-EACCES, or adjusting flags/arguments on 
--EINVAL).
+Thanks for the review!
+Usama
+
