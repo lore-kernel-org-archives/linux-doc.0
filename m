@@ -1,49 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.40
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793803000;
-	b=VPidVqqew9GtYvNDFgUzwz6pmYrn27x0NUECKVhvSRO3mfsgJAwWPH+MvbwLpWAjV4BB
-	 EflJqv1ES/To6sWzdrhP/SXhVFnhrHzDtuzUXm/9hnlgDOP0dZndUx8PgnAKh0aM8nZ2r
-	 gbw1qUjXfzsiRSJP7kwRk3cArwmw8qg5WEFwOyt0QpMtLINilykCZYHT6qfZVf+D+rX2Z
-	 tFatcnLpLydMfU+3lop1/soRJcPLr5hVAEmco8zibwnQmmXrS9uuzVmoSM5HWtGWRtENJ
-	 +A0iUPcKFBNfRdaPNAU+S6xPkIoRUQ4Zfgi7SXRyjfzdLGJdmX3xvvSttU9WVLC1aDA==
+	t=1793803293;
+	b=Hfx9IdkmG7q8gDOGX+9xG01J7RtzIfnTzE+hycgEPtqiGXybVgSqwRDvd019rXGlsO3G
+	 c8OpF6N7oGEfnmKazDyysmCdla1SWSNr/OsK74330ESwTnx+Ls6ZjyuvYk5JSUu8Xl8Wd
+	 yj+t9EDiACfqRNKSYMuCL6cmh6E82EHUvFN6g1Ls6jwoK+1J/AQWpuIcPaVEhP5irflDx
+	 9VeqTsauHHvnbIkMvTkbjL50Tfv0C5CT3NMtfu/tYp5KAt196fYsKPZoWqPq7DyXhXaBZ
+	 X/pAOZ/rVzg916pdfWtnr+OVBe47RCYqe4MwjpOrUReasejNjI3y898OY31cSkRO9dA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793803000;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=NV6GdVcifFJdTLFsDjb/Tv4GQa1WE3ukrxwK3f0KC6A=;
-	b=KN3z+pgl0gUHe4tMS0kQffS12wm2EHU2phY03sKtEu60wFvAO28p62h16H7qVE85By13
-	 Ljte6y69iu/0wLCKgEkNrbsOQ7hRz5Ea9PSarII4ASQBFlMiAd44NxxpdZUC5ZVyrXDcf
-	 xbwXX4J7q19UlRNw9Km7PQ2z5QS0fLaRd4TuRgl3hb4GqD+90wJrPzAe9pNsMpHbRdjS2
-	 S5skf//WZfVcRRy0gti/bUfU9un4+dPlR6L+CEpgAVKU01iHGZGQQET+G6gG+FZs4K5M3
-	 ArzqG7UpS1nuFKbk87Iku6v2TkczhcNYMdYI4s1QrEmpakg5LIU8CyRo+++Z95Ie4/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793803293;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=hRxev9xX3k38qFhuqn9DfPqjt/pu5FOdJR+RzgR+mtA=;
+	b=HCgXILjf+n3km7N0NtGKV4y9eTUeDIPJ3wXZJG87HBwkP2oAmBQLCr8B3mHQ0v5q+vi+
+	 AQmISQarD7ikQXWMVCx8hY++2+XlP0jXktXSgEuXe2S/BgKrqMaaHSAvkiEhRJeLQioCI
+	 Iafsvc3eCGl3fk7/0wcWjeWTn3N2zznX1wTqUVOma1sG1oY67+UoAUSR6uG7nezdKK80K
+	 gktlQffpsC8XP0nPE6lWiJLkSzIFsPaYBvN6/M6nf7ilEeUsfyqfaSFnx8y8Qk7PVgVJ8
+	 JIxbdFHfjyHLnDert7ADFKCWso/ZUaaCO2c6XvSD86L52TQ6BZYjH2vbOKNLtVt9zPg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=f0cJSAYX;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B34C6606A32C;
-	Wed,  4 Nov 2026 14:36:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B34C6606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=f0cJSAYX
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6C2C1CE0;
-	Wed,  4 Nov 2026 06:36:35 -0800 (PST)
-Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 078B33F673;
-	Wed,  4 Nov 2026 06:36:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793802999; bh=Uuty6DRadg0p1LT6jLDYK+PxxHys/sQ0bh39v1+iElc=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=f0cJSAYX5hfTetQPOg1aCodBvYb2ynPX5zQ+7IdhE6zviBkE8FapnPJ1H5k79fMLt
-	 h/RJpUGMYmAG2IZuy4bfrKbM67miEg+TbmuRucEbNVhbm5eAL6jBqelvzunhbofUsS
-	 dKYx2GrAtKhuGGkWD4DWrD7EHdNV2Es826UJPFU8=
-Message-ID: <88c180d8-156d-400d-8537-5fd79b7ad10b@arm.com>
-Date: Wed, 4 Nov 2026 14:36:35 +0000
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	arc=none smtp.remote-ip=95.215.58.40
+Received: from mta1.migadu.com (out-40.mta1.migadu.com [95.215.58.40])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47716606A32E
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 14:41:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47716606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=QiorddpL/2jAm0XZLedFDDB1B+wFcsgZAZu90qBVX9s=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793803289; v=1; x=1794408089;
+ b=C8qM9YImRDRkrwcvm86h7UOs3MLx66eZMUEsvf0qnZqzikU5nvyh0ihAfu/FPjn0D0Tcm01C
+ FjFrSQm9qqBGdctJ8mBeob5nAOlJJD8Ztp2hHt+NaBWsYGXY4wKjPjccq5NngLgAt84K3l1gm5j
+ ovBLYd1I4TQW/gZfzGbBkZUYXXHu5xp5eiIM2TLrRrJ+zhaSy6wiREFUsYaQmbkfU0MrmyO4yLR
+ mJwopfNSlwGiaX7erC1TA5Pf6HTMfY+4TV7eUSesY+8Jc/4OvaW+b5v2oOn7bthFgJLGRPYaGT6
+ 9/TFmC8cLQAsFILHo9BICET7vlg7Cw/yqHuqcTQsoSVxA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d1a2aba573d0e9ed;
+	Wed, 04 Nov 2026 14:41:29 +0000
+X-Mizu-Trace-ID: d1a2aba573d0e9ed
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 4 Nov 2026 22:41:24 +0800
+From: Weijie Yuan <kernel@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: =?iso-8859-1?Q?R=E9nich_Bon_=B4Ciri=B4c?= <renich@evalinux.com>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs/zh_CN: fix stale :Original: reference in
+ xfrm_proc.rst
+Message-ID: <autEFEW15g5I0oVT@wyuan.org>
+References: <20260920073144.546566-1-renich@evalinux.com>
+ <78d0a4ea-d621-4408-8efd-d8c9bb1f6841@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,104 +71,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/resctrl: Disallow monitor group rename when the RMID
- changes
-To: Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
- reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- babu.moger@amd.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, jic23@kernel.org, tan.shaopeng@jp.fujitsu.com,
- gshan@redhat.com, zengheng4@huawei.com, x86@kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20261104101913.586595-1-ruanjinjie@huawei.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <20261104101913.586595-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <78d0a4ea-d621-4408-8efd-d8c9bb1f6841@hust.edu.cn>
 
-Hi Jinjie,
-
-On 04/11/2026 10:19, Jinjie Ruan wrote:
-> From: Peter Newman <peternewman@google.com>
+On Wed, Nov 04, 2026 at 10:32:43PM +0800, Dongliang Mu wrote:
 > 
-> Renaming a monitor group to move it below a different control group
-> changes the CLOSID of its tasks. Where the RMID only has meaning
-> together with the CLOSID, the RMID index changes as well: on arm64 MPAM
-> the RMID is a PMG that extends the PARTID, so the group's counters
-> belong to the old PARTID and cannot follow the move. The monitor data
-> would be reset and would then report the new PARTID's traffic.
+> On 9/20/26 3:31 PM, Rénich Bon ´Ciri´c wrote:
+> > Commit 03e23b18c720 ("net: Move XFRM documentation into its own
+> > subdirectory") relocated Documentation/networking/xfrm_proc.rst to
+> > Documentation/networking/xfrm/xfrm_proc.rst.
+> > 
+> > The Simplified Chinese translation was not updated accordingly,
+> > leaving its :Original: tag pointing to a nonexistent file and causing
+> > tools/docs/documentation-file-ref-check to report an invalid reference.
+> > 
+> > Update the :Original: path to point to the new location.
+> > 
+> > Fixes: 03e23b18c720 ("net: Move XFRM documentation into its own subdirectory")
+> > Signed-off-by: Rénich Bon ´Ciri´c <renich@evalinux.com>
 > 
-> Check that the RMID index is unchanged before moving the group and
-> reject the rename with -EOPNOTSUPP otherwise. Only MPAM systems are
-> affected; architectures where the RMID is independent of the CLOSID,
-> such as x86, keep the same index and still allow the move. Document
-> the restriction in resctrl.rst.
+> Hi Rénich Bon ´Ciri,
 > 
-> Fixes: 3e9b35823aab ("arm_mpam: resctrl: Add rmid index helpers")
-> Suggested-by: Ben Horgan <ben.horgan@arm.com>
-
-Perhaps stretching the meaning of a 'Suggested-by' tag as I only suggested the repost of Peter's patch.
-
-It is probably worth pointing out that the moving of monitor groups is existingly broken other than
-just the resetting of mbm_total_bytes counters and so the current behaviour isn't something that an
-existing user could be relying on. As you already point out in [1]
-
-[1] https://lore.kernel.org/lkml/20261031101052.1692230-1-ruanjinjie@huawei.com/
-
-Thanks,
-
-Ben
-
-> Signed-off-by: Peter Newman <peternewman@google.com>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> Cc: <stable@vger.kernel.org> # 7.1.x
-> Link: https://lore.kernel.org/lkml/20241205153845.394714-1-peternewman@google.com/
-> ---
->  Documentation/filesystems/resctrl.rst |  7 ++++---
->  fs/resctrl/rdtgroup.c                 | 13 +++++++++++++
->  2 files changed, 17 insertions(+), 3 deletions(-)
+> I have proposed a patchset to revise all the inconsistency between the path
+> of Chinese translation and English documentation and these invalid original
+> fields.
 > 
-> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-> index b52795e03303..5f21ab20030a 100644
-> --- a/Documentation/filesystems/resctrl.rst
-> +++ b/Documentation/filesystems/resctrl.rst
-> @@ -552,9 +552,10 @@ will automatically remove all MON groups below it.
->  Moving MON group directories to a new parent CTRL_MON group is supported
->  for the purpose of changing the resource allocations of a MON group
->  without impacting its monitoring data or assigned tasks. This operation
-> -is not allowed for MON groups which monitor CPUs. No other move
-> -operation is currently allowed other than simply renaming a CTRL_MON or
-> -MON group.
-> +is not allowed for MON groups which monitor CPUs, and fails with
-> +-EOPNOTSUPP on systems where the RMID depends on the CLOSID, such as
-> +arm64 MPAM. No other move operation is currently allowed other than
-> +simply renaming a CTRL_MON or MON group.
->  
->  All groups contain the following files:
->  
-> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-> index 9290a346386e..358f2dc8301d 100644
-> --- a/fs/resctrl/rdtgroup.c
-> +++ b/fs/resctrl/rdtgroup.c
-> @@ -4405,6 +4405,19 @@ static int rdtgroup_rename(struct kernfs_node *kn,
->  		goto out;
->  	}
->  
-> +	/*
-> +	 * Moving the group changes the CLOSID. Where the RMID is only
-> +	 * meaningful together with the CLOSID, the RMID index changes and the
-> +	 * monitor state cannot follow the move.
-> +	 */
-> +	if (rdtgrp->mon.parent != new_prdtgrp && resctrl_arch_mon_capable() &&
-> +	    resctrl_arch_rmid_idx_encode(rdtgrp->closid, rdtgrp->mon.rmid) !=
-> +	    resctrl_arch_rmid_idx_encode(new_prdtgrp->closid, rdtgrp->mon.rmid)) {
-> +		rdt_last_cmd_puts("Changing parent control group not supported\n");
-> +		ret = -EOPNOTSUPP;
-> +		goto out;
-> +	}
-> +
->  	/*
->  	 * If the MON group is monitoring CPUs, the CPUs must be assigned to the
->  	 * current parent CTRL_MON group and therefore cannot be assigned to
+> Please refer to this patch - [PATCH v3 8/9] docs/zh_CN: update
+> networking/xfrm/xfrm_proc.rst translation
+> 
+> https://lore.kernel.org/all/c641a11c-39c8-40c4-b162-10f3a3db57ff@linux.dev/
 
+Ah, I haven't had a chance to look carefully at your series yet. Then
+this patch can be discarded in what's-cooking.
+
+Thanks, both.
