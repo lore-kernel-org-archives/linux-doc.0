@@ -1,62 +1,113 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793802080;
-	b=ZLO6JzIUGoXaBBfCggVXEs5egFd/2trlQzTr38aiS8YpsShxFVGGFSr1WUJM1d0Xrz/g
-	 FbWYaStcMFdgb0gl1B/j1I+sVJTTUgHnwyqCy56H3P3AcUzr/YBtYCdr2M0uznHy9Rm3s
-	 yqcT1AtYdfcgSW526mZhw/a5b5Lq7bshF/1HJfVgr5Bz1atjldZAGbuvqqSf8mD0pVgz4
-	 MLMCWsmQHrvv+paCMA+EnmzqCQ/Ws87ge81ZPPlbTun5BuBHocgnjLYZMuOQgaZuHomHw
-	 gneGpzIjqh5CGHdNO9SvTD52NS347jStYfw4rc7yWvwYY2KcNF8HWnDWoohP9hFnMJA==
+	t=1793802197;
+	b=TEca7jBDD6n5yO1P6I5E4VyLjHFMvwHzh481C1dp6npp6RxJ0fN0oA45Dz3yTAYASaUf
+	 G8U28FLPGpJ4uk1U8liwZe0uccreDEr+1HrwVzrl7eiULP+mT0gysDIXgT97i88tMzPRc
+	 hvlm9BP3HqVG+mLV4c5+1f1FBs9ckmA0WBLWyUcFAsFZE575HzmlR/2piJD9rFr/DTrdG
+	 NswEaoV1AVCcD88Vju7T/oKFrFJKrE+KZ66BjE7IyOvI3YCjgaUc9NRHB5fH6Enu4q0B2
+	 +/+ZpaHNlB5JWgMZkbcwc8HgcUZNR/iq5+n1SMjYamFj+nXry/0Vh44Fc2IkFpDQYUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793802080;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding;
-	bh=W8SMcCt9ZUSUxbt5djHgyrkgqEuZej0Mp2WHf59g7rM=;
-	b=HZUottwiESFiJ4H3yziJ59GyCi04Zwe5Nj3mx5egdS9jQ0466vTnuISrVrzt6LcSrnva
-	 kN4TaFIYmabLWW3DMMTeuihUV5v2RPCsXIzg2xUFpkNEoUVFZcSxHSYJs/LhGvw8CzmSK
-	 WXVJLbLCnh/I6LMN9DSNLMDXCWj6MpqD2iUwOvaEdpx2rY9bDkTzHKG/fwmvqM414DTRw
-	 d0sHcB2e/gvTKr0ECpl8sbymxY0eChY5zOziLkjGMNjZou3wkrfLo3uHF5z+Gj/3r64Wm
-	 XiZWiP2gRBOaTVPAT96fHuE03EjohPLRemZtk3ViRbGJWD7d1CvBCQ+jJTr5gva2veg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793802197;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=ipCVhzNjz3bkUh3HIH/dC2V084l64YZgYq8uC+CfKVA=;
+	b=Gm6EgtZVX1fgDGC0ZlkHOSmBrwn2RBJZYQCe7g48qCOJ7I+2CXy84Jld4LeY7N+k1jln
+	 sqrQXGVRXP7Pvl24XF0AiyhT+ps2nEcOM6JEL+659OtzHKBwAvixSUM01KmpzACAscyfY
+	 fo2d+i32npRAsu0L03iQfd24z0tid16TWllRzK6SWXNwvz8LoHqcO+//PxPPhLa5OgMBA
+	 4RMDqoEhc2MjZk5l7Vt+nn0I/h/Y76GZpmeTR/9wp/8gJbBJxz/GYilJm9BMA82Cq5FV6
+	 DTHGKHiYg42TU6XLRRUvGz1V6UXomNrQY0I9vzszM6+WR2V03Kts0MgyUU1u9r1WkYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=f0Yux6ZP;
-	arc=none smtp.remote-ip=91.218.175.199
-Received: from mta0.migadu.com (out-199.mta0.migadu.com [91.218.175.199])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0LsVrB1R;
+	arc=none smtp.remote-ip=209.85.128.43
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF6F606A31B
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 14:21:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DF6F606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F24F606A334
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 14:23:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F24F606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=f0Yux6ZP
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=bzRX5dlV7Wh/lyh0UYkq3/dRHDRrbSsB+o+Wim9Zm4U=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793802077; v=1; x=1794406877;
- b=f0Yux6ZPtwTsWhjKb7OpSnjG+0Yxe8gr+Vcm0Inc481tnEmUz5YIJBhafeMoDA2nPq3OK3aY
- EhKqxIU45zaw9dvm7LfhrbpJX6XjrwJ/y0nahwx5NoBBeqTGyBwo4c5psbB/bFhkoaCN5us6QAO
- ByAmwPGzARk07i3UkH+wW636sMNVy3SG1Et/LM8AwZn85WkfD/KnchHl14KLIQAPaBaU5aPQ1/Y
- OV+joVF9nj/vKz2+WVc8X9qev5NM78wGoVhyfjH2JSX6Q9H3l3TgydbPQOTo8gAqG6KWLM/j5Ig
- AEOtYT1e5s/qNAjmnIGTJtXZR3PW0hziCNv2hhY1gDofQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id a5f416413f0f93a2;
-	Wed, 04 Nov 2026 14:21:16 +0000
-X-Mizu-Trace-ID: a5f416413f0f93a2
-X-Migadu-Flow: FLOW_OUT
-Date: Wed, 4 Nov 2026 22:21:09 +0800
-From: Weijie Yuan <kernel@wyuan.org>
-To: linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>
-Subject: What's cooking in Chinese docs (Nov 2026, #01)
-Message-ID: <aus_VX-lZZWRP6FE@wyuan.org>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0LsVrB1R
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso8051285e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 06:23:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793802195; x=1794406995; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ipCVhzNjz3bkUh3HIH/dC2V084l64YZgYq8uC+CfKVA=;
+        b=0LsVrB1RbPjDtXwX3qjLB1A3vbWVpqZ7HZf5pVQXVp4B7btdszFS1RljBh17d4QysC
+         BS3cixxniLqtiMaPPHJK5cPfu73HovzOQC3aoX+YmxViTbcNeU+xrWcrtDpOK3olBzbq
+         8BYj61J6NvVpkQGghxMoUWWxHaUL3v2+0S7dfFQuuTth1J1asNB7GdDfzPs5Ij5j1Fma
+         CAHQ0lbRdCK0qEiS0+sQqrIdPbDnjliso64JP9yRZdlJQLMNlR49y+Q1lop64YIK2xJG
+         yr/u0N5gPgEp75e1VVKhayMcmVrXJMOLfY8AaES0WpLtJCBYs28K3LQlgCNZwXYwAbjv
+         QTiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793802195; x=1794406995;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ipCVhzNjz3bkUh3HIH/dC2V084l64YZgYq8uC+CfKVA=;
+        b=ov6q9UZCqh4u/oW5rXBLKv5skSNq+3W/pzjE4OSmQdNzntCIl+wGJh6DaJRWlrpS5t
+         qd21Pk0PHYxcFdu4Bh0mw7V8PKrK1CVXLld0qJb4vZkBLzfPievs6os5Vtyy3rXwU4W9
+         u/tKBEU2Edwtd+iyTvLZDKbn5+6/S8sHZSHwlv8z5ppzLin9wtRGPoBSX8hPkjufi4zv
+         0xeHhdp7rjoaP4RDM/EdWaaYpKnpwaLKphs0809UJVbuya1qY3WBSCuBpvkGqeZPCmvQ
+         emEAbZaV2A80jF6t9r6WqYU7rWmADmasO/YX3AYor3GXYrglOBExxAhyls0DxDBBrPv5
+         VL8w==
+X-Forwarded-Encrypted: i=1; AKwUvBzWMNKJe7MrQrfEqxooVfvgTd1iBYtNb9N50HC+/e9XtYimFOJgsmDUtYlrOtF89OwmDiB/8VtfsY0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+sM/maNFuBic7s0m797OwCZ3/y9sIuV57CqMvXJnM/P6SzkdSe
+	VhevDdM+NKbEUQ6MN4nJuHLSeiAsH9sqaBVk5qwGehXo31nb/qi9yukC
+X-Gm-Gg: AYBFou0cGjGgY63NwYyXl3f7FQgL/DThLdJFGqnJU4e1J8l3iE3TYhfAJ6CgO/zFXEm
+	mmdqdnLkG9gjPjfhsdHCUEQoQ8ZO3m9QcFnHGIMZyKSJvP3PG09CUpMDD0lNHbSiHdhH6Mh5gKt
+	UtD+H9CuVhPRkYOw56yCo75EY55uBuu0UY6RGH/WGaTqaQLbWkFjCnYvjwCcKFWuzZnxjjV4wW1
+	4a5DA/4V42nayx2BaM7SQBeERxmzSDFhfBteuTLtZ3OEwuVjSs8j3AkNtJJ0oze5AzxynNnZ2Md
+	T5LtDQr9YCK6VB2klCQoKjeDGljY2So7LiwH9WUWVGHHkW+izvEQrWQochvsIbfQ0vwRK6TyyhI
+	YIzsDg99hpzaYM1TwwKCR9NpWulhAxiH1BkEUP55alnNSup6yBjo+I+PI9/39oo0xFP+f2RYImb
+	uXqwogu44kK5cUUO6Mr1wrrYJb5+h3gYh0UR9rUDZNWeg2xMsF7SuRNhSTnLDel0p/gU8neDUp6
+	ml5Me0QLjox3z1iGJkH9eOhB9hcK/sA990pKBr8etPBrvCO4R6tAihXFdExJH4IuIubkywUB+ts
+	EVBUg8PsJkGqHXhzmOcKWT5ZgiWOWlbUF14Fc5Nc7C1fZPge7ZWAdNXn8rOyfkuf
+X-Received: by 2002:a05:600c:4f55:b0:4a3:d327:6ed with SMTP id 5b1f17b1804b1-4ac182dcba3mr406397685e9.17.1793802195353;
+        Wed, 04 Nov 2026 06:23:15 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b43c7480e3sm87089165e9.7.2026.11.04.06.23.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 06:23:09 -0800 (PST)
+Date: Wed, 4 Nov 2026 14:23:07 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Samuel Wu <wusamuel@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko
+ <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai
+ <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi
+ <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
+ <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ kernel-team@android.com, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to
+ /proc/kallsyms
+Message-ID: <20261104142307.431fc12f@pumpkin>
+In-Reply-To: <CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
+References: <20261023001603.560210-8-wusamuel@google.com>
+	<20261023001603.560210-9-wusamuel@google.com>
+	<20261028134012.01d52e94@pumpkin>
+	<CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
+	<20261030100215.6f8e0d4f@pumpkin>
+	<CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,226 +117,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-
-Here are the topics for Chinese docs waiting to be merged.
-
-Copies of the source code to Chinese documentation development tree live
-in here:
-
-    git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs/linux.git
-
-Mirrors:
-
-    https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
-    https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
-
-Please report any mirror instability to linux-doc@vger.kernel.org
-
--------------------------------------------------------------------
-[Stalled]
-
-* Yukai Wu 2026-08-29
-  [PATCH] docs/zh_CN: Update arch/riscv/vm-layout.rst translation
-
-  Waiting for response for too long, stalled.
-  source: <20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com>
-
-
-* Chen Miao 2026-08-14
-  [PATCH v4 5/6] docs/zh_CN: doc-guide: document macOS Sphinx setup
-  [PATCH v4 6/6] docs/zh_CN: how-to: document case-sensitive APFS setup
-
-  Waiting for response for too long, stalled.
-  cf. https://lore.kernel.org/linux-doc/b233295b-64c0-4d50-a0fd-516e4795eb96@hust.edu.cn/
-  source: https://lore.kernel.org/linux-doc/b233295b-64c0-4d50-a0fd-516e4795eb96@hust.edu.cn/ (PATCH 5/6)
-  source: https://lore.kernel.org/linux-doc/20260814214419.49925-6-chenmiao.ku@gmail.com/ (PATCH 6/6)
-
-
-* Ye Liu 2026-08-19 1 commit
-  [RESEND PATCH v2] docs/zh_CN: sync page_table_check.rst translation
-
-  Waiting for response for too long, stalled.
-  source: <20260819025535.2967566-1-ye.liu@linux.dev>
-
-
-* Cui Shuang 2026-07-22 1 commit
-  [PATCH v3] docs/zh_CN: Add configurable error injection translation
-
-  Waiting for response for too long, stalled.
-  source: <20260722123240.22979-1-imcusg@gmail.com>
-
--------------------------------------------------------------------
-[Cooking]
-
-* Dongliang Mu 2026-10-29
-  [PATCH v3 0/9] docs/zh_CN: align translation paths and update guides
-  [PATCH v3 1/9] docs/zh_CN: update admin-guide/index.rst translation
-  [PATCH v3 2/9] docs/zh_CN: update admin-guide/README.rst translation
-  [PATCH v3 3/9] docs/zh_CN: add media administrator guide translations
-  [PATCH v3 4/9] docs/zh_CN: reorganize process debugging guides
-  [PATCH v3 5/9] docs/zh_CN: update magic-number to match upstream
-  [PATCH v3 6/9] docs/zh_CN: reorganize media driver API translations
-  [PATCH v3 7/9] docs/zh_CN: move GFS2 translations into filesystems/gfs2
-  [PATCH v3 8/9] docs/zh_CN: update networking/xfrm/xfrm_proc.rst translation
-  [PATCH v3 9/9] docs/zh_CN: remove stale Original fields from SCSI and IPE translations
-
-  Reviewed by Yanteng.
-  source: <20261029124429.294868-1-dzm91@hust.edu.cn>
-
-
-* Jiandong Qiu 2026-10-29
-  [PATCH v4 0/2] docs/zh_CN: update translation of doc-guide/sphinx.rst
-  [PATCH v4 1/2] docs/zh_CN: add process/changes.rst translation
-  [PATCH v4 2/2] docs/zh_CN: update sphinx.rst translation
-
-  Reviewed by Dongliang.
-  source: <cover.1793279600.git.qiujiandong1998@gmail.com>
-
-
-* Yao Yiqi 2026-10-22
-  [PATCH] docs/zh_CN: fix typos in admin-guide/README
-
-  Reviewed by Dongliang.
-  source: <20261022135949.361566-1-yyaqia@gmail.com>
-
-
-* Yikun Wei 2026-10-20
-  [PATCH v3 0/5] docs/zh_CN: add fault-injection Chinese translations
-  [PATCH v3 1/5] docs/zh_CN: add fault-injection index Chinese translation
-  [PATCH v3 2/5] docs/zh_CN: add fault-injection Chinese translation
-  [PATCH v3 3/5] docs/zh_CN: add notifier-error-inject Chinese translation
-  [PATCH v3 4/5] docs/zh_CN: add nvme-fault-injection Chinese translation
-  [PATCH v3 5/5] docs/zh_CN: add provoke-crashes
-
-  Expecting a reroll. (thread broken)
-  cf. <6baba360-6ee2-4195-91e4-d22c97d3c146@hust.edu.cn>
-  source: <SI2PPFCA6543649A166AABA54D11A931F7DDD672@SI2PPFCA6543649.apcprd04.prod.outlook.com>
-
-
-* Weijie Yuan 2026-10-21
-  [PATCH v3 0/2] docs/zh_CN: cleanup headers
-  [PATCH v3 1/2] docs/zh_CN: remove translator-related headers
-  [PATCH v3 2/2] docs/zh_CN: remove Translator field in header template
-
-  Partly reviewed by Dongliang with an extra question to Jon.
-  source: <cover.1792569583.git.wy@wyuan.org>
-
-
-* Jiaming Ouyang 2026-10-28
-  [PATCH v4] docs/zh_CN: add Chinese translation for usb/ohci.rst
-
-  Expecting a reroll.
-  cf. <fcabf691-cca4-477d-b387-e50467a41408@hust.edu.cn>
-  source: <20261028072643.32250-1-jiamingouyang13@gmail.com>
-
-
-* Rénich Bon ´Ciri´c 2026-09-20
-  [PATCH] docs/zh_CN: fix stale :Original: reference in xfrm_proc.rst
-
-  Needs a different solution?
-  cf. <aus2LTFjmZaZPomM@wyuan.org>
-  source: <20260920073144.546566-1-renich@evalinux.com>
-
-
-* Weijie Yuan 2026-09-05
-  [PATCH v2 0/2] docs/zh_CN: update maintainer/configure-git.rst
-  [PATCH v2 1/2] docs/zh_CN: sync maintainer/configure-git with upstream
-  [PATCH v2 2/2] docs/zh_CN: improve maintainer/pull-requests translation
-
-  Needs review.
-  source: <20260905-configure-git-v2-0-ab194db8c6b9@wyuan.org>
-
-
-* Yukai Wu 2026-08-29
-  [PATCH] docs/zh_CN: Update arch/riscv/vm-layout.rst translation
-
-  Expecting a reroll?
-  source: <20260829041542.256360-1-xiaoyewuz.Ruster@gmail.com>
-
-
-* Weijie Yuan 2026-08-23
-  [PATCH v2 0/5] Update maintainer-pgp-guide.rst Chinese translation
-  [PATCH v2 1/5] docs/zh_CN: update maintainer-pgp-guide translation Weijie Yuan
-  [PATCH v2 2/5] docs/zh_CN: clarify free Nitrokey requirements Weijie Yuan
-  [PATCH v2 3/5] docs/zh_CN: update maintainer-pgp-guide kernel.org link Weijie Yuan
-  [PATCH v2 4/5] docs/zh_CN: add kernel.org trust repository reference Weijie Yuan
-  [PATCH v2 5/5] docs/zh_CN: remove empty proofreader field from maintainer PGP guide
-
-  Needs review.
-  source: <20260823-maintainer-pgp-guide-v2-0-bea33b2ece54@wyuan.org>
-
-
-* Yan Zhu 2026-06-12
-  [PATCH 00/10] <cover.1781105672.git.zhuyan2015@qq.com>
-   # Msgid changed
-  [PATCH 00/10] docs/zh_CN: add LSM admin-guide Chinese translation
-                https://lore.kernel.org/linux-doc/tencent_001080DF135CEE2CD1B260EFA08E3CC71A09@qq.com/
-  [PATCH 01/10] docs/zh_CN: add LSM/index Chinese translation
-  [PATCH 02/10] docs/zh_CN: add LSM/apparmor Chinese translation
-  [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
-  [PATCH 04/10] docs/zh_CN: add LSM/SELinux Chinese translation
-  [PATCH 05/10] docs/zh_CN: add LSM/Smack Chinese translation
-  [PATCH 06/10] docs/zh_CN: add LSM/tomoyo Chinese translation
-  [PATCH 07/10] docs/zh_CN: add LSM/Yama Chinese translation
-  [PATCH 08/10] docs/zh_CN: add LSM/SafeSetID Chinese translation
-  [PATCH 09/10] docs/zh_CN: add LSM/ipe Chinese translation
-  [PATCH 10/10] docs/zh_CN: add LSM/landlock Chinese translation
-
-  Waiting for response.
-  cf. <895533d5-99d7-406e-acc2-1f8659075f91@hust.edu.cn>
-  cf. <440378d6-d72c-4edd-9159-582df02b49e6@hust.edu.cn>
-  cf. <e708b270-3adc-4c7e-a48d-9804faed6c44@hust.edu.cn>
-  source: <tencent_7080BF6BB8F05936649DDC091FFD8C45210A@qq.com>
-
--------------------------------------------------------------------
-[Queuing] #zh_TW
-
-Queuing for 7.5 merge window.
-Currently here: https://github.com/kernel-zh/linux-zh_TW.git docs-next
-If anyone has any objections, please let us know.
-
-* Chen-Yu Yeh 2026-09-29
-  [PATCH 0/3] docs/zh_TW: mark translations that are not kept in sync
-  [PATCH 1/3] docs/zh_TW: add a notice for translations not kept in sync
-  [PATCH 2/3] docs/zh_TW: mark translations outside the maintained set
-  [PATCH 3/3] docs/zh_TW: link filesystems/ and cpu-freq/ from the index
-
-  Acked by Weijie.
-  source: <20260929131142.266819-1-chenyou910331@gmail.com>
-
-
-* Chen-Yu Yeh 2026-09-29
-  [PATCH] docs/zh_TW: remove the unreachable plain-text translations Chen-Yu Yeh
-
-  Acked by Weijie.
-  source: <20260929131109.266535-1-chenyou910331@gmail.com>
-
-
-* Chen-Yu Yeh 2026-09-29
-  [PATCH 0/4] docs/zh_TW: relocate translations to follow the English layout
-  [PATCH 1/4] docs/zh_TW: move security-bugs to process/
-  [PATCH 2/4] docs/zh_TW: move magic-number to staging/
-  [PATCH 3/4] docs/zh_TW: move gdb-kernel-debugging to process/debugging/
-  [PATCH 4/4] docs/zh_TW: add missing :Original: fields
-
-  Reviewed by Weijie.
-  source: <20260929131020.266120-1-chenyou910331@gmail.com>
-
-
-* Chen-Yu Yeh 2026-09-29
-  [PATCH v2 0/7] docs/zh_TW: remove duplicated maintainer contact information
-  [PATCH v2 1/7] docs/zh_TW: process: remove maintainer contact information
-  [PATCH v2 2/7] docs/zh_TW: admin-guide: remove maintainer contact information
-  [PATCH v2 3/7] docs/zh_TW: arch: remove maintainer contact information
-  [PATCH v2 4/7] docs/zh_TW: dev-tools: remove maintainer contact information
-  [PATCH v2 5/7] docs/zh_TW: filesystems: remove maintainer contact information
-  [PATCH v2 6/7] docs/zh_TW: cpu-freq: remove maintainer contact information
-  [PATCH v2 7/7] docs/zh_TW: remove the last maintainer contact references
-
-  Acked by Weijie.
-  source: <20260929115956.229610-1-chenyou910331@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, 3 Nov 2026 17:14:26 -0800
+Samuel Wu <wusamuel@google.com> wrote:
+
+> On Fri, Oct 30, 2026 at 3:02=E2=80=AFAM David Laight
+> <david.laight.linux@gmail.com> wrote:
+> >
+> > On Thu, 29 Oct 2026 15:05:45 -0700
+> > Samuel Wu <wusamuel@google.com> wrote: =20
+> [...]
+> > > BY_NAME matches names exactly, like kallsyms_lookup_name(), so they
+> > > would be different symbols at different addresses. Please correct me
+> > > if I'm missing something here! =20
+> >
+> > Only that the user might really want one of the copies.
+> > Sometimes there is only the copy. =20
+>=20
+> Good point. I'll have v3 add KALLSYMS_F_PREFIX + pos/next_pos
+> pagination to cover these. A prefix query for "foo." also finds the
+> copies when plain foo does not exist (expanded on this in my reply to
+> Andrii's Oct 30 mail in this thread).
+
+I'm busy rebasing my patches - they got stamped all over :-(
+I should get a v3 that applies by the end of the week.
+
+I will add a 'prefix' variant for you.
+The 'next symbol matches' flag is exactly that (actually it is a
+this symbol is a duplicate to avoid issues at the start of the array).
+So in this case that application would always need to read
+the next symbol (by name).
+
+I think it might be more sensible (less pitfalls later on) to return
+the symbol number - not that of the next one.
+
+David
