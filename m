@@ -1,49 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=15.235.86.235
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793809134;
-	b=KZg/SbVT/3iA7nEGOwb2zSSkU3rt2N4LpDcBNHBrhEDFOj9eF48uxsR6vP2m7cR7eIQq
-	 hwAIeDixl2SOEgn+MFWj9D+SRPiGe7Buwi3oQfXhj3QW6FuClruFKhoLz+yseyacOTmvP
-	 PIQbtftSz8G0J6nw4y38H4vf1YawHbqcLBgrvQDfz69mupbIPkZMhaveA0TfNMCNLl4NP
-	 rtB5EHsN5Peg4grX32hape6ScIlBti2LGuM+tRPBJGxDuB8LOFrhPw3F4Ji3z0Z2Zwpi1
-	 3jpnXCNHc8U3+xnwhnuesB6p6DuOm8kJgsxz1YGtlK5gUNpkfwx/E9P4AfElXwoiJBw==
+	t=1793809517;
+	b=qxN8onXp6RGHrd7fB/WniGtaw3cPt3b2NdsCCPeC3Hdepy3mEPXWg9q1sz4WEtG8Am0E
+	 opygFi9Ye/liPRgIDL02X+aV3v4LjcUAvH4gPcxjH7cWlbNqdZ3n/6GS6LdmGo8yFmVWi
+	 I3sZetS3GxiLxy67PAtw2AB8WH9puf9azVVOoJktxcFDEEurH2ShDrLeg0fWs+b/bpM7k
+	 IZ6Sq9TAIrLGA016V7REg7R8X3l9iYcb3T8FV714Z9ZSf6xbRbyB178bTZbjubeyq2z/w
+	 SkMV6UkpxuBXF4+i5iDDdotR74IRI8clwzwrUV/bHXXEM/o9RDG2+v+A+g+r+ABy+oA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793809134;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:From:To:References:Content-Language:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=4qUirECz8shFD7RJri2RxiVA2hcfdx0BjV5jSEZwKdM=;
-	b=nJuF1S760A71VvIAoYpdjZ3+h3DiV+7SREW5SfbNj/lbseaiObpIdmaxm6nXc5FtwGei
-	 las0gsYPhT1qwwc1PJPHxexgqvyeiGeyLvgS9hShUPoEbMtjCi1CJ7mLNN4BshHLFN6zF
-	 pFZooL3O9nOy2MB0nHc2ZJrSoPcEWFCIgVb02TxVsz2Wsxy420+j5y5gTfqY24602/ZP7
-	 ZSZ86JU1zeC7fg4EZIM+Pr+PZ1+w1OJ3nWuKy9ennik1uMQ20M+dKn6ntc5RbJBdq0pUn
-	 CYoXO99u1encDZRjsdFD8bnHKKbtxlMRgyiJ4u+IteCvbjjR9qBK77CJWLQUu+HNK/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793809517;
+	h=DMARC-Filter:DKIM-Signature:Received:MIME-Version:Date:From:To:Cc:
+	 Subject:User-Agent:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-Get-Message-Sender-Via:
+	 X-Authenticated-Sender:X-Source:X-Source-Args:X-Source-Dir;
+	bh=wD/QHaZslVWOw1QCJrhbOzZ2WnZobijXSMCR13xatio=;
+	b=JceuUIvJ0O1FmbhWgixGPyuo2Sl+2N+c6VeecwNIaDHuFp6I6z5wn/nIvpww6uv1fLks
+	 erGZhLxhOwkNW23Nts0VEvfc6QKRCBxgAFagcIRlV7hiZwgwXs3rRjqZJHiydmvAWqY2z
+	 1aD9LUTwtNnvKWwRdtV82Wo/zmVCPkEbCGiqusHDO2kXOFg8wRY3GcDT6JjjJECcj7XiM
+	 dIOZ3T5+YGGd6VnShetAAELIVZgKh9rf2Fp5Tm+ovdzWwCbAwvz1hGMi5VNqLwedOD0ob
+	 xCw2zTLFM/24EYjLOYueL3VuId+3fRMboTE5yBd61i1/nHIUTD6Ahb/mjN9apI434cQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="KUTD/tJZ";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C1A56082BFE;
-	Wed,  4 Nov 2026 16:18:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C1A56082BFE
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=ulshe.ai;
+	spf=pass smtp.mailfrom=ulshe.ai;
+	dkim=pass header.d=ulshe.ai header.i=@ulshe.ai header.a=rsa-sha256 header.s=default header.b=Ma7L+ZWm;
+	arc=none smtp.remote-ip=15.235.86.235
+Received: from hosting.1uhost.com (hosting.1uhost.com [15.235.86.235])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE110606A326;
+	Wed,  4 Nov 2026 16:25:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EE110606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ulshe.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ulshe.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=KUTD/tJZ
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 82ADA1BB2;
-	Wed,  4 Nov 2026 08:18:49 -0800 (PST)
-Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 957FE3F632;
-	Wed,  4 Nov 2026 08:18:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793809132; bh=V/rv5URru9iBNFldX3RW8Gi8p2B95s2zdnUeqy1hQXY=;
-	h=Date:Subject:From:To:References:In-Reply-To:From;
-	b=KUTD/tJZMYqqBVmXTpqhnfKJedO87qHbBshIti7oPGPlqDeyGjxRspg/Il9ufeu7G
-	 yuGYwvHkTKYhzYO1vvs+zQWZQUGOANW3kT4I5CM0UnyCUlEE+202VJQQ7aLRxoeKkZ
-	 UIDveGVMdFjghiLV5aNHeUlTGKyO1zF7chzdpFXM=
-Message-ID: <11fa8a4e-432a-4612-b834-a04cf9d32d49@arm.com>
-Date: Wed, 4 Nov 2026 16:18:49 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=ulshe.ai header.i=@ulshe.ai header.a=rsa-sha256 header.s=default header.b=Ma7L+ZWm
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=ulshe.ai;
+	s=default; h=Content-Transfer-Encoding:Content-Type:Message-ID:Subject:Cc:To:
+	From:Date:MIME-Version:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=wD/QHaZslVWOw1QCJrhbOzZ2WnZobijXSMCR13xatio=; b=Ma7L+ZWmUQoBSeTM7MTbNmV1Un
+	lBMHeB+qpHCzI2xS62uWCzmz2BmpRrFFbE8t9Nd7c2XSlBLfWe0sTuLOI4PF7g48BnVFUFTz7pOzW
+	l3Qk6H71yZgP0XQzPLkQZayenhUCxtiuXbs1XV/3j8nrH8qAeLO/TiCcQ9se6cNA/wCmH2L/HExo/
+	H9iW4lDuUFKDzl45WhC5FxRO81dfYPaci3Wy1oStB5zCe4Ys0wssQAaDZGU+NTmENn3hc6PMS7Dje
+	eHKcx3L+xV6nsKUgOeI+xHOizOl6gL7F2weMZgvebHNvqP5JwwmKFW9P4epjiTfMTYQblOkXTnf5a
+	+Aphjlbw==;
+Received: from [::1] (port=54148 helo=hosting.1uhost.com)
+	by hosting.1uhost.com with esmtpa (Exim 4.100.1)
+	(envelope-from <joreag@ulshe.ai>)
+	id 1xOdnT-00000007ohH-0pBr;
+	Wed, 04 Nov 2026 16:25:09 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,190 +61,528 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fs/resctrl: Disallow monitor group rename when the RMID
- changes
-From: Ben Horgan <ben.horgan@arm.com>
-To: Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
- reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- babu.moger@amd.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, jic23@kernel.org, tan.shaopeng@jp.fujitsu.com,
- gshan@redhat.com, zengheng4@huawei.com, x86@kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20261104101913.586595-1-ruanjinjie@huawei.com>
- <88c180d8-156d-400d-8537-5fd79b7ad10b@arm.com>
-Content-Language: en-US
-In-Reply-To: <88c180d8-156d-400d-8537-5fd79b7ad10b@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 04 Nov 2026 16:25:09 +0000
+From: joreag@ulshe.ai
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [SECURITY / STATIC AUDIT] 44 CRITICAL/HIGH Open Manifold(s) in
+ `Documentation/.renames.txt` (linux-master 7.4rc)
+User-Agent: Roundcube Webmail/1.6.20
+Message-ID: <fde979b5281d3b85cf7a544ba86baadd@ulshe.ai>
+X-Sender: joreag@ulshe.ai
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - hosting.1uhost.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - ulshe.ai
+X-Get-Message-Sender-Via: hosting.1uhost.com: authenticated_id: joreag@ulshe.ai
+X-Authenticated-Sender: hosting.1uhost.com: joreag@ulshe.ai
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 
-Hi Jinjie,
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [SECURITY / STATIC AUDIT] 44 CRITICAL/HIGH Open Manifold(s) in 
+`Documentation/.renames.txt` (linux-master (2))
 
-On 04/11/2026 14:36, Ben Horgan wrote:
-> Hi Jinjie,
-> 
-> On 04/11/2026 10:19, Jinjie Ruan wrote:
->> From: Peter Newman <peternewman@google.com>
->>
->> Renaming a monitor group to move it below a different control group
->> changes the CLOSID of its tasks. Where the RMID only has meaning
->> together with the CLOSID, the RMID index changes as well: on arm64 MPAM
->> the RMID is a PMG that extends the PARTID, so the group's counters
->> belong to the old PARTID and cannot follow the move. The monitor data
->> would be reset and would then report the new PARTID's traffic.
->>
->> Check that the RMID index is unchanged before moving the group and
->> reject the rename with -EOPNOTSUPP otherwise. Only MPAM systems are
->> affected; architectures where the RMID is independent of the CLOSID,
->> such as x86, keep the same index and still allow the move. Document
->> the restriction in resctrl.rst.
->>
->> Fixes: 3e9b35823aab ("arm_mpam: resctrl: Add rmid index helpers")
->> Suggested-by: Ben Horgan <ben.horgan@arm.com>
-> 
-> Perhaps stretching the meaning of a 'Suggested-by' tag as I only suggested the repost of Peter's patch.
-> 
-> It is probably worth pointing out that the moving of monitor groups is existingly broken other than
-> just the resetting of mbm_total_bytes counters and so the current behaviour isn't something that an
-> existing user could be relying on. As you already point out in [1]
-> 
-> [1] https://lore.kernel.org/lkml/20261031101052.1692230-1-ruanjinjie@huawei.com/
-> 
-> Thanks,
-> 
-> Ben
-> 
->> Signed-off-by: Peter Newman <peternewman@google.com>
->> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
->> Cc: <stable@vger.kernel.org> # 7.1.x
->> Link: https://lore.kernel.org/lkml/20241205153845.394714-1-peternewman@google.com/
->> ---
->>  Documentation/filesystems/resctrl.rst |  7 ++++---
->>  fs/resctrl/rdtgroup.c                 | 13 +++++++++++++
->>  2 files changed, 17 insertions(+), 3 deletions(-)
->>
->> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
->> index b52795e03303..5f21ab20030a 100644
->> --- a/Documentation/filesystems/resctrl.rst
->> +++ b/Documentation/filesystems/resctrl.rst
->> @@ -552,9 +552,10 @@ will automatically remove all MON groups below it.
->>  Moving MON group directories to a new parent CTRL_MON group is supported
->>  for the purpose of changing the resource allocations of a MON group
->>  without impacting its monitoring data or assigned tasks. This operation
->> -is not allowed for MON groups which monitor CPUs. No other move
->> -operation is currently allowed other than simply renaming a CTRL_MON or
->> -MON group.
->> +is not allowed for MON groups which monitor CPUs, and fails with
->> +-EOPNOTSUPP on systems where the RMID depends on the CLOSID, such as
->> +arm64 MPAM. 
+Hello Maintainer(s) of `Documentation/.renames.txt`:
 
-In MPAMv2 there are likely to be systems where RMID doesn't depend on CLOSID and so best not to rely
-on MPAM vs not for this distinction.
+During an automated topological boundary audit of `linux-master (2)` 
+using Logic Archaeologist Pro (v8.5),
+we identified 44 CRITICAL/HIGH Open Topological Manifold(s) in 
+`Documentation/.renames.txt` that may warrant review.
 
-No other move operation is currently allowed other than
->> +simply renaming a CTRL_MON or MON group.
->>  
+================================================================================
+MODULE / FILE : Documentation/.renames.txt
+MAINTAINER(S) : Jonathan Corbet <corbet@lwn.net>
+LIST / CC     : linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+================================================================================
 
-It was previously discussed about having a file that reports whether or not RMIDs have a fixed
-CLOSID and whether or not there should be a separate file to report whether MON group moving is
-allowed or not [1]. Do you think a info/moveable_mon_group file or such like would be useful?
+[#1] [CRITICAL] Line 24 (Step 0) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "arch/x86/resctrl filesystems/resctrl"
 
-I have the below patch that adds a new file for the RMID scoping but we should coordinate so we
-don't end up with multiple changes to the same part of the documentation. Your MPAM patch [2] is
-also related here as that that corrects 'num_rmids'.
+[#2] [CRITICAL] Line 129 (Step 1) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "cgroup-v1/freezer-subsystem 
+admin-guide/cgroup-v1/freezer-subsystem"
 
-[1] https://lore.kernel.org/linux-arm-kernel/d1110701-a2d5-4cc1-84de-4ed53ef02368@arm.com/
-[2] https://lore.kernel.org/linux-arm-kernel/20261104101622.563280-1-ruanjinjie@huawei.com/
+[#3] [CRITICAL] Line 220 (Step 5) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/binderfs admin-guide/binderfs"
 
-Thanks,
+[#4] [CRITICAL] Line 221 (Step 6) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/cifs/cifsd filesystems/smb/ksmbd"
 
-Ben
+[#5] [CRITICAL] Line 222 (Step 7) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/cifs/cifsroot 
+filesystems/smb/cifsroot"
 
-fs/resctrl: Add file info/mon_id_includes_control_id
+[#6] [CRITICAL] Line 223 (Step 8) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/cifs/index filesystems/smb/index"
 
-    The maximum number of CTRL_MON + MON groups that can be created is visible to
-    the user as the minimum of the values read from info/L3_MON/num_rmids and
-    info/PERF_PKG_MON/num_rmids. Similarly, the maximum number of CTRL_MON groups is
-    the minimum of the values in info/<resource>/num_closids.
+[#7] [CRITICAL] Line 224 (Step 9) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/cifs/ksmbd filesystems/smb/ksmbd"
 
-    However, the number of MON that can be created as children of a given CTRL_MON
-    group is not directly knowable by the user. On x86 systems, there is no separate
-    limit and so in the extreme there can be a single CTRL_MON groups and num_rmids
-    - 1 MON groups. On MPAM systems however, the number of MON groups per CTRL_MON
-    groups is limited by the number of PMG bits and is equal
-    to (num_rmids/num_closids) - 1.
+[#8] [CRITICAL] Line 225 (Step 10) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ext4 admin-guide/ext4"
 
-    So, that the user can easily calculate the maximum number of monitoring groups
-    per control add a new read only file, info/mon_id_includes_control_id.  If this
-    new file reads 1, the maximum number of MON groups under a CTRL_MON group
-    is (num_rmids/num_closids) - 1 and if it reads 0 the maximum is num_rmids -
-    1. On a monitor only platform it will read 0 allowing the file to be easily
-    interpreted when there are no num_closids files.
+[#9] [CRITICAL] Line 226 (Step 11) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/about 
+filesystems/ext4/about"
 
-    Signed-off-by: Ben Horgan <ben.horgan@arm.com>
-    ---
+[#10] [CRITICAL] Line 227 (Step 12) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/allocators 
+filesystems/ext4/allocators"
 
-    The num_rmids in MPAM monitor only platforms is currently wrong as it takes into
-    account PARTIDs that aren't usable.
+[#11] [CRITICAL] Line 228 (Step 13) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/attributes 
+filesystems/ext4/attributes"
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index b52795e03303..ca586b4e502f 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -510,8 +510,16 @@ with the following files:
- "mon_features":
-                Lists the telemetry monitoring events that are enabled on this system.
+[#12] [CRITICAL] Line 229 (Step 14) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/bigalloc 
+filesystems/ext4/bigalloc"
 
--The upper bound for how many "CTRL_MON" + "MON" can be created
--is the smaller of the L3_MON and PERF_PKG_MON "num_rmids" values.
-+The upper bound for how many "CTRL_MON" + "MON" groups can be created is the
-+smaller of the L3_MON and PERF_PKG_MON "num_rmids" values.  The
-+"mon_id_includes_control_id" file in the top level of the "info" directory helps
-+determine how many "MON" groups can be created in any given "mon_groups"
-+directory. If it reads 1, then the maximum number of "MON" groups that can be
-+created in a "mon_groups" directory is equal to the amount created if the
-+maximum number of "CTRL_MON" groups are created and "MON" groups evenly
-+distributed between them. If it reads 0, then the number of "MON" groups than
-+can be created is only limited by the global restriction on the number of
-+"CTRL_MON" + "MON" groups.
+[#13] [CRITICAL] Line 230 (Step 15) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/bitmaps 
+filesystems/ext4/bitmaps"
 
- Finally, in the top level of the "info" directory there is a file
- named "last_cmd_status". This is reset with every "command" issued
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 57ab090072c2..90712a1337d0 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -1200,6 +1200,17 @@ static int rdt_num_rmids_show(struct kernfs_open_file *of,
-        return 0;
- }
+[#14] [CRITICAL] Line 231 (Step 16) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/blockgroup 
+filesystems/ext4/blockgroup"
 
-+static int rdt_mon_id_includes_control_id_show(struct kernfs_open_file *of,
-+                                              struct seq_file *seq, void *v)
-+{
-+       bool dependent = IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID) &&
-+                        resctrl_arch_alloc_capable();
-+
-+       seq_printf(seq, "%u\n", dependent);
-+
-+       return 0;
-+}
-+
- static int rdt_mon_features_show(struct kernfs_open_file *of,
-                                 struct seq_file *seq, void *v)
- {
-@@ -2009,6 +2020,13 @@ static struct rftype res_common_files[] = {
-                .seq_show       = rdt_num_rmids_show,
-                .fflags         = RFTYPE_MON_INFO,
-        },
-+       {
-+               .name           = "mon_id_includes_control_id",
-+               .mode           = 0444,
-+               .kf_ops         = &rdtgroup_kf_single_ops,
-+               .seq_show       = rdt_mon_id_includes_control_id_show,
-+               .fflags         = RFTYPE_TOP_INFO,
-+       },
-        {
-                .name           = "cbm_mask",
-                .mode           = 0444,
+[#15] [CRITICAL] Line 232 (Step 17) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/blockmap 
+filesystems/ext4/blockmap"
 
+[#16] [CRITICAL] Line 233 (Step 18) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/blocks 
+filesystems/ext4/blocks"
 
+[#17] [CRITICAL] Line 234 (Step 19) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/checksums 
+filesystems/ext4/checksums"
+
+[#18] [CRITICAL] Line 235 (Step 20) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/directory 
+filesystems/ext4/directory"
+
+[#19] [CRITICAL] Line 236 (Step 21) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/dynamic 
+filesystems/ext4/dynamic"
+
+[#20] [CRITICAL] Line 237 (Step 22) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/eainode 
+filesystems/ext4/eainode"
+
+[#21] [CRITICAL] Line 238 (Step 23) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/globals 
+filesystems/ext4/globals"
+
+[#22] [CRITICAL] Line 239 (Step 24) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/group_descr 
+filesystems/ext4/group_descr"
+
+[#23] [CRITICAL] Line 240 (Step 25) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/ifork 
+filesystems/ext4/ifork"
+
+[#24] [CRITICAL] Line 241 (Step 26) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/inlinedata 
+filesystems/ext4/inlinedata"
+
+[#25] [CRITICAL] Line 242 (Step 27) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/inodes 
+filesystems/ext4/inodes"
+
+[#26] [CRITICAL] Line 243 (Step 28) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/journal 
+filesystems/ext4/journal"
+
+[#27] [CRITICAL] Line 244 (Step 29) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/mmp 
+filesystems/ext4/mmp"
+
+[#28] [CRITICAL] Line 245 (Step 30) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/overview 
+filesystems/ext4/overview"
+
+[#29] [CRITICAL] Line 246 (Step 31) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/special_inodes 
+filesystems/ext4/special_inodes"
+
+[#30] [CRITICAL] Line 247 (Step 32) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/ext4/ondisk/super 
+filesystems/ext4/super"
+
+[#31] [CRITICAL] Line 248 (Step 33) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/sysfs-pci PCI/sysfs-pci"
+
+[#32] [CRITICAL] Line 249 (Step 34) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/sysfs-tagging 
+networking/sysfs-tagging"
+
+[#33] [CRITICAL] Line 250 (Step 35) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/xfs-delayed-logging-design 
+filesystems/xfs/xfs-delayed-logging-desig"
+
+[#34] [CRITICAL] Line 251 (Step 36) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/xfs-maintainer-entry-profile 
+filesystems/xfs/xfs-maintainer-entry-pr"
+
+[#35] [CRITICAL] Line 252 (Step 37) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/xfs-online-fsck-design 
+filesystems/xfs/xfs-online-fsck-design"
+
+[#36] [CRITICAL] Line 253 (Step 38) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "filesystems/xfs-self-describing-metadata 
+filesystems/xfs/xfs-self-describing-met"
+
+[#37] [CRITICAL] Line 438 (Step 39) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "media/uapi/dvb/frontend-property-cable-systems 
+userspace-api/media/dvb/frontend-"
+
+[#38] [CRITICAL] Line 439 (Step 40) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: 
+"media/uapi/dvb/frontend-property-satellite-systems 
+userspace-api/media/dvb/front"
+
+[#39] [CRITICAL] Line 440 (Step 41) — [Mandalic Resonance: 0 Dissonance] 
+Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: 
+"media/uapi/dvb/frontend-property-terrestrial-systems 
+userspace-api/media/dvb/fro"
+
+[#40] [CRITICAL] Line 632 (Step 42) — [Mandalic Resonance: 0 Dissonance] 
+Legacy Unchecked Input (Direct Stack Overflow)
+   • Standard / Control : MITRE CWE-693 | NIST 800-53 SA-11 (Developer 
+Security Testing)
+   • Requirement        : Protection Mechanism Failure / Open Topological 
+Manifold. Enforce explicit bounds, null checks, and deterministic 
+resource closure.
+   • Execution Context  : Open Manifold: Unbounded stream or format 
+string operation. Flow: "media/uapi/v4l/selection-api-003 
+userspace-api/media/v4l/selection-api-targets"
+
+[#41] [CRITICAL] Line 639 (Step 43) — [Mandalic Resonance: 0 Dissonance] 
+Legacy Unchecked Input (Direct Stack Overflow)
+   • Standard / Control : MITRE CWE-693 | NIST 800-53 SA-11 (Developer 
+Security Testing)
+   • Requirement        : Protection Mechanism Failure / Open Topological 
+Manifold. Enforce explicit bounds, null checks, and deterministic 
+resource closure.
+   • Execution Context  : Open Manifold: Unbounded stream or format 
+string operation. Flow: "media/uapi/v4l/selection-api-targets 
+userspace-api/media/v4l/selection-api-targe"
+
+[#42] [CRITICAL] Line 651 (Step 44) — [Mandalic Resonance: 0 Dissonance] 
+Legacy Unchecked Input (Direct Stack Overflow)
+   • Standard / Control : MITRE CWE-693 | NIST 800-53 SA-11 (Developer 
+Security Testing)
+   • Requirement        : Protection Mechanism Failure / Open Topological 
+Manifold. Enforce explicit bounds, null checks, and deterministic 
+resource closure.
+   • Execution Context  : Open Manifold: Unbounded stream or format 
+string operation. Flow: "media/uapi/v4l/v4l2-selection-targets 
+userspace-api/media/v4l/v4l2-selection-tar"
+
+[#43] [CRITICAL] Line 1160 (Step 66) — [Mandalic Resonance: 0 
+Dissonance] Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "x86/resctrl filesystems/resctrl"
+
+[#44] [CRITICAL] Line 1161 (Step 67) — [Mandalic Resonance: 0 
+Dissonance] Untrusted Command Execution (Shell Injection)
+   • Standard / Control : MITRE CWE-78 | NIST 800-53 SI-10 (Information 
+Input Validation) | DISA STIG CCI-001310
+   • Requirement        : Improper Neutralization of Special Elements 
+used in an OS Command ('OS Command Injection'). Prohibit dynamic shell 
+interpolation; use parameterized argument arrays.
+   • Execution Context  : Open Manifold: Unbounded command execution with 
+dynamic variables. Flow: "x86/resctrl_ui filesystems/resctrl"
+
+--------------------------------------------------------------------------------
+Generated by Logic Archaeologist Pro v8.5 (ulshe.ai) — Sovereign 
+Topological SAST
+
+John Reagan
+ulshe.ai
+702-788-6888
