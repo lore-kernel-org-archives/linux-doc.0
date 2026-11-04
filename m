@@ -1,76 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793791834;
-	b=C0DtwQ5MSmkOajv8BVJ/GS5Pz+RWV9jWu/5ALmBROMV0hxMiJvyMyEyCHRLmAoRdFlLu
-	 Nyyx6uyrPzx2ytjvsA4EDG2CG2ynkjng2begSzguKBfC7n3zLwYavUdMMH12x//wwb2EI
-	 swsYWyCQ3TbTiU1fcBC8LK46PhIsvTqGzek0Si82qxTV6lHFv0OOK18d/dAhjW5aVoHke
-	 5DpGJxB5SnLvSh2C3YRXbUAPblb5wQc/LbzRybq/CtYuaWHpRvuig8lDDUxaNOmjNQy+N
-	 GX30Ky5xzOXFijsXimsFP8ZWJX+kgYG47T4fb5vur9Vn9tLXVeTpqvC5aU6ujCGGzXw==
+	t=1793796229;
+	b=BMPihAsoYZvyKMTvxwBTvPChx52OVqjVNwg/y5N+FXNVbuEIcj03RGTmaqSUXYXwiS9y
+	 IWtCL5p/1QmS/TuLJ5L/ZfI+/6zELoEb25Ic6Njn48GVDpYFu5HbLmFyMKd6TOnlMlIwf
+	 pxTQMPxzy6e/G/D6ruUdRxp7qvevLIRASejcClX/ZELCuEsA7FKoApIXfVwnKTAcyJ6S3
+	 YAFEzKMgRRXRhdglWzIWslqeGov4WXnFA6sdm8FBTcoP5l9JPsQpD6TXQhm4AP0SlZ2NG
+	 XyY6kSmJOyTn2hqXY6xbKGBs9n4QSj7CJeq5lXgF09YM+le4to3sEsH7V6OLu5n8zIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793791834;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=12Z4lOF0jQfTB4x6+mhkZ27w3B4gOwwYBosLZfWaVjk=;
-	b=uWlTcW2goiLJZxLxC+0h4vajKIZkZ7g0gQmGwlZ2ZfiEODOzmkPiJ44V3l+PublGw32S
-	 eInDsNnJdVFLdMQzfPCVO7gg+DvAhxnNxOETxTkzwJI47aXpsUAONq3TCvHEvNcLPm/Af
-	 YskbWqhMefJE2KnMIdtHGsjWeN1C2+NaX8atZ5vuB0CCyjxGp5YSG2bLQ6wh/G7kIQ0tB
-	 Jb+I8yiSedqGAIr4O6i7mwqig0kScA7+Cu3BbDNRnEoH3nUB6IP1/t8fwp3+wexIGG7IY
-	 6EbCybOrawVwYqyKWYdxYrI2jHiJnNNvkGwk6e236zEb56lVK5AUKYn37nPA14wGFtA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793796229;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=GXpfgjmWTp5nqsqu9wlvALydryieE4OWdqAEcXQgt18=;
+	b=nBuVMwLrmHAgTp8tRY8NWkVmuiu3HYcIWySF04MLZn6AWHWw2T74iQDDBz4DxC+GZxrE
+	 XtTKzFgeCmre3rqagkdmekXMjnfA2brgvjYNA+S/NLgfitMg+k0mT9lYxqSjNa3gbs9Ri
+	 rS/JVlAbpb1nQDSF7bV7H1370R1Kh1m8stFsWnFtOGbJiScVEQVw9K/eQx6+fOnRFFB78
+	 FURiaTm9Cp98UmkTGWn0BginOWudbRdwkhB1wl0PDKO/sipuaNXjAAlVraWJk+2yGvJBp
+	 OGS6Esic35y1PUtu6IY/1k04t6/JxaANzBwW6LCoDh6AA5Fmjc06ZCIZn6GzKIxVlMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OxFwYHpZ;
-	arc=none smtp.remote-ip=209.85.218.69
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com [209.85.218.69])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IBASwH2b;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D4A606A32F
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 11:30:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0D4A606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97877606A31B;
+	Wed,  4 Nov 2026 12:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=OxFwYHpZ
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-c42f98f354fso102810466b.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 03:30:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793791832; x=1794396632; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=12Z4lOF0jQfTB4x6+mhkZ27w3B4gOwwYBosLZfWaVjk=;
-        b=OxFwYHpZryXJb9enpLN87kRHPhZ5WBZA/67/YXzaPEYjTTLlymCutEI1uecBPE/BvN
-         huqf7toSWyGVex91ZAogh6DgqKGuOt0mMBn6kABO9B6FhqYW8AjjUa4VQ+ayHjfaXA/R
-         wVlA1/oiUvTChrgsjjjL1YCgMQUeI38CqG2EEPykNUfu1ppbl/V8SEu51MEg8KAcQzwy
-         phahP5oTOjD8rnSCmk6+y6VkWQadghfC1gEExWqEMbyPplT2lqJDDTPGTuZpBEv3iy6d
-         FfsAnJqioiB+zVM0HXxdHfTfpaK/euZmoaLFFdj+oIPkYpGlH4YM41240bEq7B4gWTTM
-         E3lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793791832; x=1794396632;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=12Z4lOF0jQfTB4x6+mhkZ27w3B4gOwwYBosLZfWaVjk=;
-        b=PbXZKlTutP3xRZCZjey6onRj0UW3J0xXco8RAWsd7PUOgzZTuxKMirJ8HdrPeMvY3Z
-         xMr4cdjQINqi0eruPumW28ThgvVT/neua40Nnw4X1An5n+xCME2AHQsfbccNtd4ASPh6
-         BtfR4JL84yp8GOf/D6fUKdVYggEBkZaOUBmuH2IGnutM8pNEtqgYAFiSLb2D6abGlY+H
-         ztEMaY4TpepeuvSyJMduhjAuM/RRaM5idAef8G8UNfXKWAvSj7ot0GA7Ot18lM9LBQ7B
-         fzIN3rfun+a6ijfGJ2jPHNAaRUI0qn7L4Vg9+hea4vzSffN8RQQc7EC8ObroKFJLLrku
-         hpBQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzcLRKjsByaL5yFLex3yfEu7HHEbwjLmsQsotE5eX6msE0OlG5O8hPb91HAtfgeTLdAo6edtYZMHEs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+DxOAG46+GWyoaK/JgEHhEvpMR1BPzuTYE6Wefk67k/5erp0Au
-	0axrfNScnQPtSkvvMNmW0lEa+e8+k5iyJhX4F7tPsCFGTL3PLcYKJnt4Xfit0nR1mnQ8SOay3A=
-	=
-X-Received: from ejbgw4.prod.google.com ([2002:a17:906:f144:b0:c3f:7129:4c10])
- (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a17:907:18c3:b0:c26:22ae:b66b
- with SMTP id a640c23a62f3a-c4ca7aee966mr1382566266b.15.1793791831732; Wed, 04
- Nov 2026 03:30:31 -0800 (PST)
-Date: Wed, 4 Nov 2026 11:30:31 +0000
-In-Reply-To: <CALCETrUD4vh_iSHV7G0bprUFU8=c+ECo701-tXcbQ3UXBWC1ig@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IBASwH2b
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE6C1F00A16;
+	Wed,  4 Nov 2026 12:43:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793796229;
+	bh=GXpfgjmWTp5nqsqu9wlvALydryieE4OWdqAEcXQgt18=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IBASwH2bvt+IHRnImqCVuO82GZ+OjSvbQwXe/XvqTKzUbhmvpAdt+EwC6XlYFoqyQ
+	 JN/YT5y7iriVyZaurr9jwY1wMn8oJERYsmRqBe6ouNgevV8KUbC2WtBOp0CthAaH/U
+	 JTY9QxRFS8U83JZMMvb5yR+BhybHl3D+UVLQ/T7g/6+EVZq+zVvgUiOV9MQ8ev6xRm
+	 vprMO4AvytyzB/ihRYNm+RMldgGg526lOZQjJKuwpwVe+/Y/ZHZzJ5k+S0mEJWOEpw
+	 1Ueca9JSGMt4QDi1kL2mw6jeT8LLaqqslndUQa4aNanmFTzxM9wk5RHgMl50nRcpx/
+	 wbkPyDwxc+7Cg==
+Date: Wed, 4 Nov 2026 13:43:45 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, 
+	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+	Lukasz Luba <lukasz.luba@arm.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Amit Kucheria <amitk@kernel.org>, 
+	Thara Gopinath <thara.gopinath@gmail.com>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>, linux-pm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org, Amit Kucheria <amit.kucheria@oss.qualcomm.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: thermal: thermal-zones: add
+ hardware-binning trip properties
+Message-ID: <20261104-chivalrous-terrier-of-honor-9b3d2f@quoll>
+References: <20261031-thermal_bin-v2-0-d76fd073ae98@oss.qualcomm.com>
+ <20261031-thermal_bin-v2-1-d76fd073ae98@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,122 +65,102 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
- <auM32mOlBLu6ZUlt@google.com> <CALCETrUD4vh_iSHV7G0bprUFU8=c+ECo701-tXcbQ3UXBWC1ig@mail.gmail.com>
-Message-ID: <ausXFWLgHabezE7R@google.com>
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-From: "Hallgrimur H. Gunnarsson" <halg@google.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-api@vger.kernel.org, containers@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261031-thermal_bin-v2-1-d76fd073ae98@oss.qualcomm.com>
 
-On Tue, Nov 03, 2026 at 10:37:48AM -0800, Andy Lutomirski wrote:
-> On Thu, Oct 29, 2026 at 5:11=E2=80=AFAM Hallgrimur H. Gunnarsson
-> <halg@google.com> wrote:
-> >
-> > On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
->=20
-> > >
-> > > Why should the task's cap masks affect this?  *Maybe* cap_bset makes
-> > > sense, but I'm struggling a bit to see why cap_permitted and
-> > > cap_effective should matter.
-> >
-> > Sorry, the phrasing here may have been misleading. Just to clarify:
-> > none of the creating task's capability sets (cap_bset, cap_permitted
-> > or cap_effective) are used to restrict the new user namespace.
-> >
-> > When I wrote "reusing the existing task cap_bset, cap_permitted and
-> > cap_effective sets on namespace entry", I was contrasting this with
-> > the prior series from 2024 [1], which proposed adding a 6th per-thread
-> > capability set to struct cred.
-> >
-> > In this series, when a task creates or enters a user namespace, we
-> > simply initialize its new cred->cap_{bset,permitted,effective} in
-> > that namespace to user_ns->cap_bset instead of CAP_FULL_SET.
-> >
->=20
-> Okay, this makes *more* sense, but I think it's too weak.
->=20
-> I have a sort-of goal of having the creation of unprivileged
-> namespaces be allowed in most contexts by default, *even in Docker*
-> (which would involve the Docker team changing their default seccomp
-> rules, but that bridge can be crossed later).  (In furtherance of this
-> goal, I fixed an ancient bug in newuidmap that gets us quite a bit
-> closer a couple weeks ago.)
->=20
-> But tying this mitigation to a parent userns means that it's
-> completely unusable in the single-deep case.
+On Sat, Oct 31, 2026 at 06:52:47PM +0530, Gaurav Kohli wrote:
+> From: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
+> 
+> Differences in SoC packaging can be used to provide multiple SoC SKUs at
+> different thermal and performance characteristics. The underlying SoC
+> remains the same except for how much heat the packaging can dissipate,
+> thereby influencing the critical trip point at which an SoC SKU needs to
+> be throttled. This SKU-specific data is typically burned into fuses
+> during manufacturing and can be read back at runtime.
+> 
+> Add two optional trip-point properties to describe this:
+> 
+>   - 'temperature-bin': an array of per-bin trip temperatures, used
+>     instead of 'temperature' when the trip depends on the hardware
+>     revision encoded in fuses.
+> 
+>   - 'thermal-hw-bin': one or more bitmask groups describing the hardware
+>     revisions for which a trip point is valid, modeled on the
+>     'opp-supported-hw' property of the OPP framework.
+> 
+> Signed-off-by: Amit Kucheria <amit.kucheria@oss.qualcomm.com>
+> Signed-off-by: Gaurav Kohli <gaurav.kohli@oss.qualcomm.com>
+> ---
+>  .../devicetree/bindings/thermal/thermal-zones.yaml | 57 +++++++++++++++++++++-
+>  1 file changed, 56 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> index 999ad40a20d5..62590dfc77bf 100644
+> --- a/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> +++ b/Documentation/devicetree/bindings/thermal/thermal-zones.yaml
+> @@ -152,6 +152,55 @@ patternProperties:
+>                  situation where the trip gets constantly triggered soon after
+>                  cooling action is removed.
+>  
+> +            temperature-bin:
+> +              $ref: /schemas/types.yaml#/definitions/int32-array
+> +              items:
+> +                minimum: -273000
+> +                maximum: 200000
+> +              description: |
+> +                An array of integers expressing trip temperatures in
+> +                millicelsius, one entry per hardware bin sub-group defined
+> +                in the thermal-hw-bin property.  Each value is the trip
+> +                temperature for the corresponding hardware bin.
+> +
+> +                Use this property instead of 'temperature' when the trip
+> +                temperature depends on the SoC hardware revision as encoded
+> +                in fuse values.  The platform driver reads the fuse and
+> +                registers the hardware-version bitfields with the thermal
+> +                zone; the framework then selects the matching entry.
+> +
+> +                Exactly one of 'temperature' or 'temperature-bin' must be
+> +                present in each trip node.
+> +
+> +            thermal-hw-bin:
+> +              $ref: /schemas/types.yaml#/definitions/uint32-matrix
+> +              description: |
+> +                Optional bitmask(s) describing the hardware revisions for
+> +                which this trip point is valid.
+> +
+> +                Uses the same format and semantics as the opp-supported-hw
+> +                property in the OPP framework.  The platform provides N
+> +                32-bit values describing the hardware it is running on.
 
-To clarify, this mitigation isn't exclusively tied to the parent userns.
-If a system administrator wants a host-wide policy, like trimming
-CAP_NET_ADMIN for all unprivileged user namespaces, including
-single-deep Docker containers, then the host-wide sysctl handles this
-seamlessly. Any unprivileged process in init_user_ns calling CLONE_NEWUSER
-is subjected to the sysctl ceiling, effectively stripping CAP_NET_ADMIN
-upon creation.
+', in a format specific to the thermal sensor provided in
+"thermal-sensors" property.'
 
-Where the single-deep case falls short in this series is per-container
-granularity. For flexible configuration on a per-container basis, this
-patch series assumes that containers run in their own user namespace,
-allowing the runtime to bound capabilities at creation time via clone3()
-and have that bound persist down the namespace hierarchy across any nested
-userns creation.
+This basically ties it to the thermal sensor which will disallow growing
+the thermal-sensors to more than one phandle. The plural in
+"thermal-sensors" name is confusing...
 
-If a container runs in init_user_ns (as in standard Docker) and we want
-to restrict userns capabilities for that specific container without
-relying on a host-wide sysctl, then you are exactly right. We would need
-some kind of cred-based mechanism to pre-configure a restriction for any
-future CLONE_NEWUSER calls within that container.
+> +                Each trip node may provide one or more groups of N 32-bit
+> +                mask values.
+> +
+> +                The total number of 32-bit cells must be a multiple of N.
+> +                Each contiguous group of N cells forms a sub-group.  A
+> +                sub-group matches if, for all i in [0 .. N-1], the bitwise
+> +                AND of the i-th mask and the i-th platform hardware value
+> +                is non-zero.  The trip point is enabled if any sub-group
+> +                matches.  If multiple sub-groups match, the first matching
+> +                sub-group selects the corresponding temperature-bin entry.
+> +
+> +                When used together with 'temperature-bin', the number of
+> +                sub-groups must equal the number of entries in
+> +                'temperature-bin'.
+> +
+> +                If absent, the trip point is valid for all hardware.
 
-> I do have a question about this whole scheme, though: are we talking
-> *just* about CAP_NET_ADMIN?  That is, is there any other bit that has
-> anywhere near enough security relevance to make this kind of thing
-> worthwhile?  Because if it's really just a single bit control, maybe
-> we can come up with a nicer scheme.
+minItems: 1
+maxItems: 32
 
-Yes, primarily CAP_NET_ADMIN, and to a lesser extent CAP_NET_RAW.
+Best regards,
+Krzysztof
 
-If we look at submissions to Google's kernelCTF VRP [1], 90% of the
-exploit submissions in 2026 require CAP_NET_ADMIN (and about 70%
-across all submissions since the program started in 2023).
-
-Restricting these network capabilities when they are not strictly needed
-(e.g. for sandboxing) is the primary motivation behind the series.
-However, I wrote the userns capability bounding as a generic mask so it
-could restrict arbitrary capabilities down the hierarchy, but if the
-preference is to narrow the scope more specifically to trimming
-CAP_NET_ADMIN and CAP_NET_RAW, that's completely fine by me.
-
-If we go that route and want to support the single-deep Docker case, a
-per-task inheritable securebit might be one way to do it, e.g.
-SECBIT_NO_USERNS_NET and SECBIT_NO_USERNS_NET_LOCKED. Docker could then
-set and lock that bit on a container in init_user_ns without needing a
-parent userns.
-
-On userns creation, create_user_ns() could record this restriction on
-struct user_namespace. That could either feed into the userns capability
-bounding set proposed in this series (clearing CAP_NET_ADMIN and
-CAP_NET_RAW from user_ns->cap_bset when the bit is set on the creator),
-or be stored as a single boolean in struct user_namespace if we want to
-keep the mechanism minimal and drop the generic capability mask UAPI.
-In the latter case, we would still need to replicate some of the
-userns capability bounding functionality, e.g. strip CAP_NET_ADMIN and
-CAP_NET_RAW in set_cred_user_ns() on namespace entry, and bound the
-parent-owner check in cap_capable_helper().
-
-[1] https://github.com/google/security-research/tree/master/pocs/linux/kern=
-elctf
