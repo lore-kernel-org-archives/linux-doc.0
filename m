@@ -1,97 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793810797;
-	b=GFrWzSVV8THNQuBGrOFR8BZ0hdRzIFOi2x70z1H5UKvA07DK2mVU7zhRHs7HZekZz+wk
-	 tREunaGqQNo8OzwEmeSrCoSerSIe+2TdQfuICCZzypxKhjhZc1iHMZBbPEX6KNQho6Cek
-	 jlniDAgodUpwCf4cN7oq3g0OnKYZ0RKsTDk67CaXsLpWPW0W0PVlh3s/xcn4BzzOda4h6
-	 IyIOrapbJj2BeESDRx1tFU0WByY2/Wsj37/jsvT6rssxhVfySDCTepqmXbjX/WEGYn/2z
-	 N1Euq3VNr8yvfohSynG7xuKgwU3IWb1XHPVacKpDZiW6iRFLrTWsq4mh0V3pszf2Ozw==
+	t=1793810837;
+	b=UXrVO5MsLJJiI7Ydm55pgkNTJuBYc1zA7oMRIKd218XZNoYK+nugus3v8rTNPw/a8JjM
+	 DvhAFhU/lutS9n0KuzMIJdtSjvV9DgyVWZ3CLs6B4mdiYW1y/K+D+MVQjfP9gCoqgXDvy
+	 PEyLbU6PcdcPM3EIr/Wm++zhe//HLwYeJq8E4D60rHCa8yjDMF3HZYAMDFqCL781+hZ1Q
+	 ABqh4IRjPpwksQFzQY4juiKghGZOX3Gdb8/1MWZJ1z6X4TzjVFhjJkMZNGi6YeGtBguBD
+	 N2gFS0yIHZgR96kAuADW8mRIYr6gx+81QaPuWrzUFktl+ms42uQsUN30A39PY8o38zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793810797;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=eAaKlrwhgxVSTJYKvS+Mu/JmjMNNY3TaQOKNMaH3oHI=;
-	b=Q/+sEJsqIuwOesVi6aED8LcTXHtdOItPuStzmWMQ0pcWkvgH14pBFcSNa30CIsJAanY3
-	 0BQT5L+6XzxNxQwN6Gsjb4bt6gKnV35jhzlk80LBD9OVw7uTv9+pqDS/hO4SIVS6SmHmK
-	 IvV6Z4dGk2fp0qSPT6kizdDvYZwEAVB5I6uUjs0DuLqtNFTCxAijO+1S64Db6eYHtXK/o
-	 hbC6f1ReH13NIevTsgCdz8iS0YFSbO785NaYTayX7qurBDchJsIvDGveHxlgIl8pz3iCe
-	 wyn0ebDh68Umy0rH4WAR6lubeu84DOzMHDipWAQCLjeV0eLm2PhbY0adiYoWh9xEGRg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793810837;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=QR367D4+S6Tz9sFvEpzsZHwFmXlWgygr5WiSCAsJaM8=;
+	b=d67Aa82VnhfWd2YjmzkRHrRhDQoywHQGeqQ5vV+EBqzScKDhFszk8Zhtxa19li5ws0UZ
+	 8nB0Tm1NcXHKd+mw7uySZktCauP1kTPbO2niCmMqYQ8Qpu9wT8/pRnzbPXypq8JzWMRXl
+	 hK5hS88V5UgpSHNKTg0GHmT0VLahgFAoQDo6iWRVaAX7pm9h1dhKmkRQEav/5gun+HFTZ
+	 tVRnSp5yTguzHILwTA7S6L7MU9+ipYl0c+WEawUtxOqK/srpI1Dx4YxBrDQMcZ83UxcgI
+	 X3qm03bcxSesXoAcWmIh85XYwXn2C2C9kNvqpW+PcS50Z6VO35Uvs2iVABCgQFFx2eA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chromium.org;
-	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=JV7jvcyh;
-	arc=none smtp.remote-ip=74.125.82.46
-Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=s8MR+wMB;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BFF606A333
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:46:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45BFF606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F8A606EE81;
+	Wed,  4 Nov 2026 16:47:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2F8A606EE81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=JV7jvcyh
-Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1b1ce85287aso835601c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:46:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1793810796; x=1794415596; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eAaKlrwhgxVSTJYKvS+Mu/JmjMNNY3TaQOKNMaH3oHI=;
-        b=JV7jvcyhDzFZgOzyiXMsrrE96csI3o5reJpHhY1rZC3R+/mUnsqjvCmXEjOL3OVxrJ
-         JkdmZ7gnsvz/rc1SGznFGm489hIxWfufBaTe+g/2UZU6OFp6XAoftty8q01wNHobQd8X
-         wch1oNFN1YQPF6MTpQuBWXmoCzX1jPassCZJs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793810796; x=1794415596;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eAaKlrwhgxVSTJYKvS+Mu/JmjMNNY3TaQOKNMaH3oHI=;
-        b=ECwCwt0uFMcIbOt85cjKEkLFCNt/lyiggc5mEP6SBFY5d5oBrKa8efPH8nJGINTkZj
-         Xp2p5Oqme0y198Heef7prxd7LhxaJnFFIoWfje7b15tNfsKSwgl2pA/WL3woVkcpGcfW
-         0CXKg0ADf+jhs/YSeKCLc2oQ04DEiil1kibzCLjiWzUYckwHDdSbBbQgNGuZyNn3peiN
-         yh6Y+qBuG+5BhACW1l9Z8JSmcBUeW5vk7yY815Qkq1YA18kiSALYH5NrH3+7uTG8X3Kx
-         CXdSaoFvQQEy6xuO0HmpHS9vPDEbUjctLsLXLTKXm+YkzpcIHfx5bhEJsm90i7RuXRIr
-         Tdyw==
-X-Forwarded-Encrypted: i=1; AKwUvBxfjiM01sudKWk9jNRNt2QrQmeVqNaPAJXhOsNTYkCIKcW7gvscWt896DA0PBySjNfbBQIoC0dOZs0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8CGSAMJxXVSE5W3IZQQmDQYnLVJy/5wx5hVcyNuzuCtu3kWTys
-	TQo+yL2IMBtj33v2pDoBfc29Api67l+2c9mLPTG/4gBB3ZrVt8npW6N9Ey/nFl3MMQ==
-X-Gm-Gg: AYBFou1E45jV3RxCPXCR9dnH+nznrY6NEZhMmS0uyYwC/ve8UJoGjtZFxHYq/ari3p6
-	wa17j5Kvtsulo8CzJ6sTN4TEGlxPq/LZ973TnBYXIH6wA+DM83uNLSOQgZVmMrMneFOQXVbGY4+
-	RgebLkRtWpvQi0ifjUx83GGgt3tb908dE2fTzYjdgj5GS4bYrfQtyBkUvHaQHgxa6Jd893d8N/l
-	NPRFnoetXaB1YIFHB1KRHsQZsJcFTaVq8p/rESz5z/5WU+3PA+u8n+wO6VpsP1RDos/ynQ/UOWP
-	uppZX4Z3k7INm1TRx3nlYYrEBLOCmtUjZj0jrpBjPVHPtzeStEmXJhF7kC+PrWne6grIbTWb5ib
-	bcT//udjMlXZdbnMhy62BmNw152wyyhqv4rr7X1acLlyqB9VUoeElh7qabCcJndtj2qK4O06HtN
-	ZcsSp/bbFg4snnapweCRpj1rI/VbXQa+/ZSEaw0gOJjcgNn0BdCJwGRuU0hRciOZCXcBSjULIF9
-	+Nmh/9m6cT06TMLDHn4CBNtHOrh4KctsszrtwwvI0xwmRQctcnfpiYJvBtUcD+cjWUtf1rQqqnh
-	TMNqRu+fk9XSfEtwpw8CfVIodCLRIR5jd1vuLgwpv3fdzCpNOYgr7fMZfMxpdcpP+II=
-X-Received: by 2002:a05:701b:42c3:20b0:1b2:366a:e7d1 with SMTP id a92af1059eb24-1b2366ae854mr11976510c88.32.1793810795926;
-        Wed, 04 Nov 2026 08:46:35 -0800 (PST)
-Received: from localhost ([2a00:79e0:2e7c:8:ab71:b3df:693a:fbf2])
-        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-1b245c2de58sm8522268c88.12.2026.11.04.08.46.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Nov 2026 08:46:35 -0800 (PST)
-Date: Wed, 4 Nov 2026 08:46:33 -0800
-From: Brian Norris <briannorris@chromium.org>
-To: Stanley Jhu <stanleyjhu@google.com>
-Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Praveen Talari <praveen.talari@oss.qualcomm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
-	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] PM: runtime: Update runtime_pm.rst for non-fatal
- resume errors
-Message-ID: <authaS5a_NrY-NLd@google.com>
-References: <20261104151651.3035537-1-stanleyjhu@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=s8MR+wMB
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=QR367D4+S6Tz9sFvEpzsZHwFmXlWgygr5WiSCAsJaM8=; b=s8MR+wMB4+/qAlYqLrv3UF5N94
+	4rNRp/P7rRoVc8AQWijkjsOghsgSpPm/RJ5IwLlG3BXBvyaTPLpeF47xNGe+MUK+uLpd8LE6tkM5y
+	vYeW78zxD7cg3jVlLqBAkajZPF8ifwbIkyVUMgjDKNupPBk9VwWnSfaNxOYYnA6mpvAMig9ucOU4K
+	6o3QdpmHAdy0l10ixwHZnYkcUeMtKVa+3/2Nms14n3I9i9VozvHE9kISTAZbbRGr43EG17p8DLxDL
+	nq8zsMv14cL7pmJFr1KZIkZCUi6B0ZsTsg/raMFzEDLPtY3xeZGu8n425X6ctxBgXz3wlQ11Qzz38
+	rOWvD2Ww==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xOe8i-007rh1-2M;
+	Wed, 04 Nov 2026 16:47:09 +0000
+Date: Wed, 4 Nov 2026 08:47:01 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch, edumazet@kernel.org, 
+	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	michael.chan@broadcom.com, pavan.chebbi@broadcom.com, sdf@fomichev.me, 
+	almasrymina@google.com, bobbyeshleman@meta.com, asml.silence@gmail.com, 
+	razor@blackwall.org, daniel@iogearbox.net, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH net-next v2 1/7] bnxt_en: let the stack segment GSO skbs
+ with too many frags
+Message-ID: <authfGAH67c-_ugm@gmail.com>
+References: <20261103235152.1904727-1-sdf@fomichev.me>
+ <20261103235152.1904727-2-sdf@fomichev.me>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,29 +75,19 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261104151651.3035537-1-stanleyjhu@google.com>
+In-Reply-To: <20261103235152.1904727-2-sdf@fomichev.me>
+X-Debian-User: leitao
 
-On Wed, Nov 04, 2026 at 11:16:51PM +0800, Stanley Jhu wrote:
-> Since commit eef1d74bf88f ("PM: runtime: Only set runtime_error on
-> suspend callback failures"), rpm_callback() no longer sets
-> dev->power.runtime_error when ->runtime_resume() returns an error.
-> However, Documentation/power/runtime_pm.rst still states in both the
-> resume callback rules and the ->runtime_idle() comparison that the PM
-> core treats ->runtime_resume() errors as fatal device errors and blocks
-> runtime PM helper functions until the status is manually reset.
+On Tue, Nov 03, 2026 at 03:51:46PM -0800, Stanislav Fomichev wrote:
+> With MAX_SKB_FRAGS > TX_MAX_FRAGS, the xmit path linearizes skbs with
+> more frags than a packet can have BDs. For GSO skbs, linearizing needs a
+> large allocation, can produce a head which doesn't fit in a BD with BIG
+> TCP, and always fails for unreadable skbs. Clear the GSO features of
+> such skbs in ndo_features_check instead, so that the stack segments
+> them. Non-GSO skbs are still linearized.
 > 
-> Update the resume callback semantics bullet to state that on error the
-> PM core resets the runtime PM status to 'suspended', returns the error
-> code from synchronous resume helpers, and unlike with the suspend
-> callback never treats resume failures as fatal, leaving the Section 4
-> runtime PM helpers unblocked so a subsequent resume request can run
-> ->runtime_resume() again. Also drop ->runtime_resume() from the
-> ->runtime_idle() fatal-error comparison.
-> 
-> Fixes: eef1d74bf88f ("PM: runtime: Only set runtime_error on suspend callback failures")
-> Fixes: aedc51762a0d ("PM: runtime: Clarify ->runtime_idle() callback return value handling")
-> Signed-off-by: Stanley Jhu <stanleyjhu@google.com>
+> Suggested-by: Eric Dumazet <edumazet@google.com>
+> Link: https://lore.kernel.org/all/CANn89i+ps_CozfOyRnKav0_LUmSekJ9ExB5JkDbTAVf_ss_98g@mail.gmail.com/
+> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
 
-Reviewed-by: Brian Norris <briannorris@chromium.org>
-
-Thanks for fixing this!
+Reviewed-by: Breno Leitao <leitao@debian.org>
