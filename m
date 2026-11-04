@@ -1,73 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793789225;
-	b=fdfSqlDA48f0s41mgFbrRDpWLrsnmmPROl3tbCBis0vhjBPv7qFT/FcQbmiM276Km4l7
-	 bnJJgx+G91CZlQRJmJWpZJfqrtlI1kSBMX+pTNK7lTeETjtnHFhUNMDt5yl2mCMrxDrkk
-	 Rquhqsv8sr8qD1XzfYJSKup7jhB+ucGhND5JCqD4oidpXCIMMQ7/W9W28fvFzBLkbqx0T
-	 +H2KDlhOGGpdNlgLHilopMcacYJyXWDrBW29kQc/kLLsf1OjGlf6FRRQwy9ZtDPP6v7AM
-	 DvCCU1lFxmhhgvTX+X90CVU9n0bh8fmrgEJXJrtRlssZRmsYjGs8eL6Z+P6mfUWoCiw==
+	t=1793789644;
+	b=fGc5LBrSXsbNvKAoToJn7N4QiW4GLBccqK04vLR9K273he8K+2NV82hJurjBS5yQNGmk
+	 agbY2y/6sUjMoZesLm28lXS9EictCKFHNvbY9jWsIyDN0vagpqn/3SzyfWVG0aNkuhJX2
+	 mLGMuT2WuKfQlHb+q+s8VM/JQqqb565FN77+eG0bD0XtL/9i2L/Tkb24lEgZaA6/0IwB3
+	 zTn3mNEmGtKdTgHTPsyKQS57Y0llqWK/ajOFP+DNFMrWtOSwu9owXSNpCGmaJ1qKwl107
+	 jicRcWNOljgOKF97Lf1a1ErW6ztoyB+8S9ezTjcuYaWiSRzAOyH3mMLDNTm60BdmVAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793789225;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type:Content-Transfer-Encoding;
-	bh=bhOmEa952md/X2FxyjNFbUxSEKG6z2HGY2NSxyblu7s=;
-	b=UqKPE4K8/4iFd1Jd6AkM0E/pKnbJHhPaTg2j3Ovl+ykfSHW8LxfZMbm0Uz5nNMC1kx5w
-	 tFQCVlQsNknqYhBSlGVIEQKfrrwNV20J5bc4CiD4iQHYbgKYlTDL7xJI/uDRRNl3YbEIn
-	 MnW6IDDJYaYwxx7Ikx/KBRhor2CgzpVjdwno/vsHbcm7v648y4EtV0QDPh5Zo8/u5SEOP
-	 u7y2TeP92mmYHsxis4PjtfCjUTpEVz4xVaFKCyM5o/G5aIL2grjD6RrdPQqfU6UHn58kL
-	 EtQayShi9sMU6wUwx/A3B3MU/z+fYMza7/39LkripRv6yP2gYJTEak0YU9CO1C8nFPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793789644;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:MIME-Version:Content-Transfer-Encoding:X-Scanned-By;
+	bh=mr6TqXgtbsRpH7YcJhsJ3zQQdGBC5zTXONlOxYcraG8=;
+	b=QhaBRQ8x1M2fsBv4z1hvsJWEKne15cU/S5hNVdqag8Hqss9SB4y8zm0qvXsSYxGkKqCu
+	 vmNMZPAHdCutnLdbMWs8remFcfWeJnpugHw6HDK0z12rlNl30sHfr18GfhD1YgQtnUUL1
+	 5I4Z7KpiagVCfpQcGq95sZsbOiYf8wiqrjH9Se1siAadeKgNz8lpewcKCghUfMs01OyhP
+	 n+QarbziiPFJumNa/At9hgLqcKnXHNWHqycjpco0NLTI8c80dLrKgnhW0I64XVEEp5Cgc
+	 /GDcwZGZoUPs1j+XOxq0nViBRCUOuDEV8PWCgGEYKeg7rH7MFAgT0bKFH7e4S1A3wnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="VJrT2/1Q";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ayTtI8zu;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E977D606A329;
-	Wed,  4 Nov 2026 10:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E279606A32F
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 10:54:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E279606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VJrT2/1Q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CDC51F00A16;
-	Wed,  4 Nov 2026 10:47:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793789224;
-	bh=bhOmEa952md/X2FxyjNFbUxSEKG6z2HGY2NSxyblu7s=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=VJrT2/1QLEtsT7IAJHPVIQ2ISxt4hMdc3map/aD2+trIBN9mSj3nx2Q9bTpfMT3MF
-	 cGNw4vlunjJnW2IgqkdannjrufnBjkEyqAdwxHFKLVUEMfE+G1hX5DaeWBXjmWX36S
-	 imsPN3k2zFxiGZhrAEtQPYo34cnkB1wIfefgCgCRieHnN8ascqJ5oPN4Fh4QbYtHlq
-	 7/wVgTJuM16kHNFu8An5p+QSkHTadJXmkvy+7t9tMNoYCB9OvYjalYNNGUIRajXJbd
-	 YN4n/cPqhT0kWRFpjhDg6dKdJbl4dZ4IR8N3yu9oo0FcspYKIrDgWmd+hMBEXfPmLJ
-	 lIvFousnuVg2A==
-Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
-	by mailfauth.ams.internal (Postfix) with ESMTP id BE33A198003A;
-	Wed,  4 Nov 2026 05:47:00 -0500 (EST)
-Received: from ams-imap-11 ([10.64.2.31])
-  by ams-compute-02.internal (MEProxy); Wed, 04 Nov 2026 05:47:00 -0500
-X-ME-Sender: <xms:Hw3ranMJL85RL35ZdIqlVZy7B5jeINP5BbPezeQrDi-SF2g1QOUblw>
-    <xme:Hw3raswrF1gip8laAtOzF-VI-pmh8_xio3Iv18-kjvZb7gAJgZagRdgIgdR_Z9VpH
-    3aGcEn9wEYZRA1vkqbcSrpJfGBueP2SI-2Ks1wLLANcLZGoARC6PFs>
-X-ME-Proxy-Cause: dmFkZTFcPavaLWIfgpoRM8kguzVyv4s6FUkLYAQNGvkUHQVN3xVxVzv9NryfTRmBx2+1+T
-    O8Nt36zML1hPcpqbZ31+TrK5u1pojcuEtJ4d9wGWUhJ3PA4GR64AER0KVm/mg5J8CEvDjb
-    87JxU7ByEHQUkd87rjl5YJ6VpVGYEteXdzVHpDfaZbUb25I8yUXHEzXzvTki5YhHrX0+Ff
-    dEw6DUI60ChXVG7qPis8rKSRSBjgm3FH41orMrqi8AzmwVObG7DSV0A/n08w8QClZ1o7l+
-    535jOrxx7Ryk22b71pTU7piz9TOaOxspVPbT5mctmMzGlgM03lWJfWSB8QGDefxIJWbjYs
-    SWRWaf8wtqVtG/y8VhcGvWaXz0LsELuUcWCWXl8uYz0FlppVOkjLlTI83jJnQvIsR6wW9A
-    CHbjI9SRCOspRJI14AvVQ1gcqqNFg/aukBnzTQSgDXsMSAvOzAUMquE+WlSukqk5s0kWpa
-    njVLPVqOL6PMp5x3IoZtBkRTGd/N3jxEy8pK1FCY/kEv9MN3SOjavcn9IuRnWmh/83Rc77
-    6GG8VVWJng4fdcHXdysUYGD2mMNjsZxD/N6+r+yDqOve4t+C3EzK9VWq9skd3rDm5qfSyS
-    0v1Q3nZRYNBxw1A74kxjY01EsAfvmnziAM0IIiwwBMPqwOU9vx9fO+TEwqTQ
-X-ME-Proxy: <xmx:JA3rarOc2on3e1xb7iUIdCss_xeJ3zdgPplKMTBac8Yz3xu00QXGXA>
-    <xmx:JA3rakancmdTtLZDM22WzdIgr8lJQn3ocDdsi_RjrSD_VtAdD8coHg>
-    <xmx:JA3ras7McSax5611gqIhLQldHowrwdBi4-xbCgqokzbp7BU_VCYGyw>
-    <xmx:JA3rarBd0hh0XKEJUgCfUXIrbQcvdDWVyz9bN0fiE8VImxPs8sd5Dg>
-    <xmx:JA3rar7rbi7TJSfdSFS58Fu87suf-sHWjoQzGw8ON1-8MnFv5N6AUirL>
-Feedback-ID: ice86485a:Fastmail
-Received: by mailuser.ams.internal (Postfix, from userid 501)
-	id 3A57AF8008E; Wed,  4 Nov 2026 05:46:55 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ayTtI8zu
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793789643;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=mr6TqXgtbsRpH7YcJhsJ3zQQdGBC5zTXONlOxYcraG8=;
+	b=ayTtI8zuxpP12qFX9wjfGdXYEY0gZVyPlXjVjiK5J2VwaBt5DEJWJ2NPxYrTy/jIVPHJ2O
+	cnQ6DfVAw7B+E0LsDgkcKBm3VW/0s/p3ILAhw/2n29TC/SKr7VNL9GEgltapMUAGsEH3xJ
+	lefujBtO2llqs3itHWI956CVwg65Jm0=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-679-6F5HHHkzOV2WTNhpUocNng-1; Wed,
+ 04 Nov 2026 05:53:58 -0500
+X-MC-Unique: 6F5HHHkzOV2WTNhpUocNng-1
+X-Mimecast-MFC-AGG-ID: 6F5HHHkzOV2WTNhpUocNng_1793789636
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8FB7819560B1;
+	Wed,  4 Nov 2026 10:53:56 +0000 (UTC)
+Received: from thuth-p1g4.redhat.com (unknown [10.44.48.42])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6005930000E8;
+	Wed,  4 Nov 2026 10:53:54 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] lib/crypto: Add a sentence about zeroizing raw key structures
+Date: Wed,  4 Nov 2026 11:53:52 +0100
+Message-ID: <20261104105352.135540-1-thuth@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,61 +77,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Wed, 04 Nov 2026 11:46:33 +0100
-From: "Ard Biesheuvel" <ardb@kernel.org>
-To: "Jason Gunthorpe" <jgg@nvidia.com>
-Cc: "Alexandre Ghiti" <alex@ghiti.fr>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Arnd Bergmann" <arnd@arndb.de>, "Catalin Marinas" <catalin.marinas@arm.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "David Sterba" <dsterba@suse.com>,
- "Ilias Apalodimas" <ilias.apalodimas@linaro.org>, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-riscv@lists.infradead.org,
- "Mark Rutland" <mark.rutland@arm.com>, "Palmer Dabbelt" <palmer@dabbelt.com>,
- "Paul Walmsley" <pjw@kernel.org>, "Randy Dunlap" <rdunlap@infradead.org>,
- "Simon Glass" <sjg@chromium.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Nick Terrell" <terrelln@fb.com>, "Will Deacon" <will@kernel.org>,
- "Alexandre Ghiti" <alexghiti@rivosinc.com>,
- "Conor Dooley" <conor.dooley@microchip.com>,
- "Jonathan Cameron" <jonathan.cameron@oss.qualcomm.com>,
- linux-integrity@vger.kernel.org, "Palmer Dabbelt" <palmer@rivosinc.com>,
- patches@lists.linux.dev, =?UTF-8?Q?Piotr_Kr=C3=B3l?= <piotr.krol@3mdeb.com>,
- "Ross Philipson" <ross.philipson@gmail.com>,
- "Sami Tolvanen" <samitolvanen@google.com>,
- "Song Shuai" <songshuaishuai@tinylab.org>
-Message-Id: <cc4d09b6-a56b-44a2-a137-f27bc87e96e3@app.fastmail.com>
-In-Reply-To: <20261103160138.GA3165945@nvidia.com>
-References: <0-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
- <4-v2-989a18390eb1+486-arm64_drtm_jgg@nvidia.com>
- <20261103160138.GA3165945@nvidia.com>
-Subject: Re: [PATCH v2 04/15] efi/libstub: Add a general way to get symbols from the
- vmlinux into zboot
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
+Let's make it clear that raw key material has to be zeroized, too.
 
+Suggested-by: Eric Biggers <ebiggers@kernel.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Suggested here:
+ https://lore.kernel.org/linux-crypto/20260930201434.GA61218@google.com/
 
-On Tue, 3 Nov 2026, at 17:01, Jason Gunthorpe wrote:
-> On Fri, Oct 02, 2026 at 08:31:41PM -0300, Jason Gunthorpe wrote:
->> Currently the zboot stub has no access to symbols in the vmlinux. In
->> contrast x86 has a voffsets.h header that allows the stub to know whatever
->> symbols it wants for the decompressed image. ARM DRTM needs another 4
->> symbol locations to work, and it also wants to compile the DRTM libstub
->> code once and have it work in both zboot and embedded.
->> 
->> The current solution in arm is "code_size" from commit 45dd403da851
->> ("efi/zboot: arm64: Inject kernel code size symbol into the zboot
->> payload"). This is neat, but it makes the zboot and embedded cases
->> work differently.
->> 
->> The x86 voffsets.h approach is also nice, but it can only work in zboot
->> since it relies on 'nm vmlinux' to extract the locations. That's a
->> circular dependency for the embedded stub.
->
-> Ard,
->
-> Did you have any further thoughts on this patch? Did the sketch you
-> showed me at LPC turn into anything?
->
+ Documentation/crypto/libcrypto-zeroization.rst | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I will get back to you before the end of the week.
+diff --git a/Documentation/crypto/libcrypto-zeroization.rst b/Documentation/crypto/libcrypto-zeroization.rst
+index 76b6506711634..fe9f94413d1f2 100644
+--- a/Documentation/crypto/libcrypto-zeroization.rst
++++ b/Documentation/crypto/libcrypto-zeroization.rst
+@@ -47,7 +47,9 @@ The following types of structures hold sensitive material and should be
+ zeroized after use:
+ 
+ - **Key structures** (e.g. ``struct aes_key``, ``struct hmac_sha256_key``):
+-  contain expanded round keys or prepared key material.
++  contain expanded round keys or prepared key material. Note: Arrays and
++  structures that contain raw key material (e.g. raw AES keys) of course
++  need to be zeroized as well as soon as the data is not required anymore.
+ 
+ - **HMAC/MAC context structures** (e.g. ``struct hmac_sha256_ctx``,
+   ``struct aes_cmac_ctx``): contain inner and outer hash states derived from
+-- 
+2.56.0
 
