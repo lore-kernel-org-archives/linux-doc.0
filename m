@@ -1,97 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793777149;
-	b=l3UvHYHNiaVZ7AyLGuK71OslWdiqSCNXXMdUb8H+ocyV6YMN1MoEj7vZZMROxsa+mymj
-	 EpXcl/MWrY+bFjqkDN8XDWvQJxCZMmLjeDGXPzbRC51huf8HElfxOU8daWfuSX8OxStDX
-	 JmknXrujTBYHT/q2nzIGslnxx6P0V15Nrwhht7FvYRDF2Zqire00HlNrJcaOLqJ2cPalw
-	 WDqvw9L+gX5niqXpg6DTPVqcPy9A5QqNw93YROtrGxq1SGo1r3aXfkp03AZhfVS6z//GE
-	 tRsA1u26uiV55AU8OEPJXYUNTHh/35uCiBi3ApXTmfEBvea1Spoij70twg920ptePng==
+	t=1793777485;
+	b=2U/QrQ2yDpocSuA3bUrCur5m8kUrQwAA/TT6om/mtmIpHe7zC5tqR8NcNgY7WlEcEDin
+	 E/1G730Scmx0SGzit9oKIHLU7e5bp1iVg+sPDj/SrcWnVBZEgAxBuRrEtqzEE16j3ZwIR
+	 de0/Czogs360JN6+dArgzrvGMs4NUOQsGCPLfHpnzSUfprst8PZbk5L1Rz2gNu6/OYMtb
+	 UgY6hi4CH0rcPrDvOubaAxnaHQ4tdVOzB4Xfkmqbi16Wvyemd4dCCHmvlezbrMN68cIYI
+	 suCx/eMrR5WKje+mLR3RoSO0bC3GqSD6kzDxw0TcoWYqkkKNTI7WgO9Jw/vxTG0K0og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793777149;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=HGf7LW+11fFCmkfZDnBYSiu7NHiZ1J+7B7vrKk2MO+o=;
-	b=Oj7xFL7In0Bm58HowQEDeGKiDbeWUDe1KuARVK3xztdoGjpdVuIum2AH3mi4lHUeggIy
-	 9b95ANyEmooVs0uR82GTxqIk+bW7yQgqREuuMbsJGIQbG59JjM5rr2ye3c/S4Wa3g30Df
-	 2gza5whq4iXRsU0FfUoBy/t+2t+e9gWCEJROtweYuIRLE7tztY/xl34+WfMLZKuggfRmZ
-	 zEDVBLDfK8/j1mM59xDzDFkNBWJI7hz/OYUPTy2QApkbioDyZGD+CXlVf9AtLigIDVEOd
-	 aNuTk1octfQy+WmUTmU8Efzf4gqO3EhX1r6H4ugJCDW74ZvciahghXyQhdVo2Hbv21Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793777485;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
+	 To:Cc:References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Gf1SJ60wh6rt1cgDzJ1XsuN+6DsStx0G3H1EPBnHUrc=;
+	b=VMrUYXQUrjRv8D6jnVOeKgcB2hClnYhG7iAf43ZxPzy9xiAm09lwbh1bKdT6A23vTZ2S
+	 Q8dVLqE2W/+ODYpp8SUP0mMIRuat6l7PTncVCozEmdWRVBOB00vxIlT67tx0WPaWyaWVj
+	 k49UL66ZRHVYQYAtzFFOLCc+g7KKZCoNW93F27+BbEriL2MZ0SwdwSO6NKWASmwz+KYZB
+	 9FNMYIjKYZjLVEHVp8LDQB/YtEVFE3SVfX3VzLqy1AGkblLiSJOqnClD4v5w3LtRNg+PL
+	 abzcMT4usEkoeL0voCmHylIVf6IDHlZswljbu/5QNPgOAtEbyNrpx0LBpAfCAPIfhzw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=osandov.com;
-	spf=none smtp.mailfrom=osandov.com;
-	arc=none smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=RtFThmXU;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=qPyUMYEP;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FD8C606A329
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 07:25:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FD8C606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osandov.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osandov.com
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3adb9cbb0c3so62553a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 23:25:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB749606A333
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 07:31:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB749606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=RtFThmXU;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=qPyUMYEP
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793777483;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gf1SJ60wh6rt1cgDzJ1XsuN+6DsStx0G3H1EPBnHUrc=;
+	b=RtFThmXUaobUIH25Guv6Bv4O1n98Dbs/s+kBKa2BMbgEHcEYH6siwtptKu0SEnseoSqo25
+	DEaRK5luGGY2/cwPB9ri8gWdyMkc4Ld9g3ZU98W3FFyn7Ca+eEvHhFvMx/FbZG/81xq8iG
+	TTOnNYsZVJTx3vpQdQTLzbdKhgISMk8=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-551-MIf_tFXjMsarFpKDwcwDVw-1; Wed, 04 Nov 2026 02:31:20 -0500
+X-MC-Unique: MIf_tFXjMsarFpKDwcwDVw-1
+X-Mimecast-MFC-AGG-ID: MIf_tFXjMsarFpKDwcwDVw_1793777479
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4a1895ffc83so2983425e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 23:31:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=osandov-com.20260707.gappssmtp.com; s=20260707; t=1793777148; x=1794381948; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=HGf7LW+11fFCmkfZDnBYSiu7NHiZ1J+7B7vrKk2MO+o=;
-        b=VRgHZidZURljCrK0HH3V2vKy9f31BQ0iYTP43G6ikNvBR4QjOxKvexYUY5uUu+JitD
-         T9TOLxU3AuwSiEfvs+OeG0AzPdwnVqjedfkdmdtpWZVvyj1FCA9sCGyKG3IfgqeMduF7
-         tADytHQvwR9g70pEF30quutiy5cwA5plryhJHjdgJ/FA7lKi9UOpU0Hi2aHxpB9zmmLz
-         p7lB/1HmvqOF5+WzgD1Xyuwg3Sd7aC8aoth5hS9HATjN45F4AIk9OThyjOW0PZmMn8Gb
-         PyeFm2ozp72iY7GtQJs9SMMvKa8+VY3YqslwzoN50PyVfinzUal3mgUUKUFwvo9oFTcD
-         Kj2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793777148; x=1794381948;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=redhat.com; s=google; t=1793777479; x=1794382279; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=HGf7LW+11fFCmkfZDnBYSiu7NHiZ1J+7B7vrKk2MO+o=;
-        b=c+syJt4qx2f77U/iKg0V5cB9ehz5V8WNVHLeNd19oveqUCZv36zL034mexZ/Ay/WaC
-         GSm9VsBYJJr2RS0s5TzlW/kBBuiHTVovJ2IaUw2GQ3FpO5StT1FClLTHciloOyvEzhRJ
-         ZEtg0FQ0c9IJDj4U49IYIKn/mQ533KUQVmIgQH+X7zwIABQUcvD3rWuBgo2AfhoNypYL
-         dm0MX/zs4epF+K0RYv0E9VMbg7K6rA6wtu0ALzGNhFM3b+QlnT1mAej+Ux0rhpwZb1jy
-         Mxt0RSwifU/DDdPxkFZW4DZOSGDnLt/9RDkhPNU6qKaDod5pPYhqQjBUXCNmIEqtdx6o
-         m6dg==
-X-Forwarded-Encrypted: i=1; AKwUvBwikimJe0eG0AhdcmHAHeRWNqq776BVbDdSiWK1ONSzDr2g4lRS7ddUOaSTYtmkbh44QY1CZH6Z2vw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9qB/MH47jr4+hCXJuQZKWOsOASJN5WwSV5F+Zj3Ejis8ElXW7h
-	QCPiigwmhl9GuKHW76PyGb/zYWWeNM3YkIQhepYttzbN6NrlYrZ/Ik1Ph85X8Zp2/L4=
-X-Gm-Gg: AYBFou1leGMFa57bABwnOGOgX2z72wqa5uWtB85Zp0h8Zyogn9/1MVeldocd2jZSY+l
-	CIyjYBmA902YEew0Vda0eQYFMnnPb/lzMQfiTry05ZCWeB8ky9Iexg1t/hKn0lpqmtQ6B6Hdg5M
-	g3e6fM55IeDXgp3bu4m5zMbEJMifcosXJs+n/2OuSHxm/qLVSJAflHgxXpaOuxScw3bvi4y/2sH
-	e4fXOTjIVBdA75/YaRgnRcbidwgNwfrk0rtfq+l/Ck5iaLdW1Qeq6MW4Awew3JD73lRPSq4S6rs
-	SA5/m2E4c3D/AB57pMLLiKeZvwBBX0hUPgRI7Zbw7nmSNOEzTmBkp+nZQQoOCGtKHpf3vQ1+VLX
-	/VNKeWKGhF18F+lvlHfchVJyYzoZE6zVlSg0020S69MvqTlxB2I1f6z1IS0NwJdow2jmNPs+aPC
-	6pAfbyXFkn2rm5/BKpwdq135Wi0bCNhvbdk3aehhD88mDXPhzKymfl3KKGmj9KD7oSwQ4jI3eG8
-	rim8iNkbyaBu+a5JLU1tugF1qki1TIUAGQu2QvmNyaqp5JDQrJioQyu6aOKfiRKcoshXz/xxWZ/
-	17f/+tKlt4aHSvTkdKHNiwvh4qKaLhdq0z9Ptf46sZlcYn50id7gNV9z+ZgIEGqVeO4Rjq2KJtT
-	y5NNK+PBWuXOzfs/RZAoc+fuvETGKyVrxw7uJbltK3MneJQYlR/qB62nE
-X-Received: by 2002:a17:90b:4488:b0:3b0:9a3e:bf8b with SMTP id 98e67ed59e1d1-3b09a3ec031mr1494219a91.6.1793777147801;
-        Tue, 03 Nov 2026 23:25:47 -0800 (PST)
-Received: from os-N5J97HY9XQ.tail2dda0.ts.net (c-67-185-21-237.hsd1.wa.comcast.net. [67.185.21.237])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b09311866fsm2861006a91.17.2026.11.03.23.25.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Nov 2026 23:25:47 -0800 (PST)
-Date: Tue, 3 Nov 2026 23:25:46 -0800
-From: Omar Sandoval <osandov@osandov.com>
-To: Chris Down <chris@chrisdown.name>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-debuggers@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: [PATCH] proc/kcore: Allow disabling /proc/kcore at boot
-Message-ID: <aurd-kCBE7ebENUl@os-N5J97HY9XQ.tail2dda0.ts.net>
-References: <auAmuqZyUodq3iqk@chrisdown.name>
- <auKKisespDm1xLLg@os-N5J97HY9XQ>
- <auOEhTNaKzu8dgEy@chrisdown.name>
+        bh=Gf1SJ60wh6rt1cgDzJ1XsuN+6DsStx0G3H1EPBnHUrc=;
+        b=qPyUMYEPu6QMDw+ynFBXj+Jukdd/b7kY/MwSzggCPBbpqxVgSSKgaPVvCXHszLHMco
+         DlChHW+HSdOND+z92arp08ItIKAl5SBxI6sb508qvBIMVvrx5D+CCApcPJ6w2U8LroJm
+         r4b2JM0Z5YGcJCNO5bJoyhZPF2SGZUAU5HamlEA3FNIx58qghw1wsKgWyPu6gXbmqnQN
+         E+gOashfTRRTa6fbRRxM9NEUCG+fzcXqMLRRTDR5xfCivw/vR7Iab+z/LJZmmRbcob58
+         7nPyMK1EcwD+cvreIfJGyM9HJYnIuzgjJgn3rUsVj/grOtz2KJY44lsvT26XeYlcUWSR
+         WrDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793777479; x=1794382279;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Gf1SJ60wh6rt1cgDzJ1XsuN+6DsStx0G3H1EPBnHUrc=;
+        b=YVrjmfXuFV0lLD/0aBvE1DLFAn4mWo720ADSnJbE9m8fZWeJRveoM4oHbVREprVIAb
+         CZbfIuPLItSSZwe7Vwf6CkroFsv77KACz6L6GxxN+kC4sMVLx9kC/QG87uBvBqF8da8i
+         DMjnX4hkqdfkLRbDno0/AP4gQhGhfzVaFNwPLjL8D0/gb0Zb9nPcEQLYy+AArEIxFqcj
+         /w44kHNvtWsLqK0jrDaEjbz93ok2dV3XXdLKaX1rgSEkrftJbNslQYae1BFT01/em4ay
+         n8q9vejwphrkpNoVbflukT4MALzOEKB7SCTnoV0MHOFDYd5T4LA9YXNeklwX1kWGVSUw
+         ezPQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwtSUpDO+TXm8hhUPDa/KsDvr/zFFT8JijeaX7+CJ6f0x7aY4dss8FCP6+tNVvWeMHO3vpCXMF1dM4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/NbXkH86qPGrgIuwbdqoLSURxQrtvTx9nCdjkkzOygAbCBoPXw
+	V2z47BOysCKGGxo5icZsOdCi2Q5mC5SadzSiWV6exHYsXygEKoxOSJEEunyYL+K7npgGU1FN+9d
+	8MLkVYP6M27c2MyBmoHcizP9qQ7BRALZcfjnDCcXndTkvEkkKtWn36nThbFi2AA==
+X-Gm-Gg: AYBFou0yNmOnJZe8/pSeXXQJjPR+NWRh5pDcMl+bvj7IFlbaH7YKtHVa/mDJGxCK/sg
+	AO+2hARYiVfusQhAvz0KXDbW3Tr8jqQaKYPJps1GDKMGyhRj0CSm6sEew66jS5txAJ+9F4M3aEB
+	sT5E1vPz248Dk6JZCxYEDm4ZAsEP+lDKR13VTAgfs03gjvSLq+al0ePW2tv6yjhiPWG+koU4+UO
+	3zbX64lp06imMfTlwUSUHLx+dQqWfbZ0KjDnzSrT4Zqr4dNBdYGryJgfpZ/vhpOSncDF/NyHcYZ
+	naGAmMX20dUWAm4R+PtruHZ+aFrRQQonBlSgOOa+MaZQBg6jk7C/VD9FiEY4BGn6fGkLV8cQSId
+	sqWW5+XIgM/x3gYhTlJ7Knk19SHiDoFzIrpyR5cc9B7LKr4SyGzvun2Wn9Hlj+0fH1fVzEBdM0Q
+	N+vrNt7llp+tYAuJWk54XtATLJ8rxSUwMUT2UzeLpkc+0=
+X-Received: by 2002:a05:600c:19c9:b0:4a1:7c7d:8881 with SMTP id 5b1f17b1804b1-4ac182dcb6fmr342501375e9.13.1793777479242;
+        Tue, 03 Nov 2026 23:31:19 -0800 (PST)
+X-Received: by 2002:a05:600c:19c9:b0:4a1:7c7d:8881 with SMTP id 5b1f17b1804b1-4ac182dcb6fmr342500785e9.13.1793777478812;
+        Tue, 03 Nov 2026 23:31:18 -0800 (PST)
+Received: from [192.168.88.30] (ip231-128-192-82.pool-bba.aruba.it. [82.192.128.231])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b4532916f2sm29117235e9.5.2026.11.03.23.31.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 03 Nov 2026 23:31:18 -0800 (PST)
+Message-ID: <a323799f-a817-4022-96dd-e6f376fb4d03@redhat.com>
+Date: Wed, 4 Nov 2026 08:31:17 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,49 +112,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <auOEhTNaKzu8dgEy@chrisdown.name>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 1/2] netlink: add an optional per-netns ROUTE
+ multicast index
+To: patrick <work_patrick@qq.com>, netdev@vger.kernel.org
+Cc: davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ horms@kernel.org, corbet@lwn.net, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-kselftest@vger.kernel.org, linux-api@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261104033526.2917590-1-work_patrick@qq.com>
+ <tencent_1E208C03035DF063166FD46C1DA1978F6306@qq.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <tencent_1E208C03035DF063166FD46C1DA1978F6306@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 30, 2026 at 01:38:13AM +0800, Chris Down wrote:
-> Hi Omar,
-> 
-> Thanks for taking a look!
-> 
-> Omar Sandoval writes:
-> > The code looks correct, but is there a reason that /proc/kcore
-> > (CAP_SYS_RAWIO) is any more concerning than other ways to read kernel
-> > memory (e.g., CAP_BPF + CAP_PERFMON)?
-> 
-> Not in terms of what it can read, indeed. I would say the distinction is
-> more about who needs each capability and what we can remove.
-> 
-> Abstractly speaking CAP_SYS_RAWIO may be needed for hardware access without
-> necessarily wanting to grant general RAM access. STRICT_DEVMEM already makes
-> that possible for /dev/mem, but /proc/kcore gives the same capability to do
-> general purpose RAM reading anyway.
-> 
-> In our case in particular, a process with CAP_SYS_RAWIO doesn't necessarily
-> have CAP_BPF and CAP_PERFMON, so keeping BPF available doesn't make removing
-> kcore redundant.  On the hosts in question, BPF tracing and BPF LSM are part
-> of the monitoring and sandboxing we rely on, so we can't remove it from the
-> kernel entirely, but we nevertheless keep CAP_BPF and CAP_PERFMON away from
-> guest facing processes. Nothing on those host uses /proc/kcore, so we remove
-> it as one more gap to close.
-> 
-> For that reason those hosts already run with CONFIG_PROC_KCORE=n, while
-> other hosts keep kcore to aid debugging, since they have a different threat
-> model.  This patch, then, lets us preserve those choices while using the
-> same kernel image.
-> 
-> In retrospect I should have explained that better in the commit message :-)
-> I can update it for v2. Does that make more sense? Let me know if I can
-> clarify further.
-> 
-> Thanks!
+On 11/4/26 04:35, patrick wrote:
+> diff --git a/Documentation/admin-guide/sysctl/net.rst b/Documentation/admin-guide/sysctl/net.rst
+> index fe43e8595..0cda347ed 100644
+> --- a/Documentation/admin-guide/sysctl/net.rst
+> +++ b/Documentation/admin-guide/sysctl/net.rst
+> @@ -280,6 +280,33 @@ checksums.
+>   These messages are now emitted at KERN_DEBUG and can generally be enabled
+>   and controlled by the dynamic_debug facility.
+>   
+> +netlink_route_mc_index
+> +---------------------
 
-Yeah, with a bit more justification in the commit message I'm fine with
-this.
+The above breaks kdoc
 
-Thanks,
-Omar
+/P
+
