@@ -1,49 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793803326;
-	b=ErP0x+1z1uKNirj+4xW0lDGK6h/JSxTr66S4LFRBMHzzyF7D7Rjfsy0bR6VmMmrysDG+
-	 fzvyQukWUZ/IDDx/tvobL03Sg0ZD4O5AAWN95sTJ0dVqTdr8I+aEoynyVSqni6JrXmgUX
-	 5uU9U8/C4q5BMR824xSJqFfyzLXQ8/nNSscr+DKOXF5mM4olJCLtumol5IzGupdOoaEdu
-	 HBPXzu6vROHDeQOFT2cpr3m+4QFAzA4o1C6x0Rqm6oF6zRxRblivH2KIGSGCBIXDJY7Vq
-	 S2w5KPdxf5uXOPIkYDjLwQZD+gzQ1g2fMVsTlje1BviaFz9gkHt+yn60Rjb2f/29odw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793803326;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=yEXOiGhgbR5kbYCDmjXy0GbChNz5nYoCzDv/8cG/g+Y=;
-	b=SVzgyNHoa005arGi9X1JZrh5aFxqwi+nCBm/i68DIKMkHuzNQXzn2ct9/zq/FT1S9B2e
-	 KyTJ22mjRHpUzswZCFN586Kl/NGFM/G2UCKcDDDKLz2b2/znXwlM/EAK3lk9cTxR49I/w
-	 GgWBOM9pQU9zrkVoArdQdlncX4Ok1KVdz8SENeIaaC0YFJVVyISsgXDFp3HJeIKyTT0vE
-	 Bqf6dydlTxQ0KOqme2MTOIh0GYPuIJ0r+KDwrI0LV/QDydCZFzwCMfrzQSKmr3iMuHxfn
-	 rnXlNL4cfB8ogiAq8oajL1vGBwI1f5eLv/EjyiWG1uW5FUv+jMk6A0ZInygHj2VXD1g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=luId+KEo;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 528C3606A336;
-	Wed,  4 Nov 2026 14:42:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 528C3606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.53.50
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793803454;
+	b=Vznq7jgRO+UzkKUXceCGITCxssFuaS3qnnhXe/CSL0OeLj5xCpCCuiBskYprsicNOxMn
+	 1Dn/ua6LAZu41fUknzZcMI/oP7EbCjdAdAfNGuO0J+zzIyZ1aWGYdHJOz+W2yZZT9yrrM
+	 B2ebxe0TaoC3xsyFzUAS2kZc+3kKOjOyNd7puoCkbE+27nMEC21TQ9dQDJu6D72Abjfcy
+	 w+bKaKgBKvwxlZcGuz/dmck3my/FL4xyXFY4M1NIVSTJ3ZHjaEsy0dbjwXTx+0JGALwsA
+	 BhHWVm49WgRyPQsgudwLc6TWPY1vAoRdBGcHeTumtj8BVqIuIV8mMpXE95GBPVm0ANA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793803454;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=U3It1qhKMlX9vkVTH5FEDwaZbMgweZF/zJfe4pxqi9o=;
+	b=yxxgLxUc+WE/VwG1KNbumIVZr6ng6makhkYVyPInlS6XpHy9wN2CGewe8d4MI7ez0miW
+	 Fue5LtiO8RqWoLc3+Og4pXbHojjTFuKTns7ysaloTjW8oNeTT7cPQLxLZ4+Dt1rqo7/T9
+	 RYSuIp3G02/lJuiWxYfmFlPaqjYji/AdYPGAcCo5QVEmYmS6G83VtGTtHX3i1jCwDhY8I
+	 dEt2C+gvB3Zm4FF63sOCB3IK7Nh6ZvfozE4fSjaHxknGzBFMSn6mzq2SYGpaVevWNS4WP
+	 ity8esGmmeTGyTRUAg/BferWMV7k2arCGUv222G6bxiYwG6GmMOeBO5Vugddd5GuA7A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=ff0B9iNi;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.53.50
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012050.outbound.protection.outlook.com [52.101.53.50])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9BC606A31B;
+	Wed,  4 Nov 2026 14:44:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E9BC606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=luId+KEo
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 1F5F31476;
-	Wed,  4 Nov 2026 06:42:01 -0800 (PST)
-Received: from [10.57.65.23] (unknown [10.57.65.23])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DF6933F673;
-	Wed,  4 Nov 2026 06:42:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793803324; bh=OQ+6GXsnzNtECacWk2BjiQr1Za6EzTRmQxCpvw/0bo8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=luId+KEomiCYTx0zsDXfLF0NiGSbVJSZAawz5X649BNQCNK5aIrov6r7jQPa5f5G1
-	 /y7/Z1tTcJswVlprth41Zn/4fMIj1S2AkxetBjIo4WJhSSAHooaIdF0oJpfr07XKSr
-	 mYYkWIizutTHBEivTMuSApJZfPh5pMdZsop7CXg0=
-Message-ID: <80b69632-dbe1-405b-910a-c17a943d8fc2@arm.com>
-Date: Wed, 4 Nov 2026 14:41:59 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=ff0B9iNi
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PLQjJUajl4gKgfTcOUCzITfCbxsTgGlOlqhNSzsUGEsF0Jb0cqZwGjzLSa3gzSvpzBJxVyQ38irIP86speId3RT1DYS/mrcJ47Q79olrWchwWxKI6ZxWO6s3nxO6LPR05fbJjM9sHZs3c4Ex5swtYOnWLNOHgf0qLFg7ARxj1bP/aIqAhzrvFScinog2T6OtIdZCSvYdiWxFpCiBzNjHlgmJjG3K7BAGs/ELbIj39vX5sPBWfVoflQPBauPK4sgLpvTNBJZZOCQR6wbPowLoS1E+o2Yuic/oN5jNL3S+QkmP/v+Y4DnQkz2UIe8prml1Pbs1cnUMn8NUbUCUOmtMRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=U3It1qhKMlX9vkVTH5FEDwaZbMgweZF/zJfe4pxqi9o=;
+ b=cDLxqR0XYs0d4m/VtZL2y65enFgb13DC08E0Pd+36/4/bsgJz6ZsFYkRErckK+ed4B7+m3wlZrCkWKEsRlHmuqFHOjRI9S3d8/LKiz2WaLMPC85gKF8ODvuQopIaXhBPnyg1MCEcnDAqufWN2ytZi5aXvBUH2n8ssFX/cEtnnXNKesQcQY6BO2eERtFD7F8fm2myoJJxq6Jj1txJMIyRxoTFstuYaMWDYp7jO3cc6FcN8wL3OzXlZFMA/JtAfoM+cKAW+tJG+iNe5Z4hgmtvDvr2x/yWwYNyDO2xh+FUR7G0BxyYLakZ3BhClMD5ZrEYpn8ht06oruIpRPEadE34sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=U3It1qhKMlX9vkVTH5FEDwaZbMgweZF/zJfe4pxqi9o=;
+ b=ff0B9iNiU3if2CymR7tvc+VytM/eRWI07gBDk9sDe//wzIz0qokJiegtZl8HkiuGpC66UB8oN42B5XZOZn6fEwO5+X4DHY+yuNrOKAfPg4TPrV/1XqfqdGlKo8sUVfkTJ+6No+P9bS3SYCMPl9m0zftCz3cNwZILfZgzCyO8Tjl17Y2NoVeZWX/lTX6eqaUFaKdk0NvLopm6ralyk/kZ/5XW1mQi5B1/MiFRmFVbn2tlVTiCx67O1UaUQ/092RvDLUhvzTRiqRK+FOYvJAr+8aLQyr1U/Nq2sfzRkItdN/OF327n1lisAMOlShVQWMk4tEQrxQnEXoy4WI3mroiwMw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CHAPR12MB999248.namprd12.prod.outlook.com
+ (2603:10b6:610:2ff::22) by CY8PR12MB7705.namprd12.prod.outlook.com
+ (2603:10b6:930:84::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Wed, 4 Nov 2026
+ 14:43:58 +0000
+Received: from CHAPR12MB999248.namprd12.prod.outlook.com
+ ([fe80::4972:8062:d74e:b205]) by CHAPR12MB999248.namprd12.prod.outlook.com
+ ([fe80::4972:8062:d74e:b205%6]) with mapi id 15.21.0592.007; Wed, 4 Nov 2026
+ 14:43:58 +0000
+Message-ID: <51381a84-de40-4d4f-982d-9585a2344119@nvidia.com>
+Date: Wed, 4 Nov 2026 15:43:51 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 7/7] selftests: drv-net: devmem: TX from a
+ hugepage-backed dmabuf
+To: Stanislav Fomichev <sdf.kernel@gmail.com>, netdev@vger.kernel.org
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, edumazet@kernel.org,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, michael.chan@broadcom.com, pavan.chebbi@broadcom.com,
+ sdf@fomichev.me, almasrymina@google.com, bobbyeshleman@meta.com,
+ asml.silence@gmail.com, razor@blackwall.org, daniel@iogearbox.net,
+ leitao@debian.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20261103235152.1904727-1-sdf@fomichev.me>
+ <20261103235152.1904727-8-sdf@fomichev.me>
+Content-Language: en-US
+From: Dragos Tatulea <dtatulea@nvidia.com>
+In-Reply-To: <20261103235152.1904727-8-sdf@fomichev.me>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0170.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b4::8) To CHAPR12MB999248.namprd12.prod.outlook.com
+ (2603:10b6:610:2ff::22)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,183 +105,81 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [BUMP] [RFC PATCH v2 00/15] Arm Core Local Accelerator Driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Arnd Bergmann <arnd@arndb.de>, Catalin Marinas <catalin.marinas@arm.com>,
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Alex Williamson <alex@shazbot.org>, Jason Gunthorpe <jgg@nvidia.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jean-Philippe Brucker <jpb@kernel.org>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, kvm@vger.kernel.org, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org
-References: <20261015142552.4128028-1-ryan.roberts@arm.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20261015142552.4128028-1-ryan.roberts@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CHAPR12MB999248:EE_|CY8PR12MB7705:EE_
+X-MS-Office365-Filtering-Correlation-Id: 616d4930-d87d-439a-2a4b-08df3a820ee7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|23010399003|376014|7416014|1800799024|6133799003|10067099003|18002099003|22082099003|56012099006|4143699003|11063799006|261102123227099003|261021135927099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info:
+	vTom1vmdp0BRvbn6f9kvbLs7QMgCmuOq6nn6T94Y6TFSSv2VU2jHY1R2BhD1iGxzq6pj8Yu6uKtZWRVuFVHxjhmXzkGrAqaZy4pWMovzemX4EmF/5f+Kgl5fpXyvPW8g81HKNjAcDwkqx+1ZU3tiMxo6nuNHPYDV1LnL5GeOj9/hPoybnx7lVHGdkdWEy6Nxt6ANKVuMPHekTXppcoP8V6ng278p0RPx2lK63QCvLYODjqtjBq3O1+LVU6Gsh8sqzj8+Ia6P6eUywdq58/VYoAEu7M0v3l+RJT7zlgBQTg0ib5zYPS9xGHjTd/hS0dnHEM8NWI3SdlxTDBYjr+5RjTtEUKKnBq7///cPcgxSsy2adNUekuh/OI6Gx/kGPpsdtya9DwMs9W2Ydjxno1R4Eg1XC8AhkWo2s1uH2mJZ0UpbFAg0fFSSSqYPCOT1rwmeCKtTB9bP8jUyRfRTYdcIArRYRhx2CtF6cX+EIEJ+B1/sxT7x8aKON6pO1TmAAN3azXD02d5+ipKUvnYfduK/iG8LHRKvyQn4iQr+bYo+lNA6gE283xMr646tNRJfW3dapQ+AV4lC9lbFpawJdOXNHq1hB0B8Sab8pnGzMYphY3GPZLOX6Fw9SY5mM/NCPqMi1Ikje5/FYPhYTcMrUmDjhoviDA/R50HO/72gy9IpIMs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CHAPR12MB999248.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(7416014)(1800799024)(6133799003)(10067099003)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006)(261102123227099003)(261021135927099003)(261021121427099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WkpDcnk3cnpVSDY2R09VK3QySEhsVWNMU2YycndWNkN0Y2x0cWdQOVF4T25K?=
+ =?utf-8?B?TEMrS2l6aGM5NGVBT01HcDBlamJobExHaXkwdGYwTEZkd3RQZkNvVnFoZTBj?=
+ =?utf-8?B?OEZTaVFRRDZ3eHVBMmVJcCsvNUlUb2tQNjdsdjNYMXAxRWd1YnlIRlM0dFE2?=
+ =?utf-8?B?WksrbGdpaFVBaDZnQVJTRjVnNDRHQVB4ekw3N0h4QjZNaWJhRkh5d3dOd1Ur?=
+ =?utf-8?B?WTVHR1BGWXBnc0l5d1hUOGRhNi9aUzkzY0UrazdWNG94TlVoUytoQzFxbzM2?=
+ =?utf-8?B?Mlk0N1lOMjNyMytBZzMzNUV5c0NCaVA2b2dhZ21NdFlqOW44ZDVwZmxaU0I3?=
+ =?utf-8?B?VVRYVUpEN3VZUUNHMEtPNWhjR2hnN2ttUDVBVWhMblh1cEpNbjRuYnlhWGZW?=
+ =?utf-8?B?WWNmSmVzM0xMbzNnMTh2K1N5RVZHeGJ5MmVEUWQ3WHJ0N1RJUGE4Q2dVb3pu?=
+ =?utf-8?B?NE9abGwwdE56cTFUbFRsNzUvdVBVVjYrcGlEc0xDMDh3dEFvc0xWNzlBRHRV?=
+ =?utf-8?B?eGVSZHBqMzFzM0xFNVJkaDJNdnpFZElpeDQyaWRCNGkvbTBCSFZLa0xLcWM2?=
+ =?utf-8?B?S214SFpnQXVSdXBDMC9PRStaU1JlR1FaZGdpbGNzUUI0S2JqeS9tcXZuVnZL?=
+ =?utf-8?B?WGphMG5SOHZ5TlhYK3krRGdvdFRpTFF0VzVqWmRJU1pnOUNNRHBpclkrYzgx?=
+ =?utf-8?B?R0x4WERNdTBoM01adE03em90aENCTUUybWk4eE8xRThaSGlBaFh3T29ISzFP?=
+ =?utf-8?B?NGp0Y3dId3Rubm1sTTZxdzM5WUdqQUhPWGpSREtuQzcvYlJKL21Mbmd2elNY?=
+ =?utf-8?B?NUhYZ3BTdkFVZlBabVhMUXp0UUtBQkFtRXVhOXQ4N3J1VWhReGpYZHNndnJH?=
+ =?utf-8?B?R3F5TnNmMnR4akNWMUVQRXpPd2NxUVVacDZ5T3VRRytWMU9UbzA4WTY0ZDE2?=
+ =?utf-8?B?cWdNejVZSktUeUt5Njd0MkFoMUIxazRPQTRtL1RjR1BnLzFLNHRSbUluY2ZY?=
+ =?utf-8?B?VEdqNFJleE54K0ZtQjF5bkFXNkkyYkVTWGxqMnhPa3RFMGg1MGZJRXlGQ2tN?=
+ =?utf-8?B?SkFxb2FXaHJPNTZhc0xhUHNlcWRYckxxbFJmWUNVSVdyZWU3M1JrMGJuVTlE?=
+ =?utf-8?B?a3l6Z051ZFcydWI3R05aUWV4ckZYVGtTcDBUbUNFV0tXU3Ircm1RRENRMGQ4?=
+ =?utf-8?B?TEVLVGcrelZJRFI4dDdJNjhybEg5VVlSY3crWS92WjRYYmlGYzhVVHY2Nklv?=
+ =?utf-8?B?K3lpYzdmNG5pZ0FPZVJtdWpHUkVGa0tqT3kvN0Z3NlhMU3Y0cUJpSmQzbFBo?=
+ =?utf-8?B?V3FEWFNaWVprWldrQlN5N1pTKzh5L3B0aE1Oc0RjWExLaU1wT2Y0SEZiUnVk?=
+ =?utf-8?B?aXdvdDE2VXRVQjZtV0JUN3E0anhMQkhPZUwwWlRLMWlFRmd1WmFHdDN0YjRJ?=
+ =?utf-8?B?Rjc2ZS9WMmVPVWRFbmYxOGt1Y3p4VkFOOTQ1UE1jWm9kcW80NUhmREkzdStY?=
+ =?utf-8?B?M1p2R2FzaUV5YWo2Q1ZyUFhCUFlJUExXb1dXR0MrMHU0Si9vQ2U2azdFcTRF?=
+ =?utf-8?B?RHhUbFo2ajg2cHpmak1jOFp2NjdnMzRFUmR1NGN3c3RPSms3bU1Kd1FWbGZn?=
+ =?utf-8?B?Y3FEaE1wRGdDT0d3OXo5RU1Oa0lHZ3BzQ0UzYkx2dThvOFZsaDVLM1JqSnUr?=
+ =?utf-8?B?UEU2VHNvTGV1QW1TN3p5SWJWeG14NlVhcGFMbElZRmhLbExIZ2gxaldOMFVJ?=
+ =?utf-8?B?TGFLZ3FlSzBISVV3Q25PVVVKc3lvNEdjZldDdjU5TEtjRmVOSnQzWjA2Y3p0?=
+ =?utf-8?B?ckVmVGt3QkNuWThhTEZPNFIvaXJxN0VIWk5Eb1k1M1lCaTAyQWtkZFZoSmZN?=
+ =?utf-8?B?UGZuOFRZa2Q2eVY4dUo1aHR4M1JZM0FCZXlLNkhFZzlLdlY5RytGYWphM3FS?=
+ =?utf-8?B?bkJzRThlOFIrQ2xMUUpTeWtFaWtWUERWb21XSkp0eEhEYTNIVTErNzRaTkxM?=
+ =?utf-8?B?N3AvQTM1YklKOGFNU2xRdXlkQ1JPRjJFRTFmbEZxZm1NUmhWV2JWbGNqeHpj?=
+ =?utf-8?B?RFI0bkNhc2o1OXBsdXpqbHM3VTlFc1daWjFGNXlHK1BGQjFsbDBtS3BiZkN3?=
+ =?utf-8?B?MlpISmJsc1RYbW8rOG9OMi83NUVnUkNCbFdkK3pPRlZXcGd2MWhPSlB4QmxV?=
+ =?utf-8?B?ekdJZzJrUXZ2RkZTNmJBWjVIWHkzVWRQUCswd3BKMHBxNWpuazNvVXhNV2sy?=
+ =?utf-8?B?Q0tjby9rWnlQZkZ6YVAyOG1ZcGhzaDlRVTZObTVDM1NaeWJOY1poeUNFZStN?=
+ =?utf-8?B?QS9ONTZTRWVzcXRaSjNMOFlDZzhPQ3kxUElTWnpLT052NlRxUW0zZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 616d4930-d87d-439a-2a4b-08df3a820ee7
+X-MS-Exchange-CrossTenant-AuthSource: CHAPR12MB999248.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 14:43:58.2049
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zg7kkDPsy5Tmg3rf7CgJPXdQjvvJQ+5Peyzhie+51LClV+sv2zva9MP0QF2WwLeUM3q6MUFqbbjKuMJCm9RI1Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7705
 
-Hi All,
+On 04.11.26 00:51, Stanislav Fomichev wrote:
+> TX net_iovs are now sized from the dmabuf layout, but the TX tests
+> use a regular memfd, which usually keeps them small. Add -H to ncdevmem
+> to back the udmabuf with 2MB hugepages and a TX test which sends a 3MB
+> buffer from it, so that frags end at and continue past the 2MB net_iov
+> boundary. The payload has a 7 byte period to catch offset errors.
+>
+Why not add a test with a BIG TCP GSO test as well?
 
-Just a polite bump; now that -rc1 is out, if anyone can spare any time to cast
-an eye and offer opinions, I'd be grateful. At this point, I'm most interested
-in feedback on the arm64 integration aspect; If you see blockers I'd like to
-discuss early.
+Nice improvement btw. FWIW for the series:
+Reviewed-by: Dragos Tatulea <dtatulea@nvidia.com>
 
 Thanks,
-Ryan
-
-
-On 15/10/2026 15:25, Ryan Roberts wrote:
-> Hi All,
-> 
-> This is v2 of an RFC to introduce a driver for the Arm Core Local Accelerator
-> (CLA), a CPU-local interface for programming attached accelerators. While the
-> interface is agnostic to the accelerator type, the initial (and currently only)
-> target is a compute engine.
-> 
-> The RFC aims to engage the community and get feedback on some key aspects. This
-> will help plan our approach for eventual upstreaming. Based on feedback from
-> Will and Marc in RFCv1, the driver now supports both bare metal and virtualized
-> environments. I also have commitments to publish the CLA spec, a supporting FVP
-> and a representaive user space, all to support upstreaming the driver, as per
-> Will's feedback.
-> 
-> For now you can find documentation included with patch 1, which describes the HW
-> and driver design. Note that the CLA is not part of the Arm Architecture.
-> 
-> Patch 1 documents the hardware and driver design, and adds a driver skeleton.
-> Patches 2-5 initialize and probe the device. Patches 6-9 add context management
-> for switching the device between different users. Patches 10-12 add some (small)
-> changes to KVM and VFIO, which then enables patches 13-15 to expose the HW for
-> device assignment into a VM.
-> 
-> Aspects I'm seeking feedback for:
-> 
-> * The general structure of the driver: The current shape addresses the
->   performance requirements we have for the use cases, and is therefore our
->   preferred approach. But there are some unusual aspects due to the HW design.
-> 
-> * Driver interaction with architectural support: I've opted to treat the CLA as
->   a device rather than a CPU extension, so it's implemented as a (mostly)
->   self-contained driver. It has some unavoidable coupling to the arch code since
->   it needs to share page tables and ASIDs/VMIDs. All arm64 arch interaction is
->   contained in cla-mtc.c.
-> 
-> * The location of the driver: although most accelerators will likely be compute
->   ones, CLA is a generic MMIO interface that could handle any kind of
->   accelerator. It's currently implemented as a misc driver. accel is another
->   potential option, but given the current SVA approach, we would not use any of
->   the services (memory-management or otherwise) that accel provides.
-> 
-> * Virtualization support: since the HW uses the CPU's MMU, we introduced a new
->   VFIO_CPU_MMU group type, and added the kvm_arch_[get|put]_guest_mmu() API to
->   KVM/arm64 so that the CLA can share the stage2 pgtables and VMID. The CPU
->   pinning problem remains unsolved; the vCPU must be pinned to the pCPU that
->   owns the CLA in order to access it. If the pCPU goes offline or the vCPU is
->   otherwise unpinned, it would look to the guest like the HW is faulty. This
->   issue is therefore contained to the guest. I've additionally improved the
->   robustness of the core driver to deal with this eventuality gracefully.
-> 
-> I consider the core driver to be well tested and robust. The virtualization
-> portion is prototype and has known issues that would be addressed assuming the
-> approach gets positive feedback.
-> 
-> Changes since RFCv1 [1]
-> =======================
-> 
->  - Added KVM guest support through VFIO mdev, including exclusive domain
->    assignment, stage-2 memory translation and VMID pinning
->  - Changed the userspace ABI to expose one `/dev/cla/<class-id>` device per
->    accelerator class; `ARM_CLA_PARAM_DEV_ACCELS` now reports only accelerators
->    belonging to the opened class (per Arnd)
->  - Removed `ARM_CLA_UABI_VERSION` and the `ARM_CLA_PARAM_UABI_VERSION` query
->    (per Arnd)
->  - Various driver bug fixes and robustness improvements
-> 
-> 
-> Source, along with some tests, is available at [2]. Patches based on v7.3-rc5.
-> 
-> [1] https://lore.kernel.org/all/20260717104759.123203-1-ryan.roberts@arm.com/
-> [2] https://gitlab.arm.com/linux-arm/linux-rr/-/tree/features/cla-driver-v2-rfc-tests
-> 
-> Thanks,
-> Ryan
-> 
-> 
-> Jean-Philippe Brucker (10):
->   misc/arm-cla: Add driver skeleton and documentation
->   misc/arm-cla: Add launch operation helpers
->   misc/arm-cla: Probe firmware-described devices
->   misc/arm-cla: Initialize devices on CPU bringup
->   misc/arm-cla: Accelerator context save and restore
->   KVM: arm64: Export stage-2 MMU config
->   vfio: Support VFIO devices that access the CPU MMU
->   misc/arm-cla: Add stage-2 MTC and VM context switch
->   misc/arm-cla: Support exclusive context assignment
->   misc/arm-cla: Add vfio-mdev user interface
-> 
-> Ryan Roberts (4):
->   dt-bindings: misc: Add Arm Core Local Accelerator
->   misc/arm-cla: Set up memory translation context
->   misc/arm-cla: Manage domain contexts
->   misc/arm-cla: Add userspace interface
-> 
-> Shameer Kolothum (1):
->   KVM: arm64: Introduce support to pin VMIDs
-> 
->  .../devicetree/bindings/misc/arm,cla.yaml     |  77 +++
->  Documentation/misc-devices/arm-cla.rst        | 217 +++++++
->  Documentation/misc-devices/index.rst          |   1 +
->  MAINTAINERS                                   |   9 +
->  arch/arm64/include/asm/kvm_host.h             |  14 +
->  arch/arm64/include/asm/kvm_mmu.h              |   1 +
->  arch/arm64/kvm/mmu.c                          | 102 ++++
->  arch/arm64/kvm/sys_regs.c                     |  14 +-
->  arch/arm64/kvm/vmid.c                         |  77 ++-
->  drivers/misc/Kconfig                          |   1 +
->  drivers/misc/Makefile                         |   1 +
->  drivers/misc/arm-cla/Kconfig                  |  26 +
->  drivers/misc/arm-cla/Makefile                 |  15 +
->  drivers/misc/arm-cla/arm-cla-regs.h           | 192 ++++++
->  drivers/misc/arm-cla/arm-cla.h                | 393 ++++++++++++
->  drivers/misc/arm-cla/cla-ctx.c                | 229 +++++++
->  drivers/misc/arm-cla/cla-init.c               | 562 ++++++++++++++++++
->  drivers/misc/arm-cla/cla-mdev.c               | 469 +++++++++++++++
->  drivers/misc/arm-cla/cla-mtc.c                | 335 +++++++++++
->  drivers/misc/arm-cla/cla-ops.c                | 417 +++++++++++++
->  drivers/misc/arm-cla/cla-regs.c               | 370 ++++++++++++
->  drivers/misc/arm-cla/cla-sched.c              | 474 +++++++++++++++
->  drivers/misc/arm-cla/cla-topology.c           | 202 +++++++
->  drivers/misc/arm-cla/cla-user.c               | 541 +++++++++++++++++
->  drivers/vfio/group.c                          |  37 +-
->  drivers/vfio/vfio.h                           |   5 +
->  drivers/vfio/vfio_main.c                      |  16 +-
->  include/linux/vfio.h                          |   1 +
->  include/uapi/linux/arm-cla.h                  | 198 ++++++
->  29 files changed, 4969 insertions(+), 27 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/misc/arm,cla.yaml
->  create mode 100644 Documentation/misc-devices/arm-cla.rst
->  create mode 100644 drivers/misc/arm-cla/Kconfig
->  create mode 100644 drivers/misc/arm-cla/Makefile
->  create mode 100644 drivers/misc/arm-cla/arm-cla-regs.h
->  create mode 100644 drivers/misc/arm-cla/arm-cla.h
->  create mode 100644 drivers/misc/arm-cla/cla-ctx.c
->  create mode 100644 drivers/misc/arm-cla/cla-init.c
->  create mode 100644 drivers/misc/arm-cla/cla-mdev.c
->  create mode 100644 drivers/misc/arm-cla/cla-mtc.c
->  create mode 100644 drivers/misc/arm-cla/cla-ops.c
->  create mode 100644 drivers/misc/arm-cla/cla-regs.c
->  create mode 100644 drivers/misc/arm-cla/cla-sched.c
->  create mode 100644 drivers/misc/arm-cla/cla-topology.c
->  create mode 100644 drivers/misc/arm-cla/cla-user.c
->  create mode 100644 include/uapi/linux/arm-cla.h
-> 
-> --
-> 2.43.0
-> 
-
+Dragos
