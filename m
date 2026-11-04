@@ -1,142 +1,116 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=192.198.163.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793799155;
-	b=UFSiz60laA7Thr4icbYS56dQvlVgmMEnlX9NfdjlZUtoWzY/1ST8x4F3S5m0ET+ldqr5
-	 u911v0M/0Wx3HYyNOaF8bn7MOkHOe/+qe0Zvp+skgukYRVWX/rQ1axbdNBvdsTOaXRn4n
-	 dR2V36yVcYTcUNfpXHbnq2tppDcXOUoo8iRbH14TucNsYaJDIsid8fv/2lFzUqWCbVBPU
-	 1bmXa6m+RqixDMJKiHmY3uj8IyJmTir5dfPVqFBWfWlNJVKffqEQ0neeUb561Lb33s5nV
-	 R7MtAfHcdIHK7ktJZJl9e4i06WC3PEqv00xRNLPehE7xrHkD5nuk5Hx3PKwqbVBsvBA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793799155;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:Date:From:To:CC:Subject:Message-ID:
-	 References:Content-Type:Content-Disposition:In-Reply-To:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-LD-Processed:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=EKRS5HnW6jSHNu1KMTPRSu47Nql6k1iwHUmHHN/UExY=;
-	b=QNXzN7PM8lOapDJGOs6ZzRgzc98am49iDasFwO7BRvLUAB8e1qqHTxSDWU5BpFA22Tty
-	 lgjE8B5E7gqaPi7d5VKpSCuwVbnH9Yp2yyBHceSGKuup2n3FVcR5zRfh6vkjbLVzYX0JA
-	 BvZSTavD2sfc/jWj9FjDzdgZUXIyYPk4pguvCP3Bn3ylFsceL5Sxvz/RdWRoZSmveBZVh
-	 X42JyQub715V08aHPknePhsroVeptZlLpmMGTeG0LeL1v+cMOMsOijBG7O9mFv43yJ+13
-	 lm8fDOsaE6DTcL4hpCvrusADgEDXJ/ev+mQlszumU6zlZs6GkRwZj9BtnBqs5BJeU8w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="D/3X5nYs";
-	arc=fail smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.45
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793799519;
+	b=ln70Qti/vdrjsrHopLqh77i2S3TEVLnrywOlDzJYiyPV9ZizG9QSnqGTChcy5TZQQRYW
+	 jkjdwcpAfYQ6kTMWSquV1vhW/Ft2nw6iF3xLPbJdWqdTBfLyyipG7qDqthRbGxwNwinES
+	 2FunpzAg2SjCOJV2fj0TmGFVawWBp0tItv3d/vJuAX2iazsZR9UoG7wgq3NaKs1KX35eh
+	 Ym4q15KBrkRWy7ELyp9uChIrOF8Q5TvPLL5PdxnCry7FTQhD2QB20m15ImC5pd2W8OAII
+	 TkxEzorL6wvSN9tI2frTdlF6Eg5g2yG26Qc8SGu0xgiFH+BxOyjh0drYxoNP+21gMFA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793799519;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:Date:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=/ACB8f2xH1rEkjmG+UvGKZpwz98xJh2FSOOsD44xzng=;
+	b=JtjZsDAcnZWMebXSaQadM5yUP3LwCdM8fkge3B5x6+JnEdQtr+fhPO7nGAB4u9US4WBN
+	 RCxT8MuGGyULOpxKYTcXSPaz+uqLhAbxpA+yBu6LdOl/58MYoFNV8ivsqysULVprRS5I2
+	 zZEeOxAVdfNFl1ufQ48cgWRxz/ObyfAiJx+w8U9IZEDYzydF3C6LF+TMLudrZeHSLAWwx
+	 VUZ4B7QRNmjdUBTE7K27ZAGVwOdfJN1t+zJnt7kJTBk6cDhXA/k8TQuXeR5jN1AJZLK0n
+	 TZnAv0UbIAhj7NOj7m4SJ02qxu8DQKJTlMhqYcdP/niCUnw7UwdJ+ZW1e9ZUP/ILGLA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fhMbzwx4;
+	arc=none smtp.remote-ip=209.85.221.45
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22EBE606D804;
-	Wed,  4 Nov 2026 13:32:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22EBE606D804
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66E5F606A335
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 13:38:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66E5F606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=D/3X5nYs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793799148; x=1825335148;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=/ecpNVClnNfyCIer48O1zd57f5PKyJT+hrZRMkyBr7k=;
-  b=D/3X5nYsbeBP+ovmbgelXcli479ECnLA05Ky4P541mDJvnnLIqTBb6hj
-   VSXrmtKAXyuY2ptz6I3CKSB7g6F1S3CNG7vqcL11ThSt+HIIwdnSu2Izz
-   UgEp5ZOSU6BR3wO6DDW7DN8MsTVtr/aZp5bt/ywllKB1uuVrib+3LI3BE
-   NeVWQDmlU/ePTLd9ClWFXnJSfz1K63VKlrBIbAVZkS1PcoU6Q3XlI+L9/
-   6xrhvRfUNueRpUIB1GlaGs2HphthvQ2p5da2qEr/PuGBxlu6oWLlrIOl7
-   +6ulOnR8C+Or9AyeQb67qCpPl0igMvykR7YRNoyZu0FvZd2UPtdEbp/Yr
-   A==;
-X-CSE-ConnectionGUID: BdTXNmRETNuFsbBUI9ov4Q==
-X-CSE-MsgGUID: xNAqzli8SMexo7X3vEk8VA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2548415"
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="2548415"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 05:32:27 -0800
-X-CSE-ConnectionGUID: zbGEq5iMSUatZ6Vg0seeDA==
-X-CSE-MsgGUID: J13qpaYgQ+WBqbSvKQn+cw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
-   d="scan'208";a="6877197"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 05:32:27 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Wed, 4 Nov 2026 05:32:26 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Wed, 4 Nov 2026 05:32:26 -0800
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.14) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Wed, 4 Nov 2026 05:32:25 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kz0nuohvP5C/FGVpghxWZChKG6902dXMVDriOb6PfeTN3Y+FgZ3GxDBQqjD1KieCYHNg0N++t5xBWsyAk31okGEcjms/Z+1b1r03Vj24CvO34Wkg7c/dS0J3uOYTHUH+zTkIzxNLtgs8/leJUOqURN5Y8j8vIWig6WfcAlTNOQmApcGNM/z63+N0ov54JzCl5oXjzFYJvKDnENc+t02Llo72ZzKm8W2OVIT488L+jscK44kohCCZR3wErIUeqgSeHiRdW9MTZpY5l1H4YlOFBqjvnH3Mu17SA5R9IK6C4uxGmdR8zo/LovsBzkleEFA0puuRetOSXdiPXamVoD8DyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EKRS5HnW6jSHNu1KMTPRSu47Nql6k1iwHUmHHN/UExY=;
- b=dGprp2yT8GLnQQSjRrV/ogjVHEK0ISwFEHTNy2bH9c6Mo53j+yBG/lNuoxzWssFZ4p58ye73ooDQ6UaeZ8AtEuLayKTzvlReYZWdturct1zuHHoIC6cgsJ1nSS21DCActFjV3E8ZuwJaHA+iRqtfHsOAiCmrC1RXXxbSo9R6qy/x0tQkDhLyuSRoCKLVXVIVy4l9uYsPuHXd2CvRYjoiavB8CktXw1kMQkq8IVhUNbabEJu1q8l3nckxzab5Fm0wmJaCcTBlmjU0ForVXqC5S9KUr4wqWO7970fvJPZT2rV0a+Xex4V+4KWC1mSefsFi21zCGl38uTbOaaUfrWzGSQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from IA0PR11MB8380.namprd11.prod.outlook.com (2603:10b6:208:485::21)
- by DSVPR11MB9693.namprd11.prod.outlook.com (2603:10b6:8:34c::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.9; Wed, 4 Nov 2026
- 13:32:24 +0000
-Received: from IA0PR11MB8380.namprd11.prod.outlook.com
- ([fe80::ea8e:eec4:f8d3:f95d]) by IA0PR11MB8380.namprd11.prod.outlook.com
- ([fe80::ea8e:eec4:f8d3:f95d%5]) with mapi id 15.21.0592.009; Wed, 4 Nov 2026
- 13:32:24 +0000
-Date: Wed, 4 Nov 2026 21:32:09 +0800
-From: Chao Gao <chao.gao@intel.com>
-To: Binbin Wu <binbin.wu@linux.intel.com>
-CC: Sohil Mehta <sohil.mehta@intel.com>, <kvm@vger.kernel.org>,
-	<x86@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
-	<seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
-	<mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen
-	<dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Xin Li
-	<xin@zytor.com>, Andy Lutomirski <luto@kernel.org>, Peter Zijlstra
-	<peterz@infradead.org>, Andrew Cooper <andrew.cooper3@citrix.com>, "Tom
- Lendacky" <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
-	Shivansh Dhiman <shivansh.dhiman@amd.com>, David Woodhouse
-	<dwmw@amazon.co.uk>, Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed
-	<yosry@kernel.org>, David Matlack <dmatlack@google.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH v10 22/28] KVM: nVMX: Restrict event data VMCS fields to
- FRED-supported hosts
-Message-ID: <ausz2bKMJQ92ZsPR@intel.com>
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <20260911213659.2025974-23-sohil.mehta@intel.com>
- <f5a4c1d5-cb66-4efa-80c6-92b7d8f543d4@linux.intel.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <f5a4c1d5-cb66-4efa-80c6-92b7d8f543d4@linux.intel.com>
-X-ClientProxiedBy: SI2PR01CA0052.apcprd01.prod.exchangelabs.com
- (2603:1096:4:193::11) To IA0PR11MB8380.namprd11.prod.outlook.com
- (2603:10b6:208:485::21)
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=fhMbzwx4
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48c4d99c32bso629073f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 05:38:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793799517; x=1794404317; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/ACB8f2xH1rEkjmG+UvGKZpwz98xJh2FSOOsD44xzng=;
+        b=fhMbzwx4Iq3YFHIOVMV2AgcTVSX5bUIm88mP+/GXafUHINhjR0DYO6dU7UajUYaLNv
+         622SV3vWe2gVwtnM/S4TyrixZynQTJd990ccLsFi+iKL5m3KUuTfnetJpBvFVrgDR9//
+         QZ8wE7FXI45OO2kd1I22aQgTNsNCarR3pgZmoYbY7z2ICyVXmK9V4QvTmytgxfNZLusn
+         kjD34hr6y1GrE8O3mCCvKyVzFHNqiCC4FJqjYk4RvqAB/s6K/KgJoYdL7jpZW5+d95Ha
+         iwx2i7fpT/3Twvz7KWPXs3ZVe5oFYcZg6xsyEcgvCz4H4S2N2JkotapGLoTOHmYFUw3x
+         6NYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793799517; x=1794404317;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/ACB8f2xH1rEkjmG+UvGKZpwz98xJh2FSOOsD44xzng=;
+        b=B3YjZyj/2cYw0jVL+vHZZhePZencMN+MeYXNhptg9qyK/FvVs9bGvcxknno1Ln8L/b
+         5slonXHnAxqEPUlo6pxvafQ7aFl0m/fKoyfYNBK6TVbsjnNWQg67uBSFAEHs6Lr48Stk
+         u/W3vSNgmc19CfeJbqma4Hr2V9iXfXLsMP/BXm/W7rtCz4OJVRB6wSABxZkUwmYKyOPt
+         GQp8P+mHKYCtCiGJkYHI3DDZq6dBvFgdrRSn0B0kHvphQVprz6QGpCwj97GG1cJy7Qi4
+         y9cfkz/C727olf+9z/LYrXKLobu3rW5G39+3BeYfV07aQKmbbyHUtbbOyq5Q8h40W2JY
+         R14A==
+X-Forwarded-Encrypted: i=1; AKwUvBx/A0GnJn6VYC030Si+Awjk8Gm8v6slFZ1SU2fhcnCGY429+CV6xVCxdIaWBfT3L2Iv9A1P/0PlH+4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9t0xdiOFQLbJnzVp3DLEKhX3A8Mj/mM4YRA4Abj8/NNb+qH7PQ
+	hXw0umSET2Q8yZBSdh/r37nW9mdGpFfFlIA6PpMqM7n1sWuB5BddhRbO9DTT3oc3GSA=
+X-Gm-Gg: AYBFou0H3KV7GgxbTKTMaa5O4GekniwHMK2Y8nHVDRBNPEpPW39QWphTofppXMsIf++
+	DhSopQjvMJOnfB4Ph+u9HLtH6wwR8M2Yey+rsVDOguoce1ingeLONi27+PIY7cEVg1QpKpCy6IL
+	npVxfSSl1AVSKLVpGUChF4Z+NiW7tS8/b+c+IK8nllE1yDsqxg/+16kQPUP/x1mwiaNu1Lbyxwh
+	GlXkdHR/efctmEha18S/r0B5630mR1zBr3QGV/hfExZWrN+QnChv3XCdTIJKZy/ISlleBizgFMr
+	LjUVVbxhWLJEGmukYAn3BzeHsYHFnWjE9WQF12ozZ50xtcK/4iJLNq8TU9LXepybTGtPWCgEJrz
+	rrwzN9wya5FX571Go8JCZi4DDGTlP8kLTWYM5wr6cRZLtMX6e5Tv5XFqwzfOVsEAQiQ+f/JQy54
+	aRFm4LKx3vEetkD/ZMtnknR6I4kLStiN4Sps5WYPEkMjhUzNRa2RVtstQstxUx+B2JxlzmmwG02
+	Zb9i3RfZmMuFRplRgjUUS0LZZnWEpQ1fgBNLgzBsu64zVdpL+05HaoFOjlvUmIvgKiz+R3qgKep
+	G5nqBsGTmLcTNrHHzGga1Ex4TtAHFziofDqisdyFd+S7taS4
+X-Received: by 2002:a05:6000:4026:b0:48b:4a2:8175 with SMTP id ffacd0b85a97d-48e6e501911mr37072969f8f.43.1793799516428;
+        Wed, 04 Nov 2026 05:38:36 -0800 (PST)
+Received: from localhost ([82.192.120.214])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed552afcsm3985293f8f.41.2026.11.04.05.38.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2026 05:38:35 -0800 (PST)
+From: Andrea della Porta <andrea.porta@suse.com>
+X-Google-Original-From: Andrea della Porta <aporta@suse.de>
+Date: Wed, 4 Nov 2026 14:42:29 +0100
+To: Andrea della Porta <andrea.porta@suse.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Gary Guo <gary@garyguo.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Gregor Herburger <gregor.herburger@linutronix.de>,
+	Stanimir Varbanov <svarbanov@suse.de>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH RFC 0/4] hwmon: Add fan tachometer support for Raspberry
+ Pi RP1
+Message-ID: <aus2Ra_sLySMZU1i@apocalypse>
+References: <cover.1792748690.git.andrea.porta@suse.com>
+ <7df58d42-517c-4936-88b0-9d044d30882c@roeck-us.net>
+ <auBzvB8TsvIK8Hik@apocalypse>
+ <53a4b4bb-271c-4d2d-a9e4-cec4e0ce214b@roeck-us.net>
+ <DMFPE71J8205.3FZKD5BKW3U7C@garyguo.net>
+ <b02b4f0b-ad2c-453a-b69c-a0865a333d62@roeck-us.net>
+ <auIotAwnOWKNApjp@apocalypse>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -146,100 +120,101 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PR11MB8380:EE_|DSVPR11MB9693:EE_
-X-MS-Office365-Filtering-Correlation-Id: 89c6f5d8-7851-4d09-6379-08df3a780f9d
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|23010399003|7416014|376014|366016|4143699003|11063799006|56012099006|261009223027099003|261021121427099003|261102123227099003|261026121527099003|10067099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: k3ElRDJkEIFQ1iNmKt0W89Jmuo/HmVFijOXj9w7f6u7Ns6tlEFUv8RBUke4CQFPiBRAVggymsZd7av/WhL33aqfUWWWLVb4jOg+9XnLIXm5H9C3Nr2BGRBt8gnQoKVeTeOMBnq40mjXvgVCqIJ7lfjn45cQGLFRgq2pqxCiQLfpWnWf9k3Gd7kJnV5ClFR13cCTCRlUOToDCdFJ8t9PNzBdcQ1E5HMi2wOgFYbJZrIUMySqtRyfGz31tM7hikeI0yfdcBX6/JJIH5afcaXm2/vUiCwsOICdzr3VHEDiEKrSD+lvwsklPom0JPk3uJ+Dwiry0p+qUMe1LTWpaODUAKL/HLuGgvYup/5m1Fo9ClnOmp+vwRnTthvwZB/sWiShoV3/knMY9rx9IsuHNBGKGrBF9q1HyKFUjoeNlC8X+H1v54cKjHhq6mOAptSNhn4ySHAjHMMp86NHqzCBX2PWooLkWC9jwBvuuNDgiYQN72X7oORPWlRh8OFw9aguw+8VZVOEoEOKEwShgIRBoaxUuHdUcMACN5dax7ziStLXe1MqxXYfkGshWQreubRJoTXJS+KPwtdutJE+aImTbBDJWNRAvQlymxnffVC93C8lm6ab9+8cT5mZdXSDc1q4ml6r9
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB8380.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(7416014)(376014)(366016)(4143699003)(11063799006)(56012099006)(261009223027099003)(261021121427099003)(261102123227099003)(261026121527099003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?1LotvWK/3zGtbVOv1iYJFx2lec9dBad5J04r0S6VL1sUAs+aL5VAAGqgT6p3?=
- =?us-ascii?Q?hCrSQv2prnxrcSauN8vwXadHGvJALcNuGDVfBH/PXyTdh0Nc9nL2oE9R80ID?=
- =?us-ascii?Q?OSXFsbZ0ip5CTJhtq3KGXeV7ElU3E0xP5DEpSVq0+NqlF8FIN1+nc0STIcSJ?=
- =?us-ascii?Q?6TDrCXAWwCX1yA46sNYOxQl9nV0kam9Hw2FtSXElvW13oNwAG0mDBx3LjLt6?=
- =?us-ascii?Q?QRecv8ZmEdfbX+BV3cgmRbVoLbCi++dC0yM7Urp9aucwkExXhMBA9Q4ToBlL?=
- =?us-ascii?Q?JOZ0CsGzpIuJPcQKx1tRLYzTCcBBjzvuvgSwf8d64lajjZfnrBBp+6RpnSiw?=
- =?us-ascii?Q?VMPWY0JNmsNXAoLr9u7SHlU6MNgDccDBeRviyExwoqD87U71fvAldP/I0gmP?=
- =?us-ascii?Q?wbj2hDyrT1V9+OiaxB/2MUe4inEC7UcGGB5Li3gqAgkzQntifFAdPGJDvBeV?=
- =?us-ascii?Q?IDqCoAmnaJIFfnjLXm+0mYIlx6WwGNLlf6HDeP0rxyqkKbITxk63HPMMaPNa?=
- =?us-ascii?Q?NI/JR+eH/LzU54G6xA2+xjm72ggQWgHE7pSzEg/UiVuC6YDb2/+PS+jA/sij?=
- =?us-ascii?Q?Ycl2rh//WlURFgvLrDY7HWQx47xoKM/sDRq8ca2pv9oTR6c08j0f0Icir8NC?=
- =?us-ascii?Q?pld4pPERBUIu7Q+GjHMRrMzyDUDNpC3EwXkcVCGhY33zw5W/whUhII00cgai?=
- =?us-ascii?Q?N12aOw8uIEpvlvRBM3Vg4VBoi+gnG32xyk4Wkxo0vf32DMICXsKV1UiTmR0k?=
- =?us-ascii?Q?Mvk0IXYecWB/IwSH2lrrjv64JIzOAHSvfCQYmJzOWHznzvt/q4pAJy67Uyf2?=
- =?us-ascii?Q?r30BgA+cIweNte5/uCCJSJay3ilMW11Qcwc/jq2jYozt9UOHU3V/sgZ3Pjfy?=
- =?us-ascii?Q?ZETyBmooSmaHcjDeJaMMjzb3qhBza1YjsBBS9NccJ+Ma7cI1ZXp0T+pkTLoU?=
- =?us-ascii?Q?vqxCD9k552lweabFtwrOf4kJfycoA5heCao9sgbvth6lXIyp5lp8ONYoGDPK?=
- =?us-ascii?Q?7bOj4AgFOooQL/IvkJh9Wz5ejvzyUvzbogBHFHcd/ExbLxCqgf3vm+rNYRVu?=
- =?us-ascii?Q?AoW+EB7kf5nlYZLPjKvnktqN2vYRxnD8pD+6QIUKkx/mnmjkdRF5xCmJiMy1?=
- =?us-ascii?Q?PxWShL1GwHBufgNWo5mHA1h7zE51czUZbmwaUK6wgm7EHyGcJdldaBShuIHV?=
- =?us-ascii?Q?6rF1WykuapQXRuANjZ4uS4yg4I7T49c6WbutSKQuACk8OcXQEnRP9wXIXheO?=
- =?us-ascii?Q?cQOwW53TL7Pve73kZXWwwf/T9f0TSXStMmfOybsmaJZWNdlj06b+pNCjcLHX?=
- =?us-ascii?Q?bIRva+uSZB3SANkHLUyHPMZj2gUF6gO9nUBAk2z3Eok4Bj6v+9wzzapY84Yw?=
- =?us-ascii?Q?UOH7+QwupQ9EJ+Lcc1Y7BAHOWbzn325ziQoxt+nwLTiZgkyFpQej2pouTga9?=
- =?us-ascii?Q?AVZkuFG+XUq7uaCfLa5VeP+QBhGKY2KKGHlQ72cRQZZsG7+6ac5agS/M0cyy?=
- =?us-ascii?Q?r1j/SniWTl6q9OL0T/NvjQwsymH7td+x4qdj2q7zPb6NRLW8HudQf5tNhsYv?=
- =?us-ascii?Q?l5zOdyL+hAJEWXLNLpzBK05u7sbBOgZ/4gI3ZkAqcuXR50i9tdIHgOolln7A?=
- =?us-ascii?Q?LTfS1j9DFfJoV2aNpZQxLGYmdOOgc8m4NfTypI0ZI12ULlmwcF0PJuFc5KmN?=
- =?us-ascii?Q?4OaFERp+I+0h4OanChOF9uc+TfMRMupa0pro5CXLzDdqvue3JTX0ehmiYfOC?=
- =?us-ascii?Q?h7aFYNxB8Q=3D=3D?=
-X-Exchange-RoutingPolicyChecked: nuk01dn84sa3uwlQnx+IYqvnF1iU1RcjRfo/8uUVEKYkWZC2i8FlGPOUJwdn4SHz45xHK2r0Es5yFp5tVof3+x/HCY+375Vetlmge+NJZY/w2viGpzFOsUJwqjpIhVmMlR5igDGUTJkmQTUVHB95chupWaJa2is0Avh4l4VYPTWH0OsnJuzWGvSx0SVik6SHoSlOrOI6wzNiPTAhHcJEJZL7Fpv1mt3cJIYBKdOxaBYK/CiSAlY8UlOnTScnPBVKnWBEB5fffCyth1Lih/40PmDEaQzNJH6z1NCDoouQMKs1J68l7+cOJFUz828MgcoB7QQoC2rfU6WAiaED9n7V2A==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 89c6f5d8-7851-4d09-6379-08df3a780f9d
-X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB8380.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 13:32:24.3366
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: q2si9UJ0AJZXXaDhrRmNej8IAAbfC9oSYEKhGAt2GGUpVEph2xsT+p6dhJFv1OhCKf7wPXH59vMGmw6wWG3COQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSVPR11MB9693
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auIotAwnOWKNApjp@apocalypse>
 
-On Wed, Nov 04, 2026 at 02:57:45PM +0800, Binbin Wu wrote:
->On 9/12/2026 5:36 AM, Sohil Mehta wrote:
->> From: Xin Li <xin@zytor.com>
->> 
->> Prevent L1 from accessing the ORIGINAL_EVENT_DATA and INJECTED_EVENT_DATA
->> VMCS fields via VMREAD or VMWRITE when FRED support is disabled or not
->> present in KVM.
->
->I think the change log should tell why the patch only restricts event data
->fields.
+Hi,
 
-Sean preferred an "unconditional" rule for cpu_has_vmcs12_field() [1],
-i.e., new fields are added there whether or not they are shadowed.
-Following that rule, this patch should cover all FRED VMCS fields.
+On 17:54 Wed 28 Oct     , Andrea della Porta wrote:
+> On 09:13 Tue 27 Oct     , Guenter Roeck wrote:
+> > On Tue, Oct 27, 2026 at 10:51:15PM +0800, Gary Guo wrote:
+> > > On Tue Oct 27, 2026 at 9:48 PM CST, Guenter Roeck wrote:
+> > > > On Tue, Oct 27, 2026 at 10:49:48AM +0100, Andrea della Porta wrote:
+> > > >> Hi Guenter,
+> > > >> 
+> > > >> Yes, I also proposed that in the cover letter because auxbus seems also a viable
+> > > >> solution.
+> > > >> 
+> > > >> The current implementation is a consequence to the discussion about the companion
+> > > >> PWM driver, from here (and the revisions that followed):
+> > > >> 
+> > > >> https://lore.kernel.org/all/cover.1775223441.git.andrea.porta@suse.com/
+> > > >> 
+> > > >> To give a short and hopefully coherent view of the decisions, here's a breakdown:
+> > > >> 
+> > > >> - first proposal: PWM driver + fan hwmon (to read the RPM), all in the same driver
+> > > >> 
+> > > >> - V2: Uwe preferred to split the PWM driver from the hwmon one, so the hwmon was
+> > > >>   dropped from teh PWM driver in favor of a future (fan) driver. To accomplish this,
+> > > >>   I moved from readl/writel to regmap + syscon.
+> > > >> 
+> > > >> - V8: Gary proposed to export a function to read the fan RPM as a viable
+> > > >>   solution. As a result, the regmap/syscon was dropped as it was no longer needed
+> > > >>   and the function has been exported from the PWM driver
+> > > >> 
+> > > >> - new patchset for fan driver: the now independent hwmon moodle just call the
+> > > >>   exported function from thw PWM driver.
+> > > >> 
+> > > >> If the auxiliary bus is indeed the preferred approach, I'd like to ensure we are
+> > > >> all aligned, as this would also require refactoring the PWM driver.
+> > > >> 
+> > > >
+> > > > Let's say it that way: If you don't want to implement the auxiliary driver,
+> > > > and you insist using the exported function, I would prefer for you to go back
+> > > > to the first solution. The one thing I really dislike is conceptually broken
+> > > > code, and I consider the current approach broken. Your call, but the one thing
+> > > > I won't accept is the code with the exported function.
+> > > 
+> > > I agree on the auxiliary driver part. However, I don't think EXPORT_SYMBOL_NS is
+> > > an issue, and regmap is not the right fit here:
+> > > 
+> > > - Previous version of the PWM1 patch series publish regmap using
+> > >   of_syscon_register_regmap, but this cannot be undone -- which needs to happen
+> > >   on PWM device unbind (the RP1 PWM device is itself platform device, but RP1
+> > >   chip itself is PCIe device which must be removable).
+> > > 
+> > > - The tachometer register is not its own separate register, but rather (re)using
+> > >   the phase control register. The phase control is not implemented in the RP1
+> > >   PWM driver on the list yet, so this is currently a simple register read -- I
+> > >   can see that RP1 PWM driver need to take special care to about the tachometer
+> > >   reading if the phase control is implemented.
+> > > 
+> > >   For the two reasons above, I think the way that tachometer is read should
+> > >   really be an implementation detail of the PWM driver and not for the hwmon
+> > >   driver to worry about, so I suggested using EXPORT_SYMBOL_NS.
+> > > 
+> > > - EXPORT_SYMBOL_NS is the documented way for exposing functionality from parent
+> > >   device to auxiliary drivers: https://docs.kernel.org/driver-api/auxiliary_bus.html
+> > > 
+> > 
+> > Let's agree to disagree, and keep the code in the pwm subsystem.
+> 
+> And auxiliary bus it will be. I propose the following:
+> 
+> - drivers/pwm/pwm-rp1.c: create an auxiliary device for the fan. The function to read
+>   the RPM will not be exported, but a function pointer will be passed through the
+>   private data to the fan driver. No need for regmap. To be taken by Uwe.
+> 
+> - drivers/hwmon/rp1-hwmon.c: The auxiliary driver is probed against the device registered
+>   by the pwm driver. No imported function. To be taken by Guenter.
+> 
+> In this way, we decouple the two drivers and we leverage the auxiliary bus paradigm.
+> Also, no DT node needed for the fan.
+> 
+> Do we all agree on this approach?
 
-[1]: https://lore.kernel.org/all/aULATi4uMa-5z08k@google.com/
+A gentle reminder about this inquiry. Before refactoring both the PWM and the fan
+driver I'd like to be sure that the proposed approach is at least acceptable.
 
->
->> 
->> Signed-off-by: Xin Li <xin@zytor.com>
->> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
->> ---
->> v10:
->>  - Split out of "KVM: nVMX: Guard SHADOW_FIELD_R[OW] macros with VMX
->>    feature checks" and renamed (Sean).
->> ---
->>  arch/x86/kvm/vmx/vmcs12.c | 3 +++
->>  1 file changed, 3 insertions(+)
->> 
->> diff --git a/arch/x86/kvm/vmx/vmcs12.c b/arch/x86/kvm/vmx/vmcs12.c
->> index 837cb3d568c3..67c730e31465 100644
->> --- a/arch/x86/kvm/vmx/vmcs12.c
->> +++ b/arch/x86/kvm/vmx/vmcs12.c
->> @@ -222,6 +222,9 @@ static __init bool cpu_has_vmcs12_field(unsigned int idx)
->>  	case HOST_SSP:
->>  	case HOST_INTR_SSP_TABLE:
->>  		return cpu_has_load_cet_ctrl();
->> +	VMCS12_CASE64(ORIGINAL_EVENT_DATA):
->> +	VMCS12_CASE64(INJECTED_EVENT_DATA):
->> +		return cpu_has_vmx_fred();
->>  
->>  	/* KVM always emulates PML and the VMX preemption timer in software. */
->>  	case GUEST_PML_INDEX:
->
+Many thanks,
+Andrea
+
+
+> 
+> Thanks,
+> Andrea
+> 
+> > 
+> > Thanks,
+> > Guenter
