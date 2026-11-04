@@ -1,68 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793776235;
-	b=mFABDhoq+7px+u6Yaz8vDWOj594/9nW3Vms52U+18aNsNbv5Vt6WjMcTasaIQQ0FbD/I
-	 hlEL8V6ucAWlD8RGeyb6qxjhzKwHL/SCJvK8v6QyOmfIkNoTmQgVuC8MhOvgyXQ63iS34
-	 20fSnSkvWhKs4C+AhTpUfXKWH3hp9fkztspFhnWzcIaNFuhbFXBFwPQllvxocpQGrG7r4
-	 jcCsOGUL0wvhaLTNbPfMudkO7zAzNgDoV0WH+f/3x6+G3X/Q490z8OyEwBWB2jA3rAFT8
-	 2fcqZLGMsmM01ZDKeVWJ6h5iHBCNt4DjWOo1sFumXkagmyX8JjXX6GaVyvkQ2C5KGNw==
+	t=1793776634;
+	b=WMId2LcJcEKWUEStOn9cazNXdraMHrONDnSp3hZgW7wCjcE2ruJHyKfrYnA+PfPHlmTy
+	 1YDE0n1PxNcl2HzaMft7XOdgWKZ6DC2GuZ+871APSPP/uBfADvAEuY8itk0RblAHGuk9U
+	 U7Y5D23mIMRoeBM3UFKqd/MVc9H6rKno0c+XRV4dGkn88kFDZMHroo1Jsy3dAq80nVaZM
+	 Aw5yLgMKe07eoXek4qWpTpWUGOCwDJkjI19er01qbhwkGxCxo3YX/HqB6s7kTBFeOGAGf
+	 56pxBuUm2YhAVm2tqPL17Egvf1Ah6eWWRCpLjvZ6NTivMxvYB+HJeYiM3BImQiF5V+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793776235;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=VqhqYv5xRCJh3PZJ4l1J28vhc8YpfgaLTAOZMf1YNvc=;
-	b=bST/Gd3zuwNm+GkPt7pU2taD3pIBfvOKd6IMFVNJnACp044vuSqHNdcVzkA+tY9BPGwz
-	 lLFcJEcAw4AlaZDgHkacUz7nugHKZN/wEeIfKPTV4CjuxbtwG0dMtiE84MRABKPFMRRxs
-	 ZQXDZDmQnbqxNqgd7ydeIQUZh/ry1l+8D3Du8Wii/dDhurNhj67GZqlQWrN34vKFQTiYv
-	 Tv/mSYEdI9Jjrf5cmWLWxVa52aVT/tuAjQK2Ho8ZLdd+JLcaPY85LnsBgfAeVPxo78lZW
-	 3dOloIpD16nwna9MgH+9jIcf61UEhEavKYzC0ZFnfm0kLIXSQ9GXK3Q9DV6WXwtowKQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793776634;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=sNOMEgdafoCQx4Sc3kRlnTsuE6Kpa9XReXoNdL0B8ng=;
+	b=fgj3zm0iFsZ9Emcct+BbksHzAFhusqQAH9ukobTHtgkssWQ4G8DrSVw2c/TL/3J6pcNU
+	 SKgADn31SUrBeQMRJ885k0sWSqk4J4hW9wNvHU9UiifSnFsLtVhMmx6HgKU+uQ38gxBbh
+	 rCBFdXPTgr0tCFdqm0iFJzMggXGpTHkTo4R3mtm29OhYp++2bnB5sQu2MYcKU2uyqQIAA
+	 +O7CLcsh8XHzxAtA4Yf6q1/YcEZCuChujAj4AcGvOeIz0TUyoAL4p/zq0pXOw02ock+8w
+	 J62Uq4/paw/suEx/wtsI2zPtOsRtuT7TLx7YQBPcwbI4e/XHPCgxoYiKMCAALf103Vg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UFlhlFnU;
-	arc=none smtp.remote-ip=192.198.163.18
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="cPig/fbo";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDADF606A31B;
-	Wed,  4 Nov 2026 07:10:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDADF606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70B1606D813;
+	Wed,  4 Nov 2026 07:17:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UFlhlFnU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793776235; x=1825312235;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Lb589BYUiqB+Eo3EFeccpweIuip/ffeL/F1y59tM/VU=;
-  b=UFlhlFnUfdnicz+mhSETKeTz5u+HQseEWUZErKWoHVCrX/dU6Cr9iYxT
-   UcSBz4AMjRwmqC8TNwM06JFRdHktjfppXer2iJlN/2dh2bb1UqM9eA2fA
-   w6WTGM8dk3/1JOWDfgDfe3d5cUNCrVUC3ObIWERH8og4v4dUAM3N17WAo
-   0X4jN43Yjbm0P5BvpJ0z2EN05f7C3yfLg5l1gDO5JaNsyvNX3JxGCjxTi
-   R3q7s7S88opHXJApLFhK49DFPRz7Sr56xcwOs73J5W3rGG2mcqSuJn2Nx
-   FqlnUEwOTdfmpLH4bIY34o+yiD0BHzQQoMt1ddQY1UYRjEzSjRbEGXp2m
-   A==;
-X-CSE-ConnectionGUID: I/sufF5lQvKPf8+W3lQ+ZA==
-X-CSE-MsgGUID: oRZkvDk3RhOnvjJEaWh6bg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2554061"
-X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
-   d="scan'208";a="2554061"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 23:10:34 -0800
-X-CSE-ConnectionGUID: Z9dqWEFJRkmo0iqgeO6AoA==
-X-CSE-MsgGUID: RDgCXPhUQIq6gX05VrV3cQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
-   d="scan'208";a="7201705"
-Received: from unknown (HELO [10.238.2.205]) ([10.238.2.205])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 23:10:29 -0800
-Message-ID: <bdf4c5dc-7532-4451-8b3e-0f6459be523d@linux.intel.com>
-Date: Wed, 4 Nov 2026 15:10:26 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cPig/fbo
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C770C1F000C1;
+	Wed,  4 Nov 2026 07:17:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793776633;
+	bh=sNOMEgdafoCQx4Sc3kRlnTsuE6Kpa9XReXoNdL0B8ng=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=cPig/fboy9vv1iVXg6kF8u9zOwpx/TWe7TiYDdhmuk6ieCoKR+oVRogwVYHDFph2f
+	 EUsJBqZO2UCK1SVQ/sRXvGHAEW97Q5jpZgtKrnmsBmvjcL6AIKocV2qZYR3e/Wc0RO
+	 2uMdAv1wAYevUezy7Sgi3pp+Se8+Xab/7oNkut2d3OLGg2aB3U7mmAZ2GcNKxbW3z3
+	 xiJyWiayNk40QBwKYXnHuQ7LXAkxFSWE3Mhfu77eeSU5+RmFc6UzqrStYQCIoMpmIJ
+	 urs2HZO0FZaVFRQVJaBgppPgtzxzz8ToiZ3CtvT1VZe8rT5EdtnAxkLgHmK231SReY
+	 6hVnAx7t8JFvA==
+Message-ID: <c8648fe5-7eda-4e20-80cf-7ec2e510e677@kernel.org>
+Date: Wed, 4 Nov 2026 08:17:09 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -73,67 +52,101 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 23/28] KVM: nVMX: Shadow ORIGINAL_EVENT_DATA and
- INJECTED_EVENT_DATA fields
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: kvm@vger.kernel.org, x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
- <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
- Shivansh Dhiman <shivansh.dhiman@amd.com>,
- David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
- Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
- David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <20260911213659.2025974-24-sohil.mehta@intel.com>
-From: Binbin Wu <binbin.wu@linux.intel.com>
+Subject: Re: [PATCH] vt: modify a constant prefix that looks like a ReST
+ target
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-serial@vger.kernel.org, Thomas Zimmermann <tzimmermann@suse.de>,
+ Helge Deller <deller@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+References: <20261103203929.2916563-1-rdunlap@infradead.org>
 Content-Language: en-US
-In-Reply-To: <20260911213659.2025974-24-sohil.mehta@intel.com>
-Content-Type: text/plain; charset=UTF-8
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <20261103203929.2916563-1-rdunlap@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/12/2026 5:36 AM, Sohil Mehta wrote:
-> From: "Xin Li (Intel)" <xin@zytor.com>
+On 03. 11. 26, 21:39, Randy Dunlap wrote:
+> Use CUR_* (could also be something like CUR_x) instead of just "CUR_"
+> because the ending '_' indicates a documentation target name, so
+> unconfuse the name.
 > 
-> Add ORIGINAL_EVENT_DATA and INJECTED_EVENT_DATA to the list of shadowed
-> VMCS fields.
+> Prevents these warnings:
 > 
-> Shadowing these fields allows the L1 hypervisor to access them without
-> triggering a VM-exit to L0, optimizing performance for nested
-> virtualization workloads that frequently query or inject event data.
+> Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:275: ERROR: Unknown target name: "cur". [docutils]
+> Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:317: ERROR: Unknown target name: "cur". [docutils]
+> Documentation/driver-api/tty/console:36: drivers/tty/vt/vt.c:353: ERROR: Unknown target name: "cur". [docutils]
 > 
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-
-Reviewed-by: Binbin Wu <binbin.wu@linux.intel.com>
-
+> Fixes: 1438d00569c4 ("vt: Add cursor-size helpers")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
 > ---
-> v10:
->  - Split out of "KVM: nVMX: Guard SHADOW_FIELD_R[OW] macros with VMX
->    feature checks" (Sean).
-> ---
->  arch/x86/kvm/vmx/vmcs_shadow_fields.h | 4 ++++
->  1 file changed, 4 insertions(+)
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Jiri Slaby <jirislaby@kernel.org>
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-serial@vger.kernel.org
+> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Helge Deller <deller@gmx.de>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
 > 
-> diff --git a/arch/x86/kvm/vmx/vmcs_shadow_fields.h b/arch/x86/kvm/vmx/vmcs_shadow_fields.h
-> index 67e821c2be6d..bdd56f3ca6c3 100644
-> --- a/arch/x86/kvm/vmx/vmcs_shadow_fields.h
-> +++ b/arch/x86/kvm/vmx/vmcs_shadow_fields.h
-> @@ -74,6 +74,10 @@ SHADOW_FIELD_RW(HOST_GS_BASE, host_gs_base)
->  /* 64-bit */
->  SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS, guest_physical_address)
->  SHADOW_FIELD_RO(GUEST_PHYSICAL_ADDRESS_HIGH, guest_physical_address)
-> +SHADOW_FIELD_RO(ORIGINAL_EVENT_DATA, original_event_data)
-> +SHADOW_FIELD_RO(ORIGINAL_EVENT_DATA_HIGH, original_event_data)
-> +SHADOW_FIELD_RW(INJECTED_EVENT_DATA, injected_event_data)
-> +SHADOW_FIELD_RW(INJECTED_EVENT_DATA_HIGH, injected_event_data)
->  #endif
->  
->  #undef SHADOW_FIELD_RO
+>   drivers/tty/vt/vt.c |    6 +++---
+>   1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> --- linux-next-20261102.orig/drivers/tty/vt/vt.c
+> +++ linux-next-20261102/drivers/tty/vt/vt.c
+> @@ -273,7 +273,7 @@ EXPORT_SYMBOL_GPL(vc_font_size);
+>    * vc_cursor_valid_size - Computes a valid cursor size from the given value
+>    * @cursor_size: The size constant of cursor pattern
+>    *
+> - * The argument given in @cursor_size is one of the CUR_ constants, as stored
+> + * The argument given in @cursor_size is one of the CUR_* constants, as stored
 
+Should it be also prefixed by %?
+
+thanks,
+-- 
+js
+suse labs
