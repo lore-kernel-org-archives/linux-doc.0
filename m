@@ -1,113 +1,149 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793811657;
-	b=Xl85OGLRX273UO21hLhlb1g0NgTahniX6sNgyQCloObuYutFq0z4BB+4cdInVeiIVZuu
-	 kc3JaNL3DVenbYXDPU/B9Det85/N27xmOHidO6HlLskbdG7aipkAc7N5kjycxY5AqMy6t
-	 p38nQ4XIP89slfGz+i/lO0eli+JC2+lpTAX5ZLaGdMpcxFbp8FNEVBq7FKzkRSHRG/s/h
-	 YNi2yPE9B3IVfpA+yc53pnMI4HJ3SVemliUyW+HAzPTxmWIVMz14Eipa/To8WL5Me7u20
-	 shaVwQ+XpTQuLD3eX5TQndnDmK24lfEaxt5aH6I6vaM20A5HTnHnaHQ24uKPhHJwSTw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793811657;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
-	bh=qxwJEGvRDYC2fouEGGfiHPJUQv0R13J5Ht6/dfbzxcM=;
-	b=UbLSUe1XlXU0VOz710dJB9sIOVj7SXoaipw/ZoraYKxFfjNvUxMnGqantGWShggfwvcV
-	 Sb1ohPJD8MP+6lQGRl1Joe7vvySCRA1pTYFIFBT2H5WxipOWKBZkxGa2sFiOkefqgiC8w
-	 +RVqvf+sv/LfFqA+v5xHEcWdg3WVnWYJuWiTEmTho8rtauH3tEkvlUFe0APu1bc9KwTvR
-	 aUH74Yjp8Z+inIe6H5gxkmaz4r3T+u09TKzPi8LyEx3mRz8Ay50l+b3wrxAhD29dExfCQ
-	 lMDttdY2iZgC28CXogQKA0MX8FbSGlOhfiq5zZ2VnqK5tbXBvoj6tTfU3XpfAznTMgg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rQjQPSQj;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=omRhSrXa;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gQwOVIEy;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ObuCuOEg;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=192.198.163.8
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793811936;
+	b=UhQ3qIsMOjKnPQTUhRRlve3Mej7VFifOHfqR0MuzS81X49QPcS2xgc1U1FEOPTp0KD8+
+	 aDNcljvUXbOX9m/6ZvKuqVHDLN80EqGBSg9LVCLtpiVUrvIYUGkC241Q6VGFPNBo5/nxF
+	 HZlnUJAhE2y7a+4uqeo9emyh21rTSlEgh6+TUdHvTpZdqFaOP2Em6t1eT2X7xQuG8ESX8
+	 oBg3argmvLw+DbNXNgOF4lD9ToP0/so55sqdmjABySyLUIpREbJMxzNH60v6/HumoWVfR
+	 eXXvZK2gp97r+CSpHa2HHJ59yITzojEQMfi48j97MiusmDzoYZhZBUu6vc+GJ6Zbfeg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793811936;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:To:CC:
+	 References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=g4xvAMu5/sX+7pvq8rtNml9s23GleQcVNhbVI+SYdzs=;
+	b=Tak2Pg05SUQ88Gj+Sp4WUgs5xnp13sTsiRogT1lDpimVBSNv4o/Hzt8tQTdC6Uq6Niip
+	 R5KxUJj3yHYqZTHUBo4Q23NxMoxfQYAdQr0cN5JZQZUITrIMLsU65kS02tTwsphVpNEJ4
+	 oKYUesro8RUQ7Y2cwTLLZzLJrx2/Le+OM1Ey28HAZ8Ig7LSX6Syg8TsEscd1eyqPmsDhI
+	 BmpHsb4BJfvowxI40NSVKy9LmsoK7h4jJ9sMsGgEwqrHp9oGBE+u+GS6XKno6SK6IcB9/
+	 QA7y8Akl8vuiivaNz2bbnmiPh47p5VZggyAF7WABODJ+/jwfmY7ClILnQqZC1/zmiXw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Xj2tzzzG;
+	arc=fail smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A9A606A31B;
-	Wed,  4 Nov 2026 17:00:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31A9A606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE30606A32C;
+	Wed,  4 Nov 2026 17:05:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AE30606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=rQjQPSQj;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=omRhSrXa;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=gQwOVIEy;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ObuCuOEg
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3FC3321DD0;
-	Wed,  4 Nov 2026 17:00:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793811655; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qxwJEGvRDYC2fouEGGfiHPJUQv0R13J5Ht6/dfbzxcM=;
-	b=rQjQPSQj2l5yB3bKAKN2g1VsRAI60z1/4oFRe30ba1Z7jGzS61MRNMbUnxSh4o0dorIGk6
-	651/KjgKpg7WH53CVpDF6LSDrGG1Af3p4bBaKibpbKpRYJjVpoNUROmrMxX/z6p3rNyoh0
-	bGtyVZOjixaxo38o7PrrvvUUR8Sw7AE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793811655;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qxwJEGvRDYC2fouEGGfiHPJUQv0R13J5Ht6/dfbzxcM=;
-	b=omRhSrXaKEkg8mt2IaEzjyLchK8mtuev2VSrsHEtBu49z3EPO0lLIJLsslIMyDWpplRJa8
-	Pz90dtTaXprjKmDg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=gQwOVIEy;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=ObuCuOEg
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1793811654; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qxwJEGvRDYC2fouEGGfiHPJUQv0R13J5Ht6/dfbzxcM=;
-	b=gQwOVIEyM+LOahG6CoWzw8xVOd7smEUwj573HRmNis4z2Djb1ewLhdjhRVZvJTYt0JGyaU
-	ycYjTYmf/ldmUByFCuihkCmUZcCAnqQ+afU3uAaxSqA8s1poZBQbgwGKmyrjSpE+MUOn8I
-	xFF7cBiZcGO3t9Gn4mSn0ExxFzUAnWc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1793811654;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qxwJEGvRDYC2fouEGGfiHPJUQv0R13J5Ht6/dfbzxcM=;
-	b=ObuCuOEg/7P5VBksV8YBaYum9zh6JaJFQM3UU9tUgBUFGr0r813oocxzxYm2Op9pA8qHH2
-	jwwMwFAclu6tjuBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id D51E4134A5;
-	Wed,  4 Nov 2026 17:00:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WcIlLMVk62pGDwAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Wed, 04 Nov 2026 17:00:53 +0000
-Date: Wed, 04 Nov 2026 18:00:53 +0100
-Message-ID: <87h5hwtttm.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Joseph Telaak <joseph@telaak.dev>
-Cc: Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-sound@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] ALSA: hda/generic: Add indep_dig_outs hint
-In-Reply-To: <20261102-indep-dig-outs-v1-1-b468f76bdd2e@telaak.dev>
-References: <20261102-indep-dig-outs-v1-1-b468f76bdd2e@telaak.dev>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Xj2tzzzG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793811936; x=1825347936;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=suZlRyMGCDfHqO/bGu29sWtYIp5Efxw9blzGq5S8KvI=;
+  b=Xj2tzzzGVu0GIKmtjwjUaHjJZT4JsQh6qRk2xkyQpZn+a0cF9rC9ioS5
+   w603ltotC1WT/iyc8cAF0zjLPc3h+01yMtj+GehcQuLixmaRnnzl7XH1x
+   7R7nAVcYPnWah2RZJ44FYMg2PtRRDFD+vRVJ0qrcPm61WgkrYZ6hnY58s
+   sh3JIQGG2Dc+hUKsfqcgF9o9KftjB1LZbuCaCo/ts4K7IP0v3M05BzIrw
+   y+9UwCd6WmbHMuzAfFV+jaaFF/PdBw3JpzEXu7ARBk4UCmagox3u1rF+z
+   K0hcY0+qyKh0v4kiU3m0/N7ncvyDM9z/+7mbyT63bzJ3B03SZor9Ap7Zt
+   Q==;
+X-CSE-ConnectionGUID: kdhjMDmlSwGH9z4g9EWwhg==
+X-CSE-MsgGUID: h4CFveKGSTOwaQ3P1N2MfQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2459823"
+X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
+   d="scan'208";a="2459823"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 09:05:34 -0800
+X-CSE-ConnectionGUID: VAGW4Ml/SU2IFfElwJGZ6A==
+X-CSE-MsgGUID: 2WyrfS7dRRuS3NxgPQgmCQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,195,1787036400"; 
+   d="scan'208";a="6629366"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 09:05:33 -0800
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Wed, 4 Nov 2026 09:05:32 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56 via Frontend Transport; Wed, 4 Nov 2026 09:05:32 -0800
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.54) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Wed, 4 Nov 2026 09:05:32 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=e7bKh83LGAf3jGMdCIi25rqsPiTlh80HTdLON//TA3N5ys0jELLkh788SyE/vwxmAMqyJxm57XTV34O5ZeBETwcadvNGtl6bQYLnfvOh9d47FJJR/8TxRx9jE7o8xBvIdbQZuBTvwgZxf/wfnbVVSqz2bTMDbsONTEQUSKDa7jX8Wf8MC63K+Jl3RCW7DBG414PficS50+//tjadxCbp3Cn4phwgIv4NGEFxrDxtGd1p/vw4JULQfNy+9tKLAG3PicDMbEXT2cDoWfbLZiU1/cYtudBlLY7CUJSP/WRGmsmP3oP4EbfSPI+ld944Z2PShKujUjrMXrYq7vAIb6Qj0A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g4xvAMu5/sX+7pvq8rtNml9s23GleQcVNhbVI+SYdzs=;
+ b=q6mlV08JiF33dv1PRpgrHrRsPXEP5Bbje9VL+y44U+/GOgsneWXqUyP8383fvtEbv1RpBlc1Pc4MBbN7D+xfmN0JqTk9sA2qkV6T1jyNpW1Pk8SABBRgS+mGMe6iiWFsI7Og6P1jEYilEKp9Q7tzr3SOu0KubR+cdeI4qPV0nzSsu2Y8IxqkBGCILMYWv4sJselW9CgAnotQjr9nagAqq/3UWU9fUi8MDpv6+b+aO8pnMH6WQ+6vNDqg3Yla8I6l3rq48tE5phVG4I/hoNYMJKFVMf8ooVmpZisKpgsBQGDfbYI+2EDhuWlAh2M2tpBogNpgve5XyAVe+O82df3Scw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com (2603:10b6:a03:540::20)
+ by IA4PR11MB911879.namprd11.prod.outlook.com (2603:10b6:207:110::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Wed, 4 Nov
+ 2026 17:05:29 +0000
+Received: from SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc]) by SJ2PR11MB8370.namprd11.prod.outlook.com
+ ([fe80::b6cf:ce77:3cdf:7cc%6]) with mapi id 15.21.0592.009; Wed, 4 Nov 2026
+ 17:05:29 +0000
+Message-ID: <3280b1b1-5697-4b62-9865-2601a86fb907@intel.com>
+Date: Wed, 4 Nov 2026 09:05:26 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 6/6] MAINTAINERS: resctrl: Add myself as reviewer
+To: Drew Fustini <fustini@kernel.org>, Adrien Ricciardi
+	<aricciardi@baylibre.com>, Alexandre Ghiti <alex@ghiti.fr>, Albert Ou
+	<aou@eecs.berkeley.edu>, Atish Patra <atish.patra@linux.dev>, Babu Moger
+	<babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>, Borislav Petkov
+	<bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>, Conor Dooley
+	<conor.dooley@microchip.com>, Conor Dooley <conor+dt@kernel.org>, Dave Hansen
+	<dave.hansen@linux.intel.com>, Dave Martin <Dave.Martin@arm.com>, Fenghua Yu
+	<fenghuay@nvidia.com>, Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai
+	<gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>, James Morse
+	<james.morse@arm.com>, =?UTF-8?Q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>, "Liu
+ Zhiwei" <zhiwei_liu@linux.alibaba.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <pjw@kernel.org>, Peter Newman <peternewman@google.com>,
+	=?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <radim.krcmar@oss.qualcomm.com>, Rob Herring
+	<robh@kernel.org>, Samuel Holland <samuel.holland@sifive.com>, Sunil V L
+	<sunilvl@oss.qualcomm.com>, Tony Luck <tony.luck@intel.com>, Weiwei Li
+	<liwei1518@gmail.com>, yunhui cui <cuiyunhui@bytedance.com>, Zhanpeng Zhang
+	<zhangzhanpeng.jasper@bytedance.com>
+CC: Catalin Marinas <catalin.marinas@arm.com>, Jonathan Cameron
+	<jic23@kernel.org>, Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+	<linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>,
+	<x86@kernel.org>, <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20261104-dfustini-atl-sc-cbqri-dt-v10-0-1636a003a3c0@kernel.org>
+ <20261104-dfustini-atl-sc-cbqri-dt-v10-6-1636a003a3c0@kernel.org>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <20261104-dfustini-atl-sc-cbqri-dt-v10-6-1636a003a3c0@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0050.namprd03.prod.outlook.com
+ (2603:10b6:303:8e::25) To SJ2PR11MB8370.namprd11.prod.outlook.com
+ (2603:10b6:a03:540::20)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,92 +152,82 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Queue-Id: 3FC3321DD0
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DWL_DNSWL_BLOCKED(0.00)[suse.de:dkim];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCPT_COUNT_SEVEN(0.00)[9];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,telaak.dev:email,suse.de:dkim]
-X-Spam-Score: -12.51
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB8370:EE_|IA4PR11MB911879:EE_
+X-MS-Office365-Filtering-Correlation-Id: 049eb8d1-ba38-41a0-ac57-08df3a95d443
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|23010399003|1800799024|366016|921020|4143699003|56012099006|11063799006|10067099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: yejpMkAywr2iNqYJ7sVfnD4nKw1mgF4ZFlsYakVKNJ2o8lgSySTnKv6g58/2N/KNBzmobOQutNopNCCsn651F8tMEHYISk3YD9N3DdCN7y4+DOWR2BjURbdJF1m8d08hv+Wz0u1nOMIhRUrDGR11r6JD4LTegq6O03Twm/huvGtWoP7ttGKO0nC9bk34/2oUN70AX95ohZ1KSo07h5Oh9XEPPiiBT0aau3Qb+0dWmwYU2TpfNBetUsaerXFAVnUZlW7o3xLi/yfllJfZ1Ncw+L/BWOkIVRBrMkbqsMpJX72QBAtq5ipSAB6PaZlbsuOBXEvSAteoZHZ5cZejspHLec27T/77aRYSOq0Ai4RdiJtrscfsUWbYlGOAeb5znndZX8DXqudINW36rkNrNdJOGYLMH1ksSVSdRXCKLq9U3OvZ0+OSZCiGoW5KWWhqobA9EM9t6bpLmHB4Hs4b2rJSi0EycoX0GiemQU+WAAblOS9ggCmwx6ApV6N1SfL/+BOfhlfz/P8ij1erz1xEnDgJgMwe8IKIDDHEV7lLmW0tnU/QoqKl0PqnpsH0GXtEHR1nu4IUI8puludWhZsdDjIBWaqggXFewcXYFZjvHXqzMb2xl5reLRYt6i95ysAnYxa0nOBEg4MMhSUxFUz2ujFgMlHfoB7TSypK5ri2fbuhwaSAVKLvY4SY6TC7yqGC5ccQo57ou9W0Ty/5PnlmzJsfQQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB8370.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(1800799024)(366016)(921020)(4143699003)(56012099006)(11063799006)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Y3hZWWZxcFRvdmlSbE1qVTFjU1ZlZnNrcWRjTm8zK01hNjROM3BoRGR6b1Bu?=
+ =?utf-8?B?WEQ2V1poU0tWeG9SWU56dVZMZ1ZLUTJNTHZXVHpzMGhlQlpDdUY5enUweVVB?=
+ =?utf-8?B?aWZBR2VzSEsrNVdKSlRETmlmL3BkQWdVTUQyejlzb3Z5Uk9PbGhKd2hmZGoy?=
+ =?utf-8?B?eXpoYTNsaFNvT3FQRDc0SkpVYnZyZkN0SCtMakt5bmJwYStscjNDUi9VOXF6?=
+ =?utf-8?B?OWtGbTJWalVNdHdlRS9EVm1IWmVuZnZncGFGMFBLTlRzdWlrWldKTi9nUVBn?=
+ =?utf-8?B?d0hvVjdJUmtpNmRtck5KQkQ2RnVuZnhJQmRlc3RPQmZpd3pMQ3NCVFpjWE9F?=
+ =?utf-8?B?bzRubEF0QVNYdWZYN3VUU0trc0FFSjNvVmZQTStnUkhGTFRtemI2NWV1YTJv?=
+ =?utf-8?B?aGxYcnN0cWJZUW1qQ2NReXo4K3YybXhmVmpGN0NxbmJFbVg1L28xa0ZmWWxG?=
+ =?utf-8?B?azIrY2FCQktQSGN2SjBkY2tkR1RnV3pyTzZVeUt2L0xvRmkxKzBVWXJMZHIv?=
+ =?utf-8?B?SjgwcmpqbWtROG9vcUhqbnZPa3FsVElnSmJmeklGZ2pnOUN2Q0FDSElHTlE3?=
+ =?utf-8?B?VjhXMTE5cEFUM3lreVFHTWp3VFJYK1BwTDN5blJCMWdHRU56U2ZEaU56c0Z5?=
+ =?utf-8?B?ZDQ1dHI4bXBjY051NEZaTmN2amhyZU5oTVFaR3ptbnpSNjZ3WWIvb01DSmMy?=
+ =?utf-8?B?MWVIZW5SZzRLZi8zUmpMYkVCOHBrWW9NRWlqbTJpaFgwOXlVemptR2pqUmJo?=
+ =?utf-8?B?bkVGT3pqNG1Fb20xK0J2T1ZENUROYkMzYVFINmw2Myt3RlVrZE1jVUpWRnBa?=
+ =?utf-8?B?NHpES2Nxc1FER04xNEk3TzRsTDFKNmRMaHNSb013cXgzMVJyOHg4eUJuM0NK?=
+ =?utf-8?B?TFhUNU9BT3ptNXJYMDkxMHFVdmhFYzlIS0VvVUJzakdEeXltcUhqS2N6UkJt?=
+ =?utf-8?B?WXRSMWhDbmlJWXI3a0V1czdpWUhqWTg2QVNpZzVDaFpkd1F2czkxUXZlRU11?=
+ =?utf-8?B?bGU5dGgxRzlQd055cVB5bUtYSmNGQVBjR3NCNVNKQUI4Q3RNRmhQcENIcEVk?=
+ =?utf-8?B?TW5rek5PMkFRUVpNUGlFRE9MQVFiVFAvT0pJcTdjczZFTm1PNk92QTNxWVJK?=
+ =?utf-8?B?UXY4b3lDa3lZVkk3NXNCbTZJUHlpSU5BdElvdlQrVlNKTmpkZVVBT1JEVlV0?=
+ =?utf-8?B?SUd2eFkrL0RwNWZMWkZveGNNb3VDWENUV2FDWlJKcFV4ZnZXQU9BQUV1bzVr?=
+ =?utf-8?B?b2lNdHYwRFFQZVJHd0k1bndvY01SSy9iR28yNysvaFM4bmxvR09CU1dCWkZ6?=
+ =?utf-8?B?ODZLZHRzSldIUmdRbFZWWEJHT0lUMWpSN2h2NXgwNGJYZ2w5MFY2Zjl6aTZu?=
+ =?utf-8?B?UkpxQndOZm0vbHk0NTNqTEE4UEpGLzB4R0xQYUJnY0U4ek9iaHZQRG1aR1BL?=
+ =?utf-8?B?NnlKVWljOG9qWmhaVHl4VXFSWUhoczRuaHF6UGg3TUpCeFFWVVg3clhWOEZh?=
+ =?utf-8?B?VHFXVHo4YlFpQ1MzbytYbDNYRSt1RXR1b0lPaU9PRzNqK0JOejdhQ1l4Y0Zh?=
+ =?utf-8?B?d1plcUx0dER6Y2lIZ1NRQmk4bm85M0pUQWVUbG5qRmdGZGVnSGgxQlVMN210?=
+ =?utf-8?B?SlV4SGx6NzNhTTVkT3k2NDg2Rkp1RnRQSnNjdVZjejUwSTJQTVUzWFhlSVNX?=
+ =?utf-8?B?cFVzV1RObmt4aXdlcjF4WlhJNGF5VTYyWSt5REpMbnlxNE1oMnY1WGJ2V2dK?=
+ =?utf-8?B?ZVJheklWeDJ5Y0ZxZ2J1eVdTaWRnK0JKbitTaituOTZpREUrZGtEMFZNOUVP?=
+ =?utf-8?B?aG04eXlGc2lLQzlzcjZWalJNZ0JnQVl5NytQVDFQMEVERkRTWXIwblBhM2Rp?=
+ =?utf-8?B?QWZFWHdBQ3d0ZEw1RFJHNnA5K1pqOVFSVWk4L3hEY1JnZmlhSTJQb3FMdU5K?=
+ =?utf-8?B?dmpPakd5ak1aMVY4d0tybnBXWURkR0E1VXBMUnhRQnNhTmRPM2NWR2liaU5H?=
+ =?utf-8?B?NTdZMXo2K05DcTJYblQ4M1llSEswNmJ2eklkTHhoM3NsK3lQckdkUkFpNFpU?=
+ =?utf-8?B?ekhGVzRnMlVGdnFSdUxCZkVJZTY2RDZ3YXJYendlWkRGb2xxRU5oUzJITkFD?=
+ =?utf-8?B?SGdHcDlRUktwRzJWcmw0NDlFaEFGMDNaa0ZDR2IyalowNC9PLzk2N01FbW9K?=
+ =?utf-8?B?OXpyYlkzZ3dyUWJaZmg3NVViTUNVUjhxaXhnQXorTXBRY1RTRHZoQkRTSS9Z?=
+ =?utf-8?B?S0tScDFzcDNuU1ZscG1nby9NUytLU3RZQ00rQk9NaVNGd2RVckcwSHpQa25N?=
+ =?utf-8?B?ZDJrTityRGc1cFhqL3VJQVp6bUlLWVMzMHc1VnFZUldVWXYvV2lqRjhxNDE4?=
+ =?utf-8?Q?vmLeRyklowCBrYqg=3D?=
+X-Exchange-RoutingPolicyChecked: 0xBXEUvOWJRO34pz5CwAIX/ttl+TNAT0hfBlQkqqLxDu7+sA4GgwbgVgmGk7A8Rl2+JuGODnau/WJOHmfGZurTOGnk04HGzkDdJIwRLZHNXA2HaPRtl1sltdWKM03uHvpCk7jXiQq7Txrdq9NVX8rQTq9cWUglYCnBDkfpMiH1n8HheRHeDkHFWJENhnm+GVZ0oeeO4nTIx+v59+lkimLD9YTrvt96y5Y05iSob2xzua5nSeOP9kkpcjQiPNLjrP/gkOaihc0I2SG4qbC1fN5DNqsQ/rfidBdWsbb85QbsOlL2UFhXy6jUxCDAEjOHeLgqkLMA9uNpAqyVFNhao3Tw==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 049eb8d1-ba38-41a0-ac57-08df3a95d443
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB8370.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2026 17:05:29.6988
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z8Ey/UqOCug4VElNltLPOHAWJctwrYpSCDoRkvFuIEHniNEW4pAwR02a4YEL7y4er7uNl4s9WPlRntl4KStF9nR02ShldAxIEjHGdbJ9pUg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR11MB911879
+X-OriginatorOrg: intel.com
 
-On Tue, 03 Nov 2026 00:55:23 +0100,
-Joseph Telaak wrote:
+Hi Drew,
+
+On 11/4/26 8:35 AM, Drew Fustini wrote:
+> The RISC-V CBQRI support builds on the common resctrl code, so changes
+> there affect RISC-V. Add myself as a reviewer to stay aware of them.
 > 
-> The generic parser gives a codec one digital playback PCM. Any further
-> digital output pin is set up as a follower of the first: it gets the
-> same stream tag, so every digital jack plays the same stream. That is
-> the right default for a codec with, say, a coax and an optical jack.
-> 
-> Some boards wire two digital converters to different places instead.
-> On the Control4 HC-800, an ALC888 has converter 0x10 driving pin 0x11,
-> which feeds an HDMI transmitter, and converter 0x06 driving pin 0x1e,
-> the S/PDIF coax jack. These are two outputs that should play different
-> streams at the same time. The follower setup cannot express that, and
-> userspace cannot split one stream tag in two.
-> 
-> Add an "indep_dig_outs" hint. Like indep_hp does for the headphone DAC,
-> it gives the second digital output pin its own stream: its own
-> hda_multi_out and its own PCM, "Alt Digital", typed from its pin and
-> with its own IEC958 controls. The digital playback ops pick the
-> multiout by the stream's NID. The analog "IEC958 Default PCM"
-> duplication stays on the first digital output only. Unlike indep_hp,
-> the split is fixed at parse time; there is no mixer switch. A codec
-> driver can also set spec->indep_dig_outs itself. Without the hint or
-> the flag nothing changes.
-> 
-> The new PCM takes the next free device number of its type. With an
-> HDMI-typed first output and an S/PDIF-typed second one, as on the
-> HC-800, the HDMI output stays the "Digital" PCM (device 3) and the
-> coax output becomes "Alt Digital" (device 1), with its IEC958 controls
-> at index 16.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Joseph Telaak <joseph@telaak.dev>
+> Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
+> Signed-off-by: Drew Fustini <fustini@kernel.org>
 > ---
-> Tested on a Control4 HC-800 (Atom D525, ALC888-VD) with this patch on 7.1.8,
-> with [hint] indep_dig_outs = yes in an hda patch file: HDMI and coax run at
-> the same time on separate stream tags, also at different rates (48 kHz and
-> 44.1 kHz) and alongside the analog output. Each IEC958 switch affects only
-> its own converter, and closing or reopening one output leaves the other
-> running. The HDMI transmitter fed from pin 0x11 (an ADV7513) decodes the
-> sample rate of the Digital PCM in every combination, and never the Alt
-> Digital one. With the coax output connected to an external S/PDIF receiver,
-> the coax carries the Alt Digital PCM bit-exact and never the Digital one, at
-> equal and at different rates. Built on sound.git for-next with W=1, with no
-> new warnings.
-> 
-> The HC-800 turns this on with a patch file, and the patch adds no quirk for
-> it. It is meant as a generic option for any board whose digital outputs go
-> to different places.
 
-Applied to for-next branch now.  Thanks.
+Thank you very much.
 
+Acked-by: Reinette Chatre <reinette.chatre@intel.com>
 
-Takashi
+Reinette
+
