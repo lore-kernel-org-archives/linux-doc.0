@@ -1,87 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793805659;
-	b=M0YML0iIoBPp5cNSjxpIHstxHm8YEHyYF4VQ3noO2E0dr2wqI8K+GFFBoEj9oyW82gHn
-	 TrpK43WeJ/R5eqzckZg9wqnRkJnEPKlS3TJ7/a/hPaPdx//aikEWMtIvDin5sd9/esE3E
-	 iU2G+6EeNIOJz3rNEYaDO7ys9UhmxcEJL+o+yOS876hQkajMBaN44r62aUFEo1exqnHr3
-	 JvJmmA8Xpv4vvYuSxoehEc6bFYEGMIKHqOemhKhISfWK45rYu76+8qaqgdT5Rv/Gg6wXd
-	 qNpMVcbwPGpWJAG3g97l5yVN+1QWX3AK0NTPX0Mu1mt3nljLjieMYc15aQ0iMnDZbjg==
+	t=1793806058;
+	b=czDKxlqENWZlS/MhdqQ+xf6ekdZ0LPs0MyCtuyiTRPCG3gFnHQ7cnSUsDP7WlbsQJW3o
+	 ANO1rmsKJR82PG/1Rw+WYdtr5z+HRLGOQaoXt1NDz4nEQwpYflk/Igk6IC2Ilbup0yrdd
+	 4Tz/lRxXRM4FdJlbMDdkM06F+0PmEE1rvFHy9DBxofcBJfAATWm9bQDNPvP9Ng5t2/YWM
+	 EyT9uN6Z38FVc8UNnW9D8w2XAcAxyb5MPGOwMOBxpPa9DhDMlFC05h6XgGYAIvYyAOXfP
+	 rNoC5tWSR0xhbPZgOexPjrUSXz9rgmcMv2MyDMEDn+MJFTgviJp92ju9t2wwJFgODAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793805659;
-	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:X-ME-Received:
-	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=kJ//CR0rNJB7v4/EWrk6Rgg5jN7w2KYrl2J7vZDJGZY=;
-	b=4M9y0I0O1bSMCEueVbW8Uoh0hJvrPYQstaT3KT5D8l2UuDmCz8CLXZPdLnczoNp5sL5K
-	 NwYFw72x19r3Imh/QoPwTAnghfHaxcdbmJNGq+p8jm1HfrME88MfFtLDJYrqCQzqyACUU
-	 ezEe2v928T4ksyIp7MTZ1GTnW8oA3TBUhwiEcmmJZWotDdpO/HXyaaPKHqrBkujIw6xzh
-	 EgtW6kxQvLYSh9tjxY5eEFgxXWqwZiri51ulFF5tB+XbDIKg77CYylW7+mY/xkEHtyowr
-	 QR7xQ/K0nZCTuYcT/84vnIDBpRPhWlwxBP0Vsl2POd5zhH0kQPi9FIXKzNF2TGa/WVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793806058;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=CIpKMto3juCBWIXYogyz/kuSz8z9yPBH98tdVVEJ+Nw=;
+	b=MFWq8VvZEGDX9lZRlNY2IEK5nV6Imrgg1zfrCcb7zWX2r5kvRA3SBH/zTgEO6bDVQyIt
+	 8N3I2Hm5iRzy7NktUeHn3BGxhDxin1t/KjEEp0O/idyx8Z8oqglGiKX/MpfJH+c3jIqVn
+	 p4gXhCQ4SvdQXZqdU/A1AuwEvWTFfYnbkE8bn3onPZpO9u5SyaewGtQFzP+sWNdKiqSEt
+	 ElXM9LVQ5XzueiKi7l/1h2oH9HAO8KdZru7+3sdJFK1nQFo1AMdI8qWJNJy4bKLTcui0W
+	 532+MSEaVbLc1rErh7znNPylL3bxWdadZlKu21BFFRPzbS5To3gsjevji4b/hb39wZg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J04GpwmK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--stanleyjhu.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LJl5RNQ5;
+	arc=none smtp.remote-ip=74.125.82.197
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AD0606EE98
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 15:20:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A91E606EE9F
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 15:27:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A91E606EE9F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--stanleyjhu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J04GpwmK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C63BF1F000C1;
-	Wed,  4 Nov 2026 15:20:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793805658;
-	bh=kJ//CR0rNJB7v4/EWrk6Rgg5jN7w2KYrl2J7vZDJGZY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=J04GpwmKvwAvs5rvSq6YwT5Zq9je2GxUIiTrhVG2nBwZcdPfHjPQfInyEK880+tG1
-	 wfkOfIVxeHWCezi8+24T/FuHWcz/MenvLN1yjdAWCXC2ZrjmfrTiZUJcVWGaYqItqX
-	 HNEvdX6ssO5Bd5Y9pBuoM3uEqEv4B6EB6MR5ozg/OwrjyfE2G6NoaTFenz5GecG1fy
-	 Z3HGwO3J755E9uCjFAWDfqCtB+33seQlaND6Miab8V8rbnvOD7Y3Wq6fC5/3i7/g3y
-	 uy/6Ft2l/oJqLiMSM4D82qyRmP26bj6XroqOSTrEY73f/+vP5RL5C1pDGVj8cb/eaM
-	 DXKMiygT229uQ==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.ams.internal (Postfix) with ESMTP id 577C3198003A;
-	Wed,  4 Nov 2026 10:20:51 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 04 Nov 2026 10:20:55 -0500
-X-ME-Sender: <xms:Uk3rasYNqcr0e7oX_N81eL0LZXGbBpMgeTVyguwhoWE1deuGbU8VRA>
-    <xme:Uk3raqkRwJA3NCHdCd2e-3d3UsbBBd3_hWmmG-yaagIX-Kj_QLSPl46GRUdZjMXmd
-    9egYpQCqDMYyaNxmKYvMlKUQybVmyetKPdMIXU-MOb4diUc1NZa-UGKAQ>
-X-ME-Received: <xmr:Uk3rajF3y4JOG8Lz_bJnitNrMmWcxB_a1dEiDKLOgwUebEP4zXW8dXTCBG0>
-X-ME-Proxy-Cause: dmFkZTFtxpiu2LP14cIYcyJ7X5qabzm2BzpkyynMyiWriFQOhwO4iOlilGAYuG72swqRJi
-    Bz8ZzcQ02LzCtXShfIs8nQwvr70QyU4BQ3QGSMTor0iqq1/umFVKzuPdZvGyZHpuAWbgUk
-    YtJYpDNQU5eGtxkWAafn6R00XepYhmon5wsUybRAp1fyx25PodgGzm5XnTdaZ8/m/W318m
-    ueFHNJOCuNFrSnRbN0ljsfFnJhIFQ1CTjoWhk+jPLi5y1GCZF4hKgzXGkldAtCAQq2wM97
-    9+7I0RiDOJ1Wn8GcLWLH9LY1cuCc5mxnJslpqjVhHYjF7KE/HVWL6z7MRT7MuPxGnS/eYj
-    T29jPgd4eodMdNH4DcjlWcD14WrHarLiWrEOrqYlYVpu7KKm0ZWeANy+dECylIIuTFu7zy
-    LTGcyz27eAnQByqLr1NdcAwSH4C/6Q4Bw7Ogwvph1gYdZ2MyCiBaNIH6FMK2y3o0f84Q3L
-    p2xKs8qurGukJ22IwBPNoSfbzPpC/KCrGS4y2MDhjbX0uO8R1lWRLw5Qh9VCcyR9s65+qZ
-    4KID4H9Y7zzBUjd4hNNMTPEGBXRHn1y5jVskNGYt0nAzzYpN4X2CTMXrDWclf4ZfOq2tgp
-    viuCv95jefJTx+bdkT9rAn8PUT0PqPIMnfKlV4uWjYXWOLnG2GEbuK84Ba6A
-X-ME-Proxy: <xmx:Uk3rahHKq18GiQZ3nyDskj6S66qC9l5zFlQ6NBrq42V8pWmtDTHxnw>
-    <xmx:Uk3rakxgzWtRN7zjBavMjABxjpDUcgRkOH59QIjhgCPm_pfj6wLIXg>
-    <xmx:Uk3raqTPchiT8nft2yn3Rv82synIhoZ_VU2xumyCcOXC-vhPUYonZQ>
-    <xmx:Uk3raqp12uS3JTOm8qXzawV8IlzevdpwPwxlmD4GdeuBWbxDd4IM1Q>
-    <xmx:Uk3raqvxVr0tfkuHZM52LGQpZuZBFJbugGo5z2yo_9nC6sElCg_8FRO6>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 10:20:50 -0500 (EST)
-Date: Wed, 4 Nov 2026 15:20:49 +0000
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Usama Arif <usama.arif@linux.dev>
-Cc: Andrew Morton <akpm@linux-foundation.org>, baoquan.he@linux.dev, 
-	rppt@kernel.org, pasha.tatashin@soleen.com, pratyush@kernel.org, 
-	ruirui.yang@linux.dev, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	muchun.song@linux.dev, osalvador@suse.de, david@kernel.org, jbohac@suse.cz, 
-	sourabhjain@linux.ibm.com, ruanjinjie@huawei.com, leitao@debian.org, 
-	linux-kernel@vger.kernel.org, kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, hannes@cmpxchg.org, riel@surriel.com, shakeel.butt@linux.dev, 
-	kernel-team@meta.com
-Subject: Re: [PATCH] mm/hugetlb: allow crashkernel to reuse hugetlb CMA memory
-Message-ID: <autMHwldMudQOO3j@thinkstation>
-References: <20261104142727.2894800-1-usama.arif@linux.dev>
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LJl5RNQ5
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso1534096eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 07:27:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793806053; x=1794410853; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=CIpKMto3juCBWIXYogyz/kuSz8z9yPBH98tdVVEJ+Nw=;
+        b=LJl5RNQ5b7c50OYJXgxlRs5H5LxDFdVXsRyml3D92U9/ULyM26t4vzd5tEZjDmhgN5
+         S9P9RQ/lPI5015Q+QPS8ja7fGIy7ddh53e4tPbW0ZXa+b6Xqj50UufcjriYjVxqgwgYZ
+         ybQy95yMR4ZKpTLszyt+tjRYf0FsDqFXqDLqKj2nUN/lmiFQSrP0EfTaPf0TGrwURsg/
+         qtFgzOyC+9pQ+GP3bcLTSKy2RogBXRzXCn7lOK7BrNmsuIUSmR8cmjeitjasVBLNSkWs
+         y041Uuls6bE+MJII7SrNxXR7rStb/j9x7o+jlyQJqHkOBOj5+q5qvHsxvCQoJ5z/bdS/
+         L1Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793806053; x=1794410853;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CIpKMto3juCBWIXYogyz/kuSz8z9yPBH98tdVVEJ+Nw=;
+        b=ToNxHrP9TxouHEpCRT+plNF3cQauIS3hZApbJIhO4DG/3X+QrMpFch3sUSH0x7W5yU
+         4MCSfodIKni/wfLXGadhX9ks7bgMSOpZkC+KVAQVWZNH0LZe9HaEl3jBOjMqKNjWTb6C
+         S1pZHIOYzcpA2sUsibIrO0WuJgLPLelg47xUkUGiO017tZEfTGHDvBpFaS93XdvCuCU2
+         JPA5eFN3bicrHiNUxIFEG6ft4xGh9DyIArv7iq9SrhTJLVin1PVcCKD8K18jH7Qppho6
+         1a0B/e3+qqJwLl2dv3O9kfwEcGmbpnoP1USVmMRYCdMKCI6egDvLg4FbEHWsxCwrFd7R
+         yUgQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwPJl3YZZRda6rbg0h9YJWg6mCD0MNZ1O+PxehRk8iAhBQnAuQJh8RBqJIz91tOeb81qJ2aHcwGGKY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/okNKX1TY7urCYWfO4nm81CR+7shx7KUhspvbKT90Nzc26odMf
+	FojCu8tmeIx85zv6C0410KvTERwKzEdrSuykL4TeBAhVZsK2Eu26dMqiodcyBX/qjmDRBQD95ia
+	2/HbuBYL1u0tiYnMt7AL4NQ==
+X-Received: from dyjm35.prod.google.com ([2002:a05:7300:16a3:b0:358:f250:485f])
+ (user=stanleyjhu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:693c:88d2:20b0:36a:6d52:e16c with SMTP id 5a478bee46e88-36a6d52e261mr13279550eec.12.1793806051988;
+ Wed, 04 Nov 2026 07:27:31 -0800 (PST)
+Date: Wed,  4 Nov 2026 23:27:30 +0800
+In-Reply-To: <auo6bvjDtwAMKOid@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,33 +78,39 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104142727.2894800-1-usama.arif@linux.dev>
+Mime-Version: 1.0
+References: <20261029040005.2100005-1-stanleyjhu@google.com> <auo6bvjDtwAMKOid@google.com>
+X-Mailer: git-send-email 2.56.0.385.gac671c819a-goog
+Message-ID: <20261104152730.3102376-1-stanleyjhu@google.com>
+Subject: Re: [PATCH] PM: runtime: Update runtime_pm.rst for non-fatal resume errors
+From: Stanley Jhu <stanleyjhu@google.com>
+To: Brian Norris <briannorris@chromium.org>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Praveen Talari <praveen.talari@oss.qualcomm.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Mark Brown <broonie@kernel.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>, linux-pm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-block@vger.kernel.org, 
+	linux-scsi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Stanley Jhu <stanleyjhu@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Nov 04, 2026 at 06:27:27AM -0800, Usama Arif wrote:
-> Use a separate suffix to make the exclusion of existing HugeTLB
-> allocations from the vmcore an explicit choice.
+On Tue, Nov 03, 2026 at 11:47:58AM -0800, Brian Norris wrote:
+> Those need a close eye, as the code involved is a bit subtle. I tried to
+> review, but I'm not really an expert in those subsystems. (I'm also not
+> quite sure the second one was 100% a regression, vs further exposing an
+> existing underlying problem.)
 
-The crashkernel=size,cma documentation already says that pages allocated
-from the range are not in the vmcore and that it should not be used if
-dumping of userspace memory is intended. HugeTLB pages are userspace
-memory. I don't see what a new suffix makes explicit that ",cma" does
-not already.
+Agreed on the UFS clock-gating hold release. Keeping the hold until
+resume succeeds was cleaner regardless of retry behavior. That fix has
+been applied to 7.4/scsi-fixes. I have also sent v2 of the block-layer
+q->pm_only fix.
 
-Why not let crashkernel=size,cma take hugetlb CMA first and reserve a
-dedicated area only for what hugetlb CMA does not cover? With
-hugetlb_cma=6G crashkernel=2G,cma there would be no extra CMA at all.
-With hugetlb_cma=2G crashkernel=4G,cma the crash kernel would reuse the
-2G and a dedicated 2G area would be reserved for the rest. Either way,
-nobody has to learn a new option.
+> I think it would be better to flip the comparison to the other
+> direction, and deemphasize power.runtime_error. For example:
+>
+>   "Unlike with the suspend callback, failures in the resume callback are
+>   never considered fatal, [...]"
 
-The catch is ordering. reserve_crashkernel_cma() runs from setup_arch(),
-but hugetlb_cma_reserve() runs later, from mm_core_init_early(). The arch
-code could record the size and leave the reservation to generic code
-right after hugetlb_cma_reserve(). That is still memblock time, so the
-remainder can be declared there. An early_initcall is too late for that.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+I have sent v2 using that comparison, without mentioning -EBUSY,
+-EAGAIN, or power.runtime_error, and added Fixes for commit
+aedc51762a0d covering the ->runtime_idle() paragraph.
