@@ -1,51 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.16
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793786172;
-	b=obTaHFC5MOaR41no0lUnseBK638cU/q/Kl6tNRHHbKXhwiM3dlcV4KgJaASZU6doei+S
-	 cugItDYQEnYZRsoHXxnqsli3Mgt39r1jBofsvLwzGBmijvNKnXj7YFiKsBAMQP6ETwR86
-	 r593kP11O3nWbrPRjCfhXSC99B3M6VStNuhofIG2V8koTHBsyPbkoKqctlL+crbdwTuNB
-	 /zxAkmZPVp8oSzWbXFQg1yZyfugRtuS+mx54iCywUCffUkw5KzX/zUHoFWsdFC0qZgFWs
-	 ZUynABQzIUUdGbThFiJdCj6nG8t+8GxtyXT1XLxPseJPpVvnrOTqDhvUjCPGa4KRpdw==
+	t=1793787579;
+	b=2ETsbH7UP3T8nPaQQzGIrVSybKpgZg3ra26oOHvvZjBr+er8P9m4D0Ui9z3mc9Z/5+22
+	 1efjFwrOFzxRKgM9O7T7Y9TtrY8LdI7zk6zcTjHoP4+2uOIUMKwPjl/YhXZ9dKmC+pGs/
+	 bkmTLgs3wZnajwkBIcHp2dSqaiClu3OkD3UEG2wyCASVKcoUxFwHnr7/vxvgomF8NDKL0
+	 zaT26a+BhhB5xLHJq0JTKY/K+Q2ZRfDaiYTGTS9u6tzxv5X8fDB5LSlm2DvYDKRx3VGY6
+	 128eYH6yOOSKSptbKIUAjjqdRLCqhpZOrEtEiaVF0FBk1SBGBwirTdSshL4ICFAikJw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793786172;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=pUBQPp4DgGesu/zc45i1HHgbshamqgArN5rt8GOl5tk=;
-	b=c6NueUmApT9rQnggesJfQ8XTDZOkPkYanf0L8Xy5jBaZ/ncIs3AFrMp932/vfcFX+vnb
-	 lCfL0CSMNgPhduPSD/4Myw1L7lxFTykYWSmLLKxrFzN7iP0oaN5r7PNugGumt26iBmUY4
-	 ds9i8kRrLfRr9k1uKXTI8njofunm6z0y26IW8ZDMf9zxsZZ0H61L9K10MrYCbkQJt+cuM
-	 Cd+PvLCpQmVByN57fUW1ppEKXOLJJrBXb44OEL6qyD59mp16qU8ENlyZKs3VqVYdHWDUO
-	 u3AsMmKf0vguGWADlq1CTqd6NOzZcnDr3eTX9inm7knEvjCVMUDb3yN00WDCSbuZdTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793787579;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=KJn6XSHeMbhPBetiy5kOmfJqFrJfZVU+mS+17u1fQmA=;
+	b=k/eC+geKXW7TWCsZCWLnLfdkUCXeqCqzsbSgyyj7YIpjhCRzP6KEeHVz9vrI6tnT4s63
+	 t1DGA6yTIPtB+/CBNuy5KPP7ECbSaXF085VXIYosJDys3Vj/PjMzu7YvznbGu7A8Ib5yc
+	 sXVFFwZIH2QNVpnNctRHWjCnNLSyFHUdiK+8dMVZmGAKo8Tlp/Q0Ru0USw5os6ytkVVWE
+	 nsfShzt6Nt3rKqSlEgM7Dfo42m9MGwVH3KpABq/I8nlQRbfhErq22+TuOMBIpnZE18IxH
+	 zCa5XwAy5zzTDivxVnIKI00N6rALmKxw7t+XBky32CSG6P/JvMDDCNX5FZvm+hiTjtA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	arc=none smtp.remote-ip=91.218.175.16
-Received: from mta0.migadu.com (out-16.mta0.migadu.com [91.218.175.16])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="38K2/wcs";
+	arc=none smtp.remote-ip=113.46.200.222
+Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAEC606A328
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 09:56:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8AAEC606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=pUBQPp4DgGesu/zc45i1HHgbshamqgArN5rt8GOl5tk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793786163; v=1; x=1794390963;
- b=uUMXzD5u9LbfomWLcrC2JIgPQCBBTO3LbzHp+2JUyWLJ6xQdE2ZY1BMAOjdbQnBuSYP1qFjF
- 1kVjlex4v2hhEIm4aXGxezQoohio+Baq+fuznIdzLaWT6CPUvg34hb8PWHYCrHxsPlWU02MiA01
- gVFlQhnLVU61YtHNeRs2gfcA=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id c43ff3afd577f723;
-	Wed, 04 Nov 2026 09:56:02 +0000
-X-Mizu-Trace-ID: c43ff3afd577f723
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92B89606A33C;
+	Wed,  4 Nov 2026 10:19:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92B89606A33C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=38K2/wcs
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=KJn6XSHeMbhPBetiy5kOmfJqFrJfZVU+mS+17u1fQmA=;
+	b=38K2/wcsycMHEcPqxY5RSG7iHScFXnvmjPYSzzyX9SzlKfo5sbgT69ajbN/uJTOz5FgRHVecM
+	zc58PYh35PJus+FH0MVOrpN4xepI4Re8tWeSCdMqWQCsI1oPLs0zSmp4jNnPk/zwD6XQS9M1nY+
+	IdTd6ELE0MzZAV6o0OW/gl0=
+Received: from mail.maildlp.com (unknown [172.19.163.163])
+	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4jKLyh2FCnzLlTf;
+	Wed,  4 Nov 2026 18:19:24 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2BCCB4048B;
+	Wed,  4 Nov 2026 18:19:35 +0800 (CST)
+Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Wed, 4 Nov
+ 2026 18:19:34 +0800
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
+	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <jic23@kernel.org>,
+	<tan.shaopeng@jp.fujitsu.com>, <gshan@redhat.com>, <zengheng4@huawei.com>,
+	<x86@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <ben.horgan@arm.com>
+CC: <ruanjinjie@huawei.com>
+Subject: [PATCH] fs/resctrl: Disallow monitor group rename when the RMID changes
+Date: Wed, 4 Nov 2026 18:19:13 +0800
+Message-ID: <20261104101913.586595-1-ruanjinjie@huawei.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -54,95 +71,80 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH 11/15] hugetlbfs: do not grow a sealed file in mmap()
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20261028-fixes_hugetlb-v1-11-a0a033db180f@kernel.org>
-Date: Wed, 4 Nov 2026 17:55:32 +0800
-Cc: Oscar Salvador <osalvador@suse.de>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mel Gorman <mgorman@suse.de>,
- Andy Whitcroft <apw@canonical.com>,
- Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>,
- Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dave Airlie <airlied@redhat.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Peter Xu <peterx@redhat.com>,
- Breno Leitao <leitao@debian.org>,
- Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Arnd Bergmann <arnd@arndb.de>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org,
- Chris Mason <mason@kernel.org>,
- stable@kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <140D6576-3DB1-464D-8934-6857B84EA784@linux.dev>
-References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <20261028-fixes_hugetlb-v1-11-a0a033db180f@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.200.71.1.16)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
+From: Peter Newman <peternewman@google.com>
 
+Renaming a monitor group to move it below a different control group
+changes the CLOSID of its tasks. Where the RMID only has meaning
+together with the CLOSID, the RMID index changes as well: on arm64 MPAM
+the RMID is a PMG that extends the PARTID, so the group's counters
+belong to the old PARTID and cannot follow the move. The monitor data
+would be reset and would then report the new PARTID's traffic.
 
-> On Oct 29, 2026, at 04:13, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> From: Chris Mason <mason@kernel.org>
->=20
-> hugetlbfs_file_mmap() grows a file when a writable mapping extends =
-beyond
-> EOF. We are missing seal checks similar to hugetlbfs_setattr() and
-> hugetlbfs_fallocate(), allowing a user to grow a file that has =
-F_SEAL_GROW
-> set.
->=20
-> To fix it, skip the resize when F_SEAL_GROW is set; mmap() still =
-succeeds
-> without growing the file.
->=20
-> We currently also allow CoW mappings to grow a file. Disallowing this,
-> maybe even only for read-only file descriptors, could break existing
-> userspace, so we have to be more careful. QEMU's file backend is an
-> example user that might rely on such things, and would suddenly start
-> getting SIGBUS when faulting in memory outside EOF.
->=20
-> So be careful and focus on F_SEAL_GROW for now.
->=20
-> Fix generated by an LLM and sent by Chris Mason in private.
->=20
-> Fixes: ff62a3421044 ("hugetlb: implement memfd sealing")
-> Cc: stable@kernel.org
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ david: drop comment; simplify+extend description ]
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+Check that the RMID index is unchanged before moving the group and
+reject the rename with -EOPNOTSUPP otherwise. Only MPAM systems are
+affected; architectures where the RMID is independent of the CLOSID,
+such as x86, keep the same index and still allow the move. Document
+the restriction in resctrl.rst.
 
-Acked-by: Muchun Song <muchun.song@linux.dev>
+Fixes: 3e9b35823aab ("arm_mpam: resctrl: Add rmid index helpers")
+Suggested-by: Ben Horgan <ben.horgan@arm.com>
+Signed-off-by: Peter Newman <peternewman@google.com>
+Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: <stable@vger.kernel.org> # 7.1.x
+Link: https://lore.kernel.org/lkml/20241205153845.394714-1-peternewman@google.com/
+---
+ Documentation/filesystems/resctrl.rst |  7 ++++---
+ fs/resctrl/rdtgroup.c                 | 13 +++++++++++++
+ 2 files changed, 17 insertions(+), 3 deletions(-)
 
-Thanks.
-
+diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+index b52795e03303..5f21ab20030a 100644
+--- a/Documentation/filesystems/resctrl.rst
++++ b/Documentation/filesystems/resctrl.rst
+@@ -552,9 +552,10 @@ will automatically remove all MON groups below it.
+ Moving MON group directories to a new parent CTRL_MON group is supported
+ for the purpose of changing the resource allocations of a MON group
+ without impacting its monitoring data or assigned tasks. This operation
+-is not allowed for MON groups which monitor CPUs. No other move
+-operation is currently allowed other than simply renaming a CTRL_MON or
+-MON group.
++is not allowed for MON groups which monitor CPUs, and fails with
++-EOPNOTSUPP on systems where the RMID depends on the CLOSID, such as
++arm64 MPAM. No other move operation is currently allowed other than
++simply renaming a CTRL_MON or MON group.
+ 
+ All groups contain the following files:
+ 
+diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+index 9290a346386e..358f2dc8301d 100644
+--- a/fs/resctrl/rdtgroup.c
++++ b/fs/resctrl/rdtgroup.c
+@@ -4405,6 +4405,19 @@ static int rdtgroup_rename(struct kernfs_node *kn,
+ 		goto out;
+ 	}
+ 
++	/*
++	 * Moving the group changes the CLOSID. Where the RMID is only
++	 * meaningful together with the CLOSID, the RMID index changes and the
++	 * monitor state cannot follow the move.
++	 */
++	if (rdtgrp->mon.parent != new_prdtgrp && resctrl_arch_mon_capable() &&
++	    resctrl_arch_rmid_idx_encode(rdtgrp->closid, rdtgrp->mon.rmid) !=
++	    resctrl_arch_rmid_idx_encode(new_prdtgrp->closid, rdtgrp->mon.rmid)) {
++		rdt_last_cmd_puts("Changing parent control group not supported\n");
++		ret = -EOPNOTSUPP;
++		goto out;
++	}
++
+ 	/*
+ 	 * If the MON group is monitoring CPUs, the CPUs must be assigned to the
+ 	 * current parent CTRL_MON group and therefore cannot be assigned to
+-- 
+2.34.1
 
