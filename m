@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793811542;
-	b=HCCdzjmXagSMH87OHpvSD8iCpt8VZXidxfn3isec1dbSOdvDGUzA3MwmI9wKC1+iuTTe
-	 JKwGodYRHDGiiYFVT0ZiXWCZOWGxLFvq+219TmI1JRG0cxltU9y7mF91g+kUqW8jN6QBj
-	 CeGP3yC5juWGO6f20mDNoRB2zDjbyqDKM+gRvzlwjHVvTDahtHASR7z0sHEMB8CkjCwgR
-	 xPGtannckeN2iK9QdVzOdoSZ555iUbSrG3LuddfCkwpjwXM8xVArVjhbt2pGh4MSo1iEl
-	 NnGHu1v/owUER+oBXdOiDp41NOb9J+QGG0YsPxoboi4nlq48Imx/q5z1U1mlL/cAZ0A==
+	t=1793811551;
+	b=e33G1X4bxJPwtUuxxeNGcg9OuUIQ7BySq0+DURtfst3IHV3a68840aGRl0jrSXOh5Fu2
+	 Sd0pztEvFanW/SMCcyeWaD5xVfP4ZxI5TcpJcHLf42NyJmtm+npKipn8O+dH5oY5ql2o+
+	 wnaApBHjJyELHK3urBTkiyn/CsGXxr9qOZIlc3eRth6TvbREXGPs0E6EdmAeNrxunwfMS
+	 LxT2R33oXY95ujgZkYt/5i80y5YzX+6epBXRnQzjyqIILBeTkNUC2nEkDuJ/YDrSC2+BN
+	 Cl8MEMJTZ9CEf3c0N5ocsJ8r1mAhppC53B1Fxqw2OnsEV6QAT4AA95t5MEdJOl9YzHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793811542;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793811551;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=Udzi7e2m5bKSaRnWhIT7TQ2xIYgHoxZdlBCHKVgs+XU=;
-	b=sIcXpNhqaTddbGr5Lf9dbdhwe2YkPmoxq57jxMEgqVWHI9atSjWKEQbipjRS7aS4fXJM
-	 gvSjD08VXxLTkV/WBqb7wofWBRqySB+v38S/xOofoanrwZoTFG+Qng7nSZ/F/VScNNo01
-	 CtPdL0MR39kYG9ZSbo81XRKGJ2tS6w0JVZq5aiROqsuAToV5+tdB/1zD6EyvJjwWVj3yc
-	 FNss2yFeu7qfBnUKP+BSeCcX0V27PKvfQeVMdD3PpZ0ltbFwheFP3b0j2fj5+jzFm/VHO
-	 R7jhnx7fEKF1dPY1N5MS0r6cXDCydL20faQuwl6RAxSO4E0/tmCs0J5hYbM0msM8EyA==
+	bh=/LC+6R33q10vqghO7crsZlwQEV9fByooirEbdHEQuEw=;
+	b=05gRe+glkTj3dC0Z1XozZtgQhW2QLYPy2qibmBDsb8hsl0A7fYn61Kp1zpn52xdu4wFT
+	 AUwYxZnvUKiXO3yvW5bq/1dB6dgyMtBD89fJXv5/iGbaMb/A/LMMAi2tyEmC5U0wCTXgH
+	 ZQCyv5i4GHB+mNhde3Vu2puEFYsU2LXC3xV10MaMho2EfXgPrxBtvLA3/HNA2XqcaS+I2
+	 VJZqv3rgvpZBRebCRXQqEoNOTjT10oL0mMJrQup+51aot9yH+NHAA6UKL1OEk3hBKix2/
+	 SRw5B2dMxMXvccY19D3+RV/arHsMpErMBagHEflmOtaWeOFgGS0KNYCENRoXQPBFAMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=B1Xedtr0;
-	arc=none smtp.remote-ip=74.125.82.172
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y31TZXeY;
+	arc=none smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F37E606D833
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:59:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F37E606D833
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA4D606A331
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:59:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FA4D606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=B1Xedtr0
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-36a1947498bso2160971eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:59:02 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Y31TZXeY
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-3282db206d3so1768315eec.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:59:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793811541; x=1794416341; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793811550; x=1794416350; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Udzi7e2m5bKSaRnWhIT7TQ2xIYgHoxZdlBCHKVgs+XU=;
-        b=B1Xedtr0oAKyhCbOYUUZwGHRYObZGkVPHWJPMPMIfuUC5/bUN3NqmzVBJprCraIK40
-         JTEK8LzXWQZxf61F0u3tPe4Nm4TEoPGlix7kdAMdgZcySlTtfMApc8UeXuNWP9vxaSIy
-         SJO49qL4KJ+8JvhK9XnGNGDQ4ei95PivKYWnLlZvAETNe7Dqh7haPhnmKzz3azpKFVHz
-         33Gd8j/nAuVaQSPU10VhOczxcvpukSc/hTfVxRrAzw0DX/c7muQZppleshBl211WxxPt
-         GSnHLV0jUNNHql1FgT4Qo5xw7BrVFbQ8LmYadTb7As2JnbPKk/c7h7Nh/1NSBCR9EiOB
-         sHpQ==
+        bh=/LC+6R33q10vqghO7crsZlwQEV9fByooirEbdHEQuEw=;
+        b=Y31TZXeYrMNub6CD2yl7wXzZNwbZWHH3eZPG51i7cMvXQr32hmTchJqFckujdmLaR8
+         jO2Ybm5+xBQyyCmBfBHUjRxLSITYvm9VfhBZYZctszoMyWT4bemxe4sss/bovxPT2dJs
+         k+J4IpNPEe0CddeXVyA/Y7b552MrHB98y/tpmtR8JuVo0QGTEi8v62P+yHXrxe8Qf5FA
+         77OjQ6RMgvgZGAeX6Z8tBsU8YO6c7QSqAvOBWbc/pFX2uzgT01/mTcE/PcARiYWsSBj7
+         CUZYZ7MlzON05EWeaepGCCOYVGQQlBPbEz6X6AJW+QtO6e0nH21GIU5VM6lSbedpHUeR
+         fmCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793811541; x=1794416341;
+        d=1e100.net; s=20260707; t=1793811550; x=1794416350;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Udzi7e2m5bKSaRnWhIT7TQ2xIYgHoxZdlBCHKVgs+XU=;
-        b=aehCQmpAcXB1Etmt0npMa138X/WtsgENFPgeyn7cbNbdVClYQ8ZEymXffntSCoSA6W
-         dn2AyyhzM1q+MAk4AwmPMjVxUbyIWXh0WQAe0yWlG+9j1cCnXrguJMvd6G5zBBqf9yAT
-         aHKej4HKEXJjysWpL7uHBUc2LHlpYsNMyd57uE2hxAsZupeQF9bNKGa2bHdoa6IhIXXr
-         vd9eqHrsvPbuOoH3TG/n2LtfX69GyrtLibpjbn9PjKKTuxo+9GloxBhv8JALN1Sgtth6
-         y7dEE9lFAdBFJnD+dFYHotH46Yx+IX6JUy6W32I9j51r9ainLgFg5+1KBg1VcQnS2ltz
-         srBw==
-X-Forwarded-Encrypted: i=1; AKwUvBz+k1Bu3h6dukMKSpA03SL4Ecb3a2NuvZteL9OXRqANlF8DcCMSjH884SW8Pur1BcADf6Qx4O9uwvs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ogtSggQA53/QLU0sDRKE+MfpXmmoyRpabS/ZloWR8Mzg2gm7c
-	6QWEfBzdgT4vl2+JKYiTphCJyQfQM1myDyg7jFt4ueOSd88ubxAwBg7w
-X-Gm-Gg: AYBFou3FrCrVFoYScpf+7rVTUfxxUX9qbbe/ZxTThYWJQukBR6whv9i/fvRjSURN0C1
-	MP9MmXLLRaB0sPexKuG6NyhHHRZeQrhd5AWGlukhRFtZV7R859g4QdKlVb6i9Mei/7bgt/HfhOc
-	g6GaUXMz9CTWVgpuvuhJxDAm6oPZTRIFO74Osb75qm8SE2kWwn5ik9Gh1UdxvhwadTrTP2+/tWF
-	zj0hDoXOASV4b7Dp9ILm6mggGQ5XUhrJD3uPPLIjoykdDRCetwAaf4dbm52+FE9jVHRQyHgPxdu
-	VQTyc8p6q7YuBn1qI62qHPVtZXJL2cDaOdveHhBvBaISQzkHHJWn5RmYxdZLksxkd5EmCG4YAb3
-	8nW+Mm/nxmRarOc6FdGVVL7mmqC/QIfA5MxpsEXih5KNHfUvLNRj6dUzY1oNUzzDSDJWu5mHFA2
-	DMuZRq6PVN5GmzaobIId1t4y9s9go3Lg9tCNA2qGcAexwiLAqljE91MwxNH1fbwIokC95maQYKd
-	Yq99JnmxF5B+Ee6ugR01+xiZ8/J+8vnVHlkyEYiG5LMVQmp8L633uVYeAue18p5SzrOW07SGT75
-	FiHI5DECoDjpSyg/JwUL4gsWe+PSXZq+twNg6YU=
-X-Received: by 2002:a05:693c:8110:b0:36a:1088:fb2f with SMTP id 5a478bee46e88-36a4236d027mr26652229eec.14.1793811540869;
-        Wed, 04 Nov 2026 08:59:00 -0800 (PST)
+        bh=/LC+6R33q10vqghO7crsZlwQEV9fByooirEbdHEQuEw=;
+        b=1PIQRmuB58J8X2qY3zaN98Cc41QYtG3CxoqiMvkz3G9PSLqZ79/iOr6ci5rllqlPXp
+         OffI+9MMzjA8VbgjboNPH4/OhBxZuEpF+M+7jWDayvrY0v7M3g01jXsiPqoDyaMIwDpu
+         Op7aswl8iXUmWonxqMGVkUWliGgLG/Db0jA/jcns5JnLfy3aVtaW26XRZh3VZuf5tUDh
+         RbBW+7d/5ISvIMF5fWETLZJ1+nTnt8E+YXnwBPCD68V6nW46dO2oj3D+Oz8GzBh5eUyu
+         6ROhIoiHMix2gZlxzh+ITdH1/ib+BfFYqRV9OB2eAHF5XdW2jQws+aTMWNQd7vx1R3dy
+         P6vQ==
+X-Forwarded-Encrypted: i=1; AKwUvByxjiOhL62TZl2Xqv0fxOY+oq0Ylr+aEVq/nvnJjabWVV2/QVZ0WiEF8/1Tw+iI2kiu1dSGufbhJyg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9ZkktT55pz9cRNe8W1ONgy78lovKiK1+sl7tGegIsQgroDqlE6
+	QudrDu1h9AXOE3cfiudwHpjDF3zH5GIkXwTH6zMLMpDpRT8tt8uGwL5L
+X-Gm-Gg: AYBFou24w7QxUleMsEsduBqLOLxxwUVzrX8o50Mtblba8xVj5gp7gUI8wCF3VdLj9E3
+	CqU4qVocf7b7zlWTITsLc6U3Lkm8SnN7jYiAVMluZkk59lxs9PXfXXk9KmkRbAfOt0C7hBHdTTl
+	GvHM3EaSZXge1+DVo4UT1CvNMTkNtyzpp4eoe++57cwnVlPkLenUMAlEp74U7cg3qFQZLe5EfA6
+	EUV6H6zdNYMbIwmcuYVNjAFAjm9TkmiatpLpqFZYVNWzB2R6k6qBjCO/KsMZoWmXVPuCVLKyR3q
+	/ux3+QtyNdMV1V9ZAMnTX73TvAg/SuLz6Nh8GwqzioZ0SRMn33LN0QV2WKhSbo8WA8s/u5l+aJW
+	Pu/qGl35MNvzAhDUeV/UUb6eiBvWJF1xaA423cKh2m7ZeHc+C2i3152ZWua1Mrrm4Td4zMFAwYQ
+	RHQtj1OSFft7G/9pNpmbMjdKtvtqDSCU66XBC05Xa1EFtBq6MPEXympEjKpO4NtaDW3FIgExUdu
+	7vz1ES6j0oXB8dG2mqvLpZpsJJ9hcdYK/QMlG5wJUCKIm5cDmO+8YwKt+jItm/jEw4QbiDvFFMK
+	YCPGWugNCqtQCZNiwIfr1XsNCwW7K/g3h5VE5lc=
+X-Received: by 2002:a05:693c:8945:20b0:36a:2999:ea9b with SMTP id 5a478bee46e88-36a423c346fmr24991222eec.23.1793811549996;
+        Wed, 04 Nov 2026 08:59:09 -0800 (PST)
 Received: from kernel.. ([216.195.201.23])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38d46fcsm9019567eec.13.2026.11.04.08.58.52
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca38d46fcsm9019567eec.13.2026.11.04.08.59.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 08:59:00 -0800 (PST)
+        Wed, 04 Nov 2026 08:59:09 -0800 (PST)
 From: Kunwu Chan <kunwu.chan@gmail.com>
 To: paulmck@kernel.org,
 	boqun@kernel.org,
@@ -112,9 +112,9 @@ Cc: stern@rowland.harvard.edu,
 	linux-doc@vger.kernel.org,
 	rcu@vger.kernel.org,
 	linux-kselftest@vger.kernel.org
-Subject: [PATCH 24/28] hazptr: Add runtime sysfs controls for stall detector
-Date: Thu,  5 Nov 2026 00:54:42 +0800
-Message-ID: <20261104165504.2430480-25-kunwu.chan@gmail.com>
+Subject: [PATCH 25/28] hazptr: Select TRACING for HAZPTR_TORTURE_TEST to enable tracepoint
+Date: Thu,  5 Nov 2026 00:54:43 +0800
+Message-ID: <20261104165504.2430480-26-kunwu.chan@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261104165504.2430480-1-kunwu.chan@gmail.com>
 References: <20261104165504.2430480-1-kunwu.chan@gmail.com>
@@ -129,116 +129,51 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add writable sysfs attributes that let the administrator adjust
-stall-detector behaviour at runtime.
+The hazptr torture test registers the hazptr_waiter_enqueue
+tracepoint for its hot-address scenario; select TRACING so
+that the register_trace_*() API is available.
 
-Suggested-by: Paul E. McKenney <paulmck@kernel.org>
 Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
 ---
- kernel/hazptr.c | 62 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 61 insertions(+), 1 deletion(-)
+ kernel/rcu/Kconfig.debug | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/kernel/hazptr.c b/kernel/hazptr.c
-index 7d4273a44183..66954251c332 100644
---- a/kernel/hazptr.c
-+++ b/kernel/hazptr.c
-@@ -423,6 +423,10 @@ static struct hazptr_scan_state hazptr_scan;
- 
- /* Sysfs counters, cf. RCU's rcu_stall_count. */
- static atomic_t hazptr_stall_count = ATOMIC_INIT(0);
-+#ifdef CONFIG_HAZPTR_STALL_DETECTOR
-+static unsigned long hazptr_stall_timeout_ms = CONFIG_HAZPTR_STALL_TIMEOUT;
-+static int hazptr_stall_suppress;
-+#endif
- static atomic_t hazptr_drain_count = ATOMIC_INIT(0);
- 
- #ifdef CONFIG_HAZPTR_DRAIN_ASSIST
-@@ -1115,8 +1119,12 @@ static void hazptr_waiter_stall_report(struct hazptr_waiter *w)
- static void hazptr_waiter_stall_check(struct hazptr_waiter *w)
- {
- 	unsigned long now = jiffies;
--	unsigned long timeout = msecs_to_jiffies(CONFIG_HAZPTR_STALL_TIMEOUT);
-+	unsigned long timeout_ms = READ_ONCE(hazptr_stall_timeout_ms);
-+	unsigned long timeout;
- 	unsigned long deadline;
-+	if (READ_ONCE(hazptr_stall_suppress) || !timeout_ms)
-+		return;
-+	timeout = msecs_to_jiffies(timeout_ms);
- 	w->cycles++;
- 	deadline = w->reports ? w->last_report + 2 * timeout
- 			      : w->enqueue_jiffies + timeout;
-@@ -1275,6 +1283,46 @@ void __init hazptr_init(void)
- }
- #ifdef CONFIG_SYSFS
- 
-+#ifdef CONFIG_HAZPTR_STALL_DETECTOR
-+static ssize_t hazptr_stall_timeout_show(struct kobject *kobj,
-+					  struct kobj_attribute *attr,
-+					  char *page)
-+{
-+	return sysfs_emit(page, "%lu\n", READ_ONCE(hazptr_stall_timeout_ms));
-+}
-+static ssize_t hazptr_stall_timeout_store(struct kobject *kobj,
-+					   struct kobj_attribute *attr,
-+					   const char *buf, size_t count)
-+{
-+	unsigned long val;
-+	int ret;
-+	ret = kstrtoul(buf, 0, &val);
-+	if (ret)
-+		return ret;
-+	if (val > 3600000)
-+		return -EINVAL;
-+	WRITE_ONCE(hazptr_stall_timeout_ms, val);
-+	return count;
-+}
-+static ssize_t hazptr_stall_suppress_show(struct kobject *kobj,
-+					   struct kobj_attribute *attr,
-+					   char *page)
-+{
-+	return sysfs_emit(page, "%d\n", READ_ONCE(hazptr_stall_suppress));
-+}
-+static ssize_t hazptr_stall_suppress_store(struct kobject *kobj,
-+					    struct kobj_attribute *attr,
-+					    const char *buf, size_t count)
-+{
-+	int val, ret;
-+	ret = kstrtoint(buf, 0, &val);
-+	if (ret)
-+		return ret;
-+	WRITE_ONCE(hazptr_stall_suppress, !!val);
-+	return count;
-+}
-+#endif /* CONFIG_HAZPTR_STALL_DETECTOR */
-+
- static ssize_t hazptr_stall_count_show(struct kobject *kobj,
- 					struct kobj_attribute *attr,
- 					char *page)
-@@ -1291,12 +1339,24 @@ static ssize_t hazptr_drain_count_show(struct kobject *kobj,
- static struct kobj_attribute hazptr_drain_count_attr =
- 	__ATTR_RO(hazptr_drain_count);
- 
-+#ifdef CONFIG_HAZPTR_STALL_DETECTOR
-+static struct kobj_attribute hazptr_stall_timeout_attr =
-+	__ATTR(hazptr_stall_timeout_ms, 0644,
-+	       hazptr_stall_timeout_show, hazptr_stall_timeout_store);
-+static struct kobj_attribute hazptr_stall_suppress_attr =
-+	__ATTR(hazptr_stall_suppress, 0644,
-+	       hazptr_stall_suppress_show, hazptr_stall_suppress_store);
-+#endif
- static struct kobj_attribute hazptr_stall_count_attr =
- 	__ATTR_RO(hazptr_stall_count);
- 
- static struct attribute *hazptr_sysfs_attrs[] = {
- 	&hazptr_stall_count_attr.attr,
- 	&hazptr_drain_count_attr.attr,
-+#ifdef CONFIG_HAZPTR_STALL_DETECTOR
-+	&hazptr_stall_timeout_attr.attr,
-+	&hazptr_stall_suppress_attr.attr,
-+#endif
- 	NULL,
- };
- 
+diff --git a/kernel/rcu/Kconfig.debug b/kernel/rcu/Kconfig.debug
+index b500e96ea1c1..8fc6434a05d1 100644
+--- a/kernel/rcu/Kconfig.debug
++++ b/kernel/rcu/Kconfig.debug
+@@ -27,6 +27,7 @@ config RCU_SCALE_TEST
+ 	tristate "performance tests for RCU"
+ 	depends on DEBUG_KERNEL
+ 	select TORTURE_TEST
++	select TRACING
+ 	default n
+ 	help
+ 	  This option provides a kernel module that runs performance
+@@ -42,6 +43,7 @@ config RCU_TORTURE_TEST
+ 	tristate "torture tests for RCU"
+ 	depends on DEBUG_KERNEL
+ 	select TORTURE_TEST
++	select TRACING
+ 	default n
+ 	help
+ 	  This option provides a kernel module that runs torture tests
+@@ -102,6 +104,7 @@ config RCU_REF_SCALE_TEST
+ 	tristate "Scalability tests for read-side synchronization (RCU and others)"
+ 	depends on DEBUG_KERNEL
+ 	select TORTURE_TEST
++	select TRACING
+ 	default n
+ 	help
+ 	  This option provides a kernel module that runs performance tests
+@@ -117,6 +120,7 @@ config HAZPTR_TORTURE_TEST
+ 	tristate "Torture tests for hazard pointers"
+ 	depends on DEBUG_KERNEL
+ 	select TORTURE_TEST
++	select TRACING
+ 	default n
+ 	help
+ 	  This option provides in-kernel hazard-pointer stress tests.
 -- 
 2.43.0
 
