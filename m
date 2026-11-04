@@ -1,74 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793751254;
-	b=iJjScShd2kX3Tg5RRQ58MrmkI/xcOvki1ueV3yNwOtaPsFg4rt09+Xhnt7GcQjXJ8c1u
-	 6wfJQvjH3feLcueNaL+eqOG/LSfMKhutb/h6rMmfBGBugKE2EjmhHt4J8ekFB0s0OVysJ
-	 ySNWaUD8utWJ5V5YHIlm9h9NlP2xciECq6agLahpg3ll87qcVmIfUBuqME1x3wlIQRPNV
-	 so3LIMK/Izwdey801bImtD2Vst7DhkVyvrzpNCR4+JVkccR5knglJJONcPdWorAn4g0Bb
-	 zBx0A8TOwozcSVXrqKifYtPJhXzy1M2oYpVSU6XW2e8LbHM02XuTM0qpVqgVhKtpfvw==
+	t=1793751346;
+	b=rRtOzgH+eUbJ0rT1ScBPtPnETxvPJodcY6rwWOWK5Hes/qCZhlyADDtqx3DqSB5CJwWN
+	 HHJCkQFHRyMNMgsz4nZ5tzVXXaX8Rs9sOOHuOKS7+Vh0bijxYLVWDrDfgnj1QjWxNcaqG
+	 4z3hUJ2pMTTjQIc7Cuv+Kf04HgIujnbAnx5uoprCVUgrQvIFKHE8n2dJ1qN+Zoe3HhVec
+	 +g0LaLpmd9lvL+iiAWTl6CR8zhXvo4qEby+9fAmYqvbdIXmEpjQv6r+7hW0xT4XczBJz4
+	 4ASBHpVh4Lj8zMGS59d+pVkfWM4Cizh44sDs/khckMFqrnFQ6KXmeogk7X/hzcl3yqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793751254;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:In-Reply-To:
-	 Mime-Version:References:Message-ID:Date:Subject:From:To:Cc:
-	 Content-Type;
-	bh=0C3vS80b0D+y+F8f8rSDZook9rRTV5pBeEVsPEFc3Yg=;
-	b=iICEAcjdIt9VMq7u8neoJos4QbHG54Bz9r4Bj9n391Ad//YooKNMBqr59Fx4Gq4pH3Lv
-	 IUqP6H5HOmC0okp1vFliHTBTW6JtWr0kugMvCv2yKf2GjTHtA+I8DTolS2/fNF2LQgZG6
-	 JFWQXVGXGKuEw67w+ejTunc0Znae6EV9P6MaJ/ypxwMUNrEUopnFKEjxmG5TeacBD0tJ5
-	 4QEIquZBtgMZt53NPNFSC5Opyfmw/3/Y/qNKeldXUanyudDj/5DRUtJM2Ej4K8UJpQYvT
-	 80wyfBU0Dn98IkjzPpYxwKFXLfzLeOsKWJYM/iv5/pvasl7S25lg/Zl9tSO5iLQqddQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793751346;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=CZWeSPV6TtzxOobdW0CwXkqthFJr36xZqBQBmvhNYSU=;
+	b=WJ8ztsjf8T9JN0iizCQCmvA6bXcZDpiXxGajKlMcNtcXoV7O7eqfinPpFxud3MAMmDWC
+	 a5DMncgFC3xzcEyxfAU8g42RGCPk5ugFc+b9XWs9cAFdDa1VfpBE0tEZjwxv/2UNVTyED
+	 ssZxjEKK1rYV5dGTllTBPRphdXkNhcYKMbkEPP0W/JbVXgqWugLidOieidAmzFd+bsKhB
+	 ni0x59AH/Z+pY+WvyNwlWUQtIotY7sbSi3sddAN4v55Vn1jnRK/r+foLOt0wzY5qto7Pd
+	 0jPR3N0DeOovV7vWqXglTIpcXPzIYqlxbJtt7hDpGqFSpi48SKHvWq0s6XnCh7TwhGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gpsiXt+L;
-	arc=none smtp.remote-ip=74.125.82.200
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C5Oilm58;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 572CC606A324
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 00:14:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 572CC606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A717606A31B;
+	Wed,  4 Nov 2026 00:15:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gpsiXt+L
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-3692c5b061bso255801eec.1
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 16:14:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793751253; x=1794356053; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:date:message-id:references
-         :mime-version:in-reply-to:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=0C3vS80b0D+y+F8f8rSDZook9rRTV5pBeEVsPEFc3Yg=;
-        b=gpsiXt+Lx1ZaXcGETB/DpG859ORQWw34HeZ4i/HbRZkr2HrHRYRnlQClCxPPrvdMBS
-         GEflGEM2njFo3OKgBIVjNYlaCgIw144SlM7nIaotrEa0MWvxmqBS0BdWomjoHGW6iEeP
-         DeFrOHsmBQIbnSwRrgOLE8Q2EwTb8Q53jI/z2AJw1IC3Oy8XIJMd2wDBXvvDOxuaO6hN
-         bcKQqDRyLcWauKBNgtcURfJ3O4vAUZ+PsMzZXXFoC38sJkIdqiWyppoZ5/AuULZWjF7Y
-         E6+t00iSLmoJbKR3NDF32G7Y8yMxrxl46JsGRRlo599aOF2HOj7p4J4j1ksFDMw0v5If
-         Bblw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793751253; x=1794356053;
-        h=content-type:cc:to:from:subject:date:message-id:references
-         :mime-version:in-reply-to:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0C3vS80b0D+y+F8f8rSDZook9rRTV5pBeEVsPEFc3Yg=;
-        b=L4dh8YTIZtad96/K8V6x6zepsVoEybhLKNvTBPLgFU0lJl7ZEAhmJ3446dsnvFrgvR
-         jFeAZb1ctsa3SHt+SpfyEo6avciHBOvSp1iDnhQDKxw/hemAupz8JjPsWgJ4QM6QmsJf
-         NgJu52Gh/Gbg2TBIx2KyKSudD6GtlbrIXQlEGYVMG05TVM7X3S/3HgAwYze1PShYgJmZ
-         OhPYwxo9d+FIi6jI96WCZsAf1/f+PBgi7jboIwQwr5lb0mlSLSCf98mGus01+/7MeZah
-         Cxh/Qf4zyNfzIoOiJlpK82qIv1U6youz2lxbZ47wWRbKU6dZdfSwXXZuuOHgqRX95kM/
-         U4ow==
-X-Forwarded-Encrypted: i=1; AKwUvBz8NOpI6X+CFNgf6PK9V8l25W9rP5tUxzYMjizmrZBEIOjF3/mo9Kj3pwwprXeAoTt045bpVSqo9Oc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/7mxv1b/GjajzGQIxJeH74gp246XvJF/nUISj92h+hNR1JByE7
-	MvpZ/kLM5Rrdkm8ZxiQZggi19dixcipPESN6PD1OWqRink7hgxIIUeK4jn2Ixbb9SWigJ56846V
-	cSPYfAKPYQlfnrxlea+W8zwniCQ==
-X-Received: from dyclv23-n2.prod.google.com ([2002:a05:7301:6197:20b0:36c:a067:eca4])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:a945:b0:35d:d9a9:e455 with SMTP id 5a478bee46e88-36a423b3556mr37881360eec.21.1793751252976;
- Tue, 03 Nov 2026 16:14:12 -0800 (PST)
-In-Reply-To: <20261103235152.1904727-1-sdf@fomichev.me>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C5Oilm58
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9737E1F000C1;
+	Wed,  4 Nov 2026 00:15:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793751345;
+	bh=CZWeSPV6TtzxOobdW0CwXkqthFJr36xZqBQBmvhNYSU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=C5Oilm58tJ4i2tpoH+UgNhBtKWWSlCAavrHl8VVN70b8kwHm5TOHbVaV3SZ0Eihi+
+	 HEnjbtGD4UhGZ1ibF1MonizVzkOPiCzSwsNkC6NwgPMB1sBkqCCrH+oDL+43nEZvmG
+	 y1jHz2sbWqWqgAVC6PI0v+di9Yf42VDlhE701l+cZzyX4TtgXSar/OuPuH84Hq49i7
+	 D+gok3AcGSPkBkT/ck5hij9rMVunPCfP7zF7l8Qaal7fmAPG0cWgOn7zmVXFERwYXt
+	 aLUqVghAz8T4DyQWoaPk64g6Q6GONiTMJXPAJEd4knPFE9bTFm5ibbAENVHueIhqr0
+	 j1H8FkWM8G47w==
+Date: Wed, 4 Nov 2026 00:15:35 +0000
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux@analog.com, devicetree@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Jonathan Cameron <jic23@kernel.org>, David
+ Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <ukleinek@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 07/10] iio: frequency: ad9910: support drctl control
+Message-ID: <20261104001535.46a1995b@jic23-hlaptop>
+In-Reply-To: <20261103-ad9910-backend-support-v3-7-0e9224ddf7b7@analog.com>
+References: <20261103-ad9910-backend-support-v3-0-0e9224ddf7b7@analog.com>
+	<20261103-ad9910-backend-support-v3-7-0e9224ddf7b7@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,42 +68,77 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261103235152.1904727-1-sdf@fomichev.me>
-Message-ID: <18e4af42c8b279c4.3137322e32382e36372e3935.1c58a7.0000sendgmr@google.com>
-Date: Wed, 04 Nov 2026 00:14:13 +0000
-Subject: Re: [PATCH net-next v2 0/7] net: devmem: size TX net_iovs from the
- dmabuf layout
-From: Mina Almasry <almasrymina@google.com>
-To: Stanislav Fomichev <sdf.kernel@gmail.com>, netdev@vger.kernel.org
-Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org, 
-	pabeni@redhat.com, andrew+netdev@lunn.ch, edumazet@kernel.org, 
-	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	rdunlap@infradead.org, michael.chan@broadcom.com, pavan.chebbi@broadcom.com, 
-	sdf@fomichev.me, almasrymina@google.com, bobbyeshleman@meta.com, 
-	asml.silence@gmail.com, razor@blackwall.org, daniel@iogearbox.net, 
-	leitao@debian.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 3, 2026 at 3:51 PM Stanislav Fomichev <sdf.kernel@gmail.com> wrote:
->
-> TX bindings use PAGE_SIZE net_iovs, so a frag covers at most a page.
-> A 64KB skb needs 16 frags, and MAX_SKB_FRAGS caps devmem skbs at about
-> 68KB, which makes BIG TCP ineffective for devmem TX.
->
-> This series picks the TX net_iov size from the dmabuf sg table instead:
-> the largest power of 2, up to 2MB, which aligns every DMA segment. With
-> a 2MB hugepage-backed udmabuf a BIG TCP skb takes a few frags. There's
-> no UAPI change since TX addresses are dmabuf offsets.
->
-> TCP still bounds skbs by size_goal, so frags get larger, skbs don't.
-> A single frag can now be as large as the skb, which matters for
-> NETMEM_TX drivers with tso_max_size above 64KB:
-> - mlx5: 32-bit length per data segment
-> - gve: splits frags into 16KB descriptors
-> - fbnic: keeps the default 64KB tso_max_size
-> - bnxt: 16-bit BD length, devmem TX frags are capped at 32KB by a new
->   per-device limit
+On Tue, 03 Nov 2026 11:53:03 -0300
+Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
 
-Reviewed-by: Mina Almasry <almasrymina@google.com>
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> The DRCTL pin controls the slope direction of the AD9910 digital ramp
+> generator (DRG). When dwell is enabled at a ramp limit, the DRG holds
+> that limit until the next DRCTL transition, so the sweep pattern is
+> defined by the waveform applied to that pin, which can be generated by
+> a PWM.
+> 
+> Get the optional "drctl" PWM and expose the integration_time attribute
+> in the DRG ramp up and ramp down channels, which sets the time interval
+> assigned to each ramp direction while the sweep parameter is accumulating.
+> 
+> The DRCTL waveform is described with the PWM waveform API, using the duty
+> offset when DRCTL needs to start low. The PWM is disabled when the
+> resulting period is zero. The waveform is rounded by the PWM provider
+> before being applied, so that integration_time reports the intervals
+> achieved by it. Writing to integration_time fails with -EOPNOTSUPP when
+> no DRCTL PWM is available. As the waveform API has no stubs, the driver
+> now depends on PWM.
+> 
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+
+The passing comment reflects discussion on v2.  Still seems worth
+tidying up to me!  Maybe as a follow up though.
+
+Jonathan
+
+
+>  static void ad9910_hw_powerdown_action(void *data)
+>  {
+>  	struct ad9910_state *st = data;
+> @@ -2249,6 +2365,26 @@ static int ad9910_probe(struct spi_device *spi)
+>  
+>  	fsleep(AD9910_WAKEUP_DELAY_us);
+>  
+> +	/*
+> +	 * DRCTL is the only PWM used, so it is looked up by index. A named
+> +	 * lookup would fail with -EINVAL when pwm-names is absent, preventing
+> +	 * the optional handling below.
+> +	 */
+> +	st->drctl_pwm = devm_pwm_get(dev, NULL);
+
+Maybe not something for this series, but it might be nice to have
+a devm_pwm_get_optional() to avoid having to track specific error
+values. Probably return NULL for nothing specified,
+similar to your wrapper code here. 
+
+
+> +	if (IS_ERR(st->drctl_pwm)) {
+> +		ret = PTR_ERR(st->drctl_pwm);
+> +		if (ret != -ENOENT && ret != -ENODEV)
+> +			return dev_err_probe(dev, PTR_ERR(st->drctl_pwm),
+> +					     "failed to get drctl pwm\n");
+> +		st->drctl_pwm = NULL;
+> +	} else {
+> +		ret = devm_add_action_or_reset(dev, ad9910_drctl_disable_action,
+> +					       st->drctl_pwm);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					     "failed to add drctl disable action\n");
+> +	}
+> +
+>  	ret = ad9910_parse_fw(st);
+>  	if (ret)
+>  		return ret;
+> 
+
