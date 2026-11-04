@@ -1,60 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793790625;
-	b=ggAp5ZmZ9aRkGRpWhiGgLgICyiPNUKyVKK+QXKjGM3+37FXnJnoTYhi7O8MNQWUlUDEh
-	 ZUTQ8ypRucRUYBJq1Kijlkvkw/L9L3gVSHDNpxRlYOWhh007WxqRSaXdSky+jWB00Gx0l
-	 CEzND2MR1uMKoARVDkEotS+yxNBz48eLws3dZu71oH6GgbyEa3+OOLdVVtnXIhZuXu0Kl
-	 8sgtd31kvWnZN5fBOxwPg7l1ikitNA0Afi7nwFEvQr1ZvcGEzWp6paSeqTRntqL5dvM9R
-	 7bHEcgDeFUDsyJ/iafwDGwbs5FFlImojtBhq7b4hDQztWvCJBEzkA/qrONrTcr39ErQ==
+	t=1793790626;
+	b=VbanE/zvsul089UN3i/KddobhERHiLFklyp5Boc3oylRm5D9GEum3STnIBy9vXGxn2lX
+	 8MXiQ7CVQpDqrm5vQ67edtKXd/3RPFb9p4JU1jBt6IHImFMbgMM9dBNjlXViXCe0qVlS4
+	 ELqO8m4OIjCC9YkX67k1Yj+RL+IXdUGC5XUGwZLTiR6uu/wBIG3nx0S1Eg2lptEfXfb4P
+	 Did4yA06uyzIBHc7K69XysTxur4T4l9/9z0BhAqLYUP8F7WkHrPptNhhWjtWkJU6dw3a7
+	 86IF8izT/cECphmfaTpU1iSMM1SGNEitAXd93BGYkzX4VEpnzHRwcoDEms41ZXDnwTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793790625;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=lAHJ8FHzVR1sD93SV5yiYybKt1rftqUbw+Pl7sCivxI=;
-	b=B+47nefLOftv+lSwKEuVBh40/5x+cG2FUFmDP2M9qK8cVIu3vhwv7rJECYfhSM/+dlZW
-	 Msgr11JNjCYS1ut3I737zbdrPmavBgjMjAHFXyX88JNB2/1LTaCw2gbrIE65OvJ+NfOTb
-	 HMfPWVNSaZaLO/9ToW3HqKfRRaymzuHY09MMpm1l7+xiMGW+1uROxgVMyuhYUaCO8BOlC
-	 fnBNj7+RaLLsqvVJtBEQpjkVEZYqdnaAjX/rFv8E6o57W33p5HPardS/7pj3k1ztQPBzz
-	 gMp9t9462/sL44V/zWwEBoQyGzptUGrOYIQHewIqVsXrKRh8X5QoCZQo/sMWkHNcGhw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793790626;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Developer-Signature:X-Developer-Key:
+	 X-Scanned-By;
+	bh=BIN2xmkcrM6GUForywfj0SmUMjhlUpfCv56D4umJYig=;
+	b=RArOSf4w7Xyrxpu1Ukt/zB9knljSFHMMjrOHTUznZ9jYqZ+DKSsA5uhRDSOAxDCnmwF9
+	 ju/ThP7f9Zp8LenADqjYlDkPiyVrIg3vZJYd2ey4uvUSrhy2hCycGSf7s+fQoUfuI7Y8u
+	 /5ps2t3h9FQAc+NGuaTJnKTC33YwhweLs1r1kBrw+qf2HWqBA2GeMJuxGS5YooMi5yPki
+	 Gaq5SqSBiu6KJGaHCSEWmkgKhFqK9E+cBUqPqu1M/RkRrSqSn+yI5pyh0lXc3+e1DlH9l
+	 EKp//Qwtmv7jdEn4VkaP5kLpv/F7IEd6Dh+oY5q2wlf7pm44l48F5fH4Rww/vE/ViLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CAlCNFUq;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JrvG86vH;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49002606D821;
-	Wed,  4 Nov 2026 11:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 433BC606D82D
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 11:10:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 433BC606D82D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CAlCNFUq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B10F1F00A20;
-	Wed,  4 Nov 2026 11:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793790625;
-	bh=lAHJ8FHzVR1sD93SV5yiYybKt1rftqUbw+Pl7sCivxI=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=CAlCNFUqkCkECw2nQdR+3soqjExncUIQ9s90lzgqwFsY+8UR/68m69X/SqNq284R9
-	 k9za9LZq4aowUYRVrt2lQDHplRHZXdPJhgNZunOCgjatihJzO4bb4u3/afq+XSqs/A
-	 96UtHi2T9cohUBBsd34FuYemauSDz1HuUE/BmZRtPvvFx0xNuZWOas6jwADcYqutuc
-	 ZGurARcXetQxaLQTmSmrCiamRFx62qMdXRAUaB5Ez/lTHFSP9URxD62gYJBXxOyDQm
-	 L6660WvoUsaPZR0pF3gtjvNOINfwobVovbOZw4Xy9m2dsfhRWThC7enipLOrWfk8Au
-	 dIR4k6hA2Z/cA==
-From: Lee Jones <lee@kernel.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Christian Marangi <ansuelsmth@gmail.com>, 
- Griffin Kroah-Hartman <griffin@kroah.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Arthur Crepin Leblond <arthur@marmottus.net>
-Cc: linux-leds@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org
-In-Reply-To: <20261026-lp55xx-v1-0-6eaaf530115c@marmottus.net>
-References: <20261026-lp55xx-v1-0-6eaaf530115c@marmottus.net>
-Subject: Re: [PATCH 0/3] leds: lp55xx: Fix the LP5569 LED mapping table
- placement
-Message-Id: <179379062298.1650112.8400326668494176889.b4-ty@b4>
-Date: Wed, 04 Nov 2026 11:10:22 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JrvG86vH
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793790625;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BIN2xmkcrM6GUForywfj0SmUMjhlUpfCv56D4umJYig=;
+	b=JrvG86vH+x5OM+Cv0c9dknKBFFYLup5qxScbdbQhOHF+dn6JyYgv4e7PiznFF0XkLJCWx6
+	HfMtrDJa0kmvkcDyhKX4NiffaH6idQ4HGTt6eXpJM3HYoA86omStoA+u2RVunp2qLPKMph
+	uz7tY3mFkWqjgJZ8V+I284AdSKhlOk0=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-360-9S7ZHpiTMa6gjO6GBpoBsA-1; Wed,
+ 04 Nov 2026 06:10:19 -0500
+X-MC-Unique: 9S7ZHpiTMa6gjO6GBpoBsA-1
+X-Mimecast-MFC-AGG-ID: 9S7ZHpiTMa6gjO6GBpoBsA_1793790615
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4DB79195605E;
+	Wed,  4 Nov 2026 11:10:15 +0000 (UTC)
+Received: from aesteve-thinkpadp1gen8.rmtes.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1A7851956041;
+	Wed,  4 Nov 2026 11:10:07 +0000 (UTC)
+From: Albert Esteve <aesteve@redhat.com>
+Date: Wed, 04 Nov 2026 12:09:15 +0100
+Subject: [PATCH v4 6/8] selinux: Restrict cross-cgroup dma-buf charging
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,28 +74,104 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Mailer: b4 0.16-dev-ad80c
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261104-v2_20230123_tjmercier_google_com-v4-6-1819a017000b@redhat.com>
+References: <20261104-v2_20230123_tjmercier_google_com-v4-0-1819a017000b@redhat.com>
+In-Reply-To: <20261104-v2_20230123_tjmercier_google_com-v4-0-1819a017000b@redhat.com>
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+ "T.J. Mercier" <tjmercier@google.com>, 
+ Christian Brauner <brauner@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+ Stephen Smalley <stephen.smalley.work@gmail.com>, 
+ Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+ =?utf-8?q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>, 
+ Jens Wiklander <jenswi@kernel.org>, Sumit Garg <sumit.garg@kernel.org>, 
+ =?utf-8?q?Ondrej_Mosn=C3=A1=C4=8Dek?= <omosnacek@gmail.com>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-mm@kvack.org, linux-security-module@vger.kernel.org, 
+ selinux@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ op-tee@lists.trustedfirmware.org, Albert Esteve <aesteve@redhat.com>
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793790554; l=2546;
+ i=aesteve@redhat.com; s=20260827; h=from:subject:message-id;
+ bh=Q4MDTyTx8BDPwFzxJa2XHViMR1+R79st6XMgJZaOlIY=;
+ b=REHM6F3Ku6uuvIdOxBXhrumnTAmUHEsxlCmUVbJB/ZvhOPELqWlxs0TEKjvh1a2rXfDxv9T1v
+ E2O5apaN0Z8CytDrQW6kkXw69Ocb+i48IvcsvH64xCPhTw9c4BZmhSg
+X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
+ pk=zI2RBeZgocwYm3AkJW4CtjoJnKoDZrfBl1xe5Ed6h+U=
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Mon, 26 Oct 2026 14:55:38 +0100, Arthur Crepin Leblond wrote:
-> The LP5569 and LP5523 keep a per-engine LED mapping table in the SRAM.
-> The table is read by the engine's map_* instructions.
-> 
-> On LP5569, the instruction loads a table from a 7-bits absolute SRAM
-> address (0-127), therefore the mapping table address must be in the
-> lower-half of the SRAM.
-> 
-> [...]
+The security_dma_buf_charge_task() hook allows security modules
+to control which processes may charge dma-buf allocations
+to another process's cgroup via the charge_fd field of
+DMA_HEAP_IOCTL_ALLOC. Without a policy implementation, the
+hook is a no-op and the restriction is not enforced.
 
-Applied, thanks!
+On SELinux-managed systems any domain with access to a
+dma-heap device node can therefore exhaust another cgroup's
+memory budget without restriction.
 
-[1/3] leds: lp55xx: Add program and mux base pages to the device config
-      commit: 7f61431969de5c32aed924a9e4545dca5f39c110
-[2/3] leds: leds-lp5569: Place the LED mapping table in the lower half of the SRAM
-      commit: bd92a3d61dad4e71c0e3cf820fdf483e97f4d736
-[3/3] Documentation: leds: lp55xx: Add an LP5569 example
-      commit: f9a336bbf1e74ead4fb8082dca8e7ac29f5adb1c
+Implement selinux_dma_buf_charge_task() using avc_has_perm() with
+a new dma_buf object class and a charge_task permission. Policy
+authors can then grant cross-cgroup charging selectively,
+for example:
 
---
-Lee Jones [李琼斯]
+  allow allocator_app_t client_app_t:dma_buf charge_task;
+
+Signed-off-by: Albert Esteve <aesteve@redhat.com>
+---
+ security/selinux/hooks.c            | 7 +++++++
+ security/selinux/include/classmap.h | 1 +
+ 2 files changed, 8 insertions(+)
+
+diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
+index 30776b0107f2..8f39d91eabc9 100644
+--- a/security/selinux/hooks.c
++++ b/security/selinux/hooks.c
+@@ -2204,6 +2204,12 @@ static int selinux_capable(const struct cred *cred, struct user_namespace *ns,
+ 	return cred_has_capability(cred, cap, opts, ns == &init_user_ns);
+ }
+ 
++static int selinux_dma_buf_charge_task(const struct cred *from, const struct cred *to)
++{
++	return avc_has_perm(cred_sid(from), cred_sid(to),
++			    SECCLASS_DMA_BUF, DMA_BUF__CHARGE_TASK, NULL);
++}
++
+ static int selinux_quotactl(int cmds, int type, int id, const struct super_block *sb)
+ {
+ 	const struct cred *cred = current_cred();
+@@ -7674,6 +7680,7 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
+ 	LSM_HOOK_INIT(capget, selinux_capget),
+ 	LSM_HOOK_INIT(capset, selinux_capset),
+ 	LSM_HOOK_INIT(capable, selinux_capable),
++	LSM_HOOK_INIT(dma_buf_charge_task, selinux_dma_buf_charge_task),
+ 	LSM_HOOK_INIT(quotactl, selinux_quotactl),
+ 	LSM_HOOK_INIT(quota_on, selinux_quota_on),
+ 	LSM_HOOK_INIT(syslog, selinux_syslog),
+diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
+index 90cb61b16425..b4ebedc6e424 100644
+--- a/security/selinux/include/classmap.h
++++ b/security/selinux/include/classmap.h
+@@ -181,6 +181,7 @@ const struct security_class_mapping secclass_map[] = {
+ 	{ "user_namespace", { "create", NULL } },
+ 	{ "memfd_file",
+ 	  { COMMON_FILE_PERMS, "execute_no_trans", "entrypoint", NULL } },
++	{ "dma_buf", { "charge_task", NULL } },
+ 	/* last one */ { NULL, {} }
+ };
+ 
+
+-- 
+2.55.0
 
