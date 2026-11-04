@@ -1,68 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793812454;
-	b=5J+U+E6XBrVbppxWIdcU1lUousvXIVYmn1vfPfwkju+FHQ/y+hMu35iQ16Zm9TqhtrhS
-	 FJy5Woodi4jnY7VuWMRFJM4Z/Kz1p3OsOOVil8rzYIfcT9sf8mKhjmPEjXmewRETcRvIW
-	 tL+nBwTBtR8FKMzTeqBnYU2eSMSuDCUEkNckj9g2bzwWt71p5odXmeA8d81P5m3BK8Bc7
-	 zTel3PTtAwgRu0vZBwpD8XhBL+IeQUFdFHDEQCQyD7gcumAc1UAqY29XPm0dsnGyxJ5qg
-	 8+MfRqyleTXZtTy2tWbexw5Mggn9U0e5EQdJt1vhCI8pHJq2+KohazjgroRDhrSosyQ==
+	t=1793812502;
+	b=2zPfikstgASxO1Le6Tg5BzYFWdg2xZW/SFEu79x4xXq/bkWHuOSixEWd8hlc5QeEmpAz
+	 t5Qu98jVzhzivXCQtw8A7iiYt3upNLac91LBV+EVrfK6N/LWfMNReSBJ8ZI0+vXMIMlAr
+	 T5rZYrmkGBR3drM8Zq9ItV6+2MmmAGou5xmoyplkakKfGpZTGW2P9FtVpSBjrcXpX9F1z
+	 CJXjY5kiBSUVZVGUYVQ9q1rv+3JPGjMHBzqQ6YNs/Q/UeJLxaiuhQK2FSlaL1WmbLWNRk
+	 LIw0VjyaAeKR9wo6UnGcpSTcvh95jYJ/ZPabVHukOh9lF3ui6VswiID0jRSDGD/5CnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793812454;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=yRj5WHRR9aenXyRIm39ayvCyj4WS0PCwSsf2eEii3y4=;
-	b=Og/655bErGQA6K7cY9zjPg78G50LlM65hJO3gWic0La/83JmrG3kfB5qM1bh1jVEfcZl
-	 XK0Wr3oTrpMxeXk7STsK1juGabOgIIFQMT9Me1pKs2uJKtwEmPVt1rEGhU1R4/X4eXEG8
-	 kaeTpw40XqIyQ4qdY5TAJUMNICV7kQJBd5LGfpo5SMQP4zXlukwEXE//G4IZ/fEH91ziO
-	 RGu+FTvfBYGLtWk01hhbnLvsTvpo8MEX/vvAbtyVWPcDveqtPlWuJZ4hW7uaCYqpd903Z
-	 o/0ykeexjLU7e1+Zhr+uYrul23C9Jaz8obfEag6juAKjYF8N92oZ3Lt9VjTKjbOccfg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793812502;
+	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Mime-Version:
+	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:To:From:
+	 Subject:X-Mailer:References:In-Reply-To:X-Last-TLS-Session-Version;
+	bh=e0mH8Uvvp1KhH4B0DvL/07BtsFGhDQCfwMueXbsaUKE=;
+	b=2gri/iE5HS7vAaCmXRVOYc07uNzHQKgoGnzK8cNhFBBkGE4YCA9CNLvXje7ZW8hWiCKn
+	 NIXp2bOq0eRWG/SH0+Y/1gnjqMpBh24bG8czk4jzBR4ckn6lH4SUp89e2XY1NO47DbTxm
+	 8jAhFmH455FFxgIhn+QpAKXg8eN3ubXe6Enq+7rkstQTwjuDKWK0gkRHb5DxeOL5Grjs1
+	 +NhleXr5nhah5vXojIGLpyzS8K/pkJ5ER1dKcfPQ8wU97G0jfizRBQ9YoQb3IjjnMyAhw
+	 QPqrMsSOO7kaAB0s/IIAyZTfvEqMA232RyW8sD1dEErW32fTVZ5y8aanqQ/jXbh+OhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MegOdnKy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bootlin.com;
+	spf=pass smtp.mailfrom=bootlin.com;
+	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=xh+BIRuK;
+	arc=none smtp.remote-ip=185.246.84.56
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076D0606A333;
-	Wed,  4 Nov 2026 17:14:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D169D606A32C;
+	Wed,  4 Nov 2026 17:15:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D169D606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MegOdnKy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE8F31F00A02;
-	Wed,  4 Nov 2026 17:14:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793812453;
-	bh=yRj5WHRR9aenXyRIm39ayvCyj4WS0PCwSsf2eEii3y4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=MegOdnKydykexyvjNSUghj/PsKL4AWwXsoL9hALI5tejJXpkO/xsHyu21RDFBo2Ap
-	 g/+z8Huc0yO/L+WHUj72LxQyh5okcc08FsQ10yoO3Px95mA6OktbE6mnVmy/4Cky1L
-	 aAF3DhJr/zKFC01irxMQjmK7n4EaAXSBeDxvk2tN51bMgRg8z2vFkBPB4ub/+Cnthi
-	 lzwlssUrRXqQCCtsPPsnFsuZZ46nLtg4wdEFrdJo+zgdmcl6ju7ExhulS8CBIQJ2xD
-	 Pru/TDbrbCwwj2+/8zZEQZ3tL9L52LeO+6dA4kUjeOk+LIGxfJct3Kt33lcTF9zMcj
-	 /Z/vjBicYWD7Q==
-Date: Wed, 4 Nov 2026 11:14:12 -0600
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
-	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
-	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Subject: Re: [PATCH v12 00/19] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
-Message-ID: <20261104171412.GA1247928@bhelgaas>
+	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=xh+BIRuK
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 3274D1A1455;
+	Wed,  4 Nov 2026 17:14:59 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E20B260772;
+	Wed,  4 Nov 2026 17:14:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0DD1010329206;
+	Wed,  4 Nov 2026 18:14:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1793812488; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=e0mH8Uvvp1KhH4B0DvL/07BtsFGhDQCfwMueXbsaUKE=;
+	b=xh+BIRuKGpdtkDNLcgikfHinfWANO1z+IcUf6KOQmmm6nLiq4T+9VcqbwklXmm8989SILi
+	5RyAu+7NA3jwH0J3EdFZEP5ehJqCBdrvYXzxvvRlNF5v9h9qjTAf2PhXThDGBguYOF4wdN
+	lLj7wyH0fjbSSDT4Tkj3bUh1KTyBdK2ASKx6kiZbP3DaQkxZ4zPneJDOQGL5kEycC6URPs
+	hBKDGU/v318Ig8grBq81dMmBmTLeqnM379TsH+ikY7G0PZwjyaaikbTeeA4PRC2GftHKOh
+	KJjy3TueEHT66xyf7spqWBgQ956dmusKVr/oGs/z3LpP4nj7u1fEvUi0+GtBhg==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,65 +58,111 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104084328.GP264423@unreal>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 04 Nov 2026 18:14:19 +0100
+Message-Id: <DMMLG3KHSTM3.1EATLVDX1MK66@bootlin.com>
+Cc: "Douglas Anderson" <dianders@chromium.org>, "Neil Armstrong"
+ <neil.armstrong@linaro.org>, "Jessica Zhang" <jesszhan0024@gmail.com>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
+ <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
+ Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jyri
+ Sarha" <jyri.sarha@iki.fi>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Andrzej Hajda"
+ <andrzej.hajda@intel.com>, "Robert Foss" <rfoss@kernel.org>, "Laurent
+ Pinchart" <Laurent.pinchart@ideasonboard.com>, "Jonas Karlman"
+ <jonas@kwiboo.se>, "Jernej Skrabec" <jernej.skrabec@gmail.com>, "Paul
+ Cercueil" <paul@crapouillou.net>, "Marek Vasut" <marex@denx.de>, "Stefan
+ Agner" <stefan@agner.ch>, "Frank Li" <Frank.Li@nxp.com>, "Sascha Hauer"
+ <s.hauer@pengutronix.de>, "Pengutronix Kernel Team"
+ <kernel@pengutronix.de>, "Fabio Estevam" <festevam@gmail.com>, "Laurent
+ Pinchart" <laurent.pinchart+renesas@ideasonboard.com>, "Tomi Valkeinen"
+ <tomi.valkeinen+renesas@ideasonboard.com>, "Kieran Bingham"
+ <kieran.bingham+renesas@ideasonboard.com>, "Geert Uytterhoeven"
+ <geert+renesas@glider.be>, "Magnus Damm" <magnus.damm@gmail.com>, "Biju
+ Das" <biju.das.jz@bp.renesas.com>, "Linus Walleij" <linusw@kernel.org>,
+ "Sandy Huang" <hjc@rock-chips.com>, =?utf-8?q?Heiko_St=C3=BCbner?=
+ <heiko@sntech.de>, "Andy Yan" <andy.yan@rock-chips.com>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>, "Randy Dunlap"
+ <rdunlap@infradead.org>, "Inki Dae" <inki.dae@samsung.com>, "Seung-Woo Kim"
+ <sw0312.kim@samsung.com>, "Kyungmin Park" <kyungmin.park@samsung.com>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>, "Peter Griffin"
+ <peter.griffin@linaro.org>, "Alim Akhtar" <alim.akhtar@samsung.com>,
+ "Alison Wang" <alison.wang@nxp.com>, "Paul Kocialkowski"
+ <paulk@sys-base.io>, "Yannick Fertre" <yannick.fertre@foss.st.com>,
+ "Raphael Gallais-Pou" <raphael.gallais-pou@foss.st.com>, "Philippe Cornu"
+ <philippe.cornu@foss.st.com>, "Maxime Coquelin"
+ <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
+ <alexandre.torgue@foss.st.com>, "Chen-Yu Tsai" <wens@kernel.org>, "Samuel
+ Holland" <samuel@sholland.org>, "Thierry Reding"
+ <thierry.reding@kernel.org>, "Mikko Perttunen" <mperttunen@nvidia.com>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Jagan Teki"
+ <jagan@amarulasolutions.com>, "Ondrej Jirman" <megi@xff.cz>, "Javier
+ Martinez Canillas" <javierm@redhat.com>, "Igor Reznichenko"
+ <igor@reznichenko.net>, "Michael Walle" <mwalle@kernel.org>, "Dario
+ Binacchi" <dario.binacchi@amarulasolutions.com>, "Jagan Teki"
+ <jagan@edgeble.ai>, "Jianhua Lu" <lujianhua000@gmail.com>,
+ =?utf-8?q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, "Purism Kernel Team"
+ <kernel@puri.sm>, "Jerry Han" <hanxu5@huaqin.corp-partner.google.com>,
+ "Joel Selvaraj" <jo@jsfamily.in>, "Icenowy Zheng" <icenowy@aosc.io>,
+ "Michael Trimarchi" <michael@amarulasolutions.com>, "Sumit Semwal"
+ <sumit.semwal@linaro.org>, "Casey Connolly" <casey.connolly@linaro.org>,
+ "Michael Tretter" <m.tretter@pengutronix.de>, "Cristian Cozzolino"
+ <cristian_ci@protonmail.com>, "Junjie Cao" <junjie.cao@linux.dev>, "Ryan
+ Brue" <ryanbrue.dev@gmail.com>, "Nickolay Goppen" <setotau@mainlining.org>,
+ "Stefan Mavrodiev" <stefan@olimex.com>, "Florian Fainelli"
+ <florian.fainelli@broadcom.com>, "Broadcom internal kernel review list"
+ <bcm-kernel-feedback-list@broadcom.com>, "Robert Chiras"
+ <robert.chiras@nxp.com>, "Alexander Koskovich" <akoskovich@pm.me>, "Markuss
+ Broks" <markuss.broks@gmail.com>, "Artur Weber" <aweber.kernel@gmail.com>,
+ "David Heidelberg" <david@ixit.cz>, "Dzmitry Sankouski"
+ <dsankouski@gmail.com>, "Yedaya Katsman" <yedaya.ka@gmail.com>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-mips@vger.kernel.org>, <imx@lists.linux.dev>,
+ <linux-arm-kernel@lists.infradead.org>,
+ <linux-renesas-soc@vger.kernel.org>, <linux-rockchip@lists.infradead.org>,
+ <linux-doc@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>,
+ <linux-stm32@st-md-mailman.stormreply.com>, <linux-sunxi@lists.linux.dev>,
+ <linux-tegra@vger.kernel.org>, <linux-rpi-kernel@lists.infradead.org>
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>, "Luca Ceresoli"
+ <luca.ceresoli@bootlin.com>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH 00/35] drm/panel: let the panels use the atomic state
+X-Mailer: aerc 0.22.0
+References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
+ <cxsgo7u2hfb4jskscqcbeaaneiyfh7bdmlvku2wxwtduekwhxz@3vsizgxvekw7>
+ <DMICO60J4G03.1QBH2T9SQ7XEZ@bootlin.com>
+ <py3tch5wmx4g2zjpebzbgtpwji4ci3vk5obeuy44fbi4vw2em2@gpjmxyvwpimn>
+In-Reply-To: <py3tch5wmx4g2zjpebzbgtpwji4ci3vk5obeuy44fbi4vw2em2@gpjmxyvwpimn>
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Wed, Nov 04, 2026 at 10:43:28AM +0200, Leon Romanovsky wrote:
-> On Tue, Nov 03, 2026 at 05:37:42PM -0600, Bjorn Helgaas wrote:
-> > On Tue, Nov 03, 2026 at 10:29:39AM +0200, Leon Romanovsky wrote:
-> > > PCI P2PDMA applies Request and Completion Redirect throughout
-> > > both paths.  This misclassifies asymmetric and nested switches,
-> > > and reports one answer for every kind of TLP.
-> > > 
-> > > Three ACS controls act on TLP attributes the Requester chooses
-> > > rather than on the topology: Translation Blocking and Direct
-> > > Translated P2P act on a Request's Address Type, and Completion
-> > > Redirect skips Completions carrying Relaxed Ordering.
-> > > 
-> > > Evaluate each direction at the path divergence, decide every
-> > > class from the one walk, and treat a client with ATS enabled as
-> > > translating unless its driver declares per-mapping ATS.
-> > > 
-> > > This completes the P2PDMA side; dma-buf and mlx5 follow
-> > > separately.
-> > 
-> > Is there a one- or two-sentence explainer of why we want this?
-> > I'm thinking in terms of what Linus will want in the merge
-> > request: a fix for something that's broken or some new
-> > functionality.  It sounds like this is solving a problem, but I
-> > don't know enough to translate the nitty-gritty details to the
-> > higher-level user-visible problem or feature.
-> 
-> Not AI; these are my own words with grammar fixes from AI:
-> 
-> "The existing implementation of PCI peer-to-peer assumed that all
-> PCI TLPs were the same: ordered and carrying untranslated addresses.
-> It did not account for the variety of traffic types defined by the
-> PCI specification. As a result, only simple systems supported
-> peer-to-peer transfers in the upstream kernel; real-world systems
-> required out-of-tree patches and careful platform design.
+Hi Dmitry,
 
-Can we be any more specific?  E.g., what makes real-world systems
-different from simple ones?  What does careful platform design mean?
-Something about ordering beyond what PCIe requires?
+On Sat Oct 31, 2026 at 5:44 PM CET, Dmitry Baryshkov wrote:
+...
+>> The first 13~14 patches are nice and fairly independent cleanups. I gues=
+s
+>> they can be sent separately, or just be applied. However I'd still want =
+to
+>> review patch 14 and do some testing next week before I consider them rea=
+dy
+>> for applying.
+>
+> Sounds like a plan. Would you ack the patch 14? I'll review and repost
+> patches 15+.
 
-ACS P2P Completion Redirect affects Relaxed Ordering (RO) Completions.
-Translation Blocking and Direct Translated P2P affect Requests with
-Translated addresses.
+Just did that, and also reuntime tested patches 1-14.
 
-So I assume the existing P2P implementation breaks somehow when RO or
-Translated addresses are used?  How does it break?
+Aren't patches 15-25 another self-contained batch, that might be sent on
+its own?
 
-> The new code will allow peer-to-peer transfers between any two
-> devices, for all types of PCI traffic, as long as the PCI path
-> between them supports peer-to-peer.
-> 
-> This paves the way for PCI peer-to-peer support in VMs, which the
-> upstream kernel does not currently support."
-> 
-> BTW:
-> 1. The patch "PCI/P2PDMA: Document the TLP attribute assumptions"
->    attempts to explain the current situation.
-> 2. The change is too large to present as a fix.
+Ah, hopefully if you repost the series without parthes 1-14 (after they are
+applied I mean) this will reduce the Cc list too.
+
+Luca
+
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
