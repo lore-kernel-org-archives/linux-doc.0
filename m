@@ -1,100 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793835525;
-	b=LPC3V2cfQ8iDpJY7tilEQkb8ssWA75A+rtQMmCD/iwD8U1O3t4/XKmx4Q+8WQx1keRMC
-	 RUIL9Eh8s8viTZTPyGlviJDI81Yfo/TfYuKWvZHwTXfTypU9k+hLmgx9wYVREjGMhrsDt
-	 cSMSnSi5XrRPTTnINII2eXHJLTNNTBdcAeqfT9YF/wvVa74Zjvt4EegTI3mB9mPsVc3NX
-	 UqzSuvXnEdTOd1AyN/PXnYTzprS+oeYVpZhLBxgoGR8dj0MFWAyKJtXTrX02ieqk2DA5v
-	 ZJlT4vKbZw1W7Zh6UOuUggxPDQXXtebptvfpuQTzfhPPgF/AkJhHuPYp8deYqkm5vow==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793835525;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=VoCFEISjEe+3bsOKsg9RxmedHt8FzEUYGSYFsiV26+U=;
-	b=a5Vz9+PS3h9jHbqDUchm9AU6tkYf8veoYqE5kg4M0N0OBBebxyrkzEnTs/U4AQR0bA+Z
-	 Pm+YRN1j7M2I2U4FJnqJLl+g404jKlEBhr6Kl68LLu9pcuKyOcOJkNlr3aIa8V341Gvbb
-	 typmPJ3Mi4SNxSeIc2MRI3xiV0xDsGj4hP76gq2t93yj0BdDDEDm3CXRVnVGHCraOMniE
-	 C9TpDw6Y0tsf/94xNk/dX+Ol4Kd5DZ4LREyyb3Zq8SgxPFS4ki3+AuWWfIC1ep+LlyG5C
-	 D9e56JiiqmISqSjcttnJ19Jtmqgrl4+MULnpKsWCyloJZ+YG56RroIsEBQShfZf+bTQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Zw+iQKvo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793836506;
+	b=oBsVulNZolxGWQjg8nRNEwMyQfef5nXxPEUMNUe6wATu8EkpaPtJ6sbTsETdJQRP5Rtw
+	 wjqtzrzgnF6hPY1JAU+whPij3OoQzNiEhrQeoKc6+aF/gnenIn/L1glcfCGOZEUOfK2kv
+	 aHN64aIX0zNsn+PkdQPxVhimciMr1Y3vv9UYiOjcMrhtm8fEDkSnqCtHIlhpYO7JTQ8eR
+	 6qtBP6s5b7+w/c/n8yg2CdsQUFadWyIlsXUoPCEYm/Ss7/9RVQPnil8AW1XftXkimizQi
+	 oeC1GXYb3Ajg+00D0M0EmM3ze1NA5mwMjpCUt523S6pIlnc/omu5zR01dwOiKIVHQ/w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793836506;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=/LahQotUT6Zyx5GMdomeN9fJ6TxmksE/N+MzR4egS40=;
+	b=wj5UVePG4T5FALuwFRXgz3nIVhCJ2jazlPYhbjY1gP3/2owys3wYaj88sfJHiV+L9xvi
+	 /q2eQ5PZu0lHhLzYj3oF3oGgA8X4ev+79FCG7ah83bCjFfB/mq6hdwij8JP1Ux8s7yKrK
+	 JrHh1oyszpRjc51Ip7dpUTUS3/CEGdH9qmZiIFyNQllP/3DylXEvDePxOVDwq5TrzIgVL
+	 yIOMhMGscba4zxtmz2Vplq5NXi+2geQmYJzVPmQsyQxjh8lLrQTpVqT9/FaoRJ5er2cNq
+	 OWR6fob+iUoV6BYkMno8p07DgEZP+aAuCYdE5hqg/j/4NI0V3l/2MA4rSFaaxUWqn+A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=shazbot.org;
+	spf=pass smtp.mailfrom=shazbot.org;
+	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=buTyPYNv;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=iVJy7dgy;
+	arc=none smtp.remote-ip=103.168.172.147
+Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3870F606A32C
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 23:38:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3870F606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B50606D80B
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 23:55:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61B50606D80B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Zw+iQKvo
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c3f8d72d7ceso225058766b.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 15:38:44 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793835523; cv=none;
-        d=google.com; s=arc-20260327;
-        b=a6a2BhKIMvA7vrCiu/M+x+P4P2rFUnc611MJ7RQeZBl3weGCjZnJ3pX7lc9xdpRw28
-         7CJepCDJnlgyrT5i08MQnPxiyDfvQ+7iwpGbRRG1qkRl2Rr6sAd0VQbqhGiordKclBl6
-         pk2YVME0XV3DTlnBRoW/toKowkfdWsZr7LF/F/j0O7HEhxdW3UocRYZoQfRk2YlVzwyM
-         KbjCph5kyADV/h4uDmfBHZk7505b3ylWFuvEf4sqMTtzvbE8KlNPMp2xrIdBrlWQ7h3A
-         sugW3LUv1imeYJwzG4K4ncCg+4NRF3lMB0j5tyQtYaw/mxfAxtxvIvPSKpdHnQezdlKE
-         yH9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=VoCFEISjEe+3bsOKsg9RxmedHt8FzEUYGSYFsiV26+U=;
-        fh=FCRbQZ+ob4Le/CWsAjjuJTiBg/BA8VCNywcDyXKxqnQ=;
-        b=auawvzeYEOP3VDS+wm5MwiFzTzikJFpuVaew6IelJupeBjsxYjBy8njU1ENcmUfx/+
-         P8feXP9OSob5uNsc14CtQbT1+zX1nsc/kE5elhVzUUrrARxo9By/6eVuZNGLdQyl8m6I
-         bxG8Xpj82U9aq2lN9HnnpXRLXVxM2K9Ks8vdhL+tZ1uZLF2WE5zs3y3InzRFYHcI0NPo
-         fMUW2d8JGNyWAVcdzfw6QqwvDbXpAj5krLdkXq8hSw3VOvrvLl6/Rem9YovyTkLtboQD
-         W863mKZxpNEvZoeUKFYRwaltn669zmsbiVORKlPnnf62wc2V0yjXemnrTPDeRn3Ylzfh
-         5Fbw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793835523; x=1794440323; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=VoCFEISjEe+3bsOKsg9RxmedHt8FzEUYGSYFsiV26+U=;
-        b=Zw+iQKvo8Yf8fVczV1PDLI8KZfnE5zD0Cy6JTEk5mrT+ANTk+Lt+hMyZL8ZK+hzaa6
-         bdqHCgHYrXD2YptQvLE7Xs4RdcioPm+8dTdjWrF0y1UvAcJHzjXYrzW35/rratZF8luu
-         LR1Wfc1ZIZ6BPQyvDsP6kpM+hMcU+zgNW0NkUJ0rGRFONICywRUEtCAH52e9elPlgdZT
-         dVEwy6CbhLCuH50RF2GvrCmQURfOLeWwNap7324DsLlv5ejmp38bYmN6gR3tU2IwBECa
-         UbE20ltlRCZZhsZNjTY9YwNlfgCgHQwcVRFqXrQ2vprEK/KNndD8xQlhHD4A7AcNrgF1
-         lkUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793835523; x=1794440323;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VoCFEISjEe+3bsOKsg9RxmedHt8FzEUYGSYFsiV26+U=;
-        b=JGhRjqolJvjJbEW5IZI1KBUTvc7/3+9WUazGuaPy+pLxG89pbFe1ONO4uXRuPcCFEo
-         zkngdy7eMtGFwXs4/hhjmOiufdpXJfiSL7pFBmytxZZ693G9djc6Z1pLHkoc7W3LQGRm
-         du43/AUKpBZKJ29Feiijp2d2qGVmg1y7gxG43VKZT1oczSumlxAV6TrWhT5s5n84JWnX
-         +K/AFBa/GgjTguFz23DoNgEMxTRrB5ketmlRrj7S0ChnhT/UQ8R4KyQPRz1V6Ys086hb
-         IJTLktIf2XR6epAhvACqT+ag6oG/xIXNKbQZHMDDdh721uz1R4ts+gqnv1JBf37zE+r6
-         gvog==
-X-Forwarded-Encrypted: i=1; AKwUvBwuXE9lAiB/QzdEhKTtcdFaay3R483tSTpMatgGKMTcnDQ4B7BnXbr4GNRH2nW95+Fg6Sl6p/LblJQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z88nIIbvskg4xk8sIABEj4hc8nX68/mZB0OwIpXk7NpiUvKvQrv
-	X/uFC/hVD67yWp1o1QiLfzv8l11eU3iy4IM9M7G2HJ38G0wc+HWbCoDrRHinVE7c/EaNKT3V6OQ
-	Fi0GfahZbBGiv938T+Vcr9eKRfHIPffbwpEi9jSttA7kZxJBJsztNkWZBjAI=
-X-Gm-Gg: AYBFou2XtCAgtzQ4KdioU/NCFyx0TaWPESjQvRgTDnF0RMCnGF6Uok3/MIvyqc9s3+S
-	fp7icsgDcb+nvL99zyx2mgT+7PEU3WjO+DyMSXIgksbzrBvmvzZjnW7+DydwLIgvv9W7yK0xf4M
-	cR+Hu254GijpmOsJWTSmtAzXoh3mpIF818P9xfCVQuaWeOkdcIA9nGuNYcq6lMxt7uESAvLhjrW
-	LvPoNAmcxaOVSkDyHqd/7mT5H4rpxa/0AmduhYJcSy6ylW7zpe7bxImMFcVJ3AbAzQxjTVurV32
-	pMXkRtiYxNF6pckTZWg0RvFnZYe6l25NjxPrWs0XdJwU3l8yNkewVK0H041kcHSlb7iase9S5qB
-	B2nEfuRwquoRhse/dr7sQBFCxAXYNNPL3bCPL5Q==
-X-Received: by 2002:a17:907:9615:b0:c2e:893:7010 with SMTP id
- a640c23a62f3a-c4ca7ab1105mr1606291066b.37.1793835523294; Wed, 04 Nov 2026
- 15:38:43 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=buTyPYNv;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=iVJy7dgy
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id 61EF6EC0194
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 18:55:05 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Wed, 04 Nov 2026 18:55:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1793836505;
+	 x=1793922905; bh=/LahQotUT6Zyx5GMdomeN9fJ6TxmksE/N+MzR4egS40=; b=
+	buTyPYNvlbiHROFDb/B1KRniMHFQRqNL9BO9ZdqMJbKYngY7T7vpCBYI3Dc0VKRs
+	24TKn9HlbqQkagpR4XHMJ0/wNS9MzRHgxgINLE42r0Y683kslUcqH3ERJg+towPo
+	C8VGzYZvV/mQlyrLOIOfke04Vb3epJo+OuzDPdd3y79J83MyzefEskOvJSZ7pcL9
+	AQJi1hYNIsOcnYNx7pH/2gCzHwLZmTrw6vpu0jmGDE1OIeeabyUdgKz8ST6dK404
+	Mepv+wlIfRvVTIcvMF9uW0HB0foZD7Fs25M5tpM0TxwmN14NAiFl1HqAK+FtORhb
+	nqwE9Ew+WBxoWyywKq9O3g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793836505; x=
+	1793922905; bh=/LahQotUT6Zyx5GMdomeN9fJ6TxmksE/N+MzR4egS40=; b=i
+	VJy7dgyyyqcnVI0oqyGno4tq/f2Pr3g40HXqV/uy+/wvzM5rb8s9XlZLxYqK91I1
+	j4HrfsLIAiLxHrtjyLdC0mI/WKmnwxiVgLVDNGpDyzGGej5gDnItQYlfuTfqL8Ez
+	y5Hpz6F6C/BZdx6SSuNjSZSUZ2jkn68ncdsglW8YIZGgI6k4EkSEPPtmZ+tCTv/4
+	X0iiy4fI/ytFsqR/xa4rA80Hp9tRntjLQBQmxFd3lhxxvQ7us8/d6mUnChNrCURs
+	LGDaxdrXi0P6EaeaY/u9mS+zt82VGaHkR0sfdbfDXjl/UMSriiTeqe7jzqmA6IsH
+	beZpckWLC5yjoCsnJJHiQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=shazbot.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793836505; d=shazbot.org;
+	mf=PGFsZXhAc2hhemJvdC5vcmc+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:fG7VxisKLztwVPSg7eTrafO3QGWNxCUjRzE5LURq1rGGy4T
+	xPu/zAmyVC9WG5ukEc8vrJ7kRi5MHYdNA3+alItJgz0P8t+zIRIaT7pFJXFYWQBK
+	gNijCDeIUtTd5rxPNY1Xco2EyW55kVQ0d+SlhedwnLJxGamf2coeUTq8ARo5ZO3R
+	m1rgOU+4oNTVNgsQZMXj7t0LFM5flQSaB47MiIctT2AfbZl3dnxN4lchbcy0drFF
+	9Yukt6ef7kJxzaYhAxucWBEPnYh81z0bR8TMskHi62Enntp8TZaUV+NOKKFTtUft
+	L7dilkp3Sq9bsZ2+03+OqOyBKnAOiP4EyHZE+lQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:JPjNwY6qCG8gkmGdnKaaT7WOOaugHCgPKLtNMRngSF8=:q3h88itWQmyd3B+UEAY+TewhTtpVxOMFr4fng73e8eA=;
+X-ME-Sender: <xms:2MXrah1vKxEpQrIwA00nxHEDmu7CisZ5VoWFqj4x-ukPB3hEB8Rj7Q>
+    <xme:2MXralsYrjcHjK8UxNK3lZys5wFudqJ1z8wpEf_fo2Lpq41IUy6XvYS4YE4Cc8vgS
+    UqvmN1ZK_E8w2IeurjMzCfgMWJHaAAjlUBV9KRiSJBRwpHeDo_5>
+X-ME-Received: <xmr:2MXrapSyHkz1oY44oDaLouBXeON8YxgoHUh1RhyJ5GxipIg3LpcwExPEfaNHEQ>
+X-ME-Proxy-Cause: dmFkZTFU/kbVOsWxOTPcCpe6x61hsj1WNmmGso+RiYOPL9PXBn0IITeBo+AW6SFW+G4ekC
+    /hzYoF162vC7PC2Mtt2USNZ/eCRzPfnSvLH4GpnZYykCQlv/g/2dfaxUihNQ2PdVnmznVt
+    eyzTFpFT8ROSV9PpSF+vkXBd8GjUZhM6/FJB6rHUdJL+IEmDIn9qqg8D9AaoFAEgqB3zaI
+    LQuuKEKLXGp7sIkYnu8IYt8f4dndp/+v360R0jn1bNCYEbWntuZR9TDLjZCVdVdTAj6SKy
+    IHj9Y41QEBh5Iv1k5SCIJDAY7TVRfrnmdQbz1lqnEzzeOazcj9kVYNjTrGiFbntAEPcYZz
+    yvoTE1jZOdoqcWowBk4XbW649bNeEFTfrUhjVyt/eW3lRhhwgA+0KDJFQgg4VWGhyRJF06
+    C5WM/hjhnCrWmkZ/hL73tJNMnOsmdh4S3GzHN1s2u/d77FbVcc727FkO8mteMnIODcLJjl
+    PKgSTdOxY7vAu4s2vfIBQMfY04jfy1nRoNG6JxeEG0b1rEs6TOZikLjtcMBtJU2rkRKHmq
+    LQ591WVAtFQB9m+01Kf1tGQ6V40zJD81YuBCFrlE8Kx0MZ9Qj08mY62AtIvNf4HShJl4qf
+    EN+XasJAjiWbBLTyJiTyklqe0OS2AzoITqG4mNP9/ybtgy09tY37NOb7rzsQ
+X-ME-Proxy: <xmx:2MXranDNGshqPhNniWP3b87a6HSQ6kXjynPVKbyzx7ALSw-iR0YSpg>
+    <xmx:2MXrarzQI9XRJQfeR4BRfOQackSLy1fvvRUP-iq5SrVGrI8VTuksXQ>
+    <xmx:2MXravtIqEa_vwuoB0JdGZ8uGQJSff1N4o5dJOjQSY01YUj-YJXC5w>
+    <xmx:2MXrasnfekN83pLdQFxpgsJFOh7OhjapuHcQ4tCWWnhYPeqBsNv64g>
+    <xmx:2cXramBX-pVAAJf97im8lOAukEIzPL6Gf6hL30uR7iPPzrQjIsfDec24>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 4 Nov 2026 18:55:02 -0500 (EST)
+Date: Wed, 4 Nov 2026 16:53:12 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: <mhonap@nvidia.com>
+Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
+ <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
+ <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+ <dave@stgolabs.net>, <alison.schofield@intel.com>,
+ <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
+ <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
+ <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
+ <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
+ <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+ alex@shazbot.org
+Subject: Re: [PATCH v6 06/31] vfio/pci: Add the CXL provider ops
+ registration interface
+Message-ID: <20261104165312.647d930e@shazbot.org>
+In-Reply-To: <20261016161839.2765592-7-mhonap@nvidia.com>
+References: <20261016161839.2765592-1-mhonap@nvidia.com>
+	<20261016161839.2765592-7-mhonap@nvidia.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,35 +138,95 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261103010216.3447716-1-dmatlack@google.com> <20261103010216.3447716-9-dmatlack@google.com>
- <2vxza4nok0ji.fsf@kernel.org>
-In-Reply-To: <2vxza4nok0ji.fsf@kernel.org>
-From: David Matlack <dmatlack@google.com>
-Date: Wed, 4 Nov 2026 15:38:16 -0800
-X-Gm-Features: AclHuK8g0SSTWzLAJK32VMTa5tPkJ4SYKSZ2JyPLhAu2cuQYk5IO7KP3qYgSUkY
-Message-ID: <CALzav=cjq0FjSRe_KHns4sGpHtspVy-5DBdo6Kzg1TdQa1z9FQ@mail.gmail.com>
-Subject: Re: [PATCH v3 08/10] mm/shmem_luo: Allow preserving tmpfs files that
- are still linked
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-mm@kvack.org, Alexander Graf <graf@amazon.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Christian Brauner <brauner@kernel.org>, David Hildenbrand <david@kernel.org>, Hugh Dickins <hughd@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, "Liam R. Howlett" <liam@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Michal Hocko <mhocko@suse.com>, Mike Rapoport <rppt@kernel.org>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 4, 2026 at 8:46=E2=80=AFAM Pratyush Yadav <pratyush@kernel.org>=
- wrote:
-> I usually spawn a subagent with clean context and a high level descriptio=
-n
-> of the goal to review the changes and changelogs, to clean up these
-> things, and then of course review everything manually.
+On Fri, 16 Oct 2026 21:48:13 +0530
+<mhonap@nvidia.com> wrote:
 
-This is a very good suggestion. I'll do this for all my patches in the
-future. Thanks!
+> From: Manish Honap <mhonap@nvidia.com>
+> 
+> vfio-pci-core must stay free of any CXL header dependency, so CXL Type-2
+> handling lives in a separate vfio-cxl module that plugs in a set of
+> callbacks.
+> 
+> Add the registration interface:
+> - vfio-cxl registers a single struct vfio_cxl_ops at module_init
+> - vfio-pci-core stores it under an rwsem.
+> 
+> A second registration is refused with -EBUSY.
+> 
+> The owner field will be used to pin vfio-cxl for the lifetime of each
+> bound CXL device.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Manish Honap <mhonap@nvidia.com>
+> ---
+>  drivers/vfio/pci/vfio_pci_core.c | 24 ++++++++++++++++++++++++
+>  include/linux/vfio_pci_core.h    | 10 ++++++++++
+>  2 files changed, 34 insertions(+)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> index 6757054e9d87..2cc5dd20396c 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+> @@ -2178,6 +2178,30 @@ static void vfio_pci_vga_uninit(struct vfio_pci_core_device *vdev)
+>  					      VGA_RSRC_LEGACY_MEM);
+>  }
+>  
+> +static const struct vfio_cxl_ops *vfio_pci_cxl_ops;
+> +static DECLARE_RWSEM(vfio_pci_cxl_ops_rwsem);
+> +
+> +int vfio_pci_core_register_cxl_ops(const struct vfio_cxl_ops *ops)
+> +{
+> +	guard(rwsem_write)(&vfio_pci_cxl_ops_rwsem);
+> +
+> +	if (vfio_pci_cxl_ops)
+> +		return -EBUSY;
+> +
+> +	vfio_pci_cxl_ops = ops;
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(vfio_pci_core_register_cxl_ops);
+> +
+> +void vfio_pci_core_unregister_cxl_ops(const struct vfio_cxl_ops *ops)
+> +{
+> +	guard(rwsem_write)(&vfio_pci_cxl_ops_rwsem);
+> +
+> +	if (vfio_pci_cxl_ops == ops)
+> +		vfio_pci_cxl_ops = NULL;
+> +}
+> +EXPORT_SYMBOL_GPL(vfio_pci_core_unregister_cxl_ops);
+> +
+>  int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
+>  {
+>  	struct vfio_pci_core_device *vdev =
+> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
+> index 9a1674c152aa..9fe0d1a3a370 100644
+> --- a/include/linux/vfio_pci_core.h
+> +++ b/include/linux/vfio_pci_core.h
+> @@ -66,6 +66,16 @@ struct vfio_pci_device_ops {
+>  			       size_t nr_ranges);
+>  };
+>  
+> +struct vfio_cxl_ops {
+> +	int	(*init)(struct vfio_pci_core_device *vdev);
+> +	void	(*release)(struct vfio_pci_core_device *vdev);
+> +	/* Pinned per bound CXL device so vfio-cxl cannot unload under usage */
+> +	struct module *owner;
+> +};
+
+A forward declaration would be sufficient and cleaner here.  It doesn't
+buy us anything to start defining the structure until we begin to use
+it.  Thanks,
+
+Alex
+
+> +
+> +int vfio_pci_core_register_cxl_ops(const struct vfio_cxl_ops *ops);
+> +void vfio_pci_core_unregister_cxl_ops(const struct vfio_cxl_ops *ops);
+> +
+>  #if IS_ENABLED(CONFIG_VFIO_PCI_DMABUF)
+>  int vfio_pci_core_fill_phys_vec(struct phys_vec *phys_vec,
+>  				struct vfio_region_dma_range *dma_ranges,
+
