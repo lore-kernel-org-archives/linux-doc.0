@@ -1,55 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.46.229.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793766651;
-	b=wiPej/bZmAndVutpKm/pR4/2rPJ71k3HwUS1xpQBX6Uql10TQGsDZvLVA6JxRHf+xpon
-	 ItB15XOOSKS89c/H9YfeNqoB045xM9CwO3+zHHsGsDyqPrrUrmH1NdP8L5yEqc5E7dXpy
-	 Fm+2jfT9KyvJ8mIVlw1xH9hulrwTA3PpW4ynVIG7d7tUyspNlk04kTotElNHSNgXxDM2u
-	 oR2HYmz+qdy44WS7fAG//3xL4hXVUWGzD/qr+66xkspW4CrSvWnQLT6o94oUzanKnM88c
-	 CbXh9ZGxMRSS4Qtr9wsXSYt6kAETvEA32z+KZVg9LeqkSAxmI1XRDx7e5e77FT6XPAQ==
+	t=1793771919;
+	b=hqPH3GybiuMBAeEcIKkoonI99fkBjIfkck3V2/3t1Lt+Wa6vfXwohQkbOMkJvBJHOEAp
+	 s+IDEN09elUTmvPWrVL+UPC1M2dHv6QYA/sfY5XLuPYLvWemPvvS7DztTOkx6jdHhixb3
+	 37paNvBrgLEJBEXVYgOyqBN/yEF6uaPnl+jzawRY2dqT9uyD7XMMeuYk0C/z7Fg9seQjU
+	 PAauxkCfkU8v4Ti0wZ4Mz22kzQcem4wTJOSgZuyE/pMTxw7TP8fXuO8MM1shAuEAu3D0q
+	 PDZtrjVE5NeSRFqYzqgZgNd2GIp0AJx/WVSaaTFrFqnKHWw1CmlXgInq43RWKAez2Rw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793766651;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ZpNcQj24yuMM3GQtiTzILqkIccl+qas6VuLsoUlL4Ug=;
-	b=aERra6D3D0M8hullNdQTrlWTXdTmOCANGNcmTi9eHz4KfpelwmTdR0l8Hm0/pxLl/xmM
-	 eOaxck/EuFwRa2JpMa4MpBWhh13K1ryE913ZgHlifjbxEewa501x3SNYB7uT2a/glh5TQ
-	 g3MmVZ5XBImzCqV8mYmnGv4gGIl6tzmxPIpAiF+xzfct8WV3+GR2KBaS37mXKOSIvqiea
-	 LXsuHEwhki+Axp+uG1owjrW5mNB1a2oTG3WcKgnOUZiV/oEkyKAQ/5MudFn0mpgEmoL3s
-	 7WGO6lSTz4d54Heah3q2ZN+x+rVp0+OkCqACxh7081/kXd45++VIi1WgwHYAYyKbapQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793771919;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=EwVD3mFImzWJJerA1LCoTsK6ZMs366FMZK6FXa3P1uA=;
+	b=yooDxtPei/JT7ysEUCkRv5LtKQmiMOmD3PujnLusm8IbrNXn5Yq3Mc4PxyWCS7JFNYpZ
+	 zpPHK6memic4XstvqOxYtuk+FazR8M0HFP4QdrkSv5umKzBlMV2lrGK9B/W1hRY1k43it
+	 UvjMRjagby6Wvx1EGuKtw4fiOx1sdIb0c7FxiF9JEk0nyyXHRGkzIYPAUk91sdU1Q+1/I
+	 TxHleDc9+coUO8RizgZ0MCU4XwN91zzMLtb9ple3ADc4ByzNn1r4U06GVgpamMptMgy3n
+	 YPTHVAnjKX/jaqulNoGI4INJLBFPOnTwgfoXuXkyTa3xn4bfOJkC7eIJuxC29EjGM3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6eMCrzx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FFB0606A326
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 04:30:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S6eMCrzx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 290C31F00A1A
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 04:30:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793766651;
-	bh=ZpNcQj24yuMM3GQtiTzILqkIccl+qas6VuLsoUlL4Ug=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=S6eMCrzxSqAOVgmsmosfiLt8SlqWRJYLyBn3xFly7Axbs+CcnPZ4suZp+uIys3Jgc
-	 4PwgTbTlGU+uYOszuV8JP+quWKwBxKS0umYm/RwW51oNPRYy3PUiyHVWkOxVZxjgx4
-	 iyfRVBNLA48avCLJMCo3K1GIR3vb4qV6CJQFbxTTr0vjQgzk8W7P81bBsbroB1LPs8
-	 yBB7q/qVivwzcHqmmyFRbQkymuYXeNTeHnwepvXQh+s7v3pfcTjSLsX1p7wwCXwz46
-	 CC8oUXW94stSS2g68YvdxCf9/IgebUmbDYhrb+JsOZwoZXblciB5A2GLh+57Fk5YtQ
-	 PRfyBpOd6IrMg==
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-6af9a9451daso382618a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 03 Nov 2026 20:30:51 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AKwUvBzPWrlEP4YkOdOTviiLVDvXD4izKCXY6cQfdCOLHfBk0Gnl4ez4YCZahT39wM3ZO2J698rG54SIHho=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+mdQlH7ICKG/b0GPTiYAH3ErW256ZcL8d5Rk8MV0NHedvWEOH5
-	ktURWsonED/R6p1xNWZ2OiIKOBZdljrEIlyUxEoSXnm9P1qAjP4Mj9IiYE8D4dNfpnrgSosPOgW
-	pQWcTNVoQMNC0DRjQgM7QGd7s6OTxym8=
-X-Received: by 2002:a05:6402:a505:10b0:6aa:e46b:2ca with SMTP id
- 4fb4d7f45d1cf-6b4d5537ae9mr7019046a12.30.1793766649804; Tue, 03 Nov 2026
- 20:30:49 -0800 (PST)
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=207.46.229.174
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85E53606A31B;
+	Wed,  4 Nov 2026 05:58:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85E53606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app1 (Coremail) with UTF8SMTP id IAEQrMDGC6KByepqQ9VuAQ--.54369S2;
+	Wed, 04 Nov 2026 13:58:25 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wAHlkB7yepqGxscAA--.38438S2;
+	Wed, 04 Nov 2026 13:58:21 +0800 (CST)
+Message-ID: <6233ee75-1872-4077-97b6-5d0c00cf8236@hust.edu.cn>
+Date: Wed, 4 Nov 2026 13:58:19 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,38 +45,78 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261103111453.84804-1-mike.michalo@gmail.com>
- <20261103111453.84804-3-mike.michalo@gmail.com> <20261103171742.18816-1-icb@fastmail.org>
- <A37137ED-872A-4969-A1BD-C23E9B523EDD@gmail.com>
-In-Reply-To: <A37137ED-872A-4969-A1BD-C23E9B523EDD@gmail.com>
-From: Namjae Jeon <linkinjeon@kernel.org>
-Date: Wed, 4 Nov 2026 13:30:36 +0900
-X-Gmail-Original-Message-ID: <CAKYAXd8ozh-WT+iSLspeZ_h2PM3xLSK4c22EsDD+53z7nbzieg@mail.gmail.com>
-X-Gm-Features: AclHuK_UFq3A83cRJ7DhTEK66pNCvFNRdlhviHK4gv1kJtzRQYyXpFPlKH59ijQ
-Message-ID: <CAKYAXd8ozh-WT+iSLspeZ_h2PM3xLSK4c22EsDD+53z7nbzieg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] ksmbd: add AES-GMAC signing support
-To: mixalhs <mike.michalo@gmail.com>
-Cc: Ian Bridges <icb@fastmail.org>, senozhatsky@chromium.org, tom@talpey.com, 
-	chenxiaosong@chenxiaosong.com, ematsumiya@suse.de, linux-cifs@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/2] docs/zh_CN: update translation of
+ doc-guide/sphinx.rst
+To: Jiandong Qiu <qiujiandong1998@gmail.com>, alexs@kernel.org,
+ si.yanteng@linux.dev, wy@wyuan.org
+Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <cover.1793279600.git.qiujiandong1998@gmail.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <cover.1793279600.git.qiujiandong1998@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:IAEQrMDGC6KByepqQ9VuAQ--.54369S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW7tF17Cw4UWry3JrWDGr1rJFb_yoW8CrykpF
+	WYgFs5Ga1kJr13tFW7G3y7AF18XF4fAa1UtFW2qw15ZrsYqr1UXrWxKrZ09ayDXa929Fs0
+	vF4avFZY9ryjyFJanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQCb7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26w1j6s0DM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
+	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
+	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E
+	87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Wed, Nov 4, 2026 at 2:57=E2=80=AFAM mixalhs <mike.michalo@gmail.com> wro=
-te:
+
+On 10/29/26 9:29 PM, Jiandong Qiu wrote:
+> Hi all,
 >
-> Hi Ian,
-> Thank you for the careful analysis and the reproducer.
+> It has been quite a while since v3. Thanks to Weijie for the reminder,
+> and to Dongliang for reviewing the series. Sorry for the long delay
+> in sending this update.
 >
-> You=E2=80=99re right: in the multichannel branch of smb2_sess_setup() the=
- binding
-> request is never verified with Session.SigningKey, and with AES-GMAC t
-> hat turns the existing signing oracle into nonce reuse.
-> Namjae, please don=E2=80=99t apply this version. I was unaware of this.
-> I=E2=80=99ll send a v2 that first verifies binding requests with the sess=
-ion signing
-> key before they are processed or any response is signed with it, and
-> check whether legitimate binding can also reuse a nonce under
-> the session key.
-Okay, I will check v2 patches.
-Thanks!
+> This series refreshes the translation of doc-guide/sphinx.rst.
+> Since the updated version refers to process/changes.rst, I also add
+> the missing zh_CN translation for that file to ensure a consistent
+> reading experience.
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+>
+> Changes in v3 -> v4:
+> - add changes.rst to the Chinese process toctree and remove its TODO entry
+> - sync changes.rst through commit fd5425b67355
+>    ("docs, resolve_btfids: Document kfunc BTF annotation emission")
+> - remove Assisted-by tags from both patches
+> - fix a typo in the sphinx.rst commit message
+> Changes in v2 -> v3:
+> - sync changes.rst with the latest commit.
+> Changes in v1 -> v2:
+> - drop the separate llvm.rst anchor patch
+> - remove the `_sphinxdoc_zh` anchor from .../zh_CN/doc-guide/sphinx.rst
+> - add Assisted-by tags
+>
+> Link: https://lore.kernel.org/linux-doc/20260619140245.1982921-1-qiujiandong1998@gmail.com/ # v1
+> Link: https://lore.kernel.org/linux-doc/20260621131215.1303439-1-qiujiandong1998@gmail.com/ # v2
+> Link: https://lore.kernel.org/linux-doc/20260706151358.2103703-1-qiujiandong1998@gmail.com/ # v3
+>
+> Jiandong Qiu (2):
+>    docs/zh_CN: add process/changes.rst translation
+>    docs/zh_CN: update sphinx.rst translation
+>
+>   .../translations/zh_CN/doc-guide/sphinx.rst   | 167 ++++--
+>   .../translations/zh_CN/process/changes.rst    | 528 ++++++++++++++++++
+>   .../translations/zh_CN/process/index.rst      |   2 +-
+>   3 files changed, 662 insertions(+), 35 deletions(-)
+>   create mode 100644 Documentation/translations/zh_CN/process/changes.rst
+>
+
