@@ -1,72 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793810772;
-	b=b8ah0VNX3Crqawl+KsbApyD0EM7tl0wVoDOZhlnqGcDTP3HwfAJpqpQPLPj5WVw40FI0
-	 c2kz9uSve55WUDGilXwIHjajQf7WVYlZ9V+11Kbaw+50QDJwSk0Xulm+lHNCBdjHMI8Vv
-	 nZs0cPbAbO85ACHQyT9ZjINAS16vBGd0zUTIzz6C7wRls3o0pHZTvfGrXDe02AbYeqLE/
-	 SX1zNUSM3WYE0nfMM7wtYAF37zRhna3+WkjN9RlJLK29peKnitawqFIoON9ogiLdf8Ajq
-	 uhUaKSdGNTbMplc8nepp4dfoSmp6PRkiTuIS5Yp5T2q4DGwJYjItOdf+W+BEuJwzjGw==
+	t=1793810797;
+	b=GFrWzSVV8THNQuBGrOFR8BZ0hdRzIFOi2x70z1H5UKvA07DK2mVU7zhRHs7HZekZz+wk
+	 tREunaGqQNo8OzwEmeSrCoSerSIe+2TdQfuICCZzypxKhjhZc1iHMZBbPEX6KNQho6Cek
+	 jlniDAgodUpwCf4cN7oq3g0OnKYZ0RKsTDk67CaXsLpWPW0W0PVlh3s/xcn4BzzOda4h6
+	 IyIOrapbJj2BeESDRx1tFU0WByY2/Wsj37/jsvT6rssxhVfySDCTepqmXbjX/WEGYn/2z
+	 N1Euq3VNr8yvfohSynG7xuKgwU3IWb1XHPVacKpDZiW6iRFLrTWsq4mh0V3pszf2Ozw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793810772;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=S3LMfYdxSPYX6KeF1OEfox88UMF6+xUpUY6ooLhhmV0=;
-	b=rQhVjuJz1cOwoolCEGd6hSksuxTab+gQZefW352vVm930tCe7OqJ6ZLdRe7Zou+OJJFf
-	 jrTo3LkMEeCyucxvuxmcNinuJw40J1+z/v1H94FyaM2wpG9WxYQFWuNz3qE13btGEvV7V
-	 9nbzSGbdkDhbpy2Mm01xRtIZ7QJsrq6PSEypK3yaYyYFpTvGxsZlSIlErUNbkcxVsvPZT
-	 A8A/hwOHhg01sGmo9naG3WbTtrE3FTg3cKXJ5FxZvyRTb4Pd1CgBzkraJ1GPORyTGmq16
-	 dO72n2gSDP8uC7kKxi3t9OWfSZoLbI94c20FyFw554GwbbGiIR0TcVXZclLsczRpaqA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793810797;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=eAaKlrwhgxVSTJYKvS+Mu/JmjMNNY3TaQOKNMaH3oHI=;
+	b=Q/+sEJsqIuwOesVi6aED8LcTXHtdOItPuStzmWMQ0pcWkvgH14pBFcSNa30CIsJAanY3
+	 0BQT5L+6XzxNxQwN6Gsjb4bt6gKnV35jhzlk80LBD9OVw7uTv9+pqDS/hO4SIVS6SmHmK
+	 IvV6Z4dGk2fp0qSPT6kizdDvYZwEAVB5I6uUjs0DuLqtNFTCxAijO+1S64Db6eYHtXK/o
+	 hbC6f1ReH13NIevTsgCdz8iS0YFSbO785NaYTayX7qurBDchJsIvDGveHxlgIl8pz3iCe
+	 wyn0ebDh68Umy0rH4WAR6lubeu84DOzMHDipWAQCLjeV0eLm2PhbY0adiYoWh9xEGRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="jSJW/UL5";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD2E2606A326;
-	Wed,  4 Nov 2026 16:46:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD2E2606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=JV7jvcyh;
+	arc=none smtp.remote-ip=74.125.82.46
+Received: from mail-dl1-f46.google.com (mail-dl1-f46.google.com [74.125.82.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BFF606A333
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 16:46:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45BFF606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=jSJW/UL5
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6CC7169C;
-	Wed,  4 Nov 2026 08:46:06 -0800 (PST)
-Received: from localhost (unknown [10.2.196.114])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A43F73F632;
-	Wed,  4 Nov 2026 08:46:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793810770; bh=X1quyvwTNcCWCSQevunm3NZQbaIAqRt2lmIUgM0IgjU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jSJW/UL5Rv4ZsXd6CU1n8K3Xu/B86jAObtXeK1lLDWfCRYOK7czgeZAPNGOTSIrMa
-	 7ZG7Isu59V9qG4CJYscXVsmSjB1lLjaoFCOf6gEy7Nmau9kTVTEJvLVe8uxn7MXprB
-	 VM9DZ3Q+SbFiyHeXepHGxwLUPaJOhxyw8YSagqms=
-Date: Wed, 4 Nov 2026 16:46:07 +0000
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Leo Yan <leo.yan@linux.dev>, Adrian Hunter <adrian.hunter@intel.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@arm.com>, Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
-	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Arnaldo Carvalho de Melo <acme@redhat.com>,
-	linux-doc@vger.kernel.org, John Garry <john.garry@linux.dev>
-Subject: Re: [PATCH v3 07/18] perf python: Expose sample instruction length
-Message-ID: <20261104164607.GL9176@e132581.arm.com>
-References: <20261102-james-cs-unformatted-per-thread-fix-v3-0-dbcb0c281b9b@linaro.org>
- <20261102-james-cs-unformatted-per-thread-fix-v3-7-dbcb0c281b9b@linaro.org>
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=JV7jvcyh
+Received: by mail-dl1-f46.google.com with SMTP id a92af1059eb24-1b1ce85287aso835601c88.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 08:46:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1793810796; x=1794415596; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eAaKlrwhgxVSTJYKvS+Mu/JmjMNNY3TaQOKNMaH3oHI=;
+        b=JV7jvcyhDzFZgOzyiXMsrrE96csI3o5reJpHhY1rZC3R+/mUnsqjvCmXEjOL3OVxrJ
+         JkdmZ7gnsvz/rc1SGznFGm489hIxWfufBaTe+g/2UZU6OFp6XAoftty8q01wNHobQd8X
+         wch1oNFN1YQPF6MTpQuBWXmoCzX1jPassCZJs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793810796; x=1794415596;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eAaKlrwhgxVSTJYKvS+Mu/JmjMNNY3TaQOKNMaH3oHI=;
+        b=ECwCwt0uFMcIbOt85cjKEkLFCNt/lyiggc5mEP6SBFY5d5oBrKa8efPH8nJGINTkZj
+         Xp2p5Oqme0y198Heef7prxd7LhxaJnFFIoWfje7b15tNfsKSwgl2pA/WL3woVkcpGcfW
+         0CXKg0ADf+jhs/YSeKCLc2oQ04DEiil1kibzCLjiWzUYckwHDdSbBbQgNGuZyNn3peiN
+         yh6Y+qBuG+5BhACW1l9Z8JSmcBUeW5vk7yY815Qkq1YA18kiSALYH5NrH3+7uTG8X3Kx
+         CXdSaoFvQQEy6xuO0HmpHS9vPDEbUjctLsLXLTKXm+YkzpcIHfx5bhEJsm90i7RuXRIr
+         Tdyw==
+X-Forwarded-Encrypted: i=1; AKwUvBxfjiM01sudKWk9jNRNt2QrQmeVqNaPAJXhOsNTYkCIKcW7gvscWt896DA0PBySjNfbBQIoC0dOZs0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8CGSAMJxXVSE5W3IZQQmDQYnLVJy/5wx5hVcyNuzuCtu3kWTys
+	TQo+yL2IMBtj33v2pDoBfc29Api67l+2c9mLPTG/4gBB3ZrVt8npW6N9Ey/nFl3MMQ==
+X-Gm-Gg: AYBFou1E45jV3RxCPXCR9dnH+nznrY6NEZhMmS0uyYwC/ve8UJoGjtZFxHYq/ari3p6
+	wa17j5Kvtsulo8CzJ6sTN4TEGlxPq/LZ973TnBYXIH6wA+DM83uNLSOQgZVmMrMneFOQXVbGY4+
+	RgebLkRtWpvQi0ifjUx83GGgt3tb908dE2fTzYjdgj5GS4bYrfQtyBkUvHaQHgxa6Jd893d8N/l
+	NPRFnoetXaB1YIFHB1KRHsQZsJcFTaVq8p/rESz5z/5WU+3PA+u8n+wO6VpsP1RDos/ynQ/UOWP
+	uppZX4Z3k7INm1TRx3nlYYrEBLOCmtUjZj0jrpBjPVHPtzeStEmXJhF7kC+PrWne6grIbTWb5ib
+	bcT//udjMlXZdbnMhy62BmNw152wyyhqv4rr7X1acLlyqB9VUoeElh7qabCcJndtj2qK4O06HtN
+	ZcsSp/bbFg4snnapweCRpj1rI/VbXQa+/ZSEaw0gOJjcgNn0BdCJwGRuU0hRciOZCXcBSjULIF9
+	+Nmh/9m6cT06TMLDHn4CBNtHOrh4KctsszrtwwvI0xwmRQctcnfpiYJvBtUcD+cjWUtf1rQqqnh
+	TMNqRu+fk9XSfEtwpw8CfVIodCLRIR5jd1vuLgwpv3fdzCpNOYgr7fMZfMxpdcpP+II=
+X-Received: by 2002:a05:701b:42c3:20b0:1b2:366a:e7d1 with SMTP id a92af1059eb24-1b2366ae854mr11976510c88.32.1793810795926;
+        Wed, 04 Nov 2026 08:46:35 -0800 (PST)
+Received: from localhost ([2a00:79e0:2e7c:8:ab71:b3df:693a:fbf2])
+        by smtp.gmail.com with UTF8SMTPSA id a92af1059eb24-1b245c2de58sm8522268c88.12.2026.11.04.08.46.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Nov 2026 08:46:35 -0800 (PST)
+Date: Wed, 4 Nov 2026 08:46:33 -0800
+From: Brian Norris <briannorris@chromium.org>
+To: Stanley Jhu <stanleyjhu@google.com>
+Cc: "Rafael J . Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>,
+	Pavel Machek <pavel@kernel.org>,
+	Praveen Talari <praveen.talari@oss.qualcomm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Jens Axboe <axboe@kernel.dk>, Bart Van Assche <bvanassche@acm.org>,
+	linux-pm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-scsi@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] PM: runtime: Update runtime_pm.rst for non-fatal
+ resume errors
+Message-ID: <authaS5a_NrY-NLd@google.com>
+References: <20261104151651.3035537-1-stanleyjhu@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,15 +103,29 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261102-james-cs-unformatted-per-thread-fix-v3-7-dbcb0c281b9b@linaro.org>
+In-Reply-To: <20261104151651.3035537-1-stanleyjhu@google.com>
 
-On Mon, Nov 02, 2026 at 12:15:21PM +0000, James Clark wrote:
-> Expose perf_sample::insn_len as a read-only insn_len attribute.
+On Wed, Nov 04, 2026 at 11:16:51PM +0800, Stanley Jhu wrote:
+> Since commit eef1d74bf88f ("PM: runtime: Only set runtime_error on
+> suspend callback failures"), rpm_callback() no longer sets
+> dev->power.runtime_error when ->runtime_resume() returns an error.
+> However, Documentation/power/runtime_pm.rst still states in both the
+> resume callback rules and the ->runtime_idle() comparison that the PM
+> core treats ->runtime_resume() errors as fatal device errors and blocks
+> runtime PM helper functions until the status is manually reset.
 > 
-> Trace decoders supply instruction lengths on synthesized samples to
-> indicate whether an instruction was executed or not during a call or
-> exception. Let scripts read this value directly.
+> Update the resume callback semantics bullet to state that on error the
+> PM core resets the runtime PM status to 'suspended', returns the error
+> code from synchronous resume helpers, and unlike with the suspend
+> callback never treats resume failures as fatal, leaving the Section 4
+> runtime PM helpers unblocked so a subsequent resume request can run
+> ->runtime_resume() again. Also drop ->runtime_resume() from the
+> ->runtime_idle() fatal-error comparison.
 > 
-> Signed-off-by: James Clark <james.clark@linaro.org>
+> Fixes: eef1d74bf88f ("PM: runtime: Only set runtime_error on suspend callback failures")
+> Fixes: aedc51762a0d ("PM: runtime: Clarify ->runtime_idle() callback return value handling")
+> Signed-off-by: Stanley Jhu <stanleyjhu@google.com>
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+Reviewed-by: Brian Norris <briannorris@chromium.org>
+
+Thanks for fixing this!
