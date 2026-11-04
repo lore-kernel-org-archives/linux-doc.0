@@ -1,68 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793774593;
-	b=EQ6ph067FYTdXlBQgcEuo+0c/8SCDsRrXAcy+MZilEkt2Cj/Jr357d7LhBkLnnxLct82
-	 2kF3ygb3CMaz8vRZG+QD6RUiHIqdRv9SR0BuzilhGdl9zIEpceW1SMbfFl707ZlQeQ17f
-	 7EJ8Kwgs5Auq0nHdRL8zH3kE2LpN1UVfgObG7BzRm1JGWdA2OPEjlCt5unAlqztzG9rxK
-	 pbcF6q18yIGfWFApkPR8uilLIObWECz4x1t05BaKAfjSbGCrJzI/2tU95sef1gzqLjSjy
-	 x2u54vHhy7OB793nQDyUsQvyN7sH0W+gbhV6211lRGN0Tk1BymNmQUw5rDb/PacJ1xw==
+	t=1793774828;
+	b=r+iFJ9mH9CPzog07gvqFIoG0Vepyy3u7WYGVH9ba0DiBM9+6Rx4YK4UKzsQbnbCdLh0k
+	 Qj9OMNKzlHJIV3ZGsIVaLCkmAV0wMKg5hZdES/IsLgva8sAOVx3wZqRHzpSALaMbTa98O
+	 HNVr4JGcslHmKnABju6s7dXOaP6aR6PuQnfxG8SchN24tbfiBs3+MXFYDwws7j0he/3hx
+	 2PSFNkdKFBCraxB0cD0PxlQq3PooTZTwQKWKtYCVRMaIt2QoUvj0B31TqJdvBHXXI3DTE
+	 9XBneH7dh2ttO1H+ZqvCXuasmFlf1pltZgYXn8LlSUZA40LcYag61o6MOIiC7khpeTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793774593;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=1GluMcGX6o9K3FgWN3ADvIyhvh+rKWD5APNzg1dV1gQ=;
-	b=QNA2JdpNJd2F6MGkfVwYHyukJC83x3kq7L9uuswNdDxMgDdL+ZrKI3OQPu5rd71nQOcc
-	 0hiuJF0fCtRyhelYHXfxFRSxeAaEspKgXfiIxIKKzFI+C5uH/w+gEgOLfhs5wI7VKZfNg
-	 pomHjKtIC65t0ILDlM1rPE+BFMk6BNPjwOJhVr5Qs3MhD/UH2dg9SFcqqN84MmzPHDmbC
-	 d91Y/rWqlr5MZSCtPRD52hO1SbbE0BEbp1x+oVDoq1OSA/fz4RGSd/cizDDHHHvdDWk+L
-	 iNyLgxcmyq+X5o6ZWfSc8hm181fmQUCnHJbGvaMsnUViiSdmk0sUOjlH90tTcris9uQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793774828;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding;
+	bh=cRnbjvHfK9LYqTZp83x+UeXrk7VZ80f+rdvCm66u/iw=;
+	b=rlK+u89Hi5ahU/6SWz2/hZBd6RvLjFQytAWGi3PLSG8mbQDvaNav0iFllTla53nyHL+v
+	 eG7YI4294Js57EZ334wnD5WN9WHznT+TnWJ5XikFXnCzzUUb30/WX3fB+mHua/geVnAAX
+	 IoMSYs6dmQnyKOiKJLnKTpdmW4NlNpCLMB69+PHF1Wnz4Bf8FO6KSHD3dKDkJJYut9gDC
+	 BWTLxBV+tYGmu8TfZyr4z3FZrsK6EOxLXELPKJFUoGDhB+XLifLRCQwcF4FpYS6Xfyp8s
+	 59NiRx5U9iHiRkkjvqz0ltH1j4okjZhM3OwbtZ1fk1B0Swow/JO+2qFj3UtGDT7jQYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aI0RBTrn;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=BvZYBAW8;
+	arc=none smtp.remote-ip=95.215.58.131
+Received: from mta1.migadu.com (out-131.mta1.migadu.com [95.215.58.131])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67A0E606A31B;
-	Wed,  4 Nov 2026 06:43:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67A0E606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0DA8606A31B
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 06:47:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0DA8606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=aI0RBTrn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793774592; x=1825310592;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=4MiPbWa9MovakwQvojXUWB5s/cO4I/EWBWhE5UD5mvE=;
-  b=aI0RBTrnTKMCrs8htx7mRdeOedoa64vbGChiSZc1D1AXZD+fL2GNB3O5
-   ABZCaOKnbvCxIjbp1lCdJI0X4ufU2M6ytv4+F9Ak9RtgGSumI5Ytymg1b
-   KI2iZ9fS8a0wvaZaPoBZ8OOnjjHHJNDT++dO9cXOdwX37oEES1Ih1KWhH
-   0Hpxc+5XLuWH00Fdpz+VLTOZAoeJGzaT/G+aVT+drBdi4afjTWfY/QQap
-   MCUnHJeU5ixL2FoUeD1GRfMjfvTH0KB6gDuyIHkSQJhjWpY1fEBIs0i6L
-   HEH6iO2WFk54RurIO7AKROp4l1JedMsbhwICOFtIwVB9cFG3Z492wt5i8
-   A==;
-X-CSE-ConnectionGUID: mYTLMje7QoqtNbazqsH9yQ==
-X-CSE-MsgGUID: vQsbC7NXTU2AXiQMAgdLDw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11955"; a="2527380"
-X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
-   d="scan'208";a="2527380"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 22:43:11 -0800
-X-CSE-ConnectionGUID: al9pqcoxRbCbgtR9ZvDqvw==
-X-CSE-MsgGUID: 61kfdNpUSsSQ5hWJ5lJTNQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,194,1787036400"; 
-   d="scan'208";a="8433789"
-Received: from unknown (HELO [10.238.2.205]) ([10.238.2.205])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2026 22:43:06 -0800
-Message-ID: <508329e9-a3b1-4143-830c-44439d459fe4@linux.intel.com>
-Date: Wed, 4 Nov 2026 14:43:03 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=BvZYBAW8
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=9AgtBZbGIFcS/iIhlYfvmGS4cRiZ/o1rNzLBv1dfHvg=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793774824; v=1; x=1794379624;
+ b=BvZYBAW8pYwmsd8D5E2p7iiBT0VDH1c7RGZaRjKWdzkweFVrIA9/APRwi2VeSe9869KbnTNz
+ J9Z9UEBHX3mUTECVqQS4OuTavOQbK7pHtBPsziT39jFCRQmEGvORqthWdX/hdvR4SYeNYUP3C03
+ bAq6MsfMHWACQHSAczu4PH59kz4q4BaP+iUQm1MW7EPmTFtYaAn8nPXUQnGFMjtl9Y8PrPH+UlF
+ jXljcLFuv8oFRlas7MugxkTlSoTW1eNkxGbLO1m7xDOOE6TszJ+LNBwihY5t3JtvbnsTgrx4xas
+ W2LzPhZL4FvtVUrwzIx12JAMBJzITu/wrXCTwrlkm/urg==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 05fef8336810e28c;
+	Wed, 04 Nov 2026 06:47:04 +0000
+X-Mizu-Trace-ID: 05fef8336810e28c
+X-Migadu-Flow: FLOW_OUT
+Date: Wed, 4 Nov 2026 14:46:58 +0800
+From: Weijie Yuan <kernel@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Weijie Yuan <wy@wyuan.org>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: How to attempt to gradually eliminate the compilation output?
+Message-ID: <aurU4uKyIUBl9-CJ@wyuan.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,114 +67,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 21/28] KVM: nVMX: Handle FRED VMCS fields in nested
- VMX context
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: kvm@vger.kernel.org, x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
- <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
- Shivansh Dhiman <shivansh.dhiman@amd.com>,
- David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
- Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
- David Matlack <dmatlack@google.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <20260911213659.2025974-22-sohil.mehta@intel.com>
-From: Binbin Wu <binbin.wu@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <20260911213659.2025974-22-sohil.mehta@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 9/12/2026 5:36 AM, Sohil Mehta wrote:
-> From: "Xin Li (Intel)" <xin@zytor.com>
+On Fri, Aug 21, 2026 at 07:18:56PM +0800, Dongliang Mu wrote:
+> On 8/21/26 3:22 PM, Weijie Yuan wrote:
+> > On Fri, Aug 21, 2026 at 02:54:59PM +0800, Dongliang Mu wrote:
+> > > On 8/21/26 1:13 AM, Weijie Yuan wrote:
+> > > > The script says:
+> > > > 
+> > > > $ tools/docs/checktransupdate.py Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+> > > > [1787244823.341547] Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
+> > > > [1787244823.630509] commit 54857c52452a ("docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign")
+> > > > [1787244823.680849] commit 6c5c07bc8589 ("docs: process: maintainer-pgp-guide: update kernel.org docs link")
+> > > > [1787244823.730027] commit 273aa250f138 ("Documentation: Improve wording on requirements for a free Nitrokey")
+> > > > [1787244823.779408] commit f44a29784f68 ("Documentation: update maintainer-pgp-guide for latest best practices")
+> > > > [1787244823.779522] 4 commits needs resolving in total
+> > > > 
+> > > > So I updated this document in chronological order, created four patches
+> > > > based on these four outdated commits to make it easier for you to
+> > > > review. Hence, you can freely squash them when applying them.
+> > > > 
+> > > > Tested with make htmldocs, no warning or error made by these patches.
+> > > Hi Weijie,
+> > > 
+> > > Please make sure you execute "  make cleandocs & make htmldocs". Some
+> > > warnings may be ignored by further compilation.
+> > Hi!
+> > 
+> > Thanks for emphasizing this. While I do remember I used "make cleandocs
+> > && make htmldocs", and checked among those long lines of red warning
+> > output to find anything caused by my commit, I indeed didn't notice this
+> > warning appearing at the early stage of the compilation.
+> > 
+> > It seems that I need to have my eyes checked soon. ;-)
+> > 
+> > Apologize for my recklessness.
+> > 
+> > Even so, do we have any way to distinguish these long-standing warnings
+> > from the new warnings that appear during compilation? In fact, every
+> > time I was worried that I might not have noticed the newly appeared
+> > warning. Unfortunately, this time it really happened. (For example,
+> > setting a new color? for new warnings?) Do you have a better idea or
+> > tips for this?
 > 
-> Extend nested VMX context management to include FRED-related VMCS fields,
-> enabling proper handling of FRED state during nested virtualization.
-
-No strong preference, but for me this is a bit too thin to describe the
-overall change of this patch.
-
+> My suggestion is to keep the log in each file, and you can easily observe
+> the diff. Otherwise, even I can ignore some warnings.
 > 
-> Because KVM always sets SECONDARY_VM_EXIT_SAVE_IA32_FRED, FRED MSRs are
-> always saved to vmcs02.  However an L1 VMM may choose to clear this bit,
-> i.e., not to save FRED MSRs to vmcs12.  This is not a problem when the L1
-> VMM sets SECONDARY_VM_EXIT_LOAD_IA32_FRED, as KVM then immediately loads
-> host FRED MSRs of vmcs12 to guest FRED MSRs of vmcs01.  However if the L1
-> VMM clears SECONDARY_VM_EXIT_LOAD_IA32_FRED, KVM should retain FRED MSRs
-> to run the L1 VMM.
-> 
-> To propagate guest FRED MSRs from vmcs02 to vmcs01, save them in
-> sync_vmcs02_to_vmcs12() regardless of whether
-> SECONDARY_VM_EXIT_SAVE_IA32_FRED is set in vmcs12.  Then, use the saved
-> values to set guest FRED MSRs in vmcs01 within load_vmcs12_host_state()
-> when !nested_cpu_load_host_fred_state().
-> 
-> Signed-off-by: Xin Li (Intel) <xin@zytor.com>
-> Signed-off-by: Sohil Mehta <sohil.mehta@intel.com>
-> ---
-> v10:
->  - Simplify nested FRED MSRs update with read/write helpers (Chao).
->  - Add other FRED MSRS to MSR bitmap nested filtering (Chao).
->  - Add {ORIGINAL,INJECTED}_EVENT_DATA to shadow fields in a separate
->    patch (Sean).
->  - Add a new parameter to load_vmcs12_host_state() to indicate the call
->    is from a failed VM entry.
->  - Update exception status member variable nested to is_nested (Sean).
-> 
-> v9:
->  - Rebase to kvm-x86/next.
->  - Guard FRED state save/restore with guest_cpu_cap_has(vcpu,
->    X86_FEATURE_FRED) (syzbot & Chao).
-> ---
+> And many contributors are coming together to fix those warnings. If they are
+> done, all new warnings are easily captured. Let us do more contribution to
+> help this.
 
-[...]
+Recently I've sent several patches to fix warnings.  But since I am not
+familiar with the actual codes of theirs, I'm not confident enough to
+touch some parts, but only the most obvious ones.
 
-> diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-> index 14fd3f57d5c1..cc1e4038cd44 100644
-> --- a/arch/x86/kvm/vmx/vmx.h
-> +++ b/arch/x86/kvm/vmx/vmx.h
-> @@ -182,6 +182,29 @@ struct nested_vmx {
->  	u64 pre_vmenter_ssp;
->  	u64 pre_vmenter_ssp_tbl;
->  
-> +	/*
-> +	 * Used to snapshot FRED MSRs that may NOT be saved to vmcs12 as specified
-> +	 * in the VM-Exit controls of vmcs12 configured by L1 VMM.
-> +	 *
-> +	 * FRED MSRs are *always* saved into vmcs02 because KVM always sets
-> +	 * SECONDARY_VM_EXIT_SAVE_IA32_FRED.  However an L1 VMM may choose to clear
-> +	 * this bit, resulting in FRED MSRs not being propagated to vmcs12 from
-> +	 * vmcs02.  When the L1 VMM sets SECONDARY_VM_EXIT_LOAD_IA32_FRED, this is
-> +	 * not a problem, since KVM then immediately loads the host FRED MSRs of
-> +	 * vmcs12 to the guest FRED MSRs of vmcs01.
-> +	 *
-> +	 * But if the L1 VMM clears SECONDARY_VM_EXIT_LOAD_IA32_FRED, KVM should
-> +	 * retain the FRED MSRs, i.e., propagate the guest FRED MSRs of vmcs02 to
-> +	 * the guest FRED MSRs of vmcs01.
-> +	 *
-> +	 * This structure stores guest FRED MSRs that an L1 VMM opts not to save
-> +	 * during VM-Exits from L2 to L1.  These MSRs may still be retained for
-> +	 * running the L1 VMM if SECONDARY_VM_EXIT_LOAD_IA32_FRED is cleared in
-> +	 * vmcs12.
-> +	 */
-> +	struct vmcs_fred_msrs pre_vmenter_fred_msrs;> +	struct vmcs_fred_msrs at_vmexit_fred_msrs;
+Since this is a goal that Jon has spent years for, I'm wondering if it's
+possible to periodically send out some email notifications, which will
+use the file paths from the compiled output to find the recipients and
+kindly ask them to to deal with these annoying outputs? Perhaps we could
+use a script to do this.?
 
-I understand that the two fields are both belong to FRED, but the comment blocks
-are for at_vmexit_fred_msrs, not for pre_vmenter_fred_msrs.
-
-Should pre_vmenter_fred_msrs be put together with the other pre_vmenter_xxx,
-since the comments above the pre_vmenter_xxx explains why these fields are
-needed.
-> +
->  	u16 vpid02;
->  	u16 last_vpid;
->  
-
+Thanks.
