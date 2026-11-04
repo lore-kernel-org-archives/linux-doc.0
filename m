@@ -1,88 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.230.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.230.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793835292;
-	b=Z6YHTWQ9v46trpk4ExvH59pJ2/VQe8Gjo1JajOwtntrvBdHf8qIrdqr+HKbQgeKXVYpp
-	 g4fTZYapokRibRg+Aym3Vs5tyK72iK9R96jKwA1o91HhU6maitUaASHCeD8/7lszLHPW/
-	 7WraSwaJjVxM3VgPwzj9hIBicqqTtCnCbsZcQN5MVo0J57CjfywOdFjtr/VIdn1pTUGYX
-	 T0w9f4XQ5g/v8Jfw11jctnNWW9qzpTUnkJMaxPUO31LB9ZVITcda1t6GhVu3IgKplie8n
-	 aI6D4UU3wa0vXuKyL10RpNp9hlEzXkT+6xHebuTTvOdOPJO4buvZRI3kGuh2aH/VckA==
+	t=1793835358;
+	b=b2MqL364CTmz3dfRzfB9wLeM5lvbKEPyZ8PxtnjESg2ddOvc9qKQkNSKLGczHe8ngGVp
+	 iAVughfSUX/QIsnj/qO4/yhyZ0yGPKfOdYypLgcOxNBG3tulZt3xckXcmBw5DpoPruqSn
+	 Qdh3b7E2TAk07E03fTHa6nTvIgx0C7NhxCh9tZU793QYBzxLDbOk9xjyO8fjdzxeR2O/0
+	 eh0e+9i3GFA57rw37qZqPddJaxeLN0asJQmM9/fuMttnKLPTZVkdpLvzbCX0XzFF5Cvjb
+	 gFuM6jIPuUT3Th0+gkWrwodWtayRf6PltzDoQ2G3HlMbBn5wwT1c9yld9LtCZ2NHCcw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793835292;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793835358;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=LfE6XYGuOtutQi6QIVbHin4gqCciGQW2WLAtGNmvG6Q=;
-	b=p0XKUrsDTJWdfPit+vw9T5M3nh5Ix/cnvHZXSe6xmlYfcMDSk8YEbllejNUGtIQLpXip
-	 OLlFjZ53WwK4UXtmoUexjYDwi9bJ6jZ9f7VkKAADV1/yCYBnPsMK70ThMa9kIV071WYtq
-	 Mr4xP8DYKBvFIgh3STAlZxpvO3DQY8H5tn9ro+MKmlmCQV5xNwtkjTQowSGtT+oOQZfzz
-	 tV+ksJWJk0gEHEXku3N4+5ljJ5DsBoQS/2Crwx6JD2zw+oDRdMgvxRoNHFmLi5wBF5wXV
-	 3zVgh2Dp8k1FICb7mpnmtuu3fbTZAIULJVpXzQ+TesLrtq5OzUH2p8xQIfPxkhhV9Iw==
+	bh=dmn1Q3/145xsrJD3bHMxFjskCeqjVe350pnKBSHlWz0=;
+	b=2cqU8rtonWRmns6CC3GF4CF1oKBuwfWYr7HdmVA7Ek5Xt2PndIv65urJbJUvWwvU1dn2
+	 d0dCRbRTrxKS/dfWkdbpbvS0RnWHb7rNHvV1wZq+xYJU9EAcN3I5y6tMleu2QR5HKu+I/
+	 xcXHIMFLxRQXhk9zheJfzaURlljiam6R6Ehzn38yWr57yLA6okJ/4cUUZbLraDiDHzYMR
+	 npyQt2EyPajHTQrpuN2qAhVOWp1eU1JS1RXxrJJMtHxjYMWMT1i5hAaqLk5sxwWKxx4wk
+	 +xa+BI5FCllR+95fCQ4XVVxZbH3dQrV+UmQ5x9qJTkx8hTV7XTowOf4tKOpLtUiJ5Sg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oS7uv8AV;
-	arc=none smtp.remote-ip=74.125.230.200
-Received: from mail-qk2-f8.google.com (mail-qk2-f8.google.com [74.125.230.200])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SJMJgTdc;
+	arc=none smtp.remote-ip=74.125.230.199
+Received: from mail-qk2-f7.google.com (mail-qk2-f7.google.com [74.125.230.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616A6606A32D
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 23:34:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 616A6606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D707606A32D
+	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 23:35:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8D707606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oS7uv8AV
-Received: by mail-qk2-f8.google.com with SMTP id af79cd13be357-93e63db6681so89786885a.1
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 15:34:52 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SJMJgTdc
+Received: by mail-qk2-f7.google.com with SMTP id d75a77b69052e-53603c3b973so9603321cf.0
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 15:35:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793835291; x=1794440091; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793835356; x=1794440156; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LfE6XYGuOtutQi6QIVbHin4gqCciGQW2WLAtGNmvG6Q=;
-        b=oS7uv8AV9GQs+J3J5ITcjDbJ45MfrP5WlJdXu9KisS72I4zpWoRJN5mJENlCQNWjx6
-         w6K20K4KUKSGFDrMS302lTQndqWgqfIIfYI4hiFH/mHVzQym9VVyMDrRCBCOb51DMcFl
-         ofIQOr/qNDRlwNFNSvNiGZJyTOhzeJbFV8bAw8e+jKUTpwf9QgJv2xX1b7IFT5/ZC33z
-         NtdznjXTZpPlty80dmkYSVqvYGXC19ugvUN86LkSV4Ng/wYHohFRzaMwCARIKOv50mQ3
-         4t5AO2K5tdru0p2GZBx61QhznZr06ky45CDetlhp6aKoK/W9dCwWbUxhQLSjm/9isl9p
-         5p3g==
+        bh=dmn1Q3/145xsrJD3bHMxFjskCeqjVe350pnKBSHlWz0=;
+        b=SJMJgTdcGBlQsf4zsbrbO1j5AkB7ELH4/WVaj4Sdyja5e8Qsu41MqKvyxQgJjRsmvv
+         WB2WEmuLJYf6rFz6iWK8B8a0Qq8ltXqfC3dLLnzSb/Vr1kzCqcVcDQZ3cIfBHOZ+5v5F
+         BLE6BusncD13AnA+suHKkbOfoVPCAwy7EG8dZrxWIbo07psQ3pnSg+ksINDz1A9UUWrH
+         6Dd8sem9Gf8LjO7S5z/9LOgyh3nnxfHBf53t/4egxxRnpdKvyogEIV7ou2TArLsJ0HCF
+         m+eLHxQj4QlJJHgWrpJlhhc2fC9xqCmbyf3EoxeRtwyCaKY2DnrxE2PcuGUmjyMKs6Rf
+         jPYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793835291; x=1794440091;
+        d=1e100.net; s=20260707; t=1793835356; x=1794440156;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LfE6XYGuOtutQi6QIVbHin4gqCciGQW2WLAtGNmvG6Q=;
-        b=hXiPsjf1JbApe6O/ef94Hmlu1TXsiJ1lCEpU7e8/hOSF9Oy4ZfCOsDUe7ne146ojD7
-         TAsQDaj182DSA3rb66xP0kvDRvBvVDYHO+p0oLhcZZYScdA5GIsj6iqlRBRl3kYv7fQZ
-         sFurikIsjMf5K8tBNhrS/EjXZLyhZrhhYPVbKpnXa8QqvoEoUYQjrgjxa0cM357t9wBZ
-         d5qzsqPbZhlSNoXQviFQfIPl2Ap72rq6fBscdwU+5PJVZZ6KsYmtTOrD101QOpZXQOGJ
-         6PR1R/PkNufFMfDXQMC0FWsrMrtW6R4CPQQuxdg3mUbQx5vRYLEjsReOZQgxcsN2wjdL
-         rUvA==
-X-Forwarded-Encrypted: i=1; AKwUvBytLHH+n0YHMmNjTFe332XzNiwrd+VRgn92INapHaVzgbU6kTlNhZinAthUOyLx3vSHAFTuy9EkZWQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/RBld0G2SZxLnoMkJ7u4JdsD5an2o7jzr4udR/alhoBXG0xuek
-	W0SWJztiB9aigge8Pdh5XQKmjFqJ+7/M8z161+VRaQU2yFBEoIvz/vDg
-X-Gm-Gg: AYBFou1Qku4TSIFn/AiaG2mo44/whgy0fJU6pkVybVH8mlEQkgqioPmbh54km7MJU3N
-	LmIBArLz3dhwa8H7ZdIsuTK+VOdDNlUW5jxOsomtuEdLZr/ZkH1w5uOEClm4ZaWZ3dDLv15Sdpj
-	32uQZNVUViVtUL8Zi00VjoDAMiOR72eK/4lfQCPnxdgRo0EyF36c5JVqyB1TkgE7elX3MbBAIuX
-	2pqYRqIU0pLFpHT9vNMRAe4N/smeJUjfxzkOYaw+CPQD8PhfvMLpx0qf2Nb8gC2WR/UvznZK2Fj
-	Dk8nR54C2ucFZS/qEu3n+qnxTZEBcU0nkEGEqNbBU4hkeZBBeNISOVUtgogeMfF/ZiK6uLtuV7U
-	VdYNu5rRSgMD5Ef8qh5al6Z+4tuL58q/Horf+inNb+LZrfHYdTnWaeaKbGNEmbldd6cdCd31y+P
-	pP9HWbyIlanXQFIxTkX4SVjXR/kSQNbcLJxNRlSXlUW/r1HTf1x/W2wG13wn4rfHdtjV+/6b7Ib
-	dMeRM8bbVmCqduH5xroksJGmTXSak6Hgrjj3s3Lc4GzaJ4Euinua49tx/s0JUr8xAvk63objYvM
-	S7+waPIbLEGptAiQEwDxfJIS9onXB9TDkeI=
-X-Received: by 2002:a05:620a:2994:b0:939:4a44:5f99 with SMTP id af79cd13be357-9442156ab2fmr2992527785a.10.1793835291266;
-        Wed, 04 Nov 2026 15:34:51 -0800 (PST)
+        bh=dmn1Q3/145xsrJD3bHMxFjskCeqjVe350pnKBSHlWz0=;
+        b=e8io9QpkIH0GyRbFaPdLmoESitbOe4DiF8oGPSubN1vGK74RnUzaSNMn5j1N1GXVcS
+         O2tqoKcA44+0YT4QxR7ClCAsXqSUKpwYt5wZ+B1jQhDTSNIZbr0/8Oajs037/eos28gu
+         1Nqear57mxMEq0MruIUH5zx9ls5xYE6xnGq303d792ZaKuYPwR5ECkoyKPPDM9Xx8ytP
+         9Wo/W7Sp7ygF7VUqvPQ1mKgYlNVbO+AIO0S91LfPCuCDC4zDr9j/mjxzQOZTcGPbFgZl
+         8FLDzQp2PCrBNxMq9AJ6LeChLFkiek4u2xzkCpZLUMegt706BDLMJm6qSc+0Y70nIhHK
+         MxIQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwM/8ZTCbAOmWhtZ2ADKAsFG/gEd6fSUs1XSD6eRhvyH53RQWkcH/iimJGsiY1AcRsUvT+tqafb8g8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+WtyLB49BW5ydDHpRTIzjDSN+BFBN8UM9Lc5epi0n58Th6jHtU
+	4/QcqYqCea9IVYrqzKITKNs2dnDFFw42rOEldz/OjKZqAIU3mjgBoj8X
+X-Gm-Gg: AYBFou1Jhy32+Pe+cI6pXjLH96PUgWWDrJf7IwdAJ+IQuRtq8nLHp5DJLT7lsDs3CcB
+	mBF4e5/iXGBlH41UWt7Dpg3IFtlmF3QVcm16M2PCXXRiO+BWFn/1HHGXHvLri47un1A87YKCqDw
+	cCapF/Nf8jgDQZQWehV7/emQBxBow3zDLBSVqxQk4sQDqM2Gn5nNax8LzWDDkLN2kHt7iTFSodn
+	X/Tj7ujBQlQcvh2NyC9MGuMr8MTp1RPMSVwxSQxy4YSgm8KfVvzLuuS2icaVcvcg2LXtcgMMv37
+	AwEzv3f6u3vogYtibUa525YagYfvmvkAuC0MM+lzvv82s5mSIR2BD37dkoQmCijKEhytBuKwgCg
+	0BACPe9KhUZ7vkwDKyWYuZEMsjORNSoBSNG/1luVkFW3PBJfcWgwyp+aeSYhPsqmcOwgHjgmWdY
+	SI86XIuDzUUP/vXARuznym7p45euauPDzBENKVl94Pfjs4VzYG1JsDyJjPTEE2HVj5RT6TtTLrA
+	ap5pYwqP3Cs2iz6onzce86Htn5vnlOr7oXnfL1faOW1HP0wTwS4mxMgJyRSEK/1iXn1rr/D8a1f
+	xBawHHW1mSaTe4cgZCXJM6O8osIP8Qf1DA==
+X-Received: by 2002:a05:622a:1aa9:b0:536:766f:271d with SMTP id d75a77b69052e-542b781f632mr306774901cf.51.1793835356393;
+        Wed, 04 Nov 2026 15:35:56 -0800 (PST)
 Received: from [10.0.0.48] ([71.69.222.122])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-945d488f183sm324141685a.39.2026.11.04.15.34.48
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54b10a63462sm36858141cf.15.2026.11.04.15.35.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Nov 2026 15:34:50 -0800 (PST)
-Message-ID: <0f61c649-6e27-4f09-a69f-026f91d89848@gmail.com>
-Date: Wed, 4 Nov 2026 18:34:48 -0500
+        Wed, 04 Nov 2026 15:35:56 -0800 (PST)
+Message-ID: <2a1728c5-2856-41bb-9ffd-c80df4ffda6e@gmail.com>
+Date: Wed, 4 Nov 2026 18:35:54 -0500
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,8 +93,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 4/6] tls: update the RX key when a KeyUpdate
- is received
+Subject: Re: [PATCH net-next v5 5/6] tls: send a KeyUpdate at the record limit
+ and on request
 To: sashiko-reviews@lists.linux.dev
 Cc: John Fastabend <john.fastabend@gmail.com>,
  Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>,
@@ -108,35 +108,52 @@ Cc: John Fastabend <john.fastabend@gmail.com>,
  kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org,
  Alistair Francis <alistair.francis@wdc.com>
 References: <20261103-keyupdate-rfc-v5-0-de1ab90a88d5@gmail.com>
- <20261103-keyupdate-rfc-v5-4-de1ab90a88d5@gmail.com>
- <sashiko-outbox-198140@kernel.org>
+ <20261103-keyupdate-rfc-v5-5-de1ab90a88d5@gmail.com>
+ <sashiko-outbox-198141@kernel.org>
 Content-Language: en-US
 From: Martin Belanger <martin.nvme.dev@gmail.com>
-In-Reply-To: <sashiko-outbox-198140@kernel.org>
+In-Reply-To: <sashiko-outbox-198141@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 11/4/26 16:43, sashiko-bot@kernel.org wrote:
- > > +   memcpy(crypto_info_salt(info, cipher_desc), iv, cipher_desc->salt);
- > > +   memcpy(crypto_info_iv(info, cipher_desc), iv + cipher_desc->salt,
- > > +          cipher_desc->iv);
+ > > +   ret = tls_encrypt_async_wait(ctx);
+ > > +   if (!ret)
+ > > +           ret = tls_keyupdate_rekey(sk, 1);
  >
+ > [Severity: Medium]
+ > As reported by Sashiko on v4 [1], can tls_tx_key_update() ignore fatal
+ > transmission errors and rotate the TX key anyway when 
+tls_tx_records() fails
+ > with -EPIPE or -ECONNRESET?
+
+Yes, but this is not specific to KeyUpdate. After shutdown(SHUT_WR),
+send() on a kTLS socket with no KeyUpdate also returns the full
+length. I tested this with TLS 1.3 AES-GCM. As I read the code, the
+KeyUpdate record then stays queued and TCP does not send it, so the
+peer never sees a record with the next key.
+
+This corrects my note in the v2 changes, "The next call reports the
+error". In the same test, the next send() also returned success.
+
  > [Severity: High]
- > Won't these memcpy() calls trigger a CONFIG_FORTIFY_SOURCE field-spanning
- > write warning when tls_check_pending_rekey() -> tls_keyupdate_rx() ->
- > tls_keyupdate_rekey() runs on a socket with a registered traffic secret?
+ > As reported by Sashiko on v4 [2], how is the KeyUpdate state in struct
+ > tls_context synchronized when sk_stream_wait_memory() drops lock_sock(sk)
+ > during a send or TLS_TX_KEY_UPDATE?
 
-I could not reproduce this. I built with CONFIG_FORTIFY_SOURCE=y and
-GCC 15.2 and ran the keyupdate selftest with TLS 1.3 AES-GCM. There
-was no warning. In this build, __member_size() and __struct_size() of
-both destinations are unknown (-1), so the field check is not compiled
-in.
+No change, for the reasons in the v4 changes. I checked these points
+by reading the code.
 
-The result depends on the compiler. A small user space copy of this
-pattern gives a member size of 0 with GCC. In the next version I will
-take the info pointer from the union itself, as c43c1c24f3cd does for
-the same reason.
+Points 1 and 2 need a TLS_TX or TLS_RX setsockopt() during a blocked
+sendmsg(), which is an application error.
+
+Point 3: tx_key_update_reply stays set after the update_requested
+KeyUpdate, so the reply still goes out before the next Application
+Data record.
+
+Point 4: a record that was already being written can go out before
+the reply. RFC 9846 section 4.7.3 allows this for records in flight.
 
 Martin
