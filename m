@@ -1,65 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793781731;
-	b=UqiHA3n20aE/o+3MiGlAoU3h08NXMdgd7WJTK3JU8cCociIofVGMbMytz/hQl4RiC60h
-	 7/1d3jwxR6MdcP/jl3/RBVUKihNK/ai5CO6+2W7/I3np6j9mpLsmXddIOtPkmRoW8CafU
-	 81qBNXh8YJPdFSzfWR32q+N52dGyvpAP1/xk86JyoB+3EQkpn7pN9To1kSpnWIV3zu0dB
-	 jzHubEy2Z+x90/h/qFJOvj1WrJhFDeoAsJHoeUsKotX8QNUQb6yf0VL1O8pbMhoqqf3Vq
-	 bAKXApzlL+V6g7vzuOkuXupWN4IsFC3xYqkDpZmcrjbW12HT/pO8vb0QJFXKAnrR92w==
+	t=1793781812;
+	b=jMcI174m7pNh7q9xa7hCDc9J3VYz3LDZv1+ywiCu7hL2P3vBjgMpNeuGG8Bc67BC0quc
+	 MDkW+gU/f5mWZL7sum7mMBc+iuc5sLWb59FTjpJEzjkZNVUNoXSsswzUpRbEZ0JFh16Jy
+	 xDnPZ9xqKhI6wfEfnpqFaRcy0bo3HdrG/FngHa4jrw3RiPu1WfW0NDzezZOS4O46giOgx
+	 qqnAR0LJsyD4k2P8PkomNzbt5jxNHOfbdFragNKkfycTx2AFi3DCqVxiko4jc9CYK3CUz
+	 4lLqFXIP3r9heDXsAX3ZUPo+uv9v0ffVmpGSPoDlDAzKSUkTMBRMoKqX+rQxuGy863w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793781731;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=2tz///C2gLrezRDUfeXviZzznEJy8Ej2BLjvXB/fTks=;
-	b=JCmU+jpo0p1Zv+6eSfj/4OSrMk2O73aAfW2T910iOrqDuzTvxe/otci6g1iS0dzF/Jsk
-	 alKgqN0oTGNn8z17oUT7Uf2mn6Db1TP4tN9nZdMeK+6HJilPKCDUB/yPOpcpB0GHciKaw
-	 YnaqPLuewVrGrkCR1Sf0juCB2xMiDY+Z7gXiHxqITFeOHIsyQ7OE+b9Peeh11Vt9Ad7Yl
-	 fQXcqo0RSAxBq8GVHdr9UBJMDiB03UDc5bTZNITvb9NnQwDOH9g6KsrEkqgUyk7HA2XTc
-	 w5xxpUfbfrswY8nBKUM92wt5xw0jH7D464UwXLy+kdJpQiV+YkS4qQlT5BoSxc3x1OA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793781812;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Xigaf6imL+kX8Ty8pKWbPmcjBYxPKbcCFWKP/SbOV1w=;
+	b=CP8037IFjVT+/rfWzNvY0WmRl60eddDNmMnr6nH/cNLvIdNPtCsoIc960fGO5R2zg3fS
+	 XseCBUH6bOf0MPf23l/PjWogYe5o9EUBZ0wZigmFuk/+ZxdIcAqeLWFTj9E650i1nAxlK
+	 +EitrDzr9ELVRA8pPv9iyzWrGCzu0YjQrbDRrLyB+Wphuj2Y+0K7itRjDTYZutgn0Vb3P
+	 UvcEJIMRCAeLMCHKrzOSi0MOZc9XYumibNFEL62IGAv8/4OIOUMOXABLLXPXOi2ah0HDM
+	 vT8Z0ZevE7G7K7PvJ8CgEgZhjIglaZmIPw1rvBUZjuARhlaAs0VgtGQuRT/LxlwUcbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=JVqUcTm3;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SYR7aZGr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E71B4606A326;
-	Wed,  4 Nov 2026 08:42:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E71B4606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82513606A31B;
+	Wed,  4 Nov 2026 08:43:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=JVqUcTm3
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A09C1415BF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1793781730; bh=2tz///C2gLrezRDUfeXviZzznEJy8Ej2BLjvXB/fTks=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=JVqUcTm32kCikjn0HjOVyu29BnS5QRTxHmUbiftq/kgO4VLeYlVXLQ1IPZx1v2A4m
-	 L0iObdXPiAsYc79GZAD7WkeGtS+N/EKSuWXrwiNI2PUG4sVNHWKMIQEQHVA0n3Lt67
-	 oMSjozm0wtfvyx8PC2TW2v+gpNLq2WHdLP3qeKB2Nq4t6fySSKe4/4BwB1Eh2ZBT99
-	 Y4JlUYvsG4mS49H9jn8cimRG2wG6eSs7zCiGNaDAb8Oxz97OAQL2DSTAY06wrNB2no
-	 iuMm+83AWNUPainrlWXUSpx4nFYUIuwVkf87gprweETRI9k1WRhQoW+YWoE4oKy/4H
-	 zY6XtcYg5lSIw==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A09C1415BF;
-	Wed,  4 Nov 2026 08:42:09 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Weijie Yuan <kernel@wyuan.org>, Dongliang Mu <dzm91@hust.edu.cn>, Alex
- Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: How to attempt to gradually eliminate the compilation output?
-In-Reply-To: <aurpUltnbwWw3eyx@wyuan.org>
-References: <aurU4uKyIUBl9-CJ@wyuan.org> <87y0b99i6p.fsf@trenco.lwn.net>
- <aurpUltnbwWw3eyx@wyuan.org>
-Date: Wed, 04 Nov 2026 01:42:06 -0700
-Message-ID: <87tslx9ee9.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SYR7aZGr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C38B1F000C1;
+	Wed,  4 Nov 2026 08:43:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793781812;
+	bh=Xigaf6imL+kX8Ty8pKWbPmcjBYxPKbcCFWKP/SbOV1w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SYR7aZGruhoHnrfiwYjxfz5dGJoVSDEEik/0zvtgRpyReS9Wbk26VTR5vN0qCQv9W
+	 y5RgeyQPrjeHzKvEKu3Nj6jBffjhDpTmnwyQGZXiRJo7gLVwI59jqv/i+zM+oj6vAv
+	 XCbuh4sq0+rIxSCKsxgyClZj/VKu/TMwKvhA+mlxcgS8e9HDpAfjHFF5N0ch2h4Tc0
+	 91rCYp2anJnZ1Hiuv0L5HqP32okJmg5j6P0tXnAVKH/eX/fag0H8xHDlOK0j49OtPC
+	 UPBAX3K5anx7jwggHKh+KlcKCY13k/bSK1Uxj2oAxM+0aLBf0g1XyGTX6dgAPwD0QJ
+	 dk69OhqIE6k4Q==
+Date: Wed, 4 Nov 2026 10:43:28 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v12 00/19] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Message-ID: <20261104084328.GP264423@unreal>
+References: <20261103-fix-p2p-acs-v4-0-v12-0-912101f93517@nvidia.com>
+ <20261103233742.GA1162403@bhelgaas>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,56 +74,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261103233742.GA1162403@bhelgaas>
 
-Weijie Yuan <wy@wyuan.org> writes:
+On Tue, Nov 03, 2026 at 05:37:42PM -0600, Bjorn Helgaas wrote:
+> On Tue, Nov 03, 2026 at 10:29:39AM +0200, Leon Romanovsky wrote:
+> > PCI P2PDMA applies Request and Completion Redirect throughout both paths.
+> > This misclassifies asymmetric and nested switches, and reports one answer
+> > for every kind of TLP.
+> > 
+> > Three ACS controls act on TLP attributes the Requester chooses rather
+> > than on the topology: Translation Blocking and Direct Translated P2P act on
+> > a Request's Address Type, and Completion Redirect skips Completions carrying
+> > Relaxed Ordering.
+> > 
+> > Evaluate each direction at the path divergence, decide every class from the
+> > one walk, and treat a client with ATS enabled as translating unless its
+> > driver declares per-mapping ATS.
+> > 
+> > This completes the P2PDMA side; dma-buf and mlx5 follow separately.
+> 
+> Is there a one- or two-sentence explainer of why we want this?  I'm
+> thinking in terms of what Linus will want in the merge request: a fix
+> for something that's broken or some new functionality.  It sounds like
+> this is solving a problem, but I don't know enough to translate the
+> nitty-gritty details to the higher-level user-visible problem or
+> feature.
 
-> Jonathan Corbet <corbet@lwn.net> writes:
->
->> Weijie Yuan <kernel@wyuan.org> writes:
->> 
->> > Recently I've sent several patches to fix warnings.  But since I am not
->> > familiar with the actual codes of theirs, I'm not confident enough to
->> > touch some parts, but only the most obvious ones.
->> >
->> > Since this is a goal that Jon has spent years for, I'm wondering if it's
->> > possible to periodically send out some email notifications, which will
->> > use the file paths from the compiled output to find the recipients and
->> > kindly ask them to to deal with these annoying outputs? Perhaps we could
->> > use a script to do this.?
->> 
->> I think that nagging others to fix warnings is not going to make anybody
->> happy.
->
-> That's sure and that wasn't what I intended. 
->
-> I'd be happy to do the work, but putting myself in their shoes, I worry
-> they might think, "Someone from nowhere, who isn't familiar with our
-> development process/workflow, is sending patches and just adding noise.
-> It would be quicker and easier if they simply pointed out the problems
-> and let us fix them ourselves."
->
-> For example, last week I was about to send a small patch when,
-> fortunately, I searched lore one more time and found that an equivalent
-> patch had already been posted to their list, but hadn't been merged yet.
->
-> These warnings span many subsystems, and I worry that sending patches
-> before I understand their respective workflows might come across as a
-> bit impolite: "We already have this fix in our development tree; you
-> should have checked first."
+Not AI; these are my own words with grammar fixes from AI:
 
-Well-intentioned patches are rarely seen as impolite.
+"The existing implementation of PCI peer-to-peer assumed that all PCI TLPs were
+the same: ordered and carrying untranslated addresses. It did not account for
+the variety of traffic types defined by the PCI specification. As a result,
+only simple systems supported peer-to-peer transfers in the upstream kernel;
+real-world systems required out-of-tree patches and careful platform design.
 
-It's always worth looking at linux-next before trying to fix something;
-if there is a fix in their tree, it should really be there as well.
+The new code will allow peer-to-peer transfers between any two devices, for all
+types of PCI traffic, as long as the PCI path between them supports
+peer-to-peer.
 
->> Beyond that, it is far better to send a patch than a request for
->> somebody else to make one.  If nothing else, an incorrect patch is
->> usually the best way to get somebody else to create a correct one :)
->
-> Ah yes, true. ;-) So please bear with my poor patches then, low-quality
-> patch is unintentional but inevitable. ;)
+This paves the way for PCI peer-to-peer support in VMs, which the upstream
+kernel does not currently support."
 
-Thanks for working to make our documentation better!
+BTW:
+1. The patch "PCI/P2PDMA: Document the TLP attribute assumptions" attempts to
+   explain the current situation.
+2. The change is too large to present as a fix.
 
-jon
+Thanks
