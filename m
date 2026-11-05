@@ -1,123 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.96
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793917275;
-	b=14SFHpAyLTat0Vwa7SNnhSL33aytIt+sXFecm8F0STIxW7uS9lyeQ7qNsUmRQEqMrQlP
-	 lQmhavlM9HXSVP3qft3UF3cg4gw2HOE/vUqwkCnwb3T+U2BVAg4D6JH02482d6OB0rbdM
-	 swJbNLbqUOAYUu7U3iTmKbISuGK8UVitLgrIKHMiDn5xnCVlbA/NDrI8CMgiOAPlJizOL
-	 oZxhozD26qRHzvmC3c+6xsQ3ilItTJPEQuEKF70/q2Yfdj0qH4OhgLKR29O9qHAvf6lcT
-	 AVevKmJ+0LWTb/C/HC4I4W3M2eRa/Nl9qwh+rmd/JFZEcpBbp/GR4cjxzxf6NmnXHSA==
+	t=1793917809;
+	b=4KMyObpKXIqdfoo3gA/oJPwUcW9TUT8PfrdoMMUptcHpRaHyAyI8T7TpQI6OtZbbQiMx
+	 iEjwg2FZZazxukpMifu0ZKh4L9WNbJ89g1JboxkdxwtaPk1IEgLoQ090w1PorWVVE1nRV
+	 eQotrwD2UdiYjXf31Ltv9NNnitb3CqRjOG1P3PPB+JeQ+Zcclhx1JKtOmXBHsVjr5b9PF
+	 MuV0R4P3tHILrtE2WhxU+EJwxXn56+frm3S3RJiAjcrQ/tex36kNIKRjdGQNtTAGwUQHJ
+	 Fe6xsf7jkhkphxavefx1k1Tyzem0VaZp8gVgoLNXnEtS4DOGVQs9bEncWxAU/P0NGJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793917275;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=6YYrjHk+nB8Qt9ThWiyhnTgXhSxUl+9UI8ospp2Q6VI=;
-	b=25RaokO+N4xc2Jljor1oBTu1DJAZH3MBFgD9xHn7XWusQdwiUDCe0PaWTno4cEDFc9eB
-	 q1S3imtcs3oF31ourTSfkKOZ7ew3nNM7mWojFVSKkfrRz+8l07Lp4DBUlKqSVY1KdUxZr
-	 fRs6G087l0E2QvACbTGfmyQzcwx+BDmt5y4iEgIf2hA03oNt3U7heKKkuWfkqGlIuT1CX
-	 u38BPpNrypt/4D6+MIJqg4P4xI/ZpEioeGDim0v/kbZoMQlKyOSsCzGtghqcdL2STzj1V
-	 fGmeO7YHPwD3vzm/d31MMBvJvP0la8Jhmuobh+Co9bJbulMbRDE96hgDTm15ToidRwA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793917809;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=viuLjYesmtJpA1sjvM4v1Scr8RvgUg7KgCw53WlMpzY=;
+	b=CNhhsZ/lx0ELRt7S1Ow7IY2IVFQbx2ASZajAFFR2/vnazG0rxtIfb5UhfOcFtKwa9Ne9
+	 /PuSI2xZYk+mIeXZ628CDJu5DqLTv3Pbt5ctUYtOEOHQAKVliCArxOkUe7RCfJig8RRlT
+	 pEjP3NJr2vITWrsvRY/LJvre8vZVexbu+YgJJLEPgtsLH2vL9JFD67+etqOQc7wwCnSOe
+	 V9yOG3XrMuXgYFk1laax6NlS8xver3KPT9pl8Zq+PbCD/h7A1Gwf1ccC1Z/sXI/mssfaI
+	 eTr4E38a8utuBu2T0hoL9Hugt3hTtubaQ+sVNXV1M6WE+XS/Z0WMrtxop4UO9y/nJgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qbldxGQz;
-	arc=none smtp.remote-ip=74.125.229.131
-Received: from mail-dl2-f3.google.com (mail-dl2-f3.google.com [74.125.229.131])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=1g4.org;
+	spf=pass smtp.mailfrom=1g4.org;
+	dkim=pass header.d=1g4.org header.i=@1g4.org header.a=rsa-sha256 header.s=protonmail header.b=mMSmuuwV;
+	arc=none smtp.remote-ip=185.70.43.96
+Received: from mail-4396.protonmail.ch (mail-4396.protonmail.ch [185.70.43.96])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4249C606D814
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 22:21:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4249C606D814
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C777606A331;
+	Thu,  5 Nov 2026 22:30:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C777606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=1g4.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1g4.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qbldxGQz
-Received: by mail-dl2-f3.google.com with SMTP id a92af1059eb24-1521c45a248so138839c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 14:21:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793917265; x=1794522065; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6YYrjHk+nB8Qt9ThWiyhnTgXhSxUl+9UI8ospp2Q6VI=;
-        b=qbldxGQz8ySn5OTVN0MzE2NHWTJ5of5pmpV2gl0mwPzMVoPNOzEqQx8BBOtBfleLZA
-         DgwXUvYDiPtuFEls04z8RJqJvrkG6l3pHum1BEO4It6bfM3zYd0lrmWRYXSXGoX3UMra
-         /q0i9BjelbNEoRQjGZSmziVesSuwDEE+mc8pt1m9iji8MSzsV+Egs4TwMKnx68UJi/nS
-         bSeiPSvAdVPUg5TLkdoG1oFTlqOwCwWlj/mJski4Zej2z/MUcRo+FQwgCPx36M7GCWwF
-         GJb1caxzYeeiGcf0DKtd35S6M3udphZNwJwDBZfZ9r3T7CpBL70nR87LfgQPO3irZ4Ye
-         4TrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793917265; x=1794522065;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6YYrjHk+nB8Qt9ThWiyhnTgXhSxUl+9UI8ospp2Q6VI=;
-        b=iO7/GQKp5HJQ5pVba+Dz+u/mLCJW87/ZusxqqpRDXaC7Jxclkb2DwNzp5AcUPia+5b
-         nY6nzqaji6GipquegupDSB2S6kp9e1rHsyVufDQbkZva8GJ6jcgqh2cQCxsiUBqMFyrQ
-         me89rdE7G7jqqvjpeK37qJkmFP8lkkcsk90+f7jBvVtKPBfcHtk9S6VO8xp+erxnkxGp
-         aXjihnjtwcsB3H3pOwFb/+qaMpdiYRsTMeHAYQ5XsVJpq2+p6jwRIKjfczXZzT15oq7Q
-         pEaCM8Ut59971ITmMwHTDWIUBC5yY2s/qLPVi13Ft64ekB2ddlvYmZjhdFSfV4gtdTuz
-         XjUA==
-X-Forwarded-Encrypted: i=1; AKwUvBwq7Mf4CTQtLzjLzc5Bu0fJhMOJyV8er5G4Aat6RKXe8jklYQPk8bhhpv+zz0XVf9mQNbqlObVVAmU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/b/bgxPdYU1aBWeCqx25Z5OjWsPHjRO2nIOeUotxWHZegnDlsb
-	RKBKbWVjMevAB2QDvoSaVPEMX8JvsG7KTxERXWCv8x+nqRgu+3ml7/U9
-X-Gm-Gg: AYBFou1CObbqt/w8S7/091pgfROVu0lzsyewXlrwlp2dJF6fa4/qK4vm4Kdoby8XBRy
-	LUcNfgmcFDK0WoOcsyirymfaLci7S7EJPqLbe/65aT2ldGpVwkxXAg+0m3CBrOcF0T1VqXWkIhh
-	7M3+2nn4JCd4xJ2andUZ53hMeo0RYrMOYCkMZoy0kNEEinhrBtvYMzq9c45yVrS5oSbRb1zQIk4
-	os8pkAZ5nFjgyVMbIrOedm6US034Abpl/kW762PeaslwU8P1VoT4xEQPnykYq4LrhkwXiFqTLrY
-	wfan2yCGxEIY+0l2+gVvyjAEYnZN/+HGtCElcRVtBJgeFwk2bqMKUjM1KYoAjAM3DOiFrlCueRp
-	lTCcK7f0ewiyEXgDIZuNxyglADQRGRS/KgxpfTtXA1GjDUS/3+WFUt0+7uv0l73Ibx8RI/3uHYJ
-	F+VrICG3gf4WpbaklJc6yQmI+JE1/WpF2YOxzBz+bBvdLPpyLZ8aiviV6VKTsGptm23/glvKJvx
-	pNTRqxmoVt2mQ6af4URvTBAHHCbYB93oFxCn6hV+ger8PkBcXPFDR8DAyrgnqga1WocGzaoVRhK
-	KkQQf0VK75RPRtr9GkAhPLdbeSQ9T09aR3WMO6+T9RVGoA==
-X-Received: by 2002:a05:701b:454d:20b0:19a:bbe8:41a8 with SMTP id a92af1059eb24-1b25d3186f8mr494812c88.20.1793917265224;
-        Thu, 05 Nov 2026 14:21:05 -0800 (PST)
-Received: from localhost ([2a03:2880:9ff:60::])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b245c69c3fsm18985071c88.20.2026.11.05.14.21.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 14:21:04 -0800 (PST)
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-X-Google-Original-From: Stanislav Fomichev <sdf@fomichev.me>
-To: netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	edumazet@kernel.org,
-	horms@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	michael.chan@broadcom.com,
-	pavan.chebbi@broadcom.com,
-	saeedm@nvidia.com,
-	tariqt@nvidia.com,
-	mbloch@nvidia.com,
-	alexanderduyck@fb.com,
-	kernel-team@meta.com,
-	sdf@fomichev.me,
-	dimitri.daskalakis1@gmail.com,
-	almasrymina@google.com,
-	dtatulea@nvidia.com,
-	bobbyeshleman@meta.com,
-	asml.silence@gmail.com,
-	daniel@iogearbox.net,
-	razor@blackwall.org,
-	leitao@debian.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	leon@kernel.org
-Subject: [PATCH net-next v3 4/9] net: devmem: add a per-device netmem TX frag size limit
-Date: Thu,  5 Nov 2026 14:20:53 -0800
-Message-ID: <20261105222058.944293-5-sdf@fomichev.me>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261105222058.944293-1-sdf@fomichev.me>
-References: <20261105222058.944293-1-sdf@fomichev.me>
+	dkim=pass (2048-bit key, unprotected) header.d=1g4.org header.i=@1g4.org header.a=rsa-sha256 header.s=protonmail header.b=mMSmuuwV
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1g4.org;
+	s=protonmail; t=1793917804; x=1794177004;
+	bh=viuLjYesmtJpA1sjvM4v1Scr8RvgUg7KgCw53WlMpzY=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=mMSmuuwVIEGud4Y5aCYE/GSpTIRBaEj5qlZ61a615iQU2rVQrPljNtKoY6dsUMqFy
+	 Ue8+V6w38IEwHIPojjfg6Eqfa0bL88v7g8V9mmXFsOLNDHXGg2A5sBoOBFuPLpEWDA
+	 2klPrbRG+FVVDX2pWfgbJXH5LGwYWBu0MOKobG1RjXxBEcUjLADuWs/qAYY3aIckhK
+	 qrTq9dxw/AIPbB3Od1V72sUtcoUwRVyrJF8Bzh+EAdLj3CN8QfOsk3uU55LOFBPipJ
+	 hm0jVmvXG5YL5WqPR8OUOy/7cmq8wq2teyhRh6JO0DKGhPTpXtTSJW2B9P175aqNoO
+	 vmn3WSItZlIxA==
+Date: Thu, 05 Nov 2026 22:29:51 +0000
+To: Ding Meng <meng.ding@siemens.com>
+From: Paul Moses <p@1g4.org>
+Cc: netdev@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Richard Cochran <richardcochran@gmail.com>, florian.bezdeka@siemens.com, jan.kiszka@siemens.com, wq.wang@siemens.com, gerhard@engleder-embedded.com, Jason Xing <kerneljasonxing@gmail.com>, Simon Horman <horms@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Mathieu Desnoyers
+	<mathieu.desnoyers@efficios.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org
+Subject: Re: [PATCH] net: mark skb NAPI IDs independently of busy polling
+Message-ID: <Tif4BSB0H3l8O1bLzRnhCE9hUYhsz6G3MIhQAgYZImUx1_8YwnCyzy89IV6OSTsXdHDT6fFf7rEL1qfRFJC9OPDHRlhl3cgNJyyE_mVlHWM=@1g4.org>
+In-Reply-To: <20261105071706.7043-1-meng.ding@siemens.com>
+References: <20261105071706.7043-1-meng.ding@siemens.com>
+Feedback-ID: 8253658:user:proton
+X-Pm-Message-ID: 262a97350b81bd39ace0cec8114d774b513fee40
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -127,124 +65,229 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Devmem TX frags are bounded only by the net_iov size, which is about
-to grow up to 2MB, more than some devices can describe in a single TX
-descriptor.
 
-Add netmem_tx_max_frag_size and cap devmem TX frags to the limit of the
-device the binding is attached to. Default it to PAGE_SIZE, the largest
-TX frag today, so drivers opt in to larger frags.
 
-Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
-Reviewed-by: Mina Almasry <almasrymina@google.com>
-Reviewed-by: Dragos Tatulea <dtatulea@nvidia.com>
----
- Documentation/networking/net_cachelines/net_device.rst | 1 +
- Documentation/networking/netmem.rst                    | 7 +++++++
- include/linux/netdevice.h                              | 2 ++
- net/core/datagram.c                                    | 1 +
- net/core/dev.c                                         | 1 +
- net/core/devmem.c                                      | 1 +
- net/core/devmem.h                                      | 1 +
- 7 files changed, 14 insertions(+)
 
-diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 8eceaa80b686..4f5fd5b99154 100644
---- a/Documentation/networking/net_cachelines/net_device.rst
-+++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -76,6 +76,7 @@ unsigned_short                      dev_id
- unsigned_short                      dev_port
- spinlock_t                          addr_list_lock
- int                                 irq
-+u32                                 netmem_tx_max_frag_size
- struct netdev_hw_addr_list          uc
- struct netdev_hw_addr_list          mc
- struct netdev_hw_addr_list          dev_addrs
-diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
-index 6871dcdd700c..a7b5bbe1cc65 100644
---- a/Documentation/networking/netmem.rst
-+++ b/Documentation/networking/netmem.rst
-@@ -155,3 +155,10 @@ Driver TX Requirements
- 
-    - `NETMEM_TX_NO_DMA`: for virtual or passthrough devices that do
-      not DMA, but still support handling of netmem-backed skbs.
-+
-+3. Devmem TX frags are capped at `netdev->netmem_tx_max_frag_size`,
-+   PAGE_SIZE by default. Drivers which can describe larger TX buffers
-+   may raise it, up to the largest buffer a single TX descriptor can
-+   describe. A frag can then span a whole net_iov, which may be much
-+   larger than a page. The value is read when the dmabuf binding is
-+   created.
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index c0ae442c4344..4453b80bf7ea 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -1845,6 +1845,7 @@ enum netdev_reg_state {
-  *			drivers. Mainly used by logical interfaces, such as
-  *			bonding and tunnels
-  *	@netmem_tx:	device netmem TX mode
-+ *	@netmem_tx_max_frag_size: max size of a netmem TX frag
-  *	@pacing_offload: enable EDT pacing offload.
-  *
-  *	@name:	This is the first field of the "visible" part of this structure
-@@ -2342,6 +2343,7 @@ struct net_device {
- 	unsigned short          dev_port;
- 	int			irq;
- 	u32			priv_len;
-+	u32			netmem_tx_max_frag_size;
- 
- 	spinlock_t		addr_list_lock;
- 
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index 489d92fe6dae..a8d3f87d38c5 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -734,6 +734,7 @@ zerocopy_fill_skb_from_devmem(struct sk_buff *skb, struct iov_iter *from,
- 
- 		size = min_t(size_t, size, length);
- 		size = min_t(size_t, size, iter_iov_len(from));
-+		size = min_t(size_t, size, binding->tx_max_frag_size);
- 
- 		netmem_inc_ref(net_iov_to_netmem(niov));
- 		skb_add_rx_frag_netmem(skb, i, net_iov_to_netmem(niov), off,
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 3ac700d37e59..0af4e4debcc8 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -12350,6 +12350,7 @@ struct net_device *alloc_netdev_mqs(int sizeof_priv, const char *name,
- 	dev->gro_ipv4_max_size = GRO_LEGACY_MAX_SIZE;
- 	dev->tso_max_size = TSO_LEGACY_MAX_SIZE;
- 	dev->tso_max_segs = TSO_MAX_SEGS;
-+	dev->netmem_tx_max_frag_size = PAGE_SIZE;
- 	dev->upper_level = 1;
- 	dev->lower_level = 1;
- #ifdef CONFIG_LOCKDEP
-diff --git a/net/core/devmem.c b/net/core/devmem.c
-index 6339f221bc82..19c039ed2cb2 100644
---- a/net/core/devmem.c
-+++ b/net/core/devmem.c
-@@ -218,6 +218,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
- 
- 	binding->dev = dev;
- 	binding->vdev = vdev;
-+	binding->tx_max_frag_size = dev->netmem_tx_max_frag_size;
- 	write_pnet(&binding->net, sock_net(nl_sk));
- 	binding->uid = sk_uid(nl_sk);
- 	binding->niov_shift = niov_shift;
-diff --git a/net/core/devmem.h b/net/core/devmem.h
-index 8fa089776610..97ff1f13fb84 100644
---- a/net/core/devmem.h
-+++ b/net/core/devmem.h
-@@ -79,6 +79,7 @@ struct net_devmem_dmabuf_binding {
- 	struct net_iov **tx_vec;
- 
- 	unsigned int niov_shift;
-+	u32 tx_max_frag_size;
- 
- 	struct work_struct unbind_w;
- };
--- 
-2.53.0-Meta
 
+On Thursday, November 5th, 2026 at 1:19 AM, Ding Meng <meng.ding@siemens.co=
+m> wrote:
+
+> Commit 97dc7cd92ac6 ("ptp: Support late timestamp determination")
+> added support for deferring RX timestamp conversion to
+> ndo_get_tstamp(). When the timestamp is consumed, get_timestamp()
+> uses the skb's NAPI ID to find the device that owns the timestamp
+> cookie and invoke its callback.
+>=20
+> Commit e68b6e50fa35 ("udp: enable busy polling for all sockets")
+> gated NAPI ID bookkeeping with CONFIG_NET_RX_BUSY_POLL. As a result,
+> when busy polling is disabled, the skb may not carry a usable NAPI ID.
+> The device lookup then fails, so the driver callback is not invoked.
+> get_timestamp() falls back to hwtstamp, which does not contain the
+> converted timestamp, resulting in an incorrect RX hardware timestamp.
+>=20
+> Record skb NAPI IDs independently of busy-poll support to support
+> drivers that use deferred timestamp conversion and future driver
+> features that need to look up a device by its NAPI ID.
+>=20
+> Signed-off-by: Ding Meng <meng.ding@siemens.com>
+> Reviewed-by: Florian Bezdeka <florian.bezdeka@siemens.com>
+> ---
+> In the discussion of the issue reported at
+> https://lore.kernel.org/netdev/20260630112056.885071-1-meng.ding@siemens.=
+com/
+> this previous patch added an igc-specific fallback for configurations
+> with CONFIG_NET_RX_BUSY_POLL disabled. It populated skb's hwtstamp
+> field with a timestamp converted using the default hardware timer,
+> allowing get_timestamp() to return it without invoking ndo_get_tstamp().
+> But Jakub Kicinski noted that the proposed fix appeared to be a
+> driver-specific workaround for a generic problem. The engleder driver
+> would also be affected by the same issue.
+>=20
+> This patch introduces a new configuration option to enable NAPI ID
+> bookkeeping independently of busy polling. The option is enabled
+> whenever busy polling is enabled, preserving the existing behavior.
+> It is also selected by the igc and engleder drivers, ensuring that
+> skbs carry a NAPI ID even when busy polling is disabled.
+>=20
+> Another approach considered was to require drivers using deferred
+> timestamp conversion, such as igc and engleder, to enable busy polling.
+> However, this would introduce an unnecessary dependency between two
+> independent features: hardware timestamp reporting should not require
+> busy polling to be enabled.
+>=20
+> Timestamping has been tested only with igc; it has not been tested
+> with engleder.
+>=20
+>  Documentation/networking/timestamping.rst | 11 ++++++++---
+>  drivers/net/ethernet/engleder/Kconfig     |  1 +
+>  drivers/net/ethernet/intel/Kconfig        |  1 +
+>  include/linux/skbuff.h                    |  4 ++--
+>  include/net/busy_poll.h                   |  2 +-
+>  include/trace/events/net.h                |  2 +-
+>  net/Kconfig                               |  4 ++++
+>  net/core/filter.c                         |  2 +-
+>  net/core/skbuff.c                         |  2 +-
+>  9 files changed, 20 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/Documentation/networking/timestamping.rst b/Documentation/ne=
+tworking/timestamping.rst
+> index 2162c4f2b28a6..dbe40a1972639 100644
+> --- a/Documentation/networking/timestamping.rst
+> +++ b/Documentation/networking/timestamping.rst
+> @@ -278,9 +278,14 @@ SOF_TIMESTAMPING_OPT_PKTINFO:
+>    packets with hardware timestamps. The message contains struct
+>    scm_ts_pktinfo, which supplies the index of the real interface which
+>    received the packet and its length at layer 2. A valid (non-zero)
+> -  interface index will be returned only if CONFIG_NET_RX_BUSY_POLL is
+> -  enabled and the driver is using NAPI. The struct contains also two
+> -  other fields, but they are reserved and undefined.
+> +  interface index will be returned only if CONFIG_SKB_MARK_NAPI_ID is
+> +  enabled and the driver is using NAPI. This hidden configuration is
+> +  selected automatically by busy-poll support and by drivers that need
+> +  skb NAPI IDs to resolve deferred hardware timestamps. Drivers that
+> +  use deferred timestamp conversion must select it so the networking
+> +  stack can find the device and call its timestamp callback even when
+> +  busy polling is disabled. The struct contains also two other fields,
+> +  but they are reserved and undefined.
+>=20
+>  SOF_TIMESTAMPING_OPT_TX_SWHW:
+>    Request both hardware and software timestamps for outgoing packets
+> diff --git a/drivers/net/ethernet/engleder/Kconfig b/drivers/net/ethernet=
+/engleder/Kconfig
+> index 3df6bf476ae7e..9700a243bea11 100644
+> --- a/drivers/net/ethernet/engleder/Kconfig
+> +++ b/drivers/net/ethernet/engleder/Kconfig
+> @@ -22,6 +22,7 @@ config TSNEP
+>  =09depends on PTP_1588_CLOCK_OPTIONAL
+>  =09select PHYLIB
+>  =09select PAGE_POOL
+> +=09select SKB_MARK_NAPI_ID
+>  =09help
+>  =09  Support for the Engleder TSN endpoint Ethernet MAC IP Core.
+>=20
+> diff --git a/drivers/net/ethernet/intel/Kconfig b/drivers/net/ethernet/in=
+tel/Kconfig
+> index 780f113986ea8..7fb63f351fc20 100644
+> --- a/drivers/net/ethernet/intel/Kconfig
+> +++ b/drivers/net/ethernet/intel/Kconfig
+> @@ -376,6 +376,7 @@ config IGC
+>  =09depends on PCI
+>  =09depends on PTP_1588_CLOCK_OPTIONAL
+>  =09depends on ETHTOOL_NETLINK
+> +=09select SKB_MARK_NAPI_ID
+>  =09help
+>  =09  This driver supports Intel(R) Ethernet Controller I225-LM/I225-V
+>  =09  family of adapters.
+> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+> index 6787fcf6ac3e4..164c862f7a403 100644
+> --- a/include/linux/skbuff.h
+> +++ b/include/linux/skbuff.h
+> @@ -1059,7 +1059,7 @@ struct sk_buff {
+>  =09=09=09__u16=09vlan_tci;
+>  =09=09};
+>  =09};
+> -#if defined(CONFIG_NET_RX_BUSY_POLL) || defined(CONFIG_XPS)
+> +#if defined(CONFIG_SKB_MARK_NAPI_ID) || defined(CONFIG_XPS)
+>  =09union {
+>  =09=09unsigned int=09napi_id;
+>  =09=09unsigned int=09sender_cpu;
+> @@ -1267,7 +1267,7 @@ static inline bool skb_pkt_type_ok(u32 ptype)
+>   */
+>  static inline unsigned int skb_napi_id(const struct sk_buff *skb)
+>  {
+> -#ifdef CONFIG_NET_RX_BUSY_POLL
+> +#ifdef CONFIG_SKB_MARK_NAPI_ID
+>  =09return skb->napi_id;
+>  #else
+>  =09return 0;
+> diff --git a/include/net/busy_poll.h b/include/net/busy_poll.h
+> index 6e172d0f6ef5f..f7c0e62c6a7d7 100644
+> --- a/include/net/busy_poll.h
+> +++ b/include/net/busy_poll.h
+> @@ -130,7 +130,7 @@ static inline void sk_busy_loop(struct sock *sk, int =
+nonblock)
+>  static inline void __skb_mark_napi_id(struct sk_buff *skb,
+>  =09=09=09=09      const struct gro_node *gro)
+>  {
+> -#ifdef CONFIG_NET_RX_BUSY_POLL
+> +#ifdef CONFIG_SKB_MARK_NAPI_ID
+>  =09/* If the skb was already marked with a valid NAPI ID, avoid overwrit=
+ing
+>  =09 * it.
+>  =09 */
+> diff --git a/include/trace/events/net.h b/include/trace/events/net.h
+> index dbc2c5598e35a..99ed7645242eb 100644
+> --- a/include/trace/events/net.h
+> +++ b/include/trace/events/net.h
+> @@ -208,7 +208,7 @@ DECLARE_EVENT_CLASS(net_dev_rx_verbose_template,
+>=20
+>  =09TP_fast_assign(
+>  =09=09__assign_str(name);
+> -#ifdef CONFIG_NET_RX_BUSY_POLL
+> +#ifdef CONFIG_SKB_MARK_NAPI_ID
+>  =09=09__entry->napi_id =3D napi_id_valid(skb->napi_id) ?
+>  =09=09=09=09   skb->napi_id : 0;
+>  #else
+> diff --git a/net/Kconfig b/net/Kconfig
+> index 76ab44aa439a6..8fa7586dc08ca 100644
+> --- a/net/Kconfig
+> +++ b/net/Kconfig
+> @@ -346,9 +346,13 @@ config CGROUP_NET_CLASSID
+>  =09  Cgroup subsystem for use as general purpose socket classid marker t=
+hat is
+>  =09  being used in cls_cgroup and for netfilter matching.
+>=20
+> +config SKB_MARK_NAPI_ID
+> +=09bool
+> +
+>  config NET_RX_BUSY_POLL
+>  =09bool
+>  =09default y if !PREEMPT_RT || (PREEMPT_RT && !NETCONSOLE)
+> +=09select SKB_MARK_NAPI_ID
+>=20
+>  config BQL
+>  =09bool
+> diff --git a/net/core/filter.c b/net/core/filter.c
+> index b7ac145b68b1f..e2218c18622b8 100644
+> --- a/net/core/filter.c
+> +++ b/net/core/filter.c
+> @@ -10274,7 +10274,7 @@ static u32 bpf_convert_ctx_access(enum bpf_access=
+_type type,
+>  =09=09break;
+>=20
+>  =09case offsetof(struct __sk_buff, napi_id):
+> -#if defined(CONFIG_NET_RX_BUSY_POLL)
+> +#if defined(CONFIG_SKB_MARK_NAPI_ID)
+>  =09=09*insn++ =3D BPF_LDX_MEM(BPF_W, si->dst_reg, si->src_reg,
+>  =09=09=09=09      bpf_target_off(struct sk_buff, napi_id, 4,
+>  =09=09=09=09=09=09     target_size));
+> diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+> index eb9fcc4b1fd1a..386a32cdc0cc8 100644
+> --- a/net/core/skbuff.c
+> +++ b/net/core/skbuff.c
+> @@ -1581,7 +1581,7 @@ static void __copy_skb_header(struct sk_buff *new, =
+const struct sk_buff *old)
+>  #ifdef CONFIG_NETWORK_SECMARK
+>  =09CHECK_SKB_FIELD(secmark);
+>  #endif
+> -#ifdef CONFIG_NET_RX_BUSY_POLL
+> +#ifdef CONFIG_SKB_MARK_NAPI_ID
+>  =09CHECK_SKB_FIELD(napi_id);
+>  #endif
+>  #ifdef CONFIG_XPS
+>=20
+> base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
+> --
+> 2.47.3
+>=20
+>=20
+
+Are you sure this does not make the preexisting timestamp lifetime
+issue more pathological? I think it needs to be fixed now as well.
+It was the last item mentioned by Sashiko in your review if I=20
+remember correctly.
+
+Paul
