@@ -1,47 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793874794;
-	b=x+kPDPe1MUkNpa+ZyX0U9RDgrlMMGy3UYf/wkRseOrT8NGx4dNcLvUwpsMlJVS/+BQ+x
-	 KeWyGpGJN61vdDqD//JYgAU5XR+ViSiroLqgbpXm3Ye/3ai2iTmZoKJ6cPIDPnJzj5qpN
-	 Q2i9D/oM/SUmtoYXAc9eXwxzxOoMcMw3/aezlYWveZAJuvAfcnP5p9gCeZqjDXa1TKJP/
-	 oZgfFC2qxwNi5w3oUNFeV2Xiv4pJaf+CWbXngq2+VMzXt3vwGraBLlazrfHQh+jjaTTNA
-	 wFZvL6UhK/quNAo3u6asVmaGcOmxhdlqng6XK4OIk8yYOYed764M5BpQoDHpZO05nBA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793874794;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=rW1nil3E5bYjTHxZT0jjYetDQyPmr3fpWazFoftmXjc=;
-	b=akyronwwwVes2r22gwf0J9VBfRi/fTJEHM5ugQjVc6mma6SYkEHwVVPzOv/2OKAwrv6B
-	 B0AdIya0xyZA50EA9CalKxYzYsnhXEQATprP4fHU3IxSpFXAU53ZTdla9HqKvttmD5wAz
-	 aHNFmlM3Sl2Rlr7dwEmpWg5n1ZTQUCEbDHn39VzWbykCg7G9meL2v8gBgVXMn6Wv8iVn5
-	 dlRAUJGSFIo6ex+rUXIz0xEPWlNcrSlf7FGcQNLuOeHMo7gmnaMJAmp/jwKkN2fneyhS6
-	 R77Cn5aDCrKfeuCKCRYEr/hQ31RZHUQMQ/MlVuyepOv8Fw66EoemBskpA7oxUGB2cKA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mOEZw52v;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.20
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793875301;
+	b=TsMiFzepGEcEXKCxJrvcK1g76/nP9WEJVYhc5ynHCxWvT9rX84ON4DH9xDRi7Vsewgnj
+	 LSlimAr/N+AIHsrHk5VLy0ZzfhUhc7/oVLk7N+hafTogQHuDtyD/9H8lFqRr8HTXSPrLp
+	 cEkhNOSVkUM7pKFvsTbUzmqxmFUhuOvCAwAKACuLfr+acLksCiPegzPPGoZjNJval/o9d
+	 oejodODm2tLUA8dSsSHkvvm4oMGi6ruR4qENCYk4YYi2aWfGT1o717d0PM9EWpNDZ1ibl
+	 AeEI8TfiLM2G4RQI2/Wqa3Ecshnkywh4iTPSIfphEEgTUROOq+wGWoonUsc2QpzrC1Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793875301;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=yobi9EdS3srU5arAQHyJYj9lTY8+gHpU5vkqhpcsdEc=;
+	b=k/2bmQgF0ey48Q4Biw1dCuXL0CJzo10G9QZekDEG5d8mJX6Knx83L3HJnem5euc6Xm+u
+	 weMOPy4SYWd5LASt0DeaqVudEC2gLIjaFu32TxSy7u2lzyV51SkZht1yDHAJGGdTYE66t
+	 Wa5I3u7Jdb1MOhOWgw81BQSax4I9GMwV+G3NjERZfTBCK2PurOHwFo2y4gabEX6nQZwyE
+	 SBiNPwz6Qh//aPdC5vawYdslzpQPv/ihUJrq+DhjgMhuNf6/VcTrISmbiwJd6kkbyLbGB
+	 gSMKF7tlRaeYKkPt7duOr1zStDpD2g49TRZJK/s4k78TdJWZXb7/gSZT/oLEpX+Xkqw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=foss.st.com;
+	spf=pass smtp.mailfrom=foss.st.com;
+	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=n9YBhhgV;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.66.20
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012020.outbound.protection.outlook.com [52.101.66.20])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1553606A326;
-	Thu,  5 Nov 2026 10:33:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD42606A31B;
+	Thu,  5 Nov 2026 10:41:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ECD42606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mOEZw52v
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7B2B1F000C1;
-	Thu,  5 Nov 2026 10:33:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793874793;
-	bh=rW1nil3E5bYjTHxZT0jjYetDQyPmr3fpWazFoftmXjc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=mOEZw52vLFxK3rc/1pzuqdBC+HQCXx9mY2v9zCS7MB1PkcO28hR8mmYR7mquhduqx
-	 nKCn9g7Qvm3pg2oAHDiffpJ2cDU2GqwF4uICQfDiPX4l5/O9J0qmW85ilAgvbRkP0U
-	 1FSFR+Ow6AcRdFnndQOPSSu8RyMQ6V5tSfmrn4gdTkXN58WdIUPJ9XvCdUZ4NB8bgh
-	 6pugwhg/dQzmCTa3DNeZNaV3LEU+nCDMPPQyPQivmSGt6TfuLL0FL0WkFPUM/3vgbU
-	 A738imanAEwUusrWHcmT2mo/y2jRAKtqB2LSP30ROQRnYP8nrNE4QqaXB4uR9PXbRN
-	 KZJLF4jYWfzXA==
-Message-ID: <0851db25-fef3-4f96-8d37-81ad5c51d6c8@kernel.org>
-Date: Thu, 5 Nov 2026 11:33:05 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=n9YBhhgV
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YAQc/WqwV3nURBrySuWM6i5MyQePKfiE0AkAg0d6sTy2ItjqdB2ALpfBtj9+OogsQA33Wo7PbnAd0MVRpvn+lQPPovN9Df49tLhUPb11nBYktfGLNxxodWfFGBzGJ695cMOsfeCiEdWBfO48eNFayHd04aS99ojSL9qdEFiFhtj+X+bhInhT7bzVAuo8+BZFpiqsejiWlY+El3qXnTxzr6Lkr7RzU5VEi01dYbSsYzwdmUoqyGiJyRowNpH87IlYXTWjVurnqj+Z3KzzmTX7oczNRK/gAe3hd7vTWBPNbYQXodzvGwQFzkYky75kLvDtZzuEOS/hdvix16qQtoklRA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yobi9EdS3srU5arAQHyJYj9lTY8+gHpU5vkqhpcsdEc=;
+ b=WYv4qTcBjR9IYD64ef9Hh4POthE1qJauqFK7f5b1OFQhoehmdxRZGal7Mj27XzzHJhs7korlKAhYILNLX7SJHdwIV2MQersvNkZS58oI9zyriiWJRaJC66Wrr/ftUc0xxt0VUqPr7CvZGuEcN9ZvssK69nMTxbPJo8qhW63UP+WTsHU/1iG6lXfpa4eRBtTIfl48t78BvdQrq1Sg90HDj7jMauUaqzM5yYb6RFnxswBz+aw6PKOMXgXDTsE54/3inH9nPX/IQHuIbpPaVU/J0TlWjgUeoa8yiYH58WL9xhndH5fTgGJc9+gZki53QMVJHsXEnD/UfF2PlcwB8HXUqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.59) smtp.rcpttodomain=lwn.net smtp.mailfrom=foss.st.com; dmarc=fail
+ (p=none sp=none pct=100) action=none header.from=foss.st.com; dkim=none
+ (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yobi9EdS3srU5arAQHyJYj9lTY8+gHpU5vkqhpcsdEc=;
+ b=n9YBhhgV6W1oWOKRewVsKYMbVXFXuZe4dg0bHHQBo/cg/Vpy+5bXA2kkI8f/M2f8gX+tYgCk/LqxZ45UXz3S7x3lp4sqwXDu0kIol+1YEHvoKbdDiQ5HEbLqCowYsx8GH1TJjm2tnFSwE87JFbmoXHF9/lHN4VSUgcId53VmNTxX0cMOVOl8+3XFramnEAfDPEsxCdBL0Tr3B5tU7kKHaop8rbTRnATHFz7EPo/fK4qcWKZl4srxNje2sUJOlzMKAjmjsprj/adojzoG0jr64JzibasVQXk8S4Z2F7YXcIpefczDsdE8FrSVpt5Lr1Q2OvO2EcW3aiobWG9pTNauHw==
+Received: from DU2PR04CA0022.eurprd04.prod.outlook.com (2603:10a6:10:3b::27)
+ by AM0PR10MB3636.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:15a::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.4; Thu, 5 Nov 2026
+ 10:41:38 +0000
+Received: from DU2PEPF00028CFC.eurprd03.prod.outlook.com
+ (2603:10a6:10:3b:cafe::69) by DU2PR04CA0022.outlook.office365.com
+ (2603:10a6:10:3b::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Thu, 5
+ Nov 2026 10:41:37 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
+ is 164.130.1.59) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.59 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.59; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.59) by
+ DU2PEPF00028CFC.mail.protection.outlook.com (10.167.242.180) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.592.5 via Frontend Transport; Thu, 5 Nov 2026 10:41:37 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpo365.st.com
+ (10.250.44.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 5 Nov
+ 2026 11:42:05 +0100
+Received: from localhost (10.48.87.124) by STKDAG1NODE2.st.com (10.75.128.133)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 5 Nov
+ 2026 11:41:35 +0100
+From: Antonio Borneo <antonio.borneo@foss.st.com>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+CC: Antonio Borneo <antonio.borneo@foss.st.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Vegard Nossum <vegard.nossum@oracle.com>,
+	<linux-stm32@st-md-mailman.stormreply.com>
+Subject: [PATCH] Documentation: .gitignore: exclude .renames.txt
+Date: Thu, 5 Nov 2026 11:41:32 +0100
+Message-ID: <20261105104132.566314-1-antonio.borneo@foss.st.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,103 +111,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] mm: Enforce read-only shared vmemmap tail mappings
-To: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
- <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: Muchun Song <muchun.song@linux.dev>, Lance Yang <lance.yang@linux.dev>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>, Ritesh Harjani
- <ritesh.list@gmail.com>, Shrikanth Hegde <sshegde@linux.ibm.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Qi Zheng <qi.zheng@linux.dev>, linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261019090830.1917657-1-songmuchun@bytedance.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
- dBrn+lhhOYjjNefFQou6478faXE6o2AhmebqT4KiQoUQFV4R7y1KMEKoSyy8hQaK1umALTdL
- QZLQMzNE74ap+GDK0wnacPQFpcG1AE9RMq3aeErY5tujekBS32jfC/7AnH7I0v1v1TbbK3Gp
- XNeiN4QroO+5qaSr0ID2sz5jtBLRb15RMre27E1ImpaIv2Jw8NJgW0k/D1RyKCwaTsgRdwuK
- Kx/Y91XuSBdz0uOyU/S8kM1+ag0wvsGlpBVxRR/xw/E8M7TEwuCZQArqqTCmkG6HGcXFT0V9
- PXFNNgV5jXMQRwU0O/ztJIQqsE5LsUomE//bLwzj9IVsaQpKDqW6TAPjcdBDPLHvriq7kGjt
- WhVhdl0qEYB8lkBEU7V2Yb+SYhmhpDrti9Fq1EsmhiHSkxJcGREoMK/63r9WLZYI3+4W2rAc
- UucZa4OT27U5ZISjNg3Ev0rxU5UH2/pT4wJCfxwocmqaRr6UYmrtZmND89X0KigoFD/XSeVv
- jwBRNjPAubK9/k5NoRrYqztM9W6sJqrH8+UWZ1Idd/DdmogJh0gNC0+N42Za9yBRURfIdKSb
- B3JfpUqcWwE7vUaYrHG1nw54pLUoPG6sAA7Mehl3nd4pZUALHwARAQABzS5EYXZpZCBIaWxk
- ZW5icmFuZCAoQ3VycmVudCkgPGRhdmlkQGtlcm5lbC5vcmc+wsGQBBMBCAA6AhsDBQkmWAik
- AgsJBBUKCQgCFgICHgUCF4AWIQQb2cqtc1xMOkYN/MpN3hD3AP+DWgUCaYJt/AIZAQAKCRBN
- 3hD3AP+DWriiD/9BLGEKG+N8L2AXhikJg6YmXom9ytRwPqDgpHpVg2xdhopoWdMRXjzOrIKD
- g4LSnFaKneQD0hZhoArEeamG5tyo32xoRsPwkbpIzL0OKSZ8G6mVbFGpjmyDLQCAxteXCLXz
- ZI0VbsuJKelYnKcXWOIndOrNRvE5eoOfTt2XfBnAapxMYY2IsV+qaUXlO63GgfIOg8RBaj7x
- 3NxkI3rV0SHhI4GU9K6jCvGghxeS1QX6L/XI9mfAYaIwGy5B68kF26piAVYv/QZDEVIpo3t7
- /fjSpxKT8plJH6rhhR0epy8dWRHk3qT5tk2P85twasdloWtkMZ7FsCJRKWscm1BLpsDn6EQ4
- jeMHECiY9kGKKi8dQpv3FRyo2QApZ49NNDbwcR0ZndK0XFo15iH708H5Qja/8TuXCwnPWAcJ
- DQoNIDFyaxe26Rx3ZwUkRALa3iPcVjE0//TrQ4KnFf+lMBSrS33xDDBfevW9+Dk6IISmDH1R
- HFq2jpkN+FX/PE8eVhV68B2DsAPZ5rUwyCKUXPTJ/irrCCmAAb5Jpv11S7hUSpqtM/6oVESC
- 3z/7CzrVtRODzLtNgV4r5EI+wAv/3PgJLlMwgJM90Fb3CB2IgbxhjvmB1WNdvXACVydx55V7
- LPPKodSTF29rlnQAf9HLgCphuuSrrPn5VQDaYZl4N/7zc2wcWM7BTQRVy5+RARAA59fefSDR
- 9nMGCb9LbMX+TFAoIQo/wgP5XPyzLYakO+94GrgfZjfhdaxPXMsl2+o8jhp/hlIzG56taNdt
- VZtPp3ih1AgbR8rHgXw1xwOpuAd5lE1qNd54ndHuADO9a9A0vPimIes78Hi1/yy+ZEEvRkHk
- /kDa6F3AtTc1m4rbbOk2fiKzzsE9YXweFjQvl9p+AMw6qd/iC4lUk9g0+FQXNdRs+o4o6Qvy
- iOQJfGQ4UcBuOy1IrkJrd8qq5jet1fcM2j4QvsW8CLDWZS1L7kZ5gT5EycMKxUWb8LuRjxzZ
- 3QY1aQH2kkzn6acigU3HLtgFyV1gBNV44ehjgvJpRY2cC8VhanTx0dZ9mj1YKIky5N+C0f21
- zvntBqcxV0+3p8MrxRRcgEtDZNav+xAoT3G0W4SahAaUTWXpsZoOecwtxi74CyneQNPTDjNg
- azHmvpdBVEfj7k3p4dmJp5i0U66Onmf6mMFpArvBRSMOKU9DlAzMi4IvhiNWjKVaIE2Se9BY
- FdKVAJaZq85P2y20ZBd08ILnKcj7XKZkLU5FkoA0udEBvQ0f9QLNyyy3DZMCQWcwRuj1m73D
- sq8DEFBdZ5eEkj1dCyx+t/ga6x2rHyc8Sl86oK1tvAkwBNsfKou3v+jP/l14a7DGBvrmlYjO
- 59o3t6inu6H7pt7OL6u6BQj7DoMAEQEAAcLBfAQYAQgAJgIbDBYhBBvZyq1zXEw6Rg38yk3e
- EPcA/4NaBQJonNqrBQkmWAihAAoJEE3eEPcA/4NaKtMQALAJ8PzprBEXbXcEXwDKQu+P/vts
- IfUb1UNMfMV76BicGa5NCZnJNQASDP/+bFg6O3gx5NbhHHPeaWz/VxlOmYHokHodOvtL0WCC
- 8A5PEP8tOk6029Z+J+xUcMrJClNVFpzVvOpb1lCbhjwAV465Hy+NUSbbUiRxdzNQtLtgZzOV
- Zw7jxUCs4UUZLQTCuBpFgb15bBxYZ/BL9MbzxPxvfUQIPbnzQMcqtpUs21CMK2PdfCh5c4gS
- sDci6D5/ZIBw94UQWmGpM/O1ilGXde2ZzzGYl64glmccD8e87OnEgKnH3FbnJnT4iJchtSvx
- yJNi1+t0+qDti4m88+/9IuPqCKb6Stl+s2dnLtJNrjXBGJtsQG/sRpqsJz5x1/2nPJSRMsx9
- 5YfqbdrJSOFXDzZ8/r82HgQEtUvlSXNaXCa95ez0UkOG7+bDm2b3s0XahBQeLVCH0mw3RAQg
- r7xDAYKIrAwfHHmMTnBQDPJwVqxJjVNr7yBic4yfzVWGCGNE4DnOW0vcIeoyhy9vnIa3w1uZ
- 3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
- CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
- qIws/H2t
-In-Reply-To: <20261019090830.1917657-1-songmuchun@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PEPF00028CFC:EE_|AM0PR10MB3636:EE_
+X-MS-Office365-Filtering-Correlation-Id: ebcb8792-e62a-4111-9938-08df3b295e8c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|376014|23010399003|1800799024|10067099003|18002099003|3023799007|56012099006|11063799006|261026121527099003|261009223027099003|261102123227099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info:
+	Z64HueVNHSdB7YyRgENcv3FcmScXvOYKAiD14uzFyY2DS/U4EchJfso51Caw9ojH3gUUDDcXueK9ivDbEMQu4WGhFrebE/bbj+k2uqqGyb+zIFzuaNDq7B2PEwk2tO3UqvpDjcR4xDewik4wpDXG65RHAl/iVV0+EybgPRBWNUl9zp7265Z+rSLgmTB6F/8mIoZl04GzquKefvwIGduCrF7hnOPJQSj73b8HQbmYpEtN/B3WoTnWB/TwDpUSXRDLCA5rM9+mFM+Vg2vaOAXEGzTqgqXpVSudzsSyyHyEIBh3K/CV+5ekXp1muF05r08u9LXhQlBSQS+62fi1S/Sj/ak5Xsvn6kdBhjPr2x4zjJpCFv1jpsPzBdTDcZTqkVkVIjasyjfY5Mp+G+oO2gNn75fb5eOUAhJpeF6Dis46ugcGlr71Fk3i9oyfLhJVaM1FrbNyxly9b7EtwIG8uKqtcSug0jcmrD0zj+2km3dtQ7tSXMptLbNmlagaLyqlnfFPXaDsgSu3Nb8arS/ZZVABRwEuBhMLhxk3eLisXRhYHxuCx74MG78Z3RBvKR/MqND2DgV9fCpYMta6L8L74BQ1gvFqqF4ejkvQl0yBLucxSRIXWo/nbOH8gEhoEKaur5Hhx3Tiz1gtQpPeqmbPppBNauoyT0sP8KogVhwJI1INeV02w+O0GSDiWwmiSQ69uzFkQvp0hC7fj3lC7ajgzS5hkw==
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.59;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(376014)(23010399003)(1800799024)(10067099003)(18002099003)(3023799007)(56012099006)(11063799006)(261026121527099003)(261009223027099003)(261102123227099003)(261021121427099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	jiDl/Q05D5lsTLtHGzHzMduA1dDAK4Y+xzyuKj8REqgLmHaVElCxR3/cXYtKzIT/o1IfytsckG0vGugcFYAsA22WlKisuLyN6k3B6bMz4JYJ5Njjd84Nd/TPB8k8tOiIPtAtBDLvlu1gbQpiP6noVE+YHggDVgHMKrDrhJIVqGUbHS4dP30tWIR64sZytTsnJXgy4aClGLqOZqb47uido3Nj1xMl0LHKGORQ1EBGuAbAfYT+ktNgenVbKPJq9XoX1lcZQ37wzqFP3A8ZzYeNqVntLQPgGWVUExe1POKja0HNnkZy8Pk1R+FxajQq0kzfqU7KPen+9gvvIALs+IpIltKaFRxKABE6LyeThgQw8G+cFlPV1xmQkfOnogaQm0lu48hOlh9HBtWdihFdIYiRBpSCWNEqYgRn8YsEqFXw4ue6drlUPaJg3d3npiwbOTjx
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 10:41:37.4722
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebcb8792-e62a-4111-9938-08df3b295e8c
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.59];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	DU2PEPF00028CFC.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR10MB3636
 
-On 10/19/26 11:08, Muchun Song wrote:
-> This series is split out from the earlier, larger series "mm: Generalize
-> HVO for HugeTLB and device DAX" [1]. While the parent series generalizes
-> vmemmap optimization across HugeTLB and device DAX, this subset addresses
-> a single, self-contained step: mapping shared vmemmap tail pages read-only
-> at population time.
-> 
-> After the previous HugeTLB and device DAX conversions, both can install
-> optimized shared-tail mappings during vmemmap population. These mappings
-> should be read-only because each shared tail vmemmap page backs metadata
-> for many tail pages. HugeTLB applies this protection in a later,
-> subsystem-specific pass, but device DAX currently lacks it.
-> 
-> This series moves the protection into the generic sparse-vmemmap and
-> powerpc radix population paths. This protects device DAX mappings and
-> makes the HugeTLB-specific vmemmap_wrprotect_hvo() pass redundant. With
-> that pass gone, the bootmem-only optimization wrapper has no distinct
-> work and is removed as well.
-> 
-> This is intended to be the fifth smaller step toward the broader HVO
-> generalization. The remaining HVO naming and enablement consolidation is
-> left for follow-up series.
+W=1 builds reported warnings regarding files being ignored:
+	Documentation/.renames.txt: warning: ignored by one of the .gitignore files
 
-I assume this patch series is no longer applicable after we remove the RO
-protection for HVO.
+Exclude the file in .gitignore
 
-Or am I missing something? :)
+Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
+---
+ Documentation/.gitignore | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/Documentation/.gitignore b/Documentation/.gitignore
+index d6dc7c9b8e250..9c7247f9449b4 100644
+--- a/Documentation/.gitignore
++++ b/Documentation/.gitignore
+@@ -1,3 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
++!.renames.txt
+ output
+ *.pyc
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-Cheers,
+2.34.1
 
-David
