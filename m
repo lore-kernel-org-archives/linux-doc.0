@@ -1,88 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890253;
-	b=YaP/OSMxw07/YYvPoYskwYy09LKQ+VkcUBLm2sap8KhPagUvcASBwGAX5CbBS/8pMgo1
-	 EXBu8vTh9DPwep2IzHBCjQrOpkgahLn2J4tNgR2LLMprj2nwONX4qgOZiWt50L2E09syZ
-	 ewlTL8xmv6WuiMCCXkdgxqLU4UnH1Xkq/Wh88r8BPsVsSe3iD2OngAMCyKGEdENFN4Jmg
-	 GZ/UH5JF2eSLs66f4T6QopIiAXHkVdCYyKxBgn2NecUCxjKv0srd67uzcqLF39hfsywVA
-	 n4/7uY8b6Vbvrpc2ayupyCf2Xky22AYx6/mQbeOXOckX3dySoQGRv4o/V2dCLXKIbdw==
+	t=1793890500;
+	b=0h5+UsiAlAeFiuWgH9Xw3Igi0IlZ6QdodL7ixcWeQvWqJVeXDeCdniEo+bQPBDs/MMLx
+	 KBoKvfNhjECJMuq6CrIJZFGvRS58Mbc9bjAw34izErDqOGa9ZLjGSOCjq6DeL7ZVe+Y+F
+	 Bpt6LC9qB7Tkgc+orgjVTpgX/9aJxp5c31/kbOWzdWw8SNIsOUmWC+bJFMgCIYi+QC/Vm
+	 RDUfvL5vPxFj4yXKs3hjHsplMW0tfOGSG7slW2A1b6uQEV4a2ZxraM/RHme3G1VMqdqvR
+	 5+AJD2m05AUg5ojQSUq9eCv9G9Ec+iZmTILtiA/Ium6fKpoOHRgH/cZKbxw5vyhEGDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890253;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=0QVs4UmW82faR41mfhaV+h9cFqICsfNx9N9UbV3NoAI=;
-	b=ra2CnasgvyUHBmR29AY4TKSkNzceAQhFfsISJ61slGBQ8mb7Mz6zDsV0Cd7Im6D/b9a1
-	 YMclkrH4N5DgFwgdSbLePiFf8QL/LexwFaxBAi+ZA5/EUrxAMtzMTDVvbpyb8BPCGTLDz
-	 0HKCPXcfwKxgtXotgDJ7mpxj7L0QBB782vG5G23qYmdEMwFfNQHNugIpBvAzOed3RtCBG
-	 WQYVkmbCJdavs0dIbd8edC/VPoczBZmJhtPsVZfDX7bG6C3gqFxQ7etazzG4oeQoTWWs/
-	 90lphiPYNDCTzo2VSB3rwmAAhs5bZgT4xK7Nfqto2dhQlG1mVi/l9f/a+cszECBNAlg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890500;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=lMUN+xrYwfUilVGUkr08RcCdBhNpdwdDbuRbBKh66bI=;
+	b=ku6rMktMlfyHGJFv29uTSij7ZIC0o/9r1sze0wQIV9nIrw6hx6jnhh8r/jXe3VR/ywnD
+	 FpzxDgE0ZrOQadWvVu2ArvRdRFYFMR+QxSxTbTMxuveay2enI3WnnrDklHlMUAApWmD5V
+	 TDIXgVeZVDkG0GwYYZbAzF+RQSO5nDLDnkPJfEQG0b8zpzIWRt/TDgJ9EODQwd/9s/mFA
+	 iAQHFnxofEEDUKvIDgwDh/eqodtDwHLRVhDrD0lokSgfZ+8rYuQ/dAqv+aZrS0p9zONT7
+	 GBb/RKikjos0jLN/89aBqdlw1yNXIgtGNBYwH5F4NdwIz0qODwax68t8W/nigs6v9RA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=DNoY4vhi;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCCD1606A31B;
-	Thu,  5 Nov 2026 14:50:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCCD1606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="cfoa0iQ/";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA132606A31B;
+	Thu,  5 Nov 2026 14:54:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA132606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=DNoY4vhi
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=0QVs4UmW82faR41mfhaV+h9cFqICsfNx9N9UbV3NoAI=; b=DNoY4vhiJHpefpc0K6k4ZEejnE
-	z7BMrzdQ39NWlIM0NCy3i0azEyJUm7qdCzDTWvFOnHtGFFojpS2FV6+ZhBEddcut8CT3kNR7w9vtJ
-	EbHP1y7vEIfqNZfBSV2OfralcPASt52j8xroqTNGzcNbawSyJl9tZWOJnJhANmXQBWjA=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xOynT-00Eacz-Jh; Thu, 05 Nov 2026 15:50:35 +0100
-Date: Thu, 5 Nov 2026 15:50:35 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 03/17] net: phy: Attach generic PHY drivers through the
- driver core
-Message-ID: <9866a873-e71d-48cd-9153-be1bfce51eda@lunn.ch>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-3-1e536825b4eb@nvidia.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=cfoa0iQ/
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33039168F;
+	Thu,  5 Nov 2026 06:54:56 -0800 (PST)
+Received: from [10.2.197.99] (ewhatever.cambridge.arm.com [10.2.197.99])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0DBE3F632;
+	Thu,  5 Nov 2026 06:54:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793890499; bh=BHV2xnfEREO1PuiaY/msWQZl+g5su3hEZwIcHuKszOE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cfoa0iQ/wLbaM/wUFNF6yhe0347tlMbx+10T4E3cFVvKkbcECt68p2+g3KvnuS1L1
+	 TUbxpPXPqrpdZ3WrgfpBlir0EXoT9q32sIUqUAMRFb90dLbvNIgUVbL+Hq+QEyfTYL
+	 FjNFds86xP7/OanwfWPmYNF1BOp1/YxJO9lc8o1A=
+Message-ID: <a876b77b-c4e4-4019-868a-af12c93f441f@arm.com>
+Date: Thu, 5 Nov 2026 14:54:55 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,26 +53,117 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105-device-trust-core-v1-3-1e536825b4eb@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
+To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>,
+ Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Daniel Pereira <danielmaraboo@gmail.com>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1792907332.git.aaupov@fb.com>
+ <cover.1792989860.git.aaupov@fb.com>
+ <23ffe461b8d7b04f78118154dfc9ea1d2a14978a.1792989860.git.aaupov@fb.com>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <23ffe461b8d7b04f78118154dfc9ea1d2a14978a.1792989860.git.aaupov@fb.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 05, 2026 at 01:42:16PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On 26/10/2026 05:48, Amir Ayupov wrote:
+> Drivers outside the PMU driver may need to know whether the local CPU's
+> PMU implements a common event before relying on it, for example a trace
+> unit driver checking that the PMU counts its external outputs as
+> TRCEXTOUTn.
 > 
-> The generic PHY fallback probes directly before publishing its binding,
-> bypassing driver-core admission and supplier checks.
+> Add pmuv3_event_implemented() to the arm64 asm/arm_pmuv3.h, next to
+> read_pmceid0() and read_pmceid1(). It reads PMCEID0/1 on the calling CPU:
+> events 0x0000-0x003f are reported in bits [31:0], and the common events
+> from ARMV8_PMUV3_EXT_COMMON_EVENT_BASE in bits [63:32] from PMUv3p1. Move
+> ARMV8_PMUV3_EXT_COMMON_EVENT_BASE next to the event numbers in
+> linux/perf/arm_pmuv3.h so it is available without CONFIG_ARM_PMU.
 > 
-> Attach through the driver core so admission precedes functional setup.
-> Callers hold RTNL, which a concurrent bind of a specific driver may wait
-> for with the device lock held, so for this flow let's add
-> device_driver_try_attach() so the attachment never waits for that lock.
+> Suggested-by: James Clark <james.clark@linaro.org>
+> Assisted-by: Devmate:Opus-5.5
+> Signed-off-by: Amir Ayupov <aaupov@fb.com>
+> ---
+>   arch/arm64/include/asm/arm_pmuv3.h | 19 +++++++++++++++++++
+>   include/linux/perf/arm_pmu.h       |  1 -
+>   include/linux/perf/arm_pmuv3.h     |  3 +++
+>   3 files changed, 22 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
+> index 8a777dec8d88a..acd62c4f16743 100644
+> --- a/arch/arm64/include/asm/arm_pmuv3.h
+> +++ b/arch/arm64/include/asm/arm_pmuv3.h
+> @@ -173,6 +173,25 @@ static inline bool pmuv3_implemented(int pmuver)
+>   		 pmuver == ID_AA64DFR0_EL1_PMUVer_NI);
+>   }
+>   
+> +/*
+> + * Whether this CPU's PMU implements a common event, as reported by
+> + * PMCEID{0,1}: events 0x0000-0x003f in bits [31:0], and from PMUv3p1 events
+> + * 0x4000-0x403f in bits [63:32], which read as zero before PMUv3p1.
+> + * Must run on the CPU whose PMU is queried.
+> + */
+> +static inline bool pmuv3_event_implemented(u16 event)
+> +{
+> +	bool ext = event >= ARMV8_PMUV3_EXT_COMMON_EVENT_BASE;
+> +	u16 id = ext ? event - ARMV8_PMUV3_EXT_COMMON_EVENT_BASE : event;
+> +	u64 pmceid;
+> +
+> +	if (id >= 64 || !pmuv3_implemented(read_pmuver()))
+> +		return false;
+> +
+> +	pmceid = id < 32 ? :() : read_pmceid1();
+> +	return pmceid & BIT_ULL(id % 32 + (ext ? 32 : 0));
+> +}
+> +
+>   static inline bool is_pmuv3p4(int pmuver)
+>   {
+>   	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P4;
+> diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
+> index 02d2c7f45b527..792283d29d7b5 100644
+> --- a/include/linux/perf/arm_pmu.h
+> +++ b/include/linux/perf/arm_pmu.h
+> @@ -124,7 +124,6 @@ struct arm_pmu {
+>   	u64		reg_brbidr;
+>   #define ARMV8_PMUV3_MAX_COMMON_EVENTS		0x40
+>   	DECLARE_BITMAP(pmceid_bitmap, ARMV8_PMUV3_MAX_COMMON_EVENTS);
+> -#define ARMV8_PMUV3_EXT_COMMON_EVENT_BASE	0x4000
+>   	DECLARE_BITMAP(pmceid_ext_bitmap, ARMV8_PMUV3_MAX_COMMON_EVENTS);
 
-FYI: This code is fragile, and causes issues. I will need to stare
-long and hard at it before accepting it. So i'm unlikely to do that
-until the basic idea is accepted.
+Could we not avoid this change ? Or why not move both of the definitions ?
 
-I also wounder how a PHY is a threat. What is your threat model for an
-Ethernet PHY?
 
-      Andrew
+Also, I would need an ACK from the arm_pmu maintainers to accept this
+change via coresight tree.
+
+Cheers
+Suzuki
+
+
+>   
+>   	/* Only to be used by ACPI probing code */
+> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
+> index d698efba28a27..c21f185a283d6 100644
+> --- a/include/linux/perf/arm_pmuv3.h
+> +++ b/include/linux/perf/arm_pmuv3.h
+> @@ -78,6 +78,9 @@
+>   #define ARMV8_PMUV3_PERFCTR_STALL_SLOT_FRONTEND			0x003E
+>   #define ARMV8_PMUV3_PERFCTR_STALL_SLOT				0x003F
+>   
+> +/* Base of the common events reported in PMCEID{0,1}[63:32] from PMUv3p1 */
+> +#define ARMV8_PMUV3_EXT_COMMON_EVENT_BASE			0x4000
+> +
+>   /* Statistical profiling extension microarchitectural events */
+>   #define ARMV8_SPE_PERFCTR_SAMPLE_POP				0x4000
+>   #define ARMV8_SPE_PERFCTR_SAMPLE_FEED				0x4001
+
