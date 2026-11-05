@@ -1,63 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.119
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793867660;
-	b=o9zKqFCbpO9ZuLB42KL9szma6wdPOIp9O/8T8ID4KTgulzuJt/pyLn4/nOqxVehhH9/N
-	 3qhaSFsoykv7PTQSCq1+HlmiUGFsbi91sAzuIwYISQixemtxvRIMWqu0tyzczCn9hPSu7
-	 08JhIrlIKZs1Ku2ClftZfPrzZNbdLSaJAzTGM63XdhvRJFDR0Kz90mq6BJnVtj72kWQRy
-	 0m1sTWBXX1OANpiob0XPlsRYFwnlp5jI2efkaf95/lFUNuEwmLFd3xrfHeiaExB+vYB+k
-	 EXcdAbFfTuEh7TgAoOx4lMA3n/i+s/s1sx0h8AfbsWTq6FywVrqqBlKxkZE/7MAcSTw==
+	t=1793867836;
+	b=Jsz71ob95BZ3eznw8E7tlk4qjRpSHhIcCL3v3FhGsBYoANSYjd6N1Ni/i6t8pvhQQzyV
+	 dB/mAjlIL8hfOY9VtHpDMySTt3NhMAySqIjyMSUjRLbrr3UKQNtluOE9v/C7P1aIyYhPk
+	 mFNZrz5H/IKm79FD+ed+AfTxngf3bcBwZHBad+G7n3bOjwKnnDQSFWorG3G6FpQQUwaMB
+	 Uw91X8ubDJC2uS+pXExmNh6YypNTkcuDbfNmejyg3a/eKmmBdiMhZHh/SXROcPAVTrvwV
+	 OZ59l7AiZQviY5XSNHCi2T5MiGBLscC82YFfR5vXIeMFjY5QyPYIdO1Q0xGFwddkWbw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793867660;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=cnhqM65tjsKZGGJY/TXRPudsFhxJteMdDEVDYcPFQSc=;
-	b=b8APkX1PAil7rWZYXtRjmU9Jxwjr5MNpAVGTwpphlUHTITyLKxrPeESTWSs8LZoEe1Y6
-	 3ohFB3zkkkkmjwUB+0UZYg4ahoIpe2YWOUhyj+AKrYC4TfBbATWgibeRmnSOcF/UQb7N2
-	 F/3Jk9yrIWZ4BmqhgfTGgpaJFswCAbwQMpOsoeTttLq+FfEorsp1jBOzs9BdOAiARMvI5
-	 XXan6Vkgw1SmjMXBqHflOU6dBsO3+Fp71rL3tItP3VF/HS7YZaShQIcccn5l8Vm8RvdoU
-	 z7+EvN2ZiK34S3sDuNxJbzMQgZAbA46hiv5objdFSYGcAF53cVqg300E83qz9x91dJQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793867836;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=3NU/G0xlaqrO1C6pRG/U/VFMHzB1bgOCQipgiOlTFyw=;
+	b=mSrKkKA9NcEcMk0BM1BjbIgDQezfAbgoSmLYg08TK5QkVEwYNWBXRBQ8KwCqUDcUA/cl
+	 GzIBwpm0l2+GyDQe0ZYcp5jHOkVOKBbJ/r8JZCHB3Q85tzN2AGXQf/qXhFUCZk2EwNwXD
+	 DQJ3zcTR6mONVnntDN8FvfFKyfMwvVyOU1KQFFl+lI8ii7s2ewTT++/PxirB448KPdPtv
+	 BUlqt9dBVBPDU+PgzRPbpKt7BxfLnIqICpYjV0+JscEc0QkzEXbDbS3t1IPmtiBuR0Mm3
+	 4MY4b0lBNgnXzg+ALRH78CmQCKVcW/b6EM81cEVAv/8KBz6mI15gGqmTg2pjgj61a5A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=noWlk7ff;
-	arc=none smtp.remote-ip=91.218.175.119
-Received: from mta0.migadu.com (out-119.mta0.migadu.com [91.218.175.119])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TCd7OApu;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26912606A330
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 08:34:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26912606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06741606A329
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 08:37:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06741606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=noWlk7ff
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=zClrcHGLDzT23aIyNgtsDXJndZr3lkUPgSp0Qa+dhfg=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793867656; v=1; x=1794472456;
- b=noWlk7ffB+Dzl6UKHGgE4HtHCybgrJIBH3aDepc5o/Ozko5Kyi39D2aOx2NBqeaaKQ1WMrGQ
- f0UWAftglynJikvNw5HB16mFmy9p3HxfLJa4ugmNmq/mxjdUEmGB+wdWm9e5syYFpWmwxnIGwV+
- Ke3oRw3vJQSaitGmfHEXsBrjrF3BD4Bf8Rco2ZCLLa0jCT+OtB8fBuY5Wx2gKeOsHzUnagZDzIv
- Fhm6EIDgbu4MAmsQwWpf5knSZpD4bYFB1EkT/EG1mqvxHkIA71mki0qjEgKsoJfR4T7XOgS0OPb
- s1VGEzCbXGYAAOxfYs+P8SvMROtIyB/+8JNoJbDYEjFTA==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2606b68ee5890bc3;
-	Thu, 05 Nov 2026 08:34:12 +0000
-X-Mizu-Trace-ID: 2606b68ee5890bc3
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 5 Nov 2026 16:34:02 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: submitting-patches: Clarify half-baked review tags
-Message-ID: <auw_egkhHADKXL90@wyuan.org>
-References: <20261104171744.439209-2-krzysztof.kozlowski@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TCd7OApu
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a3517554f7so12742235e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 00:37:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793867834; x=1794472634; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3NU/G0xlaqrO1C6pRG/U/VFMHzB1bgOCQipgiOlTFyw=;
+        b=TCd7OApuoL5e3stS7D1Cly3qhe5s15objHkahbF02Otwe/HfYG0Lej3tHT+vvUg9fX
+         wM7/rDK0ZKfkmIKirGxQ4lCbjDhxdGdeY3tFpTNzaQ77gZIvgCQbEVQnLYSoAtRd/F0B
+         B3P1GQCvO1Ey7jnj2cNDru7e/V3p7HMD+mzycRvyeaEFiOSwlimL84H/o+T+Sa7HeYX2
+         947109hybPJgL421as69RaLomQaFhr95brhMHrb/jbGJdfW/+OsFTyr4iOavfSJAjTq1
+         /9RC8ylZyagig84Z8nnznPCc2Fzl/McnQn0vWxi72uOtuqDts7dZxdxnDXtW9AxgOA1e
+         XQpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793867834; x=1794472634;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3NU/G0xlaqrO1C6pRG/U/VFMHzB1bgOCQipgiOlTFyw=;
+        b=T/kb9WvvANtAa3qP+sjMWFW6cfdnuKXFjov86xAkPGJJr+voQHwOlJh3Izrgltkl3X
+         bM+2eElUrvLuEN/QS8aVLfxofCjjym3Gp0eKPo9qSlc3d7wVHhxT3r1WtiLY70r4v6Tr
+         20X/yRrdf0DhN+ynhZJ0CpkuMmrrk1LxX9wFj11zquP8tWk3OKYo2O9MAX0AqvxRF+hG
+         CxxKlopgAylc03Rchh38KSV4/KJKJmHjqBpNnYu934UZbJyqsvS6B0L2lygA1tIj/Upq
+         uAJQDwFaXLfVdPJUAc+yLtMh0mwaPqCw76KS1trCBvCElu3IDjv2g8FmWyB3JR9zqvTL
+         +1iQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxBaX1PYq3v1XYmXP+Z103tbMjutY+oBchrXhYM7iwP2mOxRFmJpgZ/08Egeb9XCEf3FBhWEhBs2l8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Oqx5qji/iXuCBwvhiYgELjltQaA7sBKMeiH9ZnH5ErNzMnMQs
+	QDgXidPJq78EXfgvd8nQYv25MrrgQW5nxR5qpf2a59U8dAxwsVFXFrdn
+X-Gm-Gg: AYBFou2tzllPIncDGVG5v8KJP36tFrsdrI7+FrpntOlUOOcqlH6VyBxsab5UISiqHZh
+	vGxBP326lXUzjU1XUzSSjYijqVZ+do0Mz/Nmes3OslLkMBLIrCvOm0oBgLAEucOPfKticTEXmfM
+	ttYZ1hz2pxPUf6JDWonTfNYdBdzPm5TYiWuKl57zXz70IJPIkZ6Eulouy0gDWNkxmNOU35oGyYg
+	+libb2DN7CWwvOUDrymHsBFXu9BMk25FRJ20nVTaanl0J3nUbaigX9F6B2V2WAWTRXj6FtvsOC/
+	Tdiqndn7194cxnUkm+rx5kZ/Tf+PNucCgrR146x/YYoqv4yFlH2NYgp2xWr5lD9BsEAglmh2Akv
+	XlprXKe5B36OCS27ndZlIfv4ABQDG26h6bXGeGxvxfF73XV3QIFfAFXsk7L/1TfC1ujrXf5rWB6
+	llnxQ0LUbINJmtml5X5AGF9YoQgGRRIxJciYsj+VD3aiMaWfiCZktFdX0mk4yjSjCjfPDk53qXx
+	DB6ND3tF3yPCf0rDNZMj9iVtnlwle8HGSCrGxjCMF+ve4QfT6I85JtalJr/d5jhMGEfVOJ7MM9k
+	/SClHZD1RBdZ4ClJnbzOtirkSZyDP0hkM/M5AoQmLA5mewpdY7bB8+uPhgGAOYan
+X-Received: by 2002:a05:600c:4e88:b0:4a3:59c7:f226 with SMTP id 5b1f17b1804b1-4ac16bc4713mr417554995e9.6.1793867834333;
+        Thu, 05 Nov 2026 00:37:14 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b57317cae5sm75471835e9.12.2026.11.05.00.37.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 00:37:13 -0800 (PST)
+Date: Thu, 5 Nov 2026 08:37:12 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Samuel Wu <wusamuel@google.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
+ <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko
+ <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai
+ <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, Daniel
+ Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi
+ <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
+ <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Nathan
+ Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ kernel-team@android.com, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org,
+ bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to
+ /proc/kallsyms
+Message-ID: <20261105083712.14847dcf@pumpkin>
+In-Reply-To: <CAG2KctrY6GmVqsKP+fXYCsL6wDR4zp1kdRd7a7uOdCgg_JcMdQ@mail.gmail.com>
+References: <20261023001603.560210-8-wusamuel@google.com>
+	<20261023001603.560210-9-wusamuel@google.com>
+	<20261028134012.01d52e94@pumpkin>
+	<CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
+	<20261030100215.6f8e0d4f@pumpkin>
+	<CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
+	<20261104142307.431fc12f@pumpkin>
+	<CAG2KctrY6GmVqsKP+fXYCsL6wDR4zp1kdRd7a7uOdCgg_JcMdQ@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,84 +119,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104171744.439209-2-krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> writes:
+On Wed, 4 Nov 2026 16:05:52 -0800
+Samuel Wu <wusamuel@google.com> wrote:
 
-> Refactoring of driver subsystems or some core driver parts often come
-> with change of the actual drivers.  If that happens within one patch,
-> people giving "Reviewed-by" tag only to piece of the patch, like one
-> driver, and ignoring entire rest including the main concept of the
-> patch, are not really reviewing "the patch".
+> > I think it might be more sensible (less pitfalls later on) to return
+> > the symbol number - not that of the next one.  
 > 
-> As explained in Submitting Patches document, the "Reviewer's statement
-> of oversight" is for patch:
-> 
->   (a) I have carried out a technical review of this patch to
->       evaluate its appropriateness and readiness for inclusion into
->       the mainline kernel.
-> 
-> The sentence is complete, meaning it does not allow implicit variations
-> "this patch or part of this patch".
+> What pitfalls were you anticipating? If the current symbol's position
+> is returned, userspace needs another ioctl() call and an -ENOENT
+> check, to learn that there are no more matches. Alternatively,
+> returning the next position means every call pays for a look-ahead,
+> which for an unfiltered query walks the module symbols even when
+> userspace only wants the first match.
 
-Agreed.
+I was thinking more of the kernel api.
+The 'position' is just an array index.
+So a 'read by symbol name' would return the array index of that symbol.
+A 'read by symbol name index' would return the name (uncompressed) and
+do the lookup (binary search and linear scan) to find the value.
 
-> Reviewing pieces of patch while ignoring the main part of it, is
-> much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
-> not be applicable.
+I've used a bit in the 'sorted by name array' to indicate that the
+symbol is a duplicate of the previous one.
+So checking an 'exact match' for being a duplicate is cheap.
+But for a partial match you start needing the name buffer to be in-out
+on the read-by position request.
+So you start needing 'read by position' and 'read by position with
+name compare'.
+It is likely that the caller will need to validate the name anyway. 
 
-But in this case, I suspect that your "Acked-by" trailer will still be
-interpreted as an ack of the entire patch in future git logs, rather
-than a partial ack and/or a partial review.
+An 'interesting' idea would be an ioctl that returned the value of
+the nth symbol along with the name of the n+1th.
+That might get confusing though.
 
-IMO, it would be better to clearly specify which specific parts I
-reviewed, like "Reviewed-by: foo # for part a". But if there were no
-such usage, I would actually think it would be better not to give
-any type of trailers.
+David
 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> 
-> ---
-> 
-> And let me even bring a better example. Imagine a patch, doing massive
-> refactoring of core SPI stuff, 1000 lines of code, complex locking and
-> also simultaneously updates drivers to the new API changed in here.
-> 
-> Reviewing that 1000 lines of code in core SPI with complex locking takes
-> someone 30 minutes. He gives Rb tag, gets credit.
-> 
-> Now another person comes, looks at a SINGLE line in one driver he is
-> responsible for and gives Rb tag. For 10 seconds job of looking at one
-> changed call in one driver.
 
-Yup, therefore, we better suggest that the latter should not give out
-any trailers, or explicitly state which parts I have reviewed.
-
-That said, my understanding of these is not as profound as yours.
-
-Thanks.
-
-> ---
->  Documentation/process/submitting-patches.rst | 2 ++
->  1 file changed, 2 insertions(+)
 > 
-> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-> index f271d7413f72..d2aa31bdee1e 100644
-> --- a/Documentation/process/submitting-patches.rst
-> +++ b/Documentation/process/submitting-patches.rst
-> @@ -585,6 +585,8 @@ serves to give credit to reviewers and to inform maintainers of the degree of
->  review which has been done on the patch.  Reviewed-by: tags, when supplied by
->  reviewers known to understand the subject area and to perform thorough reviews,
->  will normally increase the likelihood of your patch getting into the kernel.
-> +If the reviewer checks only piece of the patch, leaving the rest unreviewed,
-> +then more appropriately is Acked-by tag.
->  
->  Both Tested-by and Reviewed-by tags, once received on mailing list from tester
->  or reviewer, should be added by author to the applicable patches when sending
-> -- 
-> 2.53.0
-> 
-> 
-> 
+> Andrii, do you have a preference between the two?
