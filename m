@@ -1,54 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.138
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793908850;
-	b=IlJKGYHCcmZr1DMVY6r6Do9cVxyyh+bOWU9YeRV0yF0Ht9nnFj6+p1eRzjwOb2yE0AqD
-	 RZLGF6jQOVNorsvK8rdFF0L8QcNIBGWkelrfe3ATtOx8hq/cbfceZEoB6MREpBXLq/XR6
-	 e4FJk0omFL85YZsBnYi5WtlXmgm6LAhYbsjsyQUnbOnpfiz1cPiQghC1Af1YY7uSvPz7B
-	 97Behe4p8zK9SXbR8/nppwNMIJ/0wc0STqIvhj6Kw0uzkMwkmy3OoCKE/OVb+5wfaSOJQ
-	 Ds/UqB6LNb3GParin4KBlGUr8zfHENiLGe5jdlFQG7/zxYHS3FHfZ6FcUDgPlRWk3CQ==
+	t=1793909063;
+	b=VaVLqrmQME+sQyJoq84ZOMXrRMcNlDAF7TLk/4oZrRgaQu3jkhr4nByqfQOY9MNVCucN
+	 EMWSdwI86KQ9tSBIfX7naJoimKQIPS2dSgKNgiet0CQTLjdjA6YlbxlIK9fYAL7ZPRsnC
+	 ekUvV+dJ2JpbatRjaDQuVj02hLA8jNNZURt1sTnh1Dyvwd9HkpPOseQIf8iaQwaDny9of
+	 QzTKX2hROh/e4eXeOkMzLVAjn02V1+sqIHayJlMvahn7uJpFi2X9UbqGlDFzTVdH+eNtL
+	 wyEt6uYvLl5DiftT6m2Ubo45/QjCb/0IbUcDZiGnjKYV5L3CjpoYFbnaRqrWBN1y6sg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793908850;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=SgY78uwqrS4EsUYLLkILtWxPMLctMC4kPiWZSKB2PMQ=;
-	b=y8IgzKlDp6fxHSB4fKWcu+NrHTIZJiE0rPGQC1qhvBnkQJMy48+1SjoYM5wSTbcFxJkH
-	 SOxb4KVHjoHPSQGxoTmPiqwZrJIPwXKeE2RdWwKm4GQeNC4I40CbC0hAehh0Y2Z5e2DdT
-	 1fc0YXriZQce+h6ixBBWiz8ol/DCHJhWr6JcWo6xAkP3V5sK3Fh7Ht9ONVjWs7LLSYDB3
-	 fdOKvmve7ua9/crd0Jeb1jbqOn8QKKiXyNlP/TE74gAdcqczHTr9nOjSp9SwQp3CMtqbG
-	 5vFiSpHNm0wM9ptsVm04+H06oQhATRUGdytDj9+Y6QR1+aLSqFjsDsIDGY2NbZX/OvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793909063;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=Aw5degZrQHo3V3rpws5+g22RRHe/seP3Fa1C54u6MN0=;
+	b=lBI+rD8YA4NdWvedk0ZkqLwjjiLQMjKSbvdsAQYa1p8Mv+vCt/y8oJDyxFbwIG4PCYbC
+	 BoXDUETxDeFqoSAclOxag28XSIMspzqpZllyXHpk8hYLhZIm929xJOvKN615dRl8eCiVj
+	 bT2mZiuwu7bwaiuiEy5Lg98ukfqbAV6+AKBTJvPaenAFGtISnObOdXkZGyu7Dhsc4AdE8
+	 mdW/GjORk2GMipuRL5Te+hg0HkJfwiCnwFMyV2zypP+zzklWsJcTCOel046bmMMEffs6o
+	 /rbicM4NH4lWuP8C8ySHenWLgsCnwRG/v36zomXcga2f+entmVEEi2qExQoB1RmZ/ag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="filnGHn/";
-	arc=none smtp.remote-ip=91.218.175.138
-Received: from mta0.migadu.com (out-138.mta0.migadu.com [91.218.175.138])
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b="l7XvB/r0";
+	arc=none smtp.remote-ip=209.85.160.181
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD66606A6C4
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 20:00:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5CD66606A6C4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24E65606A32E
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 20:04:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24E65606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=filnGHn/
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=twfyUPAmdfk3qnqxVC0Wt+Mi04r75IwvyEQqrmIURMQ=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793908846; v=1; x=1794513646;
- b=filnGHn/I8QFJBHnT7pj9KItFE+4BpANMruJYHksrOMppVAZAEHZL5CAaxXFVCu4OUffnojF
- xDnTJmWQOiZV6YF7ejoVNFoc3N/PKfHfZmybIG0Yu2xGWDvewHWOQy4JEaJmIUntjsTKl+YduM6
- o7+cb6pJt6NJJKhNrkiaVY68=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 23876777463ec8d0;
-	Thu, 05 Nov 2026 20:00:37 +0000
-X-Mizu-Trace-ID: 23876777463ec8d0
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <58a98f7d-b2c5-47b5-a372-0ab5afa6a8ed@linux.dev>
-Date: Thu, 5 Nov 2026 21:00:27 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=l7XvB/r0
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-53664b4860bso23550891cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 12:04:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1793909062; x=1794513862; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Aw5degZrQHo3V3rpws5+g22RRHe/seP3Fa1C54u6MN0=;
+        b=l7XvB/r0EAsfmkvKwLXi9U+FCv4znlZ1uWBgyBwXXZBCaUNdokUJy53RUHWJ+2kEWT
+         BpwprXNHONWGHOvIsaDTpZHtcB6XsAeWhewDJaNhuiB2euiyoU1AbjQlFtg5R3UAb8Zl
+         j9ild+5nUdzM5UZbj7mYag8Dctagcxk6YhEm1Nh61f0Vznb26vlUpjb7sFwe3CVlNOPl
+         SyOS6Mi1UVvjAAp7m7mMB3CBgWNbht54CQ+BOwi4rfm1nRGeYFie5joT1aagUt7j+5ki
+         VjKs1rKf0ER8mcU7zk1mritepu2DeojMvspSrsP6rAbky9P1uX094nTddzM3XtqlzsCQ
+         csmA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793909062; x=1794513862;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Aw5degZrQHo3V3rpws5+g22RRHe/seP3Fa1C54u6MN0=;
+        b=dBptiLNIq1X6ObyFLBxRLmwMc5K9DMH8zDJmoraZC68cW80/iRmLJ1xhaNKa83yrz1
+         3/ULmdrL+VisXCFUScqD1ReTPFf+WdtiPMVF6b05gphr4lAbCJ4KkkAaJe4vQYZLQQlR
+         GliC15dgPEFwrTHUaEzs8t2pkV6gyU/J4d8ZjfI5fNsJXiemCPjlXPkUF+CQACWbNi7j
+         O6IJktuzXpGDBNtvvf6oaMK4WwYMpEGzj7MgdHvgPQ8uuAuDEVPzjh3XhUGbejcrDhEX
+         hNVWB25zPBKiPC3h0lKmdkhi+pNAegVsMSHtSxJf281Gsva68XA/XShwj1gbNzu6HG/7
+         3WdA==
+X-Forwarded-Encrypted: i=1; AKwUvBwINyleZDNpjzmFV/0yHG+LdpEuOBkTNpN6NRWYG2hne6Zvjak288Pebn6L8t23kZ4XhiK1oq82OVI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8Fh43qFkZEeRsHI64WBiVo+hzgED20WPIlkSqjAKBgfoCk69qQ
+	oAS18FlUhFt7afSRJW6VieOZL3e0Y0uHTGxHJATmA3fun/S8E5Q2gYt9vBxVT6dz8Q==
+X-Gm-Gg: AYBFou0/vMm1pjlTJxu5eQ2Z9vQpzkh8xyuV9GkfU3xipuOoXM6b6wo/xpVOIA9/ZZT
+	+ulb7hD2GnVJCyPqD3cgaM4LVEC98yD86pwEKuGzUcTHruyQ/DfoyqPfyg8u+VA/aHwHFLIx7eO
+	oSHELDla0At7+3YgWY5yTUdAfScrqgBsyX7G1lcUpAFpf7EdyWZYKGtefmJaN/nJMKd2EF1dYAo
+	Pr6pdXgM0xUSKiTeshI2b0JTKnvByDIyiAfkAYa4kluHjcdVxut1D+7TBwSz2h4c3QzgmpgjRqb
+	Yxse4vbB+mMqXmFbRfY6QL2JdhONC0BnuleYVjqdY1ugocHCwhiKkVuj0TiUih06yP/6gPD9Jem
+	0FrW54+oPWl7dxbu+i+F5n6hSeb6uOlfsJWWDSnRdfMMpi3foO0btdxLVQMA313pDjQPg6zeVR9
+	0JChR3exhlQwQhvZHf6KuIGG41RX/Qd/pp51NRiuw63IDOlZ+ZZTynoCnt7ocwo/BJmGl4UmA9h
+	+hbmbxl2Up5IK1+4ShVJCfwsCMq9hNbrd8aS6KkyNvz+Ip/5d+Niwn5XYS3YbJ9q9QdYZhTcDwG
+	3vNBL3/n4423yA0d+jFPDlApgZNq
+X-Received: by 2002:a05:622a:418d:b0:536:60e1:c87d with SMTP id d75a77b69052e-54e14266a2dmr6509601cf.35.1793909061778;
+        Thu, 05 Nov 2026 12:04:21 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54e270167afsm1403061cf.25.2026.11.05.12.04.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 12:04:21 -0800 (PST)
+Date: Thu, 5 Nov 2026 15:04:18 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
+ driver binding
+Message-ID: <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+ <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
+ <20261105184442.GF8298@unreal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,148 +130,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3 for-next 1/3] block: Reject unknown status tags in error
- injection rules
-To: Mohamed Khalfella <mkhalfella@purestorage.com>,
- Christoph Hellwig <hch@lst.de>
-Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- linux-kernel@vger.kernel.org, Keith Busch <kbusch@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-References: <20260928221634.43239-1-haris.iqbal@linux.dev>
- <20260928221634.43239-2-haris.iqbal@linux.dev> <20261005084917.GA9160@lst.de>
- <20261020223402.GA1582237-mkhalfella@purestorage.com>
-Content-Language: en-US
-From: Haris Iqbal <haris.iqbal@linux.dev>
-In-Reply-To: <20261020223402.GA1582237-mkhalfella@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105184442.GF8298@unreal>
 
-
-
-On 10/21/26 00:34, Mohamed Khalfella wrote:
-> On Mon 2026-10-05 10:49:17 +0200, Christoph Hellwig wrote:
->> On Tue, Sep 29, 2026 at 12:16:32AM +0200, Md Haris Iqbal wrote:
->>> tag_to_blk_status() returns BLK_STS_OK both for the "OK" tag and for a
->>> tag it does not recognize, so a caller cannot tell the two apart. The
->>> block error injection code (which is the sole user of this function
->>> currently) relies on error_inject_add() later to reject adding a rule with
->>> status=BLK_STS_OK. This is okay for the current state of error injection.
->>>
->>> The delay option added in the next commit makes the rule with status=OK
->>> valid, meaning the function tag_to_blk_status() now needs to explicitly
->>> match BLK_STS_OK for it, and fail for a tag it does not recognize. Hence
->>> make tag_to_blk_status() take a second param to update the matched status,
->>> and return true in case of a successful match. If a match is not found,
->>> the function tag_to_blk_status() returns false and *status remains
->>> unchanged.
->>>
->>> A repeated status= where an invalid tag comes first is now rejected
->>> instead of being overridden by the later one.
->>>
->>> Cc: Christoph Hellwig <hch@lst.de>
->>> Assisted-by: Claude:claude-opus-5
->>> Signed-off-by: Md Haris Iqbal <haris.iqbal@linux.dev>
->>> ---
->>>   block/blk-core.c        | 14 ++++++--------
->>>   block/blk.h             |  2 +-
->>>   block/error-injection.c |  7 ++++---
->>>   3 files changed, 11 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/block/blk-core.c b/block/blk-core.c
->>> index 13dc70e8f55d..c45846b9c50d 100644
->>> --- a/block/blk-core.c
->>> +++ b/block/blk-core.c
->>> @@ -225,21 +225,19 @@ const char *blk_status_to_tag(blk_status_t status)
->>>   	return blk_errors[idx].tag;
->>>   }
->>>   
->>> -blk_status_t tag_to_blk_status(const char *tag)
->>> +bool tag_to_blk_status(const char *tag, blk_status_t *status)
->>>   {
->>>   	int i;
->>>   
->>>   	for (i = 0; i < ARRAY_SIZE(blk_errors); i++) {
->>>   		if (blk_errors[i].tag &&
->>> -		    !strcmp(blk_errors[i].tag, tag))
->>> -			return (__force blk_status_t)i;
->>> +		    !strcmp(blk_errors[i].tag, tag)) {
->>> +			*status = (__force blk_status_t)i;
->>> +			return true;
->>> +		}
->>>   	}
->>>   
->>> -	/*
->>> -	 * Return BLK_STS_OK for mismatches as this function is intended to
->>> -	 * parse error status values.
->>> -	 */
->>> -	return BLK_STS_OK;
->>> +	return false;
->>>   }
->>>   
->>>   /**
->>> diff --git a/block/blk.h b/block/blk.h
->>> index 2cc03aa54c53..5fa54162c686 100644
->>> --- a/block/blk.h
->>> +++ b/block/blk.h
->>> @@ -52,7 +52,7 @@ void blk_free_flush_queue(struct blk_flush_queue *q);
->>>   
->>>   const char *blk_status_to_str(blk_status_t status);
->>>   const char *blk_status_to_tag(blk_status_t status);
->>> -blk_status_t tag_to_blk_status(const char *tag);
->>> +bool tag_to_blk_status(const char *tag, blk_status_t *status);
->>>   enum req_op str_to_blk_op(const char *op);
->>>   
->>>   bool __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
->>> diff --git a/block/error-injection.c b/block/error-injection.c
->>> index e14bc4b723ef..db543fe27630 100644
->>> --- a/block/error-injection.c
->>> +++ b/block/error-injection.c
->>> @@ -171,15 +171,16 @@ static int match_op(substring_t *args, enum req_op *op)
->>>   static int match_status(substring_t *args, blk_status_t *status)
->>>   {
->>>   	const char *tag;
->>> +	bool found;
->>>   
->>>   	tag = match_strdup(args);
->>>   	if (!tag)
->>>   		return -ENOMEM;
->>> -	*status = tag_to_blk_status(tag);
->>> -	if (!*status)
->>> +	found = tag_to_blk_status(tag, status);
->>> +	if (!found)
->>>   		pr_warn("invalid status '%s'\n", tag);
->>>   	kfree(tag);
->>> -	return 0;
->>> +	return found ? 0 : -EINVAL;
->>
->> 	if (!found) {
->>    		pr_warn("invalid status '%s'\n", tag);
->> 		return -EINVAL;
->> 	}
->> 	return 0;
-
-As Mohamed mentioned below, "tag" would leak then.
-
+On Thu, Nov 05, 2026 at 08:44:42PM +0200, Leon Romanovsky wrote:
+> On Thu, Nov 05, 2026 at 12:24:33PM -0500, Alan Stern wrote:
+> > On Thu, Nov 05, 2026 at 01:42:18PM +0200, Leon Romanovsky wrote:
+> > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > 
+> > > Interface claims hold the USB device lock, but device_bind_driver()
+> > > requires the target interface lock. Without it, trust-policy writes can
+> > > race admission.
+> > 
+> > This says nothing about usb_driver_release_refused_claim() and the code 
+> > related to it.  It is an incomplete description of the patch.
+> > 
+> > Note that nothing prevents drivers from using an interface they claim 
+> > before that interface is registered.  For your scheme to work properly, 
+> > you should make sure the claim is authorized when 
+> > usb_driver_claim_interface() is called, not when the interface is 
+> > registered.
 > 
-> Doing it this way will result in use-after-free. "tag" has already been
-> freed above.
-> 
-> Maybe change tag_to_blk_status() to return an int (0 on success and
-> -EINVAL on failure) and use its return value without mapping it?
+> This patch is unrelated to authorization;
 
-I am not sure I get your suggestion completely. Even if we change the 
-return type of tag_to_blk_status(), we would have to free the "tag" 
-before returning.
+I meant "authorization" in its generic sense.  When you don't trust 
+something, you don't authorize it to do anything.  Pretend I had written 
+"the interface being claimed is trusted" in place of "the claim is 
+authorized" above.
 
-What can make it simpler is allocating "tag" on stack, and then use 
-match_strlcpy() instead of match_strdup().
+>  it ensures that the lock is
+> acquired when the driver is bound.
 
-> 
->>
->> to keep the code a bit more readable.
->>
->> Otherwise looks good:
->>
->> Reviewed-by: Christoph Hellwig <hch@lst.de>
+That may have been your intention when the patch was created, but if you 
+read the patch you'll see that it includes a whole bunch of material 
+not related to locking during binding.  Namely, this part:
 
+> > > +/*
+> > > + * The driver core refused to bind an interface that a sibling claimed before
+> > > + * it was registered, and dropped the claim. Let the claimant release the
+> > > + * interface instead of operating it with a bound interface but no driver.
+> > > + */
+> > > +void usb_driver_release_refused_claim(struct usb_interface *iface,
+> > > +				      struct device_driver *claimant)
+> > > +{
+> > > +	struct device *dev = &iface->dev;
+> > > +
+> > > +	device_lock(dev);
+> > > +	if (!dev->driver && iface->condition == USB_INTERFACE_BOUND) {
+> > > +		dev->driver = claimant;
+> > > +		usb_unbind_interface(dev);
+> > > +		dev_set_drvdata(dev, NULL);
+> > > +		dev->driver = NULL;
+> > > +	}
+> > > +	device_unlock(dev);
+> > > +}
+> > > +
+> > >  /* returns 0 if no match, 1 if match */
+> > >  int usb_match_device(struct usb_device *dev, const struct usb_device_id *id)
+> > >  {
+> > > diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+> > > index a738d03c23eac..d35a7710c8ef4 100644
+> > > --- a/drivers/usb/core/message.c
+> > > +++ b/drivers/usb/core/message.c
+> > > @@ -2264,6 +2264,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> > >  	 */
+> > >  	for (i = 0; i < nintf; ++i) {
+> > >  		struct usb_interface *intf = cp->interface[i];
+> > > +		struct device_driver *claimant;
+> > >  
+> > >  		if (intf->dev.of_node &&
+> > >  		    !of_device_is_available(intf->dev.of_node)) {
+> > > @@ -2277,7 +2278,14 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> > >  			dev_name(&intf->dev), configuration,
+> > >  			intf->cur_altsetting->desc.bInterfaceNumber);
+> > >  		device_enable_async_suspend(&intf->dev);
+> > > +		claimant = intf->dev.driver;
+> > > +		if (claimant && !try_module_get(claimant->owner))
+> > > +			claimant = NULL;
+> > >  		ret = device_add(&intf->dev);
+> > > +		if (!ret && claimant && !intf->dev.driver)
+> > > +			usb_driver_release_refused_claim(intf, claimant);
+> > > +		if (claimant)
+> > > +			module_put(claimant->owner);
+> > >  		if (ret != 0) {
+> > >  			dev_err(&dev->dev, "device_add(%s) --> %d\n",
+> > >  				dev_name(&intf->dev), ret);
+> > > diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
+> > > index a9b37aeb515be..293340a48b6c5 100644
+> > > --- a/drivers/usb/core/usb.h
+> > > +++ b/drivers/usb/core/usb.h
+> > > @@ -49,6 +49,8 @@ extern int usb_set_isoch_delay(struct usb_device *dev);
+> > >  extern int usb_get_bos_descriptor(struct usb_device *dev);
+> > >  extern void usb_release_bos_descriptor(struct usb_device *dev);
+> > >  extern int usb_set_configuration(struct usb_device *dev, int configuration);
+> > > +void usb_driver_release_refused_claim(struct usb_interface *iface,
+> > > +				      struct device_driver *claimant);
+> > >  extern int usb_choose_configuration(struct usb_device *udev);
+> > >  extern int usb_generic_driver_probe(struct usb_device *udev);
+> > >  extern void usb_generic_driver_disconnect(struct usb_device *udev);
+
+Was this meant to be two separate patches that somehow got combined into 
+one?
+
+Alan Stern
