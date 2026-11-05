@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793873666;
-	b=O6UWhVuvbf3yHiWpcwBFWWOoBakSZSvIQ1Z2CwjsKFBVeZWbuSXIZgiXEzur1r4rE+GA
-	 Xu3BtNARvKrfo/AMEQIp8+lB+uyrlwBLgIt7QDe5321mtNnIoQPZlFNoR0LnwtDaAZnUm
-	 fhdgNxSW2K3KvmMgQmDNZaZJvDHS+aKU8QOjQ2y7nY5tgK7RnKvjx3Hi64PgoILfDFb+u
-	 814JqBs9XJek6GHVuUFnQVV040JjgXBTthN2JVi7puNkW3AbhPFb4h6nNGjwfYYK7Wvr3
-	 tcINnCG/Pt451vdqkaFOPGaPHSPN9bUEKbqkTyIID5hhJedRroO5MgBLRSis3vQkl+w==
+	t=1793874794;
+	b=x+kPDPe1MUkNpa+ZyX0U9RDgrlMMGy3UYf/wkRseOrT8NGx4dNcLvUwpsMlJVS/+BQ+x
+	 KeWyGpGJN61vdDqD//JYgAU5XR+ViSiroLqgbpXm3Ye/3ai2iTmZoKJ6cPIDPnJzj5qpN
+	 Q2i9D/oM/SUmtoYXAc9eXwxzxOoMcMw3/aezlYWveZAJuvAfcnP5p9gCeZqjDXa1TKJP/
+	 oZgfFC2qxwNi5w3oUNFeV2Xiv4pJaf+CWbXngq2+VMzXt3vwGraBLlazrfHQh+jjaTTNA
+	 wFZvL6UhK/quNAo3u6asVmaGcOmxhdlqng6XK4OIk8yYOYed764M5BpQoDHpZO05nBA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793873666;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793874794;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=cJgR5aeVC9lcVT/bd47FaWkr+JwpenNCqv7QqD2q5Bs=;
-	b=DSNEKPPk6+yZxjG3Uvu5QbFtsrL0vZ3mbS/H/4mdI9PMZU5aTfx1DBKP+EPtq05SDQkq
-	 UGNQ5Lfyzvp/YXRjC/TPZmbqNMiteiDRk5oOOENjkl6ipmAUH+rHMlfmMcyEcqj8cVJjK
-	 +2aBppk+D30oct7/OlZ/MaaK/yiJg8llcM8zcyM/sOb/IanApj0vL6CdnXC1RPSGMC+FN
-	 UtjoVB0jkdQfkbVPEIishBTzuUJzwAaWML16McIg/YV5L2uIRGJaNKlhLsBfiyEiI+z4O
-	 grAiMkKneZrJfuGS623UA+favCDnfb/pcbcMWPK7VWJsSj+VwH7KZC0ZkAQ2BIs7Gug==
+	bh=rW1nil3E5bYjTHxZT0jjYetDQyPmr3fpWazFoftmXjc=;
+	b=akyronwwwVes2r22gwf0J9VBfRi/fTJEHM5ugQjVc6mma6SYkEHwVVPzOv/2OKAwrv6B
+	 B0AdIya0xyZA50EA9CalKxYzYsnhXEQATprP4fHU3IxSpFXAU53ZTdla9HqKvttmD5wAz
+	 aHNFmlM3Sl2Rlr7dwEmpWg5n1ZTQUCEbDHn39VzWbykCg7G9meL2v8gBgVXMn6Wv8iVn5
+	 dlRAUJGSFIo6ex+rUXIz0xEPWlNcrSlf7FGcQNLuOeHMo7gmnaMJAmp/jwKkN2fneyhS6
+	 R77Cn5aDCrKfeuCKCRYEr/hQ31RZHUQMQ/MlVuyepOv8Fw66EoemBskpA7oxUGB2cKA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Op6BjMZv;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mOEZw52v;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85084606AA41;
-	Thu,  5 Nov 2026 10:14:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1553606A326;
+	Thu,  5 Nov 2026 10:33:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Op6BjMZv
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E1671F000C1;
-	Thu,  5 Nov 2026 10:14:21 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mOEZw52v
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7B2B1F000C1;
+	Thu,  5 Nov 2026 10:33:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793873666;
-	bh=cJgR5aeVC9lcVT/bd47FaWkr+JwpenNCqv7QqD2q5Bs=;
+	s=k20260515; t=1793874793;
+	bh=rW1nil3E5bYjTHxZT0jjYetDQyPmr3fpWazFoftmXjc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=Op6BjMZvEwsjuxoAUkC8Ls8ldus0yPgt/yQbWwZwQRMcFlVeybfv/RTgIihY90P0o
-	 6hwtujh/xZC3KmXw8CKUVrH9CgBmz87hYk08c0RXE0JnYvLXt0neFtGpI3S1z9ihsG
-	 tzfUumbxad+dX5WnRj5f9R1oN3EshlfEIH7griODZMkD0lhOWJTKO5QoQW3rbHExTi
-	 7Y5Qe2uzFx4yjZmy+DYdTLx+ZWG1Hgk2KelHad79uAVveo8dALagy/j5GnNTUM+SKy
-	 8J/nk4KICNKN3ZUxYzliP+GCsZaZ3nUW6vJ3vTG8JfWfH4DjMnnK3+i+QoLVHbSFz/
-	 aWp+hd3ruMhdw==
-Message-ID: <fc197480-ef57-4279-a48d-101f5f41f8d3@kernel.org>
-Date: Thu, 5 Nov 2026 11:14:19 +0100
+	b=mOEZw52vLFxK3rc/1pzuqdBC+HQCXx9mY2v9zCS7MB1PkcO28hR8mmYR7mquhduqx
+	 nKCn9g7Qvm3pg2oAHDiffpJ2cDU2GqwF4uICQfDiPX4l5/O9J0qmW85ilAgvbRkP0U
+	 1FSFR+Ow6AcRdFnndQOPSSu8RyMQ6V5tSfmrn4gdTkXN58WdIUPJ9XvCdUZ4NB8bgh
+	 6pugwhg/dQzmCTa3DNeZNaV3LEU+nCDMPPQyPQivmSGt6TfuLL0FL0WkFPUM/3vgbU
+	 A738imanAEwUusrWHcmT2mo/y2jRAKtqB2LSP30ROQRnYP8nrNE4QqaXB4uR9PXbRN
+	 KZJLF4jYWfzXA==
+Message-ID: <0851db25-fef3-4f96-8d37-81ad5c51d6c8@kernel.org>
+Date: Thu, 5 Nov 2026 11:33:05 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,20 +52,23 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] mm/memfd: handle GUP references reliably when
- write-sealing
-To: Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Rheinsberg <david@readahead.eu>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, stable@vger.kernel.org,
- Chris Mason <mason@kernel.org>
-References: <20261103-fixes_core_2-v1-0-f332954f1df4@kernel.org>
+Subject: Re: [PATCH 0/4] mm: Enforce read-only shared vmemmap tail mappings
+To: Muchun Song <songmuchun@bytedance.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Oscar Salvador
+ <osalvador@suse.de>, Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Muchun Song <muchun.song@linux.dev>, Lance Yang <lance.yang@linux.dev>,
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <liam@infradead.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>,
+ Christophe Leroy <chleroy@kernel.org>, Ritesh Harjani
+ <ritesh.list@gmail.com>, Shrikanth Hegde <sshegde@linux.ibm.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Qi Zheng <qi.zheng@linux.dev>, linux-mm@kvack.org,
+ linuxppc-dev@lists.ozlabs.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261019090830.1917657-1-songmuchun@bytedance.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -112,46 +115,37 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20261103-fixes_core_2-v1-0-f332954f1df4@kernel.org>
+In-Reply-To: <20261019090830.1917657-1-songmuchun@bytedance.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/3/26 19:31, David Hildenbrand (Arm) wrote:
-> I spent way too much time on this, looking for better options. I think
-> patch #1 fixes the most immediate issues but something like patch #2 is
-> needed.
+On 10/19/26 11:08, Muchun Song wrote:
+> This series is split out from the earlier, larger series "mm: Generalize
+> HVO for HugeTLB and device DAX" [1]. While the parent series generalizes
+> vmemmap optimization across HugeTLB and device DAX, this subset addresses
+> a single, self-contained step: mapping shared vmemmap tail pages read-only
+> at population time.
 > 
-> Long story short: someone can trigger a race such that we don't detect
-> GUP references when write-sealing, allowing to modify content later.
+> After the previous HugeTLB and device DAX conversions, both can install
+> optimized shared-tail mappings during vmemmap population. These mappings
+> should be read-only because each shared tail vmemmap page backs metadata
+> for many tail pages. HugeTLB applies this protection in a later,
+> subsystem-specific pass, but device DAX currently lacks it.
 > 
-> Patch #1 handles pins reliably for folios with a pincount. Patch #2
-> handles the remaining references, but can reject write-sealing with
-> populated file mappings. vm.memfd_write_seal_mapped allows restoring the
-> legacy behavior if needed.
+> This series moves the protection into the generic sparse-vmemmap and
+> powerpc radix population paths. This protects device DAX mappings and
+> makes the HugeTLB-specific vmemmap_wrprotect_hvo() pass redundant. With
+> that pass gone, the bootmem-only optimization wrapper has no distinct
+> work and is removed as well.
 > 
-> All alternatives to patch #2 I tried ended up too complicated and nasty
-> in corner cases. We should never have allowed write-sealing with
-> existing file mappings.
-> 
-> Plenty of details in patch #2.
-> 
-> Did some testing on x86-64 without any surprises.
-> 
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
-> David Hildenbrand (Arm) (2):
->       mm/memfd: handle GUP pins more reliably when write-sealing
->       mm/memfd: handle GUP references reliably when write-sealing
-> 
->  Documentation/admin-guide/sysctl/vm.rst | 21 +++++++++++++++
->  mm/memfd.c                              | 45 ++++++++++++++++++++++++++++++++-
->  2 files changed, 65 insertions(+), 1 deletion(-)
+> This is intended to be the fifth smaller step toward the broader HVO
+> generalization. The remaining HVO naming and enablement consolidation is
+> left for follow-up series.
 
-I think patch #1 is uncontroversial. It would be good to get some options on #2.
-With the current infrastructure we have, I don't really see a good way to tackle
-this differently.
+I assume this patch series is no longer applicable after we remove the RO
+protection for HVO.
 
-I'd assume CRIU+write-sealed-memfd+mlock is rather the corner case ... :)
+Or am I missing something? :)
 
 -- 
 Cheers,
