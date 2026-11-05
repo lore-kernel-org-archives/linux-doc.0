@@ -1,88 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793876673;
-	b=TA95N35gTOnRpXd3kkqVqig+NHkmYghFFZpbkQ21kjM831x5KbMJtKSmTc4vOl99wwSd
-	 LfW4n/iNCuj3dwIBUJXS1gZOHKfcwUiTjZcuB7LDbLMYaL9L85iHzsxxvHjqO2zHH0+ew
-	 FLdWGA3kuE+YcelW+eI9a8uzEP7k4Ge7fs90pDJQOvYWJh8+qg99c+ZJdFwTMhxZr+LQt
-	 xuErY/vOVyj7GitLvUoBRLXv1HAXhxh7rHxg99TZBQYby5tIQd6ZqKes3PM/le46lnn8Q
-	 IJgQClGe7qEO3KnjX1hOYKLj15Th96HJvS2dzS+s4uOk5bk2FK7zWedzl8OeQBa5ONA==
+	t=1793876780;
+	b=F1Zfu+o5nNRQNVeWCXPoHXUbl1G5EK+5Kh03jq5QKGFmDTqGXGInRLYPOiSbOV/EhNO0
+	 yP+TEemV7nUDpEmjXfGl5NMi2axjwzTXdiX8fVIRGA+c60XA6BMQisBRByBVTXVOEQGfV
+	 s73tYDW9R+rqfAYMAK5mlF1nbyncm2eS8OOItCiH+Ggmh5sthbLBk8mJSuiBln4mICLxh
+	 vE+iDGjK36zUNJagYhi3sDiWheCZEU+90+YdSYedi1duXm1OAbnZJf9Iv2awaUfljqaaz
+	 wvBBVBoEJQ//k4IFokLIvlda2gZ7uS2EYLWrCxrFjhIRJHkbgzbhIc/ATcTQiRgGU1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793876673;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793876780;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
+	 To:Cc:References:Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=FFlRj7zu5hDTpY8G/PTsL3dfYcV7jbNwNQB5CRVczZA=;
-	b=R0wN7IiRr3bxdAUBcbS+/8F0uTST9qP8jl2RJDYuoRrO28xJIamRZNKd0uRMxTCQ1R4F
-	 0C5bRStFNZ1jMUNEfYJSX6409ZAmbRPhA0rqKLMxiUOibrzrpTsv+yuoIUZxHGFnlmbsq
-	 3KEXYJ+tfWQ+XgXZKCXy++YPSNWeUEEVbmF1bzp/6REt1x6ZmenCfwa1pzjl5EGsrE0da
-	 8ul1a3ckeVzlty2tH9kc2lZXIq/COSu1xWZzLzdCNHjAr3iD10J90DW2NkMZyXmk6mpao
-	 BgunuNs5g4fmZTYQTl4EuuTLBiX+ZhnuBOKs7HiwteNH2iiWtro7R4+gmnzjHcBKMiA==
+	bh=UkU61sxV7gzGCXcoseb2sfWpv/CEGqGt6zB6Q3Q0kmk=;
+	b=Fu6cceFP8OnmpnOAyL9iIpaEgJBr1XVrWor3WyYTKL++sXHkr5Xbcp/1Dcj5EYJ80+RH
+	 xrGToyxjwOIM6YkhnaDQ3AXB2vW7vwxncyoPpDhxyPeGFUffIiEGgcRB1RuiN7RAZlmZO
+	 F3gUIBOTWXzZx4c8mhGR1e/xk/2uHmY8F2CF09b4dv0FCsAS5b7O7I2PWxrmm8SeYZCbQ
+	 ZPkPzefvxsghY/o9g/GAGutxfYa0BbZxunsLlV7z5WI9Q1YnTAnFMSFvUUUR99xhEgMD/
+	 O2zlQW+Fd/isZt/BQ8Cex/eDW0YuozB6YuJ4R9BZZ99cHhm/xEzfSVjhUr+1a5fyYAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ursulin.net;
-	spf=pass smtp.mailfrom=ursulin.net;
-	dkim=pass header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b="OxlsBi/H";
-	arc=none smtp.remote-ip=209.85.221.52
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KiSV4y9F;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=WsXbCiUM;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD5F606A339
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:04:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBD5F606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74FA5606A329
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:06:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74FA5606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=OxlsBi/H
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48b001cd92bso832129f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:04:32 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=KiSV4y9F;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=WsXbCiUM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793876778;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UkU61sxV7gzGCXcoseb2sfWpv/CEGqGt6zB6Q3Q0kmk=;
+	b=KiSV4y9FBhBBvYxcQ+s3SvHZHpEQp/7IJrJjRPWFEufX3nLgS6EaGE/MGlfHeco6v3Izux
+	2hrMXybCfjrTzFyG8ic3k9omS0I/kfiefjx0DRhL7En2ibJOHMUZ4bwjmP0ZjTJ0HzXTV2
+	dKuDlpYhXG0dnCA2Mr1kMwuOz5cygww=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-117---TTYQpmP6uz5xw57yIj5A-1; Thu, 05 Nov 2026 06:05:54 -0500
+X-MC-Unique: --TTYQpmP6uz5xw57yIj5A-1
+X-Mimecast-MFC-AGG-ID: --TTYQpmP6uz5xw57yIj5A_1793876753
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-4a1fdde384cso10850595e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:05:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin.net; s=google; t=1793876671; x=1794481471; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1793876753; x=1794481553; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=FFlRj7zu5hDTpY8G/PTsL3dfYcV7jbNwNQB5CRVczZA=;
-        b=OxlsBi/HWf0dHT0jruMtytc/+14rT23pj+T6Go9RhQuViZskkKucwwNufVG0iWiL2O
-         nvrvzoPp4bd7fHYbDFiI2/1fgQRP567W294PD2L6epcPvmYTXKe/yB7L5hheyFaoF81g
-         reF3sXiNCtcZvgmSrDZxDg58ugu/NVjbGanKmW8ba0myfZqoBxVy2KqRW3PkbixBhO9p
-         IR7Xo9Y8o1+eHWWK5BFQrywfqxhylN2qVMqlqWiaUxCK0NjkGGUglsGwwY66W8Ql/LAk
-         dp7iMn3OjP4ryaJ8rjUn2uPamje030yJE4SlfGSg5EAkmvjp1oqGRC/kyjb5kw96ooTP
-         EWug==
+        bh=UkU61sxV7gzGCXcoseb2sfWpv/CEGqGt6zB6Q3Q0kmk=;
+        b=WsXbCiUMSkqnE7ngUMd5bOc1Y7Lq5+aUK9198qqWt7QWr0eDvbmtZOI1vFmOKCjCVz
+         fA44mYEnwS8K/g2zCYrINd6So33X1L/gDnLg/GQAZvMRYDZALc34jwUR6wOr8CIF5UOy
+         +3BVK/kmtB9JfESFQdCVUCW+lCTlUt3+9X7a3swK7j4IVqgh1QQ+w8q6ac2lMCSLqHHi
+         tsFJkYT6d7vB8jQpu2K+M+RpWi8VqiHAdDZtuJJXlgPClPdWiq/pE55S2yTwp4qjncDb
+         K/zMD8S8Cjdz2kqrZiL3W7Q/Y0NdYBxuajnx/UwMwbrpWczieFQnuKBcA5LtYfG9is4N
+         serg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793876671; x=1794481471;
+        d=1e100.net; s=20260707; t=1793876753; x=1794481553;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=FFlRj7zu5hDTpY8G/PTsL3dfYcV7jbNwNQB5CRVczZA=;
-        b=zwCEczOcXW7Eegna84b8Rxrj7m+uDVwfr3gOnQRH1CtdLOEw0iPsbOZ2MqzxnJ1epY
-         HAPLGrrfGe/mkV5l6WIO6FajfH6QFTEi8Ve3EuKXxi03QJfedEPWiATPUkEy9mMMktAT
-         HbWfXUTDAGM81yNXUftPRvA1ff+jXrfA66pLjEZ8IE+Fii/c0bTZbV+8qY/TY+hH6u6N
-         lBjne9kwKFWp0mYGsXHwMdBbX7NjSjEV+F56w5aBJviZXpF9gHGfHl98NvRT63SsG1LK
-         hXDbx4ymqxIHgMvEXKszevvCEdp1QxqCbxZqEQz19rTeracZXeClthQDr+gEhykiYqEo
-         sSnA==
-X-Forwarded-Encrypted: i=1; AKwUvBw0oWFhUVDcR4igrj6wOlBhawrPdaI3NEUxD8TZq3aLq5uAqsw2dcJV8t9xhZ4pQTTnsS01mg5FufA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8zWuZ3CGbgbMWFCThTMVYPmPrpdU+tHNBj7egYk2VtMuzUkEiy
-	fEfzuu2oFH/tG2ZmInIUs2aQ9xchZR9IG9fdi56pQajjdvPaPvYO2G7Anx5QAeiMNu0=
-X-Gm-Gg: AYBFou1L5gfGFjjUaFNfHTdMOruFLzjKIbtHfxZu29BOlHYNbu18G0257N0sOFCsTd/
-	2giQH3DuXVk/ETez7NnUu8lTMpIyPEPsNYcJ81d9hN5FfTWQT/6YpFEGyVe+PAUTyTeL99lPPmu
-	be8Z8uQ+wA2C8+QUzyzeAHL6LTK7rsf3eMRgMNvMvJTnElYZbhgZRfWwqkT0YWFi+DA8tP/TJ9C
-	1Ob7tiTeH772BTGD2W1tPNlyu2xn2oenUhrgS6ULAztmHV8/PmIQC3FSoXv3eELWoLxD7p6Dn0n
-	PzNhdC8ES25rRkbUvS5lN46ylq5fm4CAmIrH7xpO7ujpWAtwobA/Gz8h25lyJrLASsAqTpDQ87f
-	X4Jnz/z1VhVZxPzO4kqv5rV4w/CIB6KjJqM0xPTuH64OXDpEuBnqhZIB7V4DCWXYjVFPDWZWO2e
-	92r/ua9Lhv+OXoOdsqRrddt6e53W3184J+sgd5StoPkG2IT7ZuXkVsIifvxyHu4x6uCFqg0aBtg
-	+JOLErR0fiR//hXo+0aAkSGNI+NU5BPF35VpzA5v6LVPfx2p3KcS0ocSKOhvasrxoMvLmOtKZjh
-	cCzuoHrH4IAF8B+rA1biVjLaXgBIR2iyxik/GuNyK+UH
-X-Received: by 2002:a05:6000:2889:b0:48e:f10:ceb8 with SMTP id ffacd0b85a97d-48e6e2e769amr38528504f8f.11.1793876670833;
-        Thu, 05 Nov 2026 03:04:30 -0800 (PST)
-Received: from [192.168.0.116] ([81.79.79.1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed92a753sm10471113f8f.45.2026.11.05.03.04.29
+        bh=UkU61sxV7gzGCXcoseb2sfWpv/CEGqGt6zB6Q3Q0kmk=;
+        b=wIIquq+SdYFAq1OqiG4990ff6Gq1msWskUwuK2y3uMGrMGMPVBPWU3Tro7OOPyGXc6
+         f4Owsu37G5pt6zixh1+okgVN7xsEiqZAaRVamiRr2T4E30AwYHrbgeQ6TOR+IU7+GZ3/
+         PDFw+DtLOj73sbYZ0FBJtSyAhFwXbgNPMaUQSIMsyE6AD6LOdRLPEILW3nENebEQJZd/
+         W7vaYtFIa0ihsxE2WxTyCCBbhI2AEzPgvZoszlOhmiP6tM+grhqppv/IP58lu+OjWJcv
+         cgZFr0HipBRWfaq119IYFqfsKJDKYOXzSbXHdmurhYWU6uWy7ha6qR//6/BtwQawH0EF
+         skJQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzwg+CMYDuv3La4Yigf6ODicA2xM9DdShLzNRZYt5jEFy6t0gq9GcmzQmzicZzWWnZTie95Gt/IYHQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8/ckJUIFV0QVzXjIycn+AtVoElzazVvhzYqsg2xZu76HeSekMU
+	uCtUobZ0l0gGWET9tbd82be0MAyS+TP+z6NrYAgvvBX8Cy9JYu5NwtRZpwp3Hx8aYV4ebOYhBBy
+	RdOi4EVQT6pesqKM/2XfwWcL+njfozHaE5/LZjPEV1R7FF2VsnqCdQRI2XBRnWQ==
+X-Gm-Gg: AYBFou0+l/j1k0RbFJlQujsUYSMrcNEWATqC63iem12yg8iqAh0mViB9hHiXId0hpH1
+	F73tb+SB1oNi+SulPDfkJaWnV/4eWcU4Blq+R6X6JIX7SOf734IEKY7NtrFW2cgvmE34RlLNDM5
+	KmnVbb96OQH+9SvaQyi4AC7HNbJ/YCIGtoR5AW/YmAUSF1pyZWvVKwWghS8a45wzTIbXMOScuUT
+	GT4Bc91NSM/2MJHCfLPjID/bCmWsMmLgiSCvuXxLxsqb+awKfImSsnjt3MAcraoDViTJiVwHFyN
+	EmLiM41dNoD8BbjHWiX5Irup3u07UT9vO5j69NzSZc30yZ3xpMJGxVOZ7QbF5q3QJBkOZj/nb1d
+	LQQq3UUne3Et44NDe9PEup0xWkkVMFw/elC7RN0ysZyHJeguKx6mCRfAkxMUhGh+LyNqFppYpXs
+	pvYCapI/03qh+vjyeCXBsQPFcwGAakBqqgWut5JsZRzcE=
+X-Received: by 2002:a05:600c:a49:b0:49f:e701:51c8 with SMTP id 5b1f17b1804b1-4ac17ffb2ffmr423454895e9.9.1793876753393;
+        Thu, 05 Nov 2026 03:05:53 -0800 (PST)
+X-Received: by 2002:a05:600c:a49:b0:49f:e701:51c8 with SMTP id 5b1f17b1804b1-4ac17ffb2ffmr423454415e9.9.1793876752918;
+        Thu, 05 Nov 2026 03:05:52 -0800 (PST)
+Received: from [192.168.88.30] (ip231-128-192-82.pool-bba.aruba.it. [82.192.128.231])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b56e2ae73csm59042825e9.1.2026.11.05.03.05.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 03:04:30 -0800 (PST)
-Message-ID: <2ca12f1b-89f6-4069-aedf-4e5d645e8deb@ursulin.net>
-Date: Thu, 5 Nov 2026 11:04:29 +0000
+        Thu, 05 Nov 2026 03:05:52 -0800 (PST)
+Message-ID: <1518ee19-95b3-4a13-b36d-5791324a6a23@redhat.com>
+Date: Thu, 5 Nov 2026 12:05:50 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,231 +113,55 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] accel/rocket: Report NPU usage through fdinfo
-To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Sidong Yang <sidong.yang@furiosa.ai>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
- Oded Gabbay <ogabbay@kernel.org>
-Cc: Gyeyoung Baek <gye976@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-References: <20261103155338.1949294-1-sidong.yang@furiosa.ai>
- <a9f016ce-f086-412d-9ca6-6608a41840e5@ursulin.net>
- <33ccceef-3498-426a-ae7c-a8bafbb88992@igalia.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <33ccceef-3498-426a-ae7c-a8bafbb88992@igalia.com>
+Subject: Re: [PATCH net v3 0/5] net: fix misc signed overflows caused by bad
+ sysctl values
+To: Jiayuan Chen <jiayuan.chen@linux.dev>, netdev@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, David Ahern <dsahern@kernel.org>,
+ Ido Schimmel <idosch@nvidia.com>, Thomas Gleixner <tglx@kernel.org>,
+ Joel Granados <joel.granados@kernel.org>,
+ Fernando Fernandez Mancera <fmancera@suse.de>,
+ Petr Pavlu <petr.pavlu@suse.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ Willem de Bruijn <willemb@google.com>, Maoyi Xie <maoyi.xie@ntu.edu.sg>,
+ Oleg Nesterov <oleg@redhat.com>, Zhan Xusheng <zhanxusheng1024@gmail.com>,
+ Gerd Rausch <gerd.rausch@oracle.com>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Chia-Yu Chang <chia-yu.chang@nokia-bell-labs.com>,
+ Wyatt Feng <bronzed_45_vested@icloud.com>,
+ Hannes Frederic Sowa <hannes@stressinduktion.org>,
+ Flavio Leitner <fbl@redhat.com>, Petr Mladek <pmladek@suse.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261101061331.286404-1-jiayuan.chen@linux.dev>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20261101061331.286404-1-jiayuan.chen@linux.dev>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-On 05/11/2026 10:43, Maíra Canal wrote:
-> Hi Tvrtko,
+On 11/1/26 07:11, Jiayuan Chen wrote:
+> Recently I have reviewed quite a few fixes for variable overflows caused
+> by config values, i.e. a value set from sysctl, module params or netlink
+> that is accepted as valid but later overflows when it is used in a
+> calculation. I believe there are more of these still out there, so I
+> used an LLM to dig through the code and it found the issues fixed in
+> this series.
 > 
-> On 05/11/26 06:22, Tvrtko Ursulin wrote:
->>
->> On 03/11/2026 15:53, Sidong Yang wrote:
->>> There is no way to tell how much of the NPU a client uses. Implement the
->>> DRM usage stats: account the time each job occupies a core and report
->>> it per client as drm-engine-npu, along with drm_show_memory_stats() for
->>> the BOs.
->>>
->>> The cores are identical, so they are reported as a single engine with
->>> drm-engine-capacity-npu set to rdev->max_cores, the number of core
->>> slots. The time is summed over all cores, with an atomic counter as the
->>> cores complete jobs concurrently.
->>>
->>> Jobs can outlive the file that submitted them, so the counter is
->>> refcounted and each job holds a reference. The time covers the whole
->>> period a job owns a core, so it also includes handling the completion
->>> interrupt and the gaps between the tasks of a multi-task job.
->>>
->>> Document the keys in the rocket driver documentation.
->>>
->>> Signed-off-by: Sidong Yang <sidong.yang@furiosa.ai>
->>> ---
->>> v4: Report a single drm-engine-npu key with drm-engine-capacity-npu,
->>>      instead of drm-engine-npu0..2, as drm-usage-stats.rst specifies for
->>>      a group of identical engines, and document the keys (Tomeu Vizoso).
->>>      The subject no longer says per-core. Gyeyoung's tags are dropped as
->>>      the accounting changed.
->>>
->>>      Still depends on commit 6eff1d69dae8 ("accel/rocket: search every
->>>      core slot when a core is removed") for rdev->max_cores.
->>>
->>> v3: Add a rocket_engine_usage_create() helper for the counter
->>>      allocation in rocket_open(), to pair with
->>>      rocket_engine_usage_destroy() (Gyeyoung Baek).
->>>
->>> v2: Size the per-core counters by rdev->max_cores, the number of core
->>>      slots, instead of the number of cores bound when the file is 
->>> opened.
->>>      Sashiko reported the out-of-bounds read and Gyeyoung Baek 
->>> reproduced
->>>      it with KASAN.
->>>
->>> Link to v3: https://lore.kernel.org/all/20261103104804.1887489-1- 
->>> sidong.yang@furiosa.ai/
->>> Link to v2: https://lore.kernel.org/all/20261101152723.1430312-1- 
->>> sidong.yang@furiosa.ai/
->>> Link to v1: https://lore.kernel.org/all/20261031083642.1076356-1- 
->>> sidong.yang@furiosa.ai/
->>>
->>>   Documentation/accel/rocket/index.rst  | 28 +++++++++++
->>>   Documentation/gpu/drm-usage-stats.rst |  1 +
->>>   drivers/accel/rocket/rocket_drv.c     | 70 ++++++++++++++++++++++++++-
->>>   drivers/accel/rocket/rocket_drv.h     | 15 ++++++
->>>   drivers/accel/rocket/rocket_job.c     |  7 +++
->>>   drivers/accel/rocket/rocket_job.h     |  4 ++
->>>   6 files changed, 123 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/Documentation/accel/rocket/index.rst b/Documentation/ 
->>> accel/rocket/index.rst
->>> index 70f97bccf100..53c9aa7e2229 100644
->>> --- a/Documentation/accel/rocket/index.rst
->>> +++ b/Documentation/accel/rocket/index.rst
->>> @@ -17,3 +17,31 @@ project.
->>>   Hardware currently supported:
->>>   * RK3588
->>> +
->>> +.. _rocket-usage-stats:
->>> +
->>> +Rocket DRM client usage stats implementation
->>> +============================================
->>> +
->>> +The accel/rocket driver implements the DRM client usage stats 
->>> specification as
->>> +documented in :ref:`drm-client-usage-stats`.
->>> +
->>> +The NPU cores are reported as a single engine, npu, with a capacity 
->>> equal to the
->>> +number of cores. The time is summed over all cores, and covers the 
->>> whole period
->>> +a job occupies a core.
->>> +
->>> +Example of the output showing the implemented key value pairs:
->>> +
->>> +::
->>> +
->>> +        pos:    0
->>> +        flags:    02400002
->>> +        mnt_id:    33
->>> +        ino:    749
->>> +        drm-driver:    rocket
->>> +        drm-client-id:    246
->>> +        drm-engine-npu:    2296549300 ns
->>> +        drm-engine-capacity-npu:    3
->>> +        drm-total-memory:    24216 KiB
->>> +        drm-shared-memory:    0
->>> +        drm-active-memory:    1920 KiB
->>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/ 
->>> gpu/drm-usage-stats.rst
->>> index 70b7cfcc194f..288764730d23 100644
->>> --- a/Documentation/gpu/drm-usage-stats.rst
->>> +++ b/Documentation/gpu/drm-usage-stats.rst
->>> @@ -218,3 +218,4 @@ Driver specific implementations
->>>   * :ref:`panthor-usage-stats`
->>>   * :ref:`xe-usage-stats`
->>>   * :ref:`amdxdna-usage-stats`
->>> +* :ref:`rocket-usage-stats`
->>> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/ 
->>> rocket/ rocket_drv.c
->>> index 2bcfe4ab3c68..e22e8623db64 100644
->>> --- a/drivers/accel/rocket/rocket_drv.c
->>> +++ b/drivers/accel/rocket/rocket_drv.c
->>> @@ -3,8 +3,10 @@
->>>   #include <drm/drm_accel.h>
->>>   #include <drm/drm_drv.h>
->>> +#include <drm/drm_file.h>
->>>   #include <drm/drm_gem.h>
->>>   #include <drm/drm_ioctl.h>
->>> +#include <drm/drm_print.h>
->>>   #include <drm/rocket_accel.h>
->>>   #include <linux/clk.h>
->>>   #include <linux/err.h>
->>> @@ -68,6 +70,38 @@ rocket_iommu_domain_put(struct rocket_iommu_domain 
->>> *domain)
->>>       kref_put(&domain->kref, rocket_iommu_domain_destroy);
->>>   }
->>> +static struct rocket_engine_usage *
->>> +rocket_engine_usage_create(void)
->>> +{
->>> +    struct rocket_engine_usage *usage;
->>> +
->>> +    usage = kzalloc_obj(*usage);
->>> +    if (!usage)
->>> +        return NULL;
->>> +    kref_init(&usage->kref);
->>> +
->>> +    return usage;
->>> +}
->>> +
->>> +static void
->>> +rocket_engine_usage_destroy(struct kref *kref)
->>> +{
->>> +    kfree(container_of(kref, struct rocket_engine_usage, kref));
->>> +}
->>> +
->>> +struct rocket_engine_usage *
->>> +rocket_engine_usage_get(struct rocket_file_priv *rocket_priv)
->>> +{
->>> +    kref_get(&rocket_priv->engine_usage->kref);
->>> +    return rocket_priv->engine_usage;
->>> +}
->>> +
->>> +void
->>> +rocket_engine_usage_put(struct rocket_engine_usage *usage)
->>> +{
->>> +    kref_put(&usage->kref, rocket_engine_usage_destroy);
->>> +}
->>> +
->>>   static int
->>>   rocket_open(struct drm_device *dev, struct drm_file *file)
->>>   {
->>> @@ -86,10 +120,17 @@ rocket_open(struct drm_device *dev, struct 
->>> drm_file *file)
->>>       }
->>>       rocket_priv->rdev = rdev;
->>> +
->>> +    rocket_priv->engine_usage = rocket_engine_usage_create();
->>> +    if (!rocket_priv->engine_usage) {
->>> +        ret = -ENOMEM;
->>> +        goto err_free;
->>> +    }
->>
->> Glanced over this patch by chance and it very reminded me of 
->> drm_sched_entity_stats tracking. That object is reference counted by 
->> the entity so I think it would satisfy your requirements. We would 
->> only need to add an accessor like drm_sched_entity_get_runtime() and 
->> just call it from rocket. Thoughts?
->>
-> 
-> I believe we tried something similar in the past (commit 97804a133c68)
+> All of them have been reproduced and verified in QEMU.
+I think that the 'net' target + CC stable here is a bit too much.
 
-You mean df622729ddbf? But yes, I don't think I knew about that.
+The uAPI changes, even if reasonable, can still impact weird scenarios.
 
-> and it ended up being reverted after this regression [1]. I would be
-> great to give this idea another change (specially now that we have
-> drm_sched_entity_stats), as it would also be useful for V3D.
+Targeting 'net-next' without CC ing stable would give time to
+possibly catch such users.
 
-It makes sense to me if Philipp and Danilo will agree so adding them cc.
+Also issue predating git history and exploitable from root only
+nowadays is a quite a good signal for net-next target.
 
-It would just be adding u64 drm_sched_entity_get_runtime(entity). 
-Nothing else would need to be exported and the implementation simply 
-locks entity->stats and returns the runtime. As long as the caller knows 
-they haven't destroyed the entity it is safe since entity holds a 
-reference to the stats object.
+If nobody opposes soonish I'll apply the series there.
 
-If rocket and v3d can use it that's a reasonable starting point for 
-adding common API. Three users would be even better than two though, 
-going by the long standing DRM tradition. :)
-
-Regards,
-
-Tvrtko
-
-> [1] https://lore.kernel.org/dri-devel/3e00d8a9- 
-> b6c4-8202-4f2d-5a659c61d094@redhat.com/
-> 
-> Best regards,
-> - Maíra
+/P
 
