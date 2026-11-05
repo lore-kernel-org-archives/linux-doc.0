@@ -1,93 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793879022;
-	b=rtuSBc4rZQIz6lT3TJ7xLWB34JJQvOXO/JrK4714KJgL3QTzbAjowWMSEY1X2AVcaz86
-	 Kr07HjP+buIArFnR2tbjgR/uZdQJvQrtV+JEaSZm7fEtomcR0I0ODhobCvdb3lYutnu5z
-	 LH3i5vVcAiF6Zb1sFfCKbuGrbKqwcIZPSDojARjXXQthrF76xESg6rpAuWIvYgZi0jJqu
-	 T54HTgHb2NJ807z4zoHPO4WUQdus7UUKqVFUsatPLp4KVDee5BQAyEneR9CNrk8u21tcN
-	 QKhkXQ/IT0BYNCywm11+/acT0X8CVOkxBVqVpp4miInes2LgY4zDagUdX1wk7NQ9Siw==
+	t=1793879121;
+	b=NuPCQgvATuOW1PF37GF9K7azY8FE3QimRcR8Zv1DZ13PyVQVXhj8mkQOhhoBBR6UFSEJ
+	 u5THel8MRTAbG/1Irjh6a7wqkNam96q2k9bz3VE6y92nJQ3eo1pc3dvYHBj9cetoXPPIM
+	 H5kEDDg/uah3HiUo+TavfUaxgaJE26TwrwdEvzzXHuhPNu9kATTZ6Zoy2ZRS2jkG55mS1
+	 gBPKSqpLClwd5fgE3yyw+7bkFOFUPRf9JucJSP97qFtJMgNMFvY8jq3qbodf5eW4cvnvB
+	 +ZIDteMgShiGFs4Pc+MQu1P0RC/u5ylMMOORRwoMi2Kq9z+cyLm4N4gPJ0Tk66vDLVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793879022;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
-	 Content-Transfer-Encoding;
-	bh=5Va3/azQ9PXXXOpNK50WHCSI2ZU8QZjrq5XIuHyen10=;
-	b=APA/9zixFFE84qJ9Vb8ACLDjAxFVR4YRYLeBO7YP9MPadkl1f6kogVHhNqQ/H9WVvPQX
-	 nZbsMU+onDCt20LAIRNs5UxSwzopMxJ5KXweQ4y2mPy8ksuKb5ZLAGsvuBGSeWiJiIyFN
-	 hptUHjtJLsRui+qxUXXKo/oJJvkvir4EYITtY6hlrPviHob+rm8GrwqPpmqhacNqUbCJs
-	 CuqoRILJ8ZwI2BPN7ugr1WN2VNWjRsDQs9pqo/DjMe1qo3NCLauGQB2mt5uZU9bqbzMGh
-	 OU4r5oOqbBWEdh2aMYrN3DFSIML6YNp68NLv0wMsbZsd12HXKbrNdiGS8vMNOIVi9cQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793879121;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=wkXcoerwl72ld/nPiXesFgETWpZwTzTrpPsVrFQKphs=;
+	b=pbEwSRRk4QuDAN3Z8U8ImEj8A7TTOBORIL71bC0+naoHEpadvewERvgcB2aqWY01jCTT
+	 PPwfqF35DAKLDuo9Drjr31C7p7nZJmAZZX5/aUMW5L+D/xCruyflap1RwB4VthvP+Oj1i
+	 jpQZVsES4zY1/NNKhou9Redi4H8BhpqZdqRM1kGznoSyke9R+dpAs9qQt0dq0+xPRe5kV
+	 fXz9qvdWIWx5E/P7IJy0hXemUu0Cfj9V4u7ZyMH68Hn3jAnc2nxAzuLe4MkRGgbmgD49Q
+	 T+gn9VslbGS0JyshRF2V81T1xCrc9mgb6c7wB7G6RlzkTHgzlehVjXWxJ8g7MPrgC3A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kRjSFJ1P;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=C79oBavf;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C2A606EA24;
-	Thu,  5 Nov 2026 11:43:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E466082BD7
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:45:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85E466082BD7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kRjSFJ1P
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4253A1F000C1;
-	Thu,  5 Nov 2026 11:43:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793879021;
-	bh=5Va3/azQ9PXXXOpNK50WHCSI2ZU8QZjrq5XIuHyen10=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kRjSFJ1PS/XuTJRtI+OKVQrMj3Xga4CUaRtPDtQfr9Z3yJNwVOHUxqGTtNW99Hn5b
-	 bk2frKJKN7xihf6vFBnnJ8yCR60THHtxUEhz1N3Pp4ICefUv9vnaYu+fM7sVlMacvd
-	 sRiYqIZPdZOs1O+/Kv9B4x+ga9DvZIz/RdS0qh9yqTiLQongHGkpMttR07Y/C4OP14
-	 5wCfmLEvvPK+e0HmmoBCwx5SFmyz72XAoNMfwz91ZPs8jxyRyn5OrjjYaV1uGJUNKR
-	 bM+1y/m76yTMCZuVGzM2im026wlxKMlsCNTGFQJaE7BGbR4o/cMujhRr/cmitvUMyI
-	 e1GcCk5/cz+1A==
-From: Leon Romanovsky <leon@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>,
-	Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
-Cc: linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev,
-	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH 17/17] PCI: Replace untrusted state with device trust
-Date: Thu,  5 Nov 2026 13:42:30 +0200
-Message-ID: <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=C79oBavf
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so19308075e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:45:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1793879119; x=1794483919; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=wkXcoerwl72ld/nPiXesFgETWpZwTzTrpPsVrFQKphs=;
+        b=C79oBavfJTQ96/SeVgPtQrB4HRfRcODb+0y2si6NV53CzbOeTC2AdFCUJ+tfZbL9x6
+         p6DVB0STsUxd/IR2HoV05cSPgdXc+1DyodbAuHzCQDDp+9kRfXdbZpvKRea+xm0cio8e
+         Pkkm5ABHvSQ2sgLyKXKWXYJT/nw7rPG3yUDUoJvWcpCv0okIKTDg/UJClh9PZVKSbqmD
+         M8uj03DlpEYLavf4IITIfKq+D3lkXjM+AfumBNThJVARxHJHjBwc27hnBOd1tJdpG8Fb
+         M4lqwcJli1qeW3CDJAF7g8ZQAqX6UGMf8Y3t505NnhKVsdsAw1v5YYTlWMCEnUQbTuw3
+         BRKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793879119; x=1794483919;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=wkXcoerwl72ld/nPiXesFgETWpZwTzTrpPsVrFQKphs=;
+        b=av8Fm1COMpSS/K6YwZodSxjyE0SESDZbqI4eaJp8NrxtShtOrfxMIPSteneShfdmS6
+         GchiGrntYv4Oqhowk1l72tIilUhwmq2D/kvLPt/t1Gxfo71157N/y1vMwjKZgl/V07Z7
+         pbtvIKA2tRD2PHffdwZdnyyBtcFd7i9O3j/jHUhNBApAYLso0Iu7P578r/20Qo8jUCYB
+         xD0+4ICgPv9kp5tQeDNnKT9PtaQGWWFteW3g2nd0oIcUawOC22H5JO/1bTBhNeLliR8R
+         MzUddq9gCTuuaXt5OHn6V9IBExeq4UHVNrSjHcb2mdwNyR9V4LRhrArfuAhU/3ru+ZvS
+         yMxA==
+X-Forwarded-Encrypted: i=1; AKwUvByJzQLUYGCq+4Rr39XxK0lpGgJwovmQNcR5xygavUmAjiHecT3jhoQyBp0r5E8zc2UAWXz9ua800TU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/OS6hwlp1065swsS5Hzdpltb9bPe81gbGxMArY6m2twJ8tIwds
+	brNhIQ5XmctoZj2Mw515n098pU0zztMiayJJe65LYQQ8z869F7v5A/2+IhouIFMz3/4=
+X-Gm-Gg: AYBFou2Iq/k9Vh8b4VXjKyfytm5xQMEETjuUoS54mUe76W34Dk3/Q70eJk3uf8HmMbA
+	2vfWq4pnh7Q8JCZSIUU7ryIalfh5VbDA5Ljpj8I+5MGrmAkuz94vTfBaRp0o60wSTqGRRAUKemh
+	T1f4+njAhywOXocbdn9xT7YRnqVpsOPjwbq+poelgGWvKpTA/jHWmrIerS6WXrf7BSF0fEFgpFf
+	bvZUp6iL3dIITSVh2bQ0nRi1YFKYaG5nhEa8jBQfg3Clf/V/c5yQMW4fHDMmQ4+4inkGgvGfmLl
+	SBelq1RsqQK17pOzNRLH4QVzjc4m8qRaFzPR6dymvpABKAdgoSAiTN1QjLttLs5OOLeZ2dXAUN+
+	+bPrTw0sWRivPLBGC5g3QbXFIdbSSEdPd3P75pqrIB4bvVKJ+lz2wVkwr/VqxE5W+fpXw3adCQ6
+	WGiRvjhB54MNsEjeAyT7rKYgfHIuWilWXetMgWgHWtJgKtaG+wx7CDR2P5PtHlxOSeF+skaNdku
+	5b5Un3h93mumCPXXk9o1xk8tSs9uj6Y00RTRhgUBXgxzjQfIuk90lygjC42dXQxDwt1RZq9M/oX
+	iIoTGXTQTL65RDshWM84WKBhWLwRC06/
+X-Received: by 2002:a05:600c:19d2:b0:4a4:4d57:8487 with SMTP id 5b1f17b1804b1-4ac1737c51dmr404872225e9.5.1793879118947;
+        Thu, 05 Nov 2026 03:45:18 -0800 (PST)
+Received: from pop-os.local ([37.18.141.193])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b571f46538sm56679525e9.5.2026.11.05.03.45.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 03:45:18 -0800 (PST)
+From: James Clark <james.clark@linaro.org>
+Subject: [PATCH v4 00/19] perf cs-etm: Per-thread mode fixes and snapshot
+ wrap support
+Date: Thu, 05 Nov 2026 11:44:48 +0000
+Message-Id: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,371 +93,136 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Mailer: b4 0.15-dev-18f8f
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADFs7GoC/43QzUrEMBSG4VspWZvhJG36M4jMfYiUJD2ZRm0yJ
+ pmiDHPvpi2I4qbLcxbPC9+NRAwWIzkWNxJwttF6l4/qoSB6lO6M1A75Jhx4DTUI+ionjFRHenX
+ Gh0mmhAO9YKBpDCgHauwnFYANL6VsDCDJ0iVgfq+V55d8jzYmH77W6MyW7+a3jO3yZ0aBdiBqU
+ bLWCNOe3q2TwR98OJMlMPNfKN+J8owC6MoM0ABT1T+0/EEZA74PLTM6KK1A85apTv1B79s2AT+
+ uefi0DUSyGuU6/LF4XGtQwgKbXsce09RnuXfe9Um+odsaTc07JbhUUDUnGaaD9tNTLty/AUgmt
+ L7iAQAA
+X-Change-ID: 20260605-james-cs-unformatted-per-thread-fix-50e723aa7f0e
+To: Leo Yan <leo.yan@linux.dev>, Adrian Hunter <adrian.hunter@intel.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@arm.com>, Leo Yan <leo.yan@arm.com>, 
+ Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>, 
+ Mathieu Poirier <mathieu.poirier@linaro.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>, 
+ linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org, 
+ linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Arnaldo Carvalho de Melo <acme@redhat.com>, linux-doc@vger.kernel.org, 
+ James Clark <james.clark@linaro.org>, John Garry <john.garry@linux.dev>
+X-Mailer: b4 0.15.2
 
-From: Leon Romanovsky <leonro@nvidia.com>
+This series depends on:
+https://lore.kernel.org/linux-perf-users/20261030-perf_cs_etm_fix_non_taken-v3-0-7629b52ab047@arm.com/
 
-Convert the PCI specific untrusted to use the common device trust
-level. Adversarial means the same thing untrusted does.
+Fix a few issues with per-thread mode:
+  - On nVHE, everything looks like guest trace instead of host
+  - Tracing multiple threads didn't really work
 
-PCI discovery keeps the logic that set untrusted: it looks for removable
-PCI devices with arch_pci_dev_is_removable() and defaults them to an
-adversarial policy. Treat a disabled policy the same way when choosing
-the IOMMU domain. Do not record the ATS capability of such a device, as
-pci_ats_supported() rejected untrusted ones. Let the Intel write-buffer
-quirk apply, as it only adds flushing.
+After adding a tests for those, it turns out there were some snapshot
+bugs not picked up by the other snapshot tests. That showed that the
+different snapshot searches for Intel BTS and Arm SPE were inconsistent
+and I think all tracers can benefit from using the same pointer fixup
+logic, so that gets refactored into the common auxtrace.c. Then SPE can
+just share the Intel BTS search as it was obviously copied from it
+originally. IntelPT keeps the more advanced duplicate data search, but
+in the future that could probably be made the common one and all tracers
+would benefit from using it (except maybe BTS if it always has a very
+small buffer, but I doubt the overhead of the duplicate search would be
+an issue). For now this is more of a refactor rather than behavioral
+change so don't do that yet.
 
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- drivers/iommu/amd/iommu.c   |  3 +--
- drivers/iommu/dma-iommu.c   | 14 +++++---------
- drivers/iommu/intel/iommu.c | 17 +++++------------
- drivers/iommu/iommu.c       | 17 +++++++++--------
- drivers/pci/ats.c           |  4 ++--
- drivers/pci/pci.c           |  5 +++--
- drivers/pci/probe.c         | 25 ++++++++++++++-----------
- drivers/pci/quirks.c        |  7 ++++---
- include/linux/device.h      |  5 +++++
- include/linux/pci.h         | 30 ++++++++++++++++++++++--------
- 10 files changed, 70 insertions(+), 57 deletions(-)
+Changes in v4:
+- Change test snapshot size to 128K for 64K machines
+- Put patchset depencency in cover letter text
+- Link to v3: https://patch.msgid.link/20261102-james-cs-unformatted-per-thread-fix-v3-0-dbcb0c281b9b@linaro.org
 
-diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-index 960e1dc05ec69..e358bbb1f2baa 100644
---- a/drivers/iommu/amd/iommu.c
-+++ b/drivers/iommu/amd/iommu.c
-@@ -3401,8 +3401,7 @@ static int amd_iommu_def_domain_type(struct device *dev)
- 	if (!dev_is_pci(dev))
- 		return 0;
- 
--	/* Always use DMA domain for untrusted device */
--	if (to_pci_dev(dev)->untrusted)
-+	if (pci_dev_default_is_restricted(to_pci_dev(dev)))
- 		return IOMMU_DOMAIN_DMA;
- 
- 	/* Apply device specific quirks */
-diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-index 78742aeba932d..a48fb511bfe6f 100644
---- a/drivers/iommu/dma-iommu.c
-+++ b/drivers/iommu/dma-iommu.c
-@@ -589,16 +589,11 @@ static int iova_reserve_iommu_regions(struct device *dev,
- 	return ret;
- }
- 
--static bool dev_is_untrusted(struct device *dev)
--{
--	return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
--}
--
- static bool dev_use_swiotlb(struct device *dev, size_t size,
- 			    enum dma_data_direction dir)
- {
- 	return IS_ENABLED(CONFIG_SWIOTLB) &&
--		(dev_is_untrusted(dev) ||
-+		(device_is_adversarial(dev) ||
- 		 dma_kmalloc_needs_bounce(dev, size, dir));
- }
- 
-@@ -611,7 +606,7 @@ static bool dev_use_sg_swiotlb(struct device *dev, struct scatterlist *sg,
- 	if (!IS_ENABLED(CONFIG_SWIOTLB))
- 		return false;
- 
--	if (dev_is_untrusted(dev))
-+	if (device_is_adversarial(dev))
- 		return true;
- 
- 	/*
-@@ -1189,7 +1184,8 @@ static phys_addr_t iommu_dma_map_swiotlb(struct device *dev, phys_addr_t phys,
- 	 * swiotlb_tbl_map_single() has initialized the bounce buffer proper to
- 	 * the contents of the original memory buffer.
- 	 */
--	if (phys != (phys_addr_t)DMA_MAPPING_ERROR && dev_is_untrusted(dev)) {
-+	if (phys != (phys_addr_t)DMA_MAPPING_ERROR &&
-+	    device_is_adversarial(dev)) {
- 		size_t start, virt = (size_t)phys_to_virt(phys);
- 
- 		/* Pre-padding */
-@@ -1790,7 +1786,7 @@ size_t iommu_dma_max_opt_mapping_size(void)
- 
- size_t iommu_dma_max_mapping_size(struct device *dev)
- {
--	if (dev_is_untrusted(dev))
-+	if (device_is_adversarial(dev))
- 		return swiotlb_max_mapping_size(dev);
- 
- 	return SIZE_MAX;
-diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-index 5a2e705a2f2e0..66942a91b992f 100644
---- a/drivers/iommu/intel/iommu.c
-+++ b/drivers/iommu/intel/iommu.c
-@@ -2624,8 +2624,8 @@ static void __init platform_optin_force_iommu(void)
- 		return;
- 
- 	/*
--	 * If Intel-IOMMU is disabled by default, we will apply identity
--	 * map for all devices except those marked as being untrusted.
-+	 * If Intel-IOMMU is disabled by default, an external device could
-+	 * otherwise receive an identity map despite its adversarial policy.
- 	 */
- 	if (dmar_policy_off()) {
- 		pr_info("Intel-IOMMU force enabled due to platform opt in\n");
-@@ -3629,16 +3629,12 @@ static bool intel_iommu_is_attach_deferred(struct device *dev)
- 	return translation_pre_enabled(info->iommu) && !info->domain;
- }
- 
--/*
-- * Check that the device does not live on an external facing PCI port that is
-- * marked as untrusted. Such devices should not be able to apply quirks and
-- * thus not be able to bypass the IOMMU restrictions.
-- */
-+/* Bypass quirks must not prevent later adversarial operation. */
- static bool risky_device(struct pci_dev *pdev)
- {
--	if (pdev->untrusted) {
-+	if (pci_dev_default_is_restricted(pdev)) {
- 		pci_info(pdev,
--			 "Skipping IOMMU quirk for dev [%04X:%04X] on untrusted PCI link\n",
-+			 "Skipping IOMMU quirk due to trust policy [%04X:%04X]\n",
- 			 pdev->vendor, pdev->device);
- 		pci_info(pdev, "Please check with your BIOS/Platform vendor about this\n");
- 		return true;
-@@ -4124,9 +4120,6 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
- 
- static void quirk_iommu_rwbf(struct pci_dev *dev)
- {
--	if (risky_device(dev))
--		return;
--
- 	/*
- 	 * Mobile 4 Series Chipset neglects to set RWBF capability,
- 	 * but needs it. Same seems to hold for the desktop versions.
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index b486b8bbd1fcd..8be2a246d4903 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
- static int iommu_get_default_domain_type(struct iommu_group *group,
- 					 int target_type)
- {
--	struct device *untrusted = NULL;
-+	struct device *restricted = NULL;
- 	struct group_device *gdev;
- 	int driver_type = 0;
- 
-@@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
- 		driver_type = iommu_get_def_domain_type(group, gdev->dev,
- 							driver_type);
- 
--		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
-+		if (dev_is_pci(gdev->dev) &&
-+		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
- 			/*
--			 * No ARM32 using systems will set untrusted, it cannot
--			 * work.
-+			 * No ARM32 using systems select a restricted trust
-+			 * policy; it cannot work.
- 			 */
- 			if (WARN_ON(IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)))
- 				return -1;
--			untrusted = gdev->dev;
-+			restricted = gdev->dev;
- 		}
- 	}
- 
-@@ -1924,11 +1925,11 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
- 			driver_type = IOMMU_DOMAIN_IDENTITY;
- 	}
- 
--	if (untrusted) {
-+	if (restricted) {
- 		if (driver_type && driver_type != IOMMU_DOMAIN_DMA) {
- 			dev_err_ratelimited(
--				untrusted,
--				"Device is not trusted, but driver is overriding group %u to %s, refusing to probe.\n",
-+				restricted,
-+				"Device trust policy restricts DMA, but driver is overriding group %u to %s, refusing to probe.\n",
- 				group->id, iommu_domain_type_str(driver_type));
- 			return -1;
- 		}
-diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
-index 9cb23780093dd..c8c96acc26343 100644
---- a/drivers/pci/ats.c
-+++ b/drivers/pci/ats.c
-@@ -21,7 +21,7 @@ void pci_ats_init(struct pci_dev *dev)
- {
- 	int pos;
- 
--	if (pci_ats_disabled())
-+	if (pci_ats_disabled() || pci_dev_default_is_restricted(dev))
- 		return;
- 
- 	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ATS);
-@@ -40,7 +40,7 @@ void pci_ats_init(struct pci_dev *dev)
-  */
- bool pci_ats_supported(struct pci_dev *dev)
- {
--	if (!dev->ats_cap || dev->untrusted)
-+	if (!dev->ats_cap)
- 		return false;
- 
- 	if (dev->is_virtfn)
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 7c6f2aba81443..b08adba03f96b 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1016,8 +1016,9 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
- 	/* Upstream Forwarding */
- 	caps->ctrl |= (dev->acs_capabilities & PCI_ACS_UF);
- 
--	/* Enable Translation Blocking for external devices and noats */
--	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
-+	/* Enable Translation Blocking when ATS is unavailable or restricted. */
-+	if (pci_ats_disabled() || dev->external_facing ||
-+	    !pci_dev_ats_permitted(dev))
- 		caps->ctrl |= (dev->acs_capabilities & PCI_ACS_TB);
- }
- 
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index 5b6960bbb35bc..139e6f7b4e022 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -1738,24 +1738,27 @@ static void set_pcie_cxl(struct pci_dev *dev)
- 
- }
- 
--static void set_pcie_untrusted(struct pci_dev *dev)
-+static void pci_set_default_trust_policy(struct pci_dev *dev)
- {
--	struct pci_dev *parent = pci_upstream_bridge(dev);
-+	struct pci_dev *parent = pci_physfn(dev);
-+
-+	if (dev->dev.trust_policy != DEVICE_TRUST_POLICY_DEFAULT)
-+		return;
-+
-+	if (parent == dev)
-+		parent = pci_upstream_bridge(dev);
- 
- 	if (!parent)
- 		return;
--	/*
--	 * If the upstream bridge is untrusted we treat this device as
--	 * untrusted as well.
--	 */
--	if (parent->untrusted) {
--		dev->untrusted = true;
-+
-+	if (device_policy_is_adversarial(&parent->dev)) {
-+		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARY;
- 		return;
- 	}
- 
- 	if (arch_pci_dev_is_removable(dev)) {
--		pci_dbg(dev, "marking as untrusted\n");
--		dev->untrusted = true;
-+		pci_dbg(dev, "setting adversarial trust policy\n");
-+		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARY;
- 	}
- }
- 
-@@ -2082,7 +2085,7 @@ int pci_setup_device(struct pci_dev *dev)
- 
- 	set_pcie_cxl(dev);
- 
--	set_pcie_untrusted(dev);
-+	pci_set_default_trust_policy(dev);
- 	device_trust_init(&dev->dev);
- 
- 	/* "Unknown power state" */
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index 7f1f47ea2ee41..9ed3e7660bab2 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -5525,8 +5525,8 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
-  * Currently this quirk does the equivalent of
-  * PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
-  *
-- * TODO: This quirk also needs to do equivalent of PCI_ACS_TB,
-- * if dev->external_facing || dev->untrusted
-+ * TODO: This quirk also needs to do the equivalent of PCI_ACS_TB when the
-+ * device is external-facing or ATS is restricted by trust policy.
-  */
- static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
- {
-@@ -5567,7 +5567,8 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
- 	ctrl |= (cap & PCI_ACS_CR);
- 	ctrl |= (cap & PCI_ACS_UF);
- 
--	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
-+	if (pci_ats_disabled() || dev->external_facing ||
-+	    !pci_dev_ats_permitted(dev))
- 		ctrl |= (cap & PCI_ACS_TB);
- 
- 	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 65ea07c9ac35b..870ce14924905 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -934,6 +934,11 @@ static inline bool device_iommu_mapped(struct device *dev)
- 	return (dev->iommu_group != NULL);
- }
- 
-+static inline bool device_policy_is_adversarial(const struct device *dev)
-+{
-+	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_ADVERSARY;
-+}
-+
- /* Get the wakeup routines, which depend on struct device */
- #include <linux/pm_wakeup.h>
- 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index aa3765a20a96c..087c63b177c85 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -490,14 +490,6 @@ struct pci_dev {
- 	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
- 	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
- 	unsigned int	is_cxl:1;               /* Compute Express Link (CXL) */
--	/*
--	 * Devices marked being untrusted are the ones that can potentially
--	 * execute DMA attacks and similar. They are typically connected
--	 * through external ports such as Thunderbolt but not limited to
--	 * that. When an IOMMU is enabled they should be getting full
--	 * mappings to make sure they cannot access arbitrary memory.
--	 */
--	unsigned int	untrusted:1;
- 	/*
- 	 * Info from the platform, e.g., ACPI or device tree, may mark a
- 	 * device as "external-facing".  An external-facing device is
-@@ -616,6 +608,28 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
- {
- 	return container_of(dev, struct pci_dev, dev);
- }
-+
-+static inline bool
-+pci_dev_default_is_restricted(const struct pci_dev *pdev)
-+{
-+	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
-+
-+	return policy == DEVICE_TRUST_POLICY_DISABLED ||
-+	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
-+}
-+
-+static inline bool pci_dev_ats_permitted(const struct pci_dev *pdev)
-+{
-+	enum device_trust_level level = device_get_trust_level(&pdev->dev);
-+	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
-+
-+	if (level == DEVICE_TRUST_DISABLED)
-+		return policy != DEVICE_TRUST_POLICY_ADVERSARY &&
-+		       policy != DEVICE_TRUST_POLICY_DISABLED;
-+
-+	return level == DEVICE_TRUST_FULL;
-+}
-+
- #define for_each_pci_dev(d) while ((d = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
- #define for_each_pci_dev_reverse(d) \
- 	while ((d = pci_get_device_reverse(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
+Changes in v3:
+- Keep the find_snapshot() callback instead of adding
+  snapshot_has_wrapped() and monotonic_snapshot_head boolean (Adrian)
+- Add auxtrace_record__default_find_snapshot() for the simple search for
+  BTS and SPE (Adrian)
+- Add auxtrace_record__snapshot_fixup() for any snapshot search
+  implementation to use to update the pointers (Adrian)
+- Reword UINT64_MAX timestamp comment (Leo)
+- Fix disassembly test after rebasing onto exception sample fixes
+- Only take 'perf_guest' into account if there is no PIDFMT_CTXTID2
+- Improve decoding of old files by hard coding queue 0 for per-thread
+- Link to v2: https://patch.msgid.link/20260821-james-cs-unformatted-per-thread-fix-v2-0-00c4fd0701b4@linaro.org
 
--- 
-2.56.0
+Changes in v2:
+- Remove stale "may be reset to -1 in per-thread mode" comment
+- Set CPU when queueing auxtrace fragments otherwise
+  auxtrace_queues__add_event() overwrites the queue's CPU
+- Link to v1: https://patch.msgid.link/20260811-james-cs-unformatted-per-thread-fix-v1-0-90565318f5f8@linaro.org
+
+---
+James Clark (19):
+      perf cs-etm: Fix nVHE per-thread decoding
+      perf cs-etm: Warn for invalid timestamp option
+      perf cs-etm: Turn on context packet timestamps in per-thread mode
+      perf cs-etm: Use per-CPU queues for per-thread mode
+      perf test: cs-etm: Increase window size in disassembly test
+      perf cs-etm: Don't drop previous target for kernel samples
+      perf python: Expose sample instruction length
+      perf cs-etm: Use instruction length in disassembly script
+      perf cs-etm: Increase default timestamp generation period
+      perf auxtrace: Turn Intel BTS snapshot search into a generic one
+      perf arm-spe: Use generic snapshot search
+      perf auxtrace: intel-pt: Use common snapshot pointer fixup
+      perf cs-etm: Queue partial AUX records
+      perf cs-etm: Don't print missing buffers in snapshot mode
+      perf auxtrace: cs-etm: Capture wrapped snapshots
+      perf test: Allow infinite named_thread loops
+      perf test: cs-etm: Add test for per-thread mode
+      perf test: cs-etm: Test multiple per-thread threads
+      perf test: cs-etm: Increase snapshot size
+
+ tools/perf/Documentation/perf-test.txt             |   2 +-
+ tools/perf/arch/arm/util/cs-etm.c                  |  34 ++++-
+ tools/perf/arch/arm64/util/arm-spe.c               | 147 +--------------------
+ tools/perf/arch/x86/util/intel-bts.c               | 115 +---------------
+ tools/perf/arch/x86/util/intel-pt.c                |  21 +--
+ tools/perf/python/arm-cs-trace-disasm.py           |  22 +--
+ tools/perf/python/perf.pyi                         |   1 +
+ .../perf/tests/shell/coresight/per-thread-multi.sh |  76 +++++++++++
+ tools/perf/tests/shell/coresight/per-thread.sh     |  48 +++++++
+ .../perf/tests/shell/coresight/raw_dump_stress.sh  |   5 -
+ .../shell/coresight/test_arm_coresight_disasm.sh   |   8 +-
+ tools/perf/tests/workloads/named_threads.c         |   7 +-
+ tools/perf/util/auxtrace.c                         | 145 +++++++++++++++++++-
+ tools/perf/util/auxtrace.h                         |  18 +++
+ tools/perf/util/cs-etm.c                           | 113 +++++++++++-----
+ tools/perf/util/python.c                           |   1 +
+ 16 files changed, 420 insertions(+), 343 deletions(-)
+---
+base-commit: 28ef93607ad52acc8f8be25199711153ba11a0c2
+change-id: 20260605-james-cs-unformatted-per-thread-fix-50e723aa7f0e
+prerequisite-message-id: <20261030-perf_cs_etm_fix_non_taken-v3-0-7629b52ab047@arm.com>
+prerequisite-patch-id: 4ef889ad751e344ae47c1d75a2a2e6cb2eadf6e1
+prerequisite-patch-id: 636b39730334cbc5a76642c070e704ffe178e7be
+prerequisite-patch-id: fb58f6daebdf5a194f8aa56ccc4022f932a5a6e5
+prerequisite-patch-id: d240c10c6824f8ae6c3f10a1da01226a957f05fb
+prerequisite-patch-id: 17b291db261e32dcb0d6f1ab2ed0adb7e0411813
+prerequisite-patch-id: 45ae1d523c9e5c8c573309f1dab107a598f3d4f8
+prerequisite-patch-id: 39a3eb25b3a45f4481760c25fa270773bcfd94f5
+prerequisite-patch-id: 5723a15636c2a28ec40eb6b5c9836d162e971786
+prerequisite-patch-id: d18054b586fc38bc832ead185e8c1fbb0ce46f39
+prerequisite-patch-id: 6735b192189d7945613458abce3da871cb79b35d
+prerequisite-patch-id: 387cb2c6181bef8f45a8fb167e8ef86e4a54ff69
+prerequisite-patch-id: 50243a8d1739141aa24aa371a8452d4d2d078a99
+prerequisite-patch-id: 2ae6f1e7707ba0c71a0678331b02d738fb25cb3c
+prerequisite-patch-id: 1fa0a90cfbc904c4429c1427409125ac44b27aed
+
+Best regards,
+--  
+James Clark <james.clark@linaro.org>
 
