@@ -1,49 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.112
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793851455;
-	b=OkE7kZUrvZcH4SJCtnZGIqAv75buNsThElWGOjf9SB84E55ufTBN28eUd3AhONV29g0M
-	 FaNQBq6q1cUGhUaVEBE233kIza1NWGnX4/29kyqp/AhhS1EzeurMGVlFp7mF9e6GydurD
-	 t7YbqG2JZ+IQFKpwAjALD4lZc4bSrym1zzvB/HU4S22rPiACpf14FIDUiqk0Em/PzJvRb
-	 PVkMRu2BKRSzT/ya+LxSz8lIA8QGq9rPJ9yHA1ftYRRHzjQPBI8Ok6lceufTYPhmy/iM0
-	 bqDZVvFAJuIl79oCOyRcUoForGFdS0MAfmIIQPnno0x0nExJJOJVtrCtKvzDUmKsWGQ==
+	t=1793852997;
+	b=zUnNuHltkS9e8Y+jEz2ezgaXdU9j15aLeL10ueEPIDThtsj7XPb68njawP+LHyfSiVAT
+	 AlXJU2PNt3G1gQQEoynAB5ryuAwug6/EW7tEvX96Mi3cuBKkNtdZdfX7Lzt1PzSHyu0SH
+	 J0YRgOd7j63YkTz/+7ZoK5y7tpGMe+RgtA0X9qYrPCAxm5n2Ysce7BWeyI+Pz5uFwuzLU
+	 O7fAf3k3phESUvbA19dIaEwBIQNOlSj10jpP7TZtzRVL1Tkb3/T/xGaLQ193MSNoJvvOe
+	 BYBfeAHKOOJ3QlYVuuRJiNsZ/K/hjMtDLyLeJ7rfgKgzvfc92bP6cT8X0y0p7cXuyAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793851455;
-	h=DMARC-Filter:DKIM-Signature:Date:Mime-Version:References:
-	 X-Lms-Return-Path:Content-Transfer-Encoding:To:Cc:From:In-Reply-To:
-	 Subject:Message-Id:User-Agent:X-Original-From:Content-Type;
-	bh=ZYu4vf+Y1xQk0GWAYhYxqZeXAZ+RYHgD2MH4lwu/i9M=;
-	b=SwJXBTwJh5+DD2Pd3Wxgl+TA1AJLgNgFpixxJIPkTGr7q73MMbf3NHiDBJifhNgo17f/
-	 rry5KueD9ZTvYH/o99O/lFSG4rYbHlwbEO3xRVHaS725mY79pUfivoOQB8WWjvzhkuBKC
-	 1JNULccw/Ta+ArNSwygxKlHLJ+cTR7yCibrr5GWXMBL+6dGc6XfpYu93Eb456z7FdHtl6
-	 BQHt1G5fJL3lCrPStJo4lYsDiXafj6gafJtPip1ff0mM2wNn+l/qI2xj663gmEDK79dSO
-	 2Uwd4+pXLIgNMbXNM8ilCAUi1N2a9wI6hEf/DN5ATiolGDfzXuPLyjr5HKEku4bFcmA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793852997;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=KPAE/pf5spCt8tF+n7sHzxlhCQ7JpQ1fLOMEjct2Pr4=;
+	b=LfrJUDInLbGSNc7qMo+mwV7b1Fa3CnUZISjw4dt3QONJi8vjqFTScQBWhKcHt+k7DhJa
+	 CVn/uMGfV0BlSx+i2l3uEkwy0s8Orv852SjRnoBm29aKG8tKGVJkR9I8fx3GNUzmwtPl+
+	 AvK5uOlfHqDVHgLxlmfUBQADtEWNfMD93qZMkprz3Q0dV5iYOoF7CHdfNmuN0VUnWgct+
+	 xff6GDkOkhfiIlwNJdbvVDjPrYADP/IBIjLgYFLqjqXj3IGROTWI6DaWbdAF1GdDy3PKe
+	 aJJ468Zc/IVeJmZBmM0KweGHYCu2dy/byQU1dbW/4yp9AdSntn+Rx4w7dqWyXecCbJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=fPFwJ55z;
-	arc=none smtp.remote-ip=209.127.230.112
-Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nnW1KUcH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA562606A31B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 04:04:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA562606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5F3606A31B;
+	Thu,  5 Nov 2026 04:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=fPFwJ55z
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1793851448; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=ZYu4vf+Y1xQk0GWAYhYxqZeXAZ+RYHgD2MH4lwu/i9M=;
- b=fPFwJ55ztN6xnQ8J5bfVkdvSYtJ34KITPGNICbCHajpoK+N+mKdNsnnBhKwx5cgAn9JaUX
- Jx8eBwZZtB3WNCp+pC3lyVAzToRVQXo5ICo8+BrGZU6N95KXLHO3E8g4kyRc/psrd7JWd0
- a+y+zAZy5SS+oTMTqt60Q65LBJHQmRAvIvcO5sbBak82mnPgAhTfhOnkp9qVe3Yw91wQFP
- ZOMjTFKVQyldfzQsLBLFgN/8RJQNq9bzfv0dTorXlz7iLFmqhJkp2xStqNMnF3KDY3x5b+
- pxeT1l2EqW3tkOwL4g6G4HstHS/YY8hjKOd08tC9vRQK+w8XR/n7Bcw/QKiXSg==
-Date: Thu, 5 Nov 2026 12:03:43 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nnW1KUcH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 742131F000C1;
+	Thu,  5 Nov 2026 04:29:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793852996;
+	bh=KPAE/pf5spCt8tF+n7sHzxlhCQ7JpQ1fLOMEjct2Pr4=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=nnW1KUcHDyqhxCdLaCIf0P6zIXDgT0qimcY/G1Wi3jqu5KPta4IlSe7KvxzStMJWE
+	 ZmJ3UWpqpPxJWX6h7GknaqjOmOT8GdQ03kxOMuJfp8ZSz2MU0huCiXQrGBc9FTb08s
+	 H3QKxUiJQMmZWtjZGiXxU7WpW94aH8bHzKPYDNLJ04418w8fPZvHxjwNOOFbzMmLKI
+	 fe41DkyMi8OHOpWgiL8OYZcXSQmmFYncMRO4K2SlzvbIy4eb4nRzaHv2uwLcf8ffe4
+	 AHpphWhqAtXEuaEj8SsaxV94xjX1nUK3FBPMvviiY9r0SURBXkN0M6Bd68wcq+jhf/
+	 m1lALSSqPIKlQ==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,42 +48,53 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261028041253.74839-1-lizhe.67@bytedance.com> <20261028041253.74839-2-lizhe.67@bytedance.com> <0676993f-c04c-4e4e-9f8d-1650c8fd6d6e@amd.com> <010b2b6c-8f1b-4c3b-913f-cc2e8b957759@bytedance.com> <a6bcd771-fcf7-4fe4-8c21-5e65bd579de7@amd.com> <1bab234e-8914-4694-b0aa-f265fa49c6d3@bytedance.com> <c9cf96bf-f3b1-47da-b22a-9600b5fb01be@amd.com> <3318a7f7-4dec-431b-9284-ec7c2807151c@bytedance.com> <aurO98PC4TTweJs0@gourry-fedora-PF4VCD3F>
-X-Lms-Return-Path: <lba+26aec0036+70eca5+vger.kernel.org+lizhe.67@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-To: "Gregory Price" <gourry@gourry.net>
-Cc: "Bharata B Rao" <bharata@amd.com>, <akpm@linux-foundation.org>, 
-	<bsegall@google.com>, <david@kernel.org>, <dietmar.eggemann@arm.com>, 
-	<joshua.hahnjy@gmail.com>, <juri.lelli@redhat.com>, 
-	<kprateek.nayak@amd.com>, <ljs@kernel.org>, <mgorman@suse.de>, 
-	<mingo@redhat.com>, <peterz@infradead.org>, <rostedt@goodmis.org>, 
-	<vincent.guittot@linaro.org>, <vschneid@redhat.com>, <ziy@nvidia.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-In-Reply-To: <aurO98PC4TTweJs0@gourry-fedora-PF4VCD3F>
-Subject: Re: [PATCH v2 1/3] sched/numa: make free-space tiering promotion bypass configurable
-Message-Id: <519e6126-e4c3-4267-91a8-ff81174aaa5a@bytedance.com>
-User-Agent: Mozilla Thunderbird
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 1/2] scripts: add --registry option to container tool
+From: Nathan Chancellor <nathan@kernel.org>
+To: Guillaume Tucker <gtucker@gtucker.io>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Miguel Ojeda <ojeda@kernel.org>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, linux-doc@vger.kernel.org, 
+ workflows@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+In-Reply-To: <06ee7c694c3e9716bff5c9b1b8e9dc95cc0b38d3.1791751900.git.gtucker@gtucker.io>
+References: <06ee7c694c3e9716bff5c9b1b8e9dc95cc0b38d3.1791751900.git.gtucker@gtucker.io>
+Date: Wed, 04 Nov 2026 21:29:46 -0700
+Message-Id: <179385298671.826739.5987343385077824329.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1042; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=ZBL3o99fNPmo9r7pegdnSdndLZN3q1BXEi5XkfHaaAM=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDFlv2OyvTDbQS9vxsP5Zrlj9Aov106YWz3sTqD1xt1GSm
+ UjFrhaHjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRj3WMDI9muF9YssyAvfFg
+ lPzVvXfvrm+8o+uysJpxRp3B7qwJu68x/DNeFXSdUelA5xymI1dk2WetEbv0INJQ7vhDPX7vy4a
+ XXvEDAA==
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On 11/4/26 2:21 PM, Gregory Price wrote:
-> On Mon, Nov 02, 2026 at 10:56:27AM +0800, Li Zhe wrote:
->> On 10/30/26 11:44 AM, Bharata B Rao wrote:
->> Thanks, Bharata.
->>
->> I would appreciate further maintainer feedback on whether this series
->> looks acceptable.
->>
-> I will give it some additional time when I get back to normal next week.
+> Add a --registry / -R command line argument to the container tool to
+> specify an altnerative image registry and support it in the TOML
+> configuration file accordingly.
+> 
+> This uses a mechanism based on regular expressions to parse the
+> container registry and image names and construct the final one based
+> on a set of priority rules.  A registry can be included directly in an
+> image name; an empty string means a local image.  It can then be
+> overridden by explicitly specifying a registry name via the CLI option
+> or the TOML file, with the CLI option taking precedence as always.
+> 
+> Signed-off-by: Guillaume Tucker <gtucker@gtucker.io>
 
+Hi Guillaume,
 
-Thanks, Gregory.
+I don't have any real strong opinions on the patch itself (although
+Sashiko seems to have its usual complaints about validation and such)
+but I am not sure the commit message or documentation make it very clear
+why it is useful to support this. In theory, the registry can be added
+to the image parameter, is that not sufficient?
 
-Thanks,
-Zhe
+-- 
+Cheers,
+Nathan
 
->
-> ~Gregory
