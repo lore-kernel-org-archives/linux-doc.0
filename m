@@ -1,80 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793842712;
-	b=UpXvBN1M4b2sLdZUruGpPljVCuhiiSicBPjBjuYLoXPAzkF7jbHiVs86JJvupH8QkUBR
-	 EJZASMDD6rtlzcYSgpZ0pk+7Dsmbv8uO1bh4rlCJ7cxAPJAgtOh/22WFDK9Sl/0j0Nr34
-	 jjoM6OnFTIUD8mXnOY5KjwB1OGbh5ObNvekWi+6Ey8uu73WijvrrUSDJaSyM2/7j96f8p
-	 C4A6ThYoqJxLjus8EqgC+CavHHHVrLSqpQJrvtjxJ5i+kFI2KOio9ISHxaB9X/X3r1Uoa
-	 pHU1cdQ7Ml51SE1hk4gaFKVAX3jxadCLiYorqOERTFZv2TXlewvbzxG76tinr915ksw==
+	t=1793842714;
+	b=1AL9E8EZm1/4QrzFYcEW3arfG243+/0UscEGOtJaTR5dtjzKo2f4r82Z43nG4tA6r+d1
+	 33OT01jcrdhYxlmDw5xuUB1NKSue6WD9wmqYLayW3azJ6Bopfw2TOs8k1puGUD4bs+v60
+	 zJ6La4Kvd3sagsCIdGYHsSvX74FmLtsaIIAh9NHduaT/U+n8+hEHMuADqaplg02cz/WPF
+	 og+QoWMyDmoztl+m/kE1luv85kBev51+qYJkCrwpW86sJu7napQYvINu7HgRr2Vjt8e5F
+	 CSrp/csrAm4VGhdbg3rAm0eUuIsuyzWQ96Uh/siI1oNRoT+873nazfjgsh0u+fuxVeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793842712;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793842714;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=DUEA+9h66ghDornvXCd/DpQs6mkffmNPjamgH4lIwY4=;
-	b=boPJpe7wpBFe3f0XVRKlDyg0iG9gXgKfdLUJLyGOEOdnf9CPvETsSp6Hez/6z8c2Z6Jr
-	 d/2HykfNBMNS6RjWu/pqS3lX1Zay6SL6opZiySg/IZhSXWEAp82n0G8WJ6vMclTL6e/kH
-	 XABOcJ+i3tY8fnCqLv51TlzmK3u8RiDnXWQVRMHMxDfmtI7LOuFk5r77EsfNVolTnPDWs
-	 8Z891c6r66DiGLTguEGnJ9VkjSQSbhj8YpUXgtmoEK/YnH0n+mqJIfizD5OeROAsxrZwN
-	 l5O56MubFtnsZVOqFLVlHqfkOE26Fo4At9lt2mbNjozMFO74BeBte1UWObxcpccvqMQ==
+	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=TYS9NFes0pX3u5RGLOyKL2oHpVaqbTMJYMFIjZ8YRdw=;
+	b=dUphM2Af6TC12/CB65eoA1axhEAvEmyYGaT1XuoCYRO4reWLk/w7fddj4tz8B5J5/MH3
+	 74CyfrGwf+4FRZLvLkPmjb3GE+uRxez1XvOxVLeGr0WSRxCdKUZ9dyCxFEbhtczcbLsyQ
+	 2shzzOlN//zd2kLBuNbOel2Zr3nkdRGSUCuiMGHE5q9HKK5i7WbIA3F//GngqmJGA4l6/
+	 JETX+Ejk+e/cqYaadBQBq4UeFRZdVlIP/8TXRJ4PL1v5b3XeJil0fMFGXRq0CRev78dVW
+	 pGWqE3IbjMLkg9jhoKKZDRpE7viTGCBdqLUnQoS8Al62JZC1nbngwSmIOfWCbJnNMEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yiJuzisU;
-	arc=none smtp.remote-ip=209.85.216.47
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rJAfSQhw;
+	arc=none smtp.remote-ip=209.85.216.46
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C348606A31B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 01:38:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C348606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09151606A326
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 01:38:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09151606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=yiJuzisU
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-3ac7842c17dso938853a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 17:38:31 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rJAfSQhw
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3ae2b7e1e17so920766a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 17:38:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793842711; x=1794447511; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DUEA+9h66ghDornvXCd/DpQs6mkffmNPjamgH4lIwY4=;
-        b=yiJuzisUIMv9uvdqEBcv9RlsRpaCullP0dn98o9XVizIlIhRhtQHC+RSQBldn8KvUU
-         zDOGaWvi7zbak+nGNnjE3OTRjjWeXVetdIrw46657KMLreVuS983MJKO3RGFndyCoCqd
-         8INE5RpRQfs4Z4UKr40KUqlTW/bz4aA6y349bQuKQXVD2gDuFTLZIvL+++ufyLDjI+an
-         2hff+7NzZCvWgVIOSDxpq62pnb2wN2dK7eeFRWceIe0RStJ7JwHioO4NLomnSlaRal2+
-         BiW4KjnUb0iELlb9mP94B3YzQhPAssj/bgrXzOo8MMM1yoNO99hf+4mESyOVo7oTvDYF
-         S9Aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793842711; x=1794447511;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1793842713; x=1794447513; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DUEA+9h66ghDornvXCd/DpQs6mkffmNPjamgH4lIwY4=;
-        b=OxZc8CZdYUDVDnWWFEQgW1x1WN2G++vN8O8+cYzNLF1Jplex7/f24HabTpcSx/sael
-         zGDDLeCarksGT8U5KBd4rivzE02Qwy8DziIwp1gT9/kIuX2q6gfNTlY4ZFGhaeKUqd03
-         o++8TJGgrn7/Z5qdW8i5p+uttYRpwUNq7wSlJuciOLpOfYpiFKGdvyyWec4MxAIkab+b
-         HlRAJ3cP8tbhlWlrs0A2Aq0JLsTx2z4c0cSKoVCotii0cOVdlrglCCJSyN48iUW7zs5b
-         T/IysZnmt8iUw25gFmKOji1scvIblSHYK/ry0UH/ePEVjCyk4xZ7XPkAR5sh4KOE9aLV
-         ZGtA==
-X-Gm-Message-State: APuU4Z+LcpyIdf2zZ6ahqLzkHbowLtL/5lW7bGvAQ7y9kKcJrkpSp1Cx
-	++nvcnxY1oycZdyADgYqrUzMvxAHE8OMl6C6I9fkTfnpjkU42Q3eHHy3
-X-Gm-Gg: AYBFou11Vo/l88lUJ6byiQC6vDzZWKMPsl6WdbLiYJGgXGhFOqkV3EqT7ynz0YQt22h
-	4F6F+xnzCSKW5Ek57d/wQkhVVxpd++MRFZUJCq4v7fZJlHJ7DOI4dFyIt5yX54sREOmU5SAM20K
-	7+jRYDas9mjFkt2jq8MvwmWg0dfnNKtMcac2BeMLBivOFO6gGNc1BL8jmeRnxK5apje4Stq6uG1
-	rs6E9rfOCwVpQwTl9+Do4K1rvmkvNSGubtYCsB6S54AMMQlYxm1Q//p2QcSTuHnXntKW9Exjrpp
-	Su03m8Ejas/K233yBfqDd95qcbsbc9LkMA8572Nbe1Tj4ICqQlm3kclTaq3y/VoUKs5WRwkZRDY
-	rOfGjC+GhG3jxzrfi1amDWSHPgG+BwN7EF9YN+EJ6xq/ww3lrXEKMIItqTOyHj6+jQjWeRGTdp6
-	LDlmsQbWhcRVpmoX5a2eLg6Vp5p3OX9YOGhyTRRRLQe9nT8rTwLJHW9alblv9ZRKnbo9lYbFPfr
-	bJ9UnFM3Yvt8zrMoEfKCr6iH/8LNysqWwJ4vnhDwqhG8V6M5rJsrMgMu5+xhUNF9xFFYYC8Fb4e
-	PNHpxtg5/9fDx1Okwt+vjZ5K4ToNnpzVpgho
-X-Received: by 2002:a17:90a:eb03:b0:3b0:92b2:2e74 with SMTP id 98e67ed59e1d1-3b092b2333dmr2690547a91.62.1793842710498;
-        Wed, 04 Nov 2026 17:38:30 -0800 (PST)
+        bh=TYS9NFes0pX3u5RGLOyKL2oHpVaqbTMJYMFIjZ8YRdw=;
+        b=rJAfSQhwGfz9QaIyxt24TLwNJgE9KzlaG0i7Y9s8cMSvfN9GNqx8piEbi5DrzkExG3
+         v4AA0Tn0pweD9qM3a6XtyP+E3AK/ZNtXvuUfQC4Dt+R1/CZYppKElmBQRYeR/wZjat4e
+         S/kGsbsxNbjiEA489HGJdUsbpWhBW+s01Jvm+guE9Tx1iJT0tdtCdZSJAnEJLVoS3Kg4
+         DV4ot8sFz9RRo/29OX2roqh0l3AI+93LK72rF5142YHrJU7wFTOBiE32uQ9PwrtePDRC
+         G7Fvm0OikX73+8jStqjkQLJ1eShQRUapNNHoXT9dNOOmVgTVbAJdBw0K329b0YEH1Hl5
+         K3gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793842713; x=1794447513;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TYS9NFes0pX3u5RGLOyKL2oHpVaqbTMJYMFIjZ8YRdw=;
+        b=pYcC5hmFKFC+lTANEoV1ECt5g45cM+yjjuWA+Hg5XMnhjmScSIXTSQvd2hom8MpeYM
+         oofKKlTXZlDqrz5pbqifKX9YU8cY6eNY8hI2DeE9AZYDh6jzjaSUVffVlWE6pUyN0WMZ
+         1FrxzZZtlZ6+g7Mk22LNwxF7PvyfdUavnYEnZ25OIiYTRVWkjw55YIQRTHeulMWZm2Xm
+         IhXdZf/TRswX316MKtbRxogKz2OwMf3Vl0dLjJHtdwx9prQF3YBTuQSw64lCmRUwLkyo
+         /3gn1dxXa1Mlf89uTcKe9BRULFgPbnk/Tbk9h6OSbYliolxMuhbZ/WYtPEX4KB0Lh2Ev
+         5l+w==
+X-Gm-Message-State: APuU4Z+TkL7m/CsLn6q08u+n9uCdXRqmcfTZeUfSa2BUb/ZkAeyMM6z4
+	IqLbbClA2SIHwVDoI3ibnjWleDLnLZRns3/jwKmWg6k7gLC4hycEWS8r
+X-Gm-Gg: AYBFou2Deay69gVCXEtXmsc5YsxChLI4xFqRU4ya5UWN3WkvSOMg5zXUe+p9eDLwgs/
+	PIeT5K9hFStbla9KHIXF++G+pNHXTazKS3EVXfVnebZpZT+vWUpQ00j+26E9IVA2ErQ8G/l2z57
+	uiZIOLTXJwCYmeIJl8SYNXSUoFDBM9ICbsSQDzWzxK4cP+bGKvgF9jp6iEfNZ3UGOj97vQ3Okdo
+	yBL/+zdUS8DcJag8IjUGrtPe3nZKZniiR2xzE/bjbFomYuq1MZfw92KVmjiO3g7TMYJ7do0LQV9
+	CUJ/8uIfa09Nk/BKIZ+RrtMvsj3xMiBoLZqBdMpYfU12gBOb1O1XH5LReo0lf+y9OjyqY+WYXcB
+	QwD3eqsbFU4c90Nsd1nk0gu8YCEtavjUlNKELshC4nymlVHmCi35thjOzrhOPLFnV0KHNJ8Y9Ip
+	VUxatZEuVYBmts1OVmA6K0VfIKpBvR+2PwYiI+NSjlIvY16tzye3ApO4fVqr1Ji08h1vSOSmwCr
+	m68wLKdJJpuDhXL6ptHxN2fhkPt3KI0Lq7HqeSdzNssXlx89q7yc+wyxMjK7J1NFml8C3RwajKY
+	kGZcFhGDPSji5KpaXtZxrU1D85kwcYuBebQbHlJznknWWq4RpQc1uk7V9w==
+X-Received: by 2002:a17:90b:17cd:b0:3ac:b7b9:6471 with SMTP id 98e67ed59e1d1-3ae8987a7bfmr15048640a91.65.1793842713202;
+        Wed, 04 Nov 2026 17:38:33 -0800 (PST)
 Received: from penguin.lxd ([67.223.127.112])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31d2b5esm1164975a91.15.2026.11.04.17.38.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31d2b5esm1164975a91.15.2026.11.04.17.38.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 17:38:29 -0800 (PST)
+        Wed, 04 Nov 2026 17:38:32 -0800 (PST)
 From: Matthew Weber <matthew.l.weber@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
@@ -87,10 +89,12 @@ Cc: linux-doc@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	kasan-dev@googlegroups.com,
 	Matthew Weber <matthew.l.weber@gmail.com>
-Subject: [PATCH v2 0/4] Documentation: Add kernel minimization guide
-Date: Wed,  4 Nov 2026 19:38:19 -0600
-Message-Id: <20261105013823.29741-1-matthew.l.weber@gmail.com>
+Subject: [PATCH v2 1/4] Documentation: kcov: clarify coverage example
+Date: Wed,  4 Nov 2026 19:38:20 -0600
+Message-Id: <20261105013823.29741-2-matthew.l.weber@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20261105013823.29741-1-matthew.l.weber@gmail.com>
+References: <20261105013823.29741-1-matthew.l.weber@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,113 +106,94 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi all,
+Clarify that the saved count bounds the printed entries while KCOV
+remains enabled, including during output. The examples continue to disable
+KCOV after printing, as before.
 
-This series adds documentation and a script for measuring source lines of
-code (SLOC) in kernel builds, supporting developers and system integrators
-who need to trim a Linux kernel.
+Document the KCOV configuration requirements and how to symbolize
+collected PCs.
 
-The Workload analysis section of the admin-guide already describes tracing
-a workload. This series builds on that guidance with a worked example of
-using workload observations to inform kernel minimization and measure the
-resulting configuration. The guide is intended for developers working on
-embedded and safety-critical use cases, including work related to ELISA.
+Signed-off-by: Matthew Weber <matthew.l.weber@gmail.com>
+---
+ Documentation/dev-tools/kcov.rst | 44 +++++++++++++++++++++++++++++---
+ 1 file changed, 41 insertions(+), 3 deletions(-)
 
-The series builds on the ELISA Aerospace Working Group's ongoing
-minimization discussions and iterations in
-https://github.com/elisa-tech/wg-aerospace/pull/257. That effort explores a
-generic, newcomer-oriented workflow for tracing a workload, iterating on a
-kernel configuration, measuring kernel metrics, and understanding userspace
-metrics. The ELISA documentation aims to present a complete containerized
-workflow, with analysis steps to guide users through successive iterations.
-This series contributes reusable, general-purpose kernel documentation and
-tooling upstream to support that broader process. Clear upstream guidance can
-also give AI-assisted tools reliable steering context as they help users
-iterate on kernel configurations. One likely early application is producing
-minimized release configurations for Space Grade Linux.
-
-Rendered drafts are available online:
-
-  Kernel minimization:
-  https://matthew-l-weber.github.io/linux/admin-guide/kernel-minimization.html
-
-  Workload tracing:
-  https://matthew-l-weber.github.io/linux/admin-guide/workload-tracing.html
-
-The series and its review discussion are in PR #1:
-https://github.com/matthew-l-weber/linux/pull/1
-
-The patches are:
-
-  1/4 Documentation: kcov: clarify coverage example
-      Clarify that the saved count bounds the printed entries while KCOV
-      remains enabled until the disable ioctl. Document the relevant
-      config requirements and PC symbolization.
-
-  2/4 scripts: Add kernel-sloc helper script
-      Add a helper to count source lines from compile_commands.json or
-      estimate distinct source lines represented in a vmlinux DWARF line
-      table.
-
-  3/4 Documentation: admin-guide: Update workload tracing guide
-      Expand workload tracing guidance with ftrace function-graph
-      tracing, syscall tracing under QEMU with the GDB stub, and mapping
-      observations to kernel configuration symbols. Add the Workload
-      analysis MAINTAINERS entry.
-
-  4/4 Documentation: admin-guide: Add kernel minimization guide
-      Add the guide to the Workload analysis section, cross-reference it
-      from the workload tracing guide, and add its MAINTAINERS coverage.
-
-Tool-use disclosure: I used GitHub Copilot CLI while preparing this series.
-It helped revise the KCOV example, edit parts of the documentation, add
-MAINTAINERS entries, and integrate error-handling revisions to kernel-sloc.
-I reviewed the changes and take responsibility for the series.
-
-I checked kernel-sloc syntax and help output, and ran
-checkpatch.pl --strict on all four patches in the new order. The GitHub
-Actions htmldocs build completed successfully with no warnings from the
-changed files; the published documentation is available at
-https://matthew-l-weber.github.io/linux/admin-guide/index.html#workload-analysis.
-I did not run make htmldocs locally.
-
-Changes in v2:
-  - Reorder the series so the workload tracing update precedes the kernel
-    minimization guide. The guide refers to the "Tracing a minimal user
-    space" and "Mapping observations to configuration" sections added by
-    the tracing update, so those sections now exist before they are
-    referenced (reported by Sashiko).
-  - Move the cross-references from the workload tracing guide to the
-    kernel minimization guide into the minimization patch, so no patch
-    refers to a document added later in the series.
-  - Create the Workload analysis MAINTAINERS entry in the tracing patch and
-    extend it with kernel-minimization.rst in the minimization patch.
-  - No other content changes.
-
-Any feedback is appreciated.
-
-Thanks,
-Matthew
-
-Matthew Weber (4):
-  Documentation: kcov: clarify coverage example
-  scripts: Add kernel-sloc helper script
-  Documentation: admin-guide: Update workload tracing guide
-  Documentation: admin-guide: Add kernel minimization guide
-
- Documentation/admin-guide/index.rst           |   1 +
- .../admin-guide/kernel-minimization.rst       | 413 ++++++++++++++++++
- .../quickly-build-trimmed-linux.rst           |   4 +
- .../admin-guide/workload-tracing.rst          | 139 +++++-
- Documentation/dev-tools/kcov.rst              |  44 +-
- MAINTAINERS                                   |  13 +
- scripts/kernel-sloc                           | 299 +++++++++++++
- 7 files changed, 903 insertions(+), 10 deletions(-)
- create mode 100644 Documentation/admin-guide/kernel-minimization.rst
- create mode 100755 scripts/kernel-sloc
-
-
-base-commit: a592a36e49372172d7c7551ec19ed18184c935e1
+diff --git a/Documentation/dev-tools/kcov.rst b/Documentation/dev-tools/kcov.rst
+index 8127849d4..0c3099c06 100644
+--- a/Documentation/dev-tools/kcov.rst
++++ b/Documentation/dev-tools/kcov.rst
+@@ -31,6 +31,15 @@ Collecting comparison operands is supported with GCC 8+ or with Clang.
+ To enable KCOV, configure the kernel with::
+ 
+         CONFIG_KCOV=y
++        CONFIG_DEBUG_FS=y
++
++``CONFIG_KCOV_INSTRUMENT_ALL=y`` (the default) instruments eligible kernel
++code throughout the build. If it is disabled, only explicitly selected code
++is instrumented.
++
++To resolve collected PCs to source locations, also build with debug information
++(``CONFIG_DEBUG_INFO=y``) and retain the matching ``vmlinux``. Debug information
++is not required for collection itself.
+ 
+ To enable comparison operands collection, set::
+ 
+@@ -94,7 +103,7 @@ single syscall from within a test program:
+ 	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
+ 	/* Call the target syscall call. */
+ 	read(-1, NULL, 0);
+-	/* Read number of PCs collected. */
++	/* Save the output count; KCOV continues recording until disabled. */
+ 	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+ 	for (i = 0; i < n; i++)
+ 		printf("0x%lx\n", cover[i + 1]);
+@@ -111,7 +120,36 @@ single syscall from within a test program:
+ 	return 0;
+     }
+ 
+-After piping through ``addr2line`` the output of the program looks as follows::
++In PC mode, the first ``unsigned long`` holds the count and the remaining
++``COVER_SIZE - 1`` slots hold PCs. KCOV stops adding entries when the buffer
++is full, so increase the buffer or shorten the collection window if the count
++reaches it. An empty buffer can indicate that the target path was not
++instrumented; it is not proof that no kernel code ran.
++
++The count is read while KCOV is enabled and sets the number of entries printed.
++KCOV remains enabled while those entries are printed, so the output syscalls
++may add entries to the buffer. They are not included in the printed list,
++because the loop is bounded by the saved count. Syscall entry/return paths
++around the target can also appear.
++
++Symbolizing PCs
++~~~~~~~~~~~~~~~
++
++Save the example as ``kcov-example.c``, compile it for the target, and run it
++where debugfs is mounted and accessible::
++
++    cc -O2 -o kcov-example kcov-example.c
++    sudo ./kcov-example > kcov-pcs.txt
++    addr2line -f -i -e /path/to/matching/vmlinux < kcov-pcs.txt > kcov-symbols.txt
++
++For a cross-built target, use the matching toolchain's compiler and
++``addr2line`` (for example ``aarch64-linux-gnu-addr2line``). Use the exact build's
++debug ELF, not another build's ``vmlinux``. KCOV subtracts the kernel's KASLR
++offset on architectures that support it; do not apply an assumed relocation
++adjustment. Instrumented modules need their own debug ELF and load-address
++handling rather than symbolization against ``vmlinux``.
++
++The output can look as follows::
+ 
+     SyS_read
+     fs/read_write.c:562
+@@ -184,7 +222,7 @@ Comparison operands collection is similar to coverage collection:
+ 		perror("ioctl"), exit(1);
+ 	__atomic_store_n(&cover[0], 0, __ATOMIC_RELAXED);
+ 	read(-1, NULL, 0);
+-	/* Read number of comparisons collected. */
++	/* Save the output count, as in PC mode. */
+ 	n = __atomic_load_n(&cover[0], __ATOMIC_RELAXED);
+ 	for (i = 0; i < n; i++) {
+ 		uint64_t ip;
 -- 
 2.39.5
 
