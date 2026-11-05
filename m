@@ -1,54 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793893726;
-	b=h5Vf4u1PNJXjNmb61bHBGVhl3UgCWTq3ngk8C3fA7IGUSubM6dObDsU389OnkBmKvC20
-	 Yf6SERoDq++blHYHaOz18OLdqAux0urQVlEmKOx4dXjSMWoACCGJIrRXkubEKmO8KshTN
-	 rUDTIpTT55HrX6cWqgAhriga+2OcIQ14QAmEPggfL/Lhj071nwrSsZbTebn4JW+sgxmWB
-	 CSQbmtiF5IzSXjkjKIlQyCrxpDujnmZxvpP9wP19RpzXWo1JcJNtpmvR67zTaKu2uad99
-	 Wi7awqiyNdrsAofeSQFBp7f1lT2/ksU/HZJ4AFR1k9KXiPQPbY9KRHVN9gELToncqMg==
+	t=1793893804;
+	b=jER8LLU4IjAdIFjicYILDo7Jw9zKleJwrmBeG0RfPqA/R5f7YdQSezEPipOPE+UWGqT2
+	 4HXLAzr4WEsgQe/fpk20WtMeDceTcXCamo+q+SQvAus7Me8vl95Xn7WybVexR/JUg+9YU
+	 ei3bHkrb6VdJHZWsUWzSRAUZLgYb35k6rzmV5P2jSnfzPe1mSRK93A0XOHW4Gc4C9Lnbw
+	 iw9kVs29MXZv/WwNEbgi476FC8vf+rUl2GnC3CN4qDLw0RGiMGpfmU/o6d0wPTvGj6bx1
+	 qVYBiiT+B3cLBss9by0/KHOQ4SfwEmpoa4ElVQW3qHOYdvBj5mZMEv3t5WB/4mdfiwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793893726;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=VqTtOjLMc2SR5NEFeskRRTsJLuUm+FuqME1OO9ChNqY=;
-	b=NRjTOdORA1dwjQBTIiH6BMMwqv2nHvHpo0I+I0ChadaUB5vvaMo5eDLM7r7QxeHkItsR
-	 4+k4bxsMApMm5Qx1ujVLsD1We6HX1iLtcfjg/8a/Fd/GnLMAZRyrHqgFGx7JpD3YHVoJZ
-	 5bVjF6vPMafUtIVJbAAuksB2YwBko4WXm0syd2JUc7Vau27a7XoQAaUXdjGR25svzzUR9
-	 Jsx7fuhVlMmt82kD47MZ2CulbPgPqg805x+zvehXB+gv3V+k4pq0o49hFiMHVAeNuYTcn
-	 B/2l0UVkfZcQ0P9tIOMFC9Lc4og1D61olChG8DcCWk8bRgrFAiiAj0u389QyC0wiiEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793893804;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
+	bh=172rW2csVgIW8w3rofrqDqPbG51uDxT7XAZeT+28lqg=;
+	b=q1bL+8tHXZ3saZJa7i0o6Ak0jEzdk1MAwIazZPTEvSD+z6gQNGldAJu2CtbvasGi73K9
+	 WlRNN3fMuXPIBPNbJy6p+EdYvesID9Oa4KzJWnG2ON8s/mBcUdtwEXXC85Q/ksc/uSFSD
+	 vD6E9o/OwrUsulBfBrsgWrBMGi3PLeY+gnitwcaSRo41G82+I6nnSQLZEeUYywoyw4dZ3
+	 ZUsXWK2YBTYgdMt1EuXsl50fzsS3QmYvxjTE5fX2oPLoGL6qFMa4m3gQrXLWPgQhhA3hg
+	 EyGHV1W+hiHwORfZAx0z9MJebF+kRl3gqY2zXoizXkk0f1FOhSoM0PFsh2ZibFH5DDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aTi+83WM;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=desiato.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=HKDJZu1h;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8A4606A332;
-	Thu,  5 Nov 2026 15:48:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B412E606D824;
+	Thu,  5 Nov 2026 15:50:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B412E606D824
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aTi+83WM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF4A61F00919;
-	Thu,  5 Nov 2026 15:48:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793893726;
-	bh=VqTtOjLMc2SR5NEFeskRRTsJLuUm+FuqME1OO9ChNqY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=aTi+83WMLB+yIW2qIOKRwZcIoRrw5ldSZV26bVaVMGJrTZbGnkzAE1dLpoiusQF0s
-	 X7fJhGryVcI7YxO6QoocLcJ2+HJ7nAX6BuTyko99nbPNMmbj0hB7bm+gnUNmEucLAi
-	 vuVYrD0QVeHA8UZekChmGA/kEk+iIVAFviQT1hEIcqQwO25S6mV5IhKYpCA/IE8T0x
-	 gTXS1mzWaBXHtkjQ3++Hzhk+XpSPk7yOo7MtLAe0iCv0YSkCBr/8n2XbpAm7ySLsiP
-	 4Hj4RvpmAgUAd0i8hT9xc2WWYHlwX6EVrS199CrADbZRnRqsDiqu00RQRlrY2jnqj+
-	 fsZ250CYyQQDA==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Petr Mladek <pmladek@suse.com>
-Cc: John Ogness <john.ogness@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, Naveen N Rao <naveen@kernel.org>, "David S . Miller" <davem@davemloft.net>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Tiezhu Yang <yangtiezhu@loongson.cn>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 0/3] probes: Use trace_printk() in probe handlers
-Date: Fri, 06 Nov 2026 00:48:42 +0900
-Message-ID: <undine-1793893722102543030-fbc455ddd7ed507e@undined.local>
-X-Mailer: UndineD 0.1
-In-Reply-To: <aunBcxXXNhXDd-U5@pathway.suse.cz>
-References: <179360345418.115681.193455787480210412.stgit@devnote2> <20261102123408.0fb950bf@gandalf.local.home> <871p9251ve.fsf@jogness.linutronix.de> <undine-1793671566795563056-fb7169cffcc7ac3c@undined.local> <aunBcxXXNhXDd-U5@pathway.suse.cz>
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=HKDJZu1h
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Reply-To:Content-Type:Content-ID:Content-Description;
+	bh=172rW2csVgIW8w3rofrqDqPbG51uDxT7XAZeT+28lqg=; b=HKDJZu1hdZbYfVaBOCLlBavSnA
+	V2TA2mcvmVf58eYsqLUFUe/O1HGkUqDYLxh7hKC0/beriyKNx406TAdR+fxUIJcCicJj7ZtRPdrtg
+	v8U493D/1ozG5g5huFss99LV35zEJpMn6tuWI09mTXLpEQ5Tkei6UNAMShpEzmscf56d7cdvFq/p+
+	Ksz6ArXcuNDw5K5SZXmX7tFDttCVGoC5tVmwb7Ba6a9NZrikijNdZcNKb+evRsYgyACCcJmSPLv5W
+	0lu5QwNNyDOXiYQxOlYu0jqSLRPANM9R1+TZ2jL2lYB1L7JC3SFawOmzoOiCNQvXHWfoV9swqj02n
+	vfbX3PwQ==;
+Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xOziw-00000003Bo2-28cD;
+	Thu, 05 Nov 2026 15:49:58 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xOziu-0000000Aaza-0bAa;
+	Thu, 05 Nov 2026 15:49:56 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	x86@kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paul Durrant <paul@xen.org>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Sascha Bischoff <Sascha.Bischoff@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Jack Allister <jalliste@amazon.com>,
+	Dongli Zhang <dongli.zhang@oracle.com>,
+	joe.jin@oracle.com,
+	David Woodhouse <dwmw@amazon.co.uk>
+Subject: [PATCH v11 13/23] KVM: selftests: Use UAPI pvclock-abi.h in xen_shinfo_test
+Date: Thu,  5 Nov 2026 07:49:44 -0800
+Message-ID: <20261105154955.2525419-14-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261105154955.2525419-1-dwmw2@infradead.org>
+References: <20261105154955.2525419-1-dwmw2@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,72 +93,123 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-On Tue, 3 Nov 2026 12:11:47 +0100, Petr Mladek <pmladek@suse.com> wrote:
-> On Tue 2026-11-03 11:06:06, Masami Hiramatsu (Google) wrote:
-> > On Mon, 02 Nov 2026 23:07:41 +0106, John Ogness <john.ogness@linutronix.de> wrote:
-> > > [ Cc'ing Petr Mladek ]
-> > > 
-> > > On 2026-11-02, Steven Rostedt <rostedt@goodmis.org> wrote:
-> > > > [ Cc'ing John Ogness ]
-> > > 
-> > > Thanks.
-> > > 
-> > > >
-> > > > On Mon,  2 Nov 2026 16:10:54 +0900
-> > > > "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
-> > > >> Here are patches to update the probe sample code to use trace_printk
-> > > >> instead of normal printk. Since the fprobe and kprobe/kretprobe handlers
-> > > >> can be called from somewhere where console is locked, using printk() is
-> > > >> basically unsafe. Only the unoptimized kprobe on x86 is safe because it
-> > > >> is ran with NMI context (in this case, the kernel uses printk_deferred()
-> > > >> automatically), but optimized kprobe/kretprobe/fprobe are not.
-> > > >
-> > > > I don't think printk() is unsafe in these situations anymore.
-> > > 
-> > > Since we still support legacy consoles, it is true that printk() is not
-> > > safe in these contexts when a legacy console is registered.
-> > > 
-> > > However, the printk_deferred() variant _is_ safe from any context. Once
-> > > we convert the legacy consoles (including boot consoles) to nbcon,
-> > > printk_deferred() can become printk() and still be safe from any
-> > > context.
-> > 
-> > Got it. But since printk_deferred() is not exposed to modules,
-> > these sample modules can not use it. (printk_deferred_enter/exit()
-> > are also not exposed.)
-> 
-> We could export it if it would be useful for kprobes...
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-I also concern that exposing those means exposing internal implementation.
-If so, I would like to avoid it, because if printk() becomes safe,
-those simply become technical debt.
+Now that pvclock-abi.h is a UAPI header, use it in xen_shinfo_test.c
+instead of locally duplicating the struct definitions.
 
-> 
-> > > It is misfortunate to add documentation saying printk() is not safe,
-> > > since the problem is converting the remaining legacy consoles. But we
-> > > can cleanup all such documentation later once the legacy consoles are
-> > > gone.
-> > 
-> > So, until it is done, this series is valid. Please let me know it.
-> > After that version, I can revert these.
-> 
-> I do not have strong opinion here.
-> 
-> It just looks to me that using trace_printk() everywhere is an
-> overkill. It is true that printk() is not safe when probing some
-> locations, e.g. where a console is locked. But these are locations
-> where you could not use printk() even in the probed code.
+Sync the tools/ mirror of the header to the UAPI content: the KVM
+selftests include path puts tools/arch/x86/include ahead of the
+installed kernel headers, so the mirror is what actually gets used.
+That makes the struct fields __u64 (unsigned long long), so switch
+the verbose printfs away from PRIu64, which is "lu" on 64-bit.
 
-Ah, sorry if I caused a misunderstanding. What I meant was that for
-callbacks — which might be invoked in critical contexts, such as those
-used by kprobe or fprobe — we should use trace_printk() that include
-recursion detection. This does not mean that trace_printk should be
-used everywhere.
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ tools/arch/x86/include/asm/pvclock-abi.h      | 27 +++++++++-------
+ .../selftests/kvm/x86/xen_shinfo_test.c       | 31 ++++++-------------
+ 2 files changed, 24 insertions(+), 34 deletions(-)
 
-Thank you,
-
+diff --git a/tools/arch/x86/include/asm/pvclock-abi.h b/tools/arch/x86/include/asm/pvclock-abi.h
+index b9fece5fc96d..6d70cf640362 100644
+--- a/tools/arch/x86/include/asm/pvclock-abi.h
++++ b/tools/arch/x86/include/asm/pvclock-abi.h
+@@ -1,6 +1,9 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
++/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+ #ifndef _ASM_X86_PVCLOCK_ABI_H
+ #define _ASM_X86_PVCLOCK_ABI_H
++
++#include <linux/types.h>
++
+ #ifndef __ASSEMBLER__
+ 
+ /*
+@@ -24,20 +27,20 @@
+  */
+ 
+ struct pvclock_vcpu_time_info {
+-	u32   version;
+-	u32   pad0;
+-	u64   tsc_timestamp;
+-	u64   system_time;
+-	u32   tsc_to_system_mul;
+-	s8    tsc_shift;
+-	u8    flags;
+-	u8    pad[2];
++	__u32   version;
++	__u32   pad0;
++	__u64   tsc_timestamp;
++	__u64   system_time;
++	__u32   tsc_to_system_mul;
++	__s8    tsc_shift;
++	__u8    flags;
++	__u8    pad[2];
+ } __attribute__((__packed__)); /* 32 bytes */
+ 
+ struct pvclock_wall_clock {
+-	u32   version;
+-	u32   sec;
+-	u32   nsec;
++	__u32   version;
++	__u32   sec;
++	__u32   nsec;
+ } __attribute__((__packed__));
+ 
+ #define PVCLOCK_TSC_STABLE_BIT	(1 << 0)
+diff --git a/tools/testing/selftests/kvm/x86/xen_shinfo_test.c b/tools/testing/selftests/kvm/x86/xen_shinfo_test.c
+index aaa414c677ad..c48c0bf44257 100644
+--- a/tools/testing/selftests/kvm/x86/xen_shinfo_test.c
++++ b/tools/testing/selftests/kvm/x86/xen_shinfo_test.c
+@@ -98,22 +98,7 @@ struct sched_poll {
+ 	u64 timeout;
+ };
+ 
+-struct pvclock_vcpu_time_info {
+-	u32   version;
+-	u32   pad0;
+-	u64   tsc_timestamp;
+-	u64   system_time;
+-	u32   tsc_to_system_mul;
+-	s8    tsc_shift;
+-	u8    flags;
+-	u8    pad[2];
+-} __attribute__((__packed__)); /* 32 bytes */
+-
+-struct pvclock_wall_clock {
+-	u32   version;
+-	u32   sec;
+-	u32   nsec;
+-} __attribute__((__packed__));
++#include <asm/pvclock-abi.h>
+ 
+ struct vcpu_runstate_info {
+ 	u32 state;
+@@ -987,12 +972,14 @@ int main(int argc, char *argv[])
+ 
+ 	if (verbose) {
+ 		printf("Wall clock (v %d) %d.%09d\n", wc->version, wc->sec, wc->nsec);
+-		printf("Time info 1: v %u tsc %" PRIu64 " time %" PRIu64 " mul %u shift %u flags %x\n",
+-		       ti->version, ti->tsc_timestamp, ti->system_time, ti->tsc_to_system_mul,
+-		       ti->tsc_shift, ti->flags);
+-		printf("Time info 2: v %u tsc %" PRIu64 " time %" PRIu64 " mul %u shift %u flags %x\n",
+-		       ti2->version, ti2->tsc_timestamp, ti2->system_time, ti2->tsc_to_system_mul,
+-		       ti2->tsc_shift, ti2->flags);
++		printf("Time info 1: v %u tsc %llu time %llu mul %u shift %u flags %x\n",
++		       ti->version, (unsigned long long)ti->tsc_timestamp,
++		       (unsigned long long)ti->system_time,
++		       ti->tsc_to_system_mul, ti->tsc_shift, ti->flags);
++		printf("Time info 2: v %u tsc %llu time %llu mul %u shift %u flags %x\n",
++		       ti2->version, (unsigned long long)ti2->tsc_timestamp,
++		       (unsigned long long)ti2->system_time,
++		       ti2->tsc_to_system_mul, ti2->tsc_shift, ti2->flags);
+ 	}
+ 
+ 	TEST_ASSERT(wc->version && !(wc->version & 1),
 -- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+2.43.0
+
