@@ -1,110 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793876598;
-	b=ovtzcFGYcIrFeK0WURAhX8F690Tq9xHXXgWjkF+CyoPInGom0LKkSeARmMxOhmDweBUl
-	 egBp+aMDkuSW7bHH/ehGm2PiQxDT/ehvVlYdFdoQb+5E6rF9vY849TQDcPcZ1Ia3INAHA
-	 6ylNKNv8s1mirp/wVO/oHQXHlmwffRXeqf+FOLVhXr6uKJUdQY1ieIDa1YPDvhywYmRa2
-	 89dtBjY6sJXdBzCAhHDD5i7FYI7iKkZ8Zdra75Cz0LVEpRhP47Yz7DygjNQRoMODaTFC4
-	 EVQpITpcVZFY52YmsBjFVbDvu+P+RCwNAWOlL+DgQy6gUcwZrnfjFfzdqPuvm2J2iPw==
+	t=1793876673;
+	b=TA95N35gTOnRpXd3kkqVqig+NHkmYghFFZpbkQ21kjM831x5KbMJtKSmTc4vOl99wwSd
+	 LfW4n/iNCuj3dwIBUJXS1gZOHKfcwUiTjZcuB7LDbLMYaL9L85iHzsxxvHjqO2zHH0+ew
+	 FLdWGA3kuE+YcelW+eI9a8uzEP7k4Ge7fs90pDJQOvYWJh8+qg99c+ZJdFwTMhxZr+LQt
+	 xuErY/vOVyj7GitLvUoBRLXv1HAXhxh7rHxg99TZBQYby5tIQd6ZqKes3PM/le46lnn8Q
+	 IJgQClGe7qEO3KnjX1hOYKLj15Th96HJvS2dzS+s4uOk5bk2FK7zWedzl8OeQBa5ONA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793876598;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=MNZcSYKGNFF9ooUBo5T69bdazyG3b5sb50t0n2nEr54=;
-	b=Yi/F//akS16QVKUnOEJcQ3T40AsPDkk9DERY9lPL5NfwMJlM5nt9a1o3bVOR5ILNTmLQ
-	 qa0zeazrmOFAK/YIsEkefR+pKk+Rv9fMeNW++ODybDqBai4TNhhz1Xg9eOL/dGVVF0GWU
-	 zQn+4v6WCHyJ77vCETpFVw5uusFzuHXzGwrr2dgrp3Jdvh+9I5gDeSEeRAurfiV5fD8Pc
-	 Ps+jASax/4BU0HZs5wqaJqmMCdaExCnyWQjXnMjG81rOiXAlkxIevrl0QegRCPEWzenG+
-	 YtTx+QSbDH0SE4pSVaQDRCiEl9OrvtfjDxx3n/HmU/TsAr0UPhVBOdeIlOJi7lR5HHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793876673;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=FFlRj7zu5hDTpY8G/PTsL3dfYcV7jbNwNQB5CRVczZA=;
+	b=R0wN7IiRr3bxdAUBcbS+/8F0uTST9qP8jl2RJDYuoRrO28xJIamRZNKd0uRMxTCQ1R4F
+	 0C5bRStFNZ1jMUNEfYJSX6409ZAmbRPhA0rqKLMxiUOibrzrpTsv+yuoIUZxHGFnlmbsq
+	 3KEXYJ+tfWQ+XgXZKCXy++YPSNWeUEEVbmF1bzp/6REt1x6ZmenCfwa1pzjl5EGsrE0da
+	 8ul1a3ckeVzlty2tH9kc2lZXIq/COSu1xWZzLzdCNHjAr3iD10J90DW2NkMZyXmk6mpao
+	 BgunuNs5g4fmZTYQTl4EuuTLBiX+ZhnuBOKs7HiwteNH2iiWtro7R4+gmnzjHcBKMiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jF0ExUx0;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=LoRAp9mw;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ursulin.net;
+	spf=pass smtp.mailfrom=ursulin.net;
+	dkim=pass header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b="OxlsBi/H";
+	arc=none smtp.remote-ip=209.85.221.52
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BE8606A332
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:03:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0BE8606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD5F606A339
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:04:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBD5F606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=jF0ExUx0;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=LoRAp9mw
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A59tFJE082944
-	for <linux-doc@vger.kernel.org>; Thu, 5 Nov 2026 11:03:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	MNZcSYKGNFF9ooUBo5T69bdazyG3b5sb50t0n2nEr54=; b=jF0ExUx03ACGKakR
-	whAEaqh9BwuKo10HtQ+tUkaOK/yWNcsbbUwYIejCKHU/sWDMFoKP14hxo5X5ARrI
-	vaYmZbSaJNLvXWzi/LGpkpkPEt8lxh/JvVO2wPCZke47HLdJNTrdAVMd3gj1BVTG
-	lf2N8tjDNdX94tOIA1P1+gGSvq2JququWDBgTfObfqmOYim6kSamkQUV6qkyL6dZ
-	5iISF22ADRBIF8FgnAIecr3jPeUXQqMczkA3ia/baiuTSVElwXCA1tuel6NfPe4c
-	uXHeDvj0OkD+AVz2Owr+nN8nV9MNCnaNnSuQN1/xBNsODe1spFL/AglbcsCLzhFZ
-	DdLahA==
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com [209.85.217.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hrq1p0dfu-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 11:03:16 +0000 (GMT)
-Received: by mail-vs1-f72.google.com with SMTP id ada2fe7eead31-7cc23a549a9so1374235137.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:03:16 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=OxlsBi/H
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48b001cd92bso832129f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:04:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793876596; x=1794481396; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MNZcSYKGNFF9ooUBo5T69bdazyG3b5sb50t0n2nEr54=;
-        b=LoRAp9mwoNFjBdJ4ze9RUrjq13li63LpHKvJa4q901Qkxbv/Prt8p0NBerjaBQf+et
-         fF0gQXV5t6BOWMJstpktBGjo4EIfZ443/BCJpnJI5n3TEWFuowSkkvj1nfB4w45gkD8D
-         PuelOMPtvfm89Q2Qj1wSjtTEzy128xrzyP031/BVnLk+PZ3sYQeHWjKBIDJ68t2CRjD6
-         ZCi4UoGUIen0KmghVZFXOK4RrnNuewhZNkWCv5d5sIL28DJRypsxV6A4EXFbtsWUl/+E
-         lGGNHwOlm/dGUSN0KS7WnNlv+uBi7Ce302ESVrsr7snEGuXAMgIH/3+ki2DevhLFcbUf
-         I4Lw==
+        d=ursulin.net; s=google; t=1793876671; x=1794481471; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FFlRj7zu5hDTpY8G/PTsL3dfYcV7jbNwNQB5CRVczZA=;
+        b=OxlsBi/HWf0dHT0jruMtytc/+14rT23pj+T6Go9RhQuViZskkKucwwNufVG0iWiL2O
+         nvrvzoPp4bd7fHYbDFiI2/1fgQRP567W294PD2L6epcPvmYTXKe/yB7L5hheyFaoF81g
+         reF3sXiNCtcZvgmSrDZxDg58ugu/NVjbGanKmW8ba0myfZqoBxVy2KqRW3PkbixBhO9p
+         IR7Xo9Y8o1+eHWWK5BFQrywfqxhylN2qVMqlqWiaUxCK0NjkGGUglsGwwY66W8Ql/LAk
+         dp7iMn3OjP4ryaJ8rjUn2uPamje030yJE4SlfGSg5EAkmvjp1oqGRC/kyjb5kw96ooTP
+         EWug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793876596; x=1794481396;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :from:references:cc:to:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1793876671; x=1794481471;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MNZcSYKGNFF9ooUBo5T69bdazyG3b5sb50t0n2nEr54=;
-        b=n3uKOKIAd1xp5Cd+Z4M1yv05DmJb/q3KIPEc1remxS51aTlhqLeJbl5qvH8HZyROHl
-         wqkl+HGbi+Pu5gymP7Gp4TUb8uKLr38EXcbw7lQvq/z/elGyOtrtYJIC1MjA2QArDFsy
-         pDj7bSVDS0fTOe/prBikoUW6CTC2CiJxcEekjGMegJipFxsoZledzkRg7Xix2+57T7tq
-         yg7ZId4rk72jGZ2auPnavR9NNc7VP9S5gDF6JK8uQgZv4FAFP2MYhCct35GS78ndHpyY
-         +afh5ifIlaXlNXDwg2GhtSPr02oPzI0RAPCjAmNUdDaJd9RvI9L/uu/a8r6dOe01xo4h
-         hryA==
-X-Forwarded-Encrypted: i=1; AKwUvBxF6HrG87BZHZVmOO7XQZ49cvzja5utshMSRFJ2mIN0M0rUW6W+I9hM+gud+cf+ZSTgJ/fjRw69/8k=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8LwapGyObxBpf6hbEsIzt7ccgUVAXR/GmERM4/f6PbJRF27D6o
-	PDxs1AQxPdBDyOtDD/vorKaj8bM3Uw7is65mu/5ji9LXfEpyPFTzy7+e1vnny7AgXh3HY1RTHG2
-	AyAD5YZPviQYzojtSbevjdZNwq2jKo/BWHCqTt4bqe8JZKyli+P+nWoE1N7UAIenFuq17Org=
-X-Gm-Gg: AYBFou2HyIToKX5NaMT2GEuxAdRgrfYguKXsOZdUIyJG9ckkIILev4GHYYqATYVCffY
-	UvBiqlraBkmS340tpdo+pdbkSx8H+vNNGYxxWBByta3hAednp6FojY9dxP5LQM8S+pkoCysqyXu
-	mfiCmAb+V4QnxiSjuZZcasyEpGbdftDF8GA4U9nOA98gYxVzeLtu22iyD6kYhdMo+YuLQw3A400
-	yy6gX3/RF08a/JFdiEb027lc48V7h+ex+itAiyrwhhz4Snei0PvQcgCExcOGd1VsJkd4JUw+XCL
-	9wdkUGr/zH6H6AkhzXnvVAAMQaYKlrCkVv0EFxIqEYr4JcUu4joBTHZqNaAo0baEBqaAH1mnoMb
-	AW2J6x4aNsKJrQokcKSlJ0vKBjY5m/RwYB1lskyuXmpn4HEKIxkubB9EG5KTuUV2hq5JUBarR5g
-	==
-X-Received: by 2002:a05:6102:3707:b0:7cc:115:ddf1 with SMTP id ada2fe7eead31-7d072ca6eebmr7950982137.23.1793876595983;
-        Thu, 05 Nov 2026 03:03:15 -0800 (PST)
-X-Received: by 2002:a05:6102:3707:b0:7cc:115:ddf1 with SMTP id ada2fe7eead31-7d072ca6eebmr7950951137.23.1793876595418;
-        Thu, 05 Nov 2026 03:03:15 -0800 (PST)
-Received: from [192.168.1.110] ([178.197.218.7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fea180eaesm10978778f8f.2.2026.11.05.03.03.13
+        bh=FFlRj7zu5hDTpY8G/PTsL3dfYcV7jbNwNQB5CRVczZA=;
+        b=zwCEczOcXW7Eegna84b8Rxrj7m+uDVwfr3gOnQRH1CtdLOEw0iPsbOZ2MqzxnJ1epY
+         HAPLGrrfGe/mkV5l6WIO6FajfH6QFTEi8Ve3EuKXxi03QJfedEPWiATPUkEy9mMMktAT
+         HbWfXUTDAGM81yNXUftPRvA1ff+jXrfA66pLjEZ8IE+Fii/c0bTZbV+8qY/TY+hH6u6N
+         lBjne9kwKFWp0mYGsXHwMdBbX7NjSjEV+F56w5aBJviZXpF9gHGfHl98NvRT63SsG1LK
+         hXDbx4ymqxIHgMvEXKszevvCEdp1QxqCbxZqEQz19rTeracZXeClthQDr+gEhykiYqEo
+         sSnA==
+X-Forwarded-Encrypted: i=1; AKwUvBw0oWFhUVDcR4igrj6wOlBhawrPdaI3NEUxD8TZq3aLq5uAqsw2dcJV8t9xhZ4pQTTnsS01mg5FufA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8zWuZ3CGbgbMWFCThTMVYPmPrpdU+tHNBj7egYk2VtMuzUkEiy
+	fEfzuu2oFH/tG2ZmInIUs2aQ9xchZR9IG9fdi56pQajjdvPaPvYO2G7Anx5QAeiMNu0=
+X-Gm-Gg: AYBFou1L5gfGFjjUaFNfHTdMOruFLzjKIbtHfxZu29BOlHYNbu18G0257N0sOFCsTd/
+	2giQH3DuXVk/ETez7NnUu8lTMpIyPEPsNYcJ81d9hN5FfTWQT/6YpFEGyVe+PAUTyTeL99lPPmu
+	be8Z8uQ+wA2C8+QUzyzeAHL6LTK7rsf3eMRgMNvMvJTnElYZbhgZRfWwqkT0YWFi+DA8tP/TJ9C
+	1Ob7tiTeH772BTGD2W1tPNlyu2xn2oenUhrgS6ULAztmHV8/PmIQC3FSoXv3eELWoLxD7p6Dn0n
+	PzNhdC8ES25rRkbUvS5lN46ylq5fm4CAmIrH7xpO7ujpWAtwobA/Gz8h25lyJrLASsAqTpDQ87f
+	X4Jnz/z1VhVZxPzO4kqv5rV4w/CIB6KjJqM0xPTuH64OXDpEuBnqhZIB7V4DCWXYjVFPDWZWO2e
+	92r/ua9Lhv+OXoOdsqRrddt6e53W3184J+sgd5StoPkG2IT7ZuXkVsIifvxyHu4x6uCFqg0aBtg
+	+JOLErR0fiR//hXo+0aAkSGNI+NU5BPF35VpzA5v6LVPfx2p3KcS0ocSKOhvasrxoMvLmOtKZjh
+	cCzuoHrH4IAF8B+rA1biVjLaXgBIR2iyxik/GuNyK+UH
+X-Received: by 2002:a05:6000:2889:b0:48e:f10:ceb8 with SMTP id ffacd0b85a97d-48e6e2e769amr38528504f8f.11.1793876670833;
+        Thu, 05 Nov 2026 03:04:30 -0800 (PST)
+Received: from [192.168.0.116] ([81.79.79.1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fed92a753sm10471113f8f.45.2026.11.05.03.04.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 03:03:14 -0800 (PST)
-Message-ID: <8abb2394-5210-495f-8420-a02bd16ff466@oss.qualcomm.com>
-Date: Thu, 5 Nov 2026 12:03:12 +0100
+        Thu, 05 Nov 2026 03:04:30 -0800 (PST)
+Message-ID: <2ca12f1b-89f6-4069-aedf-4e5d645e8deb@ursulin.net>
+Date: Thu, 5 Nov 2026 11:04:29 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,111 +93,231 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
- tags
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
- <auxDTdfMVS3yazCk@shikoro>
- <35983c5a-7deb-4b0e-9bd4-981754343200@oss.qualcomm.com>
- <auxHASG78dTviSz8@shikoro>
- <e1c7e287-ccc9-4705-bd72-e801ba203668@oss.qualcomm.com>
- <auxMOdmFYDYGjqa9@shikoro>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <auxMOdmFYDYGjqa9@shikoro>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=AaYkjHXG c=1 sm=1 tr=0 ts=6aec6274 cx=c_pps
- a=DUEm7b3gzWu7BqY5nP7+9g==:117 a=uyPgTw0bjBTS2cVxpiNm5w==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=iee88rELAAAA:8 a=7vjvkMWgNjT-vtUVTPQA:9 a=QEXdDO2ut3YA:10
- a=-aSRE8QhW-JAV6biHavz:22 a=dabF0gHGKZk2vt9j88Rf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA0MyBTYWx0ZWRfX1dTTp2gHh3UM
- t0nOY7wWjGgHDC1yQJVlroDMFzYp3LTgZ1XNdm9jYhySIT/eLaXY+DmYpDE/GlZFkii4cf2PQyB
- zlxYHQyx9LxfHUOTVMofo0uRRQWZOapdj3Lqeo67aqsjmuc8n0cBq+/igS43r3CgSiBFIsZ5uLq
- wQm8PX7Cr2iewznmjB94mL/W7/I+TJYZX+F9LnfeDkUBfhV9QPPsJ/5dVkKUGZlSLbQEJLrQN/q
- hdRX6M8mgeLsQiybR0UrMCY1ak3ur3wg2MvT9RcB+Au5JUCfGzdNyky2jcRoVMcDLIZ0Cz6sp0W
- /k5xkA3tl+riK5eNTcAw+wfLsYBdtoJmuIFagMA24WZ2FFPF0Ulo6T7Cl8hyuK0xxx+mxVibBKX
- Pg5Amggo1nQQjL6cD/LIAX7YDVpBAhrBhzsm+eB9ZTyQ/EtjejqgLkutTCsbqwcea86OEppoTdp
- I1zonCEUkI6zfJpL/rQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA0MyBTYWx0ZWRfX/lj8yam12D5D
- l4cCSr5auI3aN55NMDDphOp5ejykcUK/xc0YCPrP/+O7ZPP7XGREPLTQ9+e4PrBe3uMl7fmAnFc
- KTei4cfd+NX8t3jRVaFpErJWKkbDYYo=
-X-Proofpoint-ORIG-GUID: yyLUFOQ7txFrrKU0ctopEI2_sGXFxj7M
-X-Proofpoint-GUID: yyLUFOQ7txFrrKU0ctopEI2_sGXFxj7M
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-05_03,2026-11-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 bulkscore=0 clxscore=1015 suspectscore=0 spamscore=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 impostorscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611050043
+Subject: Re: [PATCH v4] accel/rocket: Report NPU usage through fdinfo
+To: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Sidong Yang <sidong.yang@furiosa.ai>, Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+ Oded Gabbay <ogabbay@kernel.org>
+Cc: Gyeyoung Baek <gye976@gmail.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+References: <20261103155338.1949294-1-sidong.yang@furiosa.ai>
+ <a9f016ce-f086-412d-9ca6-6608a41840e5@ursulin.net>
+ <33ccceef-3498-426a-ae7c-a8bafbb88992@igalia.com>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <33ccceef-3498-426a-ae7c-a8bafbb88992@igalia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 05/11/2026 10:28, Wolfram Sang wrote:
+
+On 05/11/2026 10:43, Maíra Canal wrote:
+> Hi Tvrtko,
 > 
->>> Yes, if you want to spoil that, you'd need to introduce
->>>
->>> 	Partly-reviewed-by: ...
->>>
->>> or something.
+> On 05/11/26 06:22, Tvrtko Ursulin wrote:
 >>
->> Ack is for that, no need for a new tag, quoting:
+>> On 03/11/2026 15:53, Sidong Yang wrote:
+>>> There is no way to tell how much of the NPU a client uses. Implement the
+>>> DRM usage stats: account the time each job occupies a core and report
+>>> it per client as drm-engine-npu, along with drm_show_memory_stats() for
+>>> the BOs.
+>>>
+>>> The cores are identical, so they are reported as a single engine with
+>>> drm-engine-capacity-npu set to rdev->max_cores, the number of core
+>>> slots. The time is summed over all cores, with an atomic counter as the
+>>> cores complete jobs concurrently.
+>>>
+>>> Jobs can outlive the file that submitted them, so the counter is
+>>> refcounted and each job holds a reference. The time covers the whole
+>>> period a job owns a core, so it also includes handling the completion
+>>> interrupt and the gaps between the tasks of a multi-task job.
+>>>
+>>> Document the keys in the rocket driver documentation.
+>>>
+>>> Signed-off-by: Sidong Yang <sidong.yang@furiosa.ai>
+>>> ---
+>>> v4: Report a single drm-engine-npu key with drm-engine-capacity-npu,
+>>>      instead of drm-engine-npu0..2, as drm-usage-stats.rst specifies for
+>>>      a group of identical engines, and document the keys (Tomeu Vizoso).
+>>>      The subject no longer says per-core. Gyeyoung's tags are dropped as
+>>>      the accounting changed.
+>>>
+>>>      Still depends on commit 6eff1d69dae8 ("accel/rocket: search every
+>>>      core slot when a core is removed") for rdev->max_cores.
+>>>
+>>> v3: Add a rocket_engine_usage_create() helper for the counter
+>>>      allocation in rocket_open(), to pair with
+>>>      rocket_engine_usage_destroy() (Gyeyoung Baek).
+>>>
+>>> v2: Size the per-core counters by rdev->max_cores, the number of core
+>>>      slots, instead of the number of cores bound when the file is 
+>>> opened.
+>>>      Sashiko reported the out-of-bounds read and Gyeyoung Baek 
+>>> reproduced
+>>>      it with KASAN.
+>>>
+>>> Link to v3: https://lore.kernel.org/all/20261103104804.1887489-1- 
+>>> sidong.yang@furiosa.ai/
+>>> Link to v2: https://lore.kernel.org/all/20261101152723.1430312-1- 
+>>> sidong.yang@furiosa.ai/
+>>> Link to v1: https://lore.kernel.org/all/20261031083642.1076356-1- 
+>>> sidong.yang@furiosa.ai/
+>>>
+>>>   Documentation/accel/rocket/index.rst  | 28 +++++++++++
+>>>   Documentation/gpu/drm-usage-stats.rst |  1 +
+>>>   drivers/accel/rocket/rocket_drv.c     | 70 ++++++++++++++++++++++++++-
+>>>   drivers/accel/rocket/rocket_drv.h     | 15 ++++++
+>>>   drivers/accel/rocket/rocket_job.c     |  7 +++
+>>>   drivers/accel/rocket/rocket_job.h     |  4 ++
+>>>   6 files changed, 123 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/Documentation/accel/rocket/index.rst b/Documentation/ 
+>>> accel/rocket/index.rst
+>>> index 70f97bccf100..53c9aa7e2229 100644
+>>> --- a/Documentation/accel/rocket/index.rst
+>>> +++ b/Documentation/accel/rocket/index.rst
+>>> @@ -17,3 +17,31 @@ project.
+>>>   Hardware currently supported:
+>>>   * RK3588
+>>> +
+>>> +.. _rocket-usage-stats:
+>>> +
+>>> +Rocket DRM client usage stats implementation
+>>> +============================================
+>>> +
+>>> +The accel/rocket driver implements the DRM client usage stats 
+>>> specification as
+>>> +documented in :ref:`drm-client-usage-stats`.
+>>> +
+>>> +The NPU cores are reported as a single engine, npu, with a capacity 
+>>> equal to the
+>>> +number of cores. The time is summed over all cores, and covers the 
+>>> whole period
+>>> +a job occupies a core.
+>>> +
+>>> +Example of the output showing the implemented key value pairs:
+>>> +
+>>> +::
+>>> +
+>>> +        pos:    0
+>>> +        flags:    02400002
+>>> +        mnt_id:    33
+>>> +        ino:    749
+>>> +        drm-driver:    rocket
+>>> +        drm-client-id:    246
+>>> +        drm-engine-npu:    2296549300 ns
+>>> +        drm-engine-capacity-npu:    3
+>>> +        drm-total-memory:    24216 KiB
+>>> +        drm-shared-memory:    0
+>>> +        drm-active-memory:    1920 KiB
+>>> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/ 
+>>> gpu/drm-usage-stats.rst
+>>> index 70b7cfcc194f..288764730d23 100644
+>>> --- a/Documentation/gpu/drm-usage-stats.rst
+>>> +++ b/Documentation/gpu/drm-usage-stats.rst
+>>> @@ -218,3 +218,4 @@ Driver specific implementations
+>>>   * :ref:`panthor-usage-stats`
+>>>   * :ref:`xe-usage-stats`
+>>>   * :ref:`amdxdna-usage-stats`
+>>> +* :ref:`rocket-usage-stats`
+>>> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/ 
+>>> rocket/ rocket_drv.c
+>>> index 2bcfe4ab3c68..e22e8623db64 100644
+>>> --- a/drivers/accel/rocket/rocket_drv.c
+>>> +++ b/drivers/accel/rocket/rocket_drv.c
+>>> @@ -3,8 +3,10 @@
+>>>   #include <drm/drm_accel.h>
+>>>   #include <drm/drm_drv.h>
+>>> +#include <drm/drm_file.h>
+>>>   #include <drm/drm_gem.h>
+>>>   #include <drm/drm_ioctl.h>
+>>> +#include <drm/drm_print.h>
+>>>   #include <drm/rocket_accel.h>
+>>>   #include <linux/clk.h>
+>>>   #include <linux/err.h>
+>>> @@ -68,6 +70,38 @@ rocket_iommu_domain_put(struct rocket_iommu_domain 
+>>> *domain)
+>>>       kref_put(&domain->kref, rocket_iommu_domain_destroy);
+>>>   }
+>>> +static struct rocket_engine_usage *
+>>> +rocket_engine_usage_create(void)
+>>> +{
+>>> +    struct rocket_engine_usage *usage;
+>>> +
+>>> +    usage = kzalloc_obj(*usage);
+>>> +    if (!usage)
+>>> +        return NULL;
+>>> +    kref_init(&usage->kref);
+>>> +
+>>> +    return usage;
+>>> +}
+>>> +
+>>> +static void
+>>> +rocket_engine_usage_destroy(struct kref *kref)
+>>> +{
+>>> +    kfree(container_of(kref, struct rocket_engine_usage, kref));
+>>> +}
+>>> +
+>>> +struct rocket_engine_usage *
+>>> +rocket_engine_usage_get(struct rocket_file_priv *rocket_priv)
+>>> +{
+>>> +    kref_get(&rocket_priv->engine_usage->kref);
+>>> +    return rocket_priv->engine_usage;
+>>> +}
+>>> +
+>>> +void
+>>> +rocket_engine_usage_put(struct rocket_engine_usage *usage)
+>>> +{
+>>> +    kref_put(&usage->kref, rocket_engine_usage_destroy);
+>>> +}
+>>> +
+>>>   static int
+>>>   rocket_open(struct drm_device *dev, struct drm_file *file)
+>>>   {
+>>> @@ -86,10 +120,17 @@ rocket_open(struct drm_device *dev, struct 
+>>> drm_file *file)
+>>>       }
+>>>       rocket_priv->rdev = rdev;
+>>> +
+>>> +    rocket_priv->engine_usage = rocket_engine_usage_create();
+>>> +    if (!rocket_priv->engine_usage) {
+>>> +        ret = -ENOMEM;
+>>> +        goto err_free;
+>>> +    }
 >>
->> "Acked-by.... user may not have carried out a technical review of the
->> patch, yet they may be satisfied ..."
+>> Glanced over this patch by chance and it very reminded me of 
+>> drm_sched_entity_stats tracking. That object is reference counted by 
+>> the entity so I think it would satisfy your requirements. We would 
+>> only need to add an accessor like drm_sched_entity_get_runtime() and 
+>> just call it from rocket. Thoughts?
+>>
 > 
-> It seems you are mainly aiming about the "Ack/Rev"-distinction problem.
-> I don't care so much about this. I care more about the "# subpart"
-> problem. A list of 10 Acks without subpart is to me as useless as 10
-> Revs without subpart. The subparts give me the idea which parts of the
-> patch have been looked at in some way, at least.
+> I believe we tried something similar in the past (commit 97804a133c68)
 
-Sure, let's encourage that. I do not oppose "# subpart" usage as you can
-see in this version of patch. So far it was simply implied. We know many
-names of maintainers so when Mark acks patch under regulator part of
-files, we know he looked and acked at regulator part.
+You mean df622729ddbf? But yes, I don't think I knew about that.
 
+> and it ended up being reverted after this regression [1]. I would be
+> great to give this idea another change (specially now that we have
+> drm_sched_entity_stats), as it would also be useful for V3D.
+
+It makes sense to me if Philipp and Danilo will agree so adding them cc.
+
+It would just be adding u64 drm_sched_entity_get_runtime(entity). 
+Nothing else would need to be exported and the implementation simply 
+locks entity->stats and returns the runtime. As long as the caller knows 
+they haven't destroyed the entity it is safe since entity holds a 
+reference to the stats object.
+
+If rocket and v3d can use it that's a reasonable starting point for 
+adding common API. Three users would be even better than two though, 
+going by the long standing DRM tradition. :)
+
+Regards,
+
+Tvrtko
+
+> [1] https://lore.kernel.org/dri-devel/3e00d8a9- 
+> b6c4-8202-4f2d-5a659c61d094@redhat.com/
 > 
->> "Reviewed-by:, instead, indicates that *the patch* has been reviewed and
->> found acceptable according to the Reviewer's Statement:"
-> 
-> So, for the SPI patch: if someone spent time and reviewed the complex
-> core changes, but only 2 out of dozens of drivers, this would be an Ack
-> according to you. I would, however, understand that this person doesn't
+> Best regards,
+> - Maíra
 
-No, and I explained this in this commit msg. That person reviewed the
-MAIN concept of the patch.
-
-"Reviewing pieces of the patch while ignoring the main part of it, is
-much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
-not be applicable."
-
-
-> want to repeat the boring driver review a number of times. I'd happily
-> accept an:
-> 
-> 	Reviewed-by: <hero@reviwers.org> # for the core parts
-> 
-> But still, the driver parts need review. We got a similar patch for I2C
-> and 4 drivers out of those needed some cosmetic improvements. I reviewed
-> that. But I did not review the changes in the dmaengine core which lead
-> to the driver-fixes patch.
-
-Nowhere in my patch here I said you CANNOT review part of the patch or
-cannot even leave Rb tag for such case, right? What are we discussing
-now, exactly?
-
-Do you agree that if person skips the main point of the patch, the hard
-part, and reviews only less important part, that looks more as an Ack,
-than Rb, considering how "Reviewer's statement of oversight" is worded?
-
-
-Best regards,
-Krzysztof
