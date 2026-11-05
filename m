@@ -1,87 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793894349;
-	b=lIIyilzV5yO9TbInSEw5jFV9n3RB8RN3xeTsyCxvahHtNFbifZ4uy2szlhZrJm4fhSWD
-	 1hjYKJAy7ZrOkfuH0DRWysQif97pf5iessruB8MG7SqDgykhi6aqeWcAggKxMdeplP8ey
-	 U0RAWO08srTm0w3JuD5tDMARNGiOP9U/wDPx2zG8lUpwGdc5+I549YfVuVuGO8m7ozMNh
-	 qRui1KyOBd5Ic8Rbhd0SMaTND/HrwE7NxHaMGZpVWe3N1+e9SfhJsCua488B+sAve7xf2
-	 Ad8YyHgmk46Imv1lWmxNuJKVCqinz4Fh6lh02eQoNDGF7k9e/J+TSsNzgU0h/QYXUaw==
+	t=1793894513;
+	b=16ab9pmczjvQ4MqZeAF4SQ4MSFwAEAuNpsC0bpOChfCAglywy8yufF+W45t50RpF1j/a
+	 +A73pjlH0mlpGHBhIF2tTo3UNnVXhwr9OGV/gnJ7VbYvOushLtcbxmLGhP5atkn5Hjbt5
+	 nXYggtJW0irZJ38W+fKdNBmv7qdmEjtxluyeHQsTZ+pP0FSyKwM8tXbHMfRgHuUjQAj+y
+	 hPs5tqoiRRV3SRPtBFVd0VOvRLnQc2erA40NVLgucTzlZ9SIg0G+KQIkh4bJVfJaS3SA6
+	 MIawVlvDiAF5KFF/omdyU39hkwXToBp939CMRPmfXpHqa1T5Q5yFJ12TsxgLf54wjnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793894349;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type;
-	bh=Gt+dsVtY+Ulhd891trQ6/uOAHqZGdmuXZACRvYgf7jU=;
-	b=E57r6Dy9ytlezLJl9kWS/ATbdosRxnCMsEnOCR8ij65G5BK0vpAEve0YYGM9DJusG3Hq
-	 zcgXqeyAjNkE1nr2fJL6kL2YnhlLbIEQm/oVoXvGFS3nvT6jq+iyAH6YjOZTQKxU2vvdC
-	 m7ct9BymhPg2lGCllA9vnvX9KmcCtamd8pzBPGrWcZnpwPApXZCqTauaUC4P5fqfk474V
-	 BRK2B9qjDnamjIdVoR4iVKeynDBBy98Idlr28P8fjDRiHfqvTKvNvnlmMc4WngCXXq86Y
-	 0ZkUzE0xqVQ/0Rf462gzX0Mpim4cImFjljciUTitEoT4hc0C22eyvW//Vi9Xuvlvqpw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793894513;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=4VelVPMVxE7skvZV+t/dDAKOEE6lwzzBgv28kRT0Ubk=;
+	b=hRnJVr3boxWjnqxTexiU01Swesb02o+XVjm9hF/ToX5UpZG44DXnllhrJv04T+rFEQwB
+	 Ts/Lu40Lbsh/aWY/FPk9eoTCErSxbV1Ai+GthuXI6tE8pgBmcgytNvk8d+MXzJ8UoaNzH
+	 AcR+pYQQhKmsB2wU5+zK1hvD68gph5siiB2k71V2b38Y4sFr7jWs+tf5pHCL52kFMIL6K
+	 SA5OnAuvHLcaQ1NfO3QmKNkZypjPMIMJSrcZPp+ki0C7TIGMsXwrM19VcO9AAJ/DUWDVJ
+	 u4PO5YStTrknw1BkPmgw+HjUBL64rE1Qxj/g2knQdVo9lUobI8EbcvXHk8oTe4EVKow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=cr+QFFzV;
-	arc=none smtp.remote-ip=209.85.218.47
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DQOm1YJH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 709C1606A61A
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 15:59:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 709C1606A61A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60DB6606B45C;
+	Thu,  5 Nov 2026 16:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=cr+QFFzV
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c3f8d72d7ceso361550666b.3
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 07:59:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793894343; x=1794499143; darn=vger.kernel.org;
-        h=content-type:in-reply-to:autocrypt:from:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Gt+dsVtY+Ulhd891trQ6/uOAHqZGdmuXZACRvYgf7jU=;
-        b=cr+QFFzVeIoztZMODOzKaypScXTCAJiTeiA/Cv9wpMnKZV9+9BzE7e1A4dQag1+Dzd
-         uKmnNgB9yOtnueV0xwLoHZMFDJK9HMrr6ue6rzvwXcoa00gdMrv0danZBnL4v2GpcRoh
-         mJZsyzyDHCVsK4o4hBbuTxDLGDlwaXRS0t/GExa5bSPikNhb12YK7hB180Q/4JY+Fuap
-         Ot3UBzt0Fbn0kX65DM0N/uQSCRtejkKQhpRBMNlKwtreR9mrsLrazydtsoTq/Pk6/jMH
-         7b6lpjH4n5UeH2wxD4fpclkplHWvrUPO/a1Q1tJJTuxP7Tet4TXN/BQ0nXb5Zx+oVwuG
-         zFfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793894343; x=1794499143;
-        h=content-type:in-reply-to:autocrypt:from:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Gt+dsVtY+Ulhd891trQ6/uOAHqZGdmuXZACRvYgf7jU=;
-        b=Mz2xtogll8auM2HY6isVilbqNFL8hJm8tfAsA9+yM5JQKocdF/TxnJoHSRNHumVKxw
-         SLkg2FJ8ncvff16zt9EagSKvCz3WNqEUApuZvrf9/OgrjO/ihiuO/ZVft0AAEv8Gxdv1
-         0PADO3+U5bu3YKP8Q+SyHxI6BBmXMtZm8LnRQYxO8na/V1nPw7+dxVPAU+zLnBECzsZm
-         FYPnLssGOpoiJ1rbG5jxoqmD+EF7QE3x3WpQodmhbcN3oOKciMIF1M5phpdJO8KsWb04
-         raqes4no1SYdduw0HrNyCIH4JCA9etfptkwHXawleI4rj2WgiJk6NEpJHu3wUo8dDams
-         2xnQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx8efq6ETKnp1OxQeLbMORHshSMCX1i/+6M26KFCcfTSWnQeL+O1VLqV90wk4IqXjFY+jFJh9QqyY4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8G0igkw9qzmIESAGh8VT+E4Laa7fjMI5IGoww72dvEc0KM7OZa
-	ATIfCbg07fOFNHk/zuXtw/Ip1VhdqDw6LM0SoTOJVB6PZGAISu45QanriBQuhxUqoVg=
-X-Gm-Gg: AYBFou0oD+9OVcpYxxRa4HjCLXTQbp9EFdf4UIb5PtApNeWrnuY0uPkHPA4SGaaMfsL
-	WF8I4QLS3oXSq4floYnKwwlOqOSEYCw91jFzHjRCvyvZFjz2xetUwto/2sNjrxWnOgRz+lsrDsx
-	4zRtKvi+EziWg1e4op2UxZkqlXdruFp6AzYDJ667UbhFIev2trzOJWQJbWxYsQsfUpZx2trq5Uh
-	29JpRUMrTjjEGdb+f60/qTMpYwLPS++t3a7YQHUaLNre2hpjutuA0QvvYBRpq555MGWLqZ3CFoj
-	BlIdHaop590JnGKHtoMeJyT0EhgKeCJfP7EBrCFCu9KmkQZWkhNMRBbKdDbELFzzguxNP+po6e4
-	/C6IFoagyyf95BEmkKgKUEjLmf7xnx22Tme97gejY9Bj7CAlQobj/URf39K2yDA7cZD8L9E1EqB
-	rmYbgn2a5ALgOwF/LZZSjq+0TycBqrGjLOQEZ8Lsjgyf4e1Pdla+1OKTWS3pCHg5MFtHukExA8l
-	NOHsh1kE2q/kS9DyR1n0HkkPAU0JwGPwot1a+6LIPtu81EYH3cpMgIO8Sv//wI1bXfXwRssRMym
-	60n8hYOwlLssG7azN6mRTm912dlKjd6YJvqeCJ7p+CxnFxLn2KQCjUaFJdv1CkM4kSAk2z+RYxw
-	3PdOHCBmPoQI6LpXtCPkHiHCK1t8w940Ieui1H7mMDpApP5Ew/Q==
-X-Received: by 2002:a17:906:dfc2:b0:c4d:2895:e492 with SMTP id a640c23a62f3a-c4d2895f829mr138239666b.21.1793894342532;
-        Thu, 05 Nov 2026 07:59:02 -0800 (PST)
-Received: from ?IPV6:2a00:12d0:afa3:c01:92cc:e257:77ba:97a1? (2a00-12d0-afa3-c01-92cc-e257-77ba-97a1.ip.tng.de. [2a00:12d0:afa3:c01:92cc:e257:77ba:97a1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d0e43f586sm185869766b.35.2026.11.05.07.59.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 07:59:02 -0800 (PST)
-Message-ID: <128f8491-d7d6-4b8d-85e5-20ce9ac506d6@suse.com>
-Date: Thu, 5 Nov 2026 16:59:01 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DQOm1YJH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A1C01F000C1;
+	Thu,  5 Nov 2026 16:01:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793894513;
+	bh=4VelVPMVxE7skvZV+t/dDAKOEE6lwzzBgv28kRT0Ubk=;
+	h=From:Subject:Date:To:Cc;
+	b=DQOm1YJHfPm0v/dLeX+XAQitvcUgNmsRePnWyLGO6bQ1h7mTPBBwMcAFJ/zylkp6x
+	 JRSvS6x2PxHBQsNb/u8MQKHzOvOm8IIek6H13FQEo5WnomxQtacBL6ZdOTagLV0Us/
+	 8MEjtRHH8GOha7MIaWgrfOnrRSZEDiFYtGzXlfovCOTmzacIhMIFTKXndgH0SaTFOd
+	 l0Bc059PPlKXuS0nuonAXvjDjQjQPb8+m+axQDqp25tJl/70i8yHj7ucErATfhcqvI
+	 1XnJskLP2DXG6TQtrW6C81etXnTtmeAvYcpVQl/e/P8igcYBQaSam4mqrQuYm1C0dr
+	 /ZBkyLilhWMLw==
+From: Mark Brown <broonie@kernel.org>
+Subject: [PATCH v2 0/9] kunit: Add KUNIT_CASE_PARAM_UNIQUE() and
+ KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+Date: Thu, 05 Nov 2026 16:00:27 +0000
+Message-Id: <20261105-kunit-param-names-v2-0-765b3d5275d2@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,139 +54,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
- tags
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
- <auxKHF7U1x_Ozwpm@ashevche-desk.local>
- <37ae7a7d-5d1d-4571-b5aa-a793f058407c@suse.com>
- <a470cb65-4301-4b19-88fc-3555dff68b4c@kernel.org>
- <f5ac5472-da79-4ac5-82de-36b2f5978f45@suse.com>
- <76b98471-ae9b-4ff3-8337-b50d75c4b7de@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <76b98471-ae9b-4ff3-8337-b50d75c4b7de@kernel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qb0waMtCJNKIAE4U7Z52RYut"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB2o7GoC/22Nyw6CMBBFf4XM2jFteURd+R+GRVtGqEhLpkA0h
+ H8XMO5cnuTcc2eIxI4iXJIZmCYXXfArqEMCttG+JnTVyqCEKqSQCtvRuwF7zbpDrzuKWBXWyCw
+ XNrUE665nurvX3ryVX46jeZAdttBmNC4Ogd/76SQ379dP//QniQIzoxTZ3Jxyc762xJ6ex8A1l
+ MuyfADbwZgBxQAAAA==
+X-Change-ID: 20261012-kunit-param-names-d6cb1450c3ce
+To: Simon Trimmer <simont@opensource.cirrus.com>, 
+ Charles Keepax <ckeepax@opensource.cirrus.com>, 
+ Richard Fitzgerald <rf@opensource.cirrus.com>, 
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+ Rae Moar <raemoar63@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Theodore Ts'o <tytso@mit.edu>, 
+ Andreas Dilger <adilger.kernel@dilger.ca>, 
+ Baokun Li <libaokun@linux.alibaba.com>, Jan Kara <jack@suse.cz>, 
+ Ojaswin Mujoo <ojaswin@linux.ibm.com>, 
+ "Ritesh Harjani (IBM)" <ritesh.list@gmail.com>, 
+ Zhang Yi <yi.zhang@huawei.com>, David Rhodes <david.rhodes@cirrus.com>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
+ Takashi Iwai <tiwai@suse.com>
+Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+ linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org, 
+ linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3315; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=wulIPaLUroDjaKiDD9mihUIfKXwA5W+VsQnKLwr9e6M=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLerEjtOnFs5eQDOeGt5QlfmR8tmV/9tUD6/J6wz7rvb
+ 6+qDPIt7ChlYRDjYpAVU2SJy+J+WV/yeg3fwYVtMHNYmUCGMHBxCsBE1P4wMtzhSdCSeT1fZMaz
+ 5oO+Zc+69+ySqBI22Wh4nrFCPJujYQIjww7WzdYBaoKuviYqwh/rLBOm2PKnuchINEQcUxYQXMH
+ MBwA=
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qb0waMtCJNKIAE4U7Z52RYut
-Content-Type: multipart/mixed; boundary="------------HJIhk848qAwrRZ0XMGqs5pkq";
- protected-headers="v1"; hp="clear"
-Message-ID: <128f8491-d7d6-4b8d-85e5-20ce9ac506d6@suse.com>
-Date: Thu, 5 Nov 2026 16:59:01 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
- tags
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
- <auxKHF7U1x_Ozwpm@ashevche-desk.local>
- <37ae7a7d-5d1d-4571-b5aa-a793f058407c@suse.com>
- <a470cb65-4301-4b19-88fc-3555dff68b4c@kernel.org>
- <f5ac5472-da79-4ac5-82de-36b2f5978f45@suse.com>
- <76b98471-ae9b-4ff3-8337-b50d75c4b7de@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <76b98471-ae9b-4ff3-8337-b50d75c4b7de@kernel.org>
+KUNIT_CASE_PARAM() and KUNIT_CASE_PARAM_WITH_INIT() name the test case
+after the test function. Several suites reuse one test function with
+more than one parameter generator or param_init() function, listing it
+once per set of parameters, which leads to multiple tests being created
+with the same name. Same-named cases cannot be told apart in the results
+and cannot be selected individually with kunit.filter_glob=, so kunit.py
+--run_isolated=test boots a kernel for every entry and each kernel runs
+all of the same-named cases.
 
---------------HJIhk848qAwrRZ0XMGqs5pkq
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+We could fix this by having the KUNIT_CASE_PARAM() macros always include
+the parameter name but this would not only rename all existing users but
+also result in some awkwardly named tests. Instead introduce some new
+macros for use in cases where we need to disambiguate.
 
-T24gMDUuMTEuMjYgMTY6NTMsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6DQo+IFJldmll
-d2luZyBwaWVjZXMgb2YgdGhlIHBhdGNoIHdoaWxlIGlnbm9yaW5nIHRoZSBtYWluIHBhcnQg
-b2YgaXQsIGlzDQo+IG11Y2ggY2xvc2VyIHRvIEFja25vd2xlZGdtZW50LCB0aHVzIEFjaywg
-YW5kICJSZXZpZXdlZC1ieSIgY3JlZGl0IHNob3VsZA0KPiBub3QgYmUgYXBwbGljYWJsZS4N
-Cg0KSSBkaXNhZ3JlZSB3aXRoOg0KDQogPj4gUmV2aWV3aW5nIHBpZWNlcyBvZiB0aGUgcGF0
-Y2ggd2hpbGUgaWdub3JpbmcgdGhlIG1haW4gcGFydCBvZiBpdCwgaXMNCiA+PiBtdWNoIGNs
-b3NlciB0byBBY2tub3dsZWRnbWVudCwgdGh1cyBBY2ssIGFuZCAiUmV2aWV3ZWQtYnkiIGNy
-ZWRpdCBzaG91bGQNCiA+PiBub3QgYmUgYXBwbGljYWJsZS4NCg0KQW5kIEkgYWdyZWUgd2l0
-aCBBbmR5J3Mgc3RhdGVtZW50Og0KDQogPj4gVEw7RFI6IEFzIGEgcmV2aWV3ZXIgZm9yIHRo
-ZSBwaWVjZSBpbiBxdWVzdGlvbiBJIGhhdmUgZG9uZSBteSBwYXJ0IGZ1bGx5LiBJdCdzDQog
-Pj4gbm90IG15IGlzc3VlIHRoYXQgdGhlIHBpZWNlIGlzIGJ1bmRsZWQgaW50byBhIHNpbmds
-ZSBwYXRjaC4gV2UgaGF2ZSBvcHRpb25zOg0KID4+IDEpIGFzayB0byBzcGxpdCAoYW5kIHJl
-dmlldyBhcyBzdGFuZGFsb25lIHBpZWNlKTsNCiA+PiAyKSBhZGQgKHBhcnRpYWwpIFJiIHdp
-dGggdGhlIHBvaW50ZXJzIG9mIHdoYXQgZXhhY3RseSBoYXMgYmVlbiByZXZpZXdlZDsNCiA+
-PiAzKSBpZ25vcmUgKHNpbGVudCBhZ3JlZW1lbnQgd2l0aCB0aGUgcmVzcGVjdGl2ZSBzdWJz
-eXN0ZW0gbWFpbnRhaW5lcidzIG9waW5pb24pOw0KID4+IDQpIC4uLnNvbWV0aGluZyBJIGZv
-cmdvdD8uLg0KID4+DQogPj4gKGV2ZW4gcGFydGlhbCkgUmIgIT0gQWNrLg0KDQoNCkp1ZXJn
-ZW4NCg==
+Add KUNIT_CASE_PARAM_UNIQUE() and KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+which behave identically to the existing macros but include the name of
+the parameter generator or the param_init() function in the name of
+the case, giving names such as sha1_test-sha1_gen_params. The
+param_init() function is used for the WITH_INIT variant since currently
+all the tests which register parameter arrays from param_init() all
+share the generic kunit_array_gen_params() generator.
 
---------------HJIhk848qAwrRZ0XMGqs5pkq--
+The series also includes a fix for what looks like a cut'n'paste
+issue in the cs_dsp code that overlaps with the main set of changes.
+Most of the affected tests are in ASoC, though there are some ext4 tests
+too.
 
---------------qb0waMtCJNKIAE4U7Z52RYut
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+Signed-off-by: Mark Brown <broonie@kernel.org>
+---
+Changes in v2:
+- Rebase onto v7.4-rc1.
+- Link to v1: https://patch.msgid.link/20261013-kunit-param-names-v1-0-4b22ec5b85b9@kernel.org
 
------BEGIN PGP SIGNATURE-----
+---
+Mark Brown (9):
+      firmware: cs_dsp: Run the wmfw payload error tests with invalid block types
+      kunit: Add KUNIT_CASE_PARAM_UNIQUE() and KUNIT_CASE_PARAM_WITH_INIT_UNIQUE()
+      ext4: Give the extents KUnit cases distinct names
+      firmware: cs_dsp: Give the control read/write KUnit cases distinct names
+      firmware: cs_dsp: Give the control cache KUnit cases distinct names
+      firmware: cs_dsp: Give the wmfw block error KUnit cases distinct names
+      firmware: cs_dsp: Give the bin file KUnit cases distinct names
+      ASoC: cs35l56: Give the speaker ID pad config KUnit cases distinct names
+      ASoC: wm_adsp: Give the firmware search order KUnit cases distinct names
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmrsp8UFAwAAAAAACgkQsN6d1ii/Ey+N
-VggAkLl0JUIsq7ZxVjmN0SxrbYQqYpuEah/g2Vrw4O6iCIJnV9Pc5W5s7r2OumPDV1BA5LDGs9PI
-IlOPy1GEM4JjCaPiSwldXbmpdRZws9Incgf50Sb9hmDgyomoV1mrIlVmXqg+PVMqm9cXfEbxJ7Wv
-mK355dU/+RgO118V2Ylom84nifGOLPfFInzgxn7Y1PIir/6d4qznXNzezOfTUkj2osc1wumpvLb8
-h4OId8Bc56rP6vEUto7YoXvzpCudxQk4PEocw0FMYazaz79+C49aj1mgTHbNuE7Q5zO5CnWkXZoC
-9YhKUGJCOhYEAtPEmViOPxDBfe2s92bWuxWiNCUnJw==
-=FzgB
------END PGP SIGNATURE-----
+ Documentation/dev-tools/kunit/usage.rst            |   9 +
+ drivers/firmware/cirrus/test/cs_dsp_test_bin.c     | 222 ++++++++++-----------
+ .../cirrus/test/cs_dsp_test_control_cache.c        | 143 ++++++-------
+ .../firmware/cirrus/test/cs_dsp_test_control_rw.c  |  50 ++---
+ .../firmware/cirrus/test/cs_dsp_test_wmfw_error.c  |  72 ++++---
+ fs/ext4/extents-test.c                             |  12 +-
+ include/kunit/test.h                               |  41 ++++
+ sound/soc/codecs/cs35l56-shared-test.c             |   8 +-
+ sound/soc/codecs/wm_adsp_fw_find_test.c            |  24 +--
+ 9 files changed, 329 insertions(+), 252 deletions(-)
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm master
+change-id: 20261012-kunit-param-names-d6cb1450c3ce
 
---------------qb0waMtCJNKIAE4U7Z52RYut--
+Best regards,
+--  
+Mark Brown <broonie@kernel.org>
+
