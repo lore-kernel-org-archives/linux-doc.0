@@ -1,92 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.40
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.221
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793865947;
-	b=28rZbL20D5eC+0ZgFLhhLzfPR7d6YqrqPhkG2gmJjYpTyFFK/SGWEpbW+GBFWi//20Fo
-	 vD7RDPDqZPuclWoZVtHXrpkw2qcIIolbKcIYK+dW108FcjTYLUFdZF6PP5++FKnABGXdk
-	 IiL5d1yEmv++GwQfeN28bfiooQ1TGoUIOGNtzWb8Qif9r9O+QeTN9J7RnbQR/p10a6+ue
-	 e6DtCOYMJjU0F1CsN/SyY5YHxB097tfzctgz+PNFugs27rWWt0emQS4ClYLSfJ1vP+DXi
-	 zXD7oTK5VOnD5DgDjNIU0JztvaW6nMHfn2xKk2XqR5wAQo6mujBJgUW/rz/I6D29w4Q==
+	t=1793866457;
+	b=rmlxjzJ7BuFuL3q3WaZ7vzBQ5QuzgN8lkldX8+MRVXZv0FAH6hrznmlCPbqdxdOKyDG1
+	 AS8Dm4TlLX1kvrshhvYxoM/j/aNqmCXRSBvTli072fR+ma9TL7hJOYxsIXu7QbvHrc4c1
+	 mgcFJ8mRX2qYLUJYjj3iQ5RvhvXMg5OctFYA68GugHVWKnDsfNE6BktAgLUKm5KqPfFKz
+	 cC/Xdjg/Lx480etPOaNRF1flZiVrfqdMnKthjwG0KpsbfMPJ4GIlG886KfsktKLbhi0+2
+	 UbSd0pXDA7HRmXUuSMrHiZq1q+gCYDc9jVbq1RgUaf+Vkfr472WuC6lxq2kMKQ+5YeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793865947;
-	h=DMARC-Filter:DKIM-Signature:X-Original-From:Content-Type:To:Subject:
-	 Content-Transfer-Encoding:References:Received:From:Date:Message-Id:
-	 User-Agent:X-Lms-Return-Path:Cc:Mime-Version:In-Reply-To;
-	bh=TMVq1BdX8FUxH8J6/ZdpU/bSTGJU2bUVnTOmNO2snXM=;
-	b=ss85OUubpj5UFU5NOeKAp9YNNdA3gTl/87bIZs3AsetPAXyjBMUgnQn3QUZPKRZYp2gq
-	 7c8VNw3DmvzYb5SDp4O+7qRpBRaA5mOV+HUYrOUmFL53EuK9I3YW4N56UcgrQUZ1ufNOo
-	 cHDjnWH7lN06iLCGnlHB73ScUgaz3pi3CWzpEcqvWHJ7DKuZQDY4A661UbbANx4SRisKI
-	 xSFHdvD0/ek8+iUy/X5HP/4yUtdTfnMzcZ9+hcJCRBCqydLS7lRC1H6Ye8wupSxNEAz1t
-	 iIVlxEEYxt0uW6D9hBwdDBhAvNe2INiBQNO+2nlSHAYa4MDKezpZWcF0mwktCainSew==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793866457;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=TkaECXsVtU0hjyy+7F+JpUYOHJpZDHbqaeIlxPMeZyg=;
+	b=xb/NXBlHIPI38LhovJP0FAIhZhRkBVtI4QFk++rpIytYMqhkZ/ymBCkZJk8rWdstrNnX
+	 O6dWBWZzNC+j29z5fclIUQuv2brx/i6cU2iJhKcSbbsDK1BK6++2BSeVxwkHx61MqDWdu
+	 qLaV4n9q1WSIbmBe6j5hv7IfLaegsMz+55hvq0HHQTCZbZISSMW3iG5kAoDCgJGtgy00Q
+	 nDYGJoCqp2V0g3AJI/LSFmcGaZ3GCiARCIarMQ/74ljk1HeAxLoENR6b/fQml84mL1R2J
+	 x4x4yff+uVamlzgo98H50wxI+FYfpOFFDJ1XsVrTEwE8dUVKBj9aKLvquEJRGpU0pxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=picoheart.com;
-	spf=pass smtp.mailfrom=picoheart.com;
-	dkim=pass header.d=picoheart.com header.i=@picoheart.com header.a=rsa-sha256 header.s=feishu2604151535 header.b=RDjGvLhX;
-	arc=none smtp.remote-ip=209.127.231.40
-Received: from va-2-40.ptr.blmpb.com (va-2-40.ptr.blmpb.com [209.127.231.40])
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=ArSknsDs;
+	arc=none smtp.remote-ip=91.218.175.221
+Received: from mta0.migadu.com (out-221.mta0.migadu.com [91.218.175.221])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBE9606A329
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 08:05:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFBE9606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=picoheart.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=picoheart.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37952606A326
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 08:14:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37952606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=picoheart.com header.i=@picoheart.com header.a=rsa-sha256 header.s=feishu2604151535 header.b=RDjGvLhX
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=feishu2604151535; d=picoheart.com; t=1793865937; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=TMVq1BdX8FUxH8J6/ZdpU/bSTGJU2bUVnTOmNO2snXM=;
- b=RDjGvLhXr5096VcIf1dKI76qOLL81RWglBqUx7Fc2txhOaQD4D44dUc9V9h03Y3JHY0AB/
- rdjcw8KYRTvj4gtmD7E8WV6eDIry4O3GS3e6iJo8FLCVAeeyp4MW0K6KkZbxjf1GxnR/kr
- z6pv55HEOKchqtWEVfQ/63RWzdtpIDjJST9GnZGr5yxP1XYgfQFXvxS24/oDmeFSIdzSb5
- e/0+WbqpLuvqxoabzdO77VX6iDp5TNb1+ELO9nKm/j3TA9Lft+F3JsP+qkVpo92Zgjb2sx
- txXiZOMx+OA1bo+mdjM+qHoV8ksUWpzpS1pXPHjVNFp9Ey8pCKFwLxvC2JJWIw==
-X-Original-From: Zeng Heng <zengheng@picoheart.com>
-Content-Type: text/plain; charset=UTF-8
-To: "Drew Fustini" <fustini@kernel.org>, 
-	"Adrien Ricciardi" <aricciardi@baylibre.com>, 
-	"Alexandre Ghiti" <alex@ghiti.fr>, "Albert Ou" <aou@eecs.berkeley.edu>, 
-	"Atish Patra" <atish.patra@linux.dev>, "Babu Moger" <babu.moger@amd.com>, 
-	"Ben Horgan" <ben.horgan@arm.com>, "Borislav Petkov" <bp@alien8.de>, 
-	"Chen Pei" <cp0613@linux.alibaba.com>, 
-	"Conor Dooley" <conor.dooley@microchip.com>, 
-	"Conor Dooley" <conor+dt@kernel.org>, 
-	"Dave Hansen" <dave.hansen@linux.intel.com>, 
-	"Dave Martin" <Dave.Martin@arm.com>, "Fenghua Yu" <fenghuay@nvidia.com>, 
-	"Gong Shuai" <gong.shuai@sanechips.com.cn>, 
-	"Gong Shuai" <gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>, 
-	"James Morse" <james.morse@arm.com>, 
-	=?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
-	"Krzysztof Kozlowski" <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>, 
-	"Liu Zhiwei" <zhiwei_liu@linux.alibaba.com>, 
-	"Palmer Dabbelt" <palmer@dabbelt.com>, "Paul Walmsley" <pjw@kernel.org>, 
-	"Peter Newman" <peternewman@google.com>, 
-	=?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <radim.krcmar@oss.qualcomm.com>, 
-	"Reinette Chatre" <reinette.chatre@intel.com>, 
-	"Rob Herring" <robh@kernel.org>, 
-	"Samuel Holland" <samuel.holland@sifive.com>, 
-	"Sunil V L" <sunilvl@oss.qualcomm.com>, 
-	"Tony Luck" <tony.luck@intel.com>, "Weiwei Li" <liwei1518@gmail.com>, 
-	"yunhui cui" <cuiyunhui@bytedance.com>, 
-	"Zhanpeng Zhang" <zhangzhanpeng.jasper@bytedance.com>
-Subject: Re: [PATCH v10 2/6] riscv_cbqri: resctrl: Add cache allocation via capacity block mask
-Content-Transfer-Encoding: quoted-printable
-References: <20261104-dfustini-atl-sc-cbqri-dt-v10-0-1636a003a3c0@kernel.org> <20261104-dfustini-atl-sc-cbqri-dt-v10-2-1636a003a3c0@kernel.org>
-Received: from [172.16.137.224] ([124.160.26.250]) by smtp.feishu.cn with ESMTPS; Thu, 05 Nov 2026 16:05:34 +0800
-From: "Zeng Heng" <zengheng@picoheart.com>
-Date: Thu, 5 Nov 2026 16:05:29 +0800
-Message-Id: <02cf71f0-09d5-4dde-a8cf-3739583cc7fa@picoheart.com>
-User-Agent: Mozilla Thunderbird
-X-Lms-Return-Path: <lba+26aec38cf+8555d4+vger.kernel.org+zengheng@picoheart.com>
-Cc: "Catalin Marinas" <catalin.marinas@arm.com>, 
-	"Jonathan Cameron" <jic23@kernel.org>, 
-	"Shaopeng Tan" <tan.shaopeng@jp.fujitsu.com>, 
-	<linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>, 
-	<x86@kernel.org>, <devicetree@vger.kernel.org>, 
-	<linux-doc@vger.kernel.org>, <yang.yicong@picoheart.com>, 
-	<geshijian@picoheart.com>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=ArSknsDs
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=4tinfFEcV9unlh2pf9AfUW9AM0Ic67022tp7zkWq5dU=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793866453; v=1; x=1794471253;
+ b=ArSknsDsx4G8+489tToEYTgv4+lryCCLWFIvN2rT8jkgNwg6iGi5rZq0JdTE3OFNEZ1zfG7S
+ ahtcLYd6B6aK9l232ZbqnHAF/Iht+eZAOH9GpVNfRPDFtmK1/z8mmYrSMZ4aSj8UTLbyj3Tesvf
+ juhzrtf/CY5SND+Ugvs2SAVwj62Hbn9BtvzPlJOw0AdMcUwkS0eAfQeBB8RPrskMD1B2vFVGWiO
+ xZueR0hVXibQMHBwod88dBRMJmyXkj8+f6GxsQaoeZ43dKS9xpENfhSkfGoQ4HbSbFacENIy2jo
+ BEMOnYmDeKSZgnnIPSt1KEuiEiQYVTsw1OLEaBtYsOFow==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id c6365a1ec836b2cf;
+	Thu, 05 Nov 2026 08:14:13 +0000
+X-Mizu-Trace-ID: c6365a1ec836b2cf
+X-Migadu-Flow: FLOW_OUT
+Date: Thu, 5 Nov 2026 16:14:05 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Oscar Alejandro =?iso-8859-1?Q?S=E1nchez?= Lucero <aleszlucero@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] doc: process: clarify scope of applying-patches as
+ legacy reference
+Message-ID: <auw6zV_H7rrO2wwp@wyuan.org>
+References: <20261104-doc-patch-fix-v3-1-f71cc8ded7d9@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -95,71 +68,71 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-In-Reply-To: <20261104-dfustini-atl-sc-cbqri-dt-v10-2-1636a003a3c0@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261104-doc-patch-fix-v3-1-f71cc8ded7d9@gmail.com>
 
-Hi Drew,
+Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com> writes:
 
+> The applying-patches.rst document describes the manual manipulation of
+> source trees using the traditional 'patch' and 'diff' utilities. While
+> technically accurate for non-Git or constrained environments, it can
+> create friction for new contributors seeking the primary Git-based
+> workflows.
+> 
+> Update the opening note to explicitly state that this document serves
+> as a reference for legacy or constrained workflows. Provide a direct
+> cross-reference to howto.rst to steer contributors toward the standard
+> Git infrastructure.
+> 
+> Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+> ---
+> Signed-off-by: AleSZLucero <aleszlucero@gmail.com>
+> ---
+> Changes in v3:
+> - EDITME: describe what is new in this series revision.
+> - EDITME: use bulletpoints and terse descriptions.
+> - Link to v2: https://lore.kernel.org/r/20261104-doc-patch-fix-v2-1-3601fc35c505@gmail.com
+> 
+> Changes in v2:
+> - EDITME: describe what is new in this series revision.
+> - EDITME: use bulletpoints and terse descriptions.
+> - Link to v1: https://lore.kernel.org/r/20261104-doc-patch-fix-v1-1-617cb9f4cd47@gmail.com
+> ---
 
-=E5=9C=A8 11/5/26 =E4=B8=8A=E5=8D=8812:35, Drew Fustini =E5=86=99=E9=81=93:
+You may want to modify the EDITMEs. ;-)
 
-...
-
-> +/*
-> + * Fill the rdt_resource fields for one picked rid. An rid with no picke=
-d
-> + * controller is left untouched so it stays out of resctrl_arch_get_reso=
-urce().
-> + */
-> +static void cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_r=
-es)
-> +{
-> +	struct rdt_resource *res =3D &cbqri_res->resctrl_res;
-> +	struct cbqri_controller *ctrl;
+>  Documentation/process/applying-patches.rst | 11 ++++++++---
+>  1 file changed, 8 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
+> index c269f5e1a0a3..59d16b4e0889 100644
+> --- a/Documentation/process/applying-patches.rst
+> +++ b/Documentation/process/applying-patches.rst
+> @@ -8,8 +8,14 @@ Original by:
+>  
+>  .. note::
+>  
+> -   This document is obsolete.  In most cases, rather than using ``patch``
+> -   manually, you'll almost certainly want to look at using Git instead.
+> +   This document focuses on the legacy method of manually manipulating source 
+> +   trees using the traditional ``patch`` and ``diff`` utilities. 
 > +
-> +	if (!cbqri_res->nr_ctrls)
-> +		return;
-> +	ctrl =3D cbqri_res->ctrls[0];
+> +   For the standard Git-based workflow used to clone the repository and work 
+> +   with kernel patches, please refer to Documentation/process/howto.rst.
 > +
-> +	switch (res->rid) {
-> +	case RDT_RESOURCE_L2:
-> +	case RDT_RESOURCE_L3:
-> +		res->name =3D (res->rid =3D=3D RDT_RESOURCE_L2) ? "L2" : "L3";
-> +		res->schema_fmt =3D RESCTRL_SCHEMA_BITMAP;
-> +		res->ctrl_scope =3D (res->rid =3D=3D RDT_RESOURCE_L2) ?
-> +				    RESCTRL_L2_CACHE : RESCTRL_L3_CACHE;
-> +		res->cache.cbm_len =3D ctrl->cc.ncblks;
-> +		res->cache.shareable_bits =3D 0;
-> +		res->cache.min_cbm_bits =3D 1;
-> +		res->cache.arch_has_sparse_bitmasks =3D false;
+> +   The information below is maintained as a reference for constrained 
+> +   environments or legacy workflows where Git infrastructure is unavailable.
 
-Currently, the driver sets arch_has_sparse_bitmasks to false, causing
-resctrl to require a contiguous bits in cache allocation masks. For
-example, L3:0=3D3 is accepted, whereas L3:0=3D11 is rejected because its
-set bits are non-contiguous.
+Yes, further explained the note added by Jon.
 
-The default should allow both contiguous and non-contiguous masks,
-provided they satisfy the other mask validity checks. A contiguity
-restriction should only be imposed when a specific hardware
-implementation can't support sparse masks explicitly.
+But I guess Jon's commit message is clear enough? --
 
-So I propose enabling sparse cache allocation bitmasks by default.
-Thanks.
+"This is ancient stuff and we don't do things this way anymore.  In the
+absence of simply deleting the document, at least add a warning to it."
+(commit 67972a539e9f, "docs: Add a warning to applying-patches.rst")
 
-> +		res->cdp_capable =3D ctrl->cc.supports_alloc_at_code;
-> +		res->alloc_capable =3D ctrl->alloc_capable;
-> +		INIT_LIST_HEAD(&res->ctrl_domains);
-> +		INIT_LIST_HEAD(&res->mon_domains);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +}
-
-Apart from this,
-
-Reviewed-by: Zeng Heng <zengheng@picoheart.com>
-
-
-Best regards,
-Zeng Heng
+It seems that there is no that great necessity for revisions, from my
+perspective of reading experience. Thanks.
