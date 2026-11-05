@@ -1,66 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793862000;
-	b=uUYfHrL6uzdyGF8hBE5c5mDYrUINhlDFLh6oqNpbylq6JRf17CWKFvCZ9CNWnBv1OKJq
-	 mxcXyC6LEm1jO78SsWfc7ZLhe0UXTqKVjfeGIIxesHUtPLQst+bfj+RN9a8dhIpfSslaJ
-	 HljQ7HTdT1hugnIlu2bpB3LOPQN2FSC9l0z6e6cLqdMle99L8ZkKGxH6JIbYGHVqdxOQr
-	 ZxSCn9OzLlPrtCeF71cCNTvB7Md5oCEXxgNB5ajWw4DH7GGt+hXm+HgmcfsnXO4IuUFfn
-	 1F7QZuQgjD0XpXKtexnI1SMCz/CsLrm7/H/7sL/IMpiLDBRS3Ggm1TY/2TgZRKMpnWw==
+	t=1793862536;
+	b=x+ApsJ9pTM8s2OSJGumGE4hWKA/GnS+wZJb9vB/+6LDJmAP+ExUcJtf1T8+A140ogLgu
+	 OAL8YonzBRnz21EFtJ6OOSABu115g1Tz4Ez3M6HQ+Z+0WjCgVuZXzr8ltLBGseIP2xZZw
+	 zEiXHa2Ts8rUnC7diRiRV5scdOT90o+tDb75ZeyD6C+HlkVutOKQ8LLi4+s2a1XERd++n
+	 /Gu7uJvFAhP/wq9asa970o63OuDiID0uoRnXY58kfJaTQKv5N7sbDZiVhmcT6UVc0SvMe
+	 q9grN7q+dKnREuxASE2VdQRNxANDKxSHN81PSi89NUu4WJ/PfZ41b0mmpN6ztrIPRcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793862000;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 Mail-Followup-To:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=r2qtzyy761sLiU5KHA76CZlvTDcDPHslg+OCTxEOUQw=;
-	b=udefJeDdFlzjPkGjJXqaYPaFMxyCJ3NYGc+oHMpDGffbvwXDfSCAOF8Lmot4EnwfMBWn
-	 aVqmoUA5T+ynB6QEYEqtrCDb8jMzBsVDv1bcwMf+5o9L9ohLPMjsAIzYlUIRHFaKz5QaB
-	 k8zUGVyTaqINNjzcS5B/KIAWkcg1mXfRmUOmVPHnCj4PueDZVI3wXaH4WMyWF+5t3L24H
-	 b+gkoJ6PC/MVir97kkvB9DNZFTqf5YQ6pkhRwc+u/ZUgfhcX9aidClMzAk8uOcp4SAIWJ
-	 a09Po+Ga3k3Wqrr2xm2pwaBOlSGVdE2ii40jWoiXtWEQoyPlM4Zh8TFXLyyABDmgkLA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793862536;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=TCJQrdOJD6q85RoEuEvG9HE6RMwlPauaG0/4SV008m8=;
+	b=GqR2gMnyR6RJNbNarCWSHGIV2y+dYBwN7L9y0iQ/uXNVIb1ZxkGBRGbrDBkCfencQLZU
+	 ShRlelivf65YPybv6R3zW6QTX2Sxm4VHZsz7IHcINd7Phtvwo1asIqUesKSjzdPoeyLFZ
+	 E2aprj/q9Tve6smYFJvcyaT8T68sM3WW9kfTbn+hGuCeNZ9Aiscj4MEPJCQV3geXvSx7w
+	 fEwRde5HnCemYD28c/wl5CHqJSWYhH2Q7rbg7iT6HKEmvz/i4cJoTTJsm1fe35bUpEkkQ
+	 gQP1CD/O1il5onxr++dI95Yvu9JcQNF11CuwS62r9K+bFRGPHGymOswiBCVzzDn6aww==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hf2JXnlY;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=74.125.82.172
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC8E606A32D;
-	Thu,  5 Nov 2026 07:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hf2JXnlY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C6441F00919;
-	Thu,  5 Nov 2026 06:59:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793862000;
-	bh=r2qtzyy761sLiU5KHA76CZlvTDcDPHslg+OCTxEOUQw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hf2JXnlYMWPJiRzSistAqfF+8ednVhu3haTR0bU19rkAAURGjh8eO1hnMTTxO+ZLi
-	 Q62U638Did8BRrxaYS1ZicBrVANh2OCWyABNp9OqAwSWxyU55Bjj2uM1sd6EEyQiXG
-	 cwh1XkjiEbW8XSJC3K1glzcaYX2WCKHhVDohVxnEZW0oNghlHEmjKRCwv6Zg4Y6fES
-	 uIrCaZmLG8V81uS6OSbhKkINz7AHn4GcMtz/48AqXntoNzY0ccRHYdjmbD0aUdI8dQ
-	 MHKHeUFZnfUfiE0QaafyzdQ008Jladefy08iwRDvwwHebTZyvRS4Z/gpeN3+u5gKI3
-	 y7Rjs0OrcE3iQ==
-Date: Thu, 5 Nov 2026 07:58:45 +0100
-From: Nicolas Schier <nsc@kernel.org>
-To: Matthew Weber <matthew.l.weber@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com
-Subject: Re: [PATCH 2/4] scripts: Add kernel-sloc helper script
-Message-ID: <auwpJUhQ6VSz7y65@derry.ads.avm.de>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Matthew Weber <matthew.l.weber@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Nathan Chancellor <nathan@kernel.org>, linux-kbuild@vger.kernel.org,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>, kasan-dev@googlegroups.com
-References: <20261103150845.13008-1-matthew.l.weber@gmail.com>
- <20261103150845.13008-3-matthew.l.weber@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15407606A326
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 07:08:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15407606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-36661f953e4so2138012eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 23:08:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793862535; x=1794467335; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TCJQrdOJD6q85RoEuEvG9HE6RMwlPauaG0/4SV008m8=;
+        b=g8vJaLNyWdK/2IwJZX87OinpbOSbz1AbzBqDx/r9PNCRj7gx/giJfw5qv+KHxpT8Ea
+         m0okD5WVPkaK1r1dc9ypYrL1bcsWXabUAEnyvHgKRXf42UnDbNaEtzqN1lYChqqZmLnL
+         PdynBAI/2lnw3d57FB0NLENAxt76wBUE5iyvJ8YFgwT7iEiZKCAp7g6oL7Ifo3wDLpjl
+         WPu2dV5cuTIiWH8zL9C1Il0wUqCoGzu5HWGC8lXbuj853zQq9MNnztipXFpP+N/R00+i
+         s2PtGX7PViqxqZtr3abHvLs6IrL4BdJ3jj9aDRpSOVJBKmKbWBG6xv1hz9AYHJ9Z1gDf
+         hdcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793862535; x=1794467335;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TCJQrdOJD6q85RoEuEvG9HE6RMwlPauaG0/4SV008m8=;
+        b=PF58ZCaDv7IUCaf71l/6GYaKL5QAFpL9UsllXwGcJkCbXvkvOuekDEV63z/R170rzx
+         CiVhRJMUxFefgG4sJqO3AZIR/c8LuRuxbWIJZeHc8Ul015ToCBqGnWAkShMs4znTdRYI
+         qYje9Ms0bhx9gQLjUAs/lv49+i8iIkEJ9vkN9merLnzTbN7K8rKOZHjArQSZcguryr4R
+         ILlHS+n3eNnAohz1JQtSBtlaN9I+4eq8PPSPQJevKNCssD6DFoNgjd6gwLQGOL6rSAGN
+         IRORkddV6ok7xM94Lm0pLXmHScEsK3EtDF8tKBk6zkRcatfcWYdoln4TOERFEu42m8UV
+         S6TQ==
+X-Forwarded-Encrypted: i=1; AKwUvByAC0skX1zlicui55d8PgmWnYUi3A8cj7CJ/vKPrOUqEVuZZXTd8iXIHz5l+lxgo8jwDad1ylszLs0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z87lc7g43PjzcMmcWcGr8UuWExbM2vIK2vOGGFkKLuNwJon38ZW
+	oVbFT2VXvTZcvVhOBhu3MzYcSnEYyRCDIGJuwlOoP1rlhLteMu8P1yGu
+X-Gm-Gg: AYBFou1u0tRpWS6HAXxVLL9LLJPuZrTjNaBsO/rzvjKaui6JC68mix/Lfgh0vN8Fpwo
+	E/W4Cu0aIxQscApRHEk4fPay+o9xXfiEywSMU3B4pIKZiVuO9pYg+N6jZdeXjhvpfQUJ8Im2XBK
+	40Bmk3j/EV5PoJODOWdd7yUUXhcL/SKclIAgfn3SB+AfWxpFz8FUIMMJLxEPJVx5eIPiiDZ4vgX
+	QO/Nudq24bsjfKrs1QXFwJskSgd/rTrlbM0ahTmt7Z/hPq/9AhuBclsiA67E7/3rjPT7YiAyYsc
+	rXpHJft2zK9v2Dsbx7ecGBn7e43wJClkw5gg/P5tJIWryytCFC122+B/k6TnZFWVaWlDv/2H/bT
+	EpUJBvqRD52KEmo+YmRmdMRCVAEC611ixPTrnSlMFLN57xHJUHx/0cFYAnKayM7tcXGIWPMcuPZ
+	9aqXdAwTgx9Nr5+jAPLN83/SmFXnTiiO1JP0fLdWnVfKg79nqKS4gz4yxFNTJspZWVWwL5hzBLN
+	ZAORdRn0V03WwWKnAtC38pZC6eigzIB2Yi8UtTIOtgt6Gn6fVGx1A6dOP9+o/S6i38KAxL+Q4nV
+	mDYGN/U5WDfGsezDxqIXfOyBNh3krAsoO16uct4wHNM44py43trPcnciX3nw13+1TyhFlaNh9ID
+	S4Gu+pul2XiuhBuDHRJYVDaJr9tfqBne0+IvfbPUhWZ3kdps=
+X-Received: by 2002:a05:7300:5988:b0:369:ef92:bd7b with SMTP id 5a478bee46e88-36a42426236mr26992906eec.41.1793862534957;
+        Wed, 04 Nov 2026 23:08:54 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36ca3981ff0sm16812286eec.24.2026.11.04.23.08.51
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Nov 2026 23:08:54 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v17 00/12] ALSA: virtio: fix capture lifetime and accounting
+Date: Thu,  5 Nov 2026 16:08:33 +0900
+Message-ID: <20261105070845.6449-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,170 +101,69 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261103150845.13008-3-matthew.l.weber@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 03, 2026 at 09:08:43AM -0600, Matthew Weber wrote:
-> Add a helper script scripts/kernel-sloc to count source lines of code
-> (SLOC) for a configured Linux kernel build. It supports counting whole
-> compiled sources from compile_commands.json as well as estimating
-> distinct source lines represented in a vmlinux ELF using DWARF
-> line-table addresses.
-> 
-> It is intended for system integrators and application developers who
-> analyze a trimmed kernel, for example for safety critical applications,
-> and need to report how much kernel code a given configuration builds
-> and links. Add a MAINTAINERS entry for the script.
-> 
-> Signed-off-by: Matthew Weber <matthew.l.weber@gmail.com>
-> ---
->  MAINTAINERS         |   6 +
->  scripts/kernel-sloc | 299 ++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 305 insertions(+)
->  create mode 100755 scripts/kernel-sloc
-> 
+Hi Takashi,
 
-Thanks for your patches.
+This cumulative resend keeps the twelve-patch series on the same base,
+a4311e9447bbb219044db38897f95be112f46a8a. It covers PCM stop-threshold
+sampling, locked partial-progress reporting, the optional reset operation,
+VirtIO ACK error propagation and recovery, PCM and control DMA ownership,
+signal-safe teardown, staged capture lifecycle and work prioritization, and
+capture parameter documentation.
 
-Disclaimer: I did not really look into your patch set yet, but let me
-note some major formal things ahead:
+This version addresses the v16 transport and timeout findings. Patch 6 tracks
+successful virtqueue allocation so rollback does not call `del_vqs()` twice,
+and so queues are released after a later event allocation failure. It also
+keeps freed event-message ownership clear across freeze and restore. Patch 9
+keeps jiffies timeouts and completion wait results in the kernel wait API's
+return types. Patch 4 keeps ACKs rejected with `-EBADFD` during XRUN recovery
+until the core publishes PREPARED, preventing a duplicate linked XRUN.
 
-Something got heavily wrong with the patch set mails: while it looks
-like this patch is number 2 from a series of 4 patches, the other
-patches sent in the series are not numbered correctly.  Patch management
-tooling (b4) even recognises this patch set as three different versions
-of a patch set, thus reviewers/maintainers cannot use that here.
-Usually, 'git send-email' takes care of that in a very proper way.  Did
-you sent your patches one-by-one in some manual way?
+Patch 10 retains the staged capture lifecycle and DMA ownership work, and
+defers linked-stream XRUN delivery while paused. The v17 follow-up arms
+`stop_operating` for every member on pause, keeps a failed linked group paused
+until a successful resume completes, then reports XRUN through ALSA's normal
+group stop path.
+Inactive `sync_stop` retires stream ownership even when the stream was not
+marked stopped.
 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index d009e2da2..d83f37c3a 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -13762,6 +13762,12 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
->  F:	Documentation/dev-tools/kselftest*
->  F:	tools/testing/selftests/
->  
-> +KERNEL SLOC HELPER
-> +M:	Matthew Weber <matthew.l.weber@gmail.com>
-> +L:	linux-kbuild@vger.kernel.org
-> +S:	Maintained
-> +F:	scripts/kernel-sloc
+Validation:
 
-If 'kernel-sloc' is accepted, we will have to put it to scripts/contrib/,
-as 'kernel-sloc' is not part of the Linux build.  'scripts/contrib/'
-does not exist yet, but we are urged to stop mixing build-related
-scripts with non-build-related ones in scripts/.
+- The complete cumulative stages 04–12 passed ARM64 `W=1` builds with KASAN,
+  lockdep, and OSS PCM enabled. Candidate r5 changes one line wrap in
+  `virtio_pcm_ops.c`; its stages 10–12 passed incremental rebuilds against the
+  successful stage-12 build cache.
+- The MMIO partial-allocation test failed queue setup after queue 0 had been
+  created. Baseline reported a duplicate free-IRQ warning after transport
+  rollback; the candidate completed reprobe and remove without KASAN or
+  lockdep reports.
+- A final-source r5 PCI test completed three remove/reprobe cycles and final
+  module removal with no kernel diagnostics.
+- Linked PAUSED XRUN tests covered native pause and pause-restart. Baseline
+  moved the group to XRUN while paused; the candidate kept both members paused,
+  accepted `PAUSE_RELEASE`, and delivered XRUN after resume. DROP, peer PREPARE,
+  failed resume, blocked read, and close cases completed with clean fixtures.
+- The final-source timeout pair used `msg_timeout_ms=2147483648` through
+  `snd_pcm_hw_params()`: baseline returned `-ENOENT`, candidate returned
+  success. A separate HZ=1000 synthetic completed-wait probe confirmed full
+  width for jiffies and the wait result; it is supplemental type-width
+  evidence, not a device request.
+- Final-source production RW and MMAP reset/reopen capture ran for 70 seconds.
+  Seven final-source segments matched the QEMU sequence oracle; fourteen
+  segments were compared across baseline and candidate.
 
+These are guest QEMU results. Physical Virtualization.framework devices,
+NOMMU systems, and KCSAN were not tested.
 
-> +
->  KERNEL SMB3 SERVER (KSMBD)
->  M:	Namjae Jeon <linkinjeon@kernel.org>
->  M:	Namjae Jeon <linkinjeon@samba.org>
-> diff --git a/scripts/kernel-sloc b/scripts/kernel-sloc
-> new file mode 100755
-> index 000000000..ed8b787e5
-> --- /dev/null
-> +++ b/scripts/kernel-sloc
-> @@ -0,0 +1,299 @@
-> +#!/bin/sh
-> +# SPDX-License-Identifier: BSD-3-Clause
+Previous version:
+https://lore.kernel.org/linux-sound/20261105023140.18373-1-mynameisjune111@gmail.com/
 
-Almost all files below scripts/ are licensed under GPL.  Please consider
-to switch to some GPL licensing or dual-license for consistency.
+AI assistance was used for analysis, implementation, and test preparation.
+Assisted-by: LLM
 
-> +#
-> +# kernel-sloc - Count source lines of code for a configured kernel build.
-> +#
-> +# Adapted from the Unikraft build-time SLOC reporting approach
-> +# (https://github.com/orgs/unikraft/discussions/1849#discussioncomment-19352529),
-> +# which counts compiled sources rather than the whole source tree.
-> +#
-> +# The kernel mode counts whole compiled files, including inactive #if branches,
-> +# but not the headers they include. The dwarf mode estimates source lines
-> +# represented by debug information in a linked ELF; it does not measure runtime
-> +# coverage. Neither count is a certification or structural-coverage result.
-> +
-> +set -eu
-> +
-> +die() {
-> +	echo "ERROR: $*" >&2
-> +	exit 1
-> +}
-> +
-> +need_command() {
-> +	command -v "$1" >/dev/null 2>&1 || die "required command not found: $1"
-> +}
-> +
-> +need_cloc() {
-> +	command -v cloc >/dev/null 2>&1 ||
-> +		die "required command not found: cloc (install cloc to use kernel, tree, or files mode)"
-> +}
-> +
-> +usage() {
-> +	printf 'Usage: %s [--report JSON_FILE] MODE TARGET...\n' "$0"
-> +	printf '%s\n' \
-> +		'  kernel BUILD_DIR  Count whole compiled sources from compile_commands.json.' \
-> +		'                    Requires cloc and python3. Generate the database after' \
-> +		'                    a clean build of the configuration being measured.' \
-> +		'  dwarf ELF         Estimate distinct source lines using DWARF addresses.' \
-> +		'                    Requires GNU objdump, addr2line, and python3, plus' \
-> +		'                    an ELF built with debug information (CONFIG_DEBUG_INFO).' \
-> +		'                    Set OBJDUMP and ADDR2LINE for cross builds, or set' \
-> +		'                    CROSS_COMPILE to the toolchain prefix.' \
-> +		'  tree DIR          Count all C, C++, and header sources; requires cloc.' \
-> +		'  files FILE...     Count individual source files; requires cloc.' \
-> +		'  --report FILE     JSON inventory for kernel or dwarf; parent must exist.' \
-> +		'                    Lists compiled files, or DWARF source_lines and functions.' \
-> +		'                    Does not measure execution or list every linked symbol.' \
-> +		'  -h, --help        Show this help and exit successfully.' \
-> +		'' \
-> +		'Success prints one integer on stdout and a summary on stderr.' \
-> +		'Errors exit non-zero without printing a count.' \
-> +		'Counts depend on the tool versions and build options; record both.' \
-> +		'' \
-> +		'Examples:'
-> +	printf '  %s --report compiled.json kernel .\n' "$0"
-> +	printf '  %s --report linked.json dwarf vmlinux\n' "$0"
-> +	printf '  %s files foo.c\n' "$0"
-> +	printf '  %s tree /path/to/files\n' "$0"
-> +	printf '%s\n' \
-> +		'files omits linked libc; tree includes unused C/C++/headers, not other' \
-> +		'languages. Neither is a deployed-footprint total.'
+Thanks,
+Joonho
 
-bike-shedding:
-
-cat <<-eof
-...
-eof
-
-might be valuable alternative to all those 'printf' calls.
-
-> +}
-> +
-> +# Extract the code total from cloc CSV, including the empty-tree case.
-> +cloc_sum() {
-> +	awk -F',' '$2 == "SUM" {total = $5} END {print total + 0}'
-> +}
-> +
-> +cloc_sum_from_list() {
-> +	cloc --list-file="$1" --skip-uniqueness --csv --quiet >"$2" ||
-> +		die "cloc failed while counting source files"
-> +	cloc_sum <"$2"
-> +}
-> +
-> +# Write the report before printing the count; failed writes are not success.
-> +write_report() {
-> +	[ -n "$report" ] || return 0
-> +	python3 - "$report" "$mode" "$target" "$1" "$2" <<'PYREPORT'
-
-Please do not embedd more than a handful of Python code lines in a shell
-script.  Common Python linting is simplier in a pure Python script.  And
-if Python is needed for the task, why is it wrapped in shell instead of
-implementing the whole thing in Python?
-
-I'd like to read your reply before reviewing this any further.
-
-Kind regards,
-Nicolas
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
