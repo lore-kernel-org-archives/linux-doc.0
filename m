@@ -1,129 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.223
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793881017;
-	b=ljlfIxlYHrLjdN12JYZvm15+CyDA2hydyG+p13Ww7+zXBSqTEp4AnVKJq7Mn75f1r8DB
-	 +9O31RfBfVBYuiYXxHrooGz2s2la/h5RLiVhnqrJvBM0i0+xGYlquhPS6c3x9m6TABfgA
-	 KatCB12rLNO3MF4A/7BEXgfYyLalBya0/kVBzyArs8Qdx42Uwq/3AWYkGqZzlL1/+cuW9
-	 NNpk0GPZOQDsJz8LeT5MmpYDLcAhGHlTrq+O80m4vuBQUUO+rrAUNt2gXBYjxf0VvRfYA
-	 zhN/iBN8Y+88lOfAE0PS7/GAZSQ4Dr7Z/2jHuzyP3cOJeB+dFlj2wrB1LtzdiZRGXFQ==
+	t=1793881264;
+	b=FJNqgdLJPQxVmpZPvIAv0BkncGkZ9FyM8IHV+zp3z9Su6iehHwRFwGym75yWYJY51IjT
+	 CYEotNvdl79z1NRrRdBU93SygWGXls/rIAA7xw8aYCuhfEflW90fFMsCpWb3vL9SO9e2b
+	 sC7sM53/PvGI66Hnpos7bj/ziHI1h9a/y3v8LBgT0vN4cuQciyYeOXBHObbtywOU4+pWo
+	 gU8bM1uNXztBYIKpLt8+wqCzGaOONOPTHxGBLIdEKfNY9AkCVLJq4OmpUS5h12VX9roFA
+	 K6ERmog+MCsZJrvkRHMeynAtiZHSAx9i6vtuklzRNrqCPa9jrls6yjwqHzr0E76jKIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793881017;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
-	b=LsnINoozfAegRNqL8gA539tnQZBRx0I0sYN02EaYQ0MGx1SZfOHyrxTFDCbESVGRWGb2
-	 bx0s4p0Zsfy3zDTZ6Co5m815DWIIvwEPs7JrUbEnnmNJHNkSzy4CmsrBsvtOO+Lpsf/FL
-	 k0ZXURbvm/095R7sSrhrtU/qhsFemcaGSAifrj4kUNuIIgavpXiqML47OZ0Xs3DUHVnQG
-	 Y2IMNSJwX3mZ5R0HqIqc3zlc7aRVdDvLpff5rQ+aKRPPTKYIztbQpflcJGnyghrBk4NYY
-	 cNnhCjZaW/Qmvf9pms0QXnwLHCF7ldBCKfMF3es/th7JWID5zy+/mcTckfXJZuKHa/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793881264;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=KoW9DJjnrzqP9I0+l+Pc/VE++4f01tBPwLkQyhjmVA0=;
+	b=LJuwJTmm3H4nsurSn07LZNJ81wj815rydHNFmLc7lfXxPbLEPg6PIg7IMgJlUK+k68+h
+	 6LLGUB5AcBu+iUjhWCCyjuumh9XJJ/DNAfpDuH6tcMjFWL5FBLWpoGLhlx8aJ4XsjzsKV
+	 bv7HijMQSluN+eVbxI9s6kStfsdJ0p4SBO+1MakMSMokqUlqt6eFfwz69vG9aK4/0b+F8
+	 LiaIq5tB2llrdq3SRFW0ru0fnpSkwBPpGUfbsg61hZvgxVlk5y7/Mg4/it2p1bkA582H9
+	 3Po/+IGbXB546c3FG0iZGP8UVyTkMJdXbdx+zCvcKiv2pXidI2sSe70+PS9is6g5eKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cYe8TYsk;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QIbMvVJs;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=qcWXmYyb;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YQFOqDtq;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=uhn628jG;
+	arc=none smtp.remote-ip=113.46.200.223
+Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F656606A329;
-	Thu,  5 Nov 2026 12:16:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6F656606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754CD606A32C;
+	Thu,  5 Nov 2026 12:21:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 754CD606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=cYe8TYsk;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=QIbMvVJs;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=qcWXmYyb;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=YQFOqDtq
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 58A511F458;
-	Thu,  5 Nov 2026 12:16:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793881014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
-	b=cYe8TYskNgcCDl9X/k1KW8A+of6s9HPRYsn3eNTPIV5RsFlT7AWS/MQE3Ksi3uh3QV4KD5
-	Hi2guTuJU7x2qqFFTRs6JOAz8i6Q55GuiUnI2xO+KTPomgEeNxSjhoYwnOYxznNqbm63Mo
-	5qtfkmh5zv/NMPGB0+8MSe7zifKcXmA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793881014;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
-	b=QIbMvVJsr8XvPWk78XYqkteMct1dWNms40BmNTEwa1LXYhQgAGTS+dajwGjNJCINSsxxSt
-	HemSrC/mVhMQ9jBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=qcWXmYyb;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=YQFOqDtq
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793881013; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
-	b=qcWXmYyb5+mCW0254eM18Rdi4r0I1vVFScoBAC1JoCDgbQr+JVrkM2hgqEp84Kj2sVZnX6
-	yOxI9PyPOhb6xWYpHefOBtPtMSEL6Mz2dqvUxPwKWIeCnNhnabJauUjOIrpt/Ne/cxy6NC
-	ZAMNOvP3NI2+Dh4POTu44wQ8ZjW2uSA=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793881013;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ADzlvyamTQU4UnQoclm/eaQzV+qRhdj3W0LtVIZccYw=;
-	b=YQFOqDtq+4SGdkOEWqs8BsjsIPs8cBY5Z7x8DRzRezIETmSxSypiEkth9ev7JNqvuGFopt
-	jijBqci6GEVKGZDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1F927133F6;
-	Thu,  5 Nov 2026 12:16:53 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 8uYuO7Rz7GpKHAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 12:16:53 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id A35F0B6D5; Thu, 05 Nov 2026 13:16:52 +0100 (CET)
-Date: Thu, 5 Nov 2026 13:16:52 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 31/38] proc: sysctl: resume readdir after the last
- name it returned
-Message-ID: <ba3zz2mphlmojth4kk3gvistj555c2sos6ft4ofb6cm5xfcsnp@3xas2kz2irvu>
-References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-31-59422ed3e465@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=uhn628jG
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=KoW9DJjnrzqP9I0+l+Pc/VE++4f01tBPwLkQyhjmVA0=;
+	b=uhn628jGcsP3vef2gLqMgu/DL/ieolPhOGb5xyCgo7VYl3vkX2Mc5AOeG8SV+gSwdp1jaSOig
+	ixsZ40fVsh7X/qMiFKaJE/ThpKf/DbopPw5LNsngJBrHkdvezG1dNqkww10ZPHcrFp0iioUbOFS
+	V7I900dwGWfWiCbUEbx8xHM=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4jL1c62NZczmVCM;
+	Thu,  5 Nov 2026 20:20:38 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id B398940578;
+	Thu,  5 Nov 2026 20:20:49 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 5 Nov
+ 2026 20:20:48 +0800
+Message-ID: <145b3c09-ff33-4fd7-935a-fa4f4c3c07b2@huawei.com>
+Date: Thu, 5 Nov 2026 20:20:47 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -133,85 +62,330 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-31-59422ed3e465@kernel.org>
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLpnapcpkwxdkc5mopt1ezhhna)];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:email,suse.cz:dkim,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -11.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: 58A511F458
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 06/40] arm64: mpam: Context switch the MPAM registers
+To: Ben Horgan <ben.horgan@arm.com>
+CC: <amitsinght@marvell.com>, <baisheng.gao@unisoc.com>,
+	<baolin.wang@linux.alibaba.com>, <carl@os.amperecomputing.com>,
+	<dave.martin@arm.com>, <david@kernel.org>, <dfustini@baylibre.com>,
+	<fenghuay@nvidia.com>, <gshan@redhat.com>, <james.morse@arm.com>,
+	<jonathan.cameron@huawei.com>, <kobak@nvidia.com>, <lcherian@marvell.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<peternewman@google.com>, <punit.agrawal@oss.qualcomm.com>,
+	<quic_jiles@quicinc.com>, <reinette.chatre@intel.com>,
+	<rohit.mathew@arm.com>, <scott@os.amperecomputing.com>,
+	<sdonthineni@nvidia.com>, <tan.shaopeng@fujitsu.com>,
+	<xhao@linux.alibaba.com>, <catalin.marinas@arm.com>, <will@kernel.org>,
+	<corbet@lwn.net>, <maz@kernel.org>, <oupton@kernel.org>,
+	<joey.gouly@arm.com>, <suzuki.poulose@arm.com>, <kvmarm@lists.linux.dev>,
+	<zengheng4@huawei.com>, <linux-doc@vger.kernel.org>, Shaopeng Tan
+	<tan.shaopeng@jp.fujitsu.com>
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+ <20260313144617.3420416-7-ben.horgan@arm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260313144617.3420416-7-ben.horgan@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On Mon 02-11-26 15:21:46, Christian Brauner wrote:
-> proc_sys_readdir() counts the entries of a directory and resumes a
-> listing at the number getdents64() stopped at. The entries are sorted
-> by name, so one that is registered or unregistered in between shifts
-> everything behind it by one. Listing /proc/sys/net/ipv4/conf with a
-> buffer that holds ".", ".." and "all" and registering a device whose
-> name sorts before "all" makes the next call return "all" a second time.
-> Unregistering one that sorted before the position makes it skip an
-> entry instead. So a listing that takes more than one call shows a name
-> twice, or not at all. Even the 64k buffer of ls needs a second call to
-> find the end of the directory, so a device that comes up right then
-> repeats the last entry.
+
+
+在 2026/3/13 22:45, Ben Horgan 写道:
+> From: James Morse <james.morse@arm.com>
 > 
-> So remember the name of the last entry a call emitted in the file and
-> resume at the first usable entry after it, like kernfs resumes after
-> the node it stopped at. The entry itself can't be pinned across calls,
-> unregistering waits for that. If the position was moved by a seek in
-> between the listing counts from the start like before, seeking to an
-> arbitrary position has never been better than that.
+> MPAM allows traffic in the SoC to be labeled by the OS, these labels are
+> used to apply policy in caches and bandwidth regulators, and to monitor
+> traffic in the SoC. The label is made up of a PARTID and PMG value. The x86
+> equivalent calls these CLOSID and RMID, but they don't map precisely.
 > 
-> That also takes one walk down the tree to resume instead of a walk over
-> every entry in front of the position with a round trip through
-> sysctl_lock for each of them.
+> MPAM has two CPU system registers that is used to hold the PARTID and PMG
+> values that traffic generated at each exception level will use. These can
+> be set per-task by the resctrl file system. (resctrl is the defacto
+> interface for controlling this stuff).
 > 
-> Fixes: 77b14db502cb ("[PATCH] sysctl: reimplement the sysctl proc support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+> Add a helper to switch this.
+> 
+> struct task_struct's separate CLOSID and RMID fields are insufficient to
+> implement resctrl using MPAM, as resctrl can change the PARTID (CLOSID) and
+> PMG (sort of like the RMID) separately. On x86, the rmid is an independent
+> number, so a race that writes a mismatched closid and rmid into hardware is
+> benign. On arm64, the pmg bits extend the partid.
+> (i.e. partid-5 has a pmg-0 that is not the same as partid-6's pmg-0).  In
+> this case, mismatching the values will 'dirty' a pmg value that resctrl
+> believes is clean, and is not tracking with its 'limbo' code.
+> 
+> To avoid this, the partid and pmg are always read and written as a
+> pair. This requires a new u64 field. In struct task_struct there are two
+> u32, rmid and closid for the x86 case, but as we can't use them here do
+> something else. Add this new field, mpam_partid_pmg, to struct thread_info
+> to avoid adding more architecture specific code to struct task_struct.
+> Always use READ_ONCE()/WRITE_ONCE() when accessing this field.
+> 
+> Resctrl allows a per-cpu 'default' value to be set, this overrides the
+> values when scheduling a task in the default control-group, which has
+> PARTID 0. The way 'code data prioritisation' gets emulated means the
+> register value for the default group needs to be a variable.
+> 
+> The current system register value is kept in a per-cpu variable to avoid
+> writing to the system register if the value isn't going to change.  Writes
+> to this register may reset the hardware state for regulating bandwidth.
+> 
+> Finally, there is no reason to context switch these registers unless there
+> is a driver changing the values in struct task_struct. Hide the whole thing
+> behind a static key. This also allows the driver to disable MPAM in
+> response to errors reported by hardware. Move the existing static key to
+> belong to the arch code, as in the future the MPAM driver may become a
+> loadable module.
+> 
+> All this should depend on whether there is an MPAM driver, hide it behind
+> CONFIG_ARM64_MPAM.
+> 
+> Tested-by: Gavin Shan <gshan@redhat.com>
+> Tested-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Tested-by: Peter Newman <peternewman@google.com>
+> Tested-by: Zeng Heng <zengheng4@huawei.com>
+> Tested-by: Punit Agrawal <punit.agrawal@oss.qualcomm.com>
+> CC: Amit Singh Tomar <amitsinght@marvell.com>
+> Reviewed-by: Zeng Heng <zengheng4@huawei.com>
+> Reviewed-by: Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+> Reviewed-by: Jonathan Cameron <jonathan.cameron@huawei.com>
+> Reviewed-by: Gavin Shan <gshan@redhat.com>
+> Reviewed-by: Catalin Marinas <catalin.marinas@arm.com>
+> Signed-off-by: James Morse <james.morse@arm.com>
+> Signed-off-by: Ben Horgan <ben.horgan@arm.com>
+> ---
+> Changes since rfc:
+> CONFIG_MPAM -> CONFIG_ARM64_MPAM in commit message
+> Remove extra DECLARE_STATIC_KEY_FALSE
+> Function name in comment, __mpam_sched_in() -> mpam_thread_switch()
+> Remove unused headers
+> Expand comment (Jonathan)
+> 
+> Changes since v2:
+> Tidy up ifdefs
+> 
+> Changes since v3:
+> Always set MPAMEN for MPAM1_EL1 rather than relying on it being read only.
+> ---
+>  arch/arm64/Kconfig                   |  2 +
+>  arch/arm64/include/asm/mpam.h        | 67 ++++++++++++++++++++++++++++
+>  arch/arm64/include/asm/thread_info.h |  3 ++
+>  arch/arm64/kernel/Makefile           |  1 +
+>  arch/arm64/kernel/mpam.c             | 13 ++++++
+>  arch/arm64/kernel/process.c          |  7 +++
+>  drivers/resctrl/mpam_devices.c       |  2 -
+>  drivers/resctrl/mpam_internal.h      |  4 +-
+>  8 files changed, 95 insertions(+), 4 deletions(-)
+>  create mode 100644 arch/arm64/include/asm/mpam.h
+>  create mode 100644 arch/arm64/kernel/mpam.c
+> 
+> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
+> index 38dba5f7e4d2..ecaaca13a969 100644
+> --- a/arch/arm64/Kconfig
+> +++ b/arch/arm64/Kconfig
+> @@ -2039,6 +2039,8 @@ config ARM64_MPAM
+>  
+>  	  MPAM is exposed to user-space via the resctrl pseudo filesystem.
+>  
+> +	  This option enables the extra context switch code.
+> +
+>  endmenu # "ARMv8.4 architectural features"
+>  
+>  menu "ARMv8.5 architectural features"
+> diff --git a/arch/arm64/include/asm/mpam.h b/arch/arm64/include/asm/mpam.h
+> new file mode 100644
+> index 000000000000..0747e0526927
+> --- /dev/null
+> +++ b/arch/arm64/include/asm/mpam.h
+> @@ -0,0 +1,67 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/* Copyright (C) 2025 Arm Ltd. */
+> +
+> +#ifndef __ASM__MPAM_H
+> +#define __ASM__MPAM_H
+> +
+> +#include <linux/jump_label.h>
+> +#include <linux/percpu.h>
+> +#include <linux/sched.h>
+> +
+> +#include <asm/sysreg.h>
+> +
+> +DECLARE_STATIC_KEY_FALSE(mpam_enabled);
+> +DECLARE_PER_CPU(u64, arm64_mpam_default);
+> +DECLARE_PER_CPU(u64, arm64_mpam_current);
+> +
+> +/*
+> + * The value of the MPAM0_EL1 sysreg when a task is in resctrl's default group.
+> + * This is used by the context switch code to use the resctrl CPU property
+> + * instead. The value is modified when CDP is enabled/disabled by mounting
+> + * the resctrl filesystem.
+> + */
+> +extern u64 arm64_mpam_global_default;
+> +
+> +/*
+> + * The resctrl filesystem writes to the partid/pmg values for threads and CPUs,
+> + * which may race with reads in mpam_thread_switch(). Ensure only one of the old
+> + * or new values are used. Particular care should be taken with the pmg field as
+> + * mpam_thread_switch() may read a partid and pmg that don't match, causing this
+> + * value to be stored with cache allocations, despite being considered 'free' by
+> + * resctrl.
+> + */
+> +#ifdef CONFIG_ARM64_MPAM
+> +static inline u64 mpam_get_regval(struct task_struct *tsk)
+> +{
+> +	return READ_ONCE(task_thread_info(tsk)->mpam_partid_pmg);
+> +}
+> +
+> +static inline void mpam_thread_switch(struct task_struct *tsk)
+> +{
+> +	u64 oldregval;
+> +	int cpu = smp_processor_id();
+> +	u64 regval = mpam_get_regval(tsk);
+> +
+> +	if (!static_branch_likely(&mpam_enabled))
+> +		return;
+> +
+> +	if (regval == READ_ONCE(arm64_mpam_global_default))
+> +		regval = READ_ONCE(per_cpu(arm64_mpam_default, cpu));
+> +
+> +	oldregval = READ_ONCE(per_cpu(arm64_mpam_current, cpu));
+> +	if (oldregval == regval)
+> +		return;
+> +
+> +	write_sysreg_s(regval | MPAM1_EL1_MPAMEN, SYS_MPAM1_EL1);
+> +	isb();
 
-Just one coding style nit below. Otherwise feel free to add:
+Hi, everyone,
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+We found a problem as below:
 
-> +	if (!name) {
-> +		after = rb_first(&dir->root);
-> +	} else for (node = dir->root.rb_node; node;) {
+In an offline/online co-located setup, MPAM gives the offline group a
+smaller MBW share, a softirq serving an online service runs with the
+PARTID of the throttled offline task it interrupted and is throttled
+with it -- a priority inversion.
 
-This indentation looks too inventive to me :) I'd just use
-	} else {
-		for (...) {
+Is this a known limitation?
 
-								Honza
+I see the following patchset uses a separate closid for kernel.
+
+https://lore.kernel.org/all/cover.1790867441.git.babu.moger@amd.com/
+
+> +
+> +	/* Synchronising the EL0 write is left until the ERET to EL0 */
+> +	write_sysreg_s(regval, SYS_MPAM0_EL1);
+> +
+> +	WRITE_ONCE(per_cpu(arm64_mpam_current, cpu), regval);
+> +}
+> +#else
+> +static inline void mpam_thread_switch(struct task_struct *tsk) {}
+> +#endif /* CONFIG_ARM64_MPAM */
+> +
+> +#endif /* __ASM__MPAM_H */
+> diff --git a/arch/arm64/include/asm/thread_info.h b/arch/arm64/include/asm/thread_info.h
+> index 7942478e4065..5d7fe3e153c8 100644
+> --- a/arch/arm64/include/asm/thread_info.h
+> +++ b/arch/arm64/include/asm/thread_info.h
+> @@ -41,6 +41,9 @@ struct thread_info {
+>  #ifdef CONFIG_SHADOW_CALL_STACK
+>  	void			*scs_base;
+>  	void			*scs_sp;
+> +#endif
+> +#ifdef CONFIG_ARM64_MPAM
+> +	u64			mpam_partid_pmg;
+>  #endif
+>  	u32			cpu;
+>  };
+> diff --git a/arch/arm64/kernel/Makefile b/arch/arm64/kernel/Makefile
+> index 76f32e424065..15979f366519 100644
+> --- a/arch/arm64/kernel/Makefile
+> +++ b/arch/arm64/kernel/Makefile
+> @@ -67,6 +67,7 @@ obj-$(CONFIG_CRASH_DUMP)		+= crash_dump.o
+>  obj-$(CONFIG_VMCORE_INFO)		+= vmcore_info.o
+>  obj-$(CONFIG_ARM_SDE_INTERFACE)		+= sdei.o
+>  obj-$(CONFIG_ARM64_PTR_AUTH)		+= pointer_auth.o
+> +obj-$(CONFIG_ARM64_MPAM)		+= mpam.o
+>  obj-$(CONFIG_ARM64_MTE)			+= mte.o
+>  obj-y					+= vdso-wrap.o
+>  obj-$(CONFIG_COMPAT_VDSO)		+= vdso32-wrap.o
+> diff --git a/arch/arm64/kernel/mpam.c b/arch/arm64/kernel/mpam.c
+> new file mode 100644
+> index 000000000000..9866d2ca0faa
+> --- /dev/null
+> +++ b/arch/arm64/kernel/mpam.c
+> @@ -0,0 +1,13 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* Copyright (C) 2025 Arm Ltd. */
+> +
+> +#include <asm/mpam.h>
+> +
+> +#include <linux/jump_label.h>
+> +#include <linux/percpu.h>
+> +
+> +DEFINE_STATIC_KEY_FALSE(mpam_enabled);
+> +DEFINE_PER_CPU(u64, arm64_mpam_default);
+> +DEFINE_PER_CPU(u64, arm64_mpam_current);
+> +
+> +u64 arm64_mpam_global_default;
+> diff --git a/arch/arm64/kernel/process.c b/arch/arm64/kernel/process.c
+> index 489554931231..47698955fa1e 100644
+> --- a/arch/arm64/kernel/process.c
+> +++ b/arch/arm64/kernel/process.c
+> @@ -51,6 +51,7 @@
+>  #include <asm/fpsimd.h>
+>  #include <asm/gcs.h>
+>  #include <asm/mmu_context.h>
+> +#include <asm/mpam.h>
+>  #include <asm/mte.h>
+>  #include <asm/processor.h>
+>  #include <asm/pointer_auth.h>
+> @@ -738,6 +739,12 @@ struct task_struct *__switch_to(struct task_struct *prev,
+>  	if (prev->thread.sctlr_user != next->thread.sctlr_user)
+>  		update_sctlr_el1(next->thread.sctlr_user);
+>  
+> +	/*
+> +	 * MPAM thread switch happens after the DSB to ensure prev's accesses
+> +	 * use prev's MPAM settings.
+> +	 */
+> +	mpam_thread_switch(next);
+> +
+>  	/* the actual thread switch */
+>  	last = cpu_switch_to(prev, next);
+>  
+> diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+> index ff861291bd4e..d50461d6ff3f 100644
+> --- a/drivers/resctrl/mpam_devices.c
+> +++ b/drivers/resctrl/mpam_devices.c
+> @@ -29,8 +29,6 @@
+>  
+>  #include "mpam_internal.h"
+>  
+> -DEFINE_STATIC_KEY_FALSE(mpam_enabled); /* This moves to arch code */
+> -
+>  /*
+>   * mpam_list_lock protects the SRCU lists when writing. Once the
+>   * mpam_enabled key is enabled these lists are read-only,
+> diff --git a/drivers/resctrl/mpam_internal.h b/drivers/resctrl/mpam_internal.h
+> index e8971842b124..4632985bcca6 100644
+> --- a/drivers/resctrl/mpam_internal.h
+> +++ b/drivers/resctrl/mpam_internal.h
+> @@ -16,12 +16,12 @@
+>  #include <linux/srcu.h>
+>  #include <linux/types.h>
+>  
+> +#include <asm/mpam.h>
+> +
+>  #define MPAM_MSC_MAX_NUM_RIS	16
+>  
+>  struct platform_device;
+>  
+> -DECLARE_STATIC_KEY_FALSE(mpam_enabled);
+> -
+>  #ifdef CONFIG_MPAM_KUNIT_TEST
+>  #define PACKED_FOR_KUNIT __packed
+>  #else
+
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+Best regards,
+Jinjie
+
