@@ -1,132 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.47
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793896023;
-	b=WohBG1ty7R4dYoVzVSveaobQrHppkmCdq2hr33TGDpKy+PQoJXBEw/F+nIlO7rlhboDp
-	 suGQ/68+B15AeAEo04lW5lxaLiGYQUaazUE610PcnlgOUvJYQcxaH7445EoSPYM+L4G8G
-	 2nPaxPjkFkMl26KEyLTNV/FvaXgH50msJMobFyPP8eQ91lw3qJc9nTlEpvZ1MDVIfavez
-	 R1T1engHY2IfFC5tTklhd7OQudsx0j2atoYiHxGculH1cpy25/OO2B/zZ53pmRxntq/1W
-	 jRF3/5oHNR1UVNgHgoN47cD24pwQ0D7MLzO+XpmeZklURSY3tIb7RSEo52qYSnmNC3g==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793896023;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
-	b=A1GlO9ppRrIe9A87bCOvO3A6KMjkmxFn64yS2xAe3CSPaA0Zvh6uOvY0OI57xE1XXde2
-	 KivJnRdtMppVtSxN++TwrDLKxZSdm/j3SvaW5wrUpLYZ7C8VylodqyGyZHZqS2jufG9Do
-	 mPaFvXrdfpNUJ1XEO9NGpRRe6PBfQ5Eh4MDVyLgErGSNaCvFLpuyZu06A2SwpmoHnq4Ee
-	 JW2ZIgQwoF16oSEVoEAkAh2eNP4gaUdyK7mSB9lHcPFMWMiD9/TwFDMEQrp8Dyj2Lb4D7
-	 lW0hrpy0X5i+jcxr211T1gDMNtykBJud7RxxYrMk+3pLHUzCrwJZFOiW8XOAumOUuUg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=TH080M2b;
-	arc=none smtp.remote-ip=209.85.217.47
-Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793896241;
+	b=nNnkRYWnydtiCso/bVtsr4qngs2w2Ft9aADAejBw674Prr7e6ahlpWkT1LcLG0Gd3k/i
+	 dp19bArRQDp2IjgUW74p9UE+q4ardr39RTrrV5lp6szocAmMY3V+GkOcGQxMYyKwL1/TX
+	 kQOVaVaQRLUpqEkmHapwihoK8ewimJHt4Oa4xXxQqP9Z6zBSVCWZBdlfzKiFqRXRJ6b67
+	 o61rP3VhjJe9SQuj5OFkOYWXf6kPJDNOQ2jmi3rhgvildPSY07kbvUNcDE6w4DFajPu4/
+	 Gv0IeqgXbcetKIz3jAs8vFy+ddLkJX4Cv0fAMdf1bITPW7MLK23yBcQy3cbdIZDTpAQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793896241;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=NyvCVT71yPR6qemSvUFIrK6W2DpUXcB3qhDq4vagXpU=;
+	b=DJAk3KkcsulYZNyfAvGgXVfX0O2q0EqqaGs/bV4LfUEGugYQ+oOPgLqdWPEv6MPo6PjP
+	 mtfDaD2uWp97LEXY11YTRRo0y6xB90OC0VbCqwsviklp2fvJ1LsMIrTm9y3V5zQMIxPbm
+	 ekqYP6zrqnrEqjUWtEQHFOjnQTulw4KIjoTQdEDoqjwOeR7+DVEXx4YyUlYVoJk+ghFvk
+	 IQRvVN3YAWLyX1u8sVXxb4YwlO7cp6ONYbQVablvbMtF8jBobCOfyKS8E39VWy7Uz12+r
+	 QJ/9LrMdLeGbbvxvSHQoxT0ChkvbEpR/+uRkxyp/1zxr4rNCYSEYWTVyMgDifn44nMg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PHiHuCc5;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA957606A328;
+	Thu,  5 Nov 2026 16:30:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PHiHuCc5
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793896240;
+	b=QM+6AxWvrF1D2CqOx9ODj75/4f96tc6lzAkkyIs5cqrQbpNuZht4fkAcj8uj6KhyHBP1
+	 WXGnxCFOI5OF3517cE3y7fPoANVzta7+ybUnDWpKXwf4MyQU0k9c1v+vGLwVqI5qxAiT1
+	 HhL0pFl+PDouKACUdwi1h6C8qt0DIRH5lxFpufOygifmpk6y2/0NguvI0Lg2JW1wfs4+v
+	 qzxegsrTTgyjTB96vcfb7fN0TQA1GsVbFDbLtOa6WNjw9Rq6yKp4kfTG8qFnWoKGy0I7d
+	 ZMYL2nd4hfgEgYJvUq6EUlnrRNENjCDDneDUTviItiolma+Rie3+Mm7o0sWMzKqdZ1g==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793896240;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=NyvCVT71yPR6qemSvUFIrK6W2DpUXcB3qhDq4vagXpU=;
+	b=p7L+cVDg8pBEhQ/9UgLsmojTcLQrDj0AVYt9v7NczFkH2SoYJofjTSldhs4umPrg8P5p
+	 vzfLTR01MWofio9hNc3/ZKkJ2u5cPlm8DP56dn9quoJjiLA0+8WMUG8tj7mm+77dnEp6i
+	 e42/gAep4IHTRgXjAXyeOo2dcpT4w8AMlWu2zQzm23MD5RQu87I+joH1xSt4N9Oniyd/I
+	 bIt0HTOfXjOQ8XjTjY1RdbrIBy2i3dgKK9Ai4dv9NJexovTSHcTqUg9oaPTHC8FGDCaKS
+	 pjID7Tv3og2clGFWvCesz189k5ZJIiWtxhtN7g+pSCmaZfuk5nUMG3IdARjG1iia4TQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD82606A32D
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 16:27:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DD82606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=TH080M2b
-Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-7cc1cf48a39so727132137.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 08:27:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1793896021; x=1794500821; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
-        b=TH080M2b2W5GU83fC4bkAl8rc89cXnFJ2JUZ1DQM2E1G7nxV0uZ+iMHWJDX5M/hBR0
-         v8Q4S1dZz9e+Wy709/pkQPJoJ382ui88GBuCa7YwB1Pwv+V08ySzbQGdCs4et9sFRxVX
-         1a78LWa2r/qDmkC73yn92WJjnMydzWl2HaDmNekF7y5RHwsZB7YPGLTTr3xjjmuI4LbR
-         sgpTrG1DSTm++FzIJZEq0knZSmQ9xxE9IezNyVfi/1ZtU95O+iPlQHI5LWAc3/YmXStT
-         Vgy3IZE07Q/+XWoEa8k60w3BygO7yb8zhuyYBqBwOLPUaUevbalW8R2MAA5wjUpSFz6r
-         zz0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793896021; x=1794500821;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
-        b=gBrJMzaffVaT1I49GaRVdiLp3S+otsC6boTd5yxcFBo42I+X7aO1cz6w1LAVyNIINJ
-         SSBAbb3qLcr+8SEDxjHS16ut/77ZVfE4/vohz/8QSMHxHH9jInBOSAfgRc5ktREE+9Qt
-         qCxQAYRyand5hIfdOnSCsQsQyBtifXK2WWDsibmmH+P4qe0nF5nDo2sR4h/MXyYMOG/N
-         H0EQxvfTThjwQOgXYkBuETBIknC2V6Ls4nsxd8hfvtVk/f/RUwb+iq09J5bAt04b43Rm
-         lFR4jAoVtovVPbGI0J2lVsUemQTEpisk1B8SFkN1nbSM8uy4aUGtOdCQ8pb0PwzfK0ZZ
-         3KsQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwCGBJqc0Lo5TStGED5yNRK2ePHyscWAwV7v1aAZ8kRBNmj8eDL7aGGX6LdjVLK6AVIKjXnk+43f48=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/djv8dOaRIG842lDKTCa98dMQEAz2EV8GI5sbFQC26YgBhl7O3
-	iq3IiCRwtSaHsRm7JQ5pWnAxVgYLhThaJt/PFMl3hThIsPeW4fpsJcWEdLoqpPRlJak=
-X-Gm-Gg: AYBFou2SXvHCHZdo/PwN6MqG6vUQGg1pmzoBsw1SzBNaUqhUjwpADTQeBXJzHezKyZG
-	vhclV5uAgfcPMQ7U2lUbDBeZ8w8D/PaBNeSZcwwV8znnPqBQ9IJdhA0THua88hT2Mb6JSk0K6MR
-	j07xWRHR8gEf8ARNtMsxLff46Uprf3c9OOoGHmprQCHr7s4/ntoVOlqv7FzzVTa934n+v8gzOKb
-	DKdYMAl6pd6j1jKcDAOEZhysLTvofjxUh3uglCv59ZWcmSTTdh1r2w0KIBUhRBbenAYotZ135cv
-	ZBpUCpZFtzPwMGOOKqHbaXPT275x1TGcIpy3/2IwlHULd+UvREogFmjJsOc8e7knlRvbKXqMYvt
-	MNJXFgJWF4aZYT7ggEsZkGNHZP08ZRPB3+r4+GV8v1c8e5oMxTzcdWY7k8xsKnIW/niRguXcsWC
-	bI/01fvv/aJ7D+xl4Vx8fOo7YKoaQK02FEZwj13YGMiZQaWWiNnh6anqyn2/weJXUoIOt4BtVHF
-	I5kx2ASS6lY23rrnZh+vB+uBIh3XlhH85UPZ4/GHMW03OyiQ1M/SXX1+tNBAeGyz/+vu0o6Djq7
-	dtOe01KBI0moKASYrlT6ooH65ldV0HvxwAdBbWpGPkG3xr+ZM0fZ2Kgf3pLFYSw+wbe/zx61kA7
-	xQcnTwGqRBqtR50fWUkMXp33shgWRq3c=
-X-Received: by 2002:a05:6102:3f9f:b0:7cc:174b:f7bc with SMTP id ada2fe7eead31-7d2a15715c3mr29296137.15.1793896021174;
-        Thu, 05 Nov 2026 08:27:01 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fef4ed3sm4667110137.11.2026.11.05.08.27.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 08:27:00 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xP0Il-000000032XP-37xT;
-	Thu, 05 Nov 2026 12:26:59 -0400
-Date: Thu, 5 Nov 2026 12:26:59 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev
-Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
-Message-ID: <20261105162659.GB663069@ziepe.ca>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
- <2026110526-aerobics-correct-4c06@gregkh>
- <20261105131856.GA8298@unreal>
- <20261105140352.GF3889730@ziepe.ca>
- <2026110558-tartar-juicy-036a@gregkh>
+	by smtp.kernel.org (Postfix) with ESMTPS id DB3F51F00919;
+	Thu,  5 Nov 2026 16:30:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793896240;
+	bh=NyvCVT71yPR6qemSvUFIrK6W2DpUXcB3qhDq4vagXpU=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=PHiHuCc5ABJ93CFcKKrRh2kkKjYXnYC/KHeCdv4VF0wuXBwQm10HndRgzB9l8I4dl
+	 njwjsM9owo2KaH2VHnZo9rHgjA2kjkO/rurMQd3mnx/DwlXb7vml/s3oxXlsrT1fre
+	 JYWIAiNGwzUKd2PR4cXm/DKjxxR5cM09uDDs3zRSftuPY8uht0l8ubdNrI9xvOyWKL
+	 XDG4KD2GQREiZvzzFUCPpGpZ/hSMFpqtwYd4VZvs7i8FS5qftvI5qT3bn4C+c9MjHV
+	 Ph635ZTWdaWZRc5OqEs+8uvSf2/leIzDSZlDT7cFWFeKuY5H4nX75+qdO6CYYjJbVu
+	 lHok5pRadF7Yw==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 69FB0472FB;
+	Thu,  5 Nov 2026 16:30:39 +0000 (UTC)
+From: Martin Belanger via B4 Relay <devnull+martin.nvme.dev.gmail.com@kernel.org>
+Date: Thu, 05 Nov 2026 11:30:37 -0500
+Subject: [PATCH net-next v6 1/6] tls: add HKDF-Expand-Label for the TLS 1.3
+ key schedule
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -136,31 +83,187 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026110558-tartar-juicy-036a@gregkh>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261105-keyupdate-rfc-v6-1-99b695f9eb4f@gmail.com>
+References: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
+In-Reply-To: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
+To: John Fastabend <john.fastabend@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Sabrina Dubroca <sd@queasysnail.net>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>, 
+ kernel-tls-handshake@lists.linux.dev, linux-nvme@lists.infradead.org, 
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Martin Belanger <martin.nvme.dev@gmail.com>, 
+ Martin Belanger <martin.belanger@dell.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793896238; l=5333;
+ i=martin.nvme.dev@gmail.com; s=20261014; h=from:subject:message-id;
+ bh=ci+6wEYB6A7ToWVANROehD02AitZ6kO/auYqnGS/Vsc=;
+ b=i07cYv1RQiYy3fcA/gtmUbdCEHr6wijgRBAGoF3e2OGbhXULrxg5nwaDEPOaAF8IzU3NSrHvG
+ CQoktvuYCUPBGnAxzGwLyWiKyHyoFZ/VkowKp5tLASco+w8mnqrSFbP
+X-Developer-Key: i=martin.nvme.dev@gmail.com; a=ed25519;
+ pk=4K+XXetGK35w2LzRRddd/bbHawZU222BN+YZRuSpN+k=
+X-Endpoint-Received: by B4 Relay for martin.nvme.dev@gmail.com/20261014
+ with auth_id=1176
+X-Original-From: Martin Belanger <martin.nvme.dev@gmail.com>
+Reply-To: martin.nvme.dev@gmail.com
 
-On Thu, Nov 05, 2026 at 10:43:00AM -0500, Greg Kroah-Hartman wrote:
+From: Martin Belanger <martin.belanger@dell.com>
 
-> > But I supposed Greg is asking about /sys/bus/usb/devices/DEVICE/authorized ..
-> 
-> Yes, that is exactly what I am asking about.
+A TLS 1.3 KeyUpdate derives the next traffic secret, key and IV with
+HKDF-Expand-Label (RFC 9846, section 7.2). Add the helper for the
+kernel to do this itself.
 
-It looks like that does the same basic idea of delaying driver binding
-that this series does. Hopefully Leon can harmonize it to use the
-shared trust level flag instead of a usb specific flag and retain all
-the uABI around it.
+Only the part of the key schedule after the handshake is needed. The
+input is a traffic secret, which is already a pseudorandom key, so
+HKDF-Extract is not needed. Each output is at most Hash.length bytes,
+so each derivation is a single HMAC with the library SHA-256 or SHA-384
+functions.
 
-But, even with this v1 the user can choose to use the generic trust
-level and ignore the USB specific authorized and get the same
-functional outcome.
+Reviewed-by: Hannes Reinecke <hare@kernel.org>
+Signed-off-by: Martin Belanger <martin.belanger@dell.com>
+Reviewed-by: Chuck Lever <cel@kernel.org>
+---
+ net/tls/Kconfig    |  2 ++
+ net/tls/Makefile   |  2 +-
+ net/tls/tls.h      |  2 ++
+ net/tls/tls_hkdf.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 87 insertions(+), 1 deletion(-)
 
-> And I know there are other types of devices that will want to use this
-> type of thing (i.e. SPDM seems to be spreading to other new bus types),
-> so it's good to have and get right.
+diff --git a/net/tls/Kconfig b/net/tls/Kconfig
+index 4f4d5973a28f..6183ebe954ee 100644
+--- a/net/tls/Kconfig
++++ b/net/tls/Kconfig
+@@ -8,6 +8,8 @@ config TLS
+ 	select CRYPTO
+ 	select CRYPTO_AES
+ 	select CRYPTO_GCM
++	select CRYPTO_LIB_SHA256
++	select CRYPTO_LIB_SHA512
+ 	select NET_SOCK_MSG
+ 	default n
+ 	help
+diff --git a/net/tls/Makefile b/net/tls/Makefile
+index 4c7d296081ee..6edcf1271b75 100644
+--- a/net/tls/Makefile
++++ b/net/tls/Makefile
+@@ -7,6 +7,6 @@ CFLAGS_trace.o := -I$(src)
+ 
+ obj-$(CONFIG_TLS) += tls.o
+ 
+-tls-y := tls_main.o tls_sw.o tls_proc.o trace.o tls_strp.o
++tls-y := tls_main.o tls_sw.o tls_proc.o trace.o tls_strp.o tls_hkdf.o
+ 
+ tls-$(CONFIG_TLS_DEVICE) += tls_device.o tls_device_fallback.o
+diff --git a/net/tls/tls.h b/net/tls/tls.h
+index 60a37bdaaa25..b2061f6bf065 100644
+--- a/net/tls/tls.h
++++ b/net/tls/tls.h
+@@ -147,6 +147,8 @@ void tls_strp_abort_strp(struct tls_strparser *strp, int err);
+ int init_prot_info(struct tls_prot_info *prot,
+ 		   const struct tls_crypto_info *crypto_info,
+ 		   const struct tls_cipher_desc *cipher_desc);
++int tls_hkdf_expand_label(const u8 *secret, size_t secret_len,
++			  const char *label, u8 *out, size_t out_len);
+ int tls_set_sw_offload(struct sock *sk, int tx,
+ 		       struct tls_crypto_info *new_crypto_info);
+ void tls_update_rx_zc_capable(struct tls_context *tls_ctx);
+diff --git a/net/tls/tls_hkdf.c b/net/tls/tls_hkdf.c
+new file mode 100644
+index 000000000000..49e33146ac7e
+--- /dev/null
++++ b/net/tls/tls_hkdf.c
+@@ -0,0 +1,82 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Copyright (c) 2026 Dell Technologies Inc. or its subsidiaries.
++ *
++ * TLS 1.3 HKDF-Expand-Label, RFC 9846 section 7.1.
++ *
++ * TLS 1.3 derives all of its secrets and keys with HKDF (RFC 5869). The
++ * TLS handshake runs in user space and gives the kernel one application
++ * traffic secret for each direction. For a KeyUpdate, the kernel derives
++ * the next traffic secret from the current one (section 7.2), and the
++ * new key and IV from the next traffic secret (section 7.3). Both steps
++ * use only HKDF-Expand-Label, so this file implements only that
++ * function, not the full key schedule of the handshake.
++ *
++ * The input is always a traffic secret. It is already a random key of
++ * the hash length, so HKDF-Extract is not needed. No output is longer
++ * than the hash, so HKDF-Expand is a single HMAC.
++ */
++
++#include <crypto/sha2.h>
++#include <linux/errno.h>
++#include <linux/string.h>
++#include <linux/unaligned.h>
++
++#include "tls.h"
++
++#define TLS_HKDF_LABEL_PREFIX		"tls13 "
++#define TLS_HKDF_LABEL_PREFIX_LEN	(sizeof(TLS_HKDF_LABEL_PREFIX) - 1)
++#define TLS_HKDF_LABEL_MAX		32
++
++/**
++ * tls_hkdf_expand_label - HKDF-Expand-Label with an empty context
++ * @secret: the secret
++ * @secret_len: length of @secret, which selects the hash: SHA-256 for
++ *	SHA256_DIGEST_SIZE, SHA-384 for SHA384_DIGEST_SIZE
++ * @label: the label, without the "tls13 " prefix
++ * @out: output buffer
++ * @out_len: number of bytes to derive, at most @secret_len
++ *
++ * Return: 0 on success, -EINVAL if a length is not valid.
++ */
++int tls_hkdf_expand_label(const u8 *secret, size_t secret_len,
++			  const char *label, u8 *out, size_t out_len)
++{
++	u8 info[2 + 1 + TLS_HKDF_LABEL_PREFIX_LEN + TLS_HKDF_LABEL_MAX + 1 + 1];
++	size_t label_len = strlen(label);
++	u8 tmp[SHA384_DIGEST_SIZE];
++	size_t pos = 0;
++
++	if (secret_len != SHA256_DIGEST_SIZE &&
++	    secret_len != SHA384_DIGEST_SIZE)
++		return -EINVAL;
++	if (!out_len || out_len > secret_len || label_len > TLS_HKDF_LABEL_MAX)
++		return -EINVAL;
++
++	/* struct {
++	 *	uint16 length;
++	 *	opaque label<7..255>;
++	 *	opaque context<0..255>;
++	 * } HkdfLabel;
++	 *
++	 * followed by the HKDF-Expand counter for the first output block.
++	 */
++	put_unaligned_be16(out_len, info);
++	pos += 2;
++	info[pos++] = TLS_HKDF_LABEL_PREFIX_LEN + label_len;
++	memcpy(info + pos, TLS_HKDF_LABEL_PREFIX, TLS_HKDF_LABEL_PREFIX_LEN);
++	pos += TLS_HKDF_LABEL_PREFIX_LEN;
++	memcpy(info + pos, label, label_len);
++	pos += label_len;
++	info[pos++] = 0;	/* empty context */
++	info[pos++] = 1;	/* counter */
++
++	if (secret_len == SHA256_DIGEST_SIZE)
++		hmac_sha256_usingrawkey(secret, secret_len, info, pos, tmp);
++	else
++		hmac_sha384_usingrawkey(secret, secret_len, info, pos, tmp);
++
++	memcpy(out, tmp, out_len);
++	memzero_explicit(tmp, sizeof(tmp));
++
++	return 0;
++}
 
-Yes, we are investing alot of time right now in trying to get SPDM
-uAPI right when we bring the general framework into the
-kernel. Everyone needing SPDM should be able to re-use it.
+-- 
+2.53.0
 
-Jason
+
