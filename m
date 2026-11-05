@@ -1,87 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793879143;
-	b=0WsoNv+RS9huIkBL4wOGC+iNhB7IfCpjEt6RmOVUo+sVIYIyLrz6POlAmCJNSKrJzwhe
-	 IJthaku+rXJDAYEJKYqR19ktx36goZlY+L1Wqv0a+Vz29Z+FGkj/lTO6nPDzfkPWviaQO
-	 6RUbNTZH3sUwgexuZgDcMpPfkU1aQMJS+zMCNrQzULqiTPlLBQO87l6FGeWWy+TS621mL
-	 gDw+nDhBl+/4p6ggVd+tDWnduZ5RMgAJ24kecHvLzKet10OHrfrQy9ROylp61bhKVsfV6
-	 UwGlcjKuun5BokXUZsP1Iew7lKcnEsJNyQ/3pjHEe/yRkAA9H7SeUypFNrbOIl/QySw==
+	t=1793879148;
+	b=yK5MxvdzqnbDkrkKzy7Q4E+bwKGZ2w2uWVCTM1TuZVyJvJjFhfHUyTIivj+PHtt7sr5O
+	 fS3KcfnWlvFFUA6uhuYNT4gsCL6RVo2yMUI9aS0yiMOjdvaOM9+g3+cEaZkSSSbEd12OI
+	 TtrE637iIC7aO+gVn4q6yHvIUA8L8RMyBZhkofb1erur1sG9m67PMeFKq0/eYbTmmEZ/d
+	 ic8O5RLiWJ/Tx6UaS2o9b0V42ctFwiUt42Vth58MFUbETr6CGQroOsM49pog8uBn+rykV
+	 P6ip896posyAwVtw64//LOEGHjLPuYqcz5n2nlgGpcdGPtZSOPm/7AHRcWv0IVkMm5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793879143;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793879148;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=6POGoe9GP/LfncNNPmyOb3NHHZhyrYu1RabNz3eag4o=;
-	b=5BmgVuy2dI0Pd9x8pcqirXwts7unJZAVDSUjrIIYLVgH0N0jG0vfrXRqg9BC34f1Kd2l
-	 GSpE2oaV0au4BfLmRYhPnbMyO5ImDTZVAyRGmhv1/wXt9xM5RIea0OD//lrF7WGyDE5P5
-	 zVIlFvl8ZNeNKKyXVS1XmQxjyzNGSRMS9NX+KrEcOIa+6AC/vKZXwHHYnJl9tokN3/L4g
-	 zOOF3xfko38jttYVZswu6FSB/oZn1J9ohZWqDsFVnyxV7Bd/f25LIEvQipZvbb88mkoe2
-	 HyaXHdt6tTippxHeFu6aPJw5czGifwLFfhtX5ncszSAjDktHPtCwrKsxcpTN216wwMQ==
+	bh=PU/EFB+VchMZfy9q7Y3QQl5gRcVp9NfFdbFPAQA+Sio=;
+	b=uYlWW9gqo5Jwvv2s1ueRsLiWFrBmhpPp4iqlCq9eVdGU5nA6v97PC2npufwjg3VkG484
+	 kPy7cIn8yiFtdGJGrRDrGCB4O7iqQbP/BTphsAbGA3tAH132FSajYwqjoFIwT0G0bGj7Y
+	 0gSGI/I2/tUtdXlKOlxQ2n6a9a3t7L6A26p7m3eX/UEPHN8T0QbBi2CRnVg+q8664IBY+
+	 U/OJMwHGCYzeuN1AnYK3ozx3S0jLp8lSZ+Wg8aJAY8hIuD6Dm0v1jzBAfwl24gW53W9wX
+	 gLMGWGhBkft7rRZfy2EzIv+D1kwaGNrh1VeD4C37hLegUGKopoR7tDE1HyVildKipLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=K1gejdb5;
-	arc=none smtp.remote-ip=209.85.128.45
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=I7oinnSI;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD2C76074706
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:45:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD2C76074706
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D313606AB08
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:45:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D313606AB08
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=K1gejdb5
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a5720b0a57so3243135e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:45:42 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=I7oinnSI
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a215e64962so16620315e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:45:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1793879141; x=1794483941; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1793879146; x=1794483946; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=6POGoe9GP/LfncNNPmyOb3NHHZhyrYu1RabNz3eag4o=;
-        b=K1gejdb51J+Z8oiybieXDjNL9wJxYfNHLd1X4OBM5GNJ3wor+IUnGJXJbBw1ZVJemG
-         oiQOLL70ZCPDKxZks4QCtmNbf5n1gYX7h76x5nc2888dG8C8bxvg9qIPbxL7FGuZZ++b
-         0scyKGIHjQNGL3ckIenvZab7SOT9iPj+TT9DBFlx1T7hD1seza5NI8CPPEKLUFal7mIj
-         PYl0DSB2Z9V4kGKcip1ICMOuHBBgkwWixzjLhug6Xkh/ygxGPiF0v5NBr2sVuMVaEPS1
-         fBnHpA9IkZfoH81zrYFaaMCOQqLH27o9yOs1pyPsjgbDtnY7oidT38FFfmGSPh9F6xv6
-         LvIw==
+        bh=PU/EFB+VchMZfy9q7Y3QQl5gRcVp9NfFdbFPAQA+Sio=;
+        b=I7oinnSIex9WFs6wfj7U4/5LTijkW/OBRe1wgdWSEGSuNIJLRIVB4EeDFohVHeRWpy
+         DqjStibRNJH3jsN5HSVGk7cfRqcBC0AarDaLs87TQiySozz+SD8cF4F5KLETWWs+i1/F
+         pGKhWou+u9v3gqQpJ/US0ijSsGmaebkIse965iixAd/5gRXaE0mk+DF4acZr0o3eyAKb
+         MqvRpNMTk4evk4WBlWlHak1egOjOCXK8HBjPiwKrraYDiX0ZXZzuH24f+1DcKNCEHXNW
+         mzhQ/NsZ/+5HecrctE5PiYjZlAxqDhEeqRyWa5JuagiLVzLPtrlz1/sL5nMLEqblRmdL
+         S3Rg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793879141; x=1794483941;
+        d=1e100.net; s=20260707; t=1793879146; x=1794483946;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6POGoe9GP/LfncNNPmyOb3NHHZhyrYu1RabNz3eag4o=;
-        b=AoE/wV3MT0gB76WAM8s+Y9dFvLGSEDoYvuj6d5d/HRWlsx3yA6JqXNwPHlnGyizvTj
-         tt6tnIhRqz6my/R99fKrYF2COl1U3iKQYNW9O9KmdisiU7MBQoYH0B2wMJMg+nr46Sph
-         jWZ105rInRzVw7hVdOum/+6WcraxX3sfQx2FpwtGL84EpeEYykDKpbiv6zZUl/IXoXFx
-         A16XKNyFg/GWVyPal2l41/LbVRyoQSJ8WjleggLrWZ6EohukLQtVya2sfdCpMkRYpNmc
-         MtGJdneSnZZy2z8QyakQo1jvtKClC42W0UdhsG7P7Sf3nX6RnMTnd+66HfRmjYU/GB7O
-         sGtQ==
-X-Forwarded-Encrypted: i=1; AKwUvByFrfzccv5WXi5N02lTKa1wa7XL4G+Wzzk4XvaEKk/1h87YwHM/i9zEJ6OqiPPMhCC6GZpUYIDMz/M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9AkIh07Bjlc09FCxalQTdTcC4s5fT5pSzABL9AcF3zPKikX7IV
-	CxL4/36NX7TC1DjS579iqbTYTyiyKIeYE0cezRhYSvX2YCES4kZFGTdGODxMeEHF10c=
-X-Gm-Gg: AYBFou29qxUd5fK4KE9EZ5Rtxjv9cPWsFhn7vDnOfy8qzbo9psBJO991sTiAU18IHq0
-	Rf1aLf6zE1sRrPbEgoe4JC57Y+0QLBcRFJ3/GFb97oTfK6CgHwir6E8n3E5EIEm9nx4XZvoO08c
-	7Awulnhm0pNI9fVfp72oYl8mRVLz5D/RPY9lEetx9P/1XGVSHgkOeK4HuxE17V3iyS1lriivC0T
-	UK4JNStHeGA6+g37QNn8iibGoS89ILvhzgsqcnmR9+u8dE3i+wntgmzJb91nM4ya6/+uBBlsMIf
-	cZLzQVVaWOZp35A3d8ujo/MzGbsaWKAwfT+r6tRhYdEcUTj8jQesZKoYd/TmbtJCA1VgyhlQN9Z
-	U5VyE/F+8CCR4pQLEsv3GDHqwEMIVWmgASQv02+7SIbfqCjiQnVg2FzBw7SdP4Qse9xOvsBlEEl
-	yKhHceG91vzNEIyO4dAOi7sYRhE+SW7VYnh3t27yekAiiAxT35SWWKm2CHXzgoRkpa5TgDQc7XK
-	M/JEMm2Bpoq4whpwxRx7dJHCNlFvAt3wKFpZ0HF/Xf6k1rpVh7/6/n5KckpNkYI1qBe8czJchtR
-	M4LJ1niwLLenSSSG9h9fTcDfCQZcF4oz1Df3pxx8IvZhsCnOdDt1bvo=
-X-Received: by 2002:a05:600c:34d2:b0:4a0:20b4:ba93 with SMTP id 5b1f17b1804b1-4b55e07e6d5mr40258725e9.16.1793879141088;
-        Thu, 05 Nov 2026 03:45:41 -0800 (PST)
+        bh=PU/EFB+VchMZfy9q7Y3QQl5gRcVp9NfFdbFPAQA+Sio=;
+        b=zepNpHr/gCrAgBiPHuRyCCmQUEKTjNBK5+LSe/UgbDa5/EW/7ZavsB3fYlZHtrmBTj
+         alm+jdyG0BbGwql7kEfWlFr5BIZIdbo282TiE2KSHK6dSo5tNf/RUNuNH5fKfqXiYVWS
+         9HPoILjbtX2DGKk5vMBx7pnjnvKRcKvcCz674jx3/q4iet8f7aOGMZXDJF0bunvx8nWP
+         6IVqp6iS/U7v31qterQJRwPcmK/b9XMqNE+0fbZGJNp3DA8xAQ0Qu5BnzWCroetCIqUs
+         QWMAFV6A8lfgztD/LzT+w9Uqbt54uleO4OyYbpkXejcIYA21NlLbJuJxnVxJwA/uq0T+
+         i45A==
+X-Forwarded-Encrypted: i=1; AKwUvBxRe7M7I4RaSFIeEBD2Tfl3H1uemGHL81oz+cYLHZsUgCEEUTvMuDu7wr/AiMgP62X2HRexkhcMMVk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+mkuik3LR3RcbK93fBoYoWGYutntiLxVM2MScXbyWDiLxlFKJK
+	zsSeB5/4bk7Pyaixi8rntI1Jb1MkcxOSyrteTlqFGEBtqvBUtQrgnJ+DwljdKT+AtMI=
+X-Gm-Gg: AYBFou1jSZwFtlVhs+dnD1etH119Ubnl2247DUhjNwYa6N/T7iIjXcGxUNoP8DVaSuj
+	rHqPzv2QlYATQGuqqGJYqN4pISMbf3hyJMPd+lZ1JzA3Ahp324QbZp+ovpRxdCVwpqj+x310Sqt
+	iTbiVARentLlcF/PIaLbAnH/snVah1Ieltm3Cg2I9Z/6bEW9IyofAbZmnvomnI+sR/sJuwZOAe/
+	CLLGtHMviVbQioiSFJ16d5N28U/AZAjAV7sEu/GDCGrX3130Gs4d/QRPimYdU9qlnBne2VtdW9W
+	4spmkWS651YrxFm5g6mxxSxUlVb1Jcfl73gM3/p/g+u2NAtZQutWtThM5QdU+4O42PwptFfjTsU
+	+zRA+rru9bWdHlURlk/FpxUCUjreM1/LEFeRSSv2DW/cST3GgAHIHjCWpYMZjcwYPe2SuhQsTYB
+	YCJlH2Ughvmgx9vBe4d6j6zRuzouxvvJWMLoxVLnUKoGNChGeFKYb7XZ5SKTCl0zoWetuVfIv0S
+	PFownx9gPYzvsV5GVV8Y9cJGycrNwNfv77X5vtzLLOM1fGY6K8ptj8BZ10xGkj+OaWU2Y1TS6gv
+	oYLI1WpMRCBP0Fhww2/0NkH+0ZT2TTK9
+X-Received: by 2002:a05:600c:1f93:b0:4a0:1fb9:2f51 with SMTP id 5b1f17b1804b1-4ac182dbc34mr397731085e9.14.1793879145713;
+        Thu, 05 Nov 2026 03:45:45 -0800 (PST)
 Received: from pop-os.local ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b571f46538sm56679525e9.5.2026.11.05.03.45.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b571f46538sm56679525e9.5.2026.11.05.03.45.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 03:45:39 -0800 (PST)
+        Thu, 05 Nov 2026 03:45:44 -0800 (PST)
 From: James Clark <james.clark@linaro.org>
-Date: Thu, 05 Nov 2026 11:45:03 +0000
-Subject: [PATCH v4 15/19] perf auxtrace: cs-etm: Capture wrapped snapshots
+Date: Thu, 05 Nov 2026 11:45:05 +0000
+Subject: [PATCH v4 17/19] perf test: cs-etm: Add test for per-thread mode
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,7 +93,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-james-cs-unformatted-per-thread-fix-v4-15-7759e0ce2449@linaro.org>
+Message-Id: <20261105-james-cs-unformatted-per-thread-fix-v4-17-7759e0ce2449@linaro.org>
 References: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
 In-Reply-To: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
 To: Leo Yan <leo.yan@linux.dev>, Adrian Hunter <adrian.hunter@intel.com>
@@ -113,122 +113,73 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
  James Clark <james.clark@linaro.org>, John Garry <john.garry@linux.dev>
 X-Mailer: b4 0.15.2
 
-find_snapshot() isn't implemented for Coresight, so when a wrap occurs
-we only save from offset 0 to current head, modulo buffer size, rather
-than capturing the whole buffer. Coresight drivers currently use a
-monotonic head pointer even in snapshot mode, which gives a lot more
-information for taking snapshots than a wrapped pointer. It means we
-don't need to search for data at the end of the buffer to guess if a
-wrap has occurred, and we can go back to saving partial buffers after a
-wrap by checking if the next size to take is less than the buffer
-size.
+Test that per-thread mode works when the process migrates across CPUs
+and that the decode happens in the correct order.
 
-The drivers will always be able to generate a monotonic head because
-TRBE has a bytes written counter, so even if we stop generating an AUX
-record on every overflow, we can check if the counter indicated an
-overwrite and offset head by a whole buffer size if it wrapped. This
-forces userspace to read the whole buffer rather than between last and
-current head. ETR and other sinks use software double buffering, so can
-continue as they are.
-
-Add auxtrace_record__monotonic_find_snapshot() and use it for Coresight.
-A monotonic head can't be auto-detected in the default find_snapshot()
-by checking if head > buffer size, because before the first wrap a
-monotonic head looks the same as a wrapped one. The search would then
-falsely detect a wrap when head is near the end of the buffer, and the
-wrapped pointer fixup moves 'old' and 'head' a whole buffer ahead of the
-driver's head. With a wrapped head that doesn't matter because only the
-offset within the buffer is used, but with a monotonic head the next
-snapshot would either save already saved data again or drop up to a
-buffer's worth of new data.
+A TODO is left in for when support for decoding in order with Perf
+records is added.
 
 Reviewed-by: Leo Yan <leo.yan@arm.com>
 Tested-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/arch/arm/util/cs-etm.c                  |  1 +
- .../perf/tests/shell/coresight/raw_dump_stress.sh  |  5 -----
- tools/perf/util/auxtrace.c                         | 23 ++++++++++++++++++++++
- tools/perf/util/auxtrace.h                         |  4 ++++
- 4 files changed, 28 insertions(+), 5 deletions(-)
+ tools/perf/tests/shell/coresight/per-thread.sh | 48 ++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/tools/perf/arch/arm/util/cs-etm.c b/tools/perf/arch/arm/util/cs-etm.c
-index 5e7d09b7170c..84a5d7392a5f 100644
---- a/tools/perf/arch/arm/util/cs-etm.c
-+++ b/tools/perf/arch/arm/util/cs-etm.c
-@@ -922,6 +922,7 @@ struct auxtrace_record *cs_etm_record_init(int *err)
- 	ptr->itr.info_fill		= cs_etm_info_fill;
- 	ptr->itr.snapshot_start		= cs_etm_snapshot_start;
- 	ptr->itr.snapshot_finish	= cs_etm_snapshot_finish;
-+	ptr->itr.find_snapshot		= auxtrace_record__monotonic_find_snapshot;
- 	ptr->itr.reference		= cs_etm_reference;
- 	ptr->itr.free			= cs_etm_recording_free;
- 	ptr->itr.read_finish		= auxtrace_record__read_finish;
-diff --git a/tools/perf/tests/shell/coresight/raw_dump_stress.sh b/tools/perf/tests/shell/coresight/raw_dump_stress.sh
-index bea70d825596..c9459ded4cbe 100755
---- a/tools/perf/tests/shell/coresight/raw_dump_stress.sh
-+++ b/tools/perf/tests/shell/coresight/raw_dump_stress.sh
-@@ -48,11 +48,6 @@ read -r size offset last_idx <<< "$(awk '
- # everything was dumped. Allow 48 bytes difference to cover 3 frames: current
- # frame length, a partial frame and a final empty one, all of which aren't
- # dumped.
--#
--# TODO: for a single snapshot, offset should always be zero. However, we
--# currently output AUX records in snapshot mode when we shouldn't, which
--# increments the offset. Allow for that until it's fixed so we can test raw
--# dumping.
- decode_size=$((1 + last_idx - offset))
- if [ "$decode_size" -gt "$((size - 48))" ] && [ "$decode_size" -le "$((size))" ]; then
- 	echo "PASS: AUXTRACE buffer length matches dumped packet index"
-diff --git a/tools/perf/util/auxtrace.c b/tools/perf/util/auxtrace.c
-index c613efd83223..3aabf2f4bd47 100644
---- a/tools/perf/util/auxtrace.c
-+++ b/tools/perf/util/auxtrace.c
-@@ -750,6 +750,29 @@ int auxtrace_record__default_find_snapshot(struct auxtrace_record *itr, int idx,
- 	return 0;
- }
- 
-+/*
-+ * auxtrace_record::find_snapshot() implementation for drivers that don't wrap
-+ * 'head' in snapshot mode, so it's already monotonic like in full trace mode.
-+ * No search is needed, only force a full buffer read if more than a buffer's
-+ * worth of data was written since the last read.
-+ */
-+int auxtrace_record__monotonic_find_snapshot(struct auxtrace_record *itr __maybe_unused,
-+					     int idx, struct auxtrace_mmap *mm,
-+					     unsigned char *data __maybe_unused,
-+					     u64 *head, u64 *old)
+diff --git a/tools/perf/tests/shell/coresight/per-thread.sh b/tools/perf/tests/shell/coresight/per-thread.sh
+new file mode 100755
+index 000000000000..8a1ab9d8f1e7
+--- /dev/null
++++ b/tools/perf/tests/shell/coresight/per-thread.sh
+@@ -0,0 +1,48 @@
++#!/bin/bash -e
++# CoreSight per-thread CPU attribution (exclusive)
++
++# SPDX-License-Identifier: GPL-2.0
++
++# If CoreSight is not available, skip the test
++perf list pmu | grep -q cs_etm || exit 2
++
++if ! tmpdir=$(mktemp -d /tmp/perf-cs-per-thread-test.XXXXXX); then
++	echo "mktemp failed"
++	exit 1
++fi
++
++cleanup_files()
 +{
-+	pr_debug3("%s: mmap index %d old head 0x%"PRIx64" new head 0x%"PRIx64"\n",
-+		  __func__, idx, *old, *head);
-+
-+	if (*head - *old > mm->len) {
-+		*old = *head - mm->len;
-+		pr_debug3("%s: wrap-around detected, adjusted old head 0x%"PRIx64"\n",
-+			  __func__, *old);
-+	}
-+
-+	return 0;
++	rm -rf "$tmpdir"
++	trap - EXIT TERM INT
 +}
 +
- int auxtrace_record__options(struct auxtrace_record *itr,
- 			     struct evlist *evlist,
- 			     struct record_opts *opts)
-diff --git a/tools/perf/util/auxtrace.h b/tools/perf/util/auxtrace.h
-index 9d86f8366ad7..980acb2dc687 100644
---- a/tools/perf/util/auxtrace.h
-+++ b/tools/perf/util/auxtrace.h
-@@ -607,6 +607,10 @@ int auxtrace_record__default_find_snapshot(struct auxtrace_record *itr, int idx,
- 					   struct auxtrace_mmap *mm,
- 					   unsigned char *data, u64 *head,
- 					   u64 *old);
-+int auxtrace_record__monotonic_find_snapshot(struct auxtrace_record *itr,
-+					     int idx, struct auxtrace_mmap *mm,
-+					     unsigned char *data, u64 *head,
-+					     u64 *old);
- void auxtrace_record__snapshot_fixup(struct auxtrace_mmap *mm, bool wrapped,
- 				     u64 *head, u64 *old);
- u64 auxtrace_record__reference(struct auxtrace_record *itr);
++trap cleanup_files EXIT
++trap 'cleanup_files; exit 1' TERM INT
++
++echo "Recording..."
++perf record -o "$tmpdir/data" -e cs_etm//u --per-thread -- \
++	taskset --cpu-list 0 taskset --cpu-list 1 taskset --cpu-list 2 true > /dev/null 2>&1
++
++echo "Decoding..."
++perf script -i "$tmpdir/data" --itrace=b -F comm,cpu 2> /dev/null | \
++	grep -Eo '(taskset|true).*(\[[0-9]+\])' | \
++	uniq | tail -n 3 > "$tmpdir/script" 2>/dev/null
++
++# Check that the decode says it ran on CPU 0, 1, 2, in that order. TODO: The
++# correct result should be "taskset [0,1,2], true 2" but we don't decode trace
++# in order of the Perf events yet, so everything is associated with the last
++# exec.
++cat > "$tmpdir/expected" << EOF
++true [000]
++true [001]
++true [002]
++EOF
++
++if ! diff -q "$tmpdir/script" "$tmpdir/expected"; then
++	echo "FAIL: per-thread output doesn't match expected:"
++	cat "$tmpdir/script"
++	exit 1
++fi
++
++exit 0
 
 -- 
 2.43.0
