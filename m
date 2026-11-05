@@ -1,51 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.210
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793916495;
-	b=zej6wNT8gnImqyf2iOY5LYt8dJESeC8lANI1KTwBZxpjbhcK3uFYlgVh0vnuS7Xiuuxb
-	 S3r8kMJc6oUg39+ocXrYYchStsb85aHWYLC1nyQCn5G2cF3QllOkAhcGwDITNcgHqHS2o
-	 bIzR5he5NHSKceTrMTiVq9gX+Y4Bz6c8nRoHvmCAzGU1pkQfjSJAyHcfgy+USa4qApgYI
-	 byer1I6k7Qb96T3VdfpJxgM9N6e0X1wcDAS6LJxOX1NiBHdx+Lo2pDjwCqTxFUPw1XwZj
-	 ibbyU9cTw21kpwp1o4CbleXZiO0pZ9jJ/w1PlVe5uBEhDW4W3uj4IsbIH2+sW/v2/EA==
+	t=1793917261;
+	b=qahiXLD9t95j0JlfCge39dRDwNa94sJQ61SlhBOLl5lz7TWWcT2dZdH4XfFFpWzcLKu5
+	 tNQBsiP6cuBwCynyK79QNTiuR0h9OOMc4cc8pj70O+Y7chNEFINZaV4iKvMFsEivniyqK
+	 nL2NNibPu/WeWxSBopAQEIcJOOWqXxaejdpQgLoiCCt0VG3qDVbT6o31Y1+lyP1Fp2byx
+	 SZoxpx7KfCBQ2oWHbW45//vQ1cD/GXMWzn80neJ+haCwYbFzfrIWt9KCNgul4c3f0khvA
+	 3cnir4j6txApA1f3bFe/DLssc0QydFua1b1Sju3eveHJwIsVyBs4prIee+4QlLwkwEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793916495;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=XYA3g2+HtqFAIS8I2EWomiFCDvHSGWyaU3MTisxAOLE=;
-	b=SFgVbnB4fe9Ya376zRw4U1MopRSdVWTa47BZ28M2j9YXnKSqxOblovlybGBv038MMCP6
-	 FnPpeSvjyrMe2KzDHPEhHSQqFRF3nQL4l4wb8zPY72i+1gn+CxjGJDRO2c3qiwOX1NEqj
-	 1XYFyzObNJDDs3v2h+PZ52VDEaOR5NYZaB9fhl2eIXpPI9mvPPHqI071OxrBcrhE02kfa
-	 cAMeGFgbrxqTm0jnJundscEJNLcS6uvDtOhmLtH4Os4wKXMk/ducP08yg2FoEaw1UbHv+
-	 X2yEw+HHCLDKTY1ioy1/KaDUhCgffOnVN6umJErFUp0EjEkX9Ofq9AL6T6xKlsy7tIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793917261;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=kZvRQk8qYOltAbKUxNkYwyZeXDB5dZ+BBtBT4hJ905c=;
+	b=bh60pnfyiDUIYtBCnUEoewdx+dTUu1NqtScXkgTMiFhHgiW6kM8BrdnxhY4OIbR+mgDs
+	 meVsHJ2JZZrX0f0WuPWYpwAhDD9z1oYoWp8Ec3eZHYUayfHOTF/bszxIpziBMZzwM/Iq5
+	 dPQbgHjLPuSdAPsHHUcr+ktknypDez8ZB5hopecAqBZ/HBrQIqBXsqP2C6jWGfnGAZvpT
+	 T3mkJPQpCUe8FEAjuUhkKEuA1/Bx7itqyzhEj3xFVH/KfoX+Nvm/Od+ydJWO0i5i8e5dM
+	 P+blrwLm7ONQerm/dqHlAaXfGjzhJAAJ17ALehLpOPVyzwqsBhSmf6FFqjw2rRmhtqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	arc=none smtp.remote-ip=91.218.175.210
-Received: from mta0.migadu.com (out-210.mta0.migadu.com [91.218.175.210])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=obvqlox2;
+	arc=none smtp.remote-ip=74.125.229.133
+Received: from mail-dl2-f5.google.com (mail-dl2-f5.google.com [74.125.229.133])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3D606A31B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 22:08:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47E3D606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=PnYyaVx64MD1jaWFrbHNWMnyMKuFQYL/DiizwVaVslY=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793916491; v=1; x=1794521291;
- b=QH/HVW0hpgJm35wNbRGzmwvZ10g2LybOwDKUHZ4P8dJuTSEKQcDDwh6PVWgxSY68jXhqxkcP
- M8WOED8XfgbQpgQqWrPt9BItzVObZ+TNhsEUU/L5wJimcNDwhBDdF3leBgbl95nIA+hR41Y7wko
- NmIsiCHV1EwF6neowfmol7n0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id faa4b71d0d8cf75d;
-	Thu, 05 Nov 2026 22:08:11 +0000
-X-Mizu-Trace-ID: faa4b71d0d8cf75d
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <c043f698-176d-43c5-9086-2973d4ca0833@linux.dev>
-Date: Thu, 5 Nov 2026 23:08:06 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3915606A32E
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 22:21:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3915606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=obvqlox2
+Received: by mail-dl2-f5.google.com with SMTP id a92af1059eb24-1ac216daf7dso58545c88.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 14:21:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793917260; x=1794522060; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kZvRQk8qYOltAbKUxNkYwyZeXDB5dZ+BBtBT4hJ905c=;
+        b=obvqlox2baCnA3JMUIrvbt0d7DdsKdabHK7z6YwvqrDPqNNZGm6+LEmE29FLBrXUSN
+         xfWpLTfkrYg+qFBP3rvKTBRIx/amuIUtOxV3DtWxkosqeIo81ByIqbEmwdFCmeusXv8G
+         x6nyGWLEU4qkom+beG0+3G8BmFBqjhvVbDMZdoMm4k1/+K7aDIdQFrNZh4Ek6qC2NNCk
+         8Hm3o52rP4oPPBIwniUZs6fynaDYP5wRwUBBd4Qtv4S4EIFvH9cx6oiN0I2ZF9dxAknx
+         G4p2cm//p0z1ftCZZeR9jR+IXuUc539iGLsY48DWW19vAtuyIvzFrhZf6rBVIO/ReNDP
+         83Ew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793917260; x=1794522060;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kZvRQk8qYOltAbKUxNkYwyZeXDB5dZ+BBtBT4hJ905c=;
+        b=dmxTvv4HazdYAfqn7rOFd45/OaMOIjF9dXifH8+uYiQj2z6vxMgZ2gKzIHYTnf3Mq2
+         P7SATZYhopipy/s30BYG9xKe5T3nqeE8lCghljWfvEXY/CtW78HODxgfyPH4LzvDGrf/
+         LwUfRgkkhvGNNcyK8cXUq6wWLAdOGmpsnmhhqFWgUC9U8rOz96t8f2TknTcaSS/mCanZ
+         ginyVSur0NDlN94lCVVPzpAFC/+XI7IQN59jlobu2PbWR1eF9bTI9L6Y8cRvuMGR8reL
+         /aJGjBo5wQ3zUlSeJq8XRDE9omZFzU9gGmF2SgPR2TpPBFUFRZMpkrWRq/epniiDUnWD
+         +n4w==
+X-Forwarded-Encrypted: i=1; AKwUvBx3oQK2hoQ0tmxGYOYx6C1Md2yrZI1wcU+mtNZfUP/Lo3H6/oLSGASDZgS74/yWNmXhE/nslv2BrOE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+yAfmQDbSeCBjFOw+nNYlFmWC3JSa/pfi8fjjrVoqV29ePIEQk
+	KqO/URn2xkvudwmpv3678F8IszTlskagrM0LB0a+LWAYSBLYv6qIZprd
+X-Gm-Gg: AYBFou0TJTSBW7HVjRcUtLAf8Ovs5sfXfvngnbIeqsqJuuKbM3F5S/iy6fMQhzR7L5o
+	IZT6ix+YQ3MnCv5r7GA7B+4v40aHGS98zn9zMqjcccOrdQajQ/KOme3dliyvd89w5MVGf5Qvgs8
+	bEU0ZKmYTwGCcsqmR4hs8QTW7xraXQtwZIuKCCHMdc4xcIl59u7gtHJAThT7gmywy8rbylXeOJf
+	lcrkKM//cfJWXKUackDmrCKN3+Px0S365OOrUY3Ks8cJR9+ILoGuPvkc/SSNPctdJDmEwwo7QWH
+	/UHXYkwvzxBTGwYHLS66hdsMdc571GyKUx/WSr+DGUxDu8DkoUqFa6lemnmfRZX6Xtxsij0DgoH
+	5NLPjf47z/EeiIK1SKt4+Rio3xKZ01RUo+Lc0Tnt9KR2hW406e5g9HR+TQu8w7tnLoXUgzU8EdY
+	rbi/RSpRJjMATub3akLaJnN3QJNWaZwqXj3gUfTzYd2HU4x3zCk2+Uv1CENB0b59UwbQ9tBecpk
+	fT64bUHyvO6TCiuj+GDk28t6SI6n2Dualb3TWGdJ1TFcgZblfvxTVLPxgsOcspMgwxVWhGLOv41
+	gP7sVMw/SJNdvfUL6JIRjLg=
+X-Received: by 2002:a05:693c:6096:b0:368:d0b6:b231 with SMTP id 5a478bee46e88-36f752511a5mr890910eec.10.1793917259665;
+        Thu, 05 Nov 2026 14:20:59 -0800 (PST)
+Received: from localhost ([2a03:2880:9ff:74::])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa651eccdsm117955eec.1.2026.11.05.14.20.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 14:20:59 -0800 (PST)
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+X-Google-Original-From: Stanislav Fomichev <sdf@fomichev.me>
+To: netdev@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	edumazet@kernel.org,
+	horms@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	michael.chan@broadcom.com,
+	pavan.chebbi@broadcom.com,
+	saeedm@nvidia.com,
+	tariqt@nvidia.com,
+	mbloch@nvidia.com,
+	alexanderduyck@fb.com,
+	kernel-team@meta.com,
+	sdf@fomichev.me,
+	dimitri.daskalakis1@gmail.com,
+	almasrymina@google.com,
+	dtatulea@nvidia.com,
+	bobbyeshleman@meta.com,
+	asml.silence@gmail.com,
+	daniel@iogearbox.net,
+	razor@blackwall.org,
+	leitao@debian.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	leon@kernel.org
+Subject: [PATCH net-next v3 0/9] net: devmem: size TX net_iovs from the dmabuf layout
+Date: Thu,  5 Nov 2026 14:20:49 -0800
+Message-ID: <20261105222058.944293-1-sdf@fomichev.me>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -55,164 +124,113 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v3 for-next 1/3] block: Reject unknown status tags in error
- injection rules
-To: Mohamed Khalfella <mkhalfella@purestorage.com>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-References: <20260928221634.43239-1-haris.iqbal@linux.dev>
- <20260928221634.43239-2-haris.iqbal@linux.dev> <20261005084917.GA9160@lst.de>
- <20261020223402.GA1582237-mkhalfella@purestorage.com>
- <58a98f7d-b2c5-47b5-a372-0ab5afa6a8ed@linux.dev>
- <20261105201827.GB2439-mkhalfella@purestorage.com>
-Content-Language: en-US
-From: Haris Iqbal <haris.iqbal@linux.dev>
-In-Reply-To: <20261105201827.GB2439-mkhalfella@purestorage.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+TX bindings use PAGE_SIZE net_iovs, so a frag covers at most a page.
+A 64KB skb needs 16 frags, and MAX_SKB_FRAGS caps devmem skbs at about
+68KB, which makes BIG TCP ineffective for devmem TX.
 
+This series picks the TX net_iov size from the dmabuf sg table instead:
+the largest power of 2, up to 2MB, which aligns every DMA segment. With
+a 2MB hugepage-backed udmabuf a BIG TCP skb takes a few frags. There's
+no UAPI change since TX addresses are dmabuf offsets.
 
-On 11/5/26 21:18, Mohamed Khalfella wrote:
-> On Thu 2026-11-05 21:00:27 +0100, Haris Iqbal wrote:
->>
->>
->> On 10/21/26 00:34, Mohamed Khalfella wrote:
->>> On Mon 2026-10-05 10:49:17 +0200, Christoph Hellwig wrote:
->>>> On Tue, Sep 29, 2026 at 12:16:32AM +0200, Md Haris Iqbal wrote:
->>>>> tag_to_blk_status() returns BLK_STS_OK both for the "OK" tag and for a
->>>>> tag it does not recognize, so a caller cannot tell the two apart. The
->>>>> block error injection code (which is the sole user of this function
->>>>> currently) relies on error_inject_add() later to reject adding a rule with
->>>>> status=BLK_STS_OK. This is okay for the current state of error injection.
->>>>>
->>>>> The delay option added in the next commit makes the rule with status=OK
->>>>> valid, meaning the function tag_to_blk_status() now needs to explicitly
->>>>> match BLK_STS_OK for it, and fail for a tag it does not recognize. Hence
->>>>> make tag_to_blk_status() take a second param to update the matched status,
->>>>> and return true in case of a successful match. If a match is not found,
->>>>> the function tag_to_blk_status() returns false and *status remains
->>>>> unchanged.
->>>>>
->>>>> A repeated status= where an invalid tag comes first is now rejected
->>>>> instead of being overridden by the later one.
->>>>>
->>>>> Cc: Christoph Hellwig <hch@lst.de>
->>>>> Assisted-by: Claude:claude-opus-5
->>>>> Signed-off-by: Md Haris Iqbal <haris.iqbal@linux.dev>
->>>>> ---
->>>>>    block/blk-core.c        | 14 ++++++--------
->>>>>    block/blk.h             |  2 +-
->>>>>    block/error-injection.c |  7 ++++---
->>>>>    3 files changed, 11 insertions(+), 12 deletions(-)
->>>>>
->>>>> diff --git a/block/blk-core.c b/block/blk-core.c
->>>>> index 13dc70e8f55d..c45846b9c50d 100644
->>>>> --- a/block/blk-core.c
->>>>> +++ b/block/blk-core.c
->>>>> @@ -225,21 +225,19 @@ const char *blk_status_to_tag(blk_status_t status)
->>>>>    	return blk_errors[idx].tag;
->>>>>    }
->>>>>    
->>>>> -blk_status_t tag_to_blk_status(const char *tag)
->>>>> +bool tag_to_blk_status(const char *tag, blk_status_t *status)
->>>>>    {
->>>>>    	int i;
->>>>>    
->>>>>    	for (i = 0; i < ARRAY_SIZE(blk_errors); i++) {
->>>>>    		if (blk_errors[i].tag &&
->>>>> -		    !strcmp(blk_errors[i].tag, tag))
->>>>> -			return (__force blk_status_t)i;
->>>>> +		    !strcmp(blk_errors[i].tag, tag)) {
->>>>> +			*status = (__force blk_status_t)i;
->>>>> +			return true;
->>>>> +		}
->>>>>    	}
->>>>>    
->>>>> -	/*
->>>>> -	 * Return BLK_STS_OK for mismatches as this function is intended to
->>>>> -	 * parse error status values.
->>>>> -	 */
->>>>> -	return BLK_STS_OK;
->>>>> +	return false;
->>>>>    }
->>>>>    
->>>>>    /**
->>>>> diff --git a/block/blk.h b/block/blk.h
->>>>> index 2cc03aa54c53..5fa54162c686 100644
->>>>> --- a/block/blk.h
->>>>> +++ b/block/blk.h
->>>>> @@ -52,7 +52,7 @@ void blk_free_flush_queue(struct blk_flush_queue *q);
->>>>>    
->>>>>    const char *blk_status_to_str(blk_status_t status);
->>>>>    const char *blk_status_to_tag(blk_status_t status);
->>>>> -blk_status_t tag_to_blk_status(const char *tag);
->>>>> +bool tag_to_blk_status(const char *tag, blk_status_t *status);
->>>>>    enum req_op str_to_blk_op(const char *op);
->>>>>    
->>>>>    bool __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
->>>>> diff --git a/block/error-injection.c b/block/error-injection.c
->>>>> index e14bc4b723ef..db543fe27630 100644
->>>>> --- a/block/error-injection.c
->>>>> +++ b/block/error-injection.c
->>>>> @@ -171,15 +171,16 @@ static int match_op(substring_t *args, enum req_op *op)
->>>>>    static int match_status(substring_t *args, blk_status_t *status)
->>>>>    {
->>>>>    	const char *tag;
->>>>> +	bool found;
->>>>>    
->>>>>    	tag = match_strdup(args);
->>>>>    	if (!tag)
->>>>>    		return -ENOMEM;
->>>>> -	*status = tag_to_blk_status(tag);
->>>>> -	if (!*status)
->>>>> +	found = tag_to_blk_status(tag, status);
->>>>> +	if (!found)
->>>>>    		pr_warn("invalid status '%s'\n", tag);
->>>>>    	kfree(tag);
->>>>> -	return 0;
->>>>> +	return found ? 0 : -EINVAL;
->>>>
->>>> 	if (!found) {
->>>>     		pr_warn("invalid status '%s'\n", tag);
->>>> 		return -EINVAL;
->>>> 	}
->>>> 	return 0;
->>
->> As Mohamed mentioned below, "tag" would leak then.
->>
->>>
->>> Doing it this way will result in use-after-free. "tag" has already been
->>> freed above.
->>>
->>> Maybe change tag_to_blk_status() to return an int (0 on success and
->>> -EINVAL on failure) and use its return value without mapping it?
->>
->> I am not sure I get your suggestion completely. Even if we change the
->> return type of tag_to_blk_status(), we would have to free the "tag"
->> before returning.
-> 
-> Changing tag_to_blk_status() to return an int will not have an effect or
-> "tag" like you mentioned. But you will not need to map the return from
-> that function.
-> 
-> return found ? 0 : -EINVAL;
-> 
-> The line above just returns what tag_to_blk_status() returned.
+TCP still bounds skbs by size_goal, so frags get larger, skbs don't.
+Devmem TX frags are capped by a new per-device limit, PAGE_SIZE by
+default, so drivers opt in to larger frags:
+- mlx5: no limit, 32-bit length per data segment
+- bnxt, fbnic: 32KB, 16-bit TX descriptor length
+- gve keeps PAGE_SIZE frags
 
-I would prefer to keep tag_to_blk_status() as a bool lookup. It's the 
-reverse of blk_status_to_tag(), and which errno to return is 
-match_status()'s call.
+Tested on two mlx5 400Gb/s hosts with kperf (udmabuf, 32KB RX
+net_iovs, 2MB hugepage-backed TX buffer), series backported to a 7.1
+kernel on the sender only. 1 flow, MTU 4200, receiver tcp_rmem capped
+at 16MB so it doesn't drop, median of 5 x 60s runs:
 
-> 
->>
->> What can make it simpler is allocating "tag" on stack, and then use
->> match_strlcpy() instead of match_strdup().
-> 
-> That can work too. Just make sure we limit the string size somehow.
+                              before    after
+  frags per skb (sender)       16-17      1-2
+  throughput (Gb/s)            208.6    211.2
+  sender sendmsg CPU (sys)     40.8%    19.5%   (-52%)
 
-This I can do in v4. It should effectively remove the ternary operator too.
+The receiver's CPU is the bottleneck, so the gain is CPU, not
+throughput. More of the transmit runs from the ACK path, so the
+sender's softirq grows (52% -> 59%), but sys + sirq still drops by 16%.
+
+kperf output (sender side) of runs near the median, before:
+
+  client: == Source <sender>
+  client:   Tx213.826 Gbps (1603901849600 bytes in 60007723 usec)
+  client:   Rx  0.000 Gbps (0 bytes in 60007723 usec)
+  client:   TCP retrans reord rtt rttvar d_ce snd_wnd cwnd
+  client:             0     0 633      2    0 15556608 7657
+  client:   net CPU 49: usr: 0.01% sys: 0.10% idle:44.13% iow: 0.00% irq: 3.21% sirq:52.53%
+  client:   app CPU 50: usr: 0.05% sys:41.55% idle:53.88% iow: 0.00% irq: 1.40% sirq: 3.10%
+
+after:
+
+  client: == Source <sender>
+  client:   Tx211.242 Gbps (1584440279040 bytes in 60004741 usec)
+  client:   Rx  0.000 Gbps (0 bytes in 60004741 usec)
+  client:   TCP retrans reord rtt rttvar d_ce snd_wnd cwnd
+  client:             0     0 556      3    0 15499264 7650
+  client:   net CPU 13: usr: 0.01% sys: 0.08% idle:37.75% iow: 0.00% irq: 3.87% sirq:58.26%
+  client:   app CPU 14: usr: 0.06% sys:19.48% idle:77.23% iow: 0.00% irq: 1.19% sirq: 2.02%
+
+The bnxt patches (1 and 5) were tested on two 50Gb/s bnxt hosts with
+CONFIG_MAX_SKB_FRAGS=45 (with 17 the check in patch 1 compiles out).
+kperf devmem TX from a 2MB hugepage-backed udmabuf runs at line rate
+(46.4Gb/s, payload validated) with 2-3 frags per skb, none above 32KB.
+ncdevmem sending 1KB chunks builds skbs with up to 45 frags, the stack
+segments them and the data arrives intact. The fbnic patch is
+build-tested only.
+
+Patches:
+- 1: bnxt: segment GSO skbs with too many frags in the stack
+- 2-3: devmem TX prep (truesize, niov_shift in the TX lookup)
+- 4-7: per-device netmem TX frag size limit, PAGE_SIZE by default,
+  opt-ins for bnxt, fbnic and mlx5
+- 8: pick the TX net_iov size from the sg table
+- 9: selftest for TX from a hugepage-backed dmabuf
+
+v3:
+- default the netmem TX frag size limit to PAGE_SIZE, opt in bnxt,
+  fbnic and mlx5 (Mina)
+
+v2: https://lore.kernel.org/netdev/20261103235152.1904727-1-sdf@fomichev.me/
+- reword the TX truesize commit message (Mina)
+- explain why the TX net_iov size ignores the device limit (Mina)
+- use 1 flow results in the cover letter (Mina)
+
+v1: https://lore.kernel.org/netdev/20261102191438.1059771-1-sdf@fomichev.me/
+
+Stanislav Fomichev (9):
+  bnxt_en: let the stack segment GSO skbs with too many frags
+  net: devmem: charge the frag length to TX skb truesize
+  net: devmem: use niov_shift in net_devmem_get_niov_at()
+  net: devmem: add a per-device netmem TX frag size limit
+  bnxt_en: set the netmem TX frag size limit to 32KB
+  eth: fbnic: set the netmem TX frag size limit to 32KB
+  net/mlx5e: lift the netmem TX frag size limit
+  net: devmem: size TX net_iovs from the dmabuf sg table
+  selftests: drv-net: devmem: TX from a hugepage-backed dmabuf
+
+ .../networking/net_cachelines/net_device.rst  |  1 +
+ Documentation/networking/netmem.rst           |  7 +++
+ drivers/net/ethernet/broadcom/bnxt/bnxt.c     |  6 +++
+ .../net/ethernet/mellanox/mlx5/core/en_main.c |  1 +
+ .../net/ethernet/meta/fbnic/fbnic_netdev.c    |  1 +
+ include/linux/netdevice.h                     |  2 +
+ net/core/datagram.c                           |  3 +-
+ net/core/dev.c                                |  1 +
+ net/core/devmem.c                             | 37 +++++++++++++---
+ net/core/devmem.h                             |  1 +
+ net/core/netdev-genl.c                        |  2 +-
+ .../selftests/drivers/net/hw/devmem.py        | 10 ++++-
+ .../selftests/drivers/net/hw/devmem_lib.py    | 43 +++++++++++++++++--
+ .../selftests/drivers/net/hw/ncdevmem.c       |  8 +++-
+ .../selftests/drivers/net/hw/nk_devmem.py     | 11 ++++-
+ 15 files changed, 118 insertions(+), 16 deletions(-)
+
+-- 
+2.53.0-Meta
 
