@@ -1,100 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793897971;
-	b=4NomzbOauZ5a1+6Rnp9x/ByOnXul+GB4/T9/0hZbakDYeH7J5ZXjNwdlVisILU8/Gaz3
-	 pkZNMGiiz40cIkTcceNVOM9SDa1jvzqFiG6nPr46QY8yOHhq0bZzihEsImrKGpBXst5U2
-	 ByrFyvsxGTIdoeznYfUU1LrpwEre25UGsoWe6bTyZmHM/TXh7ETvNBY1nb3SbRtSS/XKe
-	 pNYvMXHY5MmS105KkVUfuozTYiADtuM9TTaY0sHT171olW6PaAsp5yEzgsUQH3su74kLs
-	 k+BqCH9nun0aOicu57GfBzkGluLF8u2T0PbKRrB91+pShJY9A6yOBVS93ASmf8x+zrQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793897971;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793898126;
+	b=DdEL3pSxuaJ+ktk+ly7YipXV6h9lbmX1oQnFV6zrYzj5ZeVTr6rmqDJOWAHxgEuCrzBl
+	 wjOik8RjE+rxeqkGmwU2ViMkGzS3DFuN6gNViw+Y6io91aH0I18lTtRgoMuyMUJ0pAiOL
+	 VvLTeSeZrYAA8wf/CWB0eQ8uOh2jF1SYoQkHB9qlzR2kAyMlRt6FEw1tPpM02beSUsOhW
+	 3hFw3aAcLWOUGxzLscBrR1or5mQ0IaU2Kg4akXM2GNOJWaJYGwzUd5h8FDfGaffNlHHBR
+	 QrKUzjeKJzQm7gSDQAaYWkKQheTFr4UKsHWhlTYk+vn94YdKWr2y2wokwOz5C35Yhsg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793898126;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=ENTWrgdqNOnhBXm7Ydoc9z3n/Zlmn8Dt6MNiq3/7nzs=;
-	b=JMi6hLbytepElA6LG9OfxJ6ZMe5wvmQVv9pSFXZOZVNzlSXG5O1aHEVISuruXvPEBn7r
-	 1bu+GHzt4vzoWmV+cOX0EWDrTLioyYSSiZMWnfGMiY6SUNvUUsq9/KT/WAJPkchBP4HdI
-	 59WRcnlz/Tn7ORagekjEMpAxrKWGGaX0PRgQC9XB6U2/Xz6zpBW/Xi1NdIV69WomlpdVX
-	 oFu42ZSZylqlzwF6IIYgwGOBlPImwmBSZWtWM9wyXD7Qe+DeqKoF5oV4ii3LhHT3KJnnl
-	 X+EsAyDRBzZtCwEGPO8mvLhEJQ8plsqmUIj1PNEmbd9rcenTGzzxg4sJjFk3rSlesVA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=amacapital.net;
-	spf=pass smtp.mailfrom=amacapital.net;
-	dkim=pass header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=M4rBHBr6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.41
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=E1zVtHMFtNJFSrWULrvIbtVVqDsU9/hCEAvj/Fm4m+Y=;
+	b=K///6haVTn5uoFK2DN2zdNJCPkyeeoMmfFB3VV+zG4nx+okuM163V+RGO2oqHsdZgnpy
+	 29TgL0N077PP3/XZtqsqihfjPGVr0OXWf5zYEAL88ROWrYdqTl72j7WB8jyV1iIdATIAe
+	 5XzdvmaITTbppcQJ2EGc1gk28uEowP7eGbqeXG8fwRHLLNWIQFdy88IzvaCI74o4t+Gf9
+	 G4liwMAk9HCg4LCX+dj5xd+bYFzSzw7X0wRCUvhujIm0ti+zN5emxvotsiPCnc5MWRCnt
+	 E6v4NHDgtQaaf5jGc87qarVplL7LGslea9l1qIHALZ6+JNPiHdb2SPsN9/3Qw81/UKA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b="UT/D8aSt";
+	arc=none smtp.remote-ip=209.85.217.53
+Received: from mail-vs1-f53.google.com (mail-vs1-f53.google.com [209.85.217.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66D02606A31B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 16:59:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66D02606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EC3606A332
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 17:02:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11EC3606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=amacapital-net.20260707.gappssmtp.com header.i=@amacapital-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=M4rBHBr6
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5bfbc67991cso1334377e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 08:59:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793897969; cv=none;
-        d=google.com; s=arc-20260327;
-        b=lvpJ9LWBQw+EfWaoiJM86E4TefNaD3xj3gpg5GKqOyiq5eDMMfcY9fZps7Tx/9q0zS
-         QX5IK5kADwz0i4QtMrDek1XJq7AqBeAS+31yyLEhVqEraxN5OLflVxhzxRlXckx4pXBm
-         2Hrgwjkl2X1qtR80apixFJEC/+ES6MUWIgocl0IFX6ZT7MRbEL8acWf0/VvsX3m0q6eX
-         GnC5CqfWATf7107VNN7DkSKVzC5t2jibglrnDqws3UE41uQsS781FWkvTbiWpymbmATq
-         7xnjlYCyHgwTXjER4mefkRhQ//b/VxKXuXLklp6ZyilPOdiFLhS22GAcXCAJ6wFt2CxS
-         keTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ENTWrgdqNOnhBXm7Ydoc9z3n/Zlmn8Dt6MNiq3/7nzs=;
-        fh=t3n3naYho3v/Y2VC1vBW0rVtOM46FvL4GJAEIC/PQHE=;
-        b=h6ZjhEVLvmuidIZyd0RG3/BB+sfGjehbEDdu+hO5Xd+ZaP6F1JZrenZgnuI/WZsYiE
-         Bl4mLy0Da5vdaN7Os5U3utz9cYe5qpJNPvEQ9kZPHw2YivMBJw6OYgKT3Qe9+st7YXNS
-         CaCw8Avbon6mlEYKCww0NxrOlWP4odKtSe2YjQnLWRrXfHMbv1KfxQNBlncaUaPdY0fK
-         zRi6U4OxJnmPqNzP5TJgsYSTETbxboVtb0THf88kHw4REfLDQfUGd5HbByVDIuf1jRLR
-         BZokJFk+faHzZr3xPWjsfTD8/uU+Er2S/3vRo0IV46+vJOwYuBzJOQ1GQYsNYIuAjvFb
-         xccQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=UT/D8aSt
+Received: by mail-vs1-f53.google.com with SMTP id ada2fe7eead31-7a6e560f580so1443724137.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 09:02:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1793897969; x=1794502769; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=ziepe.ca; s=google; t=1793898125; x=1794502925; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ENTWrgdqNOnhBXm7Ydoc9z3n/Zlmn8Dt6MNiq3/7nzs=;
-        b=M4rBHBr63W/SAVwNNbCQfErkFQNKWB1qkv3HtqteP54rOiV/HHnDMbtUKJCArIzFu4
-         mYj0S1RcIb0q9pNYYwzfkrgcW/4hpcfT9cokBuN88bZN0gEMLrtAd9p4+/Q1wKWLERCs
-         DrW00xbJ3OukwQpHPe/em0QG+3GlYH+g3IYsga7TvOEBXsyzoIivcIrFXjcPfBtQMsJx
-         dhhKFMCZQePt2r/MCoc/hvcGaP1eaY7HE+KfNY0jNPytwrHw0Re5wyWLV4CIYYEeqBaz
-         M8PdhqQP2K58xdjOL5tlAIrLEOG/UBLGLNET3to0NrS8A3suRDOPofJdLYHDtzflD6hB
-         0Dzw==
+        bh=E1zVtHMFtNJFSrWULrvIbtVVqDsU9/hCEAvj/Fm4m+Y=;
+        b=UT/D8aStYb7dPEp/Z1PTR1znD76pBm0Z1nPlORuFlgDbzwSX/aHEaMIKgxREgduhMs
+         7b184i+9WuyWU3kP4ECdvxL5tqJCBp+sE58xftFr07RVMuYSe2D0AHX1L8wkHJuC4lcP
+         6d7IEtulMVc64pTkfBc/dFTnsuyCXdHVpF//V/K2Xgp9mPmSNI4/p7tLi2H5V42yljeY
+         GtO1ChQ2JjqDeaKC4B9biWxL+z3aUuPX/f+FWBrD4U/FW4Q80YjAWhMK/Up13oskn2O3
+         3V6ObKXKjzYpPS1tL8mHYVexmV3sD/kfJUj7ToJWfvaytzTBimAL6fO0bssiuf+AQf9l
+         4B+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793897969; x=1794502769;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793898125; x=1794502925;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ENTWrgdqNOnhBXm7Ydoc9z3n/Zlmn8Dt6MNiq3/7nzs=;
-        b=wABvh7jnPzq6cr3HFGsRBsuHgjiP0wQewkD9nUXV1BG4u/Jm6YWm5IU2mLDGSgf0yC
-         wHzTvy7WgPm4fvlGHKAILIoGfHcp9MdM5O400u/xHi2y9bTRUYSIeihguSPkd3NTjPXc
-         ryGQDHPi5t1HLCYpIDiYI9P21/iMD3kpcMW0po1TTIsX3Kzi/fixyAIDdajPsX/Rd9sb
-         0kj3OxTDXNEz2kR9m3rXZzKpBF07PKMa/DwApbLTu5L0rbRDH8K+gTWQJ7fTpMje6sC5
-         k903aPvKuEbZw/QiK8FQyvA76/k98XjElLmy/wVUUXxLXAF4zuQKDlJfB/d5RMydin8+
-         QvBg==
-X-Forwarded-Encrypted: i=1; AKwUvBwC8Sf1vnVprsXLq0qAFSg+u02vWpLs4xS33bcWGXp+211gXSC8csvmQMpmfN6PMA65fdgx6t5bmGo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+J9W3R3JeS8NUpUPc3WAeMKm3QFAivHyaX8joYKvQi3SUEZjQq
-	BSF/oilkFwmACqPuCTNCRXHDA+Ngw5IZsYqkWZbJ0yEs8t8kY23NgIFzXCiNQB7KbNICUXzhUNw
-	rTwIaOX1t3hOdItAC5CyT3QKQg9AKKagclu/CghQv
-X-Gm-Gg: AYBFou3khpQIpelHmziBivxrgn4TRQs8ftjWtGVCQBk52wXO2Ta2sWrHwGHHEj263Rl
-	u0NzsE1+Y5ovKOY7a9lZuIsoe7uAFcMH/ANi1ErtTpUwyovkYPVAlDHdgVk5fXlHfAZLD4MYpnb
-	65FpLeqlMDwV96NGzmGt0i4u3vjNUyb/7TI3hZILM4OoKdk+kJTMo3cCFtdJNjc48ouHEpszQra
-	dH3d1Cdsve2XzeZGqp5Zmy1zVJcGV/00cu/lVOssEL1BHRA1KnJW6zu8fPiRPaGkz7qavXMpo0z
-	gTSalSpnoeCqnLx8TxIM3gOARf4vdczYvmMlt5P1QXqkrIsILWh01pQ826/A96gE0eQO8jgmVyC
-	dEPkZM0QuiFHs0mYo8ApkUA6Pm2hXspOnDQ==
-X-Received: by 2002:a05:6512:3e1c:b0:5b8:f97f:7a22 with SMTP id
- 2adb3069b0e04-5bfd957683fmr6945728e87.54.1793897969539; Thu, 05 Nov 2026
- 08:59:29 -0800 (PST)
+        bh=E1zVtHMFtNJFSrWULrvIbtVVqDsU9/hCEAvj/Fm4m+Y=;
+        b=I21EJgoxj48SfiuyT/ZbqHLNmagKHWfc7bKOEzkXgldUScHZ3DeRpKYYVkLs+3VRjJ
+         +QybDhCJaFnntybiBmeAxR3c+GBT6wfWUpD39ifvnsPMBPRAisb/pBqrW0NTJq2evxQS
+         mzbLkx5qk+Nc2+qESp0/yEhVkNNS0yan7ClddtPEAUMEaffb5GMKUUopJKTuYmhlFfBy
+         bR9shUWY7Gan9LcO3JVxWHrkB8j1HP/uPIvj8w10LyLSy3oXaa0s0RdhSmDISNaAJbZ0
+         kFOp2N1S4C4KKdqg3RuxR+OjXiUoqmTSme2wwRX96mBvWamiRLTSF+bqBAH4VSsarbTF
+         /V2g==
+X-Forwarded-Encrypted: i=1; AKwUvByi0UIJ8upwc5pRLNo7PLCGmCBwleTFIb5Ccup99crf5TBjr3oKiPCl+RX+eGLJ5hBy+yIRlbWdcQQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+bl8F5iMrUqvkZde2EhSCpRcVngzFQjI+OGgEV0jtMdbdy8SJt
+	9aoP0SYXP+RB0ux3ScTSOdI1++N3Z3/zz6zbO9ty1jrnC2bn7LuxgIn/3jwxHyZl2Rk=
+X-Gm-Gg: AYBFou3kVv9wqveY9x9mMiPEWAlaRBTJYbKe2w02l1tvWUtH5p0yh4Ea6sS/53ddy9Q
+	TrHB4RKjToHmHaZs/HbOIQBIhCtUVPHqqKlGbgy3s2yoLaNZ3PzD9+KsRAh2vNWfPrTIHwMkrVb
+	hSZ4YHHopa6suXRLN7+F4JioorrvnTzOC9GfWEAs5NSUNdWD7dZ2uDlWi8qWLLTiAM3NgVpw8oC
+	Hh7wmfpipeA+GmWLS7je0lxZW0pwxL6aIcTwus1U6pp3688NdTGXpkWz4CH7Z+VOb6SSGT1X3AR
+	nbSREq8kjcLrEQMVivj+PfFESHD+1/YRAhXGPf0p1zlvqvzXtNhoqJbOCdr0B3uIh9TFmhtF+Uu
+	xnqcTQlegBOK2veFXrwXjFQPXSJNrD5v47ZtPedaDoPrgVjt4aPfKiuVRIaQoPm8w6NTQzkwhuh
+	8SJ1KjD+o8nBIT7DLAElGTxstW8k4NuIrGmucN4/+JztjC8TfcSwHOGf4EvbPKly8iE9Giwa953
+	IcDnVcoYdRwm17f+5GabGNR1OgSE8Lu/KgxNEOyJC3Ue2auzogBsODfP5/XEA/U+yzP/TK4KsKn
+	3q8N0mIEhTzNn+utUKNw2pxuVItg2aJyNs7PtJRGxePTjiyw47/ndqRw4gc7WOQLTZODDmH+S54
+	isSFTg8XMw5s35hbM4AudEpEJ6hLw05M=
+X-Received: by 2002:a05:6102:2c1b:b0:7cc:2bb7:1335 with SMTP id ada2fe7eead31-7d2a16c7f35mr120203137.33.1793898124846;
+        Thu, 05 Nov 2026 09:02:04 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fd3e101sm4619225137.3.2026.11.05.09.02.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 09:02:04 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xP0qh-0000000388I-28Zd;
+	Thu, 05 Nov 2026 13:02:03 -0400
+Date: Thu, 5 Nov 2026 13:02:03 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 10/17] driver core: Expose device trust authorization
+ through sysfs
+Message-ID: <20261105170203.GC663069@ziepe.ca>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,131 +133,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com> <aunVmg42/S2uUDWR@hallyn.com>
- <auyink594bxptAPN@google.com>
-In-Reply-To: <auyink594bxptAPN@google.com>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Thu, 5 Nov 2026 08:59:17 -0800
-X-Gm-Features: AclHuK99RUxjga4Yt7Cih1iKUoXn780fqABuH5tRHwVrGa5--KTUob_Z762ltig
-Message-ID: <CALCETrWaFf-X-mD0moxqaqEDWOV+85geK2B2Rs3ArixKd=Ntfw@mail.gmail.com>
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-To: "Hallgrimur H. Gunnarsson" <halg@google.com>
-Cc: "Serge E. Hallyn" <serge@hallyn.com>, Christian Brauner <brauner@kernel.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Paul Moore <paul@paul-moore.com>, 
-	Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>, 
-	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
-	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
 
-On Thu, Nov 5, 2026 at 7:48=E2=80=AFAM Hallgrimur H. Gunnarsson <halg@googl=
-e.com> wrote:
->
-> On Tue, Nov 03, 2026 at 06:37:46AM -0600, Serge E. Hallyn wrote:
-> > Generally, if I, or some users I support, need to use unprivileged cont=
-ainers
-> > or user namespaces, then when an 0day comes along, I can hopefully trus=
-t them
-> > not to exploit it.  The biggest danger comes from the fact that, right =
-now, if
-> > they can use them, anyone can.  So if someone can trigger some other co=
-de running
-> > as user nginx or something, that can become a root vector.
-> >
-> > So what if we had a built-in feature or LSM which implemented a credent=
-ial based
-> > whitelist, entered at firstboot?  Something like
-> >
-> > ```
-> > # Default deny
-> > uid =3D=3D 1000  # approved
-> > 1005 < uid < 1010  # approved
-> > gid =3D=3D 1005
-> > security_label =3D lxc_user_t  # Not sure how far we want to go with th=
-is
-> > tty # must have a session
-> > ```
-> >
-> > Now, if you want to use user namespaces for generic sandboxes for all
-> > users, e.g. to confine browser activity or nginx modules, then this mod=
-el
-> > may not fit.  Or rather, it might need a few tweaks.
->
-> Thanks for taking a look and sharing the credential-based allowlist.
->
-> The latter scenario (generic sandboxes for all users) is actually the
-> primary use case that I'm targeting. I want to allow unprivileged users t=
-o
-> create user namespaces, e.g. for sandboxing, but without granting them
-> security-sensitive network capabilities (CAP_NET_ADMIN/CAP_NET_RAW) when
-> they are not strictly needed, given the historically high risk of local
-> privilege escalation associated with them.
->
-> The two approaches target complementary layers of the problem. A credenti=
-al
-> allowlist at creation time controls who can create a user namespace, whil=
-e
-> this patch series controls what capabilities are available inside that
-> namespace (and its descendants) once it is created.
->
-> Gating creation works well when there is a clear boundary between trusted
-> and untrusted users. However, in a multi-tenant environment (like a large
-> container fleet), we generally treat workloads as untrusted by default.
-> Because we still want to allow these untrusted workloads to use unprivile=
-ged
-> user namespaces for sandboxing, it is essential to keep the attack surfac=
-e
-> small and follow the principle of least privilege whenever possible.
->
-> More specifically, this patch series enables that model of safe sandboxin=
-g
-> across three key use cases:
->
-> 1. Configurable capability stripping: Administrators can enable unprivile=
-ged
->    user namespaces for all users to support sandboxing, but configure the
->    system to strip CAP_NET_ADMIN and CAP_NET_RAW by default in new user
->    namespaces created by unprivileged users. Basic sandboxing rarely need=
-s
->    these (except to bring up loopback, which Patch 1 addresses via
->    CLONE_NEWNET_LOOPBACK).
->
->    The per-namespace bounding set can enforce this either globally via th=
-e
->    sysctl, or explicitly via clone3() at the container manager level. Thi=
-s
->    restriction is monotonic and persists down the namespace hierarchy.
->
-> 2. Selectively granting CAP_NET_ADMIN: Some containerized workloads
->    legitimately need CAP_NET_ADMIN to configure advanced networking for
->    sub-containers. Because an unprivileged creator's child namespace is
->    bounded by:
->
->      parent_bset & (sysctl_ceiling | creator_effective)
+On Thu, Nov 05, 2026 at 01:42:23PM +0200, Leon Romanovsky wrote:
+> +		(RW) The requested trust policy for the device. The initial
+> +		value may be selected by the bus before the device is
+> +		registered; otherwise it is "default". The policy is resolved
+> +		to an active trust level before the device is probed.
+> +
+> +		The values are "default", "disabled", "adversary", and
+> +		"full". "default" lets the bus select the active trust level.
+> +		"disabled" prevents a functional driver from binding.
 
-Right after sending my last email, I had the following thought of a
-variant of the model.  Permission to gain CAP_NET_ADMIN via creating a
-userns is kind of like a capability itself, right?  We could get
-pretty close to nice semantics if we allocated a capability bit for
-this (CAP_USERNS_NET_ADMIN perhaps?) and, by default, giving it to all
-users.  Unfortunately, the latter part is tricky because even sticking
-it in the ambient set won't keep it from being dropped by setuid.
+For making this more general:
 
-Perhaps we could have an extra capability mask that is for default-on
-capabilities.
+"disabled" prevents a driver from binding and informs the kernel to
+provide containment of the device. For example a PCIe device should be
+unable to DMA to memory.
 
-The intuition for this is that permission to gain capabilities in a
-userns is a mess if it's a sysctl (as sysctls are global and there is
-no clean way to say that a particular unprivileged task may
-nonetheless create namespaces with CAP_NET_ADMIN) and it's a mess if
-it's a securebit (still has the latter problem), but it's much tidier
-if it's tied to a task.
+> +		"adversary" requests operation with the restrictions that the
+> +		bus and DMA layers can enforce for a potentially malicious
+> +		device; it does not isolate DMA by itself. "full" requests
+> +		normal operation.
+
+
+"adversary" informs the kernel that the userspace wants to opt into
+any security defenses the kernel may have to restrict and further
+validate interactions with the device. This may have a performance or
+functional cost compared to "full". As an example the DMA API and
+IOMMU layers will avoid exposing unrelated nearby memory to the device
+during DMA.
+
+> +		Successful resolution to an allowed level commits policy
+> +		and operating level before driver or DMA setup. Both remain
+
+"before driver startup"
+
+> +		fixed for the device object's lifetime, including through
+> +		failed or deferred probes, unbind, reset, and driver reload.
+> +		Later binds must resolve to the same level, including when
+> +		the policy is "default". A resolver error or disabled result
+> +		before commitment leaves the policy's writability unchanged.
+
+Not sure what "resolver error" is.
+
+Jason
