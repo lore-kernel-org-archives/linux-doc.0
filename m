@@ -1,124 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793899480;
-	b=Ds9JJfBoRXjDzYr6fx0CfZrQhy4a6PGSGRskYFTml0HAOrBU/otaoOGFkqcN0fFbTxTZ
-	 UUfe4cvascsinHo+s8fG/x9SFinez68T3BzvmTBnRkdbZSkOAVTVxmW7cwSb+jkFiiN/w
-	 EqSeK9HFSrprO1LHCooZDkRru893CMvPP/oTjhmf7OJWm4tsX7PgxN3UfAGk18SJAabfp
-	 AhOICbbAsoBXxnq6MO9FMvHlEmZB5tZN3UerSTNfkO4Glo4+FXh/O3Hjhxkhjk1bighdt
-	 TfRtJaUb01uMdQwinB0qXcdXrR4UUgEDTkFde0DBSVzE+EVsY8Ris6C1v7oCocDHXqA==
+	t=1793900244;
+	b=SPfjKU5Q19LI2ina25Pth5ebBqpaO3n+kFc8tYg3sNecc9UZzFmoY+pca4P3sayheX0o
+	 IzMMw7WJFV9LE3nbct2IL81Meya1CVNKF1smJ5ysa0k3FauRGwjR0Q9BxrAhXjAydywye
+	 JA4dryGYxwaD62m35+MGvjMa82exs8lXTDPBaK4890KRIgRrSznt8vnNU636F1u1J9Gxd
+	 qVWImvytoLKIKfOuZe2EAcNLvqp0OsNESVsrBW6dJp1Ug3OSMYv4fUe41CuuM4c9KCCE7
+	 ue9GL9JUpog4Gcd7x2J2jQd8EZst2+C2lOPYML00RfTCAlaZn17UhKAtWg0t9gh0Cmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793899480;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=+Sc9yPGaNTmoDAc39XzEsbXpXvtl7Fk3dFBI/g/ZPmw=;
-	b=Zcavc7YTSsLCiKeUR8l9unFR8EX0yiB9a6xq3+L64JRnqUwx/09u2z3OiJ0XltdMLM4z
-	 Km3EklTEhY7kuIzi8X6OCNxuhaeVKzkAWkWaZh46cMGFQLYN7O5fwXiIhPR9ig6Hujjrh
-	 lcPiAnskJWs/kEilQWrgMz1umwQWjQVRofjk4hJWbshz8XqNaEjg4zkNjPUlobrjjI7M+
-	 oDAK4YpAKZT7SQAKwrA4V1flroqiOj/e9Fqr5L6jVgyedYFfGEFnO+p5mk8ghnufvYwU3
-	 TWm4bE8Vzn4f6e9KboQRER8mQ7Gq6aV8MaG7jYVHEd/+jNzPsUKfNBNfuwidqLL8nsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793900244;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
+	 X-Proofpoint-Reinject:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=daANv2owEleGHEwWXjX7Y1sfpf4L+AqmR3TChu8spLk=;
+	b=0Jp1RBQZJ/+T1ifeDp+KHmKUO1zBrDuDc0Kg46SNzYzoj3bfCs2fpdNWodfGAfGXnDip
+	 nlzo/DvIV2/9QtupH1KWDinkal0CgXmVJF7PlRIvlMfJAH3co5WO9XeaPJNZfn7pxz2JT
+	 pUSjCfYi9VarZOzJopXwG+no17MLw3k9JA6Bn1Ypw2IEOv3fbdh8gWDJ8I5M1uMBc9VCC
+	 YDH1dfSgiYuVoT4Rgd5yr88CnTlZdPAPdndBRJWP93E1OBrzLLK7l57BAxnGCWcErlLTt
+	 tpp2v09JlNmE2RtVAaOyfv5FLvu/nIDDR5UhngpZdfmgmCvPRdoBiSVZpbfgrD7pMBw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=OXXcUxth;
-	arc=none smtp.remote-ip=209.85.160.170
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=QyBXwjnF;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 756CD606D837
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 17:24:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 756CD606D837
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9E9606A326;
+	Thu,  5 Nov 2026 17:37:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE9E9606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=OXXcUxth
-Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-53653e30353so27927541cf.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 09:24:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1793899478; x=1794504278; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=+Sc9yPGaNTmoDAc39XzEsbXpXvtl7Fk3dFBI/g/ZPmw=;
-        b=OXXcUxthtyymPU3fwfbcr40/daOdZ4UuV0IOhK3r7k3BfuoZd0x2qWahN2YNfUretu
-         Tvwnl0KFWoKOeZb7Eb3uBsqzIqq8J25exR7V5CgkLuEPZfnZT4ED35Z0b9rlaw575Jgj
-         FQy6EYxV5onXU0wpKN8YyESt8CkDTpTTkNBn9V25Xj56jakQJCIeQ+jbdgqM3xEfnuQB
-         l6A1FG/uOsFRxdidxCtIsyNflhv6dRW8a6chHrMU0u2dgaNP3KFe01+lBZywKoRsUbeP
-         mAwXyFk8XjT9tW3AtUvUEUaho7CfMrUWwbB5j2cn7aptAgB87xrCSo1TqcjbSZYZh8xc
-         JpZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793899478; x=1794504278;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+Sc9yPGaNTmoDAc39XzEsbXpXvtl7Fk3dFBI/g/ZPmw=;
-        b=kqw7BCGcIDuOYmX9FzdTnjO1kld7g4gSoLnVJRgmmQ8m3PESXcuuR4W6T7sT5v/DD+
-         GbTnhl4mvhBj6/LSaN4SJRmGqUyA1wt0z9AFmOnGAmJ4wWVfeBtC96EAx9UN+hwjxVso
-         anYUdgt1VE07r8j7ak/kx7SvYHQKSILu+QMYHU+Z+iidA12qp/d/D71f+aAMmb0DoJyo
-         J2SWKYZmJIJV4+TWEChgF9eyxXYFSIVRvpBSens/Zn+e3d4mg2asrjWWkqcoZnh2kTsA
-         AWCebs8j/x+VV2vBUqZQeHQDt4dLwkDA6KsylIP+gbhdBiypYgxWc9UoFTViX94qh7uN
-         t2+g==
-X-Forwarded-Encrypted: i=1; AKwUvByp/qs8yVB0xrhhoymdM4tEh+U+AwZ6qCqQaGDsx9zI4xvOMkPMBeNgg6R7orCFTruwVPJ+QNpOQJ0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+IP9l/udqBaoOUOT0kh8SI8fiNn2g0mGpiF5pyDF9VVBg55G8t
-	ast55p9W5G9BNcGmR/qi8qeA7WvinuKujAKNS84QHIibUkjXp/J/oXJHu0NgMc9ISg==
-X-Gm-Gg: AYBFou11/NUqD4JqYjUrvtzasSON7RPtzLO4yDJSNgSnbCPPeNhKYMMFj9DqxyAHGBU
-	aZ2AX7bgMRRW8erRBtCwvxQmpN4vcvldpZpWUxbgGFvbHpdT/ZPHQS6oay8Kn3pRN/sRSf0LuI1
-	IwgVa4R9iVxjIK/pI29TVx6dBsOjcb2iJn7ldYjabQG3WIsa2WRQx0fxE8eFsap3ttZCrKx+/aG
-	l2uUjlmybNcY+8qYKXGx6tKZvyL8UqNV5lTNKhhskYWaj0Zrt1witEsEY8VYYsg2Qnq4jlCMl7J
-	EyqmlFVx9xqrSJTIq29LwBlAuR8vy6xYRFdSN7hEYqV9JXb4AVjaRjT0BsuYxul2zM94hGMZTW6
-	upHYMTIJLS5bgtRyh/1uf8pkNy1xPPI8uGpqT7VIxkIKG33+lXJhfxgnPsDWKTcjB+UcTX+MPG2
-	+NdaYMbZnqvI2TStHa37weZKoe6Kf5QWgCJgFrTOCz5ArnT+e8sARq4PKjX+HW2H2x/ucHmcNk8
-	Z3c5WnSpBejpOsx73m24wbq003Q9QZIUvygBYAAg7+Igdl3egrgavkE+5sVeW/CFgp9tvd0L+iP
-	slL+W6CwWNDP5llHQu4/52UvFL6n
-X-Received: by 2002:a05:622a:2515:b0:536:52ae:d92c with SMTP id d75a77b69052e-542b6e55bebmr328898701cf.35.1793899478212;
-        Thu, 05 Nov 2026 09:24:38 -0800 (PST)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54b10a6ca24sm57130131cf.14.2026.11.05.09.24.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 09:24:37 -0800 (PST)
-Date: Thu, 5 Nov 2026 12:24:33 -0500
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
- driver binding
-Message-ID: <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=QyBXwjnF
+Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5EiNgG2627463;
+	Thu, 5 Nov 2026 17:36:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=daANv2
+	owEleGHEwWXjX7Y1sfpf4L+AqmR3TChu8spLk=; b=QyBXwjnF75HgfGJXoudRq3
+	+9akNI5kLom/+D98s3fbL/5ZH6th9jH73sTzYCeAaLdUoQp6zh45lWRheSk+nzVq
+	p4hPXqs5jUnjEQKFmTzPhmKI8yGaOy0vs4V1Fzs106tbwBnpcgAFaQyZjyQuKjZB
+	Qo5bdYtgH4MwoSJZrB3KtLlEEI3wZ5rSrNUYbTNdMpxx31wo2XFXsLX+fG2ukF2W
+	VOtk3zac6KAfESs/c9VZTucCjZbEahnRceUUtK+pJcKUv7uMBaF5EnO7297/OHOd
+	XLl6eNBSv89hWve035KHsH2mMA331uh0cn/ZjXdun9f9bVuOrhTew5t9dkPNFtng
+	==
+Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn6rdkp0f-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 05 Nov 2026 17:36:38 +0000 (GMT)
+Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5Gou761746203;
+	Thu, 5 Nov 2026 17:36:37 GMT
+Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
+	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hrk9mkg4v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 05 Nov 2026 17:36:37 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
+	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A5HaafD26346132
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 5 Nov 2026 17:36:37 GMT
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A99845805A;
+	Thu,  5 Nov 2026 17:36:36 +0000 (GMT)
+Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EEA2658056;
+	Thu,  5 Nov 2026 17:36:27 +0000 (GMT)
+Received: from [9.68.10.150] (unknown [9.68.10.150])
+	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  5 Nov 2026 17:36:27 +0000 (GMT)
+Message-ID: <fbfb36b4-1ac7-444b-b898-f509f0b3c273@linux.ibm.com>
+Date: Thu, 5 Nov 2026 18:36:14 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -128,91 +85,125 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/20] Unify code coverage and add Clang source-based
+ coverage with MC/DC
+To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Adrian Hunter <adrian.hunter@intel.com>,
+        Alexander Potapenko <glider@google.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andrey Konovalov <andreyknvl@gmail.com>,
+        Andy Lutomirski <luto@kernel.org>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Arnaldo Carvalho de Melo <acme@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Ben Segall <bsegall@google.com>,
+        Bill Wendling <morbo@google.com>, Boqun Feng <boqun@kernel.org>,
+        Borislav Petkov <bp@alien8.de>, Chuck Wolber <chuck@wolber.net>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Dietmar Eggemann <dietmar.eggemann@arm.com>,
+        Dmitry Vyukov <dvyukov@google.com>,
+        Frantisek Hrbata <fhrbata@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        "H. Peter Anvin" <hpa@zytor.com>, Ian Rogers <irogers@google.com>,
+        Ingo Molnar <mingo@redhat.com>, James Clark <james.clark@linaro.org>,
+        Jiri Olsa <jolsa@kernel.org>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        Jonathan Corbet <corbet@lwn.net>, Josh Poimboeuf <jpoimboe@kernel.org>,
+        Julian Braha <julianbraha@gmail.com>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com,
+        K Prateek Nayak <kprateek.nayak@amd.com>, linux-doc@vger.kernel.org,
+        linux-kbuild@vger.kernel.org, llvm@lists.linux.dev,
+        Marco Elver <elver@google.com>, Mark Rutland <mark.rutland@arm.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>,
+        Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mel Gorman <mgorman@suse.de>, Miguel Ojeda <ojeda@kernel.org>,
+        Namhyung Kim <namhyung@kernel.org>,
+        Nathan Chancellor <nathan@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nicolas Schier <nsc@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+        "Paul E. McKenney"
+ <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Richard Weinberger <richard@nod.at>,
+        Sean Christopherson <seanjc@google.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steven Rostedt
+ <rostedt@goodmis.org>,
+        Thomas Gleixner <tglx@kernel.org>,
+        Valentin Schneider <vschneid@redhat.com>,
+        Vincent Guittot <vincent.guittot@linaro.org>,
+        Waiman Long <longman@redhat.com>, Will Deacon <will@kernel.org>,
+        x86@kernel.org, Konstantin Khorenko <khorenko@virtuozzo.com>
+References: <20261103015238.3780910-1-sashal@kernel.org>
+From: Peter Oberparleiter <oberpar@linux.ibm.com>
+Content-Language: en-US
+In-Reply-To: <20261103015238.3780910-1-sashal@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: 8GuvPdtkZT98o2kwnst12PlIYWYluKM0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA2OCBTYWx0ZWRfXyQy8yBstwcbM
+ Rkc5xP/dYOg1fgJ+NWjdQN4tVTCYfdKnOtO/mNQOfih1iR+UR2rIx4PUzBiyrdp/D/15qOd1S+o
+ 7IZjnxHupAGDtkaowjEjbpcDPUtbTsI8ybI1rXejxheRgQDgIAGieHRt7+cRQvWxKQ9NzAd+XGG
+ wvLqfJQjTu/uYqe+eJ1U+LoUufrhR9SN4PESkdQUpyVHKRY9nXCI55lmOtuHV7JOr7A9QdIBgzZ
+ 1MXgsu24oErNUM5kwh2EaBpswjBT0mmSDU6TgCmmH2WeVUppSEbeAfMNxVDBG7w9SMwwr+xg5pl
+ I38pfZNQDJfAUYpOaW5jqzTWADH7ovR4dQwk4X5D+A4OjmMnRFV0GPSJ0VVFh0CJ8e3zB8GTK9G
+ EetQPJbvHsM9v29Ud5JKECXRotYWXMk711DpQfJoDP2N66ktbFXYpY+iOwb4q4x4bkcBsCBSokp
+ bW63s937KIzDicIaUCA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA2OCBTYWx0ZWRfX0TAlrJrb+pqq
+ PgBa+KAxcOY+XVOz5FBHXV9251G+GkMlFvSTR4ejT+P1SGyL5tXhByO82fHDlGhDTpDMYnp2U6i
+ oYYAX4uXsMKmzah/S4NgVZDPIqwtByE=
+X-Authority-Analysis: v=2.4 cv=QK391QLL c=1 sm=1 tr=0 ts=6aecbea7 cx=c_pps
+ a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=8BOYBDInhozIBXGn-nEA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: qegOwV1GJ8hxllrcELoypkKbdceA7Ix3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-05_04,2026-11-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0
+ impostorscore=0 clxscore=1011 lowpriorityscore=0 adultscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
+ definitions=main-2611050068
 
-On Thu, Nov 05, 2026 at 01:42:18PM +0200, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
-> 
-> Interface claims hold the USB device lock, but device_bind_driver()
-> requires the target interface lock. Without it, trust-policy writes can
-> race admission.
+On 03.11.2026 02:52, Sasha Levin wrote:
+> The previous postings of Clang's source-based code coverage [1][2] drew
+> objections [3][4]: rather than a third coverage implementation with its
+> own interface next to gcov and KCOV, reviewers asked for a unified
+> coverage interface, and for coverage instrumentation to honour noinstr.
+> This series first restructures the existing coverage support into one
+> framework, then adds source-based coverage and MC/DC as part of it.
 
-This says nothing about usb_driver_release_refused_claim() and the code 
-related to it.  It is an incomplete description of the patch.
+Thanks for driving these improvements to the kernel coverage
+infrastructure! The overall approach taken to unify the different
+backends looks sane to me, and I'm looking forward to seeing this
+integrated!
 
-Note that nothing prevents drivers from using an interface they claim 
-before that interface is registered.  For your scheme to work properly, 
-you should make sure the claim is authorized when 
-usb_driver_claim_interface() is called, not when the interface is 
-registered.
+I successfully tested the gcov-backend on s390 with GCC 16.1.0, GCC
+15.2.0 and latest Clang 24 (git).
 
-Alan Stern
+[...]
 
-> +/*
-> + * The driver core refused to bind an interface that a sibling claimed before
-> + * it was registered, and dropped the claim. Let the claimant release the
-> + * interface instead of operating it with a bound interface but no driver.
-> + */
-> +void usb_driver_release_refused_claim(struct usb_interface *iface,
-> +				      struct device_driver *claimant)
-> +{
-> +	struct device *dev = &iface->dev;
-> +
-> +	device_lock(dev);
-> +	if (!dev->driver && iface->condition == USB_INTERFACE_BOUND) {
-> +		dev->driver = claimant;
-> +		usb_unbind_interface(dev);
-> +		dev_set_drvdata(dev, NULL);
-> +		dev->driver = NULL;
-> +	}
-> +	device_unlock(dev);
-> +}
-> +
->  /* returns 0 if no match, 1 if match */
->  int usb_match_device(struct usb_device *dev, const struct usb_device_id *id)
->  {
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index a738d03c23eac..d35a7710c8ef4 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -2264,6 +2264,7 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
->  	 */
->  	for (i = 0; i < nintf; ++i) {
->  		struct usb_interface *intf = cp->interface[i];
-> +		struct device_driver *claimant;
->  
->  		if (intf->dev.of_node &&
->  		    !of_device_is_available(intf->dev.of_node)) {
-> @@ -2277,7 +2278,14 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
->  			dev_name(&intf->dev), configuration,
->  			intf->cur_altsetting->desc.bInterfaceNumber);
->  		device_enable_async_suspend(&intf->dev);
-> +		claimant = intf->dev.driver;
-> +		if (claimant && !try_module_get(claimant->owner))
-> +			claimant = NULL;
->  		ret = device_add(&intf->dev);
-> +		if (!ret && claimant && !intf->dev.driver)
-> +			usb_driver_release_refused_claim(intf, claimant);
-> +		if (claimant)
-> +			module_put(claimant->owner);
->  		if (ret != 0) {
->  			dev_err(&dev->dev, "device_add(%s) --> %d\n",
->  				dev_name(&intf->dev), ret);
-> diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-> index a9b37aeb515be..293340a48b6c5 100644
-> --- a/drivers/usb/core/usb.h
-> +++ b/drivers/usb/core/usb.h
-> @@ -49,6 +49,8 @@ extern int usb_set_isoch_delay(struct usb_device *dev);
->  extern int usb_get_bos_descriptor(struct usb_device *dev);
->  extern void usb_release_bos_descriptor(struct usb_device *dev);
->  extern int usb_set_configuration(struct usb_device *dev, int configuration);
-> +void usb_driver_release_refused_claim(struct usb_interface *iface,
-> +				      struct device_driver *claimant);
->  extern int usb_choose_configuration(struct usb_device *udev);
->  extern int usb_generic_driver_probe(struct usb_device *udev);
->  extern void usb_generic_driver_disconnect(struct usb_device *udev);
-> 
-> -- 
-> 2.56.0
+> - Runtime interface: /sys/kernel/debug/coverage/, with "backend" naming
+>   the backend and its features, "reset" resetting its data, and the
+>   backend's data files. The existing gcov and kcov entries stay where
+>   they are, for lcov and syzkaller, and are linked from there.
+
+Just as a FYI - I found a minor incompatibility when using lcov with the
+series applied where it fails to automatically determine the kernel base
+directory due to the changed location of gcov-kernel base code, but
+that's nothing that should affect the kernel series. The issue can be
+worked around by specifying the path manually and I'm planning to
+address this with a corresponding lcov change once the series is integrated.
+
+-- 
+Peter Oberparleiter
+Linux on IBM Z Development - IBM Germany R&D
