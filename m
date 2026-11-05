@@ -1,49 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793890500;
-	b=0h5+UsiAlAeFiuWgH9Xw3Igi0IlZ6QdodL7ixcWeQvWqJVeXDeCdniEo+bQPBDs/MMLx
-	 KBoKvfNhjECJMuq6CrIJZFGvRS58Mbc9bjAw34izErDqOGa9ZLjGSOCjq6DeL7ZVe+Y+F
-	 Bpt6LC9qB7Tkgc+orgjVTpgX/9aJxp5c31/kbOWzdWw8SNIsOUmWC+bJFMgCIYi+QC/Vm
-	 RDUfvL5vPxFj4yXKs3hjHsplMW0tfOGSG7slW2A1b6uQEV4a2ZxraM/RHme3G1VMqdqvR
-	 5+AJD2m05AUg5ojQSUq9eCv9G9Ec+iZmTILtiA/Ium6fKpoOHRgH/cZKbxw5vyhEGDQ==
+	t=1793890546;
+	b=m2Fn2kIOh2zEztvt5UHNFofO7Wy0fm+lkg6wiUEAlNkVUZm2l+SrMMXukMACw6DHnTnE
+	 h1xk4+asJ5zJ4XkY6L8D09vzsj8++U8c0NoRqXJ4jEdvoEoaf62+hRK8hV0Y4fqEBcJzu
+	 pLekoUJDtuilO0tViWdR3aCtM2PXshoFw90/CAVfjyuG3Ef7kHBhfgImkERD00FX4yhEI
+	 mB2xtfDm327IfrKl6dAIufYRR8oFCqgZPpMnN5Ychjd8VxzFr3X6KfL2FGHfMBoGeaorI
+	 toa2QJcZ4dX/YdZItbIHDwMwJfNV9hSL0AjaRUPy8po5pVNZuVmFi7aNK7kKQvoFhXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793890500;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=lMUN+xrYwfUilVGUkr08RcCdBhNpdwdDbuRbBKh66bI=;
-	b=ku6rMktMlfyHGJFv29uTSij7ZIC0o/9r1sze0wQIV9nIrw6hx6jnhh8r/jXe3VR/ywnD
-	 FpzxDgE0ZrOQadWvVu2ArvRdRFYFMR+QxSxTbTMxuveay2enI3WnnrDklHlMUAApWmD5V
-	 TDIXgVeZVDkG0GwYYZbAzF+RQSO5nDLDnkPJfEQG0b8zpzIWRt/TDgJ9EODQwd/9s/mFA
-	 iAQHFnxofEEDUKvIDgwDh/eqodtDwHLRVhDrD0lokSgfZ+8rYuQ/dAqv+aZrS0p9zONT7
-	 GBb/RKikjos0jLN/89aBqdlw1yNXIgtGNBYwH5F4NdwIz0qODwax68t8W/nigs6v9RA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793890546;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=E+3ZUaclhseohkOn5r9sKhXgtCK7fNAm8sjLGqWFldY=;
+	b=pn93DCqodsxyohKIpzTFrojw3WOQC1t6+tRKEVDPr0itXt0yCn2022PX2Hoz6Ql6qpUd
+	 jy39/7r2Ibn3/7VCI7n6PZyx5LGvB+9sejdlaMZv43yg0/IaBpEZLz3XSpRc3I7EABXaP
+	 c8MTIEmwT92XHeMRrMH0/ng2vdy0U25wRB8ozTbasT+nCc3oIdcwQz+bNsWunrvUKuqnA
+	 Wn/S6qE4XwOUrKTU5P6AK1Abi8kSjOiSl1OsT8qfKHc5JGEeXkXd723hb36cu3OwxLOxo
+	 ET08Lh1KYZkP36tU0IAwHK4r+mHZT2y1ll7fGgwa+YfSJ7Pmtagr6fQihse90sdQUMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="cfoa0iQ/";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA132606A31B;
-	Thu,  5 Nov 2026 14:54:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA132606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=gcYKzKSc;
+	arc=none smtp.remote-ip=90.155.92.199
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37AC6606A31B;
+	Thu,  5 Nov 2026 14:55:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37AC6606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=cfoa0iQ/
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 33039168F;
-	Thu,  5 Nov 2026 06:54:56 -0800 (PST)
-Received: from [10.2.197.99] (ewhatever.cambridge.arm.com [10.2.197.99])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0DBE3F632;
-	Thu,  5 Nov 2026 06:54:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793890499; bh=BHV2xnfEREO1PuiaY/msWQZl+g5su3hEZwIcHuKszOE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cfoa0iQ/wLbaM/wUFNF6yhe0347tlMbx+10T4E3cFVvKkbcECt68p2+g3KvnuS1L1
-	 TUbxpPXPqrpdZ3WrgfpBlir0EXoT9q32sIUqUAMRFb90dLbvNIgUVbL+Hq+QEyfTYL
-	 FjNFds86xP7/OanwfWPmYNF1BOp1/YxJO9lc8o1A=
-Message-ID: <a876b77b-c4e4-4019-868a-af12c93f441f@arm.com>
-Date: Thu, 5 Nov 2026 14:54:55 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=gcYKzKSc
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=E+3ZUaclhseohkOn5r9sKhXgtCK7fNAm8sjLGqWFldY=; b=gcYKzKScm6GmGtEXWYxBQCLwDE
+	jKtAu268Erk6NPqXSPn+NyDxL1mKuvlbThTC0bih4K4h9TBIxvLS6gLwdT9AA4cVH+QINMN6CWJZ2
+	Aj11lvFjC7YlUnX2zSr++eQ2/6e06SSbMY5urSHt7UJwcZyGzdyvvuoFkPW9dSTrlhEQu5db2btV0
+	gD9/OdDYeb65NV59+3GpmUmYHj15cnhcPAvCq9FEWPHVy3XujM+bTlaYRpqiJRCAs+ZwLRjt/skdJ
+	2PRvPY2lB5gc0Byxk/cLFLqzTvqtt7GDeN0zzWqgd01p9+f6kakIzdj/v63Q26CFEj2C5u2z0h4PV
+	x0ddqbqQ==;
+Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
+	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xOysN-000000036yy-249d;
+	Thu, 05 Nov 2026 14:55:39 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id 02BCA30057E; Thu, 05 Nov 2026 15:55:38 +0100 (CET)
+Date: Thu, 5 Nov 2026 15:55:37 +0100
+From: Peter Zijlstra <peterz@infradead.org>
+To: Yury Norov <ynorov@nvidia.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrea Righi <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Mel Gorman <mgorman@suse.de>, Mete Durlu <meted@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-s390@vger.kernel.org
+Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
+ mask
+Message-ID: <20261105145537.GP1813469@noisy.programming.kicks-ass.net>
+References: <20261101192203.6979-1-ynorov@nvidia.com>
+ <20261102084704.GQ1779021@noisy.programming.kicks-ass.net>
+ <auoQfjpg3CRvV5yG@yury>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,117 +92,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 5/7] perf: arm_pmuv3: Add pmuv3_event_implemented()
-To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>,
- Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Daniel Pereira <danielmaraboo@gmail.com>,
- coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1792907332.git.aaupov@fb.com>
- <cover.1792989860.git.aaupov@fb.com>
- <23ffe461b8d7b04f78118154dfc9ea1d2a14978a.1792989860.git.aaupov@fb.com>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <23ffe461b8d7b04f78118154dfc9ea1d2a14978a.1792989860.git.aaupov@fb.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auoQfjpg3CRvV5yG@yury>
 
-On 26/10/2026 05:48, Amir Ayupov wrote:
-> Drivers outside the PMU driver may need to know whether the local CPU's
-> PMU implements a common event before relying on it, for example a trace
-> unit driver checking that the PMU counts its external outputs as
-> TRCEXTOUTn.
+On Tue, Nov 03, 2026 at 11:49:02AM -0500, Yury Norov wrote:
+> On Mon, Nov 02, 2026 at 09:47:04AM +0100, Peter Zijlstra wrote:
+> > On Sun, Nov 01, 2026 at 02:21:56PM -0500, Yury Norov wrote:
+> > > The preferred CPU mask currently lets the steal governor reduce vCPU
+> > > demand when physical CPUs are contended. This series adds manual control,
+> > > opening more use cases.
+> > 
+> > Sceptical, I am.
+> > 
+> > > For example, setting CPUs aside for selected fair tasks at runtime while
+> > > steering other fair tasks toward the remaining CPUs.
+> > 
+> > That's exactly the kind of nonsense we don't need and makes me want to
+> > stop reading right here.
 > 
-> Add pmuv3_event_implemented() to the arm64 asm/arm_pmuv3.h, next to
-> read_pmceid0() and read_pmceid1(). It reads PMCEID0/1 on the calling CPU:
-> events 0x0000-0x003f are reported in bits [31:0], and the common events
-> from ARMV8_PMUV3_EXT_COMMON_EVENT_BASE in bits [63:32] from PMUv3p1. Move
-> ARMV8_PMUV3_EXT_COMMON_EVENT_BASE next to the event numbers in
-> linux/perf/arm_pmuv3.h so it is available without CONFIG_ARM_PMU.
+> OK, I started with the wrong argument. Please consider this as the argument
+> #3.
 > 
-> Suggested-by: James Clark <james.clark@linaro.org>
-> Assisted-by: Devmate:Opus-5.5
-> Signed-off-by: Amir Ayupov <aaupov@fb.com>
-> ---
->   arch/arm64/include/asm/arm_pmuv3.h | 19 +++++++++++++++++++
->   include/linux/perf/arm_pmu.h       |  1 -
->   include/linux/perf/arm_pmuv3.h     |  3 +++
->   3 files changed, 22 insertions(+), 1 deletion(-)
+> #1 is: conceptually, preferred cpumask improves performance because it
+> moves the scheduling decision from host to the guest level. The guest
+> can do it better because it knows more about the workload. But then we'd
+> consider moving steal governor logic to the guest userspace, because it
+> knows the nature of user workload even more.
+
+I am confused; it is a simple control loop and has nothing to do with
+guest workload.
+
+The host is over-committed, this results in vcpu steal time. The guests
+observe steal time and reduce vcpu utilization.
+
+It is a co-operative scheme; a bad actor can game the system. It is
+imperative all guests behave the same or do not play at all.
+
+If there is no level of trust (our coconut friends) do not use this.
+
+> #2: convenience and scope. Some systems don't allow loading modules -
+> either on config level, through selinux, or somehow else. They don't
+> even have compiler installed sometimes. 
+
+You hurt if you shoot your foot off; not my problem. If you run guests
+like that you don't use this.
+
+> > we already have cpusets that is more than capable of doing this.
 > 
-> diff --git a/arch/arm64/include/asm/arm_pmuv3.h b/arch/arm64/include/asm/arm_pmuv3.h
-> index 8a777dec8d88a..acd62c4f16743 100644
-> --- a/arch/arm64/include/asm/arm_pmuv3.h
-> +++ b/arch/arm64/include/asm/arm_pmuv3.h
-> @@ -173,6 +173,25 @@ static inline bool pmuv3_implemented(int pmuver)
->   		 pmuver == ID_AA64DFR0_EL1_PMUVer_NI);
->   }
->   
-> +/*
-> + * Whether this CPU's PMU implements a common event, as reported by
-> + * PMCEID{0,1}: events 0x0000-0x003f in bits [31:0], and from PMUv3p1 events
-> + * 0x4000-0x403f in bits [63:32], which read as zero before PMUv3p1.
-> + * Must run on the CPU whose PMU is queried.
-> + */
-> +static inline bool pmuv3_event_implemented(u16 event)
-> +{
-> +	bool ext = event >= ARMV8_PMUV3_EXT_COMMON_EVENT_BASE;
-> +	u16 id = ext ? event - ARMV8_PMUV3_EXT_COMMON_EVENT_BASE : event;
-> +	u64 pmceid;
-> +
-> +	if (id >= 64 || !pmuv3_implemented(read_pmuver()))
-> +		return false;
-> +
-> +	pmceid = id < 32 ? :() : read_pmceid1();
-> +	return pmceid & BIT_ULL(id % 32 + (ext ? 32 : 0));
-> +}
-> +
->   static inline bool is_pmuv3p4(int pmuver)
->   {
->   	return pmuver >= ID_AA64DFR0_EL1_PMUVer_V3P4;
-> diff --git a/include/linux/perf/arm_pmu.h b/include/linux/perf/arm_pmu.h
-> index 02d2c7f45b527..792283d29d7b5 100644
-> --- a/include/linux/perf/arm_pmu.h
-> +++ b/include/linux/perf/arm_pmu.h
-> @@ -124,7 +124,6 @@ struct arm_pmu {
->   	u64		reg_brbidr;
->   #define ARMV8_PMUV3_MAX_COMMON_EVENTS		0x40
->   	DECLARE_BITMAP(pmceid_bitmap, ARMV8_PMUV3_MAX_COMMON_EVENTS);
-> -#define ARMV8_PMUV3_EXT_COMMON_EVENT_BASE	0x4000
->   	DECLARE_BITMAP(pmceid_ext_bitmap, ARMV8_PMUV3_MAX_COMMON_EVENTS);
+> Then why do we need the steal governor at all? We can steer all
+> processes away from a given vCPU without any driver, only by playing
+> with each individual process' affinity. For vCPU throttling, task
+> isolation, or whatever purpose.
 
-Could we not avoid this change ? Or why not move both of the definitions ?
+Different level of operation; different semantics. Cpusets is for strong
+bounds on your own workloads, this preferred mask is weak bounds on the
+system due to outside pressure.
 
-
-Also, I would need an ACK from the arm_pmu maintainers to accept this
-change via coresight tree.
-
-Cheers
-Suzuki
-
-
->   
->   	/* Only to be used by ACPI probing code */
-> diff --git a/include/linux/perf/arm_pmuv3.h b/include/linux/perf/arm_pmuv3.h
-> index d698efba28a27..c21f185a283d6 100644
-> --- a/include/linux/perf/arm_pmuv3.h
-> +++ b/include/linux/perf/arm_pmuv3.h
-> @@ -78,6 +78,9 @@
->   #define ARMV8_PMUV3_PERFCTR_STALL_SLOT_FRONTEND			0x003E
->   #define ARMV8_PMUV3_PERFCTR_STALL_SLOT				0x003F
->   
-> +/* Base of the common events reported in PMCEID{0,1}[63:32] from PMUv3p1 */
-> +#define ARMV8_PMUV3_EXT_COMMON_EVENT_BASE			0x4000
-> +
->   /* Statistical profiling extension microarchitectural events */
->   #define ARMV8_SPE_PERFCTR_SAMPLE_POP				0x4000
->   #define ARMV8_SPE_PERFCTR_SAMPLE_FEED				0x4001
-
+In a way it isn't much different from ACPI idle injection.
