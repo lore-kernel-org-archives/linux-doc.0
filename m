@@ -1,100 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.117
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793842726;
-	b=E1IEiMIbdOCdezRlt3Xs8Qzd7JWMOsaqyBMwOvM6qOU8gHaZAKWOpI/gCCXgivvCKWYb
-	 lNRKBU62sZuLBBjDEXpcamoD/QDROlz3xdX9WXpndgI2M/a8ccPX4bXrDbCYj2IlWmVIc
-	 QaT0dKXDbNejH4byIzIJh3+/H8RdZYwBs0CinShvMcNLDSYUF0zUeT3MJjQdi5xPFFdaB
-	 ZIjSMNYM0Z1+rMmI0JKT+9RB3a4kq5/uo2CUNBSC9tWJOltd/OjWt92wQtrofEJ6kvxQY
-	 lpAxHr2CHW/b4zPAvzkM6e4wQPFEltsKlBphs5dHRYTQ940pEiJO32CTSDK0Kxu3SEg==
+	t=1793844847;
+	b=ezVbXMrfq3IJCGOpZ8yRL/oBYKGptGTtQplEnnsUlo/xhUUGOJlwsPlXBkyI+eSepgPT
+	 g9SInT4nOD+jsBcfc1rC7iIWGGcOYZMkskKgToat9dnRmUwmYtGWJyCGIizZlpwY3TuPE
+	 NzIbO5oaOPalbRGWK+tng6oLX0Vel+iRy1Tl4x30ZT/1BLYzQkD9Z0x7/uTFBh2YqOoW6
+	 DPUrkDzmMHnSxML4T5BYnwre/C7jSuYiSIG6ztH82HmWbRNug7akaPLVeok5wv7VtcP8V
+	 HPNYWGWi7gADFJiBy5NlHLPIysYpmII0jP5NQOsyW+HvSMpIcJngLr2eLQn1GzHco1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793842726;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=+VJUR61t+TvegmG/tSsjLHd6XGCtZVDNsk6OxbA+Y80=;
-	b=3EWJxSvYtzsNk+i4bnlQF4n7PSUw2hAQRfYQeDuxRM5qrsiHT3j8d0gB3rYYRUl85Gm1
-	 SXNZM6ROsrgaMAnXLQo+dNwPcexm1qP0QKkfVEw7dkMZY4FNK3ukeU3GyjToZDr4yn895
-	 NSmmknRCEpJJUaSOo7hQv2/sjzwO9FeUSYXqBKHWirngS5b2xOrbi0qt/g3wP9gy+qKiU
-	 9duLNd1yutzbEoqWWl+Ds4863JkCcNOfH6jDRPL1Oo50kG3ocAhPCf2VdqDoFvLvJr3ru
-	 zhRiew1y6hdXBXK98OvPU1QqRgqQ4WZecGCIbWD/RBqlCiOl6Pga2/mWGAalY7evaSw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793844847;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=tXeq94tKXH8bHOz1amsH5XRU51n2PYOOTkgxfF1PjyI=;
+	b=E2vszitDK3PYG8MMEaLLcni+4kAIQvMIRYCdAS3iJCe++pt+iWKu5BIUw/uKH+Yb46VG
+	 ko+cg8trbyrcTVoOVWwY/1ndN2kYaN1q6H2HHZUa36oQ3W/vPBDRg8ru65o0LGcqp/LKe
+	 wlklo1+05HSRw83YtTV77OgodxCvMcn4LQkvJWmhDBz/WPjTEm5aEPM8cIEtKsv+5MiWx
+	 bKxoUUOLwYB7Yv1N9YLHRobXeRiTNmwU9LumouOn3KntHXUEOdFR/1hIFc34hHhorWf+h
+	 S0zgc7J4PNmKUhHkJtohpJgc5VQgZOymEluLiofvDYsAoDMk1+u83v1gwucTLA7djag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="QAsdajB/";
-	arc=none smtp.remote-ip=209.85.214.171
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=j2sTp789;
+	arc=none smtp.remote-ip=95.215.58.117
+Received: from mta1.migadu.com (out-117.mta1.migadu.com [95.215.58.117])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A61C2606A328
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 01:38:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A61C2606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D15606A33E
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 02:14:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43D15606A33E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QAsdajB/
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2e95bd1c14cso11282075ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 17:38:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793842725; x=1794447525; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+VJUR61t+TvegmG/tSsjLHd6XGCtZVDNsk6OxbA+Y80=;
-        b=QAsdajB/y1H9rwD/gE8NjvkskoK9gW+vaNcj3wZyM2mKmBPaQX/O0YpsIP8qJC2lK/
-         LC1GSZ1QDQwas/ReLOHpAkcvroOryBWxq53VMO8tIPohXJsXII5MNNSotFY6XabU3SxV
-         5NPUoIhqcGC+GsyEVSClwxhvIXaSupG1JXTnYk8xXVE649odwN5pThBbdN4jZB4sYnVF
-         tucJ9ESW0BLUBHz2MJpVtUx79zEmlwy/EmnMUc3X54K0c22mv6PPzpsoHU5L1lOcszlP
-         YQCRvk0XeBc3+iyIGKkoST0zhz2abNJO7ceKXeE5/iP8TQKNXR7cJC8lqh+1QU2SHgK8
-         yOKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793842725; x=1794447525;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+VJUR61t+TvegmG/tSsjLHd6XGCtZVDNsk6OxbA+Y80=;
-        b=Vn/VJaIUKIYQDPnSIqS050UALDht9N8FLJFFYktOlMtcCeZcweVE1xv3Abg2yWuxpy
-         cjncdPVoCQubihbQQejw5xRHe9s7zlna6VsEaX+1pHyRffb+j+riIpyvr6lveZnQmYsw
-         o+v+KOa82gMEt1sBUN4ncxr9PkWBwdZYzlwJFSymOaUBKPE53EIy0ZPnZ0pYxPe6N9a7
-         TvkuR5tI3shx2On4b+EaCUYfD/WReyGDaEeAhI7nai+PqA4AQHHM6Oi1Za4OIFT6BDXa
-         /EXfM0VwOjxetPXkA7Yv3Iiy1Q7LYZWxeD4n7lDq8+H4vnPWMP+tTOIs+9gYobmIVxIP
-         Z5Iw==
-X-Gm-Message-State: APuU4Z/ttv4v1ZIwdXHomT6VaxvxBP/36L/c0WpXE9lGag/ZOSmkQQYg
-	UN99JvCvq8usx7GRnOKhNE3jk3FiWl7OxH2YiZnjsLgj8Oj3DLVFfEu4
-X-Gm-Gg: AYBFou1px/dBLp6scKHh2MFeB3+hOmmmsR4EaOOiRidNDLMELmDdYb141vWaRZBURgn
-	5HSOZXSQIJ+u0wN55HoTJpeCnUCf3UU7whQ2LVgS0zj1ItZGOaHzg6cgFN1pC21GF8TWNE0E/Ss
-	b00YzH2FgdHGCRT6jvMbkj4Ej8UqDYB3ESCCH7x0EfAsF00ML94xaedjLOT6FQwhe0Zihi2Swgm
-	QFLOvkVRSgf0SrdNu0mBhx6MqUdmw0o0CviX8GoBhf/RDNdsn+HYcZGFeQfXdWkjpBZX/EgW6G3
-	HTwpirZCiHlMZi1cIGtAj2W7MNhPzq+i5HMmyhhBGPUy7PHRJjG0VmsdrIEu7sMCArq+eTPFGpc
-	rheDEfM3Q6g+MzDWJL1ClFais8+SNhfbHmPwyhilWfbRNqJascl+nBLAH/r4448vvauAuVnJ7X9
-	5JDRchBpj5W1mP0mpGa2MdT75CY5hnRCcIrdmWTbS6fpNuJgedDAiFXUc6WUTMC2oMZ4QUmnykT
-	Q+8unxV2JfvPI9o2tXDmWuII7XXzwYp9RUrmG22henrgWniG1g4vpQvtceZYgiSwkbNgmy02VC+
-	JttupBsSTKZkokiTBTFyc4jUMkiM4sVs1tO+Zg==
-X-Received: by 2002:a17:90b:4c81:b0:3ab:188b:c5bf with SMTP id 98e67ed59e1d1-3ae897c85e6mr14997030a91.18.1793842724618;
-        Wed, 04 Nov 2026 17:38:44 -0800 (PST)
-Received: from penguin.lxd ([67.223.127.112])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31d2b5esm1164975a91.15.2026.11.04.17.38.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 17:38:44 -0800 (PST)
-From: Matthew Weber <matthew.l.weber@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	linux-kbuild@vger.kernel.org,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	kasan-dev@googlegroups.com,
-	Matthew Weber <matthew.l.weber@gmail.com>
-Subject: [PATCH v2 4/4] Documentation: admin-guide: Add kernel minimization guide
-Date: Wed,  4 Nov 2026 19:38:23 -0600
-Message-Id: <20261105013823.29741-5-matthew.l.weber@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20261105013823.29741-1-matthew.l.weber@gmail.com>
-References: <20261105013823.29741-1-matthew.l.weber@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=j2sTp789
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=l5hRS8qgzR0WOCPLF0tQbQ+of37lp1oZsgw+XUQqwhg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793844844; v=1; x=1794449644;
+ b=j2sTp789TAzH4+lGZ7lYWfaDwj4tzc9cwnz9VymVYz+93eIx1j2P1wIewQP0NcIfVbJQKLyf
+ 0DO8NIIghKzDouBSBnDym1wAnQyGpqJsD9irj2dQSZrGObeDZJB96QtjMGxheDIwPErfv1cfpzT
+ zdnAQ3fG/Xx2Ge3hDWonFfXo=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 7ce234fbb2517b84;
+	Thu, 05 Nov 2026 02:14:03 +0000
+X-Mizu-Trace-ID: 7ce234fbb2517b84
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <fc4939cc-84ec-4c5c-88a7-658ca800377d@linux.dev>
+Date: Thu, 5 Nov 2026 10:15:13 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,509 +58,189 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v2 01/51] alloc_tag: don't remove /proc/allocinfo
+ under the codetag module lock
+To: Christian Brauner <brauner@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+ Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>,
+ Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>,
+ NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>,
+ Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>,
+ Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>,
+ Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados
+ <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>,
+ Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>,
+ linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-wireless@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
+ ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org,
+ coreteam@netfilter.org, kexec@lists.infradead.org,
+ linux-pci@vger.kernel.org, linux-sound@vger.kernel.org,
+ netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net,
+ linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-cifs@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-mm@kvack.org, linux-sh@vger.kernel.org,
+ linux-usb@vger.kernel.org, samba-technical@lists.samba.org,
+ sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+ linux-doc@vger.kernel.org, linux-serial@vger.kernel.org,
+ linux-atm-general@lists.sourceforge.net, Takashi Iwai <tiwai@suse.de>,
+ linux-input@vger.kernel.org, linux-raid@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>,
+ stable@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ Suren Baghdasaryan <surenb@google.com>
+References: <20261104-work-procfs-bugfixes-v2-0-021c84d852e0@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-1-021c84d852e0@kernel.org>
+Content-Language: en-US
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-1-021c84d852e0@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Add kernel-minimization.rst to the Workload analysis section of the
-admin-guide, for application developers and system integrators who need
-to trim a Linux kernel for a single known workload, for example when
-analyzing the kernel for safety critical applications.
+Cc Suren
 
-The guide explains how to trim a kernel for a workload running directly
-as PID 1, cross-compiled for QEMU arm64 with CONFIG_MODULES=n, and how
-to measure the resulting build. Cross-reference it from the workload
-tracing guide.
+Hi Christian
 
-Signed-off-by: Matthew Weber <matthew.l.weber@gmail.com>
----
-Changes in v2:
- - Now follows the workload tracing update.
- - Adds the cross-references from the workload tracing guide to this guide.
- - Adds this file to the existing Workload analysis MAINTAINERS entry.
+On 2026/11/5 03:06, Christian Brauner wrote:
+> codetag_alloc_module_section() takes the codetag type's mod_lock for
+> writing and calls reserve_module_tags() with it held. When that can't
+> reserve the tags, because the section's alignment doesn't fit, because
+> there are too many tags for the page flag bits or because the memory
+> for them can't be allocated, it shuts memory allocation profiling down
+> and removes /proc/allocinfo, still with mod_lock held.
+> 
+> remove_proc_entry() waits until every reader of the entry has let go of
+> it, and a reader of /proc/allocinfo takes mod_lock for reading in
+> allocinfo_start() while it holds the entry. So a module load that hits
+> one of those paths while /proc/allocinfo is being read waits for the
+> reader and the reader waits for the module load, for good.
+> 
+> Let a work item remove the entry in that case. The profiling is shut
+> down right away like before, the file just goes a moment later.
+> 
+> Fixes: 4835f747d3ed ("alloc_tag: support for page allocation tag compression")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
- Documentation/admin-guide/index.rst           |   1 +
- .../admin-guide/kernel-minimization.rst       | 413 ++++++++++++++++++
- .../quickly-build-trimmed-linux.rst           |   4 +
- .../admin-guide/workload-tracing.rst          |   3 +-
- MAINTAINERS                                   |   1 +
- 5 files changed, 421 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/admin-guide/kernel-minimization.rst
+Thanks.
 
-diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-index b734f8a2a..e16ffcd1d 100644
---- a/Documentation/admin-guide/index.rst
-+++ b/Documentation/admin-guide/index.rst
-@@ -178,6 +178,7 @@ subsystems expectations will be found here.
-    :maxdepth: 1
- 
-    workload-tracing
-+   kernel-minimization
- 
- Everything else
- ---------------
-diff --git a/Documentation/admin-guide/kernel-minimization.rst b/Documentation/admin-guide/kernel-minimization.rst
-new file mode 100644
-index 000000000..f9bab60ac
---- /dev/null
-+++ b/Documentation/admin-guide/kernel-minimization.rst
-@@ -0,0 +1,413 @@
-+.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
-+
-+=================================================
-+Minimizing a Linux kernel for a single workload
-+=================================================
-+
-+:Authors: - Matthew Weber <matthew.l.weber@gmail.com>
-+          - ELISA Aerospace Working Group <https://lists.elisa.tech/g/aerospace>
-+
-+This document explains how to trim a Linux kernel for a single, known workload,
-+check that it still runs, and measure the resulting build. The examples are
-+starting points to adapt to your hardware and workload, not configurations to
-+copy unchanged.
-+
-+A smaller kernel carries less code to build, boot, review, and maintain. How
-+much that matters depends on the situation: a developer trimming a test kernel
-+cares about build time, while an integrator preparing a kernel for analysis or
-+for a safety- or security-critical deployment cares about how much code must be
-+understood and justified. This guide stays with the mechanics of trimming and
-+measuring; where a particular step is useful for one of those analyses, it is
-+called out as an example, not as a requirement.
-+
-+This guide builds on, rather than repeats, several existing documents:
-+
-+* :doc:`quickly-build-trimmed-linux` for the mechanics of getting, building,
-+  and installing a kernel. This guide assumes you have followed it at least
-+  once and reuses its sections by name below -- in particular its "Download the
-+  sources" and "Define the build configuration for your kernel" steps. Note
-+  that guide targets a kernel built **natively for the machine you are on**; the
-+  cross-compiled, boot-in-QEMU angle used here is the main thing this guide adds
-+  on top of it (see `Building: native vs cross-compiled`_).
-+* :doc:`workload-tracing` for discovering the subsystems a workload uses, and
-+  :doc:`/trace/ftrace` for tracing the kernel functions it reaches.
-+* :doc:`/dev-tools/kcov` and :doc:`/dev-tools/gcov` for coverage collection.
-+* :doc:`/kbuild/kconfig` and :doc:`/kbuild/kconfig-language` for the
-+  configuration mechanics, and :doc:`/kbuild/kbuild` for build variables such
-+  as ``ARCH`` and ``CROSS_COMPILE``.
-+
-+Baseline scenario
-+=================
-+
-+The walkthrough assumes the simplest possible launch model, which keeps the
-+chain from "what the workload needs" to "what the kernel must provide" short:
-+
-+   **The kernel launches the workload directly as PID 1. There is no init
-+   system, no service manager, and no general multi-user user space.**
-+
-+For the initramfs example below, the kernel runs ``/init`` by default; use
-+``rdinit=<path>`` to select a different program in that archive. ``init=<path>``
-+selects init after mounting a real root filesystem; it does not override a
-+working initramfs ``/init``.
-+
-+With this baseline, the user space is essentially the application plus the C
-+library it links against. The decision cascades into the configuration: no
-+service management, no getty/login, only the library and kernel features the
-+application itself exercises.
-+
-+The worked example boots an ``arm64`` kernel under QEMU with a static "hello
-+world" program as PID 1. See `A minimal workload`_ below.
-+
-+This walkthrough assumes a monolithic build: ``CONFIG_MODULES=n`` and all
-+required kernel features and drivers built in (``=y``). It does not build,
-+load, measure, or account for loadable modules. With module support disabled,
-+Kconfig treats tristate options as booleans, so existing ``=m`` selections
-+become built-in (``=y``) rather than being dropped. A top-down build from
-+``defconfig`` therefore links every ``defconfig`` module into the image; check
-+the resolved configuration and disable unneeded features explicitly.
-+
-+Building and trimming
-+=====================
-+
-+Change one feature group at a time, rebuild, and check that the workload still
-+runs. The measurement examples below can help compare working configurations.
-+
-+Prerequisites
-+-------------
-+
-+Follow "Install build requirements" in :doc:`quickly-build-trimmed-linux`
-+for the native build tools. On a Debian/Ubuntu x86_64 host, this example adds::
-+
-+    sudo apt install gcc-aarch64-linux-gnu qemu-system-arm file
-+
-+The cross-compiler package brings in matching binutils and, with the normal
-+recommended packages, the target libc headers and static library. ``qemu-system-arm`` provides
-+``qemu-system-aarch64``; ``file`` checks the application binary. Other tools
-+are introduced where they are used.
-+
-+Get the sources
-+---------------
-+
-+Retrieve the kernel sources exactly as described in
-+:doc:`quickly-build-trimmed-linux` ("Download the sources"). For a workload
-+that must track a long-lived kernel, follow that guide's instructions for
-+adding a stable/longterm branch rather than building bleeding-edge mainline, so
-+you measure against a kernel with a long maintenance window. All commands below
-+run from the resulting source tree.
-+
-+Building: native vs cross-compiled
-+----------------------------------
-+
-+The trimmed-build guide builds a kernel **natively, for the machine you are
-+running on**, and installs it there. This guide instead builds for a target
-+architecture and boots the result under QEMU, so nothing is installed on your
-+host. The mechanics of cross-building are not specific to minimization and are
-+documented in :doc:`/kbuild/kbuild` (the ``ARCH`` and ``CROSS_COMPILE``
-+variables); set them once for the worked example::
-+
-+    export ARCH=arm64
-+    export CROSS_COMPILE=aarch64-linux-gnu-
-+
-+Every ``make`` below (``defconfig``, ``tinyconfig``, ``olddefconfig``,
-+``Image``) then honours them. For a native arm64 build, omit ``CROSS_COMPILE`` and use the native tools.
-+An x86 kernel or application cannot substitute for the arm64 images in the
-+QEMU commands. Other architectures need their own image target, console,
-+platform support, and emulator. The trimmed-build guide's "Install your kernel"
-+and Secure Boot steps do not apply to this QEMU experiment.
-+
-+Build in the source tree, as in the trimmed-build guide. Save a working
-+``.config`` before changing it so you can restore it if necessary. Keep the
-+matching ``vmlinux`` when resolving debug information or coverage PCs.
-+``make clean`` preserves ``.config`` but removes build artifacts; do not use
-+``mrproper`` between changes.
-+
-+Iterate toward minimal
-+----------------------
-+
-+Pick a direction. These mirror the two bases the trimmed-build guide's "Define
-+the build configuration for your kernel" section describes -- starting from an
-+existing (large) config versus starting from scratch:
-+
-+* **Top-down** -- start from a working configuration and remove features,
-+  re-testing after each removal. For this arm64 QEMU example, build
-+  ``defconfig`` as the baseline::
-+
-+      make defconfig
-+      ./scripts/config -d MODULES
-+      make olddefconfig
-+      make clean
-+      make -j"$(nproc)" Image
-+
-+  Follow `A minimal workload`_ to compile, pack, and boot the application.
-+  Require ``hello world`` and no panic before treating this as a known-good
-+  baseline (pass ``-m 512M`` or ``-m 1G`` to QEMU for defconfig images to avoid
-+  exhausting the default 128 MB machine memory during driver initialization).
-+  For a native target, the trimmed-build guide's
-+  ``localmodconfig``/``olddefconfig`` approach is another starting point; do not
-+  use the host's configuration for an unrelated cross-compiled target.
-+  Save the working configuration, then change one group::
-+
-+      cp .config config.before
-+      ./scripts/config -d IPV6
-+      make olddefconfig
-+      make clean
-+      make -j"$(nproc)" Image
-+
-+* **Bottom-up** -- start from almost nothing and add only what the workload
-+  needs::
-+
-+      make tinyconfig
-+      ./scripts/config \
-+          -e PRINTK -e TTY -e SERIAL_AMBA_PL011 -e SERIAL_AMBA_PL011_CONSOLE \
-+          -e BINFMT_ELF -e BLK_DEV_INITRD -d MODULES
-+      make olddefconfig
-+      make clean
-+      make -j"$(nproc)" Image
-+
-+  Beyond the serial options, this example needs ``PRINTK``, ``BLK_DEV_INITRD``,
-+  and ``BINFMT_ELF`` for visible output, the external initramfs, and ELF
-+  execution. Arm64 selects its device-tree, interrupt-controller, timer, and
-+  AMBA support; those are not supplied by the
-+  serial driver. This is a small bootable starting point for QEMU ``virt``,
-+  not a universally minimal or production-ready configuration. Inspect the
-+  resolved config: ``scripts/config`` edits requests, and unmet dependencies
-+  can cause ``olddefconfig`` to discard them. Pack and boot the same PID 1
-+  application as above; building ``defconfig`` first is not necessary for this
-+  direction.
-+
-+To browse the configuration tree interactively with help text in view, use
-+``make menuconfig`` (needs ``libncurses-dev``), as described in the
-+trimmed-build guide's "Individual adjustments" section.
-+
-+After each change, repeat the boot command in `A minimal workload`_ with
-+the rebuilt image and the same application archive. For this example, require
-+``hello world`` and no panic. A QEMU timeout alone is not success: a failed
-+boot can also hang. To inspect changes against the saved configuration::
-+
-+    scripts/diffconfig config.before .config > config.delta
-+
-+Do not assume that ``tinyconfig`` to ``defconfig`` measures one subsystem:
-+optimization policy, platform drivers, and many unrelated settings change too.
-+For a single-group comparison, save the last resolved config as
-+``config.before``, change just that group, and clean/rebuild.
-+
-+Deciding what to remove
-+=======================
-+
-+Follow :doc:`workload-tracing` for syscall and kernel-path collection. Use its
-+"Tracing a minimal user space" section with the program from
-+`A minimal workload`_, and its "Mapping observations to configuration" section
-+for source and Kconfig analysis. Re-test each removal with the same PID 1
-+workload.
-+
-+Measuring
-+=========
-+
-+The following measurements can help compare builds:
-+
-+* **Source lines of code (SLOC)** -- a proxy for the amount of code to review.
-+  Two complementary counts are available (see `Counting kernel SLOC`_): a DWARF-based
-+  estimate of source lines represented in the linked image, and a ``cloc``
-+  count of whole compiled source files. Neither measures runtime coverage.
-+* **Image size** -- a sanity bound only, not a score; it depends on
-+  compression, compiler version, and optimization level.
-+* **Coverage** -- :doc:`/dev-tools/kcov` is intentionally task-scoped for
-+  single-thread syscall tracing and coverage-guided fuzzing, capturing
-+  only the code executed during calls on the thread that enabled tracing.
-+  If the goal is structural code coverage across the entire kernel -- including
-+  boot initialization, interrupt handlers, background kernel daemons, and
-+  multi-process workloads -- use :doc:`/dev-tools/gcov`. GCOV provides
-+  GCC/Clang compiler-level basic-block counters across the entire kernel
-+  image and exports runtime coverage files through ``/sys/kernel/debug/gcov``.
-+
-+For meaningful comparisons, use consistent workload inputs, tool versions,
-+build options, and instrumentation. These QEMU checks do not validate target
-+hardware, timing, failure recovery, or a larger workload.
-+
-+Counting kernel SLOC
-+--------------------
-+
-+Install ``cloc`` for compiled-source counts and ensure ``python3`` is available
-+for generating the compilation database. On Debian/Ubuntu::
-+
-+    sudo apt install cloc python3
-+
-+Use ``scripts/kernel-sloc``; ``scripts/kernel-sloc --help`` lists its modes,
-+requirements, and tool overrides. Successful runs print one integer on stdout
-+and a human-readable summary on stderr. Errors exit non-zero without a count.
-+It offers two kernel counts:
-+
-+* ``dwarf`` -- resolves DWARF line-table addresses in a ``vmlinux`` built with
-+  ``CONFIG_DEBUG_INFO`` to distinct full-path ``file:line`` pairs using GNU
-+  ``objdump`` and ``addr2line``. Optimization, inlining, and the quality of the
-+  debug information affect this estimate; it is not an exact mapping of every
-+  instruction to all contributing source lines.
-+* ``kernel`` -- wraps ``cloc`` over the unique sources listed in
-+  ``compile_commands.json``. It counts code lines in whole files, including
-+  inactive preprocessor branches, but does not follow included headers. It is
-+  therefore not a strict upper bound on the DWARF count.
-+
-+The DWARF SLOC metric needs a ``vmlinux`` built with debug information.
-+Enable it before rebuilding and counting; this does not instrument execution.
-+Follow the trimmed-build guide's "Debug symbols" section to enable it. Only the
-+DWARF line table is needed here, so the symbol-table options that section also
-+turns on (``KALLSYMS``, ``KALLSYMS_ALL``) are left out::
-+
-+    ./scripts/config -d DEBUG_INFO_NONE \
-+        -e DEBUG_KERNEL -e DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT \
-+        -d DEBUG_INFO_BTF -d DEBUG_INFO_SPLIT
-+    make olddefconfig
-+    make clean
-+    make -j"$(nproc)" Image
-+
-+Check that ``CONFIG_DEBUG_INFO=y`` survives ``olddefconfig``. Reapply these
-+settings after starting from ``tinyconfig``, which resets debug options, and
-+rebuild before measuring. Keep this debug policy consistent across compared builds.
-+
-+With module support disabled, ``scripts/kernel-sloc dwarf vmlinux`` measures the
-+linked kernel ELF. ``scripts/kernel-sloc kernel`` counts sources listed in its
-+compilation database, including generated sources, assembly, and host helpers when
-+present. The database is an inventory of compilations, not proof that every file
-+is linked into the target image. Use ``make clean`` before each changed build
-+and regenerate the database after building; stale ``.cmd`` files or a database
-+can retain previous sources. Neither count here includes loadable modules.
-+
-+If the database is missing, ``scripts/kernel-sloc kernel`` runs the generator
-+automatically. For an out-of-tree build, use the generator's ``-d`` option and
-+pass the build directory to the counter.
-+
-+.. code-block:: sh
-+
-+    # debug-info estimate: distinct source lines represented in vmlinux
-+    scripts/kernel-sloc --report linked.json dwarf vmlinux > sloc-dwarf.txt
-+
-+    # regenerate the database only after completing this clean build
-+    python3 scripts/clang-tools/gen_compile_commands.py
-+    scripts/kernel-sloc --report compiled.json kernel . > sloc-compiled.txt
-+
-+For a cross build, select matching tools with
-+``CROSS_COMPILE=aarch64-linux-gnu- scripts/kernel-sloc dwarf vmlinux``.
-+``OBJDUMP`` and ``ADDR2LINE`` override the individual tool names; if only
-+``OBJDUMP`` is set to a conventional name ending in ``objdump``, the script
-+uses the same prefix for ``addr2line``.
-+
-+The optional ``--report`` writes a JSON inventory without changing the integer
-+count on stdout. ``kernel`` lists unique compiled files; ``dwarf`` lists the
-+counted ``file:line`` pairs and function/file pairs resolved at those addresses.
-+This is not a complete function-symbol listing; debug information, optimization,
-+and inlining limit the mapping. Retain the reports to connect the built-code
-+inventory to observations from :doc:`workload-tracing`.
-+
-+Note the SLOC and its inventories describe built code, not execution. Use
-+:doc:`/dev-tools/gcov` for execution counts and :doc:`/dev-tools/kcov` for
-+task-scoped kernel PCs.
-+
-+Measuring the image
-+-------------------
-+
-+Image size can be tracked as a reference. It is not a minimization score on its
-+own, because compression, compiler version, and optimization level all affect
-+it::
-+
-+    make Image.gz
-+    stat -c%s arch/arm64/boot/Image      # raw
-+    stat -c%s arch/arm64/boot/Image.gz   # compressed
-+
-+Reducing the user space
-+=======================
-+
-+For this small static program, the linked C library can dominate the user-space
-+binary size. A different libc (for example musl) can change both size and
-+syscall behavior; fewer library entry points do not automatically mean fewer
-+required kernel features. Rebuild, trace, and re-test the same workload before
-+accepting a library change.
-+
-+``scripts/kernel-sloc --help`` describes the optional application/file and
-+source-tree counts, which can be used to compare user-space binaries and
-+libraries.
-+
-+This guide focuses on the kernel and user-space components. On real systems,
-+the hardware, firmware, and boot sequence can require additional kernel
-+options that a QEMU run does not reveal.
-+
-+A minimal workload
-+==================
-+
-+This is a "hello world" program booted as PID 1 (init). There is no init
-+system, no shell, and no service manager -- the kernel execs it directly as
-+``/init``.
-+
-+.. code-block:: c
-+
-+    #include <stdio.h>
-+    #include <unistd.h>
-+
-+    int main(void)
-+    {
-+        printf("hello world\n");
-+        fflush(stdout);
-+
-+        /* PID 1 must never return. Idle forever. */
-+        for (;;)
-+            pause();
-+
-+        return 0; /* not reached */
-+    }
-+
-+Save it as ``hello_init.c`` and build it statically so the kernel can exec it
-+with no dynamic loader or libraries present in the rootfs::
-+
-+    aarch64-linux-gnu-gcc -static -O2 -o hello_init hello_init.c
-+    file hello_init     # -> ELF 64-bit ... ARM aarch64 ... statically linked ...
-+
-+Pack the application as ``/init`` in a gzip-compressed archive.
-+Install ``cpio`` if needed; ``gzip`` is normally present on the build host::
-+
-+    sudo apt install cpio
-+    mkdir -p rootfs
-+    cp hello_init rootfs/init
-+    chmod 0755 rootfs/init
-+    ( cd rootfs && find . | cpio -o -H newc ) | gzip > initramfs.cpio.gz
-+
-+With ``CONFIG_INITRAMFS_SOURCE=""``, the default built-in initramfs supplies
-+``/dev/console``, so this external archive only needs ``/init``.
-+
-+Check the resolved configuration for built-in ``PRINTK``, ``TTY``,
-+``SERIAL_AMBA_PL011``, ``SERIAL_AMBA_PL011_CONSOLE``, ``BLK_DEV_INITRD``,
-+``RD_GZIP``, and ``BINFMT_ELF`` as in the bottom-up recipe. Boot the
-+rebuilt image with the same application archive::
-+
-+    qemu-system-aarch64 -machine virt -cpu cortex-a57 -nographic \
-+        -kernel arch/arm64/boot/Image \
-+        -initrd initramfs.cpio.gz \
-+        -append 'console=ttyAMA0'
-+
-+When booting larger or monolithic ``defconfig`` images, pass ``-m 512M`` or
-+``-m 1G`` to provide sufficient memory for driver initialization (the default
-+128 MB on QEMU ``virt`` can trigger out-of-memory panics on full configurations).
-+
-+There is no ``root=`` and no disk image -- the initramfs is the root and the
-+kernel runs ``/init`` from it by default. The program prints ``hello world`` and
-+then parks in ``pause()`` forever, so it never triggers the ``Attempted to kill
-+init!`` panic. Close QEMU with ``Ctrl-a x``.
-+
-+References
-+==========
-+
-+* :doc:`quickly-build-trimmed-linux` -- building and installing a kernel.
-+* :doc:`workload-tracing` -- discovering subsystems used by a workload.
-+* :doc:`/trace/ftrace` -- in-kernel function tracing, for seeing which kernel
-+  functions a workload reaches.
-+* :doc:`/dev-tools/testing-overview` -- overview of kernel testing frameworks
-+  and coverage tools.
-+* :doc:`/dev-tools/kcov`, :doc:`/dev-tools/gcov` -- coverage collection.
-+* :doc:`/dev-tools/kselftest`, :doc:`/dev-tools/kunit/index` -- in-kernel unit
-+  testing and functional test suites.
-+* :doc:`/kbuild/kconfig`, :doc:`/kbuild/kconfig-language` -- configuration;
-+  :doc:`/kbuild/kbuild` -- ARCH / CROSS_COMPILE and other build variables.
-+* ``scripts/kernel-sloc`` -- the SLOC counter used for the metrics above.
-+* ``scripts/diffconfig``, ``scripts/bloat-o-meter`` -- related size/diff
-+  helpers.
-+* `Kernel Size Reduction Work <https://elinux.org/Kernel_Size_Reduction_Work>`_
-+  -- a 2014 list of kernel size-reduction ideas and projects, for background
-+  on which options dominate a small kernel.
-diff --git a/Documentation/admin-guide/quickly-build-trimmed-linux.rst b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-index cb4b78468..63c9b0f4d 100644
---- a/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-+++ b/Documentation/admin-guide/quickly-build-trimmed-linux.rst
-@@ -8,6 +8,10 @@ How to quickly build a trimmed Linux kernel
- This guide explains how to swiftly build Linux kernels that are ideal for
- testing purposes, but perfectly fine for day-to-day use, too.
- 
-+.. note:: To shrink a kernel down to only what one known workload needs, and
-+   to measure the result, see :doc:`kernel-minimization`, which builds on this
-+   guide.
-+
- The essence of the process (aka 'TL;DR')
- ========================================
- 
-diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
-index 550653147..241ee2258 100644
---- a/Documentation/admin-guide/workload-tracing.rst
-+++ b/Documentation/admin-guide/workload-tracing.rst
-@@ -706,7 +706,7 @@ investigation, not proof of an unnecessary feature.
- Keep the built-code inventory alongside the runtime observations using
- ``scripts/kernel-sloc --report compiled.json kernel .`` and, for the matching
- debug ELF, ``scripts/kernel-sloc --report linked.json dwarf vmlinux``. See
--``scripts/kernel-sloc --help`` for its modes and requirements. The
-+:doc:`kernel-minimization` ("Counting kernel SLOC") for setup and scope. The
- reports list compiled files and DWARF-resolved functions/source lines, not
- execution. Compare full source paths as well as function names; repeated
- static names and inlining make names alone insufficient. An unobserved entry
-@@ -728,3 +728,4 @@ References
-  * `paxtest README <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`__
-  * `stress-ng <https://www.mankier.com/1/stress-ng>`__
-  * `Monitoring and managing system status and performance <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/index>`__
-+ * :doc:`Kernel minimization <kernel-minimization>`
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d92d5eff0..dc3d7e9a6 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -28158,6 +28158,7 @@ WORKLOAD ANALYSIS DOCUMENTATION
- M:	Matthew Weber <matthew.l.weber@gmail.com>
- L:	linux-doc@vger.kernel.org
- S:	Maintained
-+F:	Documentation/admin-guide/kernel-minimization.rst
- F:	Documentation/admin-guide/workload-tracing.rst
- 
- WORKQUEUE
--- 
-2.39.5
+is this a problem you have hit in practice?
+Sashiko discovered this issue earlier and reported it as follows:
 
+> diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
+> index 2070e682fe106..112a014d4b890 100644
+> --- a/mm/alloc_tag.c
+> +++ b/mm/alloc_tag.c
+> @@ -950,10 +950,12 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
+>  		int grow_res;
+>  
+>  		module_tags.size = offset + size;
+> -		if (mem_alloc_profiling_enabled() && !tags_addressable()) {
+> +		if (!tags_addressable()) {
+>  			shutdown_mem_profiling(true);
+This is a pre-existing issue, but does this shutdown_mem_profiling(true) call
+introduce an AB-BA deadlock between /proc/allocinfo file readers (pde->in_use)
+and module loading (cttype->mod_lock)?
+A user reading /proc/allocinfo acquires the procfs in_use reference in
+use_pde(), then blocks on down_read(&alloc_tag_cttype->mod_lock) in
+allocinfo_start().
+Concurrently, if a module loads and tags_addressable() fails,
+codetag_alloc_module_section() holds down_write(&cttype->mod_lock) and calls
+shutdown_mem_profiling(true), which removes the proc entry. This removal waits
+indefinitely for the in_use reference to drop to zero, hanging both procfs
+reads and module loading.
+> -			pr_warn("With module %s there are too many tags to fit in %d page flag bits. Memory allocation profiling is disabled!\n",
+> -				mod->name, NR_UNUSED_PAGEFLAG_BITS);
+> +			pr_warn_once("With module %s there are too many tags to fit in %d page flag bits. Memory allocation profiling is disabled!\n",
+> +				     mod->name, NR_UNUSED_PAGEFLAG_BITS);
+> +			release_module_tags(mod, false);
+> +			return ERR_PTR(-EAGAIN);
+>  		}
+>  
+>  		grow_res = vm_module_tags_populate();
+
+I previously sent a patch with a comparable idea, though Sashiko remained unconvinced.
+
+[patch]: https://lore.kernel.org/all/20260817062726.106511-3-hao.ge@linux.dev/
+
+[Sashiko's objections]: https://sashiko.dev/#/patchset/20260817062726.106511-1-hao.ge@linux.dev
+
+Could this patch perhaps wait for mine? No worries if this is inconvenient.
+
+Best regards                                                                                                                                                                                                                                                                  
+Hao
+
+> ---
+>  mm/alloc_tag.c | 27 ++++++++++++++++++++++++---
+>  1 file changed, 24 insertions(+), 3 deletions(-)
+> 
+> diff --git a/mm/alloc_tag.c b/mm/alloc_tag.c
+> index 82e2c3448dcf..7d7ad6704953 100644
+> --- a/mm/alloc_tag.c
+> +++ b/mm/alloc_tag.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/seq_file.h>
+>  #include <linux/string_choices.h>
+>  #include <linux/vmalloc.h>
+> +#include <linux/workqueue.h>
+>  #include <linux/kmemleak.h>
+>  #include <uapi/linux/alloc_tag.h>
+>  
+> @@ -604,6 +605,26 @@ static void shutdown_mem_profiling(bool remove_file)
+>  	mem_profiling_support = false;
+>  }
+>  
+> +static void remove_allocinfo_file(struct work_struct *work)
+> +{
+> +	remove_proc_entry(ALLOCINFO_FILE_NAME, NULL);
+> +}
+> +static DECLARE_WORK(remove_allocinfo_work, remove_allocinfo_file);
+> +
+> +/*
+> + * A module's tags are reserved with the codetag module lock held for
+> + * writing, and a reader of /proc/allocinfo takes that lock with the entry
+> + * pinned. Removing the entry there would wait for that reader for good, so
+> + * let a work item do it.
+> + */
+> +static void shutdown_mem_profiling_async(void)
+> +{
+> +	if (!mem_profiling_support)
+> +		return;
+> +	shutdown_mem_profiling(false);
+> +	schedule_work(&remove_allocinfo_work);
+> +}
+> +
+>  void __init alloc_tag_sec_init(void)
+>  {
+>  	struct alloc_tag *last_codetag;
+> @@ -855,7 +876,7 @@ static void *reserve_module_tags(struct module *mod, unsigned long size,
+>  		align = 1;
+>  
+>  	if (!ensure_alignment(align, &prepend)) {
+> -		shutdown_mem_profiling(true);
+> +		shutdown_mem_profiling_async();
+>  		pr_err("%s: alignment %lu is incompatible with allocation tag indexing. Memory allocation profiling is disabled!\n",
+>  			mod->name, align);
+>  		return ERR_PTR(-EINVAL);
+> @@ -905,14 +926,14 @@ unlock:
+>  
+>  		module_tags.size = offset + size;
+>  		if (mem_alloc_profiling_enabled() && !tags_addressable()) {
+> -			shutdown_mem_profiling(true);
+> +			shutdown_mem_profiling_async();
+>  			pr_warn("With module %s there are too many tags to fit in %d page flag bits. Memory allocation profiling is disabled!\n",
+>  				mod->name, NR_UNUSED_PAGEFLAG_BITS);
+>  		}
+>  
+>  		grow_res = vm_module_tags_populate();
+>  		if (grow_res) {
+> -			shutdown_mem_profiling(true);
+> +			shutdown_mem_profiling_async();
+>  			pr_err("Failed to allocate memory for allocation tags in the module %s. Memory allocation profiling is disabled!\n",
+>  			       mod->name);
+>  			return ERR_PTR(grow_res);
+> 
