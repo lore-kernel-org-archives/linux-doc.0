@@ -1,82 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793900332;
-	b=5OvSHQeyqKrd80bLd5bx3nlGM7CQPnCqlhauqXagVu1hCDm3JWlWcZMYid5sIHxCSLgN
-	 xPaygklZSw3CraAaHnYIggXr2T6eI4aOZmnTrpgD3BcZtActmU29E31PXao1QYUX9y0W6
-	 bPpR1mvRpnS6cz7uYwjjiiSH2yKAxWE6PZEvUAFRIfiExYSDoTbj9qcYqFtKrws5ZOxW0
-	 Gqn+IuGZVX1KAO3aAMhSlCLqS84TWs5gC96QhY10g0/D7/77fKNnV2ibB0PDWRT8Rd5R7
-	 TMsy+/AWbqZYuG2MD60Fo8JQ6uwP8o+9LDPmDfsKTonSxgDyxQltgcAFWlC0d7QFZFw==
+	t=1793901355;
+	b=iyXFO4fFcpC3AXKdasrvYnrikVZh47wGXDQdLQBKK8Pa++JRqOcUBl/iH6d9mNklELbh
+	 rjm/9PjOnU1LF6tXG15oS/3B6L9acUmFwsdohVsZYVCRfiN3ie74/nSVmuoFAE1v2PNq1
+	 eWUwhp8i1q2AhAUGCrY2nKwPH4dW45AmNJEKIn3yUoxg/93QLdRNoRAiIFFN01QyHyO9H
+	 Y4RSpllMjvA/0svJ6pMXtIeO0BF5fh2WBF7IZSPVlDbP361330pJ6J8vFTdIv700LjM2F
+	 LYSGTv51QCpdLN8Vxerd07ytF2lX5DqxhEp6O0kWV2ZiiA7ST6Rm8hYbLrh5+icvXYQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793900332;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=rdzlIaUH6Hn5s4YN1L9yR2AveCxOlTSI0/zi9qQe1hE=;
-	b=zpLes47TzsOwZ7Jf3IP5oF4d/UvWAbckpkD1IgBYNRX5afwGTP4dnNfanLZvdv/Bgcxw
-	 t89WLg9cORk1d6uk89NFMVHsBVwX76W7RtDsK6mZgVSqaCFkZRU63S+xbnx4BJvF13Bs9
-	 saaAPSoaJNQ8pCl9Z5tMaybaUccUcgLXPWBj+Cp4jD3gnqoXJY/at6m1qWhbqnMrNiU18
-	 dRp/mPhK962dG7Igg+OAuYrMhBRTM8KFEjA3pSGAAnN6O1qRFvOgGapnRPfvuMAJIBvMJ
-	 yNgJuNATScGbVcLFFerUAhiogqsM1ti/nBxxjuakH0VpT6xpej/ENYpfO6u2gKbTpmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793901355;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=PT8+knV5liWy29BtrumvMiHIoxRWXb5eMMdqevncVAE=;
+	b=qssNl9GkGkVNSk1aDD4dptFJASLb5AZnditNKgMp+lcli1vRF0qRBubKei+CsdINvwcW
+	 QtAbU5aKoE72KA4SOfio9h+wPnhOjZLDt9CkisQfA+pj43GguaJ2+6BVp0QRq5Ak1CbZk
+	 r+F65zq0zBDapTMncDBVXGGvzH7RwS5UmLOotA2paLWuqfAQlGC4tvE3NMWrVIRfW7/yD
+	 CSftixtLmTTnDLuJ4LD1+DHFnGOyACo0i9cgtUJC3+YiZ+dGEFnWF0n+YnYW1vFbl5r/K
+	 9BWjaFfN3+PeKAup9Q42ekNagdczex0E82M6OcTn3GnBtzvGlKxjymD454VTgZs46Vg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=pgxDCjP0;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gi5uigdr;
+	arc=none smtp.remote-ip=74.125.229.6
+Received: from mail-dy2-f6.google.com (mail-dy2-f6.google.com [74.125.229.6])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A29606A31B;
-	Thu,  5 Nov 2026 17:38:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82A29606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8CCB606A329
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 17:55:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8CCB606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=pgxDCjP0
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5EiEQ73787730;
-	Thu, 5 Nov 2026 17:38:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=rdzlIa
-	UH6Hn5s4YN1L9yR2AveCxOlTSI0/zi9qQe1hE=; b=pgxDCjP0xdaLvbvLVASo69
-	nSYnte/UzO55UeAI/scwutSPLHdIEWwwGo43/tz9MEpJ4Rh2m2d6OGdqP9d4Kovz
-	RjBCPB3U/ehRY6z+OEJJHCnSRj62QsCFQ/6370u8Jp5lko+uRRGViRJVA4iZsgHv
-	3f27t9oXcDHDOS7QmF8/N13Fg2KUsCiemZQPrDv6jsiiqwbPs50W0QTiPD1Ho0Tc
-	ahcB908WbiJ2Yy3ki3guxWFLs/IJWp+ia2Onwcm7X51Di7zfOE/nXKg6v7vlr2uI
-	/c9w1GgbK7+ONoEHJ2BtqGBMT3Zrht+y7zgvjoW5cChakyydcTOMoTTR+3TitqtA
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hn82742pe-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 05 Nov 2026 17:38:28 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6A5GuFld1746147;
-	Thu, 5 Nov 2026 17:38:27 GMT
-Received: from smtprelay04.dal12v.mail.ibm.com ([172.16.1.6])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hrk9mkgbr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 05 Nov 2026 17:38:27 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6A5HcR4R31392354
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 5 Nov 2026 17:38:27 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5AD6C58056;
-	Thu,  5 Nov 2026 17:38:27 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 67DA858052;
-	Thu,  5 Nov 2026 17:38:23 +0000 (GMT)
-Received: from [9.68.10.150] (unknown [9.68.10.150])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  5 Nov 2026 17:38:23 +0000 (GMT)
-Message-ID: <0bfde967-9b68-4edb-96d7-ee9580fa1358@linux.ibm.com>
-Date: Thu, 5 Nov 2026 18:38:10 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gi5uigdr
+Received: by mail-dy2-f6.google.com with SMTP id 5a478bee46e88-35adc681e1aso2719557eec.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 09:55:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793901354; x=1794506154; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=PT8+knV5liWy29BtrumvMiHIoxRWXb5eMMdqevncVAE=;
+        b=Gi5uigdrYHN5rA77ayiD0aV/+kPtnwiZq2VcYinUAKrMWWhGMwvJ6ckGfGqs7dqoVZ
+         MAT3/y0LALIyPtT+pg52bJpy5nsZWY8qLzhr07n9YhDsldJWyg0P3rjaNjZCc9ntZXKp
+         34qXrp713xEK2H8v9TuNgqRXM7yDR/D96VFWca1T7zJG2qMPy39TUHfTmv0XoiM9c1U9
+         CtFy4S3TEYUOUcjK3kwOTfiTW4C3iuJgStNLb53U3kvm/1muJi1picQ9Vh+pUU03akr6
+         HtSDoYxKdM2TYf9Ar95rPWT93gStbVqFrdPX9Z0a9aj6WJxEqzmbkdbqjkFBiQE9KpoH
+         qyFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793901354; x=1794506154;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PT8+knV5liWy29BtrumvMiHIoxRWXb5eMMdqevncVAE=;
+        b=pr5dvmHTtvKDs18kzjgJTzadSGKsG6JsquawQk/cEMv7UllhMv5GmB2o198uH/YkbB
+         rWmPmM0qzoHRXMAGlc2pVsh2Jie3kgVUSy6D6bfJNf06nq7x4pwLKZO1HA/EjZW7XY0E
+         jwNI3+IztncklPeO8CjGesxQDJJO1bG2Pc3iEY45ud7Q3dgA/q3EMOboW39V+jC6zhbP
+         iK0qXk/fLjDrrGr5f6J2JGaszn+R7h1npaII9eo3WNe4eiBF72RHr9JxtXTeeWTyGcf/
+         l2ICmzl+RhFxCHORZrQp1XKKqAGoJHtJq0Xsk9yyomhZB04c4XIQuJ/Gi5p2UuX6f9Fp
+         uPAA==
+X-Forwarded-Encrypted: i=1; AKwUvBwMVUhOMovkWmdf+5W1d1mgH2PkXjsgUIWIE3Vlk38NnzxR8M5JJ2fmiQk7B3ZGpZtKgk7CxHFDbcg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Nk8TixfOsvP1FeSp3DcVBSsAzlJb3+P1LRsF7u/v3pZxgKTOR
+	92d87dYWCDQi8O8n4vnjoOk5ROvttt8pb8KMHw1ThBxne7WPqKZ9XVWT
+X-Gm-Gg: AYBFou3DFn37KOzU7gB029O7aLuPVk7DNfZL97DGd4srBPqplY0kAFDi3RD+WuqxXcT
+	XD1YwY886nn9Dohw1GkpWh2V84biIuX1Md+R3K8wdk3GuBuawTLfQ1+h4JGgD9Uu7N2xYBLlZf2
+	DWJyyD2O9/mU0K5z2K9GYlUtuco+Uleek53Cq70b7dXN3FTKafqzITM+WbTjIWZPYAKaoWycI7D
+	YsP8x2Gz4sQ6rOSwVOGZVGOjJD0P/oYkTlKTSERgZ1xdLTfKhmItZXJufDwSToPZ1AA21FuMLXZ
+	l0oeIP0z1GaNlc/ZL/RUMQDE8Bjifaohydsn5SalbpLThEv1TQE+0s9N02bveRfj0NXl4NRIMjY
+	hd26bdPalmOxr9z/hRme7avmw1bNu9FEn6CPfpEU8WV3dAtI64RB3zEzucjtXVW4VBq+j9jQzmn
+	KZZHbI1Ii7wNmOv0CC1tQoCNaZZcX+xd5YcI9VrDK9F25wUrBlOq2svTfKojK+mP2cypMkAT42r
+	NZyoH37Ldfjcjf5451xtI4dIr7vJkz7fJYCpU8f4o5f8LfmnoBMNpzlBKdn5Mrnm3nari420V5J
+	6T0XZzgYk4VQHMoy86mwaw==
+X-Received: by 2002:a05:7022:258a:b0:18c:e014:6f1d with SMTP id a92af1059eb24-1ac55f2d3cemr35929255c88.1.1793901353699;
+        Thu, 05 Nov 2026 09:55:53 -0800 (PST)
+Received: from localhost ([2a03:2880:9ff:6a::])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25100667esm9741999c88.19.2026.11.05.09.55.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 09:55:53 -0800 (PST)
+Date: Thu, 5 Nov 2026 09:50:21 -0800
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: Dragos Tatulea <dtatulea@nvidia.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch, edumazet@kernel.org, 
+	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	michael.chan@broadcom.com, pavan.chebbi@broadcom.com, sdf@fomichev.me, 
+	almasrymina@google.com, bobbyeshleman@meta.com, asml.silence@gmail.com, 
+	razor@blackwall.org, daniel@iogearbox.net, leitao@debian.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH net-next v2 7/7] selftests: drv-net: devmem: TX from a
+ hugepage-backed dmabuf
+Message-ID: <auzBkdVHfk33JlF4@devvm16445.scu0.facebook.com>
+References: <20261103235152.1904727-1-sdf@fomichev.me>
+ <20261103235152.1904727-8-sdf@fomichev.me>
+ <51381a84-de40-4d4f-982d-9585a2344119@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,92 +104,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/20] coverage: move gcov and kcov under
- kernel/coverage/
-To: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org
-Cc: Alexander Potapenko <glider@google.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrey Konovalov <andreyknvl@gmail.com>,
-        Ben Segall <bsegall@google.com>, Bill Wendling <morbo@google.com>,
-        Chuck Wolber <chuck@wolber.net>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Dmitry Vyukov <dvyukov@google.com>, Ingo Molnar <mingo@redhat.com>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Justin Stitt <justinstitt@google.com>, kasan-dev@googlegroups.com,
-        K Prateek Nayak <kprateek.nayak@amd.com>, linux-doc@vger.kernel.org,
-        llvm@lists.linux.dev, Marco Elver <elver@google.com>,
-        Masami Hiramatsu <mhiramat@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mel Gorman <mgorman@suse.de>, Nathan Chancellor <nathan@kernel.org>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@kernel.org>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>
-References: <20261103015238.3780910-1-sashal@kernel.org>
- <20261103015238.3780910-2-sashal@kernel.org>
-From: Peter Oberparleiter <oberpar@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <20261103015238.3780910-2-sashal@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: rkdU5601SIlyTEcZImOEhpH2nM8SvIsv
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDA2OCBTYWx0ZWRfX6NJgN8/MJS35
- pbK2PumL8jSiuQmWVCw5maGSbcS30Ek2XXkqSVWxt5CiIze/p2m8RSuSfrT1TocToRxb2dOkIWs
- CnlZzrH2Pzk62SVShoGHP7rYRw75T7L047aSenT+9ZCUBADK9xweoRN8gD5ligVMTacUUJykEor
- pEBu3irqghJrnWuCwO4aRVyVm7ufppv0WvZQ93q11ReemzEk4kVp2F7Ih54k6fv5uWU7UKMVq6t
- EIHEDBHyVEaQL3wQVbyF6J3tK7durH77k8zA8x3bq5OMK0CGPJ2LfjCvKtA4z7oeTF9vfLFTXCJ
- 95X3CcsvMvpMV6h/HZpUhqgCrISkahyAQkNXaEUV4vlOm0IF7CvPf9r3KRP4r8noW2GrN7un6eC
- gJVmiBHO3EmYhBYNhIHbqMWp1XoCGITD+pLuMa8m04DS9wzkwi8D9jat2fKMl5/g8OS2qi/7xwh
- nOE6C2meI2UzXHrJGRA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDA2OCBTYWx0ZWRfX4pCvlQhJn+tP
- fedwpzoYFglsAh62fLOLIf8wKvMnTmjUJpkkGVc8oXHoANVNG/zcdndiG0cLEI66MaCxoxvbBU6
- 4BSo6rbWEWa0bgu/4qqs1prGmifX1LM=
-X-Proofpoint-GUID: V_V2ysk_22Dp2O_arpjz6QdKTGBpjRLM
-X-Authority-Analysis: v=2.4 cv=EsJHPicA c=1 sm=1 tr=0 ts=6aecbf15 cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=uAUjUfugXiV6-CzwXu8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-05_04,2026-11-04_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1011 lowpriorityscore=0 malwarescore=0
- priorityscore=1501 adultscore=0 impostorscore=0 phishscore=0 spamscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610300000
- definitions=main-2611050068
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <51381a84-de40-4d4f-982d-9585a2344119@nvidia.com>
 
-On 03.11.2026 02:52, Sasha Levin wrote:
-> The kernel carries more than one code coverage implementation, each
-> with its own directory, Kconfig menu, build plumbing and debugfs
-> interface. Start consolidating them by moving the existing
-> implementations next to each other:
-> 
->   kernel/gcov/  -> kernel/coverage/gcov/
->   kernel/kcov.c -> kernel/coverage/kcov.c
-> 
-> Both are configured from a new "Code coverage" menu in
-> kernel/coverage/Kconfig, which is sourced from "Kernel Testing and
-> Coverage" where the KCOV options used to live. The gcov options move
-> there from "General architecture-dependent options".
-> 
-> No functional change: the Kconfig symbols and their dependencies are
-> unchanged, and so are the per-object compiler flags of kcov.o, which
-> move to kernel/coverage/Makefile.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+On 11/04, Dragos Tatulea wrote:
+> On 04.11.26 00:51, Stanislav Fomichev wrote:
+> > TX net_iovs are now sized from the dmabuf layout, but the TX tests
+> > use a regular memfd, which usually keeps them small. Add -H to ncdevmem
+> > to back the udmabuf with 2MB hugepages and a TX test which sends a 3MB
+> > buffer from it, so that frags end at and continue past the 2MB net_iov
+> > boundary. The payload has a 7 byte period to catch offset errors.
+> >
+> Why not add a test with a BIG TCP GSO test as well?
 
-For the gcov portion:
+I hope we eventually will have all this tested on NIPA with a "perfect"
+config. Here I did not do big tcp because I wanted apples to apples.
 
-Reviewed-by: Peter Oberparleiter <oberpar@linux.ibm.com>
+ 
+> Nice improvement btw. FWIW for the series:
+> Reviewed-by: Dragos Tatulea <dtatulea@nvidia.com>
 
-
--- 
-Peter Oberparleiter
-Linux on IBM Z Development - IBM Germany R&D
+Ty for the review!
