@@ -1,47 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793896560;
-	b=3MxJePvqET/rKF8sWWlCZX9rmV+WdUC1Ei6/fJ7fpu1ckNpGUgTqJf1P/ojunVFIfnp+
-	 XzGoDYCD1B0aqqN633mfkTYCkBPZcpbkfyXIDpEEJur61lQIxSy5u17Yx9aT8rrjIxK20
-	 PW9KMraFP9xlKN/GlTy7sRSJPIEOjxRg6H6E5NV8wmwcT/byD9GfLGYrzTTjOdIutvx94
-	 e3KXXN+rTe81gj/25AcZQY9Ttmlm9aXWC57oKIc9E7W3xXX1pJ9+8LNU5Q33STQHGfikn
-	 SFkw5iQ3A95NncLJniYBtw1zewO5lLc+k3ag776pfRCx1rBkbk9GQJha8r3FWtZglrA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793896560;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=oaFEybmB3/LpRlTwU2ESXZoM0QOYsoH22CakPe6LiW0=;
-	b=WKUB0QkMDAn4Vx0wTnBZ7LmLyjIx4d4hxvqXsqBN8XLGM4b2Jld6Vsm6aIMWjYbJicMj
-	 JAu+fOlyxtr0fjWKmqdqJ8Liut5/DRaZ9nUMASWNenp8OV+CNBzSAyTJd5ObFDizc8PvI
-	 9VxYJehL+tuYpptGJwBatIC6vXTZSZZ4aJZ0u7gZ3f7WkoCU5dnjLGnmoh3bVAx7ONEAa
-	 2Q6O3+ILeX3aN+4QXNESuBl0J0op9azPpNDxLi8p9vODc52vRlO0rqmG6RRCQyzO2CvIN
-	 eMqbwT3T1XMjZQ6om2s//oqrnrB2N1Oru+yc9zth1iR9J+llMoq3oGyVJ2ADuOrSupQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="PpT8/D5z";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.175
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793897306;
+	b=acbrYPiQHoW2AxQ23trEAeVruu2A647mJPYxVp8nHYc8Gbg+9uNAPsy5ihWJdlKuc49n
+	 eZgKf9P4IiLNXTqgQ88VFOA4m9Kyg90o/L3A72o5k5K6gML4r1GPFlT20TSBXv44m4Jzm
+	 f/12x9Ew+R//q6ZAXbazTH+i9pgeoP9sQ8//1pQy+ap1n1zgqXl/UdG6F64I0HL7Nx+XE
+	 RFQH0aKbR+Asa4qRGAX118296CGHOFTfLIfEWoGfU4+DhgJx3gkZSjkrCOrFd9//2I3jj
+	 UQ7NSmyyduWGBoYATNK+dSerzcZLhj8kSn5BX2fIC7UWzXVn2aujrSpuhCOlU2Puc1A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793897306;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
+	b=k2gG9vfnBJ5Hd/b6ZjZZCxbVSLjQtASfDjFL16yUlItvaStUFDllSdQyT3+sm6h8bbuQ
+	 LrwqoNaeodu7FmzUDLJH7o3ndJcZVrycjIQaDW3Qn0V5ZYcQWRyyUyPqOLFJ+FPa6+SV/
+	 l+wkNOfIx53wIUSA/mseOJtrXNvHNBcaQlPPSqeI80fzNIR+yt9r8akyGWESejiXTHl6w
+	 06/rBSzYv9TxMruV3wtwK0Qd4PV0dsrNaXGjbGpURg1SUi1ElzphAktHuIpwcJxrBHtor
+	 55bipWY1k1t002R7JO34CIz9Hcg6Pkwhvl1E36KQa90tVHqzCF+NwVjImfhB3WayXMA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=amacapital.net;
+	spf=pass smtp.mailfrom=amacapital.net;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.175
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D52B606A33F;
-	Thu,  5 Nov 2026 16:35:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PpT8/D5z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10A1A1F000C1;
-	Thu,  5 Nov 2026 16:35:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793896559;
-	bh=oaFEybmB3/LpRlTwU2ESXZoM0QOYsoH22CakPe6LiW0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=PpT8/D5zeLlfhjXRHDS9Xn7yTDCLEhyyWpMkM0/IfblI9PMLXcKedSOlnoASybHch
-	 QMV8ab3TA2uSLtQsY231ygXHLK4E1dZjZWYTUyaq5EG+U+7SRxv/SC5EV5zIEGfbl+
-	 Anl6FvxIWk2bzbUyorgGwbK7QtWE0eneo9Vkb0oEtRPqNHIcsTwj/H9gaUxgdyQRKl
-	 9la8Ee4KQAzAUk3BDbj8WwQQ1UKgW36gLtWALpg8W7Mm455sUJQJK7b75HwOTlAxFH
-	 tWWXsXG7Et2NnPPdGnHQoyRFRfRXjPc/WvDrWcLkNmwuDZMfzvcAqJShtCN7KTNjC+
-	 ltbn1tD2mVL7w==
-Message-ID: <cf2e3292-d591-42a4-bf6e-76f4567604c6@kernel.org>
-Date: Thu, 5 Nov 2026 17:35:34 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39196606A332
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 16:48:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39196606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-945ae2daa3eso249145485a.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 08:48:21 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793897300; cv=none;
+        d=google.com; s=arc-20260327;
+        b=A1to3PM+EUkWAh2It2B22DM2LFZ+3eFOyU0I6RYCrBwwOC5fUu7VNhtOxY0/hKwLsP
+         B7F06XVCVBv92UXkPe9pf+eeUtfuDFGfQngMBrL89UX3zd2B5PfsO+tIkcMfm/aAWRIZ
+         qHhzMvCvNEp6ji/vs9a3PGocL9aEjqyGKNXaAs5b/UnBMM5Q9opXiWyu+n+s5AWA3qgS
+         XvRj/p9RnQYorKvI5d2sy/ei6mMDn+qp6btQYaZvPm3rLMiAVcaY3h2ZlA+lDre2qqSs
+         9ACh54iYEd9k1E1IXRqISyw8Q2xaYJ9e0qRW+KL4BbzcVQ6f5Mluwkc/0P/5lS51JGo4
+         ILZg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
+        fh=cakCAVkbpIlZpb2NbKev1rOOntahOJnpSvM9zuBOLTM=;
+        b=E0UY2ZZks6bI8AcVCocaJXg2GZ+22eusd4mIIMhdkRJ2iVvexq7P50i+8gUxBql5Fs
+         Yusosk43HLREF1GFRqdUq2xlzAL+9La/crmd7dvKqbzCmzuOruvyDdTI/26ePCW+RcqR
+         zccar9GYustyAZwI4EeCeKjh+sKimCsYo/XucpXL4r4b2Wry++tT1nqv2kFIJ31sPS1O
+         31N+ecbvD88ip+/Cd4zIGth3tyM7Ri7eqroeZgkxh07KrmjSN3wxd+/qYhIxh3Ejzv6p
+         NL5xiL6uvZp9S1HwQ8nJnkTPKb69afJft7TrDijx3ggGClv/7HNlWh56ouVkaMoUY3i/
+         z8oQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amacapital-net.20260707.gappssmtp.com; s=20260707; t=1793897300; x=1794502100; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
+        b=PD82jKo7jigK4yo/BsC4mL9gzNaCyQCuN/kPVJGkjQjdLI8tYXff0Yq6V8OcVaJvNy
+         weurqZPZmulH0qGSg5NbPVImgWJ+FnTdb3j3Ry4nbirmi+Rj3QFivs4ORBwQaFRqCGqf
+         QEUbVI/SqDEMT+7UGhcd921nGG7eTyZrIMcUrpbYcHWgfkjlc4bKSqYZEDRPXgz7lXtH
+         DqeNW77psjBaqljc2mahGE9h0G2f7KashF5X4+pB5RTZgitOtmNbn03q4nK6XwgY7JUH
+         dHKc7aq+4G8SSRybkD5tRl+j5GVa6fgvquMcqs4nqsv6V0mQuY3Plyf9y99pCk1OO04q
+         xdcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793897300; x=1794502100;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VqiTrc04lJztf2dyTmHN89oGm1bJ8PUHM0btmGHDZmI=;
+        b=0hSar7sDWPhfGA/whPQUF3T+f4exWJaQexRfWClFlzqjknmKlOaIH7736ydC5xSIrx
+         FyOZlcaMmD8tfZ5FnG25VuKFBE63fBPzqblwWmKyYHMCwbEAbuUYg1G6jRcAXqSQLmjM
+         0PXG8hETdpSoV2Ri9849NXEDJGfmQs0TCBRtC0HjgeCgn3SSX1eyDQn3Bervpgabuups
+         bWtEyXjIQ1DADGRhS12mvuZMg8rw2TPhac8NAdsxfyGPUS9nqxLYRC7EeF68QLkC3ri0
+         ln4LLk45GlpK8bnTprIZ3cbT44qMjJXAF1hlyZyeMDD4FqpreMxfsjX8u79A7nIHvYSw
+         0+jQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxfATS6MD60zwIgfiSyyivWSpnvMIuCOiY0W6pgY7tMrphwu/m7WguRu9isZNWpyr4CMnF6An0KHDw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/gTqMciCq+OohURVYvE1LuW9q3mSQkfHylZSREFtui/PCD7avU
+	McdNo0SBvqS7EFHgyze6kiSGblCjCUewOtPTA/KMuZb/6bLkP9Wc+qDoJHal8TjX/KasTgQFQLZ
+	uBtMITKIkZNfzvWyKbPXy1g+G87yAFNOBk3+a/05i
+X-Gm-Gg: AYBFou3vkVCmRp+A5A2mjiEprRo8P4D7Tje0dBrV/7g8wX0cS3I4ihb6tePl0qO2YMw
+	nJsTBYif4qfNkKGi7rLVPKS9a1ch7shQn6t3iwSKq0g2Z+RbOS/7PS/EjOSHGiEqK8PSiWd28fs
+	/KZTUiEMsF8IUY8lEyAx+xZvGYJyUR28EmwRWRWnOq5Pxfuin69sbCsFfJJU0mUhoUdxnz/ASom
+	xPqDjgjLN4wvM7ex17DmPaQ0CswXDvcM9OOb45dxDQBB8R8hYlqkTcwB0ijRPuCeqoCtizESE2A
+	DKyPl+duSeWPTLTo7Kh0SHCDcUzP36Mqd4E7p/2GXuLWj4xyy+CtG4LcN1zdtiux3qev7dBu1u0
+	Np2vZfGxHdn09XS0DJwK6fexboLtwt6rfQ+BCkgnJg1bsUbA1ypzGeV0=
+X-Received: by 2002:a05:620a:29c1:b0:93f:334e:df25 with SMTP id
+ af79cd13be357-9442175b2f6mr3556460685a.41.1793897300081; Thu, 05 Nov 2026
+ 08:48:20 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,206 +101,154 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v1 0/5] net: deprecate skb->pp_recycle and
- skb_mark_for_recycle()
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, virtualization@lists.linux.dev,
- linux-mm@kvack.org, bpf@vger.kernel.org, linux-wireless@vger.kernel.org,
- linux-doc@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
- imx@lists.linux.dev, linux-rdma@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
- linux-omap@vger.kernel.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Steffen Klassert <steffen.klassert@secunet.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- Willem de Bruijn <willemb@google.com>, Stanislav Fomichev <sdf@fomichev.me>,
- Pavel Begunkov <asml.silence@gmail.com>,
- Bobby Eshleman <bobbyeshleman@meta.com>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowangio@gmail.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- John Fastabend <john.fastabend@gmail.com>,
- Sabrina Dubroca <sd@queasysnail.net>,
- Johannes Berg <johannes@sipsolutions.net>, Byungchul Park
- <byungchul@sk.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Wen Gu <guwen@linux.alibaba.com>, Philo Lu <lulie@linux.alibaba.com>,
- Justin Chen <justin.chen@broadcom.com>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Vikas Gupta <vikas.gupta@broadcom.com>,
- Michael Chan <michael.chan@broadcom.com>,
- Pavan Chebbi <pavan.chebbi@broadcom.com>, Doug Berger <opendmb@gmail.com>,
- Nicolai Buchwitz <nb@tipi-net.de>, Satish Kharat <satishkh@cisco.com>,
- Wei Fang <wei.fang@nxp.com>, Frank Li <frank.li@nxp.com>,
- Shenwei Wang <shenwei.wang@nxp.com>, Joshua Washington
- <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>,
- Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>,
- Fan Gong <gongfan1@huawei.com>, Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Marcin Wojtas <marcin.s.wojtas@gmail.com>,
- Russell King <linux@armlinux.org.uk>, Sunil Goutham <sgoutham@marvell.com>,
- Geetha sowjanya <gakula@marvell.com>, Ratheesh Kannoth
- <rkannoth@marvell.com>, Subbaraya Sundeep <sbhatta@marvell.com>,
- Bharat Bhushan <bbhushan2@marvell.com>, Felix Fietkau <nbd@nbd.name>,
- Matthias Brugger <matthias.bgg@gmail.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Tariq Toukan <tariqt@nvidia.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>,
- Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com,
- Daniel Machon <daniel.machon@microchip.com>,
- Steen Hegelund <Steen.Hegelund@microchip.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Yibo Dong <dong100@mucse.com>,
- Brett Creeley <brett.creeley@amd.com>, Justin Lai
- <justinlai0215@realtek.com>, Larry Chiu <larry.chiu@realtek.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Paul Barker <paul@pbarker.dev>,
- Masahisa Kojima <kojima.masahisa@socionext.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- FUJITA Tomonori <fujita.tomonori@gmail.com>,
- Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>,
- MD Danish Anwar <danishanwar@ti.com>, Jiawen Wu <jiawenwu@trustnetic.com>,
- Mengyuan Lou <mengyuanlou@net-swift.com>,
- Ronak Doshi <ronak.doshi@broadcom.com>, Ryder Lee <ryder.lee@mediatek.com>,
- Shayne Chen <shayne.chen@mediatek.com>, Sean Wang <sean.wang@mediatek.com>,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>,
- Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>,
- Jordan Rhee <jordanrhee@google.com>, Ankit Garg <nktgrg@google.com>,
- Tim Hostetler <thostet@google.com>,
- Erni Sri Satya Vennela <ernis@linux.microsoft.com>,
- Eric Joyner <eric.joyner@amd.com>, Mohammad Heib <mheib@redhat.com>,
- Prabu Thayalan <prabu.ponrajthayalan@amd.com>,
- Chintan Vankar <c-vankar@ti.com>,
- Nora Schiffer <nora.schiffer@ew.tq-group.com>,
- Alexander Sverdlin <alex@sverdlin.org>, Kevin Hao <haokexin@gmail.com>,
- Karl Mehltretter <kmehltretter@gmail.com>,
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>,
- Meghana Malladi <m-malladi@ti.com>, Jacob Keller <jacob.e.keller@intel.com>,
- StanleyYP Wang <StanleyYP.Wang@mediatek.com>
-References: <20261103211424.127627-1-almasrymina@google.com>
-Content-Language: en-US
-From: Jesper Dangaard Brouer <hawk@kernel.org>
-In-Reply-To: <20261103211424.127627-1-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+ <auM32mOlBLu6ZUlt@google.com> <CALCETrUD4vh_iSHV7G0bprUFU8=c+ECo701-tXcbQ3UXBWC1ig@mail.gmail.com>
+ <ausXFWLgHabezE7R@google.com>
+In-Reply-To: <ausXFWLgHabezE7R@google.com>
+From: Andy Lutomirski <luto@amacapital.net>
+Date: Thu, 5 Nov 2026 08:48:07 -0800
+X-Gm-Features: AclHuK8CUFetL3KNjWElY9pamqV4vOzKRAOdGaRShI4zykg0vul-u3a1dyx4v8I
+Message-ID: <CALCETrXrdQRWTVdCq-V_AVpZG7g=1aCpeyNP3jLXT7VDW=OaVw@mail.gmail.com>
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+To: "Hallgrimur H. Gunnarsson" <halg@google.com>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jann Horn <jannh@google.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	KP Singh <kpsingh@kernel.org>, Jonathan Calmels <jcalmels@3xx0.net>, 
+	Casey Schaufler <casey@schaufler-ca.com>, linux-fsdevel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, linux-api@vger.kernel.org, 
+	containers@lists.linux.dev, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, Nov 4, 2026 at 3:30=E2=80=AFAM Hallgrimur H. Gunnarsson <halg@googl=
+e.com> wrote:
+>
+> On Tue, Nov 03, 2026 at 10:37:48AM -0800, Andy Lutomirski wrote:
+> > On Thu, Oct 29, 2026 at 5:11=E2=80=AFAM Hallgrimur H. Gunnarsson
+> > <halg@google.com> wrote:
+> > >
+> > > On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
+> >
+> > > >
+> > > > Why should the task's cap masks affect this?  *Maybe* cap_bset make=
+s
+> > > > sense, but I'm struggling a bit to see why cap_permitted and
+> > > > cap_effective should matter.
+> > >
+> > > Sorry, the phrasing here may have been misleading. Just to clarify:
+> > > none of the creating task's capability sets (cap_bset, cap_permitted
+> > > or cap_effective) are used to restrict the new user namespace.
+> > >
+> > > When I wrote "reusing the existing task cap_bset, cap_permitted and
+> > > cap_effective sets on namespace entry", I was contrasting this with
+> > > the prior series from 2024 [1], which proposed adding a 6th per-threa=
+d
+> > > capability set to struct cred.
+> > >
+> > > In this series, when a task creates or enters a user namespace, we
+> > > simply initialize its new cred->cap_{bset,permitted,effective} in
+> > > that namespace to user_ns->cap_bset instead of CAP_FULL_SET.
+> > >
+> >
+> > Okay, this makes *more* sense, but I think it's too weak.
+> >
+> > I have a sort-of goal of having the creation of unprivileged
+> > namespaces be allowed in most contexts by default, *even in Docker*
+> > (which would involve the Docker team changing their default seccomp
+> > rules, but that bridge can be crossed later).  (In furtherance of this
+> > goal, I fixed an ancient bug in newuidmap that gets us quite a bit
+> > closer a couple weeks ago.)
+> >
+> > But tying this mitigation to a parent userns means that it's
+> > completely unusable in the single-deep case.
+>
+> To clarify, this mitigation isn't exclusively tied to the parent userns.
+> If a system administrator wants a host-wide policy, like trimming
+> CAP_NET_ADMIN for all unprivileged user namespaces, including
+> single-deep Docker containers, then the host-wide sysctl handles this
+> seamlessly. Any unprivileged process in init_user_ns calling CLONE_NEWUSE=
+R
+> is subjected to the sysctl ceiling, effectively stripping CAP_NET_ADMIN
+> upon creation.
+
+Seems reasonable, but see below.
+
+>
+> Where the single-deep case falls short in this series is per-container
+> granularity. For flexible configuration on a per-container basis, this
+> patch series assumes that containers run in their own user namespace,
+> allowing the runtime to bound capabilities at creation time via clone3()
+> and have that bound persist down the namespace hierarchy across any neste=
+d
+> userns creation.
+
+There are plenty of cases of *privileged* user namespaces (i.e.
+created by privileged users) that would nonetheless want this.  Or
+unprivileged user namespaces on systems that will not have this
+restriction set that still want to apply it in their own container.
 
 
 
-On 11/3/26 22:14, Mina Almasry wrote:
-> Remove the per-SKB skb->pp_recycle bitfield and skb_mark_for_recycle()
-> helper, and reference-count netmems directly by their underlying type
-> via netmem_is_pp() inside netmem_inc_ref() and netmem_dec_ref().
-> 
-> This series simplifies SKB and netmem reference counting:
-> - Reclaims 1 bit from struct sk_buff (skb->pp_recycle).
-> - Unifies reference counting of SKB fragment netmems and regular netmems
->    under netmem_inc_ref() and netmem_dec_ref(), eliminating the separate
->    skb_netmem_ref(), skb_netmem_unref(), and skb_mark_for_recycle() APIs.
+>
+> If a container runs in init_user_ns (as in standard Docker) and we want
+> to restrict userns capabilities for that specific container without
+> relying on a host-wide sysctl, then you are exactly right. We would need
+> some kind of cred-based mechanism to pre-configure a restriction for any
+> future CLONE_NEWUSER calls within that container.
+>
+> > I do have a question about this whole scheme, though: are we talking
+> > *just* about CAP_NET_ADMIN?  That is, is there any other bit that has
+> > anywhere near enough security relevance to make this kind of thing
+> > worthwhile?  Because if it's really just a single bit control, maybe
+> > we can come up with a nicer scheme.
+>
+> Yes, primarily CAP_NET_ADMIN, and to a lesser extent CAP_NET_RAW.
+>
+> If we look at submissions to Google's kernelCTF VRP [1], 90% of the
+> exploit submissions in 2026 require CAP_NET_ADMIN (and about 70%
+> across all submissions since the program started in 2023).
+>
+> Restricting these network capabilities when they are not strictly needed
+> (e.g. for sandboxing) is the primary motivation behind the series.
+> However, I wrote the userns capability bounding as a generic mask so it
+> could restrict arbitrary capabilities down the hierarchy, but if the
+> preference is to narrow the scope more specifically to trimming
+> CAP_NET_ADMIN and CAP_NET_RAW, that's completely fine by me.
+>
+> If we go that route and want to support the single-deep Docker case, a
+> per-task inheritable securebit might be one way to do it, e.g.
+> SECBIT_NO_USERNS_NET and SECBIT_NO_USERNS_NET_LOCKED. Docker could then
+> set and lock that bit on a container in init_user_ns without needing a
+> parent userns.
 
-Part of the performance gain from page_pool was to completely avoid the
-atomic refcnt operation, when we can see that page refcnt==1.
-Are you removing this?
+This seems perhaps better.  But maybe a bit that applies the
+restriction to a userns created by someone who doesn't have
+CAP_NET_ADMIN in their own userns?
 
+IMO what we really want is a generic mechanism for sysctl-like
+settings that are scoped to a userns.  And we would want the API not
+to be filesystem-based (or at least not require *mounting* a
+filesystem) because then we would just make everything messier.  This
+would solve many problems.
 
-> - Removes 110 net lines of non-test/doc code across 63 files (196
->    insertions, 306 deletions).
-> 
-> 1/5: net: skbuff: skip managed zerocopy frags in skb_frag_ref()
-> 2/5: net: skbuff: refcount spliced page_pool frags via skb_pipe_buf_ops
-> 3/5: net: datagram: refcount page_pool frags in zerocopy_fill_skb_from_iter()
-> 4/5: net: remove skb->pp_recycle and consolidate netmem refcounting
-> 5/5: net: remove skb_mark_for_recycle()
-> 
-> Mina Almasry (5):
->    net: skbuff: skip managed zerocopy frags in skb_frag_ref()
->    net: skbuff: refcount spliced page_pool frags via skb_pipe_buf_ops
->    net: datagram: refcount page_pool frags in
->      zerocopy_fill_skb_from_iter()
->    net: remove skb->pp_recycle and consolidate netmem refcounting
->    net: remove skb_mark_for_recycle()
-> 
->   Documentation/networking/page_pool.rst        |   1 -
->   drivers/net/ethernet/airoha/airoha_eth.c      |   1 -
->   drivers/net/ethernet/alibaba/eea/eea_rx.c     |   3 -
->   .../net/ethernet/broadcom/asp2/bcmasp_intf.c  |   1 -
->   .../net/ethernet/broadcom/bnge/bnge_txrx.c    |   5 -
->   drivers/net/ethernet/broadcom/bnxt/bnxt.c     |   8 -
->   .../net/ethernet/broadcom/genet/bcmgenet.c    |   2 -
->   drivers/net/ethernet/cisco/enic/enic_rq.c     |   1 -
->   drivers/net/ethernet/engleder/tsnep_main.c    |   2 -
->   drivers/net/ethernet/freescale/fec_main.c     |   1 -
->   drivers/net/ethernet/google/gve/gve_rx_dqo.c  |   9 -
->   .../net/ethernet/hisilicon/hibmcge/hbg_txrx.c |   1 -
->   .../net/ethernet/hisilicon/hns3/hns3_enet.c   |   6 -
->   .../net/ethernet/huawei/hinic3/hinic3_rx.c    |   1 -
->   drivers/net/ethernet/intel/iavf/iavf_txrx.c   |   2 -
->   drivers/net/ethernet/marvell/mvneta.c         |   2 -
->   .../net/ethernet/marvell/mvpp2/mvpp2_main.c   |   2 -
->   .../marvell/octeontx2/nic/otx2_txrx.c         |   1 -
->   drivers/net/ethernet/mediatek/mtk_eth_soc.c   |   1 -
->   drivers/net/ethernet/mellanox/mlx4/en_rx.c    |   1 -
->   .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   8 -
->   drivers/net/ethernet/mellanox/mlxsw/pci.c     |   2 -
->   .../ethernet/microchip/lan966x/lan966x_fdma.c |   2 -
->   .../microchip/sparx5/lan969x/lan969x_fdma.c   |   1 -
->   drivers/net/ethernet/microsoft/mana/mana_en.c |   3 -
->   .../net/ethernet/mucse/rnpgbe/rnpgbe_lib.c    |   1 -
->   .../net/ethernet/pensando/ionic/ionic_txrx.c  |   2 -
->   .../net/ethernet/realtek/rtase/rtase_main.c   |   1 -
->   drivers/net/ethernet/renesas/ravb_main.c      |   2 -
->   drivers/net/ethernet/socionext/netsec.c       |   1 -
->   .../net/ethernet/stmicro/stmmac/stmmac_main.c |   1 -
->   drivers/net/ethernet/tehuti/tn40.c            |   1 -
->   drivers/net/ethernet/ti/am65-cpsw-nuss.c      |   1 -
->   drivers/net/ethernet/ti/cpsw.c                |   2 -
->   drivers/net/ethernet/ti/cpsw_new.c            |   2 -
->   drivers/net/ethernet/ti/icssg/icssg_common.c  |   1 -
->   drivers/net/ethernet/wangxun/libwx/wx_lib.c   |   2 -
->   drivers/net/veth.c                            |   3 +-
->   drivers/net/virtio_net.c                      |  16 +-
->   drivers/net/vmxnet3/vmxnet3_xdp.c             |   1 -
->   drivers/net/wireless/mediatek/mt76/dma.c      |   1 -
->   .../net/wireless/mediatek/mt76/mt7996/mac.c   |   1 -
->   drivers/net/wireless/mediatek/mt76/npu.c      |   1 -
->   drivers/net/wireless/mediatek/mt76/usb.c      |   1 -
->   drivers/net/xen-netfront.c                    |   1 -
->   include/linux/mm.h                            |   2 +-
->   include/linux/skbuff.h                        |  12 +-
->   include/linux/skbuff_ref.h                    |  60 +--
->   include/net/netmem.h                          |  39 +-
->   include/net/page_pool/helpers.h               |  46 ++-
->   net/core/datagram.c                           |   5 +
->   net/core/gro.c                                |   9 -
->   net/core/net_test.c                           | 369 +++++++++++-------
->   net/core/netmem_priv.h                        |  23 +-
->   net/core/page_pool.c                          |   8 +-
->   net/core/skbuff.c                             |  78 ++--
->   net/core/xdp.c                                |  13 +-
->   net/ipv4/esp4.c                               |  11 +-
->   net/ipv6/esp6.c                               |  11 +-
->   net/tls/tls_device.c                          |  14 +-
->   net/tls/tls_device_fallback.c                 |   6 +-
->   net/tls/tls_main.c                            |   4 +-
->   net/wireless/util.c                           |  31 +-
->   net/xfrm/trace_iptfs.h                        |   6 +-
->   net/xfrm/xfrm_iptfs.c                         |  16 +-
->   65 files changed, 418 insertions(+), 454 deletions(-)
-> 
-> 
-> base-commit: 7b6ab4dbc156e2f96419715130b3d5738a306c93
-
+>
+> On userns creation, create_user_ns() could record this restriction on
+> struct user_namespace. That could either feed into the userns capability
+> bounding set proposed in this series (clearing CAP_NET_ADMIN and
+> CAP_NET_RAW from user_ns->cap_bset when the bit is set on the creator),
+> or be stored as a single boolean in struct user_namespace if we want to
+> keep the mechanism minimal and drop the generic capability mask UAPI.
+> In the latter case, we would still need to replicate some of the
+> userns capability bounding functionality, e.g. strip CAP_NET_ADMIN and
+> CAP_NET_RAW in set_cred_user_ns() on namespace entry, and bound the
+> parent-owner check in cap_capable_helper().
+>
+> [1] https://github.com/google/security-research/tree/master/pocs/linux/ke=
+rnelctf
