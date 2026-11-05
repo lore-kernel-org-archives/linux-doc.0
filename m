@@ -1,101 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.26
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793917931;
-	b=dXs+HoezW+e460F22vjsJQG1EOdhMuoVHV03jaQ05+DPKzOnolAef6U0bi61r8bZKbOX
-	 iLWLTG7HebxiA/kXgykx/f3xiKKpivwPuXfnd30obFppamWmPheYrtbFRha/7GxJScE7F
-	 goSbxC1Uy6aFVJlikq8ulsXLXhqu9q2k5GBD15+g680nA4iRN8cjUi7D+z6Pip6ZTjgHA
-	 PTT+WHpicqPJd1EohIwW8paVQlqgPaAMzrbURUqBATW7x4XWbedNIyZLs2bzcHDNNEmhX
-	 0YHOFfUpAfJfTbsoDSlY5e/NmqUKxINp1yzkCmHKRTMUlixlzTVh7zIcqKkaOnYiKfQ==
+	t=1793918632;
+	b=iCOWHmZGCO+Rs+Kn5hIL1h8n4arY5wbDu9YXe+dHJQKY2VlT4UzGy7x1k4QNP9FrPCvR
+	 tgLhzFdjpvCH7uh98gSUK4+HU9mOw0S7KRKnwdBcJxyA2Y3D+DQ13Cev0DbYJSHDXkSnJ
+	 NUPTHUbBFTC9zi+m8EsP5ra9ASeiG92xQtx7ehuYNFuE7AUq7aQR6LXPp7OUkFI7AqOXM
+	 F7YVX/9HBfD2pEWPhVMWVTkW3pMkPoWkzTO2uiXZBDah9bPvwzkSzMH064Nyjv5fiQn6f
+	 ZUGqT2HIxkEAoLPji+Y0QcSnqp0FygauFAceI6FtFYXDyghFWboThkDTws3YKUQuk+A==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793917931;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=dVk8FlSCk0p0X/zLsBRSgcQPtRAQ4rsApX2OtPYv6mA=;
-	b=uKlJL55wyDL8gpM9im3ZO4toE34WIlRahODZVC6dZmh2tAlWwsDvDB5OwnxZ5DKFwjFW
-	 5Da/umpv2dg/Ud4VQMpI/QHqNhlsxNdidlLK81XvnJa6x3r6bE7Uxr5Lm3XDD+/UKuwcx
-	 EYhCyYFgMCsdSIgZakO67ygjGBRK8ifddn4hZg2lhRZHL+ZctlaSO+3H9/omgs9CZ1fiE
-	 WlDBk7ieVj/Zxyx+eP2wxHjvVcOQ1KtobktEII/w+3OnW9TcKLU/fhbf0LCiFRiDwwq0e
-	 iMDDrMPdwnC72NL6/fO/Y/GHLaXU1mJ/EvSgy31T7CMf+zE3+aWG/aHxr2j+U7O+NDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793918632;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 From:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:CC:X-Mailer:
+	 X-Originating-IP:X-ClientProxiedBy:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=BkdD/cZMNRZKed7sBfNBzfluVajKzrKiEwZ81jFnQWY=;
+	b=zoqJ/Q4lcT1sj92kvvk1w19NsnBurtIDV/Pc/TsSAvGv4KyV9qHu8bKMS7Fa5ywXb6Bp
+	 MyntCymMxo7WBJTfA0riA7EgkBB60PLjJNZFnrDQNciBYyQ1Ek0n4i8nsJL7DMbzR1iXn
+	 U3yvnbb3yfufgtYmfLwh10RpZXodZ6xC4s5vtX4LQ+2Chk/LcmV/iaG2diSFGESa0XWYx
+	 Qd1h4uBvGzdQwigp/38TuR3e4DKytPSIDORiX4ABNLXJKa22gETYd5bjXJubbRBJ5knOQ
+	 pHfKwWi3kXNcEjFaD9l0NMRl+YoWuBAMgdWyBtry5Xlh61aQH20pOz4feYyGK25Sz3g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Eh+RrIwy;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.210.174
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=amd.com;
+	spf=fail smtp.mailfrom=amd.com;
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=lhHZtVtw;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.26
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012026.outbound.protection.outlook.com [40.107.200.26])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3756B606A31B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 22:32:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3756B606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47FB4606A326;
+	Thu,  5 Nov 2026 22:43:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47FB4606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Eh+RrIwy
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8a06210b29fso1324305b3a.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 14:32:11 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793917930; cv=none;
-        d=google.com; s=arc-20260327;
-        b=I1b0mvDbq7R3Gylpov5QgXeTUhlYNj6K94FZZ2OHnMHM/8fYNFb7UXf69lc7MOEBfz
-         Sy6biBbDWIbs27Qlwu8F86oKnv7oQ1uObKzbJAuQJJIAbQ4pykj5soYGk5etS10+2mRm
-         Ti3cYaFW17G+iywRboVTn8RgB/BxIX5pyuEdDrrmA9BAcmEBAWWfYFcVUUb+0iiWp6Mi
-         mx4eT85vwn7X/aMzGDK3pBbDugtifRbnwLjHPkgdyEuzwZoD7/0RxvD0kmkT23Ojxyb5
-         h/WRfgaDGZjXy3QbE4UU3j8YMszzOp0CgmwakXkTpHRTDMZlnAkEKNa8cQtFn0jpSDdE
-         Pn0g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=dVk8FlSCk0p0X/zLsBRSgcQPtRAQ4rsApX2OtPYv6mA=;
-        fh=Hch6aHZf/2QR/Y86SDD4WnscJaNrcPvuToGx2KZI75Y=;
-        b=jVm1zTs2QJmz7UrPkopyNYGHo/0wLv7c6QfvCiSHjUBtu0D/ZMCq4GQwqL4Hhyd4GK
-         5snX1DXoZg7KUpn1F4iU3S6xiEFfH6aoGxq5ind7euKQfvy1KJ8DzGY80u4p3EnTfwhS
-         V+2TAcQhUsMLPBmmQrLJ0whnxVwNuF/poQ3TefaPZhNImuY02iRYbo5ocDWv+DcrrfCa
-         YVVZjabFOz3JSRoo278EYc9sE/PlHZYuLaxuM1Yn3sWVfY/rmyDPxPlrXAQVQxoY4psb
-         OYTtIZqfld4rnI7nKTwU7Zv+zfTWVZ9S7Qu6RI1mQe/M34Xgf+xRLrDTFukFYNXHIA7/
-         Mp6A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793917930; x=1794522730; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=dVk8FlSCk0p0X/zLsBRSgcQPtRAQ4rsApX2OtPYv6mA=;
-        b=Eh+RrIwyRW2pLFAckDF0MHCbB39wfpgowwsx1EjCEg4TjglDCPKN/+7ORVBplodNEl
-         jPsuezn9sp+54nY0YFIN5id6tKlbCmtePGeBOzUEgEtD3zRu4wGuAGpQI9AU5O9H/OG2
-         BPrZhYK4c4JMn8PnVzz5wZtQIKJrYDSceGNLApikgEpvL+Cm5kmuYnC7eHy1JGXZFMxb
-         f758muqYNnvb4aLtbgJMg7+gE4B3HhSKAGYRVp57kx0wCQq7XDhPMG4nfMdkf23f4ouv
-         mOvK402Ka+ie5oiUrYTV9bgBNPGKvXrkXueKKPphc1LciwU9R0c1CRCypkNY+ZaDHYvD
-         3AgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793917930; x=1794522730;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=dVk8FlSCk0p0X/zLsBRSgcQPtRAQ4rsApX2OtPYv6mA=;
-        b=F+/ytmQCDG6hR6tSAxYrotzS+BNeQ1YhnL1JPPOe/G45Dhm4/9G/2jo4AMvnlg2z+s
-         am2VwxJ/IfMdAMBfb1Wv5Ng5Zmir59+fzIkn5xZFTIoAoYvKaXtId5XNIMHcYx1KQWau
-         v39NekKnJSfedkyHVELdBUxzqSvbEMScQWJgWjLftZSoCMIfBNhfqfem+bkuwus46k6v
-         OewG0xOSg9I9KKPxo5JRbx32G0ToeSgmPTMblJ8g2rGq1V9FEqQD0pgWqL6sRPVJUeBu
-         DZC7ENh5BUCm0xTJ387Scdn9gAd0LiXPX5jjLygdgvH0RU030kewbkxqueTtL34ME5Y7
-         rLYQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzG9wN+KYiKfIkoCtXulMfV+/5ygsr3NiMmHGXXz7qZimKdtb8ChCiraxyI7Ce3gzkWeiATxabCrBQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9fgzQLH3TkaITwfud3KNf0mIkfeoDUpICrBQQhvHHpZZl+R91q
-	g81nxNXvQnJSo30BkkPSMtzu9Pun3uRCDFwS0nBL2MUy+kzEQTx3sH4jhaqF16ha5kAPoNiqw8+
-	o7fNHP2GCl12EFaKh5qGqjVhLp74oGv0=
-X-Gm-Gg: AYBFou2MojN/a14xSipZXtKL4hv4xwBvOL/f20fEWj4UBel7PC78+N1AaI1VGr4jojG
-	od97Vx+gCtJ/OvagJqMGh9SM61q8AfeS73Df104b2LKRDKB6x3C9ilPSmXGT41aBgUYinb+OBfl
-	qXRxfpWLYkUMCdeWOocpmfnW4taUdElKCXqqLL4zSHeT2c0kSreZ70pQ7+iRoo7Fcp2Bk/xIkJT
-	SHTXksyA5umt/6owjHS84xjAOjTINdVSv/ojFpfbB+xRR53QGdO1yO1pZdpjCkLI/WMw8xAH/jr
-	4l7SUfNEbf6Tw6eWqwe9RpWo8x1CUXjS1XosKtWmwvRJCMHRbPDH/iLScar/wekp4aAoMS24kX3
-	5PtBHESVisbXVwId7z4Co776NsjO65x+ib7+Sw8ga+w1kOBRAehLH+uEpxd2VIWIeecvxcN/F8K
-	rk6odrDgaoHTEaluoOuly8qONOrjh0IRG3xg==
-X-Received: by 2002:a17:903:2304:b0:2ed:1f0c:d31 with SMTP id
- d9443c01a7336-2ed40e688c7mr9370095ad.59.1793917930400; Thu, 05 Nov 2026
- 14:32:10 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=lhHZtVtw
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LE1Afsb2MVWU+dHwNq3n5anbkbPipoEuf87PfYITnFsaYfHgn8STCF3x9PtYLuRomJbzpAGjUfX5Bk+yBLl2PUqHV+a2Fll+/wQJMFCRh/F3fBU/OKN8JPFrLTVie0ecOD4pLi4+HVtEmsFW9EcE6IKXxPpWXin31Unl1GLT4k9KYrNcn6P1PAAtY/VxCOUMeGXJoGNWlSTgWc/m6+2xDIu+2uXjFthWLcwNE9uCJ1a+o3DmVdrHJjxX5z/xF43n+zqfzwB/MxwcmA4knTfqA1UPZ8EmlMTOzSHwgP0LgJGcnYZPiNOV+u2B00P1vqOAJpZbMQWHz7EWb66owxseSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BkdD/cZMNRZKed7sBfNBzfluVajKzrKiEwZ81jFnQWY=;
+ b=UXo7zXW1dswhBKwQ4PEfuPuuBf3sZDt/qvn63Kff8MwpgJ/JPRu4K766cfo3jiLcYWYmvxwQlILITLhhiL9bPPlq7jrQ8PVvWF/OYoOHnKYx0NbIj1/Dpl/cO0cgebpG9WM/L/5XlZnnrjXhC/JbRJRK10CdG1JBSA0IPVUwsfwkawXSzzfOHOkIeawwPlI3GQlhGK728Cp6TQr3B0ybKBSvi8+UD2BP0DwzOFgcHn5bw+2qE6df0NWUhL0ybMUB2McWTQqShjxNLJjyQdOYIWyZZe7MS8pBY3F8Sk9c8tb5GytpGd2mjvi7K2I5B4LGqMi4hZgZMtYfhS4bRcZM/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=ziepe.ca smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BkdD/cZMNRZKed7sBfNBzfluVajKzrKiEwZ81jFnQWY=;
+ b=lhHZtVtwzkcTgJicWslDXd8FojQeFVSGL04dwWYl5rBF4stkEOj9pmhOjhOiBvlCON4ml6AivRuLwCqIlHTEjd7Tr0QVNfzn+PyifEJhwvvt4pF2e+9nv138IT+QogMyHcXaMUWm7yTrPzk1RffXOwscpsDF1+hl3qFz6XulcFA=
+Received: from CH0PR03CA0265.namprd03.prod.outlook.com (2603:10b6:610:e5::30)
+ by CY8PR12MB8214.namprd12.prod.outlook.com (2603:10b6:930:76::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Thu, 5 Nov
+ 2026 22:43:45 +0000
+Received: from CH01EPF000BE94A.namprd02.prod.outlook.com
+ (2603:10b6:610:e5:cafe::24) by CH0PR03CA0265.outlook.office365.com
+ (2603:10b6:610:e5::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.10 via Frontend Transport; Thu, 5
+ Nov 2026 22:43:45 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ CH01EPF000BE94A.mail.protection.outlook.com (10.167.244.198) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Thu, 5 Nov 2026 22:43:45 +0000
+Received: from [192.168.0.1] (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Thu, 5 Nov
+ 2026 16:43:43 -0600
+From: "Nikhil P. Rao" <nikhil.rao@amd.com>
+Subject: [PATCH net-next v2 0/3] ionic: make the device command timeout
+ configurable
+Date: Thu, 5 Nov 2026 22:43:10 +0000
+Message-ID: <20261105-b4-ionic-cmd-timeout-v2-0-35a9a2aa48b1@amd.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,95 +101,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-9-wusamuel@google.com>
- <20261028134012.01d52e94@pumpkin> <CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
- <20261030100215.6f8e0d4f@pumpkin> <CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
- <20261104142307.431fc12f@pumpkin> <CAG2KctrY6GmVqsKP+fXYCsL6wDR4zp1kdRd7a7uOdCgg_JcMdQ@mail.gmail.com>
-In-Reply-To: <CAG2KctrY6GmVqsKP+fXYCsL6wDR4zp1kdRd7a7uOdCgg_JcMdQ@mail.gmail.com>
-From: Andrii Nakryiko <andrii.nakryiko@gmail.com>
-Date: Thu, 5 Nov 2026 14:31:58 -0800
-X-Gm-Features: AclHuK8BPGpbYIUoL0zJXTIzG60i-gPbL3KKgBgfTHwRc2VAS0UUrPKJVoGciTA
-Message-ID: <CAEf4BzbYqbPRPWQU9yM29E+Pr68y+KX0O8whK-36dyH=Zd_udg@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
-To: Samuel Wu <wusamuel@google.com>
-Cc: David Laight <david.laight.linux@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAH4G7WoC/32OwQ6CMBBEf4Xs2TVtLZJ48j8MB2gXWZO2pi0EQ
+ /h3C949TmbezKyQKDIluFUrRJo5cfBFqFMFZuz8k5Bt0aCEukopFPYaS4QNGmcxs6MwZTSN0La
+ +CN3rAQr6jjTwctQ+wFNGT0uG9uekqX+RyXvrnh055RA/x4NZHsT/sVmiQDU0tVFWdMI0987Zs
+ wkO2m3bvvdj9ZPSAAAA
+X-Change-ID: 20261102-b4-ionic-cmd-timeout-c704d5304b4f
+To: Brett Creeley <brett.creeley@amd.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Abhijit Gangurde <abhijit.gangurde@amd.com>, Allen Hubbe
+	<allen.hubbe@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky
+	<leon@kernel.org>, Jiri Pirko <jiri@resnulli.us>, Simon Horman
+	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-rdma@vger.kernel.org>, <linux-doc@vger.kernel.org>, Eric Joyner
+	<eric.joyner@amd.com>, Arun Kumar Prakash <ArunKumar.Prakash@amd.com>,
+	"Nikhil P. Rao" <nikhil.rao@amd.com>
+X-Mailer: b4 0.15.2
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH01EPF000BE94A:EE_|CY8PR12MB8214:EE_
+X-MS-Office365-Filtering-Correlation-Id: 312763b5-ecca-42e2-fdac-08df3b8e3fef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|82310400026|23010399003|376014|7416014|1800799024|18002099003|6133799003|3023799007|10067099003|13003099007|921020|11063799006|261026121527099003|261026140227099003|261028144727099003|261102123227099003|261021135927099003|261022105027099003|56012099006|261021121427099003|261021123027099003|261009223027099003|261022075727099003;
+X-Microsoft-Antispam-Message-Info:
+	ecDel00gw2GhefQH5EhTN4rpHfX1ItnpxiOsyTxdrdoAIP9E/cQqmHd2WkMQtCUss4P8/Mx5MRWI/SmZxiwd/LqIGxXzBNZRhPykKmHrjl7V0fZ/cd3xWz7vHhk4DvuXpqnTyCnXuqQ0H7mp/JK3tkSZ8xjcnKP9Or/MrqUtvJIEe/7/RtchdmOugaOeVZDvvJPZMhrDzUO7o3aKwAO59OhjRgyTdrG08Gxx+BrC+MpxoxR2aLo3s6LLuFq6vVqkwLNyLD2cy7P8/NLq8LXQ8EQ4OhHLHC7u8E5PsszoAMuOIDpGKUeELyk+7CwqlGgCi4kL62+HFPPjh/jD/l46RCt2MLSibyC760TQIIQj2hl/b7mmlrJfAtVqc2LxdAf4ewoUIOTeLsvxMIt6C0q7xJtbx0b1z+z9B7rsLm4d/tJPOkgkCwgIiBVf8PxtqIMTnwH/spIZYKv3Jhwkz1NhRFDuxpP5Fh9umTNQL6KA2SBKfXEKZVob6YFWtxpKpQWaBNhA7VyrAJX7f5B/f8Tj5GrFNXUGNA67k6Nct42I6Ql7I6FEAN8DFTZIB168lmArtshNXv+Oyu5Q4WhuCiFUDbqiHJSHVNLSvUoHhwtEnclVRAMmeOj+opvjjV+jZASu9qmcQ+RXK5LLU/zRSjMnBQ0JKJtnJhlcCdYbthGA195I1QKg+WtjfC+urIHXIOFEQ5sTgjTKPnV/b+L9FLLvMQ==
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(82310400026)(23010399003)(376014)(7416014)(1800799024)(18002099003)(6133799003)(3023799007)(10067099003)(13003099007)(921020)(11063799006)(261026121527099003)(261026140227099003)(261028144727099003)(261102123227099003)(261021135927099003)(261022105027099003)(56012099006)(261021121427099003)(261021123027099003)(261009223027099003)(261022075727099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	ibA07dmtAgWLCnNqVRJvhzQZDBnT84mF4KiDKHSKxIhbP7Q2cpyMbm2W4Uk6/Ton8LHL204Zz1zkkCa/xfnmwDyGNSLsFvLSXorDfim7Rt+0wELOgrVFRZ//H9sO4EFIKPSM9L+8i3lRICHlFDCM8MmNtKOoD1me8iHO5f5jO1UYC1giborgMn/XjfX2Ux8e2dwYJ/4lgKhHGLuIxINENtS3x+Sr7LjiAgLgiy4l8rKDRWytP0ScHGOgErQ1q81T1NixJJxLdtig9Gnrg06KqUIvmAdxe4kOABdhUjvT+zLCEf2fKVAkMnP4kPM3OljmxKK0aliGwKYsViQNCf0Z/qB8hpWuvqN8API/onoupINzHa23ugNudmKEw9WrzaNosh7rcRwIxxxE6oXfWUTzVID56VmPSps6+pKEREPWm6Hjwj2EtYkAXSPGqq0bCzaE
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 22:43:45.3453
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 312763b5-ecca-42e2-fdac-08df3b8e3fef
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH01EPF000BE94A.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8214
 
-On Wed, Nov 4, 2026 at 4:06=E2=80=AFPM Samuel Wu <wusamuel@google.com> wrot=
-e:
->
-> On Wed, Nov 4, 2026 at 6:23=E2=80=AFAM David Laight
-> <david.laight.linux@gmail.com> wrote:
-> >
-> > On Tue, 3 Nov 2026 17:14:26 -0800
-> > Samuel Wu <wusamuel@google.com> wrote:
-> >
-> > > On Fri, Oct 30, 2026 at 3:02=E2=80=AFAM David Laight
-> > > <david.laight.linux@gmail.com> wrote:
-> > > >
-> > > > On Thu, 29 Oct 2026 15:05:45 -0700
-> > > > Samuel Wu <wusamuel@google.com> wrote:
-> > > [...]
-> > > > > BY_NAME matches names exactly, like kallsyms_lookup_name(), so th=
-ey
-> > > > > would be different symbols at different addresses. Please correct=
- me
-> > > > > if I'm missing something here!
-> > > >
-> > > > Only that the user might really want one of the copies.
-> > > > Sometimes there is only the copy.
-> > >
-> > > Good point. I'll have v3 add KALLSYMS_F_PREFIX + pos/next_pos
-> > > pagination to cover these. A prefix query for "foo." also finds the
-> > > copies when plain foo does not exist (expanded on this in my reply to
-> > > Andrii's Oct 30 mail in this thread).
-> >
-> > I'm busy rebasing my patches - they got stamped all over :-(
-> > I should get a v3 that applies by the end of the week.
-> >
-> > I will add a 'prefix' variant for you.
-> > The 'next symbol matches' flag is exactly that (actually it is a
-> > this symbol is a duplicate to avoid issues at the start of the array).
-> > So in this case that application would always need to read
-> > the next symbol (by name).
->
-> Thanks, that would be helpful. For my v3, I'll keep the lower_bound()
-> approach so the two series stay independent, but I can switch over
-> once your series lands, so there is only one search over the name
-> table.
->
-> > I think it might be more sensible (less pitfalls later on) to return
-> > the symbol number - not that of the next one.
->
-> What pitfalls were you anticipating? If the current symbol's position
-> is returned, userspace needs another ioctl() call and an -ENOENT
-> check, to learn that there are no more matches. Alternatively,
-> returning the next position means every call pays for a look-ahead,
-> which for an unfiltered query walks the module symbols even when
-> userspace only wants the first match.
->
-> Andrii, do you have a preference between the two?
+ionic waits a fixed 5 seconds for device and admin queue commands, and
+the RDMA driver gives its admin queue 2 seconds. Some commands can take
+the firmware longer than that, for example while a PFC configuration
+change flaps the links. The firmware is alive but slow, yet the
+timed-out command and everything queued behind it fail, and an RDMA
+admin queue timeout resets the RDMA LIF so that later verbs fail with
+-ENODEV.
 
-no perfect solution, but given you don't always care about duplicates,
-I'd probably return the found symbol's position, which can be used for
-further pagination (if necessary, user just does +1). so, let's return
-current symbol index, and have way to say "find by name/prefix 'blah'
-starting from position X", where X will be previous symbol index + 1?
+Patch 1 makes the timeout a per-device value without changing it.
+Patch 2 has the RDMA admin queue use the ionic command timeout instead
+of its own 2 seconds.
+Patch 3 adds a permanent devlink parameter, cmd_timeout, stored in
+device NVM, that lengthens the timeout on firmware that supports it.
 
-but tbh, you have to write some code on how to do these "typical"
-queries and see whether API is convenient and meaningful, hard to know
-upfront what makes the most sense
+Tested on an AMD Pensando adapter under KASAN and lockdep, including
+repeated PCI resets with concurrent parameter reads.
+
+This series was developed with the help of an LLM-based coding
+assistant (Claude).
+
+---
+Changes in v2:
+- patch 3:
+  - comment in ionic_dl_cmd_timeout_get() on why it has no FW_RESET check
+  - changelog "after probe or reset" -> "after probe or PCI reset"
+- Link to v1: https://patch.msgid.link/20261102-b4-ionic-cmd-timeout-v1-0-2f75c2d0a0c7@amd.com
+
+---
+Arun Kumar Prakash (3):
+      ionic: make the command timeout per device
+      RDMA/ionic: Use the ionic command timeout for the admin queue
+      ionic: add devlink param for command timeout
+
+ Documentation/networking/devlink/ionic.rst         | 29 +++++++
+ drivers/infiniband/hw/ionic/ionic_admin.c          |  9 ++-
+ drivers/net/ethernet/pensando/ionic/ionic.h        | 15 +++-
+ drivers/net/ethernet/pensando/ionic/ionic_api.h    |  8 ++
+ drivers/net/ethernet/pensando/ionic/ionic_aux.c    |  8 +-
+ .../net/ethernet/pensando/ionic/ionic_bus_pci.c    |  4 +
+ drivers/net/ethernet/pensando/ionic/ionic_dev.c    | 90 ++++++++++++++++++++--
+ drivers/net/ethernet/pensando/ionic/ionic_dev.h    |  3 +
+ .../net/ethernet/pensando/ionic/ionic_devlink.c    | 90 ++++++++++++++++++++++
+ .../net/ethernet/pensando/ionic/ionic_devlink.h    |  2 +
+ .../net/ethernet/pensando/ionic/ionic_ethtool.c    | 12 +--
+ drivers/net/ethernet/pensando/ionic/ionic_fw.c     |  8 +-
+ drivers/net/ethernet/pensando/ionic/ionic_if.h     |  8 ++
+ drivers/net/ethernet/pensando/ionic/ionic_lif.c    | 13 ++--
+ drivers/net/ethernet/pensando/ionic/ionic_main.c   | 17 ++--
+ 15 files changed, 282 insertions(+), 34 deletions(-)
+---
+base-commit: 4dd16e31135ea8437a720222df34e8745f385d6d
+change-id: 20261102-b4-ionic-cmd-timeout-c704d5304b4f
+
+Best regards,
+--  
+Nikhil P. Rao <nikhil.rao@amd.com>
+
