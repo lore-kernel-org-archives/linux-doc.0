@@ -1,82 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793842718;
-	b=R/msvItmbdF5xGH+vfRJHlAfSUfd2HziYx1U2RiCueVi+p/SYajR7+yGtlzTPS7/GhUT
-	 RuYLmXowrXcRc8FlV8HJMf7q7UUY0bllwYsXKPSZdPSORnZV2xs6sa52MPOB8dBI6zGuI
-	 RSTs//wY815cnyx6izl15hYSOxLB+43cfbXsuqHj9B5LZYnPjOTzS+BpUPO3daZBAa37O
-	 m+iRN2crkjdeyr9908LJ1U3wNWIZpbUP4F2mRr/qafRdnN8biIO2rep3kIKqevFiFrL8O
-	 4RZsc8v1DUaP2epNDVKOIoUGUbxgrFsURDRlsYdCNO/l8m2mKY2c3gE3bduf3MqZVrw==
+	t=1793842722;
+	b=fVk7VLorJtNLy/ZOpSMaVaVju2PlhENVzHBRWlZcDKSRSS8i6tVAPIyrl6dFVI4PzOxj
+	 LT3u8/uUj0lHPGsyd/eetrOusfwFNvp+0VJ+HYaIKPnwacXnwf3HZwIRAOTH99PRSfsuA
+	 DN9+Owm5Vi8cP2EvLs2p4wtdN2KfZ6g4ZcNyKKO87Bl6/IoVb1UG+d9Ve3nbsKL+bpge0
+	 8JYamXIhuFyC9ZDPKDtyuTdch3GHSE2PwtuMZAzKEYnjraWYEbQX27NMFNOBPoM/dpWga
+	 ZEvTPr/ZKmzSjXuffnHVAs7ZVLkC+lbACr2npiR6m7eSSYeNLYxUOeptSMDS64Z1CPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793842718;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793842722;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
 	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=Dp6aJNGB8lo0vS7oBSbCWY8gtENxx6aHpIo+LlsAank=;
-	b=ppMKf5ybjM+7+zM2ctYuQc04V3MiT3Hsr131Hs7U5LSO4aY0RiAHyT8yY/oNslOdKv2X
-	 vCJda5EEQc6eq5YYmZ24I8BNKUgP0eAXw57bLKKkyBLEvUSsbotsG10VYTG9ch30BQwRH
-	 FQHIxohd0F55UjV1KFGGGfwNxU5P+1908zV3dBIryIoaEm9I6YQuEZsOb438t6hyG8C+l
-	 spcEgPBgry4+vyprsRRSJqw8qdKYsNp4rJ022R5SKp3LKQLd01nf6A1r0GPT7bd6VkHLZ
-	 fR+tSCyB99Q4KSlUXXVIuIQxFQF3/GcgcRrs0vk/B/GU7HfRDjOvAyHc6i8tuFD0Mfg==
+	bh=2zkGy3jMwTd8Db60GjN+O0HgdYthyoK9NJw8yGoQ+Bk=;
+	b=SzjFSXNTN2sXcno1XHAl6Hn186zoNG3gqIoclG83vLvsE5fVJAFOANAfcDdMSQBEdqwX
+	 GX+JL226MCFuuHhJvAK++nUAXNcMzLHq+d6oLEjtztjb/OemYFLdmoabhtv1MorMj3ELy
+	 wMyjglD2LrvQOtTykCJG8vgiryjVmcRBi8Y39X850ATm4igEccdj/EteS/QQkoBlmjW/u
+	 7zN+TLj3ZQ+lBoZjr+qKwPwPcle72g77DenqnAmf6/tPhy5IDRzpEDOVxGs+O9coQx8hV
+	 6yRWbSGrwd/KGrOkLsnkPQl2BqP1jc+XxtLXp1BTaUurWzymEAC1GiJyZBIw7bGwRfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=efi82Ty+;
-	arc=none smtp.remote-ip=209.85.215.177
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BeDR02ZV;
+	arc=none smtp.remote-ip=209.85.216.49
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4691606A31B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 01:38:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4691606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817CE606A31B
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 01:38:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 817CE606A31B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=efi82Ty+
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cdb15cd8558so504130a12.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 17:38:37 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BeDR02ZV
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-3ada8bc2380so698282a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 17:38:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793842717; x=1794447517; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793842721; x=1794447521; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Dp6aJNGB8lo0vS7oBSbCWY8gtENxx6aHpIo+LlsAank=;
-        b=efi82Ty+2V3AH5prugaxhjchZUon7LbqZjNbja8Xd0vYUGgqBqZkUz3DyAVuEK8c0b
-         rghecLUpP01I8Uw14Z/VckQ7V0QhQgrOaMShKYfY5yynzZ1K4vpnZrlZk7SV69hL0sqY
-         xzDmOkMo6b15m1asjOPMIdkapUfpgRqXNYf+LkILk7xX0hv/+eq6WsZR7u9nGho7dQfu
-         ohiPWv+YxhgYzrmArP8jJldR1yYs0rwdbwTz3bepjyiUyMK3OgSIrROFiDdEtU90bK0E
-         FRpBkO84PxITfUSTM0oscvVdDW/Mw33yleALy+tD2gy32AQEygxEsQItwcEFUclOUYsx
-         cVZg==
+        bh=2zkGy3jMwTd8Db60GjN+O0HgdYthyoK9NJw8yGoQ+Bk=;
+        b=BeDR02ZVlas7a5NRAjNR1MYaizQj7iqYAauRzdBiXL2GaEk/fzkHOYdaZ0HxZlnfhs
+         +Ay12tt80dEt2FiNBafNJ9U0aGXWDH5Npl8IND70o/Fj+CJcObcomNrZ75ZH280APaSw
+         HfzSAk+g2NBr2grIhULDYLL+OwSUTSIC7ff/uEexlclPL/g0roOlm3NYtH+nuH3MlC6l
+         yaW84NicJDOqHSsW23V9Tnd7+aRrx0tDhINTlBQTy2ROZ6q/kzYoqxhb/epVTWyf8JO0
+         S7mqD0a2D7YZ32anPR8Sc4jN1RZiNo8KMvEwyHYGOrbjkak0vf0UumviYP9WoCSEs9f0
+         rZDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793842717; x=1794447517;
+        d=1e100.net; s=20260707; t=1793842721; x=1794447521;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Dp6aJNGB8lo0vS7oBSbCWY8gtENxx6aHpIo+LlsAank=;
-        b=05J8xuJylmCfZ2SvY2ZhGnJLT0pMbal6UNOo4hAc8yMNKL7J8Y11F63TNaXnG2egKD
-         oUjD73OtLZNBdEcQK0O5DsjpPYUgub/QSbQsI02DB5ZrKMrwKBHJyqnH2/dqgyZVgkO1
-         T6hB9SB39Mb/EIlAgKAmtklzJWL4w5hzvmrUei/Yb7sdsssSQ0hLoD5IShdqtYvMX+kT
-         9GI4JPcglMOJ/H+eBS1T0+xaf80YgyJZ+4Ll0VB8leI9xbjtPMWOkgc/cBLaZd9p/Bc/
-         oNq+K6tL6thLdyiH160NyVfE948jG/vmoii0NI1HhptJGBCE7/P8pZsyYucalG21bcvS
-         3p3A==
-X-Gm-Message-State: APuU4Z8aYdi6oe56UFZnzdujBE3qijJsqcsxQ9SCWhfutij9IlL7avzU
-	lX8GOAPiItR9DjVLea/Eyb6eeQKBWmtomNwhOokXDAoCFH+qnDjQEEQmxOYHC034
-X-Gm-Gg: AYBFou1CcfSoNWhA6fDAGzTvHYKwZqWEK5lgnqVs5WMg5Bv89VUPNHiporkMyMJUmzh
-	nAcUjqVWiAHdBm1ODwLjN3AO3yyacRZevUuHE8hgaWoa2A60QqM16301bAwIw2B+vAgh2QcNibb
-	N1mvLDrLe7sNBPBm5oafGuaP1RGXuBh+x7dVjpAODosMlIJQB7/o8CZynE8TsXjHPihQ8M35PcJ
-	RRz/Dz0Z7mHspH00lYLAq8nadGG4eCio4UE7gVT6FwyGXycScDNHmNCOi1BvAsSiIJ5T+8HcnIg
-	eLnQGYjg0kt58BitDzzs6YGJ5G0xZRcy3DRn4HTSKle9NJBBpCehqiLFjJ3MHNmSViB9kxR5EJi
-	wXrmIxi17BMr0GZ1TwaM8Z4Abyj5I28EpU6LvSrZ7faQnqmTxkO42tTJgl+dpPrruyJa52TsLU6
-	4gjA944tYYmYaTOqwVPO5MA69zH7069e/s+FhcT5IGHjdJXCbCOBLdc1EeIPXZj7LN0S5p2rna1
-	s/IJ7I2wm8GJYVnEHb0LPSiMt+klBl4cb94EBMcXZVTWsPDLYUBtLmBp7i7xj3qTVCwHmfMQZqT
-	8ZqLo6caiW07uR+3TeLzR3M8wYad7v/KEFuD
-X-Received: by 2002:a17:90b:33c5:b0:3a7:ef4:164b with SMTP id 98e67ed59e1d1-3ae89574cf7mr14210936a91.2.1793842717063;
-        Wed, 04 Nov 2026 17:38:37 -0800 (PST)
+        bh=2zkGy3jMwTd8Db60GjN+O0HgdYthyoK9NJw8yGoQ+Bk=;
+        b=k3yDHSe0p+WS4LjEh64ZwsEUqcdfZ6rp8VXrsqggSZQj36ea3DF49caTIGHkS0eY5q
+         8Pu1dchApNY51vo2GYtnbyeUxbQ5gdSUlkS8jdlOvSMrFo0Dou2TMwpz17syTwG7Qwc8
+         QJ0DRbIJDoyQ4iCYB32rMHsuRBLGCRJNP1nlq4NUr7c8s1lvpShhWQAA0nxKopaHHhjG
+         cMonjhSoxO7mF453pg2pVMvbwFKZqj/J5GzM7hlhuIfXjfIA8wkmjaAn9ZHzSa9fvu/x
+         Dm2vmbbdvWsAu7HoyoK6aB+6DFkUmImUULn0BDbIsoc5etPynLHdt5V+QX4MVLmD7Hms
+         vrxw==
+X-Gm-Message-State: APuU4Z+3IkKynIcVtpXZD+JPmqK3yeIemXseHpTDjXPH511RPaEMCMS5
+	Oz5nifRnsvx81yX5pfAhLP4tORVb3/SVfh73Yr6l2pSqZ2DhWMfUHxJG
+X-Gm-Gg: AYBFou0lf9q7bY0gdmvQZtdA795rn6zU+YjT2uM4W4ZcFZi6CX2knElqXmV3ZbBXlCS
+	snBjnvK2qn8Z0AGxGeyPtWo5qpV8spTVP0PVd73C3h4uYeVzvtj10c+jIvKXtLR5wxFkQGeiNy9
+	3AmvWYYlQv0wDMWHL/e1gzbYez3QhFRzDg/7jjic4BD4UDkKRquKfrX0X8ytyt5eRgo+x9s8x6E
+	VM9pwrKDDGLvmnOgOJOrpw5oj6KGZn5u6/SMJWxudo5KMvX9DMjerMc//6sFBKIrTFDx4lN4WOC
+	gROqqzqwWmSrIIrGhGIm8tLnnS5ObpwA3qgYPCK35dk+80krTmUEOg5MxZXCMvOK5uhNR9mQ7pG
+	TZ2UrLUdi0rV+B5OucgStJODjvxFWwiJf2ojiRpX3pGHvDXvMkfyAMHYXlzjANrYe9p8MQAaCF0
+	WHuKiUMmcjxyLf9XB1Vc2ThtRjIdbhAeYzvYc1pc9LFPaWuQn+inQYGcPeEv4edJt8TSpLS6liZ
+	dsD9R+1pQvw+JJqw33v+us14GeXnN2NEkj+6R9aRrx3pfQODRp12QQt7kUd/zfDJCsxgOGafWSO
+	G4oK09UOLjBs2bfH17aaOZlVMi2lEdkPL85T
+X-Received: by 2002:a17:90b:4f42:b0:3ac:a521:953 with SMTP id 98e67ed59e1d1-3ae897c777fmr14458589a91.46.1793842720674;
+        Wed, 04 Nov 2026 17:38:40 -0800 (PST)
 Received: from penguin.lxd ([67.223.127.112])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31d2b5esm1164975a91.15.2026.11.04.17.38.33
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b31d2b5esm1164975a91.15.2026.11.04.17.38.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 17:38:36 -0800 (PST)
+        Wed, 04 Nov 2026 17:38:39 -0800 (PST)
 From: Matthew Weber <matthew.l.weber@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>
 Cc: linux-doc@vger.kernel.org,
@@ -89,9 +89,9 @@ Cc: linux-doc@vger.kernel.org,
 	Andrey Konovalov <andreyknvl@gmail.com>,
 	kasan-dev@googlegroups.com,
 	Matthew Weber <matthew.l.weber@gmail.com>
-Subject: [PATCH v2 2/4] scripts: Add kernel-sloc helper script
-Date: Wed,  4 Nov 2026 19:38:21 -0600
-Message-Id: <20261105013823.29741-3-matthew.l.weber@gmail.com>
+Subject: [PATCH v2 3/4] Documentation: admin-guide: Update workload tracing guide
+Date: Wed,  4 Nov 2026 19:38:22 -0600
+Message-Id: <20261105013823.29741-4-matthew.l.weber@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20261105013823.29741-1-matthew.l.weber@gmail.com>
 References: <20261105013823.29741-1-matthew.l.weber@gmail.com>
@@ -106,346 +106,203 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a helper script scripts/kernel-sloc to count source lines of code
-(SLOC) for a configured Linux kernel build. It supports counting whole
-compiled sources from compile_commands.json as well as estimating
-distinct source lines represented in a vmlinux ELF using DWARF
-line-table addresses.
+Expand workload-tracing.rst, which is aimed at application developers
+and system integrators analyzing which kernel code a workload relies on,
+with guidance on ftrace function graph tracing for target binaries,
+syscall trapping under QEMU with the GDB stub, and mapping workload
+observations to kernel configuration symbols.
 
-It is intended for system integrators and application developers who
-analyze a trimmed kernel, for example for safety critical applications,
-and need to report how much kernel code a given configuration builds
-and links. Add a MAINTAINERS entry for the script.
+Add a MAINTAINERS entry for the Workload analysis documents.
 
 Signed-off-by: Matthew Weber <matthew.l.weber@gmail.com>
 ---
- MAINTAINERS         |   6 +
- scripts/kernel-sloc | 299 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 305 insertions(+)
- create mode 100755 scripts/kernel-sloc
+Changes in v2:
+ - Now precedes the kernel minimization guide.
+ - Creates the Workload analysis MAINTAINERS entry.
+ - Refers to "scripts/kernel-sloc --help" instead of the minimization guide,
+   which is added later in the series.
 
+ .../admin-guide/workload-tracing.rst          | 138 +++++++++++++++++-
+ MAINTAINERS                                   |   6 +
+ 2 files changed, 137 insertions(+), 7 deletions(-)
+
+diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
+index 35963491b..550653147 100644
+--- a/Documentation/admin-guide/workload-tracing.rst
++++ b/Documentation/admin-guide/workload-tracing.rst
+@@ -176,6 +176,20 @@ by three workloads we have chose for this analysis.
+  * stress-ng
+  * paxtest
+ 
++To retain arguments, results, and calls from child processes, run the
++application with its normal inputs and environment::
++
++    strace -f -o syscalls.log ./app
++    strace -f -c -o syscall-summary.txt ./app
++
++These are separate runs. ``-f`` follows children and threads; ``-c`` produces
++a summary rather than the chronological trace. For a narrower investigation,
++add ``-e trace=%file`` to the first command to select file-related calls.
++``-k`` can add user-space stack traces when strace supports unwinding; it
++does not expose the kernel call stack. For an application that does not exit,
++stop the tracing session after a defined observation interval. Include
++startup and representative error inputs, not just a successful steady state.
++
+ What is cscope and how do we use it?
+ ====================================
+ 
+@@ -588,6 +602,116 @@ times each system call is invoked, and the corresponding Linux subsystem.
+ | arch_prctl        | 2         | Process Mgmt.   | sys_arch_prctl()     |
+ +-------------------+-----------+-----------------+----------------------+
+ 
++Kernel paths reached by the workload
++====================================
++
++To go beyond the syscall boundary, use the function graph tracer described
++in :doc:`/trace/ftrace`. In a tracing-capable test system or QEMU guest,
++install ``trace-cmd`` and check that the running kernel provides
++``CONFIG_FTRACE``, ``CONFIG_FUNCTION_TRACER``, and
++``CONFIG_FUNCTION_GRAPH_TRACER``. Enabling ``FTRACE`` alone is not sufficient.
++Check availability and collect a task-filtered graph::
++
++    sudo trace-cmd list -t
++    sudo trace-cmd record -p function_graph -F -c -O nofuncgraph-irqs \
++        --user "$USER" -o functions.dat ./app
++    trace-cmd report -i functions.dat > functions.txt
++
++Use an isolated measurement system: these commands change its tracing state.
++``-F`` filters to the launched application, ``-c`` follows its children, and
++``--user`` avoids running the workload as root just because the recorder needs
++privileges. Preserve the workload's original user and environment. The option
++``nofuncgraph-irqs`` excludes interrupt execution from the graph; asynchronous
++work in other tasks is outside this task filter too. Check the report for lost
++events before treating missing functions as unobserved. The perf examples
++above provide sampled profiles, not an exhaustive list of executed functions.
++
++Tracing a minimal user space
++============================
++
++A single-binary initramfs has no shell or guest tracing tools. Initial discovery
++can use the same application and libc in a full guest for the target
++architecture, but that does not reproduce its launch as PID 1. The following
++inspects the actual boot with QEMU's host-side GDB stub without adding tools to
++the archive.
++
++Follow :doc:`/process/debugging/gdb-kernel-debugging` for the debug build and
++matching ``vmlinux`` setup. Add ``nokaslr`` to the guest kernel command line
++and ``-S -gdb tcp:127.0.0.1:1234`` to the QEMU boot command. ``-S`` pauses the
++guest before boot, allowing breakpoints to be installed. Connect host GDB::
++
++    gdb-multiarch /path/to/build/vmlinux
++    (gdb) target remote localhost:1234
++    (gdb) tbreak kernel_init
++    (gdb) continue
++
++For a native 64-bit arm64 workload, the following records syscall entry numbers
++and the first argument from the saved user registers. It starts after PID 1's
++kernel initialization, before the application executes::
++
++    (gdb) set pagination off
++    (gdb) set logging file pid1-syscalls.log
++    (gdb) set logging enabled on
++    (gdb) break do_el0_svc
++    (gdb) commands
++    > silent
++    > printf "syscall=%lu arg0=%#lx\n", regs->regs[8], regs->regs[0]
++    > continue
++    > end
++    (gdb) continue
++
++Interrupt GDB with Ctrl-C after the observation interval, then disable logging.
++Resolve the numbers using the matching target build's syscall-number definitions.
++These are entry observations, not decoded arguments or syscall results. To
++inspect a particular kernel path, disable the logging breakpoint, set a
++breakpoint on its implementation, and use ``bt`` or ``step`` at the hit.
++Entry functions and register layouts are architecture- and revision-specific;
++check them against the matching source. Once other processes exist, an entry
++breakpoint can also capture their calls; GDB threads in QEMU represent vCPUs,
++not Linux tasks. This is not a task-filtered whole-kernel coverage collector.
++
++QEMU also offers low-level logging with ``-d`` (list options with ``-d help``)
++and ``-D qemu.log``. For example, ``-d in_asm`` logs translated instruction
++blocks, not every execution or a workload-specific call trace. A block that is
++not logged again may still have executed again from the translation cache, so
++the log cannot show that a block did not run.
++
++Mapping observations to configuration
++-------------------------------------
++
++Use the source revision and architecture matching the measured kernel, rather
++than assuming the syscall tables above describe every build. Locate each
++syscall implementation with cscope or its ``SYSCALL_DEFINE`` declaration,
++follow calls into the relevant subsystem, and inspect its Makefile and Kconfig.
++For example, ``eventfd2`` is implemented in ``fs/eventfd.c``;
++``fs/Makefile`` builds ``eventfd.o`` under ``CONFIG_EVENTFD``. Use the
++configuration help to review its dependencies before changing the option.
++Other paths, such as the core ``write`` syscall, are built unconditionally
++and may reach different drivers depending on the file descriptor. A syscall
++does not necessarily map to one removable option.
++
++Retain results as well as names: a libc may probe an optional syscall, tolerate
++``ENOSYS``, and take a fallback path. Observing the call alone does not prove
++that the feature must remain enabled. Conversely, boot and recovery dependencies
++may be absent from an application's syscall trace. Record the observed path,
++source/configuration mapping, and result of re-testing after the change.
++
++For the distinction between built code and observed execution, use
++:doc:`/dev-tools/gcov` for execution counts and :doc:`/dev-tools/kcov` for
++task-scoped kernel PCs. Follow their collection and symbolization instructions
++in a separate measurement build; neither strace nor a sampled perf profile
++supplies those coverage results. Unobserved code remains a candidate for
++investigation, not proof of an unnecessary feature.
++
++Keep the built-code inventory alongside the runtime observations using
++``scripts/kernel-sloc --report compiled.json kernel .`` and, for the matching
++debug ELF, ``scripts/kernel-sloc --report linked.json dwarf vmlinux``. See
++``scripts/kernel-sloc --help`` for its modes and requirements. The
++reports list compiled files and DWARF-resolved functions/source lines, not
++execution. Compare full source paths as well as function names; repeated
++static names and inlining make names alone insufficient. An unobserved entry
++is a review candidate, not proof that its configuration can be removed.
++
+ Conclusion
+ ==========
+ 
+@@ -597,10 +721,10 @@ information on the resources in use by workloads using strace.
+ References
+ ==========
+ 
+- * `Discovery Linux Kernel Subsystems used by OpenAPS <https://elisa.tech/blog/2022/02/02/discovery-linux-kernel-subsystems-used-by-openaps>`_
+- * `ELISA-White-Papers-Discovering Linux kernel subsystems used by a workload <https://github.com/elisa-tech/ELISA-White-Papers/blob/master/Processes/Discovering_Linux_kernel_subsystems_used_by_a_workload.md>`_
+- * `strace <https://man7.org/linux/man-pages/man1/strace.1.html>`_
+- * `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`_
+- * `paxtest README <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`_
+- * `stress-ng <https://www.mankier.com/1/stress-ng>`_
+- * `Monitoring and managing system status and performance <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/index>`_
++ * `Discovery Linux Kernel Subsystems used by OpenAPS <https://elisa.tech/blog/2022/02/02/discovery-linux-kernel-subsystems-used-by-openaps>`__
++ * `ELISA-White-Papers-Discovering Linux kernel subsystems used by a workload <https://github.com/elisa-tech/ELISA-White-Papers/blob/master/Processes/Discovering_Linux_kernel_subsystems_used_by_a_workload.md>`__
++ * `strace <https://man7.org/linux/man-pages/man1/strace.1.html>`__
++ * `perf <https://man7.org/linux/man-pages/man1/perf.1.html>`__
++ * `paxtest README <https://github.com/opntr/paxtest-freebsd/blob/hardenedbsd/0.9.14-hbsd/README>`__
++ * `stress-ng <https://www.mankier.com/1/stress-ng>`__
++ * `Monitoring and managing system status and performance <https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/index>`__
 diff --git a/MAINTAINERS b/MAINTAINERS
-index d009e2da2..d83f37c3a 100644
+index d83f37c3a..d92d5eff0 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -13762,6 +13762,12 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux-kselftest.git
- F:	Documentation/dev-tools/kselftest*
- F:	tools/testing/selftests/
+@@ -28154,6 +28154,12 @@ F:	sound/soc/codecs/arizona*
+ F:	sound/soc/codecs/cs47l24*
+ F:	sound/soc/codecs/wm*
  
-+KERNEL SLOC HELPER
++WORKLOAD ANALYSIS DOCUMENTATION
 +M:	Matthew Weber <matthew.l.weber@gmail.com>
-+L:	linux-kbuild@vger.kernel.org
++L:	linux-doc@vger.kernel.org
 +S:	Maintained
-+F:	scripts/kernel-sloc
++F:	Documentation/admin-guide/workload-tracing.rst
 +
- KERNEL SMB3 SERVER (KSMBD)
- M:	Namjae Jeon <linkinjeon@kernel.org>
- M:	Namjae Jeon <linkinjeon@samba.org>
-diff --git a/scripts/kernel-sloc b/scripts/kernel-sloc
-new file mode 100755
-index 000000000..ed8b787e5
---- /dev/null
-+++ b/scripts/kernel-sloc
-@@ -0,0 +1,299 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: BSD-3-Clause
-+#
-+# kernel-sloc - Count source lines of code for a configured kernel build.
-+#
-+# Adapted from the Unikraft build-time SLOC reporting approach
-+# (https://github.com/orgs/unikraft/discussions/1849#discussioncomment-19352529),
-+# which counts compiled sources rather than the whole source tree.
-+#
-+# The kernel mode counts whole compiled files, including inactive #if branches,
-+# but not the headers they include. The dwarf mode estimates source lines
-+# represented by debug information in a linked ELF; it does not measure runtime
-+# coverage. Neither count is a certification or structural-coverage result.
-+
-+set -eu
-+
-+die() {
-+	echo "ERROR: $*" >&2
-+	exit 1
-+}
-+
-+need_command() {
-+	command -v "$1" >/dev/null 2>&1 || die "required command not found: $1"
-+}
-+
-+need_cloc() {
-+	command -v cloc >/dev/null 2>&1 ||
-+		die "required command not found: cloc (install cloc to use kernel, tree, or files mode)"
-+}
-+
-+usage() {
-+	printf 'Usage: %s [--report JSON_FILE] MODE TARGET...\n' "$0"
-+	printf '%s\n' \
-+		'  kernel BUILD_DIR  Count whole compiled sources from compile_commands.json.' \
-+		'                    Requires cloc and python3. Generate the database after' \
-+		'                    a clean build of the configuration being measured.' \
-+		'  dwarf ELF         Estimate distinct source lines using DWARF addresses.' \
-+		'                    Requires GNU objdump, addr2line, and python3, plus' \
-+		'                    an ELF built with debug information (CONFIG_DEBUG_INFO).' \
-+		'                    Set OBJDUMP and ADDR2LINE for cross builds, or set' \
-+		'                    CROSS_COMPILE to the toolchain prefix.' \
-+		'  tree DIR          Count all C, C++, and header sources; requires cloc.' \
-+		'  files FILE...     Count individual source files; requires cloc.' \
-+		'  --report FILE     JSON inventory for kernel or dwarf; parent must exist.' \
-+		'                    Lists compiled files, or DWARF source_lines and functions.' \
-+		'                    Does not measure execution or list every linked symbol.' \
-+		'  -h, --help        Show this help and exit successfully.' \
-+		'' \
-+		'Success prints one integer on stdout and a summary on stderr.' \
-+		'Errors exit non-zero without printing a count.' \
-+		'Counts depend on the tool versions and build options; record both.' \
-+		'' \
-+		'Examples:'
-+	printf '  %s --report compiled.json kernel .\n' "$0"
-+	printf '  %s --report linked.json dwarf vmlinux\n' "$0"
-+	printf '  %s files foo.c\n' "$0"
-+	printf '  %s tree /path/to/files\n' "$0"
-+	printf '%s\n' \
-+		'files omits linked libc; tree includes unused C/C++/headers, not other' \
-+		'languages. Neither is a deployed-footprint total.'
-+}
-+
-+# Extract the code total from cloc CSV, including the empty-tree case.
-+cloc_sum() {
-+	awk -F',' '$2 == "SUM" {total = $5} END {print total + 0}'
-+}
-+
-+cloc_sum_from_list() {
-+	cloc --list-file="$1" --skip-uniqueness --csv --quiet >"$2" ||
-+		die "cloc failed while counting source files"
-+	cloc_sum <"$2"
-+}
-+
-+# Write the report before printing the count; failed writes are not success.
-+write_report() {
-+	[ -n "$report" ] || return 0
-+	python3 - "$report" "$mode" "$target" "$1" "$2" <<'PYREPORT'
-+import json
-+import os
-+import sys
-+import tempfile
-+
-+path, mode, target, count, inventory = sys.argv[1:]
-+with open(inventory, encoding="utf-8") as stream:
-+    data = ({"files": sorted(stream.read().splitlines())} if mode == "kernel"
-+            else json.load(stream))
-+data.update(mode=mode, target=os.path.abspath(target), sloc=int(count))
-+protected = [target] + data["files"]
-+if mode == "kernel":
-+    protected.append(os.path.join(target, "compile_commands.json"))
-+if os.path.realpath(path) in {os.path.realpath(p) for p in protected}:
-+    sys.exit("ERROR: report must not overwrite a measured input")
-+if os.path.exists(path) and any(os.path.exists(p) and os.path.samefile(path, p)
-+                                for p in protected):
-+    sys.exit("ERROR: report must not overwrite a measured input")
-+temporary = None
-+try:
-+    with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8",
-+                                     dir=os.path.dirname(os.path.abspath(path)),
-+                                     delete=False) as output:
-+        temporary = output.name
-+        json.dump(data, output, indent=2, sort_keys=True)
-+        output.write("\n")
-+    os.replace(temporary, path)
-+except OSError as error:
-+    sys.exit(f"ERROR: cannot write report {path}: {error}")
-+finally:
-+    if temporary and os.path.exists(temporary):
-+        os.unlink(temporary)
-+PYREPORT
-+}
-+
-+report=""
-+if [ "${1:-}" = --report ]; then
-+	if [ "$#" -lt 4 ] || [ -z "$2" ]; then
-+		usage >&2
-+		exit 2
-+	fi
-+	case "$2" in
-+	-*) usage >&2; exit 2 ;;
-+	esac
-+	report="$2"
-+	shift 2
-+fi
-+case "${1:-}" in
-+-h|--help)
-+	[ "$#" -eq 1 ] && [ -z "$report" ] || { usage >&2; exit 2; }
-+	usage
-+	exit 0
-+	;;
-+kernel|dwarf|tree)
-+	[ "$#" -eq 2 ] || { usage >&2; exit 2; }
-+	;;
-+files)
-+	[ "$#" -ge 2 ] || { usage >&2; exit 2; }
-+	;;
-+*)
-+	usage >&2
-+	exit 2
-+	;;
-+esac
-+
-+mode="$1"
-+target="$2"
-+if [ -n "$report" ] && [ "$mode" != kernel ] && [ "$mode" != dwarf ]; then
-+	die "--report supports only kernel and dwarf modes"
-+fi
-+
-+case "$mode" in
-+kernel)
-+	need_cloc
-+	need_command python3
-+	[ -d "$target" ] || die "kernel build dir not found: $target"
-+	ccj="$target/compile_commands.json"
-+	if [ ! -f "$ccj" ]; then
-+		# Use the source-tree generator even for an out-of-tree build.
-+		script_dir="$(cd "$(dirname "$0")" && pwd)"
-+		gen="$script_dir/clang-tools/gen_compile_commands.py"
-+		[ -f "$gen" ] || die "no compile_commands.json or generator (build the kernel first)"
-+		echo "generating compile_commands.json ..." >&2
-+		python3 "$gen" -d "$target" -o "$ccj" ||
-+			die "gen_compile_commands.py failed"
-+	fi
-+	tmpdir="$(mktemp -d)" || die "cannot create temporary directory"
-+	trap 'rm -rf "$tmpdir"' 0
-+	trap 'exit 1' HUP INT TERM
-+	list="$tmpdir/sources"
-+	python3 - "$ccj" >"$list" <<'PY'
-+import json
-+import os
-+import sys
-+
-+with open(sys.argv[1], encoding="utf-8") as database:
-+    commands = json.load(database)
-+base = os.path.dirname(os.path.abspath(sys.argv[1]))
-+seen = set()
-+for entry in commands:
-+    source = entry.get("file")
-+    if not source:
-+        continue
-+    directory = os.path.join(base, entry.get("directory", ""))
-+    path = os.path.realpath(os.path.join(directory, source))
-+    if not os.path.isfile(path):
-+        sys.exit(f"ERROR: compiled source not found: {path}")
-+    if "\n" in path or "\r" in path:
-+        sys.exit("ERROR: source paths must not contain newlines")
-+    if path not in seen:
-+        seen.add(path)
-+        print(path)
-+PY
-+	[ -s "$list" ] || die "no compiled sources found (build the kernel first)"
-+	n="$(cloc_sum_from_list "$list" "$tmpdir/cloc.csv")"
-+	write_report "$n" "$list"
-+	echo "kernel compiled sources: $(wc -l <"$list") files, ${n} SLOC" >&2
-+	echo "$n"
-+	;;
-+dwarf)
-+	[ -f "$target" ] || die "ELF not found: $target (build with debug information)"
-+	OBJDUMP="${OBJDUMP:-${CROSS_COMPILE:-}objdump}"
-+	# Preserve the prefix when only a conventional OBJDUMP name is overridden.
-+	case "$OBJDUMP" in
-+	*objdump)
-+		ADDR2LINE="${ADDR2LINE:-${OBJDUMP%objdump}addr2line}"
-+		;;
-+	*)
-+		ADDR2LINE="${ADDR2LINE:-${CROSS_COMPILE:-}addr2line}"
-+		;;
-+	esac
-+	need_command "$OBJDUMP"
-+	need_command "$ADDR2LINE"
-+	need_command python3
-+	tmpdir="$(mktemp -d)" || die "cannot create temporary directory"
-+	trap 'rm -rf "$tmpdir"' 0
-+	trap 'exit 1' HUP INT TERM
-+	inventory="$tmpdir/inventory.json"
-+	# Resolve full paths before deduplicating line-table addresses.
-+	LC_ALL=C "$OBJDUMP" --dwarf=decodedline "$target" >"$tmpdir/decodedline"
-+	awk 'NF >= 3 && $2 ~ /^[0-9]+$/ {print $3}' "$tmpdir/decodedline" \
-+		>"$tmpdir/addresses"
-+	sort -u "$tmpdir/addresses" >"$tmpdir/sorted-addresses"
-+	if [ -n "$report" ]; then
-+		LC_ALL=C "$ADDR2LINE" -f -e "$target" <"$tmpdir/sorted-addresses" >"$tmpdir/locations"
-+	else
-+		LC_ALL=C "$ADDR2LINE" -e "$target" <"$tmpdir/sorted-addresses" >"$tmpdir/locations"
-+	fi
-+	python3 -c '
-+import json
-+import os
-+import re
-+import sys
-+
-+seen = set()
-+functions = set()
-+rows = iter(sys.stdin)
-+for row in rows:
-+    function = None
-+    if sys.argv[1]:
-+        function = row.strip()
-+        row = next(rows, None)
-+        if row is None:
-+            sys.exit("ERROR: incomplete addr2line function/location pair")
-+    match = re.fullmatch(r"(.*):([0-9]+)(?: \(discriminator [0-9]+\))?", row.strip())
-+    if match and match[1] != "??" and int(match[2]) > 0:
-+        file = os.path.normpath(match[1])
-+        seen.add((file, int(match[2])))
-+        if function and function != "??":
-+            functions.add((function, file))
-+if sys.argv[1]:
-+    with open(sys.argv[2], "w", encoding="utf-8") as output:
-+        json.dump({"files": sorted({file for file, line in seen}),
-+                   "source_lines": [{"file": file, "line": line}
-+                                    for file, line in sorted(seen)],
-+                   "functions": [{"name": name, "file": file}
-+                                 for name, file in sorted(functions)]}, output)
-+print(len(seen))
-+' "$report" "$inventory" <"$tmpdir/locations" >"$tmpdir/count"
-+	n="$(cat "$tmpdir/count")"
-+	[ "$n" -gt 0 ] || die "no DWARF source lines found (build with CONFIG_DEBUG_INFO)"
-+	write_report "$n" "$inventory"
-+	echo "dwarf distinct source lines (debug-info estimate): ${n}" >&2
-+	echo "$n"
-+	;;
-+tree)
-+	need_cloc
-+	[ -d "$target" ] || die "source dir not found: $target"
-+	tmpfile="$(mktemp)" || die "cannot create temporary file"
-+	trap 'rm -f "$tmpfile"' 0
-+	trap 'exit 1' HUP INT TERM
-+	cloc --include-lang=C,C++,'C/C++ Header' --skip-uniqueness \
-+		--csv --quiet "$target" >"$tmpfile" ||
-+		die "cloc failed while counting source tree"
-+	n="$(cloc_sum <"$tmpfile")"
-+	echo "source tree $target (C/C++ and headers): ${n} SLOC" >&2
-+	echo "$n"
-+	;;
-+files)
-+	need_cloc
-+	shift
-+	newline='
-+'
-+	carriage_return="$(printf '\r')"
-+	for source in "$@"; do
-+		[ -f "$source" ] || die "source file not found: $source"
-+		case "$source" in
-+		*"$newline"*|*"$carriage_return"*)
-+			die "source paths must not contain newlines"
-+			;;
-+		esac
-+	done
-+	tmpdir="$(mktemp -d)" || die "cannot create temporary directory"
-+	trap 'rm -rf "$tmpdir"' 0
-+	trap 'exit 1' HUP INT TERM
-+	list="$tmpdir/sources"
-+	printf '%s\n' "$@" >"$list"
-+	n="$(cloc_sum_from_list "$list" "$tmpdir/cloc.csv")"
-+	echo "files: $# path(s), ${n} SLOC" >&2
-+	echo "$n"
-+	;;
-+esac
+ WORKQUEUE
+ M:	Tejun Heo <tj@kernel.org>
+ R:	Lai Jiangshan <jiangshanlai@gmail.com>
 -- 
 2.39.5
 
