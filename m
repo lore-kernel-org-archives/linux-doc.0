@@ -1,87 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793879130;
-	b=eO/5rApjP9rPiBs12NDqP087jgrIo0MurT4VOOG0H0XZHBKNcyMVo8js2DWfWaChe6HR
-	 toMSUA+y1C/0klCElRwXB8brsiHveiyIE24lpoDTrXQtRrb1oPbFRMJ+6dWStO1K8QvRj
-	 xq9vhFgpQph+Bq0tg5k0GvXjOMNy0ayFx8C6M6Ujwymsp/gL7fqUoJv1ylESKiyeUDnia
-	 v0KE9dIq85nTCUOZShBoGm9LJyyJJrvVcMt3l0NNdCoV2PWt6Lj7KkHlppl1F/zNMHVEx
-	 TaDSXBtax/JeBJ19TtHwg3YW3t02nQAQvEVmV1QFiwdQLmWhxVpUALZHMdn5QJJ0CPg==
+	t=1793879131;
+	b=27E4C4x3mric7qxLavusLMdF/1arHbT0+NSTP14IJOxp+yB1oES1fBP24Rs7KZwdIUsu
+	 U4CVfCiVsaslmlzDm/Gc3eBJXZqz8AYprjJvn7XsGr6k+r4tVSq/l8VlAgZuixLtYs69r
+	 DM6sulrV+Tq8FPyVmPi7y2TZiddJrH8EgUVz5LIqZ30B+/E0/W0nQMcxeHve3r79z4t+S
+	 FEZ7oJh36JQvEEGzwDeYrW8CuMpejgaCa48Epnh++NvJgD3ivPYUGJb9LcJKo9lOMfcg9
+	 45UIF5/1zu8OYkinqAXUvugstrXb3xgvbYfsByu0PJU9yfv1U1OdubPtYS+40sIgfsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793879130;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793879131;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=hQ2y5T12ktAE5iaKWCwzlas8CkbZmdyxwRbpbd+A6KQ=;
-	b=yc1wsgaY2koa/cwldC8cwBJNU/flT1lVpJAkJe3hOM2Va63/ngVrI0vo1V6qLujkcPsr
-	 KaoJC7BCiaFujvHpmv4qsH61H/S1y0r16r5LWiudib00opafTWD+u7s3uAX8QVQxAGhjT
-	 U3JVNVMhoh1gChIosbGGp3PmUjxrqwSgEwrLMlo7ts/xJ3O2I/TFqJzgljIkJUuiz+5ms
-	 NA2JX1tvsSynBcGyE9ghG0Gs2z0/3VY2/tBICO82IlLAhn8DpLnj8tjRzmlKrlcvyKLCW
-	 apVr+pYwsjtN+TuDwCAmwl9jqfiXHeKfGJcVq3Ebs1exVKY7mp04m/YOBiW97vEDv3g==
+	bh=z49MEnSEMTTPulUvnX3mC1j6+RjZ98X7wWOuw2hUt64=;
+	b=fPh7KBvXbM46LkS81adcrGcR1UhNVJpLBiUeQ2/BxI8qqIAvVF6MsGxaREFFpVJ5/xdN
+	 0sNiZIsc1pLmBRtQi9Xa5hCqbY+xRtAtF1hD9sZwEVZDo7d/zwZbSOIGoP2gblwCg7L7n
+	 GRmKdhYJY5rGVxUHb6JV3vbSFowcS41qx6qVZxzOU4kAR72zXjuV6e4DGHAiOdHi9/b7/
+	 OFzD59BdDBDjAXiERc4aHn852OKCohPyunLbcmofcWwQVS/rmCZ6ogXJOUmH4kXoK+Haw
+	 mnFqZdOOj8A5iCbxz2enoyoU5lwcSt6JaMF6nz2/hud7b5mAIMH0rdGxx+4kyiM5XqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linaro.org;
 	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=a0iLDWSp;
-	arc=none smtp.remote-ip=209.85.128.47
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=yILaHeZc;
+	arc=none smtp.remote-ip=209.85.128.46
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE84B60A380A
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:45:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE84B60A380A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5562B60A381C
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 11:45:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5562B60A381C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=a0iLDWSp
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a549cd7fd2so5932275e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:45:29 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=yILaHeZc
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so10752565e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 03:45:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1793879128; x=1794483928; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1793879130; x=1794483930; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=hQ2y5T12ktAE5iaKWCwzlas8CkbZmdyxwRbpbd+A6KQ=;
-        b=a0iLDWSpLDPHcpGFKmm8lzHC0sFutNhJXYUgiG7HVQgwCSFhJlwlsvCW08Oc2ikCUy
-         ssDFylEyRiQa4+YyibCAfFvUTDb1nSeFv0gLFV2VBqSO2MQhJT6S4uJDdUu3etiYLAxi
-         455GCYHxWCEbRa1jDdMeJcb4EvDX5HjVVWUub7S5JMStHjnEKeUozb2rTORjCnfBC53r
-         5pR+lpU2ZkYZBPZBgDJguKY2Xkhyw07H6fJLgYL4GmOJoIaT17MLuC8PbxSPaOB1wGFM
-         IT0I0a4AhrH0OtDnyGoSNxeBMN+NO6LuSNEYOS/AV58DP+id57CQYbtT7MBqFKUkDH2C
-         vgOA==
+        bh=z49MEnSEMTTPulUvnX3mC1j6+RjZ98X7wWOuw2hUt64=;
+        b=yILaHeZc6PMoxawalEI2guQkSUg2FMKKo5Cp/DrUT2PIApDrUgx3D1dK02yTVA6C2x
+         AmNBh2iGE6RidU1GP2wSWZcmfi9lWE1XETgYPPHCX3f/rmgnP9XR69UtHvWzy7AAnWgw
+         NLrwh9FAIM5ntGj/x1V77QZGv6DoLDTxED/l/RhCA90JIL4EDtoSwIq1yh+xFLEDVq3E
+         vvTkP4dbciCHCDu/UzsArZww27OYuuMrulZhNwY23B9fSKc9pzAYs5souOzEQqEFrqSI
+         RKrXWWp4ZF1L6M/HYavQobB0xU72oPgjasPU1RyLF87EvMLfZZGtez6+WPWmmFKvJTo7
+         owUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793879128; x=1794483928;
+        d=1e100.net; s=20260707; t=1793879130; x=1794483930;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=hQ2y5T12ktAE5iaKWCwzlas8CkbZmdyxwRbpbd+A6KQ=;
-        b=Yff3lZk/Np6M6mKxg1T4KBOHZbxqPqg93hI0KPLfPB4y0CaPiR0uk6kO4/cuwc5hP2
-         edgUyXL1j9ywSjgJoMeHgq97fY7Z3fPCPammQSqNc7lrmuT0lZLu4WXaH+Fj4a3R2vL3
-         l03NCogoen5PVTFZClKO9bdDNzXWgwt9e6VGVZxhVmInt6HPi7gjzlhDFsLLoYqlMiLx
-         sbS8p25nfVZNzLz8u6AEca1ZG59tKirzuFfIX/Z2qK85QoNkff8icg76nQGVf3mbaQfR
-         D4bix+kTxr4LUQKgdK+wPsIOcp7v2n+709HZpodKbTo/0Gnk8g3rfgBT9dXJzk9iPc2X
-         pc3g==
-X-Forwarded-Encrypted: i=1; AKwUvByRD0U65C4s68ExqPioXOqTehhOmwSgzlwqlpM4wuKiK5cOOTMwCYwDfcwY3i8MkLJAQZl4uWXW3TU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+3x7kBWZPRKemy71zfSbRKLvK/V1HLKYN9ki/km6apPRphcomM
-	smQEG7NO7zhgDJKNKKTPN8okfVA6M/EQXonp9iJ7b/3aQB7fYpuEgeGdGW+jXdogJUc=
-X-Gm-Gg: AYBFou28hdbtr0qt+gjK1/kYkL+HgTXz+II61umjv+BvfnT+Hl5+gAhkl8+pQHOsLh/
-	R8fkccnF+23XeojzQzrxG/5cI+BQNFOr8J1+tzm8ACpRxLNh03Qhzs/rFO5bX4/F9THcrHTEjoj
-	Jxl7ImkgEJAOFpiUvQmtY8cRHFn54H9ex2EqH9UqoHqzLirnvEu855taS6Mq9QL2fUAAm3l/1fo
-	DUfZA4NMUFZEjMfweBKUZrhWG31CbF4KpwQLarOujZREBJhHgAti7aYQ4zS6oaQjSij2RkuPXx7
-	NFAVP/OWYZRG4GlT5ZHU03QLjcubCbK5nyr+Brf1xJzkyNWi1+UH6OwtzuAvV0MXE7dMQrQCQE2
-	kgk78APSmYj2FlcV6qKAzB1EvfQ2Shk+DD4dl/WSj8pjMT8EZhcLiXW2OGB/gHZjQ7pQd2KZli0
-	IwpSwmWrsI1jrRq+sSyyeqreZqaWe8Ie8KoBmxAklxr5GHvzvwsi7ygljW5HO7a8kiKxHwA4u4a
-	sQCGbXIIgWpLTUsMcW/f9j+dFxzSXom1U+xyNGBPqUtTQ07tCWePCnX0UQjcShx/tOtbBw4y2VW
-	w6vX6Sue+gtsS5yjfnQdcehINPXCXd1M
-X-Received: by 2002:a05:600c:3e8c:b0:4a2:180a:3417 with SMTP id 5b1f17b1804b1-4b55c8743a7mr39562485e9.1.1793879128464;
-        Thu, 05 Nov 2026 03:45:28 -0800 (PST)
+        bh=z49MEnSEMTTPulUvnX3mC1j6+RjZ98X7wWOuw2hUt64=;
+        b=oyrksb4x6YjQp+XA3CUrr/HCr9ytifgHnRUOg8CJTX++WGML5Eh+0MDYpFRTDJGltq
+         VXMhTmzE9pCTOa/qujfT8yrEALxpXl79tviQ0b32JJtrEvEe0CJ4vch02Y9DQAJpl0Sk
+         eRn2jH0Z5o0ZlAdsjj5Od2KK5wZfQXjMOM9gbbQJAIJlFouHmyH3plf4Or4Aje9Gd16H
+         ej2MrYRkSIuX53OOB3XL3loNCzQ9+Jwf4Sy/HiQMzb8bMPhKLf1cgURluuBL/7Kt8ywv
+         VzJD2pCWOC9FIQ6sF1J3na66p4ThNImzs/zLUI0ISUuE7euLWux2kluoWP+Y6h6iTZZC
+         wwRA==
+X-Forwarded-Encrypted: i=1; AKwUvBwb9gsPwKZ+hjJ5sTeqolygU4vxtV9Jdo2bR0ixszoY+zGM/BCOyUeI+73rgt9PsKrYLkk090Ne1zo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8lBZmD+E0jz7KyIldOuwyZL9rQt+KgwROGcYUi5UtWxDZDWNCl
+	EeB2HmNnPnHDL0ZY/nv0HPhbxf9KBjhwQ+s7wsS//zURzbbBM2dLPYqIIq5qDhvimvk=
+X-Gm-Gg: AYBFou3g+gAS7h3GdKRiQJKeF6SJylCxENFpYldoiwAeV5s/oqrdtuKfjPfFR+ehnHc
+	T2xl/E4V+DQqqBww82PZ4NHGrgTjD++JtWgU4YMM3Xx3Bv0mNHId/O4Y3MsS8DSrJlVCYd1l/F4
+	0vgMztY9GOy6cgG6xcAx16Rf07LDd7o9oSc+UNq3eJa98mDGxHzglf1cun+mXDJGEtN0OuMc/yI
+	h2Z8jmnRWRMRuKataTp2GIE88mFo0eJ/efKMkL04kUSafERdehdCUwcpNm1UGetQ+WdRCDkac5a
+	nXavysziUlTmeY80bl9Oc0wyrdDMuzReqTvEXLZsSvJ6DKdKeWX/xMXMqmk4Ry81gP+oHVAyOsE
+	xrzVtCZb0aRtVJSQpUv4iy8G/z+nGFidP0LMo7w1Lcg/xBzuXC1nviqXwFG1lPgyduEk9cOmXQm
+	ICm9Jy0rcMKkpEcMkHIj6qgwVh6CgMZXbncAV0aDvwzgPWUi+JRwvy3dr0DLtjLZ0LuWuUgfFWB
+	M5YzrObMtxjsG4LocYt7fS3FWG9KlU0SoqWNtzhcgY4syWlLCUB4iYjK1AIgdSF3vhElUXMw4hE
+	y0GMNRiO2UpMZS4aF9pNmoC3us/zP9bQ
+X-Received: by 2002:a05:600c:83c5:b0:4a1:78c5:79f5 with SMTP id 5b1f17b1804b1-4ac1970b976mr357815775e9.33.1793879129751;
+        Thu, 05 Nov 2026 03:45:29 -0800 (PST)
 Received: from pop-os.local ([37.18.141.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b571f46538sm56679525e9.5.2026.11.05.03.45.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b571f46538sm56679525e9.5.2026.11.05.03.45.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 03:45:28 -0800 (PST)
+        Thu, 05 Nov 2026 03:45:29 -0800 (PST)
 From: James Clark <james.clark@linaro.org>
-Date: Thu, 05 Nov 2026 11:44:55 +0000
-Subject: [PATCH v4 07/19] perf python: Expose sample instruction length
+Date: Thu, 05 Nov 2026 11:44:56 +0000
+Subject: [PATCH v4 08/19] perf cs-etm: Use instruction length in
+ disassembly script
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,7 +94,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-james-cs-unformatted-per-thread-fix-v4-7-7759e0ce2449@linaro.org>
+Message-Id: <20261105-james-cs-unformatted-per-thread-fix-v4-8-7759e0ce2449@linaro.org>
 References: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
 In-Reply-To: <20261105-james-cs-unformatted-per-thread-fix-v4-0-7759e0ce2449@linaro.org>
 To: Leo Yan <leo.yan@linux.dev>, Adrian Hunter <adrian.hunter@intel.com>
@@ -113,44 +114,44 @@ Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
  James Clark <james.clark@linaro.org>, John Garry <john.garry@linux.dev>
 X-Mailer: b4 0.15.2
 
-Expose perf_sample::insn_len as a read-only insn_len attribute.
+The disassembly script adds four bytes to each branch sample's IP to
+include the final instruction in the range. For an exception sample
+whose IP identifies a faulting or interrupted instruction, this
+incorrectly includes an instruction that did not execute.
 
-Trace decoders supply instruction lengths on synthesized samples to
-indicate whether an instruction was executed or not during a call or
-exception. Let scripts read this value directly.
+Use the decoder-supplied insn_len to calculate the exclusive end
+address. This preserves zero-length exception entries, includes executed
+syscall instructions and also uses the decoded size for Thumb
+instructions.
 
 Reviewed-by: Leo Yan <leo.yan@arm.com>
 Tested-by: Leo Yan <leo.yan@arm.com>
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- tools/perf/python/perf.pyi | 1 +
- tools/perf/util/python.c   | 1 +
- 2 files changed, 2 insertions(+)
+ tools/perf/python/arm-cs-trace-disasm.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/tools/perf/python/perf.pyi b/tools/perf/python/perf.pyi
-index 087da00728fd..525d34ed08dc 100644
---- a/tools/perf/python/perf.pyi
-+++ b/tools/perf/python/perf.pyi
-@@ -215,6 +215,7 @@ class sample_event(_sample_members):
-     sample_data_src: int
-     sample_insn_count: int
-     sample_cyc_count: int
-+    insn_len: int
-     type: int
-     raw_buf: bytes
-     dso: Optional[str]
-diff --git a/tools/perf/util/python.c b/tools/perf/util/python.c
-index 42c587cd54a5..a4f1e316e5b8 100644
---- a/tools/perf/util/python.c
-+++ b/tools/perf/util/python.c
-@@ -1380,6 +1380,7 @@ static PyGetSetDef pyrf_sample_event__getset[] = {
- 	sample_member_def(sample_data_src, data_src, T_ULONGLONG, "event data source"),
- 	sample_member_def(sample_insn_count, insn_cnt, T_ULONGLONG, "event instruction count"),
- 	sample_member_def(sample_cyc_count, cyc_cnt, T_ULONGLONG, "event cycle count"),
-+	sample_member_def(insn_len, insn_len, T_USHORT, "event instruction length"),
- 	sample_member_def(flags, flags, T_UINT, "event flags"),
- 	member_def(perf_event_header, type, T_UINT, "event type"),
- 	{
+diff --git a/tools/perf/python/arm-cs-trace-disasm.py b/tools/perf/python/arm-cs-trace-disasm.py
+index 5a7daf927bea..7cf0af5d2780 100755
+--- a/tools/perf/python/arm-cs-trace-disasm.py
++++ b/tools/perf/python/arm-cs-trace-disasm.py
+@@ -315,11 +315,12 @@ class TraceDisasm:
+         #     [ sample_prev::addr .. sample_next::ip ]
+         #
+         # sample_prev::addr is stored into cpu_data and read back as
+-        # 'start_addr' when the new packet arrives, and sample_next::ip + 4 is
+-        # used for 'stop_addr' so objdump includes the branch instruction at
+-        # sample_next::ip.
++        # 'start_addr' when the new packet arrives. Add sample_next::insn_len
++        # to sample_next::ip so objdump includes the last executed instruction.
++        # The decoder supplies a zero length for an unexecuted instruction at
++        # an exception entry, excluding it from the range.
+         start_addr = self.cpu_data[str(cpu) + 'addr']
+-        stop_addr  = ip + 4
++        stop_addr = ip + sample.insn_len
+ 
+         # Record for previous sample packet
+         self.cpu_data[str(cpu) + 'addr'] = addr
 
 -- 
 2.43.0
