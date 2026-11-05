@@ -1,54 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.195
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793887810;
-	b=i5IhHxZRcXC0Ei30RktWlH34/hOHzZDCqOBB3WbJqPcu4p62+BzY7LlFQ/Zjzn0fUVOG
-	 fKuaBaSHcb+/AAI+e5vZlCefIVBFUz+YTh28Sc3mqPmkoY8h1BX9+IWzaO3KYgUkutROp
-	 JwJcn/C4sda2BN6vLcsXjLmGZQki17dlUPopfv4sLmQ6fTP7yKuz1LCa0rP+fHAgRnr8q
-	 sRw7uL7VzOeCfgc43B27qd6RUl2RZIlLNIBwoAJzYZhtApf44oRoSBJWrJ2m7tPju+qu9
-	 Ol/U3k6EhMm1szAOHO0zc2qa3wT7mdT+0OBg1nL3574rqySANXak8AA8ET7D5gLPIiA==
+	t=1793888066;
+	b=i1a793zL/oX39Bk3mnaBjFiDDgZVAq17vz/zmvFidiRJEoOIxZaqNZNTMehf0ByckfBH
+	 R8QMmP7yBmwyBXpEy2SM1LQ2C68BqX0bC9DByvz118ooDK8o3ESseMlJZmr71bsi5A3mf
+	 36kor7cGYL5LXmsREPnlH9LylqBLfReBfm0DwBHmUYViVMTQl85ARSNUVBrb/A8d83pFC
+	 hRNgSmxQJZTzTC0NQM+V2ij73XxcfVfHznukNmnWXYeKPGV2LocWDkbFr25lCzd/rOxWP
+	 JMfMZYMoNMFwAxZPxCj5HUCbilWD8vwHoOxKBjFfBXxMiaqv/NVR0XkNmGr40TPa9Lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793887810;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=rXYKCnFMOcWT/GHOYQM/Rfu/7o9VqnHXStFCMJH6+uU=;
-	b=rTr2cwKtVqZ9Gc7B0sqSK9sQT4Ys+Yt3puMxgrSQnMt2u5IHDhKkD8ou0eyQCGPNp4Uw
-	 kqhcxs2BGOqNA4rsVm6P91evkzsdEQGfPWBiaj87tPpoCKYw4o8B7O2oR19/S2u1RYo9j
-	 3M4ESX1G3zbwrvp40xbY0BQhnEeobJr3RBJ9PQZm4NETnVwuwM8rHGoISRCH8c5Cm1sUM
-	 mpaJv0U6i3J3DqYcwe9Rth4IOWAtK6HWo+aqdHrgoe2V5IessJL88eFKjH0MZByU8vf5Q
-	 83lsquyWdJlRyLE5Zib9ICmwt4UaiBdi0CD5B7eXLCM75/Sog3gIzDuMqtkQvHCdGyQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793888066;
+	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
+	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Mailer;
+	bh=4QpYJSS9gn8AjXi8jX/3Dtqw7BlVuFU8dH7dnogBVO0=;
+	b=BgLohuSeZMZIaDr8O2VZ8kLrYts1KGUCH/tdFBMIa019RxnucZxV6jvsirfdEQZas3tw
+	 PpVsF9YzvCRaKDlZgcEy428qWX/DqGDdMv1Y2EVzlb9WPsbRGqJ6rG9b3gpK3vpwkLbce
+	 Uj26qMhDHXr9oeJxj3eOvsOa+WwrjofgqQoUSlbwex9GLxPQnUoc1Bht0iqYnCVb50+jI
+	 14lFaJGWFf0xbqaZ7QuhNDPCHJznIFCccgpB5VNHmoBNtMQxfVUDREcySkCq45dnbRl6x
+	 UgX95Bq2AxOsNLCx+CvJdeOq5TfXHjTtUR5v9CXtR5l1nlR2qBVLYALckvymvoZJn0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UhsJopj7;
-	arc=none smtp.remote-ip=95.215.58.195
-Received: from mta1.migadu.com (out-195.mta1.migadu.com [95.215.58.195])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZHt7HSGu;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04035606A338
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 14:10:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 04035606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B5E606D812;
+	Thu,  5 Nov 2026 14:14:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UhsJopj7
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=rXYKCnFMOcWT/GHOYQM/Rfu/7o9VqnHXStFCMJH6+uU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793887806; v=1; x=1794492606;
- b=UhsJopj7eHfVHFq050D9+MxCSJ5dHBhv8RJ2yrFPYzZTJmr+fFjQwFUL4NIeyiehkWQbe6du
- OwMc6YjYlYxGapwGW6wa+IIA9cAAL3q2QEymLQesF7UnpiBLFL31BY1Z2zzcJ+2U4mahw4VDRVk
- qasCYPCXLuwXvbxG4cxAdrNc=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id dd249d3f7c375ee6;
-	Thu, 05 Nov 2026 14:10:05 +0000
-X-Mizu-Trace-ID: dd249d3f7c375ee6
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZHt7HSGu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2B311F00A1B;
+	Thu,  5 Nov 2026 14:14:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793888065;
+	bh=4QpYJSS9gn8AjXi8jX/3Dtqw7BlVuFU8dH7dnogBVO0=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date;
+	b=ZHt7HSGugybN5tt7aBm2DYpjLqmVSzGHPf+FbQmlOA5T4Nk5fCKWzCEZb+J82PHlw
+	 l6AVe6kDbgKPpfD8/3R3rRcmmEPrg353sNwySWNZPUaC8eFmRslm5bIRcVZkF6IdyU
+	 ruk1UXsR2KoKlIyaiX4m5Bt2MaupvTmPsJkjn50vKnSDxBeKsVV4bwubvy7qds1fXh
+	 dHtWj4Z4lh+pj2d8Bkkjb5jAZcuLTyb0EPvvsrr0CO/XIRBV5F5Y3YmW39L6T82LYq
+	 MDqcufEATybJTn1bGcMM2j64t0KtpUgUMcx8vhy/hXPFsBB7xQM1sVp6uE3gUGspMg
+	 8BTqLnNf590eA==
+From: Lee Jones <lee@kernel.org>
+To: Alex Deucher <alexander.deucher@amd.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Jani Nikula <jani.nikula@linux.intel.com>, 
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+ Tvrtko Ursulin <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, 
+ Ryan Chen <ryan_chen@aspeedtech.com>, 
+ Billy Tsai <billy_tsai@aspeedtech.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ Kees Cook <kees@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+ Matthew Wilcox <willy@infradead.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Andy Whitcroft <apw@canonical.com>, Joe Perches <joe@perches.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Dmitry Ilvokhin <d@ilvokhin.com>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org, 
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org, 
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-doc@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>
+In-Reply-To: <ed2b0b67c306bb458ba389f16dc92904203a104b.1793027261.git.d@ilvokhin.com>
+References: <ed2b0b67c306bb458ba389f16dc92904203a104b.1793027261.git.d@ilvokhin.com>
+Subject: Re: (subset) [PATCH 08/10] leds: pwm: Switch to __nonnull_args()
+ macro
+Message-Id: <179388805861.2575351.14283088205507759337.b4-ty@b4>
+Date: Thu, 05 Nov 2026 14:14:18 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,103 +80,27 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH 0/4] mm: Enforce read-only shared vmemmap tail mappings
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <0851db25-fef3-4f96-8d37-81ad5c51d6c8@kernel.org>
-Date: Thu, 5 Nov 2026 22:09:33 +0800
-Cc: Muchun Song <songmuchun@bytedance.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Oscar Salvador <osalvador@suse.de>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Lance Yang <lance.yang@linux.dev>,
- Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R . Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>,
- Michael Ellerman <mpe@ellerman.id.au>,
- Nicholas Piggin <npiggin@gmail.com>,
- Christophe Leroy <chleroy@kernel.org>,
- Ritesh Harjani <ritesh.list@gmail.com>,
- Shrikanth Hegde <sshegde@linux.ibm.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Qi Zheng <qi.zheng@linux.dev>,
- linux-mm@kvack.org,
- linuxppc-dev@lists.ozlabs.org,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <6492A4DD-B00E-40EA-85D6-93183E8D3ADC@linux.dev>
-References: <20261019090830.1917657-1-songmuchun@bytedance.com>
- <0851db25-fef3-4f96-8d37-81ad5c51d6c8@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.200.71.1.16)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Mailer: b4 0.16-dev-ad80c
 
-Hi David,
+On Wed, 28 Oct 2026 08:19:47 +0000, Dmitry Ilvokhin wrote:
+> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
+> nonnull") added the macro __nonnull_args() to wrap raw compiler
+> attribute.
+> 
+> Replace __attribute__((nonnull)) with __nonnull_args() to standardize
+> nonnull attribute usage across the tree and keep the attribute's quirks
+> in one place rather than open-coded at every call site.
+> 
+> [...]
 
-> On Nov 5, 2026, at 18:33, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> On 10/19/26 11:08, Muchun Song wrote:
->> This series is split out from the earlier, larger series "mm: =
-Generalize
->> HVO for HugeTLB and device DAX" [1]. While the parent series =
-generalizes
->> vmemmap optimization across HugeTLB and device DAX, this subset =
-addresses
->> a single, self-contained step: mapping shared vmemmap tail pages =
-read-only
->> at population time.
->>=20
->> After the previous HugeTLB and device DAX conversions, both can =
-install
->> optimized shared-tail mappings during vmemmap population. These =
-mappings
->> should be read-only because each shared tail vmemmap page backs =
-metadata
->> for many tail pages. HugeTLB applies this protection in a later,
->> subsystem-specific pass, but device DAX currently lacks it.
->>=20
->> This series moves the protection into the generic sparse-vmemmap and
->> powerpc radix population paths. This protects device DAX mappings and
->> makes the HugeTLB-specific vmemmap_wrprotect_hvo() pass redundant. =
-With
->> that pass gone, the bootmem-only optimization wrapper has no distinct
->> work and is removed as well.
->>=20
->> This is intended to be the fifth smaller step toward the broader HVO
->> generalization. The remaining HVO naming and enablement consolidation =
-is
->> left for follow-up series.
->=20
-> I assume this patch series is no longer applicable after we remove the =
-RO
-> protection for HVO.
->=20
-> Or am I missing something? :)
+Applied, thanks!
 
-Not quite :) The runtime RO part yes, but the vmemmap population path is
-a different story =E2=80=94 struct page isn't initialized there, so =
-there are no
-concurrent accessors and setting RO is safe.
+[08/10] leds: pwm: Switch to __nonnull_args() macro
+        commit: 687615faae92e36a2b6c5ab0d007751e8e88a645
 
-So we can keep it and enjoy the protection RO gives us: if something =
-goes
-wrong, we catch it right at the first scene. So I think this series is =
-still
-needed.
-
-Thanks,
-Muchun
-
->=20
-> --=20
-> Cheers,
->=20
-> David
-
+--
+Lee Jones [李琼斯]
 
