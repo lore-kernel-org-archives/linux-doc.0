@@ -1,65 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.221
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793866457;
-	b=rmlxjzJ7BuFuL3q3WaZ7vzBQ5QuzgN8lkldX8+MRVXZv0FAH6hrznmlCPbqdxdOKyDG1
-	 AS8Dm4TlLX1kvrshhvYxoM/j/aNqmCXRSBvTli072fR+ma9TL7hJOYxsIXu7QbvHrc4c1
-	 mgcFJ8mRX2qYLUJYjj3iQ5RvhvXMg5OctFYA68GugHVWKnDsfNE6BktAgLUKm5KqPfFKz
-	 cC/Xdjg/Lx480etPOaNRF1flZiVrfqdMnKthjwG0KpsbfMPJ4GIlG886KfsktKLbhi0+2
-	 UbSd0pXDA7HRmXUuSMrHiZq1q+gCYDc9jVbq1RgUaf+Vkfr472WuC6lxq2kMKQ+5YeA==
+	t=1793867274;
+	b=br+fl/cTfQXfajhIgu3VJHrHOu96pGMuhwpAytgU7WvNgPkcAgBpHBHgL8tmHI2qBa0E
+	 bM+GkZejOCNKOqMm4o4DJ6DiuA6Vtcf6l/pKTpk6qdKULGhfOVDLzvblkQX4P/62QW7+H
+	 SQQVSwGQxmnyCzeKnVvhMEKrDAOwy3Ql0kkZFGxhW4bSHPT7qw2VdTysnLmj0JZfcJO9f
+	 eCUv0m6Dm+rKM64gTgdkR7qr2VLuw2KLON9T06DR93fMvrxWnZxNAuebnDlLqIjM+U5Kb
+	 DcLM90vzSEe7C91Tw4URUN5m709/pC2x3Fwt5hzDkuldvaoy7r81v+mzc9ZlFS1tigg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793866457;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=TkaECXsVtU0hjyy+7F+JpUYOHJpZDHbqaeIlxPMeZyg=;
-	b=xb/NXBlHIPI38LhovJP0FAIhZhRkBVtI4QFk++rpIytYMqhkZ/ymBCkZJk8rWdstrNnX
-	 O6dWBWZzNC+j29z5fclIUQuv2brx/i6cU2iJhKcSbbsDK1BK6++2BSeVxwkHx61MqDWdu
-	 qLaV4n9q1WSIbmBe6j5hv7IfLaegsMz+55hvq0HHQTCZbZISSMW3iG5kAoDCgJGtgy00Q
-	 nDYGJoCqp2V0g3AJI/LSFmcGaZ3GCiARCIarMQ/74ljk1HeAxLoENR6b/fQml84mL1R2J
-	 x4x4yff+uVamlzgo98H50wxI+FYfpOFFDJ1XsVrTEwE8dUVKBj9aKLvquEJRGpU0pxw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793867274;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
+	 X-Developer-Key:Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=/dL3m32KBlVrCFKIpaR1J0keR5+Y54/Kpwzr1w9W58k=;
+	b=g2+XkPFcaiyQ/qPPseSuPH4EA/Suvn1b/Bi/M82vsu+zOvtc8oOsqhe8qPdHo2DU93sy
+	 oWM6fqxJ1Dqf7YCHeK8Ei9TKRH7pFF9AlaUBQInHRl0Xk2SSrp291qACKAL2DO5i+xvPg
+	 LUzLaNWgfZazOR5Mo0DFCxhfZXr9cnxpmMut5NUoY123utimtFzcHWJU7+1SbH3oXHaND
+	 gNpd+8e9ecgna/9noXLT6LzLNf/4GRMJTVuz01sta+LS/FyWEff3buX253LnZT0XUMoWk
+	 Z8dsSqInAoY98uDjaOIB4e/mPsBsvuJBNENSAvfOcCWeW9KUOrRx0vQtuDa7d4E2k4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=ArSknsDs;
-	arc=none smtp.remote-ip=91.218.175.221
-Received: from mta0.migadu.com (out-221.mta0.migadu.com [91.218.175.221])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=bxeaUVyY;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=F88j+gzf;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37952606A326
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 08:14:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37952606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33B39606A326
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 08:27:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33B39606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=ArSknsDs
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=4tinfFEcV9unlh2pf9AfUW9AM0Ic67022tp7zkWq5dU=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793866453; v=1; x=1794471253;
- b=ArSknsDsx4G8+489tToEYTgv4+lryCCLWFIvN2rT8jkgNwg6iGi5rZq0JdTE3OFNEZ1zfG7S
- ahtcLYd6B6aK9l232ZbqnHAF/Iht+eZAOH9GpVNfRPDFtmK1/z8mmYrSMZ4aSj8UTLbyj3Tesvf
- juhzrtf/CY5SND+Ugvs2SAVwj62Hbn9BtvzPlJOw0AdMcUwkS0eAfQeBB8RPrskMD1B2vFVGWiO
- xZueR0hVXibQMHBwod88dBRMJmyXkj8+f6GxsQaoeZ43dKS9xpENfhSkfGoQ4HbSbFacENIy2jo
- BEMOnYmDeKSZgnnIPSt1KEuiEiQYVTsw1OLEaBtYsOFow==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id c6365a1ec836b2cf;
-	Thu, 05 Nov 2026 08:14:13 +0000
-X-Mizu-Trace-ID: c6365a1ec836b2cf
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 5 Nov 2026 16:14:05 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Oscar Alejandro =?iso-8859-1?Q?S=E1nchez?= Lucero <aleszlucero@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] doc: process: clarify scope of applying-patches as
- legacy reference
-Message-ID: <auw6zV_H7rrO2wwp@wyuan.org>
-References: <20261104-doc-patch-fix-v3-1-f71cc8ded7d9@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=bxeaUVyY;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=F88j+gzf
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A56UxDb2587898
+	for <linux-doc@vger.kernel.org>; Thu, 5 Nov 2026 08:27:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=/dL3m32KBlVrCFKIpaR1J0keR5+Y54/Kpwz
+	r1w9W58k=; b=bxeaUVyYEPSaxZtivSEtc/hjrTVxn1ZqvsRqen7mJOXLZfpoM3Y
+	3y0x/T55cA0QRclIkodjYUDwsW6vaIrgxrsf2RWEq9RgkI5cZ8r+g4R9sOESWn51
+	POeXbGvnj22WU2u2ia6IjSOos8DDdWr7WWrHoIuv8Us3akVwQqOXnIFPXTFZDmD8
+	r0cGhO1ycbM8O9Li1qqGlM8Z6V5ip4IhCq091b3cuT0uAF8VIVAlEFEGI9PS8jqj
+	hbbXSReuHdWDzsLW7EBkvgolwN66OW43xJxOp7qJN3xMHlaSCJBgaG7cr/HJvJ6a
+	T/lnHdDxLDFvdB52XjgE8USWe3MGY+Rk+qg==
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hr89sughk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 08:27:53 +0000 (GMT)
+Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-7cc48fbca26so382328137.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 00:27:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793867272; x=1794472072; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/dL3m32KBlVrCFKIpaR1J0keR5+Y54/Kpwzr1w9W58k=;
+        b=F88j+gzf5H14omy/kaIHnXiokwSxgTqQPnPOqdS+fn0GOZXe9hsj3IE7m4ivnyVLAr
+         2H42lYgnqTTTC8QsyZWzp4fyjilRkd+ZyR/LFlg6TfbvDhzi2mbZEbHu6pHeiJ5k0JAf
+         18RHLHiP4HC6svM/s27zHTFRyuZLDEjZMoWR4gwjAYf4CrPZNLQ/Bh+2/K8yOFO3RjfI
+         j6iq2m+F3Y0Epuhq2pJj0pVpFL75YrI3qhjZa035J+eNelOCS5yXc+eU4kFwtNhQ8mu9
+         sJ2pcuinu45pU68BOTKc9vZLU23jlkqVAEGtpGxHvsjJzSQZBCWAZj+gK2mvaJ5tI5wq
+         49dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793867272; x=1794472072;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/dL3m32KBlVrCFKIpaR1J0keR5+Y54/Kpwzr1w9W58k=;
+        b=MUj0V6LxfdrnhsiGWn9kERsz6RdfH06rUGBmZlYUn3r7Xff/Ng3bhFyK7hF5Jzco/w
+         U5CtZ+CJryRG27I43qhIakB/P6K+LxmjMTFmGNSt2oHrWU0Q6eWKI1VgrBwBAAzE2TTn
+         fHsQPbBVyO855BNNJ3jpXEgGKsbSvD+LA/dqaG9ZNG9+FpC0m3AoQRTqKSjgQOpmU+Yp
+         GtPETokypzCKPGfe2oqa3n/bmA6DWLume9fi6zBE0J33uPaqUXri9B0ymO4ho7dvGILO
+         dsa0PG/XsX82eJ7Dj3U9Oj3K72CE4GRez1s2bPnINXBiKz7XTmm1AuXcBukS0dojzqEz
+         UTZw==
+X-Forwarded-Encrypted: i=1; AKwUvBzxDhrDI/7aIsx2CHs/5g1Y+LGw1UVd8jUdmCQi6P698i4cvak62M3zGq89tLd4dfq3oDhkJz/vmuI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/t6F3+80f8rc8q/0GfzZu6JPkm8mN22XoLNbw64HdL4kt7qAEU
+	Mlw3LttSumgh3LFv9DSfGGwSaiiFm+Qaawbl7ryEFt5FRRsy2tCum1767xIN83ULkXiU9QlHb2H
+	gc2t84lQ4pLH09Kg9jh8A8vPA0pkERW8PvWCkOlsY/1oBAh/IRBsGQPnk3o8Mg3BkACVjyOo=
+X-Gm-Gg: AYBFou33pCqI03LLEfj97IkEZ1a6wBgvq+AgW9ygx3w6KwCxjzxTdNheMWwnPcSfui+
+	QRgbAK0y5BPuBa4QLe85TyLnty6nLCDZN1taZE15m5GTA31J3MaYi9GcJEB8dnY5szz/xXmAJ3B
+	wz/uaFf8B1KCpcVz1u/F71bWFdpU2q+s60/ZP/VZowO3+hLOGSOENpkd37jLIerCum/IaS+tCmB
+	Zs52RLFxO3R9pxhCZ0u00BwuyXjiM8zHwghwg/kBX/ZAdOjraostepUG4lIFICFb3netkIIOuwm
+	2BM/MhULBhRZOVcxrkO/VIttf2PpTx8NAbaHWjUZmbKnKGbcX4T/ng9STdO24qv1/6ClkpyZ3O2
+	60DxX5uAN7gpUoE3+99onzUTb0ofl4qNPEivSy326cm1JXZ5HmmLeauZR2t1DMw==
+X-Received: by 2002:a05:6102:358a:b0:7c3:a6f0:99cb with SMTP id ada2fe7eead31-7d072719913mr6912431137.33.1793867272004;
+        Thu, 05 Nov 2026 00:27:52 -0800 (PST)
+X-Received: by 2002:a05:6102:358a:b0:7c3:a6f0:99cb with SMTP id ada2fe7eead31-7d072719913mr6912424137.33.1793867271527;
+        Thu, 05 Nov 2026 00:27:51 -0800 (PST)
+Received: from quoll ([178.197.218.7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fea180ee1sm9965456f8f.4.2026.11.05.00.27.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 00:27:50 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2] docs: submitting-patches: Clarify half-baked review tags
+Date: Thu,  5 Nov 2026 09:27:30 +0100
+Message-ID: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,70 +119,110 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2829; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=UlsHK1B0OR+CztY6Oxcs6YmFv820VB/X+GCsa+rlju0=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBq7D3x8aJgAtxUeaYd/OUVMK0D6aa9xPLQixiZC
+ HChFzxNmnaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCauw98QAKCRDBN2bmhouD
+ 16mZD/9CQ/yy0Ti7fVCKtCV3DyEr30iFSjzW8PEJEV8LyP78MMcvW13BVv366bEbZuSYSDDgTG5
+ tk9LZFcTW6EHBSOTmZCRyheQSfUZ/mDVo0KhvJcgYdkIfCaK5lj48opRM55dqKJW0O//+lo3uUJ
+ Ic6W3SGbYCr/YJIlKPFTUsbhQMvEEGVrk9wP2TPBLcSg53zICm+FaaJ4E0Hba2zrVDp//xKDyT2
+ iC/Bjxm8JJEr0eCzdKjYCkC/EPdxmSD/JoXNrDFIev2JPem4FO4uQg1Rp3PlYrYGMlBdYbrmvKR
+ GibsJitte6ns6g1G4C+TJeA6G/VuN6rUYx575Ld7XJprlKg4qsUgzL7PXlENyZVjsfap2fJ46U6
+ jIsW8JTVQPOnQF1BA76E4kKZwn6SVDaL1jM6rs/m0U1C+FzACWtSE6FPMi4btmyYc7F9UaSVfbg
+ mltI/rEZNbOGTu4PjDEXjlwWo3IlaAliZXkwS4TzRJW+2lIyrNVil3qr0e2v3JYmaRxoJ0O4sBL
+ wQwf53xRQtKmi1F74Ffh3xg8EBa93d/4pG5+7qeosRlckCZRWW5cu2lMfuY5dTJKuSHQidCTj/x
+ sfYLKlgMp2nCUh0HrMA/Yv0o9S9YCsmtH0fXoAYGyCQsnaNz/iALGV3AcI5xkm/VrSOW7UwM7rT x4JmpHswjl9YCIw==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261104-doc-patch-fix-v3-1-f71cc8ded7d9@gmail.com>
+X-Proofpoint-ORIG-GUID: KjxPJfLTuG7R3zUFp8CtgQHiKN7xl49f
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA1MDAzMyBTYWx0ZWRfX2BB0US5++s0x
+ uF267GUTCYeVRJ5pipnc1PDultSaYAN3peh7AnFHUr3qUPO7f0jMTSyu1vYJsEgzDYTdFcfhAQW
+ Hgq35PTNRkJkUxMLoQVU7E3bKKgs4UVDQWcGG7cz5d+yujHMK6NQR9sn/fbq2JUNICnSPJDMfyH
+ tTQPaRADlQImlJhix3HoAOVyqf/w6+9hYgYVxPH88N3bva0EUp40hT2zkLSPl0hu47ARCVgFRpu
+ GVcwfii/uubLDNmiVxMSaUXrARHknJ/DrdRMx/BwRcVD4I5z8MrKu9Ap0WOASq5jH5Qmw32CD5Y
+ bNEclePepfhkSNmNtb8AZ6wNeDXvE0eecS/YsnQ3IdwHem5V2GzrG3kzVQ+P0HxkCdMBh2Bypqe
+ ZMdUB5RmeNQ0nF/SEmMn98HayC82RKyBl6WR3drzUDKTpHs2r9kr2bTO6asrHek3dE4C2gjppJb
+ LKqgVJ+diJtT+7pz6Mw==
+X-Authority-Analysis: v=2.4 cv=N628hG9B c=1 sm=1 tr=0 ts=6aec3e09 cx=c_pps
+ a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=uyPgTw0bjBTS2cVxpiNm5w==:17
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
+ a=LDBv8-xUAAAA:8 a=QyXUC8HyAAAA:8 a=QIhr-27iAAAA:8 a=nsbvFs4WMv2GQq9SL5QA:9
+ a=gYDTvv6II1OnSo0itH1n:22 a=DZeXCJrVpAJBw65Qk4Ds:22 a=cgaYBWEFosGJW4rWv5Lf:22
+X-Proofpoint-GUID: KjxPJfLTuG7R3zUFp8CtgQHiKN7xl49f
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA1MDAzMyBTYWx0ZWRfX+UVlHBnnuvDH
+ TbTyW8nmqkmaMkJke8adLW36ooWsHBmwdLAs9bkpH7KWRAW3WCaiwG+OOVNBE8INC57a7O+gS0J
+ qlv6iFYcWbpUjyV3gNF5Oj0Z1AZrDj4=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-05_02,2026-11-04_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 adultscore=0 clxscore=1015
+ impostorscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611050033
 
-Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com> writes:
+Refactoring of driver subsystems or some core driver parts often come
+with change of the actual drivers.  If that happens within one patch,
+people giving "Reviewed-by" tag only to piece of the patch, like one
+driver, and ignoring the rest including the main concept of the patch,
+are not really reviewing "the patch".
 
-> The applying-patches.rst document describes the manual manipulation of
-> source trees using the traditional 'patch' and 'diff' utilities. While
-> technically accurate for non-Git or constrained environments, it can
-> create friction for new contributors seeking the primary Git-based
-> workflows.
-> 
-> Update the opening note to explicitly state that this document serves
-> as a reference for legacy or constrained workflows. Provide a direct
-> cross-reference to howto.rst to steer contributors toward the standard
-> Git infrastructure.
-> 
-> Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
-> ---
-> Signed-off-by: AleSZLucero <aleszlucero@gmail.com>
-> ---
-> Changes in v3:
-> - EDITME: describe what is new in this series revision.
-> - EDITME: use bulletpoints and terse descriptions.
-> - Link to v2: https://lore.kernel.org/r/20261104-doc-patch-fix-v2-1-3601fc35c505@gmail.com
-> 
-> Changes in v2:
-> - EDITME: describe what is new in this series revision.
-> - EDITME: use bulletpoints and terse descriptions.
-> - Link to v1: https://lore.kernel.org/r/20261104-doc-patch-fix-v1-1-617cb9f4cd47@gmail.com
-> ---
+As explained in the Submitting Patches document, the "Reviewer's
+statement of oversight" is for patch as in "entire patch" meaning:
 
-You may want to modify the EDITMEs. ;-)
+  (a) I have carried out a technical review of this patch to
+      evaluate its appropriateness and readiness for inclusion into
+      the mainline kernel.
 
->  Documentation/process/applying-patches.rst | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
-> index c269f5e1a0a3..59d16b4e0889 100644
-> --- a/Documentation/process/applying-patches.rst
-> +++ b/Documentation/process/applying-patches.rst
-> @@ -8,8 +8,14 @@ Original by:
->  
->  .. note::
->  
-> -   This document is obsolete.  In most cases, rather than using ``patch``
-> -   manually, you'll almost certainly want to look at using Git instead.
-> +   This document focuses on the legacy method of manually manipulating source 
-> +   trees using the traditional ``patch`` and ``diff`` utilities. 
-> +
-> +   For the standard Git-based workflow used to clone the repository and work 
-> +   with kernel patches, please refer to Documentation/process/howto.rst.
-> +
-> +   The information below is maintained as a reference for constrained 
-> +   environments or legacy workflows where Git infrastructure is unavailable.
+The sentence is explicit and complete, meaning it does not allow
+implicit variations like: "this patch or part of this patch".
 
-Yes, further explained the note added by Jon.
+Reviewing pieces of the patch while ignoring the main part of it, is
+much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
+not be applicable.
 
-But I guess Jon's commit message is clear enough? --
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-"This is ancient stuff and we don't do things this way anymore.  In the
-absence of simply deleting the document, at least add a warning to it."
-(commit 67972a539e9f, "docs: Add a warning to applying-patches.rst")
+---
 
-It seems that there is no that great necessity for revisions, from my
-perspective of reading experience. Thanks.
+Changes in v2:
+1. Few grammar fixes in text and commit msg.
+2. Mention the "# subpart-name" marker solution.
+
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+
+Imagine a patch, doing massive refactoring of core SPI stuff, 1000 lines
+of code, complex locking and also simultaneously updates drivers to the
+new API changed in here.
+
+Reviewing that 1000 lines of code in core SPI with complex locking takes
+someone 30 minutes. He gives Rb tag, gets credit.
+
+Now another person comes, looks at a SINGLE line in one driver he is
+responsible for and gives Rb tag. For 10 seconds job of looking at one
+changed call in one driver.
+---
+ Documentation/process/submitting-patches.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index f271d7413f72..678681b5c9c7 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -585,6 +585,11 @@ serves to give credit to reviewers and to inform maintainers of the degree of
+ review which has been done on the patch.  Reviewed-by: tags, when supplied by
+ reviewers known to understand the subject area and to perform thorough reviews,
+ will normally increase the likelihood of your patch getting into the kernel.
++If the reviewer checks only a piece of the patch, leaving the rest unreviewed,
++then more appropriate is Acked-by tag or adding a "# subpart-name" marker
++after the Reviewed-by tag:
++
++	Reviewed-by: I Did Not Read Everything <foo@example.org> # bar, baz
+ 
+ Both Tested-by and Reviewed-by tags, once received on mailing list from tester
+ or reviewer, should be added by author to the applicable patches when sending
+-- 
+2.53.0
+
