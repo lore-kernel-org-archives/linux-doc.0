@@ -1,67 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793882149;
-	b=ty6cXBO/QMNwh8Z672p4gVVlViUGPkA438onG9QrVx54eFeQZ1FFsaIBeOMR4OuXwBlI
-	 +s/qix79L9ZnaiNBizk0Rmh7WP68UQ6q2ARluUzddsO0X0vENouI7zsUa5YwuJPf7pN+i
-	 xUZEBnPnPSIctDix5Ej1VOFgV4NNyQ1dpILzu+4EliPfBdbBQZF3IJoDFmN2wOI+Q/A94
-	 po0RjdxIFThSthvKh//Tvc+g/kQnKuTiIE8Vobbgg/wGiM9AFW9ta8hBvoRcYBu1AYrAT
-	 RR0uCsfo90R9B3tND5KZ96f+cso52hfguJ3YvvNzd8jzpN33cLcsm4njxRmsH4cz6wg==
+	t=1793882155;
+	b=Wpmqe6yoUpapXk+h4slJ67Umn1esqPjZIT0S4+D9XNMWk6BjwUAqNb2FMKMprwPHx/e/
+	 ShqIjgHuOvjM3sGi0jYuYlBGLFd15sDoVE2TRn7pcvGk1rRTEaISe1PZKsz/pA94Yf8Bz
+	 0Z9uQe3E2El8Fp22XmDe+fDfbmkUfGQciTh6bIHLWsy9+A8lSjrsC76YI7UTjg+r8TJor
+	 AdwHMcimIoIar+OqVHKYo0x05SMP2O+e7baq1BmaYfBZofTITguw2tkShE6MkI6EkMl5x
+	 5F2O5xbiB5uG36Jv9ST7oTcKktLke/l5y3ApSNn7gMehYim1j3HZqucsZvZd0PKcuXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793882149;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=nvdKY3zOuZvF5FDVOlawuLYvXNZx88e8c47N8ZUI26M=;
-	b=jWmYZS5kEed76jTzaZhO6E8DbCYbHAqUhn3e6vg2Jvxs55bJAUtagQd/GhuX4tJeE7xP
-	 XLPidJP0oJeUBUR0WLo35e0F4YjbVcSzQlKIV9YGYmQdQwz/ekpydX+Kk/Qx8V6mC06wD
-	 Sm9mfsqDflH03EVZPoEnK6VXZ/8wHne+bG/PoWociHLDUlxzgik9yGGIMxVQU37mB42it
-	 2b86uR3XRL8LmJEAzavGqu+FWOrEMtG9w41zhvkaYOVTJ0FQdMJ2xMsTvY8GQUOxz1iwa
-	 rzzB0gwsaJwYQrG2Bd6n2TmKyEzxG8vqIdTvT24X737azpoPEk60zz0OboC/1pxISfg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793882155;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=viyDdmvwD4U6PS8lafjWT8pU3blZXU6a4uhU+bJMb8s=;
+	b=QUqGavWeEYUrM0Tt/FjJ3C27esL1YFAEtHg6OKScAny44Oks//SrioqoEflXVQm3Sgzz
+	 cuC4ptlndJ+J4nTZp/QkwfdYB7IyAiZSlq/CXM2X2XsD83UDqYzAxe9NWIFRd7rr4ZyFz
+	 UR+82ecx6mI3ZxZdf59i+yHUUnUFh3tY90TqzAHC83nRsQrU9/yoYBCh3BXLXefpXZbLC
+	 CEEq9eWV7MIe9Co5AwbbDlyNPcbhJIwARfg87ihBBHI5n70qGBQl5Q2EkkPRrLOp18DwN
+	 WwWvuE5HNOzKVPuypEXMNEBdbrJUtVpMlyT8H6oZPArtHY1BEO06n7N9jINODvSZ6hw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=DY9uTL05;
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=khwmS6IO;
+	arc=none smtp.remote-ip=209.85.167.41
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0879606D806;
-	Thu,  5 Nov 2026 12:35:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0879606D806
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343E2606D801
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 12:35:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 343E2606D801
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=DY9uTL05
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=nvdKY3zOuZvF5FDVOlawuLYvXNZx88e8c47N8ZUI26M=;
-	b=DY9uTL05VUa4qH8sRHIIREy2Q1C3ctDVS6+rwvj0vk0rRFfxoC9oCIXMwcq5VGp8KVL3pbaLb
-	825a+8CzZPI0RKa14aaQ7wkiJGJa8oFJXiIW3AvZgLNF3TjGj1Y1SDPbJN/V1RUEiDAg8/MUFZc
-	OntNJ5s6DwkVQalnkoWiUMQ=
-Received: from mail.maildlp.com (unknown [172.19.163.163])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jL1xG3Lbmz1cyV2;
-	Thu,  5 Nov 2026 20:35:30 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 487234057A;
-	Thu,  5 Nov 2026 20:35:42 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 5 Nov
- 2026 20:35:41 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <zengheng4@huawei.com>,
-	<ben.horgan@arm.com>, <gshan@redhat.com>, <jic23@kernel.org>,
-	<x86@kernel.org>, <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH v2] fs/resctrl: Disallow monitor group rename when the RMID changes
-Date: Thu, 5 Nov 2026 20:35:24 +0800
-Message-ID: <20261105123524.2282090-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=khwmS6IO
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5bfbc25a76aso734395e87.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 04:35:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli.us; s=google; t=1793882152; x=1794486952; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=viyDdmvwD4U6PS8lafjWT8pU3blZXU6a4uhU+bJMb8s=;
+        b=khwmS6IOV7BeOJk5vVOoYILP+8pKH+tWxdl1OMSJ1HVjmXymvCR1SMmwyMCayrilGQ
+         IkaDwmalX3igSVne7d0QxuHYEmsMWB9o58OQuOIW8Lle7U+0s7hL2mD97+iQyAkH9BYp
+         tN0eybs7YdFMJn8p9exyLKqur9hS/ju8pGGG1eatouTCJQDvUc4Q/VH0vvROLQUdD9Hg
+         Oe4z503BqA7YRx3a+Z25EfVok0cDuqAC6EFoA6Ye5xzHvUGaWr2t1fs6uWtO7uYHAb6T
+         WA5OTuxtVTyYZtf/7Ecvzco9bmsdxZowRUk88/RyY48V+FNfbBM7tq/8E/TH2g2jROpE
+         RgZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793882152; x=1794486952;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=viyDdmvwD4U6PS8lafjWT8pU3blZXU6a4uhU+bJMb8s=;
+        b=jXbcUj7sZmy5A/zjxCCzxBA6lSoLlSlSeBQyOnUzNYIoMBKyeRsTmVIqrkTE1LgA+d
+         kXp+SskZx6wJuPR4YfPK5fExDwqSf0tNR4/nXY2hLwEs2IFs5CKvvK4RxMil/Hi+CFNO
+         4vucbiVN123SK67PYIEtr+PlMMYI0LIJrxnTOk4OUQsJlDbpz+hiVZL9YctBWfiTY1dJ
+         Jkbr7l8k7xRv4vTzCG3rZsbyTCxzlhEaDaOSC/C7P8cqNyyN2UakQL6aVCyYhSckhTT4
+         I5cqbrVotHGoc1uJRqJic8iMJK7zCYR6KZxTvjn8Lvk5H0U2KS4atbqrCfgKbH2QX9Le
+         4XJQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxSRrzQjRoHBG17a6hQTyKqP+AeA2Jnz5pqEjqZQ54ziotoARACsDCNlOv+arYjiv8yRroXOwwRx+8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8cvex44dNGcQ9kKxAWXxw5Yq7n+4BqcupTtFfGOG9AtHl7fRdi
+	MhO+8g603sEJ6S3rw+dtWfMkjQWcq61oq4K1JyG3el3FTHC7tCWScTGrhsGMynG+9KY=
+X-Gm-Gg: AYBFou30sVIBOwJ7yqgxH31PfT6WE8KVrxbQPtfMjQw210SOQazO8BoQ1X79LJHHbJd
+	baeLQtLBb1OqQgIv7raW/xvvwLEMR9SZRHqdX+6f5Uoi5QEFzmsj/9Dwu3s5E5bNKtbJpLx2/0s
+	tCbxeiMV6WKX9qz/FGCKgFit36LRRpXLM5Gkl5UgeLk0ecPPwVNLH/WeKRQ6Oi6W2jzbsp6ISqA
+	G56WGz0kONUoRjYBp9nIujip5EIapARa4oJ8oY0zFWXXvlpvZQaOHNJq9NvxBXFvnkORf4G2HkZ
+	/Pg+hhnb8ibSV8ivNaoOrgm5kKHINDcs5A+QLSt70pLD1JBnCm1g3Zf8jIj/4mH213bY0FpgY3o
+	sm1VI5cn88Ho1X0ntL48x/9Fs+gi1Wj6d1fz1l+r3eCLNhhdHmdy6ozcBoN/oxLHotauT9Vfzj6
+	awKvieXIL3NJAr/oDGGu5EzM7uPB7JDb40q7sQOP9T8gmJdwhGAXGTKJatsPhaX+S/roi0DQi55
+	rgdvFv1DKA9XZOVdeIaBoA9hIcek1vQl0aBMto6c50BGK/AMvfSi4e1SphbTE+uS/ddT0vgkNv7
+	Wnw0P8RSjFKfpshKr7Q5J//u0BZ53To0KM8M6I0=
+X-Received: by 2002:a05:6512:2342:b0:5bf:d738:a5a9 with SMTP id 2adb3069b0e04-5bffa1653b7mr666170e87.22.1793882152273;
+        Thu, 05 Nov 2026 04:35:52 -0800 (PST)
+Received: from localhost ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bff38ab878sm806136e87.21.2026.11.05.04.35.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 04:35:50 -0800 (PST)
+Date: Thu, 5 Nov 2026 13:35:46 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com, 
+	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 14/20] attestation: Add the base family specification
+ and generated files
+Message-ID: <aux4F5Fj1VjSwUb-@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-15-jiri@resnulli.us>
+ <179302367452.58760.3782556786585774917.b4-review@b4>
+ <auSxxPM5z8BzgNm3@FV6GYCPJ69>
+ <20261104175436.GZ3889730@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,98 +108,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104175436.GZ3889730@ziepe.ca>
 
-From: Peter Newman <peternewman@google.com>
+Wed, Nov 04, 2026 at 06:54:36PM +0100, jgg@ziepe.ca wrote:
+>On Fri, Oct 30, 2026 at 04:05:13PM +0100, Jiri Pirko wrote:
+>> Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
+>> 
+>> [..]
+>> 
+>> >> +
+>> >> +/* attrs of group cap */
+>> >> +#define _CTLV_ATTESTATION_ATTR_CAP(_attr) \
+>> >> +	_CTLV_ATTESTATION_ATTR(CTLV_ATTESTATION_GROUP_CAP, _CTLV_ATTESTATION_ATTR_CAP_##_attr)
+>> >> +
+>> >> +enum _ctlv_attestation_attr_cap {
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_EVIDENCE = 1,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_MR,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_MIN_CHALLENGE_LENGTH,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_CHALLENGE_LENGTH,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_TOTAL_OUTPUT_LENGTH,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_MR_FLAGS,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_OBJECT,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_BLOB_CLASS,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_FORMAT,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_REPRESENTATION,
+>> >> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_LENGTH,
+>> >> +};
+>> >> +
+>> >> +#define CTLV_ATTESTATION_ATTR_CAP_EVIDENCE _CTLV_ATTESTATION_ATTR_CAP(EVIDENCE)
+>> >
+>> >I feel like there are too many layers here for a code generator..
+>> >
+>> >enum ctvl_attestation_attributes {
+>> >   CTLV_ATTESTATION_ATTR_CAP_EVIDENCE = CTLV_ATTR(CTLV_FAMILY_ATTESTATION, 2, 1),
+>> >}
+>> >
+>> >Do the intermediate constants add anything?
+>> 
+>> True. I originally had it like you suggest, I changed to enums to avoid
+>> the explicit numbers. But you are right, does not add anything.
+>> Changed back.
+>
+>I was also thinking that having the explicit numbers makes it more
+>robust if someone does backport. We should try to have everything
+>explicitly numbered in these generated files to prevent subtle errors
+>like that.
 
-A monitor group can be renamed into the mon_groups directory of another
-control group to move its tasks to that control group's allocation
-while keeping their monitoring data. Where the RMID is only meaningful
-together with the CLOSID, as on arm64 MPAM where the RMID is a PMG that
-extends the PARTID, this move does not work. The rename succeeds, but:
-
-- The group's monitoring data is reset. Its counters are identified by
-  the CLOSID and RMID together, so after the move the group reads the
-  counters of the new CLOSID instead of the ones its tasks used.
-
-- The tasks are not moved. mongrp_reparent() sets the new parent and
-  CLOSID of the group before rdt_move_group_tasks() looks for the tasks
-  to update, and the search then matches on the new CLOSID, which none
-  of the tasks carries yet. The tasks keep the old CLOSID and the old
-  control group's allocation, and the group does not count them.
-
-The move has never worked on these systems, so rejecting it does not
-take away behavior that an existing user can rely on.
-
-Reject the move with -EOPNOTSUPP when it changes the RMID index of the
-group, and document the restriction in resctrl.rst. Where the RMID does
-not depend on the CLOSID, such as on x86, the move keeps the same index
-and is still allowed.
-
-Fixes: 3e9b35823aab ("arm_mpam: resctrl: Add rmid index helpers")
-Signed-off-by: Peter Newman <peternewman@google.com>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: <stable@vger.kernel.org> # 7.1.x
-Link: https://lore.kernel.org/lkml/20241205153845.394714-1-peternewman@google.com/
-Link: https://lore.kernel.org/lkml/20261031101052.1692230-1-ruanjinjie@huawei.com/
----
-v2:
-- Drop the Suggested-by tag.
-- Describe the systems by whether the RMID depends on the CLOSID rather
-  than by MPAM, in both the changelog and resctrl.rst.
-- Explain that moving a monitor group is already broken on these systems
-  because the tasks are not moved, so no existing user relies on it.
-- v1: https://lore.kernel.org/all/20261104101913.586595-1-ruanjinjie@huawei.com/
----
- Documentation/filesystems/resctrl.rst |  7 ++++---
- fs/resctrl/rdtgroup.c                 | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index b52795e03303..9ae34aace0ff 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -552,9 +552,10 @@ will automatically remove all MON groups below it.
- Moving MON group directories to a new parent CTRL_MON group is supported
- for the purpose of changing the resource allocations of a MON group
- without impacting its monitoring data or assigned tasks. This operation
--is not allowed for MON groups which monitor CPUs. No other move
--operation is currently allowed other than simply renaming a CTRL_MON or
--MON group.
-+is not allowed for MON groups which monitor CPUs, and fails with
-+-EOPNOTSUPP on systems where the RMID depends on the CLOSID. No other
-+move operation is currently allowed other than simply renaming a
-+CTRL_MON or MON group.
- 
- All groups contain the following files:
- 
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index e6b64a5c9302..3c002b711024 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -4398,6 +4398,19 @@ static int rdtgroup_rename(struct kernfs_node *kn,
- 		goto out;
- 	}
- 
-+	/*
-+	 * Moving the group changes the CLOSID. Where the RMID is only
-+	 * meaningful together with the CLOSID, the RMID index changes and the
-+	 * monitor state cannot follow the move.
-+	 */
-+	if (rdtgrp->mon.parent != new_prdtgrp && resctrl_arch_mon_capable() &&
-+	    resctrl_arch_rmid_idx_encode(rdtgrp->closid, rdtgrp->mon.rmid) !=
-+	    resctrl_arch_rmid_idx_encode(new_prdtgrp->closid, rdtgrp->mon.rmid)) {
-+		rdt_last_cmd_puts("Changing parent control group not supported\n");
-+		ret = -EOPNOTSUPP;
-+		goto out;
-+	}
-+
- 	/*
- 	 * If the MON group is monitoring CPUs, the CPUs must be assigned to the
- 	 * current parent CTRL_MON group and therefore cannot be assigned to
--- 
-2.34.1
-
+Okay.
