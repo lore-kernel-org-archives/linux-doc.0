@@ -1,66 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793903498;
-	b=AxxkIRA4iCJA2sl58/Yy8ZzoqSxJGEhp3aHiS9XOqLuA5ZMtXyUjP+4h8IZjuAHDdJzT
-	 j3FypTYhFinrU8aIxBewTOFExhX6RFJHYhnMePzPRMB9njoHsEs3zbVVcY25aqjW3H3SN
-	 RbNNVK8YirZRA/aMvflaAJiZLkEfW6E+GQSTUyrKcA2Q2O0wZZfndCx5pRglir8Uj49Zq
-	 P3IO8cGXVZSWk7sfpJHJ503cZoh5uto8ElQBh2Dys0ge7esu3mjIwEpTT1/O6hFWi6KQm
-	 J4IWJcMwQg8Rqhy2TBktU+DxrXLbJNi5E08OKfRgiKLb2UwgHdnjyHiW/5jMn/Kpd9w==
+	t=1793903715;
+	b=Z5pYD++vl6iO91Z3cgZkDRwREoyCNa7L/pAFkN03Zapl79e9Gd+kYQMigx4t78BogVkX
+	 y6oPt32XwFsnZAdV8TZh0ESwsqGuQYwqGq1nVJpYDlERv9356qG8pmAuYDj642VFiwcEK
+	 dRmEAGDeI03LU0/zX33ESfCEWRXOF9q5HqG0lciDQ3Gurn4DeB1TVpyZVJ3ZGC6RgFhkh
+	 p7Sg8DmFWqAkr00YPGQToi2SeaTGtEuFp61Htth6ol6UPlUIGKDQG/yGFPVWu9oVAIJo5
+	 VyHokX+n9nGERWSRBfW6INUFiMQtj03ftXY+aeqR5KMSGgd/WRej/bDmknI+3nUDKhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793903498;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=JMRH0CoDrno3e90+zIv2xxnEJQWV/B/Z4nMGkkCHCOY=;
-	b=Xq7HR/ttfR56N8XBLgT6Qc6HKwVRw03B5RAhwJCfvun131e5drwKw2/lih+m6mAQUZEx
-	 dRx57Qz2m8vBoRXr6PuCeaW13IDYTU9N9P2acV4Obw5A+IXESSEL08sdLJupeUs1TTglt
-	 4CVoa1WKtHRAgReHddacD+A614V3f2iFXI/Q5t1cFDbX2bkbTibkZ3svcTv3iEAM9MpwE
-	 ngI8yIQIGalm/kUa6pSvT2VadHoJxuZGcZnUUYxPGhIQDts6B3Hv6M6otkSrdqHfLPgHk
-	 Y0f2Tr0YO0xN7qH0+koeomZfB262uw9nX2PBTchdUdHifxaGwi67/WKIS2xRA0sZ71w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793903715;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=eu0Jx463SVZSBII0hnmMnU2aWA+n3XFJpC/YB1CnfNs=;
+	b=zUAwMFFwI42T5qXTkF38FLb+wtix/cWstMdLopqcg4C/OFT/ztLaPBgA407jcaPNgJ0Y
+	 /ouMnxWnZBY9KxeG6U118mRVLLJ6SLLb3XmyDkfeGbva07rnrfJdK8PaSS/msONNhy7MA
+	 i8HNUY9uJ2w8/wMb+cltfeIIOvFf9RmOL/rYUWklRM7CD12fkz6QmMQsVawbifaOmhP9E
+	 IZDXHBuI3IfyaHD4QwZWLPpF4W1kDIqahJCwUVpwFhqsFErpbTzdSQVPIZSLChxXKwTb0
+	 zdVh/veeesm5Ab8GNu3nm8fMR78MJxHL6wZ5eFlFSsIQB3GIilLAYV5rxKMCmjmBsBA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=a4JErDSf;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41D6D606A31B;
-	Thu,  5 Nov 2026 18:31:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41D6D606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aLY3g30d;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F6D606A31B;
+	Thu,  5 Nov 2026 18:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=a4JErDSf
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 62F88168F;
-	Thu,  5 Nov 2026 10:31:33 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B9BF13F632;
-	Thu,  5 Nov 2026 10:31:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793903496; bh=0Z3Agz0b4/iSjEmrZUD6ZchKmlwnowHnlYZI794XMME=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a4JErDSfU2sjmAHLm0HnZlPtUm1p4E7uRg1lHUyHBLDK6cMpUiskYxCzpzRS2BcHf
-	 AA4KAFoQc//xaclfP7pKbOrNrmUy/IlxbogdTWmmRdtaNoeOWXWYHHRXyc8ygZohW0
-	 1gJS1pDdwLuiKr2Da0I3q2Bxppv7TBlmFu9nw7b4=
-Date: Thu, 5 Nov 2026 18:31:29 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-	philip.radford@arm.com, david@kernel.org,
-	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v14 04/32] firmware: arm_scmi: Introduce protocol
- instance notifiers
-Message-ID: <auzLgZ17_1D5fpmP@pluto>
-References: <20261016185553.2794459-1-cristian.marussi@arm.com>
- <20261016185553.2794459-5-cristian.marussi@arm.com>
- <20261019140203.00000f2a@oss.qualcomm.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aLY3g30d
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8147E1F000C1;
+	Thu,  5 Nov 2026 18:35:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793903714;
+	bh=eu0Jx463SVZSBII0hnmMnU2aWA+n3XFJpC/YB1CnfNs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=aLY3g30dLKBuWsWBkUMgULwEU6A7srUzOGRWXrQBpz1o9mVmcB0XEsZS9PgzsCskI
+	 mTdR296HvEdvgv5e8dlypLleVdRgAieM1fqfROu89knGdcktbTpf2wPH0vieUv8Zaf
+	 q7eTideU1qc7O/4NoJf5h6S203jDcddohITPddb/Ah2R7zJ9VSOLNa0XVgdsQGlTj7
+	 FpmA0nj0w3H+/n/QBvZwX3Nzu6Yh6Wxa5DFnmxC63RoXrcgWmVycmheYAQIpy4wTn/
+	 9ig2A747T+VoI19eE8rGolCQZ885lg2Jj8Wmj5RNXFOPAivQfPadCLbnwUFLW4/Oec
+	 bewdzKyKGqJTQ==
+Date: Thu, 5 Nov 2026 20:35:10 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 03/17] net: phy: Attach generic PHY drivers through the
+ driver core
+Message-ID: <20261105183510.GE8298@unreal>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-3-1e536825b4eb@nvidia.com>
+ <9866a873-e71d-48cd-9153-be1bfce51eda@lunn.ch>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,36 +90,36 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261019140203.00000f2a@oss.qualcomm.com>
+In-Reply-To: <9866a873-e71d-48cd-9153-be1bfce51eda@lunn.ch>
 
-On Mon, Oct 19, 2026 at 02:02:03PM -0700, Jonathan Cameron wrote:
-> On Fri, 16 Oct 2026 19:55:25 +0100
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
+On Thu, Nov 05, 2026 at 03:50:35PM +0100, Andrew Lunn wrote:
+> On Thu, Nov 05, 2026 at 01:42:16PM +0200, Leon Romanovsky wrote:
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > The generic PHY fallback probes directly before publishing its binding,
+> > bypassing driver-core admission and supplier checks.
+> > 
+> > Attach through the driver core so admission precedes functional setup.
+> > Callers hold RTNL, which a concurrent bind of a specific driver may wait
+> > for with the device lock held, so for this flow let's add
+> > device_driver_try_attach() so the attachment never waits for that lock.
 > 
-> > SCMI Protocol notifications are typically used by SCMI drivers to detect
-> > and react to particular conditions: this was the assumption and the classic
-> > usage scenario upon which the SCMI notification framework was built.
-> > 
-> > Some protocols like Telemetry, though, could be interested in enabling and
-> > registering for such notifications: in such a scenario each initialized
-> > protocol instance could want to register a common protocol notifier.
-> > 
-> > In order to reuse the existing SCMI Notifications machinery, allow
-> > protocols themselves to register for their own notifications and provide
-> > their own notifier callbacks.
-> > 
-> > Each protocol, at the end of its initialization phase, can now provide one
-> > unique per-protocol-instance notifier block, which will be registered, by
-> > the core SCMI stack, on the related notification chain: such notifier will
-> > be automatically removed during the protocol de-initialization phase.
-> > 
-> > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-> Whilst I'm not that familiar with this code, it seems fine to me
-> (i.e. needs more eyes despite the tag)
+> FYI: This code is fragile, and causes issues. I will need to stare
+> long and hard at it before accepting it. So i'm unlikely to do that
+> until the basic idea is accepted.
 
-...indeed Sashiko found a few races in some awkward and rare, albeit possible,
-scenarios...despite being functional and tested as it is as of now, it
-will need a bit more reasoning.
+In order to accept basic idea, we need to change PHY code hold device
+lock when binding the driver.
 
-Thanks,
-Cristian
+> 
+> I also wounder how a PHY is a threat. What is your threat model for an
+> Ethernet PHY?
+
+There is no special threat model for X or Y. Everything that requires
+drivers to be bound are expected behave the same - honor trust level
+policy.
+
+Thanks
+
+> 
+>       Andrew
