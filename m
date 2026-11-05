@@ -1,47 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793895779;
-	b=VBrWnz1GiWWYq7ldSXsvdJimPenAxhwL4SSCmk5+h36U33zBFUrXOWyjdjOQMr/pbQQB
-	 oB0OpaL5wzfJz7pDQsVvUB4gg4h+/iO7BK6fI10+ov6Pz+56np3NyuvE9u4fIF2LD5yhE
-	 ZF459jGKLXkh6XutifxlzaySM3ur5XckAmcBp6kGE4x4xPsOUORUQKexNDA6ZGH7dtlI2
-	 ixiaNo/kMrafcl4jv9dDRL9irVbbjTJjQg0OU2bUlI2LAoHAC4jJPoOoEbw8sVQ7g74ai
-	 q2Jaew6EIWFGDqVXV4leyjIlTL6W4FEcC9McvLyqdrgSxrZ6F6Gazq9LfHgG++x9gpQ==
+	t=1793896023;
+	b=WohBG1ty7R4dYoVzVSveaobQrHppkmCdq2hr33TGDpKy+PQoJXBEw/F+nIlO7rlhboDp
+	 suGQ/68+B15AeAEo04lW5lxaLiGYQUaazUE610PcnlgOUvJYQcxaH7445EoSPYM+L4G8G
+	 2nPaxPjkFkMl26KEyLTNV/FvaXgH50msJMobFyPP8eQ91lw3qJc9nTlEpvZ1MDVIfavez
+	 R1T1engHY2IfFC5tTklhd7OQudsx0j2atoYiHxGculH1cpy25/OO2B/zZ53pmRxntq/1W
+	 jRF3/5oHNR1UVNgHgoN47cD24pwQ0D7MLzO+XpmeZklURSY3tIb7RSEo52qYSnmNC3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793895779;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=xMDJFgFKzazRN3fNKaGMf9eLHRyozGcCxfZ52PEAG88=;
-	b=wOdCxc9FQMu4++XrhmrP9/D0UzJ/Zc7lZ1fUPj4cWETYSywmeYQ/N6H4jBxQjNWKbdfe
-	 myOKXCVDbAjvmMUrHFZwPPSOpU0qjubq7keOYPwi5hpt8IYxUWLO8tEW6zOo1wAs8gDD2
-	 V4lRirQZnGHfup4M22RbKmvYnSJk96zeJwxnQDusnznFowfd60hVlJILsx0Bs3LuJ5AzM
-	 D/U8upiKAkP+92qmnYh0pE1dciIbgTBVfQh9MrcGgJXGUkdEV/szZ7++wKB+Ot7x4Leks
-	 OScLL4OjmwuvD1Bza3lIqjJMYsN7mkzTrvQHaVBITcUoQoGfvIoxyU9FYarjipBZHeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793896023;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
+	b=A1GlO9ppRrIe9A87bCOvO3A6KMjkmxFn64yS2xAe3CSPaA0Zvh6uOvY0OI57xE1XXde2
+	 KivJnRdtMppVtSxN++TwrDLKxZSdm/j3SvaW5wrUpLYZ7C8VylodqyGyZHZqS2jufG9Do
+	 mPaFvXrdfpNUJ1XEO9NGpRRe6PBfQ5Eh4MDVyLgErGSNaCvFLpuyZu06A2SwpmoHnq4Ee
+	 JW2ZIgQwoF16oSEVoEAkAh2eNP4gaUdyK7mSB9lHcPFMWMiD9/TwFDMEQrp8Dyj2Lb4D7
+	 lW0hrpy0X5i+jcxr211T1gDMNtykBJud7RxxYrMk+3pLHUzCrwJZFOiW8XOAumOUuUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZuqqyZqY;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=TH080M2b;
+	arc=none smtp.remote-ip=209.85.217.47
+Received: from mail-vs1-f47.google.com (mail-vs1-f47.google.com [209.85.217.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC64606A31B;
-	Thu,  5 Nov 2026 16:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD82606A32D
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 16:27:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DD82606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZuqqyZqY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C0021F000C1;
-	Thu,  5 Nov 2026 16:22:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793895778;
-	bh=xMDJFgFKzazRN3fNKaGMf9eLHRyozGcCxfZ52PEAG88=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=ZuqqyZqYufBnJTrLk9I13o76dGxrA9q8K0wkvEyjlIoPmbK0279ig7A92ZtWH1zVb
-	 HypMbsWxOelezgFjEXSsewOTXFoXy7sA3d753Ho0GUIZAfpkuiD9y8JQKFEbMrzjxo
-	 SGoEgVogDt1ZZ78ex8rsx1oqUR2KeLYE4BnYd8RhToncO11cP0B4cA95lZmyCLLClS
-	 gCBpbPnd9Po6Tz7jh0ZXfSpZz3FIf5JH8WloZEPn01O4vUZa2Rbc+I5spYA/UvMuwj
-	 TYrDRimvObpg/zXi+6ao+JBS80hxSoxXOv6rjTlLODOnU9a9+nQLI9pLmpfHeRPP+p
-	 0Xm7YtxwII7pQ==
-Message-ID: <3d535c77-eca2-4774-a327-e301a4f6c34d@kernel.org>
-Date: Thu, 5 Nov 2026 17:22:53 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=TH080M2b
+Received: by mail-vs1-f47.google.com with SMTP id ada2fe7eead31-7cc1cf48a39so727132137.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 08:27:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793896021; x=1794500821; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
+        b=TH080M2b2W5GU83fC4bkAl8rc89cXnFJ2JUZ1DQM2E1G7nxV0uZ+iMHWJDX5M/hBR0
+         v8Q4S1dZz9e+Wy709/pkQPJoJ382ui88GBuCa7YwB1Pwv+V08ySzbQGdCs4et9sFRxVX
+         1a78LWa2r/qDmkC73yn92WJjnMydzWl2HaDmNekF7y5RHwsZB7YPGLTTr3xjjmuI4LbR
+         sgpTrG1DSTm++FzIJZEq0knZSmQ9xxE9IezNyVfi/1ZtU95O+iPlQHI5LWAc3/YmXStT
+         Vgy3IZE07Q/+XWoEa8k60w3BygO7yb8zhuyYBqBwOLPUaUevbalW8R2MAA5wjUpSFz6r
+         zz0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793896021; x=1794500821;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=auiIKhbmoRZT4mFY+NhWtro4ChWc0LCFT6CcONkj2hM=;
+        b=gBrJMzaffVaT1I49GaRVdiLp3S+otsC6boTd5yxcFBo42I+X7aO1cz6w1LAVyNIINJ
+         SSBAbb3qLcr+8SEDxjHS16ut/77ZVfE4/vohz/8QSMHxHH9jInBOSAfgRc5ktREE+9Qt
+         qCxQAYRyand5hIfdOnSCsQsQyBtifXK2WWDsibmmH+P4qe0nF5nDo2sR4h/MXyYMOG/N
+         H0EQxvfTThjwQOgXYkBuETBIknC2V6Ls4nsxd8hfvtVk/f/RUwb+iq09J5bAt04b43Rm
+         lFR4jAoVtovVPbGI0J2lVsUemQTEpisk1B8SFkN1nbSM8uy4aUGtOdCQ8pb0PwzfK0ZZ
+         3KsQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwCGBJqc0Lo5TStGED5yNRK2ePHyscWAwV7v1aAZ8kRBNmj8eDL7aGGX6LdjVLK6AVIKjXnk+43f48=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/djv8dOaRIG842lDKTCa98dMQEAz2EV8GI5sbFQC26YgBhl7O3
+	iq3IiCRwtSaHsRm7JQ5pWnAxVgYLhThaJt/PFMl3hThIsPeW4fpsJcWEdLoqpPRlJak=
+X-Gm-Gg: AYBFou2SXvHCHZdo/PwN6MqG6vUQGg1pmzoBsw1SzBNaUqhUjwpADTQeBXJzHezKyZG
+	vhclV5uAgfcPMQ7U2lUbDBeZ8w8D/PaBNeSZcwwV8znnPqBQ9IJdhA0THua88hT2Mb6JSk0K6MR
+	j07xWRHR8gEf8ARNtMsxLff46Uprf3c9OOoGHmprQCHr7s4/ntoVOlqv7FzzVTa934n+v8gzOKb
+	DKdYMAl6pd6j1jKcDAOEZhysLTvofjxUh3uglCv59ZWcmSTTdh1r2w0KIBUhRBbenAYotZ135cv
+	ZBpUCpZFtzPwMGOOKqHbaXPT275x1TGcIpy3/2IwlHULd+UvREogFmjJsOc8e7knlRvbKXqMYvt
+	MNJXFgJWF4aZYT7ggEsZkGNHZP08ZRPB3+r4+GV8v1c8e5oMxTzcdWY7k8xsKnIW/niRguXcsWC
+	bI/01fvv/aJ7D+xl4Vx8fOo7YKoaQK02FEZwj13YGMiZQaWWiNnh6anqyn2/weJXUoIOt4BtVHF
+	I5kx2ASS6lY23rrnZh+vB+uBIh3XlhH85UPZ4/GHMW03OyiQ1M/SXX1+tNBAeGyz/+vu0o6Djq7
+	dtOe01KBI0moKASYrlT6ooH65ldV0HvxwAdBbWpGPkG3xr+ZM0fZ2Kgf3pLFYSw+wbe/zx61kA7
+	xQcnTwGqRBqtR50fWUkMXp33shgWRq3c=
+X-Received: by 2002:a05:6102:3f9f:b0:7cc:174b:f7bc with SMTP id ada2fe7eead31-7d2a15715c3mr29296137.15.1793896021174;
+        Thu, 05 Nov 2026 08:27:01 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d26fef4ed3sm4667110137.11.2026.11.05.08.27.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 08:27:00 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xP0Il-000000032XP-37xT;
+	Thu, 05 Nov 2026 12:26:59 -0400
+Date: Thu, 5 Nov 2026 12:26:59 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev
+Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
+Message-ID: <20261105162659.GB663069@ziepe.ca>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
+ <2026110526-aerobics-correct-4c06@gregkh>
+ <20261105131856.GA8298@unreal>
+ <20261105140352.GF3889730@ziepe.ca>
+ <2026110558-tartar-juicy-036a@gregkh>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,95 +136,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
- tags
-To: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
- <auxKHF7U1x_Ozwpm@ashevche-desk.local>
- <37ae7a7d-5d1d-4571-b5aa-a793f058407c@suse.com>
- <a470cb65-4301-4b19-88fc-3555dff68b4c@kernel.org>
- <f5ac5472-da79-4ac5-82de-36b2f5978f45@suse.com>
- <76b98471-ae9b-4ff3-8337-b50d75c4b7de@kernel.org>
- <128f8491-d7d6-4b8d-85e5-20ce9ac506d6@suse.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <128f8491-d7d6-4b8d-85e5-20ce9ac506d6@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026110558-tartar-juicy-036a@gregkh>
 
-On 05/11/2026 16:59, Jürgen Groß wrote:
-> On 05.11.26 16:53, Krzysztof Kozlowski wrote:
->> Reviewing pieces of the patch while ignoring the main part of it, is
->> much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
->> not be applicable.
-> 
-> I disagree with:
-> 
->  >> Reviewing pieces of the patch while ignoring the main part of it, is
->  >> much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
->  >> not be applicable.
-> 
-> And I agree with Andy's statement:
-> 
->  >> TL;DR: As a reviewer for the piece in question I have done my part fully. It's
->  >> not my issue that the piece is bundled into a single patch. We have options:
->  >> 1) ask to split (and review as standalone piece);
->  >> 2) add (partial) Rb with the pointers of what exactly has been reviewed;
->  >> 3) ignore (silent agreement with the respective subsystem maintainer's opinion);
->  >> 4) ...something I forgot?..
->  >>
->  >> (even partial) Rb != Ack.
+On Thu, Nov 05, 2026 at 10:43:00AM -0500, Greg Kroah-Hartman wrote:
 
-So the patch contents is fine, but commit msg is not? OK, thank you.
+> > But I supposed Greg is asking about /sys/bus/usb/devices/DEVICE/authorized ..
+> 
+> Yes, that is exactly what I am asking about.
 
-Best regards,
-Krzysztof
+It looks like that does the same basic idea of delaying driver binding
+that this series does. Hopefully Leon can harmonize it to use the
+shared trust level flag instead of a usb specific flag and retain all
+the uABI around it.
+
+But, even with this v1 the user can choose to use the generic trust
+level and ignore the USB specific authorized and get the same
+functional outcome.
+
+> And I know there are other types of devices that will want to use this
+> type of thing (i.e. SPDM seems to be spreading to other new bus types),
+> so it's good to have and get right.
+
+Yes, we are investing alot of time right now in trying to get SPDM
+uAPI right when we bring the general framework into the
+kernel. Everyone needing SPDM should be able to re-use it.
+
+Jason
