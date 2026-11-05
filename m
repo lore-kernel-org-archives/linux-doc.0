@@ -1,99 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793892183;
-	b=GBdNC6rmNtkSNVdrjVtIxmy4AqtmDUKcqPM+udIJfYRSko4ZhLcvEYdl005qn9r+QbFQ
-	 /4jcOH6KUhuVYusMUJDQVhIA/NBL0fMoJuNtD+FsS3Ohx94mX8DFq8miFJxM7Q0sv98N6
-	 AlIcr4aJC5KS8M1J+p7oscaXK7/sTtBsTefA5vDagpzpgbFcxvTl5PsPAYBgqLGmgYzQY
-	 irDXMG+HwGSgkb7zGTYBKqnFkBpSBBupKsqEkl4i5w/aGkD8PSZKA22y21rOLQdGGW8ce
-	 7NO+Qp0glC8a9dR+h1KT/yJMyoztwq9WDRPHIx11SoSe26YghfGYaCzUk4kJOhBYNZg==
+	t=1793892831;
+	b=QfTUQ8VuVFTRtkyWuuJ8WiLUkH0baoDk2UjiEcuDU3I7Z5WzdgR9jx96L+J3CSOLki1r
+	 rUDY0t1IQv9fbsTdKMoZ8sWUU/yxTZ4Zxl2sIkBQnPs6hE+xPjXDXApdw/dSy0gEjge7D
+	 05kMq8l/+PJHUBxST4lcYM3Sr40NSQJGxQSrhlAo7tkHMghWXEWwYtTkzXRURR/wAPKVN
+	 a1vaeXS6UWpdKuH2fU7CAl2pemk5V1eUNT/An8SMTs7q/kTDa70MR7Ro0AmFWd7NOnA6x
+	 UsjZ3QTkx9/CwOQqM0DR2bAMzy2ju8iJuDNRjosW/3CX9+plKh+nJpJ/fAFXZyGdruA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793892183;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=7v4V8/4X0TjPkcYr+xi2naJa0ss/5ymYdMLn3Qm3uOs=;
-	b=JZdUGveRPlT/7JqXKbpyCl0G++t1pxPZRggYlEhESCSSJrFcqin85sTpSrHszPUzkGKh
-	 S3ZR2NHRDKK1ljGi5tgZH8J3CJqyqmZ3jEDjBifOgj1mW3HTGM5DQwmGBv5UlEnQ+vY11
-	 dSfpmfy2iKts2Ef7GN4AFTTlEQNnbX1HWHluqQCYynP1fP/+eOxYCK+zofrVXrL2A574T
-	 6J6gRb9V/rVd3Q3RcAnBsPXUN56Ue5VB0SD5QOlrM8PPsDpePLhAntbeNn/LDnjK8PEDT
-	 eJr2J+uvl4Dgy+Wa65Zxlmzi3qAAkku63AbMHrZAtm2HLlG/vOGfgaw4JwV0loZz6RQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793892831;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=4Vfkztk7lk/FPzIbLKt1z9U7nGy8flFzrS1duE7oyEU=;
+	b=q5gBQYOYWi6qvqRma8rB80LTx4YwtwBFAOU6MSHA/6jC0HsHvKoHw/AtmFgnLHZXc+K9
+	 VBS9KsbxvA9kpliL4DgfzbV0M2hWFgEVMQhupRzWmTT8foqJBCRnSdbReyP1cSGMNinv3
+	 Xe7Oci+CWScygaTbkV2Z3elSF22MegJVjz4s0teHqkJldNHNbIaV/UN/Q+Olto2rOmxJd
+	 PK4h+D1rIlBU6JVZV1UWY9wZAv3cTyWzwIV5fRPYR2MCnVwHRcSYkaVRfbrh/hrb3v5Lp
+	 UsN323cnAlWXWt9sy44FpAowHldXj358qSlXkn2cqs82RZK4hmmZSs5JlPv9R6zUvmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XEZbSxVP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QF3FviPs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49430606A329;
-	Thu,  5 Nov 2026 15:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A6F1606A328;
+	Thu,  5 Nov 2026 15:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XEZbSxVP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E0B21F000C1;
-	Thu,  5 Nov 2026 15:23:02 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QF3FviPs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51EC81F00919;
+	Thu,  5 Nov 2026 15:33:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793892182;
-	bh=7v4V8/4X0TjPkcYr+xi2naJa0ss/5ymYdMLn3Qm3uOs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XEZbSxVPp7P+6DCvBeS1fYcBTKKFA8Ha7Jl4bhp/kBeJ54vGatjc+bX6k0kObz436
-	 CtPqzd+USA6qX5S1JHghC/mr7XsPM49vwBPA16wkGqmmeKQyES5OJNLYzYo3wZTQhb
-	 Tin5ClkzUFqrLlL8Fq9wLBDURSGpbKOpheR4ywJBmZjfHFE7slfW94G3B6wTCDyKpN
-	 Yblpifrc40qgpV2v2Y0e3U+8UngGO6t2tzPs8pZml9XwqwrafVxnDSh95z7CTTAF5u
-	 sa71q+OIVZ3i1ZoRXRHp0l35vB4tCkO30gN9LLgRP4rYSnybLSamdn6kjtVuGbSuUl
-	 yhtA+C90f8gFw==
-Date: Thu, 5 Nov 2026 16:22:59 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Douglas Anderson <dianders@chromium.org>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Jessica Zhang <jesszhan0024@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jyri Sarha <jyri.sarha@iki.fi>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Luca Ceresoli <luca.ceresoli@bootlin.com>, Paul Cercueil <paul@crapouillou.net>, 
-	Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, Frank Li <Frank.Li@nxp.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Linus Walleij <linusw@kernel.org>, 
-	Sandy Huang <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Alison Wang <alison.wang@nxp.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Igor Reznichenko <igor@reznichenko.net>, 
-	Michael Walle <mwalle@kernel.org>, Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
-	Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>, 
-	Guido =?utf-8?Q?G=C3=BCnther?= <agx@sigxcpu.org>, Purism Kernel Team <kernel@puri.sm>, 
-	Jerry Han <hanxu5@huaqin.corp-partner.google.com>, Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>, 
-	Michael Trimarchi <michael@amarulasolutions.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Casey Connolly <casey.connolly@linaro.org>, Michael Tretter <m.tretter@pengutronix.de>, 
-	Cristian Cozzolino <cristian_ci@protonmail.com>, Junjie Cao <junjie.cao@linux.dev>, 
-	Ryan Brue <ryanbrue.dev@gmail.com>, Nickolay Goppen <setotau@mainlining.org>, 
-	Stefan Mavrodiev <stefan@olimex.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Robert Chiras <robert.chiras@nxp.com>, 
-	Alexander Koskovich <akoskovich@pm.me>, Markuss Broks <markuss.broks@gmail.com>, 
-	Artur Weber <aweber.kernel@gmail.com>, David Heidelberg <david@ixit.cz>, 
-	Dzmitry Sankouski <dsankouski@gmail.com>, Yedaya Katsman <yedaya.ka@gmail.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-renesas-soc@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org
-Subject: Re: [PATCH 27/35] drm/bridge-connector: let the bridges set up the
- connector
-Message-ID: <auyfJAn3f-is-eXX@houat>
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com>
- <20261026-drm-panel-funcs-v1-27-5e3070a3478f@oss.qualcomm.com>
+	s=k20260515; t=1793892830;
+	bh=4Vfkztk7lk/FPzIbLKt1z9U7nGy8flFzrS1duE7oyEU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=QF3FviPsikfE2k9wIMYS4AD8j3vLovG4pSdzN+OJlIg7lE3rNfQ3i40JLspvyq5nE
+	 fyC0t1ut3A+W1yIEj6zZx0ilxMuZihZWtG0yBKTHCOPrpGXGKmn3UEpWSbch9tp1JL
+	 t7ZgjiGdBqM6fBSsCUthUEfHBeiDuWdVQiLhBinRNuPdLN1pitOAJB4ZoqeIjaefR6
+	 elU7cF2wf9fuUJ1vKrtTnU8eJgUti4YUGZ050l5ND4OH2RiU2InDbzQjioutTtZ119
+	 47i1BUMaZyDfPPtSLLzfyoeNwodhmf8Ua45HrVWoASZ0h/y/neZgJ9NTju+dE6TABa
+	 mt8xn949CGafA==
+Message-ID: <a470cb65-4301-4b19-88fc-3555dff68b4c@kernel.org>
+Date: Thu, 5 Nov 2026 16:33:44 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,63 +51,119 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="nvlajszkdnqh6lds"
-Content-Disposition: inline
-In-Reply-To: <20261026-drm-panel-funcs-v1-27-5e3070a3478f@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
+ tags
+To: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Wolfram Sang <wsa+renesas@sang-engineering.com>
+References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <auxKHF7U1x_Ozwpm@ashevche-desk.local>
+ <37ae7a7d-5d1d-4571-b5aa-a793f058407c@suse.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <37ae7a7d-5d1d-4571-b5aa-a793f058407c@suse.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 05/11/2026 10:30, Jürgen Groß wrote:
+> On 05.11.26 10:19, Andy Shevchenko wrote:
+>> On Thu, Nov 05, 2026 at 09:27:30AM +0100, Krzysztof Kozlowski wrote:
+>>> Refactoring of driver subsystems or some core driver parts often come
+>>> with change of the actual drivers.  If that happens within one patch,
+>>> people giving "Reviewed-by" tag only to piece of the patch, like one
+>>> driver, and ignoring the rest including the main concept of the patch,
+>>> are not really reviewing "the patch".
+>>>
+>>> As explained in the Submitting Patches document, the "Reviewer's
+>>> statement of oversight" is for patch as in "entire patch" meaning:
+>>>
+>>>    (a) I have carried out a technical review of this patch to
+>>>        evaluate its appropriateness and readiness for inclusion into
+>>>        the mainline kernel.
+>>>
+>>> The sentence is explicit and complete, meaning it does not allow
+>>> implicit variations like: "this patch or part of this patch".
+>>>
+>>> Reviewing pieces of the patch while ignoring the main part of it, is
+>>> much closer to Acknowledgment, thus Ack, and "Reviewed-by" credit should
+>>> not be applicable.
+>>
+>> I strongly disagree. It's all explained in the plenty threads you have started
+>> on the Subject.
+>>
+>> TL;DR: As a reviewer for the piece in question I have done my part fully. It's
+>> not my issue that the piece is bundled into a single patch. We have options:
+>> 1) ask to split (and review as standalone piece);
+>> 2) add (partial) Rb with the pointers of what exactly has been reviewed;
+>> 3) ignore (silent agreement with the respective subsystem maintainer's opinion);
+>> 4) ...something I forgot?..
+>>
+>> (even partial) Rb != Ack.
+>>
+> 
+> I fully agree with Andy.
+> 
+> As the Xen maintainer I often have to look into such rework patches and often
+> enough especially the Xen specific parts are mentioned in the patch description
+> as "compile tested only".
+> 
+> I see a "Reviewed-by: ... # Xen parts" in such cases as a feedback to the author
+> or committer that they don't have to look into those parts in more detail.
+> 
+> The value of such a R-b: is more questionable in case of a pure rename of a
+> function or struct member, of course.
+>
 
---nvlajszkdnqh6lds
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 27/35] drm/bridge-connector: let the bridges set up the
- connector
-MIME-Version: 1.0
+So you don't agree with "Reviewed-by: # subpart"? Sorry, but I have
+troubles pointing your disagreement arguments to actual patch content.
 
-On Mon, Oct 26, 2026 at 01:10:16PM +0200, Dmitry Baryshkov wrote:
-> Call drm_bridge_chain_connector_init() once the connector is initialized,
-> so that the bridges implementing the connector_init callback get to set
-> up their part of it.
->=20
-> Assisted-by: LLM
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/display/drm_bridge_connector.c | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu=
-/drm/display/drm_bridge_connector.c
-> index 81f3e26f6fdf..2d982c7109b5 100644
-> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-> @@ -1141,6 +1141,10 @@ struct drm_connector *drm_bridge_connector_init(st=
-ruct drm_device *drm,
->  		connector->polled =3D DRM_CONNECTOR_POLL_CONNECT
->  				  | DRM_CONNECTOR_POLL_DISCONNECT;
-> =20
-> +	ret =3D drm_bridge_chain_connector_init(encoder, connector);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
->  	if (panel_bridge)
->  		drm_panel_bridge_set_orientation(connector, panel_bridge);
-
-I don't really mind this change, but we should have a user for it and it
-doesn't look like you have any in this series?
-
-Maxime
-
---nvlajszkdnqh6lds
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCauyfTAAKCRAnX84Zoj2+
-dlpBAX9vmlt6LO/z8/cZ2e9AdKjYtQICZ+l2BzUxUnN/1vgtuPBo4ZauhGowfRnu
-dCnXGMoBf0dGFfOI0idM2rRpYmxj//Dz342c5BaFpa3YCCrW5V+qnd1vuLuKWMX4
-8+jAJrTriw==
-=Icn+
------END PGP SIGNATURE-----
-
---nvlajszkdnqh6lds--
+Best regards,
+Krzysztof
