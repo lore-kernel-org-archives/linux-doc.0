@@ -1,104 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793882155;
-	b=Wpmqe6yoUpapXk+h4slJ67Umn1esqPjZIT0S4+D9XNMWk6BjwUAqNb2FMKMprwPHx/e/
-	 ShqIjgHuOvjM3sGi0jYuYlBGLFd15sDoVE2TRn7pcvGk1rRTEaISe1PZKsz/pA94Yf8Bz
-	 0Z9uQe3E2El8Fp22XmDe+fDfbmkUfGQciTh6bIHLWsy9+A8lSjrsC76YI7UTjg+r8TJor
-	 AdwHMcimIoIar+OqVHKYo0x05SMP2O+e7baq1BmaYfBZofTITguw2tkShE6MkI6EkMl5x
-	 5F2O5xbiB5uG36Jv9ST7oTcKktLke/l5y3ApSNn7gMehYim1j3HZqucsZvZd0PKcuXA==
+	t=1793882186;
+	b=aTlh7Yb+SKI2FqjR3EqE93s0jNuMQ0Fv439q6F9U8V1OTeuHQ9q3y8RlI4A7jm1fHyVr
+	 QF7Ug+D3oMlytsslVW4rPKISXHALBpR37GV03ngfnZ/46USzYL7G7ZoXVHPKqKJCMA0m6
+	 Qm/mvhI1czIHy2dszeexGjI3H2y4n2/G3HOag9u5nsV/wrVwUb7OUb6AoGoLgX9gYq/uD
+	 jQkBUNYxbZYUrME1MP36Rj/ePV708HqJaX2uEOE8G5O9LTyL0kMM13W5Inc2IJ9LG2bl9
+	 fiIMMLyC7kF9Y2EFeW2BHDRM06CmP+QXSseDYbEK9eNBlyBUtXTEKqD2Y+sVssKeREA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793882155;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=viyDdmvwD4U6PS8lafjWT8pU3blZXU6a4uhU+bJMb8s=;
-	b=QUqGavWeEYUrM0Tt/FjJ3C27esL1YFAEtHg6OKScAny44Oks//SrioqoEflXVQm3Sgzz
-	 cuC4ptlndJ+J4nTZp/QkwfdYB7IyAiZSlq/CXM2X2XsD83UDqYzAxe9NWIFRd7rr4ZyFz
-	 UR+82ecx6mI3ZxZdf59i+yHUUnUFh3tY90TqzAHC83nRsQrU9/yoYBCh3BXLXefpXZbLC
-	 CEEq9eWV7MIe9Co5AwbbDlyNPcbhJIwARfg87ihBBHI5n70qGBQl5Q2EkkPRrLOp18DwN
-	 WwWvuE5HNOzKVPuypEXMNEBdbrJUtVpMlyT8H6oZPArtHY1BEO06n7N9jINODvSZ6hw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793882186;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=/NsG0cyMzXROSstgbjVKXoEsL+g2CwtLRSNxnglyzKA=;
+	b=1Lr6TBvb42pG05pjiBtYrineTt3RlzqGTv/6H3bySHzBaNFeU6ZTwFmhOD5rOWrvshVm
+	 NvNLtpX22bxcjf2INMutcaAXVEdcG0YgUi7J6ZdcC6gVo7fuCXTdJ5aZCAdovKIxZBr1p
+	 8lzCvnMEdOfckSweM0ptTSgQWgOeegcFxeBRAtWKpWDsWez6sx7H/Vamh5sxymxWtJPqc
+	 pF7IR0FBJZphosah9YgFpXS/OQHTqeNHQaP6SHMAiltLGiXU5s+XTRmy/tjpc6bvejHmV
+	 O7KI+rroMUNX25OohqVAXgEKo6Q6pczMVIdR+zsV5WkWTu2fKqb6xLeiYRaqr9LHp8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=khwmS6IO;
-	arc=none smtp.remote-ip=209.85.167.41
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343E2606D801
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 12:35:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 343E2606D801
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=jHQeGkBo;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5F21606A326;
+	Thu,  5 Nov 2026 12:36:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5F21606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=khwmS6IO
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5bfbc25a76aso734395e87.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 04:35:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793882152; x=1794486952; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=viyDdmvwD4U6PS8lafjWT8pU3blZXU6a4uhU+bJMb8s=;
-        b=khwmS6IOV7BeOJk5vVOoYILP+8pKH+tWxdl1OMSJ1HVjmXymvCR1SMmwyMCayrilGQ
-         IkaDwmalX3igSVne7d0QxuHYEmsMWB9o58OQuOIW8Lle7U+0s7hL2mD97+iQyAkH9BYp
-         tN0eybs7YdFMJn8p9exyLKqur9hS/ju8pGGG1eatouTCJQDvUc4Q/VH0vvROLQUdD9Hg
-         Oe4z503BqA7YRx3a+Z25EfVok0cDuqAC6EFoA6Ye5xzHvUGaWr2t1fs6uWtO7uYHAb6T
-         WA5OTuxtVTyYZtf/7Ecvzco9bmsdxZowRUk88/RyY48V+FNfbBM7tq/8E/TH2g2jROpE
-         RgZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793882152; x=1794486952;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=viyDdmvwD4U6PS8lafjWT8pU3blZXU6a4uhU+bJMb8s=;
-        b=jXbcUj7sZmy5A/zjxCCzxBA6lSoLlSlSeBQyOnUzNYIoMBKyeRsTmVIqrkTE1LgA+d
-         kXp+SskZx6wJuPR4YfPK5fExDwqSf0tNR4/nXY2hLwEs2IFs5CKvvK4RxMil/Hi+CFNO
-         4vucbiVN123SK67PYIEtr+PlMMYI0LIJrxnTOk4OUQsJlDbpz+hiVZL9YctBWfiTY1dJ
-         Jkbr7l8k7xRv4vTzCG3rZsbyTCxzlhEaDaOSC/C7P8cqNyyN2UakQL6aVCyYhSckhTT4
-         I5cqbrVotHGoc1uJRqJic8iMJK7zCYR6KZxTvjn8Lvk5H0U2KS4atbqrCfgKbH2QX9Le
-         4XJQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxSRrzQjRoHBG17a6hQTyKqP+AeA2Jnz5pqEjqZQ54ziotoARACsDCNlOv+arYjiv8yRroXOwwRx+8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8cvex44dNGcQ9kKxAWXxw5Yq7n+4BqcupTtFfGOG9AtHl7fRdi
-	MhO+8g603sEJ6S3rw+dtWfMkjQWcq61oq4K1JyG3el3FTHC7tCWScTGrhsGMynG+9KY=
-X-Gm-Gg: AYBFou30sVIBOwJ7yqgxH31PfT6WE8KVrxbQPtfMjQw210SOQazO8BoQ1X79LJHHbJd
-	baeLQtLBb1OqQgIv7raW/xvvwLEMR9SZRHqdX+6f5Uoi5QEFzmsj/9Dwu3s5E5bNKtbJpLx2/0s
-	tCbxeiMV6WKX9qz/FGCKgFit36LRRpXLM5Gkl5UgeLk0ecPPwVNLH/WeKRQ6Oi6W2jzbsp6ISqA
-	G56WGz0kONUoRjYBp9nIujip5EIapARa4oJ8oY0zFWXXvlpvZQaOHNJq9NvxBXFvnkORf4G2HkZ
-	/Pg+hhnb8ibSV8ivNaoOrgm5kKHINDcs5A+QLSt70pLD1JBnCm1g3Zf8jIj/4mH213bY0FpgY3o
-	sm1VI5cn88Ho1X0ntL48x/9Fs+gi1Wj6d1fz1l+r3eCLNhhdHmdy6ozcBoN/oxLHotauT9Vfzj6
-	awKvieXIL3NJAr/oDGGu5EzM7uPB7JDb40q7sQOP9T8gmJdwhGAXGTKJatsPhaX+S/roi0DQi55
-	rgdvFv1DKA9XZOVdeIaBoA9hIcek1vQl0aBMto6c50BGK/AMvfSi4e1SphbTE+uS/ddT0vgkNv7
-	Wnw0P8RSjFKfpshKr7Q5J//u0BZ53To0KM8M6I0=
-X-Received: by 2002:a05:6512:2342:b0:5bf:d738:a5a9 with SMTP id 2adb3069b0e04-5bffa1653b7mr666170e87.22.1793882152273;
-        Thu, 05 Nov 2026 04:35:52 -0800 (PST)
-Received: from localhost ([140.209.217.211])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bff38ab878sm806136e87.21.2026.11.05.04.35.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 04:35:50 -0800 (PST)
-Date: Thu, 5 Nov 2026 13:35:46 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Jason Gunthorpe <jgg@ziepe.ca>
-Cc: linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, rodrigo.vivi@intel.com, 
-	cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
-	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
-	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
-	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
-	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
-	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
-Subject: Re: [PATCH RFC 14/20] attestation: Add the base family specification
- and generated files
-Message-ID: <aux4F5Fj1VjSwUb-@FV6GYCPJ69>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-15-jiri@resnulli.us>
- <179302367452.58760.3782556786585774917.b4-review@b4>
- <auSxxPM5z8BzgNm3@FV6GYCPJ69>
- <20261104175436.GZ3889730@ziepe.ca>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=jHQeGkBo
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BF0331E8D;
+	Thu,  5 Nov 2026 04:36:21 -0800 (PST)
+Received: from [10.2.212.8] (e134344.arm.com [10.2.212.8])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 978DF3F673;
+	Thu,  5 Nov 2026 04:36:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793882184; bh=Xy2a35D5lFs3xumDyQSNHeQOf3ovIJScDgtK1Ak0u04=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jHQeGkBozT/P4vps+KO9ztDP0/y2NBmMxgQj1XLDVLrgzbghOtq+A4YxSebRD114v
+	 RaJDs7jmao2mC0baEwZGDmyQFlADuqFH5RLPwGmr+9yleq0uPMQig6k3EKtZF7sgzh
+	 4hED0g3Z2l1Tf+AlvvQnAw+9ZkTlntjqurTZEDpM=
+Message-ID: <6fb4ce7c-c173-4e86-8f8b-9bbc53751d8c@arm.com>
+Date: Thu, 5 Nov 2026 12:36:19 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,52 +53,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261104175436.GZ3889730@ziepe.ca>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 06/40] arm64: mpam: Context switch the MPAM registers
+To: Jinjie Ruan <ruanjinjie@huawei.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ fenghuay@nvidia.com, gshan@redhat.com, james.morse@arm.com,
+ jonathan.cameron@huawei.com, kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ zengheng4@huawei.com, linux-doc@vger.kernel.org,
+ Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+ <20260313144617.3420416-7-ben.horgan@arm.com>
+ <145b3c09-ff33-4fd7-935a-fa4f4c3c07b2@huawei.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <145b3c09-ff33-4fd7-935a-fa4f4c3c07b2@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Wed, Nov 04, 2026 at 06:54:36PM +0100, jgg@ziepe.ca wrote:
->On Fri, Oct 30, 2026 at 04:05:13PM +0100, Jiri Pirko wrote:
->> Mon, Oct 26, 2026 at 03:07:54PM +0100, jgg@nvidia.com wrote:
->> 
->> [..]
->> 
->> >> +
->> >> +/* attrs of group cap */
->> >> +#define _CTLV_ATTESTATION_ATTR_CAP(_attr) \
->> >> +	_CTLV_ATTESTATION_ATTR(CTLV_ATTESTATION_GROUP_CAP, _CTLV_ATTESTATION_ATTR_CAP_##_attr)
->> >> +
->> >> +enum _ctlv_attestation_attr_cap {
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_EVIDENCE = 1,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_MR,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_MIN_CHALLENGE_LENGTH,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_CHALLENGE_LENGTH,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_TOTAL_OUTPUT_LENGTH,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_MR_FLAGS,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_OBJECT,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_BLOB_CLASS,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_FORMAT,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_REPRESENTATION,
->> >> +	_CTLV_ATTESTATION_ATTR_CAP_MAX_LENGTH,
->> >> +};
->> >> +
->> >> +#define CTLV_ATTESTATION_ATTR_CAP_EVIDENCE _CTLV_ATTESTATION_ATTR_CAP(EVIDENCE)
->> >
->> >I feel like there are too many layers here for a code generator..
->> >
->> >enum ctvl_attestation_attributes {
->> >   CTLV_ATTESTATION_ATTR_CAP_EVIDENCE = CTLV_ATTR(CTLV_FAMILY_ATTESTATION, 2, 1),
->> >}
->> >
->> >Do the intermediate constants add anything?
->> 
->> True. I originally had it like you suggest, I changed to enums to avoid
->> the explicit numbers. But you are right, does not add anything.
->> Changed back.
->
->I was also thinking that having the explicit numbers makes it more
->robust if someone does backport. We should try to have everything
->explicitly numbered in these generated files to prevent subtle errors
->like that.
+Hi Jinjie,
 
-Okay.
+On 05/11/2026 12:20, Jinjie Ruan wrote:
+> 
+> 
+> 在 2026/3/13 22:45, Ben Horgan 写道:
+
+> 
+> Hi, everyone,
+> 
+> We found a problem as below:
+> 
+> In an offline/online co-located setup, MPAM gives the offline group a
+> smaller MBW share, a softirq serving an online service runs with the
+> PARTID of the throttled offline task it interrupted and is throttled
+> with it -- a priority inversion.
+> 
+> Is this a known limitation?
+
+Yes. The initial MPAM support was introduced with the userspace and kernel PARTID changing in
+lockstep so that it matched the standard x86 setup. This left the way open for a generic resctrl way
+to express that they may be different.
+
+> 
+> I see the following patchset uses a separate closid for kernel.
+> 
+> https://lore.kernel.org/all/cover.1790867441.git.babu.moger@amd.com/
+> 
+MPAM should be able to work with that as outlined by Reinette [1].
+
+[1] https://lore.kernel.org/lkml/2ab556af-095b-422b-9396-f845c6fd0342@intel.com/
+
+Thanks,
+
+Ben
