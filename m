@@ -1,129 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793881272;
-	b=GrOilbdOtQpmJCYD6zNmiS8orXdDCEPoLswcwsVKFmSMBHUFfgJ83MKwydAZbT+lDwWw
-	 0RxnFaDbR1CuBVCjNeWq5gmZ/y6jjjqSWAZGAB6bmNAbZM7loOCi9gyI4dSY+mJnf+ruT
-	 wu6qKyYCINgXMiL3XoKxQ0+O19cvrlrl/ctLY61I8qZSUoh2wShoW3DuGO7I9Ha6oSigs
-	 RhK0e+sp6plgZdoFbG9q01qRI/f3USNwedPGEVqWo5BOm9077E6dW/nOcevnFwJkuD2e2
-	 AAiFVGo3uvfCs0/15sU1m53Em8TZYZdKyHQrGTAkUE+wzJJm8lCUL/ztXF0i1XNdTyQ==
+	t=1793881424;
+	b=m5MRIX4mG8agzTlL1TrxKAsw+TjegURJP3f7XLCROO/PidhJtWV5n+Ui3+8MR8d+5oLx
+	 Ln+Ic2Tz32piM7f/bzS+l0miMRqB6S2pbFNawdyH7JmNss4OUAKA6xmNbEBwO2PLMRNBm
+	 /oWNk617PbZ+rcX7aXGor5zOsxTDoaSAZq4aG0AGNAWY7UGmee0M/MamTHwuHp7YZS52R
+	 yR9PTIZ+dgt7HHl9GkrUpQn+P5Aw8K7QX8ri/0sRdQzqPqMgmAmliBWHD2emuH4CinCY2
+	 Oh6/8frYUEY8S39Ifq6LTFEtn//sUvt8ePpixiyfQQMDwKYqo0V3UpCZFK5XB+pwBJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793881272;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Spamd-Result:X-Rspamd-Server:X-Rspamd-Action:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Rspamd-Queue-Id;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=x8A8egmCVprwVmaP6TKoEbHQSkWxE7ch1EwooTyriKIl4Byn10U6dVfI31J0M0vyMVwg
-	 qLpuzorHjFoCa6kXdaBvvvxBhDZxoX8SfBwT+V53TkzXUdgEFhf2vGkbSc2UnWGeTuY8h
-	 ToOtyAispZrhKd+j4kZhaqCswWDLrgX3QGj0CgEEfUTy/sSXEHl5xUp9amYpTbarkLOSN
-	 xwDg+HMMuDuB47QutlciT58uDhygQ27wCgK0ZgI/OhusTpi5DZaEOXkbAqCiBkV18p4GY
-	 yccKCnhR5L/S7QNi/EbNSKWPbvB/fAMPIk1XyzTrQYZwO9nen/Bv6wZN0EZdLXc5RpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793881424;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=fJDT0cxFozi2qKfsub911Wuy7oft4DKJw9vVKniaDDA=;
+	b=y+DmWcv2eBSH23khl3rv03diFds6mBJVKSw2J8U4laWyv4FCTUIdiPgXU1XuoF/cIQ1D
+	 5ikfZ1OdmPKAUP5hNgh9mOiLin4rNC5Mfo0o+CmenWIdQBO20ITJt4LB3DMCGi99mmUWB
+	 fT4joRQ0Zh8gnHu2VXfVh2Csb0U/LOTVfyLUKZykohxCf7xougsAgLQr7Fd7c6p5v7oqd
+	 WzBCiIgP4dnLfnBNbA4+EpXfNFFz01ks1x9BiBe/dHyKYbHbNrvfAXA19vpshogBx4sMI
+	 rMtgkS5gSAlklDAG8MMUCv0XV+DCBvJ38mlKXuHKgwT348dahyw6s2Jq/McHpm7Z5DQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=suse.cz;
-	spf=pass smtp.mailfrom=suse.cz;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KhcIIhhy;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6n5z2yLa;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=TFuQlAZ+;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IYRGa8XW;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93B4606D804;
-	Thu,  5 Nov 2026 12:21:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C93B4606D804
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=hY2sl8JL;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 433E7606A329;
+	Thu,  5 Nov 2026 12:23:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 433E7606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=KhcIIhhy;
-	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6n5z2yLa;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=TFuQlAZ+;
-	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=IYRGa8XW
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id D5C3D1F458;
-	Thu,  5 Nov 2026 12:21:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793881270; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=KhcIIhhyXURXrxsFKNrS5/KQBWOxVAoWljoB38cQtiYrDrFV8sed3xw/zXNPMim53TtxIA
-	7ZbhM5diXv9jAcO7L3DVJNrAZi+K4lsRTnJWaMYMlYugOK16bRU+y/fGzxnSLhmlcVsvyG
-	csbL8slrND45GD1FIeOECoj0f7hJMwQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793881270;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=6n5z2yLaHgAEN7/Tcd0WzA7lHAxJSKkismyyu/ILXPkdtd7h0WOyyJxNx+8962qMQ9rlAn
-	/2Drg5p7a9P7WmBA==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=TFuQlAZ+;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=IYRGa8XW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1793881269; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=TFuQlAZ+5WF2YAdSPtrseTWbdG8rKLEqW19DJvUMZa96SoqlsHphdrzQTVaeQPeOfbKMve
-	vRvg45whLPGgBVqZinymhyPdhVasORALEjL7ZX6GmXX/o3Zhkt8KhhIcC5N1tdRheYHdXR
-	b1H4KWKbL93llPPXVmqHJ4S/SUjD100=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1793881269;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qLuvYgtpasAKkOVBQjswAHWXysKN7cRsF9p74hK2S2g=;
-	b=IYRGa8XWDYOBq7+hiG0V0rUlmwe1TyUTdwZG614Lw3QLxr1E6xwKO0uuM9xtMm5Wn4Th8n
-	Jk1SsJkUbIlOijDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9880B133F6;
-	Thu,  5 Nov 2026 12:21:09 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 38udGrV07Gp0IAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Thu, 05 Nov 2026 12:21:09 +0000
-Received: by quack.suse.cz (Postfix, from userid 1000)
-	id 1B713B6D8; Thu, 05 Nov 2026 13:21:05 +0100 (CET)
-Date: Thu, 5 Nov 2026 13:21:05 +0100
-From: Jan Kara <jack@suse.cz>
-To: Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH RFC 33/38] proc: sysctl: copy to and from userspace
- without holding the table
-Message-ID: <cbocsd4qe254dc7mgzk3jkieahrp5kfxpnfh5owopkulg5oo6l@jd5sw3l4nw5c>
-References: <20261102-work-procfs-bugfixes-v1-0-59422ed3e465@kernel.org>
- <20261102-work-procfs-bugfixes-v1-33-59422ed3e465@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=hY2sl8JL
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 84BA51E8D;
+	Thu,  5 Nov 2026 04:23:39 -0800 (PST)
+Received: from [10.2.197.99] (ewhatever.cambridge.arm.com [10.2.197.99])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4C51E3F673;
+	Thu,  5 Nov 2026 04:23:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793881422; bh=7ObBKmqG+icuZPmjyc4qH8N7xSCMrgwpI3l9c/5Rzhw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hY2sl8JL1Curp89U6geW4bLaZvzJBrkCyaOrSFFWbtGeJ5li+1PizU2SzB1gV8Dyv
+	 WpdGz1qFYpJJX9YROSmUJi3s+uAZqNRsyd3F4PLsRrP6+fMmHTt9MEzX22Xxqw0yF2
+	 f+oxFog0lIao2vAzIzZkvOyhlQBhNIZWOT92byhs=
+Message-ID: <38d01cef-4fb9-4b98-8187-80c4214f7931@arm.com>
+Date: Thu, 5 Nov 2026 12:23:38 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -133,167 +53,190 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261102-work-procfs-bugfixes-v1-33-59422ed3e465@kernel.org>
-X-Spamd-Result: default: False [-11.51 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_TLS_LAST(0.00)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLpnapcpkwxdkc5mopt1ezhhna)];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_GT_50(0.00)[60];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:email,suse.cz:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -11.51
-X-Spam-Level: 
-X-Rspamd-Queue-Id: D5C3D1F458
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 6/7] coresight: etm4x: Report whether the PMU counts
+ the external outputs
+To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>,
+ Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>
+Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
+ <skhan@linuxfoundation.org>, Daniel Pereira <danielmaraboo@gmail.com>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <cover.1792907332.git.aaupov@fb.com>
+ <cover.1792989860.git.aaupov@fb.com>
+ <a433810b85a9b768489d7b7b3ceb50324a2cd336.1792989860.git.aaupov@fb.com>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <a433810b85a9b768489d7b7b3ceb50324a2cd336.1792989860.git.aaupov@fb.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon 02-11-26 15:21:48, Christian Brauner wrote:
-> proc_sys_call_handler() grabs the table, copies in what is written,
-> calls the handler and copies what it produced out to userspace before
-> it lets go of the table again. Unregistering a table waits until nobody
-> uses it anymore. So a reader or writer whose copy faults for as long as
-> it wants, with userfaultfd or a stalled FUSE mapping, keeps
-> unregister_sysctl_table() waiting, and its callers like to hold locks
-> while they do that. addrconf unregisters the ipv6 sysctls of a device
-> with RTNL held, so a stalled read of /proc/sys/net/ipv6/conf/<dev>/mtu
-> holds up every RTNL user until the reader gives up.
+On 26/10/2026 05:48, Amir Ayupov wrote:
+> Some CPUs count the trace unit's external outputs as the PMU common
+> events TRCEXTOUT0-3 (0x4010-0x4013), which lets a configuration drive a
+> PMU event from trace unit events. Other CPUs, Neoverse N1 for example,
+> have no such events, and a feature relying on them would silently do
+> nothing there.
 > 
-> Copy in before grabbing the table and copy out after letting go of it,
-> like procfs and kernfs do for their files. The buffer is ours, nothing
-> needs the table for the copies.
+> Detect at probe, on the trace unit's CPU, whether the PMU counts every
+> external output: the trace unit has an external output for each of its
+> events (caps.nr_event), and pmuv3_event_implemented() reports whether
+> the PMU implements TRCEXTOUTn. Only check ETE: per its specification, an
+> implemented TRCEXTOUTn event counts external output n, while whether that
+> output is also an external input is IMPLEMENTATION DEFINED.
 > 
-> That moves the allocation and the copy in before the permission check.
-> A write that can't be copied in, or a request that is too large, now
-> fails with -EFAULT or -ENOMEM where it used to fail with -EPERM.
+> Add a CS_CFG_MATCH_CAP_TRCEXTOUT capability match flag, set it on those
+> trace units, and show it in the feature's configfs 'matches' attribute.
+> With capabilities matched separately from the device class, a feature
+> that requires it only loads on those trace units.
 > 
-> Fixes: 330d57fb98a9 ("[PATCH] Fix sysctl unregistration oops (CVE-2005-2709)")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
-
-Looks good. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
+> Assisted-by: Devmate:Opus-5.5
+> Signed-off-by: Amir Ayupov <aaupov@fb.com>
 > ---
->  fs/proc/proc_sysctl.c | 50 ++++++++++++++++++++++++++++----------------------
->  1 file changed, 28 insertions(+), 22 deletions(-)
+>   .../hwtracing/coresight/coresight-config.h    |  2 ++
+>   .../hwtracing/coresight/coresight-etm4x-cfg.c |  6 ++++-
+>   .../coresight/coresight-etm4x-core.c          | 26 +++++++++++++++++++
+>   drivers/hwtracing/coresight/coresight-etm4x.h |  3 +++
+>   .../coresight/coresight-syscfg-configfs.c     |  3 +++
+>   5 files changed, 39 insertions(+), 1 deletion(-)
 > 
-> diff --git a/fs/proc/proc_sysctl.c b/fs/proc/proc_sysctl.c
-> index 38b61887b59c..2150cf842919 100644
-> --- a/fs/proc/proc_sysctl.c
-> +++ b/fs/proc/proc_sysctl.c
-> @@ -602,14 +602,36 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
->  		int write)
->  {
->  	struct inode *inode = file_inode(iocb->ki_filp);
-> -	struct ctl_table_header *head = grab_header(inode);
->  	const struct ctl_table *table = PROC_I(inode)->sysctl_entry;
-> +	struct ctl_table_header *head;
->  	size_t count = iov_iter_count(iter);
->  	char *kbuf;
->  	ssize_t error;
->  
-> -	if (IS_ERR(head))
-> -		return PTR_ERR(head);
-> +	/* don't even try if the size is too large */
-> +	if (count >= KMALLOC_MAX_SIZE)
-> +		return -ENOMEM;
-> +	kbuf = kvzalloc(count + 1, GFP_KERNEL);
-> +	if (!kbuf)
-> +		return -ENOMEM;
+> diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
+> index 220bc54f8e5e1..4cf53230854d0 100644
+> --- a/drivers/hwtracing/coresight/coresight-config.h
+> +++ b/drivers/hwtracing/coresight/coresight-config.h
+> @@ -38,6 +38,8 @@
+>    * a device that matches one of its classes and has all of its capabilities.
+>    */
+>   #define CS_CFG_MATCH_CAP_MASK		GENMASK_U32(15, 8)
+> +/* the PMU counts the trace unit's external outputs as TRCEXTOUTn */
+> +#define CS_CFG_MATCH_CAP_TRCEXTOUT	BIT(8)
+>   
+
+Please could we rename this to :
+
+CS_CFG_MATCH_CAP_ETE_TRCEXTOUT
+
+as this is only applicable for ETEs ?
+
+>   /*
+>    * Limit number of presets in a configuration
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> index 52cb036bb04b9..9e4dc5950c13d 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> @@ -176,9 +176,13 @@ static int etm4_cfg_load_feature(struct coresight_device *csdev,
+>   
+>   int etm4_cscfg_register(struct coresight_device *csdev)
+>   {
+> +	struct etmv4_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
+>   	struct cscfg_csdev_feat_ops ops;
+> +	u32 match_flags = CS_CFG_ETM4_MATCH_FLAGS;
+>   
+>   	ops.load_feat = &etm4_cfg_load_feature;
+> +	if (drvdata->caps.trcextout)
+> +		match_flags |= CS_CFG_MATCH_CAP_TRCEXTOUT;
+>   
+> -	return cscfg_register_csdev(csdev, CS_CFG_ETM4_MATCH_FLAGS, &ops);
+> +	return cscfg_register_csdev(csdev, match_flags, &ops);
+>   }
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index af017bd8a5477..cb5fbb0279b88 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -30,6 +30,7 @@
+>   #include <linux/uaccess.h>
+>   #include <linux/perf_event.h>
+>   #include <linux/perf/arm_pmu.h>
+> +#include <linux/perf/arm_pmuv3.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/pm_runtime.h>
+>   #include <linux/property.h>
+> @@ -1399,6 +1400,29 @@ static void etm4_fixup_wrong_ccitmin(struct etmv4_caps *caps)
+>   	}
+>   }
+>   
+> +/*
+> + * Whether the PMU counts each external output of this trace unit as
+> + * TRCEXTOUTn. The trace unit has an external output for each of its events.
+> + * Only ETE is checked: per its specification, an implemented TRCEXTOUTn event
+> + * counts external output n.
+> + *
+> + * Must run on the CPU that owns the trace unit.
+> + */
+> +static bool etm4_pmu_counts_extout(struct etmv4_drvdata *drvdata)
+> +{
+> +	int n;
 > +
-> +	/*
-> +	 * Copy in before grabbing the table and copy out after letting go of
-> +	 * it. Unregistering the table waits for us and a copy that faults can
-> +	 * take as long as userspace wants.
-> +	 */
-> +	if (write) {
-> +		error = -EFAULT;
-> +		if (!copy_from_iter_full(kbuf, count, iter))
-> +			goto out_free_buf;
-> +		kbuf[count] = '\0';
+> +	if (!etm4x_is_ete(drvdata) || !drvdata->caps.nr_event)
+> +		return false;
+> +
+> +	for (n = 0; n < drvdata->caps.nr_event; n++) {
+> +		if (!pmuv3_event_implemented(ARMV8_PMUV3_PERFCTR_TRCEXTOUT0 + n))
+> +			return false;
 > +	}
 > +
-> +	head = grab_header(inode);
-> +	if (IS_ERR(head)) {
-> +		error = PTR_ERR(head);
-> +		goto out_free_buf;
-> +	}
->  
->  	/*
->  	 * At this point we know that the sysctl was not unregistered
-> @@ -624,28 +646,15 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
->  	if (!table->proc_handler)
->  		goto out;
->  
-> -	/* don't even try if the size is too large */
-> -	error = -ENOMEM;
-> -	if (count >= KMALLOC_MAX_SIZE)
-> -		goto out;
-> -	kbuf = kvzalloc(count + 1, GFP_KERNEL);
-> -	if (!kbuf)
-> -		goto out;
-> -
-> -	if (write) {
-> -		error = -EFAULT;
-> -		if (!copy_from_iter_full(kbuf, count, iter))
-> -			goto out_free_buf;
-> -		kbuf[count] = '\0';
-> -	}
-> -
->  	error = BPF_CGROUP_RUN_PROG_SYSCTL(head, table, write, &kbuf, &count,
->  					   &iocb->ki_pos);
->  	if (error)
-> -		goto out_free_buf;
-> +		goto out;
->  
->  	/* careful: calling conventions are nasty here */
->  	error = table->proc_handler(table, write, kbuf, &count, &iocb->ki_pos);
-> +out:
-> +	sysctl_head_finish(head);
->  	if (error)
->  		goto out_free_buf;
->  
-> @@ -658,9 +667,6 @@ static ssize_t proc_sys_call_handler(struct kiocb *iocb, struct iov_iter *iter,
->  	error = count;
->  out_free_buf:
->  	kvfree(kbuf);
-> -out:
-> -	sysctl_head_finish(head);
-> -
->  	return error;
->  }
->  
-> 
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> +	return true;
+> +}
+> +
+>   static void etm4_init_arch_data(void *info)
+>   {
+>   	u32 etmidr0;
+> @@ -1562,6 +1586,8 @@ static void etm4_init_arch_data(void *info)
+>   	/* NUMCNTR, bits[30:28] number of counters available for tracing */
+>   	caps->nr_cntr = FIELD_GET(TRCIDR5_NUMCNTR_MASK, etmidr5);
+>   
+> +	caps->trcextout = etm4_pmu_counts_extout(drvdata);
+> +
+>   	coresight_clear_self_claim_tag_unlocked(csa);
+>   	etm4_cs_lock(drvdata, csa);
+>   	cpu_detect_trace_filtering(drvdata);
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h b/drivers/hwtracing/coresight/coresight-etm4x.h
+> index 5417280cdb274..33994ad4b2641 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x.h
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x.h
+> @@ -868,6 +868,8 @@ enum etm_impdef_type {
+>    * @lpoverride:	If the implementation can support low-power state over.
+>    * @skip_power_up: Indicates if an implementation can skip powering up
+>    *		   the trace unit.
+> + * @trcextout:	The trace unit is an ETE whose PMU counts its external
+> + *		outputs as TRCEXTOUTn.
+
+We don't seem to be using this after the CSFG flag initialisation, in 
+which case could we directly call etm4_pmu_counts_extout() from
+etm4_cscfg_register() ?
+
+
+Suzuki
+
+>    */
+>   struct etmv4_caps {
+>   	u8	nr_pe;
+> @@ -907,6 +909,7 @@ struct etmv4_caps {
+>   	bool	atbtrig : 1;
+>   	bool	lpoverride : 1;
+>   	bool	skip_power_up : 1;
+> +	bool	trcextout : 1;
+>   };
+>   
+>   /**
+> diff --git a/drivers/hwtracing/coresight/coresight-syscfg-configfs.c b/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> index 2b40e556be872..7b3800138f625 100644
+> --- a/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> +++ b/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> @@ -250,6 +250,9 @@ static ssize_t cscfg_feat_matches_show(struct config_item *item, char *page)
+>   	if (match_flags & CS_CFG_MATCH_CLASS_SRC_ETM4)
+>   		used += scnprintf(page + used, PAGE_SIZE - used, "SRC_ETMV4 ");
+>   
+> +	if (match_flags & CS_CFG_MATCH_CAP_TRCEXTOUT)
+> +		used += scnprintf(page + used, PAGE_SIZE - used, "TRCEXTOUT ");
+> +
+>   	used += scnprintf(page + used, PAGE_SIZE - used, "\n");
+>   	return used;
+>   }
+
