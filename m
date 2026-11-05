@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793894535;
-	b=C+iForxTkEOIPp7kN1gobOCo0gBcGCzl4khUagrC/PkGkd19ra1L957FNoQkk8ap8BMu
-	 yB3PN48zuE1FZ4OyK+rdjqFEpRMeG7CdUHopJk33pge/R2WpXdNYfL1icqB/lIxcmO4uP
-	 9Xqp+Qzflgc1RvkVxQUqfYhdaNLhRXl5wI+GRJOjl7eRP4iz/W4L28/8m1yxvFMW4GPdz
-	 EUo/RfIMIsPWIgXB7qpEeBSK5T41nlDUN+TSI2KCYRW4isILSLiur0J/p8GP5Pn2WLZvf
-	 uqRE/rOdl3Y+gwMizrJ7yBu9Pl6q2dc9XjmnqQ3EgeU6oCh6mGAtqu0G2K4IPPvS1Rg==
+	t=1793894551;
+	b=SFrSh7cpj9398xEUsfAmza9EKKzZPmQW70bcEaVeynjG0ziBdCaE+XiaM05B+z1LosF5
+	 m/C/wZsPJQQu27U1vaPlj1QM/q0vGsdBLCqzxs5jXLP4GLIJ5M4trRumeYVt07NNdWr3W
+	 9lZMXc8aIn9Mc5l/GQ0lmOePH/gqKq/wZp4OJW2FPHdHa8s/J8virmDCPunQttp4qj2zQ
+	 UNAOHC+149+K87WvBj6FQUPx3HHETOg7AlJ1lDD2COFRaGM7WCWAzXVfIYCkkScYm5c0S
+	 EwFv+kkCUq/TaBO5ji5OKuOIxVcnu8EknmP8XeMIY5e7/ULPrKt45haf40O4O+FoXsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793894535;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793894551;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=ArMtkVmSk4mC/embS5DFwPfMiPXAH0deYij5/ijmTw4=;
-	b=IrZdqyMcJ4BOaNOeCwwCjtOeUbSL+hPtJATdj4a/jwyzFrR1LcmAxje/8MWJrzR45BOU
-	 JGBeHoxQLIGWMm0d7sbWIw56ROEho3XXon2MWvIVxFzf0mJuMyn4HrkcztlNHnVZ1rnBm
-	 tZ5cm6YY6ZD4jM5OsRIOtWcmiweTy/SjYCC0Lz10HbKpM86X+/2oUkk4u79LDxxBIGohM
-	 cWMuLM4FCWV9aZIv2mq8MXeeLevy4SDSZfnG+hWd6xshOvfhMYV7h9WE0W6xCA1Uiulf3
-	 0iVo/V/s7zDE+De6jEHalzjt3BiCFkcgbjRi+2ZMc0vXLgWcyIeMnqfjxXxovOyelmA==
+	bh=7/OnOztjg2EK84QqsXYZGwDX4EmI9eyFIKPp0TKp/c4=;
+	b=YtHUw/Ira2mOxOQd4ycO0I06uudaXSaEjgrAbnoaTK08pDmrtbbpdnTmYuwwQ/ADtasc
+	 yI+VHUkvNGb3iGivwnFE69QkYpfx4v9NB4eSaGjpRHhWDDBqlW84kYZCQfJLhOiwjcFsE
+	 GNWqrMglQ1hMm0IRYg+5J8RvA0vqgkPuGzwQki0NzZun5AWv3ELOswpCxvcS+MFlgu1m4
+	 5Z9O152q0ep7e4dKT0Rb92yU6CR2j3u5rGPT/pWM3WUJ6RpMYwnH9JxFqBOrpmb0SSYg/
+	 vKgLPoaflDELN5DPnHE3I2preL2cjUgbzRfI5433X2G+ipQi9nANE9RMUEkbzdZ8v4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jrGiqL3o;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fr3kO8ax;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04DA6606EEAC;
-	Thu,  5 Nov 2026 16:02:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E407606D806;
+	Thu,  5 Nov 2026 16:02:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jrGiqL3o
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C4C181F00919;
-	Thu,  5 Nov 2026 16:02:09 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Fr3kO8ax
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E9DE1F000C1;
+	Thu,  5 Nov 2026 16:02:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793894534;
-	bh=ArMtkVmSk4mC/embS5DFwPfMiPXAH0deYij5/ijmTw4=;
+	s=k20260515; t=1793894551;
+	bh=7/OnOztjg2EK84QqsXYZGwDX4EmI9eyFIKPp0TKp/c4=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=jrGiqL3o+evVEIt0Z+4Sv6tKQ79YqhwJKZK/XGQC1jo3d4JKnoduHLcJEcypkS+nI
-	 U4jFyLLwcXlC5tt3QZmexs+Az47OVUF0sku0NR3PTekR6k683NBNK3VG0X1eQLIn7G
-	 17wz6ybQ74wlAI6p/3yMW40bOPG+F8hw7N/Y9+1aiaVDjMwdLQUH/Ikt9S7k+XRpFw
-	 FSg+3R11EjsjoS3BrrSuRpFXeCYt3JpHBMOQiysuSscnbsjmlN43iOKpI5962vw/qR
-	 wcv649XCa9Ue5OvrVvAxAUdWzb2y6f50Q6EynwJ84fiZoBwsQkGBh7siTM3Ml950kI
-	 GmNqHY8rXPpqQ==
+	b=Fr3kO8axdVRIkzUl6k4tjw0CcwsZJMd52xYZ9JfJlHjkA6aRZn6unefqfkzHdpzXE
+	 R2BarzQtP5YQvdzDnxAk3nJ6lpmNYRFZQiUn+IST/kFVXKqmA/pqJLdhAlDE1T2IPn
+	 cOEjqUWdDN5EtTskrX/sY5jkzLPjPiVJyQTVnx5RI8aeyMrHSUGjuV7bpuKBAbT8XR
+	 4io2574m7KIsUKQIte2DFSbl24svNjjLc9zWKbaQR3Bh4SPQr8HzQWJOlaUETWJRsn
+	 RctXWNVTqSrYSFdrruQoZtnASldpr51h5ehZM+opnw7dAvXpiV9hN1BjpyY2EOdXtv
+	 hB4m/mWDIIdaw==
 From: Mark Brown <broonie@kernel.org>
-Date: Thu, 05 Nov 2026 16:00:31 +0000
-Subject: [PATCH v2 4/9] firmware: cs_dsp: Give the control read/write KUnit
- cases distinct names
+Date: Thu, 05 Nov 2026 16:00:34 +0000
+Subject: [PATCH v2 7/9] firmware: cs_dsp: Give the bin file KUnit cases
+ distinct names
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -55,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261105-kunit-param-names-v2-4-765b3d5275d2@kernel.org>
+Message-Id: <20261105-kunit-param-names-v2-7-765b3d5275d2@kernel.org>
 References: <20261105-kunit-param-names-v2-0-765b3d5275d2@kernel.org>
 In-Reply-To: <20261105-kunit-param-names-v2-0-765b3d5275d2@kernel.org>
 To: Simon Trimmer <simont@opensource.cirrus.com>, 
@@ -77,99 +77,302 @@ Cc: patches@opensource.cirrus.com, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-ext4@vger.kernel.org, 
  linux-sound@vger.kernel.org, Mark Brown <broonie@kernel.org>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5163; i=broonie@kernel.org;
- h=from:subject:message-id; bh=3FdMiRqeGL3u3D5GJK5SJFAO1j8EsUqY840M964fbe0=;
- b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLerEj1evI5u71gNbv5gSssvmL7HLychf3fiJpa5Ns4O
- Ucxq8R1lLIwiHExyIopssRlcb+sL3m9hu/gwjaYOaxMIEMYuDgFYCJ66Qx/OBsFVjkVi0lbNp60
- mbk/xPnjzSwPDf+XKzgbPGJvLyq2Y/jvv3Z70y8WlYVHQ/Z4+bAb823lPxFzZvOh15+itiTZJhz
- nAgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=16931; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=t8fkopsOg3sufbABwCPfiVkWdlwK5/RfwsIRwnV4EIM=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLLerEi9IcGnPn+zq6lsX0uG5vpFeXPf2nOkbQ+enKP5S
+ /z7j3yFjlIWBjEuBlkxRZa4LO6X9SWv1/AdXNgGM4eVCWQIAxenAEzEJ5fhn9KK9+qP4uqkviQU
+ PH9SEPLgb3xeDtfmgrnzj8pkvopNsWf4n8j1v41lFmfdw8Wm0rNzamdPmnltsuzDupeq9s+MRFZ
+ ZcwMA
 X-Developer-Key: i=broonie@kernel.org; a=openpgp;
  fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-The cs_dsp_ctl_rw suites run cs_dsp_ctl_write_running() and
-cs_dsp_ctl_read_volatile_running() against several sets of parameters
-by listing each function several times with KUNIT_CASE_PARAM(), which
-names the case after the function. The resulting cases all share a
-name, so they cannot be told apart in the results.
+The cs_dsp_bin suites run many of their test functions against more
+than one set of parameters, listing the function once per set with
+KUNIT_CASE_PARAM(), which names the case after the function:
+
+ - the ADSP2 suites run the XM/YM tests again for ZM,
+ - the WMDR v3 suite runs the whole set again with long offset blocks,
+ - the multiple memory tests are run varying the offset and the
+   algorithm.
+
+The resulting cases share a name, so they cannot be told apart in the
+results.
 
 Use KUNIT_CASE_PARAM_UNIQUE() for these entries so that each case is
 also named for the parameter generator it is run with, for example
-cs_dsp_ctl_write_running-all_pop_varying_len_gen_params.
+bin_patch_one_word-x_or_y_and_offset_gen_params and
+bin_patch_one_word-z_and_offset_gen_params.
 
 Reviewed-by: Richard Fitzgerald <rf@opensource.cirrus.com>
 Signed-off-by: Mark Brown <broonie@kernel.org>
 ---
- .../firmware/cirrus/test/cs_dsp_test_control_rw.c  | 50 +++++++++++-----------
- 1 file changed, 26 insertions(+), 24 deletions(-)
+ drivers/firmware/cirrus/test/cs_dsp_test_bin.c | 222 ++++++++++++-------------
+ 1 file changed, 111 insertions(+), 111 deletions(-)
 
-diff --git a/drivers/firmware/cirrus/test/cs_dsp_test_control_rw.c b/drivers/firmware/cirrus/test/cs_dsp_test_control_rw.c
-index d800f163b099..085a1cb92912 100644
---- a/drivers/firmware/cirrus/test/cs_dsp_test_control_rw.c
-+++ b/drivers/firmware/cirrus/test/cs_dsp_test_control_rw.c
-@@ -2483,19 +2483,20 @@ KUNIT_ARRAY_PARAM(all_pop_volatile_writeable_flags,
- 		  cs_dsp_ctl_all_param_desc);
+diff --git a/drivers/firmware/cirrus/test/cs_dsp_test_bin.c b/drivers/firmware/cirrus/test/cs_dsp_test_bin.c
+index 63416838f865..40a827120d6c 100644
+--- a/drivers/firmware/cirrus/test/cs_dsp_test_bin.c
++++ b/drivers/firmware/cirrus/test/cs_dsp_test_bin.c
+@@ -2654,8 +2654,8 @@ static struct kunit_case cs_dsp_bin_test_cases_halo[] = {
+ 	KUNIT_CASE_PARAM(bin_patch_one_multiword, x_or_y_and_offset_gen_params),
+ 	KUNIT_CASE_PARAM(bin_patch_multi_oneword, x_or_y_and_offset_gen_params),
+ 	KUNIT_CASE_PARAM(bin_patch_multi_oneword_unordered, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_mems, offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_mems, alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_mems, offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_mems, alg_gen_params),
+ 	KUNIT_CASE_PARAM(bin_patch_multi_oneword_sparse_unordered, x_or_y_and_alg_gen_params),
+ 	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs, x_or_y_and_offset_gen_params),
+ 	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs_unordered, x_or_y_and_offset_gen_params),
+@@ -2687,8 +2687,8 @@ static struct kunit_case cs_dsp_bin_test_cases_halo[] = {
+ 			 packed_x_or_y_and_offset_gen_params),
+ 	KUNIT_CASE_PARAM(bin_patch_multi_onepacked_unordered,
+ 			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_mems, offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_mems, alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_mems, offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_mems, alg_gen_params),
+ 	KUNIT_CASE_PARAM(bin_patch_multi_onepacked_sparse_unordered,
+ 			 packed_x_or_y_and_alg_gen_params),
+ 	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_algs,
+@@ -2705,103 +2705,100 @@ static struct kunit_case cs_dsp_bin_test_cases_halo[] = {
  
- static struct kunit_case cs_dsp_ctl_rw_test_cases_adsp[] = {
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_varying_len_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_varying_offset_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_varying_xy_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_z_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_varying_alg_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_writeable_flags_gen_params),
--
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running, all_pop_varying_len_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running, all_pop_varying_offset_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running, all_pop_varying_xy_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running, all_pop_z_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running,
--			 all_pop_volatile_readable_flags_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_varying_len_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_varying_offset_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_varying_xy_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_z_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_varying_alg_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_writeable_flags_gen_params),
-+
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running, all_pop_varying_len_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running,
-+				all_pop_varying_offset_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running, all_pop_varying_xy_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running, all_pop_z_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running,
-+				all_pop_volatile_readable_flags_gen_params),
+ static struct kunit_case cs_dsp_bin_test_cases_halo_wmdr3[] = {
+ 	/* Unpacked memory */
+-	KUNIT_CASE_PARAM(bin_patch_one_word, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_multiword, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword_unordered, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_mems, offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_mems, alg_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword_sparse_unordered, x_or_y_and_alg_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs_unordered, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_multiword, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword_unordered, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_mems, offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_mems, alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword_sparse_unordered,
++				x_or_y_and_alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_algs, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_algs_unordered,
++				x_or_y_and_offset_gen_params),
  
- 	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_not_started,
- 			 all_pop_volatile_readable_flags_gen_params),
-@@ -2559,17 +2560,18 @@ static struct kunit_case cs_dsp_ctl_rw_test_cases_adsp[] = {
- };
+ 	/* Packed memory tests */
+-	KUNIT_CASE_PARAM(bin_patch_1_packed,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_1_single_trailing,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_2_single_trailing,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_3_single_trailing,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_2_trailing,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_3_trailing,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_single_leading_1_packed,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_2_single_leading_1_packed,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_2_leading_1_packed,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_3_single_leading_1_packed,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_3_leading_1_packed,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_onepacked,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_onepacked_unordered,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_mems, offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_mems, alg_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_onepacked_sparse_unordered,
+-			 packed_x_or_y_and_alg_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_algs,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_algs_unordered,
+-			 packed_x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_mixed_packed_unpacked_random,
+-			 packed_x_or_y_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed, packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_1_single_trailing,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_2_single_trailing,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_3_single_trailing,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_2_trailing, packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_3_trailing, packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_single_leading_1_packed,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_2_single_leading_1_packed,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_2_leading_1_packed, packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_3_single_leading_1_packed,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_3_leading_1_packed, packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_onepacked, packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_onepacked_unordered,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_mems, offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_mems, alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_onepacked_sparse_unordered,
++				packed_x_or_y_and_alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_algs,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_algs_unordered,
++				packed_x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_mixed_packed_unpacked_random, packed_x_or_y_gen_params),
  
- static struct kunit_case cs_dsp_ctl_rw_test_cases_halo[] = {
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_varying_len_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_varying_offset_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_varying_xy_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_varying_alg_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_write_running, all_pop_writeable_flags_gen_params),
--
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running, all_pop_varying_len_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running, all_pop_varying_offset_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running, all_pop_varying_xy_gen_params),
--	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_running,
--			 all_pop_volatile_readable_flags_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_varying_len_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_varying_offset_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_varying_xy_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_varying_alg_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_write_running, all_pop_writeable_flags_gen_params),
-+
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running, all_pop_varying_len_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running,
-+				all_pop_varying_offset_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running, all_pop_varying_xy_gen_params),
-+	KUNIT_CASE_PARAM_UNIQUE(cs_dsp_ctl_read_volatile_running,
-+				all_pop_volatile_readable_flags_gen_params),
+ 	/* Unpacked memory with long-offset blocks */
+-	KUNIT_CASE_PARAM(bin_patch_one_word, x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_multiword, x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword, x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword_unordered, x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_mems, long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_mems, alg_long_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword_sparse_unordered, x_or_y_and_alg_long_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs, x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs_unordered,
+-			   x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word, x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_multiword, x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword, x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword_unordered,
++				x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_mems, long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_mems, alg_long_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword_sparse_unordered,
++				x_or_y_and_alg_long_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_algs,
++				x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_algs_unordered,
++				x_or_y_and_long_offset_gen_params),
  
- 	KUNIT_CASE_PARAM(cs_dsp_ctl_read_volatile_not_started,
- 			 all_pop_volatile_readable_flags_gen_params),
+ 	/* Packed memory tests with long offset blocks */
+-	KUNIT_CASE_PARAM(bin_patch_1_packed,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_1_single_trailing,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_2_single_trailing,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_3_single_trailing,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_2_trailing,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_3_trailing,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_single_leading_1_packed,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_2_single_leading_1_packed,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_2_leading_1_packed,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_3_single_leading_1_packed,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_3_leading_1_packed,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_onepacked,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_onepacked_unordered,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_mems, long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_mems, alg_long_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_onepacked_sparse_unordered,
+-			 packed_x_or_y_and_alg_long_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_algs,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_1_packed_multiple_algs_unordered,
+-			 packed_x_or_y_and_long_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_mixed_packed_unpacked_random,
+-			 packed_x_or_y_long_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed, packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_1_single_trailing,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_2_single_trailing,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_3_single_trailing,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_2_trailing,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_3_trailing,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_single_leading_1_packed,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_2_single_leading_1_packed,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_2_leading_1_packed,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_3_single_leading_1_packed,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_3_leading_1_packed,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_onepacked,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_onepacked_unordered,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_mems, long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_mems, alg_long_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_onepacked_sparse_unordered,
++				packed_x_or_y_and_alg_long_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_algs,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_1_packed_multiple_algs_unordered,
++				packed_x_or_y_and_long_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_mixed_packed_unpacked_random,
++				packed_x_or_y_long_gen_params),
+ 
+ 	KUNIT_CASE(bin_patch_name_and_info),
+ 
+@@ -2810,26 +2807,29 @@ static struct kunit_case cs_dsp_bin_test_cases_halo_wmdr3[] = {
+ 
+ static struct kunit_case cs_dsp_bin_test_cases_adsp2[] = {
+ 	/* XM and YM */
+-	KUNIT_CASE_PARAM(bin_patch_one_word, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_multiword, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword_unordered, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword_sparse_unordered, x_or_y_and_alg_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs, x_or_y_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs_unordered, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_multiword, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword_unordered, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword_sparse_unordered,
++				x_or_y_and_alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_algs, x_or_y_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_algs_unordered,
++				x_or_y_and_offset_gen_params),
+ 
+ 	/* ZM */
+-	KUNIT_CASE_PARAM(bin_patch_one_word, z_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_multiword, z_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword, z_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword_unordered, z_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_multi_oneword_sparse_unordered, z_and_alg_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs, z_and_offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_algs_unordered, z_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word, z_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_multiword, z_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword, z_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword_unordered, z_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_multi_oneword_sparse_unordered, z_and_alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_algs, z_and_offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_algs_unordered,
++				z_and_offset_gen_params),
+ 
+ 	/* Other */
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_mems, offset_gen_params),
+-	KUNIT_CASE_PARAM(bin_patch_one_word_multiple_mems, alg_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_mems, offset_gen_params),
++	KUNIT_CASE_PARAM_UNIQUE(bin_patch_one_word_multiple_mems, alg_gen_params),
+ 
+ 	KUNIT_CASE(bin_patch_name_and_info),
+ 
 
 -- 
 2.47.3
