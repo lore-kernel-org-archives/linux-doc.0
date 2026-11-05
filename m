@@ -1,63 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793893677;
-	b=tl0KqOe8uLl11XKHquTmQQEyDMTFTAsfTmvsa+7Lswmb3qbjlszgzR/JQjxaUOicuovU
-	 +Dv6kiuo5ulvzFD2RFjNnNu5N2eL5JGylP+0Vyu5o5YXL/qY7jW0QckbN7ARBdmurOwWB
-	 7VFv4UWxfzgzmLrLiZyjhbHfu0mYuI4Qcg8xXMbJKbgNvKuiEzNlMjfYMpCLpVDm55c0I
-	 u//PD1PZsY8RE8/ckzcQIAAM7W4VkOEpfAbstaqLitqqW8SYPRsfdDy/A5HeDAwFyDGRk
-	 RIKoLC9K9mRB9VK0woxSrR4CAAmiUcJZoGiT+9KUDerRJtr/5ygCRvVdMIQbTdup+jA==
+	t=1793893726;
+	b=h5Vf4u1PNJXjNmb61bHBGVhl3UgCWTq3ngk8C3fA7IGUSubM6dObDsU389OnkBmKvC20
+	 Yf6SERoDq++blHYHaOz18OLdqAux0urQVlEmKOx4dXjSMWoACCGJIrRXkubEKmO8KshTN
+	 rUDTIpTT55HrX6cWqgAhriga+2OcIQ14QAmEPggfL/Lhj071nwrSsZbTebn4JW+sgxmWB
+	 CSQbmtiF5IzSXjkjKIlQyCrxpDujnmZxvpP9wP19RpzXWo1JcJNtpmvR67zTaKu2uad99
+	 Wi7awqiyNdrsAofeSQFBp7f1lT2/ksU/HZJ4AFR1k9KXiPQPbY9KRHVN9gELToncqMg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793893677;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=MgucIMubAa3OOhOFGJs2HRU0sWXyhUV0AUF1J4UpA1M=;
-	b=vCKYhwBO7BQO0ujDp+7QZtfgZ2VsN1ys7gxXHGedInoQ9lypEIjiWz/bsjKKurSKBc09
-	 BeChgHmI8vxeFLFNehTfbAO3SM7PLuMcz0Pr3nucey80/jRANfaG9JoZGMGmIqhEHIFbj
-	 jG37ZHwVzujjlmGGkkoNCn7sYpIbGC8D79hwbBMSOf09q0PefaAvcPspK9hmcY97LBt8x
-	 YARX66wL4BNZF1cWT6f+Shryy3VAFIFvdF1IMbkxb2LmOq7KBgAnrJFTD0z6yD6aRCEnD
-	 ukx9TEkuy4xDVPY11V2IUEu43+j3M8faEsNlT13gOt+e1lFpGfbD7dK0NhTRoVI58nQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793893726;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=VqTtOjLMc2SR5NEFeskRRTsJLuUm+FuqME1OO9ChNqY=;
+	b=NRjTOdORA1dwjQBTIiH6BMMwqv2nHvHpo0I+I0ChadaUB5vvaMo5eDLM7r7QxeHkItsR
+	 4+k4bxsMApMm5Qx1ujVLsD1We6HX1iLtcfjg/8a/Fd/GnLMAZRyrHqgFGx7JpD3YHVoJZ
+	 5bVjF6vPMafUtIVJbAAuksB2YwBko4WXm0syd2JUc7Vau27a7XoQAaUXdjGR25svzzUR9
+	 Jsx7fuhVlMmt82kD47MZ2CulbPgPqg805x+zvehXB+gv3V+k4pq0o49hFiMHVAeNuYTcn
+	 B/2l0UVkfZcQ0P9tIOMFC9Lc4og1D61olChG8DcCWk8bRgrFAiiAj0u389QyC0wiiEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mit.edu;
-	spf=pass smtp.mailfrom=mit.edu;
-	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=CvU5zGHS;
-	arc=none smtp.remote-ip=18.9.28.11
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aTi+83WM;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7E1606EE8D
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 15:47:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F7E1606EE8D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E8A4606A332;
+	Thu,  5 Nov 2026 15:48:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=CvU5zGHS
-Received: from macsyma.thunk.org (pool-173-48-116-148.bstnma.fios.verizon.net [173.48.116.148])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6A5Fkrka017482
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 5 Nov 2026 10:46:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1793893617; bh=MgucIMubAa3OOhOFGJs2HRU0sWXyhUV0AUF1J4UpA1M=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=CvU5zGHS6S5Lc+ofPAyXOc4k+J4Dx0x1uD+uvEgYwG+9Lw8tA8cDQT4HfcbtJFGfS
-	 jVPYiTWyUVw7lQeS8Z4gmSSqEE6MvHJSM1PbjJNYo73rB2VmzL+M/kpLHkXrGhC9N0
-	 u9oWdFHzYV2BpGIFv8wMxyTcZlupVsDHKHYx9Msmirs1Bwb54JL5bezFpO76OoCCVM
-	 rIHRpoFsnatyHm7NzhaeZQPYbQNjlgqjUiXXMyytkA+hsGQTIqurV17ItPy392ghBr
-	 l4JzyBsIEyaEj0fJ3cAyGGmwkx2UyddMiF5eK/TTCCmdJl2BATaD6McdAU8wAXR+E8
-	 pkc+STZoKfjhA==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 2E885259019B; Thu,  5 Nov 2026 10:46:53 -0500 (EST)
-Date: Thu, 5 Nov 2026 10:46:53 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: joreag@ulshe.ai, Jonathan Corbet <corbet@lwn.net>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [SECURITY / STATIC AUDIT] 44 CRITICAL/HIGH Open Manifold(s) in
- `Documentation/.renames.txt` (linux-master 7.4rc)
-Message-ID: <auykRKL8SMW-bL60@mit.edu>
-References: <autfQA_BKenrDFQY@casper.infradead.org>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aTi+83WM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF4A61F00919;
+	Thu,  5 Nov 2026 15:48:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793893726;
+	bh=VqTtOjLMc2SR5NEFeskRRTsJLuUm+FuqME1OO9ChNqY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=aTi+83WMLB+yIW2qIOKRwZcIoRrw5ldSZV26bVaVMGJrTZbGnkzAE1dLpoiusQF0s
+	 X7fJhGryVcI7YxO6QoocLcJ2+HJ7nAX6BuTyko99nbPNMmbj0hB7bm+gnUNmEucLAi
+	 vuVYrD0QVeHA8UZekChmGA/kEk+iIVAFviQT1hEIcqQwO25S6mV5IhKYpCA/IE8T0x
+	 gTXS1mzWaBXHtkjQ3++Hzhk+XpSPk7yOo7MtLAe0iCv0YSkCBr/8n2XbpAm7ySLsiP
+	 4Hj4RvpmAgUAd0i8hT9xc2WWYHlwX6EVrS199CrADbZRnRqsDiqu00RQRlrY2jnqj+
+	 fsZ250CYyQQDA==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Petr Mladek <pmladek@suse.com>
+Cc: John Ogness <john.ogness@linutronix.de>, Steven Rostedt <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>, Naveen N Rao <naveen@kernel.org>, "David S . Miller" <davem@davemloft.net>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Tiezhu Yang <yangtiezhu@loongson.cn>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/3] probes: Use trace_printk() in probe handlers
+Date: Fri, 06 Nov 2026 00:48:42 +0900
+Message-ID: <undine-1793893722102543030-fbc455ddd7ed507e@undined.local>
+X-Mailer: UndineD 0.1
+In-Reply-To: <aunBcxXXNhXDd-U5@pathway.suse.cz>
+References: <179360345418.115681.193455787480210412.stgit@devnote2> <20261102123408.0fb950bf@gandalf.local.home> <871p9251ve.fsf@jogness.linutronix.de> <undine-1793671566795563056-fb7169cffcc7ac3c@undined.local> <aunBcxXXNhXDd-U5@pathway.suse.cz>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,32 +58,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <autfQA_BKenrDFQY@casper.infradead.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 04, 2026 at 04:37:20PM -0500, Matthew Wilcox wrote:
-> On Wed, Nov 04, 2026 at 04:25:09PM +0000, joreag@ulshe.ai wrote:
-> > Hello Maintainer(s) of `Documentation/.renames.txt`:
+On Tue, 3 Nov 2026 12:11:47 +0100, Petr Mladek <pmladek@suse.com> wrote:
+> On Tue 2026-11-03 11:06:06, Masami Hiramatsu (Google) wrote:
+> > On Mon, 02 Nov 2026 23:07:41 +0106, John Ogness <john.ogness@linutronix.de> wrote:
+> > > [ Cc'ing Petr Mladek ]
+> > > 
+> > > On 2026-11-02, Steven Rostedt <rostedt@goodmis.org> wrote:
+> > > > [ Cc'ing John Ogness ]
+> > > 
+> > > Thanks.
+> > > 
+> > > >
+> > > > On Mon,  2 Nov 2026 16:10:54 +0900
+> > > > "Masami Hiramatsu (Google)" <mhiramat@kernel.org> wrote:
+> > > >> Here are patches to update the probe sample code to use trace_printk
+> > > >> instead of normal printk. Since the fprobe and kprobe/kretprobe handlers
+> > > >> can be called from somewhere where console is locked, using printk() is
+> > > >> basically unsafe. Only the unoptimized kprobe on x86 is safe because it
+> > > >> is ran with NMI context (in this case, the kernel uses printk_deferred()
+> > > >> automatically), but optimized kprobe/kretprobe/fprobe are not.
+> > > >
+> > > > I don't think printk() is unsafe in these situations anymore.
+> > > 
+> > > Since we still support legacy consoles, it is true that printk() is not
+> > > safe in these contexts when a legacy console is registered.
+> > > 
+> > > However, the printk_deferred() variant _is_ safe from any context. Once
+> > > we convert the legacy consoles (including boot consoles) to nbcon,
+> > > printk_deferred() can become printk() and still be safe from any
+> > > context.
 > > 
-> > During an automated topological boundary audit of `linux-master (2)` using
-> > Logic Archaeologist Pro (v8.5),
-> > we identified 44 CRITICAL/HIGH Open Topological Manifold(s) in
-> > `Documentation/.renames.txt` that may warrant review.
+> > Got it. But since printk_deferred() is not exposed to modules,
+> > these sample modules can not use it. (printk_deferred_enter/exit()
+> > are also not exposed.)
 > 
-> If this is a joke, it's not very funny.
+> We could export it if it would be useful for kprobes...
+
+I also concern that exposing those means exposing internal implementation.
+If so, I would like to avoid it, because if printk() becomes safe,
+those simply become technical debt.
+
 > 
-> If it's not a joke, you're an idiot.
+> > > It is misfortunate to add documentation saying printk() is not safe,
+> > > since the problem is converting the remaining legacy consoles. But we
+> > > can cleanup all such documentation later once the legacy consoles are
+> > > gone.
+> > 
+> > So, until it is done, this series is valid. Please let me know it.
+> > After that version, I can revert these.
+> 
+> I do not have strong opinion here.
+> 
+> It just looks to me that using trace_printk() everywhere is an
+> overkill. It is true that printk() is not safe when probing some
+> locations, e.g. where a console is locked. But these are locations
+> where you could not use printk() even in the probed code.
 
-My guess is option 2.   It looks like this is an AI Slop startup:
+Ah, sorry if I caused a misunderstanding. What I meant was that for
+callbacks — which might be invoked in critical contexts, such as those
+used by kprobe or fprobe — we should use trace_printk() that include
+recursion detection. This does not mean that trace_printk should be
+used everywhere.
 
-    https://ulshe.ai/products_archaeologist.html
+Thank you,
 
-... and this AI Slop tool doesn't realize that .renames.txt is a file
-which is generated locally, and it is not part of the git repository.
-If that is a "security vulnerability" or a "Topological Manifold
-Closure" (whatever the hell that is) then any generated shell script
-or compiled binary would be a "Manifold vulnerability" (again,
-whatever the hell that is).
-
-						- Ted
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
