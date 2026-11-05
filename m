@@ -1,88 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793870546;
-	b=Fad5f7sbOwxTHe5UjauvylFI3HjF2m5B5mEn6t4U6DnpMdA1spYuOSFhl6FTfA+Vmkue
-	 ztJf3kKn5hZch/jjBS4QvF7qSt4zGK50A7L+JkB4xWvLUNAOhhkh7QSRQVvZmtbw7w9JF
-	 K9eJFpmJtKjFf9nttN7mnjk6JN2N/LvsGoPqWVPJETuVPxYwSKy/LQwUGZVtJBs6pfjLv
-	 lp1GtupJs53Qgdou4zrEfLdKO1vnP5Fp9nvOPSHKJF6BAF3FFMljWnx9WuWzWuEfSWfGe
-	 AL3s/QZv6VjpuebX6VwjCPwd/6k+rXkUKLr+qX+By+3VMjIeo0YDdPAPiK+VAVeqE1g==
+	t=1793870578;
+	b=hfBAtwXwXltMmTODO3Au9jYlSTpCzfPrq/Y24KOnZdBacS9lmkEeJtEStWjUBXLxBAGH
+	 TgUfukmji5fOVhjyGWGYUxVaQuD7iRNQ6V56N2FzS4a4AaL+8IvaGH5ojBYGMx+WlclN1
+	 jm3T+qTPFNKykYHDBHKZezeapRx6UuM6MqN/y3ZjgwD5oZPIo3v2ScFmOiKaHBZtVAzs5
+	 HegLGBE1buzvAVTH7q8ZSi0W6ZzNdqWLeH6MVutvfMllei7n321RFzagcDkUYiUnoKACr
+	 zgKEEesCTAnwni9EW7SziWS2PIg130k122e4eluJDcLhkYaHqNZBRPkL9CP52pZXzLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793870546;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=0Kd7lcxkbZIwUjBS8lUhNN+9PpJV88FFRkU7HIQmzBg=;
-	b=Ra9igjFPZmEZ6F3iwrMj91Jp5kw0P0T0/BCqVcIlamC5AySn4PlAjJf41xZtBe451btO
-	 N1ansUWkBOorA6YTig2b16+WEQn81VNoGtgZ+/mKHhXLfzHj5LIVvIM3YfqA7LY3tc1RQ
-	 LG2CORUMQcuI5ceI0D8n37Nvg2bc5s0zrpbHN6Hqu/dYWHs5HGtVvFAyJbDCsQGEzfjyw
-	 DqKkf5eMR1uiYa6e5IKznwMvgAKVvaM4cKUo2DtW//OV/1pMrm4nh1ORpz9g1p6g4oCFS
-	 YEBVOIbju8zM/777SdiaoD6IekJizjkNpE0gK1BTB7WtUfBxi86F6/zkAuqxQNpm8aQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793870578;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=3ADmQIxAo8HDM9v3jLMAtpR5tdAcgtAcz2GrlhHdH0M=;
+	b=EgvkeljpdyPqftFrV0EJs+Q9gs8P9KmjRETc74hY+JhJ2dQ3OKteOYucSFj2WsvxWlc+
+	 DfLvTFXl67/jzH8cnLwHY1u5zgBUtFXHoIi9YFMVn/zFlGSFC8QGpoETsjUdWbTBhwRTv
+	 IjB9Vd57fIXeJrQIbCTkABrdCi2pzWWiYuTmw3w9ezEriSzDfoXMWai9NEtZxyMv3CtcA
+	 kpGJp1jF2s3cF/2YNbm1sOGG0E/cSksbs3BBxIVjHiFJ5Q2sUpKt4tqUVBi+m+1wyjpl/
+	 sGjSzN8vGqy+kxgCejXuj9UCoQmqiOSo/U7V4kg2E0Nls0d/C2PAIgPuy7cxk6m9zsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ursulin.net;
-	spf=pass smtp.mailfrom=ursulin.net;
-	dkim=pass header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=CPFYjzjL;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94EE6606A336
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 09:22:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94EE6606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=WjVvJR2t;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7EB8606D813;
+	Thu,  5 Nov 2026 09:22:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7EB8606D813
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=CPFYjzjL
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so1444820f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 01:22:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin.net; s=google; t=1793870544; x=1794475344; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0Kd7lcxkbZIwUjBS8lUhNN+9PpJV88FFRkU7HIQmzBg=;
-        b=CPFYjzjLYeHebGAbv1L68vLvsHyT+d28TzbRhzm+cwW0vWL91576cU/ZAnEIL7k2HQ
-         0xpmVRqxlhrU6qY+OP/OlGYekLYyyqis3zXUknKmVJFj5WplPitoSvuTM5fJJkZzOgMM
-         gjbbfreZPEQ3o7Wq6dzO5VhXdAEWj7kIwewu+4w0B+R3SApF33UN47M0SZZL2ihhUXWX
-         qTPdc0gNc63ciYxk3Jssf560MnOkhBSo9+izWgSR4aTrToUPSfMM+U/8FuxZWwgH06Uj
-         1rwJhIzkfIkAddJxZaiPGRzO7Ny78us9kUm733MP5xZU8+o2H87RBJt9Ce+UuapUWPa0
-         t7jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793870544; x=1794475344;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0Kd7lcxkbZIwUjBS8lUhNN+9PpJV88FFRkU7HIQmzBg=;
-        b=CBZdwrEQAleutR/GIhEEk0/be0Qf8yNv8egZsJ6imtl/pIZ3EHcdSRwU5QJJ1N57VI
-         oyfFhX/NRoJJBHuhe6UVXjgn8hpnlI9BqrE0J4ifILd+g528zbrDgL7u4oyjiQyL/4Oy
-         3IWmbs7QGxG1c/Ak+ivhkrYYWDObkFtlNihMzTOldAFQ7gw+WHZoudtBTDmJMb0TfuIB
-         436UDkHFPz1nRIEdGBRbuBsZQpfFTTz2ncX1WIydUd4ntk6Eaow6kOCKw/Ojrfdh5E5U
-         DlOe2DUR9n/UQfUm0lsyeZPrbGNKBtBP/nRjxveFrtwzFtwfEYW+njs671qKN/mvS9cB
-         kFOQ==
-X-Forwarded-Encrypted: i=1; AKwUvByMlaxrQNRLhQ/CsqH700qATilzid8FV8WPh2NyPyFC/7KS3oX4BtmXqBMcU6CKumWzCARO0GPLy4s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+HtsQVem6OMbZ604UZqKc3BYnWpMUBzuKdCfQ98IbHDA2rP8Ql
-	5l8FTlWvtal+gJ/1Qp6tEi/T7xv2bvMXihE9DN5USuxkanyac+wT4fC1Qv63ySyOdRI=
-X-Gm-Gg: AYBFou0o3rZv+IW7ir+cYNkBOz+HnIZNiF/Q6O2CqrfaLO/RCtBmBRI4tSWdAhRDBKf
-	FrV0HcaOE14IoECbK3OB3q5I/pfGkn+cAENccVJc9Jsao4tk5iGK+kc8LXCky48Aw0e8BFMbdYm
-	Zip7LPhL+KRybf4x8+TO0o9cJ+Fh+P64zg2c22Brj0yAAOKDDBScO6xUf9vFB7P8IyhlrWNusCq
-	ZAGbg0a7/HBnMnhRsx9I3l79qmkgO/4StrS6hAxhUFx5UQi/AhZxTE8nr+paX9EMdejBi/9ZfLq
-	d63manbGdM9zhn6WdV97p5niE5pVDB1UXY8uRHRSazLprvZV5LKuHJYN49leu7mxo20lJnc9OZ7
-	6BfMoVeTwhFq0KgpzK6E7bLrNAiItfCmk+Z0kSTHBw+YKc8lfU/KsnYGN3QRJR+g52JWht1T1Mv
-	Y3fVwGPcP8rmBZNWOmVwa0lLo5JioK1s4mF1U7GkyzScCYRym356BMYNbPE8Q4oDiFOeQrnOwKk
-	u4ilOEK0PgA8SLlRB2kMQTSv57FzsKOvH4xGdqCVD/EeT9DziaPR3FmFxffz2YQzWcDUwze54zs
-	9CXhhGpLUG97n7Piz5ojoSF8DdaB+dChq+ANJHjI3lVO
-X-Received: by 2002:a05:6000:4b0b:b0:48d:db77:d124 with SMTP id ffacd0b85a97d-48e6e2db9e1mr40274489f8f.6.1793870543797;
-        Thu, 05 Nov 2026 01:22:23 -0800 (PST)
-Received: from [192.168.0.116] ([81.79.79.1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48fec9cd43bsm8686341f8f.14.2026.11.05.01.22.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 01:22:23 -0800 (PST)
-Message-ID: <a9f016ce-f086-412d-9ca6-6608a41840e5@ursulin.net>
-Date: Thu, 5 Nov 2026 09:22:22 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=WjVvJR2t
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C866E19F6;
+	Thu,  5 Nov 2026 01:22:52 -0800 (PST)
+Received: from localhost (unknown [10.2.196.114])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7D05D3F628;
+	Thu,  5 Nov 2026 01:22:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1793870575; bh=3ADmQIxAo8HDM9v3jLMAtpR5tdAcgtAcz2GrlhHdH0M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WjVvJR2tAoFJSufvpND4tfqyE+S7lXAB15rdV43IYRwoa05K89GDHf2rs4DM15kCe
+	 eK6nxhLWcUYRKamtKzGFDQHr8ywB/C86Ioujk6V61bYHa93TFkNhVnnrL6U+V9o6h9
+	 00JeJ1XMwFX1sgh7mCiAKJNbQSmjj95+kxrw+MR0=
+Date: Thu, 5 Nov 2026 09:22:53 +0000
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Leo Yan <leo.yan@linux.dev>, Adrian Hunter <adrian.hunter@intel.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@arm.com>, Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suyash Mahar <smahar@meta.com>, Amir Ayupov <aaupov@fb.com>,
+	linux-arm-kernel@lists.infradead.org, coresight@lists.linaro.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Arnaldo Carvalho de Melo <acme@redhat.com>,
+	linux-doc@vger.kernel.org, John Garry <john.garry@linux.dev>
+Subject: Re: [PATCH v3 15/18] perf auxtrace: cs-etm: Capture wrapped snapshots
+Message-ID: <20261105092253.GO9176@e132581.arm.com>
+References: <20261102-james-cs-unformatted-per-thread-fix-v3-0-dbcb0c281b9b@linaro.org>
+ <20261102-james-cs-unformatted-per-thread-fix-v3-15-dbcb0c281b9b@linaro.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,352 +76,30 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] accel/rocket: Report NPU usage through fdinfo
-To: Sidong Yang <sidong.yang@furiosa.ai>, Tomeu Vizoso
- <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>
-Cc: Gyeyoung Baek <gye976@gmail.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261103155338.1949294-1-sidong.yang@furiosa.ai>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20261103155338.1949294-1-sidong.yang@furiosa.ai>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-james-cs-unformatted-per-thread-fix-v3-15-dbcb0c281b9b@linaro.org>
 
+On Mon, Nov 02, 2026 at 12:15:29PM +0000, James Clark wrote:
 
-On 03/11/2026 15:53, Sidong Yang wrote:
-> There is no way to tell how much of the NPU a client uses. Implement the
-> DRM usage stats: account the time each job occupies a core and report
-> it per client as drm-engine-npu, along with drm_show_memory_stats() for
-> the BOs.
-> 
-> The cores are identical, so they are reported as a single engine with
-> drm-engine-capacity-npu set to rdev->max_cores, the number of core
-> slots. The time is summed over all cores, with an atomic counter as the
-> cores complete jobs concurrently.
-> 
-> Jobs can outlive the file that submitted them, so the counter is
-> refcounted and each job holds a reference. The time covers the whole
-> period a job owns a core, so it also includes handling the completion
-> interrupt and the gaps between the tasks of a multi-task job.
-> 
-> Document the keys in the rocket driver documentation.
-> 
-> Signed-off-by: Sidong Yang <sidong.yang@furiosa.ai>
-> ---
-> v4: Report a single drm-engine-npu key with drm-engine-capacity-npu,
->      instead of drm-engine-npu0..2, as drm-usage-stats.rst specifies for
->      a group of identical engines, and document the keys (Tomeu Vizoso).
->      The subject no longer says per-core. Gyeyoung's tags are dropped as
->      the accounting changed.
-> 
->      Still depends on commit 6eff1d69dae8 ("accel/rocket: search every
->      core slot when a core is removed") for rdev->max_cores.
-> 
-> v3: Add a rocket_engine_usage_create() helper for the counter
->      allocation in rocket_open(), to pair with
->      rocket_engine_usage_destroy() (Gyeyoung Baek).
-> 
-> v2: Size the per-core counters by rdev->max_cores, the number of core
->      slots, instead of the number of cores bound when the file is opened.
->      Sashiko reported the out-of-bounds read and Gyeyoung Baek reproduced
->      it with KASAN.
-> 
-> Link to v3: https://lore.kernel.org/all/20261103104804.1887489-1-sidong.yang@furiosa.ai/
-> Link to v2: https://lore.kernel.org/all/20261101152723.1430312-1-sidong.yang@furiosa.ai/
-> Link to v1: https://lore.kernel.org/all/20261031083642.1076356-1-sidong.yang@furiosa.ai/
-> 
->   Documentation/accel/rocket/index.rst  | 28 +++++++++++
->   Documentation/gpu/drm-usage-stats.rst |  1 +
->   drivers/accel/rocket/rocket_drv.c     | 70 ++++++++++++++++++++++++++-
->   drivers/accel/rocket/rocket_drv.h     | 15 ++++++
->   drivers/accel/rocket/rocket_job.c     |  7 +++
->   drivers/accel/rocket/rocket_job.h     |  4 ++
->   6 files changed, 123 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/accel/rocket/index.rst b/Documentation/accel/rocket/index.rst
-> index 70f97bccf100..53c9aa7e2229 100644
-> --- a/Documentation/accel/rocket/index.rst
-> +++ b/Documentation/accel/rocket/index.rst
-> @@ -17,3 +17,31 @@ project.
->   Hardware currently supported:
->   
->   * RK3588
-> +
-> +.. _rocket-usage-stats:
-> +
-> +Rocket DRM client usage stats implementation
-> +============================================
-> +
-> +The accel/rocket driver implements the DRM client usage stats specification as
-> +documented in :ref:`drm-client-usage-stats`.
-> +
-> +The NPU cores are reported as a single engine, npu, with a capacity equal to the
-> +number of cores. The time is summed over all cores, and covers the whole period
-> +a job occupies a core.
-> +
-> +Example of the output showing the implemented key value pairs:
-> +
-> +::
-> +
-> +        pos:	0
-> +        flags:	02400002
-> +        mnt_id:	33
-> +        ino:	749
-> +        drm-driver:	rocket
-> +        drm-client-id:	246
-> +        drm-engine-npu:	2296549300 ns
-> +        drm-engine-capacity-npu:	3
-> +        drm-total-memory:	24216 KiB
-> +        drm-shared-memory:	0
-> +        drm-active-memory:	1920 KiB
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index 70b7cfcc194f..288764730d23 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -218,3 +218,4 @@ Driver specific implementations
->   * :ref:`panthor-usage-stats`
->   * :ref:`xe-usage-stats`
->   * :ref:`amdxdna-usage-stats`
-> +* :ref:`rocket-usage-stats`
-> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/rocket_drv.c
-> index 2bcfe4ab3c68..e22e8623db64 100644
-> --- a/drivers/accel/rocket/rocket_drv.c
-> +++ b/drivers/accel/rocket/rocket_drv.c
-> @@ -3,8 +3,10 @@
->   
->   #include <drm/drm_accel.h>
->   #include <drm/drm_drv.h>
-> +#include <drm/drm_file.h>
->   #include <drm/drm_gem.h>
->   #include <drm/drm_ioctl.h>
-> +#include <drm/drm_print.h>
->   #include <drm/rocket_accel.h>
->   #include <linux/clk.h>
->   #include <linux/err.h>
-> @@ -68,6 +70,38 @@ rocket_iommu_domain_put(struct rocket_iommu_domain *domain)
->   	kref_put(&domain->kref, rocket_iommu_domain_destroy);
->   }
->   
-> +static struct rocket_engine_usage *
-> +rocket_engine_usage_create(void)
-> +{
-> +	struct rocket_engine_usage *usage;
-> +
-> +	usage = kzalloc_obj(*usage);
-> +	if (!usage)
-> +		return NULL;
-> +	kref_init(&usage->kref);
-> +
-> +	return usage;
-> +}
-> +
-> +static void
-> +rocket_engine_usage_destroy(struct kref *kref)
-> +{
-> +	kfree(container_of(kref, struct rocket_engine_usage, kref));
-> +}
-> +
-> +struct rocket_engine_usage *
-> +rocket_engine_usage_get(struct rocket_file_priv *rocket_priv)
-> +{
-> +	kref_get(&rocket_priv->engine_usage->kref);
-> +	return rocket_priv->engine_usage;
-> +}
-> +
-> +void
-> +rocket_engine_usage_put(struct rocket_engine_usage *usage)
-> +{
-> +	kref_put(&usage->kref, rocket_engine_usage_destroy);
-> +}
-> +
->   static int
->   rocket_open(struct drm_device *dev, struct drm_file *file)
->   {
-> @@ -86,10 +120,17 @@ rocket_open(struct drm_device *dev, struct drm_file *file)
->   	}
->   
->   	rocket_priv->rdev = rdev;
-> +
-> +	rocket_priv->engine_usage = rocket_engine_usage_create();
-> +	if (!rocket_priv->engine_usage) {
-> +		ret = -ENOMEM;
-> +		goto err_free;
-> +	}
+> Add auxtrace_record__monotonic_find_snapshot() and use it for Coresight.
+> A monotonic head can't be auto-detected in the default find_snapshot()
+> by checking if head > buffer size, because before the first wrap a
+> monotonic head looks the same as a wrapped one. The search would then
+> falsely detect a wrap when head is near the end of the buffer, and the
+> wrapped pointer fixup moves 'old' and 'head' a whole buffer ahead of the
+> driver's head. With a wrapped head that doesn't matter because only the
+> offset within the buffer is used, but with a monotonic head the next
+> snapshot would either save already saved data again or drop up to a
+> buffer's worth of new data.
 
-Glanced over this patch by chance and it very reminded me of 
-drm_sched_entity_stats tracking. That object is reference counted by the 
-entity so I think it would satisfy your requirements. We would only need 
-to add an accessor like drm_sched_entity_get_runtime() and just call it 
-from rocket. Thoughts?
+As mentioned, the default find_snapshot() can falsely report a wrap,
+which now prevents us from using it for the monotonic-head case.
+However, I don't think this block consolidation; I see the decision
+not to consolidate as a design preference.
 
-Regards,
+If an AUX driver transitions from an arbitrary head to a monotonic head
+in the future, we might still need to consolidate the find_snapshot()
+implementations.
 
-Tvrtko
-
-> +
->   	rocket_priv->domain = rocket_iommu_domain_create(rdev->cores[0].dev);
->   	if (IS_ERR(rocket_priv->domain)) {
->   		ret = PTR_ERR(rocket_priv->domain);
-> -		goto err_free;
-> +		goto err_put_engine_usage;
->   	}
->   
->   	file->driver_priv = rocket_priv;
-> @@ -109,6 +150,8 @@ rocket_open(struct drm_device *dev, struct drm_file *file)
->   	mutex_destroy(&rocket_priv->mm_lock);
->   	drm_mm_takedown(&rocket_priv->mm);
->   	rocket_iommu_domain_put(rocket_priv->domain);
-> +err_put_engine_usage:
-> +	rocket_engine_usage_put(rocket_priv->engine_usage);
->   err_free:
->   	kfree(rocket_priv);
->   err_put_mod:
-> @@ -125,6 +168,7 @@ rocket_postclose(struct drm_device *dev, struct drm_file *file)
->   	mutex_destroy(&rocket_priv->mm_lock);
->   	drm_mm_takedown(&rocket_priv->mm);
->   	rocket_iommu_domain_put(rocket_priv->domain);
-> +	rocket_engine_usage_put(rocket_priv->engine_usage);
->   	kfree(rocket_priv);
->   	module_put(THIS_MODULE);
->   }
-> @@ -139,7 +183,28 @@ static const struct drm_ioctl_desc rocket_drm_driver_ioctls[] = {
->   	ROCKET_IOCTL(FINI_BO, fini_bo),
->   };
->   
-> -DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
-> +static void rocket_show_fdinfo(struct drm_printer *p, struct drm_file *file)
-> +{
-> +	struct rocket_device *rdev = to_rocket_device(file->minor->dev);
-> +	struct rocket_file_priv *rocket_priv = file->driver_priv;
-> +
-> +	/*
-> +	 * This is an estimate: the time is taken around the whole period a job
-> +	 * occupies a core, so it also covers handling the completion interrupt
-> +	 * and, for a job made of several tasks, the gaps between them.
-> +	 */
-> +	drm_printf(p, "drm-engine-npu:\t%lld ns\n",
-> +		   atomic64_read(&rocket_priv->engine_usage->elapsed_ns));
-> +	drm_printf(p, "drm-engine-capacity-npu:\t%u\n", rdev->max_cores);
-> +
-> +	drm_show_memory_stats(p, file);
-> +}
-> +
-> +static const struct file_operations rocket_accel_driver_fops = {
-> +	.owner = THIS_MODULE,
-> +	DRM_ACCEL_FOPS,
-> +	.show_fdinfo = drm_show_fdinfo,
-> +};
->   
->   /*
->    * Rocket driver version:
-> @@ -150,6 +215,7 @@ static const struct drm_driver rocket_drm_driver = {
->   	.open			= rocket_open,
->   	.postclose		= rocket_postclose,
->   	.gem_create_object	= rocket_gem_create_object,
-> +	.show_fdinfo		= rocket_show_fdinfo,
->   	.ioctls			= rocket_drm_driver_ioctls,
->   	.num_ioctls		= ARRAY_SIZE(rocket_drm_driver_ioctls),
->   	.fops			= &rocket_accel_driver_fops,
-> diff --git a/drivers/accel/rocket/rocket_drv.h b/drivers/accel/rocket/rocket_drv.h
-> index 2c673bb99ccc..495d8b4a4d43 100644
-> --- a/drivers/accel/rocket/rocket_drv.h
-> +++ b/drivers/accel/rocket/rocket_drv.h
-> @@ -16,6 +16,16 @@ struct rocket_iommu_domain {
->   	struct kref kref;
->   };
->   
-> +/*
-> + * Time the cores have spent running a client's jobs, in nanoseconds, summed over
-> + * all cores. Jobs hold a reference, as they can outlive the file that submitted
-> + * them.
-> + */
-> +struct rocket_engine_usage {
-> +	struct kref kref;
-> +	atomic64_t elapsed_ns;
-> +};
-> +
->   struct rocket_file_priv {
->   	struct rocket_device *rdev;
->   
-> @@ -24,9 +34,14 @@ struct rocket_file_priv {
->   	struct mutex mm_lock;
->   
->   	struct drm_sched_entity sched_entity;
-> +
-> +	struct rocket_engine_usage *engine_usage;
->   };
->   
->   struct rocket_iommu_domain *rocket_iommu_domain_get(struct rocket_file_priv *rocket_priv);
->   void rocket_iommu_domain_put(struct rocket_iommu_domain *domain);
->   
-> +struct rocket_engine_usage *rocket_engine_usage_get(struct rocket_file_priv *rocket_priv);
-> +void rocket_engine_usage_put(struct rocket_engine_usage *usage);
-> +
->   #endif
-> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
-> index ce994748dd5d..e613fae133e4 100644
-> --- a/drivers/accel/rocket/rocket_job.c
-> +++ b/drivers/accel/rocket/rocket_job.c
-> @@ -13,6 +13,7 @@
->   #include <linux/iommu.h>
->   #include <linux/platform_device.h>
->   #include <linux/pm_runtime.h>
-> +#include <linux/sched/clock.h>
->   
->   #include "rocket_core.h"
->   #include "rocket_device.h"
-> @@ -265,6 +266,7 @@ static void rocket_job_cleanup(struct kref *ref)
->   	unsigned int i;
->   
->   	rocket_iommu_domain_put(job->domain);
-> +	rocket_engine_usage_put(job->engine_usage);
->   
->   	dma_fence_put(job->done_fence);
->   	dma_fence_put(job->inference_done_fence);
-> @@ -351,6 +353,7 @@ static struct dma_fence *rocket_job_run(struct drm_sched_job *sched_job)
->   
->   	scoped_guard(mutex, &core->job_lock) {
->   		core->in_flight_job = job;
-> +		job->start_ns = local_clock();
->   		rocket_job_hw_submit(core, job);
->   	}
->   
-> @@ -379,6 +382,9 @@ static void rocket_job_handle_irq(struct rocket_core *core)
->   				return;
->   			}
->   
-> +			atomic64_add(local_clock() - core->in_flight_job->start_ns,
-> +				     &core->in_flight_job->engine_usage->elapsed_ns);
-> +
->   			iommu_detach_group(NULL, iommu_group_get(core->dev));
->   			dma_fence_signal(core->in_flight_job->done_fence);
->   			pm_runtime_put_autosuspend(core->dev);
-> @@ -587,6 +593,7 @@ static int rocket_ioctl_submit_job(struct drm_device *dev, struct drm_file *file
->   
->   	rjob->rdev = rdev;
->   	rjob->domain = rocket_iommu_domain_get(file_priv);
-> +	rjob->engine_usage = rocket_engine_usage_get(file_priv);
->   
->   	ret = drm_sched_job_init(&rjob->base,
->   				 &file_priv->sched_entity,
-> diff --git a/drivers/accel/rocket/rocket_job.h b/drivers/accel/rocket/rocket_job.h
-> index 4ae00feec3b9..14aa78aebc99 100644
-> --- a/drivers/accel/rocket/rocket_job.h
-> +++ b/drivers/accel/rocket/rocket_job.h
-> @@ -38,6 +38,10 @@ struct rocket_job {
->   
->   	struct rocket_iommu_domain *domain;
->   
-> +	/* When the job was handed to a core, and where to account the time */
-> +	u64 start_ns;
-> +	struct rocket_engine_usage *engine_usage;
-> +
->   	struct kref refcount;
->   };
->   
-> 
-> base-commit: a1e63ab695ad76850ab9787b9eb6aab695dc2965
-> prerequisite-patch-id: 519bcdfdde80d902309c8346f749ebc4bb6b29c0
-
+Reviewed-by: Leo Yan <leo.yan@arm.com>
