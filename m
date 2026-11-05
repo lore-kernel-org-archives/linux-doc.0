@@ -1,100 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.218.54
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793837167;
-	b=dhUNg1tQgZLfadOStRdd1Qs51ZuMpMJwUkeYu9wm1dE4yUiAWg3mDE1Jp60rzJ4E0Lj0
-	 a4JosISEvkWTHr2b1XM5Etb4iNvanWq/u4PgNajZrLEk52HrFL0INv9+NPDA5dJEZDXEY
-	 YpBqWuzxFKZZ8kp1iccX2Egt+sAE2b6dIGALx02hSgZKARSdIWpeme/GvKp2U/TW4K7k7
-	 GvvGJmqPLyJS/5b8KXtU3N+q5d+PWCBUoXiUYR49Bd25DMcCCAHZdBGX8yNnOKaKnmL6C
-	 9T88+QOKAEL4o0p5w10OVOXMeEUx3XgClzIDdVCspkQlDYIP9RlZhZ562BAg9t95+7A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793837167;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793837362;
+	b=ZvPX+EycCGqGJTKQ1vGXhYj37wT4emSdlQYGVZomNGksnQgL2Cje63PwW6bxVkszqCdq
+	 jT6WQ+pUeVzRv2vJZNnIgY5zQ8L6t3mPpa6vwEa2q+9aYEN7cXV0nhlTw3ELDc3qL9F/q
+	 IIhpZ57ze8Wd2obNhXZx6/SOOt2Qphuxsk/qyNIFwGgq6hfbrZDFx3NBi3NK+KnjcNtQi
+	 fPsJwwShsrNbfK3/1XJJWgmtxQEX2qurBVCJJo2dsaeRuLDrTpVkfhPQ35fJ100/3nwaL
+	 v0rSZ+wjIDPvm8ZT1lrw6AMZHFtMsJrapOhUp/WrDeo0rTxtaqJGfWHFadFZUb3/amw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793837362;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=rBao9fgm6zvnqMZ/xw9mMi296PqW8mAwycCLa5M4/yo=;
-	b=LeWbu5OjOM00jhv/boTQVADAMP2Q4AMkOQ3k9qqdrliDqiO63tnXgvh7DeKDD71CXJ4g
-	 5vARmeu9ZEKqpGB7UN8Rm8pvolXxW2ImKCdel1IKVgzRWoyt3jdeZHeHwgo9YlHx+BdZG
-	 OXmiW73Q6sI2TeRUojsIBluH3PmBCpYKEMtAwjFt36nDiHlYM8iSlzVb73XOI/XMW6i9P
-	 1PeGhym5JlJrSn/tXo3nf8qiJpNkyZWtWF+PbFd2u1eBU7ZuUTn7Tz0/JgzoPtHwxrCy/
-	 cQQxeZx7IEkbJ1mxPmvmx2sIHpeIuo2MpQF8HgZ1EADqLT6xMesqcY+RpW5dWYWyfMQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UW7+Lg7r;
-	arc=fail smtp.remote-ip=209.85.218.54
-Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=vIwsFQ9mq4AE+G3auhIPcX8ZrPg+4PCX1f2mZBFZYXw=;
+	b=Y4CETmRNIyPjWw6/fndfqXFC1VWqAvmAJ5ZNfO8dpQ2jmzwjdCmphdh1gFY2yL3m/Wdv
+	 x7rPYluE5yxODibCzLSZ2m8itMTscH03DvGdknwzMEfsdsHutgcztpJVJbY1RuuC/F/RL
+	 ydmTR6H+U6UiRsxa1OnsDCEuF+81drJvDO5BEv7TU4RXrTAAunUCs+Orb14E14lwfl1F3
+	 cg1hCeg3VV9dc1aTRcUWKmQ/9k+cuiNx1p1yZrqcpfbOACmzLV22hikZTfG8d9HULW1tI
+	 uCg8OrEAAY42kCQk/odxGFCw/AhXw331I1uxuSacIEQlP81CTixUE2lmLtCLlA5mxHw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZNLgfPbH;
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E806A606A328
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 00:06:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E806A606A328
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58DF7606A32F
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 00:09:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58DF7606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UW7+Lg7r
-Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c45551fa84eso216383866b.3
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 16:06:06 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793837165; cv=none;
-        d=google.com; s=arc-20260327;
-        b=jqpF9kPc1x4nyVSPiWGLsVIHbqlu9D8ACvlJFmSwhNfYuCOHdtFxejURH7MYXU4Lot
-         kDQHKi2xc9ZygTNAZa3nWEX10XtEh0My9D4buM7s7EztfThYHkBOxXY7uJHRB9X2nqSS
-         Wx160QCsax+kqqksZEL1W/AKKimf/u6gEChxjEU2Sm26kZPEh/12wtOiJ7gSQwQNtVq5
-         hTq3pJvxXwblfZbWnF9YfrFufNyQBTl8mplimZI1LnLmjkK/JtT0VUqK3FkCCMZESTp2
-         NwZJD1/uveUP7eRkTqiX7+lhqlapqaQJw6s7z5MGHFPaW/XQ5m4G/QHQSHZKqoBrXB/I
-         N0lw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=rBao9fgm6zvnqMZ/xw9mMi296PqW8mAwycCLa5M4/yo=;
-        fh=1I//HqMr6HUUrzP56PY1rztw2N593Bq1sYczjVigJjU=;
-        b=hjlyUB4rYSZ72gkj/TVwi+XIXZGtCxTU3whb2kpRzAr1lpXnmN5TOPmcOMJZK6qdtz
-         D+zpbIrdOkRDXjvKJW4sm8ViAUVMVcsF3qUe9IaROyTV8qEjN0yLnOE1N3ThgeuEPPeo
-         1qRc9ROlNeJoRsmNwGYm7GReSM0K3sygum3p6ORWh8udI9aWEKbGtMmSGFe1dXsfgMrk
-         DNXDr9scB6OVLFE9Wir9671FB722+aCc2S1s3ExIDVhjYAsE8fbrCvj7S+1D4EPKb6ll
-         nYQjS8edxQbnKlzc0BaeEy7/sduTTZQU1WIXaXl9KIDrn8Dds+tN5ADBVKf3hEFWF2um
-         Khcg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ZNLgfPbH
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3b0afe09854so183372a91.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 16:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793837165; x=1794441965; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rBao9fgm6zvnqMZ/xw9mMi296PqW8mAwycCLa5M4/yo=;
-        b=UW7+Lg7rFdK2cPOSHdibyhfqd0mNfE52oRphbaahRpCOHjIZJidko9tTbllyzCryjy
-         siNubT2yNT8UsddMzx39cRlaaf4u9pnE+6dIm/dTOyiVwyDFMyx/T503O/SAkgV4IgXs
-         efUG5InyQPdPjXkVj3FyrgQw8Tp3Uwud4aaLkD2TGlBzm2pE66Yo0XieOJu07M7lI+DV
-         gUkNX9hygDXotIY7g19Ob5YY4jcsnCTMlsFTY/Azp5LW+ukD9CKA5AAnTO8zpTJXxWqx
-         5Vgp8TB7FfNb2pRMsONUAcd0wfnBxqAeiMrEDvVnn/35z4BZWsrn2RkRHETiQqHGP/C3
-         KXdg==
+        d=gmail.com; s=20260707; t=1793837362; x=1794442162; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vIwsFQ9mq4AE+G3auhIPcX8ZrPg+4PCX1f2mZBFZYXw=;
+        b=ZNLgfPbH7vUmYfIeS9V0roTfzAAefwyXv0a+VKA/+NezG3VMXCTqt/w41TWm2V7ye2
+         v6JhDIsU5BB+OD9P4libjsoLfnr85WDlefj9L2sBhcdXrNPZUWiWIDjWC/HcBYLjdBum
+         sIOW+6+eZaq6bPwydSTBRK40gesxjKFo3fcBjIQCRmBPutlP/EftFTdPspj6OzXG6Cx8
+         w/MoRgtDoV6JppMpu/WqrXJcg599Xuf19Ip1da7/cLHXvX6Gr6i8ti5xH62iveYJHzGC
+         WSbAZeTIIEFYMSMyLHx3JAb9RONTjCR+vHXfVrLQXyz+8pQowrKLDmn8Mv6n0J3ldINb
+         rXyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793837165; x=1794441965;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rBao9fgm6zvnqMZ/xw9mMi296PqW8mAwycCLa5M4/yo=;
-        b=esSvpjL6ufQiXqibxxUlK/PHDaOUY3dvcp/v3z7dCmI/BbxHV+uDCI0b0XK2Cw3ke0
-         Zrt9p2mB+6Ot+cC3yKIsRsUysmjeJcuSNWs0mKdGvSDI3NuICul8pMgvfxuDGsWsgRpD
-         SV/n1IDhGmtureGF5Ap14R9YFxBD5h+RDZETQR8dItmj8O7ZzBtBSw8cxnN0VOTi6yCX
-         /MKAor6YxvmfoDfnpR8lhDXBJZ7Azem8SIY3wJCBv28Mu3ziCHpsUfb/fkCg/bD7j0CN
-         MMCm36HXWNBLDHgtifHDeBrwLbY9ewYSNqe7K7v2zuxnxV/7oS1kevJHNmAi4lAh2+96
-         lmPQ==
-X-Forwarded-Encrypted: i=1; AKwUvBymV3SrXUWY6HBo3uO3fag01h+nqfeozhfwfYciuY4avY39StNFXivVt0DwH+bDoH1TKaNaWFDVhzk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8IVz/+ayTjjCso134DdTuOBp+lNPkzvXh4ylevbuLruyaB6A7x
-	nPl5WGoI3/ZISlKve9/qRuJuHZEpTWAMdxklcyOywDAhjsU7/gCdK5XoKCY1QDbn2wS8/5arX1J
-	Ou2BLtmX0Pn2Eh0BaIjM/ueDJi+tQSsIjYigTLUKr
-X-Gm-Gg: AYBFou124SiIqnHFm6cL3E4VB7L9t2nNO31ugCGtwZN1thwSm4NElmGQTd76A6Lmv7t
-	aUu5x+a2OqYY/Keodr7j3NH4bBXTg7I4hg7HX2GGyUEFWuJsUW8acnbQx6lpZvmuIIDmVxlV0Bu
-	TP8knL6BuZvS4ljlxGP3Y/l8FcaseYvK1JB6JfKvDpab04EL9t0N2etLTbRNH4mImFoTN6UF6rv
-	JezK7+aNY72m9bLeWRbn3MnDkZiWeyOo2EEByuuUgGUMocrXD1gZFdJcH4SSdL9QBYWhGq3EJ/s
-	l/xySDlk02hpthvKitFXSN/IfC47pxyPg4PEN20OJ/9fsf1dmcb657Hl5K+IMN6gkRa/SlxhRdp
-	P+P+KCxWEq6+GaGY33wE1C8U1drJF9ZLwhsIqXSIhZ+V36KnAxB8uciUPRR3H4nqLQ+mh1Yg=
-X-Received: by 2002:a17:907:3351:b0:c4c:b560:2a71 with SMTP id
- a640c23a62f3a-c4cb5603d9emr979541566b.36.1793837164883; Wed, 04 Nov 2026
- 16:06:04 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793837362; x=1794442162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vIwsFQ9mq4AE+G3auhIPcX8ZrPg+4PCX1f2mZBFZYXw=;
+        b=HMCBM6BIu+YmUjhkcn+Y8QH0+lnbxUOgDnENdauNHsX14WHSaAyHxDSr9mSHS0nu6n
+         hU158WIEymoMwoOegEHamIJXDw9plKN/eZewkyAWmm/oiUl4W0V4Ox2YDoJcv4k00Plp
+         svqo4Bza/I5Llx4eSAfOzE2OqYdmT8RiY+aKz7ReOTQ5Q1LulhDfMbkmTMK1LJSg+C1m
+         jMiZrrXfKDWctmOJCfT9J1ahc7qZg2Y1fktA6V/1zuUARcXwYg676Ndj+TNoNvYa/lUO
+         ApOICXTcxVRM3DVs8A1hs8ymhU/BvOSgng2T6hrv+A1QvtXUKKb1PSGfayN3yLq9F1mY
+         c+hw==
+X-Forwarded-Encrypted: i=1; AKwUvBxA2JncgbXTUhE4d67GgUaIrbIStii+vyBzqn393j9tBbLUsg39zYwNcFOkvfPAPnvRBZfnCG7PSKM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z99S8nR1ELg99nn3Ra2RCcFUsPr4QLUWalUJeXg2TQ3a3a0cCLV
+	cSq4EDJGbGOrTJ0HhBMyMnjZdf561z5byeZHsHwzLPVcaeIN8NXrnxCRwtBDfQ==
+X-Gm-Gg: AYBFou3P0zWXLd/DFVssze03fdCv8m+SL74YPc//iJ4lhtQOHdRsFx0HaUTNnLlx8NN
+	EUzfscmVk9G6KuuC9hIUP6qLKEQDKrHjqhs5kFLDZDYG9RpZXolV8z8M1dzODxLbXEQcXMjV2Fq
+	GzV4dxwidJXOXhc5Ki7Kh+ohRKdA7qUOBwSoTL3sK0sQvThN+d35JxmAzUxexSMLtaQEIr1qqJv
+	yKraVyyj7GRJdCXZgOPpItIxVL2rlpF/yqxemBefbrmWcyaX+lv2kUfkxT/gXKGPkDGHrTZTjVE
+	ibhBvzOd+kEnWbwcvguz78C25Cp1bHlBdHD2LDK2IIuLp1j0sM8G5OqbRSZDg3s7sC3WxINz1un
+	4hjQHukG+V8OvRfdN7NrTppEExlcRxTmQvxeRktkrXWUHb87IDi1quz+75z2L+mIc0kb8cvFBNe
+	ddCKPj0cIBRa5sh9lgaor+pVWIn4k/+5JeaqQ6fFmgkJPrGYxGjyap7T2WL6T/H7KWi/eQwEa2y
+	uOrsb8J2OOzeX3S/rz+r5p/AEOmPE7unpgd5P9vW8nwqYyyqW5eptdjAcWWoV5oyTaAmAC0Z//+
+	a9uQ6zVYBsDunQJLVA4sJUGBpbpQt7vR0Z+/JCKJFGlkiKB9knJm95CQO+P7+hf+sVEZpy3HMPP
+	rWlCjEs8y5rk3AMvl+vBs5zN0lYRAHRzgmW6WYVgEPzFYJbo=
+X-Received: by 2002:a17:90b:2e07:b0:3b0:9e2c:9b5f with SMTP id 98e67ed59e1d1-3b09e2c9e85mr2639557a91.2.1793837361622;
+        Wed, 04 Nov 2026 16:09:21 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b323c18fsm897208a91.4.2026.11.04.16.09.17
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 04 Nov 2026 16:09:20 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v15 00/12] ALSA: virtio: staged capture recovery and PCM ACK handoff
+Date: Thu,  5 Nov 2026 09:09:03 +0900
+Message-ID: <20261105000915.15177-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,80 +103,44 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-9-wusamuel@google.com>
- <20261028134012.01d52e94@pumpkin> <CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
- <20261030100215.6f8e0d4f@pumpkin> <CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
- <20261104142307.431fc12f@pumpkin>
-In-Reply-To: <20261104142307.431fc12f@pumpkin>
-From: Samuel Wu <wusamuel@google.com>
-Date: Wed, 4 Nov 2026 16:05:52 -0800
-X-Gm-Features: AclHuK8Z7yNuvzdyvQXTyXXmXbvszi-XVmOSWc_IPj379xX-z3zgWWYR8Kt4UgU
-Message-ID: <CAG2KctrY6GmVqsKP+fXYCsL6wDR4zp1kdRd7a7uOdCgg_JcMdQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Nov 4, 2026 at 6:23=E2=80=AFAM David Laight
-<david.laight.linux@gmail.com> wrote:
->
-> On Tue, 3 Nov 2026 17:14:26 -0800
-> Samuel Wu <wusamuel@google.com> wrote:
->
-> > On Fri, Oct 30, 2026 at 3:02=E2=80=AFAM David Laight
-> > <david.laight.linux@gmail.com> wrote:
-> > >
-> > > On Thu, 29 Oct 2026 15:05:45 -0700
-> > > Samuel Wu <wusamuel@google.com> wrote:
-> > [...]
-> > > > BY_NAME matches names exactly, like kallsyms_lookup_name(), so they
-> > > > would be different symbols at different addresses. Please correct m=
-e
-> > > > if I'm missing something here!
-> > >
-> > > Only that the user might really want one of the copies.
-> > > Sometimes there is only the copy.
-> >
-> > Good point. I'll have v3 add KALLSYMS_F_PREFIX + pos/next_pos
-> > pagination to cover these. A prefix query for "foo." also finds the
-> > copies when plain foo does not exist (expanded on this in my reply to
-> > Andrii's Oct 30 mail in this thread).
->
-> I'm busy rebasing my patches - they got stamped all over :-(
-> I should get a v3 that applies by the end of the week.
->
-> I will add a 'prefix' variant for you.
-> The 'next symbol matches' flag is exactly that (actually it is a
-> this symbol is a duplicate to avoid issues at the start of the array).
-> So in this case that application would always need to read
-> the next symbol (by name).
+Hi Takashi,
 
-Thanks, that would be helpful. For my v3, I'll keep the lower_bound()
-approach so the two series stay independent, but I can switch over
-once your series lands, so there is only one search over the name
-table.
+This twelve-patch series replaces v14 and is based on
+a4311e9447bbb219044db38897f95be112f46a8a.
 
-> I think it might be more sensible (less pitfalls later on) to return
-> the symbol number - not that of the next one.
+The follow-up closes a PCM ACK race after the core clears stop_operating and
+before sync_stop finishes. If a substream is already stopped with a transfer
+XRUN latched, playback and both capture ACK paths now return -EBADFD before
+they can re-enter the XRUN path and re-arm stop_operating. A transfer XRUN on
+an active stream keeps the existing -EPIPE behavior. A capture tail remains
+available during DRAINING when no transfer XRUN is latched.
 
-What pitfalls were you anticipating? If the current symbol's position
-is returned, userspace needs another ioctl() call and an -ENOENT
-check, to learn that there are no more matches. Alternatively,
-returning the next position means every call pays for a look-ahead,
-which for an unfiltered query walks the module symbols even when
-userspace only wants the first match.
+I reproduced the race in playback and capture. In each baseline run, the ACK
+returned -EPIPE, changed the PCM state to XRUN, and re-armed stop_operating.
+The candidate returned -EBADFD and kept the stream PREPARED with
+stop_operating clear. The capture comparisons cover a synthetic stage-04
+fixture and the real virtio-snd module at stage 12. A separate instrumented
+stage-12 QEMU run placed playback ACK in the core sync_stop handoff window;
+its production playback ACK functions match the candidate source byte for
+byte. The tests also checked the clean DRAINING tail and the latched-XRUN
+case.
 
-Andrii, do you have a preference between the two?
+All twelve cumulative stages built on 7.3.0-rc7-virtio-next-kasan. The six
+ACK/XRUN race comparisons and three ops regression runs completed with exit
+status zero. KASAN and lockdep reported no diagnostics. KCSAN was not enabled.
+The stage-04 fixture logs include ignored notices for five module parameters;
+these are recorded separately from kernel diagnostics. No physical-device
+capture or suspend test was performed.
+
+The harness leaves behavior_passed unset, so the reported behavior is derived
+from the guest serial markers. The attached evidence records source, build,
+image, module, fixture, and serial-log hashes.
+
+Assisted-by: LLM
+
+Thanks,
+Joonho
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
