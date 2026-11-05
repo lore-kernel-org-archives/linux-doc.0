@@ -1,92 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.246
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.117.254.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793869523;
-	b=1QrgvB+KLMd6qwlmXixd1jzL49H1FRLY0/9+DDbAoNoYv9wGDkeU/1o33TIEkfaWZzey
-	 JlJrKq2ypT94WYi+JcTIJz7oEW38LLxj2ma0DcPL2DeGemw3rCC3Kc3LMaVZoKYIC2Sbh
-	 o7jaGdxYVQCiyCEH0DBxwD/xYDagN8mGuH67Yx0pOsGe9XvXaYCL8oE5LAr4AG26LSmDd
-	 gMl6Ndae7GlsAzP1zb6uWXWqWamQlm1nUGHpTdwOlQDfDKCiWZ9KfqBd0PWD+fUBe+BaB
-	 fLDOX6UCNFICtz+Ao4p9tbKS+ok+a4Uo4bjbwwtsBUz/UEpivWxDI91EbE0Nf6XojIw==
+	t=1793869574;
+	b=ma2ImEgwlfbpVIcWxfTfkpeHy4mOWT9BZvl4mvNS4Oorp7c3mQ60mtAfVZ9Y0xX7c7rj
+	 Om9A1t2qSr34HEYqAcFaKqFqFgGhtZLU/n7wMCYf3hqiNqfFU1TWe3alK8ilOCeBnIcLa
+	 IOnUzBRJZZJOmbOU9UTHxL1/9dbG4yq3tmZAcVRX69GeQCcVESEJdkaYqmdwwvUb+V7xJ
+	 0ohu20tudRfY8EuClRQflSG/ISQeJI+yZpr9UagD2YM7WtHUnU6qIwMnx17yzXc2+9cTE
+	 6hSBRlKCElKBqLAq6qoG8c/gAxM8dpsyB3niLteT5a5/YNvxLM7P84YTGkpJ0P1exXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793869523;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=tyXT3V1giPULzTli43gvYizMlTh6ps7zNGmY3FWZQOM=;
-	b=q0iOQus2NO3CwD7bToDrdr853qSDngH4ukvynaXJKlyPrXSU40zeyRvL6Xu/82rjLmmj
-	 u+oGK8XQiXQJ/x3YKvL7DJgOI/hdVCwyk2sc8nBqCZ6mn2WzzrjJUR7o3vUSnJcJKjMUA
-	 kzV5Ttv5KUKG1sd937Zu+mfZr6Q7iBw1f1iCoEOXoDifNE2K5IGnJEzMttKSZXHKYGpXF
-	 E99CrM8HH50uMyGI2Uo43OAyXUyiEu58BAUlm+zrdgDpWO4SKmjhw52wLTnu36gXreyau
-	 ePrsTfdd1WYPQC0kCV/WKBoH3Ds+MGhI8ldSHz7UtgnpTbPcDOUoJEHI9r/0mDEkykQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793869574;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:X-UD-Smtp-Session:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=S/z4MBkJfXgbYdAPBfUZ+O0s/ICHMkGIYV4qN0m0+x8=;
+	b=CdsG/huI9vAoo6zzGqfmiulTa8LquzzoNcwJwJc2rZ8yrdw+RityhzL/3KGtiBxqDbCW
+	 v8bfTSFQXedP0im0MGo853uFJsvIkvmWowqRGYr9KtUk5Zjeh0hloWAAvm12RVgRO3iP/
+	 LakCA8r8s+LFHuqsqJUu2ydyNyzs3v/pOV+NdHLK8ZR+cWq7b2mzo+cTyEjdFtAJPEw8e
+	 3OKkHIPl3i96k/hN0UdJmxnadJmdsQnjIgjmiVl8TYjBxNs/wFXWSna78alY95OtOm3Vm
+	 CSwlIdxary4elSw7aeeOzuLVmFGXXrjZxRTbkV1ugQ2DbjB5PnjoDVb7o50KK+OJxzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=RzjBhvaz;
-	arc=none smtp.remote-ip=91.218.175.246
-Received: from mta0.migadu.com (out-246.mta0.migadu.com [91.218.175.246])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=sang-engineering.com;
+	spf=pass smtp.mailfrom=sang-engineering.com;
+	dkim=pass header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=NU9+OAFW;
+	arc=none smtp.remote-ip=194.117.254.33
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8041606A31B
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 09:05:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D8041606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AB7E606A326
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 09:06:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6AB7E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=RzjBhvaz
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=UGrLw7tJ8SzIUnajBIKmwWZs/FFny8I1ZQMJWZrsm+Q=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793869521; v=1; x=1794474321;
- b=RzjBhvazzFCPfHMBqevNsz5QvRylEPRwFm09vjeAAQVIKtcKwUMAMkkZDdR3zHLdeDf122KC
- DviCH0q1X0zIwTQAeAipZ/8Rpll201Rw9hI96e+HDK1mVm0BZfvhg7vHm5OVYuUx30kptnlWJIj
- apw9ZRKcxU05v7D7pR9otVig=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 8f2b4df41c8b103c;
-	Thu, 05 Nov 2026 09:05:17 +0000
-X-Mizu-Trace-ID: 8f2b4df41c8b103c
-X-Migadu-Flow: FLOW_OUT
-From: Fushuai Wang <fushuai.wang@linux.dev>
-To: ynorov@nvidia.com
-Cc: agordeev@linux.ibm.com,
-	arighi@nvidia.com,
-	borntraeger@linux.ibm.com,
-	bsegall@google.com,
-	corbet@lwn.net,
-	dakr@kernel.org,
-	dietmar.eggemann@arm.com,
-	driver-core@lists.linux.dev,
-	gor@linux.ibm.com,
-	gregkh@linuxfoundation.org,
-	hca@linux.ibm.com,
-	johan@kernel.org,
-	juri.lelli@redhat.com,
-	kprateek.nayak@amd.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux@rasmusvillemoes.dk,
-	meted@linux.ibm.com,
-	mgorman@suse.de,
-	mingo@redhat.com,
-	peterz@infradead.org,
-	rafael@kernel.org,
-	rdunlap@infradead.org,
-	rostedt@goodmis.org,
-	skhan@linuxfoundation.org,
-	sshegde@linux.ibm.com,
-	svens@linux.ibm.com,
-	tglx@kernel.org,
-	vincent.guittot@linaro.org,
-	vschneid@redhat.com,
-	yury.norov@gmail.com
-Subject: Re: [PATCH 3/6] sched: Restore preferred CPUs when hotplug removes the last one
-Date: Thu,  5 Nov 2026 17:05:05 +0800
-Message-Id: <20261105090505.93940-1-fushuai.wang@linux.dev>
-X-Mailer: git-send-email 2.39.2 (Apple Git-143)
-In-Reply-To: <20261101192203.6979-4-ynorov@nvidia.com>
-References: <20261101192203.6979-4-ynorov@nvidia.com>
+	dkim=pass (2048-bit key, unprotected) header.d=sang-engineering.com header.i=@sang-engineering.com header.a=rsa-sha256 header.s=k1 header.b=NU9+OAFW
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=S/z4
+	MBkJfXgbYdAPBfUZ+O0s/ICHMkGIYV4qN0m0+x8=; b=NU9+OAFWHeORWIquBNhf
+	M0joZcSfpQCtKawpVwKZR12Ad75U1ggIFdRs0BtvDxPI3uC/SOtgOrz4uTwjUefO
+	p+dWVBUloNok8SQ6G24RiUmK21shf7RhgBP9G4RsV6gL7Qp3zSeZquAuO4bLK5jW
+	fPxrKkiFC4QpVnWGOFreublFAu2HcQcGpQQlKpYsPVXFRnyEwB2jHv67RLLR4w+L
+	dENoQUtzvt0MCNAVlwSYthMrvr2Z1Ktc48j3J0T+pxBD7q1fW+U03iH1YuFynVlY
+	7GH0vI88GXMJrKN4MqWmNRfboOUHGnwT1bj64G2aSvlVzluxWz8iGP+Y6tdNQjYx
+	iQ==
+Received: (qmail 1080283 invoked from network); 5 Nov 2026 10:06:10 +0100
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 5 Nov 2026 10:06:10 +0100
+X-UD-Smtp-Session: l3s3148p1@wtl9zoNfqOrAwtcC
+Date: Thu, 5 Nov 2026 11:06:09 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
+ tags
+Message-ID: <auxHASG78dTviSz8@shikoro>
+References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
+ <auxDTdfMVS3yazCk@shikoro>
+ <35983c5a-7deb-4b0e-9bd4-981754343200@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -96,35 +69,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <35983c5a-7deb-4b0e-9bd4-981754343200@oss.qualcomm.com>
 
-> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-> index 04b62c16fa8c..98f4f9434965 100644
-> --- a/kernel/sched/core.c
-> +++ b/kernel/sched/core.c
-> @@ -8712,6 +8712,14 @@ int sched_cpu_deactivate(unsigned int cpu)
->  
->  	set_cpu_active(cpu, false);
->  
-> +#ifdef CONFIG_PREFERRED_CPU
-> +	if (cpumask_empty(cpu_preferred_mask)) {
-> +		pr_notice("sched: last preferred CPU%u offlined; make all active CPUs preferred\n",
-> +			  cpu);
-> +		reset_preferred_cpumask();
 
-Hi, Yury
+> Reviewed-by even with the "# subpart" still appears in person's credits
+> and reviewing entire patch of 700 lines of diff code (like Frank's SPI
+> patch) is not the same as 10 diff codes for one driver.
 
-If the CPU being offlined is the only preferred CPU, after
-reset_preferred_cpumask(), the steal governor may still need
-some time to tighten the mask again, and eventually only one
-preferred CPU may remain. Would this introduce additional
-task migration overhead?
+Yes, if you want to spoil that, you'd need to introduce
 
-Regards,
-Fushuai.
-> +	}
-> +#endif
-> +
->  	/*
->  	 * From this point forward, this CPU will refuse to run any task that
->  	 * is not: migrate_disable() or KTHREAD_IS_PER_CPU, and will actively
+	Partly-reviewed-by: ...
+
+or something.
+
