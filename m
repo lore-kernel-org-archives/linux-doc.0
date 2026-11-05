@@ -1,87 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793871010;
-	b=UH8nSItqABI4ifDHrz2MSPNlmgH/X9/A0LRsl3FnRWqM8EsK6YGUSJph/dqN+OqdkWDc
-	 +CJtpnCwvfwC5d3Eigq6HmEAC2wLvUJGgBWZU/FtdcKp5grH8c1y3P/gQ9BJWUvRHyMxh
-	 roi2XyxHBPyq6G8aPRHs/CONdAnpZD0NQgmHtZVdneBORS0TmRmDaGrkSU4noA0eHYYZl
-	 qGEwSBEriOArR9a827lj4Ux3LOLLpvhIKLIMqypqcUg4QdGWp7jzYYp50oH4YIJ69bZ4a
-	 +HlhPUn7U8s9TcD4b7aNG1qSz+y0PI/g17871UHf4RwsGwsM5WmrTwv9L87wvvETzlA==
+	t=1793871733;
+	b=pg++RWzkDxXUZWWt/N1C7IWlB8jTt1E6MvjwGY/5a9og5X1cUKwIKxtILY6Yny8VgH5I
+	 DO4vGU/kd9qTTtGF6mGtxlHs7RyF4CGFYe0dfC0PER8AvMfJfEd0dnCnIjHVh7LwSTMQm
+	 UXTFOsr+mmSicZTUDUlkhvqce6DtrJpRqf87kmHbSGWm9bzZLvOOCNoJLtyi3qB+wC1VC
+	 SLKS1nbD0VgSC5HTSvBa18hTeni4ktOUjLSLJYTUEy7/G9TK7qpEK/RzIVZyM67AR15aR
+	 AJeQ0WaYOBDXNMn1r4lKguwnex5o2BsR3HL8cYXgBE1zp7EmR1oaqdAJsZXZohjphzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793871010;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:Autocrypt:In-Reply-To:Content-Type;
-	bh=QCEsbVvAntiwkUNj9XuXv/+EV+V+S2+h/LkdvF92WZw=;
-	b=z9NK1LahruxOqGLcr9a6A/jCcIE/JFhppUFm58eIv5gwg6q4/+CmeJgGyWsO/dgc36ie
-	 wuw/eaPJskBZ+0yJgLL/mumbOcS8Pdcej5ecvEhurG+uWFIajOTnMV+J+00qt2j2dOyz/
-	 uKilibI/0SrtLd7GhxoeZnO4EusYlmd4s1fu7/eZMUY2IsILQzG5YICqOpxbuhQBjmWo9
-	 o7WFEMKDrWQdTAarx0EFk25p0vYrkY6edMpYK1SpQYZRjK61ptIk0G2elzPF3BfPN9mVZ
-	 yrd5QfKbaJeq15j4D+AN9ssK9xMUNrL71QhpFg9zcNiiJaR8WM4UsX684/qO4KZ7nmg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793871733;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
+	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=DpLYJIWgXoS5zQrloj/RgE/cGCpS34NjW3pzuN6S6xY=;
+	b=1GqkOdKaUa5ipvBDf1aYlLnOj5Ur9rQOYFIs8CyeoTWxUGMsIZ3QmxmyVkGBnPUur8sg
+	 QPqhIaTkS5/WOwxisMroz9Dv7L7bYLTEoZWv0WU+68tnjtkOnHdffY7TABLPv0cDwN4r0
+	 J8/XNxAU0BpUIL+3RBqewHUmSDnFafSnNFVgJ/2WbVhgfEg+5QWFbDU0fCoK7KH2zddFR
+	 K8bWKQtUBDNU8WMEwmC65SJi+4NEPO2GFWK6NwYZIrwvEMAWltZGU6oQk/mu8IwhwmcGR
+	 TNIq///vbAAY70OZH+gO5n/Hq5MCjeR7y1Q0C8cxeR+nmB5W8O1ElNXiRQjk9sEuGvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=CE0ljZyU;
-	arc=none smtp.remote-ip=209.85.218.45
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	dmarc=none header.from=linux-m68k.org;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.222.49
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B646606A33F
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 09:30:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B646606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=CE0ljZyU
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4ceaee6770so244536866b.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 01:30:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793871008; x=1794475808; darn=vger.kernel.org;
-        h=content-type:in-reply-to:autocrypt:from:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=QCEsbVvAntiwkUNj9XuXv/+EV+V+S2+h/LkdvF92WZw=;
-        b=CE0ljZyU3JqjQftBnz7ZG/XvtXqH4zsNnMzzMzlDejAUi9hrCdt6oFvtgRRF1DeLu8
-         L+PSgNGY8z3739K7mt/YvtkA1z7FVGq/ASAsVobJ9JdyHjPtxlU2OhdpX7qKWJJoCEx+
-         D5F8uiTNE89zz/YdsmC94OE9rEqlpegYXPP8KqhRM/bN0GrM6pdItRswUx8T637K0Q7V
-         LycHg2Qg7/eIL6J77aVArF6yYkgeW2F4eDbCKA/Ma2UIHGFZ8ncRQbuyjJUB64f2jErB
-         0IXHJQbsvmIAe6GowuvegvKNeOaHvQgvo3HZO7FymUuFz/tbeUx72/ObWZtxRaJz5Tg9
-         R2ng==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79C6A606A338
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 09:42:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79C6A606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-9906a5410f5so425834241.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 01:42:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793871008; x=1794475808;
-        h=content-type:in-reply-to:autocrypt:from:content-language:references
-         :cc:to:subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QCEsbVvAntiwkUNj9XuXv/+EV+V+S2+h/LkdvF92WZw=;
-        b=FMI6K6D6u98SsRO3S8vvFVv+fSKt2+rNSGr+ZB9JhbJCLZYOeUKJMJ4mIii/X3l1vi
-         rK0H4oxpmKr217NKuinnWbp6koA7Cauj2PnfdTIp6q9uIsUl9C679UqkxZ8q64DgU1LN
-         8F5gk7rS2Ft8Y3AxfOcHDasah+IgJD5phQCSgy4rnljJjzW7yG26gC0ZZPzGtox0PLQB
-         Ve9WbURrZHQqKv+Gd5uv0dknoBnZvn9UpNIWil9wJi27uBBCDXL/WupIwho732LDmyMt
-         vlUuGjUiIaMgLoCQAz9D1vignuLTUnoHVNsM/Fq010LOTJe4xV71b4DJIe6W41IV2D0e
-         7zhw==
-X-Forwarded-Encrypted: i=1; AKwUvByYRG7Kr1/IgQH+wj0KaTH/cgjexk9xupBr4vdbrMKG+V9T1RmGfUd4sU1B6a770Khr3JyP3cPjCw8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8n5HF7X8NXhWstdmP766jZaVlf6kawxoKLoiXqguJEiGuz013C
-	TmuvCUDMLFDYoFK8GAyT097H0dBEuARHk68irTAL9pinNyAT2BkTdoC3uY906loftqE=
-X-Gm-Gg: AYBFou3M06OsvnVBRVx7zkLEYjbsdoUDMqP75UQNKPpp5DPDS5b5OeJg7IWJkYKwJi2
-	piyH/1W43rtFFUuMUdzi/2T9fqoq9PQrwPRBB48fGy/E/2virwdaTLmwyTra/SIVK/wamfNKQba
-	IvMlYxAcAh70j5KrkH8rM+1dZgxykYRjur+1Mv5yijlPc9zjThW41s22HadJ/Zy0YFXPr8mKzAh
-	wtCpdz6719RLQRRmY+X3GSKdYC2HCtIUohXiASx5uSd7NxmXMpeqc6lqIiNRhS3+9FUbI7m4vYc
-	iAl8n4NyIluvxElEYwEbAuZ4cumlhgGyHDTqHplc3Vu7WZ9z5DQJn7fwLa2lFuTm/zM1XiaPZxY
-	M5MMu9PM6pgFYFKxDsomR8RZxP5yv4YjApYWcaAnerg8hdTuh1MfnIOf/HTmRKNjgZ3/nY1dBaV
-	5OgpnAjv5L6hsMRRGzwuo8MJMDhAbr4/A6IQ6jgs9nss1Pt8SCAzWZAQxuZpC9Xi93S/RbYJBOJ
-	xZ6VLKXS+Z6TD66syXCf7n+yCK1CiOlgDHo9zmjsmGxuAsoMuUJpgLjeJY4/RNA4LzfME8YpA49
-	bsWYJGM/kJMmb4yMGbC/kufpgWU4iq34ap8JyFs/1XbXV9Fqdk+1LknT1jNtegUqiC3a5HNrUb7
-	EZbuF1bDhzE5vbux2Y5GjR2FJVmhj8xOlBvCwo+E=
-X-Received: by 2002:a17:906:7309:b0:c46:645f:cedd with SMTP id a640c23a62f3a-c4ca7a18e93mr1702795566b.8.1793871007709;
-        Thu, 05 Nov 2026 01:30:07 -0800 (PST)
-Received: from ?IPV6:2a00:12d0:ae14:da01:7192:20e9:9bab:a518? (2a00-12d0-ae14-da01-7192-20e9-9bab-a518.ip.tng.de. [2a00:12d0:ae14:da01:7192:20e9:9bab:a518])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d0e41e0a8sm156301866b.15.2026.11.05.01.30.07
+        d=1e100.net; s=20260707; t=1793871732; x=1794476532;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=DpLYJIWgXoS5zQrloj/RgE/cGCpS34NjW3pzuN6S6xY=;
+        b=jDfpU6gE8MV/bgn6uWb160pYmoUEGyiSYXwa6X3G2M/u0N9LycPC5PPU6ObFy8FBKs
+         hpN9vfLgpEPjVqx9J/36GaMi++V+Leql4rzLnZH/5pQieweJGMdxVIieWAJsTq0srbWE
+         sA7ds/m8A5Sy48oJqWVtBvPsF4tt2L6Zm3ZBoD1LB46XGPvemwtqu3Dp3SidMWYnLjLL
+         spssPDu4a9yN6N/QejnkpDJRLc1KaFiqaSnoO0OIbwvDoB5z0ZFCM3NawznFUjqnjN+3
+         Pu+pHZZGCKYOKUtycgWttKQVEwPKzHsYTsLCRsYHsUV3J4bXKfnGVVbV+4vhMrKsoXoW
+         a99Q==
+X-Forwarded-Encrypted: i=1; AKwUvByQpy/5mwnNtpu8tHp+yeAdcsWnO3bae1BOR6f+RAgTtbCv5Lqc5Y0iy/XI5jUUSTHinAu1c0+xXIs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z99FQn9vCFmOXJR6GqAIPEgyE1yxS+owlc9VtPswEoBjfKtm4h5
+	fLgcoZMQTNXjeJnF7hTJVVGbIGqKoKMDcq+F3cjUKrDuj9pD54IOf8pzxw3ZR/+kkg4=
+X-Gm-Gg: AYBFou0Jkl1oMA69Ej5IpB0qmtiTTRQY84KJ4ah7ukA0kHFGvVBvDzU7WvC4SPPS/CQ
+	yyCx3+jgZ6x5pL8m+vosGm7h4D/V3etGW4zP2+vGxoPB0eZPy/0Tg98PKilxSdwpIpzPf8jCw+B
+	JE3QFjoraef2Mectj6XSL6OPrMWEfOQUlTEVB4YlG/v5Y+R05DBzPflDRaBRFygqH33ZPgfHNj9
+	vzsTRTg80d1pIDTzeGi3/rvxX7L2hK9a1QFm2zuBvHdvrEEvpNutU8AoEPUXVLtLVslfeHoBsxX
+	ZjtVn8IbbZePTc7JI+MR11xDDslFB7lMiYa2ZBQSsMTF/C2v9d/3+rmiowvB83XObkCpwQl6DIN
+	iAwVRNqmdZH6PalD+PnZ5wSxRgWcZrnd9NEK1SMPmRurRz5g1Nvr/1jXbr6iGgLG9jWTmeRn3iR
+	Jiee+40S2ngVeo7YnhUBHOjr63+CJCShUTQF9V5j+NOOULJCJr7tzN551bLQ176rr3nA+OLbAST
+	UOh7p+WyuQTGf7LKuzmvD1+E3/hfZGPmVpdwhHNO1ITi1IDU21KIcYMF/Mtx9zDBWSI0Lcz3n3M
+	OlZMknisei2Q1v+qDIAmkT0HLwmBMeTT4o1+9BuOdWo1IbduXCyCYxyOk8sP13jC4dOMmw==
+X-Received: by 2002:a05:6102:5106:b0:7ca:866:7217 with SMTP id ada2fe7eead31-7d2867454bdmr1090334137.6.1793871732321;
+        Thu, 05 Nov 2026 01:42:12 -0800 (PST)
+Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eca8d9d62bsm3680046e0c.8.2026.11.05.01.42.11
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2026 01:30:07 -0800 (PST)
-Message-ID: <37ae7a7d-5d1d-4571-b5aa-a793f058407c@suse.com>
-Date: Thu, 5 Nov 2026 10:30:06 +0100
+        Thu, 05 Nov 2026 01:42:12 -0800 (PST)
+Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5ead9f60e26so466354e0c.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 01:42:11 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AKwUvBwdWkIklgAXun0HO3d0Q3HmFF8f9aipVchBV1dxwCZ6H+9NBmDAw792r3MgMESnFP8GVFB55KJYMgk=@vger.kernel.org
+X-Received: by 2002:a05:6102:3709:b0:7ca:5626:11e with SMTP id
+ ada2fe7eead31-7d286b7fa17mr1126485137.36.1793871283167; Thu, 05 Nov 2026
+ 01:34:43 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,153 +80,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
- tags
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
- <auxKHF7U1x_Ozwpm@ashevche-desk.local>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <auxKHF7U1x_Ozwpm@ashevche-desk.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------KiqSlvBv8iyFxlUX7TMDgPwE"
+References: <20261105044046.52180-1-dennylin0707@gmail.com>
+In-Reply-To: <20261105044046.52180-1-dennylin0707@gmail.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Thu, 5 Nov 2026 10:34:32 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWzY9YRnGz1Y_60RYP7TH67q8fxi1VNWwkhhc0EUeSCFw@mail.gmail.com>
+X-Gm-Features: AclHuK8PYnqOIDpZItZg042mTleQ6jUe2E1wddINt5GGmEiia8n8vhGDZzRowiM
+Message-ID: <CAMuHMdWzY9YRnGz1Y_60RYP7TH67q8fxi1VNWwkhhc0EUeSCFw@mail.gmail.com>
+Subject: Re: [PATCH] omfs: remove the filesystem
+To: Hungyu Lin <dennylin0707@gmail.com>
+Cc: me@bobcopeland.com, willy@infradead.org, brauner@kernel.org, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, akpm@linux-foundation.org, 
+	corbet@lwn.net, skhan@linuxfoundation.org, tsbogend@alpha.franken.de, 
+	maddy@linux.ibm.com, linux-karma-devel@lists.sourceforge.net, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------KiqSlvBv8iyFxlUX7TMDgPwE
-Content-Type: multipart/mixed; boundary="------------Tk9D3n0xFwddgTNKLbe0ptak";
- protected-headers="v1"; hp="clear"
-Message-ID: <37ae7a7d-5d1d-4571-b5aa-a793f058407c@suse.com>
-Date: Thu, 5 Nov 2026 10:30:06 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: submitting-patches: Clarify half-baked review
- tags
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Wolfram Sang <wsa+renesas@sang-engineering.com>
-References: <20261105082729.19622-2-krzysztof.kozlowski@oss.qualcomm.com>
- <auxKHF7U1x_Ozwpm@ashevche-desk.local>
-Content-Language: en-US
-From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
-Autocrypt: addr=jgross@suse.com; keydata=
- xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
- ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
- dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
- NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
- XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
- AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
- CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
- mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
- G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
- kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
- Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
- RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
- vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
- sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
- aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
- w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
- auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
- 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
- fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
- HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
- QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
- ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
-In-Reply-To: <auxKHF7U1x_Ozwpm@ashevche-desk.local>
+On Thu, 5 Nov 2026 at 05:41, Hungyu Lin <dennylin0707@gmail.com> wrote:
+> OMFS supports the on-disk format used by the long-discontinued Rio Karma
+> music player and ReplayTV DVR. While reviewing a fix for incorrect block
+> mapping on writes starting beyond EOF, Matthew suggested removing the
+> filesystem instead of continuing to maintain it.
+>
+> Existing OMFS media can still be accessed using an older kernel with OMFS
+> support.
+>
+> Remove the driver, its documentation and build configuration, the
+> defconfig entries, and its name from the statmount selftest's filesystem
+> list.
+>
+> Suggested-by: Matthew Wilcox <willy@infradead.org>
+> Signed-off-by: Hungyu Lin <dennylin0707@gmail.com>
 
---------------Tk9D3n0xFwddgTNKLbe0ptak
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+>  arch/m68k/configs/amiga_defconfig             |   1 -
+>  arch/m68k/configs/apollo_defconfig            |   1 -
+>  arch/m68k/configs/atari_defconfig             |   1 -
+>  arch/m68k/configs/bvme6000_defconfig          |   1 -
+>  arch/m68k/configs/hp300_defconfig             |   1 -
+>  arch/m68k/configs/mac_defconfig               |   1 -
+>  arch/m68k/configs/multi_defconfig             |   1 -
+>  arch/m68k/configs/mvme147_defconfig           |   1 -
+>  arch/m68k/configs/mvme16x_defconfig           |   1 -
+>  arch/m68k/configs/q40_defconfig               |   1 -
+>  arch/m68k/configs/sun3_defconfig              |   1 -
+>  arch/m68k/configs/sun3x_defconfig             |   1 -
 
-T24gMDUuMTEuMjYgMTA6MTksIEFuZHkgU2hldmNoZW5rbyB3cm90ZToNCj4gT24gVGh1LCBO
-b3YgMDUsIDIwMjYgYXQgMDk6Mjc6MzBBTSArMDEwMCwgS3J6eXN6dG9mIEtvemxvd3NraSB3
-cm90ZToNCj4+IFJlZmFjdG9yaW5nIG9mIGRyaXZlciBzdWJzeXN0ZW1zIG9yIHNvbWUgY29y
-ZSBkcml2ZXIgcGFydHMgb2Z0ZW4gY29tZQ0KPj4gd2l0aCBjaGFuZ2Ugb2YgdGhlIGFjdHVh
-bCBkcml2ZXJzLiAgSWYgdGhhdCBoYXBwZW5zIHdpdGhpbiBvbmUgcGF0Y2gsDQo+PiBwZW9w
-bGUgZ2l2aW5nICJSZXZpZXdlZC1ieSIgdGFnIG9ubHkgdG8gcGllY2Ugb2YgdGhlIHBhdGNo
-LCBsaWtlIG9uZQ0KPj4gZHJpdmVyLCBhbmQgaWdub3JpbmcgdGhlIHJlc3QgaW5jbHVkaW5n
-IHRoZSBtYWluIGNvbmNlcHQgb2YgdGhlIHBhdGNoLA0KPj4gYXJlIG5vdCByZWFsbHkgcmV2
-aWV3aW5nICJ0aGUgcGF0Y2giLg0KPj4NCj4+IEFzIGV4cGxhaW5lZCBpbiB0aGUgU3VibWl0
-dGluZyBQYXRjaGVzIGRvY3VtZW50LCB0aGUgIlJldmlld2VyJ3MNCj4+IHN0YXRlbWVudCBv
-ZiBvdmVyc2lnaHQiIGlzIGZvciBwYXRjaCBhcyBpbiAiZW50aXJlIHBhdGNoIiBtZWFuaW5n
-Og0KPj4NCj4+ICAgIChhKSBJIGhhdmUgY2FycmllZCBvdXQgYSB0ZWNobmljYWwgcmV2aWV3
-IG9mIHRoaXMgcGF0Y2ggdG8NCj4+ICAgICAgICBldmFsdWF0ZSBpdHMgYXBwcm9wcmlhdGVu
-ZXNzIGFuZCByZWFkaW5lc3MgZm9yIGluY2x1c2lvbiBpbnRvDQo+PiAgICAgICAgdGhlIG1h
-aW5saW5lIGtlcm5lbC4NCj4+DQo+PiBUaGUgc2VudGVuY2UgaXMgZXhwbGljaXQgYW5kIGNv
-bXBsZXRlLCBtZWFuaW5nIGl0IGRvZXMgbm90IGFsbG93DQo+PiBpbXBsaWNpdCB2YXJpYXRp
-b25zIGxpa2U6ICJ0aGlzIHBhdGNoIG9yIHBhcnQgb2YgdGhpcyBwYXRjaCIuDQo+Pg0KPj4g
-UmV2aWV3aW5nIHBpZWNlcyBvZiB0aGUgcGF0Y2ggd2hpbGUgaWdub3JpbmcgdGhlIG1haW4g
-cGFydCBvZiBpdCwgaXMNCj4+IG11Y2ggY2xvc2VyIHRvIEFja25vd2xlZGdtZW50LCB0aHVz
-IEFjaywgYW5kICJSZXZpZXdlZC1ieSIgY3JlZGl0IHNob3VsZA0KPj4gbm90IGJlIGFwcGxp
-Y2FibGUuDQo+IA0KPiBJIHN0cm9uZ2x5IGRpc2FncmVlLiBJdCdzIGFsbCBleHBsYWluZWQg
-aW4gdGhlIHBsZW50eSB0aHJlYWRzIHlvdSBoYXZlIHN0YXJ0ZWQNCj4gb24gdGhlIFN1Ympl
-Y3QuDQo+IA0KPiBUTDtEUjogQXMgYSByZXZpZXdlciBmb3IgdGhlIHBpZWNlIGluIHF1ZXN0
-aW9uIEkgaGF2ZSBkb25lIG15IHBhcnQgZnVsbHkuIEl0J3MNCj4gbm90IG15IGlzc3VlIHRo
-YXQgdGhlIHBpZWNlIGlzIGJ1bmRsZWQgaW50byBhIHNpbmdsZSBwYXRjaC4gV2UgaGF2ZSBv
-cHRpb25zOg0KPiAxKSBhc2sgdG8gc3BsaXQgKGFuZCByZXZpZXcgYXMgc3RhbmRhbG9uZSBw
-aWVjZSk7DQo+IDIpIGFkZCAocGFydGlhbCkgUmIgd2l0aCB0aGUgcG9pbnRlcnMgb2Ygd2hh
-dCBleGFjdGx5IGhhcyBiZWVuIHJldmlld2VkOw0KPiAzKSBpZ25vcmUgKHNpbGVudCBhZ3Jl
-ZW1lbnQgd2l0aCB0aGUgcmVzcGVjdGl2ZSBzdWJzeXN0ZW0gbWFpbnRhaW5lcidzIG9waW5p
-b24pOw0KPiA0KSAuLi5zb21ldGhpbmcgSSBmb3Jnb3Q/Li4NCj4gDQo+IChldmVuIHBhcnRp
-YWwpIFJiICE9IEFjay4NCj4gDQoNCkkgZnVsbHkgYWdyZWUgd2l0aCBBbmR5Lg0KDQpBcyB0
-aGUgWGVuIG1haW50YWluZXIgSSBvZnRlbiBoYXZlIHRvIGxvb2sgaW50byBzdWNoIHJld29y
-ayBwYXRjaGVzIGFuZCBvZnRlbg0KZW5vdWdoIGVzcGVjaWFsbHkgdGhlIFhlbiBzcGVjaWZp
-YyBwYXJ0cyBhcmUgbWVudGlvbmVkIGluIHRoZSBwYXRjaCBkZXNjcmlwdGlvbg0KYXMgImNv
-bXBpbGUgdGVzdGVkIG9ubHkiLg0KDQpJIHNlZSBhICJSZXZpZXdlZC1ieTogLi4uICMgWGVu
-IHBhcnRzIiBpbiBzdWNoIGNhc2VzIGFzIGEgZmVlZGJhY2sgdG8gdGhlIGF1dGhvcg0Kb3Ig
-Y29tbWl0dGVyIHRoYXQgdGhleSBkb24ndCBoYXZlIHRvIGxvb2sgaW50byB0aG9zZSBwYXJ0
-cyBpbiBtb3JlIGRldGFpbC4NCg0KVGhlIHZhbHVlIG9mIHN1Y2ggYSBSLWI6IGlzIG1vcmUg
-cXVlc3Rpb25hYmxlIGluIGNhc2Ugb2YgYSBwdXJlIHJlbmFtZSBvZiBhDQpmdW5jdGlvbiBv
-ciBzdHJ1Y3QgbWVtYmVyLCBvZiBjb3Vyc2UuDQoNCg0KSnVlcmdlbg0K
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org> # m68k
 
---------------Tk9D3n0xFwddgTNKLbe0ptak--
+Gr{oetje,eeting}s,
 
---------------KiqSlvBv8iyFxlUX7TMDgPwE
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+                        Geert
 
------BEGIN PGP SIGNATURE-----
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmrsTJ4FAwAAAAAACgkQsN6d1ii/Ey/n
-gwgAlVRUFH9s5zdSztX2VcwcH2ThtZ+3R5mE9mCYBu+5/jBVppj0nmKwfl6FxYvWVxLvvG+PYVZv
-rdtKt8r5dESAEpIJuDVejsc9nLa7llpOjdeJc07d8OC3QM0lefJe23VbKyuQg1gGFlqd82WHRmnY
-ZPyafU6XgKO8RmI6s5Wb6XUZopYeld397NSW7FJya661cIk59MqsU6tA+JiVFIiRaCoe8230Ip4r
-tErLpJwvdoERK1WHWJBh/RQXDsJaMmqXaOOQ2mdEMKbqat4G6ErH0iZM+/KA10FDLI4MnkXR+9rS
-xdLuQfKu5BSLX1dhk7NicR2vPIRWv+9P9tYvf47MZg==
-=sG+8
------END PGP SIGNATURE-----
-
---------------KiqSlvBv8iyFxlUX7TMDgPwE--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
