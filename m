@@ -1,45 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.40
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793865848;
-	b=o7tyZHfwsRSy3R5CoOje6yu/rV/xts1yG6wMa51pe/8qHDzLerama0RpLnA8aoReVv6a
-	 wuAlzY93ZG69rbexcX1RARL/PeyNvzU4EAXlCWfm9lfpVHNGW2c0viCHtcXHOKpr5Exak
-	 0jw+13D2797ehXd1WLp10oh/lkLHkirM2ORUPAKIH66oJ6HfWIvo9KqopfchL7sZ1ErFp
-	 SVQsY6Cx8I1eCCQAZD0oOCJNA2WG6+7vTJWmhx1f7spiSzfxI8wL3wcMAShRLqP/KVZR6
-	 XJzz9ELcxT2lae4c023JDkmadec89dK0UEXNJkBJhIFMpcV3eVctjf3glfD2lQ4FZVQ==
+	t=1793865947;
+	b=28rZbL20D5eC+0ZgFLhhLzfPR7d6YqrqPhkG2gmJjYpTyFFK/SGWEpbW+GBFWi//20Fo
+	 vD7RDPDqZPuclWoZVtHXrpkw2qcIIolbKcIYK+dW108FcjTYLUFdZF6PP5++FKnABGXdk
+	 IiL5d1yEmv++GwQfeN28bfiooQ1TGoUIOGNtzWb8Qif9r9O+QeTN9J7RnbQR/p10a6+ue
+	 e6DtCOYMJjU0F1CsN/SyY5YHxB097tfzctgz+PNFugs27rWWt0emQS4ClYLSfJ1vP+DXi
+	 zXD7oTK5VOnD5DgDjNIU0JztvaW6nMHfn2xKk2XqR5wAQo6mujBJgUW/rz/I6D29w4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793865848;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=q/IVcg5Dvv6LOmALB64d6dD3OE6L0hYQ//UPgDGID20=;
-	b=24F/S4JjPHDpCxP9neyi0nyM8fwRBMMItkXY2nKIDO7/5tX7IY8d+TpoZ+MpLSKTntTJ
-	 Z15tTPoxoFySruRMo/9QhqSIbHiVyrEEDvSpgZ1u2KTpdTkZ5l4Cb6mdwWrH2j4fk7ezo
-	 +2iPupNIcbGV/AebxKXJROh35DAdSlx4hjpF3kNbVeYImhSyT0Vrp2dLug81T8Mhx03Bi
-	 lw4/SAjME9vtsh8dx1bBii/SmZWPbUVj31WDMofuGGJxvke2ph2NAGyNDcchCIj3qW5zs
-	 7+epiEeI0lL/L5omTSMHwgB7eS69Br7v6QttBISBRZi3a2zbyHwcGCSEyC3k7/0OOOQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793865947;
+	h=DMARC-Filter:DKIM-Signature:X-Original-From:Content-Type:To:Subject:
+	 Content-Transfer-Encoding:References:Received:From:Date:Message-Id:
+	 User-Agent:X-Lms-Return-Path:Cc:Mime-Version:In-Reply-To;
+	bh=TMVq1BdX8FUxH8J6/ZdpU/bSTGJU2bUVnTOmNO2snXM=;
+	b=ss85OUubpj5UFU5NOeKAp9YNNdA3gTl/87bIZs3AsetPAXyjBMUgnQn3QUZPKRZYp2gq
+	 7c8VNw3DmvzYb5SDp4O+7qRpBRaA5mOV+HUYrOUmFL53EuK9I3YW4N56UcgrQUZ1ufNOo
+	 cHDjnWH7lN06iLCGnlHB73ScUgaz3pi3CWzpEcqvWHJ7DKuZQDY4A661UbbANx4SRisKI
+	 xSFHdvD0/ek8+iUy/X5HP/4yUtdTfnMzcZ9+hcJCRBCqydLS7lRC1H6Ye8wupSxNEAz1t
+	 iIVlxEEYxt0uW6D9hBwdDBhAvNe2INiBQNO+2nlSHAYa4MDKezpZWcF0mwktCainSew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0s9R5+V;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=picoheart.com;
+	spf=pass smtp.mailfrom=picoheart.com;
+	dkim=pass header.d=picoheart.com header.i=@picoheart.com header.a=rsa-sha256 header.s=feishu2604151535 header.b=RDjGvLhX;
+	arc=none smtp.remote-ip=209.127.231.40
+Received: from va-2-40.ptr.blmpb.com (va-2-40.ptr.blmpb.com [209.127.231.40])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42239606A328;
-	Thu,  5 Nov 2026 08:04:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFBE9606A329
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 08:05:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFBE9606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=picoheart.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=picoheart.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0s9R5+V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15C4C1F000C1;
-	Thu,  5 Nov 2026 08:04:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793865847;
-	bh=q/IVcg5Dvv6LOmALB64d6dD3OE6L0hYQ//UPgDGID20=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=i0s9R5+VoRkAyQcEkiiUSRvQre+yA4sOH9fDaHC0EOsXo37zcoE9Pu93SmqW5y6M9
-	 75jwKmAN9cwZB2AEDjBioMQU9MJ5tzC5d0tYeDbV565Fjhw8S3rZYG+MkzTgeorTT+
-	 4UMSo0iYWRRvbFNzsX3Vt9vWRu9PKes66PuVrqq79ybHVRb1WR8VgtrqTUM0cLNXrJ
-	 MoF9QMHIooi5VprLbqzXWN7/JlqNxYcejkoO9vpHEh4nA+2OXJ0GElPA1Ko3ZzMX9m
-	 JTIy/SvOw0ysGRZQyJxCgCAGeXiC1mDX545zFGFkBkHl3uzf+8CAlPBPGa/uvfengH
-	 nhP60WqCq3guQ==
-Content-Type: multipart/mixed; boundary="===============1261712251123050467=="
+	dkim=pass (2048-bit key, unprotected) header.d=picoheart.com header.i=@picoheart.com header.a=rsa-sha256 header.s=feishu2604151535 header.b=RDjGvLhX
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=feishu2604151535; d=picoheart.com; t=1793865937; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=TMVq1BdX8FUxH8J6/ZdpU/bSTGJU2bUVnTOmNO2snXM=;
+ b=RDjGvLhXr5096VcIf1dKI76qOLL81RWglBqUx7Fc2txhOaQD4D44dUc9V9h03Y3JHY0AB/
+ rdjcw8KYRTvj4gtmD7E8WV6eDIry4O3GS3e6iJo8FLCVAeeyp4MW0K6KkZbxjf1GxnR/kr
+ z6pv55HEOKchqtWEVfQ/63RWzdtpIDjJST9GnZGr5yxP1XYgfQFXvxS24/oDmeFSIdzSb5
+ e/0+WbqpLuvqxoabzdO77VX6iDp5TNb1+ELO9nKm/j3TA9Lft+F3JsP+qkVpo92Zgjb2sx
+ txXiZOMx+OA1bo+mdjM+qHoV8ksUWpzpS1pXPHjVNFp9Ey8pCKFwLxvC2JJWIw==
+X-Original-From: Zeng Heng <zengheng@picoheart.com>
+Content-Type: text/plain; charset=UTF-8
+To: "Drew Fustini" <fustini@kernel.org>, 
+	"Adrien Ricciardi" <aricciardi@baylibre.com>, 
+	"Alexandre Ghiti" <alex@ghiti.fr>, "Albert Ou" <aou@eecs.berkeley.edu>, 
+	"Atish Patra" <atish.patra@linux.dev>, "Babu Moger" <babu.moger@amd.com>, 
+	"Ben Horgan" <ben.horgan@arm.com>, "Borislav Petkov" <bp@alien8.de>, 
+	"Chen Pei" <cp0613@linux.alibaba.com>, 
+	"Conor Dooley" <conor.dooley@microchip.com>, 
+	"Conor Dooley" <conor+dt@kernel.org>, 
+	"Dave Hansen" <dave.hansen@linux.intel.com>, 
+	"Dave Martin" <Dave.Martin@arm.com>, "Fenghua Yu" <fenghuay@nvidia.com>, 
+	"Gong Shuai" <gong.shuai@sanechips.com.cn>, 
+	"Gong Shuai" <gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>, 
+	"James Morse" <james.morse@arm.com>, 
+	=?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
+	"Krzysztof Kozlowski" <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>, 
+	"Liu Zhiwei" <zhiwei_liu@linux.alibaba.com>, 
+	"Palmer Dabbelt" <palmer@dabbelt.com>, "Paul Walmsley" <pjw@kernel.org>, 
+	"Peter Newman" <peternewman@google.com>, 
+	=?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <radim.krcmar@oss.qualcomm.com>, 
+	"Reinette Chatre" <reinette.chatre@intel.com>, 
+	"Rob Herring" <robh@kernel.org>, 
+	"Samuel Holland" <samuel.holland@sifive.com>, 
+	"Sunil V L" <sunilvl@oss.qualcomm.com>, 
+	"Tony Luck" <tony.luck@intel.com>, "Weiwei Li" <liwei1518@gmail.com>, 
+	"yunhui cui" <cuiyunhui@bytedance.com>, 
+	"Zhanpeng Zhang" <zhangzhanpeng.jasper@bytedance.com>
+Subject: Re: [PATCH v10 2/6] riscv_cbqri: resctrl: Add cache allocation via capacity block mask
+Content-Transfer-Encoding: quoted-printable
+References: <20261104-dfustini-atl-sc-cbqri-dt-v10-0-1636a003a3c0@kernel.org> <20261104-dfustini-atl-sc-cbqri-dt-v10-2-1636a003a3c0@kernel.org>
+Received: from [172.16.137.224] ([124.160.26.250]) by smtp.feishu.cn with ESMTPS; Thu, 05 Nov 2026 16:05:34 +0800
+From: "Zeng Heng" <zengheng@picoheart.com>
+Date: Thu, 5 Nov 2026 16:05:29 +0800
+Message-Id: <02cf71f0-09d5-4dde-a8cf-3739583cc7fa@picoheart.com>
+User-Agent: Mozilla Thunderbird
+X-Lms-Return-Path: <lba+26aec38cf+8555d4+vger.kernel.org+zengheng@picoheart.com>
+Cc: "Catalin Marinas" <catalin.marinas@arm.com>, 
+	"Jonathan Cameron" <jic23@kernel.org>, 
+	"Shaopeng Tan" <tan.shaopeng@jp.fujitsu.com>, 
+	<linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>, 
+	<x86@kernel.org>, <devicetree@vger.kernel.org>, 
+	<linux-doc@vger.kernel.org>, <yang.yicong@picoheart.com>, 
+	<geshijian@picoheart.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -48,70 +95,71 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Message-Id: <4c0a0855167cac39dcf8b1c103d0f98a8898a14866daf9b97a127698bb1ea0b9@mail.kernel.org>
-In-Reply-To: <20261105071706.7043-1-meng.ding@siemens.com>
-References: <20261105071706.7043-1-meng.ding@siemens.com>
-Subject: Re: [PATCH] net: mark skb NAPI IDs independently of busy polling
-From: bot+bpf-ci@kernel.org
-To: meng.ding@siemens.com,netdev@vger.kernel.org,willemdebruijn.kernel@gmail.com,davem@davemloft.net,edumazet@kernel.org,kuba@kernel.org,pabeni@redhat.com,corbet@lwn.net,andrew+netdev@lunn.ch,anthony.l.nguyen@intel.com,przemyslaw.kitszel@intel.com,rostedt@goodmis.org,mhiramat@kernel.org,daniel@iogearbox.net,ast@kernel.org,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,richardcochran@gmail.com
-Cc: florian.bezdeka@siemens.com,jan.kiszka@siemens.com,wq.wang@siemens.com,p@1g4.org,gerhard@engleder-embedded.com,meng.ding@siemens.com,kerneljasonxing@gmail.com,horms@kernel.org,skhan@linuxfoundation.org,rdunlap@infradead.org,mathieu.desnoyers@efficios.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,ihor.solodrai@linux.dev,john.fastabend@gmail.com,sdf@fomichev.me,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,intel-wired-lan@lists.osuosl.org,linux-trace-kernel@vger.kernel.org,bpf@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Thu,  5 Nov 2026 08:04:07 +0000 (UTC)
+Mime-Version: 1.0
+In-Reply-To: <20261104-dfustini-atl-sc-cbqri-dt-v10-2-1636a003a3c0@kernel.org>
 
---===============1261712251123050467==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-
-> net: mark skb NAPI IDs independently of busy polling
-
-TL;DR: Commit message only: it blames e68b6e50fa35 for gating skb NAPI IDs on
-busy polling, but that gating predates it; 97dc7cd92ac6 introduced the
-dependency. Suggests rewording.
-
->     net: mark skb NAPI IDs independently of busy polling
->
->     Commit 97dc7cd92ac6 ("ptp: Support late timestamp determination")
->     added support for deferring RX timestamp conversion to
->     ndo_get_tstamp(). When the timestamp is consumed, get_timestamp()
->     uses the skb's NAPI ID to find the device that owns the timestamp
->     cookie and invoke its callback.
->     Commit e68b6e50fa35 ("udp: enable busy polling for all sockets")
->     gated NAPI ID bookkeeping with CONFIG_NET_RX_BUSY_POLL. As a result,
->     when busy polling is disabled, the skb may not carry a usable NAPI ID.
->     The device lookup then fails, so the driver callback is not invoked.
->     get_timestamp() falls back to hwtstamp, which does not contain the
->     converted timestamp, resulting in an incorrect RX hardware timestamp.
->     Record skb NAPI IDs independently of busy-poll support to support
->     drivers that use deferred timestamp conversion and future driver
->     features that need to look up a device by its NAPI ID.
->     Signed-off-by: Ding Meng <meng.ding@siemens.com>
->     Reviewed-by: Florian Bezdeka <florian.bezdeka@siemens.com>
-
-This isn't a bug, but is e68b6e50fa35 the right commit to name here?
-
-Before that commit, __skb_mark_napi_id() / skb_mark_napi_id() was already
-inside '#ifdef CONFIG_NET_RX_BUSY_POLL' with an empty stub in the #else
-branch, and struct sk_buff already had napi_id under
-'#if defined(CONFIG_NET_RX_BUSY_POLL) || defined(CONFIG_XPS)'.  That gating
-goes back to 8b80cda536ea ("net: rename ll methods to busy-poll").
-
-e68b6e50fa35 only moved the socket-side sk_mark_napi_id() out of the ifdef
-block and added sk_mark_napi_id_once().  Both act on sk->sk_napi_id, not on
-the skb.
-
-It is also about six years older than 97dc7cd92ac6, so the message reads as
-if a later change broke the deferred-timestamp lookup.  In fact
-get_timestamp() has depended on a busy-poll-only skb field (skb_napi_id()
-returns 0 when CONFIG_NET_RX_BUSY_POLL=n) since 97dc7cd92ac6 added it.
-
-Could the message say that the skb NAPI ID was always busy-poll-only and
-that 97dc7cd92ac6 started depending on it?
+Hi Drew,
 
 
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+=E5=9C=A8 11/5/26 =E4=B8=8A=E5=8D=8812:35, Drew Fustini =E5=86=99=E9=81=93:
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/41989099174
---===============1261712251123050467==--
+...
+
+> +/*
+> + * Fill the rdt_resource fields for one picked rid. An rid with no picke=
+d
+> + * controller is left untouched so it stays out of resctrl_arch_get_reso=
+urce().
+> + */
+> +static void cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_r=
+es)
+> +{
+> +	struct rdt_resource *res =3D &cbqri_res->resctrl_res;
+> +	struct cbqri_controller *ctrl;
+> +
+> +	if (!cbqri_res->nr_ctrls)
+> +		return;
+> +	ctrl =3D cbqri_res->ctrls[0];
+> +
+> +	switch (res->rid) {
+> +	case RDT_RESOURCE_L2:
+> +	case RDT_RESOURCE_L3:
+> +		res->name =3D (res->rid =3D=3D RDT_RESOURCE_L2) ? "L2" : "L3";
+> +		res->schema_fmt =3D RESCTRL_SCHEMA_BITMAP;
+> +		res->ctrl_scope =3D (res->rid =3D=3D RDT_RESOURCE_L2) ?
+> +				    RESCTRL_L2_CACHE : RESCTRL_L3_CACHE;
+> +		res->cache.cbm_len =3D ctrl->cc.ncblks;
+> +		res->cache.shareable_bits =3D 0;
+> +		res->cache.min_cbm_bits =3D 1;
+> +		res->cache.arch_has_sparse_bitmasks =3D false;
+
+Currently, the driver sets arch_has_sparse_bitmasks to false, causing
+resctrl to require a contiguous bits in cache allocation masks. For
+example, L3:0=3D3 is accepted, whereas L3:0=3D11 is rejected because its
+set bits are non-contiguous.
+
+The default should allow both contiguous and non-contiguous masks,
+provided they satisfy the other mask validity checks. A contiguity
+restriction should only be imposed when a specific hardware
+implementation can't support sparse masks explicitly.
+
+So I propose enabling sparse cache allocation bitmasks by default.
+Thanks.
+
+> +		res->cdp_capable =3D ctrl->cc.supports_alloc_at_code;
+> +		res->alloc_capable =3D ctrl->alloc_capable;
+> +		INIT_LIST_HEAD(&res->ctrl_domains);
+> +		INIT_LIST_HEAD(&res->mon_domains);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +}
+
+Apart from this,
+
+Reviewed-by: Zeng Heng <zengheng@picoheart.com>
+
+
+Best regards,
+Zeng Heng
