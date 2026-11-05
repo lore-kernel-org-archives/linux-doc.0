@@ -1,54 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793893810;
-	b=qtEqfSVev91rv8LrKHREKyuitWniqhaNJ+3z11MDqFtYeRAAP4s/oc3soEdwnGl1HxtM
-	 4rvF39Gnht7UcpbLJ5yJ0qGhLRMOGn1WZDl0RCVKKuNLB6FGffF/lJwiQCFr9p9Tz/rbv
-	 4aoRoHpvapSfjRTlsFzmg0KRB74j12d8H+lTxuWbVLyQvT2+reZCQPfEynueh8V5Z3PcD
-	 mpgajV6ih2YM3NBD94eD9WznuOsoIhri5O0VN0ly99MO4EXw1t6se2z22aoE2j3Jov37s
-	 uWcMq3lHBD7zAbkMxTpNwA+u5cKf8quGcqMLQHFo41CTZK1SC13mhpZw9sLLC+tQXcw==
+	t=1793893812;
+	b=oiSILYDY9yR6qhRvXLXlPrZUfFphX5G0HCe55TIl1tCA5IkJ89HBxJUtlapkkt/qv0M5
+	 p7bF+UxGan3W2HYksRgr2lpRcPN8YnOHY88bR7eOJQzyOEEcZsnia+MTxcYgiVhzn0pJr
+	 7HQVHGrkpCK82khpXTQJFRSt4GLJd0jiUpXmHeYcMOfP59GVh3bQ9AxMQlzOmJrPfU9Nf
+	 MrU7HcXFkmXfxZdTPe8eDrziEoqMr5KuLQulbmJLw8d4deY1qZh9AoL1wEb0LlBWbhRD/
+	 SmxqnBQpywii/9ErCMGvn8ETFkg4NyngaNbgjRJbqQ/P1DUa936JRrAME7FdsgJIsxQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793893810;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793893812;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
 	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=QG7YSNVHqUb1KuMYVc5jtCngrcCIvr6t1OEWc/pZv7s=;
-	b=0Z7HNg7WYzNnH4whHnO2Hc5PZisz/gvHfDrfzN7HwbUL75dHyV8cDe5c1YELwy5afEI3
-	 I/6toHwzqMIOL6EZwPb5kJ1LPDlRwsKlqJQ+sTkw6a8SFoOXkL8wyNCMBZF37B0muu4QS
-	 Gjzf/GFkaUmwyY96OMSKGYliJC/5zBl3hK2WOzG+Re4Gy3kbqpDs0vJV5TLlh4tqnKNSQ
-	 dGCKoN00KYXLtUThew0sTKlXLVnVX4LDHP9pQXguDH+AKkPaMTHwoClixo2giIrbSrOf8
-	 fg4bb6ikz8p/EZ3vo0jNz5rs0yZ8yILVf+45Z115vBBcxGWMpGU/X8smjruTpReznYQ==
+	bh=OwFdVC1DY43M8jJzrqstmWIxLmeowgW7V9g/IXt3zfQ=;
+	b=NMal/W6XKANqxnvm3Toi4xoCqsyDCDkaqquXPj9kylEJMFxX3ufhVGlf+LrkV5urVkDn
+	 MU1D0eMMPze9bxVAK/upLh0exCg+MbzGhO41sW/uCxEVmcd6v4G++8bq1sD1mdVyoHM2p
+	 XaYDKo2tB9fqxpQcp9ShRL+5x73SgPIIwRkv8v7gvEQ/u3yxBdYjQMc0a6IDlBYpZ041p
+	 HDMM14Ix0iUWf5NYoDNjW02wFD7JYECreodYiIlwXrBmraGAb6g8cGRuRCG5x2nwviwJZ
+	 pRuKeKzojokILax5cXQuuMWDXy497Yt+UvYZhJ+VDRMScLWGSxXWmn0nA80PpWC1aMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=desiato.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=pr1PhQXU;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	spf=none smtp.mailfrom=casper.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b="Z7DS/iZd";
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4057606A339;
-	Thu,  5 Nov 2026 15:50:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4057606A339
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C87606BE89;
+	Thu,  5 Nov 2026 15:50:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5C87606BE89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=pr1PhQXU
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=Z7DS/iZd
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
 	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
 	To:From:Reply-To:Content-ID:Content-Description;
-	bh=QG7YSNVHqUb1KuMYVc5jtCngrcCIvr6t1OEWc/pZv7s=; b=pr1PhQXUAwpwKhnXSyqC745Zlh
-	6eFF2tMEW2Zv21X/l+8XJfY926PO6MHO3Ps8Fu1qxkcant+NGk6eXI1zMeytDHwC7P/BJIHz3CKc9
-	+EAVcPgppBiDye6GdMrVDTL1JhFhrB/QJnDx5UNB5ZWUw4gyVlT8ZvTvzqJcICu5uahLVptP/Dogj
-	j/uLQBKBtmFncTxH5NGEWCkZrE4c8m40IWDhAhbos4wjPU6SyyyN5zDA+9QE6tTacrVvP0EByOV86
-	JtTCMv/ZFxPMv3N12+rp5upMk5EeHtG9pJeeTLYnTBvDQdxXc6Iaun+bBCZxAsdoBPg19JIoG713S
-	UurgHUtQ==;
+	bh=OwFdVC1DY43M8jJzrqstmWIxLmeowgW7V9g/IXt3zfQ=; b=Z7DS/iZdyXJaoXvPMN417Pc5ji
+	DHKrXeNfgpKd5fcwEH9YRfJMuaRj0AmmjOBJOFcZ6Eq4x8bXdCwiKKFDMAF2JiLYXXTGqfWHBylf0
+	+h2WVLI/IZ+31YkTbNNx1Opz3mKaalZntbfZ+nNI82dV6ubDw2ZKFuvl+w/NA++rluDGNdn2Dxs/g
+	WkxIBmwv3VhUn0OQO4GkQWc4oKwoaHHBvzHgaStPcUEmtgr3D5JxjPHa1/maZN2geJug48K0Sxcgb
+	0UTL53M1Wq92Pa+Jsy9WkD7Ncr1Rj6VGTTS5tMn3Z/M5rj3k+1HjDVbKvf9MKLkG5OI2grGdLemHC
+	yzyqOGbA==;
 Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xOziw-00000003Bo6-29l4;
-	Thu, 05 Nov 2026 15:49:58 +0000
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xOziu-00000009ap1-3QP3;
+	Thu, 05 Nov 2026 15:49:56 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xOziu-0000000Aazu-1WCL;
+	id 1xOziu-0000000Ab0D-2TMJ;
 	Thu, 05 Nov 2026 15:49:56 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: kvm@vger.kernel.org
@@ -78,9 +78,9 @@ Cc: linux-kernel@vger.kernel.org,
 	Dongli Zhang <dongli.zhang@oracle.com>,
 	joe.jin@oracle.com,
 	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v11 17/23] KVM: selftests: Add KVM/PV clock selftest to prove timer correction
-Date: Thu,  5 Nov 2026 07:49:48 -0800
-Message-ID: <20261105154955.2525419-18-dwmw2@infradead.org>
+Subject: [PATCH v11 21/23] KVM: selftests: Test that the first user TSC write is honoured exactly
+Date: Thu,  5 Nov 2026 07:49:52 -0800
+Message-ID: <20261105154955.2525419-22-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261105154955.2525419-1-dwmw2@infradead.org>
 References: <20261105154955.2525419-1-dwmw2@infradead.org>
@@ -96,522 +96,136 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-From: Jack Allister <jalliste@amazon.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-A VM's KVM/PV clock has an inherent relationship to its TSC. When either
-the host system live-updates or the VM is live-migrated this pairing of
-the two clock sources should stay the same. In reality this is not the
-case without some correction taking place.
+The 1-second "slop" heuristic in kvm_synchronize_tsc() is only
+supposed to apply between successive userspace TSC writes, i.e. once
+kvm->arch.user_set_tsc has been set by a previous write. The kernel's
+own internal TSC synchronization on vCPU creation (and frequency
+changes) must not arm it, otherwise the first genuine userspace write
+falling within 1 second of virtual cycle time of the kernel's default
+generation is "corrected" back to that generation instead of being
+honoured — breaking the restore of a guest with less than one second
+of runtime.
 
-The KVM_GET_CLOCK_GUEST/KVM_SET_CLOCK_GUEST ioctls can be used to
-perform a correction on the PVTI (PV time information) structure held by
-KVM to effectively fix up the kvmclock_offset prior to the guest VM
-resuming in either a live-update/migration scenario.
+Add a test which creates a vCPU and immediately performs a first
+host-initiated write of a TSC value corresponding to ~500ms of guest
+runtime, then verifies the value reads back exactly (modulo elapsed
+time) rather than being snapped back to the kernel's default
+generation near zero.
 
-This test proves that without the necessary fixup there is a perceived
-change in the guest TSC and KVM/PV clock relationship before and after a
-simulated LU/LM takes place, and that the correction eliminates it.
-
-The test:
-  1. Snapshots the PVTI at boot (PVTI0).
-  2. Steps the KVM clock forward 10 seconds with KVM_SET_CLOCK and
-     induces a change in PVTI data, so the divergence the correction
-     must eliminate is deterministic.
-  3. Snapshots the PVTI after the change (PVTI1).
-  4. Requests correction via KVM_SET_CLOCK_GUEST using PVTI0.
-  5. Snapshots the PVTI after correction (PVTI2).
-
-Then samples the TSC at a single point in time and calculates the KVM
-clock using each PVTI snapshot, verifying that the uncorrected clock
-diverged and that the corrected clock matches the boot clock to
-within ±2ns.
-
-Also test PVCLOCK_TSC_STABLE_BIT across matched, offset-mismatched
-and frequency-mismatched vCPUs, and KVM_[GS]ET_CLOCK_GUEST on vCPUs
-with divergent TSC offsets.
-
-The test enumerates multiple TSC frequencies from 1GHz to 5GHz at 500MHz
-steps, crossing the 32-bit boundary, to exercise the scaling path at
-various ratios. The sleep duration between snapshots is configurable via
-the -s/--sleep command line option.
-
-Co-developed-by: David Woodhouse <dwmw@amazon.co.uk>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Signed-off-by: Jack Allister <jalliste@amazon.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Cc: Dongli Zhang <dongli.zhang@oracle.com>
 ---
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../testing/selftests/kvm/x86/pvclock_test.c  | 447 ++++++++++++++++++
- 2 files changed, 448 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/pvclock_test.c
+ tools/testing/selftests/kvm/Makefile.kvm      |  1 +
+ .../selftests/kvm/x86/tsc_user_set_test.c     | 86 +++++++++++++++++++
+ 2 files changed, 87 insertions(+)
+ create mode 100644 tools/testing/selftests/kvm/x86/tsc_user_set_test.c
 
 diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 18605318860e..15a1a8f64723 100644
+index 1edc78845fd3..fd063806a7fb 100644
 --- a/tools/testing/selftests/kvm/Makefile.kvm
 +++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -114,6 +114,7 @@ TEST_GEN_PROGS_x86 += x86/pmu_event_filter_test
- TEST_GEN_PROGS_x86 += x86/private_mem_conversions_test
- TEST_GEN_PROGS_x86 += x86/private_mem_kvm_exits_test
- TEST_GEN_PROGS_x86 += x86/pvclock_migration_test
-+TEST_GEN_PROGS_x86 += x86/pvclock_test
- TEST_GEN_PROGS_x86 += x86/save_restore_pf_stress_test
- TEST_GEN_PROGS_x86 += x86/set_boot_cpu_id
- TEST_GEN_PROGS_x86 += x86/set_sregs_test
-diff --git a/tools/testing/selftests/kvm/x86/pvclock_test.c b/tools/testing/selftests/kvm/x86/pvclock_test.c
+@@ -151,6 +151,7 @@ TEST_GEN_PROGS_x86 += x86/xcr0_cpuid_test
+ TEST_GEN_PROGS_x86 += x86/xss_msr_test
+ TEST_GEN_PROGS_x86 += x86/debug_regs
+ TEST_GEN_PROGS_x86 += x86/tsc_msrs_test
++TEST_GEN_PROGS_x86 += x86/tsc_user_set_test
+ TEST_GEN_PROGS_x86 += x86/vmx_pmu_caps_test
+ TEST_GEN_PROGS_x86 += x86/xen_cpuid_timing_test
+ TEST_GEN_PROGS_x86 += x86/xen_migration_test
+diff --git a/tools/testing/selftests/kvm/x86/tsc_user_set_test.c b/tools/testing/selftests/kvm/x86/tsc_user_set_test.c
 new file mode 100644
-index 000000000000..c63d9f636eda
+index 000000000000..6ab76e817f9f
 --- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/pvclock_test.c
-@@ -0,0 +1,447 @@
++++ b/tools/testing/selftests/kvm/x86/tsc_user_set_test.c
+@@ -0,0 +1,86 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Copyright © Amazon.com, Inc. or its affiliates.
++ * Test that the first userspace write to MSR_IA32_TSC takes effect
++ * precisely, and is not subjected to the 1-second "slop" heuristic
++ * which is only supposed to apply between successive *userspace*
++ * writes (kvm->arch.user_set_tsc).
 + *
-+ * Tests for pvclock API
-+ * KVM_SET_CLOCK_GUEST/KVM_GET_CLOCK_GUEST
++ * The kernel synchronizes the TSC internally when a vCPU is created
++ * (and when its frequency is set). If any of those kernel-internal
++ * paths incorrectly sets user_set_tsc, then the first genuine write
++ * from userspace which happens to fall within 1 second of virtual
++ * cycle time of the kernel's default generation is "corrected" to
++ * match that generation instead of being honoured exactly. That
++ * breaks the restore of a guest which has genuinely been running
++ * for less than one second.
++ *
++ * Simulate exactly that: create a vCPU (kernel establishes a default
++ * TSC generation starting near zero), then perform the first
++ * host-initiated write with a value corresponding to ~500ms of guest
++ * runtime. If the slop heuristic fires, the written value is snapped
++ * back to the kernel's generation (near zero) and the TSC reads back
++ * hundreds of milliseconds low.
 + */
-+#include <getopt.h>
-+#include <stdint.h>
-+#include <string.h>
-+#include <time.h>
-+#include <unistd.h>
-+
-+#include "test_util.h"
 +#include "kvm_util.h"
 +#include "processor.h"
 +
-+#include <asm/pvclock-abi.h>
-+
-+/*
-+ * Reproduce the pvclock calculation the guest uses to convert TSC to
-+ * nanoseconds. This must match the kernel's __pvclock_read_cycles().
-+ */
-+static inline u64 pvclock_scale_delta(u64 delta, u32 mul,
-+					   s8 shift)
-+{
-+	if (shift < 0)
-+		delta >>= -shift;
-+	else
-+		delta <<= shift;
-+	return ((__uint128_t)delta * mul) >> 32;
-+}
-+
-+static inline u64 pvclock_read_cycles(struct pvclock_vcpu_time_info *src,
-+					   u64 tsc)
-+{
-+	u64 delta = tsc - src->tsc_timestamp;
-+
-+	return src->system_time + pvclock_scale_delta(delta,
-+						      src->tsc_to_system_mul,
-+						      src->tsc_shift);
-+}
-+
-+static inline void pvti_snapshot(struct pvclock_vcpu_time_info *dst,
-+				 volatile struct pvclock_vcpu_time_info *src)
-+{
-+	u32 version;
-+
-+	do {
-+		version = src->version;
-+		__asm__ __volatile__("" ::: "memory");
-+		*dst = *src;
-+		__asm__ __volatile__("" ::: "memory");
-+	} while ((src->version & 1) || src->version != version);
-+}
-+
-+enum {
-+	STAGE_FIRST_BOOT,
-+	STAGE_UNCORRECTED,
-+	STAGE_CORRECTED
-+};
-+
-+#define KVMCLOCK_GPA	0xc0000000ull
-+#define KVMCLOCK_SIZE	sizeof(struct pvclock_vcpu_time_info)
-+
-+static void trigger_pvti_update(void)
-+{
-+	/*
-+	 * Toggle between KVM's old and new system time methods to coerce KVM
-+	 * into updating the fields in the PV time info struct.
-+	 */
-+	wrmsr(MSR_KVM_SYSTEM_TIME, KVMCLOCK_GPA | KVM_MSR_ENABLED);
-+	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, KVMCLOCK_GPA | KVM_MSR_ENABLED);
-+}
-+
-+static void guest_code(void)
-+{
-+	struct pvclock_vcpu_time_info *pvti =
-+		(void *)(unsigned long)KVMCLOCK_GPA;
-+	struct pvclock_vcpu_time_info pvti_boot;
-+	struct pvclock_vcpu_time_info pvti_uncorrected;
-+	struct pvclock_vcpu_time_info pvti_corrected;
-+	u64 tsc_guest;
-+	u64 clk_boot, clk_uncorrected, clk_corrected;
-+	s64 delta_corrected;
-+
-+	/* Set up kvmclock and snapshot the initial pvclock parameters. */
-+	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, KVMCLOCK_GPA | KVM_MSR_ENABLED);
-+	pvti_snapshot(&pvti_boot, pvti);
-+	GUEST_SYNC(STAGE_FIRST_BOOT);
-+
-+	/*
-+	 * Trigger an update of the PVTI. Calculating the KVM clock using this
-+	 * updated structure will show a delta from the original.
-+	 */
-+	trigger_pvti_update();
-+	pvti_snapshot(&pvti_uncorrected, pvti);
-+	GUEST_SYNC(STAGE_UNCORRECTED);
-+
-+	/*
-+	 * Snapshot the corrected time (the host does KVM_SET_CLOCK_GUEST when
-+	 * handling STAGE_UNCORRECTED).
-+	 */
-+	pvti_snapshot(&pvti_corrected, pvti);
-+
-+	/*
-+	 * Sample the TSC at a single point in time, then calculate the
-+	 * effective KVM clock using the PVTI from each stage. Verify that the
-+	 * corrected clock matches the boot clock to within ±2ns.
-+	 */
-+	tsc_guest = rdtsc();
-+
-+	clk_boot = pvclock_read_cycles(&pvti_boot, tsc_guest);
-+	clk_uncorrected = pvclock_read_cycles(&pvti_uncorrected, tsc_guest);
-+	clk_corrected = pvclock_read_cycles(&pvti_corrected, tsc_guest);
-+
-+	/*
-+	 * The host stepped the KVM clock forward by 10 seconds at
-+	 * STAGE_FIRST_BOOT, so the uncorrected clock must diverge; without
-+	 * this, a no-op KVM_SET_CLOCK_GUEST would pass the test below.
-+	 */
-+	__GUEST_ASSERT((s64)(clk_uncorrected - clk_boot) > NSEC_PER_SEC,
-+		       "uncorrected clock did not diverge (boot=%lu uncorrected=%lu)",
-+		       clk_boot, clk_uncorrected);
-+
-+	delta_corrected = clk_boot - clk_corrected;
-+
-+	__GUEST_ASSERT(delta_corrected >= -2 && delta_corrected <= 2,
-+		       "corrected delta %ld out of range (boot=%lu uncorrected=%lu corrected=%lu)",
-+		       delta_corrected, clk_boot, clk_uncorrected, clk_corrected);
-+
-+	GUEST_SYNC(STAGE_CORRECTED);
-+}
-+
-+static void run_test(struct kvm_vm *vm, struct kvm_vcpu *vcpu,
-+		     unsigned int sleep_sec)
-+{
-+	struct pvclock_vcpu_time_info pvti_before;
-+	struct kvm_clock_data clock_step;
-+	struct ucall uc;
-+
-+	for (;;) {
-+		vcpu_run(vcpu);
-+		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-+
-+		switch (get_ucall(vcpu, &uc)) {
-+		case UCALL_ABORT:
-+			REPORT_GUEST_ASSERT(uc);
-+			break;
-+		case UCALL_SYNC:
-+			break;
-+		default:
-+			TEST_FAIL("Unexpected ucall");
-+		}
-+
-+		switch (uc.args[1]) {
-+		case STAGE_FIRST_BOOT:
-+			/* Save the pvclock parameters before the update. */
-+			vcpu_get_clock_guest(vcpu, &pvti_before);
-+
-+			/* Sleep to let the clocks diverge. */
-+			sleep(sleep_sec);
-+
-+			/*
-+			 * Step the KVM clock forward 10 seconds so that the
-+			 * divergence the correction must eliminate is
-+			 * deterministic, not at the mercy of accumulated
-+			 * drift during the sleep.
-+			 */
-+			vm_get_clock(vm, &clock_step);
-+			clock_step.clock += 10ull * NSEC_PER_SEC;
-+			clock_step.flags = 0;
-+			vm_set_clock(vm, &clock_step);
-+			break;
-+
-+		case STAGE_UNCORRECTED:
-+			/* Restore the original pvclock parameters. */
-+			vcpu_set_clock_guest(vcpu, &pvti_before);
-+			break;
-+
-+		case STAGE_CORRECTED:
-+			/* Guest verified the delta in-guest. */
-+			return;
-+
-+		default:
-+			TEST_FAIL("Unknown stage %lu", uc.args[1]);
-+		}
-+	}
-+}
-+
-+static void configure_pvclock(struct kvm_vm *vm)
-+{
-+	unsigned int nr_pages;
-+
-+	nr_pages = vm_calc_num_guest_pages(VM_MODE_DEFAULT, getpagesize());
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS,
-+				    KVMCLOCK_GPA, 1, nr_pages, 0);
-+	virt_map(vm, KVMCLOCK_GPA, KVMCLOCK_GPA, nr_pages);
-+}
-+
-+static void run_at_frequency(u64 tsc_khz, unsigned int sleep_sec)
++int main(void)
 +{
 +	struct kvm_vcpu *vcpu;
 +	struct kvm_vm *vm;
-+
-+	pr_info("Testing at TSC frequency %lu kHz\n", tsc_khz);
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
-+	configure_pvclock(vm);
-+	vcpu_ioctl(vcpu, KVM_SET_TSC_KHZ, (void *)tsc_khz);
-+	run_test(vm, vcpu, sleep_sec);
-+	kvm_vm_free(vm);
-+}
-+
-+static void test_tsc_stable_bit(void);
-+static void test_clock_guest_with_offsets(void);
-+
-+static void usage(const char *name)
-+{
-+	printf("Usage: %s [options]\n"
-+	       "  -s, --sleep SEC     sleep duration between snapshots (default: 2)\n"
-+	       "  -h, --help          show this help\n", name);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	static const struct option long_opts[] = {
-+		{ "sleep", required_argument, NULL, 's' },
-+		{ "help",  no_argument,       NULL, 'h' },
-+		{ NULL,    0,                  NULL,  0  },
-+	};
-+	unsigned int sleep_sec = 2;
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	u64 host_khz;
-+	u64 freq;
-+	int opt;
-+
-+	while ((opt = getopt_long(argc, argv, "s:h", long_opts, NULL)) != -1) {
-+		switch (opt) {
-+		case 's':
-+			sleep_sec = atoi_non_negative("sleep", optarg);
-+			break;
-+		case 'h':
-+		default:
-+			usage(argv[0]);
-+			return opt == 'h' ? 0 : 1;
-+		}
-+	}
-+
-+	TEST_REQUIRE(sys_clocksource_is_based_on_tsc());
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_TSC_CONTROL));
-+
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_CLOCK_GUEST));
-+
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
-+	configure_pvclock(vm);
-+
-+	/* First run at native frequency (no scaling). */
-+	run_test(vm, vcpu, sleep_sec);
++	u64 freq_khz, t_write, t_read, slack_cycles, mono_ns;
++	struct timespec ts;
++	int r;
 +
 +	/*
-+	 * Then enumerate a range of TSC frequencies crossing the 32-bit
-+	 * boundary, to exercise the scaling path at various ratios.
++	 * Start the measured window before vCPU creation: a snapped-back
++	 * value tracks time since the kernel's default generation (i.e.
++	 * since creation), so the window the slack is derived from must
++	 * include everything from creation onwards.
 +	 */
-+	host_khz = __vcpu_ioctl(vcpu, KVM_GET_TSC_KHZ, NULL);
++	clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
++	mono_ns = ts.tv_sec * 1000000000ULL + ts.tv_nsec;
++
++	vm = vm_create_with_one_vcpu(&vcpu, NULL);
++
++	r = __vcpu_ioctl(vcpu, KVM_GET_TSC_KHZ, NULL);
++	TEST_ASSERT(r > 0, "KVM_GET_TSC_KHZ failed");
++	freq_khz = r;
++
++	/*
++	 * The first user write: a guest TSC corresponding to 500ms of
++	 * runtime. This is within 1s (of virtual cycle time) of the
++	 * kernel's default generation, so it is exactly the case that
++	 * the slop heuristic would destroy if it were (incorrectly)
++	 * armed by the kernel's own internal TSC synchronization.
++	 */
++	t_write = freq_khz * 500ULL;		/* khz * ms = cycles */
++
++	vcpu_set_msr(vcpu, MSR_IA32_TSC, t_write);
++
++	t_read = vcpu_get_msr(vcpu, MSR_IA32_TSC);
++
++	clock_gettime(CLOCK_MONOTONIC_RAW, &ts);
++	mono_ns = (ts.tv_sec * 1000000000ULL + ts.tv_nsec) - mono_ns;
++
++	/*
++	 * The TSC advances between the write and the read; bound the
++	 * difference by the measured elapsed time around the two ioctls
++	 * plus 10ms of slop, so a descheduled test cannot flake. If the
++	 * write was snapped to the kernel's default generation, the
++	 * value read back is ~500ms low (i.e. below t_write), which is
++	 * unambiguous.
++	 */
++	slack_cycles = freq_khz * (mono_ns / 1000000ULL + 10);
++
++	TEST_ASSERT(t_read >= t_write,
++		    "TSC went backwards from explicit write: wrote %lu, read %lu"
++		    " (first userspace write was subjected to 1-second slop?)",
++		    t_write, t_read);
++	TEST_ASSERT(t_read - t_write < slack_cycles,
++		    "TSC read back too far from written value: wrote %lu, read %lu",
++		    t_write, t_read);
++
 +	kvm_vm_free(vm);
-+
-+	for (freq = 1000000; freq <= 5000000; freq += 500000) {
-+		if (freq == host_khz)
-+			continue;
-+		run_at_frequency(freq, sleep_sec);
-+	}
-+
-+	test_tsc_stable_bit();
-+	test_clock_guest_with_offsets();
-+
 +	return 0;
-+}
-+
-+static volatile u32 vcpu_counter;
-+static void guest_code_stable_bit(void)
-+{
-+	u32 idx = __atomic_fetch_add(&vcpu_counter, 1, __ATOMIC_SEQ_CST);
-+	u64 gpa = KVMCLOCK_GPA + idx * KVMCLOCK_SIZE;
-+
-+	wrmsr(MSR_KVM_SYSTEM_TIME_NEW, gpa | KVM_MSR_ENABLED);
-+	GUEST_SYNC(0);
-+	GUEST_SYNC(0);
-+	GUEST_SYNC(0);
-+}
-+
-+static void run_vcpu_once(struct kvm_vcpu *vcpu)
-+{
-+	struct ucall uc;
-+
-+	vcpu_run(vcpu);
-+	TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-+	switch (get_ucall(vcpu, &uc)) {
-+	case UCALL_ABORT:
-+		REPORT_GUEST_ASSERT(uc);
-+		break;
-+	case UCALL_SYNC:
-+		break;
-+	default:
-+		TEST_FAIL("Unexpected ucall");
-+	}
-+}
-+
-+static void test_tsc_stable_bit(void)
-+{
-+	struct pvclock_vcpu_time_info pvti;
-+	struct kvm_vcpu *vcpus[2];
-+	struct kvm_vm *vm;
-+	int ret;
-+
-+	pr_info("Testing PVCLOCK_TSC_STABLE_BIT with matched/unmatched TSCs\n");
-+
-+	vm = vm_create_with_vcpus(2, guest_code_stable_bit, vcpus);
-+	configure_pvclock(vm);
-+
-+	/*
-+	 * Case 1: All TSCs matched (same frequency and offset).
-+	 * Master clock should be active, PVCLOCK_TSC_STABLE_BIT set.
-+	 */
-+	run_vcpu_once(vcpus[0]);
-+
-+	vcpu_get_clock_guest(vcpus[0], &pvti);
-+	TEST_ASSERT(pvti.flags & PVCLOCK_TSC_STABLE_BIT,
-+		    "PVCLOCK_TSC_STABLE_BIT should be set with matched TSCs");
-+
-+	/*
-+	 * Case 2: Different TSC offset, same frequency.
-+	 * Master clock should still be active (frequency matches), but
-+	 * PVCLOCK_TSC_STABLE_BIT should be cleared (offsets differ).
-+	 */
-+	if (__vcpu_has_device_attr(vcpus[1], KVM_VCPU_TSC_CTRL,
-+				   KVM_VCPU_TSC_OFFSET)) {
-+		pr_info("  Skipping offset test (KVM_VCPU_TSC_OFFSET not supported)\n");
-+		goto case_freq;
-+	}
-+	vcpu_set_tsc_offset(vcpus[1], 12345678);
-+	run_vcpu_once(vcpus[1]);
-+	run_vcpu_once(vcpus[0]);
-+
-+	ret = __vcpu_get_clock_guest(vcpus[0], &pvti);
-+	if (ret) {
-+		/* Master clock disabled by offset mismatch — old kernel */
-+		pr_info("  Skipping offset test (master clock requires matched offsets)\n");
-+		goto case_freq;
-+	}
-+	TEST_ASSERT(!(pvti.flags & PVCLOCK_TSC_STABLE_BIT),
-+		    "PVCLOCK_TSC_STABLE_BIT should be clear with offset-mismatched TSCs");
-+
-+case_freq:
-+	/*
-+	 * Case 3: Different TSC frequency.
-+	 * Master clock should be disabled entirely.
-+	 */
-+	vcpu_ioctl(vcpus[1], KVM_SET_TSC_KHZ,
-+		   (void *)(unsigned long)(__vcpu_ioctl(vcpus[1], KVM_GET_TSC_KHZ, NULL) / 2));
-+	/* Write TSC to trigger kvm_synchronize_tsc / kvm_track_tsc_matching */
-+	vcpu_set_msr(vcpus[1], MSR_IA32_TSC, 0);
-+	run_vcpu_once(vcpus[1]);
-+
-+	ret = __vcpu_get_clock_guest(vcpus[0], &pvti);
-+	TEST_ASSERT(ret && errno == ENODATA,
-+		    "GET_CLOCK_GUEST should fail with frequency-mismatched TSCs, got %d (errno %d)",
-+		    ret, errno);
-+
-+	kvm_vm_free(vm);
-+}
-+
-+static void test_clock_guest_with_offsets(void)
-+{
-+	struct pvclock_vcpu_time_info pvti0, pvti1, pvti1_after;
-+	struct kvm_vcpu *vcpus[2];
-+	struct kvm_vm *vm;
-+	s64 delta;
-+	int ret;
-+
-+	pr_info("Testing KVM_[GS]ET_CLOCK_GUEST with different TSC offsets\n");
-+
-+	vm = vm_create_with_vcpus(2, guest_code_stable_bit, vcpus);
-+	configure_pvclock(vm);
-+
-+	/* Set different TSC offsets on the two vCPUs */
-+	vcpu_set_tsc_offset(vcpus[0], 0);
-+	vcpu_set_tsc_offset(vcpus[1], 1000000000ull);
-+
-+	/* Run both to establish kvmclock */
-+	run_vcpu_once(vcpus[0]);
-+	run_vcpu_once(vcpus[1]);
-+
-+	/* GET_CLOCK_GUEST on both — should succeed (master clock active) */
-+	ret = __vcpu_get_clock_guest(vcpus[0], &pvti0);
-+	if (ret) {
-+		pr_info("  Skipping (master clock requires matched offsets on this kernel)\n");
-+		kvm_vm_free(vm);
-+		return;
-+	}
-+	vcpu_get_clock_guest(vcpus[1], &pvti1);
-+
-+	/* The tsc_timestamps should differ (different offsets) */
-+	TEST_ASSERT(pvti0.tsc_timestamp != pvti1.tsc_timestamp,
-+		    "tsc_timestamps should differ with different offsets");
-+
-+	/* Sleep to let time elapse, then restore vcpu0's clock */
-+	sleep(1);
-+	vcpu_set_clock_guest(vcpus[0], &pvti0);
-+
-+	/* Run vcpu0 to process the clock update */
-+	run_vcpu_once(vcpus[0]);
-+
-+	/*
-+	 * After SET on vcpu0, verify the correction worked by getting
-+	 * the clock on vcpu0 again. The mul/shift should be the same,
-+	 * and computing kvmclock at the same TSC should give the same
-+	 * result as the original (within ±2ns).
-+	 */
-+	{
-+		struct pvclock_vcpu_time_info pvti0_after;
-+		u64 tsc_now, clk_from_old, clk_from_new;
-+
-+		vcpu_get_clock_guest(vcpus[0], &pvti0_after);
-+
-+		TEST_ASSERT(pvti0_after.tsc_to_system_mul == pvti0.tsc_to_system_mul &&
-+			    pvti0_after.tsc_shift == pvti0.tsc_shift,
-+			    "mul/shift changed across KVM_SET_CLOCK_GUEST");
-+
-+		tsc_now = pvti0_after.tsc_timestamp;
-+		clk_from_old = pvclock_read_cycles(&pvti0, tsc_now);
-+		clk_from_new = pvclock_read_cycles(&pvti0_after, tsc_now);
-+
-+		delta = (s64)clk_from_new - (s64)clk_from_old;
-+		TEST_ASSERT(delta >= -2 && delta <= 2,
-+			    "clock correction delta should be <=2ns, got %ld ns",
-+			    delta);
-+	}
-+
-+	/*
-+	 * Also verify that vcpu1's clock is still accessible (master
-+	 * clock still active with different offsets).
-+	 */
-+	vcpu_get_clock_guest(vcpus[1], &pvti1_after);
-+
-+	kvm_vm_free(vm);
 +}
 -- 
 2.43.0
