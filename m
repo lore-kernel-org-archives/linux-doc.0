@@ -1,100 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793914614;
-	b=SeGVhLgpCFeZHNxx3wRpsWuCPU9hSdohg9SOgPDIvU/D3kpCyf5JL6SXVUkOA12+ckba
-	 baDTqD7Mszj6XeZ7VKsxZiGr3eR3zBDIanU2b7CeOb2YkbHjhFbQl9lL80PP7kANiqqyq
-	 O0b4pO5NZz6aEG8BZsihTCNVCWVkbEULE/xeNAEKoAGBAGVefl2MEF9572Yvh/tX7iM3p
-	 2ILrkf5TS8wolNLUBC3QlYjc3Y3uW3bSA7JhHU4kD/E5Ld2+0LPtTHSbEw1noJXX0kWvJ
-	 FIx75wVpWhPWjcYgxB+U1DbQeA9hmrcjIenaNqoVkQnKcsiBASUhBQuagpiEDV3+RoA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793914614;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=2E4Xme3iGj8AG7tp5kyRL4U0PVxMRPmUII8euE4aY4I=;
-	b=iM8vcnQ1PgocZHL/xdz1upmNQjv02397s75PYzE5ymxk8Ahx2P1Fq9yAPn4fbpwldXld
-	 Nuv8RftXYMyI94qhaaLNSd26jVLkIQBhz8hL5kq6eaii3IDtQrq4kWKQMwMVIAmhDGDa4
-	 9RGquk2wYYAvpVIpDY3q7leoxpNeHVVQFqXanLipK1W1Y66sAmq2wzdSg96jR8rk2Klsz
-	 Fm9kMq+VodYpxHzSlKEJmoVPn2KQMvwYpD338h1VrVnveFReyAMQO3bg8Lw27MfHV6xI3
-	 KlPDMHsFzb3gPTx0mn7DNgoJYMhlGCA3zsOnqyCRDLOs1ltIzDjtMIJ2f7rxmv2GQ+w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=qNV3YK2A;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793916119;
+	b=f9UPAk2+AtS6x8xxdJbb0MwMpgWJ7btzf5md6Aqm6hGxwJAVQ4PcsnRlytI9LHk86cw3
+	 zPlmv8ZUqb3ZpG4OB+CcvUfnSNqlRwotgK4x5jNkaK40YN45jyHhZdsfB4oVTkZO9vDRy
+	 zava0IQCiLCYrfqFaJdxkgw4zneAgAJb2zU4Fu6g4CAYygpGr9/JC5U9Rf01WMvqQ0OBV
+	 OKoxrusSmd8wcP/6Ja8CKEsb3OOmK0GhgvAhzkk95FY1zaf233HtOm42wIfHk4lsI+r02
+	 t7hr/xF+gfpP7pyiFhJJAAOJtjRApO6YerebYxpgM2mvD5gR1QYyiaqSZSWIVlPF30A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793916119;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=lNt/NV5oKxbjksJAX7Ldj36p+CPh8uKKu4XLRHv+03o=;
+	b=XHDwuMzMvDc2E6iVsq5TEZ3UcS7Sjidz8Vuik7oF+k21o5ynucliNqo0optvNXGNkeYt
+	 4uStf5Y0KtxaxT6aZbEIJ8wDKZYvqCI3CXPHmmVpt1LK3g6UD+J2YQbfkKip8MLJiZoFZ
+	 yoybOCqFsEGK1jsKtNuhEAvaRuHsha8iWe0tyev5P6N68TAHnLfQqFjlVdDIhPeqN5pRK
+	 X5DD1TKLJDB9tptS7dhqz9pOGBawkHzWVZhXx+5p/Np3uUAyNif1GmtkUr+/pxDgCNb+n
+	 OuQ7YTSe2rENwIvMfDhOMxR7CXbxLKxrHYWz8MNRVgiyhENmUQrfq5l5eg2qSq/hp6g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=y+d66s73;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E06C6606D801
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 21:36:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E06C6606D801
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357ED606A32D;
+	Thu,  5 Nov 2026 22:01:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 357ED606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=qNV3YK2A
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c247f6687dcso407239366b.2
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 13:36:53 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793914612; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Ft7jeV3wrck8v2ohptHGMl/iAfRCenM9Y/8lXTQsAXLiBdudEnCO38SnRVrdRvPJye
-         pDksRln+9vYtu3hLTds+3lR+Ywi4Vens5JY0jP62VBRbUZkgG8togDS6vy7br4D+faNO
-         6QOiP+/kv4iziMFl/1i6mee1ekqZJBCKbt3u1oiR/mpzERv7GLXRBLxu7SLwCjd3XXFN
-         4vYpo6zpqN5ST8rQFIyOO++SatJVIa7iB6F4aXRfKCpPUPRhxJaqSgfei21dWoDZ+8P0
-         i1T4Ocy5XNZ11tP1ls/EaW4OD3rrSVl5Ds4a1F1jQUuVcowuUcWTJcgtt0XA4+rOW7RW
-         DyxA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=2E4Xme3iGj8AG7tp5kyRL4U0PVxMRPmUII8euE4aY4I=;
-        fh=DLzwSXVNS3f6rGC/ouk58hX85xdaV2A6HvFoe0SoMO0=;
-        b=htjzzX8tHsQP3yIgMRKOi8oQE4R7OQ7K4dQ0gmcLXhXr0kj/Hc72XZdscz2BdmcOzp
-         VUXIEl3J+LbfqnTf4ktDVTrA1fQiWRmNI5hx4zm1x4WXzX4bNhu0/9p6IYPlirAkHiHh
-         CGjN1TAyYqjJbXOxmWeoxVDUhBEjTUytYwaetIiXXEh2cCxYaLyIKXlSKzMb/DtRII3+
-         jGl30HorRaR9pknElNy0Xzcclqe7acOoGAQJb3IgVhZTcAc9eM+tN7AuUVwiht0uISg3
-         mqVAgey1UYyNUmMYD0j3DKZZuYxlKeQy1CK7frcp8ka5yyUZLqgOHmp2yAnOiA/+Cj2k
-         axUQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793914612; x=1794519412; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2E4Xme3iGj8AG7tp5kyRL4U0PVxMRPmUII8euE4aY4I=;
-        b=qNV3YK2AvifU1tOsCQ8wk4axq2Bpnp9T4w05lcq35MoN1lflDph5Y1IYtTpLN9oiu1
-         oljv6zhoDl0Vdx6KwOE+YZ2XrvF12KIBahqeuzL0AI1Ihf1xglBIFGRlNFmbLRw1BvGj
-         cHOsnpHe5ExcVUNebf5XytYqgD/im+o9YfI2/bO5gRjiKXBfTL4w9S2eMuvmZ4trc6CA
-         kCNJxMHTFWh4eiUO3KMPLUXRVAjTsqzWtt3brnLtM+MWPucllL2IlplxbMf3C29B/5Fm
-         Zq9m93kWEpns5SBYbYB5Q3+CTVkb/fUXg2wz7C4TsaW16nXsgwuTB3NnvQNvu0l335c9
-         ZYPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793914612; x=1794519412;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2E4Xme3iGj8AG7tp5kyRL4U0PVxMRPmUII8euE4aY4I=;
-        b=tBze9vf316W39fYkf8k8y9lzzNts0rcQ4ERyIhuicC2+Aa4u2YUc8Ysw+6bqj6an9/
-         xAk6WX2H6D0POrbPlXX38WVGBgbSUnzi5q3J2sPUU3qdtGKe6YjZnWZi0vXodRkTlvCi
-         w14SWJLwzPObXQcNvP21sfTXbzxiWYvvJrGOV1bkEz31RdT/kn5q57rzI734T96d5PZd
-         F8J7NYVO+k7nder0i8Ttkg0a7pFvtOnpXuvUQqGipsC7k3/zbCecPdOZRTeKpCPowYAO
-         SXWXKqQNwQOmQ93FJjDG+YiwiOFhj0FokwczTmIQOf3zqfMOUZTLnVubyHmFFreBY0F2
-         mzhw==
-X-Forwarded-Encrypted: i=1; AKwUvBwP6Et/7BsWF0F+LM5RK0tTJ5iMZNSZdIZLF67RuCQl7pbuEZUCbbbpBSRdx3HiRxPMHSovttPGv6U=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/IUvlK/yJpPVs1KbS3GRRY9eh4A5UK1sTCA58gpkvt1lrULoYR
-	XP+kTkdmRHEZF+oN3ETxDsqLyGWfTVcvUFND8YWR2BcIiQ2GB3aaQtJa7XhbXpPCz5l0Yd1Bqvk
-	Ji6o9RXEowZIpLXgzRfWhZDf8XXx9FbbGBtj9FzCs
-X-Gm-Gg: AYBFou0SXX0uOZEyJcpfCMFrtZbefRqE2xW1cAhGPiO3PDgfz2yF8f5qlU4FOpfoDvI
-	xxBk0D0+KiYbIOHXjv+yXheq2C3bLbMJFXRljoRj9Zi1GqnS4k3h7stKN12jNVhtBLYahPPpysI
-	lUMBu/Syslt60lMShFICHYpsHB63XtCy5wcUeQS5xwO9bgw7H2ICUoqjLrMKGqh3UBg/VtaNXcm
-	bOeXJVWBg5uOZzy/o4uJPbG9soszO2uagBvUQmfV+XJH7xIWCh6T9ExJ0ZMLVvBuxLfzQgVdhRN
-	1l686VxEWgcoqLawpAMN8oO3ybx/4GhSwBn0T9Jqfm7NnCxVQRUXYT4S2LWdbAC3bTTz5jMKDw/
-	taSHmYsw11S0ZoVcQvhaqzYxvy0uYRKLXeMp5yG0XruhQhFVz/wgg95KmZcyGLzwJEME8hi0=
-X-Received: by 2002:a17:906:9f89:b0:c46:645f:cedf with SMTP id
- a640c23a62f3a-c4d3546bf6emr55329366b.15.1793914611758; Thu, 05 Nov 2026
- 13:36:51 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=y+d66s73
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=lNt/NV5oKxbjksJAX7Ldj36p+CPh8uKKu4XLRHv+03o=; b=y+d66s73nWFtCs9jYnXjWVNPgz
+	AmFlIH0hcq9dn+TE1IpruffHGi0mOv6Rq63L/8WQU1gKGv2UBg7fya2C+uWTChO/nY0t456OFCO70
+	mSh5cizafME4qSgc+ugaydEJvMtjiAqDwirfAkvUSmvOtYlQU46VYBwtGkv5KEMq+Z6gmteLEuwQ5
+	h740K/+C2FNxrrdkoUarn2ZkVX+NpzeEUXxhGjs3xyQctCfC2zjWVow0EX0cGAELVAcXKpB0YthCS
+	GKj2bQCKfdQqu+LKkNSYJhUg97tLE8ipUZsVq0TLv5cGkf49ACZJyqzWjvzk2yjygNLSNHez9uNQM
+	DM61Cg1g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xP5Wv-0000000AmIu-1xcC;
+	Thu, 05 Nov 2026 22:01:57 +0000
+Message-ID: <43787755-f0ef-4338-b0d6-fcffcdfcc402@infradead.org>
+Date: Thu, 5 Nov 2026 14:01:57 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,81 +58,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-9-wusamuel@google.com>
- <20261028134012.01d52e94@pumpkin> <CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
- <20261030100215.6f8e0d4f@pumpkin> <CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
- <20261104142307.431fc12f@pumpkin> <CAG2KctrY6GmVqsKP+fXYCsL6wDR4zp1kdRd7a7uOdCgg_JcMdQ@mail.gmail.com>
- <20261105083712.14847dcf@pumpkin>
-In-Reply-To: <20261105083712.14847dcf@pumpkin>
-From: Samuel Wu <wusamuel@google.com>
-Date: Thu, 5 Nov 2026 13:36:40 -0800
-X-Gm-Features: AclHuK-4-3cdEVpuwe7ZR8h4IzWEsLs5z4V7r2FIsMuL4z-PpEQaIZ0fXLkqICE
-Message-ID: <CAG2KctocE=kj2CO29D0tVmrBeWmCDYA6FhpHr-7ZbD63GM1CsQ@mail.gmail.com>
-Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko <andrii@kernel.org>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: Add category of subsystem-apis
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261105181542.3071-2-manuelebnerli@mailbox.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261105181542.3071-2-manuelebnerli@mailbox.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Nov 5, 2026 at 12:37=E2=80=AFAM David Laight
-<david.laight.linux@gmail.com> wrote:
->
-> On Wed, 4 Nov 2026 16:05:52 -0800
-> Samuel Wu <wusamuel@google.com> wrote:
->
-> > > I think it might be more sensible (less pitfalls later on) to return
-> > > the symbol number - not that of the next one.
-> >
-> > What pitfalls were you anticipating? If the current symbol's position
-> > is returned, userspace needs another ioctl() call and an -ENOENT
-> > check, to learn that there are no more matches. Alternatively,
-> > returning the next position means every call pays for a look-ahead,
-> > which for an unfiltered query walks the module symbols even when
-> > userspace only wants the first match.
->
-> I was thinking more of the kernel api.
 
-Ahh ok, makes more sense now. I misunderstood your previous reply to
-be about the ioctl(), not the internal kernel functions.
 
-> The 'position' is just an array index.
-> So a 'read by symbol name' would return the array index of that symbol.
-> A 'read by symbol name index' would return the name (uncompressed) and
-> do the lookup (binary search and linear scan) to find the value.
->
-> I've used a bit in the 'sorted by name array' to indicate that the
-> symbol is a duplicate of the previous one.
-> So checking an 'exact match' for being a duplicate is cheap.
-> But for a partial match you start needing the name buffer to be in-out
-> on the read-by position request.
-> So you start needing 'read by position' and 'read by position with
-> name compare'.
-> It is likely that the caller will need to validate the name anyway.
+On 11/5/26 10:15 AM, Manuel Ebner wrote:
+> Add Bus and Communication category to reduce number of items in
+> 'Other subsystems'.
+> 
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 
-Got it, thanks for clarifying! That works with QUERY_BY_NAME in v3:
-- In the UAPI, the input query string
-(kallsyms_query_by_name.sym_name) and the output matched name
-(kallsyms_query_by_name ->kallsyms_sym.sym_name) are separate buffers,
-so the name buffer is not in-out.
-- In kernel/kallsyms.c, the vmlinux lookup only needs the two helpers
-you described:
-1. lookup by name/prefix -> index
-2. index -> uncompressed name + address
+This LGTM but at first I was wondering why I2C is listed here but I3C
+is not.  I3C is listed under driver-api/index.html. So are some other
+buses.
 
-> An 'interesting' idea would be an ioctl that returned the value of
-> the nth symbol along with the name of the n+1th.
-> That might get confusing though.
+That is a little confusing to me. ISTM that we need so *not* have
+2 places listing bus documentation...
 
-Agreed, it's simpler to have the ioctl() return a single symbol.
+Anyway, this is a good start on that. It could be merged as is.
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+
+> ---
+>  Documentation/subsystem-apis.rst | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
+> index b1ad48bb40..4e886897d3 100644
+> --- a/Documentation/subsystem-apis.rst
+> +++ b/Documentation/subsystem-apis.rst
+> @@ -24,6 +24,20 @@ Core subsystems
+>     timers/index
+>     locking/index
+>  
+> +Bus and Communication interfaces
+> +--------------------------------
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   i2c/index
+> +   pcmcia/index
+> +   spi/index
+> +   w1/index
+> +   usb/index
+> +   PCI/index
+> +   peci/index
+> +
+>  Human interfaces
+>  ----------------
+>  
+> @@ -72,11 +86,7 @@ Other subsystems
+>     cpu-freq/index
+>     edac/index
+>     fpga/index
+> -   i2c/index
+>     iio/index
+> -   pcmcia/index
+> -   spi/index
+> -   w1/index
+>     watchdog/index
+>     virt/index
+>     hwmon/index
+> @@ -84,9 +94,6 @@ Other subsystems
+>     security/index
+>     crypto/index
+>     bpf/index
+> -   usb/index
+> -   PCI/index
+>     misc-devices/index
+> -   peci/index
+>     wmi/index
+>     tee/index
+
+-- 
+~Randy
