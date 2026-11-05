@@ -1,96 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.38
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793918634;
-	b=ptCgUEekjKTHQA1ykjQjohhny1dAbPiboEsx+p30N6BoUe/OSasgWg5aDz/d0Jrxjxh4
-	 CwOpXo80M5gSolIjBqFQXzOz6ARNqf3IOADAT1uwclznIMOGsKv8M4LAYzonDm3liLObC
-	 cbGPSgpLw1CVCI0eecn1yQe2jBfnAKk5gokQ/eJXarJHY0qRwEtlylKoWo2dj+9HMi4qz
-	 TtdApcanAVym2ZQ33nvtuNnul+4yM8UrAMYA6F/7C6BKwf/Zz/F8nYAu4HKMasDbQkCRD
-	 7s0nP8pXEFZpuO9flSj16cOzdzj5jnzbwO3T8jfkmW8q0R9fOVctPFnOL3Ql7JX20bA==
+	t=1793921697;
+	b=NloNE0gmKhsH8QQvfzn/9itEBkPzRHqsJosp0oac7fZfabEBf2+D3RIzvTbY3BauJMkV
+	 Ymw5/G7hUi26PcaiZSMWetsYrPCxVf5HaFPrzHqVQ3czb6TbQix82P/UxmvB3iBSHKEb4
+	 vrqd+pWZIH8pWLdty5f5r44P20d4RLs6Nehfknyr7eD1pfCcgrb+AT6w7WwXBIV/ierk2
+	 H8ZZ2IQY+EsyiD+FrZxxhdmm6wRzgV07kuBE1ihSv4Z40Pj6+BLwD3Vw25JvytnzH1gsd
+	 gk31gSNQthfwO9tW82tKo3cikFCDLNI0ES26zA1d4a0YSj7Qz5vJo23LAcRjVMYmeQA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793918634;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-ID:References:In-Reply-To:To:CC:X-Mailer:X-Originating-IP:
-	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=wuKqU2tXHfG2rHcrThqX6FBB6nh1Pyh0K/Huv/vPmxg=;
-	b=CMfymexWS692bWT2GVt80jGZVpcjJ2DUfTAx8YrInCWySUyfZN6udWQhHWbVvKISNRY9
-	 UxioFMojT2JbHWXnP7JD0U35qVo7fGiOetqYVHnpayVU+yY9TJhR087/Wu5v2YGLfBRyY
-	 tMY32BqV9VAi0sKgWuYLZYNHva8J4DLEVQwXeeFb/nIDHzMbzviSI5JhKsqXm+LAffxTY
-	 NhUvwsEiR0iVIX3AUl4vMWhhTfoJ7jmVSQ1AxudL6FlTAO+sj4sJyAniwD6bfQPYSzka4
-	 D05q2J8oSIcyR/lZ/kgvTLBOCbIVk/xxEkccxxUCcpTnu6Y8P14xTNeiXxk+wG0OvDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793921697;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=uW24Oo6SzxhmQfdFBJWhZnZ3z5QiPA441Ft/BalVdAE=;
+	b=mUnDyGAa9J1T99oU9dZd+EN1re7Xgj5MvL64g2YyOa+mxwzCQ+EZfAwAvrwv1nCU7GEl
+	 xqlZVLNBUiiGC1EMaPFzCugEv2H3/aWFbVOfXzpCFwWw91p7JHiiKPj6TWHYYM544Ms16
+	 Dk5kw9mzY2njYDgVW43RwlUzKmgX3PHkEP2kTqinPpGmmHEjbfuH/+6bAGsNSuUzld4dP
+	 xnRESugRAydWzZl38cAX8GcyfqIqyFVgIuBhgbDCdn+EAZCPtOUc2WNLwYL4RFyj6gWD8
+	 p2vkYyVQkPJM4y9wuIKlT8Su9G+SEGOKsG4c8/1n4rP/N2iVf2XuaLglJ/bg1/J5m+Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=W+QMIec7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.38
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010038.outbound.protection.outlook.com [52.101.193.38])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UzgDizeQ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75C1B606A338;
-	Thu,  5 Nov 2026 22:43:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75C1B606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97492606A31B;
+	Thu,  5 Nov 2026 23:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=W+QMIec7
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Xakqw9Bv1KHKw5EEPxp849+7QCn9/nHg/E3DufUnoa3jyjrkACVkaeIEZ7wviCM+fClmCOy352ynDXTN6iitc5dWg8FSCW88J+YBYetqnvJ1Jzfd6E+7GYTLcfHhKBOYw+xhkDIWG2A8QqyF/pGTMN8GLcv7rLs2vUOXchskn0CSUF7r05eOBwMBv2YKNZ60MnftI4VOWVur4B6WFejEJbxHVCfqDDgZlb3t2DJT+Ow4EEz/xODsiY4naGjWgMDiLztjbbLrXc5FDte/uDn/QQZ/0xm1HIJBqw/paSI58fL5C66NwJqVfHr3JTuWTc1F2KQhgSHf82p1Z0h+32BPmg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wuKqU2tXHfG2rHcrThqX6FBB6nh1Pyh0K/Huv/vPmxg=;
- b=ceAm3elpblIW9w2r9154klNu/Sl6iAQ4JnhrvrIgKZkqKLu0vKMjdTua5G1iWk2ml97RDcR964wHy2ELt2COPGHBH2hBrToDNrXyrBY1RFfLMAcoMpZ77ShK4w6X+qUZCtyFJIlUAkgNUfc6WtuXbRxc44N3asQ5F+6qRZzpJaI6wOkMyivt9u3R0rgZIJutXRiqYw9DL02bPk4q1J4neACoddD07dZSeVAZ5LNMywEKtw0gmLdXETXiwr6gzq3FoySxm7Zt69+xTQsJS21U3H9Z3v1/yO2puEqXjoc0WFDmece7C1pHYo5tK39A0pfNLGElr45AIp++X95uuPVepA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=ziepe.ca smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wuKqU2tXHfG2rHcrThqX6FBB6nh1Pyh0K/Huv/vPmxg=;
- b=W+QMIec7eyHsqD9GRatHgREzQkFzQAJ64j8RtVOTAHGcSSYfKsYdKlR9Zjqvmi7tMVOBN8IyMrfrRRadzf4hAjaNR0WtI0i0fwyb5jfNj+lBd2FwdVMpfzkrjuHnTJmL5FSLf2R0lr+apwEGDP9ECrgs8xWHmjIUcviblZD5n2I=
-Received: from CH0PR13CA0056.namprd13.prod.outlook.com (2603:10b6:610:b2::31)
- by DS2PR12MB9824.namprd12.prod.outlook.com (2603:10b6:8:2be::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Thu, 5 Nov 2026
- 22:43:49 +0000
-Received: from CH01EPF000BE94F.namprd02.prod.outlook.com
- (2603:10b6:610:b2:cafe::14) by CH0PR13CA0056.outlook.office365.com
- (2603:10b6:610:b2::31) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4 via Frontend Transport; Thu, 5
- Nov 2026 22:43:48 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CH01EPF000BE94F.mail.protection.outlook.com (10.167.244.199) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Thu, 5 Nov 2026 22:43:48 +0000
-Received: from [192.168.0.1] (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Thu, 5 Nov
- 2026 16:43:46 -0600
-From: "Nikhil P. Rao" <nikhil.rao@amd.com>
-Date: Thu, 5 Nov 2026 22:43:12 +0000
-Subject: [PATCH net-next v2 2/3] RDMA/ionic: Use the ionic command timeout
- for the admin queue
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UzgDizeQ
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1793921696;
+	b=Jc3VnRNug1FfZnUV1rT6TvzHuqCy59Ln8BraD9M8FOa6XXDBBQaP4h6iKnL/hGGrdQ5K
+	 SwgdbkDoqElTxBXj+vBA26hnrgnx0wMOrCOeT0SDrIrJWswc8eOAcWTISNlUEAG0p8Uv0
+	 ezORHvJNIpyBQhO2o1yejhnJmFQRwxY1POvdP7oHyGbGjENnB25DPvWnzOgeFuJ+JmhQ6
+	 gaKaB63Hux840YDqFN10pd2nbf0GkJNAbfiXhYhb6QrPYW5dsHwkodWKchhaj1hiCrhpI
+	 Z2QtM6F42nnU5T42DKztidvKysc+/DmOXvW+sphgRNLVUArPG8sisUy/WuCJhxqoOYg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1793921696;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=uW24Oo6SzxhmQfdFBJWhZnZ3z5QiPA441Ft/BalVdAE=;
+	b=icxuiiw4wxZUWJt+pwgOATnxZzwptozXPpwEwoMt43cmqld+iTDLjkeh2zNCNdOWZpYe
+	 Q+iLb2JvvmLlQXtPgKFdjm38+IpqSx/2iQAhOdsBQwl+a9fgICp4YqkIB3/hbgKiPbrOk
+	 K2SziBTYxIPb5dSRR2g9Vpqf0k0KMEu4LiktoWbz+aS7SypKNFUk+g3FsZ0QM1ZftGJ74
+	 SHzD8PUxYOiSQc+BEtLu1teJRtbWkFSit/HeEdA0SxM9FilwE8khiurp7kFd0N9cwzbTk
+	 S52RzLGoMeTPnvj6OXgOz6FJGpgKHcGJq3YEBPX6ZaTveZUgiU0KcFWb7Y1Z5NdCgwQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 789611F0089F;
+	Thu,  5 Nov 2026 23:34:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793921696;
+	bh=uW24Oo6SzxhmQfdFBJWhZnZ3z5QiPA441Ft/BalVdAE=;
+	h=From:Date:Subject:To:Cc:Reply-To;
+	b=UzgDizeQYbDUaC3v4t2iVebuTaQGdRjO/KFU4nH/F7naRQgpDUhML41q/rFt6s4bc
+	 +S3lvegkxz6sCDTIG7Ptks+ge3+Rqid0Y648Vbay2baW7jZJM3iuffQ1iyX2ozWhRR
+	 5wkn1qp/GY0oEdXclb116u+X8bvGfGLkPaUgwhEGZwbXaR3D14nwrAfcuqy7W5yrUg
+	 5G9odG9u6SFkiCxJ+5A0syXeWrQjJ6SYULLgAQaNo2pTvVHzFAZtt842myaHyJYZfh
+	 bB+g4iEpIt+m0+TqwOxHkep2p0kPVAU5W4OaV2yGkRwleCWoV8c9sftzbAztbCUAAb
+	 2bu8V+TwXHe3w==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id CDEF645AEA;
+	Thu,  5 Nov 2026 23:34:54 +0000 (UTC)
+From: Xuheng Li via B4 Relay <devnull+xuheng.cs.columbia.edu@kernel.org>
+Date: Thu, 05 Nov 2026 23:34:55 +0000
+Subject: [PATCH RFC] KVM: arm64: Document that overlapping MEM_SHARE and
+ MEM_UNSHARE are unordered
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,105 +84,109 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261105-mem-share-unshare-v1-1-e4c7d12d5d1d@cs.columbia.edu>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQwNT3dzUXN3ijMSiVN3SPAhtYWSSbGSWbJScYpCkBNRXUJSallkBNjN
+ aKcjNWSm2thYALP9kbWgAAAA=
+X-Change-ID: 20261105-mem-share-unshare-824c26c2cd0b
+To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>
+Cc: Will Deacon <will@kernel.org>, Quentin Perret <qperret@google.com>, 
+ Fuad Tabba <fuad.tabba@linux.dev>, Joey Gouly <joey.gouly@arm.com>, 
+ Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Zenghui Yu <yuzenghui@huawei.com>, kvmarm@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Xuheng Li <xuheng@cs.columbia.edu>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793921694; l=3950;
+ i=xuheng@cs.columbia.edu; s=20261028; h=from:subject:message-id;
+ bh=OzLNUOC4vto8JqdWrzx35j81FrnSzjGjA2GXE09YggQ=;
+ b=HUDjW/ZmysBcCBXniSKFPhnOhTavoITcJ1jjduOTg6SJw1V4bsVs6djzi+v4ELA5KYPjC9do7
+ QBWylx+J0kMAZ4tYY1lgRngualFHsjiqY6MtYKLtE3nDpZwes4PjOHQ
+X-Developer-Key: i=xuheng@cs.columbia.edu; a=ed25519;
+ pk=L1HVV+goqxYmEMO/OXakL6uf9isSpgk2QrLlFqyZ2Qs=
+X-Endpoint-Received: by B4 Relay for xuheng@cs.columbia.edu/20261028 with
+ auth_id=1349
+X-Original-From: Xuheng Li <xuheng@cs.columbia.edu>
+Reply-To: xuheng@cs.columbia.edu
 Content-Transfer-Encoding: 7bit
-Message-ID: <20261105-b4-ionic-cmd-timeout-v2-2-35a9a2aa48b1@amd.com>
-References: <20261105-b4-ionic-cmd-timeout-v2-0-35a9a2aa48b1@amd.com>
-In-Reply-To: <20261105-b4-ionic-cmd-timeout-v2-0-35a9a2aa48b1@amd.com>
-To: Brett Creeley <brett.creeley@amd.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Abhijit Gangurde <abhijit.gangurde@amd.com>, Allen Hubbe
-	<allen.hubbe@amd.com>, Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky
-	<leon@kernel.org>, Jiri Pirko <jiri@resnulli.us>, Simon Horman
-	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
-	<skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-CC: <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, <linux-doc@vger.kernel.org>, Eric Joyner
-	<eric.joyner@amd.com>, Arun Kumar Prakash <ArunKumar.Prakash@amd.com>,
-	"Nikhil P. Rao" <nikhil.rao@amd.com>
-X-Mailer: b4 0.15.2
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH01EPF000BE94F:EE_|DS2PR12MB9824:EE_
-X-MS-Office365-Filtering-Correlation-Id: b84cb7ac-afc7-43d6-284a-08df3b8e41ca
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700016|1800799024|23010399003|10067099003|22082099003|18002099003|56012099006|261021135927099003|921020|261026140227099003|261022105027099003|261021121427099003|261028144727099003|261102123227099003|11063799006|261026121527099003|261009223027099003|261021123027099003;
-X-Microsoft-Antispam-Message-Info:
-	+sitvOc7/0+iJFe9yaqli7cyqdgqadYzWcIlUDEVSpzO3v8qFTFrKsKE9aPu9CgoMssXxKWJ98GAIaS2f6LNpC4XSEV0CI/SZG/rUH4tehVBb81jq41S2WIx5QKqar1QsATyYZ2gOAck096MVCiFSQ3nH47fjxBZ9pZFd6FOD9hWR4Sk7Jyv6QwGOMRSPAyWhOzEI4kHfG7s0socpQeorM8wpCUxWlUpxfhuczXEH7OeND4bSTF4LxRNvd4bF6ObBSmtt1HxcGBS/UcBNKIuK4AVL/7jEScbThgiN1TuMKI80h9C2VW3BjmQIe3DPW3s4ViQ7fPaDVeTJF7lyiZENift7UL0kUzlhqh+I3RaH0pEUkriiplhmFm84ZzXXbSk0V3ZjJf0Wnz030cGqlQx7SOtv2EoO2tBh3QER0E9Lue0p3WqM+LvVuEI2YinpaU9KmD7q3AcctrQudo1mqIpWBBWbuzgLixG1fEA7mUZtWZg/yye38HvkFaglEW4ZsGmmYJLMNMIaQzxYhKYY8XnjsPsY1W6x8ea7wFis+jU6die/BNs8Ukyz4foEorJYHB8rYsp1pqL5VwxzESVamXz9lsN5ArPNElBgbZVi1eXiyi+dAkY+BW6rSFwrn/zl/nQ+/njKTkEx5si7c/AkKA6nnM1J34bF7ZnPDnSMOdiMicP8+a7qBDxI1m6e4NaKJITxNUWUPXUrAt0zUHFaKixoyFOsCInNrIFHSsvShi9vqBkkv9R7c/RYOmEnpF3/8K+
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700016)(1800799024)(23010399003)(10067099003)(22082099003)(18002099003)(56012099006)(261021135927099003)(921020)(261026140227099003)(261022105027099003)(261021121427099003)(261028144727099003)(261102123227099003)(11063799006)(261026121527099003)(261009223027099003)(261021123027099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	gsO+AtC97r4oSDSrOgWfNwfBewGlhhc4G0ivb0MDD9yudPburjx4IWwqWFhm1FQpZx5TKXo1zRJMy/TeHXNz3Z/Q9K23Ayka/gf6a6O5Gq7cGdCCOrNW54ffg8ZC7UKFlZYQ+kiYJQxQQTewD1EzQyqtO60d389F+CRIRTgMt3hBoQKU8S1B0GKQeFOLvfJdjLLfE6OXMJpq+4BvhxGbrZKQ6lj37X4USbiq98ARY/iz8Lzxu5quQtwvp1AYhttybHkOI/YzTunlzVCK2xisqtuwWLM4XM8Bw32M0iWADY0c5INwPBWWJ33LbjUwN/HuFDeHInqkrE6TLAWlsVDBZa+5Wg4FluP3W6ZsoJ5LhCY9zL0VFZ8sW7FE/wdaIPY99z3XG4dN00+ow04PbXg2nwQPE7EKULZew8SCGc93Wfm34+Ny+Cl5LF50hTN+nbiQ
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Nov 2026 22:43:48.4511
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b84cb7ac-afc7-43d6-284a-08df3b8e41ca
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH01EPF000BE94F.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9824
 
-From: Arun Kumar Prakash <ArunKumar.Prakash@amd.com>
+From: Xuheng Li <xuheng@cs.columbia.edu>
 
-Commit ec8ee714736e ("ionic: stretch heartbeat detection") notes that
-firmware can take more than 2 seconds to service a device or admin
-queue request, and is only expected to complete it within the ionic
-command timeout. The RDMA admin queue watchdog still uses 2 seconds,
-and when it fires it resets the RDMA LIF and every later verb fails
-with -ENODEV. Use the ionic command timeout, 5 seconds, instead. The
-AH create/destroy busy-wait keeps its fixed 2 second bound.
+The pKVM guest interface does not say what happens when a protected
+guest issues MEM_SHARE and MEM_UNSHARE for the same page concurrently,
+for example on two vCPUs.  The two calls are not ordered: a MEM_SHARE
+that has not returned yet may take effect after a MEM_UNSHARE of the
+same page has returned, and leave the page shared although the vCPU
+that unshared it saw SUCCESS.
 
-Signed-off-by: Arun Kumar Prakash <ArunKumar.Prakash@amd.com>
-Reviewed-by: Brett Creeley <brett.creeley@amd.com>
-Acked-by: Allen Hubbe <allen.hubbe@amd.com>
-Signed-off-by: Nikhil P. Rao <nikhil.rao@amd.com>
+  vCPU A                         vCPU B
+  ------                         ------
+  MEM_SHARE(P) issued ...
+                                 MEM_SHARE(P)    -> SUCCESS
+                                 MEM_UNSHARE(P)  -> SUCCESS
+                                 write private data to P
+  ... MEM_SHARE(P) takes effect  -> SUCCESS: P is shared again
+
+How long a share can stay pending is up to the host.  When the page is
+not yet mapped in the guest's stage-2, pkvm_memshare_call() turns the
+call into a data abort for the host (__pkvm_memshare_page_req()),
+rewinds the guest's PC and exits; the share is performed from scratch
+only when the host runs the vCPU again, with no record of the suspended
+call and no lock held across it.  So the host can make vCPU A's share
+complete after vCPU B's unshare, and read what B wrote to P.
+
+Document that such calls are unordered, so that a guest knows it must
+wait for all its shares of a region to return before treating the
+region as private.
+
+Signed-off-by: Xuheng Li <xuheng@cs.columbia.edu>
 ---
- drivers/infiniband/hw/ionic/ionic_admin.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+We noticed this while studying pKVM's guest memory-sharing interface as
+part of our research project, and are not sure whether documenting it is
+the right answer.
 
-diff --git a/drivers/infiniband/hw/ionic/ionic_admin.c b/drivers/infiniband/hw/ionic/ionic_admin.c
-index 0ccd869ad8e6..b463ad8b4e80 100644
---- a/drivers/infiniband/hw/ionic/ionic_admin.c
-+++ b/drivers/infiniband/hw/ionic/ionic_admin.c
-@@ -18,8 +18,6 @@
- #define IONIC_ADMIN_BUSY_RETRY_COUNT	2000
- #define IONIC_ADMIN_BUSY_RETRY_MS	1
+A guest racing MEM_SHARE and MEM_UNSHARE of the same page on two vCPUs
+is arguably asking for trouble, and Linux guests don't do it today.  But
+nothing in the interface tells a guest when a page is private again,
+and because a share of an unmapped page is suspended until the host
+runs the vCPU again, the host controls how long the window stays open.
+The alternative to this documentation change would be to record a
+suspended MEM_SHARE (for example in the hyp vCPU) so that a later
+MEM_UNSHARE of the same page cancels it, or to fail the unshare while a
+share of that page is pending.  We'd be happy to work on either if you
+prefer a code change.
+---
+ Documentation/virt/kvm/arm/hypercalls.rst | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/Documentation/virt/kvm/arm/hypercalls.rst b/Documentation/virt/kvm/arm/hypercalls.rst
+index 7400a89aa..ad7082da1 100644
+--- a/Documentation/virt/kvm/arm/hypercalls.rst
++++ b/Documentation/virt/kvm/arm/hypercalls.rst
+@@ -99,6 +99,16 @@ Revoke access permission from the KVM host to a memory region previously shared
+ with ``ARM_SMCCC_KVM_FUNC_MEM_SHARE``. The size of the region is equal to the
+ memory protection granule advertised by ``ARM_SMCCC_KVM_FUNC_HYP_MEMINFO``.
  
--/* admin queue will be considered failed if a command takes longer */
--#define IONIC_ADMIN_TIMEOUT	(HZ * 2)
- #define IONIC_ADMIN_WARN	(HZ / 8)
- 
- /* will poll for admin cq to tolerate and report from missed event */
-@@ -28,6 +26,11 @@
- /* work queue for polling the event queue and admin cq */
- struct workqueue_struct *ionic_evt_workq;
- 
-+static unsigned long ionic_admin_timeout(struct ionic_ibdev *dev)
-+{
-+	return HZ * ionic_cmd_timeout(dev->lif_cfg.lif);
-+}
++Calls to ``ARM_SMCCC_KVM_FUNC_MEM_SHARE`` and ``ARM_SMCCC_KVM_FUNC_MEM_UNSHARE``
++for the same region that overlap in time, for example on different vCPUs, are
++not ordered with respect to each other: a share that has not yet returned may
++take effect after an unshare of the region has returned, leaving the region
++shared. A share of a region that is not yet mapped is restarted after the host
++has mapped it, so such a share can remain pending for as long as the host
++delays the vCPU. A guest must therefore not treat a region as private again
++until every ``ARM_SMCCC_KVM_FUNC_MEM_SHARE`` it issued for the region has
++returned.
 +
- static void ionic_admin_timedout(struct ionic_aq *aq)
- {
- 	struct ionic_ibdev *dev = aq->dev;
-@@ -294,7 +297,7 @@ static void ionic_admin_dwork(struct work_struct *ws)
- 		}
- 
- 		if (time_is_after_eq_jiffies(aq->stamp +
--					     IONIC_ADMIN_TIMEOUT)) {
-+					     ionic_admin_timeout(dev))) {
- 			/* Timeout threshold not met */
- 			ibdev_dbg(&dev->ibdev, "no progress after %ums\n",
- 				  (u32)jiffies_to_msecs(jiffies - aq->stamp));
+ +---------------------+-------------------------------------------------------------+
+ | Presence:           | Optional; pKVM protected guests only.                       |
+ +---------------------+-------------------------------------------------------------+
 
+---
+base-commit: 05441d697f7f9a927264f4058cbbc6a03dfcac9d
+change-id: 20261105-mem-share-unshare-824c26c2cd0b
+
+Best regards,
 -- 
-2.43.0
+Xuheng Li <xuheng@cs.columbia.edu>
+
 
