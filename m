@@ -1,99 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793909918;
-	b=ASbt+sX/+VyCtc4SI8wRj0JkcTUbOlz9jzRO/AxfDtMcErQz5sRT3YOlglqY7mrj6uAH
-	 spzN26MMhddRt9R/F3C2nETc8AF/6fhjncrAtzVwSUmQZddtoYDF3rdVHZOla5NHu/OWw
-	 nuPkTHLS8nHPZnO5MoNodLGeTenCakr0Dn9MlW4lP65yE/85iWteJNNNYq7fdEohmfnn5
-	 WQtpww2vQkn5DwCFmZtWTsQ2+pI3ZvDJeAgwaPtA+tub/EL63xFARzaaFlNlmTbZh7l2O
-	 HTR4kxJiJPrORmF5t/Ziz/rVZl3L3EOOw77KgbOHKkMiKiJ0pVHJt7PL511tIxIeryg==
+	t=1793910900;
+	b=VhV3rvcS9Fw/cMb8C2s3XzAz5zkR8u8wMsvb/sdDSZFXlXMXBsS1cqZNuLjtXD9jfkW5
+	 T7e0AREOj0XYMoxWIVBpvDi10fYX3py4HfmBF4J3syfduIsqtWavYj6BGM+kuu+up2RGR
+	 ELJGrazWZTxdg93NcOzezWTvPJe3aGTMAb0JWaM3HH23/LtjTZfxVAnJGZP3oPABaHhTk
+	 Ny0/UjuUiGWWL4hhjEIw6fRKbsmNwO4q5IgsWYSxUb1YGrac9Sb8TuPvET0Rw4zlfaUnc
+	 ZMuTGUxDoxqWoRP90LSg2BoWCoy4yoyYEHFdqOEqB6R3hgZkfXziOYl5sZU8cWQfcJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793909918;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793910900;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=ou4/lAhEpFwwKVnn/O173URP+OPA9Dr5LXSyF2aM0Kk=;
-	b=hCbSpwcUHmzI2IGsKZFhrn1/HV5ruo6ft+CkcoaO15fAlyb0wj5VvNeG9dRkWCDWyBdd
-	 d/la7JHlH471J5fqB+CQiW1JKy2yWUbG8VXW+TXZbkmAgDQqPnaKzdBAMAjEWULj6pC52
-	 rWp7RqqimW2CCIezIILjoVUuDwXTuHivXPRUKnm4xs3aQK3Gm0mDfQeJPdnCTz6VY6gqH
-	 ZQ7o/ph7oPOUR6BgwOxVlPCFyFzEkOwttWuNkVRMCGFFlA2faA/NkP2kelKA+fLR5sgYn
-	 hQLIVbv1p1oJiZtm2jhMhd2uu1jhSSNf0NGMOrguG0TRSAFDV/uMy77h6RKPWSRRNYQ==
+	bh=aFjl/l4WKV+VfugNVUlnSUSxj2ZFcfM53muFdv6vcfQ=;
+	b=5F0rXm1AjQjxu64ZVju/fjIq+QvSMoPeKO3/aSywduS6zeUnEAJq/4DX0WtKTVtIvGn7
+	 gNpSziB1PkmItpqnc4+tNMxmfBELGVXn4+NWKtx5IBPAjUBFpuaTMKa7YB9WygFukObBt
+	 zNzAVszgZB8pXGtJfRwkRbjVhsePDSLH3FQcEbBIEInnhmedD7GZ4mCVabAz0g/NTu4u4
+	 db25Ug4tD99LANxCIG1PneVhBmcx3nyCJy4JtxOXcV/BPH1UmfXmg+cbC56QJ5p9nrAC+
+	 gwolKTa4uLscWTCvuF/s54JQJlwlVIDDC+uN8f0+gKBRgH5Ru1cwdKgZXQYCWsX0O/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=purestorage.com;
-	spf=pass smtp.mailfrom=purestorage.com;
-	dkim=pass header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=fY92HljY;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tfDV8RqH;
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61176606A32F
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 20:18:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61176606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7141606A328
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 20:34:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7141606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=fY92HljY
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48e3b22e971so1239601f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 12:18:32 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tfDV8RqH
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-36a0f27c9f4so4357295eec.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 12:34:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1793909911; x=1794514711; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793910899; x=1794515699; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ou4/lAhEpFwwKVnn/O173URP+OPA9Dr5LXSyF2aM0Kk=;
-        b=fY92HljYm7SUL/irbYBIukak8YUb3C47lQ24TCLgGG5fynimxwPMQM+lYLIvhRAsPn
-         qeUUtYqIRjEY35BnZd3pdA7+2EWRL0YEmPLA5UQch4Pmsy+TjNMBcr3MTzWON96WdVQW
-         oL4VhqsBcv52vQnJuepnrDyVRTGTF3q+i9khUTk18gQQlez/vXzTpXcx+azvPnzpGGEt
-         Pu6zHj0bebmvcJ6HDvrCNcnCbekezGsG0wMHx9JJ2rRXOwP5gRcGtCiKlDVRkmpycaAD
-         uSyxZVf1n0IK3GC0YVK8+h9Ma5JBOF0GGkZPL5elj6Rn5CwQSU1cy/+Q5oCHg3VB1E0a
-         fh8g==
+        bh=aFjl/l4WKV+VfugNVUlnSUSxj2ZFcfM53muFdv6vcfQ=;
+        b=tfDV8RqHdxq2Tir67Fgi3R8YmRMnkFni198pbJyN+2f/wlgyg1u3H/zAskp5NHkOv7
+         tIdkAuAZ8WUJ1kMmFVB+y6fHOz8B/caj8wD6aThvegmX02BzNu06iJykZNQp0y6aCkds
+         RlikDnWVU951ugzrT3mYdlzvFKlHh7U4jsRYSXIG1h4+jf8Ji6Bx4VcBvQSsJCCbdeY9
+         mB7Z2NGEfuJN8Celqb7oNC5peWi2IHdFiN3NSUJbZlwldHAE4GnOhIkhY+aC2WxclROa
+         S4gSdge+AsM35XlqkfzkRHJ1/+Vy2cjQlMpoMljhOELSER57fCOwoNKU+WxKYNt0B3OE
+         B7JQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793909911; x=1794514711;
+        d=1e100.net; s=20260707; t=1793910899; x=1794515699;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ou4/lAhEpFwwKVnn/O173URP+OPA9Dr5LXSyF2aM0Kk=;
-        b=O3mvsq9WPV6Lq6gLh2Q60U4VkiWqT5oWvQhNEEDvRXMHg6WppO0w7xvg/q5OV3lfsP
-         /MTtt2RorglZaGHhXG/BIn3C7EnTE2uQydkSvVtS5QqKeoj8iPxst4CKCEUDHP77RVOY
-         a7rh2P7L/cfogfTrZCVx69ABz7OBXRn7ht1lt+V4dZHVbAKkZ/NZJ8ceIZq399xgpX1x
-         1IarZ3A+Jp2RvGhTktZU8J6hysfCBtpwXRqEOMpEx4sYA+OsHCJFZBDWbg6H4Zb9CgLM
-         Xj/DtCNpjHwSQa+bcwwDmDpl2An7hekmrm7ZI85fcL5Sh2D+x5NezR7GjrCBxmEcpgPH
-         7ASQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzSvT9dGr/ARKoSMxvS8VthCsYrESldBKiUGTPkPU/kuIGMAX9FyM/sHt6a38hIc+xLkHr97MXtZe0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/GQwKfPrlQGZbwUjM9caZS/UPmyH9s5OfrGEoLdxUKtaEKB+zp
-	/vUOau+ibvmFZBOwOCA4vILuiO8z8PmQYDrS1a5lle3u5R4dksHZgVoDxRIihOCJgOo=
-X-Gm-Gg: AYBFou0QkfdFanHgG1y/DB/e619hJZX8I6Wyp0boda+GR0GB3PkWt2qsvrOpM1vrqK1
-	wij8S9N8sNXahnISutrPzfo93T79XlQJTmeGxhZRUv8oB5dqMqFkHsA1iShyHqU5vCsyt3g2HWd
-	Hc8fjahypujm6Q96IcfrdyEI9P6e1Skd3g0+7OfHqsR4EgucsfoKb7DrCqgJH3E4u3uM0COWlve
-	fhaJvch24cyrbnG3oUAyLZPfIiswh9myZ0D43F+CR/H6JpzUw+cNeJLn/sjwCXCH6kU8DdwEm7b
-	3LS++OCOOICzgCsco493ra8DsjguM+VjcuMV7e8MFyoCIeApfzvLDxYGCt/ec9UlnKnJ/jOPBks
-	0IQjFAyUJMFyfhtScInU6vEaRVOsJHJQZrrWjiOV+uEmrNrXoLTGZB28qzBQXPb28VxHaSKjDRP
-	pL+jvHRHDXnvtewMlE1ishgmTT6jXW9Y2vZJwOd2H9A4pggyVRvYh0EnojDLG1wXBAdIN45a3Gc
-	o2j71OdGfJHbkuKgA+MqjFyzZKDpOPdNEgaNk9qwe6NlnA9UdjW8EY2+xUtTmw3Qp8RO7i7dh7e
-	Ef61G4jdkpYnKun9VDY8P+uZPhMbXzEn6KQSZmLOS9qnwZPt
-X-Received: by 2002:a05:6000:1788:b0:491:ed89:a38f with SMTP id ffacd0b85a97d-49276977d36mr1397300f8f.23.1793909911128;
-        Thu, 05 Nov 2026 12:18:31 -0800 (PST)
-Received: from medusa.lab.kspace.sh ([208.88.152.253])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-48fece99a5dsm11653632f8f.21.2026.11.05.12.18.29
+        bh=aFjl/l4WKV+VfugNVUlnSUSxj2ZFcfM53muFdv6vcfQ=;
+        b=fQEsp+Cl31d0ElfQdeCFcHdaDDYIXliKrxCwSOLjYZSL+SHyV4GMkYLubIVNlBEU6Q
+         CfkwHBP2xRhLtig/0X9xVDIEQ8LImUoQAEhmTxMQH14BMthEj9AizPK8iWNZ2aSFlcRS
+         /9kTd6aQIBCp69/SZ75BsyL/CDhecoqx4K6WpEKio/vdJCelu/U5CwK0AJgs70ZQjEia
+         9nne8ioS0xrJYVX/K6xecme/s+N6lOKzeP01W61lvQ07D9ugRzxF+hVCGcBhTCv7WWgq
+         l+x9oUCZSObenWDYwL8zdUWhq8UzbQa7aCOrVx5Dxxfuls6CQcWOP6CJJzGZPETH3v1w
+         442w==
+X-Forwarded-Encrypted: i=1; AKwUvBxTbjO/ldgFvtCrGSDKCmiamkhENFmJRGUtk+ha8fqKz6fqOYT6U7ZAvw+ikkL2+hE+UfiVMivWQ/4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9wdLPWsc+EF6WkWaC3Wbt3fNHt8xGtdaHF+7MU3WJDo9otJu+E
+	FMB2SHPXrSStjzcacNCB5inDlY7wE/9ig/2TtAnzh/2u4GGc9hXJJAth
+X-Gm-Gg: AYBFou3WvgZa7rJYPomEuE0FO/Gjbf5+VUyaDqzeDO36/nSCO7/9cSaxZlIH9GOqXHA
+	c1RrgNuAqiHvPBbdET3wtcEyWCoEEVsT0u0qS5ydbx0ebse0zQDp8dCmm7yvuTO5buN+xEqjOtT
+	gD5sdJJMz/xConjAlzXvGKZ6Nj5Cj5XY5dGUpHRBpvJAsS9uM80rFCEGaE4/ZbT4pTYk/VFFMk2
+	k0jcKVxWNjv/rY38hKmBASz9kCvKbLyOeGtggJKSESI0VB96+2ZQKkVXiBHzcGTZeUkhLFIuEN5
+	jZ7tTkGDCRSqIyj/PpT6cttIyCTwSErh2pLwSKPqWu3GroLFQ3Wgx5LKTKr4jgC11V5V51gqn/q
+	yLIl+3xwS7T1dEhV0BE871qoWgTEgozPe3WK7KzR1c18F9hzCtoiXRi1zurrXd9w3WUlMSv0vaB
+	/UF/bYZajB0WaYNti5vonveiOzpN4UvdjK8LRfzVeWeEYqZMDnXQ5LsS1HrfbYv6M2DbuL+qwfi
+	kUaLTPWeAuaPoQiWf1HGg2QYYovhADJW+j5EEv5TU+DpB8L6Uhhcr8+DBWWn4ZtqtGPV83Eqtli
+	rB6rMPYX8g5ebhYTK26Es3vqmhtD0wfmVdhEsDfDNgTsF9vGNcU0U0BRNyj5j6z4KMP3l/E=
+X-Received: by 2002:a05:701b:2050:20b0:166:5552:780a with SMTP id a92af1059eb24-1b25d31e5a2mr163714c88.8.1793910898553;
+        Thu, 05 Nov 2026 12:34:58 -0800 (PST)
+Received: from google.com ([2a00:79e0:2ebe:8:c8f4:b7d9:252f:4483])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36f722ed274sm649631eec.18.2026.11.05.12.34.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2026 12:18:30 -0800 (PST)
-Date: Thu, 5 Nov 2026 12:18:27 -0800
-From: Mohamed Khalfella <mkhalfella@purestorage.com>
-To: Haris Iqbal <haris.iqbal@linux.dev>
-Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Subject: Re: [v3 for-next 1/3] block: Reject unknown status tags in error
- injection rules
-Message-ID: <20261105201827.GB2439-mkhalfella@purestorage.com>
-References: <20260928221634.43239-1-haris.iqbal@linux.dev>
- <20260928221634.43239-2-haris.iqbal@linux.dev>
- <20261005084917.GA9160@lst.de>
- <20261020223402.GA1582237-mkhalfella@purestorage.com>
- <58a98f7d-b2c5-47b5-a372-0ab5afa6a8ed@linux.dev>
+        Thu, 05 Nov 2026 12:34:57 -0800 (PST)
+Date: Thu, 5 Nov 2026 12:34:53 -0800
+From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+	Heiner Kallweit <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, 
+	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Johannes Berg <johannes@sipsolutions.net>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	"Joerg Roedel (AMD)" <joro@8bytes.org>, Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>, 
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>, 
+	Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>, 
+	Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>, 
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>, Nipun Gupta <nipun.gupta@amd.com>, 
+	Nikhil Agarwal <nikhil.agarwal@amd.com>, Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>, 
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev, linux-input@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-pci@vger.kernel.org, iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 02/17] Input: serio - attach manual drivers through the
+ driver core
+Message-ID: <auzno3uoL5Pfojfl@google.com>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-2-1e536825b4eb@nvidia.com>
+ <auy2plYVi723Qt42@google.com>
+ <20261105191940.GI8298@unreal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,136 +118,77 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <58a98f7d-b2c5-47b5-a372-0ab5afa6a8ed@linux.dev>
+In-Reply-To: <20261105191940.GI8298@unreal>
 
-On Thu 2026-11-05 21:00:27 +0100, Haris Iqbal wrote:
-> 
-> 
-> On 10/21/26 00:34, Mohamed Khalfella wrote:
-> > On Mon 2026-10-05 10:49:17 +0200, Christoph Hellwig wrote:
-> >> On Tue, Sep 29, 2026 at 12:16:32AM +0200, Md Haris Iqbal wrote:
-> >>> tag_to_blk_status() returns BLK_STS_OK both for the "OK" tag and for a
-> >>> tag it does not recognize, so a caller cannot tell the two apart. The
-> >>> block error injection code (which is the sole user of this function
-> >>> currently) relies on error_inject_add() later to reject adding a rule with
-> >>> status=BLK_STS_OK. This is okay for the current state of error injection.
-> >>>
-> >>> The delay option added in the next commit makes the rule with status=OK
-> >>> valid, meaning the function tag_to_blk_status() now needs to explicitly
-> >>> match BLK_STS_OK for it, and fail for a tag it does not recognize. Hence
-> >>> make tag_to_blk_status() take a second param to update the matched status,
-> >>> and return true in case of a successful match. If a match is not found,
-> >>> the function tag_to_blk_status() returns false and *status remains
-> >>> unchanged.
-> >>>
-> >>> A repeated status= where an invalid tag comes first is now rejected
-> >>> instead of being overridden by the later one.
-> >>>
-> >>> Cc: Christoph Hellwig <hch@lst.de>
-> >>> Assisted-by: Claude:claude-opus-5
-> >>> Signed-off-by: Md Haris Iqbal <haris.iqbal@linux.dev>
-> >>> ---
-> >>>   block/blk-core.c        | 14 ++++++--------
-> >>>   block/blk.h             |  2 +-
-> >>>   block/error-injection.c |  7 ++++---
-> >>>   3 files changed, 11 insertions(+), 12 deletions(-)
-> >>>
-> >>> diff --git a/block/blk-core.c b/block/blk-core.c
-> >>> index 13dc70e8f55d..c45846b9c50d 100644
-> >>> --- a/block/blk-core.c
-> >>> +++ b/block/blk-core.c
-> >>> @@ -225,21 +225,19 @@ const char *blk_status_to_tag(blk_status_t status)
-> >>>   	return blk_errors[idx].tag;
-> >>>   }
-> >>>   
-> >>> -blk_status_t tag_to_blk_status(const char *tag)
-> >>> +bool tag_to_blk_status(const char *tag, blk_status_t *status)
-> >>>   {
-> >>>   	int i;
-> >>>   
-> >>>   	for (i = 0; i < ARRAY_SIZE(blk_errors); i++) {
-> >>>   		if (blk_errors[i].tag &&
-> >>> -		    !strcmp(blk_errors[i].tag, tag))
-> >>> -			return (__force blk_status_t)i;
-> >>> +		    !strcmp(blk_errors[i].tag, tag)) {
-> >>> +			*status = (__force blk_status_t)i;
-> >>> +			return true;
-> >>> +		}
-> >>>   	}
-> >>>   
-> >>> -	/*
-> >>> -	 * Return BLK_STS_OK for mismatches as this function is intended to
-> >>> -	 * parse error status values.
-> >>> -	 */
-> >>> -	return BLK_STS_OK;
-> >>> +	return false;
-> >>>   }
-> >>>   
-> >>>   /**
-> >>> diff --git a/block/blk.h b/block/blk.h
-> >>> index 2cc03aa54c53..5fa54162c686 100644
-> >>> --- a/block/blk.h
-> >>> +++ b/block/blk.h
-> >>> @@ -52,7 +52,7 @@ void blk_free_flush_queue(struct blk_flush_queue *q);
-> >>>   
-> >>>   const char *blk_status_to_str(blk_status_t status);
-> >>>   const char *blk_status_to_tag(blk_status_t status);
-> >>> -blk_status_t tag_to_blk_status(const char *tag);
-> >>> +bool tag_to_blk_status(const char *tag, blk_status_t *status);
-> >>>   enum req_op str_to_blk_op(const char *op);
-> >>>   
-> >>>   bool __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
-> >>> diff --git a/block/error-injection.c b/block/error-injection.c
-> >>> index e14bc4b723ef..db543fe27630 100644
-> >>> --- a/block/error-injection.c
-> >>> +++ b/block/error-injection.c
-> >>> @@ -171,15 +171,16 @@ static int match_op(substring_t *args, enum req_op *op)
-> >>>   static int match_status(substring_t *args, blk_status_t *status)
-> >>>   {
-> >>>   	const char *tag;
-> >>> +	bool found;
-> >>>   
-> >>>   	tag = match_strdup(args);
-> >>>   	if (!tag)
-> >>>   		return -ENOMEM;
-> >>> -	*status = tag_to_blk_status(tag);
-> >>> -	if (!*status)
-> >>> +	found = tag_to_blk_status(tag, status);
-> >>> +	if (!found)
-> >>>   		pr_warn("invalid status '%s'\n", tag);
-> >>>   	kfree(tag);
-> >>> -	return 0;
-> >>> +	return found ? 0 : -EINVAL;
-> >>
-> >> 	if (!found) {
-> >>    		pr_warn("invalid status '%s'\n", tag);
-> >> 		return -EINVAL;
-> >> 	}
-> >> 	return 0;
-> 
-> As Mohamed mentioned below, "tag" would leak then.
-> 
+On Thu, Nov 05, 2026 at 09:19:40PM +0200, Leon Romanovsky wrote:
+> On Thu, Nov 05, 2026 at 09:05:29AM -0800, Dmitry Torokhov wrote:
+> > On Thu, Nov 05, 2026 at 01:42:15PM +0200, Leon Romanovsky wrote:
+> > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > 
+> > > Manual serio binding connects a driver before driver core can admit the
+> > > device. A rejected binding therefore arrives after functional setup.
+> > > 
+> > > Keep the port ID check and use device_driver_attach() for the existing bus
+> > > probe path. Driver core then serializes admission and handles probe failure
+> > > before publishing the binding.
+> > > 
+> > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > > ---
+> > >  drivers/input/serio/serio.c | 24 +++---------------------
+> > >  1 file changed, 3 insertions(+), 21 deletions(-)
+> > > 
+> > > diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
+> > > index 54dd26249b027..604440244c1ca 100644
+> > > --- a/drivers/input/serio/serio.c
+> > > +++ b/drivers/input/serio/serio.c
+> > > @@ -81,28 +81,10 @@ static int serio_match_port(const struct serio_device_id *ids, struct serio *ser
+> > >  
+> > >  static int serio_bind_driver(struct serio *serio, struct serio_driver *drv)
+> > >  {
+> > > -	int error;
+> > > -
+> > > -	if (serio_match_port(drv->id_table, serio)) {
+> > > -
+> > > -		serio->dev.driver = &drv->driver;
+> > > -		if (serio_connect_driver(serio, drv)) {
+> > > -			serio->dev.driver = NULL;
+> > > -			return -ENODEV;
+> > > -		}
+> > > +	if (!serio_match_port(drv->id_table, serio))
+> > > +		return 0;
+> > >  
+> > > -		error = device_bind_driver(&serio->dev);
+> > > -		if (error) {
+> > > -			dev_warn(&serio->dev,
+> > > -				 "device_bind_driver() failed for %s (%s) and %s, error: %d\n",
+> > > -				 serio->phys, serio->name,
+> > > -				 drv->description, error);
+> > > -			serio_disconnect_driver(serio);
+> > > -			serio->dev.driver = NULL;
+> > > -			return error;
+> > > -		}
+> > > -	}
+> > > -	return 0;
+> > > +	return device_driver_attach(&drv->driver, &serio->dev);
 > > 
-> > Doing it this way will result in use-after-free. "tag" has already been
-> > freed above.
+> > I am not sure how safe it is, serio (and gameport) have pretty elaborate
+> > structure and locking rules because they can recurse into themselves (to
+> > support case of Synaptics touch-pads with pass-through PS/2 ports).
 > > 
-> > Maybe change tag_to_blk_status() to return an int (0 on success and
-> > -EINVAL on failure) and use its return value without mapping it?
+> > But this call is for user-initiated probing anyways, I am not sure if it
+> > even needs "trust" handling.
 > 
-> I am not sure I get your suggestion completely. Even if we change the 
-> return type of tag_to_blk_status(), we would have to free the "tag" 
-> before returning.
+> This patch does not change the locking; the lock was already held on paths such
+> as the rescan path. This change makes that explicit.
 
-Changing tag_to_blk_status() to return an int will not have an effect or
-"tag" like you mentioned. But you will not need to map the return from
-that function.
+Does this enforce synchronous probing?
 
-return found ? 0 : -EINVAL;
+Anyway, I would like to get rid of this special probing in serio core.
+Given that the code path is only triggered by explicit user request I do
+not believe we need to worry about supporting trust notion here, so
+please drop it from the series.
 
-The line above just returns what tag_to_blk_status() returned.
+Thanks.
 
-> 
-> What can make it simpler is allocating "tag" on stack, and then use 
-> match_strlcpy() instead of match_strdup().
-
-That can work too. Just make sure we limit the string size somehow.
+-- 
+Dmitry
