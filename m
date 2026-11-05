@@ -1,111 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.226
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793911012;
-	b=i5VnaryeSm3Gxanc/FkHdmZ99mvfRdkpiJu1FXUx6s7t2BbnytGFlbX0O+53YmbcnnVf
-	 JglNSteyOftL9IM0UvzwFdwnJpv6ZGLjaMenLe900rQS8bCx8ZXu3hYhTwOiH4Imp6wq9
-	 Qc67nIa+Z+q0IiX3x9lqRrKvycArV5+GWF+rVsDZ3A59WAUBbp4I1qTVwPaQX3UO6sCSE
-	 hzchNujGEKUMRBMlL7y7JhqtGmM/ZH1lOgixHPOC2oiT2Y+PrlqZ47zpcfYTJZjDJDmTY
-	 lLzNA3eX6O05ngPzP9Y+cUuNjwaqTrSYyfOchz367C0cn/lIq/W75G9hQ9CGGvWDniA==
+	t=1793914005;
+	b=NQcJ8w1c71lxh74dYavhfZrNBcTCpMwq67rkVW9gGAdQkg6J08TYtT/FE31L/DWHSy0O
+	 2q3aOEpM5xvDsNLmja0RZ5lr6uyMizoOoUgBKY3xLue18FWk4uKh9jCkyaq8W5zdGIoLc
+	 yZyTa6k7Tx6gasvJqwH9kLt9NBiiw2K7gYXeED0u9fAM5yGHkcq/z+95HphVk6eHThsZC
+	 f3DESLft+qsIUFBgUmgwJrLdSaMuhWV3YzPwXMyl8Fn8Upxjg5O36LjmIiOBFwH3ZO7kJ
+	 ZYvxLAUMYQL8qFaAM7uaWxPTHXSIi4zlLzt6fCL3lbwQ5jHZVFJj7+Qj8Q4iNd7bmzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793911012;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=u4szUUbd/kkYsYLlulDhD6NrSpjR5pa/uSMGvjF+Y58=;
-	b=hTeCldSMx1fnqBmMENV+S/IvzmwTDBz1VUr/ry4Y3R53ajDRF9OP2R+DqdWTCLvfB2Iv
-	 XTVUOPlh29Eu+SxsEThm+82FctJ7gZyo+RYAv9key9nCSu/HHi5i7EEko9TP6YGhv955+
-	 AZfo3JddUZdTZmQmPGoHw9u4JlMy1l/opZvv+qB91csbwBu8DoQoZ7mLL2WFLtvZ1R+Rp
-	 5ZpzSO5I2TH77EvCWtg2t4ULPXT+df0VN5j96/dPmbjjrAmiOU5T2lfCoOPSSv+WJoz9c
-	 V23P+vLqqxJL+emJQypYGk9fjh7Kp8IMNzREJb0CJpw6/AqTeU1GT+bftEx1nyUsXtQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793914005;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=j6nLzJpF4CfBD1Utx6iKhdNHDK2kO6FZNPxEtGMJpzs=;
+	b=ViMq/zmzTsYJfeigQ4R5vGSEOK4wLEWiRi7H4WKMEEQxhUTEeAnCG2TQk1AICs28xV/V
+	 FQASH1AYutlaSeOntP9jLTsocLBQLBvwV9yVS6S1B7Uwq9UC7whAAQOpmQQKMt+moXrH2
+	 A6eV8S7yv1/HEzfhSzdJWUWniz3WRN8XYOT0TbX4P5oVI3iZl3213e76hPtvccWKkLVVP
+	 lrc/7/475aIpRV/BuJpst/3yvz5s6tivqtbEHXm2uwRrQCzGJaNMCFvaTO6z7En0Lmuy1
+	 xg1F6diDk15D+Mn6mMDJzte3tuKQ7RfpuMa7BjDVkZ1lhOJuRkTx0f5yTN/06PqdWOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=HWPOoBAO;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Am3xs4yM;
+	arc=none smtp.remote-ip=91.218.175.226
+Received: from mta0.migadu.com (out-226.mta0.migadu.com [91.218.175.226])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5610E606D813;
-	Thu,  5 Nov 2026 20:36:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5610E606D813
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57869606A32C
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 21:26:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57869606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=HWPOoBAO
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1793911009;
-	bh=u4szUUbd/kkYsYLlulDhD6NrSpjR5pa/uSMGvjF+Y58=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HWPOoBAONOHGoH9GlpHdY9hLYCkK4t4XE1dFbOmYvnY8GEN9HOqN6uLhc+GcR744R
-	 yASYBTzLPMSfUi1kkwHhGDm1prCWTZhC5uafR5EtIYdFlKv0oR/oA5rwZl+ISsrrm0
-	 30tOpuVmZ6ULFMa1hhr7bzjUMFCsWXWVFy+qxhHLCj5erzOCBDHTT7rtmlwCpyjKEA
-	 xxQGhPB1b4kRzTgNciLVXY76L6xxnJQjUZSyVWuc/C6ihTBqkSF0Z2L4XnPrmey6G4
-	 Fr7vqrVBFylVc9tDyFoxxHfCx9YDT9V6YFZnNqdJ0WTyTuD3WhoAYRYyywgB47SQ6d
-	 8vXPiZd9oT/PA==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jLDcc6bz1zLcy;
-	Thu, 05 Nov 2026 15:36:48 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: David Hildenbrand <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	Martin Liu <liumartin@google.com>,
-	David Rientjes <rientjes@google.com>,
-	christian.koenig@amd.com,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	SeongJae Park <sj@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Yu Zhao <yuzhao@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Aboorva Devarajan <aboorvad@linux.ibm.com>,
-	David Carlier <devnexen@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-trace-kernel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Oleg Nesterov <oleg@redhat.com>
-Subject: [RFC PATCH v24 08/10] lib: percpu_counter_tree: add the arity boot parameter
-Date: Thu,  5 Nov 2026 15:36:37 -0500
-Message-Id: <20261105203639.1459524-9-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20261105203639.1459524-1-mathieu.desnoyers@efficios.com>
-References: <20261105203639.1459524-1-mathieu.desnoyers@efficios.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Am3xs4yM
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=50QvR5Rz1ijGbYHRRdoYsuy3eEKLOBbyuMDTHm2jZh0=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793914001; v=1; x=1794518801;
+ b=Am3xs4yM6/tjgZMQlaNS6DAHZ1cTQ7pKDOqHRyT9OFD+dfNifribuzZxlRop6kVPZWOmK7gK
+ ulKfFwQrn14tRMSNR/7+wAAEuiVr3iWU+zAr5uqVFzq5dMWNlNawycn+A6JVNm34fQXIMWxQ1Fg
+ zMSAKacEyE/Vp2zfzjzVUXu4=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 63581dc183f9fce4;
+	Thu, 05 Nov 2026 21:26:41 +0000
+X-Mizu-Trace-ID: 63581dc183f9fce4
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <a2667ffd-3bbe-40b2-afc2-56fb54fb546b@linux.dev>
+Date: Thu, 5 Nov 2026 22:26:36 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,379 +58,262 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [v3 for-next 2/3] block: allow error injection rules to delay
+ bios
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>,
+ Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+References: <20260928221634.43239-1-haris.iqbal@linux.dev>
+ <20260928221634.43239-3-haris.iqbal@linux.dev>
+ <20261020233441.GB1582237-mkhalfella@purestorage.com>
+Content-Language: en-US
+From: Haris Iqbal <haris.iqbal@linux.dev>
+In-Reply-To: <20261020233441.GB1582237-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-The fan-out of each tree level is selected at boot from nr_cpu_ids, the
-highest possible CPU number plus one, using a table tuned for the RSS
-counters on one machine, a 2-socket AMD EPYC 9654 with 192 cores and 384
-logical CPUs.  The best shape depends on the cost of cache line
-transfers on a given machine, which varies with the number of sockets,
-the cache topology and SMT, so it may differ on other hardware.
 
-Add the percpu_counter_tree.arity= boot parameter, which overrides the
-tree shape with the fan-out of each level, from the per-cpu counters to
-the root, so the shapes can be compared on other machines, to improve
-the default table.  For example, when nr_cpu_ids is 16, "16" is a flat
-tree and "4,4" a tree with 4 intermediate counters.  Each fan-out is a
-power of 2, and their product must be nr_cpu_ids rounded up to a power
-of 2.  An invalid shape is ignored with a warning.
 
-The shape in use is printed at boot, and can be read from
-/sys/module/percpu_counter_tree/parameters/arity.
+On 10/21/26 01:34, Mohamed Khalfella wrote:
+> On Tue 2026-09-29 00:16:33 +0200, Md Haris Iqbal wrote:
+>> Error injection can only fail a bio today. Add a delay_us option so that
+>> a rule can hold a bio back first, to model a slow device.
+>>
+>> If a matching rule has delay_us set, the bio is held for that long. It is
+>> then failed if the rule also has a status, or resubmitted otherwise.
+>>
+>> The resubmission is done through submit_bio_noacct_nocheck(), which is
+>> where the injection hook sits. To avoid the same delay rule being applied
+>> to it again, mark the bio with the BIO_ERROR_INJECTED flag before queueing
+>> the work in blk_error_inject_delay(). This also prevents bios that are
+>> split later and resubmitted from being evaluated for delay (or error
+>> injection) again. __bio_clone() does not propagate the flag, so a clone a
+>> stacking driver aims at a lower device is still evaluated.
+>>
+>> The bio is submitted from a workqueue rather than from the timer, because
+>> submitting a bio can sleep. Bios with REQ_NOWAIT are never delayed, and
+>> values above 600 seconds are rejected.
+>>
+>> Cc: Christoph Hellwig <hch@lst.de>
+>> Assisted-by: Claude:claude-opus-5
+>> Signed-off-by: Md Haris Iqbal <haris.iqbal@linux.dev>
+>> ---
+>>   block/error-injection.c   | 160 ++++++++++++++++++++++++++++++++++----
+>>   block/error-injection.h   |   1 +
+>>   include/linux/blk_types.h |   1 +
+>>   3 files changed, 147 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/block/error-injection.c b/block/error-injection.c
+>> index db543fe27630..a35fe41a43e4 100644
+>> --- a/block/error-injection.c
+>> +++ b/block/error-injection.c
+>> @@ -6,9 +6,17 @@
+>>   #include <linux/blkdev.h>
+>>   #include <linux/parser.h>
+>>   #include <linux/seq_file.h>
+>> +#include <linux/workqueue.h>
+>>   #include "blk.h"
+>>   #include "error-injection.h"
+>>   
+>> +/*
+>> + * Cap the delay so that a typo can't wedge a device for good.  This is still
+>> + * well beyond the default hung task timeout, which is one of the things a
+>> + * delay is useful for triggering.
+>> + */
+>> +#define BLK_ERROR_INJECT_MAX_DELAY_US	(600 * USEC_PER_SEC)
+> 
+> DEFAULT_HUNG_TASK_TIMEOUT is 120 seconds (set in lib/Kconfig.debug)
+> 
+>> +
+>>   struct blk_error_inject {
+>>   	struct list_head		entry;
+>>   	sector_t			start;
+>> @@ -18,14 +26,104 @@ struct blk_error_inject {
+>>   
+>>   	/* only inject every 1 / chance times */
+>>   	unsigned int			chance;
+>> +
+>> +	/* hold the bio for this long before submitting or failing it */
+>> +	unsigned int			delay_us;
+>> +};
+>> +
+>> +/*
+>> + * A bio held by a delay rule.  It does not point back at the rule, so rules
+>> + * can be removed while delayed bios are outstanding.  The submitter holds the
+>> + * bdev open until the bio completes, so the disk and queue stay allocated.
+>> + * A delayed bio holds no queue usage counter reference, so it does not hold
+>> + * up a queue freeze either.
+>> + */
+>> +struct blk_error_inject_delay {
+>> +	struct delayed_work		dwork;
+>> +	struct bio			*bio;
+>> +	blk_status_t			status;
+>>   };
+>>   
+>> +static struct workqueue_struct *blk_error_inject_wq;
+>> +
+>>   DEFINE_STATIC_KEY_FALSE(blk_error_injection_enabled);
+>>   
+>> +static void blk_error_inject_delay_work(struct work_struct *work)
+>> +{
+>> +	struct blk_error_inject_delay *d = container_of(to_delayed_work(work),
+>> +			struct blk_error_inject_delay, dwork);
+>> +	struct bio *bio = d->bio;
+>> +	struct gendisk *disk = bio->bi_bdev->bd_disk;
+>> +	blk_status_t status = d->status;
+>> +
+>> +	kfree(d);
+>> +
+>> +	if (status != BLK_STS_OK) {
+>> +		pr_info_ratelimited("%pg: injecting %s error for %s at sector %llu:%u\n",
+>> +				disk->part0, blk_status_to_str(status),
+>> +				blk_op_str(bio_op(bio)), bio->bi_iter.bi_sector,
+>> +				bio_sectors(bio));
+>> +		bio->bi_status = status;
+>> +		bio_endio(bio);
+>> +	} else {
+>> +		/*
+>> +		 * Resubmit.  The BIO_ERROR_INJECTED flag ensures that a bio
+>> +		 * that was delayed once skips error injection entirely from
+>> +		 * here on, including any other rule that covers it.
+>> +		 */
+>> +		submit_bio_noacct_nocheck(bio, false);
+>> +	}
+>> +}
+>> +
+>> +/*
+>> + * Hand the bio to a workqueue that submits or fails it once the delay has
+>> + * expired.  Both blk_mq_submit_bio() and ->submit_bio can sleep, so this can't
+>> + * be completed from the timer itself.
+>> + *
+>> + * Returns false if the bio can't be delayed, in which case the caller handles
+>> + * it immediately instead.
+>> + */
+>> +static bool blk_error_inject_delay(struct gendisk *disk, struct bio *bio,
+>> +		blk_status_t status, unsigned int delay_us)
+>> +{
+>> +	struct blk_error_inject_delay *d;
+>> +
+>> +	/* never block a bio that asked not to be blocked */
+>> +	if (bio->bi_opf & REQ_NOWAIT)
+>> +		return false;
+>> +
+>> +	d = kmalloc_obj(*d, GFP_NOIO);
+>> +	if (!d)
+>> +		return false;
+>> +
+>> +	pr_info_ratelimited("%pg: delaying %s at sector %llu:%u by %uus\n",
+>> +			disk->part0, blk_op_str(bio_op(bio)),
+>> +			bio->bi_iter.bi_sector, bio_sectors(bio), delay_us);
+>> +
+>> +	d->bio = bio;
+>> +	d->status = status;
+>> +	INIT_DELAYED_WORK(&d->dwork, blk_error_inject_delay_work);
+>> +
+>> +	/*
+>> +	 * Mark the bio before queueing the work, which can complete it as soon
+>> +	 * as it is queued.  Splitting happens below the injection hook, but
+>> +	 * bio_submit_split_bioset() resubmits the remainder through the hook
+>> +	 * again, and as bio_split() only advances the original bio that
+>> +	 * remainder still matches the same rule.  Without this a bio would be
+>> +	 * delayed once per split.
+>> +	 */
+>> +	bio_set_flag(bio, BIO_ERROR_INJECTED);
+>> +	queue_delayed_work(blk_error_inject_wq, &d->dwork,
+>> +			usecs_to_jiffies(delay_us));
+> 
+> How about comparing the delay against sysctl_hung_task_timeout_secs in
+> order not to trigger hung task detector?
 
-Cover the parsing of the parameter in the userspace test, with valid and
-invalid shapes, and run the counter tests on the valid ones.
+Hitting the hung task detector is intentional; it's one of the things I 
+imagine would be useful to test, which is why the cap is well above the 
+default timeout.
 
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- .../admin-guide/kernel-parameters.txt         | 14 +++
- .../core-api/percpu-counter-tree.rst          |  3 +-
- lib/percpu_counter_tree.c                     | 96 ++++++++++++++++++-
- tools/testing/hpcc/include/hpcc_shim.h        |  4 +
- .../testing/hpcc/include/linux/moduleparam.h  | 12 +++
- tools/testing/hpcc/main.c                     | 78 ++++++++++++++-
- 6 files changed, 201 insertions(+), 6 deletions(-)
- create mode 100644 tools/testing/hpcc/include/linux/moduleparam.h
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0b3c140babd9..c368affa2115 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5342,6 +5342,20 @@ Kernel parameters
- 			allocator.  This parameter is primarily	for debugging
- 			and performance comparison.
- 
-+	percpu_counter_tree.arity=	[KNL,SMP]
-+			Format: <fan-out>[,<fan-out>...]
-+			Override the shape of the hierarchical per-cpu
-+			counter trees (used for the RSS counters), listing
-+			the fan-out of each tree level from the per-cpu
-+			counters to the root. Each fan-out is a power of 2
-+			and their product must be nr_cpu_ids (the highest
-+			possible CPU number plus one) rounded up to a power
-+			of 2, e.g. "16" (flat) or "4,4" when nr_cpu_ids
-+			is 16. An invalid shape is ignored with a warning.
-+			The shape in use is shown in
-+			/sys/module/percpu_counter_tree/parameters/arity.
-+			This parameter is meant for performance comparison.
-+
- 	pirq=		[SMP,APIC] Manual mp-table setup
- 			See Documentation/arch/x86/i386/IO-APIC.rst.
- 
-diff --git a/Documentation/core-api/percpu-counter-tree.rst b/Documentation/core-api/percpu-counter-tree.rst
-index 87babe2276c4..8aebf91aa133 100644
---- a/Documentation/core-api/percpu-counter-tree.rst
-+++ b/Documentation/core-api/percpu-counter-tree.rst
-@@ -63,7 +63,8 @@ possible CPU, and the tree items, whose number depends on nr_cpu_ids, so
- struct percpu_counter_tree has a fixed size.
- 
- The fan-out of each tree level is selected at boot from nr_cpu_ids, the
--highest possible CPU number plus one.
-+highest possible CPU number plus one. It can be overridden with the
-+percpu_counter_tree.arity= boot parameter for performance comparison.
- 
- The bounded accuracy is a property of the settled tree. While updates are
- in flight the transient error can exceed it, bounded by the number of
-diff --git a/lib/percpu_counter_tree.c b/lib/percpu_counter_tree.c
-index 32c4f05d7d7d..491675897e41 100644
---- a/lib/percpu_counter_tree.c
-+++ b/lib/percpu_counter_tree.c
-@@ -151,6 +151,7 @@
- #define pr_fmt(fmt) "percpu_counter_tree: " fmt
- 
- #include <linux/percpu_counter_tree.h>
-+#include <linux/moduleparam.h>
- #include <linux/align.h>
- #include <linux/cache.h>
- #include <linux/cpumask.h>
-@@ -162,6 +163,7 @@
- #include <linux/math.h>
- #include <linux/log2.h>
- #include <linux/args.h>
-+#include <linux/string.h>
- #include <kunit/visibility.h>
- 
- #define MAX_NR_LEVELS 7
-@@ -254,6 +256,8 @@ static_assert(ARRAY_SIZE(per_nr_cpu_order_config) == MAX_NR_CPUS_ORDER + 1);
- static struct {
- 	/* Hierarchical counter configuration for the hardware topology. */
- 	const struct counter_config *config;
-+	/* Tree shape selected with the "arity" boot parameter. */
-+	struct counter_config boot_config;
- 	/* Order of nr_cpu_ids. */
- 	unsigned int nr_cpus_order;
- 	/*
-@@ -272,6 +276,9 @@ static struct {
- 	.nr_items = UINT_MAX,
- };
- 
-+/* Value of the "arity" boot parameter, parsed at subsystem initialization. */
-+static const char *arity_param;
-+
- /*
-  * Size of the items of one tree position for the counters initialized
-  * together by percpu_counter_tree_init_many(), packed in cache lines which
-@@ -1326,7 +1333,10 @@ void percpu_counter_tree_copy_state(struct percpu_counter_tree *dst,
- EXPORT_SYMBOL_IF_KUNIT(percpu_counter_tree_copy_state);
- #endif
- 
--/* Format the fan-out of each level, from level 0 to the root, e.g. "8,2,8". */
-+/* Room for the fan-out of each level, up to 7 digits and a comma, and a NUL. */
-+#define SHAPE_BUF_SIZE	(8 * MAX_NR_LEVELS + 1)
-+
-+/* Format the fan-out of each level, from level 0 to the root, e.g. "8,4,8". */
- static
- int format_shape(char *buf, size_t size, const struct counter_config *config)
- {
-@@ -1339,9 +1349,78 @@ int format_shape(char *buf, size_t size, const struct counter_config *config)
- 	return len;
- }
- 
-+static
-+int arity_param_set(const char *val, const struct kernel_param *kp)
-+{
-+	/* Applied once by percpu_counter_tree_subsystem_init(). */
-+	if (tree_topology.config)
-+		return -EBUSY;
-+	arity_param = val;
-+	return 0;
-+}
-+
-+static
-+int arity_param_get(char *buffer, const struct kernel_param *kp)
-+{
-+	int len;
-+
-+	if (!tree_topology.config)
-+		return sprintf(buffer, "%s\n", arity_param ? : "");
-+	/* The buffer is a page, larger than any shape and its newline. */
-+	len = format_shape(buffer, SHAPE_BUF_SIZE, tree_topology.config);
-+	buffer[len++] = '\n';
-+	return len;
-+}
-+
-+static const struct kernel_param_ops arity_param_ops = {
-+	.set = arity_param_set,
-+	.get = arity_param_get,
-+};
-+
-+/*
-+ * percpu_counter_tree.arity=<fan-out>[,<fan-out>...] overrides the tree
-+ * shape chosen for nr_cpu_ids, to compare shapes on a given machine.
-+ * Reading the parameter shows the shape in use.
-+ */
-+module_param_cb(arity, &arity_param_ops, NULL, 0444);
-+MODULE_PARM_DESC(arity, "Fan-out of each tree level from level 0 to the root, e.g. 8,4,8");
-+
-+/*
-+ * Parse a list of fan-outs, from level 0 to the root, into @config. Each
-+ * fan-out is a power of 2 of at least 2, and their product is nr_cpu_ids
-+ * rounded up to a power of 2.
-+ *
-+ * Return: 0 on success, -EINVAL if the list does not describe a tree
-+ * covering the CPU numbers below nr_cpu_ids.
-+ */
-+static
-+int __init parse_arity(const char *str, struct counter_config *config)
-+{
-+	int ints[MAX_NR_LEVELS + 2];	/* Count, levels, and one extra to detect overflow. */
-+	unsigned int level, order = 0;
-+
-+	if (*get_options(str, ARRAY_SIZE(ints), ints) || ints[0] > MAX_NR_LEVELS)
-+		return -EINVAL;
-+	config->nr_levels = ints[0];
-+	for (level = 0; level < config->nr_levels; level++) {
-+		int fan_out = ints[level + 1];
-+
-+		if (fan_out < 2 || !is_power_of_2(fan_out))
-+			return -EINVAL;
-+		config->n_arity_order[level] = ilog2(fan_out);
-+		order += config->n_arity_order[level];
-+		if (order > tree_topology.nr_cpus_order)
-+			return -EINVAL;
-+	}
-+	if (order != tree_topology.nr_cpus_order)
-+		return -EINVAL;
-+	return 0;
-+}
-+
- int __init percpu_counter_tree_subsystem_init(void)
- {
--	char shape[8 * MAX_NR_LEVELS + 1] = "";
-+	const char *origin = "default";
-+	char shape[SHAPE_BUF_SIZE] = "";
- 
- 	tree_topology.nr_cpus_order = get_count_order(nr_cpu_ids);
- 	if (tree_topology.nr_cpus_order >= ARRAY_SIZE(per_nr_cpu_order_config)) {
-@@ -1349,14 +1428,23 @@ int __init percpu_counter_tree_subsystem_init(void)
- 		return -EINVAL;
- 	}
- 	tree_topology.config = &per_nr_cpu_order_config[tree_topology.nr_cpus_order];
-+	if (arity_param && *arity_param) {
-+		if (parse_arity(arity_param, &tree_topology.boot_config)) {
-+			pr_warn("Invalid arity \"%s\" for %u CPUs, using the default\n",
-+				arity_param, nr_cpu_ids);
-+		} else {
-+			tree_topology.config = &tree_topology.boot_config;
-+			origin = "boot parameter";
-+		}
-+	}
- 	calculate_topology();
- 	tree_topology.items_cachep =
- 		kmem_cache_create("percpu_counter_tree_items",
- 				  tree_topology.nr_items * SMP_CACHE_BYTES,
- 				  SMP_CACHE_BYTES, SLAB_PANIC, NULL);
- 	format_shape(shape, sizeof(shape), tree_topology.config);
--	pr_info("%u CPUs, fan-out %s, %u tree items\n",
--		nr_cpu_ids, tree_topology.nr_cpus_order ? shape : "none",
-+	pr_info("%u CPUs, fan-out %s (%s), %u tree items\n",
-+		nr_cpu_ids, tree_topology.nr_cpus_order ? shape : "none", origin,
- 		tree_topology.nr_items);
- 	return 0;
- }
-diff --git a/tools/testing/hpcc/include/hpcc_shim.h b/tools/testing/hpcc/include/hpcc_shim.h
-index d321c8363b0b..eaac72eab2d1 100644
---- a/tools/testing/hpcc/include/hpcc_shim.h
-+++ b/tools/testing/hpcc/include/hpcc_shim.h
-@@ -34,8 +34,12 @@
- #define abs(x) ({ typeof(x) __x = (x); __x < 0 ? -__x : __x; })
- 
- #define pr_err(...)		fprintf(stderr, __VA_ARGS__)
-+#define pr_warn(...)		fprintf(stderr, __VA_ARGS__)
- #define pr_info(...)		do { if (0) printf(__VA_ARGS__); } while (0)
- 
-+/* Implemented in main.c. */
-+char *get_options(const char *str, int nints, int *ints);
-+
- extern unsigned long hpcc_nr_warnings;
- 
- #define WARN(cond, ...) ({						\
-diff --git a/tools/testing/hpcc/include/linux/moduleparam.h b/tools/testing/hpcc/include/linux/moduleparam.h
-new file mode 100644
-index 000000000000..7e40df4295b2
---- /dev/null
-+++ b/tools/testing/hpcc/include/linux/moduleparam.h
-@@ -0,0 +1,12 @@
-+/* SPDX-License-Identifier: GPL-2.0+ OR MIT */
-+#include "../hpcc_shim.h"
-+
-+struct kernel_param;
-+
-+struct kernel_param_ops {
-+	int (*set)(const char *val, const struct kernel_param *kp);
-+	int (*get)(char *buffer, const struct kernel_param *kp);
-+};
-+
-+#define module_param_cb(name, ops, arg, perm)
-+#define MODULE_PARM_DESC(parm, desc)
-diff --git a/tools/testing/hpcc/main.c b/tools/testing/hpcc/main.c
-index 1b86fea543e5..e263a932c30f 100644
---- a/tools/testing/hpcc/main.c
-+++ b/tools/testing/hpcc/main.c
-@@ -81,6 +81,27 @@ int scnprintf(char *buf, size_t size, const char *fmt, ...)
- 	return len < (int)size ? len : (int)size - 1;
- }
- 
-+/* Comma-separated integers, without the ranges of lib/cmdline.c. */
-+char *get_options(const char *str, int nints, int *ints)
-+{
-+	char *end;
-+	int i = 0;
-+
-+	while (i < nints - 1 && *str) {
-+		long v = strtol(str, &end, 0);
-+
-+		if (end == str)
-+			break;
-+		ints[++i] = v;
-+		str = end;
-+		if (*str != ',')
-+			break;
-+		str++;
-+	}
-+	ints[0] = i;
-+	return (char *)str;
-+}
-+
- static void hpcc_init_topology(unsigned int nr_cpus)
- {
- 	nr_cpu_ids = nr_cpus;
-@@ -428,6 +449,58 @@ static int run_case(unsigned int nr_cpus, unsigned long batch_size)
- 	return nr_case_failures ? 1 : 0;
- }
- 
-+/* Tree shapes given with the arity boot parameter. */
-+static const struct {
-+	unsigned int nr_cpus;
-+	const char *arity;
-+	const char *shape;	/* Shape in use, NULL if the arity is invalid. */
-+} test_arity[] = {
-+	{ 16, "16", "16" },
-+	{ 16, "4,4", "4,4" },
-+	{ 16, "2,2,2,2", "2,2,2,2" },
-+	{ 16, "4,2", NULL },		/* Covers 8 CPUs. */
-+	{ 16, "4,8", NULL },		/* Covers 32 CPUs. */
-+	{ 16, "4,4,1", NULL },		/* Fan-out of 1. */
-+	{ 16, "4,3", NULL },		/* Not a power of 2. */
-+	{ 16, "4,4x", NULL },		/* Trailing characters. */
-+	{ 16, "-4,-4", NULL },
-+	{ 17, "8,4", "8,4" },
-+	{ 100, "128", "128" },
-+	{ 192, "8,4,8", "8,4,8" },
-+	{ 192, "2,2,2,2,2,2,2,2", NULL },	/* More than MAX_NR_LEVELS. */
-+	{ 1024, "32,32", "32,32" },
-+	{ 1, "2", NULL },
-+};
-+
-+static int run_arity_case(unsigned int i)
-+{
-+	const char *expect = test_arity[i].shape;
-+	char buf[SHAPE_BUF_SIZE];
-+	int len;
-+
-+	nr_case_failures = 0;
-+	hpcc_nr_warnings = 0;
-+	tree_topology.config = NULL;
-+	CHECK(!arity_param_set(test_arity[i].arity, NULL));
-+	hpcc_init_topology(test_arity[i].nr_cpus);
-+	arity_param = NULL;
-+	CHECK(arity_param_set("16", NULL) == -EBUSY);
-+	CHECK((tree_topology.config == &tree_topology.boot_config) == !!expect);
-+	len = arity_param_get(buf, NULL);
-+	CHECK(len > 0 && buf[len - 1] == '\n');
-+	buf[len - 1] = '\0';
-+	if (expect) {
-+		CHECK(!strcmp(buf, expect));
-+		test_saturated(2, 1);
-+		test_saturated(32, -1);
-+		test_random_walk(32, 20000);
-+	}
-+	CHECK(!hpcc_nr_warnings);
-+	printf("%sok %d - arity nr_cpus=%u \"%s\" -> \"%s\"\n", nr_case_failures ? "not " : "",
-+	       ++test_num, test_arity[i].nr_cpus, test_arity[i].arity, buf);
-+	return nr_case_failures ? 1 : 0;
-+}
-+
- static int run_check_config(void)
- {
- 	unsigned int nr_errors = percpu_counter_tree_check_config();
-@@ -455,12 +528,15 @@ int main(int argc, char **argv)
- 	if (argc == 2)
- 		large = true;
- 
--	nr_tests = 1 + ARRAY_SIZE(test_nr_cpus) * ARRAY_SIZE(test_batch_sizes);
-+	nr_tests = 1 + ARRAY_SIZE(test_arity) +
-+		   ARRAY_SIZE(test_nr_cpus) * ARRAY_SIZE(test_batch_sizes);
- 	if (large)
- 		nr_tests += ARRAY_SIZE(test_nr_cpus_large) * ARRAY_SIZE(test_batch_sizes);
- 	printf("1..%u\n", nr_tests);
- 
- 	failed += run_check_config();
-+	for (i = 0; i < ARRAY_SIZE(test_arity); i++)
-+		failed += run_arity_case(i);
- 	for (i = 0; i < ARRAY_SIZE(test_nr_cpus); i++)
- 		for (j = 0; j < ARRAY_SIZE(test_batch_sizes); j++)
- 			failed += run_case(test_nr_cpus[i], test_batch_sizes[j]);
--- 
-2.47.3
+The block layer's own waiters (blk_wait_io, blk_io_schedule) already 
+avoid the detector, so it only fires for upper layers that wait 
+uninterruptibly, which is what such a test is after.
+
+> 
+>> +	return true;
+>> +}
+>> +
+>>   bool __blk_error_inject(struct bio *bio)
+>>   {
+>>   	struct gendisk *disk = bio->bi_bdev->bd_disk;
+>>   	struct blk_error_inject *inj;
+>> +	blk_status_t status = BLK_STS_OK;
+>> +	unsigned int delay_us = 0;
+>>   
+>>   	rcu_read_lock();
+>>   	list_for_each_entry_rcu(inj, &disk->error_injection_list, entry) {
+>> @@ -45,29 +143,38 @@ bool __blk_error_inject(struct bio *bio)
+>>   		if (inj->chance > 1 && (get_random_u32() % inj->chance) != 0)
+>>   			continue;
+>>   
+>> -		pr_info_ratelimited("%pg: injecting %s error for %s at sector %llu:%u\n",
+>> -				disk->part0, blk_status_to_str(inj->status),
+>> -				blk_op_str(inj->op), bio->bi_iter.bi_sector,
+>> -				bio_sectors(bio));
+>> -		bio->bi_status = inj->status;
+>> -		rcu_read_unlock();
+>> -		bio_endio(bio);
+>> -		return true;
+>> +		status = inj->status;
+>> +		delay_us = inj->delay_us;
+>> +		break;
+>>   	}
+>>   	rcu_read_unlock();
+>> -	return false;
+>> +
+>> +	if (delay_us && blk_error_inject_delay(disk, bio, status, delay_us))
+>> +		return true;
+>> +	if (status == BLK_STS_OK)
+>> +		return false;
+> 
+> status == BLK_STS_OK is permitted only if delay_us != 0. It means we are
+> here because blk_error_inject_delay() failed to inject a delay?
+
+Yes, correct.
+
+> 
+> Also, in case delay injection fails, do we want to continue with error
+> injection? Or inject nothing and return false instead?
+
+I think there is no reason not to continue with error injection. The 
+user wanted to delay and then fail the bio. There isn't a strict rule to 
+execute both or none.
+
+> 
+>> +
+>> +	pr_info_ratelimited("%pg: injecting %s error for %s at sector %llu:%u\n",
+>> +			disk->part0, blk_status_to_str(status),
+>> +			blk_op_str(bio_op(bio)), bio->bi_iter.bi_sector,
+>> +			bio_sectors(bio));
+>> +	bio->bi_status = status;
+>> +	bio_endio(bio);
+>> +	return true;
+>>   }
+>>   
+>>   static int error_inject_add(struct gendisk *disk, enum req_op op,
+>>   		sector_t start, u64 nr_sectors, blk_status_t status,
+>> -		unsigned int chance)
+>> +		unsigned int chance, unsigned int delay_us)
+>>   {
+>>   	struct blk_error_inject *inj;
+>>   	int error = -EINVAL;
+>>   
+>>   	if (op == REQ_OP_LAST)
+>>   		return -EINVAL;
+>> -	if (status == BLK_STS_OK)
+>> +	if (status == BLK_STS_OK && !delay_us)
+>> +		return -EINVAL;
+>> +	if (delay_us > BLK_ERROR_INJECT_MAX_DELAY_US)
+>>   		return -EINVAL;
+> 
+> This could also compare against sysctl_hung_task_timeout_secs and maybe
+> drop BLK_ERROR_INJECT_MAX_DELAY_US?
 
