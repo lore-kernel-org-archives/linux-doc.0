@@ -1,49 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793881504;
-	b=zUmhqmjNEnHNTZ0/Wm0LNHGEm51vbjF4WZtqFSKt7vD462PDkom9mnGPBySkHUPdbYs4
-	 4ejgcIpkxtOMNde9S22cZDs2SGhafZR/nGjXq2u+n+f7LFNnmbOLhsEr4DDl9sYZdJizK
-	 uDqG+CyKnFpoUvcGT5alrH04+VuSah0KTk4xjubrM9piRsBehjvoN2JvKkJzGerehY8B7
-	 98gz5DFFCOMtXIy2zeZ6cOSaszXvxZtxts4UH+wLQELCtJdl9yWG+04rdxjSZoYHqy/Al
-	 i8j8iMt4lQAdQLnoV9ACKWiG0R/ewwMDAOJg6pgulFI6rkYj54KcGOdDFx2spWSsywQ==
+	t=1793881978;
+	b=0En4z24qvxA01UaeHEHYzqJ9aeEeJvQ5ZIqM31JxyGNwCxmqAziMvNjjEOaHaS/WfCD3
+	 u2VITvhMnqVsrQtkGG8FHbd1Mdgx7hsivjcHw6RfacF3wVhxoYslbW08D7SP21iAs1gMs
+	 mlqIkqcomEEYRtzri/Q+YVOnEdAcF0iqMDQKzW0vQwHAvgm03Hpn0tz70lLF4r9r2A1nZ
+	 YF2JgxL3AFXM+FlaMXd1ml33es2AFjFzgE/GjefOVgsWAACRnTPMYWLAUn0XjjluGuTXN
+	 fihHy1hEpgZHIX3ChsDnNe/dUby9rRxmI69YKj4rO8iou025pIVwZQwQ5Uqg4kxHH1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793881504;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=WCI67nW/m0Se+hAdbILYxBYbZp7So82hMXgOTyc/3Go=;
-	b=IyH/VwjNjTLZyWjOTdWJf6RzQVNZSt//6ZIy/GLa3ybXrazEGsf9QBDeiOpuRKf7GKCb
-	 BG9dsBzMR9aSOafh5z6Nl1/qU7wl8ADVTkWQufSWNBRJ+OPaMd7sorCvEQWo5OpgwcdcJ
-	 rDSVkwStqdCGFv5NeLzqqkmVAj3f2bfo/NP26JFgl3eSyE9rDZHdE2jw9FEHTXEEJD5gm
-	 Db/pABEXgwSeGLNwXWn3jdJKYmwiyqptAENOqLkvLk/oB1z8MvTYX/YuswKjIwHOlCVC2
-	 ZHj40h5LDgIo6kb/sayifrx2/CkIrTE8RPHKxZJlCbU8taLEFnnt0KfJo51xufogcww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793881978;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=RcJPtti5GFvFEoOYZYt06D/AhFo3icPnTOuzdt+NBsE=;
+	b=RiEeckGDRWhi9KTxDqIFaK5aBg1qhWRsQfiyvk40G0+IRW/IPV55pOQgqnQN/8iFl4+q
+	 aebjPyECgGy9+Z1xsj4h9Hr6uxPMy8FiEiU9VbHVIMC4+EZyq6YUp0tBUSHB9UM0V6r56
+	 sKBtTfy2UXBCcmNbyEAT/Qaeciy54IJjeSVY66xlFbdkUOxP8hGrkOav4eFJkSkyMDun0
+	 nTaMU1REsQpWa/4s+YnnpGwNKHcU+T9Nk25y1EZVMO/5qqrcXBNSbgWpZDT/OPCTR8iaG
+	 RDkNqp5mOdYrsV5nDLfbnRd2MakRiPZn5SnTX+ULvEnpJ5Vj2KM1+iqHuf33i1ahkvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=o+wjKA8n;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 574A3606A329;
-	Thu,  5 Nov 2026 12:25:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 574A3606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=cCtFJSjX;
+	arc=none smtp.remote-ip=209.85.167.45
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC61606A32C
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 12:32:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BC61606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=o+wjKA8n
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8527919F6;
-	Thu,  5 Nov 2026 04:24:59 -0800 (PST)
-Received: from [10.2.197.99] (ewhatever.cambridge.arm.com [10.2.197.99])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 660E83F673;
-	Thu,  5 Nov 2026 04:25:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793881502; bh=SQl66A6bDNzs1tIhc+4XgtWG3rrRdvF5c5Ea4qqQNKM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=o+wjKA8njcOyhB5nW7vgRC68CErXR8/dMPbAboNhIo8wy0bkUHaC9LcEywEp4blS7
-	 FHm+KtR5irptZcE0HJR5eBivWjzQTXPIHdVoisgrRXpX58c2fZA0gNdXkqHm89mieh
-	 R500CjJBRC7Cy4y+hHmIebVA1SEV8fnh6hGu9xOs=
-Message-ID: <ca99c6be-cb92-4d2a-816d-a15624af96b6@arm.com>
-Date: Thu, 5 Nov 2026 12:24:58 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=cCtFJSjX
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5be3ed646a5so2291382e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 04:32:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli.us; s=google; t=1793881975; x=1794486775; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RcJPtti5GFvFEoOYZYt06D/AhFo3icPnTOuzdt+NBsE=;
+        b=cCtFJSjXtpRSezyNE06wb3mNCryoz4ZPMqTXXg9EyTCJZDz7c1Wwg43Xnz2iDZHF9h
+         uoCWVLQ8jvnyNWaRYluSpDmCHcdouiOJqpYN9KBvHh7ma3RwL36T1cBdawdpqOMfO/a1
+         D1maF55YHx7FUilZtWynmISNmN56ev+z3BACC8vviL7dY4cTVG/suNv+f41imfxIare+
+         C+bWcbedtAvtUrVKoW0m4EHeVcV77/6F/wIkQEtfvtcI0MozKYY2HozTWAUqXlxvcYfr
+         NNTPhbfo1Y4AwQsaGifksj17DoQg1AoaBDPOa/kjNoLrOyT0vE5GD0k95/0RPFy4NjWV
+         +K1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793881975; x=1794486775;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RcJPtti5GFvFEoOYZYt06D/AhFo3icPnTOuzdt+NBsE=;
+        b=pMD00Qu29puG9rYDTWaRTcOrPupAYYKXUvCaNnIMQuHk3QhN7w7AVI+bZ3ZN7Hmk8Z
+         VSX2W4MXtcFl4XaXEtvDFLhlJn2H9sjU0BIsQ1/lJC6bNHzkWUMiPk+xM75XXLJ0Cgov
+         4uVY0Kvon7qep2tw4CTSaZcD0vnDwnSQYMgOngHdkWd+qefRZOBWOKcXde0VLxIcoDfs
+         fpJgFBPAnaDHL87hbwnidz/YfL23T79n+j7r/QSIE+/xprVxnoofpaxYexdLnRH9PKh6
+         b3Y3QcKEBBbPXYhaCoU2i/qd21rHBSEfpdCywo+QL0668yjAaQngwPkFYPlxzuSy0KAj
+         8w4A==
+X-Forwarded-Encrypted: i=1; AKwUvBz67pfyegquXo+QhxQujlxxPROvbetWzojxTmBagJxoiqc1modVcaZs+dkc5VaKoYKwENFwJUiW30o=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+P8hJ6g0yhBhHnoH1n+RNle+f1zUJisolRCOF7gAMxMCdPdHXK
+	AL7yneaSI9GthRT/ZFAlIDwSLOmyWQB0K/8zhR/KCToOc1OpT++ihJc643RoKrCxm7E=
+X-Gm-Gg: AYBFou3slGvmo06YyrG0uSMwqdhnxX0OfJFG1rq/PCRJtyG3zMrM+HA2UpZjJ+fCjBT
+	88k0U2i5i+djeOumqRISjoDvHBVxri1+zH/yyv+7hS20m7BNmM91oNOQHAJ9u0q4CwpptLqt330
+	QT9cWgrYHPkJhDeO+x0JP1jlk0xf32NuhP/psykTvgg8cXsjeu3a4X4vAxKIypKt96vEKX4jK4I
+	KfWE/5jZBX4G/daHb2TDhRwI4q/rlBagAHQlXRKmpAbh/HllsqxvfbGQBNdS65SWwwChl+Ha92i
+	D12Aj+Ec33fBWGkoawnDgEL8sITL+UMuGygx5GRTb5saPaVuPJ/R6ZlS0U7gYeEJkbUkhnugQWP
+	t2mHmbW7A67sLW/zyCCuvCgTH8PskjtHwufMPdcKKhGcLBngMZjQy+6xGuh2EUZ0WuSdRzpGcfB
+	HcOCq6T4QnHMcPz2s1Gg9uN1Z4JxHaHVZuTlotXFvg1R6pGLwu8jwdWjBGtvi96ZyiF+WpXxyVi
+	33Q5yDfjFTq1wEz8Klig1M0TEIvBLoAYEpaMO5xFUnfDLiY3RRBJXytJRVQt4mQnAz0iaL8aUJw
+	emT00oAyng03t+h0zxFDtH/g0bUdOrK4nUMwk2U=
+X-Received: by 2002:a05:6512:3056:b0:5bf:b96b:2c75 with SMTP id 2adb3069b0e04-5bfd957c416mr7135190e87.37.1793881975197;
+        Thu, 05 Nov 2026 04:32:55 -0800 (PST)
+Received: from localhost ([140.209.217.211])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bff38ab170sm875824e87.16.2026.11.05.04.32.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2026 04:32:54 -0800 (PST)
+Date: Thu, 5 Nov 2026 13:32:49 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>, linux-coco@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 17/20] attestation: Add CTLV operation handling
+Message-ID: <aux01NUd85PabtZu@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-18-jiri@resnulli.us>
+ <auuDcABX27EeTApl@e129823.arm.com>
+ <20261104194622.GC3889730@ziepe.ca>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,154 +106,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/7] coresight: syscfg: Match feature capabilities
- separately from device class
-To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>,
- Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>
-Cc: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Randy Dunlap <rdunlap@infradead.org>, Shuah Khan
- <skhan@linuxfoundation.org>, Daniel Pereira <danielmaraboo@gmail.com>,
- coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <cover.1792907332.git.aaupov@fb.com>
- <cover.1792989860.git.aaupov@fb.com>
- <6fd94860b3c13c0ddc1a5184d5d9331edc27d9f0.1792989860.git.aaupov@fb.com>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <6fd94860b3c13c0ddc1a5184d5d9331edc27d9f0.1792989860.git.aaupov@fb.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104194622.GC3889730@ziepe.ca>
 
-On 26/10/2026 05:48, Amir Ayupov wrote:
-> A feature loads on a device when the two share any match flag. That works
-> for device classes, where a feature wants any one of them, but not for
-> capabilities a device may or may not have: a feature that sets a class
-> and a capability would still load on a device of that class without the
-> capability.
-> 
-> Split the match flags into CS_CFG_MATCH_CLASS_MASK for device classes and
-> CS_CFG_MATCH_CAP_MASK for capabilities. A feature now loads on a device
-> that shares one of its classes and has all of its capabilities. Check
-> this once in cscfg_load_feat_csdev(), which both the feature and the
-> device registration paths call. No capability flags are defined yet, so
-> matching is unchanged.
-> 
-> Assisted-by: Devmate:Opus-5.5
-> Signed-off-by: Amir Ayupov <aaupov@fb.com>
-> ---
->   .../hwtracing/coresight/coresight-config.h    |  8 ++++
->   .../hwtracing/coresight/coresight-syscfg.c    | 37 +++++++++++++------
->   2 files changed, 34 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/hwtracing/coresight/coresight-config.h b/drivers/hwtracing/coresight/coresight-config.h
-> index ae6295e308131..f04e73b91d9a6 100644
-> --- a/drivers/hwtracing/coresight/coresight-config.h
-> +++ b/drivers/hwtracing/coresight/coresight-config.h
-> @@ -7,6 +7,7 @@
->   #ifndef _CORESIGHT_CORESIGHT_CONFIG_H
->   #define _CORESIGHT_CORESIGHT_CONFIG_H
->   
-> +#include <linux/bits.h>
->   #include <linux/cleanup.h>
->   #include <linux/coresight.h>
->   #include <linux/types.h>
-> @@ -30,6 +31,13 @@
->    */
->   #define CS_CFG_MATCH_CLASS_SRC_ALL	0x0001	/* match any source */
->   #define CS_CFG_MATCH_CLASS_SRC_ETM4	0x0002	/* match any ETMv4 device */
-> +#define CS_CFG_MATCH_CLASS_MASK		GENMASK_U32(7, 0)
-> +
-> +/*
-> + * flags defining device capabilities a feature can require. A feature loads on
-> + * a device that matches one of its classes and has all of its capabilities.
-> + */
-> +#define CS_CFG_MATCH_CAP_MASK		GENMASK_U32(15, 8)
->   
->   /* flags defining device instance matching - used in config match desc data. */
->   #define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance of a class */
-> diff --git a/drivers/hwtracing/coresight/coresight-syscfg.c b/drivers/hwtracing/coresight/coresight-syscfg.c
-> index a816c22c87bc8..3ee104e94a4cd 100644
-> --- a/drivers/hwtracing/coresight/coresight-syscfg.c
-> +++ b/drivers/hwtracing/coresight/coresight-syscfg.c
-> @@ -171,8 +171,22 @@ cscfg_alloc_csdev_feat(struct coresight_device *csdev, struct cscfg_feature_desc
->   	return feat_csdev;
->   }
->   
-> -/* load one feature into one coresight device */
-> +static bool cscfg_match_feat_csdev(u32 feat_flags, u32 csdev_flags)
-> +{
-> +	/* The device must be in one of the feature's classes */
-> +	if (!(feat_flags & csdev_flags & CS_CFG_MATCH_CLASS_MASK))
-> +		return false;
-> +
-> +	/* The device must have every capability the feature requires */
-> +	if (feat_flags & ~csdev_flags & CS_CFG_MATCH_CAP_MASK)
-> +		return false;
+Wed, Nov 04, 2026 at 08:46:22PM +0100, jgg@ziepe.ca wrote:
+>On Wed, Nov 04, 2026 at 07:11:44PM +0000, Yeoreum Yun wrote:
+>> [..snip..]
+>> 
+>> > +static int attestation_evidence_request_decode(struct attestation *att, struct ctlv_op_ctx *ctx,
+>> > +					       const struct ctlv_cursor *request,
+>> > +					       struct attestation_evidence_request *decoded,
+>> > +					       struct attestation_evidence_object_request **objects)
+>> > +{
+>> > +	const struct attestation_evidence_caps *caps = att->provider->evidence_caps;
+>> > +	u32 challenge_length;
+>> > +
+>> > +	decoded->challenge =
+>> > +		ctlv_attestation_evidence_get_evidence_challenge_get(request, &challenge_length);
+>> > +	decoded->challenge_length = challenge_length;
+>> > +	if (challenge_length < caps->min_challenge_length ||
+>> > +	    challenge_length > caps->max_challenge_length)
+>> 
+>> Hmm, I'm not sure whether this check is required for
+>> ATTESTATION_EVIDENCE_BLOB_EVENT_LOG blob type.
+>> 
+>> for example, if the provider provides two evidence:
+>>   - ATTESTATION_EVIDENCE_BLOB_PRIMARY (might attestation token)
+>>   - ATTESTATION_EVIDENCE_BLOB_EVENT_LOG
+>> 
+>> might challenge is reuiqred for generating the token
+>> and this would be marked at min/max_challenge_size in evidence_cap.
+>> 
+>> However, in case of eventlog, it wouldn't require challenge.
+>> for example, TPM event log or CCEL event log.
+>
+>Right
+>
+>> Do we need some field on attestation_evidence_supported_object whether
+>> it requires challenge or not and applies this sanity check per the object?
+>> 
+>> Otherwise, to get eventlog, it would need to send *dummy* challenge
+>> always.
+>
+>I wonder if we should have two interfaces here for signed and unsigned
+>evidence? It would be clearer for userspace then when it needs to
+>provide a challenge or not.
 
-Please could you address the following comment ?
+Isn't the challenge field provided/not-provided enough?
 
-https://lore.kernel.org/linux-arm-kernel/82adee03-a169-4106-99f2-7624a4926037@arm.com/
+Currently on the introspection side, device-get op would provide
+challenge-lengths array:
 
-Cheers
-Suzuki
+        evidence?:
+          challenge-lengths[8]:
+            length?: uint(..4096)
+            min-length?: uint(..4096)
+            max-length?: uint(..4096)
+ 	  objects[16]:
+            blob-class: evidence-blob-class
+            max-length: uint
+            blob-instance?: uint(..u32-max)
 
+I think it would make sense to have challenge-lengths array per object:
 
-> +
-> +	return true;
-> +}
-> +
-> +/* Load the feature into the device if it matches, otherwise skip it. */
->   static int cscfg_load_feat_csdev(struct coresight_device *csdev,
-> +				 u32 match_flags,
->   				 struct cscfg_feature_desc *feat_desc,
->   				 struct cscfg_csdev_feat_ops *ops)
->   {
-> @@ -183,6 +197,9 @@ static int cscfg_load_feat_csdev(struct coresight_device *csdev,
->   	if (!ops->load_feat)
->   		return -EINVAL;
->   
-> +	if (!cscfg_match_feat_csdev(feat_desc->match_flags, match_flags))
-> +		return 0;
-> +
->   	feat_csdev = cscfg_alloc_csdev_feat(csdev, feat_desc);
->   	if (!feat_csdev)
->   		return -ENOMEM;
-> @@ -212,11 +229,11 @@ static int cscfg_add_feat_to_csdevs(struct cscfg_feature_desc *feat_desc)
->   	int err;
->   
->   	list_for_each_entry(csdev_item, &cscfg_mgr->csdev_desc_list, item) {
-> -		if (csdev_item->match_flags & feat_desc->match_flags) {
-> -			err = cscfg_load_feat_csdev(csdev_item->csdev, feat_desc, &csdev_item->ops);
-> -			if (err)
-> -				return err;
-> -		}
-> +		err = cscfg_load_feat_csdev(csdev_item->csdev,
-> +					    csdev_item->match_flags, feat_desc,
-> +					    &csdev_item->ops);
-> +		if (err)
-> +			return err;
->   	}
->   	return 0;
->   }
-> @@ -739,11 +756,9 @@ static int cscfg_add_feats_csdev(struct coresight_device *csdev,
->   		return -EINVAL;
->   
->   	list_for_each_entry(feat_desc, &cscfg_mgr->feat_desc_list, item) {
-> -		if (feat_desc->match_flags & match_flags) {
-> -			err = cscfg_load_feat_csdev(csdev, feat_desc, ops);
-> -			if (err)
-> -				break;
-> -		}
-> +		err = cscfg_load_feat_csdev(csdev, match_flags, feat_desc, ops);
-> +		if (err)
-> +			break;
->   	}
->   	return err;
->   }
+ 	  objects[16]:
+            blob-class: evidence-blob-class
+            max-length: uint
+            blob-instance?: uint(..u32-max)
+            challenge-lengths[8]:
+              length?: uint(..4096)
+              min-length?: uint(..4096)
+              max-length?: uint(..4096)
 
+Then the unsigned object would just simply have challenge-lengths empty?
