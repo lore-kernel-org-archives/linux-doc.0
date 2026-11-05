@@ -1,68 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793855800;
-	b=OLXuwRgp9WxqpuyQOJtUeLDTiOYGsvogKsyEZiwQE9gWdlHJJx1ckbwHphWJV0NwadsL
-	 FZQx2WWhW1zrdFttTtuAXozezQ0xbiF4mRGbCPBW7Kmrghh9s/lRoXnaOuRJ9LjozMp33
-	 NfHNQHp4Z3UkJNa4LoQpcQdrtx2OHWp2nvnoBkjU+se/yUSHVUxOcJEbaFICYzlMLAhDQ
-	 cKIu6fqeqtehcdGXaVJbrPk7UucCWDNDMx4mB7PKtfUN81EnVTnJZGQOC3GiJavyAuYWU
-	 htbBnOMJXzRB7mwaJ5Eu8hiwrDy5ZqZzfCxh1uwRT8TpQKv/LEkEJSH6iJprVioAcWA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793855800;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=7T4yHCCp457ZSKeJuycOZpdN2Q/hAUKNLPVO2oSYggo=;
-	b=ZyJhn5bMPO4lnRsP5nYeher3eB+P512JPLQPxxCaaz3tOwLkHi7jH4CVdfz/vZU+TFUv
-	 LbPcGKcydI34wFu9ThYe8ZnHvXCUdLOKlBaQemGF30HLSABHyIKejLl7fscn/6Q8UD0/F
-	 xPieO3rNApMptVDc1gy38TdECweQW8K1q2dg/TSgrAChDrJv9IprebIDMYbhykLwe7bIw
-	 3QvvaA8XZiFMslY4naApcKkf5Or0wxOts+9NE3cixSlTXub4Jb1YioHf5YVvYr304Ai++
-	 k+eT3HfqJdUYxLFjbBzWU0G2TvA8yN539uTEmskVHZ/EWRSY9gGxzpCYFRjPZPccuXw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PMqwSwT1;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.172
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793861936;
+	b=d6aNVuHKy0Uq1ZdaHrMI+dnZ4I1QxwFJ5hfNFEDE0ZnZq5Thja5JSJhLBjOkoSIpm4FV
+	 cOiYWowOIjliwCYZhexAa+8NuJ0ViXXN8A/mAvl94aX9veT1POE3Wtf23jfAPNatyg5Oe
+	 sL+oAtBfAAluq+WtHRk1Uu908BX2TfqY64tLFYISqfKuAj22O9vnLNhQ2ybQSyy9Yc3LG
+	 Kgb0w7CJgdWrmAXrDAYlESZK+W2L68IPExnzeyOk7bvjPLz1cbm7PQi/55UPIdi5t+bKf
+	 ilF2MhdkTmzcylA6KFSPG8fNYO2vslwCiwCJRGGMaEt7WfQzu3lC3EYlQFo7OTsdpRA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793861936;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=F+6/WzYj37FJHzyiT5yPgdRk2s4gHYGoXvrEAh55Hig=;
+	b=e5Ly3upKSc2YUo8UcVvpncjrtRzuu5pP+xGYaCGRxKg6n+kmFwPUVh48CQog7PQJy+CO
+	 vXmeFB2bRViEpnYt43m8q/6dKAHjF7OJjlqzKCefeLD//QShOP2ER8W6D5xxknzzZRdNF
+	 KhJEQ9s1ETF/nBw04kPTDcw2p2G9VtGpDWKy/vGT0MaiyPKOl2Fa9QnRgRXGTyYacfWo6
+	 wwvumEuinJf3QOi5JVRuE7P9lznildNjM6rVAp5FTe6xL7M1Mp8oy0NnmeYQlY6C6UiaS
+	 MQlttO94TmkeD+gCRmlTSPXk280x53RUKeEoXrC1hRgB+Umn7lca+yv/Gf2/cmn1tVw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=tomeuvizoso.net;
+	spf=pass smtp.mailfrom=tomeuvizoso.net;
+	dkim=pass header.d=tomeuvizoso-net.20260707.gappssmtp.com header.i=@tomeuvizoso-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=BqrwMdmA;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.172
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9641D606A326;
-	Thu,  5 Nov 2026 05:16:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9641D606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B31E7606A328
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 06:58:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B31E7606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PMqwSwT1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793855799; x=1825391799;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=iqOwHCYP9RY0nl5Y1J3CpFGbCCNkCkf7pz8yuuWp1rg=;
-  b=PMqwSwT1eiCd+nVG0Eu0N9t+M7BW947IJqO8LoD+bRqc4NMKB1fWgPz0
-   hYD5/KATp9dSS405cHF2b/mBWSAhS33APf8JUPbyHrbXCrwrwXNU/Bd8w
-   p8D+kBanaoNYUC0iUato8pPOZopb180TKAugx5XVBBVlaYr51qs4Z1r6A
-   7S27RWMZ8ksusCnIyf7XchpvyjdfvHAxgw0C8XjMq1pyk7bJ8r9hDG1yc
-   ibxub38eEcDMBwWizmVSCwgeNF80+LWhqUnQ7+RTnPGpYEG8920gK8YBY
-   VuNhN0O6ULDIx8fXibm+Qr6LMDc2r/OoKZp4vCB8Lh1SvErKPn+X6mZWd
-   A==;
-X-CSE-ConnectionGUID: Oq01XyhURwSxWozHKrAu7Q==
-X-CSE-MsgGUID: tjH6AACMTnywhRi1k4UJBA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11956"; a="2532886"
-X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="2532886"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 21:16:39 -0800
-X-CSE-ConnectionGUID: 1vUCQSjAREmGCZBFc2L9Hw==
-X-CSE-MsgGUID: VYrNVF0/TjuLDSZIFZvvgA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,196,1787036400"; 
-   d="scan'208";a="6810132"
-Received: from unknown (HELO [10.238.2.205]) ([10.238.2.205])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2026 21:16:32 -0800
-Message-ID: <e4faa073-9cb6-4809-bf00-c4c4f669dbd0@linux.intel.com>
-Date: Thu, 5 Nov 2026 13:16:30 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=tomeuvizoso-net.20260707.gappssmtp.com header.i=@tomeuvizoso-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=BqrwMdmA
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-93e55db58cfso163366885a.1
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 22:58:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793861933; cv=none;
+        d=google.com; s=arc-20260327;
+        b=UP1AlzmWWlJ0TcvDKJb7EB3ywYtZM2DsPGqkIjv6EPaV1dDE3aXwt/dMBV1vyUJglN
+         AYpdrBf4gTFYiFgT3iYcj24Z7rFO/Za4H6WQ6tFXrI0LAf7imtOYo33oy5J/fYejQOSL
+         XZXNXj2nVTy/O6+wvnquOKAgTZDo2ThQ7YXQKoK3cgWm9g/V7csCBy2kwZtTPPzDzA3k
+         efAD/FHBLu0d8BW9ax6yVU6GVNNWjYhs5UiyBzNiUu7ua3RWgIL/0K1lY/L0q30JWUaK
+         HNW0LIfxFCCq3OCycX1U0UK4yEwMnl3zU7npBBAQ465Bv3EVW6ZjPJSHb/VAb0DYS/EM
+         +cRg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=F+6/WzYj37FJHzyiT5yPgdRk2s4gHYGoXvrEAh55Hig=;
+        fh=mORwMaIEWpKaMyfzeI4iiaUK/iHdmGM/a3maKEVNAqA=;
+        b=dW5FvtidsYvWH6pwdlxo8SfVxEMfYZzXdLaKiXWArQhr1o+5OqhygG9fWgmja9RtNO
+         PlQ1hglj8/HEUETxUlYWyvqCSvHsn+VPaIiM/etI0QrKSi4lKJ5itABY3yaNuLyagUNU
+         4xrxitidJgEe2dIN16r7MyXE7+SzVzDjA0X6nULIXyl5YaUuroPv5z+S7XjkXfaFKhpD
+         FkNLCSVsvMIPVMCFsXZV6eg03dzu4d3FYnKPCp67GOwJVqG6O9g6dhvJkNx4cZBuOoa9
+         vS/nz+rqH2hdG78+nHs1+1/0z24wGPNjXEkgcLwDbQ6d1mTeDrNrLjSD5sIu36RQznJg
+         YDtg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tomeuvizoso-net.20260707.gappssmtp.com; s=20260707; t=1793861933; x=1794466733; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=F+6/WzYj37FJHzyiT5yPgdRk2s4gHYGoXvrEAh55Hig=;
+        b=BqrwMdmA2JtYPOPkQa5Snv4//IJU90AUce2DQt0QQMR9udTMc/Pmkgqmkq/qF5ingM
+         e7d3pJ0J/EePaCTF493v9e3GSUt/32u6X9MkdTCJwbiQNoRyWyFjHpAnT1EMEdvBmTaR
+         Pu1NPPWrXXxsXLXe2gME3zMUvchiEfz3lhSiF/Yv3Wq7QtzHE2Ufu5S6NygO+5jIPmoS
+         zB4u/AS0l3xFFTNBlBKSC6vSgvK3fLO+igIGEJIsrLhvG+lLzX3YUjxWe/vTyJ+6rtJV
+         0K5bxYsZBh5hG9j1+ti+OoNfvbfXBzru3gFX7LzV6Jv2EQiq5feFe7kf+bcQL+zo9XsP
+         RiDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793861933; x=1794466733;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=F+6/WzYj37FJHzyiT5yPgdRk2s4gHYGoXvrEAh55Hig=;
+        b=hNp5urCDMSMnyAwl37iyNOZra5Url1ys3PJkWZIjM6mgkkG7MMHw7qRtR9co2I51Sd
+         S84qkE/0KPpNNTBbEP4QTx33llNT4kJpQMGgfZ2CcJPAY4t0Hzllc5VaKWYdpdLKIPsb
+         RfjuQ/xrdg5ObEKY0uH/T73KP6tSFTSIB3ufsKxY4H8V0RTaG1VYkIqgBxZUedqq/UQ6
+         KY7ISVGWDlTMO61l742OpbywFJy/8CdPXDDKMBrckCmfKLKhRb1M8gOuG6M1KQgHSoQc
+         O2YdLBzWn1SuGSJCximryEOiTcNucf1W0EIYcOcnRSYukW+iDzvOAa+cexLk/4E3daLS
+         BpNw==
+X-Forwarded-Encrypted: i=1; AKwUvByEYPOsX6BYqU42yMScSyKhxDjHAJdAb6mE8ejYqpk7s4S6AD4zksR363cbejluBHGl+y1iQtQDgo4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z91N6UMon6ThIRBeIdmb4WEai9iV1VQTniDFQ541LXc4SbGSNPg
+	/+46aIa+qT5GA/8PMMdmL+BJAPNDet5D9cExRyERkjcr9n/W+mYEa1Xm3tkrT40qL5fUGh1fKxO
+	1GUOBNhRjbyFZtr4KdR/wYwBP9birz8odzrnL+egzjw==
+X-Gm-Gg: AYBFou0y98YJ0GIDudQXUcKrT/ASoTU00jGZDP2P/zNaXvPjNKz6VeC5xKz4br3+r9/
+	5iUPMmZkfeIcJQ3hbV4xyW20iTjvxzYhib9j6K8a+ASOCUMMZ8MpWHWeVPRdT6OLTbLL3yQPM5j
+	dGk1PHWjMi5VqIuTVo24D9YlKlsaqg/vZw3lEiAU91QqWA63juiOIrgwtwLOxmzZE90Wh0fA0UV
+	/DHIt3dwDcHkkkiWe6yxOnrvkp+Uzx7LRt1roZsdqtfO50X2BwWGz/wXbdndAzivAN1PaecqRc4
+	03SOzPn1HFGfIzRQMBrer1/6TCMgTXqS9fhm8g/C92meym2EjnHd1d9TrTp0l78kpnw0C8nVvH2
+	GP+aOTtc5qmBzlrdJIWdTw0ewpf5j7DIEIXog8VZXDzIgcZHlT6MDjJG3kZnXBtA+6oKPfykK4R
+	2Men5VQBidCxWbJYIwcTQ=
+X-Received: by 2002:a05:620a:4541:b0:93f:4d4e:ff66 with SMTP id
+ af79cd13be357-9442158604emr3201847085a.5.1793861933502; Wed, 04 Nov 2026
+ 22:58:53 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,98 +105,111 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 11/28] KVM: x86: Add a helper to detect if FRED is
- enabled for a vCPU
-To: Sohil Mehta <sohil.mehta@intel.com>
-Cc: kvm@vger.kernel.org, x86@kernel.org, Paolo Bonzini <pbonzini@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
- <hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>,
- Andrew Cooper <andrew.cooper3@citrix.com>,
- Tom Lendacky <thomas.lendacky@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
- Shivansh Dhiman <shivansh.dhiman@amd.com>,
- David Woodhouse <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>,
- Zhao Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>,
- David Matlack <dmatlack@google.com>, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <20260911213659.2025974-12-sohil.mehta@intel.com>
- <f7f84b44-e2fc-4d8c-b2e5-e5327086d026@linux.intel.com>
- <60f7934b-5271-4207-b071-6240b5d36cc5@intel.com>
-From: Binbin Wu <binbin.wu@linux.intel.com>
-Content-Language: en-US
-In-Reply-To: <60f7934b-5271-4207-b071-6240b5d36cc5@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261103155338.1949294-1-sidong.yang@furiosa.ai> <CAKbEzns7nqMP0FSf+G9e31nXR-c+vy+Vv-gTyFV5jv46rAgwRw@mail.gmail.com>
+In-Reply-To: <CAKbEzns7nqMP0FSf+G9e31nXR-c+vy+Vv-gTyFV5jv46rAgwRw@mail.gmail.com>
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Date: Thu, 5 Nov 2026 07:58:42 +0100
+X-Gm-Features: AclHuK_bZHeJEa7e_9FUDx7rW7Uy1RIrUnE2siMSCiWZgpaSPYjC7zLaNmI7dzs
+Message-ID: <CAPsqS2TTuYmDfBGgTt-EMJZBUW-jUJxhPVEh0=faDNLW3R9K7w@mail.gmail.com>
+Subject: Re: [PATCH v4] accel/rocket: Report NPU usage through fdinfo
+To: Gyeyoung Baek <gye976@gmail.com>
+Cc: Sidong Yang <sidong.yang@furiosa.ai>, Oded Gabbay <ogabbay@kernel.org>, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/5/2026 4:01 AM, Sohil Mehta wrote:
-> On 10/23/2026 2:21 AM, Binbin Wu wrote:
->> On 9/12/2026 5:36 AM, Sohil Mehta wrote:
->>> +/*
->>> + * It's enough to check just CR4.FRED (X86_CR4_FRED) to tell if
->>> + * a vCPU is running with FRED enabled, because:
->>> + * 1) CR4.FRED can be set to 1 only _after_ IA32_EFER.LMA = 1.
->>> + * 2) To leave IA-32e mode, CR4.FRED must be cleared first.
->>
->> It seems KVM doesn't enforce it in kvm_set_cr0() for 2).
->>
-> 
-> I think the comment is slightly misleading. The spec doesn't directly
-> enforce leaving IA-32e mode with CR4.FRED. It is just expected to be
-> unreachable.
-> 
-> 1) Based on FRED spec section 4.2 Enabling in CR4, setting CR4.FRED
-> prevents compatibility mode entry while CPL = 0.
-> 
-> 2) But leaving IA-32e can only happen when CR0.PG is cleared which can
-> only be done in compatibility mode while CPL = 0.
-> 
+I agree with Gyeyoung.
 
-Right, on bare metal, if CR4.FRED = 1, it is impossible to enter compatibility
-mode while CPL = 0. 
+With that:
 
-> Currently, for KVM, the CPU enforces the first one and the second one is
-> enforced by kvm_set_cr0().
-> 
-> Is the suggestion to add an explicit check in kvm_set_cr0() that
-> mirrors the PCIDE one? But there isn't a fault specified by the spec for
-> this case.
+Reviewed-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-Had a second thought. As you mentioned below, if em_{jmp,call,ret}_far() is
-triggered and CS.L is cleared on ring 0, even KVM doesn't check FRED status on
-far transitions, the next VM entry would fail.  So I think it's not needed
-to mirror the PCIDE for FRED in kvm_set_cr0().
+Btw, I think we have had a backmerge already.
 
-> 
-> Sean also requested negative tests for things like leaving 64-bit mode
-> with FRED=1. But, I am not sure how to test this.
+Thanks,
 
-Maybe it can use KVM_FEP to force the instruction emulation in kvm sefltest
-when force_emulation_prefix for KVM.
+Tomeu
 
-> 
-> AI tells me such a mode change can happen with emulated far transfer
-> through an MMIO far pointer. "em_jmp_far(), em_call_far(), em_ret_far()
-> and __load_segment_descriptor() have no FRED checks, so none of them
-> raise the #GP that FRED spec 8.2 requires."
-> 
-> Chao had brought up enhancing emulator code and making it FRED aware
-> [1]. I am wondering if we should revisit it?
-
-Without the check the next VM-entry fails the guest-state check according to
-FRED spec 11.5.2.3 ("If the DPL value in the SS attributes field is 0, the L
-bit in the CS attributes field (bit 13) must be 1") VS. With the check, raise
-#GP instead.
-
-Not sure about the maintainers' preference. But a check on FRED in
-__load_segment_descriptor() looks simple though.
-
-> 
-> [1]: https://lore.kernel.org/all/aapnI6KN7Flal8kg@intel.com/
-> 
-> Please let me know if I misunderstood something.
-
+On Thu, Nov 5, 2026 at 4:22=E2=80=AFAM Gyeyoung Baek <gye976@gmail.com> wro=
+te:
+>
+> Hi Sidong,
+>
+> On Wed, Nov 4, 2026 at 12:53=E2=80=AFAM Sidong Yang <sidong.yang@furiosa.=
+ai> wrote:
+> >
+> > There is no way to tell how much of the NPU a client uses. Implement th=
+e
+> > DRM usage stats: account the time each job occupies a core and report
+> > it per client as drm-engine-npu, along with drm_show_memory_stats() for
+> > the BOs.
+> >
+> > The cores are identical, so they are reported as a single engine with
+> > drm-engine-capacity-npu set to rdev->max_cores, the number of core
+> > slots. The time is summed over all cores, with an atomic counter as the
+> > cores complete jobs concurrently.
+> >
+> > Jobs can outlive the file that submitted them, so the counter is
+> > refcounted and each job holds a reference. The time covers the whole
+> > period a job owns a core, so it also includes handling the completion
+> > interrupt and the gaps between the tasks of a multi-task job.
+>
+> nit: "the time completed jobs occupy a core" would be more accurate than
+> "the whole period", as timed-out jobs are not accounted.
+>
+>
+> >  * RK3588
+> > +
+> > +.. _rocket-usage-stats:
+> > +
+> > +Rocket DRM client usage stats implementation
+> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> > +
+> > +The accel/rocket driver implements the DRM client usage stats specific=
+ation as
+> > +documented in :ref:`drm-client-usage-stats`.
+> > +
+> > +The NPU cores are reported as a single engine, npu, with a capacity eq=
+ual to the
+> > +number of cores. The time is summed over all cores, and covers the who=
+le period
+> > +a job occupies a core.
+>
+> Same here
+>
+> > @@ -139,7 +183,28 @@ static const struct drm_ioctl_desc rocket_drm_driv=
+er_ioctls[] =3D {
+> >         ROCKET_IOCTL(FINI_BO, fini_bo),
+> >  };
+> >
+> > -DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
+> > +static void rocket_show_fdinfo(struct drm_printer *p, struct drm_file =
+*file)
+> > +{
+> > +       struct rocket_device *rdev =3D to_rocket_device(file->minor->de=
+v);
+> > +       struct rocket_file_priv *rocket_priv =3D file->driver_priv;
+> > +
+> > +       /*
+> > +        * This is an estimate: the time is taken around the whole peri=
+od a job
+> > +        * occupies a core, so it also covers handling the completion i=
+nterrupt
+> > +        * and, for a job made of several tasks, the gaps between them.
+> > +        */
+>
+> And here.
+>
+> with these addressed:
+>
+> Tested on RK3588: no OOB access, and fdinfo reads correctly with several
+> apps running concurrently.
+>
+> Reviewed-by: Gyeyoung Baek <gyeyoung7182@gmail.com>
+> Tested-by: Gyeyoung Baek <gyeyoung7182@gmail.com>
+>
+> --
+> Thanks,
+> Gyeyoung
