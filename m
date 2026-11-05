@@ -1,54 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.210
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793916119;
-	b=f9UPAk2+AtS6x8xxdJbb0MwMpgWJ7btzf5md6Aqm6hGxwJAVQ4PcsnRlytI9LHk86cw3
-	 zPlmv8ZUqb3ZpG4OB+CcvUfnSNqlRwotgK4x5jNkaK40YN45jyHhZdsfB4oVTkZO9vDRy
-	 zava0IQCiLCYrfqFaJdxkgw4zneAgAJb2zU4Fu6g4CAYygpGr9/JC5U9Rf01WMvqQ0OBV
-	 OKoxrusSmd8wcP/6Ja8CKEsb3OOmK0GhgvAhzkk95FY1zaf233HtOm42wIfHk4lsI+r02
-	 t7hr/xF+gfpP7pyiFhJJAAOJtjRApO6YerebYxpgM2mvD5gR1QYyiaqSZSWIVlPF30A==
+	t=1793916495;
+	b=zej6wNT8gnImqyf2iOY5LYt8dJESeC8lANI1KTwBZxpjbhcK3uFYlgVh0vnuS7Xiuuxb
+	 S3r8kMJc6oUg39+ocXrYYchStsb85aHWYLC1nyQCn5G2cF3QllOkAhcGwDITNcgHqHS2o
+	 bIzR5he5NHSKceTrMTiVq9gX+Y4Bz6c8nRoHvmCAzGU1pkQfjSJAyHcfgy+USa4qApgYI
+	 byer1I6k7Qb96T3VdfpJxgM9N6e0X1wcDAS6LJxOX1NiBHdx+Lo2pDjwCqTxFUPw1XwZj
+	 ibbyU9cTw21kpwp1o4CbleXZiO0pZ9jJ/w1PlVe5uBEhDW4W3uj4IsbIH2+sW/v2/EA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793916119;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793916495;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=lNt/NV5oKxbjksJAX7Ldj36p+CPh8uKKu4XLRHv+03o=;
-	b=XHDwuMzMvDc2E6iVsq5TEZ3UcS7Sjidz8Vuik7oF+k21o5ynucliNqo0optvNXGNkeYt
-	 4uStf5Y0KtxaxT6aZbEIJ8wDKZYvqCI3CXPHmmVpt1LK3g6UD+J2YQbfkKip8MLJiZoFZ
-	 yoybOCqFsEGK1jsKtNuhEAvaRuHsha8iWe0tyev5P6N68TAHnLfQqFjlVdDIhPeqN5pRK
-	 X5DD1TKLJDB9tptS7dhqz9pOGBawkHzWVZhXx+5p/Np3uUAyNif1GmtkUr+/pxDgCNb+n
-	 OuQ7YTSe2rENwIvMfDhOMxR7CXbxLKxrHYWz8MNRVgiyhENmUQrfq5l5eg2qSq/hp6g==
+	bh=XYA3g2+HtqFAIS8I2EWomiFCDvHSGWyaU3MTisxAOLE=;
+	b=SFgVbnB4fe9Ya376zRw4U1MopRSdVWTa47BZ28M2j9YXnKSqxOblovlybGBv038MMCP6
+	 FnPpeSvjyrMe2KzDHPEhHSQqFRF3nQL4l4wb8zPY72i+1gn+CxjGJDRO2c3qiwOX1NEqj
+	 1XYFyzObNJDDs3v2h+PZ52VDEaOR5NYZaB9fhl2eIXpPI9mvPPHqI071OxrBcrhE02kfa
+	 cAMeGFgbrxqTm0jnJundscEJNLcS6uvDtOhmLtH4Os4wKXMk/ducP08yg2FoEaw1UbHv+
+	 X2yEw+HHCLDKTY1ioy1/KaDUhCgffOnVN6umJErFUp0EjEkX9Ofq9AL6T6xKlsy7tIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=y+d66s73;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	arc=none smtp.remote-ip=91.218.175.210
+Received: from mta0.migadu.com (out-210.mta0.migadu.com [91.218.175.210])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357ED606A32D;
-	Thu,  5 Nov 2026 22:01:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 357ED606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=y+d66s73
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=lNt/NV5oKxbjksJAX7Ldj36p+CPh8uKKu4XLRHv+03o=; b=y+d66s73nWFtCs9jYnXjWVNPgz
-	AmFlIH0hcq9dn+TE1IpruffHGi0mOv6Rq63L/8WQU1gKGv2UBg7fya2C+uWTChO/nY0t456OFCO70
-	mSh5cizafME4qSgc+ugaydEJvMtjiAqDwirfAkvUSmvOtYlQU46VYBwtGkv5KEMq+Z6gmteLEuwQ5
-	h740K/+C2FNxrrdkoUarn2ZkVX+NpzeEUXxhGjs3xyQctCfC2zjWVow0EX0cGAELVAcXKpB0YthCS
-	GKj2bQCKfdQqu+LKkNSYJhUg97tLE8ipUZsVq0TLv5cGkf49ACZJyqzWjvzk2yjygNLSNHez9uNQM
-	DM61Cg1g==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xP5Wv-0000000AmIu-1xcC;
-	Thu, 05 Nov 2026 22:01:57 +0000
-Message-ID: <43787755-f0ef-4338-b0d6-fcffcdfcc402@infradead.org>
-Date: Thu, 5 Nov 2026 14:01:57 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47E3D606A31B
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 22:08:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47E3D606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=PnYyaVx64MD1jaWFrbHNWMnyMKuFQYL/DiizwVaVslY=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793916491; v=1; x=1794521291;
+ b=QH/HVW0hpgJm35wNbRGzmwvZ10g2LybOwDKUHZ4P8dJuTSEKQcDDwh6PVWgxSY68jXhqxkcP
+ M8WOED8XfgbQpgQqWrPt9BItzVObZ+TNhsEUU/L5wJimcNDwhBDdF3leBgbl95nIA+hR41Y7wko
+ NmIsiCHV1EwF6neowfmol7n0=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id faa4b71d0d8cf75d;
+	Thu, 05 Nov 2026 22:08:11 +0000
+X-Mizu-Trace-ID: faa4b71d0d8cf75d
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <c043f698-176d-43c5-9086-2973d4ca0833@linux.dev>
+Date: Thu, 5 Nov 2026 23:08:06 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,89 +56,163 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Add category of subsystem-apis
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261105181542.3071-2-manuelebnerli@mailbox.org>
+Subject: Re: [v3 for-next 1/3] block: Reject unknown status tags in error
+ injection rules
+To: Mohamed Khalfella <mkhalfella@purestorage.com>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org
+References: <20260928221634.43239-1-haris.iqbal@linux.dev>
+ <20260928221634.43239-2-haris.iqbal@linux.dev> <20261005084917.GA9160@lst.de>
+ <20261020223402.GA1582237-mkhalfella@purestorage.com>
+ <58a98f7d-b2c5-47b5-a372-0ab5afa6a8ed@linux.dev>
+ <20261105201827.GB2439-mkhalfella@purestorage.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261105181542.3071-2-manuelebnerli@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
+From: Haris Iqbal <haris.iqbal@linux.dev>
+In-Reply-To: <20261105201827.GB2439-mkhalfella@purestorage.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 11/5/26 10:15 AM, Manuel Ebner wrote:
-> Add Bus and Communication category to reduce number of items in
-> 'Other subsystems'.
+On 11/5/26 21:18, Mohamed Khalfella wrote:
+> On Thu 2026-11-05 21:00:27 +0100, Haris Iqbal wrote:
+>>
+>>
+>> On 10/21/26 00:34, Mohamed Khalfella wrote:
+>>> On Mon 2026-10-05 10:49:17 +0200, Christoph Hellwig wrote:
+>>>> On Tue, Sep 29, 2026 at 12:16:32AM +0200, Md Haris Iqbal wrote:
+>>>>> tag_to_blk_status() returns BLK_STS_OK both for the "OK" tag and for a
+>>>>> tag it does not recognize, so a caller cannot tell the two apart. The
+>>>>> block error injection code (which is the sole user of this function
+>>>>> currently) relies on error_inject_add() later to reject adding a rule with
+>>>>> status=BLK_STS_OK. This is okay for the current state of error injection.
+>>>>>
+>>>>> The delay option added in the next commit makes the rule with status=OK
+>>>>> valid, meaning the function tag_to_blk_status() now needs to explicitly
+>>>>> match BLK_STS_OK for it, and fail for a tag it does not recognize. Hence
+>>>>> make tag_to_blk_status() take a second param to update the matched status,
+>>>>> and return true in case of a successful match. If a match is not found,
+>>>>> the function tag_to_blk_status() returns false and *status remains
+>>>>> unchanged.
+>>>>>
+>>>>> A repeated status= where an invalid tag comes first is now rejected
+>>>>> instead of being overridden by the later one.
+>>>>>
+>>>>> Cc: Christoph Hellwig <hch@lst.de>
+>>>>> Assisted-by: Claude:claude-opus-5
+>>>>> Signed-off-by: Md Haris Iqbal <haris.iqbal@linux.dev>
+>>>>> ---
+>>>>>    block/blk-core.c        | 14 ++++++--------
+>>>>>    block/blk.h             |  2 +-
+>>>>>    block/error-injection.c |  7 ++++---
+>>>>>    3 files changed, 11 insertions(+), 12 deletions(-)
+>>>>>
+>>>>> diff --git a/block/blk-core.c b/block/blk-core.c
+>>>>> index 13dc70e8f55d..c45846b9c50d 100644
+>>>>> --- a/block/blk-core.c
+>>>>> +++ b/block/blk-core.c
+>>>>> @@ -225,21 +225,19 @@ const char *blk_status_to_tag(blk_status_t status)
+>>>>>    	return blk_errors[idx].tag;
+>>>>>    }
+>>>>>    
+>>>>> -blk_status_t tag_to_blk_status(const char *tag)
+>>>>> +bool tag_to_blk_status(const char *tag, blk_status_t *status)
+>>>>>    {
+>>>>>    	int i;
+>>>>>    
+>>>>>    	for (i = 0; i < ARRAY_SIZE(blk_errors); i++) {
+>>>>>    		if (blk_errors[i].tag &&
+>>>>> -		    !strcmp(blk_errors[i].tag, tag))
+>>>>> -			return (__force blk_status_t)i;
+>>>>> +		    !strcmp(blk_errors[i].tag, tag)) {
+>>>>> +			*status = (__force blk_status_t)i;
+>>>>> +			return true;
+>>>>> +		}
+>>>>>    	}
+>>>>>    
+>>>>> -	/*
+>>>>> -	 * Return BLK_STS_OK for mismatches as this function is intended to
+>>>>> -	 * parse error status values.
+>>>>> -	 */
+>>>>> -	return BLK_STS_OK;
+>>>>> +	return false;
+>>>>>    }
+>>>>>    
+>>>>>    /**
+>>>>> diff --git a/block/blk.h b/block/blk.h
+>>>>> index 2cc03aa54c53..5fa54162c686 100644
+>>>>> --- a/block/blk.h
+>>>>> +++ b/block/blk.h
+>>>>> @@ -52,7 +52,7 @@ void blk_free_flush_queue(struct blk_flush_queue *q);
+>>>>>    
+>>>>>    const char *blk_status_to_str(blk_status_t status);
+>>>>>    const char *blk_status_to_tag(blk_status_t status);
+>>>>> -blk_status_t tag_to_blk_status(const char *tag);
+>>>>> +bool tag_to_blk_status(const char *tag, blk_status_t *status);
+>>>>>    enum req_op str_to_blk_op(const char *op);
+>>>>>    
+>>>>>    bool __blk_mq_unfreeze_queue(struct request_queue *q, bool force_atomic);
+>>>>> diff --git a/block/error-injection.c b/block/error-injection.c
+>>>>> index e14bc4b723ef..db543fe27630 100644
+>>>>> --- a/block/error-injection.c
+>>>>> +++ b/block/error-injection.c
+>>>>> @@ -171,15 +171,16 @@ static int match_op(substring_t *args, enum req_op *op)
+>>>>>    static int match_status(substring_t *args, blk_status_t *status)
+>>>>>    {
+>>>>>    	const char *tag;
+>>>>> +	bool found;
+>>>>>    
+>>>>>    	tag = match_strdup(args);
+>>>>>    	if (!tag)
+>>>>>    		return -ENOMEM;
+>>>>> -	*status = tag_to_blk_status(tag);
+>>>>> -	if (!*status)
+>>>>> +	found = tag_to_blk_status(tag, status);
+>>>>> +	if (!found)
+>>>>>    		pr_warn("invalid status '%s'\n", tag);
+>>>>>    	kfree(tag);
+>>>>> -	return 0;
+>>>>> +	return found ? 0 : -EINVAL;
+>>>>
+>>>> 	if (!found) {
+>>>>     		pr_warn("invalid status '%s'\n", tag);
+>>>> 		return -EINVAL;
+>>>> 	}
+>>>> 	return 0;
+>>
+>> As Mohamed mentioned below, "tag" would leak then.
+>>
+>>>
+>>> Doing it this way will result in use-after-free. "tag" has already been
+>>> freed above.
+>>>
+>>> Maybe change tag_to_blk_status() to return an int (0 on success and
+>>> -EINVAL on failure) and use its return value without mapping it?
+>>
+>> I am not sure I get your suggestion completely. Even if we change the
+>> return type of tag_to_blk_status(), we would have to free the "tag"
+>> before returning.
 > 
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-
-This LGTM but at first I was wondering why I2C is listed here but I3C
-is not.  I3C is listed under driver-api/index.html. So are some other
-buses.
-
-That is a little confusing to me. ISTM that we need so *not* have
-2 places listing bus documentation...
-
-Anyway, this is a good start on that. It could be merged as is.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-> ---
->  Documentation/subsystem-apis.rst | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+> Changing tag_to_blk_status() to return an int will not have an effect or
+> "tag" like you mentioned. But you will not need to map the return from
+> that function.
 > 
-> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
-> index b1ad48bb40..4e886897d3 100644
-> --- a/Documentation/subsystem-apis.rst
-> +++ b/Documentation/subsystem-apis.rst
-> @@ -24,6 +24,20 @@ Core subsystems
->     timers/index
->     locking/index
->  
-> +Bus and Communication interfaces
-> +--------------------------------
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   i2c/index
-> +   pcmcia/index
-> +   spi/index
-> +   w1/index
-> +   usb/index
-> +   PCI/index
-> +   peci/index
-> +
->  Human interfaces
->  ----------------
->  
-> @@ -72,11 +86,7 @@ Other subsystems
->     cpu-freq/index
->     edac/index
->     fpga/index
-> -   i2c/index
->     iio/index
-> -   pcmcia/index
-> -   spi/index
-> -   w1/index
->     watchdog/index
->     virt/index
->     hwmon/index
-> @@ -84,9 +94,6 @@ Other subsystems
->     security/index
->     crypto/index
->     bpf/index
-> -   usb/index
-> -   PCI/index
->     misc-devices/index
-> -   peci/index
->     wmi/index
->     tee/index
+> return found ? 0 : -EINVAL;
+> 
+> The line above just returns what tag_to_blk_status() returned.
 
--- 
-~Randy
+I would prefer to keep tag_to_blk_status() as a bool lookup. It's the 
+reverse of blk_status_to_tag(), and which errno to return is 
+match_status()'s call.
+
+> 
+>>
+>> What can make it simpler is allocating "tag" on stack, and then use
+>> match_strlcpy() instead of match_strdup().
+> 
+> That can work too. Just make sure we limit the string size somehow.
+
+This I can do in v4. It should effectively remove the ternary operator too.
+
