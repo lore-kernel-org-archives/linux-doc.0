@@ -1,134 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.156
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793836518;
-	b=yIilOvBFsTeVGicah1pPeGK+V4aJyVRVucXK+dvAnpi2LBbG1MCJEDQ4lySxZo5uhg7h
-	 smdTtCtKbLrG5n+9Qlx5F6pOviIXeYJWVs6CJuSe0oRMPpH9k6GLoN4XXnZ5MCOi0OK2e
-	 7l8E+qAnpbidhsR+C768JwmyNctjSjUFE0TtiPRRtSv1y8f2gBi0RDdUmE74+tkuXV1eE
-	 KNpJzrwNYntgL2fChzGu6hZvPqdXaocDnAC3Ywws8ymFiWbSxk5Bythc2xlZnCYm7eWlv
-	 Ki9UkoIxrANCrCI8U7s2TLpMpLCeDWj1e8Vqdn3Lz9zUZjf9QCJV/EvrzLEAWcwll1Q==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793836518;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=jyOh8dtZhFwam1bQ7aHKxAcq0MWjfq11be7F4YuWx0E=;
-	b=qSTNGqQqk9OC45d81TNZrryXceAFnUWjzRpg70nkUT4Tt3G/kfXeYqD3KdgLE1a1Nrqb
-	 o0mluhtYAyma9UmLMgrmNQR6a9B/JN99Mzd6mfK4xQhOreni6qaUpl3Pdf72rKskf5exw
-	 Merr5g4HGB6JpFV35KbDdOnFN3RGQPGAhwXy8hOj0PkwhYkjABH9mhpV+INk/OkG/lVsb
-	 SZQYyjVSZcurW5/Fn34FdYukW2ALUSTXmb6IRj3I44X4PtMA4yrniGpsEbEjz+X1hxSau
-	 MHR+RAkliWFEhEgi22wbz9H4MR8PESP4cbm2m6jHmVXp/DLzTV2J0dmcchH9LzrDc/g==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=nIvW5eIH;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=HueqMRZi;
-	arc=none smtp.remote-ip=103.168.172.156
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.218.54
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793837167;
+	b=dhUNg1tQgZLfadOStRdd1Qs51ZuMpMJwUkeYu9wm1dE4yUiAWg3mDE1Jp60rzJ4E0Lj0
+	 a4JosISEvkWTHr2b1XM5Etb4iNvanWq/u4PgNajZrLEk52HrFL0INv9+NPDA5dJEZDXEY
+	 YpBqWuzxFKZZ8kp1iccX2Egt+sAE2b6dIGALx02hSgZKARSdIWpeme/GvKp2U/TW4K7k7
+	 GvvGJmqPLyJS/5b8KXtU3N+q5d+PWCBUoXiUYR49Bd25DMcCCAHZdBGX8yNnOKaKnmL6C
+	 9T88+QOKAEL4o0p5w10OVOXMeEUx3XgClzIDdVCspkQlDYIP9RlZhZ562BAg9t95+7A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793837167;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=rBao9fgm6zvnqMZ/xw9mMi296PqW8mAwycCLa5M4/yo=;
+	b=LeWbu5OjOM00jhv/boTQVADAMP2Q4AMkOQ3k9qqdrliDqiO63tnXgvh7DeKDD71CXJ4g
+	 5vARmeu9ZEKqpGB7UN8Rm8pvolXxW2ImKCdel1IKVgzRWoyt3jdeZHeHwgo9YlHx+BdZG
+	 OXmiW73Q6sI2TeRUojsIBluH3PmBCpYKEMtAwjFt36nDiHlYM8iSlzVb73XOI/XMW6i9P
+	 1PeGhym5JlJrSn/tXo3nf8qiJpNkyZWtWF+PbFd2u1eBU7ZuUTn7Tz0/JgzoPtHwxrCy/
+	 cQQxeZx7IEkbJ1mxPmvmx2sIHpeIuo2MpQF8HgZ1EADqLT6xMesqcY+RpW5dWYWyfMQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UW7+Lg7r;
+	arc=fail smtp.remote-ip=209.85.218.54
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0463F606EEB7
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 23:55:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0463F606EEB7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E806A606A328
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 00:06:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E806A606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=nIvW5eIH;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=HueqMRZi
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6F67214001D6
-	for <linux-doc@vger.kernel.org>; Wed,  4 Nov 2026 18:55:16 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Wed, 04 Nov 2026 18:55:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1793836516;
-	 x=1793922916; bh=jyOh8dtZhFwam1bQ7aHKxAcq0MWjfq11be7F4YuWx0E=; b=
-	nIvW5eIHOZhzwNl5EFOzhFc6zjWytDOSASJvlKK3+3mIwepFYaqTcVy0KHg8YssM
-	rUd9pwz4VWi0JAxSMvsK5PlZNAngoOUJ+bBS4Jgrjy1yK+NgksH8cUOnJmXtVoBw
-	H3bjxo9k8Mqs7UIB9q/htMH23QUrTXHSSUtkenQ3+EDlUZwQWPJ1GiIKFWNufWZR
-	6wdFsn3LiH5X0uThxURwJGo5L+1hb3rd28WHgxCCdP5z6FhrRYpnbG9Q1xTrQGZW
-	dZT1Njjt4gq1r4VYuA7vccZ32HC3fKFLmr+lPIufY8/gqM3RwUzCYdk3e9d1ZTK9
-	JvfgxfuJBiQUFZ4dl5QjmA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793836516; x=
-	1793922916; bh=jyOh8dtZhFwam1bQ7aHKxAcq0MWjfq11be7F4YuWx0E=; b=H
-	ueqMRZixSxWFjZu5EugKdjetrleb2x3HDz75Pc4BinYEr6CG+jxKygGzx6FRz2n9
-	/yvQHxPoZr4j4SVbg00xz0VVz2K03X1vN4KcdUPyVtX8/84gGDbcneSZp9okFYG5
-	dwtOXxQjH82CWSmwpbJsrgpSbZ0nxvFvcZ0FpVGDNciDhC0Xum7KmNGwLkR0iTrv
-	rsnr9ReU5H+fHUsQAjDw6nb//qfsFnoBkNeBr1WL2PxACIFI3mbyusj80S5jjnrP
-	7Qh+1qnx0XV79Lpsy1GrWk/aVtRsQ6fumWWmQkS5ybt6oopq1KoKGw4g5bQacKri
-	EX7YN10kBZ4N4gA3fo/bA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793836516; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm2:rsa-sha256:ate1BZc97/VeCYgG19j6KGX5WL0GZN3xzBQDRXS5T9IrLXZ
-	OHpIl4yYU5d9J26Fx7wTSjD0yaAaOn1w9FXSiKk8oTQ0PoawfDpOgdJjViILXeeK
-	0fvr0QxV0/WoSJSb2vvxC2ehOmGMLMc1ZlRJkOxlL/VKxeoZgoeR1S6mRmBrToHS
-	TUuZNhon/obVYpHDNwFHqWPwDi5eEXgsEypbDu3oWjB1P9thlNL08F43nV7qm880
-	3rsHDJkUXpukWwXwtXa3Q2W18QLrHL/ewXcbxOi+LEsvcbo1zbnvBgZq4IBxbwRU
-	HS1BYg/2pwLfSrLSq73knycenT+GCISZdHwFyIA==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:/2yLtb0lmHljW4hWUpUt6pzuYG/NjVKkup+ztfiLlII=:JwSsDL9+hpoBnefcwHqgokHOrrIkqH+gAAjxEIACT0g=;
-X-ME-Sender: <xms:5MXravOdBY4STcaIdyv908OnLMk7LG1vRiCbr1uWEWEcYJLkxUrGyw>
-    <xme:5MXrakwkiammKf5WxrdqopDOVdf-nlgAcke3pqWQSriFaF4h-gA0Ewrz1MWLIVIUg
-    mpYIvrxxxJaFAn26qEDfKXTtsrk7EhNYvmQDw7q64gqsJdq-hQW>
-X-ME-Received: <xmr:5MXrasiIOJa_eZEc_hzzjuBmYUIPH4ZPoRRo1oDnqVEJ3U7_BgIrBAg1oTCw9A>
-X-ME-Proxy-Cause: dmFkZTG4FYuvZQ8OKmh8SxPpSxFmNX1nEZQbXphDSfzzHzAlc2MER1INxCOQ8ioQDOLSqj
-    I1J5zCHbWI6FBxNlzNQLTNQSnlCUlwwphJo/pu8XArSbdA4Ni0obfntvgtOtkOVBNwetlV
-    bMJgK9onu3dmOMmfOPZ4+y0a5pkqOK0b4gbgM3rL0NUyZ3bUwFePMC7fr20AQZulFyoaxC
-    8n2SIP8sHCkz9WtgPer+7UYjbsFsL8a2bS/6zWjf8AyXuy8yXVn3TL3Nz9OaD4UIyDwBDB
-    SY1wk2MHyzJunerzJ8Z+CamAY0fsFExRiKHjQNG41SIr6RTph7A2ETmq/kOvDwQe29bHhL
-    n5ocRvmGPyFRljf3Qo62VxDoSLiGsBnOovUztkkBp50TtARwghYPJgDAfzSfCjMXn/FlYH
-    kFIrhNHcp8cEPcC00vuEAWeAPFMyggNnERoRxujS8IIq3qOdQ44t6J+VNx9UAmvv3BkLtI
-    ZX33pFJ71IfXai9X4V2/mF8pgXeBqY960hA5/Rfh8Yk9T+tvNyjaMaQXjtzk/uzwTrVOpi
-    SNMhKiBfqNZNpWaN2k1HzBHUwnrF+/wGpeljfS8EhvC7QAz/3ecx5m+5/jHMtwvTRcvl3B
-    iy6VAazlxu2j909ugxbrpkUry00PTO6/RmB4jTGTh3lx1zMLhldtwDMyfa5A
-X-ME-Proxy: <xmx:5MXrajSlPVPBJVlHc6p7x4fWti4uEH6aQIHR-v9AouqkOzcnmcaYRA>
-    <xmx:5MXrahOQKxvpqdCbMH27I3dVQ8y4IRkY7D_FYkWEqw17SEKikA0o1A>
-    <xmx:5MXragG1Xwt4n8WJBRhYtFI2ikTPJUqomOndok5F91CbEWChwMgcww>
-    <xmx:5MXrapgToEx5AYtHv4dBBDwdiWaJYCm10Y7l1tRCpnv8j2en28XL7w>
-    <xmx:5MXrajccpjpBoglgV8fA73y2VYoxNJv4GexxBh-JIQ7oN_uyJXh9bz58>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 4 Nov 2026 18:55:13 -0500 (EST)
-Date: Wed, 4 Nov 2026 16:53:23 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: <mhonap@nvidia.com>
-Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
- <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
- <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <dave@stgolabs.net>, <alison.schofield@intel.com>,
- <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
- <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
- <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
- <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
- <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
- alex@shazbot.org
-Subject: Re: [PATCH v6 05/31] PCI: Refuse bus and slot reset below a CXL
- port with SBR masked
-Message-ID: <20261104165323.78b45467@shazbot.org>
-In-Reply-To: <20261016161839.2765592-6-mhonap@nvidia.com>
-References: <20261016161839.2765592-1-mhonap@nvidia.com>
-	<20261016161839.2765592-6-mhonap@nvidia.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=UW7+Lg7r
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c45551fa84eso216383866b.3
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 16:06:06 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793837165; cv=none;
+        d=google.com; s=arc-20260327;
+        b=jqpF9kPc1x4nyVSPiWGLsVIHbqlu9D8ACvlJFmSwhNfYuCOHdtFxejURH7MYXU4Lot
+         kDQHKi2xc9ZygTNAZa3nWEX10XtEh0My9D4buM7s7EztfThYHkBOxXY7uJHRB9X2nqSS
+         Wx160QCsax+kqqksZEL1W/AKKimf/u6gEChxjEU2Sm26kZPEh/12wtOiJ7gSQwQNtVq5
+         hTq3pJvxXwblfZbWnF9YfrFufNyQBTl8mplimZI1LnLmjkK/JtT0VUqK3FkCCMZESTp2
+         NwZJD1/uveUP7eRkTqiX7+lhqlapqaQJw6s7z5MGHFPaW/XQ5m4G/QHQSHZKqoBrXB/I
+         N0lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=rBao9fgm6zvnqMZ/xw9mMi296PqW8mAwycCLa5M4/yo=;
+        fh=1I//HqMr6HUUrzP56PY1rztw2N593Bq1sYczjVigJjU=;
+        b=hjlyUB4rYSZ72gkj/TVwi+XIXZGtCxTU3whb2kpRzAr1lpXnmN5TOPmcOMJZK6qdtz
+         D+zpbIrdOkRDXjvKJW4sm8ViAUVMVcsF3qUe9IaROyTV8qEjN0yLnOE1N3ThgeuEPPeo
+         1qRc9ROlNeJoRsmNwGYm7GReSM0K3sygum3p6ORWh8udI9aWEKbGtMmSGFe1dXsfgMrk
+         DNXDr9scB6OVLFE9Wir9671FB722+aCc2S1s3ExIDVhjYAsE8fbrCvj7S+1D4EPKb6ll
+         nYQjS8edxQbnKlzc0BaeEy7/sduTTZQU1WIXaXl9KIDrn8Dds+tN5ADBVKf3hEFWF2um
+         Khcg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793837165; x=1794441965; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=rBao9fgm6zvnqMZ/xw9mMi296PqW8mAwycCLa5M4/yo=;
+        b=UW7+Lg7rFdK2cPOSHdibyhfqd0mNfE52oRphbaahRpCOHjIZJidko9tTbllyzCryjy
+         siNubT2yNT8UsddMzx39cRlaaf4u9pnE+6dIm/dTOyiVwyDFMyx/T503O/SAkgV4IgXs
+         efUG5InyQPdPjXkVj3FyrgQw8Tp3Uwud4aaLkD2TGlBzm2pE66Yo0XieOJu07M7lI+DV
+         gUkNX9hygDXotIY7g19Ob5YY4jcsnCTMlsFTY/Azp5LW+ukD9CKA5AAnTO8zpTJXxWqx
+         5Vgp8TB7FfNb2pRMsONUAcd0wfnBxqAeiMrEDvVnn/35z4BZWsrn2RkRHETiQqHGP/C3
+         KXdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793837165; x=1794441965;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rBao9fgm6zvnqMZ/xw9mMi296PqW8mAwycCLa5M4/yo=;
+        b=esSvpjL6ufQiXqibxxUlK/PHDaOUY3dvcp/v3z7dCmI/BbxHV+uDCI0b0XK2Cw3ke0
+         Zrt9p2mB+6Ot+cC3yKIsRsUysmjeJcuSNWs0mKdGvSDI3NuICul8pMgvfxuDGsWsgRpD
+         SV/n1IDhGmtureGF5Ap14R9YFxBD5h+RDZETQR8dItmj8O7ZzBtBSw8cxnN0VOTi6yCX
+         /MKAor6YxvmfoDfnpR8lhDXBJZ7Azem8SIY3wJCBv28Mu3ziCHpsUfb/fkCg/bD7j0CN
+         MMCm36HXWNBLDHgtifHDeBrwLbY9ewYSNqe7K7v2zuxnxV/7oS1kevJHNmAi4lAh2+96
+         lmPQ==
+X-Forwarded-Encrypted: i=1; AKwUvBymV3SrXUWY6HBo3uO3fag01h+nqfeozhfwfYciuY4avY39StNFXivVt0DwH+bDoH1TKaNaWFDVhzk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8IVz/+ayTjjCso134DdTuOBp+lNPkzvXh4ylevbuLruyaB6A7x
+	nPl5WGoI3/ZISlKve9/qRuJuHZEpTWAMdxklcyOywDAhjsU7/gCdK5XoKCY1QDbn2wS8/5arX1J
+	Ou2BLtmX0Pn2Eh0BaIjM/ueDJi+tQSsIjYigTLUKr
+X-Gm-Gg: AYBFou124SiIqnHFm6cL3E4VB7L9t2nNO31ugCGtwZN1thwSm4NElmGQTd76A6Lmv7t
+	aUu5x+a2OqYY/Keodr7j3NH4bBXTg7I4hg7HX2GGyUEFWuJsUW8acnbQx6lpZvmuIIDmVxlV0Bu
+	TP8knL6BuZvS4ljlxGP3Y/l8FcaseYvK1JB6JfKvDpab04EL9t0N2etLTbRNH4mImFoTN6UF6rv
+	JezK7+aNY72m9bLeWRbn3MnDkZiWeyOo2EEByuuUgGUMocrXD1gZFdJcH4SSdL9QBYWhGq3EJ/s
+	l/xySDlk02hpthvKitFXSN/IfC47pxyPg4PEN20OJ/9fsf1dmcb657Hl5K+IMN6gkRa/SlxhRdp
+	P+P+KCxWEq6+GaGY33wE1C8U1drJF9ZLwhsIqXSIhZ+V36KnAxB8uciUPRR3H4nqLQ+mh1Yg=
+X-Received: by 2002:a17:907:3351:b0:c4c:b560:2a71 with SMTP id
+ a640c23a62f3a-c4cb5603d9emr979541566b.36.1793837164883; Wed, 04 Nov 2026
+ 16:06:04 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -138,150 +104,80 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20261023001603.560210-8-wusamuel@google.com> <20261023001603.560210-9-wusamuel@google.com>
+ <20261028134012.01d52e94@pumpkin> <CAG2KctpGPHo-S3AEvBhK5HPUnDHfoJu6Z-r+cS1hQ4Ps=B3DmQ@mail.gmail.com>
+ <20261030100215.6f8e0d4f@pumpkin> <CAG2KctqdPq6NmK6rB13s2bgM7kP2w4OMMy2hdp_OFMVYYhTnZA@mail.gmail.com>
+ <20261104142307.431fc12f@pumpkin>
+In-Reply-To: <20261104142307.431fc12f@pumpkin>
+From: Samuel Wu <wusamuel@google.com>
+Date: Wed, 4 Nov 2026 16:05:52 -0800
+X-Gm-Features: AclHuK8Z7yNuvzdyvQXTyXXmXbvszi-XVmOSWc_IPj379xX-z3zgWWYR8Kt4UgU
+Message-ID: <CAG2KctrY6GmVqsKP+fXYCsL6wDR4zp1kdRd7a7uOdCgg_JcMdQ@mail.gmail.com>
+Subject: Re: [PATCH bpf-next v2 1/6] kallsyms: Add KALLSYMS_QUERY ioctl to /proc/kallsyms
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, kernel-team@android.com, 
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 16 Oct 2026 21:48:12 +0530
-<mhonap@nvidia.com> wrote:
+On Wed, Nov 4, 2026 at 6:23=E2=80=AFAM David Laight
+<david.laight.linux@gmail.com> wrote:
+>
+> On Tue, 3 Nov 2026 17:14:26 -0800
+> Samuel Wu <wusamuel@google.com> wrote:
+>
+> > On Fri, Oct 30, 2026 at 3:02=E2=80=AFAM David Laight
+> > <david.laight.linux@gmail.com> wrote:
+> > >
+> > > On Thu, 29 Oct 2026 15:05:45 -0700
+> > > Samuel Wu <wusamuel@google.com> wrote:
+> > [...]
+> > > > BY_NAME matches names exactly, like kallsyms_lookup_name(), so they
+> > > > would be different symbols at different addresses. Please correct m=
+e
+> > > > if I'm missing something here!
+> > >
+> > > Only that the user might really want one of the copies.
+> > > Sometimes there is only the copy.
+> >
+> > Good point. I'll have v3 add KALLSYMS_F_PREFIX + pos/next_pos
+> > pagination to cover these. A prefix query for "foo." also finds the
+> > copies when plain foo does not exist (expanded on this in my reply to
+> > Andrii's Oct 30 mail in this thread).
+>
+> I'm busy rebasing my patches - they got stamped all over :-(
+> I should get a v3 that applies by the end of the week.
+>
+> I will add a 'prefix' variant for you.
+> The 'next symbol matches' flag is exactly that (actually it is a
+> this symbol is a duplicate to avoid issues at the start of the array).
+> So in this case that application would always need to read
+> the next symbol (by name).
 
-> From: Manish Honap <mhonap@nvidia.com>
-> 
-> A CXL port ignores the Secondary Bus Reset bit in Bridge Control unless
-> Unmask SBR is set in its CXL Port DVSEC (CXL r4.0 sec 8.1.5.2).
-> pci_reset_bus_function() already returns -ENOTTY in that case.
-> pci_reset_bus(), pci_probe_reset_bus() and the slot variants do not, so
-> they report success for a reset that reached no device below the port.
-> 
-> vfio-pci uses these for VFIO_DEVICE_GET_PCI_HOT_RESET_INFO and
-> VFIO_DEVICE_PCI_HOT_RESET. A user is then told a hot reset happened while
-> a CXL device below a masked port kept its state.
-> 
-> Return -ENOTTY from pci_probe_reset_slot() and pci_probe_reset_bus()
-> when the bridge above the bus is a CXL port with SBR masked.
-> pci_reset_bus() and pci_try_reset_bridge() probe before they reset, so
-> they refuse too.
-> 
-> Users see this in three places:
-> - the vfio hot reset ioctls fail (vfio reports -ENODEV when neither probe
->   succeeds),
-> - the reset_subordinate sysfs attribute returns -ENOTTY,
-> - vfio-pci groups a device in a hotplug slot below such a port by bus
->   instead of by slot.
-> 
-> Every other pci_reset_bus() caller, including the vfio bus reset at
-> close, is refused the same way. With one device per CXL port both
-> groupings have the same members.
-> 
-> Leave pci_bus_error_reset() as it is. AER and host bridge error recovery
-> call it without saving or restoring state and only map its result to
-> recovered or disconnect. Failing it below a masked port would turn
-> recovery of every CXL device there, memory expanders included, into a
-> disconnect; that is a CXL error handling decision, not part of this fix.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Manish Honap <mhonap@nvidia.com>
-> ---
->  drivers/pci/pci.c | 31 ++++++++++++++++++++++++++++---
->  1 file changed, 28 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index cecf8e681e69..87fe9de81acf 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -4984,6 +4984,20 @@ static bool cxl_sbr_masked(struct pci_dev *dev)
->  	return true;
->  }
->  
-> +/*
-> + * A secondary bus reset below a CXL port with SBR masked does not reach the
-> + * devices on the bus, so a bus or slot reset there would report success for
-> + * a reset that did not happen. The probes and the save/restore resets that
-> + * pci_reset_bus() and reset_subordinate use refuse it; error recovery
-> + * (pci_bus_error_reset()) keeps its existing behavior.
-> + */
+Thanks, that would be helpful. For my v3, I'll keep the lower_bound()
+approach so the two series stay independent, but I can switch over
+once your series lands, so there is only one search over the name
+table.
 
-Reads like AI over-explaining a fairly obvious concept.
+> I think it might be more sensible (less pitfalls later on) to return
+> the symbol number - not that of the next one.
 
-> +static bool pci_bus_cxl_sbr_masked(struct pci_bus *bus)
-> +{
-> +	struct pci_dev *bridge = bus->self;
-> +
-> +	return bridge && pcie_is_cxl(bridge) && cxl_sbr_masked(bridge);
-> +}
-> +
->  static int pci_reset_bus_function(struct pci_dev *dev, bool probe)
->  {
->  	struct pci_dev *bridge = pci_upstream_bridge(dev);
-> @@ -5615,6 +5629,9 @@ static int pci_slot_reset(struct pci_slot *slot, bool probe)
->   */
->  int pci_probe_reset_slot(struct pci_slot *slot)
->  {
-> +	if (slot && pci_bus_cxl_sbr_masked(slot->bus))
-> +		return -ENOTTY;
+What pitfalls were you anticipating? If the current symbol's position
+is returned, userspace needs another ioctl() call and an -ENOENT
+check, to learn that there are no more matches. Alternatively,
+returning the next position means every call pays for a look-ahead,
+which for an unfiltered query walks the module symbols even when
+userspace only wants the first match.
 
-Why would this be open coded here instead of pci_slot_resettable()?
-
-> +
->  	return pci_slot_reset(slot, PCI_RESET_PROBE);
->  }
->  EXPORT_SYMBOL_GPL(pci_probe_reset_slot);
-> @@ -5638,7 +5655,7 @@ static int pci_try_reset_slot(struct pci_slot *slot)
->  {
->  	int rc;
->  
-> -	rc = pci_slot_reset(slot, PCI_RESET_PROBE);
-> +	rc = pci_probe_reset_slot(slot);
-
-Also suggests it's tested in the wrong place.
-
->  	if (rc)
->  		return rc;
->  
-> @@ -5685,7 +5702,7 @@ static int pci_try_reset_bus(struct pci_bus *bus)
->  {
->  	int rc;
->  
-> -	rc = pci_bus_reset(bus, PCI_RESET_PROBE);
-> +	rc = pci_probe_reset_bus(bus);
-
-And again.
-
->  	if (rc)
->  		return rc;
->  
-> @@ -5726,8 +5743,13 @@ static int pci_reset_bridge(struct pci_dev *bridge, bool restore)
->  	if (list_empty(&bus->slots))
->  		goto bus_reset;
->  
-> +	/*
-> +	 * Probe without the CXL SBR mask check: error recovery keeps its
-> +	 * reset path below a masked CXL port, and pci_try_reset_slot() and
-> +	 * pci_try_reset_bus() refuse the restore path there.
-> +	 */
-
-More AI?  This function is not designated as exclusive to error
-recovery.  If sbr is masked, slot reset doesn't generate an error and
-doesn't effect a reset, regardless of who called it.  If we're including
-a new condition for a bus/slot reset to be effective, it needs to be
-applied universally.
-
->  	list_for_each_entry(slot, &bus->slots, list)
-> -		if (pci_probe_reset_slot(slot))
-> +		if (pci_slot_reset(slot, PCI_RESET_PROBE))
->  			goto bus_reset;
->  
->  	list_for_each_entry(slot, &bus->slots, list) {
-> @@ -5773,6 +5795,9 @@ int pci_try_reset_bridge(struct pci_dev *bridge)
->   */
->  int pci_probe_reset_bus(struct pci_bus *bus)
->  {
-> +	if (pci_bus_cxl_sbr_masked(bus))
-> +		return -ENOTTY;
-> +
->  	return pci_bus_reset(bus, PCI_RESET_PROBE);
->  }
->  EXPORT_SYMBOL_GPL(pci_probe_reset_bus);
-
-Redux, pci_bus_resettable().  Thanks,
-
-Alex
+Andrii, do you have a preference between the two?
