@@ -1,49 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793886168;
-	b=ur51AVUyuE9gBab6aTcF8G1+RaTzy7XZYokcJLzZ6HuaKdNURopBSNbCV2agBkIfBokn
-	 mTkuSZ37UfaEDgBAK4gn5qS5zr57QhFaEd+s2kgJTPfyUbunwuwpNDqwy5l6tecuu78Xo
-	 HxYUp0LCtfML9533fwU5doosSRar+WZtPSKerwp2GJu82cFukyVoCppCxJ1TE0cusAJb8
-	 EKKj0a+puIOA/SpEbb3lWNnBsNnGLvKIV620jWHZE6iOroXQ7ZoA7PlMnywVUq0gEPtpQ
-	 M/4yTGrOp6WL64Ek0iNWX52C1v1OsSOC2KbVCJqGp0Lk05t0DcYtN3eBPMriTNslrUw==
+	t=1793886713;
+	b=maxHZFrfDhG1MBOOXB148VP2K/7zpxy+zr8L1iyKOo50ln1KDLlSUTnJEDYponpROSIz
+	 GlgYi8JhElCXWLmGTVeYJbM+7Rgw/HEyGppaKpjBOCPlURyLxBcnfMX6VUUTzXwvGoeI2
+	 rAHwKqUcOm7tLA9mYzB09v/xZ/C4k0uW0DuT6kUJoVJxb2d5wgcW2pFlcWnBQwZhqo717
+	 fEtXFpbva7OWQbcAwDx8Sjpt3E4PZ3Seq57CDP6iv+ixO/zpysMXewB/LkpNPLQthDJH5
+	 pJd2ikWT5gsUH2rp3VIvPCopYd8MLgCjAzO11gaPTfvHpqty9YENq3a3+W9NZdPfSAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793886168;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=5JtIMbH8bYb+/uBp8MYmywFxXn4OxXIrKJE7bqVu5FQ=;
-	b=Q//rn5YYaHE8WA63BPxwEOGwitmnhHmGFb5PW5emndUq5kLipj3e6zqeahjEYKE8U7oW
-	 e/mfK0WhRMZnwfA0nHlIyJwWGI1wKwHRqb2cj62Xzf4RnbvlItWwY3awr3zvbfti69d7E
-	 RYPItrLnBkWZkuG8x9Az5h7oNmqnvJK2vKOmCStZhOEssIRW6BuLXUNcCvK3YtBURQSgN
-	 7OO6/xmZ4r2JGoU1Q7uDjYsVqUTChs+gWQAFwxQcEQ/aiKKupn01gkUe3Bf1BpRoFs15M
-	 IW0YqNJcBq93DGGGOyWn8auHt6o5ZvD4zFSpwREMVBBXUjmJY4a62j/rAidgacGZMfw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793886713;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=jeG3y12HtFa7m8IvIKhqM9ur3tVT1kjPhMNf8HVLxi8=;
+	b=dgmGv/OATO9RIva/1jEtgpyhR6OkLDbNrV+gnpFWKeXI4vAgT4fzr62Nv7uNli6wjjrc
+	 C3hHFUPEQuLQtTrtnzS8OYmCK1jQtt8MiQlQhhbfdhhFpfzdcgR5qT82kqahHsI3aTES8
+	 DvTVwR2WAnXJpfel2b4K6Klhc21d3qNp3WFtAVQIW8s0eKxPvo34Y5CAfAmKOCBt8D3GQ
+	 0FmIqr0ryvlzNncRjmH1ZqA/4NyBloaeR5DKQUjlb/gwncEXKa3/p3PrS1J5G5B35ItnP
+	 UMEYHDe1ULQozX2Ouy3vZUOcdPMt15BXx2okzxV0O27hG+xctRPcOQ50PfKbnXOcM7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=arm.com;
 	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=KNWXrjUt;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=m+09lacs;
 	arc=none smtp.remote-ip=217.140.110.172
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EEF2606A328;
-	Thu,  5 Nov 2026 13:42:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4EEF2606A328
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C0E6606A328;
+	Thu,  5 Nov 2026 13:51:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C0E6606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=KNWXrjUt
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=m+09lacs
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 380F41650;
-	Thu,  5 Nov 2026 05:42:43 -0800 (PST)
-Received: from [10.57.91.118] (unknown [10.57.91.118])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 60A813F628;
-	Thu,  5 Nov 2026 05:42:40 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 975371650;
+	Thu,  5 Nov 2026 05:51:48 -0800 (PST)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 532CF3F628;
+	Thu,  5 Nov 2026 05:51:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793886166; bh=LveRI2qxSsupfhBJHDyhXy7DoKCO1CvAkdTDvg906zs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KNWXrjUtNKtutWMxTDb6oou+QYOV4dLBHiS5rUJsEnDvfiDU1x3OfmQand0VegEod
-	 UOK5Sv9i74jXcnRzH9HeBpwpKOepeebwy93Qohp+Tnba+eYsw0g6ifDRMYL5b7ZtFG
-	 0+0UWxjwJlwl05oorBvOj1xVVcR9Kgdz1hgMMXEs=
-Message-ID: <9b43db9e-4eaf-4cac-a203-4b444202160b@arm.com>
-Date: Thu, 5 Nov 2026 13:42:37 +0000
+	t=1793886711; bh=h84UlwUJYAiqDq33RX39Hh2D1oEYdS7iW7dNb129dXw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m+09lacsvQH6RHUHtbjlvSu27zPjooCxuMs6qDiflGnjn4Td/TYYUafIL8k4EYAXF
+	 6ediJxrSXelxhGk1YIPGggBvbGC0ixvbbQaewIy+pOtbmJ19guvhIRcQFuracVXXk/
+	 OZeo6y15VTgJCsrdOWjJ0R7OhFPrIqPJRjYl1Eq8=
+Date: Thu, 5 Nov 2026 13:51:44 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Yeoreum Yun <yeoreum.yun@arm.com>,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
+	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
+	sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com
+Subject: Re: [PATCH RFC 02/20] ctlv: Add the UAPI wire format and family API
+Message-ID: <auyJ8Nuvn0t2qj5w@e129823.arm.com>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-3-jiri@resnulli.us>
+ <at-iEMxN98nie1Qr@e129823.arm.com>
+ <auBaROC0XdWpILEI@FV6GYCPJ69>
+ <20261027141524.GF1685504@ziepe.ca>
+ <auC5sw9YMC9NO4wl@e129823.arm.com>
+ <20261027151729.GG1685504@ziepe.ca>
+ <auyAJ8OMWHUTCFKs@FV6GYCPJ69>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,147 +76,75 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/17] driver core: Expose device trust authorization
- through sysfs
-To: Leon Romanovsky <leon@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
- Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
- David Woodhouse <dwmw2@infradead.org>, Lu Baolu <baolu.lu@linux.intel.com>,
- Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
- linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
- Jason Gunthorpe <jgg@ziepe.ca>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-10-1e536825b4eb@nvidia.com>
- <2026110514-bunkhouse-handset-6a3a@gregkh> <20261105132729.GB8298@unreal>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20261105132729.GB8298@unreal>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auyAJ8OMWHUTCFKs@FV6GYCPJ69>
 
-On 2026-11-05 1:27 pm, Leon Romanovsky wrote:
-> On Thu, Nov 05, 2026 at 08:10:14AM -0500, Greg Kroah-Hartman wrote:
->> On Thu, Nov 05, 2026 at 01:42:23PM +0200, Leon Romanovsky wrote:
->>> From: Leon Romanovsky <leonro@nvidia.com>
->>>
->>> An initrd must authorize a disabled device after attestation even if a
->>> built-in driver already attempted to probe it.
->>>
->>> Expose requested trust_policy and read-only active trust. Allow explicit
->>> disabled policy to advance once to adversary or full, fixing that decision
->>> immediately. Reject later policy changes, including for a device claimed
->>> before registration, while allowing same-value writes on live devices.
->>> Keep initial unrestricted selection separate from explicit authorization
->>> and bind-time commitment. Serialize writes with probing under the device
->>> lock. Include the attributes in device ownership changes.
->>>
->>> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
->>> ---
->>>   Documentation/ABI/testing/sysfs-devices-trust |  51 +++++++++++++
->>>   MAINTAINERS                                   |   1 +
->>>   drivers/base/base.h                           |   6 ++
->>>   drivers/base/core.c                           |  15 +++-
->>>   drivers/base/trust.c                          | 102 ++++++++++++++++++++++++++
->>>   5 files changed, 174 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/Documentation/ABI/testing/sysfs-devices-trust b/Documentation/ABI/testing/sysfs-devices-trust
->>> new file mode 100644
->>> index 0000000000000..97e07a174769c
->>> --- /dev/null
->>> +++ b/Documentation/ABI/testing/sysfs-devices-trust
->>> @@ -0,0 +1,51 @@
->>> +What:		/sys/devices/.../trust
->>> +Date:		September 2026
->>> +Contact:	driver-core@lists.linux.dev
->>> +Description:
->>> +		(RO) The active trust level for the device. The values are
->>> +		"disabled", "adversary", and "full". Driver core resolves
->>> +		the level before DMA configuration and probe, and retains it
->>> +		through removal and DMA cleanup. Outside a bind transaction
->>> +		the level is "disabled". This does not imply that policy is
->>> +		writable or that the device has never operated.
->>> +
->>> +What:		/sys/devices/.../trust_policy
->>> +Date:		September 2026
->>> +Contact:	driver-core@lists.linux.dev
->>> +Description:
->>> +		(RW) The requested trust policy for the device. The initial
->>> +		value may be selected by the bus before the device is
->>> +		registered; otherwise it is "default". The policy is resolved
->>> +		to an active trust level before the device is probed.
->>> +
->>> +		The values are "default", "disabled", "adversary", and
->>> +		"full". "default" lets the bus select the active trust level.
->>> +		"disabled" prevents a functional driver from binding.
->>> +		"adversary" requests operation with the restrictions that the
->>> +		bus and DMA layers can enforce for a potentially malicious
->>> +		device; it does not isolate DMA by itself. "full" requests
->>> +		normal operation.
->>> +
->>> +		Before an operating level is committed, policy may change
->>> +		freely until "disabled" is selected. Explicit "disabled"
->>> +		blocks binding while allowing a later write of "adversary" or
->>> +		"full". Repeated rejected probes preserve this opportunity.
->>> +		Authorization immediately fixes the requested policy.
->>> +		Returning to "default" or "disabled", or selecting another
->>> +		mode, fails.
->>> +
->>> +		Successful resolution to an allowed level commits policy
->>> +		and operating level before driver or DMA setup. Both remain
->>> +		fixed for the device object's lifetime, including through
->>> +		failed or deferred probes, unbind, reset, and driver reload.
->>> +		Later binds must resolve to the same level, including when
->>> +		the policy is "default". A resolver error or disabled result
->>> +		before commitment leaves the policy's writability unchanged.
->>
->> I understand you are aproaching this from a PCI point-of-view, but many
->> busses do not care or have DMA at all, and need to actually talk to the
->> device before being able to even "add" it to the kernel.  So you are
->> making a driver core-specific policy based on mentioning DMA here, when
->> really that should only be a bus-specific thing, right?  Some busses
->> might require DMA to happen (i.e. USB needs their host controllers to
->> use DMA to even talk to the device at all).
->>
->> So can this be written to be more vague and generic and then put the
->> specifics in the bus-specific portion?
+> Tue, Oct 27, 2026 at 04:17:29PM +0100, jgg@ziepe.ca wrote:
+> >On Tue, Oct 27, 2026 at 02:48:19PM +0000, Yeoreum Yun wrote:
+> >> > On Tue, Oct 27, 2026 at 09:02:14AM +0100, Jiri Pirko wrote:
+> >> > > Mon, Oct 26, 2026 at 07:55:12PM +0100, yeoreum.yun@arm.com wrote:
+> >> > > >[    3.856919]  ctlv_schema_check_attr+0x3dc/0x538
+> >> > > >[    3.857105]  ctlv_schema_check_indexed_nest+0x788/0x958
+> >> > > >[    3.857301]  ctlv_schema_validate+0x88/0x180
+> >> > > >[    3.857482]  ctlv_msg_test_as_deep_as_the_core_allows+0x11c/0x1e8
+> >> > > >[    3.857698]  kunit_try_run_case+0x64/0x188
+> >> > > >[    3.857878]  kunit_generic_run_threadfn_adapter+0x30/0x68
+> >> > > >[    3.858086]  kthread+0x10c/0x140
+> >> > > >[    3.858245]  ret_from_fork+0x10/0x20
+> >> > > >[    3.858398] SMP: stopping secondary CPUs
+> >> > > >[    3.858630] Kernel Offset: disabled
+> >> > > >[    3.858720] CPU features: 0x0,00000000,00b0802e,9f190bc3,2affe72f
+> >> > > >[    3.858872] Memory Limit: none
+> >> > > >[    3.858976] ---[ end Kernel panic - not syncing: kernel stack overflow ]---
+> >> > > >
+> >> > > >[...]
+> >> > > >
+> >> > > >I think it might be good to configurable according to architecture
+> >> > > >unless it's not good to reduce the CTLV_MAX_NEST_DEPTH number
+> >> > > >otherwise, increasing stack size when CTLV is enabled seems unresonable...
+> >> > > 
+> >> > > Agreed, will lower it down. I think we should be okay with 8 for start.
+> >> > 
+> >> > I'm surprised this ran out of stack though with even as few as
+> >> > 32 levels.. Is there accidently something large on the stack?
+> >> >
+> >> 
+> >> Nope.
+> >> 
+> >> When I see the each functions stack allocation:
+> >> - ctlv_schema_check_indexed_nest():
+> >> 	sub	sp, sp, #0xf0 // 240 bytes
+> >> 
+> >> - ctlv_schema_check_attr():
+> >> 	sub	sp, sp, #0xb0 // 176 bytes
+> >> 
+> >> Roughly (240 + 176) * CTLV_MAX_NEST_DEPTH = 13,952 (around 14KB)
+> >> consumed.
+> >
+> >400 bytes per nest seems pretty big to me...
+> >
+> >Do you have debug options enabled or something that increases stack usage?
 > 
-> Yes, of course. The main point is that drivers must not communicate with
-> or configure hardware before attestation is approved. DMA is the PCI
-> way to communicate with hardware.
+> KASAN is such an option. On arm64 with GCC 15, the stack protector and
+> zero-initialized stack variables, ctlv_schema_check_indexed_nest() takes
+> 208 bytes and ctlv_schema_check_attr() 144 without KASAN. With generic
+> KASAN, which instruments the stack with GCC, they take 432 and 304: the
+> redzones around every local whose address is taken more than double both
+> frames. Your numbers are in between, I guess a different compiler or
+> KASAN mode.
+> 
+> Otherwise there is nothing large on the stack. 96 of the 208 bytes hold
+> the callee-saved registers, the rest are small locals and spills. It is
+> just two frames per nesting level.
+> With the limit lowered to 8, validation at the maximum depth takes about
+> 3KB, about 6KB with generic KASAN.
 
-Indeed the principle of "I trust that this device is what it claims to 
-be" should be universal, and that's really the thing we should represent 
-here, it's just that most existing buses (especially simpler lower-level 
-ones like I2C/SPI/etc.) are unlikely to ever have any kind of mechanism 
-to be able to usefully attest that.
+TBH, I'm bit of surprised since I'm not using GENERIC option but with HW
+(MTE). Do you mean this with KASAN HW_TAG?
+might the GENERIC and SW_TAG would be, but I don't expected with HW_TAG.
 
-DMA is simply the biggest and most prominent attack surface for 
-malicious devices, as it gives them the means to attempt to access 
-arbitrary addresses; however even a non-DMA-capable device is still 
-potentially capable of maliciously doing the "wrong" thing with data 
-that a kernel driver explicitly gives it - imagine something pretending 
-to be a USB network adapter that's actually clever enough to MITM your 
-data at the packet level...
 
-Thanks,
-Robin.
+-- 
+Sincerely,
+Yeoreum Yun
