@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.217.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793854866;
-	b=aLXYHD91OfBS7DlhmHcvW0Lue7dL+DZDBWnXtHiU7cyDL9moOI3Z8V9qDhHcgEb3/n6P
-	 PkDURpcsNQicOYBTX5bmHIoFEgguKuR3zN1ZwTEci8D0cV5qd7E8lnYa182gCeo2fTcDX
-	 +VsIzuiAqKYqmMVlHO8/gh93VmFJstI1ShZgLhZQsniXDLHcnwoF1J2zDHF+0WkvLLKAr
-	 kIC90DB6ZcFLsefHTkehqsFn86xrr9OaIuOH3Tb+xgBaxuZLQj/brPNWkQsstQrJd1CV8
-	 1+KnY1OnrB1H7IqYHrV8mGySIbfVDepvZwS6Z8+FI334sBKsicp5E74Xbq0M7FuYlcg==
+	t=1793854863;
+	b=O74LQVu4U0OILvC4GkvKN1UQT/GODrnM3mPqx8wTUXfcbZb9eChaubgGxL2dCaiWxx1w
+	 HzoWYHyW+n8aGEpxZnhFfgx4+slC0O8hfkN8yerxUk8l5f20qk+O55T0BOkjggqkia97/
+	 7KeBRucsVPpQVA8Ib90UcQeb9IzU7TuwgQpl5TvgmqCH77sCICYXYXv/0hjJetN9ukpid
+	 7ii/xbk+5AxipKG+qaA8p5pUNP+iD2Q58aP8vhZAiEqHEJwmTvWA4KbW1gtfMiFZ2WemK
+	 idjOmMj/vQ0WBStIpz9mGtH2oiL+6ssh7jivU0e1CHarhc9TBXhMOhZe3KQQ/dFaErA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793854866;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793854863;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=PsAwlx2j4fW8q8aMdYc1iycHvTmI4Op6n1GzgHBZx5g=;
-	b=b/BfO1ZS1TqZXwMwnH7PYsJHC+5YPyuIdP6zLwaz9IhOniLsLzc6we+PCzZtQx4V9q6u
-	 lbX1zMDyk/tH4MVVvVR661iiAl1HnxfE06MLRBW7fMzH7rPNKiB+Fdr1uC9ZL3YoBkXTe
-	 UT8afeLeAtilvw5fkCqW5a0SKTYNuoMyR4FpR+Cc4lCm9qphdEWkXWcySZ6KTV3jy+LD9
-	 k2PTwz/JXWVk8O+AjSyQ/R8fVGsUi2sm5zfl1Mq0x9VZorHJdXXKpFx0kSAKczZVhXuGl
-	 MhnedvDMpVhIYG3qQI7ueCKxi77jN3eJlc+aGGdfnkjUvc2L/euUCdw4rtc8V/2dVGw==
+	bh=QR7+RzYUX4/ytxM/0jS+GRtrp88N8Eh0P5U9HMcYULs=;
+	b=v3XAAE+fprgzADPOege7QBYx5rHeFSrl5vwDKq9TezVNMS792TrKbW44JjIpZCSsgs8+
+	 9KM/eBbceU8YvykTRk24JqHXAqC8Srr9HD2QmtnnIH5jZQjXgDVFSzgLf19Jt3raHM2Mr
+	 yFeoXmjXbrgKzLh3Y/VAYBdsbc6LOag2WObcaYjNAUggkWiWhDkpFUCLIr0wzPOVthrHC
+	 kvJ2QKSCtjJ9wjzGH50fiklmxMUV3zKglyUw/UMPXw8PA8443jnI+vx4KGrLuC6mqhRzY
+	 zGap0n7NuaBs5il2VEGdCrxqRSK2cYafGoSAdPRmHnM+WRq3Fc4CZnPYEdCwZkq21DA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=soleen.com;
 	spf=pass smtp.mailfrom=soleen.com;
-	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b="iM76nqR/";
-	arc=none smtp.remote-ip=209.85.217.50
-Received: from mail-vs1-f50.google.com (mail-vs1-f50.google.com [209.85.217.50])
+	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=LZnZwqIP;
+	arc=none smtp.remote-ip=209.85.221.174
+Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E86A606D801
-	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 05:01:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E86A606D801
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E56A606D805
+	for <linux-doc@vger.kernel.org>; Thu,  5 Nov 2026 05:01:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E56A606D805
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=iM76nqR/
-Received: by mail-vs1-f50.google.com with SMTP id ada2fe7eead31-7cc53938a8fso841919137.2
-        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 21:01:05 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=LZnZwqIP
+Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5eac01ff101so575887e0c.2
+        for <linux-doc@vger.kernel.org>; Wed, 04 Nov 2026 21:01:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1793854865; x=1794459665; darn=vger.kernel.org;
+        d=soleen.com; s=google; t=1793854860; x=1794459660; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=PsAwlx2j4fW8q8aMdYc1iycHvTmI4Op6n1GzgHBZx5g=;
-        b=iM76nqR/M1wetTqLCJPxHjBNaoxISS1IVWfeqbkVTML9kJVVi7WyxMztr69Zd1jpbs
-         eT+/Zgo0nzGG18jpL5kFc6f0Rq6gdzBVZ1WiL2lI+6WhZ0QUFN90Qe18burp+ferJ6vR
-         MbgS37pRIf3jcTobydX+iOVyIXPPWBajBbGjvT2J8oUyf9FURPO0wq39ZOALmLq5xowV
-         MuV/3WQIw869pcD3ThQuK8c9C7+/WwRVs/uIH9gSCw3Dijpnyvf3FTdvayIrHaB4MNoK
-         XlzaBi2zwrn4VVKmliq2pjTfPziteFVILxCpY8nUtnl8JxIIc+NIWEfeObC0qXb9zt8c
-         7hWw==
+        bh=QR7+RzYUX4/ytxM/0jS+GRtrp88N8Eh0P5U9HMcYULs=;
+        b=LZnZwqIPLNiW/LkeN+Xi5RGlvG+O4sAM7NnpKwL43FPimrkLcrBwL15K68PJZsh8KC
+         o7LvxQEIcVJ0rscn6F+EryafDWE39Kg5wzMSPY24vZE+ZxqF6yThDoU6udh0EEhhSsf+
+         6ICXJDAduAmldpglFRuXAGGei4Ius2MUJgCtEIs+HzWK+UFwGMhMNNvr3FRHV0rVoanv
+         m/k0Z95n81kNu3xoGNd9ZuHZTZUSAd6Cvx1lQ854/+sZmlStb47InAO7egF3oY4pfddl
+         tgRo3Kg4OQJZ8HWbKWvdGCD++TYNYbbraU+9Nj2Cj69/c2OOof0ApKY6vPs5idualmlG
+         okcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793854865; x=1794459665;
+        d=1e100.net; s=20260707; t=1793854860; x=1794459660;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=PsAwlx2j4fW8q8aMdYc1iycHvTmI4Op6n1GzgHBZx5g=;
-        b=LB4z49TxjimhShatKPQOYCLlOimdWrwldiymeEO1rjTt48pTmENAbNLruroGrlkeSS
-         nWVp+hG1Sv3Z/sX+ieOFO8S9/Jf9Z28fOMmeUEYUTHKi0uZgV6KZgfaBiWA3NUBuBN0h
-         r28/ABCDr+W5Zmzr0EOkeVW0/NoMGZHJcBE27TWa6csfp8GbwgzmLNx5hKFDQ5D8Eqhg
-         6h4IYbFWy68MD1Qsv/1BzOMx/W1hvigaPnXru1hNfHMbyOOfHGge++ROpF8/vLzr97h2
-         EwrNErgS4bLvbXllRQYL+9uKGlF821fFMbPTgPHJUbKEpSX1DevH4KNhVqy/OGjvX9m8
-         7rGQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzDtiTyCH9hBRoPDfWSStzFpyPG64LPP48K/upwSVxHk2lR12da/8Q+01Rx7lGExXxWQWAD9SxUI9w=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9K/USSRT522m9zdL5VfHoxcK1OW4N6+uyTVjSfcvoKsZ7agzbR
-	4MIUkNwP0lc+/XPVPYssSuQjaUbh9Z8cwwGzCmsflz9Yrtj63z1+cPdi1UD6zgbBuhM=
-X-Gm-Gg: AYBFou3rkUr5vZJGnmoD0N638ChbUmM+VXoVm6M62yzSIwAsPe+iGwz1izXMnMEHKD2
-	xV1oA9WFFkEn+u5Pywngb4oDW8dxwtqkKqhjD62aJSmrf2lrKGvqaFidA+VW6Jr/K3nduegzMxx
-	nETA6exbknBBzS5UFH7m8Zmxx7I3p+miYrGJjlJwrntCdT1bXORVvZrR/ac8FtEx64wsLmaVHpU
-	Jqu7WHQASF4FuurvCSIXILvr+kW4udZP5TWXY+xpCwQbXkeWuXXml5GDkNEysWuzLmMpOoWyza/
-	KvWCjr5ep6ZdN9kxuZINZeBK3vqA9MQ/NGE46sXPrIfsw0PdEWiJqHg7XP4asAomU5digIf2leW
-	tIKuzHVeRjfLjLYQn1WVZR5Jz/EL1XldZ0Y7EWLtFqMCeE9v2zVlgnMsByrnE+NcH0rLIsduILa
-	IXvLH/xk6/vDkwRiOVzPB0W7Z3QVYJSp3gyZ9iif6EINGT7M293xTf/QSrsbL9AgUKjuxzfOQ7O
-	xSk+4FQaigAZVZ+QQeUJm2jvv+G6dIcR9ultwGoZY1AGkOgDiPxijKqk+AMcmgUXypMNbXm8o2X
-	rWQl2AUmemvTjqgTil/pfFNK2T16AM2LWxeooC8q5fY667ca1h7Tk9s9xABlbNnBvOWFhjPBQca
-	JlavW3/IpoU+xoqTiDDhiwWVEcuLoxEpqgfUoSjSdurQMoiI/Fw==
-X-Received: by 2002:a05:6102:f0b:b0:7ab:af4a:f2f3 with SMTP id ada2fe7eead31-7d072cc2323mr8731716137.26.1793854865027;
-        Wed, 04 Nov 2026 21:01:05 -0800 (PST)
+        bh=QR7+RzYUX4/ytxM/0jS+GRtrp88N8Eh0P5U9HMcYULs=;
+        b=s02RNEKi5uQYrjpTkOdT66YKsHT0LB5+R7A804FrI3kdH7KUMBteJa0jVXrXF6lfWz
+         5Po2VBtzpzZ7Ohu+Uu8pT2JXdJCVOURx/vVnxdoT9ZfR0Ns9V4i5C9MDa9Dfl/XLpuMz
+         72jzS26i+qRPBG2B2FnFZPcaCSl/y9Xvn6qBZXVyT4E2fTDr83O0lVZShBu9bC58q5wt
+         igX0Lq/NrIbO5XPGV7ttDOu9vTEQjyHvZ1LfMw58uytdyn6fYhcI1lQBvJvZebM+8ryl
+         jNdM3p0UczHWrPUbVQnOk6lkdzQK9qKfrzn2Vwmpzb7Dxd5tYhjvBGtaqzWs7coD+Ybo
+         4W0Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwE1KLOwv4J6PMlTmarg/Pw/Yw8DRgnTSmLxcR+vq2snQvAjzAux+Nov9+3D0AEZh/1GZqHGwmqNfg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/dg6ZZivq44yByUkKA0aFnpFKrMXjtkMf9GSzS5G0epIFjRMZP
+	IoFeTTlRAW0AYDEqhAlqkRyi+mnnIi7U+vU1qkXNtPRDlsvpKhIIr+Ix4BnTHNgVCdk=
+X-Gm-Gg: AYBFou18mrRObOCYiOwvx8q5tvAlUUh/PXxIChEEsikLk+gPpDBFo9+E1iKyXt1Peq2
+	NuAyAp+X4BTVXaPvQexZFPMHLO2dqcF52jIY/01QZq+NmvpSSB6CfROkkpXjpwFaEe3kUOsJUjP
+	x02rw3HT4GxYJHu1TSArT1Ns0bNwF9Ys/lpZuIHZFVXkQyJz7CidduOzGo/kzW9Q3rogVtEfiY9
+	nb/ZUbxt4Ubg5PnAk6aYUynO+yDMYuirnUteK/jRHL1fTpzadbI5WLK1PHxIV3nTiMGxTUc/BTO
+	/AJoB72f/LT51IrKXOcz4T9U1Mop4UL3L7g7ajBu/7eznVoXq3xd3CiCIQb4J+KHR3v43F+UJpE
+	PH4UZPv2+jlbJBhHkEnyPbbh+BF6BorqEqN3Hx/OfZVsjDoFvicJxZ8IIal4cUMt5MssKADpb+x
+	H5fx5M6Gq1RFnjLke3LHMJLV/xheY8vBQDEQwu/4rAu5F59WlXB6amkmOiSnLns200fHt6hneKt
+	fYM0tux6Bubc3G8AjqLOYIof13sgZdbhRF7jzscX1enMKFup9ydMoaLazzZcuZE1IWcYQNQIJ5J
+	tIP4sfX173n6oWQeM4KeE6A47JMlgSA2g0XccQUVSYXRZ1peJV+dP2QZ2jblNDGiva0ntV6aNb9
+	MwRkfei34WRV+/KwRzZsGyP6kHDJhccODDi2L7ijPYFSz0xhB8w==
+X-Received: by 2002:a05:6122:512:b0:5da:9b81:1aa4 with SMTP id 71dfb90a1353d-5ec6870c946mr7158777e0c.5.1793854860291;
+        Wed, 04 Nov 2026 21:01:00 -0800 (PST)
 Received: from soleen.c.googlers.com.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eca8d9d62bsm3305282e0c.8.2026.11.04.21.01.04
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5eca8d9d62bsm3305282e0c.8.2026.11.04.21.00.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Nov 2026 21:01:04 -0800 (PST)
+        Wed, 04 Nov 2026 21:00:59 -0800 (PST)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: linux-kselftest@vger.kernel.org,
 	rppt@kernel.org,
@@ -95,9 +95,9 @@ To: linux-kselftest@vger.kernel.org,
 	pratyush@kernel.org,
 	rdunlap@infradead.org,
 	graf@amazon.com
-Subject: [PATCH v5 6/6] selftests: liveupdate: Add tests for LIVEUPDATE_SESSION_FREEZE
-Date: Thu,  5 Nov 2026 00:00:52 -0500
-Message-ID: <20261105050053.3063001-7-pasha.tatashin@soleen.com>
+Subject: [PATCH v5 2/6] kho: support incremental entry publication in kho_block
+Date: Thu,  5 Nov 2026 00:00:48 -0500
+Message-ID: <20261105050053.3063001-3-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.56.0.398.g882cbad275-goog
 In-Reply-To: <20261105050053.3063001-1-pasha.tatashin@soleen.com>
 References: <20261105050053.3063001-1-pasha.tatashin@soleen.com>
@@ -112,342 +112,202 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a luo_session_freeze(session_fd, flags) helper and selftests for the
-LIVEUPDATE_SESSION_FREEZE ioctl:
+To allow LUO sessions to be frozen and committed into the outgoing KHO
+subtree from userspace ahead of reboot, kho_block needs to support
+publishing entries one by one into a live serialized block chain while
+new blocks may still be preallocated or shrunk for uncommitted sessions.
 
-- liveupdate.c: verify unsupported flags return -EOPNOTSUPP, repeated
-  freeze and post-freeze preserve return -EBUSY, closing a frozen
-  uncommitted session unfreezes and returns resources, and closing a
-  committed session (LIVEUPDATE_SESSION_FREEZE_COMMIT) retains LUO
-  ownership of the session and its preserved files.
-- luo_kexec_simple.c: verify end-to-end kexec preservation of committed
-  sessions after closing all session FDs and exiting without
-  daemonize_and_wait(), and verify freezing an incoming session returns
-  -EINVAL.
-- luo_multi_session.c: verify auto-frozen, kept-open frozen, closed
-  uncommitted frozen, and closed committed sessions together across a
-  kexec reboot.
+Currently, kho_block assumes outgoing block sets are populated in a
+single batch during reboot() before the chain is exposed: preallocated
+blocks are linked onto the chain immediately even while empty
+(ser->count == 0), and reserving a slot increments ser->count before the
+entry is populated.
+
+Address this by keeping preallocated outgoing blocks unlinked in
+kho_block_add(), linking blocks lazily only as entries are written. Add
+kho_block_set_it_append() to copy each entry into its slot before
+publishing the updated ser->count and next-block link via
+smp_store_release(), paired with smp_load_acquire() in
+kho_block_set_it_read_entry().
 
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- .../liveupdate/lib/include/libliveupdate.h    |   5 +-
- .../selftests/liveupdate/lib/lu_utils.c       |  21 +++-
- .../testing/selftests/liveupdate/liveupdate.c | 107 ++++++++++++++++++
- .../selftests/liveupdate/luo_kexec_simple.c   |  22 +++-
- .../selftests/liveupdate/luo_multi_session.c  |  33 +++++-
- 5 files changed, 179 insertions(+), 9 deletions(-)
+ include/linux/kho_block.h     |  1 +
+ kernel/liveupdate/kho_block.c | 86 +++++++++++++++++++++++++++++++----
+ 2 files changed, 77 insertions(+), 10 deletions(-)
 
-diff --git a/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h b/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
-index fa07fed08364..a35871cefb82 100644
---- a/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
-+++ b/tools/testing/selftests/liveupdate/lib/include/libliveupdate.h
-@@ -26,6 +26,7 @@ int luo_create_session(int luo_fd, const char *name);
- int luo_retrieve_session(int luo_fd, const char *name);
- int luo_session_finish(int session_fd);
- int luo_get_session_name(int session_fd, char *name, size_t name_len);
-+int luo_session_freeze(int session_fd, __u32 flags);
+diff --git a/include/linux/kho_block.h b/include/linux/kho_block.h
+index 93a7cc2be5f5..a9e696ef3e08 100644
+--- a/include/linux/kho_block.h
++++ b/include/linux/kho_block.h
+@@ -100,6 +100,7 @@ static inline bool kho_block_set_is_empty(struct kho_block_set *bs)
  
- int luo_ensure_nofile_limit(long min_limit);
- int luo_session_preserve_fd(int session_fd, int fd, __u64 token);
-@@ -34,8 +35,8 @@ int luo_session_retrieve_fd(int session_fd, __u64 token);
- int create_and_preserve_memfd(int session_fd, int token, const char *data);
- int restore_and_verify_memfd(int session_fd, int token, const char *expected_data);
+ void kho_block_set_it_init(struct kho_block_set_it *it, struct kho_block_set *bs);
+ void *kho_block_set_it_reserve_entry(struct kho_block_set_it *it);
++void *kho_block_set_it_append(struct kho_block_set_it *it, const void *src);
+ void *kho_block_set_it_read_entry(struct kho_block_set_it *it);
+ void *kho_block_set_it_prev(struct kho_block_set_it *it);
  
--void create_state_file(int luo_fd, const char *session_name, int token,
--		       int next_stage);
-+int create_state_file(int luo_fd, const char *session_name, int token,
-+		      int next_stage);
- void restore_and_read_stage(int state_session_fd, int token, int *stage);
+diff --git a/kernel/liveupdate/kho_block.c b/kernel/liveupdate/kho_block.c
+index 0d2a342ef422..2813c6fd593c 100644
+--- a/kernel/liveupdate/kho_block.c
++++ b/kernel/liveupdate/kho_block.c
+@@ -16,6 +16,12 @@
+  * array of serialized entries. Multiple blocks are linked together via a
+  * physical pointer in the header, forming a linked list that can be easily
+  * traversed in both the current and the next kernel.
++ *
++ * Outgoing blocks preallocated via kho_block_set_grow() remain unlinked until
++ * entries are written into them. Callers publishing entries incrementally into
++ * a live KHO subtree can use kho_block_set_it_append(), which populates each
++ * entry before exposing the updated block count or next-block link via
++ * release-store ordering.
+  */
  
- void daemonize_and_wait(void);
-diff --git a/tools/testing/selftests/liveupdate/lib/lu_utils.c b/tools/testing/selftests/liveupdate/lib/lu_utils.c
-index 74d41115c281..e71e7e90da27 100644
---- a/tools/testing/selftests/liveupdate/lib/lu_utils.c
-+++ b/tools/testing/selftests/liveupdate/lib/lu_utils.c
-@@ -198,8 +198,21 @@ int luo_session_finish(int session_fd)
+ #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+@@ -93,9 +99,7 @@ static int kho_block_add(struct kho_block_set *bs,
+ 	list_add_tail(&block->list, &bs->blocks);
+ 	bs->nblocks++;
+ 
+-	if (last)
+-		last->ser->next = virt_to_phys(ser);
+-	else
++	if (!last)
+ 		bs->head_pa = virt_to_phys(ser);
+ 
  	return 0;
+@@ -129,14 +133,15 @@ static void kho_block_set_shrink_one(struct kho_block_set *bs)
+ 	last = list_last_entry(&bs->blocks, struct kho_block, list);
+ 	list_del(&last->list);
+ 	bs->nblocks--;
+-	kho_block_free_ser(bs, last->ser);
+-	kfree(last);
+ 
+ 	new_last = list_last_entry_or_null(&bs->blocks, struct kho_block, list);
+ 	if (new_last)
+-		new_last->ser->next = 0;
++		WRITE_ONCE(new_last->ser->next, 0);
+ 	else
+ 		bs->head_pa = 0;
++
++	kho_block_free_ser(bs, last->ser);
++	kfree(last);
  }
  
--void create_state_file(int luo_fd, const char *session_name, int token,
--		       int next_stage)
-+int luo_session_freeze(int session_fd, __u32 flags)
-+{
-+	struct liveupdate_session_freeze arg = {
-+		.size = sizeof(arg),
-+		.flags = flags,
-+	};
-+
-+	if (ioctl(session_fd, LIVEUPDATE_SESSION_FREEZE, &arg) < 0)
-+		return -errno;
-+
-+	return 0;
-+}
-+
-+int create_state_file(int luo_fd, const char *session_name, int token,
-+		      int next_stage)
+ /**
+@@ -144,9 +149,9 @@ static void kho_block_set_shrink_one(struct kho_block_set *bs)
+  * @bs:    The block set.
+  * @count: The target number of valid entries to accommodate.
+  *
+- * Dynamically preallocates and links preserved memory blocks if the target
+- * entry count exceeds the current total capacity of the set, ensuring they
+- * are available during serialization/deserialization.
++ * Dynamically preallocates preserved memory blocks if the target entry count
++ * exceeds the current total capacity of the set, ensuring they are available
++ * during serialization/deserialization.
+  *
+  * Context: Caller must hold a lock protecting the block set.
+  * Return: 0 on success, or a negative errno on failure.
+@@ -318,6 +323,7 @@ void kho_block_set_clear(struct kho_block_set *bs)
+ 	struct kho_block *block;
+ 
+ 	list_for_each_entry(block, &bs->blocks, list) {
++		block->ser->next = 0;
+ 		block->ser->count = 0;
+ 		memset(block->ser + 1, 0, KHO_BLOCK_SIZE - sizeof(*block->ser));
+ 	}
+@@ -348,6 +354,7 @@ void kho_block_set_it_init(struct kho_block_set_it *it, struct kho_block_set *bs
+  */
+ void *kho_block_set_it_reserve_entry(struct kho_block_set_it *it)
  {
- 	char buf[32];
- 	int state_session_fd;
-@@ -213,8 +226,10 @@ void create_state_file(int luo_fd, const char *session_name, int token,
- 		fail_exit("create_and_preserve_memfd for state tracking");
++	struct kho_block *prev = NULL;
+ 	void *entry;
  
- 	/*
--	 * DO NOT close session FD, otherwise it is going to be unpreserved
-+	 * DO NOT close session FD unless committed, otherwise it is going to
-+	 * be unpreserved.
- 	 */
-+	return state_session_fd;
+ 	if (!it->block)
+@@ -356,15 +363,73 @@ void *kho_block_set_it_reserve_entry(struct kho_block_set_it *it)
+ 	if (it->i == it->bs->count_per_block) {
+ 		if (list_is_last(&it->block->list, &it->bs->blocks))
+ 			return NULL;
++		prev = it->block;
+ 		it->block = list_next_entry(it->block, list);
+ 		it->i = 0;
+ 	}
+ 
++	if (!it->i)
++		it->block->ser->next = 0;
++
+ 	entry = kho_block_entry(it, it->i++);
+ 	it->block->ser->count = it->i;
++	if (prev)
++		prev->ser->next = virt_to_phys(it->block->ser);
++
+ 	return entry;
  }
  
- void restore_and_read_stage(int state_session_fd, int token, int *stage)
-diff --git a/tools/testing/selftests/liveupdate/liveupdate.c b/tools/testing/selftests/liveupdate/liveupdate.c
-index 2dedd5fc2534..16b210da37a9 100644
---- a/tools/testing/selftests/liveupdate/liveupdate.c
-+++ b/tools/testing/selftests/liveupdate/liveupdate.c
-@@ -530,4 +530,111 @@ TEST_F(liveupdate_device, preserve_many_files)
- 	ASSERT_EQ(close(session_fd), 0);
- }
- 
-+/*
-+ * Test Case: Session Freeze
++/**
++ * kho_block_set_it_append - Write and publish an entry at the next slot.
++ * @it:  The block iterator.
++ * @src: Entry data of size @it->bs->entry_size to copy into the slot.
 + *
-+ * Verifies LIVEUPDATE_SESSION_FREEZE with flags == 0: unsupported flags return
-+ * -EOPNOTSUPP, repeated freeze and post-freeze preserve return -EBUSY, and
-+ * closing the session FD unfreezes the session and returns all resources.
-+ */
-+TEST_F(liveupdate_device, session_freeze)
-+{
-+	int session_fd, mem_fd1, mem_fd2;
-+
-+	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
-+	if (self->fd1 < 0 && errno == ENOENT)
-+		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
-+	ASSERT_GE(self->fd1, 0);
-+
-+	session_fd = luo_create_session(self->fd1, "session-freeze");
-+	ASSERT_GE(session_fd, 0);
-+
-+	mem_fd1 = memfd_create("freeze-memfd-1", 0);
-+	ASSERT_GE(mem_fd1, 0);
-+	ASSERT_EQ(luo_session_preserve_fd(session_fd, mem_fd1, 0x1111), 0);
-+
-+	/* Unsupported flag bits must fail with -EOPNOTSUPP */
-+	EXPECT_EQ(luo_session_freeze(session_fd, 1U << 1), -EOPNOTSUPP);
-+
-+	/* Freeze the session */
-+	ASSERT_EQ(luo_session_freeze(session_fd, 0), 0);
-+
-+	/* Subsequent freeze attempts must fail with -EBUSY */
-+	EXPECT_EQ(luo_session_freeze(session_fd, 0), -EBUSY);
-+	EXPECT_EQ(luo_session_freeze(session_fd,
-+				     LIVEUPDATE_SESSION_FREEZE_COMMIT),
-+		  -EBUSY);
-+
-+	/* Preserving a file after freeze must fail with -EBUSY */
-+	mem_fd2 = memfd_create("freeze-memfd-2", 0);
-+	ASSERT_GE(mem_fd2, 0);
-+	EXPECT_EQ(luo_session_preserve_fd(session_fd, mem_fd2, 0x2222), -EBUSY);
-+
-+	/* Closing the session FD must unfreeze and unpreserve resources */
-+	ASSERT_EQ(close(session_fd), 0);
-+
-+	session_fd = luo_create_session(self->fd1, "session-freeze");
-+	ASSERT_GE(session_fd, 0);
-+	ASSERT_EQ(luo_session_preserve_fd(session_fd, mem_fd1, 0x1111), 0);
-+
-+	ASSERT_EQ(close(session_fd), 0);
-+	ASSERT_EQ(close(mem_fd1), 0);
-+	ASSERT_EQ(close(mem_fd2), 0);
-+}
-+
-+/*
-+ * Test Case: Session Freeze and Commit
++ * Copies @src into the next available slot before updating the block's entry
++ * count or linking a newly occupied block to the previous block, so concurrent
++ * readers never observe an uninitialized slot or an empty block.
 + *
-+ * Verifies LIVEUPDATE_SESSION_FREEZE with LIVEUPDATE_SESSION_FREEZE_COMMIT:
-+ * once committed, the frozen session is inserted into KHO and survives closing
-+ * the session FD with ownership retained by LUO until reboot.
++ * Return: A pointer to the written entry slot, or NULL if the block set's
++ * capacity is fully exhausted.
 + */
-+TEST_F(liveupdate_device, session_freeze_commit)
++void *kho_block_set_it_append(struct kho_block_set_it *it, const void *src)
 +{
-+	char name[LIVEUPDATE_SESSION_NAME_LENGTH];
-+	int session_fd, session_fd2, mem_fd1, mem_fd2;
++	struct kho_block *prev = NULL;
++	void *dst;
 +
-+	self->fd1 = open(LIVEUPDATE_DEV, O_RDWR);
-+	if (self->fd1 < 0 && errno == ENOENT)
-+		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
-+	ASSERT_GE(self->fd1, 0);
++	if (!it->block)
++		return NULL;
 +
-+	snprintf(name, sizeof(name), "freeze-commit-%d", getpid());
-+	session_fd = luo_create_session(self->fd1, name);
-+	ASSERT_GE(session_fd, 0);
++	if (it->i == it->bs->count_per_block) {
++		if (list_is_last(&it->block->list, &it->bs->blocks))
++			return NULL;
++		prev = it->block;
++		it->block = list_next_entry(it->block, list);
++		it->i = 0;
++	}
 +
-+	mem_fd1 = memfd_create("freeze-commit-memfd-1", 0);
-+	ASSERT_GE(mem_fd1, 0);
-+	ASSERT_EQ(luo_session_preserve_fd(session_fd, mem_fd1, 0x1111), 0);
++	if (!it->i)
++		WRITE_ONCE(it->block->ser->next, 0);
 +
-+	/* Freeze and commit the session */
-+	ASSERT_EQ(luo_session_freeze(session_fd,
-+				     LIVEUPDATE_SESSION_FREEZE_COMMIT), 0);
++	dst = kho_block_entry(it, it->i++);
++	memcpy(dst, src, it->bs->entry_size);
 +
-+	/* Subsequent freeze attempts must fail with -EBUSY */
-+	EXPECT_EQ(luo_session_freeze(session_fd, 0), -EBUSY);
-+	EXPECT_EQ(luo_session_freeze(session_fd,
-+				     LIVEUPDATE_SESSION_FREEZE_COMMIT),
-+		  -EBUSY);
++	/*
++	 * Ensure the serialized entry is visible before exposing the
++	 * incremented count to concurrent readers.
++	 */
++	smp_store_release(&it->block->ser->count, it->i);
++	if (prev) {
++		/*
++		 * Ensure the new block's first entry and header are visible
++		 * before linking prev->ser->next for concurrent readers.
++		 */
++		smp_store_release(&prev->ser->next,
++				  virt_to_phys(it->block->ser));
++	}
 +
-+	/* Preserving a file after freeze must fail with -EBUSY */
-+	mem_fd2 = memfd_create("freeze-commit-memfd-2", 0);
-+	ASSERT_GE(mem_fd2, 0);
-+	EXPECT_EQ(luo_session_preserve_fd(session_fd, mem_fd2, 0x2222), -EBUSY);
-+
-+	/* Closing the session FD must retain LUO ownership of session & files */
-+	ASSERT_EQ(close(session_fd), 0);
-+
-+	EXPECT_EQ(luo_create_session(self->fd1, name), -EEXIST);
-+
-+	session_fd2 = luo_create_session(self->fd1, "freeze-commit-check");
-+	ASSERT_GE(session_fd2, 0);
-+	EXPECT_EQ(luo_session_preserve_fd(session_fd2, mem_fd1, 0x3333),
-+		  -EBUSY);
-+
-+	ASSERT_EQ(close(session_fd2), 0);
-+	ASSERT_EQ(close(mem_fd1), 0);
-+	ASSERT_EQ(close(mem_fd2), 0);
++	return dst;
 +}
 +
- TEST_HARNESS_MAIN
-diff --git a/tools/testing/selftests/liveupdate/luo_kexec_simple.c b/tools/testing/selftests/liveupdate/luo_kexec_simple.c
-index 786ac93b9ae3..f065418a047f 100644
---- a/tools/testing/selftests/liveupdate/luo_kexec_simple.c
-+++ b/tools/testing/selftests/liveupdate/luo_kexec_simple.c
-@@ -21,12 +21,18 @@
- /* Stage 1: Executed before the kexec reboot. */
- static void run_stage_1(int luo_fd)
- {
--	int session_fd;
-+	int session_fd, state_session_fd;
+ /**
+  * kho_block_set_it_read_entry - Read the next serialized entry from the block set.
+  * @it: The block iterator.
+@@ -380,7 +445,8 @@ void *kho_block_set_it_read_entry(struct kho_block_set_it *it)
+ 	if (!it->block)
+ 		return NULL;
  
- 	ksft_print_msg("[STAGE 1] Starting pre-kexec setup...\n");
- 
- 	ksft_print_msg("[STAGE 1] Creating state file for next stage (2)...\n");
--	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
-+	state_session_fd = create_state_file(luo_fd, STATE_SESSION_NAME,
-+					     STATE_MEMFD_TOKEN, 2);
-+	if (luo_session_freeze(state_session_fd,
-+			       LIVEUPDATE_SESSION_FREEZE_COMMIT) < 0) {
-+		fail_exit("luo_session_freeze for '%s'", STATE_SESSION_NAME);
-+	}
-+	close(state_session_fd);
- 
- 	ksft_print_msg("[STAGE 1] Creating session '%s' and preserving memfd...\n",
- 		       TEST_SESSION_NAME);
-@@ -40,8 +46,15 @@ static void run_stage_1(int luo_fd)
- 			  TEST_MEMFD_TOKEN);
- 	}
- 
-+	ksft_print_msg("[STAGE 1] Freezing and committing session '%s' and closing FD...\n",
-+		       TEST_SESSION_NAME);
-+	if (luo_session_freeze(session_fd,
-+			       LIVEUPDATE_SESSION_FREEZE_COMMIT) < 0) {
-+		fail_exit("luo_session_freeze for '%s'", TEST_SESSION_NAME);
-+	}
-+
-+	close(session_fd);
- 	close(luo_fd);
--	daemonize_and_wait();
- }
- 
- /* Stage 2: Executed after the kexec reboot. */
-@@ -60,6 +73,9 @@ static void run_stage_2(int luo_fd, int state_session_fd)
- 	if (session_fd < 0)
- 		fail_exit("luo_retrieve_session for '%s'", TEST_SESSION_NAME);
- 
-+	if (luo_session_freeze(session_fd, 0) != -EINVAL)
-+		fail_exit("luo_session_freeze on incoming session did not return -EINVAL");
-+
- 	ksft_print_msg("[STAGE 2] Restoring and verifying memfd (token %#x)...\n",
- 		       TEST_MEMFD_TOKEN);
- 	mfd = restore_and_verify_memfd(session_fd, TEST_MEMFD_TOKEN,
-diff --git a/tools/testing/selftests/liveupdate/luo_multi_session.c b/tools/testing/selftests/liveupdate/luo_multi_session.c
-index aac24a5f5ce3..6b532ec6b82f 100644
---- a/tools/testing/selftests/liveupdate/luo_multi_session.c
-+++ b/tools/testing/selftests/liveupdate/luo_multi_session.c
-@@ -15,14 +15,17 @@
- #define SESSION_EMPTY_2 "multi-test-empty-2"
- #define SESSION_FILES_1 "multi-test-files-1"
- #define SESSION_FILES_2 "multi-test-files-2"
-+#define SESSION_CLOSED "multi-test-closed"
- 
- #define MFD1_TOKEN 0x1001
- #define MFD2_TOKEN 0x2002
- #define MFD3_TOKEN 0x3003
-+#define MFD_CLOSED_TOKEN 0x4004
- 
- #define MFD1_DATA "Data for session files 1"
- #define MFD2_DATA "First file for session files 2"
- #define MFD3_DATA "Second file for session files 2"
-+#define MFD_CLOSED_DATA "Closed session data"
- 
- #define STATE_SESSION_NAME "kexec_multi_state"
- #define STATE_MEMFD_TOKEN 998
-@@ -30,7 +33,7 @@
- /* Stage 1: Executed before the kexec reboot. */
- static void run_stage_1(int luo_fd)
- {
--	int s_empty1_fd, s_empty2_fd, s_files1_fd, s_files2_fd;
-+	int s_empty1_fd, s_empty2_fd, s_files1_fd, s_files2_fd, s_closed_fd;
- 
- 	ksft_print_msg("[STAGE 1] Starting pre-kexec setup for multi-session test...\n");
- 
-@@ -57,6 +60,8 @@ static void run_stage_1(int luo_fd)
- 		fail_exit("create_and_preserve_memfd for token %#x",
- 			  MFD1_TOKEN);
- 	}
-+	if (luo_session_freeze(s_files1_fd, 0) < 0)
-+		fail_exit("luo_session_freeze for '%s'", SESSION_FILES_1);
- 
- 	ksft_print_msg("[STAGE 1] Creating session '%s' with two memfds...\n",
- 		       SESSION_FILES_2);
-@@ -72,6 +77,25 @@ static void run_stage_1(int luo_fd)
- 		fail_exit("create_and_preserve_memfd for token %#x",
- 			  MFD3_TOKEN);
- 	}
-+	if (luo_session_freeze(s_files2_fd,
-+			       LIVEUPDATE_SESSION_FREEZE_COMMIT) < 0) {
-+		fail_exit("luo_session_freeze for '%s'", SESSION_FILES_2);
-+	}
-+	close(s_files2_fd);
-+
-+	ksft_print_msg("[STAGE 1] Creating frozen uncommitted session '%s' and closing FD...\n",
-+		       SESSION_CLOSED);
-+	s_closed_fd = luo_create_session(luo_fd, SESSION_CLOSED);
-+	if (s_closed_fd < 0)
-+		fail_exit("luo_create_session for '%s'", SESSION_CLOSED);
-+	if (create_and_preserve_memfd(s_closed_fd, MFD_CLOSED_TOKEN,
-+				      MFD_CLOSED_DATA) < 0) {
-+		fail_exit("create_and_preserve_memfd for token %#x",
-+			  MFD_CLOSED_TOKEN);
-+	}
-+	if (luo_session_freeze(s_closed_fd, 0) < 0)
-+		fail_exit("luo_session_freeze for '%s'", SESSION_CLOSED);
-+	close(s_closed_fd);
- 
- 	close(luo_fd);
- 	daemonize_and_wait();
-@@ -91,6 +115,13 @@ static void run_stage_2(int luo_fd, int state_session_fd)
- 			  stage);
- 	}
- 
-+	ksft_print_msg("[STAGE 2] Verifying closed uncommitted session '%s' was not preserved...\n",
-+		       SESSION_CLOSED);
-+	if (luo_retrieve_session(luo_fd, SESSION_CLOSED) != -ENOENT) {
-+		fail_exit("Expected -ENOENT for closed uncommitted session '%s'",
-+			  SESSION_CLOSED);
-+	}
-+
- 	ksft_print_msg("[STAGE 2] Retrieving all sessions...\n");
- 	s_empty1_fd = luo_retrieve_session(luo_fd, SESSION_EMPTY_1);
- 	if (s_empty1_fd < 0)
+-	if (it->i == it->block->ser->count) {
++	/* Pairs with smp_store_release() in kho_block_set_it_append(). */
++	while (it->i >= smp_load_acquire(&it->block->ser->count)) {
+ 		if (list_is_last(&it->block->list, &it->bs->blocks))
+ 			return NULL;
+ 		it->block = list_next_entry(it->block, list);
 -- 
 2.56.0.398.g882cbad275-goog
 
