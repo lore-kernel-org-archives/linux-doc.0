@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964735;
-	b=WccXTu9qAc5S0lkNZJLGF45Wu3E3M4ufkt+qLCVlXY/FWlOtCKS6Rbd4B4KELigmeUyy
-	 wxM75V7URmujt5Qg+F1PXIvbC8xCqtMN4noamT8JzpazVD7y3Nlc6k+GJywiD22ngyVJY
-	 W3WFKhmKP5LcE6mws5ld821QbSQGv3OjbTlIhGYnGGrP9aZPiO6dJ39WofVdZl+lz47AS
-	 rZ4K4Bte/oJReMboZBjaePstLR0FD7Lnd9ciVfevjeqIpRgDMxXJchFOoyC901gzRZ9hr
-	 Qxwtj1O+iu3Wycdp10/bg37HqHcfTlj68mHfphKaYu5rple0feaPol2scZpCFO00etA==
+	t=1793964738;
+	b=1Rd9M6xNvHgmFDjI4DCxTRJotoULwt9FS0HpJbuhGEY2B41IJ8Q5eZEZ2bydisiLeEMx
+	 W8SNkShZ6RKl+ICSJg4bjNsVWTNXorTsiiDWyHz5o9Q6qelhxRQbC1RwZdIxn1if49xGf
+	 CcqcuLUgCAy4JYD5eBmezk1z8RfgI0DV7Uy5yKouGGKNFa7rRUJ8bH0FjQhMlMXpdKnjH
+	 JJubcivGBlEsgMhoc3gUOIxk/zR406/ERHFqqmRU1/vtjGWXNj2C2x/rpD9AOfNo8stCp
+	 BJo3o02XPrIoCkcg2YZLh51+iXKBvJDJtgfrWZEGZSUiYgtXE9ZvavNMWPEphoM5JZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964735;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964738;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ey27Z005P0nP9/Be/Ht5BVJh577+gs2FglMSPN4FLG4=;
-	b=Jx2cmOvDnYV6ldgQKHIsDm3Orzz4peeGXdk97Qa3qjcGa4kOdwMaNmCs2mPI4rqWFa2g
-	 6H6nMwKeLUQ/95u7A1IRKSLHI8YvFAghW59g+tw7U/+IfFADo2h1oMfyBnisMDb4b1a7A
-	 6N8k1HNFls/1d4L9/NoLPHyGOO2a7V3wcEJ6qjopkUHOTIz2PucAh5UzSox2MZ6soLJ44
-	 iHIPL2pBWAzEwcQWRXtM7mXUvNqLxy7IGkoE37AWueOmrb6kjDtCYFhSFJdNCe45etLaF
-	 DQ3SIsGfR+iyF8+5e+5dzjAOs/iqpLK3AFETtUTM+dlnGmiTl/M6jXOc2KsM0v16e0g==
+	bh=r0q8e2+fE6SC7LQWl0/+D1d8347EPh+sa3dzN6lIYVc=;
+	b=LvROsOAjRZwVTm34MGhEiH4aH7gzHA26B0F+cZxonZEgtfw0ZjcqGwZK46R2imEQNqDq
+	 ola1H6RbWw0/evuRXH7hrDjIAvYuFL4vA2kCraHNlvU1jxKeoB2++cMlh2ft5Z6FFcOvJ
+	 T9Oqud8jpxtLJycXIzTpE87j/U4fLNpbV45/aiNB4kMWTCyO0+dauzT5xRRelNVzPJP6/
+	 KSmdvKq8WD+QF4V16rVBKvYL+wQ27mDeMrf5e0eZQVVHuLGBfq0dM5zFReO///kju0ReO
+	 ZxBteWN42lX4J1llrzLRtKKKIUYyQQiPxxKyPcQDUkpYmPfu6P/C/e/OLeyAPvLxOZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Pi/zeJOf";
-	arc=none smtp.remote-ip=209.85.216.52
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kJwoZu+H;
+	arc=none smtp.remote-ip=209.85.214.170
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED981608363B
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED981608363B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646306083637
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 646306083637
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pi/zeJOf
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3b0ac1900efso41911a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:14 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kJwoZu+H
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2ed0f842b02so587725ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964734; x=1794569534; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964738; x=1794569538; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ey27Z005P0nP9/Be/Ht5BVJh577+gs2FglMSPN4FLG4=;
-        b=Pi/zeJOfwFI/5huYsbVlFx0ltcJD50moT8rctigSQ3AuRNtb6pfo7HuoFcRnESs3IA
-         rqNwaVIV89A8NIFqs8uYDKQIcDNIPMpEERhX4Cd25Zy02AWhJObrO5HiGgj/hnHHarUc
-         zL+7v8Tb0YIwYoTQ4g35P9BG9j5FtwjvQUKr2pLu5oO49kR8XV/bY60W9fZ9r+pAKRxw
-         hjjKjx5pP3YIPsNSYP5mfV7T5QItxq0KV1TVywiQynBf/0YEsLNuopyfhAtW056Ds1Zz
-         C89wTeZmRLcXDKH73EMqOQFGN10fcLB1YgUolCnyBc+FK7Oo6ofJ+srhgg39R6kiZKcD
-         avgA==
+        bh=r0q8e2+fE6SC7LQWl0/+D1d8347EPh+sa3dzN6lIYVc=;
+        b=kJwoZu+HjDkBSacJhC05iltJrEUk/f8ZNmb0ceH/zJjavAvC0Hhe9E7s1uLcjxCA0n
+         PwAB0ru3iX5/wJT5XI9Xbe7DCvN9zhQS1wwWhu0fgXXday23ozgkAhBv2JfeDZa9Ov7f
+         1osPZQADPvBX57HN34uUtXXisnG+Nv3N5n8Pc0bhHqjYRRcPD9PBP7R0+shRKvD5Gd8w
+         yozVFZJc/4M7XoaHgt47JXt4Hfkl+Fc05I7r26U7yOaGukRxtrIbGeC67yq0YBDk/Faq
+         SulorIHZbtXnoqqYiti/duDB8WkxPi3qdAfQoAlkPksQiqbXCWcEm0+4EGzGGK71G/Uh
+         sWTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964734; x=1794569534;
+        d=1e100.net; s=20260707; t=1793964738; x=1794569538;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ey27Z005P0nP9/Be/Ht5BVJh577+gs2FglMSPN4FLG4=;
-        b=DHfsUlMM+Jr1eVL/plEiYUFxVl3pqwLr6ZYhIMfwfZDlAZhjDb96ZZ9GBlE/AKS+1B
-         qkZ1uiU1BfmJfdaLVeFy1Q4SrDjVV5TY85Cws4zBQ64QjW/3gReijwGvAbPE5BSjq49o
-         4Eulhriit+5EaOmB2L2OA6uXEayZCbLwhKzV429Y8lSvXdN+sE/P3aGcCgYWYrzCJ520
-         Y+AZn8lyCsWxlT4ok+52CLPB+h82UHIYJwLYBk6U1qx5o44gG4ptu83IGJ1WYnaRsrsF
-         gJDmEfH9L6iCm5LYBxGff1o57NJstVEywHCARCZkjmeJlkx/NGwdbMFyBS47w8BOR2r4
-         Fcwg==
-X-Forwarded-Encrypted: i=1; AL+hErGSApiJGoErGkgtO4arbd2ElH8E+/tGGrfqJxoKDLsh2KvF7I43yI4yUoRjCaaOkACYpwgHiGfciWw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+OZl5xNmpix19YQK2s4v919qKC2m/2p0xW/P7tuc2RiFbndCyW
-	di+57CuGJtu8yB4HSOW42AGcHIlffS3rNyGEVuhyuuaS6rlS+JKyhN96
-X-Gm-Gg: AYBFou1lxmtiRxs8dmU+UnPWmOsnEg5Hlpq5rlhxDxgnQ9mosKCDzfawVpGVmdet3Aj
-	Lpb4cHgvJJoAzsvH3wJTUty4I6oEQj1UHIrl8dDxGQ4HjGUBLH2EVDbYDAzoMYFSaYUEkV2olru
-	Vnp+PTqrPOAST1/56wTD7r4cZzYJlBEyvvZswIaqJAxXE0Db8NLnaEVIUuGVVbZ6yHJ+N6fwjAo
-	c1XtRVkwJRaHVs6g5OshC8PYT0yXyt7yvMcaaebSDMXtd42tG30c7LOgoD+pZHjAhTzFDL3Ve77
-	SJQCT+oUItp6z5mw6h80hIpOY6ZKlaYZktt0Qxhyyhidxl5PMqAUy9zJNnNJRKefKC/t0Yl54Rx
-	gEXljClNhlLpqlI8ITacAhR2dQu1RjLgDwg2eGS//xIuQgVv2bz4+KIuI5uwvq/QbytPtdHJqDq
-	zU2nUaQOdkJHsMt7CG9bAaKXJB93C8cbF+rx24rVMt1MUqWVkr+CabBwXnygqTaghfDZobPA+Yy
-	3MvkBumCPjC25uK9GfkpOvBUFOCUZ/D7okkcj/aAzEmSq+VFuynD2DkP2WbyK0u5ZpJXzgNHjxb
-	X6NiCS1MyXGWD+2gxnXjW4LEmipQRq7bV763YGdShLsF0LC8LS715B7C5ecJfbA7zPhfdwKIrO3
-	mQXJdorGqU/R0ig5scI6M5+joAx/Rn06ZnncdxTZy+tUNzA==
-X-Received: by 2002:a17:90b:3c0a:b0:3b0:9e2c:9b55 with SMTP id 98e67ed59e1d1-3b0db60d73cmr3368784a91.2.1793964734187;
-        Fri, 06 Nov 2026 03:32:14 -0800 (PST)
+        bh=r0q8e2+fE6SC7LQWl0/+D1d8347EPh+sa3dzN6lIYVc=;
+        b=hFjQn8TIJxojM9K7Um1vtattOa0e7tljDBCXpC1ltqhcXDWCT4mKS3ulqAGlrfuctG
+         cAV3RXpU3b0KbV3QPdc1hDsTAedE3lkVtR/ZqkPJ/zlr094Jr6d+bs5vVle0/SE/TYDf
+         XAqmJn/FhG68RGit+Giz8kyEDaKOWiEtrJUXWGxXilh37ASewFjgDirlpnBJ1UUrovZb
+         BGYqiy9y/VvM4JPzBvB/78PUdMY2UhlK4dWdFoOBWI3Y6DRa3XPNTYr2iC3owRCTL5Hc
+         qwAw7M+t+jNOfLfb4jYJDSVPE+kmdP8SkiEY8s8MmlK6ePbjuw+SEgRmwHvpP7DhN1Lz
+         MnlA==
+X-Forwarded-Encrypted: i=1; AL+hErE0Puy8oHry2QC8bvZNfZ6mYeKaF0ixPXCctDFCAnrpWFuTzy34OQUk8G3uCJeTU9Bbw97bmSxKu14=@vger.kernel.org
+X-Gm-Message-State: APuU4Z86ClJEjQNzQBuE17iQZXutgvdcw0qDwYswxYJIz6gHLqWqjOsB
+	BbB+AHWp0TQpm4wg9siutd9PmEXHuC58IKAYhwGnUMwoN5hv2uhLpd8b
+X-Gm-Gg: AYBFou3MQHrHlpLD7cCvDpqYWhC3VekKF9Z/xUAtlI3r4zNorKpB6Ai6hU1TTau1yFT
+	NP9uspkathKEW6WbtJxvq+XCvRMi+TjG8DNzC/IVcADaU6Zgd03AQMukqzd6Dsojc9dGddYc6jh
+	Q+CGMeyvkWHkTxnZaD2490ASaZqUBhA15MIggKGD2xscu6pXrRvd/V9isX2Mw496JkbV3DR8jlU
+	dxYmFvufBtUO2ohJ87lKKs5GgpnyVD1+AZBnw/iYmlaOUtSFL1XElyp2tGV1NUGF0KFo5jiNbRb
+	xpQmZ2x4BUrSvik+YPnLQdnKSjBgMn4sRMqMSVnINOqCwsNgmc9od+WiPlLtzUGkKz5BPPHQDmB
+	SCE4rbAMCbfi3AkARDjgLOKBv5v94r1oVUX+QLR7ZMDFc39ml8rKbbnJo72Iqm9dEVxieByE1rE
+	iWC/pShkphPiHpUT1bD9EARLA431hzq5mq+q0qwyNsK+KO7OXRHcquZEqaUfuX+xWfGIUo4N6y+
+	pCrqTG53F0YSQfBL3qa5ObnwBL+hSdZOftMgNO16kvagtZ6YNWvESMnOIspXwj3xLbdk8W3v6al
+	/FkT7v582CmI9QSRi7pxvg2kf8SaUxsokVHXNLdzR+Nw8kfukZ45qtN0G/7iOx9C9t0nSGuMU72
+	aOc/XTI13LcqIS6fx8FFY1nBo
+X-Received: by 2002:a17:90b:264d:b0:3ac:a7ee:6785 with SMTP id 98e67ed59e1d1-3b0db61aefcmr3382279a91.1.1793964737623;
+        Fri, 06 Nov 2026 03:32:17 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.11
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:32:13 -0800 (PST)
+        Fri, 06 Nov 2026 03:32:16 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 07/25] docs/zh_TW: process: sync 8.Conclusion.rst with the English original
-Date: Fri,  6 Nov 2026 19:31:22 +0800
-Message-ID: <20261106113142.706783-8-chenyou910331@gmail.com>
+Subject: [PATCH 08/25] docs/zh_TW: process: sync code-of-conduct-interpretation.rst with the English original
+Date: Fri,  6 Nov 2026 19:31:23 +0800
+Message-ID: <20261106113142.706783-9-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113142.706783-1-chenyou910331@gmail.com>
 References: <20261106113142.706783-1-chenyou910331@gmail.com>
@@ -107,91 +107,80 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation carried no "update to commit" marker.  Its first
-paragraph still followed the wording from before
-commit 9db370de2780 ("docs: process: remove outdated
-submitting-drivers.rst"): it called howto.rst "an important starting
-point" and described submitting-patches.rst as "something which all
-kernel developers should read", while the English text now simply says
-to start with howto.rst and also read submitting-patches.rst.  A
-section-by-section comparison against the current English text brings it
-in line with the full current original:
+The previous update claimed to track
+commit 04c4bb90ae6e ("Documentation/CoC: Spell out the TAB role in
+enforcement decisions"), but the conflict mediator contact was still the
+one from before commit 5fddf8962b42 ("docs: update mediator contact
+information in CoC doc") and commit 8bfdfa0d6b92 ("docs: update mediator
+information in CoC docs").  Update it to Joanna Lee
+<jlee@linuxfoundation.org>.
 
-- retranslate the opening paragraph to match the current wording, and
-  write TeX as in the original
-- retranslate the sentence on why the kernel has progressed as quickly
-  and as well as it has, which had been rendered as "as fast as before"
-- wrap the :Original: line, the cross-references and the LDD3 entry to
-  keep them within 80 columns, as in 7.AdvancedTopics.rst and
-  5.Posting.rst
+While at it, translate "file" in the Maintainers and Scope sections as
+檔案 and keep the MAINTAINERS file name untranslated, matching the rest
+of process/, and rewrap lines that exceeded 80 columns.
 
-update to commit 9db370de2780 ("docs: process: remove outdated
-submitting-drivers.rst")
+update to commit 04c4bb90ae6e ("Documentation/CoC: Spell out the TAB
+role in enforcement decisions")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/8.Conclusion.rst            | 27 ++++++++++---------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ .../process/code-of-conduct-interpretation.rst   | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
-index 2436263c6506..fdba290d0eba 100644
---- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
-+++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
-@@ -2,7 +2,8 @@
+diff --git a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+index 4fc568409198..6f87b104a96d 100644
+--- a/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
++++ b/Documentation/translations/zh_TW/process/code-of-conduct-interpretation.rst
+@@ -2,16 +2,18 @@
  
  .. include:: ../disclaimer-zh_TW.rst
  
--:Original: :ref:`Documentation/process/8.Conclusion.rst <development_conclusion>`
-+:Original: :ref:`Documentation/process/8.Conclusion.rst
-+           <development_conclusion>`
+-:Original: :ref:`Documentation/process/code-of-conduct-interpretation.rst <code_of_conduct_interpretation>`
++:Original: :ref:`Documentation/process/code-of-conduct-interpretation.rst
++           <code_of_conduct_interpretation>`
  
- .. _tw_development_conclusion:
+ .. _tw_code_of_conduct_interpretation:
  
-@@ -10,13 +11,13 @@
- ========
+ Linux核心貢獻者契約行為準則解釋
+ ===============================
  
- 關於Linux核心開發和相關主題的資訊來源很多。首先是在核心原始碼分發中找到的
--文件目錄。頂級
--:ref:`Documentation/translations/zh_TW/process/howto.rst <tw_process_howto>`
--文件是一個重要的起點；
--:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
--也是所有核心開發人員都應該閱讀的內容。許多內部核心API都是使用kerneldoc機制
--記錄的；“make htmldocs”或“make pdfdocs”可用於以HTML或PDF格式產生這些文件
--（儘管某些發行版提供的tex版本會遇到內部限制，無法正確處理文件）。
-+文件目錄。請從頂層的
-+:ref:`Documentation/process/howto.rst <tw_process_howto>`
-+開始；也請閱讀
-+:ref:`Documentation/process/submitting-patches.rst <tw_submittingpatches>`。
-+許多內部核心 API 都是使用 kerneldoc 機制記錄的；“make htmldocs”或“make pdfdocs”
-+可用於以 HTML 或 PDF 格式產生這些文件（儘管某些發行版提供的 TeX 版本會遇到內部
-+限制，無法正確處理文件）。
+-:ref:`tw_code_of_conduct` 準則是一個通用文件，旨在為幾乎所有開源社群提供一套規則。
+-每個開源社群都是獨一無二的，Linux核心也不例外。因此，本文描述了Linux核心社群中
+-如何解釋它。我們也不希望這種解釋隨著時間的推移是靜態的，並將根據需要進行調整。
++:ref:`tw_code_of_conduct` 準則是一個通用文件，旨在為幾乎所有開源社群提供一套
++規則。每個開源社群都是獨一無二的，Linux核心也不例外。因此，本文描述了Linux核心
++社群中如何解釋它。我們也不希望這種解釋隨著時間的推移是靜態的，並將根據需要
++進行調整。
  
- 不同的網站在各個細節層次上討論核心開發。本文作者想謙虛地建議用 https://lwn.net/
- 作為來源；有關許多特定核心主題的資訊可以透過以下網址的 LWN 核心索引找到：
-@@ -31,8 +32,8 @@
+ 與開發軟體的“傳統”方法相比，Linux核心開發工作是一個非常個人化的過程。你的貢獻
+ 和背後的想法將被仔細審查，往往導致批判和批評。審查將幾乎總是需要改進，材料才
+@@ -23,7 +25,7 @@ Linux核心貢獻者契約行為準則解釋
+ ------
  
- 關於核心開發有很多書：
+ 行為準則多次使用“維護者”一詞。在核心社群中，“維護者”是負責子系統、驅動程式或
+-文件的任何人，並在核心原始程式碼樹的維護者文件中列出。
++檔案的任何人，並在核心原始程式碼樹的 MAINTAINERS 檔案中列出。
  
--  《Linux設備驅動程序》第三版（Jonathan Corbet、Alessandro Rubini和Greg Kroah-Hartman）
--  線上版本在 https://lwn.net/Kernel/LDD3/
-+  《Linux設備驅動程序》第三版（Jonathan Corbet、Alessandro Rubini和
-+  Greg Kroah-Hartman）。線上版本在 https://lwn.net/Kernel/LDD3/ 。
+ 責任
+ ----
+@@ -39,7 +41,7 @@ Linux核心貢獻者契約行為準則解釋
+ 維護人員應該願意在出現問題時提供幫助，並在需要時與社群中的其他人合作。如果您
+ 不確定如何處理出現的情況，請不要害怕聯繫技術諮詢委員會（TAB）或其他維護人員。
+ 除非您願意，否則不會將其視為違規報告。如果您不確定是否該聯繫TAB 或任何其他維
+-護人員，請聯繫我們的衝突調解人 Mishi Choudhary <mishi@linux.com>。
++護人員，請聯繫我們的衝突調解人 Joanna Lee <jlee@linuxfoundation.org>。
  
-   《Linux核心設計與實現》（Robert Love）
+ 最後，“善待對方”才是每個人的最終目標。我們知道每個人都是人，有時我們都會失敗，
+ 但我們所有人的首要目標應該是努力友好地解決問題。執行行為準則將是最後的選擇。
+@@ -64,7 +66,7 @@ Linux核心貢獻者契約行為準則解釋
  
-@@ -54,9 +55,9 @@
- 以及您如何參與這個過程。
+ Linux核心社群主要在一組公共電子郵件列表上進行交互，這些列表分佈在由多個不同
+ 公司或個人控制的多個不同伺服器上。所有這些列表都在核心原始程式碼樹中的
+-MAINTAINERS 文件中定義。發送到這些郵件列表的任何電子郵件都被視為包含在行為
++MAINTAINERS 檔案中定義。發送到這些郵件列表的任何電子郵件都被視為包含在行為
+ 準則中。
  
- 最後，重要的是參與。任何開源軟體專案都不會超過其貢獻者投入其中的總和。Linux
--核心的發展速度和以前一樣快，因為它得到了大量開發人員的幫助，他們都在努力使它
--變得更好。核心是一個最成功的例子，說明了當成千上萬的人為了一個共同的目標一起
--工作時，可以做出什麼。
-+核心之所以能發展得如此迅速、如此良好，是因為有一大群人數驚人的開發人員協助，
-+他們都在努力使它變得更好。核心是一個最成功的例子，說明了當成千上萬的人為了一個
-+共同的目標一起工作時，可以做出什麼。
- 
- 不過，核心總是可以從更大的開發人員基礎中獲益。總有更多的工作要做。但是同樣
- 重要的是，Linux生態系統中的大多數其他參與者可以透過為核心做出貢獻而受益。
+ 使用 kernel.org bugzilla和其他子系統bugzilla 或bug追蹤工具的開發人員應該遵循
 -- 
 2.43.0
 
