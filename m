@@ -1,99 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793968053;
-	b=whaRloPLZEDT2j19S5iUOreQfZK8uR7qUgPiEvd1p4ElA+B4h/XHjMrNxLIJWl1TQRiW
-	 ulVlURVmh+k8SZaMKheopFLfQMrsYPbvRCRk7Kw7/7AFFGWjVNUb2F28I6W3s67bvHsaP
-	 bby6r5xtqQELmTfvup6DntJpiafe3ZPHG/t5zXgUv1MIgQ3IxtPjNQDii2QctWXFqpTAO
-	 8pZOdwhFTuDpAtfTD+VuhX7ys/Is2st1pGmEpwKi790UMBbO3iPWCrvAtZLuEAUoIc/Dk
-	 eycb/rg0kNsWAU9SRcy7Fs22YYzgHSRJj3xhlLBzWpBz312ORQAP7nClQwgYQ8P17sQ==
+	t=1793969442;
+	b=ka3R3c9OeI6EbTSVetNT2tUUma7MTqUS4OhKhwWzRIJPuwWLs0sphYq+2Lp71Y4TYGcy
+	 aTYoG3wcRWjcBWGfzp2vo8m7tBPxbPj8SpJFpiFMT+ZGj5ViDglybXt8IJ4e9ILJxDioJ
+	 UivAbLZm3b2LkfqPi//tVM7j25hjw49LePfc45sTR2Hgaei2yVNqasGcRgql2KjgRFHsS
+	 PUT9kJ0ZleBjCaYyu5Ap9h3biAaEBk2M7d0fqCqhkVbQt5AZk8FUni1blq+vlH7c3Ddt+
+	 SIi0mxJqjvWExUApXB4Y/BrhzcUEtiwrWrb9z5bN8raQ1o8MdgRv46TsfV7sNo2jWHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793968053;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=hVQgj/qtamPKqZe9GjDSaLmwvkqiYswM2rlF0amjSwA=;
-	b=iVE8NSkGme1scdHP6L7gON5Xr1dpj8u3ifMpmQ7SyYvw3ZzUoZ0/KAvUg+KOIfmM8IGv
-	 n5ekQzWcEug5HiFVMmA7FTLE8V8mhdgKoaEWBjJLBF6AX27j/hCAJGtnl+5bWlQQscNTx
-	 8En4dDsB/BU1IMxGiNv4ELL2/snz71u7ze3mBTugEomiSzXdM1jg8UrkvB5vqDg4r7ibI
-	 9VPmNQ9+ot4Z4hkdEFPYd0tLJ2gkHhdJj6UbqYwd41NChBmmIBfyUZoAZzLJY5CH6P4Xx
-	 kFsLIhHqozodLFrzDaG7gbRSfCSgRFBReT4AHLC6SMPCZod8Y8Kq4+WYE6AVSqtAmNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793969442;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type;
+	bh=FBjIBgDWbZCo9SaA6U+cSq8TU+erFs29CF/2hr/QbOQ=;
+	b=rs33cMiQ4p/3lauanmdpOydODjrRuRgHmZwDoeDe4hTrEJYR1GtilB8b70yZ9gtMzjkS
+	 h+fw02flY3XVQIjg4ifO6RpydDT8AjNnXp1Z6fXaTojDpcaSEAHrDBnP0Xmu6pMM/x79u
+	 oeP5nUXw13XL9f3PcKyzy/jv9h7UbQAa0Jb292aEHttURjm/MxX3Khd6QIe7Tlq6ynpLW
+	 coPWkuafxbomvE+eTA4ogrvCGsaDSk+6D9tF6N5I+vF+tOpEpcmVfdgj0yQJKjB27oP9s
+	 45YD63jPs3ncn6UybHHfgUm2LkGGAxp59AHJK8BvFqCsvqT7l6GHAgWUkKuKKnrMBjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=resnulli.us;
-	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=Slzp+EhU;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=sntech.de;
+	spf=pass smtp.mailfrom=sntech.de;
+	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=WHEv8Bmz;
+	arc=none smtp.remote-ip=185.11.138.130
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCF7606A32E
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 12:27:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BCF7606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078A1606A330;
+	Fri,  6 Nov 2026 12:50:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 078A1606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=Slzp+EhU
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so4154255e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 04:27:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1793968049; x=1794572849; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hVQgj/qtamPKqZe9GjDSaLmwvkqiYswM2rlF0amjSwA=;
-        b=Slzp+EhUlrouRtTK7cIqBLFjFKtffdW/HyvUHLYmJw7XjmBeYevm8Lj12xNdvJ+2qi
-         liAcKT2C2BgvihbgNMzb8b3i69eta9Ggy22EKuffT47ojjRQQeUZUlL0+CMrIOXXRdN+
-         sRLJx6nb9Q70/SrkYjnSYGmXCsN58DJZDOsQf3cuKue7biIpYuLYhoQmYvNYoUk6fl9O
-         lbOnIYtMBTTw5XM6N7cJWvWgsAPf/swDvDDEU7e0iy8FWBxtte++wUHhFiZsO9OPSdTN
-         CsUi1P7v2jyC3Rb5umcVVSNAGKgE5NKtIg3wR8TSSyEYwPS5r+U3dUbei/vxB4IV5Zoe
-         WKAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793968049; x=1794572849;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hVQgj/qtamPKqZe9GjDSaLmwvkqiYswM2rlF0amjSwA=;
-        b=lWRr4v6AOM4+s+u+XoqSZ6YBFbPk2KIqFAHGwlOFw40RezzNzCFFblterQisukK9GU
-         E0epCtMG/0rHZKKL/+tf970DbNSSn3Ce82c9G9T2MlMhBDnrshk/8onh91R+fw+2kxTv
-         ebgPEIVVFBZ/gjaurvF4hWCbwDlWIYTWRFKV15f9LRA+a0l9l3MwdvJse3nlbTVugeKk
-         3cYOrIoVukP4UZpgdm+Dm7LJPxwOF7p4SFh7p6qqdclmqY54ChgkF4mXetbirkkBHNG/
-         jrVjn/pSCFgw1r80YlbJ4AT54y5gn1cxvwr8YIbnx2uyg9FgR0+5AgwVTLoNnNrnFD9V
-         upCQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwyqxgVw/CKggzLtSA6pHvBi+GZei2GQKmZUz3FG7IJJDoCv20pop4w4e8feEteu0lcu7oqHI1GIi8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9s1RgnkhNfBsSTozM1XTZHJNKX7D0xBaVaB2QBLC2K0MBk4De5
-	8ZksItUeJvDqOwO5zyNJsNDQCQwjAT21KJ402isXkMjORVLPUnci28vZ3ep7tg43rpg=
-X-Gm-Gg: AYBFou0vY3Do0GEL6idU7I8y86c0aP0Js+xX7vfI8P+nNRXuRahVvAtW8lFClonEcTC
-	opZ+tGvg2TMmMSL8d5koMmbgxsKXB7dkfadSVeCdp4aE+BmR11u1ji6+BAl38WwHnwWiG3y3IW4
-	vOHa0Zm/9HGomGMYbHFZKGe/gh9ZOneS1P//iars6YGK8ayjv15XQE4UTgAVYWK2XPIB/hI9ffp
-	WQ+q1PabeGSH+baU5dweK9OlT8Byv3hendn3+UwI1siW272e0dWlWVOoksfpZjbH+aAWCV9Kqiw
-	Mp6AgkH34ZDK2pYQi1PTU07v3Wn08blZFOEEjVOjqVWnTCr6XadbpuMygLs5WbpPn7J0OfqHqUo
-	TTewMl24Ru6SCyNPTqN4lgiANgEzPi+ih+mLN3EM+IcbVO+K+UGDcidPlOPWQXPzfCV83hPxcPh
-	RJyTbZMUCGMT+kRaNmRKnKKunOX5InXLD4envto+qELdS0CzOluDyoO/eWhvel1J2jQNPIR0b4D
-	VJECddxN706D/8kB1l+IZSsnWeZzF9up8BrzoDU6K3B0fw7TCwOqdk72G8/UJDeeDdNEaT5ZHFP
-	jJiOfzAn0b+QhfREA/rjq4b4azsxYoV325a3
-X-Received: by 2002:a05:600c:4454:b0:4a0:1b21:2628 with SMTP id 5b1f17b1804b1-4b6dfba8640mr38712955e9.23.1793968049321;
-        Fri, 06 Nov 2026 04:27:29 -0800 (PST)
-Received: from localhost ([208.127.45.21])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b6e1b5d745sm51444055e9.6.2026.11.06.04.27.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 04:27:28 -0800 (PST)
-Date: Fri, 6 Nov 2026 13:27:24 +0100
-From: Jiri Pirko <jiri@resnulli.us>
-To: Petr Oros <poros@redhat.com>
-Cc: netdev@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jani Nikula <jani.nikula@intel.com>, 
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>, Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, 
-	Ivan Vecera <ivecera@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH net-next v2 00/14] dpll: add a simulated DPLL device
- driver
-Message-ID: <au3HhHt5LD5scvn1@FV6GYCPJ69>
-References: <20261105151852.1844305-1-poros@redhat.com>
+	dkim=pass (2048-bit key, unprotected) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=WHEv8Bmz
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=FBjIBgDWbZCo9SaA6U+cSq8TU+erFs29CF/2hr/QbOQ=; b=WHEv8BmzZlBskbtiRsC4Yz/6tF
+	lVJsH/z7pFdPbcrteUfO96lrIzu6yFa42ask2ACLtB8O6uGMAjJ5FkSqxMKs8yMyT7o7Hs0ZuH/2N
+	4GkPXRnZ7UYI7WmuDLcVG55y5hJJHUVGaRsnVFAvyX9zV/fjb9Uw1RfdJCS97gPuNrho07j/aW+1F
+	pOJern4i9oeuE7j8otJl9949EwHRfUv+7LRx9Kd4TbmcROCdlLLufc3Qteg0RmyjsU3rG6JeoPs2K
+	k++dAKZdxZIbbcOTn+0G93w14T0clcHEu2gUYgi3SOM1wcSDowGQdPNb/nXXKvmf4sWXrtqwqUcHH
+	TaIrvW+A==;
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Marc Kleine-Budde <mkl@pengutronix.de>,
+ Vincent Mailhol <mailhol@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, kernel@pengutronix.de,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, 1579567540@qq.com
+Cc: Cunhao Lu <1579567540@qq.com>, linux-can@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, stable@vger.kernel.org
+Subject:
+ Re: [PATCH net v7 0/7] can: fix bus-off restart and device close races
+Date: Fri, 06 Nov 2026 13:50:20 +0100
+Message-ID: <16255046.uLZWGnKmhe@diego>
+In-Reply-To: <20261106-rockchip-canfd-restart-close-v7-0-accdb11bc845@qq.com>
+References: <20261106-rockchip-canfd-restart-close-v7-0-accdb11bc845@qq.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,61 +71,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261105151852.1844305-1-poros@redhat.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Thu, Nov 05, 2026 at 04:18:38PM +0100, poros@redhat.com wrote:
->The DPLL subsystem has no in-tree driver that can run without real
->hardware, so core changes and userspace tooling are hard to exercise in
->CI, and the pin-on-pin and reference sync paths see almost no coverage
->outside the vendors' labs. This series adds dpllsim, a simulated DPLL
->device driver, together with selftests that run against it.
->
->The driver is controlled through configfs, following gpio-sim. Writing a
->clock ID into a device directory and setting "live" to 1 registers a
->DPLL device with the core. Pins are directories under pins/ with their
->type, frequency, direction and priority as attributes, and all of them
->are registered when the device goes live. The split between creating
->the configuration and going live keeps the register and unregister
->paths reachable from userspace, so they can be exercised repeatedly
->without reloading the module. Nothing in the simulator is a stable ABI.
->
->The patches follow the shape of the zl3073x introduction. The
->driver starts with the device alone, then gains pins and the static pin
->operations one at a time (state, priority, frequency, phase adjustment),
->and every feature patch is followed by the selftest that covers it. The
->last two patches add concurrency stress tests and reference tracker
->leak tests for the lifecycle paths.
->
->The simulation loop (lock state machine, phase and frequency
->measurements, monitoring features), the topology features (MUX pin
->hierarchies, reference sync, media failure injection), netdevsim
->integration and device mode setting follow in two further series once
->this one is in, to stay within the 15 patch limit.
->
->The driver and the selftests were developed with an LLM coding
->assistant (Claude Code) working under my direction. I chose the
->configfs design, the split into one feature per patch and the test
->scenarios, and I reviewed every line. The assistant wrote most of the
->code and the first drafts of the changelogs, and it found and fixed
->bugs by running the suite on the lab host. The series then went
->through several rounds of an LLM based patch reviewer whose findings
->were fixed, and through a mutation test in which deliberately broken
->driver and core code was caught by the tests.
->
->The selftests live in tools/testing/selftests/drivers/net/dpll and run
->with "make -C tools/testing/selftests TARGETS=drivers/net/dpll
->run_tests". By default they create dpllsim devices; with
->DPLL_DEV_ID=<id> the basic and feature scripts run against an existing
->device instead, so the same suite exercises real hardware. The whole
->suite was run through the kselftest runner on an ice E810 host with
->CONFIG_KASAN, CONFIG_PROVE_LOCKING and CONFIG_DPLL_REFCNT_TRACKER
->enabled, against the simulator and, with DPLL_DEV_ID, against the ice
->DPLL, where the tests that need a simulator skip and the pin state and
->priorities of the hardware are left as they were. All pass with no
->warnings in dmesg.
->
+Hi,
 
-set-
-Acked-by: Jiri Pirko <jiri@nvidia.com>
+Am Freitag, 6. November 2026, 10:37:19 Mitteleurop=C3=A4ische Normalzeit sc=
+hrieb Cunhao Lu via B4 Relay:
+> This work started from a real failure on a production robot using a
+> LubanCat-5IO with an RK3588. RX continued, but the TX queue remained
+> stopped and subsequent sends returned ENOBUFS. The interface still
+> reported ERROR-ACTIVE, and the hardware indicated neither a bus-off
+> condition nor a pending TX request.
+
+[...]
+
+> This series depends on the three patches in "can: skb: make CAN skb
+> freeing safe in any IRQ context" [1] and the three patches in "can:
+> rockchip_canfd: fix TX stalls and races" [2].
+>=20
+> [1] https://lore.kernel.org/linux-can/tencent_CD05F020BAFB2537F5D1F4CBB42=
+5588EA80A@qq.com/
+> [2] https://lore.kernel.org/linux-can/tencent_E25C9BE6689264E4138A464803B=
+810FDFD09@qq.com/
+
+Both these series are from july and seemingly from before you started
+using the b4-relay. So they may or may not have survived the kernel
+releases and their threading is broken both on lore and in any maibox
+they arrived in.
+
+And if there haven't been any responses to them since then, I'd think
+they have been lost or so.
+
+So I'd suggest rolling both your dependencies forward on top of the can
+tree and sending them as a new version, so that reviewers can find them?
+
+
+Heiko
+
+
