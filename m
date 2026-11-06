@@ -1,154 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.43.28
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793998281;
-	b=q39ckjj0CX52JbuzSfevwpNWA/GojBzjhRy67mDyAUkmvndjDlEbHM11Uww69Vu9N76W
-	 yDdWB/vwby1N+oKGH2U2xOKO6+NK7DF/y2grBGrLQwmPVuG/VIpk3goLsvGHnkoixVGCS
-	 r8kVWGT4GTp/V0Z8phHvmYbNp5KNwcAFZKg0RJKP+gqreFQN2cV39BdBzrgZIKlXrmDNC
-	 KO5vb+eETN5LbJYr6YVm6+BOB1/5IB3suS7dcUWoa+ZWVnGYXIdgu6Z0HxtyO7xdUtrbP
-	 K8dfIPAK4W0SkuIxd14L927jDHwIxuR0StcwyId76PdHCF/LOBCKPY+IbnKYfNJz6Fw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793998281;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:CC:Subject:
-	 Thread-Topic:Thread-Index:Date:Message-ID:References:In-Reply-To:
-	 Accept-Language:Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
-	 user-agent:x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-AuthAs:X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=mYTHLmMmm7+070+2VMb6MLwePHRR5xEsC38Plzd3q44=;
-	b=RJRs26qpfCJLp+/soJ1KAWHjhPy79DmJie3jgZ/+cZH1ojBFvgo+esIlqKDvD4hBrvnr
-	 IsIoQqYhyqrd4P9k2qXoHSax/vChFwdoDGAT2kB9EnvOKwCJg5z+jTDV0Vj10t4y9TcLX
-	 VT3H276G6jjcpgiyoma85nTi+rp41BHc0j4SdSg5kuIoF2Io6UK8GPMMbkclqRLdKJhTc
-	 f8ECaj2Jaq8FxCPL4sR4fnx3sqKcDKUU3qCp4XHwJ4V2fzerAzbkJ0rMSEgNImTZJ7ryj
-	 mpNePS4ro62dEP/2scFq2QmIZO34mhMT4HVy8aWCX2frF05OWT1PcaAU1GxPO6xSqfQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=JqGqCa3L;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.43.28
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012028.outbound.protection.outlook.com [52.101.43.28])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.146
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793998372;
+	b=YrGPvYrq7Qvu6BgFOdRZNRsbF/f+BpvJ5Tx/EiX3PzVCUGJXf3oIHRqOyr4mcf+ccLNd
+	 ek929398ZM5HwiMDnHm+a+Xa0Zu3yiHcccB+1wTNUxrLSWoVhgxGUjwVjG2SeYBAQtNjZ
+	 L+bGNKf5LthHRGl6n7pxWu3w9frT/yylJap7YTMbQKdKVdAxyAiAFABqsnkowvcqMqBVA
+	 8GH7jeGTjfTahaJu/QoCieGA18SK6T43pyvgShVWoV94zwRuZvdSM7683GX0LcpFMMHiP
+	 aMhGxvkUh4+ZzaesViJywWYUNLgDm9WfZhJseB9iFtzfna4xYSoj4lrudu3OmfEff3w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793998372;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=DI68O0X3RB/jvXr8h6qOIGncG3G3gqaeml4OgW4iOEE=;
+	b=ACF9PsxXF/o9eBWhLbQw/Q7JRXRXY+/aNt7NWXQuoDxdZ9QIQ1wqoNCGywBe/R4odapR
+	 18L1GwiqN75rS8KCb9+8QALNwvsbwpHYhWeYv2eIJ9DY9vUEaNfJlRaPqyV28rrXMh09k
+	 mL6oP5+xofhA/06UFkLeFjgh3mvuJs0IOjAcGaqGXJLeRh/ZlCOpnhbT2T3wTHSAWDe8c
+	 vgLo4hQTDG40rtQOxdqV8uV7iOKrd0ZFNyLR/cAOELA1gidjT5FlLDf415EtJi28zEk2b
+	 f6sB7YvMcCJqSMXtpAsptvG0587Y/pxYao/4vFm+1e3PluJu2ayJgX3s8Ht/WR3me2Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=shazbot.org;
+	spf=pass smtp.mailfrom=shazbot.org;
+	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=PcvY35YW;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=ZKmMOCmM;
+	arc=none smtp.remote-ip=103.168.172.146
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3AF606A326;
-	Fri,  6 Nov 2026 20:51:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A3AF606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFB6606A32C
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 20:52:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EFB6606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=JqGqCa3L
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C9RIuksxnuURnJlDzTgUtSSLSf+3OUQMPF99Gy3mtxqgW9ae9I7ntC6BcwTnE3yWHCjiHxuVnvHMmmD/vjJc6VpngNHkkJu5FuHim+sdE277wZatdcfYzXsDSw8lFoxA54Jlxn6mpzsgMdVh0aHokYoYnwUJAAWTbBF/yjQB0c86Kj4v7F7m7xBW9kkdAVFUJeR92yLdkLYAWv469qr+43u7estpxrbGsfukuQbSTNyRlbbedv6WXkPtkcW/R0JVeDkpTnptRQkE2SBTQbu0K+SJ4L4Iae3aDL1ys9V2i3mymKf+ChBE9sDH20u5YGda/Tp9Emi8GBhoaOKRrwalXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mYTHLmMmm7+070+2VMb6MLwePHRR5xEsC38Plzd3q44=;
- b=URKKk9qfhq0aTLMbCQPvozD1jkQJjd4XL412agSEscb+0se6Kx0nCuSDX+4qMFZ+dHs8ZYKq/W0KFcDilTQHL83SpLrnC4Qb3OTptoPfWcoiScRc6HAJYUJHKccrsmtlsPyhLozsTm33YoHMi1qEnX5GKjO9kq2Cdhmj0NpeBt4o4dFRrfwrWOpPIzsBlDQXVXzifiTT8JzDzs2Ir0cBf7rTk4k9vUWYVQrHdipcp52WFsv+PhRjYwpemks/7DwxCCppoLzXD212CnaxRcmnZIQ8OitrOIkBq/0bX6VaVSIn2lmkYg7xnlFqJ2YCINH+FuLDgNB5Qyb3tt4cRNX/JA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mYTHLmMmm7+070+2VMb6MLwePHRR5xEsC38Plzd3q44=;
- b=JqGqCa3LbscRZiganvkFJEcZKjp4xBtnhbS3nGEaos0W+yYYTuKGm0WtHvSnE4OMQ0Gq70CNOLlwRxX/IZgG9XKhEF98srxr3Vsw/fN1f615NWFfvmlJov0VGr4EAgZIUjfKm03q+xikRusQ0DSNc1ZdKN5IG+SsnQesRVDw+s7k8nMEUFbE3pujvn9P1x4r0I6YdtWFXngpn8FqtewgpnE9GiodnzINlZOfQstKcJ3DM/P3p2W5ZGExuZDTQC2H3F3ATPDPS5nyKea/yWozTbESV9prwdNaTsPWsrMZPnJi+AlIgxrw9SdZUx4GK4WMTbzhAEZlDEBWOmuM6usGtQ==
-Received: from MN6PR12MB8568.namprd12.prod.outlook.com (2603:10b6:208:471::19)
- by DSSPR12MB999236.namprd12.prod.outlook.com (2603:10b6:8:374::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Fri, 6 Nov
- 2026 20:51:16 +0000
-Received: from MN6PR12MB8568.namprd12.prod.outlook.com
- ([fe80::f13:fa29:e7b3:4d3a]) by MN6PR12MB8568.namprd12.prod.outlook.com
- ([fe80::f13:fa29:e7b3:4d3a%4]) with mapi id 15.21.0592.010; Fri, 6 Nov 2026
- 20:51:16 +0000
-From: Timur Tabi <ttabi@nvidia.com>
-To: "vladazaharova2018@gmail.com" <vladazaharova2018@gmail.com>
-CC: John Hubbard <jhubbard@nvidia.com>, "gary@garyguo.net" <gary@garyguo.net>,
-	"nova-gpu@lists.linux.dev" <nova-gpu@lists.linux.dev>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dakr@kernel.org" <dakr@kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "aliceryhl@google.com" <aliceryhl@google.com>,
-	Alexandre Courbot <acourbot@nvidia.com>
-Subject: Re: [PATCH v6 0/3] gpu: nova-core: retain the GSP-RM log buffers
-Thread-Topic: [PATCH v6 0/3] gpu: nova-core: retain the GSP-RM log buffers
-Thread-Index: AQHdW/MitWMU2rVbPEKgo0OePHoFa7chqTqA
-Date: Fri, 6 Nov 2026 20:51:16 +0000
-Message-ID: <b2ff5c437c41ba4f8c1a8f354d24d7e68517fbf3.camel@nvidia.com>
-References: <20261014154554.231015-1-vladazaharova2018@gmail.com>
-In-Reply-To: <20261014154554.231015-1-vladazaharova2018@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.56.2-9 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MN6PR12MB8568:EE_|DSSPR12MB999236:EE_
-x-ms-office365-filtering-correlation-id: ef92b62e-d172-4a68-6fe3-08df3c47b377
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|22082099003|18002099003|10067099003|38070700021|261026140227099003|11063799006|261028144727099003|261022105027099003|56012099006|261009223027099003;
-x-microsoft-antispam-message-info:
- 3GnqOLzlKq/wgDbDaOtoFzrzb4rxhVLhfeIWv5x/SFLmz72QCSk266/0fihkrGq7KK+2kAod7/3cHtLRhDzLf+8iU5Tc5OBhAWszOoDv/fOjwIlr7kVPdkLocdbBFSMx4UdojLBZRoUnVgrZfw8E2v25Xa9DSkjcRWZrN+BVvgruE59jGW7YDrD88rmEpuGKvIVELMEb4GieZNZJLawmcfFAUvGCozFcIk6ssrxpaAtdaFAPakEkYNJeuUMlQQ2x5JKpDW5FwrK8Fkh2zxwsv9myXIwT2p4U4bKNXNlOwqkwyI65IqKOFMi08ewJ7NM8aNF3Ye+717aLtpAhE7NO6lDTJmF6nxKmWMR1GOGOn+Myb5gI5IMHZl62n2iP/E5uWf5msA/aRPeib+TxClwvxf4g76uf+SO/xBy7d5+Ho3ellQxwwHW92+6D6AMIbPv7G/GJwb6WSj2czWnwLqJaNZiOokigRX+RBd1kf36263+Aq9sBJWEfTtWUQIxMKx+3VUZnYgtMNq3O/4DZMRY+rZyNWbh9ebeh0kYq0tjmzIlvE4BfU7EI/ORcMpVN6gTf9uDE7F3Ou9F6WNKFFY776QEj04++G4KIWvSIWPaPIESIydxZjEJfAA2QTF7719ShNMc44ix5EEVdU83sftRXRhTb8nLnfFC+13NhhfCMx7L7kV42Ke02PR/j+h6VzkYCvtrfDwRRUEhix/XzgbgWGMFn01WsGjmwuK27R9+TE84=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN6PR12MB8568.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(22082099003)(18002099003)(10067099003)(38070700021)(261026140227099003)(11063799006)(261028144727099003)(261022105027099003)(56012099006)(261009223027099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?blNoRGtwa1djVnFTYnlLek4xSHBmVTVQZkR6THpaVVduL05Ib2YveGhRYXlh?=
- =?utf-8?B?MFVzQUdjUit0cEpoYW84QksyaEVmNXExa3h1aDhKSGk3ZFNhdmtxVE5DV0J0?=
- =?utf-8?B?RFloazNxbDlmdW1vUG9CNHMra1R3TUJwQjhtTEw1K3NNK01XdzVJOVRRUytG?=
- =?utf-8?B?dlF0czkwY21uSDlPaDZxNXMweDhrTm52bmRjdnRpMG96YkJId2lTYSszbEs3?=
- =?utf-8?B?N2VkQXRiREJ2YjV6QnlRYXFLdmNYTmpScjFBT3BPWGJwdjBiWWxGeVBRQW90?=
- =?utf-8?B?MWxqdkt5bVk3WUJrVURVaHpxYnE5Z2lpcWl4QjBIVWtUT3hPL0QzaDlTaDgz?=
- =?utf-8?B?Q3BVN2hCVVJ3Q3FXazdYM0NoSWNwKzhTdzFQdmUweDMvY0NMRURzSWpOTFpQ?=
- =?utf-8?B?bXhqNGE4SXplY0dEdGVHbUFmWnVlUk1MSjVQK25LdWNvUk5sSHJHM0xXb1U2?=
- =?utf-8?B?ZXUwU01PQTNrNXh4Z0lTRmVVZnhnbjNqOXlLR0ErN1hNMFpjVjdvUzJXZ2VH?=
- =?utf-8?B?NFlNOW1BbXBLY2hyaE83a29FQ1dBcHl3UDBROTQ1Uk9yaU8rTU5ZclRPWkwv?=
- =?utf-8?B?YmFuYkZzYjl3WmFjVHB4eDNra0Z5aDJVdnBmRFlqeExJa0s2NG1kSS8yOFhS?=
- =?utf-8?B?cU5WTXJrZFRrdUJjNVZ4RjRlZmxzdWE3dmo0MWdKSmsxbmt4Z3RaSTBtWDNQ?=
- =?utf-8?B?Mmw5WmNoMEtMZ3FGNzlQWm5PM01YSXVQeXM0ZFhCT2l6eVVQdkE3REMrNTBY?=
- =?utf-8?B?R1NFK1JpYVBiTjRkNngxcWwvOUZTMStQek1tR3N3V1FBbWRhbTR0OERnNDY3?=
- =?utf-8?B?a0RoUmQ1QUVqckt6dWRIKzA2QVRHclUyajBQSVZnOXBHem1ETnVJN2VBUHV2?=
- =?utf-8?B?QmV2enRwYkhYZVRJWmVpVVpqbGdCNiswQWxVNGlkRnFucnlCMkhBUUxoaHJF?=
- =?utf-8?B?M3d6a3pUajZlTCtvU2l0NzlJeWlsTm80VmdQT1Zyc1hseWh4Qk5laXREanFE?=
- =?utf-8?B?emxaTHBtbi9SclhZYStpVDdRc21tUDVBWFlGYXRkbVhaMzlGNitBMzRPbU1W?=
- =?utf-8?B?YnZNZmdOamRka0lZWGZxWCt6SnlzVmVFWjQydHZmQ2hxUElvNm1SOVZOS1Uy?=
- =?utf-8?B?YkIrODVrSEFEeW1lU05WUWVXZmFYSHAyZ0E5UDF3dGlzNmt0M25PK1MvTFo1?=
- =?utf-8?B?VldvQ3oxSm9OWjRpY010YmxZak1qaGU1SnJXV1N1ZWkyWDdzbTNUSDJQaFBN?=
- =?utf-8?B?ZTFOQzZYU1FVMmhFVFJGTDdBZitqVDhMeHhiZktYUE1QeWtVemxObUp2R1c3?=
- =?utf-8?B?QjlJY2FpZGkzelQwWXA3TEYreDlIU1RyR2JoMUtvNlRiSzhpZUx3QTF3MDZw?=
- =?utf-8?B?QzNwN0twZUd3Q0Y1eVVnU0MxbGlSOVJManJxRysxNHRYRE9yL0lvdWpiTm0w?=
- =?utf-8?B?WkF0QVhTcE5pZjRpbmtSNU1ZTmtPY1RUMjAyYVFzaktmMzlsbzRCL0t4dVZI?=
- =?utf-8?B?ekZrVjRTTVVYdUJiaVZlbU5SWk9odWp6UXZyb3pQbmh3cGhYUWRLQjdNeS8z?=
- =?utf-8?B?Y3AzNFZSRkI1ODFMN3JMalBHeGVnU0pjeWZ6ZUFhdTFMcWhWVUptL2Fpa25w?=
- =?utf-8?B?dlNWVHp5OWJNWVpCRy9WV0hKd2wvemd3dlFvNzF3bTZrNSsyeFIyKytGeUk3?=
- =?utf-8?B?QjdoS0JwMTNBWGliM2pHMzJZcmwrNTd4N2hDYnp1aU9GbHorSUVPZnhIWnh1?=
- =?utf-8?B?NDlIRE9Ic0dCTUFab2N6aXdpWTd6bjhSZ000VEtFem1tTHFVNGNlcXVqTVNG?=
- =?utf-8?B?UkJGT1NhMlZWdFUyLy9hZEhkb0cwaDY2S2FZV0pwbklpbHJoUVZMWCtwUFph?=
- =?utf-8?B?T2N0QVIyOStsSGEzTEx5RTYrOS9GNmp4YlA2NjN2b0dCRTByYTBpVW5UbWtO?=
- =?utf-8?B?VWx4ZVJ0R0JpcGRlemdWT2xDMzhZY1BTSC9oMkRaV1FIRU01RDREZ29Bamhp?=
- =?utf-8?B?aWxEUU1YajBxTHhxOU1Zc0x5cGpWZ0VNU3ZaaWRsdG5LK1JPRGE1NzRPY1BO?=
- =?utf-8?B?d3VYUlRzc0MwelF0Uy8vcUYyWDVDd3pVYWx0dzdnWHBXRjB0TzdnWFcyM0FY?=
- =?utf-8?B?em12SjN6a2lVZDlGdWxad1hud09aaEwyd3NDaVFidUpiR2pvZmRkcFRsYnhl?=
- =?utf-8?B?RjRoSFk3czBpdTM1Wkt6bjh2ck1UaWdoVGlndU9hK0lPTnR5anlqZlNtT1hx?=
- =?utf-8?B?MzJ0dDVOOXlaSUU4Z3Rla3ZsT2xXQWxDWlFZcU5FYTduUHIramYveDY1blNJ?=
- =?utf-8?B?MzhvV1BBZlplRTU3VWJiMWJIRDY2WDR3ZEs3cVR2TzdEaVhMcDZYdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <271888E1A677904E8A4B0D0CE723BBA8@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=PcvY35YW;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=ZKmMOCmM
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.phl.internal (Postfix) with ESMTP id 2E337EC0185
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 15:52:50 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Fri, 06 Nov 2026 15:52:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1793998370;
+	 x=1794084770; bh=DI68O0X3RB/jvXr8h6qOIGncG3G3gqaeml4OgW4iOEE=; b=
+	PcvY35YWH6Du/gCafTao8iOZjmTLwWOVKzghULOCwxRJDepwHq5SEXZgDjhp2YmN
+	Mczq8tEtam7bb6F11NAjdemUzEg7WBYWDdz7b9e9eVbl3gJy/4icG1CbYZZ4IvJW
+	EzT0n15ww8oTyyl1kb/PIVTYOevzJfWyYFuXWFuTiu0N+vTEosrH8eXrcyblP4BW
+	r6U71LrA83YcsF8DNZ8mLXSEX+XM87JLo1WrflYjh5ULnf+fr19CnoqSiLWx/SDt
+	m1TCMCcgDTGQZziQuXeJvel0Mu53eeZiKOtoN7tQ8iC5Ie6lfLTcpIuMAv1cH+aj
+	L2FsoGkSiDwfpDaFRhjD0Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793998370; x=
+	1794084770; bh=DI68O0X3RB/jvXr8h6qOIGncG3G3gqaeml4OgW4iOEE=; b=Z
+	KmMOCmML5eN4wvqkIgXX8D7nNZgEuIUCuFe7kzARN8GKe99ZFIIl207mXcKbSEv/
+	BnToq5+sgvh/FWRxLQLwqqxlBIeqFO+5qA1QPzFNQ3e6UGUhSHn8fb3rj30/TcC+
+	WJsyeQoNOdTDpzNVdCQ7CKtrsXCa2mvycmqQKFJ+jEjLoiA47kb+dyCMtq0vSN85
+	1vMbwveDH+YpK14phRJr/zVjmyr933EGuZLtnzUJf/roWOFFzlLA+fOQ0EkwQ7EE
+	o5UM+63iBsfUrQlFLSNfe4tNarSMxfCjoNMRT7s2Y2DgorDF2P7fxoWicJAMXYuG
+	QtivnVCwzT5/+JWPhEOTw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=shazbot.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793998370; d=shazbot.org;
+	mf=PGFsZXhAc2hhemJvdC5vcmc+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:uY2sNkxJ+WveY37dFRWEQjOG236E8cKRb/YLSjHMwU9hrad
+	NNK6p3Ny8oeS6iAJPune9BeHrms2X2xZsSGTIVF0yQ37EsFFQWVl+62tqCoBs/0G
+	omGWSnkWNqsdpDOkh7HsV3K0rUu0r/1FZpikUEaLn7q+5+QGe5N33WeoQsYKercR
+	EODufGvnuKXdASfCkQYPRZ/s1d4VBbZTS+bd5kzie4IQLYxXxoVeir+CMn8gjug2
+	u7aZ4MD+fp8VaBJxrXX06edspa4byhki9LuSmbHXjq61rWT7NyDT4r3AqlIqmzRO
+	yvCytcrnnW36G2ZmbDynUpU5jYRX0zCLeWGzxog==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:JlV29eQ9Ey6xSHV8ni9oTZHE4eweDtFxopLH4TWcwP4=:va0vdCyusufdfSq+B2ZmcLdvPoQ4pqTqrJNg8au0qYY=;
+X-ME-Sender: <xms:IT7uanLeayqQ7DVrELXhyBB_TM1Ef_4FS0UgXLkqbDxXz7w976GkhQ>
+    <xme:IT7ual-0GLZ2AsTD9KXSm22KZeDOqZ1fOpfeZOIIaVX183tOrZ1tPrjF7Qc6FZ3kW
+    gqgiHF2ylIXJqJH-PmvNDzNyfYWkE0mUPI7Y4bfaQfW3OE28Dl3JA>
+X-ME-Received: <xmr:IT7uat_yTTYLhkcdeim5Lod4HPghLTf3SAw-l8LtY9DA_rf_Tvjnl650qqfr3w>
+X-ME-Proxy-Cause: dmFkZTG3ELfz1HMYilg74EaAvzptHMUfC/ybskUvnsHdFUyYtIj+CatcaN0RoFw5cE4Jq4
+    uqqKuKvggY98V7NPM7fyvdzk/WptIGtF5ANhhp9eW4RXRlON7oA8CjAY/ER6Ga9ZH71/UQ
+    7BGmSdDbBP8fblvnU6n2d7GOhvDWCTh3bZU6nz8YF1Iw7QrXH/X9o2DBzDXNlhRoEHf1Ro
+    9BZ8n4AYFcbR4OWj/Rtay3IZmP9AzvX2yNWgjVkET5nZ9J7wt/Wbnpuc96R7069p31O6hZ
+    QrNAOg6cqZdm50VCeIVbFAKGMLAOpGIaHOWVtBCWEdYbqtvAMuWIQQEWIylhgHdLRhKyNG
+    kSnpXXqZPWWuDmamcEXDih2jKI6JeTV5ycsRHBoVCSC72WKEyrJXvi/EXLR4MDH4nZ+W3G
+    9oHGtpg7/4oKhoL7xXS0JdYhK7IAwllR9xk7MdVRB80nZTMZ6rURco+l//r9/jfkn6O3R3
+    3NLb6VOoDL0CbwIhn+WuvFdiebw4WDWazKGaaFH7pbIyCk76YRereTpLI4t2eKdxaug0EE
+    WXWO/2gKZWxNAIdjghMz7jilGQ+bU7Gf/UM5uiie6UJ1HZuc+V9Ad7Jq0XsLOVmoQzG2a3
+    YlHURpwYLcsHnoZbtnue9Aik407XqcM/K9471PhTwt1gA3gjt60NVK1JPxJA
+X-ME-Proxy: <xmx:IT7uav964Hga9-J9speWrNVFSCuWOuJzoeJHoz3eyguHNPaQc-L5Cw>
+    <xmx:IT7uaoL5uI5mefie3DtZ8HiN-ndSadyHOqlIFghA5fHmhUPLbn_LdA>
+    <xmx:IT7uakRTo79983alZPUEfZiKbs8yIOugv2IOXEMk_t7FR5w7kDHNiA>
+    <xmx:IT7uah-oXs2lCD_8by5Fcp0xGVEbLmtiYTOwmaXXMVW4-Hx89yRCGQ>
+    <xmx:Ij7ualyd7aOSUnPtmOrSzM2TRz7pz5jro_A5NG05sBdjo7gnAleEQPiz>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Nov 2026 15:52:47 -0500 (EST)
+Date: Fri, 6 Nov 2026 13:52:45 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: <mhonap@nvidia.com>
+Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
+ <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
+ <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+ <dave@stgolabs.net>, <alison.schofield@intel.com>,
+ <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
+ <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
+ <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
+ <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
+ <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+ alex@shazbot.org
+Subject: Re: [PATCH v6 10/31] vfio/pci: Refuse ioeventfds and dma-buf
+ exports over excluded ranges
+Message-ID: <20261106135245.2870aebb@shazbot.org>
+In-Reply-To: <20261016161839.2765592-11-mhonap@nvidia.com>
+References: <20261016161839.2765592-1-mhonap@nvidia.com>
+	<20261016161839.2765592-11-mhonap@nvidia.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -158,25 +138,113 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MN6PR12MB8568.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef92b62e-d172-4a68-6fe3-08df3c47b377
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2026 20:51:16.0683
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /D8qtngmslOfid2LIvYN3OtD1bKTr7gVFaLQKZOKp1OFBPVTp5+tXlkCxngCX4jDRDuo+RlEmw0HB/UnP2x6bg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSSPR12MB999236
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-T24gV2VkLCAyMDI2LTEwLTE0IGF0IDIyOjQ1ICswNzAwLCBWbGFkaXNsYXYgWmFoYXJvdiB3cm90
-ZToNCg0KPiBDaGFuZ2VzIHNpbmNlIHY1Og0KPiAgLSBrZWVwIHRoZSAicHV0IiBwb2ludGVyIHJl
-YWQgYmVmb3JlIHRoZSBiYXJyaWVyIGluIHRoZSBjb3B5LCByYXRoZXINCj4gICAgdGhhbiB0aGUg
-b25lIHRoZSBjb3B5IHJlYWRzIGFnYWluLCB3aGljaCBpcyBub3Qgb3JkZXJlZCBhZ2FpbnN0IHRo
-ZQ0KPiAgICByZXN0IG9mIHRoZSBkYXRhIChyZXBvcnRlZCBieSB0aGUgU2FzaGlrbyByZXZpZXcg
-Ym90KQ0KPiAgLSByZWJhc2Ugb250byBjdXJyZW50IGRybS1ydXN0LW5leHQNCg0KQ2FuIHlvdSBy
-ZWJhc2UgdGhpcyBvbnRvIGh0dHBzOi8vZ2l0aHViLmNvbS9HbnVyb3UvbGludXgvdHJlZS9yMDAw
-X3JlYmFzZV9hbGwNCg0KVGhpcyB0cmVlIGlzIHRoZSBmdXR1cmUgb2YgcnVzdC1kcm0tbmV4dCwg
-YW5kIHRoZXJlIGhhdmUgYmVlbiBzb21lIHNpZ25pZmljYW50IGNoYW5nZXMgdG8NCmRlYnVnZnMg
-dGhhdCByZXN1bHQgaW4gYSBsb3Qgb2YgbWVyZ2UgY29uZmxpY3RzLg0K
+On Fri, 16 Oct 2026 21:48:17 +0530
+<mhonap@nvidia.com> wrote:
+
+> From: Manish Honap <mhonap@nvidia.com>
+> 
+> vfio_pci_bar_rw() keeps the excluded ranges of a BAR off the device, but
+> two other paths reach BAR MMIO without it.
+> 
+> An ioeventfd writes the BAR directly when it fires, through
+> vfio_pci_core_iowriteN(). Refuse an ioeventfd whose range overlaps a
+> write-excluded range, as one over the MSI-X table is already refused.
+> 
+> A dma-buf export of a BAR range lets an importer map it for DMA, which
+> reaches a range that the BAR keeps off mmap. Refuse an export whose
+> ranges overlap an mmap-excluded range, so the dma-buf follows the same
+> rule as mmap.
+> 
+> Suggested-by: Alex Williamson <alex@shazbot.org>
+> Assisted-by: LLM
+> Signed-off-by: Manish Honap <mhonap@nvidia.com>
+> ---
+>  drivers/vfio/pci/vfio_pci_core.c   |  4 ++--
+>  drivers/vfio/pci/vfio_pci_dmabuf.c | 14 ++++++++++++++
+>  drivers/vfio/pci/vfio_pci_priv.h   |  3 +++
+>  drivers/vfio/pci/vfio_pci_rdwr.c   |  9 +++++++++
+>  4 files changed, 28 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> index f099a294af34..211fff6045e2 100644
+> --- a/drivers/vfio/pci/vfio_pci_core.c
+> +++ b/drivers/vfio/pci/vfio_pci_core.c
+> @@ -1107,8 +1107,8 @@ static void vfio_pci_free_excluded_ranges(struct vfio_pci_core_device *vdev)
+>  }
+>  
+>  /* True when [start, start + len) on @bar overlaps a range with any of @flags. */
+> -static bool vfio_pci_bar_range_excluded(struct vfio_pci_core_device *vdev,
+> -					int bar, u64 start, u64 len, u32 flags)
+> +bool vfio_pci_bar_range_excluded(struct vfio_pci_core_device *vdev, int bar,
+> +				 u64 start, u64 len, u32 flags)
+>  {
+>  	struct vfio_pci_excluded_range *range;
+>  
+> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> index c16f460c01d6..8606c15ab2fe 100644
+> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
+> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
+> @@ -260,6 +260,20 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
+>  	if (ret)
+>  		goto err_free_ranges;
+>  
+> +	/*
+> +	 * A DMA mapping built from the dma-buf would reach a range that the
+> +	 * BAR keeps off mmap, so refuse such a range here as mmap does.
+> +	 */
+> +	for (u32 i = 0; i < get_dma_buf.nr_ranges; i++) {
+> +		if (vfio_pci_bar_range_excluded(vdev, get_dma_buf.region_index,
+> +						dma_ranges[i].offset,
+> +						dma_ranges[i].length,
+> +						VFIO_PCI_EXCLUDE_MMAP)) {
+> +			ret = -EINVAL;
+> +			goto err_free_ranges;
+> +		}
+> +	}
+
+This should be rolled into validate_dmabuf_input().
+
+> +
+>  	priv = kzalloc_obj(*priv);
+>  	if (!priv) {
+>  		ret = -ENOMEM;
+> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
+> index 53544e0cbedf..09a68c99b43c 100644
+> --- a/drivers/vfio/pci/vfio_pci_priv.h
+> +++ b/drivers/vfio/pci/vfio_pci_priv.h
+> @@ -52,6 +52,9 @@ struct vfio_pci_excluded_range {
+>  	u32			flags;
+>  };
+>  
+> +bool vfio_pci_bar_range_excluded(struct vfio_pci_core_device *vdev, int bar,
+> +				 u64 start, u64 len, u32 flags);
+> +
+>  #ifdef CONFIG_VFIO_PCI_VGA
+>  ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev, char __user *buf,
+>  			size_t count, loff_t *ppos, bool iswrite);
+> diff --git a/drivers/vfio/pci/vfio_pci_rdwr.c b/drivers/vfio/pci/vfio_pci_rdwr.c
+> index 93823c6391f6..ef098f0b1401 100644
+> --- a/drivers/vfio/pci/vfio_pci_rdwr.c
+> +++ b/drivers/vfio/pci/vfio_pci_rdwr.c
+> @@ -476,6 +476,15 @@ int vfio_pci_ioeventfd(struct vfio_pci_core_device *vdev, loff_t offset,
+>  	      pos >= vdev->msix_offset + vdev->msix_size))
+>  		return -EINVAL;
+>  
+> +	/*
+> +	 * The ioeventfd fire path writes the BAR directly, without the
+> +	 * excluded-range filter of vfio_pci_bar_rw(), so refuse a write-excluded
+> +	 * range here.
+> +	 */
+> +	if (vfio_pci_bar_range_excluded(vdev, bar, pos, count,
+> +					VFIO_PCI_EXCLUDE_WRITE))
+> +		return -EINVAL;
+> +
+
+The code immediately above this is still performing the open coded
+exclusion based on the MSI-X range, which is now incorporated into the
+generic range exclusion.  It should be removed.  Thanks,
+
+Alex
