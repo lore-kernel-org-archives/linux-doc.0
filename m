@@ -1,79 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794001828;
-	b=RccaEkDVzMGCRb66iEII/QhWXxIGAMx3QGGDq5wMVZBW93eVfw0MJihTLcfGnGKgu/0U
-	 0WB2io1Y9QFs4WjsSFbw7JlPpjtfF+cZJkGprzfocZTVxFnHoCDuEdG9Fe+/0quRL5kVL
-	 bDx7/yrGYi3B0hKVnFCW7UyB7T0XKgnOMFZUEufZXc33WpDtMx7Dha8muD3hZuCOGXoKv
-	 ucbhXvdMio2BUT6jCZcdBQNeUMExOtvXt7k1k+n/G/ggFmD4WJStHwSUQ95T2SG/8gf/q
-	 pKdvze/T0WuHVvik+KMqmMxmqsvjzwbH/UzxxyzshMxBc040OViH9VccGIW1GqtaBaA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794001828;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=JH0LjgCVYJBofyndAf4VOWW8jyxyMo6HqV30iWjGyFw=;
-	b=Km3yuZPYSKOBCsTyLOSmWm8vAmgJ85jpAjQeqSBbYtGrKRJkrUo1v7/rjGzDRX8vDbot
-	 ovKmaOs1gqmLWf8zRFjT6Lc26eyO1t8bZnyaD4/G8dYBRbF1yUV4iWbS+W2DniG4tQ9db
-	 Y5a+A+0bHQOO3PU8dbi4RHYla7ACseCEop+eGSJE/6RXhprYpXcUooECtCHtihJzVDSH0
-	 PXRYM0nPE5FNgTU+QVpNfNrPX+psTDzX7d2Ea6+DiURu/ECWEEg9mckSPOG8B57iCHjOY
-	 TccTWMnfl7yJHEmc2mUgl7mbb6tsjdGb6sQW+hYb8lj5q0ojXVUYi0RVXekjJvxgFDg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MtcW4xj7;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3801C606A326;
-	Fri,  6 Nov 2026 21:50:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MtcW4xj7
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794001828;
-	b=OscBCCkhL5HxJqeBz+HsDlnNN2MPG8KwZ1WmQSzfk6CjSGthDTr6ehSa5QIQg34sFS7G
-	 vjNTq1CnMUJjgBEqHzaGUR0EU/1oq8xDU2BHBtB+6qmzgSXpvQkGL5aNwOvwKRq2s1jvC
-	 MrNrxs5yX1ee3YQIincSamUHbuO7MiGMy2UmtGfNxOd76tuLGHAA0zPFNMBkxd5JzlJjn
-	 UpBAiFeX8MMtr6Fo4Z8rS0nJuTBqRTHusTlBmlinqd0+mvFL4oJqT3HYgZjKJrql+ugU4
-	 3o9J7FYNuVcu/t3gaki95/t1PWb/AhvO3QmWXirlLXB2BcpxdhZspNVGKdD/u1ZbWJA==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794001828;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=JH0LjgCVYJBofyndAf4VOWW8jyxyMo6HqV30iWjGyFw=;
-	b=BFQuQAPLcVoG9pO/R9phJtqrlt+7KgDfH5F7mZw5LRTWTZGwSEH6oqDl3G/qoxdSwHPd
-	 tVqN9SWicE9EudzWrvlOrTRBvmvT/lmyi3x7Zin71rheyWJdaugDmLhYzGlRDLihjQan5
-	 JQZt/2AERHG2trK9jGZGzptB088etzxMm/f40BAnCDgoxTbqT5q5kvGRM7Fi4jiPl9CGN
-	 qvnGzLycZ64mvRAIXxJL8N6OjfUiaZKHPM9jCOO565mlhf2uVr5NMoa/whDL4MRmm1xHK
-	 4hDmjxttOcyBoijrKlTIysoIl1tZewW4UPv22dwXSn9GU+5177CMgnVR4sQQ4L/I2MA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.144
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794003056;
+	b=5aDyo1yV2RvabHebZY1MX8ojNlE87sQhotA9pz6P1YrZFDQWrux9IrBmKrv0Pr7CWnk+
+	 PWGlXpU08Y9utlWBwoCOWDKjB2n2gHC8/Uk4iI/6jTcA5lmPySsppx4yR7/o8I8toW9fX
+	 ZCmGOaevDpZj74MYW6ZCF99XQl5s8A6WLo0gz9lchVVQ5UGK5Cqylgbqb1Cjvh3D7yoO3
+	 OBl2m8WvlH8FMac79fbdBz9QyQSwEWpDBmaxyD9yurWY7xADJOc5ZeYppxPPULXNeSz5w
+	 pHdTq8m7WyLeVrwfK5O2yQsc/jk03U/eFzOjTNQKNQtvOn8GjBjOklDqemDUQnvNkYw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794003056;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=QccVIHCCeW+j3JKH26Y//JlAzW2DNSmEXbLjeGbZAa4=;
+	b=U4LdQ1VOdG9q7CkwFSgkTXTG17ps2xjNpWAeMEyAeBr80aXy4gyBwWA49BigixEa5vCx
+	 dQ/qK27XsXz2NOLYN1uuXDEbFwrtNJfR3lyXlmQC3kxMHgxAOVl0DyZU7gDlRHCiWswju
+	 P2X4od9XUpjBTi6BEubNhiQbp/e04tD7X6qMjvchGxyvj3wNvCGR40aN6NwdHkD98rh3+
+	 Jm0T5xRkzacbHAxRrzgex0p9L4JOmdxZpoVc7eTlOSuEOVp1qw5XNGC8pCpoI9yt0ojgz
+	 Kd3MbenZ8pFaesBvD+xhIn4APbEe89oJSwKk1JE03BA77oS2WSCua9IOM50J5IGvwpA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=shazbot.org;
+	spf=pass smtp.mailfrom=shazbot.org;
+	dkim=temperror header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=UqWEWw2G;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Wq1B0bzJ;
+	arc=none smtp.remote-ip=103.168.172.144
+Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 815761F008A1;
-	Fri,  6 Nov 2026 21:50:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794001828;
-	bh=JH0LjgCVYJBofyndAf4VOWW8jyxyMo6HqV30iWjGyFw=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=MtcW4xj7X0Dgpi004uG3O2QQBH7OkGotxwhVERll8QdNlc2NC4gRUzotrM/XRdg/n
-	 v4PNXM7pZRF+dGeVJkH7qDedcO4akIQLRChrdoJN7gMRct/fh0scAV/49P59yW87u2
-	 b8i/RSgBqcF4y31jZFxzxTTwBRWfU7RId1MqB2ZRiqs7N501P2uUQw1/d38/9mrg0p
-	 DyaaXKiERM0xiNqoVMd3gjMWpzFgVvIXe5HGRmvo8BMeE/rVgSez+CNJXKi7FpI6Vp
-	 e93TeO5oA3uqnWVn7NUAL2E1dgs/jTGSoo3MfXE+mr4OMu7Pi8jL2CkO5gESyBq8Z/
-	 FvGQe04tZOV2Q==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id D24C0478A1;
-	Fri,  6 Nov 2026 21:50:26 +0000 (UTC)
-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero_via_B4_Relay?= <devnull+aleszlucero.gmail.com@kernel.org>
-Date: Fri, 06 Nov 2026 15:49:52 -0600
-Subject: [PATCH] doc: process: clarify legacy status of applying-patches
- and point to Git
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC715606A32E
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 22:10:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC715606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=temperror header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=UqWEWw2G;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Wq1B0bzJ
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.phl.internal (Postfix) with ESMTP id 1948FEC0210
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 17:10:49 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Fri, 06 Nov 2026 17:10:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794003048;
+	 x=1794089448; bh=QccVIHCCeW+j3JKH26Y//JlAzW2DNSmEXbLjeGbZAa4=; b=
+	UqWEWw2GThoHEJKQfjEHOdcQALnA/VCr6x9lVMMMC71RoKJRbfK0srKiPF6XeIFw
+	Pz56TDxJl9BvHN5ckSE3wGU2HPkQ0TQk94jBpsZjmn1ORGdTC3DGDHY3MvNdIxyI
+	s+kCtN7Ej6JCPc/XPNmoH2hAOOjP9Rc/f7URbOc5stOfAQPq4wiIxkc7/XmIBf+f
+	ZXzmHN7mG3ytv1Nyk0hY9l1pk4xcoJCSJeB+yldBbxBLSUMH+OqjmkxvQOL4wIej
+	wZTGPs7S/78T79pK8UBCNLw9hzcnwX77Xv7SufDL0LkL2qCq0uMp2EY2uPolxWID
+	f5Hzp8q1qh/V7pyMyC5E8Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794003048; x=
+	1794089448; bh=QccVIHCCeW+j3JKH26Y//JlAzW2DNSmEXbLjeGbZAa4=; b=W
+	q1B0bzJxngvd5pxx1z8Hvhzh8EXp0hulAtSMvOThvCtFKm8zjbaYr4nqk1Wp+lzQ
+	/ld4JBCtYlqq1qS09Bw+uyWC2dNGlBNQ7/LH1Y9BSpHAd2S2p6bEhYYLnGyftQrV
+	eAPkB59GLXHIjL8/muu2wmHQknowY096n4iR30+yQSr3MQ8i9SE5kyorQbDAbY0P
+	dfGs7qZVtvBMmwQevPcgxImyhdZoWvYHUopQC6lMyJbdHRZiVnLkCETHqXiEMJQD
+	jFnKSa59fagVVVk/42vySejrWbOCKl6qZnAlmQwd+P1V0DbSC66My4earSd9ocHa
+	4YLZMO1ITY9Xb87KrTogQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=shazbot.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794003048; d=shazbot.org;
+	mf=PGFsZXhAc2hhemJvdC5vcmc+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:RJtMBHR7HZmaDPfcvt2en+KJOE9pDNBnPqczSp1bvZX53aw
+	X1+89ZOH20XMBXOviZ8HMOJ9X5ToSZauMzQl5pfaQWC6nGrdWF9jDcl7o7aLCip6
+	BHkwpUbO9e6OCUu7fwunAMK8tFFpMBV/d4JTcnoULe6gWVEm6SFC1iuLmtbhDod0
+	YWHih3s/mJGt2MTz+g5+dbHlj5GHVdrvZfWw7RbRhX/WR+h7krsBxEyA+YfWFnl8
+	arJx3jfIfDb4Aql6UdPkGfXb09B/vTcbhDCXG+D9mutrEAjXPRgtidP3MAYgtGJm
+	SHb/GF0kUMcE0u1KI4Tzn1kEJzSTaOewa0X6k7A==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:uakpYHZNRFDsNZuJ/8u5kiVH2K39n3URm1dmZQoYTzk=:jx6GhieGqJzW+u2Qbw2RejWE42x0NhlAuL8kxBNmgcY=;
+X-ME-Sender: <xms:aFDuamkMqkGei2S1R9k1GfJOVd99MhZqFJJoZPiuU9Qj6YD2HsogIA>
+    <xme:aFDuaoowkgoHMmc1cj3qYSU1M7whBtB8u7w8Fxj28IT6cpPEAAl0TOuzzUcZ_IINF
+    RaQ5M80Vq4is70IqX5_9IFJNP6Iu_sQwharag48bwRbmL1CWNPU1g>
+X-ME-Received: <xmr:aFDuai5zOhXH7L-hw6ck12LEVnE5Xj-U-7kVxisHnU2RHy5WkF9fJzb06bIkJQ>
+X-ME-Proxy-Cause: dmFkZTF6YVreCUYhzzKLlDVeG/7YeI1VDYvZ8MjzsWdEpydaVQgMvCsQCMOJIezXFfo1ZM
+    xcwNLTI7Yq8fBZx2BpX9IyJHugdOW6C4ss+oT0iw0ZFClgtApOWdlLljryuA5JkOg6iins
+    eQloH9nrnF6xd03wnx67JDcxKiB4wxXwXta2idirSp8KRsIvc9tHK4ZU3GH68GN2oSHN3p
+    15v93jn/GdnEi3FKcDmnY4xXliG3LGd+jqSVQPp0YsRjKeCrUZqTprybumbfhYgFN10IPq
+    f7mzuyt+nfq4qWSttf8h0o1aQLAetFI+sFGgdHb8BKxDXgiVlsVpGH3VR/5fvsmOoHojf3
+    UaiPwXVxxbe5Ukgg6U4OKl/9ASvi1r0J6G0fuh2iutVvvdePH4xex2KDplCyWaJgePtyoQ
+    fS2UaQpIvmIJK7S6j2LevBzBliosWRG/qS8TR7UWfK/gS0SdFGSMEYMJ6BLhbqDmKCFKkY
+    Bn+gM/CXLCerU2kVOXQNY5b24Ze8KMcsmo6lmQcPeGADiDbXONyl+dcUmOBw7ff4Eta77T
+    hANaWJlbKGww8odVkO1HjEF6Z8NoRcN6x0PqZ/isGe47TjZRO2hgXAKZnicGSWg3BYfAO1
+    WC5CwjzPnmLLMoh2lR7anVc2rCM3cyGOql4QdJo4znkQRK6mfnatmgUWTHJQ
+X-ME-Proxy: <xmx:aFDuaqIWrqlxbGIH76Pp-LvguoNAnb3RWsK2tlZqyMeInf-_KCx2Ow>
+    <xmx:aFDuaumvXOQ2HKVievZm7Bn9ZCNMXuoFuMvSmWmdlWVPua3CWTIXQA>
+    <xmx:aFDuah-HLMUTzbhn8_btzGP2pjzgoSdZQfvcNEV5YdrzyCABIHYLVQ>
+    <xmx:aFDual5-RCURO6Vu61vYmI0-XSThO5Smg1EnN-LkR6Tu5gwaK7WiCA>
+    <xmx:aFDuaoVw8b8tKPw6wSQjgMP1sH02DPEjQ-NyUv6FXYJQ5itR3V9z_Pkb>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Nov 2026 17:10:45 -0500 (EST)
+Date: Fri, 6 Nov 2026 15:10:43 -0700
+From: Alex Williamson <alex@shazbot.org>
+To: <mhonap@nvidia.com>
+Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
+ <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
+ <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+ <dave@stgolabs.net>, <alison.schofield@intel.com>,
+ <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
+ <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
+ <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
+ <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
+ <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+ alex@shazbot.org
+Subject: Re: [PATCH v6 11/31] vfio/pci: Virtualize the CXL DVSEC in
+ vfio_pci_config.c
+Message-ID: <20261106151043.4f47679f@shazbot.org>
+In-Reply-To: <20261016161839.2765592-12-mhonap@nvidia.com>
+References: <20261016161839.2765592-1-mhonap@nvidia.com>
+	<20261016161839.2765592-12-mhonap@nvidia.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,84 +138,340 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-doc-modernize-git-v1-1-8b59c1a578ba@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/x3MMQqAMBAF0avI1i64EVJ4FbEI5hu3MJFERBTvb
- rB8xcxDBVlRaGgeyji1aIoV0jY0ry4GsPpqMp2xIp1ln2bekkeOeoODHixwkN4JrOmpdnvGotf
- /HKf3/QAr9AyCYwAAAA==
-X-Change-ID: 20261106-doc-modernize-git-1eae13a1e623
-To: corbet@lwn.net, aleszlucero@gmail.com
-Cc: rdunlap@infradead.org, krzk@kernel.org, wy@wyuan.org, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794001826; l=2295;
- i=aleszlucero@gmail.com; s=20261104; h=from:subject:message-id;
- bh=FfmGaQr2PKw9L5UvENGZLwJkaVf3M6sYK2t9mS4IA9Q=;
- b=qPWnFdIadXQLDEOV/h49Nc6q7aih2Vny04cBm74A96kxu1S48fDPvEOo4mVC4VOwOTBHtFzOC
- WI3IL+4cJxJAHlmSF3d0hcBEV43x5/eQDZwQyssZ2An4hUwRETenC/x
-X-Developer-Key: i=aleszlucero@gmail.com; a=ed25519;
- pk=zRzEBMID7l1FXqr2CjfnlIn++3m3N05FuNYb5zPA3cw=
-X-Endpoint-Received: by B4 Relay for aleszlucero@gmail.com/20261104 with
- auth_id=1410
-X-Original-From: =?utf-8?q?Oscar_Alejandro_S=C3=A1nchez_Lucero?= <aleszlucero@gmail.com>
-Reply-To: aleszlucero@gmail.com
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+On Fri, 16 Oct 2026 21:48:18 +0530
+<mhonap@nvidia.com> wrote:
 
-The applying-patches.rst document heavily details the legacy 'patch'
-utility, which creates confusion for new contributors since current
-development relies almost entirely on Git infrastructure.
+> From: Manish Honap <mhonap@nvidia.com>
+> 
+> A CXL Type-2 device is reprogrammable through its CXL DVSEC: a guest could
+> set Config Lock, toggle CXL.cache and CXL.mem enable, or rewrite the HDM
+> range registers that govern host memory decode. Virtualize the DVSEC so
+> the guest sees a shadow it cannot use to reprogram the hardware.
+> 
+> Build a per-device cxl_perm permission map, modeled on msi_perm. When
+> the device is bound through the CXL provider (e.g. vfio-cxl), the whole
+> CXL DVSEC is served from the vconfig shadow; only Control and Control2
+> are guest programmable, while Capability, Status, Lock and the Range
+> registers keep their firmware snapshot. A vendor DVSEC on the same
+> device is unaffected: the map is selected by the CXL DVSEC's range,
+> since every DVSEC has the same ID in the config map and two DVSECs can
+> be adjacent.
+> 
+> A Type-2 function bound without the provider (the provider is absent,
+> its init failed, or the extensions are disabled) gets a guard map
+> instead. The DVSEC reads from hardware, Control and Control2 stay
+> writable and the RW1C status bits stay clearable, but writes to Lock and
+> the Range registers are dropped, since they outlive the user. Initiate
+> CXL Reset uses the same doorbell; a cache write-back goes to the device.
 
-This patch updates the opening notes to explicitly mark the manual
-patching process as a legacy reference and redirects readers to
-contemporary Git-based guides.
+The guard map actually changes the device ABI.  This may be necessary,
+but if so, it should be pulled out into a Fixes: patch.  The device
+aspects that change need to be well justified.  Access to CXL reset
+without coordination is certainly not good.  Config lock has side
+effects that we may not want to deal with.  Is there value in exposing
+the CXL DVSEC at all when we're operating in vfio-pci mode?  What do we
+expect a type-2 driver does with the guarded capability?
 
-Signed-off-by: Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
----
-The applying-patches.rst document heavily details the legacy 'patch'
-utility, which creates confusion for new contributors since current
-development relies almost entirely on Git infrastructure.
-
-This series updates the introduction to explicitly mark the manual 
-patching process as a legacy reference and redirects readers to 
-contemporary Git-based guides.
-
-Thanks to Randy Dunlap, Krzysztof Kozlowski, and Weijie Yuan for 
-their initial conceptual review and support.
----
- Documentation/process/applying-patches.rst | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/process/applying-patches.rst b/Documentation/process/applying-patches.rst
-index c269f5e1a0a3..2ccd74d6dd05 100644
---- a/Documentation/process/applying-patches.rst
-+++ b/Documentation/process/applying-patches.rst
-@@ -8,8 +8,14 @@ Original by:
+Maybe the right answer is to drop it from the chain and make it
+read-only.
  
- .. note::
- 
--   This document is obsolete.  In most cases, rather than using ``patch``
--   manually, you'll almost certainly want to look at using Git instead.
-+   This document focuses on the legacy method of manually manipulating source
-+   trees using the traditional ``patch`` and ``diff`` utilities.
-+
-+   For the standard Git-based workflow used to clone the repository and work
-+   with kernel patches, please refer to Documentation/process/howto.rst.
-+
-+   The information below is maintained as a reference for constrained
-+   environments or legacy workflows where Git infrastructure is unavailable.
- 
- A frequently asked question on the Linux Kernel Mailing List is how to apply
- a patch to the kernel or, more specifically, what base kernel a patch for
+> Control2 carries the CXL reset and cache write-back-invalidate initiate
+> bits as self-clearing doorbells. With the provider, vfio never forwards
+> them to hardware, so a custom writefn synthesizes their completion in
+> the shadow: the initiate bit self-clears and the matching Status2 bit
+> (Cache Invalid or Reset Done) is set, so a guest that writes back its
+> cache (CXL r4.0 sec 9.6) and then runs CXL Reset (sec 9.7.2) progresses
+> instead of timing out. Cache Invalid is reported only while Disable
+> Caching is set, as the spec requires. The host performs the real cache
+> write-back and reset at the vfio reset points. Until a later patch in
+> this series runs the real reset from the doorbell, Initiate CXL Reset
+> completes in the shadow only.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Manish Honap <mhonap@nvidia.com>
+> ---
+>  drivers/vfio/pci/vfio_pci_config.c | 206 ++++++++++++++++++++++++++++-
+>  include/linux/vfio_pci_core.h      |   3 +
+>  2 files changed, 205 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/vfio/pci/vfio_pci_config.c b/drivers/vfio/pci/vfio_pci_config.c
+> index 9914f3ac69ae..1fc463540211 100644
+> --- a/drivers/vfio/pci/vfio_pci_config.c
+> +++ b/drivers/vfio/pci/vfio_pci_config.c
+> @@ -1747,6 +1747,194 @@ static const struct pci_device_id known_bogus_vf_intx_pin[] = {
+>   * for each area requiring emulated bits, but the array of pointers
+>   * would be comparable in size (at least for standard config space).
+>   */
 
----
-base-commit: ddfe51b0a0f5dc9e415cc2c8ad8db17532dd426b
-change-id: 20261106-doc-modernize-git-1eae13a1e623
+This comment above used to be attached to vfio_config_init() and now
+it's miles away!
 
-Best regards,
--- 
-Oscar Alejandro Sánchez Lucero <aleszlucero@gmail.com>
+> +static int vfio_cxl_dvsec_write(struct vfio_pci_core_device *vdev, int pos,
+> +				int count, struct perm_bits *perm,
+> +				int offset, __le32 val)
+> +{
+> +	u16 start = vdev->cxl_dvsec;
+> +	__le16 *pctrl2, *pstatus2;
+> +	u16 ctrl2, status2;
+> +
+> +	count = vfio_default_config_write(vdev, pos, count, perm, offset, val);
+> +	if (count < 0)
+> +		return count;
+> +
+> +	/* Only Control2 carries the self-clearing doorbells. */
+> +	if (offset > PCI_DVSEC_CXL_CTRL2 ||
+> +	    offset + count <= PCI_DVSEC_CXL_CTRL2)
+> +		return count;
+> +
+> +	pctrl2 = (__le16 *)&vdev->vconfig[start + PCI_DVSEC_CXL_CTRL2];
+> +	pstatus2 = (__le16 *)&vdev->vconfig[start + PCI_DVSEC_CXL_STATUS2];
+> +	ctrl2 = le16_to_cpu(*pctrl2);
+> +	status2 = le16_to_cpu(*pstatus2);
+> +
+> +	/*
+> +	 * INIT_CACHE_WBI and INIT_CXL_RST are self-clearing doorbells. With a
+> +	 * provider neither reaches hardware: synthesize their completion in the
+> +	 * shadow so the guest poll finishes, clearing the initiate bit and
+> +	 * setting the matching Status2 completion. Cache Invalid is set only
+> +	 * while caching is disabled and reads 0 otherwise (CXL r4.0 sec 8.1.3.5,
+> +	 * Table 8-9). Under the guard map INIT_CACHE_WBI and Cache Invalid go to
+> +	 * the device; only INIT_CXL_RST and its completion are virtualized.
+> +	 */
+> +	if (ctrl2 & PCI_DVSEC_CXL_INIT_CACHE_WBI) {
+> +		ctrl2 &= ~PCI_DVSEC_CXL_INIT_CACHE_WBI;
+> +		if (ctrl2 & PCI_DVSEC_CXL_DISABLE_CACHING)
+> +			status2 |= PCI_DVSEC_CXL_CACHE_INV;
+> +	}
+> +	if (!(ctrl2 & PCI_DVSEC_CXL_DISABLE_CACHING))
+> +		status2 &= ~PCI_DVSEC_CXL_CACHE_INV;
+> +	if (ctrl2 & PCI_DVSEC_CXL_INIT_CXL_RST) {
+> +		ctrl2 &= ~PCI_DVSEC_CXL_INIT_CXL_RST;
+> +		status2 &= ~PCI_DVSEC_CXL_RST_ERR;
+> +		status2 |= PCI_DVSEC_CXL_RST_DONE;
+> +	}
+> +
+> +	*pctrl2 = cpu_to_le16(ctrl2);
+> +	*pstatus2 = cpu_to_le16(status2);
+> +
+> +	return count;
+> +}
+> +
+> +static int init_cxl_dvsec_perm(struct perm_bits *perm, int len)
+> +{
+> +	if (alloc_perm_bits(perm, len))
+> +		return -ENOMEM;
+> +
+> +	perm->writefn = vfio_cxl_dvsec_write;
+> +
+> +	/* Serve the whole CXL DVSEC from the shadow. */
+> +	for (int i = 0; i < len; i++)
+> +		p_setb(perm, i, (u8)ALL_VIRT, NO_WRITE);
+> +
+> +	/*
+> +	 * Control and Control2 are guest programmable; Capability, Status,
+> +	 * Lock and the Range registers keep their firmware snapshot, so the
+> +	 * guest cannot set Config Lock or rewrite the capability and ranges.
+> +	 */
+> +	p_setw(perm, PCI_DVSEC_CXL_CTRL, (u16)ALL_VIRT, (u16)ALL_WRITE);
+> +	p_setw(perm, PCI_DVSEC_CXL_CTRL2, (u16)ALL_VIRT, (u16)ALL_WRITE);
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Without a CXL provider the device is bound without the CXL extensions, so
+> + * the DVSEC is read from hardware, Control and Control2 stay writable, and
+> + * the RW1C status bits in Status and Status2 (for example Viral_Status) can
+> + * still be cleared. Drop the writes whose effect outlives the user: Config
+> + * Lock and the Range registers. Initiate CXL Reset goes through the same
+> + * doorbell as with a provider, so the reset runs at a vfio reset point under
+> + * memory_lock.
+> + */
+> +static int init_cxl_dvsec_guard_perm(struct perm_bits *perm, int len)
+> +{
+> +	if (alloc_perm_bits(perm, len))
+> +		return -ENOMEM;
+> +
+> +	perm->writefn = vfio_cxl_dvsec_write;
+> +
+> +	/* Extended capability header: ID and next pointer from vconfig. */
+> +	p_setd(perm, 0, ALL_VIRT, NO_WRITE);
+> +
+> +	p_setw(perm, PCI_DVSEC_CXL_CTRL, NO_VIRT, (u16)ALL_WRITE);
+> +	p_setw(perm, PCI_DVSEC_CXL_CTRL2, PCI_DVSEC_CXL_INIT_CXL_RST,
+> +	       (u16)ALL_WRITE);
+> +	/* Status (offset 0Eh, between Control and Control2): RW1C to the device. */
+> +	p_setw(perm, PCI_DVSEC_CXL_CTRL + 2, NO_VIRT, (u16)ALL_WRITE);
+> +	p_setw(perm, PCI_DVSEC_CXL_STATUS2,
+> +	       PCI_DVSEC_CXL_RST_DONE | PCI_DVSEC_CXL_RST_ERR,
+> +	       (u16)~(PCI_DVSEC_CXL_RST_DONE | PCI_DVSEC_CXL_RST_ERR));
+> +
+> +	return 0;
+> +}
+> +
+> +/* Virtualize the CXL DVSEC so a guest cannot reprogram the device through it. */
+> +static int vfio_cxl_dvsec_init(struct vfio_pci_core_device *vdev)
+> +{
+> +	struct pci_dev *pdev = vdev->pdev;
+> +	u32 dword;
+> +	u16 dvsec, cap;
+> +	int len, ret;
+> +
+> +	dvsec = pci_find_dvsec_capability(pdev, PCI_VENDOR_ID_CXL,
+> +					  PCI_DVSEC_CXL_DEVICE);
+> +	if (!dvsec)
+> +		return 0;
+> +
+> +	ret = pci_read_config_dword(pdev, dvsec + PCI_DVSEC_HEADER1, &dword);
+> +	if (ret)
+> +		return pcibios_err_to_errno(ret);
+> +	len = PCI_DVSEC_HEADER1_LEN(dword);
+> +
+> +	/*
+> +	 * The virtualization writes fixed DVSEC offsets up to Status2 (the reset
+> +	 * doorbell stamps it). A device that reports a shorter DVSEC is not a
+> +	 * usable Type-2 function; leave its DVSEC unvirtualized rather than
+> +	 * index the device-length-sized perm allocation past its end.
+> +	 */
+> +	if (len < PCI_DVSEC_CXL_STATUS2 + 2)
+> +		return 0;
+> +
+> +	/*
+> +	 * Without a provider, guard only a CXL Type-2 function, with the same
+> +	 * test vfio-pci-core uses to load the provider.
+> +	 */
 
+Cryptic comment.  Why don't we expose vfio_pci_is_cxl_type2() and use
+it here?
+
+> +	if (!vdev->cxl_ops) {
+> +		if (!pcie_is_cxl(pdev))
+> +			return 0;
+> +		ret = pci_read_config_word(pdev, dvsec + PCI_DVSEC_CXL_CAP, &cap);
+> +		if (ret)
+> +			return pcibios_err_to_errno(ret);
+> +		if (!(cap & PCI_DVSEC_CXL_CACHE_CAPABLE) ||
+> +		    !(cap & PCI_DVSEC_CXL_MEM_CAPABLE))
+> +			return 0;
+> +	}
+> +
+> +	vdev->cxl_perm = kmalloc_obj(*vdev->cxl_perm, GFP_KERNEL_ACCOUNT);
+> +	if (!vdev->cxl_perm)
+> +		return -ENOMEM;
+> +
+> +	if (vdev->cxl_ops)
+> +		ret = init_cxl_dvsec_perm(vdev->cxl_perm, len);
+> +	else
+> +		ret = init_cxl_dvsec_guard_perm(vdev->cxl_perm, len);
+> +	if (ret) {
+> +		kfree(vdev->cxl_perm);
+> +		vdev->cxl_perm = NULL;
+> +		return ret;
+> +	}
+> +
+> +	vdev->cxl_dvsec = dvsec;
+> +	vdev->cxl_dvsec_len = len;
+> +
+> +	return 0;
+> +}
+> +
+> +static void vfio_cxl_dvsec_exit(struct vfio_pci_core_device *vdev)
+> +{
+> +	if (!vdev->cxl_perm)
+> +		return;
+> +
+> +	free_perm_bits(vdev->cxl_perm);
+> +	kfree(vdev->cxl_perm);
+> +	vdev->cxl_perm = NULL;
+> +	vdev->cxl_dvsec = 0;
+> +	vdev->cxl_dvsec_len = 0;
+> +}
+> +
+> +/*
+> + * Every DVSEC carries the same ID in pci_config_map, so vfio_find_cap_start()
+> + * can walk from one DVSEC into an adjacent one. Match the CXL DVSEC by range.
+> + */
+
+IMO, a comment is more relevant below.
+
+> +static bool vfio_cxl_dvsec_contains(struct vfio_pci_core_device *vdev,
+> +				    loff_t pos)
+> +{
+> +	return vdev->cxl_perm && pos >= vdev->cxl_dvsec &&
+> +	       pos < vdev->cxl_dvsec + vdev->cxl_dvsec_len;
+> +}
+> +
+>  int vfio_config_init(struct vfio_pci_core_device *vdev)
+>  {
+>  	struct pci_dev *pdev = vdev->pdev;
+> @@ -1842,6 +2030,10 @@ int vfio_config_init(struct vfio_pci_core_device *vdev)
+>  	if (ret)
+>  		goto out;
+>  
+> +	ret = vfio_cxl_dvsec_init(vdev);
+> +	if (ret)
+> +		goto out;
+> +
+>  	return 0;
+>  
+>  out:
+> @@ -1863,6 +2055,7 @@ void vfio_config_free(struct vfio_pci_core_device *vdev)
+>  		kfree(vdev->msi_perm);
+>  		vdev->msi_perm = NULL;
+>  	}
+> +	vfio_cxl_dvsec_exit(vdev);
+
+Teardown in opposite order of init.  Last initialized ~ first exit.
+
+>  }
+>  
+>  /*
+> @@ -1926,12 +2119,17 @@ ssize_t vfio_pci_config_rw_single(struct vfio_pci_core_device *vdev,
+>  			 * of the extended capability list.  Use default, ro
+>  			 * access, which will virtualize the id and next values.
+>  			 */
+> -			if (cap_id > PCI_EXT_CAP_ID_MAX)
+> +			cap_start = vfio_find_cap_start(vdev, *ppos);
+> +
+> +			if (cap_id > PCI_EXT_CAP_ID_MAX) {
+>  				perm = &direct_ro_perms;
+> -			else
+> +			} else if (cap_id == PCI_EXT_CAP_ID_DVSEC &&
+> +				   vfio_cxl_dvsec_contains(vdev, *ppos)) {
+> +				perm = vdev->cxl_perm;
+
+				/*
+				 * Multiple DVSECs may be back-to-back, resulting
+				 * in bogus cap_start.
+				 */
+
+Thanks,
+Alex
+
+> +				cap_start = vdev->cxl_dvsec;
+> +			} else {
+>  				perm = &ecap_perms[cap_id];
+> -
+> -			cap_start = vfio_find_cap_start(vdev, *ppos);
+> +			}
+>  		} else {
+>  			WARN_ON(cap_id > PCI_CAP_ID_MAX);
+>  
+> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
+> index 70acb03d466e..fd1ad0baf470 100644
+> --- a/include/linux/vfio_pci_core.h
+> +++ b/include/linux/vfio_pci_core.h
+> @@ -120,6 +120,9 @@ struct vfio_pci_core_device {
+>  	u8			*pci_config_map;
+>  	u8			*vconfig;
+>  	struct perm_bits	*msi_perm;
+> +	struct perm_bits	*cxl_perm;
+> +	u16			cxl_dvsec;
+> +	u16			cxl_dvsec_len;
+>  	spinlock_t		irqlock;
+>  	struct mutex		igate;
+>  	struct xarray		ctx;
 
