@@ -1,103 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793923650;
-	b=llQFGDOrCh4xAG9WFv4U8SVsRg224/ReR9qisOjQ9PjQjOx5Z5kgC6X83etTZBHYcmo0
-	 2568ZiPzavdIkS4C9yztyiTPlV1W/0HCIiaBsBEgk0FKKTtRitui9yrBbvZjqe5V5hHhM
-	 SvQ7wsjnZR5XaAEOEQZ092Wk+BehzqHLYOsjRTuQaJ1rh5o7kZ2pdcsA+y78lALjFET/c
-	 2lO4CSY3yEi6KEiZ5tmMsRBmSs2R8xgOAp5zTk+iAZRYAwvRm2BS52lwFW3aW1/wz/yrj
-	 mIbs/pPLSki2YdFedyATvFR6v4MwiKsBalKfXWZvXhp5gZujPKMLyFMevSTwyD1SRDg==
+	t=1793925778;
+	b=dlhIu82+vzUUTU0TWfR2F6SgkMPTFXv/mpbDmsSdI8l2WgjZ0ERA+5zan9clUp74yHN/
+	 gTWQnSmwo0jfAJubIYuLYC5hLQ7ZvKbCxJGiJcsoslGi1DE4A3A3vIislp1BazLjE7ySO
+	 j60fAdnQVbY45ZYBBrKcxMCOMF9oyR0+sVB78Pw3KVXdKrgwgIAr5RFvy63VfBAkz5TCq
+	 XCgYMtSpLXUtyTaAEdYC0fworJmvInq0GZW05Rtdd+Xwr63BaKJTratve5J/XjNnMgP6H
+	 gXGLUXE0CpAfTDPI3SSFVKp0BBwZIkVDpgss5dihu1TAAljaYZERfOrjjStQKgPOo0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793923650;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793925778;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=yx9qdA7I7keZZm8UafgJgTm1z4N4QlAmh4J6h6T4bZg=;
-	b=dvORdzD4lfmZJUREw9QEsGu5rtk6ELSMgPCnb6P1LH2UEW3El25pDRh6wArhSGII6SJ6
-	 rTRIn5hSt6PPGQ7AyFlTRjTw/qWxIS3gZsnvcDYUFyLx6XH0ZJ6XOpQbchU7PtSYuStLz
-	 OryfAYj6Nm9m2rDj+1Apvh/wF7ePbi6MQZXbmdNkxDzJMjOTK/gEEby5a2Q3RkfNOd5VL
-	 IBYy3DOnvwhrL8nupZrwrQuytoC8RhZ6Vlws42wJrzgT14ENtilafYtKX9B8ZQ2m1vtUk
-	 oszoAj2y1TwyEEd0nsUZwLbdYD06b2AG8kC8d0BAPXl5sdHzn1RPGCUW7N4IfzRNUTg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=j3QnOqT1bd63wcrV6KvOAip3wCLe11FN2NBTadJaa9M=;
+	b=B2o2KqJxnvJB+N+yGsYiDLCgiWx3mgtlx9QFxPoJay1Qygsdk7ABEz5BTkaeqEfdAB/9
+	 B3LowRufwLkLH56tlCJb6Y3v651LqJXn34UmSeGTVDPmx1okk+2bvv4gIV4brapNNVsd9
+	 F/SFeQ73AiSG2CGz+RS3mA5skZGZf8hgz9t0R8aidDo/lhROQvKF0BwxlSTxNjM5mXHji
+	 Hc5s2KL+Kg3EOghAonL+KDrhsiwhyZfDmoBwqgk8PSVjd8rLlsTU7WIOpvJTs4/xQh9Fk
+	 jHBN3XFVkdnLFDYXWsmbV2qTgeW93pB5H28SQG6ghKLLl498vyiCtVGBQjTyS3FOjIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EJ3orVT0;
-	arc=none smtp.remote-ip=74.125.82.52
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="hIhm9N/a";
+	arc=none smtp.remote-ip=209.85.210.72
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061E4606D814
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:07:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 061E4606D814
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DFA606A328
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:42:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89DFA606A328
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EJ3orVT0
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1ae18eb9ad0so170219c88.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:07:30 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hIhm9N/a
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-84586110393so233987a34.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:42:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793923649; x=1794528449; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yx9qdA7I7keZZm8UafgJgTm1z4N4QlAmh4J6h6T4bZg=;
-        b=EJ3orVT0lSr5+QEqDFmgmshDZGEl5+IkiNLUmMz6fPT/aQ+d4KSwj1qZwKWMftKpAm
-         +Q3R7BfT+9TbXqv47RlK+WEcrwEYwqMrNghm/xNUgWZUQDnlNfnSmPrMV0GAFQCHNbRi
-         SHQpIa3V3cxRvxR0C2cYa4sSWl4dJAsoBvBrgWV6gtDbIIrGbzGO1x0Ejl75dBlQuJej
-         ahaT1mdKuDVSS7JSoLX0cNSvN1s7ECCJIcv7ZQNUYFvEmCEPrhr6xQOy51Op+5KYkSEE
-         glgi6ji9QUjuS4qsC5lAwWTlUwGTCMzryHTDjPw63OxSEURKC+xoy/c6xpCSJ6ztfx6s
-         qKHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793923649; x=1794528449;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=google.com; s=20260707; t=1793925776; x=1794530576; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yx9qdA7I7keZZm8UafgJgTm1z4N4QlAmh4J6h6T4bZg=;
-        b=pdCwgbysMhOUu9ezYOFDmDNVRPskO44qZgJoBEb2aUudJqJr9M391dO+HuhccYxsQ4
-         qF1rvWclHoSV+3z+ers3++nP6OVD2oV92ph7oGh5LkniyBi+CCTg/21rFz7PTRgudJi6
-         p14Q71MbcJIE/dW87Q7gwi9FYHM2NFnoHTyz0mo6WyxOZoMkq2KMjFrCUuctcCcuCFCO
-         D+wIx2qGGm2cN36ooiJkXLnrjIv2Mllvejey9Y4lbujylOo4Vn/YPY8BcIlkYHczeKdx
-         PjFAvJl21m9ICtwyFFvKQ6mdkaIDcskBUuBRCtCWpiZRpKIYoEwWDmW4MlYf3M1Fl7kM
-         bKKA==
-X-Forwarded-Encrypted: i=1; AKwUvBy69qtYXpF+sMGZJwC9jPNz0WO6RNs3F8GYCbtxjndqkq76aJWpHyzIvK2vEu17dEzCoivwbshBmg8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8fv+R06S1OnXlfgviYIDhq190UkErd/Ihf55LNLpJth7wqQxU8
-	pjfBTPiNkDO8WQBqCwdetuoptUhYRa2l2/zlPWYJTNAUQdGI3QoAEvD5
-X-Gm-Gg: AYBFou3q94FtxrAZNuCgkKk6OkSEBeW7FKuL//9DPeTgqKN0EYXEfae4gTrN30P5P3E
-	ZTtrqv3rln3HV2xeTQWUV/uHhLxK2FfxG9kw93pNpE4Y4JcWnk1fu6OiUBWTZQAxUAIblXfbRkZ
-	Lu6AI1hK6ODWnLLyYLaNdZ8YzahdXvkl2/rGtiVXRt0DnvTwdVanr9m7nhM1dSrDN7RHBJQ92VX
-	4F1vzE0QMRkx0mPkMMLV4gvcYrUa+X6O9npoo1pleAcYKcAhVJX7HQ6gi5Toxg3gq0vufPXG2vv
-	KBNZrtuqEPuVgiC6wymK9Vw2rPLchLSfI7vUu9Wg3z0GCK/wH7WeY09IYdZwfXkyvs7bUYsTRFG
-	enaSXAxByE/n2aAYwyZTlL6E/xPqm1k1h5d2geLc3qEg25kxk0EhFOYJQ3qRc6qSVwFAWXLoc3N
-	Z1FLD7MYEHpOo+hzLDtyqeC7lPhr5bmyqPXVQjurqX9+1MLnStVqzplfsPbVHyqPfuCYhhaHZS0
-	DkkTwU3KGDNfbZHkUR7/CzooVmCt6T7gQon1VKbGS4l4jt+bNdPheg+mMcMrwW7PprnKXA5slnT
-	6cjA1hTF2mmHVwtp9W0bH6omHggKDU2FurCZLVc/pU5aHroa9k+jnLqlwhWNnBCyejNyBfGsMHd
-	x1yUcNujo9cJYyKx3mkhxNsSNKhEXMHU2s3I0G3uwMAVbHTQ=
-X-Received: by 2002:a05:7022:1306:b0:1b2:44b3:8ed2 with SMTP id a92af1059eb24-1b25d373302mr766303c88.42.1793923649075;
-        Thu, 05 Nov 2026 16:07:29 -0800 (PST)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4e079esm371165c88.19.2026.11.05.16.07.26
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 05 Nov 2026 16:07:28 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v18 12/12] docs: describe virtio-sound capture options
-Date: Fri,  6 Nov 2026 09:06:44 +0900
-Message-ID: <20261106000644.20460-13-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261106000644.20460-1-mynameisjune111@gmail.com>
-References: <20261106000644.20460-1-mynameisjune111@gmail.com>
+        bh=j3QnOqT1bd63wcrV6KvOAip3wCLe11FN2NBTadJaa9M=;
+        b=hIhm9N/aAW5eoDmq7Lh+66rWad9C2Y/yanhFRthBpH+FxJOk3Anrcf4Ikn9EdqX+37
+         QkBPCxiyj27NaWLe9GkMgw32gdGK4OhRxRD3/cUsG+Cmqy1Hzd3LeE0jz8MOBxu4cO0o
+         xQ7xuJuexvRhukDdaNp/qsbRbRVgIH0aMb0MLiMV+gPIeciIRr6jS4sKzfiwzl2VuIqm
+         bKn4dGwe8IqZwTiL0Pkju3zFhfSjTyG9BFs2y73iOrxtgejq3M73bkxeuPRKDPOUqsGt
+         e9DMG9Obt/9QjwWOz1msy5IFqwJlnBwY8gPPFfFfjS/kF8QoY5uU6+iDV6eAbJYGwlmi
+         yVKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793925776; x=1794530576;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=j3QnOqT1bd63wcrV6KvOAip3wCLe11FN2NBTadJaa9M=;
+        b=c8whLu2vnpbvV4Qv9xZS7IepaVBbgkILJ6eOQPvTEyy/Yn5/RdTldyalOoxuFWn2D/
+         iSSsjG2ks+vpnrl6QWsqkhStx0y38uoUwMEJMMAwZVWpy4Rk3QJBBhKCV9gTSUF3+a19
+         WW461ICDiOJGvPG+wq08jBCOX2RLyZKN1jtr79GG3PizJ7UnYdoAfDCkOr77tM94Fb/z
+         ty6vZn+iTPVh5ddM6yE1PQ5c2SSLaYAQ5L72yIpcTO5ZdpJeQgBvK4Y08jYeDA7UBKtS
+         HFSvjnlT3WqnDjtHodWZZrHmlCKtFlBGcK8zF+NyVpRaJcW9xbLxDmalHMKYDmTV5l8J
+         hzaA==
+X-Forwarded-Encrypted: i=1; AKwUvBxyXKdsFLNM+eLJ9kA3m7n6jjH+eLLLMJvijvyy4d/XzAtpZZ0fOF6lkBMJk0OMBGdB5I4lHYOBcCc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+wPJ+ej/WGBiNoLvFaIk8t1yko6RHs6VfCVNno2uZPlV9Gs0wL
+	AjH/Xiji23Xwdlc3Nw45BiHYsZTsyTi+BYVsRyDsREBdaC7pDWEEvK7cZCPVRNGpCkJd2xZIpRz
+	I6Mnv0Ea6UWY/Zg==
+X-Received: from ilmt14.prod.google.com ([2002:a05:6e02:10e:b0:50d:9814:cccb])
+ (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6808:3a0d:b0:540:5827:6d8a with SMTP id 5614622812f47-567e185afd4mr616724b6e.66.1793925776141;
+ Thu, 05 Nov 2026 16:42:56 -0800 (PST)
+Date: Fri,  6 Nov 2026 00:42:01 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,55 +75,269 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
+Message-ID: <20261106004218.604799-1-dmatlack@google.com>
+Subject: [PATCH v2 00/17] PCI: Index saved capability state by configuration
+ space offset
+From: David Matlack <dmatlack@google.com>
+To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org
+Cc: Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, David Matlack <dmatlack@google.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Lukas Wunner <lukas@wunner.de>, Mahesh J Salgaonkar <mahesh@linux.ibm.com>, Mike Rapoport <rppt@kernel.org>, 
+	"Oliver O'Halloran" <oohall@gmail.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vipin Sharma <vipinsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Document the five opt-in virtio_snd capture module parameters. State
-that capture_allow_empty, capture_allow_short, capture_packed_status and
-capture_pause_restart require capture_staging, and use the ALSA kernel
-parameter restriction tag for each entry.
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+This series can be found on GitHub:
 
----
-Documentation/admin-guide/kernel-parameters.txt |   29 +++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+  https://github.com/dmatlack/linux/tree/liveupdate/pci/savedstate/v2
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8344,6 +8344,35 @@
- 
- 			Can be used multiple times for multiple devices.
- 
-+	virtio_snd.capture_allow_empty= [HW,ALSA]
-+			Retry a bounded number of empty startup capture replies
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_allow_short= [HW,ALSA]
-+			Accept non-empty, frame-aligned short capture replies
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_packed_status= [HW,ALSA]
-+			Read status immediately after the returned capture data
-+			when virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_pause_restart= [HW,ALSA]
-+			Release and reprepare capture streams across pause when
-+			virtio_snd.capture_staging=1.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
-+	virtio_snd.capture_staging= [HW,ALSA]
-+			Enable staged capture using request-owned buffers.
-+			Format: <bool>
-+			Default: false. Validate with the target device.
-+
- 	vga=		[BOOT,X86-32] Select a particular video mode
- 			See Documentation/arch/x86/boot.rst and
- 			Documentation/admin-guide/svga.rst.
+This series replaces the per-capability save buffers with a single
+per-device store indexed by configuration space offset, lays out struct
+pci_saved_state the same way, and adds helpers for drivers to preserve
+struct pci_saved_state across a Live Update.
+
+The main motivation here is Live Update. VFIO snapshots a device's state
+with pci_store_saved_state() when the device is first opened and
+restores it with pci_load_and_free_saved_state() when it is last closed.
+A Live Update can happen in between, so VFIO needs to pass this state to
+the next kernel.
+
+This is not safe today because the layout of struct pci_saved_state is
+defined by the kernel that produced it: which capabilities get a record,
+how large each record is, and what each word in it means.  Nothing ties
+a saved value back to the register it came from, so preserving it as is
+would turn the private layout of every capability save buffer into Live
+Update ABI [1]. Indexing saved values by configuration space offset
+makes the layout a property of the hardware rather than of the kernel
+version, so it can be preserved as a bitmap of saved DWORDs plus their
+values, and the next kernel can decide per register what to restore.
+
+[1] https://lore.kernel.org/linux-pci/aukvTvnfyAvahb51@google.com/
+
+The same change also makes saving and restoring capabilities simpler
+and more robust:
+
+  - Capability save buffers were allocated at ten sites (plus one
+    hand-built by a quirk) across three phases of a device's life, and
+    four of them (AER, DPC, PTM, TPH) ignored allocation failure, so the
+    capability silently went unsaved (patch 1 fixes DPC). Now each
+    device has exactly one allocation, and its failure is reported.
+
+  - Each capability's save and restore routines had to walk the same
+    registers in the same order through a buffer cursor, and code
+    elsewhere had to know which slot held which register. Now saving is
+    a single pass over a bitmap of reserved registers, each restore
+    routine names its registers by offset, and the common logic lives
+    in one small helper library (drivers/pci/saved-caps.c).
+
+Patches 1-16 are roughly net-neutral in size. Outside of the new helper
+library (half of which is comments), this series removes about 250
+lines from the PCI core.
+
+Series Overview
+---------------
+
+This series implements the following:
+
+  1. Allocate the DPC save buffer during device setup instead of when
+     the portdrv DPC service binds, so that every capability is set up
+     in the same phase, and a reset before the service binds no longer
+     loses the DPC Control register (patch 1).
+
+  2. Add the per-device store. Capabilities reserve registers by offset
+     during device setup, and the values are allocated in one array once
+     every capability has been initialized (patch 2).
+
+  3. Lay out struct pci_saved_state as a bitmap of saved DWORDs plus
+     their values (patch 3).
+
+  4. Convert PCIe, PCI-X, LTR, L1SS, AER, PTM, TPH, DPC, ACS and VC to
+     the store, one capability at a time (patches 4-14).
+
+  5. Replace the per-capability save functions with a single pass over
+     the reservation bitmap (patch 15).
+
+  6. Remove struct pci_cap_saved_state and the code that managed it
+     (patch 16).
+
+  7. Add helpers that preserve a struct pci_saved_state in KHO memory
+     for the next kernel, which callers reference by its physical
+     address (patch 17).
+
+Design Notes
+------------
+
+  - The store only covers capability registers. The configuration space
+    header is still saved in pci_dev.saved_config_space.
+
+  - Registers are saved a DWORD at a time, since configuration space
+    reads have no side effects, but restored at their own width, since a
+    neighbouring register in the same DWORD may be RW1C (e.g.
+    PCI_EXP_DEVCTL and PCI_EXP_DEVSTA).
+
+  - struct pci_saved_state describes a device's complete saved state at
+    every commit, so a bisect landing in the middle of the series does
+    not silently lose state in pci_load_saved_state().
+
+  - PCIe capability registers are now saved with raw DWORD reads instead
+    of pcie_capability_read_word(), which returns 0 for registers the
+    device does not implement. Restore still goes through
+    pcie_capability_write_word(), which skips them.
+
+  - The reservation bitmap is embedded in struct pci_dev so that
+    reserving cannot fail. This grows struct pci_dev by 136 bytes on
+    x86_64 (2448 to 2584), which stays in the same kmalloc-4k bucket.
+    Removing the per-capability allocations, each with a 24-byte header,
+    saves 32 to 160 bytes of slab per device. The blob from
+    pci_store_saved_state() grows (e.g. from 192 to 256 bytes for a
+    typical endpoint), since it now carries a 128-byte bitmap.
+
+  - Along the way, quirk_intel_qat_vf_cap() no longer builds a PCIe save
+    buffer by hand, and pci_load_saved_state() no longer performs
+    potentially unaligned 32-bit reads of packed records.
+
+Merge Plan
+----------
+
+This series applies on top of v10 of the PCI core support for Live
+Update series [2], which is targeting Linux 7.5. This series is
+targeting Linux 7.5 as well.
+
+Both series will be merged through liveupdate.git, matching the
+agreed-upon tree in the MAINTAINERS entry for PCI LIVE UPDATE.
+
+[2] https://lore.kernel.org/linux-pci/20261013162529.1928093-1-dmatlack@google.com/
+
+Testing
+-------
+
+All patches were build-tested individually. The series was tested
+using the VFIO selftests, which reset devices many times and so exercise
+the PCI core's save and restore paths. The tests were run in a QEMU VM
+using an emulated igb device, and on bare metal using an Intel DSA
+device on an Intel server.
+
+To check that the series does not change what gets restored, every PCI
+config write made by the kernel with and without this series was traced
+in QEMU (pci_cfg_write trace event) while performing FLR, PM and VF
+resets, runtime suspend/resume under vfio-pci, and the VFIO selftests on
+an igb device below a PCIe Root Port, and while resetting a PCIe switch
+Downstream Port. The writes to all of these devices were identical. Of
+the capabilities this series touches, that setup covers PCIe and AER.
+
+The series was also build-tested on x86_64, i386, arm64 and ppc64le,
+with gcc and clang at W=1, with sparse, with CONFIG_PCI_LIVEUPDATE
+enabled and disabled, and with each of CONFIG_PCIEAER, CONFIG_PCIE_DPC,
+CONFIG_PCIE_PTM, CONFIG_PCIEASPM and CONFIG_PCI_IOV disabled.
+
+The helpers in patch 17 were tested across a Live Update selftests (not
+yet posted), extended so that the test driver preserves each device's
+struct pci_saved_state along with the device. On x86_64 and arm64 in
+QEMU, for every tested topology, the next kernel got back the state that
+was preserved, dropped a saved DWORD that it does not reserve, and
+restoring the state wrote back a register that had been changed before
+the Live Update. The full set of patches used for testing can be found
+on GitHub:
+
+  https://github.com/dmatlack/linux/tree/liveupdate/pci/savedstate/v2-test
+
+Future Work
+-----------
+
+The next version of the VFIO PCI Live Update series will use the new
+helpers to preserve the state that VFIO captures with
+pci_store_saved_state(), in place of [PATCH v6 05/27] [3]. Please see
+the PCI core Live Update Roadmap for the rest of the planned work:
+
+  https://lore.kernel.org/linux-pci/20261001232133.560284-1-dmatlack@google.com/
+
+[3] https://lore.kernel.org/linux-pci/20261102153656.1431701-6-vipinsh@google.com/
+
+Separately, the one remaining saved state allocation could be made fatal
+to device setup. pci_device_add() returns void today, so a device whose
+saved state could not be allocated is still added.
+
+AI Assistance
+-------------
+
+This series was developed with the help of an LLM-based coding
+assistant, which was used to draft code and commit messages and to
+review the series. I reviewed every change and take full responsibility
+for all of it.
+
+Changelog
+---------
+
+v2:
+ - Rebase onto v10 of the PCI core support for Live Update series, and
+   target liveupdate.git.
+ - Add patch 12 to convert the ACS save buffer added by the PCI core
+   support for Live Update series to the store.
+ - Add patch 17 with helpers to preserve struct pci_saved_state across
+   Live Update, replacing [PATCH v6 05/27] of the VFIO PCI Live Update
+   series [3] (Vipin, Bjorn).
+ - Drop the Assisted-by tags, which upstream no longer asks for, and
+   describe the use of AI tools in the cover letter instead.
+ - Add pci_saved_cap_shift() so the code reading and writing 16-bit
+   saved registers shares one shift calculation (Josh).
+ - Move the rename of pci_allocate_cap_save_buffers() to
+   pci_reserve_saved_caps() from patch 16 to patch 14, where it stops
+   allocating, and mention ACS and VC in the comment at its call site
+   (Josh).
+ - Fix inaccuracies in the commit messages of patches 2, 7 and 15
+   (Josh).
+
+v1: https://lore.kernel.org/linux-pci/20260924173501.856380-1-dmatlack@google.com/
+
+
+David Matlack (17):
+  PCI/DPC: Allocate the DPC save buffer during device setup
+  PCI: Add an offset-indexed store for saved capability registers
+  PCI: Lay out struct pci_saved_state by configuration space offset
+  PCI: Save PCIe state in the saved capability store
+  PCI: Save PCI-X state in the saved capability store
+  PCI/ASPM: Save LTR state in the saved capability store
+  PCI/ASPM: Save L1SS state in the saved capability store
+  PCI/AER: Save AER state in the saved capability store
+  PCI/PTM: Save PTM state in the saved capability store
+  PCI/TPH: Save TPH state in the saved capability store
+  PCI/DPC: Save DPC state in the saved capability store
+  PCI: Save ACS state in the saved capability store
+  PCI/VC: Split the VC Resource Control restore into a helper
+  PCI/VC: Save VC state in the saved capability store
+  PCI: Save reserved capability registers in a single pass
+  PCI: Remove the per-capability save buffers
+  PCI: liveupdate: Add helpers to preserve struct pci_saved_state
+
+ Documentation/PCI/liveupdate.rst |   3 +
+ drivers/pci/Makefile             |   3 +-
+ drivers/pci/liveupdate.c         | 133 ++++++++++-
+ drivers/pci/pci.c                | 383 +++++++++++--------------------
+ drivers/pci/pci.h                |  59 ++---
+ drivers/pci/pcie/aer.c           |  80 +++----
+ drivers/pci/pcie/aspm.c          | 111 ++++-----
+ drivers/pci/pcie/dpc.c           |  41 ++--
+ drivers/pci/pcie/ptm.c           |  42 ++--
+ drivers/pci/probe.c              |   9 +-
+ drivers/pci/quirks.c             |  30 +--
+ drivers/pci/saved-caps.c         | 308 +++++++++++++++++++++++++
+ drivers/pci/tph.c                |  68 ++----
+ drivers/pci/vc.c                 | 272 +++++++++++-----------
+ include/linux/kho/abi/pci.h      |  32 +++
+ include/linux/pci.h              |  31 ++-
+ include/linux/pci_liveupdate.h   |  23 ++
+ 17 files changed, 959 insertions(+), 669 deletions(-)
+ create mode 100644 drivers/pci/saved-caps.c
+
+
+base-commit: 312200e9211ede3f9a03cc17d094805e06e4674e
+-- 
+2.56.0.455.g6c5a503b38-goog
+
