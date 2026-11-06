@@ -1,79 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794007138;
-	b=MOB9OeC7dKMKvm37CTPWyafPPhVaMRlwMIs8gt+ef3+dCr2IiA/+Zu5ZzT9meDdA6tXN
-	 IZlNHFgumaYi9/2JVQKUixe+96CXgOwmtaOMY1Nxbm+jnpH4bvrUZkTyNBf3exP6cclAr
-	 Nq3v7870zC4wjd/rKmHiMdSoJUHuQKZZJvGtlpl45kUPhrKSTW613g/VrvNpXYFf9Gf4p
-	 nfsGXWFKbG/eFVnMeFuM/5WYTfm300SOT7gqtOEGZKeX8S3cFtNat1vr9d5fuAtc6A/dg
-	 Y4L0Q+e4JDLjeHEaG3gWMUnViBFyNd4h3k2HeierttSvrqopdL1e0oaXT/dflbRy18w==
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794007137;
+	b=YTg9EDo4PCcOi//AMHzvVcVqbGwUtOQVEEI7VK5XDpoLExbUQR7oPijGLD1nvXGbyo1Q
+	 ZENHdpSyf5mcb7431BPJ1aFZd+jRjbAC/tXhWPG8ErgyYm4sJIMYtcHBSOo93kYYqoM9O
+	 uUVPx4by/lKkAxZND0W7emvB6UVYwO793gi7fP8qrSNfXuevi9txM6KONm5De7/dZYZXk
+	 z/0eT6HI/m1AMlGNIEgUz6+ny3ZuKzUA4hqRUIQvAFIyrBUh3047vffKgrnUbtegZRI5L
+	 fXDXSiixNbaDiAGnAu+wz+6jlpSB2x0v2HiciuMlXoUvkqYsrKP0Go41BePzD/iTQrQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794007138;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794007137;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=9htfPCN6cdSCR/e9T9DouzEAf2s/d4kYozMbPEShw9I=;
-	b=M9aKxJa+kJRoywtDDjZPKvNFA0LPvUK/6uzFh0G5I3v+taisnsvdAL0u0bRX4NgXrGRb
-	 7NGya20G9ytb3eyohSlh4m9b1RWoh743CVL7an55+yCw9QP6jc75OMhjgLBj/SHokiHzN
-	 UUTvJ88kCByc4r0PkDYvPxIdQn8VSLJ8kSWGhQQHF/A1hoaI2LVcgeAq/Dul+SPkZnl03
-	 5Dru/UZhKbnnivW/3SNIGYleVN4PwZ49eglQKYhct+Qpr0VtNVYz57K/RpQFrDWNh+B9P
-	 2ysfixyMSclZem8fHPgkDEN0WP/bdB4+f9jq7JrxhosjIZLuKmPGc/Yzka98mRE30QA==
+	bh=R324iPA1nVnX6XySYR0RG10HRqpn4NvGFx/Uev8VlXg=;
+	b=Rh262s0rCdcTJjAUpFZ0vND/zBhTA+34rFiwH/AXwztqeg5sRhW4ozQme5CIZEnOnYLr
+	 ZTzsXrsLQHlNpx4YGvBQaTdNvPnU1qm+svaZdh7JrruH4YZqgKXuPwkNFlwk+rhPB73d4
+	 mQGSM+yRwF2qEdV+S07doha/sG+BkcYJdzwQNMRDAP74i6T9Bl57Wz0hEBdg7y7aEERw+
+	 0HK58h5Ca7hqbHhUmzED6AwzPpIRnKZwcXA5bSHQ6T6kGzX/8Psgkvvaii8B0VqCE340a
+	 51WBEezIfFGFlrUVJBqmv64rsavYQt+EHoYcEIUw1b1DsvYt7h4nTOVXe/zZ5Sw76Yw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QOgD07ce;
-	arc=fail smtp.remote-ip=100.103.45.18
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="H2t/+RRv";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94A95606A332;
-	Fri,  6 Nov 2026 23:18:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C98606A32D;
+	Fri,  6 Nov 2026 23:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QOgD07ce
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H2t/+RRv
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794007138;
-	b=FNMVech4CUGd1oeWwf04EJPsYQQ8Ps+Cnnne4cw1znXzt2vP43WlhpftCJn1If0OT92L
-	 onJt7MyrC/QB8FE18QzrZiBrkEBnp5K+ixYWVnOHF74bpwYh0dEobUGeowbMgtkXiY4sp
-	 S0rWlV65mBJTk6VDcoctVqepz5aVL/PMsn1sUsHdhe9tInTJy7c6wHO3Zin+gHhaRS500
-	 oh7VVUlpPlOXSCNTaa8fAxRyPyoPIbaNk0+Is9SmVG521g+J7ttrUCoqcKfIkgkGTTBUL
-	 SDKzljsD7IUYa5Um3wUQGezYDKKweJ6FgpTwoxDqajVHfVyHnDMjdGyj3NH3sy5+euw==
+	t=1794007136;
+	b=ptK3xFO6oa3+4hXmpTbMg68kVr42cz8VDb2uO0KCG9LUY2JOUBJAXT9U5Uvbhf6f39ZO
+	 6RJx53dStCvOhycp83a/1UCplXwLF16NbZcwdVRoGtma0ObAfjvvs7BFsaXLunb7CuAuj
+	 pQcaSBCuzJH36VGaT3nodMuiSfDK5qJ0QIuvODk0EXq2Skph8eYBPvEVBq3tPk2W9gnvD
+	 SEnf2IubtXeprogRnHNYcdSD1gYEXlfMEptG9Tnz3gQNt0YqEtM4qGjyovopicExLCNTN
+	 aIXk+N2IKSCAPGSJDqT2GpRVcNmuqneh7tQpOojgr5+ofFdL5PZvHOBzBq8cS9elluQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794007138;
+	c=relaxed/relaxed; t=1794007136;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=9htfPCN6cdSCR/e9T9DouzEAf2s/d4kYozMbPEShw9I=;
-	b=YBzL9N0mTWLVoEsmy/S3FRCZhWFUY9qO6RYaF/FjjKW2wavEoYnbTRCgGoOwDmmLJneF
-	 CD+CkzUbo6Y6GvpNgeKaWU7+oeiyFJcA8wlmOn0hqksl3EStwlqHTipGGI4VPqTeG8Ujs
-	 MzjkE+f9yg/D5MesIkVmr1phZm2npkCTZtXwP427T7bkVvNKRFEStRys2moK5M8Pvw4Ry
-	 FHV/D8Wi2G3JdlKiAGhhc7uQqv/truIR+g6IpdNznUIibcUd6hKYXjCgAepvp0sR5VOcd
-	 1rQ9HkrZ8LVqBCEjtiAbODLYP2gFsJjU63n1c8WN11RR98h75XCjHIj6xKrxTDmif7A==
+	bh=R324iPA1nVnX6XySYR0RG10HRqpn4NvGFx/Uev8VlXg=;
+	b=J/D2rK1lwJAgLHJX3Tn0NxijN1m+mcnOfkATBdH5bOHXnvk3bfV3Fkhlrf2R2M8Y9jOV
+	 LqqikA3SifrphrSCf2EweFUjOY4ztKvP712kIiUQcr2KhxOVk5RTUeLAsay2i+aTOFmrc
+	 zDNC3/CYdGbzIz2XcODhT39x2XLfxUYvVfCuLVflRbYd22df8EmGECGn3chlR93iYYDN7
+	 SQKNGichqaQDzv9xc1EfoTTcncM3HTo6ba2oAVv7OmwRoJiskxssXcSiClAdTN5toF3p3
+	 SuewFPXabvC1Z3Sqx+DfrBnI5efZEjSN8wQSbrGizJ6IV3RQ4JQpCeQw/UHHvOk0Zwg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 13CDC1F008BF;
-	Fri,  6 Nov 2026 23:18:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794007138;
-	bh=9htfPCN6cdSCR/e9T9DouzEAf2s/d4kYozMbPEShw9I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=QOgD07cey5k/OmoJvJ+TQdaAymbxObnDoL0jMMIlh7uJwbZooNs8P70uTElfg3SM+
-	 DDSuWodlqFDalqiEynZDB33DQ1Jhk+Fd0ntbEvd92T7mTDv0XJuMPsl7EyHyz8ZC71
-	 zWPpbe5gbbIHW8Jupz5SQG8ANotuTRv7XOuSyLFBoG9/IgkeeobB8GNbxjtncxZqqY
-	 KkOlqGAhsCEy8niq4GqaCkbwy3+E6v5cjPqRjNPDxGdcyN0qY2sFWv8qYVc0P83VwX
-	 dqlHFsHpKNkxu3K0Tb4ZxgjQtwN3AfQS5ao3lEaGBOtLUi6i19NbYs/0nRD98Rf4TD
-	 gbYeZcpUC39+Q==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 45A09478F4;
+	by smtp.kernel.org (Postfix) with ESMTPS id 6F5A21F008A3;
 	Fri,  6 Nov 2026 23:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794007136;
+	bh=R324iPA1nVnX6XySYR0RG10HRqpn4NvGFx/Uev8VlXg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=H2t/+RRvrPiMiZCRoRdSTldjoBErTzDSi2c7hWtMZYZp4WQfiwjPt0MMl6JQIscXI
+	 LtVm7047U4NDe4yuGeAvwl3mPDkmt56vlVjXgUDROTxBMO58D1C6/xYqLr1hazFrZ8
+	 PbYtbWKKtB5HSLnYdH4NbmuFZ/XxDBZtEYxvIMOv2iL8s/MyP9ms6HZmcgOhv4Ey2A
+	 UQNGH1GqKC3bKaqWGzpKab3twe6ad/si1y/65RGs4VlbgNeWXJarrwFKLtZCqnpB9j
+	 kz9OnnUssd99+AJRd9YnbB7rp74by+K87NQ1EDRh7zi6oh2mlAYznnJqGp6HgF8JfX
+	 A6hMM+BxlpMvQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id D73B3478C0;
+	Fri,  6 Nov 2026 23:18:54 +0000 (UTC)
 From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
-Date: Fri, 06 Nov 2026 15:18:53 -0800
-Subject: [PATCH net-next v10 07/11] net: phy: ncn26000: Enable enhanced
- noise immunity
+Date: Fri, 06 Nov 2026 15:18:47 -0800
+Subject: [PATCH net-next v10 01/11] dt-bindings: net: add onsemi's S2500
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,7 +83,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-s2500-mac-phy-support-v10-7-31b5a69b85b7@onsemi.com>
+Message-Id: <20261106-s2500-mac-phy-support-v10-1-31b5a69b85b7@onsemi.com>
 References: <20261106-s2500-mac-phy-support-v10-0-31b5a69b85b7@onsemi.com>
 In-Reply-To: <20261106-s2500-mac-phy-support-v10-0-31b5a69b85b7@onsemi.com>
 To: Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
@@ -106,99 +105,160 @@ Cc: Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>,
  netdev@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Jerry Ray <jerry.ray@microchip.com>, 
- Ciprian Regus <ciprian.regus@analog.com>
+ Ciprian Regus <ciprian.regus@analog.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794007133; l=2274;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794007133; l=4285;
  i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
- bh=H6tvgds7/ddZV9HUqa7vkZm5OYeOKsREFlz8wj6rwKQ=;
- b=JqZIvyUNei14ikHeZxLT24ksFs49jdB6a7APJWrMugbpxirIveaMh3+vkynk41ZYZhBnsOPbM
- KXQ4RdwxzrxBaBTosM7ts1DsCx4IExLx0uK2n3aG6Qq8/eDH/VJ1f8i
+ bh=hdOOixoEOyjlodDhMqEkzNZDkNngr5knmgPzc+o/5Uo=;
+ b=gU0ZoLCli6m8aUX0OnrCBb+e0AIq0lMiVls9heMe/s1eRscUDok5EELELjtZs/p8DI73TTOL7
+ +HhMa4Y/OrtAMuAkfDKbiSSIP+89KzM+C/Ckyj93jPclESPJ6H1w3/v
 X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
  pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
 X-Endpoint-Received: by B4 Relay for
  Selvamani.Rajagopal@onsemi.com/20260531 with auth_id=803
 X-Original-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 Reply-To: Selvamani.Rajagopal@onsemi.com
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-By setting ENI bit, noise immunity is improved and it is
-specifically meant for PLCA enabled nodes.
+Add device tree binding for the onsemi S2500 IEEE 802.3cg
+compliant Ethernet transceiver device.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+S2500 has both Media Access Controller (MAC) and 10Base-T1S
+Ethernet PHY. MAC implements 10 Mbps half duplex Ethernet
+MAC. Communication between the host and MAC-PHY is defined in
+OPEN Alliance 10BASE-T1x MACPHY Serial Interface document
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
 ---
 changes in v10
   - No change
 changes in v9
-  - Added Reviewed tag
+  - No changes
 changes in v8
-  - No change
+  - Changed the interrupt type to level triggered
+  - Added reset-gpio entry that was recently supported.
 changes in v7
-  - No change
+  - Added the missing review tag
+  - Removed the word YAML from the commit message
 changes in v6
-  - No change
+  - Moved the signed off information to the right place.
 changes in v5
-  - No changes
-changes in v4
-  - No changes
+  - no changes
+changes in v4:
+  - added spi-max-frequency as suggested by AI review
+  - changed interrupt to IRQ_TYPE_EDGE_FALLING as it is
+    being taken care in net (stable) branch
 changes in v3
-  - Moved as a separate patch
+  - Removed URL link that failed verification
+changes in v2
+  - removed spi-max-frequency entry
+  - changed the compatible string to s2500
+changes in v1
+  - Added the first version of YAML file for onsemi MAC-PHY
 ---
- drivers/net/phy/ncn26000.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/net/onnn,s2500.yaml        | 71 ++++++++++++++++++++++
+ MAINTAINERS                                        |  6 ++
+ 2 files changed, 77 insertions(+)
 
-diff --git a/drivers/net/phy/ncn26000.c b/drivers/net/phy/ncn26000.c
-index cabdd83c614f..6d433f4e2c45 100644
---- a/drivers/net/phy/ncn26000.c
-+++ b/drivers/net/phy/ncn26000.c
-@@ -35,6 +35,10 @@
+diff --git a/Documentation/devicetree/bindings/net/onnn,s2500.yaml b/Documentation/devicetree/bindings/net/onnn,s2500.yaml
+new file mode 100644
+index 000000000000..fadd656629f1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/onnn,s2500.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/onnn,s2500.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: onsemi S2500 10BASE-T1S MACPHY Ethernet Controllers
++
++maintainers:
++  - Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>
++
++description:
++  The S2500 combines a Media Access Controller (MAC) and an
++  Ethernet PHY to enable 10BASE‑T1S networks. The Ethernet Media Access
++  Controller (MAC) module implements a 10 Mbps half duplex Ethernet MAC,
++  compatible with the IEEE 802.3 standard and a 10BASE-T1S physical layer
++  transceiver integrated into the S2500. The communication between
++  the host and the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x
++  MACPHY Serial Interface (TC6).
++
++allOf:
++  - $ref: /schemas/net/ethernet-controller.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    const: onnn,s2500
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    description:
++      Interrupt from MAC-PHY asserted in the event of Receive Chunks
++      Available, Transmit Chunk Credits Available and Extended Status
++      Event.
++    maxItems: 1
++
++  reset-gpios:
++    description:
++      GPIO connected to the active-low RST_N pin of the MAC-PHY.
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 25000000
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - spi-max-frequency
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      ethernet@0 {
++        compatible = "onnn,s2500";
++        reg = <0>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&eth0_pins>;
++        interrupt-parent = <&gpio>;
++        interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
++        spi-max-frequency = <15000000>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fe23913b1e43..92053fd89bb2 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -20999,6 +20999,12 @@ S:	Supported
+ W:	http://www.onsemi.com
+ F:	drivers/net/phy/ncn*
  
- #define TO_TMR_DEFAULT			32
- 
-+#define NCN26000_REG_PHYCFG1		0x8001
-+#define NCN26000_PHYCFG1_ENI		BIT(7)
-+#define NCN26000_PHYCFG1_ENI_MASK	BIT(7)
++ONSEMI S2500 10BASE-T1S MACPHY ETHERNET DRIVER
++M:	Selva Rajagopal <selvamani.rajagopal@onsemi.com>
++L:	netdev@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/net/onnn,s2500.yaml
 +
- static int ncn26000_config_init(struct phy_device *phydev)
- {
- 	/* HW bug workaround: the default value of the PLCA TO_TIMER should be
-@@ -100,6 +104,24 @@ static int ncn26000_read_status(struct phy_device *phydev)
- 	return 0;
- }
- 
-+/* Intercept PLCA enable/disable request to
-+ * set the proprietary, ENI mode accordingly
-+ */
-+static int ncn26000_c45_plca_set_cfg(struct phy_device *phydev,
-+				     const struct phy_plca_cfg *plca_cfg)
-+{
-+	int ret = genphy_c45_plca_set_cfg(phydev, plca_cfg);
-+	u16 eni_cfg = 0;
-+
-+	if (ret || plca_cfg->enabled < 0)
-+		return ret;
-+
-+	eni_cfg = (plca_cfg->enabled) ? NCN26000_PHYCFG1_ENI : 0;
-+	return phy_modify_mmd(phydev, MDIO_MMD_VEND2,
-+			      NCN26000_REG_PHYCFG1,
-+			      NCN26000_PHYCFG1_ENI_MASK, eni_cfg);
-+}
-+
- static irqreturn_t ncn26000_handle_interrupt(struct phy_device *phydev)
- {
- 	int ret;
-@@ -151,7 +173,7 @@ static struct phy_driver ncn26000_driver[] = {
- 		.read_status		= ncn26000_read_status,
- 		.handle_interrupt       = ncn26000_handle_interrupt,
- 		.get_plca_cfg		= genphy_c45_plca_get_cfg,
--		.set_plca_cfg		= genphy_c45_plca_set_cfg,
-+		.set_plca_cfg		= ncn26000_c45_plca_set_cfg,
- 		.get_plca_status	= genphy_c45_plca_get_status,
- 		.soft_reset             = genphy_soft_reset,
- 	},
+ OP-TEE DRIVER
+ M:	Jens Wiklander <jenswi@kernel.org>
+ L:	op-tee@lists.trustedfirmware.org (moderated for non-subscribers)
 
 -- 
 2.43.0
