@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793962039;
-	b=3q3r3zA94a8xX2bt5Aw2fribRBGkEdjChbztS1yPiAe+rrJWAz3KsxWhB0JPShR57X2P
-	 hxeHaHRZIKy+NAafY6NAUUUhhDup2BrBDJFWfRSjkEsqtgHvooextIRlsd9R1LzrZ5WEM
-	 ktEElcNbyA6AiP5YNAPO7xcl7YNSHZC2SbIe5nK5BCk2HTWWgAbZc7gB+a+rR0vTNVDwy
-	 IKYfAQ8buQQJ1REW5BezwSHcoAdLmNZ5MFgPBV758Xowe2vfUeI4uANXSKy46cUHPjpcZ
-	 Qqev3+ksQ+sJaA5N9SHfM9alDFn4G5bMpazdQ1bPuBFJEHrBrmJWzZBjPgwJavlQGCw==
+	t=1793962082;
+	b=M15JmAg66IkqhGo6zIZY9bB6gKdvTebxO75Vh75mkfijjMlUfrK+Jzr36XykVPv40Wyy
+	 2r53RjKy/yf/SNScG9J6ufUP/LIFUst2ZH7HJiM5MsP5mygnS8V/3ibu4rN26HgKkpxcE
+	 2yOXkwCJYCHcSnJwNmyuxQNZqQv4nht4E1RxXSz26qT0HVsv4WC0Fk6cTlOcPcLNWJ5oa
+	 mPGdRprS8rjOavbAHQt5ROPIqvRuXpRj07pgwicTNNoGj2UzdoiuB86rqlcjHvqxCtxXA
+	 6Ey5XaFjAnt7jOQcuc/XsYut4AlgzR+rQkFKfxvM//jUqm8dYSA38gT9b8W+vU3SkJA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793962039;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793962082;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=7qFOdyeTWjgv8cvpgwW3ZlyKG1+w40IKueRFwRIEoGI=;
-	b=DhLE+uQDkypHbHkWaS86Ag2p7yN9nhJKV2ScUsXwCdGNGTEnRVhUIXPXTsqfC6DHVlEv
-	 LM+yWDa4jfH4OKYiFLhGD5UsW+ghSduYYC2AqzfB1a+IC2w3aiLNpQfeYKU/NWT4kPjTm
-	 mmmsa0NvEjjA68iqNq6i671Z9YRmHM7SDMWlfJVe0Z45v/WLa0Ijvwwc/vEktxs5hNXOb
-	 zxACCs/RdAtHxHUIMk4daVFNR5BgeK2ryeqAR+FRwngtB3bmAYcaW2XQM6p2agHfhH4M7
-	 IO8atCZdZOVF6zz14uEytzIhp2GU87NXelm0lgpmNk2SXJ2lSUJBc7iKxeiOeWxYVgw==
+	bh=163RElAlae5uQkPUGUG0Xs6XDM13x8ZXFRy0GRmNiHg=;
+	b=EiaWk388vUQk+Z0vnaf69KjqyONYQ+1Bkjge58vbGO4kzrZsaN2TSAf2XjThbaGIaLAs
+	 7ymAyVPP2ljp4hf2d/g6vLR7+oiFKdcA+rVTg4MaI6SJsK8GgdfJK6r/lg3+U5jJNP8ld
+	 CtgiT8gBPbiO018ZbMB+3S6LtNI2UI055BZkqXTsAXPwRhHzL3irDwkyGoy2zszD6F1y8
+	 E81r5xRRBAA6KUqJ2NiUGo73P+MIufVRKX7ada0TCO7/Vw0yAJZ/OBMhWcXHnyWQ0mFKG
+	 g28vaA7l0mVh52qp5mgSIcHmJcRU9OMzmtKbUS4SIUR4bq4Msj70PIVNpPUMbFK/3nw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E7wB+5qu;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JjZ76oNS;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49681606A32D
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:47:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49681606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427CD606A32D
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:48:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 427CD606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E7wB+5qu
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=JjZ76oNS
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793962038;
+	s=mimecast20190719; t=1793962081;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7qFOdyeTWjgv8cvpgwW3ZlyKG1+w40IKueRFwRIEoGI=;
-	b=E7wB+5qu5VYgFgdDqHe+FqD36YnA0IUaZLOAdTq7JzG+J9m+K70/f+2zoSYtZa2OR3BACv
-	yjo041N8XyJZeaksJE7p0ZBX6BZAnx6p4Fztsc8byBFgAqFuGqgtLQKIMxJyOtdPeSuiQS
-	aWP9wuBfeR5dznZMFwRbpfgiCwDOSkc=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	bh=163RElAlae5uQkPUGUG0Xs6XDM13x8ZXFRy0GRmNiHg=;
+	b=JjZ76oNS5fIl7PDcgqloVk3zWpyqunqxsTARERsqxkgIcw2lL6Uw9eme4kMnPRNNIYdZsM
+	XldU3JHJVa+ue4Qe09ZT2M3iQTpqWy036QOwEfhdyaBAdRS/RW9CWg6avL9S3yfEz4XMTQ
+	w6xg/fwzRC1H2kDyFia8NJYzDEpZRi0=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-505-HExB2PTUOU-p9cgwNp6QIg-1; Fri,
- 06 Nov 2026 05:47:15 -0500
-X-MC-Unique: HExB2PTUOU-p9cgwNp6QIg-1
-X-Mimecast-MFC-AGG-ID: HExB2PTUOU-p9cgwNp6QIg_1793962033
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-634-7cQwnCx5NwiEzjtXR0b5Fw-1; Fri,
+ 06 Nov 2026 05:47:56 -0500
+X-MC-Unique: 7cQwnCx5NwiEzjtXR0b5Fw-1
+X-Mimecast-MFC-AGG-ID: 7cQwnCx5NwiEzjtXR0b5Fw_1793962074
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3C34618005BA;
-	Fri,  6 Nov 2026 10:47:12 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 35FD6180061E;
+	Fri,  6 Nov 2026 10:47:54 +0000 (UTC)
 Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0BFEB1956047;
-	Fri,  6 Nov 2026 10:47:06 +0000 (UTC)
-Message-ID: <308681fb-2c07-472f-ac96-dcb70816285f@redhat.com>
-Date: Fri, 6 Nov 2026 11:47:05 +0100
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8222C187C36C;
+	Fri,  6 Nov 2026 10:47:49 +0000 (UTC)
+Message-ID: <3627c7c8-8b03-4288-9eb8-90fcf20b8730@redhat.com>
+Date: Fri, 6 Nov 2026 11:47:48 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,8 +72,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 14/14] selftests: dpll: add reference leak
- tests
+Subject: Re: [PATCH net-next v2 01/14] dpll: dpllsim: Add simulated DPLL
+ device driver
 To: Petr Oros <poros@redhat.com>, netdev@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
@@ -85,79 +85,50 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 References: <20261105151852.1844305-1-poros@redhat.com>
- <20261105151852.1844305-15-poros@redhat.com>
+ <20261105151852.1844305-2-poros@redhat.com>
 Content-Language: en-US
 From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20261105151852.1844305-15-poros@redhat.com>
+In-Reply-To: <20261105151852.1844305-2-poros@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
 On 11/5/26 16:18, Petr Oros wrote:
-> With CONFIG_DPLL_REFCNT_TRACKER the DPLL core keeps the stack traces of
-> unreleased device and pin references in debugfs. The entries do not
-> name their owner, so add library helpers that snapshot the entries
-> present before a test creates its devices and fail when an entry that
-> is not in the snapshot still holds references afterwards. An entry in
-> the snapshot belongs to an object of another driver and is ignored
-> even when its content changed, since other drivers take and drop
-> references while the tests run. A concurrent dump holds references for
-> a moment, so the check waits for the candidates to drain. Attributing
-> by name means that a leak of an earlier run goes unnoticed and that an
-> object reusing the address of a freed one from the snapshot can hide a
-> leak, which is accepted, the entries carry nothing better to go by. A
-> second run alongside would have its devices attributed to this one,
-> which is one more reason for the lock every script takes.
+> Add dpllsim, a driver providing simulated DPLL devices for testing the
+> DPLL subsystem and its userspace tooling without real hardware, in the
+> same spirit as netdevsim for network devices. The DPLL core identifies
+> a device by clock ID, index and module only, so the driver needs no bus
+> and no struct device at all.
 > 
-> Whether the tracker works is probed with a throwaway device, which has
-> to show entries while it is live and to drain them once it is deleted,
-> so that a kernel without the tracker is told apart from a broken
-> simulator and from a leak. The probe runs as the first test of the
-> stress script, which gains a final leak check, and of the new
-> dpll_reftrack.sh, which registers a device, removes it and verifies
-> that no reference survived. The snapshot file lives next to the lock
-> file under /run, for the same reason the lock file does not live in
-> /tmp. The library mounts debugfs when nothing else did, like it does
-> for configfs, and the selftest config enables the tracker together
-> with CONFIG_DEBUG_KERNEL, which it depends on, and debugfs.
+> Instances are created and configured at runtime through configfs,
+> following the gpio-sim precedent for objects that userspace creates on
+> demand. Creating a directory under/sys/kernel/config/dpllsim/ allocates
+> an instance, its clock_id attribute selects the clock ID, writing 1 to
+> live registers the DPLL device with the core and writing 0 unregisters
+> it again. Removing the directory tears a live instance down implicitly.
+> Keeping registration separate from creation lets a test register and
+> unregister the same device repeatedly, which is where the core bugs the
+> driver is meant to catch tend to live, and it allows the structural
+> attributes to be refused with EBUSY while the device is visible to
+> userspace. Unlike sysfs, configfs does not imply a stable ABI, which
+> suits a driver whose knobs exist only to drive tests.
 > 
-> Signed-off-by: Petr Oros <poros@redhat.com>
+> Reading live reports whether the device is registered with the DPLL
+> subsystem, it turns 1 only once the whole live transition succeeded and
+> 0 again as the first step of the teardown. The configuration is frozen
+> earlier, from the moment the transition obtains the device handle, so
+> that a configuration write racing with the transition is refused rather
+> than lost.
+> 
+> The device registers as a PPS type DPLL with the two mandatory callbacks
+> only. mode_get reports automatic mode and lock_status_get reports
+> unlocked with no error. Pins come with the following patches and the
+> simulation of lock acquisition with a later series.
+> 
+> Document the configfs layout under Documentation/driver-api and add a
+> MAINTAINERS entry.
+> 
+> Signed-off-by: Petr Oros<poros@redhat.com>
 
-Which dump holds a reference here?
-
-The references to a dpll_device or a dpll_pin are taken in
-dpll_device_get(), dpll_device_register(), dpll_pin_get(),
-fwnode_dpll_pin_find() and by the pin registration, in
-dpll_xa_ref_pin_add() and dpll_xa_ref_dpll_add().
-
-The netlink dump and doit handlers in drivers/dpll/dpll_netlink.c run
-under dpll_lock and do not take one.
-
-Could the sentence name what actually holds the references the check waits
-for, or be dropped if nothing does? The same sentence is in the comment
-above dpll_ref_tracker_check_leaks():
-
-[...]
-
-> diff --git a/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh b/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-> index ada10ee4394fd5..d851237bdac440 100644
-> --- a/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-> +++ b/tools/testing/selftests/drivers/net/lib/sh/dpll_lib.sh
-
-[...]
-
-> @@ -622,3 +639,212 @@ dpllsim_setup_standard_device()
-
-[...]
-> +# $1: snapshot file written by dpll_ref_tracker_snapshot before the
-> +# objects under test were created. Return 0 when no reference to an
-> +# object created since the snapshot is held any more. A concurrent dump
-> +# holds references for a moment, so wait for the candidates to drain. A
-> +# timeout means the references never drained, the candidates seen by the
-> +# last check are then printed and count as leaked.
-> +dpll_ref_tracker_check_leaks()
-[...]
-
-Thanks,
-Ivan
+Reviewed-by: Ivan Vecera <ivecera@redhat.com>
 
