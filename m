@@ -1,143 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.17
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794000532;
-	b=t6iJ7oouBudCtqLbEq8tHEZck3E9uYvEQPB5gvUC004K2739zy/vRWUAWV8jCpPee7IK
-	 +SWbuP+hAZaKqAzoocFTpwJgRtIZYKRNWM8c4j3FTgGv8YZL03FOnMLE8KKia+bUC70e6
-	 N52QsylDpLvDNgfQSPjHKLeQUs3yo4Yg74N8sAHF+Dxa0RKo0pt+WKb6p9vSvET2uUhr0
-	 bhsKKpMc5R07La0Qtch9xlXFKXvc8QR8MARSxcwC9732ffZ0RK43Ma2hBwK6vFtSFp17B
-	 UXpjaJ/f32cD1iBrvzvfbSS9i/cec6972Xwade/FXvt2OF5Ze3Y9EgHkrG3NKSgeQ3Q==
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.56.87.11
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794000601;
+	b=fFft3lL/kKZL1OHUrzt/LVeNZ0JaVv+++HtFOVfZd46CIK7RrSfzNY1X6lctlzpEK0It
+	 mmz9mTyWTtw9iHjk8fhaMOvGax6zoB90mNTuaANLan0anNE7XLn8VOKmpqO5LyAlkBi6p
+	 DkgutARU3b+9U+xD+Owr8S9hh8JxbYoMqn+jS1ffty/rUrMAYFfH7X1HHqwyszabQ3kZe
+	 SwP8BwU6r+vK+/CwuZPaQ9EQeFu9gChe1ItUuhmE4VQPkyBTi5ygu4DDvL9AOxe04HzGo
+	 26bshiWgbz+jCwD0hRR0TrxQmCuMOTSNOoxFzDRzjyK5pvbUfxE04g+/GKBHwxLN6LA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794000532;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:
-	 Content-Language:To:CC:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=XnbziwQpwOpllZpJHtq9oqnRQdtsboY2ChfTiVA7EeY=;
-	b=1hSYso19qhPfqIowQ+TYw+DNO1o/lAzykV02ogEs7Huj86oQiwcqmaXFG4QOQ8HHqWKB
-	 o4vWkqyD9e6RHV+5oCFK9cAxj/QQ2LurXN6o/0RZ8op9/Sbzp7Toq5TeA8kKsCyP8rIEo
-	 r7vCsYCDt44cqvNN/ND2or/YNWX3J4XBMykxCWgfl5uWRgmco1ZkYE3CQ0+CCs4PzeUqR
-	 vKMFX2BrKxHmp2ckopWwHfBiSgE7WT0vME1+FXmNMLMEziDR6yO5iwU76Y7b1P8ePpnnB
-	 sg8xqCqGKjT/PYnTcyxg2vVY1CWdEwtXO+hYlBwP4FpPwRuYkAr427sYshYniNkxq2g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794000601;
+	h=DMARC-Filter:DKIM-Signature:Received:DKIM-Signature:Received:Date:
+	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-Source:X-Source-Args:X-Source-Dir:
+	 X-SGantispam-id:X-AntiAbuse:AntiSpam-DLS:AntiSpam-DLSP:AntiSpam-DLSRS:
+	 AntiSpam-TS:CFBL-Address:CFBL-Feedback-ID;
+	bh=uCH0heD6adad/Xq2GD/9BLloDu46ohT1wFuHjeE10ak=;
+	b=5oQ/W7GLEfavABE1Lg3hYOD23zLE+YxiJBZhiseOAsdRMyoLHTXNQ5h4SuADHDNFEjz/
+	 LkG1/DhxU5LvFC3RzcEqzozjJ1yfUqwZX5mnAViE65l+pn2UG1UpyPpLmXopPc/s0F6Fx
+	 mk3DpWdinLXYdDyBGa09/vjNuI2swIyCQEizwCr2NOLJ9r8YPx8s+JICfqk8mrvqqSrwp
+	 +37hjj4ZC6EBqyeTkHMM0iIlYNxsQcgFwuIaI3PhEovrCuNY8mcaajtiEN71Cx2wU8OHP
+	 zo0ekzmi/Z8VXrTooe5oWECcBb7zx3tyh7b8e20KLw7UcoOUGtD2spGmn53tuQ+unUw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m7pJp0oh;
-	arc=fail smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=valla.it;
+	spf=pass smtp.mailfrom=valla.it;
+	dkim=pass header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=ItkqivsU;
+	dkim=pass header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=fT65mv3M;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=185.56.87.11
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325F2606A326;
-	Fri,  6 Nov 2026 21:28:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 325F2606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840CC606A326;
+	Fri,  6 Nov 2026 21:30:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 840CC606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m7pJp0oh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794000531; x=1825536531;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=f8vPKmN2hsig2KiDZryZA6KiySiw/9qrES3teabPPM8=;
-  b=m7pJp0ohppRwehDNoxgugClAkgRvxQsQvoOZJv+OLiSGCwaWHecf84rd
-   8ujVlkbi8ywqNcf/fo9mmKE4T89jDp82aaCmM01K2INsoMBVpLDq0i53X
-   cbdsJ3kC9BbwOQtabXn4czR2LOIfU9+CWJehDNnyLA1zphica+77f2Gxx
-   fYONishjfMhOHl/BHdfeu3zsqDzVME6RZsekVLdocUzHItPSlrlCH+7Vm
-   OJp61HpaAjfm212RBSeOURX5hGJ2sL1hkRotVv46Nbuiouc8iCuBYfwP7
-   X0To85+thX6tQw4d3bc1rMfuYqxQH3YXiDUr7AE/tjUN2DmIRorUBnzZ+
-   Q==;
-X-CSE-ConnectionGUID: URsxizlwQOSiEB2abs+qyg==
-X-CSE-MsgGUID: 6oEDLwZqQGWMucacYf0blQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2849132"
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="2849132"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:28:50 -0800
-X-CSE-ConnectionGUID: El49b9eiTJmKUXg1ALY8Qw==
-X-CSE-MsgGUID: YHzKdYCrR9ahljcogNp1HA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="9227838"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by fmviesa013.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:28:50 -0800
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Fri, 6 Nov 2026 13:28:49 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Fri, 6 Nov 2026 13:28:49 -0800
-Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.47) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Fri, 6 Nov 2026 13:28:48 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FSmQt/AX8wZZ+KvlVNjCeInbeSlAVfDlxL/vAA9F1v6stF6KjeIUcNVzIazhoFvjU3RDN3feAsalVqROZ6bh/2scnjPJbOWp/OFCdXUklLZ74SzjJbjYuHsSj52ergUdOp9/8OTKiimQX9zfymmcoyDLjfp0eH2J3yVBxyb56wP7iI6oThEyK1RPZdvSi9Ln8O5iQF+FzpDfs3pMAUSSXW8kekBvzULV/B6nVFqTCX+hbzVUY1b21iecS4pwSI1a7+4pImYsHe2AWKM6hZstGnpWKKp+cx6HQuMHRXQBSaE0+SXUJygtosjJm52Ojt944TwZzALTB9KTcgljnMmtag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XnbziwQpwOpllZpJHtq9oqnRQdtsboY2ChfTiVA7EeY=;
- b=NtKNirhTYFEiaIdP+qG2z+0RYMpg0x5CNDPRx86+5GqKu5oTa38oRVYz6W8SV+WfVV6HlypWtOXUk7Ljh4YnMfMVmJXm08sm8kTci67nnA6pEwmsveIVtjyobozfS7csYjPTcFLZIsxSzDtW+gbe4taOTbLZpNEgBO2fIffnv+mvsWs3Q9KXutXLNFdXZ++w7u65SKu1k+E/RFVwwpU8M9gaffUb/F8QEvZqUqo9O19tSVb61mxMZJw0jAd9SsNrmLvb1N1g8iYFpXkIZZTHptGSjyKL291a4J0lZHsvWPCmzAxSI8Iw+GgYjBE2gQhofUp0iRbcM75RKFPVmtMRkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CY8PR11MB7846.namprd11.prod.outlook.com (2603:10b6:930:79::14)
- by BL1PR11MB5304.namprd11.prod.outlook.com (2603:10b6:208:316::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Fri, 6 Nov 2026
- 21:28:40 +0000
-Received: from CY8PR11MB7846.namprd11.prod.outlook.com
- ([fe80::cae0:d05c:b2fc:c395]) by CY8PR11MB7846.namprd11.prod.outlook.com
- ([fe80::cae0:d05c:b2fc:c395%7]) with mapi id 15.21.0592.010; Fri, 6 Nov 2026
- 21:28:38 +0000
-Message-ID: <84f3c302-f10b-45c7-a248-49060b4e6203@intel.com>
-Date: Fri, 6 Nov 2026 13:28:35 -0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 14/28] KVM: VMX: Virtualize FRED event_data
-Content-Language: en-US
-To: Binbin Wu <binbin.wu@linux.intel.com>
-CC: <kvm@vger.kernel.org>, <x86@kernel.org>, Paolo Bonzini
-	<pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, "Jonathan
- Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Thomas
- Gleixner" <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
-	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
-	<hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Andrew Cooper
-	<andrew.cooper3@citrix.com>, Tom Lendacky <thomas.lendacky@amd.com>, "Nikunj
- A Dadhania" <nikunj@amd.com>, Shivansh Dhiman <shivansh.dhiman@amd.com>,
-	"David Woodhouse" <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>, Zhao
- Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>, David Matlack
-	<dmatlack@google.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
-References: <20260911213659.2025974-1-sohil.mehta@intel.com>
- <20260911213659.2025974-15-sohil.mehta@intel.com>
- <2afe6fcd-eadc-4f9d-bbe4-0e6449479603@linux.intel.com>
-From: Sohil Mehta <sohil.mehta@intel.com>
-In-Reply-To: <2afe6fcd-eadc-4f9d-bbe4-0e6449479603@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0199.namprd13.prod.outlook.com
- (2603:10b6:a03:2c3::24) To CY8PR11MB7846.namprd11.prod.outlook.com
- (2603:10b6:930:79::14)
+	dkim=pass (1024-bit key, unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=ItkqivsU;
+	dkim=pass (1024-bit key, unprotected) header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=fT65mv3M
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com; s=arckey; t=1794000600;
+	 b=fvXbWsPd95yfJpAGRVeJz6pHxg6a1mrrCdfeJDKSDq58D4dgG6DDeteOz9e91hwvtD1fBxrn6+
+	  B8ZA9LjhDXFv6WXjrJWhpowj0sm2ljysZ3eGbZLsI7AViXzxvHr5KlzUUK3gA1oZj38HpJaU2C
+	  ohfUpAVaV7/Gou926mL57y0A6GodFnpwcYjDxCYz0V+EU7hyMTzkFXDN3NdM1FkeCTOyv6osut
+	  vVPFIv3jMLmc82TRojaqMe/kGaCnuEco4x715AbHG5a9V1tx5XU9b1B48SC22/06NtLJZJVbDf
+	  CS7DGE5EsYhwKHXXeSd2VhtVMLb7PwEZOrDNvFthW6vt8w==;
+ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com; s=arckey; t=1794000600;
+	bh=29nzGDsPB2jHq99FxBQgRaZjFwvsIG+I8xefK5ehP2I=;
+	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:
+	  From:Date:DKIM-Signature:DKIM-Signature;
+	b=JmIS13xEfFw3vs7CcyPSQej5Hg7oT+7pRWDzFIM68ZR50+tGfjggfs2CezmsTWs1eUaeSTgzur
+	  1Wy3Pa8L9H4tseFbRrSwBPOHX9rvJ4lrH6SFdHQySJhtozUtDGYSBHiIjEYVu8JQJ0Jlk1csyl
+	  fH7EbuVZN8CGzBoyu4vrA2bg5nkShFy8IHSfncPctHLd88p17yXj5uMbUWzDTFHnVmkW+7JjOz
+	  u3ma+rLuewXyOaOZToiBE7FsrnVqyRkNQI3/rH9wMnCtWp7AiI3U8GLtemzJVYBU/LfcOlrOjj
+	  97LK+Y4+tXKvksG12ev9NSYQZ92zbNqs1qCpVFJmDtDqzg==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+	:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	List-Unsubscribe:Content-Transfer-Encoding;
+	bh=uCH0heD6adad/Xq2GD/9BLloDu46ohT1wFuHjeE10ak=; b=ItkqivsUsN88Coz18qgQDULEXK
+	yMXgI4Oq9d2tED8QiZKQ9h8yPGTkZfaO9wsfTy7WI2VIZlIUAQVNsWl7xU+2s2myv/ecYEmv2BIzj
+	/Hu7A0pIiN/ch65YHzmL07ukK05AbChefQCAPH2quYbHZIhV3noRZtB5fadxEUzlL/Oc=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
+	by instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <francesco@valla.it>)
+	id 1xPRVP-00000009h65-3nGy;
+	Fri, 06 Nov 2026 21:29:52 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+	s=default; h=Subject:Cc:To:From:Date:list-help:list-unsubscribe:
+	list-subscribe:list-post:list-owner:list-archive;
+	bh=uCH0heD6adad/Xq2GD/9BLloDu46ohT1wFuHjeE10ak=; b=fT65mv3MQqF4bVacot1ZCgUFEL
+	nsSN0sSh9tl/M+Qlal0OLEXch1IlBD28Bmtc4K1Sk1MZiZUwHNb2pN8auZLPQcNXSIX38BoTg/Vfv
+	GmlqdSPwiMdr+XAbVFFqWQdAYxYZt2i1S62A4jIhQJBszDv+XEhhHYS0PQlBUDxAvJW0=;
+Received: from [79.17.15.196] (port=63375 helo=bywater)
+	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <francesco@valla.it>)
+	id 1xPRVL-00000000D0U-01FZ;
+	Fri, 06 Nov 2026 21:29:47 +0000
+Date: Fri, 6 Nov 2026 22:29:45 +0100
+From: Francesco Valla <francesco@valla.it>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: andersson@kernel.org, mathieu.poirier@linaro.org, 
+	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC v2 08/11] Documentation: remoteproc: expand virtio
+ support section
+Message-ID: <au5GNZqGkN-0Qn84@bywater>
+References: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
+ <20261102-remoteproc_virtio_map-v2-8-26b300e01c62@valla.it>
+ <CAMAsx6dogk20pTtpGaD_Ci2fam01UuUEe3KXDTH7UVjwRBRqnw@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -147,122 +103,67 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY8PR11MB7846:EE_|BL1PR11MB5304:EE_
-X-MS-Office365-Filtering-Correlation-Id: da7552b0-61b4-49d9-02d5-08df3c4cec0c
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|10067099003|18002099003|22082099003|56012099006|11063799006|4143699003|261026140227099003|261102123227099003|261028144727099003|261021121427099003|261021123027099003|261022105027099003|261009223027099003;
-X-Microsoft-Antispam-Message-Info: TZFL2Z6Ra3mQsiJdDn+rzprlF8HrIYGP0no9gz3ZFuRnodqZqDgNpeFbiSahqILbqVogZJ4g79v3ZwOlhsSDv/sjTmRc0uGnxrDUvLeKWBPShn5xKfuXRl62Q7th0oIw9LTUNmNmqMoDJQNDbN+ghYV5ITvMzVX1rvcXJ2fCIw2205FLPNA5fLoFsReDh7X/dHve5wEbwYNKe3hKwv4DjHZvbpVjSvjaWxn7muqyrZFipo0llFvRED1EIrAzEvqblL5PrU7EmPhY/9SIQSyUuW6+vtqrhGEf6KyikyT/z9WhJxXZkWWoG5XnTKCUbcwMmJMnQgSvG2p+9wvuyEZYPR5PA3ITCNE27rfCiTmGqFzbR2Mecz4pVVhHtwsU8548g1WV9V797JBQIsOebmDYrrsQdU8WQKwK5PU7cq8Wtv6ZeNdYH9XQFmc8YgH3WKuzW8TRFlhPCyEDSWxPGzf9ME81h9PamsyMsUA65zs4IurDyA0fIUzzIzAKdJw3KPT0HwNzGkn50IPBlc1oTkAzQ2uW3Tpfn7kg1UU/ZTuVRFfgjlhPG7xpa+2RmbSsu/CqEDyRX6mwAecV+/PBNjk7j9QV+Edsugkh5fqwzvH4VgzE5CBcjoI2yKq4AZAjgg5kD+6XabNyt9551bHLHebCdcCkHk5+s6m2kO45eESnsFk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7846.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(10067099003)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003)(261026140227099003)(261102123227099003)(261028144727099003)(261021121427099003)(261021123027099003)(261022105027099003)(261009223027099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3lBb3V3eVBJcGJqdFZJQWpOdkhVL0hKaFBpUVllQ21na1lySmE3a2VFS004?=
- =?utf-8?B?QzYyWk94SGEyQlR1M0VlbHh6UVV1ZytCMS9Da0pqOWpJV084S3dFM09Ea1VZ?=
- =?utf-8?B?UnE4YWYvZHZ5YjFFUVd0SStZZUNkaFNCdzl3eXZtbnJWNkI2dWVKWWZ0QmZW?=
- =?utf-8?B?bHR6MFdzelYxekNxeHFzQzdnWExGN096bVRXdExTOGJKS2VPTkZnOTZlekt0?=
- =?utf-8?B?U3FKb1hrY3BaTjJvNjhJUUZsR01nWEdiMDI1MDhDQktRcTcwaWRzMWFqd1Ix?=
- =?utf-8?B?S3pSOFUva3RuS3FER3VtQVljVkhadGJVWmhDRlQvZ083MUw5RllWUllBLzFt?=
- =?utf-8?B?RFVpTitZR21HamJXY2xSTldQS056L0V1LzhpR1RuSTRESlVoQkJxQmpwTTQ3?=
- =?utf-8?B?YXNablVXSEpKZlNHWUdaalZSeW0wbjRLNVhQQUE5bGpWZ3ZEbUlTdFRmVC82?=
- =?utf-8?B?NXBtNUd4cjZqOTVDcWcraVlLdUFpVTNNK1Z2L3RFb2swc2xtbC80WmhGSjdy?=
- =?utf-8?B?anFUWk1zaUludnBBL2ExL0VDTS9lQ010azc2R3FscTJqcVVEbC8rLytyUXdX?=
- =?utf-8?B?OEdvSmtWRFJWOXhwTGUxNE9LRXNaTnEwM3VEMnFhQUJlY3pyMGJqTTZVdSs4?=
- =?utf-8?B?RU1ldUVOR0hhNnViaWlQbWVWYWMwT05QNnBuVnF0VEErNkhRYnB6NUhYbXgz?=
- =?utf-8?B?QXRmRzE5eFdEMDU4TERZM0c1UGErK1NyVkJXTUFLNzZTYzNGRVh6V0dZRVpO?=
- =?utf-8?B?UnpRbTcydDIxcmxoVUxjRDRWeGg0eDNLMTRYT3dhaDhwKzFWaFhyL0RtZzBH?=
- =?utf-8?B?aFk0eUlJQjVxQlI3VkNNVitnODEwWEg3ejdOMEZNVnBpV1ZUbmpIRmVIdk5R?=
- =?utf-8?B?YU1MRzdIQW9Gcm9keVVudzA5ajFpaFBNQnIxRFJUMTEvZ2krcURqMzl2SFpT?=
- =?utf-8?B?dFBjYWZGZFhTN0NWZ3pNLzNnWmVkL0t2ektoSTh1K2tCSVNWZmU4WkowbW1J?=
- =?utf-8?B?RGVCQldzWVRPbkpaT1M0SlRkUHNGU0ltTVZleHpzZGVyNFp6MVF0cC85UkpR?=
- =?utf-8?B?MXhUR0kxSDFoZjhzaEZnczNYZ1hIQzNEaEJiT1dHckpTQ0oybDV2YlRRWEJM?=
- =?utf-8?B?SjRPQm5vR3pUcVdRMTZRS3gxQlBpM2oyZUppQTlPekRoY1NvTGdHelRaYVl5?=
- =?utf-8?B?VkZMcDRnUENrVi9MUmdocVlZOUR3aklDSzVnN0dncmJQRFVSeG8zYm5sZSs5?=
- =?utf-8?B?a1NtUHdBUHlDMEVVRnpHRTRZN2t2UWlDWnBSTHp0UnNLMDgrWFdIQjNPcnUy?=
- =?utf-8?B?SFkyQmF3RU53V2hPQ0NlVWFGSExLL1NMMHdrZ0dvYXNpRXJkVVN0M3JBOHFk?=
- =?utf-8?B?V0VvMDZCWmZRMDI0V2RGL3RxZzBVblU2VzA4NWlxMzY5dllZeXQ3T011Q21u?=
- =?utf-8?B?cGFlejF4MXlKNWgvQ3dCYUljRFRyam03M3dMNCtVb2xZZnAwRlBXSXJ2UVlB?=
- =?utf-8?B?R0ZQdDFleUtYTFh2UWxvWE9oRWYxMU1YK2htSnlTekd5YkZmdXhBakhTTDdw?=
- =?utf-8?B?cmVNNFhZTzU1aVZIQVJ6eGl6NnpYS2pjMVlsM0F5U0plbHJYQ2swYU9JWVFt?=
- =?utf-8?B?eVJvOVpCT1FEcDUyU0JiWWpsNUluK1ZadlU4dGdSSkF3emZNTFhnMTJWajVm?=
- =?utf-8?B?T1dUVVdFcFhyQzJNUlVBQnhCb1dYWkNXbUlEMzM5d1FXZWZmRUFJUnZPV3U3?=
- =?utf-8?B?UFpsTVRzM3NMVENhelkvcXJ5b1Y1Skd5SVR2aDRuaFp6TEcvYktzSGJUWWhS?=
- =?utf-8?B?Sk5nR0swMmJvdUltM09jWVVKSUVQTjRiOUpmcDJ5czVZYWZORktYbENWRU5U?=
- =?utf-8?B?RlFpc2wrN1VVeENTRjFFNUZGVjd6WWdrOEN2bmhnQkpGQ2xDaWF6SXp3cmtm?=
- =?utf-8?B?WkQzdjUvdWRlYUd3N0I0dTdrMHNmdmRPVFM3KzlHbDREaG5vd2s3cHllcmdu?=
- =?utf-8?B?ZGk1bzA3KzA2dzVjbGZiVFFCaXdiK3ZlMFZSZU5YRlpGTGZSSytOVk91VERN?=
- =?utf-8?B?YnlGeHAxbzY3d2dMYVgyT0I0T0RlajlrZUY3SFdlWGh1dHRVWXZ2b0NIVHRV?=
- =?utf-8?B?ODUxcUY0VCt4elRDcVREZFhaMEhvNGZscHBoODBjcUVObmlNaFF0SldTR2pL?=
- =?utf-8?B?UDJMNmpJcFVwQ01zZzZ6QlNOMEdVUmp5TEFpdHRPTGVQRzJrbXdHNXRHSE9y?=
- =?utf-8?B?TTY2ajYzTjdRcnZpclpOemhDWmhVY2RZbHY0bHhEeFViVFpHaUJRZjdnYnlO?=
- =?utf-8?B?SjVSYU51Vkh1QSsrSnd3di9FK1pXVXU2YWxSZlBTL09JaVRFSVk1UT09?=
-X-Exchange-RoutingPolicyChecked: K+ce3hGUDEqNKxZEezHxHdte6yIQ73j9/etmAutUxBzDG+d1lc78+kRJ87q5LqQpj76akcLc9lPVF1ZAymf1cGrqgQnJn7QlPxDMtpXs4/cTNSIKTy9SAlS62BzfA1wuKn9oc3I2T7oBl7MknisASJtT7zsSI2iC3fMZnH9LgpMgRg9D9cLM0VpJMzI4r+D1KIOi541f4jYO/Kt4gEH7DAMyV6iITumDltMA+F+e30yqq/t/d3CdgxXs9HQM4lyBSWgpHB3RBoEXzvSCRAM9lo2jOxasbCoMtaKy7duJAeS7RrzaaAzW4xnzavDJalXDdlKZvg6xX8pade2RfLsngg==
-X-MS-Exchange-CrossTenant-Network-Message-Id: da7552b0-61b4-49d9-02d5-08df3c4cec0c
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7846.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 21:28:38.6382
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kyvOEHwBpqqVc5bqL0NX2Z6ciwsFQlm03W0VohmZW43EqzIB8JmfG6pvEicdP0XEGJngFB2Pz+3yQQAqsrL+kQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5304
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMAsx6dogk20pTtpGaD_Ci2fam01UuUEe3KXDTH7UVjwRBRqnw@mail.gmail.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: e01cf15abfe6fa66a811bff9bc2e1f62
+X-AntiAbuse: ID - e01cf15abfe6fa66a811bff9bc2e1f62
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1xPRVP-00000009h65-3nGy-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
 
-On 10/29/2026 3:55 AM, Binbin Wu wrote:
-> On 9/12/2026 5:36 AM, Sohil Mehta wrote:
->>  
->> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
->> index 94d684210cf6..e10ac6b280f6 100644
->> --- a/arch/x86/kvm/x86.c
->> +++ b/arch/x86/kvm/x86.c
->> @@ -431,9 +431,22 @@ void kvm_deliver_exception_payload(struct kvm_vcpu *vcpu,
+Hi Daniel,
+
+On Tue, Nov 03, 2026 at 11:15:23AM -0300, Daniel Pereira wrote:
+> On Sun, Nov 01, 2026 08:28 PM, Francesco Valla <francesco@valla.it> wrote:
+> >
+> Hi Francesco,
 > 
-> kvm_deliver_exception_payload() returns early if !ex->has_payload.
+> I only have a few language nits:
 > 
-> For example, if a #PF is injected, kvm_deliver_exception_payload() sets
-> ex->event_data to cr2.
-> Later, if a #DB without payload is queued via KVM_GUESTDBG_INJECT_DB, the
-> event_data is not updated.
-> It seems the stale #PF event_data will be write to INJECTED_EVENT_DATA and
-> delivered to #DB handler in the guest.
+> > +supplied by the remote processor should be marked as dynamically allocable,
+> 
+> "allocable" -> "allocatable".
+> 
+> > +try to allocate it using dma_alloc_coherent(), which will resort to allocate it
+> 
+> "resort to" takes a gerund: "which will resort to allocating it".
+> 
+> > +either from the first ``restricted-dma-pool`` region associated to the virtio
+> 
+> "associated to" -> "associated with". The same wording appears several
+> times in the patch (e.g. "associated to the virtio device's parent"), so
+> please fix all of them.
 > 
 
-AFAIU, if the #PF is injected, the next VM exit would call
-vm_clear_exception_queue() which would zero out the event_data. Also,
-based on commit e907b4e72488 ("KVM: x86: Check for injected exceptions
-before queuing a debug exception"), even if the exit interrupted the #PF
-delivery it shouldn't be an issue.
+All the nits will be addresed in v3.
 
-But, I agree with you in principle. kvm_multiple_exception() leaves
-event_data alone when it queues an exception, so an exception without a
-payload would inherit the old event data which makes it a little fragile.
+As you may have imagined (also considering that my email address' domain
+gives me away...) english is not my primary language, so any correction
+is more than welcome.
 
-To solidify this, I am thinking that event_data can be zeroed in
-kvm_multiple_exception() similar to how is_nested is handled. Later,
-kvm_deliver_exception_payload() can fill it from the payload.
-
->>  		 * breakpoint), it is reserved and must be zero in DR6.
->>  		 */
->>  		vcpu->arch.dr6 &= ~BIT(12);
->> +
->> +		/*
->> +		 * FRED #DB event data matches DR6, but follows the polarity of
->> +		 * VMX's pending debug exceptions, not DR6.
->> +		 */
->> +		ex->event_data = ex->payload & ~BIT(12);
->> +		break;
->> +	case NM_VECTOR:
->> +		ex->event_data = ex->payload;
->>  		break;
->>  	case PF_VECTOR:
->>  		vcpu->arch.cr2 = ex->payload;
->> +		ex->event_data = ex->payload;
->> +		break;
->> +	default:
->> +		ex->event_data = 0;
->>  		break;
->>  	}
->>  
+> Thanks,
+> Daniel
 > 
+
+Thank you!
+
+Regards,
+Francesco
 
