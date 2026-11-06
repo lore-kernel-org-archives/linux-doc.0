@@ -1,79 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.136.65.227
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.227
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793944256;
-	b=DpkFaoJQCkB4Po/8zbjcC7jtE58NSYhnEaXaMDKLkZAGDNqFiF7Yh/0B3VHVhjqNhLIc
-	 MP2uSdTGiT+i5Q8J2BEe+c3vGNawTTXyfvmY/TbXIp1vcckhat2xlfskhHREwp/dQyF+r
-	 08ExSVi9jct7LkcdkFHKtDSgiqIDSj3JA9hPdg0F+3rqZVw1d6xT/bOuv3GCTbuwJMvSi
-	 Aa3QFLSSQ9NxHIrOIrzSqBZiJMndFLy/JTEC7YHnczlAbHDZZ3/rGRrtG9Zb9C7qswaUr
-	 zUa0N2HlpuYGDAYSen9lIMgCXq6J2Q5gZCQLOfj/D5p3+s4lxkO0QuXTZ0WPX4Ab81w==
+	t=1793945689;
+	b=Kra6PsWu2+MB3V0l8L+xeay9bipCGiXV8KkByZvbANO5UwV8GRyQkN7e0J7C+V0DSi6l
+	 0ClWKFzLqaNcqHaVQkQQxV8hcn6rHn9/oCaxo15A09SXvdouNKZT2tZcwEcQtLhNvAOYG
+	 h9iSRyYYuOgsvPPd3U/srIE/jRXKhYMI4cNj4vqbh7m1euUDcHjDRbGdKg6rezwO3MRST
+	 Hv8RBNs7UX3HWSTXpDl/LEQNXwOamiz9wUsCmqUBvZOgfCka7TZ3LHJz4xZs6G7D4oeqp
+	 65/sTVV4v03HqhDRrR2tZDFD3LjXYGLnobViNOn9qzhCQH+c67CIypc7b4X7OqrpS6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793944256;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To:X-Flowmailer-Platform:Feedback-ID;
-	bh=7gsWLOgkyNbB2pZGgAc1CDd83KlICqOTlYcR5hqj6JA=;
-	b=4YpV81ZuyN5svwbFDe0qCbk1N4ZM1M8EQeUUEwKVgMdemHPAJr7KBiZ57tbD9CiHx2ow
-	 +RKm5R2roDWOmN6lUcBfudwVeZt6paGZYykNW1JNheAARfeMc15y0goH26SZ5wW1F3f1x
-	 INmixiNag+V/PtphRdISptYR9/ODXJ60VgNTP+5d9mshbH9lVPM2HkgNAqThrDG7Zmgel
-	 jGbavWI7TVV8CLQAwjS6sGCmf+i9tDYIPgt4ahg/SCzFzWs6dwsZShjHm+k5zFdyyhbGN
-	 iW7kA84wi4QkLDkHhz44vJeHQBeWdfRp7u1AXr3uGKcCwaetdVkG7uYdyOPYrRFoqjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793945689;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Received:From:
+	 To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=HTzZkQH2GhgXXoaLZg5WRDiws1C0RMwh6u5Ab2scxoE=;
+	b=NGc/FCMLrHHBI0ux1BuhOYQ8dYaScZ+cvt65kiw0ida7FICDx3o8wuboAWai9d2+/+K9
+	 pDfQct4YFNOijLZVlH7amtp2BQgtLvDM2rmNXcSUG68MMm0r/69oKwqA9V6T0/9CjO+4K
+	 Z4zta3vrjIDgQEvsOPVVO3cgVftY4ud9jgul1BHwdblqFJ6ogaTERWXdZVNoVU2BbXfUS
+	 O0qOCa6F5zMhT4deGE4eUgfe+K6jFLmxWFGGrb9e515vvL715wpMihqEnCOIW0TmnZBX8
+	 haYMkVkFchQZm8JNKkxGNy2eFbaSadDnvEc8fmZuo9uhmAg/PqmT9xwXRPj+s6kBgXA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=siemens.com;
-	spf=pass smtp.mailfrom=rts-flowmailer.siemens.com;
-	dkim=pass header.d=siemens.com header.i=meng.ding@siemens.com header.a=rsa-sha256 header.s=fm2 header.b=Vhy+fE5N;
-	arc=none smtp.remote-ip=185.136.65.227
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=I02bRVy1;
+	arc=none smtp.remote-ip=113.46.200.227
+Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26CB606A326
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 05:50:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D26CB606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=siemens.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rts-flowmailer.siemens.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD365606A32D;
+	Fri,  6 Nov 2026 06:14:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD365606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=siemens.com header.i=meng.ding@siemens.com header.a=rsa-sha256 header.s=fm2 header.b=Vhy+fE5N
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20261106055047ef9196558800020759
-        for <linux-doc@vger.kernel.org>;
-        Fri, 06 Nov 2026 06:50:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=meng.ding@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Cc:References:In-Reply-To;
- bh=7gsWLOgkyNbB2pZGgAc1CDd83KlICqOTlYcR5hqj6JA=;
- b=Vhy+fE5N/708C8u8YWz2Bor5mam+oNFzAz7pOqixsa4RCir4lKG44dr4T84YIeHZx3kpFU
- KzwXHerT3V0oQuxPMmyl6OCOXEqyk426xXAAjphnj3ikH5QPL4cLEoOFM7sE1GCy19kurF1Z
- CGcI/DJwUOCekMazOviudGBkcTYJ0sI4MVCX0MBATBOCp8dmHkK8oC22rktVi5CwBrkU2kB7
- yNZyu4jYrQljlBUZkPKJmIMwebQ98xiLpVDCGWHlgwoKmVs9DPWgr1eWFboGT7zNCdSAof5P
- 7BRqwdGB8zTMBhpKbICbT1/UFdXcO54k3UnaJXbrLFXJ3lIqZgEZRp2A==;
-Date: Fri, 6 Nov 2026 13:50:30 +0800
-From: Ding Meng <meng.ding@siemens.com>
-To: Paul Moses <p@1g4.org>
-Cc: netdev@vger.kernel.org, Willem de Bruijn
- <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek
- Kitszel <przemyslaw.kitszel@intel.com>, Steven Rostedt
- <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Richard Cochran
- <richardcochran@gmail.com>, florian.bezdeka@siemens.com,
- jan.kiszka@siemens.com, wq.wang@siemens.com, gerhard@engleder-embedded.com,
- Jason Xing <kerneljasonxing@gmail.com>, Simon Horman <horms@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Martin KaFai Lau <martin.lau@linux.dev>,
- Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri
- Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor
- Solodrai <ihor.solodrai@linux.dev>, John Fastabend
- <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-trace-kernel@vger.kernel.org,
- bpf@vger.kernel.org
-Subject: Re: [PATCH] net: mark skb NAPI IDs independently of busy polling
-Message-ID: <eqrkw7wsawjtbvjkndmpik7jryb2sau6fdsu4njw6twn2lcfp3@k67o5wav5f5m>
-References: <20261105071706.7043-1-meng.ding@siemens.com>
- <Tif4BSB0H3l8O1bLzRnhCE9hUYhsz6G3MIhQAgYZImUx1_8YwnCyzy89IV6OSTsXdHDT6fFf7rEL1qfRFJC9OPDHRlhl3cgNJyyE_mVlHWM=@1g4.org>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=I02bRVy1
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=HTzZkQH2GhgXXoaLZg5WRDiws1C0RMwh6u5Ab2scxoE=;
+	b=I02bRVy16pbooNxHM7mPn73lUeCEdvvRmMLCEU+9c7wwa2vXuD+c4kgZnCZuDe/uL1j1ev6Dl
+	yWN5yP+N0ShiRswLbH5rqZcO3ZSuT8O2t3ck4OVWJ4dG0lr0xNNpKVqxkWAl1b1MLOJH0pxVXPO
+	vF1i2uP4fpFXZcJRPaNd3aI=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4jLTRQ4q07znTV6;
+	Fri,  6 Nov 2026 14:14:42 +0800 (CST)
+Received: from dggpemr200011.china.huawei.com (unknown [7.185.36.15])
+	by mail.maildlp.com (Postfix) with ESMTPS id 74AEA40561;
+	Fri,  6 Nov 2026 14:14:40 +0800 (CST)
+Received: from whupemq100015.china.huawei.com (7.152.185.230) by
+ dggpemr200011.china.huawei.com (7.185.36.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Fri, 6 Nov 2026 14:14:40 +0800
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.38) by
+ whupemq100015.china.huawei.com (7.152.185.230) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Fri, 6 Nov 2026 14:14:37 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>, Teng Peisen
+	<tengpeisen@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei
+	<ioana.ciornei@nxp.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Mohsin Bashir <mohsin.bashr@gmail.com>, Dimitri Daskalakis
+	<dimitri.daskalakis1@gmail.com>, Harshitha Ramamurthy
+	<hramamurthy@google.com>, Larysa Zaremba <larysa.zaremba@intel.com>, "Vadim
+ Fedorenko" <vadim.fedorenko@linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>
+Subject: [PATCH net-next v01 0/4] net: hinic3: Bugfix for later patch-set.
+Date: Fri, 6 Nov 2026 14:14:27 +0800
+Message-ID: <cover.1793946318.git.gongfan1@huawei.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,230 +81,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Tif4BSB0H3l8O1bLzRnhCE9hUYhsz6G3MIhQAgYZImUx1_8YwnCyzy89IV6OSTsXdHDT6fFf7rEL1qfRFJC9OPDHRlhl3cgNJyyE_mVlHWM=@1g4.org>
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1335312:519-21489:flowmailer
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ whupemq100015.china.huawei.com (7.152.185.230)
 
-On Thu, Nov 05, 2026 at 10:29:51PM +0000, Paul Moses wrote:
-> 
-> 
-> 
-> 
-> On Thursday, November 5th, 2026 at 1:19 AM, Ding Meng <meng.ding@siemens.com> wrote:
-> 
-> > Commit 97dc7cd92ac6 ("ptp: Support late timestamp determination")
-> > added support for deferring RX timestamp conversion to
-> > ndo_get_tstamp(). When the timestamp is consumed, get_timestamp()
-> > uses the skb's NAPI ID to find the device that owns the timestamp
-> > cookie and invoke its callback.
-> > 
-> > Commit e68b6e50fa35 ("udp: enable busy polling for all sockets")
-> > gated NAPI ID bookkeeping with CONFIG_NET_RX_BUSY_POLL. As a result,
-> > when busy polling is disabled, the skb may not carry a usable NAPI ID.
-> > The device lookup then fails, so the driver callback is not invoked.
-> > get_timestamp() falls back to hwtstamp, which does not contain the
-> > converted timestamp, resulting in an incorrect RX hardware timestamp.
-> > 
-> > Record skb NAPI IDs independently of busy-poll support to support
-> > drivers that use deferred timestamp conversion and future driver
-> > features that need to look up a device by its NAPI ID.
-> > 
-> > Signed-off-by: Ding Meng <meng.ding@siemens.com>
-> > Reviewed-by: Florian Bezdeka <florian.bezdeka@siemens.com>
-> > ---
-> > In the discussion of the issue reported at
-> > https://lore.kernel.org/netdev/20260630112056.885071-1-meng.ding@siemens.com/
-> > this previous patch added an igc-specific fallback for configurations
-> > with CONFIG_NET_RX_BUSY_POLL disabled. It populated skb's hwtstamp
-> > field with a timestamp converted using the default hardware timer,
-> > allowing get_timestamp() to return it without invoking ndo_get_tstamp().
-> > But Jakub Kicinski noted that the proposed fix appeared to be a
-> > driver-specific workaround for a generic problem. The engleder driver
-> > would also be affected by the same issue.
-> > 
-> > This patch introduces a new configuration option to enable NAPI ID
-> > bookkeeping independently of busy polling. The option is enabled
-> > whenever busy polling is enabled, preserving the existing behavior.
-> > It is also selected by the igc and engleder drivers, ensuring that
-> > skbs carry a NAPI ID even when busy polling is disabled.
-> > 
-> > Another approach considered was to require drivers using deferred
-> > timestamp conversion, such as igc and engleder, to enable busy polling.
-> > However, this would introduce an unnecessary dependency between two
-> > independent features: hardware timestamp reporting should not require
-> > busy polling to be enabled.
-> > 
-> > Timestamping has been tested only with igc; it has not been tested
-> > with engleder.
-> > 
-> >  Documentation/networking/timestamping.rst | 11 ++++++++---
-> >  drivers/net/ethernet/engleder/Kconfig     |  1 +
-> >  drivers/net/ethernet/intel/Kconfig        |  1 +
-> >  include/linux/skbuff.h                    |  4 ++--
-> >  include/net/busy_poll.h                   |  2 +-
-> >  include/trace/events/net.h                |  2 +-
-> >  net/Kconfig                               |  4 ++++
-> >  net/core/filter.c                         |  2 +-
-> >  net/core/skbuff.c                         |  2 +-
-> >  9 files changed, 20 insertions(+), 9 deletions(-)
-> > 
-> > diff --git a/Documentation/networking/timestamping.rst b/Documentation/networking/timestamping.rst
-> > index 2162c4f2b28a6..dbe40a1972639 100644
-> > --- a/Documentation/networking/timestamping.rst
-> > +++ b/Documentation/networking/timestamping.rst
-> > @@ -278,9 +278,14 @@ SOF_TIMESTAMPING_OPT_PKTINFO:
-> >    packets with hardware timestamps. The message contains struct
-> >    scm_ts_pktinfo, which supplies the index of the real interface which
-> >    received the packet and its length at layer 2. A valid (non-zero)
-> > -  interface index will be returned only if CONFIG_NET_RX_BUSY_POLL is
-> > -  enabled and the driver is using NAPI. The struct contains also two
-> > -  other fields, but they are reserved and undefined.
-> > +  interface index will be returned only if CONFIG_SKB_MARK_NAPI_ID is
-> > +  enabled and the driver is using NAPI. This hidden configuration is
-> > +  selected automatically by busy-poll support and by drivers that need
-> > +  skb NAPI IDs to resolve deferred hardware timestamps. Drivers that
-> > +  use deferred timestamp conversion must select it so the networking
-> > +  stack can find the device and call its timestamp callback even when
-> > +  busy polling is disabled. The struct contains also two other fields,
-> > +  but they are reserved and undefined.
-> > 
-> >  SOF_TIMESTAMPING_OPT_TX_SWHW:
-> >    Request both hardware and software timestamps for outgoing packets
-> > diff --git a/drivers/net/ethernet/engleder/Kconfig b/drivers/net/ethernet/engleder/Kconfig
-> > index 3df6bf476ae7e..9700a243bea11 100644
-> > --- a/drivers/net/ethernet/engleder/Kconfig
-> > +++ b/drivers/net/ethernet/engleder/Kconfig
-> > @@ -22,6 +22,7 @@ config TSNEP
-> >  	depends on PTP_1588_CLOCK_OPTIONAL
-> >  	select PHYLIB
-> >  	select PAGE_POOL
-> > +	select SKB_MARK_NAPI_ID
-> >  	help
-> >  	  Support for the Engleder TSN endpoint Ethernet MAC IP Core.
-> > 
-> > diff --git a/drivers/net/ethernet/intel/Kconfig b/drivers/net/ethernet/intel/Kconfig
-> > index 780f113986ea8..7fb63f351fc20 100644
-> > --- a/drivers/net/ethernet/intel/Kconfig
-> > +++ b/drivers/net/ethernet/intel/Kconfig
-> > @@ -376,6 +376,7 @@ config IGC
-> >  	depends on PCI
-> >  	depends on PTP_1588_CLOCK_OPTIONAL
-> >  	depends on ETHTOOL_NETLINK
-> > +	select SKB_MARK_NAPI_ID
-> >  	help
-> >  	  This driver supports Intel(R) Ethernet Controller I225-LM/I225-V
-> >  	  family of adapters.
-> > diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
-> > index 6787fcf6ac3e4..164c862f7a403 100644
-> > --- a/include/linux/skbuff.h
-> > +++ b/include/linux/skbuff.h
-> > @@ -1059,7 +1059,7 @@ struct sk_buff {
-> >  			__u16	vlan_tci;
-> >  		};
-> >  	};
-> > -#if defined(CONFIG_NET_RX_BUSY_POLL) || defined(CONFIG_XPS)
-> > +#if defined(CONFIG_SKB_MARK_NAPI_ID) || defined(CONFIG_XPS)
-> >  	union {
-> >  		unsigned int	napi_id;
-> >  		unsigned int	sender_cpu;
-> > @@ -1267,7 +1267,7 @@ static inline bool skb_pkt_type_ok(u32 ptype)
-> >   */
-> >  static inline unsigned int skb_napi_id(const struct sk_buff *skb)
-> >  {
-> > -#ifdef CONFIG_NET_RX_BUSY_POLL
-> > +#ifdef CONFIG_SKB_MARK_NAPI_ID
-> >  	return skb->napi_id;
-> >  #else
-> >  	return 0;
-> > diff --git a/include/net/busy_poll.h b/include/net/busy_poll.h
-> > index 6e172d0f6ef5f..f7c0e62c6a7d7 100644
-> > --- a/include/net/busy_poll.h
-> > +++ b/include/net/busy_poll.h
-> > @@ -130,7 +130,7 @@ static inline void sk_busy_loop(struct sock *sk, int nonblock)
-> >  static inline void __skb_mark_napi_id(struct sk_buff *skb,
-> >  				      const struct gro_node *gro)
-> >  {
-> > -#ifdef CONFIG_NET_RX_BUSY_POLL
-> > +#ifdef CONFIG_SKB_MARK_NAPI_ID
-> >  	/* If the skb was already marked with a valid NAPI ID, avoid overwriting
-> >  	 * it.
-> >  	 */
-> > diff --git a/include/trace/events/net.h b/include/trace/events/net.h
-> > index dbc2c5598e35a..99ed7645242eb 100644
-> > --- a/include/trace/events/net.h
-> > +++ b/include/trace/events/net.h
-> > @@ -208,7 +208,7 @@ DECLARE_EVENT_CLASS(net_dev_rx_verbose_template,
-> > 
-> >  	TP_fast_assign(
-> >  		__assign_str(name);
-> > -#ifdef CONFIG_NET_RX_BUSY_POLL
-> > +#ifdef CONFIG_SKB_MARK_NAPI_ID
-> >  		__entry->napi_id = napi_id_valid(skb->napi_id) ?
-> >  				   skb->napi_id : 0;
-> >  #else
-> > diff --git a/net/Kconfig b/net/Kconfig
-> > index 76ab44aa439a6..8fa7586dc08ca 100644
-> > --- a/net/Kconfig
-> > +++ b/net/Kconfig
-> > @@ -346,9 +346,13 @@ config CGROUP_NET_CLASSID
-> >  	  Cgroup subsystem for use as general purpose socket classid marker that is
-> >  	  being used in cls_cgroup and for netfilter matching.
-> > 
-> > +config SKB_MARK_NAPI_ID
-> > +	bool
-> > +
-> >  config NET_RX_BUSY_POLL
-> >  	bool
-> >  	default y if !PREEMPT_RT || (PREEMPT_RT && !NETCONSOLE)
-> > +	select SKB_MARK_NAPI_ID
-> > 
-> >  config BQL
-> >  	bool
-> > diff --git a/net/core/filter.c b/net/core/filter.c
-> > index b7ac145b68b1f..e2218c18622b8 100644
-> > --- a/net/core/filter.c
-> > +++ b/net/core/filter.c
-> > @@ -10274,7 +10274,7 @@ static u32 bpf_convert_ctx_access(enum bpf_access_type type,
-> >  		break;
-> > 
-> >  	case offsetof(struct __sk_buff, napi_id):
-> > -#if defined(CONFIG_NET_RX_BUSY_POLL)
-> > +#if defined(CONFIG_SKB_MARK_NAPI_ID)
-> >  		*insn++ = BPF_LDX_MEM(BPF_W, si->dst_reg, si->src_reg,
-> >  				      bpf_target_off(struct sk_buff, napi_id, 4,
-> >  						     target_size));
-> > diff --git a/net/core/skbuff.c b/net/core/skbuff.c
-> > index eb9fcc4b1fd1a..386a32cdc0cc8 100644
-> > --- a/net/core/skbuff.c
-> > +++ b/net/core/skbuff.c
-> > @@ -1581,7 +1581,7 @@ static void __copy_skb_header(struct sk_buff *new, const struct sk_buff *old)
-> >  #ifdef CONFIG_NETWORK_SECMARK
-> >  	CHECK_SKB_FIELD(secmark);
-> >  #endif
-> > -#ifdef CONFIG_NET_RX_BUSY_POLL
-> > +#ifdef CONFIG_SKB_MARK_NAPI_ID
-> >  	CHECK_SKB_FIELD(napi_id);
-> >  #endif
-> >  #ifdef CONFIG_XPS
-> > 
-> > base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
-> > --
-> > 2.47.3
-> > 
-> > 
-> 
-> Are you sure this does not make the preexisting timestamp lifetime
-> issue more pathological? I think it needs to be fixed now as well.
-> It was the last item mentioned by Sashiko in your review if I 
-> remember correctly.
-> 
-> Paul
+This patch-set fix 4 bugs.
 
-The hardware timestamp lifetime issue may indeed exist,
-but it is independent of this patch. Even if that issus is fixed,
-we still need to obtain the netdevice from the skb, so the decoupling
-configuration introduced by this patch is still necessary.
+Fixes: Solve an LRO stall issue
+Fixes: Avoid concurrent updates on 32-bit systems.
+Fixes: Ensure secure concurrent access to adaptive_rx_coal.
+Fixes: Ensure max_qps is always greater than or equal to num_qps
 
-Ding Meng
+https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1791858167.git.gongfan1%40huawei.com
+
+This changes the return value when the loop exits on the LRO
+replenish threshold. It used to return nr_pkts and now returns budget.
+In hinic3_poll():
+        work_done = hinic3_rx_poll(irq_cfg->rxq, budget);
+        busy |= work_done >= budget;
+        if (busy)
+                return budget;
+As a result, the threshold exit now skips napi_complete_done(),
+hinic3_net_dim() and the MSI-X re-enable. NAPI keeps polling instead
+of waiting for the next interrupt.
+This seems unrelated to statistics, and the commit message does not
+mention it. Was it intended? If it fixes an LRO stall, could it go in
+a separate patch with its own explanation and a Fixes: tag?
+
+https://sashiko.dev/#/patchset/cover.1792149958.git.gongfan1%40huawei.com
+
+In hinic3_get_stats64() in hinic3_netdev_ops.c, the reader retry loops
+accumulate txq_stats and rxq_stats using '+=':
+    do {
+        start = u64_stats_fetch_begin(&txq_stats->syncp);
+        bytes += txq_stats->bytes;
+        ...
+    } while (u64_stats_fetch_retry(&txq_stats->syncp, start));
+If the loop retries due to concurrent updates on 32-bit systems, the counters
+are added multiple times. This was previously benign since the fields weren't
+populated by the driver, but these new updates will cause incorrect statistics
+on 32-bit platforms.
+
+https://sashiko.dev/#/patchset/cover.1774684571.git.zhuyikai1%40h-partners.com
+
+When disabling adaptive RX coalescing via ethtool, does the driver
+cancel any pending Dynamic Interrupt Moderation (DIM) work items?
+If adaptive coalescing is disabled but an already-scheduled DIM worker
+executes asynchronously in a workqueue, could it blindly apply dynamically
+calculated DIM values to the hardware, silently overwriting the user's newly
+configured static parameters?
+
+https://sashiko.dev/#/patchset/cover.1792671176.git.gongfan1%40huawei.com
+https://netdev-ai.bots.linux.dev/sashiko/#/patchset/cover.1792671176.git.gongfan1%40huawei.com
+
+After that, hinic3_sw_init()->hinic3_try_to_enable_rss() can shrink
+max_qps to 1 when alloc_rss_resource() or hinic3_set_hw_rss_parameters()
+fails:
+hinic3_rss.c:hinic3_try_to_enable_rss() {
+    ...
+    err = alloc_rss_resource(netdev);
+    if (err) {
+        nic_dev->max_qps = 1;
+        goto err_reset_q_params;
+    }
+    ...
+}
+Only hinic3_vport_up() lowers real_num_*_queues, and only on a successful
+open. A device-scope dump before the first successful open (or after opens
+that fail before hinic3_vport_up()) still does this:
+netdev_nl_stats_by_netdev()
+    netdev_stat_queue_sum(netdev, 0, netdev->real_num_rx_queues, &rx_sum,
+                          0, netdev->real_num_tx_queues, &tx_sum);
+There is no netdev->up check on this path, so i runs from 1 to
+func_max_qnum - 1 against a one-entry array.
+Would this read past the end of the rxqs and txqs slab objects and return
+those values to user space? NETDEV_CMD_QSTATS_GET does not require
+GENL_ADMIN_PERM, so any local user can issue it.
+The same applies to nic_dev->txqs[i] in hinic3_get_queue_stats_tx().
+Before this patch hinic3 had no stat_ops, and hinic3_get_stats64() bounds
+its loops by max_qps.
+
+Fan Gong (4):
+  Fixes: Solve an LRO stall issue
+  Fixes: Avoid concurrent updates on 32-bit systems.
+  Fixes: Ensure secure concurrent access to adaptive_rx_coal.
+  Fixes: Ensure max_qps is always greater than or equal to num_qps
+
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |  2 +-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |  2 +-
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 59 +++++++++----------
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 11 ++--
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    |  7 ++-
+ 5 files changed, 39 insertions(+), 42 deletions(-)
+
+
+base-commit: 73022f605c447f31610b94ed4a983d2b4bf2c721
+-- 
+2.43.0
+
