@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793925798;
-	b=A2ga9STLApCb0GHVFklxSqksnxXThxm0V12QBJd0kzW1N1g0zRmIAJ037y890+HHGMrd
-	 t97+cusxIptleKhPxMmFz3XwaJ/Df94G/+ZSLGBYk6heLmC8ZgZ+HI3sI4xyOukQ+pvEI
-	 d0LUykpIEUGIkWPVlzt3xDWzoT+PoxRuWuVE9H6tSzQKnkDUkh3y5whxNXVAJCnO/ebyX
-	 PtTaHtPuEv2uBxt9suawPjAxB/qaep67HZ7oxCiGHyxBhlO521CcMRuMU1X5iurGnJk7i
-	 E0AQPAkE0o/gyEWu5bcFaTfYzlHMrz/Nmpc7KdzPHxuc0TrlSCTvO3mP7cLKjTeYNUw==
+	t=1793925794;
+	b=usgIP1p4cx9iBp7bzhPFW9Q9lE7uQgQwelmubrNIzbmFqxX+W3MEpPv4/F71Gg8dRFIA
+	 uLcL2Wn3Vc7BYx2MyEeqqcwp89Ndp6tkRlFsv763n5FeyKo1dWPYLuawUEa3gVYOF/y9b
+	 VzaTxxUR2KVZi7/asXy9nmlO806HnSP7l6+ClEinJYjE6TtozM/XihPg/3JlJlMoD+YWp
+	 okrGj4JpS8YEVP4REI/uRnELtYf2khbfvrufxWVSTl2Ue092BCIFLypOBPARkOa6p6KDW
+	 pX49OF2UHw9ZGVxJEOR8jl6EglewY/3zsZLfsr0uqC0TBPhV2qFpOVbnA2j6KdcmXvw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793925798;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793925794;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=jjSXIgXOyhHFXs7xglb6RCi5mzea7rcfoR/tpBA6uG4=;
-	b=Wd2gFL8R95L57wQGF46nklEptjDKDHyo4vJB8NeS+RnXk2o/IHBouPTHOl2M0OvkOzsy
-	 VkUXSD9mb0lFd8lZXSuGtgvZJ98rI+h/UYG9bThiXo/IJ1MAnNmlRyQ6b2qm+GGY4+IsX
-	 aatPc9BvOJ+ATDye3cTqnFthwPMw8e5rQzOlEPvQojk/tUuTDC2GS//JDXopvN5Oomnsd
-	 2gC1wbAqybdYFlyUN0YlMfQ5Lkw0/ehCVNWhPI/bTsqVwd1jGIT1YwBFZsifs4y3cBrmL
-	 HM838aLGfCgRKigVJJSLaNZzj8c/TENrc4hrRUUCli3/YaEHI5ucszG0j2aLBGpQ5jA==
+	bh=Ko9lBiZy6mSuKQIVTlOLgBpFZr5J5ifQKI8Or80My08=;
+	b=k9tg0JQB0SXGeQteC2fwBnPWoBr6LYb89G1YoIalqAkrwFSm41VAFRg5kG6eJg2KrlWo
+	 1rBWrAgbB8cSxo0XVGPCHXEqd8MeQ8NvSjgPLWaUglaWzCb5id/KRBXACn8HnnMouOPGW
+	 FfA5/TAIL+s8rd8DmandHJDKujt7egrscEXvoJK2ypdETcbSNo2tZmMQGJJ5+I6IZWnTe
+	 I8ahHM9C/XoDSczSoSQJoxbQ28G0hvK4Y4K7nctOYo+X03G+QeaaJFRbGd/VJaFRvslCx
+	 T8ZWbuoi1XD5fbbHH8EzS/62R1l62pQQPOgL5VOCLxUDq5seEzIgMb7DkHc/1YFeykw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=TCHTaSLD;
-	arc=none smtp.remote-ip=209.85.210.70
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=dMLuccPY;
+	arc=none smtp.remote-ip=209.85.167.199
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6616082BD0
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:43:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E6616082BD0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12625606EE82
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:43:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12625606EE82
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=TCHTaSLD
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-85c6a056128so157934a34.3
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:43:17 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=dMLuccPY
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-5640a2d9708so91754b6e.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:43:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793925797; x=1794530597; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793925793; x=1794530593; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=jjSXIgXOyhHFXs7xglb6RCi5mzea7rcfoR/tpBA6uG4=;
-        b=TCHTaSLDTMhg1F7OkjS+TS2DSNVLTYo0hDZFR8GavFaZ1LJNZ0B7t7eRxMNaydfNgL
-         uKJGOfn2lhOgbo5sK8b7AnPRaDIOx9FooA2ll8Ce9FI3EXiZI3ks28IqmPZ8U/LxxsFF
-         NxOoLayovGPEi9W+EPCrxlJMJ+WJ9sOMnLihG1IFpUgdiWXwYHNTrbBhnZQx9u9B71Ee
-         v6cKVE/ZORVLlT81wrXr+wCOKEPrFCq33z4s0oJ5qhf17cPejQY9S6L8UEHtuHJ2STTu
-         C+b2U0uAhDG/uTp0Z3R28V5Vj4qc9gBSuwbMlo9b4dWayrPl0KyLndQ3inyVPB2F4yZZ
-         zLyw==
+        bh=Ko9lBiZy6mSuKQIVTlOLgBpFZr5J5ifQKI8Or80My08=;
+        b=dMLuccPYt2as19f9gKIoyHFm4EQ53K5zyjyxoBEtNOOC3rg27vHMGIiJVFDF7QV2gY
+         62JhU0GHW5T1GDNJgNneDXX5ACBr9bKUpwQVGXLuMPgM6rfhSLMMakBSbXiWuVeMJwjY
+         WU7CL5ucp/JMsaslIE4CdZ/50ADTpTWcHjdalPHlHYPVWNaWdNV/BUmol1ahM7C1xgBv
+         6lZ65/t2gF3J5OiJLSBy7Bg+Mu4eHCguuj8Rn6lH1w+gCK6R/TYe1Y7aw5lzQ45Bu9ed
+         GNHGCLSP5NSGKEHKf+BZId/NdQ51tQcZri/ROeZbcfYk0tSCamdL+Y0Am3bhRxf/6ogX
+         4t6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793925797; x=1794530597;
+        d=1e100.net; s=20260707; t=1793925793; x=1794530593;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jjSXIgXOyhHFXs7xglb6RCi5mzea7rcfoR/tpBA6uG4=;
-        b=1YLfrMmlW8OWnLwNm+bTpxABA9lUS2vTQj5VPaWWmCptCfatTyllP5KOjjY9jSEk/v
-         voXFzMBJLHPBgmJfNAZnQsoL9rnj4VrlyPyFHecVwpdBDftEIvNS7YLBQXGdhcRyog2y
-         hFDZBglPxoL3RHvBf9tTX7h1X8H6txzlW+tnX3i18TJkvJyXgq2yu70Wgm7KuRBaDHmE
-         EimFrf1zsqOAxzpONUeOif3ajxRTm4unNBuIUOXlSa32B3BtGU/5TkqBEBXOlJZ8CKw4
-         lhkL2xkgqZPCfAOjZMw8k7Tu3Dnb5OSLXuQjZvcXbAZDzGB+bpMKjWtQZHwIGK7YQ7xo
-         UGIA==
-X-Forwarded-Encrypted: i=1; AKwUvBzYvwHqKJE6mYSUPA0VI1tv7fKsvLlRQw7FjMvjoLKNqerP4a0eMXR1aH1IFIqN4k8TaUJLCTUw4P0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+6EvQTYsYay2ijSVgZLYIx3qbPlYvuc/T95We8S0qr6mOguB3O
-	+VxtcXZz9wAmLpjMJ/nnfCUoFDyvTNRVq48hgv7NsP8M5YQ+FBYv5iy0KUfr38lnazgmDB12D0v
-	5i1xKgYQdT1HeqQ==
-X-Received: from ioy12.prod.google.com ([2002:a05:6602:a10c:b0:9e0:f441:f5dd])
+        bh=Ko9lBiZy6mSuKQIVTlOLgBpFZr5J5ifQKI8Or80My08=;
+        b=JJ0vptzvbSb8oQZgss6D3pC50GjuQGbxKTYn6non2qVXKnsIWCN6DdCTDSZUsmuux7
+         couGz+gf46DzEiODIRejN17vqF/JRbFyriHJnRuHyTWIXWcT7nyHhpK7yJC11ejuKTo6
+         elflqsJfkGMnVLmv9oYTGA0YOlCqR/Uox7u8yPsrzba9WilY2E8Dhe2d+T0Z75BUfUyp
+         WZmx24XqOA6TRSEPCpHwDCvJRogXx3zP7+k8j1cmfc4DimtvTPUUPG5ZEFya3loFqyTw
+         RKfKjIsf0hACTV7xze9rgCVnoCM9XECsB9druyLwro/+E0n1S8QjerutP9Pxnya0CQNX
+         x5tQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzEbTUIYiJ+vVAzjoDbxFPzi8QpCsu4iTLrEDK2eeeBrjXiyg4PWq1g34z1mO2LnBggY8/NEdvDPx8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/FFHDX6Ey7XE1K5mdFHhq90K8oUjJP4fHUR24gj+SH7HASq2XX
+	TCzhvvsYPX7N/ZDuBaYODlamAUrHyDAMbIP7DBIRyl1D90AuLFAKXdogzUneqmCAreX0Y4kg8eN
+	RZ5wCcXYMyyKbPQ==
+X-Received: from iobgs6.prod.google.com ([2002:a05:6602:4fc6:b0:9c7:69c7:3d52])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:6f89:b0:4f6:5279:5c89 with SMTP id 5614622812f47-567e15b703bmr658717b6e.47.1793925796333;
- Thu, 05 Nov 2026 16:43:16 -0800 (PST)
-Date: Fri,  6 Nov 2026 00:42:17 +0000
+ 2002:a05:6808:5087:b0:4f4:857c:98ae with SMTP id 5614622812f47-567e0faea86mr686749b6e.11.1793925792669;
+ Thu, 05 Nov 2026 16:43:12 -0800 (PST)
+Date: Fri,  6 Nov 2026 00:42:14 +0000
 In-Reply-To: <20261106004218.604799-1-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261106004218.604799-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261106004218.604799-17-dmatlack@google.com>
-Subject: [PATCH v2 16/17] PCI: Remove the per-capability save buffers
+Message-ID: <20261106004218.604799-14-dmatlack@google.com>
+Subject: [PATCH v2 13/17] PCI/VC: Split the VC Resource Control restore into a helper
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
@@ -97,292 +97,92 @@ Cc: Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>,
 	Vipin Sharma <vipinsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Delete struct pci_cap_saved_state, struct pci_cap_saved_data,
-pci_dev.saved_cap_space and the helpers that managed them. Every capability
-now saves its registers in the offset-indexed capability store, so nothing
-is left to find, allocate or free.
+Move the restore of the VC Resource Control register out of
+pci_vc_do_save_buffer() and into pci_vc_restore_res_ctrl().
 
-Drop pci_free_cap_save_buffers() from pci_release_capabilities();
-pci_saved_caps_release() already frees the one remaining allocation.
+Restoring this register is more involved than the rest of the walk: the
+enable bit has to be preserved across the write, the port arbitration
+table may have to be reloaded, and the VC may have to be re-enabled
+afterwards. Inlined in the middle of a loop that is already sizing,
+saving and restoring three kinds of register, it is hard to see where
+that sequence begins and ends.
 
-pci_store_saved_state() and pci_load_saved_state() no longer have to append
-and consume the records of the capabilities that still had a buffer, so the
-blob they exchange is now just the saved DWORDs.
+No functional change intended.
 
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- drivers/pci/pci.c   | 136 +-------------------------------------------
- drivers/pci/pci.h   |  19 -------
- drivers/pci/probe.c |   1 -
- include/linux/pci.h |   1 -
- 4 files changed, 1 insertion(+), 156 deletions(-)
+ drivers/pci/vc.c | 51 ++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 34 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index ab1e1d6847fc..d2a9718b6a65 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1802,28 +1802,6 @@ static const u16 pcie_saved_regs[] = {
- 	PCI_EXP_SLTCTL2,
- };
+diff --git a/drivers/pci/vc.c b/drivers/pci/vc.c
+index a4ff7f5f66dd..5b507207d56d 100644
+--- a/drivers/pci/vc.c
++++ b/drivers/pci/vc.c
+@@ -168,6 +168,37 @@ static void pci_vc_enable(struct pci_dev *dev, int pos, int res)
+ 		pci_err(link, "VC%d negotiation stuck pending\n", id);
+ }
  
--static struct pci_cap_saved_state *_pci_find_saved_cap(struct pci_dev *pci_dev,
--						       u16 cap, bool extended)
--{
--	struct pci_cap_saved_state *tmp;
--
--	hlist_for_each_entry(tmp, &pci_dev->saved_cap_space, next) {
--		if (tmp->cap.cap_extended == extended && tmp->cap.cap_nr == cap)
--			return tmp;
--	}
--	return NULL;
--}
--
--struct pci_cap_saved_state *pci_find_saved_cap(struct pci_dev *dev, char cap)
--{
--	return _pci_find_saved_cap(dev, cap, false);
--}
--
--struct pci_cap_saved_state *pci_find_saved_ext_cap(struct pci_dev *dev, u16 cap)
--{
--	return _pci_find_saved_cap(dev, cap, true);
--}
--
- static void pci_reserve_pcie_state(struct pci_dev *dev)
- {
- 	unsigned int i;
-@@ -2017,32 +1995,12 @@ EXPORT_SYMBOL(pci_restore_state);
-  *
-  * Laid out so that the position of every value is described by the device's
-  * configuration space rather than by the kernel.
-- *
-- * Capabilities that have not moved to the saved capability store yet keep
-- * their own buffer, and their records trail @dword_val until the last of
-- * those buffers goes away. Both areas vary in length and only one of them
-- * can be a flexible array member, so the records are reached with
-- * pci_saved_state_records() rather than declared here.
-  */
- struct pci_saved_state {
- 	unsigned long	dword_map[BITS_TO_LONGS(PCI_CFG_SPACE_EXP_DWORDS)];
- 	u32		dword_val[];
--	/* struct pci_cap_saved_data cap[] follows dword_val */
- };
- 
--/*
-- * The records that follow the saved DWORDs, one per capability that still has
-- * its own save buffer, terminated by an empty record.
-- */
--static struct pci_cap_saved_data *
--pci_saved_state_records(struct pci_saved_state *state)
--{
--	unsigned int nr_dwords = bitmap_weight(state->dword_map,
--					       PCI_CFG_SPACE_EXP_DWORDS);
--
--	return (struct pci_cap_saved_data *)&state->dword_val[nr_dwords];
--}
--
++/**
++ * pci_vc_restore_res_ctrl - Restore a VC Resource Control Register
++ * @dev: device
++ * @pos: starting position of VC capability (VC/VC9/MFVC)
++ * @res: VC resource number, ie. VCn (0-7)
++ * @ctrl: saved VC Resource Control Register
++ */
++static void pci_vc_restore_res_ctrl(struct pci_dev *dev, int pos, int res,
++				    u32 ctrl)
++{
++	int ctrl_pos = pos + PCI_VC_RES_CTRL + (res * PCI_CAP_VC_PER_VC_SIZEOF);
++	u32 tmp;
++
++	/*
++	 * For an FLR case, the VC config may remain.  Preserve enable bit,
++	 * restore the rest.
++	 */
++	pci_read_config_dword(dev, ctrl_pos, &tmp);
++	tmp &= PCI_VC_RES_CTRL_ENABLE;
++	tmp |= ctrl & ~PCI_VC_RES_CTRL_ENABLE;
++	pci_write_config_dword(dev, ctrl_pos, tmp);
++
++	/* Load port arbitration table if used */
++	if (ctrl & PCI_VC_RES_CTRL_ARB_SELECT)
++		pci_vc_load_port_arb_table(dev, pos, res);
++
++	/* Re-enable if needed */
++	if ((ctrl ^ tmp) & PCI_VC_RES_CTRL_ENABLE)
++		pci_vc_enable(dev, pos, res);
++}
++
  /**
-  * pci_store_saved_state - Allocate and return an opaque struct containing
-  *			   the device saved state.
-@@ -2054,11 +2012,8 @@ struct pci_saved_state *pci_store_saved_state(struct pci_dev *dev)
- {
- 	DECLARE_BITMAP(map, PCI_CFG_SPACE_EXP_DWORDS);
- 	struct pci_saved_caps *caps = &dev->saved_caps;
--	struct pci_cap_saved_state *tmp;
--	struct pci_cap_saved_data *cap;
- 	struct pci_saved_state *state;
- 	unsigned int dword, nr_dwords, i = 0;
--	size_t size;
- 
- 	if (!dev->state_saved)
- 		return NULL;
-@@ -2070,14 +2025,7 @@ struct pci_saved_state *pci_store_saved_state(struct pci_dev *dev)
- 
- 	nr_dwords = bitmap_weight(map, PCI_CFG_SPACE_EXP_DWORDS);
- 
--	size = struct_size(state, dword_val, nr_dwords);
--
--	/* Room for the buffers that are left, and for the terminator */
--	size += sizeof(struct pci_cap_saved_data);
--	hlist_for_each_entry(tmp, &dev->saved_cap_space, next)
--		size += sizeof(struct pci_cap_saved_data) + tmp->cap.size;
--
--	state = kzalloc(size, GFP_KERNEL);
-+	state = kzalloc(struct_size(state, dword_val, nr_dwords), GFP_KERNEL);
- 	if (!state)
- 		return NULL;
- 
-@@ -2092,15 +2040,6 @@ struct pci_saved_state *pci_store_saved_state(struct pci_dev *dev)
- 			pci_read_saved_cap_dword(dev, dword * sizeof(u32), val);
- 	}
- 
--	cap = pci_saved_state_records(state);
--	hlist_for_each_entry(tmp, &dev->saved_cap_space, next) {
--		size_t len = sizeof(struct pci_cap_saved_data) + tmp->cap.size;
--
--		memcpy(cap, &tmp->cap, len);
--		cap = (struct pci_cap_saved_data *)((u8 *)cap + len);
--	}
--	/* Empty record terminates the list */
--
- 	return state;
- }
- EXPORT_SYMBOL_GPL(pci_store_saved_state);
-@@ -2113,7 +2052,6 @@ EXPORT_SYMBOL_GPL(pci_store_saved_state);
- int pci_load_saved_state(struct pci_dev *dev,
- 			 struct pci_saved_state *state)
- {
--	struct pci_cap_saved_data *cap;
- 	unsigned int dword, i = 0;
- 
- 	dev->state_saved = false;
-@@ -2140,19 +2078,6 @@ int pci_load_saved_state(struct pci_dev *dev,
- 		pci_write_saved_cap_dword(dev, off, val);
- 	}
- 
--	cap = pci_saved_state_records(state);
--	while (cap->size) {
--		struct pci_cap_saved_state *tmp;
--
--		tmp = _pci_find_saved_cap(dev, cap->cap_nr, cap->cap_extended);
--		if (!tmp || tmp->cap.size != cap->size)
--			return -EINVAL;
--
--		memcpy(tmp->cap.data, cap->data, tmp->cap.size);
--		cap = (struct pci_cap_saved_data *)((u8 *)cap +
--		       sizeof(struct pci_cap_saved_data) + cap->size);
--	}
--
- 	dev->state_saved = true;
- 	return 0;
- }
-@@ -3652,56 +3577,6 @@ void pci_ea_init(struct pci_dev *dev)
- 		offset = pci_ea_read(dev, offset);
- }
- 
--static void pci_add_saved_cap(struct pci_dev *pci_dev,
--	struct pci_cap_saved_state *new_cap)
--{
--	hlist_add_head(&new_cap->next, &pci_dev->saved_cap_space);
--}
--
--/**
-- * _pci_add_cap_save_buffer - allocate buffer for saving given
-- *			      capability registers
-- * @dev: the PCI device
-- * @cap: the capability to allocate the buffer for
-- * @extended: Standard or Extended capability ID
-- * @size: requested size of the buffer
-- */
--static int _pci_add_cap_save_buffer(struct pci_dev *dev, u16 cap,
--				    bool extended, unsigned int size)
--{
--	int pos;
--	struct pci_cap_saved_state *save_state;
--
--	if (extended)
--		pos = pci_find_ext_capability(dev, cap);
--	else
--		pos = pci_find_capability(dev, cap);
--
--	if (!pos)
--		return 0;
--
--	save_state = kzalloc(sizeof(*save_state) + size, GFP_KERNEL);
--	if (!save_state)
--		return -ENOMEM;
--
--	save_state->cap.cap_nr = cap;
--	save_state->cap.cap_extended = extended;
--	save_state->cap.size = size;
--	pci_add_saved_cap(dev, save_state);
--
--	return 0;
--}
--
--int pci_add_cap_save_buffer(struct pci_dev *dev, char cap, unsigned int size)
--{
--	return _pci_add_cap_save_buffer(dev, cap, false, size);
--}
--
--int pci_add_ext_cap_save_buffer(struct pci_dev *dev, u16 cap, unsigned int size)
--{
--	return _pci_add_cap_save_buffer(dev, cap, true, size);
--}
--
- /**
-  * pci_reserve_saved_caps - reserve room to save capability registers
-  * @dev: the PCI device
-@@ -3715,15 +3590,6 @@ void pci_reserve_saved_caps(struct pci_dev *dev)
- 	pci_reserve_vc_state(dev);
- }
- 
--void pci_free_cap_save_buffers(struct pci_dev *dev)
--{
--	struct pci_cap_saved_state *tmp;
--	struct hlist_node *n;
--
--	hlist_for_each_entry_safe(tmp, n, &dev->saved_cap_space, next)
--		kfree(tmp);
--}
--
- /**
-  * pci_configure_ari - enable or disable ARI forwarding
-  * @dev: the PCI device
-diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
-index 5a03561515ee..bc92b037b9d1 100644
---- a/drivers/pci/pci.h
-+++ b/drivers/pci/pci.h
-@@ -237,26 +237,7 @@ int pci_bridge_secondary_bus_reset(struct pci_dev *dev);
- int pci_bus_error_reset(struct pci_dev *dev);
- int pci_try_reset_bridge(struct pci_dev *bridge);
- 
--struct pci_cap_saved_data {
--	u16		cap_nr;
--	bool		cap_extended;
--	unsigned int	size;
--	u32		data[];
--};
--
--struct pci_cap_saved_state {
--	struct hlist_node		next;
--	struct pci_cap_saved_data	cap;
--};
--
- void pci_reserve_saved_caps(struct pci_dev *dev);
--void pci_free_cap_save_buffers(struct pci_dev *dev);
--int pci_add_cap_save_buffer(struct pci_dev *dev, char cap, unsigned int size);
--int pci_add_ext_cap_save_buffer(struct pci_dev *dev,
--				u16 cap, unsigned int size);
--struct pci_cap_saved_state *pci_find_saved_cap(struct pci_dev *dev, char cap);
--struct pci_cap_saved_state *pci_find_saved_ext_cap(struct pci_dev *dev,
--						   u16 cap);
- 
- /* DWORDs of the configuration space header, i.e. pci_dev.saved_config_space */
- #define PCI_STD_HEADER_DWORDS	(PCI_STD_HEADER_SIZEOF / sizeof(u32))
-diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-index c04adf606ab9..0a86de920225 100644
---- a/drivers/pci/probe.c
-+++ b/drivers/pci/probe.c
-@@ -2475,7 +2475,6 @@ static void pci_release_capabilities(struct pci_dev *dev)
- 	pci_aer_exit(dev);
- 	pci_rcec_exit(dev);
- 	pci_iov_release(dev);
--	pci_free_cap_save_buffers(dev);
- 	pci_saved_caps_release(dev);
- }
- 
-diff --git a/include/linux/pci.h b/include/linux/pci.h
-index 2c27124c81e5..6ba724e1f04e 100644
---- a/include/linux/pci.h
-+++ b/include/linux/pci.h
-@@ -549,7 +549,6 @@ struct pci_dev {
- 
- 	spinlock_t	pcie_cap_lock;		/* Protects RMW ops in capability accessors */
- 	u32		saved_config_space[16]; /* Config space saved at suspend time */
--	struct hlist_head saved_cap_space;
- 	struct pci_saved_caps saved_caps; /* Saved capability registers */
- 
- #ifdef CONFIG_HOTPLUG_PCI_PCIE
+  * pci_vc_do_save_buffer - Size, save, or restore VC state
+  * @dev: device
+@@ -311,23 +342,9 @@ static int pci_vc_do_save_buffer(struct pci_dev *dev, int pos,
+ 			if (save)
+ 				pci_read_config_dword(dev, ctrl_pos,
+ 						      (u32 *)buf);
+-			else {
+-				u32 tmp, ctrl = *(u32 *)buf;
+-				/*
+-				 * For an FLR case, the VC config may remain.
+-				 * Preserve enable bit, restore the rest.
+-				 */
+-				pci_read_config_dword(dev, ctrl_pos, &tmp);
+-				tmp &= PCI_VC_RES_CTRL_ENABLE;
+-				tmp |= ctrl & ~PCI_VC_RES_CTRL_ENABLE;
+-				pci_write_config_dword(dev, ctrl_pos, tmp);
+-				/* Load port arbitration table if used */
+-				if (ctrl & PCI_VC_RES_CTRL_ARB_SELECT)
+-					pci_vc_load_port_arb_table(dev, pos, i);
+-				/* Re-enable if needed */
+-				if ((ctrl ^ tmp) & PCI_VC_RES_CTRL_ENABLE)
+-					pci_vc_enable(dev, pos, i);
+-			}
++			else
++				pci_vc_restore_res_ctrl(dev, pos, i,
++							*(u32 *)buf);
+ 			buf += 4;
+ 		}
+ 		len += 4;
 -- 
 2.56.0.455.g6c5a503b38-goog
 
