@@ -1,50 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.163
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793936619;
-	b=Axku00qzfrGO+Zeo09YshZSzj17XH8+TddydV9WQXlvISsw70L1JxLulBxZRU58Jj28o
-	 aClWY6VysAKO25o2tqJsYaMSPX4V2L6D5YaJAdq+uu+zEgDN0gLDH+tz7dvK2MwzvWqnW
-	 kLSXRLEh+fE84z5zRClE+a9j3J5A+qvaFmCOW9iGhPRuPrR2ZZnZXv6oVc/Cp4FYupQeH
-	 L8CDAY04H/wDJqdsjD8gRo0Qz8ypHQlh2yqLidiv3Ih+VaeeamvLfbhcnkU4gIN9XUxKL
-	 PmYcWigqkXxTmUzCNNy4JuuCPV2v8i0dO+2TkKojjTZvGrglZLyDYkaiGLxUr6ZKS6g==
+	t=1793936952;
+	b=XfgIO4z9jhcZO7FW45VzOACa3+uEFke5z6RrJiJ19NcC21uX/a/1mMABRO5aUM+BCmFa
+	 Z6epQ0x/jXezLhxCTxfKytkK75FrUzhHBcCULTUOOdJgzHu8JJUq5KunBU534j0Bp2fCX
+	 o/OnR6zZmPuC4Ps5+2+3zsIG44j7lYdCU3XGjpXwBSgzFyG8UCv5v/Us4LKEvMmD68NC0
+	 Dp3En0cf2aT0fTAdnL30s1VfZy9DXHDi96o+sBltbPvkpN4hCOCqGJMr3sZQziv3+rf8a
+	 7YVA0aFz84ey4T3t3nc7iHTTQCVkqBxEGJgRXkPL3/vEcQuB/9U4vzWrwZJ/kxDVFOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793936619;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793936952;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
 	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=JQAg5RHkJoANhMG92M9Mgy2coDcnt7Ko3EBsxYqcnSY=;
-	b=AaQxxkwkCJsvyPjHDj1JyhFxaS2tAgwByuRVA2VLADhc4GI+XuJ2LY9vQpqCx7ovXDhg
-	 gAHNLOOP8HD8gyNs0UpLpVAJlwQhSrrwroVhn51rCRVK9ivyTnmRD4nJ/53WyTYFEPNKO
-	 UCMBU99ah/scepDawcIMSa4d32sHqgHNQqXAbmj4I5tEJTnplsdA9OVoyxFzEtWaoBNCh
-	 iXvqhfNEqBQKiXl1aM5IlLxt1ly0dgOa7XD7tN95Wy008920EvQ9FAgg8U2ys8kz8TdWr
-	 enDVv0oGzxo2chs6gk4GsvODbR1hyyg5YX9ypgDvssSlusnQzZzl+FLRu8iH2+x24kQ==
+	bh=gzmTqCFSUU3YnOiqsWsMdvE4YgD8TliJQMwfHUZqHOo=;
+	b=LklIIaB/MlHQoiyCGaICCTh6k8+CE3iR8dJRQwyDxfsYu6Q1RNW/kpRfw5CII7a1E33f
+	 gJfaRXU49w2WLzOThdRrwCfsdL2XKVFPJCtusyeeeC7bcEEKCiht2OOBX2tbYhWewWNEz
+	 LtvYbl/DpCZ25F7lBdBlxRReW/GWR2rVCC9c1WjkFdiGiggzlc6I3LfZFAfioLelXts9k
+	 INsLXLEp7QWPpKLTHDRp9E3+kKpZT3j0raP4wOINvHmd4eo8+LElxvTNf8rjLqhwERG/W
+	 UPTaXDi+TpK28rJ7lr08rZCKJX056y+Yd3voEGyuuZQM/14WI02Fl6kQVhEEPOUJS4g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=L8PB1mZW;
-	arc=none smtp.remote-ip=91.218.175.139
-Received: from mta0.migadu.com (out-139.mta0.migadu.com [91.218.175.139])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DWdRjL0A;
+	arc=none smtp.remote-ip=91.218.175.163
+Received: from mta0.migadu.com (out-163.mta0.migadu.com [91.218.175.163])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEFE606A31B
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 03:43:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCEFE606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED0B6606A326
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 03:49:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED0B6606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=L8PB1mZW
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=DWdRjL0A
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=e+UAVA/LhE49Kt9vT3PU3TfPUWWDUeAp4ghXNdKq4Gk=;
+DKIM-Signature: a=rsa-sha256; bh=81DNLlC4718c1g3u503W4Y4wryUuoOORedAKYhXuIH4=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793936615; v=1; x=1794541415;
- b=L8PB1mZWk4/sBqODYjrNN/fI+1N5AUO5+fPUl2zGSRT/m6n/w2bC9SLsulDtlkhNc9EHoyuq
- Oe1jldp9ZcukVkifsXUa1kmxG2tO/ps1QEkvpL27fy84avm+ZLqoZtIYu0GGYRRbP/e1CXOSUMW
- MAC+o+b4RJItUoTPfdz22fRk=
+ t=1793936948; v=1; x=1794541748;
+ b=DWdRjL0Aps7DKZGuiFAmKy70LLvONfLG6F6Tqh0H4KGwmd1nharDCH0B6sXM5D5b4EJ3/B2T
+ DAN0mMCYTlarD4QDjiucJpY7Ob6gN3D5Yruk7xUCDbUns/vI9CVH5iOnFERbCnOB6HPib0MN6Jz
+ VDqEWnOp3ajBXD4RdQ+wz60M=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta11.migadu.com with ESMTPS id 70031cc14879d107;
-	Fri, 06 Nov 2026 03:43:35 +0000
-X-Mizu-Trace-ID: 70031cc14879d107
+Received: by mta12.migadu.com with ESMTPS id 10e53f909884d578;
+	Fri, 06 Nov 2026 03:49:08 +0000
+X-Mizu-Trace-ID: 10e53f909884d578
 X-Migadu-Flow: FLOW_OUT
 From: xu.xin@linux.dev
 To: Andrew Morton <akpm@linux-foundation.org>,
@@ -55,10 +55,12 @@ Cc: Xu Xin <xu.xin@linux.dev>,
 	Lorenzo Stoakes <lstoakes@gmail.com>,
 	"Liam R . Howlett" <liam.howlett@oracle.com>,
 	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] ksm: add merge_only_zero_pages to merge only empty anonymous pages
-Date: Fri,  6 Nov 2026 11:43:04 +0800
-Message-Id: <20261106034304.231809-1-xu.xin@linux.dev>
+	linux-doc@vger.kernel.org,
+	Huan Yang <link@vivo.com>,
+	Wang Xiao <xiao.wang@vivo.com>
+Subject: [PATCH resend] ksm: add merge_only_zero_pages to merge only empty anonymous pages
+Date: Fri,  6 Nov 2026 11:48:41 +0800
+Message-Id: <20261106034841.233085-1-xu.xin@linux.dev>
 X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +71,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 From: "Xu Xin (vivo)" <xu.xin@linux.dev>
@@ -125,8 +127,8 @@ Note
   savings.
 
 Signed-off-by: Xu Xin (vivo) <xu.xin@linux.dev>
-#Reviewed-by: Huan Yang <link@vivo.com>
-#Cc: Wang Xiao <xiao.wang@vivo.com>
+Reviewed-by: Huan Yang <link@vivo.com>
+Cc: Wang Xiao <xiao.wang@vivo.com>
 ---
  Documentation/admin-guide/mm/ksm.rst | 40 ++++++++++++++++++++-
  mm/ksm.c                             | 53 ++++++++++++++++++++++++++++
