@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964754;
-	b=MY444EWsixgID/PqRvARs9NBvL3PXrdXci7aerkfbxOUlOe00a9U6+NP5Trn3orx9gPL
-	 mGr8MLZq6hWir5387a6+skMenqUSA/rlE1uFYKy/M9mM4kFA/Ny/NTFTC9OFXNbGxlVjx
-	 RBjX/z/JPk1MPOPiaqpDoja8V/Ik+0/+n0tsRi1xcWudTRq4XwgiRAIdJNw3EKYTK+wG4
-	 uG03y+I1am04Wn02iF8IYR/DCoOKenl085+NuMZfjLPxRJH4r/lpsxicEle6cdg/jSHG4
-	 7OAgAxx6DV4J+L1e2Hzz6XtMSykz1g5xv9dqUwQMdbuEQdIROLnVFBpq66kS2clds0g==
+	t=1793964757;
+	b=xYeNHPr34qGUmd3D4MhPHDMIxvq6TrTTRgoIFrN3zQUfeSClZ+O5fLCelMj1UhHSRNZa
+	 Z7kG3xf1+v5Pb13pCimvqesw9E6QZgvvJgMtFxQTiX7i0aKrZFLqtl5l5qslP67+lYixn
+	 nDP+/8VUDS4mldkeM2rVqAZCOVGvuOXIoNqiUBBWZJfXtiD2FxoTZnaafr4KKBASWQjDV
+	 prPo75ZMmWMnFOYnl0C3lgWCd4yOQ8QrFEAqri+2TV80gBccXAHv4cy1c1JCNAlKCB9bb
+	 2IwDSOjWs3u/saDEBQMVZcxB87+AzPqIDzTXDmo4OLbU5zt8N38SJKlxD/HnOk2rjyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964754;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964757;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=oVA97Gg0MN3pZcfI+vtW4RWyLQjxD9ulAusUkaPOVrg=;
-	b=gxviqPLI2yGroqyA6h741ZcWFFJeLM3tuT9lKtDJU53sNLhepPrro2zYEOWk8V8dmh7A
-	 5Q7vmqtgTWRqcueaO+t/mAQhgbLI/WlXW1BABvSqdAta2rvRbs/BJbvTT/YZUlye4q5PA
-	 k1DmBbCjYn2nmQQqgIou24oW9Xxx8Mx6ZfT8L7/FHLJkVERroGC60HKTHTORFXEPNeBLu
-	 07Yf+qI/t9HOmYm75bv/zBH0m1tagl8R7OowWvkl6rqMey7AYFzCVF34aac3AW41ZL2yK
-	 Sbrt9zZlzFabIdqO+Sk8rMIAtYPC4T1CK5ijpARJnZP0i1TrFK0y1qd3wOg789ktm/w==
+	bh=xWFVohln4eeSo5RlKr33gLvCy/2Hvt/Ikr1NBWJFOgw=;
+	b=NpTLzeYHtTX7KzfjabawtzuiiquyD2QWSkbeZFK1mM9cW4YS4naDWgB66YZDXSflPfyK
+	 wa30l2XlBmj2ovt1grpaGcynn0UUsTuwzBlN/x7GAOa+qX1GzBcQNSPnYihqNIhfzN0gc
+	 orPxyADqxhhZkHBZ9qpulj+JwpYiMuf6RmP/4t0fIFBoxmnv06UaioN4jJZr7zr3ALXBq
+	 g81L+RFZ1q81Ny9Y55uzOUecEmenJ+gMenqPfpA6mSNHRobS5d/ujxUJTkPN4OQu6sobg
+	 mmMDlFJqswgdvvMONH0esloBLr3mzUu/Q9YleSXGHZfMbSCxITQe3bw33wxt9AZ6WSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XtJ9a41C;
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xi00ilF5;
+	arc=none smtp.remote-ip=209.85.216.50
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565CF60A6F55
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 565CF60A6F55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7854A606A905
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7854A606A905
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XtJ9a41C
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3b0ac1900efso41938a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:34 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xi00ilF5
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ad0c2e71ebso87768a91.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964754; x=1794569554; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964757; x=1794569557; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=oVA97Gg0MN3pZcfI+vtW4RWyLQjxD9ulAusUkaPOVrg=;
-        b=XtJ9a41CZGIxLZLGdBMex33BufyVPRCqOQcDaU4a4vAu5igU29IQIdhzTnkIUY+lQ+
-         2yUl9vCmWL7QcarNeGcK+oHzzlv7hN9bT5C/zcphLfhNpqAgeu+3CZO14yZ6q2Pxx1g3
-         b70KQOa4MSVBaCj+BJnD+YN74Mt3IeLdtUEc49pEBb7fY3qsFsduT2DqnWNpcEH3zyva
-         hJ3nXpelMbq8s7LKkHmNry+Oll9s0KLj0+lgYQxZ1WueMLPM6WvBlvSi7iPzpYWVjycz
-         dgXEDHKhHz0m2FdnarJRuK9j0nDbGHMveDs5oKDmnzMsogasydrwZN4UHt61S1nVTWJx
-         qRdw==
+        bh=xWFVohln4eeSo5RlKr33gLvCy/2Hvt/Ikr1NBWJFOgw=;
+        b=Xi00ilF527rpVQ8LKj8jKK+yfyEoflym2vuXH/ZqmRZDkSr1zt00pt3sC1zVp3yJV7
+         q2f0nkmbTjvZozxTbsZbbW0xD57zUjDSk/k+aoA61xXA06K2MIlnI/cIvjMxvnrz4utm
+         CXJTW7e35ZjSKSaggdUuejXxsfVNIAisqSzoARJBmPHAaiKByrOMMyWDJwfH0LWSVbAh
+         69xYKNekkD/6oEsWRUnopjz1DssH+7k4VbilkAgpkcz2L2O69wtlgGmeezEv/ba18vea
+         e23KjKoWj6yhAE+rG5d5WRZ7JjbGz7hQk6St1aQre/9rSgARuTowDoQ5Ch39BqtOnavv
+         R9Dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964754; x=1794569554;
+        d=1e100.net; s=20260707; t=1793964757; x=1794569557;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oVA97Gg0MN3pZcfI+vtW4RWyLQjxD9ulAusUkaPOVrg=;
-        b=b4ayQQ+ALYyH3Ehj3Kwj/ICDGnnLSSwp/bt16TVnIMulCTe34rcAAVb50aAJFOfoV3
-         dNYvb+OChlyjiu7SnPpr6i88IgGMYUVDoFlkLnt+VaINwQ6LbVHa2On9+0cRP1NS2iLt
-         V671Ygy2BSrvLmY83cP6peOMTXysvR6YHTINvm4vRz1dM+JZxAjTVyz/6Ja4pW1y8W9E
-         sjpvyUwku1ha7Kqa3NxamHqgJlDb/praxxu9vWaZJFPWLaKfRJSJjAQi0kzkKcT8PPxh
-         WS1MjCMWuMJDSONQGv7lSSM2Gu43Ed0o64Wpo6HJBLEjjAOz9YIzJo6bxvEFfkWQEjbb
-         uuWg==
-X-Forwarded-Encrypted: i=1; AL+hErGDOgwQCluRRxta6MPYXn8C+KAmdbA4XuzQEcHORuI5F8ADOGLCYNpUtWXmktGxWjTHKxQ+N7WhPIQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8QRoALMeoqfLBgswuynElbcSfKFZuAZlJVclNqW53VlvSqSxJA
-	5m0NfN6UvZGXO5mZAPjJJ/mXzPO9LClMQY9Myt/eXOl23a2y13QfI0FK
-X-Gm-Gg: AYBFou16zmvjAbbwuZaKMaYUP31rKNsgaKQ1meoEfKf/0D24ioRGsBTdY/8LZcA3Uve
-	TSNP+Mxi6X2DosNAMXMxmgzBNP7074zq4ZX13QjwjR24VkynS0K8By0CAs4SMprh8CGTsJ/r9/5
-	gvZLc4VCl9dPh0iyb3ALXr70CyLhzLC4rnbrWgVcxXTqQSjRrd0QuGf19CsTncxUi4Ymuswrynx
-	z3st7/8q2N4IBRwK89iVZ4JZYk+EpIo3XS21KNkIg1gBVhsQ4Ck8HRcOVwzc3NOHk1Vj+ThGhbx
-	Za7huPpaeLkkfr690Bd444XzueNPDo96PLKh5QyyPMmlA9l3Kk/FVC3VWOGacmF8KRs+09Ln6Nu
-	7xgereV+i6gA9G+rUx3Oo7NM8yhZK/RQa9ocE5V/sQtuKIVJwlhieGMDm0fTv9Rm97Wtt9Jd4Ly
-	vQAuq0Xp8IFJo7Q5MufeRTtNtaQ02XzFhhBRh+eFG97VCX2aPJxakAzcmyYkrSLzEJPNY3O8BsQ
-	mgneoyLIjEDozjwW4aX5zSDshGomus2lVouEzl3b5f6piTCaFKQ5JabGARd4Z5kKXUHTqQnCwtE
-	fTqbnOLU6aBBz2HGArE+yRZL9k+rRaOJ2Jde5hmCkoXkZcD3WaFsSxx2OLEmM6XyI2sZKHclMb+
-	t3tlwICK0slpULZq4yixndUaR
-X-Received: by 2002:a17:90b:2d0d:b0:3ab:be66:ddc5 with SMTP id 98e67ed59e1d1-3b0db7056a8mr3470200a91.6.1793964753661;
-        Fri, 06 Nov 2026 03:32:33 -0800 (PST)
+        bh=xWFVohln4eeSo5RlKr33gLvCy/2Hvt/Ikr1NBWJFOgw=;
+        b=c0vbrWvbUq1VaFLoSQseDbX2E2pcUkW119rzsKDkXqX7wpnwUol2RKK1A8wUUGpn4Q
+         GBqDTStwjU5qJ0f8hoRR7Cc6ueSvInbrgdOqaEdjmVnjF5EYCEf83NKgF+YRs+mRUT37
+         6FfSBCI8D3FCkslumVvc2T+YgKSDZDhMcqoAS/MpZ5uUZvHmhVKg7FkSlUVqJAdEIRXB
+         7gAsDeem3HYsneHaQm1LjsYLy07aGQrJjVcenBrnbAqLCVP/enNgKMRd5vW+23bBHV3Y
+         RHUXlCQkJcTmvRO8GQJCIojrbguYXaLfe+zdliXqQ8TkeLLS+Rc4Lj2Nva0opp5HYJP3
+         pZFg==
+X-Forwarded-Encrypted: i=1; AL+hErFXibUEebbuSlEe6SFTAc83ji0fJjnPCDgJBihlUoyshqN2pzGPAdINWNbPj58eI0/jePsGNWhXBJ0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/QUWt8JotWdZVL0yboyubCGqsV0ps82uqeDH5tExjjleAGCxjH
+	KwV7TsAoA9hmXnKjjlKLJomlcQ6QY6nDm5o3YYgcnND5a198CGqyHZYK
+X-Gm-Gg: AYBFou3m5pxnelTGlOs+PpSd/YlWfUV1l4GoQElow6gw7J8ugOqnGqG6SABJQWNp73m
+	vl9HJ1DyN/VpyZPJmDQpGQDYwroiFrc+pGS8hh32Eo2zZmnl8WFAipVYDkHtqHUVP3xznss45iK
+	36V6PZxFcsgAbm4zJdk4Psth1OX0MCP+QS0u5ofwQLzRA6MI7LoayIfegUbg1YNUVo1u8EhnQDz
+	jOWFZb9ZinA0/Ayr/BlG0az9+c6oztkSvS6OOQM7+DHL7oo/URKOLTFphaQiUKRh5sUo8jC+Inf
+	trpewv3J7WtQCtMfwaLGhv49gss5EMwqRj1dWCQhxzoFvloDCIfUluHQWm76x6+jO3Y63qXu2wx
+	QEnaGUjXBSdl8soccbdbMQODyTvU7jORoeOJYVErIaMMRnOMdbIQ9Hn5ZEPsBhfcBbXztywPp6i
+	+1v4/acIJMJgRFaV+33LtgfCnhO4P3Rhq9adqKkgQjNyRVG8AHmAH9aypIyVVeGZ5E9vtctKL0P
+	hrFB/N41AGHdm8hBxmWhO4M1L5SP2FxrlMSER0v4Q1xOW0Bx+bPRDwf8AZ2El/RaYMlaosFpMNo
+	8S9JN975o/SvpjYd9f7HejWR3bGhkUkCgsfGt3IFN04YRA2THkSdkBWaDamMo+327mdEQqoPC50
+	A1FZADfgQ/It5NNDnZSEVZX4vhg==
+X-Received: by 2002:a17:90b:4c8f:b0:3b0:9e2f:cfc5 with SMTP id 98e67ed59e1d1-3b0db60cd3dmr3615027a91.1.1793964756800;
+        Fri, 06 Nov 2026 03:32:36 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.30
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:32:32 -0800 (PST)
+        Fri, 06 Nov 2026 03:32:36 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 13/25] docs/zh_TW: process: sync kernel-driver-statement.rst with the English original
-Date: Fri,  6 Nov 2026 19:31:28 +0800
-Message-ID: <20261106113142.706783-14-chenyou910331@gmail.com>
+Subject: [PATCH 14/25] docs/zh_TW: process: sync kernel-enforcement-statement.rst with the English original
+Date: Fri,  6 Nov 2026 19:31:29 +0800
+Message-ID: <20261106113142.706783-15-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113142.706783-1-chenyou910331@gmail.com>
 References: <20261106113142.706783-1-chenyou910331@gmail.com>
@@ -109,69 +109,121 @@ Content-Transfer-Encoding: 8bit
 
 The translation carries no "update to commit" marker.  A comparison
 against the current English text shows the content is complete: the
-signer list matches all 177 names, including Aaro Koskinen from
-commit b13267ba579d ("documentation: add my name to kernel driver
-statement"), and the process_statement_driver label from
-commit edba5eecfd6e ("doc:it_IT: add some process/* translations") is
-referenced. The prose, however, was converted from zh_CN and still reads
-in mainland terminology:
+signer list matches all 109 names, including the later additions such as
+Arnaldo Carvalho de Melo, Kees Cook and Luis R. Rodriguez.  But the file
+still begins its label line with the byte order mark that
+commit 9e255e2b9afe ("Documentation: drop optional BOMs") removed from
+the original, and the prose was converted from zh_CN:
 
-- localize terminology (內核→核心, 模塊→模組, 驅動程序→驅動程式,
-  用戶→使用者, 社區→社群, 代碼→程式碼, 支持→支援, 靈活性→彈性,
-  封閉源→閉源, 爲→為)
-- render "adopt a policy of supporting their customers" as a policy
-  rather than "taking measures", and make "We speak only for
-  ourselves" read naturally
-- wrap the :Original: line to stay within 80 columns
+- drop the byte order mark, as in the original
+- retranslate sentences whose meaning had drifted: the additional
+  permissions apply "with respect to any non-defensive assertion of
+  rights under the license" (rendered as "as any non-defensive
+  assertion"), and the uncertainty to eliminate is "about our
+  expectations regarding compliance or enforcement" (rendered as our
+  own uncertainty about regulatory compliance)
+- rewrite the two quoted GPL-3.0 provisions so that the conditions
+  read in order, without the duplicated "reinstated permanently" in
+  (b), and use 版權持有人 for "copyright holder" throughout
+- localize terminology (內核→核心, 社區→社群, 用戶→使用者, 項目→專案,
+  分發→散布, 爲→為), and translate "Except where noted below" as
+  such instead of "except as mentioned below"
+- wrap the :Original: line to stay within 80 columns and drop the
+  blank line at the end of the file
 
-update to commit edba5eecfd6e ("doc:it_IT: add some process/*
-translations")
+update to commit 9e255e2b9afe ("Documentation: drop optional BOMs")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/kernel-driver-statement.rst | 24 ++++++++++---------
- 1 file changed, 13 insertions(+), 11 deletions(-)
+ .../process/kernel-enforcement-statement.rst  | 59 ++++++++++---------
+ 1 file changed, 31 insertions(+), 28 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
-index 34bcb6f164cb..11de92a7bcf3 100644
---- a/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
-+++ b/Documentation/translations/zh_TW/process/kernel-driver-statement.rst
-@@ -4,22 +4,24 @@
+diff --git a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+index d54d20529294..9a518ce322c2 100644
+--- a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
++++ b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
+@@ -1,45 +1,49 @@
+ .. SPDX-License-Identifier: GPL-2.0
+ 
+-﻿.. _tw_process_statement_kernel:
++.. _tw_process_statement_kernel:
  
  .. include:: ../disclaimer-zh_TW.rst
  
--:Original: :ref:`Documentation/process/kernel-driver-statement.rst <process_statement_driver>`
-+:Original: :ref:`Documentation/process/kernel-driver-statement.rst
-+           <process_statement_driver>`
+-:Original: :ref:`Documentation/process/kernel-enforcement-statement.rst <process_statement_kernel>`
++:Original: :ref:`Documentation/process/kernel-enforcement-statement.rst
++           <process_statement_kernel>`
  
--內核驅動聲明
--------------
-+核心驅動程式聲明
-+----------------
+-Linux 內核執行聲明
++Linux 核心執行聲明
+ ------------------
  
--關於Linux內核模塊的立場聲明
-+關於Linux核心模組的立場聲明
- ===========================
+-作爲Linux內核的開發人員，我們對如何使用我們的軟體以及如何實施軟體許可證有著
+-濃厚的興趣。遵守GPL-2.0的互惠共享義務對我們軟體和社區的長期可持續性至關重要。
++作為Linux核心的開發人員，我們對我們的軟體如何被使用，以及我們軟體的許可證
++如何被執行，有著濃厚的興趣。遵守GPL-2.0的互惠共享義務，對我們軟體和社群的
++長期永續發展至關重要。
  
--我們，以下署名的Linux內核開發人員，認爲任何封閉源Linux內核模塊或驅動程序都是
--有害的和不可取的。我們已經一再發現它們對Linux用戶，企業和更大的Linux生態系統
--有害。這樣的模塊否定了Linux開發模型的開放性，穩定性，靈活性和可維護性，並使
--他們的用戶無法使用Linux社區的專業知識。提供閉源內核模塊的供應商迫使其客戶
--放棄Linux的主要優勢或選擇新的供應商。因此，爲了充分利用開源所提供的成本節省和
--共享支持優勢，我們敦促供應商採取措施，以開源內核代碼在Linux上爲其客戶提供支持。
-+我們，以下署名的Linux核心開發人員，認為任何閉源的Linux核心模組或驅動程式都是
-+有害且不可取的。我們一再發現它們對Linux使用者、企業以及更廣大的Linux生態系統
-+有害。這樣的模組否定了Linux開發模式的開放性、穩定性、彈性和可維護性，並使
-+其使用者無法獲得Linux社群的專業知識。提供閉源核心模組的供應商迫使其客戶
-+放棄Linux的關鍵優勢，或是另選新的供應商。因此，為了充分享有開源所帶來的成本
-+節省與共享支援的好處，我們敦促供應商採取以開源核心程式碼在Linux上支援其客戶的
-+政策。
+-雖然有權強制執行對我們社區的貢獻中的單獨版權權益，但我們有共同的利益，即確保
+-個人強制執行行動的方式有利於我們的社區，不會對我們軟體生態系統的健康和增長
+-產生意外的負面影響。爲了阻止無益的執法行動，我們同意代表我們自己和我們版權
+-利益的任何繼承人對Linux內核用戶作出以下符合我們開發社區最大利益的承諾:
++雖然對貢獻給我們社群的內容中各自獨立的版權權益，確實有權強制執行，但我們
++共同關心的是，確保個別的執行行動以有利於我們社群的方式進行，而不會對我們
++軟體生態系統的健康與成長造成意料之外的負面影響。為了遏止無益的執行行動，
++我們同意代表我們自己以及我們版權權益的任何繼受者，向Linux核心的使用者作出
++以下承諾，這符合我們開發社群的最大利益：
  
--我們只爲自己說話，而不是我們今天可能會爲之工作，過去或將來會爲之工作的任何公司。
-+我們僅代表自己發言，而非代表我們目前、過去或將來可能任職的任何公司。
+-    儘管有GPL-2.0的終止條款，我們同意，採用以下GPL-3.0條款作爲我們許可證下的
+-    附加許可，作爲任何對許可證下權利的非防禦性主張，這符合我們開發社區的最佳
+-    利益。
++    儘管有GPL-2.0的終止條款，我們同意，對於依本許可證所提出的任何非防禦性
++    權利主張，採用以下GPL-3.0條款作為我們許可證下的額外許可，這符合我們開發
++    社群的最大利益。
  
-  - Dave Airlie
-  - Nick Andrew
+-        但是，如果您停止所有違反本許可證的行爲，則您從特定版權持有人處獲得的
+-        許可證將被恢復：（a）暫時恢復，除非版權持有人明確並最終終止您的許可證；
+-        以及（b）永久恢復, 如果版權持有人未能在你終止違反後60天內以合理方式
+-        通知您違反本許可證的行爲，則永久恢復您的許可證。
++        但是，如果您停止所有違反本許可證的行為，則您從特定版權持有人處
++        獲得的授權將會恢復：（a）暫時恢復，除非且直到該版權持有人明確並
++        最終終止您的授權；以及（b）永久恢復，如果該版權持有人未能在您
++        停止違反後60天內，以某種合理方式通知您違反的情事。
+ 
+-        此外，如果版權所有者以某種合理的方式通知您違反了本許可，這是您第一次
+-        從該版權所有者處收到違反本許可的通知（對於任何作品），並且您在收到通知
+-        後的30天內糾正違規行爲。則您從特定版權所有者處獲得的許可將永久恢復.
++        此外，如果版權持有人以某種合理方式通知您違反的情事，而這是您
++        第一次從該版權持有人處收到違反本許可證的通知（就任何作品而言），
++        並且您在收到通知後30天內糾正違反行為，則您從該特定版權持有人處
++        獲得的授權將永久恢復。
+ 
+-我們提供這些保證的目的是鼓勵更多地使用該軟體。我們希望公司和個人使用、修改和
+-分發此軟體。我們希望以公開和透明的方式與用戶合作，以消除我們對法規遵從性或強制
+-執行的任何不確定性，這些不確定性可能會限制我們軟體的採用。我們將法律行動視爲
+-最後手段，只有在其他社區努力未能解決這一問題時才採取行動。
++我們提供這些保證的目的是鼓勵更多人使用該軟體。我們希望公司和個人使用、修改和
++散布此軟體。我們希望以公開和透明的方式與使用者合作，消除外界對我們在遵循或
++執行許可證方面之期望的任何不確定性，以免這些不確定性限制我們軟體的採用。
++我們將法律行動視為最後手段，只有在社群的其他努力未能解決問題時才會採取。
+ 
+-最後，一旦一個不合規問題得到解決，我們希望用戶會感到歡迎，加入我們爲之努力的
+-這個項目。共同努力，我們會更強大。
++最後，一旦不合規的問題得到解決，我們希望該使用者會感到受歡迎，加入我們在這個
++專案上的努力。攜手合作，我們會更強大。
+ 
+-除了下面提到的以外，我們只爲自己說話，而不是爲今天、過去或將來可能爲之工作的
+-任何公司說話。
++除下文另有註明者外，我們僅代表自己發言，而非代表我們目前、過去或將來可能任職
++的任何公司。
+ 
+   - Laura Abbott
+   - Bjorn Andersson (Linaro)
+@@ -150,4 +154,3 @@ Linux 內核執行聲明
+   - Wei Yongjun
+   - Lv Zheng
+   - Marc Zyngier (Arm Ltd)
+-
 -- 
 2.43.0
 
