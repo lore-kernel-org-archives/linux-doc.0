@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964741;
-	b=3cc680Qz4fpkqj9AwXEKODqo3RNL1aQYF8MztgI0q0uDh38cowDT622AfnaPpnXbjNAa
-	 p9ku7aLvYw0EVIKbWzybU4UzkyoETsAqJmtdrKnqLoU0ACM/+M330vDad49BOqUO9d2lI
-	 SCOjtcT6TLx52k3q6fa3C2vEA9YMW4eDAdExfyqGvB1DnU6KdXy7xGnuSxnKu5sWo8+pX
-	 J1ypZ/YGVTd4JrwKewfLlS5y2u2p3338KnzzgsVGcHqDfGnI0RTUUzlqb8QtlZ2r8Cjvz
-	 xNcHGlSI3o267yaIlXPWWO7CIr79EOXEqT5ki8iqFx1e/LHkhzIyIcaUtmJzfpIp0JQ==
+	t=1793964745;
+	b=GGg1Bcyo87iZE4xht4GArvlVSrahm7kBkXS5NaIxPAPe20dZJzd1cSToOz6NQsxpxsmf
+	 Wl0drus6sC7MmFefAzNtl8Ec9d+5WEEW+LfC8kqGexD8f7u/RG8TlU1BWoJySkG1ahgbX
+	 nUTy+kOlMzZuRwgA/b2upKqMhL6h/gwL8aJLg1xfcbvxlJojsZzsB0GhWpGFdyM2WiIEg
+	 qeeam/kpM8DX3mZl7kCwd3yWFcI7znHtx3xom0vRv7CmOCKvx9FpuhbtDZak5IZgQPvHT
+	 8drAngfix81cNoknkJfhpWFrTGAKq/AG/ONQ+vhL/r6sAA2guNsk/TwvoiYOlbNT7sA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964741;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964745;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=wqx+iIyAhe2d4XXXu3h+vmHZKd4T7+bh2chBWG5DneU=;
-	b=jUQLAEp9TEhvrI6jdxA1Qcd9c0GvY00DphumhYqPFM8zKM6g+qzCe+EbJF5etFNYfk0J
-	 DodhOZVHS4znWqmBK93etuNTXqG37EPUUfdYONUdtm54HMoeVMjHLhyDV2nbZshrAEZY+
-	 Rq/cGCU2r1DNOWLjeQ5pCjduZzmVbOpPsFRF44SAR7Zn7Fnynyyyh7+sAhcTFVlwy8o2Z
-	 w/ikT90GKre87XCGZvWctFs55yST0nbkvZMX8JdowMZGagV9KxF37iaqKVLMt5kggA66+
-	 2ol+gCUIbf4gCsah6vm9Oj5QotQ6YjCVGxbhaXQlJnKoEic6z8aYJb5621+kCRE67EA==
+	bh=+5CEc3xRBtlmi0Ruv0ajJzuep+GZVYYLK7wyckUonGw=;
+	b=QdQv0tbYbbEtjHdpw6EYIog+oyauawB32CDXUVDpkab5rnXz3c4iztetGhZHLpwgeoH8
+	 QxXMGpAbXuZmZmyjtb1lFeg1Ejd2RjAk+AcO3rEht/VlZY7YJBbS1NDidYMajeFvHPSJf
+	 8FoKAnkb9TI0J+RXmiu+7XBBfBXUyrkfGJN3l9752ul/NcoDxiD8SbT9U4mV9XLNJOdEJ
+	 NWwNL6gZmicVE4vbY0phbQsPfQ/hEdAbcW/URr4pvfsZ4sXwnZAAAg8C7IsitI+0F2Sp7
+	 jp+KXGavyBWM0poQJtqDUoxj1OglduXDiJvgwZacrdpLl0yxQvX8ANyzxUSz0P7Tvpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CU0dryeT;
-	arc=none smtp.remote-ip=209.85.215.171
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Az0l4Gqj;
+	arc=none smtp.remote-ip=209.85.216.42
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B60860A3832
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B60860A3832
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4704660A261F
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4704660A261F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CU0dryeT
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cd15c885bdaso67175a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:20 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Az0l4Gqj
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3b0b6cae44aso106803a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964740; x=1794569540; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964744; x=1794569544; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=wqx+iIyAhe2d4XXXu3h+vmHZKd4T7+bh2chBWG5DneU=;
-        b=CU0dryeTC6lyXLymhzM5DT1SOXzOPDhu1a0UL/VtqOglmhsKyBkm1zIng7+dt3qeYg
-         LXs7FqZI1dKTLhBcddXk+R+2vGeVeHF1LsM6oWYixgCw37yqG6YSp1j2VXxRjd9bVLMZ
-         3FyyXFhsdENixE56kNvJtYCOR7NmZNENKFNbWNrZmeDkYho3iVu5pgBwA8dSXx+E7uEX
-         DTNrT6IRlOjzjkH5joRK4fN4+AXpkac9XGE4mcX29T4EdLW4v87jj0ExaIbvx8Ia5gdY
-         HEbXR+YSg702Lr1drhh9I3YWHedYnzSjCMM4f/Y74yNoWqfv0N1WDv8PtN+wDMR4d/8v
-         J4Gg==
+        bh=+5CEc3xRBtlmi0Ruv0ajJzuep+GZVYYLK7wyckUonGw=;
+        b=Az0l4GqjjO+z1+iWHByhiBJw8Tg4foE2w9vocEgzG6m2kmqMcW9aufVpTRu9NzEqDL
+         ZV5XHpXTD6Z4uZq1U+eoR0BegIt0Gqw+3joCnpC5xmG+NtYSJIbwb1Z0+tlzybvfsDes
+         vL0pGyrdCg48EG0UN6bhtaeciQv9BI76/FzTbchXpvTclhoWWne9RRVqk+iJjTcxJ8vf
+         /KTF1tU+nYoFeO/Ts0zTPT9AfVzJIvQ+Hg7iIgb1aoSlHW+wiUXMb4zurg9k/Omh8wLT
+         9dm9uNKVwUZXTrCaCNLeFWiOaxFzwSMbCAIgIAmdUAvV95PNaG0hSY7qUmbyitw7X9Eh
+         ilCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964740; x=1794569540;
+        d=1e100.net; s=20260707; t=1793964744; x=1794569544;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=wqx+iIyAhe2d4XXXu3h+vmHZKd4T7+bh2chBWG5DneU=;
-        b=IL0X6ygwfZW9Udfh6B5NH1vMxM6QqMXjSS4SY8xIp2ICXyBL4QvJgxU2fYrNzHj888
-         UXR/Jz1kYDwGcqSThNQVa0rR6zq0zkjbrU2NyvLT6p88PNSJnQRPVRDU1yEJ8Ze5kVAT
-         XenR5YrxRZ5gyylZfm6JL8oKXu+LQCyRxo+eQdmK/N9cddIVplwnGpCeL92GnfPXppW6
-         T0jkdSpqV6lorRwXbUET4qz4zW4gDAAWnOIibIGKU8f8tb0oQrFE/Cp8PDkP+ZwdyRdZ
-         CEAfJWYgAwcZD/Md185CQzkSbkCYchUmwRSChceh/rrb0w/O+flm1GqWYgYpewj/Xzhh
-         Lvkw==
-X-Forwarded-Encrypted: i=1; AL+hErGrejNjnlR5EiaEd+jo6kgpk9AI/YtnUcCB3XdHtcMkbklQ0pODJdtHToMOHwuJGn2SowSpmnlCH6M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9nfttgR66sQUfHsdhGr1bYxPr8MSuYpt4uLCH4s862rzmNg1f2
-	b/Ldxwx5KCwrYxQoXNtqT/cevry5Uiw5OcpOqXtExme2m40HEvkhIXJc
-X-Gm-Gg: AYBFou0CKqbaZxkqapCXCnhTsklNV4HYgtmVXb6ORosOO7MK+FDNhiuoyCJ6FujcIMY
-	d7577AE2kjO30oceyzoVBYi4gl+f1fY/xnoMpgnkiQGRzZMketJthB6aghMFWDGNQJqQRUzBOsz
-	O4b9s0EAKZQCt1vBZmwZy/PltokBDsufON45u2KpwXe6g9lYQLYH4BLQwaVFvn3J7d4N1JPtzXq
-	GyMkJSRp0l4Xbw2LC2AIkJygLNKe3dEg9LyauTXZav8s5dAGk6tMkjyAHd+YQKKzoprhc4L5i1U
-	xoSMzKUVGeuvb2Qkws1JDMxinzatwBK6Hk2i3SofwiCDSIEkHL8Ll6mjqOjCEXZNXctLWsPIKdp
-	Jp3jMr/lI4i12j+u7xgmZBC7roc1utpxiP4DKFj9fePnIJ7QiYuCrsbei3tzvUucSmjRqNYqHHY
-	7poIuzWtJjrEIIFexbl7lSnBioR9f8kZ6vy3ml6WuWE/1xUPUCISYJZjPAtXDGkBeC/VOxSGf4T
-	HN48RU9nnK+p8hKwKy+u3xwPsaE4u7TECN5jV8jqzJo0OInSoi2QYlqw3Os8Ag6bRsaBeB5spnr
-	8FTRAt0p0urE31IA36SiWYhRGts1BCjZWc2rzeoCco8W1DUpQtahvrwDpODj9TYtlnhscslir1v
-	al4Q3hgR1HSQkezR8vTuULWFO
-X-Received: by 2002:a17:90b:448f:b0:3ac:a11a:7c88 with SMTP id 98e67ed59e1d1-3b0db6af9e6mr3352954a91.3.1793964740373;
-        Fri, 06 Nov 2026 03:32:20 -0800 (PST)
+        bh=+5CEc3xRBtlmi0Ruv0ajJzuep+GZVYYLK7wyckUonGw=;
+        b=FCFHbbnU3cxl1HqVkTveu6Jz1Oe+35+VV8G3gNKSL/gHx4yhBetrqWVMY2lTV7PK82
+         mCtqy7ixqoQX5k0MgX82imUVfO6WpMn0PwpMFCs2tTAyzY62Ubn+dHzGfK03nGozRhra
+         WzSxD5IujiJWoJ1Ihsx6tiOvhZb3d/6PF1IO+3S+EnyXZxEqU1QcoFw0KC2RxShCmNdY
+         yN+8thHPL+GHSeMhh/7+0LXjcFtRB9xNhKSKuZVtBIDTEE2DnmZ0PS1HxGBY8wCeuYZO
+         7TrA2rHdveQyzhptA2jzOxgJApTI/l62axQ/DiMoFVUywiDO/WPQuSgPbqxzDSXChIQP
+         ZGsQ==
+X-Forwarded-Encrypted: i=1; AL+hErH6d1hNz12b2gADJTvKDsOL4YqJ4YKbgomte6mhklmejgKT0u6v6E/DihkWdYF4FHpRkVDGG803CXg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/vqjiJTHIusNTutgKcPrFCCJGEYidXjSgrgtOmZRGpGGtLWIeX
+	Df5gSrPP2xYFSVjUzqirvcysOaRRytSa3PbrjYS6Wki9JDZofX7y8oTH
+X-Gm-Gg: AYBFou1bTqAW1fIIkH3H/5MlkLlWYZAbZh70JXitOXnnGi/rM0/Yn8UV5geGt36WoCi
+	Bf9u5u7Xsf+/plQ3CKpO4lBCAictQsTZbqbkkk8nlfTBKo4P44Y9nQh5JhdKFuSvofLl5RbQA+G
+	OMJehFvbiz0kvS46audAMDfFV7yRkFfYBp66sc606vKSLfRQ3i6SKqd+nHvGEZC5To8hyzSMQwg
+	FVlwX5BE4gdAb9qpCVxxoHIG2fOXHl2julLtP1yOBGRttewtcaks3lkfo28RB06Y7qoPkXEFM2U
+	drqLCBn2mg97PoCnrfpoish8Hpp83DUSrKKshkgEGW+5VwNJVbzT79cjBDVh8Vvg3eUyu97tNI4
+	QXFK+9W5RcAcpcKceAExyl5nyKSgKDNQhiSAKkanI7U92rF4FLRhUkpwGbvebyJowwDxChMNEct
+	Cd8Kj5/PCzS8jJwXEcBDv5QMRxWt77jtuPBhwyOxpTIiU+/KFda88fhH0/j3pTlxeA5VIn0mlOj
+	HWec6T/v9hvpUE0DpzESnmB9Tj/eHRtJTDpexi7E+KvOGOHd6pDw/Y323IwshwWm9/PtZJYagOt
+	y8v5oyCt2ugFwFh9ZI43Z2PfXUtXZObEIPr4DF5/gcyR4ld1x5cHzKPZ8mWAVxFtMk3dMA1Rev9
+	vue6tZKsiGn2jkClKjwf4XprF
+X-Received: by 2002:a17:90b:2749:b0:3b0:d0be:f02c with SMTP id 98e67ed59e1d1-3b0db72428bmr3209286a91.6.1793964743401;
+        Fri, 06 Nov 2026 03:32:23 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.17
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:32:19 -0800 (PST)
+        Fri, 06 Nov 2026 03:32:22 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 09/25] docs/zh_TW: process: sync code-of-conduct.rst with the English original
-Date: Fri,  6 Nov 2026 19:31:24 +0800
-Message-ID: <20261106113142.706783-10-chenyou910331@gmail.com>
+Subject: [PATCH 10/25] docs/zh_TW: process: sync gdb-kernel-debugging.rst with the English original
+Date: Fri,  6 Nov 2026 19:31:25 +0800
+Message-ID: <20261106113142.706783-11-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113142.706783-1-chenyou910331@gmail.com>
 References: <20261106113142.706783-1-chenyou910331@gmail.com>
@@ -107,135 +107,245 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation carried no "update to commit" marker.  A
-section-by-section comparison against the current English text shows
-that every section is present, including the conduct@kernel.org contact
-from commit f3f76d640141 ("Code of Conduct: Change the contact email
-address") and the Interpretation section from commit f7e585843217 ("Code
-of Conduct: Provide links between the two documents"), but the text was
-still a mechanical conversion of zh_CN:
+The translation carries "update to commit d5af79c05e93 ("Documentation:
+move dev-tools debugging files to process/debugging/")", but as
+commit e07f694cbd09 ("docs/zh_TW: move gdb-kernel-debugging to
+process/debugging/") already noted, that marker was the oldest baseline
+checktransupdate.py could see after the move, not the version the text
+follows.  A section-by-section comparison against the current English
+text shows the translation includes the lx_per_cpu examples from
+commit 09e1d93a421f ("scripts/gdb: update documentation for
+lx_per_cpu"), but lacks the "make scripts_gdb" step from
+commit 6b219431037b ("docs/scripts/gdb: add necessary make scripts_gdb
+step") and the "Debugging GDB scripts" section from
+commit 7f7f468548ce ("Documentation: Provide hints on how to debug
+Python GDB scripts").  Bring it in line with the full current original:
 
-- fix leftover mainland terms (內核, 社區, 項目, 代碼, 信息, 文檔, 通過,
-  在線/離線, 帳戶) and use 為 instead of 爲
-- retranslate items whose meaning had drifted: "commits" (承諾),
-  "ethnicity" (rendered as 種族 like "race"), "socio-economic status"
-  (split into two items), "empathy", "unwelcome sexual attention or
-  advances", "physical address", "official" project e-mail address and
-  social media account, and "online or offline event"
-- restore "appropriate to the circumstances" in the Enforcement section
-- restructure the Responsibilities sentence so that "inappropriate,
-  threatening, offensive, or harmful" qualifies the behaviors for which
-  a contributor may be banned
+- add the "Build the gdb scripts" step and the "Debugging GDB scripts"
+  section
+- drop text the original does not have: the "(kernel source build)"
+  note on the cd step and the "(command not found)" note on the
+  auto-load warning, and a duplicated word in the breakpoint step
+- translate "convenience functions" and "a snapshot of the initial
+  version" as written instead of as "debugging helpers" and "some
+  examples of the initial version"
+- replace the mainland terms left over from the zh_CN conversion
+  (調試, 內核, 模塊, 加載, 接口, 硬件, 信息, 文檔, 命令行, 函數, 字段,
+  斷點, 鏡像, 控制檯, ...) with Taiwanese usage, and use 為, 啟 and 才
+- add the SPDX-License-Identifier line carried by the other zh_TW
+  translations in process/
 
-update to commit f3f76d640141 ("Code of Conduct: Change the contact
-email address")
+Now that the file is in sync, drop the unmaintained-zh_TW.rst notice
+that commit 6561dd301873 ("docs/zh_TW: add a notice for translations
+not kept in sync") added until it was updated.
+
+update to commit 7f7f468548ce ("Documentation: Provide hints on how to
+debug Python GDB scripts")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/code-of-conduct.rst         | 54 +++++++++----------
- 1 file changed, 27 insertions(+), 27 deletions(-)
+ .../debugging/gdb-kernel-debugging.rst        | 104 ++++++++++--------
+ 1 file changed, 60 insertions(+), 44 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/code-of-conduct.rst b/Documentation/translations/zh_TW/process/code-of-conduct.rst
-index 0266cd74a0b1..d6b253d3bac6 100644
---- a/Documentation/translations/zh_TW/process/code-of-conduct.rst
-+++ b/Documentation/translations/zh_TW/process/code-of-conduct.rst
-@@ -6,69 +6,69 @@
+diff --git a/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst b/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
+index 45f178c0bf59..81e6433f16e4 100644
+--- a/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
++++ b/Documentation/translations/zh_TW/process/debugging/gdb-kernel-debugging.rst
+@@ -1,67 +1,75 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ .. highlight:: none
  
- .. _tw_code_of_conduct:
+ .. include:: ../../disclaimer-zh_TW.rst
+-.. include:: ../../unmaintained-zh_TW.rst
  
--貢獻者契約行爲準則
-+貢獻者契約行為準則
- ++++++++++++++++++
+ :Original: Documentation/process/debugging/gdb-kernel-debugging.rst
  
- 我們的誓言
- ==========
+-通過gdb調試內核和模塊
+-=====================
++透過gdb對核心與模組除錯
++=======================
++
++核心除錯器kgdb、QEMU等hypervisor，或基於JTAG的硬體介面，都能在執行期間使用
++gdb對Linux核心及其模組除錯。Gdb提供了強大的python腳本介面，核心也提供了一組
++輔助腳本，可以簡化典型的核心除錯步驟。本文是一份簡短的教學，說明如何啟用與
++使用這些腳本。本文以QEMU/KVM虛擬機器作為目標，但其中的範例也同樣適用於其他
++gdb stub。
  
--爲了營造一個開放、友好的環境，我們作爲貢獻者和維護人承諾，讓我們的社區和參
--與者，擁有一個無騷擾的體驗，無論年齡、體型、殘疾、種族、性別特徵、性別認同
--和表達、經驗水平、教育程度、社會狀況，經濟地位、國籍、個人外貌、種族、宗教
--或性身份和取向。
-+為了營造一個開放、友好的環境，我們作為貢獻者和維護人員承諾，讓參與我們的專案
-+和社群成為每個人都不受騷擾的體驗，無論年齡、體型、身心障礙、族裔、性別特徵、
-+性別認同和表達、經驗水平、教育程度、社會經濟地位、國籍、個人外貌、種族、宗教
-+或性認同和性取向。
+-Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口，支持在運行時使用gdb
+-調試Linux內核及其模塊。Gdb提供了一個強大的python腳本接口，內核也提供了一套
+-輔助腳本以簡化典型的內核調試步驟。本文檔爲如何啓用和使用這些腳本提供了一個簡要的教程。
+-此教程基於QEMU/KVM虛擬機，但文中示例也適用於其他gdb stub。
  
- 我們的標準
- ==========
++需求
++----
  
--有助於創造積極環境的行爲包括：
-+有助於創造積極環境的行為包括：
+-環境配置要求
+-------------
++- gdb 7.2+（建議：7.4+），並啟用python支援（各發行版通常都已啟用）
  
- * 使用歡迎和包容的語言
- * 尊重不同的觀點和經驗
- * 優雅地接受建設性的批評
--* 關注什麼對社區最有利
--* 對其他社區成員表示同情
-+* 關注什麼對社群最有利
-+* 對其他社群成員展現同理心
+-- gdb 7.2+ (推薦版本: 7.4+) 且開啓python支持 (通常發行版上都已支持)
  
--參與者的不可接受行爲包括：
-+參與者的不可接受行為包括：
+-設置
++設定
+ ----
  
--* 使用性意味的語言或意象以及不受歡迎的性注意或者更過分的行爲
--* 煽動、侮辱/貶損評論以及個人或政治攻擊
-+* 使用帶有性意味的語言或圖像，以及不受歡迎的性關注或性挑逗
-+* 惡意挑釁、侮辱/貶損的評論以及人身或政治攻擊
- * 公開或私下騷擾
--* 未經明確許可，發佈他人的私人信息，如物理或電子地址。
--* 在專業場合被合理認爲不適當的其他行爲
-+* 未經明確許可，公開他人的私人資訊，如實體或電子地址
-+* 在專業場合中可被合理認為不適當的其他行為
+-- 創建一個QEMU/KVM的linux虛擬機（詳情請參考 www.linux-kvm.org 和 www.qemu.org ）。
+-  對於交叉開發，https://landley.net/aboriginal/bin 提供了一些鏡像和工具鏈，
+-  可以幫助搭建交叉開發環境。
++- 為QEMU/KVM建立一台Linux虛擬機器（詳情請參考www.linux-kvm.org與
++  www.qemu.org）。若要進行交叉開發，https://landley.net/aboriginal/bin 提供了
++  一批機器映像檔與工具鏈，可以作為起點。
++
++- 建置核心時啟用CONFIG_GDB_SCRIPTS，但保持CONFIG_DEBUG_INFO_REDUCED關閉。
++  如果你的架構支援CONFIG_FRAME_POINTER，請保持啟用。
  
- 我們的責任
- ==========
+-- 編譯內核時開啓CONFIG_GDB_SCRIPTS，關閉CONFIG_DEBUG_INFO_REDUCED。
+-  如果架構支持CONFIG_FRAME_POINTER，請保持開啓。
++- 在guest上安裝該核心，必要時在核心命令列加上“nokaslr”以關閉KASLR。
++  另外，QEMU也可以透過-kernel、-append、-initrd這些命令列選項直接啟動核心。
++  這通常只在你不依賴模組時才有用。關於此模式的詳細資訊，請參閱QEMU文件。
++  在這種情況下，如果架構支援KASLR，應該在停用CONFIG_RANDOMIZE_BASE的情況下
++  建置核心。
  
--維護人員負責澄清可接受行爲的標準，並應針對任何不可接受行爲採取適當和公平的
-+維護人員負責澄清可接受行為的標準，並應針對任何不可接受行為採取適當和公平的
- 糾正措施。
+-- 在guest環境上安裝該內核。如有必要，通過在內核command line中添加“nokaslr”來關閉KASLR。
+-  此外，QEMU允許通過-kernel、-append、-initrd這些命令行選項直接啓動內核。
+-  但這通常僅在不依賴內核模塊時纔有效。有關此模式的更多詳細信息，請參閱QEMU文檔。
+-  在這種情況下，如果架構支持KASLR，應該在禁用CONFIG_RANDOMIZE_BASE的情況下構建內核。
++- 建置gdb腳本（v5.1以上的核心需要此步驟）::
  
--維護人員有權和責任刪除、編輯或拒絕與本行爲準則不一致的評論、承諾、代碼、
--wiki編輯、問題和其他貢獻，或暫時或永久禁止任何貢獻者從事他們認爲不適當、
--威脅、冒犯或有害的其他行爲。
-+維護人員有權利和責任刪除、編輯或拒絕與本行為準則不一致的評論、提交、程式碼、
-+wiki 編輯、問題和其他貢獻，或暫時或永久禁止任何從事他們認為不適當、威脅、
-+冒犯或有害之其他行為的貢獻者。
+-- 啓用QEMU/KVM的gdb stub，可以通過如下方式實現
++    make scripts_gdb
  
- 範圍
- ====
+-    - 在VM啓動時，通過在QEMU命令行中添加“-s”參數
++- 啟用QEMU/KVM的gdb stub，可以
++
++    - 在VM啟動時，於QEMU命令列加上“-s”
  
--當個人代表項目或其社區時，本行爲準則既適用於項目空間，也適用於公共空間。
--代表一個項目或社區的例子包括使用一個正式的項目電子郵件地址，通過一個正式
--的社交媒體帳戶發佈，或者在在線或離線事件中擔任指定的代表。項目維護人員可以
--進一步定義和澄清項目的表示。
-+當個人代表專案或其社群時，本行為準則既適用於專案空間，也適用於公共空間。
-+代表一個專案或社群的例子包括使用專案的官方電子郵件地址、透過官方社群媒體帳號
-+發佈內容，或者在線上或線下活動中擔任指定的代表。專案維護人員可以進一步定義和
-+澄清專案的代表方式。
+   或
  
- 執行
- ====
+-    - 在運行時通過從QEMU監視控制檯發送“gdbserver”
++    - 在執行期間，從QEMU monitor主控台下達“gdbserver”
  
--如有濫用、騷擾或其他不可接受的行爲，可聯繫行爲準則委員會<conduct@kernel.org>。
--所有投訴都將接受審查和調查，並將得到必要和適當的答覆。行爲準則委員會有義務
--對事件報告人保密。具體執行政策的進一步細節可單獨公佈。
-+如有濫用、騷擾或其他不可接受的行為，可聯繫行為準則委員會 <conduct@kernel.org>。
-+所有投訴都將接受審查和調查，並將得到視情況認為必要和適當的回應。行為準則委員會
-+有義務對事件報告人保密。具體執行政策的進一步細節可另行公佈。
+-- 切換到/path/to/linux-build(內核源碼編譯)目錄
++- cd /path/to/linux-build
  
- 歸屬
- ====
+-- 啓動gdb：gdb vmlinux
++- 啟動gdb：gdb vmlinux
  
--本行爲準則改編自《貢獻者契約》，版本1.4，可從
-+本行為準則改編自《貢獻者契約》，版本 1.4，可從
- https://www.contributor-covenant.org/version/1/4/code-of-conduct.html 獲取。
+-  注意：某些發行版可能會將gdb腳本的自動加載限制在已知的安全目錄中。
+-  如果gdb報告拒絕加載vmlinux-gdb.py（相關命令找不到），請將::
++  注意：某些發行版可能會將gdb腳本的自動載入限制在已知安全的目錄。
++  如果gdb回報拒絕載入vmlinux-gdb.py，請將::
  
- 解釋
- ====
+     add-auto-load-safe-path /path/to/linux-build
  
--有關Linux內核社區如何解釋此文檔，請參閱 :ref:`tw_code_of_conduct_interpretation`
--
-+有關 Linux 核心社群將如何解釋此文件，請參閱
-+:ref:`tw_code_of_conduct_interpretation` 。
+-  添加到~/.gdbinit。更多詳細信息，請參閱gdb幫助信息。
++  加入~/.gdbinit。詳情請參閱gdb的說明。
+ 
+-- 連接到已啓動的guest環境::
++- 連線到已開機的guest::
+ 
+     (gdb) target remote :1234
+ 
+ 
+-使用Linux提供的gdb腳本的示例
+-----------------------------
++使用Linux提供的gdb輔助工具的範例
++--------------------------------
+ 
+-- 加載模塊（以及主內核）符號::
++- 載入模組（以及主核心）的符號::
+ 
+     (gdb) lx-symbols
+     loading vmlinux
+@@ -74,18 +82,18 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
+     ...
+     loading @0xffffffffa0000000: /home/user/linux/build/drivers/ata/ata_generic.ko
+ 
+-- 對一些尚未加載的模塊中的函數函數設置斷點，例如::
++- 對某個尚未載入的模組函式設定中斷點，例如::
+ 
+     (gdb) b btrfs_init_sysfs
+     Function "btrfs_init_sysfs" not defined.
+     Make breakpoint pending on future shared library load? (y or [n]) y
+     Breakpoint 1 (btrfs_init_sysfs) pending.
+ 
+-- 繼續執行::
++- 讓目標繼續執行::
+ 
+     (gdb) c
+ 
+-- 加載模塊並且能觀察到正在加載的符號以及斷點命中::
++- 在目標上載入模組，觀察符號的載入以及中斷點的觸發::
+ 
+     loading @0xffffffffa0034000: /home/user/linux/build/lib/libcrc32c.ko
+     loading @0xffffffffa0050000: /home/user/linux/build/lib/lzo/lzo_compress.ko
+@@ -95,7 +103,7 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
+     Breakpoint 1, btrfs_init_sysfs () at /home/user/linux/fs/btrfs/sysfs.c:36
+     36              btrfs_kset = kset_create_and_add("btrfs", NULL, fs_kobj);
+ 
+-- 查看內核的日誌緩衝區::
++- 傾印目標核心的日誌緩衝區::
+ 
+     (gdb) lx-dmesg
+     [     0.000000] Initializing cgroup subsys cpuset
+@@ -107,21 +115,21 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
+     [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
+     ....
+ 
+-- 查看當前task struct結構體的字段（僅x86和arm64支持）::
++- 檢視目前task struct的欄位（僅支援x86與arm64）::
+ 
+     (gdb) p $lx_current().pid
+     $1 = 4998
+     (gdb) p $lx_current().comm
+     $2 = "modprobe\000\000\000\000\000\000\000"
+ 
+-- 對當前或指定的CPU使用per-cpu函數::
++- 針對目前或指定的CPU使用per-cpu函式::
+ 
+     (gdb) p $lx_per_cpu(runqueues).nr_running
+     $3 = 1
+     (gdb) p $lx_per_cpu(runqueues, 2).nr_running
+     $4 = 0
+ 
+-- 使用container_of查看更多hrtimers信息::
++- 使用container_of輔助函式深入檢視hrtimers::
+ 
+     (gdb) set $leftmost = $lx_per_cpu(hrtimer_bases).clock_base[0].active.rb_root.rb_leftmost
+     (gdb) p *$container_of($leftmost, "struct hrtimer", "node")
+@@ -144,10 +152,11 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
+     }
+ 
+ 
+-命令和輔助調試功能列表
+-----------------------
++命令與函式列表
++--------------
+ 
+-命令和輔助調試功能可能會隨着時間的推移而改進，此文顯示的是初始版本的部分示例::
++命令與便利函式（convenience function）的數量可能會隨時間演進，以下只是初始
++版本的快照::
+ 
+  (gdb) apropos lx
+  function lx_current -- Return current task
+@@ -159,6 +168,13 @@ Kgdb內核調試器、QEMU等虛擬機管理程序或基於JTAG的硬件接口
+  lx-lsmod -- List currently loaded modules
+  lx-symbols -- (Re-)load symbols of Linux kernel and currently loaded modules
+ 
+-可以通過“help <command-name>”或“help function <function-name>”命令
+-獲取指定命令或指定調試功能的更多詳細信息。
++命令的詳細說明可以透過“help <command-name>”取得，便利函式的詳細說明則可以
++透過“help function <function-name>”取得。
++
++除錯GDB腳本
++-----------
++
++GDB並未啟用完整的Python回溯（backtrace），這可能讓除錯GDB腳本變得比必要的
++更困難。以下設定可以印出python環境的完整回溯::
+ 
++ (gdb) set python print-stack full
 -- 
 2.43.0
 
