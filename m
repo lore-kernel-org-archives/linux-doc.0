@@ -1,85 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793978503;
-	b=gRD3/wSrViU6NdnjkNePj/5Ed0ZXzxYXjem4qlVyy9rPDs+tyBgiwtyJPKXwGC2oK7Ln
-	 tLRUBsK4oLLtdQGavbzntjOnDl33YSyxus8KE3m2MLYfvfiynzROnvAQjIOSwJRqNSBUJ
-	 Q6cf0M+8OB2cxH5vxQEibsTuoe29N5pSFxMwIX8KP6D1ofmKCGd0yYSTbJ0f9XH33+lt1
-	 bVhIovCz5qmyGYcDsQl2yPlc6/AfACD9PZ32vKRQsS2mGon3aA3XwYqzP/GuPttCRJHRQ
-	 t141NwLG5zUIRAiK+oyp9g1LNUlYGglBcHjPVQQc6DZiAwYzNGs0XzDujrxHPx6eITQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793978503;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
-	bh=QlAJRLst9AJbwfYrhiuAcYHXrk5kiqZZ598/4vkmUAs=;
-	b=KFJx4JkIT6ZqDJx0o3gM8sWlXa8Al5L7YAH2zOT+XwZf6ons2M3tf5Tx2K7yUp3f1RuW
-	 W+J/oU/0UoCzwgNspvLzhwxnvukajfH39iLsZXApGvAOi2phZyqvNl5ATUAQ1aiTriorm
-	 nM83aoXlaD7trbuCfdMODoPi3Q3vZY0trh+y8uSqejotGOGZgkPmrT+ijUZ7RYOdu+f1M
-	 zh2lIIH9zyhrUxVG9ZL4HOFj4yvwWW11Blm/EKPkEAtTNKV6H9v8ARIfx0wfreV3WD1o+
-	 PW0m4BADPc1ukOw/WpH0P8QPX1+MaZUziaHS3X4/xncvUk6SQFdJeA4Fg6+uXbpNoiw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=F0RruXBz;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9C23606A33B;
-	Fri,  6 Nov 2026 15:21:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9C23606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.133.124
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793978520;
+	b=b7iI0ovO27cltoE94ES9V8HEMTSY2BXJtMmR6Ui7o+lIReaHl+2g3j2ZnYQy7KrGjtvq
+	 pM8FsK3OjOt1+LNkyy/aNMYOvN+f5JgqsD0Bi6Ih4NZlIxAoQZ1k1rZq8+bOkeMt9Tkxz
+	 iqpWsPGTO+A46RjRVk9Q37MVNnjAuj31i64lnFeOL0fhsmWeQRSnjyd/BAS68uXL5oP1M
+	 3k3io2+TceLHiEOho8wIslpSJDNe5MgRxnEDe+Pm+ybwSF3bn7fRKbUQPNnIFSQTUAsjv
+	 cSrhaTCnodsPfSQLhDlZe1Vjq28yZB2ZIv7KY+4c459Oq3rp/gW6B8oO/0XEwThqx9A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793978520;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:MIME-Version:References:In-Reply-To:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=1rxOFc+cZPr208SIBHT4IjzKUbYQTfkbGhsqB2LqDE4=;
+	b=mIwebLlPQM0MLsV4T61NDViwApMNiC94wszCbDN5u8hqrw1T3ZLKrY7uXPqWOe17W4eh
+	 38alrPyOn8yLB7XawFAqH20O4dHBtP+jm2kHOI15m9qvgmuIMP52ZOGBlEzrnOPcVBZ99
+	 znVDG8y2m0WLPPIACt2lED0O3o9QRn0/PdqxhEOGhTQofSGzhcRTu8Rb/zX6LqHWIc/nP
+	 z68/PkqiGEFsptSUMIdVO0D39uvK1Uwv+FEbjeulZnukEfuBavI0XJiFTh1t0l4UtL0VQ
+	 CCHvlkroTpyZM+HrHtrCtxDzRdb2gwHkahMFPVuHUimtcU6nw2QGRujnovX82QM6PUg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=WXybZmrT;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=s8OZ3Fjz;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2F1606D804
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 15:21:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E2F1606D804
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=F0RruXBz
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 13A2014BF;
-	Fri,  6 Nov 2026 07:21:39 -0800 (PST)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 6B4D43F628;
-	Fri,  6 Nov 2026 07:21:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793978502; bh=Iwz4s79vORMlYnpLiY8KAQnEt0Hrm46DNVXQpjoy090=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F0RruXBzTZJNsivcNgD/k0rJtVLF4dj6Mu+wOS+gR2L2sR1V6FmZyqLXF3ROdeNwk
-	 vKRjBNJ57EXk8cfW1LFJa5ZkqXnxlBVANULfxXjatVoaU7QMH42OwVvjMzEP1mAdYN
-	 arHGHUemcV/jmvh6lTbk7nxcbmjR06nPG0TrTw2s=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	yangjinqian1@huawei.com,
-	caijian11@h-partners.com,
-	liuyonglong@huawei.com,
-	tangchengchang@huawei.com,
-	yezhenyu2@huawei.com,
-	yubihong@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	seiden@linux.ibm.com,
-	suzuki.poulose@arm.com,
-	fuad.tabba@linux.dev,
-	mark.rutland@arm.com,
-	seanjc@google.com,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v5 07/15] KVM: arm64: Add HDBSS per-vCPU buffer management
-Date: Fri,  6 Nov 2026 15:21:30 +0000
-Message-ID: <au3wekPW4sPUUVGm@LeoBrasDK>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <c80e143e-f899-4b86-94ad-f575c869d72b@huawei.com>
-References: <20260929103655.85107-1-zhengtian10@huawei.com> <20260929103655.85107-8-zhengtian10@huawei.com> <at-bm_p_MHU3GmYn@LeoBrasDK> <6e2d5b81-1ae9-476e-897c-f6dc7079565c@huawei.com> <auSuAAmzoND1sy4c@LeoBrasDK> <c80e143e-f899-4b86-94ad-f575c869d72b@huawei.com>
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=WXybZmrT;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=s8OZ3Fjz
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1793978518;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1rxOFc+cZPr208SIBHT4IjzKUbYQTfkbGhsqB2LqDE4=;
+	b=WXybZmrT/LPDkBI7De79JA5UZD+YajPWsIQ8kFzTJLLFQeP6WeGOHVcZiCf2PEimyFr4Mv
+	S5YZ62KWna8KaEzfielefe67qh8r0HQUr21lUehIAfyYIMM1AlKj5s2gvZlfpMJxz58bLa
+	HH8e7XZz6te7uiSe3hJjdC7ziuZVBLs=
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com
+ [209.85.210.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-278-ld2uQrPYNM6WpcsldCu1Sg-1; Fri, 06 Nov 2026 10:21:55 -0500
+X-MC-Unique: ld2uQrPYNM6WpcsldCu1Sg-1
+X-Mimecast-MFC-AGG-ID: ld2uQrPYNM6WpcsldCu1Sg_1793978512
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-843cf077bf7so1201426a34.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 07:21:53 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793978512; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aOMyNBIQZPjZhsTZSlXYg7iquLI4h+oi2T7Dl9DGLp+GulpLRJDXXV+3mHeOUNRQ3y
+         /25tDhETDMhHnl6qTcyMutLFSaiC17jI6zzJnRKABjpLG1GIDlA5bGMtpcQ1/URmUVkS
+         S3is3cVvVxksYJiGRTCVg+F9JmUlQ2QMli62qW/W3zHrPx6dJAifK92dDNbupxB/bHV/
+         QRRMmDcOmaU1kL/oBQJJbjbHsqn2I+l34+4c+wtFE4bRh07oz1BHiQMpVh+K6KcuXH3g
+         oPdFrZlWrRdLtUpfC5IfXhan9VHZW2dpJDmYgfgMtYysx6+OmbyTY9fXHbVZw1P1oMED
+         3L1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=1rxOFc+cZPr208SIBHT4IjzKUbYQTfkbGhsqB2LqDE4=;
+        fh=HBYOsWR10SEcTf4tFJloXP3F2TjWtJzHVjsqKxm1AkA=;
+        b=iiXc+d4NLTBOLNVzR57cIRULzT39/lqmYrG4ah+ojmKCG8FRfpYM21njelC7btFvk+
+         /F063fsNMJgtYTwQsnyCrIv4PBYd5MccVmWnQriNsp8U85xZMdgsjyEKyO3rXMkI+JBR
+         prv/ylmgIV7MTRfSGR1c3D2V51uTtgJhuG4xe5URpuvZ01VElFhImD1fx/1k1Pyf7+wD
+         jOdsDT2PCpHZvQBKA27iy0i0GY4uc0EUqrekQBh8PEFUSX9XlA0lbbRRLdKGCpUihHSt
+         MRVAXmUJQ/2B+Vd+FR1xFuZ87NS6WNNgp3pqZxitiFcHfJLM+nN/O8LlsYkvXNdEcn1d
+         qTwA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1793978512; x=1794583312; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=1rxOFc+cZPr208SIBHT4IjzKUbYQTfkbGhsqB2LqDE4=;
+        b=s8OZ3FjzHURNyBqkqIBU1Bg8DoKgxzEWVuozmHY19KhKFA2dCgDz9cUW8YyLpMBdmE
+         lTBo4b+VaFcPoEDEYdkRPHb4kdCbDm21vf9OrO+KZgAMDeBJnM8+pb8i/BXTsvVpokqj
+         HoO8pQbI31Qd9XtPwTG0Qa6+jZ6kDv6F+76vhl5ydemxmOZB4TsAgIem2B+cBpW26x4E
+         BCVq5wtr5Z2/ELwPD2wCZ5HKTdtNP8OGCbaOromawRYTrODwsJzhiGUOnS2TgxcZhUM+
+         ietb50h4MKGBTficTllREZT6vRv2lQOj3sqija+kHQJMbr65cPuQ6nyHlsKsp7BXUn3l
+         Ksig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793978512; x=1794583312;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1rxOFc+cZPr208SIBHT4IjzKUbYQTfkbGhsqB2LqDE4=;
+        b=mwhwvajVd7OODeyI5xA+cutBsGLl/UbTecM8p0QQeL7qbcDsptMFq9kEUycsRnKC6U
+         c22LyQbBzq9hyZBmjS3pi8rZfKfk/vhUDFg4voC8phJa+fPaGVih4duDL3b+w/IZk0CY
+         9i+KPAJ++Pq/otcNCf/i+GlNXWspYHn92oWUEILz+M+MBbR66vI0CyIs18dwYnlEAX2U
+         bEpRdA6moSdmm+BQtRnq/yhwbzD4PnObajJ0OYu4BF0+PfQQx5wF6hrwv4Q7tL/2oFZK
+         e1/TO4JCcSNO/jzIOiXAu45TAJbwxm5421k7bIK6dG5JP4MnJ3EZNlQ1/kagqlRyIbl1
+         SlLA==
+X-Forwarded-Encrypted: i=1; AKwUvBwco6t8h7dPEZ4p6JMuDYThTuC64fZAJC5cU5RqOeWavB8TMstK28sO8eyK8zqY4NU0m5Qsz06r0qM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z86F4owX4ukEqE8HqlqykxLIuUjr31Fuh8opa+I20JQUYbAjXQt
+	kCYmTV1ek9JX65+H8NgPMJUJadDQ6ey0IzrZqWc8KNHfR0pi0Ocg2NAZPtQsAWKjeJ3sEUUpJOr
+	gamJz6E3V2+xUpvLNgAsbHYA3S6eO+K0UEgsrMFYcg+Noijpb4oCXodu8VW95rIylLaly8J3g/o
+	lKWO5x8X3/+R9tpfpY+gioGl+41RqVyMgomS91
+X-Gm-Gg: AYBFou1TlP7awXzN/rg7Wv2l6NFKXTlwPJCiLQYqoYQIzz9wjeME5bQqYnmm9fyz8qc
+	b/9wBPM2+uaT4OmLY3Jd3uLEkRo0kTJw27r/wen1JZfj27esUjBX8yLtSuAPPwzPkD3mXr2UMZU
+	kEJMQIQgFLXq5+AOqUijoQVJSZErdfp/o3D+YS7rWz25v0Sv2T/b/HC7e1
+X-Received: by 2002:a05:6808:181f:b0:4d7:17d5:6c9b with SMTP id 5614622812f47-567e098b040mr2230488b6e.9.1793978512095;
+        Fri, 06 Nov 2026 07:21:52 -0800 (PST)
+X-Received: by 2002:a05:6808:181f:b0:4d7:17d5:6c9b with SMTP id
+ 5614622812f47-567e098b040mr2230427b6e.9.1793978511464; Fri, 06 Nov 2026
+ 07:21:51 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,458 +124,326 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+References: <20261104-v2_20230123_tjmercier_google_com-v4-0-1819a017000b@redhat.com>
+ <20261104-v2_20230123_tjmercier_google_com-v4-3-1819a017000b@redhat.com> <fb40349c-18d2-45d6-9278-8f20e1b8dc74@amd.com>
+In-Reply-To: <fb40349c-18d2-45d6-9278-8f20e1b8dc74@amd.com>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Fri, 6 Nov 2026 16:21:40 +0100
+X-Gm-Features: AclHuK8xPUV12Kp92h3MGmY0EG1MyX4e69V4l27RPz6qll1dAX1c6CSJcZPwZjc
+Message-ID: <CADSE00+NL-tyQVaTiS0Xdin7f-P_2c84P0qs-X66VqYze0-kGQ@mail.gmail.com>
+Subject: Re: [PATCH v4 3/8] dma-buf: transfer memcg charges via DMA_BUF_IOCTL_XFER_CHARGE
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+	=?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Michal Hocko <mhocko@kernel.org>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Muchun Song <muchun.song@linux.dev>, Andrew Morton <akpm@linux-foundation.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	Christian Brauner <brauner@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, =?UTF-8?B?T25kcmVqIE1vc27DocSNZWs=?= <omosnacek@gmail.com>, 
+	Jens Wiklander <jenswi@kernel.org>, Sumit Garg <sumit.garg@kernel.org>, cgroups@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
+	linux-security-module@vger.kernel.org, selinux@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, op-tee@lists.trustedfirmware.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 06, 2026 at 04:49:49PM +0800, Tian Zheng wrote:
-> 
-> 
-> On 10/30/2026 10:47 PM, Leonardo Bras wrote:
-> > On Fri, Oct 30, 2026 at 11:47:20AM +0800, Tian Zheng wrote:
-> > > 
-> > > 
-> > > On 10/27/2026 2:27 AM, Leonardo Bras wrote:
-> > > > On Tue, Sep 29, 2026 at 06:36:47PM +0800, Tian Zheng wrote:
-> > > > > From: Eillon <yezhenyu2@huawei.com>
-> > > > > 
-> > > > > Each vCPU owns an HDBSS buffer, described by HDBSSBR_EL2 (base
-> > > > > address and encoded size) and advanced by HDBSSPROD_EL2 as hardware
-> > > > > appends entries. Tie the buffer lifetime to the vCPU: allocate at
-> > > > > vCPU creation, free at destruction. The buffer is allocated zeroed,
-> > > > > so a stale producer index can only ever observe invalid entries.
-> > > > > 
-> > > > > Registers are programmed whenever the vCPU owns a buffer, regardless
-> > > > > of whether HDBSS is enabled. The feature can be turned on
-> > > > > mid-KVM_RUN, and hardware dirty-state updates write to
-> > > > > HDBSSBR_EL2.BADDR without any fault, so the registers must already
-> > > > > be in place by then. HDBSSPROD_EL2 is preserved across context
-> > > > > switches and vCPU migration.
-> > > > > 
-> > > > > Two details: the buddy order is kept separate from the HDBSSBR_EL2.SZ
-> > > > > encoding, since the two only coincide on 4KB pages; and kvm_share_hyp()
-> > > > > is unwound in kvm_arch_vcpu_create() when the HDBSS allocation fails.
-> > > > 
-> > > > Out of curiosity: why can't we allocate the buffers when dirty-tracking
-> > > > starts? (and free them when it stops)
-> > > > 
-> > > > Since we have to request the vcpus to guest_exit, and enable
-> > > > VTCR_EL2{HA,HD,HDBSS}, we could as well allocate the buffers and set the
-> > > > HDBSSBR_EL2.BADDR. In case the buffer allocation fails, we could just not
-> > > > enable HDBSS, maybe.
-> > > > 
-> > > > Buffer allocation could happen before the VCPU request, for every vcpu, or
-> > > > during the vcpu request, so every vcpu allocates it's own buffer.
-> > > > 
-> > > > Am I missing something, or is it just to make things easier?
-> > > > 
-> > > 
-> > > Hi loe,
-> > > 
-> > > Yes, allocating the buffers at vCPU creation does make things simpler.
-> > > 
-> > > I'd rather follow the x86 PML and dirty ring scheme: allocate at vCPU
-> > > creation. This avoids partial enablement when an allocation fails mid-
-> > > broadcast, the use-after-free window when freeing at logging stop, and
-> > > naturally handles vCPU hotplug during logging.
-> > 
-> > Ah, I see.
-> > Well, the problem of partial enablement is gone if the requester tries to
-> > allocate all buffers for all vcpus, before requesting the vcpus to enable HDBSS.
-> > If one of them fails, then just don't request the vcpus to enable :)
-> > 
-> > As for the use after free: you can free the buffer at the vcpu request to
-> > disable the feature, making sure it's not using it when you free the
-> > buffer.
-> > 
-> > I agree that allocating at the creation of a vcpu is easier, but this can
-> > receive pushback as a VM will have to carry this buffers for it's whole
-> > lifetime, even though it may never use it.
-> > 
-> > I suggest we try allocating at vcpu creation should only if dirty-tracking
-> > is already happening, so we can enable the feature on the new vcpu.
-> > 
-> > I agree that x86 may have chosen to do that for a reason, but if we don't
-> > know the reason, or if it's not compelling for us, maybe we can just try
-> > doing something better.
-> > 
-> 
-> Hi Leo,
-> 
-> Thanks for giving this suggestion. I think it's useful. x86's PML only
-> occupies 4KB per vCPU, so its memory overhead is controllable. But ours
-> can occupy up to 2MB, which is wasteful.
-> 
-> Therefore, we keep allocating the HDBSS buffer when creating a vCPU if
-> HDBSS is enabled (this is for vCPU hotplug). For normal vCPUs, we keep
-> allocating HDBSS buffers when enabling HDBSS, and destroy them when
-> disabling HDBSS or destroying the vCPU.
-> 
-> I think it works and can save memory. What do you think about this?
+On Wed, Nov 4, 2026 at 2:52=E2=80=AFPM Christian K=C3=B6nig <christian.koen=
+ig@amd.com> wrote:
+>
+> On 11/4/26 12:09, Albert Esteve wrote:
+> > dma-heap already supports charging a specific cgroup at allocation
+> > time via charge_fd in DMA_HEAP_IOCTL_ALLOC. However, dma-bufs can
+> > originate from any exporter (DRM, V4L2, etc.), and the allocator may
+> > not know the final owner at allocation time.
+> >
+> > Add DMA_BUF_IOCTL_XFER_CHARGE to transfer a dma-buf's memcg charge
+> > to a different cgroup after allocation. The target is identified by
+> > charge_fd, which may be a cgroupfd or a pidfd.
+> >
+> > The transfer charges the new cgroup before uncharging the old one,
+> > preserving the original charge on failure. Concurrent transfers are
+> > serialized by the dma-buf reservation lock, so lockdep covers the
+> > locking order of the charge path early. The transfer implementation
+> > is generic (mem_cgroup_transfer_charge) and not dma-buf specific, so
+> > it can be reused by other subsystems.
+> >
+> > Not all dma-buf exporters back their buffers with reclaimable system
+> > memory. Some represent device registers, VRAM, or carved-out pools
+> > where size is not a meaningful memory cost. The xfer ioctl returns
+> > -EOPNOTSUPP for buffers whose memcg is not set. Exporters opt in by
+> > passing a memcg through dma_buf_export_info at export time. Currently
+> > only the system heap sets it, other exporters can opt in as needed.
+> >
+> > Usage example:
+> >   int cg_fd =3D open("/sys/fs/cgroup/clients/app1", O_RDONLY | O_DIRECT=
+ORY);
+> >
+> >   struct dma_buf_transfer_charge xfer =3D {
+> >       .charge_fd =3D cg_fd,
+> >   };
+> >   ioctl(dmabuf_fd, DMA_BUF_IOCTL_XFER_CHARGE, &xfer);
+> >   /* charge now on app1's cgroup */
+> >   close(cg_fd);
+> >
+> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> > ---
+> >  drivers/dma-buf/dma-buf.c    | 42 ++++++++++++++++++++++++++++++++++++=
+++++++
+> >  include/linux/dma-buf.h      |  3 ++-
+> >  include/linux/memcontrol.h   | 13 +++++++++++++
+> >  include/uapi/linux/dma-buf.h | 26 ++++++++++++++++++++++++++
+> >  mm/memcontrol.c              | 42 ++++++++++++++++++++++++++++++++++++=
+++++++
+> >  5 files changed, 125 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 837666273550..3bd26fbb1109 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -540,6 +540,45 @@ static long dma_buf_import_sync_file(struct dma_bu=
+f *dmabuf,
+> >  }
+> >  #endif
+> >
+> > +/* Transfer a dma-buf's memcg charge; see struct dma_buf_transfer_char=
+ge */
+> > +static long dma_buf_xfer_charge(struct dma_buf *dmabuf,
+> > +                             const void __user *user_data)
+> > +{
+> > +     struct dma_buf_transfer_charge arg;
+> > +     struct mem_cgroup *memcg;
+> > +     unsigned int nr_pages =3D PAGE_ALIGN(dmabuf->size) >> PAGE_SHIFT;
+> > +     int ret =3D 0;
+> > +
+> > +     if (copy_from_user(&arg, user_data, sizeof(arg)))
+> > +             return -EFAULT;
+> > +
+> > +     if (!IS_ENABLED(CONFIG_MEMCG))
+> > +             return 0;
+> > +
+> > +     if (arg.flags !=3D 0)
+> > +             return -EINVAL;
+> > +
+> > +     memcg =3D mem_cgroup_get_from_fd(arg.charge_fd);
+> > +     if (IS_ERR(memcg))
+> > +             return PTR_ERR(memcg);
+> > +
+> > +     dma_resv_lock(dmabuf->resv, NULL);
+> > +
+> > +     if (!dmabuf->memcg) {
+> > +             ret =3D -EOPNOTSUPP;
+> > +             goto out;
+> > +     }
+> > +
+> > +     if (dmabuf->memcg !=3D memcg &&
+> > +         !mem_cgroup_transfer_charge(&dmabuf->memcg, memcg, MEMCG_DMAB=
+UF, nr_pages))
+>
+> Please move the calculation of nr_pages after taking the dma_resv_lock().
+>
+> We currently don't have anybody dynamically changing DMA-buf sizes but ju=
+st to be on the save side.
 
-Yeap, that's what I suggested :)
+Sounds like a good defensive option. I was also tempted to move it.
+Will do for v5.
 
-> 
-> > > 
-> > > > > 
-> > > > > Signed-off-by: Eillon <yezhenyu2@huawei.com>
-> > > > > Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
-> > > > > ---
-> > > > >    arch/arm64/include/asm/kvm_dirty_bit.h | 28 +++++++++++++
-> > > > >    arch/arm64/include/asm/kvm_host.h      | 13 ++++++
-> > > > >    arch/arm64/include/asm/sysreg.h        |  9 +++++
-> > > > >    arch/arm64/kvm/Makefile                |  1 +
-> > > > >    arch/arm64/kvm/arm.c                   | 14 ++++++-
-> > > > >    arch/arm64/kvm/dirty_bit.c             | 55 ++++++++++++++++++++++++++
-> > > > >    arch/arm64/kvm/hyp/vhe/switch.c        | 17 ++++++++
-> > > > >    arch/arm64/kvm/reset.c                 |  3 ++
-> > > > >    8 files changed, 138 insertions(+), 2 deletions(-)
-> > > > >    create mode 100644 arch/arm64/include/asm/kvm_dirty_bit.h
-> > > > >    create mode 100644 arch/arm64/kvm/dirty_bit.c
-> > > > > 
-> > > > > diff --git a/arch/arm64/include/asm/kvm_dirty_bit.h b/arch/arm64/include/asm/kvm_dirty_bit.h
-> > > > > new file mode 100644
-> > > > > index 000000000000..fe703f02626b
-> > > > > --- /dev/null
-> > > > > +++ b/arch/arm64/include/asm/kvm_dirty_bit.h
-> > > > > @@ -0,0 +1,28 @@
-> > > > > +/* SPDX-License-Identifier: GPL-2.0-only */
-> > > > > +/*
-> > > > > + * Per-vCPU buffer management for HDBSS-based dirty page tracking.
-> > > > > + *
-> > > > > + * Copyright (C) 2026 Huawei Technologies Co., Ltd
-> > > > > + * Author: Tian Zheng <zhengtian10@huawei.com>
-> > > > > + */
-> > > > > +
-> > > > > +#ifndef __ARM64_KVM_DIRTY_BIT_H__
-> > > > > +#define __ARM64_KVM_DIRTY_BIT_H__
-> > > > > +
-> > > > > +#include <asm/kvm_pgtable.h>
-> > > > > +#include <asm/sysreg.h>
-> > > > > +#include <linux/sizes.h>
-> > > > > +
-> > > > > +#define KVM_ARM_HDBSS_DEFAULT_SIZE  PAGE_SIZE
-> > > > > +#define KVM_ARM_HDBSS_MAX_SIZE      SZ_2M
-> > > > > +
-> > > > > +/* 0 means unconfigured, fall back to one page per vCPU. */
-> > > > > +static inline u32 kvm_hdbss_buffer_size(struct kvm *kvm)
-> > > > > +{
-> > > > > +	return kvm->arch.hdbss_buffer_size ?: KVM_ARM_HDBSS_DEFAULT_SIZE;
-> > > > > +}
-> > > > 
-> > > > Why not set arch.hdbss_buffer_size to KVM_ARM_HDBSS_DEFAULT_SIZE at start,
-> > > > instead of testing it here like this?
-> > > > 
-> > > 
-> > > The size is set by userspace via ioctl, and we don't allow it to
-> > > be set twice:
-> > > 
-> > > ```
-> > > if (kvm->created_vcpus) {
-> > > 	r = -EINVAL;
-> > > } else if (kvm->arch.hdbss_buffer_size) {
-> > > 	r = -EBUSY;
-> > > } else {
-> > > 	kvm->arch.hdbss_buffer_size = size;
-> > > }
-> > > ```
-> > > 
-> > > If we pre-fill the default at VM creation, hdbss_buffer_size is
-> > > always non-zero and the -EBUSY branch would reject every attempt
-> > > to set a size. The same 0 sentinel also gates the dirty-ring
-> > > enable (a configured size conflicts with the ring), so it has to
-> > > mean "not configured".
-> > > 
-> > 
-> > It looks like there is a reason for us not to set the size more than
-> > once. I have not figured it yet, do you mind sharing?
-> > 
-> > I ask because effectively what we are having here is the same effect:
-> > kvm_hdbss_buffer_size() may return two different values depending on the
-> > IOCTL being ran or not. So for it's users does it look like the expected
-> > value changed mid way.
-> > 
-> > What I am trying to understand: is it safe for us to change the perceived
-> > value once? (default -> whatever the user sets) In which scenario is it
-> > safe?
-> > 
-> > In that case, can't we just allow that change to happen in that scenario,
-> > instead of having a proxy function to return the ring size?
-> > 
-> > 
-> 
-> The size affects the dirty-ring reservation: when the ring is enabled, it
-> reserves entries for the HDBSS buffer. Once the ring is allocated with that
-> reservation, changing the HDBSS size would make the two inconsistent, and
-> matching them dynamically isn't practical.
-> 
+>
+> With that done Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.co=
+m>
 
-Right, if it's just that, let's allow the buffer size to be set as long as 
-no buffer is allocated then. I mean, not allowed to change buffer size if 
-dirty-tracking is on. 
+Thanks!
 
-> In practice a larger buffer doesn't provide much benefit either: the buffer
-> is flushed on every VM exit, so it rarely fills up.
+BR,
+Albert.
 
-It depends very much on the workload running in the VM, some VMs can 
-benefit of larger buffers. If the workload is having very intensive memory 
-activity, having a 2MB buffer instead of a 4k buffer means taking up to 
-512x less faults.
+>
+> Regards,
+> Christian.
+>
+> > +             ret =3D -ENOMEM;
+> > +
+> > +out:
+> > +     dma_resv_unlock(dmabuf->resv);
+> > +     mem_cgroup_put(memcg);
+> > +     return ret;
+> > +}
+> > +
+> >  static long dma_buf_ioctl(struct file *file,
+> >                         unsigned int cmd, unsigned long arg)
+> >  {
+> > @@ -590,6 +629,9 @@ static long dma_buf_ioctl(struct file *file,
+> >               return dma_buf_import_sync_file(dmabuf, (const void __use=
+r *)arg);
+> >  #endif
+> >
+> > +     case DMA_BUF_IOCTL_XFER_CHARGE:
+> > +             return dma_buf_xfer_charge(dmabuf, (const void __user *)a=
+rg);
+> > +
+> >       default:
+> >               return -ENOTTY;
+> >       }
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index 85dd747c9b36..b01149d26b44 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -507,7 +507,8 @@ struct dma_buf_attachment {
+> >   * @priv:    Attach private data of allocator to this buffer
+> >   * @memcg:   memcg to charge for this buffer's memory. Set only for
+> >   *           buffers backed by system memory where @size reflects the
+> > - *           actual allocation in bytes.
+> > + *           actual allocation in bytes. Enables charge transfer via
+> > + *           DMA_BUF_IOCTL_XFER_CHARGE.
+> >   *
+> >   * This structure holds the information required to export the buffer.=
+ Used
+> >   * with dma_buf_export() only.
+> > diff --git a/include/linux/memcontrol.h b/include/linux/memcontrol.h
+> > index f8ec751b7d7b..af02d9777fe9 100644
+> > --- a/include/linux/memcontrol.h
+> > +++ b/include/linux/memcontrol.h
+> > @@ -676,6 +676,11 @@ struct mem_cgroup *mem_cgroup_get_from_fd(int fd);
+> >  bool mem_cgroup_reserve_dmabuf(struct mem_cgroup *memcg, gfp_t gfp,
+> >                              unsigned int nr_pages);
+> >
+> > +bool mem_cgroup_transfer_charge(struct mem_cgroup **ptr_memcg,
+> > +                             struct mem_cgroup *new_memcg,
+> > +                             enum memcg_stat_item item,
+> > +                             unsigned int nr_pages);
+> > +
+> >  void __mem_cgroup_uncharge(struct folio *folio);
+> >
+> >  /**
+> > @@ -1197,6 +1202,14 @@ static inline void mem_cgroup_cancel_dmabuf(stru=
+ct mem_cgroup *memcg,
+> >  {
+> >  }
+> >
+> > +static inline bool mem_cgroup_transfer_charge(struct mem_cgroup **ptr_=
+memcg,
+> > +                                           struct mem_cgroup *new_memc=
+g,
+> > +                                           enum memcg_stat_item item,
+> > +                                           unsigned int nr_pages)
+> > +{
+> > +     return true;
+> > +}
+> > +
+> >  static inline void mem_cgroup_uncharge(struct folio *folio)
+> >  {
+> >  }
+> > diff --git a/include/uapi/linux/dma-buf.h b/include/uapi/linux/dma-buf.=
+h
+> > index e827c9d20c5d..0aaf2e7d593b 100644
+> > --- a/include/uapi/linux/dma-buf.h
+> > +++ b/include/uapi/linux/dma-buf.h
+> > @@ -168,6 +168,31 @@ struct dma_buf_import_sync_file {
+> >       __s32 fd;
+> >  };
+> >
+> > +/**
+> > + * struct dma_buf_transfer_charge - Transfer a dma-buf's memcg charge
+> > + *
+> > + * Any holder of a dma-buf file descriptor can perform a
+> > + * DMA_BUF_IOCTL_XFER_CHARGE to attribute the buffer's memory
+> > + * cost to a specific cgroup, or move it from one cgroup to
+> > + * another.  The ioctl charges the new cgroup before uncharging
+> > + * the old one atomically.  On failure the original charge is
+> > + * preserved.  If the buffer has no existing memcg charge, the
+> > + * ioctl returns -EOPNOTSUPP.
+> > + */
+> > +struct dma_buf_transfer_charge {
+> > +     /** @flags: Reserved, must be zero */
+> > +     __u32 flags; /* unused for now */
+> > +     /**
+> > +      * @charge_fd: File descriptor identifying the target cgroup.
+> > +      *
+> > +      * May be either a pidfd, in which case the charge moves to the
+> > +      * memory cgroup of the referenced process, or a cgroupfd obtaine=
+d
+> > +      * by opening a cgroup v2 directory, in which case the charge mov=
+es
+> > +      * directly to that cgroup's memory controller.
+> > +      */
+> > +     __u32 charge_fd;
+> > +};
+> > +
+> >  #define DMA_BUF_BASE         'b'
+> >  #define DMA_BUF_IOCTL_SYNC   _IOW(DMA_BUF_BASE, 0, struct dma_buf_sync=
+)
+> >
+> > @@ -179,5 +204,6 @@ struct dma_buf_import_sync_file {
+> >  #define DMA_BUF_SET_NAME_B   _IOW(DMA_BUF_BASE, 1, __u64)
+> >  #define DMA_BUF_IOCTL_EXPORT_SYNC_FILE       _IOWR(DMA_BUF_BASE, 2, st=
+ruct dma_buf_export_sync_file)
+> >  #define DMA_BUF_IOCTL_IMPORT_SYNC_FILE       _IOW(DMA_BUF_BASE, 3, str=
+uct dma_buf_import_sync_file)
+> > +#define DMA_BUF_IOCTL_XFER_CHARGE    _IOW(DMA_BUF_BASE, 4, struct dma_=
+buf_transfer_charge)
+> >
+> >  #endif
+> > diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+> > index 17fdefc56b97..3e717b5663c8 100644
+> > --- a/mm/memcontrol.c
+> > +++ b/mm/memcontrol.c
+> > @@ -5752,6 +5752,48 @@ void mem_cgroup_cancel_dmabuf(struct mem_cgroup =
+*memcg, unsigned int nr_pages)
+> >  }
+> >  EXPORT_SYMBOL_GPL(mem_cgroup_cancel_dmabuf);
+> >
+> > +/**
+> > + * mem_cgroup_transfer_charge - move a charge between memcgs
+> > + * @ptr_memcg: pointer to the memcg to transfer from
+> > + * @new_memcg: target memcg; caller must hold a reference
+> > + * @item: stat counter to adjust
+> > + * @nr_pages: number of pages to transfer
+> > + *
+> > + * Transfers @nr_pages of charge from *@ptr_memcg to @new_memcg and, o=
+n
+> > + * success, stores @new_memcg in *@ptr_memcg.
+> > + *
+> > + * Updates to *@ptr_memcg must be serialized by the caller.
+> > + * Returns %true on success, %false if the charge against @new_memcg
+> > + * failed.
+> > + */
+> > +bool mem_cgroup_transfer_charge(struct mem_cgroup **ptr_memcg,
+> > +                             struct mem_cgroup *new_memcg,
+> > +                             enum memcg_stat_item item,
+> > +                             unsigned int nr_pages)
+> > +{
+> > +     struct mem_cgroup *old_memcg =3D *ptr_memcg;
+> > +
+> > +     if (!new_memcg || mem_cgroup_disabled())
+> > +             return true;
+> > +
+> > +     if (try_charge(new_memcg, GFP_KERNEL, nr_pages))
+> > +             return false;
+> > +
+> > +     mod_memcg_state(new_memcg, item, nr_pages);
+> > +     css_get(&new_memcg->css);
+> > +     *ptr_memcg =3D new_memcg;
+> > +
+> > +     if (old_memcg) {
+> > +             /* Uncharge old cgroup */
+> > +             mod_memcg_state(old_memcg, item, -nr_pages);
+> > +             if (!mem_cgroup_is_root(old_memcg))
+> > +                     refill_stock(old_memcg, nr_pages);
+> > +             mem_cgroup_put(old_memcg);
+> > +     }
+> > +
+> > +     return true;
+> > +}
+> > +
+> >  /**
+> >   * mem_cgroup_uncharge_dmabuf - uncharge a dma-buf from its memcg
+> >   * @dmabuf: buffer to uncharge
+> >
+>
 
-> Setting it once, before
-> the ring is allocated, is the simplest correct option.
-
-Before the buffer is allocated: fully agree.
-
-My point is that it looks weird to have a "can only be set once" scenario.
-I suggest we try the "only set the buffers are allocated, or in process of 
-being allocated".
-
-Which, in the scenario above discussed, could be anytime dirty-tracking is 
-disabled.
-
-On the other hand, if your strategy for dirty-ring is to have the number of 
-buffer entries being reserved in kvm's dirty-ring array, then we have (for 
-dirty-ring) to disable setting the size once we allocate the dirty-ring 
-buffer, which happens when we create the first vcpu, IIRC.
-
-> 
-> > > > > +
-> > > > > +int kvm_arm_vcpu_alloc_hdbss(struct kvm_vcpu *vcpu);
-> > > > > +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu);
-> > > > > +
-> > > > > +#endif /* __ARM64_KVM_DIRTY_BIT_H__ */
-> > > > > diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> > > > > index 86a4d6e50934..c8fc29f3db75 100644
-> > > > > --- a/arch/arm64/include/asm/kvm_host.h
-> > > > > +++ b/arch/arm64/include/asm/kvm_host.h
-> > > > > @@ -425,6 +425,9 @@ struct kvm_arch {
-> > > > >    	 */
-> > > > >    	struct kvm_protected_vm pkvm;
-> > > > > 
-> > > > > +	/* HDBSS: per-VM buffer size in bytes (0 = not configured, use default) */
-> > > > > +	u32 hdbss_buffer_size;
-> > > > > +
-> > > > >    #ifdef CONFIG_PTDUMP_STAGE2_DEBUGFS
-> > > > >    	/* Nested virtualization info */
-> > > > >    	struct dentry *debugfs_nv_dentry;
-> > > > > @@ -844,6 +847,13 @@ struct vcpu_reset_state {
-> > > > >    	bool		reset;
-> > > > >    };
-> > > > > 
-> > > > > +struct vcpu_hdbss_state {
-> > > > > +	struct page *hdbss_pg;		/* HDBSS buffer */
-> > > > > +	u64 hdbssbr_el2;		/* programmed into the CPU on load */
-> > > > > +	u64 hdbssprod_el2;		/* producer index, saved on put */
-> > > > > +	unsigned int buddy_order;	/* allocation order for __free_pages() */
-> > > > > +};
-> > > > > +
-> > > > >    struct vncr_tlb;
-> > > > > 
-> > > > >    struct kvm_vcpu_arch {
-> > > > > @@ -951,6 +961,9 @@ struct kvm_vcpu_arch {
-> > > > > 
-> > > > >    	/* Hyp-readable copy of kvm_vcpu::pid */
-> > > > >    	pid_t pid;
-> > > > > +
-> > > > > +	/* HDBSS buffer state */
-> > > > > +	struct vcpu_hdbss_state hdbss;
-> > > > >    };
-> > > > > 
-> > > > >    /*
-> > > > > diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
-> > > > > index 7aa08d59d494..7c71560b57e4 100644
-> > > > > --- a/arch/arm64/include/asm/sysreg.h
-> > > > > +++ b/arch/arm64/include/asm/sysreg.h
-> > > > > @@ -1039,6 +1039,15 @@
-> > > > > 
-> > > > >    #define GCS_CAP(x)	((((unsigned long)x) & GCS_CAP_ADDR_MASK) | \
-> > > > >    					       GCS_CAP_VALID_TOKEN)
-> > > > > +
-> > > > > +/*
-> > > > > + * Definitions for the HDBSS feature
-> > > > > + */
-> > > > > +#define HDBSSBR_EL2(baddr, sz)	(((baddr) & HDBSSBR_EL2_BADDR_MASK) | \
-> > > > > +				 FIELD_PREP(HDBSSBR_EL2_SZ_MASK, sz))
-> > > > > +
-> > > > > +#define HDBSSPROD_IDX(prod)	FIELD_GET(HDBSSPROD_EL2_INDEX_MASK, prod)
-> > > > > +
-> > > > >    /*
-> > > > >     * Definitions for GICv5 instructions
-> > > > >     */
-> > > > > diff --git a/arch/arm64/kvm/Makefile b/arch/arm64/kvm/Makefile
-> > > > > index 59612d2f277c..ec2749af64fa 100644
-> > > > > --- a/arch/arm64/kvm/Makefile
-> > > > > +++ b/arch/arm64/kvm/Makefile
-> > > > > @@ -18,6 +18,7 @@ kvm-y += arm.o mmu.o mmio.o psci.o hypercalls.o pvtime.o \
-> > > > >    	 guest.o debug.o reset.o sys_regs.o stacktrace.o \
-> > > > >    	 vgic-sys-reg-v3.o fpsimd.o pkvm.o \
-> > > > >    	 arch_timer.o trng.o vmid.o emulate-nested.o nested.o at.o \
-> > > > > +	 dirty_bit.o \
-> > > > >    	 vgic/vgic.o vgic/vgic-init.o \
-> > > > >    	 vgic/vgic-irqfd.o vgic/vgic-v2.o \
-> > > > >    	 vgic/vgic-v3.o vgic/vgic-v4.o \
-> > > > > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> > > > > index d9ad765943d9..5ea4ac26995e 100644
-> > > > > --- a/arch/arm64/kvm/arm.c
-> > > > > +++ b/arch/arm64/kvm/arm.c
-> > > > > @@ -36,6 +36,7 @@
-> > > > >    #include <asm/virt.h>
-> > > > >    #include <asm/kvm_arm.h>
-> > > > >    #include <asm/kvm_asm.h>
-> > > > > +#include <asm/kvm_dirty_bit.h>
-> > > > >    #include <asm/kvm_emulate.h>
-> > > > >    #include <asm/kvm_hyp.h>
-> > > > >    #include <asm/kvm_mmu.h>
-> > > > > @@ -580,10 +581,19 @@ int kvm_arch_vcpu_create(struct kvm_vcpu *vcpu)
-> > > > >    	}
-> > > > > 
-> > > > >    	err = kvm_share_hyp(vcpu, vcpu + 1);
-> > > > > -	if (err)
-> > > > > +	if (err) {
-> > > > >    		kvm_vgic_vcpu_destroy(vcpu);
-> > > > > +		return err;
-> > > > > +	}
-> > > > > 
-> > > > > -	return err;
-> > > > > +	err = kvm_arm_vcpu_alloc_hdbss(vcpu);
-> > > > > +	if (err) {
-> > > > > +		kvm_unshare_hyp(vcpu, vcpu + 1);
-> > > > > +		kvm_vgic_vcpu_destroy(vcpu);
-> > > > > +		return err;
-> > > > > +	}
-> > > > > +
-> > > > > +	return 0;
-> > > > >    }
-> > > > > 
-> > > > >    void kvm_arch_vcpu_postcreate(struct kvm_vcpu *vcpu)
-> > > > > diff --git a/arch/arm64/kvm/dirty_bit.c b/arch/arm64/kvm/dirty_bit.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..f9aeb9f34ad0
-> > > > > --- /dev/null
-> > > > > +++ b/arch/arm64/kvm/dirty_bit.c
-> > > > > @@ -0,0 +1,55 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > > > +/*
-> > > > > + * Per-vCPU HDBSS buffer management.
-> > > > > + *
-> > > > > + * Copyright (C) 2026 Huawei Technologies Co., Ltd
-> > > > > + * Author: Tian Zheng <zhengtian10@huawei.com>
-> > > > > + */
-> > > > > +
-> > > > > +#include <asm/kvm_dirty_bit.h>
-> > > > > +#include <asm/kvm_mmu.h>
-> > > > > +#include <asm/sysreg.h>
-> > > > > +#include <linux/gfp.h>
-> > > > > +#include <linux/kconfig.h>
-> > > > > +#include <linux/log2.h>
-> > > > > +#include <linux/mm.h>
-> > > > > +
-> > > > > +int kvm_arm_vcpu_alloc_hdbss(struct kvm_vcpu *vcpu)
-> > > > > +{
-> > > > > +	struct page *hdbss_pg;
-> > > > > +	u32 size;
-> > > > > +	unsigned int buddy_order;
-> > > > > +	u32 sz_encoded;
-> > > > > +
-> > > > > +	if (vcpu->arch.hdbss.hdbss_pg || !system_supports_hdbss())
-> > > > > +		return 0;
-> > > > > +
-> > > > > +	size = kvm_hdbss_buffer_size(vcpu->kvm);
-> > > > > +
-> > > > > +	buddy_order = get_order(size);
-> > > > > +	sz_encoded = ilog2(size) - 12;
-> > > > > +
-> > > > > +	hdbss_pg = alloc_pages(GFP_KERNEL_ACCOUNT | __GFP_ZERO, buddy_order);
-> > > > > +	if (!hdbss_pg)
-> > > > > +		return -ENOMEM;
-> > > > > +
-> > > > > +	vcpu->arch.hdbss = (struct vcpu_hdbss_state) {
-> > > > > +		.hdbss_pg = hdbss_pg,
-> > > > > +		.hdbssbr_el2 = HDBSSBR_EL2(page_to_phys(hdbss_pg), sz_encoded),
-> > > > > +		.hdbssprod_el2 = 0,
-> > > > > +		.buddy_order = buddy_order,
-> > > > > +	};
-> > > > > +
-> > > > > +	return 0;
-> > > > > +}
-> > > > > +
-> > > > > +void kvm_arm_vcpu_free_hdbss(struct kvm_vcpu *vcpu)
-> > > > > +{
-> > > > > +	if (!vcpu->arch.hdbss.hdbss_pg)
-> > > > > +		return;
-> > > > > +
-> > > > > +	__free_pages(vcpu->arch.hdbss.hdbss_pg, vcpu->arch.hdbss.buddy_order);
-> > > > > +
-> > > > > +	vcpu->arch.hdbss.hdbss_pg = NULL;
-> > > > > +	vcpu->arch.hdbss.hdbssbr_el2 = 0;
-> > > > > +}
-> > > > > diff --git a/arch/arm64/kvm/hyp/vhe/switch.c b/arch/arm64/kvm/hyp/vhe/switch.c
-> > > > > index 7875911c0506..922fc9260e11 100644
-> > > > > --- a/arch/arm64/kvm/hyp/vhe/switch.c
-> > > > > +++ b/arch/arm64/kvm/hyp/vhe/switch.c
-> > > > > @@ -19,6 +19,7 @@
-> > > > >    #include <asm/cpufeature.h>
-> > > > >    #include <asm/kprobes.h>
-> > > > >    #include <asm/kvm_asm.h>
-> > > > > +#include <asm/kvm_dirty_bit.h>
-> > > > >    #include <asm/kvm_emulate.h>
-> > > > >    #include <asm/kvm_hyp.h>
-> > > > >    #include <asm/kvm_mmu.h>
-> > > > > @@ -219,6 +220,17 @@ static void __vcpu_put_deactivate_traps(struct kvm_vcpu *vcpu)
-> > > > >    	local_irq_restore(flags);
-> > > > >    }
-> > > > > 
-> > > > > +static void __load_hdbss(struct kvm_vcpu *vcpu)
-> > > > > +{
-> > > > > +	if (!vcpu->arch.hdbss.hdbss_pg)
-> > > > > +		return;
-> > > > > +
-> > > > > +	write_sysreg_s(vcpu->arch.hdbss.hdbssbr_el2, SYS_HDBSSBR_EL2);
-> > > > > +	write_sysreg_s(vcpu->arch.hdbss.hdbssprod_el2, SYS_HDBSSPROD_EL2);
-> > > > > +
-> > > > > +	isb();
-> > > > > +}
-> > > > > +
-> > > > >    void kvm_vcpu_load_vhe(struct kvm_vcpu *vcpu)
-> > > > >    {
-> > > > >    	host_data_ptr(host_ctxt)->__hyp_running_vcpu = vcpu;
-> > > > > @@ -226,10 +238,15 @@ void kvm_vcpu_load_vhe(struct kvm_vcpu *vcpu)
-> > > > >    	__vcpu_load_switch_sysregs(vcpu);
-> > > > >    	__vcpu_load_activate_traps(vcpu);
-> > > > >    	__load_stage2(vcpu->arch.hw_mmu);
-> > > > > +	__load_hdbss(vcpu);
-> > > > >    }
-> > > > > 
-> > > > >    void kvm_vcpu_put_vhe(struct kvm_vcpu *vcpu)
-> > > > >    {
-> > > > > +	/* Saved under the same ownership condition as __load_hdbss(). */
-> > > > > +	if (vcpu->arch.hdbss.hdbss_pg)
-> > > > > +		vcpu->arch.hdbss.hdbssprod_el2 = read_sysreg_s(SYS_HDBSSPROD_EL2);
-> > > > 
-> > > > Above suggestion would need you to reload HDBSSBR_EL2 as well.
-> > > > 
-> > > 
-> > > Right, that reload is part of the ordering obligation above.
-> > > 
-> > > I think keeping the allocation at vCPU creation is simpler, but
-> > > let me know what you think.
-> > > 
-> > 
-> > I fully agree it's simpler, but we have to carry those per-cpu buffers
-> > (that can go up to 2M each) for the whole life of the VM, which can be a
-> > lot on a big VM.
-> > 
-> > That being said, I'm not against it. But I think we should resort to it
-> > only if we have a compelling reason not to allocate/free on demand.
-> > 
-> > What do you think?
-> > 
-> > Thanks!
-> > Leo
-> 
-> Yes, I agree. My answer is the same as the one below.
-> 
-
-Awesome, thanks for the discussion!
-Leo
