@@ -1,85 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793985573;
-	b=IY6aWA4gar1WjhtHXn98nRXCToWVN69mNW3ew40QykxMeNckzWc4Cey5vYH2MDCQ0qVT
-	 jZe1sNQxF/XPEx9xqFx8vB7KULlBrugXkuCHs1LOUeSIgvjThcXU0LpBn1Gv0driwgFtO
-	 keGWIb1YzaP8t63jZzaHQPkS06huF8gquLxzuxXfRtPdSfxfb/2AX5goFKzwzV5jsIAEp
-	 vTbmFyycgWfNdweRrfhuB1iTUcDX3PxSJBVUmqINFk7tM3VYIDuRZjRNYkNVEUq5PoDC5
-	 4E560LO5nTFFVJNSnIbXK8ckjVUZdvF7tonb9qA+K3aI3rOnboaS4o0qsew4aW/tACg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793985573;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.48
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793985686;
+	b=1XNAZU1d/YZajBqlpnzI/7gV6drRBQPIGaIR2L2VJIlPLBhxbt0zVRD5Us4UaYAkZy3L
+	 s0j88qvKLLIJNBTP/HDEQTHNa5hWnDVytQoFqpaTAj54bsPs3Hx5Bb1xZLve8NzyYvu0h
+	 TGs9bv6/M/p050D0QMGwzTqu+TADzYrn0KEH0xESH8bysHoVk4Yt62qwnLWC7jheQPzWu
+	 G2JSH+Ag86KbbG+q2Ie8ZU4ZIQ+fM1kqr6YDvlb7LawwAMjqbVxxvHU+GGy0fKRQL41H0
+	 4d083miU2Bjblkz3DnvefNimPWbWb1/KRnzdgtfodfimSVszSWa44YEQkdl8xmto9EA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793985686;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Subject:From:To:Cc:X-Mailer:References:In-Reply-To;
-	bh=tEaeh2MQM8Yqh+InUxWcP/c3Ugn8r1gCgilB/e+XZTU=;
-	b=Ss5RMbZwP0Z52Z4OilXsveXTh+KQYC0HlRx7GSgY3fFpmkoJoYIX0y9cDK0gXdgK2XKD
-	 kGbQ9Hq2cQHbkpI40JUqWGuW7rTNXZFlhXRkgPWh4MEX661e/vkHPG2SPmxqFI9ZFPz3k
-	 YL9lNFz06+FEJpTNEV9SyLUGxBlmPF4Urk7ye+M5Awbn2C3joU2cM700+jQlyht20nkww
-	 8VIz4oMJuHz2NtwM8vLBeYGAH493AVZUSF3WJ1yiO20EDQElT6m0xNxsy3xx1663Eo/XB
-	 HeLK6XNial1/6MZe3gr0d7lSvNHRwxTmp1qN36uQVroQQ4MUGeohwg7Jl801Qejq6hw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=3RKt6UkQZGhVMeIsFX1m9xEh639vUr0Dxv9GzpFuH2Y=;
+	b=fnG0rDp8aDfRSwDhA9xwM+BomIgAWvNEr6f8PwBdbZkKKpdtehgL+LciAY0p4t9IG7Qr
+	 wZ7e3lvdH4oIyyzU6D4N0/NJU6V2CIqp8QEgfGRdhse/W0iIhKlRTZSq2dOx0VYJCxycS
+	 L7xcABgr/wBzsYuUpO0ahJhqau7RjHR3jUll2Lzm83Etw3+FfwocJ0xOWYD380M0GkNSH
+	 plO5bkclA6vs0JTT7l8D4BySCeXYhPLrgtHirvFQhaGRK3VcDEpUff1z9HWrZaba0ivNl
+	 VlcO1oje84xzq6eDyVXAsbe766mXu98dXzhqXU6qUi6KBhBYnXYF35OKkrW8mptgX6Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=V3vuG2QG;
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=brHuzBNo;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB1B606A331
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 17:19:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBB1B606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D04DA606A335
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 17:21:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D04DA606A335
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=V3vuG2QG
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3b0b3438540so534145a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 09:19:32 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=brHuzBNo
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a206f0b95bso13845e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 09:21:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793985684; cv=none;
+        d=google.com; s=arc-20260327;
+        b=o3KiO6S2oeDk9pkfOlsZ/fgGIoXlWwY2D+ugRbSxZcFCe9vqT7gxdDHtAHKRCuuhBC
+         BJ+/ciKzK8/BTUVJTMz6bR+tiNlpX7P/3hxrh+4i5wf68RVQ1fPwp8ncxss51ggciE01
+         q/HQzPKj6FUb7hA2Eu8+8faoJw5mrJRX5nbXiiD+AfOaauUc4zA+Q551cPpB8qtl2ntB
+         lS9fDjXzcElrgK/GXLhudsrw7nPwntiIUlQTHIkmv0v+kcLSR5nrbSlpwauAUf2YdYXW
+         oRTJrplb/sfZcjVeYq7yV9hy5KsYie2QABrsiy1GDUbwX3miaIiNpzwjqKFsnX/yxSzB
+         KT8g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=3RKt6UkQZGhVMeIsFX1m9xEh639vUr0Dxv9GzpFuH2Y=;
+        fh=TMSXgAyrdilgOTqBCG9KQtq5IQ2c1nSAhq6ccSCPXO0=;
+        b=Bj5KvBU8bCn6C7wXguaB6Z+Wp9v6WcAca01dPRToxbn9grU1icjEX7XlaNH+OUqrCb
+         +8mgu4C/hl/g0Ar1XGz3fXuWd1krnw7iV5XQV0leVOqJgxxCYQ3PNxWj1v9aM7KWc3eg
+         d3XYXvPJV82+6kx7mNfVbalTiIFK9DskDkupKCvasooSBuudYJa6frFfru5Nz7wvG8BS
+         iY9aQ1iuPK2IW3hm2vMDFdQDDyq8wkLT5k8nvx/nNDibtuyDgcxqgyxb7HhKK+yAYPHt
+         I0N+hUgW8I8ImIJ+anTz55ZoUqVpG1ct13J+U62gm9bgEXi0RAGTQYhIIBM6wdMrpcJL
+         nQWA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793985572; x=1794590372; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=tEaeh2MQM8Yqh+InUxWcP/c3Ugn8r1gCgilB/e+XZTU=;
-        b=V3vuG2QGjhL8r2VuA4Y+96OnzymPavm7o7EgEyvr170YdIQ6DRl7oV53qhL1GcFHq9
-         pAuFDTumBKjC04cfsqiF/s9mzLQ7MxMB33+iWjjD6M/c6YfzXCbLDc+N7vG+f5wRPHnt
-         YGfusFO0BTgDqxJC3GAGWNZSjKJIGzOR0waqOm65uqs4mfbkFPtcjPreR4HJO5uzAwIM
-         aZJqv3Eu06A17GOsAL38uxdtzasGV3QnNWGft1JdKGB0XYClaHm6eqK5tjUpWsaDDnGv
-         L3j4WwyzVfe0Q7LrBT5u/+m8/nbkT0KO2eRt94r5hQOTgl8rRxeGomxzWEId9K33GS3u
-         IwQw==
+        d=google.com; s=20260707; t=1793985684; x=1794590484; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=3RKt6UkQZGhVMeIsFX1m9xEh639vUr0Dxv9GzpFuH2Y=;
+        b=brHuzBNooCSZjsSyXSFWMHBwfNjYNTG9a5Q3GfKsZ70yJN94/1w8oJ0YhXFD0HweTI
+         c6IcxLxcr92YlN/aRCSw1AAeONF2b2T3QTgT71unjiSJd5fE9tDAasfUf0PvDE/Z6Ilw
+         X/g6Cnh0qRbf0n2W6uL7JRiT4hiIN4Ik1e8K6GdO+BwIhEGoPL1NAnA4d+9ktJXdAlh8
+         xxgcRU7Ghap1GLjOorZx0V6eGPaWP/d6RiEHe8vigfy9F0RG1ujzhJTCLnKuHDDyRKrf
+         tz4kI9F4z4z8kTBYDRkYSH30f819pXVPbKnkddtLpC/W9IwCzgHGM+pPzaIVpPR7zN9m
+         wfHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793985572; x=1794590372;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793985684; x=1794590484;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tEaeh2MQM8Yqh+InUxWcP/c3Ugn8r1gCgilB/e+XZTU=;
-        b=2M8IF9xNVuwhAtjUhDxCKXPQhS6pnpbHZ4XGh5diCPVO8rzX6d4FYCd5W1XwBtbjqL
-         kxxW5t7csXz0ElxKSvSvGQPBdYHZDZwcbpuhQO/DmhzGe4Mm1iKSoAvXLPYTzk6qEnm2
-         G/dQJ25vafpiM9KjcW0ityc51YH5Vfq3XKEBvdE7WkwtRe/0//IItG3wjGjjgR3fpif0
-         8PyenEwt1f1zn28XXjWXkxz+8RckyqoD7teGCCzwFu2txppaZ+cHxsvAIqTU008e4i6M
-         jmOXqSLguX9yg0RwLofEoItw+7GsvQH6Vhr8XH8CQ3WOGbzbQRj9wVaCSKN5gawm5U0r
-         rOOg==
-X-Forwarded-Encrypted: i=1; AL+hErFDyRn/ZpEsfD6DTPds0c7N3icTbyORs7uPev3muG1f7q6vIO/79EhpWwG91qyb/wlW+w2LNXNyjR0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/cJgBoq+Qv8nYyPjzWdSZ8UwVja9XzJDmGFb+x5O7Gq1PlGIMe
-	Sv+BrVUXF8oOgNw0Mlo6sHQgTSXBl5zWw3IaUOVsE9n3W/RKAjvb7QWdJEgswjipWwFucq0xYCe
-	+Uwm3/Yds
-X-Gm-Gg: AYBFou3ytETqzCR7s9is40+IP5zG+HccXg5MPPJUAUKw5N2EtxlmKKiKztWV7dGMiRs
-	bJ40Qc+GswOq3RSzYbW/g7T0fx8phUNs4ddWwy1BEBX3aAgvwQsN+HLqMl0drfMm0jYfYb3oesD
-	EapXkzi1B/sD4n5Ip+Q44uPia44vj4k0kZ+Llb4qoi6C5kgXB3YizI1tbztoPhVB6hGB7kKO4Qs
-	PeV67Xu454QnsMSNCafiH9jhKD1A9R4IJWGYE+ICJ8NP/lUKaAuE5AZgEO6IMx2w7DMvUKhxlls
-	+V/Hh7BxW+Lf79tyDXXyLkwlKQaEEBFigob2IINfavC6ox9B6YhQLgt/WGA/e2ftXymrccNRf9k
-	o08vrTFfV5FWFNN452swz8jDebJCDITaQ+IAjE09jXRAj2b8Uj4m57J1nwrJ0lydtsoRCCXDO3W
-	m8KmI1moIhxCw1zu/LlAodMXasQ1w/bOo+WrAzn7EJ4E03DzANV7tFYyrmKprISbPpwpJ/hDfRX
-	LCsJT79BCHgjZoHSmK5fU4JwRNkubcQ7tyPnonJ7+XHnzcxRAFdVlPfnFWT2K+ggH9n8Zj92kXf
-	skuukg76w9Cd1uiwKBpMoD4Y2woW4ohKreYQgfvuNAVHxYfHHyxA7S7md04GY8ot
-X-Received: by 2002:a17:90b:554d:b0:3ac:bfa7:b079 with SMTP id 98e67ed59e1d1-3b0db5edb73mr3411640a91.7.1793985571464;
-        Fri, 06 Nov 2026 09:19:31 -0800 (PST)
-Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb70a7fbcbsm795231a12.25.2026.11.06.09.19.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Nov 2026 09:19:29 -0800 (PST)
+        bh=3RKt6UkQZGhVMeIsFX1m9xEh639vUr0Dxv9GzpFuH2Y=;
+        b=v9OmLhA5GCGw+xBwpsVvT+eI4Ne06zUhYje+m3IMZYVJNS5ldXo67mwPV2d/sIgd0T
+         vWI5U7ASuIRlJY/3q+c9seU5HjfcAia4pPfpWXJB/sdhPGPnrowLQlv7oTg39niKYd+p
+         7AEqWsBKW2GmiGImPAtqeVVYIeT0POAw8aHAprvtRCc8Wk+/znjBTpP2fy4Z9GwXOp6A
+         FWUcmjm28z+b26tv85SowG0UMbJ3hreoCXZqGoTpfsohSU+RMyrtmdgwXSsVPvnPaPU0
+         OynIReVCpRjLPwAdo56UN32a51Cm2xcpboORQENXcgSicgTMZTbP06FbxVSADFsOmsSk
+         UvIw==
+X-Forwarded-Encrypted: i=1; AKwUvBxd9Bi9PdFV2cqmfuI8kE40FFZ66ZnKS97OWGk3sqrtREhziV6bsVcaIdumKx848+78CJXNdKctgs0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+VYlIYnrPHALmTtAs8mleInOheqfRrPctz7KGAqtHvKZU5GXmd
+	Ft1eP6nszetxUQOSOmFJyFDnnifubPJ3vbXypp4p7/NvV+biWDRcYArlYV6fL5yHp4y94cpb5Y5
+	lFvF34syChK3f+t9Dglu5EMw2oNgZR/vIIR5X1Q2Q
+X-Gm-Gg: AYBFou3Nct6XAcvEe5KxkUxqwCTsveshdsRNn/SJwLHr/Qv9GCNCsMe4iE1GduC1vZO
+	tmQFK781gvQRuVY+sZ4F5lMdSvot4hs20B4pt7+1r5qtDnWnzCkfK3oDrLRlVNs6GF01XkCIhkq
+	DIemtOAoSh9YdOOB88Y7E1rJnFKrQ50ari7G3dfXly78reExDE8/ZDubfMG23oVb8qjR2fxwSNV
+	+eQ5myIQ7gvay0WWsQFwaFHrAPeChmksd4ThqMEQPXLQWJivmdClR99An5+r/20m4diYjsygcR7
+	z+BqDBJUwIBkK+zFrD+1jFieX8k6lzxcauMcaXobc19SFCnlGUjxN94+EpfbbkbMULBGZ7myk2Z
+	pxAHsqAzOS6/AvgCjelAZVt3Vs7nBl+sCAzEugv4WoyDlq1/DxGi4avtc2Nb5cCYKHfjZyQ==
+X-Received: by 2002:a7b:c8d7:0:b0:4a1:eb02:37c with SMTP id
+ 5b1f17b1804b1-4b76cdf14e3mr150235e9.6.1793985683858; Fri, 06 Nov 2026
+ 09:21:23 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,113 +103,91 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <0cc1cac1-a500-489b-9c1b-b49598b5550b@kernel.org>
+ <CAMOZA0JaiKsRgDdjHkL_N+MshhcyLSv+cT9SzEbNsC_sumHvOw@mail.gmail.com>
+ <b31efcd5-149c-4edf-81a2-1744d363c390@kernel.org> <CAMOZA0+6kAbwgNwGTsCT5AqpwcZKz4pziEGC9UpHkNCVoqrF-Q@mail.gmail.com>
+ <20261022201229.GH3381610@ziepe.ca> <CAMOZA0KaanmevmvWS=M3gKfBeborzfCQTiF_xbSeYMWbozG7Mg@mail.gmail.com>
+ <20261023140107.GC3977851@ziepe.ca> <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+ <20261023145023.GH3977851@ziepe.ca> <20261103080933.GA4213@lst.de> <20261103151021.GK3889730@ziepe.ca>
+In-Reply-To: <20261103151021.GK3889730@ziepe.ca>
+From: Naman Gulati <namangulati@google.com>
+Date: Fri, 6 Nov 2026 09:21:08 -0800
+X-Gm-Features: AclHuK9QrDyTYpPe0hyDJDnSB0d1jRnWKMXKMwxckIvbaQIWb85nKJEtPirUyxs
+Message-ID: <CAMP57yWvHO0pWCR3-9q1gtwVe8WV4Y6i69trmw+BJRVYf3JB1g@mail.gmail.com>
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christoph Hellwig <hch@lst.de>, Luigi Rizzo <lrizzo@google.com>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Nov 2026 17:19:28 +0000
-Message-Id: <DMOAT4VV939P.2DI8CEOMMSKMY@google.com>
-Subject: Re: [PATCH v6 11/27] vfio/pci: Retrieve preserved device files
- after Live Update
-From: "David Matlack" <dmatlack@google.com>
-To: "Vipin Sharma" <vipinsh@google.com>, <kexec@lists.infradead.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <kvm@vger.kernel.org>, <linux-mm@kvack.org>,
- <linux-kselftest@vger.kernel.org>, <linux-pci@vger.kernel.org>
-Cc: <ajayachandra@nvidia.com>, <alex@shazbot.org>, <amastro@fb.com>,
- <ankita@nvidia.com>, <apopple@nvidia.com>, <bhelgaas@google.com>,
- <chrisl@kernel.org>, <christian.koenig@amd.com>, <corbet@lwn.net>,
- <dmatlack@google.com>, <graf@amazon.com>, <jacob.pan@linux.microsoft.com>,
- <jgg@nvidia.com>, <jgg@ziepe.ca>, <jrhilke@google.com>,
- <julianr@linux.ibm.com>, <kees@kernel.org>, <kevin.tian@intel.com>,
- <leon@kernel.org>, <leonro@nvidia.com>, <lukas@wunner.de>,
- <mattev@meta.com>, <michal.winiarski@intel.com>, <parav@nvidia.com>,
- <pasha.tatashin@soleen.com>, <praan@google.com>, <pratyush@kernel.org>,
- <rananta@google.com>, <rdunlap@infradead.org>, <rientjes@google.com>,
- <rodrigo.vivi@intel.com>, <rppt@kernel.org>, <saeedm@nvidia.com>,
- <schnelle@linux.ibm.com>, <skhan@linuxfoundation.org>,
- <skhawaja@google.com>, <vivek.kasireddy@intel.com>, <witu@nvidia.com>,
- <yanjun.zhu@linux.dev>, <yi.l.liu@intel.com>
-X-Mailer: aerc 0.21.0
-References: <20261102153656.1431701-1-vipinsh@google.com>
- <20261102153656.1431701-12-vipinsh@google.com>
-In-Reply-To: <20261102153656.1431701-12-vipinsh@google.com>
 
-On Mon Nov 2, 2026 at 3:36 PM UTC, Vipin Sharma wrote:
-> During retrieve():
->  * Validate the handed-over struct vfio_pci_core_device_ser header,
->    sizes, and flags.
->  * Locate the registered vfio-pci device matching the serialized domain
->    and BDF (requiring device->ops =3D=3D &vfio_pci_ops) under the device
->    lock. vfio-pci registers the vfio device before its probe completes,
->    and the probe holds that lock, so a device that is still being probed
->    is not returned.
-[...]
->  * Open and return an anonymous VFIO cdev file via
->    vfio_device_liveupdate_cdev_open().
+I drafted an implementation [1] for premapped TX and RX buffers on top
+of the existing networking page_pool. It is implemented entirely in
+the networking layer and extends page_pool as the default RX
+allocator, to the TX path. There are no hooks in the IOMMU, DMA or
+page allocator code. I wanted to understand if this implementation
+correctly captured the feedback on this thread. Key components of this
+design:
 
-Here's an idea for how the device file could be created on retrieve,
-which I'd like to hear your thoughts on.
+- Chunks: as in Luigi's series, memory comes in 2 MiB chunks, but each
+chunk is mapped once per opted-in device through the DMA API and
+records its IOVA for each device, rather than using a shared IOVA
+window.
 
-The patches from Pasha at [1] lets userspace pass a
-file-handler-specific argument to LIVEUPDATE_SESSION_RETRIEVE_FD. In the
-next version of the tmpfs series, I'm planning to use that to have
-userspace create the file and pass it in the argument, and the kernel
-then restores the preserved file into it.
+- TX: page_pool accepts a memory provider for pools that are not bound
+to an RX queue. Per-CPU page_pools take 32 KiB pages from the chunks
+of their NUMA node; TCP copies sendmsg() data into them through the
+task page_frag and allocates its skb heads from them.
 
-I wonder if VFIO should work the same way, e.g.:
+- RX: an instance of the same memory provider, sharing the chunk code,
+backs RX queue page_pools. RX chunks of order-0 pages belong to one
+device and NUMA node, and are shared by that device's queues on the
+node.
 
-  struct liveupdate_vfio_retrieve_arg {
-          __u32 size;
-          __s32 fd;
-  };
+[1] https://github.com/torvalds/linux/compare/master...NamanGulati:linux:ne=
+tdev_dma_pool
 
-Userspace would open /dev/vfio/devices/noiommu-vfioX itself and pass
-the fd. retrieve() would check that it's an unbound vfio-pci cdev file
-for the preserved device (domain/BDF, noiommu, incoming, cfg_size),
-attach the incoming state to that file, and LUO would track that file
-as the retrieved file. VFIO_DEVICE_BIND_IOMMUFD would then take over the
-device as it does now. Since VFIO preservation is new, the argument
-could simply be required.
 
-I think this could get rid of some of the special handling:
 
- - There'd be no need to fake a cdev open with an anonymous inode, so
-   PATCH 09 and PATCH 10 could probably be dropped.
-
- - retrieve() wouldn't need to look up the device by BDF, or reason
-   about racing with probe under the device lock. If userspace was able
-   to open the cdev, the device is registered and probed.
-
- - The device file would be opened through the normal cdev path, so the
-   usual permission and LSM checks on the device node would apply.
-
- - It would be the same model across file types.
-
-A few things I think would need care if you go this way. The file check
-and the attach would need to happen under dev_set->lock so they can't
-race with a concurrent VFIO_DEVICE_BIND_IOMMUFD on the same fd. And the
-incoming state should probably be tied to that specific
-vfio_device_file rather than just the vdev, so only the file passed to
-RETRIEVE_FD can take over the device.
-
-It would also change PATCH 12. Opening the cdev of an incoming device
-would have to succeed, so the check would move to the first open of the
-device instead: fail with -EBUSY if the device is incoming and the file
-being bound doesn't have the incoming state attached. That one check in
-vfio-pci would also cover VFIO_GROUP_GET_DEVICE_FD, which opens the
-device right away, so vfio_liveupdate_incoming_is_preserved() and its
-dev_is_pci() special case could be dropped from the VFIO core.
-
-The next tmpfs version will also add a way for a file handler to say a
-failed retrieve can be retried, and a helper to claim an existing file
-before restoring into it (so a file LUO already manages, e.g. one that
-is preserved in an outgoing session, is rejected). Both seem useful
-here too, e.g. so that a mistake in the argument (wrong fd, an fd for
-another device, an already bound fd) doesn't make the device
-unretrievable. I'll Cc you when I send it, and I'm happy to share the
-branch before then.
-
-What do you think?
-
-[1] https://lore.kernel.org/kexec/20261103010216.3447716-1-dmatlack@google.=
-com/
+On Tue, Nov 3, 2026 at 8:24=E2=80=AFAM Jason Gunthorpe <jgg@ziepe.ca> wrote=
+:
+>
+> On Tue, Nov 03, 2026 at 09:09:33AM +0100, Christoph Hellwig wrote:
+> > On Fri, Oct 23, 2026 at 11:50:23AM -0300, Jason Gunthorpe wrote:
+> > > > Disk I/O is still potentially affected by the same problems
+> > > > (cost if io mapping/unmapping, iotlb thrashing, bounce buffers
+> > > > in confidential computing...)
+> > >
+> > > The disk folks already have a proposal to address all of this using
+> > > io_uring and preallocated buffers. I really doubt yet another version
+> > > is going to be interesting there.
+> >
+> > Huh?  If you mean the dma-buf I/O it doesn't really have anything
+> > to do with disks, except that this is the first user.
+>
+> Yeah
+>
+> > The dma-buf iovec can work for every ->read_iter/->write_iter
+> > consumer, and should be adopted more broadly.  Including by
+> > networking instead of their own totally weird different world.
+>
+> I'm not holding my breath on that one..
+>
+> Jason
+>
