@@ -1,87 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793994085;
-	b=efUWnmdNn1LJDQj7qUzrQVXcfp+a3IDnnRDpAX8u1tTAnbPIRDvSaU9B+nMGEo1bVoiZ
-	 a6+QDHs8ShOHFOaA14yTmcmAr7PEHxobUPV2YLIIpIXUBMayETCoF2VpAy17SWeORsOpk
-	 CbWrUdT+b0Y9ix2hXQriW6Y3O5VlY0YQ2BgX2wjAdtONRRu7HWwWp5MeF3krO1UDMOUPP
-	 yQ0J92fkiEsHFAh2OEdhwdlI7AeyUkCNcMjbgrQdbwKa2K2TWymdJmwDLjzZCQMdcEuR2
-	 31yeNCADJCrRdSKXBUOIDbk6wswHBGpsUCmzUc+Ob40ptqem1JCGrMprZj3ESm4LyPw==
+	t=1793994405;
+	b=I8Bv8IUG6p/Fpo0UuxQ8nQD/EvFl21WtwaBkJcB0N/A4NHUXth5UIJe7IRcBbl0stlHr
+	 u7V/3cmPl281vMG1PT2jkwVoeila0gXbplD/Pnk/w6tBlrGAmOsEXfSzrGb2JReNiwKh6
+	 yXtZM79NYAvPCt6fitWg3wk/Qhbbsbb2v34BeQKjnWntWaPFPHFDalDYLpwthZzUVDdwR
+	 GBd9ozuWE146N4ZEfVCXXQdDMteCS93NFHC1RE2GYwucV/sWjW4wt+X9rXJPDBhtMWfuZ
+	 bMa3KbmjFq0B08CGJ5SlwToe0JGuhgHruBL1SQ5xhI6eISulb8Y5NSXavg0tAN7PFMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793994085;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=YlgLvuvi6MzXcCGFPDS7jIHqHR1YP7BKidunKoP0lJU=;
-	b=b7enz1Sp529C7t43vZKHGOQv73mJionMknI3t3Xl1znyu6MMhAB+RCrRZb3ZI5W88osu
-	 VAPA80ACy+excfWT26Uv09M3cwo1muCZ3SJ2rd8ePhmYea37foke8rKhlfUfJYufqUeL8
-	 RQonHssEmI4QEVOwld/3br+D7Ks7HHwPCOFRP3UDYBJM03JtP91VML9AKDGAjRAgPX4Tw
-	 NCssGVpeXdzsCDOM70dASedOi2d2p9Aepwny7Y59HnUEFUgYiAK6LAklgdXH8xNa25Rwf
-	 /9AQRvQpEPSSMxp1ZAx/ADQjCPWK5+8IMpLk0aeEN9tPuLjPHXsIp3cY69ExLdr6XPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793994405;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=qhKoxva0JL+l8sDegVq+F6O0qeFNZ5Zg3O8huHi3mM0=;
+	b=2OXGD5yJ8CMAEocGI/ZKmB9AIAJ0yL4g9EO2W0XAtvyZJQlNG40h2UQQ8uzLU0CqDiuA
+	 9PJbyCZ9rQoGrH78i2jRz6wsP+r57gpJEB11z00cD5DpJAptLhWdg5FzLqY+kr86HitCS
+	 f45/wYcDAgnZiMIIDrbquFJte4sOaorpp2SuBWwQS/ReLqPiacL339k8FUdUv9Ouh8LUq
+	 ev9c9K7zMV9EIv6oT1SSjxQszM4SUth5et1zlzTsPB7M0LWeWCm/VRFUGdOlm/jD+hD4q
+	 pStV5g3EeJ/tn+LJqt7MQDlLdPzManXtHr7PN5RNdoZpyGP/2NgTw7/PrnQg190TDVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gbFnx05l;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=readahead.eu;
+	spf=pass smtp.mailfrom=readahead.eu;
+	dkim=pass header.d=readahead.eu header.i=@readahead.eu header.a=rsa-sha256 header.s=fm2 header.b=ag2Z2H5T;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b="WbCGlWg/";
+	arc=none smtp.remote-ip=103.168.172.151
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 6948B606A326;
-	Fri,  6 Nov 2026 19:41:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE93606A326
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 19:46:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FE93606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=readahead.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=readahead.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gbFnx05l
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8F7141F0089F;
-	Fri,  6 Nov 2026 19:41:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793994085;
-	bh=YlgLvuvi6MzXcCGFPDS7jIHqHR1YP7BKidunKoP0lJU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=gbFnx05ldh2Nzu3gMRUeaATbqhszyMS3oVk2c2PpERZp+mAWal0/IuPNDDekgB1RA
-	 dvvgHjv35kv3yrgd8wePjns+ri3xOyvUmRArByEeMRk/z4p44avenpMSH169hTAWNn
-	 DOrtMGDmo3/TmkuDuVJGZQ6y748uRufKosPvzTB65Omc7Un3dfZX5UsC1MvZZhHsQs
-	 j6yAwxEZiwq0Okn51UQ9qUYIMFWlgnpNMKuy0LRA7E2XJAFPsJLw6XzKv5DzdXn7X5
-	 zlO/3kUChmzTr/sxexYJuQH7aRvcawMo+chIWZzolfUUUPD46ACSxAmDl9pJLxVINo
-	 ui6pEL+Nu07Aw==
-Date: Fri, 6 Nov 2026 21:41:21 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Hannes Reinecke <hare@suse.de>, David Howells <dhowells@redhat.com>,
-	bpf@vger.kernel.org, dm-devel@lists.linux.dev,
-	fsverity@lists.linux.dev, keyrings@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Alasdair Kergon <agk@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v5 2/3] KEYS: Replace assoc_array with rhashtable
-Message-ID: <au4tYR8ZgTLVDWHv@kernel.org>
-References: <20261105031401.956609-1-jarkko@kernel.org>
- <20261105031401.956609-3-jarkko@kernel.org>
- <27015846-0161-4700-b810-4643e1f7b63a@suse.de>
- <20261106090516.GA1973@sol>
- <93e6b4e6-43c3-462d-b57c-26676aec85ec@suse.de>
- <au4k69xNBUjsNErr@kernel.org>
- <20261106191920.GA3383096@google.com>
- <au4q4Wh7PK1-Ge9P@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=readahead.eu header.i=@readahead.eu header.a=rsa-sha256 header.s=fm2 header.b=ag2Z2H5T;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=WbCGlWg/
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailfout.phl.internal (Postfix) with ESMTP id 70CACEC0856
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 14:46:42 -0500 (EST)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Fri, 06 Nov 2026 14:46:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=readahead.eu; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1793994394;
+	 x=1794080794; bh=qhKoxva0JL+l8sDegVq+F6O0qeFNZ5Zg3O8huHi3mM0=; b=
+	ag2Z2H5Ti0ErRYro1uqfcVsQLshlA3jWD0g8g9qfGfL1maXy5+q4FQU+jgyev3Xr
+	RmtIbH6AdOVvGyanXJgpIAqFbz+HctLRgRqb2cxdEMJBw+g7IGde9jH3cF5IZ4BS
+	Y3hJI/WSOc2BU8CyYXbN9Y926BZpWa5mdfueI1iHhOFJCAFIV///2ql7AOGUaEaj
+	cWinNQIUfZJ8dyaGWTfd7Dv+AA7+TEm8ejvwGKg/1tm6gnYLaT79TLq2YHnAMcfC
+	6JkAwoenbKTif6dCiwPllfWHuirkaa/EyQNr0ddZdYIfhMbG55cmUrENHR6SphaO
+	LGxLpAGEf063GBZ3w+1bGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793994394; x=
+	1794080794; bh=qhKoxva0JL+l8sDegVq+F6O0qeFNZ5Zg3O8huHi3mM0=; b=W
+	bCGlWg/gc/GYzyDYF9V10w76mEB4pXNz/yllOVx1JvJoN042i9QLIyYX/psmtdl7
+	0mMcTbGqK8N4kR3F+OH7pLAXB8BRgaDH5S9HvFsvvfnIwql9m5unLub7LujogHLr
+	clPb+t3TaoO9NIG+433gs3xpu+eeY6i0Ol8PbQ+R9/3GqohjaX3nk4x+2JcCbzoq
+	ZQV16IUS4Hcz6J3qC7Nxkx9OwQvSym5Lw5gMrxGV5COnfGQwzMeKJsR4gLQjYPWp
+	O2MIbF8H0WyQ9ZYpsmnsFRtLlkdfFmsRbW7WLmJE5zR+qyZx3dabQr3OFYpJnHpB
+	sf1uW3Z+D/bH0eYzlFRCg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=readahead.eu a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793994394; d=readahead.eu;
+	mf=PGRhdmlkQHJlYWRhaGVhZC5ldT4=;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:gh7dkuOLtyORcS4tZAwd3x7HgLseOWFMNdiM1UsIlh1OQ+z
+	p+9iBaOVRfMx2L9Fe6l2je9J2ISmmPTVws1Ma5Wrb1mRR7AkPLspfVmdBloNKEHS
+	4QNuAvHKP2V/Mbc3qJs32u5Rpj48n64XZXT+GBsbaRzM8/HqYcgttL87Sccy6lPm
+	JFghDZzhdy/9gTaEHuYLmDFeUyOL4M2Y3yZ2hU49Fh3TblbwzqXUNSlqdDWyRX3T
+	4W9QoBIP/R7VFxIBu8hI9HxZkgseeYsAl4nHN8XiRidwmTTJRzDC1n/6ME4eZPUB
+	EPcN9VR5fM0kXZZ39EulSHGLxdpYVBueZueWklQ==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:ZXYMNTvVJSIN7d7nypu287vHLlCVFtx1p+56iwTdm2U=:YVR9YXua2pXGceoVU1tO4HWt1dT9IBqHvzi7bV/+K30=;
+X-ME-Sender: <xms:lC7uaiy08CXPYJX_-oMjkrCLTLCvz_9vEVHdF9JV-aQZcfo37H8XNA>
+    <xme:lC7uapESe4X2r4-9tbosgocOP3mUXBiaG6Bj9W74leR6UsXMdR3n6Eh5MK1FctiV_
+    4aXtO1rwrCdNhwcwoRbxa0hkth5g0M9jTk4fJm5CUfFqHk-VvXgWvAM>
+X-ME-Proxy-Cause: dmFkZTGUo7IC6fGRL1KVNl4H3kKPTqlVG3UIT2AdgMMD6pZ2tEb1YktnY/FHMj6Q5TyF8S
+    4cPLg+L1p6KVN+PKIKLa6P18N3Tuw2cahYHmZHUQ59vKq9SJUxlw8rmWe8DXJXQOEdLs99
+    U1c0jX4tkCS07Q0pBU2hQOzLWuCpnoF4Sd0SbE7swUwx5nbO1uIuYHYE0GB9cxqJZA7jBA
+    ULB75RlnzHYXaUIAVbS1kVKhGBdzr4ZFrGFbJNXjXJ1aGEpxmH0KT9naxZ1oH/T9jP7xSn
+    /fzjAAPjNRojDUct0j6UDS8pDqdDK/UomwyxVtV7L9toWyEJYSSbG3S5/2ypOIdY4MwKtZ
+    zybKxSTT2yfOBX70vjqtGwKVX64NrDMFqeC41H+O0uIQs+9wiD5N/uhoOJMaWHvR+EKiY6
+    YHkVId0B1PrQCuC7nx9cDRHeeoWvietuEokrqBrkTQqAJwxKKXFmh1z3z+H2vqV7F2GASI
+    5plmwvEfFKK4eo5WPkzpnT1vFb7nyV3ZrujVNdKexZadm3uVVGZ9UMJqm5tuUO6nHxj0Cr
+    GVlHaDDpANsqqxyHdZgXD2eQ1Dk6VBv3M9i+Qk1Gi5axtYWjPemSyXSegoekVDREJpCoT0
+    jYoIyDcoQAC+AmkdsvXb32LmtX/+ZqqjHYrqVtWUxGdLWvhAgu2ETjpuapPA
+X-ME-Proxy: <xmx:ly7uakESJVpTbvlQpkTh3h5TN24Pz9dEfjXw7iokr1dFh2XQxmj52g>
+    <xmx:ly7uauvCNUSmqjbus2WAkxD1WNAAR1RN3n0DsZT28DNv7BMUh31tYw>
+    <xmx:ly7uanbfXW4c8hS5uy24KQdRDX_10cYgNLfvTiFFU8tcwsozohhIVg>
+    <xmx:ly7uauXfeq3jiR0atVVOrlAPquBYDiD3JfUAjpDggUaVAxH8j1M1lg>
+    <xmx:mi7uaiK-3bDIvhGZDRgh3uzguemoevRUSBWP3S4NschLy2i6ZmjxcjxM>
+Feedback-ID: id2994666:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 4F08A32A0097; Fri,  6 Nov 2026 14:46:28 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,29 +115,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <au4q4Wh7PK1-Ge9P@kernel.org>
+X-ThreadId: AWOKgKtlazLR
+Date: Fri, 06 Nov 2026 20:46:07 +0100
+From: "David Rheinsberg" <david@readahead.eu>
+To: "David Hildenbrand (Arm)" <david@kernel.org>,
+ "Hugh Dickins" <hughd@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Andrew Morton" <akpm@linux-foundation.org>,
+ "Lorenzo Stoakes" <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka" <vbabka@kernel.org>, "Mike Rapoport" <rppt@kernel.org>,
+ "Suren Baghdasaryan" <surenb@google.com>, "Michal Hocko" <mhocko@suse.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, stable@vger.kernel.org,
+ "Chris Mason" <mason@kernel.org>
+Message-Id: <2c95ecf1-058e-4d81-9de5-622e32dc57df@app.fastmail.com>
+In-Reply-To: <20261103-fixes_core_2-v1-2-f332954f1df4@kernel.org>
+References: <20261103-fixes_core_2-v1-0-f332954f1df4@kernel.org>
+ <20261103-fixes_core_2-v1-2-f332954f1df4@kernel.org>
+Subject: Re: [PATCH 2/2] mm/memfd: handle GUP references reliably when write-sealing
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 06, 2026 at 09:30:45PM +0200, Jarkko Sakkinen wrote:
-> > SipHash is also useful for resistance against denial-of-service attacks,
-> > where a user puts all their keys in one hash bucket.
-> > 
-> > As I mentioned, it's already used for secure hash tables elsewhere in
-> > the kernel.  That is what it's for; see
-> > Documentation/security/siphash.rst.  It's very fast as well, so if you
-> > are thinking of cryptography as being something very slow and hard to
-> > use, that is not what this is (or ever needed to be).
-> > 
-> > Let's just use it and not over-complicate things.
-> 
-> I'm pretty much non-opionated when it comes to this detail. I just
-> merely represent all the possible if anything comes up to mind. DoS
-> protection that you explained was not something I did even consider so
-> that seals it for me.
+Hi David
 
-I'm cutting hairs now but indices + siphash adds to defence in depth as
-it only takes DoS protection from SipHash while not protecting a secret.
-Not sure if this has that much pratical meaning tho  :-)
+On Tue, Nov 3, 2026, at 7:31 PM, David Hildenbrand (Arm) wrote:
+> We made a big mistake when introducing write-sealing: we should have
+> disallowed *any* file mappings while we are write-sealing. Write-sealing is
+> usually done by a producer that wants to hand-off some data to a consumer.
+> Having the producer have a read-only mapping (private or read-only shared)
+> of the memfd while sealing is rather odd: it couldn't have been used to
+> fill the memfd in the first place.
+>
+> Most identified public users don't do anything like that: they either never
+> map the memfd before write-sealing (using write() instead), or munmap()
+> before write-sealing:
+>
+>  - systemd's journal writes, fwupd, Flatpak, runc, crun and
+>    containers/storage write to the memfd without mmap'ing it, before
+>    sealing it [1,2,3,4,5,6]. The FD consumer will not access the memfd
+>    before sealing.
+>
+>  - dbus-broker, Mutter, Chromium's Android linker, KWin, Weston and glycin
+>    map the memfd file, but unmap it before sealing [7,8,9,10,11,12].
+>    glycin retries sealing while waiting for the loader to unmap.
+>
+>  - go-memfd exposes a shared writable mapping before F_SEAL_WRITE and a
+>    private read-only mapping afterwards. Its API explicitly requires
+>    unmapping the writable mapping before sealing [13].
 
-Br, Jarkko
+When I wrote memfd-sealing, we had this use-case where an application writes a buffer and then shares it both with in-process and out-of-process tasks. Only if out-of-process tasks are actually involved, the buffer is sealed. Otherwise, it is kept unsealed and can be recycled. Hand-off to other processes was optional, rare and asynchronous, so sealing could happen at any time. Yet, we wanted to keep the buffers mapped to avoid costly TLB flushes. Mappings were readonly, but writes were done through syscalls.
+
+We still do this, but I don't think any of the open-source users picked this up. I did not follow the folio changes, so I am quite unsure whether the implementation was racy from the beginning, or whether new infrastructure introduced the races.
+
+Can you elaborate why folio ref-counts are unreliable / unstable?
+
+Thanks
+David
