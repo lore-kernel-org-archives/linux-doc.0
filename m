@@ -1,70 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793990654;
-	b=M6f2zFXtYUzcCDu7gCTKlEWs0qYqoJP4e9JiPsC2G03oyrBBBajMowtzEZ11HIvgC0d8
-	 2+vS+NOCSwIuua9xJ6GonaXY1FvaXaBas98J3mkX7mqmHJxD+pI2RZtsDPLLdguSwSkRm
-	 u6+KW9SNqFI9k/M6czjZcnP/2CtmABloQrF0qrEMxIOyJjb1ieZrhvfzV9E4kyp445H+J
-	 nLAWgkJ9gXXkgmEVo4UxZ5Ru6mEO9mMpuROGGuHLr18XVwYmOAGizDqyvv0By3CH2ihKY
-	 Wo3SuNWYi4xHg13pYdvMIaaR6jkL3HomaOfgFD/xMIn8K5MF0q+Tmm8Mt6d5i6q6PfA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793990654;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-Rspamd-Queue-Id;
-	bh=G6imxDnM+jHmS/bPugKJ9w5lPtzVnIQlF/zM6XhCb6w=;
-	b=R9TyUgH9Wo/OPE5ToB1XCkB907tk6taPkUAvKg7k+n8eH3i6tRA3xKhO45WnulnOSJ1e
-	 vPDfEXGxbsq1tISKqQcb7HmLB81ITKs6onDS1ulg93p8grajqjhUV5HghfTD+Ba/UvjGf
-	 rEh3m5wVV94mE/CXbf3OAZmPxSTz//qzRtf88lzqCcSdShey9TbLVHfJ8Z4Yj45PvRZlB
-	 rkAfqf8uRxXKiabcPtAr5jp9GtXb/O1/kzySjFeeQr3zYVk3v36yvdR0h2Gl/HGYGI3k1
-	 yI6f4IaNNCEpWkHoavl2hi+5HIDt6fStRmumxGuIyWPDNaRQ8pv9ZHUBd0qpOzHCNGQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bojanowski.me;
-	spf=pass smtp.mailfrom=bojanowski.me;
-	dkim=pass header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=ZNb1uE9t;
-	arc=none smtp.remote-ip=80.241.56.171
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.181
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793991715;
+	b=yPVznpvlaPZndiwVD9Im/j2jge99CVXOehrIoor27Yleu9yAllIQmbct2aEYSyJbC01i
+	 eoOne3nNJqSIWp/iBiwHNkSAzblMM72RLaE7YgGCcA6hkiHDXy6f86Hq2gNaUFC3DVspR
+	 sWp+Hst0LSbEwMa+Qyw8z90apIp0VZDIxc/Jqa9UCbMnClgHulDlEophWJaUsYNid+7V/
+	 h6GTFnWQ1tMXo/keSpqYUMaz7ZRqKNGG/1MdKYS8hFHEhjX8hHh2TMfrw8sXWoTMakvFG
+	 zQMcPsxTyKXc+hVlAWKWJzlBcLQdMOZEsqMgA6eHSH+pSCosVXITnG/ErNHwQHpcJpA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793991715;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=cnari2EfkfcqWLrylXnWPpbFbNnmk3zqvy2a0yZnams=;
+	b=ek42Ua244F1Fme/WCG+/9TaSoOlpJakqs488ReR3T9hdu1mmj7V58YR+c2lmP4QQInVD
+	 jAlCUrWGERJlqzZZAlGTuejgJ4Ga6h56d4hUD7JsN/wW8czAhB/S6ZbXvQa8Q3F5emaJQ
+	 WJoly8UmU6xlx1lmU5mdJMYTyJvtn1VFt8mCppPJMDRcYoH2UJcpdb2ioXEZ7B3AJItxJ
+	 ac5p283Z2dPfchFOb0YojU3kZghXLFDPUpNMS0TBOZzzjxaxls/8AQYQJh7fvsJnOvcTs
+	 2490dpKsnDAYBwVsrtTNA7hr1gdeR1EnkmCy9k6ktyBaf4hnQN2ScVVxQaYxVGfq6Fg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=QZd5DdfN;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.160.181
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FFC606A326;
-	Fri,  6 Nov 2026 18:44:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33FFC606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bojanowski.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bojanowski.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC4D1606A332
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 19:01:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AC4D1606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=ZNb1uE9t
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4jLp433DmLzMlby;
-	Fri, 06 Nov 2026 19:44:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bojanowski.me;
-	s=MBO0001; t=1793990643;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=G6imxDnM+jHmS/bPugKJ9w5lPtzVnIQlF/zM6XhCb6w=;
-	b=ZNb1uE9tMNNvfdMiDniIlARldyap0DnzywLvvZc4R3MSHjRbe5NAf/5G6Y36ENPAZb4sxM
-	s1YK/p7XTNt/5Z394MFeMR9IZcYPexoBuRomrYswQ3vBjiEpamccFrHSxtLYJwN7KIGNu5
-	1pGW6R7SrfgGpx3lCvGSICQqn+6N8XwBYh/VzmRVcYcRVrB01GdpzmyeAzJqprwMDhekOQ
-	mLfP7N5f4EdV8iOBCtOiHnjaBngtzETWXISHOa8AtinZUNXXcE+sW+zkIE7OP3ftuJd1am
-	BYaBzk2BzHDMWrFrrUZ1cPf3Kh0eEW4VqdGF/kqRY1PEj8Qcs4QCipLLdP8Idg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of tomasz@bojanowski.me designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=tomasz@bojanowski.me
-From: Tomasz Bojanowski <tomasz@bojanowski.me>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: linux-hwmon@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] hwmon: Add driver for MSI Mystic Light controller voltage sensors
-Date: Fri,  6 Nov 2026 19:43:57 +0100
-Message-ID: <20261106184357.27763-1-tomasz@bojanowski.me>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=QZd5DdfN
+Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-535f598d126so31951cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 11:01:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793991714; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CMPLSLBd5a4W0wWGYhmZ4jCmS9rUQ6JsO1dO5J85d/m+LshQpsT/0vFjc/sPqOkCNW
+         B5lyK6VJH52BlXFdlEqLmRHIa1COFCkQGh9Ui6+HwCi+DKILHdk/LpVMe7s21deNNGCx
+         HFv7GJpQI0Ulz/qkrmSO1vhhlcTIHLqyCbfmSWtp2lFRW9q4YWBBHoj3XffhqbFX2+CJ
+         qm232MKSWi4y73AkAeiIZyzgOwsQpPEIPH8/f1BQtLhN3+0PTUlb+dko2F5OwbfdHcCw
+         1Wk9OVqniNTqrBBtrzQPo2gXbGD79wM5hUxLg70hbUq83g4nC+ql8GPOznYkeKMbq/t+
+         uKyw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cnari2EfkfcqWLrylXnWPpbFbNnmk3zqvy2a0yZnams=;
+        fh=QAlMoO3NpVEWMGpKpHTALkDyADSFTvhOsnL0MxfGcYs=;
+        b=k9n8qw1vB897waGT7vn+FGX8fSChmpOlEX4d/aCXTEoxW2AZVuYrOFZvf1rAffu7bi
+         E2LXrjhpsK+lONH793AU1sZ1q8cEMm5BqDYFej3qpb0+Y0ZYwKYfOqG2D7YarI2lkTah
+         BDs5m8lPPIkFldUUupw4QJg/7JFxiFtY+CZH/eETiTEco9aSABr+nxiZkdLeTG6XbECC
+         hPVSU4xuu5chkkH8/hXTXVRl0qUzHkTTnnoF/FQj768CnKEu5w9y/5xq9lesDUo9NgLK
+         QJhesQ3kk1D+O5jTcQC6Z/hHQYdCav14FSLF3bxjpjGmuQAN53553QY5Zxt9SXtXejxS
+         QT/A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793991714; x=1794596514; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=cnari2EfkfcqWLrylXnWPpbFbNnmk3zqvy2a0yZnams=;
+        b=QZd5DdfNiPMqB2kvwbYh3nO/5GPYD674T9l6eR+OCaSzIdoSmtUqaZQ6M5SMMWn6U0
+         85Du0GrXpfeB3VGHIFcJIGpPcmRcQJ9MieNmOPZPDmHSrd1SHgI3G1UzJB7qlF0EDKjJ
+         +tUP1uWkYEo7G7jHPSO40yaTMj+/bF/O+wDuxzwM+cc6DcXP4YwoRqx1/NvSHq/Jv/Pq
+         Vcj8E2sK4MFsxfgnSfB4dUAmBcnkC74+mQ/zLyy1dVfCigQTEXcrDOd7zwvCjwNroYzg
+         OBOy00EbN8NBdCcABv2CzdN7yM9CVV1KJIzVSAl1eXNHuDKeBeRPxhoFnXCm5AvjnUun
+         VARQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793991714; x=1794596514;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=cnari2EfkfcqWLrylXnWPpbFbNnmk3zqvy2a0yZnams=;
+        b=vXwoplSh1djOPDBKd6qiPHHCQ9xIWqkH4mlHx4cTDx/IGBQ9tHl8lcJVd/swNKn67D
+         N7b7KZE5bPjtVYKcmRRZ5KObhG2keRM97jghj1NDK5YMby9plFXKjtNz5DKMdc2Q33Cz
+         E7FBCq3jl3WZHe44Fp3Oyb5d7wVs1CgadtMpIiMF2vRet9bYBQcBivdBUSGMkOY2IllH
+         pO6zpVb5Yp0MWSiObEP6pfYPsIENzdSHyn+NZjTtSCLxLghdoitn/SdJEz8XXWIC49X3
+         WjF1qdOTVOXXKnUTvmGYli6ZduXBFB4ayFRdm7Mxb1hUbn0ZE+7z+bxNqf+nkrcfATRJ
+         OESQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxOfGmottJgp0thRrQ/TOQt4Y8DrcHguH6d3cNHnzJ53fpoIP+vdsPz3iYqj0wElOi2PqH3GqkP9q4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+L2sKY1khMJhjoP4E8XDSsX6FzWo2ioFG1n6Wb2kyGUPgbIEAL
+	Cr84C7h9kxB7uR9IowcqRXFczmsp7Sc+XvxEuSdUcT0dcU7v/vWSuwk34jpRNRefgYAFCujwKCw
+	wQTSLnlCDdMHOwo+vIs4IUwiNVp0wBkuciV/LuBR/
+X-Gm-Gg: AYBFou2DRu+4UrMtYFR8g74HfW1Q6IvuhFomEoxmFStK4KgdZ8ltM/YONYlf7trY/x8
+	2d0yqBNgZe/GLSSVh7eZPHxKh3EIB6n4POYbbWWALBOlc3U5JerFEwA/uhQXifHcZMMlQuw3ylB
+	Gr8F5/lhim78e32tstgfT2ibi8DB7DCBc8d5MISoN05Bxrm+XileE+RIHnpFWKD9Pkawxtq4ydy
+	S2of3U5Ujx/xqSaCXMRrOgHwB7aPzlwJ+YSdi2U33frMG2IU80tzLIUAExJ1aHFrh9gL+90UCdk
+	ciwKi4YXOplvuFrolJGJQemt9K67xl+v+70+s24LyujtBADh+dk08P9kEQY2lybArDmX+4txjWg
+	suyGbNMzdG7wYZkUXp98Ju8kvuyPV8HiHZNeEWQ==
+X-Received: by 2002:a05:622a:90c:b0:533:9746:9a86 with SMTP id
+ d75a77b69052e-54f5c235197mr4277431cf.5.1793991712760; Fri, 06 Nov 2026
+ 11:01:52 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -74,477 +104,121 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 4jLp433DmLzMlby
+References: <20261023140107.GC3977851@ziepe.ca> <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+ <20261023145023.GH3977851@ziepe.ca> <20261103080933.GA4213@lst.de>
+ <20261103151021.GK3889730@ziepe.ca> <CAMP57yWvHO0pWCR3-9q1gtwVe8WV4Y6i69trmw+BJRVYf3JB1g@mail.gmail.com>
+ <20261106173054.GH663069@ziepe.ca> <CAMP57yU-VhZWXijvwAXcN9=zZ+eWXZ6J1bkHuCJw3ocRaFaV=Q@mail.gmail.com>
+ <20261106180714.GI663069@ziepe.ca> <CAMP57yW6Y4g-xM9YTB+MpgxPN7RFeEWhAPWvqrfOoMDEuL8HZA@mail.gmail.com>
+ <20261106184346.GJ663069@ziepe.ca>
+In-Reply-To: <20261106184346.GJ663069@ziepe.ca>
+From: Luigi Rizzo <lrizzo@google.com>
+Date: Fri, 6 Nov 2026 20:01:14 +0100
+X-Gm-Features: AclHuK8RLl1nJ3Ebb-rbtl0GPWPY_LeKIqNGDlWDxF7jQ269eiN5kMKC-Dmlr_c
+Message-ID: <CAMOZA0L3c0zWvvVF9btAxQSox_hQTZP6W1sK0vgYPQ2OMJtS8Q@mail.gmail.com>
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Naman Gulati <namangulati@google.com>, Christoph Hellwig <hch@lst.de>, 
+	"David Hildenbrand (Arm)" <david@kernel.org>, Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>, 
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, "David S . Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J . Wysocki" <rafael@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Willem de Bruijn <willemb@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Michael Chan <michael.chan@broadcom.com>, 
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-mm@kvack.org, driver-core@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-MSI 800-series motherboards have a USB microcontroller (0db0:0076) that
-drives the RGB LED headers. Besides the LEDs, it measures a few voltage
-rails that are not monitored by the Super I/O chip, and reports them in
-HID feature report 0xf0.
+On Fri, Nov 6, 2026 at 7:43=E2=80=AFPM Jason Gunthorpe <jgg@ziepe.ca> wrote=
+:
+>
+> On Fri, Nov 06, 2026 at 10:17:38AM -0800, Naman Gulati wrote:
+...
+> > This problem extends to generally reducing IOMMU overhead in
+> > networking - taking the dma map/unmap cost out of the hot-path and
+> > avoiding IOTLB thrashing.
+>
+> Sure, that makes sense, but just having a pool of entirely normal
+> pre-dma-mapped memory is quite a different problem from what launched
+> this thread...
 
-Add a driver that reads this report and exposes the rails as standard
-hwmon voltage attributes with labels. The values are cached for one
-second. The driver never writes to the device, and it starts the HID
-device with HID_CONNECT_HIDRAW, so user space tools that control the
-LEDs through hidraw keep working.
+Since I launched the thread, I guess I should comment...
 
-The rails and their position in the report depend on the motherboard,
-which is identified by the MSI board code at the start of the USB serial
-number. For now only the MAG B850M MORTAR WIFI (MS-7E61) is supported.
-On other boards the driver still binds to the device, so that hidraw
-remains available (hid-generic does not take a device that is listed in
-another driver's id_table), but it does not register a hwmon device.
+I wanted to address multiple problems, in random order:
+- IOTLB thrashing
+- better security than DMA-FQ
+- reduce dma map/unmap costs (both on the host and guest)
+- reduce/avoid bounce buffer overhead in Confidential Computing and
+overcommitted VMs
+- not just for networking, also for disks and accelerators etc.
 
-The report layout was determined by analysing the vendor's Windows
-software and confirmed on hardware.
+Now it turns out that one way to address all of them was to
+- create a special memory allocator, which distributed ordinary  memory but
+  with additional metadata that make it easier to implement large
+iommu mappings,
+  track lifetime etc.
+- hook this allocator into relevant kernel subsystems so that consumers
+  could use it with little or no changes.
 
-Tested on an MSI MAG B850M MORTAR WIFI (MS-7E61, BIOS 1.A68), with the
-driver built out of tree against kernel 7.2.15. The readings (CPU 1P8
-1.79 V, CHIP Core 1.04 V, VDD MISC 1.10 V) are stable and plausible for
-the respective rails, repeated reads within one second are served from
-the cache, and hidraw access works while the driver is bound. Binding and
-unbinding the driver repeatedly hands the device back to hid-generic
-without errors.
+As it happens, the first version I posted last month was not terribly clean=
+,
+and possibly not terribly well presented, and had some redundancy that
+was unnecessary.
 
-Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
----
- Documentation/hwmon/index.rst            |   1 +
- Documentation/hwmon/msi_mystic_light.rst |  58 +++++
- MAINTAINERS                              |   7 +
- drivers/hwmon/Kconfig                    |  11 +
- drivers/hwmon/Makefile                   |   1 +
- drivers/hwmon/msi_mystic_light.c         | 291 +++++++++++++++++++++++
- 6 files changed, 369 insertions(+)
- create mode 100644 Documentation/hwmon/msi_mystic_light.rst
- create mode 100644 drivers/hwmon/msi_mystic_light.c
+The next version (hopefully next week) is hopefully a lot cleaner,
+and i think the best witness is how small is the change to pagepool,
+basically "if the device has opted in, ask for that special memory"
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index a8ea421128b5..7ce1a6f42ddc 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -213,6 +213,7 @@ Hardware Monitoring Kernel Drivers
-    mpq82d00
-    mpq8646
-    mpq8785
-+   msi_mystic_light
-    nct6683
-    nct6775
-    nct7363
-diff --git a/Documentation/hwmon/msi_mystic_light.rst b/Documentation/hwmon/msi_mystic_light.rst
-new file mode 100644
-index 000000000000..d58186b83ce8
---- /dev/null
-+++ b/Documentation/hwmon/msi_mystic_light.rst
-@@ -0,0 +1,58 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Kernel driver msi_mystic_light
-+==============================
-+
-+Supported devices:
-+
-+* MSI Mystic Light USB controller (USB ID 0db0:0076), found on MSI
-+  800-series motherboards
-+
-+  Voltage sensors are supported on:
-+
-+  - MSI MAG B850M MORTAR WIFI (MS-7E61)
-+
-+Author: Tomasz Bojanowski <tomasz@bojanowski.me>
-+
-+Description
-+-----------
-+
-+On MSI 800-series motherboards the RGB LED headers ("Mystic Light") are
-+driven by a microcontroller attached over USB. The controller also measures
-+a few voltage rails that are not monitored by the Super I/O chip (see
-+nct6683). This driver reports these voltages.
-+
-+Which rails are present, and where they are found in the sensor report,
-+depends on the motherboard. The board is identified by the MSI board code
-+at the start of the USB serial number (for example ``7E61``). On boards
-+without a known layout the driver binds to the device, but does not
-+register a hwmon device.
-+
-+The driver only reads HID feature report 0xf0. It never writes to the
-+controller. The hidraw interface remains available, so user space tools
-+that control the LEDs keep working.
-+
-+Usage Notes
-+-----------
-+
-+The sensor values are cached for one second. A rail that reads 0 is
-+reported as unavailable (-ENODATA).
-+
-+Sysfs entries
-+-------------
-+
-+=============== =========================================================
-+in[0-2]_input   Voltage in millivolts
-+in[0-2]_label   Rail name
-+=============== =========================================================
-+
-+MSI MAG B850M MORTAR WIFI (MS-7E61)
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+======= ========= ==========================
-+Channel Label     Typical value
-+======= ========= ==========================
-+in0     CPU 1P8   1.79 V
-+in1     CHIP Core 1.04 V
-+in2     VDD MISC  1.10 V
-+======= ========= ==========================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 873a8beb15b6..8f02d3f3c3f1 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19093,6 +19093,13 @@ L:	platform-driver-x86@vger.kernel.org
- S:	Maintained
- F:	drivers/platform/x86/msi-laptop.c
- 
-+MSI MYSTIC LIGHT HARDWARE MONITORING DRIVER
-+M:	Tomasz Bojanowski <tomasz@bojanowski.me>
-+L:	linux-hwmon@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/hwmon/msi_mystic_light.rst
-+F:	drivers/hwmon/msi_mystic_light.c
-+
- MSI WMI SUPPORT
- L:	platform-driver-x86@vger.kernel.org
- S:	Orphan
-diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-index 3ae676a56d95..313f095e82ca 100644
---- a/drivers/hwmon/Kconfig
-+++ b/drivers/hwmon/Kconfig
-@@ -1570,6 +1570,17 @@ config SENSORS_MR75203
- 	  This driver can also be built as a module. If so, the module
- 	  will be called mr75203.
- 
-+config SENSORS_MSI_MYSTIC_LIGHT
-+	tristate "MSI Mystic Light USB controller voltage sensors"
-+	depends on USB_HID
-+	help
-+	  If you say yes here you get support for the voltage sensors of the
-+	  MSI Mystic Light USB controller (0db0:0076) found on MSI 800-series
-+	  motherboards.
-+
-+	  This driver can also be built as a module. If so, the module
-+	  will be called msi_mystic_light.
-+
- config SENSORS_ADCXX
- 	tristate "National Semiconductor ADCxxxSxxx"
- 	depends on SPI_MASTER
-diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
-index be3eb0992a0d..ec4b0de8cf47 100644
---- a/drivers/hwmon/Makefile
-+++ b/drivers/hwmon/Makefile
-@@ -187,6 +187,7 @@ obj-$(CONFIG_SENSORS_MLXREG_FAN) += mlxreg-fan.o
- obj-$(CONFIG_SENSORS_MENF21BMC_HWMON) += menf21bmc_hwmon.o
- obj-$(CONFIG_SENSORS_MINISFORUM_UM780XTX) += minisforum-um780xtx.o
- obj-$(CONFIG_SENSORS_MR75203)	+= mr75203.o
-+obj-$(CONFIG_SENSORS_MSI_MYSTIC_LIGHT) += msi_mystic_light.o
- obj-$(CONFIG_SENSORS_NCT6683)	+= nct6683.o
- obj-$(CONFIG_SENSORS_NCT6694)	+= nct6694-hwmon.o
- obj-$(CONFIG_SENSORS_NCT6775_CORE) += nct6775-core.o
-diff --git a/drivers/hwmon/msi_mystic_light.c b/drivers/hwmon/msi_mystic_light.c
-new file mode 100644
-index 000000000000..39dde9d9e82d
---- /dev/null
-+++ b/drivers/hwmon/msi_mystic_light.c
-@@ -0,0 +1,291 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * hwmon driver for the voltage sensors of the MSI Mystic Light USB
-+ * controller (0db0:0076) found on MSI 800-series motherboards
-+ *
-+ * The microcontroller that drives the RGB LED headers of these boards also
-+ * measures a few voltage rails that are not monitored by the Super I/O chip.
-+ * They are returned in HID feature report 0xf0. This driver only reads that
-+ * report and never sends anything else to the device. The hidraw interface
-+ * is kept, so user space LED control keeps working.
-+ *
-+ * The rails and their position in the report depend on the motherboard.
-+ * The board is identified by the MSI board code in the first four
-+ * characters of the USB serial number, for example "7E61" for the
-+ * MAG B850M MORTAR WIFI (MS-7E61). On boards without a known layout the
-+ * driver binds to the device, but does not register a hwmon device.
-+ *
-+ * Copyright (C) 2026 Tomasz Bojanowski <tomasz@bojanowski.me>
-+ */
-+
-+#include <linux/hid.h>
-+#include <linux/hwmon.h>
-+#include <linux/jiffies.h>
-+#include <linux/module.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/unaligned.h>
-+
-+#define USB_VENDOR_ID_MSI_MB		0x0db0
-+#define USB_PRODUCT_ID_MYSTIC_LIGHT	0x0076
-+
-+#define MSI_ML_SENSOR_REPORT_ID		0xf0
-+#define MSI_ML_SENSOR_REPORT_SIZE	64
-+
-+/* Every sensor report starts with this header (after the report ID) */
-+#define MSI_ML_SENSOR_CMD_OFFSET	1
-+#define MSI_ML_SENSOR_CMD		0xa0
-+#define MSI_ML_SENSOR_PAGE_OFFSET	9
-+#define MSI_ML_SENSOR_PAGE_HI		0x01
-+#define MSI_ML_SENSOR_PAGE_LO		0xfc
-+
-+#define MSI_ML_BOARD_CODE_LEN		4
-+#define MSI_ML_MAX_IN			3
-+#define MSI_ML_CACHE_TIME		HZ
-+
-+struct msi_ml_board {
-+	const char *code;		/* MSI board code, start of USB serial */
-+	int num_in;
-+	const char *const *in_label;
-+	const u8 *in_offset;		/* little endian u16 in mV */
-+};
-+
-+/* MAG B850M MORTAR WIFI (MS-7E61) */
-+static const char *const msi_ml_7e61_in_label[] = {
-+	"CPU 1P8", "CHIP Core", "VDD MISC",
-+};
-+
-+static const u8 msi_ml_7e61_in_offset[] = { 23, 17, 25 };
-+
-+static const struct msi_ml_board msi_ml_boards[] = {
-+	{
-+		.code = "7E61",
-+		.num_in = ARRAY_SIZE(msi_ml_7e61_in_label),
-+		.in_label = msi_ml_7e61_in_label,
-+		.in_offset = msi_ml_7e61_in_offset,
-+	},
-+};
-+
-+struct msi_ml_data {
-+	struct hid_device *hdev;
-+	struct device *hwmon_dev;
-+	const struct msi_ml_board *board;
-+	u8 *buf;			/* report buffer, must be DMA safe */
-+	u16 in[MSI_ML_MAX_IN];		/* mV, 0 = no reading */
-+	unsigned long updated;		/* jiffies */
-+	bool valid;
-+};
-+
-+static const struct msi_ml_board *msi_ml_find_board(struct hid_device *hdev)
-+{
-+	int i;
-+
-+	if (strnlen(hdev->uniq, sizeof(hdev->uniq)) < MSI_ML_BOARD_CODE_LEN)
-+		return NULL;
-+
-+	for (i = 0; i < ARRAY_SIZE(msi_ml_boards); i++) {
-+		if (!strncasecmp(hdev->uniq, msi_ml_boards[i].code,
-+				 MSI_ML_BOARD_CODE_LEN))
-+			return &msi_ml_boards[i];
-+	}
-+
-+	return NULL;
-+}
-+
-+/*
-+ * Read the sensor report, at most once per MSI_ML_CACHE_TIME. Only called
-+ * from the hwmon read callback, which the hwmon core serializes, so no
-+ * additional locking is needed for the buffer and the cached values.
-+ */
-+static int msi_ml_update(struct msi_ml_data *priv)
-+{
-+	const struct msi_ml_board *board = priv->board;
-+	u8 *buf = priv->buf;
-+	int i, ret;
-+
-+	if (priv->valid && time_before(jiffies, priv->updated + MSI_ML_CACHE_TIME))
-+		return 0;
-+
-+	memset(buf, 0, MSI_ML_SENSOR_REPORT_SIZE);
-+	buf[0] = MSI_ML_SENSOR_REPORT_ID;
-+
-+	ret = hid_hw_raw_request(priv->hdev, MSI_ML_SENSOR_REPORT_ID, buf,
-+				 MSI_ML_SENSOR_REPORT_SIZE, HID_FEATURE_REPORT,
-+				 HID_REQ_GET_REPORT);
-+	if (ret < 0)
-+		return ret;
-+	if (ret != MSI_ML_SENSOR_REPORT_SIZE)
-+		return -EPROTO;
-+
-+	if (buf[0] != MSI_ML_SENSOR_REPORT_ID ||
-+	    buf[MSI_ML_SENSOR_CMD_OFFSET] != MSI_ML_SENSOR_CMD ||
-+	    buf[MSI_ML_SENSOR_PAGE_OFFSET] != MSI_ML_SENSOR_PAGE_HI ||
-+	    buf[MSI_ML_SENSOR_PAGE_OFFSET + 1] != MSI_ML_SENSOR_PAGE_LO)
-+		return -EPROTO;
-+
-+	for (i = 0; i < board->num_in; i++)
-+		priv->in[i] = get_unaligned_le16(buf + board->in_offset[i]);
-+
-+	priv->updated = jiffies;
-+	priv->valid = true;
-+
-+	return 0;
-+}
-+
-+static umode_t msi_ml_is_visible(const void *data,
-+				 enum hwmon_sensor_types type, u32 attr,
-+				 int channel)
-+{
-+	const struct msi_ml_data *priv = data;
-+
-+	if (type == hwmon_in && channel < priv->board->num_in)
-+		return 0444;
-+
-+	return 0;
-+}
-+
-+static int msi_ml_read(struct device *dev, enum hwmon_sensor_types type,
-+		       u32 attr, int channel, long *val)
-+{
-+	struct msi_ml_data *priv = dev_get_drvdata(dev);
-+	int ret;
-+
-+	ret = msi_ml_update(priv);
-+	if (ret)
-+		return ret;
-+
-+	/* A rail that reads 0 has no valid measurement */
-+	if (!priv->in[channel])
-+		return -ENODATA;
-+
-+	*val = priv->in[channel];
-+
-+	return 0;
-+}
-+
-+static int msi_ml_read_string(struct device *dev, enum hwmon_sensor_types type,
-+			      u32 attr, int channel, const char **str)
-+{
-+	struct msi_ml_data *priv = dev_get_drvdata(dev);
-+
-+	*str = priv->board->in_label[channel];
-+
-+	return 0;
-+}
-+
-+static const struct hwmon_ops msi_ml_hwmon_ops = {
-+	.is_visible = msi_ml_is_visible,
-+	.read = msi_ml_read,
-+	.read_string = msi_ml_read_string,
-+};
-+
-+static const struct hwmon_channel_info *const msi_ml_info[] = {
-+	HWMON_CHANNEL_INFO(in,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL,
-+			   HWMON_I_INPUT | HWMON_I_LABEL),
-+	NULL
-+};
-+
-+static const struct hwmon_chip_info msi_ml_chip_info = {
-+	.ops = &msi_ml_hwmon_ops,
-+	.info = msi_ml_info,
-+};
-+
-+static int msi_ml_probe(struct hid_device *hdev, const struct hid_device_id *id)
-+{
-+	struct msi_ml_data *priv;
-+	int ret;
-+
-+	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	priv->buf = devm_kzalloc(&hdev->dev, MSI_ML_SENSOR_REPORT_SIZE, GFP_KERNEL);
-+	if (!priv->buf)
-+		return -ENOMEM;
-+
-+	priv->hdev = hdev;
-+	priv->board = msi_ml_find_board(hdev);
-+	hid_set_drvdata(hdev, priv);
-+
-+	ret = hid_parse(hdev);
-+	if (ret)
-+		return ret;
-+
-+	/* Keep the hidraw interface for user space LED control */
-+	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
-+	if (ret)
-+		return ret;
-+
-+	if (!priv->board) {
-+		hid_info(hdev, "no sensor layout for board code \"%.4s\"\n",
-+			 hdev->uniq);
-+		return 0;
-+	}
-+
-+	ret = hid_hw_open(hdev);
-+	if (ret)
-+		goto fail_stop;
-+
-+	priv->hwmon_dev = hwmon_device_register_with_info(&hdev->dev,
-+							  "msi_mystic_light",
-+							  priv,
-+							  &msi_ml_chip_info,
-+							  NULL);
-+	if (IS_ERR(priv->hwmon_dev)) {
-+		ret = PTR_ERR(priv->hwmon_dev);
-+		goto fail_close;
-+	}
-+
-+	return 0;
-+
-+fail_close:
-+	hid_hw_close(hdev);
-+fail_stop:
-+	hid_hw_stop(hdev);
-+	return ret;
-+}
-+
-+static void msi_ml_remove(struct hid_device *hdev)
-+{
-+	struct msi_ml_data *priv = hid_get_drvdata(hdev);
-+
-+	if (priv->board) {
-+		hwmon_device_unregister(priv->hwmon_dev);
-+		hid_hw_close(hdev);
-+	}
-+
-+	hid_hw_stop(hdev);
-+}
-+
-+static const struct hid_device_id msi_ml_table[] = {
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI_MB, USB_PRODUCT_ID_MYSTIC_LIGHT) },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(hid, msi_ml_table);
-+
-+static struct hid_driver msi_ml_driver = {
-+	.name = "msi_mystic_light",
-+	.id_table = msi_ml_table,
-+	.probe = msi_ml_probe,
-+	.remove = msi_ml_remove,
-+};
-+
-+static int __init msi_ml_init(void)
-+{
-+	return hid_register_driver(&msi_ml_driver);
-+}
-+
-+static void __exit msi_ml_exit(void)
-+{
-+	hid_unregister_driver(&msi_ml_driver);
-+}
-+
-+/* When built into the kernel, register after the HID bus is initialized */
-+late_initcall(msi_ml_init);
-+module_exit(msi_ml_exit);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Tomasz Bojanowski <tomasz@bojanowski.me>");
-+MODULE_DESCRIPTION("Hwmon driver for MSI Mystic Light USB controller voltage sensors");
 
-base-commit: 9926f611495c8f046caf5f8f46dbd4d401337550
--- 
-2.56.0
 
+diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+index b775b6305fb78..e12ba47a20e43 100644
+--- a/net/core/page_pool.c
++++ b/net/core/page_pool.c
+@@ -16,6 +16,7 @@
+ #include <net/page_pool/helpers.h>
+ #include <net/page_pool/memory_provider.h>
+ #include <net/xdp.h>
++#include <linux/pisa.h>
+
+ #include <linux/dma-direction.h>
+ #include <linux/dma-mapping.h>
+@@ -602,6 +603,8 @@ static noinline netmem_ref
+__page_pool_alloc_netmems_slow(struct page_pool *pool
+         */
+        if ((gfp & GFP_ATOMIC) =3D=3D GFP_ATOMIC)
+                gfp |=3D __GFP_NOWARN;
++       if (dma_map)
++               gfp |=3D pisa_rx_gfp(pool->p.dev);
+
+        /* Don't support bulk alloc for high-order pages */
+        if (unlikely(pp_order))
+
+The network tx side is more complicated because, as discussed
+earlier, we need to be sure that the leaf device is one that needs
+those special dma-able buffers, and there isn't (or I have not found)
+one central place to hook into for tcp, udp, zerocopy,
+security things etc., leading to a plethora of small hooks
+
+
+ net/core/skbuff.c                                            |   42 +++-
+ net/core/sock.c                                              |   62 +++++-
+ net/ipv4/esp4.c                                              |    4 +-
+ net/ipv4/ip_output.c                                         |   19 +-
+ net/ipv4/tcp.c                                               |   23 ++-
+ net/ipv4/tcp_output.c                                        |   12 +-
+ net/ipv6/esp6.c                                              |    4 +-
+ net/ipv6/ip6_output.c                                        |   19 +-
+ net/tls/tls_device.c                                         |    4 +-
+
+
+cheers
+luigi
