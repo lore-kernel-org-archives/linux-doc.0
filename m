@@ -1,47 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793985208;
-	b=noeLtBcsUAd/LHe4Sg+RVoaD7py1AruF5q3xOonZyBBVZ0L+hyt0HweeOfevFjv1wz9B
-	 ZLDhk6O3cxpZoPXNyTIysO0vlX1c/tNHY1bj+xXatqppZozp3xFIYGRXkx13ohGd0puaF
-	 6lJZo66Dt1+Ooy56pk+5R1SAiNlLbVQ8doZ27NXsqo3Qxfm9kWQmn5XAyp9lov1TWJWB6
-	 s8tg8W2TwbPbqIQ8Z9OxlXipWUAIo/9zUun6ECXMhQuUKdQK+CCjJj3wF6tfPzq//L7Bc
-	 nQle4YlidrivUCzM4/0X6BGHjGiulnaAkX9yCPladLMtdQWDPVzAwLk76vKf2rCDI/g==
+	t=1793985573;
+	b=IY6aWA4gar1WjhtHXn98nRXCToWVN69mNW3ew40QykxMeNckzWc4Cey5vYH2MDCQ0qVT
+	 jZe1sNQxF/XPEx9xqFx8vB7KULlBrugXkuCHs1LOUeSIgvjThcXU0LpBn1Gv0driwgFtO
+	 keGWIb1YzaP8t63jZzaHQPkS06huF8gquLxzuxXfRtPdSfxfb/2AX5goFKzwzV5jsIAEp
+	 vTbmFyycgWfNdweRrfhuB1iTUcDX3PxSJBVUmqINFk7tM3VYIDuRZjRNYkNVEUq5PoDC5
+	 4E560LO5nTFFVJNSnIbXK8ckjVUZdvF7tonb9qA+K3aI3rOnboaS4o0qsew4aW/tACg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793985208;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=bPnDFLjtsMX7BueMtx9r8dp1yZvMpehBGipGAVCydqs=;
-	b=XjpuAS7FD3iHWV10EgsIbswLe/cjWnL0P53uZ4nTf8LBN95M40ieIaI4vzZAFLaBThL5
-	 zAqJl/9iHWwXr73GsgZ6BQHJAQf8JERGoiaK16DVFeult3SkyRtk4xgaBcHCmgLKCnnss
-	 0vmlOBBnUHJUXE0oiWoKewZYi1zy7LzqLdth6ej/EKbRYYob0xCnduI67pCpqnPiKBZki
-	 U66rAd5LYLzJ6lcSeuvj1gKYd/yefmIoWlyzXkZpW5uwyLRjOeun+YmKsy49RktkA/qU5
-	 229UYIJ9IqOp35TOfjFke2RVCm3q9p3CMcQXu8+dCHTm9M1JRJCzvS0zkqN4yMlV6Hg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793985573;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Subject:From:To:Cc:X-Mailer:References:In-Reply-To;
+	bh=tEaeh2MQM8Yqh+InUxWcP/c3Ugn8r1gCgilB/e+XZTU=;
+	b=Ss5RMbZwP0Z52Z4OilXsveXTh+KQYC0HlRx7GSgY3fFpmkoJoYIX0y9cDK0gXdgK2XKD
+	 kGbQ9Hq2cQHbkpI40JUqWGuW7rTNXZFlhXRkgPWh4MEX661e/vkHPG2SPmxqFI9ZFPz3k
+	 YL9lNFz06+FEJpTNEV9SyLUGxBlmPF4Urk7ye+M5Awbn2C3joU2cM700+jQlyht20nkww
+	 8VIz4oMJuHz2NtwM8vLBeYGAH493AVZUSF3WJ1yiO20EDQElT6m0xNxsy3xx1663Eo/XB
+	 HeLK6XNial1/6MZe3gr0d7lSvNHRwxTmp1qN36uQVroQQ4MUGeohwg7Jl801Qejq6hw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkPI8UND;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=V3vuG2QG;
+	arc=none smtp.remote-ip=209.85.216.42
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA39606A326;
-	Fri,  6 Nov 2026 17:13:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB1B606A331
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 17:19:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DBB1B606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkPI8UND
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9038F1F0089F;
-	Fri,  6 Nov 2026 17:13:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793985207;
-	bh=bPnDFLjtsMX7BueMtx9r8dp1yZvMpehBGipGAVCydqs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=TkPI8UNDklgLg24An0CwLzEX1nUXsMqpKIdUlZ239MrmVy4gbbxjw1PH5hwp9sw1E
-	 aH0VxuxlrEDr4hWf2TQbx17n1vTj2OJEMRY6PR1+BkDwoCEZz5S5UZof9HYnAu2MNv
-	 S0dDRX/8wnisoz3OjNlPaeZvVdq8GiepQUvEiBLk7bLZTw57XQT7cU8fvTiC8gs2/J
-	 3vLeQsabyMMIY7PapuwdmTJekLnHjMoAraVZfWD79iOgYmdQGckzf+Tbmszf4bngg8
-	 VwYakwG2MJpd7hgoJjPQdv7HzjdFJGtOY89OF7dZjE6riU1nsUGTe3Ud+CrZxHLyAn
-	 WeKRm4PWN3yHw==
-Message-ID: <82efa7f5-c5b4-4934-a72d-7399ce52496c@kernel.org>
-Date: Fri, 6 Nov 2026 11:13:23 -0600
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=V3vuG2QG
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3b0b3438540so534145a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 09:19:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793985572; x=1794590372; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=tEaeh2MQM8Yqh+InUxWcP/c3Ugn8r1gCgilB/e+XZTU=;
+        b=V3vuG2QGjhL8r2VuA4Y+96OnzymPavm7o7EgEyvr170YdIQ6DRl7oV53qhL1GcFHq9
+         pAuFDTumBKjC04cfsqiF/s9mzLQ7MxMB33+iWjjD6M/c6YfzXCbLDc+N7vG+f5wRPHnt
+         YGfusFO0BTgDqxJC3GAGWNZSjKJIGzOR0waqOm65uqs4mfbkFPtcjPreR4HJO5uzAwIM
+         aZJqv3Eu06A17GOsAL38uxdtzasGV3QnNWGft1JdKGB0XYClaHm6eqK5tjUpWsaDDnGv
+         L3j4WwyzVfe0Q7LrBT5u/+m8/nbkT0KO2eRt94r5hQOTgl8rRxeGomxzWEId9K33GS3u
+         IwQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793985572; x=1794590372;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tEaeh2MQM8Yqh+InUxWcP/c3Ugn8r1gCgilB/e+XZTU=;
+        b=2M8IF9xNVuwhAtjUhDxCKXPQhS6pnpbHZ4XGh5diCPVO8rzX6d4FYCd5W1XwBtbjqL
+         kxxW5t7csXz0ElxKSvSvGQPBdYHZDZwcbpuhQO/DmhzGe4Mm1iKSoAvXLPYTzk6qEnm2
+         G/dQJ25vafpiM9KjcW0ityc51YH5Vfq3XKEBvdE7WkwtRe/0//IItG3wjGjjgR3fpif0
+         8PyenEwt1f1zn28XXjWXkxz+8RckyqoD7teGCCzwFu2txppaZ+cHxsvAIqTU008e4i6M
+         jmOXqSLguX9yg0RwLofEoItw+7GsvQH6Vhr8XH8CQ3WOGbzbQRj9wVaCSKN5gawm5U0r
+         rOOg==
+X-Forwarded-Encrypted: i=1; AL+hErFDyRn/ZpEsfD6DTPds0c7N3icTbyORs7uPev3muG1f7q6vIO/79EhpWwG91qyb/wlW+w2LNXNyjR0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/cJgBoq+Qv8nYyPjzWdSZ8UwVja9XzJDmGFb+x5O7Gq1PlGIMe
+	Sv+BrVUXF8oOgNw0Mlo6sHQgTSXBl5zWw3IaUOVsE9n3W/RKAjvb7QWdJEgswjipWwFucq0xYCe
+	+Uwm3/Yds
+X-Gm-Gg: AYBFou3ytETqzCR7s9is40+IP5zG+HccXg5MPPJUAUKw5N2EtxlmKKiKztWV7dGMiRs
+	bJ40Qc+GswOq3RSzYbW/g7T0fx8phUNs4ddWwy1BEBX3aAgvwQsN+HLqMl0drfMm0jYfYb3oesD
+	EapXkzi1B/sD4n5Ip+Q44uPia44vj4k0kZ+Llb4qoi6C5kgXB3YizI1tbztoPhVB6hGB7kKO4Qs
+	PeV67Xu454QnsMSNCafiH9jhKD1A9R4IJWGYE+ICJ8NP/lUKaAuE5AZgEO6IMx2w7DMvUKhxlls
+	+V/Hh7BxW+Lf79tyDXXyLkwlKQaEEBFigob2IINfavC6ox9B6YhQLgt/WGA/e2ftXymrccNRf9k
+	o08vrTFfV5FWFNN452swz8jDebJCDITaQ+IAjE09jXRAj2b8Uj4m57J1nwrJ0lydtsoRCCXDO3W
+	m8KmI1moIhxCw1zu/LlAodMXasQ1w/bOo+WrAzn7EJ4E03DzANV7tFYyrmKprISbPpwpJ/hDfRX
+	LCsJT79BCHgjZoHSmK5fU4JwRNkubcQ7tyPnonJ7+XHnzcxRAFdVlPfnFWT2K+ggH9n8Zj92kXf
+	skuukg76w9Cd1uiwKBpMoD4Y2woW4ohKreYQgfvuNAVHxYfHHyxA7S7md04GY8ot
+X-Received: by 2002:a17:90b:554d:b0:3ac:bfa7:b079 with SMTP id 98e67ed59e1d1-3b0db5edb73mr3411640a91.7.1793985571464;
+        Fri, 06 Nov 2026 09:19:31 -0800 (PST)
+Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb70a7fbcbsm795231a12.25.2026.11.06.09.19.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 06 Nov 2026 09:19:29 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -50,134 +88,113 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Use hibernate callbacks when shutting down the system
-Content-Language: en-US
-To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Len Brown <lenb@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Denis Benato <benato.denis96@gmail.com>,
- AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pm@vger.kernel.org, Eric Naim <dnaim@cachyos.org>,
- Bartu Alev <bartualev@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Driver Core Devel <driver-core@vger.kernel.org>,
- ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-References: <20261102-superm1-s4-at-s5-v1-0-313e0012dd39@kernel.org>
- <CAJZ5v0i07G06GDGX76f3-ppumfNUFD0nTB-Wz8k4PS=Ra13CsA@mail.gmail.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <CAJZ5v0i07G06GDGX76f3-ppumfNUFD0nTB-Wz8k4PS=Ra13CsA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 06 Nov 2026 17:19:28 +0000
+Message-Id: <DMOAT4VV939P.2DI8CEOMMSKMY@google.com>
+Subject: Re: [PATCH v6 11/27] vfio/pci: Retrieve preserved device files
+ after Live Update
+From: "David Matlack" <dmatlack@google.com>
+To: "Vipin Sharma" <vipinsh@google.com>, <kexec@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <kvm@vger.kernel.org>, <linux-mm@kvack.org>,
+ <linux-kselftest@vger.kernel.org>, <linux-pci@vger.kernel.org>
+Cc: <ajayachandra@nvidia.com>, <alex@shazbot.org>, <amastro@fb.com>,
+ <ankita@nvidia.com>, <apopple@nvidia.com>, <bhelgaas@google.com>,
+ <chrisl@kernel.org>, <christian.koenig@amd.com>, <corbet@lwn.net>,
+ <dmatlack@google.com>, <graf@amazon.com>, <jacob.pan@linux.microsoft.com>,
+ <jgg@nvidia.com>, <jgg@ziepe.ca>, <jrhilke@google.com>,
+ <julianr@linux.ibm.com>, <kees@kernel.org>, <kevin.tian@intel.com>,
+ <leon@kernel.org>, <leonro@nvidia.com>, <lukas@wunner.de>,
+ <mattev@meta.com>, <michal.winiarski@intel.com>, <parav@nvidia.com>,
+ <pasha.tatashin@soleen.com>, <praan@google.com>, <pratyush@kernel.org>,
+ <rananta@google.com>, <rdunlap@infradead.org>, <rientjes@google.com>,
+ <rodrigo.vivi@intel.com>, <rppt@kernel.org>, <saeedm@nvidia.com>,
+ <schnelle@linux.ibm.com>, <skhan@linuxfoundation.org>,
+ <skhawaja@google.com>, <vivek.kasireddy@intel.com>, <witu@nvidia.com>,
+ <yanjun.zhu@linux.dev>, <yi.l.liu@intel.com>
+X-Mailer: aerc 0.21.0
+References: <20261102153656.1431701-1-vipinsh@google.com>
+ <20261102153656.1431701-12-vipinsh@google.com>
+In-Reply-To: <20261102153656.1431701-12-vipinsh@google.com>
 
-On 11/6/26 10:57, Rafael J. Wysocki (Intel) wrote:
-> On Mon, Nov 2, 2026 at 2:54 PM Mario Limonciello <superm1@kernel.org> wrote:
->>
->> OEM systems that ship with Linux preloaded need to go through energy
->> certifications that match regulatory bodies in the regions that they
->> will ship.
->>
->> If any of those certifications don't pass then OEMs might not be able
->> to ship systems preloaded in applicable regions.
->>
->> Multiple models of systems are reported to fail in Linux but pass
->> for Windows on the exact same hardware.
->>
->> By looking at a breakdown of power consumption across devices the
->> issue is that some devices aren't turned off when user puts the
->> system into S5 (shutdown).
->>
->> A few years ago when I first root caused this I submitted patches
->> to PCI core to change the PCI policy at shutdown [1].
->>
->> But through various iterations I've come up with a better approach.
->> Instead of changing policy in each subsystem we can instead
->> change our shutdown command to run hibernate callbacks for all hardware.
->>
->> In order to accomplish that the last 17 kernel cycles I've been slowly
->> drippping changes into the hibernate code paths of all subsystems to make
->> sure they behave as intended.
->>
->> Those are all merged as of kernel 7.4-rc1, and thus I am now ready to
->> start using the hibernate codepath at shutdown. This series adds that
->> support.
->>
->> I'm not naïve; there is definitely risk involved with this change as it
->> will essentially affect anything running Linux that gets turned off.
->>
->> To that I will say that I have been running, rebasing and iterating this
->> series on my personal development tree ever since December 2023.
->> Various rolling distro community members have also been testing iterations
->> of these patches in their hardware and distros.
->>
->> I've also put a few guard rails in place:
->>
->> 1. Don't mandate hibernate support. If not compiled with it, just use
->>     previous shutdown paths.
->> 2. If hibernate callback fail, emit a `pr_emerg()` message but fallback
->>     to previous shutdown paths.
->> 3. Offer a kernel command line option `shutdown=legacy` that any affected
->>     user could use to roll back to previous behavior while we root cause
->>     any issues.
->>
->> I did split out the kernel command line option to a second commit.  If we
->> later decide that we want to keep this behavior but drop the rollback knob
->> we can revert that commit.
->>
->> Link: https://lore.kernel.org/linux-pci/20231213182656.6165-1-mario.limonciello@amd.com/#t
-> 
-> I have a couple of concerns regarding this, after looking at the patches.
-> 
-> First off, dpm_suspend_start() seems to be called during shutdown
-> while user space is running.  That is risky because at least some
-> things in the power-off code path assume that user space has been
-> frozen.  I think that freezing tasks, along the lines of what system
-> suspend does, before running dpm_suspend_start(), is requisite or you
-> will get into trouble with people who run fuzzers across shutdown or
-> similar.
+On Mon Nov 2, 2026 at 3:36 PM UTC, Vipin Sharma wrote:
+> During retrieve():
+>  * Validate the handed-over struct vfio_pci_core_device_ser header,
+>    sizes, and flags.
+>  * Locate the registered vfio-pci device matching the serialized domain
+>    and BDF (requiring device->ops =3D=3D &vfio_pci_ops) under the device
+>    lock. vfio-pci registers the vfio device before its probe completes,
+>    and the probe holds that lock, so a device that is still being probed
+>    is not returned.
+[...]
+>  * Open and return an anonymous VFIO cdev file via
+>    vfio_device_liveupdate_cdev_open().
 
-Hmm.  I'll see about adding that to this path, thanks.
+Here's an idea for how the device file could be created on retrieve,
+which I'd like to hear your thoughts on.
 
-> 
-> The other concern is that the "legacy" shutdown should be the default
-> or people will get confused.  Arguably, it is not even necessary to
-> try to change that in many cases.
-> 
-> Of course, this means that the new shutdown arrangement will not be
-> used to start with, so there needs to be a plan to migrate users to
-> this new order and I would start with the systems where it actually is
-> an improvement.
+The patches from Pasha at [1] lets userspace pass a
+file-handler-specific argument to LIVEUPDATE_SESSION_RETRIEVE_FD. In the
+next version of the tmpfs series, I'm planning to use that to have
+userspace create the file and pass it in the argument, and the kernel
+then restores the preserved file into it.
 
-It's improved every system I've tried and measured; but the level of 
-improvement comes down to what hardware is contained.
+I wonder if VFIO should work the same way, e.g.:
 
-The most demonstrable improvement comes from systems with dGPUs.
+  struct liveupdate_vfio_retrieve_arg {
+          __u32 size;
+          __s32 fd;
+  };
 
-> 
-> I would try to add the shutdown= option upfront in the first patch and
-> make it take one of two options, "classic" (the regular shutdown
-> callbacks) or "pm-aware" (hibernation callbacks etc) with the first
-> one being the default at least to start with.
-> 
+Userspace would open /dev/vfio/devices/noiommu-vfioX itself and pass
+the fd. retrieve() would check that it's an unbound vfio-pci cdev file
+for the preserved device (domain/BDF, noiommu, incoming, cfg_size),
+attach the incoming state to that file, and LUO would track that file
+as the retrieved file. VFIO_DEVICE_BIND_IOMMUFD would then take over the
+device as it does now. Since VFIO preservation is new, the argument
+could simply be required.
 
-OK.
+I think this could get rid of some of the special handling:
 
-> Then, you can add a DMI quirk table or similar with a list of systems
-> where "pm-aware" works better than "classic" and expand its use going
-> forward.  My expectation would be that, at one point in time, the
-> majority of x86 platforms using ACPI would be better off with
-> "pm-aware" than with "classic", but I'm not sure that this point in
-> time is today.  Beyond that, it is really hard to say how cards will
-> fall.
+ - There'd be no need to fake a cdev open with an anonymous inode, so
+   PATCH 09 and PATCH 10 could probably be dropped.
 
-How would you feel about a heuristic to turn it on for anything with > 1 
-GPU/accelerator for now?  I think that's the biggest bang for the buck 
-right now.
+ - retrieve() wouldn't need to look up the device by BDF, or reason
+   about racing with probe under the device lock. If userspace was able
+   to open the cdev, the device is registered and probed.
 
-But deciding when/how to turn it on for more systems than that I think 
-is going to require a wider call for testing.
+ - The device file would be opened through the normal cdev path, so the
+   usual permission and LSM checks on the device node would apply.
 
+ - It would be the same model across file types.
+
+A few things I think would need care if you go this way. The file check
+and the attach would need to happen under dev_set->lock so they can't
+race with a concurrent VFIO_DEVICE_BIND_IOMMUFD on the same fd. And the
+incoming state should probably be tied to that specific
+vfio_device_file rather than just the vdev, so only the file passed to
+RETRIEVE_FD can take over the device.
+
+It would also change PATCH 12. Opening the cdev of an incoming device
+would have to succeed, so the check would move to the first open of the
+device instead: fail with -EBUSY if the device is incoming and the file
+being bound doesn't have the incoming state attached. That one check in
+vfio-pci would also cover VFIO_GROUP_GET_DEVICE_FD, which opens the
+device right away, so vfio_liveupdate_incoming_is_preserved() and its
+dev_is_pci() special case could be dropped from the VFIO core.
+
+The next tmpfs version will also add a way for a file handler to say a
+failed retrieve can be retried, and a helper to claim an existing file
+before restoring into it (so a file LUO already manages, e.g. one that
+is preserved in an outgoing session, is rejected). Both seem useful
+here too, e.g. so that a mistake in the argument (wrong fd, an fd for
+another device, an already bound fd) doesn't make the device
+unretrievable. I'll Cc you when I send it, and I'm happy to share the
+branch before then.
+
+What do you think?
+
+[1] https://lore.kernel.org/kexec/20261103010216.3447716-1-dmatlack@google.=
+com/
