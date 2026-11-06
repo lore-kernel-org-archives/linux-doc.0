@@ -1,132 +1,154 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.138
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794001226;
-	b=sygtviJOC0AjlDZ7NgT0/JlSF+euv9AoDVT7Kaq4oUCiBfO3tHmgbi7iIWsrEB64CKSR
-	 b9tvgmas8UnsYDHWDrEChIFH5AkorOKlM87RckVM6CsjwUu6YHfoxXtc7+O9QEvpGqTq+
-	 P7r2Zd3ig3tkoyBm9a4WKcyo0Lgf/jJf16Rr7pVrfbNRGghaeQRAs+SKEKzm4tLNmcauo
-	 DCsENX+6fYnKuN7xDa/k4AYHWSNo3ah+hDGewQWCFhW78Odao3kRd8YaXL0v5lYNXMwtF
-	 oJOegEqavRAx/StmSrz4uhTHD4pwbPEnvnujrQg9LMucziuzZR1DOxdmjQ3MzzmAc4A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794001226;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1Ekt21ztw=;
-	b=y1HbgmDUEHQTa1QRGf1JLAR1kTw43sa5a95JU3g6XYHpTEKQvjaVGVFfJTQFPkGBdI+d
-	 I6IB6BKa23tmfhXqYuOoqdKORMpSpXGxb9bK8Xa7gsFz5fArQI2UzTwPSm1GH1ZwAFekP
-	 ahY/6vFzNZ1IZ3rXTA43p9aURo/9elQhwYbipL7EJ0eBtK2u/yDnxmD3wU7ivLC77/B17
-	 HfED2cAMywi3MEi+EPEEgiuNnud+n4do59f7VnjkwimVts9GMgzmR4T2pCI8GhqmTH694
-	 4v2+q6bru25BxJ9TfrViABVlIA+g3+rMAmxk1zHVY+Ej3f9wiLH+UDEQG931B8vBWig==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=queasysnail.net;
-	spf=pass smtp.mailfrom=queasysnail.net;
-	dkim=pass header.d=queasysnail.net header.i=@queasysnail.net header.a=rsa-sha256 header.s=fm1 header.b=VbXKoh6X;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=HrZFzyHX;
-	arc=none smtp.remote-ip=202.12.124.138
-Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.21
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794001685;
+	b=WqFgTls5kwFluCNKAtawhbclMLyE/iUSNTVUJovnkRxpVXvf8PfbHliX/MrM60wqtBRF
+	 2itGRKe5xLu7dsmbLdeTgXqCLlwUBAnQBGmyN2t0WdWROw1wDjdqr0wSYOFtfGAE6gAfq
+	 nwvvaF3j4OsB78/B2RmopQ/Q6Dzp9zSfyaE9K6Ajao8US0z/8B9ZvDu6r/HqaqGE0RRK+
+	 8LmciKvs19T/Yuu/ZTr1lvsT+/SL3EMReFBh9cxEH4H/RHlsufGOU1ffGALESIamZCmFY
+	 ztshJbCoW6i2v2s0yUIKdPGKnvwmL1ik6SbL7oviCYUfD3jUChHu5clYlM85BJWdYSw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794001685;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:Date:From:To:CC:Subject:Message-ID:
+	 References:Content-Type:Content-Disposition:In-Reply-To:
+	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
+	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=8nXpEQymNXRku8n5+Yz7GHlxinAghyP0/7U2SYwQD2o=;
+	b=chSGR3hJX1ESrrgaZFohw9OYbcLzk6rs/ZAAIIApirKwkJxrWfYnsVMIKu7mws2urBVh
+	 rVAE5JHzduXdKWUZuSxfbB+4UDEK8cu/h+v7PmbPtbbjZmsXdK7gWFh7fH3Hzz8CweMJv
+	 itn+MN6wVZLF740yHbF3tMIjlR7fusIHxcj2LcPssu9aSJfCF05oP13vR3bCHRLOqtz7R
+	 7zfMRJ3iEqHuhIpys5JdD1hSZTzUqL2ibN9jfE0DOK4r0Xhqsa6sAXBA/zc4Y/t6Auq+S
+	 xeInKU6LTubR+Xmkk0DVJXzPoPyY9K6fBXCpkj60t94Wl+eC08UIsoAnSKfVTrNI0bw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FlFseuil;
+	arc=fail smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7677606A329
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 21:40:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7677606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7923606A32C;
+	Fri,  6 Nov 2026 21:48:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7923606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=queasysnail.net header.i=@queasysnail.net header.a=rsa-sha256 header.s=fm1 header.b=VbXKoh6X;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=HrZFzyHX
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailflow.stl.internal (Postfix) with ESMTP id 5D98F1302B01
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 16:40:20 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Fri, 06 Nov 2026 16:40:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
-	 h=cc:cc:content-type:content-type:date:date:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1794001217; x=
-	1794008417; bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1Ekt21ztw=; b=V
-	bXKoh6XdJyGq+d0PHagyU/VO7NO43A/j4OxLLPiPkWXoAckGZs0jaQPVkCUnALtg
-	jzpmF0Q3YDY9izjVrhSh4rci58x9KXUY5m2mMkdeKuutH240OFML8ePMUyrE3j/d
-	qk/o5CRfe72f2JEq9e3HErJ3D98F49jDyWj+BqDlrGM4V/GJWAQXibMfgKaM8zFH
-	aKVOiP79t7OBSg1Cyem/60G5GvmoUr1xp8zIjGC1OVVlOWRhmR6cWfXkaGXPVsef
-	LYZX2YuM9L5i9btS8BZ4kKjOFRMDBmou/u/MloGcFrNNfEop8oFfUFQY/rJbly3f
-	kghkXB6Df5jJxei9OhojA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-	1794001217; x=1794008417; bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1
-	Ekt21ztw=; b=HrZFzyHXLxxGiwjM2/JxHjs7v5CI89BrAoFsjwT/ROQXeSF7QQ3
-	ypzII+RA7DcpW3+EH6N8+K8gy14E2vecH8bf8b69/lCmaMC/9X59GNs8qskIt85l
-	+LFXwtOq+MavnpjqH46vYdZlBuZrJy21FnABeULSbGNv/3v6HEyGV21+pyQcJN4V
-	RfXMLzZ4QR+6KyFq/HDI4/BGWAdnVUwZ2HY1M2shj6dI6Wu5KqdGfi6MitanbSt4
-	U/ayL0mFo7JXGWwNibevlM/JHoRax7ykhSUaBS+ZIZTqDmVo4xBc+S4bv4sbNOJn
-	VZIs45IFZctIYm7TxhTjEMAuCAS3K3kt1Dw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=queasysnail.net a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794001217; d=queasysnail.net;
-	mf=PHNkQHF1ZWFzeXNuYWlsLm5ldD4=;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm1:rsa-sha256:G1MH2rxzuSUO5yBkrUlnHkKfo/1QS4tZdaWATdxkoy49zQN
-	Vis8Zj6mV2LbaVg8Wh2x5s8y37xsWtCLZvQJsYJKH4StqyMD8H8qqdXYiM73F/nI
-	pT6wKnS1LnR/P4TRvhZUiM08g2loRw1+9VNi4jFkMQYCpMn5iydHVhRYyNtVMfbQ
-	0wLYP4cIhPwX8+ntHyjhyOOTWhBQfxFeBV3+uP+Q50mnnUdxafzIrfAawyEKEgWR
-	LTI9CItgwYwd19faLbFjWKCD94CdM4J/zo2okKQJTqfdJD1RXDhxxwa9TO7LraiT
-	40Iv3fRON2dvyn9bONb7+9llRpA1B/ZozQpMeAg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-disposition,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:5uTqlFLn19dD44/gE58Slrwi5vVzLuLCOhbMiki6nmM=:xLnDSRjbvnVpHAU9sGg0qmA1gw9coIREWUdi5megVz4=;
-X-ME-Sender: <xms:QUnual3N6gXDSunVHf5kPWqX6zSV_da-OP2ZQzq_EKpVUp6nLurF9w>
-    <xme:QUnuatsFAIcNhZxLzCkJB4dkuaiIvwVBvYRSNj6cxCaAYzHJ7LVArAGTzF5KhkOe3
-    hI1q1cDUlGruJqlL0kNKsMMVd65fwdKVw_GvE6fUmxFJI5mR73xyEc>
-X-ME-Received: <xmr:QUnuap8l6zZZ6ADu7UbQHFD6tdiSPw4hctckQxZFwEwqHh8hmIITjRKZHeI>
-X-ME-Proxy-Cause: dmFkZTFgaUn+qN8zY/WvD249UuGoto6ZaA1UpOS6Y/NjMRSGTpdPvTJQdB1AGpCs1OAohV
-    2FiWGqFD14+gKwJTds2Sqtgp2lyBLEl9dUH0DroKrJNwldmZGFO9OA8AxcIwXn78XvwCl6
-    UTxjcYbkwNdt6C9Xp2Lfwmc+GqJnjkrfpfxXaPL/ejhTIIhm2xYDmhKo0q6/6JBTIJhVZm
-    7ilSkX0MPkqaD/DtEj6cW4Tk2X+3uGEns+NC6qfPegvcWFo89T/ajLEZwgfYQkrJEr0Dtz
-    d9IEH/0NWR19s46M3lJMIByJMb/W+fGe+POAqIaETGM/ZXb60cJKie9pltbrmiZLtmxumI
-    Ok9C3loa+YL1IFfCgD9++ADmdAS7sYFV4dOUjzJYOEPur80bnaOIVIfJd9SW+NTv6+ck5Q
-    V7O64kPt3dQJzDlNDUxChCaQ1qfJgjIVrnqcPgTw7WzNRpuyqAAyUSoqfhV0jbTQ5P2oGn
-    j8mHWs6EHVsInTLRlumkzHDykZfK/EY0DK5IZPxzzCpdkcHZ8+qqSBRT4jJQPsw00nnMhe
-    i2YBjI32K3DdIRZ7QG2U03cXPrVLXiEf6AENnYbCrqELP0zN3SPOnA6cITlk/WGP7z5Tvk
-    jBO7gz2Fz0JIBG6rpICLMEv9V6fNUx4PEYNcA77VNNYxATCGUhMZwTOiDpOA
-X-ME-Proxy: <xmx:QUnuapSFkfzL10W_gr3DOflIRgsXs-pUI2NOADwxVnfi8hdzEYKl5w>
-    <xmx:QUnuanB0Y5J8Md6yyA_kZ44bUjfl69FqF4Q2AsvnLf8u3UuJBfN5Kg>
-    <xmx:QUnuaiYnhigLuiX0jK_iCpPIJxFwryOwsArNS1yz7Acig1mLcYv8WQ>
-    <xmx:QUnuagLgfiuZ5qhm9y3E1UPowuQMQLPjOEIeMwEtAfTe9pgt6bPEQQ>
-    <xmx:QUnuaifxf6jGg0L2AC3BnoMgezqV2djxGuWsC8FF0F-5VKJCmM9KN4sS>
-Feedback-ID: i934648bf:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Nov 2026 16:40:17 -0500 (EST)
-Date: Fri, 6 Nov 2026 22:40:15 +0100
-From: Sabrina Dubroca <sd@queasysnail.net>
-To: Martin Belanger <martin.nvme.dev@gmail.com>
-Cc: John Fastabend <john.fastabend@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>,
-	kernel-tls-handshake@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	Alistair Francis <alistair.francis@wdc.com>,
-	Martin Belanger <martin.belanger@dell.com>,
-	Daniel Pereira <danielmaraboo@gmail.com>
-Subject: Re: [PATCH net-next v6 0/6] tls: perform TLS 1.3 KeyUpdate in the
- kernel
-Message-ID: <au5JP__7P_PzwDUe@krikkit>
-References: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=FlFseuil
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794001683; x=1825537683;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=1f0nFmkUucJgN/zisFf0DFMdW3P5sF9Y8UCVX4FETzk=;
+  b=FlFseuilGv/++KYT8z/syCN+ZPIBspMc3r19IuBiK5PSegqNNp6JJ+LB
+   7PG0ACS/UMhoKJKWGyOeYvfVWADqLG4zgWQTn50pE7j9ZfinVOYJEXt6f
+   IWenSsnQpBs8wTIsP7xIRJS75RNMwlTJTTbjJPQVP+Ep6a70dSpuXGpel
+   Kmh7LbbdSRvuR+iXKgwf8GKrVFvyCY2kthUTMK/qB6urOuPzkcIF6pZr0
+   PNtGgW21MyXNW2/5histXqFs7zYU4MxM875f7qpdE1tIOZKo76AujiLEq
+   Fe4md+Dq2uSey6gWhGS6Mc6LH6ajRiwBQH5+gbjgooY/XRW/AAMfgwTF5
+   g==;
+X-CSE-ConnectionGUID: kynbzZiDSBOSVsYmvzIGOA==
+X-CSE-MsgGUID: hDN8tNhnSQaSJDrWSZgIZw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2914403"
+X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
+   d="scan'208";a="2914403"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:48:02 -0800
+X-CSE-ConnectionGUID: LXM3PaFWSh6DWBHE7402RQ==
+X-CSE-MsgGUID: zI0oeOrITxWAB9lXA4lIUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
+   d="scan'208";a="7705262"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:48:02 -0800
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Fri, 6 Nov 2026 13:48:01 -0800
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56 via Frontend Transport; Fri, 6 Nov 2026 13:48:01 -0800
+Received: from BN8PR05CU002.outbound.protection.outlook.com (52.101.57.49) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Fri, 6 Nov 2026 13:48:01 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=w2L9F/nNHKukUH8JxOE+YGm885+WORtORhdhar+vWI4/Mt6ixchRbvbluFtCw8iBRNXTPmPOzIG+eUnroDBV43qKK44LuEh9JaXFfGv0IlTfqQ7R/upEXzy8851nvAMeGqxwl9NkwF7vCvXLywat4oBTO6XOOiFp186UJytuz2hqiAxccDWYyhyAXWplRoun4RouxH4daOIqc0alJUOCSK4EXyEf2fGJAC8EHlBDxS9mRccQuFbKkV7C55RwNWYQMl4c98tEjstsv/LwKnNBIwunpECcu2adJkGWGRLeIlHkeNzJLvgpL+vbOZrTcYVIF5BOiQHr6rJ4E8qEJYUXfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8nXpEQymNXRku8n5+Yz7GHlxinAghyP0/7U2SYwQD2o=;
+ b=ImYcyIHkBsnQI7VcD9wSWgAwAV4CBQORCVs8RU0F7XHowvBNUqtu5j9gNnj2wFyM6UZr0qi9OYMtvOOXUVlPw4m5pS78MRCnE7UO1GwEXTw/IGpncPCx7zkEfjY+BoS5/zlVJUHy10zJS0ksmPHJj91hyVo5R1YsPB/9h3hGZqcKKeQZSbMuVh1N9D939U+obEkO7T86IfI88qo2RYY5ExnNbsqKpSfXZrV6SMYvyl26Ymqv/VmLsGpd6Oq6SeDk8WRxSotjt7t5YNnbtLjMzR9WwOYXwDo4Qca0vbHvFS1k5K1usp7FjlW3Y0bjTdm+QSnpxMv1fMXvzoX2fPriPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CH3PR11MB435924.namprd11.prod.outlook.com
+ (2603:10b6:610:34a::8) by MN7PR11MB628000.namprd11.prod.outlook.com
+ (2603:10b6:208:5f2::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Fri, 6 Nov
+ 2026 21:47:59 +0000
+Received: from CH3PR11MB435924.namprd11.prod.outlook.com
+ ([fe80::1696:c90e:60af:a0cd]) by CH3PR11MB435924.namprd11.prod.outlook.com
+ ([fe80::1696:c90e:60af:a0cd%6]) with mapi id 15.21.0592.010; Fri, 6 Nov 2026
+ 21:47:58 +0000
+Date: Fri, 6 Nov 2026 13:47:52 -0800
+From: Peter Fang <peter.fang@intel.com>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+CC: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>, "kvm@vger.kernel.org"
+	<kvm@vger.kernel.org>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>, "suzuki.poulose@arm.com"
+	<suzuki.poulose@arm.com>, "drdeeglaze@gmail.com" <drdeeglaze@gmail.com>,
+	"James.Bottomley@hansenpartnership.com"
+	<James.Bottomley@hansenpartnership.com>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "Xing, Cedric" <cedric.xing@intel.com>,
+	"alistair.francis@wdc.com" <alistair.francis@wdc.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>, "Reshetova, Elena"
+	<elena.reshetova@intel.com>, "kas@kernel.org" <kas@kernel.org>,
+	"ankita@nvidia.com" <ankita@nvidia.com>, "jiri@resnulli.us"
+	<jiri@resnulli.us>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "Jiang, Dave" <dave.jiang@intel.com>,
+	"Quigley, David" <david.quigley@intel.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "pgonda@google.com" <pgonda@google.com>,
+	"jpiotrowski@nvidia.com" <jpiotrowski@nvidia.com>, "Vivi, Rodrigo"
+	<rodrigo.vivi@intel.com>, "lukas@wunner.de" <lukas@wunner.de>,
+	"jic23@kernel.org" <jic23@kernel.org>, "x86@kernel.org" <x86@kernel.org>,
+	"sameo@meta.com" <sameo@meta.com>, "aik@amd.com" <aik@amd.com>,
+	"sathyanarayanan.kuppuswamy@linux.intel.com"
+	<sathyanarayanan.kuppuswamy@linux.intel.com>, "ksinyuk@kernel.org"
+	<ksinyuk@kernel.org>, "qinkun@google.com" <qinkun@google.com>
+Subject: Re: [PATCH RFC 20/20] attestation: Add the TDX family implementation
+Message-ID: <au5LCE1jau0yDo5S@intel.com>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-21-jiri@resnulli.us>
+ <ed52bb6d48c87ab8023bf2165cadffa259e21725.camel@intel.com>
+ <20261023141218.GD3977851@ziepe.ca>
+ <343e4a12f2fdbb4e9a19c4afe49cf2b8908d6739.camel@intel.com>
+ <20261023220030.GM3977851@ziepe.ca>
+ <7843a833723e3aad40f8fc4de3a83f5a5059280f.camel@intel.com>
+ <20261103005851.GH3889730@ziepe.ca>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20261103005851.GH3889730@ziepe.ca>
+X-ClientProxiedBy: SJ0PR03CA0339.namprd03.prod.outlook.com
+ (2603:10b6:a03:39c::14) To CH3PR11MB435924.namprd11.prod.outlook.com
+ (2603:10b6:610:34a::8)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -136,112 +158,165 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB435924:EE_|MN7PR11MB628000:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c703691-ceaf-4df0-ccc4-08df3c4f9f69
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|7416014|1800799024|366016|376014|261102123227099003|261021121427099003|261022075727099003|261022105027099003|261026121527099003|261026140227099003|261028144727099003|4143699003|11063799006|56012099006|3023799007|6133799003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: jAVkQQ5tguamb0Kin3fzfqp71X8oPgpLhugt92KNMcxq6cNe4Nczj46RTkd5yJ5N1GkbTLfl0p6Pv6P/rX1NFFb9Ki0yXF0AZEgWjCCWLBuI4kdACAELUd+Suy/aohUhMG/cyI2QDNEuHRso8IxhGxXkJKUH8YISzd20TBJjaVWoYBHYfD6NUXN+IO/t811IGAmD5AL7v5ug/L1drJx5QpIp42+9wU/wb6d7JVNfpi9tr3OUNtFG4rYIuRwJZ4cj/JxvlASKNEMbl5aZykT4oBvt6zGvK4W1aNLPBKs3g6oLsxm6/P0rG1DwZRyRVAMGL2WF1/SgLD8kJNoiC2fUX5ahPZQL2fzxajwj349xQJxhy+T/TGreEfJCwMHiK+31XErE5OAv6M0ZyM6bDo8PiJQKEZIJzRiKUC/jFzEy1Uc0fedpNfZid+hMAqEtguUlIs5NutwPeLrmCfpvQh1xWZ2H2Umh/zw/UUOGSnlF8/oKzzop84ebt1MPR4+Vx4M5++NzZkVHcEWcptETECwi+LWljh0ZJFlCPM9gIYAPWNOvk7pgvpj2lAhHYUvp76T4XA/AftLaM57gHa623Wph6hPolwoOFTB9E5sant3F311ZQsdYWUsPJ1ZxgnNXn8lnl0v39+upP60T/xi9LAdF1giFLsI+4y7br9MHz7xkGbk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB435924.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(1800799024)(366016)(376014)(261102123227099003)(261021121427099003)(261022075727099003)(261022105027099003)(261026121527099003)(261026140227099003)(261028144727099003)(4143699003)(11063799006)(56012099006)(3023799007)(6133799003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?H1y01PYy/uMXhQgIH0+0G+/Q6+8xUmflL/wpnNLHtHcCKaEFFOoIOcIXeavk?=
+ =?us-ascii?Q?JO9QmY1qha3pMRnLpXu3zApgIoUlQb+sqsKMUOwaFFlhf3h6SzapEa15efqX?=
+ =?us-ascii?Q?1Ubv7q93b7+Aq8M4kdIUL8zShP7RiQGx0YDlNCGQ6/fPvLk+5A/yIXzMKLZl?=
+ =?us-ascii?Q?0IYqkgjnEy7iNJtXl+aKcE0GeBYRrinRLIzrPp8+vWt38ew7rP75h3mLpDW4?=
+ =?us-ascii?Q?AXwEOi5jIfRvxgrt5m3vCjRZ5e9PuQS1cewR12Qdc7ALNk9U8S7BGQMGVoZo?=
+ =?us-ascii?Q?B9M/UALj35zOunYXbVPdoWXZ/iaLy6v8GKK6O3U/bUQmiV3/UsFQeriRf5zV?=
+ =?us-ascii?Q?pwuTrifzeG8RJZQDguKnsROMINYfLfgvmsdG4VQgruIgExhI2VSV4H7/SnQA?=
+ =?us-ascii?Q?jfnitPVm2o/CbXSixuU1QL5TekfkOMOR+hsN2MxrCxy52ckmIdFL3nxfPdUh?=
+ =?us-ascii?Q?+uL1RIvvSmrZqH0Xwa6aWM6WLKinXWG1HjDOX6MYtb5UQlzdhNooeV+u0Sfv?=
+ =?us-ascii?Q?T1hoeyyVN6CzyieTkC5FZObpHuMzvBOykXK4SvSWgp2FYMRVojQnjVCYnLE0?=
+ =?us-ascii?Q?3M0z+F3z5GaJsmjP2g5o2h+DfVdmiaMTBhbBd9LhSTZCxHNluTTWRlWk8JGX?=
+ =?us-ascii?Q?sVBW0Tji6OCLQfTN6j/Zkg00WroTDZItl5eyXeB4+haZzxK5aHxDx16qMFrN?=
+ =?us-ascii?Q?bXR3/FencTXlut93DryZYfvSRw4HdFUOTGZLI0x8G0AFNWQU0Opq7S9iv29U?=
+ =?us-ascii?Q?3z5QvgphforPXUEQP+8uMsZauRaSx4TV51f+6BmLoxlmngqN+ew3MzsP/qqz?=
+ =?us-ascii?Q?LNQdBMpYWHSFigjD9SFR6ikGgtCOHau/ZQsZwuCVLPO8W/eemlm6cI6oJXao?=
+ =?us-ascii?Q?yke2JKN8VXbGu2RRnojJXE0d/yklUIOClVBcgCwvqzMFIh8I+CkcZATRtHpe?=
+ =?us-ascii?Q?Hw2IFvH8BDIPCBZoFhOlxkMplHPYhubelDQyp7mV64y9Z3m7vnm3xG/X6Zwn?=
+ =?us-ascii?Q?Zva8Be47prSKa1jKSIdlP3h1q074cnyeFmVn96ebQHA3ohlnyRyqGa3YR0gm?=
+ =?us-ascii?Q?pVm2uupGBc9QGiBcL4WLGkWHkCep+L/7KODhzOkUf56yBOLeIwftgwf1qdot?=
+ =?us-ascii?Q?/dFWq4vGnzbc9vPgFW/BLZJPaB7bLUFBdUJYKlEYMQ4wePVW9P6RRCjGB85f?=
+ =?us-ascii?Q?ZN0+zI7TTeHHeG+3ZvZ7JVQHsIJC/1Fyl1H469yBCIMhtmQyrHIV/ydrsmZs?=
+ =?us-ascii?Q?F1g/XtA3G03LLlv9ze91VyvnA7Fx2S0pWyI0fxh8fOkSWTkeA29pKaWN2/ka?=
+ =?us-ascii?Q?wvhffpZoTCNIVbQemhDTvT8TW/AdTZbJQaeJ03lixQPzEFKuTq3sHqjftJxA?=
+ =?us-ascii?Q?BwvXhWPfMP/GlKvCWuALw4uFGfU+AqLINcnvcW5SQReUf3J9RwvMg2lXywcl?=
+ =?us-ascii?Q?Sy4x7NAf4+9kQjpO1n5a66nJ/CxoA94uPaZ2dG6vLDklleaftJ4BFiNQZWV3?=
+ =?us-ascii?Q?/ss6DKS6h8+lIIWrB8Ok+rYjDw2DF/dHgdizg+bnrA6Zf1plcaSzUuhoWZuV?=
+ =?us-ascii?Q?mqEF3zcqRBjfzMu8KEzEkq8GocN6mBC3XBuVdKTJk/IRxfVphNL4Oa1PQhut?=
+ =?us-ascii?Q?k3Wwa7h9LtlN6vexMJ5yv5s2apZ/RS/6SCNt0BWyUAYjWp8VOYhoCLo7zT9F?=
+ =?us-ascii?Q?3wqtRFPJ10RKtujj9aMqSxvld5cTShha/xyQbeq7ykutn1Tk+3bcWio7xyG/?=
+ =?us-ascii?Q?qvCvX91p0g=3D=3D?=
+X-Exchange-RoutingPolicyChecked: Dyw4XFzfqkzLUi3SHh5HnR6xqKJB+gVGNE4XLvcYMblW319gt7R/GHWeK6542Ks4Zj9ZJBiTjzYSwaVgxSRo4E179Us/pO8I7KuImDt/luYu/gDFBmZ/rQKIxco5mTMiQ1ajdBL/V9vmhDpwEejaCCQjFOnGaR32kxDKIwo6tJr1PIo5Ffo0KZXl+GbcXrpb3/xlONuFgIIP1PC9RpmiaWVrCPPamYFnnIJKbfErGbbEjygaP0STBTDemTf016r60vf7Z7zRgeB8HrxfDsc4jx6ybOQmn0DgXhxOzzhY8LGEI4KLzSbRH+ItiJUUc0llHoenKK9ZaebVxaNJJ8ra5g==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c703691-ceaf-4df0-ccc4-08df3c4f9f69
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB435924.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 21:47:58.5687
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ymFGlZ/I4IsHLinATPbjsi6HL5u+gH9O0a+7jDYJIcj7uLtQNDSa9IP78Ip9bORe6CZMo/GA+w/xF7lU8nVCBA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN7PR11MB628000
+X-OriginatorOrg: intel.com
 
-Hi Martin,
-
-I'm on a medical break so I won't be able to give this a proper review
-for another week or two, but since it keeps landing in my inbox, I
-want to make a comment.
-
-Note: I haven't been following the discussions, and I can't give this
-the attention it deserves for now (the cover letter is already a bit
-much).  So this is kind of a "can we slow down until we agree that we
-really want that?"
-
-
-2026-11-05, 11:30:36 -0500, Martin Belanger via B4 Relay wrote:
-> kTLS does not currently handle TLS 1.3 KeyUpdate. It never sends a
-> KeyUpdate.
-
-Because it isn't meant to handle any part of the handshake at all,
-just the record layer. The user gives us data, we stuff that into
-records and send the records down the TCP socket. That's it.
-
-So what you're proposing is a very fundamental change to how kTLS
-works, I'm not convinced we want to go this way.
-
-> And when it receives one, it blocks the socket until the
-> application installs the next key. kTLS also does not enforce the key
-> usage limit on transmit.
+On Mon, Nov 02, 2026 at 08:58:51PM -0400, Jason Gunthorpe wrote:
 > 
-> This applies to TLS libraries in user space as well as kernel users such
-> as NVMe/TCP or sunrpc:
+> > > If you also want to have a way to query specific types, like AMD's
+> > > guid thing, then that's fine too. But I think integrating into systemd
+> > > report might be a bit tricky so I'm not sure it is a great idea.
+> > > 
+> > > In all cases the format of the report is labled, passed to userspace
+> > > and given to the verifier. I see Intel already defined DICE format as
+> > > 'larger than 8k'.
+> > 
+> > I'll have to check (or maybe Peter can chime in) if there is some easy label to
+> > look at.
+
+There are many ways we can label the quotes. For example:
+
+- tdx-quote-sgx-1.0 (legacy SGX quote)
+- tdx-quote-eat-cwt-1.0 (ECDSA signed DICE quote)
+- tdx-quote-eat-cwt-2.0 (ECDSA/MLDSA signed DICE quote)
+- ...
+
+Or, at a finer grain level:
+
+- tdx-quote-eat-cwt-1.0-ecdsa
+- tdx-quote-eat-cwt-1.0-mldsa
+- ...
+
+But regarding this labeling, I have some questions below...
+
+> > 
+> > > We'd probably want to give that a dedicated label in
+> > > CTLV land.
+> > 
+> > Not following what you mean exactly. A CTLV format that contains the report? Or
+> > a user ABI way to request a certain format?
 > 
-> - GnuTLS sends a KeyUpdate after 2^24 records when it runs its own
->   record layer. With kTLS, the record layer is handled in the kernel and
->   GnuTLS therefore never runs the check. OpenSSL never sends a KeyUpdate
->   on its own.
-
-If userspace libraries don't do the right thing, we can fix the
-libraries. They will anyway have to be fixed to behave correctly with
-only the "old" uAPI, since they can't rely on this new stuff being
-present in the running kernel. Or they'd have to completely disable
-ktls if the kernel doesn't support this new uAPI, which would suck.
-
-> - NVMe/TCP and sunrpc don't have a mechanism to install a new key. A
-
-And that can't be handled with the existing handshake subsystem? (I'm
-not that familiar with it, nor with QUIC or NVMe/TCP and sunrpc)
-
->   conforming peer that sends a KeyUpdate ends or stalls their
->   connection.
+> The CTVL output will always be something like {label, data blob}, for
+> everything so it is self described.
 > 
-> RFC 9846 (July 2026), which obsoletes RFC 8446, makes the limit
-> mandatory (section 5.5): "Implementations MUST either close the
-> connection or do a key update as described in Section 4.7.3 prior to
-> reaching these limits." Long-lived connections with small records reach
-> the limit quickly. One NVMe/TCP queue sends at least one record per
-> command, and more with large I/O. Depending on the load and link speed,
-> the 2^24 limit can be reached in less than 10 minutes in many cases.
+> Since the DICE and non-DICE TDX quotes sound non-interoperable they
+> should have different labels.. I guess? I really don't know the
+> details of TDX enough to say.
 
-My math says that's 28k records/second, it's a lot.
+Yep, they're non-interoperable and won't share the same label.
 
-
-> Why the record layer
-> ====================
 > 
-> KeyUpdate must be handled where the records are built.
+> > > One of the things I'm quite adament about on the data labeling is that
+> > > if something sees Blob type A then it should at least be able to
+> > > verify the signature. Further format variation should be self
+> > > describing data within the signed payload. If it is so different that
+> > > you can't verify the signature then you have to give it a different
+> > > label too.
+> > 
+> > I'll make sure this made it back to our attestation people. (probably someone
+> > already picked it up)
+
+With TDX DICE quotes, this is already the case (the signature is
+verifiable). This may not be possible with legacy quotes, but they're a
+thing of the past.
+
 > 
-> The 2^24 limit is a record count, and only the record layer can see the
-> count precisely as it changes. A user sitting above kTLS can only read
-> the count with getsockopt(TLS_TX) after each write. A kTLS user writes
-> bytes, and the kernel splits and merges those bytes into records. I
-> counted send calls in an NVMe/TCP prototype trying to guesstimate the
-> 2^24 limit. The count was correct with 4 KB I/O, but was 21 times too
-> low with 1 MB I/O. Each send call translates into a different number of
-> records. It's simply not possible to precisely guess the number of
-> records based on the number of send calls.
+> Yeah, I'm quite adament about this. I don't want this to turn into a
+> funnel for undefined binary blobs that nobody can understand. At a
+> minimum the signature has to parse, and at the maximum I'd love to
+> insist on a userspace implementation to dump the contents. We will
+> see.
+
+Hi Jason,
+
+I think this in general is in line with the TDX attestation design. In
+an earlier thread you had said:
+
+  "I think in the way this stuff ended up being used the userspace isn't
+  actually aware. [...] The verifier needs to be aware of the format,
+  but the collection agent should not need special knowledge."
+
+... which totally makes sense to me.
+
+What pops out at me is later when you talked about data labeling:
+
+  "Userspace would collect all the blobs and the labels then ship them
+  to the verifier which has to understand how the data described by the
+  label is organized."
+
+For TDX, the direction so far has been to keep the guest as simple as
+possible in the attestation process. So the "quote type" knowledge is
+pushed into the TDX module and the remote verifier. The host kernel is
+mostly tasked with transporting the quote blob from the TDX module back
+to the guest. In other words, TDX doesn't have any quote type knowledge
+outside of the module itself. And as far as I know, parsing these blobs
+is sort of a pain.
+
+The TDX DICE blobs are actually self-describing, meaning the verifier
+can follow a schema, parse the blob straight away, and know what's
+inside, including how to verify the signature. They're also
+distinguishable from the legacy quotes. A launched guest is guaranteed
+to have a stable format for its quotes. So this makes me wonder how the
+labeling should be done. Do you think it makes sense to just have a
+"primary raw TDX quote" label and let the TDX quote blob describe
+itself? Also, I think currently there are no plans to add
+secondary/supplementary blobs alongside the quote itself.
+
+Thanks,
+Peter
+
 > 
-> The KeyUpdate must also go at a precise place in the record stream
-> (section 4.7.3). It is encrypted with the old key, and every record
-> after it with the new key. When the peer sets update_requested, our
-> KeyUpdate must go out before the next Application Data record. The key
-> can only change between two records. Only net/tls has control over that.
-> Fixing this in one driver or library would leave other drivers or
-> libraries to re-implement their own (imperfect) solution.
-
-I'm not yet convinced this is a strong enough argument to justify
-changing the model under which ktls operates with a change of this
-size and that also requires 500L of new selftests.
-
-
-> What the series does
-> ====================
+> This will naturally force people to use the right labels since they
+> won't be able to make a dumper if they don't.
 > 
-> - Two new socket options, TLS_TX_TRAFFIC_SECRET and
->   TLS_RX_TRAFFIC_SECRET, are used to register the application traffic
->   secrets. The secret is passed as raw bytes. The kernel derives the
->   hash (SHA-256 or SHA-384) from the cipher installed with TLS_TX or
->   TLS_RX. The TX secret must be set first because the RX secret needs
->   the TX secret in case a received KeyUpdate asks for a reply.
-> - A third socket option, TLS_TX_KEY_UPDATE, can be used to send a
->   KeyUpdate now. It can also optionally ask the peer to update too.
-
-Why does this need to be a socket option? It feels wrong to use a
-socket option to trigger sending data, why not hook on sendmsg()?
-
--- 
-Sabrina
+> Jason
+> 
