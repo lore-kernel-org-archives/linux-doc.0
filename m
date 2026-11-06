@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964781;
-	b=S+s6yZw41XzAevHbqnxr91ao5flOcm9giyDuFkDZ2bCjachOjcqvnKhJ1kj29bORQvJT
-	 MaGUyo9mROPP1kteQVvdm9Ey3In78azZPMgPJZKPU3um4lXwYfwPwCHv6nRJ9QbFf+Hgl
-	 E/lzDpr/cq8cs//mwJBWUMv8ohvB98D/BzUJxnQK1thljJ5DlBKPONJDtHUH5s+58TBvN
-	 itKoRdOxkdjA++yiXReS26Gto4H5Fu1ZprHqtfnJNeszO+R4n/GKS+6UvtKCRZXS67yH0
-	 2mQsNe9SMccf8kTHucDLQ+xanZugbdJ+oGY/mkA6ZZsMIJkS6NEEqcFr0Xrn1IaAP7A==
+	t=1793964777;
+	b=yJNlKUzWttqSmiUgNVdh3IUNOXfens8GEhzy77z8Z7u0JoI+c1Hz6meMItdN9xSHE4fz
+	 RPI+v1ucYtsaWYSo/K2GsY8aNoLOfzW3nGJGILWiuHWKyqEHTxecuduJoPyOk/p/3vACq
+	 wxsqNKDisF6ErCLMZ8zHFNro2/8UPqGOKe2+dOiYJU1FcnSab43p2lFiPFXiKqgj0dQnZ
+	 SQuErx4sbjlqbG78EYZmafs7u3kQKirh9864rxEVlyiEsLLilfsfy53oP7LpBSmOwW484
+	 fP1eL/TEN0oxylrsDsDwta5IPVBAGcxnMgdtd3iPjWJJLKGuNTp45NeWtZyGB+SecnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964781;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964777;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=vFDbG0uMkUCOTGA8G7Tr1hVMeMDxrzZtfO3WzHA9KZo=;
-	b=M+GzveLkMeeAbxdPvjmA06JUm3XSBY7yi0sM7DlgfP5Nwfhpd1NR6Lmk8QTBmCRKxojd
-	 VTMXzvjxv03iQubVQJmbWKCSLSOKDXlpWeLaySvsjKL5VPl5ILC6HeyMa1VH75D/kVojc
-	 wVI2LelSUDrojdKk9tuZ5XlCkEvqvxDEQO+ZIWzEfOiy3cDXTqoUDIsFLKG7cvKy3QLxn
-	 NALX6jLsHKzXRFqCUUnhU3vv6HcFOxrAg+pvvxDLAYxiUfQaVRRLu15Qv0LmbLiYHGjeO
-	 6Bv22wN7Uzt3RKZv010O3aojqDsZChZZLZZFxK5Rnj82mFldZmwIxTUV74CvS6XCwyA==
+	bh=mR7m2fQTRsXPNQiuhhMPUkmFQDy9mcZA3Fze0rAnqZg=;
+	b=O/2msBr6sWHoQ2sDFDHtStok+NjZp+Iwwdnas/Rr3bduqEId1NFoVMhHQI/i/BT3vWKM
+	 Z2t0WhHdaXBdCp1Av616IEgPfTRKgF/GEQp2LGSakSMtGctdC6HdAo9u3gNQ34Sv59SV0
+	 FQ3aCtiwUTFZK896hSCJYa/2/ttF0NBE1WNgGPv8NbpGNYFJiF+FvZvSYzy5UeLv0yBMn
+	 +NMnpT1w9YhVKwm3eQd4jENrPJDXbwu4P7YUXdu+Lx0kf6MPK6Po/QSBzUF5Dyc/hW3lH
+	 DEi0yszSDGQIA3bTrU0WrboW1BslRyFxHG0ndl8p6tEYNOaCwANEpNOxFEUxv4bwARQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EDm8tC1D;
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=P7sqyfU5;
+	arc=none smtp.remote-ip=209.85.216.46
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5D10606C7F4
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:33:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A5D10606C7F4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1117606C7E2
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1117606C7E2
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EDm8tC1D
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3b0b8b5d28cso90478a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:33:00 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=P7sqyfU5
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3ad47c246f8so65380a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964780; x=1794569580; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964770; x=1794569570; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=vFDbG0uMkUCOTGA8G7Tr1hVMeMDxrzZtfO3WzHA9KZo=;
-        b=EDm8tC1DhtmXMlHbcbFkrCmGQ+HB36DxdE52k5WO2xiAXxxbrnH52C4Qf6zEYo/Ayg
-         +Sa/AmDLctT+n58qvGVGbSAjiWesCzo1rqwMdge7Tk8fkfSqQTtYSFCXhhuQI+B6gvtJ
-         1YfMcZll7pesnzSymEA+gI1p/uWlzlYVsMjxitr41GPGDYTVt9Km+n5gdDXay+fxcv3X
-         fOS8OErFyBt4qGs0bKO1FtVfMKdUaZrDbR+HdBduo4mPPQ3EG9QTdBwRYdoQAFeiyfjz
-         zvaoxQbqRNJ2+gM2ykwRQhECVGE1RG5O6iE1t7ScBdF9YKt+g9GNyFe8dGL/PhafsGpp
-         rcLQ==
+        bh=mR7m2fQTRsXPNQiuhhMPUkmFQDy9mcZA3Fze0rAnqZg=;
+        b=P7sqyfU5IWhMtwqQibuc3T8fsW/3pXIG3dZoerYp0zjOEzyoFQ52HBd6N1heyJ7EBo
+         Gu1KJ/i7pPqR3TvdsjsZm5fJ5S3MpUnLQREzTx+62jeX6dEOZt0k5qMsHi734hvxLJrq
+         xgLUclQN//h3rlhtdbPws7EGRPahbfT9/0ZKevL06OLWbFtMcaLQh6wCKxuFAj4CjER0
+         EIyVwQ+DXLcGsL0W0SyNAhm9Yg2IzKn5cEYTRNtsiFrBT/Rwm43rHq6j5AZIDR2ZJUGM
+         HRwbmEzEVqNmUASsj1TSvyjP4GGovdXCTzXeRNrEMjUO5Fv2H7yT0w2fAeuXWoTqltF8
+         7a8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964780; x=1794569580;
+        d=1e100.net; s=20260707; t=1793964770; x=1794569570;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=vFDbG0uMkUCOTGA8G7Tr1hVMeMDxrzZtfO3WzHA9KZo=;
-        b=HJsVGPJiVcLQNl+leyV+HhSDBx+UCz/at2ChxWvu+62uB1rTaRwm3cj25OLW+NljLW
-         r55V7Pbsrf9c43EyKWjwc4/lszT1Sf43opXh5zijioqqKXodxIAAhbuD4G+A+MH4RktO
-         FTsv/XT7hv+nZ+dq1uUSvwQKgJlZ7RF0p82rsvGhh4kQK+doawl821K7M79LhguinZon
-         fCPpmDvsB0d0NCJMQdhdgi+8uB4JspnvaPvxYM/tEKADTiPIr7dmg3de68Mm/XXD9Od0
-         E3ForaUfdlINkHhjXtOHsH0j65jrvVb6QRXfTLy7D4lIq6BabEGylGL36b4R3e328fLp
-         ZExw==
-X-Forwarded-Encrypted: i=1; AL+hErH0HpQrE8Ayz6YqzanHTPglkcvdRzFeSy1MdNMds3koXe+SDjugwQQ4HRBDCzeurGTRk7uGgVoSxrg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z89ySlCLfj5SorDonXdohyo94DqBbDDhW2ZTCQxH6Aak1matepv
-	Efi2cSOtvxr48XOBpH6TWT5z0Q1H8cdLRqnYgMwFcI1KnCt77HjCGVGp
-X-Gm-Gg: AYBFou2faMnrVj2xFZHFcn6tE07yTXu7Mrfs5INwjuqM0CRNbP25FmsocKJ2qAFLWZi
-	nu3ab+VpWUj1T4ajf3N2/Crf4ntA7HMWQZe/IEBePtQv0dT60LyNmes+blMhIiTYxczODYl3zDs
-	4Mu7biKaVMXrvaWesB+Wb14dLSOvOAz1RIlElaQvRiwksCOsRUmCyJGt6JRL5azn24zAaot9CDl
-	0P0HkZEMddIl56ERwzr8c2q5amZm454KSAEqj9Z4xqQmuZYpV8Q33NSX54dnVu2GwJKceSY4xwK
-	kd+IxbG5JNyw0HAgWjo98GSSNCoSHRPoIP4ql1EnIOzgrMvXoTwI941rKO4vGrEc/3CS4i+xhq1
-	aCPDaD5J+ksk5l9nOGSmboJetHXFPgMWLq9a0qKjXvpzS5/2aL2aFpotrNRMVJRhrSGjqXQO0or
-	yYG0/QU2LKq+LR096oTEnN8n9be+c0FrJ4pu5m05hG0lbY3IEJGc4DjNvQq+aqc6ITRbsTuNFN7
-	NXX9N/jcspAOQsyVbfoKE/RD6d5BrLnO3kWHybNK1IDpkb6uvBra+zxCQeSTgJEsY05uz2/zvVA
-	1YGeusrVhb6gwqlCKiCgbR/wAAKKz6D+cXSV7XVLfkbpOySx12ZKcYL1b+deRXR1hTOla5KRC5g
-	PtjaFk/PD0osyLYWEdAUvi0B6
-X-Received: by 2002:a17:90b:1e4f:b0:3ac:9c37:9422 with SMTP id 98e67ed59e1d1-3b0db62690dmr3758183a91.2.1793964779427;
-        Fri, 06 Nov 2026 03:32:59 -0800 (PST)
+        bh=mR7m2fQTRsXPNQiuhhMPUkmFQDy9mcZA3Fze0rAnqZg=;
+        b=qo8I77P4/25xMVzQvl08h3dNkn4sgc9UTwWZsEPF4bWaEWv2taeM2cGilHsk1gy2jP
+         uLKJx6qdXS895x6Joq1rSIjABQQUrmIC5upZuOIaGA1icK135KvW42bhEWRyamOpIwmU
+         17VVJyloAqZmyCwK2Xb2k0AdU6qdGmZYFOAKEHgt6iqd8wEa0RbgOnQCr5F7Fx1O5fsp
+         oUnNDBs1r/dxmp5DQTQ3DJnucMQSTLZpwbFL3UX3ukpRjTJ/1QGeabfN3kJE6RHQ+0C/
+         ZJfcL7JwnLJbMB3ZOm8DLcwnoAD7DrGdssaIPDdDqq3mM83tiyboaLP7CMk7hAxiL1R2
+         Fc8w==
+X-Forwarded-Encrypted: i=1; AL+hErFIp0+MTtizQT1m9SG7rtclaThHVIiuo9FH+z474zZrGukQ+PJmlI1rO7RObfAsT6xAWef6rIFSlPs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z91RescmNge0lOakpAdtvp73ot48MS6CixKJtSkfKT6bR2wvr5A
+	2BZreC+ig05SoufzRBXcF3eelgMpiP4p+VFtjSg8l39K7A/yM3vVgsQI
+X-Gm-Gg: AYBFou3O39/jeBds07nXTTHNTttxJ0oMBPsXZ9ojV3/z3XzGymHnvUUBnBQlqowPK/s
+	Trqs2+yxCPXf7hJWRkv9oFTWWWWwft/jKcCDomZGQczX6ywfmst9vvjtW2l3psAlGx+Ndyc7NRi
+	Lf/wKqd3B5AscqZkkV5lGRr6RUwRXp2mqez6dl/qTSeL5IxconLoC34pEKmx5trpfLro1WMxDAU
+	x1KA39rkblNAuZpbhKbpjOiYwy6I0mXzbmxlzYVp0Xyyt1FmjJk6Ps8opdB4zDMBS83UIzX+5Zw
+	+LM1Dop2tYQd7fxLX78sIJ42ItE4ubFLPGDUDL9oOlW2HFFK/jbSx86OeftxYfC2GVG0p+9Bf5S
+	JJFyKeANXmQHTiHjH8ERhn60L3j7HYV+n/LEANA8zVgOqRV5NTXufp+M5w6Fs1S52HtqtHcQ96W
+	ohywfMt4zVoDgRqmhkWsB52h6dzl9kpY4QseqF+tpNdLKSy1L6EQGylYm9/bgN1kuiVezILsIZm
+	1umt2yorBpAqukY8B0aW9eelfLxkDz95x/IfnUX6iafnK0ggEHEE9Iz3TEDMBhJsZQjex3O+trO
+	EJTl/iA+A1tvzUdugYLqUWmbLzbQVygLN9LQRwMfwx1MN+xBpBMu23fUQR+1m4ztL7sbREOgHQB
+	G7uL+XKHL7Ka9Yfw2h4MlmUovyt93zNDrHWRCFQADbIxGWg==
+X-Received: by 2002:a17:90b:224e:b0:3a8:1759:2217 with SMTP id 98e67ed59e1d1-3b0db62ffb8mr3300484a91.2.1793964770045;
+        Fri, 06 Nov 2026 03:32:50 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.56
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:32:58 -0800 (PST)
+        Fri, 06 Nov 2026 03:32:49 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 21/25] docs/zh_TW: process: sync howto.rst with the English original
-Date: Fri,  6 Nov 2026 19:31:36 +0800
-Message-ID: <20261106113142.706783-22-chenyou910331@gmail.com>
+Subject: [PATCH 18/25] docs/zh_TW: process: sync 3.Early-stage.rst with the English original
+Date: Fri,  6 Nov 2026 19:31:33 +0800
+Message-ID: <20261106113142.706783-19-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113142.706783-1-chenyou910331@gmail.com>
 References: <20261106113142.706783-1-chenyou910331@gmail.com>
@@ -107,418 +107,297 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation is marked "update to
-commit 413e775efaec ("Documentation: fix links to mailing list
-services")", but that commit only changed the mailing list links.  A
-comparison against the current English text shows the rest of the file
-never picked up a number of earlier changes:
+The translation carries no "update to commit" marker.  A comparison
+against the current English text shows it never picked up several
+later changes, and the prose was converted from zh_CN with a number of
+sentences that drifted from the original:
 
-- CC linux-api@vger.kernel.org on user-space interface changes
-- submitting-patches.rst is now a single document, not two
-- the merge window takes patches from linux-next instead of -mm, and
-  after -rc1 the focus is on fixing regressions
-- move the stable trees section back after the mainline tree, make the
-  development process sections subsections as in the original, and add
-  the version numbering and release cadence sentences
-- replace the obsolete bugzilla and reporting-bugs.rst text in "Bug
-  Reporting" and "Managing bug reports" with the current
-  reporting-issues.rst and MAINTAINERS guidance
-- add the missing "I've been working on this for 6 months..." item
-- use the LWN link in the acknowledgements and drop the section title
-  that the original does not have
+- add the missing sentence from
+  commit f1a693994b1c ("Documentation/process: use
+  scripts/get_maintainer.pl on patches") that running the script on a
+  patch is the preferred way to get the Cc list
+- use the HTTPS LWN and Linux Foundation NDA URLs from
+  commit 93431e0607e5 ("Replace HTTP links with HTTPS ones:
+  documentation") and commit 997023047459 ("docs: Update the location of
+  the LF NDA program"), and capitalize Git and write "git log" as in
+  commit 4a0be1a25d98 ("Documentation: process: Capitalize Git, Quilt,
+  and Mercurial consistently")
+- retranslate sentences whose meaning had drifted: audio "dropouts"
+  (rendered as exiting), "your author has seen" (rendered as "some
+  author posted"), "no shortage of people with grand plans and little
+  code", code "not cleared for release under a GPL-compatible
+  license", a company that "legitimately" cannot disclose its plans,
+  "a hostile reaction", and the Devicescape and AppArmor items
+- spell Devicescape and AppArmor as in the original
+- localize terminology (內核→核心, 代碼→程式碼, 項目→專案, 模塊→模組,
+  用戶→使用者, 社區→社群, 文件系統→檔案系統, 信息→資訊, 補丁→修補程式,
+  爲→為, 裏→裡)
+- expand the tabs in the quoted block
 
-Also retranslate sentences whose meaning had drifted: patches reviewed
-"on their technical merits and those alone", the "a bit cheesy"
-etiquette link, and patchwork rendered as "the tool patch".  Fix the
-SPDX hyperlink, the "2)" list item and the closing quote of the Al Viro
-quotation, and localize terminology (設備→裝置, 體系結構→架構,
-擴展→擴充, 反饋→回饋, 源碼→原始碼, 計劃→計畫, 補丁→修補程式 in the
-changed text, ...).
-
-update to commit fdd100ee60a0 ("docs: process: use gender-neutral
-pronouns")
+update to commit 4a0be1a25d98 ("Documentation: process: Capitalize Git,
+Quilt, and Mercurial consistently")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../translations/zh_TW/process/howto.rst      | 182 +++++++++---------
- 1 file changed, 95 insertions(+), 87 deletions(-)
+ .../zh_TW/process/3.Early-stage.rst           | 192 +++++++++---------
+ 1 file changed, 96 insertions(+), 96 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/howto.rst b/Documentation/translations/zh_TW/process/howto.rst
-index 1ffc076ce26c..8dcf6b9231bf 100644
---- a/Documentation/translations/zh_TW/process/howto.rst
-+++ b/Documentation/translations/zh_TW/process/howto.rst
-@@ -19,14 +19,14 @@
- 入門
- ----
+diff --git a/Documentation/translations/zh_TW/process/3.Early-stage.rst b/Documentation/translations/zh_TW/process/3.Early-stage.rst
+index 7d7ecf9658e5..deb5baa4e53f 100644
+--- a/Documentation/translations/zh_TW/process/3.Early-stage.rst
++++ b/Documentation/translations/zh_TW/process/3.Early-stage.rst
+@@ -9,155 +9,155 @@
+ 早期規劃
+ ========
  
--你想了解如何成為一名Linux核心開發者？或者老闆吩咐你「給這個設備寫個Linux
-+你想了解如何成為一名Linux核心開發者？或者老闆吩咐你「給這個裝置寫個Linux
- 驅動程式」？這篇文章的目的就是教會你達成這些目標的全部訣竅，它將描述你需
- 要經過的流程以及給出如何同核心社群合作的一些提示。它還將試圖解釋核心社群
- 為何這樣運作。
+-當考慮一個Linux內核開發項目時，很可能會直接跳進去開始編碼。然而，與任何重要
+-的項目一樣，許多成功的基礎最好是在第一行代碼編寫之前就打下。在早期計劃和
+-溝通中花費一些時間可以在之後節省更多的時間。
++當考慮一個Linux核心開發專案時，很容易想直接跳進去開始寫程式。然而，與任何
++重要的專案一樣，許多成功的基礎最好是在寫下第一行程式碼之前就打好。在早期規
++劃和溝通上花一些時間，可以在之後節省更多的時間。
  
--Linux核心大部分是由C語言寫成的，一些體系結構相關的程式碼用到了組譯語言。要
-+Linux核心大部分是由C語言寫成的，一些架構相關的程式碼用到了組譯語言。要
- 參與核心開發，你必須精通C語言。除非你想為某個架構開發底層程式碼，否則你並
--不需要了解（任何體系結構的）組譯語言。下面列舉的書籍雖然不能替代紮實的C
-+不需要了解（任何架構的）組譯語言。下面列舉的書籍雖然不能替代紮實的C
- 語言教育和多年的開發經驗，但如果需要的話，做為參考還是不錯的：
- 
-  - "The C Programming Language" by Kernighan and Ritchie [Prentice Hall]
-@@ -37,9 +37,9 @@ Linux核心大部分是由C語言寫成的，一些體系結構相關的程式
-    《C語言參考手冊（原書第5版）》（邱仲潘 等譯）[機械工業出版社]
- 
- Linux核心使用GNU C和GNU工具鏈開發。雖然它遵循ISO C11標準，但也用到了一些
--標準中沒有定義的擴展。核心是自給自足的C環境，不依賴於標準C庫的支援，所以
-+標準中沒有定義的擴充。核心是自給自足的C環境，不依賴於標準C庫的支援，所以
- 並不支援C標準中的部分定義。比如long long類型的大數除法和浮點運算就不允許
--使用。有時候確實很難弄清楚核心對工具鏈的要求和它所使用的擴展，不幸的是目
-+使用。有時候確實很難弄清楚核心對工具鏈的要求和它所使用的擴充，不幸的是目
- 前還沒有明確的參考資料可以解釋它們。請查閱gcc資訊頁（使用「info gcc」命令
- 顯示）獲得一些這方面資訊。
- 
-@@ -52,14 +52,15 @@ Linux核心使用GNU C和GNU工具鏈開發。雖然它遵循ISO C11標準，但
- 法律問題
+ 搞清問題
  --------
  
--Linux核心原始碼都是在GPL（通用公共許可證）的保護下發布的。要了解這種許可
-+Linux核心原始碼都是在GPL（通用公共授權條款）的保護下發布的。要了解這種許可
- 的細節請查看原始碼主目錄下的COPYING檔案。Linux核心許可準則和如何使用
--`SPDX <https://spdx.org/>` 標誌符說明在這個文件中
-+`SPDX <https://spdx.org/>`_ 標誌符說明在這個文件中
- :ref:`Documentation/translations/zh_TW/process/license-rules.rst <tw_kernel_licensing>`
- 如果你對它還有更深入問題請聯繫律師，而不要在Linux核心郵件組上提問。因為
- 郵件組裡的人並不是律師，不要期望他們的話有法律效力。
+-與任何工程項目一樣，成功的內核改善從清晰描述要解決的問題開始。在某些情況
+-下，這個步驟很容易：例如當某個特定硬件需要驅動程序時。不過，在其他情況下，
+-很容易將實際問題與建議的解決方案混在一起，這可能會導致麻煩。
++與任何工程專案一樣，成功的核心改進從清楚描述要解決的問題開始。在某些情況
++下，這個步驟很容易：例如當某個特定硬體需要驅動程式時。不過，在其他情況下，
++很容易將實際問題與建議的解決方案混為一談，這可能會導致麻煩。
  
- 對於GPL的常見問題和解答，請造訪以下連結：
-+
- 	https://www.gnu.org/licenses/gpl-faq.html
+-舉個例子：幾年前，Linux音頻的開發人員尋求一種方法來運行應用程序，而不會因
+-系統延遲過大而導致退出或其他問題。他們得到的解決方案是一個連接到Linux安全
+-模塊（LSM）框架中的內核模塊；這個模塊可以配置爲允許特定的應用程序訪問實時
+-調度程序。這個模塊被實現併發到linux-kernel郵件列表，在那裏它立即遇到了麻煩。
++舉個例子：幾年前，從事Linux音訊工作的開發人員尋求一種方法，讓應用程式在執
++行時不會因系統延遲過大而產生斷音或其他雜音。他們得到的解決方案是一個掛接到
++Linux安全模組（LSM）框架中的核心模組；這個模組可以設定為允許特定的應用程式
++使用即時排程器。這個模組被實作出來並發送到linux-kernel郵件列表，在那裡它立
++即遇到了麻煩。
  
+-對於音頻開發人員來說，這個安全模塊足以解決他們當前的問題。但是，對於更廣泛的
+-內核社區來說，這被視爲對LSM框架的濫用（LSM框架並不打算授予他們原本不具備的
+-進程特權），並對系統穩定性造成風險。他們首選的解決方案包括短期的通過rlimit
+-機制進行實時調度訪問，以及長期的減少延遲的工作。
++對於音訊開發人員來說，這個安全模組足以解決他們眼前的問題。但是，對於更廣泛的
++核心社群來說，這被視為對LSM框架的濫用（LSM框架並不是用來授予行程原本不具備
++的特權的），並對系統穩定性造成風險。他們偏好的解決方案是短期內透過rlimit機
++制取得即時排程的權限，長期則持續進行減少延遲的工作。
  
-@@ -67,12 +68,13 @@ Linux核心原始碼都是在GPL（通用公共許可證）的保護下發布的
- ----
+-然而，音頻社區無法超越他們實施的特定解決方案來看問題；他們不願意接受替代方案。
+-由此產生的分歧使這些開發人員對整個內核開發過程感到失望；其中一個開發人員返回
+-到audio列表併發布了以下內容：
++然而，音訊社群無法跳脫他們已實作的特定解決方案來看問題；他們不願意接受替代
++方案。由此產生的分歧使這些開發人員對整個核心開發過程感到幻滅；其中一位開發
++人員回到一個音訊郵件列表上，發表了以下內容：
  
- Linux核心程式碼中包含有大量的文件。這些文件對於學習如何與核心社群互動有著
--不可估量的價值。當一個新的功能被加入核心，最好把解釋如何使用這個功能的文
--檔也放進核心。當核心的改動導致面向使用者空間的介面發生變化時，最好將相關信
--息或手冊頁(manpages)的補丁發到alx@kernel.org，以向手冊頁(manpages)
--的維護者解釋這些變化。
-+不可估量的價值。當一個新的功能被加入核心，最好也一併加入說明如何使用這個
-+功能的文件。當核心的改動導致核心向使用者空間提供的介面發生變化時，最好將
-+相關資訊或手冊頁（manpages）的修補程式發送給手冊頁維護者 alx@kernel.org
-+來說明這項變化，並副本（CC）給 linux-api@vger.kernel.org 郵件列表。
+-	有很多非常好的Linux內核開發人員，但他們往往會被一羣傲慢的傻瓜所壓倒。
+-	試圖向這些人傳達用戶需求是浪費時間。他們太“聰明”了，根本聽不到少數
+-	人的話。
++        有很多非常好的Linux核心開發人員，但他們的聲音往往被一大群傲慢的
++        傻瓜蓋過。試圖向這些人傳達使用者的需求是浪費時間。他們太「聰明」
++        了，根本不屑聽凡夫俗子的話。
  
- 以下是核心程式碼中需要閱讀的文件：
-+
-   :ref:`Documentation/admin-guide/README.rst <readme>`
-     文件簡要介紹了Linux核心的背景，並且描述了如何設定和編譯核心。核心的
-     新使用者應該從這裡開始。
-@@ -88,7 +90,9 @@ Linux核心程式碼中包含有大量的文件。這些文件對於學習如何
+-（http://lwn.net/Articles/131776/）
++(https://lwn.net/Articles/131776/)。
  
-   :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+-實際情況卻是不同的；與特定模塊相比，內核開發人員更關心繫統穩定性、長期維護
++實際情況卻是不同的；與特定模組相比，核心開發人員更關心系統穩定性、長期維護
+ 以及找到問題的正確解決方案。這個故事的寓意是把重點放在問題上——而不是具體的
+-解決方案上——並在開始編寫代碼之前與開發社區討論這個問題。
++解決方案上——並在投入時間寫出大量程式碼之前，先與開發社群討論這個問題。
  
--    這兩份文件明確描述如何建立和發送補丁，其中包括（但不僅限於)：
-+    這份文件明確詳細地描述如何成功建立和發送修補程式，其中包括（但不僅限
-+    於）：
-+
-        - 郵件內容
-        - 郵件格式
-        - 選擇收件人
-@@ -151,25 +155,25 @@ ReST格式的文件會產生在 Documentation/output. 目錄中。
+-因此，在考慮一個內核開發項目時，我們應該得到一組簡短問題的答案：
++因此，在考慮一個核心開發專案時，應該先得到以下幾個簡短問題的答案：
  
- 如何成為核心開發者
- ------------------
--如果你對Linux核心開發一無所知，你應該造訪「Linux核心新手」計劃：
-+如果你對Linux核心開發一無所知，你應該造訪「Linux核心新手」計畫：
+  - 需要解決的問題究竟是什麼？
  
- 	https://kernelnewbies.org
+- - 受此問題影響的用戶有哪些？解決方案應該解決哪些使用案例？
++ - 受此問題影響的使用者有哪些？解決方案應該涵蓋哪些使用情境？
  
- 它擁有一個可以問各種最基本的核心開發問題的郵件列表（在提問之前一定要記得
--查找已往的郵件，確認是否有人已經回答過相同的問題）。它還擁有一個可以獲得
--實時反饋的IRC聊天頻道，以及大量對於學習Linux核心開發相當有幫助的文件。
-+搜尋以往的郵件，確認是否有人已經回答過相同的問題）。它還擁有一個可以獲得
-+即時回饋的IRC聊天頻道，以及大量對於學習Linux核心開發相當有幫助的文件。
+- - 內核現在爲何沒能解決這個問題？
++ - 核心目前在處理這個問題上有何不足？
  
- 網站簡要介紹了原始碼組織結構、子系統劃分以及目前正在進行的專案（包括核心
- 中的和單獨維護的）。它還提供了一些基本的幫助資訊，比如如何編譯核心和打補丁
- 。
- 
- 如果你想加入核心開發社群並協助完成一些任務，卻找不到從哪裡開始，可以造訪
--「Linux核心房管員」計劃：
-+「Linux核心房管員」計畫：
- 
- 	https://kernelnewbies.org/KernelJanitors
- 
- 這是極佳的起點。它提供一個相對簡單的任務列表，列出核心程式碼中需要被重新
--整理或者改正的地方。透過和負責這個計劃的開發者們一同工作，你會學到將補丁
-+整理或者改正的地方。透過和負責這個計畫的開發者們一同工作，你會學到將補丁
- 整合進核心的基本原理。如果還沒有決定下一步要做什麼的話，你還可能會得到方
- 向性的指點。
- 
-@@ -177,7 +181,7 @@ ReST格式的文件會產生在 Documentation/output. 目錄中。
- 目的，沒什麼辦法比直接讀程式碼更有效了（大多數花招都會有相應的註解），而且
- 一些特製的工具還可以提供幫助。例如，「Linux程式碼交叉引用」專案就是一個值得
- 特別推薦的幫助工具，它將原始碼顯示在有編目和索引的網頁上。其中一個更新及
--時的核心源碼庫，可以透過以下地址造訪：
-+時的核心原始碼庫，可以透過以下地址造訪：
- 
-         https://elixir.bootlin.com/
- 
-@@ -188,29 +192,30 @@ ReST格式的文件會產生在 Documentation/output. 目錄中。
- 目前Linux核心開發流程包括幾個「主核心分支」和很多子系統相關的核心分支。這
- 些分支包括：
- 
--  - Linus 的核心源碼樹
-+  - Linus 的核心原始碼樹
-   - 多個主要版本的穩定版核心樹
-   - 子系統相關的核心樹
-   - linux-next 整合測試樹
+-只有這樣，才能開始考慮可能的解決方案。
++只有這樣，開始考慮可能的解決方案才有意義。
  
  
- 主線樹
--------
--主線樹是由Linus Torvalds 維護的。你可以在https://kernel.org 網站或者程式碼
--庫中下找到它。它的開發遵循以下步驟：
+ 早期討論
+ --------
+ 
+-在計劃內核開發項目時，在開始實施之前與社區進行討論是很有意義的。早期溝通可以
+-通過多種方式節省時間和麻煩：
++在規劃核心開發專案時，在開始實作之前與社群進行討論是很有意義的。早期溝通可以
++透過多種方式節省時間和麻煩：
+ 
+- - 很可能問題是由內核以您不理解的方式解決的。Linux內核很大，具有許多不明顯
+-   的特性和功能。並不是所有的內核功能都像人們所希望的那樣有文檔記錄，而且很
+-   容易遺漏一些東西。某作者發佈了一個完整的驅動程序，重複了一個其不
+-   知道的現有驅動程序。重新發明現有輪子的代碼不僅浪費，而且不會被接受到主線
+-   內核中。
++ - 很可能核心已經以您沒有理解的方式處理了這個問題。Linux核心很大，具有許多不
++   明顯的特性和功能。並不是所有的核心功能都有人們所希望的那樣完善的文件，很容
++   易遺漏一些東西。本文作者就曾見過有人發布一個完整的驅動程式，卻與一個新作者
++   不知道的既有驅動程式重複。重新發明輪子的程式碼不僅浪費，而且也不會被主線核
++   心接受。
+ 
+- - 建議的解決方案中可能有一些要素不適合併入主線。在編寫代碼之前，最好先了解
+-   這樣的問題。
++ - 建議的解決方案中可能有一些要素無法被接受合併到主線。在編寫程式碼之前，最好
++   先發現這類問題。
+ 
+  - 其他開發人員完全有可能考慮過這個問題；他們可能有更好的解決方案的想法，並且
+-   可能願意幫助創建這個解決方案。
++   可能願意幫助實作這個解決方案。
+ 
+-在內核開發社區的多年經驗給了我們一個明確的教訓：閉門設計和開發的內核代碼總是
+-有一些問題，這些問題只有在代碼發佈到社區中時纔會被發現。有時這些問題很嚴重，
+-需要數月或數年的努力才能使代碼達到內核社區的標準。例如：
++與核心開發社群多年來的經驗給了我們一個明確的教訓：閉門設計和開發的核心程式碼
++總是有一些問題，這些問題只有在程式碼發布到社群中時才會被發現。有時這些問題很
++嚴重，需要數月或數年的努力才能使程式碼達到核心社群的標準。例如：
+ 
+- - 設計並實現了單處理器系統的DeviceScape網絡棧。只有使其適合於多處理器系統，
+-   才能將其合併到主線中。在代碼中修改鎖等等是一項困難的任務；因此，這段代碼
+-   （現在稱爲mac80211）的合併被推遲了一年多。
++ - Devicescape網路堆疊是針對單處理器系統設計和實作的。在使其適用於多處理器系
++   統之前，它無法合併到主線中。事後為程式碼加上鎖等機制是一項困難的任務；因
++   此，這段程式碼（現在稱為mac80211）的合併被推遲了一年多。
+ 
+- - Reiser4文件系統包含許多功能，核心內核開發人員認爲這些功能應該在虛擬文件
+-   系統層中實現。它還包括一些特性，這些特性在不將系統暴露於用戶引起的死鎖的
+-   情況下是不容易實現的。這些問題過遲發現——以及拒絕處理其中一些問題——已經
+-   導致Reiser4置身主線內核之外。
++ - Reiser4檔案系統包含許多功能，而核心的主要開發人員認為這些功能應該在虛擬檔
++   案系統層中實作。它還包括一些特性，這些特性很難在不讓系統面臨使用者引起的死
++   鎖的情況下實作。這些問題過晚才被揭露——以及拒絕處理其中一些問題——導致
++   Reiser4一直被排除在主線核心之外。
+ 
+- - Apparmor安全模塊以被認爲不安全和不可靠的方式使用內部虛擬文件系統數據結構。
+-   這種擔心（包括其他）使Apparmor多年來無法進入主線。
++ - AppArmor安全模組使用內部虛擬檔案系統資料結構的方式，被認為不安全且不可靠。
++   這個顧慮（以及其他顧慮）使AppArmor多年來無法進入主線。
+ 
+-在這些情況下，與內核開發人員的早期討論，可以避免大量的痛苦和額外的工作。
++在這些情況下，只要及早與核心開發人員討論，就可以避免大量的痛苦和額外的工作。
+ 
+ 找誰交流？
+ ----------
+ 
+-當開發人員決定公開他們的計劃時，下一個問題是：我們從哪裏開始？答案是找到正確
+-的郵件列表和正確的維護者。對於郵件列表，最好的方法是在維護者(MAINTAINERS)文件
+-中查找要發佈的相關位置。如果有一個合適的子系統列表，那麼其上發佈通常比在
+-linux-kernel上發佈更可取；您更有可能接觸到在相關子系統中具有專業知識的開發
+-人員，並且環境可能具支持性。
++當開發人員決定公開他們的計畫時，下一個問題是：我們從哪裡開始？答案是找到正確
++的郵件列表和正確的維護者。對於郵件列表，最好的方法是在MAINTAINERS檔案中尋找
++適合發表的相關位置。如果有一個合適的子系統郵件列表，那麼在那裡發表通常比在
++linux-kernel上發表更好；您更有可能接觸到在相關子系統中具有專業知識的開發人
++員，而且那裡的環境可能更友善。
+ 
+-找到維護人員可能會有點困難。同樣，維護者文件是開始的地方。但是，該文件往往不
+-是最新的，並且並非所有子系統都在那裏顯示。實際上，維護者文件中列出的人員可能
+-不是當前實際擔任該角色的人員。因此，當對聯繫誰有疑問時，一個有用的技巧是使用
+-git（尤其是“git-log”）查看感興趣的子系統中當前活動的用戶。看看誰在寫補丁、
+-誰會在這些補丁上加上Signed-off-by行簽名（如有）。這些人將是幫助新開發項目的
+-最佳人選。
++找到維護者可能會比較困難一些。同樣，MAINTAINERS檔案是開始的地方。但是，該檔
++案往往不一定是最新的，並且並非所有子系統都列在那裡。實際上，MAINTAINERS檔案
++中列出的人員可能不是目前實際擔任該角色的人員。因此，當不確定要聯繫誰時，一個
++有用的技巧是使用Git（尤其是「git log」）查看感興趣的子系統中目前有誰在活動。
++看看誰在寫修補程式，以及有誰（如果有的話）在這些修補程式上加上Signed-off-by
++行。這些人將是幫助新開發專案的最佳人選。
+ 
+-找到合適的維護者有時是非常具有挑戰性的，以至於內核開發人員添加了一個腳本來
+-簡化這個過程：
++找到合適的維護者有時相當具有挑戰性，以至於核心開發人員加入了一個腳本來簡化
++這個過程：
+ 
+ ::
+ 
+ 	.../scripts/get_maintainer.pl
+ 
+-當給定“-f”選項時，此腳本將返回指定文件或目錄的當前維護者。如果在命令行上
+-給出了一個補丁，它將列出可能接收補丁副本的維護人員。有許多選項可以調節
+-get_maintainer.pl搜索維護者的嚴格程度；請小心使用更激進的選項，因爲最終結果
+-可能會包括對您正在修改的代碼沒有真正興趣的開發人員。
++當給定「-f」選項時，此腳本將回傳指定檔案或目錄目前的維護者。如果在命令列上
++傳入一個修補程式，它將列出可能應該收到該修補程式副本的維護者。這是取得修補
++程式Cc名單的建議方式（而不是使用「-f」選項）。有許多選項可以調整
++get_maintainer.pl搜尋維護者的積極程度；請小心使用較激進的選項，因為最終可能
++會包括對您正在修改的程式碼沒有真正興趣的開發人員。
+ 
+-如果所有其他方法都失敗了，那麼與Andrew Morton交流是跟蹤特定代碼段維護人員
+-的一種有效方法。
++如果所有其他方法都失敗了，那麼與Andrew Morton交流是找出特定程式碼維護者的一
++種有效方法。
+ 
+-何時郵寄？
++何時發表？
+ ----------
+ 
+-如果可能的話，在早期階段發佈你的計劃只會更有幫助。描述正在解決的問題以及已經
+-制定的關於如何實施的任何計劃。您可以提供的任何信息都可以幫助開發社區爲項目
+-提供有用的輸入。
++如果可能的話，在早期階段發表您的計畫只會有幫助。描述正在解決的問題，以及已經
++擬定的實作計畫。您所能提供的任何資訊都可以幫助開發社群對專案提供有用的意見。
+ 
+-在這個階段可能發生的一件令人沮喪的事情不是得到反對意見，而是很少或根本沒有
+-反饋。令人傷心的事實是：（1）內核開發人員往往很忙；（2）不缺少有宏偉計劃但
+-代碼（甚至代碼設想）很少的人去支持他們；（3）沒有人有義務審查或評論別人發表
+-的想法。除此之外，高層級的設計常常隱藏着一些問題，這些問題只有在有人真正嘗試
+-實現這些設計時纔會被發現；因此，內核開發人員寧願看到代碼。
++在這個階段可能發生的一件令人沮喪的事情不是得到敵意的反應，而是很少或根本沒有
++反應。令人傷心的事實是：（1）核心開發人員往往很忙；（2）有宏大計畫卻只有很少
++程式碼（甚至連寫出程式碼的指望都沒有）支撐的人並不少見；（3）沒有人有義務審
++查或評論別人發表的想法。除此之外，高層次的設計常常隱藏著一些問題，這些問題只
++有在有人真正嘗試實作這些設計時才會被發現；因此，核心開發人員寧願看到程式碼。
+ 
+-如果發佈請求評論（RFC）並沒得到什麼有用的評論，不要以爲這意味着無人對此項目
+-有興趣，同時你也不能假設你的想法沒有問題。在這種情況下，最好的做法是繼續進
+-行，把你的進展隨時通知社區。
++如果發表徵求意見（RFC）並沒得到什麼回應，不要以為這意味著無人對此專案有興
++趣。不幸的是，您也不能假設您的想法沒有問題。在這種情況下，最好的做法是繼續
++進行，並隨時讓社群知道您的進展。
+ 
+ 獲得官方認可
+ -----------------------
+ 
+-如果您的工作是在公司環境中完成的，就像大多數Linux內核工作一樣；顯然，在您將
+-公司的計劃或代碼發佈到公共郵件列表之前，必須獲得有適當權利經理的許可。發佈
+-不確定是否兼容GPL的代碼尤其會帶來問題；公司的管理層和法律人員越早能夠就發佈
+-內核開發項目達成一致，對參與的每個人都越好。
++如果您的工作是在公司環境中完成的——就像大多數Linux核心工作一樣——那麼顯然，
++在您將公司的計畫或程式碼發表到公開郵件列表之前，必須獲得有適當權限的主管許
++可。發表尚未獲准以GPL相容授權發布的程式碼尤其會帶來問題；公司的管理層和法務
++人員越早能夠就發表核心開發專案達成一致，對參與的每個人都越好。
+ 
+-一些讀者可能會認爲他們的核心工作是爲了支持還沒有正式承認存在的產品。將僱主
+-的計劃公佈在公共郵件列表上可能不是一個可行的選擇。在這種情況下，有必要考慮
+-保密是否真的是必要的；通常不需要把開發計劃關在門內。
++一些讀者此時可能會認為，他們的核心工作是為了支援一個尚未正式公開的產品。將
++雇主的計畫公開在公開郵件列表上可能不是一個可行的選擇。在這種情況下，值得考
++慮保密是否真的有必要；通常並沒有真正的必要把開發計畫關在門後。
+ 
+-的確，有些情況下一家公司在開發過程的早期無法合法地披露其計劃。擁有經驗豐富
+-的內核開發人員的公司可能選擇以開環的方式進行開發，前提是他們以後能夠避免
+-嚴重的集成問題。對於沒有這種內部專業知識的公司，最好的選擇往往是聘請外部
+-開發者根據保密協議審查計劃。Linux基金會運行了一個NDA程序，旨在幫助解決這種
+-情況；更多信息參見：
++話雖如此，也確實有些情況是公司有正當理由無法在開發過程的早期公開其計畫。擁
++有經驗豐富的核心開發人員的公司，可能會選擇以開環的方式進行開發，前提是他們
++以後能夠避免嚴重的整合問題。對於沒有這種內部專業知識的公司，最好的選擇往往
++是聘請外部開發者在保密協定下審查計畫。Linux基金會運作了一個NDA計畫，旨在幫
++助處理這類情況；更多資訊參見：
+ 
+-    http://www.linuxfoundation.org/nda/
 -
--  - 每當一個新版本的核心被發布，為期兩周的整合視窗將被開啟。在這段時間裡
--    維護者可以向Linus提交大段的修改，通常這些修改已經被放到-mm核心中幾個
--    星期了。提交大量修改的首選方式是使用git工具（核心的程式碼版本管理工具
--    ，更多的資訊可以在 https://git-scm.com/ 獲取），不過使用普通補丁也是
--    可以的。
--  - 兩個星期以後-rc1版本核心發布。之後只有不包含可能影響整個核心穩定性的
--    新功能的補丁才可能被接受。請注意一個全新的驅動程式（或者檔案系統）有
--    可能在-rc1後被接受是因為這樣的修改完全獨立，不會影響其他的程式碼，所以
--    沒有造成核心退步的風險。在-rc1以後也可以用git向Linus提交補丁，不過所
--    有的補丁需要同時被發送到相應的公衆郵件列表以徵詢意見。
--  - 當Linus認為當前的git源碼樹已經達到一個合理健全的狀態足以發布供人測試
--    時，一個新的-rc版本就會被發布。計劃是每周都發布新的-rc版本。
-+~~~~~~
-+
-+主線樹是由 Linus Torvalds 維護的，可以在 https://kernel.org 或儲存庫中找到。
-+它的開發遵循以下步驟：
-+
-+  - 每當一個新版本的核心發布後，就會開啟為期兩週的視窗。在這段期間，維護
-+    者可以向 Linus 提交大量的修改，通常是已經在 linux-next 中放了幾個星期的
-+    修補程式。提交大量修改的首選方式是使用 git（核心的原始碼管理工具，更多
-+    資訊可以在 https://git-scm.com/ 找到），不過使用普通的修補程式也完全可以。
-+  - 兩週後 -rc1 版核心發布，此時的重點是讓新核心盡可能穩固。這個階段的大
-+    多數修補程式應該是修正迴歸（regression）。一直存在的 bug 不算迴歸，所以
-+    只有在這類修正很重要時才推送。請注意，一個全新的驅動程式（或檔案系統）
-+    可能在 -rc1 之後被接受，因為只要這樣的修改是獨立的、不影響新增程式碼以
-+    外的區域，就沒有造成迴歸的風險。-rc1 發布後也可以用 git 向 Linus 發送
-+    修補程式，不過這些修補程式也需要發送到公開的郵件列表以供審查。
-+  - 當Linus認為目前的git原始碼樹已經達到一個合理健全的狀態足以發布供人測
-+    試時，一個新的-rc版本就會被發布。目標是每週都發布新的-rc版本。
-   - 這個過程一直持續下去直到核心被認為達到足夠穩定的狀態，持續時間大概是
-     6個星期。
+-這種審查通常足以避免以後出現嚴重問題，而無需公開披露項目。
++    https://www.linuxfoundation.org/nda/
  
-@@ -218,26 +223,44 @@ ReST格式的文件會產生在 Documentation/output. 目錄中。
- 	「沒有人知道新核心何時會被發布，因為發布是根據已知bug的情況來決定
- 	的，而不是根據一個事先制定好的時間表。」
- 
-+多個主要版本的穩定版核心樹
-+~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+版本號由三個部分組成的核心是 -stable 核心。它們包含相對較小且至關重要的修
-+正，針對在某個主線主要版本中發現的安全性問題或嚴重迴歸。同一個主要穩定版
-+系列的每次發布都會遞增版本號的第三個部分，前兩個部分則保持不變。
-+
-+這種版本的核心適用於那些期望獲得最新的穩定版核心並且不想參與測試開發版或
-+者實驗版的使用者。
-+
-+穩定版核心樹由「穩定版」小組（<stable@vger.kernel.org>）維護，並視需要發布。
-+一般的發布週期大約是兩週，但如果沒有急迫的問題，也可能更久。相反地，與安全
-+相關的問題可能會讓新版本幾乎立即發布。
-+
-+核心原始碼中的
-+:ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
-+文件具體描述了可被穩定版核心接受的修改類型以及發布的流程。
-+
- 子系統特定樹
--------------
-+~~~~~~~~~~~~
- 
- 各種核心子系統的維護者——以及許多核心子系統開發人員——在原始碼庫中公開了他們
--當前的開發狀態。這樣，其他人就可以看到核心的不同區域發生了什麼。在開發速度
-+目前的開發狀態。這樣，其他人就可以看到核心的不同區域發生了什麼。在開發速度
- 很快的領域，可能會要求開發人員將提交的內容建立在這樣的子系統核心樹上，這樣
- 就避免了提交與其他已經進行的工作之間的衝突。
- 
- 這些儲存庫中的大多數都是Git樹，但是也有其他的scm在使用，或者補丁佇列被發布
- 為Quilt系列。這些子系統儲存庫的地址列在MAINTAINERS檔案中。其中許多可以在
--https://git.kernel.org/上瀏覽。
-+https://git.kernel.org/ 上瀏覽。
- 
--在將一個建議的補丁提交到這樣的子系統樹之前，需要對它進行審查，審查主要發生
--在郵件列表上（請參見下面相應的部分）。對於幾個核心子系統，這個審查過程是通
--過工具補丁追蹤的。Patchwork提供了一個Web介面，顯示補丁發布、對補丁的任何評
--論或修訂，維護人員可以將補丁標記為正在審查、接受或拒絕。大多數補丁網站都列
--在 https://patchwork.kernel.org/
-+在一個提議的修補程式被提交到這樣的子系統樹之前，需要先經過審查，審查主要
-+在郵件列表上進行（請參見下面相應的章節）。有幾個核心子系統會使用 patchwork
-+工具來追蹤這個審查過程。Patchwork 提供一個網頁介面，顯示發布的修補程式、
-+對修補程式的任何評論或修訂，維護者也可以將修補程式標記為正在審查、已接受
-+或已拒絕。大多數 patchwork 網站都列在 https://patchwork.kernel.org/ 。
- 
--Linux-next 整合測試樹
-----------------------
-+linux-next 整合測試樹
-+~~~~~~~~~~~~~~~~~~~~~
- 
- 在將子系統樹的更新合併到主線樹之前，需要對它們進行整合測試。為此，存在一個
- 特殊的測試儲存庫，其中幾乎每天都會提取所有子系統樹：
-@@ -247,36 +270,16 @@ Linux-next 整合測試樹
- 透過這種方式，Linux-next 對下一個合併階段將進入主線核心的內容給出了一個概要
- 展望。非常歡迎冒險的測試者對linux-next進行執行時測試。
- 
--多個主要版本的穩定版核心樹
-------------------------------------
--由3個數字組成的核心版本號說明此核心是-stable版本。它們包含核心的相對較小且
--至關重要的修補，這些修補針對安全性問題或者嚴重的核心退步。
--
--這種版本的核心適用於那些期望獲得最新的穩定版核心並且不想參與測試開發版或
--者實驗版的使用者。
--
--穩定版核心樹版本由「穩定版」小組（郵件地址<stable@vger.kernel.org>）維護，一般
--隔周發布新版本。
--
--核心源碼中的
--:ref:`Documentation/process/stable-kernel-rules.rst <stable_kernel_rules>`
--文件具體描述了可被穩定版核心接受的修改類型以及發布的流程。
--
- 
- 報告bug
- -------
- 
--bugzilla.kernel.org是Linux核心開發者們用來追蹤核心Bug的網站。我們鼓勵用
--戶在這個工具中報告找到的所有bug。如何使用核心bugzilla的細節請造訪：
--
--	http://test.kernel.org/bugzilla/faq.html
-+核心原始碼主目錄中的 Documentation/admin-guide/reporting-issues.rst 文件
-+描述了如何報告可能的核心 bug，並詳細說明核心開發者需要哪些資訊來幫助追查
-+問題。
- 
--核心源碼主目錄中的:ref:`admin-guide/reporting-bugs.rst <reportingbugs>`
--文件裡有一個很好的模板。它指導使用者如何報告可能的核心bug以及需要提供哪些資訊
--來幫助核心開發者們找到問題的根源。
- 
--
--利用bug報告
-+處理bug報告
- -----------
- 
- 練習核心開發技能的最好辦法就是修改其他人報告的bug。你不光可以幫助核心變
-@@ -284,7 +287,11 @@ bugzilla.kernel.org是Linux核心開發者們用來追蹤核心Bug的網站。
- 者感受到你的存在。修改bug是贏得其他開發者讚譽的最好辦法，因為並不是很多
- 人都喜歡浪費時間去修改別人報告的bug。
- 
--要嘗試修改已知的bug，請造訪 http://bugzilla.kernel.org 網址。
-+要處理已經回報的 bug，請先找到一個你感興趣的子系統。查看 MAINTAINERS 檔案
-+中該子系統的 bug 要回報到哪裡；通常是郵件列表，很少是 bug 追蹤系統。在該處
-+的存檔中搜尋最近的報告，並在你認為合適的地方提供幫助。你也可以到
-+https://bugzilla.kernel.org 查看 bug 報告；只有少數核心子系統會積極使用它來
-+回報或追蹤問題，不過整個核心的 bug 都會被提交到那裡。
- 
- 
- 郵件列表
-@@ -310,8 +317,8 @@ MAINTAINERS檔案中可以找到不同話題對應的郵件列表。
- 
- 	https://subspace.kernel.org
- 
--在使用這些郵件列表時，請記住保持良好的行為習慣。下面的連結提供了與這些列
--表（或任何其它郵件列表）交流的一些簡單規則，雖然內容有點濫竽充數。
-+在使用這些郵件列表時，請記住保持良好的行為習慣。下面的連結雖然有點老套，
-+但提供了與這些列表（或任何其他郵件列表）交流的一些簡單規則：
- 
- 	https://subspace.kernel.org/etiquette.html
- 
-@@ -337,8 +344,8 @@ MAINTAINERS檔案中可以找到不同話題對應的郵件列表。
- 同核心社群合作
- ----------------
- 
--核心社群的目標就是提供盡善盡美的核心。所以當你提交補丁期望被接受進核心的
--時候，它的技術價值以及其他方面都將被評審。那麼你可能會得到什麼呢？
-+核心社群的目標就是提供盡善盡美的核心。所以當你提交修補程式期望被接受進核
-+心的時候，它只會依據技術價值接受評審。那麼你可能會得到什麼呢？
- 
-   - 批評
-   - 評論
-@@ -377,7 +384,7 @@ MAINTAINERS檔案中可以找到不同話題對應的郵件列表。
-     - 它同時解決了多個問題
-     - 它刪除了2000行程式碼
-     - 這是補丁，它已經解釋了我想要說明的
--    - 我在5種不同的體系結構上測試過它……
-+    - 我在5種不同的架構上測試過它……
-     - 這是一系列小補丁用來……
-     - 這個修改提高了普通機器的效能……
- 
-@@ -388,6 +395,7 @@ MAINTAINERS檔案中可以找到不同話題對應的郵件列表。
-     - 為了我們公司賺錢考慮必須這麼做
-     - 這是我們的企業產品線所需要的
-     - 這裡是描述我觀點的1000頁設計文件
-+    - 我已經在這上面花了 6 個月……
-     - 這是一個5000行的補丁用來……
-     - 我重寫了現在亂七八糟的程式碼，這就是……
-     - 我被規定了最後期限，所以這個補丁需要立刻被接受
-@@ -395,7 +403,7 @@ MAINTAINERS檔案中可以找到不同話題對應的郵件列表。
- 另外一個核心社群與大部分傳統公司的軟體開發隊伍不同的地方是無法面對面地交
- 流。使用電子郵件和IRC聊天工具做為主要溝通工具的一個好處是性別和種族歧視
- 將會更少。Linux核心的工作環境更能接受婦女和少數族羣，因為每個人在別人眼
--里只是一個郵件地址。國際化也幫助了公平的實作，因為你無法透過姓名來判斷人
-+裡只是一個郵件地址。國際化也幫助了公平的實作，因為你無法透過姓名來判斷人
- 的性別。男人有可能叫李麗，女人也有可能叫王剛。大多數在Linux核心上工作過
- 並表達過看法的女性對在linux上工作的經歷都給出了正面的評價。
- 
-@@ -409,7 +417,7 @@ MAINTAINERS檔案中可以找到不同話題對應的郵件列表。
- 
- Linux核心社群並不喜歡一下接收大段的程式碼。修改需要被恰當地介紹、討論並且
- 拆分成獨立的小段。這幾乎完全和公司中的習慣背道而馳。你的想法應該在開發最
--開始的階段就讓大家知道，這樣你就可以及時獲得對你正在進行的開發的反饋。這
-+開始的階段就讓大家知道，這樣你就可以及時獲得對你正在進行的開發的回饋。這
- 樣也會讓社群覺得你是在和他們協作，而不是僅僅把他們當作傾銷新功能的物件。
- 無論如何，你不要一次性地向郵件列表發送50封信，你的補丁序列應該永遠用不到
- 這麼多。
-@@ -423,19 +431,19 @@ Linux核心社群並不喜歡一下接收大段的程式碼。修改需要被恰
-    當出了問題的時候，小的補丁也會讓除錯變得非常容易。一個一個補丁地回溯
-    將會比仔細剖析一個被打上的大補丁（這個補丁破壞了其他東西）容易得多。
- 
--2）不光發送小的補丁很重要，在提交之前重新編排、化簡（或者僅僅重新排列）
--   補丁也是很重要的。
-+2) 不光發送小的修補程式很重要，在提交之前重新編排、化簡（或者僅僅重新排
-+   列）修補程式也是很重要的。
- 
- 這裡有核心開發者Al Viro打的一個比方：
- 	「想像一個老師正在給學生批改數學作業。老師並不希望看到學生為了得
--	到正確解法所進行的嘗試和產生的錯誤。他希望看到的是最乾淨最優雅的
--	解答。好學生了解這點，絕不會把最終解決之前的中間方案提交上去。」
-+        到正確解法所進行的嘗試和產生的錯誤。老師希望看到的是最乾淨最優雅的
-+        解答。好學生了解這點，絕不會把最終解決之前的中間方案提交上去。
- 
- 	核心開發也是這樣。維護者和評審者不希望看到一個人在解決問題時的思
--	考過程。他們只希望看到簡單和優雅的解決方案。
-+        考過程。他們只希望看到簡單和優雅的解決方案。」
- 
- 直接給出一流的解決方案，和社群一起協作討論尚未完成的工作，這兩者之間似乎
--很難找到一個平衡點。所以最好儘早開始收集有利於你進行改進的反饋；同時也要
-+很難找到一個平衡點。所以最好儘早開始收集有利於你進行改進的回饋；同時也要
- 保證修改分成很多小塊，這樣在整個專案都準備好被包含進核心之前，其中的一部
- 分可能會先被接收。
- 
-@@ -471,10 +479,10 @@ Linux核心社群並不喜歡一下接收大段的程式碼。修改需要被恰
- 很多人已經做到了，而他們都曾經和現在的你站在同樣的起點上。
- 
- 
--感謝
------
--感謝Paolo Ciarrocchi允許「開發流程」部分基於他所寫的文章
--(http://www.kerneltravel.net/newbie/2.6-development_process)，感謝Randy
-+----------
-+
-+感謝 Paolo Ciarrocchi 允許「開發流程」部分基於他所寫的文章
-+（https://lwn.net/Articles/94386/ ），感謝Randy
- Dunlap和Gerrit Huizenga完善了應該說和不該說的列表。感謝Pat Mochel, Hanna
- Linder, Randy Dunlap, Kay Sievers, Vojtech Pavlik, Jan Kara, Josh Boyer,
- Kees Cook, Andrew Morton, Andi Kleen, Vadim Lobanov, Jesper Juhl, Adrian
++這種審查通常足以避免以後出現嚴重問題，而無需公開披露專案。
 -- 
 2.43.0
 
