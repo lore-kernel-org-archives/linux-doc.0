@@ -1,87 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793956810;
-	b=1786yDlZKah9IRo0H0/B6oZFM+Sbwh2eW1NG+aJcSv1od7Y5gPnhGeYrsGByLwXcM273
-	 C5QcroovfPXuQQcd2lRtuD1KZg8WSOuj7NL9rq+K1/fCUAmqzYosd6nPteNnfnIs6A5Nu
-	 OTgyvakGLPvn8kd5Myp9wtM7g2/LUhzx46ipEVGlURwx4jGoVtEmRkQFhKH30DDFHwiDr
-	 RZBk1n8wUws+oqsrLMwV/SFFQgkbgszE3fO5nkVIKVC9f0oxnOaEIOPXYm8lwdC6TScxa
-	 fAGT5+7s4D8JzVyhep2lkv5tGO+fnxYMHzmwousqx70m9335aNE76FogOaPm1COwbAA==
+	t=1793957325;
+	b=3fVUAiURTS44TjoGQ1pv7Aah/a8VEbAoBZOvCycNWlZ7OS8BJnUrrie5ZBrScP0hMF0p
+	 21zxSlKDIN8nbmfH1cwHmKY9uhWV3hDvnQbYRtwEk/WeQ9bxn7w+Qg4LdUvUB9HQ1hMHT
+	 kR3xtJJDPXCM2Xe0OYOWPR0HCm19hnKOht/swRQRtld0VOqdOJNFZS3u6Gvnbn8z/7YTX
+	 Z2+2dQK2BRqdEOAYdQeGZbFClZq+zLnqnPGEJvAw8Jpl00vWjnV5roS0ZBYIa0r5Vduwr
+	 LGGGEYsINPWjWnjQHYAAlFLdxMd9YRUkQ2LPIwi3dOT/bsb/9JG1joYP7HdZTCLO38g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793956810;
-	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=fsmJiYhHFp8PcnlPHKhucEhEpsHbUsMO9OOi7pQoBRc=;
-	b=YNjTHrdcE0XJdQs5pWWPgjVfJmeLIZoxIjuKEohc9ODAbi9YGHFLJBUWnLbTaIuiohHg
-	 nL8fpM+jfnxEtSsFhUXAdbRBPB3pSLadfI7YQu4UtYeAg5aJvnZE6tH0Mmf0LPAdANLGN
-	 DLTwVkBmmN3vQPKJdcC4XZlU3QmczhQhtsJLael9O5e3rUrt1QQbbnz926mkjH4iaOnFw
-	 IOJO3nGWKab9hJta4BXakFRu0Wpd63TPx70W+iMcUyV27ctDCtrSzvl0JxEodof8eR8sg
-	 BNVitdqKWaIZ5jSJc7DthiZSl4/THGqSwt+zLXw2uiVpQZIq8LmpDiaLTg6ctVLa0uQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793957325;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=VC16RfQ/Ch74ykYoajUZJ+R1KFdW7fHzBmB94MytVlk=;
+	b=WzQxChkHI14oFq4yEbBaoozusuAfMETEJqHgsvIlbbrk3f7FJMyKM0h0ede1zTF2wlNW
+	 tPdrK3zRAHQnUUaHigveEg5wBUFkPF8iMzTIFCABBZfq0zm3T3FZj+jIkGjxYZUtFZaCX
+	 W7v5YMGtmIOevBz4VVk1l18Xfj3sKMz+K/AnlFyMQFaTf7V1KRgfvFL+bNwPJxxra0WvX
+	 3rDyoKisrYk0d63aKxIdNezjdauRpVXfh3viFfcJUHrNXINP7TwO8D52bIJzEbZVsHZOC
+	 LQkd3+5+VkpH+w5+o7L0fPzhMuQqVMR4z4+VgzaN1tWoqXO/l910xeghKnN2lvUgqkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="XR6M1S/T";
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="7SHz/SlS";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kqeWePhs;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BC5606D801;
-	Fri,  6 Nov 2026 09:20:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71BC5606D801
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1504606A326;
+	Fri,  6 Nov 2026 09:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=XR6M1S/T;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=7SHz/SlS
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1793956807;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fsmJiYhHFp8PcnlPHKhucEhEpsHbUsMO9OOi7pQoBRc=;
-	b=XR6M1S/TiyCtgphzBSk9KSsI7wglQvugGDwImzn2uVytPw55X+QHk3efxDxuRdu+gx60lM
-	y5X38P1rpXHtjb+xqUMbkxyyA13/DYmxoroR9TJvRKdktRNQXf1za0DAhEb4y1cs7PX/+6
-	ybHmBIOw6c0HryLt9Tu8GOvECUAj1jqE7HgL+v9CouZvW/fvm8pSg6QC+J2YWymCRRZ9MN
-	RXZN0GLDeruQzJXdvbcOiEJua7N64VnU7CUAkFIPTYO41XARaOOqYMjt0ohcz3bb3gtoJJ
-	91k8g6VJROHOU+OAOz9LM06H3obW4i8sUdOwDj8pKbXEYFQLtceE46Q+6NEJRg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1793956807;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fsmJiYhHFp8PcnlPHKhucEhEpsHbUsMO9OOi7pQoBRc=;
-	b=7SHz/SlSQBc0I4hRdVK2D7xO1u2w78O1ff/C4dCu2rmWKcVD+F1fSHmkSO2/7lAziUmi8e
-	GXzYRxDXsbVV8BAw==
-To: Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	=?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev,
-	debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kqeWePhs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0C551F0089F;
+	Fri,  6 Nov 2026 09:28:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793957324;
+	bh=VC16RfQ/Ch74ykYoajUZJ+R1KFdW7fHzBmB94MytVlk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=kqeWePhskc8HNNCmYcdAWgvx59rFaItJGQOF/OyXIt/sCZd7S07yg+8aS/fnB0zNp
+	 VZWmUIjL5yONrrC/I3jiwH2+dnKikXHjGeTuLUGr0j0eRPY5SO/KWrCGOFcgNA3ZZL
+	 HdLccbtIl2+rB52+gfXthzuEXvhI4yjsjlV4x4GCkb7bizD6hCKSxpyMWCje9+/s6U
+	 4d4hYcIqy+tap693g+yX6oZ4XvZL7fnGPKzTviF5CpGIRYQ1kG01IAXQpkl7+VYCF1
+	 E9JusScvtWLyNrSjSK8j0HDA6lphKi+qTFh2GDRYyMedmYzEVbuuhiiS7jnOcasf3z
+	 PDOC78hNF61Zw==
+From: Christian Brauner <brauner@kernel.org>
+To: me@bobcopeland.com,
+	Hungyu Lin <dennylin0707@gmail.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	willy@infradead.org,
+	viro@zeniv.linux.org.uk,
+	jack@suse.cz,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	geert@linux-m68k.org,
+	tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com,
+	linux-karma-devel@lists.sourceforge.net,
+	linux-fsdevel@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH v1 10/10] kconfig: Introduce OVERLAY= for make checkconfig
-Date: Fri,  6 Nov 2026 10:19:22 +0100
-Message-ID: <20261106091922.7560-11-darwi@linutronix.de>
-In-Reply-To: <20261106091922.7560-1-darwi@linutronix.de>
-References: <20261106091922.7560-1-darwi@linutronix.de>
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-m68k@lists.linux-m68k.org,
+	linux-mips@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH] omfs: remove the filesystem
+Date: Fri,  6 Nov 2026 10:28:33 +0100
+Message-ID: <20261106-vortrag-exotisch-pelzmantel-66235662f81f@brauner>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261105044046.52180-1-dennylin0707@gmail.com>
+References: <20261105044046.52180-1-dennylin0707@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,79 +76,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1286; i=brauner@kernel.org; h=from:subject:message-id; bh=i3zpqEJ74dna9za+0x2JJjtzgM6lB6eRNkY0jcS+yfg=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9nXv4bfPNlUcWTPn4uXNLgONU2auKFum3j/m/yNjO3 u7/4QGPcEcpC4MYF4OsmCKLQ7tJuNxynorNRpkaMHNYmUCGMHBxCsBEkjYzMkw6HKYfmszBsTjg nQ9D0/sLfp1fF166+WGPjq32xIUV3GcZfrMKhXHuzlJ3P5KXsnvXZd3mx77RJ1add2gs+WygyOB fzwsA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
 Content-Transfer-Encoding: 8bit
 
-For the kconfig checkconfig target, allow passing a rules overlay file
-through an OVERLAY= parameter.  This is mostly intended for distribution
-kernel packaging scripts, CI systems, and board support packages.
+On Thu, 05 Nov 2026 04:40:45 +0000, Hungyu Lin wrote:
+> OMFS supports the on-disk format used by the long-discontinued Rio Karma
+> music player and ReplayTV DVR. While reviewing a fix for incorrect block
+> mapping on writes starting beyond EOF, Matthew suggested removing the
+> filesystem instead of continuing to maintain it.
+> 
+> Existing OMFS media can still be accessed using an older kernel with OMFS
+> support.
+> 
+> [...]
 
-Document this parameter at the kernel's administration guide.
+I agree. It's great to see that we are are able to shed a whole bunch of
+legacy tech.
 
-Note, the detailed overlay semantics are already explained at
-Documentation/tools/kconfig_checker.rst
-
-Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
 ---
- Documentation/admin-guide/README.rst | 7 ++++++-
- scripts/kconfig/Makefile             | 6 ++++--
- 2 files changed, 10 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/README.rst b/Documentation/admin-guide/README.rst
-index 77ffe4dcb85b..b62689bcda6b 100644
---- a/Documentation/admin-guide/README.rst
-+++ b/Documentation/admin-guide/README.rst
-@@ -263,7 +263,7 @@ The kconfig build system can validate the generated kernel ``.config``
- against a selected rules profile. Running ``make checkconfig`` prints
- usage information and the available profiles::
- 
--  Usage: make RULES=<profile> checkconfig
-+  Usage: make RULES=<profile> [OVERLAY=<overlay>] checkconfig
-   Available RULES: preempt_rt
- 
- For example, to validate the current configuration against the PREEMPT_RT
-@@ -278,6 +278,11 @@ selected rules profile. Each diagnostic includes a severity, such as
- Apply the reported changes as needed and run ``make checkconfig`` again,
- against the same rules, until no relevant diagnostics remain.
- 
-+The ``OVERLAY=`` parameter specifies an overlay file whose rules overrides
-+the built-in mainline profile selected by ``RULES=``. It is intended for
-+distributions kernel packaging scripts, CI systems, and board support
-+packages.
-+
- For more information, see Documentation/tools/kconfig_checker.rst
- 
- Compiling the kernel
-diff --git a/scripts/kconfig/Makefile b/scripts/kconfig/Makefile
-index d67a23730259..faaa8c16ab03 100644
---- a/scripts/kconfig/Makefile
-+++ b/scripts/kconfig/Makefile
-@@ -126,6 +126,8 @@ testconfig: $(obj)/conf
- clean-files += tests/.cache
- 
- checkconfig := $(PYTHON3) -B $(srctree)/tools/kconfig-checker/check.py
-+checkconfig_overlay = $(if $(OVERLAY),-o "$(OVERLAY)")
-+
- list_checkconfig_rules =						\
- 	echo -n >&2 "Available RULES: ";				\
- 	$(checkconfig) list-rules >&2;					\
-@@ -134,7 +136,7 @@ list_checkconfig_rules =						\
- PHONY += checkconfig
- checkconfig:
- 	$(Q)if [ -z "$(RULES)" ]; then					\
--		echo >&2 "Usage: make RULES=<profile> checkconfig";	\
-+		echo >&2 "Usage: make RULES=<profile> [OVERLAY=<overlay>] checkconfig"; \
- 		$(list_checkconfig_rules);				\
- 		exit 2;							\
- 	fi
-@@ -143,7 +145,7 @@ checkconfig:
- 		$(list_checkconfig_rules);				\
- 		exit 2;							\
- 	fi
--	$(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)"
-+	$(Q)$(checkconfig) check -r "$(RULES)" -c "$(KCONFIG_CONFIG)" $(checkconfig_overlay)
- 
- # Help text used by make help
- help:
--- 
-2.56.0
+Applied to the vfs-7.5.omfs branch of the vfs/vfs.git tree.
+Patches in the vfs-7.5.omfs branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-7.5.omfs
+
+[1/1] omfs: remove the filesystem
+      https://git.kernel.org/vfs/vfs/c/b4d257187fe7
