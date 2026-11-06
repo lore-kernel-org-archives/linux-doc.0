@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964757;
-	b=xYeNHPr34qGUmd3D4MhPHDMIxvq6TrTTRgoIFrN3zQUfeSClZ+O5fLCelMj1UhHSRNZa
-	 Z7kG3xf1+v5Pb13pCimvqesw9E6QZgvvJgMtFxQTiX7i0aKrZFLqtl5l5qslP67+lYixn
-	 nDP+/8VUDS4mldkeM2rVqAZCOVGvuOXIoNqiUBBWZJfXtiD2FxoTZnaafr4KKBASWQjDV
-	 prPo75ZMmWMnFOYnl0C3lgWCd4yOQ8QrFEAqri+2TV80gBccXAHv4cy1c1JCNAlKCB9bb
-	 2IwDSOjWs3u/saDEBQMVZcxB87+AzPqIDzTXDmo4OLbU5zt8N38SJKlxD/HnOk2rjyw==
+	t=1793964765;
+	b=gBxTh5W98hfKrKzWgg/z00wN6C19dLkuyBo0IX4p6pdo19VdLZzjpzflS5JfupnUc8Lc
+	 AqHuiNgMypWD+SIEQV1z0rfJcMj8IgtAFG+7n4o2nvtdY1DgCO3rtdVFlqGZtLrHHAYWl
+	 LewudyrepdM+ntAJ05S7bVPHCqd7Z0NSeV7IYw41BROUGAkIGw8PWXxmU5zihfrdT2U7R
+	 51s5ijotbuw6+awlSiW3CRMHKkSfm3iytejcbOKqqD7MBeFs1/yI5ZM5OL61tFaPwtG4f
+	 0AXGwYw7WhACzU/+2oJyFzfn7U0bAlvb/esMvt/3b4cgsc3Okd1EdkgxfoAW/Mp0C1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964757;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964765;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=xWFVohln4eeSo5RlKr33gLvCy/2Hvt/Ikr1NBWJFOgw=;
-	b=NpTLzeYHtTX7KzfjabawtzuiiquyD2QWSkbeZFK1mM9cW4YS4naDWgB66YZDXSflPfyK
-	 wa30l2XlBmj2ovt1grpaGcynn0UUsTuwzBlN/x7GAOa+qX1GzBcQNSPnYihqNIhfzN0gc
-	 orPxyADqxhhZkHBZ9qpulj+JwpYiMuf6RmP/4t0fIFBoxmnv06UaioN4jJZr7zr3ALXBq
-	 g81L+RFZ1q81Ny9Y55uzOUecEmenJ+gMenqPfpA6mSNHRobS5d/ujxUJTkPN4OQu6sobg
-	 mmMDlFJqswgdvvMONH0esloBLr3mzUu/Q9YleSXGHZfMbSCxITQe3bw33wxt9AZ6WSQ==
+	bh=4+W/y1+xKwI/Q11z+x4eNw/QII2gfHgjNOLpuKt+j0k=;
+	b=loDbwejQU/TmDubhqUZxBhJqIymgub0s9PnRLMRj1Byzw33XEHeBKrnxgvo5y8MMSsF3
+	 XARaqNHst5Vs2QdH8lLANl/uZcb+cSfJIf0YC0Fk9NsvyY3GwhWoE2hYAL05Lm5pUpCzo
+	 ZoImyTTpFIqTdopMnLxNUcda5xXqP7vXWlw15s9pE82AzSnvGd7jKYO291nR1eZPl0IyP
+	 ZzdwgMJ03khcczUMpkWfxVbSqbACz59H6vrt533FwDgriMsOaXmZvEmYMNHhcgbw4I1nZ
+	 AOTIPlo1Om5wV9iBx4GFVULT2mK1APfIVPLngKYjmg0SXPxcuAT3cVcvSzo66xBNTOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xi00ilF5;
-	arc=none smtp.remote-ip=209.85.216.50
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TPedi2Tt;
+	arc=none smtp.remote-ip=209.85.216.54
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7854A606A905
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7854A606A905
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C25606BD69
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5C25606BD69
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Xi00ilF5
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ad0c2e71ebso87768a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:37 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TPedi2Tt
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3ad47c246f8so65366a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964757; x=1794569557; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964764; x=1794569564; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=xWFVohln4eeSo5RlKr33gLvCy/2Hvt/Ikr1NBWJFOgw=;
-        b=Xi00ilF527rpVQ8LKj8jKK+yfyEoflym2vuXH/ZqmRZDkSr1zt00pt3sC1zVp3yJV7
-         q2f0nkmbTjvZozxTbsZbbW0xD57zUjDSk/k+aoA61xXA06K2MIlnI/cIvjMxvnrz4utm
-         CXJTW7e35ZjSKSaggdUuejXxsfVNIAisqSzoARJBmPHAaiKByrOMMyWDJwfH0LWSVbAh
-         69xYKNekkD/6oEsWRUnopjz1DssH+7k4VbilkAgpkcz2L2O69wtlgGmeezEv/ba18vea
-         e23KjKoWj6yhAE+rG5d5WRZ7JjbGz7hQk6St1aQre/9rSgARuTowDoQ5Ch39BqtOnavv
-         R9Dw==
+        bh=4+W/y1+xKwI/Q11z+x4eNw/QII2gfHgjNOLpuKt+j0k=;
+        b=TPedi2Tt7s5bQPLdOGcyv0jVHL8ACZwpy0gQJ9PI4IV6SYNS3yR+fPNQV3lSdVkMGx
+         5s8cSJkPsENl8Y1DRGTnFhGYYSVqZuUv2SWYbDCUbxPUj13LkB9Wm9QW+RGFPebTp85W
+         yOfPtq+ElnZtMKd13kLc1+JvEx9Kvls3NYf5A1EZshHqwQPBTnd4g7NMXOc8uIwh7PER
+         /rV6tKrVx7zVIBxu2T9T/RapKleWr3UaWhDNcwmabxop/vErLP1bVMLpV/JoDQN2vUK2
+         STEEL8cm/rTVAPU8172aJsjKMaKK1DvsHkMq7Ek9TiDbeBqzFUH+uEIo/i8gSU2QcQVO
+         GvsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964757; x=1794569557;
+        d=1e100.net; s=20260707; t=1793964764; x=1794569564;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xWFVohln4eeSo5RlKr33gLvCy/2Hvt/Ikr1NBWJFOgw=;
-        b=c0vbrWvbUq1VaFLoSQseDbX2E2pcUkW119rzsKDkXqX7wpnwUol2RKK1A8wUUGpn4Q
-         GBqDTStwjU5qJ0f8hoRR7Cc6ueSvInbrgdOqaEdjmVnjF5EYCEf83NKgF+YRs+mRUT37
-         6FfSBCI8D3FCkslumVvc2T+YgKSDZDhMcqoAS/MpZ5uUZvHmhVKg7FkSlUVqJAdEIRXB
-         7gAsDeem3HYsneHaQm1LjsYLy07aGQrJjVcenBrnbAqLCVP/enNgKMRd5vW+23bBHV3Y
-         RHUXlCQkJcTmvRO8GQJCIojrbguYXaLfe+zdliXqQ8TkeLLS+Rc4Lj2Nva0opp5HYJP3
-         pZFg==
-X-Forwarded-Encrypted: i=1; AL+hErFXibUEebbuSlEe6SFTAc83ji0fJjnPCDgJBihlUoyshqN2pzGPAdINWNbPj58eI0/jePsGNWhXBJ0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/QUWt8JotWdZVL0yboyubCGqsV0ps82uqeDH5tExjjleAGCxjH
-	KwV7TsAoA9hmXnKjjlKLJomlcQ6QY6nDm5o3YYgcnND5a198CGqyHZYK
-X-Gm-Gg: AYBFou3m5pxnelTGlOs+PpSd/YlWfUV1l4GoQElow6gw7J8ugOqnGqG6SABJQWNp73m
-	vl9HJ1DyN/VpyZPJmDQpGQDYwroiFrc+pGS8hh32Eo2zZmnl8WFAipVYDkHtqHUVP3xznss45iK
-	36V6PZxFcsgAbm4zJdk4Psth1OX0MCP+QS0u5ofwQLzRA6MI7LoayIfegUbg1YNUVo1u8EhnQDz
-	jOWFZb9ZinA0/Ayr/BlG0az9+c6oztkSvS6OOQM7+DHL7oo/URKOLTFphaQiUKRh5sUo8jC+Inf
-	trpewv3J7WtQCtMfwaLGhv49gss5EMwqRj1dWCQhxzoFvloDCIfUluHQWm76x6+jO3Y63qXu2wx
-	QEnaGUjXBSdl8soccbdbMQODyTvU7jORoeOJYVErIaMMRnOMdbIQ9Hn5ZEPsBhfcBbXztywPp6i
-	+1v4/acIJMJgRFaV+33LtgfCnhO4P3Rhq9adqKkgQjNyRVG8AHmAH9aypIyVVeGZ5E9vtctKL0P
-	hrFB/N41AGHdm8hBxmWhO4M1L5SP2FxrlMSER0v4Q1xOW0Bx+bPRDwf8AZ2El/RaYMlaosFpMNo
-	8S9JN975o/SvpjYd9f7HejWR3bGhkUkCgsfGt3IFN04YRA2THkSdkBWaDamMo+327mdEQqoPC50
-	A1FZADfgQ/It5NNDnZSEVZX4vhg==
-X-Received: by 2002:a17:90b:4c8f:b0:3b0:9e2f:cfc5 with SMTP id 98e67ed59e1d1-3b0db60cd3dmr3615027a91.1.1793964756800;
-        Fri, 06 Nov 2026 03:32:36 -0800 (PST)
+        bh=4+W/y1+xKwI/Q11z+x4eNw/QII2gfHgjNOLpuKt+j0k=;
+        b=Wwpiie9pBldBFhGzbwTUcKJ07nkWdbRH0KZmqJfkCr16z0S9DCmqMF7vER50HLC8vC
+         oX5xqgYJK2Fi21n8hzFjOHK+v+s4wdqfD/dixSCkDHOQsfTgdK4iDKR4O75QnBfsZvAJ
+         6nhOtatGbPqv8Ru5N/WydtPy+DnAo26Iylu2FvDGMhdjVDIIYeEWAzO6e4ZjaJJ6Ynxt
+         7uTHq6HGW5kgPnspcfC6CZqtQoJ9JbP4s9FlANFgdtnnx5MPCXA/SUyxfbN8DLlhhyAI
+         aQTpDa6YrxNrTIwHTzKNNpiD07Vt93GC2f6XLAbQ+c0ycd5q2C1BqNSYPrp8lpxRM7CR
+         pTqQ==
+X-Forwarded-Encrypted: i=1; AL+hErFLlrZiqGm8IS+3zLK7EsoWXu79unYBvAT4Ykwpr+ct7XtLDPXoTe6l6Dd441ZusolGeyxoYWYd2vg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/HBkZ0YRtoseaUVXT7rWJX/pmF40kxR0q465OawzcDPOeYu4Dp
+	RZPwWoYWoMx4e4ist2ZHbR06ANIE1UEUeedoJBTqoNHPxyV33E7fDOIw
+X-Gm-Gg: AYBFou2QAp71OpY2/Vzxs4ARNPYhq9dtpu3TcSXo9CNZZ/FAt0VkBFdzL/tXBKH/6KL
+	1W52wZu3Rp4ogc8FNIvOIaS3hkP2KABqQkSFqlmvs8PxFoF94h8nRS+vIsThwV+qYLAWboZqzCI
+	wEuFFNKtdzi3KAd5pZZ4/loirG6xTn2IYISCZvOPaFIls1sbzMmBKxf489mikRO3RzpKMWzYa1l
+	0JS3Mi3X8ro/z/gOqVPxZrTP/9zqlo0SgzQCmpHNobLzH4Dqq6VLoQDOTQrHCgKBM2xjhd+Ar5G
+	1sl7ISEtZtgTyeGhLAUrrq/oxHogvv4pFER9p+TzmWMsjZqyRHm3gIg8Po0x2ihV8EC2aa4DmL/
+	dmIFQMZ1+aD18c1+yr1NK66OZn0musbSOOOUb53yA8KSoSIxQCnCOQI2FtA9I+9Vm5anBeoXhR7
+	TObTHVyGlnVeT5b9ag0aRdXFt8bwHbA179wqZIjd73lMGS1ILt9GU+5+4O+7rkKeol37ySt3UmD
+	ucDs6b45GbdQ1CMjjVSUuLyq2ScH7C7Elw1tH0NMQHn0pgjUi3xex57FaYdNHP3cyoBNz9A4x3v
+	YrD0D3IgI68jaBBwI42Vp4/QDrf9hywiwpiPrQPG6bnWCA4SsGRuWmLoOy9kjuWjxRilaJo1GCS
+	JAcjRFaCJ4cySi0+h8VNbQDO9
+X-Received: by 2002:a17:90b:4a89:b0:3b0:975b:2256 with SMTP id 98e67ed59e1d1-3b0db6f8e05mr3196782a91.4.1793964763898;
+        Fri, 06 Nov 2026 03:32:43 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.33
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:32:36 -0800 (PST)
+        Fri, 06 Nov 2026 03:32:43 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 14/25] docs/zh_TW: process: sync kernel-enforcement-statement.rst with the English original
-Date: Fri,  6 Nov 2026 19:31:29 +0800
-Message-ID: <20261106113142.706783-15-chenyou910331@gmail.com>
+Subject: [PATCH 16/25] docs/zh_TW: process: sync security-bugs.rst with the English original
+Date: Fri,  6 Nov 2026 19:31:31 +0800
+Message-ID: <20261106113142.706783-17-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113142.706783-1-chenyou910331@gmail.com>
 References: <20261106113142.706783-1-chenyou910331@gmail.com>
@@ -107,123 +107,392 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation carries no "update to commit" marker.  A comparison
-against the current English text shows the content is complete: the
-signer list matches all 109 names, including the later additions such as
-Arnaldo Carvalho de Melo, Kees Cook and Luis R. Rodriguez.  But the file
-still begins its label line with the byte order mark that
-commit 9e255e2b9afe ("Documentation: drop optional BOMs") removed from
-the original, and the prose was converted from zh_CN:
+The translation still mirrors the 2021 text: a short "Contact" section
+pointing at security@kernel.org and a coordination section about the old
+vs.openwall.org list and its "[vs]" subject prefix.  Since then the
+English document has been rewritten section by section, so retranslate
+it in full against the current text:
 
-- drop the byte order mark, as in the original
-- retranslate sentences whose meaning had drifted: the additional
-  permissions apply "with respect to any non-defensive assertion of
-  rights under the license" (rendered as "as any non-defensive
-  assertion"), and the uncertainty to eliminate is "about our
-  expectations regarding compliance or enforcement" (rendered as our
-  own uncertainty about regulatory compliance)
-- rewrite the two quoted GPL-3.0 provisions so that the conditions
-  read in order, without the duplicated "reinstated permanently" in
-  (b), and use 版權持有人 for "copyright holder" throughout
-- localize terminology (內核→核心, 社區→社群, 用戶→使用者, 項目→專案,
-  分發→散布, 爲→為), and translate "Except where noted below" as
-  such instead of "except as mentioned below"
-- wrap the :Original: line to stay within 80 columns and drop the
-  blank line at the end of the file
+- add "Preparing your report" with the mandatory and desirable items
+  (commit 496fa1befba1 ("Documentation: clarify the mandatory and
+  desirable info for security reports"), commit e447f7f33fa0 ("docs:
+  security-bugs: clarify what counts as a valid version"))
+- add "What qualifies as a security bug", including the threat-model
+  link and the rule that AI-found bugs are to be treated as public
+  (commit a03ef333fbd6 ("Documentation: security-bugs: explain what is
+  and is not a security bug"), commit 561458db0d6b ("docs:
+  security-bugs: add a link to the threat-model documentation"),
+  commit 4bf85afb9f3e ("Documentation: security-bugs: clarify
+  requirements for AI-assisted reports"))
+- add "Identifying contacts" with the get_maintainer.pl examples
+  (commit a72b832a4823 ("Documentation: explain how to find maintainers
+  addresses for security reports"))
+- add "Responsible use of AI to find bugs" and the steps an AI assistant
+  must follow (commit 4bf85afb9f3e ("Documentation: security-bugs:
+  clarify requirements for AI-assisted reports"),
+  commit 6ffecfe0805e ("docs: security-bugs: clarify some mandatory
+  steps for AI reports"))
+- add "Sending the report": collaboration with the reporter, when to
+  "Cc:" the security team, the plain-text requirement
+  (commit d49172bbd7eb ("Documentation: clarify the expected
+  collaboration with security bugs reporters"),
+  commit ceddb2c001d9 ("Documentation: insist on the plain-text
+  requirement for security reports"),
+  commit aed3c3346765 ("Documentation: security-bugs: do not
+  systematically Cc the security team"))
+- replace the coordination and CVE sections with the current
+  "Coordination with other groups" and "CVE assignment" text
+  (commit 4fee0915e649 ("Documentation: security-bugs.rst: update
+  preferences when dealing with the linux-distros group"),
+  commit 0217f3944aeb ("Documentation: security-bugs.rst: linux-distros
+  relaxed their rules"), commit 3c1897ae4b6b ("Documentation:
+  security-bugs.rst: clarify CVE handling"),
+  commit 5928d411557e ("Documentation: Document the Linux Kernel CVE
+  process"))
+- localize terminology (內核→核心, 信息→資訊, 代碼→程式碼, 爲→為,
+  發佈→發布)
 
-update to commit 9e255e2b9afe ("Documentation: drop optional BOMs")
+zh_TW has no translation of process/cve.rst, so the CVE section names
+Documentation/process/cve.rst as plain text rather than a :doc: link.
+
+Now that the file is in sync, drop the not-kept-in-sync notice.
+
+update to commit 6ffecfe0805e ("docs: security-bugs: clarify some
+mandatory steps for AI reports")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../process/kernel-enforcement-statement.rst  | 59 ++++++++++---------
- 1 file changed, 31 insertions(+), 28 deletions(-)
+ .../zh_TW/process/security-bugs.rst           | 296 +++++++++++++++---
+ 1 file changed, 249 insertions(+), 47 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
-index d54d20529294..9a518ce322c2 100644
---- a/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
-+++ b/Documentation/translations/zh_TW/process/kernel-enforcement-statement.rst
-@@ -1,45 +1,49 @@
+diff --git a/Documentation/translations/zh_TW/process/security-bugs.rst b/Documentation/translations/zh_TW/process/security-bugs.rst
+index 783d7c77b5fa..bdb8f8f35a9c 100644
+--- a/Documentation/translations/zh_TW/process/security-bugs.rst
++++ b/Documentation/translations/zh_TW/process/security-bugs.rst
+@@ -1,74 +1,276 @@
  .. SPDX-License-Identifier: GPL-2.0
  
--﻿.. _tw_process_statement_kernel:
-+.. _tw_process_statement_kernel:
- 
  .. include:: ../disclaimer-zh_TW.rst
+-.. include:: ../unmaintained-zh_TW.rst
  
--:Original: :ref:`Documentation/process/kernel-enforcement-statement.rst <process_statement_kernel>`
-+:Original: :ref:`Documentation/process/kernel-enforcement-statement.rst
-+           <process_statement_kernel>`
+ :Original: :doc:`../../../process/security-bugs`
  
--Linux 內核執行聲明
-+Linux 核心執行聲明
- ------------------
+ 安全缺陷
+ =========
  
--作爲Linux內核的開發人員，我們對如何使用我們的軟體以及如何實施軟體許可證有著
--濃厚的興趣。遵守GPL-2.0的互惠共享義務對我們軟體和社區的長期可持續性至關重要。
-+作為Linux核心的開發人員，我們對我們的軟體如何被使用，以及我們軟體的許可證
-+如何被執行，有著濃厚的興趣。遵守GPL-2.0的互惠共享義務，對我們軟體和社群的
-+長期永續發展至關重要。
+-Linux內核開發人員非常重視安全性。因此我們想知道何時發現了安全漏洞，以便儘快
+-修復和披露。請向Linux內核安全團隊報告安全漏洞。
++Linux 核心開發人員非常重視安全性。因此，我們希望在發現安全缺陷時能夠得知，
++以便盡快修復並披露。
  
--雖然有權強制執行對我們社區的貢獻中的單獨版權權益，但我們有共同的利益，即確保
--個人強制執行行動的方式有利於我們的社區，不會對我們軟體生態系統的健康和增長
--產生意外的負面影響。爲了阻止無益的執法行動，我們同意代表我們自己和我們版權
--利益的任何繼承人對Linux內核用戶作出以下符合我們開發社區最大利益的承諾:
-+雖然對貢獻給我們社群的內容中各自獨立的版權權益，確實有權強制執行，但我們
-+共同關心的是，確保個別的執行行動以有利於我們社群的方式進行，而不會對我們
-+軟體生態系統的健康與成長造成意料之外的負面影響。為了遏止無益的執行行動，
-+我們同意代表我們自己以及我們版權權益的任何繼受者，向Linux核心的使用者作出
-+以下承諾，這符合我們開發社群的最大利益：
+-聯絡
+------
++準備你的報告
++------------
  
--    儘管有GPL-2.0的終止條款，我們同意，採用以下GPL-3.0條款作爲我們許可證下的
--    附加許可，作爲任何對許可證下權利的非防禦性主張，這符合我們開發社區的最佳
--    利益。
-+    儘管有GPL-2.0的終止條款，我們同意，對於依本許可證所提出的任何非防禦性
-+    權利主張，採用以下GPL-3.0條款作為我們許可證下的額外許可，這符合我們開發
-+    社群的最大利益。
+-可以通過電子郵件<security@kernel.org>聯繫Linux內核安全團隊。這是一個安全人員
+-的私有列表，他們將幫助驗證錯誤報告並開發和發佈修復程序。如果您已經有了一個
+-修復，請將其包含在您的報告中，這樣可以大大加快進程。安全團隊可能會從區域維護
+-人員那裏獲得額外的幫助，以理解和修復安全漏洞。
++和任何缺陷報告一樣，安全缺陷報告需要開發人員進行大量的分析工作，因此你能提供
++的問題資訊越多越好。如果你不清楚哪些資訊有幫助，請參閱
++Documentation/admin-guide/reporting-issues.rst 中概述的步驟。以下資訊在
++**任何** 安全缺陷報告中都是絕對必要的：
  
--        但是，如果您停止所有違反本許可證的行爲，則您從特定版權持有人處獲得的
--        許可證將被恢復：（a）暫時恢復，除非版權持有人明確並最終終止您的許可證；
--        以及（b）永久恢復, 如果版權持有人未能在你終止違反後60天內以合理方式
--        通知您違反本許可證的行爲，則永久恢復您的許可證。
-+        但是，如果您停止所有違反本許可證的行為，則您從特定版權持有人處
-+        獲得的授權將會恢復：（a）暫時恢復，除非且直到該版權持有人明確並
-+        最終終止您的授權；以及（b）永久恢復，如果該版權持有人未能在您
-+        停止違反後60天內，以某種合理方式通知您違反的情事。
+-與任何缺陷一樣，提供的信息越多，診斷和修復就越容易。如果您不清楚哪些信息有用，
+-請查看“Documentation/translations/zh_CN/admin-guide/reporting-issues.rst”中
+-概述的步驟。任何利用漏洞的攻擊代碼都非常有用，未經報告者同意不會對外發布，除
+-非已經公開。
++  * **受影響的核心版本範圍**：沒有標明版本的報告將不會被處理。注意，像「最新
++    的 mainline」這類會隨時間改變的版本是不可接受的，必須提供穩定的識別方式，
++    例如 commit ID 或確切的版本號碼。非來自 kernel.org 的核心（例如發行版
++    核心）的版本號碼對維護者沒有意義，也不會被處理。相當一部分報告針對的是
++    已經修復的缺陷，因此務必在較新的版本（開發樹或最新的穩定版）上驗證漏洞，
++    至少要確認自發現問題的版本以來，相關程式碼沒有改變。
  
--        此外，如果版權所有者以某種合理的方式通知您違反了本許可，這是您第一次
--        從該版權所有者處收到違反本許可的通知（對於任何作品），並且您在收到通知
--        後的30天內糾正違規行爲。則您從特定版權所有者處獲得的許可將永久恢復.
-+        此外，如果版權持有人以某種合理方式通知您違反的情事，而這是您
-+        第一次從該版權持有人處收到違反本許可證的通知（就任何作品而言），
-+        並且您在收到通知後30天內糾正違反行為，則您從該特定版權持有人處
-+        獲得的授權將永久恢復。
+-請儘可能發送無附件的純文本電子郵件。如果所有的細節都藏在附件裏，那麼就很難對
+-一個複雜的問題進行上下文引用的討論。把它想象成一個
+-:doc:`常規的補丁提交 <../process/submitting-patches>` （即使你還沒有補丁）：
+-描述問題和影響，列出復現步驟，然後給出一個建議的解決方案，所有這些都是純文本的。
++  * **問題描述**：必須詳細描述問題，附上顯示問題如何出現的追蹤記錄，並說明你
++    為什麼認為觀察到的行為是核心的問題。
  
--我們提供這些保證的目的是鼓勵更多地使用該軟體。我們希望公司和個人使用、修改和
--分發此軟體。我們希望以公開和透明的方式與用戶合作，以消除我們對法規遵從性或強制
--執行的任何不確定性，這些不確定性可能會限制我們軟體的採用。我們將法律行動視爲
--最後手段，只有在其他社區努力未能解決這一問題時才採取行動。
-+我們提供這些保證的目的是鼓勵更多人使用該軟體。我們希望公司和個人使用、修改和
-+散布此軟體。我們希望以公開和透明的方式與使用者合作，消除外界對我們在遵循或
-+執行許可證方面之期望的任何不確定性，以免這些不確定性限制我們軟體的採用。
-+我們將法律行動視為最後手段，只有在社群的其他努力未能解決問題時才會採取。
+-披露和限制信息
+----------------
++  * **重現程式**：開發人員需要能夠重現問題，才能確認修復有效。這包括觸發問題
++    的方法，以及確認問題確實發生的方法。需要提供依賴項簡單的重現程式（原始碼、
++    shell 腳本、一系列操作步驟、檔案系統映像檔等）。只有二進位執行檔的重現程式
++    不被接受。可用的漏洞利用程式（exploit）非常有幫助，未經報告者同意不會對外
++    發布，除非它們已經公開。按照定義，無法重現的問題就無法被利用，因此也不是
++    安全缺陷。
  
--最後，一旦一個不合規問題得到解決，我們希望用戶會感到歡迎，加入我們爲之努力的
--這個項目。共同努力，我們會更強大。
-+最後，一旦不合規的問題得到解決，我們希望該使用者會感到受歡迎，加入我們在這個
-+專案上的努力。攜手合作，我們會更強大。
+-安全列表不是公開渠道。爲此，請參見下面的協作。
++  * **條件**：如果缺陷取決於特定的設定選項、sysctl、權限、時序、程式碼修改等，
++    應該一併註明。
  
--除了下面提到的以外，我們只爲自己說話，而不是爲今天、過去或將來可能爲之工作的
--任何公司說話。
-+除下文另有註明者外，我們僅代表自己發言，而非代表我們目前、過去或將來可能任職
-+的任何公司。
+-一旦開發出了健壯的補丁，發佈過程就開始了。對公開的缺陷的修復會立即發佈。
++此外，以下資訊也非常需要：
  
-   - Laura Abbott
-   - Bjorn Andersson (Linaro)
-@@ -150,4 +154,3 @@ Linux 內核執行聲明
-   - Wei Yongjun
-   - Lv Zheng
-   - Marc Zyngier (Arm Ltd)
--
+-儘管我們傾向於在未公開缺陷的修復可用時即發佈補丁，但應報告者或受影響方的請求，
+-這可能會被推遲到發佈過程開始後的7日內，如果根據缺陷的嚴重性需要更多的時間，
+-則可額外延長到14天。推遲發佈修復的唯一有效原因是爲了適應QA的邏輯和需要發佈
+-協調的大規模部署。
++  * **疑似的缺陷位置**：疑似存在缺陷的檔案名稱與函式非常重要，至少有助於把報告
++    轉給適當的維護者。如果無法提供（例如「每次執行這個指令系統都會凍結」），
++    安全團隊會協助找出缺陷的來源。
+ 
+-雖然可能與受信任的個人共享受限信息以開發修復，但未經報告者許可，此類信息不會
+-與修復程序一起發佈或發佈在任何其他披露渠道上。這包括但不限於原始錯誤報告和
+-後續討論（如有）、漏洞、CVE信息或報告者的身份。
++  * **建議的修復**：在原始碼中分析過缺陷成因的報告者，幾乎總是很清楚該如何修復
++    它，因為他們花了很長時間研究缺陷及其影響。提出經過測試的修復能為維護者節省
++    大量時間，即使該修復最終並不正確也一樣，因為它有助於理解缺陷。提出經過測試
++    的修復時，請務必將其整理成可以直接合併的格式（請參閱
++    Documentation/process/submitting-patches.rst）。如果修復被接受，這能省去
++    一些來回溝通，而你也會因為發現並修復這個問題而獲得認可。注意，在這種情況
++    下，當報告者與作者是同一人時，只需要 ``Signed-off-by:`` 標籤，不需要
++    ``Reported-by:``。
+ 
+-換句話說，我們唯一感興趣的是修復缺陷。提交給安全列表的所有其他資料以及對報告
+-的任何後續討論，即使在解除限制之後，也將永久保密。
++  * **緩解措施**：在分析缺陷的過程中，經常會找到一些緩解問題的方法。分享這些
++    方法很有用，因為在終端使用者套用修復之前的這段時間，它們有助於保護使用者。
+ 
+-協調
+-------
++什麼才算安全缺陷
++----------------
+ 
+-對敏感缺陷（例如那些可能導致權限提升的缺陷）的修復可能需要與私有郵件列表
+-<linux-distros@vs.openwall.org>進行協調，以便分發供應商做好準備，在公開披露
+-上游補丁時發佈一個已修復的內核。發行版將需要一些時間來測試建議的補丁，通常
+-會要求至少幾天的限制，而供應商更新發布更傾向於週二至週四。若合適，安全團隊
+-可以協助這種協調，或者報告者可以從一開始就包括linux發行版。在這種情況下，請
+-記住在電子郵件主題行前面加上“[vs]”，如linux發行版wiki中所述：
+-<http://oss-security.openwall.org/wiki/mailing-lists/distros#how-to-use-the-lists>。
++大多數缺陷都應該公開處理，才能讓最多的人參與並找到最好的解決方案，這一點很
++重要。就本質而言，在少數參與者之間以非公開討論處理的缺陷，比較不容易得到最好
++的修復（例如可能遺漏合理的使用情境、測試能力有限）。
+ 
+-CVE分配
++事實上，透過安全團隊回報的缺陷，大多只是一般缺陷，只因為不了解 Linux 核心的
++威脅模型（如 Documentation/process/threat-model.rst 所述）而被錯誤地認定為
++安全缺陷；它們原本應該透過 Documentation/admin-guide/reporting-issues.rst
++所述的一般管道回報。
++
++安全列表是為緊急缺陷而設的：這類缺陷讓攻擊者在設定正確的生產系統上獲得原本不
++應擁有的能力，而且容易被利用，對許多使用者構成迫切的威脅。回報之前，請想一想
++這個問題在這樣的系統上是否確實跨越了信任邊界。
++
++**如果你藉助 AI 找到缺陷，就必須將其視為已公開**。雖然你可能有合理的理由認為
++並非如此，但安全團隊的經驗顯示，以這種方式發現的缺陷總是會同時被多位研究人員
++發現，而且往往就在同一天。在這種情況下，不要公開分享重現程式，因為這可能造成
++意料之外的傷害；只要說明有重現程式即可，維護者如果需要，可能會私下向你索取。
++
++如果你不確定某個問題是否符合條件，寧可選擇私下回報：安全團隊寧願分流處理一份
++模稜兩可的報告，也不願錯過真正的漏洞。然而，把一般缺陷回報到安全列表並不會讓
++它們處理得更快，反而會消耗其他報告所需的分流人力。
++
++找出聯絡對象
++------------
++
++回報安全缺陷最有效的方式，是直接寄給受影響子系統的維護者，並 Cc: Linux 核心
++安全團隊。在這個階段不要寄到公開的郵件列表，除非你有充分的理由認為這個問題已經
++公開或很容易被發現（例如任何人都能重複執行、廣泛可得的自動化漏洞掃描工具所找到
++的結果，或是使用 AI 工具找到的問題）。
++
++如果你要回報的問題影響核心中的多個部分，即使這些問題相當類似，也請分別寄送訊息
++（想想看，維護者們不會同時處理這些問題）。唯一的例外是，問題涉及的是由完全相同
++的一組維護者所維護、彼此密切相關的部分，而且這些部分預期會由同一個 commit 一次
++修復，這時一起回報或許是可以接受的。
++
++對大多數第一次回報的人來說，困難之一是找出報告該寄給哪些收件人。在 Linux 核心
++中，所有正式的維護者都是受信任的，因此不小心把錯誤的維護者加進收件人，後果基本
++上只是給那個人多一點雜訊，並不嚴重。因此，找出維護者名單的一個合適方法（核心
++安全人員也是這麼做的）是使用 get_maintainer.pl 腳本，並調整參數讓它只列出
++維護者。把檔案名稱傳給這個腳本時，它會在 MAINTAINERS 檔案中尋找該路徑，找出
++相關維護者的階層式名單。第一次以最精細的過濾層級呼叫它，多數時候會回傳這個特定
++檔案的少數幾位維護者::
++
++  $ ./scripts/get_maintainer.pl --no-l --no-r --pattern-depth 1 \
++    drivers/example.c
++  Developer One <dev1@example.com> (maintainer:example driver)
++  Developer Two <dev2@example.org> (maintainer:example driver)
++
++接著就應該把訊息寄給這兩位維護者。如果指令沒有回傳任何結果，表示受影響的檔案
++屬於一個更大的子系統，因此我們應該放寬範圍::
++
++  $ ./scripts/get_maintainer.pl --no-l --no-r drivers/example.c
++  Developer One <dev1@example.com> (maintainer:example subsystem)
++  Developer Two <dev2@example.org> (maintainer:example subsystem)
++  Developer Three <dev3@example.com> (maintainer:example subsystem [GENERAL])
++  Developer Four <dev4@example.org> (maintainer:example subsystem [GENERAL])
++
++在這裡，挑選最前面、範圍最明確的那幾位就足夠了。名單很長時，可以像下面這樣
++產生一行以逗號分隔、適合用在郵件客戶端 To: 欄位的電子郵件地址列表::
++
++  $ ./scripts/get_maintainer.pl --no-tree --no-l --no-r --no-n --m \
++    --no-git-fallback --no-substatus --no-rolestats --no-multiline \
++    --pattern-depth 1 drivers/example.c
++  dev1@example.com, dev2@example.org
++
++或者像下面這樣產生範圍較廣的名單::
++
++  $ ./scripts/get_maintainer.pl --no-tree --no-l --no-r --no-n --m \
++    --no-git-fallback --no-substatus --no-rolestats --no-multiline \
++    drivers/example.c
++  dev1@example.com, dev2@example.org, dev3@example.com, dev4@example.org
++
++如果到了這一步，你仍然難以找出正確的維護者，**而且只有在這種情況下**，才可以
++只把報告寄給 Linux 核心安全團隊。你的訊息會經過分流處理，如有需要，你會收到
++應該聯絡誰的指示。你的訊息也可能被原封不動地轉寄給相關維護者。
++
++負責任地使用 AI 尋找缺陷
++------------------------
++
++提交給安全團隊的缺陷報告中，有相當大一部分其實是借助 AI 工具進行程式碼審查的
++結果。雖然這可以是在鮮少有人探索的領域中找到缺陷的有效手段，卻也造成維護者的
++負擔過重，有時他們不得不因為這類報告的品質或準確度太差而忽略它們。因此，報告者
++必須特別注意以下幾點，它們往往讓這些報告變得不必要地難以處理：
++
++  * **長度**：AI 產生的報告往往過於冗長，包含多個章節與過多細節。這使得受影響
++    的檔案、版本與影響等重要資訊難以找到。請確保先列出清楚的問題摘要與所有關鍵
++    細節。不要讓負責分流的工程師閱讀好幾頁的文字。請設定你的工具，讓它產生簡潔、
++    像人寫的報告。
++
++  * **格式**：大多數 AI 產生的報告充斥著 Markdown 標記。這些裝飾讓尋找重要資訊
++    變得更困難，而且在轉寄或回覆所涉及的引用過程中也無法保留。寄出之前，請
++    **務必把報告轉換成純文字**，不要帶任何格式裝飾。
++
++  * **影響評估**：許多 AI 產生的報告缺乏對核心威脅模型的理解（請參閱
++    Documentation/process/threat-model.rst），並費盡心思杜撰理論上的後果。
++    這只會增加雜訊，讓分流更複雜。請只陳述可驗證的事實（例如「這個缺陷讓任何
++    使用者都能取得 CAP_NET_ADMIN」），不要列舉推測性的影響。請在評估過程中讓
++    你的工具閱讀這份文件。
++
++  * **重現程式**：AI 工具通常有能力產生重現程式。請務必確保你的工具提供重現
++    程式，並 **徹底測試它**。如果重現程式無法運作，或工具無法產生重現程式，就
++    應該嚴肅質疑這份報告的有效性。注意，由於報告會被張貼到公開的郵件列表，重現
++    程式只應在維護者要求時才分享。
++
++  * **提出修復**：許多 AI 工具其實比較擅長寫程式碼，而不是評估程式碼。請在回報
++    問題之前，要求你的工具提出修復並 **測試它**。如果因為修復依賴罕見的硬體或
++    幾乎絕跡的網路協定而無法測試，這個問題很可能就不是安全缺陷。無論如何，如果
++    提出了修復，它都必須遵守 Documentation/process/submitting-patches.rst，並
++    包含一個 'Fixes:' 標籤，指出引入該缺陷的 commit。
++
++沒有考慮這些要點的報告，可能會面臨被忽略的風險。
++
++評估報告時請運用常識。如果受影響的檔案已經超過一年沒有被修改，而且只由單一個人
++維護，那麼它的使用量很可能已經下降，受影響的使用者幾乎不存在（例如非常老舊硬體
++的驅動程式、過時的檔案系統）。在這種情況下，沒有必要用不重要的報告佔用維護者的
++時間。如果問題顯然微不足道且可被公開發現，你應該直接回報到公開的郵件列表。
++
++至少，在使用 AI 助理尋找並回報缺陷時，要讓助理在開始之前先閱讀這份文件與
++threat-model.rst，並讓它遵循 coding-assistants.rst 中描述的程序：在最新的
++mainline 樹上工作並記下 commit ID、確認缺陷確實存在、撰寫修復、建置時沒有警告
++且通過 checkpatch 檢查、以 Fixes 標籤提交 commit，並用 get_maintainer.pl 找出
++維護者。
++
++除了該程序之外，AI 助理 **必須**：
++
++1. 準備一份說明問題的純文字報告。報告必須包含本文開頭列為絕對必要的四個項目：
++   遵循上述程序時記下的受影響版本或 commit ID、問題描述、重現程式或其狀態，以及
++   觸發條件。
++2. 在報告開頭加上一個暫時的段落，列出收件人地址（補丁寄給維護者加郵件列表，報告
++   與重現程式只寄給維護者），並附上提醒報告者確認其郵件客戶端設定正確的說明（請
++   參閱 email-clients.rst），再由報告者自行刪除這個暫時的段落。
++
++更詳細的流程請參閱 https://github.com/masoncl/kres.git 。
++
++寄送報告
+ --------
+ 
+-安全團隊通常不分配CVE，我們也不需要它們來進行報告或修復，因爲這會使過程不必
+-要的複雜化，並可能耽誤缺陷處理。如果報告者希望在公開披露之前分配一個CVE編號，
+-他們需要聯繫上述的私有linux-distros列表。當在提供補丁之前已有這樣的CVE編號時，
+-如報告者願意，最好在提交消息中提及它。
++報告只能透過電子郵件寄送。請使用可正常收發的電子郵件地址，最好就是你希望出現在
++``Reported-by`` 標籤（如果有的話）中的地址。如果不確定，請先把報告寄給自己。
+ 
+-保密協議
+----------
++安全團隊與維護者幾乎總是需要報告最初所提供內容以外的額外資訊，並仰賴與報告者
++積極而有效率的協作來進行進一步的測試（例如驗證版本、設定選項、緩解措施或補丁）。
++在聯絡安全團隊之前，報告者必須確保自己有空說明發現、參與討論並執行額外的測試。
++如果報告者沒有即時回應，或無法有效地討論其發現，而溝通又沒有很快改善，報告就
++可能被擱置。
++
++報告必須寄給維護者。如果你的訊息收件人只有兩位或更少，你也必須一律 Cc: Linux
++核心安全團隊，他們會確保訊息送達正確的人，並能協助小型維護團隊處理他們可能不
++熟悉的流程。對於較大的團隊，在你最初的幾份報告，或需要特定協助時（例如重新寄送
++一封一週內都沒有得到回應的訊息），請 Cc: Linux 核心安全團隊。當你在幾份報告之後
++已經熟悉這個流程，寄給大型團隊時就不再需要 Cc: 安全列表。可以透過電子郵件
++<security@kernel.org> 聯絡 Linux 核心安全團隊。這是一個由安全人員組成的私有
++列表，他們會協助驗證缺陷報告，並協助開發修復的開發人員。安全團隊可能會請相關
++領域的維護者提供額外協助，以理解並修復安全漏洞。
++
++請盡可能寄送不帶附件的 **純文字** 電子郵件。如果所有細節都藏在附件裡，就很難
++針對一個複雜的問題進行引用上下文的討論。把它想成一次
++:doc:`一般的補丁提交 <../process/submitting-patches>`
++（即使你還沒有補丁）：描述問題和影響，列出重現步驟，然後附上建議的修復，全部
++都以純文字呈現。Markdown、HTML 與 RST 格式的報告特別不受歡迎，因為它們對人類
++來說相當難讀，還會促使人使用專門的檢視器，有時甚至是線上檢視器，而這對機密的
++安全報告來說，按照定義就是不可接受的。注意，有些郵件客戶端預設會弄亂純文字的
++格式，更多資訊請參閱 Documentation/process/email-clients.rst。
++
++披露與保密期資訊
++----------------
++
++安全列表不是披露管道。關於披露，請參閱下面的「協調」一節。
++
++一旦開發出可靠的修復，發布流程就會開始。已公開缺陷的修復會立即發布。
++
++雖然我們傾向在修復可用時就立即發布尚未公開缺陷的修復，但應報告者或受影響方的
++要求，發布可以從發布流程開始起延後最多 7 個日曆天；如果大家同意缺陷的嚴重程度
++需要更多時間，可以例外延長到 14 個日曆天。延後發布修復唯一正當的理由，是為了
++配合 QA 以及需要協調發布的大規模部署的作業安排。
+ 
+-Linux內核安全團隊不是一個正式的機構實體，因此無法簽訂任何保密協議。
++雖然為了開發修復，保密期內的資訊可能會與受信任的個人分享，但未經報告者許可，
++這些資訊不會隨修復一起發布，也不會在任何其他披露管道上公開。這包括但不限於原始
++的缺陷報告與後續討論（如果有的話）、漏洞利用程式、CVE 資訊或報告者的身分。
++
++換句話說，我們唯一關心的是修好缺陷。提交到安全列表的所有其他資訊，以及關於該
++報告的任何後續討論，即使在保密期解除之後，也會永久保密。
++
++與其他團隊協調
++--------------
++
++核心安全團隊只專注於修復缺陷，而其他團隊則專注於修復發行版中的問題，以及協調
++作業系統廠商之間的披露。協調通常由 "linux-distros" 郵件列表負責，披露則由公開
++的 "oss-security" 郵件列表負責，兩者關係密切，並在 linux-distros wiki 中有所
++介紹：
++<https://oss-security.openwall.org/wiki/mailing-lists/distros>
++
++請注意，由於這三個列表追求的目標不同，它們各自的政策與規則也不同。核心安全團隊
++與其他團隊之間的協調並不容易，因為對核心安全團隊而言，偶爾設定的保密期（受最多
++允許天數的限制）是從修復可用時開始計算，而 "linux-distros" 則是從首次張貼到該
++列表時開始計算，不論修復是否可用。
++
++因此，核心安全團隊強烈建議，身為潛在安全問題的報告者，在受影響程式碼的維護者
++接受修復之前，以及在你讀過上述的發行版 wiki 頁面、並完全理解聯絡
++"linux-distros" 會對你和核心社群帶來哪些要求之前，千萬不要聯絡 "linux-distros"
++郵件列表。這也表示，一般來說同時 Cc: 兩個列表並沒有意義，除非是在修復已被接受
++但尚未合併的期間，或許為了協調而這麼做。換句話說，在修復被接受之前不要 Cc:
++"linux-distros"，而在修復被合併之後，不要 Cc: 核心安全團隊。
++
++CVE 分配
++--------
++
++安全團隊不分配 CVE，也不要求報告或修復必須有 CVE，因為這可能讓流程變得不必要地
++複雜，並可能延誤缺陷的處理。如果報告者希望為已確認的問題分配 CVE 識別碼，可以
++聯絡核心 CVE 分配團隊取得（請參閱 Documentation/process/cve.rst）。
++
++保密協議
++--------
+ 
++Linux 核心安全團隊不是正式的組織，因此無法簽訂任何保密協議。
 -- 
 2.43.0
 
