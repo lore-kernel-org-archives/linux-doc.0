@@ -1,84 +1,135 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793990549;
-	b=ksn9YM8IrDcCtltcYCmqAA+toRJjkhjIrJ6cG9yLc5Ws23d8SIuEGjt2UesIvfu1e1wN
-	 DdoW5W0ZWnOAnh0jeEWEvcnhC8Wz0PhVVVZMiOllSD68sDv34R52W/ntYgFF9FTBRboOg
-	 9nw6Mly6BcxOcQs74+xs5590u56AxI0tvqwoOiv0eUEj60oQ9w2VtLKOPWNh/7o6lra2Y
-	 BdKWwWb/CpqOCeSB0qMWwfSnc7Zyf3MgR/fMKSi8F5aOa2cT7r9u5tQ2DU6Kj00mVuXWm
-	 lRazCkJYFqiGtrMPAe7wF2HrMlAXBdQ+QnUfa2D36qojVNa7Fa4BGM23nFaRZtCvakw==
+	t=1793990629;
+	b=fnennkLkcL8qBOb4ISdQJRAnDNMOvUrAMF6JPH6ys6U9utqC9ksoqwfC46RJxPUMV8cY
+	 ZWh3fOO8ftfghtZHlbvgFi1qnLkc8ynQ0EKewoF5JDIuWenia4hud9lFBZ/hjs2Zt736v
+	 vfFuhw4mccgt9VFwHfrLZ4BM+X6U3Tkkgs1LPPgAryYMZRQQNyrmiulJDIboBm2/ZXEeY
+	 5G9lMX5FIgDI0BtaAPdYReyh/Tk95BLAPCT+AznRpKui0HpPpS2tUcoZ8s7qqVk7TFziH
+	 zzIuHq4xg1rUMap0/sOfKaE1SGNGCNDUTBpU1YxsIoOevKWkxTZLb6ngT9v0EqauXDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793990549;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793990629;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 To:Cc:Subject:From:X-Mailer:References:In-Reply-To;
-	bh=b++CUAb4BP1U8numax1mGRF0DzNVSZ5I1v60rh5MgMY=;
-	b=PlfRB5N/EgTjlzddOV4CEMtGYiJrvQ6oKtnnebweYGL+6DsZRtSfk2A6k0SiZrKbQYcG
-	 1JnlaGflkW/FlyAGkphcN51PJUpt2eWHSa4VblqklmCtGNgyOxaDomv4YYtigmoj4hT+2
-	 l3jUhhKvMHxNbxWVotIhYOw40p2eUvpAA0k3OvnBwhNcbuCdlR0hS6Ekx9KcPpWvCAgFe
-	 8KZPyLkf7fIoL0dymCeIJ4gg1FN1NW5aQCxpxWku2H4Dhcii3ZfEhzFmR4cAx9YupvG34
-	 cwCoS64lwdx2jnof0WdugJmAgU//a21JK8PehB8N1EX2xQqlxN+5CM5tmRngANE8TSQ==
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=b7Y85ZMNTmnO5vyHoGmhNUdpyQ1xa3t2s3wZRjsJimY=;
+	b=tRD1TKzWshUWBIJLV+fMhJA7rYT1x3KDXsh4q3IT3JmLh9BK7HCqV2stdDcnZQmHOzPA
+	 zmqj81IhJe4u417JgmZCqoBT/uN1UkrrMQl+awfW30c6ZwFGK9OtUXZutbMaBMltXMRsd
+	 VqJ4uk2cWz+VDZJNY83gLGTDFvcSCPr1DBaaxQG8yceHT9pC7YkQc3Eo1tPYlROO9NHSy
+	 uiCRiQ/ks+Or6NacEKU3U6/FFRMohcFjerb5upKPf3q8qtGffkjZHQypRoQOJfa7oMkl7
+	 YuLGCOjkxHlc+ngh37voS2h/OieKSr6/l3fqdIocBrnpjmQcXs/tws7nF8NsyIdu1Dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fEHDSgsF;
-	arc=none smtp.remote-ip=74.125.82.52
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=HGDygtS8;
+	arc=none smtp.remote-ip=209.85.160.170
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6F3606A329
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 18:42:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A6F3606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC49606D81B
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 18:43:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CEC49606D81B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fEHDSgsF
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1b1ce85287aso1013988c88.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 10:42:28 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=HGDygtS8
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-53644ab1f7bso8229581cf.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 10:43:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793990547; x=1794595347; darn=vger.kernel.org;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=b++CUAb4BP1U8numax1mGRF0DzNVSZ5I1v60rh5MgMY=;
-        b=fEHDSgsFw0PWgjibjJSPBMKhNwFVGpIF9UErblzEB/MFO3vRzk7A78+I8fkDAIv+ia
-         JFz41IIL6XFdmSv9hXwOvK/km4+CIefQ4p7AJGqQBX9s6wOJxkHKc8SoWq3LA3SlGvmP
-         oqyc1J/gO4CcZFC6+h9+t2qWu2yqSSivtfgKXF3V9spf7JARldF9Q2nZtvdqcc/wMtSr
-         tjodfEDz/wUHK7kRKUMoi5gkDPEpZK5NPdstAGZLZdqX5NnKrl/ymOhDGqwoA7ORbZmy
-         861w9DL1nrQ241ehAaUECAmf2ySYJsSL+RTQQtnD4Fwy6AtqW/4tqbadOa6mLyjS6MB0
-         oB1Q==
+        d=ziepe.ca; s=google; t=1793990628; x=1794595428; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=b7Y85ZMNTmnO5vyHoGmhNUdpyQ1xa3t2s3wZRjsJimY=;
+        b=HGDygtS8PIhtf9IE/TizOpDFPkRZ98JXWj8eT4E4Yhq2816KF4cYzaNMNDlA2GUJom
+         EwHj/VjdIR7VABdV6Zp2h8871UlmV++e2EY9F4DXOFfJ8S6YfHRSeY1siEWlm6kSEjNb
+         WHEVmvE5ym6L4Xbyfhx3R1pGRXcL6Aqfsxb7/Z41VHVoAGWgx2nMjVhtD/9r8VVZEHKV
+         fuqENBryhstWSfUkfZL5E2WV6tyiKsE+RaCM7VtpgPf7m8u4rD/SWo3hkc3ArsoY50NQ
+         hRIXBkTRQ/dwI/34PymqxrQamBJmjQo3jk08WmMbsEic9zfD+Rz8rL/et2s9wCBYJ+SE
+         4TWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793990547; x=1794595347;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=b++CUAb4BP1U8numax1mGRF0DzNVSZ5I1v60rh5MgMY=;
-        b=AyyEWtX5doC4LRtCrYlO7kaTvbBk9H2gXMkGr48iGlySFptdLwDtN62G6XZqSgfQl+
-         vM0EF9fTJxo5o/zBzz+rE+qqc2k1sVunNZO0OLtQfSQm5zRMSfmzMDPPlOWrzv/uK/Pn
-         idSASIXJsoK6lxLkp4f8Hx1vrQn/ZXu91rXyTnFTJSaT4jIKRelv/COSdCBhDK4zrMyn
-         x+C/Q6oYYljo8dqwuzmnoJBYmYbEDp7PesiaW9o+uJ06q4z8dApFA2q97Z21RD3C5FZt
-         MPMZXTJ+CegQPcsVv1aAs3krfBqxb9w2oXyiYcqVxqBIm1lYlYzY0nuMdeEkgJg3RZGB
-         Z8ng==
-X-Forwarded-Encrypted: i=1; AKwUvBzlCHsA6fBTk4biB/sujsZh9FEpQWPmfd0AoziTEatFzSSzy+htxYiB5+3YbAaQmexkhAPkNj3Bt3I=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/2ySZ/MDODqInaiUEhHwg1IUdXXCWWqMHfJxu4xLVxE1pPbBJg
-	IU/axrBHbzPdnxyqaVUFEEIi/bShlI+tx3mVq7voFqTDXeIfbn5cdXHV
-X-Gm-Gg: AYBFou1UA7Jh/jFdKajA8IgZJEVP4ZmffKnMwcO1fskwGq9M/VVjFWrUOP5+2n+dw8l
-	+Q2v2beWiXHGhhr/gFeIV6FB4Gc/Jj1bRlID+hd5HhBsKpB7hD6f4k9LvJsjR3FOh2BDbG6EhCi
-	5JslN5JmT8pNimg640zTu2YXXQbDvsSs7q/3owvYn0gdmCXAJE96o0sm+wbYjZwP63WNv0A1nbj
-	AeJGbGSOWClQB6BDT3w7y6dTle1JSjN2hFZ26DNavVQPuGx1guPD2ihp/f5846sstoswD9thg9G
-	GgD00PFXz3eySoLyGyG+jUfSNxGWqIuduZYF/JTTirUpwEsk80xlMnBnvBs17scZZ5UjTvd2njB
-	MezXroAM7dy5xREqrEnTsypTHvdOt/g15ynT2e9WgWKMP2+Bwe9laQU2DdbfthVnjVq59KAsM4x
-	8qIfshB1vFydKyK2v0U+t8QYdmY2pMHqm4x5nrJh1K4GunvZCr1aiaT/dgHn0bS6vbusP4CcLgs
-	70neXHb6y4Uq+QO7b/wvL7V6EEJL9CQFsnGDaq+pkFJxa0ImSkNfstKTe+D9AwrFCOu0E5rgUId
-	/W9H2HOlkwi+XxVKgmAP59SS7AAv+A5o/CXAWtY+9AeFmLyXHW9AbQ==
-X-Received: by 2002:a05:7022:1216:b0:1a7:99b9:2eb9 with SMTP id a92af1059eb24-1b25d31ca3bmr3593001c88.27.1793990547018;
-        Fri, 06 Nov 2026 10:42:27 -0800 (PST)
-Received: from localhost ([73.222.46.22])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4880dasm6719300c88.8.2026.11.06.10.42.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 06 Nov 2026 10:42:26 -0800 (PST)
+        d=1e100.net; s=20260707; t=1793990628; x=1794595428;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=b7Y85ZMNTmnO5vyHoGmhNUdpyQ1xa3t2s3wZRjsJimY=;
+        b=jzluCjJCyOj05OAX2Oj0OD9/F2bgxYjyZgfCb13SsB9PmekfrlFRL+brKd2oZg6pgQ
+         iW6pE5FDqyCUeRyBsM2Nedu/QV1Wlma73BnPaYWZKROuxuoFfBHKh8yxfmrkio24EqWn
+         JZho1qAbi3suBk6aqUP655333NDMP04SfpBuw6CrjuKnCcNNQoc9hvLTW83QmqOZzjsZ
+         s2/KyML8eSHbRTx5WSKABlWGxuPZtGejcbTqxHEwYb7n8lFyrc5MusE+zW7IvnPtAAAR
+         WLHrNGiQ9JPfsRiZYZU+rKli3KlQ4dszomaQRJ9GyTpiueBBMe44eUzQGERcGzyHIS0N
+         8A1A==
+X-Forwarded-Encrypted: i=1; AKwUvBzSPpwklUVJ7DrI0SeQEVtczDhBoFd00I+IFCFceYfZWIG+Iq4WmIn0LE5AoNDU0ZojIa75TWNQWtA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9tSHDsMt8WKbeJkvP9ApBi1GuP1xU/OZs+ZiqCBtzi8i54ajqq
+	jeUuSRUJvI8dAiEwPdCEd6TKWni4tQkF9/9KUE+K9NrJMAZHEAmOrnFKABvHSb2MwC0=
+X-Gm-Gg: AYBFou1PAbz7f38uVh9M/vCzmaRJjelffh57tAaYxlNPGmQfztiXQWhVMgp6n77Z74o
+	x9/6qRNHJyKOhBr4GBuQYIFptDeq64qT4EcUxahRLamyASdXDVJg0LGj7ToDFMFJ+8ZMj48v3Oa
+	SMrpR5KBhGopiROWE1Qkyhvo7G/kwVVmT5wntQmY0ZA013j6x6CmZcCeDJeiy7q/cmxHq8zYf6s
+	lIJsw5TsNgzdN5SoTuyY2dbxPyPXoiGHRZF7MeBdsAlXTqPxSxOSMpQ585qiyVzRWNPsO76oxVr
+	3l/QXjmtr+NU6KnRmQlFQPx1pRHwcdRoqkOn9LScFN2oP0ELBQyTailmlbMiec8OC07Ufx8eXkg
+	dKZ7RnYQ5INWAyyTeD2iDQLcQXpMkSa3ysYLCl5BGN4UYI0tne4DnPZMHuOc+x2EIDXpQB7jlr8
+	ssx468ZBU0De0nXwa8j71OHvaJKbB7sBDIffYxuLXTXUlVYFIITalY2r1ZTPbB3NEHCI1WuDALj
+	gNI8mfsFS9xWVx6uPUCxmTOEp4bDNZJKhtCysJI8W3YFy8FyRx41ibHEgsGillajkM4KDN10pP6
+	wKmIQfGYAEdWzr/iVUaI9E1sqAiye60vhoCZHgJLekn29KUJoEx2/gF/vyIh0RUrMPoHMTAddUs
+	mKCk8V0ibjA==
+X-Received: by 2002:a05:622a:47cd:b0:536:764e:1527 with SMTP id d75a77b69052e-54e14a6c486mr53004081cf.44.1793990627606;
+        Fri, 06 Nov 2026 10:43:47 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-54e25785f14sm26823821cf.5.2026.11.06.10.43.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 10:43:47 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xPOug-00000007JdL-0xGY;
+	Fri, 06 Nov 2026 14:43:46 -0400
+Date: Fri, 6 Nov 2026 14:43:46 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Naman Gulati <namangulati@google.com>
+Cc: Christoph Hellwig <hch@lst.de>, Luigi Rizzo <lrizzo@google.com>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	Luigi Rizzo <rizzo.unipi@gmail.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Willem de Bruijn <willemb@google.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Joshua Washington <joshwash@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>, iommu@lists.linux.dev,
+	netdev@vger.kernel.org, linux-mm@kvack.org,
+	driver-core@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC: DMA_PMD 00/22] DMA_PMD: PMD_SIZE-backed IO buffer pools
+Message-ID: <20261106184346.GJ663069@ziepe.ca>
+References: <20261023140107.GC3977851@ziepe.ca>
+ <CAMOZA0J+MOLv+s4PAvsAK1jbasnbQRyHffZw1VEKutH9Vr6ODw@mail.gmail.com>
+ <20261023145023.GH3977851@ziepe.ca>
+ <20261103080933.GA4213@lst.de>
+ <20261103151021.GK3889730@ziepe.ca>
+ <CAMP57yWvHO0pWCR3-9q1gtwVe8WV4Y6i69trmw+BJRVYf3JB1g@mail.gmail.com>
+ <20261106173054.GH663069@ziepe.ca>
+ <CAMP57yU-VhZWXijvwAXcN9=zZ+eWXZ6J1bkHuCJw3ocRaFaV=Q@mail.gmail.com>
+ <20261106180714.GI663069@ziepe.ca>
+ <CAMP57yW6Y4g-xM9YTB+MpgxPN7RFeEWhAPWvqrfOoMDEuL8HZA@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,217 +138,82 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 06 Nov 2026 10:42:25 -0800
-Message-Id: <DMOCKMZIM4I8.294MHBTBW494B@gmail.com>
-To: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, "Farid Zakaria"
- <farid.m.zakaria@gmail.com>
-Cc: =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>, "Paul Moore"
- <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>, "Serge E.
- Hallyn" <serge@hallyn.com>, "Shuah Khan" <shuah@kernel.org>, "Jonathan
- Corbet" <corbet@lwn.net>, "John Ericson" <mail@johnericson.me>,
- <linux-security-module@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH RFC 0/3] landlock: Add access rights on created files
-From: "Farid Zakaria" <farid.m.zakaria@gmail.com>
-X-Mailer: aerc 0.22.0
-References: <20261024-landlock-created-rights-v1-0-77c8db3f6bd2@gmail.com>
- <20261030.ohkopheePh2a@digikod.net>
-In-Reply-To: <20261030.ohkopheePh2a@digikod.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMP57yW6Y4g-xM9YTB+MpgxPN7RFeEWhAPWvqrfOoMDEuL8HZA@mail.gmail.com>
 
-On Fri Oct 30, 2026 at 5:09 AM PDT, Micka=C3=ABl Sala=C3=BCn wrote:
+On Fri, Nov 06, 2026 at 10:17:38AM -0800, Naman Gulati wrote:
+> On Fri, Nov 6, 2026 at 10:07 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Fri, Nov 06, 2026 at 10:00:35AM -0800, Naman Gulati wrote:
+> > > On Fri, Nov 6, 2026 at 9:31 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > >
+> > > > On Fri, Nov 06, 2026 at 09:21:08AM -0800, Naman Gulati wrote:
+> > > > > I drafted an implementation [1] for premapped TX and RX buffers on top
+> > > > > of the existing networking page_pool. It is implemented entirely in
+> > > > > the networking layer and extends page_pool as the default RX
+> > > > > allocator, to the TX path. There are no hooks in the IOMMU, DMA or
+> > > > > page allocator code. I wanted to understand if this implementation
+> > > > > correctly captured the feedback on this thread. Key components of this
+> > > > > design:
+> > > > >
+> > > > > - Chunks: as in Luigi's series, memory comes in 2 MiB chunks, but each
+> > > > > chunk is mapped once per opted-in device through the DMA API and
+> > > > > records its IOVA for each device, rather than using a shared IOVA
+> > > > > window.
+> > > > >
+> > > > > - TX: page_pool accepts a memory provider for pools that are not bound
+> > > > > to an RX queue. Per-CPU page_pools take 32 KiB pages from the chunks
+> > > > > of their NUMA node; TCP copies sendmsg() data into them through the
+> > > > > task page_frag and allocates its skb heads from them.
+> > > > >
+> > > > > - RX: an instance of the same memory provider, sharing the chunk code,
+> > > > > backs RX queue page_pools. RX chunks of order-0 pages belong to one
+> > > > > device and NUMA node, and are shared by that device's queues on the
+> > > > > node.
+> > > > >
+> > > > > [1] https://github.com/torvalds/linux/compare/master...NamanGulati:linux:netdev_dma_pool
+> > > >
+> > > > IMHO the netstack should never read from shared/decrypted memory. If
+> > > > you put it in a SKB you have to be sure the only touch after that
+> > > > point will be a DMA read from an untrusted device on the TX side
+> > > > (sending it to a trusted device would be a fail) and the final copy to
+> > > > userspace on the RX side.
+> > >
+> > > That's likely a fair callout. TBH I'm not very familiar with CoCo and
+> > > will spend some time understanding the constraints. I kept CoCo out of
+> > > my implementation as I approached this solution from the overcommitted
+> > > VM problem where we are trying to overcommit memory in VMs and use
+> > > these pre-mapped pages to avoid using bounce buffers.
+> >
+> > Why does overcomitted VM use bounce buffers? Do you mean this is
+> > about getting better memory clustering in page pool since the VM
+> > paging granule is 2M?
+> 
+> Not exactly, we are trying to use VFIO passthrough NICs in
+> overcommitted VMs. Since the guest memory is overcommitted we can't
+> dma-map the entire guest address space (as non-overcommitted VMs do).
 
-Sorry for the late response.
-I welcomed a new member to the family (kid #4!), so I've been a little
-more busy than usual ;)
+?? I understood you could and this was implemented under the
+virtio-iommu by pinning the memory under active DMA?
 
-> Hi Farid,
->
-> Thanks for this RFC.  The Nix build sandbox is definitely a valid use
-> case for Landlock.
->
-> I didn't have time to do a full review of your patches yet, but I'll do
-> that next week.  In the meantime, I have a few questions:
->
->
-> On Sat, Oct 24, 2026 at 01:39:16PM -0700, Farid Zakaria wrote:
->> This is a proposal for an idea to add support for landlock to work
->> better with build systems such as Nix where they want to apply
->> restrictions but the paths may not yet exist.
->>=20
->> TL;DR;
->> =3D=3D=3D=3D=3D=3D=3D=3D
->>=20
->> Landlock rules attach to inodes that exist when a ruleset is built.
->> That makes a directory shared between trusted and sandboxed tasks hard
->> to confine: the sandbox may create entries there with
->> LANDLOCK_ACCESS_FS_MAKE_*, but no rule can name those entries ahead of
->> time, and granting read access on the directory to cover them exposes
->> every other entry as well. This series adds a rule flag that grants
->> access rights on the entries a domain creates in a directory, instead
->> of on the directory.
->>=20
->> Motivation
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>=20
->> The motivating user is the Nix build sandbox. Every Nix build runs in
->> its own sandbox, and a build may only read its declared inputs in
->> /nix/store and must be able to write and read back the outputs it
->> creates there. Nix enforces this with a private mount namespace: it
->> creates an empty store directory and bind-mounts each input path into
->> it, one mount per input. Nix has paid this per-input cost since the
->> sandbox was introduced [1].
->>=20
->> The cost is paid per build and grows with the size of the input
->> closure. Nix is moving towards much finer-grained builds (many small
->> derivations instead of a few large ones), so the number of sandboxes
->> grows while each build's own work shrinks, and the sandbox setup is
->> becoming the bottleneck. A typical build has hundreds of inputs; large
->> ones have thousands.
->>=20
->> A microbenchmark sets up and tears down a Nix-like sandbox (user,
->> mount, PID, IPC, UTS and network namespaces, pivot_root into a chroot,
->> removing the chroot afterwards). It compares one bind mount per input
->> with a single bind mount of the whole store plus one Landlock rule per
->> input. Median latency per sandbox, one sandbox at a time, Linux 7.1,
->> ext4, 16 cores:
->>=20
->>   inputs   bind mount per input   one bind mount + Landlock   speedup
->>       10         3.2 ms                    2.3 ms               1.4x
->>      100        11.6 ms                    2.8 ms               4.1x
->>     1000        79.3 ms                    6.4 ms              12.4x
->>     5000       400.1 ms                   24.4 ms              16.4x
->
-> Did you do this benchmark with this series?  Do you have the related
-> code to easily reproduce it?
->
+Where in upstream does the DMA API force bounce buffering for this
+case?
 
-I have uploaded the benchmark and steps here:
-https://gist.github.com/fzakaria/3c9589f17cb54e6e35165e11402686a2
+> So overcommitted VMs can use bounce buffers to have a set of
+> pre-mapped buffers to bounce traffic in and out. We're trying to use
+> this solution to map pages dynamically with virtio-iommu and recycle
+> them via page-pool to avoid traps on each TX/RX and avoid the copy
+> cost of bounce buffers.
+> 
+> This problem extends to generally reducing IOMMU overhead in
+> networking - taking the dma map/unmap cost out of the hot-path and
+> avoiding IOTLB thrashing.
 
->>=20
->> With Landlock, an input costs an O_PATH open and a landlock_add_rule()
->> call: there is a single mount, and no mountpoint directory to create
->> before the build and remove after it (removing the 1000 empty
->> mountpoints alone took 17 ms).
->>=20
->> The single bind mount is only sound if the store listing and the
->> undeclared store paths stay unreadable while the build can still use
->> its outputs. Without this series, covering the outputs requires a rule
->> on /nix/store itself, which makes every store path readable again.
->>=20
->> [1] https://github.com/NixOS/nix/issues/179
->
-> I'm wondering if the Nix build sandbox can create the store dir per
-> build before the actual build.  Isn't already the case with the bind
-> mount?
->
+Sure, that makes sense, but just having a pool of entirely normal
+pre-dma-mapped memory is quite a different problem from what launched
+this thread...
 
-The problem is that it's not always a directory; it can be a file or a
-symlink. The builder communicates success also via the creation of the
-output path as well, so the pre-creation of it would circumvent that.
-
-
-
->>=20
->> Series
->> =3D=3D=3D=3D=3D=3D
->>=20
->> Patch 1 lets an LSM observe inode creation through the
->> inode_init_security hook when no LSM provides an xattr. Patch 2 adds
->> the LANDLOCK_ADD_RULE_CREATED flag for path-beneath rules and bumps the
->> ABI to 13. Patch 3 adds selftests.
->>=20
->> Testing
->> =3D=3D=3D=3D=3D=3D=3D
->>=20
->> The series applies to the Landlock next branch (3e271a27c46f) and was
->> tested on Linux 7.3 with that branch applied.
->>=20
->> Without patch 2, the five new tests and the ABI version check fail.
->>=20
->> Open questions
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>=20
->> - A created inode stays pinned until the layer's hierarchy is freed, so =
-a
->>   sandbox that creates many entries in such a directory keeps them all i=
-n
->>   memory. Should this be bounded?
->
-> Only the sandbox creator should pay for the related kernel memory
-> allocations, and this should be at creation time.
-
-That is not the case in this version. The allocation happens in
-landlock_add_created().
-
->
-> Another property that would be nice is that if a sandboxed process can
-> create a file, the related policy should also make it possible to delete
-> this file.  Is that the case with the current approach?  We need to
-> think not only about the lifetime of the sandbox, but about consecutive
-> creations of such sandboxes by/for the same program.
->
-
-Partially with this implementation. The sandbox can delete all entries
-below due to teh hierarchical nature of the rule but cannot delete he
-entry.
-
-I will do more research about consecutive sandboxes.
-
-The research I have done so far from the the feedback on this RFC though
-leads me to believe Gunther's parent + basename approach.
-
-I guess overall this RFC is to add support for a feature where we can
-apply landlock rules to files/directories that are not yet created via
-the Nix use case.
-
->>=20
->> - Creation is detected in inode_init_security, so on filesystems that do
->>   not call security_inode_init_security() created entries get no rights.
->>   Is there a better hook?
->>=20
->> - Through overlayfs, created entries get no rights either, because the
->>   upper inode is created with the mounter's credentials. Should overlayf=
-s
->>   be handled, e.g. via security_dentry_create_files_as()?
->>=20
->> - A file renamed or linked in keeps only the rights it had at its source=
-.
->>   Should it get none instead?
->>=20
->> ---
->> Farid Zakaria (3):
->>       lsm: Call inode_init_security hooks without xattrs
->>       landlock: Add access rights on created files
->>       selftests/landlock: Test LANDLOCK_ADD_RULE_CREATED
->>=20
->>  Documentation/userspace-api/landlock.rst     |  42 +++++
->>  include/uapi/linux/landlock.h                |  18 +++
->>  security/landlock/domain.c                   | 182 ++++++++++++++++++++=
--
->>  security/landlock/domain.h                   |  28 ++++
->>  security/landlock/fs.c                       | 176 +++++++++++++++++++-=
--
->>  security/landlock/object.h                   |   6 +
->>  security/landlock/ruleset.c                  |   6 +
->>  security/landlock/ruleset.h                  |  14 ++
->>  security/landlock/syscalls.c                 |  20 ++-
->>  security/security.c                          |   9 +-
->>  tools/testing/selftests/landlock/base_test.c |   2 +-
->>  tools/testing/selftests/landlock/fs_test.c   | 227 ++++++++++++++++++++=
-+++++++
->>  12 files changed, 703 insertions(+), 27 deletions(-)
->> ---
->> base-commit: 3e271a27c46fd591d1011c7de5a644a41e2010f1
->> change-id: 20261024-landlock-created-rights-9340b00a8c4d
->>=20
->> Best regards,
->> -- =20
->> Farid Zakaria <farid.m.zakaria@gmail.com>
->>=20
->>=20
-
-
+Jason
