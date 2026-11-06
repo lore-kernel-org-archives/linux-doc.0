@@ -1,65 +1,65 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793967068;
-	b=TYDbpjSIz2OBXx9E8OHijnPhRwnX/+xlVRpB9DUtxK6UDEW1XsLov+ZGepDiIAa0cKQU
-	 fNBl/CeapmIblOmLHLGrkdvKHF4Wa5tI0k+xDoYCj8bsHLc5mRwFwvQkQeeuafiaMVsuz
-	 fqx7E8XzZUG7kUnj1lr2jyZ7sWup5Lyi97I4FgXgNMk875vWG85y/QWVCnZBnw2OcROPM
-	 Fid9HJpbHob9jKJSvdJAA7/yvtjHoXpMAzRfyGAvssk+nNehDj680YR2UtXUcBj11A4n7
-	 OF0Cy30KCWi702yQstGah4uIfmxQ2Yb4zI2672lOu3OYptvvAkaUMU9D54v7IUz434g==
+	t=1793967070;
+	b=clRYjzRgvJPxJf3aVaJT+cT26WSgeaYgm4S6bWnAseGj3SnRqzC+5oqRr3EXgF4iMyzG
+	 pJtu6VdOI0CdmI9JWFVmuh3HVhCQ6UDqrg93qiXTUZoMs1/f6E9AlY8ZnbYhKKZtB/A85
+	 WPe2ehLOydSvBY1svl63CZGS8gIrXHTq7Fc0Rhl43xiSap9UvnsuqNsvYSbA5EMgauG16
+	 miLRo2lrBmVY/cHa4McTN75wHiT0g1xsbASGOQ4QcYoRpohUspKpGG61Wrzv2GfYOkZbD
+	 OeIhixsri1mIv8228v9HQrYt/rJKvh4zFfZRAOkC7jzw9oJ5VKhGTgrsmxJtJwx+5JA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793967068;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793967070;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=TW5mE6iiOZJtS2RkCKMpELaHbzgGKLsCi9L8Y4flFK0=;
-	b=NzVipAizmz7cuPCWMNNW0flKi/qR6Az1wTfuoLpe8uvI75qZjpT8oCUOKj+zWyle7G1o
-	 vba/zOHqKnDiMg2zSZEa8csubCDbc9Gmz3OYMYU/1haAIrL1BvJ+5qMoDDSdTF3zDmVz+
-	 lEyfus9zS8hGF8rBNVTZucYeJGdlvK5favdgesZwx3rEWvqpJIV/spfxVtycsiI+4rjvq
-	 79ldBj7ZvHIBOpHn9wybkLSSmJ6xt0O3Z/VUT4LxYRF4vpJSH5EXCtu/MOX1Wm9+N5gKl
-	 ULo3B1Ql8lDItGMOY3/VYG5o+g7pP26ntQ1VVCExNJMDrvaZgbqE1tPaLN7hUodr6mw==
+	bh=CqzvkiWtRdQoyPnwLGmA6uklwfqUTxrXWbNrA55o22M=;
+	b=ivnCG17uYLqGyUTeTVjiah/Kckm/rpeaBo7+Hbk3Tj96MnDjd4VHmXr6oQMbBUsvA5HX
+	 dMShJcBMZtt2D2JNS2jTsbFP6sf0NUjqcBjtQMujBFQP1sYFjD327xEPy+sFs59KF3OfU
+	 vwhIxfBnwUbaCupOY+yEvFWvnhF5itu1wVNeuzY3HNmjd2hE4Ype/7oW5QY2Bj1Y89DBY
+	 0UjKVz24hTgPEcXsgx9eM7w6ChKtvey4zo0/48Nx77fBv3+HYDZyrtUHYsw+zVNukLQBH
+	 HltFO+DNkI1hZXOHsIaRRUH5N6ISo9bTjLmMHDWMcQ6dQSsab9l37l+bCOxkprBaMew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=POX8S9Cy;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XbemegzO;
 	arc=none smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1139B6082BFE
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 12:11:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1139B6082BFE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 588FD606A32C
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 12:11:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 588FD606A32C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=POX8S9Cy
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=XbemegzO
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793967067;
+	s=mimecast20190719; t=1793967069;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=TW5mE6iiOZJtS2RkCKMpELaHbzgGKLsCi9L8Y4flFK0=;
-	b=POX8S9Cy906Nw9g5rIdJw6xqz1snsIwLD/cMAsToaXQTNueZQGSWMuITmaAr00+aO4MAMk
-	Z3tpuxt/RAKH6noam6mWfzlTy3Trl/f/UgcNPnqnE+eUzrKWzTLirWp/TIxZM6UYpjjFUX
-	7AFY+9J5x3nmCB76CS9WVwst5Js6tTs=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=CqzvkiWtRdQoyPnwLGmA6uklwfqUTxrXWbNrA55o22M=;
+	b=XbemegzO7Y9htwHD5Ym94cR/bpiYDFvLeVNm5XAUmLlKLeROfOxR3ZomGkhg4f1otcEEkB
+	5UqzR8GmMuGVDC+havcT/cmqgntsVuyvXxvP/9XIhRPPKmhPWfrVyyb0bzr/HTspMo6I+j
+	bAxyRbiDxzWeA5AmETacqGEWkVUdnjw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-645-l2uv8tpePBmNyEnXVqVf7w-1; Fri,
- 06 Nov 2026 07:11:01 -0500
-X-MC-Unique: l2uv8tpePBmNyEnXVqVf7w-1
-X-Mimecast-MFC-AGG-ID: l2uv8tpePBmNyEnXVqVf7w_1793967059
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-175-TkqlzppsO5ah20ZZgY_oIw-1; Fri,
+ 06 Nov 2026 07:11:08 -0500
+X-MC-Unique: TkqlzppsO5ah20ZZgY_oIw-1
+X-Mimecast-MFC-AGG-ID: TkqlzppsO5ah20ZZgY_oIw_1793967065
 Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0460E18002FE;
-	Fri,  6 Nov 2026 12:10:59 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4360519560B8;
+	Fri,  6 Nov 2026 12:11:05 +0000 (UTC)
 Received: from ivecera-thinkpadp16vgen1.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 37064187C368;
-	Fri,  6 Nov 2026 12:10:53 +0000 (UTC)
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 623A3187C368;
+	Fri,  6 Nov 2026 12:10:59 +0000 (UTC)
 From: Ivan Vecera <ivecera@redhat.com>
 To: netdev@vger.kernel.org
 Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
@@ -85,9 +85,9 @@ Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
 	Saeed Mahameed <saeedm@nvidia.com>,
 	Tariq Toukan <tariqt@nvidia.com>,
 	Petr Oros <poros@redhat.com>
-Subject: [PATCH net-next 07/10] dpll: reject measured_freq_get for foreign and on-pin registrations
-Date: Fri,  6 Nov 2026 13:10:02 +0100
-Message-ID: <20261106121005.1327603-8-ivecera@redhat.com>
+Subject: [PATCH net-next 08/10] dpll: zl3073x: update locking comments
+Date: Fri,  6 Nov 2026 13:10:03 +0100
+Message-ID: <20261106121005.1327603-9-ivecera@redhat.com>
 In-Reply-To: <20261106121005.1327603-1-ivecera@redhat.com>
 References: <20261106121005.1327603-1-ivecera@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -102,230 +102,42 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-A message about a pin with .measured_freq_get calls .freq_monitor_get of
-a dpll of the pin. For a pin of another domain, this device callback
-would run outside the domain of the dpll, so dpll_pin_register() now
-rejects such ops.
-
-dpll_pin_on_pin_register() checks nothing about them. The message would
-call .freq_monitor_get with no NULL check, on a dpll of the parent pin
-that can belong to another driver, so reject them there as well.
-
-No in-tree driver passes such ops. Add KUnit tests: the ops work on a dpll
-of the domain of the pin, and are rejected on a dpll of another domain and
-under a parent pin.
+Callbacks are serialized by the DPLL core domain lock instead of dpll_lock.
+All channels of a chip belong to one domain, so what the comments rely on
+still holds.
 
 Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 ---
- drivers/dpll/dpll_core.c       |   6 +-
- drivers/dpll/dpll_core_kunit.c | 112 +++++++++++++++++++++++++++++++--
- 2 files changed, 111 insertions(+), 7 deletions(-)
+ drivers/dpll/zl3073x/dpll.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/dpll/dpll_core.c b/drivers/dpll/dpll_core.c
-index 8eb74682343156..84377f8ba16036 100644
---- a/drivers/dpll/dpll_core.c
-+++ b/drivers/dpll/dpll_core.c
-@@ -958,7 +958,8 @@ dpll_pin_register(struct dpll_device *dpll, struct dpll_pin *pin,
+diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
+index 1cdadb8e46fb2d..6e5e2bb41f55d6 100644
+--- a/drivers/dpll/zl3073x/dpll.c
++++ b/drivers/dpll/zl3073x/dpll.c
+@@ -349,9 +349,10 @@ zl3073x_dpll_input_pin_ref_sync_set(const struct dpll_pin *dpll_pin,
+ 	if (rc)
+ 		goto unlock;
  
- 	dev_ops = dpll_device_ops(dpll);
- 	if (WARN_ON(ops->measured_freq_get &&
--		    (!dev_ops || !dev_ops->freq_monitor_get ||
-+		    (pin->domain != dpll->domain || !dev_ops ||
-+		     !dev_ops->freq_monitor_get ||
- 		     !dev_ops->freq_monitor_set))) {
- 		ret = -EINVAL;
- 		goto out_unlock;
-@@ -1065,7 +1066,8 @@ int dpll_pin_on_pin_register(struct dpll_pin *parent, struct dpll_pin *pin,
+-	/* All code paths accessing per-channel reference priorities are
+-	 * serialized by the subsystem dpll_lock, so it is safe to release
+-	 * our lock here before iterating over the other channels.
++	/* All callbacks accessing per-channel reference priorities are
++	 * serialized by the DPLL core domain lock shared by all channels of
++	 * the chip, so it is safe to release our lock here before iterating
++	 * over the other channels.
+ 	 */
+ 	mutex_unlock(&zldpll->lock);
  
- 	if (WARN_ON(!ops) ||
- 	    WARN_ON(!ops->state_on_pin_get) ||
--	    WARN_ON(!ops->direction_get))
-+	    WARN_ON(!ops->direction_get) ||
-+	    WARN_ON(ops->measured_freq_get))
- 		return -EINVAL;
+@@ -2401,7 +2402,7 @@ zl3073x_dpll_changes_check(struct zl3073x_dpll *zldpll)
+ 	mutex_unlock(&zldpll->lock);
  
- 	down_write(&dpll_lock);
-diff --git a/drivers/dpll/dpll_core_kunit.c b/drivers/dpll/dpll_core_kunit.c
-index a58800eda5ff51..84c405f855d8cb 100644
---- a/drivers/dpll/dpll_core_kunit.c
-+++ b/drivers/dpll/dpll_core_kunit.c
-@@ -87,6 +87,7 @@ struct dt_reg {
- 	struct dt_dev *dev;
- 	struct dt_pin *parent;
- 	struct dt_pin *notify;
-+	const struct dpll_pin_ops *ops;
- 	struct dpll_domain *forbid;
- 	enum dpll_pin_state state;
- 	enum dpll_pin_direction direction;
-@@ -276,11 +277,33 @@ static int dt_lock_status_get(const struct dpll_device *dpll, void *priv,
- 	return 0;
- }
- 
-+static int dt_freq_monitor_set(const struct dpll_device *dpll, void *priv,
-+			       enum dpll_feature_state state,
-+			       struct netlink_ext_ack *extack)
-+{
-+	return 0;
-+}
-+
-+static int dt_freq_monitor_get(const struct dpll_device *dpll, void *priv,
-+			       enum dpll_feature_state *state,
-+			       struct netlink_ext_ack *extack)
-+{
-+	struct dt_dev *dev = priv;
-+
-+	dt_dev_enter(dev, dpll);
-+	*state = DPLL_FEATURE_STATE_ENABLE;
-+	dt_leave(dev->dom);
-+
-+	return 0;
-+}
-+
- static const struct dpll_device_ops dt_dev_ops = {
- 	.mode_get = dt_mode_get,
- 	.mode_set = dt_mode_set,
- 	.supported_modes_get = dt_supported_modes_get,
- 	.lock_status_get = dt_lock_status_get,
-+	.freq_monitor_set = dt_freq_monitor_set,
-+	.freq_monitor_get = dt_freq_monitor_get,
- };
- 
- static int dt_frequency_get(const struct dpll_pin *pin, void *pin_priv,
-@@ -433,6 +456,21 @@ static int dt_ref_sync_get(const struct dpll_pin *pin, void *pin_priv,
- 	return 0;
- }
- 
-+static int dt_measured_freq_get(const struct dpll_pin *pin, void *pin_priv,
-+				const struct dpll_device *dpll, void *dpll_priv,
-+				u64 *measured_freq,
-+				struct netlink_ext_ack *extack)
-+{
-+	struct dt_reg *reg = pin_priv;
-+
-+	dt_pin_enter(reg, pin);
-+	atomic_inc(&reg->freq_gets);
-+	*measured_freq = 1;
-+	dt_leave(reg->dom);
-+
-+	return 0;
-+}
-+
- static const struct dpll_pin_ops dt_pin_ops = {
- 	.frequency_get = dt_frequency_get,
- 	.state_on_dpll_get = dt_state_on_dpll_get,
-@@ -446,6 +484,13 @@ static const struct dpll_pin_ops dt_pin_ops = {
- 	.ref_sync_get = dt_ref_sync_get,
- };
- 
-+static const struct dpll_pin_ops dt_pin_ops_measured = {
-+	.measured_freq_get = dt_measured_freq_get,
-+	.state_on_dpll_get = dt_state_on_dpll_get,
-+	.state_on_pin_get = dt_state_on_pin_get,
-+	.direction_get = dt_direction_get,
-+};
-+
- static const struct dpll_pin_properties dt_prop = {
- 	.type = DPLL_PIN_TYPE_EXT,
- 	.capabilities = DPLL_PIN_CAPABILITIES_STATE_CAN_CHANGE |
-@@ -570,9 +615,9 @@ static void dt_reg_release(void *data)
- 
- 	if (reg->parent)
- 		dpll_pin_on_pin_unregister(reg->parent->pin, reg->pin->pin,
--					   &dt_pin_ops, reg);
-+					   reg->ops, reg);
- 	else
--		dpll_pin_unregister(reg->dev->dpll, reg->pin->pin, &dt_pin_ops,
-+		dpll_pin_unregister(reg->dev->dpll, reg->pin->pin, reg->ops,
- 				    reg);
- }
- 
-@@ -588,12 +633,14 @@ static void dt_reg_add(struct kunit *test, struct dt_reg *reg,
- 	reg->parent = parent;
- 	reg->state = DPLL_PIN_STATE_SELECTABLE;
- 	reg->direction = DPLL_PIN_DIRECTION_INPUT;
-+	if (!reg->ops)
-+		reg->ops = &dt_pin_ops;
- 
- 	if (parent)
--		ret = dpll_pin_on_pin_register(parent->pin, pin->pin,
--					       &dt_pin_ops, reg);
-+		ret = dpll_pin_on_pin_register(parent->pin, pin->pin, reg->ops,
-+					       reg);
- 	else
--		ret = dpll_pin_register(dev->dpll, pin->pin, &dt_pin_ops, reg);
-+		ret = dpll_pin_register(dev->dpll, pin->pin, reg->ops, reg);
- 	KUNIT_ASSERT_EQ(test, ret, 0);
- 	KUNIT_ASSERT_EQ(test, kunit_add_action_or_reset(test, dt_reg_release,
- 							reg), 0);
-@@ -1432,6 +1479,59 @@ static void dt_test_ref_sync_pair(struct kunit *test)
- 	dt_expect_events(test, (void *[]){ ctx->p.pin }, 1);
- }
- 
-+/* A pin with a measured frequency must be in the domain of its dpll */
-+static void dt_test_measured_freq_foreign(struct kunit *test)
-+{
-+	struct kunit_suppressed_warning *w;
-+	struct dt_ctx *ctx = test->priv;
-+	struct dt_reg *reg;
-+	int ret;
-+
-+	dt_dev_add(test, &ctx->e0, &ctx->dom_e, DT_CLOCK_ID_E, 0,
-+		   DPLL_TYPE_PPS);
-+	dt_dev_add(test, &ctx->f0, &ctx->dom_f, DT_CLOCK_ID_F, 0,
-+		   DPLL_TYPE_PPS);
-+	dt_fwnode_pin_add(test, &ctx->x, DT_CLOCK_ID_E, DT_PIN_IDX_X);
-+
-+	reg = &ctx->reg_x_e0;
-+	reg->ops = &dt_pin_ops_measured;
-+	dt_reg_add(test, reg, &ctx->dom_e, &ctx->x, &ctx->e0, NULL);
-+	atomic_set(&reg->freq_gets, 0);
-+	KUNIT_EXPECT_EQ(test, dt_run(test, dt_pin_ntf, &ctx->x), 0);
-+	KUNIT_EXPECT_GT(test, atomic_read(&reg->freq_gets), 0);
-+
-+	w = kunit_start_suppress_warning(test);
-+	ret = dpll_pin_register(ctx->f0.dpll, ctx->x.pin, reg->ops, reg);
-+	kunit_end_suppress_warning(test, w);
-+
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+	if (!ret)
-+		dpll_pin_unregister(ctx->f0.dpll, ctx->x.pin, reg->ops, reg);
-+}
-+
-+/* A pin under a parent pin cannot have a measured frequency */
-+static void dt_test_measured_freq_on_pin(struct kunit *test)
-+{
-+	struct kunit_suppressed_warning *w;
-+	struct dt_ctx *ctx = test->priv;
-+	struct dt_reg *reg;
-+	int ret;
-+
-+	dt_on_pin_add(test);
-+	dt_pin_add(test, &ctx->y, DT_CLOCK_ID_G, DT_PIN_IDX_Y, &dt_prop);
-+	reg = &ctx->reg_c_m;
-+
-+	w = kunit_start_suppress_warning(test);
-+	ret = dpll_pin_on_pin_register(ctx->m.pin, ctx->y.pin,
-+				       &dt_pin_ops_measured, reg);
-+	kunit_end_suppress_warning(test, w);
-+
-+	KUNIT_EXPECT_EQ(test, ret, -EINVAL);
-+	if (!ret)
-+		dpll_pin_on_pin_unregister(ctx->m.pin, ctx->y.pin,
-+					   &dt_pin_ops_measured, reg);
-+}
-+
- static struct kunit_case dt_cases[] = {
- 	KUNIT_CASE(dt_test_domain_sharing),
- 	KUNIT_CASE(dt_test_domain_per_module),
-@@ -1456,6 +1556,8 @@ static struct kunit_case dt_cases[] = {
- 	KUNIT_CASE(dt_test_set_on_pin),
- 	KUNIT_CASE(dt_test_device_set_ntf),
- 	KUNIT_CASE(dt_test_ref_sync_pair),
-+	KUNIT_CASE(dt_test_measured_freq_foreign),
-+	KUNIT_CASE(dt_test_measured_freq_on_pin),
- 	{}
- };
- 
+ 	/* Send notifications outside the lock to avoid ABBA deadlock
+-	 * with dpll_lock taken by notification functions.
++	 * with the DPLL core domain lock taken by notification functions.
+ 	 */
+ 	if (dev_changed)
+ 		dpll_device_change_ntf(zldpll->dpll_dev);
 -- 
 2.56.0
 
