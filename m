@@ -1,133 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.147
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793980793;
-	b=pQBUK4aWtJcMy9wx/QPsX9ERTXJupnNt58DfTRFw3AVUJ2hLHT0Gl89c7n9+SqXTm++x
-	 FPti8TixqqgY6UcST7VY+9KviqayDyFSVpMt7lG9Kdvizl0WPOMBTyd+OxgGTJFt7mV+x
-	 fOD0biPriVMbd1ijj7KBPHYXazc5GwXszRmQ89252PMDoWZ1HgOhJf14aQBd+do57D4ti
-	 nvLc/W9mICjfFXDkfqmY3mDKAqbI7SG/8RpwfwwXnWPEgnuCJWXvY4ngs27yOKs5uOa1r
-	 lQSBdBubnxOaftoB796Eai40V7eVgiaZHv6Q7sLfah1Q1GVtn/MU9ao0ZKi5CcDeu0Q==
+	t=1793981024;
+	b=0xf6V6dN31Tu9K0Kxvp+PPezWTkcaOxPe7Wh1vsosoI2YvBRD08rTbnvv8kBGrpEytHQ
+	 fGzTyIDFn3pMzfoUW7fxl4a3fx4WAYH/qRih1Vh5Dp9kL0Oex1kEz4Kf28HBRuqJVOdY4
+	 T0GaYLQCj9kMBxejAfxhPd9QwC9xVv7YQnRTmDr5v+QUPnuERgzM+vPyvkeoUuOq8eLvX
+	 MfdIqswEGyBX9sJqk0XHHjaLNfdAMo1EheweUqKVTWSwi6V0T9asHOeSwgFXtutNkYQGO
+	 hS5S0YwmntT/GdVrKWDgk0nHU8HpaceZ4i2bUlYmMmATZu7RJstUhDDJfYRiLzEHj8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793980793;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=5vCHEs/V9pwMAPmRu7ggjXlWX/ar9c5h5bZvjFU/NuY=;
-	b=HIprtA7lC/lRnGOwHzV6tQ+FyT2Q0FLy+l5iVeQ4L3A5XjJgAb5HOyalBzTFJeVAtWL5
-	 1ygp3iqPLHdZgYrZWNXE2rJf+ArB2ax96dc05O6mWsmB7/FZZayU18T1Qz4oHAxCRQlS8
-	 yt24FPBMqywHIRMQkQN56PtrLCGkZYVj6kHa2978nNATcXl6apQNqEC4jmdtZ98buOBi5
-	 2wZLokt7TJ1cN4DSERH+jP8MVBEZ6yZhq0mPb/Gi5jIN12adhokMMsDlwlw+K5QfuYItm
-	 VOCParqXHqAEpCXT4Go1zl2zXYK/bxHuHfajkhkHsyEwPoJODuEjNclaNl+VqUElA0g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793981024;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=t7whNWzXgtf5Zep3rN0eJ8AdaQGIaezCYSMAtMtMDQ4=;
+	b=HYTkoYh5T89HMQopuLe7I5thlbqmzMDHtwtmhK57m9gd7i6cXEcZcBD6i9thnBG6Bxht
+	 6SX7XVYfH5MkWl14lw/QXTInuiD1C71pfpxvV6KOfDBoXLOc+DFTzdym7O3fY5gn7dTrb
+	 3Lfj/iAPmsM6evGH7isigE4LaA6nVZr85djL/PlrCfk1JpFKvNQbRiP9B/X9MzM16yQnj
+	 U/zKyr1wEy2m5NHvM/IuopgJVnjJ7f8DhlIvIep9FgR+aJZlU9dtG4hkUMSRROV1tFBlU
+	 +tn714xm07SXT105Cv5fyqH2ugjpVjI9otkInQ3bpOYNvVjC78IBexnOpMBQRuTkuYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=nERuFrRL;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b="Z2//7IVs";
-	arc=none smtp.remote-ip=103.168.172.147
-Received: from fout-a4-smtp.messagingengine.com (fout-a4-smtp.messagingengine.com [103.168.172.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=resnulli.us;
+	spf=pass smtp.mailfrom=resnulli.us;
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 156E1606A329
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 15:59:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 156E1606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=nERuFrRL;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=Z2//7IVs
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 3EA94EC01C9
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:59:46 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Fri, 06 Nov 2026 10:59:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1793980786;
-	 x=1794067186; bh=5vCHEs/V9pwMAPmRu7ggjXlWX/ar9c5h5bZvjFU/NuY=; b=
-	nERuFrRLTWYTI5xz0mw41UCpX7FH3vTABdoNJscvHHh/gDqqdGH7TKRh8W+DLUgy
-	tj3KLLe+YCaw9Uv+3ChAJ0YnBFp2NcTSdGrbpQl79iyyzyRkbRA6reG59gM4YDOn
-	BFXyGLvBND4jzoGeO7TnP4jXf8LpDN6BF5IQJCfzvjEaZNfitmsqcdG3ZaTkPtsn
-	Cezkzl8OpvNR8KV3D+wN4huCbbKYHwlag1VV0gXUjOcu2MB3waGf2S9ObNE5QZJP
-	zC41iNzBrZ/baSdQUtHYFhxzkpRR0etjsoSfaoCUGF4OK+E5X51tMA3DQFOWJoxN
-	UGhewNR6EnHWEdQb1l2CvA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793980786; x=
-	1794067186; bh=5vCHEs/V9pwMAPmRu7ggjXlWX/ar9c5h5bZvjFU/NuY=; b=Z
-	2//7IVsGyLgFWDQTyJFlcawLVyKEXf8AS1D25nd4BfdsvanttokG1zBxYwtBVdCJ
-	aP2gsIX5sT0UrRPQ4w9TgE34prZE2iDrfMxvPV76JXB//HNbULxf5mbgIlDFqsr6
-	9ZC7KeZVR8E0orAnskj5WeFKO41sTwMM32/+uKmPB6+uyxOt5A8eBDL4QYtuuQSY
-	R6V+UrbOmA322mkRfpAI/U+0f/0u714Oney7HQPqKRmZnppXxtwc7X9YZnbOW3Xp
-	VyROnJ1hwK4ixvi9he9koZkzCsZtMrkZzfrEgByyx3fRvb7Uh5sE7J6+qEtHh0bJ
-	fQyRJeBaymwceD7aRRKvg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793980786; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm2:rsa-sha256:QoyWQvv7rfjJWCXDigy1N6l0ng5gD5s0kzJKG916fQzdB+X
-	g1M2njVnaEIzv9DXczyMSdbAwEQGVVLdrJrE8QHE9T5QM4EtEJdG1m0jsbC86bJl
-	ZswTG+NVLHxUPdjsbPCdlg+6AglvLDNoxEtFhwxq+bTdiMyiJ//rqW960EImOpph
-	NR9KKpMOKBLv7ZQOpR8QpDd71/ukx8jZzTqQEeqPsB7zU/hdCzji8K3G/TP/uFIN
-	N6leNEYKAb4QEVO7E2NyRFzqpslPdVJigJYVB01OQMU1AC4nXXLG3CVg/aEaBZkJ
-	wwuBVre/0FpIzWdG445Hj8yWSq9HAnFj8Qln9fw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:CBv6ZLQEXEPM/QvmFdsa7reN9JhcaJ97AJYWwHzfetI=:81TKJqx7C5qiiTvWEFzqK95usjHpuInXwJRUhFglNhg=;
-X-ME-Sender: <xms:cfntarfKi8uqdpErz2J5U4rpxtOZ41MaPkmenwzc4OqEuykcC7I13A>
-    <xme:cfntasBLkqQCvCQB1iyInoG8NNveaNX6CyW6vPGuLuTOs6FnPmrnK2BIssT0hMeyJ
-    Pt6bns_BY1PgMoNrBHeekhbIrTKXDjITQoETC0xjW5GwbEdxENEriw>
-X-ME-Received: <xmr:cfntaiyNgKn5xqpkEe7xf2F8ALcspO6H1jmZ0vEogO9iZF1kRGck3-iqM3soCQ>
-X-ME-Proxy-Cause: dmFkZTFpUT5vBtxbnF/rnvk3LllbaN8gFpLNZfC6psZaVuAjZ2AADsNePuieI+jKlLbikJ
-    GZoOIky3XhhbwcwbpxVc5KI/rWpFcmhFEfDDSSzHfGoZM2o23k5o7UpOTux9cqU5RTCDHK
-    xYABdJQY+Kshd4AQeEPEGNe7hBkbw145KSxcKC4cHR1jNJnHJFVOD5xW56Eh3kW+NAtRWX
-    cNa4A0YM84Z6+ydCIxRtrg1JF/CEsXK5jSdn8xdISlKQ/fDA68pbUWQp+SOJ3V0MyYe42Z
-    SzHvx/hBcbCcsboQuFIaNmAof4Wseh8RGDxC1c6fLUk8/mrXgRoseDOjPHY8GNOYMP+iKU
-    5ThjqqxsbGjuL7i+qK+081ep8fiUYETNa4jtiIeOexhAjw00zLFYCBdqiHUuAM5bcwzT0X
-    +Uh7wvcKAslTF/AxFDIUjJRxY+0iETPeysggIiioj+j2m+0WDOxq7Scp/El0H6qFLMDlm9
-    o1kcK+HtBQFcknQdHE7Zx5ayTcXwoMjeeoJqy6ony1yNhVjVg4hxIBAOR9FkfCVPDlWtdK
-    f1T8wXktm3RV55jfyoLZXLYi9wuwW4TQN5SGqPG6IHtk/o3wXtq9D1NfkNCv8ww97C8BUg
-    0edHAKRJU59npRS7BTS7ZvHy1yuiaKxJ1YQ0RJ7PBd+SxTaeRsIcNslmauxA
-X-ME-Proxy: <xmx:cfntashbCQFnfXUc6hv2vGQmzCCYK630pYkP5PN2bzoJGlhI2Mp9pw>
-    <xmx:cfntahdFYcnBgtFPSQvkdDincNG5ksX8L_pvMCvk7h2GAGCoaLp2yw>
-    <xmx:cfntarVfj9BaexnCq2I2Sg0MtQocqRKiZ2getqdmOd5ChDhj2UZiLA>
-    <xmx:cfntajx6OYsy9DSFO2T1GJYAAAxO-9Ygp7IQBEsD0JELrNa-plhpww>
-    <xmx:cvntagsEMDxUFCpjoqrAndcmzhTqWg2xKKkyTyhPeBoo4hVD8gMDhEc0>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Nov 2026 10:59:42 -0500 (EST)
-Date: Fri, 6 Nov 2026 08:59:39 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: <mhonap@nvidia.com>
-Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
- <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
- <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <dave@stgolabs.net>, <alison.schofield@intel.com>,
- <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
- <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
- <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
- <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
- <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
- alex@shazbot.org
-Subject: Re: [PATCH v6 08/31] vfio/pci: Add a generic excluded-range list
-Message-ID: <20261106085939.764b6dde@shazbot.org>
-In-Reply-To: <20261016161839.2765592-9-mhonap@nvidia.com>
-References: <20261016161839.2765592-1-mhonap@nvidia.com>
- <20261016161839.2765592-9-mhonap@nvidia.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CED606A32C
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 16:03:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6CED606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so897179f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 08:03:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=resnulli.us; s=google; t=1793981017; x=1794585817; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=t7whNWzXgtf5Zep3rN0eJ8AdaQGIaezCYSMAtMtMDQ4=;
+        b=PROVhtFBjiJL+M4D+pdcjRm34WNVU0Biwx7qiIHzLO+Dmg7trp46+GEqUgPKdhEbt0
+         3ap1c2ItjCrGDnAhNpOzx4pOWMg27MNi/WxI0zA0O/tfV9zarjUHSb2qO730sdRsXPhm
+         YQ5YDp/qnYpkHndm9k6ya2ujKHgrC56BMrPDfy+UR+DiWa0259MM5BWmuhi03/giL/Vw
+         LT2ScogfcWZF41AoGkFJmBjLE3tgyE10+V9+O88PZ7pDT3dWGLSb2rsr4Mn2D9hQQarn
+         8xnSNFo1XDw577NcafopStS/ls+4DqhJ/kdX/0SOLPI20rV9aiCm8PCAcsTAYx6NLW/9
+         dThw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793981017; x=1794585817;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=t7whNWzXgtf5Zep3rN0eJ8AdaQGIaezCYSMAtMtMDQ4=;
+        b=x1uAvhN4mRZcjgHEuHssNAyupYPnVaOG6uUJhaPxFrMQI4dv7N6rQUfPDPjrpy13SX
+         N9KMFQ4W74t2VV6wWPRvZl4alSkP7JM0qYMbaf4DxXlyi1HwnHz7wiqtctLpAmnb4Si8
+         cYQZLwlrFYOYZX8BNWdYIr8fM0vOxUinrAv2SJ2VAV3G3K9PPoq26gxRIowO3lB8idgd
+         cuFL5JawI5rhkntI4fnj2Ye1GrBzbaXW9YWfZWC93G3+0JyDsDXSw81pLqWVg3z8ywMx
+         vFyU+Uiyct+JCQ0+ECaiRzU2yuPI7dVzMmFSbaEq0kv6ixbgiAMcWcJ88K0Ip7mBsqqO
+         2YyQ==
+X-Forwarded-Encrypted: i=1; AL+hErF1SKdfa9OLvnwXFbFsVW0GAdijOZuK9a3IdKqGkem/66J5HVk8ApXhAXs9s+l6UwRkpWbaZrasuNY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z98BTwxMlqH1jS5cPpOPHK0ugBjKiYBoNTl6EkhJ7thaxx5my6W
+	jXa8Rz3m06JVi9WmvWQeiRkaGGhV5uTueFFujtMf0mxbJlQo8pp2Pk+XPF6uLDLdgKY=
+X-Gm-Gg: AYBFou01Bbb01fbtDJHfP+2h+OQLDMzEQOmp3mlkNyvuO9Zslq3PiusXd7UWUKjFL1w
+	8Fr8PGobp3oX1R9fDSnA/nzgvYmlNn0MOkwgSQeYHrjz85Og+UW68rdNa6M0fo4P8VBsYQRmhes
+	rFwinqJrIz4v8wjR4a3HMNyG5DbiezlZSmKTH5hegdbD1JCx2CadLw6UXHoxWtGID3OssPmkusW
+	hnSIOd36E/CFh2s9l+W1hrfpsfqWIWGWGMMCQyk6WXpmOT6ViWCuKA9jAFSvsLm2Hk/8q+OYIvx
+	YCxY+1WuKxg2yUp/yOwhWXyeTX8EWCkf2cuuOSsNBRX13v5su77hp4DXq1Mfg65B0V9e8TrnSF/
+	reWA2FiOqcHWiEWY5CqhAouT5beweXPZyalTDP3AdtJbxm9X/hN3jpPIJt43+j2OKACNFKZNp6B
+	8/5L2UMMDmPC2pIZl0YUMzmBwMS5YagyvqRIvpfQp8Fq8+Cf9tICx9Pb8cnyHP2iMqe21yK0Vz3
+	XejWL3OUn45t5rnj7s3Y82qfxdhkT0NAICb/48ZIJMrbHRQF0fS8Iq5605Fcn2sdW2OWZFM0QQw
+	a2XTGgw0l6snQUGpnyB0gxZ8XGqGkUUZZLuI
+X-Received: by 2002:a05:6000:46d0:b0:490:b23b:802d with SMTP id ffacd0b85a97d-4927740356amr3723333f8f.37.1793981016857;
+        Fri, 06 Nov 2026 08:03:36 -0800 (PST)
+Received: from localhost ([208.127.45.21])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d7701b51sm4353763f8f.37.2026.11.06.08.03.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 08:03:36 -0800 (PST)
+Date: Fri, 6 Nov 2026 17:03:32 +0100
+From: Jiri Pirko <jiri@resnulli.us>
+To: Yeoreum Yun <yeoreum.yun@arm.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, linux-coco@lists.linux.dev, 
+	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de, ksinyuk@kernel.org, 
+	rodrigo.vivi@intel.com, cedric.xing@intel.com, sameo@meta.com, drdeeglaze@gmail.com, 
+	James.Bottomley@hansenpartnership.com, aik@amd.com, jpiotrowski@nvidia.com, qinkun@google.com, 
+	pgonda@google.com, jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com, 
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com, 
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com, 
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com, aneesh.kumar@kernel.org
+Subject: Re: [PATCH RFC 17/20] attestation: Add CTLV operation handling
+Message-ID: <au34wXtIqii-hfFI@FV6GYCPJ69>
+References: <20261015145053.3664509-1-jiri@resnulli.us>
+ <20261015145053.3664509-18-jiri@resnulli.us>
+ <auuDcABX27EeTApl@e129823.arm.com>
+ <20261104194622.GC3889730@ziepe.ca>
+ <aux01NUd85PabtZu@FV6GYCPJ69>
+ <auyKE2sGqtfjk4v5@e129823.arm.com>
+ <auy7IM0_S2tv7EZX@FV6GYCPJ69>
+ <au2WdWFOYbPEv0Uj@e129823.arm.com>
+ <au3i-0eDzJZaWukx@FV6GYCPJ69>
+ <au3mAsQrh0GniXJo@e129823.arm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -137,421 +109,176 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <au3mAsQrh0GniXJo@e129823.arm.com>
 
-On Fri, 16 Oct 2026 21:48:15 +0530
-<mhonap@nvidia.com> wrote:
+Fri, Nov 06, 2026 at 03:36:50PM +0100, yeoreum.yun@arm.com wrote:
+>> Fri, Nov 06, 2026 at 09:57:25AM +0100, yeoreum.yun@arm.com wrote:
+>> >On Fri, Nov 06, 2026 at 09:27:42AM +0100, Jiri Pirko wrote:
+>> >> Thu, Nov 05, 2026 at 02:52:19PM +0100, yeoreum.yun@arm.com wrote:
+>> >> >On Thu, Nov 05, 2026 at 01:32:49PM +0100, Jiri Pirko wrote:
+>> >> >> Wed, Nov 04, 2026 at 08:46:22PM +0100, jgg@ziepe.ca wrote:
+>> >> >> >On Wed, Nov 04, 2026 at 07:11:44PM +0000, Yeoreum Yun wrote:
+>> >> >> >> [..snip..]
+>> >> >> >> 
+>> >> >> >> > +static int attestation_evidence_request_decode(struct attestation *att, struct ctlv_op_ctx *ctx,
+>> >> >> >> > +					       const struct ctlv_cursor *request,
+>> >> >> >> > +					       struct attestation_evidence_request *decoded,
+>> >> >> >> > +					       struct attestation_evidence_object_request **objects)
+>> >> >> >> > +{
+>> >> >> >> > +	const struct attestation_evidence_caps *caps = att->provider->evidence_caps;
+>> >> >> >> > +	u32 challenge_length;
+>> >> >> >> > +
+>> >> >> >> > +	decoded->challenge =
+>> >> >> >> > +		ctlv_attestation_evidence_get_evidence_challenge_get(request, &challenge_length);
+>> >> >> >> > +	decoded->challenge_length = challenge_length;
+>> >> >> >> > +	if (challenge_length < caps->min_challenge_length ||
+>> >> >> >> > +	    challenge_length > caps->max_challenge_length)
+>> >> >> >> 
+>> >> >> >> Hmm, I'm not sure whether this check is required for
+>> >> >> >> ATTESTATION_EVIDENCE_BLOB_EVENT_LOG blob type.
+>> >> >> >> 
+>> >> >> >> for example, if the provider provides two evidence:
+>> >> >> >>   - ATTESTATION_EVIDENCE_BLOB_PRIMARY (might attestation token)
+>> >> >> >>   - ATTESTATION_EVIDENCE_BLOB_EVENT_LOG
+>> >> >> >> 
+>> >> >> >> might challenge is reuiqred for generating the token
+>> >> >> >> and this would be marked at min/max_challenge_size in evidence_cap.
+>> >> >> >> 
+>> >> >> >> However, in case of eventlog, it wouldn't require challenge.
+>> >> >> >> for example, TPM event log or CCEL event log.
+>> >> >> >
+>> >> >> >Right
+>> >> >> >
+>> >> >> >> Do we need some field on attestation_evidence_supported_object whether
+>> >> >> >> it requires challenge or not and applies this sanity check per the object?
+>> >> >> >> 
+>> >> >> >> Otherwise, to get eventlog, it would need to send *dummy* challenge
+>> >> >> >> always.
+>> >> >> >
+>> >> >> >I wonder if we should have two interfaces here for signed and unsigned
+>> >> >> >evidence? It would be clearer for userspace then when it needs to
+>> >> >> >provide a challenge or not.
+>> >> >> 
+>> >> >> Isn't the challenge field provided/not-provided enough?
+>> >> >> 
+>> >> >> Currently on the introspection side, device-get op would provide
+>> >> >> challenge-lengths array:
+>> >> >> 
+>> >> >>         evidence?:
+>> >> >>           challenge-lengths[8]:
+>> >> >>             length?: uint(..4096)
+>> >> >>             min-length?: uint(..4096)
+>> >> >>             max-length?: uint(..4096)
+>> >> >>  	  objects[16]:
+>> >> >>             blob-class: evidence-blob-class
+>> >> >>             max-length: uint
+>> >> >>             blob-instance?: uint(..u32-max)
+>> >> >> 
+>> >> >> I think it would make sense to have challenge-lengths array per object:
+>> >> >> 
+>> >> >>  	  objects[16]:
+>> >> >>             blob-class: evidence-blob-class
+>> >> >>             max-length: uint
+>> >> >>             blob-instance?: uint(..u32-max)
+>> >> >>             challenge-lengths[8]:
+>> >> >>               length?: uint(..4096)
+>> >> >>               min-length?: uint(..4096)
+>> >> >>               max-length?: uint(..4096)
+>> >> >> 
+>> >> >> Then the unsigned object would just simply have challenge-lengths empty?
+>> >> >
+>> >> >This looks good to me. :)
+>> >> 
+>> >> The challenge is one of several open points that all depend on what an
+>> >> evidence object is: Rick's TDREPORT, legacy versus DICE Quotes,
+>> >> "primary", "raw" and the format strings. Here is my proposal to settle
+>> >> these together:
+>> >> 
+>> >> The model:
+>> >> 
+>> >> 1. device-get lists each object with an id, a class (signed, event-log,
+>> >>    cert-chain or auxiliary), the formats it may come in, its max-length
+>> >>    and, for signed objects only, challenge-lengths.
+>> >> 2. evidence-get names objects by id, as MR ops name MRs, each with its
+>> >>    output blob. It carries a challenge exactly when it names a signed
+>> >>    object, and the challenge has to fit each of them.
+>> >> 3. The reply gives each object's format, length and, where the TCB
+>> >>    vouches for it, the TCB's digest. The output is always {label, data}.
+>> >> 4. A signed object is made by the call, over the challenge, and never
+>> >>    reused. The rest are read as they stand.
+>> >> 
+>> >> This settles following issues discussed during this patchset review:
+>> >> 
+>> >> 1. One op, not two. Per-object challenge-lengths tell userspace when to
+>> >>    pass a challenge, and one call returns the signed object with the log
+>> >>    and certificates needed to check it.
+>> >> 2. TDX's TDREPORT goes: it is MAC'd for the platform, not signed.
+>> >>    /dev/tdx_guest keeps TDX_CMD_GET_REPORT0.
+>> >> 3. TDX's Quote object lists the legacy and the DICE format. The provider
+>> >>    labels what the host returned and fails on a Quote it cannot label.
+>> >> 4. "primary" becomes "signed", manifest joins auxiliary, spdm-vca,
+>> >>    spdm-measurements and tdisp-report become formats, and signature
+>> >>    goes, as a signed object carries its own.
+>> >> 5. "raw" goes with the representation attr. The TCB digest is a reply
+>> >>    field, so a blob always holds the object's own bytes.
+>> >> 
+>> >> Formats become an enum each provider family defines, instead of free
+>> >> strings. I'm still unsure if format should be entirely provider-specific
+>> >> and defined as "extension", or it should be somehow mixture of common
+>> >> and provider-specific. Looks there is not really much common
+>> >> anyway, so I lean towards provider-specific only. So far I have:
+>> >
+>> >Overall, This is plausible for me with some small question.
+>> >
+>> >> 
+>> >> ======  ============  ==========  =========  ===========================
+>> >> Family  Format        Class       Challenge  Bytes
+>> >> ======  ============  ==========  =========  ===========================
+>> >[...]
+>> >> tpm     ek-cert       cert-chain  none       EK certificate from NV
+>> >
+>> >Just a thought, but how are we planning to retrieve
+>> >the NV index for EK certificate?
+>> >
+>> >As far as I know, TPM NV storage doesn't support labeling.
+>> >
+>> >Should I assume that the NV index would be specified as part of the
+>> >challenge to retrieve the certificate from TPM NV storage?
+>> 
+>> evidence-get allows to accept mr-selection as part of the request
+>> alongside the challenge.
+>
+>Sorry. Could you explain a little bit detail for this?.
+>AFAIU, this is to get the EK certificate from TPM non-volatile storage.
+>But, I don't know why *EK* certificate get would be relevant for
+>*mr selection*.  AFAIK, the TPM_Quote will be used AK not a EK.
 
-> From: Manish Honap <mhonap@nvidia.com>
-> 
-> A provider such as vfio-cxl needs to keep sub-ranges of a BAR off the
-> direct guest path and serve them through its own trap. vfio-pci-core
-> already has one such window, the MSI-X table, open-coded in
-> vfio_pci_bar_rw().
-> 
-> Add vfio_pci_core_add_excluded_range(). Each BAR has its own list,
-> sorted by start, and an insert that overlaps a range on the same BAR or
-> ends past the BAR fails with -EINVAL. Ranges are added only while the
-> device is being opened and are freed in vfio_pci_core_disable(), so
-> readers on an open device take no lock.
-> 
-> The MSI-X table is virtualized in vfio_pci_bar_rw() by an open-coded
-> x_start/x_end window that fills reads with -1 and drops writes. Register
-> the MSI-X table as a read and write excluded range when the MSI-X
-> capability is parsed in vfio_pci_core_enable(), and walk the BAR's
-> ranges in order in vfio_pci_bar_rw(), so an access that spans several
-> ranges is handled in one pass. Only the part of the table inside its BAR
-> is registered, so a device whose MSI-X capability points outside the BAR
-> still opens, as before. The ROM BAR keeps its trailing -1 window,
-> outside the list.
-> 
-> No behavioral change for an MSI-X table in a standard BAR: an access to
-> it still reads -1 and drops writes.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Manish Honap <mhonap@nvidia.com>
-> ---
->  drivers/vfio/pci/vfio_pci_core.c | 97 ++++++++++++++++++++++++++++++++
->  drivers/vfio/pci/vfio_pci_priv.h |  8 +++
->  drivers/vfio/pci/vfio_pci_rdwr.c | 67 +++++++++++++++++++---
->  include/linux/vfio_pci_core.h    | 20 +++++++
->  4 files changed, 185 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index e50b36751d9a..bee3d1b4d8d2 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -588,6 +588,8 @@ static const struct dev_pm_ops vfio_pci_core_pm_ops = {
->  			   NULL)
->  };
->  
-> +static void vfio_pci_free_excluded_ranges(struct vfio_pci_core_device *vdev);
-> +
->  int vfio_pci_core_enable(struct vfio_pci_core_device *vdev)
->  {
->  	struct pci_dev *pdev = vdev->pdev;
-> @@ -644,6 +646,7 @@ int vfio_pci_core_enable(struct vfio_pci_core_device *vdev)
->  
->  	msix_pos = pdev->msix_cap;
->  	if (msix_pos) {
-> +		u64 bar_len = 0;
->  		u16 flags;
->  		u32 table;
->  
-> @@ -654,6 +657,30 @@ int vfio_pci_core_enable(struct vfio_pci_core_device *vdev)
->  		vdev->msix_offset = table & PCI_MSIX_TABLE_OFFSET;
->  		vdev->msix_size = ((flags & PCI_MSIX_FLAGS_QSIZE) + 1) * 16;
->  		vdev->has_dyn_msix = pci_msix_can_alloc_dyn(pdev);
-> +
-> +		/*
-> +		 * Virtualize the MSI-X table through the excluded-range list:
-> +		 * reads fill -1 and writes are dropped so the guest never
-> +		 * reaches the hardware table directly. BAR access never goes
-> +		 * past the BAR, so only the part of the table inside the BAR
-> +		 * needs a range; a table placed outside its BAR needs none.
-> +		 */
+You are right, my mistake. I misunderstood the question.
 
-AI comments.
+mr-selection selects PCRs for Quote, or an extend-NV measurement
+register for NV Certify.
 
-> +		if (vdev->msix_bar < PCI_STD_NUM_BARS)
-> +			bar_len = pci_resource_len(pdev, vdev->msix_bar);
-> +		if (vdev->msix_offset < bar_len) {
-> +			u64 len = min_t(u64, vdev->msix_size,
-> +					bar_len - vdev->msix_offset);
-> +
-> +			ret = vfio_pci_core_add_excluded_range(vdev, vdev->msix_bar,
-> +							       vdev->msix_offset, len,
-> +							       VFIO_PCI_EXCLUDE_READ |
-> +							       VFIO_PCI_EXCLUDE_WRITE);
-
-This is not a terribly elegant flow and I think the AI comment above
-misses the main point of what the apparently redundant BAR range and
-size cap test are trying to accomplish, compatibility.
-
-In the current code, it doesn't matter if BIR is bogus or the offset
-doesn't land in the BAR length or size overflows, those just generate
-non-matches when we read or write.
-
-I think this would be cleaner as a separate function that wraps the new
-function, returning success (perhaps even with a pci_warn_once) for an
-out of range BIR or offset, and performs silent cleanup on a range that
-exceeds the BAR, with a human generated comment explaining the
-compatibility argument.
-
-> +			if (ret) {
-> +				vfio_pci_free_excluded_ranges(vdev);
-> +				vfio_config_free(vdev);
-> +				goto out_free_zdev;
-
-This is mixing local cleanup with an unwind goto and it bites us later
-in the series when we end up leaving this in place and adding:
-
-out_free_config:
-        /* A failed first open never reaches vfio_pci_core_disable(). */
-        vfio_pci_core_free_dev_regions(vdev);
-        vfio_pci_core_unmap_bars(vdev);
-        vfio_pci_free_excluded_ranges(vdev);
-        vfio_config_free(vdev);
-
-after the cxl open.
-
-> +			}
-> +		}
->  	} else {
->  		vdev->msix_bar = 0xFF;
->  		vdev->has_dyn_msix = false;
-> @@ -740,6 +767,7 @@ void vfio_pci_core_disable(struct vfio_pci_core_device *vdev)
->  	vdev->region = NULL; /* don't krealloc a freed pointer */
->  
->  	vfio_config_free(vdev);
-> +	vfio_pci_free_excluded_ranges(vdev);
-
-Order is wrong, should be reverse of setup order.  Also doesn't match
-the correct ordering used in the error unwind above.
-
->  
->  	for (i = 0; i < PCI_STD_NUM_BARS; i++) {
->  		bar = i + PCI_STD_RESOURCES;
-> @@ -1012,6 +1040,72 @@ static int msix_mmappable_cap(struct vfio_pci_core_device *vdev,
->  	return vfio_info_add_capability(caps, &header, sizeof(header));
->  }
->  
-> +/**
-> + * vfio_pci_core_add_excluded_range() - keep a BAR sub-range off direct access
-
-"Exclude a BAR sub-range from user access"
-
-> + * @vdev: vfio PCI device being opened
-> + * @bar: BAR index, below PCI_STD_NUM_BARS
-> + * @start: offset of the range in @bar
-> + * @size: length of the range in bytes
-> + * @flags: VFIO_PCI_EXCLUDE_* paths the range is excluded from
-> + *
-> + * Call only while the device is being opened, from vfio_pci_core_enable() or
-> + * a provider's open hook; vfio_pci_core_disable() frees the ranges. Ranges on
-> + * one BAR must not overlap and must lie inside the BAR.
-
-Are we pushing an overly complicated model just to align with MSI-X?
-
-I think MSI-X is configured on open_device because it's trivial.  Just
-a couple config reads and extract the info.  Now it's becoming more
-complicated with allocations and lists, and I'm not sure why it doesn't
-at the same time move to the .init and .release callbacks instead.
-
-The AI comment also skips the important note reminding us that the
-exclude list is lockless and must be immutable while the device is
-opened, wherever we decide that boundary should be.
-
-> + *
-> + * Return: 0 on success, -EINVAL for an invalid or overlapping range or one
-> + * that ends past the BAR, or -ENOMEM.
-> + */
-> +int vfio_pci_core_add_excluded_range(struct vfio_pci_core_device *vdev, int bar,
-> +				     u64 start, u64 size, u32 flags)
-> +{
-> +	const u32 valid = VFIO_PCI_EXCLUDE_MMAP | VFIO_PCI_EXCLUDE_READ |
-> +			  VFIO_PCI_EXCLUDE_WRITE;
-> +	struct vfio_pci_excluded_range *range, *pos;
-> +	struct list_head *head;
-> +
-> +	if (bar < 0 || bar >= PCI_STD_NUM_BARS || !size ||
-> +	    start + size < start || !flags || (flags & ~valid))
-> +		return -EINVAL;
-> +	if (start + size > pci_resource_len(vdev->pdev, bar))
-> +		return -EINVAL;
-> +
-> +	/* Keep the list sorted by start; find the first range after @start. */
-> +	head = &vdev->excluded_ranges[bar];
-> +	list_for_each_entry(pos, head, entry) {
-> +		if (start < pos->start + pos->size && start + size > pos->start)
-> +			return -EINVAL;
-> +		if (pos->start > start)
-> +			break;
-> +	}
-> +
-> +	range = kmalloc_obj(*range);
-> +	if (!range)
-> +		return -ENOMEM;
-> +
-> +	*range = (struct vfio_pci_excluded_range) {
-> +		.start = start,
-> +		.size = size,
-> +		.flags = flags,
-> +	};
-> +	list_add_tail(&range->entry, &pos->entry);
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(vfio_pci_core_add_excluded_range);
-> +
-> +static void vfio_pci_free_excluded_ranges(struct vfio_pci_core_device *vdev)
-> +{
-> +	struct vfio_pci_excluded_range *range, *tmp;
-> +
-> +	for (int bar = 0; bar < PCI_STD_NUM_BARS; bar++) {
-> +		list_for_each_entry_safe(range, tmp, &vdev->excluded_ranges[bar],
-> +					 entry) {
-> +			list_del(&range->entry);
-> +			kfree(range);
-> +		}
-> +	}
-> +}
-> +
->  int vfio_pci_core_register_dev_region(struct vfio_pci_core_device *vdev,
->  				      unsigned int type, unsigned int subtype,
->  				      const struct vfio_pci_regops *ops,
-> @@ -2317,6 +2411,8 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
->  	INIT_LIST_HEAD(&vdev->dmabufs);
->  	init_rwsem(&vdev->memory_lock);
->  	xa_init(&vdev->ctx);
-> +	for (int bar = 0; bar < PCI_STD_NUM_BARS; bar++)
-> +		INIT_LIST_HEAD(&vdev->excluded_ranges[bar]);
->  
->  	ret = vfio_pci_core_cxl_init(vdev);
->  	if (ret)
-> @@ -2332,6 +2428,7 @@ void vfio_pci_core_release_dev(struct vfio_device *core_vdev)
->  		container_of(core_vdev, struct vfio_pci_core_device, vdev);
->  
->  	vfio_pci_core_cxl_release(vdev);
-> +	vfio_pci_free_excluded_ranges(vdev);
->  
->  	mutex_destroy(&vdev->igate);
->  	mutex_destroy(&vdev->ioeventfds_lock);
-> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-> index 4e7162234a2e..53544e0cbedf 100644
-> --- a/drivers/vfio/pci/vfio_pci_priv.h
-> +++ b/drivers/vfio/pci/vfio_pci_priv.h
-> @@ -44,6 +44,14 @@ ssize_t vfio_pci_config_rw_single(struct vfio_pci_core_device *vdev,
->  ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
->  			size_t count, loff_t *ppos, bool iswrite);
->  
-> +/* A BAR sub-range kept off direct access; see vfio_pci_core_add_excluded_range() */
-> +struct vfio_pci_excluded_range {
-> +	struct list_head	entry;
-> +	u64			start;
-> +	u64			size;
-> +	u32			flags;
-> +};
-
-If we used struct range as a member here we could use range_contains()
-and range_overlaps(), for finding a matching range below and avoiding
-conflicts above (mind the inclusive end).
-
-> +
->  #ifdef CONFIG_VFIO_PCI_VGA
->  ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev, char __user *buf,
->  			size_t count, loff_t *ppos, bool iswrite);
-> diff --git a/drivers/vfio/pci/vfio_pci_rdwr.c b/drivers/vfio/pci/vfio_pci_rdwr.c
-> index 7f14dd46de17..93823c6391f6 100644
-> --- a/drivers/vfio/pci/vfio_pci_rdwr.c
-> +++ b/drivers/vfio/pci/vfio_pci_rdwr.c
-> @@ -198,6 +198,57 @@ ssize_t vfio_pci_core_do_io_rw(struct vfio_pci_core_device *vdev, bool test_mem,
->  }
->  EXPORT_SYMBOL_GPL(vfio_pci_core_do_io_rw);
->  
-> +/*
-> + * Access @count bytes of @bar at @pos, walking the BAR's excluded ranges in
-> + * order: a range excluded for this direction reads as -1 and drops writes,
-> + * and the bytes around it reach the device. The MSI-X table is one such
-> + * range, and a BAR can hold several, for example the MSI-X table and a CXL
-> + * HDM decoder block.
-> + */
-> +static ssize_t vfio_pci_bar_do_io_rw(struct vfio_pci_core_device *vdev,
-> +				     int bar, bool test_mem, void __iomem *io,
-> +				     char __user *buf, loff_t pos,
-> +				     size_t count, bool iswrite,
-> +				     enum vfio_pci_io_width max_width)
-> +{
-> +	u32 want = iswrite ? VFIO_PCI_EXCLUDE_WRITE : VFIO_PCI_EXCLUDE_READ;
-> +	struct vfio_pci_excluded_range *range;
-> +	ssize_t done = 0;
-> +	ssize_t ret;
-> +
-> +	list_for_each_entry(range, &vdev->excluded_ranges[bar], entry) {
-> +		u64 end = range->start + range->size;
-> +		size_t chunk;
-> +
-> +		if (!(range->flags & want) || end <= pos)
-> +			continue;
-> +		if (range->start >= pos + count)
-> +			break;
-> +
-> +		/* Up to the end of this range; do_io_rw() fills it. */
-> +		chunk = min_t(u64, count, end - pos);
-> +		ret = vfio_pci_core_do_io_rw(vdev, test_mem, io, buf, pos, chunk,
-> +					     range->start, end, iswrite,
-> +					     max_width);
-> +		if (ret < 0)
-> +			return done ?: ret;
-> +
-> +		done += ret;
-> +		pos += ret;
-> +		buf += ret;
-> +		count -= ret;
-> +		if (!count)
-> +			return done;
-> +	}
-> +
-> +	ret = vfio_pci_core_do_io_rw(vdev, test_mem, io, buf, pos, count, 0, 0,
-> +				     iswrite, max_width);
-> +	if (ret < 0)
-> +		return done ?: ret;
-> +
-> +	return done + ret;
-> +}
-
-This is mixing fault semantics.  Currently on fault we return the
-errno, regardless of work that's been done.  With this, we potentially
-return a short read/write on fault if later errors occur.  That short
-return is not necessarily representative of the length of the actual
-operation, a partial operation in the last call to core_do_io_rw is
-discarded.
-
-Therefore, I think both of the above (ret < 0) return branches should
-just return ret, not the potentially incorrect done value.
+An NV-resident EK certificate is retrieved using NV_Read. I think
+blob-instance is a good fit. For TPM certificate objects, it could
+identify the certificate's NV index.
 
 
-> +
->  ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
->  			size_t count, loff_t *ppos, bool iswrite)
->  {
-> @@ -256,13 +307,15 @@ ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
->  		}
->  	}
->  
-> -	if (bar == vdev->msix_bar) {
-> -		x_start = vdev->msix_offset;
-> -		x_end = vdev->msix_offset + vdev->msix_size;
-> -	}
-> -
-> -	done = vfio_pci_core_do_io_rw(vdev, res->flags & IORESOURCE_MEM, io, buf, pos,
-> -				      count, x_start, x_end, iswrite, max_width);
-> +	if (bar == PCI_ROM_RESOURCE)
-> +		done = vfio_pci_core_do_io_rw(vdev, res->flags & IORESOURCE_MEM,
-> +					      io, buf, pos, count, x_start,
-> +					      x_end, iswrite, max_width);
-> +	else
-> +		done = vfio_pci_bar_do_io_rw(vdev, bar,
-> +					     res->flags & IORESOURCE_MEM, io,
-> +					     buf, pos, count, iswrite,
-> +					     max_width);
 
-Seems like the wrong refactor to add a ROM specific branch, we should
-probably instead precede the excluded range loop by a test for a
-standard BAR and non-empty excluded range list.  That might mean the
-new function is reduced to only the excluded range handling and all
-non-excluded range handling falls through to a common call to the core
-function.
+>
+>Also, AFAIK, mr_selection is meaningful when the evidence_accept is
+>supported.
 
->  
->  	if (done >= 0)
->  		*ppos += done;
-> diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-> index 7f3a2bcb5830..70acb03d466e 100644
-> --- a/include/linux/vfio_pci_core.h
-> +++ b/include/linux/vfio_pci_core.h
-> @@ -162,6 +162,13 @@ struct vfio_pci_core_device {
->  	struct notifier_block	nb;
->  	struct rw_semaphore	memory_lock;
->  	struct list_head	dmabufs;
-> +	/*
-> +	 * Excluded BAR sub-ranges, one list per BAR, sorted by start and not
-> +	 * overlapping. The lists are filled only while the device is being
-> +	 * opened and emptied in vfio_pci_core_disable(); every reader runs on
-> +	 * an open device in between, so readers take no lock.
-> +	 */
+These are independent. mr-selection chooses the measurements included
+in evidence. EVIDENCE_ACCEPT authorizes a subsequent native transition.
+The TPM provider can quote selected PCRs without supporting acceptance.
 
-I'll stop noting these, but I expect all gratuitous AI comments to be
-removed by default and evaluated as a human whether a comment is
-warranted.  AI assistance doesn't relieve authors of the responsibility
-to perform a thorough human self review.  /dismount-soapbox
-Thanks,
 
-Alex
-
-> +	struct list_head	excluded_ranges[PCI_STD_NUM_BARS];
->  };
->  
->  enum vfio_pci_io_width {
-> @@ -172,6 +179,19 @@ enum vfio_pci_io_width {
->  };
->  
->  /* Will be exported for vfio pci drivers usage */
-> +/*
-> + * A provider can keep a BAR sub-range off the direct guest path, reached only
-> + * through its own trap. The flags select which paths are excluded: mmap, and
-> + * region read and write (an excluded read fills -1, an excluded write is
-> + * dropped).
-> + */
-> +#define VFIO_PCI_EXCLUDE_MMAP	BIT(0)
-> +#define VFIO_PCI_EXCLUDE_READ	BIT(1)
-> +#define VFIO_PCI_EXCLUDE_WRITE	BIT(2)
-> +
-> +int vfio_pci_core_add_excluded_range(struct vfio_pci_core_device *vdev, int bar,
-> +				     u64 start, u64 size, u32 flags);
-> +
->  int vfio_pci_core_register_dev_region(struct vfio_pci_core_device *vdev,
->  				      unsigned int type, unsigned int subtype,
->  				      const struct vfio_pci_regops *ops,
-
+>
+>What is the relation-ship between mr-selecation and getting the TPM's
+>EK certificate getting from NV storage?
+>
+>-- 
+>Sincerely,
+>Yeoreum Yun
