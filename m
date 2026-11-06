@@ -1,127 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793956376;
-	b=1WVvgpZDzM31CDIBDTmKo7imjGHvRxbNaFO9KVzbNCTkbBtKLHZTnt/aVxD5dczs6ia5
-	 0xpn50JP9DAYS7OyjvLbXBJh+D/MR0c8hXEWswYHCUd13GllZFcnOpYSNZJKoJe5ajZng
-	 vxgZ1enS6cZTSJ6PaqavS3JcKaMmwJv0nRcKxccflTPGSaIFymAepv+/l4P/xbcJcNtqU
-	 lR6KfWMwN0udRhdfDCi6ldyQ7ShFQA6mHNiaMflsntyBF5Vlv1oYMUXL2myGdBVZ4sHGR
-	 QUqa1N/xVnpGSp5Sk4um5Rqo5AuqBuoXGLJVTn0J9fEdHJyKKzJck3bdPjT1JZxPNJg==
+	t=1793956782;
+	b=Rf4C4JvPd44IfPcZxTmER/qaqkATGC1XNMV5qeRKGjfDz8yzQJmlLggkJyUAODJxn9d/
+	 sk6v82dNWWGal34UkDWzVJGVjnYPr6XDMGGpTg/kNl6rtIfuZSloe8/AKEFz8gIwztVP4
+	 pMYFIARKQ9au+FdhfkcWo8f0EQu175e1v+VbTkKK04y30a/gMtidwmqE/9A0k2L79K8Vr
+	 nhPP4u89ErMnYLPZE5BFtzcRZNnBLQX9lXzD7zCwbZjYAik/NgVFm0iO7cxTh1QaSX3BB
+	 v+Wq8RDoKs6pqRGZx26yuXivaqfKe4AMbq/6SVOMYrgkDIEGLXdgEWr5w3T4to2uvqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793956376;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Fmoyspqstw2/9PiOOpzl/yM+dFrdSjNpOnDbiAxrbfI=;
-	b=QPdv/ao33/n7W0cvaCaR/FI5C4Im7R3SonNsBEhdIo9/zDCtRVKpKMgP2lzShhnyKVXe
-	 SEI3g5KreFEaQ5YEJ7vm7zRrSuJ7G73FXe9JKLvYnQXb6Ln5QmtHG+qOk/x2yKsOyaJU+
-	 G6+B2IJErTaTzSXSkzh6ll3MOx5pHQWsEk7WD/w/6Y7GU8ZvVR1jSLUR1320ZK6UWB3NU
-	 1ntXKLn2vbG2Rx90BJl8NONx3o1hN7wOS/cvbqURPSVZimtjbRihdjAGXkXHL1awZw+g2
-	 /hOrzAoMiCRNwfzBsGSgIBu0usStDZXFVxtaHsBhPm4tCUo7zE+Hr/weRIzQlyV/6Mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793956782;
+	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=GDlt3jH4rV3KAKlgbppx+p4I5RYe0an1YhekwbD/go4=;
+	b=5ITDN37lFHfMlsYiUIv4eAmwKCUmfnSEIuM9ZJaYzQbM3HfnDBR1c7JAVc/e5gq/7bGJ
+	 uhhx44up9nxzGeCS092He1cF740J4xeCUQKxt41a5RLYQ6cxh33WI/bfmvmW/Jz+YLc1O
+	 E50dztXyKppw+Y1KB0PAK81sm4/legfm4SG3kKRe7J9AvFrbqIOA8gimwWMl2xLDZXNC/
+	 6g7HyhPnojz9M/6a6lw5tQ/HMxb8K4g12t/2Nka6eijb98NAX4Rhsr7mPayo9MnWwfUg+
+	 6OV2NVGozKLAjgpDaecyoyc4583pillleTOnGsTL6jSR+1ASKXnySmTIZKQ6h8288lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=tomeuvizoso.net;
-	spf=pass smtp.mailfrom=tomeuvizoso.net;
-	dkim=pass header.d=tomeuvizoso-net.20260707.gappssmtp.com header.i=@tomeuvizoso-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=F7DCHBDW;
-	arc=none smtp.remote-ip=209.85.128.54
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="nwihVlW/";
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="q/s/Kddl";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B90606A33B
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 09:12:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38B90606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tomeuvizoso.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6A6606A33A;
+	Fri,  6 Nov 2026 09:19:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B6A6606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tomeuvizoso-net.20260707.gappssmtp.com header.i=@tomeuvizoso-net.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=F7DCHBDW
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a214af2076so2440035e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 01:12:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tomeuvizoso-net.20260707.gappssmtp.com; s=20260707; t=1793956372; x=1794561172; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Fmoyspqstw2/9PiOOpzl/yM+dFrdSjNpOnDbiAxrbfI=;
-        b=F7DCHBDWJZ+4W4fYCOJAzTGIPUZxKEM3GQC0UOoOPoAWs2sXUCP0NuFdJ6wVu2Os50
-         3wVL8GvuFQE9sHoxI8MVjxE6iTpOBUpa5gDiv+DeuFw4+Jk1J47d+J9iL2ailF9aRunt
-         evoZoHyEB8egMEAfX7568Yz8zZUnzf91RfioeY/omDmPu3ZKADe6339IZJqYWVHPc26J
-         z5VNCpWEHO2L7dXDObSFERCeTlRP/WQ8092QYY/fghw9MpgBbnJG83NLZf4fc2Y3H0ed
-         Y06oe2zadbaLO6k1LP9aUY+7pkHtxwkzuUfNJKb94ZaW874HUt18oTsDZzdhU8U4MzRj
-         c9mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793956372; x=1794561172;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Fmoyspqstw2/9PiOOpzl/yM+dFrdSjNpOnDbiAxrbfI=;
-        b=TS+Ct2jSQupnIrfCnj7nPSlJ8KX2yZ3497sza0cr5f7AV0UmmYdDdOyx4fD1JPJawb
-         o8YvxkdJWQAt+xEg6lEN7qAqB2boE2DgdkxbVwYRMNxamktPCCIUAqP0dRoz+VApGOEu
-         qh/MZtJr20YKiG+nmN2NpOXue8uIOIMn83HKUwGGp7FzfCsknpmdb4d8mlxvVRs8P+lG
-         xkMSS/uo4jnP/ht2cFv0RlD5DmzpO1xqTMQl52dDfX+UdbhGDFxNKC0LCy8+8rGK76Ay
-         x40w3BVkHMnwLeaaJs0CGRnzC081Zf1N5npwkUexQFdru+A1z2zCiMhDMDzM3hAvycpl
-         2TRA==
-X-Forwarded-Encrypted: i=1; AKwUvBxp1+7ThIi38CZyhoiX6K0t9pf7ieqEKRkqEdfplqz9xl05LNijuef57HslkHpuBJw+5nUDWQD30uo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/Cp30s0o1fdOWIHwRJFhF96Kz1I1vPAiFx4CPWHPHLnHoIfGPa
-	MBdg17iAT4Xj3t4rr45nbk4IQ1rnSgJVTIL3EF2Za+tZcXaT03Oirwp2mZtDSM/r7Pc=
-X-Gm-Gg: AYBFou0n9W6ZO9vKXPOw1NGgP4qHbdGZJwcFJRuKiDK1Bng5WUSj7S7gHNR559/FWTQ
-	mQSFn2r9LsXG8G2RTruRGtnt7w4GlE2gCOGcIxHFz6QOUe1XIAnQ3RntMIYVy522UfnFJX770lR
-	DgnXY0r+HFi/nt0b7VhxieE1apo4nZyjdxMlIzWldm2ksHqZyRp69EZqdgnDYvnEhC/nU/OMyEz
-	DJ6QEfn4qyetSmicpnSkNOiqg93Ffp94vzX96oiKpZ2WAk/GkNsrgbMtqiV9pj/LRBeTN9mT8rY
-	2KYp4pzu69B0VF35QYdh2aOtMZI1P/VVr9B/XElbIBzZXlioWPmryxt71+LFSpHS8gBzw6w0gM2
-	a5DpRbkZVx0jFT/B895bxO78sKSzwMMJ90j6UPS65TxEsvh8MY33/G3Dk5MVyzBGdKYq1fnVGDS
-	cv+YmZ5qdmaSSiYmpLbB9sYjgw3qBd5X+if3uHL/5skhqI96QpGtQ7/h/2aVfFxeHtq2gGaOVsh
-	mT2IyalTi7YdrCkA/c57+JR+JidBoU8jpA7HhxBFWxLo6qJqyuheVE7Vo/p7XAy6c/pBz6t7wCn
-	1UHuwkusGsD+aOoAG+T6E7Qyi4OBBYLmsbz6YJm5wVlAfy4K7t2sOyudbi/sWKA9FiBhfOwWD3z
-	jZh65e3pbR8OhHMYWuvVNkSaNgwQwyLgOgK4BKEvNu2kQUppIvQ==
-X-Received: by 2002:a05:600c:a4b:b0:4a1:efba:511 with SMTP id 5b1f17b1804b1-4b6dff8449emr26012245e9.35.1793956372121;
-        Fri, 06 Nov 2026 01:12:52 -0800 (PST)
-Received: from alcachofa.home (cst-prg-36-190.cust.vodafone.cz. [46.135.36.190])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b56e58fcc6sm226920045e9.2.2026.11.06.01.12.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 01:12:51 -0800 (PST)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Srinivas Kandagatla <srini@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=nwihVlW/;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=q/s/Kddl
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1793956780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GDlt3jH4rV3KAKlgbppx+p4I5RYe0an1YhekwbD/go4=;
+	b=nwihVlW/1l5NhrdcFtc4jpfdr4MkP+xA6UNNkt+TazwI4wo2zqBFakoxyfEnak7SWlhC25
+	3ZHqvCRzQ4d3oF8Y1KSgNMfWFsUTvR3P120TzfBYprqe6JEpTzzyQ6CORuXCIHh/K7HHUf
+	RneY1bvzGwG/Dti99XCVoxrh0TbabPTzYgBGefv0NhRn7FXz4OHEmn3xf7ko/bKMYj57+q
+	newwJ/ZDo+rJ0bzLdKLO9VaoVQ/W4Nf8NqkzirbYuta0l7z+8QwqZHkit2qDQJCSA0BI/c
+	yr1zIVdxHTrYbAvN4XeQ1BxqZrNNsh4H2gGDoEDVN5ngTIVm7kc+a8sDIUa46A==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1793956780;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GDlt3jH4rV3KAKlgbppx+p4I5RYe0an1YhekwbD/go4=;
+	b=q/s/KddlkzKvqRjG/5+hYcDi2FsDfcjG+vBBU/pXND21KSQaBdNw4WeoUnlSn5lk1j2T9/
+	QPdvHSh17RIMWRDw==
+To: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	dmitry.baryshkov@oss.qualcomm.com,
-	andersson@kernel.org,
-	krzk@kernel.org,
-	rob.clark@oss.qualcomm.com,
-	jgg@ziepe.ca,
-	lingtong@qti.qualcomm.com,
-	cacar@qti.qualcomm.com,
-	sandheep@qti.qualcomm.com,
-	Bharath Kumar <bkumar@qti.qualcomm.com>,
-	Chenna Kesava Raju <chennak@qti.qualcomm.com>,
-	dri-devel@lists.freedesktop.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	=?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev,
+	debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Bharath Kumar <quic_bkumar@quicinc.com>,
-	Chenna Kesava Raju <quic_chennak@quicinc.com>,
-	Ekansh Gupta <ekangupt@qti.qualcomm.com>
-Subject: Re: [PATCH v4 00/25] accel/qda: Qualcomm DSP Accelerator driver
-Date: Fri,  6 Nov 2026 10:11:19 +0100
-Message-ID: <20261106091121.3958523-1-tomeu@tomeuvizoso.net>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
-References: <20261102-v4-v4-0-88f2f24a5f0b@qti.qualcomm.com>
+	"Ahmed S. Darwish" <darwi@linutronix.de>
+Subject: [PATCH v1 02/10] kconfig-checker: Introduce PREEMPT_RT configuration rules
+Date: Fri,  6 Nov 2026 10:19:14 +0100
+Message-ID: <20261106091922.7560-3-darwi@linutronix.de>
+In-Reply-To: <20261106091922.7560-1-darwi@linutronix.de>
+References: <20261106091922.7560-1-darwi@linutronix.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -133,22 +93,193 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Mon, Nov 02, 2026 at 03:51 AM, Ekansh Gupta <ekansh.gupta@oss.qualcomm.com> wrote:
-> User space
-> ==========
->
-> - FastRPC library: https://github.com/qualcomm/fastrpc
->   (accel support: https://github.com/qualcomm/fastrpc/tree/accel/staging)
-> - QAIC compiler:   https://github.com/qualcomm/QAIC
+Introduce a kconfig-checker PREEMPT_RT rules file, matching what is at
+Documentation/core-api/real-time/kernel-configuration.rst.
 
-Hi Ekansh,
+This will allow the tool to mechanically check the kernel's .config at a
+later step.
 
-I'm still confused on how userspace gets to execute its compute kernels
-with this uAPI. Let's say I have a compiler and have compiled a function
-that reads some values from a buffer and writes to another buffer. Could
-you explain to me how should I use the uAPI so this kernel executes and
-I get the expected results in the buffers?
+Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
+---
+ tools/kconfig-checker/rules/preempt_rt.yml | 169 +++++++++++++++++++++
+ 1 file changed, 169 insertions(+)
+ create mode 100644 tools/kconfig-checker/rules/preempt_rt.yml
 
-Regards,
+diff --git a/tools/kconfig-checker/rules/preempt_rt.yml b/tools/kconfig-checker/rules/preempt_rt.yml
+new file mode 100644
+index 000000000000..5c1b80adc846
+--- /dev/null
++++ b/tools/kconfig-checker/rules/preempt_rt.yml
+@@ -0,0 +1,169 @@
++# PREEMPT_RT .config sanitization
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# List all config options in alphabetic order, per group
++---
++
++docs_url: https://docs.kernel.org/core-api/real-time/kernel-configuration.html
++rules:
++  - name: CONFIG_CPU_FREQ
++    expected: y
++    severity: high
++    docs_hint: config
++
++  - name: CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
++    expected: y
++    severity: high
++    docs_hint: config
++
++  - name_pattern: CONFIG_CPU_FREQ_GOV_(CONSERVATIVE|ONDEMAND|POWERSAVE|USERSPACE)
++    expected: n
++    severity: medium
++    docs_hint: non-performance-cpu-frequency-governors
++
++  - name: CONFIG_CPU_FREQ_GOV_SCHEDUTIL
++    expected: n
++    severity: medium
++    docs_hint: non-performance-cpu-frequency-governors
++
++  - name: CONFIG_CPU_IDLE
++    expected: y
++    severity: info
++    docs_hint: config
++
++  - name: CONFIG_DRM
++    expected: n
++    severity: info
++    docs_hint: config
++
++  - name: CONFIG_EFI_DISABLE_RUNTIME
++    expected: y
++    severity: medium
++    docs_hint: config
++
++  - name: CONFIG_NO_HZ
++    expected: n
++    severity: medium
++    docs_hint: config-no-hz-config-no-hz-full
++
++  - name: CONFIG_NO_HZ_FULL
++    expected: n
++    severity: medium
++    docs_hint: config-no-hz-config-no-hz-full
++
++  - name: CONFIG_PREEMPT_RT
++    expected: y
++    severity: fatal
++    docs_hint: config
++
++  #
++  # Tracing
++  #
++
++  - name: CONFIG_DYNAMIC_FTRACE
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  - name: CONFIG_FUNCTION_GRAPH_TRACER
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  - name: CONFIG_HWLAT_TRACER
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  - name: CONFIG_IRQSOFF_TRACER
++    expected: n
++    severity: high
++    docs_hint: config-irqsoff-tracer-and-config-preempt-tracer
++
++  - name: CONFIG_KPROBE_EVENTS
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  - name: CONFIG_PREEMPT_TRACER
++    expected: n
++    severity: high
++    docs_hint: config-irqsoff-tracer-and-config-preempt-tracer
++
++  - name: CONFIG_SCHED_TRACER
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  - name: CONFIG_TRACING
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  - name: CONFIG_UPROBE_EVENTS
++    expected: y
++    severity: info
++    docs_hint: config-tracing-and-tracing-options
++
++  #
++  # Debugging
++  #
++
++  - name_pattern: CONFIG_DEBUG_.*
++    expected: n
++    severity: medium
++    docs_hint: kernel-debug-options
++
++  - name: CONFIG_DEBUG_ATOMIC_SLEEP
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_BOOT_PARAMS
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_BUGVERBOSE
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_FS
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_FS_ALLOW_ALL
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_INFO
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_INFO_NONE
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_KERNEL
++    expected: allowed
++    severity: low
++
++  - name: CONFIG_DEBUG_MISC
++    expected: allowed
++    severity: low
++    rationale:
++      A menu option which enables the display of other debug symbols.
++
++  - name: CONFIG_LOCKUP_DETECTOR
++    expected: n
++    severity: high
++    docs_hint: config
++
++  - name: CONFIG_PROVE_LOCKING
++    expected: n
++    severity: high
++    docs_hint: config
++
++  - name_pattern: CONFIG_SLUB_DEBUG.*
++    expected: n
++    severity: high
++    docs_hint: kernel-debug-options
+-- 
+2.56.0
 
-Tomeu
