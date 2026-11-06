@@ -1,55 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.139
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793935006;
-	b=KEKuCSZZI2Adp2JhUll6GiLxJmKUMK+k7cElM7kOJniyRHMn+NBVNxN963VByWUCWFhs
-	 Px/1t+1SfuMoBkeCHTUpYRMsmg/MYntSFpzI0fK+2vgqT4kySeKoTNe5KDftJdrWwJCve
-	 yU8CyJJIoCzvGFVnwv3z7OsS5zR4CA2iZBbKDUL181PAxMuwYxAMj/dkQvfxmuNjN6vCk
-	 oZH8b7X8qK9P/PPDcPfq8IXh/4ipvwhnnU9to9luGTzgTamSs0I7UORbKyD8pUNHPWwJ0
-	 YLMXPne3a1oesHBB7idKgI+GHOcX4YTHMK2PEX/yvH57WydLyuVCcJjrpYd48hBefTQ==
+	t=1793936619;
+	b=Axku00qzfrGO+Zeo09YshZSzj17XH8+TddydV9WQXlvISsw70L1JxLulBxZRU58Jj28o
+	 aClWY6VysAKO25o2tqJsYaMSPX4V2L6D5YaJAdq+uu+zEgDN0gLDH+tz7dvK2MwzvWqnW
+	 kLSXRLEh+fE84z5zRClE+a9j3J5A+qvaFmCOW9iGhPRuPrR2ZZnZXv6oVc/Cp4FYupQeH
+	 L8CDAY04H/wDJqdsjD8gRo0Qz8ypHQlh2yqLidiv3Ih+VaeeamvLfbhcnkU4gIN9XUxKL
+	 PmYcWigqkXxTmUzCNNy4JuuCPV2v8i0dO+2TkKojjTZvGrglZLyDYkaiGLxUr6ZKS6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793935006;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=ErgEQ0Ns6+rcrsITsiCH+rdm0302iBOiS8IkFodZXU4=;
-	b=bJ5ZIWhBjgGFYh8mDR71R64dliPN2CO3TMzt9pJ9mR5zMh9ozveJ7jUMIndlDxV6lSON
-	 LBN10zkGVVad4AHtnZ70QzwHPqFM9gmGwZc6uVqTzoo/9XNjjWjQoquHpkFat97citbv1
-	 XxlgPLx8PsFNq0oLsz5BD9f/9QfiRAa5/yAwJoZAL81BL+jadE4+XMHm/U3giVNssvrEi
-	 qjfGN7hwvWafFVlRhOvuzpU1rpJmRPM3xNW9Id47/7QswOjwqY475wGVu3iI/w0d6QUge
-	 DxQypRr1D3ilvaukHhjDUhd/+dT8wKNot5BoF7U+HIwJzizBryQ8YElU5fCrFEdXLQg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793936619;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=JQAg5RHkJoANhMG92M9Mgy2coDcnt7Ko3EBsxYqcnSY=;
+	b=AaQxxkwkCJsvyPjHDj1JyhFxaS2tAgwByuRVA2VLADhc4GI+XuJ2LY9vQpqCx7ovXDhg
+	 gAHNLOOP8HD8gyNs0UpLpVAJlwQhSrrwroVhn51rCRVK9ivyTnmRD4nJ/53WyTYFEPNKO
+	 UCMBU99ah/scepDawcIMSa4d32sHqgHNQqXAbmj4I5tEJTnplsdA9OVoyxFzEtWaoBNCh
+	 iXvqhfNEqBQKiXl1aM5IlLxt1ly0dgOa7XD7tN95Wy008920EvQ9FAgg8U2ys8kz8TdWr
+	 enDVv0oGzxo2chs6gk4GsvODbR1hyyg5YX9ypgDvssSlusnQzZzl+FLRu8iH2+x24kQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	arc=none smtp.remote-ip=113.46.200.220
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=L8PB1mZW;
+	arc=none smtp.remote-ip=91.218.175.139
+Received: from mta0.migadu.com (out-139.mta0.migadu.com [91.218.175.139])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED25606A33B;
-	Fri,  6 Nov 2026 03:16:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2ED25606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=ErgEQ0Ns6+rcrsITsiCH+rdm0302iBOiS8IkFodZXU4=;
-	b=iDmH0EN4KaCXipjoVKe9dplNElfKEF7HgYj73b4dQV/KmWfbmC/dGbNyQKPX/jEGKUVDhLOcH
-	U6s5h8YRl4yXnB4HClWs82BZEpHLsF9gA//ivG77NkFDUNY0vGYjj4c9RYoTWmS08lK/KuhUlMN
-	bXs7XmU7cs3LK1LARmr6OE0=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4jLPTw3G5xz12LG1;
-	Fri,  6 Nov 2026 11:16:36 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 99A114056E;
-	Fri,  6 Nov 2026 11:16:34 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Fri, 6 Nov 2026 11:16:33 +0800
-Message-ID: <6e6fb626-d3d4-46f7-93ac-94e3d243eb69@huawei.com>
-Date: Fri, 6 Nov 2026 11:16:33 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEFE606A31B
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 03:43:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BCEFE606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=L8PB1mZW
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=e+UAVA/LhE49Kt9vT3PU3TfPUWWDUeAp4ghXNdKq4Gk=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1793936615; v=1; x=1794541415;
+ b=L8PB1mZWk4/sBqODYjrNN/fI+1N5AUO5+fPUl2zGSRT/m6n/w2bC9SLsulDtlkhNc9EHoyuq
+ Oe1jldp9ZcukVkifsXUa1kmxG2tO/ps1QEkvpL27fy84avm+ZLqoZtIYu0GGYRRbP/e1CXOSUMW
+ MAC+o+b4RJItUoTPfdz22fRk=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id 70031cc14879d107;
+	Fri, 06 Nov 2026 03:43:35 +0000
+X-Mizu-Trace-ID: 70031cc14879d107
+X-Migadu-Flow: FLOW_OUT
+From: xu.xin@linux.dev
+To: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Xu Xin <xu.xin@linux.dev>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Lorenzo Stoakes <lstoakes@gmail.com>,
+	"Liam R . Howlett" <liam.howlett@oracle.com>,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] ksm: add merge_only_zero_pages to merge only empty anonymous pages
+Date: Fri,  6 Nov 2026 11:43:04 +0800
+Message-Id: <20261106034304.231809-1-xu.xin@linux.dev>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,151 +69,214 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/15] KVM: arm64: Harvest stage-2 dirty state into the
- host folio account
-To: Leonardo Bras <leo.bras@arm.com>
-CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <corbet@lwn.net>, <pbonzini@redhat.com>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yangjinqian1@huawei.com>,
-	<caijian11@h-partners.com>, <liuyonglong@huawei.com>,
-	<tangchengchang@huawei.com>, <yezhenyu2@huawei.com>, <yubihong@huawei.com>,
-	<linuxarm@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
-	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <seiden@linux.ibm.com>,
-	<suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>, <mark.rutland@arm.com>,
-	<seanjc@google.com>, <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <skhan@linuxfoundation.org>
-References: <20260929103655.85107-1-zhengtian10@huawei.com>
- <20260929103655.85107-6-zhengtian10@huawei.com> <at-WceRKAVM2kEnI@LeoBrasDK>
- <009b13c6-f618-43fe-8a56-8519d31b239b@huawei.com>
- <auSMkdEhLI7k8QbV@LeoBrasDK>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <auSMkdEhLI7k8QbV@LeoBrasDK>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=y
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr100010.china.huawei.com (7.202.195.125)
 
+From: "Xu Xin (vivo)" <xu.xin@linux.dev>
 
+Add a new sysfs attribute, /sys/kernel/mm/ksm/merge_only_zero_pages,
+which, when enabled, makes ksmd merge only empty (zeroed) anonymous
+pages with the kernel zero page and skip the stable and unstable trees
+entirely for pages that carry data.
 
-On 10/30/2026 8:24 PM, Leonardo Bras wrote:
-> On Thu, Oct 29, 2026 at 10:02:10PM +0800, Tian Zheng wrote:
->>
->>
->> On 10/27/2026 2:05 AM, Leonardo Bras wrote:
->>> Hi Tian,
->>> Sorry for the delay in reviewing...
->>>
->>> On Tue, Sep 29, 2026 at 06:36:45PM +0800, Tian Zheng wrote:
->>>> With VTCR_EL2.HD set, hardware promotes writable-clean descriptors to
->>>> writable-dirty without any VM exit, and the only record of the write
->>>> is the S2AP[1] bit in the stage-2 PTE. The write never passed through
->>>> the host stage-1, and no unmap path reads the bit, so the record dies
->>>> with the PTE and reclaim may discard written guest data (silent
->>>> corruption).
->>>
->>> Sorry, I didn't get what you are trying to achieve here.
->>>
->>> On your patch, I see you marking backing pages dirty at wrprotect and unmap
->>> walkers, and it's very confusing to me on why you are doing this.
->>>
->>> IIUC, what you are trying to do is make sure a page does not lose it's
->>> contents in case it is reclaimed by the OS.
->>>
->>> IIUC, when a page is reclaimed, it will unmap the S2 PTE, and save it's
->>> contents to swap, so when the guest read or write to that page will cause
->>> it to fault.
->>>
->>> The page can never be just unmaped, as if there was a single write to it,
->>> the backing pages should be writable, and the contents need to be saved
->>> somewhere.
->>>
->>> So, if I was able to understand your suggestion, we don't need to worry
->>> about this, and this patch wouldn't be necessary.
->>>
->>> Did you hit this issue?
->>> Can you please expand on your issue, if I could not describe it above?
->>>
->>> Thanks!
->>> Leo
->>
->> Hi Leo,
->>
->> Thanks for the review. I haven't hit this in practice, and based on your
->> analysis the patch doesn't look necessary.
->>
->> Reclaim only writes back folios whose PG_dirty flag is set; a clean
->> folio is simply freed. A stage-2 write never touches the host
->> stage-1, so the folio depends entirely on kvm_release_faultin_page()
->> at fault-in to be marked as dirty; without it, the page stays clean from
->> the host's perspective and reclaim drops the data.
->>
-> 
-> Oh, okay. IIUC it will be enough if PG_dirty flag is set once, right?
-> 
-> While on HAFDBS/HDBSS we will skip the fault for marking them dirty again,
-> we always take the first fault for every PTE (or prefault them), so
-> PG_dirty should always be set once the page is first wroten to.
-> 
-> 
->> Your **RFC v1** patch 2 changed that marking from writable to dirty:
->>
->> ```
->> - kvm_release_faultin_page(kvm, s2vi->page, !!ret, writable);
->> + kvm_release_faultin_page(kvm, s2vi->page, !!ret, dirty);
->> ```
->>
->> During logging, a read fault maps the page as WC: the folio is not
->> marked PG_dirty in kvm_s2_fault_map() and hardware promotes the PTE to
->> WD on write without any fault, so reclaim frees the page without saving
->> it (the folio was treated as clean).
-> 
-> Ah, I see your point.
-> During dirty-tracking guest reads a page, then HAFDBS promotes it to
-> writable without marking it as dirty. Good catch!
-> 
-> But wouldn't a simpler solution be to change the conditions in the fault
-> handler, so that it indeed marks it as dirty if dirty-tracking is on, even
-> if it's just a read fault?
-> 
-> Thanks!
-> Leo
-> 
-Hi Leo,
+The attribute requires use_zero_pages to be 1, and the two are kept
+consistent by symmetric constraints: it cannot be enabled while
+use_zero_pages is 0 (-EINVAL), and use_zero_pages cannot be turned
+off while it is active (-EBUSY). The new attribute can be changed at
+any time and is only effective for pages merged after the change.
 
-Yes, that's exactly the simpler fix, and it's what I already did in
-HDBSS v5 patch 2 — the folio is marked dirty for any write-permitting
-mapping, so a read fault on a tracked memslot also marks it.
+Benefits in three aspects
+=========================
+- Memory saving:
+  On memory-constrained systems such as Android and embedded devices,
+  zero-filled anonymous pages are the largest source of duplicate
+  anonymous memory. They are produced by userspace allocators: the
+  zeroing of freshly allocated Java objects and buffers in the ART heap
+  (new byte[]/int[], Bitmap buffers), calloc/memset in native code, and
+  preallocated media buffers. Merging them with the kernel zero page
+  frees a significant amount of physical memory, which matters as DRAM
+  costs keep rising. With this enabled, we measured 100MB–300MB saving
+  tested with several popular applications on aarch64 (Android).
 
-Since patch 2 covers this, patch 5 isn't needed. I'll drop it in the 
-next version.
+- CPU overhead reduction:
+  Merging only zero pages also reduces the overhead of ksmd. A page that
+  is not merged with the zero page carries data and can never be merged
+  with the zero page, so there is no point in searching the stable tree
+  or inserting it into the unstable tree for it. Skipping those tree
+  operations for data-bearing pages reduces both the CPU time and the
+  rhashtable memory footprint of ksmd, which makes zero page merging
+  practical on low-resource devices where full KSM scanning would be too
+  expensive.
 
-Thanks,
-Tian
+- Security:
+  Finally, this shrinks the KSM side-channel attack surface: only zero
+  pages are ever merged, so the sharing status of data-bearing pages is
+  no longer observable through KSM timing side channels.
 
->>
->> Therefore, **HDBSS v5** patch 2 reverted to marking the folio for any
->> write-permitting mapping:
->>
->> ```
->> kvm_release_faultin_page(kvm, s2vi->page, !!ret, writable);
->> ```
->>
->> Together with the v5 scheme, this makes patch 5 unnecessary:
->>
->> - kvm_s2_fault_compute_prot: always set PROT_W when map_writable
->> - stage2_set_prot_attr: PROT_W -> DBM unconditionally
->>
->>
->> ---------
->>
->> On a related note, I'd like to discuss the next version of the DBM
->> scheme, following Oliver's suggestion [1].
-> 
-> Just as a note for future readers: on another thread we agreed to wait for
-> the discussion to reach a point we are all happy before rebasing
-> everything.
+Note
+=====
+- Suitable for Android, embedded and low-memory devices, where zero-page
+  deduplication is wanted but full KSM scanning is too costly, and reduced
+  KSM side-channel exposure is desired. Many handset vendors may prefer
+  this knob, which can be used as a default fallback policy.
 
+- Not suitable for server and virtualization workloads containing many
+  non-zero duplicate pages, where vanilla KSM provides better memory
+  savings.
 
+Signed-off-by: Xu Xin (vivo) <xu.xin@linux.dev>
+#Reviewed-by: Huan Yang <link@vivo.com>
+#Cc: Wang Xiao <xiao.wang@vivo.com>
+---
+ Documentation/admin-guide/mm/ksm.rst | 40 ++++++++++++++++++++-
+ mm/ksm.c                             | 53 ++++++++++++++++++++++++++++
+ 2 files changed, 92 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/admin-guide/mm/ksm.rst b/Documentation/admin-guide/mm/ksm.rst
+index c329ca747b8c..dd8ef2e4fdc2 100644
+--- a/Documentation/admin-guide/mm/ksm.rst
++++ b/Documentation/admin-guide/mm/ksm.rst
+@@ -128,10 +128,48 @@ use_zero_pages
+         KSM for some workloads, for example if the checksums of pages
+         candidate for merging match the checksum of an empty
+         page. This setting can be changed at any time, it is only
+-        effective for pages merged after the change.
++        effective for pages merged after the change. Turning this off
++        while ``merge_only_zero_pages`` is enabled fails with EBUSY;
++        clear ``merge_only_zero_pages`` first.
+ 
+         Default: 0 (normal KSM behaviour as in earlier releases)
+ 
++merge_only_zero_pages
++        specifies whether ksmd should only merge empty (zeroed)
++        anonymous pages, with the kernel zero page, and skip the stable
++        and unstable trees entirely for pages that carry data. This
++        requires ``use_zero_pages`` to be 1; it cannot be enabled while
++        ``use_zero_pages`` is 0, and ``use_zero_pages`` cannot be turned
++        off while it is enabled (the write fails with EBUSY).
++
++        This is useful on memory-constrained systems (e.g. Android and
++        embedded devices) where the main source of duplicate anonymous
++        memory is zero-filled pages produced by userspace allocators
++        (for example the zeroing of freshly allocated Java objects and
++        buffers in the ART heap, ``calloc``/``memset`` in native code,
++        and pre-allocated media buffers). Merging only those pages
++        avoids the per-page cost of searching and inserting into the
++        stable and unstable trees for data-bearing pages, which reduces
++        the CPU and memory overhead of ksmd. It also shrinks the KSM
++        side-channel attack surface, since only zero pages are ever
++        merged and the sharing state of data-bearing pages is no longer
++        observable through KSM.
++
++        - Suitable for: Android, embedded and low-memory devices, where
++          zero-page deduplication is wanted but full KSM scanning is
++          too costly, and reduced KSM side-channel exposure is desired.
++          Many handset vendors may prefer this knob, which can be used
++          as a default fallback policy.
++
++        - Not suitable for: Server and virtualization workloads containing
++          many non-zero duplicate pages, where vanilla KSM provides better
++          memory savings.
++
++        This setting can be changed at any time, it is only effective
++        for pages merged after the change.
++
++        Default: 0 (normal KSM behaviour)
++
+ max_page_sharing
+         Maximum sharing allowed for each KSM page. This enforces a
+         deduplication limit to avoid high latency for virtual memory
+diff --git a/mm/ksm.c b/mm/ksm.c
+index 64f9e803b99e..a89b0f1c1065 100644
+--- a/mm/ksm.c
++++ b/mm/ksm.c
+@@ -297,6 +297,13 @@ static unsigned int zero_checksum __read_mostly;
+ /* Whether to merge empty (zeroed) pages with actual zero pages */
+ static bool ksm_use_zero_pages __read_mostly;
+ 
++/*
++ * When set, ksmd only merges empty (zeroed) anonymous pages with the kernel
++ * zero page and skips the stable/unstable tree entirely for pages that carry
++ * data. This requires ksm_use_zero_pages to be enabled.
++ */
++static bool ksm_merge_only_zero_pages __read_mostly;
++
+ /* Skip pages that couldn't be de-duplicated previously */
+ /* Default to true at least temporarily, for testing */
+ static bool ksm_smart_scan = true;
+@@ -2369,6 +2376,15 @@ static void cmp_and_merge_page(struct page *page, struct ksm_rmap_item *rmap_ite
+ 
+ 		if (!try_to_merge_with_zero_page(rmap_item, page))
+ 			return;
++
++		/*
++		 * merge_only_zero_pages: only empty (zeroed) pages are merged,
++		 * with the kernel zero page. A page that reached here was not
++		 * merged with the zero page, so it carries data; skip the
++		 * stable and unstable trees for it.
++		 */
++		if (ksm_merge_only_zero_pages)
++			return;
+ 	}
+ 
+ 	/* Start by searching for the folio in the stable tree */
+@@ -3730,12 +3746,48 @@ static ssize_t use_zero_pages_store(struct kobject *kobj,
+ 	if (err)
+ 		return -EINVAL;
+ 
++	/*
++	 * merge_only_zero_pages depends on use_zero_pages: refuse to turn
++	 * the latter off while the former is active, so the two cannot
++	 * silently diverge.
++	 */
++	if (!value && ksm_merge_only_zero_pages)
++		return -EBUSY;
++
+ 	ksm_use_zero_pages = value;
+ 
+ 	return count;
+ }
+ KSM_ATTR(use_zero_pages);
+ 
++static ssize_t merge_only_zero_pages_show(struct kobject *kobj,
++					  struct kobj_attribute *attr, char *buf)
++{
++	return sysfs_emit(buf, "%u\n", ksm_merge_only_zero_pages);
++}
++static ssize_t merge_only_zero_pages_store(struct kobject *kobj,
++					   struct kobj_attribute *attr,
++					   const char *buf, size_t count)
++{
++	int err;
++	bool value;
++
++	err = kstrtobool(buf, &value);
++	if (err)
++		return -EINVAL;
++
++	if (value && !ksm_use_zero_pages) {
++		pr_warn_once("ksm: merge_only_zero_pages can only be enabled "
++			     "when use_zero_pages is 1\n");
++		return -EINVAL;
++	}
++
++	ksm_merge_only_zero_pages = value;
++
++	return count;
++}
++KSM_ATTR(merge_only_zero_pages);
++
+ static ssize_t max_page_sharing_show(struct kobject *kobj,
+ 				     struct kobj_attribute *attr, char *buf)
+ {
+@@ -4061,6 +4113,7 @@ static struct attribute *ksm_attrs[] = {
+ 	&stable_node_dups_attr.attr,
+ 	&stable_node_chains_prune_millisecs_attr.attr,
+ 	&use_zero_pages_attr.attr,
++	&merge_only_zero_pages_attr.attr,
+ 	&general_profit_attr.attr,
+ 	&smart_scan_attr.attr,
+ 	&advisor_mode_attr.attr,
+-- 
+2.34.1
 
