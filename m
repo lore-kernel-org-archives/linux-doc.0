@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793925779;
-	b=KFgTER++flA2jgK9uiDqXaffZJI7QTa5n9j52yh1/jbYvcIQ5Hea8kZG/RUYlpNeZshz
-	 Z9f5GTyYBg42X9zx1yKUDb8dmH822R3PZPgCqBfHpFnnJ228gnm4Pfifby9laUmXASsAi
-	 saoN+VejXPD7vCAFHDizlzCPQgN5K6HcX/ObnY5ufdmU8X/rSx9cH6BMuc2KmvleWtWNU
-	 uc+ZAamBBa+PNg/AXUb30+xwpqgVla1BSD/55+vNozKzR9HIsNkDD+Z0Dhw37SNZOUa2f
-	 sWDu7FYPaivOtVvY8nqa2vRedUMv6Y7h/jZ96rvhgb4lrvfZauhm4Y8m0om1feZWwfw==
+	t=1793925785;
+	b=ZInMD2iDrsQHiI4R5Q8F5K+fGmlUiNr7nWyQVmME/nzA9i5csBNttqy95UzjhUiol8JG
+	 6hbIMFvVWka92F5c1kiqdhTZsOboyBbfVttc0Onwyml6gE6HEaSVrQNBjQptkltvHQQx+
+	 q+esursrx51gWUm3Bep2DGsV4WRAjT7Rb7unm4AR2g6whN2Q/CEfe8iXhUiYAlLodZei3
+	 KpQqk4A/tH63XjuGxqoC5/pFEpl0wjXg5zlMHc8UVwnPluy93LfRzZwjEob6PwPSj/+WR
+	 eDfMcKS+ruGr19JtvkomXQrZNEVr4Ydx5SODQ6EyCoe2lhovZuLrIShwy7u7tTAneIw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793925779;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793925785;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=BPfp4nLyt9FVdmFE1yKT2sRgCODHAPIFVB7rkcjEfkI=;
-	b=nPfGY4RSW8aFk6vqs5aNsJfZN1sOknY1F8YajqBv/LaRG/p2KwPeP5rd6T2pvbsPXKEp
-	 S/+lwC7nJahOpcOCAOSWWJRr4PrakvTmj/hAWTxNNVDbzzMRj+9WUCSrAAY++haWwNr0m
-	 fpElUgpyjDN1fS+cHvkcdDma50oJTk0UaER8zS98K0WMiYEVNgmXjJpxuZ+rz/VpNfoj5
-	 O9pDPkzceK7+ZBcGR4zrDNazmiwso4TILk3wVnTJtJykLOftW5zhsHVioMvbIO9mAjS1X
-	 bcztybu37BL6mcKJKEyNlZnaK032UgHn0MGyRA0vnhLanma03RlM6SEIFfXm06f0KkQ==
+	bh=SqwfwAiEqbASiUZ5fLcpwdF4bH2r5Wh+f0RbnIc3OoY=;
+	b=fwNebzTpLOq1tzPbcvOiJz9dZArbn2FfaaWmdrza7QPZSajvwdFsXmGu2Y8A9qUwISs0
+	 ipau9U1Vz0m3S9oHyEF4gb223tE2mh1Yt9I1J37tNYR4yhdp/rYUg/M7lSHD+s7zjlqYb
+	 zFYOtzc4lHSekSWaHf5X0F3a60u1XdzjPxdY5f+7zK963VEK9VK3uK9cbZXhQ5BvmZGS8
+	 DgVBenDhYqMlQPQBGRC2ilOIqo6eBxO6GJWmyELkZib5pA6zRBzQNpngO4wrr3aV6EoY4
+	 MmDe7rn/0lSx8/sOEy/tE9FzKjO7QT0EzsbeAdWoNJ+L4PRzTc2DHZsCnbmgi+Hzhhw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=pZjogpE8;
-	arc=none smtp.remote-ip=209.85.167.198
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=jGDWKhHV;
+	arc=none smtp.remote-ip=209.85.167.200
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61C8606A333
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:42:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D61C8606A333
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F560606D81C
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:43:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F560606D81C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=pZjogpE8
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4fb73e868aaso102301b6e.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:42:58 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=jGDWKhHV
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-567e742f481so34972b6e.3
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:43:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793925778; x=1794530578; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793925784; x=1794530584; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=BPfp4nLyt9FVdmFE1yKT2sRgCODHAPIFVB7rkcjEfkI=;
-        b=pZjogpE8Ak8WHFpInkUSeG3P5zHU/+5iZFj7i51qTUVRnAd1vBlLYjXTRAvj3M1Kc3
-         coFXIGXgiqDnbXVvEzruLsSocs2bwIAlnBJRm0GqAbhcG0BLa/qHPcKbYjLywgIigNcF
-         mraoBr5QVaxrMNMSLKKIO12AHJb873pDK4NQdRFi3PzHmG2Y7Z+lOCTAyJv6Q6O2TJ8m
-         TLEsPs/EXtljGzI0mIxJlfCTyAT7r8ABDEnr2nsnSzD4oLz8Z3tdsYRUUMrvZaySfE2j
-         LMr9v4i38jYaMOZVwhrvKwF0uAuDmXaCQd4y+7nsCMbxVvzR4B6XVCA4eFVJ/UA5DxPz
-         NwRg==
+        bh=SqwfwAiEqbASiUZ5fLcpwdF4bH2r5Wh+f0RbnIc3OoY=;
+        b=jGDWKhHVG4/AClDmwQXrpibu+KxDT2CPI1gbNVdSt7DHrQCGOngHcXxgvfPl6CZKcd
+         k/EP33TgczVojx0ysMNp15fo/CamsS0+lA0pLeJFJVTlg8iDSXV99r/tXj1y9Ghz3wee
+         15meTMJcDEaua6D4A+bUk8h0O+OaspNrA9fs1Ti4LudM/Ja54kJp1m6TL7fydr5y2ugH
+         2mKuZyH29ppp66IA1Z+8oaeIA0DSBwuauTuxXTN7HEwk3+TL7K4QRLWWN6jmqX4KT3SR
+         9GgCZXDTjOhBaNASW5zCXBorlzLC0Dddity+FUZ5nWbJTucKYm36562CNnY6HX+6i3r8
+         uWiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793925778; x=1794530578;
+        d=1e100.net; s=20260707; t=1793925784; x=1794530584;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BPfp4nLyt9FVdmFE1yKT2sRgCODHAPIFVB7rkcjEfkI=;
-        b=KjJdp+ivEl+2I8/eiVwSosH+Rxo/sk9/MmoWaUabW6wOTkFQY2aD+CQWewgBB+F/T9
-         SfyTiHoXbS5eQ8M9FH6Kri8CbhUbZqlE0hywrO1IO4oe9qt06Piz18WeIkA93/0Bx8ou
-         pRNE2gLEjOXCBSZmRaLa6VR3zJ3PvcMKH0vNt0hPyNbjDu/O4FPO/XYPnqbuysZDOkU6
-         sr8NmkUStMSr9iT7d+QYeSw+WIk4JPEUXTOY3z1bb6gWOm+u+6yp0MTkVSNg6et5cXfN
-         KKuZHd1B9xfprEsQzyDaMKcmWFCsjbRFN2dWivC6V43xt8HHmk7fnl+7wI5tP+5HVaMY
-         ukAA==
-X-Forwarded-Encrypted: i=1; AKwUvBwC/aoNt0Pwd61rGd4kVTtuCuh5TZqfb5MqvgmnY0NCmRatu1MZTANgo60v7JSMIhJ9vuX+s0ExTB4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9IA6oOSU5vRjJ1ulUyAJubGUekEn6Jo9HqRyqWlQbkCPuqwKAu
-	omr+9od8InfpQhH03Rr1akpiNq1jzZP3iKljq2wTa6Ay8idGVq1SnvTjINer875jJqaYQiwhr/h
-	+OHLV/JmD3VaFbA==
-X-Received: from jahl14-n2.prod.google.com ([2002:a05:6638:8c0e:20b0:620:17bd:8c69])
+        bh=SqwfwAiEqbASiUZ5fLcpwdF4bH2r5Wh+f0RbnIc3OoY=;
+        b=cjvHhgf2/aC4G7kPenKk4CBjK7t9P+w28MvZ9WBVATMxYg7Rs0+rPKYuv3wNPTigb4
+         Fz1XfRTVTmc9CQP8huGU0ssNf37H08u6oxBd9z6Y8ZlGh/GKtIHcawRIZQo7F7AHysmM
+         +r5cp4HYLYtwOXehnBZPzbw5cnvUBkPpD5GnLwsDsJ4E/vyWVIgrDrvxSscvdr5xTA1D
+         aLj9dLq3p+Dtbv4C005BoVm1qha8Cghi+CTvGqhEP0bkV/RlCeL9NzWTO5kaCM1Y4s/E
+         w+AfxXaQ0yFW36x/lGsm9yYlRhdLOC2Xq1kBWYWh4bwiKaM9L+jXNcdUEp6TNMHYbDCu
+         wN9Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxjMTY/Dg9EZvNDc7lbDT0Yu7LXjElxVG9kGoDmsx5ejZ4aIRB5K82pY9iIti33eGI1xB7wHvuL8Qg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z87hSEJlZoSTVurGOSdkI8kOrAyHG+DegGN8Ml19mWJgiuI1yBA
+	4AzE3nJkqmgkmHwjPPrxuxQv1pjDfUm+kuwZNpvDtHmQHCZRVtI2B1k037+ihBi8IST+Naozl3W
+	eBYYDsdXfaaVCbA==
+X-Received: from ilbec12.prod.google.com ([2002:a05:6e02:470c:b0:53b:d168:b69])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:2216:b0:4d6:9355:7547 with SMTP id 5614622812f47-567e1840a0cmr681897b6e.66.1793925777406;
- Thu, 05 Nov 2026 16:42:57 -0800 (PST)
-Date: Fri,  6 Nov 2026 00:42:02 +0000
+ 2002:a05:6808:2218:b0:50a:7162:87df with SMTP id 5614622812f47-567e098e3f0mr811203b6e.2.1793925783998;
+ Thu, 05 Nov 2026 16:43:03 -0800 (PST)
+Date: Fri,  6 Nov 2026 00:42:07 +0000
 In-Reply-To: <20261106004218.604799-1-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261106004218.604799-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261106004218.604799-2-dmatlack@google.com>
-Subject: [PATCH v2 01/17] PCI/DPC: Allocate the DPC save buffer during device setup
+Message-ID: <20261106004218.604799-7-dmatlack@google.com>
+Subject: [PATCH v2 06/17] PCI/ASPM: Save LTR state in the saved capability store
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
@@ -97,47 +97,116 @@ Cc: Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>,
 	Vipin Sharma <vipinsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Allocate the DPC capability's save buffer in pci_dpc_init() rather than
-in dpc_probe(), and report an allocation failure, which dpc_probe()
-ignored.
+Save and restore the LTR maximum latency registers through the per-device
+saved capability store instead of a private pci_cap_saved_state buffer.
 
-dpc_probe() runs when the portdrv DPC service binds to a port, which is
-long after the device has been added, and does not happen at all if the
-service is not enabled. Until then pci_save_dpc_state() silently saves
-nothing, so a reset in that window loses the DPC Control register.
+Reserve the DWORD by its configuration space offset during device setup,
+in pci_reserve_ltr_state(), and keep accessing the registers a DWORD at
+a time because some devices only support DWORD access to them.
 
-Allocating during device setup makes buffer existence depend only on the
-capability being present, which is what the save and restore paths
-already assume. It also puts every capability save buffer in one phase
-of a device's life, which a later patch relies on.
+No functional change intended.
 
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- drivers/pci/pcie/dpc.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/pci/pci.c       |  8 +-------
+ drivers/pci/pci.h       |  1 +
+ drivers/pci/pcie/aspm.c | 31 ++++++++++++++++---------------
+ 3 files changed, 18 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
-index 2b779bd1d861..b7f79266f66d 100644
---- a/drivers/pci/pcie/dpc.c
-+++ b/drivers/pci/pcie/dpc.c
-@@ -408,6 +408,9 @@ void pci_dpc_init(struct pci_dev *pdev)
- 	if (!pdev->dpc_cap)
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 6cf4a64cb7e6..29d9474db1ae 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -3742,15 +3742,9 @@ int pci_add_ext_cap_save_buffer(struct pci_dev *dev, u16 cap, unsigned int size)
+  */
+ void pci_allocate_cap_save_buffers(struct pci_dev *dev)
+ {
+-	int error;
+-
+ 	pci_reserve_pcie_state(dev);
+ 	pci_reserve_pcix_state(dev);
+-
+-	error = pci_add_ext_cap_save_buffer(dev, PCI_EXT_CAP_ID_LTR,
+-					    2 * sizeof(u16));
+-	if (error)
+-		pci_err(dev, "unable to allocate suspend buffer for LTR\n");
++	pci_reserve_ltr_state(dev);
+ 
+ 	pci_allocate_acs_save_buffer(dev);
+ 	pci_allocate_vc_save_buffers(dev);
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 206e0d04e06e..0daa2439db5e 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -1151,6 +1151,7 @@ int pcie_retrain_link(struct pci_dev *pdev, bool use_lt);
+ 
+ /* ASPM-related functionality we need even without CONFIG_PCIEASPM */
+ void pci_save_ltr_state(struct pci_dev *dev);
++void pci_reserve_ltr_state(struct pci_dev *dev);
+ void pci_restore_ltr_state(struct pci_dev *dev);
+ void pci_configure_aspm_l1ss(struct pci_dev *dev);
+ void pci_save_aspm_l1ss_state(struct pci_dev *dev);
+diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
+index 02922b887ec6..39adf2cad331 100644
+--- a/drivers/pci/pcie/aspm.c
++++ b/drivers/pci/pcie/aspm.c
+@@ -30,8 +30,6 @@
+ void pci_save_ltr_state(struct pci_dev *dev)
+ {
+ 	int ltr;
+-	struct pci_cap_saved_state *save_state;
+-	u32 *cap;
+ 
+ 	if (!pci_is_pcie(dev))
+ 		return;
+@@ -40,31 +38,34 @@ void pci_save_ltr_state(struct pci_dev *dev)
+ 	if (!ltr)
  		return;
  
-+	if (pci_add_ext_cap_save_buffer(pdev, PCI_EXT_CAP_ID_DPC, sizeof(u16)))
-+		pci_err(pdev, "unable to allocate suspend buffer for DPC\n");
+-	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_LTR);
+-	if (!save_state) {
+-		pci_err(dev, "no suspend buffer for LTR; ASPM issues possible after resume\n");
++	/* Some broken devices only support dword access to LTR */
++	pci_save_cap_dword(dev, ltr + PCI_LTR_MAX_SNOOP_LAT);
++}
 +
- 	pci_read_config_word(pdev, pdev->dpc_cap + PCI_EXP_DPC_CAP, &cap);
- 	if (!(cap & PCI_EXP_DPC_CAP_RP_EXT))
++void pci_reserve_ltr_state(struct pci_dev *dev)
++{
++	int ltr, rc;
++
++	ltr = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_LTR);
++	if (!ltr)
  		return;
-@@ -499,7 +502,6 @@ static int dpc_probe(struct pcie_device *dev)
- 		 FLAG(cap, PCI_EXP_DPC_CAP_SW_TRIGGER), pdev->dpc_rp_log_size,
- 		 FLAG(cap, PCI_EXP_DPC_CAP_DL_ACTIVE));
+-	}
  
--	pci_add_ext_cap_save_buffer(pdev, PCI_EXT_CAP_ID_DPC, sizeof(u16));
- 	return status;
+-	/* Some broken devices only support dword access to LTR */
+-	cap = &save_state->cap.data[0];
+-	pci_read_config_dword(dev, ltr + PCI_LTR_MAX_SNOOP_LAT, cap);
++	rc = pci_reserve_saved_cap(dev, ltr + PCI_LTR_MAX_SNOOP_LAT, sizeof(u32));
++	if (rc)
++		pci_err(dev, "unable to reserve LTR save state (%pe)\n",
++			ERR_PTR(rc));
  }
  
+ void pci_restore_ltr_state(struct pci_dev *dev)
+ {
+-	struct pci_cap_saved_state *save_state;
+ 	int ltr;
+-	u32 *cap;
+ 
+-	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_LTR);
+ 	ltr = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_LTR);
+-	if (!save_state || !ltr)
++	if (!ltr)
+ 		return;
+ 
+ 	/* Some broken devices only support dword access to LTR */
+-	cap = &save_state->cap.data[0];
+-	pci_write_config_dword(dev, ltr + PCI_LTR_MAX_SNOOP_LAT, *cap);
++	pci_restore_cap_dword(dev, ltr + PCI_LTR_MAX_SNOOP_LAT);
+ }
+ 
+ void pci_configure_aspm_l1ss(struct pci_dev *pdev)
 -- 
 2.56.0.455.g6c5a503b38-goog
 
