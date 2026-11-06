@@ -1,66 +1,86 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793984662;
-	b=enWUGqenUrwLK6RmNSzYpcV1zzaq5Ojk4Yuk4ZHK4RnCMHxjPUX3N9LrWOoYw3r+miBu
-	 pFhqHOi09d1k4RZ9tZJ4AUDAitFsWFX+5eesUFWM01GREK1YNeZYcczuz4+lsaMhJOtwG
-	 ZsDmdq9+TJcLJeRPt4ABREwd4FaZFsTNg2eDN62e+uJsUiq+atP/OzgxoRqI+BKtwQRlh
-	 BcgmtgMaDR8DSpL3juLWUnlY/onai9dPESmPhoYIvoDrHLbeXwRawHUAKoAeaGhv8br4v
-	 YrkiUde7HXsaK3eKeuEWLXmvh7hV+9OGRMRi9TqqyOPDKejHTUwHnv7/t7Hxru3kLUA==
+	t=1793984735;
+	b=IUXX2DgVZ6/pTz/98INwDqBRZj0lR7/JCcOSBedvU1fZKt5oh30JzG149UZ7Ws0I83Rg
+	 H2wUNGo9XIB9w/J684Ry/wcvkyYiQIBucnTY9PlU0Ep82LkGtvvQ4zqucSiRJKn06uk/P
+	 JwLsIHZLn6LKrP777fwtZ5vzgGHKK0FN9S2miL9NvZJ/fwYKKiNqYhsoWYbpyNutvj7r9
+	 VaYOQOmS4xVKRnBl6e9DoIxL5a6eJ3pOKAIQoJFEfCYDyjQVMY6R6+5TIWSb94DiaLq3v
+	 2i+RVFGWDrlN86Qut7mwrZCt+LHkzHvE+ymrfy7Fr6HItxlyAiFDhvnPZyok7Gw9W4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793984662;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793984735;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=/qwHj82ZGjV8oGUVTL0UP+HSV++lEMiXBJ4f5EpTCcs=;
-	b=Fn6rQyOr61qJVQ37Wvbv5WniE4yAUtMmkR6Cwg5gH6dtjyn4B4zr3PEH7xH1+On1SPkE
-	 c4mRj/TwQaSfiZ5bD3DJnAnIAxhXhzGw1nk90twUceVmGPOGu9EmS7TEMMC3qg9V580Hx
-	 W6I3H7Xydy4bzrMdtPjEkiPg0Temfowk0uHEKGMHAd19nQDkyoe/GkxCkHLNbCtg90Eyf
-	 8pNaXzsEwyCifvk7q++wW6GDGrYsFUJIpQ5a16me0vgVJ1vcmQJcfmLj7N4tWz4rvtb3z
-	 gjBX0HhBgeEHy02E6OF3JGbmeu+4oJCd/qcperP6Dp0vg2Wm4bleji8xUvd70U8VhzQ==
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=JTlEFod2cjgS0LbAQsWexRzCJ68NZr8rhNXABouJAQw=;
+	b=McODVV6NDtEmJ0rwrsb/6Hgl2V66ajgj6yFVTGoRorEK5YcFo3oUX55eJfZDz9C0izTI
+	 e2AE+IMD0nTiimbwEtjWHFSJizRoFf5iJZL4TFkLegIz5cLDrkQSb0etqEg5EEJpf0tNv
+	 aTcn2bvQ9tmiw6wl7XdlZSOygBoSLMv9Ybv/cyEOwy/StrkPOwxB0xv1N6AqxJsl2Rg25
+	 hypC6sbp6MTLQQasuUFSUJaSItqqJ4y6/HdD4+6/tMhuULIAhHa9UVkTWo/gritWQMuST
+	 B3t6WZ/CkWAHB6zjW0jhK+GAeQlIb4zSDmhjrpo9SdJzcuJcHFlixYR8CZ7ASnof2bQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FV5RO/mf";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LhgmYRf9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92913606A326;
-	Fri,  6 Nov 2026 17:04:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF925606A337;
+	Fri,  6 Nov 2026 17:05:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FV5RO/mf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01D31F008A4;
-	Fri,  6 Nov 2026 17:04:18 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LhgmYRf9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06D2E1F008A5;
+	Fri,  6 Nov 2026 17:05:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793984662;
-	bh=/qwHj82ZGjV8oGUVTL0UP+HSV++lEMiXBJ4f5EpTCcs=;
+	s=k20260515; t=1793984734;
+	bh=JTlEFod2cjgS0LbAQsWexRzCJ68NZr8rhNXABouJAQw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FV5RO/mfnOhj/UXvGJ03d3YWAJx2H74CbqBHlVVxOJPrwBETRSSC37hgKtBSRXGsu
-	 0DQkoNaMhknpoCPGNv7g8Mz0JaCByZaApKpPgAsDTkePKkw7a1sxJ7Wq4CFVrIPPXM
-	 EEG6O3KzLNy4Xr4OHinQeRfouPSb4rZu9jMMz8fVfA7K4k+cAtts/KVbwKB1vbJ6jP
-	 B03nTF9deu+BdyIRyB/4aHf7DQcWvt6BSUiUXptKNup3D8dTZNE/JA7TZNDKWxraXO
-	 PauP2vYDcaIj4/mSopDwrObQqgA1Yagf3bM9smeZ8OQ0X67aTyGcPBl8LU5ukrZmkG
-	 ejHJemFOnpXag==
-Date: Fri, 6 Nov 2026 17:04:16 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	b=LhgmYRf9RsD3jkt7XP0j5x6GVceyzZdxPZmBiATz86t4GWKKDfCr1RMuHVQsjnhKD
+	 K8hy6v4vBlzaZp8HABomM9YNM5Z2QB91duA/38Ni68uWbp1fKrWiZfq7CMnVN4/DQx
+	 4EQEtE84c9EfXGKcRhG88yib2HD5bjNrAgUmxjSfsrUNomwyyRUW6ENDJYFrI7sITI
+	 JoLR2yWeFvuJKN+DixGTRz0GQmsFknUviXNyag+oj13tq7yywSBdYxXvj69WU+OaYk
+	 2/hJ6Dh6lTz1ItTt+ownJdJdTjfELbifbUKhCJ/qeOOrj+uhKg5rw+Kzb6NkNfnrtH
+	 qA8BiWPOgyufQ==
+Date: Fri, 6 Nov 2026 09:05:32 -0800
+From: Drew Fustini <fustini@kernel.org>
+To: Zeng Heng <zengheng@picoheart.com>
+Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
+	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
+	Atish Patra <atish.patra@linux.dev>,
+	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
+	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
+	Gong Shuai <gong.shuai@sanechips.com.cn>,
+	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
+	James Morse <james.morse@arm.com>,
+	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
+	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+	Peter Newman <peternewman@google.com>,
+	Radim =?utf-8?B?S3LEjW3DocWZ?= <radim.krcmar@oss.qualcomm.com>,
+	Reinette Chatre <reinette.chatre@intel.com>,
 	Rob Herring <robh@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Michael Hennerich <michael.hennerich@analog.com>,
-	Trevor Gamblin <tgamblin@baylibre.com>,
-	Joshua Crofts <crofts@kernel.org>,
-	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 6/7] dt-bindings: iio: adc: add adi,ltc2387
-Message-ID: <20261106-usage-sarcastic-ef377a65e293@spud>
-References: <20261106160529.876251-1-Nicolae-daniel.Deaconescu@analog.com>
- <20261106160529.876251-7-Nicolae-daniel.Deaconescu@analog.com>
+	Samuel Holland <samuel.holland@sifive.com>,
+	Sunil V L <sunilvl@oss.qualcomm.com>,
+	Tony Luck <tony.luck@intel.com>, Weiwei Li <liwei1518@gmail.com>,
+	yunhui cui <cuiyunhui@bytedance.com>,
+	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
+	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+	x86@kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, yang.yicong@picoheart.com,
+	geshijian@picoheart.com
+Subject: Re: [PATCH v10 2/6] riscv_cbqri: resctrl: Add cache allocation via
+ capacity block mask
+Message-ID: <au4I3E_qcPhIr-Qr@thelio>
+References: <20261104-dfustini-atl-sc-cbqri-dt-v10-0-1636a003a3c0@kernel.org>
+ <20261104-dfustini-atl-sc-cbqri-dt-v10-2-1636a003a3c0@kernel.org>
+ <02cf71f0-09d5-4dde-a8cf-3739583cc7fa@picoheart.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,27 +90,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6Zm2+GCoGcbtJ0mH"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261106160529.876251-7-Nicolae-daniel.Deaconescu@analog.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <02cf71f0-09d5-4dde-a8cf-3739583cc7fa@picoheart.com>
 
---6Zm2+GCoGcbtJ0mH
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Thu, Nov 05, 2026 at 04:05:29PM +0800, Zeng Heng wrote:
+> Hi Drew,
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+Hi, thanks for reviewing.
 
---6Zm2+GCoGcbtJ0mH
-Content-Type: application/pgp-signature; name=signature.asc
+> 在 11/5/26 上午12:35, Drew Fustini 写道:
+> 
+> ...
+> 
+> > +/*
+> > + * Fill the rdt_resource fields for one picked rid. An rid with no picked
+> > + * controller is left untouched so it stays out of resctrl_arch_get_resource().
+> > + */
+> > +static void cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
+> > +{
+> > +	struct rdt_resource *res = &cbqri_res->resctrl_res;
+> > +	struct cbqri_controller *ctrl;
+> > +
+> > +	if (!cbqri_res->nr_ctrls)
+> > +		return;
+> > +	ctrl = cbqri_res->ctrls[0];
+> > +
+> > +	switch (res->rid) {
+> > +	case RDT_RESOURCE_L2:
+> > +	case RDT_RESOURCE_L3:
+> > +		res->name = (res->rid == RDT_RESOURCE_L2) ? "L2" : "L3";
+> > +		res->schema_fmt = RESCTRL_SCHEMA_BITMAP;
+> > +		res->ctrl_scope = (res->rid == RDT_RESOURCE_L2) ?
+> > +				    RESCTRL_L2_CACHE : RESCTRL_L3_CACHE;
+> > +		res->cache.cbm_len = ctrl->cc.ncblks;
+> > +		res->cache.shareable_bits = 0;
+> > +		res->cache.min_cbm_bits = 1;
+> > +		res->cache.arch_has_sparse_bitmasks = false;
+> 
+> Currently, the driver sets arch_has_sparse_bitmasks to false, causing
+> resctrl to require a contiguous bits in cache allocation masks. For
+> example, L3:0=3 is accepted, whereas L3:0=11 is rejected because its
+> set bits are non-contiguous.
+> 
+> The default should allow both contiguous and non-contiguous masks,
+> provided they satisfy the other mask validity checks. A contiguity
+> restriction should only be imposed when a specific hardware
+> implementation can't support sparse masks explicitly.
+> 
+> So I propose enabling sparse cache allocation bitmasks by default.
+> Thanks.
 
------BEGIN PGP SIGNATURE-----
+Good point, I will change arch_has_sparse_bitmasks to true. The spec
+defines cc_block_mask as one bit per capacity block and there's no
+contiguity requirement.
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCau4IkAAKCRB4tDGHoIJi
-0iueAP9jmAfn1jcU1E0CQxnvOVAmJfHXQT7RW7NOL4BYmj04uQEA9fCtpJwivUlD
-/lvw4diYBrzR55OtM06oGpeAmRguMQo=
-=A6CV
------END PGP SIGNATURE-----
+> > +		res->cdp_capable = ctrl->cc.supports_alloc_at_code;
+> > +		res->alloc_capable = ctrl->alloc_capable;
+> > +		INIT_LIST_HEAD(&res->ctrl_domains);
+> > +		INIT_LIST_HEAD(&res->mon_domains);
+> > +		break;
+> > +	default:
+> > +		break;
+> > +	}
+> > +}
+> 
+> Apart from this,
+> 
+> Reviewed-by: Zeng Heng <zengheng@picoheart.com>
 
---6Zm2+GCoGcbtJ0mH--
+Thanks!
+
+Drew
