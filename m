@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793962165;
-	b=vwhjLosnEtFmdO1E4n5MgqtcRFhIknEWlt5lt87GxWnhNntCPFaIevi8FMW6gE/GAv6U
-	 JgtzL7vwuZZ77evdFENofVRTxIYx0Rz/SYWzsMxlF/dk2gfhGHaGvdxZcEqSZ4XP86DS8
-	 Oh2nilkWRgX60DHgMb4b8WBW9LCcHK7LV7R+KqwfMBUk6Q3lqeSBtxYuXaUDsOlgAri02
-	 IJ40ftu/KAQAJmxXFrZsjvozHjQFsBx1DLXcqjqT/3pJa0MElPPpbHSlfNDv9sfudgZxr
-	 n1O5+wvoGRaGZ/k4jpxHzQSyfIYlAw73vvp+brt3TBAxUdJ72WQPI01RN9+8C0O64tQ==
+	t=1793962169;
+	b=qynRcMTf6tRgL0mq23Cx9/VNOFrd0w4pUOEE7lzY7bTI9wa5btYwNrZcSn8TwBAbcuzS
+	 9UgasrsfqWg+cP50COCCyWmP6jS71kC6/UF6C8dEsG0/MSrI7uXXcl/QWxhmp+Rpzocke
+	 XneNHkHqyfyMsGRg5iSm7tBmfWOfhaejK9oGmPxk0X5cxIV8uKDiN6LVxXNEA5VNMJdH/
+	 FJtlfRikoZmZLa7ibPCzUI2genHGBAC7BsbxOIdhe6ZkZTZODYICUT4i9Vzp93ArrJapT
+	 7bGcikFrVTUMDrAYQN8KETlsicl1BxhufnM8OSRSF+iJ/N8y1c8wjUToUndBd5qSV8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793962165;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793962169;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=OMScx+ZfRFBqsHaUAOcjEp0K/Uj5h/TPVm71DTFyVWk=;
-	b=Rwqh+TqBaUdhSp9cU84KCHAoiLh96kPc+QVPLreda/w/jfv+GqHN0i05g7OiEzWkU/oA
-	 PbfZBM7AgTqZ5KkJ4xEi2FEV0zrFCLyWny2FdUyyr44vlm6Lhf8s9hM9ziEHUKx+nBCHb
-	 SmIP13gAZ5W7boMl1hj9rbNKnCxF/f/QaairwXRB4G+oE/4eB4I2eV70xAwDurH7mxwpf
-	 IHWDFY95lzmns6HnmeBjZKPMS4j/NIhVpmKCg8IN4ioB74Se8SfyYdvLL8c8EyIWWQWMN
-	 PiSxlHp2NP4DZCj2Jsy7cPbVDMgmxlY5Uwf1GpAN0v06VJ+1t5teTxmgx9FP9c379Jw==
+	bh=8JKWuexccA6BFXNilr1htSwlQxoOPuIv3awSa5Dwgpw=;
+	b=u5D2ykBgnODEf1Tm9BimVt6HC016SsHCFYMQHXZnSc4CALZiLs7Or6UA/jssGnS4zsQd
+	 wsrYfDdpx91+YmrQUACRxYdpd3vGhIJtUgIW5oL99ccV+9/6W/2Ojacjdq+rc606FubUQ
+	 pJnH6jpvR6JyUEMqGew8TzfG0ffWiJ/QBZFkW9NXJ9CD0vexoPI7iD+47XG/JZ+NK5Kih
+	 1ThMJWyDszAmn1ct6cOlDQkLUwauFE/7sxx9psMfWlzxWBPESGJic4Nl94mvB/yai0Uvl
+	 53WTmfnu3nOWZMveeVBN4bIh67LOkoxqJKilendpano82GkOcC5hqStIXOlalaT7KQg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=I6AUgS8b;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=UXZSXbei;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0D6D606A32C
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:49:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F0D6D606A32C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26A46606D804
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:49:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26A46606D804
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=I6AUgS8b
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=UXZSXbei
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793962161;
+	s=mimecast20190719; t=1793962168;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=OMScx+ZfRFBqsHaUAOcjEp0K/Uj5h/TPVm71DTFyVWk=;
-	b=I6AUgS8b66BcHjNIzNPyZrdorgNNemfm7zjRLeOF1T0wM23JqEfCVWRigj6OeUp0al1tEL
-	JmNqa845q5M/81RTbci3LhWDCjkwDItjpCWVkpneQKfm73pYCy4bbu+ZqeoOTD/BpIAmUE
-	7oKc73kkpTiS/iIhssTWlPUeKV8jCc4=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=8JKWuexccA6BFXNilr1htSwlQxoOPuIv3awSa5Dwgpw=;
+	b=UXZSXbeiFRdDRgcGmaJhz36zMEArs1EvmWQOI1sAg9siulM2Z4KiptWRy/Y4QJycTWKBf+
+	2X4/PmKCGs5zBVEolAiFXANrl+TZyGDvaLTAnQPkWQR6XBPe5ZFFoDhlckxaYeVXpsJN2a
+	kPTiX6Q8gJ2Elozcsrzd8wptiKs5Tm0=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-121-j9MkFA5OOkeln0rWh6CpDw-1; Fri,
- 06 Nov 2026 05:49:13 -0500
-X-MC-Unique: j9MkFA5OOkeln0rWh6CpDw-1
-X-Mimecast-MFC-AGG-ID: j9MkFA5OOkeln0rWh6CpDw_1793962141
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-76-eUGb9oCONyq46v7mn-krmA-1; Fri,
+ 06 Nov 2026 05:49:23 -0500
+X-MC-Unique: eUGb9oCONyq46v7mn-krmA-1
+X-Mimecast-MFC-AGG-ID: eUGb9oCONyq46v7mn-krmA_1793962161
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E5E351955F0C;
-	Fri,  6 Nov 2026 10:49:00 +0000 (UTC)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 516E218004DF;
+	Fri,  6 Nov 2026 10:49:21 +0000 (UTC)
 Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 8C73D1956047;
-	Fri,  6 Nov 2026 10:48:56 +0000 (UTC)
-Message-ID: <239ed02f-466e-4a7e-869f-e9684623c5bf@redhat.com>
-Date: Fri, 6 Nov 2026 11:48:55 +0100
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5D7DC447;
+	Fri,  6 Nov 2026 10:49:17 +0000 (UTC)
+Message-ID: <b0bd368b-6c63-4269-98ee-34f3e1638be6@redhat.com>
+Date: Fri, 6 Nov 2026 11:49:16 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,8 +72,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 04/14] selftests: dpll: add pin enumeration
- and property tests
+Subject: Re: [PATCH net-next v2 06/14] selftests: dpll: add pin state tests
 To: Petr Oros <poros@redhat.com>, netdev@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
@@ -85,49 +84,40 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 References: <20261105151852.1844305-1-poros@redhat.com>
- <20261105151852.1844305-5-poros@redhat.com>
+ <20261105151852.1844305-7-poros@redhat.com>
 Content-Language: en-US
 From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20261105151852.1844305-5-poros@redhat.com>
+In-Reply-To: <20261105151852.1844305-7-poros@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
 On 11/5/26 16:18, Petr Oros wrote:
-> Extend the library with pin queries. Pins of a device are collected
-> from the full pin dump with jq, since older iproute2 lacks the device
-> filter of "pin show", and the fields that live in the parent-device
-> nest are read through a helper that selects the nest of the device
-> under test. The helpers that work on the full dump normalize its shape
-> the same way the id-based ones do, so that a tool printing a flat
-> object instead of the dump wrapper works with all of them. Like the
-> device queries, every pin query runs the tool first and jq on what it
-> printed, so that a query which fails returns the status of the tool
-> instead of the empty output a missing attribute produces too. The
-> prerequisite check now also requires a tool that knows "pin show", so
-> that a tool too old for the pin queries is a skip up front rather than
-> a failed query in every test. The dpllsim helpers gain
-> dpllsim_add_pin, which creates a pin directory and writes its type,
-> frequency and direction, and the standard device grows a GNSS input,
-> an external input and an external output.
+> Add dpll_features.sh, a script that exercises individual device and pin
+> callbacks with get/set roundtrips over netlink. It creates a dpllsim
+> device with the standard pin layout by default or runs against the
+> device named by DPLL_DEV_ID, and picks the pin to reconfigure up front,
+> the first input pin that is not connected on the device, so that no
+> test touches the reference the device is locked to. The first test
+> moves that pin between the disconnected and selectable states, reads
+> the state back after each step and restores the original state at the
+> end. It never connects the pin, which could make it the reference.
 > 
-> dpll_basic.sh checks that the enumeration yields a numeric id for every
-> pin of the device, the ids are taken from the dump as they are and jq
-> prints null for a pin without one, that every pin has an id and a type
-> and carries the direction in the parent-device nest, and that an input
-> pin reports a valid state. The property test does not go on to query
-> pins by an id that is not one, and reports a pin it cannot query at all
-> as one failure rather than as one per attribute. The frequency is not
-> required, a pin without a frequency callback does not report one. The
-> device the script created has the standard pins, so an empty pin list
-> or a missing input pin on it means a failed query or broken tooling
-> rather than a pinless device. The library gains
-> dpll_log_test_skip_or_fail for such conditions, which fails on the
-> device the script created, recorded in DPLL_CREATED_DEVICE next to
-> DPLL_DEV_ID, and skips on a device the user provided. The stress script
-> creates its devices with a random set of pins of every type and both
-> directions, MUX pins always as inputs, and the deploy cycle test runs
-> with the standard pin set.
+> A driver may refuse a state the capability promises, for a constraint
+> the interface does not tell. That is a skip on a device provided by
+> the user, with the reason the tool reported, and a failure on the
+> device the script created, whose simulator accepts both states. The
+> restore is deferred right after the original state is read, and the
+> cleanup handler of every script that defers runs the pending restores
+> before it removes the devices the script created, so that an
+> interrupted run puts the device back as well.
+> 
+> The stress script gains a test that floods one input pin of a fresh
+> device with state changes. The library gains the state setter both
+> use, which keeps the extack line of the tool in DPLL_LAST_ERR so that
+> a test can tell a refusal from a failure, and a check whether the pin
+> set usage of the tool knows a keyword, so that a test skips on a tool
+> too old for it rather than every script requiring a newer tool.
 > 
 > Signed-off-by: Petr Oros<poros@redhat.com>
 
