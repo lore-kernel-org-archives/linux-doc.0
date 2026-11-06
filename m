@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964769;
-	b=JXUKztsrCZASZFrpCHZxyX8wiD5eEVP3mWgtbd/xmk+TgCDl/7tMcieEewM1TB4C2n38
-	 yOoCzuZSxEqpq9EYY74I/yFy3PNaHnoY0V9QFGf0ONQBleuFMwjuEkRUHNNCgGe2nhNeA
-	 kKnsaP+O6Sv1KrdAOlHy86QAYUrzCfSwfEu/st7OZbJCX0RdIWmZ0zmXfGJ1L2VEo+8ro
-	 vx3kdf5AxuIFDvLEDIQsSuNkRPL032UcdrOq9ktc0cnjRNmvVxFPgWdrrF1DVeqkBB9ZQ
-	 ry3ZPodY9NIF6zUiDPDP0MXkb01sH1gEmZctz3gTGTmISB5osMDAOHTvh8KKW0rJQZQ==
+	t=1793964777;
+	b=2OD61ir8k4DhIjCuC4IAlYdH5vueZQwrUWP8UjwIYC2zN9Q/s6GJDid04V55+Z1k7/ZS
+	 g+bvcsRvus+DBafVWVi0J6+tIVHFs2re681+IPDu4BDGtxcxWZOOz2cBWz8Ilo8WbfD/u
+	 QwvhjApSJKoTQh8ywW/8/iu5yW8p/TlJ4DcX6R8DFaCsm3VYP9GEe9wqbRZlyJpl3/kjQ
+	 akVtL8vZoKYDy+9nClAUCOKC46f7HWXCBKFGvrf2dCSc1iFgPCDuE5IjX19VLsEPt2a/7
+	 8QniBv9DG/rpY0z8/PjEoZ0c27US5WV7Leqi6trglLgGDcv4g293dsq/EPrhYBRHmnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964769;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964777;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=lTzeddrlkJ6EM0T9eywUnBlh4s5kow/CLOIaopcE9eE=;
-	b=GY1etCb3DsiWQKzHNt9c7RQwXUKGiiWgu2te0gsReB2NFth3Vjgjv1oRYedPPvqcl2ra
-	 J5LGbG84wxe0BxFZdBL5LbZQwdq6aXi+31j00tDHH6T0SIxEPtPuGubMQ0LUL7FhV3hAD
-	 p0PGd0LvkMMghCRZmnYUyJ+gHQyashSm2/LdmZ4mabEw7MV/BCITXEAnrRygme4keoeZb
-	 SDT2CJbYacG4qU4QyRt9bMRmRaimIJ9aN2H4AwqwxrHS6WJqfW0lnoFnuSe5XLU3XNOm9
-	 tGlmPoc5iu7/n7wNS1Lhxf3CPKT25oNepVUY56OMBc6GodIJNYBRUS8casYUFrhEpbw==
+	bh=kcFMQO+FBcVuHeumCnVoJcr0qU6tZBnQo15lGq6qnZs=;
+	b=XaYp3HCYnWDCJfq0oQEo0j1ka9zCAgrM/7wrMFvM6//hDmvTCjsZ/DDrFztaCx+Bw6oC
+	 7iWEtuSNYOhA30Z2jdF20N/QIYrH/1zFJ21dI0+wMDgbZle8umcbpOvvUKBZ6GYe3EulT
+	 IcrZ+xiV63ZkQYCqT1wVecRawpTXespay5MCQdspZ6JQ9ykuufHOyykoLtLmYMo+CI3AT
+	 Q770GaEzRKcTMAx/ANHzQy0+DIsp5q86g406JaD+9jvY9VZQpUz8e7uNx4Gnoaqouvgoi
+	 HQJ7cbuQRJtvp/WSxFqPdK0uwovBue40SyrMLIL/zPf3bUPV9FN14ONy0GGLMwDXXmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wpKfLtwm;
-	arc=none smtp.remote-ip=209.85.216.41
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=latyjXoP;
+	arc=none smtp.remote-ip=209.85.216.51
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CA160A3811
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14CA160A3811
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A25CC606EEA1
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A25CC606EEA1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=wpKfLtwm
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3b0b6cae44aso106869a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:47 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=latyjXoP
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b0b6cae44aso106894a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964767; x=1794569567; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964776; x=1794569576; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=lTzeddrlkJ6EM0T9eywUnBlh4s5kow/CLOIaopcE9eE=;
-        b=wpKfLtwmD1vbvIshA84fOvWJm/lYdv0UuZAK8o9474B1rPpJQ5JHxvSenrfXzwwX+z
-         u9ARBh92CU5w+RwHsRmMnhpbOl3zsgbN6QfmsPENsYI+xOM5+avE/i3DpqI/H+Oi06x3
-         HUqCxB326OYn22+485QsiXMM3fl6TlsbWbgdoMMRWzRGN2EKHcDrU1BKvTwSTHs92yEp
-         6/+5osRRjhLKkbXuq+V69MMu8p+3NYFKYXV6tl+Ee1HYsicqSVgAkrFJJSVtgp069spf
-         izNIPxFtLWtD6r9va8cu3H7lsd0EdrvQGcHKOul5gjKm9KrtHCcGZxGxxEFdzprRNaOQ
-         LAjQ==
+        bh=kcFMQO+FBcVuHeumCnVoJcr0qU6tZBnQo15lGq6qnZs=;
+        b=latyjXoPPCiGMcBk3hbGBZdfACEAs9bPTh4gRIFN+CsNaY+RU2YgUYyI2o5AGWXHVC
+         rhXmUyhCLz0fPJM4HI4T+dGGNicRWk8TrVlEgYkBByKSQa2DwjglqiO9PdUL2lV5Az/B
+         ZbbCyfb9FGpzVa2p9zEcDTW/s/yJ877KJAZuhbyUZes9EigtJEI5fvGtsxDQvHh6P1TY
+         cf4yzlLHqWNFMHsJnPXGmR2hruI563f+r8FzftUzT1pg+wQtwLPAqhUYfgaMyM2rqUmC
+         dTuZgmDCFMdIeiFt7pHRQQnWB4J2gFbpCvF5weJ6BeCv8o2ZcNrCTdlESGWqCqWhLtqa
+         Vptw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964767; x=1794569567;
+        d=1e100.net; s=20260707; t=1793964776; x=1794569576;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=lTzeddrlkJ6EM0T9eywUnBlh4s5kow/CLOIaopcE9eE=;
-        b=sJRt7SPCssSWEolGTrtehw+5osdYn+PcofSP8d6XhV+xVNOKnVFZ1JRA1GbZyEfXQl
-         uUsjtucoEj8CpEjGPIxtwvLT22kfrfycwpdfIcbl1cfH9H+5BaLs4PUr6oOoXxYPERHm
-         JNmwZt4a1bUuolgTOqDes3AknJ7AmmIrPogZeVGzaymJ/8gJUTOzZh9r/JdB7BBMR8XN
-         qiyhnPA5IG81cbM+rRTZUBwEPDsABn1Q0cZBFZTobn6kigw0nUQ6Pm25NzmD9kH8aLHq
-         1hJdy9Wz35u5rWg503179MS51IamAyYrJtfFPGQjceNRd3lomgRl2TvrBRpgFDT7Vnia
-         y99g==
-X-Forwarded-Encrypted: i=1; AL+hErGefEkHPpmqb3nr0hyToa5gJsESXtdnJsZpQMFTRIDjMzQoRXm4x205MaKv1jtW5SlVLrpeEY1sYpI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+hzhyug6XTvm+a+lnOx3/Dd0YQgAGDUd9Of+lwRt6ZqR2Dft1w
-	1pwK6q4frsVg5ZIiqOML/SyNd9r9ahFU88Jwf6jUIIDJ+NwiUAoqt1bv
-X-Gm-Gg: AYBFou2+x+SQfuh5XVlf6mSFB9reDDAjAZyRvOMVmMlfTOdjp0KNei4MNItYrQVLHe4
-	V13wqgbh3/xgvhVbRw9KfC4O2N2UN8RIOdzXJk8DaBeFw22KgYDUT34c+smstkXDVmM+5UatHGM
-	MEl9Mag21LNeZ7ODw7hohjJJnRZ4fT47NfEFk7RnJcVTKu2rw4o+kqHW0fSzSMT0aPz3BluV61J
-	G9zGbt8iY0npsR1mD/0rLFB2OMcMTZMF4dIS1J2wIgnA4Zb9oRtVxCNjjVYLS/W2vhHWqqy0qqZ
-	m5hOmtWSlYA+iYff5gYVHCbSHFzJ1Q33LSw8/Gqlllrg+KKdnDlLCiDrQC2UYTy9IFAUHyWmsTp
-	EmwOvD2Al5R8bMitcokcMkfXJplo5m7AGz0GDPS/xQP6qUXibBbk3a+4byn/KJUAge2VT8mKT1/
-	CRt882bigSplWGK7uriq1fK6J27mbH0ckH+JU29u+3abcPPfF6hGL8+psROKpQ/9zZfm6uAc5mv
-	SL9ujULr/ny0nHnw63Vn8bLSpalrzDwIyHThNCozcKtbIg0uw3UFkajQlmaY1q3ftDn8JNwJBEZ
-	1ufRNv9g+qbeGMdd9B4XA/zMDXXWLf1O/ivbysCsp4FEuXz5Y53tLjhZhiolWTIfUCzzyyZcLjf
-	bd7SpC/NFo+Ag6MdpPQx2r5gS
-X-Received: by 2002:a17:90b:5705:b0:3ac:77a2:18b1 with SMTP id 98e67ed59e1d1-3b0db70b7ffmr3498989a91.5.1793964767056;
-        Fri, 06 Nov 2026 03:32:47 -0800 (PST)
+        bh=kcFMQO+FBcVuHeumCnVoJcr0qU6tZBnQo15lGq6qnZs=;
+        b=arQNS7WrF2WroRQe1Y4X6q72ZNeMC+OHg/X+KpqNN6zV270Qhudi3dXLD44uT8/gwn
+         MDl8S0LoB0QxIBRRLizVx/KY53K5ESTcNiPiaWPpVsMvBwOVsEchZNtM0VZhTUlyN27z
+         Bnf21vwca/cdz+WOr9/y2+Or+FU/iRYClhPWRuPW6bbPjO67AHDu57mb1doybDNEAMzu
+         LxtGhjZUqkCvl96XHx+63n5vf9jiahEyqekIeFZeVo5b5XLBXEjwJ//cf5uiaaBSz92t
+         aKtmK3IJc1kvFD1peVZDe678zJOaLZIX3XgB7QpM4CgRgG8g4eJ4uBdPydNDq/+SJHwg
+         TZmw==
+X-Forwarded-Encrypted: i=1; AL+hErEZIvYt5jo5q+wNf+4K+u7x2O4pcuxej/jVB1oQ76VMcALhJTIFAlcWzIQ0DM0D7C8zjQTQugcjnzA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+wxYU78CRJkqP/um0nLudzK+rhJZI9Lk3Tpdvev5OmJEG3lScK
+	bvO17KyABBk7ptj2UNV5zZrvwzdMjbYz41n9FscMIxhSQtiplKzyvqnY
+X-Gm-Gg: AYBFou1dvJR6gZuLAkKIj8hX6sEqQ6LiBrDNaZ2e7JTKCpELi46MczZjHRwbFqb8ZD7
+	vWP8jxBlZNaeakKTaDpIaWL19veMkpOOwzvQvxXgQdKiM0vWPK9rcX6gtm/QapheGhU7T7md7sl
+	x/yRZR6YGhcScZZuuJIcAIgyUtLmzxFofGQcQCMFWTKX5MZKewSnKRCD1eB029toapHdmtDMKeg
+	YIkej+VRlF/Rgch8ojuLzFOkgc0KpbpwWwiMcN7XBIre45qaM8vim0iH3LPAg3K7nM1VWuXlgPF
+	HmotMLRsGtYBSuE9QATtnDeDzU1oJs/4JMAMoH4UH028G0wZI7kDCkmcNNWqCfSak3VVPWMnMX5
+	IRVmWkkK6/Ex74bZKKVjZViyTfe1kABaUP7YLj+G4dPPO2ers4MDN/1miHLM2gIGL0SC1OnFGGz
+	z91rWGX6cLUraf/OIozjxX45gr9GMiOnIbUVNhNjkGdqIGt+Zdz7CHWNxR4G8yrRupTNjCY9rov
+	kHb87+qhtnJAsFB0QB+FaayMHpUArOW95/nDA6bkmcbXguXg3ffmvr4PlpHQIrgPWs9fXLvG2FK
+	8rXR90hpZkLQLuFWJRc45+N5ytC+lOwErlkOuTpwKP+13TfmpuC3qPBFMR3mzkqLY9+RKSjy4yR
+	pzoF1F998pJo1zcZIhXl7ih0wzA==
+X-Received: by 2002:a17:90b:2c90:b0:3ac:9e76:aa96 with SMTP id 98e67ed59e1d1-3b0db6e269amr3107057a91.3.1793964775749;
+        Fri, 06 Nov 2026 03:32:55 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.44
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:32:46 -0800 (PST)
+        Fri, 06 Nov 2026 03:32:55 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 17/25] docs/zh_TW: process: sync volatile-considered-harmful.rst with the English original
-Date: Fri,  6 Nov 2026 19:31:32 +0800
-Message-ID: <20261106113142.706783-18-chenyou910331@gmail.com>
+Subject: [PATCH 20/25] docs/zh_TW: process: sync embargoed-hardware-issues.rst with the English original
+Date: Fri,  6 Nov 2026 19:31:35 +0800
+Message-ID: <20261106113142.706783-21-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113142.706783-1-chenyou910331@gmail.com>
 References: <20261106113142.706783-1-chenyou910331@gmail.com>
@@ -107,192 +107,183 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation carries no "update to commit" marker.  A comparison
-against the current English text shows every paragraph is present, but
-the prose was converted from zh_CN and several sentences drifted from
-the original:
+The translation is marked "update to commit cead34ac1ce1 ("MAINTAINERS:
+update ndesaulniers")", but a comparison against the current English
+text shows it never picked up parts of two earlier changes:
 
-- cpu_relax() "happens to serve as a compiler barrier", not a memory
-  barrier
-- the use of volatile "is likely to be seen as a bug" and will bring
-  additional scrutiny, rather than simply being a bug
-- I/O memory accesses are "always" done through accessor functions,
-  and "busy-waiting is generally an anti-social act"
-- render the "fixing it would be more trouble than it is worth" clause
-  of the jiffies item and the "justification" required of patches
-  removing volatile variables as in the original
-- restore the emphasis on "within" in the critical section paragraph
-- localize terminology (內核→核心, 代碼→程式碼, 內存→記憶體,
-  寄存器→暫存器, 變量→變數, 訪問→存取, 優化→最佳化, 線程→執行緒,
-  網絡適配器→網路卡, 爲→為, 裏→裡)
-- use the same heading underline characters as the original, and put
-  the references and credit lines in separate paragraphs so they no
-  longer run together in the rendered output
+- from commit 39fef15b5f2d ("Documentation:
+  embargoed-hardware-issues.rst: Clarify prenotifaction"): the team only
+  develops fixes, the security officers help coordinate a fix, and the
+  incident list is used for coordination of fixes
+- from commit a2e4bdca2c36 ("Documentation:
+  embargoed-hardware-issues.rst: minor cleanups and fixes"): the
+  coordinated release paragraph, including the "no pre-notification
+  process" sentence, the "acknowledges or resolves an objection"
+  wording, "potential experts" in the subscription paragraph and
+  "subscription to incident-specific lists"
+- capitalize Git as in commit 4a0be1a25d98 ("Documentation: process:
+  Capitalize Git, Quilt, and Mercurial consistently")
 
-update to commit 93431e0607e5 ("Replace HTTP links with HTTPS ones:
-documentation")
+Also retranslate sentences whose meaning had drifted: "listed entity"
+(rendered as a publicly listed company), "involved developers"
+(rendered as vendors), "well-connected" (rendered as easy to contact),
+the response team validating the subscription request, and the emails
+rather than the list being signed.  Fix the 證書籤名 typo and localize
+a few terms (通信→通訊, 行業→產業, 連接→連線, 客戶端→用戶端, 聯繫方式→聯絡方式).
+
+update to commit 4a0be1a25d98 ("Documentation: process: Capitalize Git,
+Quilt, and Mercurial consistently")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../process/volatile-considered-harmful.rst   | 115 +++++++++---------
- 1 file changed, 59 insertions(+), 56 deletions(-)
+ .../process/embargoed-hardware-issues.rst     | 51 ++++++++++---------
+ 1 file changed, 26 insertions(+), 25 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
-index edfc83f32672..6c54c9442524 100644
---- a/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
-+++ b/Documentation/translations/zh_TW/process/volatile-considered-harmful.rst
-@@ -7,92 +7,95 @@
- :Original: :ref:`Documentation/process/volatile-considered-harmful.rst
-            <volatile_considered_harmful>`
+diff --git a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+index f5096b9de1a8..612f32c2b72f 100644
+--- a/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
++++ b/Documentation/translations/zh_TW/process/embargoed-hardware-issues.rst
+@@ -24,15 +24,15 @@
  
--爲什麼不應該使用“volatile”類型
--==============================
-+為什麼不應該使用“volatile”類型
-+------------------------------
+ Linux核心硬體安全小組獨立於普通的Linux核心安全小組。
  
--C程序員通常認爲volatile表示某個變量可以在當前執行的線程之外被改變；因此，在內核
--中用到共享數據結構時，常常會有C程序員喜歡使用volatile這類變量。換句話說，他們經
--常會把volatile類型看成某種簡易的原子變量，當然它們不是。在內核中使用volatile幾
--乎總是錯誤的；本文檔將解釋爲什麼這樣。
-+C程式設計師常認為volatile表示變數可能在目前的執行緒之外被改變；因此，在核心中
-+使用共享資料結構時，他們有時會想用volatile。換句話說，他們常把volatile類型當成
-+某種簡易的原子變數，但它並不是。在核心程式碼中使用volatile幾乎從來都不正確；
-+本文件將說明原因。
+-該小組只負責協調被限制的硬體安全問題。Linux核心中純軟體安全漏洞的報告不由
++該小組只負責為被限制的硬體安全問題開發修復。Linux 核心中純軟體安全漏洞的報告不由
+ 該小組處理，報告者將被引導至常規Linux核心安全小組(
+ :ref:`Documentation/admin-guide/<securitybugs>`)聯繫。
  
--理解volatile的關鍵是知道它的目的是用來消除優化，實際上很少有人真正需要這樣的應
--用。在內核中，程序員必須防止意外的併發訪問破壞共享的數據結構，這其實是一個完全
--不同的任務。用來防止意外併發訪問的保護措施，可以更加高效的避免大多數優化相關的
--問題。
-+理解volatile的關鍵在於：它的目的是抑制最佳化，而這幾乎從來不是我們真正想做的
-+事。在核心中，必須保護共享資料結構免受不必要的並行存取，這是一個完全不同的任
-+務。防範不必要並行的過程，也能以更有效率的方式避免幾乎所有與最佳化相關的問題。
+ 可以透過電子郵件 <hardware-security@kernel.org> 與小組聯繫。這是一份私密的安全
+-官名單，他們將幫助您根據我們的文件化流程協調問題。
++官名單，他們將幫助您根據我們的文件化流程協調修復。
  
--像volatile一樣，內核提供了很多原語來保證併發訪問時的數據安全（自旋鎖, 互斥量,內
--存屏障等等），同樣可以防止意外的優化。如果可以正確使用這些內核原語，那麼就沒有
--必要再使用volatile。如果仍然必須使用volatile，那麼幾乎可以肯定在代碼的某處有一
--個bug。在正確設計的內核代碼中，volatile能帶來的僅僅是使事情變慢。
-+和volatile一樣，核心中讓資料並行存取變得安全的原語（自旋鎖、互斥鎖、記憶體屏障
-+等）也是為了防止不必要的最佳化而設計的。如果正確使用了這些原語，就不需要再使用
-+volatile。如果仍然需要volatile，那麼程式碼中幾乎肯定在某處有bug。在正確撰寫的
-+核心程式碼中，volatile只會讓事情變慢。
+ 郵件列表是加密的，發送到列表的電子郵件可以透過PGP或S/MIME加密，並且必須使
+-用報告者的PGP密鑰或S/MIME證書籤名。該列表的PGP密鑰和S/MIME證書可從以下URL
++用報告者的PGP密鑰或S/MIME證書簽名。該列表的PGP密鑰和S/MIME證書可從以下URL
+ 獲得：
  
--思考一下這段典型的內核代碼::
-+思考一下這段典型的核心程式碼::
+   - PGP: https://www.kernel.org/static/files/hardware-security.asc
+@@ -80,29 +80,29 @@ Linux核心社群有一個專門的硬體安全小組負責初始聯繫，並監
+ 硬體安全小組確定開發人員（領域專家），他們將組成特定問題的初始響應小組。最初
+ 的響應小組可以引入更多的開發人員（領域專家）以最佳的技術方式解決這個問題。
  
-     spin_lock(&the_lock);
-     do_something_on(&shared_data);
-     do_something_else_with(&shared_data);
-     spin_unlock(&the_lock);
+-所有相關開發商承諾遵守限制規定，並對收到的資訊保密。違反承諾將導致立即從當前
++所有相關開發人員承諾遵守限制規定，並對收到的資訊保密。違反承諾將導致立即從當前
+ 問題中排除，並從所有相關郵件列表中刪除。此外，硬體安全小組還將把違反者排除在
+ 未來的問題之外。這一後果的影響在我們社群是一種非常有效的威懾。如果發生違規
+ 情況，硬體安全小組將立即通知相關方。如果您或任何人發現潛在的違規行為，請立即
+-向硬體安全人員報告。
++向硬體安全官報告。
  
--如果所有的代碼都遵循加鎖規則，當持有the_lock的時候，不可能意外的改變shared_data的
--值。任何可能訪問該數據的其他代碼都會在這個鎖上等待。自旋鎖原語跟內存屏障一樣—— 它
--們顯式的用來書寫成這樣 —— 意味着數據訪問不會跨越它們而被優化。所以本來編譯器認爲
--它知道在shared_data裏面將有什麼，但是因爲spin_lock()調用跟內存屏障一樣，會強制編
--譯器忘記它所知道的一切。那麼在訪問這些數據時不會有優化的問題。
-+如果所有程式碼都遵循加鎖規則，那麼在持有the_lock期間，shared_data的值不可能意
-+外改變。任何其他想要操作該資料的程式碼都會在這個鎖上等待。自旋鎖原語會充當記憶
-+體屏障——它們是刻意這樣撰寫的——這表示資料存取不會被跨越它們而最佳化。所以編譯器
-+可能自認為知道shared_data裡會是什麼，但由於spin_lock()呼叫充當記憶體屏障，會強
-+制編譯器忘掉它所知道的一切。存取這些資料時不會有最佳化的問題。
+ 流程
+ ^^^^
  
--如果shared_data被聲名爲volatile，鎖操作將仍然是必須的。就算我們知道沒有其他人正在
--使用它，編譯器也將被阻止優化對臨界區內shared_data的訪問。在鎖有效的同時，
--shared_data不是volatile的。在處理共享數據的時候，適當的鎖操作可以不再需要
--volatile —— 並且是有潛在危害的。
-+如果把shared_data宣告為volatile，加鎖仍然是必要的。但編譯器也會因此無法在臨界
-+區 *內* 最佳化對shared_data的存取，而此時我們明知沒有其他人能操作它。在持有鎖期
-+間，shared_data並不是volatile的。處理共享資料時，正確的加鎖讓volatile變得不必要
-+——而且可能有害。
+ 由於Linux核心開發的全球分散式特性，面對面的會議幾乎不可能解決硬體安全問題。
+ 由於時區和其他因素，電話會議很難協調，只能在絕對必要時使用。加密電子郵件已被
+-證明是解決此類問題的最有效和最安全的通信方法。
++證明是解決此類問題的最有效和最安全的通訊方法。
  
--volatile的存儲類型最初是爲那些內存映射的I/O寄存器而定義。在內核裏，寄存器訪問也應
--該被鎖保護，但是人們也不希望編譯器“優化”臨界區內的寄存器訪問。內核裏I/O的內存訪問
--是通過訪問函數完成的；不贊成通過指針對I/O內存的直接訪問，並且不是在所有體系架構上
--都能工作。那些訪問函數正是爲了防止意外優化而寫的，因此，再說一次，volatile類型不
--是必需的。
-+volatile儲存類別原本是為記憶體映射的I/O暫存器而設計的。在核心中，暫存器存取同樣
-+應該受鎖保護，但我們也不希望編譯器“最佳化”臨界區內的暫存器存取。不過在核心中，
-+I/O記憶體存取一律透過存取函式完成；直接透過指標存取I/O記憶體是不被認可的做法，
-+而且並非在所有架構上都能運作。這些存取函式就是為了防止不必要的最佳化而撰寫的，
-+所以，再說一次，volatile是不必要的。
+ 開始披露
+ """"""""
  
--另一種引起用戶可能使用volatile的情況是當處理器正忙着等待一個變量的值。正確執行一
--個忙等待的方法是::
-+另一種可能讓人想使用volatile的情況，是處理器忙等（busy-wait）某個變數的值。執行
-+忙等的正確方式是::
+-披露首先按照上述聯繫方式一節，透過電子郵件聯繫Linux核心硬體安全小組。此
++披露首先按照上述聯絡方式一節，透過電子郵件聯繫Linux核心硬體安全小組。此
+ 初始聯繫應包含問題的描述和任何已知受影響晶片的列表。如果您的組織製造或分發
+ 受影響的硬體，我們建議您也考慮哪些其他硬體可能會受到影響。披露方有責任及時
+ 聯繫受影響的晶片供應商。
  
-     while (my_variable != what_i_want)
-         cpu_relax();
+ 硬體安全小組將提供一個特定於事件的加密郵件列表，用於與報告者進行初步討論、
+-進一步披露和協調。
++進一步披露和協調修復。
  
--cpu_relax()調用會降低CPU的能量消耗或者讓位於超線程雙處理器；它也作爲內存屏障一樣出
--現，所以，再一次，volatile不是必需的。當然，忙等待一開始就是一種反常規的做法。
-+cpu_relax()呼叫可以降低CPU功耗，或讓位給超執行緒（hyperthreaded）的另一個邏輯處
-+理器；它同時也剛好充當編譯器屏障，所以，再說一次，volatile是不必要的。當然，忙
-+等本身通常就是一種不顧他人的行為。
+ 硬體安全小組將向披露方提供一份開發人員（領域專家）名單，在與開發人員確認他們
+ 將遵守本諒解備忘錄和文件化流程後，應首先告知開發人員有關該問題的資訊。這些開發
+@@ -114,12 +114,12 @@ Linux核心社群有一個專門的硬體安全小組負責初始聯繫，並監
  
--在內核中，一些稀少的情況下volatile仍然是有意義的：
-+在核心中，仍有少數罕見的情況下使用volatile是合理的：
+ 披露方應提供已經或應該被告知該問題的所有其他實體的聯繫人名單。這有幾個目的:
  
--  - 在一些體系架構的系統上，允許直接的I/0內存訪問，那麼前面提到的訪問函數可以使用
--    volatile。基本上，每一個訪問函數調用它自己都是一個小的臨界區域並且保證了按照
--    程序員期望的那樣發生訪問操作。
-+  - 在確實支援直接存取I/O記憶體的架構上，上述存取函式可能會使用volatile。基本
-+    上，每一次存取函式呼叫本身就成為一個小的臨界區，確保存取依照程式設計師預期
-+    的方式發生。
+-  - 披露的實體列表允許跨行業通信，例如其他作業系統供應商、硬體供應商等。
++  - 披露的實體列表允許跨產業通訊，例如其他作業系統供應商、硬體供應商等。
  
--  - 某些會改變內存的內聯彙編代碼雖然沒有什麼其他明顯的附作用，但是有被GCC刪除的可
--    能性。在彙編聲明中加上volatile關鍵字可以防止這種刪除操作。
-+  - 會修改記憶體、但沒有其他可見副作用的行內組合語言程式碼，有被GCC刪除的風險。
-+    在asm敘述中加上volatile關鍵字可以防止這種刪除。
+   - 可聯繫已披露的實體，指定應參與緩解措施開發的專家。
  
--  - Jiffies變量是一種特殊情況，雖然每次引用它的時候都可以有不同的值，但讀jiffies
--    變量時不需要任何特殊的加鎖保護。所以jiffies變量可以使用volatile，但是不贊成
--    其他跟jiffies相同類型變量使用volatile。Jiffies被認爲是一種“愚蠢的遺留物"
--    （Linus的話）因爲解決這個問題比保持現狀要麻煩的多。
-+  - jiffies變數很特殊，每次引用它時都可能得到不同的值，但讀取它時不需要任何特殊
-+    的加鎖。所以jiffies可以是volatile，但強烈不贊成再新增其他這類變數。在這方
-+    面，jiffies被認為是一個“愚蠢的歷史遺留”問題（Linus的原話）；修正它的麻煩會
-+    比它的價值還大。
+-  - 如果需要處理某一問題的專家受僱於某一上市實體或某一上市實體的成員，則響應
+-    小組可要求該實體披露該專家。這確保專家也是實體反應小組的一部分。
++  - 如果需要處理某一問題的專家受僱於某一列出的實體或某一列出的實體的成員，則
++    響應小組可要求該實體披露該專家。這確保專家也是該實體響應小組的一部分。
  
--  - 由於某些I/0設備可能會修改連續一致的內存,所以有時,指向連續一致內存的數據結構
--    的指針需要正確的使用volatile。網絡適配器使用的環狀緩存區正是這類情形的一個例
--    子，其中適配器用改變指針來表示哪些描述符已經處理過了。
-+  - 指向一致性記憶體（coherent memory）中、可能被I/O裝置修改的資料結構的指標，有
-+    時可以正當地使用volatile。網路卡使用的環形緩衝區就是這類情況的一個例子，網路
-+    卡會改變其中的指標，以表示哪些描述符已經處理完畢。
+ 披露
+ """"
+@@ -138,8 +138,9 @@ Linux核心社群有一個專門的硬體安全小組負責初始聯繫，並監
+ 問題開發緩解措施。
  
--對於大多代碼，上述幾種可以使用volatile的情況都不適用。所以，使用volatile是一種
--bug並且需要對這樣的代碼額外仔細檢查。那些試圖使用volatile的開發人員需要退一步想想
--他們真正想實現的是什麼。
-+對大多數程式碼來說，上述使用volatile的理由都不適用。因此，使用volatile很可能被
-+視為bug，並使程式碼受到額外的審查。想使用volatile的開發者應該退一步，想想自己真
-+正想達成的是什麼。
+ 郵件列表的操作方式與正常的Linux開發相同。發布、討論和審查修補程式，如果同意，
+-則應用於非公共git儲存庫，參與開發人員只能透過安全連接存取該儲存庫。儲存庫包含
+-針對主線核心的主開發分支，並根據需要為穩定的核心版本提供向後移植分支。
++則套用到非公開的 Git 儲存庫，參與開發人員只能透過安全連線存取該儲存庫。
++儲存庫包含針對主線核心的主開發分支，並根據需要為穩定的核心版本提供向後
++移植分支。
  
--非常歡迎刪除volatile變量的補丁 － 只要證明這些補丁完整的考慮了併發問題。
-+一般都歡迎移除volatile變數的補丁——只要附上能證明並行問題已經過周全考慮的理由。
+ 最初的響應小組將根據需要從Linux核心開發人員社群中確定更多的專家。任何相關
+ 方都可以建議增補專家，每位專家都須符合上述相同的要求。
+@@ -152,7 +153,7 @@ Linux核心社群有一個專門的硬體安全小組負責初始聯繫，並監
+ 如果披露方有令人信服的理由提出異議，則必須在五個工作日內提出異議，並立即與事件
+ 小組解決。如果披露方在五個工作日內未作出回應，則視為默許。
  
--註釋
------
-+
-+參考資料
-+========
+-在確認或解決異議後，專家由事件小組披露，並進入開發過程。
++在事件小組確認或解決異議後，專家即被披露，並進入開發過程。
  
- [1] https://lwn.net/Articles/233481/
-+
- [2] https://lwn.net/Articles/233482/
+ 列表參與者不得在私有郵件列表之外交流該問題。列表參與者在處理補丁時不得使用
+ 任何共享資源（例如僱主的建置農場、CI系統等）。
+@@ -182,8 +183,8 @@ Linux核心社群有一個專門的硬體安全小組負責初始聯繫，並監
+ 協調發布
+ """"""""
  
- 致謝
------
-+====
-+
-+最初由Randy Dunlap推動並進行研究
+-有關各方將協商限制結束的日期和時間。此時，準備好的緩解措施整合到相關的核心樹中
+-併發布。
++有關各方將協商限制結束的日期和時間。屆時，準備好的緩解措施將發布到相關的
++核心樹中。沒有任何預先通知流程：緩解措施會公開發布，所有人同時取得。
  
--最初由Randy Dunlap推動並作初步研究
- 由Jonathan Corbet撰寫
--參考Satyam Sharma，Johannes Stezenbach，Jesper Juhl，Heikki Orsila，
--H. Peter Anvin，Philipp Hahn和Stefan Richter的意見改善了本檔。
+ 雖然我們理解硬體安全問題需要協調限制時間，但限制時間應限制在所有有關各方制定、
+ 測試和準備緩解措施所需的最短時間內。人為地延長限制時間以滿足會議討論日期或其他
+@@ -229,12 +230,12 @@ CVE分配
+   ============= ========================================================
  
-+感謝Satyam Sharma、Johannes Stezenbach、Jesper Juhl、Heikki Orsila、
-+H. Peter Anvin、Philipp Hahn和Stefan Richter的意見讓本文件得以改進。
+ 如果要將您的組織添加到專使名單中，請與硬體安全小組聯繫。被提名的專使必須完全
+-理解和支援我們的過程，並且在Linux核心社群中很容易聯繫。
++理解和支援我們的過程，並且最好在 Linux 核心社群中有良好的人脈。
+ 
+ 加密郵件列表
+ ------------
+ 
+-我們使用加密郵件列表進行通信。這些列表的工作原理是，發送到列表的電子郵件使用
++我們使用加密郵件列表進行通訊。這些列表的工作原理是，發送到列表的電子郵件使用
+ 列表的PGP密鑰或列表的S/MIME證書進行加密。郵件列表軟體對電子郵件進行解密，並
+ 使用訂閱者的PGP密鑰或S/MIME證書為每個訂閱者分別對其進行重新加密。有關郵件列表
+ 軟體和用於確保列表安全和資料保護的設定的詳細資訊，請見：
+@@ -249,16 +250,16 @@ S/MIME證書透過特定列表發送的電子郵件傳遞給訂閱者。
+ 訂閱事件特定列表
+ ^^^^^^^^^^^^^^^^
+ 
+-訂閱由響應小組處理。希望參與通信的披露方將潛在訂戶的列表發送給響應組，以便
+-響應組可以驗證訂閱請求。
++事件特定列表的訂閱由響應小組處理。希望參與通訊的披露方將潛在專家的列表
++發送給響應小組，以便響應小組可以驗證訂閱請求。
+ 
+ 每個訂戶都需要透過電子郵件向響應小組發送訂閱請求。電子郵件必須使用訂閱者
+-的PGP密鑰或S/MIME證書籤名。如果使用PGP密鑰，則必須從公鑰伺服器獲得該密鑰，
++的PGP密鑰或S/MIME證書簽名。如果使用PGP密鑰，則必須從公鑰伺服器獲得該密鑰，
+ 並且理想情況下該密鑰連接到Linux核心的PGP信任網。另請參見:
+ https://www.kernel.org/signature.html.
+ 
+-響應小組驗證訂閱者，並將訂閱者添加到列表中。訂閱後，訂閱者將收到來自郵件列
+-表的電子郵件，該郵件列表使用列表的PGP密鑰或列表的S/MIME證書籤名。訂閱者的
+-電子郵件客戶端可以從簽名中提取PGP密鑰或S/MIME證書，以便訂閱者可以向列表發
+-送加密電子郵件。
++響應小組確認訂閱請求有效後，將訂閱者添加到列表中。訂閱後，訂閱者將收到
++來自郵件列表的電子郵件，這些郵件使用列表的PGP密鑰或列表的S/MIME證書簽名。
++訂閱者的電子郵件用戶端可以從簽名中提取PGP密鑰或S/MIME證書，以便訂閱者可以
++向列表發送加密電子郵件。
+ 
 -- 
 2.43.0
 
