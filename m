@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964964;
-	b=yum9zk488HXwUCsc8rOhfmIZE88tnE4bktqqSobUHo9QEHAErAKIp34uCYqtZWrUq7nX
-	 /nj1OQYQwBvHnOUh2pmfEOvqUfqZG69t7pZq3EH1r94CTpo75aQ2c7ScXp2skKcJLQZt0
-	 li/uzY7IVQCJv/oPONbfOVAGcLIlsVDtooy6OoC+lMV4bUSYQ6OA+6Jb8MtkyGheyCs4G
-	 wz9myP9t957EedZlR3k9+jXf6HU3vwOE0FmoHubzZzk489Jprmr5jTiNSC3ZY+0IGydgf
-	 7iz2053GBin+apd+UGJS+FMMSl0TkLt0vk2dSPGhPCof2/ny0pnOmbOVZC2uqWfrAJw==
+	t=1793964968;
+	b=yInSFdEc5iJA+yyJqq1MdbkolpEudAESDbp0GVJhReIUqCO6g52TVPrW7t/TKSRd5Rb4
+	 qYR4P+h/W/Y3FAW1Xj8XySH9eOtXWbeTYEKfnnT5XRFzFVT/oCrCwD4oqBxnl/4FzbO5m
+	 gROcnPYxHkfLVd2lSBhLPwvdtWLuLQ1HJq/i+iTB3o1DYm9eOHB/tvW5uIgL0/KBnkrmI
+	 itv8Wpq45PP2RaF1yfpWKNDkuMc9i2nHaL0+1RaqLqogplMtTtEj3D4SI1sr8Gpw/8ciz
+	 yPbnDQBtpCXsoU4OuGDIV26QWbi3MSa9XfcvXFlGUsweOtkpDquWon76Bx+op77Rc2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964964;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964968;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=zHCcekLGSclHZC05Y3IvUiHP1fqzRdk2nY3a3q7D0hE=;
-	b=usfzpVgau9XIsFjQwZgYJvphmlEoPUMBv1v64WwDT0WtkP96ex2H/XnljMWN7gRsqWo4
-	 rnyBe02QXgpiAowf7DZ/sO0SNubBCzYn/vAzucCtaAkj5x+IBpvj8AyUzO3CPc9VhP7oJ
-	 hVEJDcsnokR3IRa4dIV2HBuHE1UqVUDGZ+LUy45kjmtHuA5A9VXqAS2IVXN0EcZjIPm0i
-	 Fuihu7J6YccFyusJXbSgGPZOhBoUo7X2PAXUs1jllGR31xvJ42JoeZmMC6+GdjnYk83IM
-	 hJW10FMdsotNL6m8QJE8A+0L02ge9ebzi8V4UH7tSahSFnhGwnOF8U57KNHGOpWTlWA==
+	bh=Zbmt2ixb0KFXB6Jaw3+0LqCyd2KJCA0Oxb5KRmGIPyU=;
+	b=vUKvioWOUIK/fBh2HQbBluO0SG7dc2Ul658jB6Hi+pxwWzOrBfNp5DCkGZL7+KRSPfm+
+	 VfdQhvtuJqh6A2GEKNotl2HIX5WeyhyfKqxNEN1LX9yBr740HuWdvhVuGRVMPOCBj46gV
+	 oX0xVVldOscYuiDIHbYEuHj1UUraaV14p4fUKeZhRBWDmkAIYZ8XkyKDMGvjigK9IAUCv
+	 h/jdMF6wNUVBvOTC/Ct9IhWV4RTyANIywsX5FdE89LwzCUr0Ju0EC+sqRsuJwDdRhdz3b
+	 NISoidBXdWMOcmecweHFmoN0HYALRYd04lmoLtf7Ch9S5IqARauseLne4D62lch5GWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=odo82tix;
-	arc=none smtp.remote-ip=209.85.216.50
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jXbI4nn+;
+	arc=none smtp.remote-ip=209.85.216.44
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC106083630
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:36:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AC106083630
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29D1460A2600
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:36:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29D1460A2600
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=odo82tix
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ad47c246f8so65692a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:36:03 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=jXbI4nn+
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3b0d09fc934so82435a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:36:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964963; x=1794569763; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964966; x=1794569766; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=zHCcekLGSclHZC05Y3IvUiHP1fqzRdk2nY3a3q7D0hE=;
-        b=odo82tixsyf2/7dU6njjLv6Lcugyh+jOJLuF3YnrEF3GEFRU6fN17W/Hd31vZbzGNM
-         MfZhkC4FUhnoxp0AKQ/+TfnB1XFzLskWniPpnladJUjSVhq2rGH8i3PIhk4FPjN9oitg
-         CFSAhZnq/5wTe9tV/PGA6ix0pwU9+iyQuCwGeZaSYc3yD6UeEw1etSYuLrRNaUom+5cc
-         9ddUx4MWo2K3J5FkG03cetsW5jOSD6oSmdS0w6n+gsJuHV7bq/Dl9vzglVChO5a9zn4y
-         Y7eqlcRcvZF8Y3hnWFUmTvJk11HNJjVKQchkVw8b8Ip4Bvm8/3proK3V318HAwetdCUq
-         6/lA==
+        bh=Zbmt2ixb0KFXB6Jaw3+0LqCyd2KJCA0Oxb5KRmGIPyU=;
+        b=jXbI4nn+tH5iyAAkhkkR2BCMVUpGnlPTxZrRJ/+i1aBKgVEAwuSbD9ldxM6uW9dAUw
+         GOvtNNzeLsFYoBfIK2Eo4+dhWx7midZAY3elxTJu6A1aFLgSgPGvOSmiARb5vq5czvyT
+         7SNGG6g7tEd6VRkj9wuIiAm3hsLJKZD55Kop8WgraJiVQkzQeDpX8mkmMV59F98vt1UH
+         76iBdQkwQBGdIDwvEm84DjJ8+tUGd38n0EMDmnExIStR3jacNzju99PUroSHOnDau2B3
+         HMr26euUSeSDGq/EXvpeJCq2qp3CvFK5eGp9GTGf3mHZ9OkMSQbs9FUD1/KpmxtAiKE1
+         buGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964963; x=1794569763;
+        d=1e100.net; s=20260707; t=1793964966; x=1794569766;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=zHCcekLGSclHZC05Y3IvUiHP1fqzRdk2nY3a3q7D0hE=;
-        b=mErevnHfd/VoMHbNZABhSKi/jESQYao1M51iDLR645GgZZ9wzPxdTvsQg7PiopYtnc
-         Tv5FzJ3EaKT+8j8U8X+hJSiMhqs4WsVtqHONAuUC8KBoHoQQtwVMsgX/4CmQxkxbuGvA
-         rLv7Hh//BpYRHEY35pzDn4+NAGjVB4abePY6IyDWPJpRHzHZdvj9QTCClA1Czx3swzQq
-         6d84wf/+NZnquzng9HjBUBGT6QIQTs+82WvTRWA3FVwKgJahqr5KxAAClbXysQPiih2p
-         ++MU8L2Xl5vR6fWEaRHD2iZGRfR+9qXe4hylBqCoNMP2CexFNtVZB0J//6OeM4CrVVNC
-         ZPaw==
-X-Forwarded-Encrypted: i=1; AL+hErHyC1RYO0HNzj27VkoZf/TZHqgRJnYlMs92VA6xPf7zFshD5EoaeKH6aO+JsBDlU7+MBhdyUQUTCOQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+XRY2+i2ExJiaxqt/mrpkCNGS/aLRhJkHJIZCzU0Ke1t30iRxo
-	qzmok6lYO+Jfl3LMFelv9xhyw6laFuLN49Yim7tLOpiZpPRrA7/MTNot
-X-Gm-Gg: AYBFou3YZK48/Zh5sp+a2bYv9dUGoiGzCzuIa2kBxMpFuXNRzaM7AKNFh1VUYt45RKy
-	0vVuxz8gIz+RQK46K7lUmQ/OSnlgpuNCKQy/Z87uNHBRIXZN5Xp3DbO6sy/dLCLJ00NUXRGI+TS
-	a97KD3iibxn1XWP+wpCFibrOEALbZFtsIyOkBi4ajgDtoAPLmHBfX9/nttgpfEMdYI3/a53SLUY
-	rfErKmLCfRVLSHy2WgiM72lICr1Rog7HzX/ZRJZEXIOtNpqFMMs/TGlXT+jFFql1STsMs/STFfu
-	5qiTWvzEBs7tRyFE7BKtV+ohRQpDWpiAU1aF2RcGagBmLNCXUwwU7PQWttXVganKK/nYgA9xqnj
-	6PO75hb5NgLNayBh1IbCFVd1TiywFaQLlcJjc1/q9tktJ4TFLebTSZiCqRA8ZCSwyFi+UCezxXG
-	506xSbaalGQltMVM06bKfKm0CnciIcA3zyj7/fALTszRedmDhqG4+UanGgtcYW/T9zJZXfdB8Bw
-	RJEOTFrhCKtHmgN2Ywl9KAtpUd6sWVhLMCGL0FfTcL8tQaHM4U3VBOpHhYpqXHVlv/2doHa77vR
-	XF1d8lkd37OCLF/zfhBPmGAr04VmFrdVobDl30TNMzYFagvb9swvyC1q76u3EqXVl0KYKPhBn72
-	f1HQplmoyFMShZBglGJjTxnw4
-X-Received: by 2002:a17:90b:5705:b0:3ac:77a2:18b1 with SMTP id 98e67ed59e1d1-3b0db70b7ffmr3510792a91.5.1793964962650;
-        Fri, 06 Nov 2026 03:36:02 -0800 (PST)
+        bh=Zbmt2ixb0KFXB6Jaw3+0LqCyd2KJCA0Oxb5KRmGIPyU=;
+        b=fg3CoQ90wJ9dkrCtcZH2RiRu09+57FfcGqxEippkt403Feu2lp+LxyVnimvZxyWMah
+         JLtYKtSD6M/JoXbc7fbS3dFZvigVHbysZAAWrHl3iom2VjOV1NZHFJcUTuNmdiZDkbbU
+         KBWzEJw8XR+Gm//HvG3pue85G+RttsR3uSZSzkQpAJ4PEs3Yr2SN7zA3sOSyp8XAYOYp
+         mEqgU5nL0SNyNACTWrtilEOSOj7OxgSKokBx9LNSQWFQpK488nHc/Dc4a0zEgYrlzfQa
+         rNHufK6EnavhO14Q5OR268GZ3o1EU7M5BI9CkDnP1zzMnWCmLW1ZxT8ua410rggWpAa1
+         PFtQ==
+X-Forwarded-Encrypted: i=1; AL+hErHu5N29EgshlUa4nguEQFpxumaKqTYgf3VDCLPqyiB6tfL15tvsX9kIGaHOMcHYw8Va015aTTsixvo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/3xrR+/lxJ6+pkx+6Q/uge3WMoH7pnXPmlrK6ZqWpZmiwnFAW0
+	ifMjFvHEbtr0ubJoIlG5x+TjE3l0rn7U9c/Y/BBihvdusbZ228jQhgzo
+X-Gm-Gg: AYBFou3gqq/I7xckkfEe2IUbHH3eN2PrpnVPzgMQ3PioyfBJ8iIx49iR4ayuMrEWmn4
+	jqdWKA3Lze6dotRE91b+hWG7jPce87IqEmSIVgmT2/GQEYPgcpo6FJxyQ7TOceyWn5SxEXQsWN8
+	2x73sA4f8oh1yeGuXnobiNvpMZoSJV/DRlYFman5d1HlyjNlw5VKo57IPdvf7GN3OGFEYBHqceA
+	82xVVCMZYhLoip48zI+lruu8RK9ZxSc+yT+i6qb3yzGS5Sb8NY/r9kSWzWPUt8xKNavLKFLHLNR
+	+5x//MVkuk7eg4q/SKf2G5RhER9NQxtuXp7peC1CkKlD6rNJde7FEzUxmd4OvNzI/VuVTsLOqwg
+	J+1WTh6wE6ZdIfoev9qgmfsgfm3oe9ipl2keVTb6QthyG1nMyboKhJtVqfhGIP7EjvlWVkj+iiJ
+	v7kRKkL7UOuWw59WZe4W0OcRq9Z69XjIZexpfWVaAeK9YtfxEkzBxrGbIgmLNVBWap0SsE+NJ4f
+	YPKfEik1D/kDMX/aKASLdtptMUr0wTxCVEtR43tZdsb/a8EhLVZEkOWvp3BSrnm/oRB4R7Yno5i
+	txmOgCfE7hTzfINbkznI26M9H1h/NuYgR8cUW1X+e86kHyLR7a69wChhRK0yWFbzBAgJzi5lsK2
+	DYreFl86yMS1NnWuoSCmHE8IN3g==
+X-Received: by 2002:a17:90b:4a89:b0:3b0:975b:2256 with SMTP id 98e67ed59e1d1-3b0db6f8e05mr3208766a91.4.1793964965999;
+        Fri, 06 Nov 2026 03:36:05 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b32b6507sm8343173a91.16.2026.11.06.03.35.59
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b32b6507sm8343173a91.16.2026.11.06.03.36.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:36:02 -0800 (PST)
+        Fri, 06 Nov 2026 03:36:05 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 03/13] docs/zh_TW: process: add applying-patches.rst translation
-Date: Fri,  6 Nov 2026 19:35:34 +0800
-Message-ID: <20261106113545.708896-4-chenyou910331@gmail.com>
+Subject: [PATCH 04/13] docs/zh_TW: process: add maintainer-pgp-guide.rst translation
+Date: Fri,  6 Nov 2026 19:35:35 +0800
+Message-ID: <20261106113545.708896-5-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113545.708896-1-chenyou910331@gmail.com>
 References: <20261106113545.708896-1-chenyou910331@gmail.com>
@@ -107,441 +107,846 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/process/applying-patches.rst into Traditional
-Chinese from the current English text, including the "Normal patches"
-and "Incremental patches" subsections of "The 5.x.y kernels".  The
-zh_CN translation was consulted for wording only.
+Translate Documentation/process/maintainer-pgp-guide.rst into
+Traditional Chinese from the current English text, including the
+GnuPG 2.4 requirement, the Nitrokey 3 entry, the B4 note on patatt and
+the updated kernel.org documentation links.  The zh_CN translation was
+consulted for wording only.
 
 List the new file in the toctree of process/index.rst, after
-email-clients as in the English index, and drop it from the TODOList.
+coding-style as in the English index, and drop it from the TODOList.
 
-update to commit fa04150b8ef7 ("Documentation: describe how to apply
-incremental stable patches")
+update to commit 4a0be1a25d98 ("Documentation: process: Capitalize Git,
+Quilt, and Mercurial consistently")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/applying-patches.rst        | 392 ++++++++++++++++++
  .../translations/zh_TW/process/index.rst      |   2 +-
- 2 files changed, 393 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_TW/process/applying-patches.rst
+ .../zh_TW/process/maintainer-pgp-guide.rst    | 795 ++++++++++++++++++
+ 2 files changed, 796 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_TW/process/maintainer-pgp-guide.rst
 
-diff --git a/Documentation/translations/zh_TW/process/applying-patches.rst b/Documentation/translations/zh_TW/process/applying-patches.rst
+diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
+index 7917fb96dd01..7b830c48942a 100644
+--- a/Documentation/translations/zh_TW/process/index.rst
++++ b/Documentation/translations/zh_TW/process/index.rst
+@@ -42,6 +42,7 @@
+ 
+    programming-language
+    coding-style
++   maintainer-pgp-guide
+    email-clients
+    applying-patches
+    volatile-considered-harmful
+@@ -49,7 +50,6 @@
+ TODOList:
+ 
+ * changes
+-* maintainer-pgp-guide
+ * backporting
+ * adding-syscalls
+ * botching-up-ioctls
+diff --git a/Documentation/translations/zh_TW/process/maintainer-pgp-guide.rst b/Documentation/translations/zh_TW/process/maintainer-pgp-guide.rst
 new file mode 100644
-index 000000000000..5dcda7abd3ad
+index 000000000000..34d920cb37cc
 --- /dev/null
-+++ b/Documentation/translations/zh_TW/process/applying-patches.rst
-@@ -0,0 +1,392 @@
++++ b/Documentation/translations/zh_TW/process/maintainer-pgp-guide.rst
+@@ -0,0 +1,795 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_TW.rst
 +
-+:Original: Documentation/process/applying-patches.rst
++:Original: Documentation/process/maintainer-pgp-guide.rst
 +
-+.. _tw_applying_patches:
++.. _tw_pgpguide:
 +
-+將修補程式套用到 Linux 核心
-++++++++++++++++++++++++++++
++=======================
++核心維護者 PGP 指南
++=======================
 +
-+原作者：
-+    Jesper Juhl，2005 年 8 月
++:作者: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
++
++本文件的對象是 Linux 核心開發者，特別是子系統維護者。內容是 Linux 基金會
++發布的、更通用的「`Protecting Code Integrity`_」指南中所討論資訊的一部分。
++若想更深入了解本指南提到的某些主題，請閱讀該文件。
++
++.. _`Protecting Code Integrity`: https://github.com/lfit/itpol/blob/master/protecting-code-integrity.md
++
++PGP 在 Linux 核心開發中的角色
++=============================
++
++PGP 有助於確保 Linux 核心開發社群所產出程式碼的完整性，並在較小程度上，
++透過 PGP 簽名的電子郵件往來，在開發者之間建立可信任的通訊管道。
++
++Linux 核心原始碼主要以兩種形式提供：
++
++- 分散式原始碼儲存庫（Git）
++- 定期發布的快照（tarball）
++
++Git 儲存庫和 tarball 都帶有建立正式核心版本的核心開發者的 PGP 簽名。這些
++簽名提供密碼學上的保證，確保透過 kernel.org 或任何其他鏡像站提供下載的
++版本，與這些開發者工作站上的版本完全相同。為此：
++
++- Git 儲存庫的所有標籤都附有 PGP 簽名
++- tarball 的所有下載檔都附有分離式（detached）PGP 簽名
++
++.. _tw_devs_not_infra:
++
++信任開發者，而非基礎設施
++------------------------
++
++自從 2011 年 kernel.org 核心系統遭到入侵以來，Kernel Archives 專案的主要
++運作原則，就是假設基礎設施的任何部分都可能隨時遭到入侵。因此，管理員刻意
++採取措施，強調信任必須永遠放在開發者身上，而絕不放在程式碼託管基礎設施
++上，不論後者的安全實務做得多好。
++
++上述指導原則正是需要本指南的原因。我們希望確保，把信任放在開發者身上，並
++不只是把未來可能發生的安全事件的責任轉嫁給別人。本指南的目標是提供一套
++準則，讓開發者可以用來建立安全的工作環境，並保護用來確立 Linux 核心本身
++完整性的 PGP 金鑰。
++
++.. _tw_pgp_tools:
++
++PGP 工具
++========
++
++使用 GnuPG 2.4 或更新版本
++-------------------------
++
++你的發行版應該已經預設安裝了 GnuPG，你只需要確認你使用的是夠新的版本。
++要檢查版本，請執行::
++
++    $ gpg --version | head -n1
++
++如果你的版本是 2.4 或以上，那就沒問題了。如果版本更舊，表示你使用的
++GnuPG 版本已經不再維護，本指南中的某些指令可能無法運作。
++
++設定 gpg-agent 選項
++~~~~~~~~~~~~~~~~~~~
++
++GnuPG agent 是一個輔助工具，每當你使用 ``gpg`` 指令時就會自動啟動，並在
++背景執行，用途是快取私鑰的密碼短語。有兩個選項你應該知道，用來調整密碼
++短語何時從快取中失效：
++
++- ``default-cache-ttl`` （秒）：如果你在存活時間（time-to-live）到期前再次
++  使用同一把金鑰，倒數計時會重設，重新計算一段時間。預設值為 600（10 分
++  鐘）。
++- ``max-cache-ttl`` （秒）：不論你在第一次輸入密碼短語後最近一次使用金鑰
++  是什麼時候，只要最長存活時間的倒數計時到期，你就必須再次輸入密碼短語。
++  預設值為 30 分鐘。
++
++如果你覺得這兩個預設值太短（或太長），可以編輯 ``~/.gnupg/gpg-agent.conf``
++檔案，設定你自己的值::
++
++    # set to 30 minutes for regular ttl, and 2 hours for max ttl
++    default-cache-ttl 1800
++    max-cache-ttl 7200
 +
 +.. note::
 +
-+   本文件已經過時。在大多數情況下，你幾乎一定會想改用 Git，而不是手動
-+   執行 ``patch``。
++    現在已經不需要在 shell 工作階段開始時手動啟動 gpg-agent。你可能需要
++    檢查你的 rc 檔案，移除先前為舊版 GnuPG 所做的設定，因為它們可能已經
++    不再正確。
 +
-+Linux 核心郵件列表上經常有人問：要如何把修補程式套用到核心？更具體地
-+說，針對眾多樹或分支之一所製作的修補程式，應該套用到哪個基礎核心上？
-+希望本文件能為你解答這些問題。
++.. _tw_protect_your_key:
 +
-+除了說明如何套用與撤銷修補程式，本文件也會簡要介紹不同的核心樹（並舉例
-+說明如何套用各個核心樹特有的修補程式）。
++保護你的 PGP 金鑰
++=================
 +
++本指南假設你已經有一把用於 Linux 核心開發的 PGP 金鑰。如果你還沒有，請
++參閱前面提到的「`Protecting Code Integrity`_」文件，了解如何建立新的金鑰。
 +
-+什麼是修補程式？
-+================
++如果你目前的金鑰強度低於 2048 位元（RSA），你也應該建立一把新的金鑰。
 +
-+修補程式是一份小型文字文件，記錄原始碼樹兩個不同版本之間的差異。修補
-+程式由 ``diff`` 程式產生。
++了解 PGP 子金鑰
++---------------
 +
-+要正確套用修補程式，你需要知道它是以哪個版本為基礎產生的，以及它會把
-+原始碼樹變成哪個新版本。這兩項資訊應該都記錄在修補程式檔案的中繼資料
-+中，或者可以從檔名推斷出來。
++PGP 金鑰很少只由單一金鑰對組成——通常它是一組彼此獨立的子金鑰，可依其
++建立時所指派的能力用於不同用途。PGP 定義了金鑰可以具備的四種能力：
 +
++- **[S]** 金鑰可用於簽名
++- **[E]** 金鑰可用於加密
++- **[A]** 金鑰可用於身分驗證
++- **[C]** 金鑰可用於認證其他金鑰
 +
-+如何套用或撤銷修補程式？
-+========================
++具備 **[C]** 能力的金鑰常被稱為「主」金鑰（master key），但這個說法容易
++造成誤解，因為它暗示認證金鑰可以取代同一條鏈上的任何其他子金鑰（就像實體
++的「萬能鑰匙」可以打開為其他鑰匙打造的鎖）。由於事實並非如此，本指南將它
++稱為「認證金鑰」（Certify key），以避免任何歧義。
 +
-+使用 ``patch`` 程式套用修補程式。patch 程式會讀取 diff 檔（或修補程式
-+檔），並依照其中的描述修改原始碼樹。
++務必完全理解以下幾點：
 +
-+Linux 核心的修補程式是以存放核心原始碼目錄的上層目錄為基準產生的。
++1. 所有子金鑰彼此完全獨立。如果你遺失了某把私有子金鑰，就無法從你鏈上的
++   任何其他私鑰還原或重新產生它。
++2. 除了認證金鑰之外，可以有多把能力相同的子金鑰（例如，你可以有 2 把有效
++   的加密子金鑰、3 把有效的簽名子金鑰，但只能有一把有效的認證子金鑰）。
++   所有子金鑰都完全獨立——加密給某一把 **[E]** 子金鑰的訊息，無法用你
++   可能擁有的任何其他 **[E]** 子金鑰解密。
++3. 單一子金鑰可以具備多種能力（例如，你的 **[C]** 金鑰也可以同時是你的
++   **[S]** 金鑰）。
 +
-+這表示修補程式檔案中的檔案路徑，會包含產生修補程式時所用的核心原始碼
-+目錄名稱（或「a/」與「b/」之類的其他目錄名稱）。
++具備 **[C]** （認證）能力的金鑰，是唯一可以用來表示與其他金鑰之間關係的
++金鑰。只有 **[C]** 金鑰可以用來：
 +
-+這個名稱不太可能與你本機上的核心原始碼目錄名稱相同（不過，對於沒有標示
-+版本的修補程式，它常常是判斷其基礎版本的有用資訊），所以你應該先切換到
-+核心原始碼目錄，套用修補程式時再去掉修補程式檔案中檔名路徑的第一個部分
-+（``patch`` 的 ``-p1`` 參數就是做這件事）。
++- 新增或撤銷具備 S/E/A 能力的其他金鑰（子金鑰）
++- 新增、變更或撤銷與該金鑰關聯的身分（uid）
++- 新增或變更它自己或任何子金鑰的到期日
++- 為了信任網的目的簽署其他人的金鑰
 +
-+要撤銷先前套用的修補程式，請對 patch 使用 -R 參數。所以，如果你是這樣
-+套用修補程式的::
++GnuPG 在產生新金鑰時，預設會建立以下內容：
 +
-+	patch -p1 < ../patch-x.y.z
++- 一把同時具備認證與簽名能力的子金鑰（**[SC]**）
++- 一把具備加密能力的獨立子金鑰（**[E]**）
 +
-+就可以這樣撤銷（復原）它::
++如果你產生金鑰時使用的是預設參數，那麼你擁有的就是這些。你可以執行
++``gpg --list-secret-keys`` 來確認，例如::
 +
-+	patch -R -p1 < ../patch-x.y.z
++    sec   ed25519 2022-12-20 [SC] [expires: 2024-12-19]
++          000000000000000000000000AAAABBBBCCCCDDDD
++    uid           [ultimate] Alice Dev <adev@kernel.org>
++    ssb   cv25519 2022-12-20 [E] [expires: 2024-12-19]
 +
++``sec`` 項目下方那一長串就是你的金鑰指紋——在下面的範例中，每當你看到
++``[fpr]``，指的就是這個 40 個字元的字串。
 +
-+如何把修補程式檔或 diff 檔交給 ``patch``？
-+==========================================
++確保你的密碼短語夠強
++--------------------
 +
-+這件事（就像在 Linux 和其他類 UNIX 作業系統上常見的那樣）有好幾種不同
-+的做法。
++GnuPG 會先用密碼短語加密你的私鑰，再把它們儲存到磁碟上。如此一來，即使
++你的整個 ``.gnupg`` 目錄外洩或被竊，攻擊者若沒有先取得用來解密的密碼
++短語，也無法使用你的私鑰。
 +
-+在下面所有的範例中，我都用以下語法，透過標準輸入（stdin）把（未壓縮的）
-+檔案交給 patch::
++用強度足夠的密碼短語保護你的私鑰是絕對必要的。要設定或變更密碼短語，請
++使用::
 +
-+	patch -p1 < path/to/patch-x.y.z
++    $ gpg --change-passphrase [fpr]
 +
-+如果你只是想照著下面的範例操作，不想知道 patch 的其他用法，那麼本節讀到
-+這裡就可以了。
++建立獨立的簽名子金鑰
++--------------------
 +
-+patch 也可以透過 -i 參數取得要使用的檔案名稱，像這樣::
++我們的目標是把你的認證金鑰移到離線媒體上加以保護，所以如果你只有一把合併
++的 **[SC]** 金鑰，就應該另外建立一把獨立的簽名子金鑰::
 +
-+	patch -p1 -i path/to/patch-x.y.z
++    $ gpg --quick-addkey [fpr] ed25519 sign
 +
-+如果你的修補程式檔案是用 gzip 或 xz 壓縮的，而你不想在套用前先解壓縮，
-+可以改用這種方式把它交給 patch::
++備份你的認證金鑰以供災難復原
++----------------------------
 +
-+	xzcat path/to/patch-x.y.z.xz | patch -p1
-+	bzcat path/to/patch-x.y.z.gz | patch -p1
++你的 PGP 金鑰上來自其他開發者的簽名越多，你就越有理由為了災難復原，建立
++一份存放在數位媒體以外的備份。
 +
-+如果你想在套用前先手動解壓縮修補程式檔案（下面的範例都假設你已經這樣
-+做了），只要對檔案執行 gunzip 或 xz 即可，像這樣::
++要製作私鑰的可列印紙本，一個好方法是使用專為此目的撰寫的 ``paperkey``
++軟體。關於其輸出格式，以及它相較於其他方案的優點，請參閱
++``man paperkey``。大多數發行版應該都已經有 Paperkey 的套件。
 +
-+	gunzip patch-x.y.z.gz
-+	xz -d patch-x.y.z.xz
++執行以下指令，建立私鑰的紙本備份::
 +
-+這樣會留下一個純文字的 patch-x.y.z 檔案，你可以依自己的喜好，透過標準
-+輸入或 ``-i`` 參數把它交給 patch。
++    $ gpg --export-secret-key [fpr] | paperkey -o /tmp/key-backup.txt
 +
-+patch 還有幾個好用的參數：``-s`` 讓 patch 除了錯誤以外不輸出任何訊息，
-+可以避免錯誤訊息太快捲出螢幕；``--dry-run`` 讓 patch 只列出將會發生的
-+事情，而不實際做任何修改。最後，``--verbose`` 讓 patch 輸出更多關於
-+處理過程的資訊。
++把該檔案列印出來，然後拿一支筆，把你的密碼短語寫在紙張的邊緣。**強烈建議
++這麼做**，因為印出來的金鑰仍然是用該密碼短語加密的，而如果你哪天變更了
++密碼短語，你將不會記得建立備份時用的是哪一個——*保證如此*。
 +
++把印好的紙本和手寫的密碼短語放進信封，存放在安全且受到妥善保護的地方，
++最好不在你家裡，例如銀行的保險箱。
 +
-+套用修補程式時的常見錯誤
-+========================
++.. note::
 +
-+patch 套用修補程式檔案時，會用各種方式檢查檔案是否合理。
++    金鑰仍然是用你的密碼短語加密的，所以即使用「整合雲端」的現代印表機
++    列印，也應該仍是相對安全的操作。
 +
-+檢查檔案看起來是否像有效的修補程式檔案，以及檢查要修改的部分周圍的程式碼
-+是否與修補程式提供的上下文相符，只是 patch 所做的兩項基本檢查。
++備份你的整個 GnuPG 目錄
++-----------------------
 +
-+如果 patch 遇到看起來不太對的地方，它有兩種選擇：拒絕套用變更並中止，
-+或者設法稍作調整，讓修補程式能夠套用。
++.. warning::
 +
-+patch 會嘗試修正的「不太對」的情況之一，是上下文全部相符、要修改的行也
-+相符，但行號不同。舉例來說，如果修補程式修改的是檔案中間的內容，而檔案
-+開頭附近因為某些原因增加或刪除了幾行，就會發生這種情況。此時一切看起來
-+都沒問題，只是位置上下移動了一些，patch 通常會調整行號並套用修補程式。
++    **!!!不要跳過這個步驟!!!**
 +
-+每當 patch 必須稍微修改修補程式才能套用時，它會告訴你修補程式是經過
-+**fuzz** （模糊比對）才套用的。你應該對這類變更保持警覺，因為雖然 patch
-+很可能處理正確，但它並不/總是/正確，結果有時會是錯的。
++當你需要復原 PGP 金鑰時，手邊有一份隨時可用的備份是很重要的。這和我們用
++``paperkey`` 所做的災難等級準備不同。每當你需要使用認證金鑰時——例如變更
++你自己的金鑰，或在研討會和高峰會之後簽署其他人的金鑰——你也會依賴這些
++外部副本。
 +
-+當 patch 遇到無法用 fuzz 修正的變更時，會直接拒絕它，並留下一個副檔名為
-+``.rej`` 的檔案（拒絕檔）。你可以閱讀這個檔案，確切了解哪項變更無法套用，
-+以便視需要手動修正。
++首先，準備一張外接儲存卡（最好是兩張！）作為備份用途。你需要用 LUKS 在
++這個裝置上建立一個加密分割區——如何操作請參閱你的發行版文件。
 +
-+如果你的核心原始碼沒有套用任何第三方修補程式，只套用了來自 kernel.org
-+的修補程式，而且套用順序正確，也沒有自行修改過原始碼檔案，那麼你應該
-+永遠不會看到 patch 輸出 fuzz 或拒絕的訊息。如果你還是看到了這類訊息，
-+那麼你的本機原始碼樹或修補程式檔案很有可能已經以某種方式損毀。此時你
-+大概應該試著重新下載修補程式；如果問題依舊，建議你從 kernel.org 重新
-+完整下載一份全新的原始碼樹，從頭開始。
++加密用的密碼短語可以和你的 PGP 金鑰使用同一個。
 +
-+下面進一步看看 patch 可能輸出的幾種訊息。
++加密程序完成後，重新插入你的裝置，並確認它已正確掛載。把你的整個
++``.gnupg`` 目錄複製到加密儲存裝置上::
 +
-+如果 patch 停下來並顯示 ``File to patch:`` 提示，表示 patch 找不到要修改
-+的檔案。最可能的原因是你忘了指定 -p1，或者你所在的目錄不對。比較少見的
-+情況是，你會遇到需要用 ``-p0`` 而不是 ``-p1`` 套用的修補程式（閱讀修補
-+程式檔案應該就能看出是否如此；如果是，這是製作修補程式的人的錯誤，但並
-+不致命）。
++    $ cp -a ~/.gnupg /media/disk/foo/gnupg-backup
 +
-+如果你看到 ``Hunk #2 succeeded at 1887 with fuzz 2 (offset 7 lines).``
-+或類似的訊息，表示 patch 必須調整變更的位置（在這個例子中，它必須把變更
-+從預期的位置移動 7 行才能套用）。
++現在你應該測試一下，確認一切仍然正常運作::
 +
-+產生的檔案不一定正確，要看檔案與預期不同的原因而定。
++    $ gpg --homedir=/media/disk/foo/gnupg-backup --list-key [fpr]
 +
-+當你嘗試套用一個以不同核心版本產生的修補程式，而不是以你要修改的版本
-+產生的修補程式時，經常會發生這種情況。
++如果沒有出現任何錯誤，那就沒問題了。卸載裝置，清楚地標示它，以免不小心
++覆寫，然後把它放在安全的地方——但不要放得太遠，因為你偶爾還需要用它來
++做一些事，例如編輯身分、新增或撤銷子金鑰，或簽署其他人的金鑰。
 +
-+如果你看到像 ``Hunk #3 FAILED at 2387.`` 這樣的訊息，表示修補程式無法
-+正確套用，patch 程式也無法透過 fuzz 完成套用。這會產生一個 ``.rej`` 檔，
-+其中包含導致修補程式失敗的變更，還會產生一個 ``.orig`` 檔，顯示無法修改
-+的原始內容。
++從主目錄中移除認證金鑰
++----------------------
 +
-+如果你看到
-+``Reversed (or previously applied) patch detected!  Assume -R? [n]``
-+，表示 patch 偵測到修補程式中的變更似乎已經存在。
++我們主目錄中的檔案，並沒有我們想像中受到那麼好的保護。它們可能透過許多
++不同的途徑外洩或被竊：
 +
-+如果你確實之前已經套用過這個修補程式，只是不小心又套用了一次，那就回答
-+[n]o 並中止這個修補程式。如果你之前套用過這個修補程式，本來就打算撤銷
-+它，只是忘了指定 -R，那麼可以在這裡回答 [**y**]es，讓 patch 替你撤銷。
++- 為了設定新工作站而快速複製主目錄時意外外洩
++- 系統管理員的疏忽或惡意
++- 保護不周的備份
++- 桌面應用程式（瀏覽器、pdf 檢視器等）中的惡意軟體
++- 跨越國境時遭到脅迫
 +
-+如果修補程式的製作者在製作時把來源目錄與目的目錄弄反了，也會發生這種
-+情況；此時撤銷修補程式實際上就是套用它。
++用好的密碼短語保護金鑰，可以大幅降低上述任何一種風險，但密碼短語仍可能
++透過鍵盤側錄程式、偷窺螢幕或其他各種方式被發現。因此，建議的做法是把
++認證金鑰從主目錄中移除，存放在離線儲存裝置上。
 +
-+類似 ``patch: **** unexpected end of file in patch`` 或
-+``patch unexpectedly ends in middle of line`` 的訊息，表示 patch 完全
-+無法理解你交給它的檔案。可能是你下載的檔案已損壞、你沒有先解壓縮就把
-+壓縮過的修補程式檔案交給 patch，或者你使用的修補程式檔案在傳遞途中被
-+某個郵件用戶端或郵件傳輸代理弄亂了，例如把一行過長的內容拆成兩行。通常
-+只要把被拆開的兩行重新接（串接）起來，就能輕鬆解決這類警告。
++.. warning::
 +
-+如前所述，如果你把 kernel.org 的修補程式套用到版本正確、未經修改的原始碼
-+樹上，這些錯誤應該永遠不會發生。所以，如果你在套用 kernel.org 的修補程式
-+時遇到這些錯誤，大概就該認定你的修補程式檔案或原始碼樹已經損壞；建議你
-+重新下載完整的核心樹和要套用的修補程式，從頭開始。
++    請參閱上一節，確認你已經完整備份了 GnuPG 目錄。如果你沒有可用的
++    備份，我們接下來要做的事會讓你的金鑰變得無法使用！
 +
++首先，找出你的認證金鑰的「keygrip」::
 +
-+除了 ``patch`` 還有其他選擇嗎？
-+===============================
++    $ gpg --with-keygrip --list-key [fpr]
 +
++輸出會類似這樣::
 +
-+有的。
++    pub   ed25519 2022-12-20 [SC] [expires: 2022-12-19]
++          000000000000000000000000AAAABBBBCCCCDDDD
++          Keygrip = 1111000000000000000000000000000000000000
++    uid           [ultimate] Alice Dev <adev@kernel.org>
++    sub   cv25519 2022-12-20 [E] [expires: 2022-12-19]
++          Keygrip = 2222000000000000000000000000000000000000
++    sub   ed25519 2022-12-20 [S]
++          Keygrip = 3333000000000000000000000000000000000000
 +
-+你可以使用 ``interdiff`` 程式 (http://cyberelk.net/tim/patchutils/)
-+產生一個代表兩個修補程式之間差異的修補程式，然後套用這個結果。
++找出位於 ``pub`` 那一行下方（就在認證金鑰指紋的正下方）的 keygrip 項目。
++它會直接對應到你 ``~/.gnupg`` 目錄中的一個檔案::
 +
-+這樣就能一步從 5.7.2 之類的版本更新到 5.7.3。interdiff 的 -z 選項甚至
-+可以讓你直接傳入以 gzip 或 bzip2 壓縮的修補程式，不必使用 zcat 或 bzcat，
-+也不必手動解壓縮。
++    $ cd ~/.gnupg/private-keys-v1.d
++    $ ls
++    1111000000000000000000000000000000000000.key
++    2222000000000000000000000000000000000000.key
++    3333000000000000000000000000000000000000.key
 +
-+以下是一步從 5.7.2 更新到 5.7.3 的做法::
++只要移除與認證金鑰 keygrip 對應的 .key 檔案就夠了::
 +
-+	interdiff -z ../patch-5.7.2.gz ../patch-5.7.3.gz | patch -p1
++    $ cd ~/.gnupg/private-keys-v1.d
++    $ rm 1111000000000000000000000000000000000000.key
 +
-+雖然 interdiff 可以幫你省下一兩個步驟，但一般仍建議你執行那些額外的步驟，
-+因為 interdiff 在某些情況下會出錯。
++現在如果你執行 ``--list-secret-keys`` 指令，它會顯示認證金鑰已經不在
++（``#`` 表示該金鑰無法使用）::
 +
-+另一個選擇是 ``ketchup``，它是一個自動下載並套用修補程式的 Python 指令碼
-+(https://www.selenic.com/ketchup/)。
++    $ gpg --list-secret-keys
++    sec#  ed25519 2022-12-20 [SC] [expires: 2024-12-19]
++          000000000000000000000000AAAABBBBCCCCDDDD
++    uid           [ultimate] Alice Dev <adev@kernel.org>
++    ssb   cv25519 2022-12-20 [E] [expires: 2024-12-19]
++    ssb   ed25519 2022-12-20 [S]
 +
-+其他好用的工具還有：diffstat，顯示修補程式所做變更的摘要；lsdiff，簡短
-+列出修補程式檔案影響到的檔案，並可選擇一併顯示每段修補程式的起始行號；
-+以及 grepdiff，列出修補程式中內容符合指定正規表示式的部分所修改的檔案。
++你也應該移除 ``~/.gnupg`` 目錄中所有的 ``secring.gpg`` 檔案，它們可能是
++舊版 GnuPG 留下來的。
 +
++如果你沒有「private-keys-v1.d」目錄
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+可以從哪裡下載修補程式？
-+========================
++如果你沒有 ``~/.gnupg/private-keys-v1.d`` 目錄，表示你的密鑰仍然儲存在
++GnuPG v1 所使用的舊式 ``secring.gpg`` 檔案中。對金鑰做任何變更，例如變更
++密碼短語或新增子金鑰，應該都會自動把舊的 ``secring.gpg`` 格式轉換為使用
++``private-keys-v1.d``。
 +
-+修補程式可以在 https://kernel.org/ 取得。
-+首頁有最新修補程式的連結，但它們也各自有固定的存放位置。
++完成之後，務必刪除已過時的 ``secring.gpg`` 檔案，因為它仍然含有你的
++私鑰。
 +
-+5.x.y（-stable）與 5.x 修補程式位於
++.. _tw_smartcards:
 +
-+    https://www.kernel.org/pub/linux/kernel/v5.x/
++將子金鑰移到專用的加密裝置
++==========================
 +
-+5.x.y 增量修補程式位於
++雖然認證金鑰現在已經不會外洩或被竊，但子金鑰仍然在你的主目錄中。任何
++設法取得這些子金鑰的人，都能夠解密你的通訊或偽造你的簽名（如果他們知道
++密碼短語）。此外，每次執行 GnuPG 操作時，金鑰都會被載入系統記憶體，夠
++先進的惡意軟體可以從那裡把它們偷走（想想 Meltdown 和 Spectre）。
 +
-+    https://www.kernel.org/pub/linux/kernel/v5.x/incr/
++要完整保護你的金鑰，一個好方法是把它們移到能夠執行智慧卡操作的專用硬體
++裝置上。
 +
-+-rc 修補程式不存放在網頁伺服器上，而是從 git 標籤按需產生，例如
++智慧卡的好處
++------------
 +
-+    https://git.kernel.org/torvalds/p/v5.1-rc1/v5.0
++智慧卡內含一顆加密晶片，能夠儲存私鑰，並直接在卡片上執行加密運算。由於
++金鑰內容永遠不會離開智慧卡，插入該硬體裝置的電腦，其作業系統無法取得私鑰
++本身。這和我們先前用於備份的加密儲存裝置大不相同——那個裝置在插入並掛載
++時，作業系統是能夠存取私鑰內容的。
 +
-+穩定版的 -rc 修補程式位於
++使用外接加密媒體並不能取代具備智慧卡功能的裝置。
 +
-+    https://www.kernel.org/pub/linux/kernel/v5.x/stable-review/
++可用的智慧卡裝置
++----------------
 +
++除非你所有的筆記型電腦和工作站都有智慧卡讀卡機，否則最簡單的做法是取得
++一個實作智慧卡功能的專用 USB 裝置。有幾種選擇：
 +
-+5.x 核心
-+========
++- `Nitrokey Start`_：開放硬體與自由軟體，以 FSI Japan 的 `Gnuk`_ 為
++  基礎。最便宜的選擇之一，但提供的安全功能最少（例如防竄改或抵抗某些
++  旁通道攻擊）。
++- `Nitrokey 3`_：與 Nitrokey Start 類似，但更能防竄改，並提供更多安全
++  功能和 USB 外形規格。支援 ECC 密碼學（ED25519 和 NISTP）。
++- `Yubikey 5`_：專有的硬體與軟體，但比 Nitrokey 便宜，功能也相近。支援
++  ECC 密碼學（ED25519 和 NISTP）。
 +
-+這些是 Linus 發布的基礎穩定版本。版本號最大的就是最新的版本。
++你的選擇將取決於成本、在你所在地區能否運送，以及對開放或專有硬體的考量。
 +
-+如果發現迴歸或其他嚴重缺陷，就會在這個基礎版本之上發布 -stable 修正
-+修補程式（見下文）。一旦新的 5.x 基礎核心發布，也會提供一個修補程式，
-+內容是前一個 5.x 核心與新核心之間的差異。
++.. note::
 +
-+要套用從 5.6 更新到 5.7 的修補程式，請依照下列步驟操作（請注意，這類
-+修補程式 **不能** 套用在 5.x.y 核心之上，而是套用在基礎 5.x 核心之上；
-+如果你要從 5.x.y 更新到 5.x+1，必須先撤銷 5.x.y 修補程式）。
++    如果你列在 MAINTAINERS 的 `M:` 項目中，或擁有 kernel.org 帳號，你就
++    `qualify for a free Nitrokey Start`_ （有資格免費獲得 Linux 基金會
++    提供的 Nitrokey Start）。
 +
-+以下是一些範例::
++.. _`Nitrokey Start`: https://www.nitrokey.com/products/nitrokeys
++.. _`Nitrokey 3`: https://www.nitrokey.com/products/nitrokeys
++.. _`Yubikey 5`: https://www.yubico.com/products/yubikey-5-overview/
++.. _Gnuk: https://www.fsij.org/doc-gnuk/
++.. _`qualify for a free Nitrokey Start`: https://www.kernel.org/nitrokey-digital-tokens-for-kernel-developers.html
 +
-+	# moving from 5.6 to 5.7
++設定你的智慧卡裝置
++------------------
 +
-+	$ cd ~/linux-5.6		# change to kernel source dir
-+	$ patch -p1 < ../patch-5.7	# apply the 5.7 patch
-+	$ cd ..
-+	$ mv linux-5.6 linux-5.7	# rename source dir
++你的智慧卡裝置一插上任何現代的 Linux 工作站，就應該能直接運作（Just Work
++(TM)）。你可以執行以下指令確認::
 +
-+	# moving from 5.6.1 to 5.7
++    $ gpg --card-status
 +
-+	$ cd ~/linux-5.6.1		# change to kernel source dir
-+	$ patch -p1 -R < ../patch-5.6.1	# revert the 5.6.1 patch
-+					# source dir is now 5.6
-+	$ patch -p1 < ../patch-5.7	# apply new 5.7 patch
-+	$ cd ..
-+	$ mv linux-5.6.1 linux-5.7	# rename source dir
++如果你看到完整的智慧卡詳細資訊，那就沒問題了。可惜的是，要排除所有可能
++導致無法運作的原因，遠遠超出本指南的範圍。如果你無法讓智慧卡與 GnuPG
++搭配運作，請透過一般的支援管道尋求協助。
 +
++要設定你的智慧卡，你需要使用 GnuPG 的選單系統，因為沒有方便的命令列
++選項::
 +
-+5.x.y 核心
-+==========
++    $ gpg --card-edit
++    [...omitted...]
++    gpg/card> admin
++    Admin commands are allowed
++    gpg/card> passwd
 +
-+版本號有三段數字的核心是 -stable 核心。它們包含針對某個 5.x 核心中發現
-+的安全問題或重大迴歸所做的（較）小型關鍵修正。
++你應該設定使用者 PIN（1）、管理員 PIN（3）和重設碼（4）。請務必把這些
++記錄下來並存放在安全的地方——特別是管理員 PIN 和重設碼（重設碼可以讓你
++完全清除智慧卡）。你很少需要用到管理員 PIN，所以如果不記錄下來，你一定會
++忘記它是什麼。
 +
-+對於想要最新穩定核心、又無意幫忙測試開發版或實驗版的使用者，建議使用
-+這個分支。
++回到卡片主選單後，你也可以設定其他值（例如姓名、性別、登入資料等），但這
++並非必要，而且萬一你遺失了智慧卡，還會額外洩漏關於這張智慧卡的資訊。
 +
-+如果沒有可用的 5.x.y 核心，那麼版本號最大的 5.x 核心就是目前的穩定核心。
++.. note::
 +
-+-stable 團隊同時提供一般修補程式與增量修補程式。以下說明如何套用這些
-+修補程式。
++    雖然名稱叫做「PIN」，但卡片上的使用者 PIN 和管理員 PIN 都不一定要是
++    數字。
 +
-+一般修補程式
++.. warning::
++
++    某些裝置可能要求你先把子金鑰移到裝置上，才能變更密碼短語。請查閱
++    裝置製造商提供的文件。
++
++將子金鑰移到你的智慧卡
++----------------------
++
++離開卡片選單（使用「q」）並儲存所有變更。接下來，我們把你的子金鑰移到
++智慧卡上。大多數操作都會同時需要你的 PGP 金鑰密碼短語和卡片的管理員
++PIN::
++
++    $ gpg --edit-key [fpr]
++
++    Secret subkeys are available.
++
++    pub  ed25519/AAAABBBBCCCCDDDD
++         created: 2022-12-20  expires: 2024-12-19  usage: SC
++         trust: ultimate      validity: ultimate
++    ssb  cv25519/1111222233334444
++         created: 2022-12-20  expires: never       usage: E
++    ssb  ed25519/5555666677778888
++         created: 2017-12-07  expires: never       usage: S
++    [ultimate] (1). Alice Dev <adev@kernel.org>
++
++    gpg>
++
++使用 ``--edit-key`` 會讓我們再次進入選單模式，你會注意到金鑰列表有點
++不同。從這裡開始，所有指令都在這個選單模式中執行，如 ``gpg>`` 所示。
++
++首先，選擇我們要放到卡片上的金鑰——方法是輸入 ``key 1`` （它是列表中的
++第一把，也就是 **[E]** 子金鑰）::
++
++    gpg> key 1
++
++現在你應該會在輸出中看到 **[E]** 金鑰變成 ``ssb*``。``*`` 表示目前「被
++選取」的是哪一把金鑰。它的作用是 *切換*，也就是說，如果你再輸入一次
++``key 1``，``*`` 就會消失，該金鑰也就不再被選取。
++
++現在，把那把金鑰移到智慧卡上::
++
++    gpg> keytocard
++    Please select where to store the key:
++       (2) Encryption key
++    Your selection? 2
++
++由於這是我們的 **[E]** 金鑰，把它放進加密（Encryption）槽位是合理的。
++送出選擇後，系統會先要求你輸入 PGP 金鑰的密碼短語，然後再要求輸入管理員
++PIN。如果指令執行完畢且沒有出現錯誤，你的金鑰就已經移過去了。
++
++**重要**：現在再輸入一次 ``key 1`` 取消選取第一把金鑰，然後輸入
++``key 2`` 選取 **[S]** 金鑰::
++
++    gpg> key 1
++    gpg> key 2
++    gpg> keytocard
++    Please select where to store the key:
++       (1) Signature key
++       (3) Authentication key
++    Your selection? 1
++
++**[S]** 金鑰可以同時用於簽名（Signature）和身分驗證（Authentication），
++但我們希望確保它放在簽名槽位中，所以選擇（1）。同樣地，如果指令執行完畢
++且沒有出現錯誤，操作就成功了::
++
++    gpg> q
++    Save changes? (y/N) y
++
++儲存變更後，你移到卡片上的那些金鑰會從主目錄中刪除（不過沒關係，因為我們
++的備份裡還有，如果之後要為替換的智慧卡再做一次，就可以使用）。
++
++確認金鑰已經移過去
++~~~~~~~~~~~~~~~~~~
++
++如果你現在執行 ``--list-secret-keys``，會在輸出中看到細微的差異::
++
++    $ gpg --list-secret-keys
++    sec#  ed25519 2022-12-20 [SC] [expires: 2024-12-19]
++          000000000000000000000000AAAABBBBCCCCDDDD
++    uid           [ultimate] Alice Dev <adev@kernel.org>
++    ssb>  cv25519 2022-12-20 [E] [expires: 2024-12-19]
++    ssb>  ed25519 2022-12-20 [S]
++
++``ssb>`` 中的 ``>`` 表示該子金鑰只存在於智慧卡上。如果你回到密鑰目錄檢視
++裡面的內容，會發現那裡的 ``.key`` 檔案都已經被替換成存根（stub）::
++
++    $ cd ~/.gnupg/private-keys-v1.d
++    $ strings *.key | grep 'private-key'
++
++輸出中應該會有 ``shadowed-private-key``，表示這些檔案只是存根，實際的
++內容在智慧卡上。
++
++確認智慧卡正常運作
++~~~~~~~~~~~~~~~~~~
++
++要確認智慧卡如預期運作，你可以建立一個簽名::
++
++    $ echo "Hello world" | gpg --clearsign > /tmp/test.asc
++    $ gpg --verify /tmp/test.asc
++
++執行第一個指令時，應該會要求你輸入智慧卡 PIN，接著在你執行
++``gpg --verify`` 後顯示「Good signature」。
++
++恭喜，你已經成功讓別人極難竊取你的數位開發者身分！
++
++其他常見的 GnuPG 操作
++---------------------
++
++以下是一些你會需要對 PGP 金鑰執行的常見操作的快速參考。
++
++掛載你的安全離線儲存裝置
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++以下任何一項操作都需要用到認證金鑰，所以你首先需要掛載你的離線備份儲存
++裝置，並告訴 GnuPG 使用它::
++
++    $ export GNUPGHOME=/media/disk/foo/gnupg-backup
++    $ gpg --list-secret-keys
++
++你要確認輸出中顯示的是 ``sec`` 而不是 ``sec#`` （``#`` 表示該金鑰無法
++使用，而你仍在使用一般的主目錄位置）。
++
++延長金鑰的到期日
++~~~~~~~~~~~~~~~~
++
++認證金鑰的預設到期日是建立日起 2 年。這麼做既是出於安全考量，也是為了讓
++過時的金鑰最終從金鑰伺服器上消失。
++
++要把金鑰的到期日從今天起延長一年，只要執行::
++
++    $ gpg --quick-set-expire [fpr] 1y
++
++如果使用特定日期比較好記，你也可以這麼做（例如你的生日、1 月 1 日或
++加拿大國慶日）::
++
++    $ gpg --quick-set-expire [fpr] 2038-07-01
++
++記得把更新後的金鑰發送回金鑰伺服器::
++
++    $ gpg --send-key [fpr]
++
++做了任何變更之後更新你的工作目錄
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++當你使用離線儲存裝置對金鑰做了任何變更之後，會需要把這些變更匯入回你平常
++的工作目錄::
++
++    $ gpg --export | gpg --homedir ~/.gnupg --import
++    $ unset GNUPGHOME
++
++透過 ssh 使用 gpg-agent
++~~~~~~~~~~~~~~~~~~~~~~~
++
++如果你需要在遠端系統上簽署標籤或提交，可以透過 ssh 轉送你的 gpg-agent。
++請參考 GnuPG wiki 上提供的說明：
++
++- `Agent Forwarding over SSH`_
++
++如果你能修改遠端的 sshd 伺服器設定，運作起來會更順暢。
++
++.. _`Agent Forwarding over SSH`: https://wiki.gnupg.org/AgentForwarding
++
++.. _tw_pgp_with_git:
++
++在 Git 中使用 PGP
++=================
++
++Git 的核心特色之一是它的分散式本質——一旦把儲存庫複製到你的系統上，你就
++擁有該專案的完整歷史，包括它所有的標籤、提交和分支。然而，當外面流傳著
++數以百計的複製儲存庫時，任何人要如何確認自己手上的 linux.git 副本沒有
++被惡意第三方竄改？
++
++又或者，如果在核心中發現了惡意程式碼，而提交中的「Author」行說是你做的，
++但你很確定自己 `跟它毫無關係`_，那又會怎樣？
++
++為了同時解決這兩個問題，Git 引入了 PGP 整合。簽名標籤可以確保儲存庫的
++內容與建立該標籤的開發者工作站上的內容完全相同，藉此證明儲存庫的完整性；
++而簽名提交則讓別人在無法取得你的 PGP 金鑰的情況下，幾乎不可能冒充你。
++
++.. _`跟它毫無關係`: https://github.com/jayphelps/git-blame-someone-else
++
++設定 Git 使用你的 PGP 金鑰
++--------------------------
++
++如果你的金鑰環中只有一把密鑰，那其實不需要做任何額外的事，因為它就會是你
++的預設金鑰。不過，如果你剛好有多把密鑰，可以告訴 Git 應該使用哪一把
++（``[fpr]`` 是你金鑰的指紋）::
++
++    $ git config --global user.signingKey [fpr]
++
++如何使用簽名標籤
++----------------
++
++要建立簽名標籤，請在 tag 指令加上 ``-s`` 選項::
++
++    $ git tag -s [tagname]
++
++我們建議一律簽署 Git 標籤，因為這能讓其他開發者確認他們拉取的 Git 儲存庫
++沒有遭到惡意竄改。
++
++如何驗證簽名標籤
++~~~~~~~~~~~~~~~~
++
++要驗證簽名標籤，請使用 ``verify-tag`` 指令::
++
++    $ git verify-tag [tagname]
++
++如果你是從專案儲存庫的另一個分叉拉取標籤，Git 應該會自動驗證你所拉取的
++最新端點上的簽名，並在合併操作期間顯示結果::
++
++    $ git pull [url] tags/sometag
++
++合併訊息中會包含類似以下的內容::
++
++    Merge tag 'sometag' of [url]
++
++    [Tag message]
++
++    # gpg: Signature made [...]
++    # gpg: Good signature from [...]
++
++如果你要驗證別人的 Git 標籤，首先需要匯入他們的 PGP 金鑰。請參閱下面的
++「:ref:`tw_verify_identities`」一節。
++
++設定 Git 一律簽署附註標籤
++~~~~~~~~~~~~~~~~~~~~~~~~~
++
++如果你要建立附註標籤（annotated tag），你很可能也會想要簽署它。要強制
++Git 一律簽署附註標籤，可以設定一個全域設定選項::
++
++    $ git config --global tag.forceSignAnnotated true
++
++如何使用簽名提交
++----------------
++
++你也可以建立簽名提交，但它們在 Linux 核心開發中的用處有限。核心的貢獻
++流程仰賴寄送修補程式，而把提交轉換成修補程式並不會保留 Git 提交簽名。
++此外，把你自己的儲存庫 rebase 到較新的上游版本時，PGP 提交簽名最後也會
++被捨棄。因此，大多數核心開發者並不費心簽署自己的提交，也會忽略他們工作
++所依賴的任何外部儲存庫中的簽名提交。
++
++話雖如此，如果你的工作用 Git 樹公開放在某個 Git 託管服務上（kernel.org、
++infradead.org、ozlabs.org 或其他），那麼即使上游開發者無法直接從這種做法
++中受益，我們仍建議你簽署所有的 Git 提交。
++
++我們建議這麼做的理由如下：
++
++1. 如果有一天需要進行程式碼鑑識或追查程式碼來源，即使是在外部維護、帶有
++   PGP 提交簽名的樹，對這類用途也很有價值。
++2. 如果你需要重新複製本地儲存庫（例如，重新安裝系統之後），這可以讓你在
++   繼續工作之前驗證儲存庫的完整性。
++3. 如果有人需要 cherry-pick 你的提交，這能讓他們在套用之前快速驗證這些
++   提交的完整性。
++
++建立簽名提交
 +~~~~~~~~~~~~
 +
-+這類修補程式不是增量的，也就是說，例如 5.7.3 修補程式並不是套用在
-+5.7.2 核心原始碼之上，而是套用在基礎 5.7 核心原始碼之上。
++要建立簽名提交，請在 ``git commit`` 指令加上 ``-S`` 旗標（因為和另一個
++旗標衝突，所以是大寫的 ``-S``）::
 +
-+因此，要把 5.7.3 修補程式套用到你現有的 5.7.2 核心原始碼，必須先撤銷
-+5.7.2 修補程式（回到基礎 5.7 核心原始碼），再套用新的 5.7.3 修補程式。
++    $ git commit -S
 +
-+以下是一個簡單的範例::
++設定 Git 一律簽署提交
++~~~~~~~~~~~~~~~~~~~~~
 +
-+	$ cd ~/linux-5.7.2		# change to the kernel source dir
-+	$ patch -p1 -R < ../patch-5.7.2	# revert the 5.7.2 patch
-+	$ patch -p1 < ../patch-5.7.3	# apply the new 5.7.3 patch
-+	$ cd ..
-+	$ mv linux-5.7.2 linux-5.7.3	# rename the kernel source dir
++你可以告訴 Git 一律簽署提交::
 +
-+增量修補程式
-+~~~~~~~~~~~~
++    git config --global commit.gpgSign true
 +
-+增量修補程式則不同：它們不是套用在基礎 5.x 核心之上，而是套用在前一個
-+穩定版核心（5.x.y-1）之上。
++.. note::
 +
-+以下是套用這類修補程式的範例::
++    在開啟這個選項之前，請務必先設定好 ``gpg-agent``。
 +
-+	$ cd ~/linux-5.7.2		# change to the kernel source dir
-+	$ patch -p1 < ../patch-5.7.2-3	# apply the new 5.7.3 patch
-+	$ cd ..
-+	$ mv linux-5.7.2 linux-5.7.3	# rename the kernel source dir
++.. _tw_verify_identities:
 +
++如何使用簽名修補程式
++--------------------
 +
-+-rc 核心
-+========
++你可以用 PGP 金鑰簽署發送到核心開發者郵件列表的修補程式。由於現有的電子
++郵件簽名機制（PGP-Mime 或 PGP-inline）往往會對一般的程式碼審查工作造成
++問題，你應該使用 kernel.org 為此目的建立的工具，它會把密碼學證明
++（attestation）簽名放進郵件標頭中（類似 DKIM）：
 +
-+這些是候選發布版（release-candidate）核心。每當 Linus 認為目前的 git
-+（核心的原始碼管理工具）樹處於相當穩健、足以進行測試的狀態時，就會發布
-+這種開發版核心。
++- `Patatt Patch Attestation`_
 +
-+這些核心並不穩定，如果你打算執行它們，應該預期偶爾會出問題。不過，這是
-+幾個主要開發分支中最穩定的一個，也是最終會成為下一個穩定核心的分支，
-+所以讓越多人測試它越好。
++.. _`Patatt Patch Attestation`: https://pypi.org/project/patatt/
 +
-+如果你想幫忙測試開發版核心，但又不想執行真正實驗性的東西，這是個適合
-+執行的分支（想執行實驗性內容的人，請參閱下文關於 -next 與 -mm 核心的
-+章節）。
++安裝與設定 patatt
++~~~~~~~~~~~~~~~~~
 +
-+-rc 修補程式不是增量的，它們和上文介紹的 5.x.y 修補程式一樣，套用在
-+基礎 5.x 核心之上。-rcN 字尾前面的核心版本，表示這個 -rc 核心最終會
-+成為的核心版本。
++.. note::
 +
-+所以，5.8-rc5 表示這是 5.8 核心的第五個候選發布版，這個修補程式應該
-+套用在 5.7 核心原始碼之上。
++    如果你使用 B4 寄送修補程式，patatt 已經安裝好並整合進你的工作流程中。
 +
-+以下是三個套用這類修補程式的範例::
++許多發行版都已經有 Patatt 的套件，所以請先到那裡找找看。你也可以用
++「``pip install patatt``」從 pypi 安裝。
 +
-+	# first an example of moving from 5.7 to 5.8-rc3
++如果你已經在 Git 中設定好 PGP 金鑰（透過 ``user.signingKey`` 設定參數），
++那麼 patatt 不需要任何額外設定。你可以在想要的儲存庫中安裝 git-send-email
++掛鉤（hook），開始簽署你的修補程式::
 +
-+	$ cd ~/linux-5.7			# change to the 5.7 source dir
-+	$ patch -p1 < ../patch-5.8-rc3		# apply the 5.8-rc3 patch
-+	$ cd ..
-+	$ mv linux-5.7 linux-5.8-rc3		# rename the source dir
++    patatt install-hook
 +
-+	# now let's move from 5.8-rc3 to 5.8-rc5
++現在，你用 ``git send-email`` 發送的任何修補程式，都會自動加上你的密碼學
++簽名。
 +
-+	$ cd ~/linux-5.8-rc3			# change to the 5.8-rc3 dir
-+	$ patch -p1 -R < ../patch-5.8-rc3	# revert the 5.8-rc3 patch
-+	$ patch -p1 < ../patch-5.8-rc5		# apply the new 5.8-rc5 patch
-+	$ cd ..
-+	$ mv linux-5.8-rc3 linux-5.8-rc5	# rename the source dir
++檢查 patatt 簽名
++~~~~~~~~~~~~~~~~
 +
-+	# finally let's try and move from 5.7.3 to 5.8-rc5
++如果你使用 ``b4`` 取得並套用修補程式，它會自動嘗試驗證遇到的所有 DKIM 和
++patatt 簽名，例如::
 +
-+	$ cd ~/linux-5.7.3			# change to the kernel source dir
-+	$ patch -p1 -R < ../patch-5.7.3		# revert the 5.7.3 patch
-+	$ patch -p1 < ../patch-5.8-rc5		# apply new 5.8-rc5 patch
-+	$ cd ..
-+	$ mv linux-5.7.3 linux-5.8-rc5		# rename the kernel source dir
++    $ b4 am 20220720205013.890942-1-broonie@kernel.org
++    [...]
++    Checking attestation on all messages, may take a moment...
++    ---
++      ✓ [PATCH v1 1/3] kselftest/arm64: Correct buffer allocation for SVE Z registers
++      ✓ [PATCH v1 2/3] arm64/sve: Document our actual ABI for clearing registers on syscall
++      ✓ [PATCH v1 3/3] kselftest/arm64: Enforce actual ABI for SVE syscalls
++      ---
++      ✓ Signed: openpgp/broonie@kernel.org
++      ✓ Signed: DKIM/kernel.org
 +
++.. note::
 +
-+-mm 修補程式與 linux-next 樹
-+============================
++    Patatt 和 b4 仍在積極開發中，你應該查閱這些專案的最新文件，了解任何
++    新增或更新的功能。
 +
-+-mm 修補程式是 Andrew Morton 發布的實驗性修補程式。
++.. _tw_kernel_identities:
 +
-+過去 -mm 樹也用來測試子系統的修補程式，但這項功能現在改由
-+`linux-next` (https://www.kernel.org/doc/man-pages/linux-next.html)
-+樹負責。子系統維護者會先把他們的修補程式推送到 linux-next，並在合併視窗
-+期間直接發送給 Linus。
++如何驗證核心開發者的身分
++========================
 +
-+-mm 修補程式可以說是新功能和其他未經子系統樹合併的實驗性修補程式的試驗場。
-+這類修補程式在 -mm 中經過一段時間證明其價值後，Andrew 就會把它推送給
-+Linus，以納入主線。
++簽署標籤和提交很簡單，但要如何確認用來簽署某樣東西的金鑰，確實屬於那位
++核心開發者，而不是屬於惡意的冒名者？
 +
-+linux-next 樹每天更新，並包含 -mm 修補程式。兩者都持續變動，包含許多
-+實驗性功能、大量不適合進入主線的除錯修補程式等，是本文件所介紹的各分支
-+中最具實驗性的。
++使用 WKD 和 DANE 設定自動擷取金鑰
++---------------------------------
 +
-+這些修補程式不適合用在需要保持穩定的系統上，執行它們的風險也比其他任何
-+分支都高（請確保你有最新的備份——這適用於任何實驗性核心，對 -mm 修補
-+程式或使用 linux-next 樹的核心更是如此）。
++如果你還沒有大量收集其他開發者的公鑰，可以靠金鑰的自動探索與自動擷取來
++快速建立你的金鑰環。如果從零開始建立你自己的信任網（Web of Trust）讓你
++望而卻步，GnuPG 可以借助其他委派信任技術，也就是 DNSSEC 和 TLS，讓你
++先開始使用。
 +
-+我們非常感謝大家測試 -mm 修補程式與 linux-next，因為它們存在的意義，
-+就是在變更合併進更穩定的 Linus 主線樹之前，找出迴歸、當機、資料損毀
-+缺陷、建置失敗（以及其他一般的缺陷）。
++把以下內容加到你的 ``~/.gnupg/gpg.conf``::
 +
-+不過，-mm 與 linux-next 的測試者應該要知道，這些樹出問題的頻率比其他
-+任何樹都高。
++    auto-key-locate wkd,dane,local
++    auto-key-retrieve
 +
++基於 DNS 的具名實體認證（DNS-Based Authentication of Named Entities，
++「DANE」）是一種在 DNS 中發布公鑰，並使用 DNSSEC 簽名區域來保護它們的
++方法。Web 金鑰目錄（Web Key Directory，「WKD」）則是另一種方法，使用
++https 查詢來達到同樣的目的。使用 DANE 或 WKD 查詢公鑰時，GnuPG 會分別先
++驗證 DNSSEC 或 TLS 憑證，才把自動擷取到的公鑰加入你的本地金鑰環。
 +
-+各種核心樹的說明到此結束。希望你現在已經清楚如何套用各種修補程式，並能
-+幫忙測試核心。
++Kernel.org 為所有擁有 kernel.org 帳號的開發者發布 WKD。在你的
++``gpg.conf`` 做了上述變更之後，就可以自動擷取 Linus Torvalds 和
++Greg Kroah-Hartman 的金鑰（如果你還沒有的話）::
 +
-+感謝 Randy Dunlap、Rolf Eike Beer、Linus Torvalds、Bodo Eggert、
-+Johannes Stezenbach、Grant Coady、Pavel Machek，以及其他可能被我遺漏
-+的人，感謝他們對本文件的審閱與貢獻。
-diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
-index 80fff2203e55..7917fb96dd01 100644
---- a/Documentation/translations/zh_TW/process/index.rst
-+++ b/Documentation/translations/zh_TW/process/index.rst
-@@ -43,13 +43,13 @@
-    programming-language
-    coding-style
-    email-clients
-+   applying-patches
-    volatile-considered-harmful
- 
- TODOList:
- 
- * changes
- * maintainer-pgp-guide
--* applying-patches
- * backporting
- * adding-syscalls
- * botching-up-ioctls
++    $ gpg --locate-keys torvalds@kernel.org gregkh@kernel.org
++
++如果你有 kernel.org 帳號，那麼你應該 `把 kernel.org UID 加到你的金鑰`_，
++讓 WKD 對其他核心開發者更有用。
++
++.. _`把 kernel.org UID 加到你的金鑰`: https://korg.docs.kernel.org/mail.html#adding-a-kernel-org-uid-to-your-pgp-key
++
++信任網（WOT）與首次使用信任（TOFU）
++-----------------------------------
++
++PGP 包含一種稱為「信任網」（Web of Trust）的信任委派機制。其核心是試圖
++取代 HTTPS/TLS 世界中對集中式憑證授權單位（Certification Authority）的
++需求。PGP 不讓各家軟體廠商來決定誰應該是你信任的認證實體，而是把這個責任
++交給每一位使用者。
++
++可惜的是，很少有人了解信任網是如何運作的。雖然它仍是 OpenPGP 規範中重要
++的一部分，但較新版本的 GnuPG（2.2 及以上）已經實作了另一種稱為「首次使用
++信任」（Trust on First Use，TOFU）的機制。你可以把 TOFU 想成「類似 SSH 的
++信任方式」。使用 SSH 時，第一次連線到遠端系統，其金鑰指紋就會被記錄並
++記住。如果之後金鑰改變了，SSH 用戶端會警告你並拒絕連線，迫使你決定是否
++要信任改變後的金鑰。同樣地，第一次匯入某人的 PGP 金鑰時，它會被假定為
++有效。如果之後 GnuPG 在任何時候遇到另一把身分相同的金鑰，先前匯入的金鑰
++和新金鑰都會被標記為需要驗證，你必須手動判斷要保留哪一把。
++
++我們建議你使用合併的 TOFU+PGP 信任模型（這是 GnuPG v2 新的預設值）。要
++設定它，請在 ``~/.gnupg/gpg.conf`` 中新增（或修改）``trust-model``
++設定::
++
++    trust-model tofu+pgp
++
++.. _tw_kernel_org_trust_repository:
++
++使用 kernel.org 信任網儲存庫
++----------------------------
++
++Kernel.org 維護一個存放開發者公鑰的 Git 儲存庫，用來取代過去幾年大多已經
++停擺的同步式金鑰伺服器網路。關於如何把該儲存庫設定為你的公鑰來源，完整
++文件可以在這裡找到：
++
++- `Kernel developer PGP Keyring`_
++
++如果你是核心開發者，請考慮提交你的金鑰，讓它收錄到該金鑰環中。
++
++.. _`Kernel developer PGP Keyring`: https://korg.docs.kernel.org/pgpkeys.html
 -- 
 2.43.0
 
