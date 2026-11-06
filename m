@@ -1,134 +1,143 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.146
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793998372;
-	b=YrGPvYrq7Qvu6BgFOdRZNRsbF/f+BpvJ5Tx/EiX3PzVCUGJXf3oIHRqOyr4mcf+ccLNd
-	 ek929398ZM5HwiMDnHm+a+Xa0Zu3yiHcccB+1wTNUxrLSWoVhgxGUjwVjG2SeYBAQtNjZ
-	 L+bGNKf5LthHRGl6n7pxWu3w9frT/yylJap7YTMbQKdKVdAxyAiAFABqsnkowvcqMqBVA
-	 8GH7jeGTjfTahaJu/QoCieGA18SK6T43pyvgShVWoV94zwRuZvdSM7683GX0LcpFMMHiP
-	 aMhGxvkUh4+ZzaesViJywWYUNLgDm9WfZhJseB9iFtzfna4xYSoj4lrudu3OmfEff3w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793998372;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
-	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=DI68O0X3RB/jvXr8h6qOIGncG3G3gqaeml4OgW4iOEE=;
-	b=ACF9PsxXF/o9eBWhLbQw/Q7JRXRXY+/aNt7NWXQuoDxdZ9QIQ1wqoNCGywBe/R4odapR
-	 18L1GwiqN75rS8KCb9+8QALNwvsbwpHYhWeYv2eIJ9DY9vUEaNfJlRaPqyV28rrXMh09k
-	 mL6oP5+xofhA/06UFkLeFjgh3mvuJs0IOjAcGaqGXJLeRh/ZlCOpnhbT2T3wTHSAWDe8c
-	 vgLo4hQTDG40rtQOxdqV8uV7iOKrd0ZFNyLR/cAOELA1gidjT5FlLDf415EtJi28zEk2b
-	 f6sB7YvMcCJqSMXtpAsptvG0587Y/pxYao/4vFm+1e3PluJu2ayJgX3s8Ht/WR3me2Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=shazbot.org;
-	spf=pass smtp.mailfrom=shazbot.org;
-	dkim=pass header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=PcvY35YW;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=ZKmMOCmM;
-	arc=none smtp.remote-ip=103.168.172.146
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.17
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1794000532;
+	b=t6iJ7oouBudCtqLbEq8tHEZck3E9uYvEQPB5gvUC004K2739zy/vRWUAWV8jCpPee7IK
+	 +SWbuP+hAZaKqAzoocFTpwJgRtIZYKRNWM8c4j3FTgGv8YZL03FOnMLE8KKia+bUC70e6
+	 N52QsylDpLvDNgfQSPjHKLeQUs3yo4Yg74N8sAHF+Dxa0RKo0pt+WKb6p9vSvET2uUhr0
+	 bhsKKpMc5R07La0Qtch9xlXFKXvc8QR8MARSxcwC9732ffZ0RK43Ma2hBwK6vFtSFp17B
+	 UXpjaJ/f32cD1iBrvzvfbSS9i/cec6972Xwade/FXvt2OF5Ze3Y9EgHkrG3NKSgeQ3Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794000532;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
+	 Received:Received:Received:Message-ID:Date:User-Agent:Subject:
+	 Content-Language:To:CC:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
+	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
+	bh=XnbziwQpwOpllZpJHtq9oqnRQdtsboY2ChfTiVA7EeY=;
+	b=1hSYso19qhPfqIowQ+TYw+DNO1o/lAzykV02ogEs7Huj86oQiwcqmaXFG4QOQ8HHqWKB
+	 o4vWkqyD9e6RHV+5oCFK9cAxj/QQ2LurXN6o/0RZ8op9/Sbzp7Toq5TeA8kKsCyP8rIEo
+	 r7vCsYCDt44cqvNN/ND2or/YNWX3J4XBMykxCWgfl5uWRgmco1ZkYE3CQ0+CCs4PzeUqR
+	 vKMFX2BrKxHmp2ckopWwHfBiSgE7WT0vME1+FXmNMLMEziDR6yO5iwU76Y7b1P8ePpnnB
+	 sg8xqCqGKjT/PYnTcyxg2vVY1CWdEwtXO+hYlBwP4FpPwRuYkAr427sYshYniNkxq2g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m7pJp0oh;
+	arc=fail smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EFB6606A32C
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 20:52:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EFB6606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325F2606A326;
+	Fri,  6 Nov 2026 21:28:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 325F2606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm2 header.b=PcvY35YW;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=ZKmMOCmM
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 2E337EC0185
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 15:52:50 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Fri, 06 Nov 2026 15:52:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1793998370;
-	 x=1794084770; bh=DI68O0X3RB/jvXr8h6qOIGncG3G3gqaeml4OgW4iOEE=; b=
-	PcvY35YWH6Du/gCafTao8iOZjmTLwWOVKzghULOCwxRJDepwHq5SEXZgDjhp2YmN
-	Mczq8tEtam7bb6F11NAjdemUzEg7WBYWDdz7b9e9eVbl3gJy/4icG1CbYZZ4IvJW
-	EzT0n15ww8oTyyl1kb/PIVTYOevzJfWyYFuXWFuTiu0N+vTEosrH8eXrcyblP4BW
-	r6U71LrA83YcsF8DNZ8mLXSEX+XM87JLo1WrflYjh5ULnf+fr19CnoqSiLWx/SDt
-	m1TCMCcgDTGQZziQuXeJvel0Mu53eeZiKOtoN7tQ8iC5Ie6lfLTcpIuMAv1cH+aj
-	L2FsoGkSiDwfpDaFRhjD0Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1793998370; x=
-	1794084770; bh=DI68O0X3RB/jvXr8h6qOIGncG3G3gqaeml4OgW4iOEE=; b=Z
-	KmMOCmML5eN4wvqkIgXX8D7nNZgEuIUCuFe7kzARN8GKe99ZFIIl207mXcKbSEv/
-	BnToq5+sgvh/FWRxLQLwqqxlBIeqFO+5qA1QPzFNQ3e6UGUhSHn8fb3rj30/TcC+
-	WJsyeQoNOdTDpzNVdCQ7CKtrsXCa2mvycmqQKFJ+jEjLoiA47kb+dyCMtq0vSN85
-	1vMbwveDH+YpK14phRJr/zVjmyr933EGuZLtnzUJf/roWOFFzlLA+fOQ0EkwQ7EE
-	o5UM+63iBsfUrQlFLSNfe4tNarSMxfCjoNMRT7s2Y2DgorDF2P7fxoWicJAMXYuG
-	QtivnVCwzT5/+JWPhEOTw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=shazbot.org a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793998370; d=shazbot.org;
-	mf=PGFsZXhAc2hhemJvdC5vcmc+;
-	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm2:rsa-sha256:uY2sNkxJ+WveY37dFRWEQjOG236E8cKRb/YLSjHMwU9hrad
-	NNK6p3Ny8oeS6iAJPune9BeHrms2X2xZsSGTIVF0yQ37EsFFQWVl+62tqCoBs/0G
-	omGWSnkWNqsdpDOkh7HsV3K0rUu0r/1FZpikUEaLn7q+5+QGe5N33WeoQsYKercR
-	EODufGvnuKXdASfCkQYPRZ/s1d4VBbZTS+bd5kzie4IQLYxXxoVeir+CMn8gjug2
-	u7aZ4MD+fp8VaBJxrXX06edspa4byhki9LuSmbHXjq61rWT7NyDT4r3AqlIqmzRO
-	yvCytcrnnW36G2ZmbDynUpU5jYRX0zCLeWGzxog==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:JlV29eQ9Ey6xSHV8ni9oTZHE4eweDtFxopLH4TWcwP4=:va0vdCyusufdfSq+B2ZmcLdvPoQ4pqTqrJNg8au0qYY=;
-X-ME-Sender: <xms:IT7uanLeayqQ7DVrELXhyBB_TM1Ef_4FS0UgXLkqbDxXz7w976GkhQ>
-    <xme:IT7ual-0GLZ2AsTD9KXSm22KZeDOqZ1fOpfeZOIIaVX183tOrZ1tPrjF7Qc6FZ3kW
-    gqgiHF2ylIXJqJH-PmvNDzNyfYWkE0mUPI7Y4bfaQfW3OE28Dl3JA>
-X-ME-Received: <xmr:IT7uat_yTTYLhkcdeim5Lod4HPghLTf3SAw-l8LtY9DA_rf_Tvjnl650qqfr3w>
-X-ME-Proxy-Cause: dmFkZTG3ELfz1HMYilg74EaAvzptHMUfC/ybskUvnsHdFUyYtIj+CatcaN0RoFw5cE4Jq4
-    uqqKuKvggY98V7NPM7fyvdzk/WptIGtF5ANhhp9eW4RXRlON7oA8CjAY/ER6Ga9ZH71/UQ
-    7BGmSdDbBP8fblvnU6n2d7GOhvDWCTh3bZU6nz8YF1Iw7QrXH/X9o2DBzDXNlhRoEHf1Ro
-    9BZ8n4AYFcbR4OWj/Rtay3IZmP9AzvX2yNWgjVkET5nZ9J7wt/Wbnpuc96R7069p31O6hZ
-    QrNAOg6cqZdm50VCeIVbFAKGMLAOpGIaHOWVtBCWEdYbqtvAMuWIQQEWIylhgHdLRhKyNG
-    kSnpXXqZPWWuDmamcEXDih2jKI6JeTV5ycsRHBoVCSC72WKEyrJXvi/EXLR4MDH4nZ+W3G
-    9oHGtpg7/4oKhoL7xXS0JdYhK7IAwllR9xk7MdVRB80nZTMZ6rURco+l//r9/jfkn6O3R3
-    3NLb6VOoDL0CbwIhn+WuvFdiebw4WDWazKGaaFH7pbIyCk76YRereTpLI4t2eKdxaug0EE
-    WXWO/2gKZWxNAIdjghMz7jilGQ+bU7Gf/UM5uiie6UJ1HZuc+V9Ad7Jq0XsLOVmoQzG2a3
-    YlHURpwYLcsHnoZbtnue9Aik407XqcM/K9471PhTwt1gA3gjt60NVK1JPxJA
-X-ME-Proxy: <xmx:IT7uav964Hga9-J9speWrNVFSCuWOuJzoeJHoz3eyguHNPaQc-L5Cw>
-    <xmx:IT7uaoL5uI5mefie3DtZ8HiN-ndSadyHOqlIFghA5fHmhUPLbn_LdA>
-    <xmx:IT7uakRTo79983alZPUEfZiKbs8yIOugv2IOXEMk_t7FR5w7kDHNiA>
-    <xmx:IT7uah-oXs2lCD_8by5Fcp0xGVEbLmtiYTOwmaXXMVW4-Hx89yRCGQ>
-    <xmx:Ij7ualyd7aOSUnPtmOrSzM2TRz7pz5jro_A5NG05sBdjo7gnAleEQPiz>
-Feedback-ID: i03f14258:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 6 Nov 2026 15:52:47 -0500 (EST)
-Date: Fri, 6 Nov 2026 13:52:45 -0700
-From: Alex Williamson <alex@shazbot.org>
-To: <mhonap@nvidia.com>
-Cc: <jgg@ziepe.ca>, <ankita@nvidia.com>, <jic23@kernel.org>,
- <dave.jiang@intel.com>, <alejandro.lucero-palau@amd.com>,
- <smadhavan@nvidia.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <dave@stgolabs.net>, <alison.schofield@intel.com>,
- <vishal.l.verma@intel.com>, <iweiny@kernel.org>, <ming.li@zohomail.com>,
- <yishaih@nvidia.com>, <skolothumtho@nvidia.com>, <kevin.tian@intel.com>,
- <bhelgaas@google.com>, <dmatlack@google.com>, <kees@kernel.org>,
- <gustavoars@kernel.org>, <cjia@nvidia.com>, <kjaju@nvidia.com>,
- <vsethi@nvidia.com>, <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
- alex@shazbot.org
-Subject: Re: [PATCH v6 10/31] vfio/pci: Refuse ioeventfds and dma-buf
- exports over excluded ranges
-Message-ID: <20261106135245.2870aebb@shazbot.org>
-In-Reply-To: <20261016161839.2765592-11-mhonap@nvidia.com>
-References: <20261016161839.2765592-1-mhonap@nvidia.com>
-	<20261016161839.2765592-11-mhonap@nvidia.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=m7pJp0oh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794000531; x=1825536531;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=f8vPKmN2hsig2KiDZryZA6KiySiw/9qrES3teabPPM8=;
+  b=m7pJp0ohppRwehDNoxgugClAkgRvxQsQvoOZJv+OLiSGCwaWHecf84rd
+   8ujVlkbi8ywqNcf/fo9mmKE4T89jDp82aaCmM01K2INsoMBVpLDq0i53X
+   cbdsJ3kC9BbwOQtabXn4czR2LOIfU9+CWJehDNnyLA1zphica+77f2Gxx
+   fYONishjfMhOHl/BHdfeu3zsqDzVME6RZsekVLdocUzHItPSlrlCH+7Vm
+   OJp61HpaAjfm212RBSeOURX5hGJ2sL1hkRotVv46Nbuiouc8iCuBYfwP7
+   X0To85+thX6tQw4d3bc1rMfuYqxQH3YXiDUr7AE/tjUN2DmIRorUBnzZ+
+   Q==;
+X-CSE-ConnectionGUID: URsxizlwQOSiEB2abs+qyg==
+X-CSE-MsgGUID: 6oEDLwZqQGWMucacYf0blQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2849132"
+X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
+   d="scan'208";a="2849132"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:28:50 -0800
+X-CSE-ConnectionGUID: El49b9eiTJmKUXg1ALY8Qw==
+X-CSE-MsgGUID: YHzKdYCrR9ahljcogNp1HA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
+   d="scan'208";a="9227838"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa013.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 13:28:50 -0800
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Fri, 6 Nov 2026 13:28:49 -0800
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56 via Frontend Transport; Fri, 6 Nov 2026 13:28:49 -0800
+Received: from CY3PR05CU001.outbound.protection.outlook.com (40.93.201.47) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.56; Fri, 6 Nov 2026 13:28:48 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FSmQt/AX8wZZ+KvlVNjCeInbeSlAVfDlxL/vAA9F1v6stF6KjeIUcNVzIazhoFvjU3RDN3feAsalVqROZ6bh/2scnjPJbOWp/OFCdXUklLZ74SzjJbjYuHsSj52ergUdOp9/8OTKiimQX9zfymmcoyDLjfp0eH2J3yVBxyb56wP7iI6oThEyK1RPZdvSi9Ln8O5iQF+FzpDfs3pMAUSSXW8kekBvzULV/B6nVFqTCX+hbzVUY1b21iecS4pwSI1a7+4pImYsHe2AWKM6hZstGnpWKKp+cx6HQuMHRXQBSaE0+SXUJygtosjJm52Ojt944TwZzALTB9KTcgljnMmtag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XnbziwQpwOpllZpJHtq9oqnRQdtsboY2ChfTiVA7EeY=;
+ b=NtKNirhTYFEiaIdP+qG2z+0RYMpg0x5CNDPRx86+5GqKu5oTa38oRVYz6W8SV+WfVV6HlypWtOXUk7Ljh4YnMfMVmJXm08sm8kTci67nnA6pEwmsveIVtjyobozfS7csYjPTcFLZIsxSzDtW+gbe4taOTbLZpNEgBO2fIffnv+mvsWs3Q9KXutXLNFdXZ++w7u65SKu1k+E/RFVwwpU8M9gaffUb/F8QEvZqUqo9O19tSVb61mxMZJw0jAd9SsNrmLvb1N1g8iYFpXkIZZTHptGSjyKL291a4J0lZHsvWPCmzAxSI8Iw+GgYjBE2gQhofUp0iRbcM75RKFPVmtMRkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from CY8PR11MB7846.namprd11.prod.outlook.com (2603:10b6:930:79::14)
+ by BL1PR11MB5304.namprd11.prod.outlook.com (2603:10b6:208:316::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.8; Fri, 6 Nov 2026
+ 21:28:40 +0000
+Received: from CY8PR11MB7846.namprd11.prod.outlook.com
+ ([fe80::cae0:d05c:b2fc:c395]) by CY8PR11MB7846.namprd11.prod.outlook.com
+ ([fe80::cae0:d05c:b2fc:c395%7]) with mapi id 15.21.0592.010; Fri, 6 Nov 2026
+ 21:28:38 +0000
+Message-ID: <84f3c302-f10b-45c7-a248-49060b4e6203@intel.com>
+Date: Fri, 6 Nov 2026 13:28:35 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 14/28] KVM: VMX: Virtualize FRED event_data
+Content-Language: en-US
+To: Binbin Wu <binbin.wu@linux.intel.com>
+CC: <kvm@vger.kernel.org>, <x86@kernel.org>, Paolo Bonzini
+	<pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, "Jonathan
+ Corbet" <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, "Thomas
+ Gleixner" <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+	<bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin"
+	<hpa@zytor.com>, Xin Li <xin@zytor.com>, Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>, Andrew Cooper
+	<andrew.cooper3@citrix.com>, Tom Lendacky <thomas.lendacky@amd.com>, "Nikunj
+ A Dadhania" <nikunj@amd.com>, Shivansh Dhiman <shivansh.dhiman@amd.com>,
+	"David Woodhouse" <dwmw@amazon.co.uk>, Chao Gao <chao.gao@intel.com>, Zhao
+ Liu <zhao1.liu@intel.com>, Yosry Ahmed <yosry@kernel.org>, David Matlack
+	<dmatlack@google.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>
+References: <20260911213659.2025974-1-sohil.mehta@intel.com>
+ <20260911213659.2025974-15-sohil.mehta@intel.com>
+ <2afe6fcd-eadc-4f9d-bbe4-0e6449479603@linux.intel.com>
+From: Sohil Mehta <sohil.mehta@intel.com>
+In-Reply-To: <2afe6fcd-eadc-4f9d-bbe4-0e6449479603@linux.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0199.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c3::24) To CY8PR11MB7846.namprd11.prod.outlook.com
+ (2603:10b6:930:79::14)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -138,113 +147,122 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY8PR11MB7846:EE_|BL1PR11MB5304:EE_
+X-MS-Office365-Filtering-Correlation-Id: da7552b0-61b4-49d9-02d5-08df3c4cec0c
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|7416014|10067099003|18002099003|22082099003|56012099006|11063799006|4143699003|261026140227099003|261102123227099003|261028144727099003|261021121427099003|261021123027099003|261022105027099003|261009223027099003;
+X-Microsoft-Antispam-Message-Info: TZFL2Z6Ra3mQsiJdDn+rzprlF8HrIYGP0no9gz3ZFuRnodqZqDgNpeFbiSahqILbqVogZJ4g79v3ZwOlhsSDv/sjTmRc0uGnxrDUvLeKWBPShn5xKfuXRl62Q7th0oIw9LTUNmNmqMoDJQNDbN+ghYV5ITvMzVX1rvcXJ2fCIw2205FLPNA5fLoFsReDh7X/dHve5wEbwYNKe3hKwv4DjHZvbpVjSvjaWxn7muqyrZFipo0llFvRED1EIrAzEvqblL5PrU7EmPhY/9SIQSyUuW6+vtqrhGEf6KyikyT/z9WhJxXZkWWoG5XnTKCUbcwMmJMnQgSvG2p+9wvuyEZYPR5PA3ITCNE27rfCiTmGqFzbR2Mecz4pVVhHtwsU8548g1WV9V797JBQIsOebmDYrrsQdU8WQKwK5PU7cq8Wtv6ZeNdYH9XQFmc8YgH3WKuzW8TRFlhPCyEDSWxPGzf9ME81h9PamsyMsUA65zs4IurDyA0fIUzzIzAKdJw3KPT0HwNzGkn50IPBlc1oTkAzQ2uW3Tpfn7kg1UU/ZTuVRFfgjlhPG7xpa+2RmbSsu/CqEDyRX6mwAecV+/PBNjk7j9QV+Edsugkh5fqwzvH4VgzE5CBcjoI2yKq4AZAjgg5kD+6XabNyt9551bHLHebCdcCkHk5+s6m2kO45eESnsFk=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7846.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(7416014)(10067099003)(18002099003)(22082099003)(56012099006)(11063799006)(4143699003)(261026140227099003)(261102123227099003)(261028144727099003)(261021121427099003)(261021123027099003)(261022105027099003)(261009223027099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3lBb3V3eVBJcGJqdFZJQWpOdkhVL0hKaFBpUVllQ21na1lySmE3a2VFS004?=
+ =?utf-8?B?QzYyWk94SGEyQlR1M0VlbHh6UVV1ZytCMS9Da0pqOWpJV084S3dFM09Ea1VZ?=
+ =?utf-8?B?UnE4YWYvZHZ5YjFFUVd0SStZZUNkaFNCdzl3eXZtbnJWNkI2dWVKWWZ0QmZW?=
+ =?utf-8?B?bHR6MFdzelYxekNxeHFzQzdnWExGN096bVRXdExTOGJKS2VPTkZnOTZlekt0?=
+ =?utf-8?B?U3FKb1hrY3BaTjJvNjhJUUZsR01nWEdiMDI1MDhDQktRcTcwaWRzMWFqd1Ix?=
+ =?utf-8?B?S3pSOFUva3RuS3FER3VtQVljVkhadGJVWmhDRlQvZ083MUw5RllWUllBLzFt?=
+ =?utf-8?B?RFVpTitZR21HamJXY2xSTldQS056L0V1LzhpR1RuSTRESlVoQkJxQmpwTTQ3?=
+ =?utf-8?B?YXNablVXSEpKZlNHWUdaalZSeW0wbjRLNVhQQUE5bGpWZ3ZEbUlTdFRmVC82?=
+ =?utf-8?B?NXBtNUd4cjZqOTVDcWcraVlLdUFpVTNNK1Z2L3RFb2swc2xtbC80WmhGSjdy?=
+ =?utf-8?B?anFUWk1zaUludnBBL2ExL0VDTS9lQ010azc2R3FscTJqcVVEbC8rLytyUXdX?=
+ =?utf-8?B?OEdvSmtWRFJWOXhwTGUxNE9LRXNaTnEwM3VEMnFhQUJlY3pyMGJqTTZVdSs4?=
+ =?utf-8?B?RU1ldUVOR0hhNnViaWlQbWVWYWMwT05QNnBuVnF0VEErNkhRYnB6NUhYbXgz?=
+ =?utf-8?B?QXRmRzE5eFdEMDU4TERZM0c1UGErK1NyVkJXTUFLNzZTYzNGRVh6V0dZRVpO?=
+ =?utf-8?B?UnpRbTcydDIxcmxoVUxjRDRWeGg0eDNLMTRYT3dhaDhwKzFWaFhyL0RtZzBH?=
+ =?utf-8?B?aFk0eUlJQjVxQlI3VkNNVitnODEwWEg3ejdOMEZNVnBpV1ZUbmpIRmVIdk5R?=
+ =?utf-8?B?YU1MRzdIQW9Gcm9keVVudzA5ajFpaFBNQnIxRFJUMTEvZ2krcURqMzl2SFpT?=
+ =?utf-8?B?dFBjYWZGZFhTN0NWZ3pNLzNnWmVkL0t2ektoSTh1K2tCSVNWZmU4WkowbW1J?=
+ =?utf-8?B?RGVCQldzWVRPbkpaT1M0SlRkUHNGU0ltTVZleHpzZGVyNFp6MVF0cC85UkpR?=
+ =?utf-8?B?MXhUR0kxSDFoZjhzaEZnczNYZ1hIQzNEaEJiT1dHckpTQ0oybDV2YlRRWEJM?=
+ =?utf-8?B?SjRPQm5vR3pUcVdRMTZRS3gxQlBpM2oyZUppQTlPekRoY1NvTGdHelRaYVl5?=
+ =?utf-8?B?VkZMcDRnUENrVi9MUmdocVlZOUR3aklDSzVnN0dncmJQRFVSeG8zYm5sZSs5?=
+ =?utf-8?B?a1NtUHdBUHlDMEVVRnpHRTRZN2t2UWlDWnBSTHp0UnNLMDgrWFdIQjNPcnUy?=
+ =?utf-8?B?SFkyQmF3RU53V2hPQ0NlVWFGSExLL1NMMHdrZ0dvYXNpRXJkVVN0M3JBOHFk?=
+ =?utf-8?B?V0VvMDZCWmZRMDI0V2RGL3RxZzBVblU2VzA4NWlxMzY5dllZeXQ3T011Q21u?=
+ =?utf-8?B?cGFlejF4MXlKNWgvQ3dCYUljRFRyam03M3dMNCtVb2xZZnAwRlBXSXJ2UVlB?=
+ =?utf-8?B?R0ZQdDFleUtYTFh2UWxvWE9oRWYxMU1YK2htSnlTekd5YkZmdXhBakhTTDdw?=
+ =?utf-8?B?cmVNNFhZTzU1aVZIQVJ6eGl6NnpYS2pjMVlsM0F5U0plbHJYQ2swYU9JWVFt?=
+ =?utf-8?B?eVJvOVpCT1FEcDUyU0JiWWpsNUluK1ZadlU4dGdSSkF3emZNTFhnMTJWajVm?=
+ =?utf-8?B?T1dUVVdFcFhyQzJNUlVBQnhCb1dYWkNXbUlEMzM5d1FXZWZmRUFJUnZPV3U3?=
+ =?utf-8?B?UFpsTVRzM3NMVENhelkvcXJ5b1Y1Skd5SVR2aDRuaFp6TEcvYktzSGJUWWhS?=
+ =?utf-8?B?Sk5nR0swMmJvdUltM09jWVVKSUVQTjRiOUpmcDJ5czVZYWZORktYbENWRU5U?=
+ =?utf-8?B?RlFpc2wrN1VVeENTRjFFNUZGVjd6WWdrOEN2bmhnQkpGQ2xDaWF6SXp3cmtm?=
+ =?utf-8?B?WkQzdjUvdWRlYUd3N0I0dTdrMHNmdmRPVFM3KzlHbDREaG5vd2s3cHllcmdu?=
+ =?utf-8?B?ZGk1bzA3KzA2dzVjbGZiVFFCaXdiK3ZlMFZSZU5YRlpGTGZSSytOVk91VERN?=
+ =?utf-8?B?YnlGeHAxbzY3d2dMYVgyT0I0T0RlajlrZUY3SFdlWGh1dHRVWXZ2b0NIVHRV?=
+ =?utf-8?B?ODUxcUY0VCt4elRDcVREZFhaMEhvNGZscHBoODBjcUVObmlNaFF0SldTR2pL?=
+ =?utf-8?B?UDJMNmpJcFVwQ01zZzZ6QlNOMEdVUmp5TEFpdHRPTGVQRzJrbXdHNXRHSE9y?=
+ =?utf-8?B?TTY2ajYzTjdRcnZpclpOemhDWmhVY2RZbHY0bHhEeFViVFpHaUJRZjdnYnlO?=
+ =?utf-8?B?SjVSYU51Vkh1QSsrSnd3di9FK1pXVXU2YWxSZlBTL09JaVRFSVk1UT09?=
+X-Exchange-RoutingPolicyChecked: K+ce3hGUDEqNKxZEezHxHdte6yIQ73j9/etmAutUxBzDG+d1lc78+kRJ87q5LqQpj76akcLc9lPVF1ZAymf1cGrqgQnJn7QlPxDMtpXs4/cTNSIKTy9SAlS62BzfA1wuKn9oc3I2T7oBl7MknisASJtT7zsSI2iC3fMZnH9LgpMgRg9D9cLM0VpJMzI4r+D1KIOi541f4jYO/Kt4gEH7DAMyV6iITumDltMA+F+e30yqq/t/d3CdgxXs9HQM4lyBSWgpHB3RBoEXzvSCRAM9lo2jOxasbCoMtaKy7duJAeS7RrzaaAzW4xnzavDJalXDdlKZvg6xX8pade2RfLsngg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: da7552b0-61b4-49d9-02d5-08df3c4cec0c
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7846.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 21:28:38.6382
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kyvOEHwBpqqVc5bqL0NX2Z6ciwsFQlm03W0VohmZW43EqzIB8JmfG6pvEicdP0XEGJngFB2Pz+3yQQAqsrL+kQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5304
+X-OriginatorOrg: intel.com
 
-On Fri, 16 Oct 2026 21:48:17 +0530
-<mhonap@nvidia.com> wrote:
-
-> From: Manish Honap <mhonap@nvidia.com>
+On 10/29/2026 3:55 AM, Binbin Wu wrote:
+> On 9/12/2026 5:36 AM, Sohil Mehta wrote:
+>>  
+>> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+>> index 94d684210cf6..e10ac6b280f6 100644
+>> --- a/arch/x86/kvm/x86.c
+>> +++ b/arch/x86/kvm/x86.c
+>> @@ -431,9 +431,22 @@ void kvm_deliver_exception_payload(struct kvm_vcpu *vcpu,
 > 
-> vfio_pci_bar_rw() keeps the excluded ranges of a BAR off the device, but
-> two other paths reach BAR MMIO without it.
+> kvm_deliver_exception_payload() returns early if !ex->has_payload.
 > 
-> An ioeventfd writes the BAR directly when it fires, through
-> vfio_pci_core_iowriteN(). Refuse an ioeventfd whose range overlaps a
-> write-excluded range, as one over the MSI-X table is already refused.
+> For example, if a #PF is injected, kvm_deliver_exception_payload() sets
+> ex->event_data to cr2.
+> Later, if a #DB without payload is queued via KVM_GUESTDBG_INJECT_DB, the
+> event_data is not updated.
+> It seems the stale #PF event_data will be write to INJECTED_EVENT_DATA and
+> delivered to #DB handler in the guest.
 > 
-> A dma-buf export of a BAR range lets an importer map it for DMA, which
-> reaches a range that the BAR keeps off mmap. Refuse an export whose
-> ranges overlap an mmap-excluded range, so the dma-buf follows the same
-> rule as mmap.
+
+AFAIU, if the #PF is injected, the next VM exit would call
+vm_clear_exception_queue() which would zero out the event_data. Also,
+based on commit e907b4e72488 ("KVM: x86: Check for injected exceptions
+before queuing a debug exception"), even if the exit interrupted the #PF
+delivery it shouldn't be an issue.
+
+But, I agree with you in principle. kvm_multiple_exception() leaves
+event_data alone when it queues an exception, so an exception without a
+payload would inherit the old event data which makes it a little fragile.
+
+To solidify this, I am thinking that event_data can be zeroed in
+kvm_multiple_exception() similar to how is_nested is handled. Later,
+kvm_deliver_exception_payload() can fill it from the payload.
+
+>>  		 * breakpoint), it is reserved and must be zero in DR6.
+>>  		 */
+>>  		vcpu->arch.dr6 &= ~BIT(12);
+>> +
+>> +		/*
+>> +		 * FRED #DB event data matches DR6, but follows the polarity of
+>> +		 * VMX's pending debug exceptions, not DR6.
+>> +		 */
+>> +		ex->event_data = ex->payload & ~BIT(12);
+>> +		break;
+>> +	case NM_VECTOR:
+>> +		ex->event_data = ex->payload;
+>>  		break;
+>>  	case PF_VECTOR:
+>>  		vcpu->arch.cr2 = ex->payload;
+>> +		ex->event_data = ex->payload;
+>> +		break;
+>> +	default:
+>> +		ex->event_data = 0;
+>>  		break;
+>>  	}
+>>  
 > 
-> Suggested-by: Alex Williamson <alex@shazbot.org>
-> Assisted-by: LLM
-> Signed-off-by: Manish Honap <mhonap@nvidia.com>
-> ---
->  drivers/vfio/pci/vfio_pci_core.c   |  4 ++--
->  drivers/vfio/pci/vfio_pci_dmabuf.c | 14 ++++++++++++++
->  drivers/vfio/pci/vfio_pci_priv.h   |  3 +++
->  drivers/vfio/pci/vfio_pci_rdwr.c   |  9 +++++++++
->  4 files changed, 28 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> index f099a294af34..211fff6045e2 100644
-> --- a/drivers/vfio/pci/vfio_pci_core.c
-> +++ b/drivers/vfio/pci/vfio_pci_core.c
-> @@ -1107,8 +1107,8 @@ static void vfio_pci_free_excluded_ranges(struct vfio_pci_core_device *vdev)
->  }
->  
->  /* True when [start, start + len) on @bar overlaps a range with any of @flags. */
-> -static bool vfio_pci_bar_range_excluded(struct vfio_pci_core_device *vdev,
-> -					int bar, u64 start, u64 len, u32 flags)
-> +bool vfio_pci_bar_range_excluded(struct vfio_pci_core_device *vdev, int bar,
-> +				 u64 start, u64 len, u32 flags)
->  {
->  	struct vfio_pci_excluded_range *range;
->  
-> diff --git a/drivers/vfio/pci/vfio_pci_dmabuf.c b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> index c16f460c01d6..8606c15ab2fe 100644
-> --- a/drivers/vfio/pci/vfio_pci_dmabuf.c
-> +++ b/drivers/vfio/pci/vfio_pci_dmabuf.c
-> @@ -260,6 +260,20 @@ int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
->  	if (ret)
->  		goto err_free_ranges;
->  
-> +	/*
-> +	 * A DMA mapping built from the dma-buf would reach a range that the
-> +	 * BAR keeps off mmap, so refuse such a range here as mmap does.
-> +	 */
-> +	for (u32 i = 0; i < get_dma_buf.nr_ranges; i++) {
-> +		if (vfio_pci_bar_range_excluded(vdev, get_dma_buf.region_index,
-> +						dma_ranges[i].offset,
-> +						dma_ranges[i].length,
-> +						VFIO_PCI_EXCLUDE_MMAP)) {
-> +			ret = -EINVAL;
-> +			goto err_free_ranges;
-> +		}
-> +	}
 
-This should be rolled into validate_dmabuf_input().
-
-> +
->  	priv = kzalloc_obj(*priv);
->  	if (!priv) {
->  		ret = -ENOMEM;
-> diff --git a/drivers/vfio/pci/vfio_pci_priv.h b/drivers/vfio/pci/vfio_pci_priv.h
-> index 53544e0cbedf..09a68c99b43c 100644
-> --- a/drivers/vfio/pci/vfio_pci_priv.h
-> +++ b/drivers/vfio/pci/vfio_pci_priv.h
-> @@ -52,6 +52,9 @@ struct vfio_pci_excluded_range {
->  	u32			flags;
->  };
->  
-> +bool vfio_pci_bar_range_excluded(struct vfio_pci_core_device *vdev, int bar,
-> +				 u64 start, u64 len, u32 flags);
-> +
->  #ifdef CONFIG_VFIO_PCI_VGA
->  ssize_t vfio_pci_vga_rw(struct vfio_pci_core_device *vdev, char __user *buf,
->  			size_t count, loff_t *ppos, bool iswrite);
-> diff --git a/drivers/vfio/pci/vfio_pci_rdwr.c b/drivers/vfio/pci/vfio_pci_rdwr.c
-> index 93823c6391f6..ef098f0b1401 100644
-> --- a/drivers/vfio/pci/vfio_pci_rdwr.c
-> +++ b/drivers/vfio/pci/vfio_pci_rdwr.c
-> @@ -476,6 +476,15 @@ int vfio_pci_ioeventfd(struct vfio_pci_core_device *vdev, loff_t offset,
->  	      pos >= vdev->msix_offset + vdev->msix_size))
->  		return -EINVAL;
->  
-> +	/*
-> +	 * The ioeventfd fire path writes the BAR directly, without the
-> +	 * excluded-range filter of vfio_pci_bar_rw(), so refuse a write-excluded
-> +	 * range here.
-> +	 */
-> +	if (vfio_pci_bar_range_excluded(vdev, bar, pos, count,
-> +					VFIO_PCI_EXCLUDE_WRITE))
-> +		return -EINVAL;
-> +
-
-The code immediately above this is still performing the open coded
-exclusion based on the MSI-X range, which is now incorporated into the
-generic range exclusion.  It should be removed.  Thanks,
-
-Alex
