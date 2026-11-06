@@ -1,67 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793969442;
-	b=ka3R3c9OeI6EbTSVetNT2tUUma7MTqUS4OhKhwWzRIJPuwWLs0sphYq+2Lp71Y4TYGcy
-	 aTYoG3wcRWjcBWGfzp2vo8m7tBPxbPj8SpJFpiFMT+ZGj5ViDglybXt8IJ4e9ILJxDioJ
-	 UivAbLZm3b2LkfqPi//tVM7j25hjw49LePfc45sTR2Hgaei2yVNqasGcRgql2KjgRFHsS
-	 PUT9kJ0ZleBjCaYyu5Ap9h3biAaEBk2M7d0fqCqhkVbQt5AZk8FUni1blq+vlH7c3Ddt+
-	 SIi0mxJqjvWExUApXB4Y/BrhzcUEtiwrWrb9z5bN8raQ1o8MdgRv46TsfV7sNo2jWHg==
+	t=1793970137;
+	b=2d/RK0dUr2zgGi7tTPctfT+W4T9pusiVyWFfqmRLQ1qJMHo4YgHmiBekMrvFhHK6LUdh
+	 L14XGe3Tokhi+fHYQ3Ec0aBOEvE+58L5tT04Tc62BhYR3cxejrg44qYim+OykBkfPQHBy
+	 sH08bPfWNvs3MX+7w52Wv27/K27U2FN4rTLAOn2yirUQJNvISb8f9kOf9v39myVCXVOS9
+	 ko/QyKzaqu27VpZW2wXtbVZTpmFG0ctoQvTSBLBaNBqosHm0+V3BPAkbm0timVBGLyh6S
+	 tb/Myw8Df7Pda7/hNSNnH3ukR2cX/GSmZI2JWy+5afI8Qw+hLQgpcNrHHLJtgh7LBtA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793969442;
-	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
-	 Content-Type;
-	bh=FBjIBgDWbZCo9SaA6U+cSq8TU+erFs29CF/2hr/QbOQ=;
-	b=rs33cMiQ4p/3lauanmdpOydODjrRuRgHmZwDoeDe4hTrEJYR1GtilB8b70yZ9gtMzjkS
-	 h+fw02flY3XVQIjg4ifO6RpydDT8AjNnXp1Z6fXaTojDpcaSEAHrDBnP0Xmu6pMM/x79u
-	 oeP5nUXw13XL9f3PcKyzy/jv9h7UbQAa0Jb292aEHttURjm/MxX3Khd6QIe7Tlq6ynpLW
-	 coPWkuafxbomvE+eTA4ogrvCGsaDSk+6D9tF6N5I+vF+tOpEpcmVfdgj0yQJKjB27oP9s
-	 45YD63jPs3ncn6UybHHfgUm2LkGGAxp59AHJK8BvFqCsvqT7l6GHAgWUkKuKKnrMBjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793970137;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Spam-Flag:X-Spam-Level:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=bbUQdEPswgOtS328uqlCGgh3E/GKlV/1cyChz7WH/NU=;
+	b=P6uqFvqN0sh6GaoOjraf5zE03JGHDtACUcUmLEgz7uFFD+vSOcbPn2EBfYDife79/hAu
+	 jYBxmctf6oMznQxw9RzyQijFz93s4/sLR8OIe0cYU6S8zxHYd+gxENFhsUQAhxQInaIOb
+	 QL0m3B9mlv8UGXnmk1c4YOVopwLXQ0cY/UqjozosncROaCWDx97tTKSuQTl2YU9CtTGS4
+	 xKh5waXISuFmbT6LXc2dwkQBTeB31D6DKw0JAecEw7LUVuJ+S/3Y9+SpO6A3VQLlyX7ET
+	 fg4HsU9TAft184uoEbbP/ezNYa3IA9+ABrvAck1xOAkr6/t9yciZ9vEoAlbvvlGM4WQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sntech.de;
-	spf=pass smtp.mailfrom=sntech.de;
-	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=WHEv8Bmz;
-	arc=none smtp.remote-ip=185.11.138.130
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SkSGo6sR;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HWSD5i96;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SkSGo6sR;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HWSD5i96;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 078A1606A330;
-	Fri,  6 Nov 2026 12:50:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 078A1606A330
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AC16606A331;
+	Fri,  6 Nov 2026 13:02:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AC16606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=WHEv8Bmz
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=FBjIBgDWbZCo9SaA6U+cSq8TU+erFs29CF/2hr/QbOQ=; b=WHEv8BmzZlBskbtiRsC4Yz/6tF
-	lVJsH/z7pFdPbcrteUfO96lrIzu6yFa42ask2ACLtB8O6uGMAjJ5FkSqxMKs8yMyT7o7Hs0ZuH/2N
-	4GkPXRnZ7UYI7WmuDLcVG55y5hJJHUVGaRsnVFAvyX9zV/fjb9Uw1RfdJCS97gPuNrho07j/aW+1F
-	pOJern4i9oeuE7j8otJl9949EwHRfUv+7LRx9Kd4TbmcROCdlLLufc3Qteg0RmyjsU3rG6JeoPs2K
-	k++dAKZdxZIbbcOTn+0G93w14T0clcHEu2gUYgi3SOM1wcSDowGQdPNb/nXXKvmf4sWXrtqwqUcHH
-	TaIrvW+A==;
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Marc Kleine-Budde <mkl@pengutronix.de>,
- Vincent Mailhol <mailhol@kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- Wolfgang Grandegger <wg@grandegger.com>,
- Oliver Hartkopp <socketcan@hartkopp.net>, kernel@pengutronix.de,
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, 1579567540@qq.com
-Cc: Cunhao Lu <1579567540@qq.com>, linux-can@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, stable@vger.kernel.org
-Subject:
- Re: [PATCH net v7 0/7] can: fix bus-off restart and device close races
-Date: Fri, 06 Nov 2026 13:50:20 +0100
-Message-ID: <16255046.uLZWGnKmhe@diego>
-In-Reply-To: <20261106-rockchip-canfd-restart-close-v7-0-accdb11bc845@qq.com>
-References: <20261106-rockchip-canfd-restart-close-v7-0-accdb11bc845@qq.com>
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SkSGo6sR;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HWSD5i96;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SkSGo6sR;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HWSD5i96
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 9E3DA1F7A1;
+	Fri,  6 Nov 2026 13:02:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793970133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bbUQdEPswgOtS328uqlCGgh3E/GKlV/1cyChz7WH/NU=;
+	b=SkSGo6sRLpvA2K/beezCVpf5lh166bkmRSUVzATxIn9mGrRmG2+OpOcl3z0xEiMvAZ1ru9
+	0nHHx9LXL41lEUxYRCsEAmo38XIvIXp6BBrRCBeDbrTdAKeB/Ta9XE3OaKlKFCma7npfcR
+	imDrYFmF2PCA7Vp6HKz4bsF6S/Sq6A8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793970133;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bbUQdEPswgOtS328uqlCGgh3E/GKlV/1cyChz7WH/NU=;
+	b=HWSD5i96OeE8X0hkp6yGWu2eYrss726NPemdGJ029xnxhTprH/7+6wjQApNyquRVkIVqnZ
+	QU8dyGmc82rmdODQ==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793970133; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bbUQdEPswgOtS328uqlCGgh3E/GKlV/1cyChz7WH/NU=;
+	b=SkSGo6sRLpvA2K/beezCVpf5lh166bkmRSUVzATxIn9mGrRmG2+OpOcl3z0xEiMvAZ1ru9
+	0nHHx9LXL41lEUxYRCsEAmo38XIvIXp6BBrRCBeDbrTdAKeB/Ta9XE3OaKlKFCma7npfcR
+	imDrYFmF2PCA7Vp6HKz4bsF6S/Sq6A8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793970133;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bbUQdEPswgOtS328uqlCGgh3E/GKlV/1cyChz7WH/NU=;
+	b=HWSD5i96OeE8X0hkp6yGWu2eYrss726NPemdGJ029xnxhTprH/7+6wjQApNyquRVkIVqnZ
+	QU8dyGmc82rmdODQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4F6AF132C9;
+	Fri,  6 Nov 2026 13:02:11 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xGnEK9PP7WolGQAAD6G6ig
+	(envelope-from <hare@suse.de>); Fri, 06 Nov 2026 13:02:11 +0000
+Message-ID: <93e6b4e6-43c3-462d-b57c-26676aec85ec@suse.de>
+Date: Fri, 6 Nov 2026 14:02:11 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,42 +106,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 2/3] KEYS: Replace assoc_array with rhashtable
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>, David Howells <dhowells@redhat.com>,
+ bpf@vger.kernel.org, dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
+ keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-security-module@vger.kernel.org, Alasdair Kergon <agk@redhat.com>,
+ Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Andrii Nakryiko <andrii@kernel.org>, Benjamin Marzinski
+ <bmarzins@redhat.com>, Daniel Borkmann <daniel@iogearbox.net>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Eduard Zingerman <eddyz87@gmail.com>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>, James Morris <jmorris@namei.org>,
+ Jiri Olsa <jolsa@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Mike Snitzer <snitzer@kernel.org>,
+ Mikulas Patocka <mpatocka@redhat.com>, Paul Moore <paul@paul-moore.com>,
+ Randy Dunlap <rdunlap@infradead.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
+ "Theodore Y. Ts'o" <tytso@mit.edu>, Yanteng Si <si.yanteng@linux.dev>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ Linus Torvalds <torvalds@linux-foundation.org>
+References: <20261105031401.956609-1-jarkko@kernel.org>
+ <20261105031401.956609-3-jarkko@kernel.org>
+ <27015846-0161-4700-b810-4643e1f7b63a@suse.de> <20261106090516.GA1973@sol>
+Content-Language: en-US
+From: Hannes Reinecke <hare@suse.de>
+In-Reply-To: <20261106090516.GA1973@sol>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-13.29 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[kernel.org,redhat.com,vger.kernel.org,lists.linux.dev,linux-foundation.org,iogearbox.net,hust.edu.cn,gmail.com,etsalapatis.com,linux.dev,namei.org,lwn.net,paul-moore.com,infradead.org,hallyn.com,linuxfoundation.org,mit.edu];
+	R_RATELIMIT(0.00)[to_ip_from(RLa6okkzyh9jmtq4tcjsqmu7hd)];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	URIBL_BLOCKED(0.00)[imap1.dmz-prg2.suse.org:helo,suse.de:email];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -13.29
 
-Hi,
+On 11/6/26 10:05 AM, Eric Biggers wrote:
+> On Fri, Nov 06, 2026 at 09:21:32AM +0100, Hannes Reinecke wrote:
+>> While I am pretty much in favour with this approach, is there a specific
+>> reason why siphash has been chosen?
+> 
+> SipHash is the preferred choice for secure hash tables.  It is secure,
+> performs well on short inputs, and doesn't require special instructions.
+> See Documentation/security/siphash.rst
+> 
+>> Would there be a chance to make this configurable?
+>> I do see slight complications when running in secure environments
+>> (ie FIPS-certified environments) where most of the hash functions
+>> might not be available ...
+> 
+> SipHash support is available even when the kernel is booted with fips=1,
+> so there's no issue there.  It's already widely used in the kernel for
+> hash tables, and that hasn't blocked FIPS certifications either.
+> 
+Ah, right. Thanks for the information. Just wanted to cross-check here.
 
-Am Freitag, 6. November 2026, 10:37:19 Mitteleurop=C3=A4ische Normalzeit sc=
-hrieb Cunhao Lu via B4 Relay:
-> This work started from a real failure on a production robot using a
-> LubanCat-5IO with an RK3588. RX continued, but the TX queue remained
-> stopped and subsequent sends returned ENOBUFS. The interface still
-> reported ERROR-ACTIVE, and the hardware indicated neither a bus-off
-> condition nor a pending TX request.
+> Side note: fips=1 actually has little do with security, and in some
+> cases it actually decreases security.  See for example
+> https://lore.kernel.org/linux-crypto/20261026183332.11402-1-ebiggers@kernel.org/
+> where I'm fixing a vulnerability caused by fips=1.
+> 
+Oh, I am fully aware. FIPS is more a rubber-stamp than anything else.
+Unfortunately, a pretty powerful one.
 
-[...]
+Cheers,
 
-> This series depends on the three patches in "can: skb: make CAN skb
-> freeing safe in any IRQ context" [1] and the three patches in "can:
-> rockchip_canfd: fix TX stalls and races" [2].
->=20
-> [1] https://lore.kernel.org/linux-can/tencent_CD05F020BAFB2537F5D1F4CBB42=
-5588EA80A@qq.com/
-> [2] https://lore.kernel.org/linux-can/tencent_E25C9BE6689264E4138A464803B=
-810FDFD09@qq.com/
-
-Both these series are from july and seemingly from before you started
-using the b4-relay. So they may or may not have survived the kernel
-releases and their threading is broken both on lore and in any maibox
-they arrived in.
-
-And if there haven't been any responses to them since then, I'd think
-they have been lost or so.
-
-So I'd suggest rolling both your dependencies forward on top of the can
-tree and sending them as a new version, so that reviewers can find them?
-
-
-Heiko
-
-
+Hannes
+-- 
+Dr. Hannes Reinecke                  Kernel Storage Architect
+hare@suse.de                                +49 911 74053 688
+SUSE Software Solutions GmbH, Frankenstr. 146, 90461 Nürnberg
+HRB 36809 (AG Nürnberg), GF: I. Totev, A. McDonald, W. Knoblich
