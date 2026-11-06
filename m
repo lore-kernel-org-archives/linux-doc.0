@@ -1,110 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.98
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.96
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793993541;
-	b=rF4Q45orRoJe+CDjfRbEJ9lSkJt9xbmIZ8pMpNUj6/jUYzK0rqoZoENQ3P6BIa6x9BzY
-	 vfnD7O6FIMxhfGY0B+3NhGUTLXj97LMO8iRS65C9QdbJqagvLVldmWSAYNqP91J739t7C
-	 Ob43fk/W+N6cnJKTdVxCA5Or4ubHEFgMDrytVX4hMTQP4GcWtJRbNEdalyycwN7ydiSzh
-	 byu1+vB5BhoH5NMn0gtp4kLBs3Iu8CrBT7ZS6GM4hAxdRxNECZ7GepclPFoZgFvibSILL
-	 odYLjdHQiBnKu/FICKOx+K5vve4e9Rrj8G4iZSQ72RqWFxSf0X5Za0RlAlkgWBgaEDQ==
+	t=1793993779;
+	b=Xj9Psgjc4SbuK6v18fBpE0aC79z5c3MatNSVoQvMvzqIw3waSlgAeDppo7q2yRdASXMN
+	 F7GC3L7XkyY+l6PEqQuaYZpzOD5nedFXhYpmDgRl+0Xu5m9Gawx46tnjcneGl22w05ylB
+	 rT54aZHh6iwa2D4qAED3MCMCRQgIQNhgGQgB5ySRw5AsL7hMSqvBUpGpfQDQfNUbIslKm
+	 1iG7We//+Q+dw9yakPnGoGgGgCmdRd7PfsF5vrVJjzomIiktXJvhJ5cv2oxSGP6If724v
+	 HNi96lm098uxBxdalZe8IBPJVmyFpF3D8a0i36uFFX1MjZCOKi2JbFJ9RGS9+waN9Qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793993541;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 X-Relaying-Domain:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1793993779;
+	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
+	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=8oWRxGJ7JRX83dhFy9OyjZ4hFKtbgD4sIEDwt+Jk+oE=;
-	b=FSYiA7+Oy6BjaXS9pSOf3EMQXhbTw5OsVgTBckz9ASlh77zsBQoK1Nfzs7j5drBxogdn
-	 Vz3HwDRfay5Alajgi1s72HvsZqqAGxLC7PdGjXjgc5ajSfelhD2VNiikBkkeuSHIpZqLU
-	 Ck9631eP7O3tOy6Kv5X2GrHgTDbqfMGqbIa3paGp9lU6/bZZ3HOoXt2PGyUqXSEMfKGUG
-	 lkn7c7ELva6QdateEfayZHiDzil9BLAUemUu1VOq8+hrAqopNyQ9TVCk41BAHS2PNwkvv
-	 aNjRWCqxdYn+ydQ9c9z6Jr+FUKWjehghY4UdhJ1rhA8ofpPHMr8eB+PGJS9Q4+Bej7Q==
+	bh=6xTKEOGFRLXidPHrCfmBqE6GgEsv5eOpzmihaPx4Isg=;
+	b=lV/F6NnooRPEth7kk/6JSap/tvBiFpT+SHXrWKPMtxaFue/F5NGybXE7ttr7Gp/TzaJn
+	 pPkNGps1Nr9ehmhXtJpB6FD8c1nxA27Ch6B2w3u2VhoTbU0V01sHG1xbL9Ih6Y0GIWTfy
+	 iv6vR6u+b3ggpLs1d9UAceuLlbb81B2JeuH/9TjndpJMp7UwfgXLbZmCLS6PWCwjRVxWh
+	 bODswvgisCKzgVlVed2B1vLq0FbqjSLdRwMjA+SNbQnN012C2Rac7KpwWtIqAxwHlB2DW
+	 yoXzUG3zf/ZbbYpn0zJzZMWewTnoAXlLa0s8J+Cl1GivB2nXyuwrgSLHzyKcZwHtC+A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=purestorage.com;
-	spf=pass smtp.mailfrom=purestorage.com;
-	dkim=pass header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=eReaRoZj;
-	arc=none smtp.remote-ip=209.85.216.98
-Received: from mail-pj1-f98.google.com (mail-pj1-f98.google.com [209.85.216.98])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=modelmiser.com;
+	spf=pass smtp.mailfrom=modelmiser.com;
+	dkim=pass header.d=modelmiser.com header.i=@modelmiser.com header.a=rsa-sha256 header.s=protonmail header.b=O03VjtsC;
+	arc=none smtp.remote-ip=185.70.43.96
+Received: from mail-4396.protonmail.ch (mail-4396.protonmail.ch [185.70.43.96])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE8C606D804
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 19:32:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EE8C606D804
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=purestorage.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F748606A326
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 19:36:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F748606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=modelmiser.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=modelmiser.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=purestorage.com header.i=@purestorage.com header.a=rsa-sha256 header.s=google2022 header.b=eReaRoZj
-Received: by mail-pj1-f98.google.com with SMTP id 98e67ed59e1d1-3adac5c10e3so593550a91.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 11:32:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1793993540; x=1794598340; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8oWRxGJ7JRX83dhFy9OyjZ4hFKtbgD4sIEDwt+Jk+oE=;
-        b=eReaRoZj/+PPfgXJOc7CpmAiCwwiWKl9CaM3vPVbmIH03fMsj19mLn6Ko5A4GabAsE
-         sog6ybxT1PcEshur15EY9SZGwUpD6eb3SwnrKdB598DJzHjnTT5wrBgOe5He0oFbe0ff
-         HHm6cnr0ryAcry2GtFFPqjH2gu6ZnOWeifBP8o8uffqMCfluZo3T8RBRGvxa4j+J2aEb
-         puIyZQZB6Cjq7Zg8a6GoFFfDc6XbEsN4Lt2EiJhKeRwgIe17Aa4v1/O0DdtohAQaXJi2
-         BNR8/q08PDGfdQnH5/esQUVKscN/SkcRddGzCTe00zD9GEvNhVg+O1tltPj45NnQlvFV
-         DCtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793993540; x=1794598340;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8oWRxGJ7JRX83dhFy9OyjZ4hFKtbgD4sIEDwt+Jk+oE=;
-        b=UO9IaJuPt9ZL/SevxExnrMB60iRZTcQ479doEuronhQjpC1OD1HHQxsOgaT8QfxVyk
-         CyyWE6+d9FWzvbiCyP07DFBMT+sShy5yudS0Ja/JraazuiAAvXNbpJ0+LlBrMmi+pclx
-         5e7lam34GUaAu0YMG1TzwK4KuUH/MfpiNFrX+A54lN1XA+vQqm4x7hbJebzeujvWqSMR
-         t5UHC8c0Hq//pZI7aDXHoQZw1d55SwcCicPBRZO4gMr5DreGhWk3s4616EYxgSusRH/x
-         S9WASyTx+k7stAj3zoWliLs18+Y7dvJX0MCxiByPsdfMzVuvjT8gXZN0mKGA60tzx160
-         3wew==
-X-Forwarded-Encrypted: i=1; AL+hErFJxHFsLrfrSe2sQRs7QeL+G2od83X1gitiszylzj32bFKtXX8nyuMC05o0131xLZHLkHZ30VpPv0o=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/rXR05LxYnWwFPAdq7lu0Sn89dD4mOKO9RrHBOdRaWfUFl3xh7
-	O1wqo7Hh8dw9Tj/d4MAnRqp5REDUoyFJ0q+BQ3Fie/udUish8JS4YPdKhgBrqMuYxBo6WCylllY
-	X1bKYPlgQOKX1UhxMM630wcdnVr4h5OIDJz1+
-X-Gm-Gg: AYBFou1m7EreaxIHoG0dgnBN4oDTtydSS2qrrUV90mK2DGJB2tmd6TDDBYU6YrVjcZq
-	x/TPgLi17NipHG8hK2KIHC+2rCEoNynKVW8R/ToLG93Dn2NmrYHdHGu6hQVMfL3UJFi5fRZzKQ7
-	qWsM6EIAG0mLxPJo7B8XQUKOSNejmgJNaYzstBi/VOzQfkBb11NUnDgAN1x624gXzWJDgEsXLUe
-	knejQy871812dOTzSe7zR+9tTSmidVNVsOJ+X/REmor+HqzFhXI1WT8sl3WykMwdC9Sy/+FPzNl
-	sKIZOKooyboP+IJJEvBhXPM3+nTVHtVopiukLKQAUOGBEP2GSXxzUWDHtNo9/OUXsNnitw7xzXM
-	M+A/r+QQ5Wu+11h2oFctrpFOu9s95cuJidP0=
-X-Received: by 2002:a17:90b:3846:b0:3ab:9f1a:3825 with SMTP id 98e67ed59e1d1-3b0db6218d4mr3586351a91.4.1793993540299;
-        Fri, 06 Nov 2026 11:32:20 -0800 (PST)
-Received: from c7-smtp-2026.dev.purestorage.com ([208.88.159.128])
-        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b1058d4f27sm53275a91.3.2026.11.06.11.32.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 11:32:20 -0800 (PST)
-X-Relaying-Domain: purestorage.com
-Received: from dev-rjethwani.dev.purestorage.com (dev-rjethwani.dev.purestorage.com [IPv6:2620:125:9025:23::2ea])
-	by c7-smtp-2026.dev.purestorage.com (Postfix) with ESMTP id 7B5A940152;
-	Fri,  6 Nov 2026 12:32:19 -0700 (MST)
-Received: by dev-rjethwani.dev.purestorage.com (Postfix, from userid 1557719937)
-	id 784EBDCE11C; Fri,  6 Nov 2026 12:32:19 -0700 (MST)
-From: Rishikesh Jethwani <rjethwani@purestorage.com>
-To: netdev@vger.kernel.org
-Cc: Rishikesh Jethwani <rjethwani@purestorage.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH net-next v2 2/2] tls: make the record number wrap abort final
-Date: Fri,  6 Nov 2026 12:32:09 -0700
-Message-ID: <20261106193210.1152577-2-rjethwani@purestorage.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20261106193210.1152577-1-rjethwani@purestorage.com>
-References: <20261106193210.1152577-1-rjethwani@purestorage.com>
+	dkim=pass (2048-bit key, unprotected) header.d=modelmiser.com header.i=@modelmiser.com header.a=rsa-sha256 header.s=protonmail header.b=O03VjtsC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=modelmiser.com;
+	s=protonmail; t=1793993774; x=1794252974;
+	bh=6xTKEOGFRLXidPHrCfmBqE6GgEsv5eOpzmihaPx4Isg=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=O03VjtsCY5bZQorTEx3GDBoMlcCM6LY58ixfoMVronH0DkRdO5QEQKeUEIrKPUG9F
+	 9QSU5u2Uf5kj1iS8sVpiOJqaNi4MMCJJcMWLZrHdwiBlaMVUA+3peZK2NIzGL+4cVH
+	 fPmeuoE8Cuy3oSNiWZp2s5+EpWpByvVCFEsYLZUus/HQQE/tPSeZIkk6KvckFzVS0t
+	 I0a8vUQm92JcXmgL6rhSNTHwEVBx0jYgsHcpBqfSmcyGo5NBRWbFx/AEfUpMynt3jO
+	 1eS5e4kWEKsOXLWOJKETZcbLO2siyrGhaF63fqHuAJLeqZv51CYYaIgNz8pvCPA1al
+	 Sq+JmjylcG7tQ==
+Date: Fri, 06 Nov 2026 19:36:07 +0000
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
+From: Chad Aldreda <ca@modelmiser.com>
+Cc: Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, driver-core@lists.linux.dev, linux-media@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: devres: warn about device nodes in managed memory
+Message-ID: <20261106193600.3267465-2-ca@modelmiser.com>
+Feedback-ID: 232753253:user:proton
+X-Pm-Message-ID: 9b7570ea9211575eca35ac2ab2eedd2b8679507e
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,524 +61,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-When a record number wraps, TLS aborts the connection with EBADMSG, but
-only through sk_err, which is consumed when it is reported, by SO_ERROR
-or sock_error(). After that the socket carries on under the same key
-with record number 0:
+devres entries are not reference counted, so managed memory must not
+hold state that can still be reached after the driver unbinds. State
+that rule for its common case, a cdev, miscdevice or video_device
+embedded in devm_kzalloc()'d driver state that an open file can still
+reach, including the v4l2_device and media_device that v4l2_release() in
+v4l2-dev.c reads on every close, and say where each kind of node frees
+its state on the last reference: the struct device release behind
+cdev_device_add(), per its kernel-doc in fs/char_dev.c, and the
+v4l2_device release callback in
+Documentation/driver-api/media/v4l2-device.rst. That the video_device
+release callback runs first, and must not free the shared state, follows
+v4l2_device_release() in v4l2-dev.c, the video_device's struct device
+release. A miscdevice has no release callback, so a kref, with its
+ordering against misc_deregister(), is spelled out here; it is not in
+the miscdevice documentation. An embedded media_device is also reached
+by media request files and the media device node without a v4l2_device
+reference, and has no reference count of its own; the text says so and
+leaves its lifetime out. The point that unregistering does not close
+open files follows the cdev_del() kernel-doc. That an open through a
+cached inode can still reach ->open() follows chrdev_open(), which uses
+inode->i_cdev while the cdev has references; the same kernel-doc says
+the cdev can no longer be opened, which holds for a new lookup, and for
+a cached inode only once the last reference is gone.
 
- - RX: tls_rx_rec_wait() only checks sk_err while no record is ready.
-   After the record with the last number is decrypted, tls_rx_rec_done()
-   lets the parser pick up the next record. If it is already queued,
-   recvmsg() keeps going because a record is ready, decrypts it with
-   record number 0 and returns both, without an error. sk_err is only
-   reported once the parser runs dry, and once it is cleared, receiving
-   continues.
-
- - TX: the record using the last number is encrypted and queued, then
-   fails to go out because sk_err is set. Once SO_ERROR is read, the
-   next send transmits it and continues with record number 0.
-
-Add tls_err_abort_final(), which also records the error in the TLS
-context, where nothing clears it, and use it for the record number wrap
-in both directions:
-
- - tls_rx_rec_wait() checks it before looking for a ready record. Data
-   that was already decrypted can still be read, as before. poll()
-   reports EPOLLERR, and EPOLLIN only for that data.
-
- - sendmsg(), the device push and tls_push_record() check it before
-   taking or encrypting more data, and tls_push_sg() before handing
-   anything to TCP, so that no queued record goes out after the abort.
-   The device push doesn't count the refused record as sent, like the
-   SW path, and tls_tx_records() doesn't raise sk_err again for it.
-
-A KeyUpdate may be the last record received under a key; that already
-pauses receive until a new key is installed. Don't abort the connection
-in that case.
-
-Add TLS 1.3 selftests. tx_wrap starts TX at the last record number, as
-recseq_wrap does. The RX tests can't get their records that way, since
-TX now refuses to send the record using the last number. In TLS 1.3 the
-record number only enters the nonce, so TX instead starts at record
-number 0 with the IV XORed with the second to last number, which
-produces the last two RX records, then switches back to the plain IV
-with a silent rekey to produce the wrapped record number 0.
-
-Suggested-by: Sabrina Dubroca <sd@queasysnail.net>
-Signed-off-by: Rishikesh Jethwani <rjethwani@purestorage.com>
+Assisted-by: Claude:claude-opus-5-5
+Signed-off-by: Chad Aldreda <ca@modelmiser.com>
 ---
- Documentation/networking/tls.rst  |  19 +++
- include/net/tls.h                 |   1 +
- net/tls/tls.h                     |  24 +++-
- net/tls/tls_device.c              |  12 +-
- net/tls/tls_main.c                |   8 +-
- net/tls/tls_sw.c                  |  44 ++++++-
- tools/testing/selftests/net/tls.c | 197 ++++++++++++++++++++++++++++++
- 7 files changed, 293 insertions(+), 12 deletions(-)
+ .../driver-api/driver-model/devres.rst        | 36 +++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
-index 980c442d7161..ef1a3bacb72f 100644
---- a/Documentation/networking/tls.rst
-+++ b/Documentation/networking/tls.rst
-@@ -228,6 +228,25 @@ The number of successful and failed key updates is tracked in the
- ``TlsRxRekeyError`` statistics. The ``TlsRxRekeyReceived`` statistic
- counts KeyUpdate handshake messages that have been received.
- 
-+Record number exhaustion
-+------------------------
+diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentati=
+on/driver-api/driver-model/devres.rst
+index 4f0b90e7e1..6dc6ab261e 100644
+--- a/Documentation/driver-api/driver-model/devres.rst
++++ b/Documentation/driver-api/driver-model/devres.rst
+@@ -208,6 +208,42 @@ Lifetime of a devres entry begins on devres allocation=
+ and finishes
+ when it is released or destroyed (removed and freed) - no reference
+ counting.
+=20
++Because nothing counts references, managed memory must not hold state
++that the core or the driver's file operations can still reach after the
++driver unbinds. A common case is driver state in devm_kzalloc()'d
++memory that an open file can still reach: state embedding a struct cdev
++or struct video_device, or the v4l2_device and media_device a
++video_device points to, which the core touches on every close, or a
++struct miscdevice whose file operations use the state. Unregistering
++the node in ->remove() does not close files that are already open, and
++for a cdev an open through an already cached inode can still reach the
++driver's ->open(). Allocate such state with kzalloc() and free it when
++the last reference to it is dropped:
 +
-+A record number must not wrap under the same key. When it would, the
-+connection is aborted with ``EBADMSG``. On transmit, the record that
-+uses the last 64-bit record number is not sent, and the send that
-+completes it doesn't count its data as sent. On receive, that record is
-+still delivered, but no record after it is. Either way, no further
-+record data is sent, not even the rest of a partially sent record.
-+Unlike other socket errors, this one is not cleared when it is reported,
-+by ``SO_ERROR`` or otherwise: every later send, and every receive that
-+needs another record, fails with ``EBADMSG``, and a new key does not
-+change that. ``poll()`` reports ``EPOLLERR``, and ``EPOLLIN`` only while
-+data that was already decrypted remains; that data can still be read.
++- for a cdev, from the release callback of a struct device embedded in
++  the same state, with dev->devt set, and added with cdev_device_add();
++  see its kernel-doc in fs/char_dev.c. ->remove() calls
++  cdev_device_del() and then put_device(); a probe that fails after
++  device_initialize() calls cdev_device_del() if cdev_device_add()
++  succeeded, then put_device(), never kfree().
++- for a video_device, from the release callback of its v4l2_device; see
++  Documentation/driver-api/media/v4l2-device.rst. The video_device
++  release callback runs before that and must not free the state. The
++  v4l2_device release callback is not the last access to an embedded
++  struct media_device: media request files and the media device node
++  reach it without a v4l2_device reference, and the media core gives it
++  no reference count, so its lifetime is not covered here.
++- a miscdevice has no release callback, so the driver counts the
++  references itself, for example with a kref that ->probe()
++  initializes, ->open() takes (and drops again if it then fails) and
++  ->release() drops, and that ->remove(), or a probe that fails after
++  misc_register(), drops only after misc_deregister() has returned.
 +
-+A TLS 1.3 KeyUpdate may be the last record received under a key. In
-+that case receive is paused as for any other KeyUpdate, and continues
-+once the new key is provided.
++In each case, dropping a reference is the last access to the state by
++whoever drops it. Keeping the memory is not enough on its own: file
++operations that run after ->remove() must not touch the hardware or
++other managed resources.
 +
- Integrating in to userspace TLS library
- ---------------------------------------
- 
-diff --git a/include/net/tls.h b/include/net/tls.h
-index e57bef58851e..c945f697fc91 100644
---- a/include/net/tls.h
-+++ b/include/net/tls.h
-@@ -251,6 +251,7 @@ struct tls_context {
- 
- 	bool splicing_pages;
- 	bool pending_open_record_frags;
-+	int final_err; /* set by tls_err_abort_final(), never cleared */
- 
- 	struct mutex tx_lock; /* protects partially_sent_* fields and
- 			       * per-type TX fields
-diff --git a/net/tls/tls.h b/net/tls/tls.h
-index 60a37bdaaa25..517dcc452c67 100644
---- a/net/tls/tls.h
-+++ b/net/tls/tls.h
-@@ -142,6 +142,7 @@ void update_sk_prot(struct sock *sk, struct tls_context *ctx);
- 
- int wait_on_pending_writer(struct sock *sk, long *timeo);
- void tls_err_abort(struct sock *sk, int err);
-+void tls_err_abort_final(struct sock *sk, int err);
- void tls_strp_abort_strp(struct tls_strparser *strp, int err);
- 
- int init_prot_info(struct tls_prot_info *prot,
-@@ -307,17 +308,30 @@ static inline void tls_bigint_subtract(unsigned char *seq, int  n)
- 	*p = cpu_to_be64(rcd_sn - n);
- }
- 
--static inline void
--tls_advance_record_sn(struct sock *sk, struct tls_prot_info *prot,
--		      struct cipher_context *ctx)
-+static inline bool
-+__tls_advance_record_sn(struct tls_prot_info *prot, struct cipher_context *ctx)
- {
--	if (tls_bigint_increment(ctx->rec_seq, prot->rec_seq_size))
--		tls_err_abort(sk, -EBADMSG);
-+	bool wrapped = tls_bigint_increment(ctx->rec_seq, prot->rec_seq_size);
- 
- 	if (prot->version != TLS_1_3_VERSION &&
- 	    prot->cipher_type != TLS_CIPHER_CHACHA20_POLY1305)
- 		tls_bigint_increment(ctx->iv + prot->salt_size,
- 				     prot->iv_size);
-+
-+	return wrapped;
-+}
-+
-+static inline void
-+tls_advance_record_sn(struct sock *sk, struct tls_prot_info *prot,
-+		      struct cipher_context *ctx)
-+{
-+	if (__tls_advance_record_sn(prot, ctx))
-+		tls_err_abort_final(sk, -EBADMSG);
-+}
-+
-+static inline int tls_final_err(const struct tls_context *ctx)
-+{
-+	return READ_ONCE(ctx->final_err);
- }
- 
- static inline void
-diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
-index 4cdfbb57ecff..5e95710e53fb 100644
---- a/net/tls/tls_device.c
-+++ b/net/tls/tls_device.c
-@@ -430,6 +430,7 @@ static int tls_push_data(struct sock *sk,
- 	int tls_push_record_flags;
- 	struct page_frag *pfrag;
- 	size_t orig_size = size;
-+	size_t rec_size = size;
- 	u32 max_open_record_len;
- 	bool more = false;
- 	bool done = false;
-@@ -444,6 +445,10 @@ static int tls_push_data(struct sock *sk,
- 	if ((flags & (MSG_MORE | MSG_EOR)) == (MSG_MORE | MSG_EOR))
- 		return -EINVAL;
- 
-+	rc = tls_final_err(tls_ctx);
-+	if (unlikely(rc))
-+		return rc;
-+
- 	if (unlikely(sk->sk_err))
- 		return -sk->sk_err;
- 
-@@ -550,8 +555,13 @@ static int tls_push_data(struct sock *sk,
- 					     ctx,
- 					     record,
- 					     tls_push_record_flags);
--			if (rc < 0)
-+			if (rc < 0) {
-+				/* the refused record isn't sent, don't count it */
-+				if (tls_final_err(tls_ctx))
-+					size = rec_size;
- 				break;
-+			}
-+			rec_size = size;
- 		}
- 	} while (!done);
- 
-diff --git a/net/tls/tls_main.c b/net/tls/tls_main.c
-index b8d5a843f761..d5605df59334 100644
---- a/net/tls/tls_main.c
-+++ b/net/tls/tls_main.c
-@@ -190,7 +190,7 @@ int tls_push_sg(struct sock *sk,
- 		bvec_set_page(&bvec, p, size, offset);
- 		iov_iter_bvec(&msg.msg_iter, ITER_SOURCE, &bvec, 1, size);
- 
--		ret = tcp_sendmsg_locked(sk, &msg, size);
-+		ret = tls_final_err(ctx) ?: tcp_sendmsg_locked(sk, &msg, size);
- 
- 		if (ret != size) {
- 			if (ret > 0) {
-@@ -414,8 +414,12 @@ static __poll_t tls_sk_poll(struct file *file, struct socket *sock,
- 	tls_ctx = tls_get_ctx(sk);
- 	ctx = tls_sw_ctx_rx(tls_ctx);
- 
-+	/* the final abort outlives sk_err, only decrypted data is readable */
-+	if (unlikely(tls_final_err(tls_ctx)))
-+		mask |= EPOLLERR;
-+
- 	if ((skb_queue_empty_lockless(&ctx->rx_list) &&
--	     !tls_strp_msg_ready(ctx)) ||
-+	     (!tls_strp_msg_ready(ctx) || tls_final_err(tls_ctx))) ||
- 	    READ_ONCE(ctx->key_update_pending))
- 		mask &= ~(EPOLLIN | EPOLLRDNORM);
- 
-diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
-index b4535139438a..37ba09055220 100644
---- a/net/tls/tls_sw.c
-+++ b/net/tls/tls_sw.c
-@@ -78,6 +78,18 @@ noinline void tls_err_abort(struct sock *sk, int err)
- 	sk_error_report(sk);
- }
- 
-+/* Like tls_err_abort(), but the error can't be cleared: SO_ERROR and
-+ * sock_error() consume sk_err, final_err keeps failing reads and sends.
-+ */
-+void tls_err_abort_final(struct sock *sk, int err)
-+{
-+	struct tls_context *ctx = tls_get_ctx(sk);
-+
-+	if (!tls_final_err(ctx))
-+		WRITE_ONCE(ctx->final_err, err);
-+	tls_err_abort(sk, err);
-+}
-+
- static int __skb_nsg(struct sk_buff *skb, int offset, int len,
-                      unsigned int recursion_level)
- {
-@@ -458,7 +470,9 @@ int tls_tx_records(struct sock *sk, int flags)
- 	}
- 
- tx_err:
--	if (rc < 0 && rc != -EAGAIN && rc != -EINTR && rc != -ERESTARTSYS)
-+	/* a final abort already reported its error */
-+	if (rc < 0 && rc != -EAGAIN && rc != -EINTR && rc != -ERESTARTSYS &&
-+	    !tls_final_err(tls_ctx))
- 		tls_err_abort(sk, rc);
- 
- 	return rc;
-@@ -628,6 +642,11 @@ static int tls_push_record(struct sock *sk, int flags,
- 	int rc;
- 	u32 i;
- 
-+	/* tls_push_sg() would refuse it, don't encrypt it */
-+	rc = tls_final_err(tls_ctx);
-+	if (unlikely(rc))
-+		return rc;
-+
- 	if (!rec)
- 		return 0;
- 
-@@ -802,6 +821,13 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
- 	}
- 
- 	while (msg_data_left(msg)) {
-+		int err = tls_final_err(tls_ctx);
-+
-+		if (unlikely(err)) {
-+			ret = err;
-+			goto send_end;
-+		}
-+
- 		if (sk->sk_err) {
- 			ret = -sk->sk_err;
- 			goto send_end;
-@@ -1106,6 +1132,11 @@ tls_rx_rec_wait(struct sock *sk, bool nonblock, bool released, bool has_copied)
- 	if (unlikely(ctx->key_update_pending))
- 		return -EKEYEXPIRED;
- 
-+	/* checked even if a record is ready, unlike sk_err below */
-+	ret = tls_final_err(tls_ctx);
-+	if (unlikely(ret))
-+		return ret;
-+
- 	timeo = sock_rcvtimeo(sk, nonblock);
- 
- 	while (!tls_strp_msg_ready(ctx)) {
-@@ -1582,9 +1613,14 @@ static int tls_rx_one_record(struct sock *sk, struct msghdr *msg,
- 	rxm = strp_msg(darg->skb);
- 	rxm->offset += prot->prepend_size;
- 	rxm->full_len -= prot->overhead_size;
--	tls_advance_record_sn(sk, prot, &tls_ctx->rx);
- 
--	return tls_check_pending_rekey(sk, tls_ctx, darg->skb);
-+	err = tls_check_pending_rekey(sk, tls_ctx, darg->skb);
-+	/* A KeyUpdate in the last record retires the key as usual */
-+	if (__tls_advance_record_sn(prot, &tls_ctx->rx) &&
-+	    !tls_sw_ctx_rx(tls_ctx)->key_update_pending)
-+		tls_err_abort_final(sk, -EBADMSG);
-+
-+	return err;
- }
- 
- int decrypt_skb(struct sock *sk, struct scatterlist *sgout)
-@@ -2182,7 +2218,7 @@ bool tls_sw_sock_is_readable(struct sock *sk)
- 	struct tls_context *tls_ctx = tls_get_ctx(sk);
- 	struct tls_sw_context_rx *ctx = tls_sw_ctx_rx(tls_ctx);
- 
--	return tls_strp_msg_ready(ctx) ||
-+	return (tls_strp_msg_ready(ctx) && !tls_final_err(tls_ctx)) ||
- 		!skb_queue_empty(&ctx->rx_list);
- }
- 
-diff --git a/tools/testing/selftests/net/tls.c b/tools/testing/selftests/net/tls.c
-index c4203401c4bf..e7dd77b4f3ff 100644
---- a/tools/testing/selftests/net/tls.c
-+++ b/tools/testing/selftests/net/tls.c
-@@ -2421,6 +2421,203 @@ TEST_F(tls, rekey_poll_delay)
- 	}
- }
- 
-+/* Record number exhaustion, TLS 1.3 only. The record number only enters
-+ * the nonce there, so a TX key whose IV is XORed with N sends record
-+ * number N at its own record number 0, and TX never has to wrap.
-+ */
-+FIXTURE(tls_recseq)
-+{
-+	int fd, cfd;
-+	bool notls;
-+};
-+
-+FIXTURE_SETUP(tls_recseq)
-+{
-+	ulp_sock_pair(_metadata, &self->fd, &self->cfd, &self->notls);
-+}
-+
-+FIXTURE_TEARDOWN(tls_recseq)
-+{
-+	close(self->fd);
-+	close(self->cfd);
-+}
-+
-+static void tls_recseq_keys(struct tls_crypto_info_keys *tls,
-+			    uint64_t rec_seq, uint64_t iv_xor)
-+{
-+	int i;
-+
-+	tls_crypto_info_init(TLS_1_3_VERSION, TLS_CIPHER_AES_GCM_128, tls, 0);
-+	for (i = 0; i < 8; i++) {
-+		tls->aes128.rec_seq[i] = rec_seq >> (56 - 8 * i);
-+		tls->aes128.iv[i] ^= iv_xor >> (56 - 8 * i);
-+	}
-+}
-+
-+/* RX starts at the second to last record number, TX sends it and the
-+ * last one at its record numbers 0 and 1.
-+ */
-+static void tls_recseq_set_keys(struct __test_metadata *_metadata,
-+				int fd, int cfd)
-+{
-+	struct tls_crypto_info_keys tls;
-+
-+	tls_recseq_keys(&tls, 0, UINT64_MAX - 1);
-+	ASSERT_EQ(setsockopt(fd, SOL_TLS, TLS_TX, &tls, tls.len), 0);
-+	tls_recseq_keys(&tls, UINT64_MAX - 1, 0);
-+	ASSERT_EQ(setsockopt(cfd, SOL_TLS, TLS_RX, &tls, tls.len), 0);
-+}
-+
-+/* Silent rekey to the same key, so TX sends the wrapped record number 0 */
-+static void tls_recseq_tx_wrapped(struct __test_metadata *_metadata, int fd)
-+{
-+	struct tls_crypto_info_keys tls;
-+
-+	tls_recseq_keys(&tls, 0, 0);
-+	ASSERT_EQ(setsockopt(fd, SOL_TLS, TLS_TX, &tls, tls.len), 0);
-+}
-+
-+static int tls_so_error(struct __test_metadata *_metadata, int fd)
-+{
-+	socklen_t len = sizeof(int);
-+	int err = -1;
-+
-+	EXPECT_EQ(getsockopt(fd, SOL_SOCKET, SO_ERROR, &err, &len), 0);
-+	return err;
-+}
-+
-+/* All three records are queued, only the first two may be received */
-+TEST_F(tls_recseq, rx_wrap)
-+{
-+	struct pollfd pfd = { .events = POLLIN };
-+	char const *test_str = "test_read";
-+	int send_len = strlen(test_str) + 1;
-+	char buf[3 * 10];
-+
-+	if (self->notls)
-+		SKIP(return, "no TLS support");
-+
-+	tls_recseq_set_keys(_metadata, self->fd, self->cfd);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), send_len);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), send_len);
-+	tls_recseq_tx_wrapped(_metadata, self->fd);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), send_len);
-+
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), 0), 2 * send_len);
-+	EXPECT_EQ(memcmp(buf, test_str, send_len), 0);
-+	EXPECT_EQ(memcmp(buf + send_len, test_str, send_len), 0);
-+
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), 0), -1);
-+	EXPECT_EQ(errno, EBADMSG);
-+
-+	/* reading SO_ERROR clears sk_err, the abort stays */
-+	EXPECT_EQ(tls_so_error(_metadata, self->cfd), EBADMSG);
-+	EXPECT_EQ(tls_so_error(_metadata, self->cfd), 0);
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), -1);
-+	EXPECT_EQ(errno, EBADMSG);
-+
-+	/* the parsed third record isn't readable */
-+	pfd.fd = self->cfd;
-+	EXPECT_EQ(poll(&pfd, 1, 0), 1);
-+	EXPECT_EQ(pfd.revents, POLLERR);
-+}
-+
-+TEST_F(tls_recseq, rx_wrap_splice)
-+{
-+	char const *test_str = "test_read";
-+	int send_len = strlen(test_str) + 1;
-+	char buf[10];
-+	int p[2];
-+
-+	if (self->notls)
-+		SKIP(return, "no TLS support");
-+
-+	ASSERT_GE(pipe(p), 0);
-+
-+	tls_recseq_set_keys(_metadata, self->fd, self->cfd);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), send_len);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), send_len);
-+	tls_recseq_tx_wrapped(_metadata, self->fd);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), send_len);
-+
-+	EXPECT_EQ(splice(self->cfd, NULL, p[1], NULL, send_len, 0), send_len);
-+	EXPECT_EQ(splice(self->cfd, NULL, p[1], NULL, send_len, 0), send_len);
-+	EXPECT_EQ(read(p[0], buf, send_len), send_len);
-+	EXPECT_EQ(memcmp(buf, test_str, send_len), 0);
-+	EXPECT_EQ(read(p[0], buf, send_len), send_len);
-+	EXPECT_EQ(memcmp(buf, test_str, send_len), 0);
-+
-+	EXPECT_EQ(tls_so_error(_metadata, self->cfd), EBADMSG);
-+	EXPECT_EQ(splice(self->cfd, NULL, p[1], NULL, send_len,
-+			 SPLICE_F_NONBLOCK), -1);
-+	EXPECT_EQ(errno, EBADMSG);
-+
-+	close(p[0]);
-+	close(p[1]);
-+}
-+
-+/* A KeyUpdate may use the last record number, then a new key takes over */
-+TEST_F(tls_recseq, rx_keyupdate)
-+{
-+	struct tls_crypto_info_keys tls12_1;
-+	char const *test_str = "test_read";
-+	int send_len = strlen(test_str) + 1;
-+	char buf[10];
-+
-+	if (self->notls)
-+		SKIP(return, "no TLS support");
-+
-+	tls_crypto_info_init(TLS_1_3_VERSION, TLS_CIPHER_AES_GCM_128,
-+			     &tls12_1, 1);
-+
-+	tls_recseq_set_keys(_metadata, self->fd, self->cfd);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), send_len);
-+	tls_send_keyupdate(_metadata, self->fd);
-+	ASSERT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX, &tls12_1,
-+			     tls12_1.len), 0);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), send_len);
-+
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), 0), send_len);
-+	EXPECT_EQ(memcmp(buf, test_str, send_len), 0);
-+	tls_recv_keyupdate(_metadata, self->cfd, 0);
-+
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), -1);
-+	EXPECT_EQ(errno, EKEYEXPIRED);
-+	EXPECT_EQ(tls_so_error(_metadata, self->cfd), 0);
-+
-+	ASSERT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_RX, &tls12_1,
-+			     tls12_1.len), 0);
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), 0), send_len);
-+	EXPECT_EQ(memcmp(buf, test_str, send_len), 0);
-+}
-+
-+/* The record using the last record number is never sent */
-+TEST_F(tls_recseq, tx_wrap)
-+{
-+	struct tls_crypto_info_keys tls;
-+	char const *test_str = "test_read";
-+	int send_len = strlen(test_str) + 1;
-+	char buf[10];
-+
-+	if (self->notls)
-+		SKIP(return, "no TLS support");
-+
-+	tls_recseq_keys(&tls, UINT64_MAX, 0);
-+	ASSERT_EQ(setsockopt(self->fd, SOL_TLS, TLS_TX, &tls, tls.len), 0);
-+	ASSERT_EQ(setsockopt(self->cfd, SOL_TLS, TLS_RX, &tls, tls.len), 0);
-+
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), -1);
-+	EXPECT_EQ(errno, EBADMSG);
-+
-+	/* reading SO_ERROR clears sk_err, the abort stays */
-+	EXPECT_EQ(tls_so_error(_metadata, self->fd), EBADMSG);
-+	EXPECT_EQ(send(self->fd, test_str, send_len, 0), -1);
-+	EXPECT_EQ(errno, EBADMSG);
-+
-+	EXPECT_EQ(recv(self->cfd, buf, sizeof(buf), MSG_DONTWAIT), -1);
-+	EXPECT_EQ(errno, EAGAIN);
-+}
-+
- struct raw_rec {
- 	unsigned int plain_len;
- 	unsigned char plain_data[100];
--- 
-2.50.1
+ devres core guarantees atomicity to all basic devres operations and
+ has support for single-instance devres types (atomic
+ lookup-and-add-if-not-found).  Other than that, synchronizing
+--=20
+2.43.0
+
 
