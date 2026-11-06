@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794008749;
-	b=R3W4F082s97J6FN7sVOHWjRK2dzOMy/elcz6a2su9yKt5wzBBtOv/zmWejLEvItYX3ih
-	 NDuIalMbOzXIZ0UvYRQfM784CjZ8Y2mu38+oUfND7oRFzzJO7jCC0agD8P+PAahqWpAGH
-	 M+lmhxwIZCzsdcAHuqndZwS1XTc4GyCxYa7mx+wOAB5SygiKAqFUCZy98PepJOprPgnuh
-	 3VVPrmjV7MPitiOLiFi/qZHkNYBJ4uEzVPgrTQFYHqY6fHJC7pQ/nigSWhi3HiBYXsg9n
-	 L2IuVkIOz3YWjz6CCF3w54oDVLfs0OHlG/Ud0DQvwS7NsjlWh0ysNyX/88ijKmv9OXQ==
+	t=1794008751;
+	b=cjxrTZT7cFNeoyVkHYUNfgHMamYHjzIfKAhWyNHq/kTjKFWiemcVtxb/NiU3r7OgSgLj
+	 PQbmBJ7gPsynNsfwkErGPXdOUnthpg26JJKPHkwO6HtiTC4TE+SJSlwRTxu9bjxvC5ooc
+	 h87WYnocByUet4uV2CQDzJZxS1fr7tHTPYCL1ne4o4xfAx5lNa4mpr33F70+2Ed7C9tHQ
+	 xLX/JCdV0fJyEmDng71yMNjgafXkMsLMskJhQSdqC5WD+gWT9W6TNNnGp4tx5F0HbhbeJ
+	 P3jVmxuDxXno/qhofLTmS/r9Tx7S0cUkowg8eX4yN5vGZNvTMJm/ZWAnTYaZvW0orkQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794008749;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794008751;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=c7lMECP0GDvQ3SIOc0RLblQjT+LWxuUNwC8Ag/lEWPw=;
-	b=DG9IeI5dQzpQ05L5coxdrItJpm9hC8bM0enXl9uVNiuj0+DSYnYDuIroLkxwDEjML+t8
-	 /1o/FJjPVu73n471qZQn74f6hACjWs3Fs+TqdEvR51YG/rvDcqBPNQvs6awzPiqrCsj/C
-	 Yx2fTBtNpE8i/U78GVSZWcw+9DAjNtR2N4RMosuPtV2kWiQ/sUDGWSTRjZfRnq7uMt43H
-	 wfAjMoD3u64TlPlxyB48t3cDrrtfBzR5jZgyymSlsuTcKaR50RV6bzW5HnVFyVqGzhVPD
-	 MkDSekXwT/VpF8paqM+5OVp9jks0J2og7mK6+PnKUlX62PRwz9E66AXVn8O/JB1/kTw==
+	bh=OoJVINX8BcnNTAIBKSuno+iiYgSzX4Li9L975jdSWfw=;
+	b=u0uzTqyvxFxJi73ReMKj8F41NDTnpvfEoDeIeJ7G+5+TREf5w6lJOuL8JphGnWVwZA6e
+	 9hE63i4lZto6sX8EcBDbDxjKD+PxNfGra+rHVnAzPNLFPQ9k5gYqQrY/SgcupSgRqPXJa
+	 mpoLDjuC334P2Nccp2TxEsMSYWYVKRrT2dRct4oepOYViNNFqyIwq/Y3PEyWiLANMyPT5
+	 oUf//Yb6IGfNUsanCaR7CZSjJEiiaUajoSm73MnZYnVObb4VRGnSPLfvY7UfiMUXEbUaT
+	 YGbNzBPNzrSTcE+M1qbAcftBdtUb8EEj5dYIK5aLTFuw47JKmBb5EH9oEETsyEjWFJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QGxGU9n5;
-	arc=none smtp.remote-ip=209.85.216.50
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=viendsg5;
+	arc=none smtp.remote-ip=209.85.216.54
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA797606A32E
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 23:45:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA797606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3F9606A32E
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 23:45:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F3F9606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=QGxGU9n5
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ada8bc2380so669980a91.3
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 15:45:48 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=viendsg5
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3ac9f49b984so103751a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 15:45:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794008748; x=1794613548; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794008751; x=1794613551; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=c7lMECP0GDvQ3SIOc0RLblQjT+LWxuUNwC8Ag/lEWPw=;
-        b=QGxGU9n5bMXNyGpxZMcIhFKYSHPSE6wXad1Ww9h4H3IBfST0d5SFet/ie8sZfkLKGI
-         0ZjYJF7TUtSV9WvK3JTZn7uVtEGPHJLulPG0J97ngpjF4IWMpt9FtCRFhRhKWhoMJPuP
-         q93UwrKVjCoTGcIcXQ/HykeRofzwRA+Ohz2OR5iGVXhd8xFt3suy7ybkjUIdgg5pvylP
-         qLtwvb2eTTC68UoVcdg4eKkVeHVOK/BZCxCJkUfa3SifhNsAC+I7XXOEJV6/FKfsHjNM
-         rcuyKhSfse5DNeJ5+QjYGmk5+C/g7DpOqeWbdA9HiApxbynnuG+R4XZIwvwgBiLhKsjW
-         Khww==
+        bh=OoJVINX8BcnNTAIBKSuno+iiYgSzX4Li9L975jdSWfw=;
+        b=viendsg5RXb/88nl+LLv/gEVDv1+c/Gx1H+X72dv0mCQteKScyaClGWtcYx0/ePyPG
+         GJ5sRLUDyxov2hL3TtI2Q5zJ6894MYAwHwu3K8H73X6MZaxlm0sNqhF5QHRhrqMTdEgt
+         S4EMLgY/WtV6Hgd7OPWcXd/IDZy0eoGgfAB1lzQr6OiKf2DuMNDf/0JYd9aW/gK1VrGk
+         ZFTyCVdNsphFv3tN7FRhngbFR0OKZXLQg+o0Fx3HfQ5U4Nc7m4Ozi/sebiernxS3IH5L
+         Jc/bgv7vZ0ySsd1R+34wBMIlgNQETsHAIh5ikODOAD8Yt/Om0wvvZzv44R54nnHdQ1LK
+         kVvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794008748; x=1794613548;
+        d=1e100.net; s=20260707; t=1794008751; x=1794613551;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=c7lMECP0GDvQ3SIOc0RLblQjT+LWxuUNwC8Ag/lEWPw=;
-        b=dT8U+BacXGPKNe3Zt8DilyQGoxHsxulBB+vagpx274tcLQnkguHD/n+8bbYb+FRQQt
-         SXbDYM/QmsaLtSfgHbxuCmbI2/fNXN4SvBJyAIhx84xIm+J2oWU2+PNeeq9VCRwcy2HQ
-         Xj7V7cFPMZUGCceizzHXc4MeaDH9SC5CmmE//Txex4yLscjBYGX9VyJqs98lziihhPE+
-         SGzUQ5q3YWV/Ks60XoOMYbElK3R3uaBtyBQlZFP3R7gVDSJuYwoD+CFG02A5NLSkdw43
-         v/CPEogTlHHB8/7zJihNVYC3+8OUCouC/1K3Kozeh/MHTY3Gd1QNVKQ1YtmolG+UuWtV
-         f+yg==
-X-Forwarded-Encrypted: i=1; AL+hErEnLiMIl2E4H9Inoyhg5UgCFY2q8uD8fXLjIArgjz6J1Jpx3bZZ/BKsBw25KodP/mO5v/OBf0ToBS8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/aMe81ig01O/xdl7H5m6JAvy+SXLcyH8nVgw811RrfhZt31f/w
-	vcWgBW8vbGqHf3qJ8znBRxBkdJNy6mMS4Fg/LGdnb42Zd+bzbBRUAGvT
-X-Gm-Gg: AYBFou1fkdl0rEaq0Njr53fM/jFbY3ksIgwa/KIeXXLYjYgft5yOvtolj1xfEBgKctI
-	+s725MBKgsk6sUxavLPYJirm6gR1isBtRQ3wSFh0FuH0hT1I2h43tcI9Px+YsT4eARj1SZWBKkq
-	DQISZdpFP0DHbMSZ/j7RLh/HbXHzV384E0XIMJ6dQx/FHJ7/TqhqmVphZiPS+WAbWAzL2nEi/Ni
-	l9hF2j62/0w8xEHawc+29svlk5lis9XkK74k1O0f8jmENz/LWCiF9znkZ2x/WaTpzwPzE4cv0iW
-	AFrHcCMyZVhP6jUIRJTYG/DFw945qZ/UXjvXxx8CMo8U8oTcVfuJZKhC7mB2+cTgo+jlhNGpYf6
-	zc0c3lPW0Q8nZ1pcVacG2GmmSBu3YHgXnZjqJu96d2hWAMdhu0SrT3HKPJRV3vSde2evJIh1JoC
-	QgLbMErPRRxy2jn4/GQEasexR9wzCxWWU8/Rpmh3UQv/+v5RmyzxnGGCQzUR61eb5oPsdNTwSgW
-	pVvC8dNoFsV5mbCn06vNdGamU1myLj8QfKiyhlxF59yW+sWs8F3ghQPzFCnjpYzA74gFao39kZa
-	XS6BwHyx2DMgXvWIJUFR
-X-Received: by 2002:a17:90a:f945:b0:3a8:c0cd:57f3 with SMTP id 98e67ed59e1d1-3b0db6d7d8fmr3319728a91.18.1794008748133;
-        Fri, 06 Nov 2026 15:45:48 -0800 (PST)
+        bh=OoJVINX8BcnNTAIBKSuno+iiYgSzX4Li9L975jdSWfw=;
+        b=hS7yO9sTucFjWTlelB7Rw8YSjqjGWmnBXe3K2SnEs453C28TRCDRh3zGeTWCGPC4xt
+         wcqUi3LINPaejnEQkm+l6iIc522xLnSIoX8yMOnBH2fFyza9ggoYafAluXMecsCEsx7/
+         ZXBoViNWyybz36cf7ez3pkG4klSCr0qHmLmT6wja3WLzFAbaIsCm6i1blxXyqrIBf0Pi
+         tWukqajA2AKYA2x8a6dUgSexAw0bhjN7L5/iu4NnqlgmY08qPY9kTThOAPZaJDeCHKTu
+         5CtVW6EvBVCRR0gtSq0tK8oBY5LzVwBQbOWT2xS/gyBOsNV/POHlU1Sxc6+DWcsKBMq0
+         M0jQ==
+X-Forwarded-Encrypted: i=1; AL+hErHGzWHhAxKm61oCOYXuTNnS/dqFkosRKjHjuxHC0snpzHoitLP07K5mU6AIafL5W3KnY8o99rHVlOA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/1wKFxW95ueIFBtO6NV4W19z4L4CQTBBMwkLlHosI+CJxEBao7
+	uEd2ShS6gGKWXDHVau/Vlb/X4QCkcg/ett9TDiusk47Oy9+gKPFRl/29
+X-Gm-Gg: AYBFou0uCWxJnKYPFKCBEw662kspMPuC+828vstUoZEXRBIsptZXRggPxSmH0u8XKBD
+	Dz1MvCHrDf55vl+5y4QxvAM5DW1pF4XD7kBWTWRGKSXqUhvxv99qCzDBvwPIETFDilh1MXCOIGz
+	F9ac/YZ76I5gZJhgFoNbKYC1fpnywDPjE6c0eFuAfBOUfA8/hyujZk5YQlF+Nm4alUnskSerufr
+	kbqYb+zYhhkE2j4G+wmRoRI3zyQFCQVy9PaWNFL5RRrMEDeMC8X4gWkrdI/+pCUwDoQ8I71LDMf
+	6JRGdsSinNDTS/r7OIeH5Acy3gZtEbT6FXhfb7mDIJtbDfXisXZ8b5FHdmRJK2xBIMuc/6DKxaz
+	5kS1SttmJOmFsc8OrJwKk5X0Wr6m9v0V5JRq710LjxFSqrLGGc50euOxMhUJ/8PwXnn/cwQmfhq
+	ChQvDorCUPkpIB/wj+destuhmmlyaYaonx39zBF+a0GAxmigAPS7YFuO9lEWNytrx14X6HT5lUw
+	HU2txh+hu4zyq+syafCtr4T8adaWzonYK5E0BHjWRTeGWM42dS7234S2neFMUwnWO7z+EoILm0u
+	67yRAqooTZATZBz+yzX0
+X-Received: by 2002:a17:90b:524c:b0:3a0:e568:ed63 with SMTP id 98e67ed59e1d1-3b10608181dmr328100a91.8.1794008750759;
+        Fri, 06 Nov 2026 15:45:50 -0800 (PST)
 Received: from a1-free ([161.33.196.121])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1058d3310sm715972a91.15.2026.11.06.15.45.45
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1058d3310sm715972a91.15.2026.11.06.15.45.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 15:45:47 -0800 (PST)
+        Fri, 06 Nov 2026 15:45:49 -0800 (PST)
 From: TAKANO Mitsuhiro <takano32@gmail.com>
 To: Catalin Marinas <catalin.marinas@arm.com>,
 	Will Deacon <will@kernel.org>
@@ -88,9 +88,9 @@ Cc: Mark Rutland <mark.rutland@arm.com>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	TAKANO Mitsuhiro <takano32@gmail.com>
-Subject: [PATCH 1/2] arm64: errata: Set GIC-700 #2941627 Kconfig entry to N/A
-Date: Fri,  6 Nov 2026 23:45:40 +0000
-Message-ID: <20261106234541.1474324-2-takano32@gmail.com>
+Subject: [PATCH 2/2] arm64: errata: Fix Falkor E1041 Kconfig name
+Date: Fri,  6 Nov 2026 23:45:41 +0000
+Message-ID: <20261106234541.1474324-3-takano32@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261106234541.1474324-1-takano32@gmail.com>
 References: <20261106234541.1474324-1-takano32@gmail.com>
@@ -105,43 +105,40 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The GIC-700 #2941627 entry in the arm64 silicon-errata table names
-ARM64_ERRATUM_2941627 in its Kconfig column, but no Kconfig file defines
-that symbol and no code refers to it.
+The Falkor E1041 entry in the arm64 silicon-errata table names
+QCOM_FALKOR_ERRATUM_1041, but the symbol is QCOM_FALKOR_ERRATUM_E1041: it
+is defined in arch/arm64/Kconfig and used in
+arch/arm64/include/asm/assembler.h.  Correct the name in the table.
 
-The workaround has no Kconfig option: drivers/irqchip/irq-gic-v3.c
-passes the GICD_IIDR value to gic_enable_quirks(), which compares it
-against gic_quirks[]; the matching quirk,
-gic_enable_quirk_arm64_2941627(), enables a static branch.  The table
-already records GIC-driver workarounds that have no Kconfig symbol as
-"N/A", for example the NVIDIA T241-FABRIC-4 row, whose workaround is
-likewise in the GIC driver.
+The E1003 and E1009 rows name QCOM_FALKOR_ERRATUM_1003 and
+QCOM_FALKOR_ERRATUM_1009; the E in the erratum ID is not part of either
+symbol name, so an E-less name in the E1041 row looked consistent.
+QCOM_FALKOR_ERRATUM_E1041 is the only Falkor symbol that carries the E.
 
-Set the Kconfig column to "N/A" for this row.  Leave the row in place: it
-is the tree's only record of this erratum.
+The Kconfig symbol is correct; only the table entry is wrong.
 
 No functional change.  The change and this changelog were written with
 the help of an LLM assistant (Hermes Agent); I reviewed both and am
 responsible for them.
 
-Fixes: 6fe5c68ee6a1 ("irqchip/gic-v3: Workaround for GIC-700 erratum 2941627")
+Fixes: 932b50c7c1c6 ("arm64: Add software workaround for Falkor erratum 1041")
 Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
 ---
  Documentation/arch/arm64/silicon-errata.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index afe109afe692..afea5e57ab95 100644
+index afea5e57ab95..f554fa04662c 100644
 --- a/Documentation/arch/arm64/silicon-errata.rst
 +++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -279,7 +279,7 @@ stable kernels.
- | ARM            | MMU S3          | #3995052,       | N/A                         |
- |                |                 | #3673557        |                             |
+@@ -360,7 +360,7 @@ stable kernels.
  +----------------+-----------------+-----------------+-----------------------------+
--| ARM            | GIC-700         | #2941627        | ARM64_ERRATUM_2941627       |
-+| ARM            | GIC-700         | #2941627        | N/A                         |
+ | Qualcomm Tech. | QDF2400 ITS     | E0065           | QCOM_QDF2400_ERRATUM_0065   |
  +----------------+-----------------+-----------------+-----------------------------+
- | ARM            | SI L1           | #4311569        | ARM64_ERRATUM_4311569       |
+-| Qualcomm Tech. | Falkor v{1,2}   | E1041           | QCOM_FALKOR_ERRATUM_1041    |
++| Qualcomm Tech. | Falkor v{1,2}   | E1041           | QCOM_FALKOR_ERRATUM_E1041   |
+ +----------------+-----------------+-----------------+-----------------------------+
+ | Qualcomm Tech. | Kryo4xx Gold    | N/A             | ARM64_ERRATUM_1463225       |
  +----------------+-----------------+-----------------+-----------------------------+
 -- 
 2.53.0
