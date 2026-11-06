@@ -1,96 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.61.35
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794007076;
-	b=NpGqzlrLdFPnmYipN1GiS1XxwJoo5Di7QI6AhrpbzNMm5C3N98j5W7STW6u4ncKwcnZd
-	 V7HyANYMilw9W7KsTwlMbYax+9JlhTtcVOqKYbboUBJpGsRmZZobqhMejVHfYcFy3JrfB
-	 Ic4CDgTvm77TYqJf/FWYbX+xPq+QUVqHJHL82/UfoUBuwJ8l+cBQEZn1ybpWEVK7Jv8tJ
-	 B1lcyh4rwgBL7pBcsd3uiLxdnTvzwbcxfHUfNjcf2qfXRsjm22p6DlbfzhqmSt6Rdb7qM
-	 OURidON3S26fFdzN4PWS1iBhpPE486em1OzMh5ZNYs8u26CXRhAIORJzLmcPME9LBhw==
+	t=1794007137;
+	b=SnEVpSUtg2MH9niUr33VEWkNvWgfBl/jHdJnw+ALB4rc5K8RHoBg54vLaD9VQHE3gbHu
+	 8Lz2lrFAkkTVU6IbmOj0XE/b3rSJbEPzrspGYjQEf1Tn9TnOOu/Vjxm5yOAyRheAYHR7W
+	 oXdCjZ56E5Xf146q0Do6bt5L5naO9NEtM2qEKHcd3/etSDImb2UfvK/NBXnblfkxILUfb
+	 kvWT30TYj4xBf7O3aHQbpT6ZTP25WmLa/5SEA/CssDYm8JvRMFe00fbCn4ra7ksb6VOPL
+	 UYf1DWkFIvvUw0MmXq0r8yWPazXEmSNeHsLBjzzEBL1JUpZAVOw1mWyPIGw2BIQsH+g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794007076;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 Content-Transfer-Encoding:Content-Type:Date:Message-Id:Cc:Subject:
-	 From:To:References:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=P0TKrmOcnACBHLBZCrHhSTjhoR7OMTwV2zkm7Oo5/gQ=;
-	b=ibWOnVyKjQxaTbBi8QU2Axv6Cyp9gR8fEHHVctZGh2g/T/xAhxwlDqcyi7SMzW2GPA92
-	 /JwuwRKklLwyeh2b72clrhJp6T/2Mh7J5YAV7E8NcxlUvQl2gMHG0DUGpvpchrwEzh/mZ
-	 BVlY4VMgSwIstTfdCFl+TSprrUvayXDdcg06phtGAIHZMnOG6vmN0sFIP15tQD2M2g5c2
-	 S/U3LEdM6fS9x1LsQt7csmvFHIiUeISk750tsSr6g7QMiH67URtVHpl/bxbcMR4Ly/GKt
-	 q5AxKBSsHFj/tdw0lXf6tuEjPowJvyrIqm2TDk1hAG4hoF/fnpWEsdta3OXKO+Y9DSg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794007137;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=O71YwAfQ3CxBrHCRmLTtTo9WELf2TULk27qTgQln2gY=;
+	b=af+5IpdgUxxiFjBqDKeZ8EXcOZ1NFbEaVCyy9O9GW4NHIYpNrma1S3q0KOGy9fTxc8ss
+	 egGSjrtYqTA83OJvO0Pkw1W5tW4DHWRjIyMNsFGf6mqkvE7SPXJ/P7DID7naSdxnsBJhg
+	 THk1BWarWqHP9KAhgQjyi2vlJpA0RigSubpxZzhVQk8OJJf13FkPUYmSx945aOUvg7GGG
+	 7tOSP+6/9c2MiQoUvLc5xwSKkudl6Y9cXp87ug16+TAukY2LZy9SQi5QuOOrrIdl7vqJr
+	 BkS9zugeZJxzgUlzEU7AEiSAGcvqq3ZH18KO89HVPx0w6GuZh4nfg4gq4XUofdZ/PCQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=uh71TXN0;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.61.35
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010035.outbound.protection.outlook.com [52.101.61.35])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tr1+aXWE;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFF4A606A326;
-	Fri,  6 Nov 2026 23:17:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFF4A606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87E4606A32E;
+	Fri,  6 Nov 2026 23:18:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=uh71TXN0
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hxGkn9QjXEzuWhSMG/23uwEmi54FqXu8nu1rZTUKsGZhlnZOYgXt5k/xcaK6TkcPPWplJ6MsTzDXbrm7ybkPBdWILmR+5NALDHXDLpWL900ih2cGle9/zTtfjjpNjJwQCUn0jQusXhwCNYNx9+/S1uqtV/Qdy2qyp5KLoK7q+86Iw0XSuzDqVki4kt+r531F8bnXYsPBQcU2BCj+/isyyTJ2ToCG2oGPAK0v24jqwf0GSJ+QuL+k/75N1y1qcx11zgQ7YphLWyo69RF4XaSn4Hhjj7pOfNJgy7rcmk5f9yKQaw9SXiNS93nx2nX0fdnENjPfJyEDTCdxOX3naZBf7w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P0TKrmOcnACBHLBZCrHhSTjhoR7OMTwV2zkm7Oo5/gQ=;
- b=D3Xd9SgRT3F2LcXFw3eLbQr1dr+trPnbq1e/xgjWz3n5Rzkql/9j3gyaSm365WHdtW/Whq/ns504mKfY5x5mfDSl3jaoxyKHpuY5UQ0KLY6QrY4JQmcUSQZPrWTrh/kU80REpoMUfZHO5qk3ijGt3x+awMVMpFzWNLo8ekMJ0SxWOLz1IK5AuDbOkMLI0BFduZDDT+6qXr0XtELVwwfu9f0PNs64I13goKYOYWyS4FB5IQwJzL9PM0ParlrtK3MBhT99ZRp9/lLUaCbE0rYSk8Yi2rWdMVh//CSbHH8w/Nz/iBMcOWpCeTAETUWb38nDAiwXClIJ0ayyFLJ+g4h4ww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P0TKrmOcnACBHLBZCrHhSTjhoR7OMTwV2zkm7Oo5/gQ=;
- b=uh71TXN0aMToHqw3NhqSFwFPyZx/QYc7NvxQbhTw+08jTBuoS77gmCKMduv8I5BokGbIZyr4WxYEayD9+V7Fp04a6tgCiuXB1ESm6lh4q5hH8jiQhpNHFMsAH0vWTz3+ZHaOnGf2w4/qtMDN+CDRxzZzC9LJMErA1S0ocxm49N1fB+bOrVO43tKrMA1wwnWrQ+AWTl/nif+qhAay0YDoOviPVE0bBWw9pRRjiWMYpnWGz3pzUHpljmIEV5qOfwY6FTWG/U8wvaKH96I6Ql1FoI/4cFEfnbhNp2WuCmF02LgAAfdgqVekcW19pnxIADC2QZyiaVPslrpqGccFqk9uzA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
- by DM6PR12MB4106.namprd12.prod.outlook.com (2603:10b6:5:221::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.12; Fri, 6 Nov
- 2026 23:17:44 +0000
-Received: from MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1]) by MW4PR12MB6873.namprd12.prod.outlook.com
- ([fe80::a338:bd2c:3a38:ece1%5]) with mapi id 15.21.0592.007; Fri, 6 Nov 2026
- 23:17:43 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 07 Nov 2026 08:08:35 +0900
-Message-Id: <DMOI8FJN4W3U.2R8Y20U3K5N1N@nvidia.com>
-Cc: "vladazaharova2018@gmail.com" <vladazaharova2018@gmail.com>, "John
- Hubbard" <jhubbard@nvidia.com>, "gary@garyguo.net" <gary@garyguo.net>,
- "nova-gpu@lists.linux.dev" <nova-gpu@lists.linux.dev>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dakr@kernel.org" <dakr@kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "aliceryhl@google.com" <aliceryhl@google.com>
-Subject: Re: [PATCH v6 0/3] gpu: nova-core: retain the GSP-RM log buffers
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Timur Tabi" <ttabi@nvidia.com>
-References: <20261014154554.231015-1-vladazaharova2018@gmail.com>
- <b2ff5c437c41ba4f8c1a8f354d24d7e68517fbf3.camel@nvidia.com>
-In-Reply-To: <b2ff5c437c41ba4f8c1a8f354d24d7e68517fbf3.camel@nvidia.com>
-X-ClientProxiedBy: SG2P153CA0005.APCP153.PROD.OUTLOOK.COM (2603:1096::15) To
- MW4PR12MB6873.namprd12.prod.outlook.com (2603:10b6:303:20c::17)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tr1+aXWE
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794007136;
+	b=IBGklC5Tg/RQXlu2ie9ba+h3durwTeoENIJluLMn5vYtNqdOayNtdcYKVCSHPqiGQPgU
+	 Gv759ulDGX1NGoq/4Th1di2k4pu/n9VF4YNzSFqNklVbvLPDMRHOXFgXQtozRsFq388ik
+	 r+zyN79X0NKDX0WXZMYcB6+5EPHOe8DwSvWFzQqEtdnlugzRwyeunVH2oDnsPazemgyMU
+	 Aa35xfWIje7Ey8sYy8rQb7BIkXjXh1Swh6YuwlPAJQoWlikSNGvvKWy5UuHsmagxP5gz5
+	 LjQ97gStVmnZNCtg363Y1cxWVDzyaUDDofCIXWPM3kwcQWxXS1q2iQ3Q6LmBRhKgAqg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794007136;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=O71YwAfQ3CxBrHCRmLTtTo9WELf2TULk27qTgQln2gY=;
+	b=YFLE1caaTpFEQELJ6TBEc1yLQT1CU+XkgJi4KQj/2wKNTWJzDA4bDf4I4HU2BgZ/zFxh
+	 MjIAt/sdCJJ/lul+lmk65brS4a+Vja9Kylgv/FltzVibirk7dL23OXSHlW94pDtlTVOQF
+	 VfnFeBdE14v+9iFnFk3qqzvwFIZwt/ScAQisQWKJrY0OcNsjInq877thTFW6Em8JiIUJN
+	 tGQFAI9fHUu4//Y/V0MzLqwPHLKpbABhmnDX5PjrfFBEIz7sm+5lzHo1B1zlEnYrC9R/A
+	 e0cCO4UYGdEkPHtwr3oNRHyQZwaqlJiXXHnXUXkcGbQ1Hj6t7afaO0fLr53m/vphAew==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6F5711F008A2;
+	Fri,  6 Nov 2026 23:18:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794007136;
+	bh=O71YwAfQ3CxBrHCRmLTtTo9WELf2TULk27qTgQln2gY=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=Tr1+aXWEc3PlXTEyXkp14plxRclNVx8rBhEtzn3/afNFqMCeOZGnjmwUor6c4yMV/
+	 5jykr2xrNl5piaJRf7gTBe93uBVfpFZfm1mDBZcU8VuwjZzN3nFec5Er7tge16U/DX
+	 JVlyry9xU+MXiIEGq0/5a5bONcfEl9XDW6El1RVaeLOvBLyVfuRbrCSrdRtZ+n9KvB
+	 FtVLgr5tx2L/nalSRt7YUoC3kh7yqGb5nQ95UwdPdm1HzMfj/jG6rXI8BW6wMxXLSR
+	 o84WL8rTtMtzfpjWrwoCNtdomF71AjJpi76pyT7cq37QAR15IhwPNXHD7DNLA1iy9B
+	 w5NGHX1Xdq/dQ==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id C192C478DC;
+	Fri,  6 Nov 2026 23:18:54 +0000 (UTC)
+From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
+Subject: [PATCH net-next v10 00/11] Support for onsemi's S2500 10Base-T1S
+ MAC-PHY
+Date: Fri, 06 Nov 2026 15:18:46 -0800
+Message-Id: <20261106-s2500-mac-phy-support-v10-0-31b5a69b85b7@onsemi.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,89 +84,226 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW4PR12MB6873:EE_|DM6PR12MB4106:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43c8022d-7331-4497-745a-08df3c5c2944
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|261009223027099003|56012099006|4143699003|261028144727099003|11063799006|261026140227099003|261022105027099003|18002099003|22082099003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	oAq0Y4yVgKUzGVAqmKCA61YgB8kkuUzRVJSHlrOUYQ0GwdnzLfbKSUf6oROW4EAKZJNDbZJLXQK2wxv4JmF8s+j3Jti0JW3bUeVFIu3E1nDq2ysoW6EEgOWrDLMCa9D0PhciynZDN1RsGRCQ1t054u86xwzj0cuXLaMrbmrxoP/LrOYg2JDsc+gEsxgKH6RK5C4XWAHY7Hh+rFFMlXcVMTWmqJ87IWD0vR/fUj7uL48QU9S4zw1qS2P76DlMTjsG03PecgZcZqx3lIpj1XPdJmPm2804nyXCivQDHpMYwXT4olic8tFEdoSFrtkFtejRZBr7ZljbBbBOcCCnRQZ3++cxT2LbKU2B/WS+gOkXQxpHCdVmfShztTiQHubkdr7TE012P27OEcD/pPemwEps9ju9UR6mvXPGmLNLPNUYRMSu5deKXoETPdUuVmHtVAgT/XF5AW8kMJpZru3TfEE7pLdIdmca5bCjtcSlSMeZWWgnw/2Y178EZgF3R97TAXhh78k0kz+UpJeMwiOU/utDvqCQ/lIJlFG0xGnMF+xFrkKq14MBD+lJcHWi/vEHZGqB2XpEbw70h6mvZh9iHj7VtllbbmMjQxXseNPoCi0eny9rn2OuKsYid0dRiBO1ESS/H+89cMxqUIB8n0F80sOIKjb9aKdJ5t4Ee9ES4MmPelA=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW4PR12MB6873.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(261009223027099003)(56012099006)(4143699003)(261028144727099003)(11063799006)(261026140227099003)(261022105027099003)(18002099003)(22082099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YkNRcVJxSW9kY1hvZzlmZ21SVDBOOFVrVWIxb0lJVlVsZHQ1QmJuTldVbGp5?=
- =?utf-8?B?MnBNazloZDJDdzJ1bS9QN3BsNThpRS8xVkcyQkN5OENFYjRlaXBpWm5aaEk3?=
- =?utf-8?B?eFlXL1BHejhvVUlUOTNMTFkzNVlmSWJTVmZoWlZTbnBlTmhydEZmZnF2YXBY?=
- =?utf-8?B?aXV1cjRjTUVuVkRKbEZtQmJMbVlEV0hKd085MGJTNHMyZXdBNlFnMDRhbldB?=
- =?utf-8?B?Zlh6TzNpWnVxM0tsWWtyTUp1aW10SjNNRXFibzUxbG5RWno1MUEzL2wwN3VF?=
- =?utf-8?B?ZVhpcGwwMHB1cnoyZ1BOakk4YXhnT3FMQnB4dDE5V3dPRzhKNVNDNTRZMThM?=
- =?utf-8?B?ZEpOd2trUVNFQVBoMzgwanJnZkRJMlhWSjJkUXhqellqWEZjeTNoUUwxVzJR?=
- =?utf-8?B?b2NjWXNEcDVPQm5LR3Vsb3hwSlJMT3JXZ1hBV3g0LzlLVjdrOXlqZTRiOFY0?=
- =?utf-8?B?RlFpdzVTZlh6YnRSb3hXekVON0NPTFBnVEVyT3gyVFBqVnNwU1ovN1JoTkRJ?=
- =?utf-8?B?czEwb1orRFlFZ0plczdRNFA4bnhJTFNmUHQxVW1MQXY5WDU0aTM1dGJiSSt5?=
- =?utf-8?B?YUoremwvTjJsb2I1cjVOMXU0ZGUzQkVvR1RmSHd0RVBTL2x0UUdjV0dSWmUw?=
- =?utf-8?B?R2orcDgrSDRkTVpFRWxEZWV1RGVieGVzbnYxSjUzVkRIL1FoQnIxbzdyK0xH?=
- =?utf-8?B?alhOa1kxRUhDclF4a2o0SnJ1MHpWT3NEaEFkczNiOExOdTR2UmZBQ1NEcWVa?=
- =?utf-8?B?Vk8ranpTKzM2Y3JzYjJ2QTJaTjd2UFVOaWttckIyVXdOYjBWSTFSV2ZJUnc0?=
- =?utf-8?B?aFd0blA3Ri9GWncyWStUVVlqUzJHVWxFbENFRXZ1R29jSTNESGpqWVNNL25W?=
- =?utf-8?B?UWlzeGNhWWpHVzdnbU1kWXYyci9yQWR5djFFbXFaQjhFWWRCZ0gzZEZEZ0x3?=
- =?utf-8?B?WVN5cFUwcUJjTXJpM21vR09mQmVZajB0T3FwaXJTdTdrMzYyVzEzeE16cGFv?=
- =?utf-8?B?NXJZY3FHUmJHUjRSdjdTN2g0aHVmeC9LcDg1OUFabnlMQUk5S0hRbVRwVE5l?=
- =?utf-8?B?MnBUeXNwNWlyRUloWXpScmpKMVYwNjFEYkluSmF1VUNWVkFUa1l0bUc0MCsy?=
- =?utf-8?B?VTNBUHZpd1hZK1gxVWdubTh4MGxxSTkxVjhscnJRTlBrbmZGLzdETUpWNmhQ?=
- =?utf-8?B?SWRycU1ySXlUSDVSOUhCRW5UakxVaE5DeVJScW1vZEtjeEF6UTlld1k1RHRp?=
- =?utf-8?B?Rm9WYzMwbnNpaUtEUTFqbTB3TnFXaVI4UFJTVWRsT0tjYXVvR2xzZWl4VVo4?=
- =?utf-8?B?WnVzSGFmcGRvOVFVUm53K3V0NHA2OXdvSFBlbkpubjV0S2N2WDJnR3pSMGR1?=
- =?utf-8?B?ZkU4Nkc5TWpDYjRIK3VSbWVmOTFlK1RoWkR4QVNnUU1BNHBCRUZaYUJQdmp3?=
- =?utf-8?B?Z2RMYzdDSmRJVG9xbnQ3ODZFRTFHNUZnNlRDdnVWUGtJOFBYNXpyQkVVUTJP?=
- =?utf-8?B?MnpNOWZqNTBCT3NISHFUN2pBOVdmdEpGS0FWdHYwRjIzdEMzUTd0SFlydWxD?=
- =?utf-8?B?UDFtKzMwUG9FRS95azc1clh5bUZSdkF3UTdiRUU2a2hidDVvNkhDZ0NuWDFy?=
- =?utf-8?B?TkM1dVJMb0Ntd2NSYVIvMSt5VHVzaTVNNyttRGtzaXUxc3dKbGpJS0hnQUhj?=
- =?utf-8?B?Rk1kdkZhUllMNkswMExqdXNLZkdOS3VkK3lmQktpTHI1eTBVOFFmZXljUFZY?=
- =?utf-8?B?dDJ3bE9rb1A5ZWFnVzRReDl2ZmlmV0Jzc1RnVVBuYWF3S2Z1QWZ5KzVSU08x?=
- =?utf-8?B?cmVXNk92blRXa2tSM2xzRzdzR2h4bzBXYnVIbzl0TEFWNC9RNWtQQXo1bXZI?=
- =?utf-8?B?KzBoK3AxZDA0cjdMOThUTG5jcnNWUnowWnhFVUlkUVRQMm9ZcFg3TXdKQjRD?=
- =?utf-8?B?RWsvcjRFYlJTcW1GNTBEUElBSy9TcUZUeXdEd1prMWNGSEVnQlYxdHNlZ1ky?=
- =?utf-8?B?amIvWEpCc2hLYU8yK2NsK2kvei9TZ09CZmk2d1lub3g4K0tLcE8xZU95WVdv?=
- =?utf-8?B?d3NzUEpoNGkvZm5DWi9JS3Eva2J5ajNZc3dKNHRhQW4wODNYaWFXdWl2V2F5?=
- =?utf-8?B?bmZwSlJJNEZXRzYvaUk5eld0NXdDdFRHRzFLczJWNXc2WVdhL2FrTmhkTkhD?=
- =?utf-8?B?czFVVnN2am02aVFOK0c3d01Ccm1CeDVjWks0Und2QUduZTE5aVhGMFk2T2p2?=
- =?utf-8?B?VmVkSXc0enhuUU01Nmd4YUtvOGRoeTlNL3ZBaUpnWlpReW1ESzRBSDRHSGFx?=
- =?utf-8?B?TUlLaGlWaWZZdktBcy81K0hpUStySzVPeFFtUVprNjNva1lyZTV1dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43c8022d-7331-4497-745a-08df3c5c2944
-X-MS-Exchange-CrossTenant-AuthSource: MW4PR12MB6873.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Nov 2026 23:17:43.8584
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZNqcZmVJXAN/huTXqc+b9rklMUtfK/D4X1cQKU54R9R3vJfK+IPRn1s5vAb9ZEt8ot+BWWbggR9Bz4lEx1O53g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4106
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFhg7moC/3XQzW7DIAwH8FepOI/JEBJDT3uPaQdCzMKkfCikU
+ asq7z6STWuniCPY/v3BdxZpChTZ+XRnEy0hhqFPBwEvJ+Za238SD026YBJkBRUIHmUJwDvr+Nj
+ eeLyM4zDNXPnCkpHgayxYmh0n8uG6w++sp5n3dJ3Zx08lXuovcvPGbr1tiPMw3fY3LGqf+E0rM
+ 2mL4sAbSmlOFK5q9NvQR+rCqxu6PWQpnxihckyZGG00qhqlR1kemOqJkSbHVIkR2hGaVC5QHBh
+ 8MAg6x2BiFGqnEa0V1hwY/WCMzDI6MUgghLXOFXBkzB8jALKfMtuKHXkSDdQemn/Muq7f9ICNQ
+ zsCAAA=
+To: Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Eric Dumazet <edumazet@kernel.org>, 
+ Piergiorgio Beruto <piergiorgio.beruto@gmail.com>, 
+ Eric Dumazet <edumazet@kernel.org>
+Cc: Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>, 
+ netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jerry Ray <jerry.ray@microchip.com>, 
+ Ciprian Regus <ciprian.regus@analog.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794007133; l=8502;
+ i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
+ bh=mgpeoSJkv6FNq6OsRigHMZkeJxnOEduvOPGvcm9hPqI=;
+ b=6Ve0oTZHFLex5vRNbjrlYdsSescHSkkimy+YGVv2ELlgQJv+0ASIW6kU4ChR2IFRTdrXji+XG
+ ZInHvuklTfqCtdV/PgTq3qHX951iiNFo8HdAUgVEfVZhyKq/r2FDeo8
+X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
+ pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
+X-Endpoint-Received: by B4 Relay for
+ Selvamani.Rajagopal@onsemi.com/20260531 with auth_id=803
+X-Original-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+Reply-To: Selvamani.Rajagopal@onsemi.com
 
-On Sat Nov 7, 2026 at 5:51 AM JST, Timur Tabi wrote:
-> On Wed, 2026-10-14 at 22:45 +0700, Vladislav Zaharov wrote:
->
->> Changes since v5:
->>  - keep the "put" pointer read before the barrier in the copy, rather
->>    than the one the copy reads again, which is not ordered against the
->>    rest of the data (reported by the Sashiko review bot)
->>  - rebase onto current drm-rust-next
->
-> Can you rebase this onto https://github.com/Gnurou/linux/tree/r000_rebase=
-_all
->
-> This tree is the future of rust-drm-next, and there have been some signif=
-icant changes to
-> debugfs that result in a lot of merge conflicts.
+This patch series brings support for onsemi's S2500 that iss
+IEEE 802.3cg compliant Ethernet transceiver with an integrated
+Media Access Controller (MAC-PHY)
 
-This tree is also a moving target; let's not ask contributors to use
-obscure bases that are weeks from reconciling with drm-rust-next.
+Driver implementation is compatible and works with OA TC6
+framework that is already present. S2500 driver supports
+hardware timestamping. Along with this driver, OA TC6
+frame work is also changed to add hardware timestamping
+support.
 
-The current v5 applies (almost) cleanly on today's drm-rust-next, so it
-is fair game to review and merge if deemed ready. We can rebase our r000
-code on top of it should it lands first.
+Driver has support for running selftest and loopback tests.
+Through ethtool, it can provide traffic stats, rmon stats,
+and timestamping related traffic stats.
+
+As S2500 has an internal PHY, changes have been added
+to onsemi's PHY driver to support this device.
+
+To: Andrew Lunn <andrew@lunn.ch>
+To: Heiner Kallweit <hkallweit1@gmail.com>
+To: Russell King <linux@armlinux.org.uk>
+To: David S. Miller <davem@davemloft.net>
+To: Eric Dumazet <edumazet@google.com>
+To: Jakub Kicinski <kuba@kernel.org>
+To: Paolo Abeni <pabeni@redhat.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>
+To: Selva Rajagopal <selvamani.rajagopal@onsemi.com>
+To: Richard Cochran <richardcochran@gmail.com>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Simon Horman <horms@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: Eric Dumazet <edumazet@kernel.org>
+To: Piergiorgio Beruto <piergiorgio.beruto@gmail.com>
+Cc: netdev@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: Jerry Ray <jerry.ray@microchip.com>
+Cc: Ciprian Regus <ciprian.regus@analog.com>
+Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+
+Changes in v10:
+ - Removed config_intr callback in S2500 PHY driver
+ - Removed writing status0/config0 from s2500 driver
+ - Implemented API to set tx credit threshold and 
+   to enable RX cut through mode
+ - Drop the frame when frame drop bit in footer is set
+ - Module name restored back to oa_tc6.ko from oa_tc6_mod.ko
+- Link to v9: https://lore.kernel.org/r/20261009-s2500-mac-phy-support-v9-0-dcefe1d0bf0d@onsemi.com
+
+Changes in v9:
+- Renamed the new phy API from having "fixed_speed" to "no_speed"
+- Fixed compilation issue due to having changes in the wrong patch
+- Added the MAINTAINERS changes to where files were introduced.
+- Fixed coding style issues reported.
+- Moved the order of patches so that selftest changes goes after
+  s2500 support.
+- Made Pier's email ID consistent across to be consistent across 
+  the codebase.
+
+- Link to v8: https://lore.kernel.org/r/20260928-s2500-mac-phy-support-v8-0-7e011aacc309@onsemi.com
+
+Changes in v8:
+- Modified to use newer MMD based read/write APIs
+- clean up by removing unused definitions/initializations
+- Better handling of timestamp capture events by using
+  bit fields so that we don't lose any event
+- timestamp skb queue is protected with spinlock
+- added reset-gpio in YAML file as support is recently added
+- removed ioctl from OA TC6 framework as it is not needed.
+
+- Link to v7: https://lore.kernel.org/all/20260708-s2500-mac-phy-support-v7-0-478c877aa1a9@onsemi.com
+
+Changes in v7:
+- Fixed compiler warning due to prototype mismatch
+- Moved the order of patches to ensure dt-bindings comes first
+  before it is being used
+- Added missing review tag
+- Added missing MODULE_DEVICE_TABLE
+- OA_TC6 framework enables 64 bit timestamping mode by default.
+
+- Compiler related warnings fixed.
+- Link to v6: https://lore.kernel.org/r/20260629-s2500-mac-phy-support-v6-0-18ce79500371@onsemi.com
+
+Changes in v6:
+- Changes to ensure onsemi code stay within 80 columns.
+- Fixed the error of "not described in comments section"
+  in comments section.
+
+- Fixed compiler warnings.
+- Link to v5: https://patch.msgid.link/20260614-s2500-mac-phy-support-v5-0-89874b72f725@onsemi.com
+
+Changes in v5:
+ - kernel doc related changes in oa_tc.c, onsemi driver files and
+  oa tc6 rst file
+- Link to v4: https://lore.kernel.org/r/20260605-s2500-mac-phy-support-v4-0-de0fbc13c6d8@onsemi.com
+
+Changes in v4:
+ - Added return value comment for genphy_read/write_phy_mmd functions
+ - Added genphy_loopback_fixed_speed helper function to be used in
+   set_loopback callbacks
+ - Updated networking documentation for OA TC6 framework to elaborate
+   on what is expected in the ptp_clock_info structure for registration.
+ - added spi-max-frequency in YAML file based on alert from sashiko-bot
+ - Removed model/version from the onsemi driver's private structure as
+   they were useful as "information-only" data.
+ - Replaced the non-standard selftest with Linux's standard selftest
+   and made it as a separate patch
+ - Changed bit manipulation, shift operations to use macros so that
+   it is clean and readable.
+ - added new read_register and write_register apis with _mms postfix
+   so that MMS (memory map selector) can be given as a parameter.
+ - Fixed the wrong condition check with NETIF_F_RXFCS to subtract
+   FCS size from the length of the frame.
+ - Link to v3: https://lore.kernel.org/r/CY8PR02MB92499C9080614FA3CEB8CD0483162@CY8PR02MB9249.namprd02.prod.outlook.com
+
+Changes in v3:
+ - Moved OA TC6 framework to its own directory.
+ - Split changes to smaller patches based on feedback.
+ - Added PHY loopback support as a separate patch.
+ - New, read and write register APIs with extra parameter MMS
+ - Link to v2: https://lore.kernel.org/r/CY8PR02MB924920C8825C7AE5D22EFA4483382@CY8PR02MB9249.namprd02.prod.outlook.com
+
+Changes in v2:
+ - API to add vendor specific MMS to mdio device map.
+ - Link to v1: https://lore.kernel.org/r/CY8PR02MB9249D083B637477C254F9B0583322@CY8PR02MB9249.namprd02.prod.outlook.com
+
+---
+Selvamani Rajagopal (11):
+      dt-bindings: net: add onsemi's S2500
+      Documentation: networking: Add timestamp related APIs to OA TC6 framework
+      net: ethernet: oa_tc6: Move oa_tc6.c to its own directory
+      net: ethernet: oa_tc6: Move constant definitions to header file
+      net: ethernet: oa_tc6: Support for hardware timestamp
+      net: ethernet: oa_tc6: Support for vendor specific MMS
+      net: phy: ncn26000: Enable enhanced noise immunity
+      onsemi: s2500: Add driver support for S2500 MAC-PHY
+      onsemi: s2500: Added selftest support to onsemi's S2500 driver
+      net: phy: ncn26000: Support for onsemi's S2500 internal phy
+      net: phy: ncn26000: Support for loopback
+
+ .../devicetree/bindings/net/onnn,s2500.yaml        |  71 +++
+ Documentation/networking/oa-tc6-framework.rst      |  72 +++
+ MAINTAINERS                                        |  11 +-
+ drivers/net/ethernet/Kconfig                       |  13 +-
+ drivers/net/ethernet/Makefile                      |   3 +-
+ drivers/net/ethernet/adi/Kconfig                   |   1 +
+ drivers/net/ethernet/microchip/lan865x/Kconfig     |   1 +
+ drivers/net/ethernet/oa_tc6/Kconfig                |  17 +
+ drivers/net/ethernet/oa_tc6/Makefile               |   7 +
+ .../ethernet/{oa_tc6.c => oa_tc6/oa_tc6_main.c}    | 526 ++++++++++++++++-----
+ drivers/net/ethernet/oa_tc6/oa_tc6_ptp.c           |  65 +++
+ drivers/net/ethernet/oa_tc6/oa_tc6_std_def.h       | 175 +++++++
+ drivers/net/ethernet/oa_tc6/oa_tc6_tstamp.c        | 224 +++++++++
+ drivers/net/ethernet/onsemi/Kconfig                |  22 +
+ drivers/net/ethernet/onsemi/Makefile               |   7 +
+ drivers/net/ethernet/onsemi/s2500/Kconfig          |  21 +
+ drivers/net/ethernet/onsemi/s2500/Makefile         |   7 +
+ drivers/net/ethernet/onsemi/s2500/s2500_ethtool.c  | 385 +++++++++++++++
+ drivers/net/ethernet/onsemi/s2500/s2500_hw_def.h   | 155 ++++++
+ drivers/net/ethernet/onsemi/s2500/s2500_main.c     | 500 ++++++++++++++++++++
+ drivers/net/ethernet/onsemi/s2500/s2500_ptp.c      | 163 +++++++
+ drivers/net/phy/dp83867.c                          |  11 +-
+ drivers/net/phy/ncn26000.c                         |  59 ++-
+ drivers/net/phy/phy_device.c                       |  22 +
+ include/linux/oa_tc6.h                             |  32 ++
+ include/linux/phy.h                                |   2 +
+ 26 files changed, 2425 insertions(+), 147 deletions(-)
+---
+base-commit: fa5196392691051963726787944db872420dfa75
+change-id: 20260601-s2500-mac-phy-support-4f3ae920fb73
+
+Best regards,
+-- 
+Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+
+
