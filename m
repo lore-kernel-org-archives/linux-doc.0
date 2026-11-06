@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793962221;
-	b=Yn1VA8h0iegtxLt1ihceFaa2mIJW9SzNr9kFES7QkV3ZES8qf8X9bS2j4rgvlnyd2Xqz
-	 zxjv+Peqtpal/6+Uo+VJaKnTm6b4t2VlZXa3nHZnKe4Ha/eKG+339xtFVJUSgbTnXONkf
-	 TkuEaXWw5Wi6MJFrsYJU+RgLhQiQpmX46LwuFzhCW/It5PQLmYflkGxF9VA3lehQmYZXC
-	 CLu1sWT39yO38GC8yeaXYlOPEmZikVPZLlRjUG7SeG0fH3u33+Y/aX4ZXDS/O//zs5f0W
-	 thronE/mM9bY8hbLarEqj5dTqx+pKxg5o3X9fUsB9QAHK5g3oRpoloWWMSm/Icq6pQA==
+	t=1793962237;
+	b=yaYPVrutnWxddgjijzuT6tf8jH56DUzcGRPLP8W6FS0lTop3DZliHE8DI/VgPMatKaKp
+	 CFkopUgAE6+S7CHRfpJF84Wq0/hwvZ9BmON75aXUxUqyvATPZhsRWZ1pV6pCAAEtLNed2
+	 ZsYsth7b/VMlLPoUwv9LnOvdQbZAFjb/sqEAB/mak+IJh+cSV613kjtweBk3CiaMfjWIA
+	 PYuhDecr/Tsts2SowVaZnIWAYFEK+z2TYRcdSbFLLio1CfTgfiZgbefuuZgzOB/Ug6sRw
+	 Wq8CaeUdn6HnwBvVWNN4B12IygEDKVfOJIK64MZddZ1y5jcyiO+nbt/WRPJr/gVa8zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793962221;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793962237;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=JoGxU1FmWoIU8UQ+roEGVXwQfBtIFU5DeEvnVZCDq6k=;
-	b=wa/xGYz9d9bJlCL9g7HAFblKyGFP9YC9J8Lxa0vlDG2sJRIOYr4MECDaSjBxPcDJ/qv3
-	 FqSypNBGnWiAyHJJ3WVSZDUa8RkJI2e+UfvjLoW08ZQ5CjfxwDtN+Gen6+Ytx/ayJDv2D
-	 gSWCXBLzQMYISTg6tth2+4O0WXNcywHR0KJFInh5WaecpglDkW98fixarHhlvMgRxu05c
-	 uj5MIaFDyrEErFewrSsVO2nxEwUNHrxibROgWIOi5rDwq1z+oaRJwR5l9Syqqs/iU221z
-	 gG3VL6OCzy89ArSZr2zA7Br6fKEiI+SQrmnN6NZgzKuHmA7epi68cC7VTGUh7wbTk3Q==
+	bh=VaTuCkSJKJEAY9i/vs3DHvelrwbFZGh+V9o299AVh+0=;
+	b=nkaEu7ssZvw24LHmI6qEIKPHr8i9mq5LtAWDarNm7pFB+19ezFcOU6q5prxvBf5+0kLr
+	 ZwdEwzcHTE0b5qrojhRqzP77+2y3aN+E5zbCFXom65SylEU/xaqTYtp0Tg+DSkw8Q46ji
+	 CIpMICmNr4F6kjNt5rBF1vg4xQP08i7XtSlXNYx5qXodfxMFUqOFyOI9kkMAfH/m0KjHu
+	 e2j2+sKKZxHncC9xUOPZLtnqELq0xbNrVWEt7iCUoQ9ikMIlnlC5Z71P/8M+fIbPzAFbm
+	 o+664Jbuf8ih1LseSq5o1AYig/qZWWK3sogPlgzWo6G3qRw9PULrcU6CSSx0FlYyR7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NZesrjnO;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=YnFuxcNH;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7972E606D81E
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:50:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7972E606D81E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F126C606A331
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:50:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F126C606A331
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NZesrjnO
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=YnFuxcNH
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793962219;
+	s=mimecast20190719; t=1793962236;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JoGxU1FmWoIU8UQ+roEGVXwQfBtIFU5DeEvnVZCDq6k=;
-	b=NZesrjnOXWwTRkQGNpgmCYreqf309as2WmPd5RN5uMULJYfWGtiBuwd/nHfkJk24/xKoul
-	/0gYRMGhqxnZ7m99kt/Rr+EwHG5znMrPZAiUQ1Z5KiGA62mG0lkDysgNc45sQcSwJS7jdN
-	ZwXFjgfLiMBt/z+O8OKSmAhtA2nY2GI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+	bh=VaTuCkSJKJEAY9i/vs3DHvelrwbFZGh+V9o299AVh+0=;
+	b=YnFuxcNHNFTRb+RZRZ/JqRBfRFfl9LF54q//xqqIJJ7ADcRgCKOBtIJkTGYCgq62dYhtBA
+	sf8jYLBqYl3OhUTJ09mhb16goB0cPf/CRHumibprA5poMMFy4HyZlleCjS7pBPEt41Ck4F
+	AVBRiTqOWnEJZcvwYZemBvG1hOPIwdo=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-471-dYFMcNNNNEWLqLiCwqSYaA-1; Fri,
- 06 Nov 2026 05:50:16 -0500
-X-MC-Unique: dYFMcNNNNEWLqLiCwqSYaA-1
-X-Mimecast-MFC-AGG-ID: dYFMcNNNNEWLqLiCwqSYaA_1793962214
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-126-JvABvuXbN5igis4jHvFBdA-1; Fri,
+ 06 Nov 2026 05:50:32 -0500
+X-MC-Unique: JvABvuXbN5igis4jHvFBdA-1
+X-Mimecast-MFC-AGG-ID: JvABvuXbN5igis4jHvFBdA_1793962230
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id ADF391955F54;
-	Fri,  6 Nov 2026 10:50:13 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5FC211800848;
+	Fri,  6 Nov 2026 10:50:30 +0000 (UTC)
 Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA1F81800480;
-	Fri,  6 Nov 2026 10:50:09 +0000 (UTC)
-Message-ID: <8650a441-1c03-4b3a-aabc-13e047831ff2@redhat.com>
-Date: Fri, 6 Nov 2026 11:50:08 +0100
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 56A281956047;
+	Fri,  6 Nov 2026 10:50:26 +0000 (UTC)
+Message-ID: <bcad7df2-4515-451e-85ec-aee53e391f27@redhat.com>
+Date: Fri, 6 Nov 2026 11:50:25 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,7 +72,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 08/14] selftests: dpll: add pin priority test
+Subject: Re: [PATCH net-next v2 09/14] dpll: dpllsim: Add support to set
+ frequency on pins
 To: Petr Oros <poros@redhat.com>, netdev@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
@@ -84,39 +85,23 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 References: <20261105151852.1844305-1-poros@redhat.com>
- <20261105151852.1844305-9-poros@redhat.com>
+ <20261105151852.1844305-10-poros@redhat.com>
 Content-Language: en-US
 From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20261105151852.1844305-9-poros@redhat.com>
+In-Reply-To: <20261105151852.1844305-10-poros@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
 On 11/5/26 16:18, Petr Oros wrote:
-> Add a test that sets a new priority on an input pin, reads it back and
-> restores the original value. The range of priorities a device accepts is
-> not advertised over netlink, so the test tries one below the current
-> value and then the small values every driver accepts, since a large
-> current value may mark an unused pin outside the settable range, as the
-> ice driver does with 255. A driver may still refuse all of them for a
-> constraint the interface does not tell, so that is a skip on a device
-> provided by the user, with the reason the tool reported, and a failure
-> on the device the script created, whose simulator accepts every
-> priority. The test skips when the dpll tool lacks the prio keyword of
-> pin set, and the restore is deferred right after the original value is
-> read so that an interrupted run restores it too. A pin that does not
-> advertise the priority-can-change capability or does not report a
-> priority is a skip on a device provided by the user and a failure on the
-> device the script created, whose pins have both.
-> 
-> The dpllsim_add_pin helper gains an optional priority argument, which is
-> written only when it is given, so that a pin without one keeps the
-> default of the simulator. A priority is accepted for input pins only,
-> so the callers pass one for those alone.
-> 
-> The standard device lays its inputs out as gnss0 with priority 0 and
-> ext0 with priority 1, and the stress devices get random priorities on
-> their input pins.
+> Add support to set the frequency of input and output pins. The DPLL
+> core validates the requested value against the supported frequency
+> list the pin advertises, so the frequency_set callback only has to
+> store it. The same per type tables that validate the configured
+> frequency at live time serve as the supported list. The configfs
+> attribute is rejected with EBUSY while the device is live, so only the
+> netlink setter changes the frequency of a registered pin and the two
+> cannot race.
 > 
 > Signed-off-by: Petr Oros<poros@redhat.com>
 
