@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.54
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964972;
-	b=emGb5+XwpPvGgtUB+QkJTLA1RO5s7gJDNGRi63hEZpovGGm9vXAthTbOZS0cu8K0yh+L
-	 Z7UsltY/MIZNKiXlpr3tlMpCZ0AnQ66d9vcObWm1TvNnwY18OD6fHH+Nklq5U2R9exNry
-	 H3UxqFuVpu7cSypvTk9jFPLaZTuVT4d8XqPuIcN3bK0k44md5Afbk11goC3Ou1un7ZT/s
-	 R7CdXGh8o1UtvEbmHUaznXqxbxGButs6rmkthtkSa151XymtiiS5tFMEethzKVifmWLvN
-	 u6YUtlbkcZ7V93nCDa9khpYPMlAOT9YgTxe/sfEbi40ZbBGAewv03gx3wL/wPovlU8w==
+	t=1793964978;
+	b=Cj57rziuRl2vJ9FEo5xX4LXvzy30PK5H8qAbB6EF9Brib6Krse5KhWc2b6q06vktu+DY
+	 +nnt12oK1r/xXtusRHS+0uS7GITRhI2XWfQDXsROcbX6Twhk2AfWDxqx7dPBb8awKGdS/
+	 bAiAsUDnvmyJMbgM1iIB3fR2P8J6g05XYJOZ5Tg7EgHDnHrTHnlqWWFD+6puZkiOWcJb+
+	 IBCatOUvZhxAe8LkGZh27gNqcwqUwfPmQyVoS/Q0S6ebRmpmMm/66R+8P/hmWa8fiIvTF
+	 QXsNbkh15MnFEz4yASBsSZUEX/j5p4KZ6OPOWyzsutcBXMaPouY7am+y9vFX4OFaZsQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964972;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964978;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ZAoInwpVmTf98KNzozYKmGd6zYcTehn514sTek/ZM3g=;
-	b=tte+SXF6g+/XHe054XIuf/aYF59PlJqTwIJMQVVz7l+/JbwaTrS8EfDyGyhCZ7lQgsDo
-	 WczqbVTFyH/Oq+JUjLpg7niJ4OhOHiHmge81xFQGnsnHeu7d2cV6kEPAXB8mJ6M+iOnx9
-	 HwrCG5bolwNZ5ym3zTNw+WsEISzJiUtDYT2pdXoAHnvqQdmFJSNfvpKqeRfCmoch90U3p
-	 MOeeQ1Zc9Z/txU3PBxLW+XxPjg5hTxIS8UimsXZW0DtLsGqOAfGcefv2YGHeJVgC2JRuS
-	 VyW6tkuSPCrkLq8Vnc1PsZqbISdYQ9zga6h33Mvcv0TGEvd78ZBlqf1v3rKFGxh0q7w==
+	bh=Rdcgs3hK1Dl4xfC+rToIfq/AKqPp5z6cwJiA0bViBuA=;
+	b=DufpAx7aVQiclnOxGz5VpRRo0dxU27GWNUf2Y/saWEWkbLkaBBLCLpYL24ixSOw5PonV
+	 elV7ipIz6p9x9bNQdVpM47UeMrZjFp4oEGqyzpPC/X+xN+8XmFOI1mHEQ5fqLRbnR+gFw
+	 xd00xsHZXCLRHHlPAmxdt+EbKwsThvTI6dl4iyE68MUzmBnrEpgVPKImeN7ZvMLQSAsbo
+	 +gZQJbnmhvf+nHH5xNox9y0C/w1IIGk7bSpZOF1pznClMM+PnEsn2Ic615Vq+aRoTKOCR
+	 YhefSDom8oXy+ml4JlNICHfEixXVUFJqGjXoD2dRDwsgc7ZVHZBTtI9DrJXGc5Y+zAg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mf82WO3k;
-	arc=none smtp.remote-ip=209.85.216.54
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nGnN5N27;
+	arc=none smtp.remote-ip=209.85.216.41
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541B360A261B
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:36:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 541B360A261B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B2C606BD5E
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:36:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6B2C606BD5E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mf82WO3k
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-3b0b8b5d28cso91018a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:36:11 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nGnN5N27
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3b0d09fc934so82458a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:36:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964971; x=1794569771; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964977; x=1794569777; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ZAoInwpVmTf98KNzozYKmGd6zYcTehn514sTek/ZM3g=;
-        b=mf82WO3kNncsEoXNuFlJ6Usw9tb9BfTdd2Ss/rBesMScDk3BZJJxtEThnLRj0zPSEN
-         CLmjdYHkeIEBCveLxOmZp3p/g71/PBYjuGQx3Vr3e4c8sPzf3flvhW+pgt/2f2gkiauq
-         hcGPyKRIPj6Nkn0FnFQ7JZFIznN3i4mBwJYXtKb5X24JArrb7073B4dYXEr9eHB6tTpt
-         HEpZK0sySCv55Z+IiBBnpi8LyAhIUZQjqeW1v06jVF/nmaQnVYYjlNvVGVHYQVsJVPgg
-         ZZUiyOi9x6SeFHYJLu8DeUrjVPQBtROIYFEdOEB+X/UswIqbE0RKUAq/CMbWD1V14PTG
-         ASfA==
+        bh=Rdcgs3hK1Dl4xfC+rToIfq/AKqPp5z6cwJiA0bViBuA=;
+        b=nGnN5N27K7sLwqtcdP8+wtPS1f1CY5/qSE/bfT3MFsSQOPqucLc9JDjEadis70Muhc
+         7ddCBOpjDvQgk/Is2El6uKbszqjbNkuH2KN8B5o+nGHUN4H6uf7oabMR3swhdTcQXt01
+         XnB/NzSVNq9Kza4ioZ6H9nLEbuVbJyF3Lyg7NOqGpwpJifNdUMWgGyGFxtqnIyLi6OSx
+         yGviaTk1VNaXV9FzR7erOtkfaDq0koqCBb7hPo3OM6568s5E90dyQ7k5az5NCq3lffap
+         RaG/EmRC/2tSPGZQo+4Y6miwBQZL2e9xhSzcxdI0x7sEMMfZNXtSslEFW5AUHM7FPzh/
+         cuOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964971; x=1794569771;
+        d=1e100.net; s=20260707; t=1793964977; x=1794569777;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZAoInwpVmTf98KNzozYKmGd6zYcTehn514sTek/ZM3g=;
-        b=AjqHoiyMbPM3UTLIbr9x4WNTcgcAHhM1G59J4u/zaKnGbbZJIne89SvSN+SVbX5uVb
-         XcMYwpFMGUT6QURNB09CjBPk+Jk9dmXj2zJ/fcoMe0p/BO9y85IdGn11UIhoMtdW3iuT
-         6JfCW5DRpu8/E8VgOMnbibsO4elLeHrpZZUEKfQtOWOokafGPkrKDy9utktLNEhdHNHU
-         loy3zi4/6wSKHTqyuUlEsC1ndkNMJo5D84apKu//zTQKGNBebypE9MXoerKWAOIInYE5
-         BfBzmy63GuYH7wOyykW/B3/veowodwG09JQeUR5VFCMR/NgtVRDVzPLCIfvdpyM4QDMH
-         71Mw==
-X-Forwarded-Encrypted: i=1; AL+hErHCwecrTtUh0MtxqAlVZm8eNQFTrW7V1KgeC+g2+07MtpC1T19+0bKrXv+TaT4OkcVXwJvsY5PsegE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9PHLqL+y1v2mbrJ8MvZXK4jMRxic3XpwyiQWdNIwAWozSAQBc4
-	6p8JY7f2Yccj7w3MysM357iIrqJMwFPd9Treg77hCApCd2D82eGtpCQL
-X-Gm-Gg: AYBFou1Bvs7WbBzvKfJQ6p2kRheNTX74aBL+kexYtPvSj0+Av/EC/ubGADq6hI1q5ot
-	Tj5xGuleNoKZSUBp9DJiotn+2j7/c+dKO3F1xsyfL2ovRdlYlvP+jHChf1tY2c1wy41IdPELPBt
-	vkTstZ+xn1GtdQN6cUVEzwY6aXdVQ4oOZWN68D9SimpBEMwzlYQSl6sPFgsixA87cSl80ZcsXPk
-	lPwkS4P2A9j1EwUMxsqIrxuXbzKdWkcSa5esJLxwpfdAsVACUsh1bZ35xu2Wr76wDXWrVFXMata
-	KbzvSNVa8tfoXWGjkjj1culZdrxVRndekzEWoywa0ehEVynPqMwX2RkmSZvXlRvcB/k2GY4cTAg
-	ACVmH8v5ja0hANexNlcH0e3XZrXKLbAHWlnOxPVYvjquY/Spclxyy0hJlhFO0c4fw97NbjM+fG4
-	tWUFQ89KYiPOomKfquVJQI7ulk5u7qb5BV4PPYYCSlcGlUAOoX9+uM9p78E7+2ZXeRAougV0IuT
-	LrGWGpc8Eep2z0AR+ydL86nyjX3bQJgGvOjSyYr++2NuyB0Ejq5nuN4L0iIjG7xHoQyL0JhQZcd
-	jQWwMD1knHXMpFMLJ14zW+kd3HxUf+L0TyX0xnqgumC1rFj12t94BwryNF2RLAokDub+H2kURuw
-	CCMNUhk/VQsTnqxZC3G9pz981
-X-Received: by 2002:a17:90b:3b42:b0:3a7:fef3:8561 with SMTP id 98e67ed59e1d1-3b0db6f44efmr3151617a91.5.1793964970468;
-        Fri, 06 Nov 2026 03:36:10 -0800 (PST)
+        bh=Rdcgs3hK1Dl4xfC+rToIfq/AKqPp5z6cwJiA0bViBuA=;
+        b=tSE1M6M1qCdIWLnT1EwNDsCOnUKIGmU3liWGWf0cqOmyVfetxZqmDAz35mD8G/gydL
+         PwjlpW1Og4s5FRO2C3/UIMf61pGnUnj80qCjcKyZYYb6ZPuotTeLElMn7wp0vgEMrTGA
+         rvXUVDNAEt6We+Fa4hS4CNRMJRNXV4UCFLgsrXbddsRJSocHBzBN7IQMUqMso0yfiDG9
+         5NVG8PwOk1C79WSkkpVQo5+L2RU64n9UVwmZDOuXLzpGTnG8MG0hzl4p6kc0YYwfHvdp
+         PSUmrReQQwu2j3t7oFOtuUBq/pSyhLBP6vDOIVdTm+EhTfcDajZupRVxvvDH6UGYsumN
+         +Gdg==
+X-Forwarded-Encrypted: i=1; AL+hErFlHnUtZvSKx3kaBEasI+TwJjRj202fKtuYM+prUOycg7l4rUrkh9WFH8Cb2rlOXbZ1BsnQ8b1+/MU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/DXiMFQkg124H037ZO4Brvg62Chu42xovG3RKLx7K4gOZjEFZW
+	TzdYS3IOMnxATUJT+a1aLy74XlDzup2L1jKOhduRo9mZPUpzz/PypMLaQ77y0gOz
+X-Gm-Gg: AYBFou3meo/Bakk/M2HNKe5LOTHEAUTHeC+wxYc32tpYwrSiABbSAhkPP7yEghPz/iW
+	oTbYSBXHZ9p8kKZSaRVJVVGra+3Fy/XgLNwyZVBYtVQbnv+YZFKO2vhMxdrQFjd3g7zach62jIu
+	bonHI4XkRxNIn32g0b2Ybq+slivDiPhq7ZNGhcd1tm0gOIipbRUBMLWvcaCaVt3y9HSIiRemDSd
+	KYuq4jCoit8I5kVPsf9ymTYMNDx4wz5l5dU5gwUwdcVRfMFVtECponzcY3XU7QXeHKq9RX0ghhW
+	WAKU9UWDF6yORLEEf71F7pYcE+Ozf7AtrscjOztsy87dhFK4mJSj7o021yKocwbFPA1VpsNhd8y
+	C2PMhhorKO8Y9eltJwB6cc7Rnc43FbxVBaGh/tHlwUKgfuklY4yrI0REm16OgFdcKRbP8AqKzJw
+	heEmjglBS4V5wTDtPgbUjt9u+VlUkX0VIvVQhakOeLduloKX5mES2izHOUguSyjt8vL1lta2rtx
+	MYrhlGT+PgPbdASFdHTTrsalwr0+C1EKTDlFzg2rIAqj8IEn8pm3KfTGomhlsDiQqlD2WX4VXYE
+	2TRcbVJ21yw3FKEYjywQlj74whYOY5wSm1wEn8A7zrq9ddDTwwGDhhn97S1VhoT0U29ypB8j8ca
+	nP21sxNWquhWxYMooRHuiPiX/7IkahBjpU07ZRl7nzoIvPg==
+X-Received: by 2002:a17:90b:2c90:b0:3ac:9e76:aa96 with SMTP id 98e67ed59e1d1-3b0db6e269amr3118694a91.3.1793964976622;
+        Fri, 06 Nov 2026 03:36:16 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b32b6507sm8343173a91.16.2026.11.06.03.36.06
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b32b6507sm8343173a91.16.2026.11.06.03.36.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:36:08 -0800 (PST)
+        Fri, 06 Nov 2026 03:36:14 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 05/13] docs/zh_TW: process: add changes.rst translation
-Date: Fri,  6 Nov 2026 19:35:36 +0800
-Message-ID: <20261106113545.708896-6-chenyou910331@gmail.com>
+Subject: [PATCH 06/13] docs/zh_TW: process: add handling-regressions.rst translation
+Date: Fri,  6 Nov 2026 19:35:37 +0800
+Message-ID: <20261106113545.708896-7-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113545.708896-1-chenyou910331@gmail.com>
 References: <20261106113545.708896-1-chenyou910331@gmail.com>
@@ -107,584 +107,1020 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/process/changes.rst into Traditional Chinese
-from the current English text, including the minimum version table
-(Clang/LLVM 17.0.1, Rust 1.85.0, bindgen 0.71.1, pahole 1.26) and the
-GNU AWK, mkimage and rustdoc sections.  There is no zh_CN translation
-of this file to consult.
+Translate Documentation/process/handling-regressions.rst into
+Traditional Chinese from the current English text, including the
+regzbot sections and the "Quotes from Linus about regression" section.
+The quoted mails are kept in English as in the original literal
+blocks.  There is no zh_CN translation of this file to consult.
 
-List the new file in the toctree of process/index.rst, before
-programming-language as in the English index, and drop it from the
+List the new file in the toctree of process/index.rst, after
+debugging/index as in the English index, and drop it from the
 TODOList.
 
-update to commit fd5425b67355 ("docs, resolve_btfids: Document kfunc
-BTF annotation emission")
+update to commit fdd100ee60a0 ("docs: process: use gender-neutral
+pronouns")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../translations/zh_TW/process/changes.rst    | 532 ++++++++++++++++++
+ .../zh_TW/process/handling-regressions.rst    | 969 ++++++++++++++++++
  .../translations/zh_TW/process/index.rst      |   2 +-
- 2 files changed, 533 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_TW/process/changes.rst
+ 2 files changed, 970 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_TW/process/handling-regressions.rst
 
-diff --git a/Documentation/translations/zh_TW/process/changes.rst b/Documentation/translations/zh_TW/process/changes.rst
+diff --git a/Documentation/translations/zh_TW/process/handling-regressions.rst b/Documentation/translations/zh_TW/process/handling-regressions.rst
 new file mode 100644
-index 000000000000..1d30b22b7d31
+index 000000000000..54cfc5dda768
 --- /dev/null
-+++ b/Documentation/translations/zh_TW/process/changes.rst
-@@ -0,0 +1,532 @@
-+.. SPDX-License-Identifier: GPL-2.0
++++ b/Documentation/translations/zh_TW/process/handling-regressions.rst
+@@ -0,0 +1,969 @@
++.. SPDX-License-Identifier: (GPL-2.0+ OR CC-BY-4.0)
++.. 重新散布的相關資訊請見本文件結尾。
 +
 +.. include:: ../disclaimer-zh_TW.rst
 +
-+:Original: Documentation/process/changes.rst
-+
-+.. _tw_changes:
-+
-+編譯核心的最低需求
-+++++++++++++++++++
-+
-+簡介
-+====
-+
-+本文件列出執行目前版本核心所需的最低軟體版本。
-+
-+本文件最初是以我為 2.0.x 核心所寫的「Changes」檔案為基礎，因此要感謝的人
-+也和那份檔案相同（Jared Mauch、Axel Boldt、Alessandro Sigala，以及網路上
-+無數的其他使用者）。
-+
-+目前的最低需求
-+**************
-+
-+在認為自己遇到缺陷之前，請 **至少** 先升級到下列軟體版本！如果不確定目前
-+執行的是哪個版本，表中建議的指令應該可以告訴你。如果要列出系統上這些程式
-+的版本，請執行 ./scripts/ver_linux
-+
-+再次提醒，這份清單假設你已經能夠正常執行 Linux 核心。此外，並不是每個系統
-+都需要所有工具；舉例來說，如果你沒有任何 PC Card 硬體，大概就不必理會
-+pcmciautils。
-+
-+====================== ===============  ========================================
-+程式                   最低版本         檢查版本的指令
-+====================== ===============  ========================================
-+bash                   4.2              bash --version
-+bc                     1.06.95          bc --version
-+bindgen（選用）        0.71.1           bindgen --version
-+binutils               2.30             ld -v
-+bison                  2.0              bison --version
-+btrfs-progs            0.18             btrfs --version
-+Clang/LLVM（選用）     17.0.1           clang --version
-+e2fsprogs              1.41.4           e2fsck -V
-+flex                   2.5.35           flex --version
-+gdb                    7.2              gdb --version
-+GNU awk（選用）        5.1.0            gawk --version
-+GNU C                  8.1              gcc --version
-+GNU make               4.0              make --version
-+GNU tar                1.28             tar --version
-+GRUB                   0.93             grub --version || grub-install --version
-+gtags（選用）          6.6.5            gtags --version
-+iptables               1.4.2            iptables -V
-+jfsutils               1.1.3            fsck.jfs -V
-+kmod                   13               kmod -V
-+mcelog                 0.6              mcelog --version
-+mkimage（選用）        2017.01          mkimage --version
-+nfs-utils              1.0.5            showmount --version
-+openssl & libcrypto    1.0.0            openssl version
-+pahole                 1.26             pahole --version
-+pcmciautils            004              pccardctl -V
-+PPP                    2.4.0            pppd --version
-+procps                 3.2.0            ps --version
-+Python                 3.9.x            python3 --version
-+quota-tools            3.09             quota -V
-+Rust（選用）           1.85.0           rustc --version
-+Sphinx\ [#f1]_         3.4.3            sphinx-build --version
-+squashfs-tools         4.0              mksquashfs -version
-+udev                   081              udevadm --version
-+util-linux             2.10o            mount --version
-+xfsprogs               2.6.0            xfs_db -V
-+====================== ===============  ========================================
++:Original: Documentation/process/handling-regressions.rst
 +
-+.. [#f1] 只有建置核心文件時才需要 Sphinx
++處理迴歸問題
++++++++++++++
 +
-+核心編譯
-+********
++*我們不製造迴歸* ——本文件說明這條「Linux 核心開發的首要規則」在實務上對
++開發者的意義。本文件是 Documentation/admin-guide/reporting-regressions.rst
++的補充，後者從使用者的角度說明這個主題；如果你從未讀過那份文件，請在繼續
++閱讀本文之前，至少先大致瀏覽一遍。
 +
-+GCC
-+---
++重點摘要（亦即「TL;DR」）
++=========================
 +
-+gcc 的版本需求可能會因電腦的 CPU 類型而有所不同。
++#. 確保 `迴歸郵件列表 <https://lore.kernel.org/regressions/>`_
++   （regressions@lists.linux.dev）的訂閱者能盡快得知任何新的迴歸報告：
 +
-+Clang/LLVM（選用）
-+------------------
++    * 收到沒有抄送（CC）該列表的郵件報告時，立即至少發送一封簡短的
++      「全部回覆」（Reply-all）並抄送該列表，讓列表參與其中。
 +
-+建置核心時支援 clang 與 LLVM 工具的最新正式版本（依據
-+`releases.llvm.org <https://releases.llvm.org>`_）。不保證舊版本可以正常
-+運作，而且我們可能會從核心中移除過去為了支援舊版本而加入的權宜措施。更多
-+說明請參閱 :ref:`使用 Clang/LLVM 建置 Linux <kbuild_llvm>`。
++    * 把提交到缺陷追蹤器的報告轉寄或退回（bounce）到該列表。
 +
-+Rust（選用）
-+------------
++#. 讓 Linux 核心迴歸追蹤機器人「regzbot」追蹤這個問題（此步驟可選，但建議
++   這麼做）：
 +
-+需要較新版本的 Rust 編譯器。
++    * 對於郵件報告，檢查報告者是否附上了類似 ``#regzbot
++      introduced: v5.13..v5.14-rc1`` 的一行。如果沒有，請發送一封回覆（抄送
++      迴歸列表），其中包含類似下面的段落，告訴 regzbot 問題從何時開始發生::
 +
-+如何滿足 Rust 支援的建置需求，請參閱 Documentation/rust/quick-start.rst。
-+特別是 ``Makefile`` 的 ``rustavailable`` 目標，可以用來檢查為什麼偵測不到
-+Rust 工具鏈。
++       #regzbot ^introduced: 1f2e3d4c5b6a
 +
-+bindgen（選用）
-+---------------
++    * 把缺陷追蹤器中的報告轉寄到迴歸列表時（見上文），請附上類似下面的
++      段落::
 +
-+``bindgen`` 用來產生核心 C 語言端的 Rust 綁定，它依賴 ``libclang``。
++       #regzbot introduced: v5.13..v5.14-rc1
++       #regzbot from: Some N. Ice Human <some.human@example.com>
++       #regzbot monitor: http://some.bugtracker.example.com/ticket?id=123456789
 +
-+Make
-+----
++#. 提交迴歸的修正時，依照 Documentation/process/submitting-patches.rst 與
++   :ref:`Documentation/process/5.Posting.rst <tw_development_posting>` 的要求，
++   在修補程式描述中加上「Closes:」標籤，指向所有回報該問題的地方。如果你
++   只修正了造成迴歸之問題的一部分，可以改用「Link:」標籤。regzbot 目前
++   不區分這兩者。
 +
-+建置核心需要 GNU make 4.0 或更新版本。
++#. 一旦找出肇事提交（culprit），請盡快修復迴歸；大多數迴歸的修正應在兩週
++   內合併，但有些需要在兩到三天內解決。
 +
-+Bash
-+----
 +
-+核心建置過程會用到一些 bash 指令稿，需要 Bash 4.2 或更新版本。
++與開發者相關的 Linux 核心迴歸完整細節
++=====================================
 +
-+Binutils
-+--------
 +
-+建置核心需要 Binutils 2.30 或更新版本。
++重要基本事項詳述
++----------------
 +
-+pkg-config
-+----------
 +
-+從 4.18 開始，建置系統需要 pkg-config 來檢查已安裝的 kconfig 工具，並決定
-+'make {g,x}config' 所用的旗標設定。在此之前雖然已經使用 pkg-config，但並
-+沒有檢查，也沒有寫進文件。
++收到迴歸報告時該怎麼做
++~~~~~~~~~~~~~~~~~~~~~~
 +
-+Flex
-+----
++確保 Linux 核心的迴歸追蹤者以及
++`迴歸郵件列表 <https://lore.kernel.org/regressions/>`_
++（regressions@lists.linux.dev）的其他訂閱者得知任何新回報的迴歸：
 +
-+從 Linux 4.16 開始，建置系統會在建置期間產生詞法分析器，因此需要 flex
-+2.5.35 或更新版本。
++ * 如果你收到的郵件報告沒有抄送該列表，請立即至少發送一封簡短的「全部
++   回覆」並抄送該列表，讓列表參與其中；如果你回覆的郵件漏掉了該列表，
++   也請設法確保再次抄送它。
 +
++ * 如果提交到缺陷追蹤器的報告出現在你的收件匣中，請把它轉寄或退回到該
++   列表。轉寄之前，不妨先查看列表的封存，確認報告者是否已經依照
++   Documentation/admin-guide/reporting-issues.rst 的指示轉寄過該報告。
 +
-+Bison
-+-----
++進行上述任一動作時，可以考慮讓 Linux 核心迴歸追蹤機器人「regzbot」立即
++開始追蹤這個問題：
 +
-+從 Linux 4.16 開始，建置系統會在建置期間產生剖析器，因此需要 bison
-+2.0 或更新版本。
++ * 對於郵件報告，檢查報告者是否附上了類似
++   ``#regzbot introduced: 1f2e3d4c5b6a`` 的「regzbot 命令」。如果沒有，
++   請發送一封回覆（抄送迴歸列表），其中包含類似下面的段落::
 +
-+pahole
-+------
++       #regzbot ^introduced: v5.13..v5.14-rc1
 +
-+從 Linux 5.2 開始，如果選擇了 CONFIG_DEBUG_INFO_BTF，建置系統會從 vmlinux
-+的 DWARF 產生 BTF（BPF Type Format），稍後也會從核心模組產生。這需要
-+pahole v1.22 或更新版本。
++   這會告訴 regzbot 問題開始發生的版本範圍；你也可以用 commit ID 指定
++   範圍，或在報告者已用二分法找出肇事提交時，只指定單一 commit ID。
 +
-+可以在發行版的「dwarves」或「pahole」套件中找到它，或從
-+https://fedorapeople.org/~acme/dwarves/ 取得。
++   請注意「introduced」前面的插入符號（^）：它告訴 regzbot 把上層郵件
++   （你所回覆的那封）當作你想追蹤之迴歸的初始報告；這一點很重要，因為
++   regzbot 之後會尋找帶有「Closes:」標籤、指向 lore.kernel.org 封存中
++   該報告的修補程式。
 +
-+Perl
-+----
++ * 轉寄回報到缺陷追蹤器的迴歸時，請附上包含下列 regzbot 命令的段落::
 +
-+建置核心需要 perl 5 以及下列模組：``Getopt::Long``、``Getopt::Std``、
-+``File::Basename`` 與 ``File::Find``。
++       #regzbot introduced: 1f2e3d4c5b6a
++       #regzbot from: Some N. Ice Human <some.human@example.com>
++       #regzbot monitor: http://some.bugtracker.example.com/ticket?id=123456789
 +
-+Python
-+------
++   之後，regzbot 就會自動把帶有「Closes:」標籤、指向你的郵件或上述工單
++   的修補程式與該報告關聯起來。
 +
-+有幾個設定選項需要它：arm/arm64 的預設設定、CONFIG_LTO_CLANG、某些 DRM
-+選用設定、kernel-doc 工具，以及文件建置（Sphinx）等都需要 Python。
++修復迴歸時的要點
++~~~~~~~~~~~~~~~~
 +
-+BC
-+--
++提交迴歸的修正時不需要做任何特別的事，只要記得照著
++Documentation/process/submitting-patches.rst、
++:ref:`Documentation/process/5.Posting.rst <tw_development_posting>` 與
++Documentation/process/stable-kernel-rules.rst 中已更詳細說明的做法即可：
 +
-+建置 3.10 及更新版本的核心需要 bc。
++ * 使用「Closes:」標籤指向所有回報該問題的地方::
 +
++       Closes: https://lore.kernel.org/r/30th.anniversary.repost@klaava.Helsinki.FI/
++       Closes: https://bugzilla.kernel.org/show_bug.cgi?id=1234567890
 +
-+OpenSSL
-+-------
++   如果你只修正了問題的一部分，可以依照上述第一份文件的說明改用「Link:」。
++   regzbot 目前把兩者視為相同，並將所連結的報告視為已解決。
 +
-+模組簽章與外部憑證處理會使用 OpenSSL 程式與加密函式庫來產生金鑰與簽章。
++ * 加上「Fixes:」標籤，指出造成迴歸的提交。
 +
-+如果啟用了模組簽章，建置 3.7 及更新版本的核心需要 openssl。建置 4.3 及
-+更新版本的核心還需要 openssl 的開發套件。
++ * 如果肇事提交是在較早的開發週期中合併的，請使用
++   ``Cc: stable@vger.kernel.org`` 標籤，明確標記此修正需要向後移植。
 +
-+Tar
-+---
++以上這些都是對你的期望，且在處理迴歸時十分重要，因為這些標籤對每個可能在
++數週、數月甚至數年後研究這個問題的人（包括你自己）都非常有價值。這些標籤
++對其他核心開發者或 Linux 發行版所使用的工具和腳本也至關重要；regzbot 就是
++其中之一，它高度依賴「Closes:」標籤，把迴歸報告與解決它們的變更關聯起來。
 +
-+如果要啟用透過 sysfs 存取核心標頭檔的功能（CONFIG_IKHEADERS），需要 GNU
-+tar。
++修復迴歸的期望與最佳實務
++~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+gtags / GNU GLOBAL（選用）
-+--------------------------
++身為 Linux 核心開發者，你應該盡最大努力，避免讓你最近的變更所造成的迴歸
++使使用者只剩下以下選擇：
 +
-+核心建置需要 GNU GLOBAL 6.6.5 或更新版本，才能透過 ``make gtags`` 產生
-+標籤檔，這是因為它用到 gtags 的 ``-C (--directory)`` 旗標。
++ * 執行一個帶有影響使用之迴歸的核心。
 +
-+mkimage
-+-------
++ * 改用較舊或較新的核心系列。
 +
-+建置 Flat Image Tree（FIT）時會用到這個工具，FIT 常見於 ARM 平臺。這個
-+工具可以從 ``u-boot-tools`` 套件取得，也可以從 U-Boot 原始碼建置。請參閱
-+https://docs.u-boot.org/en/latest/build/tools.html#building-tools-for-linux
-+的說明。
++ * 在找出迴歸的肇事提交後，繼續執行過時、因而可能不安全的核心超過三週。
++   理想情況下應少於兩週。而如果問題嚴重或影響許多使用者（無論是整體而言，
++   還是在普遍的環境中），則應該只有短短幾天。
 +
-+GNU AWK
-+-------
++實務上如何做到這一點取決於各種因素。請以下列經驗法則作為指引。
 +
-+如果要讓核心建置產生內建模組的位址範圍資料
-+（CONFIG_BUILTIN_MODULE_RANGES），需要 GNU AWK。
++一般而言：
 +
-+系統工具
-+********
++ * 將迴歸的處理優先於所有其他 Linux 核心工作，除非後者涉及嚴重問題（例如
++   緊急的安全漏洞、資料遺失、硬體變磚……）。
 +
-+架構上的變更
-+------------
++ * 加速修復最近進入正式主線、穩定版或長期支援版發布（無論是直接進入還是
++   經由向後移植）的主線迴歸。
 +
-+DevFS 已經淘汰，改用 udev
-+(https://www.kernel.org/pub/linux/utils/kernel/hotplug/)
++ * 不要把目前週期中的迴歸當作可以等到週期結束再處理的事情，因為這個問題
++   可能讓使用者和 CI 系統現在或往後都不願或無法測試主線。
 +
-+32 位元 UID 支援現在已經就緒。好好享受吧！
++ * 以必要的謹慎進行工作，避免造成額外或更大的損害，即使這樣解決問題可能
++   會比下文所述花費更長的時間。
 +
-+Linux 函式的文件正逐步改為行內文件，也就是寫在原始碼中函式定義附近、具有
-+特殊格式的註解。這些註解可以與 Documentation/ 目錄下的 ReST 檔案結合，
-+產生內容更豐富的文件，再轉換成 PostScript、HTML、LaTex、ePUB 與 PDF 檔案。
-+要把 ReST 格式轉換成你想要的格式，需要 Sphinx。
++找出迴歸的肇事提交之後，關於時程：
 +
-+Util-linux
-+----------
++ * 如果問題嚴重或困擾許多使用者（無論是整體而言，還是在特定硬體環境、
++   發行版或穩定版／長期支援版系列等普遍情況下），目標是在兩到三天內將修正
++   合併進主線。
 +
-+新版的 util-linux 讓 ``fdisk`` 支援更大的磁碟、為 mount 提供新的選項、
-+能辨識更多種分割區類型，還有其他類似的好處。你大概會想升級。
++ * 如果肇事提交進入了最近的主線、穩定版或長期支援版發布（無論是直接進入
++   還是經由向後移植），目標是在下下個星期日之前將修正合併進主線；如果
++   肇事提交在一週的前段就已確認且容易解決，請盡量在同一週內將修正合併進
++   主線。
 +
-+Ksymoops
-+--------
++ * 對於其他迴歸，目標是在接下來三週內的最後一個星期日之前將修正合併進
++   主線。如果該迴歸是人們可以輕鬆忍受一段時間的問題（例如輕微的效能迴歸），
++   延後一到兩個星期日也可以接受。
 +
-+如果發生了難以想像的事，你的核心出現 oops，你可能需要用 ksymoops 工具來
-+解碼，不過大多數情況下並不需要。一般建議在建置核心時啟用
-+``CONFIG_KALLSYMS``，讓核心產生可以直接使用的可讀傾印（這也比 ksymoops
-+的輸出更好）。如果因為某些原因，你的核心沒有啟用 ``CONFIG_KALLSYMS``，而
-+你又沒辦法用該選項重新建置並重現 Oops，仍然可以用 ksymoops 解碼該 Oops。
++ * 強烈不建議把迴歸修正延到下一個合併視窗才合併進主線，除非該修正的風險
++   極高，或肇事提交是在一年多以前合併進主線的。
 +
-+Mkinitrd
-+--------
++關於流程：
 +
-+``/lib/modules`` 檔案樹配置的這些變更，也需要升級 mkinitrd。
++ * 一定要考慮撤銷（revert）肇事提交，因為這通常是修復迴歸最快、危險最小
++   的方式。不必擔心之後把修正過的版本合併進主線：這應該很直接，因為大部分
++   程式碼都已經審查過一次。
 +
-+E2fsprogs
-+---------
++ * 盡量在目前的開發週期結束前，解決過去十二個月內在主線中引入的任何迴歸：
++   Linus 希望這類迴歸能像目前週期中的迴歸一樣處理，除非修復它們有不尋常
++   的風險。
 +
-+最新版的 ``e2fsprogs`` 修正了 fsck 與 debugfs 的幾個缺陷。顯然，升級是個
-+好主意。
++ * 如果迴歸看起來很棘手，可以考慮在討論或修補程式審查中抄送 Linus。在危急
++   或緊急的情況下也這麼做，特別是子系統維護者可能無法聯繫時。當你知道這類
++   迴歸已進入主線、穩定版或長期支援版發布時，也請抄送穩定版團隊。
 +
-+JFSutils
-+--------
++ * 對於緊急的迴歸，可以考慮請 Linus 直接從郵件列表取用修正：對於沒有爭議
++   的修正，他完全可以接受這種做法。不過理想情況下，這類請求應該與子系統
++   維護者協調一致，或直接由他們提出。
 +
-+``jfsutils`` 套件包含這個檔案系統的工具程式，提供下列工具：
++ * 如果你不確定在新的主線版本發布前幾天套用某個修正是否值得冒險，請寄一封
++   郵件給 Linus，並照常抄送相關列表與人員；在郵件中概述情況，同時請他考慮
++   直接從列表取用該修正。之後他可以自己做出決定，必要時甚至可以延後發布。
++   同樣地，這類請求理想上應該與子系統維護者協調一致，或直接由他們提出。
 +
-+- ``fsck.jfs`` - 啟動交易日誌的重播，並檢查與修復 JFS 格式的分割區。
++關於穩定版與長期支援版核心：
 +
-+- ``mkfs.jfs`` - 建立 JFS 格式的分割區。
++ * 如果迴歸從未在主線中出現過，或已經在主線中修復，你可以把它們留給穩定版
++   團隊處理。
 +
-+- 這個套件裡也有其他檔案系統工具。
++ * 如果某個迴歸在過去十二個月內進入了正式的主線發布，請務必在修正中加上
++   「Cc: stable@vger.kernel.org」標籤，因為單靠「Fixes:」標籤並不能保證會
++   被向後移植。如果你知道肇事提交已被向後移植到穩定版或長期支援版核心，
++   也請加上同樣的標籤。
 +
-+Xfsprogs
-+--------
++ * 收到最近的穩定版或長期支援版核心系列的迴歸報告時，請至少簡單評估一下
++   該問題是否也可能發生在目前的主線中；如果看起來很可能，請接手處理該報告。
++   如有疑問，請報告者在主線上檢查。
 +
-+最新版的 ``xfsprogs`` 包含 XFS 檔案系統的 ``mkfs.xfs``、``xfs_db`` 與
-+``xfs_repair`` 等工具。它與架構無關，2.0.0 以後的任何版本應該都能與這個
-+版本的 XFS 核心程式碼正常搭配（建議使用 2.6.0 或更新版本，因為有一些重大
-+改進）。
++ * 每當你想迅速解決一個最近也進入了正式主線、穩定版或長期支援版發布的迴歸
++   時，請在主線中盡快修復它；在適當的時候，請 Linus 協助加速處理這個修正
++   （見上文）。這是因為穩定版團隊通常既不撤銷、也不修復在主線中造成相同
++   問題的變更。
 +
-+PCMCIAutils
-+-----------
++ * 對於緊急的迴歸修正，你可能會想在修正合併進主線後，給穩定版團隊留個訊息，
++   以確保它盡快被向後移植；在合併視窗期間及其後不久特別建議這麼做，否則該
++   修正可能會排在一個龐大的修補程式佇列的最後面。
 +
-+PCMCIAutils 取代了 ``pcmcia-cs``。如果核心採用模組化並使用熱插拔子系統，
-+它會在系統啟動時正確設定 PCMCIA 插槽，並為 16 位元 PCMCIA 裝置載入適當的
-+模組。
++關於修補程式的流程：
 +
-+Quota-tools
-+-----------
++ * 開發者們，在設法達成上述時限時，請記得把修正接受測試、審查以及被 Linus
++   合併所需的時間計算在內，理想情況下修正至少要在 linux-next 中待上一小段
++   時間。因此，如果某個修正很緊急，請明確表示出來，確保其他人適當地處理它。
 +
-+如果要使用較新的第 2 版 quota 格式，必須支援 32 位元的 uid 與 gid。
-+Quota-tools 3.07 及更新版本提供這項支援。請使用上表建議的版本或更新版本。
++ * 審查者們，懇請你們及時審查迴歸修正，協助開發者達成上述時限。
 +
-+Intel IA32 微碼
-+---------------
++ * 子系統維護者們，同樣也鼓勵你們加速處理迴歸修正。因此，請評估對於特定的
++   修正是否可以跳過 linux-next。必要時也可以考慮比平常更頻繁地發送 git 拉取
++   請求。並且盡量避免在週末把迴歸修正壓著不處理，特別是當該修正被標記為需要
++   向後移植時。
 +
-+核心已加入一個驅動程式，可以更新 Intel IA32 微碼，它是一個一般的（misc）
-+字元裝置。如果你沒有使用 udev，在使用之前可能需要以 root 身分執行::
 +
-+  mkdir /dev/cpu
-+  mknod /dev/cpu/microcode c 10 184
-+  chmod 0644 /dev/cpu/microcode
++開發者應該留意的其他迴歸相關面向
++--------------------------------
 +
-+你大概也會想取得使用者空間的 microcode_ctl 工具來搭配使用。
 +
-+udev
-+----
++如何處理已知有迴歸風險的變更
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+``udev`` 是一個使用者空間應用程式，以動態方式在 ``/dev`` 中只建立實際存在
-+的裝置項目。``udev`` 取代了 devfs 的基本功能，同時能為裝置提供固定的
-+裝置名稱。
++評估迴歸風險有多大，例如在 Linux 發行版和 Git 託管平台（forge）中搜尋
++程式碼。也可以考慮請可能受影響的其他開發者或專案評估、甚至測試所提議的
++變更；如果出現問題，或許可以找到所有人都能接受的解決方案。
 +
-+FUSE
-+----
++如果最後看來迴歸風險相對較小，就繼續進行這個變更，但要讓所有相關人員知道
++這個風險。因此，請確保你的修補程式描述清楚說明這一點。變更合併後，請告知
++Linux 核心的迴歸追蹤者和迴歸郵件列表這個風險，讓大家在有報告陸續出現時都
++已注意到這個變更。視風險而定，你可能也會想請子系統維護者在他們的主線拉取
++請求中提及這個問題。
 +
-+需要 libfuse 2.4.0 或更新版本。最低限度是 2.3.0，但 mount 選項
-+``direct_io`` 與 ``kernel_cache`` 將無法使用。
++關於迴歸還有什麼需要知道的？
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+網路
-+****
++請參閱 Documentation/admin-guide/reporting-regressions.rst，其中涵蓋了許多
++你可能想要了解的其他面向：
 +
-+一般變更
-+--------
++ * 「無迴歸」規則的目的
 +
-+如果你有進階的網路設定需求，或許應該考慮使用 ip-route2 的網路工具。
++ * 哪些問題真正算是迴歸
 +
-+封包過濾 / NAT
-+--------------
-+封包過濾與 NAT 程式碼使用的工具與之前的 2.4.x 核心系列相同（iptables）。
-+它仍然包含與 2.2.x 風格的 ipchains 及 2.0.x 風格的 ipfwadm 向下相容的模組。
++ * 誰負責找出迴歸的根本原因
 +
-+PPP
-+---
++ * 如何處理棘手的情況，例如迴歸是由安全修正所造成，或修復某個迴歸可能造成
++   另一個迴歸
 +
-+PPP 驅動程式已經重新架構，以支援多重連結（multilink），並能在多種不同的
-+媒介層上運作。如果你使用 PPP，請將 pppd 升級到至少 2.4.0。
++遇到迴歸時可以向誰尋求建議
++~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+如果你沒有使用 udev，必須要有裝置檔案 /dev/ppp，可以以 root 身分執行下列
-+指令建立::
++寄一封郵件到迴歸郵件列表（regressions@lists.linux.dev），同時抄送 Linux
++核心的迴歸追蹤者（regressions@leemhuis.info）；如果問題比較適合私下處理，
++可以省略該列表。
 +
-+  mknod /dev/ppp c 108 0
 +
-+NFS-utils
-+---------
++關於迴歸追蹤與 regzbot 的更多資訊
++---------------------------------
 +
-+在古老的（2.4 及更早的）核心中，nfs 伺服器必須知道每個預期能透過 NFS 存取
-+檔案的用戶端。這些資訊會在用戶端掛載檔案系統時由 ``mountd`` 提供給核心，
-+或在系統啟動時由 ``exportfs`` 提供。exportfs 會從 ``/var/lib/nfs/rmtab``
-+取得活動中用戶端的資訊。
 +
-+這種做法相當脆弱，因為它依賴 rmtab 的正確性，而這並不容易做到，特別是在
-+嘗試實作容錯移轉（fail-over）時。即使系統運作正常，``rmtab`` 也會累積許多
-+永遠不會被移除的舊項目。
++為什麼 Linux 核心有迴歸追蹤者？為什麼要使用 regzbot？
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+在現代的核心中，可以選擇讓核心在收到未知主機的請求時通知 mountd，再由
-+mountd 把適當的匯出資訊提供給核心。這樣就不再依賴 ``rmtab``，而且核心只需
-+要知道目前活動中的用戶端。
++像「無迴歸」這樣的規則需要有人確保它被遵守，否則就會因意外或刻意而遭到
++破壞。歷史已經證明，這對 Linux 核心來說也是如此。因此 Thorsten Leemhuis
++自願擔任 Linux 核心的迴歸追蹤者來留意這些事，偶爾也有其他人協助。他們都
++沒有因此獲得報酬，所以迴歸追蹤是盡力而為的。
 +
-+要啟用這項新功能，需要在執行 exportfs 或 mountd 之前執行::
++先前手動追蹤迴歸的嘗試顯示，這是一項令人筋疲力盡又沮喪的工作，因此在一段
++時間後就被放棄了。為了避免這種情況再次發生，Thorsten 開發了 regzbot 來協助
++這項工作，長期目標是盡可能為所有相關人員自動化迴歸追蹤。
 +
-+  mount -t nfsd nfsd /proc/fs/nfsd
++regzbot 如何進行迴歸追蹤？
++~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+建議盡可能用防火牆保護所有 NFS 服務，使其不暴露在整個網際網路上。
++這個機器人會留意已追蹤迴歸的報告所收到的回覆。此外，它也會尋找以
++「Closes:」標籤引用這些報告、已發布或已提交（commit）的修補程式；對這些
++修補程式貼文的回覆也會被追蹤。綜合這些資料，就能清楚了解修復過程目前的
++狀態。
 +
-+mcelog
-+------
++regzbot 盡量以最少的額外負擔為報告者和開發者完成工作。事實上，只有報告者
++多了一項額外的責任：他們需要使用上述的 ``#regzbot introduced`` 命令，把
++迴歸報告告知 regzbot；如果他們沒有這麼做，其他人可以使用
++``#regzbot ^introduced`` 代為處理。
 +
-+在 x86 核心上，啟用 ``CONFIG_X86_MCE`` 時需要 mcelog 工具來處理並記錄
-+機器檢查事件。機器檢查事件是 CPU 回報的錯誤，強烈建議處理這些事件。
++對開發者而言，通常不需要額外的工作，只需要確實做到早在 regzbot 出現之前
++就被期望做的事：在修補程式描述中加上連結，指向所有關於所修復問題的報告。
 +
-+核心文件
-+********
++我一定要使用 regzbot 嗎？
++~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Sphinx
-+------
++如果你使用，這對所有人都有好處，因為像 Linus Torvalds 這樣的核心維護者在
++工作中部分依賴 regzbot 的追蹤，例如在決定要發布新版本或延長開發階段時。
++為此，他們需要知道所有尚未修復的迴歸；眾所周知，Linus 會查看 regzbot 每週
++發送的報告。
 +
-+關於 Sphinx 需求的詳細資訊，請參閱 Documentation/doc-guide/sphinx.rst 中的
-+:ref:`sphinx_install`。
++我一定要把遇到的每個迴歸都告訴 regzbot 嗎？
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+rustdoc
-+-------
++理想上是的：我們都是凡人，當更重要的事情突然出現時很容易忘記問題，例如
++Linux 核心中更大的問題，或是現實生活中讓我們有一陣子無法碰鍵盤的事情。
++因此，最好把每個迴歸都告訴 regzbot，除非你立即寫出修正，並把它提交到一個
++會定期合併到受影響核心系列的樹中。
 +
-+``rustdoc`` 用來產生 Rust 程式碼的文件。更多資訊請參閱
-+Documentation/rust/general-information.rst。
++如何查看 regzbot 目前追蹤哪些迴歸？
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+取得更新的軟體
-+==============
++請查看 `regzbot 的網頁介面 <https://linux-regtracking.leemhuis.info/regzbot/>`_
++以取得最新資訊；或者，`搜尋最新的迴歸報告
++<https://lore.kernel.org/lkml/?q=%22Linux+regressions+report%22+f%3Aregzbot>`_，
++regzbot 通常每週日晚上（UTC）發送一次這份報告，也就是 Linus 通常發布新的
++版本或預發布版本的幾個小時之前。
 +
-+核心編譯
-+********
++regzbot 監看哪些地方？
++~~~~~~~~~~~~~~~~~~~~~~
 +
-+gcc
-+---
++regzbot 會監看最重要的 Linux 郵件列表，以及 linux-next、主線和穩定版／
++長期支援版的 git 儲存庫。
 +
-+- <ftp://ftp.gnu.org/gnu/gcc/>
++哪些問題應該由 regzbot 追蹤？
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Clang/LLVM
-+----------
++這個機器人是用來追蹤迴歸的，因此請不要讓 regzbot 處理一般問題。不過，如果
++你用 regzbot 追蹤嚴重的問題，例如卡死（hang）、資料損毀或內部錯誤（Panic、
++Oops、BUG()、warning……）的報告，Linux 核心的迴歸追蹤者也可以接受。
 +
-+- :ref:`取得 LLVM <getting_llvm>`。
++可以把 CI 系統發現的迴歸加入 regzbot 的追蹤嗎？
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Rust
-+----
++可以，只要該迴歸很可能影響實際的使用情境，因而可能被使用者注意到即可；
++因此，請不要讓 regzbot 處理不太可能在實際使用中出現的理論上的迴歸。
 +
-+- Documentation/rust/quick-start.rst。
++如何與 regzbot 互動？
++~~~~~~~~~~~~~~~~~~~~~
 +
-+bindgen
-+-------
++在直接或間接回覆迴歸報告郵件時使用「regzbot 命令」。這些命令必須自成一個
++段落（換句話說：必須用空行與郵件的其他內容分隔開）。
 +
-+- Documentation/rust/quick-start.rst。
++其中一個命令是 ``#regzbot introduced: <version or commit>``，如前所述，它會
++讓 regzbot 把你的郵件視為一份加入追蹤的迴歸報告；另一個這樣的命令是
++``#regzbot ^introduced: <version or commit>``，它會讓 regzbot 把上層郵件
++視為一份迴歸報告並開始追蹤。
 +
-+Make
-+----
++一旦使用了這兩個命令之一，就可以在直接或間接回覆該報告時使用其他 regzbot
++命令。你可以把它們寫在某個 `introduced` 命令的下方，或寫在回覆以下郵件的
++郵件中：使用了其中一個命令的郵件，或本身是回覆該郵件的郵件：
 +
-+- <ftp://ftp.gnu.org/gnu/make/>
++ * 設定或更新標題::
 +
-+Bash
-+----
++       #regzbot title: foo
 +
-+- <ftp://ftp.gnu.org/gnu/bash/>
++ * 監看討論該問題其他面向或修正的討論串或 bugzilla.kernel.org 工單，例如
++   修復該迴歸的修補程式貼文::
 +
-+Binutils
-+--------
++       #regzbot monitor: https://lore.kernel.org/all/30th.anniversary.repost@klaava.Helsinki.FI/
 +
-+- <https://www.kernel.org/pub/linux/devel/binutils/>
++   監看功能只適用於 lore.kernel.org 和 bugzilla.kernel.org；regzbot 會把
++   該討論串或工單中的所有訊息都視為與修復過程有關。
 +
-+Flex
-+----
++ * 指向一個有其他值得注意之細節的地方，例如稍微相關、但主題不同的郵件列表
++   貼文或缺陷追蹤器中的工單::
 +
-+- <https://github.com/westes/flex/releases>
++       #regzbot link: https://bugzilla.kernel.org/show_bug.cgi?id=123456789
 +
-+Bison
-+-----
++ * 將迴歸標記為已由某個正在送往上游或已經合併的提交修復::
 +
-+- <ftp://ftp.gnu.org/gnu/bison/>
++       #regzbot fix: 1f2e3d4c5d
 +
-+OpenSSL
-+-------
++ * 將迴歸標記為另一個已由 regzbot 追蹤之迴歸的重複::
 +
-+- <https://www.openssl.org/>
++       #regzbot dup-of: https://lore.kernel.org/all/30th.anniversary.repost@klaava.Helsinki.FI/
 +
-+系統工具
-+********
++ * 將迴歸標記為無效::
 +
-+Util-linux
-+----------
++       #regzbot invalid: wasn't a regression, problem has always existed
 +
-+- <https://www.kernel.org/pub/linux/utils/util-linux/>
++關於 regzbot 及其命令還有更多資訊嗎？
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Kmod
-+----
++關於 Linux 核心迴歸追蹤機器人更詳細且最新的資訊，可以在它的
++`專案頁面 <https://gitlab.com/knurd42/regzbot>`_ 找到，其中包括
++`入門指南 <https://gitlab.com/knurd42/regzbot/-/blob/main/docs/getting_started.md>`_
++和 `參考文件 <https://gitlab.com/knurd42/regzbot/-/blob/main/docs/reference.md>`_，
++兩者涵蓋的細節都比上面這一節更多。
 +
-+- <https://www.kernel.org/pub/linux/utils/kernel/kmod/>
-+- <https://git.kernel.org/pub/scm/utils/kernel/kmod/kmod.git>
++Linus 關於迴歸的發言
++--------------------
 +
-+Ksymoops
-+--------
++以下是 Linus Torvalds 的一些發言，有助於了解 Linux 的「無迴歸」規則，以及
++他期望如何處理迴歸：
 +
-+- <https://www.kernel.org/pub/linux/utils/kernel/ksymoops/v2.4/>
++迴歸應該多快修復
++~~~~~~~~~~~~~~~~
 +
-+Mkinitrd
-+--------
++* 出自 `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
 +
-+- <https://code.launchpad.net/initrd-tools/main>
++    But a user complaining should basically result in an immediate fix -
++    possibly a "revert and rethink".
 +
-+E2fsprogs
-+---------
++  稍後在 `2026-01-28 <https://lore.kernel.org/all/CAHk-%3Dwi86AosXs66-yi54%2BmpQjPu0upxB8ZAfG%2BLsMyJmcuMSA@mail.gmail.com/>`_ 又進一步說明::
 +
-+- <https://www.kernel.org/pub/linux/kernel/people/tytso/e2fsprogs/>
-+- <https://git.kernel.org/pub/scm/fs/ext2/e2fsprogs.git/>
++    It's also worth noting that "immediate" obviously doesn't mean "right
++    this *second* when the problem has been reported".
 +
-+JFSutils
-+--------
++    But if it's a regression with a known commit that caused it, I think
++    the rule of thumb should generally be "within a week", preferably
++    before the next rc.
 +
-+- <https://jfs.sourceforge.net/>
++* 出自 `2023-04-21 <https://lore.kernel.org/all/CAHk-=wgD98pmSK3ZyHk_d9kZ2bhgN6DuNZMAJaV0WTtbkf=RDw@mail.gmail.com/>`_::
 +
-+Xfsprogs
-+--------
++    Known-broken commits either
++     (a) get a timely fix that doesn't have other questions
++    or
++     (b) get reverted
 +
-+- <https://git.kernel.org/pub/scm/fs/xfs/xfsprogs-dev.git>
-+- <https://www.kernel.org/pub/linux/utils/fs/xfs/xfsprogs/>
++* 出自 `2021-09-20(2) <https://lore.kernel.org/all/CAHk-=wgOvmtRw1TNbMC1rn5YqyTKyn0hz+sc4k0DGNn++u9aYw@mail.gmail.com/>`_::
 +
-+Pcmciautils
-+-----------
++    [...] review shouldn't hold up reported regressions of existing code. That's
++    just basic _testing_ - either the fix should be applied, or - if the fix is
++    too invasive or too ugly - the problematic source of the regression should
++    be reverted.
 +
-+- <https://www.kernel.org/pub/linux/utils/kernel/pcmcia/>
++    Review should be about new code, it shouldn't be holding up "there's a
++    bug report, here's the obvious fix".
 +
-+Quota-tools
-+-----------
++* 出自 `2023-05-08 <https://lore.kernel.org/all/CAHk-=wgzU8_dGn0Yg+DyX7ammTkDUCyEJ4C=NvnHRhxKWC7Wpw@mail.gmail.com/>`_::
 +
-+- <https://sourceforge.net/projects/linuxquota/>
++    If something doesn't even build, it should damn well be fixed ASAP.
 +
++以撤銷來修復迴歸如何有助於避免維護者過勞
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+Intel P6 微碼
-+-------------
++* 出自 `2026-01-28 <https://lore.kernel.org/all/CAHk-%3Dwi86AosXs66-yi54%2BmpQjPu0upxB8ZAfG%2BLsMyJmcuMSA@mail.gmail.com/>`_::
 +
-+- <https://downloadcenter.intel.com/>
++    > So how can I/we make "immediate fixes" happen more often without
++    > contributing to maintainer burnout?
 +
-+udev
-+----
++    [...] the "revert and rethink" model [...] often a good idea in general [...]
 +
-+- <https://www.freedesktop.org/software/systemd/man/udev.html>
++    Exactly so that maintainers don't get stressed out over having a pending
++    problem report that people keep pestering them about.
 +
-+FUSE
-+----
++    I think people are sometimes a bit too bought into whatever changes
++    they made, and reverting is seen as "too drastic", but I think it's
++    often the quick and easy solution for when there isn't some obvious
++    response to a regression report.
 +
-+- <https://github.com/libfuse/libfuse/releases>
++最後一個 -rc 或新版本即將發布時，將修正合併進主線
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+mcelog
-+------
++* 出自 `2026-02-01 <https://lore.kernel.org/all/CAHk-%3DwhXTw1oPsa%2BTLuY1Rc9D1OAiPVOdR_-R2xG45kwDObKdA@mail.gmail.com/>`_::
 +
-+- <https://www.mcelog.org/>
++    So I think I'd rather see them hit rc8 (later today) and have a week
++    of testing in my tree and be reverted if they cause problems, than
++    have them go in after rc8 and then cause problems in the 6.19 release
++    instead.
 +
-+網路
-+****
++* 出自 `2023-04-20 <https://lore.kernel.org/all/CAHk-=wis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wmB6SRUwQUBQ@mail.gmail.com/>`_::
 +
-+PPP
-+---
++    But something like this, where the regression was in the previous release
++    and it's just a clear fix with no semantic subtlety, I consider to be just a
++    regular regression that should be expedited - partly to make it into stable,
++    and partly to avoid having to put the fix into _another_ stable kernel.
 +
-+- <https://download.samba.org/pub/ppp/>
-+- <https://git.ozlabs.org/?p=ppp.git>
-+- <https://github.com/paulusmack/ppp/>
++只為單一修正發送合併請求
++~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+NFS-utils
-+---------
++* 出自 `2024-04-24 <https://lore.kernel.org/all/CAHk-=wjy_ph9URuFt-pq+2AJ__p7gFDx=yzVSCsx16xAYvNw9g@mail.gmail.com/>`_::
 +
-+- <https://sourceforge.net/project/showfiles.php?group_id=14>
-+- <https://nfs.sourceforge.net/>
++    If the issue is just that there's nothing else happening, I think people
++    should just point me to the patch and say "can you apply this single fix?"
 +
-+Iptables
-+--------
++* 出自 `2023-04-20 <https://lore.kernel.org/all/CAHk-=wis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wmB6SRUwQUBQ@mail.gmail.com/>`_::
 +
-+- <https://netfilter.org/projects/iptables/index.html>
++    I'm always open to direct fixes when there is no controversy about the fix.
++    No problem. I still happily deal with individual patches.
 +
-+Ip-route2
-+---------
++使用 Link:/Closes: 標籤指向缺陷報告的重要性
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 +
-+- <https://www.kernel.org/pub/linux/utils/net/iproute2/>
++* 出自 `2025-07-29(1) <https://lore.kernel.org/all/CAHk-=wj2kJRPWx8B09AAtzj+_g+T6UBX11TP0ebs1WJdTtv=WQ@mail.gmail.com/>`_::
 +
-+OProfile
-+--------
++    [...] revert like this, it really would be good to link to the problems, so
++    that when people try to re-enable it, they have the history for why it
++    didn't work the first time.
 +
-+- <https://oprofile.sf.net/download/>
++* 出自 `2022-05-08 <https://lore.kernel.org/all/CAHk-=wjMmSZzMJ3Xnskdg4+GGz=5p5p+GSYyFBTh0f-DgvdBWg@mail.gmail.com/>`_::
 +
-+核心文件
-+********
++    So I have to once more complain [...]
 +
-+Sphinx
-+------
++    [...] There's no link to the actual problem the patch fixes.
 +
-+- <https://www.sphinx-doc.org/>
++* 出自 `2022-06-22 <https://lore.kernel.org/all/CAHk-=wjxzafG-=J8oT30s7upn4RhBs6TX-uVFZ5rME+L5_DoJA@mail.gmail.com/>`_::
++
++    See, *that* link [to the report] would have been useful in the commit.
++
++為什麼會有「無迴歸」規則
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
++
++    But the basic rule is: be so good about backwards compatibility that
++    users never have to worry about upgrading. They should absolutely feel
++    confident that any kernel-reported problem will either be solved, or
++    have an easy solution that is appropriate for *them* (ie a
++    non-technical user shouldn't be expected to be able to do a lot).
++
++    Because the last thing we want is people holding back from trying new
++    kernels.
++
++* 出自 `2024-05-28 <https://lore.kernel.org/all/CAHk-=wgtb7y-bEh7tPDvDWru7ZKQ8-KMjZ53Tsk37zsPPdwXbA@mail.gmail.com/>`_::
++
++    I introduced that "no regressions" rule something like two decades
++    ago, because people need to be able to update their kernel without
++    fear of something they relied on suddenly stopping to work.
++
++* 出自 `2018-08-03 <https://lore.kernel.org/all/CA+55aFwWZX=CXmWDTkDGb36kf12XmTehmQjbiMPCqCRG2hi9kw@mail.gmail.com/>`_::
++
++    The whole point of "we do not regress" is so that people can upgrade
++    the kernel and never have to worry about it.
++
++    [...]
++
++    Because the only thing that matters IS THE USER.
++
++* 出自 `2017-10-26(1) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
++
++    If the kernel used to work for you, the rule is that it continues to work
++    for you.
++
++    [...]
++
++    People should basically always feel like they can update their kernel
++    and simply not have to worry about it.
++
++    I refuse to introduce "you can only update the kernel if you also
++    update that other program" kind of limitations. If the kernel used to
++    work for you, the rule is that it continues to work for you.
++
++「無迴歸」規則的例外
++~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
++
++    There are _very_ few exceptions to that rule, the main one being "the
++    problem was a fundamental huge and gaping security issue and we *had* to
++    make that change, and we couldn't even make your limited use-case just
++    continue to work".
++
++    The other exception is "the problem was reported years after it was
++    introduced, and now most people rely on the new behavior".
++
++    [...]
++
++    Now, if it's one or two users and you can just get them to recompile,
++    that's one thing. Niche hardware and odd use-cases can sometimes be
++    solved that way, and regressions can sometimes be fixed by handholding
++    every single reporter if the reporter is willing and able to change
++    his or her workflow.
++
++* 出自 `2023-04-20 <https://lore.kernel.org/all/CAHk-=wis_qQy4oDNynNKi5b7Qhosmxtoj1jxo5wmB6SRUwQUBQ@mail.gmail.com/>`_::
++
++    And yes, I do consider "regression in an earlier release" to be a
++    regression that needs fixing.
++
++    There's obviously a time limit: if that "regression in an earlier
++    release" was a year or more ago, and just took forever for people to
++    notice, and it had semantic changes that now mean that fixing the
++    regression could cause a _new_ regression, then that can cause me to
++    go "Oh, now the new semantics are what we have to live with".
++
++* 出自 `2017-10-26(2) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
++
++    There have been exceptions, but they are few and far between, and they
++    generally have some major and fundamental reasons for having happened,
++    that were basically entirely unavoidable, and people _tried_hard_ to
++    avoid them. Maybe we can't practically support the hardware any more
++    after it is decades old and nobody uses it with modern kernels any
++    more. Maybe there's a serious security issue with how we did things,
++    and people actually depended on that fundamentally broken model. Maybe
++    there was some fundamental other breakage that just _had_ to have a
++    flag day for very core and fundamental reasons.
++
++更新使用者空間的某些東西即可解決迴歸的情況
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2018-08-03 <https://lore.kernel.org/all/CA+55aFwWZX=CXmWDTkDGb36kf12XmTehmQjbiMPCqCRG2hi9kw@mail.gmail.com/>`_::
++
++    And dammit, we upgrade the kernel ALL THE TIME without upgrading any
++    other programs at all. It is absolutely required, because flag-days
++    and dependencies are horribly bad.
++
++    And it is also required simply because I as a kernel developer do not
++    upgrade random other tools that I don't even care about as I develop the
++    kernel, and I want any of my users to feel safe doing the same time.
++
++* 出自 `2017-10-26(3) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
++
++    But if something actually breaks, then the change must get fixed or
++    reverted. And it gets fixed in the *kernel*. Not by saying "well, fix your
++    user space then". It was a kernel change that exposed the problem, it needs
++    to be the kernel that corrects for it, because we have a "upgrade in place"
++    model. We don't have a "upgrade with new user space".
++
++    And I seriously will refuse to take code from people who do not understand
++    and honor this very simple rule.
++
++    This rule is also not going to change.
++
++    And yes, I realize that the kernel is "special" in this respect. I'm proud
++    of it.
++
++* 出自 `2017-10-26(4) <https://lore.kernel.org/all/CA+55aFwiiQYJ+YoLKCXjN_beDVfu38mg=Ggg5LFOcqHE8Qi7Zw@mail.gmail.com/>`_::
++
++    If you break existing user space setups THAT IS A REGRESSION.
++
++    It's not ok to say "but we'll fix the user space setup".
++
++    Really. NOT OK.
++
++什麼算是使用者空間介面、ABI、API、有文件記載的介面等
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2026-01-20 <https://lore.kernel.org/all/CAHk-=wga8Qu0-OSE9VZbviq9GuqwhPhLUXeAt-S7_9+fMCLkKg@mail.gmail.com/>`_::
++
++    So I absolutely detest the whole notion of "ABI changes". It's a
++    meaningless concept, and I hate it with a passion, [...]
++
++    The Linux rule for regressions is basically based on the philosophical
++    question of "If a tree falls in the forest, and nobody is around to
++    hear it, does it make a sound?".
++
++    So the only thing that matters is if something breaks user-*conscious*
++    behavior.
++
++    And when that happens, the distinction between "bug fix" and "new
++    feature" and "ABI change" matters not one whit, and the change needs
++    to be done differently.
++
++    [...]
++
++    I just wanted to point out that the argument about whether it's an ABI
++    change or not is irrelevant. If it turns out that some program - not a test
++    script, but something with relevance to conscious user expectations ~
++    depended on the old broken behavior, then it needs to be done some other
++    way.
++
++* 出自 `2026-02-13 <https://lore.kernel.org/all/CAHk-=whY-N8kjm8kiFUV5Ei-8AuYw--EPGD-AR3Pd+5GTx2sAQ@mail.gmail.com/>`_::
++
++    > [...] this should not fall under the don't break user space rule [...]
++
++    Note that the rule is about breaking *users*, not breaking user space per
++    se. [...]
++
++    If some user setup breaks, things need fixing.
++
++    [...] but I want to make it very clear that there are no excuses about "user
++    space applications".
++
++* 出自 `2021-09-20(4) <https://lore.kernel.org/all/CAHk-=wi7DB2SJ-wngVvsJ7Ak2cM556Q8437sOXo4EJt2BWPdEg@mail.gmail.com/>`_::
++
++    [...] a regression is a bit like Schrödinger's cat - if nobody is around
++    to notice it and it doesn't actually affect any real workload, then you
++    can treat the regression as if it doesn't exist.
++
++* 出自 `2020-05-21 <https://lore.kernel.org/all/CAHk-=wiVi7mSrsMP=fLXQrXK_UimybW=ziLOwSzFTtoXUacWVQ@mail.gmail.com/>`_::
++
++    The rules about regressions have never been about any kind of documented
++    behavior, or where the code lives.
++
++    The rules about regressions are always about "breaks user workflow".
++
++    Users are literally the _only_ thing that matters.
++
++* 出自 `2019-09-15 <https://lore.kernel.org/lkml/CAHk-=wiP4K8DRJWsCo=20hn_6054xBamGKF2kPgUzpB5aMaofA@mail.gmail.com/>`_::
++
++    One _particularly_ last-minute revert is the top-most commit (ignoring
++    the version change itself) done just before the release, and while
++    it's very annoying, it's perhaps also instructive.
++
++    What's instructive about it is that I reverted a commit that wasn't
++    actually buggy. In fact, it was doing exactly what it set out to do,
++    and did it very well. In fact it did it _so_ well that the much
++    improved IO patterns it caused then ended up revealing a user-visible
++    regression due to a real bug in a completely unrelated area.
++
++    The actual details of that regression are not the reason I point that
++    revert out as instructive, though. It's more that it's an instructive
++    example of what counts as a regression, and what the whole "no
++    regressions" kernel rule means.
++
++    [...] The reverted commit didn't change any API's, and it didn't introduce
++    any new bugs. But it ended up exposing another problem, and as such caused
++    a kernel upgrade to fail for a user. So it got reverted.
++
++    The point here being that we revert based on user-reported _behavior_, not
++    based on some "it changes the ABI" or "it caused a bug" concept. The problem
++    was really pre-existing, and it just didn't happen to trigger before. [...]
++
++    Take-away from the whole thing: it's not about whether you change the
++    kernel-userspace ABI, or fix a bug, or about whether the old code
++    "should never have worked in the first place". It's about whether
++    something breaks existing users' workflow.
++
++* 出自 `2017-11-05 <https://lore.kernel.org/all/CA+55aFzUvbGjD8nQ-+3oiMBx14c_6zOj2n7KLN3UsJ-qsd4Dcw@mail.gmail.com/>`_::
++
++    And our regression rule has never been "behavior doesn't change".
++    That would mean that we could never make any changes at all.
++
++* 出自 `2020-05-21 <https://lore.kernel.org/all/CAHk-=wiVi7mSrsMP=fLXQrXK_UimybW=ziLOwSzFTtoXUacWVQ@mail.gmail.com/>`_::
++
++    No amount of "you shouldn't have used this" or "that behavior was
++    undefined, it's your own fault your app broke" or "that used to work
++    simply because of a kernel bug" is at all relevant.
++
++* 出自 `2021-05-21 <https://lore.kernel.org/all/CAHk-=wiVi7mSrsMP=fLXQrXK_UimybW=ziLOwSzFTtoXUacWVQ@mail.gmail.com/>`_::
++
++    But no, "that was documented to be broken" (whether it's because the code
++    was in staging or because the man-page said something else) is irrelevant.
++    If staging code is so useful that people end up using it, that means that
++    it's basically regular kernel code with a flag saying "please clean this
++    up".
++
++    [...]
++
++    The other side of the coin is that people who talk about "API stability" are
++    entirely wrong. API's don't matter either. You can make any changes to an
++    API you like - as long as nobody notices.
++
++    Again, the regression rule is not about documentation, not about API's, and
++    not about the phase of the moon.
++
++* 出自 `2012-07-06 <https://lore.kernel.org/all/CA+55aFwnLJ+0sjx92EGREGTWOx84wwKaraSzpTNJwPVV8edw8g@mail.gmail.com/>`_::
++
++    > Now this got me wondering if Debian _unstable_ actually qualifies as a
++    > standard distro userspace.
++
++    Oh, if the kernel breaks some standard user space, that counts. Tons
++    of people run Debian unstable
++
++* 出自 `2011-05-06 <https://lore.kernel.org/all/BANLkTi=KVXjKR82sqsz4gwjr+E0vtqCmvA@mail.gmail.com/>`_::
++
++    It's clearly NOT an internal tracepoint. By definition. It's being
++    used by powertop.
++
++使用者或測試套件／CI 發現的迴歸
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
++
++    Users complaining is the only real line in the end.
++
++    [...] a test-suite complaining is then often a *very* good indication that
++    maybe users will hit some problem, and test suite issues should be taken
++    very seriously [...]
++
++    But a test-suite error isn't necessarily where you have to draw the
++    line - it's a big red flag [...]
++
++* 出自 `2024-29-01 <https://lore.kernel.org/all/CAHk-=wg8BrZEzjJ5kUyZzHPZmFqH6ooMN1gRBCofxxCfucgjaw@mail.gmail.com/>`_::
++
++    The "no regressions" rule is not about made-up "if I do this, behavior
++    changes".
++
++    The "no regressions" rule is about *users*.
++
++    If you have an actual user that has been doing insane things, and we
++    change something, and now the insane thing no longer works, at that
++    point it's a regression, and we'll sigh, and go "Users are insane" and
++    have to fix it.
++
++    But if you have some random test that now behaves differently, it's
++    not a regression. It's a *warning* sign, sure: tests are useful.
++
++承認迴歸的發生
++~~~~~~~~~~~~~~
++
++* 出自 `2026-01-22 <https://lore.kernel.org/all/CAHk-=wheQNiW_WtHGO7bKkT7Uib-p+ai2JP9M+z+FYcZ6CAxYA@mail.gmail.com/>`_::
++
++    But starting to argue about users reporting breaking changes is
++    basically the final line for me. I have a couple of people that I have
++    in my spam block-list and refuse to have anything to do with, and they
++    have generally been about exactly that.
++
++    Note how it's not about making mistakes and _causing_ the regression.
++    That's normal. That's development. But then arguing about it is a
++    no-no.
++
++* 出自 `2024-06-23 <https://lore.kernel.org/all/CAHk-=wi_KMO_rJ6OCr8mAWBRg-irziM=T9wxGC+J1VVoQb39gw@mail.gmail.com/>`_::
++
++    We don't introduce regressions and then blame others.
++
++    There's a very clear rule in kernel development: things that break
++    other things ARE NOT FIXES.
++
++    EVER.
++
++    They get reverted, or the thing they broke gets fixed.
++
++* 出自 `2021-06-05 <https://lore.kernel.org/all/CAHk-=wiUVqHN76YUwhkjZzwTdjMMJf_zN4+u7vEJjmEGh3recw@mail.gmail.com/>`_::
++
++    THERE ARE NO VALID ARGUMENTS FOR REGRESSIONS.
++
++    Honestly, security people need to understand that "not working" is not
++    a success case of security. It's a failure case.
++
++    Yes, "not working" may be secure. But security in that case is *pointless*.
++
++* 出自 `2017-10-26(5) <https://lore.kernel.org/lkml/CA+55aFwiiQYJ+YoLKCXjN_beDVfu38mg=Ggg5LFOcqHE8Qi7Zw@mail.gmail.com/>`_::
++
++    [...] when regressions *do* occur, we admit to them and fix them, instead of
++    blaming user space.
++
++    The fact that you have apparently been denying the regression now for
++    three weeks means that I will revert, and I will stop pulling apparmor
++    requests until the people involved understand how kernel development
++    is done.
++
++反覆來回
++~~~~~~~~
++
++* 出自 `2024-05-28 <https://lore.kernel.org/all/CAHk-=wgtb7y-bEh7tPDvDWru7ZKQ8-KMjZ53Tsk37zsPPdwXbA@mail.gmail.com/>`_::
++
++    The "no regressions" rule is that we do not introduce NEW bugs.
++
++    It *literally* came about because we had an endless dance of "fix two
++    bugs, introduce one new one", and that then resulted in a system that
++    you cannot TRUST.
++
++* 出自 `2021-09-20(1) <https://lore.kernel.org/all/CAHk-=wi7DB2SJ-wngVvsJ7Ak2cM556Q8437sOXo4EJt2BWPdEg@mail.gmail.com/>`_::
++
++    And the thing that makes regressions special is that back when I
++    wasn't so strict about these things, we'd end up in endless "seesaw
++    situations" where somebody would fix something, it would break
++    something else, then that something else would break, and it would
++    never actually converge on anything reliable at all.
++
++* 出自 `2015-08-13 <https://lore.kernel.org/all/CA+55aFxk8-BsiKwr_S-c+4G6wihKPQVMLE34H9wOZpeua6W9+Q@mail.gmail.com/>`_::
++
++    The strict policy of no regressions actually originally started mainly wrt
++    suspend/resume issues, where the "fix one machine, break another" kind of
++    back-and-forth caused endless problems, and meant that we didn't actually
++    necessarily make any forward progress, just moving a problem around.
++
++有造成迴歸風險的變更
++~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2023-06-02 <https://lore.kernel.org/all/CAHk-=wgyAGUMHmQM-5Eb556z5xiHZB7cF05qjrtUH4F7P-1rSA@mail.gmail.com/>`_::
++
++    So what I think you should do is to fix the bug right, with a clean
++    patch, and no crazy hacks. That is something we can then apply and
++    test. All the while knowing full well that "uhhuh, this is a visible
++    change, we may have to revert it".
++
++    If then some *real* load ends up showing a regression, we may just be
++    screwed. Our current behavior may be buggy, but we have the rule that
++    once user space depends on kernel bugs, they become features pretty
++    much by definition, however much we might dislike it.
++
++以核心內的權宜做法避免迴歸
++~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2017-10-26(6) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
++
++    Behavioral changes happen, and maybe we don't even support some
++    feature any more. There's a number of fields in /proc/<pid>/stat that
++    are printed out as zeroes, simply because they don't even *exist* in
++    the kernel any more, or because showing them was a mistake (typically
++    an information leak). But the numbers got replaced by zeroes, so that
++    the code that used to parse the fields still works. The user might not
++    see everything they used to see, and so behavior is clearly different,
++    but things still _work_, even if they might no longer show sensitive
++    (or no longer relevant) information.
++
++缺陷修正造成的迴歸
++~~~~~~~~~~~~~~~~~~
++
++* 出自 `2018-08-03 <https://lore.kernel.org/all/CA+55aFwWZX=CXmWDTkDGb36kf12XmTehmQjbiMPCqCRG2hi9kw@mail.gmail.com/>`_::
++
++    > Kernel had a bug which has been fixed
++
++    That is *ENTIRELY* immaterial.
++
++    Guys, whether something was buggy or not DOES NOT MATTER.
++
++    [...]
++
++    It's basically saying "I took something that worked, and I broke it,
++    but now it's better". Do you not see how f*cking insane that statement
++    is?
++
++內部 API 的變更
++~~~~~~~~~~~~~~~
++
++* 出自 `2017-10-26(7) <https://lore.kernel.org/lkml/CA+55aFxW7NMAMvYhkvz1UPbUTUJewRt6Yb51QAx5RtrWOwjebg@mail.gmail.com/>`_::
++
++    We do API breakage _inside_ the kernel all the time. We will fix
++    internal problems by saying "you now need to do XYZ", but then it's
++    about internal kernel API's, and the people who do that then also
++    obviously have to fix up all the in-kernel users of that API. Nobody
++    can say "I now broke the API you used, and now _you_ need to fix it
++    up". Whoever broke something gets to fix it too.
++
++很久之後才發現的迴歸
++~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2024-03-28 <https://lore.kernel.org/all/CAHk-=wgFuoHpMk_Z_R3qMXVDgq0N1592+bABkyGjwwSL4zBtHA@mail.gmail.com/>`_::
++
++    I'm definitely not reverting a patch from almost a decade ago as a
++    regression.
++
++    If it took that long to find, it can't be that critical of a regression.
++
++    So yes, let's treat it as a regular bug.
++
++在 linux-next 中測試迴歸修正
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++* 在 `2024 年維護者高峰會 <https://lwn.net/Articles/990599/>`_ 上::
++
++   So running fixes though linux-next is just a waste of time.
++
++與迴歸相關的其他幾個面向
++~~~~~~~~~~~~~~~~~~~~~~~~
++
++* 出自 `2025-07-29(2) <https://lore.kernel.org/all/CAHk-=wjj9DvOZtmTkoLtyfHmy5mNKy6q_96d9=4FUEDXre=cww@mail.gmail.com/>`_
++  [這件事 `雖然不完全算是迴歸，但造成了極大的不便 <https://lore.kernel.org/all/CAHk-=wgO0Rx2LcYT4f75Xs46orbJ4JxO2jbAFQnVKDYAjV5HeQ@mail.gmail.com/>`_]::
++
++    I no longer have sound.
++
++    I also suspect that it's purely because "make oldconfig" doesn't work,
++    and probably turned off my old Intel HDA settings. Or something.
++
++    Renaming config parameters is *bad*. I've harped on the Kconfig phase
++    of the kernel build probably being our nastiest point, and a real pain
++    point to people getting involved with development simply because
++    building your own kernel can be so daunting with hundreds of fairly
++    esoteric questions.
++
++..
++   end-of-content
++..
++   如本文件開頭所述，本文以 GPL-2.0+ 或 CC-BY-4.0 授權提供。如果你想只以
++   CC-BY-4.0 授權散布本文，請以「The Linux kernel developers」作為作者署名，
++   並連結以下網址作為來源：
++   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/plain/Documentation/process/handling-regressions.rst
++..
++   注意：只有在 Linux 核心原始碼中找到的本 RST 檔案內容才以 CC-BY-4.0 授權
++   提供，因為經過處理的文字版本（例如經由核心的建置系統處理）可能包含取自
++   授權較嚴格之檔案的內容。
 diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
-index 7b830c48942a..90c33d020d34 100644
+index 90c33d020d34..e73d78362315 100644
 --- a/Documentation/translations/zh_TW/process/index.rst
 +++ b/Documentation/translations/zh_TW/process/index.rst
-@@ -40,6 +40,7 @@
- .. toctree::
+@@ -89,13 +89,13 @@ TODOList:
     :maxdepth: 1
  
-+   changes
-    programming-language
-    coding-style
-    maintainer-pgp-guide
-@@ -49,7 +50,6 @@
+    debugging/index
++   handling-regressions
+    security-bugs
+    cve
+    embargoed-hardware-issues
  
  TODOList:
  
--* changes
- * backporting
- * adding-syscalls
- * botching-up-ioctls
+-* handling-regressions
+ * threat-model
+ 
+ 維護者資訊
 -- 
 2.43.0
 
