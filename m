@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964722;
-	b=chwo9kpAQi/+QNKgtGQq7cs2RpzSbxGX1i6wX+N881wtwSqaMQQndACEhK2QKNmrc2KA
-	 e5bqHgCzkNS7xdJ4r1zelA/zNsAQcjhNTA/6U1+M2P3njrfzKeXCA8+ny6CMVDFn1K0W/
-	 BPAYe6EV7oTbL6S7g43Pk2MXx2vzOGZVFZhSnuPX12EiQSc6jBIogXxnlWekXKN4GXr16
-	 NB5HqjO+rBF7UdPmQAWWaLQl4SV5SU3df5JKEzYwEBPy1W5V38rmChjvBKIWBkzc+x/Ee
-	 nb6XWmwxXTO3hM2DZLXBZzMaWxsqHvedcJHqjYf6071smT8gFK0oG2Y0S7zOopsC4wg==
+	t=1793964724;
+	b=YJf5f2Mo4DtvUBhf/MI0AN0hRfz4AtwMg+wEOPxosnC84H3RWy4pCTV/X0anFIYs/2XG
+	 9DvxySZa3PFjj5Tg1EvPZK1pR55kPNOTVLCPVVxYlCqdHgNJzq6CghuUbrxLNnxoDyOZw
+	 NPT5355f2K0HlizOCr368+nh1n3evksQX8Uar2daHb/lKDrCQ4I1CyGc2OlSoib/1peA6
+	 CTc1E6p8hFvzHNQhM2XmEItwJlWfP/xHQ8f1leptjCZn5zb/O9tot/z3ZAJ0OGHZAbs4q
+	 /t77ahm/9zFAXjIHCrCpwhtoj0J/M45+u1tjQNP5ap/5ynOcIjtviWQJkB46hVzLYwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964722;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964724;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=GxnqUynbHCGbEjodNA/yE6NipAYfCCZdbNdoLhD1qwY=;
-	b=pnYiaPiJ8AahKLk9Y0tsEbvsQaFLvFfShx+3YI2LOi7oooGFjr/5L3xDu8A093bCR6Su
-	 7E9al+QaX50Zo6YJV4gbrlWvMWqOKr7vJDCwN8jMkIPFJwKZvVseR4Y9QjIcZVNpzdn5p
-	 P2CvapNygKBzsioqMLLEWEzZDqH0+QdWvRfR/EibD5sPTAnbpJs5tocRJjaedqabnZkpv
-	 EcYdjmu8YtHGlNp9vJO8cbXZsFlF+r8Lpuy7n8sBeob5sOHqL0Ei+JPtMlti2POzlkxZO
-	 sOmw2mqSP7jKGcwsrgFuypYEqN/EfBRYvkWYLvSulD0AJ7+OcJ77VFLNyPn0BrwqQTA==
+	bh=9zKioK+H0t25OCAPt3srfDnFwL2++yBC8rqOvIErU7A=;
+	b=rIAG3rwkx+076t6DK3a8/hq9+QEN2vTD7HXgbci4LMLrH2bKdfHuUKAOTZmQsvJckmjb
+	 lmfTOoa9MXB+1xGGXEIk2kHhy2cK7Oz3R59CpwtRNdg4HfvYp3wDHi+rq25wzWza+xMLv
+	 Pgp/L7OvbrzS26rW44p6MXFQnn6jZ5Jezz7oSGDMWRF/EoWx24pxsrsGckT47Rv/hFmNt
+	 l7tAaK/V6I44ZEcndjvoiilXlh+AbQglbfCvcz2xResG35zXeMI/8s90tToYf8X3GvtN3
+	 IgJzDtWd7sbrIbVZPfmT2vrocuuMHP9qf7S/DEjGcU2uDNhWckAWj7N0uqVAlvuX9Dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BwY2ksPj;
-	arc=none smtp.remote-ip=209.85.216.43
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DeFxAx+g;
+	arc=none smtp.remote-ip=209.85.216.53
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311D8606EEB8
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 311D8606EEB8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79846082BDC
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C79846082BDC
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BwY2ksPj
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3afc7b51abfso32307a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:01 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=DeFxAx+g
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3b083afebe4so61362a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964720; x=1794569520; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964723; x=1794569523; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=GxnqUynbHCGbEjodNA/yE6NipAYfCCZdbNdoLhD1qwY=;
-        b=BwY2ksPjSWM8AIbv6yQzxVCCtJuj0OSv09Jjp7jPxbQqJeYXj3wreIHT556/SBoV2n
-         pYvyiHKb19Yw3j0IIfap3RFSgkcgbl0hHVa44ys03JUVYYA5pdfb4taVDpXr7BxmtAr+
-         ACc021N0GK9ouBuMkP4h/xdHr4r6n73kJnStVXg03mvlAG9nZ26CGi7s2PbrKOTza6I8
-         k2vNv4q4f96kXk9tnNL55PEiFbDYyPyxg9pOFGBWdkhlSCAbuN9QI5lDusC3wuD85UCI
-         mIXzanxKLhNqXTQWmoaIdAehWNo8Ze6lnsyFUKWA+d7lzv0GFYYJVgMqvdQCGsPHlIqf
-         11Ow==
+        bh=9zKioK+H0t25OCAPt3srfDnFwL2++yBC8rqOvIErU7A=;
+        b=DeFxAx+gOfgckx9zps4fVS3XSjwI1hXy5LyWI84oDLFJ9Z39WeJVVO6efqS36CR2uZ
+         w323az7I3taAN78/XAOjuHT0QCUdeJ4LA5yWW9MN50VuCVsCCleDVtkWBIFIj88fGqE6
+         5kHDu2qZOA/E0nQYH+whZzUFs8MemeJ0vxddMBzyHa6CciCDMtHVXlNSQEGyGphu4lG4
+         5NUOL+WIF+5Nzd/WFcr7hpND2Iq1ZhDM9Ne2di7LBeWdL4mdROXDmdBx7koXZYZTCH3B
+         d3+AcM8SQh20q5x93maUoTjCgd5pE2Xe9zPg7/QBAYaG+xHQySDWEhMeUsp5T+1Ae1Ad
+         Alcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964720; x=1794569520;
+        d=1e100.net; s=20260707; t=1793964723; x=1794569523;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GxnqUynbHCGbEjodNA/yE6NipAYfCCZdbNdoLhD1qwY=;
-        b=hZR1ZeQcjCblLcw1dOZRLCou6aduGLaCn7MLoUtOj9MU+s2O6BERFwlrJSdl7hTbdC
-         I+b06yJ+rks9EkjLiGK+dQhul925gt3Wc34m8Xpr7J6JAAnm4egWbAcZMwWupCq5OhuG
-         xQPG8Q/9ZhtKZW8Vk70zbAXm/iEfaZ37iafWNwtxHetsm+X33b77cbmP5OcHc/Xjc31U
-         uboeRv5dNw0L+B29LwK6RH952fK8iL0mofsUKl4MjsDCCVrZCFPjZQzsPeCpD5tNc/hi
-         J6+HKn6jaD58H29WDTrkgpPSjUFSQGj6AcABp6T3042X150wVNb84Q5vGGBzw8mJgO89
-         ukGw==
-X-Forwarded-Encrypted: i=1; AL+hErE9lqetPeDV859LK+w+JNYmv/vSE+ju6YCBmyG977cGnEds0P8rfIS9Tc7SEJfGngkzEPlavQ6QXRw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8H92XHCNMa5Qgev1datuuZnOo+ZC6n9tHX4cPWFX3+WXoz1l7Y
-	URLNLEvef+LpxPH0sSi9/4waLo9GXXORBTFQTDhy/XthcoFngO1xFcJR
-X-Gm-Gg: AYBFou3lwMGk0fFZN3zVKArOtX36Tug0SlluNz27ANFptLdFEqUehiEmmiQX2RAwrGw
-	gcpZFSDmr+J+XDT+ljqlM8GfjZEGX5Crd4ccHf1uo1UuiELUMpO9p4bv0cHjzbGtAPgsmHL7jCH
-	rTt5NxX/pE0oDT/GHzFdjS7sBAjMgoCCIDMAejz3Qsb5fINomH79faKFQ8TIM6wWqJuojmQvj/2
-	Pta3sI9YUCvlcVwbKSQWAW0iXiwu72rH5pZ2+tTZ1nnRcvTP9IYqSws1IE5Gcad/2TxaE53Z/u3
-	Re+iGG7T+bN/4ISxaVpPg4uHaULLuz7dqdYgmiXDrKnD4rExrJ5vkpjW5JBDF4Nh/xWOxywx9Ip
-	v83DpqtDz1z+qzvmi8SUIB+w3a2ZBYIveCPoPM2FliAG4yoczpFnm3XdEi0QdWcyB68kF0eHIC7
-	1877D9q06B8VGKbuV7jQpH2OGiN7W7bLLb1HnIw9JrdLGNWDtfRaCSLoxFSsky0BVW6+ge2DdeP
-	TOrzsfqIKOy6ZjFc5A8SJcVk+zuonyujIM4kUpKGS7hLYsyP4Gx2iMzjrLpiBc7YfAxQUkmEwUj
-	YWB+qc67zpmm/0McWDjp0MDuXIUy/1wFVSTFZrgih71s/pqPySVPDgogXLBW5iTks6xKij1dEEU
-	C+26nCOnuMY3V3ZPgOZ5cWZ3dgg==
-X-Received: by 2002:a17:90b:4cc8:b0:3a4:9d98:f980 with SMTP id 98e67ed59e1d1-3b0db5f221bmr3870832a91.1.1793964719954;
-        Fri, 06 Nov 2026 03:31:59 -0800 (PST)
+        bh=9zKioK+H0t25OCAPt3srfDnFwL2++yBC8rqOvIErU7A=;
+        b=LU76n/sXW93q3z6KNAzNiXGsHgQRrPppjPklnMU6zCKi/b0ZoJcBNZQuS3nggV2UAy
+         vaLCQYsm304ZkzSGAPNXRe2nXPF8a3EU9/aa+g5XWu+e5w3YZHVE0DYDVUiaFp7PW/+K
+         5jGINv1aTrtXv6OHT1prVu444J/N9B+rx/sxXt2NDONg3PW5fsdGczA3lbcdGw93BqGM
+         oSbdV8jIUgJIL1c1ySCw05ThZnfaaRkTnCIe5XNytO9Q8fVXYblxMDYDEGJp5gI+kVR+
+         wS7enMWWRBM/z8NupWC4JJiyMoNiakooOr3kEcQs6aCzn8+dgziH5e0mYpbo+wpjm1xV
+         sstQ==
+X-Forwarded-Encrypted: i=1; AL+hErGpQpFphA83CrCRYKJnXQGal5zw9b7vhMeP+ec0p9B36zvyR1q5CIAqrrtEiuCVpyeChRazfW3olCM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+rPBR15YdDYXTlN/D6H/QV/E3knxLsj1IESqTh/MTAl5QrNK1j
+	AvGkxuMRBAkfdx73xod3a7MLPXYI6M1Jn3u+MTpgB/la/WIZkHJ9zOW9
+X-Gm-Gg: AYBFou2TMNOJyqmmyCw5PUwafw1uGupvLVXU/x6uXh68EgXDICQ45BcDq5Gr4I1bK0G
+	IRjkSKwhOc8u+mviZIpfOaNcFEomFWurwZHWFgIJArgVXYe5bz0RMluW7x96lsS5F8MKWMBVR7d
+	/Kb5ItQydMKzUYmKF4++Vn/+r6w/9bu9EDuk1RsiQZ4+qUhjo7EUR7DvHqr8/ksksfRY2M8Dqpm
+	oiAO+wgrzWGUGKAhMNk6IIi6uWG3rUmaCY73DVB2omMKuLEoOUdUK2bo7nXIsI1QnJEvt+unEVC
+	Wb3VGHdlYx8BlPV5YHUf7KdWnA6fY1TMADm9Z0yUzXIknODATa8eU4HdCL16huJkhg9J0pqP5jF
+	gQpC6Y5CJPbmtyN+qa+NrV4/UasYLrSh/sw5h3mJ5WEpRZKVP8A2vfeZEIQiVzxGVYB1JBzDrV9
+	+rk/diDyK2H+R4K+upwOgyjyqtawSyaTgf2COI6HX+gM9/eTA9p5P0DuziM0HCUfCQ5pVwf2kC7
+	PmG1seJfMrKjyu+0NyJhWMr9RdygCBrBy/3xNH3ZsechTTIckjazRs44mciN+qAN6jXDw+6rrtA
+	Fe/nsbO4yf/ld7PmUm30vsLqxPHu/QT393FV1d4va/weLe6LyCcrZjWqmeaqYHVJZHKeBniGtEI
+	6FRElVKELz9gp8E6cenN8w62F
+X-Received: by 2002:a17:90b:2c86:b0:3a8:736e:c19b with SMTP id 98e67ed59e1d1-3b0db6f90d0mr3461733a91.4.1793964722968;
+        Fri, 06 Nov 2026 03:32:02 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.31.56
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:31:58 -0800 (PST)
+        Fri, 06 Nov 2026 03:32:02 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 03/25] docs/zh_TW: process: sync 4.Coding.rst with the English original
-Date: Fri,  6 Nov 2026 19:31:18 +0800
-Message-ID: <20261106113142.706783-4-chenyou910331@gmail.com>
+Subject: [PATCH 04/25] docs/zh_TW: process: sync 5.Posting.rst with the English original
+Date: Fri,  6 Nov 2026 19:31:19 +0800
+Message-ID: <20261106113142.706783-5-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113142.706783-1-chenyou910331@gmail.com>
 References: <20261106113142.706783-1-chenyou910331@gmail.com>
@@ -107,544 +107,350 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation carried no "update to commit" marker and was still the
-converted zh_CN text.  A section-by-section comparison against the
-current English text shows it never picked up several changes and
-mistranslated a number of sentences.  Bring it in line with the full
-current original:
+The translation claims to be up to date with commit 0a83293322fd ("doc:
+development-process: add notice on testing"), but a section-by-section
+comparison against the current English text shows it still carried
+wording from an older original and mistranslated a number of sentences.
+Bring it in line with the full current original:
 
-- add the missing paragraph on EditorConfig
-- add the missing "There are, of course, some catches." sentence in
-  the internal API section
-- replace the Coccinelle :ref: that pointed a URL at the coccinelle.rst
-  label with the plain project URL, as in the original
-- fix the sparse and LWN URLs, and the coding-style.rst reference that
-  displayed a zh_CN path
-- keep Linus's quote verbatim in its literal block and add the
-  translation after it
-- retranslate sentences whose meaning had drifted (the always-zero
-  argument, driver abstraction layers, multiple evaluation of macro
-  arguments, the inline function temptation, Devicescape being offered
-  for inclusion, failure recovery paths, fault injection percentages,
-  distributors, compiler warnings that should not appear, documentation
-  being the exception, rare deadlocks)
-- spell Devicescape and Coccinelle correctly, and fix the *why*
-  emphasis that was not rendered
-- replace mainland terms with Taiwanese usage (內核, 代碼, 內存, 線程,
-  函數, 接口, 文檔, 信息, ...) and the 爲/着/啓 conversion artifacts
-- expand tabs in the literal block
+- drop the "since "Co-developed-by:" denotes authorship" clause that is
+  no longer in the original, and fix the order it gave: a
+  "Signed-off-by:" must follow each "Co-developed-by:", not the other
+  way round
+- add the missing reference to the reviewer's statement under
+  "Reviewed-by:"
+- use gender-neutral wording for "Signed-off-by:", following the English
+- capitalize Git and Quilt when they name the tools, and fix the
+  "git bisct" and "coilt" typos
+- retranslate sentences whose meaning had drifted (reasonable detail,
+  half-baked patches, reasonable configuration combinations, the
+  employer "likely" owning the work, branching off at an arbitrary spot,
+  the summary line, adding the From line when in doubt, gratuitous
+  white-space changes, erring on the side of too many copies, copying
+  the original poster, and mail threading, which was rendered as
+  execution threads)
+- replace mainland terms with Taiwanese usage (代碼, 激活, 響應, 嵌套,
+  分銷商, 專案 for "items", ...)
+- show English paths in the :ref: links to submitting-patches.rst,
+  submit-checklist.rst and email-clients.rst, as the other synced files
+  do, which keeps the lines within 80 columns
+- replace the en dash in --chain-reply-to and the full-width colon
+  after Cc, and expand tabs in the literal blocks
 
-update to commit 5adb3698bbe8 ("coccinelle: update Coccinelle website URL")
+update to commit fdd100ee60a0 ("docs: process: use gender-neutral
+pronouns")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../translations/zh_TW/process/4.Coding.rst   | 414 +++++++++---------
- 1 file changed, 216 insertions(+), 198 deletions(-)
+ .../translations/zh_TW/process/5.Posting.rst  | 141 +++++++++---------
+ 1 file changed, 71 insertions(+), 70 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/4.Coding.rst b/Documentation/translations/zh_TW/process/4.Coding.rst
-index 423d51f4b3de..288c42dbede1 100644
---- a/Documentation/translations/zh_TW/process/4.Coding.rst
-+++ b/Documentation/translations/zh_TW/process/4.Coding.rst
-@@ -6,283 +6,301 @@
+diff --git a/Documentation/translations/zh_TW/process/5.Posting.rst b/Documentation/translations/zh_TW/process/5.Posting.rst
+index d54b16364474..51af92e18802 100644
+--- a/Documentation/translations/zh_TW/process/5.Posting.rst
++++ b/Documentation/translations/zh_TW/process/5.Posting.rst
+@@ -11,31 +11,31 @@
  
- .. _tw_development_coding:
+ 您的工作遲早會準備好提交給社群進行審查，並最終包含到主線核心中。毫不稀奇，
+ 核心開發社群已經發展出一套用於發布補丁的約定和過程；遵循這些約定和過程將使
+-參與其中的每個人的生活更加輕鬆。本文件試圖描述這些約定的部分細節；更多資訊
+-也可在以下文件中找到
+-:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
++參與其中的每個人的生活更加輕鬆。本文件試圖以相當程度的細節描述這些期望；更多
++資訊也可在以下文件中找到
++:ref:`Documentation/process/submitting-patches.rst <tw_submittingpatches>`
+ 和
+-:ref:`Documentation/translations/zh_TW/process/submit-checklist.rst <tw_submitchecklist>`。
++:ref:`Documentation/process/submit-checklist.rst <tw_submitchecklist>`。
  
--使代碼正確
-+讓程式碼正確
- ======================
+ 何時寄送
+ --------
  
--雖然一個堅實的、面向社區的設計過程有很多值得說道的，但是任何內核開發項目工作
--的證明都反映在代碼中。它是將由其他開發人員檢查併合並（或不合並）到主線樹中
--的代碼。所以這段代碼的質量決定了項目的最終成功。
-+雖然一個堅實的、以社群為導向的設計過程有很多值得說道的，但是任何核心開發專案
-+的成果最終都體現在程式碼中。程式碼才是其他開發人員要檢查、並合併（或不合併）
-+到主線樹中的東西。所以這些程式碼的品質決定了專案的最終成功。
+ 在補丁完全“準備好”之前，避免發布補丁是一種持續的誘惑。對於簡單的補丁，這
+ 不是問題。但是如果正在完成的工作很複雜，那麼在工作完成之前從社群獲得反饋就
+-可以獲得很多好處。因此，您應該考慮發布正在進行的工作，甚至維護一個可用的Git
++可以獲得很多好處。因此，您應該考慮發布正在進行的工作，甚至公開一個可用的Git
+ 樹，以便感興趣的開發人員可以隨時趕上您的工作。
  
--本節將檢查編碼過程。我們將從內核開發人員常犯的幾種錯誤開始。然後重點將轉移
--到正確的做法和相關有用的工具上。
-+本節將探討撰寫程式碼的過程。我們將從核心開發人員常犯的幾種錯誤開始。然後重點
-+將轉移到正確的做法和相關有用的工具上。
+ 當發布中有尚未準備好被包含的程式碼，最好在發布中說明。還應提及任何有待完成的
+-主要工作和任何已知問題。很少有人會願意看那些被認為是半生不熟的補丁，但是
+-那些願意的人會帶著他們的點子來一起幫助你把工作推向正確的方向。
++主要工作和任何已知問題。願意看那些已知是半成品的補丁的人會比較少，但是那些
++願意看的人，會抱著能幫助你把工作推向正確方向的想法而來。
  
- 陷阱
- ----
+ 建立補丁之前
+ ------------
  
--代碼風格
--********
-+程式碼風格
-+**********
+ 在考慮將補丁發送到開發社群之前，有許多事情應該做。包括：
  
--內核長期以來都有其標準的代碼風格，如
--:ref:`Documentation/translations/zh_CN/process/coding-style.rst <tw_codingstyle>`
--中所述。在多數時候，該文檔中描述的準則至多被認爲是建議性的。因此，內核中存在
--大量不符合代碼風格準則的代碼。這種代碼的存在會給內核開發人員帶來兩方面的危害。
-+核心長期以來都有其標準的程式碼風格，如
-+:ref:`Documentation/process/coding-style.rst <tw_codingstyle>` 中所述。在其中
-+大部分時間裡，該文件中描述的準則至多被認為是建議性的。因此，核心中存在大量不
-+符合程式碼風格準則的程式碼。這種程式碼的存在會給核心開發人員帶來兩方面的危害。
+- - 儘可能地測試程式碼。利用核心的除錯工具，確保核心使用了所有可能的設定選
+-   項組合進行建置，使用交叉編譯器為不同的架構進行建置等。添加測試，最好使
++ - 儘可能地測試程式碼。利用核心的除錯工具，確保核心在所有合理的設定選項組合
++   下都能建置，使用交叉編譯器為不同的架構進行建置等。添加測試，最好使
+    用現有的測試框架（如KUnit），並將其作為補丁系列中單獨的一員（關於補丁系
+    列，見下一節）。注意，對某些子系統而言這可能是強制性的。例如，函式庫函
+    式（位於lib/下）幾乎在所有地方被廣泛使用，應當有適當的測試。
+@@ -45,20 +45,20 @@
+  - 您的更改是否具有效能影響？如果是這樣，您應該執行基準測試來顯示您的變更的
+    影響（或好處）；結果的摘要應該包含在補丁中。
  
--首先，相信內核代碼標準並不重要，也不強制執行。但事實上，如果沒有按照標準
--編寫代碼，那麼新代碼將很難加入到內核中；許多開發人員甚至會在審查代碼之前要求
--對代碼進行重新格式化。一個像內核這麼大的代碼庫需要一些統一格式的代碼，以使
--開發人員能夠快速理解其中的任何部分。所以再也經不起奇怪格式的代碼的折騰了。
-+第一種危害是認為核心程式碼標準並不重要，也不會強制執行。但事實上，如果沒有按
-+照標準編寫程式碼，那麼新程式碼將很難加入到核心中；許多開發人員甚至會在審查程
-+式碼之前要求對程式碼進行重新格式化。一個像核心這麼大的程式碼庫需要一定程度的
-+一致性，以使開發人員能夠快速理解其中的任何部分。所以格式怪異的程式碼已經沒有
-+容身之地了。
+- - 確保您有權發布程式碼。如果這項工作是為僱主完成的，僱主對這項工作具有所
+-   有權，並且必須同意根據GPL對其進行發布。
++ - 確保您有權發布程式碼。如果這項工作是為僱主完成的，僱主很可能對這項工作擁
++   有權利，並且必須同意根據GPL對其進行發布。
  
--內核的代碼風格偶爾會與僱主的強制風格發生衝突。在這種情況下，必須在代碼合併
--之前遵從內核代碼風格。將代碼放入內核意味着以多種方式放棄一定程度的控制權——
--包括控制代碼樣式。
-+核心的程式碼風格偶爾會與雇主的強制風格發生衝突。在這種情況下，必須在程式碼合
-+併之前遵從核心程式碼風格。將程式碼放入核心意味著以多種方式放棄一定程度的控制
-+權——包括控制程式碼的格式。
+ 一般來說，在發布程式碼之前進行一些額外的思考，幾乎總是能在短時間內得到回報。
  
--另一個危害是認爲已經在內核中的代碼迫切需要修復代碼樣式。開發者可能會開始編寫
--重新格式化補丁，作爲熟悉開發過程的一種方式，或者作爲將其名字寫入內核變更日誌
--的一種方式，或者兩者兼而有之。但是純代碼風格的修復被開發社區視爲噪音，它們往
--往受到冷遇。因此，最好避免編寫這種類型的補丁。在由於其他原因處理一段代碼的
--同時順帶修復其樣式是很自然的，但是不應該僅爲了更改代碼樣式而更改之。
-+另一個陷阱是認為已經在核心中的程式碼迫切需要修正程式碼風格。開發者可能會開始
-+編寫重新格式化的補丁，作為熟悉開發流程的一種方式，或者作為將其名字寫入核心變
-+更日誌的一種方式，或者兩者兼而有之。但是純粹修正程式碼風格的補丁被開發社群視
-+為噪音，它們往往受到冷遇。因此，最好避免編寫這種類型的補丁。在由於其他原因處
-+理一段程式碼的同時順帶修正其風格是很自然的，但是不應該僅為了更改程式碼風格而
-+更改之。
+ 補丁準備
+ --------
  
--代碼風格文檔也不應該被視爲絕對不可違反的規則。如果有一個足夠的理由反對這種
--樣式（例如爲了80列限制拆分行會導致可讀性大大降低），那麼就這樣做吧。
-+程式碼風格文件也不應該被視為絕對不可違反的規則。如果有充分的理由違反這種風格
-+（例如為了符合80欄的限制而拆分某一行，會導致可讀性大大降低），那麼就這樣做吧。
+-準備補丁發布的工作量可能很驚人，但在此嘗試節省時間通常是不明智的，即使在短期
+-內亦然。
++準備補丁發布的工作量可能很驚人，但再說一次，在此嘗試節省時間通常是不明智的，
++即使在短期內亦然。
  
- 注意您還可以使用 ``clang-format`` 工具來幫助您處理這些規則，快速自動重新格式
--化部分代碼，和審閱完整的文件以發現代碼樣式錯誤、拼寫錯誤和可能的改進。它還
--可以方便地排序 ``#includes`` 、對齊變量/宏、重排文本和其他類似任務。有關詳細
--信息，請參閱文檔 :ref:`Documentation/dev-tools/clang-format.rst <clangformat>`
-+化部分程式碼，和審閱完整的檔案以發現程式碼風格錯誤、拼寫錯誤和可能的改進。它
-+還可以方便地排序 ``#includes`` 、對齊變數/巨集、重排文字和其他類似任務。有關
-+詳細資訊，請參閱
-+:ref:`Documentation/dev-tools/clang-format.rst <clangformat>` 。
-+
-+如果您使用的編輯器相容於 EditorConfig，一些基本的編輯器設定（例如縮排和行尾字
-+元）將會自動設定。更多資訊請參閱 EditorConfig 官方網站：
-+https://editorconfig.org/
+ 必須針對核心的特定版本準備補丁。一般來說，補丁應該基於Linus的Git樹中的當前
+ 主線。當以主線為基礎時，請從一個衆所周知的發布點開始——如穩定版本或 -rc
+-版本發布點——而不是在一個任意的主線分支點。
++版本發布點——而不是從主線上任意一點分支出去。
  
- 抽象層
- ******
+ 也可能需要針對-mm、linux-next或子系統樹產生版本，以便於更廣泛的測試和審查。
+ 根據補丁的區域以及其他地方的情況，針對其他樹建立的補丁可能需要大量的工作來
+@@ -66,7 +66,7 @@
  
--計算機科學教授教學生以靈活性和信息隱藏的名義廣泛使用抽象層。當然，內核廣泛
--地使用了抽象；任何涉及數百萬行代碼的項目都必須做到這一點以存續下來。但經驗
--表明，過度或過早的抽象可能和過早的優化一樣有害。抽象應用在適當層級，
--不要過度。
+ 只有最簡單的更改才應格式化為單個補丁；其他所有更改都應作為一系列邏輯更改進行。
+ 分割補丁是一門藝術；一些開發人員花了很長時間來弄清楚如何按照社群期望的方式來
+-分割。不過，這些經驗法則也許有幫助：
++分割。不過，有一些經驗法則會很有幫助：
+ 
+  - 您發布的補丁系列幾乎肯定不會是開發過程中版本控制系統中的一系列更改。相反，
+    需要對您所做更改的最終形式加以考慮，然後以有意義的方式進行拆分。開發人員對
+@@ -78,12 +78,12 @@
+    檢查並驗證它所做的事情的更改。
+ 
+  - 換種方式重申上述準則，也就是說：不要在同一補丁中混合不同類型的更改。如果
+-   一個補丁修復了一個關鍵的安全漏洞，又重新排列了一些結構，還重新格式化了代
+-   碼，那麼它很有可能會被忽略，從而導致重要的修復丟失。
++   一個補丁修復了一個關鍵的安全漏洞，又重新排列了一些結構，還重新格式化了程
++   式碼，那麼它很有可能會被忽略，從而導致重要的修復丟失。
+ 
+  - 每個補丁都應該能建立一個可以正確地建置和執行的核心；如果補丁系列在中間被
+    斷開，那麼結果仍應是一個正常工作的核心。部分應用一系列補丁是使用
+-   “git bisct”工具查找回歸的一個常見場景；如果結果是一個損壞的核心，那麼將使
++   “git bisect”工具查找迴歸的一個常見場景；如果結果是一個損壞的核心，那麼將使
+    那些從事追蹤問題的高尚工作的開發人員和使用者的生活更加艱難。
+ 
+  - 不要過分分割。一位開發人員曾經將一組針對單一檔案的編輯分成500個單獨的補丁
+@@ -93,7 +93,7 @@
+  - 用一系列補丁添加一個全新的基礎設施，但是該設施在系列中的最後一個補丁啟用
+    整個變更之前不能使用，這看起來很誘人。如果可能的話，應該避免這種誘惑；
+    如果這個系列增加了迴歸，那麼二分法將指出最後一個補丁是導致問題的補丁，
+-   即使真正的bug在其他地方。只要有可能，添加新程式碼的補丁程式應該立即激活該
++   即使真正的bug在其他地方。只要有可能，添加新程式碼的補丁應該立即啟用該
+    程式碼。
+ 
+ 建立完美補丁系列的工作可能是一個令人沮喪的過程，在完成“真正的工作”之後需要
+@@ -106,11 +106,11 @@
+ 需要被格式化成一條訊息，以快速而清晰地將其目的傳達到世界其他地方。為此，
+ 每個補丁將由以下部分組成：
+ 
+- - 可選的“From”行，表明補丁作者。只有當你透過電子郵件發送別人的補丁時，這一行
+-   才是必須的，但是為防止疑問加上它也不會有什麼壞處。
++ - 可選的“From”行，表明補丁作者。只有當你透過電子郵件轉發別人的補丁時，這一行
++   才是必須的，但是在不確定時加上它也不會有什麼壞處。
+ 
+  - 一行描述，說明補丁的作用。對於在沒有其他上下文的情況下看到該訊息的讀者
+-   來說，該訊息應足以確定修補程式的範圍；此行將顯示在“short form（簡短格式）”
++   來說，該訊息應足以確定補丁的範圍；此行將顯示在“short form（簡短格式）”
+    變更日誌中。此訊息通常需要先加上子系統名稱前綴，然後是補丁的目的。例如：
+ 
+    ::
+@@ -123,46 +123,47 @@
+  - 一個或多個標記行，至少有一個由補丁作者的 Signed-off-by 簽名。標記將在下面
+    詳細描述。
+ 
+-上面的專案一起構成補丁的變更日誌。寫一則好的變更日誌是一門至關重要但常常被
++以上各項一起構成補丁的變更日誌。寫一則好的變更日誌是一門至關重要但常常被
+ 忽視的藝術；值得花一點時間來討論這個問題。當你編寫變更日誌時，你應該記住有
+ 很多不同的人會讀你的話。其中包括子系統維護人員和審查人員，他們需要決定是否
+-應該合併補丁，分銷商和其他維護人員試圖決定是否應該將補丁反向移植到其他核心，
+-缺陷搜尋人員想知道補丁是否導致他們正在追查的問題，以及想知道核心如何變化的
+-使用者等等。一個好的變更日誌以最直接和最簡潔的方式向所有這些人傳達所需的資訊。
 -
--簡單點，先考慮一個調用時始終只有一個參數且總爲零的函數。我們可以保留這個參數，
--以在需要使用它時提供的額外靈活性。不過，在那時實現了這個額外參數的代碼很有
--可能以某種從未被注意到的微妙方式被破壞——因爲它從未被使用過。或者當需要額外
--的靈活性時，它並未以符合程序員當初期望的方式來實現。內核開發人員通常會提交
--補丁來刪除未使用的參數；一般來說，一開始就不應該添加這些參數。
+-在結尾，總結行應該描述變更的影響和動機，以及在一行約束條件下可能發生的變化。
+-然後，詳細的描述可以詳述這些主題，並提供任何需要的附加資訊。如果補丁修復了
+-一個缺陷，請引用引入該缺陷的提交（如果可能，請在引用提交時同時提供其 id 和
+-標題）。如果某個問題與特定的日誌或編譯器輸出相關聯，請包含該輸出以幫助其他
+-人搜索同一問題的解決方案。如果更改是為了支援以後補丁中的其他更改，那麼應當
+-說明。如果更改了內部API，請詳細說明這些更改以及其他開發人員應該如何響應。
+-一般來說，你越把自己放在每個閱讀你變更日誌的人的位置上，變更日誌（和核心
+-作為一個整體）就越好。
 -
--隱藏硬件訪問的抽象層——通常爲了允許大量的驅動程序兼容多個操作系統——尤其不受
--歡迎。這樣的層使代碼變得模糊，可能會造成性能損失；它們不屬於Linux內核。
--
--另一方面，如果您發現自己從另一個內核子系統複製了大量的代碼，那麼是時候
--瞭解一下：是否需要將這些代碼中的部分提取到單獨的庫中，或者在更高的層次上
--實現這些功能。在整個內核中複製相同的代碼沒有價值。
--
--#ifdef 和預處理
--***************
--
--C預處理器似乎給一些C程序員帶來了強大的誘惑，他們認爲它是一種將大量靈活性加入
--源代碼中的方法。但是預處理器不是C，大量使用它會導致代碼對其他人來說更難閱讀，
--對編譯器來說更難檢查正確性。使用了大量預處理器幾乎總是代碼需要一些
--清理工作的標誌。
--
--使用#ifdef的條件編譯實際上是一個強大的功能，它在內核中使用。但是很少有人希望
--看到代碼被鋪滿#ifdef塊。一般規定，ifdef的使用應儘可能限制在頭文件中。條件
--編譯代碼可以限制函數，如果代碼不存在，這些函數就直接變成空的。然後編譯器將
--悄悄地優化對空函數的調用。使得代碼更加清晰，更容易理解。
--
--C預處理器宏存在許多危險性，包括可能對具有副作用且沒有類型安全的表達式進行多
--重評估。如果您試圖定義宏，請考慮創建一個內聯函數替代。結果相同的代碼，內聯
--函數更容易閱讀，不會多次計算其參數，並且允許編譯器對參數和返回值執行類型檢查。
--
--內聯函數
-+電腦科學教授教導學生以靈活性和資訊隱藏的名義廣泛使用抽象層。當然，核心廣泛
-+地使用了抽象；任何涉及數百萬行程式碼的專案若不這樣做，都無法存續下來。但經驗
-+表明，過度或過早的抽象可能和過早的最佳化一樣有害。抽象只應該用到所需的程度，
-+不要更多。
+-不需要說，變更日誌是將變更提交到版本控制系統時使用的文字。接下來將是：
++應該合併補丁，發行版廠商和其他維護人員試圖決定是否應該將補丁反向移植到其他
++核心，缺陷搜尋人員想知道補丁是否導致他們正在追查的問題，以及想知道核心如何
++變化的使用者等等。一個好的變更日誌以最直接和最簡潔的方式向所有這些人傳達所需
++的資訊。
 +
-+簡單來說，考慮一個函式，它的某個參數被所有呼叫者傳入的值都是零。我們可以保留
-+這個參數，以防將來有人需要使用它所提供的額外靈活性。不過，到了那個時候，實作
-+這個額外參數的程式碼很有可能已經以某種從未被注意到的微妙方式被破壞——因為它從
-+未被使用過。或者當需要額外的靈活性時，需求出現的方式並不符合程式設計師當初的
-+預期。核心開發人員通常會提交補丁來刪除未使用的參數；一般來說，一開始就不應該
-+加入這些參數。
++為此，摘要行應該在一行的限制下，儘可能描述清楚變更的影響和動機。然後，詳細
++的描述可以詳述這些主題，並提供任何需要的附加資訊。如果補丁修復了一個缺陷，
++請儘可能引用引入該缺陷的提交（並請在引用提交時同時提供其commit ID和標題）。
++如果某個問題與特定的日誌或編譯器輸出相關聯，請包含該輸出以幫助其他人搜索同
++一問題的解決方案。如果更改是為了支援以後補丁中的其他更改，那麼應當說明。如
++果更改了內部API，請詳細說明這些更改以及其他開發人員應該如何回應。一般來說，
++你越把自己放在每個閱讀你變更日誌的人的位置上，變更日誌（和核心作為一個整體）
++就越好。
 +
-+隱藏硬體存取的抽象層——通常是為了讓驅動程式的大部分程式碼能用於多個作業系統
-+——尤其不受歡迎。這樣的層使程式碼變得晦澀，可能會造成效能損失；它們不屬於
-+Linux核心。
-+
-+另一方面，如果您發現自己從另一個核心子系統複製了大量的程式碼，那麼是時候問問
-+自己：是否應該將這些程式碼中的部分提取到單獨的函式庫中，或者在更高的層次上實
-+作這些功能。在整個核心中複製相同的程式碼沒有價值。
-+
-+#ifdef 和前置處理器的一般使用
-+*****************************
-+
-+C前置處理器似乎給一些C程式設計師帶來了強大的誘惑，他們認為它是一種在原始檔中
-+有效率地編入大量靈活性的方法。但是前置處理器不是C，大量使用它會導致程式碼對其
-+他人來說更難閱讀，對編譯器來說更難檢查正確性。大量使用前置處理器幾乎總是程式
-+碼需要一些清理工作的標誌。
-+
-+使用#ifdef的條件編譯確實是一個強大的功能，核心中也有使用。但是很少有人希望看
-+到程式碼裡到處散布著#ifdef區塊。一般來說，#ifdef的使用應儘可能限制在標頭檔中。
-+條件編譯的程式碼可以限制在函式之中，若該程式碼不需要存在，這些函式就直接變成
-+空的。然後編譯器將悄悄地把對空函式的呼叫最佳化掉。這樣會使程式碼更加清晰，更
-+容易理解。
-+
-+C前置處理器巨集存在許多危險性，包括對具有副作用的表達式可能進行多次求值，以及
-+沒有型別安全。如果您想要定義巨集，請考慮改為建立一個行內函式。產生的程式碼是
-+相同的，但行內函式更容易閱讀，不會多次對其參數求值，並且允許編譯器對參數和回
-+傳值執行型別檢查。
-+
-+行內函式
- ********
++不用說，變更日誌就應該是將變更提交到版本控制系統時使用的文字。接下來將是：
  
--不過，內聯函數本身也存在風險。程序員可以傾心於避免函數調用和用內聯函數填充源
--文件所固有的效率。然而，這些功能實際上會降低性能。因爲它們的代碼在每個調用站
--點都被複制一遍，所以最終會增加編譯內核的大小。此外，這也對處理器的內存緩存
--造成壓力，從而大大降低執行速度。通常內聯函數應該非常小，而且相對較少。畢竟
--函數調用的成本並不高；大量創建內聯函數是過早優化的典型例子。
-+不過，行內函式本身也存在風險。程式設計師可能會迷戀於避免函式呼叫所帶來的效率，
-+而在原始檔中塞滿行內函式。然而，這些函式實際上可能會降低效能。因為它們的程式
-+碼在每個呼叫處都被複製一遍，所以最終會增加編譯後核心的大小。此外，這也對處理
-+器的記憶體快取造成壓力，從而大大降低執行速度。通常行內函式應該非常小，而且相
-+對較少。畢竟函式呼叫的成本並不高；大量建立行內函式是過早最佳化的典型例子。
+  - 補丁本身，採用統一的（“-u”）補丁格式。使用“-p”選項來diff將使函式名與
+-   更改相關聯，從而使結果補丁更容易被其他人讀取。
++   更改相關聯，從而使結果補丁更容易被其他人閱讀。
  
--一般來說，內核程序員會自冒風險忽略緩存效果。在數據結構課程開頭中的經典
--時間/空間權衡通常不適用於當代硬件。空間 *就是* 時間，因爲一個大的程序比一個
--更緊湊的程序運行得慢。
-+一般來說，核心程式設計師若忽略快取效應，後果自負。資料結構入門課程中教授的經
-+典時間/空間權衡通常不適用於當代硬體。空間 *就是* 時間，因為一個較大的程式會比
-+一個更緊湊的程式執行得慢。
+ 前面已簡要提到的標籤（tag）用於提供補丁如何產生的線索。
+-:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
++:ref:`Documentation/process/submitting-patches.rst <tw_submittingpatches>`
+ 文件中對它們進行了詳細描述；下面是一個簡短的總結。
  
--較新的編譯器越來越激進地決定一個給定函數是否應該內聯。因此，隨意放置使用
--“inline”關鍵字可能不僅僅是過度的，也可能是無用的。
-+較新的編譯器越來越積極地參與決定一個給定函式是否真的應該被行內展開。因此，隨
-+意放置“inline”關鍵字可能不僅僅是過度的，也可能是無關緊要的。
+ 有一種標籤用於引用引入了本補丁所修復問題的較早提交::
  
- 鎖
--**
-+****
+-	Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID")
++        Fixes: 1f2e3d4c5b6a ("The first line of the commit specified by the first 12 characters of its SHA-1 ID")
  
--2006年5月，“deviceescape”網絡堆棧在前呼後擁下以GPL發佈，並被納入主線內核。
--這是一個受歡迎的消息；Linux中對無線網絡的支持充其量被認爲是不合格的，而
--Deviceescape堆棧承諾修復這種情況。然而直到2007年6月（2.6.22），這段代碼才真
-+2006年5月，“Devicescape”網路堆疊在大張旗鼓下以GPL發布，並提供給主線核心收錄。
-+這是一個受歡迎的消息；Linux中對無線網路的支援充其量被認為是不合格的，而
-+Devicescape堆疊承諾修復這種情況。然而直到2007年6月（2.6.22），這段程式碼才真
- 正進入主線。發生了什麼？
+ 另一種標籤用於連結帶有額外背景或細節的網頁，例如導致此補丁的較早討論，或
+ 一份由此補丁實作的規格文件::
  
--這段代碼出現了許多閉門造車的跡象。但一個大麻煩是，它並不是爲多處理器系統而
--設計。在合併這個網絡堆棧（現在稱爲mac80211）之前，需要對其進行一個鎖方案的
--改造。
-+這段程式碼出現了許多在公司內部閉門開發的跡象。但其中一個特別大的問題是，它並
-+不是為多處理器系統而設計的。在合併這個網路堆疊（現在稱為mac80211）之前，需要
-+為它補上一套鎖定機制。
+-	Link: https://example.com/somewhere.html  optional-other-stuff
++        Link: https://example.com/somewhere.html  optional-other-stuff
  
--曾經，Linux內核代碼可以在不考慮多處理器系統所帶來的併發性問題的情況下進行
--開發。然而現在，這個文檔就是在雙核筆記本電腦上寫的。即使在單處理器系統上，
--爲提高響應能力所做的工作也會提高內核內的併發性水平。編寫內核代碼而不考慮鎖
--的日子早已遠去。
-+曾經，Linux核心程式碼可以在不考慮多處理器系統所帶來的並行性問題的情況下進行
-+開發。然而現在，這個文件就是在雙核筆記型電腦上寫的。即使在單處理器系統上，為
-+提高回應能力所做的工作也會提高核心內的並行性水準。編寫核心程式碼而不考慮鎖的
-+日子早已遠去。
+ 依照企鵝老大（Chief Penguin）的指導，只有當Link:標籤指向的有用資訊無法在
+ 提交本身中找到時，才應該把它加到提交中。
  
--可以由多個線程併發訪問的任何資源（數據結構、硬件寄存器等）必須由鎖保護。新
--的代碼應該謹記這一要求；事後修改鎖是一項相當困難的任務。內核開發人員應該花
--時間充分了解可用的鎖原語，以便爲工作選擇正確的工具。對併發性缺乏關注的代碼
--很難進入主線。
-+可以由多個執行緒並行存取的任何資源（資料結構、硬體暫存器等）必須由鎖保護。新
-+的程式碼應該謹記這一要求；事後再補上鎖定是一項相當困難的任務。核心開發人員應
-+該花時間充分了解可用的鎖原語，以便為工作選擇正確的工具。對並行性缺乏關注的程
-+式碼很難進入主線。
+ 如果URL指向此補丁所修復的公開缺陷報告，請改用“Closes:”標籤::
  
- 迴歸
- ****
+-	Closes: https://example.com/issues/1234  optional-other-stuff
++        Closes: https://example.com/issues/1234  optional-other-stuff
  
--最後一個值得一提的危險是迴歸：它可能會引起導致現有用戶的某些東西中斷的改變
--（這也可能會帶來很大的改進）。這種變化被稱爲“迴歸”，迴歸已經成爲主線內核
--最不受歡迎的問題。除了少數例外情況，如果迴歸不能及時修正，會導致迴歸的修改
--將被取消。最好首先避免迴歸發生。
-+最後一個值得一提的危險是：做出一個會讓現有使用者的某些東西壞掉的變更（這種變
-+更也可能帶來很大的改進）是很誘人的。這種變更被稱為“迴歸”，迴歸已經成為主線核
-+心最不受歡迎的問題。除了少數例外情況，如果迴歸不能及時修正，導致迴歸的變更將
-+被撤回。最好一開始就避免迴歸發生。
+ 一些缺陷追蹤系統能夠在帶有此類標籤的提交被套用時自動關閉問題。一些監控
+ 郵件列表的機器人也會追蹤這類標籤並採取相應動作。私有缺陷追蹤系統和無效
+@@ -170,28 +171,29 @@
  
--人們常常爭論，如果迴歸帶來的功能遠超過產生的問題，那麼迴歸是否爲可接受的。
--如果它破壞了一個系統卻爲十個系統帶來新的功能，爲何不改改態度呢？2007年7月，
--Linus對這個問題給出了最佳答案:
-+人們常常爭論，如果一項變更讓更多人的東西能正常運作，而產生問題的人較少，那麼
-+這種迴歸就是合理的。如果一項變更每破壞一個系統，就能為十個系統帶來新的功能，
-+為何不做呢？2007年7月，Linus對這個問題給出了最佳答案:
+ 另一種標籤用於記錄誰參與了補丁的開發。它們每個都使用如下格式::
+ 
+-	tag: Full Name <email address>  optional-other-stuff
++        tag: Full Name <email address>  optional-other-stuff
+ 
+ 常用的標籤有：
+ 
+- - Signed-off-by: 這是一個開發人員的證明，證明他或她有權提交補丁以包含到核
+-   心中。這表明同意開發者來源認證協議，其全文見
+-   :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+-   如果沒有合適的簽字，則不能合併到主線中。
++ - Signed-off-by: 這是一個開發人員的證明，證明自己有權提交補丁以包含到核心
++   中。這表明同意開發者來源認證協議，其全文見
++   :ref:`Documentation/process/submitting-patches.rst <tw_submittingpatches>`
++   沒有適當簽署的程式碼不能合併到主線中。
+ 
+- - Co-developed-by: 聲明補丁是由多個開發人員共同建立的；當幾個人在一個補丁
+-   上工作時，它用於給出共同作者（除了 From: 所給出的作者之外）。由於
+-   Co-developed-by: 表示作者身份，所以每個共同開發人，必須緊跟在相關合作作
+-   者的Signed-off-by之後。具體內容和範例見以下文件
+-   :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
++ - Co-developed-by: 聲明補丁是由多個開發人員共同建立的；當多人共同處理一個
++   補丁時，它用於標示共同作者（除了 From: 標籤所標示的作者之外）。每個
++   Co-developed-by: 之後都必須緊跟著相應共同作者的 Signed-off-by:。具體內容
++   和範例見
++   :ref:`Documentation/process/submitting-patches.rst <tw_submittingpatches>`。
+ 
+  - Acked-by: 表示另一個開發人員（通常是相關程式碼的維護人員）同意補丁適合包含
+    在核心中。
+ 
+  - Tested-by: 聲明某人已經測試了補丁並確認它可以工作。
+ 
+- - Reviewed-by: 表示某開發人員已經審查了補丁的正確性；有關詳細資訊，請參閱
+-   :ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
++ - Reviewed-by: 表示某開發人員已經審查了補丁的正確性；更多細節請參閱
++   :ref:`Documentation/process/submitting-patches.rst <tw_submittingpatches>`
++   中的審查者聲明。
+ 
+  - Reported-by: 指定報告此補丁修復的問題的使用者；此標籤用於向測試我們的
+    程式碼並在發現問題時告知我們的人們（他們常常沒有得到應有的重視）表示
+@@ -202,7 +204,7 @@
+  - Suggested-by: 標籤表明補丁的想法是由被指名者建議的，確保其想法獲得
+    讚譽。希望這能激勵他們在未來繼續幫助我們。
+ 
+- - Cc：指定某人收到了補丁的副本，並有機會對此發表評論。
++ - Cc: 指定某人收到了補丁的副本，並有機會對此發表評論。
+ 
+ 在補丁中添加上述標籤時要小心：除了Cc:、Reported-by:和Suggested-by:之外，
+ 所有標籤都需要被指名者的明確許可。對於這三個標籤，如果根據lore存檔或提交
+@@ -216,15 +218,15 @@
+ 
+ 在寄送補丁之前，您還需要注意以下幾點：
+ 
+- - 您確定您的郵件發送程式不會損壞補丁嗎？被郵件客戶端更改空白或修飾了行的補丁
+-   無法被另一端接受，並且通常不會進行任何詳細檢查。如果有任何疑問，先把補丁寄
+-   給你自己，讓你自己確定它是完好無損的。
++ - 您確定您的郵件發送程式不會損壞補丁嗎？被郵件客戶端任意更動空白或自動換行
++   的補丁在另一端將無法套用，並且通常不會有人仔細檢查。如果有任何疑問，先把
++   補丁寄給你自己，讓你自己確定它是完好無損的。
+ 
+-   :ref:`Documentation/translations/zh_TW/process/email-clients.rst <tw_email_clients>`
++   :ref:`Documentation/process/email-clients.rst <tw_email_clients>`
+    提供了一些有用的提示，可以讓特定的郵件客戶端正常發送補丁。
+ 
+- - 你確定你的補丁沒有荒唐的錯誤嗎？您應該始終透過scripts/checkpatch.pl檢查
+-   補丁程式，並解決它提出的問題。請記住，checkpatch.pl，雖然體現了對核心補丁
++ - 你確定你的補丁沒有愚蠢的錯誤嗎？您應該始終透過scripts/checkpatch.pl檢查
++   補丁，並解決它提出的問題。請記住，checkpatch.pl，雖然體現了對核心補丁
+    應該是什麼樣的大量思考，但它並不比您聰明。如果修復checkpatch.pl給的問題會
+    使程式碼變得更糟，請不要這樣做。
+ 
+@@ -232,20 +234,20 @@
+ 引用補丁的部分。相反，只需將補丁直接放到您的訊息中。
+ 
+ 寄出補丁時，重要的是將副本發送給任何可能感興趣的人。與其他一些專案不同，核心
+-鼓勵人們甚至錯誤地發送過多的副本；不要假定相關人員會看到您在郵件列表中的發布。
++鼓勵人們寧可發送過多的副本；不要假定相關人員會看到您在郵件列表中的發布。
+ 尤其是，副本應發送至：
+ 
+  - 受影響子系統的維護人員。如前所述，MAINTAINERS檔案是查找這些人員的首選地方。
+ 
+  - 其他在同一領域工作的開發人員，尤其是那些現在可能在那裡工作的開發人員。使用
+-   git查看還有誰修改了您正在處理的檔案，這很有幫助。
++   Git查看還有誰修改了您正在處理的檔案，這很有幫助。
+ 
+- - 如果您對某錯誤報告或功能請求做出響應，也可以抄送原始發送人。
++ - 如果您是在回應某個錯誤報告或功能請求，也應抄送原始發文者。
+ 
+  - 將副本發送到相關郵件列表，或者若無相關列表，則發送到linux-kernel列表。
+ 
+  - 如果您正在修復一個缺陷，請考慮該修復是否應進入下一個穩定更新。如果是這樣，
+-   補丁副本也應發到stable@vger.kernel.org 。另外，在補丁本身的標籤中添加一個
++   補丁副本也應發到 stable@vger.kernel.org 。另外，在補丁本身的標籤中添加一個
+    “Cc: stable@vger.kernel.org”；這將使穩定版團隊在修復進入主線時收到通知。
+ 
+ 當為一個補丁選擇接收者時，最好清楚你認為誰最終會接受這個補丁並將其合併。雖然
+@@ -257,7 +259,7 @@
  
  ::
  
--	所以我們不會通過引入新問題來修復錯誤。這種方式是靠不住的，沒人知道
--	是否真的有進展。是前進兩步、後退一步，還是前進一步、後退兩步？
-+        So we don't fix bugs by introducing new problems.  That way lies
-+        madness, and nobody ever knows if you actually make any real
-+        progress at all. Is it two steps forwards, one step back, or one
-+        step forward and two steps back?
+-	[PATCH nn/mm] subsys: one-line description of the patch
++        [PATCH nn/mm] subsys: one-line description of the patch
  
--（http://lwn.net/Articles/243460/）
-+（中譯：所以我們不會透過引入新問題來修復錯誤。那樣做會讓人發瘋，而且沒人知道
-+是否真的有任何實際的進展。是前進兩步、後退一步，還是前進一步、後退兩步？）
+ 其中“nn”是補丁的序號，“mm”是系列中補丁的總數，“subsys”是受影響子系統的
+ 名稱。當然，一個單獨的補丁可以省略nn/mm。
+@@ -267,7 +269,6 @@
+ 因此，請確保補丁本身具有完整的變更日誌資訊。
  
--特別不受歡迎的一種迴歸類型是用戶空間ABI的任何變化。一旦接口被導出到用戶空間，
--就必須無限期地支持它。這一事實使得用戶空間接口的創建特別具有挑戰性：因爲它們
--不能以不兼容的方式進行更改，所以必須一次就對。因此，用戶空間接口總是需要大量
--的思考、清晰的文檔和廣泛的審查。
-+(https://lwn.net/Articles/243460/)。
- 
-+特別不受歡迎的一種迴歸類型是使用者空間ABI的任何變化。一旦介面被匯出到使用者
-+空間，就必須無限期地支援它。這一事實使得使用者空間介面的建立特別具有挑戰性：
-+因為它們不能以不相容的方式進行更改，所以必須一次就做對。因此，使用者空間介面
-+總是需要大量的思考、清晰的文件和廣泛的審查。
- 
--代碼檢查工具
--------------
- 
--至少目前，編寫無錯誤代碼仍然是我們中很少人能達到的理想狀態。不過，我們希望做
--的是，在代碼進入主線內核之前，儘可能多地捕獲並修復這些錯誤。爲此，內核開發人
--員已經提供了一系列令人印象深刻的工具，可以自動捕獲各種各樣的隱藏問題。計算機
--發現的任何問題都是一個以後不會困擾用戶的問題，因此，只要有可能，就應該使用
--自動化工具。
-+程式碼檢查工具
-+--------------
-+
-+至少目前，編寫無錯誤程式碼仍然是我們中很少人能達到的理想狀態。不過，我們希望
-+做到的是，在程式碼進入主線核心之前，儘可能多地捕獲並修復這些錯誤。為此，核心
-+開發人員已經彙集了一系列令人印象深刻的工具，可以自動捕獲各種各樣難以察覺的問
-+題。電腦發現的任何問題都是一個以後不會困擾使用者的問題，因此，只要有可能，就
-+應該使用自動化工具。
- 
- 第一步是注意編譯器產生的警告。當前版本的GCC可以檢測（並警告）大量潛在錯誤。
--通常，這些警告都指向真正的問題。提交以供審閱的代碼一般不會產生任何編譯器警告。
--在消除警告時，注意瞭解真正的原因，並儘量避免僅“修復”使警告消失而不解決其原因。
-+通常，這些警告都指向真正的問題。提交以供審閱的程式碼一般不應產生任何編譯器警
-+告。在消除警告時，注意了解真正的原因，並儘量避免僅“修復”使警告消失而不解決其
-+原因。
- 
--請注意，並非所有編譯器警告都默認啓用。使用“make KCFLAGS=-W”構建內核以
-+請注意，並非所有編譯器警告都預設啟用。使用“make KCFLAGS=-W”建置核心以
- 獲得完整集合。
- 
--內核提供了幾個配置選項，可以打開調試功能；大多數配置選項位於“kernel hacking”
--子菜單中。對於任何用於開發或測試目的的內核，都應該啓用其中幾個選項。特別是，
-+核心提供了幾個配置選項，可以打開除錯功能；大多數配置選項位於“kernel hacking”
-+子選單中。對於任何用於開發或測試目的的核心，都應該啟用其中幾個選項。特別是，
- 您應該打開：
- 
-- - FRAME_WARN 獲取大於給定數量的堆棧幀的警告。
--   這些警告生成的輸出可能比較冗長，但您不必擔心來自內核其他部分的警告。
-+ - FRAME_WARN 對大於給定大小的堆疊框架發出警告。
-+   這些警告生成的輸出可能比較冗長，但您不必擔心來自核心其他部分的警告。
- 
-- - DEBUG_OBJECTS 將添加代碼以跟蹤內核創建的各種對象的生命週期，並在出現問題
--   時發出警告。如果你要添加創建（和導出）關於其自己的複雜對象的子系統，請
--   考慮打開對象調試基礎結構的支持。
-+ - DEBUG_OBJECTS 將加入程式碼以追蹤核心建立的各種物件的生命週期，並在操作順序
-+   出錯時發出警告。如果您要加入一個會建立（並匯出）自己的複雜物件的子系統，請
-+   考慮為物件除錯基礎設施加入支援。
- 
-- - DEBUG_SLAB 可以發現各種內存分配和使用錯誤；它應該用於大多數開發內核。
-+ - DEBUG_SLAB 可以發現各種記憶體配置和使用錯誤；它應該用於大多數開發核心。
- 
-  - DEBUG_SPINLOCK, DEBUG_ATOMIC_SLEEP 和 DEBUG_MUTEXES 會發現許多常見的
-    鎖錯誤。
- 
--還有很多其他調試選項，其中一些將在下面討論。其中一些有顯著的性能影響，不應
--一直使用。在學習可用選項上花費一些時間，可能會在短期內得到許多回報。
+ 一般來說，多部分補丁的第二部分和後續部分應作為對第一部分的回覆發送，以便它們
+-在接收端都連接在一起。像git和coilt這樣的工具有命令，可以透過適當的執行緒發送
+-一組補丁。但是，如果您有一長串補丁，並正使用git，請不要使用–-chain-reply-to
+-選項，以避免建立過深的嵌套。
 -
--其中一個較重的調試工具是鎖檢查器或“lockdep”。該工具將跟蹤系統中每個鎖
--（spinlock或mutex）的獲取和釋放、獲取鎖的相對順序、當前中斷環境等等。然後，
--它可以確保總是以相同的順序獲取鎖，相同的中斷假設適用於所有情況等等。換句話
--說，lockdep可以找到許多導致系統死鎖的場景。在部署的系統中，這種問題可能會
--很痛苦（對於開發人員和用戶而言）；LockDep允許提前以自動方式發現問題。具有
--任何類型的非普通鎖的代碼在提交合並前應在啓用lockdep的情況下運行測試。
--
--作爲一個勤奮的內核程序員，毫無疑問，您將檢查任何可能失敗的操作（如內存分配）
--的返回狀態。然而，事實上，最終的故障復現路徑可能完全沒有經過測試。未測試的
--代碼往往會出問題；如果所有這些錯誤處理路徑都被執行了幾次，那麼您可能對代碼
--更有信心。
--
--內核提供了一個可以做到這一點的錯誤注入框架，特別是在涉及內存分配的情況下。
--啓用故障注入後，內存分配的可配置失敗的百分比；這些失敗可以限定在特定的代碼
--範圍內。在啓用了故障注入的情況下運行，程序員可以看到當情況惡化時代碼如何響
--應。有關如何使用此工具的詳細信息，請參閱
-+還有很多其他除錯選項，其中一些將在下面討論。其中一些有顯著的效能影響，不應
-+一直使用。在學習可用選項上花費一些時間，很可能在短時間內就得到數倍的回報。
-+
-+其中一個較重的除錯工具是鎖檢查器或“lockdep”。該工具將追蹤系統中每個鎖
-+（spinlock或mutex）的取得和釋放、取得鎖的相對順序、當前中斷環境等等。然後，
-+它可以確保總是以相同的順序取得鎖，相同的中斷假設適用於所有情況等等。換句話
-+說，lockdep可以找到許多在極少數情況下可能導致系統死鎖的場景。在已部署的系統
-+中，這種問題可能會很痛苦（對於開發人員和使用者而言）；lockdep允許提前以自動
-+方式發現問題。具有任何非簡單鎖定的程式碼在提交合併前應在啟用lockdep的情況下
-+執行測試。
-+
-+作為一個勤奮的核心程式設計師，毫無疑問，您將檢查任何可能失敗的操作（如記憶體
-+配置）的回傳狀態。然而，事實上，由此產生的失敗復原路徑可能完全沒有經過測試。
-+未測試的程式碼往往會出問題；如果所有這些錯誤處理路徑都被執行過幾次，那麼您對
-+程式碼會更有信心。
-+
-+核心提供了一個可以做到這一點的故障注入框架，特別是在涉及記憶體配置的情況下。
-+啟用故障注入後，可設定比例的記憶體配置會被刻意設為失敗；這些失敗可以限定在特
-+定的程式碼範圍內。在啟用了故障注入的情況下執行，程式設計師可以看到當情況惡化
-+時程式碼如何回應。有關如何使用此工具的詳細資訊，請參閱
- Documentation/fault-injection/fault-injection.rst。
- 
--“sparse”靜態分析工具可以發現其他類型的錯誤。sparse可以警告程序員用戶空間
--和內核空間地址之間的混淆、大端序與小端序的混淆、在需要一組位標誌的地方傳遞
--整數值等等。sparse必須單獨安裝(如果您的分發服務器沒有將其打包，
--可以在 https://sparse.wiki.kernel.org/index.php/Main_page 找到）,
--然後可以通過在make命令中添加“C=1”在代碼上運行它。
--
--“Coccinelle”工具 :ref:`https://coccinelle.gitlabpages.inria.fr/website/ <devtools_coccinelle>`
--能夠發現各種潛在的編碼問題；它還可以爲這些問題提出修復方案。在
--scripts/coccinelle目錄下已經打包了相當多的內核“語義補丁”；運行
--“make coccicheck”將運行這些語義補丁並報告發現的任何問題。有關詳細信息，請參閱
--:ref:`Documentation/dev-tools/coccinelle.rst <devtools_coccinelle>`
-+“sparse”靜態分析工具可以發現其他類型的錯誤。sparse可以警告程式設計師使用者空
-+間和核心空間位址之間的混淆、大端序與小端序數值的混用、在需要一組位元旗標的地
-+方傳遞整數值等等。sparse必須單獨安裝（如果您的發行版沒有將其打包，
-+可以在 https://sparse.wiki.kernel.org/index.php/Main_Page 找到），
-+然後可以透過在make命令中加入“C=1”在程式碼上執行它。
- 
-+“Coccinelle”工具
-+(https://coccinelle.gitlabpages.inria.fr/website)
-+能夠發現各種潛在的編碼問題；它還可以為這些問題提出修復方案。在
-+scripts/coccinelle目錄下已經打包了相當多的核心“語義補丁”；執行
-+“make coccicheck”將執行這些語義補丁並報告發現的任何問題。有關詳細資訊，請參閱
-+:ref:`Documentation/dev-tools/coccinelle.rst <devtools_coccinelle>` 。
- 
--其他類型的可移植性錯誤最好通過爲其他體系結構編譯代碼來發現。如果沒有S/390系統
--或Blackfin開發板，您仍然可以執行編譯步驟。可以在以下位置找到一大堆用於x86系統的
--交叉編譯器：
-+其他類型的可移植性錯誤最好透過為其他架構編譯程式碼來發現。如果您手邊沒有S/390
-+系統或Blackfin開發板，您仍然可以執行編譯步驟。可以在以下位置找到一大套用於x86
-+系統的交叉編譯器：
- 
-         https://www.kernel.org/pub/tools/crosstool/
- 
- 花一些時間安裝和使用這些編譯器將有助於避免以後的尷尬。
- 
--文檔
-+文件
- ----
- 
--文檔通常比內核開發規則更爲例外。即便如此，足夠的文檔將有助於簡化將新代碼合併
--到內核中的過程，使其他開發人員的生活更輕鬆，並對您的用戶有所幫助。在許多情況
--下，添加文檔已基本上是強制性的。
-+在核心開發中，文件往往是例外而非常態。即便如此，足夠的文件將有助於簡化將新程
-+式碼合併到核心中的過程，使其他開發人員的生活更輕鬆，並對您的使用者有所幫助。
-+在許多情況下，加入文件已基本上是強制性的。
- 
--任何補丁的第一個文檔是其關聯的變更日誌。日誌條目應該描述正在解決的問題、解決
--方案的形式、處理補丁的人員、對性能的任何相關影響，以及理解補丁可能需要的任何
--其他內容。確保變更日誌說明了*爲什麼*補丁值得應用；大量開發者未能提供這些信息。
-+任何補丁的第一份文件是其關聯的變更日誌。日誌條目應該描述正在解決的問題、解決
-+方案的形式、參與補丁工作的人員、對效能的任何相關影響，以及理解補丁可能需要的
-+任何其他內容。確保變更日誌說明了 *為什麼* 補丁值得應用；令人驚訝的是，有相當
-+多的開發者沒有提供這項資訊。
- 
--任何添加新用戶空間接口的代碼——包括新的sysfs或/proc文件——都應該包含該接口
--的文檔，該文檔使用戶空間開發人員能夠知道他們在使用什麼。請參閱
--Documentation/ABI/README，瞭解如何此文檔格式以及需要提供哪些信息。
-+任何加入新使用者空間介面的程式碼——包括新的sysfs或/proc檔案——都應該包含該介面
-+的文件，讓使用者空間開發人員能夠知道他們在使用什麼。請參閱
-+Documentation/ABI/README，了解此文件應如何格式化以及需要提供哪些資訊。
- 
--文檔 :ref:`Documentation/admin-guide/kernel-parameters.rst <kernelparameters>`
--描述了內核的所有引導時間參數。任何添加新參數的補丁都應該向該文檔添加適當的
--條目。
-+檔案 :ref:`Documentation/admin-guide/kernel-parameters.rst <kernelparameters>`
-+描述了核心的所有開機參數。任何加入新參數的補丁都應該向該檔案加入適當的條目。
- 
--任何新的配置選項都必須附有幫助文本，幫助文本需清楚地解釋這些選項以及用戶可能
--希望何時使用它們。
-+任何新的配置選項都必須附有說明文字，清楚地解釋這些選項以及使用者可能希望何時
-+選用它們。
- 
--許多子系統的內部API信息通過專門格式化的註釋進行記錄；這些註釋可以通過
--“kernel-doc”腳本以多種方式提取和格式化。如果您在具有kerneldoc註釋的子系統中
--工作，則應該維護它們，並根據需要爲外部可用的功能添加它們。即使在沒有如此記錄
--的領域中，爲將來添加kerneldoc註釋也沒有壞處；實際上，這對於剛開始開發內核的人
--來說是一個有用的活動。這些註釋的格式以及如何創建kerneldoc模板的一些信息可以在
-+許多子系統的內部API資訊透過特殊格式的註解進行記錄；這些註解可以透過
-+“kernel-doc”腳本以多種方式提取和格式化。如果您在具有kerneldoc註解的子系統中
-+工作，則應該維護它們，並根據需要為外部可用的函式加入註解。即使在尚未如此記錄
-+的領域中，為將來加入kerneldoc註解也沒有壞處；實際上，這對於剛開始開發核心的人
-+來說是一個有用的活動。這些註解的格式以及如何建立kerneldoc模板的一些資訊可以在
- :ref:`Documentation/doc-guide/ <doc_guide>` 上找到。
- 
--任何閱讀大量現有內核代碼的人都會注意到，註釋的缺失往往是最值得注意的。同時，
--對新代碼的要求比過去更高；合併未註釋的代碼將更加困難。這就是說，人們並不期望
--詳細註釋的代碼。代碼本身應該是自解釋的，註釋闡釋了更微妙的方面。
-+任何閱讀大量現有核心程式碼的人都會注意到，註解的缺失往往是最顯眼的。再次強調，
-+對新程式碼的要求比過去更高；合併未加註解的程式碼將更加困難。話雖如此，人們也
-+不希望看到註解過度冗長的程式碼。程式碼本身應該是易讀的，註解則用來闡釋較微妙
-+的部分。
- 
--某些事情應該總是被註釋。使用內存屏障時，應附上一行文字，解釋爲什麼需要設置內存
--屏障。數據結構的鎖規則通常需要在某個地方解釋。一般來說，主要數據結構需要全面
--的文檔。應該指出代碼中分立的位之間不明顯的依賴性。任何可能誘使代碼管理人進行
--錯誤的“清理”的事情都需要一個註釋來說明爲什麼要這樣做。等等。
-+某些事情應該總是加上註解。使用記憶體屏障時，應附上一行文字，解釋為什麼需要該
-+屏障。資料結構的鎖規則通常需要在某個地方解釋。一般來說，主要資料結構需要全面
-+的文件。不同程式碼片段之間不明顯的相依性應該指出來。任何可能誘使程式碼清理者
-+進行錯誤“清理”的地方，都需要一個註解來說明為什麼要這樣做。等等。
- 
- 
- 內部API更改
- -----------
- 
--內核提供給用戶空間的二進制接口不能被破壞，除非逼不得已。而內核的內部編程接口
--是高度流動的，當需要時可以更改。如果你發現自己不得不處理一個內核API，或者僅
--僅因爲它不滿足你的需求導致無法使用特定的功能，這可能是API需要改變的一個標誌。
--作爲內核開發人員，您有權進行此類更改。
--
--的確可以進行API更改，但更改必須是合理的。因此任何進行內部API更改的補丁都應該
--附帶關於更改內容和必要原因的描述。這種變化也應該拆分成一個單獨的補丁，而不是
--埋在一個更大的補丁中。
-+核心提供給使用者空間的二進位介面不能被破壞，除非逼不得已。而核心的內部程式設
-+計介面是高度流動的，當需要時可以更改。如果您發現自己不得不繞過一個核心API，
-+或者僅僅因為它不滿足您的需求而不使用某個特定功能，這可能是API需要改變的一個
-+標誌。作為核心開發人員，您有權進行此類更改。
- 
--另一個要點是，更改內部API的開發人員通常要負責修復內核樹中被更改破壞的任何代碼。
--對於一個廣泛使用的函數，這個責任可以導致成百上千的變化，其中許多變化可能與其他
--開發人員正在做的工作相沖突。不用說，這可能是一項大工程，所以最好確保理由是
--可靠的。請注意，coccinelle工具可以幫助進行廣泛的API更改。
-+當然，這其中有一些需要注意的地方。API可以更改，但更改必須有充分的理由。因此任
-+何進行內部API更改的補丁都應該附帶關於更改內容和必要原因的描述。這種變化也應
-+該拆分成一個單獨的補丁，而不是埋在一個更大的補丁中。
- 
--在進行不兼容的API更改時，應儘可能確保編譯器捕獲未更新的代碼。這將幫助您確保找
--到該接口的樹內用處。它還將警告開發人員樹外代碼存在他們需要響應的更改。支持樹外
--代碼不是內核開發人員需要擔心的事情，但是我們也不必使樹外開發人員的生活有不必要
--的困難。
-+另一個要點是，更改內部API的開發人員通常要負責修復核心樹中被該更改破壞的任何
-+程式碼。對於一個廣泛使用的函式，這個責任可能導致成百上千的變化，其中許多變化
-+可能與其他開發人員正在做的工作相衝突。不用說，這可能是一項大工程，所以最好確
-+保理由是可靠的。請注意，Coccinelle工具可以幫助進行大範圍的API更改。
- 
-+在進行不相容的API更改時，應儘可能確保未更新的程式碼會被編譯器捕獲。這將幫助
-+您確保找到該介面在樹內的所有使用處。它還會提醒樹外程式碼的開發人員，有一項他
-+們需要回應的更改。支援樹外程式碼不是核心開發人員需要擔心的事情，但是我們也不
-+必讓樹外開發人員的生活比必要的更困難。
++在接收端都串在同一個討論串中。像Git和Quilt這樣的工具有命令，可以用正確的討論
++串結構寄出一組補丁。但是，如果您有一長串補丁，並正使用Git，請不要使用
++--chain-reply-to選項，以避免建立過深的巢狀結構。
 -- 
 2.43.0
 
