@@ -1,85 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793979463;
-	b=x2EGO3a4A/xHDV3ZPbAbFgavoPfho+972gShPSbufcNQCE93HAPxFEgs4YOmMuyZelo8
-	 m5fvtJWvTLzOjRQL8C2HK21VY3Fs1ChP4XyUfcSs8G9EiGvMBxxJIwe/s1oe/o6xCLWG2
-	 QcuwUkDCVJsUgEQ0vWFbc8BQ0gsW/DqnFUY+aNVz012F+B6z1lBEwhtZTZW8WQmeveoKI
-	 v+K/460Su1zm/rTCpfsgxGRJZ7s4WNdZ+jFfk3leiek40Y+Omz5nfdD6qczsi721qIuas
-	 SBIN7S8N48IenogWKWc0j6ImrG6GUwbJ101V5BVxrLVI4J/YlpZDiDGApo4C79q/9Vg==
+	t=1793979855;
+	b=gyNFd2z14YjR/0I7C12qx1jEzc2lc28RHXFZytVIayC9BPHn4aX/g1Y/UlXW0150XQLr
+	 1oa5P6CtgjfbgVvA5xrlF35JcAGqsN/VAlPpM5DiFN3nWgmRYGOzBeWwOmv4WPfAtsIvT
+	 uN56PxOVKLoRhLMhaAj6uXJA9st0tOZrPpdQ2dDMUN/UdDwwRB7V/cflU9oz6zwTWWli3
+	 I76UYUE9s90CngBmtMtc25CFFxts+eqIzLm6xSLEmrKSENkIKmG2mafa0HewkZtO8HKo9
+	 yfmSqKDRQf2bavb+qHPV+GfzRsVWumWvgDg4sYbOCl37Jc8bw/ll7xU+vvn601Ey95w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793979463;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
-	bh=HuObySZLDxE9+LLAkaqrBSP5vceAa33bCHj1KNG2i7A=;
-	b=bnHs3fIbeVGM1huReEHqivqiK8myZP4PHaowxF9m94F2PFWqiubYPumD6KKdN8HbHZcQ
-	 3cD0dj42gMCa5H7h9lcbXgXub64QZJ/H90YKSTBBjLpEM0sw8108e/7ijbwOXzI5WZEWU
-	 Keveo+FxMISrOp+Hai5Ruse73rMkzkKYzxO3lGfW4AUdYlZa98hGOzabFsLIDAf6BiiP1
-	 w288wo9gJsQ1m3lLwRTkjRtCd4zT8jj2/xDRcBU7JKtX1kQ39uQAiJPNingx7J2vv80HI
-	 liFUTVA2G1/JGJqQYI94eerFBTQ9X8ee9AARhoVSZuEZGJtmR8tC2cKkFBAMCeF7tEA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793979855;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=kdSQ6gbIkbrqZrODfVj2GaSXZ9iZOLx1/t0MWwXpq7k=;
+	b=gBfDYLQIxoYeOB48Xqc0Riu+bGiQ58lBL6dAfGu9yna3IaUG+ThVGgYyCdmAIuc6qkiS
+	 0koNCPzawl06rI8SBJV4utJoD9JQPtqXfrYIFNORNRztoXdRWVrQ9w63CnY3F62gu3t9U
+	 iQ5i6PS3lgYW1yhPA6/Z5WCjndF4vpzFUoszwOx1s3NcAy+RVjZMgI3eP9bEkD9/m8rOK
+	 RnupGunCsuF9N9Nc2Kf+8QjgVAwd/qlI5FFfHvAGoRNPBRfOrlQwOdOte4x6bxPOciQtQ
+	 cCxMU0tpCi3zYlTbSTOX6EEux1y54uLos8TRQ/pIVSO0xpcSwBbMgdLowcfFspbgTUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=llAlWz7x;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0958A606D827;
-	Fri,  6 Nov 2026 15:37:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0958A606D827
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=furiosa.ai;
+	spf=none smtp.mailfrom=furiosa.ai;
+	dkim=pass header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=XktBeRgf;
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13932606A329
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 15:44:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13932606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furiosa.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=furiosa.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=llAlWz7x
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 475C81650;
-	Fri,  6 Nov 2026 07:37:38 -0800 (PST)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 113BC3F632;
-	Fri,  6 Nov 2026 07:37:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1793979461; bh=qXWXkuBVBxZ9xT4eUDdfxaF2UuiBGoMjIIlVYYrkttg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=llAlWz7xlnBHxmmVTz87IEUBT+U3kyH9YObDETp6fosKhKB5oJhxN2dhuPXDLEEsX
-	 DVL7yW5Oevy7iKyPxCGohG1kCXByNMZVwjct//ZIvQOmSyP2HF+mq413aZkhu0GgXL
-	 wbI2QCexMI+/E09pwLD219X0IgawLZpU1REqS810=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	yangjinqian1@huawei.com,
-	caijian11@h-partners.com,
-	liuyonglong@huawei.com,
-	tangchengchang@huawei.com,
-	yezhenyu2@huawei.com,
-	yubihong@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	seiden@linux.ibm.com,
-	suzuki.poulose@arm.com,
-	fuad.tabba@linux.dev,
-	mark.rutland@arm.com,
-	seanjc@google.com,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v5 13/15] KVM: arm64: Add HDBSS buffer size ioctl for dirty-bitmap mode
-Date: Fri,  6 Nov 2026 15:37:33 +0000
-Message-ID: <au30PSHX_UBIIx_Y@LeoBrasDK>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <5a096cca-713a-4449-83dc-c763dc06c085@huawei.com>
-References: <20260929103655.85107-1-zhengtian10@huawei.com> <20260929103655.85107-14-zhengtian10@huawei.com> <auioRICO9Frhk-zT@LeoBrasDK> <5a096cca-713a-4449-83dc-c763dc06c085@huawei.com>
+	dkim=pass (1024-bit key, unprotected) header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=XktBeRgf
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3b08a162d4bso445815a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 07:44:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=furiosa.ai; s=google; t=1793979854; x=1794584654; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kdSQ6gbIkbrqZrODfVj2GaSXZ9iZOLx1/t0MWwXpq7k=;
+        b=XktBeRgfpL+sq7AMBNpPbpVCYV4IpQlj8VOARywQ/MtvATQ36atQ/67mLccb1l6wxw
+         jP+dCNwrB6Cgg3D56aajxahDtwEeq9oKwt2Xg3tDDWkmVnk4Mhs6THW/+zq67cNod0n7
+         jxTgllLdYzzofQySFjT78CE3sAs3q5fFmRz44=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793979854; x=1794584654;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kdSQ6gbIkbrqZrODfVj2GaSXZ9iZOLx1/t0MWwXpq7k=;
+        b=H6phdM8g1a0yo+iW7vY6nQ8BJer3Vf7ewDR0bWHgnZ5satyhYhapl/yFQm3zxpUWSL
+         LNa95Kqth3MvyJE8G4TmPyFURBnVVPIGDjJtI7/EOfWFzrSv63AKDnOs8FN9z+aOlzyX
+         ciIl35zHTJdrEOdr8MoIVKkG9x391qoPlP6w0HcVTmxvX2MvJXgW9tpNKis2tlraoA8s
+         qz0GMODhOUmm6BnN1E5fX+9Hr9RJ62vqaBxHnbGKein7KnKjFG9I8GZPwa/E0QSyCUNn
+         Ki0q21R0/PD1WVLNnkwzY0jZgdr/r+43by4J91gLMaL/Twe/SoYnM8JWkcbz0alPuRaL
+         nsuw==
+X-Forwarded-Encrypted: i=1; AL+hErFc3tpPGYOE3AaEXSYuAyBUe1/2HTdTW11j3pSSGlzx0J5o14N+3Rw5eAv5Ekeo35LxMGfFqSfObQg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Bnb0P87nIaIrQr5ZMKTirFvM/962v01q3c/KYe8/hPtW10i4b
+	ybxwHKgr2LEqHPQZA++0wzWTJNE02fv8pnvualpBUFeRsmSya0qVpuqlLQEQUkDRzWU=
+X-Gm-Gg: AYBFou2bkqiEqMk5PTcV1dIlASEaVOVXgcKe4wfyKUuVMcfTij+ImvtgRHLAhR2MjMc
+	FNysi7LKt4anI3XIwJJp3zp3+rVrPv98oTe2Z4d3w3Phn+JDku6ylK08GmSFZtCHQb5lyJpv+ZA
+	nS/QO7NzKz21TfcXOwamP4yr5txek5hYSyAFJHA34HOikMmqmbiwV3ss4lvSv8mHcOh6oxYW6MR
+	cZ8XVPeDm8T7e6yyZTaPEdd9xOfBgnsFnmqT4cG0rtSBN0lfbDnLbPOr41dulHxt/NlxNbOfiQo
+	pMOgOOhYPhkXKkc13Vkn3p0hmoIk9kFHCZ9EuJG9rDjRKFyoSgnngTlER8Z2XKuydsyl0KnWr/g
+	zhckHBTP0z+tD1N3ilgQRzWQXGDy2OKVuvOr/wZ4e6cn+gUFuMFUI+AftD2XfjPmIeiYtmtA8ax
+	9XxbW/3M33r9GuL2r6xno/eq6RcpkaBWKH/Zf73tWpDSYa2wNcvshehfbQ7VWIClehf0XEV12tB
+	moOt8RSEyb1JJhWt7n79m4ktaHIFDGSRr1ijLR/NP9j8jUI+nKt0rmLUpw4QdOpnZkwadGxgodV
+	6DeK295A6ICgrfH/lhk6mYOXx9nzNKjNkw3rn3PlqTHOcUIB0VAihZQDZ3kix9JAZsL2fVeV0xa
+	hZ7WTddQl/WU=
+X-Received: by 2002:a17:90b:57ce:b0:3a4:fe48:d410 with SMTP id 98e67ed59e1d1-3b0db6e584fmr2823135a91.30.1793979854271;
+        Fri, 06 Nov 2026 07:44:14 -0800 (PST)
+Received: from rock-5b-plus ([61.83.209.48])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b326add7sm8301270a91.8.2026.11.06.07.44.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 06 Nov 2026 07:44:13 -0800 (PST)
+Date: Sat, 7 Nov 2026 00:44:08 +0900
+From: Sidong Yang <sidong.yang@furiosa.ai>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
+	Gyeyoung Baek <gye976@gmail.com>, Philipp Stanner <phasta@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] accel/rocket: Report NPU usage through fdinfo
+Message-ID: <au31m2jC9SmQ6iZh@rock-5b-plus>
+References: <20261103155338.1949294-1-sidong.yang@furiosa.ai>
+ <a9f016ce-f086-412d-9ca6-6608a41840e5@ursulin.net>
+ <33ccceef-3498-426a-ae7c-a8bafbb88992@igalia.com>
+ <2ca12f1b-89f6-4069-aedf-4e5d645e8deb@ursulin.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,105 +102,17 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <2ca12f1b-89f6-4069-aedf-4e5d645e8deb@ursulin.net>
 
-On Fri, Nov 06, 2026 at 06:27:27PM +0800, Tian Zheng wrote:
-> 
-> 
-> On 11/2/2026 11:12 PM, Leonardo Bras wrote:
-> > On Tue, Sep 29, 2026 at 06:36:53PM +0800, Tian Zheng wrote:
-> > > In dirty-bitmap mode, a larger HDBSS buffer lets the guest dirty more
-> > > pages between VM exits, at the cost of memory. The default of one page
-> > > per vCPU is a reasonable starting point, so allow userspace to opt
-> > > into a larger buffer via KVM_CAP_ARM_HDBSS_BUFFER_SIZE.
-> > > 
-> > > The size is specified in bytes through KVM_ENABLE_CAP and must be a
-> > > power of two in [PAGE_SIZE, SZ_2M]: the upper bound is the largest
-> > > HDBSSBR_EL2.SZ encoding, and the power-of-two requirement matches the
-> > > buddy allocator. It must be set before any vCPU is created: -EINVAL
-> > > after vCPUs exist, -EBUSY if already set.
-> > > 
-> > > The capability is rejected in dirty-ring mode, where the size is
-> > > pinned by kvm_arch_dirty_ring_size_updated().
-> > > 
-> > > KVM_CHECK_EXTENSION returns the configured size for a VM, or SZ_2M
-> > > when queried globally with a NULL kvm.
-> > > 
-> > > Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
-> > > ---
-> > >   arch/arm64/kvm/arm.c     | 34 ++++++++++++++++++++++++++++++++++
-> > >   include/uapi/linux/kvm.h |  1 +
-> > >   2 files changed, 35 insertions(+)
-> > > 
-> > > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> > > index 5a7046acb62e..eadbf3a88d31 100644
-> > > --- a/arch/arm64/kvm/arm.c
-> > > +++ b/arch/arm64/kvm/arm.c
-> > > @@ -19,6 +19,7 @@
-> > >   #include <linux/kvm.h>
-> > >   #include <linux/kvm_irqfd.h>
-> > >   #include <linux/irqbypass.h>
-> > > +#include <linux/log2.h>
-> > >   #include <linux/sched/stat.h>
-> > >   #include <linux/psci.h>
-> > >   #include <trace/events/kvm.h>
-> > > @@ -203,6 +204,31 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
-> > >   		r = 0;
-> > >   		set_bit(KVM_ARCH_FLAG_EXIT_SEA, &kvm->arch.flags);
-> > >   		break;
-> > > +	case KVM_CAP_ARM_HDBSS_BUFFER_SIZE: {
-> > > +		u64 size = cap->args[0];
-> > > +
-> > > +		if (!system_supports_hdbss())
-> > > +			break;
-> > > +		if (kvm->dirty_ring_size)
-> > > +			break;
-> > > +		if (size < KVM_ARM_HDBSS_DEFAULT_SIZE ||
-> > > +		    size > KVM_ARM_HDBSS_MAX_SIZE)
-> > > +			break;
-> > > +		if (!is_power_of_2(size))
-> > > +			break;
-> > > +
-> > > +		mutex_lock(&kvm->lock);
-> > > +		if (kvm->created_vcpus) {
-> > > +			r = -EINVAL;
-> > > +		} else if (kvm->arch.hdbss_buffer_size) {
-> > > +			r = -EBUSY;
-> > > +		} else {
-> > > +			kvm->arch.hdbss_buffer_size = size;
-> > > +			r = 0;
-> > > +		}
-> > > +		mutex_unlock(&kvm->lock);
-> > > +		break;
-> > > +	}
-> > >   	default:
-> > >   		break;
-> > >   	}
-> > > @@ -500,6 +526,14 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
-> > >   		else
-> > >   			r = KVM_ARM_EAGER_SPLIT_CHUNK_SIZE_DEFAULT;
-> > >   		break;
-> > > +	case KVM_CAP_ARM_HDBSS_BUFFER_SIZE:
-> > > +		if (!system_supports_hdbss())
-> > > +			r = 0;
-> > > +		else if (kvm)
-> > > +			r = kvm->arch.hdbss_buffer_size ?: KVM_ARM_HDBSS_DEFAULT_SIZE;
-> > 
-> > This whole thing of allowing hdbss_buf_size to be set only once makes
-> > everything more complex. Why do we have this limitation again?
-> > 
-> > I mean, if we want to restrict size changes after the first hdbss buffer
-> > gets allocated, it makes sense, other than that, I would like to understand
-> > the reason for that.
-> > 
-> > Thanks!
-> > Leo
-> 
-> Hi Leo,
-> 
-> You're right, I re-examined the whole flow and the "set once"
-> restriction isn't actually needed. I'll remove it.
-> 
+On Thu, Nov 05, 2026 at 11:04:29AM +0000, Tvrtko Ursulin wrote:
+> It would just be adding u64 drm_sched_entity_get_runtime(entity).
+> Nothing else would need to be exported and the implementation simply
+> locks entity->stats and returns the runtime. As long as the caller knows
+> they haven't destroyed the entity it is safe since entity holds a
+> reference to the stats object.
 
-Awesome, thanks!
-Leo
+Thanks for the suggestion. If Philipp and Danilo are fine with it, may I
+add drm_sched_entity_get_runtime() and switch rocket to it in v5?
+
+Thanks,
+Sidong
