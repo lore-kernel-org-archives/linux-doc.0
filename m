@@ -1,55 +1,66 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793984282;
-	b=h2e3+hZG3L9GnyS4kgk+z35q5pbDF3vIFwIWg+2Hmmn9WK151v/aTnLg9vK9TdXdCZpZ
-	 Mx774WVaqPVBj5DTN/DoKSFNDKv4ZpS8ZFLDgUTKiNCuR08xSCF4e7io/GRGV8fC/xZz0
-	 ZoBIoH/NhAUl3MvIVWIPsPbZojtDRVAq6gzIkQMucGrSYrPKbreZYHyAiMFvPREJd47qi
-	 +CQgj2KCgzk8IjZojkuk8Ht8kbd4LO2ccDB1Ou/MuHDFQIrpLEerRatupL0tRjV0JXRPi
-	 pXyMQR4rSgxkWpsOQ5nVaSU8Nf30Ex+/2s9eMr8TfotIPqn0whwu29qdMj/zrfMdGsw==
+	t=1793984662;
+	b=enWUGqenUrwLK6RmNSzYpcV1zzaq5Ojk4Yuk4ZHK4RnCMHxjPUX3N9LrWOoYw3r+miBu
+	 pFhqHOi09d1k4RZ9tZJ4AUDAitFsWFX+5eesUFWM01GREK1YNeZYcczuz4+lsaMhJOtwG
+	 ZsDmdq9+TJcLJeRPt4ABREwd4FaZFsTNg2eDN62e+uJsUiq+atP/OzgxoRqI+BKtwQRlh
+	 BcgmtgMaDR8DSpL3juLWUnlY/onai9dPESmPhoYIvoDrHLbeXwRawHUAKoAeaGhv8br4v
+	 YrkiUde7HXsaK3eKeuEWLXmvh7hV+9OGRMRi9TqqyOPDKejHTUwHnv7/t7Hxru3kLUA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793984282;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=aapcxwLu2g1WrQp7s+HjqvVRyAq/ZI+SBlLC9jFvL6k=;
-	b=Cs6M7Ux0H1eTe0Q2oDc8OBJUeKEs8q68zFvTSksgLZD5QThIKCYk2AyzMy9mdOy8y8pE
-	 YXs/fZNYc+n1E6nY/f+szpcCKrKAEp/VDm0D8CKm32kG9MU8SNdG6svqbZ/+EM6e4KsFQ
-	 ZxvR6QwUvRaflal1tB7c64/cbL8l9buwhbesp3EnxLpYuhYTXixKgyoYlqwqErywxfWdB
-	 ceaz8My888G5HxdQYRoB7XzRpDsa3hi6Jc6GViN/n25Z+5cP8yd5MgWMQFn+HFuTc/tQj
-	 z9C4wLFs93FT936kG4dfzx+PaF1DS84Mo7Hv1/xxpjTVpWXBlq2MKAug00fZfyUTMEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793984662;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=/qwHj82ZGjV8oGUVTL0UP+HSV++lEMiXBJ4f5EpTCcs=;
+	b=Fn6rQyOr61qJVQ37Wvbv5WniE4yAUtMmkR6Cwg5gH6dtjyn4B4zr3PEH7xH1+On1SPkE
+	 c4mRj/TwQaSfiZ5bD3DJnAnIAxhXhzGw1nk90twUceVmGPOGu9EmS7TEMMC3qg9V580Hx
+	 W6I3H7Xydy4bzrMdtPjEkiPg0Temfowk0uHEKGMHAd19nQDkyoe/GkxCkHLNbCtg90Eyf
+	 8pNaXzsEwyCifvk7q++wW6GDGrYsFUJIpQ5a16me0vgVJ1vcmQJcfmLj7N4tWz4rvtb3z
+	 gjBX0HhBgeEHy02E6OF3JGbmeu+4oJCd/qcperP6Dp0vg2Wm4bleji8xUvd70U8VhzQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cz29no5d;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="FV5RO/mf";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F33606A32C
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 16:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92913606A326;
+	Fri,  6 Nov 2026 17:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cz29no5d
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F8A01F008BF
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 16:58:02 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FV5RO/mf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01D31F008A4;
+	Fri,  6 Nov 2026 17:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793984282;
-	bh=aapcxwLu2g1WrQp7s+HjqvVRyAq/ZI+SBlLC9jFvL6k=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Cz29no5dD8JqRMxH+gjr48QKoSbORUNivGHRgf2jb3ac0pYoJTIbrM0CQk4JsIZfr
-	 WZBUybCsFHPjz8qKOxMis9cn9Y6RSBnbzdjB3aqLkXlttBBvPXXz+VH2F0lqhR46DL
-	 Y+n32Fu9LzeM1ET3+uhSR6eHeKnJQRESALqnqLt3HDOZhp39Om+OpJk4EdYp/XZCkp
-	 EgawQfKfYNQaJLLHvQyaEzydAbwArJWSroM61WJ2E03/4tdQ9Espwy5ViJTq3zWzI0
-	 rimulrD/pAhWFfQvgpG7OEnupITH2coIZJtHK+UPmINMMvoZycVPcc8dtcex3BuFKm
-	 TDhyFEPwVyu+w==
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-5bfc346401aso671896e87.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 08:58:02 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErF5zJLXhN0X81xHZhAdxDup1lqokHAhQV5rXKIljXGsRbb0BTAbGn7PUBVfjsx+rC68JucKJZll1Zg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8aiu+VVj3pQdAFu4PUZ0G7GCtTNR60aHpo7/DPDjxdiatYew9X
-	cRzAHM3c43dz7F9cJ+LfdVLMsH9Sf38ytfbl5mUYGTl7cuSGFLtp00ppsS5hgenI/uN7fE4TX2h
-	j8AmfsFVRImqBvpaFU7Wo0Yt5OJXmEcE=
-X-Received: by 2002:a05:6512:12d6:b0:5bf:ddd7:8897 with SMTP id
- 2adb3069b0e04-5c003ac9e96mr980574e87.23.1793984280585; Fri, 06 Nov 2026
- 08:58:00 -0800 (PST)
+	s=k20260515; t=1793984662;
+	bh=/qwHj82ZGjV8oGUVTL0UP+HSV++lEMiXBJ4f5EpTCcs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FV5RO/mfnOhj/UXvGJ03d3YWAJx2H74CbqBHlVVxOJPrwBETRSSC37hgKtBSRXGsu
+	 0DQkoNaMhknpoCPGNv7g8Mz0JaCByZaApKpPgAsDTkePKkw7a1sxJ7Wq4CFVrIPPXM
+	 EEG6O3KzLNy4Xr4OHinQeRfouPSb4rZu9jMMz8fVfA7K4k+cAtts/KVbwKB1vbJ6jP
+	 B03nTF9deu+BdyIRyB/4aHf7DQcWvt6BSUiUXptKNup3D8dTZNE/JA7TZNDKWxraXO
+	 PauP2vYDcaIj4/mSopDwrObQqgA1Yagf3bM9smeZ8OQ0X67aTyGcPBl8LU5ukrZmkG
+	 ejHJemFOnpXag==
+Date: Fri, 6 Nov 2026 17:04:16 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Michael Hennerich <michael.hennerich@analog.com>,
+	Trevor Gamblin <tgamblin@baylibre.com>,
+	Joshua Crofts <crofts@kernel.org>,
+	Sergiu Cuciurean <sergiu.cuciurean@analog.com>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 6/7] dt-bindings: iio: adc: add adi,ltc2387
+Message-ID: <20261106-usage-sarcastic-ef377a65e293@spud>
+References: <20261106160529.876251-1-Nicolae-daniel.Deaconescu@analog.com>
+ <20261106160529.876251-7-Nicolae-daniel.Deaconescu@analog.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,117 +70,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102-superm1-s4-at-s5-v1-0-313e0012dd39@kernel.org>
-In-Reply-To: <20261102-superm1-s4-at-s5-v1-0-313e0012dd39@kernel.org>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Fri, 6 Nov 2026 17:57:47 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0i07G06GDGX76f3-ppumfNUFD0nTB-Wz8k4PS=Ra13CsA@mail.gmail.com>
-X-Gm-Features: AclHuK-nGOJX3yYmWbdI-i74p7cGw89wKvjKOaX_tvZvRUMd-zE7Ztxg-_gdiaU
-Message-ID: <CAJZ5v0i07G06GDGX76f3-ppumfNUFD0nTB-Wz8k4PS=Ra13CsA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Use hibernate callbacks when shutting down the system
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Len Brown <lenb@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Denis Benato <benato.denis96@gmail.com>, AceLan Kao <acelan.kao@canonical.com>, 
-	Kai-Heng Feng <kaihengf@nvidia.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
-	=?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, Eric Naim <dnaim@cachyos.org>, 
-	Bartu Alev <bartualev@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Driver Core Devel <driver-core@vger.kernel.org>, 
-	ACPI Devel Maling List <linux-acpi@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6Zm2+GCoGcbtJ0mH"
+Content-Disposition: inline
+In-Reply-To: <20261106160529.876251-7-Nicolae-daniel.Deaconescu@analog.com>
 
-On Mon, Nov 2, 2026 at 2:54=E2=80=AFPM Mario Limonciello <superm1@kernel.or=
-g> wrote:
->
-> OEM systems that ship with Linux preloaded need to go through energy
-> certifications that match regulatory bodies in the regions that they
-> will ship.
->
-> If any of those certifications don't pass then OEMs might not be able
-> to ship systems preloaded in applicable regions.
->
-> Multiple models of systems are reported to fail in Linux but pass
-> for Windows on the exact same hardware.
->
-> By looking at a breakdown of power consumption across devices the
-> issue is that some devices aren't turned off when user puts the
-> system into S5 (shutdown).
->
-> A few years ago when I first root caused this I submitted patches
-> to PCI core to change the PCI policy at shutdown [1].
->
-> But through various iterations I've come up with a better approach.
-> Instead of changing policy in each subsystem we can instead
-> change our shutdown command to run hibernate callbacks for all hardware.
->
-> In order to accomplish that the last 17 kernel cycles I've been slowly
-> drippping changes into the hibernate code paths of all subsystems to make
-> sure they behave as intended.
->
-> Those are all merged as of kernel 7.4-rc1, and thus I am now ready to
-> start using the hibernate codepath at shutdown. This series adds that
-> support.
->
-> I'm not na=C3=AFve; there is definitely risk involved with this change as=
- it
-> will essentially affect anything running Linux that gets turned off.
->
-> To that I will say that I have been running, rebasing and iterating this
-> series on my personal development tree ever since December 2023.
-> Various rolling distro community members have also been testing iteration=
-s
-> of these patches in their hardware and distros.
->
-> I've also put a few guard rails in place:
->
-> 1. Don't mandate hibernate support. If not compiled with it, just use
->    previous shutdown paths.
-> 2. If hibernate callback fail, emit a `pr_emerg()` message but fallback
->    to previous shutdown paths.
-> 3. Offer a kernel command line option `shutdown=3Dlegacy` that any affect=
-ed
->    user could use to roll back to previous behavior while we root cause
->    any issues.
->
-> I did split out the kernel command line option to a second commit.  If we
-> later decide that we want to keep this behavior but drop the rollback kno=
-b
-> we can revert that commit.
->
-> Link: https://lore.kernel.org/linux-pci/20231213182656.6165-1-mario.limon=
-ciello@amd.com/#t
+--6Zm2+GCoGcbtJ0mH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I have a couple of concerns regarding this, after looking at the patches.
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
 
-First off, dpm_suspend_start() seems to be called during shutdown
-while user space is running.  That is risky because at least some
-things in the power-off code path assume that user space has been
-frozen.  I think that freezing tasks, along the lines of what system
-suspend does, before running dpm_suspend_start(), is requisite or you
-will get into trouble with people who run fuzzers across shutdown or
-similar.
+--6Zm2+GCoGcbtJ0mH
+Content-Type: application/pgp-signature; name=signature.asc
 
-The other concern is that the "legacy" shutdown should be the default
-or people will get confused.  Arguably, it is not even necessary to
-try to change that in many cases.
+-----BEGIN PGP SIGNATURE-----
 
-Of course, this means that the new shutdown arrangement will not be
-used to start with, so there needs to be a plan to migrate users to
-this new order and I would start with the systems where it actually is
-an improvement.
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCau4IkAAKCRB4tDGHoIJi
+0iueAP9jmAfn1jcU1E0CQxnvOVAmJfHXQT7RW7NOL4BYmj04uQEA9fCtpJwivUlD
+/lvw4diYBrzR55OtM06oGpeAmRguMQo=
+=A6CV
+-----END PGP SIGNATURE-----
 
-I would try to add the shutdown=3D option upfront in the first patch and
-make it take one of two options, "classic" (the regular shutdown
-callbacks) or "pm-aware" (hibernation callbacks etc) with the first
-one being the default at least to start with.
-
-Then, you can add a DMI quirk table or similar with a list of systems
-where "pm-aware" works better than "classic" and expand its use going
-forward.  My expectation would be that, at one point in time, the
-majority of x86 platforms using ACPI would be better off with
-"pm-aware" than with "classic", but I'm not sure that this point in
-time is today.  Beyond that, it is really hard to say how cards will
-fall.
+--6Zm2+GCoGcbtJ0mH--
