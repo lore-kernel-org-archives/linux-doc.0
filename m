@@ -1,86 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793984735;
-	b=IUXX2DgVZ6/pTz/98INwDqBRZj0lR7/JCcOSBedvU1fZKt5oh30JzG149UZ7Ws0I83Rg
-	 H2wUNGo9XIB9w/J684Ry/wcvkyYiQIBucnTY9PlU0Ep82LkGtvvQ4zqucSiRJKn06uk/P
-	 JwLsIHZLn6LKrP777fwtZ5vzgGHKK0FN9S2miL9NvZJ/fwYKKiNqYhsoWYbpyNutvj7r9
-	 VaYOQOmS4xVKRnBl6e9DoIxL5a6eJ3pOKAIQoJFEfCYDyjQVMY6R6+5TIWSb94DiaLq3v
-	 2i+RVFGWDrlN86Qut7mwrZCt+LHkzHvE+ymrfy7Fr6HItxlyAiFDhvnPZyok7Gw9W4A==
+	t=1793985208;
+	b=noeLtBcsUAd/LHe4Sg+RVoaD7py1AruF5q3xOonZyBBVZ0L+hyt0HweeOfevFjv1wz9B
+	 ZLDhk6O3cxpZoPXNyTIysO0vlX1c/tNHY1bj+xXatqppZozp3xFIYGRXkx13ohGd0puaF
+	 6lJZo66Dt1+Ooy56pk+5R1SAiNlLbVQ8doZ27NXsqo3Qxfm9kWQmn5XAyp9lov1TWJWB6
+	 s8tg8W2TwbPbqIQ8Z9OxlXipWUAIo/9zUun6ECXMhQuUKdQK+CCjJj3wF6tfPzq//L7Bc
+	 nQle4YlidrivUCzM4/0X6BGHjGiulnaAkX9yCPladLMtdQWDPVzAwLk76vKf2rCDI/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793984735;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=JTlEFod2cjgS0LbAQsWexRzCJ68NZr8rhNXABouJAQw=;
-	b=McODVV6NDtEmJ0rwrsb/6Hgl2V66ajgj6yFVTGoRorEK5YcFo3oUX55eJfZDz9C0izTI
-	 e2AE+IMD0nTiimbwEtjWHFSJizRoFf5iJZL4TFkLegIz5cLDrkQSb0etqEg5EEJpf0tNv
-	 aTcn2bvQ9tmiw6wl7XdlZSOygBoSLMv9Ybv/cyEOwy/StrkPOwxB0xv1N6AqxJsl2Rg25
-	 hypC6sbp6MTLQQasuUFSUJaSItqqJ4y6/HdD4+6/tMhuULIAhHa9UVkTWo/gritWQMuST
-	 B3t6WZ/CkWAHB6zjW0jhK+GAeQlIb4zSDmhjrpo9SdJzcuJcHFlixYR8CZ7ASnof2bQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793985208;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=bPnDFLjtsMX7BueMtx9r8dp1yZvMpehBGipGAVCydqs=;
+	b=XjpuAS7FD3iHWV10EgsIbswLe/cjWnL0P53uZ4nTf8LBN95M40ieIaI4vzZAFLaBThL5
+	 zAqJl/9iHWwXr73GsgZ6BQHJAQf8JERGoiaK16DVFeult3SkyRtk4xgaBcHCmgLKCnnss
+	 0vmlOBBnUHJUXE0oiWoKewZYi1zy7LzqLdth6ej/EKbRYYob0xCnduI67pCpqnPiKBZki
+	 U66rAd5LYLzJ6lcSeuvj1gKYd/yefmIoWlyzXkZpW5uwyLRjOeun+YmKsy49RktkA/qU5
+	 229UYIJ9IqOp35TOfjFke2RVCm3q9p3CMcQXu8+dCHTm9M1JRJCzvS0zkqN4yMlV6Hg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LhgmYRf9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkPI8UND;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF925606A337;
-	Fri,  6 Nov 2026 17:05:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA39606A326;
+	Fri,  6 Nov 2026 17:13:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LhgmYRf9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06D2E1F008A5;
-	Fri,  6 Nov 2026 17:05:34 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TkPI8UND
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9038F1F0089F;
+	Fri,  6 Nov 2026 17:13:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793984734;
-	bh=JTlEFod2cjgS0LbAQsWexRzCJ68NZr8rhNXABouJAQw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=LhgmYRf9RsD3jkt7XP0j5x6GVceyzZdxPZmBiATz86t4GWKKDfCr1RMuHVQsjnhKD
-	 K8hy6v4vBlzaZp8HABomM9YNM5Z2QB91duA/38Ni68uWbp1fKrWiZfq7CMnVN4/DQx
-	 4EQEtE84c9EfXGKcRhG88yib2HD5bjNrAgUmxjSfsrUNomwyyRUW6ENDJYFrI7sITI
-	 JoLR2yWeFvuJKN+DixGTRz0GQmsFknUviXNyag+oj13tq7yywSBdYxXvj69WU+OaYk
-	 2/hJ6Dh6lTz1ItTt+ownJdJdTjfELbifbUKhCJ/qeOOrj+uhKg5rw+Kzb6NkNfnrtH
-	 qA8BiWPOgyufQ==
-Date: Fri, 6 Nov 2026 09:05:32 -0800
-From: Drew Fustini <fustini@kernel.org>
-To: Zeng Heng <zengheng@picoheart.com>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <radim.krcmar@oss.qualcomm.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sunil V L <sunilvl@oss.qualcomm.com>,
-	Tony Luck <tony.luck@intel.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	x86@kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, yang.yicong@picoheart.com,
-	geshijian@picoheart.com
-Subject: Re: [PATCH v10 2/6] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
-Message-ID: <au4I3E_qcPhIr-Qr@thelio>
-References: <20261104-dfustini-atl-sc-cbqri-dt-v10-0-1636a003a3c0@kernel.org>
- <20261104-dfustini-atl-sc-cbqri-dt-v10-2-1636a003a3c0@kernel.org>
- <02cf71f0-09d5-4dde-a8cf-3739583cc7fa@picoheart.com>
+	s=k20260515; t=1793985207;
+	bh=bPnDFLjtsMX7BueMtx9r8dp1yZvMpehBGipGAVCydqs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=TkPI8UNDklgLg24An0CwLzEX1nUXsMqpKIdUlZ239MrmVy4gbbxjw1PH5hwp9sw1E
+	 aH0VxuxlrEDr4hWf2TQbx17n1vTj2OJEMRY6PR1+BkDwoCEZz5S5UZof9HYnAu2MNv
+	 S0dDRX/8wnisoz3OjNlPaeZvVdq8GiepQUvEiBLk7bLZTw57XQT7cU8fvTiC8gs2/J
+	 3vLeQsabyMMIY7PapuwdmTJekLnHjMoAraVZfWD79iOgYmdQGckzf+Tbmszf4bngg8
+	 VwYakwG2MJpd7hgoJjPQdv7HzjdFJGtOY89OF7dZjE6riU1nsUGTe3Ud+CrZxHLyAn
+	 WeKRm4PWN3yHw==
+Message-ID: <82efa7f5-c5b4-4934-a72d-7399ce52496c@kernel.org>
+Date: Fri, 6 Nov 2026 11:13:23 -0600
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,76 +51,133 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] Use hibernate callbacks when shutting down the system
+Content-Language: en-US
+To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Len Brown <lenb@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Denis Benato <benato.denis96@gmail.com>,
+ AceLan Kao <acelan.kao@canonical.com>, Kai-Heng Feng <kaihengf@nvidia.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ =?UTF-8?Q?Merthan_Karaka=C5=9F?= <m3rthn.k@gmail.com>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pm@vger.kernel.org, Eric Naim <dnaim@cachyos.org>,
+ Bartu Alev <bartualev@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Driver Core Devel <driver-core@vger.kernel.org>,
+ ACPI Devel Maling List <linux-acpi@vger.kernel.org>
+References: <20261102-superm1-s4-at-s5-v1-0-313e0012dd39@kernel.org>
+ <CAJZ5v0i07G06GDGX76f3-ppumfNUFD0nTB-Wz8k4PS=Ra13CsA@mail.gmail.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <CAJZ5v0i07G06GDGX76f3-ppumfNUFD0nTB-Wz8k4PS=Ra13CsA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <02cf71f0-09d5-4dde-a8cf-3739583cc7fa@picoheart.com>
 
-On Thu, Nov 05, 2026 at 04:05:29PM +0800, Zeng Heng wrote:
-> Hi Drew,
+On 11/6/26 10:57, Rafael J. Wysocki (Intel) wrote:
+> On Mon, Nov 2, 2026 at 2:54 PM Mario Limonciello <superm1@kernel.org> wrote:
+>>
+>> OEM systems that ship with Linux preloaded need to go through energy
+>> certifications that match regulatory bodies in the regions that they
+>> will ship.
+>>
+>> If any of those certifications don't pass then OEMs might not be able
+>> to ship systems preloaded in applicable regions.
+>>
+>> Multiple models of systems are reported to fail in Linux but pass
+>> for Windows on the exact same hardware.
+>>
+>> By looking at a breakdown of power consumption across devices the
+>> issue is that some devices aren't turned off when user puts the
+>> system into S5 (shutdown).
+>>
+>> A few years ago when I first root caused this I submitted patches
+>> to PCI core to change the PCI policy at shutdown [1].
+>>
+>> But through various iterations I've come up with a better approach.
+>> Instead of changing policy in each subsystem we can instead
+>> change our shutdown command to run hibernate callbacks for all hardware.
+>>
+>> In order to accomplish that the last 17 kernel cycles I've been slowly
+>> drippping changes into the hibernate code paths of all subsystems to make
+>> sure they behave as intended.
+>>
+>> Those are all merged as of kernel 7.4-rc1, and thus I am now ready to
+>> start using the hibernate codepath at shutdown. This series adds that
+>> support.
+>>
+>> I'm not naïve; there is definitely risk involved with this change as it
+>> will essentially affect anything running Linux that gets turned off.
+>>
+>> To that I will say that I have been running, rebasing and iterating this
+>> series on my personal development tree ever since December 2023.
+>> Various rolling distro community members have also been testing iterations
+>> of these patches in their hardware and distros.
+>>
+>> I've also put a few guard rails in place:
+>>
+>> 1. Don't mandate hibernate support. If not compiled with it, just use
+>>     previous shutdown paths.
+>> 2. If hibernate callback fail, emit a `pr_emerg()` message but fallback
+>>     to previous shutdown paths.
+>> 3. Offer a kernel command line option `shutdown=legacy` that any affected
+>>     user could use to roll back to previous behavior while we root cause
+>>     any issues.
+>>
+>> I did split out the kernel command line option to a second commit.  If we
+>> later decide that we want to keep this behavior but drop the rollback knob
+>> we can revert that commit.
+>>
+>> Link: https://lore.kernel.org/linux-pci/20231213182656.6165-1-mario.limonciello@amd.com/#t
+> 
+> I have a couple of concerns regarding this, after looking at the patches.
+> 
+> First off, dpm_suspend_start() seems to be called during shutdown
+> while user space is running.  That is risky because at least some
+> things in the power-off code path assume that user space has been
+> frozen.  I think that freezing tasks, along the lines of what system
+> suspend does, before running dpm_suspend_start(), is requisite or you
+> will get into trouble with people who run fuzzers across shutdown or
+> similar.
 
-Hi, thanks for reviewing.
+Hmm.  I'll see about adding that to this path, thanks.
 
-> 在 11/5/26 上午12:35, Drew Fustini 写道:
 > 
-> ...
+> The other concern is that the "legacy" shutdown should be the default
+> or people will get confused.  Arguably, it is not even necessary to
+> try to change that in many cases.
 > 
-> > +/*
-> > + * Fill the rdt_resource fields for one picked rid. An rid with no picked
-> > + * controller is left untouched so it stays out of resctrl_arch_get_resource().
-> > + */
-> > +static void cbqri_resctrl_control_init(struct cbqri_resctrl_res *cbqri_res)
-> > +{
-> > +	struct rdt_resource *res = &cbqri_res->resctrl_res;
-> > +	struct cbqri_controller *ctrl;
-> > +
-> > +	if (!cbqri_res->nr_ctrls)
-> > +		return;
-> > +	ctrl = cbqri_res->ctrls[0];
-> > +
-> > +	switch (res->rid) {
-> > +	case RDT_RESOURCE_L2:
-> > +	case RDT_RESOURCE_L3:
-> > +		res->name = (res->rid == RDT_RESOURCE_L2) ? "L2" : "L3";
-> > +		res->schema_fmt = RESCTRL_SCHEMA_BITMAP;
-> > +		res->ctrl_scope = (res->rid == RDT_RESOURCE_L2) ?
-> > +				    RESCTRL_L2_CACHE : RESCTRL_L3_CACHE;
-> > +		res->cache.cbm_len = ctrl->cc.ncblks;
-> > +		res->cache.shareable_bits = 0;
-> > +		res->cache.min_cbm_bits = 1;
-> > +		res->cache.arch_has_sparse_bitmasks = false;
-> 
-> Currently, the driver sets arch_has_sparse_bitmasks to false, causing
-> resctrl to require a contiguous bits in cache allocation masks. For
-> example, L3:0=3 is accepted, whereas L3:0=11 is rejected because its
-> set bits are non-contiguous.
-> 
-> The default should allow both contiguous and non-contiguous masks,
-> provided they satisfy the other mask validity checks. A contiguity
-> restriction should only be imposed when a specific hardware
-> implementation can't support sparse masks explicitly.
-> 
-> So I propose enabling sparse cache allocation bitmasks by default.
-> Thanks.
+> Of course, this means that the new shutdown arrangement will not be
+> used to start with, so there needs to be a plan to migrate users to
+> this new order and I would start with the systems where it actually is
+> an improvement.
 
-Good point, I will change arch_has_sparse_bitmasks to true. The spec
-defines cc_block_mask as one bit per capacity block and there's no
-contiguity requirement.
+It's improved every system I've tried and measured; but the level of 
+improvement comes down to what hardware is contained.
 
-> > +		res->cdp_capable = ctrl->cc.supports_alloc_at_code;
-> > +		res->alloc_capable = ctrl->alloc_capable;
-> > +		INIT_LIST_HEAD(&res->ctrl_domains);
-> > +		INIT_LIST_HEAD(&res->mon_domains);
-> > +		break;
-> > +	default:
-> > +		break;
-> > +	}
-> > +}
+The most demonstrable improvement comes from systems with dGPUs.
+
 > 
-> Apart from this,
+> I would try to add the shutdown= option upfront in the first patch and
+> make it take one of two options, "classic" (the regular shutdown
+> callbacks) or "pm-aware" (hibernation callbacks etc) with the first
+> one being the default at least to start with.
 > 
-> Reviewed-by: Zeng Heng <zengheng@picoheart.com>
 
-Thanks!
+OK.
 
-Drew
+> Then, you can add a DMI quirk table or similar with a list of systems
+> where "pm-aware" works better than "classic" and expand its use going
+> forward.  My expectation would be that, at one point in time, the
+> majority of x86 platforms using ACPI would be better off with
+> "pm-aware" than with "classic", but I'm not sure that this point in
+> time is today.  Beyond that, it is really hard to say how cards will
+> fall.
+
+How would you feel about a heuristic to turn it on for anything with > 1 
+GPU/accelerator for now?  I think that's the biggest bang for the buck 
+right now.
+
+But deciding when/how to turn it on for more systems than that I think 
+is going to require a wider call for testing.
+
