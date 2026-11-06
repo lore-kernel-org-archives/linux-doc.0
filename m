@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964982;
-	b=b+mbautJ1xqYzB6kMMnXN3HwGtaFeQZsumI5u2UEf0aXeHer7240vO0Hj+Y/NrGUnQ3d
-	 5N+jy4yd8dKsFm4wJ2icsU6zXL3O0vpIBLoS1hYu2zhOH5BK9zFWllKXr7GSKFJ6zQ+Gc
-	 xiavSRV3UOIlKx6+xVoghts3cIWNZbB+f8w4LnYu1zqAh0lun1ZTF/WPEYLNA7iA4eTWI
-	 VSaxCXiCvjKaXbBJreUvdshihcpoBoXeJq0qxEO7gbIb/MYxMCaLdtMJHTzVIha0tvvD7
-	 ID3sxOre3PgCPY/gxsSAu/OFaw9q93O1Ig50yrSgU1LFj0MuMtw0PyMmz+fyQkj//3Q==
+	t=1793964986;
+	b=DFWk09ttc0HszMnoTodHCw2f10vP07BZdmOOLKcZn49UDG0YDN71k9NBMZsWHVOEcrCA
+	 HwjMCjcLKLfUbVqgyDzKnJOrdzCyvqswBBO4PzubomRG7GAoufI6Uezfw7ZiQpxLGOcCi
+	 +9Mqc8pWLBDLXriv1zgvuavx4HojwsTNstyQ025YvJOjKJzwG7gwhyrdeneQcEMClvSo4
+	 ELwozTOuCONc1l+W34I4TWB6KZ9mJM+C+3vxs8Wn0oa9vlGdJbhiWzVzf50FINdSj5i9f
+	 szoJcplkpmd4E4jfSPSmJPeC55zWcIlObWwkLtK2SIECUc0x8mxnDRCw+HtuyuKkL6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964982;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964986;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=ZYxQSy8dLCKYWceK3MqyY+vv/0VurjYeK94bOEbIJSA=;
-	b=Tr9EBbxiy3bi0wo/cNJWOjN2kc9LcR39qmZTCkK9qE9FFw1xnpmP1f9d4IWCObEN2qwn
-	 GypAc3JzAnXk5BTIco/Kl7VwvxVycoETRTq9h+T4TigulgvY+YtFKg9wvTF9f1ArYVCkc
-	 V2teS+Mg3WPJBgh3GBT/Y4X57QKneo7IrMyO1BUFixNJ2HLU6hExUz4wOSIMVHQPFDi11
-	 NJ0VdsUEKAIOGYrD05X4raFlk8FWJ52A9t2/iGAy/plFItfDl710yDYBKZAPcAGEtZzdB
-	 XUCzfrNfQDp9ImTYXT088S/kB1YSDtjgnNP5ItotiYbv3r7yLIsD/iZGtMxKOjmv4lw==
+	bh=ICa14Hc4PS3c7X/NUUurURbAo12e4LiPmOA/n1L6P0I=;
+	b=uOhKpFqYZQcfWuQb+Ct5LcnEDnclMxML34VGWAKQ87RQJ/8oGOxmmurh7i5eSxsA+l6i
+	 +8PPSUsyG3VAkaKre9tj51Lntu2tLpbR0UFMcFqkfAmEgQT1JYKtq2pRY9RTz8HXHKMlx
+	 wzu4bZo/Zj9PRcior11lTcRCNm4VCslwuZT0pImCYOdDzOwmF/SsRwtVEGfNMZfA3jGoL
+	 mUbSHnuP00gJtoB1dBUcrkAOX/GNj5TMFk23NebZ8PkwiXTi/llxyCgms/6sA4IJ7YKLg
+	 24aT3MKcu142RgMhODra9fGJsYhKP9RjQK/DQOGxM26njE3Ufjtd0aQN5+bbHub7QVA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=z1KmrsWR;
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GHjsT3HO;
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE59460A2619
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:36:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DE59460A2619
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6858360A5BCE
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:36:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6858360A5BCE
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=z1KmrsWR
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3afc7b51abfso32684a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:36:21 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GHjsT3HO
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3b09cc7ed1aso107233a91.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:36:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964981; x=1794569781; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964985; x=1794569785; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=ZYxQSy8dLCKYWceK3MqyY+vv/0VurjYeK94bOEbIJSA=;
-        b=z1KmrsWR68iGrKH9Z6PUvX0OBHp6HuhLHN3M9EBO/NTyq9Gd2LhHTjHnGVbTSr/xbN
-         8GmrCedRFKAwsGczEzrug5Z6FHWLEIFaK2IwZ6TAZadzBYtYx/FJmJN6orQ/xOQtL7PH
-         Spe81/e/NEQqOsMLSXSV3Eii91kC5b9Fa2z2hCZTj7nDFTFCSMtspjfe3nF+vs82j7Xm
-         4oQcjip8ywvJj+TrCnv/jT24shqUnO/LLpne7lFZcrdyjJQ5A3eYo8XAe/MWSuAWvAG5
-         bROYTg7SBnEN9ZDeWBW1k2niXennJI1FMs6zw8ttGhi2084UHtjPjO463ejt9FsOn6mB
-         aQ2Q==
+        bh=ICa14Hc4PS3c7X/NUUurURbAo12e4LiPmOA/n1L6P0I=;
+        b=GHjsT3HOrrbZgTTsyJsSoDmP4xHYBDk8MNGNR/8wgQs8QQt4lrgi0u1Awm5qe1FnDp
+         IrGITAn8Uzdc/XUjp3OXuAkpyK31uc45ODNtnOgL5GKqxzKraZS9L/k7QUmM0lb3abwD
+         mNhCD81BUZ/QAJdGXL/RN83+t73E9KH6St3iDSF7bIx63NVyvB5pfrUCFaHP8D8f4F8I
+         nI0gpR4mZGGspqDoHOpxwoWeUOiEfin6O9OpC2PfwsGcXsdAe9AukyE81zWi1s3ypVRB
+         /LJ5MMQbm1zr80pdLiUD1a807ZT5+x8uRsT7MsaHFjvVfb4AUBV9r6JnGBjDDnQrpCtQ
+         qlaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964981; x=1794569781;
+        d=1e100.net; s=20260707; t=1793964985; x=1794569785;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ZYxQSy8dLCKYWceK3MqyY+vv/0VurjYeK94bOEbIJSA=;
-        b=pHgZ32OPVdj5qiJWg0AmLbFc+mjnjDGkA5qTN82uuk2YqI4tRnB7/J6CCAOfLqn4TD
-         LvkLqWqHHjR9CdxmtK56gP9fH5QV9erqVFsUDGWxX0xSQaxZybsO4DG80WMZhvRjzt78
-         Enk60UOZDxZwTP+g4EfF4aSunhZFbMqQFinNue4DmoMwQl8sfQxYPr+PldaY5hbi/WLe
-         SL2Un+tj/o7pTrzH8vA/IN+wB2PaHvkXIYbdE9E9oiVBgeEU+2VhvoxzHNaGoQF53VTI
-         Jq/A/3LaHny7UDfPEyynGDp1BM2tfSvhlAnEyyGIFfUuzeLUBW1ImtZIyJsa3gFngRsO
-         xoAA==
-X-Forwarded-Encrypted: i=1; AL+hErFdr0uJcZj9bCBjT/BzccQ42lvrfYxR9XX16oRpc7hBOWA8mljaFcIu1+Eq4wXGn4KQ2shQ0ulaTc0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+fkRGPVru94MlIsXK72lPBOefUtMLtXTJtM3KtS1SRil48LMkz
-	UTo1gxZ2BHml2EWtvcNsXey05l+C/t1LltLlxTyYrBEWNk4pW8fHE53b8eKBng==
-X-Gm-Gg: AYBFou3hfAJTDIpbndBan/gkOtTwC3mRQfqSJILr3N9TPl+TZYNMsfOkZh36x6644Q4
-	p4I4c2vEeGGAoYdau+iMqI12L18hTNWXFGsOoJtqkofalc2kecm8YUH++TgAyUS2wUhoHxpps28
-	fvVRdnFmdoFxgAQjnpQ+mSzUQ/exiLuVU5NXjUqdbEPdfw95ybQ4ORkg2nwR0yczTExZVXn2Ea5
-	pssrDAV/4sDij/UoLpc0V8h3CG9c8MzOcorWU+jcwGlsh0ApKK2XcvNhQ2g9o1Q0BzsLgj7dRP2
-	1Uf4dSxgaDQeFzFLNyoQqK3kY0Qc0dSYrPzRM+cWNDkdfjb/jDKhNpqhGXw/Noaf5Dop/T00cGS
-	bmzJh1skUfOWfbl8kmaEIo9FgtulKp7TKloOLxAIjSkWwH1n7PzKfKmIzv/OC+hYMGpQBy7rLxk
-	I1QI0DNgKl7piWuoU8mCyifz6LrsjEg5zPDWWFASlu8v0pBP5UX1lbK4J/L9w3+9ZrLVRcd5ebj
-	clMK3URvpczlBgp4BnCIsBszXJTBM+3cLwncy77SqsVY3KO+Wi31+7I5RwdtRbDNgILxrxlYskR
-	QHCDAfBbgEmZpOVcUuM7dW2mGe7a2l02ktSqV07ghuMYuJmmiYdNgYv74azha+wceyQdlyqnD+x
-	hhIi8pzbKhzH1cB7SeDUgVoN7
-X-Received: by 2002:a17:90b:388d:b0:3a8:9db2:a59 with SMTP id 98e67ed59e1d1-3b0db013fbamr3325222a91.0.1793964981081;
-        Fri, 06 Nov 2026 03:36:21 -0800 (PST)
+        bh=ICa14Hc4PS3c7X/NUUurURbAo12e4LiPmOA/n1L6P0I=;
+        b=DsQA1Jkz5HgC/2oBsDEAauT63uQfunzlkb8O2KnH/pMtkz1ONVA6xJ3+mjPy1+TwFj
+         9y/0PnCY4bCld5ybSkdLpv1sYtK+lBoujkyZlv5z6hVlNFFLt7FLt2XtBy2RurXf+YDb
+         Z9QiUdDHoIwZlXNQu3hDnipMX3NvUNSkWDf0dBfl+WkFLIyPv2IIkfG3XDzkf/jbWXg+
+         AMWYDKiTqc7PlIxgYeKgws86NqMjCJ+0wO/BxoKQKg395Z6mjTSw39GNwysKfNv04Eo6
+         uYyU3lp27I0ApLRX5cXjIbdVTpHVAVRHK2hViC52jH/r6mH8wx55E5Bpg3g1tZXzQbtj
+         NXJA==
+X-Forwarded-Encrypted: i=1; AL+hErHqoSmY35WtVLklD0tAqsaao85pKWfLuFYMA84wZ2mfA4W65pGbjWeW/JCcOgH390bYfvymL2mQquk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/AmQdJ4PA2y4os56azQnIcujLv00lB9juV/lf/2Sf1viotdC9Q
+	ThXdaV9J2Y8Xy7GDI8jdVdo9/THwkrCopzHxNgMDF+fCoN6Rn3h+Ei1u
+X-Gm-Gg: AYBFou3hmk2+YzZD+9vVBnix8BWSI6CBVsqqzAPonLt5oCyyz1Vw4O/F/vG9lNElD0O
+	djZiFmA2bYwCJrTqIGsk0j3bUPsuyQv2W2B7tlS1+P/bprvHw5GEUz/4qh6wiM4HoKh7S/5EvZ6
+	wqThP60Y94enRKsysos7SBo+jVu35S09Ci6RO8PLzCnSc0a6kdri5ZZYvrnIlOAOB45wdaOO15+
+	kJRQfwAlITO1IVqfLr6OntkAhMnQB3KsI/VjDVKHefMtImQtkEL7UwbI7JUrmZE6YbQcqIpbY4h
+	dB33y0hwnndkT8255k37Oqt+xdA3JhY8GwnUYzrhOnElXASuKrHi4DYyyY+X4VXrRpQvnfWnisP
+	PgvPeuqF6zFiP2Sx0AsYYKjltkgLw4RFzVPi+NqOxawYIDdLUtghMpd9Q8AR0zU5/o9BM0Synih
+	yinS0NshkoChSkQ90AfGGnb1R81Ia5Wz9slQy81ZLMaSpLMbWuP0+g2rq9Si+VFNEBza6yTh8hX
+	J6e2viNxJpvC+KznQlU9GGrkjAbqZ1xi9RxMn6Y4Eo7dLzPhQiasC0SCsO505FwORFs3gnMU4Sy
+	MRYhIZlEI+VF2vQ8VG6GyaZmM15/MDcIC92NF8YRyGc2Dp5mZKULk66f050WJ6Nhn+xevzQeWJB
+	abriLHw5YBIHIb1iDgsooq9a4
+X-Received: by 2002:a17:90b:224e:b0:3a8:1759:2217 with SMTP id 98e67ed59e1d1-3b0db62ffb8mr3312377a91.2.1793964984504;
+        Fri, 06 Nov 2026 03:36:24 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b32b6507sm8343173a91.16.2026.11.06.03.36.16
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0b32b6507sm8343173a91.16.2026.11.06.03.36.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:36:19 -0800 (PST)
+        Fri, 06 Nov 2026 03:36:23 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 07/13] docs/zh_TW: process: add deprecated.rst translation
-Date: Fri,  6 Nov 2026 19:35:38 +0800
-Message-ID: <20261106113545.708896-8-chenyou910331@gmail.com>
+Subject: [PATCH 08/13] docs/zh_TW: process: add kernel-docs.rst translation
+Date: Fri,  6 Nov 2026 19:35:39 +0800
+Message-ID: <20261106113545.708896-9-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113545.708896-1-chenyou910331@gmail.com>
 References: <20261106113545.708896-1-chenyou910331@gmail.com>
@@ -107,418 +107,404 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/process/deprecated.rst into Traditional Chinese
-from the current English text, including the kmalloc_obj() family
-section and the rewritten strncpy() section that lists its
-replacements.  There is no zh_CN translation of this file to consult.
+Translate Documentation/process/kernel-docs.rst into Traditional
+Chinese from the current English text, including the Rust section and
+The Linux Memory Manager entry.  Book, site and talk titles are kept
+in English, and the long book titles are wrapped to fit in 80 columns.
+There is no zh_CN translation of this file to consult.
 
-The note in the allocator section links to the "Zero-length and
-one-element arrays" section by its HTML anchor; since the translated
-heading no longer produces that anchor, add an explicit
-zero-length-and-one-element-arrays target before the section.
+List the new file in the toctree of process/index.rst, before
+deprecated as in the English index, and drop it from the TODOList.
 
-List the new file in the toctree of process/index.rst, under "Other
-material" as in the English index, and drop it from the TODOList.
-
-update to commit 079a028d6327 ("string: Remove strncpy() from the
-kernel")
+update to commit 57937eac1f78 ("kernel-docs: Add book to
+process/kernel-docs.rst")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../translations/zh_TW/process/deprecated.rst | 363 ++++++++++++++++++
- .../translations/zh_TW/process/index.rst      |   6 +-
- 2 files changed, 368 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/zh_TW/process/deprecated.rst
+ .../translations/zh_TW/process/index.rst      |   5 +-
+ .../zh_TW/process/kernel-docs.rst             | 355 ++++++++++++++++++
+ 2 files changed, 356 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/translations/zh_TW/process/kernel-docs.rst
 
-diff --git a/Documentation/translations/zh_TW/process/deprecated.rst b/Documentation/translations/zh_TW/process/deprecated.rst
+diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
+index d7d947d33cf5..8c558bbf30e4 100644
+--- a/Documentation/translations/zh_TW/process/index.rst
++++ b/Documentation/translations/zh_TW/process/index.rst
+@@ -116,12 +116,9 @@ TODOList:
+ .. toctree::
+    :maxdepth: 1
+ 
++   kernel-docs
+    deprecated
+ 
+-TODOList:
+-
+-* kernel-docs
+-
+ .. only::  subproject and html
+ 
+    目錄
+diff --git a/Documentation/translations/zh_TW/process/kernel-docs.rst b/Documentation/translations/zh_TW/process/kernel-docs.rst
 new file mode 100644
-index 000000000000..7a5e42a12041
+index 000000000000..633a08f30c44
 --- /dev/null
-+++ b/Documentation/translations/zh_TW/process/deprecated.rst
-@@ -0,0 +1,363 @@
++++ b/Documentation/translations/zh_TW/process/kernel-docs.rst
+@@ -0,0 +1,355 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
 +.. include:: ../disclaimer-zh_TW.rst
 +
-+:Original: Documentation/process/deprecated.rst
++:Original: Documentation/process/kernel-docs.rst
 +
-+.. _tw_deprecated:
++.. _tw_kernel_docs:
 +
-+======================================
-+已棄用的介面、語言特性、屬性與慣例
-+======================================
++其他核心文件索引
++================
 +
-+在理想的世界裡，我們可以在單一開發週期內，把某個已棄用 API 的所有使用處
-+都轉換成新的 API，並完全移除舊的 API。然而，由於核心的規模、維護者的層級
-+架構以及時程等因素，這類轉換並不總是能一次完成。這表示在移除舊用法的同時，
-+新的用法可能會偷偷混進核心，只會讓移除該 API 的工作量越來越大。為了讓開發者
-+了解哪些東西已被棄用以及原因，我們建立了這份清單；當有人提議把已棄用的東西
-+納入核心時，可以引用這份清單。
++之所以需要這樣一份文件，是因為在 linux-kernel 郵件列表上，同樣的問題、
++同樣詢問資料出處的請求一再出現。
 +
-+__deprecated
-+------------
-+雖然這個屬性確實會在視覺上把介面標示為已棄用，但它 `在建置時已不再產生警告
-+<https://git.kernel.org/linus/771c035372a036f83353eef46dbb829780330234>`_，
-+因為核心的長期目標之一是在建置時不產生任何警告，而且實際上也沒有人在著手
-+移除這些已棄用的介面。雖然在標頭檔中使用 `__deprecated` 來標註舊的 API
-+是不錯的做法，但這並不是完整的解決方案。這類介面必須從核心中完全移除，
-+或者加入這份檔案，以勸阻其他人未來再使用它們。
++幸運的是，隨著越來越多人接觸 GNU/Linux，也有越來越多人對核心產生興趣。
++但光是閱讀原始程式碼並不總是足夠。看懂程式碼很容易，卻可能錯過這些
++程式碼背後的概念、理念和設計決策。
 +
-+BUG() 和 BUG_ON()
-+-----------------
-+請改用 WARN() 和 WARN_ON()，並盡可能妥善地處理這種「不可能發生」的錯誤
-+狀況。雖然 BUG() 系列 API 最初是設計成「不可能發生的情況」的斷言，並「安全
-+地」終止核心執行緒，但事實證明它們的風險實在太高。（例如：「鎖需要以什麼
-+順序釋放？各種狀態都已經恢復了嗎？」）使用 BUG() 經常會讓系統變得不穩定或
-+完全崩潰，使得除錯甚至取得可用的當機報告都變得不可能。Linus 對此有 `非常強烈
-+<https://lore.kernel.org/lkml/CA+55aFy6jNLsywVYdGp83AMrXBo_P-pkjkphPGrO=82SPKCpLQ@mail.gmail.com/>`_
-+的 `看法
-+<https://lore.kernel.org/lkml/CAHk-=whDHsbK3HTOpTF=ue_o04onRwTEaK_ZoJp_fjbqq4+=Jw@mail.gmail.com/>`_。
++不幸的是，可供初學者入門的文件並不多。而且即使有，也沒有一個「眾所周知」
++的地方來收錄它們。這份文件試圖彌補這個缺口。
 +
-+請注意，WARN() 系列只應該用於「預期不會執行到」的情況。如果要對「可能執行
-+到但不希望發生」的情況發出警告，請使用 pr_warn() 系列函式。系統擁有者可能
-+設定了 *panic_on_warn* sysctl，以確保系統在遇到「不可能執行到」的狀況時不會
-+繼續執行。（例如，請參考 `這個
-+<https://git.kernel.org/linus/d4689846881d160a4d12a514e991a740bcb5d65a>`_
-+之類的 commit。）
++如果你知道任何這裡沒有列出的文章，或者寫了新的文件，請務必依照核心的
++修補程式提交流程，在這裡加上它的參考資料。也歡迎任何更正、想法或意見。
 +
-+在配置函式的參數中直接進行算術運算
-+----------------------------------
-+動態的大小計算（尤其是乘法）不應該在記憶體配置函式（或類似函式）的參數中
-+進行，因為有溢位的風險。這可能導致數值繞回（wrap around），使實際配置的
-+空間比呼叫者預期的還小。使用這些配置出來的空間，可能導致堆積（heap）記憶體
-+的線性溢位以及其他異常行為。（一個例外是字面常數值，此時編譯器可以在可能
-+溢位時發出警告。不過在這些情況下，比較好的做法仍然是依照下面的建議重構程式
-+碼，以避免直接進行算術運算。）
++所有文件都以下列欄位編目：文件的「標題」、「作者」、可以找到該文件的
++「URL」、有助於搜尋特定主題的一些「關鍵字」，以及文件的簡短「說明」。
 +
-+例如，不要像這樣使用 ``count * size`` 作為參數::
++.. note::
 +
-+	foo = kmalloc(count * size, GFP_KERNEL);
++   本文件各節中的文件依出版日期排序，由新到舊。維護者應定期淘汰已經
++   過時或不再適用的資源；但基礎書籍除外。
 +
-+而應該使用配置函式的雙因子形式::
++Linux 核心原始程式碼樹中的文件
++------------------------------
 +
-+	foo = kmalloc_array(count, size, GFP_KERNEL);
++Sphinx 書籍應以 ``make {htmldocs | pdfdocs | epubdocs}`` 建置。
 +
-+具體來說，kmalloc() 可以換成 kmalloc_array()，kzalloc() 可以換成
-+kcalloc()。
++    * 名稱：**linux/Documentation**
 +
-+如果沒有可用的雙因子形式，就應該使用溢位時會飽和（saturate-on-overflow）的
-+輔助函式::
++      :作者: 許多人。
++      :位置: Documentation/
++      :關鍵字: 文字檔、Sphinx。
++      :說明: 隨核心原始程式碼一起提供、位於 Documentation 目錄中的
++        文件。本文件中的一些頁面（包括本文件本身）已經移到那裡，可能比
++        網頁版本更新。
 +
-+	bar = dma_alloc_coherent(dev, array_size(count, size), &dma, GFP_KERNEL);
-+
-+另一個應避免的常見情況，是計算尾端帶有其他結構陣列的結構大小，例如::
-+
-+	header = kzalloc(sizeof(*header) + count * sizeof(*header->item),
-+			 GFP_KERNEL);
-+
-+請改用輔助函式::
-+
-+	header = kzalloc(struct_size(header, item, count), GFP_KERNEL);
-+
-+.. note:: 如果你在尾端陣列成員為零長度陣列或單元素陣列的結構上使用
-+        struct_size()，請重構這類陣列的用法，改用 `彈性陣列成員
-+        <#zero-length-and-one-element-arrays>`_。
-+
-+其他計算請組合使用 size_mul()、size_add() 和 size_sub() 輔助函式。例如
-+以下這種情況::
-+
-+	foo = krealloc(current_size + chunk_size * (count - 3), GFP_KERNEL);
-+
-+請改用輔助函式::
-+
-+	foo = krealloc(size_add(current_size,
-+				size_mul(chunk_size,
-+					 size_sub(count, 3))), GFP_KERNEL);
-+
-+更多細節請參考 array3_size() 和 flex_array_size()，以及相關的
-+check_mul_overflow()、check_add_overflow()、check_sub_overflow() 和
-+check_shl_overflow() 系列函式。
-+
-+simple_strtol()、simple_strtoll()、simple_strtoul()、simple_strtoull()
-+----------------------------------------------------------------------
-+simple_strtol()、simple_strtoll()、simple_strtoul() 和 simple_strtoull()
-+函式會刻意忽略溢位，這可能讓呼叫者得到預期之外的結果。對應的 kstrtol()、
-+kstrtoll()、kstrtoul() 和 kstrtoull() 函式通常是正確的替代品，但請注意，
-+它們要求字串必須以 NUL 或換行字元結尾。
-+
-+strcpy()
++線上文件
 +--------
-+strcpy() 不會對目的緩衝區做任何邊界檢查。這可能導致超出緩衝區結尾的線性溢位，
-+進而造成各種異常行為。雖然 `CONFIG_FORTIFY_SOURCE=y` 和各種編譯器旗標有助於
-+降低使用這個函式的風險，但沒有任何好理由再新增這個函式的用法。安全的替代品
-+是 strscpy()，但凡是用到 strcpy() 回傳值的地方都必須小心處理，因為 strscpy()
-+回傳的不是指向目的緩衝區的指標，而是複製的非 NUL 位元組數（截斷時則回傳負的
-+errno）。
 +
-+strncpy()
-+---------
-+strncpy() 已經從核心中移除。所有原本的呼叫者都已改用更安全的替代函式。
++    * 標題：**Linux Kernel Mailing List Glossary**
 +
-+strncpy() 不保證目的緩衝區會以 NUL 結尾，因而導致線性讀取溢位和其他異常行為。
-+它也會無條件地以 NUL 填補目的緩衝區，對只使用以 NUL 結尾字串的呼叫者來說，
-+這是不必要的效能損失。由於它具有多種不同的行為，從這個 API 很難判斷作者進行
-+複製時的真正意圖。
++      :作者: 多人
++      :URL: https://kernelnewbies.org/KernelGlossary
++      :日期: 持續更新的版本
++      :關鍵字: 詞彙表、術語、linux-kernel。
++      :說明: 引言中寫道：「這份詞彙表旨在簡要說明你在討論 Linux 核心時
++        可能會聽到的一些縮寫和術語」。
 +
-+strncpy() 的替代函式如下：
++    * 標題：**The Linux Kernel Module Programming Guide**
 +
-+- strscpy()：目的緩衝區必須以 NUL 結尾時使用。
-+- strscpy_pad()：目的緩衝區必須以 NUL 結尾並以零填補時使用（例如跨越權限
-+  邊界的結構）。
-+- memtostr()：來源是不以 NUL 結尾的固定寬度資料、目的緩衝區需以 NUL 結尾時
-+  使用（來源需加上 `__nonstring` 屬性）。
-+- memtostr_pad()：同上，但另外以零填補。
-+- strtomem()：目的是不以 NUL 結尾的固定寬度緩衝區時使用，目的緩衝區需加上
-+  `__nonstring` 屬性。
-+- strtomem_pad()：目的緩衝區不以 NUL 結尾且也需要以零填補時使用。
-+- memcpy_and_pad()：從可能沒有結尾字元的來源進行有界複製，且目的緩衝區大小
-+  是執行期數值時使用。
++      :作者: Peter Jay Salzman, Michael Burian, Ori Pomerantz, Bob Mottram,
++        Jim Huang.
++      :URL: https://sysprog21.github.io/lkmpg/
++      :日期: 2021
++      :關鍵字: 模組、GPL 書籍、/proc、ioctl、系統呼叫、中斷處理常式。
++      :說明: 一本非常好的 GPL 書籍，主題是模組程式設計，附有大量範例。
++        新版本目前在 https://github.com/sysprog21/lkmpg 積極維護中。
 +
-+strlcpy()
-+---------
-+strlcpy() 會先讀取整個來源緩衝區（因為它的回傳值應該與 strlen() 的回傳值
-+相同）。這次讀取可能會超出目的緩衝區的大小限制。這既沒有效率，而且當來源
-+字串不以 NUL 結尾時，還可能導致線性讀取溢位。安全的替代品是 strscpy()，但
-+凡是用到 strlcpy() 回傳值的地方都必須小心處理，因為 strscpy() 在截斷時會
-+回傳負的 errno 值。
++已出版的書籍
++------------
 +
-+%p 格式指定符
-+-------------
-+傳統上，在格式字串中使用 "%p" 經常會造成位址在 dmesg、proc、sysfs 等處外洩
-+的漏洞。為了避免這些漏洞被利用，核心中所有 "%p" 的用法現在都會印出雜湊值，
-+使其無法用於定址。不應該在核心中新增 "%p" 的用法。對於程式碼（text）位址，
-+使用 "%pS" 可能比較好，因為它會改為印出更有用的符號名稱。至於幾乎其他所有
-+情況，就乾脆不要加入 "%p"。
++    * 標題：**The Linux Memory Manager**
 +
-+轉述 Linus 目前的 `指導原則 <https://lore.kernel.org/lkml/CA+55aFwQEd_d40g4mUCSsVRZzrFPUJt74vc6PPpb675hYNXcKw@mail.gmail.com/>`_：
++      :作者: Lorenzo Stoakes
++      :出版社: No Starch Press
++      :日期: 2025 年 2 月
++      :頁數: 1300
++      :ISBN: 978-1718504462
++      :備註: 記憶體管理。完整草稿可透過預購搶先閱讀，正式版預計於
++              2025 年秋季發行。詳情請見
++              https://nostarch.com/linux-memory-manager 。
 +
-+- 如果雜湊過的 "%p" 值沒有意義，請先問問自己指標本身是否重要。也許應該把它
-+  整個移除？
-+- 如果你真的認為真實的指標值很重要，那麼為什麼某些系統狀態或使用者權限等級
-+  會被視為「特殊」？如果你認為自己能（在註解和 commit 日誌中）提出足以經得起
-+  Linus 檢驗的理由，也許可以使用 "%px"，同時確保權限設定合理。
++    * 標題：**Practical Linux System Administration: A Guide to Installation,
++      Configuration, and Management, 1st Edition**
 +
-+如果你在除錯時遇到 "%p" 雜湊造成的問題，可以暫時以除錯旗標
-+"`no_hash_pointers
-+<https://git.kernel.org/linus/5ead723a20e0447bc7db33dc3070b420e5f80aa6>`_"
-+開機。
++      :作者: Kenneth Hess
++      :出版社: O'Reilly Media
++      :日期: 2023 年 5 月
++      :頁數: 246
++      :ISBN: 978-1098109035
++      :備註: 系統管理
 +
-+可變長度陣列（VLA）
-+-------------------
-+使用堆疊上的 VLA 所產生的機器碼，比靜態大小的堆疊陣列差得多。雖然這些不容
-+忽視的 `效能問題 <https://git.kernel.org/linus/02361bc77888>`_ 已足以成為
-+消除 VLA 的理由，但它們同時也是安全風險。堆疊陣列的動態成長可能超出堆疊區段
-+中剩餘的記憶體。這可能導致當機，可能覆寫堆疊尾端的敏感內容（在沒有啟用
-+`CONFIG_THREAD_INFO_IN_TASK=y` 建置時），或覆寫與堆疊相鄰的記憶體（在沒有
-+啟用 `CONFIG_VMAP_STACK=y` 建置時）。
++    * 標題：**Linux Kernel Debugging: Leverage proven tools and advanced
++      techniques to effectively debug Linux kernels and kernel modules**
 +
-+隱式的 switch case 貫穿（fall-through）
-+---------------------------------------
-+C 語言允許在某個 case 結尾缺少 "break" 敘述時，貫穿到下一個 case。然而這會
-+讓程式碼產生歧義，因為缺少 break 究竟是刻意的還是 bug，並不總是那麼清楚。
-+例如，光看程式碼並無法明顯看出 `STATE_ONE` 是否刻意設計成貫穿到
-+`STATE_TWO`::
++      :作者: Kaiwan N Billimoria
++      :出版社: Packt Publishing Ltd
++      :日期: 2022 年 8 月
++      :頁數: 638
++      :ISBN: 978-1801075039
++      :備註: 除錯書籍
 +
-+	switch (value) {
-+	case STATE_ONE:
-+		do_something();
-+	case STATE_TWO:
-+		do_other();
-+		break;
-+	default:
-+		WARN("unknown state");
-+	}
++    * 標題：**Linux Kernel Programming: A Comprehensive Guide to Kernel
++      Internals, Writing Kernel Modules, and Kernel Synchronization**
 +
-+由於已經出現過一長串 `因缺少 "break" 敘述而造成的缺陷
-+<https://cwe.mitre.org/data/definitions/484.html>`_，我們不再允許隱式貫穿。
-+為了標示刻意的貫穿情況，我們採用了一個名為 "fallthrough" 的偽關鍵字巨集，
-+它會展開成 gcc 的擴充語法 `__attribute__((__fallthrough__))
-+<https://gcc.gnu.org/onlinedocs/gcc/Statement-Attributes.html>`_。
-+（等到 C17/C18 的 `[[fallthrough]]` 語法普遍獲得 C 編譯器、靜態分析器和
-+IDE 支援時，我們就可以改用該語法來實作這個巨集偽關鍵字。）
++      :作者: Kaiwan N Billimoria
++      :出版社: Packt Publishing Ltd
++      :日期: 2021 年 3 月（第二版於 2024 年出版）
++      :頁數: 754
++      :ISBN: 978-1789953435（第二版 ISBN 為 978-1803232225）
 +
-+所有 switch/case 區塊都必須以下列其中之一結尾：
++    * 標題：**Linux Kernel Programming Part 2 - Char Device Drivers and
++      Kernel Synchronization: Create user-kernel interfaces, work with
++      peripheral I/O, and handle hardware interrupts**
 +
-+* break;
-+* fallthrough;
-+* continue;
-+* goto <label>;
-+* return [expression];
++      :作者: Kaiwan N Billimoria
++      :出版社: Packt Publishing Ltd
++      :日期: 2021 年 3 月
++      :頁數: 452
++      :ISBN: 978-1801079518
 +
-+.. _zero-length-and-one-element-arrays:
++    * 標題：**Linux System Programming: Talking Directly to the Kernel and C
++      Library**
 +
-+零長度與單元素陣列
-+------------------
-+核心中經常需要一種方式，來宣告結構尾端帶有一組大小動態決定的元素。在這些
-+情況下，核心程式碼應該一律使用 `「彈性陣列成員」（flexible array members）
-+<https://en.wikipedia.org/wiki/Flexible_array_member>`_。不應該再使用舊式的
-+單元素或零長度陣列。
++      :作者: Robert Love
++      :出版社: O'Reilly Media
++      :日期: 2013 年 6 月
++      :頁數: 456
++      :ISBN: 978-1449339531
++      :備註: 基礎書籍
 +
-+在較舊的 C 程式碼中，大小動態決定的尾端元素是透過在結構結尾宣告一個單元素
-+陣列來實作的::
++    * 標題：**Linux Kernel Development, 3rd Edition**
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[1];
-+        };
++      :作者: Robert Love
++      :出版社: Addison-Wesley
++      :日期: 2010 年 7 月
++      :頁數: 440
++      :ISBN: 978-0672329463
++      :備註: 基礎書籍
 +
-+這導致透過 sizeof() 計算大小時很容易出錯（必須扣掉那一個尾端元素的大小，
-+才能得到「標頭」的正確大小）。為了避免這類大小問題，後來引入了一個
-+`GNU C 擴充 <https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_，
-+允許使用零長度陣列::
++.. _tw_ldd3_published:
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[0];
-+        };
++    * 標題：**Linux Device Drivers, 3rd Edition**
 +
-+但這又導致了其他問題，而且並未解決兩種寫法共有的一些問題，例如無法偵測到
-+這種陣列被意外地 _沒有_ 放在結構的結尾（這可能直接發生，也可能在這種結構
-+位於 union、結構中的結構等情況下發生）。
++      :作者: Jonathan Corbet, Alessandro Rubini, and Greg Kroah-Hartman
++      :出版社: O'Reilly & Associates
++      :日期: 2005
++      :頁數: 636
++      :ISBN: 0-596-00590-3
++      :備註: 基礎書籍。更多資訊請見
++        http://www.oreilly.com/catalog/linuxdrive3/
++        PDF 格式的 URL：https://lwn.net/Kernel/LDD3/
 +
-+C99 引入了「彈性陣列成員」，它的陣列宣告完全不帶數字大小::
++    * 標題：**The Design of the UNIX Operating System**
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[];
-+        };
++      :作者: Maurice J. Bach
++      :出版社: Prentice Hall
++      :日期: 1986
++      :頁數: 471
++      :ISBN: 0-13-201757-1
++      :備註: 基礎書籍
 +
-+這就是核心預期宣告大小動態決定的尾端元素的方式。它讓編譯器能在彈性陣列不是
-+結構中最後一個成員時產生錯誤，有助於防止某些 `未定義行為
-+<https://git.kernel.org/linus/76497732932f15e7323dc805e8ea8dc11bb587cf>`_
-+的缺陷被不小心引入程式碼庫。它也讓編譯器能正確分析陣列大小（透過 sizeof()、
-+`CONFIG_FORTIFY_SOURCE` 和 `CONFIG_UBSAN_BOUNDS`）。舉例來說，沒有任何機制
-+會警告我們，以下對零長度陣列套用 sizeof() 運算子的結果永遠是零::
++其他
++----
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[0];
-+        };
++    * 名稱：**Cross-Referencing Linux**
 +
-+        struct something *instance;
++      :URL: https://elixir.bootlin.com/
++      :關鍵字: 瀏覽原始程式碼。
++      :說明: 另一個網頁版的 Linux 核心原始程式碼瀏覽器。提供大量變數與
++        函式的交叉參照，可以看到它們在哪裡定義、在哪裡使用。
 +
-+        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
-+        instance->count = count;
++    * 名稱：**Linux Weekly News**
 +
-+        size = sizeof(instance->items) * instance->count;
-+        memcpy(instance->items, source, size);
++      :URL: https://lwn.net
++      :關鍵字: 最新核心新聞。
++      :說明: 標題已經說明了一切。其中有固定的核心專欄，彙整每週開發者的
++        工作、錯誤修正、新功能以及推出的版本。
 +
-+在上面程式碼的最後一行，``size`` 的值結果是 ``zero``，但有人可能以為它代表
-+剛剛為尾端陣列 ``items`` 配置的動態記憶體的總位元組數。以下是這個問題的幾個
-+例子：`連結 1
-+<https://git.kernel.org/linus/f2cd32a443da694ac4e28fbf4ac6f9d5cc63a539>`_、
-+`連結 2
-+<https://git.kernel.org/linus/ab91c2a89f86be2898cee208d492816ec238b2cf>`_。
-+相對地，`彈性陣列成員屬於不完整型別，因此不能套用 sizeof() 運算子
-+<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_，所以任何對這類運算子
-+的誤用都會在建置時立刻被發現。
++    * 名稱：**The home page of Linux-MM**
 +
-+至於單元素陣列，必須特別留意 `這種陣列佔用的空間至少與該型別的單一物件相同
-+<https://gcc.gnu.org/onlinedocs/gcc/Zero-Length.html>`_，
-+因此它們會計入外層結構的大小。每當有人要為含有這種陣列成員的結構計算需要
-+配置的動態記憶體總大小時，就很容易出錯::
++      :作者: Linux-MM 團隊。
++      :URL: https://linux-mm.org/
++      :關鍵字: 記憶體管理、Linux-MM、mm 修補程式、TODO、文件、郵件列表。
++      :說明: 專門介紹 Linux 記憶體管理開發的網站。有記憶體相關的修補程式、
++        HOWTO、連結、mm 開發者……如果你對記憶體管理開發有興趣，千萬別
++        錯過！
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[1];
-+        };
++    * 名稱：**Kernel Newbies IRC Channel and Website**
 +
-+        struct something *instance;
++      :URL: https://www.kernelnewbies.org
++      :關鍵字: IRC、新手、頻道、提問。
++      :說明: irc.oftc.net 上的 #kernelnewbies。
++        #kernelnewbies 是專為「新手」核心駭客設立的 IRC 網路。參與者
++        大多是正在學習核心的人、正在進行核心專案的人，或是願意幫助較
++        沒經驗的核心開發者的專業核心駭客。
++        #kernelnewbies 位於 OFTC IRC 網路。
++        請以 irc.oftc.net 作為伺服器，然後 /join #kernelnewbies。
++        kernelnewbies 網站上也有文章、文件、FAQ……
 +
-+        instance = kmalloc(struct_size(instance, items, count - 1), GFP_KERNEL);
-+        instance->count = count;
++    * 名稱：**linux-kernel mailing list archives and search engines**
 +
-+        size = sizeof(instance->items) * instance->count;
-+        memcpy(instance->items, source, size);
++      :URL: https://subspace.kernel.org
++      :URL: https://lore.kernel.org
++      :關鍵字: linux-kernel、封存、搜尋。
++      :說明: 一些 linux-kernel 郵件列表的封存站。如果你知道更好的或
++        其他的，請告訴我。
 +
-+在上面的例子中，使用 struct_size() 輔助函式時必須記得計算 ``count - 1``，
-+否則就會——不小心地——多配置一個 ``items`` 物件的記憶體。最乾淨、最不容易
-+出錯的實作方式，是使用 `彈性陣列成員`，並搭配 struct_size() 和
-+flex_array_size() 輔助函式::
++    * 名稱：**The Linux Foundation YouTube channel**
 +
-+        struct something {
-+                size_t count;
-+                struct foo items[];
-+        };
++      :URL: https://www.youtube.com/user/thelinuxfoundation
++      :關鍵字: linux、影片、linux-foundation、youtube。
++      :說明: Linux 基金會會上傳其協作活動、Linux 研討會（包括 LinuxCon）
++        的影片，以及其他與 Linux 和軟體開發相關的原創研究與內容。
 +
-+        struct something *instance;
++Rust
++----
 +
-+        instance = kmalloc(struct_size(instance, items, count), GFP_KERNEL);
-+        instance->count = count;
++    * 標題：**Rust for Linux**
 +
-+        memcpy(instance->items, source, flex_array_size(instance, items, instance->count));
++      :作者: 多人
++      :URL: https://rust-for-linux.com/
++      :日期: 持續更新的版本
++      :關鍵字: 詞彙表、術語、linux-kernel、rust。
++      :說明: 網站上寫道：「Rust for Linux 是為 Linux 核心加入 Rust 語言
++        支援的專案。這個網站旨在彙集與此專案相關的連結、文件和資源」。
 +
-+有兩種特殊的替換情況必須使用 DECLARE_FLEX_ARRAY() 輔助巨集。（請注意，在
-+UAPI 標頭檔中使用時，它的名稱是 __DECLARE_FLEX_ARRAY()。）這兩種情況是：
-+彈性陣列單獨存在於結構中，或是 union 的一部分。C99 規格不允許這兩種用法，
-+但並沒有技術上的理由（從這類陣列在這些地方的既有用法，以及
-+DECLARE_FLEX_ARRAY() 所用的變通方法都可以看出來）。例如，要轉換以下程式碼::
++    * 標題：**Learn Rust the Dangerous Way**
 +
-+	struct something {
-+		...
-+		union {
-+			struct type1 one[0];
-+			struct type2 two[0];
-+		};
-+	};
++      :作者: Cliff L. Biffle
++      :URL: https://cliffle.com/p/dangerust/
++      :日期: 2024 年 9 月 11 日存取
++      :關鍵字: rust、部落格。
++      :說明: 網站上寫道：「LRtDW 是一系列文章，為可能沒有正式資訊科學
++        背景的低階 C 程式設計師，把 Rust 的特性放在實際情境中說明——也就是
++        從事韌體、遊戲引擎、作業系統核心之類工作的人。基本上，就是像我
++        這樣的人。」。它逐行示範如何把 C 轉換成 Rust。
 +
-+就必須使用這個輔助巨集::
++    * 標題：**The Rust Book**
 +
-+	struct something {
-+		...
-+		union {
-+			DECLARE_FLEX_ARRAY(struct type1, one);
-+			DECLARE_FLEX_ARRAY(struct type2, two);
-+		};
-+	};
++      :作者: Steve Klabnik 和 Carol Nichols，以及 Rust 社群的貢獻者
++      :URL: https://doc.rust-lang.org/book/
++      :日期: 2024 年 9 月 11 日存取
++      :關鍵字: rust、書籍。
++      :說明: 網站上寫道：「本書充分發揮 Rust 賦予使用者能力的潛力。這是
++        一份友善、平易近人的文字，不只要幫助你提升 Rust 知識，也要提升你
++        身為程式設計師整體的能力範圍與信心。那就一頭栽進來，準備好學習——
++        歡迎加入 Rust 社群！」。
 +
-+直接撰寫的結構物件 kmalloc 指派
-+-------------------------------
-+直接撰寫 kmalloc() 系列的配置指派，會讓核心（以及編譯器）無法檢查被指派
-+變數的型別，因而限制了相關的自我檢查（introspection），而這些檢查原本可能
-+有助於對齊、繞回（wrap-around）或額外的強化措施。kmalloc_obj() 系列巨集
-+提供了這種自我檢查，可用於單一物件、陣列和彈性物件配置的常見程式碼模式。
-+例如，下列直接撰寫的指派::
++    * 標題：**Rust for the Polyglot Programmer**
 +
-+	ptr = kmalloc(sizeof(*ptr), gfp);
-+	ptr = kzalloc(sizeof(*ptr), gfp);
-+	ptr = kmalloc_array(count, sizeof(*ptr), gfp);
-+	ptr = kcalloc(count, sizeof(*ptr), gfp);
-+	ptr = kmalloc(struct_size(ptr, flex_member, count), gfp);
-+	ptr = kmalloc(sizeof(struct foo), gfp);
++      :作者: Ian Jackson
++      :URL: https://www.chiark.greenend.org.uk/~ianmdlvl/rust-polyglot/index.html
++      :日期: 2022 年 12 月
++      :關鍵字: rust、部落格、工具。
++      :說明: 網站上寫道：「Rust 的指南和入門介紹有很多。這一份有些不同：
++        它是寫給已經懂得許多其他程式語言的資深程式設計師。我試著寫得夠
++        全面，可以作為 Rust 任何領域的起點，但除了與你預期不同的地方之外，
++        盡量不深入細節。此外，這份指南並非完全不帶個人觀點，其中包括對
++        函式庫（crate）、工具等的推薦。」。
 +
-+分別改寫成::
++    * 標題：**Fasterthanli.me**
 +
-+	ptr = kmalloc_obj(*ptr [, gfp] );
-+	ptr = kzalloc_obj(*ptr [, gfp] );
-+	ptr = kmalloc_objs(*ptr, count [, gfp] );
-+	ptr = kzalloc_objs(*ptr, count [, gfp] );
-+	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
-+	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
++      :作者: Amos Wenger
++      :URL: https://fasterthanli.me/
++      :日期: 2024 年 9 月 11 日存取
++      :關鍵字: rust、部落格、新聞。
++      :說明: 網站上寫道：「我製作關於電腦如何運作的文章和影片。我的內容
++        篇幅很長、具教學性且富探索性——而且常常是教 Rust 的藉口！」。
 +
-+gfp 參數是可選的，預設值為 GFP_KERNEL。如果 `ptr->flex_member` 有以
-+__counted_by() 標註，那麼當 `count` 大於與 `flex_member` 相關聯的計數器
-+成員所能儲存的最大值時，配置就會自動失敗。
-diff --git a/Documentation/translations/zh_TW/process/index.rst b/Documentation/translations/zh_TW/process/index.rst
-index e73d78362315..d7d947d33cf5 100644
---- a/Documentation/translations/zh_TW/process/index.rst
-+++ b/Documentation/translations/zh_TW/process/index.rst
-@@ -113,10 +113,14 @@ TODOList:
- 
- 這裡是一些大多數開發者會感興趣的其他社群指南：
- 
-+.. toctree::
-+   :maxdepth: 1
++    * 標題：**Comprehensive Rust**
 +
-+   deprecated
++      :作者: Google 的 Android 團隊
++      :URL: https://google.github.io/comprehensive-rust/
++      :日期: 2024 年 9 月 13 日存取
++      :關鍵字: rust、部落格。
++      :說明: 網站上寫道：「本課程涵蓋 Rust 的全部範圍，從基本語法到泛型
++        和錯誤處理等進階主題」。
 +
- TODOList:
- 
- * kernel-docs
--* deprecated
- 
- .. only::  subproject and html
- 
++    * 標題：**The Embedded Rust Book**
++
++      :作者: 多位貢獻者，主要是 Jorge Aparicio
++      :URL: https://docs.rust-embedded.org/book/
++      :日期: 2024 年 9 月 13 日存取
++      :關鍵字: rust、部落格。
++      :說明: 網站上寫道：「一本介紹如何在『裸機』嵌入式系統（例如微控制器）
++        上使用 Rust 程式語言的入門書」。
++
++   * 標題：**Experiment: Improving the Rust Book**
++
++      :作者: Brown University 的 Cognitive Engineering Lab
++      :URL: https://rust-book.cs.brown.edu/
++      :日期: 2024 年 9 月 22 日存取
++      :關鍵字: rust、部落格。
++      :說明: 網站上寫道：「這個實驗的目標是評估並改進 Rust Book 的內容，
++        幫助大家更有效地學習 Rust。」。
++
++   * 標題：**New Rustacean** （podcast）
++
++      :作者: Chris Krycho
++      :URL: https://newrustacean.com/
++      :日期: 2024 年 9 月 22 日存取
++      :關鍵字: rust、podcast。
++      :說明: 網站上寫道：「這是一個從零開始學習 Rust 程式語言的
++        podcast！除了這個漂亮的登陸頁面之外，網站的所有內容都是用 Rust
++        自己的文件工具建置的。」。
++
++   * 標題：**Opsem-team** （儲存庫）
++
++      :作者: Operational semantics team
++      :URL: https://github.com/rust-lang/opsem-team/tree/main
++      :日期: 2024 年 9 月 22 日存取
++      :關鍵字: rust、儲存庫。
++      :說明: README 中寫道：「opsem 團隊是 unsafe-code-guidelines 工作
++        小組的後繼者，負責回答許多關於 unsafe Rust 語意的困難問題」。
++
++    * 標題：**You Can't Spell Trust Without Rust**
++
++      :作者: Alexis Beingessner
++      :URL: https://repository.library.carleton.ca/downloads/1j92g820w?locale=en
++      :日期: 2015
++      :關鍵字: rust、碩士、論文。
++      :說明: 這篇論文聚焦於 Rust 的所有權系統，它透過控制資料的操作與
++        生命週期來確保記憶體安全；論文也指出了它的限制，並將它與 Cyclone
++        和 C++ 中的類似系統做比較。
++
++    * 名稱：**Linux Plumbers (LPC) 2024 Rust presentations**
++
++      :講題: Rust microconference
++      :URL: https://lpc.events/event/18/sessions/186/#20240918
++      :講題: Rust for Linux
++      :URL: https://lpc.events/event/18/contributions/1912/
++      :講題: Journey of a C kernel engineer starting a Rust driver project
++      :URL: https://lpc.events/event/18/contributions/1911/
++      :講題: Crafting a Linux kernel scheduler that runs in user-space
++        using Rust
++      :URL: https://lpc.events/event/18/contributions/1723/
++      :講題: openHCL: A Linux and Rust based paravisor
++      :URL: https://lpc.events/event/18/contributions/1956/
++      :關鍵字: rust、lpc、演講。
++      :說明: 一些與 Rust 相關的 LPC 演講。
++
++    * 名稱：**The Rustacean Station Podcast**
++
++      :URL: https://rustacean-station.org/
++      :關鍵字: rust、podcast。
++      :說明: 為 Rust 程式語言製作 podcast 內容的社群專案。
++
++-------
++
++本文件最初基於：
++
++ https://www.dit.upm.es/~jmseyas/linux/kernel/hackers-docs.html
++
++由 Juan-Mariano de Goyeneche 撰寫
 -- 
 2.43.0
 
