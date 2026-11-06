@@ -1,99 +1,132 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.56.87.11
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794000601;
-	b=fFft3lL/kKZL1OHUrzt/LVeNZ0JaVv+++HtFOVfZd46CIK7RrSfzNY1X6lctlzpEK0It
-	 mmz9mTyWTtw9iHjk8fhaMOvGax6zoB90mNTuaANLan0anNE7XLn8VOKmpqO5LyAlkBi6p
-	 DkgutARU3b+9U+xD+Owr8S9hh8JxbYoMqn+jS1ffty/rUrMAYFfH7X1HHqwyszabQ3kZe
-	 SwP8BwU6r+vK+/CwuZPaQ9EQeFu9gChe1ItUuhmE4VQPkyBTi5ygu4DDvL9AOxe04HzGo
-	 26bshiWgbz+jCwD0hRR0TrxQmCuMOTSNOoxFzDRzjyK5pvbUfxE04g+/GKBHwxLN6LA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794000601;
-	h=DMARC-Filter:DKIM-Signature:Received:DKIM-Signature:Received:Date:
-	 From:To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-Source:X-Source-Args:X-Source-Dir:
-	 X-SGantispam-id:X-AntiAbuse:AntiSpam-DLS:AntiSpam-DLSP:AntiSpam-DLSRS:
-	 AntiSpam-TS:CFBL-Address:CFBL-Feedback-ID;
-	bh=uCH0heD6adad/Xq2GD/9BLloDu46ohT1wFuHjeE10ak=;
-	b=5oQ/W7GLEfavABE1Lg3hYOD23zLE+YxiJBZhiseOAsdRMyoLHTXNQ5h4SuADHDNFEjz/
-	 LkG1/DhxU5LvFC3RzcEqzozjJ1yfUqwZX5mnAViE65l+pn2UG1UpyPpLmXopPc/s0F6Fx
-	 mk3DpWdinLXYdDyBGa09/vjNuI2swIyCQEizwCr2NOLJ9r8YPx8s+JICfqk8mrvqqSrwp
-	 +37hjj4ZC6EBqyeTkHMM0iIlYNxsQcgFwuIaI3PhEovrCuNY8mcaajtiEN71Cx2wU8OHP
-	 zo0ekzmi/Z8VXrTooe5oWECcBb7zx3tyh7b8e20KLw7UcoOUGtD2spGmn53tuQ+unUw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=valla.it;
-	spf=pass smtp.mailfrom=valla.it;
-	dkim=pass header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=ItkqivsU;
-	dkim=pass header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=fT65mv3M;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.56.87.11
-Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.11])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.138
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794001226;
+	b=sygtviJOC0AjlDZ7NgT0/JlSF+euv9AoDVT7Kaq4oUCiBfO3tHmgbi7iIWsrEB64CKSR
+	 b9tvgmas8UnsYDHWDrEChIFH5AkorOKlM87RckVM6CsjwUu6YHfoxXtc7+O9QEvpGqTq+
+	 P7r2Zd3ig3tkoyBm9a4WKcyo0Lgf/jJf16Rr7pVrfbNRGghaeQRAs+SKEKzm4tLNmcauo
+	 DCsENX+6fYnKuN7xDa/k4AYHWSNo3ah+hDGewQWCFhW78Odao3kRd8YaXL0v5lYNXMwtF
+	 oJOegEqavRAx/StmSrz4uhTHD4pwbPEnvnujrQg9LMucziuzZR1DOxdmjQ3MzzmAc4A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794001226;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1Ekt21ztw=;
+	b=y1HbgmDUEHQTa1QRGf1JLAR1kTw43sa5a95JU3g6XYHpTEKQvjaVGVFfJTQFPkGBdI+d
+	 I6IB6BKa23tmfhXqYuOoqdKORMpSpXGxb9bK8Xa7gsFz5fArQI2UzTwPSm1GH1ZwAFekP
+	 ahY/6vFzNZ1IZ3rXTA43p9aURo/9elQhwYbipL7EJ0eBtK2u/yDnxmD3wU7ivLC77/B17
+	 HfED2cAMywi3MEi+EPEEgiuNnud+n4do59f7VnjkwimVts9GMgzmR4T2pCI8GhqmTH694
+	 4v2+q6bru25BxJ9TfrViABVlIA+g3+rMAmxk1zHVY+Ej3f9wiLH+UDEQG931B8vBWig==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=queasysnail.net;
+	spf=pass smtp.mailfrom=queasysnail.net;
+	dkim=pass header.d=queasysnail.net header.i=@queasysnail.net header.a=rsa-sha256 header.s=fm1 header.b=VbXKoh6X;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=HrZFzyHX;
+	arc=none smtp.remote-ip=202.12.124.138
+Received: from flow-b3-smtp.messagingengine.com (flow-b3-smtp.messagingengine.com [202.12.124.138])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 840CC606A326;
-	Fri,  6 Nov 2026 21:30:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 840CC606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=valla.it
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=valla.it
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7677606A329
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 21:40:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7677606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=queasysnail.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=queasysnail.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=antispam.mailspamprotection.com header.i=@antispam.mailspamprotection.com header.a=rsa-sha256 header.s=default header.b=ItkqivsU;
-	dkim=pass (1024-bit key, unprotected) header.d=valla.it header.i=@valla.it header.a=rsa-sha256 header.s=default header.b=fT65mv3M
-ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com; s=arckey; t=1794000600;
-	 b=fvXbWsPd95yfJpAGRVeJz6pHxg6a1mrrCdfeJDKSDq58D4dgG6DDeteOz9e91hwvtD1fBxrn6+
-	  B8ZA9LjhDXFv6WXjrJWhpowj0sm2ljysZ3eGbZLsI7AViXzxvHr5KlzUUK3gA1oZj38HpJaU2C
-	  ohfUpAVaV7/Gou926mL57y0A6GodFnpwcYjDxCYz0V+EU7hyMTzkFXDN3NdM1FkeCTOyv6osut
-	  vVPFIv3jMLmc82TRojaqMe/kGaCnuEco4x715AbHG5a9V1tx5XU9b1B48SC22/06NtLJZJVbDf
-	  CS7DGE5EsYhwKHXXeSd2VhtVMLb7PwEZOrDNvFthW6vt8w==;
-ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com; s=arckey; t=1794000600;
-	bh=29nzGDsPB2jHq99FxBQgRaZjFwvsIG+I8xefK5ehP2I=;
-	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:
-	  From:Date:DKIM-Signature:DKIM-Signature;
-	b=JmIS13xEfFw3vs7CcyPSQej5Hg7oT+7pRWDzFIM68ZR50+tGfjggfs2CezmsTWs1eUaeSTgzur
-	  1Wy3Pa8L9H4tseFbRrSwBPOHX9rvJ4lrH6SFdHQySJhtozUtDGYSBHiIjEYVu8JQJ0Jlk1csyl
-	  fH7EbuVZN8CGzBoyu4vrA2bg5nkShFy8IHSfncPctHLd88p17yXj5uMbUWzDTFHnVmkW+7JjOz
-	  u3ma+rLuewXyOaOZToiBE7FsrnVqyRkNQI3/rH9wMnCtWp7AiI3U8GLtemzJVYBU/LfcOlrOjj
-	  97LK+Y4+tXKvksG12ev9NSYQZ92zbNqs1qCpVFJmDtDqzg==;
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
-	:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	List-Unsubscribe:Content-Transfer-Encoding;
-	bh=uCH0heD6adad/Xq2GD/9BLloDu46ohT1wFuHjeE10ak=; b=ItkqivsUsN88Coz18qgQDULEXK
-	yMXgI4Oq9d2tED8QiZKQ9h8yPGTkZfaO9wsfTy7WI2VIZlIUAQVNsWl7xU+2s2myv/ecYEmv2BIzj
-	/Hu7A0pIiN/ch65YHzmL07ukK05AbChefQCAPH2quYbHZIhV3noRZtB5fadxEUzlL/Oc=;
-Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
-	by instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <francesco@valla.it>)
-	id 1xPRVP-00000009h65-3nGy;
-	Fri, 06 Nov 2026 21:29:52 +0000
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
-	s=default; h=Subject:Cc:To:From:Date:list-help:list-unsubscribe:
-	list-subscribe:list-post:list-owner:list-archive;
-	bh=uCH0heD6adad/Xq2GD/9BLloDu46ohT1wFuHjeE10ak=; b=fT65mv3MQqF4bVacot1ZCgUFEL
-	nsSN0sSh9tl/M+Qlal0OLEXch1IlBD28Bmtc4K1Sk1MZiZUwHNb2pN8auZLPQcNXSIX38BoTg/Vfv
-	GmlqdSPwiMdr+XAbVFFqWQdAYxYZt2i1S62A4jIhQJBszDv+XEhhHYS0PQlBUDxAvJW0=;
-Received: from [79.17.15.196] (port=63375 helo=bywater)
-	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <francesco@valla.it>)
-	id 1xPRVL-00000000D0U-01FZ;
-	Fri, 06 Nov 2026 21:29:47 +0000
-Date: Fri, 6 Nov 2026 22:29:45 +0100
-From: Francesco Valla <francesco@valla.it>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: andersson@kernel.org, mathieu.poirier@linaro.org, 
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC v2 08/11] Documentation: remoteproc: expand virtio
- support section
-Message-ID: <au5GNZqGkN-0Qn84@bywater>
-References: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
- <20261102-remoteproc_virtio_map-v2-8-26b300e01c62@valla.it>
- <CAMAsx6dogk20pTtpGaD_Ci2fam01UuUEe3KXDTH7UVjwRBRqnw@mail.gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=queasysnail.net header.i=@queasysnail.net header.a=rsa-sha256 header.s=fm1 header.b=VbXKoh6X;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=HrZFzyHX
+Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
+	by mailflow.stl.internal (Postfix) with ESMTP id 5D98F1302B01
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 16:40:20 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-12.internal (MEProxy); Fri, 06 Nov 2026 16:40:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=queasysnail.net;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm1; t=1794001217; x=
+	1794008417; bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1Ekt21ztw=; b=V
+	bXKoh6XdJyGq+d0PHagyU/VO7NO43A/j4OxLLPiPkWXoAckGZs0jaQPVkCUnALtg
+	jzpmF0Q3YDY9izjVrhSh4rci58x9KXUY5m2mMkdeKuutH240OFML8ePMUyrE3j/d
+	qk/o5CRfe72f2JEq9e3HErJ3D98F49jDyWj+BqDlrGM4V/GJWAQXibMfgKaM8zFH
+	aKVOiP79t7OBSg1Cyem/60G5GvmoUr1xp8zIjGC1OVVlOWRhmR6cWfXkaGXPVsef
+	LYZX2YuM9L5i9btS8BZ4kKjOFRMDBmou/u/MloGcFrNNfEop8oFfUFQY/rJbly3f
+	kghkXB6Df5jJxei9OhojA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1794001217; x=1794008417; bh=NJjSZ6byjU0nT7L6gaConqvJnvZsIcsiEJ1
+	Ekt21ztw=; b=HrZFzyHXLxxGiwjM2/JxHjs7v5CI89BrAoFsjwT/ROQXeSF7QQ3
+	ypzII+RA7DcpW3+EH6N8+K8gy14E2vecH8bf8b69/lCmaMC/9X59GNs8qskIt85l
+	+LFXwtOq+MavnpjqH46vYdZlBuZrJy21FnABeULSbGNv/3v6HEyGV21+pyQcJN4V
+	RfXMLzZ4QR+6KyFq/HDI4/BGWAdnVUwZ2HY1M2shj6dI6Wu5KqdGfi6MitanbSt4
+	U/ayL0mFo7JXGWwNibevlM/JHoRax7ykhSUaBS+ZIZTqDmVo4xBc+S4bv4sbNOJn
+	VZIs45IFZctIYm7TxhTjEMAuCAS3K3kt1Dw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=queasysnail.net a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794001217; d=queasysnail.net;
+	mf=PHNkQHF1ZWFzeXNuYWlsLm5ldD4=;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm1:rsa-sha256:G1MH2rxzuSUO5yBkrUlnHkKfo/1QS4tZdaWATdxkoy49zQN
+	Vis8Zj6mV2LbaVg8Wh2x5s8y37xsWtCLZvQJsYJKH4StqyMD8H8qqdXYiM73F/nI
+	pT6wKnS1LnR/P4TRvhZUiM08g2loRw1+9VNi4jFkMQYCpMn5iydHVhRYyNtVMfbQ
+	0wLYP4cIhPwX8+ntHyjhyOOTWhBQfxFeBV3+uP+Q50mnnUdxafzIrfAawyEKEgWR
+	LTI9CItgwYwd19faLbFjWKCD94CdM4J/zo2okKQJTqfdJD1RXDhxxwa9TO7LraiT
+	40Iv3fRON2dvyn9bONb7+9llRpA1B/ZozQpMeAg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-disposition,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:5uTqlFLn19dD44/gE58Slrwi5vVzLuLCOhbMiki6nmM=:xLnDSRjbvnVpHAU9sGg0qmA1gw9coIREWUdi5megVz4=;
+X-ME-Sender: <xms:QUnual3N6gXDSunVHf5kPWqX6zSV_da-OP2ZQzq_EKpVUp6nLurF9w>
+    <xme:QUnuatsFAIcNhZxLzCkJB4dkuaiIvwVBvYRSNj6cxCaAYzHJ7LVArAGTzF5KhkOe3
+    hI1q1cDUlGruJqlL0kNKsMMVd65fwdKVw_GvE6fUmxFJI5mR73xyEc>
+X-ME-Received: <xmr:QUnuap8l6zZZ6ADu7UbQHFD6tdiSPw4hctckQxZFwEwqHh8hmIITjRKZHeI>
+X-ME-Proxy-Cause: dmFkZTFgaUn+qN8zY/WvD249UuGoto6ZaA1UpOS6Y/NjMRSGTpdPvTJQdB1AGpCs1OAohV
+    2FiWGqFD14+gKwJTds2Sqtgp2lyBLEl9dUH0DroKrJNwldmZGFO9OA8AxcIwXn78XvwCl6
+    UTxjcYbkwNdt6C9Xp2Lfwmc+GqJnjkrfpfxXaPL/ejhTIIhm2xYDmhKo0q6/6JBTIJhVZm
+    7ilSkX0MPkqaD/DtEj6cW4Tk2X+3uGEns+NC6qfPegvcWFo89T/ajLEZwgfYQkrJEr0Dtz
+    d9IEH/0NWR19s46M3lJMIByJMb/W+fGe+POAqIaETGM/ZXb60cJKie9pltbrmiZLtmxumI
+    Ok9C3loa+YL1IFfCgD9++ADmdAS7sYFV4dOUjzJYOEPur80bnaOIVIfJd9SW+NTv6+ck5Q
+    V7O64kPt3dQJzDlNDUxChCaQ1qfJgjIVrnqcPgTw7WzNRpuyqAAyUSoqfhV0jbTQ5P2oGn
+    j8mHWs6EHVsInTLRlumkzHDykZfK/EY0DK5IZPxzzCpdkcHZ8+qqSBRT4jJQPsw00nnMhe
+    i2YBjI32K3DdIRZ7QG2U03cXPrVLXiEf6AENnYbCrqELP0zN3SPOnA6cITlk/WGP7z5Tvk
+    jBO7gz2Fz0JIBG6rpICLMEv9V6fNUx4PEYNcA77VNNYxATCGUhMZwTOiDpOA
+X-ME-Proxy: <xmx:QUnuapSFkfzL10W_gr3DOflIRgsXs-pUI2NOADwxVnfi8hdzEYKl5w>
+    <xmx:QUnuanB0Y5J8Md6yyA_kZ44bUjfl69FqF4Q2AsvnLf8u3UuJBfN5Kg>
+    <xmx:QUnuaiYnhigLuiX0jK_iCpPIJxFwryOwsArNS1yz7Acig1mLcYv8WQ>
+    <xmx:QUnuagLgfiuZ5qhm9y3E1UPowuQMQLPjOEIeMwEtAfTe9pgt6bPEQQ>
+    <xmx:QUnuaifxf6jGg0L2AC3BnoMgezqV2djxGuWsC8FF0F-5VKJCmM9KN4sS>
+Feedback-ID: i934648bf:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 6 Nov 2026 16:40:17 -0500 (EST)
+Date: Fri, 6 Nov 2026 22:40:15 +0100
+From: Sabrina Dubroca <sd@queasysnail.net>
+To: Martin Belanger <martin.nvme.dev@gmail.com>
+Cc: John Fastabend <john.fastabend@gmail.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Hannes Reinecke <hare@kernel.org>, Chuck Lever <cel@kernel.org>,
+	kernel-tls-handshake@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	Alistair Francis <alistair.francis@wdc.com>,
+	Martin Belanger <martin.belanger@dell.com>,
+	Daniel Pereira <danielmaraboo@gmail.com>
+Subject: Re: [PATCH net-next v6 0/6] tls: perform TLS 1.3 KeyUpdate in the
+ kernel
+Message-ID: <au5JP__7P_PzwDUe@krikkit>
+References: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,67 +136,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMAsx6dogk20pTtpGaD_Ci2fam01UuUEe3KXDTH7UVjwRBRqnw@mail.gmail.com>
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - esm19.siteground.biz
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - valla.it
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-SGantispam-id: e01cf15abfe6fa66a811bff9bc2e1f62
-X-AntiAbuse: ID - e01cf15abfe6fa66a811bff9bc2e1f62
-AntiSpam-DLS: false
-AntiSpam-DLSP: 
-AntiSpam-DLSRS: 
-AntiSpam-TS: 1.0
-CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
-CFBL-Feedback-ID: 1xPRVP-00000009h65-3nGy-feedback@antispam.mailspamprotection.com
-Authentication-Results: outgoing.instance-europe-west4-ssp3.prod.antispam.mailspamprotection.com;
-	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
-	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
-	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
-	arc=none
+In-Reply-To: <20261105-keyupdate-rfc-v6-0-99b695f9eb4f@gmail.com>
 
-Hi Daniel,
+Hi Martin,
 
-On Tue, Nov 03, 2026 at 11:15:23AM -0300, Daniel Pereira wrote:
-> On Sun, Nov 01, 2026 08:28 PM, Francesco Valla <francesco@valla.it> wrote:
-> >
-> Hi Francesco,
-> 
-> I only have a few language nits:
-> 
-> > +supplied by the remote processor should be marked as dynamically allocable,
-> 
-> "allocable" -> "allocatable".
-> 
-> > +try to allocate it using dma_alloc_coherent(), which will resort to allocate it
-> 
-> "resort to" takes a gerund: "which will resort to allocating it".
-> 
-> > +either from the first ``restricted-dma-pool`` region associated to the virtio
-> 
-> "associated to" -> "associated with". The same wording appears several
-> times in the patch (e.g. "associated to the virtio device's parent"), so
-> please fix all of them.
-> 
+I'm on a medical break so I won't be able to give this a proper review
+for another week or two, but since it keeps landing in my inbox, I
+want to make a comment.
 
-All the nits will be addresed in v3.
+Note: I haven't been following the discussions, and I can't give this
+the attention it deserves for now (the cover letter is already a bit
+much).  So this is kind of a "can we slow down until we agree that we
+really want that?"
 
-As you may have imagined (also considering that my email address' domain
-gives me away...) english is not my primary language, so any correction
-is more than welcome.
 
-> Thanks,
-> Daniel
+2026-11-05, 11:30:36 -0500, Martin Belanger via B4 Relay wrote:
+> kTLS does not currently handle TLS 1.3 KeyUpdate. It never sends a
+> KeyUpdate.
+
+Because it isn't meant to handle any part of the handshake at all,
+just the record layer. The user gives us data, we stuff that into
+records and send the records down the TCP socket. That's it.
+
+So what you're proposing is a very fundamental change to how kTLS
+works, I'm not convinced we want to go this way.
+
+> And when it receives one, it blocks the socket until the
+> application installs the next key. kTLS also does not enforce the key
+> usage limit on transmit.
 > 
+> This applies to TLS libraries in user space as well as kernel users such
+> as NVMe/TCP or sunrpc:
+> 
+> - GnuTLS sends a KeyUpdate after 2^24 records when it runs its own
+>   record layer. With kTLS, the record layer is handled in the kernel and
+>   GnuTLS therefore never runs the check. OpenSSL never sends a KeyUpdate
+>   on its own.
 
-Thank you!
+If userspace libraries don't do the right thing, we can fix the
+libraries. They will anyway have to be fixed to behave correctly with
+only the "old" uAPI, since they can't rely on this new stuff being
+present in the running kernel. Or they'd have to completely disable
+ktls if the kernel doesn't support this new uAPI, which would suck.
 
-Regards,
-Francesco
+> - NVMe/TCP and sunrpc don't have a mechanism to install a new key. A
 
+And that can't be handled with the existing handshake subsystem? (I'm
+not that familiar with it, nor with QUIC or NVMe/TCP and sunrpc)
+
+>   conforming peer that sends a KeyUpdate ends or stalls their
+>   connection.
+> 
+> RFC 9846 (July 2026), which obsoletes RFC 8446, makes the limit
+> mandatory (section 5.5): "Implementations MUST either close the
+> connection or do a key update as described in Section 4.7.3 prior to
+> reaching these limits." Long-lived connections with small records reach
+> the limit quickly. One NVMe/TCP queue sends at least one record per
+> command, and more with large I/O. Depending on the load and link speed,
+> the 2^24 limit can be reached in less than 10 minutes in many cases.
+
+My math says that's 28k records/second, it's a lot.
+
+
+> Why the record layer
+> ====================
+> 
+> KeyUpdate must be handled where the records are built.
+> 
+> The 2^24 limit is a record count, and only the record layer can see the
+> count precisely as it changes. A user sitting above kTLS can only read
+> the count with getsockopt(TLS_TX) after each write. A kTLS user writes
+> bytes, and the kernel splits and merges those bytes into records. I
+> counted send calls in an NVMe/TCP prototype trying to guesstimate the
+> 2^24 limit. The count was correct with 4 KB I/O, but was 21 times too
+> low with 1 MB I/O. Each send call translates into a different number of
+> records. It's simply not possible to precisely guess the number of
+> records based on the number of send calls.
+> 
+> The KeyUpdate must also go at a precise place in the record stream
+> (section 4.7.3). It is encrypted with the old key, and every record
+> after it with the new key. When the peer sets update_requested, our
+> KeyUpdate must go out before the next Application Data record. The key
+> can only change between two records. Only net/tls has control over that.
+> Fixing this in one driver or library would leave other drivers or
+> libraries to re-implement their own (imperfect) solution.
+
+I'm not yet convinced this is a strong enough argument to justify
+changing the model under which ktls operates with a change of this
+size and that also requires 500L of new selftests.
+
+
+> What the series does
+> ====================
+> 
+> - Two new socket options, TLS_TX_TRAFFIC_SECRET and
+>   TLS_RX_TRAFFIC_SECRET, are used to register the application traffic
+>   secrets. The secret is passed as raw bytes. The kernel derives the
+>   hash (SHA-256 or SHA-384) from the cipher installed with TLS_TX or
+>   TLS_RX. The TX secret must be set first because the RX secret needs
+>   the TX secret in case a received KeyUpdate asks for a reply.
+> - A third socket option, TLS_TX_KEY_UPDATE, can be used to send a
+>   KeyUpdate now. It can also optionally ask the peer to update too.
+
+Why does this need to be a socket option? It feels wrong to use a
+socket option to trigger sending data, why not hook on sendmsg()?
+
+-- 
+Sabrina
