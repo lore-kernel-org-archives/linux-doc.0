@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793964732;
-	b=EIU+6jfvPxaHC9al73b2J9w2nbZyYtQkUeSAVoi3vjgrxUX0d3fg2hI4oYKBO1yTo0YQ
-	 lSatH+GaLQvm+CoXI6RyACx41L0QsRYr9S9Z137zgIHkdK2Nb5Xp/wUsh+IqDt/zmPOJF
-	 22MVAvovaON3gaF9/2DMeOt2WO/qstHM3GRABfPplC8x2mcv2+9BW7f0NylMdDKIGuPkb
-	 w6ENtMxzpyUSi7c9RK5KdjnHZffD4V8LJ7k0WLvYlhz1eg4lo4+fROPtk1+SMrvTzpnN8
-	 SQbqphworS7nUgzG/7nOza/feLpcFPUjCxG4ZW26WytSWYDHFxhPf1sbEuKwDL+sCfQ==
+	t=1793964735;
+	b=WccXTu9qAc5S0lkNZJLGF45Wu3E3M4ufkt+qLCVlXY/FWlOtCKS6Rbd4B4KELigmeUyy
+	 wxM75V7URmujt5Qg+F1PXIvbC8xCqtMN4noamT8JzpazVD7y3Nlc6k+GJywiD22ngyVJY
+	 W3WFKhmKP5LcE6mws5ld821QbSQGv3OjbTlIhGYnGGrP9aZPiO6dJ39WofVdZl+lz47AS
+	 rZ4K4Bte/oJReMboZBjaePstLR0FD7Lnd9ciVfevjeqIpRgDMxXJchFOoyC901gzRZ9hr
+	 Qxwtj1O+iu3Wycdp10/bg37HqHcfTlj68mHfphKaYu5rple0feaPol2scZpCFO00etA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793964732;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793964735;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=6UzDQQC9pUpbFNJGCPAwBKGHS+Zn6EFgdW+XsfEYeU4=;
-	b=s7qW6YBo0sJ9dT+ItoRUIb35pzeKDggHUhVXlXGS9aYruhZj54NCPrvVrn7Qz3XyUg1o
-	 mSA9voFkRggVVk2uCT5yOyN5os+vAt3n1+Auffd0cHZANi4ZSctWKzwtKE7pYvjTcyEPQ
-	 Nnihn6hRV5WtG5mQmDqCaLMhdJUHR1yMBf8sKXRsDQ99d8AvVD9g5hjQ0JVC5Gs/rNiIS
-	 4ljtNi7tPhK5+aL/FV4E5KNkJ8w8u8wDZ5CoP+tmj+XJbK4T/fjco70Xha6m9w5ZmmzKE
-	 5/7ny2+fQzrL5rHj+VcFc0u3Z/iQAEv8v3HDDE09S+yy/2DkDW6kFCYWnx+SOcvMzgA==
+	bh=ey27Z005P0nP9/Be/Ht5BVJh577+gs2FglMSPN4FLG4=;
+	b=Jx2cmOvDnYV6ldgQKHIsDm3Orzz4peeGXdk97Qa3qjcGa4kOdwMaNmCs2mPI4rqWFa2g
+	 6H6nMwKeLUQ/95u7A1IRKSLHI8YvFAghW59g+tw7U/+IfFADo2h1oMfyBnisMDb4b1a7A
+	 6N8k1HNFls/1d4L9/NoLPHyGOO2a7V3wcEJ6qjopkUHOTIz2PucAh5UzSox2MZ6soLJ44
+	 iHIPL2pBWAzEwcQWRXtM7mXUvNqLxy7IGkoE37AWueOmrb6kjDtCYFhSFJdNCe45etLaF
+	 DQ3SIsGfR+iyF8+5e+5dzjAOs/iqpLK3AFETtUTM+dlnGmiTl/M6jXOc2KsM0v16e0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fUKFMQOr;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="Pi/zeJOf";
+	arc=none smtp.remote-ip=209.85.216.52
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C36B9606EE85
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C36B9606EE85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED981608363B
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 11:32:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED981608363B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=fUKFMQOr
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b0b8b5d28cso90324a91.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:11 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Pi/zeJOf
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3b0ac1900efso41911a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 03:32:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793964731; x=1794569531; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793964734; x=1794569534; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=6UzDQQC9pUpbFNJGCPAwBKGHS+Zn6EFgdW+XsfEYeU4=;
-        b=fUKFMQOrnhHAW2QfF/BQYk2v/auLaWwyMOfhr4iCicEfG6x6nYTODvfSYrRHMeOXtN
-         0YkiJguUzTccrLv2PZnT5u190OXTaNoiLQx3Yld+XABEfykMCM0fJLP9SVejAxTzmNZr
-         f1UVBFdKhmuI3ejOynWc4qEzFiLhYxgzlj+UakMpmMeir+3vrxZong1tPplFJq7kzfR6
-         Hxb06iWlloM8/Pb7vhvtcQ0jTwnn+Sp4Cf/rRsEj3JN9597roOfeqPNGEMPGRplVugUS
-         T92TPog9z487XOEM3P8qQwjJaVqI0Au7CZOuRQRN+L5JgpkYKeK5oOqtCDGLFl57s4JU
-         hVMg==
+        bh=ey27Z005P0nP9/Be/Ht5BVJh577+gs2FglMSPN4FLG4=;
+        b=Pi/zeJOfwFI/5huYsbVlFx0ltcJD50moT8rctigSQ3AuRNtb6pfo7HuoFcRnESs3IA
+         rqNwaVIV89A8NIFqs8uYDKQIcDNIPMpEERhX4Cd25Zy02AWhJObrO5HiGgj/hnHHarUc
+         zL+7v8Tb0YIwYoTQ4g35P9BG9j5FtwjvQUKr2pLu5oO49kR8XV/bY60W9fZ9r+pAKRxw
+         hjjKjx5pP3YIPsNSYP5mfV7T5QItxq0KV1TVywiQynBf/0YEsLNuopyfhAtW056Ds1Zz
+         C89wTeZmRLcXDKH73EMqOQFGN10fcLB1YgUolCnyBc+FK7Oo6ofJ+srhgg39R6kiZKcD
+         avgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793964731; x=1794569531;
+        d=1e100.net; s=20260707; t=1793964734; x=1794569534;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=6UzDQQC9pUpbFNJGCPAwBKGHS+Zn6EFgdW+XsfEYeU4=;
-        b=HI/DvZUT/uJMGoVKxc8Pz9Jh8c+jVIC9AJnEkQVXm4F4PSbQ3fsT9/JUypbRRhU6Ii
-         SmadBHzueqDU3lwluoKzSTlbNj2Dmg7jm4su7gZiy2vE6O/5+ysipoDTPZCIFI723bHh
-         n0/QO4V+h7E/heAIBJHaJvLTXlfkzz7WK4ulSpOvxmm8uth6BbKzY/iZ5vMBSNYfzkD2
-         glNDcA2R1beA+Deiv1gKt3Pj8gXK6dXKN2AHoZDkHkhG+80Xbh+oVFZS4Y66QSwgX9pZ
-         DuvXjiWob4kiXJ5GRegYR5MvucA62/eVFQkAHs9aZZFo/DodsFGkU2kEAviz1Zt0pgMb
-         84/w==
-X-Forwarded-Encrypted: i=1; AL+hErELLYVekhQpUn3FU5iGvJsBGdbH3u1ukW3ECz8Qkeh91Gi2R2WckS7NPUpSGGXU3rJkAEYQYF01wm8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8h1A2dsPKvybTGWDemCSyznKkZUy3FUXYfXK3ogQtSqAaHbFtc
-	MuctKSzKErM+KuLAmwQZ6O+MVbOryVfysp0bcJAZCGhpJ7sx0/6/bJ4I
-X-Gm-Gg: AYBFou2OVbEv9wOv05q505/hxuywWmt+T6dSPNRv80NSBBSwQvuviHLgdAId/eNaPUK
-	GjyLeumqMXG0CtRGAJeD0K12c0+Mc09BO9501gcnsiYzFVT3fkPTW/X0YuXOn3yQprcgk2hOslu
-	ZRQbhX6XtSvavfFxnNlNs7fhDYY+LhRH56YXWUfnsBxcKcjN6c6e9h8eQkDncO3dF3pVy7bvp3i
-	+I++3CFkj8hepVIvxWJhc+Un+sGPcrDxAX2Fxbw4PQLvjM9DgUK69yOutQHcOn/0okdXivQWyOx
-	ZAgMZiSlGSfX+EfhmMMuiJ4aveCwIzBs0BDqSdcOg3cajmzsN5hhnsp9DJ02MK+bksCDpR8ZybO
-	Cl7RCwRbloWg8HhCvXP8Tn30qvNktgz3iujwHcMZJv9bv2kyyKWh9AFrTvqCUDrCDxcTkSWFu7y
-	KiiNE528kqVLsIyiQ6uymperjAFNQFXcjdkSBeUuk9XmfekQdfl9Zerr2Z6e6vMbW9BHAiAzXi8
-	wT55aeI9AQGrNSeyZc3JhxcLUfN27M8M0F8M47nro+mdq/kXPmQJ0uuHDP5TMW4lUqd3xGsKV4W
-	nG3rrjs6kCu0oQijSYhcSbZv1x0yhFoEyym2IKhJSO4/ZM+cxmUp1aaowje4h/Rp5WbYm9R+eHo
-	9zI3NvbLm30ChQYu89KqUKgbe
-X-Received: by 2002:a17:90a:c10f:b0:3ae:629:ca12 with SMTP id 98e67ed59e1d1-3b0db6c47dfmr3394686a91.3.1793964730989;
-        Fri, 06 Nov 2026 03:32:10 -0800 (PST)
+        bh=ey27Z005P0nP9/Be/Ht5BVJh577+gs2FglMSPN4FLG4=;
+        b=DHfsUlMM+Jr1eVL/plEiYUFxVl3pqwLr6ZYhIMfwfZDlAZhjDb96ZZ9GBlE/AKS+1B
+         qkZ1uiU1BfmJfdaLVeFy1Q4SrDjVV5TY85Cws4zBQ64QjW/3gReijwGvAbPE5BSjq49o
+         4Eulhriit+5EaOmB2L2OA6uXEayZCbLwhKzV429Y8lSvXdN+sE/P3aGcCgYWYrzCJ520
+         Y+AZn8lyCsWxlT4ok+52CLPB+h82UHIYJwLYBk6U1qx5o44gG4ptu83IGJ1WYnaRsrsF
+         gJDmEfH9L6iCm5LYBxGff1o57NJstVEywHCARCZkjmeJlkx/NGwdbMFyBS47w8BOR2r4
+         Fcwg==
+X-Forwarded-Encrypted: i=1; AL+hErGSApiJGoErGkgtO4arbd2ElH8E+/tGGrfqJxoKDLsh2KvF7I43yI4yUoRjCaaOkACYpwgHiGfciWw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+OZl5xNmpix19YQK2s4v919qKC2m/2p0xW/P7tuc2RiFbndCyW
+	di+57CuGJtu8yB4HSOW42AGcHIlffS3rNyGEVuhyuuaS6rlS+JKyhN96
+X-Gm-Gg: AYBFou1lxmtiRxs8dmU+UnPWmOsnEg5Hlpq5rlhxDxgnQ9mosKCDzfawVpGVmdet3Aj
+	Lpb4cHgvJJoAzsvH3wJTUty4I6oEQj1UHIrl8dDxGQ4HjGUBLH2EVDbYDAzoMYFSaYUEkV2olru
+	Vnp+PTqrPOAST1/56wTD7r4cZzYJlBEyvvZswIaqJAxXE0Db8NLnaEVIUuGVVbZ6yHJ+N6fwjAo
+	c1XtRVkwJRaHVs6g5OshC8PYT0yXyt7yvMcaaebSDMXtd42tG30c7LOgoD+pZHjAhTzFDL3Ve77
+	SJQCT+oUItp6z5mw6h80hIpOY6ZKlaYZktt0Qxhyyhidxl5PMqAUy9zJNnNJRKefKC/t0Yl54Rx
+	gEXljClNhlLpqlI8ITacAhR2dQu1RjLgDwg2eGS//xIuQgVv2bz4+KIuI5uwvq/QbytPtdHJqDq
+	zU2nUaQOdkJHsMt7CG9bAaKXJB93C8cbF+rx24rVMt1MUqWVkr+CabBwXnygqTaghfDZobPA+Yy
+	3MvkBumCPjC25uK9GfkpOvBUFOCUZ/D7okkcj/aAzEmSq+VFuynD2DkP2WbyK0u5ZpJXzgNHjxb
+	X6NiCS1MyXGWD+2gxnXjW4LEmipQRq7bV763YGdShLsF0LC8LS715B7C5ecJfbA7zPhfdwKIrO3
+	mQXJdorGqU/R0ig5scI6M5+joAx/Rn06ZnncdxTZy+tUNzA==
+X-Received: by 2002:a17:90b:3c0a:b0:3b0:9e2c:9b55 with SMTP id 98e67ed59e1d1-3b0db60d73cmr3368784a91.2.1793964734187;
+        Fri, 06 Nov 2026 03:32:14 -0800 (PST)
 Received: from chenyou.ncku.edu.tw ([140.116.19.13])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.06
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b0d7ca4b03sm3116477a91.14.2026.11.06.03.32.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 03:32:09 -0800 (PST)
+        Fri, 06 Nov 2026 03:32:13 -0800 (PST)
 From: Chen-Yu Yeh <chenyou910331@gmail.com>
 To: Alex Shi <alexs@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
@@ -89,9 +89,9 @@ Cc: Weijie Yuan <wy@wyuan.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Chen-Yu Yeh <chenyou910331@gmail.com>
-Subject: [PATCH 06/25] docs/zh_TW: process: sync 7.AdvancedTopics.rst with the English original
-Date: Fri,  6 Nov 2026 19:31:21 +0800
-Message-ID: <20261106113142.706783-7-chenyou910331@gmail.com>
+Subject: [PATCH 07/25] docs/zh_TW: process: sync 8.Conclusion.rst with the English original
+Date: Fri,  6 Nov 2026 19:31:22 +0800
+Message-ID: <20261106113142.706783-8-chenyou910331@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261106113142.706783-1-chenyou910331@gmail.com>
 References: <20261106113142.706783-1-chenyou910331@gmail.com>
@@ -107,177 +107,91 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The translation was marked as updated to commit 5ce70894f6ca ("Doc:
-correct spelling and wording mistakes"), but its content predates
-commit 93431e0607e5 ("Replace HTTP links with HTTPS ones:
-documentation") and commit 6e55b1cbf05d ("docs: try to encourage
-(netdev?) reviewers"): the lwn.net link was still http:// and the
-reviewing section lacked the paragraphs added by "docs: try to encourage
-(netdev?) reviewers".  A section-by-section comparison against the
-current English text brings it in line with the full current original:
+The translation carried no "update to commit" marker.  Its first
+paragraph still followed the wording from before
+commit 9db370de2780 ("docs: process: remove outdated
+submitting-drivers.rst"): it called howto.rst "an important starting
+point" and described submitting-patches.rst as "something which all
+kernel developers should read", while the English text now simply says
+to start with howto.rst and also read submitting-patches.rst.  A
+section-by-section comparison against the current English text brings it
+in line with the full current original:
 
-- add the _reviews label and the missing reviewing advice: asking
-  others to chime in when a discussion stalls, reviews in plain English
-  being encouraged even when a Reviewed-by tag is given, and throwing
-  in a compliment once in a while
-- switch the lwn.net link to https
-- capitalize Git where the original now refers to the tool, and fix the
-  BitKeeper spelling
-- retranslate sentences whose meaning had drifted (pushing changes that
-  do not fast-forward, overriding that check, moving work into public
-  branches once it is reasonably advanced, ill-advised changes slipping
-  in below the review radar)
-- keep the Linus quote in its literal block in English and add a
-  Chinese translation after it, as in 2.Process.rst
-- replace tabs with spaces in the URL block, and wrap the :Original:
-  line to keep it within 80 columns, as in stable-api-nonsense.rst
+- retranslate the opening paragraph to match the current wording, and
+  write TeX as in the original
+- retranslate the sentence on why the kernel has progressed as quickly
+  and as well as it has, which had been rendered as "as fast as before"
+- wrap the :Original: line, the cross-references and the LDD3 entry to
+  keep them within 80 columns, as in 7.AdvancedTopics.rst and
+  5.Posting.rst
 
-update to commit 4a0be1a25d98 ("Documentation: process: Capitalize Git,
-Quilt, and Mercurial consistently")
+update to commit 9db370de2780 ("docs: process: remove outdated
+submitting-drivers.rst")
 
 Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
 ---
- .../zh_TW/process/7.AdvancedTopics.rst        | 53 +++++++++++++------
- 1 file changed, 36 insertions(+), 17 deletions(-)
+ .../zh_TW/process/8.Conclusion.rst            | 27 ++++++++++---------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
-diff --git a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
-index 392c00213078..161c1afdd43f 100644
---- a/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
-+++ b/Documentation/translations/zh_TW/process/7.AdvancedTopics.rst
+diff --git a/Documentation/translations/zh_TW/process/8.Conclusion.rst b/Documentation/translations/zh_TW/process/8.Conclusion.rst
+index 2436263c6506..fdba290d0eba 100644
+--- a/Documentation/translations/zh_TW/process/8.Conclusion.rst
++++ b/Documentation/translations/zh_TW/process/8.Conclusion.rst
 @@ -2,7 +2,8 @@
  
  .. include:: ../disclaimer-zh_TW.rst
  
--:Original: :ref:`Documentation/process/7.AdvancedTopics.rst <development_advancedtopics>`
-+:Original: :ref:`Documentation/process/7.AdvancedTopics.rst
-+           <development_advancedtopics>`
+-:Original: :ref:`Documentation/process/8.Conclusion.rst <development_conclusion>`
++:Original: :ref:`Documentation/process/8.Conclusion.rst
++           <development_conclusion>`
  
- .. _tw_development_advancedtopics:
+ .. _tw_development_conclusion:
  
-@@ -15,20 +16,20 @@
- 使用Git管理補丁
- ---------------
+@@ -10,13 +11,13 @@
+ ========
  
--核心使用分散式版本控制始於2002年初，當時Linus首次開始使用專有的Bitkeeper應用
-+核心使用分散式版本控制始於2002年初，當時Linus首次開始使用專有的BitKeeper應用
- 程式。雖然BitKeeper存在爭議，但它所體現的軟體版本管理方法卻肯定不是。分散式
- 版本控制可以立即加速核心開發專案。現在有好幾種自由的BitKeeper替代品。
- 但無論好壞，核心專案都已經選擇了Git作為其工具。
+ 關於Linux核心開發和相關主題的資訊來源很多。首先是在核心原始碼分發中找到的
+-文件目錄。頂級
+-:ref:`Documentation/translations/zh_TW/process/howto.rst <tw_process_howto>`
+-文件是一個重要的起點；
+-:ref:`Documentation/translations/zh_TW/process/submitting-patches.rst <tw_submittingpatches>`
+-也是所有核心開發人員都應該閱讀的內容。許多內部核心API都是使用kerneldoc機制
+-記錄的；“make htmldocs”或“make pdfdocs”可用於以HTML或PDF格式產生這些文件
+-（儘管某些發行版提供的tex版本會遇到內部限制，無法正確處理文件）。
++文件目錄。請從頂層的
++:ref:`Documentation/process/howto.rst <tw_process_howto>`
++開始；也請閱讀
++:ref:`Documentation/process/submitting-patches.rst <tw_submittingpatches>`。
++許多內部核心 API 都是使用 kerneldoc 機制記錄的；“make htmldocs”或“make pdfdocs”
++可用於以 HTML 或 PDF 格式產生這些文件（儘管某些發行版提供的 TeX 版本會遇到內部
++限制，無法正確處理文件）。
  
- 使用Git管理補丁可以使開發人員的生活更加輕鬆，尤其是隨著補丁數量的增長。Git也
- 有其粗糙的邊角和一定的危險性，它是一個年輕和強大的工具，仍然在其開發人員完善
--中。本文件不會試圖教會讀者如何使用git；這會是個巨長的文件。相反，這裡的重點
-+中。本文件不會試圖教會讀者如何使用Git；這會是個巨長的文件。相反，這裡的重點
- 將是Git如何特別適合核心開發過程。想要加快用Git速度的開發人員可以在以下網站上
- 找到更多資訊：
+ 不同的網站在各個細節層次上討論核心開發。本文作者想謙虛地建議用 https://lwn.net/
+ 作為來源；有關許多特定核心主題的資訊可以透過以下網址的 LWN 核心索引找到：
+@@ -31,8 +32,8 @@
  
--	https://git-scm.com/
-+        https://git-scm.com/
+ 關於核心開發有很多書：
  
--	https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
-+        https://www.kernel.org/pub/software/scm/git/docs/user-manual.html
+-  《Linux設備驅動程序》第三版（Jonathan Corbet、Alessandro Rubini和Greg Kroah-Hartman）
+-  線上版本在 https://lwn.net/Kernel/LDD3/
++  《Linux設備驅動程序》第三版（Jonathan Corbet、Alessandro Rubini和
++  Greg Kroah-Hartman）。線上版本在 https://lwn.net/Kernel/LDD3/ 。
  
- 同時網上也能找到各種各樣的教程。
+   《Linux核心設計與實現》（Robert Love）
  
-@@ -39,7 +40,7 @@
- 快進合併、推拉、遊離頭等。一開始可能有點嚇人，但這些概念不難透過一點學習來
- 理解。
+@@ -54,9 +55,9 @@
+ 以及您如何參與這個過程。
  
--使用git產生透過電子郵件提交的補丁是提高速度的一個很好的練習。
-+使用Git產生透過電子郵件提交的補丁是提高速度的一個很好的練習。
+ 最後，重要的是參與。任何開源軟體專案都不會超過其貢獻者投入其中的總和。Linux
+-核心的發展速度和以前一樣快，因為它得到了大量開發人員的幫助，他們都在努力使它
+-變得更好。核心是一個最成功的例子，說明了當成千上萬的人為了一個共同的目標一起
+-工作時，可以做出什麼。
++核心之所以能發展得如此迅速、如此良好，是因為有一大群人數驚人的開發人員協助，
++他們都在努力使它變得更好。核心是一個最成功的例子，說明了當成千上萬的人為了一個
++共同的目標一起工作時，可以做出什麼。
  
- 當您準備好開始建立Git樹供其他人查看時，無疑需要一個可以從中拉取的伺服器。
- 如果您有一個可以連上網際網路的系統，那麼使用git-daemon設定這樣的伺服器相對
-@@ -50,14 +51,14 @@
- 正常的Git工作流程涉及到許多分支的使用。每一條開發線都可以分為單獨的“主題
- 分支”，並獨立維護。Git的分支很容易使用，沒有理由不使用它們。而且，在任何
- 情況下，您都不應該在任何您打算讓其他人從中拉取的分支中進行開發。應該小心地
--建立公開可用的分支；當開發分支處於完整狀態並已準備好時(而不是之前）才合併
-+建立公開可用的分支；當開發分支處於完整狀態並已準備好時（而不是之前）才合併
- 開發分支的補丁。
- 
- Git提供了一些強大的工具，可以讓您重寫開發歷史。一個不方便的補丁（比如說，
- 一個打破二分法的補丁，或者有其他一些明顯的缺陷）可以在適當的位置修復，或者
- 完全從歷史中消失。一個補丁系列可以被重寫，就好像它是在今天的主線上寫的一樣，
- 即使你已經花了幾個月的時間在寫它。可以透明地將更改從一個分支轉移到另一個
--分支。等等。明智地使用git修改歷史的能力可以幫助建立問題更少的乾淨補丁集。
-+分支。等等。明智地使用Git修改歷史的能力可以幫助建立問題更少的乾淨補丁集。
- 
- 然而，過度使用這種功能可能會導致其他問題，而不僅僅是對建立完美專案歷史的
- 簡單癡迷。重寫歷史將重寫該歷史中包含的更改，將經過測試（希望如此）的核心樹
-@@ -67,11 +68,11 @@ Git提供了一些強大的工具，可以讓您重寫開發歷史。一個不
- 在此後通常被認為是不可變的。
- 
- 因此，一旦將一組更改推送到公開可用的伺服器上，就不應該重寫這些更改。如果您
--嘗試強制進行無法快進合併的更改（即不共享同一歷史記錄的更改），Git將嘗試強制
--執行此規則。這可能覆蓋檢查，有時甚至需要重寫導出的樹。在樹之間移動變更集以
--避免linux-next中的衝突就是一個例子。但這種行為應該是罕見的。這就是為什麼
--開發應該在私有分支中進行（必要時可以重寫）並且只有在公共分支處於合理的較新
--狀態時才轉移到公共分支中的原因之一。
-+嘗試推送無法快進合併的更改（即不共享同一歷史記錄的更改），Git將嘗試強制執行
-+此規則。可以覆蓋這項檢查，有時也可能確實需要重寫已導出的樹。在樹之間移動變更
-+集以避免linux-next中的衝突就是一個例子。但這種行為應該是罕見的。這就是為什麼
-+開發應該在私有分支中進行（必要時可以重寫），並且只有在開發進入相當成熟的狀態
-+時才轉移到公共分支中的原因之一。
- 
- 當主線（或其他一組變更所基於的樹）前進時，很容易與該樹合併以保持領先地位。
- 對於一個私有的分支，rebasing 可能是一個很容易跟上另一棵樹的方法，但是一旦
-@@ -83,16 +84,21 @@ Git提供了一些強大的工具，可以讓您重寫開發歷史。一個不
- 就不必重複相同的工作。
- 
- 關於Git這樣的工具的一個最大的反覆抱怨是：補丁從一個儲存庫到另一個儲存庫的
--大量移動使得很容易陷入錯誤建議的變更中，這些變更避開審查雷達進入主線。當內
-+大量移動使得考慮欠周的變更很容易混入，在審查雷達之下溜進主線。當內
- 核開發人員看到這種情況發生時，他們往往會感到不高興；在Git樹上放置未審閱或
- 主題外的補丁可能會影響您將來讓樹被拉取的能力。引用Linus的話:
- 
- ::
- 
--   你可以給我發補丁，但當我從你那裡拉取一個Git補丁時，我需要知道你清楚
--   自己在做什麼，我需要能夠相信事情而 *無需* 手動檢查每個單獨的更改。
-+        You can send me patches, but for me to pull a Git patch from you, I
-+        need to know that you know what you're doing, and I need to be able
-+        to trust things *without* then having to go and check every
-+        individual change by hand.
- 
--（http://lwn.net/Articles/224135/）。
-+（中譯：你可以給我發補丁，但當我從你那裡拉取一個Git補丁時，我需要知道你清楚
-+自己在做什麼，我需要能夠相信事情而 *無需* 手動檢查每個單獨的更改。）
-+
-+(https://lwn.net/Articles/224135/)。
- 
- 為了避免這種情況，請確保給定分支中的所有補丁都與相關主題緊密相關；“驅動程式
- 修復”分支不應更改核心記憶體管理程式碼。而且，最重要的是，不要使用Git樹來繞過
-@@ -107,6 +113,8 @@ Git提供了一些強大的工具，可以讓您重寫開發歷史。一個不
- 更改。在這方面 git request-pull 命令非常有用；它將按照其他開發人員所期望的
- 格式化請求，並檢查以確保您已記得將這些更改推送到公共伺服器。
- 
-+.. _tw_development_advancedtopics_reviews:
-+
- 審閱補丁
- --------
- 
-@@ -121,9 +129,20 @@ Git提供了一些強大的工具，可以讓您重寫開發歷史。一個不
- 閱者最好的建議是：把審閱評論當成問題而不是批評。詢問“在這條路徑中如何釋放
- 鎖？”總是比說“這裡的鎖是錯誤的”更好。
- 
-+出現分歧時，另一個有用的技巧是邀請其他人加入討論。如果幾輪交流後討論陷入
-+僵局，就請其他審閱者或維護者發表意見。通常，與某位審閱者意見一致的人除非被
-+點名，否則往往保持沉默。多人的意見會帶來成倍的分量。
-+
- 不同的開發人員將從不同的角度審查程式碼。部分人會主要關注程式碼風格以及程式
- 碼行是否有尾隨空格。其他人會主要關注補丁作為一個整體實作的變更是否對核心有
- 好處。同時也有人會檢查是否存在鎖問題、堆疊使用過度、可能的安全問題、在其他
- 地方發現的程式碼重複、足夠的文件、對效能的不利影響、使用者空間ABI更改等。
- 所有類型的檢查，只要它們能引導更好的程式碼進入核心，都是受歡迎和值得的。
- 
-+並沒有嚴格要求一定要使用 ``Reviewed-by`` 這類特定標籤。事實上，即使提供了
-+標籤，也鼓勵用淺白的英文寫下審閱意見，這樣資訊量更大，例如：“我看過了這次
-+提交的 A、B 和 C 方面，看起來沒有問題。”顯然，某種形式的審閱訊息或回覆是
-+必要的，否則維護者根本無從得知審閱者是否看過這個補丁！
-+
-+最後但同樣重要的是，補丁審閱可能會變成一個專注於指出問題的負面過程。請偶爾
-+給予稱讚，特別是對新手！
+ 不過，核心總是可以從更大的開發人員基礎中獲益。總有更多的工作要做。但是同樣
+ 重要的是，Linux生態系統中的大多數其他參與者可以透過為核心做出貢獻而受益。
 -- 
 2.43.0
 
