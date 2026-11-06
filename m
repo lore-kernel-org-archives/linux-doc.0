@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793925786;
-	b=fXPuyS2yGb+jsA5/vAK3EELSQ5KUmSeaxmrKMrfS87ufdmvefYjVyqhF8PXm5d1r9kuV
-	 azCj+W0oEpqX/EgmOwGi8SsTrK0Mz0MqRa8Bg5OlEOn2ywYJAvcYuSmOv2R+qcGG+Pg62
-	 ZhJjygFLXc53lIp1/HiGG7aTWsH6CK6qPg33R73UQxY7woS3zY821JasQwA0dWPEvMatk
-	 6+oz2dzqt+/S0EqAOfRQxoe2kXAwhs1uNDu4RzNWhjSOLh7Q0nXcnH9tzGb4UP/mexcL/
-	 312ht4owe6r/coOgtcUwxf8ZXrj6E+XNEVknkcJKREl8YqEUV8WhhvrvcUbGeBnsSzA==
+	t=1793925796;
+	b=NZ/uQ4lmnDBmgKsu4IqmbVmG9Dzqi5Tq7KphPjycQ7IhSEuOTDj9Ow2kI585SP05IJNS
+	 NavrmgjAK+Eg5afWX7aK7hzdGdCgl8XeUT2uxY4IVWxtxkWzjofPxxAbWnszEI2Y03mur
+	 jQIwBFn5SkUTRmkOBzCeZ+DhNGyosVFpiIADuYcqNSrQRWSQHY+8VWx7lm2mzVj/L04w7
+	 eai4yeWt2ctAPXNjOBrslKzm24oU6Md7ruYKXwk+3M+gDAE/9uys4RcJikQUpELAeRkjb
+	 c+goTCvFQG0tju7zDDW3nBS6Pi4M9AoVg7oZrwt9awuuWPPfD8HcpMdArKRa3ZWc5eA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793925786;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793925796;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=ddBqCr/aEaadxkJlxFoZmLz139RBeJBOYwKmQVBOEIY=;
-	b=0AVEdKmOv84ynIZzpmO7DP6CjbAAaxgsZjirU7PsUeeL/FRub0Xtv4P4baUrSIcu36g1
-	 417N8m6AnmsBTJ/EM8hc5PmtpgZllf3AVSvB5vd/ksiwA3H7/dVZeq/nDqqmgruiRzEpt
-	 A35O9gR5jlV56YvziMkm7UhBu3oKTtbaLvQG50HDVEiQCI2DD5OBrIMyND8Ti87hxU9Ie
-	 mSXHFpU6LBunRJCTjyudrIhw1x+L3uZQpAotJ2s7lRDBU9vW+Iz983+YykANIJBINrNd5
-	 eF8t1cJPSnUIk4HJ6hVP2t3Sda85rBfhgua2pQVvD6OF4EA6cUMrQE9uQOY9xU7jNiA==
+	bh=VfIh1JSY3MeIq0CEtKa0epmsvwLqQj8oYtgMnnQZzbo=;
+	b=C6P2n13GBBIFyhJdcOW8juMaU7fzKhV1YF3UovqttXyW1UWXdgjTgRdNNuvw3w9SMfEs
+	 okveBbMZy+3fe/ZhGXna4Je8BnkE8DbfIl08S60GEXVcEv5tiS2YC5RhfS0czqatizNkf
+	 buFM5TCqU+LmBRYuw1aX5pAcT7dam7UXlFOoJ2MXtPGF3ws6MQu31DIKG0VM+IpAURLq7
+	 bYMI15ko9A8xDJcE6RLTIizi1GjnRhPrCCgY2b8MEgxCWoxbAclcsZRYGMZhkVuSfZj1h
+	 dQjg7ux3JluCrhRIwyhiamuWbkK7fr2V7srEzyO5xv1kwl6dwLM0kaAyZUGmqH4eq7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GRXD3J3V;
-	arc=none smtp.remote-ip=209.85.160.69
-Received: from mail-oa1-f69.google.com (mail-oa1-f69.google.com [209.85.160.69])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=p+nSHsB3;
+	arc=none smtp.remote-ip=209.85.210.70
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F02606D831
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:43:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 57F02606D831
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 862D8606EEBD
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:43:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 862D8606EEBD
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=GRXD3J3V
-Received: by mail-oa1-f69.google.com with SMTP id 586e51a60fabf-45952ce9ee0so68073fac.1
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:43:06 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=p+nSHsB3
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-844195cc415so304042a34.1
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:43:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793925785; x=1794530585; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793925790; x=1794530590; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ddBqCr/aEaadxkJlxFoZmLz139RBeJBOYwKmQVBOEIY=;
-        b=GRXD3J3VOcw4yv/Vrvlmc3RGpi31lT5MppCPnPUi/kZ6+en1QhpIi/gHunKi3NU+7D
-         I41HoHyhAjHakKs6kVhSRTfJh1vxqz9vVp55WuHs5Fn5aoEb9Nu8eWmHE10+gUaG7UiG
-         5mvzx296xi4VXPJipSajDJSuQfy21T18LyYHbTT1tpI7JrwxYMHYmX27+hmjwhH/x5rH
-         g3wSNZ9BqAGqF+GJsOMtmfLprgg5yjVMsfHI5WkuHVOYbBpmloYhRA7cOjlsUUp855Av
-         OJf+YqG+dK+3au2b3skaY9vPuLF92rpVe8BjWCJqSPGWBf4iKLMycdhtEKJXZVGCAuzT
-         dC7Q==
+        bh=VfIh1JSY3MeIq0CEtKa0epmsvwLqQj8oYtgMnnQZzbo=;
+        b=p+nSHsB3NVQ3/VN95+llHuQrwOSf9rabn1to0JLMo69u9oII+ko+BKDLNSxxg8aQQQ
+         Keh6EvXI12h8ds93cvj8jDWZhLHgcPKL1nWrnOxV3QnEI8baNcksmI31Ptyl4jRmyMXm
+         I0+nHgmB+x2jOovCBjRp2gaB0B36guv3bsx9azgkxvoiE2kkPNMtpudNu/axRRkm+ZBU
+         dx/g4XMPLCKgGByzOc955d0LaXHbegZ2C3ZPYajpTBwXphKQeO2vQWFDQG9bC8YEHi1Q
+         b6gjKyxu5LwzwkmuljzQg3J8SUkhF/quNbhyO8jV0ugz5iKh4vi3sDDJBGZpm9DgxJc2
+         C3Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793925785; x=1794530585;
+        d=1e100.net; s=20260707; t=1793925790; x=1794530590;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ddBqCr/aEaadxkJlxFoZmLz139RBeJBOYwKmQVBOEIY=;
-        b=tK/YaqUE2GhHYt2Z21NMsk2NeNNpcWhbQgQ0ZxHtWu9Sm1m1dDyGF/7+mWFWaIa6n5
-         8mcKpxsHcIs5jvCcXip7x+BnsTKuK33SWJEtdLlFeIZ3M9slhEwhpB1hYJ2Br9VztJR3
-         7aE0xR8gt3h6Dhkic4Fl2YYNrMj1Q90j7FnjTQAQ8bK/96Qjt/U6ecjpUx1plxsJq3Ep
-         H5OaTPfTRGbw0nS6+Yp6gHD2G/vgrLMm+JDSO7qiSQXAHZOaHhPkw16ntVJS6WWxr0fu
-         B6cy0UupSlVkINvMaTKiwVfyfvdGfb8wt7qowhEpuMrbw5PWM0R4lNw3x2APz8KKObOD
-         3Frg==
-X-Forwarded-Encrypted: i=1; AKwUvBxWhdgJJfrXLIYsy7XpZn5FYfGEa7rvn+fa/u693dk8IAxri/l5kLmtQAYX3nJc5Oi2X+wm+/7QFFU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/HZLCZYGz8UgfJ5q2arT8Er+v54aVpC7fYYjs5+ec60xvRL6Jk
-	WZFd61HppYclBCNLJfAI9oIX8An3YpI4zmX9UDHf6zlYdqAA7NlBSnMYH4mltQaS0PXHzvhZMps
-	ZmmZdxdfM5jrwGw==
-X-Received: from iobmm23-n1.prod.google.com ([2002:a05:6602:7117:10b0:9ca:dec8:c75d])
+        bh=VfIh1JSY3MeIq0CEtKa0epmsvwLqQj8oYtgMnnQZzbo=;
+        b=s89r7u/ny4sxbzXep8PP4hbEJJ62cqQu0sg+k6yboY1W77FQiNDxrii8o8Ti/P6O8r
+         RU+at4DAA/8bD3PNH4MgVSCzhNQG+rWLPiXdRcyvpEhlprReXNgTdeAzdYWgfGIT3f4p
+         6mHoau0AotOl0euyJFRgGKN0iUAg/WFisEPDQvfrwUVOPd6OMu267oJtwI8Koe1fD/T/
+         +4H7Gz0VdGXLm7/P4xy7/qAfKFxELX8I6WScnUztZ/o62B106L7Ffbp/KvaVRA4zWp7G
+         mPcOrjd0btOG9D/qkPatUnRbFF+MgkE8o6HA6kSRpzcg6NF1ASujEODWYKjWYvH+Rd2W
+         IgRg==
+X-Forwarded-Encrypted: i=1; AKwUvBz4FoFhX+ck763H9R/Xp8HDS6F2h2fjFuz9xgunS2wcVKOLdzHXD56wFnKolou885/NqODtBnNpHb8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Ujc5bWFNcNL/oLCgHfSdajpb/q+RkMkCRr9X5AXZNXSm/8f0z
+	DYpzjHb4GOO/WPy8JJ0/lqz2jIXcqQkK5FkTYHkXTx0OBN5kaDtt1GyegDVAl3u7ZuSGoN71OGo
+	DULUxte71XtuQNQ==
+X-Received: from ioo11-n1.prod.google.com ([2002:a05:6602:864b:10b0:9e2:221a:fd83])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:1987:b0:4f3:68d6:f131 with SMTP id 5614622812f47-567e099488cmr858385b6e.2.1793925785214;
- Thu, 05 Nov 2026 16:43:05 -0800 (PST)
-Date: Fri,  6 Nov 2026 00:42:08 +0000
+ 2002:a05:6808:1a21:b0:561:fa43:1b2f with SMTP id 5614622812f47-567e0fc17c3mr657310b6e.20.1793925790093;
+ Thu, 05 Nov 2026 16:43:10 -0800 (PST)
+Date: Fri,  6 Nov 2026 00:42:12 +0000
 In-Reply-To: <20261106004218.604799-1-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261106004218.604799-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261106004218.604799-8-dmatlack@google.com>
-Subject: [PATCH v2 07/17] PCI/ASPM: Save L1SS state in the saved capability store
+Message-ID: <20261106004218.604799-12-dmatlack@google.com>
+Subject: [PATCH v2 11/17] PCI/DPC: Save DPC state in the saved capability store
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
@@ -97,140 +97,93 @@ Cc: Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>,
 	Vipin Sharma <vipinsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Save and restore the L1 PM Substates control registers through the
-per-device saved capability store instead of a private pci_cap_saved_state
-buffer.
+Save and restore the DPC Control register through the per-device saved
+capability store instead of a private pci_cap_saved_state buffer.
 
-pci_restore_aspm_l1ss_state() needs both the Upstream and Downstream
-Port's saved L1SS configuration, and had to fetch two buffers and decode
-each by index. Read the saved values by configuration space offset
-instead, which names the register at every use. Add
-pci_read_saved_l1ss_ctl() to read one device's pair, so that the Port
-and the device below it are read the same way.
+Key the save and restore paths off pdev->dpc_cap rather than
+pci_is_pcie(). The old code relied on the save buffer existing only when
+the capability did, and the store has no per-capability entry to check.
 
-Reserve PCI_L1SS_CTL1 and PCI_L1SS_CTL2 with a single request in
-pci_reserve_aspm_l1ss_state(), since they are adjacent DWORDs. Skip the
-reservation when the device has no L1SS capability, which
-pci_add_ext_cap_save_buffer() did implicitly.
+Reserve the register in pci_reserve_dpc_state(), called from
+pci_dpc_init().
 
 No functional change intended.
 
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- drivers/pci/pcie/aspm.c | 63 ++++++++++++++++++++---------------------
- 1 file changed, 30 insertions(+), 33 deletions(-)
+ drivers/pci/pcie/dpc.c | 37 +++++++++++++++----------------------
+ 1 file changed, 15 insertions(+), 22 deletions(-)
 
-diff --git a/drivers/pci/pcie/aspm.c b/drivers/pci/pcie/aspm.c
-index 39adf2cad331..2978fde87af6 100644
---- a/drivers/pci/pcie/aspm.c
-+++ b/drivers/pci/pcie/aspm.c
-@@ -68,24 +68,29 @@ void pci_restore_ltr_state(struct pci_dev *dev)
- 	pci_restore_cap_dword(dev, ltr + PCI_LTR_MAX_SNOOP_LAT);
- }
+diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
+index b7f79266f66d..16203e9ef240 100644
+--- a/drivers/pci/pcie/dpc.c
++++ b/drivers/pci/pcie/dpc.c
+@@ -45,34 +45,18 @@ static const char * const rp_pio_error_string[] = {
  
--void pci_configure_aspm_l1ss(struct pci_dev *pdev)
-+static void pci_reserve_aspm_l1ss_state(struct pci_dev *pdev)
+ void pci_save_dpc_state(struct pci_dev *dev)
  {
- 	int rc;
- 
--	pdev->l1ss = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_L1SS);
--
--	rc = pci_add_ext_cap_save_buffer(pdev, PCI_EXT_CAP_ID_L1SS,
--					 2 * sizeof(u32));
-+	/* PCI_L1SS_CTL1 and PCI_L1SS_CTL2 are adjacent DWORDs */
-+	rc = pci_reserve_saved_cap(pdev, pdev->l1ss + PCI_L1SS_CTL1, 2 * sizeof(u32));
- 	if (rc)
--		pci_err(pdev, "unable to allocate ASPM L1SS save buffer (%pe)\n",
-+		pci_err(pdev, "unable to reserve ASPM L1SS save state (%pe)\n",
- 			ERR_PTR(rc));
- }
- 
-+void pci_configure_aspm_l1ss(struct pci_dev *pdev)
-+{
-+	pdev->l1ss = pci_find_ext_capability(pdev, PCI_EXT_CAP_ID_L1SS);
-+	if (!pdev->l1ss)
-+		return;
-+
-+	pci_reserve_aspm_l1ss_state(pdev);
-+}
-+
- void pci_save_aspm_l1ss_state(struct pci_dev *pdev)
- {
- 	struct pci_dev *parent = pdev->bus->self;
 -	struct pci_cap_saved_state *save_state;
--	u32 *cap;
- 
- 	/*
- 	 * If this is a Downstream Port, we never restore the L1SS state
-@@ -102,32 +107,32 @@ void pci_save_aspm_l1ss_state(struct pci_dev *pdev)
- 	 * Save L1 substate configuration. The ASPM L0s/L1 configuration
- 	 * in PCI_EXP_LNKCTL_ASPMC is saved by pci_save_pcie_state().
- 	 */
--	save_state = pci_find_saved_ext_cap(pdev, PCI_EXT_CAP_ID_L1SS);
--	if (!save_state)
+-	u16 *cap;
+-
+-	if (!pci_is_pcie(dev))
 -		return;
 -
--	cap = &save_state->cap.data[0];
--	pci_read_config_dword(pdev, pdev->l1ss + PCI_L1SS_CTL2, cap++);
--	pci_read_config_dword(pdev, pdev->l1ss + PCI_L1SS_CTL1, cap++);
-+	pci_save_cap_dword(pdev, pdev->l1ss + PCI_L1SS_CTL2);
-+	pci_save_cap_dword(pdev, pdev->l1ss + PCI_L1SS_CTL1);
- 
- 	/*
- 	 * Save parent's L1 substate configuration so we have it for
- 	 * pci_restore_aspm_l1ss_state(pdev) to restore.
- 	 */
--	save_state = pci_find_saved_ext_cap(parent, PCI_EXT_CAP_ID_L1SS);
+-	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_DPC);
 -	if (!save_state)
--		return;
-+	pci_save_cap_dword(parent, parent->l1ss + PCI_L1SS_CTL2);
-+	pci_save_cap_dword(parent, parent->l1ss + PCI_L1SS_CTL1);
-+}
++	if (!dev->dpc_cap)
+ 		return;
  
--	cap = &save_state->cap.data[0];
--	pci_read_config_dword(parent, parent->l1ss + PCI_L1SS_CTL2, cap++);
--	pci_read_config_dword(parent, parent->l1ss + PCI_L1SS_CTL1, cap++);
-+/*
-+ * Read a device's saved L1 substate configuration.
-+ *
-+ * Return: true if both registers had a saved value, false otherwise.
-+ */
-+static bool pci_read_saved_l1ss_ctl(struct pci_dev *dev, u32 *ctl1, u32 *ctl2)
-+{
-+	return pci_read_saved_cap_dword(dev, dev->l1ss + PCI_L1SS_CTL1, ctl1) &&
-+	       pci_read_saved_cap_dword(dev, dev->l1ss + PCI_L1SS_CTL2, ctl2);
+-	cap = (u16 *)&save_state->cap.data[0];
+-	pci_read_config_word(dev, dev->dpc_cap + PCI_EXP_DPC_CTL, cap);
++	pci_save_cap_word(dev, dev->dpc_cap + PCI_EXP_DPC_CTL);
  }
  
- void pci_restore_aspm_l1ss_state(struct pci_dev *pdev)
+ void pci_restore_dpc_state(struct pci_dev *dev)
  {
--	struct pci_cap_saved_state *pl_save_state, *cl_save_state;
- 	struct pci_dev *parent = pdev->bus->self;
--	u32 *cap, pl_ctl1, pl_ctl2, pl_l1_2_enable;
-+	u32 pl_ctl1, pl_ctl2, pl_l1_2_enable;
- 	u32 cl_ctl1, cl_ctl2, cl_l1_2_enable;
- 	u16 clnkctl, plnkctl;
- 
-@@ -142,18 +147,10 @@ void pci_restore_aspm_l1ss_state(struct pci_dev *pdev)
- 	if (!pdev->l1ss || !parent->l1ss)
- 		return;
- 
--	cl_save_state = pci_find_saved_ext_cap(pdev, PCI_EXT_CAP_ID_L1SS);
--	pl_save_state = pci_find_saved_ext_cap(parent, PCI_EXT_CAP_ID_L1SS);
--	if (!cl_save_state || !pl_save_state)
-+	if (!pci_read_saved_l1ss_ctl(pdev, &cl_ctl1, &cl_ctl2) ||
-+	    !pci_read_saved_l1ss_ctl(parent, &pl_ctl1, &pl_ctl2))
- 		return;
- 
--	cap = &cl_save_state->cap.data[0];
--	cl_ctl2 = *cap++;
--	cl_ctl1 = *cap;
--	cap = &pl_save_state->cap.data[0];
--	pl_ctl2 = *cap++;
--	pl_ctl1 = *cap;
+-	struct pci_cap_saved_state *save_state;
+-	u16 *cap;
 -
- 	/* Make sure L0s/L1 are disabled before updating L1SS config */
- 	pcie_capability_read_word(pdev, PCI_EXP_LNKCTL, &clnkctl);
- 	pcie_capability_read_word(parent, PCI_EXP_LNKCTL, &plnkctl);
+-	if (!pci_is_pcie(dev))
+-		return;
+-
+-	save_state = pci_find_saved_ext_cap(dev, PCI_EXT_CAP_ID_DPC);
+-	if (!save_state)
++	if (!dev->dpc_cap)
+ 		return;
+ 
+-	cap = (u16 *)&save_state->cap.data[0];
+-	pci_write_config_word(dev, dev->dpc_cap + PCI_EXP_DPC_CTL, *cap);
++	pci_restore_cap_word(dev, dev->dpc_cap + PCI_EXP_DPC_CTL);
+ }
+ 
+ static DECLARE_WAIT_QUEUE_HEAD(dpc_completed_waitqueue);
+@@ -400,6 +384,16 @@ static irqreturn_t dpc_irq(int irq, void *context)
+ 	return IRQ_HANDLED;
+ }
+ 
++static void pci_reserve_dpc_state(struct pci_dev *pdev)
++{
++	int rc;
++
++	rc = pci_reserve_saved_cap(pdev, pdev->dpc_cap + PCI_EXP_DPC_CTL, sizeof(u16));
++	if (rc)
++		pci_err(pdev, "unable to reserve DPC save state (%pe)\n",
++			ERR_PTR(rc));
++}
++
+ void pci_dpc_init(struct pci_dev *pdev)
+ {
+ 	u16 cap;
+@@ -408,8 +402,7 @@ void pci_dpc_init(struct pci_dev *pdev)
+ 	if (!pdev->dpc_cap)
+ 		return;
+ 
+-	if (pci_add_ext_cap_save_buffer(pdev, PCI_EXT_CAP_ID_DPC, sizeof(u16)))
+-		pci_err(pdev, "unable to allocate suspend buffer for DPC\n");
++	pci_reserve_dpc_state(pdev);
+ 
+ 	pci_read_config_word(pdev, pdev->dpc_cap + PCI_EXP_DPC_CAP, &cap);
+ 	if (!(cap & PCI_EXP_DPC_CAP_RP_EXT))
 -- 
 2.56.0.455.g6c5a503b38-goog
 
