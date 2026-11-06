@@ -1,57 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.96
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793993779;
-	b=Xj9Psgjc4SbuK6v18fBpE0aC79z5c3MatNSVoQvMvzqIw3waSlgAeDppo7q2yRdASXMN
-	 F7GC3L7XkyY+l6PEqQuaYZpzOD5nedFXhYpmDgRl+0Xu5m9Gawx46tnjcneGl22w05ylB
-	 rT54aZHh6iwa2D4qAED3MCMCRQgIQNhgGQgB5ySRw5AsL7hMSqvBUpGpfQDQfNUbIslKm
-	 1iG7We//+Q+dw9yakPnGoGgGgCmdRd7PfsF5vrVJjzomIiktXJvhJ5cv2oxSGP6If724v
-	 HNi96lm098uxBxdalZe8IBPJVmyFpF3D8a0i36uFFX1MjZCOKi2JbFJ9RGS9+waN9Qw==
+	t=1793994085;
+	b=efUWnmdNn1LJDQj7qUzrQVXcfp+a3IDnnRDpAX8u1tTAnbPIRDvSaU9B+nMGEo1bVoiZ
+	 a6+QDHs8ShOHFOaA14yTmcmAr7PEHxobUPV2YLIIpIXUBMayETCoF2VpAy17SWeORsOpk
+	 CbWrUdT+b0Y9ix2hXQriW6Y3O5VlY0YQ2BgX2wjAdtONRRu7HWwWp5MeF3krO1UDMOUPP
+	 yQ0J92fkiEsHFAh2OEdhwdlI7AeyUkCNcMjbgrQdbwKa2K2TWymdJmwDLjzZCQMdcEuR2
+	 31yeNCADJCrRdSKXBUOIDbk6wswHBGpsUCmzUc+Ob40ptqem1JCGrMprZj3ESm4LyPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793993779;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=6xTKEOGFRLXidPHrCfmBqE6GgEsv5eOpzmihaPx4Isg=;
-	b=lV/F6NnooRPEth7kk/6JSap/tvBiFpT+SHXrWKPMtxaFue/F5NGybXE7ttr7Gp/TzaJn
-	 pPkNGps1Nr9ehmhXtJpB6FD8c1nxA27Ch6B2w3u2VhoTbU0V01sHG1xbL9Ih6Y0GIWTfy
-	 iv6vR6u+b3ggpLs1d9UAceuLlbb81B2JeuH/9TjndpJMp7UwfgXLbZmCLS6PWCwjRVxWh
-	 bODswvgisCKzgVlVed2B1vLq0FbqjSLdRwMjA+SNbQnN012C2Rac7KpwWtIqAxwHlB2DW
-	 yoXzUG3zf/ZbbYpn0zJzZMWewTnoAXlLa0s8J+Cl1GivB2nXyuwrgSLHzyKcZwHtC+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793994085;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=YlgLvuvi6MzXcCGFPDS7jIHqHR1YP7BKidunKoP0lJU=;
+	b=b7enz1Sp529C7t43vZKHGOQv73mJionMknI3t3Xl1znyu6MMhAB+RCrRZb3ZI5W88osu
+	 VAPA80ACy+excfWT26Uv09M3cwo1muCZ3SJ2rd8ePhmYea37foke8rKhlfUfJYufqUeL8
+	 RQonHssEmI4QEVOwld/3br+D7Ks7HHwPCOFRP3UDYBJM03JtP91VML9AKDGAjRAgPX4Tw
+	 NCssGVpeXdzsCDOM70dASedOi2d2p9Aepwny7Y59HnUEFUgYiAK6LAklgdXH8xNa25Rwf
+	 /9AQRvQpEPSSMxp1ZAx/ADQjCPWK5+8IMpLk0aeEN9tPuLjPHXsIp3cY69ExLdr6XPA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=modelmiser.com;
-	spf=pass smtp.mailfrom=modelmiser.com;
-	dkim=pass header.d=modelmiser.com header.i=@modelmiser.com header.a=rsa-sha256 header.s=protonmail header.b=O03VjtsC;
-	arc=none smtp.remote-ip=185.70.43.96
-Received: from mail-4396.protonmail.ch (mail-4396.protonmail.ch [185.70.43.96])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gbFnx05l;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F748606A326
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 19:36:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F748606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=modelmiser.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=modelmiser.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 6948B606A326;
+	Fri,  6 Nov 2026 19:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=modelmiser.com header.i=@modelmiser.com header.a=rsa-sha256 header.s=protonmail header.b=O03VjtsC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=modelmiser.com;
-	s=protonmail; t=1793993774; x=1794252974;
-	bh=6xTKEOGFRLXidPHrCfmBqE6GgEsv5eOpzmihaPx4Isg=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=O03VjtsCY5bZQorTEx3GDBoMlcCM6LY58ixfoMVronH0DkRdO5QEQKeUEIrKPUG9F
-	 9QSU5u2Uf5kj1iS8sVpiOJqaNi4MMCJJcMWLZrHdwiBlaMVUA+3peZK2NIzGL+4cVH
-	 fPmeuoE8Cuy3oSNiWZp2s5+EpWpByvVCFEsYLZUus/HQQE/tPSeZIkk6KvckFzVS0t
-	 I0a8vUQm92JcXmgL6rhSNTHwEVBx0jYgsHcpBqfSmcyGo5NBRWbFx/AEfUpMynt3jO
-	 1eS5e4kWEKsOXLWOJKETZcbLO2siyrGhaF63fqHuAJLeqZv51CYYaIgNz8pvCPA1al
-	 Sq+JmjylcG7tQ==
-Date: Fri, 06 Nov 2026 19:36:07 +0000
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>
-From: Chad Aldreda <ca@modelmiser.com>
-Cc: Johan Hovold <johan@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, driver-core@lists.linux.dev, linux-media@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] Documentation: devres: warn about device nodes in managed memory
-Message-ID: <20261106193600.3267465-2-ca@modelmiser.com>
-Feedback-ID: 232753253:user:proton
-X-Pm-Message-ID: 9b7570ea9211575eca35ac2ab2eedd2b8679507e
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gbFnx05l
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8F7141F0089F;
+	Fri,  6 Nov 2026 19:41:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793994085;
+	bh=YlgLvuvi6MzXcCGFPDS7jIHqHR1YP7BKidunKoP0lJU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=gbFnx05ldh2Nzu3gMRUeaATbqhszyMS3oVk2c2PpERZp+mAWal0/IuPNDDekgB1RA
+	 dvvgHjv35kv3yrgd8wePjns+ri3xOyvUmRArByEeMRk/z4p44avenpMSH169hTAWNn
+	 DOrtMGDmo3/TmkuDuVJGZQ6y748uRufKosPvzTB65Omc7Un3dfZX5UsC1MvZZhHsQs
+	 j6yAwxEZiwq0Okn51UQ9qUYIMFWlgnpNMKuy0LRA7E2XJAFPsJLw6XzKv5DzdXn7X5
+	 zlO/3kUChmzTr/sxexYJuQH7aRvcawMo+chIWZzolfUUUPD46ACSxAmDl9pJLxVINo
+	 ui6pEL+Nu07Aw==
+Date: Fri, 6 Nov 2026 21:41:21 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Hannes Reinecke <hare@suse.de>, David Howells <dhowells@redhat.com>,
+	bpf@vger.kernel.org, dm-devel@lists.linux.dev,
+	fsverity@lists.linux.dev, keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v5 2/3] KEYS: Replace assoc_array with rhashtable
+Message-ID: <au4tYR8ZgTLVDWHv@kernel.org>
+References: <20261105031401.956609-1-jarkko@kernel.org>
+ <20261105031401.956609-3-jarkko@kernel.org>
+ <27015846-0161-4700-b810-4643e1f7b63a@suse.de>
+ <20261106090516.GA1973@sol>
+ <93e6b4e6-43c3-462d-b57c-26676aec85ec@suse.de>
+ <au4k69xNBUjsNErr@kernel.org>
+ <20261106191920.GA3383096@google.com>
+ <au4q4Wh7PK1-Ge9P@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,89 +91,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <au4q4Wh7PK1-Ge9P@kernel.org>
 
-devres entries are not reference counted, so managed memory must not
-hold state that can still be reached after the driver unbinds. State
-that rule for its common case, a cdev, miscdevice or video_device
-embedded in devm_kzalloc()'d driver state that an open file can still
-reach, including the v4l2_device and media_device that v4l2_release() in
-v4l2-dev.c reads on every close, and say where each kind of node frees
-its state on the last reference: the struct device release behind
-cdev_device_add(), per its kernel-doc in fs/char_dev.c, and the
-v4l2_device release callback in
-Documentation/driver-api/media/v4l2-device.rst. That the video_device
-release callback runs first, and must not free the shared state, follows
-v4l2_device_release() in v4l2-dev.c, the video_device's struct device
-release. A miscdevice has no release callback, so a kref, with its
-ordering against misc_deregister(), is spelled out here; it is not in
-the miscdevice documentation. An embedded media_device is also reached
-by media request files and the media device node without a v4l2_device
-reference, and has no reference count of its own; the text says so and
-leaves its lifetime out. The point that unregistering does not close
-open files follows the cdev_del() kernel-doc. That an open through a
-cached inode can still reach ->open() follows chrdev_open(), which uses
-inode->i_cdev while the cdev has references; the same kernel-doc says
-the cdev can no longer be opened, which holds for a new lookup, and for
-a cached inode only once the last reference is gone.
+On Fri, Nov 06, 2026 at 09:30:45PM +0200, Jarkko Sakkinen wrote:
+> > SipHash is also useful for resistance against denial-of-service attacks,
+> > where a user puts all their keys in one hash bucket.
+> > 
+> > As I mentioned, it's already used for secure hash tables elsewhere in
+> > the kernel.  That is what it's for; see
+> > Documentation/security/siphash.rst.  It's very fast as well, so if you
+> > are thinking of cryptography as being something very slow and hard to
+> > use, that is not what this is (or ever needed to be).
+> > 
+> > Let's just use it and not over-complicate things.
+> 
+> I'm pretty much non-opionated when it comes to this detail. I just
+> merely represent all the possible if anything comes up to mind. DoS
+> protection that you explained was not something I did even consider so
+> that seals it for me.
 
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Chad Aldreda <ca@modelmiser.com>
----
- .../driver-api/driver-model/devres.rst        | 36 +++++++++++++++++++
- 1 file changed, 36 insertions(+)
+I'm cutting hairs now but indices + siphash adds to defence in depth as
+it only takes DoS protection from SipHash while not protecting a secret.
+Not sure if this has that much pratical meaning tho  :-)
 
-diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentati=
-on/driver-api/driver-model/devres.rst
-index 4f0b90e7e1..6dc6ab261e 100644
---- a/Documentation/driver-api/driver-model/devres.rst
-+++ b/Documentation/driver-api/driver-model/devres.rst
-@@ -208,6 +208,42 @@ Lifetime of a devres entry begins on devres allocation=
- and finishes
- when it is released or destroyed (removed and freed) - no reference
- counting.
-=20
-+Because nothing counts references, managed memory must not hold state
-+that the core or the driver's file operations can still reach after the
-+driver unbinds. A common case is driver state in devm_kzalloc()'d
-+memory that an open file can still reach: state embedding a struct cdev
-+or struct video_device, or the v4l2_device and media_device a
-+video_device points to, which the core touches on every close, or a
-+struct miscdevice whose file operations use the state. Unregistering
-+the node in ->remove() does not close files that are already open, and
-+for a cdev an open through an already cached inode can still reach the
-+driver's ->open(). Allocate such state with kzalloc() and free it when
-+the last reference to it is dropped:
-+
-+- for a cdev, from the release callback of a struct device embedded in
-+  the same state, with dev->devt set, and added with cdev_device_add();
-+  see its kernel-doc in fs/char_dev.c. ->remove() calls
-+  cdev_device_del() and then put_device(); a probe that fails after
-+  device_initialize() calls cdev_device_del() if cdev_device_add()
-+  succeeded, then put_device(), never kfree().
-+- for a video_device, from the release callback of its v4l2_device; see
-+  Documentation/driver-api/media/v4l2-device.rst. The video_device
-+  release callback runs before that and must not free the state. The
-+  v4l2_device release callback is not the last access to an embedded
-+  struct media_device: media request files and the media device node
-+  reach it without a v4l2_device reference, and the media core gives it
-+  no reference count, so its lifetime is not covered here.
-+- a miscdevice has no release callback, so the driver counts the
-+  references itself, for example with a kref that ->probe()
-+  initializes, ->open() takes (and drops again if it then fails) and
-+  ->release() drops, and that ->remove(), or a probe that fails after
-+  misc_register(), drops only after misc_deregister() has returned.
-+
-+In each case, dropping a reference is the last access to the state by
-+whoever drops it. Keeping the memory is not enough on its own: file
-+operations that run after ->remove() must not touch the hardware or
-+other managed resources.
-+
- devres core guarantees atomicity to all basic devres operations and
- has support for single-instance devres types (atomic
- lookup-and-add-if-not-found).  Other than that, synchronizing
---=20
-2.43.0
-
-
+Br, Jarkko
