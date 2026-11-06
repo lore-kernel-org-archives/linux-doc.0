@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793925784;
-	b=UE3df/tmWY4hFvI2T3pdHULpwLJ6lZetPE9HnHsOosrU2hYcZJ4lA3sdE8A4dN3LOjxw
-	 g6jy5ORlle214z0xjcjDzjRqVKGOIw+FoaLb+yZboFoAVYFsGLPkL5YJvxLyO83t1CJ+G
-	 d4dn+Q0NEbN0LUSZNTM2HjbguaJsh3fEjjuEpr5544uQ66Ai7LFSV/uyYV9zB3OYmBCIi
-	 QxgT9e4cszbguFFYnhVcciRJtGrRpcFGku/42iVqjokx+7507rrnNfIxhybBCQrbLZnmB
-	 JmDuAg8YE8ubG/m8TN0xd1P6efZUAp/Iempud5KRmzboELRkX0x014OkBF1nDbSE/Kw==
+	t=1793925779;
+	b=KFgTER++flA2jgK9uiDqXaffZJI7QTa5n9j52yh1/jbYvcIQ5Hea8kZG/RUYlpNeZshz
+	 Z9f5GTyYBg42X9zx1yKUDb8dmH822R3PZPgCqBfHpFnnJ228gnm4Pfifby9laUmXASsAi
+	 saoN+VejXPD7vCAFHDizlzCPQgN5K6HcX/ObnY5ufdmU8X/rSx9cH6BMuc2KmvleWtWNU
+	 uc+ZAamBBa+PNg/AXUb30+xwpqgVla1BSD/55+vNozKzR9HIsNkDD+Z0Dhw37SNZOUa2f
+	 sWDu7FYPaivOtVvY8nqa2vRedUMv6Y7h/jZ96rvhgb4lrvfZauhm4Y8m0om1feZWwfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793925784;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793925779;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=clDl87D5pggy1VDwhZUzZxM8yGbSHZ+6BQixZZJAVUs=;
-	b=mtp51OG61GAkNj4xr1QYmPMm/bfxapoQXoIoqazsSkLRbmKwL0fsWpxU1X+uihWZeOQ8
-	 ZiYJ7gZfJ3LuveMde4fyjEgX98fnja3EtxhBBBjG1lsXBjbjaJfXJmXiBtFpguWI6yahL
-	 XE43qgR1Xud5rspqqIxpDtzF0RFpsBnV10/VEPRlLtR0+fW5yxjR0tpn3s2M851xUXxYu
-	 aSAzKXfNW16wAZmUTCtR5TguVBac75XFGFa8OpiaDAYPoVlrc5Unr1bbH8+ZscoZxLVtb
-	 xQX1j90AzO5muFxU/WTGkj8dkC7QHZOBagkw/M13JTFW1GzZk0o72HnBtFRFo0mvvyg==
+	bh=BPfp4nLyt9FVdmFE1yKT2sRgCODHAPIFVB7rkcjEfkI=;
+	b=nPfGY4RSW8aFk6vqs5aNsJfZN1sOknY1F8YajqBv/LaRG/p2KwPeP5rd6T2pvbsPXKEp
+	 S/+lwC7nJahOpcOCAOSWWJRr4PrakvTmj/hAWTxNNVDbzzMRj+9WUCSrAAY++haWwNr0m
+	 fpElUgpyjDN1fS+cHvkcdDma50oJTk0UaER8zS98K0WMiYEVNgmXjJpxuZ+rz/VpNfoj5
+	 O9pDPkzceK7+ZBcGR4zrDNazmiwso4TILk3wVnTJtJykLOftW5zhsHVioMvbIO9mAjS1X
+	 bcztybu37BL6mcKJKEyNlZnaK032UgHn0MGyRA0vnhLanma03RlM6SEIFfXm06f0KkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LKd1GHhC;
-	arc=none smtp.remote-ip=209.85.160.72
-Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com [209.85.160.72])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=pZjogpE8;
+	arc=none smtp.remote-ip=209.85.167.198
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6CA606A33D
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:43:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D6CA606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61C8606A333
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 00:42:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D61C8606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=LKd1GHhC
-Received: by mail-oa1-f72.google.com with SMTP id 586e51a60fabf-49dd26d6f07so63440fac.0
-        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:43:03 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=pZjogpE8
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4fb73e868aaso102301b6e.0
+        for <linux-doc@vger.kernel.org>; Thu, 05 Nov 2026 16:42:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1793925783; x=1794530583; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1793925778; x=1794530578; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=clDl87D5pggy1VDwhZUzZxM8yGbSHZ+6BQixZZJAVUs=;
-        b=LKd1GHhCX7SaMEw3wOg+ZX7DtaCsfH+3CR3zO3v2rIG7sPNWFfG0BYp96sO2+fcX43
-         8bdokgHhBKU1I+OCKMrOFgOQ6liW4MvZkGOz3f5YJKjWwhCz9WWdHSnQc5/1G0l7ktTp
-         LcZTDrL9r2eabx1HDEn4knmIsyR6b2TZwKJ/0ZvqT3uygBktktAWOd/ffPGoVzFltyK9
-         fx4Vmm0qBWYsZ7DW+WnJ9IzyxvKOr3YZLOPdJ8xF2AodUsR/nLd5mShuPVYGRAP19mRJ
-         40L9ot0LiHg0l9SLjZpcsAFGo4U2DpAm8UNxTXUtxNlrer8/h27oJxmNMHibbN4Bf8Y8
-         RV+A==
+        bh=BPfp4nLyt9FVdmFE1yKT2sRgCODHAPIFVB7rkcjEfkI=;
+        b=pZjogpE8Ak8WHFpInkUSeG3P5zHU/+5iZFj7i51qTUVRnAd1vBlLYjXTRAvj3M1Kc3
+         coFXIGXgiqDnbXVvEzruLsSocs2bwIAlnBJRm0GqAbhcG0BLa/qHPcKbYjLywgIigNcF
+         mraoBr5QVaxrMNMSLKKIO12AHJb873pDK4NQdRFi3PzHmG2Y7Z+lOCTAyJv6Q6O2TJ8m
+         TLEsPs/EXtljGzI0mIxJlfCTyAT7r8ABDEnr2nsnSzD4oLz8Z3tdsYRUUMrvZaySfE2j
+         LMr9v4i38jYaMOZVwhrvKwF0uAuDmXaCQd4y+7nsCMbxVvzR4B6XVCA4eFVJ/UA5DxPz
+         NwRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793925783; x=1794530583;
+        d=1e100.net; s=20260707; t=1793925778; x=1794530578;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=clDl87D5pggy1VDwhZUzZxM8yGbSHZ+6BQixZZJAVUs=;
-        b=boSpfw7m+PztRscAyvwB13paG4XW7GCEoZ1ASITWYtgRTIh9G9A9WDe4zgU0dyzz6z
-         A+5TV3iCTeCB3lZVCsFZbH2F+Ea9OEpFoXYVf3HKPqYqZ2LvxWLvIBKFlnRhoBl0Hbje
-         5DDH1SH/B/5kLUzzcFNWjOcfAh0ovRBtPzlda4RhGKbo7Yu45iZWXKtcvHh5eHtRlxG2
-         L/jY1IVBRAfXiqscPr3ZlL8WqVvYQCKuwNZ4zgnW/RPvKRYU45Eg7SV4VPEA0nx53Oqq
-         82ZgnFeVINl/TzU2FJDGp3ONJNRZZJpPXZdp6NmoAnGYaAtimA4V9lokmyDJXb4HjpUV
-         d9/A==
-X-Forwarded-Encrypted: i=1; AKwUvBzZgzjkpm+NUKCxSdDrrF9IUZet4XGIgaYTYZ0/bjnSsNBwf5IOx3taWleS6W53hXR6DA//rzedDqY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/wjUfhrodfKtMBNJpXVw7F2UKVBgIy3gD9CIBj+bEPK2kIV8wW
-	b58CHAsGbDc5oHdPwrLB/EKoCow2gc9t5n2Rt5x9XdtVtmgIrp1/bL2pspqtG0q03GEmN5Gwp1l
-	RQpAsg3yXPRd4Sg==
-X-Received: from iofl4-n1.prod.google.com ([2002:a05:6602:8384:10b0:9e3:4909:2e0c])
+        bh=BPfp4nLyt9FVdmFE1yKT2sRgCODHAPIFVB7rkcjEfkI=;
+        b=KjJdp+ivEl+2I8/eiVwSosH+Rxo/sk9/MmoWaUabW6wOTkFQY2aD+CQWewgBB+F/T9
+         SfyTiHoXbS5eQ8M9FH6Kri8CbhUbZqlE0hywrO1IO4oe9qt06Piz18WeIkA93/0Bx8ou
+         pRNE2gLEjOXCBSZmRaLa6VR3zJ3PvcMKH0vNt0hPyNbjDu/O4FPO/XYPnqbuysZDOkU6
+         sr8NmkUStMSr9iT7d+QYeSw+WIk4JPEUXTOY3z1bb6gWOm+u+6yp0MTkVSNg6et5cXfN
+         KKuZHd1B9xfprEsQzyDaMKcmWFCsjbRFN2dWivC6V43xt8HHmk7fnl+7wI5tP+5HVaMY
+         ukAA==
+X-Forwarded-Encrypted: i=1; AKwUvBwC/aoNt0Pwd61rGd4kVTtuCuh5TZqfb5MqvgmnY0NCmRatu1MZTANgo60v7JSMIhJ9vuX+s0ExTB4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9IA6oOSU5vRjJ1ulUyAJubGUekEn6Jo9HqRyqWlQbkCPuqwKAu
+	omr+9od8InfpQhH03Rr1akpiNq1jzZP3iKljq2wTa6Ay8idGVq1SnvTjINer875jJqaYQiwhr/h
+	+OHLV/JmD3VaFbA==
+X-Received: from jahl14-n2.prod.google.com ([2002:a05:6638:8c0e:20b0:620:17bd:8c69])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:3197:b0:564:4f93:707f with SMTP id 5614622812f47-567e1038170mr654365b6e.24.1793925782556;
- Thu, 05 Nov 2026 16:43:02 -0800 (PST)
-Date: Fri,  6 Nov 2026 00:42:06 +0000
+ 2002:a05:6808:2216:b0:4d6:9355:7547 with SMTP id 5614622812f47-567e1840a0cmr681897b6e.66.1793925777406;
+ Thu, 05 Nov 2026 16:42:57 -0800 (PST)
+Date: Fri,  6 Nov 2026 00:42:02 +0000
 In-Reply-To: <20261106004218.604799-1-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261106004218.604799-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261106004218.604799-6-dmatlack@google.com>
-Subject: [PATCH v2 05/17] PCI: Save PCI-X state in the saved capability store
+Message-ID: <20261106004218.604799-2-dmatlack@google.com>
+Subject: [PATCH v2 01/17] PCI/DPC: Allocate the DPC save buffer during device setup
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
@@ -97,112 +97,47 @@ Cc: Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>,
 	Vipin Sharma <vipinsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Save and restore the PCI-X Command register through the per-device saved
-capability store instead of a private pci_cap_saved_state buffer.
+Allocate the DPC capability's save buffer in pci_dpc_init() rather than
+in dpc_probe(), and report an allocation failure, which dpc_probe()
+ignored.
 
-Reserve the register by its configuration space offset during device
-setup, in pci_reserve_pcix_state(), so that the save and restore paths
-no longer have to locate a buffer.
+dpc_probe() runs when the portdrv DPC service binds to a port, which is
+long after the device has been added, and does not happen at all if the
+service is not enabled. Until then pci_save_dpc_state() silently saves
+nothing, so a reset in that window loses the DPC Control register.
 
-Make pci_save_pcix_state() void, so pci_save_state() no longer fails with
--ENOMEM when the PCI-X save buffer is missing. A failure to allocate the
-store is reported once during device setup instead.
-
-No other functional change intended.
+Allocating during device setup makes buffer existence depend only on the
+capability being present, which is what the save and restore paths
+already assume. It also puts every capability save buffer in one phase
+of a device's life, which a later patch relies on.
 
 Signed-off-by: David Matlack <dmatlack@google.com>
 ---
- drivers/pci/pci.c | 47 ++++++++++++++++++++---------------------------
- 1 file changed, 20 insertions(+), 27 deletions(-)
+ drivers/pci/pcie/dpc.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index fde1dcd99e94..6cf4a64cb7e6 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -1900,40 +1900,40 @@ static void pci_restore_pcie_state(struct pci_dev *dev)
- 	}
- }
- 
--static int pci_save_pcix_state(struct pci_dev *dev)
-+static void pci_save_pcix_state(struct pci_dev *dev)
- {
- 	int pos;
--	struct pci_cap_saved_state *save_state;
- 
- 	pos = pci_find_capability(dev, PCI_CAP_ID_PCIX);
- 	if (!pos)
--		return 0;
-+		return;
- 
--	save_state = pci_find_saved_cap(dev, PCI_CAP_ID_PCIX);
--	if (!save_state) {
--		pci_err(dev, "buffer not found in %s\n", __func__);
--		return -ENOMEM;
--	}
-+	pci_save_cap_word(dev, pos + PCI_X_CMD);
-+}
- 
--	pci_read_config_word(dev, pos + PCI_X_CMD,
--			     (u16 *)save_state->cap.data);
-+static void pci_reserve_pcix_state(struct pci_dev *dev)
-+{
-+	int pos, rc;
- 
--	return 0;
-+	pos = pci_find_capability(dev, PCI_CAP_ID_PCIX);
-+	if (!pos)
-+		return;
-+
-+	rc = pci_reserve_saved_cap(dev, pos + PCI_X_CMD, sizeof(u16));
-+	if (rc)
-+		pci_err(dev, "unable to reserve PCI-X save state (%pe)\n",
-+			ERR_PTR(rc));
- }
- 
- static void pci_restore_pcix_state(struct pci_dev *dev)
- {
--	int i = 0, pos;
--	struct pci_cap_saved_state *save_state;
--	u16 *cap;
-+	int pos;
- 
--	save_state = pci_find_saved_cap(dev, PCI_CAP_ID_PCIX);
- 	pos = pci_find_capability(dev, PCI_CAP_ID_PCIX);
--	if (!save_state || !pos)
-+	if (!pos)
+diff --git a/drivers/pci/pcie/dpc.c b/drivers/pci/pcie/dpc.c
+index 2b779bd1d861..b7f79266f66d 100644
+--- a/drivers/pci/pcie/dpc.c
++++ b/drivers/pci/pcie/dpc.c
+@@ -408,6 +408,9 @@ void pci_dpc_init(struct pci_dev *pdev)
+ 	if (!pdev->dpc_cap)
  		return;
--	cap = (u16 *)&save_state->cap.data[0];
  
--	pci_write_config_word(dev, pos + PCI_X_CMD, cap[i++]);
-+	pci_restore_cap_word(dev, pos + PCI_X_CMD);
++	if (pci_add_ext_cap_save_buffer(pdev, PCI_EXT_CAP_ID_DPC, sizeof(u16)))
++		pci_err(pdev, "unable to allocate suspend buffer for DPC\n");
++
+ 	pci_read_config_word(pdev, pdev->dpc_cap + PCI_EXP_DPC_CAP, &cap);
+ 	if (!(cap & PCI_EXP_DPC_CAP_RP_EXT))
+ 		return;
+@@ -499,7 +502,6 @@ static int dpc_probe(struct pcie_device *dev)
+ 		 FLAG(cap, PCI_EXP_DPC_CAP_SW_TRIGGER), pdev->dpc_rp_log_size,
+ 		 FLAG(cap, PCI_EXP_DPC_CAP_DL_ACTIVE));
+ 
+-	pci_add_ext_cap_save_buffer(pdev, PCI_EXT_CAP_ID_DPC, sizeof(u16));
+ 	return status;
  }
  
- /**
-@@ -1953,11 +1953,7 @@ int pci_save_state(struct pci_dev *dev)
- 	dev->state_saved = true;
- 
- 	pci_save_pcie_state(dev);
--
--	i = pci_save_pcix_state(dev);
--	if (i != 0)
--		return i;
--
-+	pci_save_pcix_state(dev);
- 	pci_save_dpc_state(dev);
- 	pci_save_aer_state(dev);
- 	pci_save_ptm_state(dev);
-@@ -3749,10 +3745,7 @@ void pci_allocate_cap_save_buffers(struct pci_dev *dev)
- 	int error;
- 
- 	pci_reserve_pcie_state(dev);
--
--	error = pci_add_cap_save_buffer(dev, PCI_CAP_ID_PCIX, sizeof(u16));
--	if (error)
--		pci_err(dev, "unable to preallocate PCI-X save buffer\n");
-+	pci_reserve_pcix_state(dev);
- 
- 	error = pci_add_ext_cap_save_buffer(dev, PCI_EXT_CAP_ID_LTR,
- 					    2 * sizeof(u16));
 -- 
 2.56.0.455.g6c5a503b38-goog
 
