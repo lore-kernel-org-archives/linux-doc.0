@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794007137;
-	b=qDOZlfbxQq8kwbufteO1IItnA/oXQClKarFUs4fTKX7/sVapCZ3dDYl5GDaAKVW+Fh18
-	 JbhYd7uE5pwRAjwlmqz3iKsQJcu0sXxS1P8dJn2gaaf9r59OOrzBO5cwiI2QuB9POxboh
-	 w3O8SCI64VeM9gHlAOOBrQEiVErC44irywQMIiesIGz8WoTrpJpy0RG0ENdhcMPiCJHgz
-	 BjWAXQ47/bpEOgOUVG6JQ19XNZz8js1KE7RlfsXRChT9bWiiwCMmwJI/0BJqyCarZ5tVy
-	 IHI+omTKMXKubfn3isf35zUGSETb92g84GQ+5WTOc4O+1+R7wGeJP3VjvQ02mv8osIg==
+	t=1794007140;
+	b=jL6jyQo8YfX+DhH+3wslIBXT1Nm1EWpnLP8NQt9TwHinKPuXyL5cnjeC7eeUKhqX8GMR
+	 WS89F5HxiTjnp1RxPdO7wy6dJqxOCq4EmCWRIVRb5WyelptSTRPOifuvBE3T7PU4B/Ooy
+	 1wBa31WeRjfZgEosrOStCz2J0bMCb7gwOtOEWwxVNdDZWzVZrmgk+EbA4cZXz3TW8V5M3
+	 g+T7UvWlfu7GEvxmlJcIPJaX4NCH/V6sybGAwPrBLkMoXHCIYMDELEXoh2HskV0Uv1P8w
+	 47OPAm5avmSxbBPj43zHXU+nasOIENNQBLX3MKlNyTiYKFWLCPdQGXF91gfaZBzseSQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794007137;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794007140;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=gEdNJ0jr/S+uoVMQc1990sja3kz7rJbT28ZTYcXrXp8=;
-	b=elv+7bPPK3tAXdqQ6SM1iIu/ClrZ1OoMX4aFsZdJvk9NQciMzEnsoJ3F+R/2ckXD8BQn
-	 VCH4rDLUoDENywvBeovNdM7uyokpem7XqDI/I2LC4D1AJFD3Np6XKG0Acxlrk5tTH3Hnx
-	 qyKlH4mGkpOfmC6umfTH2pZwWvZ3xO7r5p1I38PHf41Kl9LVT4ZnMswwuF7Kgi/Buz+UD
-	 XSrs9spseWse1kXwNqmx2Xp5Z1p4aP0gEY9LpeHlFw4PhhUDg3Ti8vZEuEuQFMD0EJu/P
-	 rq4s7C4dTe3DVQ4S4dfG6eZ6wRtmXWP2wxd1j9+sdUczPmz64MtNUUJKTFj7V8V9Gzg==
+	bh=h5vXh23939zDZgdNv8k7wjuT6ZlEGeCBgyeIH3zt9CU=;
+	b=HLT/xTPt7K4Ew+kQfyt2j5WLCqbZvpM/g12gRcrUP60sdIEezt1V/9Ph5ijtpBGql9Al
+	 mNK/19AFanECh/Vbrk/eJyIoEsSrTSfVhWYF1k+ImXjdPLFrEcK55bce3F3TBoogMZOTR
+	 WkSrsKRKfDBn1E8kk9y5waV4MzRl+fXXwxcxZEsrmDooCoDhlooSGP8Ca2GfXk7cbNbBd
+	 YRx992ybwc8/ERw5PHkxjNFGa4ThykwDOyaDVLmGQUIITpdBHORuVdWYXPall0t/wxj/o
+	 guULwomdPlAOkcDozesXp9A1xPGx9bHbXzLpLSjM7HbBU6UhhqIw9rCukzZznO6hdCw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aZhcLF5w;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VuUSSF0t;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DB6606A331;
-	Fri,  6 Nov 2026 23:18:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2BA606D81E;
+	Fri,  6 Nov 2026 23:19:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aZhcLF5w
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VuUSSF0t
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794007136;
-	b=MKrxg0oJKNUtt82cPQuO69YegtDq1mVts+32Yt9UgjfTRTTL5Cr973EGyRPy2+iUryDa
-	 fYxQ86UGq9RFXSO+erMu94xCY+B9K1+SBxJyn3AA9+cgUBJK9b1Cui8YxvS+M2JLLP2/k
-	 YjgKjoovbP1EpvT8ctAVfYML7YfngaiIvHysk1yBZunQLr0cHlYrVUWOHVt+lRswbHSWE
-	 VrYmTlqkHyVg39ufYTCYt2fj4/C8fLQKMoXN1DQidHYQUam3+hXUnGQ92EHMWUovdW+FJ
-	 fS3sq7ZLKBQ5VU7qPL5n7s80rL4CjNDCZFuGcCdWCULF8L75rRhZQ+xvyt73PvVka1A==
+	t=1794007140;
+	b=ZrEzoyku203h53/8wiGyv97cgCn9VRTQNNtfYdu0IP6jNGRi4J3jx9a4ALYhweMHHhnu
+	 jmvrakx2maksQS+RPawJdsrr23rSttGMn9sryrSKoqhvjrKKlhoIzKGqZIEkn8yAczUuc
+	 HOuBDDdrXAVrPd/JbX3FbWTV1x+1JU6/1iwI3o7kZ5Wju0f8G2ssd0JRTRBzkH/55M2Fa
+	 ztFeyyreYC6WSllDFFySLOy/uv4Pe168xWRUAcf0ZbF16RqosZUqAC1xzykPhS0MUGgvL
+	 QGe6YDhnHkE9kE00hXAq0qWTnEp6vG2Er8wiAvcM88sNjn5OT0w79jOGoy2w0HLBeBw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794007136;
+	c=relaxed/relaxed; t=1794007140;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=gEdNJ0jr/S+uoVMQc1990sja3kz7rJbT28ZTYcXrXp8=;
-	b=ZfJ9IEU2jiFh0vMWESMxRJqiGBQpazmH/urcwn4gFDZv69rgHQwb+NI1tl17fQ0G2PdJ
-	 Nt9I3oM9xp9IMCAj9N2CopO7hR4lnBi2cwWOUeJy6uOZ1oqu9vgz83gYr//Y94GVnukQ0
-	 rZbd2UjWBLaaTsUTw6zguyzANUZ8+4kPNs3mny3fW2jM6D5n0Un5AMsisOHGkf9N1nMLw
-	 C/ZS8CEacnp4FG9hDokFWXhtwENSYmP/g+ftviwIAYHV2DaSvGRPJmnWqQdVKVZ1rtYVH
-	 SRp1pU67ltxcMIgueL+h8LVq03NFuB917rHFHKMvMYYtl+bQgGyAUjlmI1NTBPnk2VA==
+	bh=h5vXh23939zDZgdNv8k7wjuT6ZlEGeCBgyeIH3zt9CU=;
+	b=168m+w88hmy6x7iw2AnnQApLJbGNAqHuwq1hm29MX9+KuiFNHASR0pBhGVihP1WEnSRs
+	 XKC5K7Ui5qqmNYyzXdVxMz+0tS4gyVlO0ugZ65Sj5mL1Dvi0b9hBBlHQnwTj7kyRvmZS/
+	 +EVirUQ+7YdmDaO7QmHo/S+19Y/lwewAGdQlMW2OjAARxbSgRVrSPkC5jK2icLEXAF9kv
+	 mI/+Cuz5gSoZit8nXAXZK5EdD5rFM/Z1UkManhU9L2RGGwF31yeimjdyBc+1ZWQ9KPskA
+	 Eoay0Hp9y4N8gVBtJUw/Jpujk0o1o1y0jsA8gvzUuHn6cdNVn/jTeKPRiQH0yiE8GQw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 6F5C81F008A4;
-	Fri,  6 Nov 2026 23:18:55 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id E5F2E1F00906;
+	Fri,  6 Nov 2026 23:18:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794007136;
-	bh=gEdNJ0jr/S+uoVMQc1990sja3kz7rJbT28ZTYcXrXp8=;
+	s=k20260515; t=1794007140;
+	bh=h5vXh23939zDZgdNv8k7wjuT6ZlEGeCBgyeIH3zt9CU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=aZhcLF5wakRsFz4L7mQwrGXDa8oIvuMHcvcJNUDKahY4/xnp4fsZDrcDWtxh3AmtD
-	 7Y0elnmGQ0VkbWWKjucs50cBhkyZRnnFwuorCL8K7Dpns7nr7JTyXfp/0BClhew/N/
-	 H04ISLNnFIDv0ZdK0GB+iI+Ej08Rh557mY2ggj8c9AQCy169pUZ1bkpSzmJzNoYmkW
-	 HXH9xTn6b2IjDp2A4d7omJVNHJ+ugnZy82qRvoz5NgdNVmgaFU7nJzJw6yv7gqAvmt
-	 bxUeqxUqidag4p2BE8ao5gH/CR6nebJZtg0Ebpqi4PaDadrZRUi47uNwI7g+fXKUky
-	 bi7s2uwlPmq9Q==
+	b=VuUSSF0tMY/CfC0yeFVMhsLvpSwfZ2SqlxT/2pVxX5UG6GCPg/+dGy3t8yR8t8V+9
+	 IXk3husAwvzI83Y7EvSoE7Wtp2sixLfs3kmk1pSESzKPCwjdFTnTXZcM5lGMaSjF9i
+	 C30VaEJCysk2gGHzpmIGi+dqMs+sIKAmjJFXpVPIYYWRtxB9myQwFGpQVA41YfQLaN
+	 JLg0KrQv3+GS7wXcya7NpiYeZgKQO1OzImpxaLdQHaHTPao9e2ToBPpQi9NLAlEd3P
+	 os/3qprTrxijZLeNIQMWGB8dwHHQt5nEgwWeya+YoHbllyzruHDgOmEyWOJpScvXJs
+	 S2SbM3azE95bg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E8E93478E0;
-	Fri,  6 Nov 2026 23:18:54 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 86D8F47904;
+	Fri,  6 Nov 2026 23:18:55 +0000 (UTC)
 From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
-Date: Fri, 06 Nov 2026 15:18:48 -0800
-Subject: [PATCH net-next v10 02/11] Documentation: networking: Add
- timestamp related APIs to OA TC6 framework
+Date: Fri, 06 Nov 2026 15:18:57 -0800
+Subject: [PATCH net-next v10 11/11] net: phy: ncn26000: Support for
+ loopback
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-s2500-mac-phy-support-v10-2-31b5a69b85b7@onsemi.com>
+Message-Id: <20261106-s2500-mac-phy-support-v10-11-31b5a69b85b7@onsemi.com>
 References: <20261106-s2500-mac-phy-support-v10-0-31b5a69b85b7@onsemi.com>
 In-Reply-To: <20261106-s2500-mac-phy-support-v10-0-31b5a69b85b7@onsemi.com>
 To: Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
@@ -108,11 +108,11 @@ Cc: Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>,
  Jerry Ray <jerry.ray@microchip.com>, 
  Ciprian Regus <ciprian.regus@analog.com>
 X-Mailer: b4 0.13.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794007133; l=4371;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794007133; l=4702;
  i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
- bh=TQj40MeAfK84m72QQS7RSa38NlrNMy9ApV5T0s5visI=;
- b=4OYGPPSqrERH6DAaH2muaEdqBSZ3FYtlooNSuR+kO8QC5WYL7AvDWfE6Z3XWsbjnJV12l5n02
- kliUxLsXHbmBKceHUqairhkPf0mnr9HwixzMubSpUgL1USoh/cNjEj/
+ bh=FSneJImmnVX4oXj9Hfm3wTCQItvR55UDG8WF8wwHYF4=;
+ b=l/xBqtKQeNbFTGsHvUFItQdH4GGKPVfedvfNoW7y3brokWB7GZP8bPD/BFJ/KHkesE36pqoSp
+ w+wsMy7XYgtDhH1S17vaZa/zzr+/7NqRZiawGxDioYejNOjEGCo3ENj
 X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
  pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
 X-Endpoint-Received: by B4 Relay for
@@ -123,112 +123,133 @@ Content-Transfer-Encoding: 7bit
 
 From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-Added new APIs to support hardware timestamp feature as defined in
-OPEN Alliance 10BASE-T1x MAC-PHY serial interface specification.
+Adding loopback support for S2500 internal PHY to help running
+loopback test through ethtool.
 
-Added the newer read/write APIs that takes MMS as one of its parameters
-as these were not documented so far.
+This instance requires only manipulating the loopback bit in
+the PHY, without setting the speed. So, added a generic helper
+function to modify loopback bit of the PHY only. This will
+help the PHY drivers, like 10Base-T1S or any other PHYs that
+want to handle loopback bit only.
 
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
 ---
 changes in v10
-  - Added new API oa_tc6_tx_credit_threshold_set
-  - Vendor introduced APIs to vendor support patch
+  - No change
 changes in v9
-  - Added Reviewed tag
+  - replaced "fixed_speed" with "no_speed" for the API.
+  - Improved the comments to be specific about not setting the
+    speed.
 changes in v8
-  - Updated the the order of the parameters in oa_tc6_read_register_mms
-    and oa_tc6_write_register_mms apis.
-  - Removed the reference to ioctl
+  - No code change. Changes were in two different patches.
+    Merged into one.
 changes in v7
   - No change
 changes in v6
   - No change
 changes in v5
-  - Fixed "no blank line" issues in four places
+  - No change
 changes in v4
-  - Added information for new APIs in OA TC6 framework
+  - Moved the onsemi implementation to a new, genphy API to
+    make it vendor agnostic.
 changes in v3
-  - Added more information for documentation
-changes in v2
-  - Removed the changes to the existing API
-  - Updated information about newly added APIs
-changes in v1
-  - Added changes to an existing API
-  - Added documentation to new hardware timestamp related APIs
+  - Addd loopback functionality for onsemi's PHY driver
+  - First patch
 ---
- Documentation/networking/oa-tc6-framework.rst | 52 +++++++++++++++++++++++++++
- 1 file changed, 52 insertions(+)
+ drivers/net/phy/dp83867.c    | 11 +----------
+ drivers/net/phy/ncn26000.c   |  1 +
+ drivers/net/phy/phy_device.c | 22 ++++++++++++++++++++++
+ include/linux/phy.h          |  2 ++
+ 4 files changed, 26 insertions(+), 10 deletions(-)
 
-diff --git a/Documentation/networking/oa-tc6-framework.rst b/Documentation/networking/oa-tc6-framework.rst
-index 2545ef694016..23856c4bfd69 100644
---- a/Documentation/networking/oa-tc6-framework.rst
-+++ b/Documentation/networking/oa-tc6-framework.rst
-@@ -153,6 +153,10 @@ OPEN Alliance TC6 Framework
- - Forwards the received Ethernet frame from 10Base-T1x MAC-PHY to n/w
-   subsystem.
+diff --git a/drivers/net/phy/dp83867.c b/drivers/net/phy/dp83867.c
+index a3cd5cb11ea0..a62667606422 100644
+--- a/drivers/net/phy/dp83867.c
++++ b/drivers/net/phy/dp83867.c
+@@ -1058,15 +1058,6 @@ static void dp83867_link_change_notify(struct phy_device *phydev)
+ 	}
+ }
  
-+- If supported by the hardware and enabled, updates hardware timestamp
-+  in skb, when indicated by one of the three timestamp capture registers
-+  through TSC fields of the header.
-+
- Data Transaction
- ~~~~~~~~~~~~~~~~
+-static int dp83867_loopback(struct phy_device *phydev, bool enable, int speed)
+-{
+-	if (enable && speed)
+-		return -EOPNOTSUPP;
+-
+-	return phy_modify(phydev, MII_BMCR, BMCR_LOOPBACK,
+-			  enable ? BMCR_LOOPBACK : 0);
+-}
+-
+ static int
+ dp83867_led_brightness_set(struct phy_device *phydev,
+ 			   u8 index, enum led_brightness brightness)
+@@ -1292,7 +1283,7 @@ static struct phy_driver dp83867_driver[] = {
+ 		.resume		= dp83867_resume,
  
-@@ -496,3 +500,51 @@ the MAC-PHY.
- Zero align receive frame feature can be enabled to align all receive ethernet
- frames data to start at the beginning of any receive data chunk payload with a
- start word offset (SWO) of zero.
+ 		.link_change_notify = dp83867_link_change_notify,
+-		.set_loopback	= dp83867_loopback,
++		.set_loopback	= genphy_loopback_no_speed,
+ 
+ 		.led_brightness_set = dp83867_led_brightness_set,
+ 		.led_hw_is_supported = dp83867_led_hw_is_supported,
+diff --git a/drivers/net/phy/ncn26000.c b/drivers/net/phy/ncn26000.c
+index 0006e157917d..c115af6eda33 100644
+--- a/drivers/net/phy/ncn26000.c
++++ b/drivers/net/phy/ncn26000.c
+@@ -176,6 +176,7 @@ static struct phy_driver ncn26000_driver[] = {
+ 		.config_init           = ncn26000_config_init,
+ 		.config_aneg           = ncn26000_config_aneg,
+ 		.read_status           = ncn26000_read_status,
++		.set_loopback          = genphy_loopback_no_speed,
+ 		.set_plca_cfg          = ncn26000_c45_plca_set_cfg,
+ 		.get_plca_cfg          = genphy_c45_plca_get_cfg,
+ 		.get_plca_status       = genphy_c45_plca_get_status,
+diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+index 06c5a8c8cc2a..ffb6845d5b03 100644
+--- a/drivers/net/phy/phy_device.c
++++ b/drivers/net/phy/phy_device.c
+@@ -2923,6 +2923,28 @@ int genphy_resume(struct phy_device *phydev)
+ }
+ EXPORT_SYMBOL(genphy_resume);
+ 
++/**
++ * genphy_loopback_no_speed - Helper to modify the PHY loopback mode
++ * without setting speed. Some PHYs, like 10Base-T1S, don't support
++ * auto-negotiation and therefore setting the speed isn't supported.
++ *
++ * @phydev: The phy_device struct
++ * @enable: Flag to enable or disable the PHY level loopback.
++ * @speed: Speed setting. Not expected to be set. Error if it is set.
++ *
++ * Returns: 0 if successful, negative error code on failure.
++ */
++int genphy_loopback_no_speed(struct phy_device *phydev, bool enable,
++			     int speed)
++{
++	if (enable && speed)
++		return -EOPNOTSUPP;
 +
-+.. c:function:: int oa_tc6_ptp_register(struct oa_tc6 *tc6, \
-+                                        struct ptp_clock_info *info);
++	return phy_modify(phydev, MII_BMCR, BMCR_LOOPBACK,
++			  enable ? BMCR_LOOPBACK : 0);
++}
++EXPORT_SYMBOL(genphy_loopback_no_speed);
 +
-+Registers the PTP hardware clock related functions with the kernel.
-+This API simply registers. Initialization of the fields in the
-+ptp_clock_info structure are left to the vendor as programming hardware
-+timer is expected to be vendor dependent. The fields max_adj, owner,
-+and all the functions for the clock operations, like adjfine, gettimex64,
-+settime64, adjtime are expected to be initialized in the structure before
-+calling the registering the hardware clock.
-+
-+.. c:function:: void oa_tc6_ptp_unregister(struct oa_tc6 *tc6);
-+
-+Unregisters the PTP hardware clock related callbacks.
-+
-+.. c:function:: int oa_tc6_get_ts_info(struct oa_tc6 *tc6, \
-+                                       struct kernel_ethtool_ts_info *info);
-+
-+Provides timestamp related settings that are supported to ethtool.
-+
-+.. c:function:: void oa_tc6_hwtstamp_get(struct oa_tc6 *tc6, \
-+                                         struct kernel_hwtstamp_config *cfg);
-+
-+Returns hardware timestamp configuration. Part of net_device_ops callbacks.
-+
-+.. c:function:: void oa_tc6_get_ts_stats(struct oa_tc6 *tc6, \
-+                                         struct ethtool_ts_stats *ts_stats);
-+
-+Provides hardware timestamp related traffic statistics for ethtool.
-+
-+.. c:function:: int oa_tc6_hwtstamp_set(struct oa_tc6 *tc6, \
-+                                        struct kernel_hwtstamp_config *cfg);
-+
-+Helper to set hardware timestamp configuration. Part of net_device_ops
-+callbacks.
-+
-+.. c:function:: int oa_tc6_write_register_mms(struct oa_tc6 *tc6, \
-+                                              u8 mms, u16 address, \
-+                                              u32 value);
-+
-+Write a single register addressed by @mms and @address in the MAC-PHY.
-+
-+.. c:function:: int oa_tc6_read_register_mms(struct oa_tc6 *tc6, \
-+                                             u8 mms, u16 address, \
-+                                             u32 *value);
-+
-+Read a single register addressed by @mms and @address in the MAC-PHY.
+ int genphy_loopback(struct phy_device *phydev, bool enable, int speed)
+ {
+ 	if (enable) {
+diff --git a/include/linux/phy.h b/include/linux/phy.h
+index 21afc2082b17..6e57f83757bb 100644
+--- a/include/linux/phy.h
++++ b/include/linux/phy.h
+@@ -2317,6 +2317,8 @@ int genphy_read_status(struct phy_device *phydev);
+ int genphy_read_master_slave(struct phy_device *phydev);
+ int genphy_suspend(struct phy_device *phydev);
+ int genphy_resume(struct phy_device *phydev);
++int genphy_loopback_no_speed(struct phy_device *phydev, bool enable,
++			     int speed);
+ int genphy_loopback(struct phy_device *phydev, bool enable, int speed);
+ int genphy_soft_reset(struct phy_device *phydev);
+ irqreturn_t genphy_handle_interrupt_no_ack(struct phy_device *phydev);
 
 -- 
 2.43.0
