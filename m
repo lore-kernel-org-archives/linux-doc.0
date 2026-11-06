@@ -1,67 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.184
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.95.11.211
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793952126;
-	b=s7q/Elklqtnwng7JfSvkSFs8Qz/z28uNFZoi0eUOBq/liPvDUA9bWNPpnFWfK84B6p9s
-	 u+uryNbpeUwLCMJZmqq1CP1LhejFWI55r7Pb2YiC+ZoyaZRmaBU2FmatZq8mHJRfvEjU2
-	 iaqty9eCu6oP0REHT1C85887rAHw/WYZAJypaKfs74Z2PiGNflM5qbAg+7UJNWlKidZs7
-	 7nt/IQVFiukJnIlDVclZoFQYcSvGoJ19wLKvIh/ahmGgbTEu7m3gzlrQTuWhn0FVuHV3Y
-	 LzAIMJXe/x9g1slEUTe9CXTRv8t2l5VVZzCf+M8/Kwj3qOCTN1a/TsS+/FJUf3V5b4g==
+	t=1793952193;
+	b=xP/ei3wNdcxXXrHM8BapVtz3qjI/QwKngmlW5swEhq0RAnFrca0gDPT8j6OL3fitlGbm
+	 xIJg8/+vI1Ogel2zk5YpUKTedLDcExZPFTSZlyyPFNJckoXqxiKr3HL3UaJuy7MPpb+Sk
+	 /jgHbgfyHRvVVubtntZKhYM0BHoZ6km+QwajJmPMj4fG/XwO9kC2MegyzsOnLlPOT4SXO
+	 KIBnjwjJiF7HMEoNZxgx6C7L5sI2oQW5MjFGbieoQC3INkrbMkS4u6JkxgkJl5HLqrBXo
+	 4aK3lkc0yeLxazVWwaSgisEK3hGNnLgNvz0TfcGdt5cg92on1OxY7wHK/i1zlpJ43Fw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793952126;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=upa7e4x4UrpEceLbmQEOyIgK5o4Ta8XgOf1XRCNdVeE=;
-	b=nvtHXH2moL37tPZ6L4x/VnlYOLET3mv3eRVvEax2vjXxzx3zxY0rbalAcCjd+z1jiJCg
-	 uW5GqQmap8/E7jHwX0tXPophWeprbCEJALvrYwBvHL2ck0Cfc06WeDNZ0SuR+7rExXQ9X
-	 J9MOAk+phhwNS3dpFB2ZBFzqHZ6s5SL8iYLFZJRtreSIFZgjZgBVQIoSVQxYpILXF2j9w
-	 q4NOwOgi4d1CGaCtni9iEFA8qmcXUEPQ9PAdYugXsvSL7fxaKi4Q5gSj43VtBGw4CAltg
-	 i5t8/c7koFb12Okzf8+rSyXm5YA3Y7iOUNXC5LWpqwxVZkJr9PUtGG69CHA/5+emjvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793952193;
+	h=DMARC-Filter:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To:User-Agent;
+	bh=S736nhFGPimfLh9pCUbirAbS2rs839sN1ph5aYvq+dc=;
+	b=TRLvIo295YcaewhneCK33dm86gWjqGgzx5rKLUDV8cJ8oIqnA8ttKmvdvUMBuiSfJVaD
+	 svZWgwMvVGrchEco+IjmZ/Ij+oIiHi6kdAg1Ko7HLa+OXQLTnLfuRZsSsmvBelrdiuUBS
+	 Q6zGyT8Bao6USG6rXIoI0KEkk0PFE4WrDAAgmSUx5vMdT3ctoto/yMj9TuxwovlrrWYv5
+	 gZgt51kX2raiDnQ03bsNUWyrp8XKoPrkNma2ON9NEJnJA3OYZNDzCghDMp4XlODo/kuFj
+	 t1bnGbUBaDunRmwSHUnUpu2Ttty5c6hrmeGMC+5lPV1EBaWRcwhTnsBDIhsnZsw6adQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=OZaIcwHb;
-	arc=none smtp.remote-ip=95.215.58.184
-Received: from mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lst.de;
+	spf=pass smtp.mailfrom=lst.de;
+	arc=none smtp.remote-ip=213.95.11.211
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EFD7606D82A
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 08:02:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7EFD7606D82A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=OZaIcwHb
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=EQD6iBRuzY9Hc1wA37z098al2hhKb1UV+0Ibj8J0Ad4=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1793952123; v=1; x=1794556923;
- b=OZaIcwHb+DDIsVd1foyZgUzl6VTxzGHo4JVrl6m333TRfD3OV9/kxYXAiIuIClM6uQ6nyDqd
- vYPW7SL4InuoXwLVWgRszicy7yciyx8aFxzXdOoG6NJlhenwUknYe4aYQT8mPmWdK6e7XstG96F
- 7QhM/sY4GrnUUo2B24sdRy2t+os1tR4Qp6Pcyr7EoboyxezoDIiAPtWTnv3comdBML60RL2zkqp
- rN97WTxhxzQ8Elhf8aZcbaXrz1hNNM/wmeVF+gEX/Z8+a0/vKB2833omQicyfkAA1PIayfKD2Lb
- yqznXYsyMlCGmbi7/ApqngeiXmBvvXCvpYMXtUzIO0nTw==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 9d4b8561adbe0eab;
-	Fri, 06 Nov 2026 08:02:03 +0000
-X-Mizu-Trace-ID: 9d4b8561adbe0eab
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 6 Nov 2026 16:01:59 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/5] Update maintainer-pgp-guide.rst Chinese
- translation
-Message-ID: <au2Jd6oyloqfeXCo@wyuan.org>
-References: <20260823-maintainer-pgp-guide-v2-0-bea33b2ece54@wyuan.org>
- <85899751-7554-4014-896a-24bb916c572e@hust.edu.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99D5E606A326;
+	Fri,  6 Nov 2026 08:03:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99D5E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id 09FC868BEB; Fri,  6 Nov 2026 09:03:00 +0100 (CET)
+Date: Fri, 6 Nov 2026 09:03:00 +0100
+From: Christoph Hellwig <hch@lst.de>
+To: Haris Iqbal <haris.iqbal@linux.dev>
+Cc: Mohamed Khalfella <mkhalfella@purestorage.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Keith Busch <kbusch@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: Re: [v3 for-next 1/3] block: Reject unknown status tags in error
+ injection rules
+Message-ID: <20261106080300.GA3696@lst.de>
+References: <20260928221634.43239-1-haris.iqbal@linux.dev> <20260928221634.43239-2-haris.iqbal@linux.dev> <20261005084917.GA9160@lst.de> <20261020223402.GA1582237-mkhalfella@purestorage.com> <58a98f7d-b2c5-47b5-a372-0ab5afa6a8ed@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -73,58 +53,19 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <85899751-7554-4014-896a-24bb916c572e@hust.edu.cn>
+In-Reply-To: <58a98f7d-b2c5-47b5-a372-0ab5afa6a8ed@linux.dev>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-Dongliang Mu <dzm91@hust.edu.cn> writes:
+On Thu, Nov 05, 2026 at 09:00:27PM +0100, Haris Iqbal wrote:
+>> Doing it this way will result in use-after-free. "tag" has already been
+>> freed above.
+>>
+>> Maybe change tag_to_blk_status() to return an int (0 on success and
+>> -EINVAL on failure) and use its return value without mapping it?
+>
+> I am not sure I get your suggestion completely. Even if we change the 
+> return type of tag_to_blk_status(), we would have to free the "tag" before 
+> returning.
 
-> 
-> On 8/23/26 3:14 PM, Weijie Yuan wrote:
-> > The script says:
-> > 
-> > $ tools/docs/checktransupdate.py Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
-> > [1787244823.341547] Documentation/translations/zh_CN/process/maintainer-pgp-guide.rst
-> > [1787244823.630509] commit 54857c52452a ("docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign")
-> > [1787244823.680849] commit 6c5c07bc8589 ("docs: process: maintainer-pgp-guide: update kernel.org docs link")
-> > [1787244823.730027] commit 273aa250f138 ("Documentation: Improve wording on requirements for a free Nitrokey")
-> > [1787244823.779408] commit f44a29784f68 ("Documentation: update maintainer-pgp-guide for latest best practices")
-> > [1787244823.779522] 4 commits needs resolving in total
-> > 
-> > So I updated this document in chronological order, created four patches
-> > based on these four outdated commits to make it easier for you to
-> > review. Hence, you can freely squash them when applying them.
-> 
-> I am not sure if we should use "So I updated XXX" in the cover letter
-> message.
-> 
-> From my understanding, it is fine to describe about what you have done and
-> why you do this here.
+Let's just ignore my suggestion as it obviously does not work.
 
-Fine, will notice this.
-
-> > Tested with make cleandocs && make htmldocs, no warning or error made by
-> > these patches. (Hope my eyes work fine this time :))
-> 
-> Haha, LLM can help here.
-
-Ah yes.
-
-> > [+To: Konstantin, as he is the original author, thanks.]
-> 
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-
-Thanks.
-
-[...]
-
-> > Range-diff versus v1:
-> 
-> I think this versus is too long to read and it has no much information. In
-> the future please do not add such thing in your patches.
-
-Yes, indeed. In our literary work, range-diff may be not that useful
-compared with actual codes reviews. So it would be better to just look
-at the patch content directly, not range-diff.
-
-Will pay attention this and save our time.
-
-Thanks.
