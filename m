@@ -1,96 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.203
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793975431;
-	b=bFQFEvQAVYr47798rgYz7I///eCKuGeKpr7H82Lnk3BCYUlS+rh83HLoJRJCNE21giAM
-	 pw3AshaeBe/jV2sXiSaDW2wakfvyUL1I36L6YmSZB+IJshel1aG1BYTGsvRf3v9/udH7q
-	 F9wpiBmMuLt4lWUEmWse/wEZnVDmYh9grA3tPXmZlKTfm43tAyDtU8U+mTTjzo0S3IYU0
-	 ntaYx4W5TSmZAy82ff9PBzfkcruVnf7S92IXXoQ7VVVVrspAM7+VXYfWGjlmX61nOrM3i
-	 IryQOdoxkA5DUOxBQQZOFayDcxI94rYBb/u7qH4VMHjiyIwFXAfNBMW46s0aS5zIS7Q==
+	t=1793975626;
+	b=Z7c2hVuIBjcSvK6tHze21UzbNXrNQwRYF9S8sd5qgmNl4zvF5ZyD7sgsyuBSCdnmjVY0
+	 Hp/bUXCansnt/zILvVc4ibJGot6vh6Ymrv5iY6YNYDaQD4XKG5KrcWalb19nCU3adJ682
+	 yjN40tFwO39qfUrJ/17wF5o8oSIlqdXeUpJjS2bkhKOAvhZvb1qLJF7vWBLPDWl5061R7
+	 56/3ZJRWzI3K7607pFqhMF9E1Rfq8hW89dlPoFWcD6f7ufHBDEEseE1DLENtPyQKWzQKZ
+	 ZZSVcoZK7VQKMIv/uT8wLITK5y6+ExFKWX/Dz2Akp+CijXtk78HYYXRaYcVhaoeMlrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793975431;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Icbrb5scngfWY2aFD/U0pe9nOlFPqhkX8KD+VMafQzQ=;
-	b=dXYKZVXgYuGh6LJep7yTIgdieSc1nQQ2G28NXMNGESYL7aysnOeW4iww5F2lU+LYnAFy
-	 IMCI/vnFcsRMnmz15pdP0gqT/oFsZQTBilhqpQan672c7nDh6WzmLTl7TexC96IbEUWAx
-	 u73SuDJAqqJzdHtmfv6dSTj+nxbd4aw7OJX+1QR1R/VkKquvDF9QZLzMCYzXkEAk7vXZ9
-	 GFxO6PLYbl8MgKSZwK26lBqFXFrO3u6csN8gyByHqI2RUD+frfozGjKNXm6mCEhoaoy6H
-	 fFPm6OUa/O+N19invSjZcZC2ckJsS6Ca9EbY4JAY+vOlHCG1s6nUbUKOEP1Xg0U1ZQw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793975626;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wtqvUty3awL+WV2C4Bd+4jjQ8JiJNaHCJXSR0TJ5v3A=;
+	b=yQzm4CfK2F9ZYjA2mIbjoeprcosHEdNNYxr3L1jgrtO4GxgMaTdKcDgd0UTpHBltDfJa
+	 ztMhbK3nfnpX+vEilGUwKtzNysu0wPRgSa7R3ovGzSuvI4q085TzzJsYn04ZGMjOrkrzi
+	 2B771f91iFKJwlsDgj73cRdrR/U2oswgItNA35M+zz4FwbG/Tq3Sxup4bhnYVzKPWba98
+	 oL9SHgc72QDyZL+41/14kb8wJEyGeYJ861q0z2aSBx4lA9bsj/qqjbK7ewW0rOgmU7Ucy
+	 ahW+TYvzrjcpLWGapc/60DhflNyRrkyFs6k7kFbujgN43nKwnZt1fzyoQjFBqrrwkTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qCB+gXEt;
-	arc=none smtp.remote-ip=74.125.227.203
-Received: from mail-pi2-f11.google.com (mail-pi2-f11.google.com [74.125.227.203])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b2r2H5Bd;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6E70606A329
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 14:30:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D6E70606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CED22606A32C;
+	Fri,  6 Nov 2026 14:33:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qCB+gXEt
-Received: by mail-pi2-f11.google.com with SMTP id 41be03b00d2f7-cd63952c9f2so162699a12.1
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 06:30:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793975430; x=1794580230; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Icbrb5scngfWY2aFD/U0pe9nOlFPqhkX8KD+VMafQzQ=;
-        b=qCB+gXEtl/HXLnDDkuxkOBFu8aV6oTrgkxcK6fT9IjAzCKZmg+o3QVBZcV9tU/CXQ4
-         l+Xt+SigmsN70fJIExTXEcn46MAwd3R4o9zRI6rmkpZzdNZRJVwGVg/pbUXXxq4rDZzd
-         GQRrJW1xtGXXpFHHZ/XaBg4ZBWoXOR1CjzZT6nsGkyRt9asrn+/fkzIZFfshJi4fii1h
-         4/qTmfblktYjHQP0EJK+lwlvy7mgES1X32dL8j05SzqaR5UsFj2xTD42nIjyFzQq7HFJ
-         TI8LyecU21B6YjRQTHMfdfltO7QAgAGxzMpktecvsBxiL8e730BGMXO9KRTnQ4AYf1Ko
-         IKvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793975430; x=1794580230;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Icbrb5scngfWY2aFD/U0pe9nOlFPqhkX8KD+VMafQzQ=;
-        b=a0kK9bbtWkS9K0e5gy5ZE0HUEe29RwLg+9uchlpw1U0DnEqKKAQb6Vz9dyKrYkctsk
-         IcgZhmKqd6OmyaTZrue5Mv8bLdJ2rnrtUY2N21DvBLzbbckiSDtOGLeWmiweJZgs2R1x
-         /KcvVrzbEVosevyo1f9xBxJ9wLvRN3zzcGC/P1MjhbujjZUNeRGhmStrhlm/yiRLBHHo
-         rfd94a5GH99rAMxsJPm0Uo4Ch2PyyScaipYT+Kj+QnSA8dgPSiesjTF8zcygkY+ZJyyC
-         AN2+j8O078qCqAQg07ykMblK0T618Lomqmj3uD/VTIq9bFbS7fRkksg7CRMeZ8PV6jZB
-         1zpA==
-X-Forwarded-Encrypted: i=1; AKwUvBzflRhzJo2orq8MS47v6U4hVXzfrLX+kMldnWHdC2L6nqsCR4/qusG8kof/PqVpra4BH3y++xTJ+Rc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/eb7EZtkaZOJY7sIUbiMOIEs60i2g1UKFyknOso0Go8tZCQXz7
-	LH75t6jXb2uzoej1Gf6Y26ypjDYNcuAi5LYLfJWU8nVv1K2sCWNzxFVl
-X-Gm-Gg: AYBFou1f5trdEJVWkUCE0yT8LRzZohn3TQiVmQ1y+lgpYATLo1ECbqMsurUuvA7j+LV
-	ObDEhRpmjneTFR1CplHjAgGUPc2iJVQoBnxSvcdZExo15ERjpl7AngJQQNpA/DK4vVwGbWTlRAg
-	PmEuhe8OGrh516+r09HBPOxbimdy5NITh4Q/pM2mRs10bhw5rl6Oc4/mEYwLYHOXdu5lzQpbJmr
-	luJXi86IDm8yhPVd9mmk5lan018ELsQfxWSTt/3DiV/xLW12yPIsHsFUNrnu5i2Zl7Tq5kcWr9C
-	pC9Mb5c0/fStTQPnOJ60lZIfj9JNqdX5l/ZLoIUbaFowyjKXkT5mJtacBFItFqW7p9guK5WfoYZ
-	Ka0lLlUpZROv35b9r3xBGyi0vASCvYAcKL2leyV7/CBu2DJSUt3Gl5tFAk8oIAFh1lZCD9RW/ET
-	k5LS1b0jbuZCh775vq7fbAf0ODpO7sJxCiZ1vE6JdJ9fnvWAYszWK2yT1Kf6DvTB8xqg3tJmVX/
-	cEBh1ZAgc7/DBZYZpp/rMCZKMoUd8M31s41rzb0kuo28Mm4dBpAgFCA7fuMV9nMbJVqLZYmkaU3
-	pRjo91Hs+/CNOo4Hh7Fvg74tPwRrVDzMeN7zqEbkLf8IxNNCtB60LsOQElmX6Q==
-X-Received: by 2002:a05:6a21:7016:b0:3e8:b7fd:626c with SMTP id adf61e73a8af0-3ebb29703e1mr3102628637.20.1793975429990;
-        Fri, 06 Nov 2026 06:30:29 -0800 (PST)
-Received: from localhost.localdomain ([2405:201:e056:a8e3:ff2b:1543:5b95:16e2])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8b359dc7805sm649845b3a.40.2026.11.06.06.30.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 06:30:29 -0800 (PST)
-From: Vikash SS <thisisforspotifyvikash@gmail.com>
-To: netfilter-devel@vger.kernel.org
-Cc: pablo@netfilter.org,
-	fw@strlen.de,
-	linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	Vikash SS <thisisforspotifyvikash@gmail.com>
-Subject: [PATCH v2] netfilter: conntrack: document sparse hash table eviction
-Date: Fri,  6 Nov 2026 14:30:22 +0000
-Message-Id: <20261106143022.412406-1-thisisforspotifyvikash@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261106135816.391285-1-thisisforspotifyvikash@gmail.com>
-References: <20261106135816.391285-1-thisisforspotifyvikash@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=b2r2H5Bd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86EA81F0089F;
+	Fri,  6 Nov 2026 14:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793975625;
+	bh=wtqvUty3awL+WV2C4Bd+4jjQ8JiJNaHCJXSR0TJ5v3A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b2r2H5BdxpXdgNiFxLfKLsliHD1aW/wDAEDaKEhpVM3EC5rk9Xr6npFA/IH2FuBji
+	 UDxYAgdQaJNICIZINw9Ilbfw8bLsyrsQzWp+NoPqhA/+jsoa6GKznm54YiNoZU+9oJ
+	 sKCs6bWl1EjHh98hGORYkKB0GcOkK/HjEQjgTReSqakMKK6efSYleyQ6zh8ZhPS7y0
+	 0wS9qzyBqM/XWz66nB/U7xvUJNcHVDCJop7XlyB7M2TSiH7wu9UstnvOKKmLIrUiaj
+	 f3Nh+j2TKg+aNrfLE9k32yn/pJAm68XoJQeSANboxqzmkjEzD0Fm3hpnEuFuKwhEfE
+	 9n14k2PzJGEaQ==
+Date: Fri, 6 Nov 2026 16:33:40 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 02/17] Input: serio - attach manual drivers through the
+ driver core
+Message-ID: <20261106143340.GL8298@unreal>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-2-1e536825b4eb@nvidia.com>
+ <auy2plYVi723Qt42@google.com>
+ <20261105191940.GI8298@unreal>
+ <auzno3uoL5Pfojfl@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,43 +89,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auzno3uoL5Pfojfl@google.com>
 
-When nf_conntrack_max is significantly smaller than
-nf_conntrack_buckets, the hash table can become sparsely populated.
+On Thu, Nov 05, 2026 at 12:34:53PM -0800, Dmitry Torokhov wrote:
+> On Thu, Nov 05, 2026 at 09:19:40PM +0200, Leon Romanovsky wrote:
+> > On Thu, Nov 05, 2026 at 09:05:29AM -0800, Dmitry Torokhov wrote:
+> > > On Thu, Nov 05, 2026 at 01:42:15PM +0200, Leon Romanovsky wrote:
+> > > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > > 
+> > > > Manual serio binding connects a driver before driver core can admit the
+> > > > device. A rejected binding therefore arrives after functional setup.
+> > > > 
+> > > > Keep the port ID check and use device_driver_attach() for the existing bus
+> > > > probe path. Driver core then serializes admission and handles probe failure
+> > > > before publishing the binding.
+> > > > 
+> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > > > ---
+> > > >  drivers/input/serio/serio.c | 24 +++---------------------
+> > > >  1 file changed, 3 insertions(+), 21 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/input/serio/serio.c b/drivers/input/serio/serio.c
+> > > > index 54dd26249b027..604440244c1ca 100644
+> > > > --- a/drivers/input/serio/serio.c
+> > > > +++ b/drivers/input/serio/serio.c
+> > > > @@ -81,28 +81,10 @@ static int serio_match_port(const struct serio_device_id *ids, struct serio *ser
+> > > >  
+> > > >  static int serio_bind_driver(struct serio *serio, struct serio_driver *drv)
+> > > >  {
+> > > > -	int error;
+> > > > -
+> > > > -	if (serio_match_port(drv->id_table, serio)) {
+> > > > -
+> > > > -		serio->dev.driver = &drv->driver;
+> > > > -		if (serio_connect_driver(serio, drv)) {
+> > > > -			serio->dev.driver = NULL;
+> > > > -			return -ENODEV;
+> > > > -		}
+> > > > +	if (!serio_match_port(drv->id_table, serio))
+> > > > +		return 0;
+> > > >  
+> > > > -		error = device_bind_driver(&serio->dev);
+> > > > -		if (error) {
+> > > > -			dev_warn(&serio->dev,
+> > > > -				 "device_bind_driver() failed for %s (%s) and %s, error: %d\n",
+> > > > -				 serio->phys, serio->name,
+> > > > -				 drv->description, error);
+> > > > -			serio_disconnect_driver(serio);
+> > > > -			serio->dev.driver = NULL;
+> > > > -			return error;
+> > > > -		}
+> > > > -	}
+> > > > -	return 0;
+> > > > +	return device_driver_attach(&drv->driver, &serio->dev);
+> > > 
+> > > I am not sure how safe it is, serio (and gameport) have pretty elaborate
+> > > structure and locking rules because they can recurse into themselves (to
+> > > support case of Synaptics touch-pads with pass-through PS/2 ports).
+> > > 
+> > > But this call is for user-initiated probing anyways, I am not sure if it
+> > > even needs "trust" handling.
+> > 
+> > This patch does not change the locking; the lock was already held on paths such
+> > as the rescan path. This change makes that explicit.
+> 
+> Does this enforce synchronous probing?
 
-The early_drop() path examines at most 8 consecutive hash buckets
-when searching for eviction candidates. Under table exhaustion,
-this bounded search may fail to find an eligible entry even when
-evictable connections exist elsewhere in the table.
+No, it ensures that a device is bound to only one driver at a time,
+without races.
 
-Document this limitation to clarify the implications of configuring
-nf_conntrack_max significantly below nf_conntrack_buckets.
+> 
+> Anyway, I would like to get rid of this special probing in serio core.
+> Given that the code path is only triggered by explicit user request I do
+> not believe we need to worry about supporting trust notion here, so
+> please drop it from the series.
 
-Signed-off-by: Vikash SS <thisisforspotifyvikash@gmail.com>
----
- Changes in v2:
- - Reword documentation to provide configuration guidance,
-   as suggested by Pablo Neira Ayuso.
+Technically, this is exactly the flow we should be concerned about. Users
+attempting to load the driver generally don't know whether their device is
+trusted; attestation software is responsible for determining that. I modified
+serio to ensure that driver attachment happens under the driver core lock.
 
- Documentation/networking/nf_conntrack-sysctl.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+One idea I had over the weekend was to introduce a special API for driver
+attachment that says, "I don't care." It would allow attachment only in
+"full" mode, as it does now, and fail in any other trust mode.
 
-diff --git a/Documentation/networking/nf_conntrack-sysctl.rst b/Documentation/networking/nf_conntrack-sysctl.rst
-index 4426cce2a..c7e9016ac 100644
---- a/Documentation/networking/nf_conntrack-sysctl.rst
-+++ b/Documentation/networking/nf_conntrack-sysctl.rst
-@@ -99,6 +99,10 @@ nf_conntrack_max - INTEGER
-         the reversed address). This means that with default settings a maxed-out
-         table will have a average hash chain length of 2, not 1.
- 
-+        Make sure nf_conntrack_max is equal to or larger than
-+        nf_conntrack_buckets, otherwise early drop may fail to evict
-+        entries when it gets full.
-+
- nf_conntrack_tcp_be_liberal - BOOLEAN
- 	- 0 - disabled (default)
- 	- not 0 - enabled
--- 
-2.34.1
-
+Thanks.
+> 
+> Thanks.
+> 
+> -- 
+> Dmitry
+> 
