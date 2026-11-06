@@ -1,67 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793962313;
-	b=hG/nf/47xKDOaE9KzwhmC9EGoIwcSKd7JpTM3x7pjnIUtlfyLY6yIRDEdhkPi/44NCTF
-	 pS01IZBlzLYIgI7z5WjHmkLJ7opCjRkHJ8dwJ9Mlzr5n17a6WTlrgXlpsgwrPGf7fRIIT
-	 oG2eFdihKmtbDt4+LRyHp0v0E0edacOo/QxRGShkLHhiWbdvsMZlClU/szYGD0bQA/O8I
-	 U8VKSTycJgon7tXyxU51S2lGAZtAu1/0LbFtl0eRU2cKZg7hKDrha8E/8zYOREB49A2zg
-	 3JVAz/lmksdvNUaoIV6T81qdhxdDj+h2G9L661FOdyMyw23C/06c39sXNtTIZy1+7tA==
+	t=1793962336;
+	b=Y/Qx4t1LR2vD8j1d/q/YGkaCP/nMucQx/mkn6zC+hjGrVHv0MJVNFGCrfN5u3UhY8dVT
+	 G2CEhDFdQq2u/K54EXKQjZYkL1mZugp8GaBhCzZ464nexalGeRQwWRxt9ULYyNP29EBKb
+	 AxnswXhvEtQ99iFJoKMa1K72SmRSCF5jM1f+Pwh8OQLbvhkl4hlK2y5SbujTM3vX9xOrH
+	 lrVJiYJ9PIo3gp1YG9iexawas8xh2J6oWi1xgFBf7c5JfSS3Gh0UNo/itemx/bLZsTTRJ
+	 riFGBwW9QFL/SlXKUrcJzmbOcgE1jnswXlWq2Oj9MLwZvjLSbIQ4+u2RRoiXR9qHGuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793962313;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793962336;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=3Zmh3zIeYQk1GlD5GX6rApJtvlUpIPOfF5SABfuGreY=;
-	b=4Cada17nxVLayqbePrcfs2I2jgiLYKuQ8cf8QiAkYq+BpkKIcKlJGauygsaiR79cj8Ql
-	 c0lqNrdCNV0TkyT/nW/jEmdZ53QuRncnpf+6BAx0KwYXJiDHQ29B02ytOu8M1ctEIbdR1
-	 sUnadyZpsN6zT39m0VyVYsQAnfv9BYnwEbU4slLlzOs1HzHC+UpKeaaF5IV1rtrs07lPI
-	 9rAk4eBtavMOr7ESLxyRvpp+9lTfUHIXq38ejzDMSDc/y/cX0vWI2i5YR7vgbO1gW8dsU
-	 D3Th54zHCy4oVM1fhJ8/s2GkqgWSqGXq0TSP9nV9JfwH5d3r92eRSyVJiRRjAUEMC5g==
+	bh=BjHfKACEWw1yT39SIoyzSXqMcGaGQJy4fXAp5Zhpq54=;
+	b=YmrnD2sZmt389NezAudjpCplhz7E6NWbf0XLy6QTjOGXbGJ9eKjjYfVjjvE+0a3vnKzM
+	 wJFDUnqm15duMl0J1yyI1Mh9C9AWXSwZDNDFVCyQdcgl2BDWlkIf28Pcr57FZTbk5fkhM
+	 IjgOQe312ilj99H3SHpKWlv/mhW3otcmLYhwqBEGw2rsaZnVxHVt1OaQ1EJEUbWfkxbhm
+	 UoPT8nzPj1Ut5Px3BAWiu0W+NbMguLIJViYMm13LoVY565hRtUifSGqylnCV4QevDIVla
+	 6X8ohYWra23myrSYVTcGiTv7DoaWzDzBx/MAGFlLvBr2gNKuZwtVrL94qsUbl9oG9Uw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=QgI1mKcF;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jOXPc0AA;
 	arc=none smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73352606A33D
-	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:51:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73352606A33D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D70AA606A337
+	for <linux-doc@vger.kernel.org>; Fri,  6 Nov 2026 10:52:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D70AA606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=QgI1mKcF
+	dkim=pass (1024-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=jOXPc0AA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1793962312;
+	s=mimecast20190719; t=1793962334;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=3Zmh3zIeYQk1GlD5GX6rApJtvlUpIPOfF5SABfuGreY=;
-	b=QgI1mKcFqWqk5t6n5bCD+tfAmKW0tT8FsIUi7QmYjorT3jK2cNsrki/Vq9he6na4CGCFy3
-	N8meL+qIpoyihG5BEw3v4shx+HwYjRHnY7fWIjfqdR7idUIK3ALeYj1LUUQLp2GqcQC1MG
-	SUklw6rVxz2caEJa32ST8vY0xXxPNcs=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=BjHfKACEWw1yT39SIoyzSXqMcGaGQJy4fXAp5Zhpq54=;
+	b=jOXPc0AA1v7U7UYaA1rjs1YFK0RsGksqUjlpl77ZScCve4KKrQNs9zi5kNODBryVPU5yyA
+	S3a5DeoXBMPVvhp/NFnUvKve1qFNcBBSl8l91CmIL4qiIeCeupETUtQJVafaGgVvCPMKim
+	1bAtuRI4QhZwLEDhwnNyD1GRtEmtPqQ=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-347-zgb1n4B6PGuYR7Q19CQRLw-1; Fri,
- 06 Nov 2026 05:51:47 -0500
-X-MC-Unique: zgb1n4B6PGuYR7Q19CQRLw-1
-X-Mimecast-MFC-AGG-ID: zgb1n4B6PGuYR7Q19CQRLw_1793962305
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-341-y7HnwtcQOgKp0V4Lpzfjdg-1; Fri,
+ 06 Nov 2026 05:52:08 -0500
+X-MC-Unique: y7HnwtcQOgKp0V4Lpzfjdg-1
+X-Mimecast-MFC-AGG-ID: y7HnwtcQOgKp0V4Lpzfjdg_1793962326
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1ED0F1956051;
-	Fri,  6 Nov 2026 10:51:45 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 480871956068;
+	Fri,  6 Nov 2026 10:52:06 +0000 (UTC)
 Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C5D661800480;
-	Fri,  6 Nov 2026 10:51:40 +0000 (UTC)
-Message-ID: <f3329ded-852c-489e-b585-db75a767f20f@redhat.com>
-Date: Fri, 6 Nov 2026 11:51:39 +0100
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 30D64187C371;
+	Fri,  6 Nov 2026 10:52:01 +0000 (UTC)
+Message-ID: <5314bb81-f271-403a-b4cc-f2dd01750b3a@redhat.com>
+Date: Fri, 6 Nov 2026 11:52:00 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,8 +72,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 12/14] selftests: dpll: add pin phase adjust
- test
+Subject: Re: [PATCH net-next v2 13/14] selftests: dpll: add concurrency stress
+ tests
 To: Petr Oros <poros@redhat.com>, netdev@vger.kernel.org
 Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
@@ -85,40 +85,37 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
 References: <20261105151852.1844305-1-poros@redhat.com>
- <20261105151852.1844305-13-poros@redhat.com>
+ <20261105151852.1844305-14-poros@redhat.com>
 Content-Language: en-US
 From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20261105151852.1844305-13-poros@redhat.com>
+In-Reply-To: <20261105151852.1844305-14-poros@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
 On 11/5/26 16:18, Petr Oros wrote:
-> Add a test that reads the phase adjustment range and granularity a
-> pin advertises, picks the largest multiple of the granularity inside
-> the range, or the smallest one when that is already the current value,
-> sets it, reads it back and restores the original value. It skips when
-> the dpll tool lacks the phase-adjust keyword of pin set and when the
-> range is too narrow to pick a different value. A pin that reports no
-> phase adjustment or no range is a skip on a device provided by the user
-> and a failure on the device the script created, whose pins report
-> both.
+> Extend the stress script with tests that register and unregister
+> devices from several processes at once and that keep a number of
+> devices with many pins live at the same time, checking that every one
+> of them is visible on netlink.
 > 
-> The core refuses a value that is not a multiple of the granularity a
-> driver reports, the current value included, so a pin that sits at such
-> a value could not be put back. The test bails out on that before it
-> schedules the restore, which is deferred right after so that an
-> interrupted run restores the value too.
+> The workers run in subshells, so the parent cannot track the device a
+> worker has in flight. Each worker removes it from its own exit trap
+> instead, and the parent reserves a range of clock IDs for every worker,
+> so that the devices of a worker cannot collide with those of another
+> worker or of the parent and whatever a killed worker left behind can
+> be removed by name, at the end of the test and from the cleanup
+> handler. The handler stops the recorded workers together with the jobs
+> of the shell, gives them a few seconds to run their exit traps before
+> forcing the survivors, and goes on without a worker that does not die,
+> since one stuck in the kernel would hang the teardown. Deleting a
+> device treats a part of it that is gone by the time its step runs as
+> removed, so that a removal running concurrently with the one of a
+> worker does not turn into a spurious failure. The workers inherit the
+> open lock file of the library, so the lock is held until the script
+> and every worker have exited.
 > 
-> The granularity is only reported by drivers that have the core enforce
-> one. Without it the target is computed with a granularity of 1, and a
-> driver may refuse it for a granularity of its own or for any other
-> constraint the interface does not advertise. A refused set is therefore
-> a skip on a device provided by the user, with the reason the tool
-> reported, and a failure on the device the script created, whose
-> simulator accepts every value its range and granularity allow. The
-> test ends there, a value that was not set has nothing to read back.
-> 
-> Signed-off-by: Petr Oros <poros@redhat.com>
+> Signed-off-by: Petr Oros<poros@redhat.com>
+
 Reviewed-by: Ivan Vecera <ivecera@redhat.com>
 
