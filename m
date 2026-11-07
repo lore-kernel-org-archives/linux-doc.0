@@ -1,127 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794022504;
-	b=NX9MjQA9tTBXr9cOePOzWmWqAkjTyxcllFdJBPwz8k6Bk76D6wBCzfOUjwWMASnrDVHW
-	 lNAOSASrTjLHHOhTWWsTD1kkp28ZNdqpQ+JTnszmp0u8U14vB4rtZ/FLfOJdUNbqUcC3c
-	 FEiusmXDfUDGh2qVoMKPBAz1yaFL+O80Hm01n/7oyBVIn19kCx+vrR/nk6/V7iMBaZhpV
-	 +P8P0VlYoRk3JqXEpTdZozrmtM6GvGaIeIIQOg2qLMd0s6Fz2KOf/ClTn0JORrismyzf2
-	 w3+AjS2F7TxqOpcOZtj1S5WBgtdSOVFonde2EJKZHO1oe5z3MXyfKoPpPsBCN+XNTRw==
+	t=1794024561;
+	b=eTrcpk+jy6EW4pHzKL3pzrXGBBfdl8P47l0BfvwUKUMRfKnrGVB7BI0WzYEENbbr7E8u
+	 BsV7nzBFoG9STGoYiklb0egL5VfPKYnag3AcMWKZjJReSEhREdIRnp0OxGbxl2pqKqMXM
+	 VgkTi+H2cIsvpJpKrwKmrlAOnQN7ZyV0pTe4iSpefI8STe+gGCnGFOO5MBJG/mjXitXC7
+	 KgwVIzB700OpaL9GYoNYqfjfElEnmxR+kP3Ox5rBu43ldSKH54XVJTwXZJJWxflpISdyQ
+	 QlTwz2+EEAq2cDYObmCrtX3nPCHjO7NVZ2VcXOK2Gtqn3s2iVWybE6IZ+K4yOCmNfQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794022504;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794024561;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Y2Cswb7mk/fWftpb46x4/HWwEQMmKQ5VhCwrWS+t9Nk=;
-	b=nHYjz50Jfkb4rUna7mxttE5Ev8oR5OkJfC99Iqde2gMy2HBikcFbIOGOFaTr5mUk2RZW
-	 3GbLYXK/ElyIeGdqLx+Il2nqcLATKL65MGhsU4XYEgGYDI/01nFoB/G4zvylvtnQS4huV
-	 Rr/K//3zOpFRYl3uobgTpds/U9KxH2rAXKRT6uYAvG6jtfdJdBjsfaBzPqnJozSBwjDxl
-	 kntcH6jDzXUtj7Ma3Cu9xZpuCACvldDxmjSrWq6DZV+gFAejW3SBgowBdzjeoIzhmI9d7
-	 h7aDCpstby3FXM1RQuM+IybA8jjsNjrG6453+3H6iSzof6owpBwiwTVZ9Yhi4eJghBg==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
+	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=zlpYgaP1/QtzbekvOD8Fxhr+3OZF6foxQvWKTQDABbk=;
+	b=kAuUEfuWzrlRsVbUHZL7w2SLzmU0PT5DARjrZPBm1LFSvHh4WlcMFESU0FdjISQHsIcY
+	 XznsFcFlTX96rMN5c/f0mA9LMphMkIkjQT4DQdJwRfz9klC93CiTMOwcFYg2IXkPLzDwH
+	 FrK/g3lJ8QRC9swVzVf2S8a6tXkUNYTbOT+V/UBt+bzuZfB3IjVbjB5g5BVy+Wq3VuQXe
+	 OvNV+FdeVsFU7/BNEbm4eF6nonAlLe8QVJr/DrT1pU0TZAeLzj/zgL0n8ZFf9i6qu5z5g
+	 DchxhD3rVVsCJINFt/YWWVzPNkVrXYntnhDkUMHwFoGTNZdEk4xByrq0KdTZ6PGsx8w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cloudflare.com;
-	spf=pass smtp.mailfrom=cloudflare.com;
-	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b="TPsp/agT";
-	arc=none smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="MarXW+/k";
+	arc=none smtp.remote-ip=209.85.160.71
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 320DD606A32E
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 03:35:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 320DD606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF96E606A32D
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 04:09:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DF96E606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=TPsp/agT
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c4d581da0aaso982866b.2
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 19:35:03 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=MarXW+/k
+Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-4ad5e0ddc90so1372100fac.2
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 20:09:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1794022502; x=1794627302; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Y2Cswb7mk/fWftpb46x4/HWwEQMmKQ5VhCwrWS+t9Nk=;
-        b=TPsp/agTern2Jjik6AxsBYARpOCeOflkig+YBk4Z6XMaQW4d+YOCuPhnay55gc50XA
-         fOG0x2AfPerRl6VXRPD/qqWNwMpW4Xw0W0Zz7gxsGzvLEEiMTLXJ/n5lnPlGiI+u7JO3
-         QnDxl9f0vdxuhPMci7OrqLpsCCjIuxSYVgN7RfXw5f4Sl5hVFof6LrBqnD4EMIXMhFpv
-         JmFPKCiRAHAkCNiJ++34KDNVkh0h17NouO6KXL/lfdrjatFgGgQ6Z09gF2kW7Au1+KY1
-         9eE4+IUuArTGFS1ZasTJ9rZWoZ0RgmuOGmhfkT1KEUlv9IrNJLUt/LSCpS9m1+jFgobA
-         7Whw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794022502; x=1794627302;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+        d=google.com; s=20260707; t=1794024560; x=1794629360; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y2Cswb7mk/fWftpb46x4/HWwEQMmKQ5VhCwrWS+t9Nk=;
-        b=xul63oov1VViBnDOwA8qBPCcXLXXcy9sBj3Ucd9dMLI4qxPolpUmRmZ/Le2EUUX9/r
-         KGrLYZbCKEbmuO9er8Ib4a+VGVODXsVagshybcUuIVCXXLFBnifK7yp3Ymw+ajg/bF4O
-         +RAQFcZ8xF6EIo+GoTWZBy1V16fhqIGnTKV/r0bkzSWLPld8rGJ1QcAFYmzd6NdNgzIz
-         uXBBHusSG1SuDmy0u7MxQEREdRXO6zvVxv6yKjDFaifHEiIocYBizRravNpnPawd8zTu
-         Gt2VCIqfzeM8RsJgr+qU9s+2IQCoMvBJPjPZqJxf7P/W37d/vsMnVfdAkK6YiBRet1g+
-         Mysw==
-X-Forwarded-Encrypted: i=1; AL+hErErhNO2Cst0oC7ZYO4EiGH+qm7MNItV7CeVM1ncx4PdPLOY4PcUJNE6ENBtbKD5deBGwcZkk4RzbPw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9b/JySxF2Bof52IhbkYa2+VTjoVKbeWi+QPHwtyFZAICnCGU2u
-	hvpNvdcabswRVdhkUrQEv6L9R7CbuRxA7gTgqsqZUunTBTadIYjIh+aR3MVeeg/qjqU=
-X-Gm-Gg: AYBFou3R0GToxKtsDDf0hcUPtebbzYrXP3YUY0tyj2n1VYISDWg/smD5Viz2AVa2UtQ
-	AOzyLQvn4Z3pdnHCBY9ggqwUCo/FB4pwl1+1qoQg9A19C8ofLAFFjsfKbOM2S4ic3z4eu9pDlUd
-	ta3rD5RX4rYOPf4nfT4EXXAuk+CCRQanO7dfs3zvISQBndJggmwSdAoooKj31L+DgK38wK/JFdg
-	ylmv4tqCu1nFh7kNFDKND1vMGX3HVYWEdzz+Vt4d63yqB+rNr9JMvL3m7MoBCbTPivjP/11Z6nc
-	+KpAefFwjXW0Om+EdvmtAEpW7XiphKhi7yt7OyM0CuPt5XYg7UfmPvtyWUbceFQpdIJrqMqwyzR
-	/G3kekd79f4oNLlUft0nLpxZw6FxFIe4HxGGfNIuJCGuWk6Z6waTW2qanHNEfcDIxRcg/TbH2v8
-	IMQq2BAubUWAa3ihxkvSSF/J7JPoeHhZw00ikSrJyqfQlUlSXRoC5ff8LZ8Mf8CPEE3pePhy1vc
-	XGAUWk3LWC8W6gGMFNaDuQRdokg/AW+W/upGxAvpTuyw44sD3JX8xj9GaONPdceONiBm8FRMGxN
-	yg8N8B3JAeZDLHfowFHYvBsE/l82dp0wahipZav4Q/fUe6psXVq4nAxCaoY1cfQ=
-X-Received: by 2002:a17:907:ea7:b0:c46:cf73:bdf9 with SMTP id a640c23a62f3a-c4d35446bd9mr357150166b.21.1794022502674;
-        Fri, 06 Nov 2026 19:35:02 -0800 (PST)
-Received: from L9JK9NPFH9.lan ([104.28.20.56])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d3562e00dsm121104166b.21.2026.11.06.19.34.59
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 06 Nov 2026 19:35:01 -0800 (PST)
-From: Tianyi Gao <tianyi@cloudflare.com>
-To: netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Simon Horman <horms@kernel.org>,
-	David Keogh <dkeogh@amazon.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dragos Tatulea <dtatulea@nvidia.com>,
-	Nimrod Oren <noren@nvidia.com>,
-	Alasdair McWilliam <alasdair@mcwilliam.dev>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	David Ahern <dsahern@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Breno Leitao <leitao@debian.org>,
-	=?UTF-8?q?Asbj=C3=B8rn=20Sloth=20T=C3=B8nnesen?= <ast@fiberby.net>,
-	Danielle Ratson <danieller@nvidia.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@cloudflare.com,
-	nh-open-source@amazon.com,
-	Tianyi Gao <tianyi@cloudflare.com>
-Subject: [PATCH net-next 8/8] selftests: net: tx_extra_headroom: test veth peer at creation
-Date: Sat,  7 Nov 2026 03:34:27 +0000
-Message-ID: <73b9d23a4190cdd02e89d3a2ce8a1a21ad5feadb.1794020868.git.tianyi@cloudflare.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <cover.1794020868.git.tianyi@cloudflare.com>
-References: <cover.1794020868.git.tianyi@cloudflare.com>
+        bh=zlpYgaP1/QtzbekvOD8Fxhr+3OZF6foxQvWKTQDABbk=;
+        b=MarXW+/kr0A8s1dLvA0JNFWFIHchPMj64tfeMgQcaHQrUvH6PnV2NT1RcYzClXZQZO
+         PUANH8yXgP7RBSEs/IkKxgJumP25xORjU557MAh6dtQl6Ux46hjfJ7YKYa3hWux62nbV
+         YsnEukSSrOWyFsc+NOYzGhGRt482rlJIm+z/UWZ9UiivcFrjy6eU9wR+n2Zxg9Q4y0OM
+         +87IKeEPpw1nm8Llhdl+Sus12jF4LKA8UgxyETpBIrNkTBb0medTaOlzay7tZ7ed3LTX
+         9vH83ljoIMD4c/LpTPTNIVtLAdbraevZrT9jzUQhsc3IGCD0e17CkdSckWGHNt1iJDtj
+         K9pA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794024560; x=1794629360;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zlpYgaP1/QtzbekvOD8Fxhr+3OZF6foxQvWKTQDABbk=;
+        b=K6SAoOwPC7k9RmJ88xEa3DJzPJ4g0xE/0jFJGjtkixwNP0vytoq/p4GBRY1iFrULIc
+         miceh1Sp20yCRcKUS0wGqUKcU7EVqWKsB05BTDsYfUjcWcWM7UIrahM3LZJ7eQDBUz1s
+         DNI+7BwHNJuuzs9tbMbkmsnhbsyawZzFmqZoTAD2Nj7e/Jlflz420MDC9crPY2ePFGxf
+         mRfAoNkmckxpo4uEQvZ7FVO12cOSnX30DWkUhLeCepPuJByLPHh8El1MciX+qcAbe6XV
+         FI+28flQSL50O6kvi74amJewJnGNLGuQU/PhGTL/KR0bE3oaDmMOJJ6UShqGu6G2lmdN
+         6zgg==
+X-Forwarded-Encrypted: i=1; AL+hErFFHOwEXVrAJWI5rCCCVAa9Z4OhBUeCpLwzjA2Pg9sJz8Q7l633zwibGO3L/sHsbbtIpVdxaG/GD0E=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+eamuO2jEHRlZf4dEvw7FiFpUoSkdUUaEeuRzszBfPyMjJ0j7U
+	SuLSsL21BlSFk+3gD2MrkWLRFq2c5MpmcXi2XOT5aRHi0yqfQg+Q2tdUNAg/Lzy9xj0sYH6/0Nm
+	Wty2z1P0bDg==
+X-Received: from oabov23.prod.google.com ([2002:a05:6870:cb97:b0:49d:ce0f:a25d])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6871:a802:10b0:498:c323:4a90
+ with SMTP id 586e51a60fabf-4adbadf93e6mr1055645fac.33.1794024559549; Fri, 06
+ Nov 2026 20:09:19 -0800 (PST)
+Date: Fri,  6 Nov 2026 20:09:10 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -130,61 +75,310 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
+Message-ID: <20261107040913.1384033-1-irogers@google.com>
+Subject: [PATCH v18 0/3] perf: Add Raspberry Pi AXI PMU driver
+From: Ian Rogers <irogers@google.com>
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Dom Cobley <popcornmix@gmail.com>, Uwe Kleine-Koenig <u.kleine-koenig@baylibre.com>, 
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
+	bcm-kernel-feedback-list@broadcom.com, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, devicetree@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Ian Rogers <irogers@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-veth_newlink() parses the attributes of the peer from VETH_INFO_PEER and
-passes them to rtnl_create_link(). So one request can set
-IFLA_TX_EXTRA_HEADROOM on both ends of a veth pair. test_newlink() only
-covers a dummy device.
+Motivation & Background
+=======================
+Currently, Linux lacks a standard perf-API compatible driver for the
+Broadcom AXI bus-watcher performance monitor blocks on Raspberry Pi
+platforms (BCM2835, BCM2711, and BCM2712). Prior out-of-tree vendor
+solutions relied on custom debugfs nodes and ad-hoc kthreads, preventing
+integration with standard Linux perf tooling (`perf stat`, `perf list`,
+etc.).
 
-Create a veth pair with ip and give each end a different value. Then
-read both values back with YNL. With a different value on each end, the
-test fails if one end gets the value of the other end. The YNL rt-link
-spec does not describe veth, so ip creates the pair. Skip the test if ip
-does not support tx_extra_headroom.
+Note that this hardware block (`brcm,bcm2835-axiperf`) is distinct from
+the Northstar BCM5301X AXI Trace Module (`brcm,bcm5301x-axi-pmu`,
+https://lore.kernel.org/r/20261027175124.3518239-1-florian.fainelli@broadcom.com).
 
-Signed-off-by: Tianyi Gao <tianyi@cloudflare.com>
----
-The test needs the iproute2 patch "iplink: add tx_extra_headroom
-attribute", which is sent separately to iproute2-next. With an older
-ip, the test is skipped.
----
- tools/testing/selftests/net/tx_extra_headroom.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Key Architectural Features
+==========================
+1. Standard Linux Perf Integration:
+   - Exposes uncore AXI interconnect events via
+     `/sys/bus/event_source/devices/rpi_axi_pmu/` and documents them in
+     `Documentation/admin-guide/perf/rpi-axi-pmu.rst`.
+   - Supports up to 3 concurrently monitored `(bus, filter)` pairs per
+     monitor (`NUM_BUS_WATCHERS_PER_MONITOR = 3`), with reference counting
+     so all counter metrics on the same `(monitor, bus, filter)` share a
+     single hardware watcher without multiplexing.
+   - Enforces group validation (`rpi_axi_pmu__validate_group()`) to reject
+     event groups requiring more than 3 watchers per monitor at
+     `perf_event_open()` time, while supporting time-multiplexing across
+     more than 3 ungrouped buses.
+   - Masks counter deltas to each hardware register's bit width (32-bit for
+     `*trans`, 28-bit for `*wait`/`*max`, and 8-bit for `rpend`) and tracks
+     per-interval watermarks for level registers (`*max` and `rpend`) so
+     `perf stat` and `perf stat -I` report accurate peak levels.
 
-diff --git a/tools/testing/selftests/net/tx_extra_headroom.py b/tools/testing/selftests/net/tx_extra_headroom.py
-index f94eb29a25d9..8a2284f1b343 100755
---- a/tools/testing/selftests/net/tx_extra_headroom.py
-+++ b/tools/testing/selftests/net/tx_extra_headroom.py
-@@ -141,6 +141,19 @@ def test_not_inherited() -> None:
-                 4, "vlan needed_headroom")
- 
- 
-+def test_veth_peer_at_creation() -> None:
-+    """ip can set a different value on each end of a new veth pair."""
-+    if "tx_extra_headroom" not in cmd("ip link help", fail=False).stderr:
-+        raise KsftSkipEx("iproute2 does not support tx_extra_headroom")
-+
-+    with NetNS() as ns, NetNSEnter(str(ns)):
-+        ip("link add veth0 tx_extra_headroom 256 type veth "
-+           "peer name veth1 tx_extra_headroom 128")
-+        rtnl = RtnlFamily()
-+        ksft_eq(get(rtnl, ifindex("veth0")), 256)
-+        ksft_eq(get(rtnl, ifindex("veth1")), 128)
-+
-+
- def setup_veth(peer_ns):
-     """Create veth0 in the current netns and its peer veth1 in peer_ns."""
-     ip("link add veth0 type veth peer name veth1")
-@@ -307,6 +320,7 @@ def main() -> None:
-               test_survives_down_up,
-               test_survives_netns_move,
-               test_not_inherited,
-+              test_veth_peer_at_creation,
-               test_push,
-               test_peer_xdp])
-     ksft_exit()
+2. Hybrid MMIO & Firmware Mailbox Architecture:
+   - System Monitor (`monitor=0`): Performs fast atomic-safe MMIO reads.
+   - VideoCore VPU Monitor (`monitor=1`): Polled asynchronously in process
+     context (`vpu_work`) via a single 44-word bulk Raspberry Pi firmware
+     mailbox `RPI_FIRMWARE_GET_PERIPH_REG` call across all three VPU bus
+     watchers. At probe time, `rpi_axi_pmu_vpu_accessible()` verifies that
+     the firmware can reach the VPU monitor hardware and hides the `vpu_*`
+     sysfs events if unavailable.
+
+3. Per-SoC & Stepping Support:
+   - Patch 1 adds the Device Tree binding (`brcm,bcm2835-axiperf`,
+     `brcm,bcm2711-axiperf`, `brcm,bcm2712-axiperf`) and `MAINTAINERS`
+     entry.
+   - Patch 2 adds the driver and admin-guide documentation for BCM2835 and
+     BCM2711.
+   - Patch 3 adds BCM2712 (Raspberry Pi 5) C0 and D0 support, including
+     runtime D0 stepping detection via the bus-watcher AXI ID mask field,
+     C0 (13-port) and D0 (10-port) System bus tables, 6-bit sparse AXI
+     master ID filter tables (`BCM2712_FLT_MAX = 64`), and `ratrans`.
+
+Hardware Validation
+===================
+The bus tables, master ID filters, and register layouts have been
+validated against Broadcom register documentation and direct hardware
+measurements on:
+- BCM2835 (Raspberry Pi 1 B+)
+- BCM2837 (Raspberry Pi 3 B+)
+- BCM2711 B0 (Raspberry Pi 4 B and Raspberry Pi 400)
+- BCM2712 C0 (Raspberry Pi 5 rev 1.0)
+- BCM2712 D0 (Raspberry Pi 5 rev 1.2, Raspberry Pi 500, and Raspberry Pi 500+)
+
+Example on Raspberry Pi 5 (BCM2712) counting all 11 metrics on the `arm`
+bus simultaneously on a single bus watcher:
+
+  $ sudo perf stat -a \
+      -e rpi_axi_pmu/arm_atwait/ -e rpi_axi_pmu/arm_atrans/ \
+      -e rpi_axi_pmu/arm_amax/   -e rpi_axi_pmu/arm_wwait/ \
+      -e rpi_axi_pmu/arm_wtrans/ -e rpi_axi_pmu/arm_wmax/ \
+      -e rpi_axi_pmu/arm_rwait/  -e rpi_axi_pmu/arm_rtrans/ \
+      -e rpi_axi_pmu/arm_rmax/   -e rpi_axi_pmu/arm_rpend/ \
+      -e rpi_axi_pmu/arm_ratrans/ \
+      -- dd if=/dev/zero of=/dev/null bs=1M count=2048
+
+   Performance counter stats for 'system wide':
+
+           222,085      rpi_axi_pmu/arm_atwait/
+        21,789,405      rpi_axi_pmu/arm_atrans/
+             2,196      rpi_axi_pmu/arm_amax/
+        39,623,624      rpi_axi_pmu/arm_wwait/
+        43,482,567      rpi_axi_pmu/arm_wtrans/
+             2,197      rpi_axi_pmu/arm_wmax/
+               554      rpi_axi_pmu/arm_rwait/
+            96,264      rpi_axi_pmu/arm_rtrans/
+                 1      rpi_axi_pmu/arm_rmax/
+                 5      rpi_axi_pmu/arm_rpend/
+            48,148      rpi_axi_pmu/arm_ratrans/
+
+       0.208600205 seconds time elapsed
+
+And filtering `per_atrans` by `VPU_UC0` (`filter=1`) and `ARM` (`filter=11`):
+
+  $ sudo perf stat -a \
+      -e rpi_axi_pmu/per_atrans/ \
+      -e rpi_axi_pmu/per_atrans,filter=1/ \
+      -e rpi_axi_pmu/per_atrans,filter=11/ \
+      -- sleep 1
+
+   Performance counter stats for 'system wide':
+
+            29,393      rpi_axi_pmu/per_atrans/
+            19,934      rpi_axi_pmu/per_atrans,filter=1/
+             9,452      rpi_axi_pmu/per_atrans,filter=11/
+
+       1.001089440 seconds time elapsed
+
+Tooling & AI Assistance
+=======================
+Per Documentation/process/coding-assistants.rst and
+Documentation/process/generated-content.rst:
+- Tools used: Google Antigravity (gemini-3.1-pro), Anthropic Claude, and
+  Sashiko automated kernel patch review, alongside standard kernel tooling
+  (scripts/checkpatch.pl, scripts/kernel-doc, make dt_binding_check).
+- Summary of prompts and assistance:
+  - Assisted in converting the downstream Raspberry Pi debugfs AXI monitor
+    (drivers/perf/raspberrypi_axi_monitor.c) into a Linux perf PMU driver
+    (drivers/perf/rpi_axi_pmu.c), generating the repetitive
+    PMU_EVENT_ATTR_STRING sysfs event tables across SoC generations, the
+    Device Tree binding schema (brcm,bcm2835-axiperf.yaml), and the
+    admin-guide documentation (Documentation/admin-guide/perf/rpi-axi-pmu.rst).
+  - Assisted with iterative review and fixes across revisions, including
+    synchronization between atomic MMIO reads (pmu->lock) and deferred
+    process-context VPU mailbox polling (vpu_mutex / vpu_work), bulk VPU
+    mailbox reads, BCM2712 C0/D0 stepping detection and filter masks, and
+    per-interval watermark tracking for level registers (*max and rpend).
+- Portions affected:
+  Documentation/devicetree/bindings/perf/brcm,bcm2835-axiperf.yaml,
+  Documentation/admin-guide/perf/rpi-axi-pmu.rst, and
+  drivers/perf/rpi_axi_pmu.c.
+- Testing and verification:
+  All generated code and tables were reviewed by the authors and tested on
+  physical BCM2835, BCM2837, BCM2711 B0, BCM2712 C0, and BCM2712 D0
+  hardware using perf list and perf stat (single-watcher multi-metric
+  counting, perf stat -I interval watermark tracking, AXI master ID
+  filtering, VPU firmware accessibility probing, and 10-bus multiplexing).
+
+Changelog
+=========
+v18:
+- Rebased onto v7.4-rc1.
+- Device Tree Bindings (Patch 1, per Rob Herring and Sashiko):
+  - Reworded `description:` in `brcm,bcm2835-axiperf.yaml` to avoid `: `
+    inside the unquoted YAML 1.2 plain scalar (`make dt_binding_check` and
+    `yamllint` clean).
+- Driver & Documentation (Patches 2 & 3):
+  - Added Dom Cobley's `Tested-by:` tags.
+
+v17: https://lore.kernel.org/r/20261104030300.1140180-1-irogers@google.com
+- Device Tree Bindings (Patch 1, per Krzysztof Kozlowski):
+  - Clarified commit message so it describes the two MMIO register blocks
+    rather than the driver's firmware mailbox IPC.
+  - Dropped unneeded `|` from `description:` and dropped the redundant
+    second example in `brcm,bcm2835-axiperf.yaml`.
+- Driver & Documentation (Patches 2 & 3, per Dom Cobley):
+  - Reset `event->hw.prev_count` to 0 in `rpi_axi_pmu_start()` for level
+    counters (`*max` and `rpend`), and documented in `rpi-axi-pmu.rst`
+    that level counters are only meaningful when not multiplexed.
+  - Renamed BCM2712 C0 and D0 System buses after the BCM2712 block each
+    port serves: `display_top` -> `display`, `rp1` -> `pcie_02`,
+    `argon_top` -> `argon`, and `sdio_wifi` -> `emmc2`.
+
+v16: https://lore.kernel.org/r/20261103041416.2940213-1-irogers@google.com
+- Addressed Sashiko review feedback on v15 (Patch 2):
+  - Returned early from `rpi_axi_pmu__validate_group()` when
+    `leader == event` to avoid dereferencing `leader->ctx` (which is NULL
+    during `event_init` for standalone events and group leaders) inside
+    `for_each_sibling_event()` when `CONFIG_PROVE_LOCKING=y`.
+  - Enforced `RPI_AXI_MAX_EVENTS` (66) during group validation in
+    `rpi_axi_pmu__validate_event()`.
+  - Dropped `depends on !RPI_AXIPERF` from `drivers/perf/Kconfig` as
+    `RPI_AXIPERF` is only defined in the downstream Raspberry Pi kernel
+    tree.
+
+v15: https://lore.kernel.org/r/20261102234301.2242242-1-irogers@google.com
+- Device Tree Bindings & MAINTAINERS (Patch 1):
+  - Dropped `kernel-list@raspberrypi.com` from `maintainers:`, sorted
+    `compatible:` alphabetically, and required both `reg` items (`System
+    monitor registers` and `VPU monitor registers`) across all SoCs per
+    Krzysztof Kozlowski.
+  - Added `MAINTAINERS` entry and noted distinction from
+    `brcm,bcm5301x-axi-pmu`.
+- Driver & Hardware Validation Fixes (Patches 2 & 3, co-developed with Dom
+  Cobley on https://github.com/raspberrypi/linux/pull/7671):
+  - Added `Documentation/admin-guide/perf/rpi-axi-pmu.rst`.
+  - Masked `*wait`/`*max` deltas to 28 bits (`GENMASK(27, 0)`) and `rpend`
+    to 8 bits (`GENMASK(7, 0)`), and implemented per-read-interval
+    watermark tracking (`counter_is_level()`) for `*max` and `rpend` with
+    `prev_count` reset under `pmu->lock` in `rpi_axi_pmu_read()`.
+  - Removed non-existent `ratrans` on BCM2835 and BCM2711, and corrected
+    the BCM2835 VPU bus table (`0..13` matching BCM2711 plus `14 = sdram`).
+  - Re-enabled the BCM2712 VPU monitor (`0x7ee00000`) via the firmware
+    mailbox, added probe-time `rpi_axi_pmu_vpu_accessible()` verification,
+    and hid `vpu_*` sysfs events via `.is_visible` when firmware support is
+    unavailable.
+  - Replaced per-event VPU mailbox reads with a single 44-word bulk read
+    (`rpi_axi_pmu_vpu_read_watchers()`) with `__le32` endianness
+    conversions (`cpu_to_le32()` / `le32_to_cpu()`) and `config_gen[]`
+    tracking, and defaulted `hrtimer_interval_ms` to 1000 ms when the VPU
+    mailbox is used.
+  - Used `rpi_firmware_find_node()` to locate the firmware node.
+  - Corrected BCM2712 sparse AXI master ID filter numbering
+    (`BCM2712_FLT_MAX = 64`), added BCM2712 D0 runtime stepping detection
+    (`pmu->axi_id_mask`), D0 System/VPU filter mask encoding, the 10-port
+    D0 System bus table, and renamed `bstm_top`/`arb3`/`src`.
+
+v14: https://lore.kernel.org/r/20261002175738.3242646-1-irogers@google.com
+- Removed `firmware` phandle property from `brcm,bcm2835-axiperf.yaml` per
+  Krzysztof Kozlowski.
+- Removed `LINUX_VERSION_CODE` checks per Uwe Kleine-Koenig and Florian
+  Fainelli.
+- Separated BCM2835, BCM2711, and BCM2712 bus and filter tables, exposed
+  all counter metrics per bus without synthetic `Bytes` scaling, and added
+  bus-watcher reference counting and group validation.
+
+v13: https://lore.kernel.org/r/20260815172712.50119-1-irogers@google.com
+- Added `allOf`/`if` block in `brcm,bcm2835-axiperf.yaml` and cleaned up
+  sysfs attribute definitions and comments.
+
+v12: https://lore.kernel.org/r/20260815082048.4043217-1-irogers@google.com
+- Added Device Tree binding patch (`brcm,bcm2835-axiperf.yaml`), split
+  per-chip `attr_groups`, and returned `-EPROBE_DEFER` when firmware is not
+  yet ready.
+
+v11: https://lore.kernel.org/r/20260815082048.4043217-1-irogers@google.com
+- Added `READ_ONCE()`/`WRITE_ONCE()` on `enabled[idx]` and restored
+  `flush_work()` in `rpi_axi_pmu__exit()` so queued VPU watcher disables
+  complete on module unload.
+
+v10: https://lore.kernel.org/r/20260815082048.4043217-1-irogers@google.com
+- Removed unused `num_started` state variable from `struct rpi_axi_hw_events`.
+
+v9: https://lore.kernel.org/r/20260813064228.2799872-1-irogers@google.com
+- Adjusted PMU and CPU hotplug registration order in `probe()` and
+  simplified BCM2712 sysfs event visibility.
+
+v8: https://lore.kernel.org/r/20260813064228.2799872-1-irogers@google.com
+- Switched `pmu->lock` to `raw_spinlock_t` for `PREEMPT_RT` compatibility
+  and reduced `RPI_AXI_PMU_TIMER_INTERVAL` from 2000 ms to 100 ms.
+
+v7: https://lore.kernel.org/r/20260813052419.2770841-1-irogers@google.com
+- Isolated all BCM2712 definitions into Patch 2 and initialized
+  `vpu_disable_pending` on watcher allocation.
+
+v6: https://lore.kernel.org/r/20260813043533.2744442-1-irogers@google.com
+- Fixed `Kconfig` `RASPBERRYPI_FIRMWARE` dependency, added
+  `vpu_disable_pending` for VPU watcher teardown, and let the hrtimer
+  self-terminate when `active_events == 0`.
+
+v5: https://lore.kernel.org/r/20260812230800.2646749-1-irogers@google.com
+- Added `monitor_running` tracking, deferred VPU watcher disablement to
+  `vpu_work`, and protected `event->hw.state` updates under `pmu->lock`.
+
+v4: https://lore.kernel.org/r/20260812052417.2361040-1-irogers@google.com
+- Avoided global monitor reset when other watchers are active and fixed
+  error handling on mailbox read failures.
+
+v3: https://lore.kernel.org/r/20260812002728.2283079-1-irogers@google.com
+- Switched hrtimer to `HRTIMER_MODE_REL_SOFT`, set `.suppress_bind_attrs =
+  true`, and cleaned up probe error unwinding.
+
+v2: https://lore.kernel.org/r/20260811235112.2267241-1-irogers@google.com
+- Added `of_device_get_match_data()` chip selection, CPU affinity check in
+  `event_init()`, and counter wrap delta masking.
+
+v1: https://lore.kernel.org/r/20260811083828.2057695-1-irogers@google.com
+- Initial submission.
+
+Ian Rogers (3):
+  dt-bindings: perf: Add Broadcom Raspberry Pi AXI PMU definition
+  perf: Add Raspberry Pi BCM2835 AXI PMU driver
+  perf: Add Raspberry Pi 5 (BCM2712) AXI PMU support
+
+ Documentation/admin-guide/perf/index.rst      |    1 +
+ .../admin-guide/perf/rpi-axi-pmu.rst          |  167 +
+ .../bindings/perf/brcm,bcm2835-axiperf.yaml   |   44 +
+ MAINTAINERS                                   |    9 +
+ drivers/perf/Kconfig                          |   13 +
+ drivers/perf/Makefile                         |    1 +
+ drivers/perf/rpi_axi_pmu.c                    | 4155 +++++++++++++++++
+ 7 files changed, 4390 insertions(+)
+ create mode 100644 Documentation/admin-guide/perf/rpi-axi-pmu.rst
+ create mode 100644 Documentation/devicetree/bindings/perf/brcm,bcm2835-axiperf.yaml
+ create mode 100644 drivers/perf/rpi_axi_pmu.c
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-2.56.0
+2.56.0.455.g6c5a503b38-goog
 
