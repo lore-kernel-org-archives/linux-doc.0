@@ -1,51 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794009837;
-	b=KEZA5cF8bU9k4ZzaOysvCKo0eKkbP+tncpF1OENo0UGZRET5wK/FlRY5fUya4YPy+FLs
-	 eXuJZEtNCQGCVJDdbsfGqY+wBGcAQG/6yQfAH+8SECtSFLI/mFakStQrmBdL3B2b4SmDB
-	 +HD83sX/yVsSNonn0Pp+FONYA2qxE2q6w50315YmQ/KoO3KhOFFK1GkMoBi/AAjSiKW+Y
-	 RmTQlkEbhoUIJ/T0bijR6/ZtC1nq7zjqjoawocMVL7HAiwdPZfWcRoT+S2RuK9qN9kjgJ
-	 lb8YR3mTKNWY1NNQvM3DUSj2WRonHBmgBCIsLWmCp7XIKavSwsi7ynnMI+Vh0wAzNlQ==
+	t=1794011789;
+	b=cv0os2Wy9SpySJSQkFBjRgdmfX362Nxk8+n8ar4Mmes+xn0YgXynJdl7PV3XrhPngtsU
+	 cMkqjTgpUbr435Zykg8l5h999MauCKVuYAJcrJH16sQev0dLsyP6iGPh5XNpdktphnzCK
+	 TjoBfiL6J5vS1vz7CPmEp8CdmlDD1qtD+wYg1g2gz13+gzs2DKakNy7QDjPTDpjJkf2RK
+	 CvcR4G4+QbuLuSTPBd/zyT7eed0DLAUUomcTI+IIp9n6dVdzMDD529Xg95B1KSEoQ6df3
+	 UAN1V2Pwu8XTd5w3h3PIMunGFEDd/VfCxtns/TwxyMooTijIUStq26md5pM6nJeTdag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794009837;
-	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=N5zAt8Yfwfbo9aLmLei9uajidRaIZ6L7NRxi78xe+5Y=;
-	b=Q4xcOum8QKbGjM5WCotDN47XZJxV+DT7Xx023n0UmKo29cjFPHRO0mYumbJN+sgiuHf4
-	 LQY4+6T0ZSw7ev/a5bw54GkMnBeuF06rMw7BoPf4MU1RbxELH8FwSN8V8hops9InsTrxm
-	 xh+/2T+IVzc9g3+nU5BOmKLHoslJ83jKNPASpzajAMlS6LP5fw4Ur1RMu4uS2S8Cne0pV
-	 9EKb+S5ck/dmxihH2SQsTqgkM6T9T8yhFSQhGNbizFihq3LsRF2gj31XguTSaIye8Q3bH
-	 pOlUAcEMA03GDemmCchmAyPLiCr+QEaD8rt8P0Nf7ga5JS0sqlhCWPaZzeTYlIWidtA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011789;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=3HB4ez4k6B2fpBlALTpWaGbLQJuqyvpW9XKWXnAA4fo=;
+	b=OsTU/QK6EP7nHzPvYCVFHftHeD17U/E+DGh7JOElZoN8+x6gtJNCFWgqmjtH+SkoYYpR
+	 KEf9Mh+YDy7G1eHDLEGm1sBG69iFqWPdpllWRCyTm707AsRiPv7LjIp6V5xPDDAz2Vkes
+	 loW57STZCmv2QU5QDDSuJ70VcT5OR40OwnzF1/e2g4DGr+Dz146Z9guRD/vH7f0klm8L5
+	 lTuHQtvsaLQl1Y1HCGTS+Rj+0Athw2vzCiHGa42h/SABA4IW5nCcIYXv5ffLROAMGXg69
+	 +DvN8YHI629Pbmhu8r52KyyvK6a5IUg/Tx48S1X1la4QB7JrLIRcfpHZQFWlXlnrL+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6998A606A326;
-	Sat,  7 Nov 2026 00:03:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6998A606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with UTF8SMTP id IAEQrMDGjmrfau5qFy4TAA--.51007S2;
-	Sat, 07 Nov 2026 08:03:43 +0800 (CST)
-Received: from hust.edu.cn (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wDn7zfaau5qf2clAA--.45807S2;
-	Sat, 07 Nov 2026 08:03:40 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: improve translation update checks across locales
-Date: Sat,  7 Nov 2026 08:03:38 +0800
-Message-ID: <20261107000338.1243411-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.51.0
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=unJi3bFK;
+	arc=none smtp.remote-ip=35.89.44.33
+Received: from omta34.uswest2.a.cloudfilter.net (omta34.uswest2.a.cloudfilter.net [35.89.44.33])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650BB606A326
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 00:36:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 650BB606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=unJi3bFK
+Received: from eig-obgw-5001b.ext.cloudfilter.net ([10.0.29.181])
+	by cmsmtp with ESMTPS
+	id POUGxFCL2AR1iPUPzxHXe9; Sat, 07 Nov 2026 00:36:28 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id PUPzx6czmxmi7PUPzxscaL; Sat, 07 Nov 2026 00:36:27 +0000
+X-Authority-Analysis: v=2.4 cv=KuFN2XWN c=1 sm=1 tr=0 ts=6aee728b
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=VwQbUJbxAAAA:8
+ a=sxsOWaY6z2yf8vNyhW4A:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=3HB4ez4k6B2fpBlALTpWaGbLQJuqyvpW9XKWXnAA4fo=; b=unJi3bFKBDZ3
+	K8GnNw/ejD7ZzA91Iuy1QXX1jt/0H2HzJ1W0EmlkQrxvxAE3/gtCzC0Nx5u9YCjZFmhud/nOcSFBl
+	3bQLqTB+aUWKkFpoC/kqrlix1dpOx4RnAtrMkpEuLgG4Gzm9MUvx69pYEGfPT3LyExN4ywIjVAO9+
+	vJwB8Z8IEzxdR7RmFdA5/ghOKSnremKyS9fYPRGGR+7XPJEEb2jCeeWKMvwrPv1N3/ZDsogIYhqX2
+	JSQ3aLQkhHT2iL7mfxm62Ee+9m94VwZCC5oMhHf8PApClRPvK0C4U9UGYGuhsw1vx/KOl5TZPuvd/
+	nN/C8ft+voI8sk8+QbKosQ==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:38972)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xPUPy-00000000MZP-37KK;
+	Sat, 07 Nov 2026 06:06:26 +0530
+Message-ID: <db51c24b-4b41-407b-a20a-b87ed7c0dbaa@roeck-us.net>
+Date: Fri, 6 Nov 2026 16:36:25 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -55,366 +75,601 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IAEQrMDGjmrfau5qFy4TAA--.51007S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoW3CF1fXw1UKFW7CFWUZrykGrg_yoW8XFykXo
-	ZxWw45Cw1Ivws8JF1UCr4kJFy3CF1SkF4kA345Cw1q9w12ywsYg3yfZwn8Wa4fArW3ur93
-	Z343XayrXa1qyF93n29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUOp7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
-	CY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC2
-	0s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr
-	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
-	wIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
-	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAI
-	cVC2z280aVCY1x0267AKxVWUJVW8JbIYCTnIWIevJa73UjIFyTuYvjxUvYsjDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hwmon: Add driver for MSI Mystic Light controller voltage
+ sensors
+To: Tomasz Bojanowski <tomasz@bojanowski.me>
+Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261106184357.27763-1-tomasz@bojanowski.me>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261106184357.27763-1-tomasz@bojanowski.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xPUPy-00000000MZP-37KK
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:38972
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 2
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfJnUYjXbb/1W0L2fHApicFZSrQTQbv1+Ezj0fpSfQBPQfO075IO0GMuBb+lTuzGY8UfvcJCealpmSta/d5rA5QITGl1AOmrhmiPGkz0SVRh40NgzL+ki
+ gHbfKCauZyUCf61L0OSzmYh6077MqxYXNSYAycMMNe3Utb/gRkIZgvtRkNQ1Wy26QW2bjHhS+JJT/WnxOtFHDiagSFQB6I9SKJjM8hyNk6V3JRWxg5Dp262R
 
-Improve locale-wide scans and report English documents without matching
-translations. When a translation commit lacks its English source in its
-history, use the source history at HEAD for the author-date fallback.
-Capture Git errors for unavailable commit IDs, honor --logfile, and stop
-at the first file that cannot be checked.
+Hi,
 
-Update the English and zh_CN guides to describe the fallback behavior,
-directory arguments, and logging options.
----
- Documentation/doc-guide/checktransupdate.rst  | 42 ++++++++--
- .../zh_CN/doc-guide/checktransupdate.rst      | 38 ++++++---
- tools/docs/checktransupdate.py                | 83 ++++++++++---------
- 3 files changed, 107 insertions(+), 56 deletions(-)
+On 11/6/26 10:43, Tomasz Bojanowski wrote:
+> MSI 800-series motherboards have a USB microcontroller (0db0:0076) that
+> drives the RGB LED headers. Besides the LEDs, it measures a few voltage
+> rails that are not monitored by the Super I/O chip, and reports them in
+> HID feature report 0xf0.
+> 
+> Add a driver that reads this report and exposes the rails as standard
+> hwmon voltage attributes with labels. The values are cached for one
+> second. The driver never writes to the device, and it starts the HID
+> device with HID_CONNECT_HIDRAW, so user space tools that control the
+> LEDs through hidraw keep working.
+> 
+> The rails and their position in the report depend on the motherboard,
+> which is identified by the MSI board code at the start of the USB serial
+> number. For now only the MAG B850M MORTAR WIFI (MS-7E61) is supported.
+> On other boards the driver still binds to the device, so that hidraw
+> remains available (hid-generic does not take a device that is listed in
+> another driver's id_table), but it does not register a hwmon device.
+> 
+> The report layout was determined by analysing the vendor's Windows
+> software and confirmed on hardware.
+> 
+> Tested on an MSI MAG B850M MORTAR WIFI (MS-7E61, BIOS 1.A68), with the
+> driver built out of tree against kernel 7.2.15. The readings (CPU 1P8
+> 1.79 V, CHIP Core 1.04 V, VDD MISC 1.10 V) are stable and plausible for
+> the respective rails, repeated reads within one second are served from
+> the cache, and hidraw access works while the driver is bound. Binding and
+> unbinding the driver repeatedly hands the device back to hid-generic
+> without errors.
+> 
+> Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
 
-diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
-index 7b25375cc6d9..94366110451a 100644
---- a/Documentation/doc-guide/checktransupdate.rst
-+++ b/Documentation/doc-guide/checktransupdate.rst
-@@ -10,17 +10,35 @@ the English counterpart.
- How it works
- ------------
- 
--It uses ``git log`` command to track the latest English commit from the
--translation commit (order by author date) and the latest English commits
--from HEAD. If any differences occur, the file is considered as out-of-date,
--then commits that need to be updated will be collected and reported.
-+The English kernel documentation and its translation use the same relative path
-+below ``Documentation/`` and ``Documentation/translations/<locale>/``.
-+For example, ``Documentation/process/foo.rst`` corresponds to
-+``Documentation/translations/zh_CN/process/foo.rst``. A locale-wide check
-+starts with English files and reports any without a translation at the
-+corresponding path. A translated file at a different path is not treated as
-+its translation. When explicitly checked, the script reports that it cannot
-+find a same-path English source for such a file. This says nothing about
-+the accuracy of any existing source-path annotation in that file. The script
-+does not read ``:Original:`` fields.
-+
-+The script uses ``git log`` to find the latest English commit corresponding
-+to the translation and the latest English commit at HEAD. It first checks
-+the translation commit message for ``update to commit`` or ``Update the
-+translation through commit`` followed by a 12-character hexadecimal commit
-+hash. Otherwise, it estimates the source revision by author date. This
-+includes cases where the translation and English source were initially
-+merged on different branches, or the named commit is unavailable in the
-+local Git history. The estimate can be inaccurate, especially when commits
-+are backdated or the source has moved.
-+If the two English revisions differ, the script reports the commits to review.
- 
- Features implemented
- 
- -  check all files in a certain locale
- -  check a single file or a set of files
---  provide options to change output format
-+-  select the logging level and log file
- -  track the translation status of files that have no translation
-+-  check files in a directory
- 
- Usage
- -----
-@@ -34,9 +52,14 @@ Please refer to the output of argument parser for usage details.
- Samples
- 
- -  ``tools/docs/checktransupdate.py -l zh_CN``
--   This will print all the files that need to be updated in the zh_CN locale.
-+   This checks for updates to zh_CN translations and lists English files
-+   without a corresponding translation.
- -  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
-    This will only print the status of the specified file.
-+-  ``tools/docs/checktransupdate.py -l sp_SP``
-+   This will check Spanish translations at the corresponding paths.
-+-  ``tools/docs/checktransupdate.py Documentation/translations/it_IT/process``
-+   This will check translated files under the directory.
- 
- Then the output is something like:
- 
-@@ -49,6 +72,7 @@ Then the output is something like:
-     commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
-     1 commits needs resolving in total
- 
--Features to be implemented
--
--- files can be a folder instead of only a file
-+The script stops at the first translated file it cannot check and exits with
-+a nonzero status.
-+It does not determine whether the translated text fully reflects the English
-+source; review the reported commits and the files themselves.
-diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-index dbfd65398077..c3cc16d9897c 100644
---- a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-+++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
-@@ -7,21 +7,36 @@
- :译者: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
- 
- 检查翻译更新
-+============
- 
--这个脚本帮助跟踪不同语言的文档翻译状态，即文档是否与对应的英文版本保持更新。
-+这个脚本帮助跟踪不同语言的文档翻译状态，判断译文是否需要根据英文原文更新。
- 
- 工作原理
- ------------
- 
--它使用 ``git log`` 命令来跟踪翻译提交的最新英文提交（按作者日期排序）和英文文档的
--最新提交。如果有任何差异，则该文件被认为是过期的，然后需要更新的提交将被收集并报告。
-+英文原文与译文在 ``Documentation/`` 和
-+``Documentation/translations/<locale>/`` 下使用相同的相对路径。例如，
-+``Documentation/process/foo.rst`` 对应
-+``Documentation/translations/zh_CN/process/foo.rst``。检查整个语言目录时，
-+脚本从英文文件出发，报告在对应路径下没有译文的文件。其他路径下的译文不会被
-+视为该英文文件的翻译。如果单独检查这类译文，脚本会报告找不到同路径的英文原文。
-+这并不表示该译文中已有的原文路径标注有误。脚本不读取 ``:Original:`` 字段。
-+
-+脚本使用 ``git log`` 查找译文对应的最新英文提交，以及英文文件在 HEAD 中的
-+最新提交。它先从翻译提交信息中查找 ``update to commit`` 或
-+``Update the translation through commit`` 后面的 12 位十六进制提交哈希。
-+如果没有找到，或指定的提交不在本地 Git 历史中，就按作者日期估计译文所依据的
-+英文版本。英文原文和译文最初从不同分支合入时，脚本也会使用这一估计。提交日期
-+被回填或英文原文移动过路径时，这种估计可能不准确。如果两个英文提交不同，脚本
-+会列出需要检查的提交。
- 
- 实现的功能
- 
- - 检查特定语言中的所有文件
- - 检查单个文件或一组文件
--- 提供更改输出格式的选项
-+- 选择日志级别和日志文件
- - 跟踪没有翻译过的文件的翻译状态
-+- 检查目录中的文件
- 
- 用法
- -----
-@@ -30,14 +45,18 @@
- 
-     tools/docs/checktransupdate.py --help
- 
--具体用法请参考参数解析器的输出
-+具体用法请参考参数解析器的输出。
- 
- 示例
- 
- -  ``tools/docs/checktransupdate.py -l zh_CN``
--   这将打印 zh_CN 语言中需要更新的所有文件。
-+   检查 zh_CN 语言中需要更新的文件，并列出尚无译文的英文文件。
- -  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
--   这将只打印指定文件的状态。
-+   只检查指定文件的状态。
-+-  ``tools/docs/checktransupdate.py -l sp_SP``
-+   检查西班牙语译文在对应路径下的更新状态。
-+-  ``tools/docs/checktransupdate.py Documentation/translations/it_IT/process``
-+   检查该目录下的译文。
- 
- 然后输出类似如下的内容：
- 
-@@ -50,6 +69,5 @@
-     commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
-     1 commits needs resolving in total
- 
--待实现的功能
--
--- 文件参数可以是文件夹而不仅仅是单个文件
-+遇到无法检查的译文时，脚本会立即停止，并以非零状态退出。它无法判断译文内容是否
-+已经完整反映英文原文；仍需人工检查列出的提交以及相应文件。
-diff --git a/tools/docs/checktransupdate.py b/tools/docs/checktransupdate.py
-index d7b98753e35f..5f2517b59771 100755
---- a/tools/docs/checktransupdate.py
-+++ b/tools/docs/checktransupdate.py
-@@ -7,6 +7,9 @@ in different locales, e.g., zh_CN. More specially, it uses `git log`
- commit to find the latest english commit from the translation commit
- (order by author date) and the latest english commits from HEAD. If
- differences occur, report the file and commits that need to be updated.
-+The English kernel documentation and corresponding translation are
-+matched by their relative paths under
-+Documentation/ and Documentation/translations/<locale>/, respectively.
- 
- The usage is as follows:
- - tools/docs/checktransupdate.py -l zh_CN
-@@ -29,26 +32,30 @@ import os
- import re
- import time
- import logging
-+import subprocess
-+import sys
- from argparse import ArgumentParser, ArgumentTypeError, BooleanOptionalAction
- from datetime import datetime
- 
- 
- def get_origin_path(file_path):
--    """Get the origin path from the translation path"""
--    paths = file_path.split("/")
--    tidx = paths.index("translations")
--    opaths = paths[:tidx]
--    opaths += paths[tidx + 2 :]
--    return "/".join(opaths)
-+    """Map a translated path to the same path under Documentation/."""
-+    parts = file_path.split("/")
-+    return "/".join([parts[0], *parts[3:]])
- 
- 
- def get_latest_commit_from(file_path, commit):
-     """Get the latest commit from the specified commit for the specified file"""
--    command = f"git log --pretty=format:%H%n%aD%n%cD%n%n%B {commit} -1 -- {file_path}"
--    logging.debug(command)
--    pipe = os.popen(command)
--    result = pipe.read()
--    result = result.split("\n")
-+    command = [
-+        "git", "log", "--pretty=format:%H%n%aD%n%cD%n%n%B",
-+        commit, "-1", "--", file_path,
-+    ]
-+    logging.debug("%s", command)
-+    completed = subprocess.run(command, capture_output=True, text=True, check=False)
-+    if completed.returncode:
-+        logging.warning("Cannot read Git revision %s: %s", commit, completed.stderr.strip())
-+        return None
-+    result = completed.stdout.split("\n")
-     if len(result) <= 1:
-         return None
- 
-@@ -65,6 +72,11 @@ def get_latest_commit_from(file_path, commit):
- def get_origin_from_trans(origin_path, t_from_head):
-     """Get the latest origin commit from the translation commit"""
-     o_from_t = get_latest_commit_from(origin_path, t_from_head["hash"])
-+    if o_from_t is None:
-+        # The translation can enter the history on a different branch before
-+        # the English source is merged. Search the current source history by
-+        # author date in that case, using the same heuristic as below.
-+        o_from_t = get_latest_commit_from(origin_path, "HEAD")
-     while o_from_t is not None and o_from_t["author_date"] > t_from_head["author_date"]:
-         o_from_t = get_latest_commit_from(origin_path, o_from_t["hash"] + "^")
-     if o_from_t is not None:
-@@ -128,20 +140,20 @@ def valid_commit(commit):
-     msg = pretty_output(commit)
-     return "Merge tag" not in msg
- 
-+
- def check_per_file(file_path):
-     """Check the translation status for the specified file"""
-     opath = get_origin_path(file_path)
--
-     if not os.path.isfile(opath):
-         logging.error("Cannot find the origin path for %s", file_path)
--        return
-+        return False
- 
-     o_from_head = get_latest_commit_from(opath, "HEAD")
-     t_from_head = get_latest_commit_from(file_path, "HEAD")
- 
-     if o_from_head is None or t_from_head is None:
-         logging.error("Cannot find the latest commit for %s", file_path)
--        return
-+        return False
- 
-     o_from_t = get_origin_from_trans_smartly(opath, t_from_head)
-     # notice, o_from_t from get_*_smartly() is always more accurate than from get_*()
-@@ -150,7 +162,7 @@ def check_per_file(file_path):
- 
-     if o_from_t is None:
-         logging.error("Error: Cannot find the latest origin commit for %s", file_path)
--        return
-+        return False
- 
-     if o_from_head["hash"] == o_from_t["hash"]:
-         logging.debug("No update needed for %s", file_path)
-@@ -165,14 +177,17 @@ def check_per_file(file_path):
-                 logging.info("commit %s", pretty_output(commit))
-                 count += 1
-         logging.info("%d commits needs resolving in total\n", count)
-+    return True
- 
- 
- def valid_locales(locale):
-     """Check if the locale is valid or not"""
-     script_path = os.path.dirname(os.path.abspath(__file__))
-     linux_path = os.path.join(script_path, "../..")
--    if not os.path.isdir(f"{linux_path}/Documentation/translations/{locale}"):
--        raise ArgumentTypeError("Invalid locale: {locale}")
-+    if locale not in os.listdir(f"{linux_path}/Documentation/translations") or not os.path.isdir(
-+        f"{linux_path}/Documentation/translations/{locale}"
-+    ):
-+        raise ArgumentTypeError(f"Invalid locale: {locale}")
-     return locale
- 
- 
-@@ -270,31 +285,24 @@ def main():
- 
-     # Configure logging based on the --log argument
-     log_level = getattr(logging, args.log.upper(), logging.INFO)
--    config_logging(log_level)
-+    config_logging(log_level, args.logfile)
- 
-     # Get files related to linux path
-     files = args.files
-     if len(files) == 0:
--        offical_files = list_files_with_excluding_folders(
-+        official_files = list_files_with_excluding_folders(
-             os.path.join(linux_path, "Documentation"), ["translations", "output"], "rst"
-         )
--
--        for file in offical_files:
--            # split the path into parts
--            path_parts = file.split(os.sep)
--            # find the index of the "Documentation" directory
--            kindex = path_parts.index("Documentation")
--            # insert the translations and locale after the Documentation directory
--            new_path_parts = path_parts[:kindex + 1] + ["translations", args.locale] \
--                           + path_parts[kindex + 1 :]
--            # join the path parts back together
--            new_file = os.sep.join(new_path_parts)
--            if os.path.isfile(new_file):
--                files.append(new_file)
--            else:
--                if args.print_missing_translations:
--                    logging.info(os.path.relpath(os.path.abspath(file), linux_path))
--                    logging.info("No translation in the locale of %s\n", args.locale)
-+        for file in official_files:
-+            relative = os.path.relpath(file, os.path.join(linux_path, "Documentation"))
-+            translated = os.path.join(
-+                linux_path, "Documentation", "translations", args.locale, relative
-+            )
-+            if os.path.isfile(translated):
-+                files.append(translated)
-+            elif args.print_missing_translations:
-+                logging.info(os.path.relpath(file, linux_path))
-+                logging.info("No translation in the locale of %s\n", args.locale)
-     else:
-         # check if the files are directories or files
-         new_files = []
-@@ -312,7 +320,8 @@ def main():
-     os.chdir(linux_path)
- 
-     for file in files:
--        check_per_file(file)
-+        if not check_per_file(file):
-+            sys.exit(1)
- 
- 
- if __name__ == "__main__":
--- 
-2.51.0
+Please address the issues reported by Sashiko.
+
+Additional comments below.
+
+Thanks,
+Guenter
+
+> ---
+>   Documentation/hwmon/index.rst            |   1 +
+>   Documentation/hwmon/msi_mystic_light.rst |  58 +++++
+>   MAINTAINERS                              |   7 +
+>   drivers/hwmon/Kconfig                    |  11 +
+>   drivers/hwmon/Makefile                   |   1 +
+>   drivers/hwmon/msi_mystic_light.c         | 291 +++++++++++++++++++++++
+>   6 files changed, 369 insertions(+)
+>   create mode 100644 Documentation/hwmon/msi_mystic_light.rst
+>   create mode 100644 drivers/hwmon/msi_mystic_light.c
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index a8ea421128b5..7ce1a6f42ddc 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -213,6 +213,7 @@ Hardware Monitoring Kernel Drivers
+>      mpq82d00
+>      mpq8646
+>      mpq8785
+> +   msi_mystic_light
+>      nct6683
+>      nct6775
+>      nct7363
+> diff --git a/Documentation/hwmon/msi_mystic_light.rst b/Documentation/hwmon/msi_mystic_light.rst
+> new file mode 100644
+> index 000000000000..d58186b83ce8
+> --- /dev/null
+> +++ b/Documentation/hwmon/msi_mystic_light.rst
+> @@ -0,0 +1,58 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +Kernel driver msi_mystic_light
+> +==============================
+> +
+> +Supported devices:
+> +
+> +* MSI Mystic Light USB controller (USB ID 0db0:0076), found on MSI
+> +  800-series motherboards
+> +
+> +  Voltage sensors are supported on:
+> +
+> +  - MSI MAG B850M MORTAR WIFI (MS-7E61)
+> +
+> +Author: Tomasz Bojanowski <tomasz@bojanowski.me>
+> +
+> +Description
+> +-----------
+> +
+> +On MSI 800-series motherboards the RGB LED headers ("Mystic Light") are
+> +driven by a microcontroller attached over USB. The controller also measures
+> +a few voltage rails that are not monitored by the Super I/O chip (see
+> +nct6683). This driver reports these voltages.
+> +
+> +Which rails are present, and where they are found in the sensor report,
+> +depends on the motherboard. The board is identified by the MSI board code
+> +at the start of the USB serial number (for example ``7E61``). On boards
+> +without a known layout the driver binds to the device, but does not
+> +register a hwmon device.
+
+Using the USB serial number to detect the device seems fragile. If the
+USB vendor/product ID can not be used for some reason, it might make
+more sense to implement a DMI match.
+> +
+> +The driver only reads HID feature report 0xf0. It never writes to the
+> +controller. The hidraw interface remains available, so user space tools
+> +that control the LEDs keep working.
+> +
+> +Usage Notes
+> +-----------
+> +
+> +The sensor values are cached for one second. A rail that reads 0 is
+> +reported as unavailable (-ENODATA).
+
+Also mentioned below - this should be detected during probe,
+and unavailable sensors should not be enabled to start with.
+
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +=============== =========================================================
+> +in[0-2]_input   Voltage in millivolts
+> +in[0-2]_label   Rail name
+> +=============== =========================================================
+> +
+> +MSI MAG B850M MORTAR WIFI (MS-7E61)
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +======= ========= ==========================
+> +Channel Label     Typical value
+> +======= ========= ==========================
+> +in0     CPU 1P8   1.79 V
+> +in1     CHIP Core 1.04 V
+> +in2     VDD MISC  1.10 V
+> +======= ========= ==========================
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 873a8beb15b6..8f02d3f3c3f1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19093,6 +19093,13 @@ L:	platform-driver-x86@vger.kernel.org
+>   S:	Maintained
+>   F:	drivers/platform/x86/msi-laptop.c
+>   
+> +MSI MYSTIC LIGHT HARDWARE MONITORING DRIVER
+> +M:	Tomasz Bojanowski <tomasz@bojanowski.me>
+> +L:	linux-hwmon@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/hwmon/msi_mystic_light.rst
+> +F:	drivers/hwmon/msi_mystic_light.c
+> +
+>   MSI WMI SUPPORT
+>   L:	platform-driver-x86@vger.kernel.org
+>   S:	Orphan
+> diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> index 3ae676a56d95..313f095e82ca 100644
+> --- a/drivers/hwmon/Kconfig
+> +++ b/drivers/hwmon/Kconfig
+> @@ -1570,6 +1570,17 @@ config SENSORS_MR75203
+>   	  This driver can also be built as a module. If so, the module
+>   	  will be called mr75203.
+>   
+> +config SENSORS_MSI_MYSTIC_LIGHT
+> +	tristate "MSI Mystic Light USB controller voltage sensors"
+> +	depends on USB_HID
+> +	help
+> +	  If you say yes here you get support for the voltage sensors of the
+> +	  MSI Mystic Light USB controller (0db0:0076) found on MSI 800-series
+> +	  motherboards.
+> +
+> +	  This driver can also be built as a module. If so, the module
+> +	  will be called msi_mystic_light.
+> +
+>   config SENSORS_ADCXX
+>   	tristate "National Semiconductor ADCxxxSxxx"
+>   	depends on SPI_MASTER
+> diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+> index be3eb0992a0d..ec4b0de8cf47 100644
+> --- a/drivers/hwmon/Makefile
+> +++ b/drivers/hwmon/Makefile
+> @@ -187,6 +187,7 @@ obj-$(CONFIG_SENSORS_MLXREG_FAN) += mlxreg-fan.o
+>   obj-$(CONFIG_SENSORS_MENF21BMC_HWMON) += menf21bmc_hwmon.o
+>   obj-$(CONFIG_SENSORS_MINISFORUM_UM780XTX) += minisforum-um780xtx.o
+>   obj-$(CONFIG_SENSORS_MR75203)	+= mr75203.o
+> +obj-$(CONFIG_SENSORS_MSI_MYSTIC_LIGHT) += msi_mystic_light.o
+>   obj-$(CONFIG_SENSORS_NCT6683)	+= nct6683.o
+>   obj-$(CONFIG_SENSORS_NCT6694)	+= nct6694-hwmon.o
+>   obj-$(CONFIG_SENSORS_NCT6775_CORE) += nct6775-core.o
+> diff --git a/drivers/hwmon/msi_mystic_light.c b/drivers/hwmon/msi_mystic_light.c
+> new file mode 100644
+> index 000000000000..39dde9d9e82d
+> --- /dev/null
+> +++ b/drivers/hwmon/msi_mystic_light.c
+> @@ -0,0 +1,291 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * hwmon driver for the voltage sensors of the MSI Mystic Light USB
+> + * controller (0db0:0076) found on MSI 800-series motherboards
+> + *
+> + * The microcontroller that drives the RGB LED headers of these boards also
+> + * measures a few voltage rails that are not monitored by the Super I/O chip.
+> + * They are returned in HID feature report 0xf0. This driver only reads that
+> + * report and never sends anything else to the device. The hidraw interface
+> + * is kept, so user space LED control keeps working.
+> + *
+> + * The rails and their position in the report depend on the motherboard.
+> + * The board is identified by the MSI board code in the first four
+> + * characters of the USB serial number, for example "7E61" for the
+> + * MAG B850M MORTAR WIFI (MS-7E61). On boards without a known layout the
+> + * driver binds to the device, but does not register a hwmon device.
+> + *
+
+Mentioned below again: This is unacceptable. If the device is not recognized,
+the driver should not instantiate as dummy.
+
+> + * Copyright (C) 2026 Tomasz Bojanowski <tomasz@bojanowski.me>
+> + */
+> +
+> +#include <linux/hid.h>
+> +#include <linux/hwmon.h>
+> +#include <linux/jiffies.h>
+> +#include <linux/module.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
+> +#include <linux/unaligned.h>
+> +
+> +#define USB_VENDOR_ID_MSI_MB		0x0db0
+> +#define USB_PRODUCT_ID_MYSTIC_LIGHT	0x0076
+> +
+> +#define MSI_ML_SENSOR_REPORT_ID		0xf0
+> +#define MSI_ML_SENSOR_REPORT_SIZE	64
+> +
+> +/* Every sensor report starts with this header (after the report ID) */
+> +#define MSI_ML_SENSOR_CMD_OFFSET	1
+> +#define MSI_ML_SENSOR_CMD		0xa0
+> +#define MSI_ML_SENSOR_PAGE_OFFSET	9
+> +#define MSI_ML_SENSOR_PAGE_HI		0x01
+> +#define MSI_ML_SENSOR_PAGE_LO		0xfc
+> +
+> +#define MSI_ML_BOARD_CODE_LEN		4
+> +#define MSI_ML_MAX_IN			3
+> +#define MSI_ML_CACHE_TIME		HZ
+> +
+> +struct msi_ml_board {
+> +	const char *code;		/* MSI board code, start of USB serial */
+> +	int num_in;
+> +	const char *const *in_label;
+> +	const u8 *in_offset;		/* little endian u16 in mV */
+> +};
+> +
+> +/* MAG B850M MORTAR WIFI (MS-7E61) */
+> +static const char *const msi_ml_7e61_in_label[] = {
+> +	"CPU 1P8", "CHIP Core", "VDD MISC",
+> +};
+> +
+> +static const u8 msi_ml_7e61_in_offset[] = { 23, 17, 25 };
+> +
+> +static const struct msi_ml_board msi_ml_boards[] = {
+> +	{
+> +		.code = "7E61",
+> +		.num_in = ARRAY_SIZE(msi_ml_7e61_in_label),
+> +		.in_label = msi_ml_7e61_in_label,
+> +		.in_offset = msi_ml_7e61_in_offset,
+> +	},
+
+This will require additional per-board data. On MAG B650M
+MORTAR WIFI (MS-7D76), the USB IDs are 1462:7d76, and
+hid_hw_raw_request() with the parameters below returns
+a length of 0 bytes. On MAG B650 TOMAHAWK WIFI (MS-7D75),
+the USB device ID is 1462:7d75, and on MAG B550M MORTAR
+(MS-7C94) it is 1462:7c94.
+
+That makes me wonder if the parameters can be associated
+with USB IDs.
+
+>
+> +
+> +struct msi_ml_data {
+> +	struct hid_device *hdev;
+> +	struct device *hwmon_dev;
+> +	const struct msi_ml_board *board;
+> +	u8 *buf;			/* report buffer, must be DMA safe */
+> +	u16 in[MSI_ML_MAX_IN];		/* mV, 0 = no reading */
+> +	unsigned long updated;		/* jiffies */
+> +	bool valid;
+> +};
+> +
+> +static const struct msi_ml_board *msi_ml_find_board(struct hid_device *hdev)
+> +{
+> +	int i;
+> +
+> +	if (strnlen(hdev->uniq, sizeof(hdev->uniq)) < MSI_ML_BOARD_CODE_LEN)
+> +		return NULL;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(msi_ml_boards); i++) {
+> +		if (!strncasecmp(hdev->uniq, msi_ml_boards[i].code,
+> +				 MSI_ML_BOARD_CODE_LEN))
+> +			return &msi_ml_boards[i];
+> +	}
+> +
+> +	return NULL;
+> +}
+> +
+> +/*
+> + * Read the sensor report, at most once per MSI_ML_CACHE_TIME. Only called
+> + * from the hwmon read callback, which the hwmon core serializes, so no
+> + * additional locking is needed for the buffer and the cached values.
+> + */
+> +static int msi_ml_update(struct msi_ml_data *priv)
+> +{
+> +	const struct msi_ml_board *board = priv->board;
+> +	u8 *buf = priv->buf;
+> +	int i, ret;
+> +
+> +	if (priv->valid && time_before(jiffies, priv->updated + MSI_ML_CACHE_TIME))
+
+priv->updated is not initialized in probe, meaning "time_before()" may
+randomly return false (in addition to the issue reported by Sashiko).
+
+> +		return 0;
+> +
+> +	memset(buf, 0, MSI_ML_SENSOR_REPORT_SIZE);
+> +	buf[0] = MSI_ML_SENSOR_REPORT_ID;
+> +
+> +	ret = hid_hw_raw_request(priv->hdev, MSI_ML_SENSOR_REPORT_ID, buf,
+> +				 MSI_ML_SENSOR_REPORT_SIZE, HID_FEATURE_REPORT,
+> +				 HID_REQ_GET_REPORT);
+> +	if (ret < 0)
+> +		return ret;
+> +	if (ret != MSI_ML_SENSOR_REPORT_SIZE)
+> +		return -EPROTO;
+> +
+> +	if (buf[0] != MSI_ML_SENSOR_REPORT_ID ||
+> +	    buf[MSI_ML_SENSOR_CMD_OFFSET] != MSI_ML_SENSOR_CMD ||
+> +	    buf[MSI_ML_SENSOR_PAGE_OFFSET] != MSI_ML_SENSOR_PAGE_HI ||
+> +	    buf[MSI_ML_SENSOR_PAGE_OFFSET + 1] != MSI_ML_SENSOR_PAGE_LO)
+> +		return -EPROTO;
+
+This is too late; it should be determiend during probe if the command
+works.
+
+> +
+> +	for (i = 0; i < board->num_in; i++)
+> +		priv->in[i] = get_unaligned_le16(buf + board->in_offset[i]);
+> +
+> +	priv->updated = jiffies;
+> +	priv->valid = true;
+> +
+> +	return 0;
+> +}
+> +
+> +static umode_t msi_ml_is_visible(const void *data,
+> +				 enum hwmon_sensor_types type, u32 attr,
+> +				 int channel)
+> +{
+> +	const struct msi_ml_data *priv = data;
+> +
+> +	if (type == hwmon_in && channel < priv->board->num_in)
+> +		return 0444;
+> +
+> +	return 0;
+> +}
+> +
+> +static int msi_ml_read(struct device *dev, enum hwmon_sensor_types type,
+> +		       u32 attr, int channel, long *val)
+> +{
+> +	struct msi_ml_data *priv = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = msi_ml_update(priv);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* A rail that reads 0 has no valid measurement */
+> +	if (!priv->in[channel])
+> +		return -ENODATA;
+
+This is unacceptable. The probe function should determine which sensors
+are supported, and unsupported sensors should not be enabled (return 0 in
+is_visible).
+
+> +
+> +	*val = priv->in[channel];
+> +
+> +	return 0;
+> +}
+> +
+> +static int msi_ml_read_string(struct device *dev, enum hwmon_sensor_types type,
+> +			      u32 attr, int channel, const char **str)
+> +{
+> +	struct msi_ml_data *priv = dev_get_drvdata(dev);
+> +
+> +	*str = priv->board->in_label[channel];
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct hwmon_ops msi_ml_hwmon_ops = {
+> +	.is_visible = msi_ml_is_visible,
+> +	.read = msi_ml_read,
+> +	.read_string = msi_ml_read_string,
+> +};
+> +
+> +static const struct hwmon_channel_info *const msi_ml_info[] = {
+> +	HWMON_CHANNEL_INFO(in,
+> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+> +			   HWMON_I_INPUT | HWMON_I_LABEL,
+> +			   HWMON_I_INPUT | HWMON_I_LABEL),
+> +	NULL
+> +};
+> +
+> +static const struct hwmon_chip_info msi_ml_chip_info = {
+> +	.ops = &msi_ml_hwmon_ops,
+> +	.info = msi_ml_info,
+> +};
+> +
+> +static int msi_ml_probe(struct hid_device *hdev, const struct hid_device_id *id)
+> +{
+> +	struct msi_ml_data *priv;
+> +	int ret;
+> +
+> +	priv = devm_kzalloc(&hdev->dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!priv)
+> +		return -ENOMEM;
+> +
+> +	priv->buf = devm_kzalloc(&hdev->dev, MSI_ML_SENSOR_REPORT_SIZE, GFP_KERNEL);
+> +	if (!priv->buf)
+> +		return -ENOMEM;
+> +
+> +	priv->hdev = hdev;
+> +	priv->board = msi_ml_find_board(hdev);
+> +	hid_set_drvdata(hdev, priv);
+> +
+> +	ret = hid_parse(hdev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Keep the hidraw interface for user space LED control */
+> +	ret = hid_hw_start(hdev, HID_CONNECT_HIDRAW);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!priv->board) {
+> +		hid_info(hdev, "no sensor layout for board code \"%.4s\"\n",
+> +			 hdev->uniq);
+> +		return 0;
+
+This is unacceptable. If there are no sensors, the driver should not
+instantiate.
+
+> +	}
+> +
+> +	ret = hid_hw_open(hdev);
+> +	if (ret)
+> +		goto fail_stop;
+> +
+> +	priv->hwmon_dev = hwmon_device_register_with_info(&hdev->dev,
+> +							  "msi_mystic_light",
+> +							  priv,
+> +							  &msi_ml_chip_info,
+> +							  NULL);
+> +	if (IS_ERR(priv->hwmon_dev)) {
+> +		ret = PTR_ERR(priv->hwmon_dev);
+> +		goto fail_close;
+> +	}
+> +
+> +	return 0;
+> +
+> +fail_close:
+> +	hid_hw_close(hdev);
+> +fail_stop:
+> +	hid_hw_stop(hdev);
+> +	return ret;
+> +}
+> +
+> +static void msi_ml_remove(struct hid_device *hdev)
+> +{
+> +	struct msi_ml_data *priv = hid_get_drvdata(hdev);
+> +
+> +	if (priv->board) {
+> +		hwmon_device_unregister(priv->hwmon_dev);
+> +		hid_hw_close(hdev);
+> +	}
+> +
+> +	hid_hw_stop(hdev);
+> +}
+> +
+> +static const struct hid_device_id msi_ml_table[] = {
+> +	{ HID_USB_DEVICE(USB_VENDOR_ID_MSI_MB, USB_PRODUCT_ID_MYSTIC_LIGHT) },
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(hid, msi_ml_table);
+> +
+> +static struct hid_driver msi_ml_driver = {
+> +	.name = "msi_mystic_light",
+> +	.id_table = msi_ml_table,
+> +	.probe = msi_ml_probe,
+> +	.remove = msi_ml_remove,
+> +};
+> +
+> +static int __init msi_ml_init(void)
+> +{
+> +	return hid_register_driver(&msi_ml_driver);
+> +}
+> +
+> +static void __exit msi_ml_exit(void)
+> +{
+> +	hid_unregister_driver(&msi_ml_driver);
+> +}
+> +
+> +/* When built into the kernel, register after the HID bus is initialized */
+> +late_initcall(msi_ml_init);
+> +module_exit(msi_ml_exit);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Tomasz Bojanowski <tomasz@bojanowski.me>");
+> +MODULE_DESCRIPTION("Hwmon driver for MSI Mystic Light USB controller voltage sensors");
+> 
+> base-commit: 9926f611495c8f046caf5f8f46dbd4d401337550
 
