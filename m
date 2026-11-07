@@ -1,71 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.39
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794063453;
-	b=L2MEiBauw+bJn1QTQ0hHlHQNSEu49snTCqJEv6FvmG0OUimKQbNXe/M7Ua0vGXyVETBf
-	 DoQruPQvEhHiYaV6vopGKwrVniA1jUoYMbBQkhaEIrVFGoHNdk+L3sFsobRLntLqQF7j2
-	 eoB3P3dAek9DGpNpsKU0u2Vn12GrNWc4CVpcFo2tHILUuhmorgCBtPL7g/zv8/7UI9IeY
-	 9HpOLpkb9dHb+FIr3QQiDd9mnF7H8hwaLQN7TvMz5Zl/GYzqvDww0D/i21YhDI803xcmz
-	 yDVt2TXQ/ukED/JqmziIfJ0WfG4e4BSX/8t+tF6Xbn2OHJQ2I2tttfFUm/n9TniCFHQ==
+	t=1794066151;
+	b=oFxF6QTN7DeCAZGasg+t4p6lTYfX/Z1U1WsYWJyXRRBE3Z7LXgR0Bc6NTaVdArWgKa4V
+	 jAF9q1heHY7Q8zdf7TLpLiR6en3949X1QP9cLSJW8SSDMxuHL8OvJnJzyvWG8zTn1qP78
+	 zpROFbyc9X3SWiSX/0uD/JYJEWh5QpshAbg03wmkQtMM4RqJG7SJ2guYRXDGAlgu44E6p
+	 47dXZXrkRuDB4kT/GX3SJHpE1hs4pYSpEZGUg1eb5G/aoqMVsmtzz/wgwMk0eHXohMRUO
+	 g7KcqNlZfa/zqk30TSyoQIxAhswwXtIwLkPoe68pM8fglg8mgZbn1vdHL3OWEIfeSLg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794063453;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
-	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
-	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
-	bh=EAvl3fitRQQ+zOb/lLotd7eR1uWF2wKurJXsbGkVIEU=;
-	b=raSV3c7ohyR+s/SFCadPFzq0OjykbhATMHid6bSZ0RGwcJBeFbQdcKY6ST39kHme66Dx
-	 Aiz3W/QMN26mSPfD2tXazKRLqm9l87er7YyKZBNca82744JO/DzHmOVc0bqTbRhO3APhE
-	 7yDw409SbHhkz+neFQN9jIjqqKl0Sow/GIIKu66f+ahnRrO2N1+NaO3BKtrWjNwtCLk0Z
-	 7IO5e+WCpESedTcYW9OrJVYEGUfXuvOt7le3v8l4cQaFrlOKCpW33XVXprpmacP/lidvn
-	 X0N93FOAPh3VGEbc6n4zZx4qvOEISRPj+HhcctiznNrlW8H+mZNZ21I5IZh/HghIXZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794066151;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Rspamd-Queue-Id;
+	bh=no5aW8Fmoos1dOAAdLJ0Tkk2u4hUBYK6yZlGmp7fre4=;
+	b=SnflNXLUcIJJzDLA+G/7FefvoeNmQFVcKtrzlqyEsAMfpWqOgy2EAJ03W42qjjyE/w1t
+	 dNU5qWwrJQjNOCz7mhLXE8xfiicZmqtSF6pXUUWblMBWapCsnS/KeWBT8DsA5TpmfwSsy
+	 Ua27oDloo8bjNhpamgfbI1hYKCZUpuMxn4rEyNGHvPLsV0kVhA/NbtdKF0R0xg7irdacA
+	 WIKBayeQ2dh6aKqaZxqccP5V0wo71CviHIeMQGsCpa2WI6LwEizh4AL7TDm5Q9qQGrfu9
+	 WRSurLz20ydW8TDhHaq0EfT82cL5VCDrgeJCjL4fCZn8rVFN6HIg3RynVyR8M4I43fQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=Gf2nERXO;
-	arc=none smtp.remote-ip=35.89.44.39
-Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=bojanowski.me;
+	spf=pass smtp.mailfrom=bojanowski.me;
+	dkim=pass header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=gtD9gNiS;
+	arc=none smtp.remote-ip=80.241.56.171
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EA9606D804
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 14:57:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4EA9606D804
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 206AE606A326;
+	Sat,  7 Nov 2026 15:42:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 206AE606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bojanowski.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bojanowski.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=Gf2nERXO
-Received: from eig-obgw-5007b.ext.cloudfilter.net ([10.0.29.167])
-	by cmsmtp with ESMTPS
-	id PWexx4C9Ayb4YPhrIxZtx9; Sat, 07 Nov 2026 14:57:32 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id PhrHxckzaxqjjPhrHx4VYN; Sat, 07 Nov 2026 14:57:31 +0000
-X-Authority-Analysis: v=2.4 cv=bZxrUPPB c=1 sm=1 tr=0 ts=6aef3c5b
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
- a=0VzQnij0Y02-aV-MoqEA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=EAvl3fitRQQ+zOb/lLotd7eR1uWF2wKurJXsbGkVIEU=; b=Gf2nERXOQmCG
-	VIoDGcPMYZTbtFueBaRm4thKVavIVFxMclZspFlaP98EMVKk5FXWGGpo/wH4ngi8wHwXgrsoMr73p
-	Jopt5KYi/TBWuwemMLRp/QlzEoyU/xSICcbGWKyFvSpWXvffzcX3m+pbi/MkBYnJgKEiYc7xdrus/
-	gVWLan+9TsYKGxM92oBceku5MDGuKykrJyywMU3fKPxow3gEZe8rrHnGqbqT15qVaLuMpdWzqT+RW
-	RBMzYXZ8BG2gFk3e0MF3p5/tfvvRtIwZF2ElaldwtKtPl9lXdt58hfvhGJt57zdVQJfHR2Z/arPk7
-	q7pr8p1cf7X1oSCXL4Za5g==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:51504)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xPhrH-00000003bwA-0pLu;
-	Sat, 07 Nov 2026 20:27:31 +0530
-Message-ID: <9aff5480-3be5-42d5-b0c1-b3d7b4de8e9a@roeck-us.net>
-Date: Sat, 7 Nov 2026 06:57:29 -0800
+	dkim=pass (2048-bit key, unprotected) header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=gtD9gNiS
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4jML031zY1zMkxw;
+	Sat, 07 Nov 2026 16:42:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bojanowski.me;
+	s=MBO0001; t=1794066147;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=no5aW8Fmoos1dOAAdLJ0Tkk2u4hUBYK6yZlGmp7fre4=;
+	b=gtD9gNiSaQ4vlqE9zAktDSYd+XAhOvKwmh6TPIyasLWDEKotvHCfsYbrlemVChPqqdWBDj
+	TgXORTfAOZ5E/aFs4BLsHo5ffm+oqhnBXJj+jRMqRwxr+80rgoIOicMrkwysUj9lcGc3+e
+	HuRsilFpXZF7+u6V2zCZAf8kgmkqtZw9U4307wUGKqRxrZQJ+kw+seaOZ1CzENYznLDGHL
+	B0eqSX/LtLlTxpWQLD211wE0QY/RdfLchisLU0GlqSdT1BwtnKj+4l08EsiW28SDN/jggg
+	Ww0R6HqiGJGJ44jfeIIAVaZliz26v8UPBJFTvHyPvf7tJ5tECzoImSwy8Lkhag==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of tomasz@bojanowski.me designates 2001:67c:2050:b231:465::1 as permitted sender) smtp.mailfrom=tomasz@bojanowski.me
+From: Tomasz Bojanowski <tomasz@bojanowski.me>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-hwmon@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: Add driver for MSI Mystic Light controller voltage sensors
+Date: Sat,  7 Nov 2026 16:42:25 +0100
+Message-ID: <20261107154225.325003-1-tomasz@bojanowski.me>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <9aff5480-3be5-42d5-b0c1-b3d7b4de8e9a@roeck-us.net>
+References: <20261106184357.27763-1-tomasz@bojanowski.me> <db51c24b-4b41-407b-a20a-b87ed7c0dbaa@roeck-us.net> <20261107082728.8035-1-tomasz@bojanowski.me> <9aff5480-3be5-42d5-b0c1-b3d7b4de8e9a@roeck-us.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,142 +77,39 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] hwmon: Add driver for MSI Mystic Light controller voltage
- sensors
-To: Tomasz Bojanowski <tomasz@bojanowski.me>
-Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261106184357.27763-1-tomasz@bojanowski.me>
- <db51c24b-4b41-407b-a20a-b87ed7c0dbaa@roeck-us.net>
- <20261107082728.8035-1-tomasz@bojanowski.me>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261107082728.8035-1-tomasz@bojanowski.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xPhrH-00000003bwA-0pLu
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:51504
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 7
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfDQIbBKlQjjNq2DSGQr+oUU4iM2rxZ1j00YAll972GG4qNO+TKK10KNBfEIky6Vl+6e25wQtVa2oj62qPUOc0rrVAbc+mhDj1YyCNjaNRHoH7QHoD5fH
- M2hmqREoK/2SArB7AlazOoxVI13h//W+jWxGOn7xif+BSOZDXj4MEXbI4fmOyqpNr3K+P5vNkGexHlZyl6rfupZ70N057LWA+fDeWXYDeguUswgIS8x1R1GQ
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4jML031zY1zMkxw
 
-On 11/7/26 00:27, Tomasz Bojanowski wrote:
-> Your reply did not reach my inbox, because the spam filtering at my mail
-> provider was set too strictly. I have fixed that, and I read your review
-> on lore.
-> 
+On 11/7/26 06:57, Guenter Roeck wrote:
+> I have the ones mentioned above, so I could test there if you want to
+> add support for it.
 
-There is nothing I can do about that, sorry. No matter which provider I use
-to send e-mail, some provider somewhere considers it to be spam.
+Thanks for the offer. I looked at how the vendor software handles
+these boards. There, the controller has its own USB ID (1462:7c94,
+1462:7d75, 1462:7d76), and report 0xF0 is never used, which matches
+the empty response you saw. Instead, about once a second, it writes
+a 64-byte output report
 
-> Thanks for the review, and for trying the driver on your boards.
-> 
-> On 11/6/26 16:36, Guenter Roeck wrote:
->> Using the USB serial number to detect the device seems fragile. If the
->> USB vendor/product ID can not be used for some reason, it might make
->> more sense to implement a DMI match.
-> 
-> Agreed. v2 identifies the board by DMI only and no longer looks at the
-> serial number. The driver is only registered on supported boards.
-> 
->> This will require additional per-board data. On MAG B650M
->> MORTAR WIFI (MS-7D76), the USB IDs are 1462:7d76, and
->> hid_hw_raw_request() with the parameters below returns
->> a length of 0 bytes. On MAG B650 TOMAHAWK WIFI (MS-7D75),
->> the USB device ID is 1462:7d75, and on MAG B550M MORTAR
->> (MS-7C94) it is 1462:7c94.
->>
->> That makes me wonder if the parameters can be associated
->> with USB IDs.
-> 
-> On these older boards the controller uses the board code as its
-> product ID (1462:7dxx, 1462:7cxx). As far as I can tell from the vendor
-> software, the sensors of these controllers are read with a different
-> request, not with feature report 0xf0, which would be consistent with
-> the 0 byte reply. I have not verified this on hardware.
-> 
+  FA A0 00 00 00 00 00 00 00 01 FC 00 ... 00
 
-I have the ones mentioned above, so I could test there if you want to
-add support for it.
+and reads input reports until byte 2 is 0x01. The values are
+little-endian u16 in mV:
 
-> On the 800-series boards the controller uses a common ID, 0db0:0076.
-> OpenRGB lists more than 30 X870, B850, B840 and Z890 boards behind this
-> ID and selects its per-board LED configuration by the DMI board name.
-> The vendor software also handles these boards with one class and tells
-> them apart by the USB serial number. So the USB ID does not identify
-> the board there, which is why v2 uses DMI.
-> 
-> For now the driver only covers the 800-series controller on the MAG
-> B850M MORTAR WIFI (MS-7E61), which is the board I can test on.
-> 
-> v2 also addresses the issues reported by Sashiko and your other
-> comments: it reads and validates the report in probe, fails probe if
-> that does not work, only exposes the rails that return a reading, and
-> no longer returns -ENODATA. I will send it as a new thread.
-> 
+  MS-7D75, MS-7D76: VDD MISC (bytes 11-12), CPU 1P8 (13-14),
+                    CHIP Core (15-16)
+  MS-7C94:          CPU VDDP (11-12), PROM Core (13-14)
 
-Thanks a lot for the information.
+This is from static analysis only.
 
-Guenter
+Note that output report 0x01 with byte 1 set to 0xA0 switches the
+controller to its bootloader (0416:3f00). It differs from the sensor
+request only in the report ID, so the driver would only ever send
+this one fixed request.
 
+As a first step, could you send me the USB and HID report descriptors
+of the three controllers? After that, I can send a small test program
+for hidraw. Support for these boards would be a separate patch on top
+of this driver.
+
+Thanks,
+Tomasz
