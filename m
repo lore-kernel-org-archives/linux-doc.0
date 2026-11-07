@@ -1,79 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.5
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011847;
-	b=ul25MY9Q+Tum4kXRZFnyX7ZsT0WdhbkzhzwU3DwPFt5R9qo7nulfsd15vyctbBnYQ8uz
-	 PRfBASmE5L8RJBlvfUOJFgq/RSQPC4L+51P25UHdMYTP/SRUQV3MI1QAV8//cigG0xPYB
-	 QiYbWU8x71Pz/LA54tC+JiyZRQ62yV/RmMwPS9reZBS2hqoQbDNFawCtaqKEdw8CJB7k6
-	 IaxxNDNX2T4btdiRffHQrTQk6ceBUVOVFSVQPjnf9XfiKo/2a6b0A0XIVgBwSF1NBEwJ6
-	 OV5/qsAvDcPtp+8Twf5oOri7U3csPC+do5XA1qcYojQAXPjhMhN5liYwiXzGPWNJXPA==
+	t=1794011982;
+	b=yRU7UG4Z+beInNH6PvFI71gzzFEnA2eXwhq7L8nbxCBcGUdqKnxexihr/JarzDF6u5em
+	 km3NzRMg9227pGR93PsAgYW3/KP9sN0GzzbBd+AsQedzedCXHL4qkKPqCY5LyT3KH+rbk
+	 ZEdS7mYIehux7YzLaxrmSW9yQjMZSWKIXcFAEs4LZGwMRDczVQFlbiVlA6DzWG9vXUk/L
+	 PvbrlGelp38EOpxKVdXT8Ej+TrDlVxaPecnhhfr49yipplI6mckgF8xDcbYzywja0Vmq/
+	 kDcySdnItOVZ+hI4v5FRB7XR5v6unnMCdEnhnx15KVoFrdy0a+OqQ7LQiCG2hcSDqjw==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011847;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=KBhGX9yahIbsDDFoJ77ldQTuDbT5tg0ODdJhu+0F5YI=;
-	b=QkRMyEaGz+pfjFLaXAospl8PkpiLuc3It/d8MqVfseQ60S3oxYd2mG4VL03ZzxH4BwWT
-	 +Rnp0QGiMelatT6ByjPf/+tYB4sydxQ5Gnb5TV14VK4izvRl6X6cS37DLJM3qc2K5cztS
-	 cmNN5gDY2X/y1IJG94XTcyf11x7PKssJDu2MqW4Fq+hjVsWWB6Gp8q6ZggxKJsKLe1OEy
-	 3xXOulhcCV60fxX/57RYWjZ8OLSl/0LNnOs+fFNWHd7wriCwwS3Reyz5Qcq82U07Zh51L
-	 rdgGX8odWz/jpFkDplpG/pH5Ys43OzYCjBgU7lY11ZTbf5ET7QW4C5DhWJnsJPgIPjw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011982;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=n1qe+Ai+Cjg9nPrR5ZL/qLniQ+zYp17ei2DAbjmh7DE=;
+	b=0o7+x+aeTFoidt87WJTbm99rjcjgg3RhKPI5PWF+2Vcyy3k5IizV8nn9ajjW8F2yw3wz
+	 katEobT1jMkxYTOz+CbxeHcVUYZaJ0uL8wyMWS7T7ZQDNwoCyS54gviz6Kzwv+idhB3ok
+	 2pjKUMe6rP3UggquEu/W0+jF+mCcXJnMM9ZYQmnqdQP4EAxDQilyNiw+ru4mJYIk2dfZY
+	 LONjMnNaPG86fkckCxAN69ivwHwoKEf/MSFNiaXfvbeWyqdIhlgtEu4n3BiCnPYd8vxQU
+	 Q9St7s2C9ggvdxdwNKfyvB0JCLH04EH5fS20egSKY1ee6exrb3xlJWi4bagQ5Ro3JWQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJfRbRBs;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=jPSmbn+c;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.208.5
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011005.outbound.protection.outlook.com [40.107.208.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4349C606B761;
-	Sat,  7 Nov 2026 00:37:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7730B606A800;
+	Sat,  7 Nov 2026 00:39:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7730B606A800
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJfRbRBs
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011841;
-	b=IC5lsvDwnO2pljiQ8KRSVTp+eYwcw0v648FfwXl3Cz9Q2ibruvVi9ivr8QOqCsPaMjM6
-	 hrb8EFaGVv0h8oanUHMbbvs3ojPRoGqSYFF+9qqo1qZmJiaZghj3jZhRfGGVy6wAt7P52
-	 ftOTMfNBqS3rMhZtvCmLPHgBCHE5jNyedeoqePB+DrwJmVRS8f75/kJUaAK2tsCJlOODy
-	 HO74dA8K4Jsh54juIFKgszuG+4hD+73kXvG+DH1b8tNlM9HfFS1ZMdUoq6Lt8pwRTZ1PJ
-	 59t1yPpTeanny8x5cGOGkXDID5aeAME1jTVFKn5lALF52KbdoGyNuqgpRx4WaaYF1Hw==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011841;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=KBhGX9yahIbsDDFoJ77ldQTuDbT5tg0ODdJhu+0F5YI=;
-	b=g7e/2ed0nT/KRKyjNgSB4IgD69SQO87AmMBpcMFwZSC77+RyS0PVDkf3gHUwt43MtAv9
-	 rkzRszeTiYVG9HV8DLWlv8xXZVVqtIsrjCt6+i24cQwIjcp/rofUsyXzCa5g7lSLjViR2
-	 FRGvMZT1nz2ZVwQf3txqvJgPoV6h/D9+WF8gJt3dpGwkN4PT4XSB3xP+VLoT6hWqDys+w
-	 Hn1tJIuv9AQZHTaVIUEAekBpOs5Ce28SoIRnT7TBUjJpOtlF0UPyZLsCzcvCKRX3jr63q
-	 QG1iTt1qtL5FCWIfWlrU+F42hiWhWlf7xUUGxguuRX8pQg1CmLtqQdo4g4l5I+3MZVg==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B46E31F008A5;
-	Sat,  7 Nov 2026 00:37:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011841;
-	bh=KBhGX9yahIbsDDFoJ77ldQTuDbT5tg0ODdJhu+0F5YI=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=PJfRbRBsq/zArvX5SSV+AJJfmzGv9LuvVropQ9uVhaGW2UaZraSUeBXfQXme3+Vbi
-	 QkUVozbzOKTFF+eAMYVXS6RufAEJjovCp22DfqPvN0nu+2L0CVG7Fv9gDXHN2lRoJg
-	 gQ/AUjNegaeg053dDeR5AfM4WDhqVLrYDdNL3ldZILB0L16zLo7+PU+nrT0g71QIiZ
-	 8CiEhzow2gzKcPG2jJ3+XSnFwMG79BrvP0XpK8+a/G9VJqOrDhzXsMxv1qsSq8gr0C
-	 lfCKfa55VYwYhjPVFr0P7aPAKC1+JXKvEcHPLzy556276iptGc3iO62jeh1a4aKx6y
-	 3blMeeEHP0KHw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 7D8DF47A1C;
-	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
-From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:42 -0800
-Subject: [PATCH RFC v3 68/88] vfio/pci: Use iov_iter for MMIO read and
- write
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=jPSmbn+c
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=pQq3SJJB4OePUDX1m9Ho7IcF8f+ccwLtEatoND2WeDoxQlf3konUbsjgI+w+xVQFQV+95O6itHKDPJIEI99XzbkLIUuRS4tyfHnlnsDAKkGgLSWLS/X6woFprysISf+Qqoj4swopXnR0dKHq3TXHpiUZTSreAcu8o4egmxVYFHxfc84NCfVvTjQLkpn8U+AzaEaUz8Ggj3Zm/crd9o6V2gyt7fA+XRm9J3Nu3OATb0+agyhO1q3WnY2JVilzICMrLxFduHX4+WDWvuNNynm8Uy+6mIEAbgcbScnMvwsAIShTKiXeaGo+KXXumMssqIeLxSsH5TxCfT8HewdShzysTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n1qe+Ai+Cjg9nPrR5ZL/qLniQ+zYp17ei2DAbjmh7DE=;
+ b=gtvaXKFYYe6bbpiTODaNZtzhEiICojarclk2WYKnPsUEealuwKRAH0XYhbowY85ytQ2mXPi06pjARfrRiwcHRqbYsgRU+jpleFOQ0XL9eWg3XXorJ43sMEIPk8+RHDOIS5QE2TPvWVA3m54jTy2QtKb0HC4eJnkgyC4gH9Oq38d3EuETrgDVhuBX+PsjzrAQKDe9CiVLW94ENkex1PTYHp1X7MkFVf0peDeWAzgoCzaU+mU4EaKYqrBo5C2dZKg54WLakW136yzPICAa0lLY+HE4jOfPRaJWT3mgaQrY+B7YDnzuz2TN7YLyNAaOdAROSYk4/HBq39cMZ0whhKV4ZQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n1qe+Ai+Cjg9nPrR5ZL/qLniQ+zYp17ei2DAbjmh7DE=;
+ b=jPSmbn+cxE7uNNW0cGykKuJlEMx8Iv1d9ZbKoGhgK2VVmOip6idwYa9BPrcgwyEsnfkeDFwCrWaGtPUZx/emrnR/40UloTZxOiGK83keVpu1GKpAhs1Q8mu/FWBEMbZ2ckJqWj3wlXXbYWO9FmuwsZdEUdu5cux0PsoTdD3lFRcqpyWW0XxPdKhlD34mf26brAHW4NNYkY+0cn1czEQR8LcDlVGBitDILgremo4mCypLmVzwD0ujfT55/zJZAFPwblrMT/GaToOyxNfm5YjZZgDMxQHVGMKEpRgW8ZwCzphthNevUQ4T+3SA6ai/ciiVzwJbfmeTgJa7gCNkyP4RPA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from SA1PR12MB5614.namprd12.prod.outlook.com (2603:10b6:806:228::7)
+ by CH3PR12MB8658.namprd12.prod.outlook.com (2603:10b6:610:175::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.10; Sat, 7 Nov
+ 2026 00:39:33 +0000
+Received: from SA1PR12MB5614.namprd12.prod.outlook.com
+ ([fe80::1a0c:e9e8:f3a5:d9d6]) by SA1PR12MB5614.namprd12.prod.outlook.com
+ ([fe80::1a0c:e9e8:f3a5:d9d6%6]) with mapi id 15.21.0569.011; Sat, 7 Nov 2026
+ 00:39:33 +0000
+Message-ID: <ce4c6b64-98ff-4b50-8454-9cdb5aa6970e@nvidia.com>
+Date: Fri, 6 Nov 2026 16:39:32 -0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 0/3] gpu: nova-core: retain the GSP-RM log buffers
+To: Vladislav Zaharov <vladazaharova2018@gmail.com>, dakr@kernel.org
+Cc: acourbot@nvidia.com, aliceryhl@google.com, ttabi@nvidia.com,
+ gary@garyguo.net, nova-gpu@lists.linux.dev, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261014154554.231015-1-vladazaharova2018@gmail.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <20261014154554.231015-1-vladazaharova2018@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR05CA0198.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::23) To SA1PR12MB5614.namprd12.prod.outlook.com
+ (2603:10b6:806:228::7)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,235 +98,156 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-68-8484dde66a7e@google.com>
-References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
-In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
-To: Alexey Kardashevskiy <aik@amd.com>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Christian Brauner <brauner@kernel.org>, 
- David Hildenbrand <david@kernel.org>, David Woodhouse <dwmw2@infradead.org>, 
- Fred Griffoul <fgriffo@amazon.co.uk>, 
- Jacob Pan <jacob.pan@linux.microsoft.com>, Jianxiong Gao <jxgao@google.com>, 
- John Starks <John.Starks@microsoft.com>, 
- Michael Roth <michael.roth@amd.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- Samiullah Khawaja <skhawaja@google.com>, 
- Sean Christopherson <seanjc@google.com>, 
- Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Tarun Sahu <tarunsahu@google.com>, Vishal Annapurve <vannapurve@google.com>, 
- Xu Yilun <yilun.xu@linux.intel.com>, Fuad Tabba <fuad.tabba@linux.dev>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
- Ackerley Tng <ackerleytng@google.com>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=6301;
- i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=c4VDLuT5yqC8DJ1fpMzzzVy4zLcf9cySQYtbQA4hk74=;
- b=L5BjRew5q1svkShxrjXUHUJtKZ/8fmvjKLgv7L6S7iOvEcrS/PClvlilzhXkLk+16KWEMf/Ny
- 1dJMQc+3f77BIvFJT8Dpz/JuqAKav6jhjhEryI/df80j9npQPqOyeF+
-X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
- pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
-X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
- auth_id=649
-X-Original-From: Ackerley Tng <ackerleytng@google.com>
-Reply-To: ackerleytng@google.com
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1PR12MB5614:EE_|CH3PR12MB8658:EE_
+X-MS-Office365-Filtering-Correlation-Id: b458a80f-383e-4f2d-41b5-08df3c6797cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|5023799004|11063799006|261021121427099003|56012099006|261022115727099003|261021123027099003|261022105027099003|261022075727099003|261009223027099003|261102123227099003|261026140227099003|261028144727099003|261026121527099003|18002099003|22082099003|6133799003|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	8+7hcUU1XVna4I5x/uzpC8KaFbvSdmf82c90zP/KN29ZZSYfIgv9N8zJVKmESX435vtiXUP6ldWtBoALTV37fR/7fuekmYuh+IEZR27Gj7lNm1dzH0/yPUiXAYzefhrXuYvymXVCjgF21cjRdRpbOHOvBFzA5dN2HAd9J9o2p/e64Se/nTvzKoLTAtKdaLYYMdx98wP6iJin9TVsvzl+zqa4xOyvkxab5kLzML84b4MiWA3lNNl0mXFT9YsNM79WGlqsC3kFSPLwHjhOE3licnLQ7ewwaLF3G28Bwy7jivjELmf4LXVrBWKSYw/HirbGiFam7MO2Me3gVABvbGOXBsonJS9jsXa8MVusPtkDFIT6P9eCZMxQAFSJ7YSenYvo4hOp77g41Y2nsNGMf1rQ4S2M79V9iFcjl6eootlMFDpAojDNdfOVzKtZJzf3lfmQg3OhpWE5HCePKH8Pw+RV+Jxmg8CQdfzpvHJa5iP1Q72l0NPWsWqEXiDN6uttxnXv1TOCN7jSexnIGjkiW6WSqwNw3H9ijVoxbiIOuE/CjBeqyPtI7kafoNW/4bXDC4ByawrFwcZXgXhQ43b5ULBg3TiKU0pbtsoNY1piAeNap4bliE7vGw9P/8TED/d0Vu0+9KKWrxZGOLvGHtrpy7SV4KftS843knFkTmXSd1OM9z0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA1PR12MB5614.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(5023799004)(11063799006)(261021121427099003)(56012099006)(261022115727099003)(261021123027099003)(261022105027099003)(261022075727099003)(261009223027099003)(261102123227099003)(261026140227099003)(261028144727099003)(261026121527099003)(18002099003)(22082099003)(6133799003)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UEdPaFlqRUE5Y0IrTHNycVdDVGNBTVJ0OFpjUkp2Y24rNHYwMnd5RFFLVnhj?=
+ =?utf-8?B?dmdJNUZ1VVNucXdnL2RjTTZRUzUzeGpsSjRzbkNOOFdPZ01QcjMreHBoSjIw?=
+ =?utf-8?B?dXhaNHpaVk5paERXU3UvRys4a2lYRE1McS94emtqbWZZWlRwQnBCWXgvR2Uz?=
+ =?utf-8?B?ZW5TTUFXVkVSWXo2R3lDS3E1eTMxT0lWb2lHRDF6NHRSWFJheUJTbkYyZ2VV?=
+ =?utf-8?B?S1pPWFZHWmJ3dzhHdXJxU1kvTGVvRzRiMlRYUms5emVGN3dIT0lOTDZtemll?=
+ =?utf-8?B?T0w3Vkc2VEU1MStBdytaNG5IVkdpTXExR0FEcEVEZCtRRkFjb3Y1SDRPZmdy?=
+ =?utf-8?B?OHQwYlN2WjExN2V5NngyUlZaZ3RjM0lBeHA2Ym5sTlErcy9zeTRrSTVzYzEy?=
+ =?utf-8?B?bXR5bVZWOWtBcUpiZUUzeGRycllZMCtBdzErbDAyMThkMFAraHdqNkNaMCtj?=
+ =?utf-8?B?QnBsQ2FKWm9YTC9oYXl4dE84ZXd4ZURneVJoTFkwT2pwZTlObUJrVTVoMGFB?=
+ =?utf-8?B?QUpEY2VjejQrekNqZDV6eFU5VlZQSlVzckFLempUZ1hVQ1daWEY2bDg5cGZU?=
+ =?utf-8?B?VEI3RENERVFDYjhIS2MyNDVEcW5aZHJYZm5jL20zQmNKZ3VoVHJ6bTZJbVZ0?=
+ =?utf-8?B?UEd5UExNb1VaN2IvUTVNay9JSkFiaWQ1Q25ER2JCeWMxNmFGd1Z6SytWUEw0?=
+ =?utf-8?B?aGtPYXE4VFh6VmJSaW50R1J6eGFwTFNqL3lsbmE4QUhHZEJ0N1p5WUN0L2Qw?=
+ =?utf-8?B?c1lWbUNiYm1LaDZzNUNZSUxORDVIQXM4VWZpTFRWd25OR2lPWVFHS3pqTjZQ?=
+ =?utf-8?B?a1UvWGVnczc2ZG9qRy9BaXhZUkFuY2RYcFJzemZkMUZBdGNwbWVZd0FhNEJq?=
+ =?utf-8?B?OFpiN3NuYlQ2YzBtNzFHaGNFem9iS2VsRkdNZ1lqUXFFSnFQOEU3ZzF0TW1Q?=
+ =?utf-8?B?N3Q1TEdBelFodEFXWkRCYlNKWlZTMmVZZFc2K1lyanFmQThqWUxScHcvMkZ5?=
+ =?utf-8?B?bmNCVWhQWFhaOG0zOGRjaEFPQUVnYXFaSE1POFduOW1mYlUyV1crMmtRVm42?=
+ =?utf-8?B?WmR1YXpTY1hMNnAzdjdTdjRsUnhhSVd6dytnclFKdHZtNGs1M2x0V3gzYk1B?=
+ =?utf-8?B?T3hwaG80bmxsb0xoQUhDSjJoeUhJdThObVp3VjRtNWZwb29uOGJXbllRejg0?=
+ =?utf-8?B?NHZPVGhuVVdXTS9PeStKVnlRT0pERWJOb2FjTHh5M3JORnBVa2llaVdTMklW?=
+ =?utf-8?B?ajNRMW12c0p0MEZHLzh1Mkt5ejhRQThCY2FxaVJoSXFHeWlXYVRvSm1nQ3Er?=
+ =?utf-8?B?R3FzK0FYMk43cjZ4dUlKZ0xPdk5PaXVUVjRMUC9FR2dPVlVlQzNZV0x3YVlj?=
+ =?utf-8?B?ZEpObE45SXl1RU5FUEVydkxPa1ord3NyQTZvVk5ROGZXeGhlS2VXL1QyWTFt?=
+ =?utf-8?B?OFpDSDZURC8rMDBvWDAxUXo1WXlNSW13M0hoV0l3V01YTTIyWkhxMUNwdkFG?=
+ =?utf-8?B?NWttMGJicEd5ZFBUdU9RZGtrNllac3l2RVI2OTJHYlAwY0hwbzZlOUxPL2Ny?=
+ =?utf-8?B?UGUzenUyWk8rLzBMV3NCWWRRUkhxYnpGMlYzcDFzai94Wjg3TXNGWEc2dmVK?=
+ =?utf-8?B?V0VadW5vNHpTMnlJcmxNQ0xhMjhTZ3NaSC85VUZRcS9Ma0FnRFA0RnBzWUZo?=
+ =?utf-8?B?YkU3VGpNdkJwQzh1K211cEhpbTB2bmpyUUdZcE1scTlwdzcvSHpPRkJ0S3ZD?=
+ =?utf-8?B?VFBlNWs2SGZDcnZDSjkzZHh1SkVvd2V0dStmVG5FRkUvSFlxSUFRVnd5YkxF?=
+ =?utf-8?B?UXJTMFFIQ2EwS1I2N3lUMVNHQjRPVTRaM2x3NVRkR1dDRFdqaXFBdFdyU0Rj?=
+ =?utf-8?B?clJyV2pleTZrMllDdFhzMThabEI3OTdnc0I3UHpZc2RQaE4zcWtXYndhblRK?=
+ =?utf-8?B?OC83ZGw3ajVMcGdlUXllSFU1RGc4VEJQVHlLM1krRTNBa0pFK2ZGMFZsbHJ2?=
+ =?utf-8?B?NVlrSnU5eWR4V0o4TlpCME1Rc29DdHF6dUtBcHNxYW94V1RLWklsbUFHNkdw?=
+ =?utf-8?B?NmtHQzZuTWxlKzc4aFFTa1A5b0FFTUNaQm9GRFNhMmsyYU1ZcDEzbzFwRm1S?=
+ =?utf-8?B?OC9BQUZpTFBWK3ZVSGxxbnNBUG5uck9jdjRiWDNNZjNGMzlRWTJjOGR6cVFO?=
+ =?utf-8?B?UFVneGVNazJweVhTdTN1dnQxNStNa0lFa01YNmFYOHRldkRaY1FEanpyYjlT?=
+ =?utf-8?B?K1VjU3V3Y3dmdnZIb2w4Nm1PaEt2RHRVRHREWXV4cXB2Q2xicytHWTIyNlUv?=
+ =?utf-8?B?MzFrdHlyY1pmOThFNTUyczdnNmNadEZiT2dDR2JMZHdwQWpSazA5dz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b458a80f-383e-4f2d-41b5-08df3c6797cb
+X-MS-Exchange-CrossTenant-AuthSource: SA1PR12MB5614.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Nov 2026 00:39:33.7655
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kdVngfuhmxw9WmnOWaTSFAnPdwaHdbcSBVtN9Dby7FAzIs5vkCJz8SWQjMviVc7AnMPe3gaV2m8/ys2e0dacvA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8658
 
-From: Ackerley Tng <ackerleytng@google.com>
+On 10/14/26 8:45 AM, Vladislav Zaharov wrote:
+> The GSP-RM log buffers are exposed through debugfs, but they are DMA
+> allocations of the device, so they go away as soon as the GPU is unbound,
+> and in particular when probe() fails. That is the case todo.rst asks
+> about, and the one where a GSP log is most useful.
+> 
+> Patch 1 moves the debugfs root into the module data. Patch 2 adds a
+> gsp_keep_logs module parameter: when it is set, whatever the GSP wrote
+> is copied into module memory and kept under a "retained" directory until
+> the module is unloaded. Patch 3 drops the completed item from todo.rst.
+> 
+> v5 got no comments, so this version only carries one fix and a rebase.
+> 
+> Changes since v5:
+>  - keep the "put" pointer read before the barrier in the copy, rather
+>    than the one the copy reads again, which is not ordered against the
+>    rest of the data (reported by the Sashiko review bot)
+>  - rebase onto current drm-rust-next
+> 
+> Tested on a GB203 on top of drm-rust-next with the TLV firmware images:
+> 
+>   - without gsp_keep_logs nothing changes, and no "retained" directory
+>     is created;
+>   - with gsp_keep_logs=1, retained/<BDF>/{loginit,logintr,logrm} hold
+>     the full 64 KiB of each buffer after unbind;
 
-Refactor the internal MMIO read and write helpers in vfio_pci_rdwr to
-operate on struct iov_iter rather than directly calling copy_to_user
-and copy_from_user with user pointers.
+Although this "works", it has a significant usability issue that I think
+we need not accept. We should fix it instead.
 
-Keep the existing vfio_pci_core_do_io_rw interface unchanged by
-importing user buffers into an iov_iter via import_ubuf before calling
-the internal implementation. The overhead of initializing the iov_iter
-on userspace accesses is negligible compared to PCIe bus cycle latency.
+Specifically, (as you mention above), I had to add "retained/" to the
+directory path in order to retrieve the logs. That is awkward, because
+that means that if I ask for gsp_keep_logs=1, now I have to know/remember
+that they are in:
 
-This decouples low-level PCI MMIO access from userspace copy semantics,
-allowing in-kernel callers to service I/O using kernel buffers (such
-as ITER_KVEC) without user copy overhead or page fault recursion.
+    /sys/kernel/debug/nova-core/retained/<BDF>/
 
-For delegation of read/write() to guest_memfd, this helps avoid AB-BA
-deadlocks between mapping.invalidate_lock and mm->mmap_lock when MMIO read
-and write operations are invoked under filemap invalidation locks.
+instead of:
 
-No functional change intended.
+    /sys/kernel/debug/nova-core/<BDF>
 
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
----
- drivers/vfio/pci/vfio_pci_rdwr.c | 107 ++++++++++++++++++++++++---------------
- 1 file changed, 65 insertions(+), 42 deletions(-)
+We should try hard to avoid such complications, especially given that
+debugging is often done when one has a thousand other complicated things
+going on at the same time, late at night, too.
 
-diff --git a/drivers/vfio/pci/vfio_pci_rdwr.c b/drivers/vfio/pci/vfio_pci_rdwr.c
-index e5f1f60513709..cc64722d1ab9a 100644
---- a/drivers/vfio/pci/vfio_pci_rdwr.c
-+++ b/drivers/vfio/pci/vfio_pci_rdwr.c
-@@ -91,34 +91,34 @@ VFIO_IOREAD(32)
- VFIO_IOREAD(64)
- 
- #define VFIO_IORDWR(size)						\
--static int vfio_pci_iordwr##size(struct vfio_pci_core_device *vdev,\
--				bool iswrite, bool test_mem,		\
--				void __iomem *io, char __user *buf,	\
--				loff_t off, size_t *filled)		\
--{									\
--	u##size val;							\
--	int ret;							\
--									\
--	if (iswrite) {							\
--		if (copy_from_user(&val, buf, sizeof(val)))		\
--			return -EFAULT;					\
--									\
--		ret = vfio_pci_core_iowrite##size(vdev, test_mem,	\
--						  val, io + off);	\
--		if (ret)						\
--			return ret;					\
--	} else {							\
--		ret = vfio_pci_core_ioread##size(vdev, test_mem,	\
--						 &val, io + off);	\
--		if (ret)						\
--			return ret;					\
--									\
--		if (copy_to_user(buf, &val, sizeof(val)))		\
--			return -EFAULT;					\
--	}								\
--									\
--	*filled = sizeof(val);						\
--	return 0;							\
-+static int vfio_pci_iordwr##size(struct vfio_pci_core_device *vdev,		\
-+				bool iswrite, bool test_mem,			\
-+				void __iomem *io, struct iov_iter *iter,	\
-+				loff_t off, size_t *filled)			\
-+{										\
-+	u##size val;								\
-+	int ret;								\
-+										\
-+	if (iswrite) {								\
-+		if (!copy_from_iter_full(&val, sizeof(val), iter))		\
-+			return -EFAULT;						\
-+										\
-+		ret = vfio_pci_core_iowrite##size(vdev, test_mem,		\
-+						  val, io + off);		\
-+		if (ret)							\
-+			return ret;						\
-+	} else {								\
-+		ret = vfio_pci_core_ioread##size(vdev, test_mem,		\
-+						 &val, io + off);		\
-+		if (ret)							\
-+			return ret;						\
-+										\
-+		if (!copy_to_iter_full(&val, sizeof(val), iter))		\
-+			return -EFAULT;						\
-+	}									\
-+										\
-+	*filled = sizeof(val);							\
-+	return 0;								\
- }									\
- 
- VFIO_IORDWR(8)
-@@ -132,11 +132,12 @@ VFIO_IORDWR(64)
-  * reads with -1.  This is intended for handling MSI-X vector tables and
-  * leftover space for ROM BARs.
-  */
--ssize_t vfio_pci_core_do_io_rw(struct vfio_pci_core_device *vdev, bool test_mem,
--			       void __iomem *io, char __user *buf,
--			       loff_t off, size_t count, size_t x_start,
--			       size_t x_end, bool iswrite,
--			       enum vfio_pci_io_width max_width)
-+static ssize_t __vfio_pci_core_do_io_rw(struct vfio_pci_core_device *vdev,
-+					bool test_mem, void __iomem *io,
-+					struct iov_iter *iter, loff_t off,
-+					size_t count, size_t x_start,
-+					size_t x_end, bool iswrite,
-+					enum vfio_pci_io_width max_width)
- {
- 	ssize_t done = 0;
- 	int ret;
-@@ -153,25 +154,25 @@ ssize_t vfio_pci_core_do_io_rw(struct vfio_pci_core_device *vdev, bool test_mem,
- 
- 		if (fillable >= 8 && !(off % 8) && max_width >= 8) {
- 			ret = vfio_pci_iordwr64(vdev, iswrite, test_mem,
--						io, buf, off, &filled);
-+						io, iter, off, &filled);
- 			if (ret)
- 				return ret;
- 
- 		} else if (fillable >= 4 && !(off % 4) && max_width >= 4) {
- 			ret = vfio_pci_iordwr32(vdev, iswrite, test_mem,
--						io, buf, off, &filled);
-+						io, iter, off, &filled);
- 			if (ret)
- 				return ret;
- 
- 		} else if (fillable >= 2 && !(off % 2) && max_width >= 2) {
- 			ret = vfio_pci_iordwr16(vdev, iswrite, test_mem,
--						io, buf, off, &filled);
-+						io, iter, off, &filled);
- 			if (ret)
- 				return ret;
- 
- 		} else if (fillable) {
- 			ret = vfio_pci_iordwr8(vdev, iswrite, test_mem,
--					       io, buf, off, &filled);
-+					       io, iter, off, &filled);
- 			if (ret)
- 				return ret;
- 
-@@ -179,23 +180,45 @@ ssize_t vfio_pci_core_do_io_rw(struct vfio_pci_core_device *vdev, bool test_mem,
- 			/* Fill reads with -1, drop writes */
- 			filled = min(count, (size_t)(x_end - off));
- 			if (!iswrite) {
--				u8 val = 0xFF;
--				size_t i;
-+				static const u8 ff_buf[64] = { [0 ... 63] = 0xFF };
-+				size_t cur = filled;
-+
-+				while (cur) {
-+					size_t step = min(cur, sizeof(ff_buf));
- 
--				for (i = 0; i < filled; i++)
--					if (copy_to_user(buf + i, &val, 1))
-+					if (!copy_to_iter_full(ff_buf, step, iter))
- 						return -EFAULT;
-+					cur -= step;
-+				}
-+			} else {
-+				iov_iter_advance(iter, filled);
- 			}
- 		}
- 
- 		count -= filled;
- 		done += filled;
- 		off += filled;
--		buf += filled;
- 	}
- 
- 	return done;
- }
-+
-+ssize_t vfio_pci_core_do_io_rw(struct vfio_pci_core_device *vdev, bool test_mem,
-+			       void __iomem *io, char __user *buf,
-+			       loff_t off, size_t count, size_t x_start,
-+			       size_t x_end, bool iswrite,
-+			       enum vfio_pci_io_width max_width)
-+{
-+	struct iov_iter iter;
-+	int ret;
-+
-+	ret = import_ubuf(iswrite ? ITER_SOURCE : ITER_DEST, buf, count, &iter);
-+	if (ret)
-+		return ret;
-+
-+	return __vfio_pci_core_do_io_rw(vdev, test_mem, io, &iter, off, count,
-+					x_start, x_end, iswrite, max_width);
-+}
- EXPORT_SYMBOL_GPL(vfio_pci_core_do_io_rw);
- 
- ssize_t vfio_pci_bar_rw(struct vfio_pci_core_device *vdev, char __user *buf,
+I did a very quick LLM-powered fix on top of your series, and it seems to
+work just fine without the "retained/" subdir.
 
+Can you please do that? I can look more closely and provide details and/or
+help, if necessary, I have the PoC diffs here.
+
+Let me know how I can help.
+
+thanks,
 -- 
-2.56.0.455.g6c5a503b38-goog
+John Hubbard
+
+
+>   - binding again does not disturb the copies, and a second unbind
+>     replaces them, leaving one set;
+>   - with a failure injected after the GSP has booted, probe() fails with
+>     -EINVAL and the logs of that attempt are still readable;
+>   - with a failure injected into the driver registration, the module
+>     fails to load, leaves no debugfs directory behind, and the next load
+>     works;
+>   - repeated load/unload cycles leave nothing behind.
+> 
+> No warnings or oopses in dmesg. Each patch builds on its own, and the
+> series is clean with CLIPPY=1, rustfmtcheck and checkpatch --strict
+> (apart from the MAINTAINERS note for the new file, which is already
+> covered by "F: drivers/gpu/nova-core/").
+> 
+> v5: https://lore.kernel.org/nova-gpu/20260923045551.229259-1-vladazaharova2018@gmail.com/
+> 
+> Vladislav Zaharov (3):
+>   gpu: nova-core: move the debugfs root into the module data
+>   gpu: nova-core: gsp: retain the GSP-RM log buffers after unbind
+>   Documentation: nova: remove completed GSP log buffer task
+> 
+>  Documentation/gpu/nova/core/todo.rst   |  12 --
+>  drivers/gpu/nova-core/gsp.rs           | 100 ++--------
+>  drivers/gpu/nova-core/gsp/logbuffer.rs | 255 +++++++++++++++++++++++++
+>  drivers/gpu/nova-core/nova_core.rs     | 101 ++++++++--
+>  4 files changed, 356 insertions(+), 112 deletions(-)
+>  create mode 100644 drivers/gpu/nova-core/gsp/logbuffer.rs
+> 
+> 
+> base-commit: 5a1b7121a6c4db6c0239d3ac3fd1c2bb33a40025
 
 
