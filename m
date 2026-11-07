@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011834;
-	b=AJ3M7nVlm0pljVfqHOHm0CPRXrSYqL9Hm3d+mh+esfqqj5UNbqD97YJDR8BNCKKI4HMh
-	 8BfuflYnVFztlk7YzcZQp3und+3gahnSNpDQ705Dnli4Zwl0/0MAF02BKpE0pNsX+Sq7q
-	 TELffj8pOz35kkU/YPxq5NI9ObKACXYz1TuAXwbd4vxh4biOxNqP6Ug0sLxXph31BQKEu
-	 EUyTD1O01Xpan8JFGb1nQczrDF2NMI9iZyo8k3/SsGcvx5mzCwpt+9liMB8/LIkDiCNuw
-	 uDa78v1E+S2k+ENzqQMN3ndnAH5pGhN25H2AR1dM085wdQIdLv50NI5n+q97JnRCifg==
+	t=1794011840;
+	b=5IVCO6TgW4YDgunzUYd2kx2Jt5WeCjBZ307bHvaGgAp8qwa2EhuLZwsG32EIbEIulhe6
+	 uJhtqs2m2WfgMFKw0O4L90rPIrDVcenczeY2N5/knvMd6hyn7XsMtkr3fQl/TY12TRkSr
+	 R7+PZbE4a9JNPlQgjpyQpP4LsyaQrMf2b8c6bQzHtdiDXiK54d/5MIK2uXJTZGSKEvpe6
+	 lrCqO74LTTpcASv+a7Lj129C6KDizPN8SNahigNJvJwR/JIBaHWyPxJJhv1pU3VQZRZio
+	 Xni7a18mx5re/hkHswvRC4f1MrrFolQOXfswYtsmiwnPPVbDsJgeSC69BgR0Wjq0dwA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011834;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011840;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Wc3ZDddF/SoKim6dDvu+EZKuiq91csySlG+i1DCw1cw=;
-	b=tPlFy9CzzxdnO5RTaZXe52g+r64/WEIzXjtZZGqZYHW6AlLZXaJiNCX22xU0iyA8SYen
-	 DjdPI6pkwCm0nu6wKHwtMGWcSEwP/rMrGgbX6Rwaoekb2X3ozntuxR1isytrL2lXD7AQe
-	 J3+Hf2Er0KM0whrJwAdodKw8I0MbaAtBx1SCycuN1Y6DeXWWIS7wkx2VKtJTofk8VHvUc
-	 j22uacgnYr3Ybeh2R05ba/5jnAg/KxtMwIi0FLg+vvqB+uA3r38S77d3RyNK8tL1MJ9Z1
-	 12dIb0UsFbU0dbEkWArjHZBIHuRd9/GEzjuMG02Gf5KkJGNv+g5rq2i/r7nL9zOAeHg==
+	bh=L1WAIjsJ2f6GPnFK9J8tErfe5hVo5E0rwAzvzNh8md8=;
+	b=SyC10YXEZEmdtZ2QTgd6B1L+6sFjXUpkjIu8+aD+njK8lids3xwgdoUknvQ8wrPHTjU9
+	 M0trGAVRhzUmXye2XYTYyLaHd5Y17JRSIgPH2coirFykq42oaPhDmDM6UNLhlghuyXygD
+	 PMnWRZdLYiVA45/dYgu4du0rjZpEL2bTd++fm7HBQWT9GtpTSTE1Pu/hOfBFWl0lJUBfl
+	 AXqE4S2T2GBI+muOYYVWDxPAW1qZKdU+Ct+cx/8BfwZ2qbifk2FlKtFTgRVL5NrRNbt3j
+	 MRHX2URZRiEK/Ou5AK/BNytajoJYKv9FRGZ3R09nnmfafKEIZ/pEfCjiAFQR6LQqJIA==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ox45Wigg;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FAglrdYv;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9234A60A6F54;
-	Sat,  7 Nov 2026 00:37:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB91E606AF8D;
+	Sat,  7 Nov 2026 00:37:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ox45Wigg
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FAglrdYv
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011834;
-	b=Zz5OI4UnS+Im9SbNjVgMQn2QG+mBRPyYISR4/XjNlKx9lz9I4vSHxpk7SRQjaz7IKEVf
-	 x7XFcCe+NBA6E310meVaDkT82KGXrm6r57CvpEOzzW/60EqLWx/9/fixN0+PFJm/rf9jr
-	 W8Z2ov8uLwpRltTNsewGKF9QGB51D/YULNlWxPnuAvT64dlVHebql5W05YZUlsFh1jdzr
-	 ni46Y+jdhpNX1Ftk5kOMOmB+KPGt03f+hY1UHUHl9c9qsygjbfdi3Fs9wszFg1l7Nrh/6
-	 lvhbDvMXwUmwyjcggOkSkgPq3mpaxVGjtK6mM1pvzoBV0fNTxRIunlfmN11Ce8znZEA==
+	t=1794011839;
+	b=aGaBpPuu+/mFZvkAp1rSH7Yasxkx/nnpM4TaXfb2dK0m+wFH13jBhH2fAggftFj/5c6a
+	 mGEPTy1zM4zsAX15ZK5kX7K2jJYr95Ub3yz/vRVUdI4H/z6xUnnUGNVwdFh8bKExslELk
+	 tqJpstnCgh7RjUMrxK6prnL7cDsdyBVXvUhXQN6OBcfeej341XTqyZIYBYu8/vpADTSkc
+	 HW86Bn3m/5fvnbzkvgA05zXHtbM54nQ240b/igXHa1GPbE3RwENTeyVTKg+gJ++0H5hGd
+	 KrXsgpax8Uoz4sy9Mm0EVMbX8hrpiDCwv+WuqFRwVNDDMZGJSxclO5dCApIg1k/jGSw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011834;
+	c=relaxed/relaxed; t=1794011839;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=Wc3ZDddF/SoKim6dDvu+EZKuiq91csySlG+i1DCw1cw=;
-	b=C8L5m0dXh0hoCyNkRT2rH1tCEvDcjR+CcvXmbyouKO50T9kNSzU2lm5RLwG9jF2ddCwb
-	 61WqQw1W5HMvvBluTSJ101Ryw9iFqLRhiliRLFotgMFyvF/qYpcpzrT1Emub3FZTCRhxP
-	 TfUQS+zknYSoE0JZBXZvt4PLVu21q/NwHy9YdwK42BKIRzbnG8JHmX7JHbP8UbS83r+wp
-	 tibf5RqPeb5zR1p2lV+oM+qnkX734Re7HKFbH9yfTcSwZJwVLP6+JdcROpMTb4lACQeh6
-	 mJy3g8cIbdcb1Ew3Ep+/w5TOntomgJo88zfeyOpCgJcyE4zo+7D9ODnNw+ofCInzofg==
+	bh=L1WAIjsJ2f6GPnFK9J8tErfe5hVo5E0rwAzvzNh8md8=;
+	b=WFogn1wF4vd50mLOuJIEk39V8ZxNJmY7BZ3IzdASS+OAbsuN3xPTMuwG0oy1wI3TznOi
+	 BpuNjiUFZQa70llOCgQOc+pEBVrZr4wmXBFw0aF8F6KiZHiE/lL6sgDwyXx+eezZuqZit
+	 QS00s0Buvq6MHhxcd+O8lRhumdoFiQ35rkvNBFDY+4KoE0q+NvAm0d0tNpZrtO2qkBvQ3
+	 5u4jOLtVvVFkfQ6z4lExtYp+fDJaIwsxGMjAH8CH/fhOQQqAwpnhgU4HSJIaT3c8InL9v
+	 Pvkv24J+wPmQ66gsIRaRGbEhhnp6l3SGNOPekxBR3JJ7DK/9FCS/2NzWWzUXlFmpdtg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 821CD1F00931;
-	Sat,  7 Nov 2026 00:37:10 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 6BEEC1F01559;
+	Sat,  7 Nov 2026 00:37:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011834;
-	bh=Wc3ZDddF/SoKim6dDvu+EZKuiq91csySlG+i1DCw1cw=;
+	s=k20260515; t=1794011839;
+	bh=L1WAIjsJ2f6GPnFK9J8tErfe5hVo5E0rwAzvzNh8md8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=Ox45Wigg0rP/vYFLncB75Hq5AYXzucWZcIsHNiwt8ekt/v7HmVTnfF3LXVUH5R3g0
-	 7F5zfz52rR9w28s8JAfi7vEZGVDUbVWSpryFcFsMV9bzniDKrJyboMv+gCE1M6fVfn
-	 iOfqoTi+MCVS/tsxLb0FsaMVhsEwbA/VDEv/jyRnzkvgCFE2jMRMDsXsXeA7/2peWb
-	 bcqfKNGvBjt1qC+DF0E7zj0KbNRL26/4FYBOgPQ97x00Wdze/+zUHwRNc8IGSAOB4Y
-	 nVihah4Qq2K/aZKDvJXmByQv08cS3uaxTA4SJLCDeQaNLI81b8/Q9V+uA44E30kIf1
-	 316D0DlA4nW0Q==
+	b=FAglrdYv+8+AjI1vNIVfyoBykwq94B1Jsxzaaxp8BIhzQAoBm0Np9IlyKyja27FQK
+	 QhhEpYPkeujEXOtnZkmLfwjj/VxY3nUaiCCTO/UGKsyGiLBC3fAQ26SatWOphJZCHy
+	 T6UeH8ua7lxafC1ICU1pXKxHKsZJ0rIvE1EupfWX7TrVPxkeGpeFLpZWatdbG+O8re
+	 NkDWs50HEqN2kaSc1Pq+A/vTWFx4s3f3fq6PqQqRHtQZNnoQv2JilSdWO4dQNP0TCz
+	 k7i1F9pmJToF7d7XteR0Eevx+cmXcq+H1in/UFsoUvt2EXY89m9+W+aLeCtF91qLlm
+	 96tBRh1msbJcA==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id D5AC9479F4;
-	Sat,  7 Nov 2026 00:36:56 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 3F1EE47A0C;
+	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:32 -0800
-Subject: [PATCH RFC v3 58/88] vfio/pci: Implement attach and release
- provider ops for guest_memfd
+Date: Fri, 06 Nov 2026 16:37:38 -0800
+Subject: [PATCH RFC v3 64/88] vfio: Add vfio_device_gmem_revoke helper for
+ guest_memfd
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-58-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-64-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,11 +105,11 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=4120;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=2301;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=BlUGE6K++nDiJr8qPUVvPATO+O8fe24pYgQMxNdL00c=;
- b=NgSlL+6BQDukoZMQwJMCQVxrx2tW2tfdtYAwt2Mqe6zuF4vrIrK51yN6n7vJ+9KVephyFm5Wd
- nI/Gwn7eHXYBu4/2kJhD2xUzUg8WGqxthiF+W0hHlwEEnmJsIIb2avw
+ bh=6gfs4j8uCHpXnOLsBDGwfvIT0AGOBGHhi3wjtxG21zs=;
+ b=2H/FjEoqaNY0u61FutI/xynBHktbS1ilj9Dq898KbDy8/638MzV06rs1q4/10qrHH8jGsnUXo
+ LfFX9u/SduFC73ybrCdDYFQJgPwbpocGEFiTpmQbgpzVeqgnbOtQGrB
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -120,118 +120,65 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-Implement guest_memfd provider operations in the generic PCI VFIO bus
-driver to support attaching VFIO PCI devices to guest_memfd.
+When physical device regions backing guest_memfd memory must be revoked
+due to hardware reset, power state transitions, or memory decode state
+changes, the bus driver must revoke and reclaim the memory ranges from
+guest_memfd before modifying hardware state.
 
-In the attachment path, acquire the device memory lock for write to
-initialize the BAR availability flag according to whether PCI memory
-decoding is active and runtime power management is not engaged. BAR
-resources are already mapped and reserved during device open at bind
-time.
-
-In the release path, acquire the device memory lock for write and mark
-BARs unavailable.
+Add a vfio_device_gmem_revoke() helper in VFIO core that queries whether
+the device is attached to a guest_memfd instance and invokes
+kvm_gmem_revoke() with the specified range and physical frame address.
 
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
 ---
- drivers/vfio/pci/vfio_pci.c      |  4 ++++
- drivers/vfio/pci/vfio_pci_core.c | 37 +++++++++++++++++++++++++++++++++++++
- include/linux/vfio_pci_core.h    |  5 +++++
- 3 files changed, 46 insertions(+)
+ drivers/vfio/vfio_main.c | 10 ++++++++++
+ include/linux/vfio.h     | 12 ++++++++++++
+ 2 files changed, 22 insertions(+)
 
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index 3dc232ee65491..96f438671db29 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -168,6 +168,10 @@ static const struct vfio_device_ops vfio_pci_ops = {
- 	.detach_ioas	= vfio_iommufd_physical_detach_ioas,
- 	.pasid_attach_ioas	= vfio_iommufd_physical_pasid_attach_ioas,
- 	.pasid_detach_ioas	= vfio_iommufd_physical_pasid_detach_ioas,
-+#ifdef CONFIG_KVM_GUEST_MEMFD
-+	.gmem_attach	= vfio_pci_core_gmem_attach,
-+	.gmem_release	= vfio_pci_core_gmem_release,
-+#endif
+diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
+index e4e7bfe77d03b..fd5f71dfc44b7 100644
+--- a/drivers/vfio/vfio_main.c
++++ b/drivers/vfio/vfio_main.c
+@@ -1643,6 +1643,16 @@ static const struct guest_memfd_provider_operations vfio_device_gmem_provider_op
+ 	.mmap                 = vfio_device_gmem_mmap,
+ 	.check_set_attributes = vfio_device_gmem_check_set_attributes,
  };
++
++int vfio_device_gmem_revoke(struct vfio_device *device, pgoff_t start,
++			    size_t nr_pages, const unsigned long *pfn)
++{
++	if (!device->gmem_inode)
++		return 0;
++
++	return kvm_gmem_revoke(device->gmem_inode, start, nr_pages, pfn);
++}
++EXPORT_SYMBOL_GPL(vfio_device_gmem_revoke);
+ #endif
  
- static const struct vfio_pci_device_ops vfio_pci_dev_ops = {
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index 907e6ab024acd..c7b67fbce4cae 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -15,6 +15,7 @@
- #include <linux/device.h>
- #include <linux/eventfd.h>
- #include <linux/file.h>
-+#include <linux/guest_memfd.h>
- #include <linux/interrupt.h>
- #include <linux/iommu.h>
- #include <linux/module.h>
-@@ -2696,6 +2697,42 @@ static int __init vfio_pci_core_init(void)
- 	return vfio_pci_init_perm_bits();
- }
+ const struct file_operations vfio_device_fops = {
+diff --git a/include/linux/vfio.h b/include/linux/vfio.h
+index ffb01e655735f..aade091a91fe8 100644
+--- a/include/linux/vfio.h
++++ b/include/linux/vfio.h
+@@ -394,6 +394,18 @@ bool vfio_file_is_valid(struct file *file);
+ bool vfio_file_enforced_coherent(struct file *file);
+ void vfio_file_set_kvm(struct file *vfio_file, struct file *kvm);
  
 +#ifdef CONFIG_KVM_GUEST_MEMFD
-+int vfio_pci_core_gmem_attach(struct vfio_device *core_vdev)
++int vfio_device_gmem_revoke(struct vfio_device *device, pgoff_t start,
++			    size_t nr_pages, const unsigned long *pfn);
++#else
++static inline int vfio_device_gmem_revoke(struct vfio_device *device,
++					  pgoff_t start, size_t nr_pages,
++					  const unsigned long *pfn)
 +{
-+	struct vfio_pci_core_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_core_device, vdev);
-+	bool bars_available;
-+
-+	down_write(&vdev->memory_lock);
-+
-+	bars_available = __vfio_pci_memory_enabled(vdev) &&
-+			 !vdev->pm_runtime_engaged;
-+
-+	/* Pairs with smp_load_acquire() in provider operations */
-+	smp_store_release(&vdev->bars_available, bars_available);
-+
-+	up_write(&vdev->memory_lock);
-+
-+	return 0;
++	return -EOPNOTSUPP;
 +}
-+EXPORT_SYMBOL_GPL(vfio_pci_core_gmem_attach);
-+
-+void vfio_pci_core_gmem_release(struct vfio_device *core_vdev)
-+{
-+	struct vfio_pci_core_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_core_device, vdev);
-+
-+	down_write(&vdev->memory_lock);
-+
-+	/* Pairs with smp_load_acquire() in provider operations */
-+	smp_store_release(&vdev->bars_available, false);
-+
-+	up_write(&vdev->memory_lock);
-+}
-+EXPORT_SYMBOL_GPL(vfio_pci_core_gmem_release);
 +#endif
 +
- module_init(vfio_pci_core_init);
- module_exit(vfio_pci_core_cleanup);
+ #define VFIO_PIN_PAGES_MAX_ENTRIES	(PAGE_SIZE/sizeof(unsigned long))
  
-diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-index 1053774d2d659..c3c16459e14f4 100644
---- a/include/linux/vfio_pci_core.h
-+++ b/include/linux/vfio_pci_core.h
-@@ -149,6 +149,7 @@ struct vfio_pci_core_device {
- 	struct notifier_block	nb;
- 	struct rw_semaphore	memory_lock;
- 	struct list_head	dmabufs;
-+	bool			bars_available;
- };
- 
- enum vfio_pci_io_width {
-@@ -168,6 +169,10 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev);
- void vfio_pci_core_release_dev(struct vfio_device *core_vdev);
- int vfio_pci_core_register_device(struct vfio_pci_core_device *vdev);
- void vfio_pci_core_unregister_device(struct vfio_pci_core_device *vdev);
-+#ifdef CONFIG_KVM_GUEST_MEMFD
-+int vfio_pci_core_gmem_attach(struct vfio_device *core_vdev);
-+void vfio_pci_core_gmem_release(struct vfio_device *core_vdev);
-+#endif
- extern const struct pci_error_handlers vfio_pci_core_err_handlers;
- int vfio_pci_core_sriov_configure(struct vfio_pci_core_device *vdev,
- 				  int nr_virtfn);
+ int vfio_pin_pages(struct vfio_device *device, dma_addr_t iova,
 
 -- 
 2.56.0.455.g6c5a503b38-goog
