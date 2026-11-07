@@ -1,120 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794089153;
-	b=h5g7Rpsus48NS9rdvl+ZMxLM4gSI0VpbQVQS5Q4H+8Jxa1aBW8K++74KqVPlmVMmeAqz
-	 7Fln5O1n7bzrpwdsHgDyQ8yEn4rkUbh38rIHkZccnxNUnDGrdhOsYkM3NnbNouA5xMAyj
-	 SSPJbUEhght1ENTN2IReUMf+hXnrU9Rsrn3Kjr77d96Cla6ltuNbCYyTDING2LxN2UNMm
-	 VYRX4D8i3MwNd4yrpq+d3hqLvgFHZw7b2MOdVjzkFJu3sSXre74yc7+lpMWkkmJhTUn/g
-	 vFEpa1pEK0eO3ro390AJbPipvehFDTQespQifxvhDk5c8Xkm/1j0leLxE3wbxWSTroQ==
+	t=1794089148;
+	b=30WmJpyoEiAIajRhVKZEhsqxf/ibzyfCfhCeo95xOdyTxrsPpD1VBGq1z69SV38RYkfo
+	 B8TvOXFFR8jKmfWi5wcDEskmRX2I1uqdpgm/9BUW/srMLTvMcfC/4MBKoQotkSvjgoLLW
+	 gGyUaJQkEGafQT97NyBt4br9WqJq3SpEKXDr3sBaqvvW0axxzZYFtY/AtqkWm2OF4NlHt
+	 vDivAWu0ItjyjWQvwZ1mWHyj2XqjgkFys/qdGdhaSqydMMhxEs9iwaaiqUolmMzA6e77i
+	 lPXgx9MWv2jv+8wMSBmjK7zasTpDcY4nQEa6XzOlOs6yiVyEnitxQNWomAvglECV6+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794089153;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=o1pO3FI9SOBYYvkg+MBD2TAnUJ2M6o/1RUC4kcI07rA=;
-	b=wiuQswQ/5cQhlDmtzze5m/0hGo/nHP6MPEJD7ZTQXtnQfiou+lwQnRh+sJXKQv0k8jhz
-	 dBkTQ+uGrLRxrp2O6OV/IT1jCDRk+ZODulGHL9HvhX4KpTOTQo5tRXDgkpWuRxzEUQhUi
-	 sb91HxUjyLb1NX3QUdJcRGgtjJI9w4CR8/gR72ikZc/z9a1z3yVYYtBsS+O+cV2vB+kfF
-	 vnXVtqCqI7wb7NB7ZUeNKrpZA+wrktNbvNL64C4glD+CwGcJ4ay95kerFofarrmbqVQKh
-	 pj5w4lVWOZgEHl2RLu1Bh5TN15S4kQZTFQ57PgNwrtC4Ww8AryLthsqW+yQxWVwP9Wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794089148;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=EXa9GzF1lnuyQokmmjMJAbZM/6BNIyMMmJy0j34oCyg=;
+	b=tjqF6tC8wzkvacRdWNPAOqLm0I1xD/j6IYQ4UszndtglTMim08lTbzcBLGL44ipgdFkr
+	 7qxYB0vGlzZAUUswAz3dyMQIEDokjPpI6spaGtM3q+2JEEuF52dc4ND4DZ5/wiXJc8D+h
+	 C0CpAlEBsHW/KutfIazRSZ0aNbQVAPDGksIzGgEUTAOLrB+8JOryL2g1T1Jeh4rUdNBFE
+	 HSUjYJWCeWRIJV4ftFhHwKI1Vg74oJkAzf9YBpFlO35mVaQ6pd+wAm1UNhohBJGDnidRx
+	 0JBI/N+cudwcJxWIkIsHfyigPqunYjVVbDp0JnuvBPpuVNJO49Q+Onyk7UTSTeCUv1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oZsDTN0W;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=tkxoHaYV;
+	arc=none smtp.remote-ip=35.89.44.37
+Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC517606D821
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 22:05:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC517606D821
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B807606A32D
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 22:05:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B807606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oZsDTN0W
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48df4f7ccf4so3509f8f.1
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 14:05:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794089151; x=1794693951; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=o1pO3FI9SOBYYvkg+MBD2TAnUJ2M6o/1RUC4kcI07rA=;
-        b=oZsDTN0W0J+cCHYlqYk304NV4Io5TrQI5j6vjoAwTxTegwN4vf/PbhSeZMx5hZPABK
-         oSwGuAIyCWm6SOH9hPei7o2NPwvkPQ0+rJ1Z+fJe0XSgWOvUZ02YVVI9fYgo6iHvRHrk
-         p3Ulnv1pkjrNxYKIzZKQXpphHCatfMnGSZ9CIGqkpNcmxJc5a+lsjC3QqUz6Un3a6kMO
-         NiygdCz4mLnUd17Epd5srEhPiquhHxISALhl5O/wtD8dtxQjKmo8RvZrtViULfYTKzpE
-         p5ysBbd8sY1PFEUGghA+3MEmQtZJtl2a5Vh4O8MfR1NeM+XHzYRcqNK7gODzpVD2eoSp
-         VzrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794089151; x=1794693951;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=o1pO3FI9SOBYYvkg+MBD2TAnUJ2M6o/1RUC4kcI07rA=;
-        b=Gtk8KTT29jpN+ZArzOcFqkz+i9W4OIu8PbzzPfzCvk+IIqha+rntsc/wet0izCikkg
-         kGQYe9ymrXkeM0/pCFjMX4Nsj/N1SqHsrrrbJn8ktTCBydPvGBvUwLWKLhNZ8AmuhqX/
-         DKwsHNL+KcFD0VNhiyBCwL8u2cTKsmZdZ+4NYOFWvAxUPEcW1vJ25X9UT2e9IFmlaaxo
-         nrxNxIThlTAUERqpwBolohNe/PVkKZEcTdy9VcoyIbZ5p48tV90vGQBEFNgfTb59Q94s
-         nJy7Z2KBeFz6svt1Efptu/ciL1/5iRG6+e5QI5UKB81KDtjzsKpu38Kr14REJLwLT3iu
-         bEQw==
-X-Forwarded-Encrypted: i=1; AL+hErGdDeEAG9w+X3h8qHysdDmnAGWu+j+WiHhEQKM5BMIViea51T0Ka2aIJZk+TrPPEt7AD0c04ZDOaLg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+OP3q4tZbT8VSkSrNJg61A+p+TeroYPQzBqH93DuNK/Si2NL3H
-	cU32iAEwXDpO58x8EQYqsJbY7cpcYxQElBV6AmnlMNjGN62Q7fiuUZsv
-X-Gm-Gg: AYBFou26Cr2TzIp56+WBSr4wZlFRZy8cHFV7IFWi2d8n3DwukC0IwJyav+CvqcmAvan
-	JATrjMd0DVLuhuOdOiQpQUELK5ioHVvImwweB1smxyBtmu2NSzNWIsJyHph9AEQmbyIfrBe8Um/
-	TLwgKBHJaZZlV/hA+w0crwivtSkDefiMuy59hYyA5UvhCjtkR582hixqT+2qlC4h08sZdn2wJlC
-	MxBMfnVh1vfiP1Q7gSb7bxkENS5YDkD1dFXELxKMIBC4dZIQcC/vO0BuTTRF7dhDKkR9vSsNnLP
-	cJu36CbXqqL44qRyjGLQZi7RvReZsypskZew+WYp6U+b1L8KJpRBiCTJ0xgbUoXITeCTF0BEyA/
-	4JMxLK8U5DAOdFQRGOP1qTOhLYAqYjJ8gpA2i+TY/EKituHi/stNaJyNoYb9dr7XYpOiHeKM0Ul
-	vqySop5s7YdoXCjzh58l7dXCjUj557VEebwct+Yp4XgVDmZbH9Yy5PLX+WG8rfmys5YTYLmejli
-	8waEn56QnhzqN4YQDSf9rOnknG5SeqprrR1tz2cvjDTXNagdh2ZxsygtfHIYX4mLrlmi7nHfeAQ
-	zwpzGnytKB0cNeQI5mQaK4JU4ogp0GZxQKGITXnic63PeBMGxiW+rX+O2ufRSGSNvJVtd9ksLrq
-	dwjvUGMInDmKNTvMF8rlDb8KlZexj3GX71iguUDc0VrgReqV4w9wfXbLgL4IB5uI=
-X-Received: by 2002:a05:6000:98f:b0:48c:6611:82 with SMTP id ffacd0b85a97d-4957f409ce4mr490500f8f.1.1794089151127;
-        Sat, 07 Nov 2026 14:05:51 -0800 (PST)
-Received: from L-022584.energy.envision.com (dynamic-077-189-161-157.77.189.pool.telefonica.de. [77.189.161.157])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49597b1f969sm358958f8f.50.2026.11.07.14.05.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 14:05:49 -0800 (PST)
-From: Xin Xie <xiexinet@gmail.com>
-To: netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	andrew+netdev@lunn.ch,
-	shuah@kernel.org,
-	kees@kernel.org,
-	petr.wozniak@gmail.com,
-	qingfang.deng@linux.dev,
-	fmaurer@redhat.com,
-	luka.gejak@linux.dev,
-	bigeasy@linutronix.de,
-	xiaoliang.yang_1@nxp.com,
-	skhawaja@google.com,
-	liuhangbin@gmail.com,
-	stable@vger.kernel.org,
-	sdf.kernel@gmail.com,
-	xiexinet@gmail.com,
-	lukma@denx.de,
-	fmancera@suse.de,
-	danishanwar@ti.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH net v8 1/4] net: hsr: keep GRO disabled on HSR/PRP ports
-Date: Sat,  7 Nov 2026 23:05:40 +0100
-Message-ID: <20261107220544.20-2-xiexinet@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261107220544.20-1-xiexinet@gmail.com>
-References: <20261107220544.20-1-xiexinet@gmail.com>
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=tkxoHaYV
+Received: from eig-obgw-5007b.ext.cloudfilter.net ([10.0.29.167])
+	by cmsmtp with ESMTPS
+	id PgxfxlLZ1VK9UPoXjxheVt; Sat, 07 Nov 2026 22:05:48 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id PoXjxmgk1xqjjPoXjxD2Hz; Sat, 07 Nov 2026 22:05:47 +0000
+X-Authority-Analysis: v=2.4 cv=bZxrUPPB c=1 sm=1 tr=0 ts=6aefa0bb
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
+ a=SRozAb82v0VVYv1ySusA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=EXa9GzF1lnuyQokmmjMJAbZM/6BNIyMMmJy0j34oCyg=; b=tkxoHaYVQNzt
+	QRJhzmQqodJfAEbc4QwvawVcSYYIzTGopoqXyQSW5FbpRVITC2uaaTUHcjZZdnylVod7ELJTRS5Xj
+	6vxpkNtd93Qu8hmi2e8bpH03Kxm0TJwjz4N4j0SRlb1FDnNLO59AQnec13SfcRA8AbbZYkK7EtPXV
+	G/YUO2HhfLGE4nlWuN45ruOBWEan4yDkUpg1khw5CIHNfcsCJLSAgLLuhXUJCZq22A3DGoEDHPsjP
+	aCFCJ/ktkNmOEIj0rzSQePb2kd8gUa/HxFvzu58JEiByZXyahKZmYwD6fCksR7TjTeL/4BNlSBS9m
+	E7tPw2sf9sFDG+zidTf2YA==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:41380)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xPoXj-00000003CwU-064a;
+	Sun, 08 Nov 2026 03:35:47 +0530
+Message-ID: <6870d51e-8d71-4cd7-bf43-3e3a1ea89ef3@roeck-us.net>
+Date: Sat, 7 Nov 2026 14:05:46 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -124,193 +75,117 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] hwmon: Add driver for MSI Mystic Light controller
+ voltage sensors
+To: Tomasz Bojanowski <tomasz@bojanowski.me>
+Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261107082821.8257-1-tomasz@bojanowski.me>
+ <812ee6c0-82ac-41f6-9eca-1f17c6ef715d@roeck-us.net>
+ <20261107161249.336512-1-tomasz@bojanowski.me>
+ <5e99fd86-d934-49c1-a867-02cc61ab1ecf@roeck-us.net>
+ <20261107181518.385136-1-tomasz@bojanowski.me>
+ <e79d3e26-4ca5-4ca4-9159-427a5a6f1129@roeck-us.net>
+ <20261107203300.427273-1-tomasz@bojanowski.me>
+ <81c1e042-b06c-4a13-9251-a967532e21cd@roeck-us.net>
+ <20261107214738.439967-1-tomasz@bojanowski.me>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
+ oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
+ VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
+ 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
+ onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
+ DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
+ rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
+ WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
+ qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
+ 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
+ qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
+ H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
+ njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
+ dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
+ j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
+ scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
+ zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
+ RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
+ F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
+ FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261107214738.439967-1-tomasz@bojanowski.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xPoXj-00000003CwU-064a
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:41380
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 2
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfBtU3Q3LQq5Pi5cPo9nhdPmut/RlcSIOmxnEItrR1H73DuyLhEChfVRtwPhUPEMxy+R69jioydd85kivLFl0b3kDjqVJW6mq0kMpoPbYv7+gzfBQTtEG
+ CNAXSltGgzNQ5LTsWN52aSXDb7FoJ0QeXFuba0KIUqaEMqDYtNOkdzbdmsMtOq7QP9p8Xo8GW4XGvVFbgDgAjk0Gnjm9l+yJ+b6kbYX1zoUC6/O1rxNDNTP7
 
-HSR and PRP tag and de-duplicate each wire frame separately. GRO on a
-member device merges several frames into one skb that cannot get valid
-per-frame metadata, and userspace can turn GRO back on at any time.
+On 11/7/26 13:47, Tomasz Bojanowski wrote:
+> Hi Guenter,
+> 
+> On 11/7/26 13:06, Guenter Roeck wrote:
+>> Either case, do you have evidence that this is even needed in the
+>> first place ?
+> 
+> No. On the MS-7E61 it is not needed: the controller does not support
+> remote wakeup, and while hid_hw_open() holds the device open, it does
+> not autosuspend (runtime_status stayed active with power/control set
+> to auto). I added it in v2 only as a precaution, in case the device
+> autosuspends while the feature report is requested, without evidence
+> that this can happen. I think it can be dropped.
+> 
+Ok, I'll do that.
 
-Mark direct members (slave A/B, interlink) with a kernel role bit.
-While it is set, __netdev_update_features() drops software GRO and
-configurable GRO_HW from wanted_features as well as from the computed
-features, before ndo_fix_features(). GRO_HW that the driver keeps on
-is left alone. The request has to go too: veth adds and deletes its
-NAPI instances according to wanted_features, so with GRO still
-requested, closing an attached veth spins in napi_disable(), and
-detaching a veth that was attached while down and then brought up hits
-the BUG_ON() in napi_enable(). As for LRO disabled by an upper device,
-GRO is not restored when the port leaves; ethtool can turn it back on.
+>> That makes me wonder if the vendor software is buggy. I have
+>> two of those boards, and they both show similar values.
+> 
+> My follow-up crossed with your mail: the vendor software only lists
+> CPU VDDP on the MS-7C94 with an APU. Do your boards have CPUs without
+> integrated graphics?
+> 
+Interesting. Yes, the CPUs on those boards don't have integrated graphics.
 
-The attach fails if software GRO stays active. A failed attach does
-not restore the GRO request either; the next patch refuses the usual
-causes before any state is changed. GSO skbs can still arrive, for
-example from a stacked member whose lower device runs GRO; a later
-patch segments them.
-
-Fixes: 5055cccfc2d1 ("net: hsr: Provide RedBox support (HSR-SAN)")
-Signed-off-by: Xin Xie <xiexinet@gmail.com>
----
- .../networking/net_cachelines/net_device.rst  |  1 +
- include/linux/netdevice.h                     |  7 +++
- net/core/dev.c                                | 15 ++++++
- net/hsr/hsr_slave.c                           | 52 +++++++++++++++++++
- 4 files changed, 75 insertions(+)
-
-diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 8eceaa80b686..0d87e4d92a58 100644
---- a/Documentation/networking/net_cachelines/net_device.rst
-+++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -169,6 +169,7 @@ unsigned_long:1                     see_all_hwtstamp_requests
- unsigned_long:1                     change_proto_down
- unsigned_long:1                     netns_immutable
- unsigned_long:1                     fcoe_mtu
-+unsigned_long:1                     hsr_port
- struct list_head                    net_notifier_list
- struct macsec_ops*                  macsec_ops
- struct udp_tunnel_nic_info*         udp_tunnel_nic_info
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 435be7880d7e..818d69623456 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -2110,6 +2110,7 @@ enum netdev_reg_state {
-  *	@change_proto_down: device supports setting carrier via IFLA_PROTO_DOWN
-  *	@netns_immutable: interface can't change network namespaces
-  *	@fcoe_mtu:	device supports maximum FCoE MTU, 2158 bytes
-+ *	@hsr_port:	direct HSR/PRP member (slave A/B or interlink)
-  *
-  *	@net_notifier_list:	List of per-net netdev notifier block
-  *				that follow this device when it is moved
-@@ -2531,6 +2532,12 @@ struct net_device {
- 	unsigned long		change_proto_down:1;
- 	unsigned long		netns_immutable:1;
- 	unsigned long		fcoe_mtu:1;
-+	/* Direct HSR/PRP member: slave A/B or interlink. While set,
-+	 * software GRO and configurable GRO_HW are dropped, requested and
-+	 * active; GRO_HW that the driver keeps on is left alone. Kernel
-+	 * role state only; no user ABI or offload capability.
-+	 */
-+	unsigned long		hsr_port:1;
- 
- 	struct list_head	net_notifier_list;
- 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index df1a840b0334..2916b17f4169 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -11269,6 +11269,21 @@ int __netdev_update_features(struct net_device *dev)
- 
- 	features = netdev_get_wanted_features(dev);
- 
-+	/* A direct HSR/PRP port needs per-frame metadata. Drop software
-+	 * GRO and configurable GRO_HW from the request as well as from the
-+	 * result, as the core does for upper-disabled features: drivers
-+	 * such as veth derive state from wanted_features and need the
-+	 * requested and the active bit to agree. Fixed-on or
-+	 * driver-required GRO_HW is left to the driver.
-+	 */
-+	if (dev->hsr_port) {
-+		netdev_features_t gro = NETIF_F_GRO |
-+					(dev->hw_features & NETIF_F_GRO_HW);
-+
-+		dev->wanted_features &= ~gro;
-+		features &= ~gro;
-+	}
-+
- 	if (dev->netdev_ops->ndo_fix_features)
- 		features = dev->netdev_ops->ndo_fix_features(dev, features);
- 
-diff --git a/net/hsr/hsr_slave.c b/net/hsr/hsr_slave.c
-index a546f70f9cc8..bc340ae0b52e 100644
---- a/net/hsr/hsr_slave.c
-+++ b/net/hsr/hsr_slave.c
-@@ -11,6 +11,7 @@
- #include <linux/etherdevice.h>
- #include <linux/if_arp.h>
- #include <linux/if_vlan.h>
-+#include <net/netdev_lock.h>
- #include "hsr_main.h"
- #include "hsr_device.h"
- #include "hsr_forward.h"
-@@ -137,6 +138,35 @@ static int hsr_check_dev_ok(struct net_device *dev,
- 	return 0;
- }
- 
-+/* Member role and feature policy.
-+ * Setting the role makes __netdev_update_features() clear GRO
-+ * and configurable GRO_HW from both the requested and the active
-+ * features of this device. Only the role and feature update run
-+ * under the device ops lock; unlink, promiscuous updates and the
-+ * master recompute stay outside.
-+ */
-+static void hsr_portdev_role_set(struct net_device *dev)
-+{
-+	netdev_lock_ops(dev);
-+	dev->hsr_port = true;
-+	netdev_change_features(dev);
-+	netdev_unlock_ops(dev);
-+}
-+
-+static void hsr_portdev_role_clear(struct net_device *dev)
-+{
-+	netdev_lock_ops(dev);
-+	dev->hsr_port = false;
-+	/* Recompute features without the role. GRO was dropped from
-+	 * the request while the role was set and stays off; the user
-+	 * can turn it back on with ethtool. A dying device just drops
-+	 * the role, a netns move stays registered and is recomputed.
-+	 */
-+	if (dev->reg_state == NETREG_REGISTERED)
-+		netdev_change_features(dev);
-+	netdev_unlock_ops(dev);
-+}
-+
- /* Setup device to be added to the HSR bridge. */
- static int hsr_portdev_setup(struct hsr_priv *hsr, struct net_device *dev,
- 			     struct hsr_port *port,
-@@ -169,6 +199,22 @@ static int hsr_portdev_setup(struct hsr_priv *hsr, struct net_device *dev,
- 	if (res)
- 		goto fail_upper_dev_link;
- 
-+	/* Enable the member role and recompute before the RX handler
-+	 * is published, so that software GRO on this device is off
-+	 * before frames can arrive. This covers the direct member
-+	 * only: a stacked member receives from a lower device that
-+	 * may still run GRO and can deliver merged frames as GSO skbs.
-+	 * A still-active software GRO rejects the port, a remaining
-+	 * GRO_HW alone does not.
-+	 */
-+	hsr_portdev_role_set(dev);
-+	if (dev->features & NETIF_F_GRO) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "software GRO still on after feature update, cannot join");
-+		res = -EBUSY;
-+		goto fail_role_policy;
-+	}
-+
- 	res = netdev_rx_handler_register(dev, hsr_handle_frame, port);
- 	if (res)
- 		goto fail_rx_handler;
-@@ -177,7 +223,12 @@ static int hsr_portdev_setup(struct hsr_priv *hsr, struct net_device *dev,
- 	return 0;
- 
- fail_rx_handler:
-+fail_role_policy:
-+	/* Rollback order: unlink the upper, clear the role and
-+	 * recompute, then undo this setup's promiscuous increment.
-+	 */
- 	netdev_upper_dev_unlink(dev, hsr_dev);
-+	hsr_portdev_role_clear(dev);
- fail_upper_dev_link:
- 	if (!port->hsr->fwd_offloaded || port->type == HSR_PT_INTERLINK)
- 		dev_set_promiscuity(dev, -1);
-@@ -248,6 +299,7 @@ void hsr_del_port(struct hsr_port *port)
- 		if (port->type == HSR_PT_SLAVE_A || port->type == HSR_PT_SLAVE_B)
- 			vlan_vids_del_by_dev(port->dev, master->dev);
- 		netdev_upper_dev_unlink(port->dev, master->dev);
-+		hsr_portdev_role_clear(port->dev);
- 		if (hsr->prot_version == PRP_V1 &&
- 		    port->type == HSR_PT_SLAVE_B) {
- 			eth_hw_addr_set(port->dev, port->original_macaddress);
--- 
-2.53.0
+Thanks,
+Guenter
 
