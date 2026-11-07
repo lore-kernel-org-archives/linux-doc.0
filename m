@@ -1,63 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.226.149.38
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.226.149.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794074384;
-	b=l+M/SU6bZBGELqhYlYRUyxi7AqvbfILaRyzc2I5FuR13xNtkB7V2uJA4UO+2cHLHQcGC
-	 LHa7mtUMozDu7E23qg1GCjECESKQPo19XI1TcolWad6PYJcWT+W8MvNs2x5mf/TYLfXxB
-	 5ieiw6X8I+Cn2TG1mpre5bE8Xkg/Se9YfDmYVv9LayvmWBzg+F7FUUf6Bb+8g21rb/SJd
-	 3cFxMo/PjKILHe/f48Xbr/3ye5sdEFgSE17bs2faM8DNVVc2fuut2kqBK3hWW5+/q2wJ5
-	 vnK61dhCjxF67Ahd3e4yVz5KmL2flpxbg6LCY3eP+CwmF14vv0HF+jSMOpR1NhdF2rg==
+	t=1794074382;
+	b=eI/YVAB9i1/sdIpeNBVokhE3rOLopPCCd6fboFrMtkUy5IfQsR8plFIF5qICoV1oC2ce
+	 1RojFr/HwZt8c6f3W+hR+K2LKMhyhjHrfDitm0o5bp66e7PImNsauQZNlEdxCsZvlD8CG
+	 R1SgvU2NOSVs5pGuLkFTJ2lUr6Fj7dkmPy+K/fsk6/Oc6CTMp40stTPb1Fi9x+F7YAWf+
+	 R1pmFSJcz1bIwK4j36XH0JEc1ZtdrTZR/m8o1J0Cy0setg88kxDU8wGIJOk4JgxbkU/6P
+	 VxWd5uyNqisxTkPvDIPfLr3PFePC/sIkAbxaZnTFxzMCZmQRtISribV/EhXH/gNIi/A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794074384;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794074382;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:From:Date:
 	 Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=bGepyAYVEqnlKtLsoUC51vfuL8x0qiUkny6Ci/G6J3U=;
-	b=wNbwXl9nIBIlY+cx1VIkD3QpD8JpW36Kp8zLOV+IqBUb5w8AIodSzP/XjBnWtkVdizWP
-	 la22iKVr6rcdROTd9AdTw/7E7leMvMVu7H4eKoWywlEO60E3cuDRSLzACAh3/xDfDaFWq
-	 SegAYSrmznFwmBRSCsEV6o4ndrlPbrKeuqMAVhGt2FcunSrMwpSy9wkPQzsvclli5rO5o
-	 Vxj+1oOZgC+zG+T828Tj+Kf/DePfbyBz/F/Ixu2zkUnuzC25og+oOB1nOQzDbUe2j4hJc
-	 3lmx+J/KT7unqfTLE1X9s5xtkYkRcyOlYGlbDzyXfoDsTU9jvA3DSJ1JSekDqbX412A==
+	bh=HGNBZg04KAZeZlrv62ywxVBlGQjVP9azSckK49EmwII=;
+	b=URQg/a/QTsD7rnCxTNcvrT+y/JYqW3DiSBfqa95ZYiBV/1FWZq48rsyRAWcQ4vzf2KFd
+	 HWsQ0H8aeQez4TRA5goCJfzS9IDavNkZLi1yaRx9e7PlGVn1BaKAIf/sJ617OTHdhUF8f
+	 r545aFJXC7YQ/tUvMlNWnRStYWiHkaS/GClLXeEUvzPoB/5w3o+EAjSnUAcPWf9/SA4ZS
+	 CxqPuFY4q8wKkxVZsDhbERAoqd/aI9GE5EzGKjJ/F0lylUU+m+WpcRvFN6iBElcn4uQBS
+	 X+f5F1+4GQ1BrfqNuSNKKiThNalieFgbHK5e/dqlpBJEIztHpFxVRMRMf85M0oDcNGA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=rbox.co;
 	spf=pass smtp.mailfrom=rbox.co;
-	dkim=pass header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b="Mt/7ZFwO";
-	arc=none smtp.remote-ip=185.226.149.38
-Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
+	dkim=pass header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=j8v7OvK0;
+	arc=none smtp.remote-ip=185.226.149.37
+Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F52A606D811;
-	Sat,  7 Nov 2026 17:59:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F52A606D811
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871F8606A326;
+	Sat,  7 Nov 2026 17:59:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 871F8606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=Mt/7ZFwO
+	dkim=pass (2048-bit key, unprotected) header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=j8v7OvK0
 Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
 	(Exim 4.93)
 	(envelope-from <mhal@rbox.co>)
-	id 1xPkhN-007oUJ-R6; Sat, 07 Nov 2026 18:59:29 +0100
+	id 1xPkhN-007j5t-LV; Sat, 07 Nov 2026 18:59:29 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
 	s=selector1; h=Cc:To:In-Reply-To:References:Message-Id:
 	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From;
-	bh=bGepyAYVEqnlKtLsoUC51vfuL8x0qiUkny6Ci/G6J3U=; b=Mt/7ZFwOmJ2rkTAeItS9T8hfdD
-	qirpYNVLVnMJzAu614dofN5MYpV3oc0QhQazqdilxE4FURcqyh6paUP/2gzv2CKkiIf0Fb/rYjGC6
-	CvLGL8nww71LkGOObn2QsPpqvl+qz/rV2zAGlADiCx8rRtK/IfqnRENN1IdLSgfeXiyTHN7972Qhl
-	6LpDmxdjjlK/HpFZvoBIf30MZIRQkGD9bvmq4PtNMGS9X8BMI9fTEJ5sB7KuCIgpxWmltejuRk59Z
-	ltA2MWWSmTX87aGQj7Iyljh4Ek/fBNn7FPdjpoSsbbcnRbvzPU3ahHbtEFWZ9BNVREE9IUlz2g5Ai
-	2kgrpyZw==;
+	bh=HGNBZg04KAZeZlrv62ywxVBlGQjVP9azSckK49EmwII=; b=j8v7OvK0njXYWBtd/wFwp+SE7n
+	/3R1aIgEO0qFBEqD0gdCWDWcKEv+0AcIzVwSgQeM3JeOgdUUW49mBlCMbZ50u/RKhDxQ/swi9HSvr
+	W3B7YKHMCWbjNvjsRtmsh6+Kianj9O2Sjofjsw1fIpGV627oBa2xwgmam+s15szb2nC8eUpgJE8vS
+	o2hqBy2me5iEOfgkztAJkIaE5JP66wPDTE2xoErpX5edR2ZhPYAE/zRbRFfAgpfoC9yHvtAGojbDg
+	LD46T/hfy2q74rAVDrtE9p42jPY8D5QwAiC5uEnbEQxDWrX7rRQtReFLBFg/kZh5S1zhNiaZJl+iD
+	u3BDMDgQ==;
 Received: from [10.9.9.74] (helo=submission03.runbox)
 	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
 	(envelope-from <mhal@rbox.co>)
-	id 1xPkhD-0006IL-Fw; Sat, 07 Nov 2026 18:59:19 +0100
+	id 1xPkhD-0006IH-9I; Sat, 07 Nov 2026 18:59:19 +0100
 Received: by submission03.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
 	(Exim 4.95)
-	id 1xPkh4-007LnK-Uj;
-	Sat, 07 Nov 2026 18:59:11 +0100
+	id 1xPkh1-007LnK-VQ;
+	Sat, 07 Nov 2026 18:59:08 +0100
 From: Michal Luczaj <mhal@rbox.co>
-Date: Sat, 07 Nov 2026 18:58:26 +0100
-Subject: [PATCH bpf-next v3 4/8] bpf, docs: Document BPF_ITER_NOSLEEP
+Date: Sat, 07 Nov 2026 18:58:24 +0100
+Subject: [PATCH bpf-next v3 2/8] bpf, sockmap: Restrict iter-context
+ sockmap updates to iter/sockmap
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,7 +70,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261107-sockmap-update-limit-iter-v3-4-7c0bad1ad036@rbox.co>
+Message-Id: <20261107-sockmap-update-limit-iter-v3-2-7c0bad1ad036@rbox.co>
 References: <20261107-sockmap-update-limit-iter-v3-0-7c0bad1ad036@rbox.co>
 In-Reply-To: <20261107-sockmap-update-limit-iter-v3-0-7c0bad1ad036@rbox.co>
 To: Alexei Starovoitov <ast@kernel.org>, 
@@ -91,41 +92,55 @@ To: Alexei Starovoitov <ast@kernel.org>,
  Randy Dunlap <rdunlap@infradead.org>, Stanislav Fomichev <sdf@fomichev.me>
 Cc: Michal Luczaj <mhal@rbox.co>, bpf@vger.kernel.org, 
  linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, linux-doc@vger.kernel.org
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Sashiko <sashiko-bot@kernel.org>
 X-Mailer: b4 0.15.2
 
-Commit dfcd17659112 ("bpf: Reject sleepable programs for task_vma
-iterator") introduced BPF_ITER_NOSLEEP, but did not update the docs.
-Mention the flag in bpf_iterators.rst.
+Among tracing progs, allow only iter/sockmap to update sockmaps and
+sockhashes. Previously, any BPF_TRACE_ITER program could perform these
+updates, which caused locking issues in specific scenarios [1][2][3]. This
+tightening is part of the broader effort to lock down the BPF API [4].
 
+[1]: commit 4d328dd69538 ("bpf, sockmap: Fix af_unix iter deadlock")
+[2]: commit 64c2f93fc325 ("bpf, sockmap: Take state lock for af_unix iter")
+[3]: https://msgid.link/87echn2fhd.fsf@cloudflare.com
+[4]: https://msgid.link/akRZ_e7DJh2aP-2i@john-p8
+
+Reported-by: Sashiko <sashiko-bot@kernel.org>
+Closes: https://msgid.link/20260626205814.BAC3C1F000E9@smtp.kernel.org
+Suggested-by: Jakub Sitnicki <jakub@cloudflare.com>
 Signed-off-by: Michal Luczaj <mhal@rbox.co>
 ---
- Documentation/bpf/bpf_iterators.rst | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+I was tempted to define BTF_ID_LIST_SINGLE(bpf_iter_sockmap_id, func,
+bpf_iter_sockmap) and just compare against env->prog->aux->attach_btf_id,
+but a single line BTF_ID_LIST_SINGLE quickly turned into a 6-line
+ifdef-CONFIG_NET-fery, so I've sticked with strcmp().
+---
+ kernel/bpf/verifier.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/bpf/bpf_iterators.rst b/Documentation/bpf/bpf_iterators.rst
-index 72435e32ffa1..c534215f05de 100644
---- a/Documentation/bpf/bpf_iterators.rst
-+++ b/Documentation/bpf/bpf_iterators.rst
-@@ -351,9 +351,15 @@ The following is the breakdown for each field in struct ``bpf_iter_reg``.
-        the bpf iterator.
-    * - feature
-      - Specifies certain action requests in the kernel BPF iterator
--       infrastructure. Currently, only BPF_ITER_RESCHED is supported. This means
--       that the kernel function cond_resched() is called to avoid other kernel
--       subsystem (e.g., rcu) misbehaving.
-+       infrastructure.
-+
-+       BPF_ITER_RESCHED
-+           the kernel function cond_resched() is called to avoid other kernel
-+           subsystem (e.g., rcu) misbehaving
-+
-+       BPF_ITER_NOSLEEP
-+           ``seq_operations::show()`` cannot run sleepable programs
-+
-    * - seq_info
-      - Specifies the set of seq operations for the BPF iterator and helpers to
-        initialize/free the private data for the corresponding ``seq_file``.
+diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+index 09a44723bb2e..e784e4a1e5f2 100644
+--- a/kernel/bpf/verifier.c
++++ b/kernel/bpf/verifier.c
+@@ -10543,6 +10543,7 @@ static bool may_update_sockmap(struct bpf_verifier_env *env, int func_id)
+ {
+ 	enum bpf_attach_type eatype = env->prog->expected_attach_type;
+ 	enum bpf_prog_type type = resolve_prog_type(env->prog);
++	const char *afname = env->prog->aux->attach_func_name;
+ 
+ 	if (func_id != BPF_FUNC_map_update_elem &&
+ 	    func_id != BPF_FUNC_map_delete_elem)
+@@ -10553,7 +10554,8 @@ static bool may_update_sockmap(struct bpf_verifier_env *env, int func_id)
+ 	 */
+ 	switch (type) {
+ 	case BPF_PROG_TYPE_TRACING:
+-		if (eatype == BPF_TRACE_ITER)
++		if (eatype == BPF_TRACE_ITER &&
++		    !strcmp(afname + strlen(BPF_ITER_FUNC_PREFIX), "sockmap"))
+ 			return true;
+ 		break;
+ 	case BPF_PROG_TYPE_SOCK_OPS:
 
 -- 
 2.56.0
