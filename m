@@ -1,71 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.37
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794089148;
-	b=30WmJpyoEiAIajRhVKZEhsqxf/ibzyfCfhCeo95xOdyTxrsPpD1VBGq1z69SV38RYkfo
-	 B8TvOXFFR8jKmfWi5wcDEskmRX2I1uqdpgm/9BUW/srMLTvMcfC/4MBKoQotkSvjgoLLW
-	 gGyUaJQkEGafQT97NyBt4br9WqJq3SpEKXDr3sBaqvvW0axxzZYFtY/AtqkWm2OF4NlHt
-	 vDivAWu0ItjyjWQvwZ1mWHyj2XqjgkFys/qdGdhaSqydMMhxEs9iwaaiqUolmMzA6e77i
-	 lPXgx9MWv2jv+8wMSBmjK7zasTpDcY4nQEa6XzOlOs6yiVyEnitxQNWomAvglECV6+w==
+	t=1794090923;
+	b=FqhdJN/HrKNGB0AmulyYoAl9gPh6DO9BNfUhH2+8aKYZOBks01RbCGRtDOuPI9kAkpgc
+	 8eIxknrmQxf9Wda8vgRUDIiFkjHfIy3EvFr7ZyPtNys7JXIx/eAK1HGIxphliOXqq2EEo
+	 7Gyd1gytDflRBGm1yGg0/IMLS4G8tiVjskX4pTGJmxR/fi5EF0yxtUj8BZ6nSeGTc3VJz
+	 KZp12U9WmPX780roB4DStF3tSuWKHcv6++jofj3JvsWmqJRK79SxLx1l9WrshNd+aiQdK
+	 JKGZQ+YAabgIEBzmQc9E348H0fK9gJ5d4KPFCkPEO2WTBTSAxHjEU3F6lAWqi/h8LSg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794089148;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
-	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
-	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
-	bh=EXa9GzF1lnuyQokmmjMJAbZM/6BNIyMMmJy0j34oCyg=;
-	b=tjqF6tC8wzkvacRdWNPAOqLm0I1xD/j6IYQ4UszndtglTMim08lTbzcBLGL44ipgdFkr
-	 7qxYB0vGlzZAUUswAz3dyMQIEDokjPpI6spaGtM3q+2JEEuF52dc4ND4DZ5/wiXJc8D+h
-	 C0CpAlEBsHW/KutfIazRSZ0aNbQVAPDGksIzGgEUTAOLrB+8JOryL2g1T1Jeh4rUdNBFE
-	 HSUjYJWCeWRIJV4ftFhHwKI1Vg74oJkAzf9YBpFlO35mVaQ6pd+wAm1UNhohBJGDnidRx
-	 0JBI/N+cudwcJxWIkIsHfyigPqunYjVVbDp0JnuvBPpuVNJO49Q+Onyk7UTSTeCUv1A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794090923;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=fCU+AnXPgEumMAh4YcQYLrSJUtCBY0mNsJe/Mw2nKg4=;
+	b=Wg2xmhA0MSCxSXusvzUKPSNvjflJpxJL9k4scMa2SYVG1exECJSwhDO25y/wkyntfnLJ
+	 arb7IHBbx1otQ064dypFZzPE5P+aaFOnFdr5lOJlxLX4mWupCHxqGwnVTMSqZI2r5YN7K
+	 WUuqChcHJqEdmPJZ+TU8q19MmHRXHfFUnmbwD/fAdP6DfklQ0ftSMo91Yqsuo8u0cxgJA
+	 0W3qT2lYQkTqpaHJy05LXkik+QPU+UxyzMLX/2S15f3q8u/4MnULslcsfPNZtopAY3hJg
+	 7/tTdcwVUDI2AZs1dwOvUtvquE2PXvl5iBqcm4bWnAo8vOVTbIP7DzZaow3kIIfhicg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=tkxoHaYV;
-	arc=none smtp.remote-ip=35.89.44.37
-Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="e3MJ/f0L";
+	arc=none smtp.remote-ip=192.198.163.9
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B807606A32D
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 22:05:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B807606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0EBA606A32D;
+	Sat,  7 Nov 2026 22:35:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0EBA606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=tkxoHaYV
-Received: from eig-obgw-5007b.ext.cloudfilter.net ([10.0.29.167])
-	by cmsmtp with ESMTPS
-	id PgxfxlLZ1VK9UPoXjxheVt; Sat, 07 Nov 2026 22:05:48 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id PoXjxmgk1xqjjPoXjxD2Hz; Sat, 07 Nov 2026 22:05:47 +0000
-X-Authority-Analysis: v=2.4 cv=bZxrUPPB c=1 sm=1 tr=0 ts=6aefa0bb
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
- a=SRozAb82v0VVYv1ySusA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=EXa9GzF1lnuyQokmmjMJAbZM/6BNIyMMmJy0j34oCyg=; b=tkxoHaYVQNzt
-	QRJhzmQqodJfAEbc4QwvawVcSYYIzTGopoqXyQSW5FbpRVITC2uaaTUHcjZZdnylVod7ELJTRS5Xj
-	6vxpkNtd93Qu8hmi2e8bpH03Kxm0TJwjz4N4j0SRlb1FDnNLO59AQnec13SfcRA8AbbZYkK7EtPXV
-	G/YUO2HhfLGE4nlWuN45ruOBWEan4yDkUpg1khw5CIHNfcsCJLSAgLLuhXUJCZq22A3DGoEDHPsjP
-	aCFCJ/ktkNmOEIj0rzSQePb2kd8gUa/HxFvzu58JEiByZXyahKZmYwD6fCksR7TjTeL/4BNlSBS9m
-	E7tPw2sf9sFDG+zidTf2YA==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:41380)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xPoXj-00000003CwU-064a;
-	Sun, 08 Nov 2026 03:35:47 +0530
-Message-ID: <6870d51e-8d71-4cd7-bf43-3e3a1ea89ef3@roeck-us.net>
-Date: Sat, 7 Nov 2026 14:05:46 -0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e3MJ/f0L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794090923; x=1825626923;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XKPddSDGRmFTP15jF36GhiF3Ao2V9Pc70VbIn1MNsig=;
+  b=e3MJ/f0LA5EWkswm9yUNDq8odrbeZqadOcfnd8Bufu6kL/kHEty9Vax8
+   wITBl2ezE1fnzOB3dwWjR8ZHEuGp7nMzLzocVBEFBbk0PMYFchlrQOoey
+   NjawVPFM4aoUctna3TVnwNy30QHsHuH/wpfH8VQHkNr7BkgFXVx/BJHJ/
+   BA8hodK+xTOHoxAM92OIgOjEaYfckqSkiiWA062WuveJoPDbE/tk0qloD
+   WzXAmH38X3EqEHdAYEQMnR8iDoO4TQHFM6nrIvnurTHnAYS9MlydJELim
+   Gqxg2us1p4BwqjkVhaBqUZc2onIld0eHLvOPEsTA4Bee8UGUdDlts9ZJO
+   Q==;
+X-CSE-ConnectionGUID: S1Tits+5SjaCKzX3FDfaWQ==
+X-CSE-MsgGUID: jVzLMK++Rvun3p7grwLypQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11959"; a="2753746"
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="2753746"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Nov 2026 14:35:22 -0800
+X-CSE-ConnectionGUID: DnPjUlIZRoGuk9BZS7accg==
+X-CSE-MsgGUID: D/3AICiJQqaSxkwaUn/bUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,200,1787036400"; 
+   d="scan'208";a="7425429"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 07 Nov 2026 14:35:19 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xPp0F-00000000rfT-2sqR;
+	Sat, 07 Nov 2026 22:35:15 +0000
+Date: Sun, 8 Nov 2026 06:35:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Li Pengfei <ljdlns1987@gmail.com>, rostedt@goodmis.org,
+	mhiramat@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, mathieu.desnoyers@efficios.com,
+	mark.rutland@arm.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-trace-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	zhangbo56@xiaomi.com, lipengfei28@xiaomi.com, lkp@intel.com
+Subject: Re: [PATCH v8 2/5] tracing: Use the stackmap from the ftrace stack
+ recording path
+Message-ID: <202611080654.sqFxIlwl-lkp@intel.com>
+References: <20261107055139.3138633-3-lipengfei28@xiaomi.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,117 +87,85 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] hwmon: Add driver for MSI Mystic Light controller
- voltage sensors
-To: Tomasz Bojanowski <tomasz@bojanowski.me>
-Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20261107082821.8257-1-tomasz@bojanowski.me>
- <812ee6c0-82ac-41f6-9eca-1f17c6ef715d@roeck-us.net>
- <20261107161249.336512-1-tomasz@bojanowski.me>
- <5e99fd86-d934-49c1-a867-02cc61ab1ecf@roeck-us.net>
- <20261107181518.385136-1-tomasz@bojanowski.me>
- <e79d3e26-4ca5-4ca4-9159-427a5a6f1129@roeck-us.net>
- <20261107203300.427273-1-tomasz@bojanowski.me>
- <81c1e042-b06c-4a13-9251-a967532e21cd@roeck-us.net>
- <20261107214738.439967-1-tomasz@bojanowski.me>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261107214738.439967-1-tomasz@bojanowski.me>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xPoXj-00000003CwU-064a
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:41380
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 2
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfBtU3Q3LQq5Pi5cPo9nhdPmut/RlcSIOmxnEItrR1H73DuyLhEChfVRtwPhUPEMxy+R69jioydd85kivLFl0b3kDjqVJW6mq0kMpoPbYv7+gzfBQTtEG
- CNAXSltGgzNQ5LTsWN52aSXDb7FoJ0QeXFuba0KIUqaEMqDYtNOkdzbdmsMtOq7QP9p8Xo8GW4XGvVFbgDgAjk0Gnjm9l+yJ+b6kbYX1zoUC6/O1rxNDNTP7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107055139.3138633-3-lipengfei28@xiaomi.com>
 
-On 11/7/26 13:47, Tomasz Bojanowski wrote:
-> Hi Guenter,
-> 
-> On 11/7/26 13:06, Guenter Roeck wrote:
->> Either case, do you have evidence that this is even needed in the
->> first place ?
-> 
-> No. On the MS-7E61 it is not needed: the controller does not support
-> remote wakeup, and while hid_hw_open() holds the device open, it does
-> not autosuspend (runtime_status stayed active with power/control set
-> to auto). I added it in v2 only as a precaution, in case the device
-> autosuspends while the feature report is requested, without evidence
-> that this can happen. I think it can be dropped.
-> 
-Ok, I'll do that.
+Hi Li,
 
->> That makes me wonder if the vendor software is buggy. I have
->> two of those boards, and they both show similar values.
-> 
-> My follow-up crossed with your mail: the vendor software only lists
-> CPU VDDP on the MS-7C94 with an APU. Do your boards have CPUs without
-> integrated graphics?
-> 
-Interesting. Yes, the CPUs on those boards don't have integrated graphics.
+kernel test robot noticed the following build errors:
 
-Thanks,
-Guenter
+[auto build test ERROR on 4539944e515183668109bdf4d0c3d7d228383d88]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Li-Pengfei/tracing-Add-lock-free-stackmap-for-stack-trace-deduplication/20261107-135135
+base:   4539944e515183668109bdf4d0c3d7d228383d88
+patch link:    https://lore.kernel.org/r/20261107055139.3138633-3-lipengfei28%40xiaomi.com
+patch subject: [PATCH v8 2/5] tracing: Use the stackmap from the ftrace stack recording path
+config: powerpc-randconfig-1001-20261108 (https://download.01.org/0day-ci/archive/20261108/202611080654.sqFxIlwl-lkp@intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 8.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261108/202611080654.sqFxIlwl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611080654.sqFxIlwl-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from include/linux/rbtree.h:24,
+                    from include/linux/mm_types.h:11,
+                    from include/linux/mmzone.h:22,
+                    from include/linux/gfp.h:7,
+                    from include/linux/mm.h:8,
+                    from include/linux/ring_buffer.h:5,
+                    from kernel/trace/trace.c:15:
+   kernel/trace/trace.c: In function 'record_stackmap':
+>> include/linux/rcupdate.h:502:9: error: dereferencing pointer to incomplete type 'struct ftrace_stackmap'
+     typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+            ^
+   include/linux/rcupdate.h:684:2: note: in expansion of macro '__rcu_dereference_check'
+     __rcu_dereference_check((p), __UNIQUE_ID(rcu), \
+     ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:758:34: note: in expansion of macro 'rcu_dereference_sched_check'
+    #define rcu_dereference_sched(p) rcu_dereference_sched_check(p, 0)
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace.c:2154:9: note: in expansion of macro 'rcu_dereference_sched'
+     smap = rcu_dereference_sched(tr->stackmap);
+            ^~~~~~~~~~~~~~~~~~~~~
+
+
+vim +502 include/linux/rcupdate.h
+
+76c8eaafe4f061f Paul E. McKenney        2021-04-21  492  
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  493  #define __rcu_access_pointer(p, local, space) \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  494  ({ \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  495  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+423a86a610cad12 Joel Fernandes (Google  2018-12-12  496) 	rcu_check_sparse(p, space); \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  497  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  498  })
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  499  #define __rcu_dereference_check(p, local, c, space) \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  500  ({ \
+ac59853c06993a4 Pranith Kumar           2014-11-13  501  	/* Dependency order vs. p above. */ \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15 @502  	typeof(*p) *local = (typeof(*p) *__force)READ_ONCE(p); \
+f78f5b90c4ffa55 Paul E. McKenney        2015-06-18  503  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage"); \
+423a86a610cad12 Joel Fernandes (Google  2018-12-12  504) 	rcu_check_sparse(p, space); \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  505  	((typeof(*p) __force __kernel *)(local)); \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  506  })
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  507  #define __rcu_dereference_protected(p, local, c, space) \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  508  ({ \
+f78f5b90c4ffa55 Paul E. McKenney        2015-06-18  509  	RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() usage"); \
+423a86a610cad12 Joel Fernandes (Google  2018-12-12  510) 	rcu_check_sparse(p, space); \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  511  	((typeof(*p) __force __kernel *)(p)); \
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  512  })
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  513  #define __rcu_dereference_raw(p, local) \
+995f1405610bd84 Paul E. McKenney        2016-07-01  514  ({ \
+995f1405610bd84 Paul E. McKenney        2016-07-01  515  	/* Dependency order vs. p above. */ \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  516  	typeof(p) local = READ_ONCE(p); \
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  517  	((typeof(*p) __force __kernel *)(local)); \
+995f1405610bd84 Paul E. McKenney        2016-07-01  518  })
+24ba53017e188e0 Chun-Hung Tseng         2021-09-15  519  #define rcu_dereference_raw(p) __rcu_dereference_raw(p, __UNIQUE_ID(rcu))
+ca5ecddfa8fcbd9 Paul E. McKenney        2010-04-28  520  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
