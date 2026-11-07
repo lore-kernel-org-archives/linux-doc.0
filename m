@@ -1,57 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.70.43.103
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794092541;
-	b=hVGDDiGFIIIU/RNuIrJVyVwHZXnUk1syyW2T/q4wzHNtVx+lAbYUc0pDesnr0NuQ6aLg
-	 J9zXZzzwa7kUmAY92um/+uwNSI+xWf1edRZzicXbEYs/KQy0Ndsb+HZGdzURZDtj7BIu6
-	 nbj837QriCim4lBXgE6iHJ+tK1PpHE9vFmIinF9b5BwqKS9+mcNvZk5tIcEPfEzDh5N/I
-	 QEB6iM7QjyNO5VzUWClzM+skDdpjodxFtQdeNzwrRbrVx+zCDOXp5YN481YxHdqd4SaBZ
-	 v7KjZ/VKyx6xCVo3A46Hp4G1M72IT6GxzMr9lvbto9/qQgl6U2lp7+KrJbh6lzY1AFA==
+	t=1794093497;
+	b=s6vMkY+eW2Xzifr8cjKMdyvGABajcEHD+Evi1SKKN51TQPCCkiN2jipeZscsukOt9+5T
+	 QCtcawLkcWVspqllIspJXW2YBUSWO0x8hEQSDBdMLMtqHG5UIp0fXuFLsfFSV1yaR76VM
+	 wyvcODjYGw/0GfspnZlv8BVUI0pzWjx72f3cbT+olJb+PRn0IbDjwv2It6znSF6QIhfEJ
+	 DC8aMJ/qErfSIYjH/Yoky7o5CNr+s3/RxgH8QAzQ1WNbHOhel+Pnn7K+E+uygFArgwjFa
+	 846qwhBJ18gv/sEw0Y/QrVYMc977xpt6eJM+lo/q+w9/fQmI31i11wvwJapBHeXw33Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794092541;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 Feedback-ID:X-Pm-Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=0hFouMqOeYyeKhZ85sDPfJfrYfZA6d+gJ4WrPszogio=;
-	b=1DBoDGK6bWPMUaLWfBAKkk00epa6f3T8ABqfelU3XtIr0OS2+wL4PUIkA7viTJEcrZpH
-	 mMvGmBeknNPmj6uDxr2KbIf1ENK3pSOWO53NbFjc2XmTNFre0h8DBBqlE8mcJHF00wUC/
-	 00OkX+c2GICDoLBhjxujG9la1Xip1WsBMpMzSg+rWluCNphYJ1nGgjXpDvFGBVUAK15zJ
-	 qoqweM+qNJbm9Hz+sUc9/j+VYbzGZqPVuxy6TcZZE3rYsEV59pf1MqknXzRKMj2M08VDi
-	 or62yMlHDojlYUk3u86HVmibiSQ8c5S6uNQX0+6/aceJs9B4ovYINLAysqv+KVvW5IQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794093497;
+	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
+	 Content-Type:Date:Message-Id:To:From:Subject:Cc:References:
+	 In-Reply-To;
+	bh=B+YhXZl+/eWRBv4RgozyREqWo5C8cExmqjC652z4jDc=;
+	b=k+TtibECMBnpWn2iPGdwhgP4MwfTiL2HMtRlSxCLwDKHcN2adchccXsOA2sZhC0j9rDX
+	 Zleu9pD4UKo7x5yPjy3hyWfaAfDHXf9ofIy5tQbxJDkJTer6Mj2iwbIgCq1jVHyLGUNOm
+	 QIQI7VL97zSCs3e1+XZnWgJOK/lgkoeobPeKKqnExrIApAtjc3DnTNjsHsolsr5gG3q1C
+	 W8cs6/TrmVP7RnZ9OruTsiEQ4CkqsIAzU3rd7ZqgdD7/H2oyYDNoImUIsP0lMyjBAvZQk
+	 e855pGHEJqXeTBmrZe6pbAILdRTIOao+6dnrSZ1/gsUoyHCsQpHcAN6puq8hsG5aUhg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=pm.me;
-	spf=pass smtp.mailfrom=pm.me;
-	dkim=pass header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=rLfkYRN8;
-	arc=none smtp.remote-ip=185.70.43.103
-Received: from mail-43103.protonmail.ch (mail-43103.protonmail.ch [185.70.43.103])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lMw1HOP4;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15872606A326
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 23:02:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15872606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D3E606A326;
+	Sat,  7 Nov 2026 23:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.a=rsa-sha256 header.s=protonmail3 header.b=rLfkYRN8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
-	s=protonmail3; t=1794092538; x=1794351738;
-	bh=0hFouMqOeYyeKhZ85sDPfJfrYfZA6d+gJ4WrPszogio=;
-	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=rLfkYRN8PyktjxiGFlQTpKqHwO5BSUsrQZwNrMsFry+BGKSNNZq8FUToNoPLEjqMh
-	 EswXEKS5BWT9MtZ8Bb79XWC46EkLGsnUlQ4no6H8aaEI7YnYDUplZkrJWhY0nSi8dD
-	 Q9XWEgioUkRSX2r+doOYdOGJowkDUekYjchabW8Upevz4M5zb9pyOUlgXNfgqOxDHp
-	 sVZhSwZJ8uS011IT3Rww6XdEpBaa/XBJDqgr0Y33gKSwsMSsD51fDqSqyODwssdemV
-	 76Dh/22qm7ICEItfLz1urR6JlBwBlE6tjoZo/iXqrZbAd8wkkYNrp7G0JsdNH2LQCP
-	 wk/ADzt5tB3RQ==
-Date: Sat, 07 Nov 2026 23:02:14 +0000
-To: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com
-From: Mauro Codella <mauro.codella@pm.me>
-Cc: joe@perches.com, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: checkpatch: Fix DEVICE_ATTR_WO macro name
-Message-ID: <20261107230208.326769-1-mauro.codella@pm.me>
-Feedback-ID: 135342123:user:proton
-X-Pm-Message-ID: b9297a89896b6ad5ddd8eb990ad47380ae37be5e
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lMw1HOP4
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D8C11F0089F;
+	Sat,  7 Nov 2026 23:18:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794093496;
+	bh=B+YhXZl+/eWRBv4RgozyREqWo5C8cExmqjC652z4jDc=;
+	h=Date:To:From:Subject:Cc:References:In-Reply-To;
+	b=lMw1HOP4tnW3JvJhlRS8xA+R2LNpa3onQ1CAogENBEfkTxzwNmmROKB0asKESEdHa
+	 LPIFeYVb3lS1Dz/iFj/qicZ3WDrRan1q0WmYQMKdOmySZWwKAyYqj5h3Ue0MzFgZ/+
+	 9TEKM6luuvc7jGFr4RZoSECPhQJjVn1VcGYbIDdVIK36Rj6y6VKjavPgCBtGMT87ml
+	 +f896MxhHF4w08uLf3NpmqjGiitdaHUvjreWODi0J4zt1FQxJkBFnQIyeV2izKbLu7
+	 nGH2dRZ0aaKmytkZrSSMcmRvqg9Fzc9PBJjsNk4a8qe7s06vm5RyJTirG0+5Tf+6aF
+	 UE3hcIKF20jDw==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -60,37 +48,120 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 08 Nov 2026 00:18:12 +0100
+Message-Id: <DMPD2CDIAW74.2Q60A9JGEPTR2@kernel.org>
+To: "Alexandre Courbot" <acourbot@nvidia.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v6 1/3] gpu: nova-core: move the debugfs root into the
+ module data
+Cc: "Vladislav Zaharov" <vladazaharova2018@gmail.com>,
+ <jhubbard@nvidia.com>, <aliceryhl@google.com>, <ttabi@nvidia.com>,
+ <gary@garyguo.net>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+References: <20261014154554.231015-1-vladazaharova2018@gmail.com>
+ <20261014154554.231015-2-vladazaharova2018@gmail.com>
+ <DMOS00OZYWU5.2SUZRN37DEH87@nvidia.com>
+ <DMP087IP6EDP.2QB7783SVNV2T@kernel.org>
+ <DMP0LNXEI7YF.1G8UBZKO2W3U9@nvidia.com>
+In-Reply-To: <DMP0LNXEI7YF.1G8UBZKO2W3U9@nvidia.com>
 
-The DEVICE_ATTR_WO section refers to DEVICE_AATR_WO, which does not
-exist. Correct the spelling to match the macro in include/linux/device.h.
+On Sat Nov 7, 2026 at 2:32 PM CET, Alexandre Courbot wrote:
+> On Sat Nov 7, 2026 at 10:14 PM JST, Danilo Krummrich wrote:
+>> On Sat Nov 7, 2026 at 7:47 AM CET, Alexandre Courbot wrote:
+>>> On Thu Oct 15, 2026 at 12:45 AM JST, Vladislav Zaharov wrote:
+>>> Another thing: since this is declaring now a proper interface, can you
+>>> move `DebugfsData`, `debugfs_data` and `DEBUGFS_DATA` into a sub-module=
+,
+>>> say `debugfs.rs`?
+>>
+>> I think that makes sense.
+>>
+>>>>  impl InPlaceModule for NovaCoreModule {
+>>>>      fn init(module: &'static kernel::ThisModule) -> impl PinInit<Self=
+, Error> {
+>>>> -        let dir =3D debugfs::Dir::new(c"nova-core");
+>>>> -
+>>>> -        // SAFETY: We are the only driver code running during init, s=
+o there
+>>>> -        // cannot be any concurrent access to `DEBUGFS_ROOT`.
+>>>> -        unsafe { DEBUGFS_ROOT =3D Some(dir) };
+>>>> -
+>>>>          try_pin_init!(Self {
+>>>> +            _debugfs <- DebugfsData::new(),
+>>>> +            _: {
+>>>> +                // SAFETY: Nothing reads `DEBUGFS_DATA` before a devi=
+ce is bound, which cannot
+>>>> +                // happen until the driver is registered below. What =
+it points at is dropped only
+>>>> +                // once the driver is unregistered, so it is valid fo=
+r as long as any device is
+>>>> +                // bound, and nothing reads it outside of that.
+>>>> +                unsafe { DEBUGFS_DATA =3D &*_debugfs };
+>>>> +            },
+>>>
+>>> Let's move this initialization into `DebugfsData::new`, using
+>>> `pin_chain`:
+>>>
+>>>     /// Returns an initializer that creates the shared debugfs data.
+>>>     ///
+>>>     /// # Safety
+>>>     ///
+>>>     /// The returned initializer must be run exactly once before the dr=
+iver is registered. The
+>>>     /// initialized [`DebugfsData`] must outlive the driver registratio=
+n.
+>>>     pub(super) unsafe fn new() -> impl PinInit<Self> {
+>>>         pin_init!(Self {
+>>>             root: debugfs::Dir::new(c"nova-core"),
+>>>         })
+>>>         .pin_chain(|debugfs| {
+>>>             // SAFETY: Per the method's safety block, the driver is not=
+ registered yet, meaning that
+>>>             // no device can be probed and thus nothing can access `DEB=
+UGFS_DATA` concurrently.
+>>>             //
+>>>             // INVARIANT: Per the method's safety block, `DEBUGFS_DATA`=
+ is written before the driver
+>>>             // is registered and points to a valid instance of `Debugfs=
+Data`, which is pinned
+>>>             // and dropped after the driver is unregistered.
+>>>             unsafe { DEBUGFS_DATA =3D &*debugfs };
+>>>             Ok(())
+>>>         })
+>>>     }
+>>>
+>>> That way, the burden of enforcing the invariants for `DEBUGFS_DATA`
+>>> relies exclusively on `new` (and we made it unsafe to force the caller
+>>> to do that).
+>>
+>> Actually, I would leave that part as is.
+>>
+>> Eventually we'll have registration data for driver registrations to shar=
+e module
+>> data. Once we have that, we'd need to change DebugfsData::new() again an=
+d move
+>> that part bnack into NovaCoreModule::init().
+>>
+>> Besides that, DebugfsData has nothing to do with the current limitation =
+of
+>> publishing module data to driver registrations; the module code seems li=
+ke the
+>> correct place to deal with this.
+>
+> Makes sense, let's reduce the churn indeed. In this case I guess
+> `DEBUGFS_DATA` will need to be made `pub(super)` so this module can
+> initialize it.
 
-Signed-off-by: Mauro Codella <mauro.codella@pm.me>
----
-AI assistance: Codex identified the typo and drafted the fix and commit
-message. I reviewed the change and ran checkpatch.
+I think DEBUGFS_DATA still belongs into nova_core.rs (including the
+debugfs_data() accessor) since it is a workaround to make module data
+accessible.
 
- Documentation/dev-tools/checkpatch.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I'd also like the accessor to be an associated function:
+NovaCoreModule::debugfs_data().
 
-diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-too=
-ls/checkpatch.rst
-index 6139a08c3..f8ab22c18 100644
---- a/Documentation/dev-tools/checkpatch.rst
-+++ b/Documentation/dev-tools/checkpatch.rst
-@@ -389,7 +389,7 @@ API usage
-     See: https://www.kernel.org/doc/html/latest/driver-api/driver-model/de=
-vice.html#attributes
-=20
-   **DEVICE_ATTR_WO**
--    The DEVICE_AATR_WO(name) helper macro can be used instead of
-+    The DEVICE_ATTR_WO(name) helper macro can be used instead of
-     DEVICE_ATTR(name, 0200, NULL, name_store);
-=20
-     Note that the macro automatically appends _store to the
---=20
-2.56.0
-
-
+Thanks,
+Danilo
