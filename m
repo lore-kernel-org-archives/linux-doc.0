@@ -1,80 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794084133;
-	b=QhvuhvshrTL+oJqEwDjvFYoy5N5D1us+K6SlqIwUc3B8DA1f5JKM3gkVWCEn/Xlt7rcD
-	 cLDdgmblvgFZNBbeMpdvu/hIJlElBxVz9kpxtZ7qlupzmASiBbG9bNU0wnCTpM/cVplSZ
-	 ql4YCAEKVbgxVqQe4HJdRbySqRCzdBcHrVNlL2gRWq+Gt+nCt17NFdn7eL+P8yRTAFqk9
-	 xaseRpi6wvcWzyDwwipxRvhwU0f8Cc0skFwaPStHXxeDCAyPR0xKIUu+uOyk485vsOO/I
-	 ZIwTc+Qn52LaeyxC/ITTsfnVuKyqQoYYazJemTvRK/hpHhPlUTMFOTxNkyV0VjbGqHw==
+	t=1794084889;
+	b=n8pfh5PFKGF87PgJG8BTuGFbIorpVeSHQabyLtFruKQ7UuYGi9eOHm3UVYG+CO/zDUdV
+	 VV0uAI4Tk7Ap7M0UEHWu84+YJ/QzpOhaMrA/xK+2ZPB0Mc4BZrg8FElSDQ4UrglftZ3gb
+	 rkALUD0muPf3IvNEtff/YcgbSjEimGkwk3bivDwT7fO/8HRhnn+Q2YZ+oW8JteYq5JgZN
+	 1XfFUo0KX24S1heP2pC25TE0iVwGEhFfA3g0NXHKawcNbbww1NWwzXyWw2mEb5WJy8CfQ
+	 pThw4IsmHm6ZJsZj0muWRmh2SfCBkkvinQAaV9xz4XRpnxIDl25O4HJo2K+FJhx29Wg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794084133;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=vt9E+5gU7NQ+Wi6z2HfmB+6KsnzMwitmxcnzRralzow=;
-	b=K8Up2qhvAWN6iqi+8zLohCs0N7EStequwm2WhLeqCvRHIH3JFYOYXGLLlnwZehQc1ZnR
-	 d/qAU2cOjltseNaiTE87mxguZdqoG1UMuM29rKYBFCoa70+MHTngX78+bCsGJdjqQtL4b
-	 lWyeQRPyXF8BbrxjQ9CSYefsS+1YoiBKC3WkVW4EvkuqEBFobSP8W3WI2rW/xsQ+3N78q
-	 JlELn9ECrvZqpMBw0RIgU9hU1u0SoFe8CKo2IJZQa9w3BgKkXHbehdlVwYrkgsoGb3HOA
-	 zneznpffKSwauq4VivCLz941Tj/CQD5Gz7QGSBEE5xSHxfM3SYB0/PAmsv9Es8Gl9lA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794084889;
+	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-Rspamd-Queue-Id;
+	bh=tREVUEUf9bCitrWRPmhokHLgiBPXJLteRSjyxCcR6Js=;
+	b=DupFnrUNz8YeeFt9iU4zJWSLPU6N9Hf2VgntCZrA9iaQl2mlqS8zU3MUwMfjMSKeOY/3
+	 Kk6A+/KYb/SPm8ftUqolMW3C0AnmRuiDJszW73Em9u1+mBOQiuBOGw1P+4yQAtE9DRehy
+	 ekjCzRJ2pgI+5a2DRgIux0HhqI/eaizjtiZTh/N47Zw921BHhWQXbl3SnNZOhaZviBX9C
+	 l5VquS1O8zSHx/pfcBsZ7haaEohwPzgmcA7pQfiSqRlFXdAttb1puxONAjXyfpSC2iETH
+	 V9MJv/ckxGunKE92QfRRcgCk5DtFIIK/Nd0s06zznPxlBbCDnKGJox3kerMZGSsRq7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QdgeqcGm;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=bojanowski.me;
+	spf=pass smtp.mailfrom=bojanowski.me;
+	dkim=pass header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=p8+sUpVt;
+	arc=none smtp.remote-ip=80.241.56.151
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A167606A32E;
-	Sat,  7 Nov 2026 20:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCD3606A326;
+	Sat,  7 Nov 2026 20:54:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CBCD3606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bojanowski.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bojanowski.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QdgeqcGm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F10651F0089F;
-	Sat,  7 Nov 2026 20:42:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794084133;
-	bh=vt9E+5gU7NQ+Wi6z2HfmB+6KsnzMwitmxcnzRralzow=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=QdgeqcGm7aLjvMwhDXbnVrXyrjxTJoRQkqRIsDjcoduMOTEL8GCNOFQSiDbwYCCXA
-	 bdiOlqUv4nmV7s8TUKhpFnqxqC6DSKCS1JUo3diwp71Rk0vlgv1Nh8kEE+kDsic1tz
-	 A+Jb5V3672/95emWmClD9muYAGY/rWdyjIttmwrc+GYxS6MurZyD0azH7QdvjXiOYE
-	 GXdd+qElL0kyHa09o4qK64HoO7MAQfsV8IpmBzQ6+Res9Ewlsf0DCXIDsQqqLpTLm2
-	 O/+ktjWajqgRw+TV+MG2JVz5d1/6q6chhmKGj+4z5BEqZwVpkAS+1MglhWGlk1QczL
-	 LwZyEhkdgqX/A==
-Date: Sat, 7 Nov 2026 12:42:10 -0800
-From: Eric Biggers <ebiggers@kernel.org>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, bpf@vger.kernel.org,
-	dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
-	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Alasdair Kergon <agk@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ignat Korchagin <ignat@linux.win>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
+	dkim=pass (2048-bit key, unprotected) header.d=bojanowski.me header.i=@bojanowski.me header.a=rsa-sha256 header.s=MBO0001 header.b=p8+sUpVt
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jMSwN0tmGz8tLh;
+	Sat, 07 Nov 2026 21:54:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bojanowski.me;
+	s=MBO0001; t=1794084884;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=tREVUEUf9bCitrWRPmhokHLgiBPXJLteRSjyxCcR6Js=;
+	b=p8+sUpVte1jstTGrw1LgkBC3mfewBSbepVq/8jzTA0y667tEu+1nfdgsylv+pwyP059Ybb
+	dNimNtaQqqDqPhj7Lj/W3KjbFG3hm/gYwkdddEsQKsdDAo0WYpUhpcCZvTvzZpe2PcBqPK
+	daSLY6PpAiemD2Zb/amEaRCDkntTy1QZqJEY8JeIUGpHXveoodYgRKq7gg3LeWJTixjbCF
+	oeaNaIX0aB/uarvGFoihlSqGllGi2DINChdOd6C1BDKPTWJ04M2gNfUABTubFpm6qRVILU
+	VZBxgYjyvIDhswu4B9+XPgELhzlMQWmvrj4jfbnnJlGV1C8EwHBPPLcO2xQsBw==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=pass (outgoing_mbo_mout: domain of tomasz@bojanowski.me designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=tomasz@bojanowski.me
+From: Tomasz Bojanowski <tomasz@bojanowski.me>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: linux-hwmon@vger.kernel.org,
 	Jonathan Corbet <corbet@lwn.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Yonghong Song <yonghong.song@linux.dev>
-Subject: Re: [PATCH v6 0/3] KEYS: Replace assoc_array with rhashtable
-Message-ID: <20261107204210.GG6049@quark>
-References: <20261107195605.3929659-1-jarkko@kernel.org>
- <au-FkAtC4Gcw7Bkb@kernel.org>
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] hwmon: Add driver for MSI Mystic Light controller voltage sensors
+Date: Sat,  7 Nov 2026 21:54:42 +0100
+Message-ID: <20261107205442.431992-1-tomasz@bojanowski.me>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261107203300.427273-1-tomasz@bojanowski.me>
+References: <20261107082821.8257-1-tomasz@bojanowski.me> <812ee6c0-82ac-41f6-9eca-1f17c6ef715d@roeck-us.net> <20261107161249.336512-1-tomasz@bojanowski.me> <5e99fd86-d934-49c1-a867-02cc61ab1ecf@roeck-us.net> <20261107181518.385136-1-tomasz@bojanowski.me> <e79d3e26-4ca5-4ca4-9159-427a5a6f1129@roeck-us.net> <20261107203300.427273-1-tomasz@bojanowski.me>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,74 +77,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <au-FkAtC4Gcw7Bkb@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-Rspamd-Queue-Id: 4jMSwN0tmGz8tLh
 
-On Sat, Nov 07, 2026 at 10:09:52PM +0200, Jarkko Sakkinen wrote:
-> On Sat, Nov 07, 2026 at 09:56:01PM +0200, Jarkko Sakkinen wrote:
-> > The keyrings subsystem is the sole user of assoc_array. It has over 1700
-> > lines of code, no test suite, and a long history of bugs, with LLMs now
-> > finding more.
-> > 
-> > This unfortunate outcome has evolved over time by large from the shortage
-> > of in-kernel callers, time bandwidth and 3rd party contributors.
-> > 
-> > What the keyrings subsystem needs is just a generic key-value store, which
-> > performs well with sparse key sets. Replace assoc_array with an
-> > rhashtable-backed keyring index and remove assoc_array from the kernel.
-> 
-> Sashiko: https://sashiko.dev/#/patchset/20261107195605.3929659-1-jarkko%40kernel.org
-> 
-> Not addressing this as only one patch changed and the change was
-> exactly:
-> 
-> diff --git a/security/keys/keyring.c b/security/keys/keyring.c
-> index 772fa0e35f9d..6761c6801edc 100644
-> --- a/security/keys/keyring.c
-> +++ b/security/keys/keyring.c
-> @@ -12,7 +12,6 @@
->  #include <linux/security.h>
->  #include <linux/seq_file.h>
->  #include <linux/err.h>
-> -#include <linux/delay.h>
->  #include <linux/jhash.h>
->  #include <linux/user_namespace.h>
->  #include <linux/nsproxy.h>
-> @@ -101,6 +100,7 @@ static const struct rhashtable_params keyring_link_params = {
->         .min_size               = 4,
->         .nelem_hint             = 3,
->         .automatic_shrinking    = true,
-> +       .insecure_elasticity    = true,
->  };
-> 
->  static struct keyring_index *keyring_index_locked(const struct key *keyring)
-> @@ -1225,12 +1225,8 @@ int __key_link_begin(struct key *keyring,
->                 if (ret < 0)
->                         goto error;
-> 
-> -               do {
-> -                       ret = rhashtable_insert_fast(&links->ht, &link->node,
-> -                                                    keyring_link_params);
-> -                       if (ret == -EBUSY)
-> -                               fsleep(100);
-> -               } while (ret == -EBUSY);
-> +               ret = rhashtable_insert_fast(&links->ht, &link->node,
-> +                                            keyring_link_params);
->                 if (ret < 0) {
->                         key_payload_reserve(keyring,
->                                             keyring->datalen - KEYQUOTA_LINK_BYTES);
-> 
-> So I don't think there are any real issue with the patch set, except I
-> will need to rebase the commits to the latest mainline.
+One more note on the MS-7C94, after a closer look at the vendor
+software: it only lists CPU VDDP on that board if the CPU name
+contains Bristol, Raven, Picasso, Renoir or Cezanne. These are all
+APUs, so with a CPU without integrated graphics, the 2 mV at offset
+11 is probably expected. It does not use offset 15 on this board at
+all.
 
-It looks good to me now too, but it would be good to get a Sashiko run
-on the latest version.  Sashiko hasn't run since v3, as it failed to
-apply the series.  You should base the series on a commit in either
-mainline or linux-next, and pass the '--base' option to 'git
-format-patch' so it adds a 'base-commit' line.
-
-(The only reason I've been able to apply it myself for review is that I
-went out of my way to find your keys-rhashtable branch in git.)
-
-- Eric
+Tomasz
