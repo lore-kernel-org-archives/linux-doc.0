@@ -1,103 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794062107;
-	b=3RZK3UDN3HEBoCsrbsnj2Ftqg7J4Qyy5lbfhEdZdcwOPAq10xPdEpdVmygV8U0+n+4zN
-	 yNlZvWZ5LZAooOZgl5HsOodTd0hYmOkHzczVSyFXd9HmO+m94qmOK13m12PaMYrPdYDfJ
-	 NgJCh+8KrAGf2XzJ1PrvfLN4JN404XIva8YcihQbf6AQBf+1a/GZf4hAVn966gaNmazig
-	 4AE7EA1WNqwTBpiJCfEu52On3Qo8vZMUkwfoeqSUdQI40dv/Jh/5agZL5ViQEYpYaqf5X
-	 GTBcRWSoYNPKx2mz2RPeE5kNiQo77g3mX7F3+cfrJvUTZ/SpkCwvNZOGgZk6xCQkMWQ==
+	t=1794062477;
+	b=ngAwCTJ3x/hOsjU6KfCiRtNLO+cnM/mEf+/+c6sP6+0Ij6Bwc8Q6MRQz3+Cbv8htigeG
+	 F3+ChjqZ6vrB4bnppBJxcsJ+/vVi3g+6dq2oUWji1cR0CgTiNiNx0vSo+u69dXCHcZx/I
+	 gOgiw8aij0+cGwTOGAdLBBbVtsTwuK9rJsy9MwkYpR63RPouc8uu7Syzf4SYyt0FsSfBS
+	 Cwc3ldCr5v5/XU2NTgafqLoDASu5l/Yc5LVchEK/qvMoVZBb5K0f7zd3QDBApqml38rNJ
+	 Muxpz9Z6HhxwL6hXdKeqjPBcBMKxG6lL5RpFKLE28xLhl5aDQ79xERnxv+cDv2oZCTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794062107;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=FnXDhydnb2ccBc+HkqfRuBRFsa8PxXuzWixMqzpGlMU=;
-	b=M+ePaXnNdz8dnodLXAUQjtCA3EM2MWeRYgPQ8BhjuWgAlpJ4jGvLlF4UCtUrZf5b/LgK
-	 SiV6bL8TDtFENoxyYWwAwrDD/N5229E+Daq3HQeFQFbOzteBNvRMdoFXLF1qaS+b/sY1I
-	 NaIgSe0licumtQAhnP2raAEDtpDRoMpqIzLu8xZhs15DEKaWF7y2rpl54ZhakU3eZhpNS
-	 ItXXLO+9NrsxbXkE/qB+PH0C1fabNvcwLg4OhhlzrUoO0EogM+jpZplx7wvgGtlJOiBv5
-	 IzNfynRPAK9uN9PJb0NgWMsIRyephRu4mR/2dD6gCfHfUBfFQLIwkWjCBfe82cm8Iog==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794062477;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type;
+	bh=MTKqzeN2qzSEwB7wgpPDqmDOm1XJz5MFsmhF4czrNrI=;
+	b=N9/oimPhIKZAihwbnKUqnL+Z0kFf65FNRmsKRu9B756NDyjnS3A8QY0SgnRCQGd7GwGr
+	 +QUnwAUv96CQyQNOipA/sX+pwuSUJWgiRxuby4dt4SujRZIJA0KZOHWPVRy7/9LQ+HBUk
+	 rl79FtlvlD4JDQNO5C9hj+0/22EQB7qF0y6TJ4JxAHswY5L9+EZRuyfvLfJ1fOp9Fk9hZ
+	 qg7PGKBsKCBtxEfvuVtMDyr3kYB7/l79hDmHLrkl5pJsgP7L0oTznaIW0RINge6VRyDFz
+	 65mkFDYu1ZATlbc0Dr2RrECn748cUmIwjuMwlhhCcklhhiK3GfXA2iaOKIRJmHsPG/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=It0tjF7X;
-	arc=none smtp.remote-ip=74.125.82.178
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=sntech.de;
+	spf=pass smtp.mailfrom=sntech.de;
+	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=AKfQpOEc;
+	arc=none smtp.remote-ip=185.11.138.130
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F2860A263F
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 14:35:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03F2860A263F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E517606D822;
+	Sat,  7 Nov 2026 14:41:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1E517606D822
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=It0tjF7X
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so2584046eec.0
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 06:35:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794062106; x=1794666906; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FnXDhydnb2ccBc+HkqfRuBRFsa8PxXuzWixMqzpGlMU=;
-        b=It0tjF7XWj++NO97QlIi+MzWsqv7dS+rLoAjkHiEBDKsdOwkLwXkcxT7Ik7ap4Urjn
-         YI8UTGIEzQo7stz5MHOmV30obduE2A44pHBsRy89yax5YgZPFcZP/I/ZjPM0PbTZ8anh
-         kE3UVi//VVoYYPYw+MD/c0+acOFFpYGqmnRZzHyK+1Ynu5aRuW1Ktirfj5RGHoDSMXcY
-         yx0+sXtBo1Z7Gd6IJoueeJi2Kr8NvRjuMQxx5CfOdnBxdeZ3sDK0qigZEnY94G09p2H2
-         6wG33TspzAHEgFIYLN3nhjmMxdOD9tpWr7Vldo5sroGRSsGU+5fCbivBb7dTslLwANGj
-         GzRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794062106; x=1794666906;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FnXDhydnb2ccBc+HkqfRuBRFsa8PxXuzWixMqzpGlMU=;
-        b=uE+GVNyiBBW7z4VQqasAxvIr2yXVljT9UP4Od9OG6h8mDgiVsxgf5EMZ4CptCa/Tq4
-         iVUg5gsg0eh72p7Tr/hwkeGr18V+/wqFz26B1gbKRB+ozWNZUp7c2oHd1Xx8A6zLYmsp
-         unaNS7hU/sbzlFNm2mOLFcKGKC7LOSQRhrms+5LxaIgdul1e5S0fe2EnEMca4w6V3Nxv
-         3K2oT3vhJr9GBGaD7t1PwVwTAAWWIx8DimueAkwUCWUHNYB0jXTLXmAI4bIJMZMkAL0k
-         1wfdBkeOZPA8XbH/G7p2lhTjolOl26tEUcNsLz3AJKFamhWKWUyJ5bNwYW8+Q2eJ4JNR
-         /jSQ==
-X-Forwarded-Encrypted: i=1; AL+hErGpU3NP6EDur4cj7KqASAQM5Njd60wPYwdU31Ubgc2ZZ58oQ47Cuuhh6MSv1jiZY0DYsiRGecjAITk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Jc7TiSWdmb58TB+iAi9RO4mFNUAf2jb6uRanC4k9JOpXO+uFr
-	+0h6GiS4B+F+06se79M3kakfBcSJ38uxCyaQ7Pj6EyOz+mPGEBfuX+4+
-X-Gm-Gg: AYBFou2Q078Kbq6QEMcO9zzMxpov/+H46C+N7g0AdV5gx+G0gNCLRDiLR/Nh1SnM96k
-	r1D37RYyEqDoI7BAZFVMpYL6FwvRc41bT5JkmYbnBDu9orRwTK28HGcGmq0myNPO08uwBqDzoa5
-	L5krUeWR6qMwpIhJPbEKHRq5zPa9FhVRS4QhOBWGAv3TgGQ4D4riw86uEMU+Q4L9AwZf81Qgc9N
-	uSmfsSANo+5GH5W+8T37Tzqq0jIa0bbteDhRofslWlYw64FpLCCBbdEqCuAKxXbGyODBpQC8g3I
-	oFqvKuMg3CR4qAvU0GB9DzXAmK8c4TQ8bwoVm+medIV4IN8Zwp3kFWMfO+d/4IZB3KTwpg5OmCS
-	QwLNAXAQmOYsnZyZEwOdNslOhEgsebVahYpxBcwp9Mfp2HfN2Vl4qOgB4XY9VF949zOXUjsWSgu
-	8gUfnSijFUFyygSHTjnn22QejZPhdsckr0a7lMvgNAWnV+8M0k3YZpGJ0tXpAoi3oWAIhwIiA72
-	hWAw+UGy+NQpqLxbaeZHXW+xriaPpKnf6zETTWFJ0Tb9/zY5BLJLyF8NlaKwxYxcVnWoQT2m1jJ
-	dxWAk93ezCWADKxKqzJoFiUGH/A+sFi1QwxZwz6fIx6aOCJk+H3Qz0PSfpV6uo8d+eH1gQVUD/B
-	V6ubve4IOyJiCCqKYk8StoLSP1/WaJyhwbshu5Yz4PmvKDg==
-X-Received: by 2002:a05:7301:d805:b0:36b:f09f:924a with SMTP id 5a478bee46e88-36f7592e4d4mr7639013eec.14.1794062106044;
-        Sat, 07 Nov 2026 06:35:06 -0800 (PST)
-Received: from localhost.localdomain ([180.182.24.11])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa9aea75fsm27881873eec.15.2026.11.07.06.35.02
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 07 Nov 2026 06:35:05 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v20 11/12] ALSA: virtio: prioritize staged capture period work
-Date: Sat,  7 Nov 2026 23:34:21 +0900
-Message-ID: <20261107143422.29319-12-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261107143422.29319-1-mynameisjune111@gmail.com>
-References: <20261107143422.29319-1-mynameisjune111@gmail.com>
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=AKfQpOEc
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=MTKqzeN2qzSEwB7wgpPDqmDOm1XJz5MFsmhF4czrNrI=; b=AKfQpOEcyMJuFY5WDsAYJCTPjL
+	pgnw4g5N7gDR3sRbLbFgG73J6zge7zNIO0U5Km4Qo/IoKiabt/e8uLUdTA7R2zZXc/s+9IS57fvvF
+	72zVqn2IdV6MrKoyzu9pOjZqKdtb5zyu7j2UkFKUk67ed7AEm0Dh+jLxuLdUY4pItdnHYV8H1Tev5
+	vD+2hx89y6foUzJmwrEnK7jzdalIL2ZDOVxos10lo20RajGCi5S8fwui/nYnLxiTYpETen3FkgD0+
+	f2wq6OjDIi1cpxq//uoGJdNTDNcF3XxMPt37xeImwXJZqfUKmYQx0vNtV0j1Hj+XlF3mdU7+Hu8F8
+	tZjG+fog==;
+From: Heiko Stuebner <heiko@sntech.de>
+To: Marc Kleine-Budde <mkl@pengutronix.de>,
+ Vincent Mailhol <mailhol@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ Wolfgang Grandegger <wg@grandegger.com>,
+ Oliver Hartkopp <socketcan@hartkopp.net>, kernel <kernel@pengutronix.de>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Cunhao Lu <1579567540@qq.com>
+Cc: linux-can <linux-can@vger.kernel.org>,
+ linux-kernel <linux-kernel@vger.kernel.org>,
+ linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+ linux-rockchip <linux-rockchip@lists.infradead.org>,
+ netdev <netdev@vger.kernel.org>, linux-doc <linux-doc@vger.kernel.org>,
+ stable <stable@vger.kernel.org>
+Subject:
+ Re: [PATCH net v7 0/7] can: fix bus-off restart and device close races
+Date: Sat, 07 Nov 2026 15:40:55 +0100
+Message-ID: <6105577.1B3tZ46Xf9@phil>
+In-Reply-To: <tencent_B3369A1199D0849091BB8015C41BBFF0A607@qq.com>
+References:
+ <20261106-rockchip-canfd-restart-close-v7-0-accdb11bc845@qq.com>
+ <16255046.uLZWGnKmhe@diego>
+ <tencent_B3369A1199D0849091BB8015C41BBFF0A607@qq.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,33 +76,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Queue staged capture period notifications on system_highpri_wq through
-the common scheduling helper. This allows capture notifications to make
-progress when ordinary workqueue workers are delayed by CPU contention.
-Playback and ordinary capture keep schedule_work().
+Hi,
 
-This preserves the existing priority proposal without mixing RESET or
-lifecycle changes into it. It provides no hard real-time deadline and
-cannot prevent a userspace reader from overrunning its buffer.
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+Am Samstag, 7. November 2026, 03:57:26 Mitteleurop=C3=A4ische Normalzeit sc=
+hrieb Cunhao Lu:
+> > > This series depends on the three patches in "can: skb: make CAN skb
+> > > freeing safe in any IRQ context" [1] and the three patches in "can:
+> > > rockchip_canfd: fix TX stalls and races" [2].
+> > >=20
+> > > [1] https://lore.kernel.org/linux-can/tencent_CD05F020BAFB2537F5D1F4C=
+BB425588EA80A@qq.com/
+> > > [2] https://lore.kernel.org/linux-can/tencent_E25C9BE6689264E4138A464=
+803B810FDFD09@qq.com/
+> >=20
+> > Both these series are from july and seemingly from before you started
+> > using the b4-relay. So they may or may not have survived the kernel
+> > releases and their threading is broken both on lore and in any maibox
+> > they arrived in.
+> >=20
+> > And if there haven't been any responses to them since then, I'd think
+> > they have been lost or so.
+> >=20
+> > So I'd suggest rolling both your dependencies forward on top of the can
+> > tree and sending them as a new version, so that reviewers can find them?
+>=20
+> Thank you very much for the guidance! :-P
+>=20
+> I just checked: the "can: skb: make CAN skb freeing safe in any IRQ
+> context" series was merged into mainline yesterday, so I won't send a
+> new version of it. I'll remove its link from the cover letter.
+>=20
+> The "can: rockchip_canfd: fix TX stalls and races" series still has some
+> issues reported by the bots during submission to the net tree that I
+> need to address. Since those patches overlap with this series, I plan
+> to fold them into the next version (v8) and send them together.
 
----
-sound/virtio/virtio_pcm.h |    4 ++++
- 1 file changed, 4 insertions(+)
+As that series is also "just" for the Rockchip CAN driver, merging both
+sounds like a good plan - especially as it makes it easier to keep track
+of things :-) .
 
-diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
---- a/sound/virtio/virtio_pcm.h
-+++ b/sound/virtio/virtio_pcm.h
-@@ -168,6 +168,10 @@
- static inline bool
- virtsnd_pcm_schedule_period_elapsed(struct virtio_pcm_substream *vss)
- {
-+	if (vss->direction == SNDRV_PCM_STREAM_CAPTURE &&
-+	    vss->capture_staging)
-+		return queue_work(system_highpri_wq, &vss->elapsed_period);
-+
- 	return schedule_work(&vss->elapsed_period);
- }
- 
+
+Heiko
+
+
