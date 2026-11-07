@@ -1,127 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794075934;
-	b=d1CmY/D17M5JKjTNIm+44D+pP3I8EG0lnBW5aUPknhe0xbzeKO/8ZGLK08SJ1e1D1fzw
-	 18Q41kyVP1Rn7NhDpBwfLoJtKmjEp1cYkdmFzrwuaCGaHpVmALqRGBZgzezphccheKK5X
-	 mt06UwWmnFxGoMgWFtXojkJwbyE2aQffYMNjIYYr7vWXUEVV3T8wcNTsHYXjxy7udNcIM
-	 +VVGpD0tm/5MHLhloCdj8Oyo5dQ8c76TcBGaSqa343F19+bIzR1GoXzikibkke2sUm25D
-	 I4FjRkrz9U5OWp7VAVi+I1omEFgJocrC9rpgdCjVBf65S0Je7rmY0niYqAadCwwD7Vg==
+	t=1794076138;
+	b=BjkVaR5aup8pJELINLmjQ4nOvZqs1nkG+KDALbTy6DV6BshDsdUZigir4s3TTEKnVWUx
+	 I+zhBfqTGFyudDWaVx9xy8HV+JhWr222SNH3Vxg7SqOpVUZl/J1Aow2AbNUu9T0rrvLNU
+	 SAxMLLvGGrCeHB8DjXuEImOhDA7GBBsFxkPWjBOuUDU/SrE7YzFGlu1sOdQvp2dNESjFy
+	 T5PhWHizQjjird4UUjQwynDGnZ1uIpzIKA9R3os0JtVLTXRhynPasK36HYEWBJCwGijud
+	 7X15jYSMlrUPTQAQMG3h4fL3DrwTiSxGBxghZFf9k2GgnTAaCqzSJBnNqK6POEJj5jQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794075934;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=o4KEBZgQa5HXSbmQneNQ9t8RBeb6quQFAx0lvX+O4LM=;
-	b=RpVBycXHhMSxC8n4sDCUCx2T8p5fHiwEI5J8+aBSY/GhWJz+AcAQMTpvPM19SyQF6Dki
-	 1BxCmBOy94HqsYTl8cVSZbnZsxuWJzeTDigpE41UAtzfDBQxgVGQMmFUWxBX7JToghigf
-	 3hzv2pg1+jGvYOqWCw8tKk4eAnfKZvQBkpZDF/Lxfjb5rNH4v03Jx+vw20sAGMLSXbdRF
-	 nB8EqIeEBaLYkRnGgPVEzwe0vFe7q3g38LFX0OKw4RFbpowHlLObwg19PoQ0jVAPhDC2f
-	 DV7mdB3Tv81Zw7d2/EdRNFkSkRWQqIuP/zzxEPnkSGz2hqxG9hBZws08iUdpaLceDbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794076138;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=LGXiagM08efezuBP0xqW/LWFMWkLtnvBGQDX5/wtC+c=;
+	b=boJ4a9ma023FkxpuTGNPwhlGk5v7EnNlvLi3WIWQkDauf7hvAG/tjagJBjWY2kLKQPYG
+	 AIeETliZ5SCgGrWiIpfB75h5I6F1NIZG4lwOZcbdVKjgMtCIoVnjwLGqttUp/mdqe77wH
+	 tFLJZ9m2GC5YrczwzBCwVYlMrS9k2AHdk3AAuIP1orCAJInayWYmFCG/1La+WEHSwhkBd
+	 ifBNlUYX7Jy7C6a79yI+86j8XSiDts04Qg6TNVs+ehxy5swIwA4Q/qQ0Tkq8Yq1dpkfWj
+	 ulC4ODvoqPtgiYmuP/s36JlDilqwL/nVJg7xLgqmN17YbvL276tlc9e5kqT85/ShzGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cloudflare.com;
-	spf=pass smtp.mailfrom=cloudflare.com;
-	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=ZXFxPfbI;
-	arc=none smtp.remote-ip=209.85.218.45
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R2iMOotS;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C3C606A32D
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 18:25:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72C3C606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7713A606A326
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 18:28:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=ZXFxPfbI
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c49c32650adso215465766b.0
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 10:25:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1794075933; x=1794680733; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=o4KEBZgQa5HXSbmQneNQ9t8RBeb6quQFAx0lvX+O4LM=;
-        b=ZXFxPfbIL1yDhO7eAFUmmD5GbEzTzeTMc45MKZEzL2A15eafYpnSeCWHdGS9HOYcDX
-         UfifGvvj8hDRRsWB0ca7cSl0soaX2SEyWI4E/iykJiHosDG8fK12wSekdcoB/Ws9axGp
-         1udECMKCzZZi/q9tpGpr5/naHelYTBh0JJCeSstKL9TlkU37DMWbx4i+jBVGgDwwLiti
-         Adjl6GsUsd2IAOjOpIiRxpGhKdEYUHmef3yUR1vCWTttx8or9aSdBiR9f7/mFqu6uMCH
-         UMTAc1dzDC1giOev7pL45ndBOaDrTIvqkuZK5BsNXdTbqEp7AQ1KOCP7rx2aOUi5AkIc
-         xdEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794075933; x=1794680733;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=o4KEBZgQa5HXSbmQneNQ9t8RBeb6quQFAx0lvX+O4LM=;
-        b=2iMryikR6Ns7bstO2GnLVJgV2rvLctygckmtnewB9Ge1rKEOVmx1s89qYhFNJSlidq
-         +oZbSq0PayCLRKBbJKvMa5B9nVz3ppps/7mhFqledFm+mdGUxxTBwWyeQ/RtE/V0qLz4
-         XPE36YojNio/k5XG0500HrGF+fKBRj7RtiQPXm1fTimWi+LXPIm9G92vKaGiWvarkmnv
-         fCyLIYAUKBnNdAHRWkZJvK8+Z5PGETD2/EQiTD/k3V+OuR/HjaPfcDhMSIHh0djlmI9h
-         CnlQEoPHj3isB3q+tmOpErs/9pfKN+Ag6wQnwn2M9zX1DtdIsPR+AcEdpeH/MnEaV1Aa
-         zHxA==
-X-Forwarded-Encrypted: i=1; AL+hErGMk+OkdEuaWyxsFLqd6CYKzf6gFi0c0NXXMHiyNFEix2ywTcnu5Gt+cFgK+FkhbV8CzuC9PipvZ0s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/bYOQPGNXqSw9ZqxuVVYeeqtwSFvgJ0D19pxBhJtyYhHdlEnwe
-	nzSDltUxaR1GCTs2jOZEN8tV5BseVSK6QT/N81cOi2RIjWRBjb60CDSDNWAiSLpVgtM=
-X-Gm-Gg: AYBFou1921lSbmSu4Vc4KwarcpLA+dySFVsuEl3ndNhO0Sl6ZvvBcYD10klTBvj90nh
-	OsnXetIWIrsIKKFFOdTS343KHsyuiZzjhfAEI3otKPRZvYEisN0pFMbdV2QMokVxPE6/5F7++Yk
-	TVVAKlWWTRnF/FmAY408qz7iej1fhQBjH35oYJihfALSVt0HQYNLNRtipQmK0HVmXTLLSNsPB38
-	4E9twifHuP1M8rCbr6tZbov4n90rbtQ3yBlCF/eKnvNVfGGEKyaAQyOTEuiQ1OCL/jshgJr5Kqm
-	tXwezS3voJ8x0HQfSMFB9cCIEZzK54ME80FiglpcLYpNAzPjaxLut44FutZXfbKxiiLcDc3fCij
-	J4yyH3B3JIH5U7LBfP94D5QAYKEwWiR8VjKEXf00c7zDut+sQq1xsvwIDTn/LrNmpQOXN7FonnP
-	RLhjyuojYpbBe03hgOM1lCFJ2LEhC8HbtZ2fs+Wwe5ZxLQckndU7hZJpi8QtTXM0BLnf0Z3+EAm
-	hBGW88u57BhfsjmtgQL/68ARGnaD3pypcUL65tqhBEVxAO1BnVHmqXDqJzis1tWv1/Q5At8/Do3
-	0Rr1Dz6pSLrfybHbsOdHlfG0BkED7ErBuRve5HByW4PryQQ68AYfYhEdlw==
-X-Received: by 2002:a17:907:3f8f:b0:c49:4450:6248 with SMTP id a640c23a62f3a-c4d34b8d695mr429135066b.16.1794075932804;
-        Sat, 07 Nov 2026 10:25:32 -0800 (PST)
-Received: from L9JK9NPFH9 ([104.28.20.57])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c4d6a999f00sm644066b.75.2026.11.07.10.25.30
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 07 Nov 2026 10:25:32 -0800 (PST)
-From: Tianyi Gao <tianyi@cloudflare.com>
-To: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: netdev@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Eric Dumazet <edumazet@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Simon Horman <horms@kernel.org>,
-	David Keogh <dkeogh@amazon.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Dragos Tatulea <dtatulea@nvidia.com>,
-	Nimrod Oren <noren@nvidia.com>,
-	Alasdair McWilliam <alasdair@mcwilliam.dev>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Magnus Karlsson <magnus.karlsson@intel.com>,
-	David Ahern <dsahern@kernel.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Alexei Starovoitov <ast@kernel.org>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Breno Leitao <leitao@debian.org>,
-	=?UTF-8?B?QXNiasO4cm4gU2xvdGggVMO4bm5lc2Vu?= <ast@fiberby.net>,
-	Danielle Ratson <danieller@nvidia.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@cloudflare.com,
-	nh-open-source@amazon.com
-Subject: Re: [PATCH net-next 1/8] net: add tx_extra_headroom and LL_ALLOC_SPACE()
-Date: Sat,  7 Nov 2026 18:25:26 +0000
-Message-ID: <20261107182526.69543-1-tianyi@cloudflare.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <willemdebruijn.kernel.1d64e7848503b@gmail.com>
-References: <cover.1794020868.git.tianyi@cloudflare.com> <e90e748e0aefa7cbe1c2b31b8c7902ccf135c3f2.1794020868.git.tianyi@cloudflare.com> <willemdebruijn.kernel.1d64e7848503b@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=R2iMOotS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D470E1F0089F;
+	Sat,  7 Nov 2026 18:28:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794076138;
+	bh=LGXiagM08efezuBP0xqW/LWFMWkLtnvBGQDX5/wtC+c=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=R2iMOotSWuMMp0zdiocBhZWgrhbOFsljXCobnGesOH928+4b8x7OsbirJGbK6yFPX
+	 P1mRQohKBoRMhQKipTAc8TLbxy7w8kmtFWlMDcuPoTdQesRUKWRFUMB59lztDosB03
+	 9SvcV5/mn+eiAmCSL+hJg8JvV0QqMewL8pkc2youW0meQ7q9bkTUzeUmbr5Hu/89eI
+	 CSZk3GhFzAdvUm1CThHixQqnCr4RJ21hml49I8uRWv6VSRV63SDXS3p3bCq/ODycms
+	 BisJx6CmkKoqCPxkihUKimKOMforiCovpqvg10EtQhHoM+gYwz9u4RA+qsfFWfGcj+
+	 0oZtjGDmlHkuw==
+Message-ID: <899b1b2b-4f6c-45e2-abd6-a333ac77b23b@kernel.org>
+Date: Sat, 7 Nov 2026 19:28:50 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -131,68 +51,129 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH resend] ksm: add merge_only_zero_pages to merge only empty
+ anonymous pages
+To: xu.xin@linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Chengming Zhou <chengming.zhou@linux.dev>,
+ Lorenzo Stoakes <lstoakes@gmail.com>,
+ "Liam R . Howlett" <liam.howlett@oracle.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, Huan Yang <link@vivo.com>,
+ Wang Xiao <xiao.wang@vivo.com>
+References: <20261106034841.233085-1-xu.xin@linux.dev>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <20261106034841.233085-1-xu.xin@linux.dev>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 07, 2026 at 09:51:07AM -0500, Willem de Bruijn wrote:
-> Tianyi Gao wrote:
-> > From: David Keogh <dkeogh@amazon.com>
-> >
-> > Add a tx_extra_headroom field to struct net_device for that purpose,
->
-> Main high level concern is just adding an extra field. What's next,
-> do we need to add a field extra_extra_headroom?
+On 11/6/26 04:48, xu.xin@linux.dev wrote:
+> From: "Xu Xin (vivo)" <xu.xin@linux.dev>
+> 
+> Add a new sysfs attribute, /sys/kernel/mm/ksm/merge_only_zero_pages,
+> which, when enabled, makes ksmd merge only empty (zeroed) anonymous
+> pages with the kernel zero page and skip the stable and unstable trees
+> entirely for pages that carry data.
+> 
+> The attribute requires use_zero_pages to be 1, and the two are kept
+> consistent by symmetric constraints: it cannot be enabled while
+> use_zero_pages is 0 (-EINVAL), and use_zero_pages cannot be turned
+> off while it is active (-EBUSY). The new attribute can be changed at
+> any time and is only effective for pages merged after the change.
+> 
+> Benefits in three aspects
+> =========================
+> - Memory saving:
+>   On memory-constrained systems such as Android and embedded devices,
+>   zero-filled anonymous pages are the largest source of duplicate
+>   anonymous memory. They are produced by userspace allocators: the
+>   zeroing of freshly allocated Java objects and buffers in the ART heap
+>   (new byte[]/int[], Bitmap buffers), calloc/memset in native code, and
+>   preallocated media buffers. Merging them with the kernel zero page
+>   frees a significant amount of physical memory, which matters as DRAM
+>   costs keep rising. With this enabled, we measured 100MB–300MB saving
+>   tested with several popular applications on aarch64 (Android).
+> 
+> - CPU overhead reduction:
+>   Merging only zero pages also reduces the overhead of ksmd. A page that
+>   is not merged with the zero page carries data and can never be merged
+>   with the zero page, so there is no point in searching the stable tree
+>   or inserting it into the unstable tree for it. Skipping those tree
+>   operations for data-bearing pages reduces both the CPU time and the
+>   rhashtable memory footprint of ksmd, which makes zero page merging
+>   practical on low-resource devices where full KSM scanning would be too
+>   expensive.
+> 
+> - Security:
+>   Finally, this shrinks the KSM side-channel attack surface: only zero
+>   pages are ever merged, so the sharing status of data-bearing pages is
+>   no longer observable through KSM timing side channels.
 
-Thanks for the review.
+Lol. Did you come up with that or an LLM :)
 
-A user needs more room either in every packet or only in new skbs.
-needed_headroom covers the first case and tx_extra_headroom the
-second. I do not see a third case.
+> 
+> Note
+> =====
+> - Suitable for Android, embedded and low-memory devices, where zero-page
+>   deduplication is wanted but full KSM scanning is too costly, and reduced
+>   KSM side-channel exposure is desired. Many handset vendors may prefer
+>   this knob, which can be used as a default fallback policy.
+> 
+> - Not suitable for server and virtualization workloads containing many
+>   non-zero duplicate pages, where vanilla KSM provides better memory
+>   savings.
 
-needed_headroom does not only set the headroom of new skbs. It is also
-the minimum that ip_finish_output2() and ip_forward() require of
-existing skbs. Raising it for new skbs also raises that minimum. With
-XDP on a veth peer and needed_headroom raised to 256, throughput drops
-by 2.8% to 5.8% for local TCP and by 4.0% to 20.8% for forwarded
-traffic. The cover letter has the detailed analysis. veth also cannot
-set needed_headroom from user space today.
+I proposed something similar when I was still at RH. My concern back then was
+that we don't want/need all of the stable/unstable trees.
 
-pahole on x86_64 (defconfig, net/core/dev.o) shows that the field fills
-the 2-byte hole after needed_headroom, so struct net_device does not
-grow:
+IIUC that's all still in place in your implementation, right?
 
-before:
-	unsigned short             needed_headroom;      /*    60     2 */
-	/* XXX 2 bytes hole, try to pack */
-	/* size: 2688, cachelines: 42, members: 187 */
+-- 
+Cheers,
 
-after:
-	unsigned short             needed_headroom;      /*    60     2 */
-	unsigned short             tx_extra_headroom;    /*    62     2 */
-	/* size: 2688, cachelines: 42, members: 188 */
-
-arm64 defconfig gives the same offsets, and the size stays 2752 bytes.
-
-> > together with LL_ALLOC_SPACE() and LL_ALLOC_SPACE_EX(). These add the
->
-> Since this already changes callers from LL_RESERVED_SPACE to
-> LL_ALLOC_SPACE, could this additional use case be integrated more in
-> the struct fields and helpers that are already there?
-
-Changing only the helpers does not help. Without a new field, the
-helpers can only add a fixed amount, which every allocation on every
-device then pays for. Or they can derive it from needed_headroom,
-which brings back the regressions above.
-
-hard_header_len cannot carry it, because AF_PACKET and header_ops use
-it as the link-layer header length.
-
-> > +#define LL_ALLOC_SPACE_EX(dev, hlen) \
-> > +	LL_RESERVED_SPACE_EX(dev, (hlen) + READ_ONCE((dev)->tx_extra_headroom))
-> > +#define LL_ALLOC_SPACE(dev) \
-> > +	LL_ALLOC_SPACE_EX(dev, (dev)->hard_header_len)
->
-> If having to modify/add these helpers, it's probably a good time to
-> switch to actual, type safe and readable, functions instead.
-
-Agreed. v2 will make the new helpers static inline functions.
+David
