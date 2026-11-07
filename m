@@ -1,47 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794081312;
-	b=LYCMG9/JZEjdtnc2FbdEn+k61QEC8f93deozRdoOdmpP13bMpG2TckDdD9MvavLXuupb
-	 19SsQ8t/Kt5W/YP7U4talQTc5j1rBL7Xm778aAV6d+okzNy+Kk4LscfACFsGXzi/2o/ef
-	 BdTenE/YVC9h4dh2Fb4+RH5SXPEQ1XmNiPiQJi6B9zrRyyxrj/1BmIk27cEIlvz9i2GwM
-	 T0l0Mw0HRS3Ddp9uQbsJHjaJe6h9rP9rAa/bwZguk7bWTsLLhomw1nz6iQZnTO3Uuo/fv
-	 7x95D3MLi/unTg7hWt7J+nEP9SaETcpcsrom+tnNxEtRC69QjYoVZUOCdELic5nauog==
+	t=1794081391;
+	b=D1vVfAvUJpLbbAKRHVjbGz4GdPt8jqsYlJrVJYV8P0ZHKGMm/ZT4WHf6hh6UDY+lZBpD
+	 1laLFErnG9Gl0QNtn8y52onTa7s9VMzQFueEYqg+kSHJmRnYxwI/8oj5RLcvg8U3DamEG
+	 xscEHwRiM8QWUrM+qsWuKjsf9WmAyKM//0CPSVV1GbHN3FIMuZP/FWMRP8wEeyrLyKVS7
+	 Mj/2Bt+uO772jvA6A3vq8jJ3V+kVbC+xex0dvATiEz7gsA/BpULnaxSc7Tmn1fpfJ9T/t
+	 rnZCBoh6wj3pvMD79xoKq7rqNL4WuZLQggTK4micWM3X40E55zz22wS0wMxwBtVCwDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794081312;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=39+TUkTn71HtHvq6NpbancWTbHR1aQMzi3+k/eHDkII=;
-	b=Ryylcz7OLtrGPhdRBs4T8p8ZtdbyiZJpgJlCBk4fl3/5oOoou9uKVVZUMRLVYjQ02XP0
-	 tD7s97xzCkSLvc9UYVV7chGE9+dtqX74ey3ZCpw6up6A6FFofCSVwHaVH7daQx+LOu8wO
-	 Lc5o+/1t69/6fDz37YtKUuVZr4EDRAVyL7VfOjbf22pbo2FXYxeRZX6Kj6+wswtFjsMJr
-	 Rv5zCAnvfYSc40ksuzcaf3ooB6B4SKXdhFT2gSzbGUSAgwTbUbUQiCHHPu8FHtPKgJ9kf
-	 qxMuRhBqWx5WI3dBE7dfub/8lUDe94F921kk/rDnwh40fCa2DLGl86fzLllqOJzRkNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794081391;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=l3mgB4Ev1EUFaUriPeIG+9VrVzzDcSV4X6hThy1L/KU=;
+	b=4zmTDMcVUZMrh4BProCOPtslsagLz3II23vEHqM08ToM5TNu327UuF9MeG054NOpRpwC
+	 spGyYQv2NGd9pN9kexybuXvPmGhEVHlaaXosbRsBN8kTD5qtN3UpB8DvkwOoAhmbBizal
+	 XjiY2Sw+EnAClpPxFgCNZm9WSLqFrIyKvo366rqXFGX467ergxhUOiKgJBaGbo43GjBoa
+	 gC4WPw1GbBKT48hV7AZJI7xEHuZSAc8r+J9Dw9bljKf1ogC62NGxXbU1kA28a+Dnv3NdS
+	 E+e+2yUYtvTVHDo32vmP3/6geIB/ERFNoJirZvjjyXQf9U+q3ztULOzCpGOBVsglS0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XPjXjKD8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="leSV/12c";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C700F606A32C;
-	Sat,  7 Nov 2026 19:55:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id A29B3606A326;
+	Sat,  7 Nov 2026 19:56:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XPjXjKD8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 11D291F0089F;
-	Sat,  7 Nov 2026 19:55:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=leSV/12c
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7FD6A1F008A1;
+	Sat,  7 Nov 2026 19:56:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794081311;
-	bh=39+TUkTn71HtHvq6NpbancWTbHR1aQMzi3+k/eHDkII=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=XPjXjKD824HOWovf8zZKb5c7Cb7I3D6NAD/lB0a8I4g19WeIXtgm5YZyMR/Kiu++6
-	 B4OWZfuSb0TuEbG5bmrG2bK+f6320HjkTn4eSxLkhPYPhJuAPI/Jh8ChZpPIFGLunD
-	 0gzKkwqLlZI/nC5lfdscz6x4B0dc48SJXcDriiVIugJYxUjUYpWFyBPVUqiU7J53nT
-	 qFp9AzFPMSyoVTRSUkTWQiQs+YzS5oVk6erZmbjDuwzJEDle3ZhX+A1fth88v9z5+2
-	 egk4SzjImL8w9uEXb6v3D2msUKCRpiL66AJ6Xjc38rUj2CfFgXhL+hTpCJYEeJMPhT
-	 2gHXaIkgPZbVA==
-Message-ID: <f0935e4c-4165-433f-b454-069e68c61a92@kernel.org>
-Date: Sat, 7 Nov 2026 20:55:01 +0100
+	s=k20260515; t=1794081390;
+	bh=l3mgB4Ev1EUFaUriPeIG+9VrVzzDcSV4X6hThy1L/KU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=leSV/12cBRy5fFcCFsRBWNkXIR0ERlrLFhtwXLb1n/ecETUzHpRNRWUyRA1J+xHik
+	 qACbuwpkCO6p/u2nJ4qyTXwnpt6b/IgZacIRpaDSpbOldL36wXquNYcAzvBhnCRfbs
+	 w1v84aCAMcZa4RlWh4NiWKFQWPtdQtewvbwAP7mdXrQEwRCIISmwmc5HSEbpdEKOsz
+	 6lsrqfQHC2R+YJFvAkNz8rLjugqlc1wGElNloDVwvWoJxnF+x8/EvDegd/8F86GVoG
+	 qZBY/X7U9wsGSxXjsEKlqcDZqa3wrVlLkxDcK+JIya+LoGUkk9Q4+1L8ejdmKZzHDD
+	 q6X9Trx77B4Cw==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+	bpf@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	fsverity@lists.linux.dev,
+	keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Alex Shi <alexs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ignat Korchagin <ignat@linux.win>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	James Morris <jmorris@namei.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Song Liu <song@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yonghong Song <yonghong.song@linux.dev>
+Subject: [PATCH v6 1/3] KEYS: Introduce keyring_is_empty()
+Date: Sat,  7 Nov 2026 21:56:02 +0200
+Message-ID: <20261107195605.3929659-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261107195605.3929659-1-jarkko@kernel.org>
+References: <20261107195605.3929659-1-jarkko@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,96 +93,108 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/4] mm/ksm: keep smart scan from losing duplicate
- pages
-To: Qiliang Yuan <odys.yuan@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, Xu Xin <xu.xin@linux.dev>,
- Chengming Zhou <chengming.zhou@linux.dev>, Stefan Roesch <shr@devkernel.io>,
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20261107-bug-mm-ksm-smart-scan-align-skips-v3-0-16d5ce8b5fd6@gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261107-bug-mm-ksm-smart-scan-align-skips-v3-0-16d5ce8b5fd6@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/7/26 17:56, Qiliang Yuan wrote:
-> With smart scan, which is on by default, two identical pages that become
-> mergeable some scans apart can stay unmerged for as long as they live:
-> each page times its skipped scans on its own, and once both are old they
-> may never be looked at in the same scan, which merging through the
-> unstable tree requires. This was first noticed as intermittent failures
-> of ksm_tests "KSM NUMA merging" in run_vmtests.sh.
-> 
-> Patch 1 picks the skipped scans by the global scan number, so all old
-> pages are looked at together every eighth scan. Over 420 pairs made
-> mergeable 0 to 20 scans apart, 361 and 334 merged before on two boots
-> and all of them after, at the cost of about 10% more ksmd time on memory
-> that never merges.
-> 
-> Patch 2 documents how smart scan picks the scans to skip.
-> 
-> Patch 3 moves waiting for KSM full scans into a vm_util helper, and
-> patch 4 adds a ksm_functional_tests case that fails 20/20 without patch
-> 1 and 0/20 with it, on both boots.
-> 
-> Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
-> ---
+Introduce keyring_is_empty() in order to decouple for BPF, dm-verity and
+fs-verity how keyring internally manages the keys.
 
-I'll wait a bit for more review before I queue this, thanks.
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+Reviewed-by: Ignat Korchagin <ignat@linux.win>
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+---
+ drivers/md/dm-verity-verify-sig.c                      |  2 +-
+ fs/verity/signature.c                                  |  2 +-
+ include/linux/key.h                                    |  1 +
+ kernel/bpf/keys.c                                      |  2 +-
+ security/keys/keyring.c                                | 10 ++++++++++
+ .../selftests/dm-verity/test-dm-verity-keyring.sh      |  2 +-
+ 6 files changed, 15 insertions(+), 4 deletions(-)
 
+diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+index 0c65c7a31da8..bd5143aae4fa 100644
+--- a/drivers/md/dm-verity-verify-sig.c
++++ b/drivers/md/dm-verity-verify-sig.c
+@@ -153,7 +153,7 @@ int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+ 	if (ret != -ENOKEY && ret != -EKEYREJECTED)
+ 		return ret;
+ 
+-	if (dm_verity_keyring->keys.nr_leaves_on_tree &&
++	if (!keyring_is_empty(dm_verity_keyring) &&
+ 	    dm_verity_keyring->restrict_link)
+ 		ret = verify_pkcs7_signature(root_hash, root_hash_len,
+ 					     sig_data, sig_len,
+diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+index 2f49c5d9d987..b45b39b829b2 100644
+--- a/fs/verity/signature.c
++++ b/fs/verity/signature.c
+@@ -70,7 +70,7 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
+ 		return 0;
+ 	}
+ 
+-	if (fsverity_keyring->keys.nr_leaves_on_tree == 0) {
++	if (keyring_is_empty(fsverity_keyring)) {
+ 		/*
+ 		 * The ".fs-verity" keyring is empty, due to builtin signatures
+ 		 * being supported by the kernel but not actually being used.
+diff --git a/include/linux/key.h b/include/linux/key.h
+index 420412aab926..9ff10b780865 100644
+--- a/include/linux/key.h
++++ b/include/linux/key.h
+@@ -439,6 +439,7 @@ extern int restrict_link_reject(struct key *keyring,
+ 				struct key *restriction_key);
+ 
+ extern int keyring_clear(struct key *keyring);
++bool keyring_is_empty(const struct key *keyring);
+ 
+ extern key_ref_t keyring_search(key_ref_t keyring,
+ 				struct key_type *type,
+diff --git a/kernel/bpf/keys.c b/kernel/bpf/keys.c
+index bffc356839ac..24e0416abc99 100644
+--- a/kernel/bpf/keys.c
++++ b/kernel/bpf/keys.c
+@@ -29,7 +29,7 @@ struct bpf_key *bpf_lookup_keyring(void)
+ 
+ 	if (!bpf_keyring)
+ 		return NULL;
+-	if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
++	if (keyring_is_empty(bpf_keyring) ||
+ 	    !READ_ONCE(bpf_keyring->restrict_link))
+ 		return NULL;
+ 
+diff --git a/security/keys/keyring.c b/security/keys/keyring.c
+index 5281da9d5bf7..ac48d6204915 100644
+--- a/security/keys/keyring.c
++++ b/security/keys/keyring.c
+@@ -443,6 +443,16 @@ static void keyring_destroy(struct key *keyring)
+ 	assoc_array_destroy(&keyring->keys, &keyring_assoc_array_ops);
+ }
+ 
++/**
++ * keyring_is_empty - Check whether a keyring is empty
++ * @keyring: The keyring to check.
++ */
++bool keyring_is_empty(const struct key *keyring)
++{
++	return READ_ONCE(keyring->keys.nr_leaves_on_tree) == 0;
++}
++EXPORT_SYMBOL(keyring_is_empty);
++
+ /*
+  * Describe a keyring for /proc.
+  */
+diff --git a/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh b/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
+index 1f9601ef22f8..792449d356cf 100755
+--- a/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
++++ b/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
+@@ -746,7 +746,7 @@ test_keyring_inactive_when_empty() {
+     log_info "TEST: Verify dm-verity keyring is inactive when sealed empty"
+ 
+     # When keyring_unsealed=0, the keyring is sealed immediately while empty
+-    # This means it should NOT be used for verification (nr_leaves_on_tree=0)
++    # An empty keyring should NOT be used for verification.
+ 
+     log_info "Keyring state (should be empty and sealed):"
+     list_keyring_keys
 -- 
-Cheers,
+2.47.3
 
-David
