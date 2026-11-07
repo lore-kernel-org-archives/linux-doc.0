@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794030013;
-	b=RvYvvLK8TMcNNqqLbUp3DWTtPwFF4uUQ/rFLwBbRxZg/8T3zbCwotrOVbqfTCg0OA9sa
-	 0sj1M4BPub5KuYU/PvHAbw7B1f6ZsXqwkZnZRx8VTBw65Ol/2hA6+0tJAJq4Bd5unVlob
-	 MI0KIiUFFIT9cJv3o3ZwBLgEEmt4yNVBy9XIFK8SkyujMmMGxuJTNm0qQagPw5t1GoGqE
-	 52LUHgKdVjrpgQrMNSN89tY4pOX9NCcOTMMHMAAHKAP1Rc3OeB9nQYv3A5UGC7V9E7v2B
-	 fXUeCotFvaU3wbdS69U6m+owDqPBp9f2ut1F2+jqIjVlash195GVXq3xITIix3csbWQ==
+	t=1794030044;
+	b=2wsuaiXsptrVEWEcjevS47oQYP7ZkZQciYSH5CV5qitC/uH1Uy5KK5QmyAN8XvkYw/o7
+	 fe4Xi6LooQuciaE+SBOufz6x29IcpgPRqu0eea3e+hyp0m5htvpcOe0pSU06Rr/K36yIO
+	 TCJkJmcIRza4YqIAzLwa+IiDHCfOy42gMyOjj8h+k88FLeJvpu79PKIgUaiD0PX/xdPhZ
+	 mQhyqqLV8Il6yL47D7y3gOpojH8j0FTOa/MhY5sJNVFKg8M+RkpwTnARaG6PqoXZep55m
+	 O75YWfGGg2EXFxPvKwXgSbEAUO5K9Uew49r4Bf3Psx9p1gO8Td4O+49vcy+/piY/UhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794030013;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794030044;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-Id:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=n07BclH5UCpfeNF6l7UkFRCz0CaPQfb02nzFrlh13A8=;
-	b=HWPThV5RBcLGPDTXigR41rH4jU5hApdEUC3ibILzfpf31W7W4a8VX1g13eCXZTo3/W+s
-	 AnJlAREYU3G6+b5DWYsrcVMGQryjOcrECqGe0r8zskdlnf0w9W06j0Yei5bCkSMk3aRvz
-	 bx30IHRGVsBKbrVoXzIV1cPPZY0YriO4sLPa7lD/ScfwZraBTfWjAr1j01QAOCkXS0pvU
-	 jDefOu0dNo8w1ReP4EPbYbXsV4UuWWHeA49lZRYF3MTOYZp93fALeMgETxCA1QMaRHsN4
-	 k6EcQ65XxyjKPjn8bFjdhCeUyai9AkV+JgfK5oB1PmAdkVB/zKiUg00Hxb7WJ9Zd3hQ==
+	bh=U+0pTkB3+MWRLSYz9PVlpdTWCZvpDF7n5p0vN/UixaA=;
+	b=uD0Hu51t0Q0xpepxafPVJ6IuZVO6IPZgGgaSo3Y3SIMvHRQ/PeTSYBdNNXlPLZ+HwCiG
+	 glTQBMW70+G/3VckbvHwelcLpr+8gDl67Xep/IJGSiQOkJfbySxzoKWru2mw65p1ly0vA
+	 kP4EIf/ZiJRcIxWPePD7N3IN5zRuqkaOGJYGdlvZjlhRXDmCLRan6bMnDEiEGVmW7oQNB
+	 olRFsZ2Iagi2y+cwdibOB720Da6FlSIWRunz1Noacs23UQL5cpmWvjYQh+9cdQh9qNSZp
+	 A/aOcf8Hpzx5tVBEUmSMBl65A/jWdGk//jO+QkBQ98Nr5X1A3xB1U0twwoaC9BUZR8A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sJWcWfEL;
-	arc=none smtp.remote-ip=209.85.214.172
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MKKfBy8c;
+	arc=none smtp.remote-ip=209.85.216.45
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4645606A32F
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 05:40:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4645606A32F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F841606A32D
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 05:40:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F841606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sJWcWfEL
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2e9d7791b00so9768005ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 21:40:12 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MKKfBy8c
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3ada8bc2380so735002a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 06 Nov 2026 21:40:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794030012; x=1794634812; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794030043; x=1794634843; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=n07BclH5UCpfeNF6l7UkFRCz0CaPQfb02nzFrlh13A8=;
-        b=sJWcWfELjWnmPKnlNLqGiGA9IT8I/5hSE/TtEHyDveF88BOLxQWRKZTy+XmrZwfOVj
-         6SHdPkiKpJxyGVajxyZXDAJNOLm1YneO0Wsmw76rvTlCP6JpJq7kIh7hKUE8w9LH3wcl
-         oiErSBdoBO2Z0m57+3+ugZtOv8Eo+fy7TevfteP2bg7wzCKQnsvYP3pvod1iTxvMPx1P
-         HxrsvidioOJJzf9bQmkzf42dLqQuhAluXTAhswCBjZtCamyB8Kk0e1sbbH926CpEeIvi
-         vwIM8rzJ+O0LXNtL77KfGuuh4KESAx+F6yC9WSpVYk4BA6x5+H5UmkRE3gmN4tTO2vGc
-         pYug==
+        bh=U+0pTkB3+MWRLSYz9PVlpdTWCZvpDF7n5p0vN/UixaA=;
+        b=MKKfBy8cKXapsmlYd8GOwL/ZTCcezrUbWwB0OqF5FjEPGS3PRmlqS61fHiccoL9MGR
+         jQiwSHoSjQrFn5Wj/D4vDaOSjN/+4kzY5aGKTHsXJqNOVuCf03zIoqsNt9WbLv4rdHTd
+         af9JsvxOc8J/50gWAu624GSz6J2egf1JjB4hMsOt9wW2cZvQ67Hp1a58eo5GzX60furA
+         R67LX83ZH5EEqS1hlkhpAoYzV0Yh+WmEQoOV/jYt9vxhervEObCUCHCwDg/CizKShOv9
+         jhlKU4eegdoUpRYmGeZW78IIsijX8MRJgyxUiRaL4SJBukmYR7PaBr7bhkiOZ3veavyJ
+         IZTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794030012; x=1794634812;
+        d=1e100.net; s=20260707; t=1794030043; x=1794634843;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=n07BclH5UCpfeNF6l7UkFRCz0CaPQfb02nzFrlh13A8=;
-        b=k9WJedLH8r+ouEetPMqStNPgemXBlQ1LToghxEPHyShLXyaRBXhjHcRMmwHsJ0tWy4
-         grv7pAoG/x+TCxLtr4hkYRgnBrNCLeI6ex8HwbIJbgrfWJoj+TCJW8dz4smUvyGVoOpJ
-         5vkSMIG3n9PlV72Ug79g2rdmWTap7gZ51aezclN05uWwbH1QI8L6DWLeOWG93GpL0hk1
-         BjBWy4dvP5rHp/VPLk2081iVH9+YyUmb0Iad6EY1TBB0t6qfvQkM1xZlokC2y12s+13D
-         paA2hFJQgUg8VpTzdJtfOB8vUNuhikJCYE16hDuN05EqTopL8bFHiqM9JJssFkUsp8ts
-         Y83A==
-X-Forwarded-Encrypted: i=1; AL+hErF7k6Kk0G1lsc4GtPfTnM8jIs4+Kj5pIyDTdxxyPwDhxm0ojIoUAulQeID9BjMfRl71olZHjIDYm7s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8LHGOD8LlruGDqzpfMkuuBFsA+iAxT83l5tys30J4J8pgesXY5
-	XNADbz4zUXHEoDTknPdd9h0ec1f2M/8TCcZaR8PRuCm13v0gmQYWyNjC
-X-Gm-Gg: AYBFou0ECdmJntV8jn7hGiBQ62pKSFr4O8CNQcIQb3p32M8mSHvB3likXoJ5Tydc4nJ
-	jD8hd8AGhWDbWZGxpbSFRnZpLIg0HSnhk2FV1hqerrEjV29CIoNUI1a6Ft9jYREmiNFbdOpWOeb
-	kMkgEKKdoa7xsE/bPOYVIhbHD3rRDw/9Exe350JUjYoIOnCvtdNSYjuNeWqln0lc7QPoh7s0L1k
-	UcG/0dalTBtVsM1k5E7hgQMDGzuLdUXaDNdklpQ5RJiGhqltr60aqU8tMOxZKjtAN4NLclo+pF+
-	j494uxqopWSEzfjNLPqCgEtAXqtEbyANWtDO/KmFXsAmX9XKVUDKefdrpUFzbRlqYmHkf2fOYxL
-	99BZULYFM9LTe0PW1gWNbZlx97ixzb1FoOOdZ20EXIe0EQBQv6mbQGBfkQry3K06uaNZ4JSeBy4
-	+pBV7dE1+qv6KNEz0ij3O4eFeGI66cqaj/6Y1KLoLpTQW5wqQlA6QbrQ2dWtUxrdUvl9wd97Y6T
-	HNwIEo+bZyhtH5AjQTTRsbquF37gV1lf3BrYAFutQowm5IQzUAZv5DhtwdO7xZPuHj+Z/MSytEP
-	0v8EY73NTeoZSfRs2/fBO3YGUtZkr66eV04Se+VIrVmoG/pKoV8e9mAhRxsuwV8nv9ogag==
-X-Received: by 2002:a17:903:13cf:b0:2ea:19bc:2fe2 with SMTP id d9443c01a7336-2ed404dd277mr59480405ad.10.1794030012078;
-        Fri, 06 Nov 2026 21:40:12 -0800 (PST)
+        bh=U+0pTkB3+MWRLSYz9PVlpdTWCZvpDF7n5p0vN/UixaA=;
+        b=U+J7BCLZxqlEf0ZP4GYj/UAEj4b1SiW5SidEf8ZLfSizbVbegJ0Z6dynoTXf1D3twc
+         63SJ03Ipbde7BCSMdALh6yVB6sx/71RRKy86zg9VpCu3PJsUmNcfNwXpKjgt0o72S9G7
+         TKcLDjPMvtb5DI7w/hA0SVsJXUbIkgDDN41C2yjCBQY7GgNcW5NA/lWsIkw6HnmTr2cZ
+         kRtP9Zl1pwPI0+/9xwRqfrmWp5PsuwjGWAi+GeKtIIka0NF4qb777iZ7DrRXngZRTuLx
+         yTCLoVaYp20FTeudOBF+PyAc2X7x36Hw7W/8ccBPDpaG0HcqHUm7d0oykPQ97zY+iM2J
+         OmDw==
+X-Forwarded-Encrypted: i=1; AL+hErFtYUkj7BAlPMPXGd8R7JbzeiBvxqHKe+j7TRtrQjUCjidsvS/pfQ2lnECCEZSqJr7upMviKBPrFvw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/AwR01rYpJryD+qwOf4cIo8itOu7q/CxyYAGrHXC//WUVR4+sD
+	cdAUrUSsQ/zvNOEnXJjWhFx+AfYB16dwfUDwkeLFX+kDsSB0OGlC6KLO
+X-Gm-Gg: AYBFou32+zUWUUVEwbvC/kx8qde/I4wQEjzcqCi1VPFXegwVrWQM+29cVgqCEIaqEPX
+	Bhxm4yAQYopOv9QWDlpntATbrnzAtBMQ8RBoM/9n15qAgksuVzpi4uxj+T1HAevI6ajSzKBVxYx
+	ZsnS58nHMLDYPLPHJvyIg+QwwIejwAa2Ga2+nZ0gCcoHGXSd58jmoGSVuRvEBA/WJa6bjYJx+ZD
+	Fze8jkMJbbEyLUzxv37rlPEnkVTcZP0PnosnxLW+JGI6SD1PxpQvm9FOkpFxMuueFGgfuPowbmy
+	IshqINC94VqrXKoZVD2WthgZmfgu22f7TCC9oFbD+QHHvaoBjrVPhW5GUpEARQckuyBXXV5pgEO
+	D0oZqeWC9JwMMQrtQM5ysJjBvJL8MJGR9tOx4c1cWecHi98wmesohyOLb5vwNFNz7GY7G8/2HUQ
+	2w7UJnFiJdV5DpYjiqd6zmN9BxdrnXMyhs88H/qM66+NBXrNU1rRKpgsG8r2bfkrsLfoT9VBd1A
+	HuHP9aqPai3+z0kfdTMU+E+dt0/Os7MoLHtNaSXU1+dDYnEMks9dduwht6y7IJF/lUyfWi1dPw9
+	sQgHwJ84kX1c1nt8Qfn4RG7Jz8iG8pzUru/8Yh7YjWXDIgrj2ydRTQUPdvBZiNeeh0w11g==
+X-Received: by 2002:a17:90b:39b0:b0:3b0:a757:e372 with SMTP id 98e67ed59e1d1-3b0db71a88amr4553467a91.47.1794030042944;
+        Fri, 06 Nov 2026 21:40:42 -0800 (PST)
 Received: from lipengfei28-ThinkStation-P368.mioffice.cn ([2408:8607:1b00:8:a1a:7bc2:20ba:a479])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ed47da11afsm10992515ad.72.2026.11.06.21.40.04
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1054a0475sm1847682a91.0.2026.11.06.21.40.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2026 21:40:11 -0800 (PST)
+        Fri, 06 Nov 2026 21:40:41 -0800 (PST)
 From: Li Pengfei <ljdlns1987@gmail.com>
 X-Google-Original-From: Li Pengfei <lipengfei28@xiaomi.com>
 To: rostedt@goodmis.org,
@@ -92,12 +92,12 @@ Cc: mathieu.desnoyers@efficios.com,
 	linux-kselftest@vger.kernel.org,
 	zhangbo56@xiaomi.com,
 	lipengfei28@xiaomi.com
-Subject: Re: [RFC PATCH v7 01/10] trace: add lock-free stackmap for stack trace deduplication
-Date: Sat,  7 Nov 2026 13:39:54 +0800
-Message-Id: <20261107053954.3075147-1-lipengfei28@xiaomi.com>
+Subject: Re: [RFC PATCH v7 00/10] trace: stack trace deduplication for ftrace ring buffer
+Date: Sat,  7 Nov 2026 13:40:23 +0800
+Message-Id: <20261107054023.3077908-1-lipengfei28@xiaomi.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261103174905.701e078a@gandalf.local.home>
-References: <20260912083753.3426176-1-lipengfei28@xiaomi.com> <20260912083753.3426176-2-lipengfei28@xiaomi.com> <20261103174905.701e078a@gandalf.local.home>
+In-Reply-To: <20261103194429.739feafc@gandalf.local.home>
+References: <20260912083753.3426176-1-lipengfei28@xiaomi.com> <20261013020321.1898006-1-lipengfei28@xiaomi.com> <20261103194429.739feafc@gandalf.local.home>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,34 +111,22 @@ Content-Transfer-Encoding: 8bit
 
 From: Pengfei Li <lipengfei28@xiaomi.com>
 
-On Tue, 3 Nov 2026 17:49:05 -0500
+On Tue, 3 Nov 2026 19:44:29 -0500
 Steven Rostedt <rostedt@goodmis.org> wrote:
 
-> Let's get rid of using rcu_tasks_rude. If RCU isn't watching, then we
-> simply discard the stack trace. We do not want to add any more code that
-> relies on it. If an architecture wants this feature, then it needs to
-> update to not allow tracing without RCU watching.
+> Yeah, the cookie + generation looks like the best way forward.
 
-OK. v8 checks rcu_is_watching() before it loads the map and only uses
-synchronize_rcu() for reset and free. When RCU is not watching, the
-stack is discarded.
+Thanks, v8 uses that format.
 
-> There's no reason to use a rw semaphore here. Just use a mutex. It's
-> serializing the reads of the stackmaps from user space right? There's no
-> reason to have more than one reader at a time.
+v8 will be the core, the hookup into the stack recording path, the
+statistics file, the documentation and the basic selftest, with your
+comments on 01-03 addressed. The binary export will carry the generation
+in its header, so I would like the core and the cookie format to settle
+first; the binary export, its parser and the capacity boot parameter
+will follow as a separate series. If you would rather have them in the
+same series, I can include them.
 
-Yes. v8 uses a mutex.
-
-> Instead of duplicating the open coded free in ftrace_stackmap_create(),
-> move this ftrace_stackmap_destroy() above that function and call it on fail.
-
-Done in v8.
-
-> The above paragraph is unnecessary here. If you want to add it to kernel
-> docs where it is user visible, then fine. (I haven't looked yet if you
-> already did).
-
-The docs cover it, so the paragraph goes.
+So there is no need to look at 04-10 of v7.
 
 Thanks,
 Pengfei Li
