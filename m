@@ -1,98 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794060142;
-	b=BET2Qok/EkTJwxlsn0zLTthQOsqf3wQtDDiqh8WaGpGqY+zHG6dSxgKFMIuKy8DEuiW8
-	 tDvW2F4Ol4kcgPYByw0wujezOs5qpGjDzGsv7ahPd+seWcbCKn8ejDMEXaKUI1MJ8E/zw
-	 eVYu1YTKybHuwVGkZ528sUPsop8c17OkyDKgDnpu+3jZPbvXaEuw3WsKP3RNeSMvdUVww
-	 OIea2weEBtn0q+N8pwHri6oHbVEr2Q82o3mVHs1ve9hZvXG0k7q6K2sV7R569QPgYAGD3
-	 dpYFnZD00ZKYx5zbwh4yc2X4Mnyhd4UBxwYXz6aQumlO1Xom2RLgEkW4P0sAnXWdr7Q==
+	t=1794062068;
+	b=fNMfuVFNaJVOEWhXTc2c/e1kZ1W1FEe/q9QPKeSLHH9Fxj1IML/ujAY8Knlk3gU0lJKw
+	 QgPE+exSRquzRCM8cf1P4ZC6PQPtciRZfWNymPHfO9vhO4f4lt0PoGw9zRbKxQGhAwyz0
+	 rqUmb9+iLcWz+mzrhk5s2WgOqTeZk1aTOL5YL5gmeCsDtEr06xYMmFNqnUubiHNDXiG1k
+	 BYemoRh91zyyJtBb37Nwh6dR0uHLt4cWVktoE7R5DtrRIXx1Qw323pN+9S7s2vhEkV32S
+	 gqpe1BC/5Bx6pawuMHqQMow/NL3Y+hoAcQs1WKLSLmdTkuihjRP2uzoh5zcCLifMk1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794060142;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794062068;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=jeBVTeWsp7XQ0SurPamFA2f1NhhOVbJgVg3z2VQmbcY=;
-	b=dDxZrNUkju4r5agThk4b0GBdNK6jd1Q/DBHoPKU1qguN+Yw0xBG9nb6i3AuMFwAuEPVi
-	 rYsK+2AaKYwmQDGigaG4/GDFtTcEkCcQ4nKLmHMT6MYzcqxuVyN1ndlPOPXBAhSws9RBV
-	 vm4Jgjrd6jBk142pmaRQimdAitJ4ztBkpG9fOS0D5NjRXTrus8GwgpnzlB5jagsSZ6sy8
-	 Pzt1ElN25yLaQh25KJBru621F4ohbrR2J6OeBtyQcSAmTrzIsMIPsVUwWe09VCPeGWENI
-	 epeOio1AmydtzeKIKgBaWKX1rGR2COOuuVIYVa8ALxpTImCPwlDeAZLpWwMtdn+iX0Q==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Q9IhTrICt6K+NOkiZzpJZQeSi8q6GVOO7e1Gifk4LmM=;
+	b=keGZoJWqbS7og9dOaS5BKxLGO8N8xBKmeRSxIgcucBWyCcZLFp+C/ZqVT17DNGP7N3S8
+	 OGTu9Na6QxyOls3LexB7pKdcQweJU7rXCiMQ7VFhP0Kyh33YctH9HdekgIbuA25stXwbi
+	 0txoahzURBQn0zcpN/7PdGfS1njzsoe3FvfvjEEjvqcPTLxc0TcNks7GMGFyk2s6SVqnP
+	 wDBVwMKmUoKwTATNzs9kdgJWaYYlCyWZlVkkh8QpSTW52/jOiarB8z86pMTy6QuN2J+El
+	 bVYoKLWKxbI0Xpz3054NI1RQhKGWCYSDFmc7lEsn4GEdQTsZjl82KCvRU5laUL1r7jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Jzk4l6NG;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="k/R8jpmf";
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466F8606A32D
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 14:02:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 466F8606A32D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F6D606D80D
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 14:34:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40F6D606D80D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Jzk4l6NG
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49d05d51553so9272435e9.2
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 06:02:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k/R8jpmf
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-37198ed3727so293221eec.0
+        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 06:34:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794060140; x=1794664940; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jeBVTeWsp7XQ0SurPamFA2f1NhhOVbJgVg3z2VQmbcY=;
-        b=Jzk4l6NGiX+HqnSZ15BN+hLDZCao5gt3EsidYlulPs2AUjGEDiGyZWmwm8GmKHSpz7
-         iojUe+nL1sffGrls1EUSz35B+L2zLMAWzn3KRUoxu3AB3ZRHqz38t+xAu5DP7CAmJiWe
-         EUttTOAPYVEQ4Ocb2noeI2H4/PpcrlISqFg5v2u8vqoWbU+QuZHnJ1QhMU1ZI1DqjF6p
-         oWHIXNW9fcG9yLHwYrFWx9+BM55KroP/iJ6Gkol1afqzYAE/n97WMEdQgmfsdIbRS4Ow
-         UfN7mEd7pXEXIDUHJUhKpe4u2Jl3vfSxM3ISoBAlP1KVx1NoOmcMePRrTxtmfgi/KlbG
-         UCvw==
+        d=gmail.com; s=20260707; t=1794062067; x=1794666867; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Q9IhTrICt6K+NOkiZzpJZQeSi8q6GVOO7e1Gifk4LmM=;
+        b=k/R8jpmfOfJfq09NGfHnd11AgXL3mVYVqfHKIqKiP+jSRBnkcz02FmHvEadYIgV8yE
+         0dPt1XcmXl13xxtkUH7KoamOPyumrG9iT4cnDz710OQTxc8VsmY6pPbKevs5sqkdyHLT
+         WoEDw8boiklHcAwJ/TbZmknA/GYYb+gSDZ6Y2WhjO//yoOuMHWeQFUtEajTmMLDjN5va
+         JWQwam6fJrEIhVVCalG18yHrb9kssQ15J3Zl9uOXmeoygSoe4YEk8N/QCW1afc5C0SBw
+         n89oVoOijyMmneT80QZKwo72CJ7Vfti7v3wOXl556zYIOHeCwqwKgTrZPrgCMWdr6DtO
+         9nrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794060140; x=1794664940;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=jeBVTeWsp7XQ0SurPamFA2f1NhhOVbJgVg3z2VQmbcY=;
-        b=Ia054+uEs9A0u4/Q2/muK05ye1diwNTrzbu6p0NCbCs1eW4KW9mT8gs1t8+ZohgMAv
-         s32xndoPWkC+HuSYwFEyBfkVc+ZqNO5EC4dD2DjSF77vU+XvGVNmCd5FEmpwdty+eKap
-         z59fn6W8vtRxaUm8l7lnfPNEk27I5vzfk47vvUtW91QAw2SPG2KNovFv9PN6mirwYMRB
-         ydPtnFXfTcsN/o5BjIayFwPfocpWsdBhFO8/NMgGTY3vQBUCgkeUfqa2nwRqbTGN1iLA
-         T9BmAQ9Nlj0Y3vIVDunOBDdiG3U4DH+Dm1+qP2QwzkzdpIaSan+J+auJDth0WdwM3X+Y
-         2OoQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzDxDhkDQ94+qKQ4322eNwMnS1myXxCmB2BTM8qKWr9u2KxEfzAUlWk9rRMvflcGZ48sFoC4yg7ADE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/W1oyuC2fZi/wDUFjKZgStf1RvgL2NGyu46+4cX3/YbiI8rq7R
-	kVsjx3AJjV4JcnPmVsrQbSoSk1NmyNuy0o7H+dic9nV3AgpXJO8FFhnj
-X-Gm-Gg: AYBFou3vjmRYuuTwQY3dnqqU2gIU8zCTzgxDmU63MJPSr+5M8FFXh+0a/mhhNWav9m6
-	szCL3Q/m3nc4QdEd29J5Ym/klEP+mfnNCcHwkjmh9fcrqKP5OKfHtk4o7BlOrFA321upwhHXors
-	oDwi+dKdj9Rol06aLiNB0KdLpbij5j//q4W5WEcv2NSx+iMs6+6Fj06hWcGzu6l1YmfJMQBxbSN
-	J4wYPBCcg3fYKkAN7oPxj1/d8xRuMrzh6rHEJ7HTsmRIYXkbndamR/6LfDBZunXTvxehM1UwZMa
-	eTMQTf+wRiKjkPMBpi4sVBo3MDG4rIgSkguCe+k8sn5q6dMbmg5yXPzuVRRx2kibz6GHSX4/LXP
-	a1Sc6zbgxv/wj22MXpDEM5VTjPfs3PEDQr1jHkNnc43jP5atG2zI1cwWELRLFR8veFuyDg132zf
-	hzGfeF9b+TfI8SjFEH7qGy2TMHuNks9E38sHxQL18LiMd6D7FO5AeqXbQ4ZlNr79wQ+BnVPhi9z
-	z/i3O1GEhU1SKraUv9K8p43vUNruAg8CtDAqiIXO+vzmVL9EaQSOkMrUXrbNb8XTVQXi3cZCkOE
-	paU6aTzuYSQ3+IvJz6bpnNmc6U7IWu9dYEHi++zkUYBITmD1h4yY
-X-Received: by 2002:a05:600c:34ce:b0:4a3:59ee:86b with SMTP id 5b1f17b1804b1-4b6dc400256mr107335175e9.4.1794060139414;
-        Sat, 07 Nov 2026 06:02:19 -0800 (PST)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7efb1547fsm122148745e9.11.2026.11.07.06.02.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 06:02:18 -0800 (PST)
-Date: Sat, 7 Nov 2026 15:02:13 +0100
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Christopher Lusk <clusk@northecho.dev>
-Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] docs: landlock: clarify TTY signal scoping
-Message-ID: <20261107.7c3abf9dfa59@gnoack.org>
-References: <20260923163321.79770-1-clusk@northecho.dev>
- <20260923163321.79770-2-clusk@northecho.dev>
+        d=1e100.net; s=20260707; t=1794062067; x=1794666867;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Q9IhTrICt6K+NOkiZzpJZQeSi8q6GVOO7e1Gifk4LmM=;
+        b=jGVr9a7v5SH2FRrw+b+VLJlpO5wpg3MHBgafsutxU2QqMPSF4Q2b0BBZBFgWGA+ceY
+         0ApWvNyzdMQFogrQugsjGmZtRz+qs3P60+EsNxmYmaDKMxYVWg3JXLhEUw0SpPYY7ltQ
+         b9/p5C7+dMnmTm3sVYmgZwZIni2X/y0hAy7vb4QxzO1hmmF/GpSbL3veMLvomnA3zTZ5
+         oOpqC87L1E6Tkxopnc+Rh6+eKwX34/sHcdrs95NJmUUUJhd5BMF+ChlmL4R287bQxb8r
+         Tgr9TIyDH1rXWXmvXbo+r3TzzQyp8On0qEaQd4Sya08Q9B/VOv83MM0ae08uKGxo86t5
+         oDJg==
+X-Forwarded-Encrypted: i=1; AKwUvBwXhc6C0hFzonvjJ4RK1BI8uA+vLJe0gaUDLBZDzy4qOuLCwyDqzuVllC1OHSZX8NPhXJE9uiGg4e0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+7yjR9zoQOm4kgmy2GWwSC+CNLO+8V4xSIIFhsVQ13ybqYWl69
+	p9ETpMZNT4msXnYNTQECkqpD6k45SrfwieaV7iHyxSUuVSBO/JY6gTC4
+X-Gm-Gg: AYBFou2BdKYry5tvzHU2p8BF3RjQPWiPj3ChFaIlO5MsuyadP/zUjxKKMZ/GAWrQMtA
+	RWpNCsB4RjYsyl5AeWjyMXCHGa1qs+uE3GspENr7TUwNfeY80nJRs461Kl+DLGppgxxq8XcR9WW
+	r6g0yS3RqXPoKrLL3/49jGmX8YZ/riTl9hgV1y4pcBD5BOMGguTLzKRXhuzWDd8zXkx6e0GI/28
+	ZJxQoBQZ0zw8qfwvTYOHikIL6pVzR/n4+MmHTqCk2ReOcquCVz4xGc2CjCpJ6e1/gOW/jTFFxTG
+	qUR4cx6pzFCeimvIm/UhdWMb3H3hE22hOD5sUbeQ/0htxHLdC68bg6QQX7N2m6wNC5vgKJpVmWX
+	qey52mWev4lRg2JlpkGI8CgYZ5NhO1Zzz85Zy/HnS4a4VFauSPTTmxvw1UtxAjLfcIpZzsWAC62
+	CInDiA8Yi4dnQCOGeAFcEMSyCrCam4kAUmG8jk2NulD5Dmw8DA7UJw956vf83ltSYzbEKra5fDi
+	73llDgQNu+a+tGftrMmX5dIDqO0bKm9M8JoENB5nSOk6iz2W/itY9DO5PtKFzTuUO8c/MVD/8AU
+	wN67q1y/cSTTWQWwKDfAWWyYBbNG1RjzQjYKjKakX+d33A9V50Ygt1jQsc7vVWAmdrzgclHFwho
+	w7GUeLmHxS9oD/SbNxqcb9jAZv/v/HsSaa0ShogzVF5dzwA==
+X-Received: by 2002:a05:693c:8819:20b0:36c:dbfc:ee6f with SMTP id 5a478bee46e88-370f6ec412cmr3070962eec.14.1794062067100;
+        Sat, 07 Nov 2026 06:34:27 -0800 (PST)
+Received: from localhost.localdomain ([180.182.24.11])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36fa9aea75fsm27881873eec.15.2026.11.07.06.34.24
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 07 Nov 2026 06:34:26 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v20 00/12] ALSA: virtio: fix capture accounting
+Date: Sat,  7 Nov 2026 23:34:10 +0900
+Message-ID: <20261107143422.29319-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -102,71 +104,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260923163321.79770-2-clusk@northecho.dev>
 
-On Wed, Sep 23, 2026 at 12:33:20PM -0400, Christopher Lusk wrote:
-> LANDLOCK_SCOPE_SIGNAL limits signals sent to arbitrary processes outside
-> a domain.  A PTY master differs because its holder controls attached
-> processes through input and signal injection.
-> 
-> Clarify this boundary in the userspace guide and narrow the UAPI
-> description to arbitrary target processes.
-> 
-> Built the userspace-api docs; no new warnings.
-> 
-> Link: https://lore.kernel.org/r/20260916152336.1589383-1-clusk@northecho.dev
-> Suggested-by: Günther Noack <gnoack@google.com>
-> Suggested-by: Mickaël Salaün <mic@digikod.net>
-> Assisted-by: Codex:gpt-5.6-sol
-> Signed-off-by: Christopher Lusk <clusk@northecho.dev>
-> ---
->  Documentation/userspace-api/landlock.rst | 6 ++++++
->  include/uapi/linux/landlock.h            | 2 +-
->  2 files changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-> index 84cb7bf6b3ed..4d9fb1f1588c 100644
-> --- a/Documentation/userspace-api/landlock.rst
-> +++ b/Documentation/userspace-api/landlock.rst
-> @@ -430,6 +430,12 @@ The operations which can be scoped are:
->      This limits the sending of signals to target processes which run within the
->      same or a nested Landlock domain.
->  
-> +    Holding a PTY master FD grants control over the processes running under that
-> +    terminal, including the ability to inject input and signals.  A process able
-> +    to write to the master should therefore be considered as privileged as those
-> +    processes, and this capability is not restricted by
-> +    ``LANDLOCK_SCOPE_SIGNAL``.
-> +
->  ``LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET``
->      This limits the set of abstract :manpage:`unix(7)` sockets to which we can
->      :manpage:`connect(2)` to socket addresses which were created by a process in
-> diff --git a/include/uapi/linux/landlock.h b/include/uapi/linux/landlock.h
-> index cceda3b3b961..ad7b1ebd62ed 100644
-> --- a/include/uapi/linux/landlock.h
-> +++ b/include/uapi/linux/landlock.h
-> @@ -500,7 +500,7 @@ struct landlock_net_port_attr {
->   *   connecting to an abstract UNIX socket created by a process outside the
->   *   related Landlock domain (e.g., a parent domain or a non-sandboxed process).
->   * - %LANDLOCK_SCOPE_SIGNAL: Restrict a sandboxed process from sending a signal
-> - *   to another process outside the domain.
-> + *   to an arbitrary process outside the domain.
->   */
->  /* clang-format off */
->  #define LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET		(1ULL << 0)
-> -- 
-> 2.55.0
-> 
+Hi Takashi,
 
-Apologies for dropping the ball on this, I'm only realizing it now.
+This cumulative resend keeps the twelve-patch series on the same base,
+a4311e9447bbb219044db38897f95be112f46a8a. It covers PCM stop-threshold
+sampling, locked partial-progress reporting, the optional reset operation,
+VirtIO ACK error propagation and recovery, PCM and control DMA ownership,
+signal-safe teardown, staged capture lifecycle and work prioritization, and
+capture parameter documentation.
 
-Reviewed-by: Günther Noack <gnoack3000@gmail.com>
+Relative to v19, patch 6 moves the virtqueue initialization summary into the
+commit body and removes the unsupported event-message ownership claim. Its
+source diff is unchanged. Patch 7 also rejects ordinary indirect capture
+appl_ptr advances that are not aligned to runtime->min_align before converting
+the frame delta to bytes.
 
-A related documenation patch was brought up in [1] as well.
+Validation:
 
-–Günther
+- The final ARM64 W=1 build uses KASAN, PROVE_LOCKING, and LOCKDEP. The
+  cumulative stage build checks patches 7–12 incrementally.
+- A synthetic exact-validator case rejects an odd frame delta for 4-bit
+  samples before indirect accounting changes. An aligned sub-byte delta and a
+  byte-aligned frame delta pass. QEMU does not advertise IMA_ADPCM, so the
+  sub-byte case uses synthetic runtime geometry rather than a real stream.
+- An actual S16_LE capture accepts two half-period ACKs for one completed
+  period and then recovers a full-period read.
+- Ordinary and staged capture passed RW and MMAP reset/reopen runs. The
+  14-segment oracle matched the QEMU sample sequence.
+- Inherited v19 raw SYNC_PTR and paused-lifecycle evidence covers the existing
+  accounting state machine. The transport timeout and PCI evidence covers
+  unchanged control and teardown paths; these references are listed in the
+  manifest.
 
-[1] https://lore.kernel.org/all/tencent_1D938EDA50BCDB080CFADC6A@qq.com/
+No physical-device validation or KCSAN run was performed.
+
+Previous version:
+https://lore.kernel.org/r/20261106161838.94308-1-mynameisjune111@gmail.com/
+
+AI assistance was used for analysis, implementation, and test preparation.
+Assisted-by: LLM
+
+Thanks,
+Joonho
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
