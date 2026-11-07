@@ -1,79 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011818;
-	b=e4h0VbKLywKQwMo2YeyJJXXztLChwbe4ZcIL6lb2TtNbzhIomTXXO1uMWBGIKIhU+vD2
-	 LJ2goNC/XWTlMCbZQyoTCJdIficmvGUijZeJ1hh7A7k+L8miXiqGO6sYtySazvSAw5kwa
-	 LqTYzG1xdX3hDmpb1K/jK1tSp6H19xshp6h5XfN5e19GLDmI+ZCMTefRK1UMOaBT1/T/9
-	 EwwSeZ0aioyOIDJy8DdmUnDxQbGqVFUAsssUEEV/3MMfV28Hiqne6CAla4SN4Jz5EgqFL
-	 pKzuIJhM6qvCYQbe9igiaqLEWdkJ+2bxju3BSeLmtdyXCAGaJ0LS1QXXk0spXMagt+g==
+	t=1794011824;
+	b=IEbuZZTkS85TMFEDxuLFEXLw19K0TLNfrmxvZ5LZ7XHsP7BwdY3OgvH9dTA4r3wzJ9oV
+	 1W2Hn8Si2PmIGo+ImqfBjBxnXFZzxTOmCEEVCRnSCAdkimOBs5yMv8pF/CWozv0o1nvnC
+	 xw/gcAhWNbQ76y+lYoyax2nHDtrYuoOVFvXI5XzafYJYd2QqejirNRvGgaA20or1vWuaN
+	 ngl5nw+vxyg9vl4cqFYwnM5fqlkF3MW9D9Z7leioO+S7PCUbIq7jF0LNkZ8HpGiR4Ez6A
+	 jbxaaf47zU0SEj8pfrmvyWyTVNcJQyhpxIppuJdRLUluEcpwHXwj/PlFlKwR3yNQ31w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011818;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011824;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=akPF8Rqd0NP4tJKzjNxFnOYnLuQsFWTXNmC9tcZ5B90=;
-	b=MpwD0x9SGyhVg1KG1QSytJU+9Ad7Kbw3t8/IkuX8mWDlqOsQxIIGipsiPwBqACiaXs2p
-	 MWfGEsoIQhvHSDwzqpIkM7WMvKj5nx+2Tz7MTwiMeoGxWIapH7HP6gYzBXMQO1yq6tgro
-	 KBjbhw1mmBIu6/mt+8O8rbqt0uqC7Xsmop/H8ZZpNWWcMeBF4rssFpE327jn7IRfp/Sp0
-	 7l0RHN33vQrkuThqNIKbJNOA6q/egZJhDCroriLIyfbSsaRU5vUw1tR0Rs6gbIT2DNUbh
-	 2EaGLxd6hLhaLzuvN8MAdlMLUmgHhJyrSYl6LgmMWvhrAouG+7OLZzRP/gqZjRNRmYA==
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
+	 X-Endpoint-Received:X-Original-From:Reply-To;
+	bh=S5U1vBcAvPXEHJyvTPB2rKbaQ5CQjq4wj/QhoPwIRHQ=;
+	b=sQQgl+FlJ8YPK5HHNqlDblif0usS+JC+pfSUfLdv5OC/ngddVxokoWaQN/0gTIv8Fw0N
+	 bJoFWsmn4bfIe2lP1+SFrq5VSwc2CDLt2xO8fFOlDIg5SxBIDdnSz+8TVzRDl4IbNgCa6
+	 tV+yZSp0d99vM6y6FfO5BUHU2eLL9XwoRFxvN6MFu813KB1FyOpSMM/+dTLVdZ0edsKq1
+	 SwFad9iagK5jFW0KWe/eF9ZPosRLKxOXeWqHI2+S7Or1likWuKqWmEPFMZJc5/9Ruthjj
+	 sXaqOCBpkzMkfCajipTJlbGvlNy1Ekda31bnbWhOjETw/yZxgspMDdsrLYXJtuHeBUw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jXiLshyn;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n4pVhmIv;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76476606EE90;
-	Sat,  7 Nov 2026 00:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49B756083612;
+	Sat,  7 Nov 2026 00:37:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jXiLshyn
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n4pVhmIv
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011818;
-	b=rCpI9X9dDe2locV8qN0VXeon/7oeKXhMx/OUMnAtjcKT8h9V5bdoS7n6iEIlumfjd0T4
-	 fH4S5EzGKgQSxWVE/uXjPV5u58WltW3l9Stde+MYK29kSjsngWsKpipt6SqhyK400UmUy
-	 iO2t6lrR1cux1migopo3thNMy4JAcl3B+ifQQw1SLkD56B4i8yMgFXjp3VdoVEHMndK0d
-	 CgYTPuwrMljn4f57rS1BqNTvHeMX+xeLXV/X0ttPS6iB842ugC2pnzuH9eGKFFd4NsC7+
-	 CbmAsGHgIDkE90o2ueFFF4L2ldcmBreFAJw3vuLam1ane17fu0cYRLWvBYD13MvivkQ==
+	t=1794011824;
+	b=KBArQC/Oq7iLLSMLXrRYmjKQuQ/kji1LwtBAie0YHXbB1mPhM4Hu7ucQnrgqnPSjRiSf
+	 F4ddcWwQrhlsyNB1DGWiplZAGQltaoRZgcmrtjmmoWc36wUsup0DyTgsWL9S6VDcXhdQm
+	 J6ROWM5m5WpwhhsFr73j8L2zrNt++ly/em4hYeRZBJsTyUEzfzPRws8Quwjcw4XLxq0hd
+	 E8HK4FXz/cIYR7d3VHMdJiKsDQGjbGdqPajnDbC4x85E+gbqGFrir5IfLcLQMhLmsZ1E6
+	 /xndn63BnsUEbVmFpiSfg4D5tb8014kaEC613XPRacXNZUHwTEAS0j8URHLqk01rz7w==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011818;
+	c=relaxed/relaxed; t=1794011824;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=akPF8Rqd0NP4tJKzjNxFnOYnLuQsFWTXNmC9tcZ5B90=;
-	b=ed4/aEHoGaKMOWOTgWQxbcXCqyCSvtt6bAzwRYKLSDGnlprBR2OJvMmXNJdkya62eHQh
-	 oA36+UHDAl2VXcSovxiLy9Fp+TzwY0EQVN6cHslPmtOlj9bzYod1pLtVeqy34krfbIoLq
-	 MrJ87xWppo2L8DREES+YA6wnEOyxGVG1+QUc3gaznioBFV3MBaTjcUN2qNtNyXKUrbGi4
-	 X2sfjI2GYzKM1llrSUzj7wKJ+a7btjDLiYfesv+GsRSC6G3dLAOTG0YAVgTAsPqDNBBuX
-	 LUNmke1s9UwF447CmrNJsCMXn57g+sXeBpuBDvxdYcdHYDajC/6BJK7pMjjLa2dglKA==
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=S5U1vBcAvPXEHJyvTPB2rKbaQ5CQjq4wj/QhoPwIRHQ=;
+	b=MrlMwc5rjtTX2YpEjCv1vNZ5/HWCBZC2r+ECMFVwVgeFsubgxRgejBbqkFWkVJqzpCjT
+	 oN4tTJUQoe1p+jIj/QebRgzRB/dgLLdX+DI46W5uems3F54t7VLe4ZL+mai7nNj2g0nDu
+	 Y7ezKB29cpP5utDhUETFV/0ZAoNGe7iFqfRh1yIgP7ekfNY4l3VgILhR4dxhOLVbiE3vs
+	 hvpvXwP8senUDAtISC8JrDA4sVJ5u551tniKqB/82wS5Q6bLsUVn03c/wiM0YlGunWgXY
+	 7k+e+KHYDChIatUBQ4yGdFefyg85qBODD8AL48ucKIc8yhox0BR7AVo4EZFDwL3TylQ==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 681061F008BF;
-	Sat,  7 Nov 2026 00:36:56 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id AEEB71F00926;
+	Sat,  7 Nov 2026 00:36:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794011818;
-	bh=akPF8Rqd0NP4tJKzjNxFnOYnLuQsFWTXNmC9tcZ5B90=;
+	s=k20260515; t=1794011824;
+	bh=S5U1vBcAvPXEHJyvTPB2rKbaQ5CQjq4wj/QhoPwIRHQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=jXiLshynmjH+vfW3rFTL5wxzqLabHmxKCirdsmFJKIby2exN3faZ5OoCT63y0Kfwc
-	 PUBqcQpd2V5iS56LtVBCDvZejt2IHL9IlUQwn7rkn2oLkKs1Zpd4o7mPyQjl+x/lsE
-	 Fr/WCc/NFuybWWLBAiXPr2tJcwAVkZJKdUcU7CDC+WC0y1hFxOPt279MZPrbmm3KL3
-	 FKT5GwODej81IUfmsaER91lcRZLPvrOVMZ+IYnSwNS2V5O6uzIUnQ0rwN5IRbn8PnB
-	 BGiH4Vck2mtdzuy8fx/g8NOSrJPlx+sxBOvF2kNjf5OP8gtznznZ6Lljz5HBUyZGtY
-	 jrvR1ZrZXbH+Q==
+	b=n4pVhmIvBDq8Zf+8zKLfiav8wA55AQSnfCSjDtKYos4bUck/iWii9OidiUC3PS/P0
+	 RCezvxLa0nUuDfnBexAOVJN901gZU0YXfCHw4swK7bF+yLmrYYTPuXMCLxSlXYW737
+	 tmPUsIqp4sO6RvYz0xxDPAuBmaVVUDdiKv08XUWoLBjQQUvp1Nhwju1e689cNXN35F
+	 PKBTc3FWe4xxeKH7ZqGxxPFcdCPHWFduUiEGyRfrbjeZkGPoXI7c0CtjPIjPwP0Lmc
+	 tIGg1oage7ylyjohGW+7FUmVQrUQPPbHVdvdNzw//p47hKimJcrUeuvutRwJNIop0m
+	 6QJ5D1B98UdmQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E31A14794C;
-	Sat,  7 Nov 2026 00:36:53 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 838704796F;
+	Sat,  7 Nov 2026 00:36:54 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:36:48 -0800
-Subject: [PATCH RFC v3 14/88] KVM: selftests: Test guest_memfd resource
- pool sharing across instances
+Date: Fri, 06 Nov 2026 16:36:57 -0800
+Subject: [PATCH RFC v3 23/88] samples/kvm: Support marking page ranges
+ read-only
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,7 +84,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-14-8484dde66a7e@google.com>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261106-gmem-alternative-providers-v3-23-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -105,82 +106,161 @@ Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
  linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
  Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=2262;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011809; l=4397;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=Gtws3yU3EcBh1drSj1dqMboJlKnfe65yAU7eXv1PUw8=;
- b=OVfxZMrlK188RJKT14VUnpM99+TTasCQygc3Z7C8u4dEwGMREbDFiW6Wd7Pfo/6tGxJRdJRWf
- 1hFExBp/dwhCPnzWJJ1ZBLuQ8kK3ekznkfaIsHb7pMrhA/xJLqcJ5Dl
+ bh=uCxFlNpPcP9FnzyIzy9Unrpwvcf5nvJn0X5xwMufqy8=;
+ b=j/WL6hlQZXrm+u/S+eSzi3ytYlMwyAapZVonBbyI2r/4jUIzA2DkDcMAADCPlPG59GETbxOk6
+ psB+vx5uu7fCus60Olkz15vVkR71H3wp11j9IPvnavrNQKVxAXemkYv
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
  auth_id=649
 X-Original-From: Ackerley Tng <ackerleytng@google.com>
 Reply-To: ackerleytng@google.com
-Content-Transfer-Encoding: 7bit
 
-From: Ackerley Tng <ackerleytng@google.com>
+From: Fred Griffoul <fgriffo@amazon.co.uk>
 
-Test that multiple guest_memfd instances can be created backed by the
-same tmpfs resource pool descriptor, that each file descriptor reflects
-its requested size, and that they have distinct inodes.
+Support the MP_SET_READONLY ioctl on provider files to allow userspace to
+dynamically mark page-aligned ranges of a provider file as read-only or
+writable.
 
+Track read-only pages in a per-file bitmap that starts cleared so all pages
+default to writable upon creation.
+
+Co-developed-by: Ackerley Tng <ackerleytng@google.com>
 Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Signed-off-by: Fred Griffoul <fgriffo@amazon.co.uk>
 ---
- tools/testing/selftests/kvm/guest_memfd_test.c | 34 ++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ samples/kvm/memory_provider.c | 45 ++++++++++++++++++++++++++++++++++++++++++-
+ samples/kvm/memory_provider.h | 15 +++++++++++++++
+ 2 files changed, 59 insertions(+), 1 deletion(-)
 
-diff --git a/tools/testing/selftests/kvm/guest_memfd_test.c b/tools/testing/selftests/kvm/guest_memfd_test.c
-index 2250c3e9a583f..310a45b6656aa 100644
---- a/tools/testing/selftests/kvm/guest_memfd_test.c
-+++ b/tools/testing/selftests/kvm/guest_memfd_test.c
-@@ -562,6 +562,39 @@ static void test_resource_fd_tmpfs_huge(struct kvm_vm *vm)
- 	close(pool_fd);
+diff --git a/samples/kvm/memory_provider.c b/samples/kvm/memory_provider.c
+index 6b8364afc5ed9..39aeb1a0b93f6 100644
+--- a/samples/kvm/memory_provider.c
++++ b/samples/kvm/memory_provider.c
+@@ -36,6 +36,7 @@ struct mp_info {
+ 
+ 	struct mutex lock;		/* the bitmaps */
+ 	unsigned long *absent;		/* taken away by MP_SET_PRESENT */
++	unsigned long *readonly;	/* marked read-only by MP_SET_READONLY */
+ };
+ 
+ /* Byte range [offset, offset + len) of @info as page indices. */
+@@ -54,6 +55,19 @@ static int mp_range(struct mp_info *info, u64 offset, u64 len,
+ 	return 0;
  }
  
-+static void test_resource_fd_tmpfs_shared_pool(struct kvm_vm *vm)
++static void mp_set_readonly(struct mp_info *info, unsigned long start,
++			    unsigned long end, bool readonly)
 +{
-+	int pool_fd, fd1, fd2;
-+	struct stat st1, st2;
++	mutex_lock(&info->lock);
 +
-+	pool_fd = create_tmpfs_pool_fd("never", true, page_size * 2);
++	if (readonly)
++		bitmap_set(info->readonly, start, end - start);
++	else
++		bitmap_clear(info->readonly, start, end - start);
 +
-+	fd1 = vm_create_guest_memfd_resource(vm, page_size,
-+					     GUEST_MEMFD_FLAG_USE_RESOURCE,
-+					     pool_fd);
-+
-+	fd2 = vm_create_guest_memfd_resource(vm, page_size * 2,
-+					     GUEST_MEMFD_FLAG_USE_RESOURCE,
-+					     pool_fd);
-+
-+	TEST_ASSERT(!fstat(fd1, &st1), "fstat on fd1 should succeed");
-+	TEST_ASSERT(st1.st_size == page_size,
-+		    "fd1 st_size (%lu) should match requested size (%lu)",
-+		    st1.st_size, page_size);
-+
-+	TEST_ASSERT(!fstat(fd2, &st2), "fstat on fd2 should succeed");
-+	TEST_ASSERT(st2.st_size == page_size * 2,
-+		    "fd2 st_size (%lu) should match requested size (%lu)",
-+		    st2.st_size, page_size * 2);
-+
-+	TEST_ASSERT(st1.st_ino != st2.st_ino,
-+		    "different guest_memfd instances should have distinct inodes");
-+
-+	close(fd2);
-+	close(fd1);
-+	close(pool_fd);
++	mutex_unlock(&info->lock);
 +}
 +
- #define ____gmem_test(__test, __vm, __flags, __gmem_size, args...)		\
- do {										\
- 	int pool_fd = -1;							\
-@@ -656,6 +689,7 @@ static void test_guest_memfd(unsigned long vm_type)
- 	test_resource_fd_tmpfs_swap(vm);
- 	test_resource_fd_tmpfs_huge(vm);
- 	test_resource_fd_tmpfs_regular_file(vm);
-+	test_resource_fd_tmpfs_shared_pool(vm);
+ static void mp_set_present(struct mp_info *info, unsigned long start,
+ 			   unsigned long end, bool present)
+ {
+@@ -73,11 +87,30 @@ static int mp_file_release(struct inode *inode, struct file *file)
  
- 	__test_guest_memfd(vm, 0);
- 	__test_guest_memfd(vm, GUEST_MEMFD_FLAG_USE_RESOURCE);
+ 	if (info->cma_pages)
+ 		free_contig_range(info->base_pfn, info->npages);
++	bitmap_free(info->readonly);
+ 	bitmap_free(info->absent);
+ 	kfree(info);
+ 	return 0;
+ }
+ 
++static long mp_file_set_readonly(struct mp_info *info, void __user *uarg)
++{
++	struct mp_set_readonly sr;
++	unsigned long start, end;
++	int ret;
++
++	if (copy_from_user(&sr, uarg, sizeof(sr)))
++		return -EFAULT;
++	if (sr.value > 1 || sr.pad)
++		return -EINVAL;
++
++	ret = mp_range(info, sr.offset, sr.len, &start, &end);
++	if (!ret)
++		mp_set_readonly(info, start, end, sr.value);
++
++	return ret;
++}
++
+ static long mp_file_set_present(struct mp_info *info, void __user *uarg)
+ {
+ 	struct mp_set_present sp;
+@@ -105,6 +138,8 @@ static long mp_file_ioctl(struct file *file, unsigned int cmd,
+ 	switch (cmd) {
+ 	case MP_SET_PRESENT:
+ 		return mp_file_set_present(info, uarg);
++	case MP_SET_READONLY:
++		return mp_file_set_readonly(info, uarg);
+ 	default:
+ 		return -ENOTTY;
+ 	}
+@@ -147,11 +182,17 @@ static long mp_ctl_new_file(void __user *uarg)
+ 		goto err_free_info;
+ 	}
+ 
++	info->readonly = bitmap_zalloc(npages, GFP_KERNEL);
++	if (!info->readonly) {
++		ret = -ENOMEM;
++		goto err_free_absent;
++	}
++
+ 	pages = alloc_contig_pages(npages, GFP_KERNEL | __GFP_ZERO,
+ 				   numa_node_id(), NULL);
+ 	if (!pages) {
+ 		ret = -ENOMEM;
+-		goto err_free_absent;
++		goto err_free_readonly;
+ 	}
+ 
+ 	info->cma_pages = pages;
+@@ -178,6 +219,8 @@ static long mp_ctl_new_file(void __user *uarg)
+ 
+ err_free_pages:
+ 	free_contig_range(page_to_pfn(pages), npages);
++err_free_readonly:
++	bitmap_free(info->readonly);
+ err_free_absent:
+ 	bitmap_free(info->absent);
+ err_free_info:
+diff --git a/samples/kvm/memory_provider.h b/samples/kvm/memory_provider.h
+index de07ffa482283..f3772f57f5bf5 100644
+--- a/samples/kvm/memory_provider.h
++++ b/samples/kvm/memory_provider.h
+@@ -27,6 +27,21 @@ struct mp_new_file {
+ #define MP_NEW_FILE \
+ 	_IOW(MP_IOCTL_BASE, 5, struct mp_new_file)
+ 
++/*
++ * ioctl on a provider fd: SET_READONLY on [@offset, @offset + @len).
++ * @value is the read-only value (1 = read-only, 0 = writable), and @offset
++ * and @len are a byte range within the file, page aligned.
++ */
++struct mp_set_readonly {
++	__u32 value;
++	__u32 pad;
++	__u64 offset;	/* bytes into the file, page aligned */
++	__u64 len;	/* bytes, page aligned */
++};
++
++#define MP_SET_READONLY \
++	_IOW(MP_IOCTL_BASE, 11, struct mp_set_readonly)
++
+ /*
+  * ioctl on a provider fd: SET_PRESENT on [@offset, @offset + @len).
+  * @value is the present value (1 = present, 0 = absent), and @offset
 
 -- 
 2.56.0.455.g6c5a503b38-goog
