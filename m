@@ -1,85 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794071599;
-	b=bO053aueavPEF2K5EMEqzgDAGBz6uehUGYe62cKN7AeJu2i+/ttvJWnjkAHSyCc5hVWG
-	 m/cmnIDkTns+jm/FPkYRlIvKe0DVXPkN/hyTWjhr3vwyaEiW/cz2jrIW+BW+HfEA4h8lH
-	 vL3Yeu6f/oRII0UAWRBA+cP172rTTud1xKiuYeSjGjJH0VqWZ3+6veqkxDzfl+bCf2IEL
-	 cpdPwfoz0l4H+9QTlA7ErSENeVz2p+FTYgKcqaEOesIpKWOZrvfXKZl1a3PoEvlIKkdY5
-	 4nLdCx4D9CgVN7Z8IDX+vimK5q2Zl5GDIuBFLDIkQW9dS9/DzlbEs6idv7YGiwEynRA==
+	t=1794071600;
+	b=Xfap/C0bYX9ZQH/7reuNwh851l3BJJSw3CwoH0g6DiRQLikat+O6ToiWJWgGA7cVBbE5
+	 NOeyGTg67dv0+H91ssv1+MkOaB3Diu04Cdpdw1PSbVWeRGNRKI5Uwc3R4PNDfC/tMY0fC
+	 4G5tWtieeeaHXuGYbQrazH7DVcrrdozlSpLsc5DJ+e+az6Rb7vu3EtaJSersQRCJhz2EJ
+	 woahNxtQ3W2IeE1s5qz74ZqCNc9HEtWri8y8O67nhHwme5jagfvkqHVOqXyJtsObMArBD
+	 r29V5+uvDib9fR5rhZ8AG07HTHTJJ9ebJVjVgS5r1NdI/CP68xbbtcjgdEbi62y67dA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794071599;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794071600;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=xjQ6Iw+Hv54/R3GAGjgo5o5g8WjFp1eqHmNZYP09gTs=;
-	b=GMXI1XO11c+4MtO+aZySdShd69mHsZnhlYffFEW+xWeWqGDAoITZzCyENKq0sRezzdG0
-	 DEqdJmrZhLTPh9IqdgH+vnhyzdye+Zc2k+VuHgwphqZYW+n4ASLQo0oAYhoDza++3sjMa
-	 qe+r4IWJ58Blu5BJXN/CPeNFFV0qx/ngT9YqC7u3T+GHPsDt5axM/FFmKl/CVXmfveRJH
-	 wH6yxeCoba7mRZamyRDoDB4feooWdgBI4xCXRpy58KUdkLAsp9vJ63DB2JE8Iqiim3lWe
-	 giCNpFRVlUfqx5okPLopg1XKjJjMRoMrb7TQNVn6Ny9cHrf5X3rI8Qm3Zdzb/yR3W2A==
+	bh=eWNSEsSwVt5YTKCfi1st6fCrwdvuoSW1sFyhHtvjjtQ=;
+	b=xw00jdIhFGYqtmtZmXTJ2T6ehN+Ex1hDQk3GENtPmS1BK/NDWhX2E2xc3J0J5XPCXE7n
+	 rcvQC243FDDv+kgAFYns1zHloI/O6ivTKTn2kbjHgSA6gHTvflmoAO2WMR19KaYielyAL
+	 HpN7uYNOasM56g1PZ0g7ySrKl0ecAjJfB8OkV/lKMygDXIYZURQCO+ojKkOC1vwKqwdmO
+	 VWwWy9Sq62Gn4rbpAlFz9ljxTaRAaQEMcb322TedSuhUF1f7i4/yzCqanGAcf2tyQDY+R
+	 4UaWXrTJiAH1txsTAe9kBzQOhIyABGQMp9eW1gT4hGMWsT+064xgOxb/KY7pBqRVWjg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qsRfOqN+;
-	arc=none smtp.remote-ip=209.85.221.49
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="nqX/zXsW";
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F903606D827
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 17:13:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2F903606D827
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C015E606EE88
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 17:13:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C015E606EE88
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qsRfOqN+
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-490585eddfcso1039728f8f.0
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 09:13:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nqX/zXsW
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso15943935e9.3
+        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 09:13:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794071596; x=1794676396; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794071598; x=1794676398; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=xjQ6Iw+Hv54/R3GAGjgo5o5g8WjFp1eqHmNZYP09gTs=;
-        b=qsRfOqN+IX/sbhSTl5Cla35emQkSxBrDb3CPQruxS0QhqgcfEUiFIqIpgannDcSlex
-         hM/Uky6OSn85fV1ZjILeEYcbWfsfLCjrTGYsF1aC9RWKzwFXeCMbEZDoUcb7GI1j/emt
-         5YY/ND769vkqXs15xUeFj0gV9/M6ep3DVxGxfrSQcPIRPbntXxfBoLYTlwbPjwQEczNu
-         fthYBvDLRCudze6Gc1P0sU6TBjxKVvm24F7DxN/9ws8j2L/9u8SarTBUQE0f3XtLhaJd
-         DdEfxTnM+VycoAZIuTR0o4M4QdTrsXgOLvAZwmD9wDWt5ZQiKIVK+7hlDUB6vL1DfkFV
-         /LAg==
+        bh=eWNSEsSwVt5YTKCfi1st6fCrwdvuoSW1sFyhHtvjjtQ=;
+        b=nqX/zXsWEPl7tDD4P+GbmQS7Lkhv5wPx80HSIeZRk+eh5lxkui6Qvlqo55RCxTls+e
+         MNQmGV1TII5aM95KrbbC68/kuK1U4qQhzbN6udX6wL6K1wYiRvbAXbuP0aPaPAACZazM
+         3d5Ye4rrspLIDcKOWiX+zBSiZ9PGUdS0+kAflMFmcvKGdJfAu4UjY4NPLiQ1ngxajVW/
+         ZxN7ho/JVO4MUWk7CmqZ1B9hr92xHd4VVjAeUnVXL3oxCkjHOGxYuA9vHY5f5E3Qnl/4
+         Yg0gePj9UELngniLGZPk2Ml//BQ3N18RLOmNtmOGLuw98IkJA7D0uKVPyTgUvOD+hT5Y
+         aHdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794071596; x=1794676396;
+        d=1e100.net; s=20260707; t=1794071598; x=1794676398;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xjQ6Iw+Hv54/R3GAGjgo5o5g8WjFp1eqHmNZYP09gTs=;
-        b=rt0C3Xqx2nwsroeBi9M31DOrgdtHJrW6KgWxZDwVhBAlQURMs1erpM4I63+YX6TM6a
-         3hejbAONhiSyw31BjiUVFGVEfV/PgSoQ0kzdawUzrn3bBX0lKu6xp/MMNfJLJh8SeVKu
-         j68UFWPB5hb2SF0dfY/cU8u9NjZ0ZH4T79LeT+xSt0ojwud9PcQD7qKc0zFDVKks5Lvp
-         T93H8Q75OJUy30K2c8viSXxYVMPYxAmW69Ws/f226ZfVwsEXbKEK28hqoMqc4dGwq/PV
-         4n4fZ99vE96WZOBVIpqn7CNYGkdeN90yJaZs20jSl/Z68y+iKWymNzpLhEtoQugnX+z9
-         h1uQ==
-X-Forwarded-Encrypted: i=1; AL+hErHkzbdpGSYq84uVMdJMFvm+FVOubuw1Vi/zc1kYOpUAHACg/C3l8WM6RftInCMqygm+pXF3/Iirqwo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9zFmqdsEfxS+k248X7voyPaS0oL6rlZcX7611zYwli9NC0qSmO
-	8myn5++xuc62I3F9ejxXeS6maELJTDv/xmELAt7r8kQOdVh+plthkTij
-X-Gm-Gg: AYBFou2MbHT9gxSFM/u3JyQ4mlSfbdgePKs1AAocPbuzdAByUH9utfpSPq0MxKd30Vt
-	7velVShfrDkyERT0VXh+vi2iy0Uf089xiE1DBujzLrdJlTHWhh3TcZhXtaIF4+mcnLqjzEpRIh4
-	7N5l1mzRzNryskCTY3XtGEf+QixU18K/6qiMUCoqBHSUWqMu+kSXGVcZ+DZPigiC0qiyqpU9Rcz
-	Z4Jd5eGhgblHQs8BqZ2pAUu5bCtkgoNq4r+RuMf6goWvxVHmSyysdNIed6AVcMWgPLhhWJnS+wW
-	eL63k3SjaweuKiIc8ktmRKS2q9/6WW1y7U8UjFnEepxtukdseyawQg0SYgUKE7yjtdzkJF6RJue
-	EfhcWoFAEAysAwhM24AsZlbVtJMMAbqLRR9Ji2UHr/xUPvKKyFrMfnVrMw9+w7txnUNNlqVB+bj
-	hkkj+guFTNPIvkkyhqe9bX5xdzaPDa169FTINMD3VHfGlkBdWdbt77bIjYrxnisu6knCvLtRTgN
-	H3nIj3MRWH5XVPhMzEuz/Woc50S1RQ3Bw0U8+lPKCD9EzoAzUq9xNqGegM/N/FX+TqyA35V4B/P
-	rpCea6ip82qFgS1TsoWnVzWkbDfAZ0kldASaVj8culn4AyIeSgE3+3SVOoU5hXhc2vwKkSw8+/J
-	kWR38aRbytQlE2OeFyxya0wjaw8WT4l4raaL1pgeSYEoV4KjbxC9tqy9fQ87UQag7b2ik3CE8DG
-	U1AWLeHXLmpDHj44V8Ilyy/l2a+lwcA6E=
-X-Received: by 2002:a05:6000:178a:b0:48c:58d5:30fb with SMTP id ffacd0b85a97d-49273f500f0mr12243251f8f.5.1794071596353;
-        Sat, 07 Nov 2026 09:13:16 -0800 (PST)
+        bh=eWNSEsSwVt5YTKCfi1st6fCrwdvuoSW1sFyhHtvjjtQ=;
+        b=DktfeCZI0YTP1SjATuapuDCnN9dAWGK/Ggz9OA5n/5sd2FysxNwNjxP1bnA/LECJn2
+         29tbe+hUAvDAOrKlhkNFgmqMwrFzDevuO3bhgAxA54GYWOITVdcFYBVIkLoCkqQU75dh
+         tyWD/2L3t0CYm9q2etbpBO+XslGN2x8dDo+Q4EOsngjSK32CTtVi69h0O5KncAjQERBs
+         kiBWJep+K/L5t0CxuMpIeCR692XrjYgfN92glejZnh5NUmCaAJ0kX+ulVpWMvnMNBYcX
+         g/vc64WHzc4l7TzbSQ3os9XaFbwpAsft/qwnKOCd8aIQ+Tm6+2n22OeNzqk+B2ocYmdS
+         aynw==
+X-Forwarded-Encrypted: i=1; AKwUvBwGMOWVcVwfdBRVPWMLWnbmfvUnAxFQD5scKBQ/x9gYNe2Q/girXs8+FCKhiuc+UZ/lqAAsOa1on8c=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9JR1G2I4vIndRK/rEPikMjDTtQ1fr0VCRLiIdHxbYlIEiitc2L
+	P1jtt9JmCvpAujGQdnPg0RhvsgS1ohLgadcLjSkJZ6yRGC4gSrhyKHinAzvxRuFmDIQ=
+X-Gm-Gg: AYBFou2wuszlZMwCjhi33KqhfBNkDIZapNIyahr4zy1INhJVTz4zNBQSGiGHTr7Be6I
+	mAKbmI8n+Tk6LdwOXXwAqKBFvyV3zKGCPynTs/2wB5IAGOWuurUPe1ZCOtICKrtpzm7xGOVtZTf
+	lu9Oa14o8dmHbARsc6pLRLa30MXnnAFJO5zTdhzUUzBFPg2i0BNj5/41fY3ezboPQHxveR7X3F/
+	vyOus0to7GnjttGYPo+FQxLxagldF4SM9cf9tUcogwrPhWH61lWXer5GIoTBHzPoKU4PSvJoQ5b
+	u9qw1N2P04ZqMqOWJ+jLIIpM2T6VxYNmaxy97BUezEVy/gfWD4UtKOO9KAGrw9b9qVLdXfFyovc
+	NiDkzYNP6sQHDKg1S4fD44thirUYXDMM91OdzaGJh9ZjQt/6Y3J79Gj2VtlT7gXYxejdrS48oau
+	X1YI1djbET2wx/zwVM2E3DIOFbs+bfAF6YAZv7cIhSgnwwsc+1F8ke11DKUVFGMeDdK8CRByUFk
+	S39BOiBGbbwHLQh+WzueAu2sat5JYh0zzz576JUdTTXIAtKhL1jTKGw+ccAIsiiQpSi6ldANbwe
+	F7yaOpS2cUOVDJsh8t6IehphBOhiD7qE5ht37+Xmk0590u8o7cdvqevm0gyyGyzKdYBZSRNr1is
+	SgJFNLrpgk2Cmt5vt/5TiU485OsVrCGWb9bSTY7cezj+i2eyOzMry7eulUpg24fHHZxC1qRz6p2
+	DNmeIOVSmMqF2194MTTIo62iMAXfvRo5M=
+X-Received: by 2002:a05:600c:4f4a:b0:4a2:1196:db0e with SMTP id 5b1f17b1804b1-4b6e017248dmr113719735e9.30.1794071597881;
+        Sat, 07 Nov 2026 09:13:17 -0800 (PST)
 Received: from localhost.localdomain (dynamic-2a02-3100-b149-1401-90c6-65b4-035d-1e3d.310.pool.telefonica.de. [2a02:3100:b149:1401:90c6:65b4:35d:1e3d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d723222fsm10627105f8f.21.2026.11.07.09.13.13
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d723222fsm10627105f8f.21.2026.11.07.09.13.16
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 07 Nov 2026 09:13:15 -0800 (PST)
+        Sat, 07 Nov 2026 09:13:17 -0800 (PST)
 From: Karl Mehltretter <kmehltretter@gmail.com>
 To: Steven Rostedt <rostedt@goodmis.org>,
 	Gabriele Monaco <gmonaco@redhat.com>
@@ -107,9 +107,9 @@ Cc: Karl Mehltretter <kmehltretter@gmail.com>,
 	linux-rt-devel@lists.linux.dev,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [RFC PATCH v2 4/9] rv: Add a monitor for IRQ-exit scheduling ownership
-Date: Sat,  7 Nov 2026 18:12:47 +0100
-Message-Id: <20261107171252.25090-5-kmehltretter@gmail.com>
+Subject: [RFC PATCH v2 5/9] docs/rv: Document the IRQ monitors
+Date: Sat,  7 Nov 2026 18:12:48 +0100
+Message-Id: <20261107171252.25090-6-kmehltretter@gmail.com>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261107171252.25090-1-kmehltretter@gmail.com>
 References: <20261107171252.25090-1-kmehltretter@gmail.com>
@@ -124,402 +124,395 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Existing scheduler events do not retain the task that owns a
-preempt_schedule_irq() invocation after that task switches out.
+Document the irqstate and irqexit models, including their text
+schematics, synchronization rules, PREEMPT_RT behavior, bare-tracepoint
+boundaries, per-CPU vs per-task automaton separation, tracefs interface,
+and coverage limits.
 
-Add a per-task irqexit hybrid-automaton monitor. It follows an
-invocation through entry, suspension, migration, resumption, and return.
-Its guards verify hardirq context, local interrupt state, and task
-ownership.
+irqstate observes hardirq contexts whose boundaries pass through
+irq_enter() or irq_enter_rcu() and irq_exit() or irq_exit_rcu(). Direct
+__irq_enter() and __irq_exit() users, raw-only paths, and
+architecture-specific intervals before generic entry and after generic
+exit remain outside its coverage.
 
-The monitor covers preempt_schedule_irq() only. It does not cover
-architecture-specific interrupt-return work or establish that the helper
-was reached from a physical interrupt.
-
-The generated model header is reproducible from the included DOT file
-with the unmodified rvgen tool.
+Clarify that irqexit monitors preempt_schedule_irq() as a per-task
+automaton rather than treating it as the complete interrupt-return path.
 
 Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
 ---
- kernel/trace/rv/Kconfig                       |   1 +
- kernel/trace/rv/Makefile                      |   1 +
- kernel/trace/rv/monitors/irqexit/Kconfig      |  14 ++
- kernel/trace/rv/monitors/irqexit/irqexit.c    | 159 ++++++++++++++++++
- kernel/trace/rv/monitors/irqexit/irqexit.h    |  85 ++++++++++
- .../trace/rv/monitors/irqexit/irqexit_trace.h |  19 +++
- kernel/trace/rv/rv_trace.h                    |   1 +
- tools/verification/models/irq/irqexit.dot     |  21 +++
- 8 files changed, 301 insertions(+)
- create mode 100644 kernel/trace/rv/monitors/irqexit/Kconfig
- create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.c
- create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.h
- create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_trace.h
- create mode 100644 tools/verification/models/irq/irqexit.dot
+ Documentation/trace/rv/index.rst       |   1 +
+ Documentation/trace/rv/monitor_irq.rst | 350 +++++++++++++++++++++++++
+ 2 files changed, 351 insertions(+)
+ create mode 100644 Documentation/trace/rv/monitor_irq.rst
 
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index a9238e41806a6..9cdc881b8da29 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -75,6 +75,7 @@ source "kernel/trace/rv/monitors/opid/Kconfig"
- 
- source "kernel/trace/rv/monitors/irq/Kconfig"
- source "kernel/trace/rv/monitors/irqstate/Kconfig"
-+source "kernel/trace/rv/monitors/irqexit/Kconfig"
- # Add new irq monitors here
- 
- source "kernel/trace/rv/monitors/rtapp/Kconfig"
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index 3c92202933207..90ad2361e0b05 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -19,6 +19,7 @@ obj-$(CONFIG_RV_MON_SSSW) += monitors/sssw/sssw.o
- obj-$(CONFIG_RV_MON_OPID) += monitors/opid/opid.o
- obj-$(CONFIG_RV_MON_IRQ) += monitors/irq/irq.o
- obj-$(CONFIG_RV_MON_IRQSTATE) += monitors/irqstate/irqstate.o
-+obj-$(CONFIG_RV_MON_IRQEXIT) += monitors/irqexit/irqexit.o
- obj-$(CONFIG_RV_MON_STALL) += monitors/stall/stall.o
- obj-$(CONFIG_RV_MON_DEADLINE) += monitors/deadline/deadline.o
- obj-$(CONFIG_RV_MON_NOMISS) += monitors/nomiss/nomiss.o
-diff --git a/kernel/trace/rv/monitors/irqexit/Kconfig b/kernel/trace/rv/monitors/irqexit/Kconfig
+diff --git a/Documentation/trace/rv/index.rst b/Documentation/trace/rv/index.rst
+index 29769f06bb0f0..8dd4041e1a0eb 100644
+--- a/Documentation/trace/rv/index.rst
++++ b/Documentation/trace/rv/index.rst
+@@ -15,6 +15,7 @@ Runtime Verification
+    monitor_wip.rst
+    monitor_wwnr.rst
+    monitor_sched.rst
++   monitor_irq.rst
+    monitor_rtapp.rst
+    monitor_stall.rst
+    monitor_deadline.rst
+diff --git a/Documentation/trace/rv/monitor_irq.rst b/Documentation/trace/rv/monitor_irq.rst
 new file mode 100644
-index 0000000000000..292aae51be19f
+index 0000000000000..3e4aa819fcbbc
 --- /dev/null
-+++ b/kernel/trace/rv/monitors/irqexit/Kconfig
-@@ -0,0 +1,14 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_IRQEXIT
-+	depends on RV
-+	depends on RV_MON_IRQ
-+	default y
-+	select HA_MON_EVENTS_ID
-+	bool "irqexit monitor"
-+	help
-+	  Verify that IRQ-exit scheduling starts outside hardirq context
-+	  with interrupts disabled and returns to its original task.
++++ b/Documentation/trace/rv/monitor_irq.rst
+@@ -0,0 +1,350 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_irq.rst
-diff --git a/kernel/trace/rv/monitors/irqexit/irqexit.c b/kernel/trace/rv/monitors/irqexit/irqexit.c
-new file mode 100644
-index 0000000000000..f09a6ce5c463a
---- /dev/null
-+++ b/kernel/trace/rv/monitors/irqexit/irqexit.c
-@@ -0,0 +1,159 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/hardirq.h>
-+#include <linux/init.h>
-+#include <linux/irqflags.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/rv.h>
-+#include <linux/tracepoint.h>
-+#include <rv/instrumentation.h>
++IRQ monitors
++============
 +
-+#define MODULE_NAME "irqexit"
++- Name: irq
++- Type: container for IRQ context monitors
++- Author: Karl Mehltretter <kmehltretter@gmail.com>
 +
-+#include <trace/events/sched.h>
-+#include <rv_trace.h>
-+#include <monitors/irq/irq.h>
++Description
++-----------
 +
-+#define RV_MON_TYPE RV_MON_PER_TASK
-+#include "irqexit.h"
-+#include <rv/ha_monitor.h>
++The ``irq`` container groups monitors which compare interrupt-related
++events with the execution context recorded by the kernel.  The monitors are
++architecture independent: they consume generic tracepoints and do not require
++an architecture assembly hook.
 +
-+static u64 ha_get_env(struct ha_monitor *ha_mon, enum envs_irqexit env, u64 time_ns)
-+{
-+	switch (env) {
-+	case hardirq_irqexit:
-+		return hardirq_count();
-+	case irq_off_irqexit:
-+		return !!irqs_disabled();
-+	case owner_current_irqexit:
-+		return ha_get_target(ha_mon) == rv_get_current();
-+	default:
-+		return ENV_INVALID_VALUE;
-+	}
-+}
++The first monitor deliberately observes only safe, instrumentable events.  It
++does not cover the interval between physical interrupt entry and establishment
++of generic hardirq state.  The boundary hooks are bare tracepoints declared
++with ``DECLARE_TRACE()`` rather than user-space tracefs events.
 +
-+static inline bool ha_verify_guards(struct ha_monitor *ha_mon,
-+				    enum states curr_state, enum events event,
-+				    enum states next_state, u64 time_ns)
-+{
-+	bool res = true;
++The two specifications use distinct automaton instances because they track
++different objects.  ``irqstate`` is a per-CPU automaton: a hardirq interrupts
++whichever task happens to be running on that CPU, and non-RT softirq
++execution is CPU-local.  ``irqexit`` is a per-task automaton: an invocation
++of ``preempt_schedule_irq()`` belongs to the interrupted task's stack frame,
++multiple tasks may be suspended inside the helper at the same time, and a
++suspended invocation can migrate to another CPU before returning.  The
++container enables and disables both automata together by default while
++keeping per-CPU and per-task state independent.
 +
-+	if (curr_state == idle_irqexit && event == resched_entry_irqexit)
-+		res = ha_get_env(ha_mon, hardirq_irqexit, time_ns) == 0ull &&
-+		      ha_get_env(ha_mon, irq_off_irqexit, time_ns) == 1ull &&
-+		      ha_get_env(ha_mon, owner_current_irqexit, time_ns) == 1ull;
-+	else if (curr_state == idle_irqexit && event == switch_in_irqexit)
-+		res = ha_get_env(ha_mon, hardirq_irqexit, time_ns) == 0ull &&
-+		      ha_get_env(ha_mon, irq_off_irqexit, time_ns) == 1ull;
-+	else if (curr_state == idle_irqexit && event == switch_out_irqexit)
-+		res = ha_get_env(ha_mon, hardirq_irqexit, time_ns) == 0ull &&
-+		      ha_get_env(ha_mon, irq_off_irqexit, time_ns) == 1ull;
-+	else if (curr_state == rescheduling_irqexit && event == resched_exit_irqexit)
-+		res = ha_get_env(ha_mon, hardirq_irqexit, time_ns) == 0ull &&
-+		      ha_get_env(ha_mon, irq_off_irqexit, time_ns) == 1ull &&
-+		      ha_get_env(ha_mon, owner_current_irqexit, time_ns) == 1ull;
-+	else if (curr_state == rescheduling_irqexit && event == switch_out_irqexit)
-+		res = ha_get_env(ha_mon, hardirq_irqexit, time_ns) == 0ull &&
-+		      ha_get_env(ha_mon, irq_off_irqexit, time_ns) == 1ull &&
-+		      ha_get_env(ha_mon, owner_current_irqexit, time_ns) == 1ull;
-+	else if (curr_state == suspended_irqexit && event == switch_in_irqexit)
-+		res = ha_get_env(ha_mon, hardirq_irqexit, time_ns) == 0ull &&
-+		      ha_get_env(ha_mon, irq_off_irqexit, time_ns) == 1ull;
-+	return res;
-+}
++Monitor irqstate
++----------------
 +
-+static bool ha_verify_constraint(struct ha_monitor *ha_mon,
-+				 enum states curr_state, enum events event,
-+				 enum states next_state, u64 time_ns)
-+{
-+	return ha_verify_guards(ha_mon, curr_state, event, next_state, time_ns);
-+}
++The ``irqstate`` monitor checks the ordering of hardirq contexts whose entry
++and exit pass through ``irq_enter()``/``irq_exit()`` or
++``irq_enter_rcu()``/``irq_exit_rcu()``, and of complete serving-softirq
++contexts. Each boundary must agree with the corresponding preempt-count state:
 +
-+static void handle_resched_entry(void *data, struct task_struct *owner)
-+{
-+	da_handle_start_run_event(owner, resched_entry_irqexit);
-+}
++.. list-table:: Event and required context
++   :header-rows: 1
 +
-+static void handle_resched_exit(void *data, struct task_struct *owner)
-+{
-+	/* Do not hide an invalid return behind enable-mid-invocation sync. */
-+	if (owner != rv_get_current() || hardirq_count() || !irqs_disabled())
-+		da_handle_start_run_event(owner, resched_exit_irqexit);
-+	else
-+		da_handle_start_event(owner, resched_exit_irqexit);
-+}
++   * - Kernel event
++     - Model event
++     - Required environment
++   * - ``hardirq_context_entry``
++     - ``hardirq_entry``
++     - ``hardirq > 0``; serving-softirq state selects the source state
++   * - ``hardirq_context_exit``
++     - ``hardirq_exit``
++     - ``hardirq > 0``; serving-softirq state selects the destination state
++   * - ``softirq_context_entry``
++     - ``softirq_entry`` or ``softirq_entry_from_hardirq``
++     - ``hardirq == 0 && serving_softirq == 1``
++   * - ``softirq_context_exit``
++     - ``softirq_exit`` or ``softirq_exit_to_hardirq``
++     - ``hardirq == 0 && serving_softirq == 1``
++   * - ``sched_switch`` from a serving-softirq task (PREEMPT_RT)
++     - ``softirq_suspend``
++     - ``hardirq == 0``
++   * - ``sched_switch`` to a serving-softirq task (PREEMPT_RT)
++     - ``softirq_resume``
++     - ``hardirq == 0``
 +
-+static void probe_resched_entry(void *data, struct task_struct *owner,
-+				unsigned long pc, bool irq_off)
-+{
-+	handle_resched_entry(data, owner);
-+}
++``serving_softirq`` uses ``in_serving_softirq()``.  It therefore distinguishes
++a serving-softirq interval from a task which merely disabled bottom halves.
++The hardirq condition uses the hardirq component of ``preempt_count``.
++Softirq events also report whether hardirq state was replaced for inline
++processing during interrupt return. The exit event reports whether hardirq
++state will be restored.
 +
-+static void probe_resched_exit(void *data, struct task_struct *owner,
-+			       unsigned long pc, bool irq_off)
-+{
-+	handle_resched_exit(data, owner);
-+}
++On PREEMPT_RT the serving interval includes preparation before
++``handle_softirqs()`` and teardown after it, not just handler execution or
++CPU-time accounting. A worker can enter and leave this context even if its
++pending-work check finds nothing. The RT entry event follows the counter
++update that sets the serving bit, and the exit event precedes the update
++that clears it. Processing inline from ``local_bh_enable()`` has the same
++boundaries; ordinary BH-disable nesting does not emit context events.
 +
-+static void handle_sched_switch(void *data, bool preempt,
-+				struct task_struct *prev,
-+				struct task_struct *next,
-+				unsigned int prev_state)
-+{
-+	/* current is still prev; the incoming task must not use that guard. */
-+	da_handle_event(prev, switch_out_irqexit);
-+	da_handle_event(next, switch_in_irqexit);
-+}
++RT worker entry acquires any blocking BH lock before the counter update.
++When the entry tracepoint is enabled, the update and event execute together
++with local IRQs disabled, then restore the original IRQ state. No new IRQ
++disable/enable pair is introduced when that tracepoint is disabled. RT
++decrements already execute with IRQs disabled. Non-RT retains its existing
++IRQ-disabled processing-loop boundaries.
 +
-+static int enable_irqexit(void)
-+{
-+	int retval;
++The model has six states: ``idle``, ``in_hardirq``, ``in_softirq``,
++``hardirq_from_softirq``, ``softirq_from_hardirq``, and
++``hardirq_from_softirq_from_hardirq``. The initial and accepting state is
++``idle``. The following schematics omit the guards listed above. To keep the
++state names short, ``A > B`` denotes the state reached when context ``B`` is
++entered from context ``A``; it does not imply that both context-count
++components remain set::
 +
-+	retval = ha_monitor_init();
-+	if (retval)
-+		return retval;
++              hardirq_exit
++    +----------------------------+
++    |                            v
++  +---------+  hardirq_entry   #=================================#
++  | hardirq | <--------------- H              idle               H <+
++  +---------+                  #=================================#  |
++                                 |                                  |
++                                 | softirq_entry                    | softirq_exit
++                                 | softirq_resume                   | softirq_suspend
++                                 v                                  |
++                               +---------------------------------+  |
++               +-------------> |             softirq             | -+
++               |               +---------------------------------+
++               |                 |
++               | hardirq_exit    | hardirq_entry
++               |                 v
++               |               +---------------------------------+
++               +-------------- |        softirq > hardirq        |
++                               +---------------------------------+
 +
-+	rv_attach_trace_probe("irqexit", sched_irq_preempt_entry_tp, probe_resched_entry);
-+	rv_attach_trace_probe("irqexit", sched_irq_preempt_exit_tp, probe_resched_exit);
-+	rv_attach_trace_probe("irqexit", sched_switch, handle_sched_switch);
++The softirq interval during hardirq return and a hardirq nested within that
++interval form the remaining part of the model::
 +
-+	return 0;
-+}
++                   +-----------------------------+
++                   |           hardirq           | <+
++                   +-----------------------------+  |
++                     |                              |
++                     | softirq_entry_from_hardirq   | softirq_exit_to_hardirq
++                     v                              |
++                   +-----------------------------+  |
++    +------------> |      hardirq > softirq      | -+
++    |              +-----------------------------+
++    |                |
++    | hardirq_exit   | hardirq_entry
++    |                v
++    |              +-----------------------------+
++    +------------- | hardirq > softirq > hardirq |
++                   +-----------------------------+
 +
-+static void disable_irqexit(void)
-+{
-+	rv_this.enabled = 0;
++The ``softirq_from_hardirq`` state represents non-RT softirq processing
++during interrupt return. The kernel replaces ``HARDIRQ_OFFSET`` with
++``SOFTIRQ_OFFSET`` while the handlers run, then restores hardirq state before
++completing interrupt exit. The ``hardirq_from_softirq_from_hardirq`` state
++represents a nested hardirq during those handlers.
 +
-+	rv_detach_trace_probe("irqexit", sched_irq_preempt_entry_tp, probe_resched_entry);
-+	rv_detach_trace_probe("irqexit", sched_irq_preempt_exit_tp, probe_resched_exit);
-+	rv_detach_trace_probe("irqexit", sched_switch, handle_sched_switch);
++On PREEMPT_RT, serving-softirq state is task-local and the serving interval is
++preemptible.  A switch away from that task suspends its CPU context
++(``in_softirq -> idle``); a switch back resumes it (``idle -> in_softirq``).
++The adapter reads the outgoing and incoming task's softirq count at
++``sched_switch``.  Interrupts are disabled there, so no hardirq boundary can
++occur between representing the incoming task and the actual context switch.
++A hardirq in a task which preempted a softirq therefore starts in ``idle``.
 +
-+	ha_monitor_destroy();
-+}
++Hardirq depth greater than one is collapsed into the surrounding hardirq
++state.  The depth comes from the existing hardirq component, so the monitor
++does not maintain a second counter which could wrap independently.
 +
-+static struct rv_monitor rv_this = {
-+	.name = "irqexit",
-+	.description = "Verify IRQ-exit scheduling ownership.",
-+	.enable = enable_irqexit,
-+	.disable = disable_irqexit,
-+	.reset = da_monitor_reset_all,
-+	.enabled = 0,
-+};
++The boundary events run after entry state has been established and before it
++is removed.  A false transition or guard invokes the selected RV reactor and
++emits the monitor's error trace event.
 +
-+static int __init register_irqexit(void)
-+{
-+	return rv_register_monitor(&rv_this, &rv_irq);
-+}
++On hardirq exit, ``hardirq_context_exit`` runs near the end of the generic
++exit path, after tick-exit work and before removal of ``HARDIRQ_OFFSET``.
++Hardirq accounting ends earlier, before inline softirq and tick-exit work.
++``irqstate`` returns to the outer model state at this boundary. When the event
++is enabled, the outermost-exit handoff passes pending timer work to ktimerd
++with forced IRQ threading. It also passes pending softirq work to ksoftirqd
++when no enclosing softirq or bottom-half-disabled state suppresses the wake.
++These handoffs catch work raised by tick-exit and event callbacks. The event
++does not represent return from ``irq_exit_rcu()``, the later reschedule check,
++or the architecture return tail.
 +
-+static void __exit unregister_irqexit(void)
-+{
-+	rv_unregister_monitor(&rv_this);
-+}
++Hardirq accounting and lockdep hardirq state have separate lifetimes. Lockdep
++can also create a synthetic hardirq interval without changing
++``HARDIRQ_OFFSET``. ``irqstate`` models the preempt-count context and does not
++report those lockdep-only intervals.
 +
-+module_init(register_irqexit);
-+module_exit(unregister_irqexit);
++Synchronization
++---------------
 +
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Karl Mehltretter <kmehltretter@gmail.com>");
-+MODULE_DESCRIPTION("irqexit: verify IRQ-exit scheduling ownership");
-diff --git a/kernel/trace/rv/monitors/irqexit/irqexit.h b/kernel/trace/rv/monitors/irqexit/irqexit.h
-new file mode 100644
-index 0000000000000..f48d44d1dff73
---- /dev/null
-+++ b/kernel/trace/rv/monitors/irqexit/irqexit.h
-@@ -0,0 +1,85 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of irqexit automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
++Enabling a per-CPU monitor does not imply that the CPU is in task context.
++An outer hardirq or softirq entry from a known idle context starts the model
++and consumes the event. An outer exit can instead establish the idle state
++without consuming an unmatched event when monitoring starts in the middle of
++that context. Provenance-marked softirq boundaries do not start monitoring:
++they belong to an enclosing hardirq. If attachment occurs during that
++sequence, its final hardirq exit establishes ``idle``. If monitoring starts
++while a hardirq interrupts an ordinary softirq, the hardirq pair is ignored
++until the enclosing softirq exit establishes the idle state. On PREEMPT_RT, a
++softirq suspension also establishes ``idle``, and a resumption can start
++monitoring directly in ``in_softirq``.
 +
-+#define MONITOR_NAME irqexit
++On PREEMPT_RT, probe attachment waits for an RCU grace period before the
++monitor can become enabled. This drains BH preparations which sampled the
++entry tracepoint disabled before attachment. Otherwise an intervening IRQ
++could synchronize the model to idle before a preparation publishes its
++serving bit without an entry event. New preparations see the attached
++entry probe and serialize the bit update with their event.
 +
-+enum states_irqexit {
-+	idle_irqexit,
-+	rescheduling_irqexit,
-+	suspended_irqexit,
-+	state_max_irqexit,
-+};
++Monitor irqexit
++---------------
 +
-+#define INVALID_STATE state_max_irqexit
++The ``irqexit`` monitor follows each task's invocation of
++``preempt_schedule_irq()``. It consumes ``sched_irq_preempt_entry``,
++``sched_irq_preempt_exit``, and ``sched_switch``. Both boundary events must
++observe zero hardirq count and disabled local interrupts. The owner saved
++in the invocation's stack frame must match the current task at both
++boundaries.
 +
-+enum events_irqexit {
-+	resched_entry_irqexit,
-+	resched_exit_irqexit,
-+	switch_in_irqexit,
-+	switch_out_irqexit,
-+	event_max_irqexit,
-+};
++The boundary tracepoints pass preempt-count and interrupt-state snapshots
++taken at the scheduler call site, before tracepoint dispatch can change the
++observed context. Disabled hooks do not take these extra snapshots. The RV
++adapter still evaluates its original live-context guards; the snapshot
++arguments provide an independent check for direct tracepoint probes.
 +
-+enum envs_irqexit {
-+	hardirq_irqexit,
-+	irq_off_irqexit,
-+	owner_current_irqexit,
-+	env_max_irqexit,
-+	env_max_stored_irqexit = hardirq_irqexit,
-+};
++The model has three states: ``idle``, ``rescheduling``, and ``suspended``.
++The initial and accepting state is ``idle``. The schematic omits the guards
++described above::
 +
-+_Static_assert(env_max_stored_irqexit <= MAX_HA_ENV_LEN, "Not enough slots");
++      switch_in / switch_out   #================#
++    +------------------------- H                H
++    |                          H      idle      H
++    +------------------------> H                H <+
++                               #================#  |
++                                 |                 |
++                                 | resched_entry   | resched_exit
++                                 v                 |
++                               +----------------+  |
++    +------------------------> |  rescheduling  | -+
++    |                          +----------------+
++    |                            |
++    | switch_in                  | switch_out
++    |                            v
++    |                          +----------------+
++    +------------------------- |   suspended    |
++                               +----------------+
 +
-+struct automaton_irqexit {
-+	char *state_names[state_max_irqexit];
-+	char *event_names[event_max_irqexit];
-+	char *env_names[env_max_irqexit];
-+	unsigned char function[state_max_irqexit][event_max_irqexit];
-+	unsigned char initial_state;
-+	bool final_states[state_max_irqexit];
-+};
++The incoming event cannot require its target to be current: ``sched_switch``
++still executes in the outgoing task. Local interrupts remain disabled
++until the incoming task runs.
 +
-+static const struct automaton_irqexit automaton_irqexit = {
-+	.state_names = {
-+		"idle",
-+		"rescheduling",
-+		"suspended",
-+	},
-+	.event_names = {
-+		"resched_entry",
-+		"resched_exit",
-+		"switch_in",
-+		"switch_out",
-+	},
-+	.env_names = {
-+		"hardirq",
-+		"irq_off",
-+		"owner_current",
-+	},
-+	.function = {
-+		{
-+			rescheduling_irqexit,
-+			INVALID_STATE,
-+			idle_irqexit,
-+			idle_irqexit,
-+		},
-+		{
-+			INVALID_STATE,
-+			idle_irqexit,
-+			INVALID_STATE,
-+			suspended_irqexit,
-+		},
-+		{
-+			INVALID_STATE,
-+			INVALID_STATE,
-+			rescheduling_irqexit,
-+			INVALID_STATE,
-+		},
-+	},
-+	.initial_state = idle_irqexit,
-+	.final_states = { 1, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/irqexit/irqexit_trace.h b/kernel/trace/rv/monitors/irqexit/irqexit_trace.h
-new file mode 100644
-index 0000000000000..f35366875feff
---- /dev/null
-+++ b/kernel/trace/rv/monitors/irqexit/irqexit_trace.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
++Instances belong to tasks, not CPUs. Two tasks may have independently
++suspended invocations, and resuming on another CPU must use the same task's
++instance. An interrupt or IRQ-exit schedule in another task cannot return
++on behalf of the suspended owner. Ordinary switches while ``idle`` do not
++change its state.
 +
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
++An entry starts monitoring and consumes the event. If the monitor was
++enabled during an existing invocation, its first valid exit instead
++establishes ``idle`` without consuming an unmatched event. Switches alone
++do not synchronize a task. An exit with an invalid context or owner must
++not be skipped as a synchronization event.
 +
-+#ifdef CONFIG_RV_MON_IRQEXIT
-+DEFINE_EVENT(event_da_monitor_id, event_irqexit,
-+	     TP_PROTO(int id, char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(id, state, event, next_state, final_state));
++The helper can also run on a kernel exception return. Its events therefore
++do not prove that an invocation followed a physical interrupt, and they do
++not describe architecture register restoration or context tracking after
++the helper returns. The existing helper entry assertions can reject an
++invalid caller before the entry event; such a failure is not a violation
++detected by this monitor.
 +
-+DEFINE_EVENT(error_da_monitor_id, error_irqexit,
-+	     TP_PROTO(int id, char *state, char *event),
-+	     TP_ARGS(id, state, event));
++``irqexit`` does not associate an invocation with a preceding hardirq. It
++cannot observe work between ``hardirq_context_exit`` and the helper entry or
++between the helper exit and return to the interrupted context.
 +
-+DEFINE_EVENT(error_env_da_monitor_id, error_env_irqexit,
-+	     TP_PROTO(int id, char *state, char *event, char *env),
-+	     TP_ARGS(id, state, event, env));
-+#endif /* CONFIG_RV_MON_IRQEXIT */
-diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
-index 040b3635ef289..c90dae4338bcc 100644
---- a/kernel/trace/rv/rv_trace.h
-+++ b/kernel/trace/rv/rv_trace.h
-@@ -190,6 +190,7 @@ DECLARE_EVENT_CLASS(error_env_da_monitor_id,
- 
- #include <monitors/stall/stall_trace.h>
- #include <monitors/nomiss/nomiss_trace.h>
-+#include <monitors/irqexit/irqexit_trace.h>
- // Add new monitors based on CONFIG_HA_MON_EVENTS_ID here
- 
- #endif
-diff --git a/tools/verification/models/irq/irqexit.dot b/tools/verification/models/irq/irqexit.dot
-new file mode 100644
-index 0000000000000..eb2e5499ad7a7
---- /dev/null
-+++ b/tools/verification/models/irq/irqexit.dot
-@@ -0,0 +1,21 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = plaintext, style=invis, label=""] "__init_idle"};
-+	{node [shape = doublecircle] "idle"};
-+	{node [shape = circle] "rescheduling"};
-+	{node [shape = circle] "suspended"};
-+	"__init_idle" -> "idle";
-+	"idle" [label = "idle", color = green3];
-+	"idle" -> "idle" [ label = "switch_in;hardirq == 0 && irq_off == 1\nswitch_out;hardirq == 0 && irq_off == 1" ];
-+	"idle" -> "rescheduling" [ label = "resched_entry;hardirq == 0 && irq_off == 1 && owner_current == 1" ];
-+	"rescheduling" [label = "rescheduling"];
-+	"rescheduling" -> "idle" [ label = "resched_exit;hardirq == 0 && irq_off == 1 && owner_current == 1" ];
-+	"rescheduling" -> "suspended" [ label = "switch_out;hardirq == 0 && irq_off == 1 && owner_current == 1" ];
-+	"suspended" [label = "suspended"];
-+	"suspended" -> "rescheduling" [ label = "switch_in;hardirq == 0 && irq_off == 1" ];
-+	{ rank = min ;
-+		"__init_idle";
-+		"idle";
-+	}
-+}
++Relationship to sched/sts
++-------------------------
++
++The scheduler ``sts`` monitor models the ordering of IRQ disable/enable,
++scheduler entry/exit, and task switches.  It uses ``irq_handler_entry`` and
++selected x86 vector events to refine that scheduler model.
++
++``irqstate`` does not consume IRQ action or scheduler entry/exit events.  It
++observes generic context boundaries, so multiple actions in one interrupt and
++an action dispatched through ``generic_handle_irq_safe()`` do not change its
++state.  On PREEMPT_RT it uses task switches only to follow the active softirq
++context. ``irqexit`` observes the surrounding IRQ-preemption loop and its
++task owner, rather than inferring that protocol from individual scheduler
++entry/exit events used by ``sts``.
++
++.. list-table:: Monitor coverage
++   :header-rows: 1
++
++   * - Property or event
++     - ``sched/sts``
++     - ``irq/irqstate``
++   * - IRQ disable and enable ordering
++     - yes
++     - no
++   * - IRQ action entry
++     - yes
++     - no
++   * - scheduler entry and exit
++     - yes
++     - no
++   * - task switch
++     - yes
++     - PREEMPT_RT softirq context only
++   * - ``irq_enter[_rcu]()``/``irq_exit[_rcu]()`` hardirq context
++     - no
++     - yes
++   * - complete serving-softirq context
++     - no
++     - yes
++   * - hardirq interruption of a softirq
++     - no
++     - yes
++
++Coverage limits
++---------------
++
++The context tracepoints are emitted by ``irq_enter_rcu()`` and
++``irq_exit_rcu()``. Softirq boundaries come from the RT serving-bit updates
++or the non-RT generic processing loop. Consequently this monitor cannot
++observe:
++
++- the early architecture entry interval before ``irq_enter_rcu()``;
++- paths which directly use ``__irq_enter()`` and ``__irq_exit()``, such as
++  the arm64 APEI SEA irq-work interval;
++- architecture or special-vector paths which use only
++  ``__irq_enter_raw()`` and ``__irq_exit_raw()`` (including x86 simple system
++  vectors);
++- NMI entry and exit; or
++- instrumentation reached while removing hardirq-count or non-RT
++  serving-softirq state, work after those removals, return from
++  ``irq_exit_rcu()``, the conditional reschedule check, and
++  architecture-specific state restoration.
++
++``irqexit`` checks ``preempt_schedule_irq()`` separately. It does not join
++that helper to the preceding ``irqstate`` instance or model an architecture's
++entire exit.
++
++The standard hardirq tracepoints describe individual IRQ actions rather than
++physical interrupt boundaries.  They are deliberately not used: synthetic
++dispatch and software resend can execute an action outside hardirq context,
++and one interrupt can execute several actions.
++
++These limitations are intentional.  A later architecture hook may provide a
++deferred raw-entry marker for the very-early interval.  Such an addition needs
++a separate event contract and does not change the meaning of ``irqstate``.
++
++Enabling the monitor
++--------------------
++
++With tracefs mounted at ``/sys/kernel/tracing``::
++
++  # cd /sys/kernel/tracing/rv
++  # grep -x irq:irqstate available_monitors
++  # echo irqstate > enabled_monitors
++  # echo irqexit >> enabled_monitors
++  # echo nop > monitors/irq/irqstate/reactors
++  # echo nop > monitors/irq/irqexit/reactors
++
++Use the ``nop`` reactor during initial qualification.  Select the ``panic``
++reactor only after unexplained violations have been excluded on the target
++configuration.
 -- 
 2.39.5 (Apple Git-154)
 
