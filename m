@@ -1,78 +1,79 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794011835;
-	b=mY+w4wkuIGddzANwLqYiUregT+oEF9bJB/wNkbb2BBRe+a6BtXUUhgojVzB65CMrk9Lv
-	 tdoRt9yMXKfFEs7tglAQ1++l30qszNgs8t4kIbuzOEZh9XZFBMxHQgvJo+nZWRswZ00qb
-	 nkAmYHL+5YLABw+pGUrmWz/NIYu0BpYoX9aFqbd/QQ/NSuD+xjWcT6XTJZbPsnBQD/dAH
-	 vEoNjRczHC46Nb5UGFfTvh4io5xAqdQ/peStsFh6TrLyDeTLucLxSBLAzYsy124jygYES
-	 LE3dDOE4ai8pfqu4XMDQN7hKKkT2aaGoQNFx68MifFoW/UJQCAMP10SVOwzyM0u8w2Q==
+	t=1794011836;
+	b=QznCDzZb+lbyoSgJZp3rkJFzq8whJ2NhCuqQGZ2CRyzc5vAYM6OJ5xfpKnqOehQna4wz
+	 Lq5ZQynIpYp6vbC9NGPzMpme+mwJbsW7swuRBEbB2b90Nk5l6+1bc87+LgSSLYLp4lYWd
+	 ghdxEy2Vs/1mq3AmcKPJ0AeOY6WB8twr+XLY9iqIHSMFGLl3HVhVRuxBP/Q+3/UaZhS8m
+	 QBnkLh3wg3PwYlWqlWy2vsQRkhBF7A2xc7YVpfeupkYQI0OqXb1wWU91UKSP2Ow23iK1Z
+	 3i9JzLPFI622PSyc6SjeDeAw3CgPngtL5pDP7vcRtUGfXLrlvGkQyyhbaM86Kyraepg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794011835;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794011836;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=6wRWk8SUsr9o1299jU6sg0RVdITVU5jt1ij/qu8YelM=;
-	b=00YaXy+SzyEw4bf5s8vbXe5S7NnVqLZip/RAB+BCZeI9RR75p/qnUhREeaEETMbritKx
-	 9qxK1DD5SotnmuxRh3AhsuXCjaeSWWpXUqTK+AbrE6UMAvsA7NnmgRc1pAJUSf8K+0DvE
-	 32OuHFMbCy65+pGWskzr3GRVEcVC/6qvbpC9w4vqH4h7URHCumRaIuG/RzckqmtXDQzCz
-	 GUXgTRYgKXjcYYiSr+EcMgbjCUALw/qJDJCZCSILQXq5IcmIjGZX8QYvIGaZXejEhDzmE
-	 itfOej4QvRqyM5Vl4qc0jAZh5BcPS/H30K7hC1x2mhy6q9MzXEvy6OlLPy64pJfBlig==
+	bh=mCFMpOTu0j+6Ae8InLL7w0WPXWrYNgO/akoMq6zJJ7g=;
+	b=eSLcxlR/HusvxGoZBKDhgipSjK+gjfJNWVZGivePWIP5fPvkdmTCGINhVnHTF0T6oIRN
+	 oa/Qjt8FGKVnl7OVxUH8vXFKakgKaFGUQNUqRQ8jh7v0G47TJnYNgZXYhwqDUfdhqfW1L
+	 J8snZ/7RP4AYK3zGUHy2EY/6gPc5y26yp/KVr0usc0kIxcHHGWX07v1ANHKAzrucZo3CM
+	 c263iQihEQMKP0H5WUffma7WPhYXZmFGcqyJP+KVMBoU349w91R3Ek9Cl7M2fvroc3DHP
+	 a1VlDsXu8XR0nfnrfp2E4FuY/1R6lMZHfaeJ/Pb7Qw5tKwHLuMgLndJS59HqN5bU2wg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7pfeM3C;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OWQR3ePD;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D2B460A6F7F;
-	Sat,  7 Nov 2026 00:37:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1579A606BFDF;
+	Sat,  7 Nov 2026 00:37:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=m7pfeM3C
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OWQR3ePD
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794011835;
-	b=eRqTQeigCoaKiRVjlMS2ezJqZZ2i8h6Gnmj0G4z/b1+WKmqVNQJLrViSobMypoA8yzf3
-	 b8Ylf/St/zj+Zp9IAfRNBBtLE8b9U+GhFugUvhrC1/MYDlH+HfXhfZ3xlJ8OimcefKJOn
-	 yDqzjqtEXJZFAnWWIRQYqiQAafHA1Nspx6peTBpv0yBEO/oUz6rsjacB3FDkF7rTziMB/
-	 bRqIHHMt6JXrLRbO+Wf9uio0vPZF0a1EotrxR/Bgzk6kECxPfD/+q2kODNDOHrYiu3j5J
-	 gm62De0rkPjJ8tSorgGLRZscJ6cfjBk/+VUCCwsPz6qa6XsObqGd1gBqnViquUL5rOw==
+	t=1794011836;
+	b=GI59OHI4jXTmxklcXJneelhHScY5T2jMzG0UpeHlq+0y7Hiqrd5oZFGLRmHwJVkb5j4i
+	 cxyQuz7vBbLeVkAqas78eLHd/RK/c6J6uoH2x8fAkktG5Ri3MkuYHuhEXgvQjK7fJhoM5
+	 83gWycD6ZnZKLKb2bWR28nvqvQh5b1pMoj1cF00o8imNXvtFRqYquScPlbC8la/60WVET
+	 vEvvRvlGeCnYqnUQsWgkOEJOSaGWl6QgAuC8l3geuiBbka1TZ6hn/bSlVwoNVQ1D1PBoO
+	 q7d9OKCZAj4DgXIjS7SuP+Hob757N9u0CMwF15Mjvjx0tHqX0tKD0+vfH8rXXPF9Tdw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794011835;
+	c=relaxed/relaxed; t=1794011836;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=6wRWk8SUsr9o1299jU6sg0RVdITVU5jt1ij/qu8YelM=;
-	b=11B0eKtnXpQ46KweTrhMI73MtREzeZ5GBPniIzD+evRK/+Oh07SUMHkE8ScMr77uxyvi
-	 jBa+oWCuzZHAw500XC49Y54TZbGgh/zdrdmtnmxsEKKRDBfKDWdOYoR+UowMHHUJDrw7X
-	 3k6KkOVVqNU9RbbqEszEoKp86DZ3PeTbdWHyVMZsh+cXMXxiW9S98Oz5kYhxPvmvDOxme
-	 rgwK/FSlQZYogVqjzNg5n1D4NptlYqooFWf+KhHiuViPozKMD2YTKWoNf9lrBpaPfW6S6
-	 +HthF2lW7bMqXiRG7mFS99QdCBsBSRPrQa/bWyhq20pAeOS4ozq4YsB1PkKaL1W+e1w==
+	bh=mCFMpOTu0j+6Ae8InLL7w0WPXWrYNgO/akoMq6zJJ7g=;
+	b=Tq+6xslCS6y47JNvGGxfcu2urz4qqHFFvS2DECl3XSfGeNk8hSWRdtpMJn8Vr9n6RBA1
+	 hdk8wroJfgBY1otigi8DhQKJBhjucax4rqJX2GkMGC2uAbTUQ1JI+VPF27ro/7ixDjcJz
+	 K8uEkGjUTTtNZWBXhL8K/DX4vCzvoWKrhKfMh67QFrnpJlwGn6BiwO09H6H6JQIqqdIVg
+	 tutQQskM8+z1+YkXP/Ds2zpKWNx++v8pOLmt/wilpVXPdsId8y/V7QTTonEqKvL51VDW5
+	 wCgwQuE8ZUYwkHCHfG2lLFzSMhrIGmWtA60ensvS6mCdYI0ALuFP/+wKejg+9EO7V9Q==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 071BC1F008BF;
-	Sat,  7 Nov 2026 00:37:10 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id D9D761F00A14;
+	Sat,  7 Nov 2026 00:37:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794011835;
-	bh=6wRWk8SUsr9o1299jU6sg0RVdITVU5jt1ij/qu8YelM=;
+	bh=mCFMpOTu0j+6Ae8InLL7w0WPXWrYNgO/akoMq6zJJ7g=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=m7pfeM3C3SU1kVsS1r8Nr/gcGkalVgvMdwOUaCq6ReMQaCIIBN4Lb6UHEUZnIhBnc
-	 pnLNuC/PNu7xM9wjGdesx/gJ+ZUZneqVnDnhT/cj5DDPemXwP4dsQ9ksOBZTX3jgR8
-	 7CGv5wjIxO2vPIAuGupr0ds49QNSNOJh/u+rqViv0dJ7clvve8RUx8Aq2jCEfvk7tV
-	 WMA+U/Pw/ag9/wxo1AApshRgUVqOYSJkIgC0TgEDi5PW3CgzPn90xSnwnJMBIw6VFj
-	 oORdSFzFoLsZjl5Hft0JEoHtZQFC+7CBst7zh6/2Fr3PdikfiMpT8Fiznn1RU91DT/
-	 r4kjmASLzLyhQ==
+	b=OWQR3ePDlqin4tx7NS6UiyORjBYsjzluakJzEl1OelZPwFAFJwgQ3vWQ05PI0TyfQ
+	 Gnh5754Ha/+SP0OfqmM86dz1WBc5n/4donc22oxfxBv7LUTfbAJth9YLwm4vD2lSEC
+	 lxCJAW9bkbyn/08xoKM1SkJcykBU9Se0T9LDt4H3vV7JhccZiXc2BRlhjpWKofI1G+
+	 aV2zt4p1RsgKFJrqz1qpONtiJY0l/E3tk731tEHhiE+4tnCJQPh+DGFoR6nuMKdvUU
+	 958C6vYrqMgRzz0KVXz+WN6po3nqVjWTMoJ2zR3VjfyP8f63gQyW5/uG4oDqkKl2O6
+	 7/XhInxAr3C/A==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id B62C2479ED;
-	Sat,  7 Nov 2026 00:36:56 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id DF6AD47A34;
+	Sat,  7 Nov 2026 00:36:57 +0000 (UTC)
 From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-Date: Fri, 06 Nov 2026 16:37:30 -0800
-Subject: [PATCH RFC v3 56/88] vfio: Support VFIO_DEVICE_BIND_FLAG_CTRL_ONLY
+Date: Fri, 06 Nov 2026 16:37:48 -0800
+Subject: [PATCH RFC v3 74/88] KVM: selftests: Verify VFIO IRQ info for igb
+ device
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261106-gmem-alternative-providers-v3-56-8484dde66a7e@google.com>
+Message-Id: <20261106-gmem-alternative-providers-v3-74-8484dde66a7e@google.com>
 References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 In-Reply-To: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
 To: Alexey Kardashevskiy <aik@amd.com>, 
@@ -101,14 +102,13 @@ To: Alexey Kardashevskiy <aik@amd.com>,
  Xu Yilun <yilun.xu@linux.intel.com>, Fuad Tabba <fuad.tabba@linux.dev>
 Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
- Ackerley Tng <ackerleytng@google.com>
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=15060;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794011810; l=2686;
  i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
- bh=nA9E5PspOX358dTaDE5Jo0Ok53XvF21+z9RrLI2Cs9g=;
- b=d1rn3Q0Z089HvpgCmEW5F9Urqt89//NRRDqKud9/JtnihqBE7GnI8YxYIAT9fHZKukfwpcu2O
- J3SyCgk5nK0CRne/vbSjkYx6ezahtmdtCww/JB9IjHSpdbXDS1yV0oi
+ bh=AQWLCgcApEEg/jyplbDhTDq5B3XgkxkLe0iSGXinQCc=;
+ b=lzA7mjrnsoNNt6rCSt1o1c7XKjGh/b3RZ9f/ThL79ZgoHIg/TBQHg/cOHoFTJNTQBhv4Maxy/
+ eIA9j9nVdKwBg73IhGl+U9b+AJRUyfp6pwsh2i/u1ti2HRsFODVqhyR
 X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
  pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
 X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
@@ -119,389 +119,78 @@ Content-Transfer-Encoding: 7bit
 
 From: Ackerley Tng <ackerleytng@google.com>
 
-In preparation for attaching a VFIO device descriptor to guest_memfd,
-mappable device BAR accesses must be mediated exclusively through
-guest_memfd so they obey guest_memfd's per-page shared and private
-memory attribute tracking and revocation synchronization. In
-confidential computing VMs, converting device pages to private assigns
-the physical BAR frames to the guest in hardware protection tables
-(such as RMP or GPT). If host userspace could bypass guest_memfd via
-direct VFIO reads, writes, memory mappings, dma-buf exports, or
-ioeventfds, host accesses to private device pages could trigger host
-hardware protection faults and crash the host.
+Add a subtest to verify interrupt capability queries on the bound
+Intel 82576 device.
 
-An alternative would be to override the file operations table on the
-open descriptor to strip non-control handlers, or to block region access
-later at guest_memfd attachment time. However, overriding file
-operations on an open file is racy because VFS caches capability flags
-at open time and dispatches file operations without synchronizing
-against pointer updates, and deferring the restriction until attachment
-races with concurrent memory mappings, reads, writes, or exports on an
-already-enabled descriptor.
+Check that MSI-X reports a positive vector count with eventfd signaling
+support, that MSI reports eventfd capability, and that INTx reports
+eventfd support along with maskable and auto-masked flags when present.
 
-Instead, introduce VFIO_DEVICE_BIND_FLAG_CTRL_ONLY for
-VFIO_DEVICE_BIND_IOMMUFD to restrict the bound device descriptor as soon
-as the device is enabled for use by the bind ioctl, avoiding any race
-window:
-
-- Unconditionally disable memory mappings (mmap) on the descriptor with
-  -EOPNOTSUPP, as memory mappings of BAR regions belong to guest_memfd.
-- Add an is_ctrl_plane callback to struct vfio_device_ops to query
-  whether a given file offset belongs to the control plane.
-- For descriptors bound with VFIO_DEVICE_BIND_FLAG_CTRL_ONLY, gate
-  direct reads and writes using is_ctrl_plane: permit reads and writes
-  to control-plane regions (such as PCI configuration space) on the
-  VFIO descriptor, while rejecting reads and writes to data-plane
-  regions (mappable MMIO BARs) with -EINVAL. This preserves
-  control-plane register configuration and virtualization outside
-  guest_memfd's filemap invalidation lock while guaranteeing data-plane
-  isolation.
-- Disable BAR side-channel exports (ioeventfd, dma-buf and graphics plane
-  export, live migration, and DMA logging) with -EOPNOTSUPP.
-
-Control-plane ioctls for IOMMU page table management, capability
-discovery, interrupt configuration, resets, power management, VF token
-configuration, and bus-master control remain permitted via the VFIO
-descriptor because none of them expose arbitrary BAR memory to
-userspace:
-
-- Capability discovery, IOMMU attachment, VF token setup, and bus-master
-  control operate only on host metadata, IOMMU state, or PCI
-  configuration space rather than BAR MMIO pages.
-- Interrupt configuration is mediated by the host kernel, and any BAR
-  pages backing hardware MSI-X tables must remain shared rather than
-  private so host-managed interrupt updates never touch private frames.
-- Device resets and power-state transitions do not grant userspace BAR
-  access and coordinate with guest_memfd revocation before changing
-  hardware state once attached.
-
-Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Testing multiple interrupt types establishes baseline checks on the
+underlying device descriptor so that when VFIO resources are later
+delegated to or wrapped by guest_memfd, native capability querying on
+the device descriptor remains unaffected.
 ---
- drivers/vfio/device_cdev.c       |   9 +++-
- drivers/vfio/pci/vfio_pci.c      |   1 +
- drivers/vfio/pci/vfio_pci_core.c |  13 +++++
- drivers/vfio/vfio.h              |   1 +
- drivers/vfio/vfio_main.c         | 105 ++++++++++++++++++++++++++++++++++-----
- include/linux/vfio.h             |   2 +
- include/linux/vfio_pci_core.h    |   1 +
- include/uapi/linux/vfio.h        |   7 +++
- 8 files changed, 125 insertions(+), 14 deletions(-)
+ .../selftests/kvm/x86/guest_memfd_vfio_test.c      | 48 ++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
 
-diff --git a/drivers/vfio/device_cdev.c b/drivers/vfio/device_cdev.c
-index 19be3947fc74a..e5b04e531ea97 100644
---- a/drivers/vfio/device_cdev.c
-+++ b/drivers/vfio/device_cdev.c
-@@ -92,7 +92,9 @@ static int vfio_df_check_token(struct vfio_device *device,
- long vfio_df_ioctl_bind_iommufd(struct vfio_device_file *df,
- 				struct vfio_device_bind_iommufd __user *arg)
- {
--	const u32 VALID_FLAGS = VFIO_DEVICE_BIND_FLAG_TOKEN;
-+	const u32 VALID_FLAGS = VFIO_DEVICE_BIND_FLAG_TOKEN |
-+				VFIO_DEVICE_BIND_FLAG_CTRL_ONLY;
-+	enum vfio_df_access_mode access_mode;
- 	struct vfio_device *device = df->device;
- 	struct vfio_device_bind_iommufd bind;
- 	unsigned long minsz;
-@@ -159,11 +161,14 @@ long vfio_df_ioctl_bind_iommufd(struct vfio_device_file *df,
- 		goto out_close_device;
- 
- 	device->cdev_opened = true;
-+	access_mode = (bind.flags & VFIO_DEVICE_BIND_FLAG_CTRL_ONLY) ?
-+			      VFIO_DF_ACCESS_CTRL_ONLY :
-+			      VFIO_DF_ACCESS_FULL;
- 	/*
- 	 * Paired with smp_load_acquire() in vfio_device_fops::ioctl/
- 	 * read/write/mmap
- 	 */
--	smp_store_release(&df->access_mode, VFIO_DF_ACCESS_FULL);
-+	smp_store_release(&df->access_mode, access_mode);
- 	mutex_unlock(&device->dev_set->lock);
- 	return 0;
- 
-diff --git a/drivers/vfio/pci/vfio_pci.c b/drivers/vfio/pci/vfio_pci.c
-index 830369ff878db..3dc232ee65491 100644
---- a/drivers/vfio/pci/vfio_pci.c
-+++ b/drivers/vfio/pci/vfio_pci.c
-@@ -155,6 +155,7 @@ static const struct vfio_device_ops vfio_pci_ops = {
- 	.ioctl		= vfio_pci_core_ioctl,
- 	.get_region_info_caps = vfio_pci_ioctl_get_region_info,
- 	.device_feature = vfio_pci_core_ioctl_feature,
-+	.is_ctrl_plane	= vfio_pci_core_is_ctrl_plane,
- 	.read		= vfio_pci_core_read,
- 	.write		= vfio_pci_core_write,
- 	.mmap		= vfio_pci_core_mmap,
-diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-index 6757054e9d875..907e6ab024acd 100644
---- a/drivers/vfio/pci/vfio_pci_core.c
-+++ b/drivers/vfio/pci/vfio_pci_core.c
-@@ -1680,6 +1680,19 @@ static ssize_t vfio_pci_rw(struct vfio_pci_core_device *vdev, char __user *buf,
- 	return ret;
+diff --git a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
+index c76abe6d45140..6525f392b3930 100644
+--- a/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
++++ b/tools/testing/selftests/kvm/x86/guest_memfd_vfio_test.c
+@@ -188,4 +188,52 @@ TEST_F(guest_memfd_vfio, get_region_info)
+ 				    VFIO_REGION_INFO_FLAG_WRITE));
  }
  
-+bool vfio_pci_core_is_ctrl_plane(struct vfio_device *core_vdev, loff_t ppos)
++TEST_F(guest_memfd_vfio, get_irq_info)
 +{
-+	struct vfio_pci_core_device *vdev =
-+		container_of(core_vdev, struct vfio_pci_core_device, vdev);
-+	unsigned int index = VFIO_PCI_OFFSET_TO_INDEX(ppos);
-+
-+	if (index < PCI_STD_NUM_BARS && vdev->bar_mmap_supported[index])
-+		return false;
-+
-+	return true;
-+}
-+EXPORT_SYMBOL_GPL(vfio_pci_core_is_ctrl_plane);
-+
- ssize_t vfio_pci_core_read(struct vfio_device *core_vdev, char __user *buf,
- 		size_t count, loff_t *ppos)
- {
-diff --git a/drivers/vfio/vfio.h b/drivers/vfio/vfio.h
-index af2b8158b40c0..62c5cbb77a899 100644
---- a/drivers/vfio/vfio.h
-+++ b/drivers/vfio/vfio.h
-@@ -18,6 +18,7 @@ struct vfio_container;
- 
- enum vfio_df_access_mode {
- 	VFIO_DF_ACCESS_NONE = 0,
-+	VFIO_DF_ACCESS_CTRL_ONLY,
- 	VFIO_DF_ACCESS_FULL,
- };
- 
-diff --git a/drivers/vfio/vfio_main.c b/drivers/vfio/vfio_main.c
-index fe126e137d5ca..8734ae9d06c2b 100644
---- a/drivers/vfio/vfio_main.c
-+++ b/drivers/vfio/vfio_main.c
-@@ -1231,8 +1231,23 @@ vfio_ioctl_device_feature_logging_report(struct vfio_device *device,
- 	return ret;
- }
- 
-+static bool vfio_feature_ctrl_only_allowed(u32 flags)
-+{
-+	switch (flags & VFIO_DEVICE_FEATURE_MASK) {
-+	case VFIO_DEVICE_FEATURE_PCI_VF_TOKEN:
-+	case VFIO_DEVICE_FEATURE_LOW_POWER_ENTRY:
-+	case VFIO_DEVICE_FEATURE_LOW_POWER_ENTRY_WITH_WAKEUP:
-+	case VFIO_DEVICE_FEATURE_LOW_POWER_EXIT:
-+	case VFIO_DEVICE_FEATURE_BUS_MASTER:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
- static int vfio_ioctl_device_feature(struct vfio_device *device,
--				     struct vfio_device_feature __user *arg)
-+				     struct vfio_device_feature __user *arg,
-+				     bool ctrl_only)
- {
- 	size_t minsz = offsetofend(struct vfio_device_feature, flags);
- 	struct vfio_device_feature feature;
-@@ -1255,6 +1270,9 @@ static int vfio_ioctl_device_feature(struct vfio_device *device,
- 	    (feature.flags & VFIO_DEVICE_FEATURE_GET))
- 		return -EINVAL;
- 
-+	if (ctrl_only && !vfio_feature_ctrl_only_allowed(feature.flags))
-+		return -EOPNOTSUPP;
-+
- 	switch (feature.flags & VFIO_DEVICE_FEATURE_MASK) {
- 	case VFIO_DEVICE_FEATURE_MIGRATION:
- 		return vfio_ioctl_device_feature_migration(
-@@ -1337,20 +1355,63 @@ static long vfio_get_region_info(struct vfio_device *device,
- 	return ret;
- }
- 
-+static bool vfio_ioctl_ctrl_only_allowed(unsigned int cmd)
-+{
-+	switch (cmd) {
-+	case VFIO_DEVICE_ATTACH_IOMMUFD_PT:
-+	case VFIO_DEVICE_DETACH_IOMMUFD_PT:
-+	case VFIO_DEVICE_FEATURE:
-+	case VFIO_DEVICE_GET_INFO:
-+	case VFIO_DEVICE_GET_REGION_INFO:
-+	case VFIO_DEVICE_GET_IRQ_INFO:
-+	case VFIO_DEVICE_SET_IRQS:
-+	case VFIO_DEVICE_RESET:
-+	case VFIO_DEVICE_GET_PCI_HOT_RESET_INFO:
-+	case VFIO_DEVICE_PCI_HOT_RESET:
-+		return true;
-+	default:
-+		return false;
-+	}
-+}
-+
-+static int vfio_df_check_full_access(struct vfio_device_file *df)
-+{
-+	/* Paired with smp_store_release() following vfio_df_open() */
-+	switch (smp_load_acquire(&df->access_mode)) {
-+	case VFIO_DF_ACCESS_NONE:
-+		return -EINVAL;
-+	case VFIO_DF_ACCESS_CTRL_ONLY:
-+		return -EOPNOTSUPP;
-+	case VFIO_DF_ACCESS_FULL:
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
- static long vfio_device_fops_unl_ioctl(struct file *filep,
- 				       unsigned int cmd, unsigned long arg)
- {
- 	struct vfio_device_file *df = filep->private_data;
- 	struct vfio_device *device = df->device;
- 	void __user *uptr = (void __user *)arg;
-+	bool ctrl_only = false;
- 	int ret;
- 
- 	if (cmd == VFIO_DEVICE_BIND_IOMMUFD)
- 		return vfio_df_ioctl_bind_iommufd(df, uptr);
- 
- 	/* Paired with smp_store_release() following vfio_df_open() */
--	if (smp_load_acquire(&df->access_mode) == VFIO_DF_ACCESS_NONE)
-+	switch (smp_load_acquire(&df->access_mode)) {
-+	case VFIO_DF_ACCESS_NONE:
- 		return -EINVAL;
-+	case VFIO_DF_ACCESS_CTRL_ONLY:
-+		if (!vfio_ioctl_ctrl_only_allowed(cmd))
-+			return -EOPNOTSUPP;
-+		ctrl_only = true;
-+		break;
-+	case VFIO_DF_ACCESS_FULL:
-+		break;
-+	}
- 
- 	ret = vfio_device_pm_runtime_get(device);
- 	if (ret)
-@@ -1371,7 +1432,7 @@ static long vfio_device_fops_unl_ioctl(struct file *filep,
- 
- 	switch (cmd) {
- 	case VFIO_DEVICE_FEATURE:
--		ret = vfio_ioctl_device_feature(device, uptr);
-+		ret = vfio_ioctl_device_feature(device, uptr, ctrl_only);
- 		break;
- 
- 	case VFIO_DEVICE_GET_REGION_INFO:
-@@ -1390,15 +1451,33 @@ static long vfio_device_fops_unl_ioctl(struct file *filep,
- 	return ret;
- }
- 
-+static int vfio_df_check_rw_access(struct vfio_device_file *df, loff_t pos)
-+{
-+	/* Paired with smp_store_release() following vfio_df_open() */
-+	switch (smp_load_acquire(&df->access_mode)) {
-+	case VFIO_DF_ACCESS_NONE:
-+		return -EINVAL;
-+	case VFIO_DF_ACCESS_CTRL_ONLY:
-+		if (!df->device->ops->is_ctrl_plane ||
-+		    !df->device->ops->is_ctrl_plane(df->device, pos))
-+			return -EINVAL;
-+		return 0;
-+	case VFIO_DF_ACCESS_FULL:
-+		return 0;
-+	}
-+	return -EINVAL;
-+}
-+
- static ssize_t vfio_device_fops_read(struct file *filep, char __user *buf,
- 				     size_t count, loff_t *ppos)
- {
- 	struct vfio_device_file *df = filep->private_data;
- 	struct vfio_device *device = df->device;
++	struct vfio_irq_info irq_info = {};
 +	int ret;
- 
--	/* Paired with smp_store_release() following vfio_df_open() */
--	if (smp_load_acquire(&df->access_mode) == VFIO_DF_ACCESS_NONE)
--		return -EINVAL;
-+	ret = vfio_df_check_rw_access(df, *ppos);
-+	if (ret)
-+		return ret;
- 
- 	if (unlikely(!device->ops->read))
- 		return -EINVAL;
-@@ -1412,10 +1491,11 @@ static ssize_t vfio_device_fops_write(struct file *filep,
- {
- 	struct vfio_device_file *df = filep->private_data;
- 	struct vfio_device *device = df->device;
-+	int ret;
- 
--	/* Paired with smp_store_release() following vfio_df_open() */
--	if (smp_load_acquire(&df->access_mode) == VFIO_DF_ACCESS_NONE)
--		return -EINVAL;
-+	ret = vfio_df_check_rw_access(df, *ppos);
-+	if (ret)
-+		return ret;
- 
- 	if (unlikely(!device->ops->write))
- 		return -EINVAL;
-@@ -1427,10 +1507,11 @@ static int vfio_device_fops_mmap(struct file *filep, struct vm_area_struct *vma)
- {
- 	struct vfio_device_file *df = filep->private_data;
- 	struct vfio_device *device = df->device;
-+	int ret;
- 
--	/* Paired with smp_store_release() following vfio_df_open() */
--	if (smp_load_acquire(&df->access_mode) == VFIO_DF_ACCESS_NONE)
--		return -EINVAL;
-+	ret = vfio_df_check_full_access(df);
-+	if (ret)
-+		return ret;
- 
- 	if (unlikely(!device->ops->mmap))
- 		return -EINVAL;
-diff --git a/include/linux/vfio.h b/include/linux/vfio.h
-index 0cc91c6f96d2b..c81373ddf2a9c 100644
---- a/include/linux/vfio.h
-+++ b/include/linux/vfio.h
-@@ -97,6 +97,7 @@ struct vfio_device {
-  * @pasid_detach_ioas: Opposite of pasid_attach_ioas
-  * @open_device: Called when the first file descriptor is opened for this device
-  * @close_device: Opposite of open_device
-+ * @is_ctrl_plane: Check if a region offset belongs to the control plane
-  * @read: Perform read(2) on device file descriptor
-  * @write: Perform write(2) on device file descriptor
-  * @ioctl: Perform ioctl(2) on device file descriptor, supporting VFIO_DEVICE_*
-@@ -127,6 +128,7 @@ struct vfio_device_ops {
- 	void	(*pasid_detach_ioas)(struct vfio_device *vdev, u32 pasid);
- 	int	(*open_device)(struct vfio_device *vdev);
- 	void	(*close_device)(struct vfio_device *vdev);
-+	bool	(*is_ctrl_plane)(struct vfio_device *vdev, loff_t ppos);
- 	ssize_t	(*read)(struct vfio_device *vdev, char __user *buf,
- 			size_t count, loff_t *ppos);
- 	ssize_t	(*write)(struct vfio_device *vdev, const char __user *buf,
-diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
-index 9a1674c152aa2..1053774d2d659 100644
---- a/include/linux/vfio_pci_core.h
-+++ b/include/linux/vfio_pci_core.h
-@@ -178,6 +178,7 @@ int vfio_pci_core_ioctl_feature(struct vfio_device *device, u32 flags,
- int vfio_pci_ioctl_get_region_info(struct vfio_device *core_vdev,
- 				   struct vfio_region_info *info,
- 				   struct vfio_info_cap *caps);
-+bool vfio_pci_core_is_ctrl_plane(struct vfio_device *core_vdev, loff_t ppos);
- ssize_t vfio_pci_core_read(struct vfio_device *core_vdev, char __user *buf,
- 		size_t count, loff_t *ppos);
- ssize_t vfio_pci_core_write(struct vfio_device *core_vdev, const char __user *buf,
-diff --git a/include/uapi/linux/vfio.h b/include/uapi/linux/vfio.h
-index e41437fa17ad0..ea62d4e72d3bd 100644
---- a/include/uapi/linux/vfio.h
-+++ b/include/uapi/linux/vfio.h
-@@ -926,12 +926,19 @@ struct vfio_device_feature {
-  * be provided the same token as VFIO_DEVICE_FEATURE_PCI_VF_TOKEN provided to
-  * the PF.
-  *
-+ * VFIO_DEVICE_BIND_FLAG_CTRL_ONLY restricts the bound device fd to
-+ * control-plane ioctls and non-mappable region read/write access (such as PCI
-+ * configuration space), rejecting mmap(), read/write to mmap-supported BARs,
-+ * and all other ioctls or device features with -EOPNOTSUPP. This should be used
-+ * to prepare the device fd for attachment to guest_memfd.
-+ *
-  * Return: 0 on success, -errno on failure.
-  */
- struct vfio_device_bind_iommufd {
- 	__u32		argsz;
- 	__u32		flags;
- #define VFIO_DEVICE_BIND_FLAG_TOKEN (1 << 0)
-+#define VFIO_DEVICE_BIND_FLAG_CTRL_ONLY (1 << 1)
- 	__s32		iommufd;
- 	__u32		out_devid;
- 	__aligned_u64	token_uuid_ptr;
++
++	/*
++	 * Test MSI-X interrupts (VFIO_PCI_MSIX_IRQ_INDEX):
++	 * Intel 82576 supports up to 10 MSI-X vectors.
++	 */
++	irq_info.argsz = sizeof(irq_info);
++	irq_info.index = VFIO_PCI_MSIX_IRQ_INDEX;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_IRQ_INFO, &irq_info);
++	ASSERT_EQ(0, ret);
++	ASSERT_GT(irq_info.count, 0);
++	ASSERT_TRUE(irq_info.flags & VFIO_IRQ_INFO_EVENTFD);
++
++	/*
++	 * Test MSI interrupts (VFIO_PCI_MSI_IRQ_INDEX):
++	 * Should report eventfd capability.
++	 */
++	memset(&irq_info, 0, sizeof(irq_info));
++	irq_info.argsz = sizeof(irq_info);
++	irq_info.index = VFIO_PCI_MSI_IRQ_INDEX;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_IRQ_INFO, &irq_info);
++	ASSERT_EQ(0, ret);
++	ASSERT_GT(irq_info.count, 0);
++	ASSERT_TRUE(irq_info.flags & VFIO_IRQ_INFO_EVENTFD);
++
++	/*
++	 * Test legacy INTx interrupts (VFIO_PCI_INTX_IRQ_INDEX):
++	 * Must support eventfd and masking when present.
++	 */
++	memset(&irq_info, 0, sizeof(irq_info));
++	irq_info.argsz = sizeof(irq_info);
++	irq_info.index = VFIO_PCI_INTX_IRQ_INDEX;
++	ret = ioctl(self->vfio_fd, VFIO_DEVICE_GET_IRQ_INFO, &irq_info);
++	ASSERT_EQ(0, ret);
++	ASSERT_LE(irq_info.count, 1);
++	if (irq_info.count == 1) {
++		ASSERT_EQ(VFIO_IRQ_INFO_EVENTFD |
++			  VFIO_IRQ_INFO_MASKABLE |
++			  VFIO_IRQ_INFO_AUTOMASKED,
++			  irq_info.flags & (VFIO_IRQ_INFO_EVENTFD |
++					    VFIO_IRQ_INFO_MASKABLE |
++					    VFIO_IRQ_INFO_AUTOMASKED));
++	}
++}
++
+ TEST_HARNESS_MAIN
 
 -- 
 2.56.0.455.g6c5a503b38-goog
