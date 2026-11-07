@@ -1,79 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.87
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794019225;
-	b=JdYm9Fsjz43AdAf1hRAUc0qKm9QrVResCnTHQpSl5hlg1lL1GkrYUsQjPm94qUyprPf3
-	 iS9KHOuPO8yz1KvpEmgQwzyEX8oCcfADN7B14qdQvkaDg0uDz3Qd/Cb3XQ7SIKqQ/fBOi
-	 zw+TsukBE/rahLTvbeFlrqTb7UR8+HPxGeQEEI0HjO6HwiRUNVTuvdIgW4q7QLJyeESO+
-	 7/3XatQmSE9sra6K5gKn+yuoByEY4C/hwYsiJaa4wyl+JTgkWhZ5YQBKblW+Tok0hcwMr
-	 LQKa7pyFr1NVMOszeaok0dY8Cm7XYGB5TzL143PdQyKw2VFh7WlrDWTlu09PEUdkfiA==
+	t=1794020256;
+	b=VcQz1AgGfv0NkvfMFNDo3vW7Vj79ADU5aomBUoKhm3uYBcnttZ8AueApczat7NVuQp8F
+	 4Q43Lj/S9sbIKzSbTTSL8e3dD/kpeI+rU/n4WMPupy4jDzJlWpPg535N761MZhrummW7Z
+	 3AI6HBsH6oxBfzKtlUKd2XCeEmGsDJ7TP4+PngouTXv+yW+zvmPIWZjPUmePRutbthvKs
+	 6x4SZn6qp5+lZv9y7c9ETIWmWXWdS8uOSiuQAQJjbL5PvfWF2f2g/znXNuwMIABnARsLW
+	 9zzJBV+UoMjJ1k7pmsoN5PML0APp01pWbIkuMkcEkBsHcSTJRi+0msXrwkA5xQ5863A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794019225;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=5yIaA1bzP6vzrjVIIqC7p1sPnkU4MSCiaQ+GY83wLX0=;
-	b=0M/M0wJWtxKoq1/9GR/FT3zaLE3dOGhCTVUdLHtACdJpFQ52Vu+vO3EzqSmfZJ4ramuN
-	 fm2k5th1W6Z3dKWR1DEXJSs/HQa5AlGu+44+L9uXfH11LF6aJ6VXWRSBEhXIvhsafON0j
-	 8EK+IZzuC8Rw/Ft370ZLEOt2Edc0PJduuq2+kyRsZHOgP9r3c2K3PdHEMg0Mcb8quPNrM
-	 UAM8Z2t1poeJL+WEc2uMNCK/84LhkgSIawUHm1i0pOh5PfdGRfCzbByOtc5KqjKKqfPeh
-	 VZKAtfh29A+/Wd5wsjc/u+WtNThYD2cDOLYPlAvQv6GyuUWvCFio/otshHij1Oq9+Pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794020256;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-XMRINFO:X-QQ-XMAILINFO:From:To:Cc:
+	 Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Date:
+	 X-Priority:Message-ID:X-QQ-MIME:X-Mailer:X-QQ-Mailer:References:
+	 In-Reply-To:X-QQ-mid;
+	bh=+NfG3aoVVDYg320wMNuDSmqyNFEaM7V/GRWW/LuOKlc=;
+	b=XOcIhmgXgkURmz3/l3lyyB4KNpmPJPnMYx9pz4z652kRuMcFgknqa9I4Yb5NFwVuWnd4
+	 Cq/eKc5caADTb+vfuB2KaVwWA3wOyv1AZy6ItT9Xm74uNnoTn1obQZRmpzSfIIf/LqlK8
+	 TApuOH4OdL4H1Bk8SWrloqy4fEB8GS99qpjLUDuu8OkF7AZbH15TZ9PNnteHrR8kYCt/R
+	 eB5hQynMFcRSv1TDyTl700YspIJus99rZVXWy98mJ3GC2fwqMgOw10fviqc0YI99gfW+p
+	 2sIXkBWdEmUY8+vjPnbhKH6ZV9afDM/tO0ezXGQyuQXXw+iISZk7YZ9TYPhvmcWFI4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ig8FvDVG;
-	arc=none smtp.remote-ip=192.198.163.9
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=MDRyLQRw;
+	arc=none smtp.remote-ip=162.62.57.87
+Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26309606A33F
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 02:40:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26309606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79533606A32D;
+	Sat,  7 Nov 2026 02:57:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79533606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Ig8FvDVG
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794019223; x=1825555223;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=xMU/hY+oTElnrgatj7FPLoBYdvAW0FdMzT26d1hJKME=;
-  b=Ig8FvDVGdEUlfh5WjONY/zBadpNWxDXYNvqzyWt/e75fZ+p74pbL5iV0
-   ruE73uUuZOQQdbcIWsbfhLDx30NOxmd7CSt99Io6DMnGI8Kz+0BXLS9F+
-   hRIQm3oqzAIqhdACSNmnKSFs1xOYN4qSqNNM5p0B9H5dtXhxP2RregaVX
-   /SIBc4QSwrqgq6Oq8GUPp3Q5xBwQjGogMWVoOg/UCR5k1NxwcUWCxSu26
-   tsk18uCL33soDPg7WINTUnPTHCogrkCocoLfYHXAKNIJnM3qS08In0QCq
-   x97rvYLLNLr+Y2NmXVwNDCYaFbuosMESxGAkUpmeEwwMZ7jxomhtA8ceu
-   A==;
-X-CSE-ConnectionGUID: 58HJX1LBRv+xhvguHuU2hQ==
-X-CSE-MsgGUID: 8bD3/ZymRHKzahvmS+yM2w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11958"; a="2717600"
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="2717600"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2026 18:40:22 -0800
-X-CSE-ConnectionGUID: B6ihNmJGQrub7i0eg50QzQ==
-X-CSE-MsgGUID: tU+SfGi3TUm8mXL05Fl3QA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,199,1787036400"; 
-   d="scan'208";a="7771066"
-Received: from igk-lkp-server01.igk.intel.com (HELO 58ca8a381a5c) ([10.211.93.152])
-  by fmviesa009.fm.intel.com with ESMTP; 06 Nov 2026 18:40:21 -0800
-Received: from kbuild by 58ca8a381a5c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xPWLq-00000000AW3-2hGb;
-	Sat, 07 Nov 2026 02:40:18 +0000
-Date: Sat, 07 Nov 2026 03:39:19 +0100
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [bigeasy-staging:sched_dl 1/4] htmldocs: Warning:
- Documentation/translations/sp_SP/scheduler/sched-bwc.rst references a file
- that doesn't exist: Documentation/scheduler/sched-rt-group.rst
-Message-ID: <202611070348.Lje0UJJV-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=MDRyLQRw
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1794020248; bh=+NfG3aoVVDYg320wMNuDSmqyNFEaM7V/GRWW/LuOKlc=;
+	h=From:To:Cc:Subject:Date:References:In-Reply-To;
+	b=MDRyLQRweWcf+xUdMyrRKSmQ4ym8LxPSKGEuTbq8sda/LnBrQsChWSTv29ATNeLl1
+	 5kWV0jo2YqJvU6DKgoUr+AJrGje3BPSoyvyrUwYRyCseF+TMcqFg43W8vPcKoVyG/T
+	 IgribdMGCx+0gdmxzvXarCy4BkxVGjuwgdB5/LrI=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-QQ-XMAILINFO: MdmyWVu0InhASiUkhb//VhxE+kD9CHxdhJTc2eGlkCfKL+hSZzxtKPiKVMWgqY
+	 Lv/UzTv+iDbo7dMZuvj8UN+79ox9/cI1AEMe33S2r7bt3E1M7gv8SGTY9I6pqBky60sk3/mm0O29D
+	 v0tNVj8tRScQbUZinQwt1KFWKmyu1mcSFjpMRKY99eqQ2XcKYoS2kJBZ4JXHIhrufiW9AK7duvXRg
+	 KsCUp8IMW+hWAen10Hz/NonxkHKmrw8902WefN6BT2pi5LZRVi6hT0uRjYwpmCFaBwOCVjazaFZkW
+	 wEvJ2oVheUjYu7K2SVD3dwVH3rg8F1Ym9357Bt5Beoc/RzPFu25LZVECBn5HSGTziBRNIiIuN0BYv
+	 dEY1lbfOgnkbsHmmhhBbM8zSlEo/FBbqBSFXTl0VIE558t1XIs5A0mDldpoYzntiRPQJhZW5ZJhQ+
+	 aXfkpv1h/TX3CVwZKdOX088TERlmDzC1alWuo2aXUMAqKmn5cyZEA2Wx1M+jtxE7XQ9k+lBvG+1l3
+	 Zq1Zh1i3lLMsxAXOGVv4s+FAEJn+M52EhPVreYm8frXOB6zR9f9VIq7AEjHL1lVVAPiG/jnSsdK8g
+	 gl2D5ZEXeGnzyuJvVRK3zNJas9038c4pPTfTWudT0QbHKHcaiCsMBWWtcjr37NAAuyBE3cDToy1Ye
+	 f/fPG5YwGmKcivHs3GSJKCOilYZAH/0NjqGLv3nOMYkIHgSrD4VBqR216mgFGUrYRlRoIglr8SnBX
+	 Vwd9JgaaP0nTboNq8nqGOxkpMXE3N/smmQPyKgVHltVRYPhEjlLCfRnQDg5ahGRRGyn5xfrQC8gxe
+	 1s2Xm/45nDEHVn54Il7wDgGZkucaaWxag1IMmsMYB5qNw+XLMaJV3txEO+bkf7nIXCmNSp5T74x47
+	 JWyeAwNoPjkPUyKjUhtMl566EFDTKOjES7UsQlzb9uxvGRMYCqArnqRcqrnsawcwhe1woh2u7iiVl
+	 juAaZyli3jPdvYY9zMs7UVjONkCX33DbPmQFGSBmrAvtZ92wlRp/O2VU0cnkVetSzWwX5d04zH20e
+	 1OGx3SKWYgTJfYdLdBm+X0RZ6S74lhVe/Wnze8B3OhuP+NB45fbHc/8kqfCjn4GsLlGU6WyVm2SDO
+	 tfRx5hWc/qYBDj4PUGmY2/bZ
+From: "=?utf-8?B?Q3VuaGFvIEx1?=" <1579567540@qq.com>
+To: "=?utf-8?B?SGVpa28gU3TDvGJuZXI=?=" <heiko@sntech.de>, "=?utf-8?B?TWFyYyBLbGVpbmUtQnVkZGU=?=" <mkl@pengutronix.de>, "=?utf-8?B?VmluY2VudCBNYWlsaG9s?=" <mailhol@kernel.org>, "=?utf-8?B?RGF2aWQgUy4gTWlsbGVy?=" <davem@davemloft.net>, "=?utf-8?B?V29sZmdhbmcgR3JhbmRlZ2dlcg==?=" <wg@grandegger.com>, "=?utf-8?B?T2xpdmVyIEhhcnRrb3Bw?=" <socketcan@hartkopp.net>, "=?utf-8?B?a2VybmVs?=" <kernel@pengutronix.de>, "=?utf-8?B?RXJpYyBEdW1hemV0?=" <edumazet@kernel.org>, "=?utf-8?B?SmFrdWIgS2ljaW5za2k=?=" <kuba@kernel.org>, "=?utf-8?B?UGFvbG8gQWJlbmk=?=" <pabeni@redhat.com>, "=?utf-8?B?U2ltb24gSG9ybWFu?=" <horms@kernel.org>, "=?utf-8?B?Sm9uYXRoYW4gQ29yYmV0?=" <corbet@lwn.net>, "=?utf-8?B?U2h1YWggS2hhbg==?=" <skhan@linuxfoundation.org>, "=?utf-8?B?UmFuZHkgRHVubGFw?=" <rdunlap@infradead.org>
+Cc: "=?utf-8?B?bGludXgtY2Fu?=" <linux-can@vger.kernel.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, "=?utf-8?B?bGludXgtYXJtLWtlcm5lbA==?=" <linux-arm-kernel@lists.infradead.org>, "=?utf-8?B?bGludXgtcm9ja2NoaXA=?=" <linux-rockchip@lists.infradead.org>, "=?utf-8?B?bmV0ZGV2?=" <netdev@vger.kernel.org>, "=?utf-8?B?bGludXgtZG9j?=" <linux-doc@vger.kernel.org>, "=?utf-8?B?c3RhYmxl?=" <stable@vger.kernel.org>
+Subject: Re: [PATCH net v7 0/7] can: fix bus-off restart and device close races
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,75 +68,48 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
+Date: Sat, 7 Nov 2026 10:57:26 +0800
+X-Priority: 3
+Message-ID: <tencent_B3369A1199D0849091BB8015C41BBFF0A607@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+References: <20261106-rockchip-canfd-restart-close-v7-0-accdb11bc845@qq.com>
+	<16255046.uLZWGnKmhe@diego>
+In-Reply-To: <16255046.uLZWGnKmhe@diego>
+X-QQ-mid: xmsezb41-0t1794020246tqmnr7ex0
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bigeasy/staging.git=
- sched_dl
-head:   048bd4cd9d9a4bd96eb2ae73b86474abd9bed12e
-commit: 6b87810731941de437ede9e1c6a6d894ea843cdf [1/4] sched: Remove CONFIG=
-_RT_GROUP_SCHED
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933=
-e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
-sphinx: sphinx-build 9.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20261107/202611070348.L=
-je0UJJV-lkp@intel.com/reproduce)
+SGksCgo+ID7CoFRoaXPCoHNlcmllc8KgZGVwZW5kc8Kgb27CoHRoZcKgdGhyZWXCoHBhdGNo
+ZXPCoGluwqAiY2FuOsKgc2tiOsKgbWFrZcKgQ0FOwqBza2IKPiA+wqBmcmVlaW5nwqBzYWZl
+wqBpbsKgYW55wqBJUlHCoGNvbnRleHQiwqBbMV3CoGFuZMKgdGhlwqB0aHJlZcKgcGF0Y2hl
+c8KgaW7CoCJjYW46Cj4gPsKgcm9ja2NoaXBfY2FuZmQ6wqBmaXjCoFRYwqBzdGFsbHPCoGFu
+ZMKgcmFjZXMiwqBbMl0uCj4gPsKgCj4gPsKgWzFdwqBodHRwczovL2xvcmUua2VybmVsLm9y
+Zy9saW51eC1jYW4vdGVuY2VudF9DRDA1RjAyMEJBRkIyNTM3RjVEMUY0Q0JCNDI1NTg4RUE4
+MEFAcXEuY29tLwo+ID7CoFsyXcKgaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGludXgtY2Fu
+L3RlbmNlbnRfRTI1QzlCRTY2ODkyNjRFNDEzOEE0NjQ4MDNCODEwRkRGRDA5QHFxLmNvbS8K
+PiAKPiBCb3RowqB0aGVzZcKgc2VyaWVzwqBhcmXCoGZyb23CoGp1bHnCoGFuZMKgc2VlbWlu
+Z2x5wqBmcm9twqBiZWZvcmXCoHlvdcKgc3RhcnRlZAo+IHVzaW5nwqB0aGXCoGI0LXJlbGF5
+LsKgU2/CoHRoZXnCoG1hecKgb3LCoG1hecKgbm90wqBoYXZlwqBzdXJ2aXZlZMKgdGhlwqBr
+ZXJuZWwKPiByZWxlYXNlc8KgYW5kwqB0aGVpcsKgdGhyZWFkaW5nwqBpc8KgYnJva2VuwqBi
+b3RowqBvbsKgbG9yZcKgYW5kwqBpbsKgYW55wqBtYWlib3gKPiB0aGV5wqBhcnJpdmVkwqBp
+bi4KPiAKPiBBbmTCoGlmwqB0aGVyZcKgaGF2ZW4ndMKgYmVlbsKgYW55wqByZXNwb25zZXPC
+oHRvwqB0aGVtwqBzaW5jZcKgdGhlbizCoEknZMKgdGhpbmsKPiB0aGV5wqBoYXZlwqBiZWVu
+wqBsb3N0wqBvcsKgc28uCj4gCj4gU2/CoEknZMKgc3VnZ2VzdMKgcm9sbGluZ8KgYm90aMKg
+eW91csKgZGVwZW5kZW5jaWVzwqBmb3J3YXJkwqBvbsKgdG9wwqBvZsKgdGhlwqBjYW4KPiB0
+cmVlwqBhbmTCoHNlbmRpbmfCoHRoZW3CoGFzwqBhwqBuZXfCoHZlcnNpb24swqBzb8KgdGhh
+dMKgcmV2aWV3ZXJzwqBjYW7CoGZpbmTCoHRoZW0/CgpUaGFuayB5b3UgdmVyeSBtdWNoIGZv
+ciB0aGUgZ3VpZGFuY2UhIDotUAoKSSBqdXN0IGNoZWNrZWQ6IHRoZSAiY2FuOiBza2I6IG1h
+a2UgQ0FOIHNrYiBmcmVlaW5nIHNhZmUgaW4gYW55IElSUQpjb250ZXh0IiBzZXJpZXMgd2Fz
+IG1lcmdlZCBpbnRvIG1haW5saW5lIHllc3RlcmRheSwgc28gSSB3b24ndCBzZW5kIGEKbmV3
+IHZlcnNpb24gb2YgaXQuIEknbGwgcmVtb3ZlIGl0cyBsaW5rIGZyb20gdGhlIGNvdmVyIGxl
+dHRlci4KClRoZSAiY2FuOiByb2NrY2hpcF9jYW5mZDogZml4IFRYIHN0YWxscyBhbmQgcmFj
+ZXMiIHNlcmllcyBzdGlsbCBoYXMgc29tZQppc3N1ZXMgcmVwb3J0ZWQgYnkgdGhlIGJvdHMg
+ZHVyaW5nIHN1Ym1pc3Npb24gdG8gdGhlIG5ldCB0cmVlIHRoYXQgSQpuZWVkIHRvIGFkZHJl
+c3MuIFNpbmNlIHRob3NlIHBhdGNoZXMgb3ZlcmxhcCB3aXRoIHRoaXMgc2VyaWVzLCBJIHBs
+YW4KdG8gZm9sZCB0aGVtIGludG8gdGhlIG5leHQgdmVyc2lvbiAodjgpIGFuZCBzZW5kIHRo
+ZW0gdG9nZXRoZXIuCgpCZXN0IHJlZ2FyZHMsCkN1bmhhbyBMdQoKcHctYm90OiBjcgoKCgo=
 
-If you fix the issue in a separate patch/commit (i.e. not just a new versio=
-n of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611070348.Lje0UJJV-lkp@i=
-ntel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703=
--regulator.yaml references a file that doesn't exist: Documentation/devicet=
-ree/bindings/mfd/siliconmitus,sm5703.yaml
-   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst re=
-ferences a file that doesn't exist: Documentation/userspace-api/media/Makef=
-ile
-   Warning: Documentation/translations/ja_JP/SubmittingPatches references a=
- file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
-   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst r=
-eferences a file that doesn't exist: Documentation/translations/ja_JP/Submi=
-tChecklist
->> Warning: Documentation/translations/sp_SP/scheduler/sched-bwc.rst refere=
-nces a file that doesn't exist: Documentation/scheduler/sched-rt-group.rst
-   Warning: Documentation/translations/zh_CN/doc-guide/parse-headers.rst re=
-ferences a file that doesn't exist: Documentation/userspace-api/media/Makef=
-ile
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2-glocks.rst re=
-ferences a file that doesn't exist: Documentation/filesystems/gfs2-glocks.r=
-st
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2-uevents.rst r=
-eferences a file that doesn't exist: Documentation/filesystems/gfs2-uevents=
-.rst
-   Warning: Documentation/translations/zh_CN/filesystems/gfs2.rst reference=
-s a file that doesn't exist: Documentation/filesystems/gfs2.rst
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file t=
-hat doesn't exist: Documentation/xxx/xxx.rst
-   Warning: Documentation/translations/zh_CN/how-to.rst references a file t=
-hat doesn't exist: Documentation/translations/zh_CN/xxx.rst
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst refer=
-ences a file that doesn't exist: Documentation/networking/xfrm_proc.rst
->> Warning: Documentation/translations/zh_CN/scheduler/sched-bwc.rst refere=
-nces a file that doesn't exist: SCHED_RT=E7=9A=84=E6=83=85=E5=86=B5=E5=9C=
-=A8Documentation/scheduler/sched-rt-group.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst refe=
-rences a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation=
-/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: =
-Documentation/devicetree/bindings/arm/xen.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist=
-: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that does=
-n't exist: srctree/tools/memory-model/Documentation/explanation.txt
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
