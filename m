@@ -1,71 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.35
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794080137;
-	b=u4+b7pBKkMpfvu9jpCqDfq5+gnx9wlptjZTzROlJIr5i0KiRPf1vZ/vNeznU2e2yKJz3
-	 cKmss0HQSITDIy4eRKHzk1sybIvzWV+ciIjhStSPCQC5LJi/p/QuLq+ZSU/3eFp3L6Le3
-	 vIWKrPpIdjSFnV+WMsuvk1uSCrDrlepQeR6wsnewkWugIybFGrFg4h8B7xt8eW6vwGEte
-	 UlmV4KKZYpsM7hHKT3nSd2p+e9QgSIMkqdxhWQyQ426bwpdY7Y9zRvUF+vLJfnlNslwNA
-	 6VukyxTHiHlZ3u6jJgaIMYlm9GPeHs58y2eKq4s537n+zvMfzRjmxWNBrd582S1W6bQ==
+	t=1794080461;
+	b=TP15bzACjJbOzAVE2Bjm9UcIW3yt199C6Q/43RD3pNc0GPJvuixqpR5EvGC5yB8Tki0w
+	 PUlJAx9GV/FbfFa7AXmcaPKOm8FK4yZ9yvvmUQzJ9H/i255F931Eb3xgoOzH5k17vV5hj
+	 k5nP3FXqC2Fe37WVZRMvj7vbLw/MgoP90TT2OdzlwwHY6el9NwA4io3ozKVEfFA5mD03h
+	 qZOkjoYh4mtPxGifJwS4SZoBkhXA6iCV39BbYsFkvfjkZWaOughEi9Y+OeivQKdKBTvkn
+	 xo2eVjq+YenNgDKPOvbf02U2jIbs7I+KVuLFukjqFpN1YZnBdwVUIHpfGDEjZWjPbWg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794080137;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=y91yUk3QMpxcP22L5RRZVkCw7buIe7KPREWLseYyt3w=;
-	b=i756A2u9KNn5jdm+RFgpOQ45EQhMDAoEeFswqYYVDCL2EuVERAY0AX50eIkxP1hk33HV
-	 1wKu6UB+A0fW5o6Wk4pFcOTfNseNtda2lFh5gFtHzAEX+1mDY9bxpiv0UARUQXRhWA+Vd
-	 8oYO4dmV36mUQaWinTNVKz9q80y5QyXlsuMtrqNmjkqmRrJ+MciXvvc8uPle+J6thZvmN
-	 dO16+oVJ5NS4pZdxpME2VIHW+N0mAqs8xqVFdLMW25eUCGxKRmTyAKwpBfOlK9HSGGWr/
-	 q0hP8E9uo/DNbZmlXiUo5zd1lTmMPnd8OYgFlnPWvBGqdj8M8pVCscTUjNNZhdSKouA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794080461;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=bXzTwWLn0IE/6Sl+Ryk14mZHKGFkRdt/OR15MwQe5UE=;
+	b=vjPQg5cWYSJ8rtkQtQbVC7LdOQhUTbpMUAaIMiZNOyrjHX7kVW9/Yvft/Qgbp95oT9ak
+	 PLwDjbw7qn2ocRY6yTY8C1I+oyJA4sCmlYHISvn1Mepy/kdJ82Q4CMDtpBwOlpWibBUNV
+	 cFmKoLeT0oTD37r5YiXuj1W2JOjfWSv84vQAiSN0ByE/+paTmpmgHB6VWL+7z23YkdsY9
+	 L7C2SVzPFbGoxcZchNkEN0rluTpSRtuGzOkYI2GBd8PoExYeWIKCE8pNkEn6hLmxk+Q7v
+	 l6/YGQBKkdV4D45W6v/y7s1eN/b05pvelGpzg5IKND78TowpPkyTefsApHJQxfIZAUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U1DElYiB;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=SYseYT+4;
+	arc=none smtp.remote-ip=35.89.44.35
+Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBED5606A326;
-	Sat,  7 Nov 2026 19:35:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF74606A32D
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 19:41:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EF74606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=U1DElYiB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3303E1F0089F;
-	Sat,  7 Nov 2026 19:35:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794080136;
-	bh=y91yUk3QMpxcP22L5RRZVkCw7buIe7KPREWLseYyt3w=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=U1DElYiBCAwYNb5lvnlydTAg+Zx/qbjkhjIeGQqYkRaeyYdOGOECsJgFK+4t8mPgz
-	 kSt884AE/XerPp+N8+qYwVKaiR7Y+UBvrDNbEktuXsk/Xw1sG+J6lpGyEsAfVnGSl0
-	 YEfZXo/fqEJ38p5kWs935lTGr8wM3oN13+H8uwh1njL/1jfNF5zSefgdLLvi4WYT2x
-	 HwD0lTfeJm+z49lcXZYMhkBUBK/8Ev5WTvODQmBd19QxRtrUS8v2iYYQLwqSjXt4bV
-	 3sppTarAIZbmHOlEiwLj4IpYtSP50gzqmLVtOG8R8ZVHl2xY+4Gg7taTVaFJfeyt6K
-	 FxAStSYhTeUjw==
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-To: Hugh Dickins <hughd@google.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Rheinsberg <david@readahead.eu>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	stable@vger.kernel.org,
-	Chris Mason <mason@kernel.org>
-Subject: Re: [PATCH 1/2] mm/memfd: handle GUP pins more reliably when write-sealing
-Date: Sat,  7 Nov 2026 20:35:23 +0100
-Message-ID: <179408004350.4783.10820829282179060083.b4-ty@b4>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261103-fixes_core_2-v1-1-f332954f1df4@kernel.org>
-References: <20261103-fixes_core_2-v1-1-f332954f1df4@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=SYseYT+4
+Received: from eig-obgw-5004b.ext.cloudfilter.net ([10.0.29.208])
+	by cmsmtp with ESMTPS
+	id Pipoxi3QERiNxPmHbx9Zc1; Sat, 07 Nov 2026 19:40:59 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id PmHbxb8qNuJrPPmHbxqPXH; Sat, 07 Nov 2026 19:40:59 +0000
+X-Authority-Analysis: v=2.4 cv=WLZ/XmsR c=1 sm=1 tr=0 ts=6aef7ecb
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=NEAV23lmAAAA:8
+ a=H5YNcs6kZIdi0saECM8A:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=bXzTwWLn0IE/6Sl+Ryk14mZHKGFkRdt/OR15MwQe5UE=; b=SYseYT+4mqbd
+	Chm+/r18/Nnd1vvmw3Oov2XbSh2vS4bLP/Rsa3X1yRS5axDmeUlV9X9uiu7KG0PVYr04SHW6LGWFJ
+	5P4HMmLpzjkoo7ubqnRfx1WAhyBuu5lDuIdJEe51TgPo0y+HDyKXy3qv0skkI8dx4wCTTbW5Q0Cc5
+	o/rd95BRegEETc7OZ4sZvWKWRVQWVQB1RX0BRHjaAYMNtZ+a14GXDUqF0Dm9HFg4gHAO7/y3UWAz1
+	M2WCDcr3Tcp/e5vClR7ePHjAqKK45/AMAsryX7kihH4eZkn9/cVPHeLRCK9NNrWpyQqE/Ez/W1mSC
+	fbAIepCEtpwhRl9YcVk8CA==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:35394)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xPmHa-00000001qz0-3eAU;
+	Sun, 08 Nov 2026 01:10:58 +0530
+Message-ID: <e79d3e26-4ca5-4ca4-9159-427a5a6f1129@roeck-us.net>
+Date: Sat, 7 Nov 2026 11:40:57 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,44 +75,170 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] hwmon: Add driver for MSI Mystic Light controller
+ voltage sensors
+To: Tomasz Bojanowski <tomasz@bojanowski.me>
+Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261107082821.8257-1-tomasz@bojanowski.me>
+ <812ee6c0-82ac-41f6-9eca-1f17c6ef715d@roeck-us.net>
+ <20261107161249.336512-1-tomasz@bojanowski.me>
+ <5e99fd86-d934-49c1-a867-02cc61ab1ecf@roeck-us.net>
+ <20261107181518.385136-1-tomasz@bojanowski.me>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261107181518.385136-1-tomasz@bojanowski.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xPmHa-00000001qz0-3eAU
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:35394
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 2
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfEwGe1Gbj0Gz4bVE37Nk9UROt8cp0weXQ0kpCDOD2snefNYGeNaNNXOj7TzoXxeGBNQQDpCoAkFMM+V4D7pEoOviZ6OluabSNsRhZ4mA+1xjHWYWQ1SM
+ a50vd8oQR86lyxTogg+TXXJSLxslRF76OfiQDJj37vvmqnkqn9wQmnzK4k+bJuoDrYgClN3pDvJTIOQn8x/VtBDcZ2sjOCiVPHx7158/Q3k7B+oalmzJ6q6u
 
-On Tue, 03 Nov 2026 19:31:44 +0100, David Hildenbrand (Arm) wrote:
-> memfd_wait_for_pins() detects GUP references by comparing a folio's
-> actual refcount with its expected refcount. As spelled out by
-> folio_expected_ref_count(), obtaining the expected refcount when there
-> can be concurrent folio (un)mapping is racy.
+Hi Tomasz,
+
+On 11/7/26 10:15, Tomasz Bojanowski wrote:
+> Hi Guenter,
 > 
-> So it is possible that a changing folio mapcount can race with our
-> check for GUP references, and F_SEAL_WRITE might succeed even if there
-> are some, allowing file contents to be modified after sealing.
+> On 11/7/26 10:02, Guenter Roeck wrote:
+>> What am I missing ?
 > 
-> [...]
+> Sorry, my earlier description was not clear about how the request is
+> sent. From the vendor software, it looks like this:
+> 
+> - The request goes out as an output report with report ID 0xfa, not
+>    as a feature report. If I read usbhid_set_raw_report() correctly,
+>    it puts reportnum into buf[0], so with MSI_ML_SENSOR_REPORT_ID the
+>    controller would have received a feature report 0xf0 instead.
+> - The reply seems to come back as an input report on the interrupt
+>    endpoint, not through GET_REPORT. As long as the driver calls
+>    hid_hw_open(), it should show up in .raw_event().
+> 
+> Roughly like this (untested, I have none of these boards):
+> 
+>          buf[0] = 0xfa;
+>          buf[1] = 0xa0;
+>          buf[9] = 0x01;
+>          buf[10] = 0xfc;
+>          reinit_completion(&priv->done);
+>          ret = hid_hw_output_report(hdev, buf, 64);
+>          if (ret == -ENOSYS)
+>                  ret = hid_hw_raw_request(hdev, 0xfa, buf, 64,
+>                                           HID_OUTPUT_REPORT,
+>                                           HID_REQ_SET_REPORT);
+>          ...
+>          wait_for_completion_timeout(&priv->done, msecs_to_jiffies(500));
+> 
+> In .raw_event(), the reply could be accepted when data[0] == 0xfa,
+> data[2] == 0x01 and size == 64, followed by complete().
+> 
+> The report ID should stay a constant 0xfa: with 0x01, the same buffer
+> would be the bootloader command.
+> 
+Great, that works. I published a repository at
+https://github.com/groeck/mystic_light.git
+to make working on the code easier. The first two patches on top
+of yours rearrange the code to simplify adding support for new boards,
+and the last one adds support for the boards I own.
 
-I'm applying the first patch for now, as that is an obvious improvement
-for many GUP users (esp. iouring fixed buffers etc).
+Here is what I get:
 
-tree: mm/core.git
-branch: for-next-fixes
+MAG B550M MORTAR MAX WIFI (MS-7C94):
 
-Applied patches will appear soon in mm-next, followed by linux-next.
+     msi_mystic_light-hid-3-4
+     Adapter: HID adapter
+     CPU VDDP:    1000.00 uV         <-- looks wrong
+     PROM Core:     1.04 V
 
-Please report any outstanding bugs that were missed during review, so we
-can either drop the patch series or decide how to fix it up.
+MAG B650 TOMAHAWK WIFI (MS-7D75):
 
-It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
-though the patches have already been applied. If possible, patch trailers
-will be updated.
+     msi_mystic_light-hid-3-5
+     Adapter: HID adapter
+     CPU 1P8:       1.81 V
+     CHIP Core:     1.06 V
+     VDD MISC:      1.10 V
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. Further, this is not a guarantee that the
-patches will go upstream. If in doubt, please check the listed branch.
+MAG B650M MORTAR WIFI (MS-7D76):
 
-[1/2] mm/memfd: handle GUP pins more reliably when write-sealing
-      https://git.kernel.org/mm/core/c/42990cfe
+     msi_mystic_light-hid-3-5
+     Adapter: HID adapter
+     CPU 1P8:       1.80 V
+     CHIP Core:     1.04 V
+     VDD MISC:      1.10 V
 
--- 
-Cheers,
+7D75 and 7D76 seem ok, but 7C94 looks wrong. A raw dump of 7C94 report data shows:
 
-David
+fa a0 01 00 00 00 00 00 00 01 fc 02 00 0e 04 f3 04 00 00 7d 7d 7d 00 00 00 00 00 00 00 00 00 00
+                                  ^^^^^ ^^^^^
+00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+Offset 11 does not seem to show a valid voltage. On the other side, offset 15
+would reflect a value that at least makes sense.
+
+Please let me know if the code still works for you.
+
+Thanks,
+Guenter
+
