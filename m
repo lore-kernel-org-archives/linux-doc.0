@@ -1,132 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.39
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794063072;
-	b=4J7jVhvUmSilVrMpmfHnS3dgMfcZoNIKwHHBsgLf7oIHRgm/ATam2TsN93n6QTpFnlBj
-	 BsB1qPvMMgbWZMlfObr+5Qj/o6tJxFSWs3Sq/Jq7vWe7KIFQ5K5CPtJyzit0GUsdSNJ05
-	 fI9m5ESb0wqiQ00GdPTumTXuAbUbW/cqs6WGbCfB1nQ6KOm2P8JxXpLNluz/hkqFmP0ga
-	 gERI4VgTBGiuGqoj35FFj/y8wqn11nrggm4MIAwv5n+LNyZ44WzQn6zGX/JKpwmdO9rFU
-	 r4z2YZytZwbZDKVcLSPTMxF/bTeB5FMtcfMNEVxSaTNOM5/TMNmA+Wb5sezXTmDq+xw==
+	t=1794063453;
+	b=L2MEiBauw+bJn1QTQ0hHlHQNSEu49snTCqJEv6FvmG0OUimKQbNXe/M7Ua0vGXyVETBf
+	 DoQruPQvEhHiYaV6vopGKwrVniA1jUoYMbBQkhaEIrVFGoHNdk+L3sFsobRLntLqQF7j2
+	 eoB3P3dAek9DGpNpsKU0u2Vn12GrNWc4CVpcFo2tHILUuhmorgCBtPL7g/zv8/7UI9IeY
+	 9HpOLpkb9dHb+FIr3QQiDd9mnF7H8hwaLQN7TvMz5Zl/GYzqvDww0D/i21YhDI803xcmz
+	 yDVt2TXQ/ukED/JqmziIfJ0WfG4e4BSX/8t+tF6Xbn2OHJQ2I2tttfFUm/n9TniCFHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794063072;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=TiUGdurgArXkHoJfkLsRhbw1Pz03rQ/EVAWVD4W2NTI=;
-	b=OIkNpOQGS2ayoM2THMsQ977BRLxXa7u9G4SBJ4M1DnF3QkmLH/7IYpOuGKf2Z5090I8v
-	 1c/HYYWCxuCfUP6grJOe0UGZHey2barfDeQraT+tfEzbBkHBQyXPr+Y8xEMfqA5/kP9IZ
-	 t9DAI6gG4K2WiUG40+TiXFysiqrGx7b631cCqXy9w8L8unhKEB+NMtugqOd5d5PcuaCNR
-	 M/dIyDecHqFn42VbRTypyU6jOZ7R2s66DGq/8ZXb6QtpFWFc/jzxgV3MhblnP12cBHDI8
-	 Ng96I8rXi4/6CxsW+h7GjhJe5K7jcJKH4UMUMXRZCYSAaFhbdMByk9QyE4G9rC/AMgA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794063453;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=EAvl3fitRQQ+zOb/lLotd7eR1uWF2wKurJXsbGkVIEU=;
+	b=raSV3c7ohyR+s/SFCadPFzq0OjykbhATMHid6bSZ0RGwcJBeFbQdcKY6ST39kHme66Dx
+	 Aiz3W/QMN26mSPfD2tXazKRLqm9l87er7YyKZBNca82744JO/DzHmOVc0bqTbRhO3APhE
+	 7yDw409SbHhkz+neFQN9jIjqqKl0Sow/GIIKu66f+ahnRrO2N1+NaO3BKtrWjNwtCLk0Z
+	 7IO5e+WCpESedTcYW9OrJVYEGUfXuvOt7le3v8l4cQaFrlOKCpW33XVXprpmacP/lidvn
+	 X0N93FOAPh3VGEbc6n4zZx4qvOEISRPj+HhcctiznNrlW8H+mZNZ21I5IZh/HghIXZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GMmnpEp8;
-	arc=none smtp.remote-ip=209.85.222.48
-Received: from mail-ua1-f48.google.com (mail-ua1-f48.google.com [209.85.222.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=Gf2nERXO;
+	arc=none smtp.remote-ip=35.89.44.39
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7D91606EE81
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 14:51:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7D91606EE81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4EA9606D804
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 14:57:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C4EA9606D804
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=GMmnpEp8
-Received: by mail-ua1-f48.google.com with SMTP id a1e0cc1a2514c-990a39ba4fbso376990241.0
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 06:51:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794063070; x=1794667870; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=TiUGdurgArXkHoJfkLsRhbw1Pz03rQ/EVAWVD4W2NTI=;
-        b=GMmnpEp8of2xPaPuVAQPWKFigGoxcgA2aR9nmMX8ZNpJmmZa9wenRFjcQYhqzF+O4f
-         awBenfwbtU48GdXYiFGvMF05ZuPd2YRwUd/bKYVmg2+fpVvWyXk3/cOqljzGB7EFuehQ
-         jSFMjTS1HImQQbpOAIch75CU0lfTskRBtkH/rJuM0AjpjE/P3P8J+DQI87qBktK8nXt/
-         aSxf7BEmuWBin/5d4x52nfaZrhJOPIOJV6hOYMw3nmjeLfBW19C/l5v/LtsaIoX84Xvv
-         xUVgNd0DsgIXX3J/pesSgSTgnV0kJtmqYWA9OozHAL2Ef726Xk7KoMfu60bGOWnp30qP
-         G0sA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794063070; x=1794667870;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=TiUGdurgArXkHoJfkLsRhbw1Pz03rQ/EVAWVD4W2NTI=;
-        b=Ir6BxCAOnlYobiIYqeDbFIQwrT9QCd16B1Yw6Q7EshbEe9/RN4cngBJ7J7ypPulSaG
-         V0153ZVMd0oU0AE/bch06pnddUKijSY0cJYpjma/XYtDWzB3LJ6a+sYnR7ck9J4sfhZo
-         tMv48hNbKbZecHw6DtumLe2t7QlH4cBKsOPZFJgHCKpEn4IjpJz+o8anTNyXrutXRNJk
-         gnek+CsSjN1JQKzsZB8dPuq8Yq4Mn5OnXJkzjShYJLTmM4uYa4SNugTo68G4gGJgGO0m
-         JFc+NQCX+Rp+j+uHXyppeDGuPlJpCEE3kPlPiqSvx5aDCY9C0n/lrnJYx6OtTmudbFEg
-         95Jw==
-X-Forwarded-Encrypted: i=1; AL+hErFWrEm0+zhnbKzhwRN4fSAK5RS7RdFyzLdVFhskbd4zQ6l3looxyn15YqVgT5RCvgASxLO1qRHc/NE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z92LRu0tO/+ic0Rdoysrd1sUos66YR2p/ye00nKlj+X206taGZJ
-	DPWcZxqgbCXtEhAFxmyn0zlbvBfC6j7ys1/3hxnCPrQEoA28Pwj93Iho
-X-Gm-Gg: AYBFou2pqbX/QVtB7Cq84dP+L1x4d3BJuKnNl9/pHnnC2s5dgOs4FfnxwikyjhPBSFm
-	y4Fq9deOOy0qj1+dKwpXFlRAEkbkFYHZdfdpoFCb/cI9sE1pfLvsPu7Hxk5d+6nQoyl9yuKDGV2
-	XR2etCaHLphpeSc5QqD4vj/hvVJW0S276wqKd/SQs0Ne/aipUoroyX9zUW1EocrkjyNtfROcHOz
-	rUpYtej53+iOm+OUxZg0rSRpzpNVRcCNstIvO9Xs0m+rIVGiPjHtjeNagpPboUdr2YhuN32fhEQ
-	clWTeuX20ox7qhM8mlFo3NPtEnwrfcmauTOojhsmRRWeE5DTuznnXowEnJ48PmBJLmwX1HmDgLH
-	Iv3tw15vpbyxS39uX49Nkcd6Cg2sHpNS4AqVxWE7cCS6PF3v4kgJlydwazZw6L+t2IQeQ2AvQZ4
-	7lbexhz0aCtPzJlyRtb6wZ8aPM9YNWIk4gITrX4fm76KW9tFXJr36mfhk1QPyfMqAndhra8zMUG
-	3I/EN7EaqO4Qu3ytCXsu8iDLzZ4y8rrsVGy6todzbAsxkGNCz3+YKvupRe+6vCLY0ThCUWOlFr7
-	1u8tdro9ArK3ODqYImUPvKw8MaiJ82d/70s8oOAxUuES1fW64p0FRjlza9/Bs31mm2WLHa3On8C
-	pDs5qm8+6wNslmw+LAX2nDruanUPVI9KhfgltGwdCNcnwEIyWDmj6jNXhlV/Du1rhletflPphjl
-	dpEzlRk4MpK4P2ihXQ
-X-Received: by 2002:a05:6102:4bca:b0:7c3:8150:83e7 with SMTP id ada2fe7eead31-7d2a154169emr2304378137.9.1794063068607;
-        Sat, 07 Nov 2026 06:51:08 -0800 (PST)
-Received: from gmail.com (223.230.150.34.bc.googleusercontent.com. [34.150.230.223])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99badbceebdsm4199060241.3.2026.11.07.06.51.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 06:51:07 -0800 (PST)
-Date: Sat, 07 Nov 2026 09:51:07 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Tianyi Gao <tianyi@cloudflare.com>, 
- netdev@vger.kernel.org, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- Eric Dumazet <edumazet@kernel.org>
-Cc: "David S. Miller" <davem@davemloft.net>, 
- Simon Horman <horms@kernel.org>, 
- David Keogh <dkeogh@amazon.com>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- David Woodhouse <dwmw2@infradead.org>, 
- Dragos Tatulea <dtatulea@nvidia.com>, 
- Nimrod Oren <noren@nvidia.com>, 
- Alasdair McWilliam <alasdair@mcwilliam.dev>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- David Ahern <dsahern@kernel.org>, 
- Ido Schimmel <idosch@nvidia.com>, 
- Alexei Starovoitov <ast@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Donald Hunter <donald.hunter@gmail.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Shuah Khan <shuah@kernel.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Breno Leitao <leitao@debian.org>, 
- =?UTF-8?B?QXNiasO4cm4gU2xvdGggVMO4bm5lc2Vu?= <ast@fiberby.net>, 
- Danielle Ratson <danieller@nvidia.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, 
- bpf@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, 
- kernel-team@cloudflare.com, 
- nh-open-source@amazon.com, 
- Tianyi Gao <tianyi@cloudflare.com>
-Message-ID: <willemdebruijn.kernel.1d64e7848503b@gmail.com>
-In-Reply-To: <e90e748e0aefa7cbe1c2b31b8c7902ccf135c3f2.1794020868.git.tianyi@cloudflare.com>
-References: <cover.1794020868.git.tianyi@cloudflare.com>
- <e90e748e0aefa7cbe1c2b31b8c7902ccf135c3f2.1794020868.git.tianyi@cloudflare.com>
-Subject: Re: [PATCH net-next 1/8] net: add tx_extra_headroom and
- LL_ALLOC_SPACE()
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=Gf2nERXO
+Received: from eig-obgw-5007b.ext.cloudfilter.net ([10.0.29.167])
+	by cmsmtp with ESMTPS
+	id PWexx4C9Ayb4YPhrIxZtx9; Sat, 07 Nov 2026 14:57:32 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id PhrHxckzaxqjjPhrHx4VYN; Sat, 07 Nov 2026 14:57:31 +0000
+X-Authority-Analysis: v=2.4 cv=bZxrUPPB c=1 sm=1 tr=0 ts=6aef3c5b
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
+ a=0VzQnij0Y02-aV-MoqEA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=EAvl3fitRQQ+zOb/lLotd7eR1uWF2wKurJXsbGkVIEU=; b=Gf2nERXOQmCG
+	VIoDGcPMYZTbtFueBaRm4thKVavIVFxMclZspFlaP98EMVKk5FXWGGpo/wH4ngi8wHwXgrsoMr73p
+	Jopt5KYi/TBWuwemMLRp/QlzEoyU/xSICcbGWKyFvSpWXvffzcX3m+pbi/MkBYnJgKEiYc7xdrus/
+	gVWLan+9TsYKGxM92oBceku5MDGuKykrJyywMU3fKPxow3gEZe8rrHnGqbqT15qVaLuMpdWzqT+RW
+	RBMzYXZ8BG2gFk3e0MF3p5/tfvvRtIwZF2ElaldwtKtPl9lXdt58hfvhGJt57zdVQJfHR2Z/arPk7
+	q7pr8p1cf7X1oSCXL4Za5g==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:51504)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xPhrH-00000003bwA-0pLu;
+	Sat, 07 Nov 2026 20:27:31 +0530
+Message-ID: <9aff5480-3be5-42d5-b0c1-b3d7b4de8e9a@roeck-us.net>
+Date: Sat, 7 Nov 2026 06:57:29 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -136,116 +75,142 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] hwmon: Add driver for MSI Mystic Light controller voltage
+ sensors
+To: Tomasz Bojanowski <tomasz@bojanowski.me>
+Cc: linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261106184357.27763-1-tomasz@bojanowski.me>
+ <db51c24b-4b41-407b-a20a-b87ed7c0dbaa@roeck-us.net>
+ <20261107082728.8035-1-tomasz@bojanowski.me>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261107082728.8035-1-tomasz@bojanowski.me>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xPhrH-00000003bwA-0pLu
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:51504
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 7
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfDQIbBKlQjjNq2DSGQr+oUU4iM2rxZ1j00YAll972GG4qNO+TKK10KNBfEIky6Vl+6e25wQtVa2oj62qPUOc0rrVAbc+mhDj1YyCNjaNRHoH7QHoD5fH
+ M2hmqREoK/2SArB7AlazOoxVI13h//W+jWxGOn7xif+BSOZDXj4MEXbI4fmOyqpNr3K+P5vNkGexHlZyl6rfupZ70N057LWA+fDeWXYDeguUswgIS8x1R1GQ
 
-Tianyi Gao wrote:
-> From: David Keogh <dkeogh@amazon.com>
+On 11/7/26 00:27, Tomasz Bojanowski wrote:
+> Your reply did not reach my inbox, because the spam filtering at my mail
+> provider was set too strictly. I have fixed that, and I read your review
+> on lore.
 > 
-> Programs attached at TC egress commonly push additional headers onto a
-> packet, for example to encapsulate it. When the packet does not carry
-> enough headroom the BPF helpers reallocate the head, which costs an
-> allocation and a copy per packet.
-> 
-> Locally generated UDP, raw and AF_PACKET traffic is allocated with
-> exactly LL_RESERVED_SPACE() of headroom, which only covers the
-> link-layer header and the driver's needed_headroom. An administrator can
-> only ask for more headroom at allocation time if the driver supports it,
-> as netkit does with IFLA_NETKIT_HEADROOM. veth does not.
-> 
-> Add a tx_extra_headroom field to struct net_device for that purpose,
 
-Main high level concern is just adding an extra field. What's next,
-do we need to add a field extra_extra_headroom?
+There is nothing I can do about that, sorry. No matter which provider I use
+to send e-mail, some provider somewhere considers it to be spam.
 
-> together with LL_ALLOC_SPACE() and LL_ALLOC_SPACE_EX(). These add the
+> Thanks for the review, and for trying the driver on your boards.
+> 
+> On 11/6/26 16:36, Guenter Roeck wrote:
+>> Using the USB serial number to detect the device seems fragile. If the
+>> USB vendor/product ID can not be used for some reason, it might make
+>> more sense to implement a DMI match.
+> 
+> Agreed. v2 identifies the board by DMI only and no longer looks at the
+> serial number. The driver is only registered on supported boards.
+> 
+>> This will require additional per-board data. On MAG B650M
+>> MORTAR WIFI (MS-7D76), the USB IDs are 1462:7d76, and
+>> hid_hw_raw_request() with the parameters below returns
+>> a length of 0 bytes. On MAG B650 TOMAHAWK WIFI (MS-7D75),
+>> the USB device ID is 1462:7d75, and on MAG B550M MORTAR
+>> (MS-7C94) it is 1462:7c94.
+>>
+>> That makes me wonder if the parameters can be associated
+>> with USB IDs.
+> 
+> On these older boards the controller uses the board code as its
+> product ID (1462:7dxx, 1462:7cxx). As far as I can tell from the vendor
+> software, the sensors of these controllers are read with a different
+> request, not with feature report 0xf0, which would be consistent with
+> the 0 byte reply. I have not verified this on hardware.
+> 
 
-Since this already changes callers from LL_RESERVED_SPACE to
-LL_ALLOC_SPACE, could this additional use case be integrated more in
-the struct fields and helpers that are already there?
+I have the ones mentioned above, so I could test there if you want to
+add support for it.
 
-Admittedly, I did not spend much time looking at that deeply, and you
-likely did, so the answer is no. But I want to poke a little at that
-before we add yet another optional length field.
+> On the 800-series boards the controller uses a common ID, 0db0:0076.
+> OpenRGB lists more than 30 X870, B850, B840 and Z890 boards behind this
+> ID and selects its per-board LED configuration by the DMI board name.
+> The vendor software also handles these boards with one class and tells
+> them apart by the USB serial number. So the USB ID does not identify
+> the board there, which is why v2 uses DMI.
+> 
+> For now the driver only covers the 800-series controller on the MAG
+> B850M MORTAR WIFI (MS-7E61), which is the board I can test on.
+> 
+> v2 also addresses the issues reported by Sashiko and your other
+> comments: it reads and validates the report in probe, fails probe if
+> that does not work, only exposes the rails that return a reading, and
+> no longer returns -ENODATA. I will send it as a new thread.
+> 
 
-> extra reservation to the header length before the HH_DATA_MOD alignment,
-> so the alignment of the link-layer header does not change.
-> 
-> The new macros are intended only for sites that allocate new packets.
-> LL_RESERVED_SPACE() keeps its current meaning and remains the threshold
-> used when checking whether an existing packet must be expanded, so the
-> extra reservation never forces a reallocation on its own: packets that
-> already have enough room for the headers being pushed, such as TCP
-> segments built with MAX_TCP_HEADER, are left alone.
-> 
-> Keep the extra reservation separate from needed_headroom so that driver
-> updates of their own requirement do not clobber it and so that it can
-> be cleared independently. Place the field in the padding that follows
-> needed_headroom, which keeps it in the TX read-mostly cacheline group.
-> 
-> The field is not set anywhere yet. A later patch exposes it through
-> rtnetlink.
-> 
-> Also remove LL_RESERVED_SPACE_EXTRA(). It has had no user since
-> commit 6d5431555de0 ("caif: remove CAIF NETWORK LAYER"). It could add
-> the extra headroom, but it reads dev->hard_header_len itself. AF_PACKET
-> must use the value that it read once, see commit 03390aa32e66 ("packet:
-> use consistent hard_header_len in non-ring send paths").
-> LL_ALLOC_SPACE_EX() takes the header length as an argument instead.
-> 
-> Signed-off-by: David Keogh <dkeogh@amazon.com>
-> [tianyi: remove LL_RESERVED_SPACE_EXTRA()]
-> Signed-off-by: Tianyi Gao <tianyi@cloudflare.com>
-> ---
-> checkpatch --strict reports "Macro argument reuse 'dev'" for
-> LL_ALLOC_SPACE_EX() and LL_ALLOC_SPACE(). It reports the same for
-> LL_RESERVED_SPACE().
-> ---
->  .../networking/net_cachelines/net_device.rst  |  1 +
->  include/linux/netdevice.h                     | 36 +++++++++++++++++--
->  net/core/dev.c                                |  2 ++
->  3 files changed, 36 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-> index 8eceaa80b686..a7e311fb7875 100644
-> --- a/Documentation/networking/net_cachelines/net_device.rst
-> +++ b/Documentation/networking/net_cachelines/net_device.rst
-> @@ -35,6 +35,7 @@ unsigned_short                      gflags
->  unsigned_short                      hard_header_len             read_mostly         read_mostly         ip6_xmit(tx);gro_list_prepare(rx)
->  unsigned_int                        mtu                         read_mostly                             ip_finish_output2
->  unsigned_short                      needed_headroom             read_mostly                             LL_RESERVED_SPACE/ip_finish_output2
-> +unsigned_short                      tx_extra_headroom           read_mostly                             LL_ALLOC_SPACE/__ip_append_data
->  unsigned_short                      needed_tailroom
->  netdev_features_t                   features                    read_mostly         read_mostly         HARD_TX_LOCK,netif_skb_features,sk_setup_caps(tx);netif_elide_gro(rx)
->  netdev_features_t                   hw_features
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index 435be7880d7e..98d1501d6fee 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -311,9 +311,24 @@ struct hh_cache {
->  	  & ~(HH_DATA_MOD - 1)) + HH_DATA_MOD)
->  #define LL_RESERVED_SPACE(dev) \
->  	LL_RESERVED_SPACE_EX(dev, (dev)->hard_header_len)
-> -#define LL_RESERVED_SPACE_EXTRA(dev,extra) \
-> -	((((dev)->hard_header_len + READ_ONCE((dev)->needed_headroom) + (extra)) \
-> -	  & ~(HH_DATA_MOD - 1)) + HH_DATA_MOD)
-> +
-> +/*
-> + * Headroom to reserve when allocating a locally generated packet for
-> + * transmission through a device. On top of LL_RESERVED_SPACE() this adds
-> + * the administrator-configured tx_extra_headroom, folded in before the
-> + * alignment so that the link-layer header placement does not change.
-> + *
-> + * Only use this for new allocations. Code that checks whether an existing
-> + * packet has enough headroom must keep using LL_RESERVED_SPACE(), so that
-> + * the extra reservation can never force a reallocation by itself.
-> + */
-> +#define LL_ALLOC_SPACE_EX(dev, hlen) \
-> +	LL_RESERVED_SPACE_EX(dev, (hlen) + READ_ONCE((dev)->tx_extra_headroom))
-> +#define LL_ALLOC_SPACE(dev) \
-> +	LL_ALLOC_SPACE_EX(dev, (dev)->hard_header_len)
-> +
+Thanks a lot for the information.
 
-If having to modify/add these helpers, it's probably a good time to
-switch to actual, type safe and readable, functions instead.
+Guenter
+
