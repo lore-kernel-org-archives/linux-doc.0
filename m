@@ -1,88 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794070652;
-	b=yEWMBlTb++uQCfvZ4yM1nKEishBTSxrybPXYONWdSaoeLIH/iPqIMNqJRC/P4VFCSWHl
-	 McL8/Gd+EcYJmKKN8L/VWujGX57ilOdjv07oinyj4QLTYroAr+Z8Ux8OuE6RpGFrYPfcE
-	 UCg0cHIuy8/JGEHkaoernLPwbxjSWerlMsiv01cJHUQ7fy7FBtc8I1dJlRqH2oG9yoP5e
-	 Iol8mXUlDHy6imYQ1tASOz3t43Jyz0AaZySlE/iC2vztYSMwGIyMvBmvX4+1thWW0UlFN
-	 aVvpFK3pHou73q5wKK42IU/Yb784JUkgL+GtoJwrw2RdP75Jz+gPPk5dRjybXxtDJhQ==
+	t=1794071591;
+	b=EqyJdl7IxZ+jLe0zvPRSUrIwqQ2dvX1uWVjZ1Lvni1dA+4fnOTn6zzQhgtKRhjbIuT/q
+	 ZAcSpIn6DbMPgwZCTeKfMqM5/NYTeebn3kW9wfcPzvMKLRIE9gi82yLxi+i/LxobQ1ylc
+	 +4XOcJcrIjQLhppwjE5EcFL1ssewWXF0vsYemo/Pw3ygNxFJU5YXVAMsfgdyYramj/baY
+	 SGiKZJaHkPodhYEPupRwzhXl3gp/Y2Wv/GqT6w1k3LBQGKicAHVU4rN7k92Q/l5bgjMnw
+	 Ep2WYUAjVmde79PL55Bwfg537JmyBAfRQeDUyuwNJXTDn5zSCth221OnzO/ecvu1dzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794070652;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794071591;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=SdH1Q08JYIXzl7woAIVqMXKqevpqYl9Em5ExAHktt1c=;
-	b=I1Cq55PqEIKlHfeRLZ4SceMMqIeqPEbh97qeMpQW4u25GBUpH8s+PdfGJ9N+fesDj98e
-	 wBP3UJkK/CnkR6HBhO96MjLR9z4WURgUlj4DtZenlqaGKIiSoviiCleZKLpDChyUje/K1
-	 dIBbyEv+vHKlk6oeujb/xn3mep+jPU7YfuQnLk3KLguDY47KSIMOq2z3NAjeeyKZgHFXr
-	 kt8Q3gPq7SDnI4K7kKAw/0ruOfHqxJdO8wudPQnC7pVXDnwe/OlRUW2oI33dLXBml2T2x
-	 RVz2NkEshv0Aa6jOqD75hI94/iG9hygZD7yHv6+38UHKU4gMeEwsH0ctXmA88QqrxPA==
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=TIc6+YNxVXhGA8deHKYHd4FZyrT7f/jlj0igPXFCOsE=;
+	b=jird2mxDLqIJEl8cJRlXPEijldEntkI3Vt5fix2t3by0jAiXN6DhJ2m2lLDPTDRcdAkO
+	 lrOcGvUXtexPy1T4usAB984u0/LiBF4clbZtG+I61KdpON3ZOgkVVa6iLenajLia6ti3/
+	 WcDYy3HehHJ4kMgGG29hF0O69WLhGNzPTyNAHSyVpMaHkJ6Gy7y6FVG9WHLktYNFAyc53
+	 KDHlqoYoLaVHg4TtWItrlZEvxoHHeaCsuDYVgidwIRTbZiV8u+cEzV28Sg2Qv0pMpvtst
+	 vYyGXopuOoo8vkDaNSQk89aX4Ze1AWazDjaNqJO1Qy5a5NqPjenDsdoo34GtHpwaOKg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="LO/GHqYA";
-	arc=none smtp.remote-ip=74.125.82.43
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x6OSU7Ir;
+	arc=none smtp.remote-ip=209.85.221.42
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818DC606D819
-	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 16:57:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 818DC606D819
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4A27606A32D
+	for <linux-doc@vger.kernel.org>; Sat,  7 Nov 2026 17:13:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B4A27606A32D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LO/GHqYA
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1a8cc11ac42so1579129c88.0
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 08:57:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x6OSU7Ir
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48fd2e38825so984178f8f.2
+        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 09:13:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794070652; x=1794675452; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SdH1Q08JYIXzl7woAIVqMXKqevpqYl9Em5ExAHktt1c=;
-        b=LO/GHqYAqIw4mRvvRBHWuOMVha4/0/Fi7P6E0tJ5PpKEL4XjKr0zuy7j53NqIyGEPn
-         GalzqySlwAi6F/U4404oaYZqyAkKYgQC0P2qHO6qkE/LBzrTq0vrGAeZw5sB1MVnNNwa
-         3Nf3YiG5ZPqnuv2m0Q1l5s3CRhe5FPex+uq7/qZ63sOy2nRH8WDLHO6Q7SN0OIyyw/7w
-         P0XxE2MCJCsjqsAko1DgCDIHhtLALTa3OzGfJQEd5sedu5uhJwhbh1Rb4vt959dCczXO
-         YSUQdRal3c/K9lAciPTxWMrXpAZewvNoINV9rPH7bpBnu9eNUeEIDqCLCYAxHTpUmdj6
-         tO4Q==
+        d=gmail.com; s=20260707; t=1794071588; x=1794676388; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TIc6+YNxVXhGA8deHKYHd4FZyrT7f/jlj0igPXFCOsE=;
+        b=x6OSU7Ir21f6GzY3BamV86ebskkhQEG7OSMk1lTI9Nc1pNOHgHZ1lYDP5dTByyQXQq
+         pnVsizsC04hWjoEHcNOwKXoZx3hYdyuDm3u8Rr1r6LSkWoClZuTasWJQtvqbksHMUTH+
+         6o9rhfmCTfAQ5wkvWws3P4WzmcKJnM2fP4hwwPhHEGjbMeEPV2ZXU2KBKaZ+zIt78g5q
+         pZuC4zdWGnvbUAXkIPC3tVFK+8NFV99ba3CNQW2T0ePSTIOvzRKvXo5ivVAxeBvNtuS/
+         LSJCxqa0jl/W9OVD0I5dwsG1Za1gubmG7eYtCjrKPqOGmYtYLTx6Qis51cWznqkdGCi5
+         wqzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794070652; x=1794675452;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SdH1Q08JYIXzl7woAIVqMXKqevpqYl9Em5ExAHktt1c=;
-        b=kz8XfeIBCEJ70v/hMkpzgyWbnMD1gX5jgyyduzoj1f9UQXdNG7lcAk+Q7OBAMO4mDP
-         hSWtBMECpEyAlSs5h94r2oB9GKECNd96d6i/WPsdiD4BMZKAisJB6C+q3WmbzyeOtxZP
-         1fXyRCltSn1LhAg14XeLuCaWFBHDvkgUCjKEEAyTX3l8zX9ABTrZT3aW8LQm+xUM6pNL
-         5UI9AZ8xmAOsAQ4NE2suRNRjI8OI/UUer5PII1gfTEszUUvaR0clkbfxIIxiLl/azunm
-         k/pMiwSt6l7E6vu4401S7BTONX51VMEIDSfLYIvVToQKwqgfOI2BXL837l5gI4jTIsNx
-         JDqw==
-X-Forwarded-Encrypted: i=1; AKwUvBwF328E943AQXFXKPY0ERrX6WxczUsbmdPR+b5w9/toY1HSvjuZDtyStSFvn7g3pM1u5RF180khIgw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+9feGECoyXE7d1TSrMIvgOab4ZtX2fMK67so+7eu/S6UfxOB6a
-	/Dbcl8D9dPW/cDtsi/QV1Txx1vDG/7OMQlzVOA6o5VKRte0P6dIdX4VA
-X-Gm-Gg: AYBFou3Ciz/c0Or9Jc6erRwpd2oF9tVGxmq+yJs0cHG6WJpgnFA8mnl66KHs7jWL9at
-	uAoC21aUQTcQ2C7lMRfRQ/lKMEC4LbjUzCmIWNwrisz2VIkfxUEzawDPUQ1OL2CC3TQ50vEcGnr
-	gSmFDl0TLjSC+xIXO957jHDzmW/2P6W6ObYtbfn4ONqyNgDh034LS7ZDBk31R7B/ff2oRwroKz+
-	IwolQebWK+M/vF83zQfXurj629a6mNCIQAlszK+ezoafhD3no6XgJ6r65WRNvEPGsPPUfY8Yrf4
-	MLKNDLAtTZDRalMqcThpqGODy3K6OJknXizQTdiIlrn2qho5qdap3SWhPzp2CnjsPhzHSyPCaWt
-	oV706ZUbecZoWTR0IvsOCgjKe0DH7i+Vlrg9vKDF/+X4IU163TdvNCQSI/riQfmPlFnSXAsElXd
-	Y+MDdqxdePHA+ZPcCTWkxNHt9i0B599AelIANPm6byU1XRNpK3sV4Tys/pD+AnttUhPmX7emXLV
-	m57vOcCthEdUP6KHhsoXsfuEx4H8rbSb7N2CQFpP0U5oC4SpHy9avfTv3fEU90yeqPQWByTAHsC
-	4HIT4/oAzVOsG24LvSrGL0gg
-X-Received: by 2002:a05:7022:3c12:b0:1a8:9857:2102 with SMTP id a92af1059eb24-1b25d3445demr7016509c88.30.1794070651262;
-        Sat, 07 Nov 2026 08:57:31 -0800 (PST)
-Received: from [127.0.1.1] ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b25e4b4aa7sm15456126c88.13.2026.11.07.08.57.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 08:57:30 -0800 (PST)
-From: Qiliang Yuan <odys.yuan@gmail.com>
-Date: Sat, 07 Nov 2026 11:57:03 -0500
-Subject: [PATCH v3 4/4] selftests/mm: cover merging KSM pages aged by smart
- scan
+        d=1e100.net; s=20260707; t=1794071588; x=1794676388;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TIc6+YNxVXhGA8deHKYHd4FZyrT7f/jlj0igPXFCOsE=;
+        b=SreE47z+jNzFGSy7sq4IaZlmVxEan92UvB3c4PpzC0/xxyh7iu7MOWPFbN/6ng9tFE
+         IFTdItFa+DMWQuAvp4BrrX5jzCgJBjNuNurcK4M82hKHjdiRCRHZ+ZqIGAFSVHEuULDw
+         yfgWBWR5JVWA3FCvBG2wc+StPvOw/ZrJVZ/TGEogdPQ9uh/z4JlibLLn8eoXvvfhQSMq
+         alIsarTv67gKJ9dhdXNpZG0hWoXS4yuELu9Ftp/A37hUY0aGR0vFmW6l8IYH/utbXXuE
+         eZTfltmJpra3up01x0RCWH+Pp9NfTaFhxZopVw2Xi3Qm1rGMecCrh/IPyi1dZ5mKo2Yp
+         G9wA==
+X-Forwarded-Encrypted: i=1; AL+hErFQTF3HQlh6zTacXpan+FhX70dh8DN5GCaRFjnU9mh8l5ti7MLZ4QOwjmBdRvFi+I5x3br7zmHrFVE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8tIxrZiZUBtI0cMJ9MBeneV9e9FrOUUWyZMsmgs1dFXOLELhAl
+	cpCrBy22aCiqOeJnnSmyA8o4Miy1p1Xi7sMqaPEkZdh/vFwqTd9oZ2xA
+X-Gm-Gg: AYBFou2YNdo+vP3hpYJxteriOwHF1egMEeRb3KHcs1b19QU5oa8KZvr/S1HxqJd3353
+	bjAwhYLyUxEBDXNNRf9E/+Fj1h6upgfcFbOdP/Qda9TGhFk47K0HbhQf7SvfvF0/uKW+ijgY4ki
+	DOQSOPctx8M9NS7lJCw2PxRGzs0IYw/vP5fm85nQNvjS9je+Ydd6ZjnyXMSsEO4lZBDj4OULQSc
+	UjiUBf8sKq7ZajIEdjzy31k3uLtROh1/D5BJU9PvD8OgKs0l8iPNefM2owi0MeKkf0q0tfPkAyK
+	YejJyQRaza6nJPEQGZWYe1zxmBrzPUWgnfy0QtGcDlOJ/K5EcVPi84eEZd1Dfsnp01pIe4SRTkD
+	RQSC+8YxVMW1E04cAzhNvX9Ln0hcGMkkWkVLmTO/gaW79xUZyI8y6GvTTG2GnFYpeF61NRhY50f
+	tjOQcmMROpQGw2V6nH6YncRlybW94kVhx4VPfwJto2uRYpxmLwmEhpdmdAbMoG51Sg2m9f13FlB
+	+rd/PJzXhG5E7c9Rkjo0oRN6hWnhPp+3jnfsMXTYAkMq4HcDiJEOes4FvFeqa9XHRlE/3Erx/vS
+	poj4a8F+JG13H87DjMNfJ8ZCjfYEjzZvSelZo5ZmIq7BgRro2u2phswoJ8nof9zmYKVO9EMHdy9
+	HZxtpVmmwuNJ/7hcFHA8p+vyB3htmCSw/dsGbxoAsHqu7IGWrodkyvAhkoH7/aMtjHJM+g/DyhN
+	VMKesMl/kdxsAmvc5dLghkJVrQaa/NYyo=
+X-Received: by 2002:a05:6000:490d:b0:48f:fcac:a5e2 with SMTP id ffacd0b85a97d-49277404453mr10990954f8f.38.1794071587759;
+        Sat, 07 Nov 2026 09:13:07 -0800 (PST)
+Received: from localhost.localdomain (dynamic-2a02-3100-b149-1401-90c6-65b4-035d-1e3d.310.pool.telefonica.de. [2a02:3100:b149:1401:90c6:65b4:35d:1e3d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-492d723222fsm10627105f8f.21.2026.11.07.09.13.05
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 07 Nov 2026 09:13:06 -0800 (PST)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Gabriele Monaco <gmonaco@redhat.com>
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Andy Lutomirski <luto@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Wen Yang <wen.yang@linux.dev>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v2 0/9] rv: Verify generic IRQ context transitions
+Date: Sat,  7 Nov 2026 18:12:43 +0100
+Message-Id: <20261107171252.25090-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,221 +119,168 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261107-bug-mm-ksm-smart-scan-align-skips-v3-4-16d5ce8b5fd6@gmail.com>
-References: <20261107-bug-mm-ksm-smart-scan-align-skips-v3-0-16d5ce8b5fd6@gmail.com>
-In-Reply-To: <20261107-bug-mm-ksm-smart-scan-align-skips-v3-0-16d5ce8b5fd6@gmail.com>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
- Chengming Zhou <chengming.zhou@linux.dev>, Stefan Roesch <shr@devkernel.io>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- Qiliang Yuan <odys.yuan@gmail.com>
-X-Mailer: b4 0.13.0
+Content-Transfer-Encoding: 8bit
 
-ksm_functional_tests checks merging and unmerging with ksmd's default
-settings, but nothing there exercises smart scan, which skips pages KSM
-has failed to merge for a while.
+IRQ action tracepoints describe handlers, but not the lifetime of the
+enclosing IRQ context. One context may run several actions, and an action
+may be dispatched outside hardirq context. PREEMPT_RT may also enter
+serving-softirq state without invoking an action. This leaves no generic
+event stream from which an RV monitor can check IRQ-context transitions.
 
-Smart scan used to time those skips per page, so two identical pages
-that became mergeable some scans apart could end up never being looked
-at in the same scan, and were never merged. "mm/ksm: align smart scan
-skips with the scan number" fixed that.
+This RFC adds tracepoints at the generic hardirq and serving-softirq
+boundaries. The irq:irqstate RV monitor checks their order and agreement
+with live kernel state. irq:irqexit follows the owner of a
+preempt_schedule_irq() invocation across task switches and CPU migration.
 
-Add ksm_get_smart_scan() and ksm_set_smart_scan() to vm_util, and a
-case that enables smart scan, lets sixteen unique pages age for a dozen
-scans, then makes a duplicate of each mergeable one scan apart, and
-expects every pair to be merged 32 scans later:
+The hardirq tracepoints cover paths through irq_enter() or
+irq_enter_rcu() and their matching exits. They do not cover direct
+__irq_enter() and __irq_exit() users, raw paths, or architecture-specific
+entry and return intervals. irqexit covers preempt_schedule_irq(), not
+the complete interrupt-return path.
 
-  kernel               failures, two boots
-  before the fix       20/20, 20/20
-  with the fix          0/20,  0/20
+Boundary callbacks can raise softirq work after the pending-work check.
+The series wakes ksoftirqd or ktimerd for remaining work. KUnit covers
+nesting, monitor synchronization, PREEMPT_RT worker intervals, provenance
+and late-work handoff.
 
-Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
----
- tools/testing/selftests/mm/ksm_functional_tests.c | 89 ++++++++++++++++++++++-
- tools/testing/selftests/mm/vm_util.c              | 32 ++++++++
- tools/testing/selftests/mm/vm_util.h              |  2 +
- 3 files changed, 122 insertions(+), 1 deletion(-)
+Gabriele answered two of the v1 questions [1]:
 
-diff --git a/tools/testing/selftests/mm/ksm_functional_tests.c b/tools/testing/selftests/mm/ksm_functional_tests.c
-index 31c06c72203fd..135191f99962d 100644
---- a/tools/testing/selftests/mm/ksm_functional_tests.c
-+++ b/tools/testing/selftests/mm/ksm_functional_tests.c
-@@ -695,6 +695,92 @@ static void test_fork_ksm_merging_page_count(void)
- 	munmap(map, size);
- }
- 
-+static void test_merge_aged_pairs(void)
-+{
-+	const unsigned int pairs = 16;
-+	const unsigned long size = 2 * pairs * pagesize;
-+	int old_smart_scan;
-+	unsigned int i;
-+	char *map;
-+
-+	ksft_print_msg("[RUN] %s\n", __func__);
-+
-+	old_smart_scan = ksm_get_smart_scan();
-+	if (old_smart_scan < 0) {
-+		ksft_test_result_skip("smart_scan not supported\n");
-+		return;
-+	}
-+	if (ksm_set_smart_scan(true) < 0) {
-+		ksft_test_result_fail("Enabling smart_scan failed\n");
-+		return;
-+	}
-+
-+	if (ksm_stop() < 0) {
-+		ksft_test_result_fail("Disabling (unmerging) KSM failed\n");
-+		goto restore;
-+	}
-+
-+	map = mmap(NULL, size, PROT_READ | PROT_WRITE,
-+		   MAP_PRIVATE | MAP_ANON, -1, 0);
-+	if (map == MAP_FAILED) {
-+		ksft_test_result_fail("mmap() failed\n");
-+		goto restore;
-+	}
-+	if (madvise(map, size, MADV_NOHUGEPAGE) && errno != EINVAL) {
-+		ksft_test_result_fail("MADV_NOHUGEPAGE failed\n");
-+		goto unmap;
-+	}
-+
-+	/*
-+	 * Page i of the first half and page i of the second half form a
-+	 * pair with content no other page shares.
-+	 */
-+	for (i = 0; i < pairs; i++) {
-+		memset(map + i * pagesize, i + 1, pagesize);
-+		memset(map + (pairs + i) * pagesize, i + 1, pagesize);
-+	}
-+
-+	/* Let the first page of each pair age without a duplicate. */
-+	if (madvise(map, size / 2, MADV_MERGEABLE)) {
-+		ksft_test_result_fail("MADV_MERGEABLE failed\n");
-+		goto unmap;
-+	}
-+	if (ksm_start() < 0 || ksm_wait_full_scans(12) < 0) {
-+		ksft_test_result_fail("Running KSM failed\n");
-+		goto unmap;
-+	}
-+
-+	/*
-+	 * Make the duplicates mergeable one scan apart so that each pair
-+	 * starts out with a different distance in scans.
-+	 */
-+	for (i = 0; i < pairs; i++) {
-+		if (madvise(map + (pairs + i) * pagesize, pagesize,
-+			    MADV_MERGEABLE)) {
-+			ksft_test_result_fail("MADV_MERGEABLE failed\n");
-+			goto unmap;
-+		}
-+		if (ksm_wait_full_scans(1) < 0) {
-+			ksft_test_result_fail("Running KSM failed\n");
-+			goto unmap;
-+		}
-+	}
-+
-+	if (ksm_wait_full_scans(32) < 0) {
-+		ksft_test_result_fail("Running KSM failed\n");
-+		goto unmap;
-+	}
-+
-+	ksft_test_result(ksm_get_self_merging_pages() == 2 * pairs,
-+			 "Pages aged by smart scan got merged\n");
-+unmap:
-+	ksm_stop();
-+	munmap(map, size);
-+restore:
-+	if (ksm_set_smart_scan(old_smart_scan) < 0)
-+		ksft_print_msg("Restoring smart_scan failed\n");
-+}
-+
- static void init_global_file_handles(void)
- {
- 	mem_fd = open("/proc/self/mem", O_RDWR);
-@@ -720,7 +806,7 @@ static void init_global_file_handles(void)
- 
- int main(int argc, char **argv)
- {
--	unsigned int tests = 9;
-+	unsigned int tests = 10;
- 	int err;
- 
- 	if (argc > 1 && !strcmp(argv[1], FORK_EXEC_CHILD_PRG_NAME)) {
-@@ -753,6 +839,7 @@ int main(int argc, char **argv)
- 	test_prctl_fork_exec();
- 	test_prctl_unmerge();
- 	test_fork_ksm_merging_page_count();
-+	test_merge_aged_pairs();
- 
- 	err = ksft_get_fail_cnt();
- 	if (err)
-diff --git a/tools/testing/selftests/mm/vm_util.c b/tools/testing/selftests/mm/vm_util.c
-index 1c2bac54696dd..490e3c7161e8d 100644
---- a/tools/testing/selftests/mm/vm_util.c
-+++ b/tools/testing/selftests/mm/vm_util.c
-@@ -984,6 +984,38 @@ int ksm_use_zero_pages(void)
- 	return ret == 1 ? 0 : -errno;
- }
- 
-+int ksm_get_smart_scan(void)
-+{
-+	int smart_scan_fd;
-+	char buf;
-+	ssize_t ret;
-+
-+	smart_scan_fd = open("/sys/kernel/mm/ksm/smart_scan", O_RDONLY);
-+	if (smart_scan_fd < 0)
-+		return -errno;
-+
-+	ret = pread(smart_scan_fd, &buf, 1, 0);
-+	close(smart_scan_fd);
-+	if (ret != 1)
-+		return -errno;
-+
-+	return buf == '1';
-+}
-+
-+int ksm_set_smart_scan(bool enable)
-+{
-+	int smart_scan_fd;
-+	ssize_t ret;
-+
-+	smart_scan_fd = open("/sys/kernel/mm/ksm/smart_scan", O_WRONLY);
-+	if (smart_scan_fd < 0)
-+		return -errno;
-+
-+	ret = write(smart_scan_fd, enable ? "1" : "0", 1);
-+	close(smart_scan_fd);
-+	return ret == 1 ? 0 : -errno;
-+}
-+
- int ksm_wait_full_scans(long nr)
- {
- 	long start_scans, end_scans;
-diff --git a/tools/testing/selftests/mm/vm_util.h b/tools/testing/selftests/mm/vm_util.h
-index 7e00030077d2f..ab1325dc65800 100644
---- a/tools/testing/selftests/mm/vm_util.h
-+++ b/tools/testing/selftests/mm/vm_util.h
-@@ -163,6 +163,8 @@ long ksm_get_self_zero_pages(void);
- long ksm_get_self_merging_pages(void);
- long ksm_get_full_scans(void);
- int ksm_wait_full_scans(long nr);
-+int ksm_get_smart_scan(void);
-+int ksm_set_smart_scan(bool enable);
- int ksm_use_zero_pages(void);
- int ksm_start(void);
- int ksm_stop(void);
+  - The boundaries are now bare DECLARE_TRACE() tracepoints like the
+    existing RV hooks in include/trace/events/sched.h, so they add no
+    tracefs ABI.
+  - irqstate and irqexit stay separate automata because one is per-CPU
+    and the other per-task. A hardirq or non-RT softirq belongs to the
+    CPU it interrupts. A preempt_schedule_irq() invocation belongs to
+    the interrupted task, several tasks can be inside one at the same
+    time, and it can migrate before it returns. Each RV automaton has a
+    single monitor type. Both now sit under an irq container, so they
+    are enabled together by default, and the irqentry/irqexit naming
+    clash is gone.
 
+Questions still open from v1:
+
+  1. Are dedicated scheduler tracepoints the right way to follow
+     preempt_schedule_irq() across task switches and migration?
+  2. Is the KUnit-only hook for an empty ksoftirqd invocation
+     acceptable? Outside a KUnit run, its worker checks take a disabled
+     static-key path.
+
+Patches 1-5 add the tracepoints, monitors and documentation. Patches 6-9
+add KUnit coverage.
+
+The series is based on v7.4-rc1, which contains the v1 prerequisite and
+Wen Yang's reactor lockdep fix:
+
+  commit feb5c9a2447a ("softirq: Preserve interrupt context on return from interrupt")
+  commit 39ccedfd9e55 ("rv: Use LD_WAIT_SPIN as the reactor lockdep wait type")
+
+The series is independent of the early-hardirq series [2], which
+installs hardirq state before entry tracing. Both change
+kernel/softirq.c, so applying one on top of the other needs a small
+conflict resolution in __irq_exit_rcu().
+
+Changes since v1:
+
+  - Use bare DECLARE_TRACE() tracepoints instead of trace events
+    (Gabriele)
+  - Rename the irqentry container to irq (Gabriele)
+  - Add text schematics of both models to the documentation (Gabriele)
+  - Document why irqstate and irqexit are separate automata
+  - Rebase onto v7.4-rc1
+
+Testing on v7.4-rc1 with Clang 23.1.5, GCC 14.2 (x86) and GCC 16.2
+(cross), and QEMU 10.0 TCG, with lockdep and the locking selftests:
+
+  - Each patch builds with W=1 on x86_64 without new warnings.
+    RV_MONITORS_KUNIT_TEST=m builds on x86_64 and arm64. kernel-doc
+    reports no warnings for the changed headers.
+  - The rv_mon KUnit suite and the reactor suites passed without
+    failures on:
+
+      x86_64   PREEMPT SMP4 and UP, PREEMPT with nohz_full=1-3 and
+               threadirqs, PREEMPT_RT SMP4, PREEMPT_RT SMP8 with
+               nohz_full=1-3
+      arm64    PREEMPT, PREEMPT with nohz_full=1-3 and threadirqs,
+               PREEMPT_RT, PREEMPT_RT SMP8 with nohz_full=1-3
+      riscv64  PREEMPT
+      ARMv7    UP
+
+    Each configuration ran 13 to 21 of the 29 rv_mon cases. The others
+    are skipped because they need a different configuration.
+  - RV=n kernels boot on x86_64 and arm64.
+  - On top of the early-hardirq series, the same suites passed on
+    x86_64 (PREEMPT, PREEMPT_RT), arm64 (PREEMPT, PREEMPT_RT) and
+    riscv64.
+
+An LLM assisted with the patches and the testing.
+
+v1: https://lore.kernel.org/all/20261022050712.75035-1-kmehltretter@gmail.com/
+
+[1] https://lore.kernel.org/all/FACA54EC-F846-4051-9ADD-DB46E7665FAD@redhat.com/
+[2] https://lore.kernel.org/all/20261028033127.82193-1-kmehltretter@gmail.com/
+
+Karl Mehltretter (9):
+  tracing/irq: Add generic IRQ context boundary tracepoints
+  tracing/sched: Add IRQ preemption lifecycle tracepoints
+  rv: Add a monitor for generic IRQ context transitions
+  rv: Add a monitor for IRQ-exit scheduling ownership
+  docs/rv: Document the IRQ monitors
+  rv: Add KUnit coverage for IRQ context transitions
+  rv: Add KUnit coverage for IRQ-exit scheduling
+  rv: Test empty PREEMPT_RT softirq worker intervals
+  rv: Test IRQ-exit softirq provenance and handoff
+
+ Documentation/trace/rv/index.rst              |    1 +
+ Documentation/trace/rv/monitor_irq.rst        |  475 ++++
+ include/linux/interrupt.h                     |    8 +
+ include/rv/kunit.h                            |   34 +-
+ include/trace/events/irq.h                    |   56 +
+ include/trace/events/sched.h                  |   26 +
+ kernel/sched/core.c                           |    6 +
+ kernel/softirq.c                              |  324 ++-
+ kernel/trace/rv/Kconfig                       |   11 +-
+ kernel/trace/rv/Makefile                      |    3 +
+ kernel/trace/rv/monitors/irq/Kconfig          |   13 +
+ kernel/trace/rv/monitors/irq/irq.c            |   35 +
+ kernel/trace/rv/monitors/irq/irq.h            |    3 +
+ kernel/trace/rv/monitors/irqexit/Kconfig      |   14 +
+ kernel/trace/rv/monitors/irqexit/irqexit.c    |  172 ++
+ kernel/trace/rv/monitors/irqexit/irqexit.h    |   85 +
+ .../trace/rv/monitors/irqexit/irqexit_kunit.c |  540 ++++
+ .../trace/rv/monitors/irqexit/irqexit_kunit.h |   21 +
+ .../trace/rv/monitors/irqexit/irqexit_trace.h |   19 +
+ kernel/trace/rv/monitors/irqstate/Kconfig     |   14 +
+ kernel/trace/rv/monitors/irqstate/irqstate.c  |  289 ++
+ kernel/trace/rv/monitors/irqstate/irqstate.h  |  139 +
+ .../rv/monitors/irqstate/irqstate_kunit.c     | 2339 +++++++++++++++++
+ .../rv/monitors/irqstate/irqstate_kunit.h     |   25 +
+ .../rv/monitors/irqstate/irqstate_trace.h     |   15 +
+ kernel/trace/rv/rv_monitors_test.c            |   30 +
+ kernel/trace/rv/rv_trace.h                    |    2 +
+ tools/verification/models/irq/irqexit.dot     |   21 +
+ tools/verification/models/irq/irqstate.dot    |   32 +
+ 29 files changed, 4737 insertions(+), 15 deletions(-)
+ create mode 100644 Documentation/trace/rv/monitor_irq.rst
+ create mode 100644 kernel/trace/rv/monitors/irq/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/irq/irq.c
+ create mode 100644 kernel/trace/rv/monitors/irq/irq.h
+ create mode 100644 kernel/trace/rv/monitors/irqexit/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.c
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit.h
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.c
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_kunit.h
+ create mode 100644 kernel/trace/rv/monitors/irqexit/irqexit_trace.h
+ create mode 100644 kernel/trace/rv/monitors/irqstate/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.c
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate.h
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit.c
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_kunit.h
+ create mode 100644 kernel/trace/rv/monitors/irqstate/irqstate_trace.h
+ create mode 100644 tools/verification/models/irq/irqexit.dot
+ create mode 100644 tools/verification/models/irq/irqstate.dot
+
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 -- 
-2.43.0
+2.39.5 (Apple Git-154)
 
