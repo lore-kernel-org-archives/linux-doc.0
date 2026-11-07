@@ -1,74 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794044930;
-	b=FxN8x0CdoVmuXem/PbyuZoavU79Lrb/y11DkGIRuhpDeJYYbN7ZNLB7eLcnRSl9w9bSe
-	 rYWYwbsuPSUJu1yNcsBJRf7TfIElA7NWyzg3rhe6M4UvIGFwzypQCZBimsXWhuv2uiMUO
-	 yB13Deb9RKSvdZgwpL0A2CgCFVGKmGw5TBxalc+OtpMI8DlwYuIdDt8T+7GWCg7GFwsXG
-	 2cOMmw6L7kyXLbwiRiG6by8jyMWLJolvKwMJcdk+AMI84zGJSXlDtNuaY2FqbXjcgxWny
-	 505wsLusQcyNy03C3qZ0kfdlO+lqZHE7WP1mI5jxNRR0MIitwhk2bkzMmjsn6WbB0xQ==
+	t=1794049297;
+	b=L9FK1XSbqwmRlgF3e3Or1CcP9+GD1JJ/Z+k8kzhAGfn1bAhZuTr/fslYLyCaBhZQsxzg
+	 5V9bI4A6OHP2sArPzVTz8cNvVS6qTF5NsyPyFOsVL5Fs8ws5+FA4USEHFuaTUzaDfotAs
+	 fiQ81Jdi1wpRR2ZsVrAbQNn70XhBTC2nucuqiDmzzgoUye1t0RxEYWeIgXp/9IMSVo95D
+	 mXICCJijNuag1FlzUiQmzXD2btrNerorRLCKCVocut3q+eCHw1DKpnvpRIMgtyOMYOU7m
+	 E6KQat68plBxO0dKTbpRxjBFvY+ItD1YFiMrNp4Li2nimI32InygRRZ8PETMv5WvYDA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794044930;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=rorNI1UIic/55wFWIBl0e+Ri75FN+PnMt9WvbEXwkRc=;
-	b=U7/psnXgEAnYQfxcSYHkkcUaBfLtp62nIG71yjEKq9ciYEBylQLa1LRNjfxuI8QXWsQc
-	 I6sGz2e6w6flKpwB3Gi59o/W9xwSWMotfMs8WhV/A4PkVzmRf0kzY6kGLWlBV69TJS6VK
-	 y8RCWYnIQoFkNGesjqgVrUUl9jcFQE9zwooeG9FHN/3/rX2h7/IDeGXJS1IPkU83u/yfm
-	 x/kyM1KupAhNeUhYagHFQ/QuCeoP0LMtpamDdbaNo70nyBMM0xyMQyigE+SjBOXQcCqAj
-	 /9c66oNu7IYlPouJfRw7syEROdKPuzSCD38Uj3D8yBaUJmO/YKo4Bs7G9XBhIToBd2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794049297;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=7aJqfSR8WVMJ7AcA727X2IDwYjfW2MXFOBQqXw5IW0o=;
+	b=rhd2usxi1zT529WLEWHGnEGMgxp2lktce5C+GM56ii1/eHTP7FJWysJc/QvqxaEzAxWw
+	 XmDLYXzRs6TXvl3gKx3x3GVrTyO4Ghnk3L1FJXs3JA2IIIs4mechBlB8AaEMZ5MRjOlpi
+	 ON+pJSud/MDBJUaM5XfKxN4eOiOlHRGZ5nhRXAyoJoqpH8Cl/SL8M8c6jdhHvw+o5KWgA
+	 tjo+ogw56LLLXG5e83KexMD/G+4MYRe9q99lkyU2PgdmCU01n8NtdWE1i1qMUZkRWjOIA
+	 N/C0c/vmlBxadkpdJVtkFuqTVSg7o6khbJCwz146uyIe8vSQM9tcAd86yIJ75mypOTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iW02CE60;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20473606D801;
-	Sat,  7 Nov 2026 09:48:49 +0000 (UTC)
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="K6/LDNLX";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7828606A33B;
+	Sat,  7 Nov 2026 11:01:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7828606A33B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iW02CE60
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 328FB1F0089F;
-	Sat,  7 Nov 2026 09:48:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794044929;
-	bh=rorNI1UIic/55wFWIBl0e+Ri75FN+PnMt9WvbEXwkRc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iW02CE60RHF02fEuqPqKcJf6i4V3KTjWDHzo9DZbo95gORtH0ZrmCJDxrNOCnD4Id
-	 9WnOBlB++VD4fZIWQsCzrQhJIry0nbljvHblYH3quGITH2PJSiPvwUzFopDT7DZDt2
-	 EHHmNwDws2w9I0dTG1wwVA0PVma1a6Hmr9kUmUnaP/d8oN+oH0kQjwhxNPRQPPwlA4
-	 xw0Rt/uXRWnSdUas9IyJY6YU5S7A3WpR700rHxBipZTWxfOwImozcBkuV3AdARVDwJ
-	 t+x6t7k7LiUG553yMU1QgCJYHr0hUKV7+ybnwND/Tl+BQydELSVgjRpI3YK5OOLnj3
-	 agc3DJMfrldDA==
-Date: Sat, 7 Nov 2026 10:48:35 +0100
-From: Christian Brauner <brauner@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: linux-fsdevel@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
-	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
-	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
-	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
-	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
-	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
-	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
-	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
-	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
-	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
-	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
-	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
-	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
-	Chuck Lever <cel@kernel.org>
-Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
- pinning the entry
-Message-ID: <20261107-akteur-gemieden-eckdaten-21304d085e35@brauner>
-References: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org>
- <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=K6/LDNLX
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 68DB81595;
+	Sat,  7 Nov 2026 03:01:25 -0800 (PST)
+Received: from e129823.arm.com (e129823.arm.com [10.2.213.3])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B55753F673;
+	Sat,  7 Nov 2026 03:01:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794049288; bh=W4WIuUrlizpg0BPIjPNKk2X3Stnp/vxrxo35uFREBkk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=K6/LDNLXbmOQ5Aw4qbKjSDfx3+fg38fH0Q/pBceznGmkByRJNq7f2Mb5xSS1Ap9kO
+	 0IX5qyUiQPHZGXnmLBIPYaQxR0f8FLZ713eZ5Cqz9ws9UQ8GTICu9TvMAl9W0EzmCJ
+	 v9ONr3tLLx1VxLV8t51bH9PzXGdV14gJgw+AFnCM=
+Date: Sat, 7 Nov 2026 11:01:22 +0000
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	linux-coco@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org, x86@kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, david.quigley@intel.com, lukas@wunner.de,
+	ksinyuk@kernel.org, rodrigo.vivi@intel.com, cedric.xing@intel.com,
+	sameo@meta.com, drdeeglaze@gmail.com,
+	James.Bottomley@hansenpartnership.com, aik@amd.com,
+	jpiotrowski@nvidia.com, qinkun@google.com, pgonda@google.com,
+	jic23@kernel.org, alistair.francis@wdc.com, ankita@nvidia.com,
+	suzuki.poulose@arm.com, kas@kernel.org, rick.p.edgecombe@intel.com,
+	elena.reshetova@intel.com, dave.hansen@linux.intel.com,
+	sathyanarayanan.kuppuswamy@linux.intel.com, peter.fang@intel.com,
+	aneesh.kumar@kernel.org
+Subject: Re: [PATCH RFC 17/20] attestation: Add CTLV operation handling
+Message-ID: <au8FAlt2wIgeEO4I@e129823.arm.com>
+References: <auuDcABX27EeTApl@e129823.arm.com>
+ <20261104194622.GC3889730@ziepe.ca>
+ <aux01NUd85PabtZu@FV6GYCPJ69>
+ <auyKE2sGqtfjk4v5@e129823.arm.com>
+ <auy7IM0_S2tv7EZX@FV6GYCPJ69>
+ <au2WdWFOYbPEv0Uj@e129823.arm.com>
+ <au3i-0eDzJZaWukx@FV6GYCPJ69>
+ <au3mAsQrh0GniXJo@e129823.arm.com>
+ <au34wXtIqii-hfFI@FV6GYCPJ69>
+ <au3-LyBiCZtUMpEx@e129823.arm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,58 +79,184 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
+In-Reply-To: <au3-LyBiCZtUMpEx@e129823.arm.com>
 
-On Thu, Nov 05, 2026 at 11:07:32AM +0100, Geert Uytterhoeven wrote:
-> > +       ssize_t (*proc_write_buf)(struct file *, char *, size_t, loff_t *);
+On Fri, Nov 06, 2026 at 04:19:59PM +0000, Yeoreum Yun wrote:
+> On Fri, Nov 06, 2026 at 05:03:32PM +0100, Jiri Pirko wrote:
+> > Fri, Nov 06, 2026 at 03:36:50PM +0100, yeoreum.yun@arm.com wrote:
+> > >> Fri, Nov 06, 2026 at 09:57:25AM +0100, yeoreum.yun@arm.com wrote:
+> > >> >On Fri, Nov 06, 2026 at 09:27:42AM +0100, Jiri Pirko wrote:
+> > >> >> Thu, Nov 05, 2026 at 02:52:19PM +0100, yeoreum.yun@arm.com wrote:
+> > >> >> >On Thu, Nov 05, 2026 at 01:32:49PM +0100, Jiri Pirko wrote:
+> > >> >> >> Wed, Nov 04, 2026 at 08:46:22PM +0100, jgg@ziepe.ca wrote:
+> > >> >> >> >On Wed, Nov 04, 2026 at 07:11:44PM +0000, Yeoreum Yun wrote:
+> > >> >> >> >> [..snip..]
+> > >> >> >> >> 
+> > >> >> >> >> > +static int attestation_evidence_request_decode(struct attestation *att, struct ctlv_op_ctx *ctx,
+> > >> >> >> >> > +					       const struct ctlv_cursor *request,
+> > >> >> >> >> > +					       struct attestation_evidence_request *decoded,
+> > >> >> >> >> > +					       struct attestation_evidence_object_request **objects)
+> > >> >> >> >> > +{
+> > >> >> >> >> > +	const struct attestation_evidence_caps *caps = att->provider->evidence_caps;
+> > >> >> >> >> > +	u32 challenge_length;
+> > >> >> >> >> > +
+> > >> >> >> >> > +	decoded->challenge =
+> > >> >> >> >> > +		ctlv_attestation_evidence_get_evidence_challenge_get(request, &challenge_length);
+> > >> >> >> >> > +	decoded->challenge_length = challenge_length;
+> > >> >> >> >> > +	if (challenge_length < caps->min_challenge_length ||
+> > >> >> >> >> > +	    challenge_length > caps->max_challenge_length)
+> > >> >> >> >> 
+> > >> >> >> >> Hmm, I'm not sure whether this check is required for
+> > >> >> >> >> ATTESTATION_EVIDENCE_BLOB_EVENT_LOG blob type.
+> > >> >> >> >> 
+> > >> >> >> >> for example, if the provider provides two evidence:
+> > >> >> >> >>   - ATTESTATION_EVIDENCE_BLOB_PRIMARY (might attestation token)
+> > >> >> >> >>   - ATTESTATION_EVIDENCE_BLOB_EVENT_LOG
+> > >> >> >> >> 
+> > >> >> >> >> might challenge is reuiqred for generating the token
+> > >> >> >> >> and this would be marked at min/max_challenge_size in evidence_cap.
+> > >> >> >> >> 
+> > >> >> >> >> However, in case of eventlog, it wouldn't require challenge.
+> > >> >> >> >> for example, TPM event log or CCEL event log.
+> > >> >> >> >
+> > >> >> >> >Right
+> > >> >> >> >
+> > >> >> >> >> Do we need some field on attestation_evidence_supported_object whether
+> > >> >> >> >> it requires challenge or not and applies this sanity check per the object?
+> > >> >> >> >> 
+> > >> >> >> >> Otherwise, to get eventlog, it would need to send *dummy* challenge
+> > >> >> >> >> always.
+> > >> >> >> >
+> > >> >> >> >I wonder if we should have two interfaces here for signed and unsigned
+> > >> >> >> >evidence? It would be clearer for userspace then when it needs to
+> > >> >> >> >provide a challenge or not.
+> > >> >> >> 
+> > >> >> >> Isn't the challenge field provided/not-provided enough?
+> > >> >> >> 
+> > >> >> >> Currently on the introspection side, device-get op would provide
+> > >> >> >> challenge-lengths array:
+> > >> >> >> 
+> > >> >> >>         evidence?:
+> > >> >> >>           challenge-lengths[8]:
+> > >> >> >>             length?: uint(..4096)
+> > >> >> >>             min-length?: uint(..4096)
+> > >> >> >>             max-length?: uint(..4096)
+> > >> >> >>  	  objects[16]:
+> > >> >> >>             blob-class: evidence-blob-class
+> > >> >> >>             max-length: uint
+> > >> >> >>             blob-instance?: uint(..u32-max)
+> > >> >> >> 
+> > >> >> >> I think it would make sense to have challenge-lengths array per object:
+> > >> >> >> 
+> > >> >> >>  	  objects[16]:
+> > >> >> >>             blob-class: evidence-blob-class
+> > >> >> >>             max-length: uint
+> > >> >> >>             blob-instance?: uint(..u32-max)
+> > >> >> >>             challenge-lengths[8]:
+> > >> >> >>               length?: uint(..4096)
+> > >> >> >>               min-length?: uint(..4096)
+> > >> >> >>               max-length?: uint(..4096)
+> > >> >> >> 
+> > >> >> >> Then the unsigned object would just simply have challenge-lengths empty?
+> > >> >> >
+> > >> >> >This looks good to me. :)
+> > >> >> 
+> > >> >> The challenge is one of several open points that all depend on what an
+> > >> >> evidence object is: Rick's TDREPORT, legacy versus DICE Quotes,
+> > >> >> "primary", "raw" and the format strings. Here is my proposal to settle
+> > >> >> these together:
+> > >> >> 
+> > >> >> The model:
+> > >> >> 
+> > >> >> 1. device-get lists each object with an id, a class (signed, event-log,
+> > >> >>    cert-chain or auxiliary), the formats it may come in, its max-length
+> > >> >>    and, for signed objects only, challenge-lengths.
+> > >> >> 2. evidence-get names objects by id, as MR ops name MRs, each with its
+> > >> >>    output blob. It carries a challenge exactly when it names a signed
+> > >> >>    object, and the challenge has to fit each of them.
+> > >> >> 3. The reply gives each object's format, length and, where the TCB
+> > >> >>    vouches for it, the TCB's digest. The output is always {label, data}.
+> > >> >> 4. A signed object is made by the call, over the challenge, and never
+> > >> >>    reused. The rest are read as they stand.
+> > >> >> 
+> > >> >> This settles following issues discussed during this patchset review:
+> > >> >> 
+> > >> >> 1. One op, not two. Per-object challenge-lengths tell userspace when to
+> > >> >>    pass a challenge, and one call returns the signed object with the log
+> > >> >>    and certificates needed to check it.
+> > >> >> 2. TDX's TDREPORT goes: it is MAC'd for the platform, not signed.
+> > >> >>    /dev/tdx_guest keeps TDX_CMD_GET_REPORT0.
+> > >> >> 3. TDX's Quote object lists the legacy and the DICE format. The provider
+> > >> >>    labels what the host returned and fails on a Quote it cannot label.
+> > >> >> 4. "primary" becomes "signed", manifest joins auxiliary, spdm-vca,
+> > >> >>    spdm-measurements and tdisp-report become formats, and signature
+> > >> >>    goes, as a signed object carries its own.
+> > >> >> 5. "raw" goes with the representation attr. The TCB digest is a reply
+> > >> >>    field, so a blob always holds the object's own bytes.
+> > >> >> 
+> > >> >> Formats become an enum each provider family defines, instead of free
+> > >> >> strings. I'm still unsure if format should be entirely provider-specific
+> > >> >> and defined as "extension", or it should be somehow mixture of common
+> > >> >> and provider-specific. Looks there is not really much common
+> > >> >> anyway, so I lean towards provider-specific only. So far I have:
+> > >> >
+> > >> >Overall, This is plausible for me with some small question.
+> > >> >
+> > >> >> 
+> > >> >> ======  ============  ==========  =========  ===========================
+> > >> >> Family  Format        Class       Challenge  Bytes
+> > >> >> ======  ============  ==========  =========  ===========================
+> > >> >[...]
+> > >> >> tpm     ek-cert       cert-chain  none       EK certificate from NV
+> > >> >
+> > >> >Just a thought, but how are we planning to retrieve
+> > >> >the NV index for EK certificate?
+> > >> >
+> > >> >As far as I know, TPM NV storage doesn't support labeling.
+> > >> >
+> > >> >Should I assume that the NV index would be specified as part of the
+> > >> >challenge to retrieve the certificate from TPM NV storage?
+> > >> 
+> > >> evidence-get allows to accept mr-selection as part of the request
+> > >> alongside the challenge.
+> > >
+> > >Sorry. Could you explain a little bit detail for this?.
+> > >AFAIU, this is to get the EK certificate from TPM non-volatile storage.
+> > >But, I don't know why *EK* certificate get would be relevant for
+> > >*mr selection*.  AFAIK, the TPM_Quote will be used AK not a EK.
+> > 
+> > You are right, my mistake. I misunderstood the question.
+> > 
+> > mr-selection selects PCRs for Quote, or an extend-NV measurement
+> > register for NV Certify.
+> > 
+> > An NV-resident EK certificate is retrieved using NV_Read. I think
+> > blob-instance is a good fit. For TPM certificate objects, it could
+> > identify the certificate's NV index.
 > 
-> "const char *"?
+> Ah. I missed the TCG_EK_Credential_Profile specification which defines
+> the NV index value for EK certificate:
+> 
+> 2.2.1.4 Low Range
+>   The Low Range is at NV Indices 0x01c00002 - 0x01c0000c.
+>     0x01c00002 RSA 2048 EK Certificate
+>     0x01c00003 RSA 2048 EK Nonce
+>     0x01c00004 RSA 2048 EK Template
+>     0x01c0000a ECC NIST P256 EK Certificate
+>     0x01c0000b ECC NIST P256 EK Nonce
+>     0x01c0000c ECC NIST P256 EK Template
+> 
+> But, do we need some argument to get which EK certificate to get?
+> (RSA or ECC NIST P256)?
+> 
+> Otherwise, Is this interface going to print all EK certificate
+> regardless of alg?
 
-I prototyped this to have a detailed reply. It's not worth it.
+Might be with a format, it seems to be provided with my humble
+thought...
 
-* The buffer is the entry's private copy.
-  procfs creates the copy for this specific call and frees it
-  afterwards.
-
-  A bunch of handlers modify the buffer in place and it's documented as
-  allowed:
-
-  - afs_proc_cells_write()
-  - afs_proc_sysname_write
-  - a chunk of the sunrpc cache channel ->cache_parse() implementations
-  - thinkpad_acpi's ->write() methods
-  - SCSI devinfo file
-  - dyndbg
-  - cio_ignore
-  - the pseries ofdt parsers
-  - two more hand the buffer to a char * interface:
-    - the SCSI host ->write_info()
-    - simple_strtoul() in proc_scsi_write()
-  - four strip a trailing newline in place
-
-All ways to make that work suck.
-
-(1) Copy in the handler. That means eight kmemdup_nul()s and a
-    kvmemdup() for every nfs downcall.
-    IOW the copy this series just removed comes back as a copy of a
-    copy which is not acceptable.
-
-(2) Make the parsers work on spans which also sucks and doesn't solve
-    all of them.
-
-(3) Leave the buffer writable. Costs nothing, nobody else can see it.
-
-So (3) I think char * stays.
-
-> While at it, I think it would be good to use this conversion as an
-> opportunity to replace "char *" by "void *", which will probably let
-> you drop several casts from users.
-
-So I tried that too. The thing is it drops exactly one u8 * cast in
-ntfs3's label write. And to get this done we need to introduce a whole
-range of local char *foo = arg assignments. So I decided against this.
-It just doesn't add value.
-
-Thanks for taking a look!
+-- 
+Sincerely,
+Yeoreum Yun
