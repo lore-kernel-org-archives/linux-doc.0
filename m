@@ -1,58 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794158785;
-	b=JFjn/Yx0apKcGhjsR0X3088MfxkseuBY9oEGxpFEdPrK8sASGOdDkujoOOT3xZT9tKh2
-	 6SY40QV4EWXrb6bu/cydtbsj9ovnkgyD5s2x21y9ZJMppNszHNboduBeNUPgxRyr7gQvX
-	 g2n7lvUL3qc8ZAgK6+xfybvGYr8+Nxj08rcrSzgPXza+Bp+q78AoEGutk/xgF5w9N4IaU
-	 SEtQh3DrlVOcisyGpGnfLxmMhfAEQzJrMQDV9GB9+iTWUwD9fRxjD8VW9mpa5BQKh2Gqq
-	 9nI4AIysz2FVNJzycP3VTJKZGNcpPEgRFLuIzkdFqAUOmx0dRrwYveFBWXGnqscenkg==
+	t=1794164371;
+	b=DRjZAc0j8WucOCAnzO8IKD0J8mzQyBVrhc/E5n+SCL4x7gTH+C3X2c05bVTfHHyk8iMy
+	 N2GOeTnFYlujVFhmvNBm1OkGWITkDbE9eOIoOvK/SQJCgF3uNhp3J6f0jPkMQk1YoDiZ6
+	 uTZ0eYAumj868HOXkhN6r+hrJ5xKHwZT65UsuG99aTOJ4JJEKfTfH4h6JCpLWhiRXTAxu
+	 2zzjshnfIiAcE0r8wt2vTSEJExJw03V9k6pxiYj8RRlEvEvIBfCAm+uh1Nm1ep1MKkapf
+	 D16Opx4IHKJ1VIJFm8qgU9zNx7COY5yaLu5J7vk4nffrTIDeXd6WLI+CeNu5Md5cevQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794158785;
-	h=DMARC-Filter:DKIM-Signature:X-Forward-Email-ID:
-	 X-Forward-Email-Sender:X-Forward-Email-Version:
-	 X-Forward-Email-Website:X-Complaints-To:X-Report-Abuse:
-	 X-Report-Abuse-To:Mime-Version:Content-Transfer-Encoding:Content-Type:
-	 Date:Message-Id:Subject:From:To:Cc:X-Mailer:References:In-Reply-To;
-	bh=hemgZh0VCBkKkqRpdHvkov2TkhHbiZ6AzcSNbOBw6T0=;
-	b=nonf9wpSiASstHBssKpl0Djko95Eb3Oe0E8Jchi5vGRnp0r3iA4McRuRA5LtIHRPRWB6
-	 ySCeJogUZHCuGS7Jiemejw86woS8cyVLFSDeZC1CiwMctExRodqHKiJjavjWskBNVg8QX
-	 3u/yGndqYxs6TSwslGuE4sMP+h38WDTaFMh75nahJNss0mijwaInsZ5XQfvjdIwxdqZIq
-	 n22Ga3t9AnA3qI/l79DJuX+pBdgSqaG70/ppa9iRApZC5Nxu2AFrlSw4QxjDrLrM1Zfn8
-	 dc/WTNWXsmCXV2iBlEHMbJsk2ss1alS+1wIKNxmnzV8oKqV1O3Y7Cj9qHGToF5mrfvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794164371;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Sender:Message-ID:Date:MIME-Version:User-Agent:From:Subject:To:Cc:
+	 References:Content-Language:In-Reply-To:Content-Type;
+	bh=EG4lPV5GD6MHzcQif79VS7R03/QdTS/TP7QGXLXitfM=;
+	b=cbodgVYffLt2/FfLUIaMKhWiCDy2nGhW15sTnx9cnRiPHTA7dOtN82aEFaQUMBETtPUf
+	 KOlkP+84ZGrriWE3AN4OGsHLCp+XQmE1MhmaeBvFdXIHqIfgH520K/Paf5mM8mhl2gpZF
+	 PylttF2mdjXN+7hPt7W6M/nycG6W8opVVUVHJUfW9wPWXJ6VB0+s6L3qnUReFKH9fLIZ1
+	 OpBJZSVjliGkeXLRqRouDYLbWIe2lx4V7fMNow6cXL+IJyObCJdFEReDZU/cPNOIuLlQo
+	 npevarj0HIJu6B1RkuADpYnvX42VgbE7JZtVZ3HG/G53btvyWilOy+fjej/64RNLclg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ubuntu.com;
-	spf=pass smtp.mailfrom=fe-bounces.ubuntu.com;
-	dkim=pass header.d=ubuntu.com header.i=@ubuntu.com header.a=rsa-sha256 header.s=fe-953a8a3ca9 header.b=nB1b7fXo;
-	arc=none smtp.remote-ip=121.127.44.73
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r9d2HZ78;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D601606A31C
-	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 17:26:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1D601606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ubuntu.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.ubuntu.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF556606A321
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 18:59:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CF556606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ubuntu.com header.i=@ubuntu.com header.a=rsa-sha256 header.s=fe-953a8a3ca9 header.b=nB1b7fXo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ubuntu.com;
- h=In-Reply-To: References: Cc: To: From: Subject: Message-Id: Date:
- Content-Type: Content-Transfer-Encoding: Mime-Version; q=dns/txt;
- s=fe-953a8a3ca9; t=1794158778;
- bh=hemgZh0VCBkKkqRpdHvkov2TkhHbiZ6AzcSNbOBw6T0=;
- b=nB1b7fXoz1YF1W4joFuAVAtkLPiHBpSR4Vfp4G8N4Q+VizCqKTpoJKQUCS9oK/5CIZyVG/4t6
- Awo8QFnpPrZTI7SCsF2TcLefoBH+5oLjpEDpAHQTii9lmMQM8GmCX1HbVzAQN6iam3v75a3Sgbv
- x1aRDx5S0zuvGIHqR3SiI1ZG2SYuBUjvkAeEl+Zi0sM1QF/Wg36zBeXw4NcZvjTG5JiHRWLjAwc
- /KSn5/9qcbWnocjL4Qdo5riKXlZWz5EIxnbpYhAVSVE5rW+WIJ9bIDLHk9g+Fe20QIjV04vQVsd
- t2zsBLf5HdyIKqFHu5uuSBtxaBpOdtXpmY2YcnLIHsdQ==
-X-Forward-Email-ID: 6af0b0b4af4d9019958770cd
-X-Forward-Email-Sender: rfc822; jpeisach@ubuntu.com, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 2.19.13
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=r9d2HZ78
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-49412eb1474so121239f8f.3
+        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 10:59:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794164369; x=1794769169; darn=vger.kernel.org;
+        h=content-type:in-reply-to:content-language:references:cc:to:subject
+         :from:user-agent:mime-version:date:message-id:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=EG4lPV5GD6MHzcQif79VS7R03/QdTS/TP7QGXLXitfM=;
+        b=r9d2HZ78YbTj/Kq3GKpr4ll6KcSqDsjfQ36hAEcveVM3BdSy3bM1RhlTRLT78iknd5
+         cQZoQNTwWF3o76pb5x1OWVqfmHtAAMkVImeo8udHq/L7eURVCdK7YI4CJ3urpzD7m7X5
+         5GyhPyMwGHZah7PKpgR6YVngS/PKh/iKbsZMiQKuahPxCiP6h8EA15R/m5iJiC9T8AX/
+         m8f2c5QBRirITjAotPbPDKkE5hU1JDiILfZI4E+tzPHeVudJlk796dytDVrbur5RMI1W
+         nSi+ILbIEF5LGVgvOO6qoVo4oP6JQUyLoiTHCdy8+hnj3P8jQEwfEHI2nROC3Fuix50F
+         7YIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794164369; x=1794769169;
+        h=content-type:in-reply-to:content-language:references:cc:to:subject
+         :from:user-agent:mime-version:date:message-id:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=EG4lPV5GD6MHzcQif79VS7R03/QdTS/TP7QGXLXitfM=;
+        b=ay3vuRZi32kITsaCxdMA0548E4DoG8IzaafOPM7k3JVdZjTrm+uix9QA2XQcYKZFfy
+         Av1w30uezFATH93wb62TTzJZ7nY3LYkQaFJcO7jRZDVzpPwyfsa1IeJ/eZxrEpqJOQ43
+         BIm0rL3rEWsieqOAqNLC8QXYcvOSh4achk9YutLuNDalGhDIqxsA3tooBtnme1GJejXb
+         bvdFNKUsGwZMnURm5g3UdNdIW/+g4OzH7M8n54S7Usi1wm7bGZGFaz/HogI1zRs2qZ6h
+         KqpEoNRSs56WwvMzxusf7qlWWp23qVniwuT6W05wAWsRUn6h2TEkZIQch4z/pXWcL1JW
+         w/kA==
+X-Forwarded-Encrypted: i=1; AL+hErGCC969vWQYQVaU6/UFb0SCK6SjGFlJeD5a3Zh0MXo+yKrLAg6YYrR0Mo37opImgYNWPC5c02GZeGo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9+XiEUNd7PwVIcvA8P2i3+vybBFdeb5paKkSZFHTfDY/DKWnau
+	UXc7Up58TNMw9IET32GGPDxzIDOmKawJUAL5IqNyBDOKM2F3LWR+dPMB
+X-Gm-Gg: AYBFou0Iyydyu46+7cIGpj62YhIH3GjFSyo4K/MvGkYOhtLdyDTBARon/JY9l0+Ip5v
+	ec7dxNTbt1gF6/ezHyALweRN9EKgX04jBHUwjw/mkTBh9VEp4Gwm3VqMkD0JQuJS8HPqUfJzbj3
+	H3SYv2tfJJ0X1CPWB72ev9GQZw6r2BdB8FIpMcpGgycVp1+6DekNlhMqmtIH2E0gAesqdWrmdX7
+	12PRvcssWhSRHzh01lwCI66/tdONCh9NVCeodSQg1FysLVs5ZrGgsUqhHFhjkyLjqqfAyQ8vOKb
+	LVnConbzbP4cery6+S+GbgQA8vfLQy2E1UW7trTS7rTnHyx1AGzJ9Qv5lSs48Kcanx1YqpA3i7u
+	tYAfNNL15x+xg6KJyIC9J7TNU4xaveluZuet26FkrT2vYnSMgDa5AtGug0q3+jwBsvWb5pVbSNo
+	MDcKd3rsCATOnaEwKOvl4rg38LRETy5jMCl2gSwiz4yZd6HqiqkY/JSTq3S+KWjbZGHyK0ZHAux
+	TsouKp5b9zyiU5x23kaZ+WliIvGeEAgv+jEe6R+pPY8e1DxQb5GIwWgA2ZxXEA0DW1jepBTMK3v
+	99Ti0Q5vA3lYQ1S5cJERYl+iLGs0kLwUzo5DdVU2wr6xhph01aFVBAxhD9DkVfb92sy9RPdkYnE
+	MxpllgLNneinzX7uuViUe
+X-Received: by 2002:a05:600c:34cc:b0:4ab:cc03:7f60 with SMTP id 5b1f17b1804b1-4b963c6ca22mr39222205e9.18.1794164368936;
+        Sun, 08 Nov 2026 10:59:28 -0800 (PST)
+Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b79502652csm116251035e9.4.2026.11.08.10.59.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Nov 2026 10:59:28 -0800 (PST)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
+Date: Sun, 8 Nov 2026 18:59:26 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,118 +91,255 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Julian Braha <julianbraha@gmail.com>
+Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
+To: "Ahmed S. Darwish" <darwi@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Ingo Molnar <mingo@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
+ Derek Barbosa <debarbos@redhat.com>,
+ =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+ Daan De Meyer <daan.j.demeyer@gmail.com>,
+ Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
+ debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
+References: <20261106091922.7560-1-darwi@linutronix.de>
+Content-Language: en-US
+In-Reply-To: <20261106091922.7560-1-darwi@linutronix.de>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------RdQycBE5cMMMiUBKuDcENBzr"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------RdQycBE5cMMMiUBKuDcENBzr
+Content-Type: multipart/mixed; boundary="------------DqGXJIIQNEu3dpPKwL26zFRE";
+ protected-headers="v1"; hp="clear"
+Message-ID: <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
+Date: Sun, 8 Nov 2026 18:59:26 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Julian Braha <julianbraha@gmail.com>
+Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
+To: "Ahmed S. Darwish" <darwi@linutronix.de>,
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
+ Ingo Molnar <mingo@redhat.com>, Nathan Chancellor <nathan@kernel.org>,
+ Nicolas Schier <nsc@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
+ Derek Barbosa <debarbos@redhat.com>,
+ =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+ Daan De Meyer <daan.j.demeyer@gmail.com>,
+ Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
+ debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
+References: <20261106091922.7560-1-darwi@linutronix.de>
+Content-Language: en-US
+In-Reply-To: <20261106091922.7560-1-darwi@linutronix.de>
+
+--------------DqGXJIIQNEu3dpPKwL26zFRE
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8; format=Flowed
-Date: Sun, 08 Nov 2026 12:26:10 -0500
-Message-Id: <DMQ07CEZJVG0.230CONY47IYFZ@ubuntu.com>
-Subject: Re: [PATCH 0/3] drm: remove drmm_of_get_bridge()
-From: "Joshua Peisach" <jpeisach@ubuntu.com>
-To: "Luca Ceresoli" <luca.ceresoli@bootlin.com>, "Sasha Finkelstein"
- <k@chaosmail.tech>, "Janne Grunau" <j@jannau.net>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
- "Thomas Zimmermann" <tzimmermann@suse.de>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Neil Armstrong"
- <neil.armstrong@linaro.org>, "Jessica Zhang" <jesszhan0024@gmail.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan"
- <skhan@linuxfoundation.org>, "Randy Dunlap" <rdunlap@infradead.org>,
- "Dmitry Baryshkov" <lumag@kernel.org>
-Cc: "Hui Pu" <Hui.Pu@gehealthcare.com>, "Ian Ray"
- <ian.ray@gehealthcare.com>, "Thomas Petazzoni"
- <thomas.petazzoni@bootlin.com>, <dri-devel@lists.freedesktop.org>,
- <asahi@lists.linux.dev>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20261106-drm-panel_bridge-remove-drmm_of_get_bridge-v1-0-c0ea3382b798@bootlin.com>
-In-Reply-To: <20261106-drm-panel_bridge-remove-drmm_of_get_bridge-v1-0-c0ea3382b798@bootlin.com>
 
-On Fri Nov 6, 2026 at 11:17 AM EST, Luca Ceresoli wrote:
-> drmm_of_get_bridge() is deprecated. By now it is just a complicated wrapp=
-er
-> to of_drm_get_bridge_by_endpoint(), and it does not implement bridge
-> refcounting. Replace the only user and remove it.
->
-> =3D=3D Grand plan
->
-> This is part of the work to support hotplug of DRM bridges.
->
-> Here's the work breakdown (=E2=9E=9C marks the current series):
->
->  1. =E2=9E=9C add refcounting to DRM bridges struct drm_bridge,
->       based on devm_drm_bridge_alloc()
->     A. =E2=9C=94 add new alloc API and refcounting (v6.16)
->     B. =E2=9C=94 convert all bridge drivers to new API (v6.17)
->     C. =E2=9C=94 kunit tests (v6.17)
->     D. =E2=9C=94 add get/put to drm_bridge_add/remove() + attach/detach()
->          and warn on old allocation pattern (v6.17)
->     E. =E2=9E=9C add get/put on drm_bridge accessors
->        1. =E2=9C=94 drm_bridge_chain_get_first_bridge(), add cleanup acti=
-on (v6.18)
->        2. =E2=9C=94 drm_bridge_get_prev_bridge() (v6.18)
->        3. =E2=9C=94 drm_bridge_get_next_bridge() (v6.19)
->        4. =E2=9C=94 drm_for_each_bridge_in_chain() (v6.19)
->        5. =E2=9C=94 drm_bridge_connector_init (v6.19)
->        6. =E2=9C=94 protect encoder bridge chain with a mutex (v7.2)
->        7. =E2=9C=94 of_drm_find_bridge
->           a. =E2=9C=94 add of_drm_get_bridge() (v7.0),
->                convert basic direct users (v7.0-v7.1)
->           b. =E2=9C=94 convert direct of_drm_get_bridge() users, part 2 (=
-v7.0)
->           c. =E2=9C=94 convert direct of_drm_get_bridge() users, part 3 (=
-v7.0)
->           d. =E2=9C=94 convert direct of_drm_get_bridge() users, part 4 (=
-v7.1-v7.2)
->           e. =E2=9C=94 bridge-only drm_of_find_panel_or_bridge() users (v=
-7.2)
->        8. =E2=9E=9C panel_bridge lifetime
->           a. =E2=9C=94 cleanup DRM_PANEL in bridge drivers (v7.4)
-> 	  b. =E2=9C=94 embed a drm_bridge in every drm_panel (v7.4)
-> 	  c. =E2=9C=94 remove *_of_get_bridge(): non-OF drivers (v7.5)
-> 	  d. =E2=9E=9C remove drmm_of_get_bridge()
-> 	  e.   remove devm_drm_of_get_bridge()
->        9. =E2=9C=94 enforce drm_bridge_add before drm_bridge_attach (v6.1=
-9)
->     F. =E2=9C=94 debugfs improvements
->        1. =E2=9C=94 add top-level 'bridges' file (v6.16)
->        2. =E2=9C=94 show refcount and list lingering bridges (v6.19)
->  2. =E2=9C=94 handle gracefully atomic updates during bridge removal
->     A. =E2=9C=94 Add drm_bridge_enter/exit() to protect device resources =
-(v7.0)
->     B. =E2=9C=94 Add drm_bridge_clear_and_put() (v7.1)
->  3. =E2=9C=95 DSI host-device driver interaction
->  4. =E2=9C=94 removing the need for the "always-disconnected" connector
->  5. =E2=9C=94 Migrate i.MX LCDIF driver to bridge-connector (v7.2)
->  6. =E2=80=A6 DRM bridge hotplug
->     A. =E2=80=A6 Bridge hotplug management in the DRM core
->        1. =E2=9C=94 bridge-connector: attach encoder to the connector (v7=
-.2)
->        2. =E2=80=A6 drm bridge hotplug
->     B.   Device tree description
->
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
-> Luca Ceresoli (3):
->       drm: adp: stop using deprecated drmm_of_get_bridge()
->       drm/panel: remove drmm_of_get_bridge()
->       drm/todo: remove drmm_of_get_bridge()
->
->  Documentation/gpu/todo.rst    |  1 -
->  drivers/gpu/drm/adp/adp_drv.c | 13 +++++++++----
->  drivers/gpu/drm/drm_panel.c   | 40 -------------------------------------=
----
->  include/drm/drm_panel.h       | 10 ----------
->  4 files changed, 9 insertions(+), 55 deletions(-)
-> ---
-> base-commit: 4524052b65a75166c1c557921c786bd82302de13
-> change-id: 20261106-drm-panel_bridge-remove-drmm_of_get_bridge-791bd0f0ad=
-97
->
-> Best regards,
-> -- =20
-> Luca Ceresoli, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
+Hi Ahmed,
 
-Looks good
+Cool tool :)
 
-Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
+On 11/6/26 09:19, Ahmed S. Darwish wrote:
+> Hi,
+>=20
+> A month ago in Prague I proposed a kernel configuration checker:
+>=20
+>     PREEMPT_RT configuration: Best practices with kconfig-checker
+>     https://youtu.be/hqnOmdpGBdQ
+>=20
+> This series adds kconfig-checker: a Python tool that checks the kernel
+> .config against a set of YAML rules and reports all issues by severity.=
+
+>=20
+> The series also adds:
+>=20
+>      - a PREEMPT_RT configuration ruleset
+>      - a make checkconfig target
+>      - support for ruleset overlays
+>=20
+> Example:
+>=20
+>     $ make defconfig
+>     $ ./tools/kconfig-checker/check.py check -c .config -r preempt_rt
+>=20
+>       Configuration Issues with severity =3D FATAL
+>       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>       * CONFIG_PREEMPT_RT is not in .config
+>=20
+>         Rationale:
+>         https://docs.kernel.org/core-api/real-time/kernel-
+> configuration.html#config-preempt-rt
+>=20
+>       Configuration Issues with severity =3D HIGH
+>       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>       * CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE is unset
+>=20
+>         Rationale:
+>         https://docs.kernel.org/core-api/real-time/kernel-
+> configuration.html#config-cpu-freq-default-gov-performance
+>=20
+>       * Below options are set:
+>=20
+>         CONFIG_SLUB_DEBUG
+>=20
+>         Rationale:
+>         https://docs.kernel.org/core-api/real-time/kernel-
+> configuration.html#kernel-debug-options
+>=20
+>       Configuration Issues with severity =3D MEDIUM
+>       =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+>       * Below options are set:
+>=20
+>         CONFIG_CPU_FREQ_GOV_USERSPACE
+>         CONFIG_CPU_FREQ_GOV_ONDEMAND
+>=20
+>         Rationale:
+>         https://docs.kernel.org/core-api/real-time/kernel-
+> configuration.html#non-performance-cpu-frequency-governors
+>=20
+>       ### ...
+>       ### More output
+>       ### ...
+>=20
+> The same check can be run through make:
+>=20
+>     $ make RULES=3Dpreempt_rt checkconfig
+>=20
+> If no ruleset is specified, the target prints the available rulesets:
+>=20
+>     $ make checkconfig
+>       Usage: make RULES=3D<profile> [OVERLAY=3D<overlay>] checkconfig
+>       Available RULES: preempt_rt
+>=20
+> The overlay mechanism allows distributions, CI systems, and Board Suppo=
+rt
+
+On the topic of distributions, this seems *a lot* like Canonical's
+Annotations [1], albeit yours uses YAML and supports matching option
+names with regex. As you say about PREEMPT_RT configuration not being
+"one-size-fits-all", similarly there are 100+ Ubuntu kernels that need
+to adhere to a configuration "policy".
+
+So this seems to be a real problem that others are having.
+
+> Packages to apply additional policy or override existing mainline rules=
+=2E
+>=20
+> For example:
+>=20
+>     $ ./tools/kconfig-checker/check.py check	\
+>           -c path/to/.config			\
+>           -r preempt_rt				\
+>           -o path/to/overlay.yml
+>=20
+> or:
+>=20
+>     $ make RULES=3Dpreempt_rt OVERLAY=3Dpath/to/overlay.yml checkconfig=
+
+>=20
+> Patch 09/10 documents the overlay format and gives an example use case.=
+
+>=20
+> My goal is to get this into the kernel and have Debian's PREEMPT_RT ker=
+nel
+> packaging to use it.  I'd also like systemd to use it: its README lists=
+ 60
+> kernel CONFIG_* symbols with different requirements severity.
+>=20
+> Thank you!
+> Ahmed
+>=20
+> 8<-----
+>=20
+> Ahmed S. Darwish (10):
+>   kconfig-checker: Add schema for rule files
+>   kconfig-checker: Introduce PREEMPT_RT configuration rules
+>   kconfig-checker: Add the configuration checker code
+>   kconfig: Introduce checkconfig target
+>   Documentation: Describe kconfig-checker usage and design
+>   kconfig-checker: Split schema to support component reuse
+>   kconfig-checker: Introduce overlays schema
+>   kconfig-checker: Add support for rule overlays
+>   Documentation: Describe kconfig-checker overlays
+>   kconfig: Introduce OVERLAY=3D for make checkconfig
+>=20
+>  Documentation/admin-guide/README.rst          |  29 +
+>  .../real-time/kernel-configuration.rst        |   3 +
+>  Documentation/tools/index.rst                 |   1 +
+>  Documentation/tools/kconfig_checker.rst       | 101 +++
+>  scripts/kconfig/Makefile                      |  25 +
+>  tools/kconfig-checker/check.py                | 686 ++++++++++++++++++=
+
+>  tools/kconfig-checker/rules/preempt_rt.yml    | 169 +++++
+>  tools/kconfig-checker/schemas/base.yml        | 114 +++
+>  tools/kconfig-checker/schemas/overlay.yml     |  28 +
+>  tools/kconfig-checker/schemas/rules.yml       |  20 +
+>  10 files changed, 1176 insertions(+)
+> =20
+>  create mode 100644 Documentation/tools/kconfig_checker.rst
+>  create mode 100755 tools/kconfig-checker/check.py
+>  create mode 100644 tools/kconfig-checker/rules/preempt_rt.yml
+>  create mode 100644 tools/kconfig-checker/schemas/base.yml
+>  create mode 100644 tools/kconfig-checker/schemas/overlay.yml
+>  create mode 100644 tools/kconfig-checker/schemas/rules.yml
+>=20
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> -- 2.56.0
+>=20
+
+I think the name will cause confusion.
+
+We already have some "kconfig checkers" in-tree, like
+scripts/kconfig-sym-check.pl
+
+But actually, your tool is quite unrelated, because that one checks
+'Kconfig' source files, while yours checks the user's '.config' file.
+
+This has already caused some confusion in the past, for example in this
+thread [2], someone misunderstood which one 'kconfig-sym-check'
+actually checks.
+
+In addition to .config vs Kconfig, the name is similar to
+'kconfig-sym-check', but is not as descriptive about *what kind* of
+checks it performs.
+
+[1] https://lists.ubuntu.com/archives/kernel-team/2023-June/140230.html
+[2] https://lore.kernel.org/all/ajo4DVWoSaEZtBDa@google.com/
+
+- Julian Braha
+
+--------------DqGXJIIQNEu3dpPKwL26zFRE--
+
+--------------RdQycBE5cMMMiUBKuDcENBzr
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQT6qjll++tIFxF8TUPElYPCBXNxIAUCavDGjgUDAAAAAAAKCRDElYPCBXNxIFSI
+AQCDtDk4+oYBccZZgs+OoTuGu0I3s6o7yQXNz7whYRGfogEA7DEWidXa/2MWHU9Jv6J8SSA+WGkh
+n7X58cRcqhQiDwk=
+=cRiT
+-----END PGP SIGNATURE-----
+
+--------------RdQycBE5cMMMiUBKuDcENBzr--
