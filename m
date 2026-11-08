@@ -1,63 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.90.104.144
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794144038;
-	b=m0A2myWNaw/MDzTnR2JeObsSap1ncfA1yqCvOEbISAUDBs8d+VVpIV2V9S+KTCyTdoDL
-	 YcF6L2O+rSiFgYUCt0tsmm9n1vrchUGRDTYI9jniCWEf92YCsGm8F/KAgVswisPHZPm6V
-	 jGvN0Ts8s1NG9CpePoaz76XI7d+mFgwlUxbKXWadYBpMHyDPIcO4UJ8aZIrhT0N/FQ3gr
-	 +JgZkYHQg0i6Jyta5zwOg3ok9t4JkLW/4L9t6hIrZ/P22zSzSFsHqjgGfXNBMVQcyTAuL
-	 wYRayuDKnbN6olIAmf2mH0qKe3lm6w7/TWPlGKINp5vFUPbaY8peOvUh2RylfdWHOlg==
+	t=1794149242;
+	b=Ujq53rHGCqJJsbYOTOtI3XUUaFSg0W4zuUahIeum6Ik4IK753v6oA9BccZv8FwX8rcRv
+	 16BhfaG06TLEqQD4/rmY1FWNqusR05lWdALGu7s28T2PVBh+8A95O38+6CK33bfCKmSyB
+	 R9Z8fS8THFY5HVQ1E/8z2Wl1EWw9QYU4SHIGgHWHE8+oN6FZAKOiCkpNaUKaYiHwd2dkR
+	 8Fr4B/I8tqjKdd0AkQLvhMEoaWTpgnUK3iD/tBK6WZAI/oA+c2Uc5IzWaoClIR/15O8qG
+	 9g8HCStXV03R3M2rYXgJwqLhh95ZOL7sBq79Up395CZEXm53oMoa3XMNPwhojQNPzeA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794144038;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-Amp-Result:X-Amp-File-Uploaded:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:Received:Received:From:Subject:Date:Message-Id:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer;
-	bh=NMaYDAFbFDHoZRuN5JaVw6zHt8W9tmMQG3Imac9QJIc=;
-	b=tilM3pcFcmKEn/mfcw3aUGzbUufbeElKKwNOtgnLyXlKR0GtRuTNPZXfg0wNxBhS0b/A
-	 s05cTu5RCkzPib6Bv11fkF2VOgIwqU3c4fZ3H/WTI4LVFf503EXlK4RCd1mcsSHG3s+Vo
-	 RXCNiLaTJw5tN5Em6gaJWg3fvd24g5NARqiHXAnuhOdEcd6UGX43eGxjfVdEIlbP3yLD/
-	 CFTf4XtGS+fCpH24O2F2JMGJh7DSw3l/36e1isl2qm/v4xwtSPCcYTKMXHiLryWYlTtXM
-	 0o7Tt9ldRzVRHFyIDR4AfIttl5RrT8KAHjLcnVSJS96CaJKrQGag17L4CU0Js3LS7tg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794149242;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=0JULXnRo86HLIVjSE/ozuXF9QO2DLs0cXMWvTzF3qn8=;
+	b=fi/D7XgBWvJFGOagKDRoYL/rmTc+bDSbJyqZfPFK3kzL/yMY/nCKG2wsmLJ85LOI0CET
+	 Oyl2HHKfG4K4dGH6Os7wgq7nZCN+CG60AAF/joxn2xUTTm4zctg9JmaMFvuR6TSZehAQm
+	 hmWxHaLzQ0hiWfgv6rGlvGCYxjTh8OK4GsZvtT3ShnZYaM1zQ+fEvJb5UksFRLIC8jUjf
+	 x/Hq9mK0fN/KrA1i9vNIdg7G9s1Wh797nwBBN3Qs12dY75sB6l1bOHFJgnyWU0AjyO9KF
+	 vg6K+tVAqdegVst52n4B9gNtf4sU3jrnKF1hGZTyRuvw8BvX6TYjsUOM3FyW+MF4hgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mobileye.com;
-	spf=pass smtp.mailfrom=mobileye.com;
-	arc=none smtp.remote-ip=23.90.104.144
-Received: from esa1.hc555-34.eu.iphmx.com (esa1.hc555-34.eu.iphmx.com [23.90.104.144])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 976E0606A320;
-	Sun,  8 Nov 2026 13:20:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 976E0606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
-  t=1794144034; x=1825680034;
-  h=from:subject:date:message-id:mime-version:
-   content-transfer-encoding:to:cc;
-  bh=FrEnwb0WNypyTVTEhplcLKt7FgICC0VSO8uTuYeBtlY=;
-  b=ASMvktqLjd92lp3vM+NQpJfXq6HqxAhoBz7i0KtEJbo/Jsby6NSiatTZ
-   CMQv9kTjE33MgmU7rPVUXlP2uZkVGCEjyOk9cc1jwMS/2MCKwwWUqNpIk
-   QIw8DImeBMJrJQFISt7N1OuCM4frqvzZMwcTF/lXzx8LwOSWScAqCe7UP
-   N4IHD3Drn6mzk+TgmSGxCqxQjY5nuBD8twFF4ePkBeiWvnmoTSrmwWmXo
-   +ne7wn9LDe4MhTO4IirCpXHXxDc4LNLGH4QuOot6ixAIMFPsQ6G8yCTUM
-   gm5RaSINoHOEhUrSJHX0BsYSY5avfnI4X3lpDerKu7aa8+Yui1zzEylcw
-   g==;
-X-CSE-ConnectionGUID: 2x4g6s2ITqGDO7ABlUHd6w==
-X-CSE-MsgGUID: hdpbPu10QDGmjwuBjlONDw==
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from unknown (HELO ces02_data.me-corp.lan) ([146.255.191.134])
-  by esa1.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 15:20:25 +0200
-X-CSE-ConnectionGUID: 4izjUNGfSYOzPytRPXsd3A==
-X-CSE-MsgGUID: SQGFD0xOSvydhC8Mpc344w==
-Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.2])
-  by ces02_data.me-corp.lan with SMTP; 08 Nov 2026 15:28:27 +0200
-Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Sun, 08 Nov 2026 15:20:24 +0200
-From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-Subject: [PATCH 0/5] perf: add PMU driver for the MIPS Coherence Manager 3
- performance counters
-Date: Sun, 08 Nov 2026 15:20:09 +0200
-Message-Id: <20261108-i6500-cm3-pmu-v1-0-bd119584891a@mobileye.com>
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Z4xrUWgT;
+	arc=none smtp.remote-ip=209.85.222.41
+Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com [209.85.222.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC4D8606A320
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 14:47:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC4D8606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Z4xrUWgT
+Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-99911ead46dso56991241.1
+        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 06:47:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794149241; x=1794754041; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=0JULXnRo86HLIVjSE/ozuXF9QO2DLs0cXMWvTzF3qn8=;
+        b=Z4xrUWgTEXoSZf61sz94mFYlfQums2nt0QPefvmUtLCB4R/vgWtotFq9TLBLJEq4G7
+         j1Rb+FGgfCN3jzYXibimWvaV9/6P4IBW3lSRcbgDZMqDuQudo7z+YR08qESm5dn1YsbG
+         Gz3kKp6y5HJwdoQ5xAhy4CDbzlLIext5PVII/g7equldt+t1mgHe3Z45LkOAqeTM1HXX
+         eBIybtNSrtnospCJ0R+u/e7ZHd4JvY0EPJQpJOavI/AnO/s8zQonStKKV5s9FXEnllUo
+         rBmfIOfICoW086IicNKtlrN6/xzxExjJ/KjQWjuUeIwGWd2f8+7DwpGoIaj4uMw23Mr3
+         xmJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794149241; x=1794754041;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0JULXnRo86HLIVjSE/ozuXF9QO2DLs0cXMWvTzF3qn8=;
+        b=nZ/GLw2lNT+BBSwCyPXbb3bvTvOYcB7NCM9zeGFJiGgg4yG7lhFf9sXdZpK4ouZfNy
+         Wyi7xYiynxOiVM4vzZmboPjYIiyTEsZhuF6WIDibnmAXCuXYpBT0FGEut8bDUMKZdRvp
+         vJeGNjDvfpLqvbk3x2I77mcji4mHJJduvYH//67GtrGdiGqrLcQUQH5nFlA/pG9FsD9X
+         fLDqSaizOOBTBrVG5VT8F4sp5s61Acf6/yCof9a0+YwYGM19JZHWv2pxVIMhiIX6MvZP
+         UB4G0HzxgskYNaOTspJaUpgtEPMQkl0x45/KFHxiO2BCNMzGTJCjQqv7OkqQx0bpUx3I
+         c1nw==
+X-Forwarded-Encrypted: i=1; AL+hErH5l0Reo7/yD2zqdtxjaVDyZH9p41QrTmQGJTs2VOENK+4pAXAz7AotgMgN4Wvd1c8unZzmrTqBLRE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/j0yvvcH/j5GEmS70ce60MCRh0gE9yqeZnV64ErpkGCQl1jKAp
+	QEabhyC0Sy0aNDwHtCt0g1Jm0r6QwkqRZTEABhpLxhi7bK3j+kJbJkc6
+X-Gm-Gg: AYBFou2Ouvo9j+9s2Os6PMicoD+69iMxsfpte3Vr8rCyRe4+Dg3Id/fIq5rg27ww3H3
+	vbZENVaksiPIWMqMSJTl3kR7BpTLuGoRUD20EYYuFhEdnB9MrWSeoJ+UVbXjXlCqisUK0kjycqV
+	6HvLgUdFAyQ7Cowusk/BOzjrXylb4xDkaiitWxz3EESv9c9JSGsX4TPIeFUJZfBaS/NMqrK6SWf
+	Kawl1gWFqD96H6KvNRBz4kh+CWDI/6pW1NWkWJEjcfvvF8dpOs75YEQO4KAKQoxoU0xYnDSFpnr
+	ceo1W5nJKh/tviKn8VSSJ5nr7swbIWTxQ7CY0/EFrN9vRecTYsm9EmLFlZJIAHje0VsqyH5EVND
+	KYACjh/enFYbLEeFesEckYblzRZyrFgkMr6x9mocukDcGyy2xrqEqnwueIj28xjxQSJ4CUGb08u
+	CTyeNlGIUt+o7sx+j9YaMpsNrq2y1CaaneaKwhOFWSiYHTEoFrIoQMM72CwxEA9rxyX8q7WvMUl
+	aA5cyQXFeIVCGzMkSlXl8L5l6zt1Jy9Ul/UlyxE7d435HpRwi9IzQomX63WTLIHs04YYDN+8trC
+	1AwDSgc5EbnFyFS0l1XlBrqYm9wyLqqz9T9Mv7CbRx4kBTmaJh32IyVvD7C2nRW4bB4gLuyTChh
+	3xNTrX73zed3SCfeqMwggCxqdzVAqM8NnSECiRuBgI96MzkktZ/QLJGTmxCQCqK8ftqMHYXk=
+X-Received: by 2002:a05:6102:c09:b0:7c3:e156:da3c with SMTP id ada2fe7eead31-7d2db19223cmr459510137.15.1794149240821;
+        Sun, 08 Nov 2026 06:47:20 -0800 (PST)
+Received: from gmail.com (223.230.150.34.bc.googleusercontent.com. [34.150.230.223])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99c02a28e4asm1839813241.8.2026.11.08.06.47.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 06:47:19 -0800 (PST)
+Date: Sun, 08 Nov 2026 09:47:19 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Daniel Zahka <daniel.zahka@gmail.com>, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Shuah Khan <shuah@kernel.org>
+Cc: netdev@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org
+Message-ID: <willemdebruijn.kernel.1735f64577408@gmail.com>
+In-Reply-To: <20261106-psp-v3-0-a8dd38f5a727@gmail.com>
+References: <20261106-psp-v3-0-a8dd38f5a727@gmail.com>
+Subject: Re: [PATCH net-next v3 0/5] psp: support rekeying psp protected tcp
+ connections
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,186 +113,80 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAp38GoC/yXMzQ5FQAxA4VeRrm+T1iDhVeQuGEUlfjKDSMS7G
- yy/xTkneHEqHoroBCe7ep2nAP5FYPtq6gS1CYaY4oyZGDVLidCOBpdxw6Ribk2e14khCM3ipNX
- j/ZX/z36rB7HrM4HrugFuq936cQAAAA==
-X-Change-ID: 20261101-i6500-cm3-pmu-4a11f399b430
-To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Will Deacon <will@kernel.org>, 
- Mark Rutland <mark.rutland@arm.com>, 
- =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
- Gregory CLEMENT <gregory.clement@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Fu Chao-Ying <chao-ying.fu@globalfoundries.com>, 
- Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, 
- Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-X-Mailer: b4 0.16.0
 
-The Coherence Manager 3 (CM3) of the MIPS I6500 multiprocessing system
-is the point where the requests of all cores, I/O coherence units and
-the hardware prefetcher are serialized before reaching the shared L2
-cache and the memory interface. It carries a small set of performance
-counters which observe this traffic: two programmable 32-bit event
-counters and a 32-bit cycle counter, programmed through the GCR global
-debug block (GCR_DB_PC_*).
+Daniel Zahka wrote:
+> A note on v3:
+> To keep this series short, I have split off some of the content that
+> appeared in v2, and also have planned future work that will make this
+> feature more robust, but not necessary to start. Here is the current
+> queue of follow up series:
+>  1. core tracked tx-key-count stat and SADB drain test case (from v2). I
+>     see this as able to stand alone as a series, and I also would like
+>     to report key deletion errors, but will have to touch mlx5 for that.
+>  2. core to end grace period if BQL is stalled. I think this deserves
+>     its own series for human discussion.
+>  3. Rate limiting rekey uAPIs. This has been suggusted by the bot, but
 
-The counters can count requests serialized by the CM, requests received
-by an IOCU, requests issued on the memory interface, AXI handshake
-cycles on the memory and IOCU buses, and PDTrace statistics. Each event
-is refined by a 64-bit qualifier made of groups of bits (originating
-port, thread, command, cacheability, L1/L2 line state, eviction, bank,
-scheduler, ...): a request is counted when it matches a set bit in
-every group, so the same event can be narrowed down to, for example,
-L2 misses caused by coherent reads from core 1.
+Hey, I'm not a bot! :P
 
-This is the only visibility into the L2 and the memory interface that
-the I6500 offers; the per-core counters stop at the L1. It is the
-natural place to attribute memory bandwidth to cores and IOCUs, or to
-measure the L2 hit rate of a workload, on SoCs such as the Mobileye
-EyeQ6H.
+>     whether or not it is needed depends on a bit on the deployment
+>     model.
+> 
+> Original cover letter:
+> 
+> The PSP architecture spec states the need for rekeying connections in
+> the event of a device key rotation. After a device key rotation has
+> occurred, a new rx derived key needs to be generated and sent out to the
+> other end of the connection sometime before the next device key rotation
+> occurs.
+> 
+> Because PSP connections involve two different keys at each endpoint,
+> one for decrypting ingress traffic, and one for encrypting egress
+> traffic, there are two types of rekeying events that need to be
+> supported. From the perspective of one endpoint of the connection:
+> 
+> 1. rx rekey: we need to allocate a new spi + decryption key pair to
+>    provide to our peer.
+> 
+> 2. tx rekey: our peer has provided us with a new spi + encryption key
+>    pair which we should use for encrypting traffic immediately.
+> 
+> In the case of rx rekeying, there is a period where it makes sense to
+> accept packets authenticated from either the previous or current spi. To
+> deal with that, we allow a psp_assoc to remember the last spi that was
+> valid on a socket due to a rekey. If authentication state does not match
+> the most recent assoc, the stored state from the previous assoc will be
+> tried.
+> 
+> In the case of tx rekeying, as soon as we install the new tx key, we
+> have no use for the previous one, and it can be disposed of immediately.
+> The only catch is in the case where hw uses a key handle in tx
+> descriptor state, as opposed to inlining the key directly. In this
+> case, psp core needs to be sure that any of these unaccounted for
+> references to key state are gone by the time it tries to sync a deleted
+> key to hw.
+> 
+> To deal with this race condition, we introduce a different path to key
+> deletion for psp_assocs removed from the socket during a tx rekey. psp
+> core will use bql byte counters filled out by the driver to determine a
+> conservative grace period where key handles can be disposed of.
+> 
+> Lastly, some test cases for rekeying are included that go through key
+> rotations and rekeying.
+> 
+> There are some packetdrill tests that are queued for upstreaming [1].
+> 
+> Future work can include a time based rate limit on the rx-assoc/tx-assoc
+> uAPIs to prevent an untrusted user from creating lots of wasted PSP
+> assocs and consuming SPIs, SADB space, etc. For now, users should use
+> network namespaces, or otherwise not present PSP devices to users that
+> could abuse this.
+> 
+> [1]: https://github.com/danieldzahka/packetdrill/commits/psp-rekey/
+> 
+> Signed-off-by: Daniel Zahka <daniel.zahka@gmail.com>
 
-This series adds an uncore perf driver for these counters.
-
-Design notes
-------------
-
-The driver binds to the existing coherency-manager device tree node
-("mti,mips-cm" / "mobileye,eyeq6-cm") and reuses the GCR mapping
-already set up by mips_cm_probe(), so no new reg property is needed:
-the GCR base is discovered from CP0 CMGCRBase as for everything else in
-the CM. The register definitions go into asm/mips-cm.h next to the
-other GCRs, following the existing accessor scheme.
-
-Events are described by two fields: 'event' (config:0-8) is the number
-written to GCR_DB_PC_EVENT, with 0x100 as a pseudo event selecting the
-cycle counter, and 'qual' (config1:0-63) is the raw qualifier. A
-qualifier of 0 picks a per-event default counting every occurrence;
-this matters for the I/O and AXI events, whose qualifiers contain
-encoded values (IOCU number, AXI channel) rather than masks, so "all
-ones" is not a sensible default there. Named events cover the common
-combinations and, since they are plain event=/qual= strings, serve as
-templates for custom qualifiers.
-
-A multi-cluster system has one CM3, and thus one set of counters, per
-cluster. The number of clusters comes from GCR_CONFIG and one PMU is
-registered per cluster, named mips_cm3_pmu_<cluster>. A cluster need
-not have CPUs, online or at all, for its CM to be busy: its L2 and
-memory interface may serve the I/O devices behind its IOCUs while its
-cores are absent or powered down. The counters of a cluster are thus
-accessed through the GCR redirect block (GCR_Cx_OTHER with BLOCK set
-to the debug block) from whichever CPU the PMU runs on, which may be in
-any cluster. The one thing required is that the CM of the counted
-cluster is powered, which the driver checks in the CPC (the CM "core"
-STAT_CONF sequencer state) when an event is opened; the counters of a
-cluster that is powered down at probe time are initialized on first
-use, and events on it fail with -ENODEV until then. The counters are
-shared by the whole cluster: events are system-wide only, pinned to one
-CPU which follows CPU hotplug, and sampling, task events and the
-exclude_* attributes are rejected.
-
-Overflow is where the SoC integration leaks in. The CM3 has a
-so_cm_perf_cnt_int output, but whether it is wired to a GIC input is
-the integrator's choice and is not discoverable. The binding therefore
-gains an optional 'interrupts' property: when present the driver uses
-it to extend the 32-bit counters, otherwise it polls them every 250 ms,
-which is comfortably below the time the fastest event needs to wrap
-at the CM3 clock rates. Both paths yield 64-bit counts. No DTS change
-is included because the EyeQ6H routing of that signal is not documented
-on my side; the driver works in polling mode without it.
-
-The interrupt can only serve the cluster the CPUs live in, and only
-when they all live in that one cluster. Each cluster's CM drives its
-own interrupt output into its own GIC, and the GIC driver routes a
-shared interrupt to the cluster of its affinity CPU, so a single
-'interrupts' entry cannot serve several clusters at once. The PMUs of
-the other clusters, and all PMUs when CPUs are spread over clusters,
-are polled.
-
-The driver can be built as a module. That requires exporting
-mips_gcr_base, mips_cpc_base, mips_cm_{lock,unlock}_other() and, less
-obviously, mips_cm_is64, since the CPS accessor macros consult it on
-every 64-bit GCR access. All are exported _GPL.
-
-Patches
--------
-
-Patch 1 adds the GCR_DB_PC_* register and field definitions, with
-local and redirect accessors.
-
-Patch 2 exports the CM and CPC symbols needed by a modular user of the
-GCR accessors.
-
-Patch 3 extends the mti,mips-cm binding with the optional performance
-counter interrupt.
-
-Patch 4 is the driver itself together with its admin-guide document,
-which describes the perf interface and transcribes the event numbers
-and qualifier layouts so that users do not need the TRM to build a
-qualifier.
-
-Patch 5 enables the driver (as a module) in eyeq6_defconfig.
-
-Testing
--------
-
-Built with eyeq6_defconfig with the driver both built-in and as a
-module; every patch of the series builds on its own, and the binding
-and the document pass their respective checkers.
-
-Run on the EyeQ6H board with 2 clusters, loaded as module in polling mode.
-
-[   66.128375] mips_cm3_pmu coherency-manager: mips_cm3_pmu_0: 2 counters + cycles, polled
-[   66.129617] mips_cm3_pmu coherency-manager: mips_cm3_pmu_1: 2 counters + cycles, polled
-
-dev / # perf stat -a -e mips_cm3_pmu_0/cm_requests_l2_hit/,mips_cm3_pmu_0/cm_requests_l2_miss/,mips_cm3_p
-mu_1/cm_requests_l2_hit/,mips_cm3_pmu_1/cm_requests_l2_miss/,mips_cm3_pmu_0/cycles/,mips_cm3_pmu_1/cycles
-/ sleep 1
-
- Performance counter stats for 'system wide':
-
-            505821      mips_cm3_pmu_0/cm_requests_l2_hit/                                   
-             49083      mips_cm3_pmu_0/cm_requests_l2_miss/                                   
-            184893      mips_cm3_pmu_1/cm_requests_l2_hit/                                   
-             37760      mips_cm3_pmu_1/cm_requests_l2_miss/                                   
-        1807514589      mips_cm3_pmu_0/cycles/                                      
-        1807491360      mips_cm3_pmu_1/cycles/                                      
-
-       1.005857149 seconds time elapsed
-
-Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
----
-Vladimir Kondratiev (5):
-      MIPS: CM: add CM3 performance counter GCR definitions
-      MIPS: CM: export the symbols needed to access the GCRs from a module
-      dt-bindings: mips: mti,mips-cm: add performance counter interrupt
-      perf: add MIPS Coherence Manager 3 (CM3) PMU driver
-      MIPS: eyeq6_defconfig: enable the CM3 PMU
-
- Documentation/admin-guide/perf/index.rst           |   1 +
- Documentation/admin-guide/perf/mips_cm3_pmu.rst    | 337 +++++++
- .../devicetree/bindings/mips/mti,mips-cm.yaml      |   6 +
- arch/mips/configs/eyeq6_defconfig                  |   2 +
- arch/mips/include/asm/mips-cm.h                    |  51 +-
- arch/mips/kernel/mips-cm.c                         |   5 +
- arch/mips/kernel/mips-cpc.c                        |   2 +
- drivers/perf/Kconfig                               |  12 +
- drivers/perf/Makefile                              |   1 +
- drivers/perf/mips_cm3_pmu.c                        | 988 +++++++++++++++++++++
- 10 files changed, 1404 insertions(+), 1 deletion(-)
----
-base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
-change-id: 20261101-i6500-cm3-pmu-4a11f399b430
-
-Best regards,
---  
-Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
-
+For the series: Reviewed-by: Willem de Bruijn <willemb@google.com>
