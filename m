@@ -1,81 +1,87 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794135430;
-	b=tZAIUfN0spgqhpw7TYDdp5Fdw780DcET0OvjKErMIil6cHhxaQsE7+zEKd30raNI0cqv
-	 JNmGjhnq+sRaER6czdaHZ/m4SAO3BN1NoCVxJu0whg5EACGYvmvC4blndPktZ14Pd232p
-	 OXE1UTOIXxFonHwYAfqX+/9szrGWxr9IjDmaKGPEG3Op/zzNy9/nqMkSYIlwYWtu58rjA
-	 ipiLLS5X0RgIh/md62b4UTViEq6zPDFXNEgcjZwByYhwmuwcXxx/v6MkXrvALzGH14fUL
-	 mZU6m1wpUqo2tukrax/9oAa2gvMjVoPiBYzAqZnfg1AJFELoEW5gTyqFPsi82jHJsOw==
+	t=1794136154;
+	b=l1skM2H6YGtYQuaaILNdCsvpZ6qCIT8aKpK3+CXVBWuBnLcIv2+iJT+9PY3I5bFaszms
+	 5hGhhWM/RPJK2MnLHR2zKz+pDs8tc6Zv3EaIVNC31Tp6fKMVL6Ff/Qa4a6SIIsEJGytca
+	 bQKMwSaP5UMpfY4sRcdDJ5rZptHykZ4F4l7QRar9ACco4fYYjeibyYAcC28lU3r1LG0AF
+	 BBfuM/tQYS8mko/u38oEStvC/IShILZMOL0Noit3CK5guQz7oSd4WGvciy2wzXsQAjCQf
+	 mMtX73ZOVOLk8s2w/KIOnDxF3LF+yITMLJkrSor86KuuTZ7GaC17xsZURANqrsx0WBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794135430;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794136154;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=TwD6srxjUR1mlpO3FVThd9ARdJjbCvcuXWMQlKqn3B8=;
-	b=WG3+30/PhBO8ujMdOvgE3j5hPkbER73U4hFLILkcFCfVURtWZLrJM20LQ6GRqlONPYdI
-	 mBAFS+H0NptRrpnDgtQvVNiPwoxi1wtg8qFDg0ZLrr9LABhp4+DOEaWKpR0ij6Z/SfPik
-	 JzurcC9Ihh1nxf7h11RF5SjcvN37Qjf7SIDVlO7CIC0spL2BqIKdx3sXX4pL8fzCWbrGP
-	 hRHloaWcy8rGTrWGCAnoQ44beYpkmQow4sDHJyEjlkwLtGjPiahWah6zTp6JYDuaaZgDo
-	 7wOSt5pvdycjmYozYvIN03wJVhNa9LHm5WB2NtYuycV4UU+651c9rjHcm/t+LelZFRg==
+	bh=rRMDSUzD/4dqXKQ7EKZyKnxoCi/M0piqkjg2dM9fwCI=;
+	b=1ZRCRebOhBeS7O8eGQabP124RSjWW59es5u+++aT5TCVmq69xg1SbVKqyDGN7QtVSF1t
+	 5sHQ8lkim3CEQfkw3JHrlaBxVdP/6L0M0M+VLDx7x72/DWrE9g34buOXaXkksBg2JqU4j
+	 nxAGA7kAFiyGB4QVsoQSp/2+6kZ36uI6ertqwTFbYqmWTVrqZboP3VrBbsZut/rHNmuWD
+	 DMv+bmNZkEsRXoJny/S4Qz6V5mbrM8sjx37bnusqfqUmBvOy+aCyHiQierIQ1yMVaUkHP
+	 7dkhlQ4LcGjczgLce5Ynd5bHZhsQQwpnBln+5KZyr7wDFH5WNtjJK3DvdhT6/O/N77g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TRiyJ6fm;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N0YYA4cp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 944DF606A321;
-	Sun,  8 Nov 2026 10:57:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67CF4606A31C;
+	Sun,  8 Nov 2026 11:09:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TRiyJ6fm
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7C02B1F0089F;
-	Sun,  8 Nov 2026 10:57:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N0YYA4cp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFD11F008A1;
+	Sun,  8 Nov 2026 11:09:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794135429;
-	bh=TwD6srxjUR1mlpO3FVThd9ARdJjbCvcuXWMQlKqn3B8=;
+	s=k20260515; t=1794136153;
+	bh=rRMDSUzD/4dqXKQ7EKZyKnxoCi/M0piqkjg2dM9fwCI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=TRiyJ6fmFAW63gdpsdwizsp8sks3nQPXCSsVNd2T20n3ecL1W08N+jUzZxESIVAWt
-	 rhR2mdZ4qwRW/NMbHJFqpDNOPF9CXCkui9oI7PMmIUK4NxRCe2tt3hQpxEkFSNqnT0
-	 fw0KvS+KzLx48jNlOy68g7m9gUQm5PjmAAZkx6rtXjtm9xekTzjZXWKbj5B0QbYwyG
-	 JB/8XGKYPRZUhr7WB2L1DE2wA6j8fiZesr0+iLMikAA0HSFogUoI1v59TfiFrI9g6D
-	 VM/ZyMozcNPiWETPtwx8BEFg9Wkle0PgGqG+r2WbGEMNej4Yxuy0+ze7IBBhmtmmqV
-	 eurIf9dCG5Cjg==
-Date: Sun, 8 Nov 2026 12:57:05 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, bpf@vger.kernel.org,
-	dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
-	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Alasdair Kergon <agk@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ignat Korchagin <ignat@linux.win>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
+	b=N0YYA4cpwk2rSpGMMYuOqSqMumav/sn0wLJeni7+D5sRDUh6oQesbQll0590AxfPg
+	 YHZL34AcSy3m/oA/+Mg50SxmE2ticTBJ0JeVPjSjHFm7kxxRs5L8DQMA7BTnLRn9Qu
+	 2ZAZr5kKEMP1mX37TLY8VAg7PQwGUVqeJOcMERAGlH5l3zZZEjSFO6rqxrHnW3bvxF
+	 j8U2+HgWFrfZqDiA8t9jLRXdMwzd73OoApHczJMktKFXOELRAAGT46mdFrtZFBMPZ4
+	 MVG5MgmA0/z1plVr0CdzxGC6RsARpcD0nOIKT0WnIOzRGRQJttYGclefHMO9alDFAo
+	 8foRVxDwmD7Ew==
+Date: Sun, 8 Nov 2026 13:09:09 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Yonghong Song <yonghong.song@linux.dev>
-Subject: Re: [PATCH v6 0/3] KEYS: Replace assoc_array with rhashtable
-Message-ID: <avBVgZt92j3OkpOG@kernel.org>
-References: <20261107195605.3929659-1-jarkko@kernel.org>
- <au-FkAtC4Gcw7Bkb@kernel.org>
- <20261107204210.GG6049@quark>
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
+ driver binding
+Message-ID: <20261108110909.GA8635@unreal>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+ <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
+ <20261105184442.GF8298@unreal>
+ <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,87 +93,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261107204210.GG6049@quark>
+In-Reply-To: <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
 
-On Sat, Nov 07, 2026 at 12:42:10PM -0800, Eric Biggers wrote:
-> On Sat, Nov 07, 2026 at 10:09:52PM +0200, Jarkko Sakkinen wrote:
-> > On Sat, Nov 07, 2026 at 09:56:01PM +0200, Jarkko Sakkinen wrote:
-> > > The keyrings subsystem is the sole user of assoc_array. It has over 1700
-> > > lines of code, no test suite, and a long history of bugs, with LLMs now
-> > > finding more.
+On Thu, Nov 05, 2026 at 03:04:18PM -0500, Alan Stern wrote:
+> On Thu, Nov 05, 2026 at 08:44:42PM +0200, Leon Romanovsky wrote:
+> > On Thu, Nov 05, 2026 at 12:24:33PM -0500, Alan Stern wrote:
+> > > On Thu, Nov 05, 2026 at 01:42:18PM +0200, Leon Romanovsky wrote:
+> > > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > > 
+> > > > Interface claims hold the USB device lock, but device_bind_driver()
+> > > > requires the target interface lock. Without it, trust-policy writes can
+> > > > race admission.
 > > > 
-> > > This unfortunate outcome has evolved over time by large from the shortage
-> > > of in-kernel callers, time bandwidth and 3rd party contributors.
+> > > This says nothing about usb_driver_release_refused_claim() and the code 
+> > > related to it.  It is an incomplete description of the patch.
 > > > 
-> > > What the keyrings subsystem needs is just a generic key-value store, which
-> > > performs well with sparse key sets. Replace assoc_array with an
-> > > rhashtable-backed keyring index and remove assoc_array from the kernel.
+> > > Note that nothing prevents drivers from using an interface they claim 
+> > > before that interface is registered.  For your scheme to work properly, 
+> > > you should make sure the claim is authorized when 
+> > > usb_driver_claim_interface() is called, not when the interface is 
+> > > registered.
 > > 
-> > Sashiko: https://sashiko.dev/#/patchset/20261107195605.3929659-1-jarkko%40kernel.org
-> > 
-> > Not addressing this as only one patch changed and the change was
-> > exactly:
-> > 
-> > diff --git a/security/keys/keyring.c b/security/keys/keyring.c
-> > index 772fa0e35f9d..6761c6801edc 100644
-> > --- a/security/keys/keyring.c
-> > +++ b/security/keys/keyring.c
-> > @@ -12,7 +12,6 @@
-> >  #include <linux/security.h>
-> >  #include <linux/seq_file.h>
-> >  #include <linux/err.h>
-> > -#include <linux/delay.h>
-> >  #include <linux/jhash.h>
-> >  #include <linux/user_namespace.h>
-> >  #include <linux/nsproxy.h>
-> > @@ -101,6 +100,7 @@ static const struct rhashtable_params keyring_link_params = {
-> >         .min_size               = 4,
-> >         .nelem_hint             = 3,
-> >         .automatic_shrinking    = true,
-> > +       .insecure_elasticity    = true,
-> >  };
-> > 
-> >  static struct keyring_index *keyring_index_locked(const struct key *keyring)
-> > @@ -1225,12 +1225,8 @@ int __key_link_begin(struct key *keyring,
-> >                 if (ret < 0)
-> >                         goto error;
-> > 
-> > -               do {
-> > -                       ret = rhashtable_insert_fast(&links->ht, &link->node,
-> > -                                                    keyring_link_params);
-> > -                       if (ret == -EBUSY)
-> > -                               fsleep(100);
-> > -               } while (ret == -EBUSY);
-> > +               ret = rhashtable_insert_fast(&links->ht, &link->node,
-> > +                                            keyring_link_params);
-> >                 if (ret < 0) {
-> >                         key_payload_reserve(keyring,
-> >                                             keyring->datalen - KEYQUOTA_LINK_BYTES);
-> > 
-> > So I don't think there are any real issue with the patch set, except I
-> > will need to rebase the commits to the latest mainline.
+> > This patch is unrelated to authorization;
 > 
-> It looks good to me now too, but it would be good to get a Sashiko run
-> on the latest version.  Sashiko hasn't run since v3, as it failed to
-> apply the series.  You should base the series on a commit in either
-> mainline or linux-next, and pass the '--base' option to 'git
-> format-patch' so it adds a 'base-commit' line.
+> I meant "authorization" in its generic sense.  When you don't trust 
+> something, you don't authorize it to do anything.  Pretend I had written 
+> "the interface being claimed is trusted" in place of "the claim is 
+> authorized" above.
+
+I will combine existing USB authorization scheme with device trust in v2.
+
 > 
-> (The only reason I've been able to apply it myself for review is that I
-> went out of my way to find your keys-rhashtable branch in git.)
+> >  it ensures that the lock is
+> > acquired when the driver is bound.
 > 
-> - Eric
+> That may have been your intention when the patch was created, but if you 
+> read the patch you'll see that it includes a whole bunch of material 
+> not related to locking during binding.  Namely, this part:
 
-I think know what is the problem here exactly. It's the prepending bug
-fixes. Sorry, I only now realized this althouhgh it should be quite
-obvious.
+Once I added `device_lock()` to `bind`, I had to add it to `unbind` as well.
 
-I updated mainline few days for the sake of v7.4-rcX PRs late this
-week (I think it was Thu or Fri) but linux-next was not up to date
-last time I checked.
-
-One I'm able to send the PR containing the fixes, I'll do that and
-once that is in the mainline. I'll send a new version of this patch
-set.
-
-Br, Jarkko
+Thanks
