@@ -1,82 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.54.77.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794142460;
-	b=HANtxk7wE3ye6+ZZS6C7L1Hq3UwVQYaQGE70L/lCXirvr4ogoMCV5JOFZK2qcFDUIm1B
-	 CrZSpLgCKv/stYQiCuvW7H1l/hUdZEt5m39ga71x5uUhu8okl9b3x/NYt9RttwFl3/acV
-	 kdALmsUVOsknOSOM0C83ZcTM+6LZAklNiFksz4RVKYyzMRrm2S5/mydOJaYUox+2mYknO
-	 k4vjBTVxGwOCKkZ9igioBCf9FdqQIIJ9uo+tuFOxC/1w5Zj8uKogALmgtspktfzJTLKJo
-	 3m1kuN6yjzp0Lncz22b6mCNeByanTzoST1WpnQ37aEKwCWTsPM+UGCmIpA92EEJgHhA==
+	t=1794144042;
+	b=Y0rc/Pa6xDEBnlQSWnaJFS18+hhPa7HNh6fe9rJZ5e/Ji0YL884j8eiLP4JSb4x2gQvP
+	 8rB6d/82xgp2ci+gVL9vgHqKUHebckjLfRP/fwbb077WNFdgGwttlkcqEUtvm3QqRjmu/
+	 37NNLSE+wG6gtcI1PiG8X6xke1Tan2yzNgUjawueyel3xBcJw5nebOkpRJv1Pf9QzNts2
+	 CjyM/qT0JTVXMY7Lqv2yjHzgicqt8HE8vobqvTBWxGeXiFOjzKQ4OOjpzaRf81+MnHf6p
+	 d/juNd7llyvyzTnrnjmJkgLSibmPunry/h15YeBUmHPdhiEMMwFBNfX3XOLqVRCJCKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794142460;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=S+YnvTW9wjLG9Bb1xdTq3cc7U/wCPzi1Ggn3aEWL+QI=;
-	b=FWJqWWjWaUwe7GA9lwrOYed5+pz7xUe425OBJvRCkwHk9LKOdumAbEZXWROeq9AyPfzo
-	 ZbuW1ezGQ9pfY7iGsKnVok5GXaEPekZQ3IYAmXce/bSlGbU3o5SXApCf2RntyzKUX7GoT
-	 CVu6aXrIcWFjZ8JuuvOuKjX0i+qEP+kJ6Wm9voX3yJYyyE0XeMSyniLXmood4gCRKg4k8
-	 T7DrzNsy5MJetFVYHvasVQJ0XtBrIiIzc9Stz/lht1+4QWNWalFPmm4fCTDTIBVc3nTr8
-	 N7Kz+0/M3zpC4188pA8Kn86aO8Yz3yB1QKooLpkwNN32DUzim5OOsoNA6UkhadbXpkw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794144042;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-Amp-Result:X-Amp-File-Uploaded:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:Received:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer;
+	bh=sFHPBhyxEeqzI/mLr3+tgL1IHWLq7an7I5T8KPeBRhc=;
+	b=RDZfpJouqYjz+bO9F6Er4JYpmUAxAyZmchwfQ/LS/d18MG+W5I0voZ12IU4N+1LVd0dS
+	 ZgIAmIHsCB/GTq8l9L3meWCfRElMrIS+DmYDgEa8zNCBXdSyP4DithkiUnZSWzfX+6N4g
+	 5sOj3oezy2v1/AnXk06g/K2Ar9ch1b/4LS0ORCo6EYp00oVPp9kDfmY6vQXklusymU/WX
+	 ThwoMMIyMJQ4TZ85WuY9jvnezt17pGX3Q7xipWKYrcRf082aRLaexrSNfo7R1MzcULoxV
+	 x1Luj7UpPs91wrCLoLkdoeKfcPU9QSe3sYT6YYQCxRwJZNDRDqwF9oiwZ4gJZvNYDBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HST+DHzN;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id C8BF0606A31C;
-	Sun,  8 Nov 2026 12:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HST+DHzN
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8DF571F0089F;
-	Sun,  8 Nov 2026 12:54:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794142459;
-	bh=S+YnvTW9wjLG9Bb1xdTq3cc7U/wCPzi1Ggn3aEWL+QI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HST+DHzNkQ1gw3AIpd5D0TgEIQolNUgaQB9q3S8j8KXW+uTqPNqvM8T0TTL4jFzW+
-	 8fneCgSKng5GEK2sP82/xhwzqlqgXhd3RBI6qsRDgn8dp5gNK1oIL8Ao3I5gcCyL+7
-	 wz4384LrRO97ZlPNnpbvfJ5bwVxJafoDd9PNg8q98LKXIJGZRNtG/CErKEdVDta5c9
-	 te2zVyCjNm05bgFQBEQks//164933xqL3KJltQjDTlEm9OFRN2Fl9el+ZZF8beOPTF
-	 +n4QDzjA9vwmInwZ9d04Lg1Uq07df41UopVKlvjsyABmJ1mge57z7oG8RJ8S7YsLui
-	 86ewMO/v9JKYA==
-Date: Sun, 8 Nov 2026 14:54:15 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: David Howells <dhowells@redhat.com>, bpf@vger.kernel.org,
-	dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
-	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Alasdair Kergon <agk@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ignat Korchagin <ignat@linux.win>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Yonghong Song <yonghong.song@linux.dev>
-Subject: Re: [PATCH v6 0/3] KEYS: Replace assoc_array with rhashtable
-Message-ID: <avBw92ZChNT6E8cZ@kernel.org>
-References: <20261107195605.3929659-1-jarkko@kernel.org>
- <au-FkAtC4Gcw7Bkb@kernel.org>
- <20261107204210.GG6049@quark>
- <avBVgZt92j3OkpOG@kernel.org>
+	dmarc=pass header.from=mobileye.com;
+	spf=pass smtp.mailfrom=mobileye.com;
+	arc=none smtp.remote-ip=207.54.77.171
+Received: from esa4.hc555-34.eu.iphmx.com (esa4.hc555-34.eu.iphmx.com [207.54.77.171])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BEBD606A33A;
+	Sun,  8 Nov 2026 13:20:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BEBD606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
+  t=1794144040; x=1825680040;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=upY+Mz2RBSTRetbNF/wY4CRuGU76bONdjwh7Q0RZt1g=;
+  b=sFXdUjVzLH7VuKFJZBSYvhQZBbU31rBh+a2INQ0VuJzZFFPCzI0C4Tbq
+   47siAPflrc95NgX6DQSpwIyniNoGLnT4XvfhiTxcIj33NQJZVR40hNbue
+   l6CVf8BrXH1YOZV4acs+cXuueECy3rK17iC4dnwp5OSj4UZr1DqsMXvdG
+   bPrUuiFWYDamLRrdDAGfKyFHg8FJJT9pf81vuZpV4C7MFQFV4VuigtmQ6
+   Xxj4hdiBIPNsjjHxHBMu6EhL1mmg74hkSakV6cw5R6ZUSEP+5AY53IjUm
+   cH1uppVd3C3mQzC3fHblNaq4ucG3q1q4ycDv0MpnECK2CMz13TvBd02E1
+   A==;
+X-CSE-ConnectionGUID: dlHp/XFyReq/v4grtaLunQ==
+X-CSE-MsgGUID: NIEHP6gIR2Wcx6hPifXqTg==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from unknown (HELO ces01_data.me-corp.lan) ([146.255.191.134])
+  by esa4.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2026 15:20:29 +0200
+X-CSE-ConnectionGUID: WSxVgLy6RN2kmPh+/ozyhA==
+X-CSE-MsgGUID: sNbE+X9kS8+AS8m5znFH4A==
+Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.2])
+  by ces01_data.me-corp.lan with SMTP; 08 Nov 2026 15:28:36 +0200
+Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Sun, 08 Nov 2026 15:20:27 +0200
+From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Date: Sun, 08 Nov 2026 15:20:12 +0200
+Subject: [PATCH 3/5] dt-bindings: mips: mti,mips-cm: add performance
+ counter interrupt
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,34 +66,58 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avBVgZt92j3OkpOG@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261108-i6500-cm3-pmu-v1-3-bd119584891a@mobileye.com>
+References: <20261108-i6500-cm3-pmu-v1-0-bd119584891a@mobileye.com>
+In-Reply-To: <20261108-i6500-cm3-pmu-v1-0-bd119584891a@mobileye.com>
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Will Deacon <will@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>, 
+ =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+ Gregory CLEMENT <gregory.clement@bootlin.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Fu Chao-Ying <chao-ying.fu@globalfoundries.com>, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+X-Mailer: b4 0.16.0
 
-On Sun, Nov 08, 2026 at 12:57:09PM +0200, Jarkko Sakkinen wrote:
-> I think know what is the problem here exactly. It's the prepending bug
-> fixes. Sorry, I only now realized this althouhgh it should be quite
-                                                             ~~
-                                                             have been
-> obvious.
-> 
-> I updated mainline few days for the sake of v7.4-rcX PRs late this
-           ~             ~~~~ 
-	   the           days ago
-			 
-> week (I think it was Thu or Fri) but linux-next was not up to date
-> last time I checked.
-> 
-> One I'm able to send the PR containing the fixes, I'll do that and
-  ~~~
-  Once
-> once that is in the mainline. I'll send a new version of this patch
-                              ~
-			      ,
-> set.
+The CM3 asserts so_cm_perf_cnt_int when one of its performance counters
+overflows. Whether that output is connected to an interrupt controller
+input is up to the SoC integrator, so describe it as an optional
+'interrupts' property of the coherency-manager node. When absent, the
+counters have to be polled by software.
 
-A few keys of my laptop's keyboard were stuck when I wrote this. Thus, I
-had difficulties to write a proper email :-) Now that I'm reading what I
-wrote, the typos started jump into my eyes, so thus the corrections.
+Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+---
+ Documentation/devicetree/bindings/mips/mti,mips-cm.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Br, Jarkko
+diff --git a/Documentation/devicetree/bindings/mips/mti,mips-cm.yaml b/Documentation/devicetree/bindings/mips/mti,mips-cm.yaml
+index d129d6382847..ca7a6717ecdf 100644
+--- a/Documentation/devicetree/bindings/mips/mti,mips-cm.yaml
++++ b/Documentation/devicetree/bindings/mips/mti,mips-cm.yaml
+@@ -38,6 +38,12 @@ properties:
+ 
+     maxItems: 1
+ 
++  interrupts:
++    description:
++      Performance counter overflow interrupt of the CM (so_cm_perf_cnt_int).
++      When absent, the performance counters are polled by software.
++    maxItems: 1
++
+ required:
+   - compatible
+ 
+
+-- 
+2.43.0
+
