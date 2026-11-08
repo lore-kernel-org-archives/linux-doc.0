@@ -1,105 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794121953;
-	b=jFngnBj9LJ0hSYR2bjURKyKGUHLlMlWv9WA4m/stqNdT+acK9ga0HRoxOJZUxR/r0xHO
-	 9OE8n3dS6OLeHWXPM0/fmWDA+/F/MCReRRUjzcxQqYrFvVoM+kbuitTYkijKx8P/966lj
-	 ZTHlddJxXPF1JAEW2yEC/0nkg+qUY8oBDrE7twFClYVHqB0HDWqMTQ7OLeCQcnvmiP12J
-	 ksNIfsFLyXiZKraCR10Mdy7G7xw68AjeJsOZuCpaS1W5vZm4JofDMVepMyorNQfU8g0s9
-	 0sJJBRAOD3iJY3Ctrw5S00e7k9b5sw9i8I5MSNp4N5utZif4mAKZr167dScHE+HWeQQ==
+	t=1794122711;
+	b=c6rU73wIXob3x91yVg8KQM+EizZeVqipqqEijGDu1e5ZUWdd0oRkCSGRCaQ507YLN+yD
+	 Tz80hPAtmbbGbB38U6RbGb6ya2v+O23BYLx4jA2yLWn03jVBdV8DwRBRSXumzJJxddYoV
+	 ePUhyDMLNN6d52XW8Ee1RSGuuuHVzfN0KuZ719hedL5P3wuQs+gUOjhzkSvoWWYHNRmO3
+	 iDw+KKqSdkdVatpI4hw368NUL6pMMiJa83J3JXIWusyIk8AWzeCobUxMf3xQr3spq3OXG
+	 xYoO9/tTpndUV9HPncoY88dfuQKFBBUQNc35QqVG+miIJRtdXcrxn8LUUn/7X3wn/qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794121953;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794122711;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=QaX11FKlbrrxel5yt5lItqhWglhL95q0Q/UWvFGwSEM=;
-	b=uoL4ayG2jWPlu4Bqtmd2pYo8EyyjzyHUpP1r5xQd5pqmjDF6bIs0H8FOBWEpJ7D21fFl
-	 X5utv1YstnYyCje3XpnclcYIx8BfiC+5egG+kdKIQcgEOj87gUxP+UISsB7WAIyi/1Y5Z
-	 4USyYkBvdzCer0aFxE8RZOkduNG9NDWFpbkpfXD1NUPElP+lAX+MFkHGbc8xnJi2cZL6y
-	 jZ9/gLMfmHnFISGnrrXH5jEX6IKaUW37wouHsGJCfXdx1G2mGh+sB+elOdosEv9P0vkjw
-	 /GTVui0tO3eLj4O0ng0gzdxXa+7sk3kDiTl78Uqm9WaQIILpgLuU8uv24sMvtrIz/Gg==
+	 From:X-Google-Original-From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=Dop4F8OKR7cXm1nUzbyU2g5S5dDo+bHScDg3mp5FzUA=;
+	b=YWlBVhOxoreCVo7+FQpdtZAllFcKfDgIO46HhQo6S7EyH5hVfie70PoslL9djYCq5J7l
+	 xY48L+Xgp64Qmk5UD8ujvg2GXwFInNJOvwE5i6khOGdciGtQ/delHSQOS7ZDajkaE6SpD
+	 o8S0aFdqMI5yP2n81RSo8VzEPWuDM2WepEWjqIpfpKvMbMNG+D833YNvrF+6HoaSuEbsF
+	 oKQcOzKOWC0/fjJu9NsUO6YWEkiMYroJkRCaHwZPx3iPygCOk+DYI23iSby73KulA6eeD
+	 4CINMbIfkswjoaomCva5lOZLbYxtUjO4BBV0E6HushAS+EBzsMmYMNm9TMBVxyj73lA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UhNZ3HwP;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0KlWNEhc;
+	arc=none smtp.remote-ip=74.125.82.170
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C76A2606A322
-	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 07:12:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C76A2606A322
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9296E606A31C
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 07:25:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9296E606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UhNZ3HwP
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-4922dbcee23so108689f8f.0
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 23:12:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0KlWNEhc
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36e795af1d4so3778eec.1
+        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 23:25:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794121951; x=1794726751; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794122710; x=1794727510; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=QaX11FKlbrrxel5yt5lItqhWglhL95q0Q/UWvFGwSEM=;
-        b=UhNZ3HwPUWb+xsU+LrB9nBdbR1CFNHYoIhf8bYXVRaVpgKnz85xHpaEmfk/PNrPQz2
-         mkMtHK2+IOess921ezEeH1kaRuBfb1gRfzVjCmdCWR9LH7w2KHZGG68DeZhrcceB2OU1
-         nLjzBlJ96rhGWGjufIbJWTcZUd36JkJIaSs/tRDfWq1Spntglf+D+fYA+1Bt1w+Ques8
-         VW75Ng9OJxgQQ7+E7v/TaEC3oUbpdnkI0pKBR5Swp4G9Q6ql8S3Gwo+ouc8SlzXxCVki
-         17aStwfzlHx+IEg63Da0M4w1/j//VSshjYL7I284x4JTIumEQokRrMouIruXdmvbSUOH
-         jtfQ==
+        bh=Dop4F8OKR7cXm1nUzbyU2g5S5dDo+bHScDg3mp5FzUA=;
+        b=0KlWNEhccXytztXcpy8QDI9lEo0PCwVFU3u38U63n6E3HSrskIS1ZoHL5zE1ahXoOA
+         Mwg5mx3WBDNu1bBTw/HUKVQ83wW6jFdSi3Et4OyKGo0pC3mlXYp7epQtek1zgT75kEod
+         8PiiomRbBg2t81RKaJiSkW3QsAr4HmgGkGqhW6Y1dipfoiIAf6mNtWLukVfPilhdAMcb
+         PKaXQ0d3GBJHy46n/1HYInRyJzZD89FNMuwtM7Sxd6295HZwv1fr+i0M5e2YRl5XsQbD
+         QcmuaxSmb/mL/FuNb1Oe+W/b0oZoCcUJstHhQKExPS4En8BAQcYulKUdD9Yj9mYGqrgy
+         USwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794121951; x=1794726751;
+        d=1e100.net; s=20260707; t=1794122710; x=1794727510;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QaX11FKlbrrxel5yt5lItqhWglhL95q0Q/UWvFGwSEM=;
-        b=2TSrzUCIAmczXx1dIoRa56qjJ+FyTwwiaHCujviGP5NUkVZo61JrKJQHarzJmfzzIB
-         q+Dq/Mnb0O4T/jVxFQasya8+nZ9ASuWbRKkymh+zZxTxNbr+AGY1Cf34ACVG8EYH9mar
-         lxyI+O95QFPLbQIGdYMs0DKGJYZkfgDEhVWXTt5AL76ISHeSW068+VemuC7dl4CgPtWR
-         CPorOjZPNl5x/v/CfnlT2hFeuGAf1NPJQX4HuoTIWpwIbPLFENkxYHBkxkwsQTGgylFB
-         M+6nJ0j0poxQyKrPixQ5nNeDzgakDaHqb1eIP5MbHvhkBqlPOZN8ElEAF4+/9tZiTSMo
-         MwAw==
-X-Forwarded-Encrypted: i=1; AL+hErEijVwvRGiAgGFyD+hsZ27v0LCZ8s1Sz0iLxS6ErON8hLzvGF1rsaKKoEAWvyXVaRJiBiIcNzwK7EM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8TJSpnkYnUM6XDTLHMsPbmMXZi12vTUGsag4+Xx4VGp59UDRIr
-	y1M0XMgo7E26b+tsgAy+tSbad2f3yrYOqocqUnTV/k6sWuM3XXX2O+N7
-X-Gm-Gg: AYBFou3FXBW1pQI9RFVjRpS8f13hsooUZ+o7JJEDVgIynK4BARKQAYG//OR7G3Jerod
-	tcRgIQPnoEXqTlMCv6pv5qY/KT3+tMThUrKt4Dov2n3Qs/Q6UgNB3ThbuCgnOp8HLsH3nJUc/SS
-	qypt351UNyExnlltNAzeKbuW2Q8qOWfwcCpVCZ6MkgzZurBKnkkak+vecviGunMWv4Mb+k9u3UK
-	NGHCaAVLjMHdGjkGSczUB8KXp1dD0po0xaBB1yZLte+TtLiZqrTUnXmyocg5Ezxgs3+Ixnm7Oe+
-	/8VirC+4BdnPLDFeWWhZSmD8bWqL5w3T5Jqzing7umBj9A3XYHNIJZTvg3HtynqpD6/TE56i3wB
-	vAc2N6la7cKvSdm9hHYF0zKpf9gZk+iMTjRRkp8o967ZXT88f4TUbiS4Jyn9+wdl0V6E6KrV0Uo
-	6xtoSVpxsMLkYF3Uop07loqH5whM/oqNUppetYys2CJISwYDtuMADnKdqxFZueq1S1Xy1HfQvBU
-	D7KFuItlf+gI+yohcCji175Bf72BS5CyOac2VfkXd5IurL+bxNgwakV55omkkCw5b0Xks2uFSw7
-	9LukVLbJf5NBUKWraArx8CgBA0xnuf1qeO2vDoFAEEc0nuYkQNS8cwvVMz0D2J3TqwdGzWA/zVQ
-	E1hlpSVFgzpeHhZ7kNg==
-X-Received: by 2002:adf:e193:0:b0:491:e28b:1e1e with SMTP id ffacd0b85a97d-4958335a7efmr1603970f8f.28.1794121950867;
-        Sat, 07 Nov 2026 23:12:30 -0800 (PST)
-Received: from localhost.localdomain (bba-217-164-30-115.alshamil.net.ae. [217.164.30.115])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-495b90701c7sm2609204f8f.10.2026.11.07.23.12.28
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 07 Nov 2026 23:12:30 -0800 (PST)
-From: Ximing Zhang <xzhangjr@gmail.com>
-To: Hugo Sales <hugo@hsal.es>
-Cc: Ximing Zhang <xzhangjr@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>,
-	Len Brown <lenb@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>,
-	Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"Ashton A." <me@ashtonantila.com>,
-	linux-pm@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
+        bh=Dop4F8OKR7cXm1nUzbyU2g5S5dDo+bHScDg3mp5FzUA=;
+        b=nirttYaXzpbhrvT58P8aiy7u/kKa2mejQTo7PC6PlAue3OgqYjEDnHCc1Ym/czMqab
+         vgU6FYjEv9wPPEIww+Ic02XbmQaK/niUw7qz7yPJ+S9q+0bJw/ujXLMGZSO/HeaT6TSb
+         uCcKGPG6R8Cygot9Lg1SADQXODUxWI4f0TDX63rcDBnoUFDRqUkNvMbZsbD/DcxyT6qW
+         XiUYSvpSZs0XGYWivrC/AVsqRiqiadx4lCu+rsKl/+avW/vxGDv6Id+rUX4+y8DMEoHP
+         0wb8UZqvlEUe40tBTLxDFIsqsCFJNzAyED7VMxa0x5ZbccDyzi64bBtRu0wPFZyKbEmn
+         CJ/g==
+X-Forwarded-Encrypted: i=1; AL+hErGZh9E9U5PTDMEjgEUMgkA/IRWzX35aIllznrNuj/ZEDQvhMbnElOxJYVRKmO7avQ/PIbBYxT5ZBrI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Lhk9gAIy3CnbQAx621UbU4hsw7dt3/+BL4oIekRKGHg3C3V/8
+	8IZ3CgePCJLrCdCKUA61m2I0Oo+Sm71mfVQVEUV9L94llCb/koWDeAsL
+X-Gm-Gg: AYBFou0PqkvhobS8mHAnAHuy3pX0ov0osAH++iI9NpFlYFUb9svzbPB6p2SiAptSmI4
+	WP9Nj2PPX3V9FD/XsHGigKrILdm2lQT9ZNpW5gVt6Ss9cxwkjKgVxu3L957Ea4Eb+6HwicWnLTD
+	ZHgQNvaCOF5Prq0SiGOc4ECBBN6hFxTPkVNL7mYqnPUuZRkQPH7Uj9ASNLsYcFzfHacqQ+y62D6
+	psFAF5HzkClgGiAYwCgfIJaUmDbLtXVSmzamyVK0EjE7vulO5uciIZaYjZVI1HGKx7U/zoEDnkw
+	ctWLCXxs3S+n1XFayy9AmXTT8NwijZK+x9Qiocj5Og/h94UEAAGtIMUhPK2XnE0rB20EOyqSnF0
+	qVstbUrVL/dxoDytqetwMAjxzqYnfuVC2D0q3sC4JElMJSXABU2s6WtjbxqgtPLS5/bIkD1J6ap
+	G41Q74BHjizBXaiRbiFtxSMp3Z/nIWaBMIpgeI0kqH4O3WHbSHyjn3mY8qmrCyien8IKfknysMK
+	J30Ul67AUd3a+7m5rqhOxO8prQcM6XEcl4LgeKHYJOhGf6WedDZhpVZsg6w5AIHunh0+kxw3ncj
+	W//Ki1MxBqBnKyHEXy7aPQYZasjAtyaqgElZnojfVmT/EZrT8Fi7CeK6lhTKiJ7+dJKfRg==
+X-Received: by 2002:a05:7301:1a11:b0:368:2c6d:ddfe with SMTP id 5a478bee46e88-370f6115a74mr6028007eec.9.1794122709628;
+        Sat, 07 Nov 2026 23:25:09 -0800 (PST)
+Received: from lipengfei28-ThinkStation-P368.mioffice.cn ([2408:8607:1b00:8:5213:762b:b24:1be1])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37265a16f9csm3499775eec.12.2026.11.07.23.25.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 23:25:08 -0800 (PST)
+From: Pengfei Li <ljdlns1987@gmail.com>
+X-Google-Original-From: Pengfei Li <lipengfei28@xiaomi.com>
+To: lkp@intel.com
+Cc: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	mark.rutland@arm.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	oe-kbuild-all@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 2/4] cpufreq: intel_pstate: Send CPUFREQ_UPDATE_CPUINFO on max_freq changes
-Date: Sun,  8 Nov 2026 11:12:25 +0400
-Message-ID: <20261108071225.54656-1-xzhangjr@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261101185807.112449-3-hugo@hsal.es>
-References: <20261101185807.112449-1-hugo@hsal.es> <20261101185807.112449-3-hugo@hsal.es>
+	linux-kselftest@vger.kernel.org,
+	zhangbo56@xiaomi.com,
+	lipengfei28@xiaomi.com
+Subject: Re: [PATCH v8 2/5] tracing: Use the stackmap from the ftrace stack recording path
+Date: Sun,  8 Nov 2026 15:24:48 +0800
+Message-Id: <20261108072448.990755-1-lipengfei28@xiaomi.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <202611080654.sqFxIlwl-lkp@intel.com>
+References: <20261107055139.3138633-1-lipengfei28@xiaomi.com> <20261107055139.3138633-3-lipengfei28@xiaomi.com> <202611080654.sqFxIlwl-lkp@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,56 +111,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Hugo,
+On Sun, 08 Nov 2026 06:35:01 +0800, kernel test robot wrote:
+> kernel/trace/trace.c: In function 'record_stackmap':
+> include/linux/rcupdate.h:502:9: error: dereferencing pointer to incomplete type 'struct ftrace_stackmap'
 
-I tested the four patches unchanged on an Intel Core i7-10510U using
-intel_pstate in active/HWP mode, on the stated base commit
-5854d2ce4b0b9ccb37b154319d8283bad889a694.
+struct ftrace_stackmap is only defined in trace_stackmap.c, and GCC
+before 10 rejects typeof(*p) on the incomplete type in
+rcu_dereference_sched(). I reproduced it with GCC 8.5.
 
-Cooling states 0 through 3 followed Turbo changes in both directions.
-I also ran 100 CPU 7 offline/online cycles concurrently with Turbo and
-cooling-state writes, followed by the same sequential checks, and a
-suspend/resume via rtcwake -m mem -s 15. Turbo was disabled before suspend
-and enabled afterward. Those checks passed with lockdep enabled and no
-new warnings. The test kernel was already tainted by unsigned modules;
-that taint did not change during the tests.
+v9 will move the rcu_dereference_sched() into
+ftrace_stackmap_get_cookie(), which will take the trace_array instead
+of the map.
 
-There is one remaining Intel hotplug case: changing Turbo while CPU 7
-is offline leaves that policy's cpuinfo.max_freq stale when it returns.
-I reproduced the same stale CPU information on the stock
-7.2.5-1-cachyos kernel, so this behavior predates the RFC.
-
-On the patched kernel, starting with all CPUs online, Turbo enabled and
-cooling state 0, I ran the following as root:
-
-    cpu=/sys/devices/system/cpu
-    cdev=/sys/class/thermal/cooling_device0
-    echo 1 > $cpu/intel_pstate/no_turbo
-    echo 1 > $cdev/cur_state
-    echo 0 > $cpu/cpu7/online
-    echo 0 > $cpu/intel_pstate/no_turbo
-    echo 1 > $cpu/cpu7/online
-    cat $cpu/cpufreq/policy7/cpuinfo_max_freq
-    cat $cpu/cpufreq/policy7/scaling_max_freq
-
-These report 1800000 and 1440000 kHz. The policies for the other CPUs
-report 4900000 and 3920000 kHz. With the Turbo transition reversed,
-CPU 7 returns with a cpuinfo maximum of 4900000 instead of 1800000,
-and an effective cap of 1800000 instead of 1440000 kHz.
-
-I restored the starting state with all CPUs online:
-
-    echo 1 > $cpu/intel_pstate/no_turbo
-    echo 0 > $cpu/intel_pstate/no_turbo
-    echo 0 > $cdev/cur_state
-
-intel_pstate_update_max_freq() uses cpufreq_cpu_get(), whose raw lookup
-rejects an offline CPU. The reused policy then takes
-intel_pstate_cpu_online(), which does not refresh cpuinfo.max_freq.
-This appears to prevent the new notification from covering that case.
-
-Is this case intended to be covered by this series, or would a separate
-intel_pstate follow-up be more appropriate?
-
-Thanks,
-Ximing
+-- Pengfei
