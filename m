@@ -1,73 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.92.39.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794117163;
-	b=zU2X/seNyySukXxT2qHuv5RSpcp1XTy+rNuEUvcuto6YoVmuYQFaIIqd6n3G7oQReGwS
-	 MIXo01JlQ29evQ2IA6MwoILdFKaMASh9EHIBFbTascnlzTj9KFS3bj18+OA9BhmhS7gew
-	 p2ml7HudS5gM+TvZgRVptn/v9yocgUDXq1jdxHk8HWo6Yt3J5AeGQWTEoKs6/SwuoCBI3
-	 T8i5pGEkhCGWq6kB3EIvEMv7htjs52UGIyTptFNa8RwoeOoCKnuvRoAIiUqjzu1bLb61W
-	 NBg0UcdNBrr4KcbUnGZrK4nNTQoiP+AtwCofAGgu4aq9iMBovS6e2LVD4tmoOyKXwGg==
+	t=1794117624;
+	b=EmyQTALfK2MqTZPqwzmrrInlcMM/RRySKsFQPb3STP0Dkv9vudVPyUmfw//GzUTuiQvv
+	 H3PvTSkdw+oyqjVXkLD5QzW5rumzUmBWDDaNb6X3mkGocHnC6IOdVHS+ttnSDDM41gRS0
+	 NmMPGsGs6oYwii+raHUiRHCQeN84xt9FQRV0xITTkkpaePzoexxqYW2S1ZCwQeMgm2cUY
+	 GOIPnvxe95UgRdGNALK9hwzI6lOJjs1tPvDLVp2IvztD7MEL8Z8FHTywAjxfjizE1KYpF
+	 2ZqQZSu5IULXaUeWfhFdi3d1UQbuWrAsMKuUYT5eRklczv1udhJd9gBFuyVphXmpNHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794117163;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
-	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:X-QQ-RECHKSPAM;
-	bh=wJ532/N0M0wnt7q6KhDKefrX1ZSyj6uJXC5Arq09eUI=;
-	b=W0RvNGwG8/dOct2+rbc9f1sTR7dJV4PIqTT+R4Xniu/tCPi/EfEVMuxBsDSZioGmdcT1
-	 rHyDt6rDip0lX1jrBRoBGsBvpqXYhDr/SSDcZokYubikWyOsYVnSYA66LfeGhaIt30pKh
-	 gQl7ZOpo9p4RXW93inKG9aKHyVW4UqTm28cZQzagavcJrdoSNsiRAuF/Urkx0qNWS0Odu
-	 fFFz7vK0JNq2pF2lMi9Bn45wBRxWKokmDGViz7CjHg6HdFFCKZS621HLB4z4ach+wK6uz
-	 ZXVw5a8jzdDxItVZJ7cmfTx3qK4D0aA/xKC9WpF++zTZUmsUCSyBuvxRHW3GZHdqzEw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794117624;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=gFMZKE8rB1qHEs9YGj4+e/8ZQgkxp9yc4uMWlT943Dk=;
+	b=CTH5a7jZzkZ4l+CpuoNsOvAwriXmOaN63BMWUFu308UOWRL9/34c9A5hCjF/GwXLe3zn
+	 oG6i7cMwznC56Bwj3M0LQyXB8bLbM3Au7VLh1VyPSgtF70yQ5qJa0GXmxMuJx2bP6p0Yu
+	 vTMJmjcyehAmVvXWcCGt3WhK48guN97bAZdUXUuFMlAyxkkhuHVkQS7Co33EDkB9QyT3N
+	 QmHuB7goRNoLIK+Pfb1iNJLRAQ9lfU8Lw0YwXvuc3qmniQnrUc9OdhSVUbubVU4ezZ4pO
+	 3iMf0EjdJeKda1I6kiaQ42nTLRq8hHrAPfUtHOzDTpPtpFBCrocG3DOpxUKY7ABh83A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.sustech.edu.cn;
-	spf=pass smtp.mailfrom=mail.sustech.edu.cn;
-	dkim=pass header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=WxhToX1E;
-	arc=none smtp.remote-ip=54.92.39.34
-Received: from smtpbgjp3.qq.com (smtpbgjp3.qq.com [54.92.39.34])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oM1ut0Jl;
+	arc=none smtp.remote-ip=74.125.82.72
+Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10F6606A31C;
-	Sun,  8 Nov 2026 05:52:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F10F6606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mail.sustech.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.sustech.edu.cn
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2155606EE99
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 06:00:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2155606EE99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=mail.sustech.edu.cn header.i=@mail.sustech.edu.cn header.a=rsa-sha256 header.s=oemc2211 header.b=WxhToX1E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mail.sustech.edu.cn;
-	s=oemc2211; t=1794117058;
-	bh=wJ532/N0M0wnt7q6KhDKefrX1ZSyj6uJXC5Arq09eUI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=WxhToX1EcZ+IZx22spVnFDnmGEg92a4iFCrdwRkd4fxdyv/TQU4wphbvbpAkaJHtg
-	 ue7yuhCwyIggXJfc6O2bT418CYOu930oH4RNgF1XLBz02ghjV4fMrsBzRytXx5nF0t
-	 gp6qLHBeRTozrOU2Mcs49O8YP1jSvl1kWlNIFbAE=
-X-QQ-mid: zesmtpip4t1794117050t07935af1
-X-QQ-Originating-IP: 1lJSXOUT8kmD4Vn3xBl3BqwdvkbHzRNN+2oG9aO9Mko=
-Received: from szdytom-matebook.sustech.edu.cn ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Sun, 08 Nov 2026 13:50:48 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 5347852784624739240
-EX-QQ-RecipientCnt: 11
-From: Shi Lecun <shilc2025@mail.sustech.edu.cn>
-To: =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack3000@gmail.com>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>
-Cc: gnoack@google.com,
-	Fengwei Zhang <zhangfw@sustech.edu.cn>,
-	Bryam Vargas <hexlabsecurity@proton.me>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: landlock: clarify F_SETOWN signal scoping
-Date: Sun,  8 Nov 2026 13:50:48 +0800
-Message-ID: <4C69C1457B12AD80+20261108055048.3745750-1-shilc2025@mail.sustech.edu.cn>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261107.2f1fa9977739@gnoack.org>
-References: <20261107.2f1fa9977739@gnoack.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oM1ut0Jl
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1b238436265so61613c88.1
+        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 22:00:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794117623; x=1794722423; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gFMZKE8rB1qHEs9YGj4+e/8ZQgkxp9yc4uMWlT943Dk=;
+        b=oM1ut0JlHy5QzoA3UcW9p1p1fGsiJbScpQkXNdjQOafFHv+idXGAGLXjf3FqNn+1B0
+         8hGy/QM5LQJIhtsz9yZWoQvj8heLc++gOZiLRJ/VGNDbRYx4eqxgyQhXllmam6PjeuPk
+         6LY4BJ12ZI0wgZ1zRvvuxla2MINsu4MQy6eLgtvMlx3TTJWwV9iplAfOitVcdvr2cFbM
+         jqz8XNFBduB3sfTJ74NJt+wA4iblcr5NCEJaWQG6LGcBlo2tv3V+WMmKtulXqrUydCYh
+         6/ZrIpybAd8rwbmTkGNueHFhIZYlk+CHQQw4FnrwV9BCi0r6gHHmjHVC7FiGRC4SP4S8
+         DrlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794117623; x=1794722423;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gFMZKE8rB1qHEs9YGj4+e/8ZQgkxp9yc4uMWlT943Dk=;
+        b=qc0XY0kLaBv7SvWp2bV8E3W4eDHY7Xq3d+m68aPzJdglyhjaytCE5eJdJC8Dx2ZQe+
+         TbqN5wExOyHmy3s9sZ0wtGMzBa2VicLoet+clfhlhLr6bjJlr+LeML0X7rCEhOKMseg4
+         2I9Evq1tJseXf2RALWbE5ueNsFIowht6GkAxm0Y6+Usz7b8NbDCj0Vw7tTL+bmygXIBH
+         QtMWnSmQDGycmYuN2R8T0S36Qzh5IzirApy1mIYrgZ/p9kanpdXR6Fyxv0rprphtncvl
+         Kzfkm22pjvpMyfGwzVlSVjqXuqsLtW36+iLdt4JxkGh/Lx5gBN33SqzneBb8oJkpYn30
+         2Tcw==
+X-Forwarded-Encrypted: i=1; AKwUvBympC1SMGOzLstpAMQ2JyywESbqa8C00sFWryM6rWKmuTq4olZMbQCOoNEpTwes1PBFZ1zjcguz/7U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Da52gA+3VD6/mjyS+Xrm9OPRQM7EabTWi4/w54Nqz6ae8CiFi
+	T4P988KzT/RhGXEmIggBLaoFKcNLYdHnqAmYzs/G6RzOyMwHiD2rbJGsJgi7KvMIifDFN7zxfhT
+	TWEhXooNVaaWrvXkBUAmCJYlVXg==
+X-Received: from dlev11.prod.google.com ([2002:a05:701b:464b:b0:189:931c:18ef])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7022:e02:b0:191:3c:aae7 with SMTP id a92af1059eb24-1b39feec174mr1478394c88.26.1794117620448;
+ Sat, 07 Nov 2026 22:00:20 -0800 (PST)
+Date: Sun,  8 Nov 2026 06:00:13 +0000
+In-Reply-To: <20261108060016.2131509-1-almasrymina@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,62 +78,195 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:mail.sustech.edu.cn:qybglogicsvrsz:qybglogicsvrsz4b-0
-X-QQ-XMAILINFO: NG2b9TD0vVV2ttcOoRNNKfnPKURIOduJW7QZLFHDe30V6PFw+Gp/Ibg6
-	x0YQ6Sh48kIGPiBDKIWECv4NYhpGkN8+PYiZc+PgARI29TVX8TEeOizc0fu8bqOT1oyAEia
-	gzvoAx5Ua2mDKPnWp4aytGYN2NdKRNEBoY1yF3hYfXcnmbmbZ4VHi4sd0J20gUHjZvttQOI
-	AOWhyvtjp24z09pw6VTRHR5sScjce8jS8oMgBBOxcvPvWIWgZJ32jfGyD3ipPYuRyekHRPc
-	bzoB31CWbSMRDvpHui48WMDDKuxVj5ViMPdntCQKGSxDcuSh2vVeWxtUWyOk03uAkVTyd34
-	uJJ+w/TAvjeZntQq9rgSXgrJAfjy76fibJBlaO+EdXWbtoRjNto3/PdBN9ioNcm/Ck9Ho5M
-	sdsucs+YkXUkYuY4vR5l3oiFGhI27TopsKaIoKX9dkFs82yXL2wicYckdIIP7wYtfJfcGdo
-	tQrsEmFGvkjdc1+Io29c5rwmiZ5zur9ZrxD86H/dY/k7aJhaODvOf8Zzjn9F2ocWyLtp7LW
-	80hhhyavf2dNnYtbzNjgjLYihOhEPYMugLYEgiUSOYCETFfljuNFFzzYikYa97JUDQFumDe
-	JesguWi5rvLsh1sm+44IlchCHEo4Acvf7OTT/MDuUfb3RbCCJg0LxOo/xPaOZzWjbgzqWaI
-	34p/kD2tfmoH8jvLyt68+f22vzzwbIYG1Tuwhpu0JlPZ+g7TDnuE4p5n7qNAYf9CyRcnPHv
-	kfPgR7K7KCFN1funsed4hiecOixyKugsZhWxRCoB5tPOPP3eyrOqecz4j646ZEhW18uPx3e
-	BAFsPBptqRgiOUmCWfGxtxzg3hJWoKBs8YpGpmCQON+c8CT6di4AUmdtNEVxsIYta80rCY+
-	SqG/M5Ti/rlXWItNLL6gF46mm5n81DN/12JxPCTNW+qXZamPwb4DrGYcPL7tGkKajT/3KPm
-	4F0BgEJMKYIM1hDfLDyrCE0Eu16SWaE1wmb4mmqFWVL7JoMTyhvBaN+6C0Dpbkt+xp36OQf
-	WrcrcSFQ==
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-RECHKSPAM: 0
+Mime-Version: 1.0
+References: <20261108060016.2131509-1-almasrymina@google.com>
+X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
+Message-ID: <20261108060016.2131509-3-almasrymina@google.com>
+Subject: [PATCH net-next v2 2/5] net: skbuff: refcount spliced page_pool frags
+ via skb_pipe_buf_ops
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org
+Cc: Mina Almasry <almasrymina@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
+	Kuniyuki Iwashima <kuniyu@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
+	Bobby Eshleman <bobbyeshleman@meta.com>, Stanislav Fomichev <sdf@fomichev.me>, linux-kernel@vger.kernel.org, 
+	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	Willem de Bruijn <willemb@google.com>, John Fastabend <john.fastabend@gmail.com>, 
+	Sabrina Dubroca <sd@queasysnail.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>, 
+	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Johannes Berg <johannes@sipsolutions.net>, Byungchul Park <byungchul@sk.com>, Zi Yan <ziy@nvidia.com>, 
+	virtualization@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
+	linux-wireless@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Wen Gu <guwen@linux.alibaba.com>, 
+	Philo Lu <lulie@linux.alibaba.com>, Justin Chen <justin.chen@broadcom.com>, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Vikas Gupta <vikas.gupta@broadcom.com>, 
+	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+	Doug Berger <opendmb@gmail.com>, Nicolai Buchwitz <nb@tipi-net.de>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Satish Kharat <satishkh@cisco.com>, 
+	Wei Fang <wei.fang@nxp.com>, Frank Li <frank.li@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, 
+	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
+	Fan Gong <gongfan1@huawei.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
+	Russell King <linux@armlinux.org.uk>, Sunil Goutham <sgoutham@marvell.com>, 
+	Geetha sowjanya <gakula@marvell.com>, Ratheesh Kannoth <rkannoth@marvell.com>, 
+	Subbaraya Sundeep <sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, 
+	Felix Fietkau <nbd@nbd.name>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Tariq Toukan <tariqt@nvidia.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
+	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
+	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
+	Dexuan Cui <decui@microsoft.com>, Yibo Dong <dong100@mucse.com>, 
+	Brett Creeley <brett.creeley@amd.com>, Justin Lai <justinlai0215@realtek.com>, 
+	Larry Chiu <larry.chiu@realtek.com>, 
+	"=?UTF-8?q?Niklas=20S=C3=B6derlund?=" <niklas.soderlund@ragnatech.se>, Paul Barker <paul@pbarker.dev>, 
+	Masahisa Kojima <kojima.masahisa@socionext.com>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
+	Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
+	MD Danish Anwar <danishanwar@ti.com>, Jiawen Wu <jiawenwu@trustnetic.com>, 
+	Mengyuan Lou <mengyuanlou@net-swift.com>, Ronak Doshi <ronak.doshi@broadcom.com>, 
+	Ryder Lee <ryder.lee@mediatek.com>, Shayne Chen <shayne.chen@mediatek.com>, 
+	Sean Wang <sean.wang@mediatek.com>, Juergen Gross <jgross@suse.com>, 
+	Stefano Stabellini <sstabellini@kernel.org>, 
+	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Jordan Rhee <jordanrhee@google.com>, 
+	Ankit Garg <nktgrg@google.com>, Tim Hostetler <thostet@google.com>, 
+	Eric Joyner <eric.joyner@amd.com>, Prabu Thayalan <prabu.ponrajthayalan@amd.com>, 
+	"Nikhil P. Rao" <nikhil.rao@amd.com>, Chintan Vankar <c-vankar@ti.com>, 
+	Nora Schiffer <nora.schiffer@ew.tq-group.com>, Alexander Sverdlin <alex@sverdlin.org>, 
+	Kevin Hao <haokexin@gmail.com>, Karl Mehltretter <kmehltretter@gmail.com>, 
+	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Meghana Malladi <m-malladi@ti.com>, 
+	Jacob Keller <jacob.e.keller@intel.com>, StanleyYP Wang <StanleyYP.Wang@mediatek.com>, 
+	linux-doc@vger.kernel.org, imx@lists.linux.dev, linux-rdma@vger.kernel.org, 
+	linux-hyperv@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-omap@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The signal scope check for asynchronous I/O notifications uses the
-Landlock domain saved when fcntl(F_SETOWN) configures the recipient.
-Adding LANDLOCK_SCOPE_SIGNAL later therefore does not retroactively
-restrict these pre-existing registrations.
+Update skb_splice_bits() (spd_fill_page(), sock_spd_release(), and
+skb_pipe_buf_ops) and skb_append_pagefrags() to acquire and release
+references via netmem_inc_ref(), netmem_dec_ref(), and skb_frag_ref()
+so page_pool RX fragments spliced into a pipe remain pinned in the pool
+while in the pipe and pair with skb_append_pagefrags() and
+skb_release_data() when spliced into a TX socket once netmem_inc_ref()
+and netmem_dec_ref() handle page_pool netmems.
 
-Document this boundary in the IPC scoping section and link to the fcntl
-documentation for I/O availability signaling.
+In tls_push_data(), fall back to copying when MSG_SPLICE_PAGES
+encounters a page_pool page because kTLS device offload record->frags[]
+tracks pages via raw struct page references rather than pp_ref_count
+before handing them to tls_push_sg().
 
-Link: https://lore.kernel.org/linux-security-module/20261107.2f1fa9977739@gnoack.org/
-Suggested-by: Günther Noack <gnoack3000@gmail.com>
-Signed-off-by: Shi Lecun <shilc2025@mail.sustech.edu.cn>
+Caveats:
+- Because pipe buffers created by skb_splice_bits() hold pp_ref_count
+  until released (including across tee()), user pipes holding
+  unconsumed spliced data keep those page_pool pages in-flight and
+  DMA-mapped in the pool (bounded by pipe capacity and RLIMIT_NOFILE
+  rather than sk_rcvbuf) until the pipe buffers are consumed or closed,
+  with page_pool_destroy() deferring pool release via its periodic
+  workqueue and page_pool_scrub() unmapping DMA.
+
+Signed-off-by: Mina Almasry <almasrymina@google.com>
 ---
- Documentation/userspace-api/landlock.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ net/core/skbuff.c    | 31 +++++++++++++++++++++++++++----
+ net/tls/tls_device.c |  6 ++++++
+ 2 files changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-index 3d45b956b640..cc9c5b102b8d 100644
---- a/Documentation/userspace-api/landlock.rst
-+++ b/Documentation/userspace-api/landlock.rst
-@@ -499,6 +499,10 @@ The operations which can be scoped are:
-     This limits the sending of signals to target processes which run within the
-     same or a nested Landlock domain.
+diff --git a/net/core/skbuff.c b/net/core/skbuff.c
+index 48f6764117243..19d4ce347c41b 100644
+--- a/net/core/skbuff.c
++++ b/net/core/skbuff.c
+@@ -3114,9 +3114,32 @@ EXPORT_SYMBOL(skb_copy_bits);
+  */
+ static void sock_spd_release(struct splice_pipe_desc *spd, unsigned int i)
+ {
+-	put_page(spd->pages[i]);
++	netmem_dec_ref(page_to_netmem(spd->pages[i]));
+ }
  
-+    For signaling of I/O availability (:manpage:`F_GETSIG(2const)`), Landlock
-+    checks are done with respect to the Landlock domain at the time of
-+    ``fcntl(F_SETOWN)``.
++static void skb_pipe_buf_release(struct pipe_inode_info *pipe,
++				 struct pipe_buffer *buf)
++{
++	netmem_dec_ref(page_to_netmem(buf->page));
++}
 +
- ``LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET``
-     This limits the set of abstract :manpage:`unix(7)` sockets to which we can
-     :manpage:`connect(2)` to socket addresses which were created by a process in
-
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
++static bool skb_pipe_buf_get(struct pipe_inode_info *pipe,
++			     struct pipe_buffer *buf)
++{
++	struct page *page = compound_head(buf->page);
++
++	if (WARN_ON_ONCE(page_ref_count(page) <= 0))
++		return false;
++
++	netmem_inc_ref(page_to_netmem(page));
++	return true;
++}
++
++static const struct pipe_buf_operations skb_pipe_buf_ops = {
++	.release	= skb_pipe_buf_release,
++	.get		= skb_pipe_buf_get,
++};
++
+ static struct page *linear_to_page(struct page *page, unsigned int *len,
+ 				   unsigned int *offset,
+ 				   struct sock *sk)
+@@ -3165,7 +3188,7 @@ static bool spd_fill_page(struct splice_pipe_desc *spd, struct page *page,
+ 		spd->partial[spd->nr_pages - 1].len += *len;
+ 		return false;
+ 	}
+-	get_page(page);
++	netmem_inc_ref(page_to_netmem(page));
+ 	spd->pages[spd->nr_pages] = page;
+ 	spd->partial[spd->nr_pages].len = *len;
+ 	spd->partial[spd->nr_pages].offset = offset;
+@@ -3281,7 +3304,7 @@ int skb_splice_bits(struct sk_buff *skb, struct sock *sk, unsigned int offset,
+ 		.pages = pages,
+ 		.partial = partial,
+ 		.nr_pages_max = MAX_SKB_FRAGS,
+-		.ops = &nosteal_pipe_buf_ops,
++		.ops = &skb_pipe_buf_ops,
+ 		.spd_release = sock_spd_release,
+ 	};
+ 	int ret = 0;
+@@ -4692,8 +4715,8 @@ int skb_append_pagefrags(struct sk_buff *skb, struct page *page,
+ 		skb_frag_size_add(&skb_shinfo(skb)->frags[i - 1], size);
+ 	} else if (i < max_frags) {
+ 		skb_zcopy_downgrade_managed(skb);
+-		get_page(page);
+ 		skb_fill_page_desc_noacc(skb, i, page, offset, size);
++		skb_frag_ref(skb, i);
+ 	} else {
+ 		return -EMSGSIZE;
+ 	}
+diff --git a/net/tls/tls_device.c b/net/tls/tls_device.c
+index 4cdfbb57ecff0..05abf8e23f78a 100644
+--- a/net/tls/tls_device.c
++++ b/net/tls/tls_device.c
+@@ -513,10 +513,16 @@ static int tls_push_data(struct sock *sk,
+ 				goto handle_error;
+ 			}
+ 
++			if (page_pool_page_is_pp(compound_head(*pages))) {
++				iov_iter_revert(iter, copy);
++				goto copy_data;
++			}
++
+ 			zc_pfrag.offset = off;
+ 			zc_pfrag.size = copy;
+ 			tls_append_frag(record, &zc_pfrag, copy);
+ 		} else if (copy) {
++copy_data:
+ 			copy = min_t(size_t, copy, pfrag->size - pfrag->offset);
+ 
+ 			rc = tls_device_copy_data(page_address(pfrag->page) +
 -- 
-2.56.0
+2.56.0.455.g6c5a503b38-goog
 
