@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794177594;
-	b=NLtQrn2ZwcnXE6psfsNpeB5y+HXf75lym6+9U3T0fDdoWB6EU4UV1RJ0tc0vgB1fA6+E
-	 jpK04TbMcyCspm9uCIzf7o4A2qGioBIzUJQtS7ZC/DdX0WJG8VrbYQQWwg3evdu0/K+g6
-	 Jr6nkpoV1vMDmco1QpGgdNBfWF0/e0DiZFiLYfUn4NJNeefu+vtTEP42DQLnC/ECvjqQn
-	 NpGOiai1p1nMAPOslvQKya6MAjPBNOpa57ldvukA+394wxiLTTJpoCJqh4KFvPjDQ/CxD
-	 7Zl82BFqhTfj0GGma5hi6b/RJHx+Wmekxq+o0fTOqYcFu1gVYnwCh1PjbkUn6BQ6fAA==
+	t=1794177595;
+	b=l/huOA0QB28pxznnENkTZyvs4ZOnr5Ook0tAaSv7D8HZQg9+f/ki4e/Jgxmv3z59ulKV
+	 dQrAuOfj8sBalRhNPH2qTXP2A64u7694z/uJkTJx6MhRUiFL55l32i7jgS6I2I+Jc6ghS
+	 oQUPTL61p3K56PZGveu+0YUYFsiRJV9zMMDebdJbFflxjSX0kG4dvCrN71Cwleo52405E
+	 qEubDhab9NPLjN6OtWJL9doo00Ym/WtIefVPXeAfDjIp1zEMOUJoRVffSNBx9wBNT6geb
+	 2sfzXfn6p2Kb9XMxabQ//XlROOgie8cYrlLtyggDg/nYQrfETZnpueDKvWn+CweN2Mg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794177594;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794177595;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=noN8ey05POi7MkRY5IldCk9pju5ZMENfN/kneqqJ3/c=;
-	b=HH5B9kR+PuU0W50kot2gV560II8OxTYaw76EY9Zu3j+rUxO6A9KxnVLy1noMlSNdE98Y
-	 u6MvFhcmmiTycdPKXLSYSCvYzGeK1gBSdqa/g5u0G/4i9zklO88c3HBcXpH51kLK0m/O7
-	 JObanSC/xbscoxflwsq6K0dUzKEAP2FUCXb1+V27dIkgC47u/kIDkwy9ZiPQQGofTPSJZ
-	 r7pgGDGrK8D4CTaBalQxqe8CLL6aj8o5asNTuKoXrbKWVBkF4VUM43LctIB0sCJici0BW
-	 Pl/2RAtQc8lXB2mkEKXA7haVL1uIkbWAosWQ4B0ysz1W2eSy2aV/JznIeuv4of7p6HQ==
+	bh=Vy7610mZpT38CbXCq7RNEhhWWcPldBtQplNazUNUwLE=;
+	b=RTbdYRa6lZdSiBS4B7QhEwgI+xHNg9VcKcg0gtTGPnIFJK9CRfE4O2KRXeLelT8FT7ND
+	 tlj8th6uhHsl5G1Z7Ko3/xLSOEEnpztXD9sCGWowoTnnD62Ruwcf5m7ZLJP9sbKxSRw96
+	 s8TLX4xw81ZU2AWIwbQRdae/qoTn6Cr3kYnL86eilSY/2y33MbyNocks2xO67JJBAWbFk
+	 E4UhiuDsejm+OOdZxuHe2/Z2PCqyJ0isUuLCmdsPPWrosMg7RxeP6xdiEMrycLX8iYksF
+	 +lmzSXxVW0BzvmqaviGgum0aO8XrkkcPfERJqyIGGcOQZGDkDIlVOBrAuTeYtcSfapw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=llvOaPqi;
-	arc=none smtp.remote-ip=74.125.82.70
-Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=kQO+69v9;
+	arc=none smtp.remote-ip=74.125.82.199
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E14F6082BCC
-	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 22:39:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8E14F6082BCC
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91C4B6082BE8
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 22:39:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 91C4B6082BE8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=llvOaPqi
-Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-1ac19c6bc71so293002c88.0
-        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 14:39:53 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=kQO+69v9
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-36ecd5db581so237290eec.0
+        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 14:39:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794177593; x=1794782393; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1794177595; x=1794782395; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=noN8ey05POi7MkRY5IldCk9pju5ZMENfN/kneqqJ3/c=;
-        b=llvOaPqin1/SJfB6ZgFMe2gZlVxb/SBs/EaTs1fBKHfuzR50CINutw+BhBVS4Yoq7W
-         5CXnEaThdYdL5TvoWqX15XutB2hMeCk29e4XomOv785G6Jh+suNlIc/tIlBx15llRc2I
-         7uRNwYJ/0N90oxF98NQiqNkC20zP5itEJJ4BwqXqG0e7b1e+l7tNHYfNbR8/BduTBQD5
-         oLq+xpYDpQZXCZHJEuqL2pIcKw2++sMVfz4Vbcj5u6SlAk5GbzYVqVLZdDpxzAfriS7J
-         4N8BhX3YQQWKNEv0Sqfj1nOKVxXqDF+/c8+GbvUOaS7b6Hf0u31Y/8hBrb5MMmG+oRGo
-         r7yg==
+        bh=Vy7610mZpT38CbXCq7RNEhhWWcPldBtQplNazUNUwLE=;
+        b=kQO+69v9cjNiQn3adE++1NC4MdSxNQ+mJce7mQncXEvEXvhY+MdKRMoZbdhq8FH/O0
+         h3BbezYI6ZTaUJS6YImya3e9ccgWHDLHlLGV48d4aGvfsW4X/j149mh7/N61D6fvRPWO
+         H5iapVpytk5MCfpkqd+ncnG7dF6vi0zUO+wtASuUIaEbyn6qWRXk+VviUF08JH3zQod8
+         806GcKs4xZrtrJzYqMZZqknwjPDTtlGvMEHLf6Gn/0L1E5uk9VABOWZWTKj2BMLU0xHS
+         zFGFVWHyIHHUR59ylVJu1HQY8xEsqH5fPJ2cfScDPlSejw3QtdYRKBrQa7vs0+eXJvZt
+         3iMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794177593; x=1794782393;
+        d=1e100.net; s=20260707; t=1794177595; x=1794782395;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=noN8ey05POi7MkRY5IldCk9pju5ZMENfN/kneqqJ3/c=;
-        b=BvpeOtEO1KQPqQTgwZgwXlHu5bAmAqIkyVUh9GCmQa7F0hLh6PaTfzTqw9cNEwHwoz
-         Z7KxLVS9pCImFeVQPeNt1UQvuXQKDAamA/s5oaIfb45T4xjrAPGx9DfWXqn6NOzu5bv4
-         AACrPaSBVOIEOdHvhc0XUz1TWby7V8V6skFxjPqiLIH2LyBGepVZI1IEVs3nhgEUTGqf
-         jH8oHCM8LuyaLC+4vXREDzBZFyzoDY9A78Vap/e607hBfbazjGVQ4s2gRL8ORh5fyAad
-         8gqDDgQJPmW5vCEnsxgUJtlqmKAMkD3WDUrIsBXgDPnt9uh7i4Nn5DDQYUofspYFcimW
-         eKMg==
-X-Forwarded-Encrypted: i=1; AL+hErEj1bBiJ3I5wirzENy/eRdB6dkVWOk4plM1dvgK3LFxVhPmDXgMuy/pPmVDrTB+PMu/YCN70qpT+v0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+tAHJBbgs1h7dSpZnMRUmVlJjXCDBIHS1KU5/H2V6s3P4Hypva
-	K3+AJEoRzopdEnbiAXmVxYS5HBvx+Eklp7nzh+1Xa0TZN9RrR7IRHCkIs1JKq9Wojw4M8vYwXYC
-	w/ezb8/dgcA==
-X-Received: from dlam9-n1.prod.google.com ([2002:a05:701b:2089:10b0:195:beb6:14cc])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7022:28b:10b0:1b0:430d:d81c
- with SMTP id a92af1059eb24-1b39feab6a4mr3897188c88.25.1794177592505; Sun, 08
- Nov 2026 14:39:52 -0800 (PST)
-Date: Sun,  8 Nov 2026 14:39:10 -0800
+        bh=Vy7610mZpT38CbXCq7RNEhhWWcPldBtQplNazUNUwLE=;
+        b=C4UAf3j3fTwuqN1gjVzDeb38xBmnFwBCtyfXCQ0+XX45k4S1WOS/Hm0cJzjopmgjWO
+         dyx4uUYy59bq21Zm/eeqOaMDcukBNoeYtM0FiB2Z+5eyJKISG/m5639qxzYnjFeKrdV2
+         hAwu4V/bO4k2vsv1wfMQd+tGJScGgUeEeShSAU3xLtEF2dtdIeqz6Skq0TsAT8GWNZsb
+         196nyjcFx9xSQoaQwlN0joQBtN18cgreeMHa5iF/caIPJE6qe7L2WmPwcLPhvR7el/zF
+         3asUQ0cL1F5EQuhcAxoUeQ7cRi+6ZBHuGRA8OUXI9eTRNKBAHzkgNsLANqyyUfasvIg0
+         +fCw==
+X-Forwarded-Encrypted: i=1; AL+hErGzD7DQL7/b9Gh8GB4N3DAnTyDe5T/5RAKSS/Xkqyi3Hy67bOMdJYPUPbqJ5y9/jPKwshI00sDpB2I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8YFH9K6RqRkZ9JECZ220XUAV0uYZybT7U3cPUIVibS0MVeduo/
+	mycTA64wbglHlUM4KvhfKU2ki0LUYKa6A1ZLI+VzicBEKFOz0nQUEMJiPF7BmodN81zvGVPE+YB
+	4QBWU28tBWw==
+X-Received: from dyblf39.prod.google.com ([2002:a05:7301:a27:b0:373:6c70:7c9c])
+ (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:d584:b0:36c:9f1a:30b8
+ with SMTP id 5a478bee46e88-3725661520amr5331882eec.31.1794177594363; Sun, 08
+ Nov 2026 14:39:54 -0800 (PST)
+Date: Sun,  8 Nov 2026 14:39:11 -0800
 In-Reply-To: <20261108223913.3624571-1-irogers@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261108223913.3624571-1-irogers@google.com>
 X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261108223913.3624571-7-irogers@google.com>
-Subject: [PATCH v3 6/9] xen/sys-hypervisor: Add release callback to hyp_sysfs_kobj_type
+Message-ID: <20261108223913.3624571-8-irogers@google.com>
+Subject: [PATCH v3 7/9] ubifs: sysfs: Use kset_create_and_add() for ubifs_kset
 From: Ian Rogers <irogers@google.com>
 To: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
 	Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
@@ -109,39 +109,74 @@ Cc: Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id
 	linux-kernel@vger.kernel.org, Ian Rogers <irogers@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-hypervisor_init() in drivers/base/hypervisor.c creates hypervisor_kobj
-with kobject_create_and_add() (which allocates a dynamic kobject using
-dynamic_kobj_ktype), and hypervisor_subsys_init() in
-drivers/xen/sys-hypervisor.c then overwrites hypervisor_kobj->ktype with
-&hyp_sysfs_kobj_type, which had no .release callback.
+ubifs_kset was a static struct kset using a custom ubifs_ktype that
+had no default_groups and no .release callback. With
+CONFIG_DEBUG_KOBJECT_RELEASE=y, unloading the ubifs module while delayed
+kobject release is pending causes a use-after-free on the static kset.
 
-Add hyp_sysfs_release() calling kfree(kobj) to preserve the dynamic
-kobject release behavior.
+Replace the static ubifs_kset and empty ubifs_ktype with a dynamically
+allocated kset via kset_create_and_add().
 
-Fixes: cff7e81b3dd7 ("xen: add /sys/hypervisor support")
+Fixes: 203a55f04f66 ("ubifs: Fix memory leak in ubifs_sysfs_init()")
+Tested-by: Zhihao Cheng <chengzhihao1@huawei.com>
+Reviewed-by: Zhihao Cheng <chengzhihao1@huawei.com>
 Signed-off-by: Ian Rogers <irogers@google.com>
 ---
- drivers/xen/sys-hypervisor.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ fs/ubifs/sysfs.c | 24 +++++++-----------------
+ 1 file changed, 7 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/xen/sys-hypervisor.c b/drivers/xen/sys-hypervisor.c
-index 91923242a5ae..0e8a2cd69fd6 100644
---- a/drivers/xen/sys-hypervisor.c
-+++ b/drivers/xen/sys-hypervisor.c
-@@ -659,7 +659,13 @@ static const struct sysfs_ops hyp_sysfs_ops = {
- 	.store = hyp_sysfs_store,
+diff --git a/fs/ubifs/sysfs.c b/fs/ubifs/sysfs.c
+index dbf967dcf26e..e20931e3a62f 100644
+--- a/fs/ubifs/sysfs.c
++++ b/fs/ubifs/sysfs.c
+@@ -80,13 +80,7 @@ static const struct kobj_type ubifs_sb_ktype = {
+ 	.release	= ubifs_sb_release,
  };
  
-+static void hyp_sysfs_release(struct kobject *kobj)
-+{
-+	kfree(kobj);
-+}
-+
- static const struct kobj_type hyp_sysfs_kobj_type = {
-+	.release = hyp_sysfs_release,
- 	.sysfs_ops = &hyp_sysfs_ops,
- };
+-static const struct kobj_type ubifs_ktype = {
+-	.sysfs_ops	= &ubifs_attr_ops,
+-};
+-
+-static struct kset ubifs_kset = {
+-	.kobj	= {.ktype = &ubifs_ktype},
+-};
++static struct kset *ubifs_kset;
  
+ int ubifs_sysfs_register(struct ubifs_info *c)
+ {
+@@ -107,7 +101,7 @@ int ubifs_sysfs_register(struct ubifs_info *c)
+ 		goto out_free;
+ 	}
+ 
+-	c->kobj.kset = &ubifs_kset;
++	c->kobj.kset = ubifs_kset;
+ 	init_completion(&c->kobj_unregister);
+ 
+ 	ret = kobject_init_and_add(&c->kobj, &ubifs_sb_ktype, NULL,
+@@ -139,18 +133,14 @@ void ubifs_sysfs_unregister(struct ubifs_info *c)
+ 
+ int __init ubifs_sysfs_init(void)
+ {
+-	int ret;
++	ubifs_kset = kset_create_and_add("ubifs", NULL, fs_kobj);
++	if (!ubifs_kset)
++		return -ENOMEM;
+ 
+-	kobject_set_name(&ubifs_kset.kobj, "ubifs");
+-	ubifs_kset.kobj.parent = fs_kobj;
+-	ret = kset_register(&ubifs_kset);
+-	if (ret)
+-		kset_put(&ubifs_kset);
+-
+-	return ret;
++	return 0;
+ }
+ 
+ void ubifs_sysfs_exit(void)
+ {
+-	kset_unregister(&ubifs_kset);
++	kset_unregister(ubifs_kset);
+ }
 -- 
 2.56.0.455.g6c5a503b38-goog
 
