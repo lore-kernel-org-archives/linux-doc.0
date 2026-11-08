@@ -1,75 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.149
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794132561;
-	b=G8lqlHUHXzo2Ndrl0uvNzp/BqIl+oc44gvOOIBe31KYcLYjgL9NxjYpUaRECJGJGu3Ub
-	 ETYggIVMbXLFOa6+vCBUSNEmG0UH7h533EBURM/0lZj1t4QR4kbNDtyHy2GCX9FR8Ykp2
-	 E3H2NgHBRWpYLDVUns1jFARfBny8P/stI0QVi/R9e1YMcp9iis8nOJHBfKBTlpnBL7IlG
-	 qmh4iJEB3yohekqJide4jRHCpT1sn1yb6/DFJQqH/RmPVcuhPgxabKKdTwETL+msPWdlS
-	 A6Q93ydl+eFT4ddOr1N56ffIJPHcoUhWFJr2GtY/bcBxPA52ckF5369FW6uEzeenHSg==
+	t=1794132844;
+	b=26rNXBbIkr3oMQR4H7gWMb/Zz3a9htzPCxpMTH1K0KDVA6WJa0MF+Ze03eGH+lvw/i+L
+	 VbJlHcuOg66BthQQJ2bArZurqoiRUBJtuLEZfaMoQrpuRyLe8Zfswc8Y8yf5NcvbJ/NNd
+	 V6bzNksaw2AkhikZD5KcEyT22w/qwrbtUEIZ8i2JfL0mOQk8qHPK68ySv4QL5XKa0UKUN
+	 HB6FirDz3qVAYnAH/A38WVAp0lEfrmgL5aGMk0dfoClsyiUbz2TS2xmwZJfQpwnaq/fYB
+	 VBPEumbmACUV6NUyV0SKGJfByHvU8aqONcii0tCHRoEQAzSSIzoV6kz7Q2yMKMhVQTw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794132561;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=bMJlZTOTEJlmOuVWJz4GRAC6Q9ZXPrxhv+08R2sTA74=;
-	b=I2sr4zRrf+0cy4FdvN5AYyUjJAx1IcUSLYbTnxXA/y+do/Y3cWZlhbSFAt5kWCphKXnT
-	 zB6io9Z2wZLQg96Wv1N5GCHCFVmW7YVmt77OhtPIkwE8fLifYVq4VNiAZzcxZwY9Rnbss
-	 BVe5R5m1W+btz9KMLZk+bDEUytb38QeYGXIfb9ZsoJqcI8mVm475ggGxWVK+WxoDKb41f
-	 yhWa0fvcc6km/6FWAzqU2j8tvvwoQcLnDJXbwLbTs9y60XtJ8V+N/RG6z7LgDFcrNC1mM
-	 ruvfLM+kVytzq2zyI/gcCvcYh4YiaWeyYawmhEkGVPNuCrYenJ5oEPxTP2O0QXH/EIA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794132844;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:From:To:Cc:References:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=vuq9GH5gRApVBk9dTBvyem1k6yaVp9YAvagEyAzC9wo=;
+	b=B/oyKMPrC11Kur/8ypvnZIU7RzO5jtlmMTTStMI6Wb00jzXyC2i1zWRtFnMizcrXBMz6
+	 2YnZD9gwzJKLRocM29NGw+YgEIfrEf8g9hFFWEa4HkeSd8PjRYzJfbQr3J0t+yy2Whgse
+	 CuzBZHEFgVedXmK4LrTtYimb74eb1Qi2/IKZaR+a11h66buAepPv7jsarRVbzP/c2GyOR
+	 T3DDy20CIA4jiIVRWn2Z/m5AvYey8h8vGkP9QAjizaftKTeLJ+LcTgYBpNlchyVK8bijv
+	 A9XKDrJInb6B9oCKpJvDFQup5LDsAkDBKD+STCVQmYg9+M26By+Dt9d2ZXc0Y5lsHhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	arc=none smtp.remote-ip=91.218.175.149
-Received: from mta0.migadu.com (out-149.mta0.migadu.com [91.218.175.149])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64676606A321
-	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 10:09:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64676606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=bMJlZTOTEJlmOuVWJz4GRAC6Q9ZXPrxhv+08R2sTA74=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794132547; v=1; x=1794737347;
- b=oJi7KdRqKwDGAFpr7Bmv9zJzxhR4ofd/6SKv8EmW8rADUsNX2np1y5SzvNmn5z4ppLwGdrb/
- KxVerOoFanoXU9/Vb9kHUjRBhpKKjfHm1sR0yFld2vc2O5vaimBScxbcCJH+/nS9tTBJnuoOJRb
- fiaWVOj6l7ZrFkwFxkVXDI68=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 2d28383a0356ad5a;
-	Sun, 08 Nov 2026 10:09:07 +0000
-X-Mizu-Trace-ID: 2d28383a0356ad5a
-X-Migadu-Flow: FLOW_OUT
-From: Lance Yang <lance.yang@linux.dev>
-To: david@kernel.org
-Cc: hughd@google.com,
-	baolin.wang@linux.alibaba.com,
-	akpm@linux-foundation.org,
-	david@readahead.eu,
-	ljs@kernel.org,
-	liam@infradead.org,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	stable@vger.kernel.org,
-	mason@kernel.org
-Subject: Re: [PATCH 1/2] mm/memfd: handle GUP pins more reliably when write-sealing
-Date: Sun,  8 Nov 2026 18:08:57 +0800
-Message-ID: <20261108100857.94336-1-lance.yang@linux.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20261103-fixes_core_2-v1-1-f332954f1df4@kernel.org>
-References: <20261103-fixes_core_2-v1-1-f332954f1df4@kernel.org>
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7976A606A31C;
+	Sun,  8 Nov 2026 10:13:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7976A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMCGrcVfS_BqYZEIAA--.8011S2;
+	Sun, 08 Nov 2026 18:13:51 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wBHMR9aS_Bq8oENAA--.18075S2;
+	Sun, 08 Nov 2026 18:13:49 +0800 (CST)
+Message-ID: <bab86e6c-bbda-4ad0-bd88-5ace76946eb0@hust.edu.cn>
+Date: Sun, 8 Nov 2026 18:13:46 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,36 +45,154 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/13] docs/zh_TW: process: add translations of 13
+ documents
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Weijie Yuan <wy@wyuan.org>, Chen-Yu Yeh <chenyou910331@gmail.com>,
+ Yanteng Si <si.yanteng@linux.dev>, Alex Shi <alexs@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261106113545.708896-1-chenyou910331@gmail.com>
+ <3bbce43f-476c-4a21-8da3-2be98a696e9c@hust.edu.cn>
+In-Reply-To: <3bbce43f-476c-4a21-8da3-2be98a696e9c@hust.edu.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IQEQrMCGrcVfS_BqYZEIAA--.8011S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoW3Jw4UJrWkGr48ArWrKrWxWFg_yoW7WF13pF
+	1xGFyfG3Z3Gw1SyrWxKr4xXryrJFyxCw43KF12qwn3t395try0vr4fKr9Fga9xWrW0va1j
+	qw15tr48uw42vF7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUQCb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
+	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
+	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
+	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
+	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
+	87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU32-eDUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-On Tue, Nov 03, 2026 at 07:31:44PM +0100, David Hildenbrand (Arm) wrote:
->memfd_wait_for_pins() detects GUP references by comparing a folio's
->actual refcount with its expected refcount. As spelled out by
->folio_expected_ref_count(), obtaining the expected refcount when there
->can be concurrent folio (un)mapping is racy.
+On 11/7/26 8:44 PM, Dongliang Mu wrote:
 >
->So it is possible that a changing folio mapcount can race with our
->check for GUP references, and F_SEAL_WRITE might succeed even if there
->are some, allowing file contents to be modified after sealing.
->
->For folios with a reliable pincount, detect FOLL_PIN references using
->folio_maybe_dma_pinned() before falling back to the refcount comparison.
->For small folios without that, the 1024 pinning BIAS makes it very hard
->(although not impossible) to misguide the refcount comparison.
->
->This improves FOLL_PIN detection for folios with a pincount. Handling
->FOLL_GET and small folios requires a more fundamental change.
->
->Fortunately, most interfaces that allow for GUP'ing such pages use
->FOLL_PIN, in particular interfaces using FOLL_LONGTERM. However, we
->still have some FOLL_GET leftovers ...
->
->Fixes: 05f65b5c7090 ("shm: wait for pins to be released when sealing")
->Cc: stable@vger.kernel.org
->Cc: Chris Mason <mason@kernel.org>
->Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
->---
+> On 11/6/26 7:35 PM, Chen-Yu Yeh wrote:
+>> I previously promised Jon that if no contributors stepped forward
+>> within two months, the maintainers would have to produce some results
+>> ourselves.
+>>
+>> This series adds zh_TW translations for 13 process/ documents that had
+>> no Traditional Chinese version, and moves each one from the TODOList
+>> into the toctree of process/index.rst.
 
-Reviewed-by: Lance Yang <lance.yang@linux.dev>
+Hi Weijie and Chen-Yu,
+
+I’m also working on updating the zh_CN translations. My plan is to first 
+resolve all references using |:ref:| tags or direct document paths.
+
+I’ll proceed as follows:
+
+ 1. Update references directly for content already translated and merged
+    into the tree.
+ 2. Add missing translations where referenced content has none, then
+    update the corresponding references.
+
+After the current translation are self-referenced, I will continue to 
+add more translation. In the current stage, it would be more important 
+to fix all severe issues in the translation other than adding more 
+translation. To be honest, it is easier to leverage LLM to add more 
+translation.
+
+This is just my approach for enriching the zh_CN translation work — I’m 
+not suggesting you need to follow it.
+
+Dongliang Mu
+
+>>
+>> It is independent of the "resync translations with the English
+>> originals" series sent alongside it, and applies on its own.
+>>
+>> Terminology follows the decisions in that series; whole-file
+>> terminology unification and the glossary.rst update will follow
+>> separately.
+>>
+>> The series is based on the docs-next branch of
+>> https://github.com/kernel-zh/linux-zh_TW.
+>
+> This patchset looks good to me except the newly-introduced top-level 
+> labels, which have no references.
+>
+> tw_researcher_guidelines
+> tw_applying_patches
+> tw_pgpguide
+> tw_changes
+> tw_deprecated
+> tw_kernel_docs
+> tw_maintainers
+>
+> Dongliang Mu
+>
+>>
+>> Chen-Yu Yeh (13):
+>>    docs/zh_TW: process: add researcher-guidelines.rst translation
+>>    docs/zh_TW: process: add cve.rst translation
+>>    docs/zh_TW: process: add applying-patches.rst translation
+>>    docs/zh_TW: process: add maintainer-pgp-guide.rst translation
+>>    docs/zh_TW: process: add changes.rst translation
+>>    docs/zh_TW: process: add handling-regressions.rst translation
+>>    docs/zh_TW: process: add deprecated.rst translation
+>>    docs/zh_TW: process: add kernel-docs.rst translation
+>>    docs/zh_TW: process: add maintainer-handbooks.rst translation
+>>    docs/zh_TW: process: add contribution-maturity-model.rst translation
+>>    docs/zh_TW: process: add conclave.rst translation
+>>    docs/zh_TW: process: add threat-model.rst translation
+>>    docs/zh_TW: process: add maintainers.rst translation
+>>
+>>   .../zh_TW/process/applying-patches.rst        | 392 +++++++
+>>   .../translations/zh_TW/process/changes.rst    | 532 ++++++++++
+>>   .../translations/zh_TW/process/conclave.rst   |  35 +
+>>   .../process/contribution-maturity-model.rst   |  83 ++
+>>   .../translations/zh_TW/process/cve.rst        |  90 ++
+>>   .../translations/zh_TW/process/deprecated.rst | 363 +++++++
+>>   .../zh_TW/process/handling-regressions.rst    | 969 ++++++++++++++++++
+>>   .../translations/zh_TW/process/index.rst      |  35 +-
+>>   .../zh_TW/process/kernel-docs.rst             | 355 +++++++
+>>   .../zh_TW/process/maintainer-handbooks.rst    |  20 +
+>>   .../zh_TW/process/maintainer-pgp-guide.rst    | 795 ++++++++++++++
+>>   .../zh_TW/process/maintainers.rst             | 127 +++
+>>   .../zh_TW/process/researcher-guidelines.rst   | 136 +++
+>>   .../zh_TW/process/threat-model.rst            | 187 ++++
+>>   14 files changed, 4101 insertions(+), 18 deletions(-)
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/applying-patches.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/changes.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/conclave.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/contribution-maturity-model.rst
+>>   create mode 100644 Documentation/translations/zh_TW/process/cve.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/deprecated.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/handling-regressions.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/kernel-docs.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/maintainer-handbooks.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/maintainer-pgp-guide.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/maintainers.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/researcher-guidelines.rst
+>>   create mode 100644 
+>> Documentation/translations/zh_TW/process/threat-model.rst
+>>
+
