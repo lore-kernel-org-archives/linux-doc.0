@@ -1,75 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794117624;
-	b=sqRXyb5JDwawYS5Zy1r5+Ni3x57bJH5M09jE6zaEt7J/PwxrZoR9CdS88w6dEdzZGOk5
-	 nkMMwivNh7ZSm5Yk4dHx1uNASujUJ2zBtm2lst+Sn9Jzc20L3IsgKNY9AqMQS6NkE/+fL
-	 VQEjRaTe02d7EWJP4E3cj9vJQ/A+fSu7v55wuQHmbm/i/i9lhKD8ni3BWPad7YfHjQYnS
-	 Q2iPFZ4VnkFyEbNnZNgUNy/O35uIBN1kon/wKV2QZ0f9Gg/BCRBTVz3kCrI5mhcUCTfut
-	 v/AOcj1KGwOcsbiFsZkV6+EetehLUrSuP4HW+TnDw3VYzTSXuDDeBXiVEyO1sXlTH6w==
+	t=1794118694;
+	b=E7gKxDDg9MwZ1bCqusqD4iQ1P9oGuEeK2Kd13dO/oKDJfi4Li3aast14/SWfNzGRmZA4
+	 6ba1rAQmR9Hpf0GVJvr36hCNDk9PL6O+yZNrJBawifgk+iYVUzCmauJyMzh26AEx8Xq0V
+	 ifmg5mpvu6X97jR4Xwm+9xZQDrMzI8+p5XU28/PjkCVfLkJ/lTmGYg4z4A9oZOCSMDTWH
+	 AQ2f67MY+YKD/czaG7GRF5uave9C6rloZhGhZ06T+ywUo7DgwNvK8awHkQTB40BqZ4rDv
+	 oqO5nhU/GMYya8Cjl3TirI8hj9bKIKvC/pXo8Lx1KwrtVdye/S+SnZ6MyRXGUhyfUjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794117624;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794118694;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=ls8Vsqz37bk9Lc/TUQk6BA8al47BcGIFX0n6D6YIHe4=;
-	b=YwFW4ybXITFip3WyV+e7Z0rqnd3R9QHNKaWE8aZc605EKvhDByl+qGsnt+kHFz2OFYBD
-	 j+PwBZlc5xRTHOSsv6BWu4gIKZpeP51jscAeiwsizi9MnrefFYQRYxeEFpAVCDJupjaKl
-	 HNd7m4+eJYvT2V0MCEx2vq+9Yt77+thqXRjgAEgaNjliuEVJ5NCbsTRgtzmFL0f2DOYLg
-	 dwX/ZbGSqntwWEdJgjYEaDPLnO9dLXGgHnYF0X38N8mliX9XN37of+k6jjBnI/A9frW/M
-	 5LHt7PBlyHx94K7I1/E8CJrAYtZBNy59SydqRaX2knig8OnUUZfzoHNrd87fE9KPc9Q==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Mcozko3cpjsd4Fb6V5y36/b9iev/kYzZlS9QuT6BrZc=;
+	b=FK0sqQLIlYUoXil3ewFV2WUmEOQI1bL1tbSm91BuTo320aq15j2LLgMzzy5jSUYcqspJ
+	 pS1QQpaSohFZCL6U+mTfu72BWL6EbWvEL/myVUeNf82cZqChaJbz74VAZNUNngy86VcLV
+	 vOxqO4Bt9HJewbVToTXPNoEe1V4/WBwYvf1ICtRXPz46tkIsd/X4uT5AOVXCLH8o2Qlb5
+	 nedmNy1FID7stkn/Ah6Q3hNSf2bywzPQwg7GFqvrPiOr4E+2b7IVnSnYVSELMedTbDbnO
+	 RoRmVrJ3KRW3m5XFdISEclgxBJ12T+0bXqHfhszG4Xr4tu4qEb8WERmsTYtTF7K+n/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iY0Ruttd;
-	arc=none smtp.remote-ip=74.125.82.200
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=niXzWDD3;
+	arc=none smtp.remote-ip=74.125.82.51
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AA2606EEB2
-	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 06:00:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49AA2606EEB2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4AA7606A31C
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 06:18:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E4AA7606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iY0Ruttd
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso652010eec.1
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 22:00:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=niXzWDD3
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1a2761c69fbso522078c88.0
+        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 22:18:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794117623; x=1794722423; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ls8Vsqz37bk9Lc/TUQk6BA8al47BcGIFX0n6D6YIHe4=;
-        b=iY0RuttdzNYL3L/hxvriJXgWLcv1kf3av/fkpSJxd4kxhvAgrYQTBku5t4hwm/GXA5
-         vYV62lUm79XaGdxX33bxC3JgPksIcsCGIAeTHdYQ0aqIcD7EgcT8FK5FMVk0LgQXF0Ax
-         oRH9Js1cz9Z2clrcZ+eLleMu8I7OojWjfVHiATzd6c0OY+/UR2Phx1RPkfV7cfbU5ccQ
-         7gxm8FT26Psc/qjdvWAnUX1cmFGSsHgtLVRR4QV7mZEiGpUc8a+L3ePc5EP49kfte19F
-         Pgc+Ejx5ftkPoDYYRHnhN5GPFNNEfkc/jQpRHdThYPozQxMmk2V59ZYzGipa7CbCAyQu
-         u6Xw==
+        d=gmail.com; s=20260707; t=1794118693; x=1794723493; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Mcozko3cpjsd4Fb6V5y36/b9iev/kYzZlS9QuT6BrZc=;
+        b=niXzWDD37PKYpBFRkqWDTihy/W3R4h/GAC8tTa1OPPMrT58BdfYps9O1lw+lAHqOOW
+         ndCpG4Js/Bs2q3kPesofjxYM79x8xFHQgdWGulBqUJRg9JZqUpfrkf4szH63lo1U4Lnc
+         qPj/Gr4IBJtkGxSKu5stljLMdTzWuy3s7UCKRE3a3S1vcPkGKG61I40ttKPH965/EFqU
+         RdgudLmgUiBKFVcb8fEK+mUjHJFN1QZWfCE4plGPJ883+3NM+1cJ9Y9PDmWnGUXA/SPs
+         zR0pwZXFDQyNFf2vxTX4WNjiDC5u+G9yoC4aqZA9koFuFGYbiRU/hzOZ4lcC8q8D/HPO
+         G7lA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794117623; x=1794722423;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1794118693; x=1794723493;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ls8Vsqz37bk9Lc/TUQk6BA8al47BcGIFX0n6D6YIHe4=;
-        b=1+hnxK2u71nCC3ELf19PP8UC2JKBMm6Cxik7SObs9iBVkUKvhwCw1hvNYu+sDu9B8J
-         aq9Wkt6zjnl5pLIFq9h7Se2S2me/IUV585thOI1SlhPnzU44/F1I+TElbzThIDeha8ws
-         hMotYqJxriESsrkc82Gfw67qCvKAcd2F0MW/MkYoLKTJfVAtOwGXFFZMCFA3sIZRlDEg
-         fS0wCEmF7hQGOLTn+FDGVzFmFeaKI6SuI4/Au+irNm2mQPLrIGRDP08fMmBZdeS5thKr
-         ybBuKsT4Zx3QE/SdxL30kL3d9TcuAIcFLiQnW4hUfFKRWxyLgGOBxA4rOLFUhEd5gz7U
-         t19A==
-X-Forwarded-Encrypted: i=1; AKwUvBzvvMg79gZGmjap2yQyD5tcpFIJyU5KfLDfH2RxFubBFijodnoWmFVSP8VykImqAZAmtU2S5muyItY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9U2Yjm5zAWzI0UudzCiy3GOIL39YTU5g7QLJB3KyYdoNiL5DkP
-	YHzTWB+gvrNad7Z1K36iLa42ygMYrM0wdY/JSQubsX6tqn32bOCRQek7miVnp5zHFEfImJBMKrZ
-	GfNE3F/L3YcpYzPjnGCoVE0Kx8g==
-X-Received: from dycmb13-n2.prod.google.com ([2002:a05:693c:20cd:20b0:36a:17c6:6824])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:693c:6390:20b0:36c:9bc6:3ec with SMTP id 5a478bee46e88-37252f3042emr1787652eec.3.1794117622089;
- Sat, 07 Nov 2026 22:00:22 -0800 (PST)
-Date: Sun,  8 Nov 2026 06:00:14 +0000
-In-Reply-To: <20261108060016.2131509-1-almasrymina@google.com>
+        bh=Mcozko3cpjsd4Fb6V5y36/b9iev/kYzZlS9QuT6BrZc=;
+        b=2N8BmvjbwAFezla/VryXMTF88ej2P9YMEas3hic5liZ5+/1WBejvZ64udoDZQaIz8t
+         XIh3WzRhxMcHY+aQBWI4T2eBKfE1+iqi8FPi8IMliMd7FqyqosdNg6snjFTqGt6cCuC2
+         4SyXDAVz/EE9PoNGEtcecJk1EAZmLgM15e7XXptYUdtG8MGWneFFKWKnJsnJfqwldviN
+         s86KCR95vMgiZIE05utAVx5rHkKujvEeccZgHq6FpeMbvZv6AqWNEdEY9cuuqYF9V5Pj
+         VvzikZUJHhljf3xKVCfxz4oRMptdKYO8rh3k/y0gqOmzwAy9lnBj7UKctehko0URLdgy
+         iJDQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwyq3WAJO3IcNSlqAo+0arMZoXWW/gqzDpGXs/28NvGTmKjMEhD7LDTnj1coD+cUotxKDKlI1o0uXM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9vNDubVaAC0rCSsucXxFNXkdCWlkIvie2Ff9U55CEJmbF+ygp2
+	tmyO23hMgqEYHsgfH4tUfxU9Um6kAYITBZRUBOfImXj3/BKV63xjZCmjgyRemHI0Kqs=
+X-Gm-Gg: AYBFou1Dqtpt4Y/NCe+8b9wOxv2ci2+ik26bv9pvuUmRj99HHeTNtJhmE400zdFRqMv
+	+gXNGvl3j1fJQ4q2c47pHnmmdA2elW0Aojg6bU8oamvZ2tfBRPkvOk6jjd2uvcUPaTmsHOzOFzz
+	ZhqqgDfPqaPuolA61bRFg1MSMxWkCL8VqACE0EKkz2uh52DDiBegN+CpdIV5L9SYE2RnlBiOYkR
+	M7eVXb53GoYO3LIAtCXHuvQbJDef6I1S5DFCCrIhbnMEP8YyLPOf/fthXp9Aoty2BAix0VdCDyE
+	gEOGff8V8Ngd18kC2Xk2svYa+Ysb1dIzeg7nYXDiWyPDow8sYL6FYPgC9MwpwMdK3qvBl5wYuuw
+	Y6MNfbadyA04kln5BncLhVDhf2L05VAoAgvQTrLlfCK7bPx0f9HNZ2dGagkKx5cB6cop5amdmrs
+	L/OspikqTJccQRaTU54wBAc6n/OMt84R2q8H4pAeR7nnagQZcp49HhoKupnZKcyKqCngseJr7PY
+	AgMado1U0gRGoF8j7/qb861713RceY2gytv8oFKkHk/HfIOpS2hFuPI4pniCamS9314GEoLpH4O
+	OXpCldgp31fyfJgQMP7bkLEQ39XfAu9o7xxELGvX1d1/d1EdrQbKkxipgCHjTFUWIEk=
+X-Received: by 2002:a05:701b:42c6:10b0:174:cf1b:235c with SMTP id a92af1059eb24-1b39fed16edmr1123611c88.43.1794118692861;
+        Sat, 07 Nov 2026 22:18:12 -0800 (PST)
+Received: from LAPTOP-KD1TH5BD.tail375eb4.ts.net ([47.11.96.146])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b37314626dsm4838725c88.1.2026.11.07.22.18.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 22:18:12 -0800 (PST)
+From: Gopal Malaviya <gopalmalaviya53@gmail.com>
+To: netdev@vger.kernel.org
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next] docs: net: fix outdated default values of four sysctls
+Date: Sun,  8 Nov 2026 06:17:46 +0000
+Message-ID: <20261108061746.32090-1-gopalmalaviya53@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,247 +101,100 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261108060016.2131509-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261108060016.2131509-4-almasrymina@google.com>
-Subject: [PATCH net-next v2 3/5] tcp: detach page_pool pages before mapping in tcp_zerocopy_receive()
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org
-Cc: Mina Almasry <almasrymina@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	Kuniyuki Iwashima <kuniyu@google.com>, Pavel Begunkov <asml.silence@gmail.com>, 
-	Bobby Eshleman <bobbyeshleman@meta.com>, Stanislav Fomichev <sdf@fomichev.me>, linux-kernel@vger.kernel.org, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	Willem de Bruijn <willemb@google.com>, John Fastabend <john.fastabend@gmail.com>, 
-	Sabrina Dubroca <sd@queasysnail.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>, 
-	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Johannes Berg <johannes@sipsolutions.net>, Byungchul Park <byungchul@sk.com>, Zi Yan <ziy@nvidia.com>, 
-	virtualization@lists.linux.dev, linux-mm@kvack.org, bpf@vger.kernel.org, 
-	linux-wireless@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Wen Gu <guwen@linux.alibaba.com>, 
-	Philo Lu <lulie@linux.alibaba.com>, Justin Chen <justin.chen@broadcom.com>, 
-	Florian Fainelli <florian.fainelli@broadcom.com>, Vikas Gupta <vikas.gupta@broadcom.com>, 
-	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
-	Doug Berger <opendmb@gmail.com>, Nicolai Buchwitz <nb@tipi-net.de>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Satish Kharat <satishkh@cisco.com>, 
-	Wei Fang <wei.fang@nxp.com>, Frank Li <frank.li@nxp.com>, Shenwei Wang <shenwei.wang@nxp.com>, 
-	Joshua Washington <joshwash@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Jijie Shao <shaojijie@huawei.com>, Jian Shen <shenjian15@huawei.com>, 
-	Fan Gong <gongfan1@huawei.com>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Marcin Wojtas <marcin.s.wojtas@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, Sunil Goutham <sgoutham@marvell.com>, 
-	Geetha sowjanya <gakula@marvell.com>, Ratheesh Kannoth <rkannoth@marvell.com>, 
-	Subbaraya Sundeep <sbhatta@marvell.com>, Bharat Bhushan <bbhushan2@marvell.com>, 
-	Felix Fietkau <nbd@nbd.name>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Tariq Toukan <tariqt@nvidia.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Ido Schimmel <idosch@nvidia.com>, Petr Machata <petrm@nvidia.com>, 
-	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
-	Daniel Machon <daniel.machon@microchip.com>, Steen Hegelund <Steen.Hegelund@microchip.com>, 
-	Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>, 
-	Dexuan Cui <decui@microsoft.com>, Yibo Dong <dong100@mucse.com>, 
-	Brett Creeley <brett.creeley@amd.com>, Justin Lai <justinlai0215@realtek.com>, 
-	Larry Chiu <larry.chiu@realtek.com>, 
-	"=?UTF-8?q?Niklas=20S=C3=B6derlund?=" <niklas.soderlund@ragnatech.se>, Paul Barker <paul@pbarker.dev>, 
-	Masahisa Kojima <kojima.masahisa@socionext.com>, 
-	Maxime Chevallier <maxime.chevallier@bootlin.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, FUJITA Tomonori <fujita.tomonori@gmail.com>, 
-	Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, 
-	MD Danish Anwar <danishanwar@ti.com>, Jiawen Wu <jiawenwu@trustnetic.com>, 
-	Mengyuan Lou <mengyuanlou@net-swift.com>, Ronak Doshi <ronak.doshi@broadcom.com>, 
-	Ryder Lee <ryder.lee@mediatek.com>, Shayne Chen <shayne.chen@mediatek.com>, 
-	Sean Wang <sean.wang@mediatek.com>, Juergen Gross <jgross@suse.com>, 
-	Stefano Stabellini <sstabellini@kernel.org>, 
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Jordan Rhee <jordanrhee@google.com>, 
-	Ankit Garg <nktgrg@google.com>, Tim Hostetler <thostet@google.com>, 
-	Eric Joyner <eric.joyner@amd.com>, Prabu Thayalan <prabu.ponrajthayalan@amd.com>, 
-	"Nikhil P. Rao" <nikhil.rao@amd.com>, Chintan Vankar <c-vankar@ti.com>, 
-	Nora Schiffer <nora.schiffer@ew.tq-group.com>, Alexander Sverdlin <alex@sverdlin.org>, 
-	Kevin Hao <haokexin@gmail.com>, Karl Mehltretter <kmehltretter@gmail.com>, 
-	Aleksandr Loktionov <aleksandr.loktionov@intel.com>, Meghana Malladi <m-malladi@ti.com>, 
-	Jacob Keller <jacob.e.keller@intel.com>, StanleyYP Wang <StanleyYP.Wang@mediatek.com>, 
-	linux-doc@vger.kernel.org, imx@lists.linux.dev, linux-rdma@vger.kernel.org, 
-	linux-hyperv@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-omap@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Once tcp_zerocopy_receive() maps an order-0 RX fragment page into a
-userspace VMA via vm_insert_pages(), vm_insert_pages() increments
-page->_refcount, which prevents the page from being recycled back into
-its page_pool when the RX SKB is freed. However, while the RX SKB still
-holds its fragment reference, the page remains marked as a page_pool
-page (page_pool_page_is_pp(page) == true) inside the userspace VMA, so
-subsequent GUP callers such as sendmsg(MSG_ZEROCOPY) or vmsplice() can
-encounter a page_pool page while holding only a raw struct page
-reference.
+The defaults documented in ip-sysctl.rst for four sysctls differ from
+the values the kernel actually uses:
 
-Establish the invariant that pp_ref_count is only incremented by callers
-that already hold an active pp_ref_count (>= 1) on that netmem, and a
-raw page_ref_count is never converted into a pp_ref_count:
-- In can_map_frag(), require !skb_cloned(skb), page_pool_ref_count == 1,
-  and page_ref_count == 1 for page_pool pages so the fragment being
-  mapped holds the sole reference to the page; cloned SKBs or page_pool
-  pages with additional references (including drivers holding an
-  undrained fragment bias) fall back to copying.
-- In tcp_zerocopy_receive(), convert the fragment's sole pp_ref_count
-  into a regular page reference and detach the page from its page_pool
-  via get_page(page) + napi_pp_put_page(page_to_netmem(page)) before
-  queueing the page for vm_insert_pages(). If vm_insert_pages()
-  subsequently fails, the detached page remains referenced by the RX SKB
-  via its regular page reference and is freed back to the page allocator
-  when the SKB is consumed.
+  sysctl                  documented  actual
+  cipso_rbm_strictvalid   0           1
+  flowlabel_state_ranges  1           0
+  router_solicitations    3           -1
+  regen_max_retry         5           3
 
-Signed-off-by: Mina Almasry <almasrymina@google.com>
+Each one went stale when the code changed and the documentation was not
+updated, or was wrong from the start:
+
+- cipso_v4_rbm_strictvalid has been initialised to 1 since CIPSO was
+  merged, while the documentation added with it said 0.
+- Commit be26849bfb6f ("ipv6: Disable flowlabel state ranges by
+  default") changed the default of flowlabel_state_ranges to 0.
+- Commit bd11f0741fa5 ("ipv6 addrconf: implement RFC7559 router
+  solicitation backoff") changed MAX_RTR_SOLICITATIONS from 3 to -1,
+  meaning that router solicitations are sent without a limit. The
+  documentation was not updated and never mentioned -1.
+- Commit 76f793e3a471 ("ipv6: updates to privacy addresses per RFC
+  4941.") changed REGEN_MAX_RETRY from 5 to 3.
+
+Update the four defaults and note that -1 means no limit for
+router_solicitations.
+
+The mismatches were found with the help of an AI assistant (Claude),
+which compared the defaults documented in ip-sysctl.rst with the values
+under /proc/sys/net on a running kernel and with the initial values in
+the source. I confirmed each value with sysctl on a running kernel and
+against the net-next source and the commits below. The commit message
+was drafted with the same assistance.
+
+Tested by building the networking documentation with
+"make SPHINXDIRS=networking htmldocs": the change adds no warnings and
+the four defaults render as updated.
+
+Fixes: 8802f616f6de ("[NetLabel]: documentation")
+Fixes: be26849bfb6f ("ipv6: Disable flowlabel state ranges by default")
+Fixes: bd11f0741fa5 ("ipv6 addrconf: implement RFC7559 router solicitation backoff")
+Fixes: 76f793e3a471 ("ipv6: updates to privacy addresses per RFC 4941.")
+Signed-off-by: Gopal Malaviya <gopalmalaviya53@gmail.com>
 ---
- include/net/page_pool/helpers.h |  5 ++++
- net/core/datagram.c             |  2 ++
- net/ipv4/tcp.c                  | 44 ++++++++++++++++++++++++++++-----
- 3 files changed, 45 insertions(+), 6 deletions(-)
+ Documentation/networking/ip-sysctl.rst | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
-index 28635ce9454e8..c814ce95282eb 100644
---- a/include/net/page_pool/helpers.h
-+++ b/include/net/page_pool/helpers.h
-@@ -242,6 +242,11 @@ page_pool_get_dma_dir(const struct page_pool *pool)
- 	return pool->p.dma_dir;
- }
+diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
+index bc22400b53..0b7bfbd98a 100644
+--- a/Documentation/networking/ip-sysctl.rst
++++ b/Documentation/networking/ip-sysctl.rst
+@@ -1587,7 +1587,7 @@ cipso_rbm_strictvalid - BOOLEAN
+ 	- 0 (disabled)
+ 	- 1 (enabled)
  
-+static inline long page_pool_ref_count(netmem_ref netmem)
-+{
-+	return atomic_long_read(netmem_get_pp_ref_count_ref(netmem));
-+}
-+
- static inline void page_pool_fragment_netmem(netmem_ref netmem, long nr)
- {
- 	atomic_long_set(netmem_get_pp_ref_count_ref(netmem), nr);
-diff --git a/net/core/datagram.c b/net/core/datagram.c
-index ecc30a6f83023..808eda4f7efb5 100644
---- a/net/core/datagram.c
-+++ b/net/core/datagram.c
-@@ -34,6 +34,7 @@
-  *
-  */
+-	Default: 0 (disabled)
++	Default: 1 (enabled)
  
-+#include <kunit/visibility.h>
- #include <linux/module.h>
- #include <linux/types.h>
- #include <linux/kernel.h>
-@@ -702,6 +703,7 @@ int zerocopy_fill_skb_from_iter(struct sk_buff *skb,
- 	}
- 	return 0;
- }
-+EXPORT_SYMBOL_IF_KUNIT(zerocopy_fill_skb_from_iter);
+ IP Variables
+ ============
+@@ -2418,7 +2418,7 @@ flowlabel_state_ranges - BOOLEAN
+ 	- 0 (disabled)
+ 	- 1 (enabled)
  
- static int
- zerocopy_fill_skb_from_devmem(struct sk_buff *skb, struct iov_iter *from,
-diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-index b9de7c302ba83..a984e7e93e4c9 100644
---- a/net/ipv4/tcp.c
-+++ b/net/ipv4/tcp.c
-@@ -286,6 +286,7 @@
- #include <asm/ioctls.h>
- #include <net/busy_poll.h>
- #include <net/hotdata.h>
-+#include <net/page_pool/helpers.h>
- #include <trace/events/tcp.h>
- #include <net/rps.h>
+-	Default: 1 (enabled)
++	Default: 0 (disabled)
  
-@@ -1921,7 +1922,7 @@ static skb_frag_t *skb_advance_to_frag(struct sk_buff *skb, u32 offset_skb,
- 	return frag;
- }
  
--static bool can_map_frag(const skb_frag_t *frag)
-+static bool can_map_frag(const struct sk_buff *skb, const skb_frag_t *frag)
- {
- 	struct page *page;
+ flowlabel_reflect - INTEGER
+@@ -2956,9 +2956,9 @@ router_solicitation_interval - INTEGER
  
-@@ -1935,18 +1936,32 @@ static bool can_map_frag(const skb_frag_t *frag)
- 	if (PageCompound(page) || page->mapping)
- 		return false;
+ router_solicitations - INTEGER
+ 	Number of Router Solicitations to send until assuming no
+-	routers are present.
++	routers are present. A value of -1 means no limit.
  
-+	/* Before mapping a page_pool page into userspace,
-+	 * tcp_zerocopy_receive() converts this fragment's pp_ref_count into a
-+	 * regular page reference and detaches the page from its page_pool via
-+	 * napi_pp_put_page(). Require this skb_frag_t to hold the sole
-+	 * reference to the page so no other fragment or SKB clone expects
-+	 * pp_ref_count on it after detachment.
-+	 */
-+	if (page_pool_page_is_pp(page) &&
-+	    (skb_cloned(skb) ||
-+	     page_pool_ref_count(page_to_netmem(page)) != 1 ||
-+	     page_ref_count(page) != 1))
-+		return false;
-+
- 	return true;
- }
+-	Default: 3
++	Default: -1
  
--static int find_next_mappable_frag(const skb_frag_t *frag,
-+static int find_next_mappable_frag(const struct sk_buff *skb,
-+				   const skb_frag_t *frag,
- 				   int remaining_in_skb)
- {
- 	int offset = 0;
+ use_oif_addrs_only - BOOLEAN
+ 	When enabled, the candidate source addresses for destinations
+@@ -3034,7 +3034,7 @@ regen_max_retry - INTEGER
+ 	Number of attempts before give up attempting to generate
+ 	valid temporary addresses.
  
--	if (likely(can_map_frag(frag)))
-+	if (likely(can_map_frag(skb, frag)))
- 		return 0;
+-	Default: 5
++	Default: 3
  
--	while (offset < remaining_in_skb && !can_map_frag(frag)) {
-+	while (offset < remaining_in_skb && !can_map_frag(skb, frag)) {
- 		offset += skb_frag_size(frag);
- 		++frag;
- 	}
-@@ -1986,7 +2001,8 @@ static void tcp_zerocopy_set_hint_for_skb(struct sock *sk,
- 	 * mappable_offset: Bytes till next mappable frag, *not* counting bytes
- 	 * in partial_frag_remainder.
- 	 */
--	mappable_offset = find_next_mappable_frag(frag, zc->recv_skip_hint);
-+	mappable_offset = find_next_mappable_frag(skb, frag,
-+						  zc->recv_skip_hint);
- 	zc->recv_skip_hint = mappable_offset + partial_frag_remainder;
- }
- 
-@@ -2290,7 +2306,7 @@ static int tcp_zerocopy_receive(struct sock *sk,
- 				break;
- 		}
- 
--		mappable_offset = find_next_mappable_frag(frags,
-+		mappable_offset = find_next_mappable_frag(skb, frags,
- 							  zc->recv_skip_hint);
- 		if (mappable_offset) {
- 			zc->recv_skip_hint = mappable_offset;
-@@ -2300,6 +2316,22 @@ static int tcp_zerocopy_receive(struct sock *sk,
- 		if (WARN_ON_ONCE(!page))
- 			break;
- 
-+		/* Convert this fragment's sole pp_ref_count into a regular
-+		 * page reference and detach the page from its page_pool before
-+		 * mapping it into userspace. Once vm_insert_pages() elevates
-+		 * page_ref_count the page cannot be recycled into the
-+		 * page_pool anyway (and if vm_insert_pages() fails, the
-+		 * detached page is freed to the page allocator when the skb is
-+		 * consumed); detaching it up front ensures that a page_pool
-+		 * page is never mapped into a userspace VMA (where GUP callers
-+		 * such as MSG_ZEROCOPY or vmsplice() would otherwise observe a
-+		 * page_pool page while holding only a raw page_ref_count).
-+		 */
-+		if (page_pool_page_is_pp(page)) {
-+			get_page(page);
-+			napi_pp_put_page(page_to_netmem(page));
-+		}
-+
- 		prefetchw(page);
- 		pages[pages_to_map++] = page;
- 		length += PAGE_SIZE;
+ max_addresses - INTEGER
+ 	Maximum number of autoconfigured addresses per interface.  Setting
+
+base-commit: fa5196392691051963726787944db872420dfa75
 -- 
-2.56.0.455.g6c5a503b38-goog
+2.43.0
 
