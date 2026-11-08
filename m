@@ -1,41 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794132844;
-	b=26rNXBbIkr3oMQR4H7gWMb/Zz3a9htzPCxpMTH1K0KDVA6WJa0MF+Ze03eGH+lvw/i+L
-	 VbJlHcuOg66BthQQJ2bArZurqoiRUBJtuLEZfaMoQrpuRyLe8Zfswc8Y8yf5NcvbJ/NNd
-	 V6bzNksaw2AkhikZD5KcEyT22w/qwrbtUEIZ8i2JfL0mOQk8qHPK68ySv4QL5XKa0UKUN
-	 HB6FirDz3qVAYnAH/A38WVAp0lEfrmgL5aGMk0dfoClsyiUbz2TS2xmwZJfQpwnaq/fYB
-	 VBPEumbmACUV6NUyV0SKGJfByHvU8aqONcii0tCHRoEQAzSSIzoV6kz7Q2yMKMhVQTw==
+	t=1794135430;
+	b=tZAIUfN0spgqhpw7TYDdp5Fdw780DcET0OvjKErMIil6cHhxaQsE7+zEKd30raNI0cqv
+	 JNmGjhnq+sRaER6czdaHZ/m4SAO3BN1NoCVxJu0whg5EACGYvmvC4blndPktZ14Pd232p
+	 OXE1UTOIXxFonHwYAfqX+/9szrGWxr9IjDmaKGPEG3Op/zzNy9/nqMkSYIlwYWtu58rjA
+	 ipiLLS5X0RgIh/md62b4UTViEq6zPDFXNEgcjZwByYhwmuwcXxx/v6MkXrvALzGH14fUL
+	 mZU6m1wpUqo2tukrax/9oAa2gvMjVoPiBYzAqZnfg1AJFELoEW5gTyqFPsi82jHJsOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794132844;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:From:To:Cc:References:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=vuq9GH5gRApVBk9dTBvyem1k6yaVp9YAvagEyAzC9wo=;
-	b=B/oyKMPrC11Kur/8ypvnZIU7RzO5jtlmMTTStMI6Wb00jzXyC2i1zWRtFnMizcrXBMz6
-	 2YnZD9gwzJKLRocM29NGw+YgEIfrEf8g9hFFWEa4HkeSd8PjRYzJfbQr3J0t+yy2Whgse
-	 CuzBZHEFgVedXmK4LrTtYimb74eb1Qi2/IKZaR+a11h66buAepPv7jsarRVbzP/c2GyOR
-	 T3DDy20CIA4jiIVRWn2Z/m5AvYey8h8vGkP9QAjizaftKTeLJ+LcTgYBpNlchyVK8bijv
-	 A9XKDrJInb6B9oCKpJvDFQup5LDsAkDBKD+STCVQmYg9+M26By+Dt9d2ZXc0Y5lsHhA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794135430;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=TwD6srxjUR1mlpO3FVThd9ARdJjbCvcuXWMQlKqn3B8=;
+	b=WG3+30/PhBO8ujMdOvgE3j5hPkbER73U4hFLILkcFCfVURtWZLrJM20LQ6GRqlONPYdI
+	 mBAFS+H0NptRrpnDgtQvVNiPwoxi1wtg8qFDg0ZLrr9LABhp4+DOEaWKpR0ij6Z/SfPik
+	 JzurcC9Ihh1nxf7h11RF5SjcvN37Qjf7SIDVlO7CIC0spL2BqIKdx3sXX4pL8fzCWbrGP
+	 hRHloaWcy8rGTrWGCAnoQ44beYpkmQow4sDHJyEjlkwLtGjPiahWah6zTp6JYDuaaZgDo
+	 7wOSt5pvdycjmYozYvIN03wJVhNa9LHm5WB2NtYuycV4UU+651c9rjHcm/t+LelZFRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7976A606A31C;
-	Sun,  8 Nov 2026 10:13:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7976A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with UTF8SMTP id IQEQrMCGrcVfS_BqYZEIAA--.8011S2;
-	Sun, 08 Nov 2026 18:13:51 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wBHMR9aS_Bq8oENAA--.18075S2;
-	Sun, 08 Nov 2026 18:13:49 +0800 (CST)
-Message-ID: <bab86e6c-bbda-4ad0-bd88-5ace76946eb0@hust.edu.cn>
-Date: Sun, 8 Nov 2026 18:13:46 +0800
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TRiyJ6fm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 944DF606A321;
+	Sun,  8 Nov 2026 10:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TRiyJ6fm
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 7C02B1F0089F;
+	Sun,  8 Nov 2026 10:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794135429;
+	bh=TwD6srxjUR1mlpO3FVThd9ARdJjbCvcuXWMQlKqn3B8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=TRiyJ6fmFAW63gdpsdwizsp8sks3nQPXCSsVNd2T20n3ecL1W08N+jUzZxESIVAWt
+	 rhR2mdZ4qwRW/NMbHJFqpDNOPF9CXCkui9oI7PMmIUK4NxRCe2tt3hQpxEkFSNqnT0
+	 fw0KvS+KzLx48jNlOy68g7m9gUQm5PjmAAZkx6rtXjtm9xekTzjZXWKbj5B0QbYwyG
+	 JB/8XGKYPRZUhr7WB2L1DE2wA6j8fiZesr0+iLMikAA0HSFogUoI1v59TfiFrI9g6D
+	 VM/ZyMozcNPiWETPtwx8BEFg9Wkle0PgGqG+r2WbGEMNej4Yxuy0+ze7IBBhmtmmqV
+	 eurIf9dCG5Cjg==
+Date: Sun, 8 Nov 2026 12:57:05 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: David Howells <dhowells@redhat.com>, bpf@vger.kernel.org,
+	dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
+	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ignat Korchagin <ignat@linux.win>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yonghong Song <yonghong.song@linux.dev>
+Subject: Re: [PATCH v6 0/3] KEYS: Replace assoc_array with rhashtable
+Message-ID: <avBVgZt92j3OkpOG@kernel.org>
+References: <20261107195605.3929659-1-jarkko@kernel.org>
+ <au-FkAtC4Gcw7Bkb@kernel.org>
+ <20261107204210.GG6049@quark>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,154 +85,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/13] docs/zh_TW: process: add translations of 13
- documents
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Weijie Yuan <wy@wyuan.org>, Chen-Yu Yeh <chenyou910331@gmail.com>,
- Yanteng Si <si.yanteng@linux.dev>, Alex Shi <alexs@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261106113545.708896-1-chenyou910331@gmail.com>
- <3bbce43f-476c-4a21-8da3-2be98a696e9c@hust.edu.cn>
-In-Reply-To: <3bbce43f-476c-4a21-8da3-2be98a696e9c@hust.edu.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IQEQrMCGrcVfS_BqYZEIAA--.8011S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW3Jw4UJrWkGr48ArWrKrWxWFg_yoW7WF13pF
-	1xGFyfG3Z3Gw1SyrWxKr4xXryrJFyxCw43KF12qwn3t395try0vr4fKr9Fga9xWrW0va1j
-	qw15tr48uw42vF7anT9S1TB71UUUUjUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQCb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
-	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
-	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
-	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jrv_JF1lx2IqxVAqx4xG67AKxVWUJVWUGw
-	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48J
-	MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
-	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E
-	87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxU32-eDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261107204210.GG6049@quark>
 
+On Sat, Nov 07, 2026 at 12:42:10PM -0800, Eric Biggers wrote:
+> On Sat, Nov 07, 2026 at 10:09:52PM +0200, Jarkko Sakkinen wrote:
+> > On Sat, Nov 07, 2026 at 09:56:01PM +0200, Jarkko Sakkinen wrote:
+> > > The keyrings subsystem is the sole user of assoc_array. It has over 1700
+> > > lines of code, no test suite, and a long history of bugs, with LLMs now
+> > > finding more.
+> > > 
+> > > This unfortunate outcome has evolved over time by large from the shortage
+> > > of in-kernel callers, time bandwidth and 3rd party contributors.
+> > > 
+> > > What the keyrings subsystem needs is just a generic key-value store, which
+> > > performs well with sparse key sets. Replace assoc_array with an
+> > > rhashtable-backed keyring index and remove assoc_array from the kernel.
+> > 
+> > Sashiko: https://sashiko.dev/#/patchset/20261107195605.3929659-1-jarkko%40kernel.org
+> > 
+> > Not addressing this as only one patch changed and the change was
+> > exactly:
+> > 
+> > diff --git a/security/keys/keyring.c b/security/keys/keyring.c
+> > index 772fa0e35f9d..6761c6801edc 100644
+> > --- a/security/keys/keyring.c
+> > +++ b/security/keys/keyring.c
+> > @@ -12,7 +12,6 @@
+> >  #include <linux/security.h>
+> >  #include <linux/seq_file.h>
+> >  #include <linux/err.h>
+> > -#include <linux/delay.h>
+> >  #include <linux/jhash.h>
+> >  #include <linux/user_namespace.h>
+> >  #include <linux/nsproxy.h>
+> > @@ -101,6 +100,7 @@ static const struct rhashtable_params keyring_link_params = {
+> >         .min_size               = 4,
+> >         .nelem_hint             = 3,
+> >         .automatic_shrinking    = true,
+> > +       .insecure_elasticity    = true,
+> >  };
+> > 
+> >  static struct keyring_index *keyring_index_locked(const struct key *keyring)
+> > @@ -1225,12 +1225,8 @@ int __key_link_begin(struct key *keyring,
+> >                 if (ret < 0)
+> >                         goto error;
+> > 
+> > -               do {
+> > -                       ret = rhashtable_insert_fast(&links->ht, &link->node,
+> > -                                                    keyring_link_params);
+> > -                       if (ret == -EBUSY)
+> > -                               fsleep(100);
+> > -               } while (ret == -EBUSY);
+> > +               ret = rhashtable_insert_fast(&links->ht, &link->node,
+> > +                                            keyring_link_params);
+> >                 if (ret < 0) {
+> >                         key_payload_reserve(keyring,
+> >                                             keyring->datalen - KEYQUOTA_LINK_BYTES);
+> > 
+> > So I don't think there are any real issue with the patch set, except I
+> > will need to rebase the commits to the latest mainline.
+> 
+> It looks good to me now too, but it would be good to get a Sashiko run
+> on the latest version.  Sashiko hasn't run since v3, as it failed to
+> apply the series.  You should base the series on a commit in either
+> mainline or linux-next, and pass the '--base' option to 'git
+> format-patch' so it adds a 'base-commit' line.
+> 
+> (The only reason I've been able to apply it myself for review is that I
+> went out of my way to find your keys-rhashtable branch in git.)
+> 
+> - Eric
 
-On 11/7/26 8:44 PM, Dongliang Mu wrote:
->
-> On 11/6/26 7:35 PM, Chen-Yu Yeh wrote:
->> I previously promised Jon that if no contributors stepped forward
->> within two months, the maintainers would have to produce some results
->> ourselves.
->>
->> This series adds zh_TW translations for 13 process/ documents that had
->> no Traditional Chinese version, and moves each one from the TODOList
->> into the toctree of process/index.rst.
+I think know what is the problem here exactly. It's the prepending bug
+fixes. Sorry, I only now realized this althouhgh it should be quite
+obvious.
 
-Hi Weijie and Chen-Yu,
+I updated mainline few days for the sake of v7.4-rcX PRs late this
+week (I think it was Thu or Fri) but linux-next was not up to date
+last time I checked.
 
-I’m also working on updating the zh_CN translations. My plan is to first 
-resolve all references using |:ref:| tags or direct document paths.
+One I'm able to send the PR containing the fixes, I'll do that and
+once that is in the mainline. I'll send a new version of this patch
+set.
 
-I’ll proceed as follows:
-
- 1. Update references directly for content already translated and merged
-    into the tree.
- 2. Add missing translations where referenced content has none, then
-    update the corresponding references.
-
-After the current translation are self-referenced, I will continue to 
-add more translation. In the current stage, it would be more important 
-to fix all severe issues in the translation other than adding more 
-translation. To be honest, it is easier to leverage LLM to add more 
-translation.
-
-This is just my approach for enriching the zh_CN translation work — I’m 
-not suggesting you need to follow it.
-
-Dongliang Mu
-
->>
->> It is independent of the "resync translations with the English
->> originals" series sent alongside it, and applies on its own.
->>
->> Terminology follows the decisions in that series; whole-file
->> terminology unification and the glossary.rst update will follow
->> separately.
->>
->> The series is based on the docs-next branch of
->> https://github.com/kernel-zh/linux-zh_TW.
->
-> This patchset looks good to me except the newly-introduced top-level 
-> labels, which have no references.
->
-> tw_researcher_guidelines
-> tw_applying_patches
-> tw_pgpguide
-> tw_changes
-> tw_deprecated
-> tw_kernel_docs
-> tw_maintainers
->
-> Dongliang Mu
->
->>
->> Chen-Yu Yeh (13):
->>    docs/zh_TW: process: add researcher-guidelines.rst translation
->>    docs/zh_TW: process: add cve.rst translation
->>    docs/zh_TW: process: add applying-patches.rst translation
->>    docs/zh_TW: process: add maintainer-pgp-guide.rst translation
->>    docs/zh_TW: process: add changes.rst translation
->>    docs/zh_TW: process: add handling-regressions.rst translation
->>    docs/zh_TW: process: add deprecated.rst translation
->>    docs/zh_TW: process: add kernel-docs.rst translation
->>    docs/zh_TW: process: add maintainer-handbooks.rst translation
->>    docs/zh_TW: process: add contribution-maturity-model.rst translation
->>    docs/zh_TW: process: add conclave.rst translation
->>    docs/zh_TW: process: add threat-model.rst translation
->>    docs/zh_TW: process: add maintainers.rst translation
->>
->>   .../zh_TW/process/applying-patches.rst        | 392 +++++++
->>   .../translations/zh_TW/process/changes.rst    | 532 ++++++++++
->>   .../translations/zh_TW/process/conclave.rst   |  35 +
->>   .../process/contribution-maturity-model.rst   |  83 ++
->>   .../translations/zh_TW/process/cve.rst        |  90 ++
->>   .../translations/zh_TW/process/deprecated.rst | 363 +++++++
->>   .../zh_TW/process/handling-regressions.rst    | 969 ++++++++++++++++++
->>   .../translations/zh_TW/process/index.rst      |  35 +-
->>   .../zh_TW/process/kernel-docs.rst             | 355 +++++++
->>   .../zh_TW/process/maintainer-handbooks.rst    |  20 +
->>   .../zh_TW/process/maintainer-pgp-guide.rst    | 795 ++++++++++++++
->>   .../zh_TW/process/maintainers.rst             | 127 +++
->>   .../zh_TW/process/researcher-guidelines.rst   | 136 +++
->>   .../zh_TW/process/threat-model.rst            | 187 ++++
->>   14 files changed, 4101 insertions(+), 18 deletions(-)
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/applying-patches.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/changes.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/conclave.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/contribution-maturity-model.rst
->>   create mode 100644 Documentation/translations/zh_TW/process/cve.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/deprecated.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/handling-regressions.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/kernel-docs.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/maintainer-handbooks.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/maintainer-pgp-guide.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/maintainers.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/researcher-guidelines.rst
->>   create mode 100644 
->> Documentation/translations/zh_TW/process/threat-model.rst
->>
-
+Br, Jarkko
