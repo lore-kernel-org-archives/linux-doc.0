@@ -1,100 +1,125 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794154919;
-	b=Q7LWViOaQnHFeqw8cq51GBhWJ/cLSsk9M0MUeTDsOgYswvYdMPB19KgMgxVgOZGMeSfH
-	 qt1hl8ED4auXIqoWUnygA18pR84q7gsjc125lGnQE+eYMQw9tlP6PZqAHZ5YBMIeCSgl2
-	 2Wp5tKEokRhJFwXoRpFxJC/A3+sxbAqoFW+iBxNSomlMHNf4uTl9NZdfl2+rHhW0rNAci
-	 2wGDu3Sup9EoLDIOaBxD5yYR1T/JSxFY+ytkF/Fhn0nYd8H/oKSKX3elTZ6iAVZ32jC1/
-	 Fq+SW2DpX/xPbGxWTljZWrVr3Rr2AgOK08qOWYyi0aqNXYHM6BiRy039XZcfnNdWtYw==
+	t=1794157159;
+	b=wd5o8INYnHInzWJNyVO5FVbGuofCBGSVPX9jDAMDrcWwtBKpL/9/8Vxtq1tIsvKyd4rB
+	 44lc49Te3JE1B99OoiwCVgbOMzwev1DlfFI2xQSv9wif4mFIP2OIi38ljwdIfoLFXeTEA
+	 lL6bD6IwZqYYE2zvsbFYdPxZSzNsol+3YWb5ZMubogShQh5pYc+8bSK25ByyCs5mi4FkA
+	 0DbhQI6JZJiY3CbIrTKVa3f+4Rl1wTsMIFW+KQeMplrsfmxJQ0RmV9wR2srDKY2d6wM6c
+	 ABe8fBR3HnLr0UpUOkTruMRVag2xT/ISoK/GRRmmxDRp3SErCH28+gE0Jf/X5NBPXoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794154919;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794157159;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=NqiEvNJc2p38Ujj7TawQCPTCe9qdBp/ccFJptwABHsY=;
-	b=jv9FXbTBX8y8B407cwM7/PQiCJdtpZronm6KHSJN40/69nICw+9YN0EIoVt2o/cOiZL9
-	 WXEDu/JbQdNp1znhCHWLQ7X9b1LJxyffmbLSJi3/BpBIvjl3qThlVPGP+IQC+mDRBvgIZ
-	 RrHk22X6egOkNiW4sDTPVBRNKHR+Sv+hmh/i+Kk7kKwh3ejjfKw5t7ts28ytXUkBp/yx4
-	 71g3lcrZWWJrw6CmkGG+7dno3j7GpX5IzpncComAZ2PxIKwIHD6XgYE7O78AF9OlSP5IB
-	 zUEJusqees+z84XnFruxylBGgfc1e76NIaGIpOxK0hvcnXwa4Ce2jTjrc1Owbea9D9A==
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+	b=sebQbFk+wYFAEeyLtGvnr/SCPoXL0gWKYIi5Oq2oYIuJu+23eBWWTx7SMnXAwhCB7FCb
+	 ZjXyfZ2VIsHBr0tYG4mO3DGglWc8GUS1H58739iQSKdj6NGGZjfygmpHpABLjrdbP5pHv
+	 ebbwMo6CXG9OjnUN0r5mfyfB5UHOMDkhQ2VnRYGc8mFh43Cj6oNucvhiStA6a6YPDjmEo
+	 glj1/ecp9JJTiLzcMyFVY7w7dwDZST56eQjgeYQU6n0SvY9zw56EQ/8pjh4AkVArVXsK4
+	 YKEjq/7nnoI4Aj2b3kOMaMQmhwForGDV5veIWqDqJaurGF/Su22JgagqNE/McHw1O8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ByZKqEY2;
-	arc=none smtp.remote-ip=209.85.128.42
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	dmarc=fail header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	arc=none smtp.remote-ip=209.85.219.43
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1379606A320
-	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 16:21:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1379606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ByZKqEY2
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso706175e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 08:21:58 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0840E606A332
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 16:59:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0840E606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-91ebf4cd218so2050836d6.3
+        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 08:59:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794154917; x=1794759717; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NqiEvNJc2p38Ujj7TawQCPTCe9qdBp/ccFJptwABHsY=;
-        b=ByZKqEY2fqDhKWoL3BQKBZjth+x/iOlR20ruT+hrURNxCRwqYtsum7eZaEhd63rm50
-         +GHBf5keyZIJ8BcMAlMHs7ZqsCdBnHF5w6cKrAqTxfqgHcqd5LZUhSdc/J/1gf4lqQaX
-         5UsxhwT0VO/ynoe2i+sWqm9U+7By9WCmpaY0Lox+wkZPKASr25srJMuEjQHsG6shkRoX
-         zhsnz6GCHInxjthTYMvu7UTKBmUrrtFOAyIO9PXkdTuZBmhEsZGDOJ3mKNTIsAygQd5g
-         Tjq/dCJww5DtLMaK56lq+wtOcBNcgqgy63lXfEQXZnFZTlaw3naDMUuP1VQzT8d77Qf2
-         yBQw==
+        d=rowland.harvard.edu; s=google; t=1794157158; x=1794761958; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+        b=vVWQLNs+Rnn6NOsMpjKSpUM9H3gRT4E/HZTt53PMAZ2SXIz+Low080hQm0r2oKAsG+
+         HZ5TLknOMUGXKR3KUCz20FyQXU1Y7n4k67s/O97MTY2HciAv7W5/XWWVJI3wnxiYTpJN
+         gDPuohXn6LbvsrECp0/Ji6cvN5My5wm8EgfEsTmjv66hd/4pZ3HhjPBADrWO+gshRLZX
+         1w4cJtE0RQlZSB1u8qCDumnVcL5w0oR/W9xf8l09re306PAWvYklsReVbujjFSq7ckfb
+         ysHxLPgUuyjzLYLRPYb0BIszOUV4j3JsJcseKz7sg4xVYz+KH4V8tOVQekOfo5kBRIRc
+         SzLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794154917; x=1794759717;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NqiEvNJc2p38Ujj7TawQCPTCe9qdBp/ccFJptwABHsY=;
-        b=oKAcnEmzTiPiCY8XRHVMakN+lgmpgiZrfHmuQS57Tws8hQcGc6elybFS8MfGk2cn6z
-         fQnGvBU1AI6A+esbc7f+JWiKK9gp9E2HFE+R7CZg3MspBgdeJX5vMiMntDpFGeWKrNTs
-         30rNMGdgwPY5RI/UQrrBjBTSJhX42jd64DYy3DU+IfX39aGfLfBb+tO0QzVzAcceLbjk
-         3k4X5fWyn1GWiT+rKSaAVE5sBbPkTQsYJSvVVnc2i4TLG6IZ5at7Nd7VCJq7v4fpKqvS
-         AqUpYCIDuyLjtzXw8EgI9vInluk5nxLCbIQLdVUP2dSWYimv+uMYR72Yfg7eN2+cgKsY
-         tjXw==
-X-Forwarded-Encrypted: i=1; AL+hErHfXUmj9IPqwN4gta2m9edZmzZ5vjwnzyw4sYoV8Vu7m9mPZgJ7iiobqVD9X0CTsKh+/m5iIye1Nls=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9h6AT7IUKyNhCsbYsmmnmA8fmWmSrO+a5yM83DQ2wy+NwfdhOp
-	IldrAFBoLCEGaZ3l3Xyjf3mMcmn5inEkNpW9klIO9Y/PEunzsgQoxA4DFx7VAVEs
-X-Gm-Gg: AYBFou0pG5iNHZO7zr7oAuIcSWn07pTHRcoYjj/QkTeO4RuGPCvA3V7bTfYRQDowLza
-	3H2ZMAzyYq4HvLDRiUF7OwhclHQUNcQisb9ahKNYE4USbQ3L43deyW+I5VuRXHI0bJ8U7GwUgvp
-	qrN7/sfUZyX2GZOF3GbnDB75kDkEi1sVNPdXgpAvL2ykuG6Mj9p9wTDoadb46KQaLra3iWLMxvs
-	aWrFJZ3TuF+S7j1ABq0CwU8t7VmCgEDj4VeOivBhHZavpCeRAlUz68GUE/W2RA/lG8unOITGIF9
-	UcKeTffF+I7sTjPSKIdUl/j3ygXfi1/bKLdJevAoMTEUOVZgdc9Pb/WPyt0KefvIvf4nsEG8Txm
-	WTtl1wEncIcYynP29guAMWY47Zwe9isleSP37i3PubSkLGlSG+N6BJcMvWuqJN2vYsINosTtyX1
-	qnCyvPfpnUtkK3ENXfHFa2vn+4ADln9uDH2dbRxJ/7sOk0kGFzQhb2leweLUMSvF4/XlpbNksV/
-	Qpdvv/NRf+BoE9w7jGe6SIw6kPH0fmPKO4LxBakBcK1FBaeEKx9pf0BbNidQS7+5y8e+54qmdnq
-	jo8bmMOfh3oxCxpH0CoCv4nAI/qlFNG2PgJg6EcjEzgKiB2NrWLm
-X-Received: by 2002:a05:600c:3f16:b0:4a1:fb01:13 with SMTP id 5b1f17b1804b1-4b9633cee64mr34051605e9.18.1794154917053;
-        Sun, 08 Nov 2026 08:21:57 -0800 (PST)
-Received: from localhost (ip87-106-108-193.pbiaas.com. [87.106.108.193])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7d54d6f93sm272669515e9.0.2026.11.08.08.21.56
+        d=1e100.net; s=20260707; t=1794157158; x=1794761958;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lmwJQdwiPgvUanu0gwsKytij+Ict3+h8IPwu4vyFkUU=;
+        b=B1HrfBoHPaS2E1Xy6BdXD24GwJLo06oHVFPoUPryS1od5IyNl0jisktIlfsc9MH1xT
+         TEgCsObx6a1LqRnkxTbUY4j9MWtZQcxLCwYif6F9ytK0+et/fSFYBkroyorOnzFT8EO7
+         2TPULmWvgr+BRU2jLIywfqglTIS17BtktQ0AgwrCfn/cmvtes5PyMY58yDngz9M8Pum0
+         NheJAfk9Gy1wC/0GuBrXiP+RwapCf2iiOBbLLCs+npkWCaR5Xwr1Au+Ugyb5b7m8/sUK
+         nT577/tuyLWr7BMHiQJcSOdFEozsTbT5AyLwb3rVNMlaGkLuKNAwLRpp18Of5XFvIUUg
+         bZJg==
+X-Forwarded-Encrypted: i=1; AL+hErFvoll6oQfK2uMPt3sfaa/oLDBbKXrYKcZRV8xrplJ0nA2yREg1J6DQ27ZQ2Xiistc42lS2mpkTOSY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/TYeXGbAEGIuLQZu62SBPX3bV/ZiXEYAX6s1fvWMZPtrNHBqWH
+	wWM4QzzxZGEpN+LMhxV5NiMI52MWwz+qMHrofInakzZWqgzUIimZaeRFzBftBhh6Uw==
+X-Gm-Gg: AYBFou10JN3bsYRosP5Mhm7US/2AmN5qrfXCiwI6EKvPjefR569i/IK8+u+GDnpasEw
+	5NuuEOl9YlWrgonDbnHRwf91Hc2R9auIDGAElTNS04qZXKX/n9gXrYwYXxalMzH0JVMcWMGWoc+
+	09J35xhtGVq+q5v2F8f5DBT55IoBcwjGH/amslz3Llyb5mudP8duUY39tMAwhXXbUTfxwpA/PP8
+	s0lSCRS4eI0yyUlq1e7oR2LB6DKR3oUdI5qz71iqpmF0OlG505kjvTfcUsD4C+FN+kj44/l9C+h
+	1WalwB4RmEbn3E/rwp8tUE3FKCzEcBhhbZ49NBof1uEklz3UQQAZ9LQQE9WKoZxjgOdrd86TBk6
+	yFIkWxbnMXMirkh9AoAMbQPMh1dP2RLWbKPRgm1BtgzpEDIlJieCWwxxA3RAc+HVkRa/DYYLK8A
+	HvGMriw/AECoyPyHgu6ZrUrkcKAMEGkoxsXZD8tcdj2HibpdrI2OiGUolunUs6KyI1T4RS/J55C
+	V5MRy9ksv1rUmBNPog8wKGsFeJGr0x4PBxcNWGL6zraR5vqd71pqL448PneJ4IFlkR3s9MhCPFh
+	lVnhK3ogm1GaEx/XoEURjg7zMb+S
+X-Received: by 2002:ad4:5d62:0:b0:91e:9d64:3294 with SMTP id 6a1803df08f44-91ed240d34dmr24616736d6.30.1794157157397;
+        Sun, 08 Nov 2026 08:59:17 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ecedbefb2sm22431036d6.17.2026.11.08.08.59.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 08:21:56 -0800 (PST)
-Date: Sun, 8 Nov 2026 17:21:51 +0100
-From: =?iso-8859-1?Q?G=FCnther?= Noack <gnoack3000@gmail.com>
-To: Shi Lecun <shilc2025@mail.sustech.edu.cn>
-Cc: =?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
-	gnoack@google.com, Fengwei Zhang <zhangfw@sustech.edu.cn>,
-	Bryam Vargas <hexlabsecurity@proton.me>,
+        Sun, 08 Nov 2026 08:59:16 -0800 (PST)
+Date: Sun, 8 Nov 2026 11:59:11 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
-	linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: landlock: clarify F_SETOWN signal scoping
-Message-ID: <20261108.5b4268b47da6@gnoack.org>
-References: <20261107.2f1fa9977739@gnoack.org>
- <4C69C1457B12AD80+20261108055048.3745750-1-shilc2025@mail.sustech.edu.cn>
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH 05/17] USB: Lock registered interfaces during manual
+ driver binding
+Message-ID: <647f3199-909d-425f-b485-b598a18844d1@rowland.harvard.edu>
+References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
+ <20261105-device-trust-core-v1-5-1e536825b4eb@nvidia.com>
+ <bb83fe3c-cebb-4bc8-bfc9-24df1cf72b0b@rowland.harvard.edu>
+ <20261105184442.GF8298@unreal>
+ <bf756e50-c77e-40f2-916d-e88887426806@rowland.harvard.edu>
+ <20261108110909.GA8635@unreal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,50 +129,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4C69C1457B12AD80+20261108055048.3745750-1-shilc2025@mail.sustech.edu.cn>
+In-Reply-To: <20261108110909.GA8635@unreal>
 
-On Sun, Nov 08, 2026 at 01:50:48PM +0800, Shi Lecun wrote:
-> The signal scope check for asynchronous I/O notifications uses the
-> Landlock domain saved when fcntl(F_SETOWN) configures the recipient.
-> Adding LANDLOCK_SCOPE_SIGNAL later therefore does not retroactively
-> restrict these pre-existing registrations.
+On Sun, Nov 08, 2026 at 01:09:09PM +0200, Leon Romanovsky wrote:
+> On Thu, Nov 05, 2026 at 03:04:18PM -0500, Alan Stern wrote:
+> > >  it ensures that the lock is
+> > > acquired when the driver is bound.
+> > 
+> > That may have been your intention when the patch was created, but if you 
+> > read the patch you'll see that it includes a whole bunch of material 
+> > not related to locking during binding.  Namely, this part:
 > 
-> Document this boundary in the IPC scoping section and link to the fcntl
-> documentation for I/O availability signaling.
-> 
-> Link: https://lore.kernel.org/linux-security-module/20261107.2f1fa9977739@gnoack.org/
-> Suggested-by: Günther Noack <gnoack3000@gmail.com>
-> Signed-off-by: Shi Lecun <shilc2025@mail.sustech.edu.cn>
-> ---
->  Documentation/userspace-api/landlock.rst | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/landlock.rst b/Documentation/userspace-api/landlock.rst
-> index 3d45b956b640..cc9c5b102b8d 100644
-> --- a/Documentation/userspace-api/landlock.rst
-> +++ b/Documentation/userspace-api/landlock.rst
-> @@ -499,6 +499,10 @@ The operations which can be scoped are:
->      This limits the sending of signals to target processes which run within the
->      same or a nested Landlock domain.
->  
-> +    For signaling of I/O availability (:manpage:`F_GETSIG(2const)`), Landlock
-> +    checks are done with respect to the Landlock domain at the time of
-> +    ``fcntl(F_SETOWN)``.
-> +
->  ``LANDLOCK_SCOPE_ABSTRACT_UNIX_SOCKET``
->      This limits the set of abstract :manpage:`unix(7)` sockets to which we can
->      :manpage:`connect(2)` to socket addresses which were created by a process in
-> 
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-> -- 
-> 2.56.0
-> 
+> Once I added `device_lock()` to `bind`, I had to add it to `unbind` as well.
 
-Reviewed-by: Günther Noack <gnoack3000@gmail.com>
+Obviously I'm not making my points clear.  Let me try again.
 
-Thanks, looks good!
+The entire patch description, as you wrote it, is this:
 
-–Günther
+> Interface claims hold the USB device lock, but device_bind_driver()
+> requires the target interface lock. Without it, trust-policy writes  can
+> race admission.
+
+This says nothing about holding the interface lock during unbinding.  In 
+other words, it isn't a complete description of the patch.  It implies 
+that the patch changes nothing outside the device_bind_driver() 
+function, which isn't true.
+
+Furthermore, the patch does not change any of the code in 
+usb_driver_release_interface(), which is where unbinding takes place, 
+because that routine already takes the interface lock.  So to say that 
+you had to add device_lock() to `unbind` is not accurate.
+
+Instead the patch adds a new usb_driver_release_refused_claim() routine, 
+plus code in usb_set_configuration() to call the new routine.  The patch 
+description says nothing about either of these things.  Not to mention 
+the fact that your other changes make it now possible for the driver 
+core to delete an interface claim when the interface is registered, 
+something which was not possible before.  This is another inadequacy in 
+the patch description.
+
+I'm not saying that any of the code is wrong.  But the description does 
+a very bad job of explaining the new code.
+
+Alan Stern
