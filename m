@@ -1,109 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794105628;
-	b=E8iI6jPMzPX9O03u99yGJSW3ZhpZqpc+YUlzAMC9YC656WRQBGE3Dt/pZtOMYRhNMxoC
-	 gCpaEIqOrsmEtj68Q7qN4MCTwiFndSc5lfsvTnarJ06Gj3o8b4rAdvUPLjNelVHeE1JhC
-	 ElIxq4MQpwbYEqZ6pSkEtyTZCqHqHbG/Ih6f3/ttpytN7KJ9QP2M+CMdaYn81FEHr2074
-	 2hevBE4Ns4/ZCzrmLeNdZ+tRLj9Cqngu2Aej5RCGVCOCrkQTbFJXpQDlDVXe2GH7JtrWg
-	 hIQgaZTusNBdmJaT5eOnQpryfhvLhsNcfG+ClP45zLPFKa9M4t/wVWfNzEL+1fBeoCA==
+	t=1794115003;
+	b=ZQ2mj9919wBqDmUCHEe4j3g8iILdzN2nIEhtoVq7F/qjwWw3Fm3jU86gUBmjeO9IGaiX
+	 uYY8AnkcAO8+R+04CxD3y37ZaoSNPKxXHXfoR2uqQWMLylFtgHoNYbWPuscoyKWUYWQwL
+	 T6iLrfVWZNa42buiIOqq233P2mfMW0vqHOWXIRI0/lkbK6yVwR4OeTAeKUaSzdn1T39QB
+	 ZxR9hxntOiyUJatG5vFITgPek4cA/dqSu/fducmbqzZvt9Kbwr7tOrdqI8EoAj9tcMRKA
+	 3QLLS2X4oevQtgQFcRuwe03ZIhWlHztMtDtW6QQa4aSRJLFmsJAulNFyHfHiiA5vcSw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794105628;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794115003;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=oKWYlAcY6So6bitWGtla4+mL7IVkoD8l6fm1ubuoUDc=;
-	b=OZFih1Oqi/68bDGSm9imWckcvZo9JXJ2HiTlr9Pbf5PgJWyGru/aDW+s+tyYE58ijAg/
-	 QT5pzAt6Fd5CGdcZJBg+vslVeoT0gVv+03Q6CsiaBetJhbObDNSOWVvNjnEw5jb5GBkq1
-	 LS72xSgS1Qt3QAPoEV7vegnX904PpLwDLPVUPlREYCRD8fKK7CHFmI5eAeDNLjAXUOfAG
-	 qun3pp0cN4WIbrY/se0LRuMRwBxwPQCTRFmYBwpNFdohSAkK1cbDDVF4zC5L1Qdy0A7mt
-	 k/pudam3QOvwpZ4gMC7iN/Jg5bOhRLVcbp2T7DJVdmcK+7oP2lSyy2dv2mfMM4LfyiA==
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=gT62dXId+eAb8ukDUrV+GLnTEFym+aAlD/IHLPxFdUE=;
+	b=xu0hflVubMXPTwLjKZ1a14Ov3tuGAe8Vx+xh8czdPbLqfc7rDll7eFUCxmyRQBjzlELc
+	 Sw7U2xBPExcKZX7uHc5tDW8x7TbJmXhb3i6Lov7gfCJKbtPrXnio/MSJgj2lxWC/ahQBa
+	 iRqyCJDRw7u+vx26y/YLJYezeMl/nJ+cWDP2Zaq+ltSUBSWO07f1CtgZeyS9GvRNnhKhi
+	 4OvbvET34oVBg0H4JlRrLLUSGmlN92JjuSBYNaJJ9G7ph79vU7kQ/ivhsmNAZLoWEXo/N
+	 MoGSJTFtYVJdXd4SAidXGJ/UOa3SdFsSarlPC9tdSqffN2Yd5Z6cTwcki/m9gR8KNqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="UXwIo/X0";
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=engqbeXt;
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BE9606A31A
-	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 02:40:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87BE9606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F81606A31D
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 05:16:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E7F81606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UXwIo/X0
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-14394530ec6so130678c88.1
-        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 18:40:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=engqbeXt
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-36a315ed211so236080eec.0
+        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 21:16:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794105627; x=1794710427; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oKWYlAcY6So6bitWGtla4+mL7IVkoD8l6fm1ubuoUDc=;
-        b=UXwIo/X0nMEY8pSegQDtBBDEYOgg9buMlNfVpUCJaCPxyDBW4GKuSMiS2XCK+ywzep
-         YLB+FEBPjeG0bpzVlVZjMHkwFPnHmvbNMfI/9AKQC7cDXrmyc22Dm2q1c0QBbHcovDJM
-         c6TJ73vjHeeun2Op2KyYulh+TNEFpB58UO+7biqirYqdHGmbO+KDXbpOr9SiWBjvW2lZ
-         +hfZ7CgxvpS1YkJIRXIz13FGfANie7uYVWLJWTpLaIV75vKq8eNHpF07P+Hr/z1w/H+W
-         preiWv4kx455lOfOGj0+SIf+7MGQBF3kBa6Lb1UgmN7odrLkuXd+JN8FOYBXmF8RPEjI
-         tYDg==
+        d=gmail.com; s=20260707; t=1794115002; x=1794719802; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=gT62dXId+eAb8ukDUrV+GLnTEFym+aAlD/IHLPxFdUE=;
+        b=engqbeXtR+rWOhiZBYTkPKjjtnb2puay/ycsWiBLGX8+NMoejL9uT3B+p63imdwMRz
+         wKi0k8S44NdnihDJ2kDYDN1RokTA2Wf1Lxx77jziVHZ1dN1WriHv7ckibVukhHSKENSJ
+         /aygp1AW5ijJgeqZI7W5ZezrV2ZUEx/s1wDrNgwZB832MumiRNE2ZD1sq6eG84g1wPYG
+         SMXDSD/w6pIrWZ+WYYQUs73M+Dvt61ebj26ZOf5h7VH9GmBwEkEpnrGjpysdLkPcOmO6
+         kgCIx92MRkIB6cX0E/aUQbLWAeg8UKbxvzlkV9Is137WLbceMfybIgQWsLUpC3X+RF4s
+         SVaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794105627; x=1794710427;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oKWYlAcY6So6bitWGtla4+mL7IVkoD8l6fm1ubuoUDc=;
-        b=Vx16aKhw9hLiKLnuF0QXuRzdlxLyOggKXpn33RhpMvMkzfduvv7XQN2e49sZDUEJ0B
-         tFGrooUHsQJ3VPhTqk9QNPRM5RyrOz8feqZsbmM+DJLFn45mvC2sblzLBwAzSrEFSLrZ
-         HLQYC/7eDRkP6as6YygiHGq4uT8Yp47y+TZR6o1+UHE02HgRbIVeH90iZHTu3Ugvf8sr
-         0MUvOFtz8Vs0rRLCqb9tK5iTUbOvWR2xecchHp1grvvCxWIpx/w7BEv1zaSf68IpSbsC
-         eI+2Ss5vF8aHoualqFdawAin/BVBTgnJgeYJgP/BBnKKA2hzKtKlN3720r9tL4LfhNc6
-         R5hg==
-X-Forwarded-Encrypted: i=1; AKwUvBwka2Q4x0EIEBW7RaZBH6ntvd9CkFg/d0mGHa+D6pfszP2I6P78M7aZfy2OwxZ9otqRx2k2/o/ozNQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9jJrLsp3ZGf9jZpqSe7UubVbj4zpwrfA7LNtu9CaHzVRqdyDVn
-	4MyMBVw0hvAUTa9zzGtHX8JSgZwJoS1FDXkCBohiBeWZIUmWJzYI0DCs+3imSi3a
-X-Gm-Gg: AYBFou0RQnZwe87JL+mQoBsX36pB4grWZg8Ktc3b5+Qlb8bHNj2cfIBjOL8Uctn5+ns
-	+Wu+wb1Ae8J3133mxDepJ/vd1SKlRwkGj4LzgFeob8f24wNY5JGO5RHV6H5YxfeErY4VrKkTVah
-	NnrfHNlVe6Ld62LMNlRKFB5u8h+SdD9Kgka0ZXEasmHAp5zYtEtx5hGiyrf7LkmSzNKvGSai+mN
-	ZB0AKhDr5csUdePkxjpK9USkrev7G9+iz4yAwstG3lEFJog78ZX4PuaQ5KqMHAXaxYuMCwOoZ8A
-	7v6h9e446cfYhprmh+8O/yyN4KRdfYzAJrmyH4fFu9xTSmpgREPE9+OrbWdtZUVw2nMQeeAMInt
-	BGKwH3yv+t/Ko6J1FBNam6lwcmuka5aRy8HZdoRM2++bNt6CVTbx5lh0ybXYU/8KRVu2Slz1qEK
-	OdS8cMfI2evaeTzphxNmGg4r4RbKBK+f0SZRku1DzJ/sulAgMeC7ZjWV3O27Omr3dmLFrTRZzk/
-	uS/3CfywIKHB7TJGOpWu7UBTfKgzBkhVAl/9sfWM6t2dbaHdYsO0z+V+bRZNIgBr009CUbJueqM
-	O6DU5KH1W9Wqw/JP0UUy
-X-Received: by 2002:a05:7022:29b:b0:182:6c6c:d876 with SMTP id a92af1059eb24-1b39fec1c25mr452900c88.8.1794105627500;
-        Sat, 07 Nov 2026 18:40:27 -0800 (PST)
-Received: from ubuntu.. ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3771e5728sm2228842c88.16.2026.11.07.18.40.22
+        d=1e100.net; s=20260707; t=1794115002; x=1794719802;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=gT62dXId+eAb8ukDUrV+GLnTEFym+aAlD/IHLPxFdUE=;
+        b=cY+lZnuFGMiE74lSGMw/iREzFhDrfptuXzDyXuUkq+LPaZr1BUTwNMqEgGSKrSIz7d
+         oF6otX6PZ0y9Uxf5ybIlZoZcFm3INpz9WFPs/wobjyHYuWdsu5pKqXciGg7UXsmKLEuA
+         bG0NHLUs/+Wy+hQGeidKkL1U+NMEknm9u1rpyGIlgVxJciyoRwOMsELV+DGqpyz/6XXh
+         yjOEc+gk5/+Aa8qKlCP2UHCydiF5kDRd0KtYwREsnyUa/FUwhUEX2eEYDaaxpl2QvaM0
+         uvxr+oclTSPEKbaXHC6P7pSSJXSI4PPt4Bc2wXgTR5Qoitb05rhu1tBU1I1Jb9gecDd/
+         c86Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx92TxeF59n6Zc1XI2MHPXR6oxuZtVWeVbYjGoIv0rmU/F59FyERHOALSqn2j6y4wvZMfdZQfdH7bI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/bXImWNp7Z1hje/+P5rMA3YFrkUJ1pldWdh6dB7XyjBHUq3qiP
+	59orDrDSj9uaEPGN21xCKm/m8yEpBdDp4AAO4ZmbWd2rde7WludrMls+
+X-Gm-Gg: AYBFou1nL6Pkj5gP4Bmfq1l9BLDrBorC2352MrROGVnVpYiXabSJlI25dkQQ9IAL4Fp
+	QfSr0EusKJgdcpyFZCrYK7/4IGDfQqUMZ93oaXEHRTHymx3atenBxfaDQj1JDpAxIXqEXjYPhNX
+	8glSPI7eaJiN2htYhuU8DyauA2DkflK6a7+YosPAMbE9C2kNsQGpxEjBQ+gJh2gbHRBneWToQEA
+	SPXaHz/vY6TjtJszhQh/XrdetOfMP4yjhF8iuSQS3tZJc3tC5r5eiExfOiAtGZais4x22oxwiTj
+	ABHA2aI1flYfMFeywPmYi5wW3QffAkMvsX9vXY1o4Okd323IcFellpaMHBc0Qp7zSpesOH55fvP
+	S5fmyg1WuuLPZA5ViINB9eCQ48/LRwr0w/UZon2EBYP292J/RRdwqRGog6mlTX8uuUAeRMTeerq
+	y3/xbudeuNKl2GFkJ25GDMRFox8c5CwaDUIyFyCR0aYrZnIOWA2ixKBKGAmIhrO7N2Kwl5jkyzW
+	MulIu9QLzpXRMPABeOK5SpegwshKmVPIpiZg/DvFlTOTQFab3rjXeyQaqDJIaGc3NJsRePLrDty
+	PozRzjM5InCCqIh1v6T3Ik/l1A==
+X-Received: by 2002:a05:693c:8819:20b0:36c:dbfc:ee6f with SMTP id 5a478bee46e88-370f6ec412cmr5291748eec.14.1794115001952;
+        Sat, 07 Nov 2026 21:16:41 -0800 (PST)
+Received: from [127.0.1.1] ([121.125.115.175])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-372667d60absm2750989eec.26.2026.11.07.21.16.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 07 Nov 2026 18:40:26 -0800 (PST)
-From: Qiliang Yuan <odys.yuan@gmail.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Xu Xin <xu.xin@linux.dev>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Stefan Roesch <shr@devkernel.io>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] mm/ksm: align smart scan skips with the scan number
-Date: Sat,  7 Nov 2026 21:40:19 -0500
-Message-ID: <20261108024019.1195186-1-odys.yuan@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <7df793d7-55dd-40db-8455-1f22bb44193c@kernel.org>
-References: <20261107-bug-mm-ksm-smart-scan-align-skips-v3-0-16d5ce8b5fd6@gmail.com> <20261107-bug-mm-ksm-smart-scan-align-skips-v3-1-16d5ce8b5fd6@gmail.com> <7df793d7-55dd-40db-8455-1f22bb44193c@kernel.org>
+        Sat, 07 Nov 2026 21:16:41 -0800 (PST)
+From: Gyeyoung Baek <gye976@gmail.com>
+Subject: [PATCH v2 0/6] drm/imagination: Add async VM_BIND with sparse
+ mappings
+Date: Sun, 08 Nov 2026 14:16:22 +0900
+Message-Id: <20261108-pvr-vm-bind-v2-0-730103d2cc9a@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,48 +92,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKgF8GoC/22QzU5DIRBGX6VhLYbhAheaxvgeposBhpbk/gntj
+ abpu0uvGjcuz2JOzjc3Vqlkqmy/u7FCa655nhrIpx0LZ5xOxHNszKSQRljo+bIWvo7c5ylyCKS
+ ScAh9r1i7WAql/LHZ3o6NPVbivuAUzpsjCNkRhdQpFY2K2AdrhfYGlZagQ0gyUhL6R1Xo/dp6L
+ t8+NlKtuPXsd4dHDgjQW851GnHhOAx8mOeFr8CBaxVMb6ICadzracQ8PId5fGG/VQ3GfGlDo0b
+ bQRddSM46b5PuUBvr0BmyDnxyLnkZ2GPPOdfLXD63Z62wVf37l1YguECRJHjqY2f/Ctjxfr9/A
+ Wnul1h2AQAA
+X-Change-ID: 20260817-pvr-vm-bind-1ce4f09a1774
+To: Alessio Belle <alessio.belle@imgtec.com>, 
+ Luigi Santivetti <luigi.santivetti@imgtec.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Philipp Stanner <phasta@kernel.org>, 
+ Donald Robson <donald.robson@imgtec.com>, 
+ Sarah Walker <sarah.walker@imgtec.com>, 
+ Matt Coster <opensource@mtcoster.net>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: imagination@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+ Gyeyoung Baek <gye976@gmail.com>
+X-Mailer: b4 0.15.1
 
-On 11/7/26 20:51, David Hildenbrand (Arm) wrote:
-> On 11/7/26 17:57, Qiliang Yuan wrote:
->>                               before     after      after/before
->>   pairs merged (of 420)       361        420        116%
->>                               334        420        126%
->>   pages looked at per scan    1792       2048       114%
->>
-> 
-> Oh, I was wondering whether this should actually go to stable? Do you think the
-> above is rather an extreme case, and most users won't really run into it that
-> severely?
+Userspace MR:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43794
 
-I don't think it is an extreme case, and the test above rather
-understates it: it makes the second page of a pair mergeable while the
-first one is still young. The age of an rmap_item only grows, and is not
-reset when the page content changes, so on a long running system most
-unmerged pages are past age 8 and each is looked at every ninth scan, on
-a phase of its own.
+This series is for Vulkan sparse binding.
 
-To check that case, I let 1800 pairs of unique pages age for 32 scans,
-with the second page of each pair made mergeable 1 to 9 scans after the
-first, and then gave both pages of each pair the same new content:
+- Patches 1-2 switch the GPUVM to immediate mode.
+- Patch 3 moves the existing map and unmap paths onto a single bind
+  entry point.
+- Patch 4 adds the VM_BIND ioctl.
+- Patch 5 adds asynchronous requests.
+- Patch 6 adds sparse mappings.
 
-  kernel           pairs merged after 16 / 32 / 256 scans
-  before the fix    112 /  200 /  200
-  with the fix     1666 / 1800 / 1800
+Patches 1-2 were sent separately [1]. They conflict with drm-misc-next,
+so they are rebased and included here.
 
-Before the fix only the pairs whose phases match, one in nine, get
-merged, and the others stay unmerged. Three more runs of 64 scans and
-one with 128 scans of aging gave 200 and 1800 each time.
+Testing:
+Tested on BeagleY-AI.
+- The existing IGT pvr_vm_map passes without regressions.
+- dEQP-VK.sparse_resources passes for the sparse features the Mesa MR
+  above exposes.
 
-It is limited to content that is not in the stable tree yet, since KSM
-pages are never skipped and later copies merge with them, and the cost
-is memory that stays unmerged. With smart scan on by default since v6.7
-and the fix being small, I'd lean towards stable.
+[1] https://lore.kernel.org/r/20261011-pvr-gpuvm-immediate-v2-0-744ddc6644c3@gmail.com
 
-I'll send a v4 in the next day or two, which also makes the new selftest
-helpers treat a short read or write of smart_scan as an error, and can
-add Cc: stable to patch 1 there if you agree.
+Signed-off-by: Gyeyoung Baek <gye976@gmail.com>
+---
+Changes in v2:
+- New patch 3, "Route map and unmap through pvr_vm_bind()".
+- Split v1 3/4 into the ioctl (4) and the asynchronous mode (5).
+- Bump the driver interface version to 1.2, as 1.1 is already taken by
+  another patch.
+- Link to v1: https://lore.kernel.org/r/20260817-pvr-vm-bind-v1-0-0a0f21be7d38@gmail.com
 
--- 
-Thanks,
-Qiliang
+---
+Gyeyoung Baek (6):
+      drm/imagination: Switch the GPUVM to immediate mode
+      drm/imagination: Stop locking reservations around map and unmap
+      drm/imagination: Route map and unmap through pvr_vm_bind()
+      drm/imagination: Add VM_BIND ioctl
+      drm/imagination: Add asynchronous VM_BIND
+      drm/imagination: Add MAP_SPARSE to VM_BIND
+
+ Documentation/gpu/imagination/uapi.rst     |  15 +
+ drivers/gpu/drm/imagination/pvr_device.h   |  10 +
+ drivers/gpu/drm/imagination/pvr_drv.c      | 331 ++++++++++++
+ drivers/gpu/drm/imagination/pvr_drv.h      |   4 +-
+ drivers/gpu/drm/imagination/pvr_fw_meta.c  |   6 +-
+ drivers/gpu/drm/imagination/pvr_fw_riscv.c |   6 +-
+ drivers/gpu/drm/imagination/pvr_job.c      |   6 +
+ drivers/gpu/drm/imagination/pvr_mmu.c      |   2 +-
+ drivers/gpu/drm/imagination/pvr_mmu.h      |   1 +
+ drivers/gpu/drm/imagination/pvr_queue.c    |   3 +
+ drivers/gpu/drm/imagination/pvr_sync.c     | 146 +++++-
+ drivers/gpu/drm/imagination/pvr_sync.h     |  13 +
+ drivers/gpu/drm/imagination/pvr_vm.c       | 781 ++++++++++++++++++++++-------
+ drivers/gpu/drm/imagination/pvr_vm.h       |  63 ++-
+ include/uapi/drm/pvr_drm.h                 | 129 +++++
+ 15 files changed, 1303 insertions(+), 213 deletions(-)
+---
+base-commit: 2d5a8313d9cf989b8f53a5689a96e891bf99fb2c
+change-id: 20260817-pvr-vm-bind-1ce4f09a1774
+prerequisite-message-id: <20261015-pvr-unmap-all-loop-v1-1-54c676d41269@gmail.com>
+prerequisite-patch-id: 5188d944e90112e4cf2678e75255c7a91434ad09
+
+Best regards,
+--  
+Gyeyoung Baek <gye976@gmail.com>
+
