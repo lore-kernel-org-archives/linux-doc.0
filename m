@@ -1,55 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=216.40.44.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794104301;
-	b=JyVF8xebBjIztVMQXMMHFBJy2oVDT5jkfbtoPatfzhKt4Plyw22Bfkz70Gof+Gk4QNKM
-	 qzt6JcYqfkiKNXk3FGO0bPyV8ugYdglz3giLoSWoOl7QQ/kYbrGrk+SkM8Y7CU+JmuCDK
-	 tR228mtmCYvg9uJ+d4aSGr/MbOfBbx2gEwb4dNXy28/6EHh32q8Lh2EcNMCOe9we1wLhY
-	 sSSs4P8agnIQx+NnC0gAtYG+tmHIMg4jy3CUQp8ar99SkwwznvfVAXHOE1VokoTRxX1C5
-	 w5l87mzncat4zU44eQqPCFqkSjhPtaipg4ccUiZzjFSdDsq9NB4ALgvFp6Y6pziuwGQ==
+	t=1794105628;
+	b=E8iI6jPMzPX9O03u99yGJSW3ZhpZqpc+YUlzAMC9YC656WRQBGE3Dt/pZtOMYRhNMxoC
+	 gCpaEIqOrsmEtj68Q7qN4MCTwiFndSc5lfsvTnarJ06Gj3o8b4rAdvUPLjNelVHeE1JhC
+	 ElIxq4MQpwbYEqZ6pSkEtyTZCqHqHbG/Ih6f3/ttpytN7KJ9QP2M+CMdaYn81FEHr2074
+	 2hevBE4Ns4/ZCzrmLeNdZ+tRLj9Cqngu2Aej5RCGVCOCrkQTbFJXpQDlDVXe2GH7JtrWg
+	 hIQgaZTusNBdmJaT5eOnQpryfhvLhsNcfG+ClP45zLPFKa9M4t/wVWfNzEL+1fBeoCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794104301;
-	h=DMARC-Filter:Received:Received:Message-ID:Subject:From:To:Cc:Date:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-Spam-Status:X-Rspamd-Server:
-	 X-Stat-Signature:X-Rspamd-Queue-Id:X-Session-Marker:X-Session-ID:
-	 X-HE-Tag:X-HE-Meta;
-	bh=zYs3QAZ6lNxQw33r9L272lZm+etPpYC/6UsCgxidEY0=;
-	b=DYGRxf8prIirSSYBjgqWjXBeaS/+pfvFfqEiweaynAXrBGAm32zAStqRbR4ehW4l/ne4
-	 9bPFiv7IWB+d9Ur1Umqwqjd5AX389E9gyZjx2cXxG09BJqb7G4Jvx6N2FBu5GtbGdr8IA
-	 JBzzxuVgTRia4JC0ndWdD84Epmumawe+zDoVdqYdDE8YPVuD/mwG1ZKKlf6iLuMyKiNgV
-	 6NwFs6ZMOJJs2ixuwbnSFn+mBstXYTcBiX2S4LZf23gKQF8ccV/ZTk/goV+PE+VNXc6FW
-	 R/HN+iBqG5+vcJRXRBAQacO75z2mOz1YY00rVW4mrMOmed7MfYeuj9ydOG66dSDXqFA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794105628;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=oKWYlAcY6So6bitWGtla4+mL7IVkoD8l6fm1ubuoUDc=;
+	b=OZFih1Oqi/68bDGSm9imWckcvZo9JXJ2HiTlr9Pbf5PgJWyGru/aDW+s+tyYE58ijAg/
+	 QT5pzAt6Fd5CGdcZJBg+vslVeoT0gVv+03Q6CsiaBetJhbObDNSOWVvNjnEw5jb5GBkq1
+	 LS72xSgS1Qt3QAPoEV7vegnX904PpLwDLPVUPlREYCRD8fKK7CHFmI5eAeDNLjAXUOfAG
+	 qun3pp0cN4WIbrY/se0LRuMRwBxwPQCTRFmYBwpNFdohSAkK1cbDDVF4zC5L1Qdy0A7mt
+	 k/pudam3QOvwpZ4gMC7iN/Jg5bOhRLVcbp2T7DJVdmcK+7oP2lSyy2dv2mfMM4LfyiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=perches.com;
-	spf=pass smtp.mailfrom=perches.com;
-	arc=none smtp.remote-ip=216.40.44.13
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="UXwIo/X0";
+	arc=none smtp.remote-ip=74.125.82.45
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B715606A31A;
-	Sun,  8 Nov 2026 02:18:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5B715606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf19.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay05.hostedemail.com (Postfix) with ESMTP id A2684402D7;
-	Sun,  8 Nov 2026 02:18:19 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf19.hostedemail.com (Postfix) with ESMTPA id 8004020025;
-	Sun,  8 Nov 2026 02:18:17 +0000 (UTC)
-Message-ID: <5f6243cd0c0d26e89d9ef17abb68fcec240fa3dd.camel@perches.com>
-Subject: Re: [PATCH] docs: checkpatch: Fix DEVICE_ATTR_WO macro name
-From: Joe Perches <joe@perches.com>
-To: Mauro Codella <mauro.codella@pm.me>
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Sat, 07 Nov 2026 18:18:16 -0800
-In-Reply-To: <20261107230208.326769-1-mauro.codella@pm.me>
-References: <20261107230208.326769-1-mauro.codella@pm.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-3.fc44) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87BE9606A31A
+	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 02:40:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 87BE9606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UXwIo/X0
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-14394530ec6so130678c88.1
+        for <linux-doc@vger.kernel.org>; Sat, 07 Nov 2026 18:40:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794105627; x=1794710427; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oKWYlAcY6So6bitWGtla4+mL7IVkoD8l6fm1ubuoUDc=;
+        b=UXwIo/X0nMEY8pSegQDtBBDEYOgg9buMlNfVpUCJaCPxyDBW4GKuSMiS2XCK+ywzep
+         YLB+FEBPjeG0bpzVlVZjMHkwFPnHmvbNMfI/9AKQC7cDXrmyc22Dm2q1c0QBbHcovDJM
+         c6TJ73vjHeeun2Op2KyYulh+TNEFpB58UO+7biqirYqdHGmbO+KDXbpOr9SiWBjvW2lZ
+         +hfZ7CgxvpS1YkJIRXIz13FGfANie7uYVWLJWTpLaIV75vKq8eNHpF07P+Hr/z1w/H+W
+         preiWv4kx455lOfOGj0+SIf+7MGQBF3kBa6Lb1UgmN7odrLkuXd+JN8FOYBXmF8RPEjI
+         tYDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794105627; x=1794710427;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oKWYlAcY6So6bitWGtla4+mL7IVkoD8l6fm1ubuoUDc=;
+        b=Vx16aKhw9hLiKLnuF0QXuRzdlxLyOggKXpn33RhpMvMkzfduvv7XQN2e49sZDUEJ0B
+         tFGrooUHsQJ3VPhTqk9QNPRM5RyrOz8feqZsbmM+DJLFn45mvC2sblzLBwAzSrEFSLrZ
+         HLQYC/7eDRkP6as6YygiHGq4uT8Yp47y+TZR6o1+UHE02HgRbIVeH90iZHTu3Ugvf8sr
+         0MUvOFtz8Vs0rRLCqb9tK5iTUbOvWR2xecchHp1grvvCxWIpx/w7BEv1zaSf68IpSbsC
+         eI+2Ss5vF8aHoualqFdawAin/BVBTgnJgeYJgP/BBnKKA2hzKtKlN3720r9tL4LfhNc6
+         R5hg==
+X-Forwarded-Encrypted: i=1; AKwUvBwka2Q4x0EIEBW7RaZBH6ntvd9CkFg/d0mGHa+D6pfszP2I6P78M7aZfy2OwxZ9otqRx2k2/o/ozNQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9jJrLsp3ZGf9jZpqSe7UubVbj4zpwrfA7LNtu9CaHzVRqdyDVn
+	4MyMBVw0hvAUTa9zzGtHX8JSgZwJoS1FDXkCBohiBeWZIUmWJzYI0DCs+3imSi3a
+X-Gm-Gg: AYBFou0RQnZwe87JL+mQoBsX36pB4grWZg8Ktc3b5+Qlb8bHNj2cfIBjOL8Uctn5+ns
+	+Wu+wb1Ae8J3133mxDepJ/vd1SKlRwkGj4LzgFeob8f24wNY5JGO5RHV6H5YxfeErY4VrKkTVah
+	NnrfHNlVe6Ld62LMNlRKFB5u8h+SdD9Kgka0ZXEasmHAp5zYtEtx5hGiyrf7LkmSzNKvGSai+mN
+	ZB0AKhDr5csUdePkxjpK9USkrev7G9+iz4yAwstG3lEFJog78ZX4PuaQ5KqMHAXaxYuMCwOoZ8A
+	7v6h9e446cfYhprmh+8O/yyN4KRdfYzAJrmyH4fFu9xTSmpgREPE9+OrbWdtZUVw2nMQeeAMInt
+	BGKwH3yv+t/Ko6J1FBNam6lwcmuka5aRy8HZdoRM2++bNt6CVTbx5lh0ybXYU/8KRVu2Slz1qEK
+	OdS8cMfI2evaeTzphxNmGg4r4RbKBK+f0SZRku1DzJ/sulAgMeC7ZjWV3O27Omr3dmLFrTRZzk/
+	uS/3CfywIKHB7TJGOpWu7UBTfKgzBkhVAl/9sfWM6t2dbaHdYsO0z+V+bRZNIgBr009CUbJueqM
+	O6DU5KH1W9Wqw/JP0UUy
+X-Received: by 2002:a05:7022:29b:b0:182:6c6c:d876 with SMTP id a92af1059eb24-1b39fec1c25mr452900c88.8.1794105627500;
+        Sat, 07 Nov 2026 18:40:27 -0800 (PST)
+Received: from ubuntu.. ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3771e5728sm2228842c88.16.2026.11.07.18.40.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2026 18:40:26 -0800 (PST)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Xu Xin <xu.xin@linux.dev>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Stefan Roesch <shr@devkernel.io>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] mm/ksm: align smart scan skips with the scan number
+Date: Sat,  7 Nov 2026 21:40:19 -0500
+Message-ID: <20261108024019.1195186-1-odys.yuan@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <7df793d7-55dd-40db-8455-1f22bb44193c@kernel.org>
+References: <20261107-bug-mm-ksm-smart-scan-align-skips-v3-0-16d5ce8b5fd6@gmail.com> <20261107-bug-mm-ksm-smart-scan-align-skips-v3-1-16d5ce8b5fd6@gmail.com> <7df793d7-55dd-40db-8455-1f22bb44193c@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,43 +113,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout06
-X-Stat-Signature: nbzfgxs4gfzk87ipjedsdoyhbfn89jcr
-X-Rspamd-Queue-Id: 8004020025
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1/G7ID+oJeKiuAmf8anonTtQyANb73atyg=
-X-HE-Tag: 1794104297-59469
-X-HE-Meta: U2FsdGVkX1/z9+anuCWnk9Eh+BcS4MQBRihKN84RhuF1u6P/XAFFHyQM0RfxCGK+a/UEsbzxZRWCZr4GKVTO3pxMLl2bMFrUHs3/kN17YcGSibPKZePqSlfff2vDynj3bWNPEgzBdUu2he4QsSNuLBhmG7OlTvQSUBOJ5wR3ZEhNyK2NsulztTVXwoGYx8Qgw19J2FZ8Mjfpu8ju+ektthSphrc7JBv7DRpc3QeexWDq/yGDpJlID8xH1LP1DIiTUAPd0SUINIKotJZELJOXwUU0TfLhof361EtFwFr1ZJESBNiDghMaItri0zuTrwWjV58HIHSiAWjZ+bGlAZQAo3BDoKk6WJkCmJtlsUGE31BDrxZnSxVSek1kT9qSMPwRxI9QhDSFFhxbVEhQR6i7TL2pLIP9LmNpuL2537oUsQQ+v1ldqoXZHWaNsdhrqNNJMULm+FTv/UE=
+Content-Transfer-Encoding: 8bit
 
-On Sat, 2026-11-07 at 23:02 +0000, Mauro Codella wrote:
-> The DEVICE_ATTR_WO section refers to DEVICE_AATR_WO, which does not
-> exist. Correct the spelling to match the macro in include/linux/device.h.
+On 11/7/26 20:51, David Hildenbrand (Arm) wrote:
+> On 11/7/26 17:57, Qiliang Yuan wrote:
+>>                               before     after      after/before
+>>   pairs merged (of 420)       361        420        116%
+>>                               334        420        126%
+>>   pages looked at per scan    1792       2048       114%
+>>
+> 
+> Oh, I was wondering whether this should actually go to stable? Do you think the
+> above is rather an extreme case, and most users won't really run into it that
+> severely?
 
-Thanks.
+I don't think it is an extreme case, and the test above rather
+understates it: it makes the second page of a pair mergeable while the
+first one is still young. The age of an rmap_item only grows, and is not
+reset when the page content changes, so on a long running system most
+unmerged pages are past age 8 and each is looked at every ninth scan, on
+a phase of its own.
 
-Acked-by: Joe Perches <joe@perches.com>
+To check that case, I let 1800 pairs of unique pages age for 32 scans,
+with the second page of each pair made mergeable 1 to 9 scans after the
+first, and then gave both pages of each pair the same new content:
 
->=20
-> Signed-off-by: Mauro Codella <mauro.codella@pm.me>
-> ---
-> AI assistance: Codex identified the typo and drafted the fix and commit
-> message. I reviewed the change and ran checkpatch.
->=20
->  Documentation/dev-tools/checkpatch.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-t=
-ools/checkpatch.rst
-> index 6139a08c3..f8ab22c18 100644
-> --- a/Documentation/dev-tools/checkpatch.rst
-> +++ b/Documentation/dev-tools/checkpatch.rst
-> @@ -389,7 +389,7 @@ API usage
->      See: https://www.kernel.org/doc/html/latest/driver-api/driver-model/=
-device.html#attributes
-> =20
->    **DEVICE_ATTR_WO**
-> -    The DEVICE_AATR_WO(name) helper macro can be used instead of
-> +    The DEVICE_ATTR_WO(name) helper macro can be used instead of
->      DEVICE_ATTR(name, 0200, NULL, name_store);
-> =20
->      Note that the macro automatically appends _store to the
+  kernel           pairs merged after 16 / 32 / 256 scans
+  before the fix    112 /  200 /  200
+  with the fix     1666 / 1800 / 1800
+
+Before the fix only the pairs whose phases match, one in nine, get
+merged, and the others stay unmerged. Three more runs of 64 scans and
+one with 128 scans of aging gave 200 and 1800 each time.
+
+It is limited to content that is not in the stable tree yet, since KSM
+pages are never skipped and later copies merge with them, and the cost
+is memory that stays unmerged. With smart scan on by default since v6.7
+and the fix being small, I'd lean towards stable.
+
+I'll send a v4 in the next day or two, which also makes the new selftest
+helpers treat a short read or write of smart_scan as an error, and can
+add Cc: stable to patch 1 there if you agree.
+
+-- 
+Thanks,
+Qiliang
