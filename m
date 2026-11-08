@@ -1,75 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794177600;
-	b=Fv01iB4b9F27Fnwsz6I5RNNdqveb2ysQYFUIEANmwFebdzxMGTeKKNezwr0jaoimfJIi
-	 wmQAqpdbX/v1ToZSTOpBpjXQo6EFoRsV018x4kJMhdBNmupTEiKg+sZGGSGyj7+4lJzMo
-	 BNoDVc68RKmhg3olGqHNMhr7W36c4KIrgXGoZfPR36PI8+h3znwA5Li2/Y2l+Ue06g6Xs
-	 5PYvfjCTM4Dceca1jIw/9FBoo4Cya4EQvKAAVaFnw01tfqErd33kE4EjiBvjBhd98P0OP
-	 rgSU78lAzl0Gter3N0P70FpocHd2pgpFNulT2NbnS7ehx4oQFEp8EIRoxh9/0g8IrkA==
+	t=1794180097;
+	b=3MOEnLCvWX9eBLAz8Hu5hMCHR/srDV9B8Qc77VMqPrLOVeK3KVKXZ+KkW5eSEWqZmOmr
+	 ARbCQTH4nFpJgwgjib/OhLNjI4xFPloQrKrg04x58JOrtF8HsgqmJHJU1ejkCplnke4rZ
+	 V9p8wem+B8060aQb6ciL4qY0V1h/LaqAxZmRh2vCsRT6D6RTyVop5m4WGArqNBI8NPhxK
+	 gDzuQYyQiqx8HYNs49eO/RcDoygnHgNb927RDLFb8kKKPfZdT1mVlJpxsMoI/9NifLn4+
+	 n0jlfFXqbCFsMNPrag8Djs/eOOIEDDilZbsqJVyfpRc65xZNqeLxjbmYcbOfBULoHZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794177600;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=cDMmI2UqRAqSDkjhtwDc5ZRUeFfMooMTF2CHO0kKXno=;
-	b=aJc8nla0WTblsfsWeJiKSB9Wf7vkWsuSjyY2Qz7PnOX5F4P4T04tVblhev293YRFqwKz
-	 TsaHeNiDYt8nz1HxLA8irt3v7ULfouXiVwFKc8mt1kZZeBC2zj7oTHPEbElkkiZFtzEOA
-	 1xYUQR5oN/IlnrCBjMr91/8aOUciBInUKoQ6QNTL+Gus7k5ulAlYd39QRgYRzLW9vNFzf
-	 +gnUZylgaWKhhgveyHeOXn1F5IY1cyxRWGN2Wgd//tNWedx39/sncwtUR/Sbxmq1eJoSj
-	 tbfPFXwzOz/Y2IvtdQUzEzOdRErxs5zVGWc70zIHUtgUtJ2KH7RlfUkY6exiWj5wKxg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794180097;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=mJNKpd9FKkhXaX2rb2WL4HMDphLVZBXk0gHlqrdzqsA=;
+	b=Ei6PuibzRwu1ZrsOuEAzM4Zjn//N2GGOsCOd+OLRGeu0IvhagXH7CO/sxu7U3HgsrmF7
+	 lxg8LPDy5+iNsWLHGnL0pSBDe6gQwLEr/WmjjgzUUAeX+ygtjm/GR5xVwVGIsQPCNrqY4
+	 cYJaYlBZRne2kbDuAgA1N07UliAiofv7h8qYWSQSyXECc+F0ClOgiS+ut9hTuHjp/HZ8P
+	 StJZHYaKzyoqoCNimxOwePzw1hFqo2R6aIjjIj8X6ko4X0U9F9VZy5OIwK8WVaXhm6450
+	 A+bQPvbpCEeKSKoBW32MQDhhXteV/YPdVDsbIaYoyhwOG7cv2WbKU7icEqBGzz9niAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--irogers.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EK0+dDqO;
-	arc=none smtp.remote-ip=209.85.161.69
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eWcwaJb0;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21B4D608363E
-	for <linux-doc@vger.kernel.org>; Sun,  8 Nov 2026 22:40:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21B4D608363E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--irogers.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A088606A321;
+	Sun,  8 Nov 2026 23:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EK0+dDqO
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-6df538053fcso345205eaf.3
-        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 14:39:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794177599; x=1794782399; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cDMmI2UqRAqSDkjhtwDc5ZRUeFfMooMTF2CHO0kKXno=;
-        b=EK0+dDqOpFLw139xcEsSE/h3pXv/6VVBPJS1WM+URga8tffu7VcQ4eApMGF7H7HVPq
-         vBTNgisLroxL1nR7GZ9aHH7YTZajcSQsu/YwMfQdkQFVn/txmUiS3GZ77rF8nbNctDH2
-         gP1J3w3kYG1mOz3bnrgxKhELIzb/NJ3m0ltupNTJiD0p9DqbYu4sheUEshjgUoMyF0fn
-         YwRqY0Vslay+VVCfCD9woAc/02Whb8n4YLUgskXEusqA8yypt7aceayv95xhFn5a0/X9
-         5JIYrwdjhR6mPafd8vMZuTlTGEVab/jEoarWeZ8lN+xesocrlOq6RRrPLUPDMuIC4EBd
-         ekCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794177599; x=1794782399;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cDMmI2UqRAqSDkjhtwDc5ZRUeFfMooMTF2CHO0kKXno=;
-        b=rvcWAr3y5uDakhm4qN2QnBvXvvW8QocOzf973qpeR3szfSsrGSQE7Dl9t2ZKtEeZ+w
-         aqliQ2HnrpngWGbrJ4MjB4Qjyg7VFxy2GRE+vaHhAhm8XFw8lxG4/LeTAG1whocSt59i
-         RfMX9GMAeiQ4EujnfrVE7FKrsxc9z3+C7uYKh/86PyV5cAq6N3au9LadTjSS2zWZ+BWL
-         5DvVh7KXyjiqygC83GMKiI6IzQIHFolyceKD8OEG9V+FxVTh+6DtAF7NpduSExnlNO9C
-         +kobL2LQE7VqNRXESqm52NnqU4ID7BoBCSIu3o3KxHQAXJqQ19t83cG9Of2mpeFTylWU
-         GfhQ==
-X-Forwarded-Encrypted: i=1; AL+hErGXQGqdthBArg93mm539JBMQl1rSqFw3FuXAFnxwHi7yWimMURszRoh5pdFT1bp2eLMmWPZ/I/tKOQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8Au68sSi9IQzFgwfN1kb/VPtSasBb5a7pmxVYHrsT0bXEgzi+m
-	fAAcmKJN4XsTQLoM+yubhAbKXJ1rmkDIKsst/q8xbZwssEi/kZ9qtFtQFh6CJevZ7zFcUbgdSD+
-	4VQZEhGhdzQ==
-X-Received: from jabkb9.prod.google.com ([2002:a05:6638:a489:b0:5fe:2546:25c9])
- (user=irogers job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6820:c0c3:10b0:6f6:b13f:5d2d
- with SMTP id 006d021491bc7-7170f1b1402mr914772eaf.12.1794177598756; Sun, 08
- Nov 2026 14:39:58 -0800 (PST)
-Date: Sun,  8 Nov 2026 14:39:13 -0800
-In-Reply-To: <20261108223913.3624571-1-irogers@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eWcwaJb0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BD6A1F008AB;
+	Sun,  8 Nov 2026 23:21:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794180096;
+	bh=mJNKpd9FKkhXaX2rb2WL4HMDphLVZBXk0gHlqrdzqsA=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=eWcwaJb0AzslH9VnAqGJHvVG3WWUvbWfxKxsNg2sST+nzaJyq7dIgBBlJXwAQ+Sz/
+	 Nm6gX+eT1BZUvBVNXQG2ONNAUbMkj6BHvLKgCJt5kmwvfqW6mOgPPi2hYtG44ee9rB
+	 Rj1bWmVQnx0jnQAd2hEzl2zUcDDo/6TkuSZPSz1v0IMqzCK+FMDKi6MkND5rcfj+oJ
+	 VbCt+myC3FUlCQT0ebShtXNSYJ6jneSqf9oeItZN/BRCpI86kPjbt+6ivmux79j9iG
+	 bIQurHguaz7bM0gPCGnezCwfxudnFCUYzrn7RrcvkqgZ+axDlA/lYLbWO1B0B/4BZm
+	 gOgHhWrsuvdSQ==
+From: Drew Fustini <fustini@kernel.org>
+Date: Sun, 08 Nov 2026 15:20:50 -0800
+Subject: [PATCH v11 1/5] riscv_cbqri: Add capacity controller core
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,451 +51,859 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261108223913.3624571-1-irogers@google.com>
-X-Mailer: git-send-email 2.56.0.455.g6c5a503b38-goog
-Message-ID: <20261108223913.3624571-10-irogers@google.com>
-Subject: [PATCH v3 9/9] kobject: Require explicit initialization of struct kobj_type::release
-From: Ian Rogers <irogers@google.com>
-To: Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Kees Cook <kees@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
-	"Rafael J . Wysocki" <rafael@kernel.org>
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <chleroy@kernel.org>, Nayna Jain <nayna@linux.ibm.com>, 
-	Srish Srinivasan <ssrish@linux.ibm.com>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Yoshinori Sato <ysato@users.sourceforge.jp>, Rich Felker <dalias@libc.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, Juergen Gross <jgross@suse.com>, 
-	Stefano Stabellini <sstabellini@kernel.org>, 
-	Oleksandr Tyshchenko <oleksandr_tyshchenko@epam.com>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Zhongqiu Han <zhongqiu.han@oss.qualcomm.com>, Alexander Aring <aahringo@redhat.com>, 
-	Felix Kuehling <felix.kuehling@amd.com>, 
-	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Zhihao Cheng <chengzhihao1@huawei.com>, 
-	Sumanth Korikkar <sumanthk@linux.ibm.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, driver-core@lists.linux.dev, llvm@lists.linux.dev, 
-	linux-hardening@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-acpi@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
-	linux-sh@vger.kernel.org, linux-s390@vger.kernel.org, gfs2@lists.linux.dev, 
-	xen-devel@lists.xenproject.org, linux-mtd@lists.infradead.org, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, Ian Rogers <irogers@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261108-dfustini-atl-sc-cbqri-dt-v11-1-33a1bf0cf01c@kernel.org>
+References: <20261108-dfustini-atl-sc-cbqri-dt-v11-0-33a1bf0cf01c@kernel.org>
+In-Reply-To: <20261108-dfustini-atl-sc-cbqri-dt-v11-0-33a1bf0cf01c@kernel.org>
+To: Adrien Ricciardi <aricciardi@baylibre.com>, 
+ Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Atish Patra <atish.patra@linux.dev>, Babu Moger <babu.moger@amd.com>, 
+ Ben Horgan <ben.horgan@arm.com>, Borislav Petkov <bp@alien8.de>, 
+ Chen Pei <cp0613@linux.alibaba.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, 
+ Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>, 
+ Gong Shuai <gong.shuai@sanechips.com.cn>, Gong Shuai <gsh517@gmail.com>, 
+ guo.wenjia23@zte.com.cn, James Morse <james.morse@arm.com>, 
+ =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn, 
+ Liu Zhiwei <zhiwei_liu@linux.alibaba.com>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>, 
+ Peter Newman <peternewman@google.com>, 
+ =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <radim.krcmar@oss.qualcomm.com>, 
+ Reinette Chatre <reinette.chatre@intel.com>, Rob Herring <robh@kernel.org>, 
+ Samuel Holland <samuel.holland@sifive.com>, 
+ Sunil V L <sunilvl@oss.qualcomm.com>, Tony Luck <tony.luck@intel.com>, 
+ Weiwei Li <liwei1518@gmail.com>, yunhui cui <cuiyunhui@bytedance.com>, 
+ Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>, 
+ Drew Fustini <fustini@kernel.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, 
+ Jonathan Cameron <jic23@kernel.org>, 
+ Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>, 
+ Zeng Heng <zengheng@picoheart.com>, linux-kernel@vger.kernel.org, 
+ linux-riscv@lists.infradead.org, x86@kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=27114; i=fustini@kernel.org;
+ h=from:subject:message-id; bh=n2ve44FK1DHYh1GlfmufeaoclarVbVCLIlHow42x+A8=;
+ b=owGbwMvMwCV2+43O4ZsaG3kYT6slMWR9ZP4XsnEXk1se14VNK6rOfeZesvHiNzfP5/bO4s90C
+ 4+vrToxs6OUhUGMi0FWTJFl04e8C0u8Qr8umP9iG8wcViaQIQxcnAIwET0vRoZteVkP34Qq3Ahe
+ /zDBsif+uLLAX4bp0gmcuyf0rtX/01jK8M9i2lYejQYbo9vyt4647ohsD/q96u+GlibVy5evTf5
+ l4M4KAA==
+X-Developer-Key: i=fustini@kernel.org; a=openpgp;
+ fpr=1B6F948213EA489734F3997035D5CD577C1E6010
 
-Documentation/core-api/kobject.rst states:
+Add the core for RISC-V CBQRI capacity controllers: the register
+layout, the capability probe, and the allocation operations that
+program a capacity block mask for an RCID and read it back.
 
-  "One important point cannot be overstated: every kobject must have a
-  release() method, and the kobject must persist (in a consistent state)
-  until that method is called. If these constraints are not met, the code
-  is flawed. Note that the kernel will warn you if you forget to provide
-  a release() method. Do not try to get rid of this warning by providing
-  an \"empty\" release function."
+A discovery layer maps the register block and describes the controller
+in a cbqri_controller_info descriptor. riscv_cbqri_register_cc() probes
+the controller from that descriptor and adds it to the controller list,
+which stays private to the core. The core owns the controller state
+after registration, so nothing in it depends on how the controller was
+discovered. The caller keeps the register mapping alive.
 
-Annotate struct kobj_type::release with __must_init so the compiler
-diagnoses any struct kobj_type initializer that omits .release.
-
-For the remaining legacy struct kobj_type definitions where the kobject
-is static, per-CPU, a permanent firmware structure, or embedded inside a
-devm- or parent-managed allocation rather than freed by kobject_put(),
-explicitly initialize .release = NULL with a comment documenting why no
-release callback is provided.
-
-Many of these legacy sites are not safe with CONFIG_DEBUG_KOBJECT_RELEASE
-(for example when backing memory is freed, zeroed, or unmapped on module
-unload while delayed kobject cleanup is still pending). Fixing those
-lifetimes is left to follow-up patches; this change does not alter their
-behavior.
-
-Link: https://lpc.events/event/20/contributions/2392/
-Signed-off-by: Ian Rogers <irogers@google.com>
+Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+Signed-off-by: Drew Fustini <fustini@kernel.org>
 ---
- arch/arm64/kernel/cpuinfo.c                   |  5 +++++
- drivers/acpi/sysfs.c                          |  2 ++
- drivers/dma/ioat/sysfs.c                      |  7 +++++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c    |  5 +++++
- drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c       | 10 +++++++++
- drivers/infiniband/hw/hfi1/sysfs.c            |  5 +++++
- drivers/infiniband/hw/usnic/usnic_ib_sysfs.c  |  5 +++++
- drivers/parisc/pdc_stable.c                   |  5 +++++
- drivers/power/supply/ab8500_fg.c              |  5 +++++
- drivers/s390/char/sclp_mem.c                  |  2 ++
- drivers/soc/hisilicon/kunpeng_hccs.c          | 21 +++++++++++++++++++
- .../fbdev/omap2/omapfb/dss/display-sysfs.c    |  7 +++++++
- .../fbdev/omap2/omapfb/dss/manager-sysfs.c    |  8 +++++++
- .../fbdev/omap2/omapfb/dss/overlay-sysfs.c    |  8 +++++++
- fs/erofs/sysfs.c                              | 10 +++++++++
- fs/f2fs/sysfs.c                               | 15 +++++++++++++
- fs/ocfs2/cluster/masklog.c                    |  5 +++++
- include/linux/kobject.h                       |  2 +-
- 18 files changed, 126 insertions(+), 1 deletion(-)
+ MAINTAINERS                      |   3 +
+ drivers/resctrl/Kconfig          |   9 +
+ drivers/resctrl/Makefile         |   3 +
+ drivers/resctrl/cbqri_devices.c  | 561 +++++++++++++++++++++++++++++++++++++++
+ drivers/resctrl/cbqri_internal.h | 114 ++++++++
+ include/linux/riscv_cbqri.h      |  49 ++++
+ 6 files changed, 739 insertions(+)
 
-diff --git a/arch/arm64/kernel/cpuinfo.c b/arch/arm64/kernel/cpuinfo.c
-index 94e6cd211d70..7a4ac8dd0b86 100644
---- a/arch/arm64/kernel/cpuinfo.c
-+++ b/arch/arm64/kernel/cpuinfo.c
-@@ -295,6 +295,11 @@ const struct seq_operations cpuinfo_op = {
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 93abbb315065..6b3060bdfa89 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -24139,6 +24139,9 @@ L:	linux-riscv@lists.infradead.org
+ S:	Supported
+ F:	arch/riscv/include/asm/qos.h
+ F:	arch/riscv/kernel/qos.c
++F:	drivers/resctrl/cbqri_devices.c
++F:	drivers/resctrl/cbqri_internal.h
++F:	include/linux/riscv_cbqri.h
  
+ RISC-V RPMI AND MPXY DRIVERS
+ M:	Rahul Pathak <rahul@summations.net>
+diff --git a/drivers/resctrl/Kconfig b/drivers/resctrl/Kconfig
+index f5ff9b1f6c48..c0c252e6f5e7 100644
+--- a/drivers/resctrl/Kconfig
++++ b/drivers/resctrl/Kconfig
+@@ -31,3 +31,12 @@ config ARM64_MPAM_RESCTRL_FS
+ 	default y if ARM64_MPAM_DRIVER && RESCTRL_FS
+ 	select RESCTRL_RMID_DEPENDS_ON_CLOSID
+ 	select RESCTRL_ASSIGN_FIXED
++
++menuconfig RISCV_CBQRI
++	bool "RISC-V CBQRI support"
++	depends on RISCV && RISCV_ISA_SSQOSID
++	help
++	  Capacity and Bandwidth QoS Register Interface (CBQRI) support for
++	  RISC-V cache QoS resources. CBQRI exposes cache capacity
++	  allocation through the resctrl filesystem at /sys/fs/resctrl when
++	  RESCTRL_FS is also enabled.
+diff --git a/drivers/resctrl/Makefile b/drivers/resctrl/Makefile
+index 097c036724e9..e86a873208ad 100644
+--- a/drivers/resctrl/Makefile
++++ b/drivers/resctrl/Makefile
+@@ -3,3 +3,6 @@ mpam-y						+= mpam_devices.o mpam_fb.o
+ mpam-$(CONFIG_ARM64_MPAM_RESCTRL_FS)		+= mpam_resctrl.o
  
- static const struct kobj_type cpuregs_kobj_type = {
+ ccflags-$(CONFIG_ARM64_MPAM_DRIVER_DEBUG)	+= -DDEBUG
++
++obj-$(CONFIG_RISCV_CBQRI)			+= cbqri.o
++cbqri-y						+= cbqri_devices.o
+diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devices.c
+new file mode 100644
+index 000000000000..7183eb363090
+--- /dev/null
++++ b/drivers/resctrl/cbqri_devices.c
+@@ -0,0 +1,561 @@
++// SPDX-License-Identifier: GPL-2.0-only
++
++#define pr_fmt(fmt) "%s:%s: " fmt, KBUILD_MODNAME, __func__
++
++#include <linux/bitfield.h>
++#include <linux/cleanup.h>
++#include <linux/err.h>
++#include <linux/io-64-nonatomic-lo-hi.h>
++#include <linux/io.h>
++#include <linux/iopoll.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
++#include <linux/printk.h>
++#include <linux/riscv_cbqri.h>
++#include <linux/slab.h>
++#include <linux/types.h>
++
++#include <asm/csr.h>
++
++#include "cbqri_internal.h"
++
++static LIST_HEAD(cbqri_controllers);
++
++/*
++ * Serializes cbqri_controllers mutations against a concurrent insert under
++ * asynchronous driver probing, and against the boot-time copy that
++ * cbqri_get_controllers() hands to cbqri_resctrl.c. That code keeps its
++ * own array of the controllers it picked, so its cpuhp paths never walk
++ * this list.
++ */
++static DEFINE_MUTEX(cbqri_controllers_lock);
++
++/**
++ * cbqri_get_controllers() - return the registered controllers
++ * @nr: receives the number of controllers
++ *
++ * Controllers are never unregistered, so the pointers stay valid after the
++ * lock drops.
++ *
++ * Return: a kcalloc'd array that the caller frees, or NULL on allocation
++ * failure.
++ */
++struct cbqri_controller **cbqri_get_controllers(int *nr)
++{
++	struct cbqri_controller **arr, *ctrl;
++	unsigned int n = 0;
++
++	guard(mutex)(&cbqri_controllers_lock);
++
++	list_for_each_entry(ctrl, &cbqri_controllers, list)
++		n++;
++
++	arr = kcalloc(n, sizeof(*arr), GFP_KERNEL);
++	if (!arr)
++		return NULL;
++
++	n = 0;
++	list_for_each_entry(ctrl, &cbqri_controllers, list)
++		arr[n++] = ctrl;
++
++	*nr = n;
++	return arr;
++}
++
++/*
++ * CBQRI registers are 64-bit, but the spec only guarantees single-copy
++ * atomicity for naturally aligned 4-byte accesses. Read the two halves and
++ * reconstruct, so the driver does not rely on native 64-bit MMIO.
++ *
++ * The halves are not sampled atomically, but a tear is harmless. The fields
++ * that change while an operation runs, BUSY (bit 39) and STATUS (bits
++ * 38:32), are in the high half and read by the single high readl(). The low
++ * half (OP/AT/RCID) is software-written and constant for the operation.
++ */
++static u64 cbqri_readq(void __iomem *addr)
++{
++	return lo_hi_readq(addr);
++}
++
++/* Set capacity block mask (cc_block_mask) */
++static void cbqri_set_cbm(struct cbqri_controller *ctrl, u64 cbm)
++{
 +	/*
-+	 * Pre-existing: info->kobj is embedded in per-CPU cpu_data;
-+	 * cpuid_cpu_offline() only calls kobject_del().
++	 * cbqri_probe_cc() rejects ncblks > 32, so the mask fits the low word.
++	 * The cc_block_mask bits above NCBLKS are read-only zero, so the upper
++	 * word needs no write.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops,
- };
- 
-diff --git a/drivers/acpi/sysfs.c b/drivers/acpi/sysfs.c
-index a4534b3e3cfb..a10f14524dd9 100644
---- a/drivers/acpi/sysfs.c
-+++ b/drivers/acpi/sysfs.c
-@@ -975,6 +975,8 @@ static struct attribute *hotplug_profile_attrs[] = {
- ATTRIBUTE_GROUPS(hotplug_profile);
- 
- static const struct kobj_type acpi_hotplug_profile_ktype = {
-+	/* Pre-existing: hotplug->kobj is embedded in static struct acpi_scan_hotplug objects. */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops,
- 	.default_groups = hotplug_profile_groups,
- };
-diff --git a/drivers/dma/ioat/sysfs.c b/drivers/dma/ioat/sysfs.c
-index 976134df8108..b9af60e198ef 100644
---- a/drivers/dma/ioat/sysfs.c
-+++ b/drivers/dma/ioat/sysfs.c
-@@ -167,6 +167,13 @@ static const struct attribute *const ioat_attrs[] = {
- ATTRIBUTE_GROUPS(ioat);
- 
- const struct kobj_type ioat_ktype = {
++	writel(lower_32_bits(cbm), ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
++}
++
++/*
++ * Clear cc_cunits so a CONFIG_LIMIT on a CUNITS-capable controller imposes no
++ * capacity-unit limit. resctrl models only the block mask. On controllers
++ * with cc_capabilities.CUNITS == 0 the register is read-only zero, so there is
++ * nothing to do.
++ */
++static void cbqri_clear_cunits(struct cbqri_controller *ctrl)
++{
++	if (ctrl->cc.cunits) {
++		writel(0, ctrl->base + CBQRI_CC_CUNITS_OFF);
++		writel(0, ctrl->base + CBQRI_CC_CUNITS_OFF + 4);
++	}
++}
++
++static int cbqri_wait_busy_flag(struct cbqri_controller *ctrl, int reg_offset,
++				u64 *regp)
++{
++	u64 reg;
++	int ret;
++
++	ret = read_poll_timeout(cbqri_readq, reg,
++				!FIELD_GET(CBQRI_CONTROL_REGISTERS_BUSY_MASK, reg),
++				10, 1000, false, ctrl->base + reg_offset);
++	if (ret)
++		return ret;
++	if (regp)
++		*regp = reg;
++	return 0;
++}
++
++/*
++ * Perform a capacity allocation control operation on a capacity controller.
++ * cbm is staged in cc_block_mask and cc_cunits is cleared only after BUSY
++ * reads 0, since writes to those registers are UNSPECIFIED while an
++ * operation is in flight. READ_LIMIT overwrites both on success, so
++ * staging 0 before a read makes a silent firmware no-op visible.
++ * Caller must hold ctrl->lock.
++ */
++static int cbqri_cc_alloc_op(struct cbqri_controller *ctrl, int operation,
++			     int rcid, u32 at, u64 cbm)
++{
++	int reg_offset = CBQRI_CC_ALLOC_CTL_OFF;
++	int status;
++	u64 reg;
++
++	lockdep_assert_held(&ctrl->lock);
++
++	if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
++		pr_err_ratelimited("BUSY timeout before starting operation\n");
++		return -EIO;
++	}
++
++	cbqri_set_cbm(ctrl, cbm);
++	cbqri_clear_cunits(ctrl);
++
++	FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_OP_MASK, &reg, operation);
++	FIELD_MODIFY(CBQRI_CONTROL_REGISTERS_RCID_MASK, &reg, rcid);
++
 +	/*
-+	 * Pre-existing: ioatdma_chan is freed by release_ioatdma(), not
-+	 * by kobject_put(). With CONFIG_DEBUG_KOBJECT_RELEASE the delayed
-+	 * kobject cleanup queued by ioat_kobject_del() may run after
-+	 * that kfree(), a use-after-free.
++	 * CBQRI Access Type (AT): 0=Data, 1=Code. Program AT on controllers
++	 * that report supports_alloc_at_code. On controllers that don't,
++	 * AT is reserved-zero and the op acts on both halves.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &ioat_sysfs_ops,
- 	.default_groups = ioat_groups,
- };
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c
-index 6cd3927a7e82..a2a027e4b118 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ualink.c
-@@ -892,6 +892,11 @@ static const struct attribute_group ualink_xcp_info_group = {
- };
- 
- static const struct kobj_type ualink_xcp_info_ktype = {
++	reg &= ~CBQRI_CONTROL_REGISTERS_AT_MASK;
++	if (ctrl->cc.supports_alloc_at_code)
++		reg |= FIELD_PREP(CBQRI_CONTROL_REGISTERS_AT_MASK, at);
++
++	writel(lower_32_bits(reg), ctrl->base + reg_offset);
++
++	if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
++		pr_err_ratelimited("BUSY timeout during operation\n");
++		return -EIO;
++	}
++
++	status = FIELD_GET(CBQRI_CONTROL_REGISTERS_STATUS_MASK, reg);
++	if (status != CBQRI_CC_ALLOC_CTL_STATUS_SUCCESS) {
++		pr_err_ratelimited("operation %d failed: status=%d\n", operation, status);
++		return -EIO;
++	}
++
++	return 0;
++}
++
++/*
++ * Apply a capacity block mask and verify via CONFIG_LIMIT + READ_LIMIT.
++ *
++ * AT-capable controllers with CDP off need a second CONFIG_LIMIT on the
++ * other AT half (AT is 0=Data or 1=Code, there is no "both halves"
++ * value). With CDP on, resctrl writes each half separately, so a single
++ * CONFIG_LIMIT per call is correct.
++ */
++int cbqri_apply_cache_config(struct cbqri_controller *ctrl, u32 closid,
++			     const struct cbqri_cc_config *cfg)
++{
++	bool need_at_mirror;
++	u64 saved_cbm = 0;
++	int err = 0;
++	u64 reg;
++
++	mutex_lock(&ctrl->lock);
++
++	need_at_mirror = ctrl->cc.supports_alloc_at_code && !cfg->cdp_enabled;
++
 +	/*
-+	 * Pre-existing: xcp->ualink.kobj is embedded in struct amdgpu_xcp_mgr
-+	 * rather than freed individually by kobject_put().
++	 * Capture the cfg->at half CBM before any write so a partial
++	 * AT-mirror failure can revert and keep the two halves consistent.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops
- };
- 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
-index ab14079d1c42..0847134a1391 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_xcp.c
-@@ -797,6 +797,11 @@ static const struct sysfs_ops xcp_cfg_res_sysfs_ops = {
- };
- 
- static const struct kobj_type xcp_cfg_res_sysfs_ktype = {
++	if (need_at_mirror) {
++		err = cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT,
++					closid, cfg->at, 0);
++		if (err < 0)
++			goto out;
++		saved_cbm = cbqri_readq(ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
++	}
++
++	/* Capacity config limit operation for the AT half implied by cfg->at */
++	err = cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMIT,
++				closid, cfg->at, cfg->cbm);
++	if (err < 0)
++		goto out;
++
 +	/*
-+	 * Pre-existing: xcp_res is embedded in struct amdgpu_xcp_cfg
-+	 * rather than freed individually by kobject_put().
++	 * CDP-off mirror: on AT-capable controllers, also program the
++	 * other AT half with the same mask so the two halves stay in sync.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &xcp_cfg_res_sysfs_ops,
- 	.default_groups = xcp_cfg_res_sysfs_groups,
- };
-@@ -1061,6 +1066,11 @@ static const struct attribute_group amdgpu_xcp_attrs_group = {
- };
- 
- static const struct kobj_type xcp_sysfs_ktype = {
++	if (need_at_mirror) {
++		u32 other = (cfg->at == CBQRI_CONTROL_REGISTERS_AT_CODE) ?
++			    CBQRI_CONTROL_REGISTERS_AT_DATA :
++			    CBQRI_CONTROL_REGISTERS_AT_CODE;
++
++		err = cbqri_cc_alloc_op(ctrl,
++					CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMIT,
++					closid, other, cfg->cbm);
++		if (err < 0) {
++			int rerr;
++
++			/*
++			 * Best-effort revert of the cfg->at half so the two
++			 * halves stay in sync. A schemata read sees only one
++			 * half, so silent divergence would otherwise report
++			 * the new value as if the write had succeeded.
++			 */
++			rerr = cbqri_cc_alloc_op(ctrl,
++						 CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMIT,
++						 closid, cfg->at, saved_cbm);
++			if (rerr < 0)
++				pr_err_ratelimited("AT-mirror revert failed (err=%d), AT halves diverged\n",
++						   rerr);
++			goto out;
++		}
++	}
++
++	/* Read the limit back to verify the block mask landed */
++	err = cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT,
++				closid, cfg->at, 0);
++	if (err < 0)
++		goto out;
++
 +	/*
-+	 * Pre-existing: xcp is embedded in struct amdgpu_xcp_mgr
-+	 * rather than freed individually by kobject_put().
++	 * Read the capacity block mask and narrow to u32 to match resctrl's CBM
++	 * width. cbqri_probe_cc() rejects ncblks > 32 so the upper bits are
++	 * reserved zero.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops,
- };
- 
-diff --git a/drivers/infiniband/hw/hfi1/sysfs.c b/drivers/infiniband/hw/hfi1/sysfs.c
-index 372cfd13dc61..5a1aca06b542 100644
---- a/drivers/infiniband/hw/hfi1/sysfs.c
-+++ b/drivers/infiniband/hw/hfi1/sysfs.c
-@@ -608,6 +608,11 @@ static const struct sysfs_ops sde_sysfs_ops = {
- };
- 
- static struct kobj_type sde_ktype = {
++	reg = cbqri_readq(ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
++	if (lower_32_bits(reg) != cfg->cbm) {
++		pr_err_ratelimited("CBM verify mismatch (reg=%llx != cbm=%llx)\n",
++				   reg, cfg->cbm);
++		err = -EIO;
++	}
++
++out:
++	mutex_unlock(&ctrl->lock);
++	return err;
++}
++
++/* Read the configured CBM for closid on the AT half via READ_LIMIT. */
++int cbqri_read_cache_config(struct cbqri_controller *ctrl, u32 closid,
++			    u32 at, u32 *cbm_out)
++{
++	int err;
++
++	mutex_lock(&ctrl->lock);
++	err = cbqri_cc_alloc_op(ctrl, CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT, closid, at, 0);
++	if (err == 0) {
++		/*
++		 * resctrl exposes the CBM as a u32 and cbqri_probe_cc() rejects
++		 * ncblks > 32, so the mask fits the low 32-bit word of the
++		 * cc_block_mask register.
++		 */
++		*cbm_out = readl(ctrl->base + CBQRI_CC_BLOCK_MASK_OFF);
++	}
++	mutex_unlock(&ctrl->lock);
++	return err;
++}
++
++static int cbqri_probe_feature(struct cbqri_controller *ctrl, int reg_offset,
++			       int operation, int *status, bool *access_type_supported)
++{
++	const u64 active_mask = CBQRI_CONTROL_REGISTERS_OP_MASK |
++				CBQRI_CONTROL_REGISTERS_AT_MASK |
++				CBQRI_CONTROL_REGISTERS_RCID_MASK;
++	u64 reg, saved_reg;
++	int at;
++
 +	/*
-+	 * Pre-existing: sdma_engine is embedded in dd->per_sdma array
-+	 * rather than freed by kobject_put().
++	 * Default the output to false so the status==0 (feature not
++	 * implemented) path returns a deterministic value to the caller
++	 * rather than leaving an uninitialized bool.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &sde_sysfs_ops,
- };
- 
-diff --git a/drivers/infiniband/hw/usnic/usnic_ib_sysfs.c b/drivers/infiniband/hw/usnic/usnic_ib_sysfs.c
-index fdb63a8fb997..0c9dbf93a0e9 100644
---- a/drivers/infiniband/hw/usnic/usnic_ib_sysfs.c
-+++ b/drivers/infiniband/hw/usnic/usnic_ib_sysfs.c
-@@ -245,6 +245,11 @@ static struct attribute *usnic_ib_qpn_default_attrs[] = {
- ATTRIBUTE_GROUPS(usnic_ib_qpn_default);
- 
- static struct kobj_type usnic_ib_qpn_type = {
++	*access_type_supported = false;
++
++	/* Keep the initial register value to preserve the WPRI fields */
++	reg = cbqri_readq(ctrl->base + reg_offset);
++	saved_reg = reg;
++
++	/* Drain any in-flight firmware op before issuing our own write. */
++	if (cbqri_wait_busy_flag(ctrl, reg_offset, &saved_reg) < 0) {
++		pr_err("BUSY timeout before probe operation\n");
++		return -EIO;
++	}
++
 +	/*
-+	 * Pre-existing: qp_grp->kobj is embedded in RDMA core-managed
-+	 * struct usnic_ib_qp_grp rather than freed by kobject_put().
++	 * Execute the requested operation with all active fields
++	 * (OP/AT/RCID) zeroed except OP itself. Every bit not in
++	 * active_mask is WPRI and gets carried over from saved_reg.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &usnic_ib_qpn_sysfs_ops,
- 	.default_groups = usnic_ib_qpn_default_groups,
- };
-diff --git a/drivers/parisc/pdc_stable.c b/drivers/parisc/pdc_stable.c
-index 6b567a74fc2c..2f530e8c6757 100644
---- a/drivers/parisc/pdc_stable.c
-+++ b/drivers/parisc/pdc_stable.c
-@@ -484,6 +484,11 @@ ATTRIBUTE_GROUPS(paths_subsys);
- 
- /* Specific kobject type for our PDC paths */
- static const struct kobj_type ktype_pdcspath = {
++	reg = (saved_reg & ~active_mask) |
++	      FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation);
++	writel(lower_32_bits(reg), ctrl->base + reg_offset);
++	if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
++		pr_err_ratelimited("BUSY timeout during operation\n");
++		return -EIO;
++	}
++
++	/* Get the operation status */
++	*status = FIELD_GET(CBQRI_CONTROL_REGISTERS_STATUS_MASK, reg);
++
 +	/*
-+	 * Pre-existing: pdcspath_entry instances are static; lifetime
-+	 * is not controlled by kobject_put().
++	 * Check for AT support if the register is implemented
++	 * (if not, the status value will remain 0)
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &pdcspath_attr_ops,
- 	.default_groups = paths_subsys_groups,
- };
-diff --git a/drivers/power/supply/ab8500_fg.c b/drivers/power/supply/ab8500_fg.c
-index 069e7fee1d16..f71630d92231 100644
---- a/drivers/power/supply/ab8500_fg.c
-+++ b/drivers/power/supply/ab8500_fg.c
-@@ -2539,6 +2539,11 @@ static struct attribute *ab8500_fg_attrs[] = {
- ATTRIBUTE_GROUPS(ab8500_fg);
- 
- static const struct kobj_type ab8500_fg_ktype = {
++	if (*status != 0) {
++		/*
++		 * Re-issue operation with AT=CODE so the controller
++		 * latches AT=CODE on supported hardware (or resets it to 0
++		 * on hardware that doesn't). OP must be a defined CBQRI op
++		 * here. OP=0 is a no-op and would silently disable CDP.
++		 */
++		reg = (saved_reg & ~active_mask) |
++		      FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation) |
++		      FIELD_PREP(CBQRI_CONTROL_REGISTERS_AT_MASK,
++				 CBQRI_CONTROL_REGISTERS_AT_CODE);
++		writel(lower_32_bits(reg), ctrl->base + reg_offset);
++		if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
++			pr_err("BUSY timeout setting AT field\n");
++			return -EIO;
++		}
++
++		/*
++		 * If the AT field value has been reset to zero,
++		 * then AT support is not present
++		 */
++		at = FIELD_GET(CBQRI_CONTROL_REGISTERS_AT_MASK, reg);
++		if (at == CBQRI_CONTROL_REGISTERS_AT_CODE)
++			*access_type_supported = true;
++	}
++
 +	/*
-+	 * Pre-existing: fg_kobject is embedded in devm-allocated struct
-+	 * ab8500_fg; ab8500_fg_sysfs_exit() only calls kobject_del().
++	 * Restore the original register value.
++	 * Clear OP to avoid re-triggering the probe op.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &ab8500_fg_sysfs_ops,
- 	.default_groups = ab8500_fg_groups,
- };
-diff --git a/drivers/s390/char/sclp_mem.c b/drivers/s390/char/sclp_mem.c
-index 6df1926d4c62..2fb7271dce36 100644
---- a/drivers/s390/char/sclp_mem.c
-+++ b/drivers/s390/char/sclp_mem.c
-@@ -305,6 +305,8 @@ static ssize_t sclp_memmap_on_memory_store(struct kobject *kobj, struct kobj_att
- }
- 
- static const struct kobj_type ktype = {
-+	/* Pre-existing: permanent firmware kobjects, never freed */
-+	.release = NULL,
- 	.sysfs_ops = &kobj_sysfs_ops,
- };
- 
-diff --git a/drivers/soc/hisilicon/kunpeng_hccs.c b/drivers/soc/hisilicon/kunpeng_hccs.c
-index 0cc2953d59a5..da7a64c95058 100644
---- a/drivers/soc/hisilicon/kunpeng_hccs.c
-+++ b/drivers/soc/hisilicon/kunpeng_hccs.c
-@@ -1038,6 +1038,13 @@ static struct attribute *hccs_port_default_attrs[] = {
- ATTRIBUTE_GROUPS(hccs_port_default);
- 
- static const struct kobj_type hccs_port_type = {
++	saved_reg &= ~CBQRI_CONTROL_REGISTERS_OP_MASK;
++	writel(lower_32_bits(saved_reg), ctrl->base + reg_offset);
++	if (cbqri_wait_busy_flag(ctrl, reg_offset, NULL) < 0) {
++		pr_err("BUSY timeout restoring register value\n");
++		return -EIO;
++	}
++
++	return 0;
++}
++
++static int cbqri_probe_cc(struct cbqri_controller *ctrl)
++{
++	int err, status;
++	int ver_major, ver_minor;
++	u64 reg;
++
++	reg = cbqri_readq(ctrl->base + CBQRI_CC_CAPABILITIES_OFF);
++	if (reg == 0) {
++		pr_warn("CC at %pa: cc_capabilities reads 0, skipping\n",
++			&ctrl->addr);
++		return -ENODEV;
++	}
++
++	ver_minor = FIELD_GET(CBQRI_CC_CAPABILITIES_VER_MINOR_MASK, reg);
++	ver_major = FIELD_GET(CBQRI_CC_CAPABILITIES_VER_MAJOR_MASK, reg);
++	ctrl->cc.ncblks = FIELD_GET(CBQRI_CC_CAPABILITIES_NCBLKS_MASK, reg);
++
++	pr_debug("version=%d.%d ncblks=%d cache_level=%u\n",
++		 ver_major, ver_minor,
++		 ctrl->cc.ncblks, ctrl->cache.cache_level);
++
 +	/*
-+	 * Pre-existing: hccs_port_info is allocated via devm_kzalloc()
-+	 * rather than freed by kobject_put(). With
-+	 * CONFIG_DEBUG_KOBJECT_RELEASE the delayed kobject cleanup may run
-+	 * after devm frees it on unbind, a use-after-free.
++	 * The driver programs the v1.0 register layout. Controllers that
++	 * report 0.x differ only in capability bits that read as zero, so
++	 * they are accepted. Anything newer than 1.0 may move fields.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &hccs_comm_ops,
- 	.default_groups = hccs_port_default_groups,
- };
-@@ -1110,6 +1117,13 @@ static struct attribute *hccs_die_default_attrs[] = {
- ATTRIBUTE_GROUPS(hccs_die_default);
- 
- static const struct kobj_type hccs_die_type = {
++	if (ver_major > 1 || (ver_major == 1 && ver_minor > 0)) {
++		pr_warn("CC at %pa reports CBQRI version %d.%d, skipping\n",
++			&ctrl->addr, ver_major, ver_minor);
++		return -ENODEV;
++	}
++
 +	/*
-+	 * Pre-existing: hccs_die_info is allocated via devm_kzalloc()
-+	 * rather than freed by kobject_put(). With
-+	 * CONFIG_DEBUG_KOBJECT_RELEASE the delayed kobject cleanup may run
-+	 * after devm frees it on unbind, a use-after-free.
++	 * NCBLKS == 0 would divide-by-zero in rdtgroup_cbm_to_size(), which
++	 * divides the cache size by cbm_len.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &hccs_comm_ops,
- 	.default_groups = hccs_die_default_groups,
- };
-@@ -1213,6 +1227,13 @@ static struct attribute *hccs_chip_default_attrs[] = {
- ATTRIBUTE_GROUPS(hccs_chip_default);
- 
- static const struct kobj_type hccs_chip_type = {
++	if (!ctrl->cc.ncblks) {
++		pr_warn("CC at %pa has 0 capacity blocks, skipping\n",
++			&ctrl->addr);
++		return -ENODEV;
++	}
++
 +	/*
-+	 * Pre-existing: hccs_chip_info is allocated via devm_kzalloc()
-+	 * rather than freed by kobject_put(). With
-+	 * CONFIG_DEBUG_KOBJECT_RELEASE the delayed kobject cleanup may run
-+	 * after devm frees it on unbind, a use-after-free.
++	 * resctrl represents the capacity bitmask (CBM) as a u32, so a
++	 * controller with more than 32 capacity blocks cannot be expressed
++	 * through the schemata interface. Skip it rather than truncate.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &hccs_comm_ops,
- 	.default_groups = hccs_chip_default_groups,
- };
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c b/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-index ae937854403b..452920a4e2a9 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/display-sysfs.c
-@@ -304,6 +304,13 @@ static const struct sysfs_ops display_sysfs_ops = {
- };
- 
- static struct kobj_type display_ktype = {
++	if (ctrl->cc.ncblks > 32) {
++		pr_warn("CC at %pa has ncblks=%u > 32 (resctrl CBM is u32), skipping\n",
++			&ctrl->addr, ctrl->cc.ncblks);
++		return -ENODEV;
++	}
++
 +	/*
-+	 * Pre-existing: dssdev->kobj is embedded in struct omap_dss_device
-+	 * and zeroed in display_uninit_sysfs() right after kobject_put().
-+	 * With CONFIG_DEBUG_KOBJECT_RELEASE that memset() clobbers the
-+	 * pending delayed kobject cleanup.
++	 * On a CUNITS-capable controller, CONFIG_LIMIT also consumes cc_cunits,
++	 * whose reset value is unspecified. The driver clears it to 0 (no limit)
++	 * on every CONFIG_LIMIT, so cc_cunits at 0x28 must be within the mapping.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &display_sysfs_ops,
- 	.default_groups = display_sysfs_groups,
- };
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c b/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-index 1b644be5fe2e..c343c33199af 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/manager-sysfs.c
-@@ -496,6 +496,14 @@ static const struct sysfs_ops manager_sysfs_ops = {
- };
- 
- static struct kobj_type manager_ktype = {
++	ctrl->cc.cunits = FIELD_GET(CBQRI_CC_CAPABILITIES_CUNITS_MASK, reg);
++	if (ctrl->cc.cunits && ctrl->size < CBQRI_CC_CUNITS_OFF + 8) {
++		pr_warn("CC at %pa supports CUNITS but maps only %pa, skipping\n",
++			&ctrl->addr, &ctrl->size);
++		return -ENODEV;
++	}
++
++	/* Probe allocation features */
++	err = cbqri_probe_feature(ctrl, CBQRI_CC_ALLOC_CTL_OFF,
++				  CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT,
++				  &status, &ctrl->cc.supports_alloc_at_code);
++	if (err)
++		return err;
++
++	if (status == CBQRI_CC_ALLOC_CTL_STATUS_SUCCESS)
++		ctrl->alloc_capable = true;
++
++	return 0;
++}
++
++static int cbqri_probe_controller(struct cbqri_controller *ctrl)
++{
++	pr_debug("controller info: type=%d addr=%pa size=%pa max-rcid=%u\n",
++		 ctrl->type, &ctrl->addr, &ctrl->size, ctrl->rcid_count);
++
++	if (!ctrl->addr) {
++		pr_warn("controller has invalid addr=0x0, skipping\n");
++		return -EINVAL;
++	}
++
++	if (ctrl->size < CBQRI_CTRL_MIN_REG_SPAN) {
++		pr_warn("controller at %pa: size %pa < minimum 0x%x, skipping\n",
++			&ctrl->addr, &ctrl->size, CBQRI_CTRL_MIN_REG_SPAN);
++		return -EINVAL;
++	}
++
++	switch (ctrl->type) {
++	case CBQRI_CONTROLLER_TYPE_CAPACITY:
++		return cbqri_probe_cc(ctrl);
++	default:
++		pr_err("unknown controller type %d\n", ctrl->type);
++		return -ENODEV;
++	}
++}
++
++/**
++ * riscv_cbqri_register_cc() - register a capacity controller
++ * @info: registration descriptor. info->type must be CAPACITY. The resctrl
++ *        glue maps info->cache_level to the L2/L3 resource and uses
++ *        info->cache_id as the domain id.
++ *
++ * The caller resolves the cache level and id from its firmware description.
++ * Domain membership is resolved per CPU at hotplug, so no cpu mask is stored.
++ *
++ * Return: 0 on success, -EEXIST when a controller for the same cache level
++ * and id is already registered, or another negative errno on failure.
++ */
++int riscv_cbqri_register_cc(const struct cbqri_controller_info *info)
++{
++	struct cbqri_controller *other;
++	int err;
++
++	if (!info->addr) {
++		pr_warn("skipping controller with invalid addr=0x0\n");
++		return -EINVAL;
++	}
++
++	if (info->type != CBQRI_CONTROLLER_TYPE_CAPACITY) {
++		pr_warn("register_cc called with non-capacity type %u\n",
++			info->type);
++		return -EINVAL;
++	}
++
 +	/*
-+	 * Pre-existing: mgr->kobj is embedded in dynamically allocated
-+	 * managers[], zeroed in dss_manager_kobj_uninit() right after
-+	 * kobject_put(), and freed in dss_uninit_overlay_managers(). With
-+	 * CONFIG_DEBUG_KOBJECT_RELEASE that clobbers and frees the pending
-+	 * delayed kobject cleanup.
++	 * SRMCFG encodes RCID in 12 bits. Reject an out-of-range count rather
++	 * than let FIELD_PREP(SRMCFG_RCID_MASK, closid) truncate it silently.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &manager_sysfs_ops,
- 	.default_groups = manager_sysfs_groups,
- };
-diff --git a/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c b/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-index 1da4fb1c77b4..5c14446af9b3 100644
---- a/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-+++ b/drivers/video/fbdev/omap2/omapfb/dss/overlay-sysfs.c
-@@ -429,6 +429,14 @@ static const struct sysfs_ops overlay_sysfs_ops = {
- };
- 
- static struct kobj_type overlay_ktype = {
++	if (info->rcid_count > FIELD_MAX(SRMCFG_RCID_MASK) + 1) {
++		pr_warn("CC at %pa has RCID count %u beyond the 12-bit SRMCFG field, skipping\n",
++			&info->addr, info->rcid_count);
++		return -EINVAL;
++	}
++
++	struct cbqri_controller *ctrl __free(kfree) =
++		kzalloc(sizeof(*ctrl), GFP_KERNEL);
++	if (!ctrl)
++		return -ENOMEM;
++
++	mutex_init(&ctrl->lock);
++
++	ctrl->base = info->base;
++	ctrl->addr = info->addr;
++	ctrl->size = info->size;
++	ctrl->type = info->type;
++	ctrl->rcid_count = info->rcid_count;
++	ctrl->cache.cache_id = info->cache_id;
++	ctrl->cache.cache_level = info->cache_level;
++
++	err = cbqri_probe_controller(ctrl);
++	if (err)
++		return err;
++
 +	/*
-+	 * Pre-existing: ovl->kobj is embedded in dynamically allocated
-+	 * overlays[] and freed in dss_uninit_overlays() right after
-+	 * dss_overlay_kobj_uninit() calls kobject_put(). With
-+	 * CONFIG_DEBUG_KOBJECT_RELEASE the delayed kobject cleanup may run
-+	 * after kfree(overlays), a use-after-free.
++	 * alloc_capable comes from the probe above and rcid_count from the
++	 * discovery layer. Two RCIDs are the minimum for a useful system.
++	 * resctrl reserves RCID 0 for the default group, so one RCID has
++	 * nothing to allocate between, and CDP would halve it to zero.
++	 * Reject fewer than two.
 +	 */
-+	.release = NULL,
- 	.sysfs_ops = &overlay_sysfs_ops,
- 	.default_groups = overlay_sysfs_groups,
- };
-diff --git a/fs/erofs/sysfs.c b/fs/erofs/sysfs.c
-index dfcec9376cd5..2ea6773cd98f 100644
---- a/fs/erofs/sysfs.c
-+++ b/fs/erofs/sysfs.c
-@@ -238,6 +238,11 @@ static const struct kobj_type erofs_sb_ktype = {
- static const struct kobj_type erofs_ktype = {
- 	.default_groups = erofs_groups,
- 	.sysfs_ops	= &erofs_attr_ops,
-+	/*
-+	 * Pre-existing: erofs_root is a static struct kset; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kset erofs_root = {
-@@ -247,6 +252,11 @@ static struct kset erofs_root = {
- static const struct kobj_type erofs_feat_ktype = {
- 	.default_groups = erofs_feat_groups,
- 	.sysfs_ops	= &erofs_attr_ops,
-+	/*
-+	 * Pre-existing: erofs_feat is a static struct kobject; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kobject erofs_feat = {
-diff --git a/fs/f2fs/sysfs.c b/fs/f2fs/sysfs.c
-index 430356e500af..6e15695cb75f 100644
---- a/fs/f2fs/sysfs.c
-+++ b/fs/f2fs/sysfs.c
-@@ -1683,6 +1683,11 @@ static const struct kobj_type f2fs_sb_ktype = {
- 
- static const struct kobj_type f2fs_ktype = {
- 	.sysfs_ops	= &f2fs_attr_ops,
-+	/*
-+	 * Pre-existing: f2fs_kset is a static struct kset; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kset f2fs_kset = {
-@@ -1697,6 +1702,11 @@ static const struct sysfs_ops f2fs_feat_attr_ops = {
- static const struct kobj_type f2fs_feat_ktype = {
- 	.default_groups = f2fs_feat_groups,
- 	.sysfs_ops	= &f2fs_feat_attr_ops,
-+	/*
-+	 * Pre-existing: f2fs_feat is a static struct kobject; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kobject f2fs_feat = {
-@@ -1711,6 +1721,11 @@ static const struct sysfs_ops f2fs_tune_attr_ops = {
- static const struct kobj_type f2fs_tune_ktype = {
- 	.default_groups = f2fs_tune_groups,
- 	.sysfs_ops	= &f2fs_tune_attr_ops,
-+	/*
-+	 * Pre-existing: f2fs_tune is a static struct kobject; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release	= NULL,
- };
- 
- static struct kobject f2fs_tune = {
-diff --git a/fs/ocfs2/cluster/masklog.c b/fs/ocfs2/cluster/masklog.c
-index 563881ddbf00..ff8a1cf51e72 100644
---- a/fs/ocfs2/cluster/masklog.c
-+++ b/fs/ocfs2/cluster/masklog.c
-@@ -147,6 +147,11 @@ static const struct sysfs_ops mlog_attr_ops = {
- static struct kobj_type mlog_ktype = {
- 	.default_groups = mlog_default_groups,
- 	.sysfs_ops      = &mlog_attr_ops,
-+	/*
-+	 * Pre-existing: mlog_kset is a static struct kset; lifetime
-+	 * is not controlled by kobject_put().
-+	 */
-+	.release        = NULL,
- };
- 
- static struct kset mlog_kset = {
-diff --git a/include/linux/kobject.h b/include/linux/kobject.h
-index 55e37a5d405e..8a1332030884 100644
---- a/include/linux/kobject.h
-+++ b/include/linux/kobject.h
-@@ -114,7 +114,7 @@ void kobject_get_ownership(const struct kobject *kobj, kuid_t *uid, kgid_t *gid)
- char *kobject_get_path(const struct kobject *kobj, gfp_t flag);
- 
- struct kobj_type {
--	void (*release)(struct kobject *kobj);
-+	void (*release)(struct kobject *kobj) __must_init;
- 	const struct sysfs_ops *sysfs_ops;
- 	const struct attribute_group **default_groups;
- 	const struct kobj_ns_type_operations *(*child_ns_type)(const struct kobject *kobj);
++	if (ctrl->alloc_capable && ctrl->rcid_count < 2) {
++		pr_warn("CC at %pa is alloc-capable but has fewer than 2 RCIDs, skipping\n",
++			&ctrl->addr);
++		return -EINVAL;
++	}
++
++	guard(mutex)(&cbqri_controllers_lock);
++
++	/* The resctrl glue keys its domains on cache_id, one controller each. */
++	list_for_each_entry(other, &cbqri_controllers, list) {
++		if (other->cache.cache_level == info->cache_level &&
++		    other->cache.cache_id == info->cache_id) {
++			pr_warn("CC at %pa duplicates the L%u cache id %u controller at %pa, skipping\n",
++				&ctrl->addr, info->cache_level, info->cache_id,
++				&other->addr);
++			return -EEXIST;
++		}
++	}
++
++	list_add_tail(&ctrl->list, &cbqri_controllers);
++	retain_and_null_ptr(ctrl);
++	return 0;
++}
+diff --git a/drivers/resctrl/cbqri_internal.h b/drivers/resctrl/cbqri_internal.h
+new file mode 100644
+index 000000000000..c3e39e6d30c5
+--- /dev/null
++++ b/drivers/resctrl/cbqri_internal.h
+@@ -0,0 +1,114 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++#ifndef _DRIVERS_RESCTRL_CBQRI_INTERNAL_H
++#define _DRIVERS_RESCTRL_CBQRI_INTERNAL_H
++
++#include <linux/bitfield.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
++#include <linux/riscv_cbqri.h>
++#include <linux/types.h>
++
++/* Capacity Controller (CC) MMIO register offsets. */
++#define CBQRI_CC_CAPABILITIES_OFF 0
++#define CBQRI_CC_ALLOC_CTL_OFF   24
++#define CBQRI_CC_BLOCK_MASK_OFF  32
++
++/*
++ * The block-mask width BMW is the smallest multiple of 64 bits that holds
++ * NCBLKS, so cc_cunits sits at 32 + BMW/8 bytes. This constant is valid
++ * only while NCBLKS <= 64. cbqri_probe_cc() rejects ncblks > 32 before it
++ * reads cc_capabilities.CUNITS, forcing BMW to 64 bits, one 8-byte block
++ * mask, and cc_cunits at 0x28. Raising that cap above 64 would require
++ * computing 32 + roundup(ncblks, 64) / 8 instead of a constant.
++ */
++#define CBQRI_CC_CUNITS_OFF      40
++
++/*
++ * Highest base register offset (cc_block_mask at 0x20) plus its 8-byte width.
++ * cbqri_probe_controller() rejects smaller mappings. cc_cunits at 0x28 is
++ * optional and only required when cc_capabilities.CUNITS is set, which
++ * cbqri_probe_cc() checks against the mapping size separately.
++ */
++#define CBQRI_CTRL_MIN_REG_SPAN  0x28u
++
++#define CBQRI_CC_CAPABILITIES_VER_MINOR_MASK  GENMASK_ULL(3, 0)
++#define CBQRI_CC_CAPABILITIES_VER_MAJOR_MASK  GENMASK_ULL(7, 4)
++#define CBQRI_CC_CAPABILITIES_NCBLKS_MASK     GENMASK_ULL(23, 8)
++#define CBQRI_CC_CAPABILITIES_CUNITS_MASK     BIT_ULL(25)
++
++/*
++ * CC control registers are 64-bit, but the CBQRI spec only guarantees
++ * single-copy atomicity for naturally aligned 4-byte accesses. They are read
++ * as two 32-bit halves (cbqri_readq) reconstructed into a u64 for field
++ * extraction, and written via the low 32-bit half, so the driver does not
++ * depend on native 64-bit MMIO. Keep every field mask GENMASK_ULL so
++ * FIELD_MODIFY() or ~mask on the reconstructed u64 never zero-extends a
++ * 32-bit mask and clobbers STATUS/BUSY/WPRI in bits 63:32.
++ */
++#define CBQRI_CONTROL_REGISTERS_OP_MASK      GENMASK_ULL(4, 0)
++#define CBQRI_CONTROL_REGISTERS_AT_MASK      GENMASK_ULL(7, 5)
++/* CBQRI Access Type (AT) selects the data or code half, used for CDP */
++#define CBQRI_CONTROL_REGISTERS_AT_DATA      0
++#define CBQRI_CONTROL_REGISTERS_AT_CODE      1
++#define CBQRI_CONTROL_REGISTERS_RCID_MASK    GENMASK_ULL(19, 8)
++#define CBQRI_CONTROL_REGISTERS_STATUS_MASK  GENMASK_ULL(38, 32)
++#define CBQRI_CONTROL_REGISTERS_BUSY_MASK    GENMASK_ULL(39, 39)
++
++#define CBQRI_CC_ALLOC_CTL_OP_CONFIG_LIMIT 1
++#define CBQRI_CC_ALLOC_CTL_OP_READ_LIMIT   2
++#define CBQRI_CC_ALLOC_CTL_STATUS_SUCCESS  1
++
++/* Capacity Controller hardware capabilities */
++struct riscv_cbqri_capacity_caps {
++	u16 ncblks;
++	bool supports_alloc_at_code;
++	/* cc_capabilities.CUNITS: controller enforces a capacity-unit limit */
++	bool cunits;
++};
++
++/**
++ * struct cbqri_cc_config - desired capacity allocation state for one rcid
++ * @cbm:         capacity block mask
++ * @at:          AT half the @cbm applies to (CBQRI_CONTROL_REGISTERS_AT_DATA
++ *               or CBQRI_CONTROL_REGISTERS_AT_CODE)
++ * @cdp_enabled: when false and the controller supports AT, mirror @cbm
++ *               into the other AT half so both stay in sync
++ */
++struct cbqri_cc_config {
++	u64  cbm;
++	u32  at;
++	bool cdp_enabled;
++};
++
++struct cbqri_controller {
++	void __iomem *base;
++	/* Serializes the multi-register operations on this controller. */
++	struct mutex lock;
++
++	struct riscv_cbqri_capacity_caps cc;
++
++	bool alloc_capable;
++
++	phys_addr_t addr;
++	phys_addr_t size;
++	enum cbqri_controller_type type;
++	u32 rcid_count;
++
++	struct list_head list;
++
++	struct cache_controller {
++		u32 cache_level;
++		/* Cache id used as the resctrl domain id */
++		u32 cache_id;
++	} cache;
++};
++
++struct cbqri_controller **cbqri_get_controllers(int *nr);
++
++int cbqri_apply_cache_config(struct cbqri_controller *ctrl, u32 closid,
++			     const struct cbqri_cc_config *cfg);
++
++int cbqri_read_cache_config(struct cbqri_controller *ctrl, u32 closid,
++			    u32 at, u32 *cbm_out);
++
++#endif /* _DRIVERS_RESCTRL_CBQRI_INTERNAL_H */
+diff --git a/include/linux/riscv_cbqri.h b/include/linux/riscv_cbqri.h
+new file mode 100644
+index 000000000000..b0daa1a7e42f
+--- /dev/null
++++ b/include/linux/riscv_cbqri.h
+@@ -0,0 +1,49 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/*
++ * Public registration API for the RISC-V Capacity and Bandwidth QoS
++ * Register Interface (CBQRI) core. Discovery layers call
++ * riscv_cbqri_register_cc() to hand a capacity controller descriptor to
++ * the core, which owns all subsequent state.
++ */
++#ifndef _LINUX_RISCV_CBQRI_H
++#define _LINUX_RISCV_CBQRI_H
++
++#include <linux/errno.h>
++#include <linux/types.h>
++
++enum cbqri_controller_type {
++	CBQRI_CONTROLLER_TYPE_CAPACITY,
++};
++
++/**
++ * struct cbqri_controller_info - registration descriptor
++ * @addr:        MMIO base address of the controller's register interface
++ * @size:        size of the MMIO region
++ * @type:        controller type (capacity)
++ * @rcid_count:  number of supported RCIDs
++ * @cache_id:    cache id used as the resctrl domain id
++ * @cache_level: cache level (2 or 3) the controller backs
++ * @base:        mapped register block, which the caller keeps mapped for
++ *               the life of the system
++ */
++struct cbqri_controller_info {
++	phys_addr_t			addr;
++	phys_addr_t			size;
++	void __iomem			*base;
++	enum cbqri_controller_type	type;
++	u32				rcid_count;
++	u32				cache_id;
++	u32				cache_level;
++};
++
++#if IS_ENABLED(CONFIG_RISCV_CBQRI)
++int riscv_cbqri_register_cc(const struct cbqri_controller_info *info);
++#else
++static inline int
++riscv_cbqri_register_cc(const struct cbqri_controller_info *info)
++{
++	return -ENODEV;
++}
++#endif
++
++#endif /* _LINUX_RISCV_CBQRI_H */
+
 -- 
-2.56.0.455.g6c5a503b38-goog
+2.43.0
 
