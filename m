@@ -1,64 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794227545;
-	b=DNlSGuYyfCCZEhGku3M0A9VtGyCWpmKwaGrdSo1aUtqSyTn7S5YzIFrwuxPS4JncnyTA
-	 7uftMq+8z8THFDKULEYcTfsxqaDCv6zAMXdiZw628yUlpuKWQEY2Rj1+LaD308lPsvJeo
-	 4qnJGBxGdIphe9NbuWZC5NwcZPtD3YHd29NBpjz+vd7UV87weLq2LixuUTHAIL3QtV4xX
-	 z6BnkB0HpHjPqE+eBuop7VM8B91PJinPWhp4DsU31Fsu4/F0ikwv6b6zdOsneFZZKk7ud
-	 PuU3Qx4ce4seRlmBrI2lTPArmP2ZPt7ck4xszlh7k8kzb7A7Kx5+GEftX4mc1cNzAoQ==
+	t=1794228006;
+	b=K2jSn3qCwCKJCubHksJx5GslcyU/jRuCnHzWyBhBl9KZHTSr6FFYQFpxwDjzeFsP7Y7h
+	 hIn8t4zRQ2zHB10JVMtCDqzlp46QvPkBQDU8E4uIEEzZtAuDZmSJh/TlGoz/SxmdEmL6k
+	 Md+kGO8+QW5lcBtGoJcLxXv2ixJegOFHmCM6410dXEKy/W3x5svnikcAwr+4WtQvp32g8
+	 XWqz5GXaIUkyt8qsvBuPyvxEGShfSRZeCjGqYNTBg2ocjFwX41ur3QVGp+mBk7FmSu2FP
+	 Kk11qpPisMt86jy/GYA9+6/z0ZRFUlE/bw5brAvT42FEDKA0qEwjMyGxgbnIM0WqUZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794227545;
-	h=Received:DKIM-Signature:From:To:Cc:In-Reply-To:References:Subject:
-	 Message-Id:Date:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Mailer;
-	bh=VlFyDRL68yzv0Vgmoy9MTx56r7nZBApHYwIR8O8rV2s=;
-	b=08pMnp4kXYnlIaamKKXWH03wrHE8tSYXJ6GEOjPaIj0syLfH4HCi36O6tYV3TxXaZYCH
-	 l0jX7wTf2G3xX8dnjkR18b9lc5TOEhAE15Tc3ufrXcROKYQsq+jx05fpbleYbN2/vDgH2
-	 P3PhgMEGYmm0llVERIQf3yIqB9Ed96Uv3K7WNkpEJTHja9T3hNhUoJYoR8741rTyT/dBe
-	 bp4xtKsuEGza7KJtZoCY8akT0OxaUKcmnkC7+MkLoMuBb4a6j8kNYKjlsFwHvbFJkINz4
-	 POu5m+IrdvSUqgRwpmOoYaoz6idgJxiD6HVgmspQ7iSfRtB1dVLGdXkgK6d6AMsJ1tw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794228006;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=WWb056gPipccz0Z+Rf2etpC3VqitL7tkSZ//q9NzwZQ=;
+	b=LPKor4IURZilap0aDUMsN6nUqVOt1o17woLuTebYTQOKclpuXQEAU7mMWooajfma8Mep
+	 Z9s5Fd0SEnGz2vES5zN6J3t4qNS4L0P9D+39lgL83lTZc5Pzmu/z4UQ/ajcIRwCwpccCz
+	 8XPptmX+OxA9SfG2mlH1lxJHp3P0yEdMfzEY3Ul9k6pqfuh+PVr+6PcII2efydUcVWsxZ
+	 ZwilhNIeN13HRIwrsvOjp4ehLxBnBRbfs3JNB7SKEbRTGpYJtk+RcEp/uCBTJ8/vkMTIm
+	 FtQU6HGmjiJ/NbwKT2LIyVaQ0wdGFSFE2IlrPtD7Sz6IUnJyb677U0/al26JKHcktVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DlgVS065;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=NgpkRXhN;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=9piDjCwH;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819A4606D838;
-	Mon,  9 Nov 2026 12:32:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DB6606A321;
+	Mon,  9 Nov 2026 12:40:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89DB6606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DlgVS065
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C9E1F008A4;
-	Mon,  9 Nov 2026 12:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794227545;
-	bh=VlFyDRL68yzv0Vgmoy9MTx56r7nZBApHYwIR8O8rV2s=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date;
-	b=DlgVS065/RaB7JFKsxLb9aYRFBXW7o5Mem6V+HH2grHzdJ6C5lnB8eUrr3CXAXqme
-	 DIzI4EtymtHbwc/qRn7tVb7xeGsRexOug7H8m/0trqdMVwGvYBhXvwkEC0CL9Q3mex
-	 H28978Cpee/AkyYlRtxWk7BxlDpPXBhpO614sBIL+1KQfFLJBrdObJcviV2J5pITtJ
-	 leZDeZr0SoWajOuwiRbc7wAs44/HtwyxwY3qrTQLIr1MOLR5WPfkXhAin865dA7FCD
-	 JBX1pxx6OOwsGV7QxFDPhRh1Z64lyASChkg4QoVpWuddtaIJ0RKdDS7wFrPvXftIGM
-	 m5F8JB+dm4Udw==
-From: David Hildenbrand <david@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
- Chengming Zhou <chengming.zhou@linux.dev>, Stefan Roesch <shr@devkernel.io>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Qiliang Yuan <odys.yuan@gmail.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- stable@vger.kernel.org
-In-Reply-To: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-0-86be8fe77e7a@gmail.com>
-References: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-0-86be8fe77e7a@gmail.com>
-Subject: Re: [PATCH v4 0/5] mm/ksm: keep smart scan from losing duplicate
- pages
-Message-Id: <179422753967.4976.7051945485845554420.b4-ty@b4>
-Date: Mon, 09 Nov 2026 13:32:19 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=NgpkRXhN;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=9piDjCwH
+Date: Mon, 9 Nov 2026 13:40:01 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794228003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WWb056gPipccz0Z+Rf2etpC3VqitL7tkSZ//q9NzwZQ=;
+	b=NgpkRXhNAxzUdTG5+1ErHI4Bdi3xz5RF4IbE05z4lhqW3Dim5Co5HVJWuOmL4qpjo+eQ9k
+	UDKTieCgat9zt9axBKLg3dPvNHHYVDQ0uajk3f+rt5lypdGnp3WMbxxPy9dPvuh01B7CTO
+	n6NqxcShKB73869PlhdU91rB0oKSDeLBaJ5xVnZm5X/ekrpMEsQgKrULUQ4cdMCupYtwhX
+	D8JR7mArn4pBSmI+hXrVP3eE8BSWZlbf4Uu8+KARHwce4MceN/BHgJ6VwEFUEgc9yX5+9U
+	YIw3Pq9M7dQmp5bWDatkHW0kvPMHT8H6wGP+6k2cjpSeRCH60CQNDHEzRfz8Rw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794228003;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=WWb056gPipccz0Z+Rf2etpC3VqitL7tkSZ//q9NzwZQ=;
+	b=9piDjCwHPumPCCOarJvE9FW/bdj5Kujx5ekmk8xq7Wv01NAeZeA2TLCtygQfXf1LNGDyrD
+	6XWvkZp3iiNuC4CA==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 01/10] kconfig-checker: Add schema for rule files
+Message-ID: <avG_IXPcRY7njMgP@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-2-darwi@linutronix.de>
+ <e0ffecfe-8c4f-457e-ae8d-32a9601e69e5@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,51 +88,94 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <e0ffecfe-8c4f-457e-ae8d-32a9601e69e5@gmail.com>
 
-On Sun, 08 Nov 2026 20:22:49 -0500, Qiliang Yuan wrote:
-> With smart scan, which is on by default, two identical pages that become
-> mergeable some scans apart can stay unmerged for as long as they live:
-> each page times its skipped scans on its own, and once both are old they
-> may never be looked at in the same scan, which merging through the
-> unstable tree requires. This was first noticed as intermittent failures
-> of ksm_tests "KSM NUMA merging" in run_vmtests.sh.
-> 
-> [...]
+Hi Julian,
 
-Applied, thanks!
+Thanks for all the feedback!
 
-tree: mm/core.git
-branch: ksm-7.5.misc
+On Sun, 08 Nov 2026, Julian Braha wrote:
+>
+> On 11/6/26 09:19, Ahmed S. Darwish wrote:
+> >
+> > --- /dev/null
+> > +++ b/tools/kconfig-checker/schema.yml
+...
+> > +
+> > +        #
+> > +        # Expected value for the matching kernel configuration option.
+> > +        #
+> > +        # Values:
+> > +        #
+> > +        #   y        option is expected to be enabled (built-in or module).
+>
+> Kconfig's tristates use 3-state logic. It seems like you're
+> approximating 'm' as 'y'?
+>
 
-Applied patches will appear soon in mm-next, followed by linux-next.
+You're correct.
 
-Please report any outstanding bugs that were missed during review, so we
-can either drop the patch series or decide how to fix it up.
+'y' is deceiving, even with the comment beside it saying that it implies
+either a built-in or a module.
 
-It is encouraged to provide Acked-bys, Reviewed-bys, and Tested-bys even
-though the patches have already been applied. If possible, patch trailers
-will be updated.
+I guess it would be better to have the expected values like:
 
-Note that commit hashes shown below are subject to change due to rebase,
-trailer updates or similar. Further, this is not a guarantee that the
-patches will go upstream. If in doubt, please check the listed branch.
+   expected:
+      type: string
+      enum: [enabled, disabled, allowed]
 
-[1/5] mm/ksm: align smart scan skips with the scan number
-      https://git.kernel.org/mm/core/c/2b86234b
-[2/5] docs/mm: ksm: describe how smart scan picks the scans to skip
-      https://git.kernel.org/mm/core/c/53ee57e0
-[3/5] selftests/mm: fail KSM helpers on short reads and writes
-      https://git.kernel.org/mm/core/c/78509845
-[4/5] selftests/mm: move waiting for KSM full scans into a helper
-      https://git.kernel.org/mm/core/c/579d9b5a
-[5/5] selftests/mm: cover merging KSM pages aged by smart scan
-      https://git.kernel.org/mm/core/c/1c3db177
+As a bonus, 'enabled' and 'disabled' rhymes well with 'allowed'.
 
--- 
-Cheers,
+So the policies can be:
 
-David
+  - name: CONFIG_PREEMPT_RT
+    expected: enabled
+    ...
 
+  - name: CONFIG_NO_HZ_FULL
+    expected: disabled
+    ...
+
+  - name: CONFIG_DEBUG_FS
+    expected: allowed
+    ...
+
+I think that's much cleaner.
+
+> These are meaningfully different values :/
+
+I wrote some policies beside the PREEMPT_RT one, and the main requirement
+was always that a certain kernel feature is either enabled or disabled.
+
+In the future, I can add;
+
+    expected:
+      type: string
+      enum: [enabled, disabled, allowed, builtin-only, module]
+
+But so far, there was no need for that.
+
+> > +        #   n        option is expected to be disabled or unset.
+> > +        #   allowed  option is permitted and must not be reported as a violation.
+> > +        #            This is used to exempt a specific symbol from a broader
+> > +        #            `name_pattern` rule  with `expected: n`.
+> > +        #
+> > +        expected:
+> > +          type: string
+> > +          enum: [y, n, allowed]
+>
+> What if a user wants to specify that the value can be 'n' or 'y', but
+> not 'm'?
+
+Is this a real-world use case?
+
+I did not encounter a need for making the expected values that complex
+before.
+
+Thanks!
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
