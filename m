@@ -1,84 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.39
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794229408;
-	b=lvPTFl6PsXVHpU1Y1Rs+XdszftRf79MS1KKQriN1VdSpQ2HfzR3nmodQnaRBDqFbbHID
-	 5MBVXEpA5wbtdGWpVBfzMXXFEX2e6Q9D8INfawTKanRW9tklmRxPvHWpf+xrlYTuH0sLi
-	 D7012rJlfrFQiunpV2G4eAQBigS9FyiZj/TNndS0PixJ5Ou7GuS9SeNu3/Tp1CoT84wfU
-	 zlXQXxN74IrsnUtVfwWcR67yQtXiLonU/RwWDFuMCeDhpRCV6ur7gATYzOS7C1Y++7EpN
-	 XLzKCgsb3BVS62GCtDWKY/KqG4P/1xgYjxJi5R0/MAjTL0PZssCh26+fx5AwSbEExzQ==
+	t=1794229590;
+	b=DRwDFsvTLCcITMuzPB1fpKKGOiECYDhpSczqPks8k7T7PkINNcliFajre7wfbvUIOvmp
+	 R1x7y7AXv/aN/N4nMCMUKYm+XVQo4z+7d8z8Q370HcHAzFpnU/5Cm+9ypBT4dlftCxPRo
+	 8U46MI0BNTUP6xvFghI/++/otgrqHILMYYCmyZYsqRl7xijLZmDU/utYRZATlOpwYOn5Z
+	 LPLmAkP7aX1UHN9jJpFp3aD5eFgUNUkaCMRzFmxvFpyDYEoq1yUaXi3aIWpWYEFdT4VPm
+	 LJ9Aet8N6jAqAsZTGB1t6w0VmgdoC1J6o3d4sdJNgTgrfhjubnGKm6aRXyCUE65Y0gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794229408;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 From:To:Cc:Subject:X-Mailer:References:In-Reply-To;
-	bh=72Pzf80vHJ6tg7h9s2yhzIcCJ8giywOh4xxajI0FVfE=;
-	b=jOFXvNQ95gUpkX1eiijolBc0zzv9bxkvP+JQ1U5y1rhx1ExVJFgk5ipaPhk2lDlE+fjY
-	 I2wrILWh/H3qg27AmuyWLRt7PthoSMInA8HximDaACXCSIRfGAfeFccuDfC+PZNKFzV/g
-	 vhVY6lRsAMV4tMSxghqqHyJuhosgdMiGu4Tahqp4Cdx7fcjJavRti+k5NK+aKVk92T8Kq
-	 Q7Erv/wo7aonRTTPufBjKCq4Od/cyJOEo9FLjZJpu7siwtufc/xHL5XGGLgAEtiWirfzF
-	 WvNNMuVxVdgIs2YtfN/lCMDZvh8XZ+jTC40wnKQyd8Db4kHBM1e2/1LIcgX2sAgt76Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794229590;
+	h=DMARC-Filter:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
+	 X-Lms-Return-Path:Cc:From:Date:In-Reply-To:References:X-Original-From:
+	 To:Subject:Message-Id:Received:Content-Type:User-Agent;
+	bh=eH2m2Zew8oyu1f0utHA4YTbxzS4hIWuowjmaOpnZyec=;
+	b=qctJIh9WHQZY53qWHi7HyJ0NHICyx8bz8yw1Fc4A4RXSaTvcc+ZS/CcA2ui9g3AH2Dnm
+	 zkajkayMawasdzwLHwVtf13AqlayqPUT3MqpRQFPrNLKlPlt9rku+bFz4xqteUed7dnBk
+	 5SqNeBDyUq7jo9MnRQs+IWOoVfl7EmEWOm6Vr8hrHQ9l3Te798qldGlV+RlFw1UXEeUBT
+	 7wHno6CuFUmEYA8xGgS1s6W8+AWAemZ0s8hWzaSLHyBJm2dgPx8kg7WNbbcq9e99CVQJ5
+	 aMwC01PBHRJTOqg2+AUK1ogPDFelwzCYIKzVJz0FuxzV8XJ1yU5zOysYHCyWrX09GPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Th6NR4gp;
-	arc=none smtp.remote-ip=209.85.222.170
-Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	dmarc=pass header.from=picoheart.com;
+	spf=pass smtp.mailfrom=picoheart.com;
+	dkim=pass header.d=picoheart.com header.i=@picoheart.com header.a=rsa-sha256 header.s=feishu2604151535 header.b=DKwwfgRT;
+	arc=none smtp.remote-ip=209.127.231.39
+Received: from va-2-39.ptr.blmpb.com (va-2-39.ptr.blmpb.com [209.127.231.39])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB564606A322
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:03:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB564606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5E9606A322
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:06:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E5E9606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=picoheart.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=picoheart.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Th6NR4gp
-Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-93e515769d3so84509385a.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:03:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794229407; x=1794834207; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=72Pzf80vHJ6tg7h9s2yhzIcCJ8giywOh4xxajI0FVfE=;
-        b=Th6NR4gpQlycRBLRjBND2+14b1JRjtLWr70u04hTBSAFERKPkfJOkUTK3TEdNyfRL1
-         EdEWi4ne5l33XwRwB0IMecrK3EHlMksJaS2H9i4GxM3NATIPc+YcuZaUQ9+Us4vYWqu0
-         a7opGItIC1bBR5aL256gy45CpuBuBzS9m6EJBcNYglPbaUfm6KjU+s0vzQDbqgTEukLK
-         odJRimkIhb3JTbg75cf4GygFLOX8zJGE50MS07jGUEVGREv1k3k6wsr9OKQCh/zuCr0A
-         1EKAsR/Sp/3331X2ZIGFsUFaefJHCQulLSSxIfqaMlOUKO31bI9O+oU65URNeAqzzp5C
-         bNeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794229407; x=1794834207;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=72Pzf80vHJ6tg7h9s2yhzIcCJ8giywOh4xxajI0FVfE=;
-        b=sjJZCgoWKaUtOCzaz9xWNe9+T2vqS3uMwm00u6J4I/v4TQAKShoIJzKyOJfoLVmB16
-         zT/tQEaWcqzlOtPcrqbYf6TihZqv8mtgufHTZRrYDOKyTKkFyxhL0dIJrKycW8cbL/51
-         DLYcfik0nO2mlyl+2T8d8C9b/jWEnOSTRNXfVPEe7xKwvtUjlEy7Sy+JIVm3NlMcI5WQ
-         kpBhv9YuA2yOBeK2F9arXsSBznvbPfk2DhMxGret/lsWYzEvpsZZi1j4NhXl4JqbWr44
-         HmDfrvkG1O6jRmYMlrrIvi8znam8OFazQ+05SNXgUPqMomd8bhzK056/uLi61re1Mmqa
-         O0Lw==
-X-Forwarded-Encrypted: i=1; AL+hErGuGxVMiM9JRj/Jbij8kO+ajyuhOojM2ftUpuFDbH0mzwtP4WUAQoHSJM1EcYrwOm6vjPCJIImkIn0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ocakLuMZScjidVbLF63GClXpFu+AVUD+NWKszV85sIJsZ3ROF
-	NkwORwoVQmFnLjTE/0OWkS/qIkukmLm8nRU62G1WWDl24F/pES6hGl8f
-X-Gm-Gg: AYBFou2+3kwEitsOlpcEuv07PdPUHElQDIpwzdGuIUy7cXSlUXYfpG+rcbcYrkKO7iq
-	ef3K5L2lkoKV2AbuIUo6+MYKcLWnZ0LLK7Wa/BNO7Udev5ilfCaggC4Irr3XRTM6BZ6MS+LktyG
-	3ZtVnsAjx+yk+m6+H2PjPV68ANslnJscrZObveogDRQZm4MB5oqidWKjJ+zIq/T/LBo+ZePAGDF
-	w5vWB63GBQhUu4CPWYPQaBbL9veeRugE/XU89MkofE/p5rRMaJ0eVjpzLCIIU4JoTb2Fy9AzuMQ
-	HWNh30rdUttxoTf9pR3AMwEmxRl2EZoMeFQOYHSb7QzOTgXPLg1iuglsu7zfsZ5Gq5oYHf3EOHr
-	xR4M1PfyvynKku/lxyTxLhIenxzaZUTDlSGeAWPoIJKtJR1BQJTvd97J7oJ+fs7cwnvHb8p/yCl
-	xMCHE4OG3/gQ4EmfELtYoXGffoHCYWwzQqyV1qSBdv9+thwb9hEi67UbAa1SwCXaxuloLeJwRoY
-	GDhcYwWQX/QqBdeZ2FtJRb8C6GFGiPBWU38V77Ebz6caaREJ65mO6GzohaZZ/3BntMhY/lHU/pX
-	38p2jSCivnE/blfAS9T6W1zK59pQKXD1xQ==
-X-Received: by 2002:a05:620a:400b:b0:939:fde0:a71b with SMTP id af79cd13be357-947846073e3mr613394785a.0.1794229405262;
-        Mon, 09 Nov 2026 05:03:25 -0800 (PST)
-Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-94782d61906sm469034185a.14.2026.11.09.05.03.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 05:03:24 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=picoheart.com header.i=@picoheart.com header.a=rsa-sha256 header.s=feishu2604151535 header.b=DKwwfgRT
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ s=feishu2604151535; d=picoheart.com; t=1794229585; h=from:subject:
+ mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
+ mime-version:in-reply-to:message-id;
+ bh=eH2m2Zew8oyu1f0utHA4YTbxzS4hIWuowjmaOpnZyec=;
+ b=DKwwfgRTDFQPIQlfJeXUjvsiavMAldqqCzazkIHgHkKwTO5xWrknEVYW1Ie1GttGKhRHyN
+ t4XyYJ61cjtM8YhtA7jM9Xm9+ag7qkpqVD/XouRRanisThoOQjsmjUmlGYvFYxGcPY36Nz
+ Q7i90AmupKcZ4Z3gAPh9dUDnbtnQhdpftOGys4tx7hl0PYM/tCsOdaHp7Yu8k7aDTeZVND
+ JRzj+sFJjib2/JnHjAL4XqgxCEw1//5qGKaxbMKlvzZ6oM84OIT1HOq7OvXIt3VLCEnsiS
+ p5nOGAodTWOSJO7YLCqNP+iHFpjNXPRYOMgsAhQRer3LvdHNgiOZvJ7PuNWjdg==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,97 +53,132 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+X-Lms-Return-Path: <lba+26af1c545+7976d1+vger.kernel.org+zengheng@picoheart.com>
+Cc: "Catalin Marinas" <catalin.marinas@arm.com>, 
+	"Jonathan Cameron" <jic23@kernel.org>, 
+	"Shaopeng Tan" <tan.shaopeng@jp.fujitsu.com>, 
+	<linux-kernel@vger.kernel.org>, <linux-riscv@lists.infradead.org>, 
+	<x86@kernel.org>, <devicetree@vger.kernel.org>, 
+	<linux-doc@vger.kernel.org>
+From: "Zeng Heng" <zengheng@picoheart.com>
+Date: Mon, 9 Nov 2026 21:06:09 +0800
+In-Reply-To: <20261108-dfustini-atl-sc-cbqri-dt-v11-0-33a1bf0cf01c@kernel.org>
+References: <20261108-dfustini-atl-sc-cbqri-dt-v11-0-33a1bf0cf01c@kernel.org>
+X-Original-From: Zeng Heng <zengheng@picoheart.com>
+To: "Drew Fustini" <fustini@kernel.org>, 
+	"Adrien Ricciardi" <aricciardi@baylibre.com>, 
+	"Alexandre Ghiti" <alex@ghiti.fr>, "Albert Ou" <aou@eecs.berkeley.edu>, 
+	"Atish Patra" <atish.patra@linux.dev>, "Babu Moger" <babu.moger@amd.com>, 
+	"Ben Horgan" <ben.horgan@arm.com>, "Borislav Petkov" <bp@alien8.de>, 
+	"Chen Pei" <cp0613@linux.alibaba.com>, 
+	"Conor Dooley" <conor.dooley@microchip.com>, 
+	"Conor Dooley" <conor+dt@kernel.org>, 
+	"Dave Hansen" <dave.hansen@linux.intel.com>, 
+	"Dave Martin" <Dave.Martin@arm.com>, "Fenghua Yu" <fenghuay@nvidia.com>, 
+	"Gong Shuai" <gong.shuai@sanechips.com.cn>, 
+	"Gong Shuai" <gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>, 
+	"James Morse" <james.morse@arm.com>, 
+	=?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>, 
+	"Krzysztof Kozlowski" <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>, 
+	"Liu Zhiwei" <zhiwei_liu@linux.alibaba.com>, 
+	"Palmer Dabbelt" <palmer@dabbelt.com>, "Paul Walmsley" <pjw@kernel.org>, 
+	"Peter Newman" <peternewman@google.com>, 
+	=?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <radim.krcmar@oss.qualcomm.com>, 
+	"Reinette Chatre" <reinette.chatre@intel.com>, 
+	"Rob Herring" <robh@kernel.org>, 
+	"Samuel Holland" <samuel.holland@sifive.com>, 
+	"Sunil V L" <sunilvl@oss.qualcomm.com>, 
+	"Tony Luck" <tony.luck@intel.com>, "Weiwei Li" <liwei1518@gmail.com>, 
+	"yunhui cui" <cuiyunhui@bytedance.com>, 
+	"Zhanpeng Zhang" <zhangzhanpeng.jasper@bytedance.com>
+Subject: Re: [PATCH v11 0/5] riscv: Add initial CBQRI resctrl support
+Message-Id: <bb2f816c-9c8d-4a27-8353-a946ba58870c@picoheart.com>
+Received: from [172.16.137.224] ([124.160.26.250]) by smtp.feishu.cn with ESMTPS; Mon, 09 Nov 2026 21:06:12 +0800
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Nov 2026 08:03:22 -0500
-Message-Id: <DMQP8OMF2NZ2.3K3MJRWBNXWW@gmail.com>
-From: "Daniel Zahka" <daniel.zahka@gmail.com>
-To: <netdev-bot+sashiko@kernel.org>, <daniel.zahka@gmail.com>
-Cc: <kuba@kernel.org>, <willemdebruijn.kernel@gmail.com>,
- <davem@davemloft.net>, <edumazet@kernel.org>, <pabeni@redhat.com>,
- <horms@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <rdunlap@infradead.org>, <donald.hunter@gmail.com>,
- <andrew+netdev@lunn.ch>, <shuah@kernel.org>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH net-next v3 4/5] selftests: drv-net: psp: factor out psp
- connection setup
-X-Mailer: aerc 0.21.0-threadmapfix
-References: <20261106-psp-v3-4-a8dd38f5a727@gmail.com>
- <179408516862.994134.13048510473902240219@kernel.org>
-In-Reply-To: <179408516862.994134.13048510473902240219@kernel.org>
+User-Agent: Mozilla Thunderbird
 
-On Sat Nov 7, 2026 at 3:59 PM EST, netdev-bot+sashiko wrote:
-> Thank you for your contribution! Sashiko AI review found more severe
-> issue(s) in other patches of this series. This mail is only an FYI, in ca=
-se
-> you want to address the nit picks below when you respin.
->
-> Low priority / nit picks for your consideration:
->
-> - [Low] The commit message says "Here we are adding some more error
->   paths, so we just handle errors by closing the data sock".
->
-> --
->
-> selftests: drv-net: psp: factor out psp connection setup
->
-> This commit moves the PSP connection setup and the assoc uapi calls in
-> psp.py and psp_responder.c into helpers. Other tests that start with a ke=
-y
-> exchange can then reuse that sequence. It also makes run_session() close
-> the data socket when conn_setup_psp() fails.
->
->> The caller of conn_setup_psp() not handling errors was preexisting. Here
->> we are adding some more error paths, so we just handle errors by closing
->> the data sock to make the code a bit more robust.
->
-> [Severity: Low]
-> This isn't a bug, but is the "adding some more error paths" part still
-> accurate for v3?
->
-> Before this patch, conn_setup_psp() returned -1 in three cases:
-> psp_rx_assoc() returning NULL, recv() returning < 0, and psp_tx_assoc()
-> returning NULL.
->
-> After the patch, it fails in the same three cases:
->
->     rx_assoc() returns -1 when rsp is NULL
->     conn_setup_psp() returns -1 when recv() returns < 0
->     tx_assoc() returns -1 when tsp is NULL
->
-> The v3 changelog says the per-version key length table was replaced with
-> the key length from the kernel's rx-assoc reply. That table lookup looks
-> like the only new way this function could fail, so the sentence may be
-> left over from v1/v2.
->
+Hi Drew,
 
-Ah darn. I let local sashiko convince me it was a good idea not to
-ignore the return code of conn_setup_psp(), even though it is purely a
-preexisting "issue". Then, when I was writing the commit message, I
-think I was looking at the code from the next patch where
-handle_tx_assoc() rekey handler, has an extra check against the key
-length.
+=E5=9C=A8 11/9/26 =E4=B8=8A=E5=8D=887:20, Drew Fustini =E5=86=99=E9=81=93:
+> This series adds initial RISC-V QoS support through the CBQRI
+> controller interface [1] integrated with resctrl [2], plus a DT-based
+> platform driver for cache controllers. It builds on the Ssqosid
+> extension [3] (srmcfg CSR) support that landed in the v7.3 merge
+> window. It has been tested on both the Tenstorrent Ascalon Shared Cache
+> controller and a QEMU implementation [4].
+>=20
+>    qemu-system-riscv64 -M virt,aia=3Daplic-imsic -nographic -m 1G -smp 8 =
+\
+>        -kernel arch/riscv/boot/Image \
+>        -append "root=3D/dev/vda ro console=3DttyS0 rootwait" \
+>        -drive if=3Dnone,file=3Drootfs.ext2,format=3Draw,id=3Dhd0 \
+>        -device virtio-blk-device,drive=3Dhd0 \
+>        -device riscv.cbqri.capacity,max_mcids=3D256,max_rcids=3D64,ncblks=
+=3D16,mmio_base=3D0x04820000
+>=20
+> Cache allocation can be exercised on the booted system. Mount resctrl
+> and read the default schemata. The L2 controller has 16 capacity
+> blocks, so the default capacity bitmask (CBM) is 0xffff:
+>=20
+>    # mount -t resctrl resctrl /sys/fs/resctrl
+>    # cat /sys/fs/resctrl/schemata
+>    L2:0=3Dffff
+>=20
+> Write a narrower CBM to a new control group and read it back to confirm
+> the L2 controller applied it:
+>=20
+>    # mkdir /sys/fs/resctrl/group0
+>    # echo "L2:0=3Dff" > /sys/fs/resctrl/group0/schemata
+>    # cat /sys/fs/resctrl/group0/schemata
+>    L2:0=3Dff
+>=20
+> Note that this series only implements support for resctrl L2 and L3
+> cache resources using CBQRI capacity allocation control. cc_block_mask
+> maps onto resctrl's existing cbm schema. However, cc_cunits is not
+> supported as there is no existing equivalent for capacity units in the
+> resctrl schemata.
+>=20
+> I previously iterated on an RFC series [5] that implemented all of
+> CBQRI, including capacity monitoring, bandwidth allocation and
+> monitoring. The bandwidth controls for CBQRI do not fit well into
+> resctrl's existing throttle-based MB schemata. I believe that the path
+> forward is Reinette's generic schema description proof of concept [6].
+> My plan is to rebase the full support of CBQRI onto the generic schema
+> once it is ready.
+>=20
+> Tony Luck's AET series [7] replaces resctrl_arch_alloc_capable() and
+> resctrl_arch_mon_capable() with generic helpers that walk the resources.
+> This series keeps the two hooks because resctrl on v7.4-rc1 still
+> calls them, and answers the alloc hook from rdt_resource::alloc_capable
+> so whichever series lands second only has to delete them. If the AET
+> series lands first, the CBQRI glue will also need the three arch hooks
+> it adds, resctrl_arch_system_max_rmid_idx(),
+> resctrl_arch_get_num_rmid_idx() and resctrl_arch_unmount().
+>=20
+> [1] https://github.com/riscv-non-isa/riscv-cbqri/releases/tag/v1.0
+> [2] https://docs.kernel.org/filesystems/resctrl.html
+> [3] https://github.com/riscv/riscv-ssqosid/releases/tag/v1.0
+> [4] https://github.com/tt-fustini/qemu/tree/riscv-cbqri-cache
+> [5] https://lore.kernel.org/linux-riscv/20260601-ssqosid-cbqri-rqsc-v7-0-=
+v6-0-baf00f50028a@kernel.org/
+> [6] https://lore.kernel.org/all/d258a32f-12d5-464d-abe9-4720fb3e44b3@inte=
+l.com/
+> [7] https://lore.kernel.org/lkml/20261019205031.16977-1-tony.luck@intel.c=
+om/
+>=20
 
-If I have to respin, I'll probably drop the code chunk below entirely.
-Otherwise if we can just edit the sentence:
+I have tested the CBQRI patch series, covering the following:
 
-"Here we are adding some more error paths, so we just handle errors by
-closing the data sock".
+   * Boot-time initialization
+   * Mounting and remounting the resctrl filesystem
+   * Creating resctrl control groups
+   * Configuring schemata for L3 block_mask resource allocation
 
-so it says,
+All of the above worked as expected.
 
-"Handle preexisting errors from conn_setup_psp(). No new error paths are
-introduced."
+Tested-by: Zeng Heng <zengheng@picoheart.com>
+Reviewed-by: Zeng Heng <zengheng@picoheart.com>
 
-Then it would be accurate.
 
-> The only behaviour change is in run_session():
->
->     if (conn_setup_psp(ys, opts, data_sock)) {
->         close(data_sock);
->         data_sock =3D -1;
->     }
->
-> Could the commit message give the actual reason for that change? For
-> example, the existing failures can leave a half set up data socket open.
-
+Best regards,
+Zeng Heng
