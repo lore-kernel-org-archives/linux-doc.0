@@ -1,41 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.46.229.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794197399;
-	b=Ntias8bzgCkYK9CU0YJBl+VIWtrPLh08Qho5/N0wH1DWO8NCE1gMNrOmECgRrLLDMUEI
-	 VjDpMF6vb4inWEZ8e2mRbnv/ZC9ZS6Kvj4gfkHnOnl8e1KsmK9HBh5SN0gi/zMZd3haGW
-	 /0OOEQUGwN89wtH/Ff2WyRuicwm3wJZ+loNRTmxaCNg+h9+cEqAj81ctYnuTXA4ERNMyA
-	 NqOfLhO6XIjSgs7eaFxX8SnXhbPK9DXXQGbQXrk0m/xTmFHQ7GB1ONaI6URG4EwsUXsKN
-	 Mr6DmmRySuG6XTMeNl40C76+m4/hFg9Ra68Ap19s3Bnumoqd6pN075W6F7WmScVd/LA==
+	t=1794200611;
+	b=FAkwNUZ4Tms6vSvOnRH0BkMjtbogUu/XoNfYyB3R+Inp5lsAUWuxscYc0ysubMNv8+2i
+	 joaOptultq0749q1+aKJFosKuHXrt+ZqhLBfZDBLLH7H6tcPW19foCty/zBgYukVqgXIJ
+	 Lj8ZdPuAlDDzUyfEyrATfLP2xTebJmJAFfNFd0pJr6rWzQ6w78KNNHbGs647KkoSPs676
+	 V69id72bWpM39a8kH4SBuoVVVd7oSPiiwESGOqS9Y0p5Hq9toTpRi9cp/F6TT794ry17D
+	 bo+Lm0DR7oeS8TmegogO7tVEX+gS+OnnGKUPCgYEbXCR0xPvn75rJnp6fPhpq81tuGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794197399;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=IYD2oSweeBs4xm2WTa90Mc3CacGxXDWMr+jK6llJ94M=;
-	b=Kdd3TOFByVd/t2uVFOAquiCf6zbMiYbFRZW1DMJGehOPPLwstlTQNoy4FCyDUD0q2wOm
-	 Gpxqz0/og2eBpW8o9bbM/OKbzWeeA7gCWihonVpz8Mtg68tGAG/9HevXXbL9H8fJjiYhv
-	 EW8gpLI9BInBPX08sRTIouePo41oflBHxF02L/HZsbEF+jyPnA875PmY1Yt3f0L0LB9JT
-	 Yl+8zknFdVfyKVu4HNrNB+JjPQluhrHBYyynlMK7wgKXWgOlzYhxp3lIgbXLE+OS6VppZ
-	 ZKqLW5GTOvJ1X03fs2CIH/JIC5SKRln9YDsGCw1qmh6pf8aQBQqqmrSyf+Z1iYqkVrg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794200611;
+	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=WKDYdtIPpXv/RzXHp6m0fnJtTmWjQH/piwGs13om7po=;
+	b=i6DTyae+ZCpmfGzCGchOR5MeqPb2cTjv6nsF+B75NSOMyWIw7Rb2OF6OLJaUq01CCaN6
+	 zo+tQ65KCjVKL1jJ+RAH9sCVmdK8wRRiZ4olfsVW4YwA7wyi0VnKVup6tCqtDmP6mxRzy
+	 PQMwIIiF3jTx+W8b1wWk9w41j26X0sG4XsJkD12tZdlDcVTuEpUvzF5ykYNpHDxmPG/3u
+	 7D14x4uaQH+6EV7ohgmmrbbpxLQSKvZg+WlDraODRmq+6fKWpsQciVRh/vlw6ONGRmSvM
+	 tKV8SME2Qdx7PNeR0h4Fcfatu7D7mTrZgDWlvIfFciR5ois6bc+jAjsHuKWgOaNFAiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=207.46.229.174
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9CA606A31C;
-	Mon,  9 Nov 2026 04:09:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E9CA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with UTF8SMTP id IQEQrMDmDcaRR_FqKREKAA--.10976S2;
-	Mon, 09 Nov 2026 12:09:53 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wDHz8+OR_FqlHAQAA--.14573S2;
-	Mon, 09 Nov 2026 12:09:52 +0800 (CST)
-Message-ID: <5b1d5dd4-5c39-4fc9-873c-39cc1aa1d76c@hust.edu.cn>
-Date: Mon, 9 Nov 2026 12:09:50 +0800
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GD03ukNX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762EC606A31C;
+	Mon,  9 Nov 2026 05:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GD03ukNX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4746B1F0089F;
+	Mon,  9 Nov 2026 05:03:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794200611;
+	bh=WKDYdtIPpXv/RzXHp6m0fnJtTmWjQH/piwGs13om7po=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=GD03ukNX3qpJy/ulw8mljNcuZ+ffE/s+zMEiPrDEJKEQ+cye+2q2ws/q05r9C/MwA
+	 8lK5saBohFqhyS1SyDBT7NAkEwD8aM3vrlD9P4LPvGRgDSSGrGefVUdGFsWkIN+fho
+	 KpZxXNBbAQhXwg6sB5B8D8Vm59TczWTrD2qm7awrv0ZfpqU3B5VLjxjl7H1AjqQp4S
+	 i75YS8Qrd7Vyem4PeyW90tc16A0bzx+XMbNpRh3pm5DhqNFrGg/rEHLk/84mg3sQqd
+	 qGoOtS7woGspYXn7FCWWhnpfaGDKLNbR/J6K7jjxa7wcob9PfNJ6OsgEBIyHaJT/Ms
+	 gyMazdqf0pplA==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Fred Griffoul <fgriffo@amazon.co.uk>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jianxiong Gao <jxgao@google.com>,
+	John Starks <John.Starks@microsoft.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Tarun Sahu <tarunsahu@google.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Fuad Tabba <fuad.tabba@linux.dev>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	Ackerley Tng <ackerleytng@google.com>
+Subject: Re: [PATCH RFC v3 64/88] vfio: Add vfio_device_gmem_revoke helper
+ for guest_memfd
+In-Reply-To: <20261106-gmem-alternative-providers-v3-64-8484dde66a7e@google.com>
+References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
+ <20261106-gmem-alternative-providers-v3-64-8484dde66a7e@google.com>
+Date: Mon, 09 Nov 2026 10:33:20 +0530
+Message-ID: <yq5av766tx47.fsf@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,69 +79,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] docs/zh_CN: translate coding-assistants.rst
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-References: <cover.1794153793.git.dzm91@hust.edu.cn>
- <bb985e0f6f0c3e320cadcd007cfd0dbfd4102e46.1794153793.git.dzm91@hust.edu.cn>
- <avE4mPgZOx1th2FE@wyuan.org> <avE7dsawxAjrz-Ev@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <avE7dsawxAjrz-Ev@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:IQEQrMDmDcaRR_FqKREKAA--.10976S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoW7JFWrJw18ZF43Zw4xuryrCrg_yoWDuFc_u3
-	4xCF1qkr15trWxCan7KrnI9r1fAFyUX3W3XF9FyrZ3GasxJrW5CFZ5Wa4fZ343W393Arsr
-	AFnIv3sYqr129jkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbHAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
-	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
-	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGw
-	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
-	MIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMI
-	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2
-	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain
 
+Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+writes:
 
-On 11/9/26 11:18 AM, Weijie Yuan wrote:
-> Weijie Yuan <wy@wyuan.org> writes:
+> From: Ackerley Tng <ackerleytng@google.com>
 >
->> Dongliang Mu <dzm91@hust.edu.cn> writes:
->>
->>> Translate the AI coding assistant guidance into Chinese. Link to the
->>> existing Chinese license-rules.rst guide while keeping untranslated
->>> document references on their English paths.
->>>
->>> Update the translation through commit 1e035297ffda
->>> ("docs: remove Assisted-by references")
->> Looks very good.
->>
->> Reviewed-by: Weijie Yuan <wy@wyuan.org>
-> Oops, you may forgot to add your sign-off in this series, and this
-> single patch:
+> When physical device regions backing guest_memfd memory must be revoked
+> due to hardware reset, power state transitions, or memory decode state
+> changes, the bus driver must revoke and reclaim the memory ranges from
+> guest_memfd before modifying hardware state.
 >
->    https://lore.kernel.org/linux-doc/20261107000338.1243411-1-dzm91@hust.edu.cn/
 
-PATCH v2 of "docs: improve translation update checks across locales 
-<https://lore.kernel.org/linux-doc/4c0221d662b7e8521d93000ad6ae09300dbda9c1.1794196480.git.dzm91@hust.edu.cn/#r>" 
-is sent now.
+Should we prevent such operations while the VFIO fd is attached to
+guest_memfd? Some of these operations can transition the device to the
+TDISP error state, and we should avoid host operations that can result
+in vfio_pci_zap_bars().
 
-https://lore.kernel.org/linux-doc/4c0221d662b7e8521d93000ad6ae09300dbda9c1.1794196480.git.dzm91@hust.edu.cn/
-
-Dongliang Mu
-
->
-> Thanks.
+-aneesh
 
