@@ -1,85 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.37
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794248302;
-	b=NnU/NPcb73oiBD3FvMylgqKS068tJfrGS9HHX7cFaGG4LljDUVujm1yuOYsIrfJ+TPhD
-	 UTkmkmENx1nKSeAd9ilcilrfiERSH9tEjJ2pItVkB0/fcKx5uIERUumHGC0o7OyaRtRej
-	 rFX3ibjLvFVkWRzLd/CUvSyZaDbgmBAbEeWY6+iC3iUrM36CiXacmJy3t05ElPhSJwZ0m
-	 rTGEj40KLzHXD3FvWERh1tjxAyAM6jDAPFM9mkEXa2wtwG48Vnoy5O+4bE+1LzOaeQSqp
-	 z7F1WnuLYpozFhDIv4j04POJo9FBNOBlRyx9M+XYjk4xQPkBs4gP0PSznOkMPTZyX5A==
+	t=1794248650;
+	b=QvVbUvwwtWk39floiCwhjSEykjWhCLYpA/rGD4eC0g2lUK28CqFx4bAeje8JT6twoQjO
+	 9laGJmVsnTEGf2DgRRZXfqhYMtfiAdCYtFb2YTZscLnvUB4AflqFxo0tNy8o7oJP7Wm+s
+	 7uTu2eq2bNiffQfPSLaobD+1OyUU8kJzheX3iutmFPZm+1E0AgKhZb5PG57N+s5+04LBX
+	 3XwEz+/xA5992rADTKL0m/80EhYlaS7keOa5XNSFCJW9ceL5gF9kCpCJenosBFWf077Sk
+	 cyqVq2nNyZsgm5jt8nhcvfNfyiRch9EwKecUKfRosf56YBjsAFw1ypMCR2H3sf+Hr2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794248302;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
-	bh=yTkdE7maNMK6imjnB7YH+dyPA4CS1X0Qhx1x4XkmNWo=;
-	b=WnuNZXbH9vJRpyhpfnWlK4iJis88qpCBtPC7PBULmqMWYnxdiiDt7kIj4I8uQW3MRNfM
-	 w35CiPDbORmc2wdwggH5Z0fWUDxwz2K/hRtC7ZZYRtzwzymn/SK37JkHkFZeMkfj9fDo3
-	 zxwBRPe7d2mTSYOx23uRZzIIaxZreCyo5zDvlFnhDUr09nW0Ae0zos+mL8R67DNvAa3dq
-	 DLEGOEkZkLp8Z/y0wnyHG9gHgmWZeEA2+mSRmFsEoZPsowkDSw39iAZHItE7vbd7l+k8r
-	 9N+g8eJg5PdJ1BOU1FkxhTSELzKZ2lQ1OlwEc0daadAG+RRRnaGC+W8l+oMcZ74Geow==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794248650;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:
+	 X-Source-L:X-Exim-ID:X-Source:X-Source-Args:X-Source-Dir:
+	 X-Source-Sender:X-Source-Auth:X-Email-Count:X-Org:X-Source-Cap:
+	 X-Local-Domain:X-CMAE-Envelope;
+	bh=2on6NAAeJnGt6PhGZ9n3PfZK1f7XLylalu+gyTUqy4A=;
+	b=1Uoh1+xfel0rFnc7oy0qvke3DZlaWzhR17v6NRNch6iS9ilk3W0XI+xjbg8KELzAKyLz
+	 bgPX5z5iZLF3GV5zs1/hjWCcn0z8MbL1jNfTxD51OJiXsXtyYoPawa1YfkP7Yb7TlRsif
+	 XxUKEDGandTs55zrGUXnXp9XEbYud4nW39OL+SE4SeZ81dQlLk46FUwuy7A8d5vssuJvI
+	 /15eMtxy9LecTZmQawYpAo3nTwUdAu+j/JcZ0EJWHg6Tw6MeTriQXwJwCsfGBnDLeNc1s
+	 3Q9K8RrZoxqIct6K2/L93EEN/v6B1CSRqGdZ3QEMWsCRJG0jIxEcWNdxp6UGbUCz+nQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=lwQiuZhG;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1AD4606A321;
-	Mon,  9 Nov 2026 18:18:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C1AD4606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=NyN6JifT;
+	arc=none smtp.remote-ip=44.202.169.37
+Received: from omta038.useast.a.cloudfilter.net (omta038.useast.a.cloudfilter.net [44.202.169.37])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6018F606A325
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 18:24:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6018F606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=lwQiuZhG
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F39941476;
-	Mon,  9 Nov 2026 10:18:17 -0800 (PST)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9F1553F85F;
-	Mon,  9 Nov 2026 10:18:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794248301; bh=+kKT4wUsq7CDHU0AL2TBwXRHS3FwQ1bCLDWSYWrdmXw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lwQiuZhGl+8AQalV+u66cqF+1O6EKZ8cYVF8MVWAW+SJxHcQXxvFC1yaVtBa2xM3R
-	 TO37/fHYeLwKchPlvjEHL5pMHEIB8G4VDEJCvpij1shYcMM1dbUDavYCty6c7nVL6r
-	 LkHKuiRsWsyNfhHgib+kWMNe5ptePv/Bhd1M+IsE=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	yangjinqian1@huawei.com,
-	caijian11@h-partners.com,
-	liuyonglong@huawei.com,
-	tangchengchang@huawei.com,
-	yezhenyu2@huawei.com,
-	yubihong@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	seiden@linux.ibm.com,
-	suzuki.poulose@arm.com,
-	fuad.tabba@linux.dev,
-	mark.rutland@arm.com,
-	seanjc@google.com,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v5 11/15] KVM: arm64: Reserve dirty ring space for the HDBSS buffer
-Date: Mon,  9 Nov 2026 18:18:14 +0000
-Message-ID: <avIOZTvQF-1sxs2p@LeoBrasDK>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <d81243e3-d790-4ee8-9b28-36d35591ee77@huawei.com>
-References: <20260929103655.85107-1-zhengtian10@huawei.com> <20260929103655.85107-12-zhengtian10@huawei.com> <auikG0clmr19sAjh@LeoBrasDK> <afcbf19b-bd13-4afc-ab56-8bc50c793e50@huawei.com> <au30DqzWIFny1tpr@LeoBrasDK> <d81243e3-d790-4ee8-9b28-36d35591ee77@huawei.com>
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=NyN6JifT
+Received: from eig-obgw-6006b.ext.cloudfilter.net ([10.0.30.211])
+	by cmsmtp with ESMTPS
+	id QOyhxWAWoJFmFQU2Kx5fZq; Mon, 09 Nov 2026 18:24:08 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id QU2Jx6aehFhzrQU2JxSDW4; Mon, 09 Nov 2026 18:24:07 +0000
+X-Authority-Analysis: v=2.4 cv=JY+8rVKV c=1 sm=1 tr=0 ts=6af20fc7
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
+ a=Jq-I66J_MKUZ35_zl-cA:9 a=CjuIK1q_8ugA:10 a=KPbNTLLc3YvdawN95zVk:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=roeck-us.net; s=default; h=In-Reply-To:Content-Type:MIME-Version:References
+	:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding
+	:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=2on6NAAeJnGt6PhGZ9n3PfZK1f7XLylalu+gyTUqy4A=; b=NyN6JifTlmYheLF7E8OMfiPDBU
+	2T1yiEzv50PfQCF/qan3S7EG55bxRhOF9IPeqIobY+QfXjry62rKWy+SVHr6Txba2shiMfMdP4WSs
+	6yREgqB31YKtARvqnIuz4MYPfV+vFgbXFC3hMiJ2JXWI+cNtEq6kemNleVv6SMTAZzwUq7LLmA7QF
+	C5nFvDs9+cVPUcU4L7zu+3Ug2B70Snw3jcWnbm68686KEQOdvIGr4qjf8uDeJwKlci2GceZhHpQSm
+	B7qxxh7ixbmsFb1hEqcbLjbM6H8jyeWORFE7ERwGsaL6K3Q7/ISDfhJrK2yPlo384fSVh/mmmgXHd
+	ZhOauxKA==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:38696 helo=server.roeck-us.net)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xQU2J-00000002o1z-0S7y;
+	Mon, 09 Nov 2026 23:54:07 +0530
+Date: Mon, 9 Nov 2026 10:24:06 -0800
+From: Guenter Roeck <linux@roeck-us.net>
+To: Tomasz Bojanowski <tomasz@bojanowski.me>
+Cc: linux-hwmon@vger.kernel.org,
+	Hamza Mahfooz <someguy@effective-light.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] hwmon: (nct6683) Report the fan curves of MSI boards
+ with NCT6687D-R
+Message-ID: <3ebb15c8-cef3-41a9-a603-335a9dcf4d86@roeck-us.net>
+References: <20261109015759.24284-1-tomasz@bojanowski.me>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,145 +88,116 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261109015759.24284-1-tomasz@bojanowski.me>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xQU2J-00000002o1z-0S7y
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net (server.roeck-us.net) [108.223.40.66]:38696
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 3
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfJyRyVi68dRn3HfB4uH5IzZfVg9niLTeJVqEkwatVAvynH3zAPn1EivIdKKAqzW41VSsf9UgPupfQgt/GpJqlTQoUE6QKa2dGyAI/YyEg/kj8flX50HL
+ +mS920rbBJCUo5+IVeVjHY/9pe6oOml6BymrZth4Y7MwpcU9PqC568eKXBToLqNLMULIx1kAcqyVAAWSOMQqbkoFrYtmhhl1RQKuEnpb5oNQ6JZACfG/yqU5
 
-On Mon, Nov 09, 2026 at 12:00:52PM +0800, Tian Zheng wrote:
+On Mon, Nov 09, 2026 at 02:57:59AM +0100, Tomasz Bojanowski wrote:
+> In automatic mode, the fans of MSI boards with an NCT6687D-R (customer
+> ID 0x20d) follow the fan curve configured in the BIOS setup. Report
+> these curves with the standard pwmN_auto_point[1-7]_temp,
+> pwmN_auto_point[1-7]_pwm and pwmN_auto_channels_temp attributes,
+> so that users can see what automatic mode does.
 > 
+> The register layout comes from reverse engineering of the vendor's
+> Windows software and was confirmed by reading the EC of an MSI MAG
+> B850M MORTAR WIFI (MS-7E61, BIOS 1.A68, EC firmware build 03/10/25):
+> for all six controlled fans, the curves match the settings in the BIOS
+> setup, also after changing them and after a power cycle. Other boards
+> with customer ID 0x20d have not been checked.
 > 
-> On 11/6/2026 11:36 PM, Leonardo Bras wrote:
-> > On Fri, Nov 06, 2026 at 06:36:04PM +0800, Tian Zheng wrote:
-> > > 
-> > > 
-> > > On 11/2/2026 10:54 PM, Leonardo Bras wrote:
-> > > > On Tue, Sep 29, 2026 at 06:36:51PM +0800, Tian Zheng wrote:
-> > > > > The dirty ring reserves room for CPU-side dirty buffers via
-> > > > > kvm_cpu_dirty_log_size(). Report the HDBSS buffer entry count
-> > > > > through it, so a full buffer flush always fits in the ring.
-> > > > > 
-> > > > > Pin the HDBSS buffer size to PAGE_SIZE when dirty-ring is enabled,
-> > > > > via kvm_arch_dirty_ring_size_updated(): a larger buffer only
-> > > > > shrinks the soft_limit and forces more frequent userspace drains.
-> > > > > 
-> > > > > Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
-> > > > > ---
-> > > > >    arch/arm64/kvm/arm.c | 8 ++++++++
-> > > > >    arch/arm64/kvm/mmu.c | 8 ++++++++
-> > > > >    2 files changed, 16 insertions(+)
-> > > > > 
-> > > > > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> > > > > index 9d7bdece149a..5a7046acb62e 100644
-> > > > > --- a/arch/arm64/kvm/arm.c
-> > > > > +++ b/arch/arm64/kvm/arm.c
-> > > > > @@ -215,6 +215,14 @@ static int kvm_arm_default_max_vcpus(void)
-> > > > >    	return vgic_present ? kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
-> > > > >    }
-> > > > > 
-> > > > > +void kvm_arch_dirty_ring_size_updated(struct kvm *kvm)
-> > > > > +{
-> > > > > +	if (!system_supports_hdbss())
-> > > > > +		return;
-> > > > > +
-> > > > > +	kvm->arch.hdbss_buffer_size = KVM_ARM_HDBSS_DEFAULT_SIZE;
-> > > > > +}
-> > > > > +
-> > > > 
-> > > > On the same subject as a previous patch:
-> > > > I don't think this is the best approach, on top of adding a new weak
-> > > > function to take care.
-> > > > 
-> > > > Maybe during the dirty-ring allocation, on vcpu creation, we could take
-> > > > into account the requested dirty-ring size, and just allocate the HDBSS
-> > > > buffer taking that into account. That would make it simpler, don't you
-> > > > agree?
-> > > > 
-> > > > Thanks!
-> > > > Leo
-> > > 
-> > > Hi Leo,
-> > > 
-> > > The "set once" guard we're discussing comes from the patch that adds the
-> > > ioctl, and it isn't really needed. We discussed this earlier [1]: we can
-> > > just initialize hdbss_buffer_size to PAGE_SIZE at VM creation and let
-> > > the ring reservation use it directly. **That also means
-> > > kvm_arch_dirty_ring_size_updated() can be removed.** Thanks for your
-> > > suggestion.
-> > 
-> > :)
-> > 
-> > > 
-> > > As for why PAGE_SIZE is the right value in ring mode: the HDBSS buffer
-> > > is flushed on every VM exit, so a larger buffer doesn't reduce the flush
-> > > frequency. It only inflates the ring reservation (64 + size/
-> > > sizeof(u64)), which shrinks the soft_limit and forces more frequent
-> > > exits to userspace for the ring to be drained. Draining the dirty ring
-> > > from QEMU is more expensive than draining the HDBSS buffer from the
-> > > kernel, so the smallest buffer gives the best performance. In this mode,
-> > > a larger buffer provides no benefit to users.
-> > 
-> > Humm, if properly dimensioned larger buffers would be benefitial for
-> > memory-intensive workloads, unless they are guest_exiting for other
-> > reasons in the meantime.
-> > 
+> The curve of fan channel n is stored at 0xb00 + 0x18 * n: seven
+> temperatures in degrees Celsius, followed by seven outputs of two bytes
+> each. On the test board, the high byte of each output is zero and the
+> low byte holds the duty cycle (0-255). Register 0xa08 + n (channels
+> 0-7) or 0x240 + n - 10 (channels 10-15) is 0x40 on the test board for
+> all channels with a fan header. The temperature source of the curve
+> appears to be a bitmap of monitoring channels at 0x910 + 4 * n. The
+> driver assumes that bit k of this 32-bit big-endian value selects
+> monitoring channel k; on the test board, all curves use bit 0, which is
+> temp1.
 > 
-> Agreed, and the workload I tested is on the "unless" side. The guest
-> exits constantly for other reasons, so the larger buffer never got a
-> chance to pay off, and only cost ring capacity.
+> The attributes are created for the channels which support fan control,
+> if the mode register of their curve is 0x40 and the high byte of each
+> output is zero when the driver is probed. They are read-only and read
+> from the EC on each access. If a curve uses a temperature source which
+> the driver does not report, reading pwmN_auto_channels_temp returns
+> -ENODATA. The new code only reads EC registers.
 > 
-> > > 
-> > > In my tests, I also saw performance degrade when more space is reserved.
-> > > 
-> > 
-> > Humm, what kind of workloads did you test?
-> > Did you have the chance to monitor what were the reasons for VM exiting?
-> > 
+> Tested on the same board with kernel 7.2.15 and the driver built as an
+> out-of-tree module: all attributes show the values read from the EC
+> with a separate read-only tool, and pwm4, which does not support fan
+> control, gets no fan curve attributes.
 > 
-> For the workload question, it's a Redis server in the guest under redis-
-> benchmark (SET-only, 2KB values, 1M keys, 100M requests). The traffic is
-> network-driven, so the guest exits constantly to service requests. The
-> HDBSS buffer only accumulates entries between two exits and is flushed
-> on every exit, so it rarely fills regardless of size. A larger buffer
-> only inflated the ring reservation, which shrinks the soft_limit and
-> makes the ring-full exit and userspace drain fire more often.
-> 
-> > I am not saying this is mandatory for the HDBSS implementation, but the
-> > whole idea of letting the user choose their own HDBSS buffer size is
-> > because different workloads may benefit from different buffer sizes: if a
-> > VM writes a lot to new memory, and exits very little for other reasons,
-> > then a larger buffer will cause the VM to guest_exit much less often.
-> > 
-> > Does that make sense?
-> > 
-> > Thanks!
-> > Leo
-> 
-> It does make sense. That's exactly the workload where a larger buffer
-> pays off, and the next version no longer gets in its way. The two ioctls
-> are no longer mutually exclusive.
-> 
-> The only coupling left is the reservation. hdbss_buffer_size starts at
-> SZ_4K at VM creation, so a ring enabled right away reserves for the
-> default buffer (64 + 512 entries), and the minimum ring size accepted is
-> unchanged from v5. KVM_CAP_ARM_HDBSS_BUFFER_SIZE is the gate. When the
-> ring is already enabled, a size is accepted only if its reservation
-> still fits in the ring, otherwise -EINVAL. In the other order, ring-
-> enable validation rejects a ring too small for the configured size.
+> Signed-off-by: Tomasz Bojanowski <tomasz@bojanowski.me>
 
-I don't think this is needed. If using dirtyring, we don't need to allow 
-user to set hdbss size: HDBSS size should be sized according to the 
-dirty-ring dimensions, that are set by userspace before the first vcpu is 
-created.
+This also seems to work with B650 boards, even though those use a different
+manufacturer ID (NCT6683_CUSTOMER_ID_MSI3). When adding that manufacturer ID,
+I get:
 
+pwm1:94
+pwm1_auto_channels_temp:1
+pwm1_auto_point1_pwm:51
+pwm1_auto_point1_temp:0
+pwm1_auto_point2_pwm:89
+pwm1_auto_point2_temp:45000
+pwm1_auto_point3_pwm:178
+pwm1_auto_point3_temp:65000
+pwm1_auto_point4_pwm:255
+pwm1_auto_point4_temp:80000
+pwm1_auto_point5_pwm:255
+pwm1_auto_point5_temp:80000
+pwm1_auto_point6_pwm:255
+pwm1_auto_point6_temp:80000
+pwm1_auto_point7_pwm:255
+pwm1_auto_point7_temp:80000
+pwm1_enable:2
+pwm2:82
+pwm2_auto_channels_temp:1
+pwm2_auto_point1_pwm:56
+pwm2_auto_point1_temp:0
+pwm2_auto_point2_pwm:76
+pwm2_auto_point2_temp:40000
+pwm2_auto_point3_pwm:102
+pwm2_auto_point3_temp:70000
+pwm2_auto_point4_pwm:204
+pwm2_auto_point4_temp:90000
+pwm2_auto_point5_pwm:204
+pwm2_auto_point5_temp:90000
+pwm2_auto_point6_pwm:204
+pwm2_auto_point6_temp:90000
+pwm2_auto_point7_pwm:204
+pwm2_auto_point7_temp:90000
+pwm2_enable:2
+pwm3:82
+pwm4:82
+pwm5:82
+pwm6:255
+pwm7:255
+pwm8:128
 
-> So SZ_4K is just the conservative default for guests that exit often.
-> Anything larger, within what the ring can reserve, is up to the user.
-> 
-> Does this work for you?
+I don't feel comfortable enough to enable it for good on those boards (I don't know
+why pwm3..8 are skipped), but it is good enough for testing.
 
-I still think we should do PAGE_SIZE for dirty-bitmap. Dirty ring should do 
-based on the dirty-ring size, and maybe review the use of reserved 
-entries, or it's accounting.
+Applied.
 
-What do you think?
-
-Thanks!
-Leo
+Thanks,
+Guenter
