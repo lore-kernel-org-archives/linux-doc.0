@@ -1,41 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=132.226.202.154
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794190833;
-	b=E2nFa5Awh65k/YA2wsXWIEnc7gwDYXnEgv28aNEYydl31OWXbD8LwqjgFSaX+oeiJK0z
-	 yKR9uRWk8aqJVuuMIH5pzSETXFA4zlDL7eVR93xYa8b6YkD7e6dC7UKjzKJJrheKjZdlc
-	 eYcsirSNwqmH6OlYlJH81WTAP0FFZvCup6V3QOXChXVdtn/83+/oS7SFBbEqOndgvTpIZ
-	 F/FXH3PgskUFb4uzgFAdojxcd6iLNTUUElx00xpL3jUiSd8WyMyL8afXWdVUCJGpkzl3h
-	 CzFYSjrTReftkiv0Crsa2BQULz1oioKX+ljCPWJ0+YNzkso8fTvq5NG9bhO1taQ0F6g==
+	t=1794191377;
+	b=V0BpqCWyAomH57SCnp2Scb5ys+Ltltb6V4xMJuupE6aYam2At/qG6os/31DzctnlMtp9
+	 ysiWBwSd4aG2dyf9Pg6t6DGQybOQiXMTNeTl/lnhG/i8o6hSlddLQ2v69sJAC0a9B2z9L
+	 WAFpjTFJMOGgMyXEOTcRLZUNjQM/blqE7sgt5bs98TIH2jkLleIKO6LNuzzhGfCrLxL35
+	 9xXJlEZX2bq2np4yzmhJycO24xfjPoneYjejEJ968ZfSIHpd/Jj5VGzvXsO4G1Qx5ExT3
+	 /IQtxybf/jUQ5zOTuLFPAWpOYYtpFcn8Ay7vjSgtQ4gU0ycqdBtUMousaIXh2Cs476Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794190833;
-	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=AueXqQ8NBu6uNNOfAm0QjH7ukRVpDkrJsxDH2iaMDa4=;
-	b=Q7g123pdKTwAv0fi4q71mr3+kRcRBshMfXVvktgziy/BK+VVac6BrrGDmXVeFFgthLZK
-	 WB9y6DbVWDEpbk+yDc4doYModRUosSmNvkxiI3SDk+iJ1EDGQ2eDrNT2yPFU08TSWM94P
-	 W6c7nXCVnd2s7eSqvIn++ccdC9AfnTi667rqcZopl+7wVOfFqdBatEnv/kmoQKTuJKm5Y
-	 zPBol0wF5MGPxnOyElo16D94u9mNCgK40D8mDFeAv2V3GloW1dur17SDwLht1+50HPYpg
-	 x5SU8fhrLFL7T196gZPrddbh9F1eV3X86h9yO1jn6c6Fp2L3qSWdIpi9Wj1At51Orcw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794191377;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=izPkdOWGD7c9dnxT4q6ljMe1uQrZM1waWSuUYS9fH7I=;
+	b=1NqkjEr65WbyMw1X3xZB0wNCn4i4VkYZVH+q1x9G1Hfdb5i5aPbsh9yGdxisG3fP7/BG
+	 hao8rbxbYbwf/L9rQcYYyvDVGjxCvJW1eeRbSnaF+8uZYsKSApINRO39ZlCZdJhGXs+QY
+	 xfW5RsZ6EYcYv69YMXVbkeJzy8i4gJY5w86JfyznXg5A0jqDyAraJrFuCibkNDEbd+xds
+	 byuwgD5JK04SMS8YMgph1alG3bwERnE98RqcCvL8s7zspTGhF1NY7t74Vgmu2TDiVM4YQ
+	 DMRCRueWDJy83iG5OF9OrAdWnf2kGtlKHNYQZQ3FUk2dr34bEUFsKeBu+h6JkgRnYZQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=132.226.202.154
-Received: from fraori-sdnproxy-3.icoremail.net (fraori-sdnproxy-3.icoremail.net [132.226.202.154])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5524606A31C;
-	Mon,  9 Nov 2026 02:20:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5524606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with UTF8SMTP id IQEQrMCWvsbqLfFqhdMJAA--.30828S2;
-	Mon, 09 Nov 2026 10:20:26 +0800 (CST)
-Received: from [100.81.40.43] (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wBXQR_nLfFqSwwQAA--.21192S2;
-	Mon, 09 Nov 2026 10:20:26 +0800 (CST)
-Message-ID: <e9de49d3-c989-4539-8a1b-073d6866b7ec@hust.edu.cn>
-Date: Mon, 9 Nov 2026 10:20:22 +0800
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=K6jaWJDt;
+	arc=none smtp.remote-ip=91.218.175.46
+Received: from mta0.migadu.com (out-46.mta0.migadu.com [91.218.175.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01702606A320
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 02:29:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01702606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=K6jaWJDt
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=6Rwe5/vNZe/KK5IEYNJSCqaEF8U9Kcua9SWWSgmnS+o=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794191374; v=1; x=1794796174;
+ b=K6jaWJDt6QKiOHiP6LT76nlBNWyXcA+2wK7tlinrhHzsNd/h7WsRGQJHn0LpYR/T7FuXW8Pe
+ Uh+Q/nCaaSs9ulCDCza1iXwCURyR2MPFGkTF4E5i72eTmwxsiEVVWiS4eiFC+ndjZYYk1w3Y0Bo
+ zlJtCW+yIlExZW/vHxa/ws+Y=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id f32e565902faf312;
+	Mon, 09 Nov 2026 02:29:33 +0000
+X-Mizu-Trace-ID: f32e565902faf312
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 9 Nov 2026 10:29:18 +0800
+From: "Xu Xin (vivo)" <xu.xin@linux.dev>
+To: Qiliang Yuan <odys.yuan@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Stefan Roesch <shr@devkernel.io>, Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 3/5] selftests/mm: fail KSM helpers on short reads and
+ writes
+Message-ID: <avEv/kARsXK09QB4@dgvxl46587.localhost.localdomain>
+References: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-0-86be8fe77e7a@gmail.com>
+ <20261108-bug-mm-ksm-smart-scan-align-skips-v4-3-86be8fe77e7a@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -45,61 +77,124 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/4] docs/zh_CN: translate AI-related process guides
-To: Weijie Yuan <wy@wyuan.org>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
- Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-References: <cover.1794153793.git.dzm91@hust.edu.cn>
- <avEXWkPrGugQSQX-@wyuan.org>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <avEXWkPrGugQSQX-@wyuan.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:IQEQrMCWvsbqLfFqhdMJAA--.30828S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvdXoW7XrWkGF1xCF1ftr1xWw4rKrg_yoW3XFb_CF
-	109FZ2krWDJFW7Ga109r47urn7Aa4Uury2yFyvya97Ga98XFW5Ar1DWr9a9w15GFWFyFy3
-	Gr1kCw1fCF17ujkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUbHkYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
-	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
-	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
-	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
-	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGw
-	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
-	MIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMI
-	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY6I8E
-	87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-3-86be8fe77e7a@gmail.com>
 
+On Sun, Nov 08, 2026 at 08:22:52PM -0500, Qiliang Yuan wrote:
+> The KSM helpers in vm_util read and write KSM's sysfs and procfs files
+> with a single pread() or write(), and return -errno when the call does
+> not transfer what they asked for.
+> 
+> A read of zero bytes or a short write leaves errno at 0, so the helpers
+> then return 0, which their callers take as a value of 0 or as a write
+> that took effect. A short write of run makes ksm_start() wait for scans
+> of a ksmd that never started, a short read of full_scans makes it wait
+> for scans that never seem to complete, and short reads of
+> ksm_merging_pages or ksm_stat and a short write of use_zero_pages make
+> cases fail that should have been skipped.
+> 
+> Return -errno only when the call fails, and -EIO when it transfers less
+> than asked, so that callers skip or fail as they do on other errors.
+> Forcing each short read or write with an LD_PRELOAD shim on
+> ksm_functional_tests:
+> 
+>   short read or write of   before                    after
+>   run                      cases fail, then hangs    all skipped
+>   full_scans               hangs in the first case   all skipped
+>   ksm_merging_pages        9 of 11 cases fail        all skipped
+>   ksm_stat                 zero page case fails      zero page case skipped
+>   use_zero_pages           zero page case fails      zero page case skipped
+> 
+> Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
+> ---
+> The checks come from 93fb70aa5904 ("selftests/vm: add KSM unmerge
+> tests"), 3d0745e59c84 ("selftest: add a testcase of ksm zero pages")
+> and 42096aa24b82 ("selftest/mm: ksm_functional_tests: test in
+> mmap_and_merge_range() if anything got merged"), and b27f292de6b1
+> ("selftests/mm: put general ksm operation into vm_util") turned the
+> use_zero_pages check into one of them. There are no Fixes tags, as
+> only short reads and writes forced with the shim hit them, and the
+> helpers are in vm_util only since v6.18.
+> ---
+>  tools/testing/selftests/mm/vm_util.c | 22 +++++++++++++++++-----
+>  1 file changed, 17 insertions(+), 5 deletions(-)
 
-On 11/9/26 8:44 AM, Weijie Yuan wrote:
-> Dongliang Mu <dzm91@hust.edu.cn> writes:
->
->> Add Chinese translations of the process guides for coding assistants,
->> generated content, and the kernel threat model. The final patch updates
->> the coding-assistants guide to link to the new translations.
->>
->> Dongliang Mu (4):
->>    docs/zh_CN: translate coding-assistants.rst
->>    docs/zh_CN: translate generated-content.rst
->>    docs/zh_CN: translate threat-model.rst
->>    docs/zh_CN: link AI guide to translated documents
-> The last three patches seem to be missing.
-Sorry about that. After midnight, the campus network seems to impose 
-traffic control on outbound SMTP traffic.
+Reviewed-by: Xu Xin (vivo) <xu.xin@linux.dev>
 
-Now you can use b4 to retrieve the patchset.
-
-Dongliang Mu
-
->
-> Thanks.
-
+> 
+> diff --git a/tools/testing/selftests/mm/vm_util.c b/tools/testing/selftests/mm/vm_util.c
+> index 515031b8283da..caea045fa7d46 100644
+> --- a/tools/testing/selftests/mm/vm_util.c
+> +++ b/tools/testing/selftests/mm/vm_util.c
+> @@ -920,6 +920,8 @@ long ksm_get_self_zero_pages(void)
+>  	close(proc_self_ksm_stat_fd);
+>  	if (read_size < 0)
+>  		return -errno;
+> +	if (!read_size)
+> +		return -EIO;
+>  
+>  	buf[read_size] = 0;
+>  
+> @@ -944,8 +946,10 @@ long ksm_get_self_merging_pages(void)
+>  
+>  	ret = pread(proc_self_ksm_merging_pages_fd, buf, sizeof(buf) - 1, 0);
+>  	close(proc_self_ksm_merging_pages_fd);
+> -	if (ret <= 0)
+> +	if (ret < 0)
+>  		return -errno;
+> +	if (!ret)
+> +		return -EIO;
+>  	buf[ret] = 0;
+>  
+>  	return strtol(buf, NULL, 10);
+> @@ -963,8 +967,10 @@ long ksm_get_full_scans(void)
+>  
+>  	ret = pread(ksm_full_scans_fd, buf, sizeof(buf) - 1, 0);
+>  	close(ksm_full_scans_fd);
+> -	if (ret <= 0)
+> +	if (ret < 0)
+>  		return -errno;
+> +	if (!ret)
+> +		return -EIO;
+>  	buf[ret] = 0;
+>  
+>  	return strtol(buf, NULL, 10);
+> @@ -981,7 +987,9 @@ int ksm_use_zero_pages(void)
+>  
+>  	ret = write(ksm_use_zero_pages_fd, "1", 1);
+>  	close(ksm_use_zero_pages_fd);
+> -	return ret == 1 ? 0 : -errno;
+> +	if (ret < 0)
+> +		return -errno;
+> +	return ret == 1 ? 0 : -EIO;
+>  }
+>  
+>  int ksm_start(void)
+> @@ -1002,8 +1010,10 @@ int ksm_start(void)
+>  	}
+>  	ret = write(ksm_fd, "1", 1);
+>  	close(ksm_fd);
+> -	if (ret != 1)
+> +	if (ret < 0)
+>  		return -errno;
+> +	if (ret != 1)
+> +		return -EIO;
+>  	do {
+>  		end_scans = ksm_get_full_scans();
+>  		if (end_scans < 0)
+> @@ -1024,7 +1034,9 @@ int ksm_stop(void)
+>  
+>  	ret = write(ksm_fd, "2", 1);
+>  	close(ksm_fd);
+> -	return ret == 1 ? 0 : -errno;
+> +	if (ret < 0)
+> +		return -errno;
+> +	return ret == 1 ? 0 : -EIO;
+>  }
+>  
+>  int get_hardware_corrupted_size(unsigned long *val)
+> 
+> -- 
+> 2.43.0
+> 
