@@ -1,53 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.76.78.106
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794201719;
-	b=U637nUcESTPgb5a55PIZheaL5pFdrp22tPeVRfjLksebHvf7L92Pk20e17xRIiVJi31K
-	 L9GEhxvIaFzu3bkjPd0La1vDM89cA723qFKaCBkNRJMPRfIlfUAyfu9u3m72PT6aRMRCM
-	 5gmxfoTCnQRatKm9l75LxNQQYSZEuhv3kq43+gxnEpfVlnY3IJmqndBr1vVdZf//XAwc3
-	 I08kjPWWbctXcZJFh0U91OskJ8pv8sOdPkdEEvvLivNK4j4PUqdRaloZfWC5RwU4MP+mC
-	 ouv8EOZadXjESlB58e0zIQLqChd9beVVBU9X3eFG+InflBKPp4lbi5Hk3o3fURUn6fA==
+	t=1794202637;
+	b=PcWC0N5HumTDv/VOfxyx8HB8r0mauEkLx3g0nOhUhZp80vPSbgwFyK3Bc68ACGcuA6kk
+	 lzIBVz/gHVAlDrG+sU0bIncJdcjjBAkeSs6FRsNVVSKPgY5nA0NXgykeqhiME+pA+Xp3J
+	 9EEAMRC9MB25P5QwTe4OJcNyj1QKWDRi9Rjoi6fU3i9kKyKJEOEdjt5d998spteayzZoF
+	 3u45JU4MxJYXVs//QsGfbCcdTb5eNpPAObHzeBZgCu9mrfOrk+82VIFSbsqOPvqiLzu1g
+	 yR0z5o2nsBLEYmfP0415lKkzHOyuKJkKu+hlPwLQ46Kru2r94Sw77VgInbHqQ4nzE/w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794201719;
-	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=4mGGbztDF341AvaR+qrYshkYW2R9xASCbG5AyaJbl5g=;
-	b=GzdJlZX8/qCooknnLsY/tnDNyODIjVLX8rcnpAEar2KIgqKAVm3LlzcTd/Yk9k+CANQx
-	 27tuOAnoQytGGGmLQ+5A/sII5vvtTxvCKFiuRvIAhprw6mS8Lp2+V8EDPdySkvT5sgrU0
-	 vIsxFeZUF/rl7uqLr+KGOCTpSw88puNCizDmNN4bB8Y+2dI806wHjWwxHLW0b/CPbTMBr
-	 oY1FEiRdtuT7wPHmgdaD/tQINBm7uaSPrvi5pLQDe5aLT/3ucBko4YD5sJHZjPHY99ptq
-	 eI4GmC9FA834B5jkPmVw25MVOoHdQwCHiVtoE41fzkSqkyVDBMog9mngCvdoRnPyhAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794202637;
+	h=Received:DKIM-Signature:X-Mailer:From:To:Cc:Subject:In-Reply-To:
+	 References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=ozxqwrYfOeA2JdEt8v+EBV8WXqLYW6Q2JhJClZ3mZzM=;
+	b=Y1qwk5z3PfcvV/CaqmFCpFlXFN+6COS62SoJbe/ycLZlsRUeh75dNKh0Bjcv7tQx9biO
+	 EMjeBZuqjYhZmGr2wGqHO/tyYbt0a9D6StSy9DM+K+ToHFfHge64P1GoYyLPLUBPm+crm
+	 r2crpxLPybifTQN/HGpCXaU14AjOcMxk+mQIMckGq2QOgHosSOobRJrSl/FExBjV7cqUj
+	 4Lx42surnxyR+KYiZwPbioBz64mU1RiLklw3KDS9z6Vrrgjv7pcWMQfW6EPvHyuhXklph
+	 ErDexC2Ac1VtB9/dFPR3o75LVR6XeY1HItld2tutRgHq0RtmZzhYmDk8N+VXigwfEFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=13.76.78.106
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3ECF606A323;
-	Mon,  9 Nov 2026 05:21:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3ECF606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with UTF8SMTP id IAEQrMAGzmlqWPFqusQjAA--.9280S2;
-	Mon, 09 Nov 2026 13:21:46 +0800 (CST)
-Received: from hust.edu.cn (unknown [10.12.191.55])
-	by gateway (Coremail) with SMTP id _____wAn8jVlWPFq3SUuAA--.28705S3;
-	Mon, 09 Nov 2026 13:21:44 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/4] docs/zh_CN: translate coding-assistants.rst
-Date: Mon,  9 Nov 2026 13:21:37 +0800
-Message-ID: <d2cad291b61d10dd3fc9dca64f14a3f02b2551d1.1794197977.git.dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1794197977.git.dzm91@hust.edu.cn>
-References: <cover.1794153793.git.dzm91@hust.edu.cn> <cover.1794197977.git.dzm91@hust.edu.cn>
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SFz3Dfvs;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A6EE606A31C;
+	Mon,  9 Nov 2026 05:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SFz3Dfvs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F7101F0089F;
+	Mon,  9 Nov 2026 05:37:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794202637;
+	bh=ozxqwrYfOeA2JdEt8v+EBV8WXqLYW6Q2JhJClZ3mZzM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=SFz3Dfvsu49EC0/Dd5enhpMYmWj8WG1Qz9hgpIvpuXDuZX0vSXk4pAuw0K0wF1YuL
+	 WwDUfolgUFI2Z95Mj+vypcIBuavxOvqY7PYosR/ytl0T7qH7MNA9Y+7qQ/j1RJ9wZk
+	 4SiSD9XqUaDXctIFZTXendxhy90DdI3Bm1WydU9rMuQt9BOTWQ4IR3EsvkyBM8265K
+	 3hD7Ly6bu0ZlWsuggqeZ63OE7ec2LVGeSVpc6r9rFJUN87s8qYbt/Ura/kk+s3gp3j
+	 6CZzzWR+ksauY3XEPxzy8vViaLj4R4yfzyse28VDdlpdNmS/qXoV5AnmfzBBJgs3GU
+	 2jXPec4kDyPCg==
+X-Mailer: emacs 31.1 (via feedmail 11-beta-1 I)
+From: Aneesh Kumar K.V <aneesh.kumar@kernel.org>
+To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>,
+	Alexey Kardashevskiy <aik@amd.com>,
+	Christian Brauner <brauner@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Fred Griffoul <fgriffo@amazon.co.uk>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jianxiong Gao <jxgao@google.com>,
+	John Starks <John.Starks@microsoft.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Tarun Sahu <tarunsahu@google.com>,
+	Vishal Annapurve <vannapurve@google.com>,
+	Xu Yilun <yilun.xu@linux.intel.com>,
+	Fuad Tabba <fuad.tabba@linux.dev>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org,
+	Ackerley Tng <ackerleytng@google.com>
+Subject: Re: [PATCH RFC v3 87/88] QUESTION: KVM: guest_memfd: Disallow
+ private mappings of shared-only PFNs
+In-Reply-To: <20261106-gmem-alternative-providers-v3-87-8484dde66a7e@google.com>
+References: <20261106-gmem-alternative-providers-v3-0-8484dde66a7e@google.com>
+ <20261106-gmem-alternative-providers-v3-87-8484dde66a7e@google.com>
+Date: Mon, 09 Nov 2026 11:07:05 +0530
+Message-ID: <yq5ase1atvjy.fsf@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,125 +79,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:IAEQrMAGzmlqWPFqusQjAA--.9280S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWxZF47tr47Jw48uFWDAw1UZFb_yoW7Gr47pF
-	1DKryftan5Ga4Ykr4IgFyxXF15CFyxGay3tryxt3saqrn5JwnayFZxtryjvF93W34rua45
-	XFs3KrWDuFy3urJanT9S1TB71UUUUjDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUH0b7Iv0xC_Cr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
-	kIecxEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I
-	3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJV
-	WUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAK
-	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
-	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAI
-	cVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain
 
-Translate the AI coding assistant guidance into Chinese. Link to the
-existing Chinese license-rules.rst guide while keeping untranslated
-document references on their English paths.
+Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+writes:
 
-Update the translation through commit 1e035297ffda
-("docs: remove Assisted-by references")
+> From: Ackerley Tng <ackerleytng@google.com>
+>
+> Host kernel drivers directly write to the PCI MSI-X vector table to
+> program and mask interrupts. On confidential computing platforms, allowing
+> hardware protection tables (such as RMP, Secure-EPT, or GPT) to mark MSI-X
+> pages private causes subsequent host kernel interrupt updates to trigger
+> fatal hardware protection faults.
+>
+> I see 2 options here:
+>
+> 1. Prevent it at conversion time, and require INIT_SHARED
+> 2. Let guest_memfd track all conversions to private as per normal, but
+>    block setting the MSI-X range as private at the platform level by
+>    blocking platform config for SNP, ARM CCA at fault time, and by blocking
+>    faults for TDX.
+>
+> Implement (2) partially by introducing a PFN attribute bit indicating that
+> a physical frame cannot be mapped or populated as private, reporting that
+> attribute from VFIO PCI whenever a BAR page overlaps the MSI-X vector
+> table.
+>
 
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-Reviewed-by: Weijie Yuan <wy@wyuan.org>
----
-v1->v2: add the missing Signed-off-by and Reviewed-by tags
+For the TDISP flow, we could initially treat all MMIO BARs as shared.
+The guest could then request that a specific BAR range be trusted
+through an mmio_validate request. The validation operation could call
+set_memory_attribute() to convert only the guest-requested range. This
+would allow the guest to control whether the MSI-X table and PBA ranges
+are trusted.
 
- .../zh_CN/process/coding-assistants.rst       | 74 +++++++++++++++++++
- 1 file changed, 74 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/process/coding-assistants.rst
+Before reporting that the mmio_validate request succeeded, we would also
+need to ensure that the BAR range had been marked private and mapped
+into the guest VM.This is required for the device to transition to the
+RUN state. This also means we should not get a gmem fault on private
+device PFN. In my series, I enforce this in the architecture fault
+handler.
 
-diff --git a/Documentation/translations/zh_CN/process/coding-assistants.rst b/Documentation/translations/zh_CN/process/coding-assistants.rst
-new file mode 100644
-index 000000000000..2a432d1dc401
---- /dev/null
-+++ b/Documentation/translations/zh_CN/process/coding-assistants.rst
-@@ -0,0 +1,74 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: ../disclaimer-zh_CN.rst
-+
-+:翻译:
-+ - 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
-+
-+AI 编程助手
-++++++++++++
-+
-+本文为使用 AI 工具及 AI 辅助功能参与 Linux 内核开发的开发者提供指导。
-+
-+协助 Linux 内核开发的 AI 工具应遵循标准的内核开发流程：
-+
-+* Documentation/translations/zh_CN/process/development-process.rst
-+* Documentation/translations/zh_CN/process/coding-style.rst
-+* Documentation/translations/zh_CN/process/submitting-patches.rst
-+
-+有关 AI 编程助手生成内容的准则，参见：
-+
-+* Documentation/process/generated-content.rst
-+
-+许可和法律要求
-+==============
-+
-+所有贡献都必须符合内核的许可要求：
-+
-+* 所有代码必须与 GPL-2.0-only 兼容
-+* 使用适当的 SPDX 许可证标识符
-+* 详情参见 Documentation/translations/zh_CN/process/license-rules.rst
-+
-+Signed-off-by 与开发者来源认证
-+==============================
-+
-+AI 代理 **不得** 添加 Signed-off-by 标签。只有人类才能依法作出
-+开发者来源认证（DCO）。人类投稿者负责：
-+
-+* 审查所有由 AI 生成的代码
-+* 确保符合许可要求
-+* 添加自己的 Signed-off-by 标签，以确认符合 DCO 要求
-+* 对贡献承担全部责任
-+
-+查找和修复缺陷的流程
-+====================
-+
-+使用 AI 助手查找和修复缺陷时，**必须** 至少遵循以下步骤：
-+
-+1. 开始之前，完整阅读上面列出的流程文档，以及请求中提及的其他文档。
-+   不要只依赖关键词搜索找到的片段。
-+2. 记录提交 ID，并按指示定位缺陷。
-+3. 对于发现的任何非显而易见的缺陷，尝试编写复现程序，验证缺陷看起来
-+   确实存在。若缺少复现程序，报告可能被忽略，因为提交给维护者的许多
-+   未经验证的缺陷报告最终被证明无效。如果最终发现判断有误，就在此停止。
-+4. 编写修复补丁。这一步不可省略：除极少数情况外，能够发现缺陷的 AI 助手
-+   也能够修复它。通常最好在发现缺陷的同一会话中编写修复，因为此时大语言
-+   模型仍保留着相关的推理上下文，修复也会更好、更准确。
-+5. 构建并通过复现程序或重新运行完整分析来验证修复；丢弃无效的修复并
-+   尝试其他方案。修复不能引入构建警告，且必须通过 checkpatch.pl 检查
-+   （参见
-+   Documentation/translations/zh_CN/process/submitting-patches.rst）。
-+6. 将有效的修复提交，并在提交说明中详细描述问题、解决方案和 Fixes 标签。
-+   不要添加 Signed-off-by 标签。
-+7. 使用 scripts/get_maintainer.pl 找出维护者和邮件列表。
-+   具体操作见
-+   Documentation/translations/zh_CN/process/security-bugs.rst。
-+8. 说明哪些工作未能完成。如果修复无法构建或测试，或者无法编写复现程序，
-+   应明确说明：维护者目前在分析未经验证的报告和未经测试的修复上浪费了
-+   太多时间。
-+9. 阅读 Documentation/process/threat-model.rst，判断缺陷属于漏洞
-+   还是普通缺陷，并将结论交由报告者复核（助手绝不能自行发送任何
-+   内容）。普通缺陷按以下文档所述方式投稿：
-+   Documentation/translations/zh_CN/process/submitting-patches.rst；
-+   漏洞按以下文档所述方式报告：
-+   Documentation/translations/zh_CN/process/security-bugs.rst。
--- 
-2.51.0
+The host must also be prevented from modifying the BAR attributes
+afterward, as that would cause an attested device to transition from
+TDISP RUN to the error state. An earlier discussion also considered
+whether the guest driver should be allowed to manage BME/MSE. VFIO
+currently emulates these, and the conclusion was that the VMM must not
+pass it through. Once the device is in the TDISP RUN state, the guest
+TSM manages the power state and BME/MSE changes.
 
+-aneesh
