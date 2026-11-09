@@ -1,111 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794231395;
-	b=Db2La+MjjVOzHqrJ1pWjQuCAcfkTUlyxx3/qv7IHPEas1CQFhfh0oHushKzJ8D8+Ae9X
-	 KKANNKySm4CLLpMOXAM71oU8q0gKoXWJ1phMl/p7tRGV3gymKYCP61Z9L9ChIm7Y9MWdX
-	 KrmPuX4Rbxu/+HNBB52+acbax7iv4fBTdhUC/vSGynGlO48wQ3DkMYd9l5Lswwq2HL8pM
-	 8ssz2sdXN7MK9b7zqZsUD8s5PjmRuHmF7EPXbYHcb4DfKHiVTNm+s5Wy2+U0P8xwUAPGv
-	 V9ZCQ2QIgz9LN7TrS3wkfXm2kEl4APF1HxHNW1a7FItOobWIs0FV/r+2vaHV3eTztBA==
+	t=1794231961;
+	b=Rf0GXU50lNAA0degP4eXZZsWpHm0onGA6NkqP5Xd5QXqPz1rmINOkwlasDN6LS1tLOZJ
+	 tjHw/FyI9xniWc07SfqObbTXhtFt6bOAHA/AYoaMGi6NL5NqnkMuPiG2smVkHPVZG9BiJ
+	 vBnpvNyqVsvSRsP7nAU07punrcDN4ayZkldHfubig5yf/Nn2oTty3tSiI4g+lTbWI7X5m
+	 +neR36wv3pcIa7B+tDN0bQmBxKBupa3FmV5H8Y/BpEHw5k0LGcYkwWg9nFPtvqpPcZxF7
+	 ypSiCioFZ/E7k2/3Eys34nLM3WQ19CEeMVTqrwp/vGV0c9yCJjq8oaJk3UGDGV09GgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794231395;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=LKWAw/AZxDTQtn5ObFqcUuzM3ObhugKfW3Vkn+etxwQ=;
-	b=fRQn9XggdzzzVMF5bBZViCqOvI9ZugCuX20AP9Y3FudPPRpgRkQkT+qN2cb4952HTmg5
-	 WBkpcs+iDO0RzVR2rzQCllEs8wPl9Tit14Sfgk3cgzRngqG8vRYp0zYFGQkJU6o/UzFqZ
-	 Ub3RQGWpDqLxshhGVzGXbyl5ch6bh3v2/QTj97Q7tZgkCIfBQ2WoS3Gav1LSrq0Ad0Oy1
-	 n4IrfCgxtDflagvByKjPvWR7MIWi2wIA5/gDbelcTTIBVyey88Qcr7YRoWfMV6k8ZpSCy
-	 mWpPU8oQrzeuHdL8LOQGn2JDuruDyF89Qe0zFZQfozv2tYnRiX9zHS6FcIoUHyWycWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794231961;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=2IttIcKgL0vKNhvKWk69gg2kUvNLqT6VNsboFSUg3kk=;
+	b=aB8NikLz073EmY2uD/si/fa6LHzymTtJoh4Ifu9joLLjm/YLmJDTZp1JAtXCklxC/3OS
+	 q/0XQol0ZQ6WJuQ28rb0Ts13HOzQ/l4qBzuWjm1Q/miP8jFl5+H9YSPtu1o+qSjxCjTl2
+	 E4RHLlN+1jJ3hKbbl0T4jDpbO8fzM9ibJUrEFVBM74ClFRQY4Qg0qvgnI3XZlK8yCLjXB
+	 uopHh45tX00nJgyK9L9uwpqwBanZRZIcwBnE7H8qNx15HClWh4/LFPGXM9siQND/DHH0E
+	 /BpNRDeMpxtZb8ZMwpjhnItsjFLXqvF368e3Rxu9bV1x3EuUId2ggdJRuhcDufA8YMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sartura.hr;
-	spf=pass smtp.mailfrom=sartura.hr;
-	dkim=pass header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=InJTp9wv;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=vvkpw5nC;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0DF9608363C
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:36:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E0DF9608363C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sartura.hr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C18D7606D806;
+	Mon,  9 Nov 2026 13:46:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C18D7606D806
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=InJTp9wv
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so8734995e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:36:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura.hr; s=sartura; t=1794231393; x=1794836193; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LKWAw/AZxDTQtn5ObFqcUuzM3ObhugKfW3Vkn+etxwQ=;
-        b=InJTp9wvTygr8V9hYoTr/NhW8KHKk5RlASOuXlrQJRy8N0Bk+kk2ajjODwLpYWwgxh
-         TYQuPErpVPfO+JdrqsH6xMDh0cejwZYWD8OD0nSvifgwVbS2gJX2Wxube9ViIY9pKva+
-         fR4YSqHXpP2lQOG35vONoJZU4huNzw791xdfVVhq9DLvYzXZZno070PbN3hAdhSzk9c7
-         ge/FngigunniTaKQkFaxrj7KU0N03BlIryAAfyRMAXSufAyF8kc4tP8R9GZdTORuuYq2
-         ygBtGyg4XdKB7qXCwiX88LIF+0/8MAGFVx0tV2jZ83g3CAiaUUlj6Y4JDJQkTTdkkty7
-         swzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794231393; x=1794836193;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LKWAw/AZxDTQtn5ObFqcUuzM3ObhugKfW3Vkn+etxwQ=;
-        b=2za43ZfU4i01+LAjuW7GI5ubFdwkS/R0dxe04oNmDMmrZnix7ExjWiYgqV4riy3N8u
-         pmWIyFo1RyeaOPaIv6l3pLVwORjUK+RZLrxU+wUg7B0pBtd9wCXl5g/3UwtwTc0OlwLy
-         QK53MduP2+OA4nBfHi143wiyD6fymHnu95OgjIft7GXplLn/HnzDu7rblzkRIQx4v4ii
-         DK1FKlwwyzQfy6ZFJB2MBeEiFVVbF82jGlWWgqIllykNXo1GF7jAGxBqmLC9zifiGzjk
-         T7Utes3fSf1/F2g+c/WLBY1ZTR0vrzZObcYCmL/WCATQSE2c40uNlpH9tVxeuT24zZok
-         IrEA==
-X-Forwarded-Encrypted: i=1; AL+hErGNQ1VE7GCPZudT3aHjObpNoZYPvHEissJSnqMI2uZY3r4vYlQIprrJXPWPwNaQ7YpNkP28Cgvfnrk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8TAURx9ZjQOSWZOSwLC5ERFel9SX9FGQmeYHKFQgRGMRvexeJj
-	UCYgNNA8m/hX+wlFpXRXWa6H/+RCXCdwY5XQL9MzZRsR1qWOi6GswdKRmglPFQmMd2s=
-X-Gm-Gg: AYBFou3D2TQ1yTGYDs0i0ldbpc5fGqpEID4LPxjzEUXUNwIcSivGBeWBvwNRwoisgiF
-	h1ocDRH0LeQxOzMW7c+cJwqnja2OWUvOFdr4AmCAgPjTIKCDxRl6e04lQy7vnRjdqjEK9FiWCmf
-	7rCQKDX1I4F9PAocgI+cbzWPtyLvG/kHKA+GD9TddjVsqM/hHLz0zwnxJ34Lha9CcOgCpF1vDM8
-	b8BE+B7EIUJY/hJfdFodzkEIWKFdwkwRFDfKlpDZMX8V0TfVVKh6xXZpO+tT0qL9aCuUGtQYfNa
-	Fr9eFiSANT+btr/bPApsQjcqNDBhmaocg7QstBXnwwGZWUkkOWp9BeCdPxCmjb+PygETYoMlr58
-	TRxV8VWScn6W2PF9KPKkB3YwxMhDMZPGSyIUfLTHt+5nmbI32NdUqNVv417R5YMc7EusFDBaxWB
-	CLIXBAa9Ma54FgW/BHfr6cOcnr1PNaEO6DJ+LdyGM+dZlH953uZg5imFvQmNuuwubmU5RG6Rv/e
-	v64vKLfv0S2Bt0uh3OhA/jkZ118WjKAOdlR2e7xuxYXAiGb1U8LOmk7N0Q8WoP36+Cq/ZcRoQeb
-	MQu9YNPLqOBRW/8rQYwxCp+HiFRj6NEtGDhT9EQ4suEmiPOolcz8AEyYjE9otGzlGP2TpgjPGJm
-	Id3j/LWckMqREKp35JFLt0KvkO59SJIUey4bJbAypPm/zRds6F6LzMDXV9moPQBTmBqKbrGY+cl
-	MSFD4=
-X-Received: by 2002:a05:600c:3f1a:b0:4a4:de70:2ad4 with SMTP id 5b1f17b1804b1-4b963c6e08amr75104175e9.22.1794231393335;
-        Mon, 09 Nov 2026 05:36:33 -0800 (PST)
-Received: from threadripper-fedora-workstation (cpe-109-60-83-229.zg3.cable.xnet.hr. [109.60.83.229])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7efb1b64esm245418915e9.13.2026.11.09.05.36.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 05:36:32 -0800 (PST)
-From: Robert Marko <robert.marko@sartura.hr>
-To: linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	Steen.Hegelund@microchip.com,
-	daniel.machon@microchip.com,
-	UNGLinuxDriver@microchip.com,
-	nicolas.ferre@microchip.com,
-	claudiu.beznea@tuxon.dev,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: luka.perkov@sartura.hr,
-	Robert Marko <robert.marko@sartura.hr>
-Subject: [PATCH v2 6/6] arm64: dts: microchip: lan969x: add fan controller
-Date: Mon,  9 Nov 2026 14:35:10 +0100
-Message-ID: <20261109133609.810876-6-robert.marko@sartura.hr>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261109133609.810876-1-robert.marko@sartura.hr>
-References: <20261109133609.810876-1-robert.marko@sartura.hr>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=vvkpw5nC
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=2IttIcKgL0vKNhvKWk69gg2kUvNLqT6VNsboFSUg3kk=; b=vvkpw5nCLudUCzq8Vifb2DqkGx
+	kGLbNSsg5SNGbUF/8eDZn3RbuZVaYN8yuFMCNN2LAuq766lfIQCtDmX4spECzkj0HnP+c+OqQ9JDg
+	3SbUlhnWq+AuSrWJRvoa+pF8GnEv8+SzHYUyhyd9DTaD3r5wNDWeQrzF8ZFAL3DUt7bs=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xQPgl-00FGEi-MR; Mon, 09 Nov 2026 14:45:35 +0100
+Date: Mon, 9 Nov 2026 14:45:35 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Johannes Berg <johannes@sipsolutions.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	David Woodhouse <dwmw2@infradead.org>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
+	Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	Nipun Gupta <nipun.gupta@amd.com>,
+	Nikhil Agarwal <nikhil.agarwal@amd.com>,
+	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
+	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-input@vger.kernel.org, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
+	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v2 10/19] net: phy: Use the compatibility driver
+ attachment API
+Message-ID: <ab062469-ece0-495e-8486-78404c580cdb@lunn.ch>
+References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
+ <20261109-device-trust-core-v2-10-3b12d9a9f861@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -115,65 +92,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109-device-trust-core-v2-10-3b12d9a9f861@nvidia.com>
 
-LAN969x provides a PWM fan output and tachometer input in a register
-block separate from the temperature sensor. Describe it as its own
-fan-controller node and keep the temperature sensor compatible.
+> @@ -1956,11 +1958,10 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
+>  	}
+>  	phydev->drv_owner = drv_owner;
+>  
+> -	if (phydev->is_genphy_driven) {
+> -		err = d->driver->probe(d);
+> -		if (err >= 0)
+> -			err = device_bind_driver(d);
+> -
+> +	if (bind_genphy) {
+> +		err = device_driver_attach_full(drv, d);
+> +		if (err == -EBUSY)
+> +			irq = phydev->irq;
 
-Connect the EV23X71A fan to the controller and route its pins. Use a
-25 kHz normal-polarity PWM for the board low-side FET. Set cooling
-levels so the fan starts at full speed.
+Just looking at this, it is not clear where the EBUSY can from? And
+why set irq to phydev->irq?
 
-Signed-off-by: Robert Marko <robert.marko@sartura.hr>
----
-Changes in v2:
-- Split the fan controller from the temperature node.
-- Add the EV23X71A fan child with board-specific PWM and cooling levels.
-
- arch/arm64/boot/dts/microchip/lan9691.dtsi         | 7 +++++++
- arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts | 8 +++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/boot/dts/microchip/lan9691.dtsi b/arch/arm64/boot/dts/microchip/lan9691.dtsi
-index 52c22dd1a15d5..039c2014aa341 100644
---- a/arch/arm64/boot/dts/microchip/lan9691.dtsi
-+++ b/arch/arm64/boot/dts/microchip/lan9691.dtsi
-@@ -522,6 +522,13 @@ sgpio_out: gpio@1 {
- 			};
- 		};
- 
-+		fanctrl: fan-controller@e2010348 {
-+			compatible = "microchip,lan9691-fan";
-+			reg = <0xe2010348 0xc>;
-+			clocks = <&fx100_clk>;
-+			#pwm-cells = <2>;
-+		};
-+
- 		tmon: hwmon@e2020100 {
- 			compatible = "microchip,lan9691-temp", "microchip,sparx5-temp";
- 			reg = <0xe2020100 0xc>;
-diff --git a/arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts b/arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts
-index abb21a8bace9e..3cbe5beebce1d 100644
---- a/arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts
-+++ b/arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts
-@@ -775,9 +775,15 @@ port29: port@29 {
- 	};
- };
- 
--&tmon {
-+&fanctrl {
- 	pinctrl-0 = <&fan_pins>;
- 	pinctrl-names = "default";
-+
-+	fan {
-+		pwms = <&fanctrl 40000 0>;
-+		cooling-levels = <0 128 192 255>;
-+		#cooling-cells = <2>;
-+	};
- };
- 
- &usart0 {
--- 
-2.56.0
-
+    Andrew
