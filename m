@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794230822;
-	b=PYvuVCRBmbuy00fMMreII9qdB/jq+kpjqg2sOwMpAV11+KpA9h6Jyz/bivCjD7Wtom2k
-	 1bDB5RRE/U/flZ3RRZB80oKnuiDN5ao0baLPfjPSL5vBVWyVkiG+8kZsLJf5+FJ3QnID2
-	 Ilx/b29m/uU4wV/1Vdy4OhpUTlF6YYcP56NUTY1O9epJtnoG5QWPn7PWAkmoDvwDofbaO
-	 +F70mw9qbqXBNyEH02CMm0cnBDLhZnLN+WBir1HsO4iSEsyTrnd9ebMN8gSJnfH442MtK
-	 0DiqCO0JDj39fpfqDGK9QNtxKipaGJWtuqqdyXY2CfKMr9WDTbNRy/hNb9uXAkUN5iA==
+	t=1794230827;
+	b=u+aA2LIDHe9ayWdax7brZVMsX6EWtLKcaYzXfY41iPssXpmEohfrrud7moOcstw9l7SM
+	 J8Y5bQNkZKdonCQGOf64Jo+ph1UUErwxgD8kzFBgCAU/84owQSstmSOdgGXanJDGQMASx
+	 9S8YIu89GbDlCI7LZaoqwMnC83v/sfcz6WZrOk60vcJHP1JmIPe8n/km4Sh/JJaL5enWp
+	 vLe0yKPKW8skfn7PQG3uu3++GuFf2+cy32+m8HoV40MMab4jGX4+/ST3GsZs/rTVmjrdG
+	 DDZorS2lbOlCTGd76gPjpBWVo8xZiSPN6QlkvklvSwdk1pro8UfLDwBVnR723/bEzgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794230822;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794230827;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=fIn4mkSNdY/hxwoGUrWw1hPa5UFbAE2sAhOFZhD431c=;
-	b=fb7B70fCsjouYkvsJriRJR2ETHy2dXtrM/9xJI2eaO0yMT5BiY6MthNCT6Misq8bRrXu
-	 NcxBlEGFh2QOSpIkcxm7YmhNFU5wKtjHUrkWVpEQjqhHFBuv0+oHL7U/cjI55wE0rbug/
-	 zn6wScVgiYqQlknqL2uXRfdBk0HzCjtVdTxyz0XJkoTYGv3QBakMJnnjugHsdM+/JK0lV
-	 9pSyj0eBrzQxZgcnEQMi+veGS6nRvDBk3n5Z7hlgSn7bHg4Am1cKi4ccj8NQ0A1ndDPG4
-	 bvrUKHNfp48rxVjrQDqedSIUW1iJSkg7JPDLOtdaBXRGqA/JaqddlQxQq7lfKsz2acw==
+	bh=yjcmzLe9NLb31BRnk0YYkyQlltkBEnbcgBXYWiIw6EQ=;
+	b=aPevzVuosEAEZhuLZQpi+o0GpNoU17+L8sxI6SfSuPYBVj/7Z9X0b+MyQjFyRJw0/2v7
+	 1va31l4RegcSc+VkhclvEQAoyWuxBJNipCMsdiKW1qIyfHqRLWOX4Yvz6KjBsQY/nic77
+	 sSAuppL6Aj06YFCmdqYP/n6a2TmbIm0zxK3ohvAgw3dbMFjMWjHB2oaJuPI8C+9O0VUUi
+	 HmsSDodfh+f3sOmqmmG6OtCvYIs9PHNzxu5Z2Vy9MIJip0zYg+s1X2JZ+FCaE5+mpKNX9
+	 DRBUPkD96viVFIAI8+zQ5+a1LSDfdeVOzl7eLAEIDasQO7tWoXiQONYsv8XSeY5TjeA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mZT4zOJa;
-	arc=none smtp.remote-ip=209.85.216.44
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BOnEoRaJ;
+	arc=none smtp.remote-ip=209.85.216.46
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B20606A331
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:27:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3B20606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ABB606A336
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:27:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44ABB606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mZT4zOJa
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3ad2b3b1c02so487141a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:27:01 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BOnEoRaJ
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3b094e649d3so521577a91.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:27:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794230821; x=1794835621; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794230826; x=1794835626; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=fIn4mkSNdY/hxwoGUrWw1hPa5UFbAE2sAhOFZhD431c=;
-        b=mZT4zOJa3/7ArBrrRCxYPNgWLvl7ph7aKv8nFwGeFoewMgtOzpuc6CHXKWj2ih9pCp
-         a15Rw47RPdvfYsoX8zx68HtsSYbCRTWO+j46lSWTWrg8EQW0x8jrGTGJv6rz9mNkWxwk
-         ZJd4kGW7vF89JqJdnkiSWUH61/PEZyvKdhHLNApscgE2euKeZOl1Qlr4ltXeyZCwLpqv
-         Cf4Mj+uLVtmBCxqwJrqnIl04WQpUI91FmyF/plAfCpS5+U8ZHgcLAyy01r7CJDEyH42D
-         QvaRUZ94d1BbPAIWbSIpkgSBhDfwgwc2Cuzc6GC9pwUiCc3RF5GxPQfeO0MjcFXxDkfP
-         7dnQ==
+        bh=yjcmzLe9NLb31BRnk0YYkyQlltkBEnbcgBXYWiIw6EQ=;
+        b=BOnEoRaJaQ8SXaiOcetimIWNWbQ+7UsWUrCCnjs2uC9ELzvmoi31fLLUIUTYtpKEPg
+         GLIlJ5n2L9RvbSYWRr+3ZKNhsOHTu6z2NAFABRZ7dUgnVFBOvqsb5OPwzhZ1WvDj8fEh
+         rK4FM8wM2o6Q1CdEveKQdEUy4Nn8jZMTzXmHMK7p/2wq3MJHyrPxFtSRpr7LSjA65+QT
+         T8szyVfbZDBiaJU2rOoVli3vEeq8427Ie3L1QzGzI8nHd6cbC8IkQ2A0Y5+cowQ1Mrsb
+         mlKshoXFSg5db+4UhmjGFlYsd9WmyVAax3Dg/OfPBkILyOqSdZLHwfYGT+WL8JrEsoLN
+         2iTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794230821; x=1794835621;
+        d=1e100.net; s=20260707; t=1794230826; x=1794835626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fIn4mkSNdY/hxwoGUrWw1hPa5UFbAE2sAhOFZhD431c=;
-        b=CumMkVMMBmHCAxR842nReLkdqN+WDd8c+nPh0rui3xSCBgHpd1P/xbEM8JqtT12Xxn
-         w6OP7i2XEiL8WPa2DDcpY4/8xLrxVtpWurCcG0B38+HfeWiuRo63Ph38DGI6wcSoD3lA
-         2O/sYE6X1SCGib0UwbtDmr0rJ3L68OHRIRehsrEUmea3sE75BPxOElfTND/pdw+ZugB6
-         ZsFIr0stNAqZzeTluUB+ByxVCix8Rtwadr2xQ4kxwPDPlWI4twM/qkRQzu7GNUQp3j9X
-         97yQNPcIDJit2UbxEvVTHrBHUF1BSXwO+lyqZPoIV5PiX7gJDoX97AO6jZ9+6zJ8Qwpn
-         046A==
-X-Forwarded-Encrypted: i=1; AL+hErFPG7N08h4dasSCXMrvRtNRY9CIN37Lyx1NpMcLp5cj/QuO1luxvOJ8DMXqwI+5GvFRlRwcWnS84Lg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Amg8s9TQBTP4ksU5LuobeY4rL9PHxfQgt5d8vtqFodM7ppzK7
-	VOXy5mRNTdwdCGUZoDAPTOEQ+pL52rqRDlJMh0O1TXbt3gqZtoLfsCb8
-X-Gm-Gg: AYBFou12n3C3Xs3Bq6tSY6I2PeT9WZ6ZHrQtlDclN+HuD3pYTPEXe2cFhdZ8GEpxase
-	Kmyyfl/rjFHfKG5WvJFRNwGcq5WZ8FtmEuQ71nefdLFTz4j/rs+qAYiidgUUz8ZYqZ9awiJjcb1
-	lHa3n9Rey+WxzyTDZaSeFTQ3ET/HXzJms9/VEmoehUVqgPYy16oOpOzVbTBUpbFOLTjXeArWd0d
-	h7EoJYvhCRxPv5RvxNw+w6y0YEIsOSnKlT6be44t1S5a0lyS11yo/UIjfmM2WWjRp7UmzcDAA1r
-	oeGbE34XZbItHvMklDJDoGRV0TIfiIb1ia8urqdC4WBmpgvXCFOgoeS7ynfIqnYxvR0qzS34mcG
-	4JsTLnzqb2Wy6pitskevz9xDQBpdhPjVAZ21MALpq3VEUjPUWKP3DRfEyoNuH/D3YBtbjV3pTeS
-	jSHaxiXM6vwoNyNTu0eRz0VYqpEuMRFgB/v45KUd3Vl8V8bBmhttvn0jzBH+zCCVuYrh7TcC9Xq
-	mNbyQrQxx8ikGE9PGaPdVLj300kB45hBl1VOS5SWSwTbVvW3RGWyS2OTS9ZDU5aUj+z51Ople9h
-	9MkIbhRUNYs92GzPXCiA9dsTZT415Bj/P7HFk9HtMUlyz5z9Kdr5qmhpsSmI1Ic=
-X-Received: by 2002:a17:90b:47:b0:3a8:7096:9b48 with SMTP id 98e67ed59e1d1-3b12d105c47mr3658009a91.1.1794230821078;
-        Mon, 09 Nov 2026 05:27:01 -0800 (PST)
+        bh=yjcmzLe9NLb31BRnk0YYkyQlltkBEnbcgBXYWiIw6EQ=;
+        b=ZpP3ZQWHRVtAYRQP8HFTnrEplggBPnkU8rmxhe7s2blElnab2WobRBBEefmwPdxfmy
+         Lvk/UFQXoSOL5++cv0jlG83Mo3gyBah6afHUas4nVUCjbR0e/pamtIZ7oRX8WGGzQ7cP
+         cqH/qiCZZlwU3jarZBV9nfr71ju4A8q9Ec0vazuTxyU39u5F88uL9ensmiXiyuQV2lHg
+         OeCYppFgv30iZKbJnsr26q7RLF1g4kMJrh5884xuEh2Nne37kSMVW5GpxK8T+7iHRnDa
+         VshwkBaZWBEltOgCQMehQVXCgiMKtJxBX5uqc1xTI/A4z6MLFhqcSfaESZsy/oTo3R7Y
+         /Crw==
+X-Forwarded-Encrypted: i=1; AL+hErGoZwBiS3tRJpUAUWsKzZZc6t/anvHUuKCkJN95SMZeftOKmRYG0pGGJhvNCMGwFHsKaHLXUt6bud8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9VTs24WAtS0jYuJzO9Xp41leXTICOScPxb8L4hzCt5qWw2SUzQ
+	MTBFRfqn+O9p3RT0UGSdnqVYWT2CfJS2d3by8BQz5r0PwWD6bj8omgcC
+X-Gm-Gg: AYBFou2xbTEJcXPgf6gkxx341AyDiJk48j7BeKt+2vGnRCxzrSQvz3DYpmaYiwWfM8O
+	07HApgI5b4sz2AGptPhFSbZfAEvLebms0A6hbSf+IRH+RIN8I8XyT8X5qzdG/gtkDPW/jZOh6W/
+	aKJBQfvQVDnMr+50yZWzj88o/5i1hCl2cIQ1koFxkdtPDy6tB87DzfIH6nK0cAw1sU58EQriDlD
+	BbcAzV+ORrFzbp2tMu6G4sEDk5gvgcklPRAjFGMzY75X1bT79d74JePX1I0igcn+ob/trcTRFN/
+	UWBG7yPsqhiXdMCcViO8gHkvlgreB/CqMBDW3S9rdEIA2TW0qhzF9yy64urU39QDHNnBPUoOt+K
+	MMzq0oS79NSFaXCMni9llhqG5QmCbEpco+tCHhFaGfcBKUcWUcd07Pl+d9qNIqXxSeiY2+U7WF3
+	rqwFo1XF5QJw2bDheFZC5GyqmB4DAgVr+xTEYQ/xDugacJKXOhAre/dFswpRhPSxFVL206X/NG4
+	u57ZQmwGwVht0UDlHL3o8TU9VsGLheO3ajHPz3TBj+/04kWgJssn1v9GkfIEPEEaof7gWOwXf/w
+	SGqU8yWDWhINWx+jtFGUCRj3afDFtDXfNHT9DrPwPjD0Mjk2jojtEc+N4j5q1IPr
+X-Received: by 2002:a17:90b:3e48:b0:3b0:9cc6:62bc with SMTP id 98e67ed59e1d1-3b12d4ca89fmr3867376a91.37.1794230826398;
+        Mon, 09 Nov 2026 05:27:06 -0800 (PST)
 Received: from r00799764-ThinkCentre-M920t-N000.. ([139.159.170.67])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb969331f0sm1661701a12.18.2026.11.09.05.26.55
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb969331f0sm1661701a12.18.2026.11.09.05.27.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 05:27:00 -0800 (PST)
+        Mon, 09 Nov 2026 05:27:06 -0800 (PST)
 From: Jinjie Ruan <ruanjinjie01@gmail.com>
 To: babu.moger@amd.com,
 	ben.horgan@arm.com,
@@ -95,9 +95,9 @@ To: babu.moger@amd.com,
 	linux-doc@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org
 Cc: ruanjinjie@huawei.com
-Subject: [RFC PATCH 5/6] fs/resctrl: Reject mba_MBps when the maximum is only a soft limit
-Date: Mon,  9 Nov 2026 21:26:20 +0800
-Message-ID: <20261109132621.3862497-6-ruanjinjie01@gmail.com>
+Subject: [RFC PATCH 6/6] arm_mpam: Program the hard limit for the software controller
+Date: Mon,  9 Nov 2026 21:26:21 +0800
+Message-ID: <20261109132621.3862497-7-ruanjinjie01@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261109132621.3862497-1-ruanjinjie01@gmail.com>
 References: <20261109132621.3862497-1-ruanjinjie01@gmail.com>
@@ -114,101 +114,182 @@ Content-Transfer-Encoding: 8bit
 
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 
-The MBA software controller lowers the maximum bandwidth control when
-the measured bandwidth is above the value the user writes to the
-schemata file. It relies on the hardware enforcing that maximum.
+MPAM's maximum bandwidth control has a HARDLIM bit (IHI 0099 B.d
+Section 9.6.9): when set, a PARTID that uses more than its maximum gets
+no further bandwidth; when clear, requests above the maximum are
+serviced when no other request is waiting. The driver writes only the
+16-bit maximum, so the control is a soft limit and the software
+controller cannot keep a single requester below its target.
 
-A maximum bandwidth control can be implemented as a hard limit, where
-requests above the maximum are not serviced, or as a soft limit, where
-requests above the maximum are serviced when no other request is
-waiting. With only the soft limit, a group that has no competing
-traffic keeps using bandwidth above the maximum and the controller
-cannot meet the target. MPAM reports this in MPAMF_MBW_IDR.MAX_LIM.
+Carry the hard limit in mpam_config and set it when the controller is
+enabled. MPAMF_MBW_IDR.MAX_LIM (Section 9.5) reports the implemented
+behaviors: 00 both, 10 hard only, 01 soft only. Record the soft-only
+case (and the reserved 0b11) in resctrl_membw::max_is_soft_limit so
+mba_MBps is refused there. Merging resources into a class propagates
+the soft-only case, as the hard limit is only usable when every
+resource implements it.
 
-Add resctrl_membw::max_is_soft_limit for architectures whose maximum
-control implements only the soft limit, and refuse to mount with the
-mba_MBps option when it is set. Architectures that do not set the flag
-keep the previous behavior.
+The percentage interface never sets the hard limit, and resctrl clears
+one set by the controller when it resets the controls on unmount.
 
 Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
 ---
- Documentation/filesystems/resctrl.rst | 6 +++++-
- fs/resctrl/rdtgroup.c                 | 7 ++++++-
- include/linux/resctrl.h               | 5 +++++
- 3 files changed, 16 insertions(+), 2 deletions(-)
+ drivers/resctrl/mpam_devices.c  | 55 ++++++++++++++++++++++++++-------
+ drivers/resctrl/mpam_internal.h |  4 +++
+ drivers/resctrl/mpam_resctrl.c  |  9 ++++++
+ 3 files changed, 57 insertions(+), 11 deletions(-)
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index d70aec6f7096..d2dacb00a848 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -47,7 +47,11 @@ mount options are:
- 	Enable code/data prioritization in L2 cache allocations.
- "mba_MBps":
- 	Enable the MBA Software Controller(mba_sc) to specify MBA
--	bandwidth in MiBps
-+	bandwidth in MiBps. Refused when the maximum bandwidth control is
-+	only a soft limit: requests above the maximum are then still
-+	serviced when no other request is waiting, so the software
-+	controller cannot keep the bandwidth below the value written to
-+	the schemata file.
- "debug":
- 	Make debug files accessible. Available debug files are annotated with
- 	"Available only with debug option".
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 957a3df7af83..572b3d9c79e5 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -2614,6 +2614,10 @@ static void mba_sc_domain_destroy(struct rdt_resource *r,
-  * With assignable counters that is only guaranteed when the architecture
-  * uses a fixed assignment mode and assigns counters automatically; keep
-  * that assignment enabled while the controller is in use.
-+ *
-+ * The maximum control must also be enforced by the hardware: a soft limit
-+ * still services requests above the maximum when no other request is
-+ * waiting, so the controller cannot keep bandwidth below a target.
-  */
- static bool supports_mba_mbps(void)
- {
-@@ -2623,6 +2627,7 @@ static bool supports_mba_mbps(void)
- 	return (resctrl_is_mbm_enabled() &&
- 		r->alloc_capable && is_mba_linear() &&
- 		r->ctrl_scope == rmbm->mon_scope &&
-+		!r->membw.max_is_soft_limit &&
- 		(!rmbm->mon.mbm_cntr_assignable ||
- 		 rmbm->mon.mbm_cntr_assign_fixed));
+diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
+index c067b6d57d71..2c8f60c96d3f 100644
+--- a/drivers/resctrl/mpam_devices.c
++++ b/drivers/resctrl/mpam_devices.c
+@@ -1025,8 +1025,22 @@ static int mpam_ris_hw_probe(struct mpam_msc_ris *ris)
+ 		 */
+ 		props->bwa_wd = min(props->bwa_wd, 16);
+ 
+-		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MAX, mbw_features))
++		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MAX, mbw_features)) {
++			/*
++			 * MAX_LIM: 0b00 both limits, 0b01 the soft limit
++			 * only, 0b10 the hard limit only. 0b11 is reserved;
++			 * treat it as the soft limit only so the software
++			 * controller is refused rather than rely on an
++			 * unknown limit behavior.
++			 */
++			props->max_lim = FIELD_GET(MPAMF_MBW_IDR_MAX_LIM, mbw_features);
++			if (props->max_lim == 3)
++				props->max_lim = 1;
++
+ 			mpam_set_feature(mpam_feat_mbw_max, props);
++			/* The hard-limit bit is a configuration bit. */
++			mpam_set_feature(mpam_feat_max_limit, props);
++		}
+ 
+ 		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MIN, mbw_features))
+ 			mpam_set_feature(mpam_feat_mbw_min, props);
+@@ -1911,16 +1925,21 @@ static int mpam_reprogram_ris_partid(struct mpam_msc_ris *ris, u16 partid,
+ 	}
+ 
+ 	if (mpam_has_feature(mpam_feat_mbw_max, rprops)) {
+-		if (mpam_has_feature(mpam_feat_mbw_max, cfg)) {
+-			ret = mpam_write_partsel_reg(msc, MBW_MAX, cfg->mbw_max);
+-			if (ret)
+-				return ret;
+-		} else {
+-			ret = mpam_write_partsel_reg(msc, MBW_MAX,
+-						     MPAMCFG_MBW_MAX_MAX);
+-			if (ret)
+-				return ret;
+-		}
++		u32 val = MPAMCFG_MBW_MAX_MAX;
++
++		if (mpam_has_feature(mpam_feat_mbw_max, cfg))
++			val = cfg->mbw_max;
++
++		/*
++		 * The hard-limit bit follows its own feature bit so that it
++		 * can be set without changing the maximum.
++		 */
++		if (mpam_has_feature(mpam_feat_max_limit, cfg) && cfg->max_limit)
++			val |= MPAMCFG_MBW_MAX_HARDLIM;
++
++		ret = mpam_write_partsel_reg(msc, MBW_MAX, val);
++		if (ret)
++			return ret;
+ 	}
+ 
+ 	if (mpam_has_feature(mpam_feat_mbw_prop, rprops)) {
+@@ -2661,6 +2680,19 @@ static void __props_mismatch(struct mpam_props *parent,
+ 		parent->bwa_wd = min(parent->bwa_wd, child->bwa_wd);
+ 	}
+ 
++	/*
++	 * The hard limit is only usable if every resource implements it,
++	 * so the soft limit only wins the merge. The encoding follows
++	 * MPAMF_MBW_IDR.MAX_LIM.
++	 */
++	if (alias && !mpam_has_feature(mpam_feat_mbw_max, parent) &&
++	    mpam_has_feature(mpam_feat_mbw_max, child)) {
++		parent->max_lim = child->max_lim;
++	} else if (mpam_has_feature(mpam_feat_mbw_max, parent) &&
++		   child->max_lim == 1) {
++		parent->max_lim = 1;
++	}
++
+ 	if (alias && !mpam_has_cmax_wd_feature(parent) && mpam_has_cmax_wd_feature(child)) {
+ 		parent->cmax_wd = child->cmax_wd;
+ 	} else if (MISMATCHED_HELPER(parent, child, mpam_has_cmax_wd_feature,
+@@ -3405,6 +3437,7 @@ static bool mpam_update_config(struct mpam_config *cfg,
+ 	maybe_update_config(cfg, mpam_feat_cpor_part, newcfg, cpbm, has_changes);
+ 	maybe_update_config(cfg, mpam_feat_mbw_part, newcfg, mbw_pbm, has_changes);
+ 	maybe_update_config(cfg, mpam_feat_mbw_max, newcfg, mbw_max, has_changes);
++	maybe_update_config(cfg, mpam_feat_max_limit, newcfg, max_limit, has_changes);
+ 
+ 	return has_changes;
  }
-@@ -3375,7 +3380,7 @@ static int rdt_parse_param(struct fs_context *fc, struct fs_parameter *param)
- 		ctx->enable_cdpl2 = true;
- 		return 0;
- 	case Opt_mba_mbps:
--		msg = "mba_MBps requires MBM and linear scale MBA at L3 scope";
-+		msg = "mba_MBps requires MBM, linear scale MBA at L3 scope and an enforced maximum";
- 		if (!supports_mba_mbps())
- 			return invalfc(fc, msg);
- 		ctx->enable_mba_mbps = true;
-diff --git a/include/linux/resctrl.h b/include/linux/resctrl.h
-index 10dfdca7f4bf..d1f989554031 100644
---- a/include/linux/resctrl.h
-+++ b/include/linux/resctrl.h
-@@ -250,6 +250,10 @@ enum membw_throttle_mode {
-  * @bw_gran:		Granularity at which the memory bandwidth is allocated
-  * @delay_linear:	True if memory B/W delay is in linear scale
-  * @arch_needs_linear:	True if we can't configure non-linear resources
-+ * @max_is_soft_limit:	True if the maximum control only marks traffic as low
-+ *			priority. Requests above the maximum are then still
-+ *			serviced when no other request is waiting, so the software
-+ *			controller cannot keep bandwidth below a target.
-  * @throttle_mode:	Bandwidth throttling mode when threads request
-  *			different memory bandwidths
-  * @mba_sc:		True if MBA software controller(mba_sc) is enabled
-@@ -261,6 +265,7 @@ struct resctrl_membw {
- 	u32				bw_gran;
- 	u32				delay_linear;
- 	bool				arch_needs_linear;
-+	bool				max_is_soft_limit;
- 	enum membw_throttle_mode	throttle_mode;
- 	bool				mba_sc;
- 	u32				*mb_map;
+diff --git a/drivers/resctrl/mpam_internal.h b/drivers/resctrl/mpam_internal.h
+index 1f86cc158100..184fbc01fa91 100644
+--- a/drivers/resctrl/mpam_internal.h
++++ b/drivers/resctrl/mpam_internal.h
+@@ -234,6 +234,7 @@ enum mpam_device_features {
+ 	mpam_feat_msmon_mbwu_capture,
+ 	mpam_feat_msmon_mbwu_rwbw,
+ 	mpam_feat_partid_nrw,
++	mpam_feat_max_limit,
+ 	MPAM_FEATURE_LAST
+ };
+ 
+@@ -243,6 +244,7 @@ struct mpam_props {
+ 	u16			cpbm_wd;
+ 	u16			mbw_pbm_bits;
+ 	u16			bwa_wd;
++	u8			max_lim;
+ 	u16			cmax_wd;
+ 	u16			cassoc_wd;
+ 	u16			intpri_wd;
+@@ -364,6 +366,7 @@ struct mpam_config {
+ 	u32	cpbm;
+ 	u32	mbw_pbm;
+ 	u16	mbw_max;
++	bool	max_limit;
+ 
+ 	struct mpam_garbage	garbage;
+ };
+@@ -628,6 +631,7 @@ int mpam_fb_check_shared_buffer_size(struct mpam_msc *msc);
+ 
+ /* MPAMF_MBW_IDR - MPAM features memory bandwidth partitioning ID register */
+ #define MPAMF_MBW_IDR_BWA_WD		GENMASK(5, 0)
++#define MPAMF_MBW_IDR_MAX_LIM		GENMASK(9, 8)
+ #define MPAMF_MBW_IDR_HAS_MIN		BIT(10)
+ #define MPAMF_MBW_IDR_HAS_MAX		BIT(11)
+ #define MPAMF_MBW_IDR_HAS_PBM		BIT(12)
+diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
+index 5468367776e2..5f35bfe1955a 100644
+--- a/drivers/resctrl/mpam_resctrl.c
++++ b/drivers/resctrl/mpam_resctrl.c
+@@ -1236,6 +1236,7 @@ static int mpam_resctrl_control_init(struct mpam_resctrl_res *res)
+ 		r->ctrl_scope = RESCTRL_L3_CACHE;
+ 
+ 		r->membw.delay_linear = true;
++		r->membw.max_is_soft_limit = (cprops->max_lim == 1);
+ 		r->membw.throttle_mode = THREAD_THROTTLE_UNDEFINED;
+ 		r->membw.min_bw = get_mba_min(cprops);
+ 		r->membw.max_bw = MAX_MBA_BW;
+@@ -1481,6 +1482,14 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
+ 		if (mpam_has_feature(mpam_feat_mbw_max, cprops)) {
+ 			cfg.mbw_max = percent_to_mbw_max(cfg_val, cprops);
+ 			mpam_set_feature(mpam_feat_mbw_max, &cfg);
++			/*
++			 * Always carry the hard-limit bit so that writing the
++			 * maximum clears a hard limit set by an earlier mount
++			 * of the software controller.
++			 */
++			mpam_set_feature(mpam_feat_max_limit, &cfg);
++			if (r->membw.mba_sc)
++				cfg.max_limit = true;
+ 			break;
+ 		}
+ 		fallthrough;
 -- 
 2.43.0
 
