@@ -1,58 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=207.46.229.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794196859;
-	b=L5HoEt4gldWi64w6wO+mxd2RE5/7ba68cI/fwk37jV7smFex5VVmecRjXRf0tuq11x3y
-	 875lGQTd0Cc6Kl14NZ2yJZrmgO9nAEVC0/fnuxRlT5itz2vi3sLoSlsQz8gIm+iHnExj8
-	 OdRirn9tJDS1FqgF/EYJU6s5IzkbMq3isPgZ9qo99W4mXDzN6cc/yWkSNUzPfD4dliN2e
-	 p1EpFtv5dNuVNJOGVqLsZfD+V2JQLxUT/WsJnmfZDMW705Kp5eBsDpRRxtHt9ZmM3o2CM
-	 pBR+WSS3kv7xsolDzSE26lWClh6T8RjTuaXNknIoss40T8YgJjq43R4U6TZ9pn/EOYg==
+	t=1794197399;
+	b=Ntias8bzgCkYK9CU0YJBl+VIWtrPLh08Qho5/N0wH1DWO8NCE1gMNrOmECgRrLLDMUEI
+	 VjDpMF6vb4inWEZ8e2mRbnv/ZC9ZS6Kvj4gfkHnOnl8e1KsmK9HBh5SN0gi/zMZd3haGW
+	 /0OOEQUGwN89wtH/Ff2WyRuicwm3wJZ+loNRTmxaCNg+h9+cEqAj81ctYnuTXA4ERNMyA
+	 NqOfLhO6XIjSgs7eaFxX8SnXhbPK9DXXQGbQXrk0m/xTmFHQ7GB1ONaI6URG4EwsUXsKN
+	 Mr6DmmRySuG6XTMeNl40C76+m4/hFg9Ra68Ap19s3Bnumoqd6pN075W6F7WmScVd/LA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794196859;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=k9f/XG0jUHwAWni++59A0P9y1jNPRh2eSZs3+JhDEUA=;
-	b=CPDu8J6mRfnmQVqObNUcY8hOWQ7erirvBn9N2q5ROHkmZzCEmdaR7MX2l5MVYPKf0b9j
-	 XGo1cnMz5VDxfPr4PeIqX4iSthd+blcijnthgHlYrEjAKUcml5pCzQ/utfsMQFzxOLq8D
-	 9DMFySYgFqTOQreD0uxUX9EyFG+Kfjrs/TbsU6ZhA9GWb2ixYNMOuRZa4fS3vREUF4F4p
-	 HAW7zzWcr/2Gr81fzQlGiiiZeyQsnxkoXYCs+kvRVVHdCq54MO1EJOczWk4Yrp3r5hr0v
-	 uAUWZlRx7aev6cRT6ZFe2MIc+QJFpKebkGScsArnhpJgBis/Gb/6d2/9vkQgwz+VJCg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794197399;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=IYD2oSweeBs4xm2WTa90Mc3CacGxXDWMr+jK6llJ94M=;
+	b=Kdd3TOFByVd/t2uVFOAquiCf6zbMiYbFRZW1DMJGehOPPLwstlTQNoy4FCyDUD0q2wOm
+	 Gpxqz0/og2eBpW8o9bbM/OKbzWeeA7gCWihonVpz8Mtg68tGAG/9HevXXbL9H8fJjiYhv
+	 EW8gpLI9BInBPX08sRTIouePo41oflBHxF02L/HZsbEF+jyPnA875PmY1Yt3f0L0LB9JT
+	 Yl+8zknFdVfyKVu4HNrNB+JjPQluhrHBYyynlMK7wgKXWgOlzYhxp3lIgbXLE+OS6VppZ
+	 ZKqLW5GTOvJ1X03fs2CIH/JIC5SKRln9YDsGCw1qmh6pf8aQBQqqmrSyf+Z1iYqkVrg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=I66cXV08;
-	arc=none smtp.remote-ip=113.46.200.218
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4287F606A31C;
-	Mon,  9 Nov 2026 04:00:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4287F606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=I66cXV08
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=k9f/XG0jUHwAWni++59A0P9y1jNPRh2eSZs3+JhDEUA=;
-	b=I66cXV08SVU8H6Ooa3FqjkUTTAUiz1/OKTMvrnqNYlSvLCl0vIKIQRfIpYhXEH72RyVL1rOoN
-	zjlGZ4UjGr1vF5wFBz8+AMpHxLTSL/AL7J9yXkp7UUKN3HhsNtE5X6a135MzyoHi0tZfZ0y+xK9
-	byBA80NkLXQJaUjBGpYmaow=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4jNGK05jxkzpSwg;
-	Mon,  9 Nov 2026 12:00:20 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 4A91E202E6;
-	Mon,  9 Nov 2026 12:00:54 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Mon, 9 Nov 2026 12:00:53 +0800
-Message-ID: <d81243e3-d790-4ee8-9b28-36d35591ee77@huawei.com>
-Date: Mon, 9 Nov 2026 12:00:52 +0800
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=207.46.229.174
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9CA606A31C;
+	Mon,  9 Nov 2026 04:09:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E9CA606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMDmDcaRR_FqKREKAA--.10976S2;
+	Mon, 09 Nov 2026 12:09:53 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wDHz8+OR_FqlHAQAA--.14573S2;
+	Mon, 09 Nov 2026 12:09:52 +0800 (CST)
+Message-ID: <5b1d5dd4-5c39-4fc9-873c-39cc1aa1d76c@hust.edu.cn>
+Date: Mon, 9 Nov 2026 12:09:50 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,156 +46,68 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/15] KVM: arm64: Reserve dirty ring space for the
- HDBSS buffer
-To: Leonardo Bras <leo.bras@arm.com>
-CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <corbet@lwn.net>, <pbonzini@redhat.com>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yangjinqian1@huawei.com>,
-	<caijian11@h-partners.com>, <liuyonglong@huawei.com>,
-	<tangchengchang@huawei.com>, <yezhenyu2@huawei.com>, <yubihong@huawei.com>,
-	<linuxarm@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
-	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <seiden@linux.ibm.com>,
-	<suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>, <mark.rutland@arm.com>,
-	<seanjc@google.com>, <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <skhan@linuxfoundation.org>
-References: <20260929103655.85107-1-zhengtian10@huawei.com>
- <20260929103655.85107-12-zhengtian10@huawei.com> <auikG0clmr19sAjh@LeoBrasDK>
- <afcbf19b-bd13-4afc-ab56-8bc50c793e50@huawei.com>
- <au30DqzWIFny1tpr@LeoBrasDK>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <au30DqzWIFny1tpr@LeoBrasDK>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Subject: Re: [PATCH 1/4] docs/zh_CN: translate coding-assistants.rst
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+References: <cover.1794153793.git.dzm91@hust.edu.cn>
+ <bb985e0f6f0c3e320cadcd007cfd0dbfd4102e46.1794153793.git.dzm91@hust.edu.cn>
+ <avE4mPgZOx1th2FE@wyuan.org> <avE7dsawxAjrz-Ev@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <avE7dsawxAjrz-Ev@wyuan.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+X-CM-TRANSID:IQEQrMDmDcaRR_FqKREKAA--.10976S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoW7JFWrJw18ZF43Zw4xuryrCrg_yoWDuFc_u3
+	4xCF1qkr15trWxCan7KrnI9r1fAFyUX3W3XF9FyrZ3GasxJrW5CFZ5Wa4fZ343W393Arsr
+	AFnIv3sYqr129jkaLaAFLSUrUUUUeb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbHAYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
+	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxkIec
+	xEwVCm-wCF04k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E
+	4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_Jw0_GFylx2IqxVAqx4xG67AKxVWUJVWUGw
+	C20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48J
+	MIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMI
+	IF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWxJVW8Jr1lIxAIcVC2
+	z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU0XVy3UUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
 
-
-On 11/6/2026 11:36 PM, Leonardo Bras wrote:
-> On Fri, Nov 06, 2026 at 06:36:04PM +0800, Tian Zheng wrote:
+On 11/9/26 11:18 AM, Weijie Yuan wrote:
+> Weijie Yuan <wy@wyuan.org> writes:
+>
+>> Dongliang Mu <dzm91@hust.edu.cn> writes:
 >>
->>
->> On 11/2/2026 10:54 PM, Leonardo Bras wrote:
->>> On Tue, Sep 29, 2026 at 06:36:51PM +0800, Tian Zheng wrote:
->>>> The dirty ring reserves room for CPU-side dirty buffers via
->>>> kvm_cpu_dirty_log_size(). Report the HDBSS buffer entry count
->>>> through it, so a full buffer flush always fits in the ring.
->>>>
->>>> Pin the HDBSS buffer size to PAGE_SIZE when dirty-ring is enabled,
->>>> via kvm_arch_dirty_ring_size_updated(): a larger buffer only
->>>> shrinks the soft_limit and forces more frequent userspace drains.
->>>>
->>>> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
->>>> ---
->>>>    arch/arm64/kvm/arm.c | 8 ++++++++
->>>>    arch/arm64/kvm/mmu.c | 8 ++++++++
->>>>    2 files changed, 16 insertions(+)
->>>>
->>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->>>> index 9d7bdece149a..5a7046acb62e 100644
->>>> --- a/arch/arm64/kvm/arm.c
->>>> +++ b/arch/arm64/kvm/arm.c
->>>> @@ -215,6 +215,14 @@ static int kvm_arm_default_max_vcpus(void)
->>>>    	return vgic_present ? kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
->>>>    }
->>>>
->>>> +void kvm_arch_dirty_ring_size_updated(struct kvm *kvm)
->>>> +{
->>>> +	if (!system_supports_hdbss())
->>>> +		return;
->>>> +
->>>> +	kvm->arch.hdbss_buffer_size = KVM_ARM_HDBSS_DEFAULT_SIZE;
->>>> +}
->>>> +
+>>> Translate the AI coding assistant guidance into Chinese. Link to the
+>>> existing Chinese license-rules.rst guide while keeping untranslated
+>>> document references on their English paths.
 >>>
->>> On the same subject as a previous patch:
->>> I don't think this is the best approach, on top of adding a new weak
->>> function to take care.
->>>
->>> Maybe during the dirty-ring allocation, on vcpu creation, we could take
->>> into account the requested dirty-ring size, and just allocate the HDBSS
->>> buffer taking that into account. That would make it simpler, don't you
->>> agree?
->>>
->>> Thanks!
->>> Leo
+>>> Update the translation through commit 1e035297ffda
+>>> ("docs: remove Assisted-by references")
+>> Looks very good.
 >>
->> Hi Leo,
->>
->> The "set once" guard we're discussing comes from the patch that adds the
->> ioctl, and it isn't really needed. We discussed this earlier [1]: we can
->> just initialize hdbss_buffer_size to PAGE_SIZE at VM creation and let
->> the ring reservation use it directly. **That also means
->> kvm_arch_dirty_ring_size_updated() can be removed.** Thanks for your
->> suggestion.
-> 
-> :)
-> 
->>
->> As for why PAGE_SIZE is the right value in ring mode: the HDBSS buffer
->> is flushed on every VM exit, so a larger buffer doesn't reduce the flush
->> frequency. It only inflates the ring reservation (64 + size/
->> sizeof(u64)), which shrinks the soft_limit and forces more frequent
->> exits to userspace for the ring to be drained. Draining the dirty ring
->> from QEMU is more expensive than draining the HDBSS buffer from the
->> kernel, so the smallest buffer gives the best performance. In this mode,
->> a larger buffer provides no benefit to users.
-> 
-> Humm, if properly dimensioned larger buffers would be benefitial for
-> memory-intensive workloads, unless they are guest_exiting for other
-> reasons in the meantime.
-> 
+>> Reviewed-by: Weijie Yuan <wy@wyuan.org>
+> Oops, you may forgot to add your sign-off in this series, and this
+> single patch:
+>
+>    https://lore.kernel.org/linux-doc/20261107000338.1243411-1-dzm91@hust.edu.cn/
 
-Agreed, and the workload I tested is on the "unless" side. The guest
-exits constantly for other reasons, so the larger buffer never got a
-chance to pay off, and only cost ring capacity.
+PATCH v2 of "docs: improve translation update checks across locales 
+<https://lore.kernel.org/linux-doc/4c0221d662b7e8521d93000ad6ae09300dbda9c1.1794196480.git.dzm91@hust.edu.cn/#r>" 
+is sent now.
 
->>
->> In my tests, I also saw performance degrade when more space is reserved.
->>
-> 
-> Humm, what kind of workloads did you test?
-> Did you have the chance to monitor what were the reasons for VM exiting?
-> 
+https://lore.kernel.org/linux-doc/4c0221d662b7e8521d93000ad6ae09300dbda9c1.1794196480.git.dzm91@hust.edu.cn/
 
-For the workload question, it's a Redis server in the guest under redis-
-benchmark (SET-only, 2KB values, 1M keys, 100M requests). The traffic is
-network-driven, so the guest exits constantly to service requests. The
-HDBSS buffer only accumulates entries between two exits and is flushed
-on every exit, so it rarely fills regardless of size. A larger buffer
-only inflated the ring reservation, which shrinks the soft_limit and
-makes the ring-full exit and userspace drain fire more often.
+Dongliang Mu
 
-> I am not saying this is mandatory for the HDBSS implementation, but the
-> whole idea of letting the user choose their own HDBSS buffer size is
-> because different workloads may benefit from different buffer sizes: if a
-> VM writes a lot to new memory, and exits very little for other reasons,
-> then a larger buffer will cause the VM to guest_exit much less often.
-> 
-> Does that make sense?
-> 
-> Thanks!
-> Leo
-
-It does make sense. That's exactly the workload where a larger buffer
-pays off, and the next version no longer gets in its way. The two ioctls
-are no longer mutually exclusive.
-
-The only coupling left is the reservation. hdbss_buffer_size starts at
-SZ_4K at VM creation, so a ring enabled right away reserves for the
-default buffer (64 + 512 entries), and the minimum ring size accepted is
-unchanged from v5. KVM_CAP_ARM_HDBSS_BUFFER_SIZE is the gate. When the
-ring is already enabled, a size is accepted only if its reservation
-still fits in the ring, otherwise -EINVAL. In the other order, ring-
-enable validation rejects a ring too small for the configured size.
-
-So SZ_4K is just the conservative default for guests that exit often.
-Anything larger, within what the ring can reserve, is up to the user.
-
-Does this work for you?
-
-Thanks,
-Tian
+>
+> Thanks.
 
