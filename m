@@ -1,100 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.41
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794229831;
-	b=byqRApQrXOmOOSG0qn/uuWXxccQaELWI5VsbIU7/lOyXtfS+hjRzaLvUTOSTECd0BS73
-	 /SWrukiuxFnNH5Z1MiK2r8UaM5A388wBsasUun19YfHmPujpSW+96a+EiISyXkVNsdHDm
-	 Wu4I/5wRW4y5KM3qIzBv8zKDggxeLJrwv84U0Kf4Q9OQ/hOGXeVBQy8+x3vA/fVGJ2h64
-	 rQLYZTOqHPoGftxPjKBPSotM7bsJfYrxFYDLJBC1bKvOAns8WBTfFrbsFZSXPfOF4iHg7
-	 L1kXFsd6LsVZipzVxOVB/jvI7nfAW2KAVm1IyRceRKyyhpAq+SygLQPFPwzx/uMzD0Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794229831;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=WRU/Av5eldI6iBEWFvzMDPRqRo/XhSbuYOl5jHiIpcE=;
-	b=QNkiGKM5tJkBvuSawzfd9W1cRZc7gsvHpCxEYvPJ2m4URqh+YLV/qK/FjETg8ygflR0z
-	 A4AMO37c3AGiKBoMFNyj/pj7sDZYgIyJVFlXwvbXOWonIpKPeKyR/yRoSaVDj2SLhBoIH
-	 yMqPwNQRVhfbQXc4/TkXFFEbhNbw1+zBfg6eDzU/UMeYqO4YCaLpiLENdH87E39wLex2i
-	 XjYTF5An7Udt/5I5UI+vNSLgca9g0v1fjrDAM/bSBfcyFQ5nXQpz19qe/yaxRfKdmVuoC
-	 04c9UmHqz/WwWq8CcLMMaCsY4xV0PWh0sYJEcuH15sgw2dCE1vxtbQLaCgJiPEMEwOQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OWlB7agj;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.41
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794229848;
+	b=lf5gXRlQTQpIjXBCgJZOlHNC08Ar+xxP7RPqnYI4b1vlyP4p/SujPKYWelM1L9IvPCwu
+	 QsN50B06BxIRPGc/1EQAZusGglR3A95r5RYmfAvEH7jVpZdewd/Q1PdfOtFZt4CccJT38
+	 naL4ptLn2tbu4cCWLJNWd4WF3RPZgkLs5h8yfOaZWWj231TOemVQqbiYYMZQ/GQqKVj6R
+	 Am6rcabx7XLjpg3HGD2sG9U9LWVqf0UU/XQTvXO+xhnbSnSTK44d+sxZLybG0UmBPJVKs
+	 5hNYZ6e8kCXCuqOIP1LX8Jdgi9l0b7PeUPz4vLesn67smPDoubS4WfjF8SJEut5J1uA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794229848;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=JjKytr2/tdOSIX1OKYCfq3N0QO6/0vvrQU+SOUmNoVI=;
+	b=3xHyw59qY49R0lFsy1Oxdr5Y2poJ3GXwMYo1v8jVDtPCzLmK3QjsH8AS96zy+2Cq2KWU
+	 /wH7Q6TMjjGZOJGX4t8HW8L+RQmrkbwKgXdspkHukk3AvFpzeZPt2SL/WFOoQfyGrZ5NZ
+	 hmE8M8JkIM70Bh11RTP5M2LIG3TApG4KLiOv5EhfDxqixbwynMrNep3AQbqoKJ7jEGr3x
+	 WExArKgsinuuxHMzEkaTbhNSFWzMl0SbWjOjy1qVjuiweFQjzLB2BqvJwTeHvjgEy3ddW
+	 bW/2c9NEk7BsARbyDFiGXT4qFsVd5t9/ZGIF9HZetK2SXAFwj5Z6ZFCR24WdQMWf5Lw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=corp.free.fr;
+	spf=pass smtp.mailfrom=corp.free.fr;
+	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=iiOHQR06;
+	arc=none smtp.remote-ip=212.27.60.169
+Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E82606A331
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:10:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 74E82606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A94CF606D809;
+	Mon,  9 Nov 2026 13:10:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A94CF606D809
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=OWlB7agj
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5c00c727a21so27262e87.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:10:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794229829; cv=none;
-        d=google.com; s=arc-20260327;
-        b=L51ThaDnJpOU0sQu51+TI7+NxSvmYZoaY3KbCBENPqlJ8OyP+PnznXXw//mOuOtu7S
-         CQsoxkrrV+XNA+uMZbyMN90VofFKgXBOlolih+upXDCeTxclkKqlwB/k9hln0wVvXFiP
-         yFc9Fi2Lz+3wQt0UAxLCmJH5jN9Heksh0aFF1e1Di2HSpKtG6VPxIQZ6VL1wA1qVtAzA
-         7Bo+5gXHBLSlPVj3x2zKfdtx5XudiYu+i94oOcu1yY/Vx5mvFwn1MzGlalP3TCaQ6Xjw
-         NrTodwTd2Wp5ROdifVpz7dNbFwxELNJaRt6LHQc6zXyT01dCIq6f/20fB+A9rS6jAnJ2
-         yLmQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=WRU/Av5eldI6iBEWFvzMDPRqRo/XhSbuYOl5jHiIpcE=;
-        fh=DSrMatGgjJgtZN/xUvfYdYGT4HVBo8PV8oyLWgGQ5Wg=;
-        b=fe3v85GXuGU51JsYJlQpY82L1VqtHh6YogWYTkcKdz60NPjg/tZE0HjZZj6HwtUG/V
-         L4uMfRwa2Zh2CAYYRXkP2CLBLNsa480h2ByEB0UmodZYiFlbmioT1iz1EddrEIvLNJYg
-         0jJbw5deNEQLWrf4WUMc5VhGYFC9RgdKqy459Ggm3Tj7Wm6dr8XIuJPMnpMcTsB9yBD6
-         DrReJr6K6z2Il9XEz8xFE37qnw+qSdlmMzlbJslir3xS9GhYP/xfg8iQ3wJige1BBMzS
-         c1pKvlbdb4hv9ayL6XX8ajRHvsA6uDO5O8av7BvvYv+RXyi2MakGDTRVhIIB1rp2XMEW
-         wZYg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794229829; x=1794834629; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WRU/Av5eldI6iBEWFvzMDPRqRo/XhSbuYOl5jHiIpcE=;
-        b=OWlB7agjWLGk2gaforKWuj81KLHu1B39NUBWnL644JkcXDk1P2lDIwZjzEtgbRoWol
-         kqNKHR+rrkkuRnBgfzHr9kpFWjUNAfLV4PADbSPrctLUpg1w55dCXhSq2iqO3mvtzrAm
-         KOxAdt/DZP+2NfnJpkFNhswvVSz8LQRpY9Hu73dY6h+32y+iAkXYS3a9ej+GdK5flPc6
-         iNyOI3WvGShV6bpO1SMEAassRwC023rBjoxN3+S16Sg3xlsQJ2hogUv2vxb4yVC4CxrU
-         xrgx8SgADUnkY1i6tXaYEqL59YvDMoI7n5omgHoqkjHVs+gLDx8pz1jA6cGLiZmCO3ac
-         pKOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794229829; x=1794834629;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=WRU/Av5eldI6iBEWFvzMDPRqRo/XhSbuYOl5jHiIpcE=;
-        b=jqMwTvBustfiqdDcXH8TQeUu/EVpNhRwX64ycAEdyfyLzN2N7BmAvhh050yFgaGFVx
-         G0nbOOEVcCrTJe0zfgh8pLWbepJVG2F3dFbEf7X0qQQdGW9/EhmS5e4Kxg1B6OaMfrC5
-         /TEzsmGhKF/EAobHOiTNv0Gm90UTQb1Nr8uIQyElZnSR8/i/cBGOLJbI60TTQZGIpyTr
-         R+Qgx46uV1VWlEeiYF3hzwD3FOdYYCFg5BUQpr1FvqyJ/PG5qitRFJdCPXRXBvxUUpEh
-         QPsitr/O11J5M5SbyBbMukSsXXJ/1vgzUu1kihST004eQRXDyy31WbxMPXNvgnA/zH03
-         +9NA==
-X-Forwarded-Encrypted: i=1; AL+hErGTnjEb2YnvcBf7TVxTBIHdlvMoVveVS7I8ofNYJE65r3vwKWlSBPdPhDggFSKX/jenryqnMNYrV3A=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9mjIWx2L4SjHf5qTX85ZnpqPNQhnLvGqp0pxn4mk6sY7B7NYWt
-	/PTvKxxO4pixzhdtmbTx2uy02oRfzWO9DrvLZB1aOPCc7dHm3JRYdoRtqtZPMpQzRE1a9qPuRbR
-	XTAjmi1km9qUzolfHg389M/hNkyDY+hM=
-X-Gm-Gg: AYBFou0GwZDjTOMp1zLZVNCn/cL1b6dkK4IqwQ1EvDWoYVQoNtP3KG2ktxztFqtO97F
-	oGqSVrCkBu2Z3zN5jR9xjEEaLkwMgBEpeOkJD8u+UH74bRvyaYzdp+8xEQoc4zX+hkhjcH08+Ub
-	i9tv2pIrJcvxeDGvlZlzrZ8pii0vzs4z1pSVxM6rrTbVzdIhlsiPZSdbHQX6Fs3bPp66hdoYnao
-	tHUzXAIQdZkwfm/q9ogWHBsRU8wqrKg+53TMIvyMqmHbISqXeO3iI5bLIVk1Ee0FR++iGw4Sqp/
-	t06CHvoTuy4t6ct8Y4ZimZQfVn4SV3U1BBPVfayE9G3xeJMaSrOGBPQd4v8WJVrH72wiFJO0gAH
-	T++JJ16w20w9aGswId3oUfpk62a0eerTniyItDk22BFV6EhxJrr3Iy3mKgSyiFoEgEGXp8kR2de
-	n84oMOWGc7VIeKDMO3e261zRRpl+xOI8e67ySdoP3Ojh5JoFEtfQ==
-X-Received: by 2002:a05:6512:651a:b0:5bf:ce1f:cd22 with SMTP id
- 2adb3069b0e04-5c14bf1a47bmr1514981e87.0.1794229829330; Mon, 09 Nov 2026
- 05:10:29 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=iiOHQR06
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
+	t=1794229846; bh=X4BR+3z4bCtFQxk/fhJw5fcoAEWXU2M/R6/BtbKsNB0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=iiOHQR0603ZMg0jqyhO3Sq8VrkzLaI+1aLWXPMEbE7E960XA5HbHUA7KvKkPA1qHJ
+	 R37jujHbkGfRBSzFm0lPvJJp0CBh8xqIJ90gszNQ3KgJ46BOr+OC7gW3UDBaYE39Gn
+	 YwGokHTUALBpyJuS9Q06B/tQBqs33oKfDdpGWVKA6NvXWpoGWcoUQMMAhYKTUndvfO
+	 Qa/f+REQWxN+rmmmB98hDCbvys0ibqMX0UW9BU6H7n1Xjlk3REFch85l8ehROakFX1
+	 NXBeclFcO1+KC7qUS5r2JxqxEvFbPzUFBHOxi7kTocRqVHd23IKdyywXRlBR9PmJUZ
+	 qcCZGZu53G52g==
+Received: from lnxos-dev.home (82-66-150-212.subs.proxad.net [82.66.150.212])
+	by rcs.proxad.net (Postfix) with ESMTPSA id BD51044C117C;
+	Mon,  9 Nov 2026 14:10:45 +0100 (CET)
+From: Alexandre Cassen <acassen@corp.free.fr>
+To: Saeed Mahameed <saeedm@nvidia.com>,
+	Leon Romanovsky <leon@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Mark Bloch <mbloch@nvidia.com>,
+	Jamal Hadi Salim <jhs@mojatatu.com>,
+	Jiri Pirko <jiri@resnulli.us>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Michael Chan <michael.chan@broadcom.com>,
+	Pavan Chebbi <pavan.chebbi@broadcom.com>,
+	Potnuri Bharat Teja <bharat@chelsio.com>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	David Ahern <dsahern@kernel.org>,
+	Ido Schimmel <idosch@nvidia.com>,
+	Shuah Khan <shuah@kernel.org>,
+	netdev@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	oss-drivers@corigine.com
+Subject: [PATCH net-next 01/10] bnxt_en: require an exact tunnel id in TC flows
+Date: Mon,  9 Nov 2026 14:10:27 +0100
+Message-ID: <20261109131039.959438-2-acassen@corp.free.fr>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261109131039.959438-1-acassen@corp.free.fr>
+References: <20261109131039.959438-1-acassen@corp.free.fr>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,31 +88,38 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261106113545.708896-1-chenyou910331@gmail.com> <3bbce43f-476c-4a21-8da3-2be98a696e9c@hust.edu.cn>
-In-Reply-To: <3bbce43f-476c-4a21-8da3-2be98a696e9c@hust.edu.cn>
-From: =?UTF-8?B?6JGJ5a645L2R?= <chenyou910331@gmail.com>
-Date: Mon, 9 Nov 2026 21:10:16 +0800
-X-Gm-Features: AclHuK_03ccXXizffE4OAP75MLBYHctz6Ol7u1jIuG3fnh6PAcKhACPLB5mkQ6I
-Message-ID: <CAKspUhJVs7A7GrhXEw8EoAmPCvv8+pu+EWXzCMaYRTru4NA=4w@mail.gmail.com>
-Subject: Re: [PATCH 00/13] docs/zh_TW: process: add translations of 13 documents
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Weijie Yuan <wy@wyuan.org>, 
-	Yanteng Si <si.yanteng@linux.dev>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-> This patchset looks good to me except the newly-introduced top-level
-> labels, which have no references.
->
-> tw_researcher_guidelines
-> tw_applying_patches
-> tw_pgpguide
-> tw_changes
-> tw_deprecated
-> tw_kernel_docs
-> tw_maintainers
+bnxt programs the value of enc_key_id and never reads its mask. Flower is
+about to accept partial masks. bnxt would offload them as an exact match
+on the masked key. Reject them like the other exact fields.
 
-Thanks for the review.  Nothing in zh_TW refers to these labels yet, so
-I'll drop them in v2.  Once the translations start linking to each other
-instead of to the English documents, I'll add back the ones that are
-actually used.
+Found by an AI code review agent while auditing the users of enc_key_id.
+Build tested only.
+
+Signed-off-by: Alexandre Cassen <acassen@corp.free.fr>
+---
+ drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c b/drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c
+index c6b4a14c0e6e..e493c85ecf28 100644
+--- a/drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c
++++ b/drivers/net/ethernet/broadcom/bnxt/bnxt_tc.c
+@@ -1081,6 +1081,13 @@ static bool bnxt_tc_can_offload(struct bnxt *bp, struct bnxt_tc_flow *flow)
+ 		return false;
+ 	}
+ 
++	/* Currently tunnel id cannot be partial wildcard */
++	if ((flow->flags & BNXT_TC_FLOW_FLAGS_TUNL_ID) &&
++	    flow->tun_mask.tun_id != key32_to_tunnel_id(cpu_to_be32(U32_MAX))) {
++		netdev_info(bp->dev, "Wildcard match unsupported for tunnel id\n");
++		return false;
++	}
++
+ 	/* Currently Ethertype must be set */
+ 	if (!is_exactmatch(&flow->l2_mask.ether_type,
+ 			   sizeof(flow->l2_mask.ether_type))) {
+-- 
+2.43.0
+
