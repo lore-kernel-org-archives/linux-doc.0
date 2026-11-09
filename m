@@ -1,111 +1,110 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794228477;
-	b=BPy3sy89/Fp5RqPwR2Esq/OnxHUYW7aI1EaUAf9iV0Kui2ywxwxOsOt2Rl2CwtdOog5C
-	 7F3D62s3PEpycKAdGz1zLiEyUtJHMluThfPt3gVQcgWFEhs2PSLiL2zeGxw38p2hD2W+h
-	 5lqreKmYrHmXvxAOhgSr6B73nV70z5EzWe++DrMRKZKH2XLKEZTuKxCJesT9s1Kl2XQLP
-	 Zm5Lf7SvXuEVbPnFHit02uv1DbLsxZa6imT0v05MVrOdP9YAKoHBs/Cjb+X4XF/mPrGu7
-	 MgRDdq8JzZpAZJNxLjOX45pT+wJ5odMMvzI4QwMfSxWthUkjCi4mx3LrvgMfde+Lq+g==
+	t=1794228491;
+	b=Tu4ft+ps5BtXTsFHTEov6sT627l1n6spul0c7/B2uwlbC5qcPvWHwePCeLM5Yqj+S41h
+	 t2KNRcawMDNeTPkeHCdEVYh9NE1vBPEzJqij1mal1Rf5Wuf4kranslf73wCGqBwMitJWe
+	 mtHqrXOZXTZ6+6Zu8jpE2knxOTRT+1xKTHfZC/Qg7BWVohjkZb2srxJJ5s+D3lJjV3IGJ
+	 N8oZWwWeDgsyORYhLFiifZ/LkAC5gEQMNXvoIificzeoF8AHQU6AFTOitsNEHQNYe1qgf
+	 /ZjopUPck/xoMSXuteLO7INVTD/eh+4fPkQinNjtNdh/HBNVNfBcuMqzFwjg3kmnCxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794228477;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794228491;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
 	 X-Received:X-Received:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=93Ud6tX5DUmvunUc03btclwxbqnXrbA4BzkJ7bh/H78=;
-	b=NuZ+U2DI9T05z8VwtXs7TMU9Bhobx0sXFfXuw2CNfQDCM12XU0SAaVxaOQFBUFljtsi2
-	 8Cxu3Kh3zA+2P9gjpu2i1+ho76ulnmSb+tVRRopCb+I87n+sSuZN8BAAh0/E/z3jsGiis
-	 4/ACNk1gEvl+ucKKlSxEiARNbJ5K0Z/F/bDj44/2LP0RWEq/uF9QpWPFEsjyLV3ZE3jEJ
-	 PNeOLUCRN7bVLHAzSCY5ZRPihP7SGIB8Bcm38QIppA1+mCXVyqiooAA68y7dRJLYZEK8j
-	 aEcrzKSFrY72PPk6aFhqwNo0+XwUTC3Ej5IryOIXfY2KFO22KGr+QT/80lShUEVsElg==
+	bh=O1IcJnaaXyBGPlQGvOgAOnYQVFdWxHdOel4Zh2Ld2Ks=;
+	b=mbClFEt2cqmTKDKP4ac32CkI3Bhqj4NhIVcTqb08wznkgzSECh9Gl2LrrV4l9qhiElty
+	 O4+niHmvCDxgM3hSgmT5jPjgHL0918/9mJQ4YUwvTg95slqikB999t19eZ4TziiyQcmAx
+	 KwbWcxmV+SCTLVHnARyr+grNbNkVEus49DkR5vCBMfD8WgIYNlOPbk3d9jEUFLqHHdIhQ
+	 SUMYKEf20nWyrXbagir6FBdT9fUyxla2KrKXCvLJ0ajRciQPz6KPV8nLvCHp72JF2ImIc
+	 ZhRxUuF6gr6UBGZlMmLxmA8rqDghzHln6SENUo6Rd+EIL+nxEhNm4o8q9R/JzRI7NhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Z7GQ5ekV;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="Hy6Ffk/x";
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=T16fdjRa;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HdSCyqDe;
 	arc=none smtp.remote-ip=205.220.180.131
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A06B2606A32A
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 12:47:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A06B2606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C3B606D803
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 12:48:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26C3B606D803
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Z7GQ5ekV;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Hy6Ffk/x
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A9CEXso3331861
-	for <linux-doc@vger.kernel.org>; Mon, 9 Nov 2026 12:47:55 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=T16fdjRa;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HdSCyqDe
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A9B3NYc3936941
+	for <linux-doc@vger.kernel.org>; Mon, 9 Nov 2026 12:48:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	93Ud6tX5DUmvunUc03btclwxbqnXrbA4BzkJ7bh/H78=; b=Z7GQ5ekV7pUUF40/
-	bX+P4gyHUJzsZeV5lNnPLBzus5l1FYGb8gpJ6zSN6EhWWCknbY9eEZhTEuZvZVhj
-	a9iL2J1E0BpjinysqV7P7D9SDmk+V21ea9bsVc4VnbQSovxckpS6KAj5xKY6pRIV
-	cUrY5B+x0g8kRRzs6YN+BVcYNIPHpY1tW0ezQUzm2jsT+XHT+pV792kVtd8/Q3gK
-	mBPQVxeynpSn1EEOZHHwkavVyLWHMWM3ARzjH1fOOp0SMWiCHsZ9/Jgjva+QPS7i
-	6UkRST3QP7zpZTLXeTrnkrTpiF/Dn/uzUTwKJ23zhJgzl/gh/7CF2jgicLQ2cdPa
-	lioS3A==
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com [209.85.128.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hue0rr3t3-1
+	O1IcJnaaXyBGPlQGvOgAOnYQVFdWxHdOel4Zh2Ld2Ks=; b=T16fdjRasCQOR5b9
+	ouA78MlzVIhS0F6MubY67EZPWYYT5AorsbHCQQL2yunaL7371J8c4otojw2xKCel
+	3+zsCq/kId+BGvzZmkcmqLi2aCDW5zxRUosBMr6ZC25SYc37WyVV44tmdaXK/WKw
+	Y4WGuaM99a6uPeHUj5HXQ/sJD8WAqkaNNZyYDrLfCxpVQGJuBe6ypcXN+/U5YQAy
+	whAnQxBZFMw85MtPNBqOeQsc0VaFwrcZaUPGiEo12kT0XOazln/bZn2aLAZOOBnb
+	KiaJPWB5aYiSBiZWLIOAbF6d8qD0/PGy2o7aoKdmg3B/oBZQFMshJN8qp9aneAIY
+	SIieoQ==
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hucydgbx4-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 12:47:55 +0000 (GMT)
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-8b35b88aa94so11224297b3.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 04:47:55 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 12:48:10 +0000 (GMT)
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-8b35b88a9d1so11391807b3.2
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 04:48:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794228475; x=1794833275; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1794228490; x=1794833290; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=93Ud6tX5DUmvunUc03btclwxbqnXrbA4BzkJ7bh/H78=;
-        b=Hy6Ffk/xX21gBVAiGa+rpqDmbsIHhkp33rXYBPW0Fgr4lgWYAKZny6e4v1pjcOH6Ll
-         Rfv4LseIEJf8Jkr/q7YH48Gj5NR8Io4Xd8bDDkkMsZcSOjT+lyCFjqlNuKQEI4RgIMYJ
-         OFW3hKFACSBmRWCksA+gos6Yq2viz0lUh2KmEHEl3kvGqcW2tRxcVV64W7pdM5U1eCHQ
-         Fqo3A2q7rrWA9fRy9IR5ouC7RQX4F8uGsToQrzhIgXmHJd3/EnIYaWkdQ4YDilNbsdd0
-         Y9w9Y/0IcglJ3sja9CP2u2tQbYJBsnTFV0/ELnmUxAakLKkzlznLCPeqtG89P++tfjug
-         3LOQ==
+        bh=O1IcJnaaXyBGPlQGvOgAOnYQVFdWxHdOel4Zh2Ld2Ks=;
+        b=HdSCyqDe9cIES4e6G8k+jTMnHB9pmcvD2G0FgwioUolpwFFVSDnYW0mEIdpetDPKay
+         waC+Yd1ysA8YXyChIhBgISJBw1qilsdb3uG2Xi8QHSQo7t783EZCOjHmb1Ud+SX0JfL4
+         QvwaS7DeRbBIY0VnV20oe4aWAPKrxp9TTDLCG31OZbQss7c33H0c/cG+Ae0tMNtECF//
+         G28Wexa3p4pcnwaLqv4KpeFz+1oK+ChAQW3/RVDg0hUNY6UKjnxWxbj8jWND73tYJD4K
+         29u86SggPzlx6D1+II35mJjBOpgABH1XAe6WCcEN95dFgN0fofIYGTli2iDghz27OjDy
+         KojA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794228475; x=1794833275;
+        d=1e100.net; s=20260707; t=1794228490; x=1794833290;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=93Ud6tX5DUmvunUc03btclwxbqnXrbA4BzkJ7bh/H78=;
-        b=iUufHc+wDLFU1ppaJ/mhHbKrd5vP/cy/R0LzBNmS8NOGKFhNnInmgu68P2cYsw6FjD
-         bPE4SEqZI/vLSthJFAgG+L0sv9lXkAR3IrCoW/xGPDtpRU7RikfCjU4/W+NDUQTt4qJ+
-         WWoGagRBy79H850K+zx0OpCQiuqwbd2YgJ5LmuauDC8jYp9AOX3DqsGDv/dl3YdSOayT
-         txRwV0h/t9kWKOY58+7e/AbK7BWcDg0vJ5IS+WqtwQy3GIgWVAYVNq/aSqtbUKSbazJ8
-         MG8Ses5WqtDy6e8qSk587iONeQrdtWGHE5OuR8GOauKmmjtKTVwIyxlnOsUYqYGH5zju
-         lqCw==
-X-Gm-Message-State: APuU4Z+2CoIdkStE6Ue9Asi6ahtQ+H2Z8y7Uedujj1fX+DkoDvtWqy8k
-	WBzkvcdti0X1Q22cCdHs/0f/0sUWwo1pY/AyZP1ZzohZx6DOAsMvsAdV+8M6LVv6x8O2yrTPszR
-	oBFXC5X5LFxDR1zuu/XJRGR7OA3GF6dpIk49G3MjSnV79kqw+gLnZyDK17aSXsYM=
-X-Gm-Gg: AYBFou2JKyv9NcKw9+vZ7AqVhZl0kmwzYCPPpHSQs2bcXqmmLkDX/UMm2zbeS9cQ+J2
-	6RZ9252FwG6nfnHpGvqzAMo9Iw/5kB9S254UQjSxxM5wXRiVA3e4rAaFQxi8AC5Zvy2NN0GaWlQ
-	WE/Vu5sTYqZTjW9vazWeulhyu/jC+zArJrEatluWqk2xWaZfJghiDI9Qq12boeAruAAQS80g59T
-	1IWvM+TN3i+V0pHvjTMOm/WaYPULeDGPIzGEY9/2UJjw8Z1B6mtuwkT+6b7//dnJDfZh1QYspWg
-	140kSV+NcoFtUKnuxs8c5h2pgGjPSQFOXmiujuiXVZsD0lLn8aNbRjOAyiawTa68+MT6uAypEGv
-	95U44OwzSCOFmk2eh8521Rcyv+gRypJReLori8x/fFdOUJDSk4Dhp3mSUUM/RviIelVB/4hzur4
-	tst80ZEnBKnA==
-X-Received: by 2002:a05:690c:8e14:b0:8b3:b01:74d2 with SMTP id 00721157ae682-8b36ca33a92mr13349857b3.59.1794228474582;
-        Mon, 09 Nov 2026 04:47:54 -0800 (PST)
-X-Received: by 2002:a05:690c:8e14:b0:8b3:b01:74d2 with SMTP id 00721157ae682-8b36ca33a92mr13349727b3.59.1794228473849;
-        Mon, 09 Nov 2026 04:47:53 -0800 (PST)
+        bh=O1IcJnaaXyBGPlQGvOgAOnYQVFdWxHdOel4Zh2Ld2Ks=;
+        b=tGZCLO0nof2WuhqVmOADd0en8hF/0TgVf2dKyosGa2MMOuOou/B2vAWNdfTECfa+iI
+         gR29WzccVWasJpq/TSWy4iUa7QIAF93S7OwFVMF/0MtDe39HXKKnF/bE9AXCW1ja1m/8
+         RyQOEiXf8MyYdxYLLYqdzFyoo7cFk3RrQn2vv49CW2UoUZhaMqzO3CvJWXvFfd2uAcNl
+         rXKvQsxQcKq1CNKlVbpUL7zVgqLVnh461TYQ/3IzdSdxRoYSnApYVExDTkrPVMbpWmn/
+         fC/pOSSUmmmX1KL8xBKDOLmk399B58w8SrsUW09wx91kmR16tOeHDjK4Wn+Ld2VVWWeX
+         DAng==
+X-Gm-Message-State: APuU4Z/S2HvC4UaavaP9ZWoHMMi3ZWr19sLmZ6rSFaWi6GKSBdG0wnKl
+	9CM4i37fFIe+kYPCyxyrzSicI7kMabnQaUJIqlsvZeXAOWCZm/lGs2WryMkAknNnxAq679pj1Qn
+	gmjk+8DNaqqNWj9rufFFkfyP5asETU/eBzE8ZH5KvQCRhGsBa+89gADJVNwBRNP0=
+X-Gm-Gg: AYBFou0y8sOP5t3cpxJHBmA7Kf7ADJCshwPH+PwkyFK7CVzuGIQ5UAb/0eF613ZqrRl
+	Ia4OFIYxYOE9a+WxLyEy7g6EWEhk5vk6gMpOjgl2cqRTHJiNl6IBnmwMea9Oy04Wg+0z2tBVc6f
+	u2156ti+0TjF+rQBmxXZTXiuey6K1TCYa8GzGGaGaguoRk82NfetRP8kvycKgheZYZuIZ6HEmkU
+	e+gYRwvj7j0zIatcZBCDPOhgSVBx5cRvK7VkoqRy2kHmMH9k286VJiVXB6OHEdwlZZB2LDaa0B9
+	vmIcKIf3gYNjZipu9g4YJ/KWcP8geUMizfmHZ4gUCriQvpqx8dVQacRJcxO8RKX4+DvVQi3FSSk
+	ig6QLfxp70KUC95kct8nvO1ue3j5eDb9i+Fa4nWVSEMRNhSZxltioUjhJNE98QMmifm7m+jIjdg
+	u8j/JqyFlHLg==
+X-Received: by 2002:a05:690c:4:b0:8ae:dfee:cd30 with SMTP id 00721157ae682-8b36caecde6mr19899287b3.56.1794228489427;
+        Mon, 09 Nov 2026 04:48:09 -0800 (PST)
+X-Received: by 2002:a05:690c:4:b0:8ae:dfee:cd30 with SMTP id 00721157ae682-8b36caecde6mr19899117b3.56.1794228488647;
+        Mon, 09 Nov 2026 04:48:08 -0800 (PST)
 Received: from localhost ([120.244.9.94])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b36bbe3575sm34080897b3.23.2026.11.09.04.47.52
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b36bb42553sm34525217b3.15.2026.11.09.04.48.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 04:47:52 -0800 (PST)
+        Mon, 09 Nov 2026 04:48:07 -0800 (PST)
 From: Guodong Xu <guodong.xu@oss.qualcomm.com>
-Date: Mon, 09 Nov 2026 07:47:34 -0500
-Subject: [PATCH v9 1/4] riscv: cpufeature: Introduce ISA bases bitmap and
- rva23u64 detection
+Date: Mon, 09 Nov 2026 07:47:36 -0500
+Subject: [PATCH v9 3/4] riscv: hwprobe: Introduce rva23u64 base behavior
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -117,7 +116,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261109-rva23u64-hwprobe-v2-v9-1-ae846c5c7178@oss.qualcomm.com>
+Message-Id: <20261109-rva23u64-hwprobe-v2-v9-3-ae846c5c7178@oss.qualcomm.com>
 References: <20261109-rva23u64-hwprobe-v2-v9-0-ae846c5c7178@oss.qualcomm.com>
 In-Reply-To: <20261109-rva23u64-hwprobe-v2-v9-0-ae846c5c7178@oss.qualcomm.com>
 To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
@@ -136,260 +135,194 @@ Cc: linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
         Guodong Xu <guodong.xu@oss.qualcomm.com>,
         Andrew Jones <andrew.jones@linux.dev>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8142;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6764;
  i=guodong.xu@oss.qualcomm.com; s=default; h=from:subject:message-id;
- bh=rFGx5xnsY6+CYs1od16ASQHM/wmyhX0GFjExDJkqLds=;
- b=owGbwMvMwCXWtEl1Z3CGpCDjabUkhqyPB15bsnaUpLE1cdVHh9hbt027vYtDvt6Dfe4Zn+jGL
- by8HrwdpSwMYlwMsmKKLIePtmRvfeUT7fuc8wfMHFYmkCEMXJwCMJGIBwx/ZaLVBE52r1s207J5
- T/2FL2en266YJJUzObbk98Ztq4+d/sfw35MlzO3Pvu/X1h7/6DJl39lX7B0XWB/9rAlS1XZs1v1
- QyAIA
+ bh=ybtAp8KzOcpqJ/eft157GhybQwstQ8sSDSOgeJAecak=;
+ b=owGbwMvMwCXWtEl1Z3CGpCDjabUkhqyPB15vVWQzMI1rF2dcaLTN7+6DqtxYoTkiM/4t3mdjU
+ bRYyvRURykLgxgXg6yYIsvhoy3ZW1/5RPs+5/wBM4eVCWQIAxenAExkjhYjw5vFus8Nw644VXBG
+ VZZnL7XPUEn8LKuqmzEhUeLzpGNfVjD8U+NtfPFP+r3xvqNzj21p11dVbNSZvOvnnjabiUpmYcX
+ V7AA=
 X-Developer-Key: i=guodong.xu@oss.qualcomm.com; a=openpgp;
  fpr=90B1DC3DF0BD10FD1227BD6344F254AF42F143EE
-X-Proofpoint-GUID: cbwM8LxH3aTck9clG6fMjGJWPK00Y4gV
-X-Authority-Analysis: v=2.4 cv=MpfHeGae c=1 sm=1 tr=0 ts=6af1c0fb cx=c_pps
- a=g1v0Z557R90hA0UpD/5Yag==:117 a=ZvHX9x23NDWH3CQeJ2oX1w==:17
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDA1MCBTYWx0ZWRfXwaQn66Gdja6z
+ zGQorqRR9fNFif3xt0XHQIYyE8IjKDrHnzdHfQwQx4yEXQJvWWpGWqC0YyEBgNKMJ00OgF6g3Ve
+ TZUvqDFnK6W5aq32FHM2RNhIcfr/QnQ=
+X-Proofpoint-GUID: AE5DLfZlyKA0f0dMEYe9Bb2MNYPawA8X
+X-Proofpoint-ORIG-GUID: AE5DLfZlyKA0f0dMEYe9Bb2MNYPawA8X
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDA1MCBTYWx0ZWRfX7cnCtarxW7JR
+ fqLNbbRl/sQP7Q4qonogKUE7w5j4UEbubVIYzDXSkPpuB0kTmdYeaYdagzXlH4mGYxVYFFjvxXu
+ 7CJep5ABWQjPykOcHe25l1s78EKfzWt8YLkZ2fjZ3krt9f3i2GSf/V8tXt/YS3W432lJjO/VsYo
+ EqQkrAaB6pTvuZAO2L5r/oAXRu5YvLdeTsleOuQ/nEtqr3GDgIPnL3dB4RiqhSMgwVPR6JEVpX4
+ YsyOIvzMkgW3/2C/9Kp7vv5SsSvziH6asFXgQeMVjggWvZ6LPmklkmfWd0fi9/n7S7QjSypcBSQ
+ HJs86grVGZtFbVys5v54n450gCIywask73LYTqyqbIU1JqO9ZOXOEqGZYG8HiR2pZOw/8ZwQxZ8
+ q2L05xPhtRmjc90kc2iWWY2tEBuMxbJgPEMr+IkIK0Vfobrk7Av4amoh+HG+WhvcRA2t7jNx8dO
+ jO074U/8jCGeavdGU3w==
+X-Authority-Analysis: v=2.4 cv=XuRvqlF9 c=1 sm=1 tr=0 ts=6af1c10a cx=c_pps
+ a=0mLRTIufkjop4KoA/9S1MA==:117 a=ZvHX9x23NDWH3CQeJ2oX1w==:17
  a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=EUspDBNiAAAA:8 a=9qfSqdpAuJX0V-etOtAA:9 a=QEXdDO2ut3YA:10
- a=MFSWADHSvvjO3QEy5MdX:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDA1MCBTYWx0ZWRfX/B+RMlipokmx
- pSPeuXambfKJM7mCeqJUjfkO3uG4KggRmKG511IBR1boevCOe0Nr6qfpYEV7esRRtonL3o0svfl
- xDsYFKD8iyXW9HBx5C/+eDTo3RiofRKLVEPvT5BegIZ9OLL3tlZz07ndhsRQ0a4STRSsutRoIwV
- dogpU7MrMLnnhyY5IRxECkGKk3V1F0Ixrt65pgCSbLkQIZ6zga7nAx2I6v1ai6P/adY1ZdCauuw
- DNn7TuruAPn7vaf454HTCuXCKcezucKrYuoUN7WZ98ay+EC8CaIC2iv+YbEKDylO2jYTvPfcL+5
- lYnucjlmF76b1uaXsiajtUBC+LoOktEEVguvNw6UPY+FhUaa6CSwE+fru/yOmvl/f1JXO2Kihbd
- zKd6ClX8rGxXw90MLCdjXjLSpFeZYeMJ8avSVP6cpO9ZOJ9PNsNug/YqU0T5Lq1yWrTU1RrQxZG
- PPhwl9cKkrEUrVuQW+A==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDA1MCBTYWx0ZWRfX1IDevIm/d3TK
- AD1HNtsDK8fyIyiWFSy4y8Cg6ra8UJ+5uvJs1qHq/w2YZFZe+W5FAJ0E6sBxMxr+5S/qKIg36le
- YMPgi/gG4+Zw9VQ5H/rTj9gcy0AaAfI=
-X-Proofpoint-ORIG-GUID: cbwM8LxH3aTck9clG6fMjGJWPK00Y4gV
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=phefSacXyxpaYYCapdQA:9 a=QEXdDO2ut3YA:10
+ a=WgItmB6HBUc_1uVUp3mg:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-09_04,2026-11-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 suspectscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0
- clxscore=1015 impostorscore=0 priorityscore=1501 phishscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611090050
+ phishscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0
+ suspectscore=0 impostorscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611090050
 
-Introduce a per-hart and host-wide bitmap of conformant ISA "bases"
-(named profile-class sets such as IMA and RVA23U64), computed at init
-time by riscv_init_isa_bases().
+Provide a hwprobe base-behavior bit, RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64,
+so userspace can check RVA23U64 support in one call.  Without it, a
+consumer has to test more than thirty extension bits across three
+hwprobe keys, and still cannot confirm that PMLEN=7 is selectable
+without prctl() calls that change the calling thread's state.
+Userspace treats RVA23U64 as a new base, so expose it as one.
 
-The IMA base is set unconditionally: it is behavior the kernel always
-provides, and is intentionally not derived from the I, M and A
-extensions.
-
-Register riscv_init_isa_bases() as an arch_initcall. That is late
-enough that core_initcall(tagged_addr_init) has probed senvcfg.PMM and
-populated have_user_pmlen_*; without that ordering,
-riscv_have_user_pmlen(7) would still return its default false and the
-RVA23U64 detection path would always bail. It is also early enough that
-arch_initcall_sync(init_hwprobe_vdso_data) finds the bases populated
-when it snapshots the hwprobe values into the vDSO data page.
-
-Consider this as the cache that subsequent consumers (hwprobe's
-RVA23U64 base behavior bit, /proc/cpuinfo's "isa bases" lines, etc.)
-can read without recomputing, which keeps them consistent with
-each other.
+The bit is reported for a set of CPUs when each of them has the
+RVA23U64 mandatory extensions.  F, D, C, V, Zicbom and Zicboz must in
+addition be present on every hart, as the kernel handles these across
+all harts.
 
 Co-developed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
 Signed-off-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
 Signed-off-by: Guodong Xu <guodong.xu@oss.qualcomm.com>
 ---
-v9: Set the IMA base unconditionally; do not derive it from I, M and A.
-v8: Add Co-developed-by for Andrew Jones (Conor).
-v7:
-- Register riscv_init_isa_bases() at arch_initcall, ahead of the vDSO
-  hwprobe snapshot at arch_initcall_sync; v6 returned 0 for
-  RISCV_HWPROBE_KEY_BASE_BEHAVIOR through the vDSO.
-- Keep riscv_isa_bases static; add riscv_isa_base_available().
-v6: No change.
+v9:
+- Report RVA23U64 only when F/D, C, V, Zicbom and Zicboz are present on
+  every hart, in line with IMA_FD, IMA_C, IMA_V and the host-wide
+  Zicbom/Zicboz enables (Radim).
+- Update the RVA23U64 entry in hwprobe.rst.
+- Reword the commit message.
+- Revert RISCV_HWPROBE_BASE_BEHAVIOR_IMA to hardcoded; do not compute
+  it from I, M and A.
+v8:
+- Add Co-developed-by for Andrew Jones (Conor).
+- Say in the body that the IMA bit is now computed, not hardcoded.
+- Rebase onto riscv/for-next: drop the BASE_BEHAVIOR case's own
+  pair->value = 0; hwprobe_one_pair() zeroes it since commit
+  d0fc6fab2046 ("riscv: hwprobe: initialize pair->value in
+  hwprobe_one_pair()").
+v7: Use riscv_isa_base_available().
+v6: Rebase onto riscv/for-next: define
+    RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64 in the _BITULL() style of
+    commit 8da45c93dfa9.
 v5: No change.
-v4:
-- In riscv_set_isa_base(), reorder those __setbit(RISCV_ISA_EXT_X,m)
-  lines to make them conform to the order they appear in the RVA23 1.0
-  Profile.
-v3:
-- Add a blank line before the subsys_initcall() registration (Andrew).
-- Set the local ext_mask with __set_bit() and test the mandate set with
-  !bitmap_subset() (Sashiko).
-- Require the Zic64b ISA extension in the RVA23U64 mask,
-  instead of open-coded cache block-size check. (New, thoughts from Andrew)
+v4: No change.
+v3: No change.
 v2:
-- Implement riscv_init_isa_bases() that runs at system init time,
-  after tagged_addr_init() populates have_user_pmlen_*.
-- Split RVA23S64 placeholder into a future patch.
+- Detect RVA23U64 by reading from the cached hart_isa[].isa_bases
+  bitmap populated by riscv_init_isa_bases() at init time, sharing
+  one source of truth with /proc/cpuinfo.
 ---
- arch/riscv/include/asm/cpufeature.h |  13 +++++
- arch/riscv/kernel/cpufeature.c      | 109 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 122 insertions(+)
+ Documentation/arch/riscv/hwprobe.rst               |  8 +++++
+ arch/riscv/include/uapi/asm/hwprobe.h              |  3 +-
+ arch/riscv/kernel/sys_hwprobe.c                    | 34 ++++++++++++++++++++--
+ tools/testing/selftests/riscv/hwprobe/which-cpus.c |  2 +-
+ 4 files changed, 42 insertions(+), 5 deletions(-)
 
-diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
-index 99799cc6c198..2ce1a1e212c9 100644
---- a/arch/riscv/include/asm/cpufeature.h
-+++ b/arch/riscv/include/asm/cpufeature.h
-@@ -25,8 +25,20 @@ struct riscv_cpuinfo {
- 	unsigned long mimpid;
- };
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index 8454a6ae6fd15..c24630c672c43 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -67,6 +67,14 @@ * :c:macro:`RISCV_HWPROBE_KEY_BASE_BEHAVIOR`: A bitmask containing the base
+       programs (it may still be executed in userspace via a
+       kernel-controlled mechanism such as the vDSO).
  
-+enum {
-+	RISCV_ISA_BASE_IMA,
-+	RISCV_ISA_BASE_RVA23U64,
-+	RISCV_NR_ISA_BASES,
-+};
++  * :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64`: Support for all mandatory
++    extensions of RVA23U64, as defined in the RISC-V Profiles specification
++    starting from commit 0273f3c921b6 ("rva23/rvb23 ratified").
 +
-+/**
-+ * struct riscv_isainfo - per-hart ISA state
-+ * @isa: bitmap of ISA extensions this hart implements
-+ * @isa_bases: bitmap of profile bases this hart conforms to
-+ */
- struct riscv_isainfo {
- 	DECLARE_BITMAP(isa, RISCV_ISA_EXT_MAX);
-+	DECLARE_BITMAP(isa_bases, RISCV_NR_ISA_BASES);
- };
- 
- DECLARE_PER_CPU(struct riscv_cpuinfo, riscv_cpuinfo);
-@@ -134,6 +146,7 @@ extern const size_t riscv_isa_ext_count;
- extern bool riscv_isa_fallback;
- 
- unsigned long riscv_isa_extension_base(const unsigned long *isa_bitmap);
-+bool riscv_isa_base_available(const unsigned long *isa_bases, unsigned int base);
- static __always_inline bool riscv_cpu_has_extension_likely(int cpu, const unsigned long ext)
- {
- 	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
-diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
-index 72bce616491f..0377fc148785 100644
---- a/arch/riscv/kernel/cpufeature.c
-+++ b/arch/riscv/kernel/cpufeature.c
-@@ -41,6 +41,9 @@ unsigned long elf_hwcap __read_mostly;
- /* Host ISA bitmap */
- DECLARE_BITMAP(riscv_isa, RISCV_ISA_EXT_MAX) __read_mostly;
- 
-+/* Host ISA bases bitmap */
-+static DECLARE_BITMAP(riscv_isa_bases, RISCV_NR_ISA_BASES) __read_mostly;
++    Each base behavior bit is reported independently of the others.
++    Hardware that implements a later profile whose mandatory set includes
++    RVA23U64 therefore reports RVA23U64 as well.
 +
- /* Per-cpu ISA extensions. */
- struct riscv_isainfo hart_isa[NR_CPUS];
- 
-@@ -81,6 +84,26 @@ bool __riscv_isa_extension_available(const unsigned long *isa_bitmap, unsigned i
+ * :c:macro:`RISCV_HWPROBE_KEY_IMA_EXT_0`: A bitmask containing extensions
+   that are compatible with the :c:macro:`RISCV_HWPROBE_BASE_BEHAVIOR_IMA`:
+   base system behavior.
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index 9a121ee3b4369..4f5d51788c416 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -22,7 +22,8 @@ struct riscv_hwprobe {
+ #define RISCV_HWPROBE_KEY_MARCHID	1
+ #define RISCV_HWPROBE_KEY_MIMPID	2
+ #define RISCV_HWPROBE_KEY_BASE_BEHAVIOR	3
+-#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA	_BITULL(0)
++#define		RISCV_HWPROBE_BASE_BEHAVIOR_IMA		_BITULL(0)
++#define		RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64	_BITULL(1)
+ #define RISCV_HWPROBE_KEY_IMA_EXT_0	4
+ #define		RISCV_HWPROBE_IMA_FD		_BITULL(0)
+ #define		RISCV_HWPROBE_IMA_C		_BITULL(1)
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index cd7cf272e6e11..5be5776b48e6e 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -223,6 +223,32 @@ static bool hwprobe_ext0_has(const struct cpumask *cpus, u64 ext)
+ 	return (pair.value & ext);
  }
- EXPORT_SYMBOL_GPL(__riscv_isa_extension_available);
  
-+/**
-+ * riscv_isa_base_available() - Check whether a given ISA base is
-+ * available or not
-+ *
-+ * @isa_bases: ISA bases bitmap to use
-+ * @base: bit position of the desired ISA base
-+ * Return: true or false
-+ *
-+ * NOTE: If isa_bases is NULL then the host ISA bases bitmap will be used.
-+ */
-+bool riscv_isa_base_available(const unsigned long *isa_bases, unsigned int base)
-+{
-+	const unsigned long *bmap = isa_bases ? isa_bases : riscv_isa_bases;
-+
-+	if (base >= RISCV_NR_ISA_BASES)
-+		return false;
-+
-+	return test_bit(base, bmap);
-+}
-+
- static int riscv_ext_f_depends(const struct riscv_isa_ext_data *data,
- 			       const unsigned long *isa_bitmap)
- {
-@@ -1406,3 +1429,89 @@ void __init_or_module riscv_cpufeature_patch_func(struct alt_entry *begin,
- 	if (early)
- 		local_flush_icache_all();
- }
-+
-+/*
-+ * Compute the set of bases a hart conforms to. Profile bases such as
-+ * RVA23U64 are derived from its resolved ISA bitmap.
-+ *
-+ * If @isa_bitmap is NULL, the host ISA bitmap (the AND across all harts) is
-+ * used.
-+ */
-+static void riscv_set_isa_bases(unsigned long *bases, const unsigned long *isa_bitmap)
-+{
-+	const unsigned long *isa = isa_bitmap ? isa_bitmap : riscv_isa;
-+	DECLARE_BITMAP(ext_mask, RISCV_ISA_EXT_MAX) = { 0 };
-+
-+	/* The IMA base is behavior the kernel always provides. */
-+	set_bit(RISCV_ISA_BASE_IMA, bases);
-+
-+	/* RVA23U64 */
-+
-+	/* Supm with PMLEN=7 */
-+	if (!riscv_have_user_pmlen(7))
-+		return;
-+
-+	__set_bit(RISCV_ISA_EXT_I, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_M, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_A, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_F, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_D, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_C, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_B, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICSR, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICNTR, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZIHPM, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICCIF, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICCRSE, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICCAMOA, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICCLSM, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZA64RS, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZIHINTPAUSE, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZIC64B, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICBOM, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICBOP, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICBOZ, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZFHMIN, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZKT, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_V, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZVFHMIN, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZVBB, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZVKT, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZIHINTNTL, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZICOND, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZIMOP, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZCMOP, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZCB, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZFA, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_ZAWRS, ext_mask);
-+	__set_bit(RISCV_ISA_EXT_SUPM, ext_mask);
-+
-+	if (!bitmap_subset(ext_mask, isa, RISCV_ISA_EXT_MAX))
-+		return;
-+
-+	set_bit(RISCV_ISA_BASE_RVA23U64, bases);
-+}
-+
-+/*
-+ * Populate the host ISA bases bitmap (riscv_isa_bases) and each
-+ * hart's per-cpu isa_bases.
-+ */
-+static int __init riscv_init_isa_bases(void)
++static bool hwprobe_has_isa_base(const struct cpumask *cpus, unsigned int base)
 +{
 +	int cpu;
 +
-+	for_each_possible_cpu(cpu)
-+		riscv_set_isa_bases(hart_isa[cpu].isa_bases, hart_isa[cpu].isa);
++	/*
++	 * F, D, C, V, Zicbom and Zicboz are RVA23U64 mandatory extensions
++	 * that the kernel enables for user mode only when every hart has
++	 * them, partly because their enable bits (sstatus.FS/VS,
++	 * senvcfg.CBCFE/CBZE) are managed across all harts rather than
++	 * per hart.
++	 */
++	if (base == RISCV_ISA_BASE_RVA23U64 &&
++	    !(has_fpu() &&
++	      riscv_isa_extension_available(NULL, C) &&
++	      has_vector() && riscv_isa_extension_available(NULL, V) &&
++	      riscv_isa_extension_available(NULL, ZICBOM) &&
++	      riscv_isa_extension_available(NULL, ZICBOZ)))
++		return false;
 +
-+	riscv_set_isa_bases(riscv_isa_bases, NULL);
-+	return 0;
++	for_each_cpu(cpu, cpus) {
++		if (!riscv_isa_base_available(hart_isa[cpu].isa_bases, base))
++			return false;
++	}
++	return true;
 +}
 +
-+/*
-+ * Registered as arch_initcall: late enough that
-+ * core_initcall(tagged_addr_init) has populated have_user_pmlen_*,
-+ * and early enough that arch_initcall_sync(init_hwprobe_vdso_data)
-+ * finds the ISA bases populated when it snapshots the hwprobe
-+ * values into the vDSO data page.
-+ */
-+arch_initcall(riscv_init_isa_bases);
+ #if defined(CONFIG_RISCV_PROBE_UNALIGNED_ACCESS)
+ static u64 hwprobe_misaligned(const struct cpumask *cpus)
+ {
+@@ -309,12 +335,14 @@ static void hwprobe_one_pair(struct riscv_hwprobe *pair,
+ 		break;
+ 	/*
+ 	 * The kernel already assumes that the base single-letter ISA
+-	 * extensions are supported on all harts, and only supports the
+-	 * IMA base, so just cheat a bit here and tell that to
+-	 * userspace.
++	 * extensions are supported on all harts, so just cheat a bit
++	 * here and tell that to userspace. Other bases are reported
++	 * only when detected.
+ 	 */
+ 	case RISCV_HWPROBE_KEY_BASE_BEHAVIOR:
+ 		pair->value = RISCV_HWPROBE_BASE_BEHAVIOR_IMA;
++		if (hwprobe_has_isa_base(cpus, RISCV_ISA_BASE_RVA23U64))
++			pair->value |= RISCV_HWPROBE_BASE_BEHAVIOR_RVA23U64;
+ 		break;
+ 
+ 	case RISCV_HWPROBE_KEY_IMA_EXT_0:
+diff --git a/tools/testing/selftests/riscv/hwprobe/which-cpus.c b/tools/testing/selftests/riscv/hwprobe/which-cpus.c
+index 587feb198c049..f8c797b1d0fd9 100644
+--- a/tools/testing/selftests/riscv/hwprobe/which-cpus.c
++++ b/tools/testing/selftests/riscv/hwprobe/which-cpus.c
+@@ -105,7 +105,7 @@ int main(int argc, char **argv)
+ 	pairs[0] = (struct riscv_hwprobe){ .key = RISCV_HWPROBE_KEY_BASE_BEHAVIOR, };
+ 	rc = riscv_hwprobe(pairs, 1, 0, NULL, 0);
+ 	assert(rc == 0 && pairs[0].key == RISCV_HWPROBE_KEY_BASE_BEHAVIOR &&
+-	       pairs[0].value == RISCV_HWPROBE_BASE_BEHAVIOR_IMA);
++	       (pairs[0].value & RISCV_HWPROBE_BASE_BEHAVIOR_IMA));
+ 
+ 	pairs[0] = (struct riscv_hwprobe){ .key = RISCV_HWPROBE_KEY_IMA_EXT_0, };
+ 	rc = riscv_hwprobe(pairs, 1, 0, NULL, 0);
 
 -- 
 2.43.0
