@@ -1,67 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794187387;
-	b=i7GCvBx9PkYnP6pRA0jLFZ6XVk3vOde6DqITYe68JJxTIHPIiVkfWsU8fF2kbY4EvUwT
-	 +IzlPq9wUxmi7lPSq/SxNWpICyttrTzR40RteGM/rWqAUX288BhWduoa5pPSZqT8xFD/n
-	 gTuLgPsNR6JccCs6b/souyyAv66/JsvcPOehVDh1BmVSQ9v/4Ev/KCPRFIn1+SUMFYdKu
-	 bjc5tPVq+ExflMrBbT3yZQLx1rDZUiIibSDFBksuVcVzZC+7VoXu9sRh6H0ucEyKORcYE
-	 h9iEUQ5kjnrGT38dPKCjzOsQgGNu2upirg7eCpXXBcIv9VnXSuri6gr47H6p/RMX+ag==
+	t=1794187390;
+	b=UlamYQ+nlUWh0s4NoctV9LhDgxwzobdiwFjvM/b5F6EAK8v1DSwkQNBTVOC2eqyFL5ls
+	 Kt+aHjiCLjEqS4K4sV/19B8jHNrIg0WqTanxx9TgRItn11BDMQSBZ1AilmhTgvT23ophR
+	 J1jnSXABJj26wcdrMoWqKTmQCIWDOTB61ldeSxxXDHPmCPhNr12v7Qpfli77hVIZ0gvSV
+	 1+F0dRVV9wmELO2YKcONgz6QKocpnfgkUWrPmSyVRNAPS4S/B3Mgh6P+al2MFiHTGskiH
+	 71nHN+1Q986jpB05gBmQnCM+rvflyZtv6ZrlaRgRfIb1BA1TryHFXQk3W6Hpnst0g6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794187387;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=iZ7ogG+JFo5k2Mr7tS6nDhVP6uMgvwh4bTdI7c17U0Q=;
-	b=El0eItzTqmN9hjBubRnoHTXHZXkzqT5L7DN3XUupSJm/OYucaQ7ZSkbHcI0wcsbVC+3Y
-	 sRaHgNUE/S4lqiJLC/5m2aRCf4ZrTV/8+mzgHPouvtmO4rdkle0xZVrd4uuJ8UIrc2WIY
-	 iju37iWNFCvddPffIjL3V7a595EV5GxnM2o1TJUy4XyLaYBYF/02r9n/LFgTCfpJPjTaY
-	 ltIQQhk7dyFsMH3XICqaF31N9mYbDWfSQXvObxrxGSZxQGs3cCqccWXMbHFyaDiZ5oP4z
-	 9BvqRb9HGAJaqmLJvJ3vkfk6qajbgw6uqy8+tKjN0RXmS28Hn9PU3uDhvjCXpLS3rtQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794187390;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
+	bh=yIKqZmT0ty0azcehpTXQx6Fod24WVOZtqlXVR1uvvAw=;
+	b=126FjHafqCngPnPeoUsMy8aZwz73p9WEdceaTCNfTZz79yrjITdspVdekzinmREFs8Kz
+	 M6Wx+XqIcaNknDcq4iIpuyHOibCAu2Co7QKZ8ldDn2WSoHmK25b1Md2xSQ9g90ze9Cbry
+	 3JRFfW2IThwA95ktUL3PIT8k1T9kTXubpDFWBRZJBRDwPhyQ6NShxPlZj4FN5GPAVzC0R
+	 GmFdF85/eaIxaSynIfr+c0wwdDkKkWyGlVkrnd5JkoeFu0s7y4UaETrAbIyFPM3SPdiE8
+	 5HytlGtkxkLJC8vPvGg0rAKDtM07GGTLb40pUxuKwqXazScb0IJPX1MltoqZhJyGkUw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gQhvOGKK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=y8YvaNYB;
+	arc=none smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B668560A5BC7;
-	Mon,  9 Nov 2026 01:23:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23BBE606CCFE
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 01:23:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 23BBE606CCFE
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gQhvOGKK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 904A31F00A04;
-	Mon,  9 Nov 2026 01:23:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794187386;
-	bh=iZ7ogG+JFo5k2Mr7tS6nDhVP6uMgvwh4bTdI7c17U0Q=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=gQhvOGKKorP0lWdhew4VYHhPZ0HETKAjGg2F63PhurTUrKooGVDQxaAypbxPYqy56
-	 EkLymIgPsj4cHmCA1nUwqx+Nl23bVtnHlLY4KCQUGUVS+3ZsG0Z0A2CJ1KwN1rSGO9
-	 Av8uDE+y3sya7uaTWm9HM7NyoDBscLXVEQlDULT8GvTpT6oT61ZtkNE0xZlZzPkKtw
-	 CCZyp4+WHaPUOOPuFzj/J6cKFcENZPlyf+ELMLkXKgRNSwCvoifEPtt0+NMsjnzme7
-	 vrTgs8v/ACflsqINZ/kgSKTkTpPPLLGzYdhY9ynqTx34+CvEb5DvGVPzOAN4FSewqP
-	 O2nwHbBROQoDw==
-Subject: Re: [PATCH net-next v3 8/9] net: devmem: size TX net_iovs from the
- dmabuf sg table
-From: netdev-bot+sashiko@kernel.org
-To: sdf.kernel@gmail.com
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch,
- edumazet@kernel.org, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, michael.chan@broadcom.com,
- pavan.chebbi@broadcom.com, saeedm@nvidia.com, tariqt@nvidia.com,
- mbloch@nvidia.com, alexanderduyck@fb.com, kernel-team@meta.com,
- sdf@fomichev.me, dimitri.daskalakis1@gmail.com, almasrymina@google.com,
- dtatulea@nvidia.com, bobbyeshleman@meta.com, asml.silence@gmail.com,
- daniel@iogearbox.net, razor@blackwall.org, leitao@debian.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, leon@kernel.org
-Date: Mon, 09 Nov 2026 01:23:04 +0000
-Message-ID: <179418738408.994134.12387400537759262351@kernel.org>
-In-Reply-To: <20261105222058.944293-9-sdf@fomichev.me>
-References: <20261105222058.944293-9-sdf@fomichev.me>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=y8YvaNYB
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-33fb4680717so898542eec.1
+        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 17:23:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794187389; x=1794792189; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yIKqZmT0ty0azcehpTXQx6Fod24WVOZtqlXVR1uvvAw=;
+        b=y8YvaNYB3OxVaJ9hMq/KOa6Yw5s0K1WQp1FrX4v8U+wWxjTtHHKf6FfFW4IpimQbOQ
+         gleXCx5Wgw188412YGJOc8KDRIOEFz2f4sYuhHpkypqD7KNaB+VaJ4aeBXfuaaasfx4E
+         c3kwZ6wiu9o6K7KFb/B53Hae0+1vjxJoxviR82Eh4F7osMDv0M44eKvSO3Y9WgOjUbf7
+         xn0viNKqIf0j4aWDXYWGUEi0hDRBZ+dEd1KR6Z8yc8HeMChsNXYwuuV6Q1YvxJLEdTnV
+         2LnMPwB3sUowjvHqsCuqEpCVLMTlx2rBYnNu6opuH/FVY9IqcxKsPOgcA04rlhZ1nRaP
+         GtLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794187389; x=1794792189;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=yIKqZmT0ty0azcehpTXQx6Fod24WVOZtqlXVR1uvvAw=;
+        b=LxYp2yZHoJH6dFaVUHAN7s8n2zUwegWWQL2m+4BidCgG6HdTTNRwvA3391dxGWsNlV
+         TA1nXUBA32sT+hwV62U5APMI+UrBL9QVmTTONtca7ueUc+0p3y5pOv8nY5fyCxmu3esc
+         V3VlkiwwZfcu/fhs6Nt2qARKTGDyT6OPUgjX2//E5uV281zzbeaZm9SiBFJh3hq6tOy7
+         pJYqTJBxzZ9brdUcKLW77x3sxpOnVx1lSKjoRduk5cyiHtQM8xX0lN9YX80dv3LKi2yR
+         ZurEOsKcFKqVahtuWP1HS+i+jFwlAsP0D+VqOGfdMHwguAIPmjd99rFEtqqQXVolByXd
+         E7vw==
+X-Forwarded-Encrypted: i=1; AL+hErFU/tv2qgiq8g4gbJRxJwS9RfvQGRlIckc4KvgG5QQzCx5HHFHhCwELMnNtgot00jdceHCNLxpj1OI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8oCMUBe99iS9+evyDh3z3x14M0DRXtZtxZnB3jtFOqKFRaJDk2
+	02CyrxVpXDEnfQ6ISX3jqHxvBCmJ1m7MJ184Oj34wNw2Wf8oylPa6eBy
+X-Gm-Gg: AYBFou26uaj9R8El640DuAMcz+ZtBc/CVygoAJrxaSJr1wpZyOzf4y4GzDH6h5IKQG9
+	fvZE6cIIqB3TnHsKrTLT09SoMSDuljtKPCDATb9A0pgPnmH4Dr9u7EJaloAisCfCmTDJP4upBPy
+	wzh4H2VNV9w3ElPxDkozTHqhzKE8KvDWd1wJFSBb/W40xOQGTG//F7TEp1z6DkdaJQgw+4jCzJM
+	XCBM5THG++49b2sXicQZ+VGxklVgRLwSNR+H+73z0H0xBVec1AluiHsCPoZZQZR7yo1hRQausDd
+	fGnXjJubJKeYwObViBMdAplTIjaVePzDUfouvxasDBuxzWBKD7gq1NzG+G803CrNxlbkxTF6QBy
+	UYOpZS4PEhXu8ZoAgvCSo/JiPm4gtgoDuGHZzA/BYfF1gaDJFFu1gWzrDPi4OQMtjAgSvGRY4y2
+	4QUj3qZ31/daskT7TFjTyEriiStYAwn0iUFz50/ABR6GssNXH3b44rtNqmreLFndXyKCA4xK8kR
+	yCXS0AE8ARN9yDrv/Fe1M7dTBmCpfZk8BlTuO1oqRmynEPNGBjDj6zI5tlsdE+v97hqCCga8+xb
+	b3OMmW33QguM+r8HewoGExLE
+X-Received: by 2002:a05:7022:2209:b0:1b3:2692:2274 with SMTP id a92af1059eb24-1b39ff060a8mr6502765c88.40.1794187389081;
+        Sun, 08 Nov 2026 17:23:09 -0800 (PST)
+Received: from [127.0.1.1] ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3771ea85bsm9428226c88.18.2026.11.08.17.23.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 17:23:08 -0800 (PST)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+Date: Sun, 08 Nov 2026 20:22:51 -0500
+Subject: [PATCH v4 2/5] docs/mm: ksm: describe how smart scan picks the
+ scans to skip
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,142 +92,71 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-2-86be8fe77e7a@gmail.com>
+References: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-0-86be8fe77e7a@gmail.com>
+In-Reply-To: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-0-86be8fe77e7a@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
+ Chengming Zhou <chengming.zhou@linux.dev>, Stefan Roesch <shr@devkernel.io>, 
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Qiliang Yuan <odys.yuan@gmail.com>
+X-Mailer: b4 0.13.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+Documentation/mm/ksm.rst covers the stable tree and its reverse mapping,
+and Documentation/admin-guide/mm/ksm.rst only says that smart scan skips
+pages KSM has failed to merge before.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+Neither says how often an unmerged page is looked at, or that the scans
+are picked by the global scan number so that identical pages of
+different ages still meet in some scan, which merging through the
+unstable tree depends on.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Add a section on smart scan that describes both.
 
-- [Medium] This patch makes TX net_iovs grow from PAGE_SIZE to as much as
-  2MB.
+Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
+Tested-by: Andrew Morton <akpm@linux-foundation.org>
+Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
+---
+ Documentation/mm/ksm.rst | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
---
-
-net: devmem: size TX net_iovs from the dmabuf sg table
-
-This patch changes how TX net_iovs are sized. Instead of PAGE_SIZE, each
-TX net_iov is now the largest power of two from PAGE_SIZE up to 2MB that
-aligns both the dmabuf size and every DMA segment in the sg table.
-netdev_nl_bind_tx_doit() passes niov_shift == 0 to ask for this, so that
-BIG TCP can build larger frags.
-
-> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> index b607cf495980c..74de200f66be2 100644
-> --- a/net/core/devmem.c
-> +++ b/net/core/devmem.c
-
-[ ... ]
-
-> @@ -388,6 +401,17 @@ net_devmem_bind_dmabuf(struct net_device *dev, void *vdev,
->  		goto err_unmap;
->  	}
->  
-> +	if (!niov_shift) {
-> +		niov_size = SZ_2M;
-> +		while (niov_size > PAGE_SIZE &&
-> +		       (!IS_ALIGNED(dmabuf->size, niov_size) ||
-> +			!net_devmem_sgt_aligned(binding->sgt, niov_size)))
-> +			niov_size /= 2;
-> +		niov_shift = ilog2(niov_size);
-> +	}
-> +	binding->niov_shift = niov_shift;
-> +	niov_size = 1UL << niov_shift;
-> +
-
-[Severity: Medium]
-netdev_nl_bind_tx_doit() now passes niov_shift == 0, so a hugepage-backed
-dmabuf gets 2MB TX net_iovs. Can a devmem TX frag then end up larger than
-dev->netmem_tx_max_frag_size?
-
-The cap is only applied when a frag is first built:
-
-net/core/datagram.c:zerocopy_fill_skb_from_devmem() {
-    ...
-		size = min_t(size_t, size, binding->tx_max_frag_size);
-    ...
-}
-
-Later, tcp_mtu_probe()->tcp_clone_payload() merges contiguous frags and
-never checks the binding's limit:
-
-net/ipv4/tcp_output.c:tcp_clone_payload() {
-    ...
-			if (lastfrag &&
-			    skb_frag_page(fragfrom) == skb_frag_page(lastfrag) &&
-			    skb_frag_off(fragfrom) == skb_frag_off(lastfrag) +
-						      skb_frag_size(lastfrag)) {
-				skb_frag_size_add(lastfrag, todo);
-				continue;
-			}
-    ...
-}
-
-Before this patch, contiguous frags inside one net_iov could add up to at
-most PAGE_SIZE. That is also the default netmem_tx_max_frag_size, so a
-merged frag still stayed within the cap.
-
-With 2MB net_iovs, contiguous TCP segments in the same net_iov can be
-merged into one frag of up to probe_size bytes. On a path whose MTU is
-above PAGE_SIZE, that frag is larger than the limit the device declared.
-
-Documentation/networking/netmem.rst says:
-
-    3. Devmem TX frags are capped at netdev->netmem_tx_max_frag_size,
-       PAGE_SIZE by default.
-
-The commit message says:
-
-    frags are capped to the device limit when they are built
-
-Is a cap applied only at build time enough to keep that contract?
-
-The other merge paths are tcp_grow_skb() and SACK shifting. Both go
-through skb_shift(), which bails out on skb_zcopy(), so tcp_clone_payload()
-looks like the only path left.
-
-All of these are needed to reach it:
-
-  - an unprivileged bind-tx (NETDEV_CMD_BIND_TX has no GENL_ADMIN_PERM)
-  - MTU probing turned on (tcp_mtu_probing=2, or 1 after black hole
-    detection)
-  - a path MTU above the device's frag limit
-
-I could not find an in-tree driver that breaks today:
-
-  - gve keeps the PAGE_SIZE default but splits buffers at
-    GVE_TX_MAX_BUF_SIZE_DQO
-  - bnxt and fbnic use 32K
-  - mlx5 uses U32_MAX
-
-A driver that relies on the documented cap would still get a frag larger
-than it declared.
-
-There is also a related issue in the same code. It is pre-existing and
-was not introduced by this patch.
-
-skb_frag_page() returns NULL for every net_iov frag. So for devmem frags
-the skb_frag_page() comparison above is always true, even when the frags
-come from different net_iovs.
-
-Suppose the next frag's offset inside its net_iov equals the end offset
-of lastfrag inside its own net_iov. Then lastfrag is extended over bytes
-from the wrong net_iov, and the wrong dmabuf data is sent under real
-sequence numbers. The extended range stays inside the first net_iov, so
-there is no DMA outside the dmabuf.
-
-Would either of these fix both problems:
-
-  - compare skb_frag_netmem() and apply binding->tx_max_frag_size in
-    tcp_clone_payload()
-  - don't coalesce unreadable skbs when building MTU probes
-
-[ ... ]
+diff --git a/Documentation/mm/ksm.rst b/Documentation/mm/ksm.rst
+index 5a80573162def..f954d221e8017 100644
+--- a/Documentation/mm/ksm.rst
++++ b/Documentation/mm/ksm.rst
+@@ -75,6 +75,22 @@ The whole list of stable_node "dups" linked in the stable_node
+ The frequency of such scans is defined by
+ ``stable_node_chains_prune_millisecs`` sysfs tunable.
+ 
++Smart scan
++----------
++With ``smart_scan`` enabled, ksmd skips pages that it has already tried
++to merge without success. The ``age`` of a page's ksm_rmap_item counts
++the scans that went by while the page stayed unmerged. A page younger
++than three scans is looked at on every scan; after that it is looked at
++every second scan up to an age of five, every fourth scan up to an age
++of eight, and every eighth scan from then on.
++
++The scans that look at a page are picked by the global scan number
++``ksm_scan.seqnr``, not counted per page. The unstable tree is rebuilt
++on every scan, so two identical pages can only be merged in a scan that
++looks at both. As the periods are powers of two, every page is looked
++at on each scan whose number is a multiple of eight, so two identical
++pages meet at least every eighth scan whatever their ages.
++
+ Reference
+ ---------
+ .. kernel-doc:: mm/ksm.c
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261105222058.944293-1-sdf%40fomichev.me
+2.43.0
+
