@@ -1,49 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794229848;
-	b=1zxWrJP3ZNX/h0MOhfS6r9ClQYXGAg3qi25o1ylB2u3xfXPom2SpdNGP502BI5AmABYU
-	 LwuNCVOsRR3+YoRl49MLSMmCx/8DebqkCsAlXoBHZl9pCWgjJ4dRRKvvh5MgDV574xQJI
-	 tAUbp1cg/X5uJv2Z4RKNmqmA/wU6wIN5vL5UE03rbsz55M+v0ZC+PcJv6bOWBdvHYy8WN
-	 RzXvfokFiO5T0PWBKsV8/iHJnbV874LeWg4VL+yA7zfmu2giCfM064RpgwD3Jl6EHyf8i
-	 gznnibqbtLvNvzXXTJTBhMvrHmlgVwHQ52D/3cByAOoCm2o1oIQg90qkdhCN70gj6Jg==
+	t=1794229849;
+	b=DNEqArzjhz10KSzpELdwhaYCkrAk+1buAIdsSSDSfGEslFYh4qciJcbhBeEOxPxOVqSW
+	 Ti/NB7RucVCXRBlUyaMMt9I33TXkuMktqjHtnCgb5YNaFSrDhZyl+PCMcTZ5PvSDhcVz+
+	 JIvZ9oS73tS7hT/eDLbFRdmLDXqzazP6Zzfq4HgldTs24kBoB2kuYEX9Bnc4F1/nSOlvw
+	 fddGSqPnY8n43yw5KPsMJxTS9cO6wrcvhYwPBcWCdqs7w41R7KFGWDYfJIp+1mImliCEh
+	 zSqQKFfsMWjH0nenFMx0EvSV86KyvdAj+CunnYZIDWyTeEqSB1cAAm0fPx1MdryZxrg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794229848;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794229849;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=HMWVSYbVReaQvn6vsmT0jO2CyxVbMT6voyL5m7FUv58=;
-	b=Nuw6AKkPOnzWfSFKsjq3fko0pgm9T1ZfV04JNF+iXQvobI1Pt33NAX12nNHOLAMDAmzY
-	 rifCNthI9Vd6zYfFjbd/8/YObkDCWOYzDeduABmqLteI8TS+AAdcCWOV9DCOQEloEwmK7
-	 LPaKQY5U//zkospS3rNA3BWFKRYEg6Ga4cKvSbZMWDbbmRq8WJMyEq5kjFuGxP0+tcjf8
-	 oK6BeOk7R2iyyUpO/0n6k3qKO5OG8Pfw9cJSDEREid6Z/VmYJ5CSZjeUBWMi5u0fVJGg7
-	 rsXbxHIFYi8RfKl8OVxjGI+N9mwxh6o3IPyZs7SM9/65qezqmKd2qK+egZc+KHibqMw==
+	bh=xq56ye0cilKoYtkCm9so//HbQcJMShZ8jayP8IVetxw=;
+	b=Jbryph3G/V3EPSwt7obnKjkrZCm4JuEvykGuIos/A+sE2GNPs4g53hpa8AQ6/3K0gVBE
+	 mRRGx29utityEXRN43/ibkfGNG8Xz/zBy7n5eZ3snkWirwOGAkB8CDo48j3d9gRmM6N70
+	 TTE4BlGylkjXyFHhHpvSpf0BXHxxXSuoHvi8lMZ2VNxNshMJq/vywIOLdx6ZT6oizp2km
+	 7NfI13pW+IFNQzXHn+eBURUqH1zriyUF/x7y589Zs9hs8f8jFcFzZhC0BTlXPUmaSvmOK
+	 LM4rS6cssDsVayNJTqn6zZspt50vB/HYHp4/OXJ7ZcvwCruet6vFNuhNesvOdigMLDQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=corp.free.fr;
 	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=i23YClqA;
+	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=HfFM9Ud3;
 	arc=none smtp.remote-ip=212.27.60.169
 Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4100C606D812;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F3F5606D818;
 	Mon,  9 Nov 2026 13:10:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4100C606D812
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8F3F5606D818
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=i23YClqA
+	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=HfFM9Ud3
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1794229846; bh=r7AVXNRaRSXaGwGg/zYogQuj3T7r4JX2XJQNHMJ7dHU=;
+	t=1794229847; bh=iGxFXY5s4DXgSHppry+TbbV91qX+iyEjhioIZWhodzc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=i23YClqAAMhbmyvVgpBszmfD2jDl+3nwzS679N3uPfi+DDE80wNKl1oQWjhnolNuW
-	 vO2bHpRcYGUWkY8NaF3DSaOtAXs8+OHFtaTPapIkT3HvcvGVvOQiyWJWhemR1ErD/a
-	 BoOWz+ytAQ56/FyTFUp3a96YGz/1tQsGJrmEyZ8N8grxsfmrJ/z3fQfk8tk3i22k7m
-	 wRfb5GZg5Sj9N3rG2xgXpbf50AKjfssTzoMMBbLHieWm/7GYMeaY/5CXFZhTwXa7o0
-	 GZ9ydbnonjNo4gPvsomAFrG7OhgAOlpFlK2hjpuqD+kDAH7oq2s5eZw+V9WXf/Ih7k
-	 +50DIIqZDG0Vg==
+	b=HfFM9Ud3/KMWpIajIMs+Aoqd8N+Lm+MPnHTlZUBkInvGOfEvbcC1oLnP4REP8fdcH
+	 O7ThAiRa0owvrlkJE5yRd88IkczPPw8qqDnfsAmmBl5J3ppfNysMdu6hrsq3Z9fIqj
+	 QVyjW6gfGQp0lVPCf1ff+cTYySAbZ8tJGT/qRRA7iucZvoOFhxvGGcJr9P2iQQsB6N
+	 IK5R6K2MVj/ANKeYr3KBWQBCQr9AX2/o5nOOuhWJn0rxsraV0v083eg89F58DURwc5
+	 ycyqaoMKsN6iPI8Z08Uul7OsL/ifah4zUIpSica3u2ktBApiokEA9LNGvCy4I63lid
+	 LRwoMmjsJPK2A==
 Received: from lnxos-dev.home (82-66-150-212.subs.proxad.net [82.66.150.212])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 411B944C11AE;
+	by rcs.proxad.net (Postfix) with ESMTPSA id B9DC444C11B9;
 	Mon,  9 Nov 2026 14:10:46 +0100 (CET)
 From: Alexandre Cassen <acassen@corp.free.fr>
 To: Saeed Mahameed <saeedm@nvidia.com>,
@@ -73,9 +73,9 @@ Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	oss-drivers@corigine.com
-Subject: [PATCH net-next 02/10] cxgb4: flower: refuse a tunnel key wider than the VNI
-Date: Mon,  9 Nov 2026 14:10:28 +0100
-Message-ID: <20261109131039.959438-3-acassen@corp.free.fr>
+Subject: [PATCH net-next 03/10] nfp: flower: refuse a tunnel key wider than the VNI
+Date: Mon,  9 Nov 2026 14:10:29 +0100
+Message-ID: <20261109131039.959438-4-acassen@corp.free.fr>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261109131039.959438-1-acassen@corp.free.fr>
 References: <20261109131039.959438-1-acassen@corp.free.fr>
@@ -90,41 +90,58 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-cxgb4 holds a 24 bit VNI and truncates the key and the mask of enc_key_id.
-An exact key above bit 23 already selects the wrong VNI. Flower is about
-to accept partial masks. A mask that only covers bits above 23 would then
-clear the VNI mask and encap_vld. The rule would match any traffic its
-other keys allow. Refuse a key that no VNI can match.
+VXLAN and GENEVE rules shift the key and the mask of enc_key_id into a 24
+bit VNI. An exact key above bit 23 already selects the wrong VNI. Flower
+is about to accept partial masks. A mask that only covers bits above 23
+would then match any VNI. Refuse a key that no VNI can match. GRE keeps
+its 32 bit key.
 
 Found by an AI code review agent while auditing the users of enc_key_id.
 Build tested only.
 
 Signed-off-by: Alexandre Cassen <acassen@corp.free.fr>
 ---
- drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ .../ethernet/netronome/nfp/flower/offload.c   | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
-index 3307e5042681..d9a509be5c51 100644
---- a/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
-+++ b/drivers/net/ethernet/chelsio/cxgb4/cxgb4_tc_flower.c
-@@ -316,6 +316,17 @@ static int cxgb4_validate_flow_match(struct netlink_ext_ack *extack,
- 		return -EOPNOTSUPP;
- 	}
+diff --git a/drivers/net/ethernet/netronome/nfp/flower/offload.c b/drivers/net/ethernet/netronome/nfp/flower/offload.c
+index 161190200dbd..e5f6f4f464ad 100644
+--- a/drivers/net/ethernet/netronome/nfp/flower/offload.c
++++ b/drivers/net/ethernet/netronome/nfp/flower/offload.c
+@@ -150,6 +150,23 @@ static bool nfp_flower_check_higher_than_l3(struct flow_rule *rule)
+ 	       flow_rule_match_key(rule, FLOW_DISSECTOR_KEY_ICMP);
+ }
  
-+	if (flow_rule_match_key(rule, FLOW_DISSECTOR_KEY_ENC_KEYID)) {
-+		struct flow_match_enc_keyid match;
++static int
++nfp_flower_check_tun_vni(struct flow_rule *rule,
++			 struct netlink_ext_ack *extack)
++{
++	struct flow_match_enc_keyid enc_keyid;
 +
-+		flow_rule_match_enc_keyid(rule, &match);
-+		if (be32_to_cpu(match.key->keyid) >> ENCAP_VNI_BITWIDTH) {
-+			NL_SET_ERR_MSG_MOD(extack,
-+					   "Tunnel key does not fit the 24 bit VNI");
-+			return -EOPNOTSUPP;
-+		}
-+	}
++	if (!flow_rule_match_key(rule, FLOW_DISSECTOR_KEY_ENC_KEYID))
++		return 0;
 +
- 	if (flow_rule_match_key(rule, FLOW_DISSECTOR_KEY_BASIC)) {
- 		struct flow_match_basic match;
++	flow_rule_match_enc_keyid(rule, &enc_keyid);
++	if (be32_to_cpu(enc_keyid.key->keyid) < VXLAN_N_VID)
++		return 0;
++
++	NL_SET_ERR_MSG_MOD(extack, "unsupported offload: tunnel key does not fit the 24 bit VNI");
++	return -EOPNOTSUPP;
++}
++
+ static int
+ nfp_flower_calc_opt_layer(struct flow_dissector_key_enc_opts *enc_opts,
+ 			  u32 *key_layer_two, int *key_size, bool ipv6,
+@@ -411,6 +428,10 @@ nfp_flower_calculate_key_layers(struct nfp_app *app,
+ 				NL_SET_ERR_MSG_MOD(extack, "unsupported offload: ingress netdev does not match the expected tunnel type");
+ 				return -EOPNOTSUPP;
+ 			}
++
++			err = nfp_flower_check_tun_vni(rule, extack);
++			if (err)
++				return err;
+ 		}
+ 	}
  
 -- 
 2.43.0
