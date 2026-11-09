@@ -1,67 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.77
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794232863;
-	b=DHwNYTG1zgluZC7AzAKKwRuv1nLa6fpggwKkiH80KIycjKAbXkq+J0fFmEyU2+ar7CO7
-	 JddlOxSQnyW4V1KS5uEjFObrVUuudNAEiaNkKwBtZV9xzf+0lze/UkDoj0LXpl73k5utP
-	 ZaDOFGckhdVWB7dYiWAtMV/flZLyT71NsuxIlwoD5Vlw9VZ8kct+jP4mYzhpGZTLymaE4
-	 7UbYb68H5qRXhxzghVrIZ6O9iK//T9QKsmO7fXq+917rrvtX3AU6OXXEXyoP1q85tT3Ez
-	 WamHiPPnDlOjUqN/t+xJOFQngQ/90lTrP+MLQYxHxr9KSxbn/obll3Bo2XS8nq/zBAg==
+	t=1794233220;
+	b=nFRLe+AlzvX0CDokPwij+OG1S54wSxTYt7RWizjBYyZPmsm7eqMtBNk0WtYZFINcjH8J
+	 hL3o+SQ/gpG0P9XnHpo/TSOGcbPHANf8PSUx6wS2yNLOoEpl811+xUnNrWnjxHbV9qfhR
+	 7tba9VKv/SkbLvPdpThmUmmK8LZsKiLAuWdbxX6QCzWYAokKaomH89//CZ6Q9mn2tgLby
+	 MbgLqFu6xY1rOJt3vDmL9yBiXiZ9FPM+4Q8eqWQyIHR85npG+da5OpDO2PKohhFWqcyAO
+	 W0Zj0DRLcuyP0szThGM0BBoxY/sS0LLigIisIUGrdQaKWHPNiBVXiKY3ATO4ntjxIug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794232863;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=9Oiih5slTZyatARVLusbIPjFVP7cGpNfYHK2OPkvmRA=;
-	b=dY89ZhfppiLKz4ojsbRPDtwR4ydt0CO1RCYEuRSJfyHIEPvO/mgx2TxxuFSjvretsdEL
-	 qw0oA0PuKxrkak7JJVm7FwTpgsBC6oFgmHuzfm1yylIzIM9G9OboILGV98QUvRr3Ne6fb
-	 zf6t40eDSAv16kffMqXEQ4B65sX+SCw7u0hP75FwzXox+gn6+OEVKuHAn7mO47ZhRLdX8
-	 N+pBQaLrQa4ef3QBv7IWWsN2D1i1ZWqEliNMaMhE/2Trc+ojA6LE5PPf0aPzNZZyBj8QJ
-	 9pQQNErZjrIzSmPO7x+zI3ivTEoxKixKQJOx9oEYUWlZJLHMVyb0VRKl9GsChMxTv+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794233220;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
+	 Received:Received:Received:Received:Received:From:To:CC:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-ADIRuleOP-NewSCL:
+	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=ehmTUWBPw24C3fEgkBQf7ImBlTwoj3Fsk8m7czu8HCY=;
+	b=vOPLEJMyBlPBjeQqHez1W6ae+Dpoa98tmRxSxsDdhYN3U6dOXnK5WHLxsfWxEnx3WvnD
+	 yS+eQTlzK+Evcn+tlomWn/MOuWAssnNRNpn2cyMWwmLpqu1j3FEjK2bNtfWeRzwsW207w
+	 ciOZini0ouEJ7lgQSSee+bmvALFDEIFdTp68DejaT9Y6Voac1ot9NYp2MlLGatGnHVuup
+	 HeKfUsOlqWUINwqeeX9q03S/fstn5gKa09odUY0iv5q+4xYLiwjTySGuTJGtojyd0nI4s
+	 nYveYsoi6MvKwvlHm5br/GmFcasVNShbqUQH3vKqOT9daUsgTB/K/j/Oll431eeR4uQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ePhAV1A1;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	dmarc=pass header.from=analog.com;
+	spf=pass smtp.mailfrom=analog.com;
+	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=OROVIexB;
+	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=dT2cCD40;
+	arc=none smtp.remote-ip=148.163.135.77
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64F6606A31C
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 14:01:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B64F6606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141FF606A31C;
+	Mon,  9 Nov 2026 14:06:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 141FF606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ePhAV1A1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794232861;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9Oiih5slTZyatARVLusbIPjFVP7cGpNfYHK2OPkvmRA=;
-	b=ePhAV1A1wONF5jS73rM7O0LDJPXhiiYxOhxK4z7HBRixxu9mxr1RDy4E6DCu0JboNaUOur
-	W0a+of/UrXzCa+c+J7ERBrGzYQODLdEmg7AKJFFCKegNaN3cm5PIhSlCHHzbCH9hApFe0/
-	gyXk7Fm2BND3PkXW8FftvAe4Lz4UbPg=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-295-KZaldpeVMb2chDoXjrJOXg-1; Mon,
- 09 Nov 2026 09:00:58 -0500
-X-MC-Unique: KZaldpeVMb2chDoXjrJOXg-1
-X-Mimecast-MFC-AGG-ID: KZaldpeVMb2chDoXjrJOXg_1794232854
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 3F27B180059C;
-	Mon,  9 Nov 2026 14:00:54 +0000 (UTC)
-Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D6FD330000E5;
-	Mon,  9 Nov 2026 14:00:49 +0000 (UTC)
-Message-ID: <36a27d0b-a4d8-4135-8796-525898b91807@redhat.com>
-Date: Mon, 9 Nov 2026 15:00:48 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=OROVIexB;
+	dkim=pass (2048-bit key, unprotected) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=dT2cCD40
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A9DRJwR3319974;
+	Mon, 9 Nov 2026 09:06:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	DKIM; bh=ehmTUWBPw24C3fEgkBQf7ImBlTwoj3Fsk8m7czu8HCY=; b=OROVIex
+	BNUx7lcGUAvxcmroqlokRXyehnjpUpVsV0b2+o+aY13Z5l6/EVW8SLCp93hoBHHi
+	jxPdFfWdIIKj/vbC3aP0veJTUxhScoSThouQ6OT04PIWjOztKYo6e2AaWXl04sog
+	7MXJUi6VxmBjRPgpn7ar/xQb9W9RsmMkvIjSVBw/5NhNPvO/SxLx8CtWED9+eoxM
+	zQCBb8CaGDZtzD2THGudEjkyxA+YWfxvpdZJZYCUJld0gFvZI+jwXWEnStIQl4m0
+	DbhcJQrsw7/UoAdadTUGYM78ZM+QNwCmT2rCKsN3AT5/DH3B6gOfThKnPtD+ncqO
+	QI/Aq+ZtvjMzrYA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=ehmTU
+	WBPw24C3fEgkBQf7ImBlTwoj3Fsk8m7czu8HCY=; b=dT2cCD40otz7jtByiNp4n
+	CS6NauAbsKpw9w/GgH+Vn6tN3ETne0O8hGxdDm6jwHZstwOXnriMv5R6UJDLmPY+
+	0tCyznbVG0c7hRvTp5EIsI28b/H2S9upLkFK64ErKCnHZ2ckzGgVt2uzyXlyGnOB
+	vOTmJVJtqXYlVi5Z0QUN9Sy5UrjPafzi0L38rYMbNYTPWRT9Cy71qWAnpIeRFOXA
+	UkpbnMhOYjnjwW9usXzeNmMLr0rDt3sH9VtrZeCoHa9M9eFZ0E89nXahL/mgOJCW
+	hwOQGsbYeziLEuPaSML5PUUj9SK9NwzF/sWiTZFCpNjKwy/zePbFFAbWkc38OeG0
+	w==
+Received: from nwd2mta3.analog.com ([137.71.173.56])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4huf2w8941-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 09 Nov 2026 09:06:55 -0500 (EST)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 6A9E6sHd018933
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 9 Nov 2026 09:06:54 -0500
+Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Mon, 9 Nov 2026 09:06:53 -0500
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Mon, 9 Nov 2026 09:06:53 -0500
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Mon, 9 Nov 2026 09:06:53 -0500
+Received: from arch ([10.135.2.92])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6A9E6fXI024958;
+	Mon, 9 Nov 2026 09:06:44 -0500
+From: Nicolae-Daniel Deaconescu <Nicolae-daniel.Deaconescu@analog.com>
+To: Jonathan Cameron <jic23@kernel.org>
+CC: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>, David Lechner <dlechner@baylibre.com>,
+        =?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+        Andy Shevchenko
+	<andy@kernel.org>,
+        Michael Hennerich <michael.hennerich@analog.com>,
+        "Trevor
+ Gamblin" <tgamblin@baylibre.com>,
+        Joshua Crofts <crofts@kernel.org>,
+        "Sergiu
+ Cuciurean" <sergiu.cuciurean@analog.com>,
+        <linux-iio@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-pwm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 2/7] pwm: axi-pwmgen: report the waveform step
+Date: Mon, 9 Nov 2026 16:06:07 +0200
+Message-ID: <20261109140607.36418-1-Nicolae-daniel.Deaconescu@analog.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261107014755.364d4729@jic23-hlaptop>
+References: <20261107014755.364d4729@jic23-hlaptop>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,67 +119,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v3 14/14] selftests: dpll: add reference leak
- tests
-To: Petr Oros <poros@redhat.com>, netdev@vger.kernel.org
-Cc: Jiri Pirko <jiri@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Jani Nikula <jani.nikula@intel.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20261109093523.931201-1-poros@redhat.com>
- <20261109093523.931201-15-poros@redhat.com>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20261109093523.931201-15-poros@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-GUID: 5Yj6oIvwP9iVIMy0C-2CfWLiiSOIYQtz
+X-Proofpoint-ORIG-GUID: 5Yj6oIvwP9iVIMy0C-2CfWLiiSOIYQtz
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDA1NiBTYWx0ZWRfXyo68o0ARfMWe
+ dCoklNCWPFqNqvtHLS6JzxX6BqIaZD3WPCt92UC0DHEMJuU/aJPQrC2ktkb/w0sYNsPs/jtMRFS
+ qO+3ZzdP0LEgNWWc5m5QyLGvmirR1zPR9FSLX9+DfTYX0wAvGsHk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDA1NiBTYWx0ZWRfX44fNktTDm5iw
+ lFZ+5J6W/3M2hdmlR7Zw/K2fwuzzW/n1DQ5o9XeCGjCQolW1rDAZbqMSZvMdxSkk+IM1e4cBJLz
+ h+sU9njtkIB6+E/veYFBPjsWoCygmeLA7TR/fzD5pc1D3yIW7h25ZguKY8bT3lZ37ir+K9HVIS1
+ XPHVEJ6Sz6osVwEoqU+I5W1nq91/uJtdxLa7/tChIchrnWUWHDeSGdmudoH/AK0gcnhXxkg73sD
+ 8ssNv5RBF2zCl+8JIdMSIZBlQP8evdDUimi90g56uwiK25nKVE3M3xl25USTwQPDdYV8unHP2QE
+ ZNyai0nfY2J6/rhizQBHs7JHAPkSJx91gLgOteOqEkz1Ymyk71ebXy/P2gOSCDR0MUwTcCG3357
+ jjDyoN7wX1CFnVEp0fYKPSV7jkVfckqwrsKlKECk41NchtJ3oclmbV45YUYZ7hGSi4EDBd4kJIK
+ DjGunJ6rMTbse/SFc4g==
+X-Authority-Analysis: v=2.4 cv=RpVQvymK c=1 sm=1 tr=0 ts=6af1d37f cx=c_pps
+ a=PpDZqlmH/M8setHirZLBMw==:117 a=PpDZqlmH/M8setHirZLBMw==:17
+ a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
+ a=N--XFCr6TIEc_64PeIT2:22 a=NnX6kGtuf9D1FMrsQa0A:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-09_05,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 lowpriorityscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 phishscore=0 bulkscore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611090056
 
-On 11/9/26 10:35, Petr Oros wrote:
-> With CONFIG_DPLL_REFCNT_TRACKER the DPLL core keeps the stack traces of
-> unreleased device and pin references in debugfs. The entries do not
-> name their owner, so add library helpers that snapshot the entries
-> present before a test creates its devices and fail when an entry that
-> is not in the snapshot still holds references afterwards. An entry in
-> the snapshot belongs to an object of another driver and is ignored
-> even when its content changed, since other drivers take and drop
-> references while the tests run. The teardown of a device releases its
-> references before the write to live returns, so the entries are
-> expected to be gone at the first look; the check still polls for a
-> while before it reports a leak, so that it does not fail on a single
-> read. Attributing
-> by name means that a leak of an earlier run goes unnoticed and that an
-> object reusing the address of a freed one from the snapshot can hide a
-> leak, which is accepted, the entries carry nothing better to go by. A
-> second run alongside would have its devices attributed to this one,
-> which is one more reason for the lock every script takes.
-> 
-> Whether the tracker works is probed with a throwaway device, which has
-> to show entries while it is live and to drain them once it is deleted,
-> so that a kernel without the tracker is told apart from a broken
-> simulator and from a leak. The probe runs as the first test of the
-> stress script, which gains a final leak check, and of the new
-> dpll_reftrack.sh, which registers a device, removes it and verifies
-> that no reference survived. The snapshot file lives next to the lock
-> file under /run, for the same reason the lock file does not live in
-> /tmp. The library mounts debugfs when nothing else did, like it does
-> for configfs, and the selftest config enables the tracker together
-> with CONFIG_DEBUG_KERNEL, which it depends on, and debugfs.
-> 
-> Acked-by: Jiri Pirko<jiri@nvidia.com>
-> Signed-off-by: Petr Oros<poros@redhat.com>
-> ---
-> v3:
-> - say what the leak check waits for instead of a concurrent dump
->    holding references, which nothing does (Ivan Vecera)
-> - follow the move of the selftests to
->    tools/testing/selftests/drivers/dpll
+Hi Jonathan,
 
-Reviewed-by: Ivan Vecera <ivecera@redhat.com>
+On Sat, 7 Nov 2026 01:47:55 +0000, Jonathan Cameron wrote:
+>
+> > index b40522f01002..6b15244efabf 100644
+> > --- a/drivers/pwm/pwm-axi-pwmgen.c
+> > +++ b/drivers/pwm/pwm-axi-pwmgen.c
+> > @@ -136,6 +136,18 @@ static int axi_pwmgen_round_waveform_fromhw(struct pwm_chip *chip, struct pwm_de
+> >  	return 0;
+> >  }
+> > +static int axi_pwmgen_get_waveform_step(struct pwm_chip *chip,
+> > +					struct pwm_device *pwm,
+> > +					struct pwm_waveform_step *step)
+> > +{
+> > +	struct axi_pwmgen_ddata *ddata = axi_pwmgen_ddata_from_chip(chip);
+> > +
+> > +	step->clk_rate_Hz = ddata->clk_rate_hz;
+> > +	step->clk_cycles_per_step = 1;
+>
+> Given the only known user sets cycles_per_step to 1, what evidence
+> do we have that part of the interface is actually useful?
+>
+> I can theorise that some device might need a couple of clocks
+> but can also theorise someone might use both edges of the clock as possible
+> state transition points for a PWM.
+>
+> Note my PWM knowledge is minimal so this may be entirely garbage!
 
+None yet. axi-pwmgen is the only provider and reports 1. The field is there
+because Conor's v1 review said the code would fail if someone used a PWM
+provider with a mandatory divider. It keeps the consumer from assuming
+one clock cycle per step.
+
+If you prefer to add it when a provider needs it, I can drop it. struct
+pwm_waveform_step then keeps only clk_rate_Hz.
+
+Thanks,
+Daniel
