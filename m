@@ -1,85 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794229248;
-	b=ePgE6VEXW5KCwWcvsfXtwmR0AeOnO5BSEUzW0KLDNbm6abcVqAgPtzOeHWACAFv16X+/
-	 cUDj1PM9mwJRO+EVOhJtrWjGv+/2y6nDnQOW1dYgYLjZs5/cW64e0egzKkAW5BLZCOg0O
-	 h6aKkGeCt/WvROG07/Uq1d8fqwondNIDuu9o2VbO3ntPgL2Zjdg0wiVvUCUj+HuvMXi6S
-	 EzICO+PpfQGu9QA4ks1jQHQ56+McI/l95mId9qc59dVo+nSO5sBUzGXEuyfUZlVml9Twg
-	 VjJqbz3iNqJ++CVuDCkBU9RzD+mvoBybB3SCAP4pZMYI41BpiY+Dqk2qRge++Xhbkng==
+	t=1794229408;
+	b=lvPTFl6PsXVHpU1Y1Rs+XdszftRf79MS1KKQriN1VdSpQ2HfzR3nmodQnaRBDqFbbHID
+	 5MBVXEpA5wbtdGWpVBfzMXXFEX2e6Q9D8INfawTKanRW9tklmRxPvHWpf+xrlYTuH0sLi
+	 D7012rJlfrFQiunpV2G4eAQBigS9FyiZj/TNndS0PixJ5Ou7GuS9SeNu3/Tp1CoT84wfU
+	 zlXQXxN74IrsnUtVfwWcR67yQtXiLonU/RwWDFuMCeDhpRCV6ur7gATYzOS7C1Y++7EpN
+	 XLzKCgsb3BVS62GCtDWKY/KqG4P/1xgYjxJi5R0/MAjTL0PZssCh26+fx5AwSbEExzQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794229248;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=WH6vONAUZCDa/nrW45QhpFZ/1YVe1V2n6dO6VBPl2/U=;
-	b=weSMZe5ntlVRNkulBoPLE7+mkK6B05+KuMtFrZz4HXcn7MrpA62FiOwe+960SbhrjSHW
-	 pmXfECrvs/omaj5CaQXFem1i8Y5DxydDRIN/JjZqAhsC5bRIQznkZsNfcHGsVzWNWG4Up
-	 tVnobi8w7WLarLFGQHB/nYeAw7KCysORnu2R4GRuKTBV1njXHl0r8VVdk4uLu81cDtHTU
-	 QtnABS01zEetagcfrTK9fgeNXXzx4VAKC9mzAN3es53wScGU7swBka7/OORIGNHVW94Cp
-	 GMsarlDcHBN2EcNfm+7FyaTm03Rb/6CGpoYhmSgEgSLtugMnGBjT5LqXgh98OYBv3mg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794229408;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 From:To:Cc:Subject:X-Mailer:References:In-Reply-To;
+	bh=72Pzf80vHJ6tg7h9s2yhzIcCJ8giywOh4xxajI0FVfE=;
+	b=jOFXvNQ95gUpkX1eiijolBc0zzv9bxkvP+JQ1U5y1rhx1ExVJFgk5ipaPhk2lDlE+fjY
+	 I2wrILWh/H3qg27AmuyWLRt7PthoSMInA8HximDaACXCSIRfGAfeFccuDfC+PZNKFzV/g
+	 vhVY6lRsAMV4tMSxghqqHyJuhosgdMiGu4Tahqp4Cdx7fcjJavRti+k5NK+aKVk92T8Kq
+	 Q7Erv/wo7aonRTTPufBjKCq4Od/cyJOEo9FLjZJpu7siwtufc/xHL5XGGLgAEtiWirfzF
+	 WvNNMuVxVdgIs2YtfN/lCMDZvh8XZ+jTC40wnKQyd8Db4kHBM1e2/1LIcgX2sAgt76Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=antO0PN7;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="U2zhFn/d";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Th6NR4gp;
+	arc=none smtp.remote-ip=209.85.222.170
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C438B606A323;
-	Mon,  9 Nov 2026 13:00:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C438B606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB564606A322
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:03:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB564606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=antO0PN7;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=U2zhFn/d
-Date: Mon, 9 Nov 2026 14:00:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794229245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WH6vONAUZCDa/nrW45QhpFZ/1YVe1V2n6dO6VBPl2/U=;
-	b=antO0PN74enTHsEQP8fXrva5841B8kYJm3f/8g4WiNUDMEHnkHrqQcbV16doRVkV6t0nGR
-	wNbTi7RkTZGvikTR/Oprvgns5g1GVnTcSe6Sszl7a5/AE5a7aPnmmrzQQ4HFULeaC80aCD
-	bgYPqLN6S9hgtHUS5f6LN7lTHKm6zQIsouUUe3TziYVQkdH8LYSWLOifz3k4G1lUramJF3
-	4CnWQp3ATGFR0ewBicGlPeEcgjtByezao9+8/oKoK7Ppf/+Lx9aK4YomdAnV6tD4ZQmZRk
-	X0kJGfXk45h+K4kf0z1VV31B8pt+7qWLKiVaqKZb4vFqKxPkCp3TW4XrlznalQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794229245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WH6vONAUZCDa/nrW45QhpFZ/1YVe1V2n6dO6VBPl2/U=;
-	b=U2zhFn/dp4n9V/CkFWblCRclJtuI2mdyDqWDdZOArcG8iZM6Fkc/RpReGQJQ+HEPA9SfQq
-	IxbL4o8rbuu2EMAQ==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: Julian Braha <julianbraha@gmail.com>
-Cc: Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, arighi@nvidia.com
-Subject: Re: [PATCH v1 03/10] kconfig-checker: Add the configuration checker
- code
-Message-ID: <avHD-3JwbQofpJdH@lx-t490>
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-4-darwi@linutronix.de>
- <9729a4c6-22f9-4102-b62f-c76a75488240@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Th6NR4gp
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-93e515769d3so84509385a.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:03:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794229407; x=1794834207; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=72Pzf80vHJ6tg7h9s2yhzIcCJ8giywOh4xxajI0FVfE=;
+        b=Th6NR4gpQlycRBLRjBND2+14b1JRjtLWr70u04hTBSAFERKPkfJOkUTK3TEdNyfRL1
+         EdEWi4ne5l33XwRwB0IMecrK3EHlMksJaS2H9i4GxM3NATIPc+YcuZaUQ9+Us4vYWqu0
+         a7opGItIC1bBR5aL256gy45CpuBuBzS9m6EJBcNYglPbaUfm6KjU+s0vzQDbqgTEukLK
+         odJRimkIhb3JTbg75cf4GygFLOX8zJGE50MS07jGUEVGREv1k3k6wsr9OKQCh/zuCr0A
+         1EKAsR/Sp/3331X2ZIGFsUFaefJHCQulLSSxIfqaMlOUKO31bI9O+oU65URNeAqzzp5C
+         bNeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794229407; x=1794834207;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=72Pzf80vHJ6tg7h9s2yhzIcCJ8giywOh4xxajI0FVfE=;
+        b=sjJZCgoWKaUtOCzaz9xWNe9+T2vqS3uMwm00u6J4I/v4TQAKShoIJzKyOJfoLVmB16
+         zT/tQEaWcqzlOtPcrqbYf6TihZqv8mtgufHTZRrYDOKyTKkFyxhL0dIJrKycW8cbL/51
+         DLYcfik0nO2mlyl+2T8d8C9b/jWEnOSTRNXfVPEe7xKwvtUjlEy7Sy+JIVm3NlMcI5WQ
+         kpBhv9YuA2yOBeK2F9arXsSBznvbPfk2DhMxGret/lsWYzEvpsZZi1j4NhXl4JqbWr44
+         HmDfrvkG1O6jRmYMlrrIvi8znam8OFazQ+05SNXgUPqMomd8bhzK056/uLi61re1Mmqa
+         O0Lw==
+X-Forwarded-Encrypted: i=1; AL+hErGuGxVMiM9JRj/Jbij8kO+ajyuhOojM2ftUpuFDbH0mzwtP4WUAQoHSJM1EcYrwOm6vjPCJIImkIn0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+ocakLuMZScjidVbLF63GClXpFu+AVUD+NWKszV85sIJsZ3ROF
+	NkwORwoVQmFnLjTE/0OWkS/qIkukmLm8nRU62G1WWDl24F/pES6hGl8f
+X-Gm-Gg: AYBFou2+3kwEitsOlpcEuv07PdPUHElQDIpwzdGuIUy7cXSlUXYfpG+rcbcYrkKO7iq
+	ef3K5L2lkoKV2AbuIUo6+MYKcLWnZ0LLK7Wa/BNO7Udev5ilfCaggC4Irr3XRTM6BZ6MS+LktyG
+	3ZtVnsAjx+yk+m6+H2PjPV68ANslnJscrZObveogDRQZm4MB5oqidWKjJ+zIq/T/LBo+ZePAGDF
+	w5vWB63GBQhUu4CPWYPQaBbL9veeRugE/XU89MkofE/p5rRMaJ0eVjpzLCIIU4JoTb2Fy9AzuMQ
+	HWNh30rdUttxoTf9pR3AMwEmxRl2EZoMeFQOYHSb7QzOTgXPLg1iuglsu7zfsZ5Gq5oYHf3EOHr
+	xR4M1PfyvynKku/lxyTxLhIenxzaZUTDlSGeAWPoIJKtJR1BQJTvd97J7oJ+fs7cwnvHb8p/yCl
+	xMCHE4OG3/gQ4EmfELtYoXGffoHCYWwzQqyV1qSBdv9+thwb9hEi67UbAa1SwCXaxuloLeJwRoY
+	GDhcYwWQX/QqBdeZ2FtJRb8C6GFGiPBWU38V77Ebz6caaREJ65mO6GzohaZZ/3BntMhY/lHU/pX
+	38p2jSCivnE/blfAS9T6W1zK59pQKXD1xQ==
+X-Received: by 2002:a05:620a:400b:b0:939:fde0:a71b with SMTP id af79cd13be357-947846073e3mr613394785a.0.1794229405262;
+        Mon, 09 Nov 2026 05:03:25 -0800 (PST)
+Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94782d61906sm469034185a.14.2026.11.09.05.03.23
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2026 05:03:24 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,52 +87,99 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9729a4c6-22f9-4102-b62f-c76a75488240@gmail.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 09 Nov 2026 08:03:22 -0500
+Message-Id: <DMQP8OMF2NZ2.3K3MJRWBNXWW@gmail.com>
+From: "Daniel Zahka" <daniel.zahka@gmail.com>
+To: <netdev-bot+sashiko@kernel.org>, <daniel.zahka@gmail.com>
+Cc: <kuba@kernel.org>, <willemdebruijn.kernel@gmail.com>,
+ <davem@davemloft.net>, <edumazet@kernel.org>, <pabeni@redhat.com>,
+ <horms@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
+ <rdunlap@infradead.org>, <donald.hunter@gmail.com>,
+ <andrew+netdev@lunn.ch>, <shuah@kernel.org>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>
+Subject: Re: [PATCH net-next v3 4/5] selftests: drv-net: psp: factor out psp
+ connection setup
+X-Mailer: aerc 0.21.0-threadmapfix
+References: <20261106-psp-v3-4-a8dd38f5a727@gmail.com>
+ <179408516862.994134.13048510473902240219@kernel.org>
+In-Reply-To: <179408516862.994134.13048510473902240219@kernel.org>
 
-On Sun, 08 Nov 2026, Julian Braha wrote:
+On Sat Nov 7, 2026 at 3:59 PM EST, netdev-bot+sashiko wrote:
+> Thank you for your contribution! Sashiko AI review found more severe
+> issue(s) in other patches of this series. This mail is only an FYI, in ca=
+se
+> you want to address the nit picks below when you respin.
 >
-> On 11/6/26 09:19, Ahmed S. Darwish wrote:
-> > +
-> > +class KernelConfig:
-> > +    """.config file parser"""
-...
-> > +
-> > +    def _parse_symbols(self) -> dict[str, str]:
-> > +        """Extract CONFIG_* symbol assignments from .config"""
-> > +        symbol_set = re.compile(r'^(CONFIG_[A-Za-z0-9_]+)=([ym])$')
-> > +        symbol_unset = re.compile(r'^# (CONFIG_[A-Za-z0-9_]+) is not set$')
+> Low priority / nit picks for your consideration:
 >
-> What does this do for Kconfig's int, hex, and string options?
+> - [Low] The commit message says "Here we are adding some more error
+>   paths, so we just handle errors by closing the data sock".
+>
+> --
+>
+> selftests: drv-net: psp: factor out psp connection setup
+>
+> This commit moves the PSP connection setup and the assoc uapi calls in
+> psp.py and psp_responder.c into helpers. Other tests that start with a ke=
+y
+> exchange can then reuse that sequence. It also makes run_session() close
+> the data socket when conn_setup_psp() fails.
+>
+>> The caller of conn_setup_psp() not handling errors was preexisting. Here
+>> we are adding some more error paths, so we just handle errors by closing
+>> the data sock to make the code a bit more robust.
+>
+> [Severity: Low]
+> This isn't a bug, but is the "adding some more error paths" part still
+> accurate for v3?
+>
+> Before this patch, conn_setup_psp() returned -1 in three cases:
+> psp_rx_assoc() returning NULL, recv() returning < 0, and psp_tx_assoc()
+> returning NULL.
+>
+> After the patch, it fails in the same three cases:
+>
+>     rx_assoc() returns -1 when rsp is NULL
+>     conn_setup_psp() returns -1 when recv() returns < 0
+>     tx_assoc() returns -1 when tsp is NULL
+>
+> The v3 changelog says the per-version key length table was replaced with
+> the key length from the kernel's rx-assoc reply. That table lookup looks
+> like the only new way this function could fail, so the sentence may be
+> left over from v1/v2.
 >
 
-So far, the tool only supports stating whether an option is enabled,
-disabled, or have a neutral 'allowed' policy.
+Ah darn. I let local sashiko convince me it was a good idea not to
+ignore the return code of conn_setup_psp(), even though it is purely a
+preexisting "issue". Then, when I was writing the commit message, I
+think I was looking at the code from the next patch where
+handle_tx_assoc() rekey handler, has an extra check against the key
+length.
 
-But there's nothing stopping us from supporting something like:
+If I have to respin, I'll probably drop the code chunk below entirely.
+Otherwise if we can just edit the sentence:
 
-- name: CONFIG_PANIC_TIMEOUT
-  expected: int
-  expected_value: 10
+"Here we are adding some more error paths, so we just handle errors by
+closing the data sock".
 
-- name: CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE
-  expected: hex
-  expected_value: 0x1
+so it says,
 
-- name: CONFIG_NLS_DEFAULT
-  expected: string
-  expected_value: "utf-8"
+"Handle preexisting errors from conn_setup_psp(). No new error paths are
+introduced."
 
-In v2 of this series, I'll make the schema explicitly versioned.  This way,
-new features like the above can be cleanly added.
+Then it would be accurate.
 
-P.S.,  I can definitely implement such support, but I'm a bit hesitant to
-adding features that are not yet needed by the existing mainline policies.
+> The only behaviour change is in run_session():
+>
+>     if (conn_setup_psp(ys, opts, data_sock)) {
+>         close(data_sock);
+>         data_sock =3D -1;
+>     }
+>
+> Could the commit message give the actual reason for that change? For
+> example, the existing failures can leave a half set up data socket open.
 
-Thanks!
-
---
-Ahmed S. Darwish
-Linutronix GmbH
