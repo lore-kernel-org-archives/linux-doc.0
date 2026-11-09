@@ -1,49 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=82.195.75.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794221549;
-	b=eYSQMq8WM+CCvVFKnkVFHjwSYBRh3E+iQBwwSizbR9KerlmwDR025QdIm4KzaQ3GRbZL
-	 hH73EhnK01trh9rdcLfHPZvKmytj4he+7QEdwwr3majVDuIHadJ/rlbQ9VDe3kWZfej99
-	 3LcutQwA5GZ/Xuat5oafqe2Ke03TXXl7gq7A5i5MND5/6GkgFET5Oe/XyBWT9ciIa/3ZV
-	 g6wSP7Td4D2JD2nJJ89smDn3R7a26klvV2TpVMKCE34zGE/pczTcFiu4P5LXBOi/RtGn4
-	 L0JdXWxh4qgvWWm/EiixYGJEuZomXLVa3KbruHDhplELIc1NjdEmIzr1Vh6VhKKHaRw==
+	t=1794221977;
+	b=BBkwakf/t0wmeNSyNEf4MTPsW/wCPq/jH+gC0FeabN+bX71tdh9sqNRj9bItRh68x+il
+	 lOaCHVLSvQO5tIqyzCRDKIClP0IAp+XWpLrRZCx8gn/V4ricnWwFk6dlF4YnDKQgRKNUT
+	 JTKScWC2EHjSmEi2IT4nDy1E5dJqSi7bBiCeJThhXybnJdhud7QVX9rrgZP6tpfJ+Bb9e
+	 qsrHzYQufLyzvRNhuey6+P+sExR7fmMWGchkc/MBuQkpb0md91SORNdTg9dOG0SiVudFI
+	 fvtfNwlPnQbeT2aTs2LRofnzE393QjKLUvpwN7uOF3efkbD/a70JDr+Jk0TRkMw2x6A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794221549;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=UxA+Ma786bUcz69UgECYfkbzSxht8/ziVCDZhsC0ABw=;
-	b=DbehCN/nzJXn4AUZThJ1HP90mTWUT5T5EhnL4G53NTZMjUY/ByNbvIroDNpLYlicVr7G
-	 cigrO3IxSWUhWs8ZDt9Bed5fHDoBJZOifedZrrTsBUTrhwOjeQUs1vlW8pk36cA4T6wBG
-	 nOKJB+3Kc1bqNLV8nwnxjKhbUTt9h7l/H7cbdJBydoLdflVeZG3FX28kyt/WvdvFwKqQ+
-	 v2sRKGTOzsMGzmAHZDdzoyviHkrdHCAa95Bw1XYTvmVeHGKpQFsAwr7H6ee7o/wu6HEBf
-	 lqNFkDkvnPG4hw11aRvfxMhFoATE+mw31qG+LR6y2xwZGvhELmij9cW8kG3xcgnBxuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794221977;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Debian-User;
+	bh=osm7kcunpwMDUpa0AtafPLPtEfGBifAjr7mLSbmoxSs=;
+	b=eVkzbs0AQ20LkxESzkizoBIqB5xb7zG+6LnyAQcNmnhWrauUvp+CsZL92b1jSQroIhCY
+	 e6Omj0aBCyLw/reSt4XZ5IWNU7S112V3nXXMr5oq1vfM7DuiGe28hHzma4/hmbdiW01rf
+	 3G70Bt39ZC4QhKDF4pSbjyBUBHESOpGZHcqldNWo1PWS6hm8vTdQ4nibGSsVT97ZRxrY2
+	 M1X8LhtUxEshWY8vUEXlKr55FO78g28sBwMC2LXtLv20xS2hduaD1EVz8lV/yUnvaicUt
+	 McYq9oO2K8nDX3iqU4qSdvGR2JbrC5eJzJfT4wZ08gw1ijJhiQOJMZ378M1YIFblU3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Rklr+Ur5;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ADA0606A31C;
-	Mon,  9 Nov 2026 10:52:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5ADA0606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=debian.org;
+	spf=pass smtp.mailfrom=debian.org;
+	dkim=pass header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=PmBSvkJR;
+	arc=none smtp.remote-ip=82.195.75.108
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50D9606A31C;
+	Mon,  9 Nov 2026 10:59:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B50D9606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Rklr+Ur5
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 907EE1576;
-	Mon,  9 Nov 2026 02:52:24 -0800 (PST)
-Received: from [10.211.55.3] (unknown [10.57.89.2])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B2CD83F632;
-	Mon,  9 Nov 2026 02:52:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794221547; bh=34mglxqPLyxtLt/qr/d0nfS1stLvkhiOWpjKoz/yJEU=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=Rklr+Ur5UCmm5rK8HHf3Ge2Aq08PCNTBv6iQja3JpdfngO9dyUS24Xg2Zp2MG6UIV
-	 SfziesRXnsev/c3CaHOQMDugvkwWdSwJdhOGLKorRg8/5bAMfvC8GhvwvzklbnLFVC
-	 moNOU3iLBqzpvc6k8q6P9Z1mn5UXiTwrBQRRD22I=
-Message-ID: <7a8d6a15-5a10-4035-b825-4436cba537ee@arm.com>
-Date: Mon, 9 Nov 2026 10:52:22 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=debian.org header.i=@debian.org header.a=rsa-sha256 header.s=smtpauto.stravinsky header.b=PmBSvkJR
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=osm7kcunpwMDUpa0AtafPLPtEfGBifAjr7mLSbmoxSs=; b=PmBSvkJRE+E4aDV0EmKy+JqADs
+	Sa6/sVJSWWB5gAqwLZ+OohAFfpIy/spemjq5iYrHuBQWdFoNDRNLSiCk9l7cRaapYt5mZFq5ZXQ+H
+	81DKStnUBSMjLnUoLpTIFwr5WXFIooYVdx02LgI+ZRla4GMMsAkb8aI9IJknzC7BYWSQzyWqWWQBz
+	OxD5NGDpQPj1UIWluYnugbg4XCMzKnIOMwfDITbxUVRH7R9D8MptE97MM3pP5rMk96JjgntoCNdeX
+	nn3Qqdz8vCJ7PzN88KXwy4Nnu5RG2hmFZiw49ezDPL0L/kN7sz7Hi5+B+0Jt3SmMftsUseLKFvAVl
+	pt3W/rMQ==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1xQN5w-00BZ7X-2e;
+	Mon, 09 Nov 2026 10:59:25 +0000
+Date: Mon, 9 Nov 2026 02:59:16 -0800
+From: Breno Leitao <leitao@debian.org>
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch, edumazet@kernel.org, 
+	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	michael.chan@broadcom.com, pavan.chebbi@broadcom.com, saeedm@nvidia.com, tariqt@nvidia.com, 
+	mbloch@nvidia.com, alexanderduyck@fb.com, kernel-team@meta.com, sdf@fomichev.me, 
+	dimitri.daskalakis1@gmail.com, almasrymina@google.com, dtatulea@nvidia.com, 
+	bobbyeshleman@meta.com, asml.silence@gmail.com, daniel@iogearbox.net, 
+	razor@blackwall.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, leon@kernel.org
+Subject: Re: [PATCH net-next v3 2/9] net: devmem: charge the frag length to
+ TX skb truesize
+Message-ID: <avGneUOQtUAMvpCq@gmail.com>
+References: <20261105222058.944293-1-sdf@fomichev.me>
+ <20261105222058.944293-3-sdf@fomichev.me>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -53,122 +75,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Thunderbird Daily
-Subject: Re: [PATCH v2] fs/resctrl: Disallow monitor group rename when the
- RMID changes
-To: Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
- reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
- babu.moger@amd.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, zengheng4@huawei.com, gshan@redhat.com,
- jic23@kernel.org, x86@kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20261105123524.2282090-1-ruanjinjie@huawei.com>
-Content-Language: en-US
-From: Ben Horgan <ben.horgan@arm.com>
-In-Reply-To: <20261105123524.2282090-1-ruanjinjie@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261105222058.944293-3-sdf@fomichev.me>
+X-Debian-User: leitao
 
-Hi Jinjie,
+On Thu, Nov 05, 2026 at 02:20:51PM -0800, Stanislav Fomichev wrote:
+> Devmem TX charges each frag the net_iov size, PAGE_SIZE today:
+> zerocopy_fill_skb_from_devmem() adds PAGE_SIZE to skb->truesize per
+> frag and __zerocopy_sg_from_iter() charges it to sk_wmem_queued. TCP
+> uncharges in bytes as acked data is trimmed from the skb
+> (tcp_trim_head()) and uncharges the rest when the skb is freed. A frag
+> shorter than a page leaves the difference charged until then, which is
+> small with PAGE_SIZE net_iovs.
+> 
+> TX net_iovs are about to grow up to 2MB, while frags stay bounded by
+> the skb and many frags share a net_iov. Charging the net_iov size would
+> charge up to 2MB per frag: a 64KB skb with two frags would charge 4MB
+> and fill the default 4MB send buffer on its own.
+> 
+> Charge the frag length instead, which also matches what TCP uncharges.
+> 
+> Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
+> Reviewed-by: Mina Almasry <almasrymina@google.com>
+> Reviewed-by: Dragos Tatulea <dtatulea@nvidia.com>
 
-On 05/11/2026 12:35, Jinjie Ruan wrote:
-> From: Peter Newman <peternewman@google.com>
-> 
-> A monitor group can be renamed into the mon_groups directory of another
-> control group to move its tasks to that control group's allocation
-> while keeping their monitoring data. Where the RMID is only meaningful
-> together with the CLOSID, as on arm64 MPAM where the RMID is a PMG that
-> extends the PARTID, this move does not work. The rename succeeds, but:
-> 
-> - The group's monitoring data is reset. Its counters are identified by
->   the CLOSID and RMID together, so after the move the group reads the
->   counters of the new CLOSID instead of the ones its tasks used.
-> 
-> - The tasks are not moved. mongrp_reparent() sets the new parent and
->   CLOSID of the group before rdt_move_group_tasks() looks for the tasks
->   to update, and the search then matches on the new CLOSID, which none
->   of the tasks carries yet. The tasks keep the old CLOSID and the old
->   control group's allocation, and the group does not count them.
-> 
-> The move has never worked on these systems, so rejecting it does not
-> take away behavior that an existing user can rely on.
-> 
-> Reject the move with -EOPNOTSUPP when it changes the RMID index of the
-> group, and document the restriction in resctrl.rst. Where the RMID does
-> not depend on the CLOSID, such as on x86, the move keeps the same index
-> and is still allowed.
-> 
-> Fixes: 3e9b35823aab ("arm_mpam: resctrl: Add rmid index helpers")
-> Signed-off-by: Peter Newman <peternewman@google.com>
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> Cc: <stable@vger.kernel.org> # 7.1.x
-> Link: https://lore.kernel.org/lkml/20241205153845.394714-1-peternewman@google.com/
-> Link: https://lore.kernel.org/lkml/20261031101052.1692230-1-ruanjinjie@huawei.com/
-> ---
-> v2:
-> - Drop the Suggested-by tag.
-> - Describe the systems by whether the RMID depends on the CLOSID rather
->   than by MPAM, in both the changelog and resctrl.rst.
-> - Explain that moving a monitor group is already broken on these systems
->   because the tasks are not moved, so no existing user relies on it.
-> - v1: https://lore.kernel.org/all/20261104101913.586595-1-ruanjinjie@huawei.com/
-> ---
->  Documentation/filesystems/resctrl.rst |  7 ++++---
->  fs/resctrl/rdtgroup.c                 | 13 +++++++++++++
->  2 files changed, 17 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-> index b52795e03303..9ae34aace0ff 100644
-> --- a/Documentation/filesystems/resctrl.rst
-> +++ b/Documentation/filesystems/resctrl.rst
-> @@ -552,9 +552,10 @@ will automatically remove all MON groups below it.
->  Moving MON group directories to a new parent CTRL_MON group is supported
->  for the purpose of changing the resource allocations of a MON group
->  without impacting its monitoring data or assigned tasks. This operation
-> -is not allowed for MON groups which monitor CPUs. No other move
-> -operation is currently allowed other than simply renaming a CTRL_MON or
-> -MON group.
-> +is not allowed for MON groups which monitor CPUs, and fails with
-> +-EOPNOTSUPP on systems where the RMID depends on the CLOSID. No other
-> +move operation is currently allowed other than simply renaming a
-> +CTRL_MON or MON group.
-
-A user may not readily know whether RMID depends on CLOSID. To document
-this properly we need something specific we can point the user too.
-Perhaps this can be a file in the info directory specifying whether the
-move is possible or not, info/moveable_mon_group, as we discussed in v1.
-I suggest a precursor patch adding this file, followed by this patch
-which can then refer to the file.
-
-Thanks,
-
-Ben
-
->  
->  All groups contain the following files:
->  
-> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-> index e6b64a5c9302..3c002b711024 100644
-> --- a/fs/resctrl/rdtgroup.c
-> +++ b/fs/resctrl/rdtgroup.c
-> @@ -4398,6 +4398,19 @@ static int rdtgroup_rename(struct kernfs_node *kn,
->  		goto out;
->  	}
->  
-> +	/*
-> +	 * Moving the group changes the CLOSID. Where the RMID is only
-> +	 * meaningful together with the CLOSID, the RMID index changes and the
-> +	 * monitor state cannot follow the move.
-> +	 */
-> +	if (rdtgrp->mon.parent != new_prdtgrp && resctrl_arch_mon_capable() &&
-> +	    resctrl_arch_rmid_idx_encode(rdtgrp->closid, rdtgrp->mon.rmid) !=
-> +	    resctrl_arch_rmid_idx_encode(new_prdtgrp->closid, rdtgrp->mon.rmid)) {
-> +		rdt_last_cmd_puts("Changing parent control group not supported\n");
-> +		ret = -EOPNOTSUPP;
-> +		goto out;
-> +	}
-> +
->  	/*
->  	 * If the MON group is monitoring CPUs, the CPUs must be assigned to the
->  	 * current parent CTRL_MON group and therefore cannot be assigned to
-
+Reviewed-by: Breno Leitao <leitao@debian.org>
