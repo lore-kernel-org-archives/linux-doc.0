@@ -1,85 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794243894;
-	b=U8e+0xLXGdlv2Xrl6skFJQXT1Rz+mJiWg8dy7uInBYoAyaHZYmEHVnsrpojEjI1QJ667
-	 tZtxPc3mbIPX0+shVDJRaWHdbSNhACy8MHtStT0q0DJ4tNGfRS6V/HU14AM7nSAeXa7QY
-	 dMFCzyRu64xMPNILyumV3xSsxUsVVdX1TAc7d0rjpUrR5glm00LmMhSCxKJmUKDgPpdkQ
-	 JxMq1+FpwYNpF2r/siwue/RYP6eDtF0qqZB0BG13WY5aZ+pYAs/+hMQT8lw6ySkrMG2Wt
-	 GulPAG1CFVVfSA9daYjctolJe0RwZm/3+SrWGden1qT0HW7+i2PLydEi6GW+OzN2hLA==
+	t=1794244025;
+	b=2xWZedBPp6IkxoltzR9WN3hocfmJKSeNTta4bIHvFH5+yGuigcZ1Uvtnu6YitQ43/y1I
+	 wqPK+gqafHInsHUeAy+8owXVmHMxEK0rU5W1hMYXjQHBRpz+5vMqSA6mbPfDKZXxkUyU2
+	 tJjM3J+LwqQAScv4VzTkNtkhvHqkIbsK1EucxuRHxNbwnNE4IrcL2vr/emXZjtj23GaFd
+	 /Yy1fvY44e/7GyXy7vlyeaG20qJAC5b8tEz/xuyZxEBCQ6YPBhvYCQ1FXjLeYwZVFn5UG
+	 z4y94TMKjPY0POaE7GmcVC81IBtzuMoYC82PG8LZ/lrW6JOmvQsJKaTE0sv1J/ljK8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794243894;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=93TBdXA6VfwaeFyOsaksO5eGGGBGxnvWIH0FYk6LMa8=;
-	b=zyW01840jDqOGKdBJvjlftpJ2irB5wu6ccv/9hFjuHhX1T7t1wWbnFPBlt3SNowuL71p
-	 EduLSFDSp3B5BLQ5RXNG69MeSBO419v4o/bya1WXLZNixKCXlZJjgBBSaRwm8Lo3anIGT
-	 V/phdh6DD9/EcHWoy5pob+ng2wNREoJuFfyWjSSZ659xtubqg7DA7luzDBZy0Ywnzl1Q/
-	 Bgh7rLnyUkGpdkgU8fHduZtqm1P7nyxb8DxNcQ8pY3542iPlR5cM/0IuH6WXLdiOj8y9/
-	 LMeR3VextsRrWiGZ45iURyaGwwc6FDhKB03Fy/rKTLHlFHLXETWwjZdnNOaosbe2UVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794244025;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=06Zv0znhLmg5OavWY3OXVPPVdfJNKAX6s75bovII1PY=;
+	b=yc1FO0pufJ6NTQxOsBR7VOtSzLptGfpWJbCZEgrcOKOzKOXRG+eEKIC1cRYGzCn7fUZy
+	 +HP6Az2BwzmG8sP6ER9wh1pQzshgWvDM9XrOcoQwATXmuHBa0cqs8LLSFLs3R/puRaYST
+	 Jqon4GbeHIl8IOKNgKE0RQMAEoSNj1xdGFSYAXxzEShSvfZew5ApX97dnMezsbINqq6Ca
+	 NCsf5A2vOu809Wr5f0+Wec6HKk+vf0wRhomTbxqN0TFCxPdiPM/5h+70L3sKlhZNbX7mE
+	 LO8QKeV/dgngPzFhrYqjMmGoJQ6wKPdQNDB9gjI+eIHSka7F/z5p95uVnWw/9aIsX1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=RN+oHVFZ;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=35fhVzPt;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AHwK5PAK;
+	arc=none smtp.remote-ip=198.175.65.12
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD28B606A336;
-	Mon,  9 Nov 2026 17:04:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD28B606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06331606A331
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 17:07:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06331606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=RN+oHVFZ;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=35fhVzPt
-Date: Mon, 9 Nov 2026 18:04:50 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794243892;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=93TBdXA6VfwaeFyOsaksO5eGGGBGxnvWIH0FYk6LMa8=;
-	b=RN+oHVFZwQ2NPQQk9VOl1tZfMbv+3RmVj2ko/T1efzO8XsZmrAZa8Y3eyyZEr5nfr38tdv
-	KEnB1ufoD9n6eY1ZtYptaPnAHf/oW6zuC0U84UAKZ9VGDrzAmpT/5jaxJfYjAt24ys8jH9
-	Nc35jtRE/0Yg42oVdhnkwqhMHT90HOjCif5W8ZeEQVyeuK9qSKWhmtc4G79poG8gpiUOXL
-	M0at766FG1K1sLfnrKC8F/RMVrcZLJY4nWVqVNWAkGgT87GdLq7OMGgtlxhA5b3/24GpZz
-	yLjZwSAoAkOMpFM+IdIUM+1VWRRkamtIFpvHoxU7ZvtSlPo/weQrSSOAMtl5yw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794243892;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=93TBdXA6VfwaeFyOsaksO5eGGGBGxnvWIH0FYk6LMa8=;
-	b=35fhVzPtetsHVOTgVfJ+fvDbzOaNXhaTQrfRJG+Usykq5mzxKHaXLskP3dT/cqhCk4X4du
-	wjp1q/3bgb8sQGAw==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Julian Braha <julianbraha@gmail.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>, Nicolas Schier <nsc@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, arighi@nvidia.com
-Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
-Message-ID: <avH9Mo05xQjv5wYq@lx-t490>
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
- <20261109003745.GA3429615@ax162>
- <avHxmCEdHgyRD7n0@lx-t490>
- <20261109165230.GC1608140@ax162>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=AHwK5PAK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794244024; x=1825780024;
+  h=date:from:to:cc:subject:message-id;
+  bh=GlHId5VbgqE/lXAPcIftpZWFIfHmatBERgf8idEpWrQ=;
+  b=AHwK5PAKt7kVqi38DCVOqRPcNO2KLYzLYoVgs7Xj+xVKFKKgk0/RuduT
+   mrrPBHK3pQRbX2lcpxXwzILUwoA9nc6YK6qppTSrs16z3XF7B+ikQNDAB
+   j3AqQoH5hYiP0u32ldEA89SfFcMcWvJ1ZypQBHB1kOwl4GitTWI1KFLVf
+   +Nv6ZEopd6QqZQVsyjjh6VUWQdVJSxt7umn3g042QtF/QhQlTLjaJkEsu
+   O3Ut+VrfZuQ/01WaJJf91DzK4/Rv1plU2hCT75Xf6sahVSHJABz/e8giO
+   A4g3/mSMy5lhSZM+WRa+KvwuQvJ63Q0WKXOqdNb5vs8fRY69hDjTcPJkn
+   Q==;
+X-CSE-ConnectionGUID: gXkT+XsVS7mOiFaT3Y+9BA==
+X-CSE-MsgGUID: WlWMFM4zSiu+2c/Pz3Rm8w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2853083"
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="2853083"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 09:07:03 -0800
+X-CSE-ConnectionGUID: +unzSewUTUqL1uQCg1XoBQ==
+X-CSE-MsgGUID: mkt3bj2xRUeVf0P9ByaceA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
+   d="scan'208";a="8346753"
+Received: from igk-lkp-server01.igk.intel.com (HELO 1db0d17a343c) ([10.211.93.152])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Nov 2026 09:07:00 -0800
+Received: from kbuild by 1db0d17a343c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xQSpd-000000000Pj-3O4U;
+	Mon, 09 Nov 2026 17:06:57 +0000
+Date: Mon, 09 Nov 2026 18:06:33 +0100
+From: kernel test robot <lkp@intel.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: oe-kbuild-all@lists.linux.dev,
+ Philip Radford <philip.radford@arm.com>, linux-doc@vger.kernel.org
+Subject: [cris:scmi_telemetry_ng_V15 33/35] htmldocs:
+ Documentation/userspace-api/stlm.rst:538: WARNING: duplicate label
+ userspace-api/stlm:example, other instance in
+ Documentation/userspace-api/stlm.rst [autosectionlabel.userspace-api/stlm]
+Message-ID: <202611091845.fKYoQV7e-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,35 +82,47 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109165230.GC1608140@ax162>
 
-On Mon, 09 Nov 2026, Nathan Chancellor wrote:
->
-> On Mon, Nov 09, 2026 at 05:15:20PM +0100, Ahmed S. Darwish wrote:
-> >
-> > What about kconfig-audit?  Something like:
-> >
-> >    ./tools/kconfig-audit/audit.py -c .config -p preempt_rt
-> >
-> >    make POLICY=preempt_rt auditconfig
-> >
-> > config-policy-checker does sound good, but it feels verbose.
-> >
-> > Feedback appreciated.
->
-> Yeah, config-policy-checker is a little verbose and might not translate
-> into make rules well. kconfig-audit does not sound bad to me, especially
-> with the rename of RULES to POLICY; at the very least, it is on the
-> right track.
->
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/cris/linux.git scmi_telemetry_ng_V15
+head:   d51f22cab86f4ad2f08b4e88803f85fdffd81a62
+commit: 1e746acbc11600662c1d751ca799c60bfcb2fd02 [33/35] Documentation: Add SCMI System Telemetry documentation
+compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
+docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
+sphinx: sphinx-build 9.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20261109/202611091845.fKYoQV7e-lkp@intel.com/reproduce)
 
-Thanks!
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611091845.fKYoQV7e-lkp@intel.com/
 
-Then, kconfig-audit it is.
+All warnings (new ones prefixed by >>):
+
+   return 0;
+   } [docutils]
+>> Documentation/userspace-api/stlm.rst:538: WARNING: duplicate label userspace-api/stlm:example, other instance in Documentation/userspace-api/stlm.rst [autosectionlabel.userspace-api/stlm]
+   WARNING: Unparseable C cross-reference: 'return'
+   Invalid C declaration: Expected identifier in nested name, got keyword: return [error at 6]
+   return
+   ------^
+   Documentation/gpu/rfc/gpusvm:70: ./drivers/gpu/drm/drm_gpusvm.c:70: WARNING: Lexing literal_block 'struct driver_range {\n        struct drm_gpusvm_range base;\n        unsigned int num_pages; // 1: inline_pages, >1: pages[]\n        union {\n                struct drm_gpusvm_pages inline_pages;\n                struct drm_gpusvm_pages *pages;\n        };\n};\n\nstatic struct drm_gpusvm_pages *\ndriver_pages(struct driver_range *drange)\n{\n        return drange->num_pages == 1 ? :c:type:`drange->inline_pages <drange>` :\n                                        drange->pages;\n}' as "c" resulted in an error at token: '`'. Retrying in relaxed mode. [misc.highlighting_failure]
+
+
+vim +538 Documentation/userspace-api/stlm.rst
+
+   528	
+   529	 - SCMI_TLM_GET_SHMTI_LIST: Gather a list of open file descriptors, one for
+   530	   each SHMTI memory area defined for this instance, that can be used to
+   531	   memory-map such areas in the calling process address space so as to be
+   532	   able to directly access the SCMI Telemetry SHMTI areas shared by the
+   533	   platform firmware, and parse the TDCF format.
+   534	   The SCMI Telemetry TDCF format is defined in the specification at [1].
+   535	
+   536	
+   537	Example
+ > 538	=======
+   539	
 
 --
-Ahmed S. Darwish
-Linutronix GmbH
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
