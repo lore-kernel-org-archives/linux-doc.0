@@ -1,95 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.75.44.102
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794194713;
-	b=wTT1pcL3sRmwy0ckKlGyo3cBJgO4fKWoVP4kp4GXTcr59z7haax0jPreZrKr3puJHHVE
-	 xPa8ek4Ev2y/o0jycQi2fuQ0BGRn1m7Ypohcshr9kBl0xpw3dmFxrv3jo+wV09JbO2n7Q
-	 QqcBkhlyV63HFN2pip1jxpdLAvHoOOimqEkDGowhotPsMGuVsGJDH8UbygGG1gY4tWLvv
-	 hVQITH9JHn+Zapt9hJ0a59/EsB8zxiH1x4WmIbNJJbbDw9yd5sEBw30FGZWXTPBvXx9GB
-	 oEN5isu4uDDqvPqd3sK3/R5L+O44Wj5RxZChsQQU36MgLH66fkIO4zXHU8G2qSGJSpg==
+	t=1794196540;
+	b=WcqKyA2ngZThFDYdpZgcMB7SZ6vyvyFeL4IvTSoqcny7JgSPq/QuVnF60xwXz6+iQqJo
+	 Ths0d692nC5IyaG9FBxiA7rCjvvKvFFiJFwAuRqEeMqdHrxTQwLcZnsavossnlnzYTmkH
+	 qfRP3Ae3D4ydo2RE7WL/D7Ad1y+YtEmQTPIwFsx4xQHUi3oVMrqf2YKuudT9rrxqYdbby
+	 rVvND8ZcqZjF1ivyNm6TRSgMTStB9rIi+SBw+ewUF1y3jK+Hf0k1OUBQrLJG/WKVCtPJv
+	 0O5NDJWyxmNd2w2X5+5UlStzXE33Kmdvrwn2setkDa9lZ+TaCEKXcOfjgu1SjHQbBaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794194713;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=eTaG4po7JA0cxHHzPKYf/i0rJCeMPEuRJN+blMdHnPo=;
-	b=Ly2UJPrZOdDCwJsBGZ6Xted/3wk1zmaaeM8CTSsqyl0/Hi0sW7JedkuOScbkdysOo6Tr
-	 NZOo0zJIls2YnK9fZ8j6qk7GXABu7WMAsjGIhgp4wO2RSvuHOif4jIH0PBkFeOPmS+kHV
-	 tezZCtwcUSqp10ernwmH7nszOu9+g514WKolIFME1MvSKzT3COXkT8K7Z4ECaI8wr92vq
-	 ozDXhWs2NQypcUsBjiSXV5Gz+3cnZvYrohdnvrXG0C3kiulemfOyrj05jGvmeQtk+EJju
-	 VG5IUbGE48rT2fai9K5vy3l0HrEHE+oLAQftnKYqSQRKWgWOoJ4/qX+iDCguE+pZpcQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794196540;
+	h=DMARC-Filter:Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=XPh+OcnEJvfGT6LN2h2fnqdHO1FoKDbHfQDe0DB04t0=;
+	b=n0WGTh9WfFu73VHHCu9elqN5e0wESp9wcD3GPalFIvHm4sSrx2lpYfA9fyOLBRTG6bp5
+	 re28LcJOzIUGhbO0tUvSEKwaQViayYZy+7lfLvk5AsYi8e69vZL5fME443W6sssJUs7Jg
+	 8rAD7eRE9zAfhjnorEu0EPo6G1frPPXDZMqO5fziB/qKRFi4aMmYfG9to8mXi3oou5wpa
+	 DJJLmBtrC5r4Nl3BBQ3Wz+hJ9P4YP4B69NjwwdiVX7Rjvvsdf2JEi2/44g6ccF5HdvHce
+	 fh548L+C3JUNnu/g5WH7XWcJVylSGcmPyFpf7/GYWODHAFnqX7UzmcQPZxMAj5btLkg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PvVTg2dR;
-	arc=none smtp.remote-ip=209.85.128.173
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AB9606A31C
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 03:25:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99AB9606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PvVTg2dR
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8b331cad3cfso2645587b3.1
-        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 19:25:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794194711; x=1794799511; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eTaG4po7JA0cxHHzPKYf/i0rJCeMPEuRJN+blMdHnPo=;
-        b=PvVTg2dR3OKpP6HA7e7DbCF1MMxbk5NaYLH96vkhoAn5lQd3YrGLlsO0jwmJErNu00
-         vZNjutx4Ef34lntLPR1OQfgGInJq7nUZc10ZQYnMAUuHENnVmG3HUKzW/CXNQ9wa8f6q
-         tMtZBBb8UXGge06ygaecVzmBm2WClKmNqjjOwREYT8trqbjKxiSKrzw5STtjvguewHxW
-         SDoHTKSKmtVFSdse6UzYblJXOHCN4rGOME7ZDY3n+TpaOgLpqrDVX2spc7+WYfKY6hnB
-         r9ya/j0bJrEL6JvOjJfAPkFAYo0L2VqUr2DrP9ZUygI6D5osMCzwA4Tf4bQpLAnULQni
-         ujpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794194711; x=1794799511;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=eTaG4po7JA0cxHHzPKYf/i0rJCeMPEuRJN+blMdHnPo=;
-        b=gSZjN8/wLTapte4p4owwiN9KO+SvK3wDTVTjaOiyiB4ySdroYSYsVRyNlHu4nzGsYX
-         xQ2P+I/ko7XXGuA7w5OnSPyPpNUD2IlI7JDT7jZ1sby5I06NJ65KQxEacttvBPg/nvcY
-         +gzN4kJKdnaWa9CU/bFA7aPNzTvfHz2pWNb8lWNTjJHAiMu083gy6/YLD94m8DMYHpPQ
-         1tQs/dRU7eYCSIiY9pmxqtwX5QT3KCnSwUASfGKt1ZBtyn3jNqCYPIB5oYTvFM3K85X0
-         e7nJPhym8yv8uA5zRnvC3baf+L80kSIPtlaLeFSS9YI8aXrTg8QAKOp5iFSDH3yWUZTO
-         OqwQ==
-X-Forwarded-Encrypted: i=1; AL+hErEWnOQ28LWbRNCRPVAEBnltPhehcT/UdLI1W6EG0hqL5/MMqIpLj/7RtY7xH1deVMWTeMys8TFCyqQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8D6q97n9R6AM0MgbOHomlWD+YEb7U+KQ/YNsM68RZ6G0dJekvy
-	6d0ANqJdkCsUF0zgvxGfDyaICSQcYWTwiWZFeHMQA73qbvZQ7NQcr+Sf
-X-Gm-Gg: AYBFou1a3/mruuUu/vEvUX0q3AFjM+NJfEarJa6bW5eiyCDkR0w5Juv8hzna7UPE5iD
-	TmAC0+pQ+4wkIs8JErPIh+oylMVv1ycF5vbUCmqGI6hX2GQE2Dw8BiI9T8TzyIaQStVCqo404x1
-	Hqr/6EqXdGWKyFCcueXyICOwRob9ASilrRYwrjf2kzwpVK+QcvNXqYFtSFMtJSopT02CGzxtzzN
-	IpSd3ucv0U58RamERHEr9zQtRrOe2jJWONjuGNxnbzPq72QscwapRgQGK882bJXRyUw0WCbEwiF
-	pirZY2lpGuEanvc95MpzPqilxTSZ/ZQoLBqy8Phy20H2VZEgKSPm8xZ6sD1wdXBOI/St4x1H8wJ
-	x/Nw75W2lwFel/Rez6Wdtft5SmG5BZFt1I6+mdckIWNGU+bcyWq3NuCwpnhMSjNBUwZozFwM3so
-	qjOtRRgcmWA7/Vl9/s1MOOycSkr7+s7Z/3a7JZntNmz78uQh77KQSa+INIg0z6BDZhjUmYRMakO
-	u4N2aT9UyjmIuDrpmlUZqHv4q4aUD8ZWsIfQ4+ToUbiU/jB5R68avyMYsVkuLZxy7UB4NFUc+I5
-	0ImQq7DaBJCddGVk3OCfqzcWu+bN6w==
-X-Received: by 2002:a05:690c:83:b0:8b2:e27b:95db with SMTP id 00721157ae682-8b36c844f03mr21523687b3.2.1794194711580;
-        Sun, 08 Nov 2026 19:25:11 -0800 (PST)
-Received: from pop-os ([2804:14c:daa2:8daa:7f0e:a9ca:25e0:599f])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b36bb42553sm26782717b3.15.2026.11.08.19.25.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 19:25:11 -0800 (PST)
-From: Giovanna Macedo Cox <giovannamccds@gmail.com>
-To: Daniel Pereira <danielmaraboo@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=13.75.44.102
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0FF38606A31C;
+	Mon,  9 Nov 2026 03:55:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0FF38606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMAWPsY1RPFqiwoKAA--.22638S2;
+	Mon, 09 Nov 2026 11:55:33 +0800 (CST)
+Received: from hust.edu.cn (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wCXYh4yRPFqgWQQAA--.21328S2;
+	Mon, 09 Nov 2026 11:55:31 +0800 (CST)
+From: Dongliang Mu <dzm91@hust.edu.cn>
+To: Jonathan Corbet <corbet@lwn.net>
 Cc: Shuah Khan <skhan@linuxfoundation.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
+	Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Giovanna Macedo Cox <giovannamccds@gmail.com>
-Subject: [PATCH] docs: translations: pt_BR: translate gdb-kernel-debugging
-Date: Mon,  9 Nov 2026 00:24:53 -0300
-Message-ID: <20261109032455.33944-1-giovannamccds@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: improve translation update checks across locales
+Date: Mon,  9 Nov 2026 11:55:30 +0800
+Message-ID: <4c0221d662b7e8521d93000ad6ae09300dbda9c1.1794196480.git.dzm91@hust.edu.cn>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20261107000338.1243411-1-dzm91@hust.edu.cn>
+References: <20261107000338.1243411-1-dzm91@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,230 +60,368 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IQEQrMAWPsY1RPFqiwoKAA--.22638S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvAXoW3CF1fXw1UKFW7CFWUZrykGrg_yoW8XFWfJo
+	ZxWw45Cw1Ivw45JF1UCr4kJFy3CF1SkF4kA345Cw1q9w12ywsYg3yfZwn8Wa4fArW3ur93
+	Z343XayrXa1qyF93n29KB7ZKAUJUUUU3529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUOG7k0a2IF6w4kM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+	IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJr0_GcWl84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwCY1x0262kKe7AKxVWUAVWUtw
+	CY02Avz4vE-syl42xK82IYc2Ij64vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC2
+	0s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr
+	0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0E
+	wIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJV
+	W8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Cr0_Gr1UMIIF
+	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07bxv3nUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Translate gdb-kernel-debugging to Brazilian Portuguese
-and add toctree section in index.
+Improve locale-wide scans and report English documents without matching
+translations. When a translation commit lacks its English source in its
+history, use the source history at HEAD for the author-date fallback.
+Capture Git errors for unavailable commit IDs, honor --logfile, and stop
+at the first file that cannot be checked.
 
-Signed-off-by: Giovanna Macedo Cox <giovannamccds@gmail.com>
+Update the English and zh_CN guides to describe the fallback behavior,
+directory arguments, and logging options.
+
+Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
 ---
- .../debugging/gdb-kernel-debugging.rst        | 187 ++++++++++++++++++
- .../pt_BR/process/debugging/index.rst         |   6 +-
- 2 files changed, 192 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/translations/pt_BR/process/debugging/gdb-kernel-debugging.rst
+v1->v2: add the missing sign-off-by tag
 
-diff --git a/Documentation/translations/pt_BR/process/debugging/gdb-kernel-debugging.rst b/Documentation/translations/pt_BR/process/debugging/gdb-kernel-debugging.rst
-new file mode 100644
-index 000000000..cc1146aea
---- /dev/null
-+++ b/Documentation/translations/pt_BR/process/debugging/gdb-kernel-debugging.rst
-@@ -0,0 +1,187 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. highlight:: none
-+
-+Depuração do kernel e módulos via gdb
-+=====================================
-+
-+O depurador de kernel kgdb, hipervisores como o QEMU ou interfaces de
-+hardware baseadas em JTAG permitem depurar o kernel do Linux e seus módulos
-+durante a execução utilizando o gdb. O gdb vem com um poderoso script de
-+interface python. O kernel fornece uma coleção de scripts de ajuda que
-+podem simplificar passos de depuração típicos do kernel. Este é um pequeno
-+tutorial sobre como habilitar e usá-los. Ele se concentra em máquinas
-+virtuais QEMU/KVM como destino, mas os exemplos também podem ser adaptados
-+para outros stubs do gdb.
-+
-+Requisitos
-+----------
-+
-+- gdb 7.2+ (recomendado: 7.4+) com suporte python habilitado (normalmente
-+  habilitados em distribuições)
-+
-+Configurações:
-+--------------
-+
-+- Crie uma máquina virtual Linux para QEMU/KVM (veja www.linux-kvm.org
-+  www.qemu.org para mais detalhes). Para desenvolvimento cruzado,
-+  https://landley.net/aboriginal/bin mantém um conjunto de imagens de
-+  máquinas e conjuntos de ferramentas que podem ser úteis como ponto de
-+  partida.
-+
-+- Construa (Build) o kernel com CONFIG_GDB_SCRIPTS habilitado, mas deixe
-+  CONFIG_DEBUG_INFO_REDUCED desabilitado. Se sua arquitetura suportar
-+  CONFIG_FRAME_POINTER, mantenha habilitado.
-+
-+- Instale esse kernel no sistema convidado e desative o KASLR se
-+  necessário, adicionando “nokaslr” à linha de comando do kernel. Como
-+  alternativa, o QEMU permite inicializar o kernel diretamente
-+  usando -kernel, -append, -initrd troca de comando de linha. Isso é
-+  geralmente usado apenas se você não depender de módulos. Veja a
-+  documentação QEMU para mais detalhes sobre esse modo. Nesse caso,
-+  você deve construir(Build) o kernel com CONFIG_RANDOMIZE_BASE
-+  desabilitado se a arquitetura suportar KASLR.
-+
-+- Construa os scripts gdb(necessário no kernel v5.1 ou superior)
-+
-+        - Crie scripts_gdb
-+
-+- Habilite o stub gdb do QEMU/KVM, seja
-+
-+    - No momento da inicialização da VM adicione "-s" na linha de
-+      comando QEMU
-+
-+  ou
-+
-+    - durante o tempo de execução, digitando "gdbserver" no console de
-+      monitor QEMU
-+
-+- cd /path/to/linux-build
-+
-+- Inicie a gdb: gdb vmlinux
-+
-+    Observação: algumas distribuições podem restringir o carregamento
-+    automático de scripts do gdb a diretórios conhecidos como seguros.
-+    Caso o gdb informe que se recusa a carregar o vmlinux-gdb.py,
-+    adicione::
-+
-+        add-auto-load-safe-path /path/to/linux-build
-+
-+    Para ~/.gdbinit. Veja gdb help para mais detalhes.
-+
-+- Conecte-se ao sistema convidado já inicializado::
-+
-+    (gdb) target remote :1234
-+
-+Exemplos de uso do Linux-provided gdb helpers
-+----------------------------------------------
-+
-+- Carregue os símbolos do módulo (e do kernel principal)::
-+
-+    (gdb) lx-symbols
-+    loading vmlinux
-+    scanning for modules in /home/user/linux/build
-+    loading @0xffffffffa0020000: /home/user/linux/build/net/netfilter/xt_tcpudp.ko
-+    loading @0xffffffffa0016000: /home/user/linux/build/net/netfilter/xt_pkttype.ko
-+    loading @0xffffffffa0002000: /home/user/linux/build/net/netfilter/xt_limit.ko
-+    loading @0xffffffffa00ca000: /home/user/linux/build/net/packet/af_packet.ko
-+    loading @0xffffffffa003c000: /home/user/linux/build/fs/fuse/fuse.ko
-+    ...
-+    loading @0xffffffffa0000000: /home/user/linux/build/drivers/ata/ata_generic.ko
-+
-+- Defina um ponto de interrupção em alguma função de um módulo que ainda
-+  não foi carregado, por exemplo::
-+
-+    (gdb) b btrfs_init_sysfs
-+    Function "btrfs_init_sysfs" not defined.
-+    Make breakpoint pending on future shared library load? (y or [n]) y
-+    Breakpoint 1 (btrfs_init_sysfs) pending.
-+
-+- Continue com o alvo::
-+
-+    (gdb) c
-+
-+- Carregue o módulo no alvo e veja os símbolos serem carregados, bem como o
-+  ponto de interrupção sendo acionado::
-+
-+    loading @0xffffffffa0034000: /home/user/linux/build/lib/libcrc32c.ko
-+    loading @0xffffffffa0050000: /home/user/linux/build/lib/lzo/lzo_compress.ko
-+    loading @0xffffffffa006e000: /home/user/linux/build/lib/zlib_deflate/zlib_deflate.ko
-+    loading @0xffffffffa01b1000: /home/user/linux/build/fs/btrfs/btrfs.ko
-+
-+    Breakpoint 1, btrfs_init_sysfs () at /home/user/linux/fs/btrfs/sysfs.c:36
-+    36              btrfs_kset = kset_create_and_add("btrfs", NULL, fs_kobj);
-+
-+- Descarregue o buffer de log do kernel de destino::
-+
-+    (gdb) lx-dmesg
-+    [     0.000000] Initializing cgroup subsys cpuset
-+    [     0.000000] Initializing cgroup subsys cpu
-+    [     0.000000] Linux version 3.8.0-rc4-dbg+ (...
-+    [     0.000000] Command line: root=/dev/sda2 resume=/dev/sda1 vga=0x314
-+    [     0.000000] e820: BIOS-provided physical RAM map:
-+    [     0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009fbff] usable
-+    [     0.000000] BIOS-e820: [mem 0x000000000009fc00-0x000000000009ffff] reserved
-+    ....
-+
-+- Examinar os campos da estrutura da tarefa atual (compatível apenas com
-+  x86 e arm64)::
-+
-+    (gdb) p $lx_per_cpu(runqueues).nr_running
-+    $3 = 1
-+    (gdb) p $lx_per_cpu(runqueues, 2).nr_running
-+    $4 = 0
-+
-+- Explore os hrtimers usando o auxiliar `container_of`::
-+
-+    (gdb) set $leftmost = $lx_per_cpu(hrtimer_bases).clock_base[0].active.rb_root.rb_leftmost
-+    (gdb) p *$container_of($leftmost, "struct hrtimer", "node")
-+    $5 = {
-+      node = {
-+        node = {
-+          __rb_parent_color = 18446612686384860673,
-+          rb_right = 0xffff888231da8b00,
-+          rb_left = 0x0
-+        },
-+        expires = 1228461000000
-+      },
-+      _softexpires = 1228461000000,
-+      function = 0xffffffff8137ab20 <tick_nohz_handler>,
-+      base = 0xffff888231d9b4c0,
-+      state = 1 '\001',
-+      is_rel = 0 '\000',
-+      is_soft = 0 '\000',
-+      is_hard = 1 '\001'
-+    }
-+
-+Lista de comandos e funções
-+---------------------------
-+
-+O número de comandos e funções úteis pode mudar com o tempo; esta é apenas
-+uma visão geral da versão inicial::
-+
-+ (gdb) apropos lx
-+ função lx_current -- Voltar à tarefa atual
-+ função lx_module -- Encontrar o módulo pelo nome e retornar a variável
-+ do módulo
-+ função lx_per_cpu -- Retorna a variável por CPU
-+ função lx_task_by_pid -- Localiza uma tarefa do Linux pelo PID e retorna a
-+ variável `task_struct`
-+ função lx_thread_info -- Calcula as informações da thread do Linux a
-+ partir da variável da tarefa
-+ lx-dmesg -- Exibe o buffer de log do kernel do Linux
-+ lx-lsmod -- Lista os módulos carregados no momento
-+ lx-symbols -- (Re)carrega os símbolos do kernel do Linux e dos módulos
-+ carregados no momento
-+
-+Detalhes da ajuda podem ser obtidos por "help <command-name>" para
-+comandos e "help function <function-name>" para funções.
-+
-+Depuração de scripts GDB
-+------------------------
-+
-+O GDB não permite um backtrace completo do Python, o que pode tornar a
-+depuração de scripts do GDB mais difícil do que o necessário. O código a
-+seguir permitirá exibir um backtrace completo do ambiente Python::
-+
-+ (gdb) set python print-stack full
-diff --git a/Documentation/translations/pt_BR/process/debugging/index.rst b/Documentation/translations/pt_BR/process/debugging/index.rst
-index b223fae34..179d1a1e3 100644
---- a/Documentation/translations/pt_BR/process/debugging/index.rst
-+++ b/Documentation/translations/pt_BR/process/debugging/index.rst
-@@ -7,10 +7,14 @@ Dicas de depuração para desenvolvedores do Kernel Linux
- Guias gerais
+ Documentation/doc-guide/checktransupdate.rst  | 42 ++++++++--
+ .../zh_CN/doc-guide/checktransupdate.rst      | 38 ++++++---
+ tools/docs/checktransupdate.py                | 83 ++++++++++---------
+ 3 files changed, 107 insertions(+), 56 deletions(-)
+
+diff --git a/Documentation/doc-guide/checktransupdate.rst b/Documentation/doc-guide/checktransupdate.rst
+index 7b25375cc6d9..94366110451a 100644
+--- a/Documentation/doc-guide/checktransupdate.rst
++++ b/Documentation/doc-guide/checktransupdate.rst
+@@ -10,17 +10,35 @@ the English counterpart.
+ How it works
  ------------
  
-+.. toctree::
-+    :maxdepth: 1
+-It uses ``git log`` command to track the latest English commit from the
+-translation commit (order by author date) and the latest English commits
+-from HEAD. If any differences occur, the file is considered as out-of-date,
+-then commits that need to be updated will be collected and reported.
++The English kernel documentation and its translation use the same relative path
++below ``Documentation/`` and ``Documentation/translations/<locale>/``.
++For example, ``Documentation/process/foo.rst`` corresponds to
++``Documentation/translations/zh_CN/process/foo.rst``. A locale-wide check
++starts with English files and reports any without a translation at the
++corresponding path. A translated file at a different path is not treated as
++its translation. When explicitly checked, the script reports that it cannot
++find a same-path English source for such a file. This says nothing about
++the accuracy of any existing source-path annotation in that file. The script
++does not read ``:Original:`` fields.
 +
-+    Guia de depuração do kernel com gdb <gdb-kernel-debugging>
++The script uses ``git log`` to find the latest English commit corresponding
++to the translation and the latest English commit at HEAD. It first checks
++the translation commit message for ``update to commit`` or ``Update the
++translation through commit`` followed by a 12-character hexadecimal commit
++hash. Otherwise, it estimates the source revision by author date. This
++includes cases where the translation and English source were initially
++merged on different branches, or the named commit is unavailable in the
++local Git history. The estimate can be inaccurate, especially when commits
++are backdated or the source has moved.
++If the two English revisions differ, the script reports the commits to review.
+ 
+ Features implemented
+ 
+ -  check all files in a certain locale
+ -  check a single file or a set of files
+--  provide options to change output format
++-  select the logging level and log file
+ -  track the translation status of files that have no translation
++-  check files in a directory
+ 
+ Usage
+ -----
+@@ -34,9 +52,14 @@ Please refer to the output of argument parser for usage details.
+ Samples
+ 
+ -  ``tools/docs/checktransupdate.py -l zh_CN``
+-   This will print all the files that need to be updated in the zh_CN locale.
++   This checks for updates to zh_CN translations and lists English files
++   without a corresponding translation.
+ -  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
+    This will only print the status of the specified file.
++-  ``tools/docs/checktransupdate.py -l sp_SP``
++   This will check Spanish translations at the corresponding paths.
++-  ``tools/docs/checktransupdate.py Documentation/translations/it_IT/process``
++   This will check translated files under the directory.
+ 
+ Then the output is something like:
+ 
+@@ -49,6 +72,7 @@ Then the output is something like:
+     commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
+     1 commits needs resolving in total
+ 
+-Features to be implemented
+-
+-- files can be a folder instead of only a file
++The script stops at the first translated file it cannot check and exits with
++a nonzero status.
++It does not determine whether the translated text fully reflects the English
++source; review the reported commits and the files themselves.
+diff --git a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+index dbfd65398077..c3cc16d9897c 100644
+--- a/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
++++ b/Documentation/translations/zh_CN/doc-guide/checktransupdate.rst
+@@ -7,21 +7,36 @@
+ :译者: 慕冬亮 Dongliang Mu <dzm91@hust.edu.cn>
+ 
+ 检查翻译更新
++============
+ 
+-这个脚本帮助跟踪不同语言的文档翻译状态，即文档是否与对应的英文版本保持更新。
++这个脚本帮助跟踪不同语言的文档翻译状态，判断译文是否需要根据英文原文更新。
+ 
+ 工作原理
+ ------------
+ 
+-它使用 ``git log`` 命令来跟踪翻译提交的最新英文提交（按作者日期排序）和英文文档的
+-最新提交。如果有任何差异，则该文件被认为是过期的，然后需要更新的提交将被收集并报告。
++英文原文与译文在 ``Documentation/`` 和
++``Documentation/translations/<locale>/`` 下使用相同的相对路径。例如，
++``Documentation/process/foo.rst`` 对应
++``Documentation/translations/zh_CN/process/foo.rst``。检查整个语言目录时，
++脚本从英文文件出发，报告在对应路径下没有译文的文件。其他路径下的译文不会被
++视为该英文文件的翻译。如果单独检查这类译文，脚本会报告找不到同路径的英文原文。
++这并不表示该译文中已有的原文路径标注有误。脚本不读取 ``:Original:`` 字段。
 +
- Todolist:
++脚本使用 ``git log`` 查找译文对应的最新英文提交，以及英文文件在 HEAD 中的
++最新提交。它先从翻译提交信息中查找 ``update to commit`` 或
++``Update the translation through commit`` 后面的 12 位十六进制提交哈希。
++如果没有找到，或指定的提交不在本地 Git 历史中，就按作者日期估计译文所依据的
++英文版本。英文原文和译文最初从不同分支合入时，脚本也会使用这一估计。提交日期
++被回填或英文原文移动过路径时，这种估计可能不准确。如果两个英文提交不同，脚本
++会列出需要检查的提交。
  
- *   driver_development_debugging_guide
--*   gdb-kernel-debugging
- *   kgdb
- *   userspace_debugging_guide
+ 实现的功能
  
+ - 检查特定语言中的所有文件
+ - 检查单个文件或一组文件
+-- 提供更改输出格式的选项
++- 选择日志级别和日志文件
+ - 跟踪没有翻译过的文件的翻译状态
++- 检查目录中的文件
+ 
+ 用法
+ -----
+@@ -30,14 +45,18 @@
+ 
+     tools/docs/checktransupdate.py --help
+ 
+-具体用法请参考参数解析器的输出
++具体用法请参考参数解析器的输出。
+ 
+ 示例
+ 
+ -  ``tools/docs/checktransupdate.py -l zh_CN``
+-   这将打印 zh_CN 语言中需要更新的所有文件。
++   检查 zh_CN 语言中需要更新的文件，并列出尚无译文的英文文件。
+ -  ``tools/docs/checktransupdate.py Documentation/translations/zh_CN/dev-tools/testing-overview.rst``
+-   这将只打印指定文件的状态。
++   只检查指定文件的状态。
++-  ``tools/docs/checktransupdate.py -l sp_SP``
++   检查西班牙语译文在对应路径下的更新状态。
++-  ``tools/docs/checktransupdate.py Documentation/translations/it_IT/process``
++   检查该目录下的译文。
+ 
+ 然后输出类似如下的内容：
+ 
+@@ -50,6 +69,5 @@
+     commit 42fb9cfd5b18 ("Documentation: dev-tools: Add link to RV docs")
+     1 commits needs resolving in total
+ 
+-待实现的功能
+-
+-- 文件参数可以是文件夹而不仅仅是单个文件
++遇到无法检查的译文时，脚本会立即停止，并以非零状态退出。它无法判断译文内容是否
++已经完整反映英文原文；仍需人工检查列出的提交以及相应文件。
+diff --git a/tools/docs/checktransupdate.py b/tools/docs/checktransupdate.py
+index d7b98753e35f..5f2517b59771 100755
+--- a/tools/docs/checktransupdate.py
++++ b/tools/docs/checktransupdate.py
+@@ -7,6 +7,9 @@ in different locales, e.g., zh_CN. More specially, it uses `git log`
+ commit to find the latest english commit from the translation commit
+ (order by author date) and the latest english commits from HEAD. If
+ differences occur, report the file and commits that need to be updated.
++The English kernel documentation and corresponding translation are
++matched by their relative paths under
++Documentation/ and Documentation/translations/<locale>/, respectively.
+ 
+ The usage is as follows:
+ - tools/docs/checktransupdate.py -l zh_CN
+@@ -29,26 +32,30 @@ import os
+ import re
+ import time
+ import logging
++import subprocess
++import sys
+ from argparse import ArgumentParser, ArgumentTypeError, BooleanOptionalAction
+ from datetime import datetime
+ 
+ 
+ def get_origin_path(file_path):
+-    """Get the origin path from the translation path"""
+-    paths = file_path.split("/")
+-    tidx = paths.index("translations")
+-    opaths = paths[:tidx]
+-    opaths += paths[tidx + 2 :]
+-    return "/".join(opaths)
++    """Map a translated path to the same path under Documentation/."""
++    parts = file_path.split("/")
++    return "/".join([parts[0], *parts[3:]])
+ 
+ 
+ def get_latest_commit_from(file_path, commit):
+     """Get the latest commit from the specified commit for the specified file"""
+-    command = f"git log --pretty=format:%H%n%aD%n%cD%n%n%B {commit} -1 -- {file_path}"
+-    logging.debug(command)
+-    pipe = os.popen(command)
+-    result = pipe.read()
+-    result = result.split("\n")
++    command = [
++        "git", "log", "--pretty=format:%H%n%aD%n%cD%n%n%B",
++        commit, "-1", "--", file_path,
++    ]
++    logging.debug("%s", command)
++    completed = subprocess.run(command, capture_output=True, text=True, check=False)
++    if completed.returncode:
++        logging.warning("Cannot read Git revision %s: %s", commit, completed.stderr.strip())
++        return None
++    result = completed.stdout.split("\n")
+     if len(result) <= 1:
+         return None
+ 
+@@ -65,6 +72,11 @@ def get_latest_commit_from(file_path, commit):
+ def get_origin_from_trans(origin_path, t_from_head):
+     """Get the latest origin commit from the translation commit"""
+     o_from_t = get_latest_commit_from(origin_path, t_from_head["hash"])
++    if o_from_t is None:
++        # The translation can enter the history on a different branch before
++        # the English source is merged. Search the current source history by
++        # author date in that case, using the same heuristic as below.
++        o_from_t = get_latest_commit_from(origin_path, "HEAD")
+     while o_from_t is not None and o_from_t["author_date"] > t_from_head["author_date"]:
+         o_from_t = get_latest_commit_from(origin_path, o_from_t["hash"] + "^")
+     if o_from_t is not None:
+@@ -128,20 +140,20 @@ def valid_commit(commit):
+     msg = pretty_output(commit)
+     return "Merge tag" not in msg
+ 
++
+ def check_per_file(file_path):
+     """Check the translation status for the specified file"""
+     opath = get_origin_path(file_path)
+-
+     if not os.path.isfile(opath):
+         logging.error("Cannot find the origin path for %s", file_path)
+-        return
++        return False
+ 
+     o_from_head = get_latest_commit_from(opath, "HEAD")
+     t_from_head = get_latest_commit_from(file_path, "HEAD")
+ 
+     if o_from_head is None or t_from_head is None:
+         logging.error("Cannot find the latest commit for %s", file_path)
+-        return
++        return False
+ 
+     o_from_t = get_origin_from_trans_smartly(opath, t_from_head)
+     # notice, o_from_t from get_*_smartly() is always more accurate than from get_*()
+@@ -150,7 +162,7 @@ def check_per_file(file_path):
+ 
+     if o_from_t is None:
+         logging.error("Error: Cannot find the latest origin commit for %s", file_path)
+-        return
++        return False
+ 
+     if o_from_head["hash"] == o_from_t["hash"]:
+         logging.debug("No update needed for %s", file_path)
+@@ -165,14 +177,17 @@ def check_per_file(file_path):
+                 logging.info("commit %s", pretty_output(commit))
+                 count += 1
+         logging.info("%d commits needs resolving in total\n", count)
++    return True
+ 
+ 
+ def valid_locales(locale):
+     """Check if the locale is valid or not"""
+     script_path = os.path.dirname(os.path.abspath(__file__))
+     linux_path = os.path.join(script_path, "../..")
+-    if not os.path.isdir(f"{linux_path}/Documentation/translations/{locale}"):
+-        raise ArgumentTypeError("Invalid locale: {locale}")
++    if locale not in os.listdir(f"{linux_path}/Documentation/translations") or not os.path.isdir(
++        f"{linux_path}/Documentation/translations/{locale}"
++    ):
++        raise ArgumentTypeError(f"Invalid locale: {locale}")
+     return locale
+ 
+ 
+@@ -270,31 +285,24 @@ def main():
+ 
+     # Configure logging based on the --log argument
+     log_level = getattr(logging, args.log.upper(), logging.INFO)
+-    config_logging(log_level)
++    config_logging(log_level, args.logfile)
+ 
+     # Get files related to linux path
+     files = args.files
+     if len(files) == 0:
+-        offical_files = list_files_with_excluding_folders(
++        official_files = list_files_with_excluding_folders(
+             os.path.join(linux_path, "Documentation"), ["translations", "output"], "rst"
+         )
+-
+-        for file in offical_files:
+-            # split the path into parts
+-            path_parts = file.split(os.sep)
+-            # find the index of the "Documentation" directory
+-            kindex = path_parts.index("Documentation")
+-            # insert the translations and locale after the Documentation directory
+-            new_path_parts = path_parts[:kindex + 1] + ["translations", args.locale] \
+-                           + path_parts[kindex + 1 :]
+-            # join the path parts back together
+-            new_file = os.sep.join(new_path_parts)
+-            if os.path.isfile(new_file):
+-                files.append(new_file)
+-            else:
+-                if args.print_missing_translations:
+-                    logging.info(os.path.relpath(os.path.abspath(file), linux_path))
+-                    logging.info("No translation in the locale of %s\n", args.locale)
++        for file in official_files:
++            relative = os.path.relpath(file, os.path.join(linux_path, "Documentation"))
++            translated = os.path.join(
++                linux_path, "Documentation", "translations", args.locale, relative
++            )
++            if os.path.isfile(translated):
++                files.append(translated)
++            elif args.print_missing_translations:
++                logging.info(os.path.relpath(file, linux_path))
++                logging.info("No translation in the locale of %s\n", args.locale)
+     else:
+         # check if the files are directories or files
+         new_files = []
+@@ -312,7 +320,8 @@ def main():
+     os.chdir(linux_path)
+ 
+     for file in files:
+-        check_per_file(file)
++        if not check_per_file(file):
++            sys.exit(1)
+ 
+ 
+ if __name__ == "__main__":
 -- 
-2.55.0
+2.51.0
 
