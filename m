@@ -1,89 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794187289;
-	b=YMLh+ep7ZwcZF55K6WpNTFSlf6hT4SyCbDGwJFE2FE8r5uN21rve4TLibNQUG/rEK25n
-	 7nFMCzB3caZYhgGiQIaL9r3i7ExHbJofncGI0ovlEstNux2LSHgk9cZ0V5tzhtg8bnRwl
-	 vETsGjBe6OF0pG2YCe2fmYzGSrNCS6CeyaKpC0wTjb80qtqWO73rNj2rOtTU0AkdkSqfQ
-	 0X0eyl8a4w28It8P6fUq883ARzyTRk6naCj9QBasG73i30TuKvwEbqdKIfBI6Un34SreB
-	 4csxRSvv7JJLrM5PTfhySeoY6vMX6RdtH/h8czH0mu0da645aHzKMJ3WCGMvXTenMig==
+	t=1794187379;
+	b=Pg5lCUHpQk+x26HJ4gcT+TYyak0y17YRhltbmCH/ijnrnUx0tdmnwJxe+XxTmPw43WGU
+	 Y9p4yJm58bmOeKkDLdvx5BCGdQNqwbfZAMA/sfm0xvtt6xAIGI2XKU9hethQfU822Rsao
+	 mSTjD7892Oi75hxMyxO/xk9h7ssrMVvK+WwmcXAjpcqm1j9EPO6jxuvKERv0U4oCPHuH2
+	 5Vx9BhfxLl4aAk+ivOsN9/G41DQkMW6AeX+EJp+VxoWWH/hpFyiBf2AoLAFSL0ksb0Zez
+	 6LLIOiKtOMUB6HsAd71JCpGVaYQg2vwbNJsIYd5chmt5OI7T4kBxoA8UD1kMEZqAc9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794187289;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=SR/76Q1Z57YyfL7/pX6GVKGYRXjznlqWiAUlX6lozs4=;
-	b=R7pqFEFTKzxkY3XJsR+t8lbTgsW3u9/hiYylA5rHPNeIj6NT4z2kgBSpaB8cftbWv+b+
-	 sxkcKN1VnQUU7G8TqOwyaiiEVvWeFhNvoJCu+JMYRTjHnF+fZt/1AZe8Tf6EZukrqxrJw
-	 tswuhToIv2pKA3JfHgi/X78mWlsFXySOvTknJFMyq2r0aZqAp+OQhUZnWA/LfFAJz+HCl
-	 47oJZOD6I6BPeTBnkpoUCulvUiraB9LD+6OH82yrqEbBz8Da2YszA+uABKTAYgzCgViWi
-	 1E+KuB9g1OUvzesCYdJb+625pw//BFsC1t3Heivb5MIzaQTXDRVJfbHIBelIsXL3V5Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794187379;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:To:Cc:X-Mailer;
+	bh=vdbzkytGXRhHN+l/mE1rRdmYyXtT3CDBuzLxY9K8xVc=;
+	b=EZMDb+HovK7mHG+ZrUyzawqSgi/THLZaqLDAoquX5uMRhXHwmRi3MvZ8uYYFyIW42T/F
+	 1iM28IMD6Xd68n83xERwh6jeAfxLehQirVIs359dKJcSdkUQmLSw6ARW774Alahb+MWMa
+	 auX74lTJk1mBFZa0ueQ9VohxQ36FxB7zBp4j5Hzih85fABboH8gbTZPNbSOYO085Hko6w
+	 5R7DWB+ObEdOUZ6hlCzNKjSU/R+TsgTOxSrl9Sf5tJukddR7lz9lksEyljvRp8jwT2Y+K
+	 tq4oHbFLZ5XwpM/TwNv6Jq02TY68wjK585O9iZZWW/9vdXB1bfYQlArn3qeqiHq6w1A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=desiato.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=qecoNL0Y;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=a3UekpUa;
+	arc=none smtp.remote-ip=74.125.82.47
+Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D0C9606EE90;
-	Mon,  9 Nov 2026 01:21:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D0C9606EE90
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA75606D81E
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 01:22:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AA75606D81E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=qecoNL0Y
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description;
-	bh=SR/76Q1Z57YyfL7/pX6GVKGYRXjznlqWiAUlX6lozs4=; b=qecoNL0YT9N3J6QDcfhdb3CYLK
-	M3y0Heu+j6haI2EszDlWoo82TCSq4n2iLg70sWTKEu7zisutAr+uhXQ1Az335/sr9Q+4x8ULz83nm
-	pVkh2Hh+OvFaTkEtm/UsR9FNc9CzVBO+2C3ZNji0cWFORzcGeiS4UoddbMjWe4020idoEx6sJ7sFR
-	4RC16nYhEEMl/azSuDUYfzB5AoRTHQaNtsMxSqUHlRMbv/wPxgBONjX7AGoGxMmsQ20fG1dluSdS5
-	0UVORl+ivp+eQdNIRTSuN3pNo+H/VT50AzCTRnKGFmt7YsUOS7+TlNAQOyMDW0GLXlmgay3ZhOX3i
-	o38HU/fg==;
-Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQE4Q-00000006AY6-27Ls;
-	Mon, 09 Nov 2026 01:21:15 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xQE4O-0000000EKU7-1pEh;
-	Mon, 09 Nov 2026 01:21:12 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: kvm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	x86@kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paul Durrant <paul@xen.org>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Sascha Bischoff <Sascha.Bischoff@arm.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Jack Allister <jalliste@amazon.com>,
-	Dongli Zhang <dongli.zhang@oracle.com>,
-	joe.jin@oracle.com,
-	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v12 01/24] KVM: x86: Improve synchronization in kvm_synchronize_tsc()
-Date: Sun,  8 Nov 2026 17:20:47 -0800
-Message-ID: <20261109012112.3415328-2-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261109012112.3415328-1-dwmw2@infradead.org>
-References: <20261109012112.3415328-1-dwmw2@infradead.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=a3UekpUa
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1a3c08d6928so636233c88.0
+        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 17:22:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794187378; x=1794792178; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=vdbzkytGXRhHN+l/mE1rRdmYyXtT3CDBuzLxY9K8xVc=;
+        b=a3UekpUaA4JIlfxinSS7NPD57AxZnwhcsa8MojRbUp+3TebzYP1Go6r8trx3GPnwz5
+         G3GD+okyXsTduKd253Bbe0Fy1wU+o27kqTQSvd1ZivVKjgspxXIA6iW62Cs0lxUiS/L9
+         Ru9kYy21WlxqIAHevkM31qMjTNoFd0/6C0NtarXysY+s1GGgW1+jirkLXTrbsaIe0xDp
+         R9IEJMpcrrh6gj6mj7qbGTgjwlhPBNg30Od+fcQSy5Li+cvXDgpifvC9l65kz2OU7VPo
+         KZKT3ys40TpD3UNWQKBbJxUUwXa+cjhZQ5056UF1Gs12jF1LMqtOERF7Ho5mCZ+Sp8z9
+         7EAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794187378; x=1794792178;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=vdbzkytGXRhHN+l/mE1rRdmYyXtT3CDBuzLxY9K8xVc=;
+        b=t6rpwPUhTSW86YYHdiYeinX4MmlBuZFd6rNJChna4BV4QM+utucy1r4p5drpMIcsso
+         C347GwuVG95p4ti6yxX2kEAIjF9ZVNfB8OiI3VAWX7xvQZVe1KDh18EUSvRq9CxGs+QN
+         atrwMsfXtRfD2uFMutQMGVa6EZG76NikW/WWXY51ngjm3t8RK6DFfm6qS187KeNn2Csu
+         EyujuW740IJAWSpN0gl1JIYXl5psbjTchZDRvj4RPx1QXJrMke+gODuc6nv5htF+10K2
+         qyXT2NiNmanEeKCk3n3LQrIB5KFnfgKQnHI62gZO+B1PUWB1VrF1mcOfP71/Ee42nFyS
+         18Uw==
+X-Forwarded-Encrypted: i=1; AL+hErHvJ5VZFb7H+QREwRQfoxEVgWqEnw/mHGtFi7oEP0qGjoyShQZ4ewJ88Dzadzrgvd/dSvZErTwx4jA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+1lpT5wXKTiuX18L0X4nnmAuzJulosLoqOa7hhFdtRwUvdTvxL
+	+tAVR+d9iwb9YKZ3ICFaDkSmwAQ7IjMInJHcFNSYPlJb0/sYV3ct/3eJ
+X-Gm-Gg: AYBFou3ibxo6alSoiq7dU6XOwpsjfih8/W2oaV5s1WfwCejs3GDWq+Qxuu7Y6CUXTwU
+	AnhdgwH0bqdkMx2UsLZRfRiCjb8eCD8hePQ4ImqXhDYq9yA7uUbMjLyKgfYa6IM3sTgfmV/ywD7
+	QPq0JPSzfNvz0n/q/v3hdFNkY1H3g8usLUm/ktXmCZzo9wCbDNhzYo6MiBfGWYlhTRF5SSZbAao
+	4/hBM/iRqDC0bPvUyYq05pRqMk50mZX1gU6Np+SeXkV2YKeLjDMA5PA5O+5sKjfiJ6jbOH/hzRJ
+	4q0a4Nv8JziA8PqTB1sb+TaZN31aRguYFZG+5DfpHF4z09ZRW6QEhqAntYnGJtCSFFRrcJGQ8ca
+	WIMmOHJbCvl8fq1bZqQKQ8rJhx50Ws+vK1ajT5P95qtGyIVmo4/Ei2plDMUDuNvqAai+SRr9zhs
+	vdk4LuBQ7nPGS/+xOz7wngwRwrwW/XEWyrRd7OAA/WCJPL7rJgB4YsSIfIqEi7p70mIek6asg+i
+	90DKWbtUqp3vav0f8eaJjnL6Achv5xZwSsg/KFiANB5Zum0tCk0AXcNvXIUlMBbriOebbNmcfWa
+	nZ2iKoTG0oUz63bUz6kxFVAt
+X-Received: by 2002:a05:701b:2702:b0:1a9:f3d2:6262 with SMTP id a92af1059eb24-1b39ff04e7bmr4005319c88.36.1794187377412;
+        Sun, 08 Nov 2026 17:22:57 -0800 (PST)
+Received: from [127.0.1.1] ([23.254.208.9])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3771ea85bsm9428226c88.18.2026.11.08.17.22.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Nov 2026 17:22:56 -0800 (PST)
+From: Qiliang Yuan <odys.yuan@gmail.com>
+Subject: [PATCH v4 0/5] mm/ksm: keep smart scan from losing duplicate pages
+Date: Sun, 08 Nov 2026 20:22:49 -0500
+Message-Id: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-0-86be8fe77e7a@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,123 +91,93 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGkg8WoC/5XNQQ6CMBCF4auYrh3TqVCKK+9hXJS24EQLpKNEY
+ 7i71Y0mbnT5v8X37oJDosBis7iLFCZiGvocxXIh3MH2XQDyuYWSSqNEDc2lgxjhyBE42nQGdrY
+ He6KuBz7SyOC8xFDa2pjaiuyMKbR0fX3s9rkPxOch3V6XEz7Xf/QJQYJqa/SVLlA3YdtFS6eVG
+ 6J46pN6iyjLX0SVRWPryshGm6L4EtefYvWLuM4ial+6YJqy9fpTnOf5AbYWliB2AQAA
+To: Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
+ Chengming Zhou <chengming.zhou@linux.dev>, Stefan Roesch <shr@devkernel.io>, 
+ Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Qiliang Yuan <odys.yuan@gmail.com>, stable@vger.kernel.org
+X-Mailer: b4 0.13.0
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+With smart scan, which is on by default, two identical pages that become
+mergeable some scans apart can stay unmerged for as long as they live:
+each page times its skipped scans on its own, and once both are old they
+may never be looked at in the same scan, which merging through the
+unstable tree requires. This was first noticed as intermittent failures
+of ksm_tests "KSM NUMA merging" in run_vmtests.sh.
 
-When synchronizing to an existing TSC (either by explicitly writing
-zero, or the legacy hack where the TSC is written within one second's
-worth of the previously written TSC), the last_tsc_write and
-last_tsc_nsec values were being misrecorded by __kvm_synchronize_tsc().
-The *unsynchronized* value of the TSC (perhaps even zero) was being
-recorded, along with the current time at which kvm_synchronize_tsc()
-was called. This could cause *subsequent* writes to fail to synchronize
-correctly.
+Patch 1 picks the skipped scans by the global scan number, so all old
+pages are looked at together every eighth scan. Over 420 pairs made
+mergeable 0 to 20 scans apart, 361 and 334 merged before on two boots
+and all of them after, at the cost of about 10% more ksmd time on memory
+that never merges. Pairs whose pages are both old before they become
+identical fare worse: of 1800 such pairs, 200 merged before, still 200
+after 256 scans, and all 1800 within 32 scans after.
 
-Fix that by extrapolating the generation's TSC value to the current
-time (data = cur_tsc_write + elapsed cycles) before passing it to
-__kvm_synchronize_tsc(), so the recorded {data, ns} pair always lies
-on the generation's line and the one-second matching window slides
-forward with each synchronized write. When the TSC is stable, reuse
-the generation's offset exactly; when it is unstable, compute a new
-offset for the extrapolated value.
+Patch 2 documents how smart scan picks the scans to skip.
 
-Furthermore, there were *three* different TSC reads used for calculating
-the "current" time, all slightly different from each other. Fix that by
-using kvm_get_time_and_clockread() where possible and using the same
-host_tsc value in all cases.
+Patch 3 makes the KSM helpers in vm_util fail on short reads and
+writes, which could make ksm_functional_tests hang or fail cases that
+should be skipped. Patch 4 moves waiting for KSM full scans into a
+vm_util helper, and patch 5 adds a ksm_functional_tests case that fails
+20/20 without patch 1 and 0/20 with it, on both boots.
 
-Extrapolating the matching window from the generation's origin at the
-nominal guest frequency means that, for a guest whose requested
-frequency is within tsc_tolerance_ppm of the host's (so hardware
-scaling is not engaged), the window drifts from the guest's actual
-TSC line by up to 250ppm — crossing the one-second window after about
-67 minutes. A write which then fails to match still installs the
-exact value with a freshly computed offset; the cost is only a fresh
-generation. The previous code re-anchored on every matched write,
-which bounded that drift per-interval but recorded values the
-generation's line did not pass through, which is the bug this patch
-exists to fix.
-
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Reviewed-by: Paul Durrant <paul@xen.org>
+Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
 ---
- arch/x86/kvm/x86.c | 39 ++++++++++++++++++++++++++++++---------
- 1 file changed, 30 insertions(+), 9 deletions(-)
+V3 -> V4:
+- Make the KSM helpers in vm_util fail on short reads and writes, in a
+  new patch 3, and the smart_scan helpers of patch 5 likewise
+- Add Cc: stable to patch 1
+- Add Reviewed-by and Tested-by tags
 
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 32563a91fba9..7a2b0b99373f 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -210,6 +210,10 @@ module_param(pi_inject_timer, bint, 0644);
- static bool __read_mostly mitigate_smt_rsb;
- module_param(mitigate_smt_rsb, bool, 0444);
- 
-+#ifdef CONFIG_X86_64
-+static bool kvm_get_time_and_clockread(s64 *kernel_ns, u64 *tsc_timestamp);
-+#endif
-+
- #define KVM_SUPPORTED_XCR0     (XFEATURE_MASK_FP | XFEATURE_MASK_SSE \
- 				| XFEATURE_MASK_YMM | XFEATURE_MASK_BNDREGS \
- 				| XFEATURE_MASK_BNDCSR | XFEATURE_MASK_AVX512 \
-@@ -1374,14 +1378,23 @@ void kvm_synchronize_tsc(struct kvm_vcpu *vcpu, u64 *user_value)
- {
- 	u64 data = user_value ? *user_value : 0;
- 	struct kvm *kvm = vcpu->kvm;
--	u64 offset, ns, elapsed;
-+	u64 offset, host_tsc, elapsed;
-+	s64 ns;
- 	unsigned long flags;
- 	bool matched = false;
- 	bool synchronizing = false;
- 
- 	raw_spin_lock_irqsave(&kvm->arch.tsc_write_lock, flags);
--	offset = kvm_compute_l1_tsc_offset(vcpu, rdtsc(), data);
--	ns = get_kvmclock_base_ns();
-+
-+#ifdef CONFIG_X86_64
-+	if (!kvm_get_time_and_clockread(&ns, &host_tsc))
-+#endif
-+	{
-+		host_tsc = rdtsc();
-+		ns = get_kvmclock_base_ns();
-+	}
-+
-+	offset = kvm_compute_l1_tsc_offset(vcpu, host_tsc, data);
- 	elapsed = ns - kvm->arch.last_tsc_nsec;
- 
- 	if (vcpu->arch.virtual_tsc_khz) {
-@@ -1424,13 +1437,21 @@ void kvm_synchronize_tsc(struct kvm_vcpu *vcpu, u64 *user_value)
-          */
- 	if (synchronizing &&
- 	    vcpu->arch.virtual_tsc_khz == kvm->arch.last_tsc_khz) {
--		if (!kvm_check_tsc_unstable()) {
-+		/*
-+		 * If synchronizing, advance the reference point to "now"
-+		 * so the matching window slides forward with each vCPU.
-+		 * Extrapolate from the generation's own origin: 'elapsed'
-+		 * is measured from the most recent write, which lies on
-+		 * the generation's line only for the first matched write.
-+		 */
-+		u64 delta = nsec_to_cycles(vcpu, ns - kvm->arch.cur_tsc_nsec);
-+
-+		data = kvm->arch.cur_tsc_write + delta;
-+
-+		if (!kvm_check_tsc_unstable())
- 			offset = kvm->arch.cur_tsc_offset;
--		} else {
--			u64 delta = nsec_to_cycles(vcpu, elapsed);
--			data += delta;
--			offset = kvm_compute_l1_tsc_offset(vcpu, rdtsc(), data);
--		}
-+		else
-+			offset = kvm_compute_l1_tsc_offset(vcpu, host_tsc, data);
- 		matched = true;
- 	}
- 
+V2 -> V3:
+- Document smart scan in Documentation/mm/ksm.rst, as Xu Xin suggested
+- Wait for full scans and switch smart scan through vm_util helpers, as
+  David suggested
+- Rebase onto v7.4-rc1-345-geedaa7d61f1e and retest there
+- Measure ksmd CPU time with schedstat, which puts the cost at about 10%
+
+V1 -> V2:
+- Rebase onto v7.4-rc1-132-g05441d697f7f and retest there
+- Drop the ksm_tests -N -m 1 numbers, as it no longer fails on this base
+  without the fix
+- Update the ksmd cost to 10-12%, measured on this base
+
+v3: https://lore.kernel.org/r/20261107-bug-mm-ksm-smart-scan-align-skips-v3-0-16d5ce8b5fd6@gmail.com
+v2: https://lore.kernel.org/r/20261105-bug-mm-ksm-smart-scan-align-skips-v2-0-8a9780b6844e@gmail.com
+v1: https://lore.kernel.org/r/20261016-bug-mm-ksm-smart-scan-align-skips-v1-0-2f91d76416be@gmail.com
+
+---
+Qiliang Yuan (5):
+      mm/ksm: align smart scan skips with the scan number
+      docs/mm: ksm: describe how smart scan picks the scans to skip
+      selftests/mm: fail KSM helpers on short reads and writes
+      selftests/mm: move waiting for KSM full scans into a helper
+      selftests/mm: cover merging KSM pages aged by smart scan
+
+ Documentation/mm/ksm.rst                          | 16 ++++
+ mm/ksm.c                                          | 24 +++---
+ tools/testing/selftests/mm/ksm_functional_tests.c | 89 ++++++++++++++++++++++-
+ tools/testing/selftests/mm/vm_util.c              | 89 ++++++++++++++++++-----
+ tools/testing/selftests/mm/vm_util.h              |  3 +
+ 5 files changed, 188 insertions(+), 33 deletions(-)
+---
+base-commit: eedaa7d61f1ec8ae053a9ece0d553785350ac486
+change-id: 20261016-bug-mm-ksm-smart-scan-align-skips-cd01e5a9889a
+
+Best regards,
 -- 
-2.43.0
+Qiliang Yuan <odys.yuan@gmail.com>
 
