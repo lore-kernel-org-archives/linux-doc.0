@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794209645;
-	b=Fw09vnRc1jkC9PoMjjH7C6jxUQQSNOgU3G34Bh+9HL8v3PViORoOf3Fw+k/NIRhkDM1v
-	 cpCJ/nMP3xQpq829FMoHtQpQhSsKYilsK1L4eDZ35KC2jUR7VVn9OB09R2Nf7UKOACAtl
-	 dqRust6ILxBzYE0Gfe/aatW+BD4qJ1bh6Fpaee98LBxrEvyuX/8bTvCoqp9nsqRSlZtEa
-	 CXvyGJRYN2Y6jUL2ZYp87ayxEOpg4zdFtlLJYu8KX/AdJxw4y6RCmcOiAI9BWsRe/kg3h
-	 I3fsQLXDDZ0CmQlFJpTBZ3AVaTE3htxuN/fe2L8vi11d1DplxjIcEoXn3A9KaWoe1rA==
+	t=1794209659;
+	b=VesPRVtoyKYUbMhD59R7OdN8j70wCxrd6YjuB+NyIT1+TXyR2bFrLvLAoAzpTFGALAwt
+	 qFBt1Q6UAteU5kvLj/jgWM13DDIlKn2pbeo1s5ogR1EeRyKKXPXTbwDCbhRc5WGWXuKg/
+	 M2BjxEVtkif38+QLiHSDeQf4NF8WsCyZfucgleT+3zyHzK7UlI3+YdEqF5QCM8WxtAAOG
+	 hlA7W9qLLCFx/X80dHkspqtdLv6Eme+fdZ96kdv7Bajk1jjunC99FbTT1EGo6Gfehhxdz
+	 r0ZQN52LpDRSkkVFtgFjm2STTgjUry356cA9jd3Ibh/ZNQzNB/O26RYYWw8JGTBBJPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794209645;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794209659;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Type:X-Mailer:
 	 Content-Transfer-Encoding;
-	bh=cdCM073jR/DCJh2HUDXaqMPcxaAwWF1lPqWNiB/vLUE=;
-	b=0vKsntalvKb5zwLeRqR9lMsWOLgL1hbOYyDK4vuZRMZu4CwhQLc1yh/G9Q6aSVo2Hx47
-	 SMrnv2t08dtMBd0FyMftlcm7VENlT4v8O8vaMKLMli8LoUY63LrW97FEgepvUl9Zj9E6+
-	 VnpkCiIz3yyx1n2qzMGGzn5gFWysMA9p1W2TVDjEJfMxBSU40a7nUT6Y84TwYYTxWk+zY
-	 boX++8ks5hobUX4WpVA+Vk+WZfNePoYKe3w6gcs2LHNfP7OlrJC3ctfnDt8UU/sUePLYy
-	 e8yhScubrrI2I1+CmWCwkLfNhcHlorjmetrR4VZ8l5c4+R8YPsj+ekpRMmuUxVUuh7A==
+	bh=Y/diz28OtqaYX4DdZb+JhCSN/xAyOePemSvH2IVI+oI=;
+	b=dvqVGHgPtgvNjjetmY6ADqT2djzeP4VTYZnGnmlVhwzI9wM+OE8HKYxBJHzBvgtZ3M1c
+	 TGGlvjNwKROPPQmJki1AT9BMogv0Tz/llpWtVRfnpfrO41Mdq4S1+xsnGm/V5eYhMCJ7Z
+	 nzO6EkVkjbY/I9274z++BS3zJvxFPF7mZoj1rJn/892sanNES03rZFEx87Pay1ogd56FC
+	 5it5AhJKqgIcG6ZnP9K4wfu9emnGX3ozHEAomcYxaHUMm+Yre6ox0Ghwm3i+hhwHLTa4W
+	 quJQnAuIIJtw3+aXL8RVNIdcjUw6RteyrXmlIzMbU+lx38dRAK3a6eYdi897TogWKvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JFbxgJSV;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UHZLHWOH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F5A606A33E;
-	Mon,  9 Nov 2026 07:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C9C5606D809;
+	Mon,  9 Nov 2026 07:34:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JFbxgJSV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BA111F0089F;
-	Mon,  9 Nov 2026 07:34:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UHZLHWOH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E8D021F0089F;
+	Mon,  9 Nov 2026 07:34:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794209644;
-	bh=cdCM073jR/DCJh2HUDXaqMPcxaAwWF1lPqWNiB/vLUE=;
+	s=k20260515; t=1794209655;
+	bh=Y/diz28OtqaYX4DdZb+JhCSN/xAyOePemSvH2IVI+oI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=JFbxgJSVJyGy7SW+J+0KIAxI1XhrPwQhbNaVT6wRNqGNJPT7ebLpgixmX6f5TRYUI
-	 mI7fszmxT6vtfO/WS/HH6XQEZxYbeDKtCIRxOS5I/TRspMJWr6Z+uaJ9I3EU8aqlVh
-	 pleyfOrhrz2HjvolsAzEt/GTTS2xbbCRZknTG+Sc+H8nIXLaQ1Lpa9AS5AiqsYy4bC
-	 VOfWafAmh07YVtc7Ezu9uhzDbqubQgq0VCD6lMiMWbwT9piMq3DbO7ZkTu4Yv3jDxE
-	 hIAGVG2IO4CDNeMLIpywlIWi4W0JI7iD08jh9GM9edSnABb/Lcb6rQM9etPnCUrZJ+
-	 wv+htg3AQIizg==
+	b=UHZLHWOHp1FvXUffp1GHRLkENcwBo2yr76PCtrtRtDk1L6zyKdYK7pe45DxDIKhrN
+	 hjdFVbHl7ZSqgKGaAY/r7F7iVP0OEmf4aDbyF6QWnisUryfaon11MfZMitLN41ssuQ
+	 xiTZ237mPQjj5AApZ10s9DwIPHs/VYb3PHjsSC6BWnS/arV8S+SiVSNjair+Xrpwz4
+	 mC2zHujuvXMUg7howtzEEwIZVAIr/ZfHrzT4c6TjPu/X5SWamy1PW7nCkJYfsZQ/dx
+	 vxZlM0krZBNvBtYzJxdAfP1froSzwdqd0jF7P7eGNSH024gvRgux6Tmmx2f4UY+DH2
+	 6lK7yuJzaWfxQ==
 From: Leon Romanovsky <leon@kernel.org>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	"Rafael J. Wysocki" <rafael@kernel.org>,
@@ -82,9 +82,9 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-pci@vger.kernel.org,
 	iommu@lists.linux.dev,
 	Jason Gunthorpe <jgg@ziepe.ca>
-Subject: [PATCH v2 02/19] wifi: mac80211_hwsim: lock device for manual driver binding
-Date: Mon,  9 Nov 2026 09:33:32 +0200
-Message-ID: <20261109-device-trust-core-v2-2-3b12d9a9f861@nvidia.com>
+Subject: [PATCH v2 05/19] PNP: Attach card devices through the driver core
+Date: Mon,  9 Nov 2026 09:33:35 +0200
+Message-ID: <20261109-device-trust-core-v2-5-3b12d9a9f861@nvidia.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
 References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
@@ -103,30 +103,60 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-The documented API contract for device_bind_driver() requires the device
-lock. mac80211_hwsim uses it for a newly created class device with no bus,
-so no automatic driver-core path can bind the device concurrently and the
-missing lock was safe.
+Card device requests probe the selected link driver before driver core can
+perform admission and setup.
+
+Use device_driver_attach() for the normal binding transaction. Keep the
+card link owned by the enclosing card probe until the device is bound, so
+probe cleanup and debug removal cannot free a link still in use by that
+transaction.
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- drivers/net/wireless/virtual/mac80211_hwsim_main.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/pnp/card.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/net/wireless/virtual/mac80211_hwsim_main.c b/drivers/net/wireless/virtual/mac80211_hwsim_main.c
-index e53714b81ec2c..b796da3dd54b3 100644
---- a/drivers/net/wireless/virtual/mac80211_hwsim_main.c
-+++ b/drivers/net/wireless/virtual/mac80211_hwsim_main.c
-@@ -5769,7 +5769,9 @@ static int mac80211_hwsim_new_radio(struct genl_info *info,
- 		goto failed_drvdata;
- 	}
- 	data->dev->driver = &mac80211_hwsim_driver.driver;
-+	device_lock(data->dev);
- 	err = device_bind_driver(data->dev);
-+	device_unlock(data->dev);
- 	if (err != 0) {
- 		pr_debug("mac80211_hwsim: device_bind_driver failed (%d)\n",
- 		       err);
+diff --git a/drivers/pnp/card.c b/drivers/pnp/card.c
+index df5e3d3cbf6c0..9aaaa03d5ffa9 100644
+--- a/drivers/pnp/card.c
++++ b/drivers/pnp/card.c
+@@ -52,13 +52,17 @@ static const struct pnp_card_device_id *match_card(struct pnp_card_driver *drv,
+ 
+ static void card_remove(struct pnp_dev *dev)
+ {
+-	dev->card_link = NULL;
++	if (device_is_bound(&dev->dev))
++		dev->card_link = NULL;
+ }
+ 
+ static void card_remove_first(struct pnp_dev *dev)
+ {
+ 	struct pnp_card_driver *drv = to_pnp_card_driver(dev->driver);
+ 
++	/* The card probe still owns its link until this device is bound. */
++	if (!device_is_bound(&dev->dev))
++		return;
+ 	if (!dev->card || !drv)
+ 		return;
+ 	if (drv->remove)
+@@ -331,16 +335,12 @@ struct pnp_dev *pnp_request_card_device(struct pnp_card_link *clink,
+ 
+ found:
+ 	dev->card_link = clink;
+-	dev->dev.driver = &drv->link.driver;
+-	if (pnp_bus_type.probe(&dev->dev))
+-		goto err_out;
+-	if (device_bind_driver(&dev->dev))
++	if (device_driver_attach(&drv->link.driver, &dev->dev))
+ 		goto err_out;
+ 
+ 	return dev;
+ 
+ err_out:
+-	dev->dev.driver = NULL;
+ 	dev->card_link = NULL;
+ 	return NULL;
+ }
 
 -- 
 2.56.0
