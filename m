@@ -1,55 +1,70 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794242830;
-	b=kkv7lmQXtyZn+I7dcxEn0gSnEJ7U/b/07FH14k1zZgldSNJyCD87fcNtJ+Qpymp9KWOG
-	 7r1FAeW9cZqAIGLEUwyGQl0TtBvRIoNvxz+hYxA4HMDSef2oQZswUYjHxpCGnhBHLyB3V
-	 Tiptq3LX4oGAS/s9xGlsMn6Q9d++kmSrkNLJ9Zx/IzrBEV8rztZKpESLBZnhRHPODW6Jc
-	 WvlDPXwETnRn811lhJSEkOO1AP8A71tyTL5sa19JESPDCQZ0S1nvPwqQT0fXAto7/7u8r
-	 ZYJRLywGyod4em7fLZbZU8D+nxXwiykOKq1tBDk1YOPOR15X0lHXrSmPETI5ARRd5UA==
+	t=1794243157;
+	b=be+Ak3o092XEzY7m+8U7JPe5Q4LEiCJeOL7Aaq6iW8yUJREU+7EyDRwRftN1U4eznERt
+	 BQLT44aEYlXo3f6Fu0Q62M9vfL7j0V20/kwBXlQb7dUYIVHdErskhQhrZenKdptzrcZ8O
+	 SkeqLSUe43eUi0RwCVoG5vrySEzpTH4DFa7+U1qt6bAo40xS7QJ4sc/7sl6T1agWecG3+
+	 5gEJInbemUP0JpKXqq+ewfdeY1Yel9YcBx6cSQzZngXarfzpSwGBIkW1l0uQiAjwuIcA3
+	 OkTj5Mv5ung5+N7jzMI5h1GmhLnFJhGDcsXz0xJQXv3gdPQw5f+7MI49KGNQ40dKDkA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794242830;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=jQV5c6NkatZ0Eses+bAi+sUwiAR6q3hhUXHWX3VdAdw=;
-	b=SAQtQ+55GpzSMRlpSwvlPRYkuR/+M8V+g/Sg3ihmfzfV0AZ7jITmRPgq6yApp6uJxqZ6
-	 qnBx9kapXBLx8M0vXrg/ANnyXeV2iX8Cu4GW13zjhlncvLnEnZWB+FtzJbkA+Ze3HKIOB
-	 +KcMgZH25lYDtLT1FdI1UHbV7JdN5nm2tQ9L5Hp15Scmu2XiQxBxUWCMqZO20UWF+xgxK
-	 ugYZmNg/wrZR+PKt4VRrZXT75Qs9U10RwQ6IEzLyr3NWb2tW50J16bwtyKFQuTyL+uNLB
-	 +PAT/tJ0nu/lJhvPD1sV+QOuKUpy+8YjPN/nruCH7wAPViiMw0+S0pNmUQST3CgLNaA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794243157;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=F4x7I/eJDYyTNVsMVYbfqhXkVQVdTo3yCjuGDH6ZAmo=;
+	b=AaL8VjYhOXKTYFKU37QK1y2q9URQ+QPjQKIgiVI59cINtNZPTMV1jmeEfHqHQLhChEks
+	 l15K2SsGzWsiywLej9MSuqtNtn3152VO5VTCLTCDHPSwg8dPgsZyZvJdCxcR0LFRtDi+Y
+	 NBHKeVtcOae3kYKMTlbrFY51B4LATCZbFwmLviXYfJ2+o7G0dfZya8LMubya3n2yPUcvh
+	 BHyPCfw/4iBftK8qu0SY7zSFkaRCLnQV9kQ9OZbuP7YOiAieoV5wPF1omvJTaghqh4qA6
+	 kHe69YWL1nQRsy0FeLgSB+Rwu4i2xkByc7cN0PYSdtS0e7WSTX21mZcHrnE4/HnkEHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EeQUAB+K;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n+cQ+oHs;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3980E606A321
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 16:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CE0606EE9C;
+	Mon,  9 Nov 2026 16:52:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EeQUAB+K
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C1681F00902
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 16:47:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=n+cQ+oHs
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AE451F008A3;
+	Mon,  9 Nov 2026 16:52:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794242829;
-	bh=jQV5c6NkatZ0Eses+bAi+sUwiAR6q3hhUXHWX3VdAdw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=EeQUAB+K3o2BE8CbM/vq5tKHXRrU4LpEjh/A6Yib0XkNa37hhWL0a40OO6Z9gghlU
-	 3Q43aK76v9HNzOzOdx72/7s09xK15YM7wORJpbB/F3e1auWN+gFtw+l4MIdOW3Akmz
-	 yqtB60eUQDwLBugC5y1pbdslO8C7R2fgAMA76imZtBOX0WU+f0vEafdvGh0Wg7Apcl
-	 KmH3s7nMBtfmJy1+ipDOJzS1SL1dQ5cDiokbJsXSdAaLfPNorj/j2zASgF8dx7j8Lk
-	 C1anCPZ04lJLBu8tJJJKuBZN+N1NSxvMavO0ruqozawapkAp0DFScTVWdziyDIjaTy
-	 tMquGJkhmjCSQ==
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5eaabf28c06so710751e0c.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 08:47:09 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErE+7viMZ0A58jsFN1Sf7z5MZr0faSv1aqU1C/1MMdharUVfa9xfj4L1VYIjT5LsdD0NcbcxHqRgRiM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/2lFZxj1q5Z3W/SMTtKcGiCts2EY4ESpXpOxNfif28seP8l+4V
-	yQxizrdyEecqs1Jy3MF2Fy37kic/xTNaSMRvnhROIXMTGcKfnSyK1Xj2BNcjILk8s9hb4xkWg00
-	yNo3RFFvXu1cSgNvo4UNn8+wmdxhwfCQ=
-X-Received: by 2002:a05:6122:298a:b0:5ec:4653:2431 with SMTP id
- 71dfb90a1353d-5ece73577efmr1865906e0c.15.1794242828771; Mon, 09 Nov 2026
- 08:47:08 -0800 (PST)
+	s=k20260515; t=1794243157;
+	bh=F4x7I/eJDYyTNVsMVYbfqhXkVQVdTo3yCjuGDH6ZAmo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=n+cQ+oHs4cBbfMQFzvBzPg/8epEceBRPZMylsKnZiz3+Hwws89nXEICYALvf106wa
+	 Td/07w2Zz6wxTWemagw6Hro2OlOdFYtgNIG47m3nxdipRli+udvLStWhBoXyT+dviZ
+	 rS1eBYNcH4Re8jcrBgRC7T1U/sPqCwds69TvpevF0tKONV02vXJYggJ5/FGks0IOPP
+	 GqpykssCnax7xbcvBzFVkkyYax4OrULS/hn+V1Ztdu43ueCJAK5IuRVxswwP+nxdi0
+	 ELWNcxvxTd03fdV8O043AEfVmvWhoM/mhE8H0XdWfC+0Ois1m2yz+U04NXwUYXczuv
+	 4cjoDbQsYICCw==
+Date: Mon, 9 Nov 2026 11:52:30 -0500
+From: Nathan Chancellor <nathan@kernel.org>
+To: "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc: Julian Braha <julianbraha@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>, Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, arighi@nvidia.com
+Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
+Message-ID: <20261109165230.GC1608140@ax162>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
+ <20261109003745.GA3429615@ax162>
+ <avHxmCEdHgyRD7n0@lx-t490>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,235 +74,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261024223501.1420953-1-daniel.lezcano@oss.qualcomm.com> <ed4aac63-ac58-4e2a-ae45-ebf4da158228@oss.qualcomm.com>
-In-Reply-To: <ed4aac63-ac58-4e2a-ae45-ebf4da158228@oss.qualcomm.com>
-From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
-Date: Mon, 9 Nov 2026 17:46:53 +0100
-X-Gmail-Original-Message-ID: <CAJZ5v0gGeKEqMWvP3cQrXztZt-faFZJF+yNfygcBPT57f-a8Lw@mail.gmail.com>
-X-Gm-Features: AclHuK_21pB0sZBLQgS6pGtnjP6yV12ddWqNvd6v3npp0rwykw62-EY_ITW-xpY
-Message-ID: <CAJZ5v0gGeKEqMWvP3cQrXztZt-faFZJF+yNfygcBPT57f-a8Lw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Make platform profiles firmware independent
-To: Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	Hans de Goede <hansg@kernel.org>, =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-	Maximilian Luz <luzmaximilian@gmail.com>, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-	Mark Pearson <mpearson-lenovo@squebb.ca>, "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-	Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
-	Lukasz Luba <lukasz.luba@arm.com>, Armin Wolf <W_Armin@gmx.de>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Jack Wu <jackbb_wu@compal.com>, 
-	"Mario Limonciello (AMD)" <superm1@kernel.org>, linux-acpi@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <avHxmCEdHgyRD7n0@lx-t490>
 
-On Mon, Nov 9, 2026 at 5:37=E2=80=AFPM Daniel Lezcano
-<daniel.lezcano@oss.qualcomm.com> wrote:
->
->
-> Hi,
->
-> sashiko validated this series
->
-> Is there any other comments for these changes I should take care of ?
+On Mon, Nov 09, 2026 at 05:15:20PM +0100, Ahmed S. Darwish wrote:
+> On Sun, 08 Nov 2026, Nathan Chancellor wrote:
+> >
+> > On Sun, Nov 08, 2026 at 06:59:26PM +0000, Julian Braha wrote:
+> > > I think the name will cause confusion.
+> > >
+> > > We already have some "kconfig checkers" in-tree, like
+> > > scripts/kconfig-sym-check.pl
+> > >
+> > > But actually, your tool is quite unrelated, because that one checks
+> > > 'Kconfig' source files, while yours checks the user's '.config' file.
+> > >
+> > > This has already caused some confusion in the past, for example in this
+> > > thread [2], someone misunderstood which one 'kconfig-sym-check'
+> > > actually checks.
+> > >
+> > > In addition to .config vs Kconfig, the name is similar to
+> > > 'kconfig-sym-check', but is not as descriptive about *what kind* of
+> > > checks it performs.
+> >
+> > Yeah, I had similar thoughts when this initially appeared in my inbox.
+> > As you mentioned in your email, this is basically a policy checker (“we
+> > need these configuration options enabled or disabled to meet our
+> > requirements”), so maybe config-policy-checker or something like that
+> > would be clearer?
+> 
+> I would've loved to keep "kconfig" in the name so that outside the kernel,
+> it's still clear it's about a kernel .config. For example, a Debian package
+> for this tool can be called "kconfig-checker", "kconfig-policy-checker",
+> etc.
 
-I'd love to see some feedback from someone having a vested interest in
-this interface.  Mario?  Mark?
+Sure, that makes sense. Like Julian mentioned, kconfig is certainly an
+overloaded term but there is little we can do about that now :)
 
-> On 10/25/26 00:34, Daniel Lezcano wrote:
-> > Make platform profile selection independent of ACPI firmware.
-> >
-> > The provider API already uses struct device, profile enums and callback=
-s;
-> > it does not require an ACPI handle or firmware node. However, the core =
-is
-> > built under drivers/acpi/, its Kconfig symbol depends implicitly on ACP=
-I,
-> > and initialization fails when ACPI is disabled, preventing non-ACPI
-> > providers from using the existing firmware-independent class interface.
-> >
-> > This series moves the core to drivers/platform/profile/ and introduces
-> > CONFIG_PLATFORM_PROFILE, updating all existing provider selectors. It
-> > retains the tristate configuration and platform_profile module name.
-> > Firmware-specific discovery and profile operations remain with provider=
-s.
-> > The core can also be selected directly through its Kconfig prompt.
-> >
-> > An optional ACPI adapter obtains the legacy sysfs kobject and is linked
-> > into the same module. The generic core contains no ACPI types or symbol=
-s
-> > and initializes without ACPI support or with ACPI disabled at boot.
-> > The existing /sys/firmware/acpi/platform_profile and
-> > /sys/firmware/acpi/platform_profile_choices attributes remain available
-> > on active ACPI systems.
-> >
-> > CONFIG_PLATFORM_PROFILE_LEGACY controls the backwards-compatible aggreg=
-ate
-> > sysfs interface. It defaults to enabled to preserve existing userspace.
-> > Disabling it omits the legacy sysfs callbacks and ACPI adapter while
-> > retaining class devices and kernel profile cycling. New userspace shoul=
-d
-> > discover and control individual class devices instead.
-> > The interface is deprecated, with removal intended after the 2028 LTS
-> > kernel once userspace migration is complete. A shared pr_notice_once()
-> > warns on legacy attribute access rather than on merely loading the core=
-.
-> > The default remains enabled while userspace adopts released class-devic=
-e
-> > support; this series does not claim that ecosystem migration is complet=
-e.
-> >
-> > The existing firmware-independent interface remains:
-> >
-> >    /sys/class/platform-profile/platform-profile-X/name
-> >    /sys/class/platform-profile/platform-profile-X/choices
-> >    /sys/class/platform-profile/platform-profile-X/profile
-> >
-> > Non-ACPI userspace controls providers individually through these class
-> > devices. Aggregate selection remains available through the legacy ACPI
-> > attributes, and aggregate profile cycling remains available to kernel
-> > callers. No new sysfs directory or userspace ABI is introduced.
-> >
-> > The original first patch, "Separate handler locking from sysfs lifetime=
-",
-> > fixing the handler access race and sysfs teardown locking issue, has be=
-en
-> > sent separately as a standalone v3 fix. It is not included in this seri=
-es.
-> > The base tree used here already contains that fix.
-> >
-> > Patch 1 extracts the core and initializes it before built-in consumers.
-> > Patch 2 completes class-device notifications and registration cleanup.
-> > Patch 3 documents firmware-independent profile selection through class
-> > devices. Patch 4 makes the legacy ACPI aggregate sysfs interface option=
-al
-> > and documents its deprecation.
-> >
-> > Validation performed during development (before this rebase):
-> >
-> >    - ARM64 built-in core with CONFIG_ACPI=3Dn: W=3D1 build and sparse.
-> >    - x86 modular core with CONFIG_ACPI=3Dy: W=3D1 object build and spar=
-se.
-> >      Both CONFIG_PLATFORM_PROFILE_LEGACY=3Dy and =3Dn are covered.
-> >    - Full x86 kernel link and QEMU boot with lockdep and list debugging=
-,
-> >      with active ACPI and with acpi=3Doff.
-> >    - Firmware-less providers exercising common and hidden choices,
-> >      profile reads/writes, invalid input, mixed profiles, cycling,
-> >      partial callback failures and POLLPRI on the class and legacy ACPI
-> >      interfaces. With acpi=3Doff, class get/set, notifications and kern=
-el
-> >      cycling are exercised. Both runs check that no new aggregate sysfs
-> >      directory is created.
-> >    - Concurrent sysfs I/O with two persistent providers while a third
-> >      provider is registered and removed 200 times, last-provider attrib=
-ute
-> >      removal and repeated provider module reloads.
-> >    - QEMU with active ACPI and CONFIG_PLATFORM_PROFILE_LEGACY=3Dn: veri=
-fy
-> >      the legacy attributes are absent, class get/set and notifications
-> >      work, and kernel cycling and registration/removal stress pass.
-> >
-> > The provider API and profile names are unchanged. Aggregate writes reta=
-in
-> > their sequential, non-transactional behavior: a failing callback does n=
-ot
-> > roll back providers already updated.
-> >
-> > Changes in v3:
-> >    - Send the original first patch fixing the handler access race and
-> >      sysfs lifetime locking separately as a standalone v3 fix, includin=
-g
-> >      the requested profile_lock protection comment and Fixes tag.
-> >    - Reduce this series to the four remaining patches and renumber them=
-.
-> >    - Rebase the remaining changes onto the current base, which already
-> >      contains the separately submitted locking fix.
-> >
-> > Changes in v2:
-> >    - Add the Fixes tag to patch 1 and explain how the mutex-guard conve=
-rsion
-> >      reintroduced the teardown deadlock previously fixed in 041142d7d25=
-2,
-> >      and how class-device support subsequently extended the affected pa=
-ths.
-> >    - Drop the proposed /sys/kernel/platform_profile/ aggregate interfac=
-e
-> >      and its ABI documentation. Use the existing firmware-independent
-> >      /sys/class/platform-profile/platform-profile-X/ devices instead.
-> >    - Preserve aggregate selection through the legacy ACPI attributes an=
-d
-> >      retain internal aggregation for kernel profile cycling.
-> >    - Refocus patch 3 on class-device notifications for direct writes an=
-d
-> >      restoring aggregate visibility after failed registration.
-> >    - Update the Kconfig help and documentation to describe the existing
-> >      class interface and distinguish it from ACPI aggregate selection.
-> >    - Revalidate class controls and notifications with acpi=3Doff, legac=
-y
-> >      aggregation with ACPI active, and the absence of a new aggregate A=
-BI.
-> >    - Add CONFIG_PLATFORM_PROFILE_LEGACY (default y) to make legacy aggr=
-egate
-> >      sysfs code optional, independently of class devices and kernel cyc=
-ling.
-> >    - Mark the legacy ABI deprecated and describe removal after the 2028=
- LTS
-> >      kernel, conditional on userspace migration. Emit one shared notice=
- on
-> >      legacy attribute access; retain the enabled default during migrati=
-on.
-> >    - Move the legacy ACPI ABI documentation from testing/ to obsolete/,
-> >      document the replacement class attributes and update MAINTAINERS.
-> >
-> > Changes in v1:
-> >    - Initial series extracting the core from ACPI, separating handler
-> >      locking from sysfs lifetime operations and retaining the legacy AB=
-I.
-> >    - Proposed a firmware-neutral aggregate sysfs interface alongside th=
-e
-> >      existing per-provider class devices (removed in v2).
-> >
-> > Daniel Lezcano (4):
-> >    platform profile: Extract the core from ACPI
-> >    platform profile: Complete class notifications and registration
-> >      cleanup
-> >    platform profile: Document firmware-independent profile selection
-> >    platform profile: Make legacy ACPI aggregate interface optional
-> >
-> >   .../sysfs-platform_profile                    |  12 ++
-> >   .../ABI/testing/sysfs-class-platform-profile  |   2 +-
-> >   .../userspace-api/sysfs-platform_profile.rst  |  55 ++++++--
-> >   MAINTAINERS                                   |   5 +
-> >   drivers/acpi/Kconfig                          |   3 -
-> >   drivers/acpi/Makefile                         |   1 -
-> >   drivers/cpufreq/Kconfig.x86                   |   2 +-
-> >   drivers/platform/Kconfig                      |  35 +++++
-> >   drivers/platform/Makefile                     |   2 +
-> >   drivers/platform/profile/Makefile             |   5 +
-> >   drivers/platform/profile/acpi.c               |  15 +++
-> >   .../profile/core.c}                           | 122 ++++++++++++++---=
--
-> >   drivers/platform/profile/profile.h            |  17 +++
-> >   drivers/platform/surface/Kconfig              |   6 +-
-> >   drivers/platform/x86/Kconfig                  |  10 +-
-> >   drivers/platform/x86/amd/pmf/Kconfig          |   2 +-
-> >   drivers/platform/x86/dell/Kconfig             |   4 +-
-> >   drivers/platform/x86/hp/Kconfig               |   2 +-
-> >   drivers/platform/x86/lenovo/Kconfig           |   6 +-
-> >   drivers/thermal/intel/int340x_thermal/Kconfig |   2 +-
-> >   include/linux/platform_profile.h              |   3 +
-> >   21 files changed, 255 insertions(+), 56 deletions(-)
-> >   rename Documentation/ABI/{testing =3D> obsolete}/sysfs-platform_profi=
-le (70%)
-> >   create mode 100644 drivers/platform/profile/Makefile
-> >   create mode 100644 drivers/platform/profile/acpi.c
-> >   rename drivers/{acpi/platform_profile.c =3D> platform/profile/core.c}=
- (88%)
-> >   create mode 100644 drivers/platform/profile/profile.h
-> >
-> >
-> > base-commit: 8244dc8f69f0e73cb1789355260b7d68bf5494e7
->
+> What about kconfig-audit?  Something like:
+> 
+>    ./tools/kconfig-audit/audit.py -c .config -p PREEMPT_RT
+> 
+>    make POLICY=preempt_rt auditconfig
+> 
+> config-policy-checker does sound good, but it feels verbose.
+> 
+> Feedback appreciated.
+
+Yeah, config-policy-checker is a little verbose and might not translate
+into make rules well. kconfig-audit does not sound bad to me, especially
+with the rename of RULES to POLICY; at the very least, it is on the
+right track.
+
+-- 
+Cheers,
+Nathan
