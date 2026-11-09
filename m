@@ -1,106 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794230827;
-	b=u+aA2LIDHe9ayWdax7brZVMsX6EWtLKcaYzXfY41iPssXpmEohfrrud7moOcstw9l7SM
-	 J8Y5bQNkZKdonCQGOf64Jo+ph1UUErwxgD8kzFBgCAU/84owQSstmSOdgGXanJDGQMASx
-	 9S8YIu89GbDlCI7LZaoqwMnC83v/sfcz6WZrOk60vcJHP1JmIPe8n/km4Sh/JJaL5enWp
-	 vLe0yKPKW8skfn7PQG3uu3++GuFf2+cy32+m8HoV40MMab4jGX4+/ST3GsZs/rTVmjrdG
-	 DDZorS2lbOlCTGd76gPjpBWVo8xZiSPN6QlkvklvSwdk1pro8UfLDwBVnR723/bEzgA==
+	t=1794231179;
+	b=oi4Hd9La/fnsoXeE1esXJSr3CStQql45Tzu5KPb+e3KlGu8oJ6g7c3tIY+IN9wseiwBG
+	 oLlbvaPgmyGuRTlFe/wdNIAmc9U+fTxBeZUi7PK5/wAv4A6iVWaWvFNV4sr/omeER+OT9
+	 2851pBWqcNev5lXUB87FyXwhjSlDkqjIqrHYE38iWGWNc3wVSRZKd2lzBKFE/f9L+5LkC
+	 Fy9DGbG9tTB7/lk+UmAPW4xzecfXCUITWNpKoTPqpNqeDgVoawHjz7bVN6HOB5p7SctAb
+	 uXMuN6liShyefCc5Cqbbu7T0O9Yz96JUYjYD6jiH1nxSBsmFWPwdwzsiltiN2L7mP5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794230827;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=yjcmzLe9NLb31BRnk0YYkyQlltkBEnbcgBXYWiIw6EQ=;
-	b=aPevzVuosEAEZhuLZQpi+o0GpNoU17+L8sxI6SfSuPYBVj/7Z9X0b+MyQjFyRJw0/2v7
-	 1va31l4RegcSc+VkhclvEQAoyWuxBJNipCMsdiKW1qIyfHqRLWOX4Yvz6KjBsQY/nic77
-	 sSAuppL6Aj06YFCmdqYP/n6a2TmbIm0zxK3ohvAgw3dbMFjMWjHB2oaJuPI8C+9O0VUUi
-	 HmsSDodfh+f3sOmqmmG6OtCvYIs9PHNzxu5Z2Vy9MIJip0zYg+s1X2JZ+FCaE5+mpKNX9
-	 DRBUPkD96viVFIAI8+zQ5+a1LSDfdeVOzl7eLAEIDasQO7tWoXiQONYsv8XSeY5TjeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794231179;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=40bKMwmS+zqliWyWpfE0ENwj1eMynIlSudH9fVtlnO4=;
+	b=M2D8dok0Qw00MAn6RWyJRJDE1t3kfUqeJrtJidcwYIinyF4Xt0CdsbD4TB/qErnYb38a
+	 Yymr2acv50p/caZMC0U1UPrZdrYJuQEAruJYsFl6SexEQVnGCkusR8WSxAhNQb3tdIdQu
+	 31OX4s3zjj0NY/hWFWo2U+HBK75fKOzjcVKnMwRZT/u0LKrRZ/newijoC/weThXTOfF02
+	 k9afd9ltOAlydIXCe1M6/cCzqPcXEtNq8RDWLAunm2CIq7hJ5B0homMOahqYeGHcHY796
+	 iD0qdbwTYnjke9h6hJcMCEHGRgdYUStLeJWEhxDhkzR9FHY8MhZZTrUwmFc26lJYh7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BOnEoRaJ;
-	arc=none smtp.remote-ip=209.85.216.46
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Bbm86PvU;
+	arc=none smtp.remote-ip=91.218.175.45
+Received: from mta0.migadu.com (out-45.mta0.migadu.com [91.218.175.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44ABB606A336
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:27:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44ABB606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F6F606A323
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:32:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20F6F606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BOnEoRaJ
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3b094e649d3so521577a91.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:27:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794230826; x=1794835626; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yjcmzLe9NLb31BRnk0YYkyQlltkBEnbcgBXYWiIw6EQ=;
-        b=BOnEoRaJaQ8SXaiOcetimIWNWbQ+7UsWUrCCnjs2uC9ELzvmoi31fLLUIUTYtpKEPg
-         GLIlJ5n2L9RvbSYWRr+3ZKNhsOHTu6z2NAFABRZ7dUgnVFBOvqsb5OPwzhZ1WvDj8fEh
-         rK4FM8wM2o6Q1CdEveKQdEUy4Nn8jZMTzXmHMK7p/2wq3MJHyrPxFtSRpr7LSjA65+QT
-         T8szyVfbZDBiaJU2rOoVli3vEeq8427Ie3L1QzGzI8nHd6cbC8IkQ2A0Y5+cowQ1Mrsb
-         mlKshoXFSg5db+4UhmjGFlYsd9WmyVAax3Dg/OfPBkILyOqSdZLHwfYGT+WL8JrEsoLN
-         2iTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794230826; x=1794835626;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yjcmzLe9NLb31BRnk0YYkyQlltkBEnbcgBXYWiIw6EQ=;
-        b=ZpP3ZQWHRVtAYRQP8HFTnrEplggBPnkU8rmxhe7s2blElnab2WobRBBEefmwPdxfmy
-         Lvk/UFQXoSOL5++cv0jlG83Mo3gyBah6afHUas4nVUCjbR0e/pamtIZ7oRX8WGGzQ7cP
-         cqH/qiCZZlwU3jarZBV9nfr71ju4A8q9Ec0vazuTxyU39u5F88uL9ensmiXiyuQV2lHg
-         OeCYppFgv30iZKbJnsr26q7RLF1g4kMJrh5884xuEh2Nne37kSMVW5GpxK8T+7iHRnDa
-         VshwkBaZWBEltOgCQMehQVXCgiMKtJxBX5uqc1xTI/A4z6MLFhqcSfaESZsy/oTo3R7Y
-         /Crw==
-X-Forwarded-Encrypted: i=1; AL+hErGoZwBiS3tRJpUAUWsKzZZc6t/anvHUuKCkJN95SMZeftOKmRYG0pGGJhvNCMGwFHsKaHLXUt6bud8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9VTs24WAtS0jYuJzO9Xp41leXTICOScPxb8L4hzCt5qWw2SUzQ
-	MTBFRfqn+O9p3RT0UGSdnqVYWT2CfJS2d3by8BQz5r0PwWD6bj8omgcC
-X-Gm-Gg: AYBFou2xbTEJcXPgf6gkxx341AyDiJk48j7BeKt+2vGnRCxzrSQvz3DYpmaYiwWfM8O
-	07HApgI5b4sz2AGptPhFSbZfAEvLebms0A6hbSf+IRH+RIN8I8XyT8X5qzdG/gtkDPW/jZOh6W/
-	aKJBQfvQVDnMr+50yZWzj88o/5i1hCl2cIQ1koFxkdtPDy6tB87DzfIH6nK0cAw1sU58EQriDlD
-	BbcAzV+ORrFzbp2tMu6G4sEDk5gvgcklPRAjFGMzY75X1bT79d74JePX1I0igcn+ob/trcTRFN/
-	UWBG7yPsqhiXdMCcViO8gHkvlgreB/CqMBDW3S9rdEIA2TW0qhzF9yy64urU39QDHNnBPUoOt+K
-	MMzq0oS79NSFaXCMni9llhqG5QmCbEpco+tCHhFaGfcBKUcWUcd07Pl+d9qNIqXxSeiY2+U7WF3
-	rqwFo1XF5QJw2bDheFZC5GyqmB4DAgVr+xTEYQ/xDugacJKXOhAre/dFswpRhPSxFVL206X/NG4
-	u57ZQmwGwVht0UDlHL3o8TU9VsGLheO3ajHPz3TBj+/04kWgJssn1v9GkfIEPEEaof7gWOwXf/w
-	SGqU8yWDWhINWx+jtFGUCRj3afDFtDXfNHT9DrPwPjD0Mjk2jojtEc+N4j5q1IPr
-X-Received: by 2002:a17:90b:3e48:b0:3b0:9cc6:62bc with SMTP id 98e67ed59e1d1-3b12d4ca89fmr3867376a91.37.1794230826398;
-        Mon, 09 Nov 2026 05:27:06 -0800 (PST)
-Received: from r00799764-ThinkCentre-M920t-N000.. ([139.159.170.67])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb969331f0sm1661701a12.18.2026.11.09.05.27.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 05:27:06 -0800 (PST)
-From: Jinjie Ruan <ruanjinjie01@gmail.com>
-To: babu.moger@amd.com,
-	ben.horgan@arm.com,
-	bp@alien8.de,
-	corbet@lwn.net,
-	Dave.Martin@arm.com,
-	fenghuay@nvidia.com,
-	james.morse@arm.com,
-	rdunlap@infradead.org,
-	reinette.chatre@intel.com,
-	skhan@linuxfoundation.org,
-	tony.luck@intel.com,
-	x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: ruanjinjie@huawei.com
-Subject: [RFC PATCH 6/6] arm_mpam: Program the hard limit for the software controller
-Date: Mon,  9 Nov 2026 21:26:21 +0800
-Message-ID: <20261109132621.3862497-7-ruanjinjie01@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261109132621.3862497-1-ruanjinjie01@gmail.com>
-References: <20261109132621.3862497-1-ruanjinjie01@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Bbm86PvU
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=Fvo0rU4AAAD5ybmggyHQoZ1nYUH7YGGjSe5YZFFbZuE=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794231175; v=1; x=1794835975;
+ b=Bbm86PvUjI3zrbGY+81JkYDU5PoHIZDhecLGKWYu2QzvSduoHWC7fC8GVqaJ6gu7+Vdfg/Ph
+ thyBZi5PFa1MUb64BUCAw8Gt0Q3c8q4tBqRn/o7Y65RCv9qmp7zZhGLn6Z/TcGTVOCxQqXTWbNx
+ 1iY0tXMPH/nov4HTuyaYYy2cF4riz9oe+dFlHLdshxjYoIfOFDuxN9SY2pWrAf01xu3RzMCoMPs
+ jKv0h+h8ZhV+jPLhlIM7V1+i94VHtvPWLNvQPX1sKzXvs/f6P84rCa6RLSaHZEDoBIo2elc1Kk5
+ y/VynyjTbqYdMxfnEKbx/l7UbSRDC26m6M5inVCOhvBYQ==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d3a5308d7d69d732;
+	Mon, 09 Nov 2026 13:32:55 +0000
+X-Mizu-Trace-ID: d3a5308d7d69d732
+X-Migadu-Flow: FLOW_OUT
+Date: Mon, 9 Nov 2026 21:32:45 +0800
+From: Weijie Yuan <kernel@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/4] docs/zh_CN: translate AI-related process guides
+Message-ID: <avHLfe6N56YjXa-i@wyuan.org>
+References: <cover.1794153793.git.dzm91@hust.edu.cn>
+ <cover.1794197977.git.dzm91@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,186 +69,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <cover.1794197977.git.dzm91@hust.edu.cn>
 
-From: Jinjie Ruan <ruanjinjie@huawei.com>
+On Mon, Nov 09, 2026 at 01:21:36PM +0800, Dongliang Mu wrote:
+> Add Chinese translations of the process guides for coding assistants,
+> generated content, and the kernel threat model. The final patch updates
+> the coding-assistants guide to link to the new translations.
+> 
+> Changes in v2:
+> - Add the missing Signed-off-by tags to all four patches.
+> - Spell out "AI 助手" in patch 4/4 to address the terminology nitpick.
+> - Format the English commit references in patch 3/4 for checkpatch.
+> - Add Weijie Yuan's Reviewed-by tags.
+> 
+> Dongliang Mu (4):
+>   docs/zh_CN: translate coding-assistants.rst
+>   docs/zh_CN: translate generated-content.rst
+>   docs/zh_CN: translate threat-model.rst
+>   docs/zh_CN: link AI guide to translated documents
 
-MPAM's maximum bandwidth control has a HARDLIM bit (IHI 0099 B.d
-Section 9.6.9): when set, a PARTID that uses more than its maximum gets
-no further bandwidth; when clear, requests above the maximum are
-serviced when no other request is waiting. The driver writes only the
-16-bit maximum, so the control is a soft limit and the software
-controller cannot keep a single requester below its target.
+I happened to take a look at what is Sashiko's review on this serie:
 
-Carry the hard limit in mpam_config and set it when the controller is
-enabled. MPAMF_MBW_IDR.MAX_LIM (Section 9.5) reports the implemented
-behaviors: 00 both, 10 hard only, 01 soft only. Record the soft-only
-case (and the reserved 0b11) in resctrl_membw::max_is_soft_limit so
-mba_MBps is refused there. Merging resources into a class propagates
-the soft-only case, as the hard limit is only usable when every
-resource implements it.
+https://sashiko.dev/#/patchset/cover.1794197977.git.dzm91%40hust.edu.cn
 
-The percentage interface never sets the hard limit, and resctrl clears
-one set by the controller when it resets the controls on unmount.
+Besides the Original: and Translator: thing, Sashiko says that the new
+translations below are not added into zh_CN/process/index.rst.
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/resctrl/mpam_devices.c  | 55 ++++++++++++++++++++++++++-------
- drivers/resctrl/mpam_internal.h |  4 +++
- drivers/resctrl/mpam_resctrl.c  |  9 ++++++
- 3 files changed, 57 insertions(+), 11 deletions(-)
+And I checked that the English original version of these are indeed
+added in their index.rst, so perhaps we can by the way tidy up our
+index.rst in Chinese process dir and add these new articles?
 
-diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
-index c067b6d57d71..2c8f60c96d3f 100644
---- a/drivers/resctrl/mpam_devices.c
-+++ b/drivers/resctrl/mpam_devices.c
-@@ -1025,8 +1025,22 @@ static int mpam_ris_hw_probe(struct mpam_msc_ris *ris)
- 		 */
- 		props->bwa_wd = min(props->bwa_wd, 16);
- 
--		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MAX, mbw_features))
-+		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MAX, mbw_features)) {
-+			/*
-+			 * MAX_LIM: 0b00 both limits, 0b01 the soft limit
-+			 * only, 0b10 the hard limit only. 0b11 is reserved;
-+			 * treat it as the soft limit only so the software
-+			 * controller is refused rather than rely on an
-+			 * unknown limit behavior.
-+			 */
-+			props->max_lim = FIELD_GET(MPAMF_MBW_IDR_MAX_LIM, mbw_features);
-+			if (props->max_lim == 3)
-+				props->max_lim = 1;
-+
- 			mpam_set_feature(mpam_feat_mbw_max, props);
-+			/* The hard-limit bit is a configuration bit. */
-+			mpam_set_feature(mpam_feat_max_limit, props);
-+		}
- 
- 		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MIN, mbw_features))
- 			mpam_set_feature(mpam_feat_mbw_min, props);
-@@ -1911,16 +1925,21 @@ static int mpam_reprogram_ris_partid(struct mpam_msc_ris *ris, u16 partid,
- 	}
- 
- 	if (mpam_has_feature(mpam_feat_mbw_max, rprops)) {
--		if (mpam_has_feature(mpam_feat_mbw_max, cfg)) {
--			ret = mpam_write_partsel_reg(msc, MBW_MAX, cfg->mbw_max);
--			if (ret)
--				return ret;
--		} else {
--			ret = mpam_write_partsel_reg(msc, MBW_MAX,
--						     MPAMCFG_MBW_MAX_MAX);
--			if (ret)
--				return ret;
--		}
-+		u32 val = MPAMCFG_MBW_MAX_MAX;
-+
-+		if (mpam_has_feature(mpam_feat_mbw_max, cfg))
-+			val = cfg->mbw_max;
-+
-+		/*
-+		 * The hard-limit bit follows its own feature bit so that it
-+		 * can be set without changing the maximum.
-+		 */
-+		if (mpam_has_feature(mpam_feat_max_limit, cfg) && cfg->max_limit)
-+			val |= MPAMCFG_MBW_MAX_HARDLIM;
-+
-+		ret = mpam_write_partsel_reg(msc, MBW_MAX, val);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	if (mpam_has_feature(mpam_feat_mbw_prop, rprops)) {
-@@ -2661,6 +2680,19 @@ static void __props_mismatch(struct mpam_props *parent,
- 		parent->bwa_wd = min(parent->bwa_wd, child->bwa_wd);
- 	}
- 
-+	/*
-+	 * The hard limit is only usable if every resource implements it,
-+	 * so the soft limit only wins the merge. The encoding follows
-+	 * MPAMF_MBW_IDR.MAX_LIM.
-+	 */
-+	if (alias && !mpam_has_feature(mpam_feat_mbw_max, parent) &&
-+	    mpam_has_feature(mpam_feat_mbw_max, child)) {
-+		parent->max_lim = child->max_lim;
-+	} else if (mpam_has_feature(mpam_feat_mbw_max, parent) &&
-+		   child->max_lim == 1) {
-+		parent->max_lim = 1;
-+	}
-+
- 	if (alias && !mpam_has_cmax_wd_feature(parent) && mpam_has_cmax_wd_feature(child)) {
- 		parent->cmax_wd = child->cmax_wd;
- 	} else if (MISMATCHED_HELPER(parent, child, mpam_has_cmax_wd_feature,
-@@ -3405,6 +3437,7 @@ static bool mpam_update_config(struct mpam_config *cfg,
- 	maybe_update_config(cfg, mpam_feat_cpor_part, newcfg, cpbm, has_changes);
- 	maybe_update_config(cfg, mpam_feat_mbw_part, newcfg, mbw_pbm, has_changes);
- 	maybe_update_config(cfg, mpam_feat_mbw_max, newcfg, mbw_max, has_changes);
-+	maybe_update_config(cfg, mpam_feat_max_limit, newcfg, max_limit, has_changes);
- 
- 	return has_changes;
- }
-diff --git a/drivers/resctrl/mpam_internal.h b/drivers/resctrl/mpam_internal.h
-index 1f86cc158100..184fbc01fa91 100644
---- a/drivers/resctrl/mpam_internal.h
-+++ b/drivers/resctrl/mpam_internal.h
-@@ -234,6 +234,7 @@ enum mpam_device_features {
- 	mpam_feat_msmon_mbwu_capture,
- 	mpam_feat_msmon_mbwu_rwbw,
- 	mpam_feat_partid_nrw,
-+	mpam_feat_max_limit,
- 	MPAM_FEATURE_LAST
- };
- 
-@@ -243,6 +244,7 @@ struct mpam_props {
- 	u16			cpbm_wd;
- 	u16			mbw_pbm_bits;
- 	u16			bwa_wd;
-+	u8			max_lim;
- 	u16			cmax_wd;
- 	u16			cassoc_wd;
- 	u16			intpri_wd;
-@@ -364,6 +366,7 @@ struct mpam_config {
- 	u32	cpbm;
- 	u32	mbw_pbm;
- 	u16	mbw_max;
-+	bool	max_limit;
- 
- 	struct mpam_garbage	garbage;
- };
-@@ -628,6 +631,7 @@ int mpam_fb_check_shared_buffer_size(struct mpam_msc *msc);
- 
- /* MPAMF_MBW_IDR - MPAM features memory bandwidth partitioning ID register */
- #define MPAMF_MBW_IDR_BWA_WD		GENMASK(5, 0)
-+#define MPAMF_MBW_IDR_MAX_LIM		GENMASK(9, 8)
- #define MPAMF_MBW_IDR_HAS_MIN		BIT(10)
- #define MPAMF_MBW_IDR_HAS_MAX		BIT(11)
- #define MPAMF_MBW_IDR_HAS_PBM		BIT(12)
-diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
-index 5468367776e2..5f35bfe1955a 100644
---- a/drivers/resctrl/mpam_resctrl.c
-+++ b/drivers/resctrl/mpam_resctrl.c
-@@ -1236,6 +1236,7 @@ static int mpam_resctrl_control_init(struct mpam_resctrl_res *res)
- 		r->ctrl_scope = RESCTRL_L3_CACHE;
- 
- 		r->membw.delay_linear = true;
-+		r->membw.max_is_soft_limit = (cprops->max_lim == 1);
- 		r->membw.throttle_mode = THREAD_THROTTLE_UNDEFINED;
- 		r->membw.min_bw = get_mba_min(cprops);
- 		r->membw.max_bw = MAX_MBA_BW;
-@@ -1481,6 +1482,14 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
- 		if (mpam_has_feature(mpam_feat_mbw_max, cprops)) {
- 			cfg.mbw_max = percent_to_mbw_max(cfg_val, cprops);
- 			mpam_set_feature(mpam_feat_mbw_max, &cfg);
-+			/*
-+			 * Always carry the hard-limit bit so that writing the
-+			 * maximum clears a hard limit set by an earlier mount
-+			 * of the software controller.
-+			 */
-+			mpam_set_feature(mpam_feat_max_limit, &cfg);
-+			if (r->membw.mba_sc)
-+				cfg.max_limit = true;
- 			break;
- 		}
- 		fallthrough;
--- 
-2.43.0
+Thanks.
 
+>  .../zh_CN/process/coding-assistants.rst       |  74 ++++++++
+>  .../zh_CN/process/generated-content.rst       |  97 ++++++++++
+>  .../zh_CN/process/threat-model.rst            | 168 ++++++++++++++++++
+>  3 files changed, 339 insertions(+)
+>  create mode 100644 Documentation/translations/zh_CN/process/coding-assistants.rst
+>  create mode 100644 Documentation/translations/zh_CN/process/generated-content.rst
+>  create mode 100644 Documentation/translations/zh_CN/process/threat-model.rst
