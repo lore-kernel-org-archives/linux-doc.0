@@ -1,73 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.225
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794191712;
-	b=JwkZi07Kub9Au/71UthmpnKvOvTHtvmtuZOuSumUDf+VDNCFclUjRZjQCt5oyMqKqs0y
-	 YnEvKpxRvFf6dDdwhrHDR2hiPOfNnSXkgaitu4Yt18SDIe6PMobjFE47mUZCF+39ept5U
-	 FeCAN5zkZ4l6pnRnGHzusG5AHN5N7ygJB05K4d+Av4EV9r11EuYpkRQr/p9LeVuWPRt+O
-	 6cK1JSxCKRHkVsm4gyNCodeEmF/ATcKn79Lozt6kUUfiI+cbs/LOTVMPfRtbZXH3shzpd
-	 IGi8OrPbzY0fEZ55tJH1iOY/FBHe3zOestc9XF52752xwayio+Tm6lEytseVtpguQXg==
+	t=1794193287;
+	b=AHbfZARh4Sfb5h+DOzlqq51d16ZyAp7fV/urTPFOkW3RGWumreNAu88VSb4M20pgf4jD
+	 cnSMryzdxYigl5Z/rXVqvODus2ypywPhiZkX6ySrzYK1abxboq5JpFQdxiv9FMdovXSzX
+	 4bQ9Y1w40XNMuvevwWTKaBQLcq1+paiPGNs1xOkDjXZPJe8buypXsFrT3DuO7+f46Rbho
+	 miaZTx1UBhy7IXbbj1KcAAIpQmcxO8vOdOT9UX7+MXWShmmrEXLmCzDg/rvy05+L6SmLQ
+	 qQEYZU+aX5avKv07mZlggPnWBXrRyemEK8UZ036I37zEIHR5PWR/ErHorJOq/tqRT0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794191712;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=/ikAqP7gpdbBI+hdFB0vTPSMi3bWmtsaCXh9lO0ty1U=;
-	b=nWINv89tg62j76M2PJwneQrllFsTAxatoEpW7yOX96tv5pMwt6xm9sNg1V1Z49kwff0c
-	 eJM3xfIHubruhbBKhitbIdMho5R64hftV38U7mTopmB1+buOXoOhLQgsv7vr/lfqLYFld
-	 r45CYn79GsUpfvECr7A+dkPwcb9XszV4VvFC2n838vQYMmTmvf0Pw+s3J+tMi+Yr8CwUv
-	 ObtQhL+UNlK36yyF8cC05XWqLFDCC+TaKEyJ+pTs5ngV4wqYme/+Z5IiN/3xAHMM88toE
-	 FEme+kgjf8FSSyHq9+hX9nubb9OiBns2Dx7cRQ27icmCiXGU50QpG+IZqO8luRJV/vA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794193287;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=au/ycR8YCGbRgk4UR5scTYEiXwJwUFZkGT7G4NUC5NI=;
+	b=sOTFLhs5a4RBTNFX0/tVE/ZOxmkj92d7Qvh4dGkc/gzPWO4+0EWRobDHcigc5yYU4hDN
+	 cOiYdEdkkwu4MhvSumXyX/GWG5BfCw5iOPu3oL1FN8hdtXffMGjw6iP299Oozjuv8ystb
+	 Jj/5baDXPNoCiA4U4ioU+DvALXEbkMZlO0pyDe/6ur+HFO7bVTHakrpGvUyprLSRDSLJF
+	 ByCZQbCuN+rc1DR0Fq5ZqXi1TghXACYcbP12767taQuQthbfJIvhW1R3vsxU/+3Ckkik+
+	 0nwmGIm8HnLrC4zEWiYPlnHTItElEYuWdoAEJbxTn45NtL8JMR5Kyqftmd6ygL5akFA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="M75aPf/F";
-	arc=none smtp.remote-ip=95.215.58.225
-Received: from mta1.migadu.com (out-225.mta1.migadu.com [95.215.58.225])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mfgyTlgq;
+	arc=none smtp.remote-ip=209.85.216.51
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9063D606A331
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 02:35:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9063D606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F879606A339
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 03:01:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F879606A339
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=M75aPf/F
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=psUKZVZC7okDpUhR+qBHZvo0Vd9UtjuNKUs9HwCN5Cc=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794191709; v=1; x=1794796509;
- b=M75aPf/FXyCfS/8MBflmk0QpORPYRN6M4MksV8HldOSW/4cycR8VsEgQ8QnBVA4jvK3L5Dxk
- jSzmhfyvXHJ4ZVofXVaXCrOCxNB5TFvQYHgrZXKkBncBM5Oh8laRz936jLwoHC0gETmNWY0c+qc
- ZMvPD8UjNP8ZMEkG71bz3NGM=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id e7a58ce54b55df96;
-	Mon, 09 Nov 2026 02:35:07 +0000
-X-Mizu-Trace-ID: e7a58ce54b55df96
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 9 Nov 2026 10:34:53 +0800
-From: "Xu Xin (vivo)" <xu.xin@linux.dev>
-To: Qiliang Yuan <odys.yuan@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Chengming Zhou <chengming.zhou@linux.dev>,
-	Stefan Roesch <shr@devkernel.io>, Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=mfgyTlgq
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b14b96448eso173391a91.3
+        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 19:01:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794193286; x=1794798086; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=au/ycR8YCGbRgk4UR5scTYEiXwJwUFZkGT7G4NUC5NI=;
+        b=mfgyTlgqT1/r2PHrqge7oNsYoEg6ZgbcZdDUcaPsar99gW7jtiQWIx9x8dXvMLldvn
+         Gkwu4LjQwZ/rA9lLQ512wk+0J2r4plQUm68LW5Gvev8aGB7uEVrRycrcxPJ5I72NvPff
+         /QoDdIsyMbTXJ5bF6uOns1Dqj5lKDkr3dmEH4Av0r6zn+f62D4AFT5zEJqcC8SkzgoHG
+         324POKwusnbuEN5//tIRY0AcY+1/Mqa8VKKqGEsTWQcBiwn6SYaaVZSpV+k7Gg5+aTCZ
+         rljPRjpJf6hM5BGbbFFH5BnfkgzN5p/fI5WdtcsjrnGzbxF7bacPsKYrWG5nUH3FfkRn
+         UIkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794193286; x=1794798086;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=au/ycR8YCGbRgk4UR5scTYEiXwJwUFZkGT7G4NUC5NI=;
+        b=eMneddoowW4HOe2aal6T5tLwTHu/Jy9qVGxFN+1BezHgwtS7o0pVTMT11LwjzloPQp
+         VaXPKLzRWH9JY6+J/vbxQW5fMwvwAMtoFot0DZYsEc74jJ+RQBNmGEi1QSuZwqpgdHJq
+         LwqUTBuKNcOx9P8Ij+kd10aLgHajE5tcsYbobeFQjHazG1oFqeSCcHMvncEukwTSgNmM
+         +lfT2olOhE1/CO61erE1kOvewz+CXsG7x2VmDGGSnhjQscQ14sZwWB4mOT8S0n7KjPtA
+         XIhRAK9JbF3C9aodDg+q20iZ/j5f5JbWoVHVb2Go2HOiX7QH2VI28w8DV6zyfDmgL596
+         NY3Q==
+X-Forwarded-Encrypted: i=1; AL+hErFLuEaiRIlCFG2XPYzYT29EpeUMRAVCaQijTMGq5aa+wFPWTHUmPoE2GILI8PV1v1PpU0VlahVIq5Q=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9VbTNUbAZXld4EQYdINa4Tooiw5WP0KS6RKRvRH3GD0IDLQC0M
+	1s8nIbt0Rbsem3R6IAJrj+Cv4GM6ybsdy+6S5FklcthZO2hnYuPbaE0s
+X-Gm-Gg: AYBFou0IopXziHxdAO4SZ/iqdnsIG9hI0rNQG0JrQNlIQVOtMcAsMzkBtFR9/3eo6KW
+	hzOKo0aSlqVGODV95vukHg+V0zXTIRfQDqT7rJ1mTiz5o7CnG6i3JO1JjGg5wTSiP/RoLwPEUr8
+	wM62oK0RK3NxQMGGDDrvZMV13nxAoN27nX2ZA0rrcwH4mrkbw7lxDif49r+qUqUwK/44Ky231Vi
+	IK6oJUJxM+CVwAksS2FVGZ9/xekELx3RCsVsAwVT82WCKGmHX+gu1I5FAz5PNA1/9ZRrBaUwwzk
+	r8kViGM/YFmIKgrf1scWBDFLdipli7da4/zHKgxEUutZ7Fjx6wElRyq2bwMf7/MPvcKNgK+gufa
+	SqQwa7u49vR3hCcTMqZu3hSiTN7+Re6d9xsAjLISQAOJI2EfTL1LwIUtBhaPM6j6CRbTDcdhKRL
+	qyMB6B2pe0Y3llcXejIFqgl6pU39tjfq42WtHUpRIxFu7iaSD32WpPY6EdxtVMrQtoiQd8Nf4DW
+	1lm4CveGqG+1MbqevvTywTP0oqe24d+M9JVINin7VuUcNyzyWNDX+e/TjOqof+IOLvVmONez8vh
+	GRllJrdbldqiqiogA88eXH8IocnZYZA+jVXbv5JSiX9xrE+08vApZ+UNFUcKMPfqfjnSIVs=
+X-Received: by 2002:a17:90b:4a52:b0:3a8:6a6b:596d with SMTP id 98e67ed59e1d1-3b12d441cf4mr3066492a91.26.1794193286533;
+        Sun, 08 Nov 2026 19:01:26 -0800 (PST)
+Received: from localhost.localdomain ([2409:891f:1ba1:286a:1908:5381:2f2c:6143])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1278918f4sm4920933a91.6.2026.11.08.19.01.20
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 08 Nov 2026 19:01:25 -0800 (PST)
+From: Chuang Wang <nashuiliang@gmail.com>
+To: 
+Cc: Chuang Wang <nashuiliang@gmail.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 5/5] selftests/mm: cover merging KSM pages aged by
- smart scan
-Message-ID: <avExTeM7wyb7PIa6@dgvxl46587.localhost.localdomain>
-References: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-0-86be8fe77e7a@gmail.com>
- <20261108-bug-mm-ksm-smart-scan-align-skips-v4-5-86be8fe77e7a@gmail.com>
+	Stanislav Fomichev <sdf.kernel@gmail.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Bobby Eshleman <bobbyeshleman@meta.com>,
+	Kuniyuki Iwashima <kuniyu@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next v12] net: reduce ARFS flow updates by checking LLC affinity
+Date: Mon,  9 Nov 2026 11:00:34 +0800
+Message-ID: <20261109030042.2956-1-nashuiliang@gmail.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -77,216 +108,194 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-5-86be8fe77e7a@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sun, Nov 08, 2026 at 08:22:54PM -0500, Qiliang Yuan wrote:
-> ksm_functional_tests checks merging and unmerging with ksmd's default
-> settings, but nothing there exercises smart scan, which skips pages KSM
-> has failed to merge for a while.
-> 
-> Smart scan used to time those skips per page, so two identical pages
-> that became mergeable some scans apart could end up never being looked
-> at in the same scan, and were never merged. "mm/ksm: align smart scan
-> skips with the scan number" fixed that.
-> 
-> Add ksm_get_smart_scan() and ksm_set_smart_scan() to vm_util, and a
-> case that enables smart scan, lets sixteen unique pages age for a dozen
-> scans, then makes a duplicate of each mergeable one scan apart, and
-> expects every pair to be merged 32 scans later:
-> 
->   kernel               failures, two boots
->   before the fix       20/20, 20/20
->   with the fix          0/20,  0/20
-> 
-> Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
-> Tested-by: Andrew Morton <akpm@linux-foundation.org>
-> Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  tools/testing/selftests/mm/ksm_functional_tests.c | 89 ++++++++++++++++++++++-
->  tools/testing/selftests/mm/vm_util.c              | 36 +++++++++
->  tools/testing/selftests/mm/vm_util.h              |  2 +
->  3 files changed, 126 insertions(+), 1 deletion(-)
+When an application migrates to a different CPU, RFS records the new
+CPU in the global rps_sock_flow_table via rps_record_sock_flow().  On
+the next packet of a flow, get_rps_cpu() notices the change and calls
+set_rps_cpu() to update the per-queue flow entry.  With Accelerated
+RFS (ARFS), set_rps_cpu() also invokes the driver's ndo_rx_flow_steer()
+callback so that the NIC steers the flow to a queue close to the new
+CPU.
 
-Reviewed-by: Xu Xin (vivo) <xu.xin@linux.dev>
+Threads that migrate frequently trigger this on every migration.  For
+drivers like mlx5, each steering call serialises on an internal lock
+(arfs_lock), and under heavy load the contention on that lock can
+outweigh the benefit of the steering update itself.
 
-> 
-> diff --git a/tools/testing/selftests/mm/ksm_functional_tests.c b/tools/testing/selftests/mm/ksm_functional_tests.c
-> index 31c06c72203fd..135191f99962d 100644
-> --- a/tools/testing/selftests/mm/ksm_functional_tests.c
-> +++ b/tools/testing/selftests/mm/ksm_functional_tests.c
-> @@ -695,6 +695,92 @@ static void test_fork_ksm_merging_page_count(void)
->  	munmap(map, size);
->  }
->  
-> +static void test_merge_aged_pairs(void)
-> +{
-> +	const unsigned int pairs = 16;
-> +	const unsigned long size = 2 * pairs * pagesize;
-> +	int old_smart_scan;
-> +	unsigned int i;
-> +	char *map;
-> +
-> +	ksft_print_msg("[RUN] %s\n", __func__);
-> +
-> +	old_smart_scan = ksm_get_smart_scan();
-> +	if (old_smart_scan < 0) {
-> +		ksft_test_result_skip("smart_scan not supported\n");
-> +		return;
-> +	}
-> +	if (ksm_set_smart_scan(true) < 0) {
-> +		ksft_test_result_fail("Enabling smart_scan failed\n");
-> +		return;
-> +	}
-> +
-> +	if (ksm_stop() < 0) {
-> +		ksft_test_result_fail("Disabling (unmerging) KSM failed\n");
-> +		goto restore;
-> +	}
-> +
-> +	map = mmap(NULL, size, PROT_READ | PROT_WRITE,
-> +		   MAP_PRIVATE | MAP_ANON, -1, 0);
-> +	if (map == MAP_FAILED) {
-> +		ksft_test_result_fail("mmap() failed\n");
-> +		goto restore;
-> +	}
-> +	if (madvise(map, size, MADV_NOHUGEPAGE) && errno != EINVAL) {
-> +		ksft_test_result_fail("MADV_NOHUGEPAGE failed\n");
-> +		goto unmap;
-> +	}
-> +
-> +	/*
-> +	 * Page i of the first half and page i of the second half form a
-> +	 * pair with content no other page shares.
-> +	 */
-> +	for (i = 0; i < pairs; i++) {
-> +		memset(map + i * pagesize, i + 1, pagesize);
-> +		memset(map + (pairs + i) * pagesize, i + 1, pagesize);
-> +	}
-> +
-> +	/* Let the first page of each pair age without a duplicate. */
-> +	if (madvise(map, size / 2, MADV_MERGEABLE)) {
-> +		ksft_test_result_fail("MADV_MERGEABLE failed\n");
-> +		goto unmap;
-> +	}
-> +	if (ksm_start() < 0 || ksm_wait_full_scans(12) < 0) {
-> +		ksft_test_result_fail("Running KSM failed\n");
-> +		goto unmap;
-> +	}
-> +
-> +	/*
-> +	 * Make the duplicates mergeable one scan apart so that each pair
-> +	 * starts out with a different distance in scans.
-> +	 */
-> +	for (i = 0; i < pairs; i++) {
-> +		if (madvise(map + (pairs + i) * pagesize, pagesize,
-> +			    MADV_MERGEABLE)) {
-> +			ksft_test_result_fail("MADV_MERGEABLE failed\n");
-> +			goto unmap;
-> +		}
-> +		if (ksm_wait_full_scans(1) < 0) {
-> +			ksft_test_result_fail("Running KSM failed\n");
-> +			goto unmap;
-> +		}
-> +	}
-> +
-> +	if (ksm_wait_full_scans(32) < 0) {
-> +		ksft_test_result_fail("Running KSM failed\n");
-> +		goto unmap;
-> +	}
-> +
-> +	ksft_test_result(ksm_get_self_merging_pages() == 2 * pairs,
-> +			 "Pages aged by smart scan got merged\n");
-> +unmap:
-> +	ksm_stop();
-> +	munmap(map, size);
-> +restore:
-> +	if (ksm_set_smart_scan(old_smart_scan) < 0)
-> +		ksft_print_msg("Restoring smart_scan failed\n");
-> +}
-> +
->  static void init_global_file_handles(void)
->  {
->  	mem_fd = open("/proc/self/mem", O_RDWR);
-> @@ -720,7 +806,7 @@ static void init_global_file_handles(void)
->  
->  int main(int argc, char **argv)
->  {
-> -	unsigned int tests = 9;
-> +	unsigned int tests = 10;
->  	int err;
->  
->  	if (argc > 1 && !strcmp(argv[1], FORK_EXEC_CHILD_PRG_NAME)) {
-> @@ -753,6 +839,7 @@ int main(int argc, char **argv)
->  	test_prctl_fork_exec();
->  	test_prctl_unmerge();
->  	test_fork_ksm_merging_page_count();
-> +	test_merge_aged_pairs();
->  
->  	err = ksft_get_fail_cnt();
->  	if (err)
-> diff --git a/tools/testing/selftests/mm/vm_util.c b/tools/testing/selftests/mm/vm_util.c
-> index 8184691211acc..f26f9e4bfdbe9 100644
-> --- a/tools/testing/selftests/mm/vm_util.c
-> +++ b/tools/testing/selftests/mm/vm_util.c
-> @@ -992,6 +992,42 @@ int ksm_use_zero_pages(void)
->  	return ret == 1 ? 0 : -EIO;
->  }
->  
-> +int ksm_get_smart_scan(void)
-> +{
-> +	int smart_scan_fd;
-> +	char buf;
-> +	ssize_t ret;
-> +
-> +	smart_scan_fd = open("/sys/kernel/mm/ksm/smart_scan", O_RDONLY);
-> +	if (smart_scan_fd < 0)
-> +		return -errno;
-> +
-> +	ret = pread(smart_scan_fd, &buf, 1, 0);
-> +	close(smart_scan_fd);
-> +	if (ret < 0)
-> +		return -errno;
-> +	if (ret != 1)
-> +		return -EIO;
-> +
-> +	return buf == '1';
-> +}
-> +
-> +int ksm_set_smart_scan(bool enable)
-> +{
-> +	int smart_scan_fd;
-> +	ssize_t ret;
-> +
-> +	smart_scan_fd = open("/sys/kernel/mm/ksm/smart_scan", O_WRONLY);
-> +	if (smart_scan_fd < 0)
-> +		return -errno;
-> +
-> +	ret = write(smart_scan_fd, enable ? "1" : "0", 1);
-> +	close(smart_scan_fd);
-> +	if (ret < 0)
-> +		return -errno;
-> +	return ret == 1 ? 0 : -EIO;
-> +}
-> +
->  int ksm_wait_full_scans(long nr)
->  {
->  	long start_scans, end_scans;
-> diff --git a/tools/testing/selftests/mm/vm_util.h b/tools/testing/selftests/mm/vm_util.h
-> index 7e00030077d2f..ab1325dc65800 100644
-> --- a/tools/testing/selftests/mm/vm_util.h
-> +++ b/tools/testing/selftests/mm/vm_util.h
-> @@ -163,6 +163,8 @@ long ksm_get_self_zero_pages(void);
->  long ksm_get_self_merging_pages(void);
->  long ksm_get_full_scans(void);
->  int ksm_wait_full_scans(long nr);
-> +int ksm_get_smart_scan(void);
-> +int ksm_set_smart_scan(bool enable);
->  int ksm_use_zero_pages(void);
->  int ksm_start(void);
->  int ksm_stop(void);
-> 
-> -- 
-> 2.43.0
-> 
+This patch introduces a cache-aware update strategy: the hardware
+steering update is skipped when the flow's previous target CPU and the
+new one share the same Last Level Cache (LLC), as cache locality for
+the application is preserved either way. The per-queue flow bookkeeping
+(rflow->cpu) is still updated, so RFS keeps steering packets to the CPU
+the application is running on. A new sysctl, net.core.arfs_llc_affinity,
+is added to toggle this feature (default: off).
+
+Performance Test Results:
+The patch was tested in a K8s environment (AMD CPU 128*2, 16-core Pod
+with CPU pinning, mlx5 NIC) using brpc[1] echo_server and rpc_press.
+
+rpc_press Commands:
+
+  for i in {1..8}; do
+    ./rpc_press -proto=./echo.proto -method=example.EchoService.Echo
+    -server=<IP>:8000 -input='{"message":"hello"}'
+    -qps=0 -thread_num=512 -connection_type=pooled &
+  done
+
+Monitor mlx5e_rx_flow_steer frequency:
+
+  /usr/share/bcc/tools/funccount -i 1 mlx5e_rx_flow_steer
+
+Frequency of mlx5e_rx_flow_steer (via funccount[2]):
+
+  Before: ~200,000 counts/sec
+  After:       ~10 counts/sec (reduced by ~99%)
+
+[1] https://github.com/apache/brpc/
+[2] https://github.com/iovisor/bcc/blob/master/tools/funccount.py
+
+Signed-off-by: Chuang Wang <nashuiliang@gmail.com>
+---
+v11 -> v12:
+- drop the comment block above the LLC check, per Jakub Kicinski
+- guard the arfs_llc_affinity declaration, definition and sysctl entry
+  with CONFIG_RFS_ACCEL
+- document the sysctl in Documentation/networking/scaling.rst, per Jakub Kicinski
+v10 -> v11:
+- rename the sysctl from net.core.rps_feat_llc_affinity to
+  net.core.arfs_llc_affinity, per Neal Cardwell
+v9 -> v10:
+- move the LLC check from rps_record_sock_flow() into set_rps_cpu(),
+  so that only the ARFS hardware steering is skipped while rflow->cpu
+  is still updated, per Eric Dumazet
+- drop the sock_rps_record_flow_hash()/sock_rps_record_flow() exports,
+  which are no longer needed
+v6 -> v9:
+- simplify code and fix errors in AI submissions, per Simon Horman
+v5 -> v6:
+- remove the multi-check 'old_val == new_val', per Xuan Zhuo
+- fix 'modpost: "sock_rps_record_flow_hash" [drivers/net/tun.ko]
+  undefined!', per kernel test robot
+- fix 'tcp.c:(.text+0x3e90): undefined reference to
+  `sock_rps_record_flow'', per kernel test robot
+v4 -> v5:
+- fix 'modpost: "rps_llc_check" [net/sctp/sctp.ko] undefined!', per
+  kernel test robot
+v3 -> v4:
+- add rps_llc_check, per Eric Dumazet
+v2 -> v3:
+- patch net -> net-next, per Jakub Kicinski
+v1 -> v2:
+- add rps_feat_llc_affinity; add brpc tests
+ Documentation/networking/scaling.rst |  9 +++++++++
+ include/net/rps.h                    |  4 ++++
+ net/core/dev.c                       | 14 ++++++++++++--
+ net/core/sysctl_net_core.c           |  9 +++++++++
+ 4 files changed, 34 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/networking/scaling.rst b/Documentation/networking/scaling.rst
+index 6c9836000a8d..d85fe7a9e9bf 100644
+--- a/Documentation/networking/scaling.rst
++++ b/Documentation/networking/scaling.rst
+@@ -468,6 +468,15 @@ of CPU to queues is automatically deduced from the IRQ affinities
+ configured for each receive queue by the driver, so no additional
+ configuration should be necessary.
+ 
++When the flow's previous target CPU and the new target CPU share the
++last level cache (LLC), the hardware steering update can be skipped,
++since the application's cache locality is preserved either way. This
++reduces contention on driver-internal locks when application threads
++migrate frequently between CPUs sharing an LLC. The functionality
++remains disabled until explicitly enabled through::
++
++  /proc/sys/net/core/arfs_llc_affinity
++
+ 
+ Suggested Configuration
+ ~~~~~~~~~~~~~~~~~~~~~~~
+diff --git a/include/net/rps.h b/include/net/rps.h
+index e33c6a2fa8bb..ff2f490a4e9a 100644
+--- a/include/net/rps.h
++++ b/include/net/rps.h
+@@ -13,6 +13,10 @@
+ extern struct static_key_false rps_needed;
+ extern struct static_key_false rfs_needed;
+ 
++#ifdef CONFIG_RFS_ACCEL
++extern struct static_key_false arfs_llc_affinity;
++#endif
++
+ /*
+  * This structure holds an RPS map which can be of variable length.  The
+  * map is an array of CPUs.
+diff --git a/net/core/dev.c b/net/core/dev.c
+index 3b60b15e2175..0011cec29640 100644
+--- a/net/core/dev.c
++++ b/net/core/dev.c
+@@ -5217,6 +5217,10 @@ EXPORT_SYMBOL(rps_needed);
+ struct static_key_false rfs_needed __read_mostly;
+ EXPORT_SYMBOL(rfs_needed);
+ 
++#ifdef CONFIG_RFS_ACCEL
++struct static_key_false arfs_llc_affinity __read_mostly;
++#endif
++
+ static u32 rfs_slot(u32 hash, rps_tag_ptr tag_ptr)
+ {
+ 	return hash_32(hash, rps_tag_to_log(tag_ptr));
+@@ -5254,7 +5258,7 @@ static bool rps_flow_is_active(struct rps_dev_flow *rflow,
+ 
+ static struct rps_dev_flow *
+ set_rps_cpu(struct net_device *dev, struct sk_buff *skb,
+-	    struct rps_dev_flow *rflow, u16 next_cpu, u32 hash)
++	    struct rps_dev_flow *rflow, u16 old_cpu, u16 next_cpu, u32 hash)
+ {
+ 	if (next_cpu < nr_cpu_ids) {
+ 		u32 head;
+@@ -5273,6 +5277,12 @@ set_rps_cpu(struct net_device *dev, struct sk_buff *skb,
+ 		if (!skb_rx_queue_recorded(skb) || !dev->rx_cpu_rmap ||
+ 		    !(dev->features & NETIF_F_NTUPLE))
+ 			goto out;
++
++		if (static_branch_unlikely(&arfs_llc_affinity) &&
++		    old_cpu < nr_cpu_ids && cpu_online(old_cpu) &&
++		    cpus_share_cache(old_cpu, next_cpu))
++			goto out;
++
+ 		rxq_index = cpu_rmap_lookup_index(dev->rx_cpu_rmap, next_cpu);
+ 		if (rxq_index == skb_get_rx_queue(skb))
+ 			goto out;
+@@ -5402,8 +5412,8 @@ static int get_rps_cpu(struct net_device *dev, struct sk_buff *skb,
+ 		    (tcpu >= nr_cpu_ids || !cpu_online(tcpu) ||
+ 		     ((int)(READ_ONCE(per_cpu(softnet_data, tcpu).input_queue_head) -
+ 		      rflow->last_qtail)) >= 0)) {
++			rflow = set_rps_cpu(dev, skb, rflow, tcpu, next_cpu, hash);
+ 			tcpu = next_cpu;
+-			rflow = set_rps_cpu(dev, skb, rflow, next_cpu, hash);
+ 		}
+ 
+ 		if (tcpu < nr_cpu_ids && cpu_online(tcpu)) {
+diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
+index 9226b96f2e89..64ae4c07f1b1 100644
+--- a/net/core/sysctl_net_core.c
++++ b/net/core/sysctl_net_core.c
+@@ -562,6 +562,15 @@ static struct ctl_table net_core_table[] = {
+ 		.mode		= 0644,
+ 		.proc_handler	= rps_sock_flow_sysctl
+ 	},
++#ifdef CONFIG_RFS_ACCEL
++	{
++		.procname	= "arfs_llc_affinity",
++		.data		= &arfs_llc_affinity.key,
++		.maxlen		= sizeof(arfs_llc_affinity.key),
++		.mode		= 0644,
++		.proc_handler	= proc_do_static_key
++	},
++#endif
+ #endif
+ #ifdef CONFIG_NET_FLOW_LIMIT
+ 	{
+-- 
+2.52.0
+
