@@ -1,65 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794231179;
-	b=oi4Hd9La/fnsoXeE1esXJSr3CStQql45Tzu5KPb+e3KlGu8oJ6g7c3tIY+IN9wseiwBG
-	 oLlbvaPgmyGuRTlFe/wdNIAmc9U+fTxBeZUi7PK5/wAv4A6iVWaWvFNV4sr/omeER+OT9
-	 2851pBWqcNev5lXUB87FyXwhjSlDkqjIqrHYE38iWGWNc3wVSRZKd2lzBKFE/f9L+5LkC
-	 Fy9DGbG9tTB7/lk+UmAPW4xzecfXCUITWNpKoTPqpNqeDgVoawHjz7bVN6HOB5p7SctAb
-	 uXMuN6liShyefCc5Cqbbu7T0O9Yz96JUYjYD6jiH1nxSBsmFWPwdwzsiltiN2L7mP5Q==
+	t=1794231384;
+	b=ONFuJwyaKu6efw9PGwK6iIEVwbWpLlPDrbtlL/NX7a1oY1euIyLQM5Wz4REEK8PZTltD
+	 /gSPvr1ij0NOcB54UNFlBY9lX1ZA0lAneFE4svv1c82Rcin6ohfiIYGr3D0vHVzJCcthX
+	 bE+LfRhlVuW/6PtPbSVJDm2t/llGbGt76arEohkojJeksNevOq6M+zmYsTu2PmyZWpsLB
+	 2abLva4tLTutLdavYJ3+MU91aQweinFmvF7bN+cYAsjKmFHjOZZe68Jc9erZgaBp7P2AK
+	 prkL9AUPm9IBqPCVTgEOhE8SEjyWEuVX/hUivzNIA62Xpve4UqkQcfFjRARQU+QCp0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794231179;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=40bKMwmS+zqliWyWpfE0ENwj1eMynIlSudH9fVtlnO4=;
-	b=M2D8dok0Qw00MAn6RWyJRJDE1t3kfUqeJrtJidcwYIinyF4Xt0CdsbD4TB/qErnYb38a
-	 Yymr2acv50p/caZMC0U1UPrZdrYJuQEAruJYsFl6SexEQVnGCkusR8WSxAhNQb3tdIdQu
-	 31OX4s3zjj0NY/hWFWo2U+HBK75fKOzjcVKnMwRZT/u0LKrRZ/newijoC/weThXTOfF02
-	 k9afd9ltOAlydIXCe1M6/cCzqPcXEtNq8RDWLAunm2CIq7hJ5B0homMOahqYeGHcHY796
-	 iD0qdbwTYnjke9h6hJcMCEHGRgdYUStLeJWEhxDhkzR9FHY8MhZZTrUwmFc26lJYh7Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794231384;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=O3DcDAcu/e7R2Ks6MhqHwiL2VWmAmz6xdp3JBivfIuM=;
+	b=1vqQ7Dat/gss7fcaNDUw4oMAlnj+vHChA8VxK/+OM9qgGfmeUmdc1lXHzJZRVz3gOGOj
+	 x1JjGuTziknQkwJLnpN1E8yZA6sRs+1Q4jchFOJv6pboQRb7Dmd+LVgElqExafXsQTL24
+	 UblOY9o2tFg1x/UVOVoyYedUoRWbvryfOMbESsbFvzkkfi9t+VkN7wzywDNNC2PGnXDhu
+	 2hAs8GNcCBhNjBBRl9a6PmqUQj5SOKm/vgV4WB2uaXeipW3xwc+jgYHJVcvySxRSZ8CxB
+	 1Lrpz++SfoIdL590n1FJ1mH7NIgkL57YD7YsgtqKiaLZL9A2gSVbBE5fFTDYut+/Xqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Bbm86PvU;
-	arc=none smtp.remote-ip=91.218.175.45
-Received: from mta0.migadu.com (out-45.mta0.migadu.com [91.218.175.45])
+	dmarc=pass header.from=sartura.hr;
+	spf=pass smtp.mailfrom=sartura.hr;
+	dkim=pass header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=Lddqbonz;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20F6F606A323
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:32:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20F6F606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134E0606A326
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:36:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 134E0606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sartura.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Bbm86PvU
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=Fvo0rU4AAAD5ybmggyHQoZ1nYUH7YGGjSe5YZFFbZuE=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794231175; v=1; x=1794835975;
- b=Bbm86PvUjI3zrbGY+81JkYDU5PoHIZDhecLGKWYu2QzvSduoHWC7fC8GVqaJ6gu7+Vdfg/Ph
- thyBZi5PFa1MUb64BUCAw8Gt0Q3c8q4tBqRn/o7Y65RCv9qmp7zZhGLn6Z/TcGTVOCxQqXTWbNx
- 1iY0tXMPH/nov4HTuyaYYy2cF4riz9oe+dFlHLdshxjYoIfOFDuxN9SY2pWrAf01xu3RzMCoMPs
- jKv0h+h8ZhV+jPLhlIM7V1+i94VHtvPWLNvQPX1sKzXvs/f6P84rCa6RLSaHZEDoBIo2elc1Kk5
- y/VynyjTbqYdMxfnEKbx/l7UbSRDC26m6M5inVCOhvBYQ==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id d3a5308d7d69d732;
-	Mon, 09 Nov 2026 13:32:55 +0000
-X-Mizu-Trace-ID: d3a5308d7d69d732
-X-Migadu-Flow: FLOW_OUT
-Date: Mon, 9 Nov 2026 21:32:45 +0800
-From: Weijie Yuan <kernel@wyuan.org>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/4] docs/zh_CN: translate AI-related process guides
-Message-ID: <avHLfe6N56YjXa-i@wyuan.org>
-References: <cover.1794153793.git.dzm91@hust.edu.cn>
- <cover.1794197977.git.dzm91@hust.edu.cn>
+	dkim=pass (2048-bit key, unprotected) header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=Lddqbonz
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso7123835e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:36:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura; t=1794231382; x=1794836182; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=O3DcDAcu/e7R2Ks6MhqHwiL2VWmAmz6xdp3JBivfIuM=;
+        b=LddqbonzUr6K0romfGF6hlerJbpmIzHvEHhqyIWAmAqdmk/R/RLWOz57Zi/UW/CxWH
+         znBTgbW4yHY5aYHkODU8j2wnYFi/mel9aRfgUbkIxM+mHIoNhu15PMhrj1e7+E8OhMcT
+         j8x+KiRb1/La5Rooi5P6A6uu9lXmk7j+uByHVEjrnV3amn0x/sRYfmJ5edOQesRb+he/
+         aJl4karHtl4ur9/hWKlLgGPSay0ISSarnokiHFKgoVCeOHF8kJOQloMP/OmlLTcszoGC
+         qbp5tnbYmGXru/ffupw7/Y4LpMU41pEBoxKS8btbKzb8vYC9lIKPkwyKN05QV+Mi78XP
+         mqkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794231382; x=1794836182;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=O3DcDAcu/e7R2Ks6MhqHwiL2VWmAmz6xdp3JBivfIuM=;
+        b=m1bZUNSNt+5uqgG2RIo8jPOZdcEpqx1eHYjY7t3ZNkM78FMIGdEB3VANwglZY1/Ipt
+         ha+EIejMzNF4bgHZT1JeMFrKlgbp7N6b3WTnSw0pR6xs9NE9PBLyf7Dqw+3FX8526WOn
+         MxslZPwPsQwt16EAIfODieitwZQdzL9vYunoCZuP1pZesRQTK47CxIctOUm3vDmW1HHU
+         QUn/hUpB3nSUfUzthH3ahuLqPAVHA8ku0NMcvvvmmn8DZZnLtBQx1yU1d5zYXJui+5Vn
+         WHW4f+3en6je3ZWabtAj+uHGyZmmV5ueSTni3zZnrM4yTQdUdVZGwXG5kGEvo1jFSrI5
+         IOZA==
+X-Forwarded-Encrypted: i=1; AL+hErFVDeeZ/BlWkxdeiXwEsoVHGfW7rTXaWBSRWPz17bTbD2WTJcI9zgVBFgh9r8IrgGdxG5QI5Wz+RSA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/ni5TXBrDsxqJZIQr0hlxvGNVmsPy3ntfgCu3zyRn1JiCWUBaa
+	yW5bwpgO9/0hP5to6JryJA+UuoT7wdro+O+cUjACh6n2Ym6YYtvcybPWcpG9H8NuEGs=
+X-Gm-Gg: AYBFou2khsqNHquvwV5IwqyL5xnczGtShvvSaVWyQrSFkGczdNCNFIYcrxsMX7KMMri
+	Sfro5FfXiyA0nv6zMK6QaVfgsxlWA3RVtSPRGerQLovUnGlzMJOBugcM26Q4yQIaMsx1CRhK5RM
+	yRQPawuO4g2GHhRtCAoYQNjHxp2TvmadzKeyScvhVvqWMuaL2HGzEouKlpR6WrKi77KW+FnYYog
+	gC17ZS3wAr2QTUq/YiB9oPzsp8ajx92MyVHsswOtsI03COYS8lJ9fXxS9JeIuNBCORpvG0oEB1C
+	KBHQDbyw2X9A078t3iNIsVb/mgM4XPxpxvyyh8r+YYj0aHfwUvOnWDcYhRBt3ZEVBknQYwZbqSS
+	RxgxFvjKTsWVrnGIcbjy4416rIq/tUqJbn+zL0kRIqc6/rNEKBoffSbXYe5tIqltTq6HnmcPc/U
+	sTKVYKAAyLyCpTfthK4qyxBVOW03kWywEMCgjrxAn/JHjiWLNYyTSSukjVMVGz1ePqgTSUDzmss
+	DvQLReNdPwzRuRp6rOd4zGvKmA8O0z1gXfCPSUbZsjPqWbe/IY4XEAqOFNnOa99cpeBhgjZ9XUO
+	ODPSgvJ685hftbCRe3tXzT1p7H/t86vDPZZkCX5nDzX5HyiRi67tiANu4mup2IyVfnDI0NZANpB
+	jDojf+ISy6LVBKHdL7pG1zO0bjxa2phDijHpNspWGaDHYY+kNz3MINp5f/3bthrwJL9lS+uCSaz
+	4w/b5b68kieFyycXx+jC65+u90
+X-Received: by 2002:a05:600c:3e88:b0:4b0:bc65:b9b5 with SMTP id 5b1f17b1804b1-4b963c8809emr71051325e9.35.1794231382337;
+        Mon, 09 Nov 2026 05:36:22 -0800 (PST)
+Received: from threadripper-fedora-workstation (cpe-109-60-83-229.zg3.cable.xnet.hr. [109.60.83.229])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4b7efb1b64esm245418915e9.13.2026.11.09.05.36.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 05:36:20 -0800 (PST)
+From: Robert Marko <robert.marko@sartura.hr>
+To: linux@roeck-us.net,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	Steen.Hegelund@microchip.com,
+	daniel.machon@microchip.com,
+	UNGLinuxDriver@microchip.com,
+	nicolas.ferre@microchip.com,
+	claudiu.beznea@tuxon.dev,
+	linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: luka.perkov@sartura.hr,
+	Robert Marko <robert.marko@sartura.hr>
+Subject: [PATCH v2 1/6] dt-bindings: hwmon: add Microchip LAN969x fan controller
+Date: Mon,  9 Nov 2026 14:35:05 +0100
+Message-ID: <20261109133609.810876-1-robert.marko@sartura.hr>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,45 +112,114 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <cover.1794197977.git.dzm91@hust.edu.cn>
 
-On Mon, Nov 09, 2026 at 01:21:36PM +0800, Dongliang Mu wrote:
-> Add Chinese translations of the process guides for coding assistants,
-> generated content, and the kernel threat model. The final patch updates
-> the coding-assistants guide to link to the new translations.
-> 
-> Changes in v2:
-> - Add the missing Signed-off-by tags to all four patches.
-> - Spell out "AI 助手" in patch 4/4 to address the terminology nitpick.
-> - Format the English commit references in patch 3/4 for checkpatch.
-> - Add Weijie Yuan's Reviewed-by tags.
-> 
-> Dongliang Mu (4):
->   docs/zh_CN: translate coding-assistants.rst
->   docs/zh_CN: translate generated-content.rst
->   docs/zh_CN: translate threat-model.rst
->   docs/zh_CN: link AI guide to translated documents
+The LAN969x fan controller has a PWM output and tachometer input in a
+register block separate from the Sparx5-compatible temperature sensor.
+Describe it with its own compatible and binding.
 
-I happened to take a look at what is Sashiko's review on this serie:
+The optional fan child specifies PWM period and polarity, tachometer
+pulses per revolution, and thermal cooling levels.
 
-https://sashiko.dev/#/patchset/cover.1794197977.git.dzm91%40hust.edu.cn
+Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+---
+Changes in v2:
+- Describe the fan controller in a separate binding and compatible.
+- Keep the existing temperature-sensor binding unchanged.
 
-Besides the Original: and Translator: thing, Sashiko says that the new
-translations below are not added into zh_CN/process/index.rst.
+ .../bindings/hwmon/microchip,lan9691-fan.yaml | 83 +++++++++++++++++++
+ 1 file changed, 83 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/microchip,lan9691-fan.yaml
 
-And I checked that the English original version of these are indeed
-added in their index.rst, so perhaps we can by the way tidy up our
-index.rst in Chinese process dir and add these new articles?
+diff --git a/Documentation/devicetree/bindings/hwmon/microchip,lan9691-fan.yaml b/Documentation/devicetree/bindings/hwmon/microchip,lan9691-fan.yaml
+new file mode 100644
+index 0000000000000..0b7d38a6d20ae
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/microchip,lan9691-fan.yaml
+@@ -0,0 +1,83 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/microchip,lan9691-fan.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Microchip LAN969x Fan Controller
++
++maintainers:
++  - Robert Marko <robert.marko@sartura.hr>
++
++description: |
++  LAN969x fan controller with a PWM output and tachometer input. The fan
++  child's pwms property references this node to specify the PWM period and
++  polarity.
++
++properties:
++  compatible:
++    const: microchip,lan9691-fan
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: System reference clock
++
++  '#pwm-cells':
++    const: 2
++    description: |
++      Number of cells in a PWM specifier.
++      - cell 0: PWM period in nanoseconds
++      - cell 1: PWM polarity: 0 or PWM_POLARITY_INVERTED
++
++  fan:
++    $ref: fan-common.yaml#
++    unevaluatedProperties: false
++
++    properties:
++      cooling-levels:
++        description:
++          PWM duty-cycle values corresponding to thermal cooling states.
++        items:
++          maximum: 255
++
++      pulses-per-revolution:
++        minimum: 1
++        maximum: 4
++        default: 2
++
++    required:
++      - pwms
++
++    dependencies:
++      '#cooling-cells':
++        - cooling-levels
++      cooling-levels:
++        - '#cooling-cells'
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - '#pwm-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/pwm/pwm.h>
++
++    fanctrl: fan-controller@e2010348 {
++        compatible = "microchip,lan9691-fan";
++        reg = <0xe2010348 0xc>;
++        clocks = <&sys_clk>;
++        #pwm-cells = <2>;
++
++        fan {
++            pwms = <&fanctrl 40000 PWM_POLARITY_INVERTED>;
++            cooling-levels = <0 128 192 255>;
++            #cooling-cells = <2>;
++        };
++    };
+-- 
+2.56.0
 
-Thanks.
-
->  .../zh_CN/process/coding-assistants.rst       |  74 ++++++++
->  .../zh_CN/process/generated-content.rst       |  97 ++++++++++
->  .../zh_CN/process/threat-model.rst            | 168 ++++++++++++++++++
->  3 files changed, 339 insertions(+)
->  create mode 100644 Documentation/translations/zh_CN/process/coding-assistants.rst
->  create mode 100644 Documentation/translations/zh_CN/process/generated-content.rst
->  create mode 100644 Documentation/translations/zh_CN/process/threat-model.rst
