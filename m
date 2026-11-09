@@ -1,85 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.94
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794240924;
-	b=CBMwBjaIg4GlMXU2NBfD1OqKh6hpz2vP6AYvrIEKb+mn4c0nawIiB6NeqWRF1QjsJ7aL
-	 bIhRjocLw15QoOQb0PqSS0SdyDqprZfqIjVh1H4jJ7XaXASbmBLYady9gEqpkMY/c95qD
-	 VKhFjpQ5Cqq4QOVDQFIs6TWRv1veyM62pJ5WTYjJxs4VIQuYkDgVBHz3uObP72EZRcDG5
-	 pT52G5DSrOw/mZ3qfEmfu1ccPdZjrkFGNUn8vN4RHg0jJS4CHDcfBRTMybE2gh/6M1g0J
-	 NoNe3d2neHynn3+jORj2VCRDFPAWtxNPIGLT5uu7jmQQWfSBH/zO9x2HKYkNBKmyNmA==
+	t=1794241546;
+	b=2LuBuBntqOXTYP2mNFlaafMDoB2LdyZVu1HnlEbCNWSDMky6SIvVhK56NvGNhniXJ2q/
+	 a+AwGq8DLNdzjlx3HhqaGX5oP8dEfkoSUumG4WinL+562yNsBRUNEPh1Qkt92IQ+QHSNY
+	 5sqrHj0NzQvDLSlGQfWxLAWMGyCgJUIJAhcg5jvIoXNWmfngNuyo7YbXKZtdA5/Awpigj
+	 mZwQrWIb7gOwMlCRGB5AE3a62dn8kiCHjDKeZOnWu2kV1nwBzY/SeuugL9YVtZa5uwEl+
+	 vVW6u4fVRsuZpfi4aEh0ovHgSCYLIVOrZ3UyesiCDBHvFspX9JayeXxH+zRvugUaTEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794240924;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794241546;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
 	 Content-Transfer-Encoding:In-Reply-To;
-	bh=MN1BnROEORvgYw+MypT4h2Jcvdysaix5bzeL3TZj7Ug=;
-	b=BcuBi2F7f48mR/baFd7tVaCBT/4gJDOrHf9eArDjYAQE3wp/BfhfN2K7M3gnYXE3Pw1w
-	 KvM+D4zrRWvAIlA47QmbMJ4RaRb9AgJBRzxRUdKE71csmZaGXslTRXh8LP6or9qt+A3dI
-	 m1HhELWjH/CeUc99UZqPNGN1kPKIHOwMa3U+JogyUqqqXdkR4TqgaDzkRx19TzhKkQTDO
-	 dg0J0ChSVlhKXnuMS6rUzWhMMsijWNnjCuVL7zAdDVG101uNoP1BQx6iBXurlCORrwXj8
-	 2Ptz9rjlCEZSpa+PmeLBv58CJB93f9OGDuJ12gnkvPJcdZ+4eNZ57yyIOmCzdDO9gGg==
+	bh=h7JqRM/WAUMvknHLuK+rC4LpbPo9sRlW0z+hSyPDqtQ=;
+	b=ZvwJmhdIB2k5ushcXamOTZ5zYCSh5MMIQvsFPikFZPFaYhTWlkgfBZcdD1sN0zysCImd
+	 4sMurMunDjicHLUEI3je6vNkVPKsqQflHSQEkoNJUdyuizU6zYwiGwH/b1XlivOZNo0vX
+	 DhpEn8gKMWDzD6TwyqBYNgx77c0rt1HHEIy6TkzhQvkOeZA0SJ+qJHkqzI25PMVfOq1Fd
+	 WiEeKp8+q6j6NwPjMnVq8dA2CA67DscEKNnulkNbeZM/m+u2tFgd5ZFUpuQjn9KWRbyQP
+	 uqo2FJwq/ETqPWqzp9FfwQu7hVuARf7mKhlXsFx0lBZznjNT1rIX+OsnPMhmkJ9ZbYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b="Nxb/MLdA";
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=6Qx5XPOv;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=wyuan.org;
+	spf=pass smtp.mailfrom=wyuan.org;
+	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Iqz04U4w;
+	arc=none smtp.remote-ip=91.218.175.94
+Received: from mta0.migadu.com (out-94.mta0.migadu.com [91.218.175.94])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F09D606A326;
-	Mon,  9 Nov 2026 16:15:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F09D606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83D0606A31C
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 16:25:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C83D0606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=Nxb/MLdA;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=6Qx5XPOv
-Date: Mon, 9 Nov 2026 17:15:20 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794240922;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MN1BnROEORvgYw+MypT4h2Jcvdysaix5bzeL3TZj7Ug=;
-	b=Nxb/MLdAkBa8XsF9k4yN7JmmPWhb8eEZ4Wx0xAxLiQm4wV/EKdGA2b7vjyaEYTOj9rMTUv
-	MULDhOcSoINy1O2FUxnboI/qdEKA2U44jWA5KkmARngPnZ132W1A2SZbdfpfpOx10h/M83
-	x1JW8Yc7fQCC+vBVYGuDDuxqa9jqH4WhTtzWe3Ql+gIsbBHY2mBDTm6sftmxRWdfGuQyUY
-	yQ5ynwDKnwgsCHJrlGyi5gvzs3LPxm0CDYBMFQ89F2AB/+VXH2RXQcOZ8R7R+fBwX5fkDo
-	3YzGn7rbQESMqQdnk4EnrTUic1Sl+761RUJiDSpAbqOUgByyeGCFG5owA9EFpw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794240922;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MN1BnROEORvgYw+MypT4h2Jcvdysaix5bzeL3TZj7Ug=;
-	b=6Qx5XPOvhwNYptQdWHV4IOm3h9SuIai0MbKolYUcGGjW2585+syNcIkyAKHYlIuU84OMub
-	McwTYs2bfaHtl1Dg==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Julian Braha <julianbraha@gmail.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>, Nicolas Schier <nsc@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, arighi@nvidia.com
-Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
-Message-ID: <avHxmCEdHgyRD7n0@lx-t490>
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
- <20261109003745.GA3429615@ax162>
+	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=Iqz04U4w
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=G4at0pYPBgFGyMAOQOR2PXetOVVmgTh29uZoFDV2iCw=;
+ c=simple/simple; d=wyuan.org;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794241542; v=1; x=1794846342;
+ b=Iqz04U4w0oyKnuxpmq/NUvJQT11TRPzdTjI98UnOiD3RBhzQSr4+rKfSKrM+KwvYtrIj/3MK
+ Di3lWe6b1lBv4xmMsV3zxhwYAbXvJxnmqomnBGZFj0ac14qEl9dunPfyhS2W899kyHkDIoxmM9u
+ lnVWl95mrumwGybjIM2HosIvCN7bFtagw9Ls+lI2NLv7ZVQQDD5uvnEHcTA6hVnM7HPRaHXf9rx
+ OiefME8Y9jqPrdUKCXdB4OMHoA6WOami1Tnuh0Jh3dHGld4cTxf6b1lhV4Cao8yVs0Jvkssf/On
+ 5Sho13pv2QMzWjDhtm1yO6xBsC0v0Jcnr9h9dG3CyPWcA==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 9ca96bdb019e8efb;
+	Mon, 09 Nov 2026 16:25:33 +0000
+X-Mizu-Trace-ID: 9ca96bdb019e8efb
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 10 Nov 2026 00:25:25 +0800
+From: Weijie Yuan <wy@wyuan.org>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Chen-Yu Yeh <chenyou910331@gmail.com>,
+	Yanteng Si <si.yanteng@linux.dev>, Alex Shi <alexs@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/13] docs/zh_TW: process: add translations of 13
+ documents
+Message-ID: <avHz9XbEDqHatA85@wyuan.org>
+References: <20261106113545.708896-1-chenyou910331@gmail.com>
+ <3bbce43f-476c-4a21-8da3-2be98a696e9c@hust.edu.cn>
+ <bab86e6c-bbda-4ad0-bd88-5ace76946eb0@hust.edu.cn>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,53 +71,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261109003745.GA3429615@ax162>
+In-Reply-To: <bab86e6c-bbda-4ad0-bd88-5ace76946eb0@hust.edu.cn>
 
-On Sun, 08 Nov 2026, Nathan Chancellor wrote:
->
-> On Sun, Nov 08, 2026 at 06:59:26PM +0000, Julian Braha wrote:
-> > I think the name will cause confusion.
-> >
-> > We already have some "kconfig checkers" in-tree, like
-> > scripts/kconfig-sym-check.pl
-> >
-> > But actually, your tool is quite unrelated, because that one checks
-> > 'Kconfig' source files, while yours checks the user's '.config' file.
-> >
-> > This has already caused some confusion in the past, for example in this
-> > thread [2], someone misunderstood which one 'kconfig-sym-check'
-> > actually checks.
-> >
-> > In addition to .config vs Kconfig, the name is similar to
-> > 'kconfig-sym-check', but is not as descriptive about *what kind* of
-> > checks it performs.
->
-> Yeah, I had similar thoughts when this initially appeared in my inbox.
-> As you mentioned in your email, this is basically a policy checker (â€œwe
-> need these configuration options enabled or disabled to meet our
-> requirementsâ€), so maybe config-policy-checker or something like that
-> would be clearer?
+Dongliang Mu <dzm91@hust.edu.cn> writes:
 
-I would've loved to keep "kconfig" in the name so that outside the kernel,
-it's still clear it's about a kernel .config. For example, a Debian package
-for this tool can be called "kconfig-checker", "kconfig-policy-checker",
-etc.
+> On 11/7/26 8:44 PM, Dongliang Mu wrote:
+> > 
+> > On 11/6/26 7:35 PM, Chen-Yu Yeh wrote:
+> > > I previously promised Jon that if no contributors stepped forward
+> > > within two months, the maintainers would have to produce some results
+> > > ourselves.
+> > > 
+> > > This series adds zh_TW translations for 13 process/ documents that had
+> > > no Traditional Chinese version, and moves each one from the TODOList
+> > > into the toctree of process/index.rst.
+> 
+> Hi Weijie and Chen-Yu,
+> 
+> I´m also working on updating the zh_CN translations. My plan is to first
+> resolve all references using |:ref:| tags or direct document paths.
 
-What about kconfig-audit?  Something like:
+Very much appreciated to hear that!
 
-   ./tools/kconfig-audit/audit.py -c .config -p PREEMPT_RT
+> I´ll proceed as follows:
+> 
+> 1. Update references directly for content already translated and merged
+>    into the tree.
 
-   make POLICY=preempt_rt auditconfig
+Definitely agreed.
 
-config-policy-checker does sound good, but it feels verbose.
+> 2. Add missing translations where referenced content has none, then
+>    update the corresponding references.
 
-Feedback appreciated.
+Yup, for zh_CN I 100% support, because its current coverage area is
+already quite extensive. And it's as exciting as adding the final piece
+to a jigsaw puzzle.
 
-Thanks!
+But for zh_TW, The current coverage rate is low, compared with zh_CN.
+Therefore I'm worried that extending to multiple directories in an
+impractical attempt to achieve self-reference might lead to subsequent
+maintenance problems, just like the situation before Chen-Yu took over.
 
---
-Ahmed S. Darwish
-Linutronix GmbH
+(However, we need to confirm which directory contains the referenced
+English files we intend to expand. If after careful consideration, we
+decide to include them, of course we can do so.)
+
+So, just like my previous reply to Chen-Yu, I suggest that we first
+complete the existing goals, and then carefully consider and discuss the
+issue of expansion.
+
+> After the current translation are self-referenced, I will continue to add
+> more translation. In the current stage, it would be more important to fix
+> all severe issues in the translation other than adding more translation. To
+> be honest, it is easier to leverage LLM to add more translation.
+
+Yes.
+
+> This is just my approach for enriching the zh_CN translation work - I´m not
+> suggesting you need to follow it.
+
+Very much appreciated, thanks for your suggestion!
