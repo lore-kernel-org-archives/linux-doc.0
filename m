@@ -1,80 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794243161;
-	b=JlnuCZdjDbnMuSk9vnEIzB+HvP6EydrpD/E3SOSQ70OcEaafLSTE24Mc3DQA16QcjINh
-	 FbJu3upIzi57npuW41yK9zddg5JHOYB6CcRnx27GV0+eEqb41iIq/RxrJSf8eH2Voc2+o
-	 ZhL9t7CC4K4nrBBRFhOQ27Na8opYmY5AGzg2tioafdQ+okcbWQ+sRcn8p36tcP2BKDpKL
-	 YLCZuO+eXQ99ftodRkz1jIdimP61Fq+d8rwa+RWcjaoVTovFX0j2fPcweiFqaRV8Ts4Vk
-	 7wuy71Rt59PZvprEiGW5YTzERDjnvveKJWRLTELaYYmVCmyhc7SDPWgoByjHAJT7Xlw==
+	t=1794243894;
+	b=U8e+0xLXGdlv2Xrl6skFJQXT1Rz+mJiWg8dy7uInBYoAyaHZYmEHVnsrpojEjI1QJ667
+	 tZtxPc3mbIPX0+shVDJRaWHdbSNhACy8MHtStT0q0DJ4tNGfRS6V/HU14AM7nSAeXa7QY
+	 dMFCzyRu64xMPNILyumV3xSsxUsVVdX1TAc7d0rjpUrR5glm00LmMhSCxKJmUKDgPpdkQ
+	 JxMq1+FpwYNpF2r/siwue/RYP6eDtF0qqZB0BG13WY5aZ+pYAs/+hMQT8lw6ySkrMG2Wt
+	 GulPAG1CFVVfSA9daYjctolJe0RwZm/3+SrWGden1qT0HW7+i2PLydEi6GW+OzN2hLA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794243161;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=qEvsgASyiiyks7x4vS2QsfumVfMFULPYeul4eGRCqq8=;
-	b=0wjsIaQzbLbgW6HcoBB+Q24aNBnmT4EcxoBV1pTivk0RIznQnoGra8fnZ0jk/OPIBv0z
-	 rC2qEmcQHuOZdmLdykD5tiPwDn8IAqHaCaP54BO93UPhOmyZPFQk0zV1w89WqW6J81qkt
-	 aLMmoyi2XQxl8EHgILJsIopCP6uTa3z/XXy02ndfvZRg5WQHJJTnoJW3Ybze9Vwa5Iz7C
-	 T4n9/aD8TBfYx9FN5BhrBdX6M59aIIaHttfqobLDzTz1LbDcmNYy0Ket1HlkuxQsR8TpH
-	 pKti9k1QVXeimxyy0SJ4OWL8KqiecwPOc6GGlGUpD71d2J4IZTZKCigNOTP+iVxbBjg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794243894;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=93TBdXA6VfwaeFyOsaksO5eGGGBGxnvWIH0FYk6LMa8=;
+	b=zyW01840jDqOGKdBJvjlftpJ2irB5wu6ccv/9hFjuHhX1T7t1wWbnFPBlt3SNowuL71p
+	 EduLSFDSp3B5BLQ5RXNG69MeSBO419v4o/bya1WXLZNixKCXlZJjgBBSaRwm8Lo3anIGT
+	 V/phdh6DD9/EcHWoy5pob+ng2wNREoJuFfyWjSSZ659xtubqg7DA7luzDBZy0Ywnzl1Q/
+	 Bgh7rLnyUkGpdkgU8fHduZtqm1P7nyxb8DxNcQ8pY3542iPlR5cM/0IuH6WXLdiOj8y9/
+	 LMeR3VextsRrWiGZ45iURyaGwwc6FDhKB03Fy/rKTLHlFHLXETWwjZdnNOaosbe2UVQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=U49LbYej;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=RN+oHVFZ;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=35fhVzPt;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6569E60A2617;
-	Mon,  9 Nov 2026 16:52:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6569E60A2617
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD28B606A336;
+	Mon,  9 Nov 2026 17:04:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD28B606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=U49LbYej
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794243161; x=1825779161;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TqNuFJ4AUkWwd8Ol2yEOSN/851PbYbnaXPGmKn08RS4=;
-  b=U49LbYej3/zOLAX/s/zRPBUEzofEwKDU7pldh60XkBiN9/4agMCAbAH8
-   Rs2a/ddAk0emizRfpkR8r96dgM803krBxOlUtxXHTAf3q0VDNEVlDMCvi
-   iBxcqWsGXn8RGz5eRQSrvx0tSw/6/K4kTk3DfMKoeuQCc/kc/JUM/EEtT
-   WjZXmjO1VpaZGnepsXZtANQarxZ+Dp7eptLMuO9mLS9iARFBe+gpT4oZR
-   jZ4zI+fFrOAAj+DIu33SoxiZm5gDHEKpYJKqI1ucn/q7BJbb3MSw2o6ce
-   gPphiRIMfsQ7XIuM4t5iYcWH2Lru/2eTS+F51wcYxnscAsngN0n/y/fiq
-   w==;
-X-CSE-ConnectionGUID: mO1uaeDIQ0+O4yys5UsRDQ==
-X-CSE-MsgGUID: WaryQF38TruNwiTb0+quxw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2869706"
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="2869706"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 08:52:40 -0800
-X-CSE-ConnectionGUID: rAJgo+LIQ5qJaAcLhRcsAA==
-X-CSE-MsgGUID: DyX+TZT8Tfq6txXlnCdk3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="7773963"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa007.jf.intel.com with ESMTP; 09 Nov 2026 08:52:37 -0800
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 0E10F99; Mon, 09 Nov 2026 17:52:36 +0100 (CET)
-Date: Mon, 9 Nov 2026 17:52:36 +0100
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Cc: Dominique Martinet <asmadeus@codewreck.org>, ericvh@kernel.org,
-	lucho@ionkov.net, andreas.noever@gmail.com, YehezkelShB@gmail.com,
-	corbet@lwn.net, linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux_oss@crudebyte.com
-Subject: Re: [PATCH 0/3] net/9p: Add 9P transport over USB4STREAM
-Message-ID: <20261109165236.GW176724@black.igk.intel.com>
-References: <20260924162333.147033-1-alan.borzeszkowski@linux.intel.com>
- <auKzZIyFW2CTci1b@codewreck.org>
- <bc1ec916278d94116bd9b60e40b549612e3ff3a4.camel@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=RN+oHVFZ;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=35fhVzPt
+Date: Mon, 9 Nov 2026 18:04:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794243892;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=93TBdXA6VfwaeFyOsaksO5eGGGBGxnvWIH0FYk6LMa8=;
+	b=RN+oHVFZwQ2NPQQk9VOl1tZfMbv+3RmVj2ko/T1efzO8XsZmrAZa8Y3eyyZEr5nfr38tdv
+	KEnB1ufoD9n6eY1ZtYptaPnAHf/oW6zuC0U84UAKZ9VGDrzAmpT/5jaxJfYjAt24ys8jH9
+	Nc35jtRE/0Yg42oVdhnkwqhMHT90HOjCif5W8ZeEQVyeuK9qSKWhmtc4G79poG8gpiUOXL
+	M0at766FG1K1sLfnrKC8F/RMVrcZLJY4nWVqVNWAkGgT87GdLq7OMGgtlxhA5b3/24GpZz
+	yLjZwSAoAkOMpFM+IdIUM+1VWRRkamtIFpvHoxU7ZvtSlPo/weQrSSOAMtl5yw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794243892;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=93TBdXA6VfwaeFyOsaksO5eGGGBGxnvWIH0FYk6LMa8=;
+	b=35fhVzPtetsHVOTgVfJ+fvDbzOaNXhaTQrfRJG+Usykq5mzxKHaXLskP3dT/cqhCk4X4du
+	wjp1q/3bgb8sQGAw==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Julian Braha <julianbraha@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>, Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, arighi@nvidia.com
+Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
+Message-ID: <avH9Mo05xQjv5wYq@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
+ <20261109003745.GA3429615@ax162>
+ <avHxmCEdHgyRD7n0@lx-t490>
+ <20261109165230.GC1608140@ax162>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,98 +89,34 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bc1ec916278d94116bd9b60e40b549612e3ff3a4.camel@linux.intel.com>
+In-Reply-To: <20261109165230.GC1608140@ax162>
 
-Hi,
+On Mon, 09 Nov 2026, Nathan Chancellor wrote:
+>
+> On Mon, Nov 09, 2026 at 05:15:20PM +0100, Ahmed S. Darwish wrote:
+> >
+> > What about kconfig-audit?  Something like:
+> >
+> >    ./tools/kconfig-audit/audit.py -c .config -p preempt_rt
+> >
+> >    make POLICY=preempt_rt auditconfig
+> >
+> > config-policy-checker does sound good, but it feels verbose.
+> >
+> > Feedback appreciated.
+>
+> Yeah, config-policy-checker is a little verbose and might not translate
+> into make rules well. kconfig-audit does not sound bad to me, especially
+> with the rename of RULES to POLICY; at the very least, it is on the
+> right track.
+>
 
-On Mon, Nov 02, 2026 at 04:39:15PM +0100, Alan Borzeszkowski wrote:
-> Hi,
-> 
-> On Thu, 2026-10-29 at 11:45 +0900, Dominique Martinet wrote:
-> > Alan Borzeszkowski wrote on Thu, Sep 24, 2026 at 06:23:30PM +0200:
-> > > This series adds trans=thunderbolt, a 9P transport over the
-> > > Thunderbolt/USB4 DMA tunnels exposed by the tbstream character
-> > > devices
-> > > (USB4STREAM). It's designed for simple host-to-host file sharing
-> > > over
-> > > single Thunderbolt/USB4 cable.
-> > > 
-> > > Today the only practical way to use 9P over a USB4 link is trans=fd
-> > > which, due to its design, cannot fully utilize USB4STREAM
-> > > capabilities.
-> > > Thunderbolt transport offers a simpler mount (no fd redirection
-> > > required),
-> > > busy-poll support and substantial throughput increase compared to
-> > > FD
-> > > transport.
-> > > 
-> > > User may mount 9P export with following command:
-> > > 
-> > > mount -t 9p -o trans=thunderbolt,aname=<exported_remote>
-> > > /dev/tbstreamX /mnt
-> > > 
-> > > Thunderbolt transport achieves a median 1.21x more throughput
-> > > compared
-> > > to FD transport under same conditions, and the advantage grows with
-> > > concurrency: 1.03-1.09x at 1-2 threads, 1.14-1.27x at 4, and 1.34-
-> > > 2.28x
-> > > at 8-16.
-> > > 
-> > > As an example, 4K random reads, 4 worker threads. FD transport
-> > > achieves
-> > > ~53k IOPS, Thunderbolt transport ~66k (+24.7%). 4K random writes
-> > > follow:
-> > > FD ~28k IOPS, Thunderbolt ~33k (+19.4%).
-> > 
-> > Thanks for the patches
-> > 
-> > We've kept adding new transports for 9p lately but maintenance is
-> > becoming a burden so let me push back a bit: is the increased
-> > performance really worth it over trans=fd ?
-> 
-> >From the data I've collected, yes. trans=thunderbolt is at worst on par
-> with trans=fd and with increasing amount of threads, trans=fd lags
-> behind.
-> 
-> Thunderbolt transport also offers busy-poll support, which boosts
-> performance significantly at low thread counts. It cannot be used by
-> trans=fd due to its design around polling.
-> 
-> And regarding maintenance, this transport is simple and much smaller
-> than existing ones.
-> 
-> > 
-> > If this could be used to bringup a system with a root filesystem like
-> > it
-> > was done for trans=usbg I'd see the point, but otherwise the simpler
-> > usage could be addressed with a simple mount.9p helper, and at this
-> > point I'd consider usb4stream to be used for perhaps one-shot copy
-> > and
-> > not care too much about 4k random IOs (so less affected by latency
-> > if msize is large enough, and for a one-shot backup it doesn't matter
-> > too much if it takes 6 instead of 5 minutes)
-> 
-> In case of one-shot backup, I think my drag&drop scenario from cover-
-> letter fits it well. Assuming single thread copy, both transports
-> achieve similar results, but with busy-poll enabled, trans=thunderbolt
-> cuts about 1/3rd of copy time:
-> Copy from 9P client to a server, using trans=fd, takes 22m29s while
-> trans=thunderbolt + busy-poll takes 14m50s (~1.5x faster).
-> Reverse direction, same improvement: reducing copy time from 41m07s to
-> 26m56s. All done on default msize.
+Thanks!
 
-That sounds like a good reason to include it IMHO. Also I like the
-simplicity - no need to run a separate descriptor feeding process :)
+Then, kconfig-audit it is.
 
-> > If you can convince me this is worth it and can take care of the
-> > transport for the forseable future I'm not dead set to refuse this,
-> > but
-> > I can't say I'm convinced right now, especially as I can't even test
-> > this (I don't own two computers with working usb-c...)
-> 
-> I would be happy to maintain Thunderbolt transport.
-
-If Dominique is okay with this, I suggest to send v2 with a MAINTAINERS
-update as well.
+--
+Ahmed S. Darwish
+Linutronix GmbH
