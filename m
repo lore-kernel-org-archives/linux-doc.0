@@ -1,87 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794187379;
-	b=Pg5lCUHpQk+x26HJ4gcT+TYyak0y17YRhltbmCH/ijnrnUx0tdmnwJxe+XxTmPw43WGU
-	 Y9p4yJm58bmOeKkDLdvx5BCGdQNqwbfZAMA/sfm0xvtt6xAIGI2XKU9hethQfU822Rsao
-	 mSTjD7892Oi75hxMyxO/xk9h7ssrMVvK+WwmcXAjpcqm1j9EPO6jxuvKERv0U4oCPHuH2
-	 5Vx9BhfxLl4aAk+ivOsN9/G41DQkMW6AeX+EJp+VxoWWH/hpFyiBf2AoLAFSL0ksb0Zez
-	 6LLIOiKtOMUB6HsAd71JCpGVaYQg2vwbNJsIYd5chmt5OI7T4kBxoA8UD1kMEZqAc9g==
+	b=ocfwwbNjSNkh/w5Nhj+BhVs64oNZw9lKedsT5mm3zB0luTiuF/IWZUEspUzxsskbGwPo
+	 +Zb7gS+Q8KYNuLLTYXnaM4rv9ucm+xQnryUASHRN3yr7/so8RBzSUU0Reu5PROfG7ZGZ+
+	 Cc1x8vi2noYfigfOS9ZM2GBWpWC4lgXt050NCiKUkxTzkYVKzctKBh+QwZ5bwqvbOpb9L
+	 OmkgL6tC3cqEn5CQdQxRRn+4ep0nhtaNP6a1zqNj+2QPGYuFmOsXA2qfE1fQxl4SPt92o
+	 FCkeRER70Lwcy8p79BG5nbaQ8gHVCwwtseUKN1NmDWjDCwEk+AwmD/Wej3vj+JxC39w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794187379;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:X-B4-Tracking:To:Cc:X-Mailer;
-	bh=vdbzkytGXRhHN+l/mE1rRdmYyXtT3CDBuzLxY9K8xVc=;
-	b=EZMDb+HovK7mHG+ZrUyzawqSgi/THLZaqLDAoquX5uMRhXHwmRi3MvZ8uYYFyIW42T/F
-	 1iM28IMD6Xd68n83xERwh6jeAfxLehQirVIs359dKJcSdkUQmLSw6ARW774Alahb+MWMa
-	 auX74lTJk1mBFZa0ueQ9VohxQ36FxB7zBp4j5Hzih85fABboH8gbTZPNbSOYO085Hko6w
-	 5R7DWB+ObEdOUZ6hlCzNKjSU/R+TsgTOxSrl9Sf5tJukddR7lz9lksEyljvRp8jwT2Y+K
-	 tq4oHbFLZ5XwpM/TwNv6Jq02TY68wjK585O9iZZWW/9vdXB1bfYQlArn3qeqiHq6w1A==
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=8pW4eoUoFBjt45/T7wxAAHU7qXhZjgsirRTlsHsjZ0A=;
+	b=tMdSG3zD19trqPuYFTxsN3Sqq101mkJ7vo8/bOfQSOEwAiVSuHmPgNClbJhppvgiIjsA
+	 W1cqYZzMCizfJC9nS5hddp7y91dY/MsMfvYpvAO7XQn8Fx59IdZeBdACoP52EGvfWH1Kr
+	 QnvXNFRF+7Y3jNK54kno+5mUKZclHfOgf35QrzJsG6hoZBbp2sw006TXhj/66/NTpxow7
+	 iTxZX5eDdaSUuTgqBPhHWLku5I0OzwcgG2L6ktGvUaJ9koZeyWXZ4m62wYiDoihLVRWVI
+	 r6xKZRW/8/F7BMdY9jki3LD+fsVvkjHAWoDfFo4wCjzxOPz3vHMe0y/69U7CPz1+41A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=a3UekpUa;
-	arc=none smtp.remote-ip=74.125.82.47
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SM7hLJSH;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AA75606D81E
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 01:22:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7AA75606D81E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66577606EE84;
+	Mon,  9 Nov 2026 01:22:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=a3UekpUa
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1a3c08d6928so636233c88.0
-        for <linux-doc@vger.kernel.org>; Sun, 08 Nov 2026 17:22:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794187378; x=1794792178; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=vdbzkytGXRhHN+l/mE1rRdmYyXtT3CDBuzLxY9K8xVc=;
-        b=a3UekpUaA4JIlfxinSS7NPD57AxZnwhcsa8MojRbUp+3TebzYP1Go6r8trx3GPnwz5
-         G3GD+okyXsTduKd253Bbe0Fy1wU+o27kqTQSvd1ZivVKjgspxXIA6iW62Cs0lxUiS/L9
-         Ru9kYy21WlxqIAHevkM31qMjTNoFd0/6C0NtarXysY+s1GGgW1+jirkLXTrbsaIe0xDp
-         R9IEJMpcrrh6gj6mj7qbGTgjwlhPBNg30Od+fcQSy5Li+cvXDgpifvC9l65kz2OU7VPo
-         KZKT3ys40TpD3UNWQKBbJxUUwXa+cjhZQ5056UF1Gs12jF1LMqtOERF7Ho5mCZ+Sp8z9
-         7EAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794187378; x=1794792178;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vdbzkytGXRhHN+l/mE1rRdmYyXtT3CDBuzLxY9K8xVc=;
-        b=t6rpwPUhTSW86YYHdiYeinX4MmlBuZFd6rNJChna4BV4QM+utucy1r4p5drpMIcsso
-         C347GwuVG95p4ti6yxX2kEAIjF9ZVNfB8OiI3VAWX7xvQZVe1KDh18EUSvRq9CxGs+QN
-         atrwMsfXtRfD2uFMutQMGVa6EZG76NikW/WWXY51ngjm3t8RK6DFfm6qS187KeNn2Csu
-         EyujuW740IJAWSpN0gl1JIYXl5psbjTchZDRvj4RPx1QXJrMke+gODuc6nv5htF+10K2
-         qyXT2NiNmanEeKCk3n3LQrIB5KFnfgKQnHI62gZO+B1PUWB1VrF1mcOfP71/Ee42nFyS
-         18Uw==
-X-Forwarded-Encrypted: i=1; AL+hErHvJ5VZFb7H+QREwRQfoxEVgWqEnw/mHGtFi7oEP0qGjoyShQZ4ewJ88Dzadzrgvd/dSvZErTwx4jA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+1lpT5wXKTiuX18L0X4nnmAuzJulosLoqOa7hhFdtRwUvdTvxL
-	+tAVR+d9iwb9YKZ3ICFaDkSmwAQ7IjMInJHcFNSYPlJb0/sYV3ct/3eJ
-X-Gm-Gg: AYBFou3ibxo6alSoiq7dU6XOwpsjfih8/W2oaV5s1WfwCejs3GDWq+Qxuu7Y6CUXTwU
-	AnhdgwH0bqdkMx2UsLZRfRiCjb8eCD8hePQ4ImqXhDYq9yA7uUbMjLyKgfYa6IM3sTgfmV/ywD7
-	QPq0JPSzfNvz0n/q/v3hdFNkY1H3g8usLUm/ktXmCZzo9wCbDNhzYo6MiBfGWYlhTRF5SSZbAao
-	4/hBM/iRqDC0bPvUyYq05pRqMk50mZX1gU6Np+SeXkV2YKeLjDMA5PA5O+5sKjfiJ6jbOH/hzRJ
-	4q0a4Nv8JziA8PqTB1sb+TaZN31aRguYFZG+5DfpHF4z09ZRW6QEhqAntYnGJtCSFFRrcJGQ8ca
-	WIMmOHJbCvl8fq1bZqQKQ8rJhx50Ws+vK1ajT5P95qtGyIVmo4/Ei2plDMUDuNvqAai+SRr9zhs
-	vdk4LuBQ7nPGS/+xOz7wngwRwrwW/XEWyrRd7OAA/WCJPL7rJgB4YsSIfIqEi7p70mIek6asg+i
-	90DKWbtUqp3vav0f8eaJjnL6Achv5xZwSsg/KFiANB5Zum0tCk0AXcNvXIUlMBbriOebbNmcfWa
-	nZ2iKoTG0oUz63bUz6kxFVAt
-X-Received: by 2002:a05:701b:2702:b0:1a9:f3d2:6262 with SMTP id a92af1059eb24-1b39ff04e7bmr4005319c88.36.1794187377412;
-        Sun, 08 Nov 2026 17:22:57 -0800 (PST)
-Received: from [127.0.1.1] ([23.254.208.9])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3771ea85bsm9428226c88.18.2026.11.08.17.22.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Nov 2026 17:22:56 -0800 (PST)
-From: Qiliang Yuan <odys.yuan@gmail.com>
-Subject: [PATCH v4 0/5] mm/ksm: keep smart scan from losing duplicate pages
-Date: Sun, 08 Nov 2026 20:22:49 -0500
-Message-Id: <20261108-bug-mm-ksm-smart-scan-align-skips-v4-0-86be8fe77e7a@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SM7hLJSH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A2A21F008A6;
+	Mon,  9 Nov 2026 01:22:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794187379;
+	bh=8pW4eoUoFBjt45/T7wxAAHU7qXhZjgsirRTlsHsjZ0A=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=SM7hLJSHd5+AFw12MzAmxSxVbibhYITBmJA8aVgBYlj8hFxvLBeTOsFsSdfXAWrDc
+	 08k/cpqJcOepBYtuqgG/w9hvljxgGhYBXzz/2RfFCAsj4dyf7bHso4mK/yD2P/YSOX
+	 0wqKuVVvd0FPfROMzcDo7FcfdrvEHhVcUmbKNFkbWHYkKqLJirthZrasblprJdD2Dc
+	 u6RV7lJYEBxfXsP6LQHJC1EKfRNM+BFgr2rgWSaTmCC9+t0EipIgH6WkKqKgxRgMOz
+	 iKMtJ+X9VksbMGJyxx49zYq1MtJ7szgbfPJyVNFIHYVIDWLpInWV7ODXUOcEdEcwG1
+	 pCSJUQ322/0+g==
+Subject: Re: [PATCH net-next v3 4/9] net: devmem: add a per-device netmem TX
+ frag size limit
+From: netdev-bot+sashiko@kernel.org
+To: sdf.kernel@gmail.com
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, andrew+netdev@lunn.ch,
+ edumazet@kernel.org, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, michael.chan@broadcom.com,
+ pavan.chebbi@broadcom.com, saeedm@nvidia.com, tariqt@nvidia.com,
+ mbloch@nvidia.com, alexanderduyck@fb.com, kernel-team@meta.com,
+ sdf@fomichev.me, dimitri.daskalakis1@gmail.com, almasrymina@google.com,
+ dtatulea@nvidia.com, bobbyeshleman@meta.com, asml.silence@gmail.com,
+ daniel@iogearbox.net, razor@blackwall.org, leitao@debian.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org, leon@kernel.org
+Date: Mon, 09 Nov 2026 01:22:57 +0000
+Message-ID: <179418737701.994134.5100743053640770189@kernel.org>
+In-Reply-To: <20261105222058.944293-5-sdf@fomichev.me>
+References: <20261105222058.944293-5-sdf@fomichev.me>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,93 +71,130 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGkg8WoC/5XNQQ6CMBCF4auYrh3TqVCKK+9hXJS24EQLpKNEY
- 7i71Y0mbnT5v8X37oJDosBis7iLFCZiGvocxXIh3MH2XQDyuYWSSqNEDc2lgxjhyBE42nQGdrY
- He6KuBz7SyOC8xFDa2pjaiuyMKbR0fX3s9rkPxOch3V6XEz7Xf/QJQYJqa/SVLlA3YdtFS6eVG
- 6J46pN6iyjLX0SVRWPryshGm6L4EtefYvWLuM4ial+6YJqy9fpTnOf5AbYWliB2AQAA
-To: Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Xu Xin <xu.xin@linux.dev>, 
- Chengming Zhou <chengming.zhou@linux.dev>, Stefan Roesch <shr@devkernel.io>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
- Qiliang Yuan <odys.yuan@gmail.com>, stable@vger.kernel.org
-X-Mailer: b4 0.13.0
 
-With smart scan, which is on by default, two identical pages that become
-mergeable some scans apart can stay unmerged for as long as they live:
-each page times its skipped scans on its own, and once both are old they
-may never be looked at in the same scan, which merging through the
-unstable tree requires. This was first noticed as intermittent failures
-of ksm_tests "KSM NUMA merging" in run_vmtests.sh.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Patch 1 picks the skipped scans by the global scan number, so all old
-pages are looked at together every eighth scan. Over 420 pairs made
-mergeable 0 to 20 scans apart, 361 and 334 merged before on two boots
-and all of them after, at the cost of about 10% more ksmd time on memory
-that never merges. Pairs whose pages are both old before they become
-identical fare worse: of 1800 such pairs, 200 merged before, still 200
-after 256 scans, and all 1800 within 32 scans after.
+Critical: 0 · High: 0 (1) · Medium: 1 · Low: 0
 
-Patch 2 documents how smart scan picks the scans to skip.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-Patch 3 makes the KSM helpers in vm_util fail on short reads and
-writes, which could make ksm_functional_tests hang or fail cases that
-should be skipped. Patch 4 moves waiting for KSM full scans into a
-vm_util helper, and patch 5 adds a ksm_functional_tests case that fails
-20/20 without patch 1 and 0/20 with it, on both boots.
+- [Medium] The new per-device cap is enforced in only one place, when
+  zerocopy_fill_skb_from_devmem() (net/core/datagram.c:737) first…
 
-Signed-off-by: Qiliang Yuan <odys.yuan@gmail.com>
----
-V3 -> V4:
-- Make the KSM helpers in vm_util fail on short reads and writes, in a
-  new patch 3, and the smart_scan helpers of patch 5 likewise
-- Add Cc: stable to patch 1
-- Add Reviewed-by and Tested-by tags
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but
+  tcp_clone_payload() (net/ipv4/tcp_output.c:2699-2703) can merge frags…
 
-V2 -> V3:
-- Document smart scan in Documentation/mm/ksm.rst, as Xu Xin suggested
-- Wait for full scans and switch smart scan through vm_util helpers, as
-  David suggested
-- Rebase onto v7.4-rc1-345-geedaa7d61f1e and retest there
-- Measure ksmd CPU time with schedstat, which puts the cost at about 10%
+--
 
-V1 -> V2:
-- Rebase onto v7.4-rc1-132-g05441d697f7f and retest there
-- Drop the ksm_tests -N -m 1 numbers, as it no longer fails on this base
-  without the fix
-- Update the ksmd cost to 10-12%, measured on this base
+net: devmem: add a per-device netmem TX frag size limit
 
-v3: https://lore.kernel.org/r/20261107-bug-mm-ksm-smart-scan-align-skips-v3-0-16d5ce8b5fd6@gmail.com
-v2: https://lore.kernel.org/r/20261105-bug-mm-ksm-smart-scan-align-skips-v2-0-8a9780b6844e@gmail.com
-v1: https://lore.kernel.org/r/20261016-bug-mm-ksm-smart-scan-align-skips-v1-0-2f91d76416be@gmail.com
+This commit adds a netmem_tx_max_frag_size field to struct net_device,
+defaulting to PAGE_SIZE, and copies it into the devmem dmabuf binding
+when the binding is created. zerocopy_fill_skb_from_devmem() then caps
+each devmem TX frag to that limit.
 
----
-Qiliang Yuan (5):
-      mm/ksm: align smart scan skips with the scan number
-      docs/mm: ksm: describe how smart scan picks the scans to skip
-      selftests/mm: fail KSM helpers on short reads and writes
-      selftests/mm: move waiting for KSM full scans into a helper
-      selftests/mm: cover merging KSM pages aged by smart scan
+> diff --git a/net/core/datagram.c b/net/core/datagram.c
+> index 489d92fe6dae8..a8d3f87d38c58 100644
+> --- a/net/core/datagram.c
+> +++ b/net/core/datagram.c
+> @@ -734,6 +734,7 @@ zerocopy_fill_skb_from_devmem(struct sk_buff *skb, struct iov_iter *from,
+>  
+>  		size = min_t(size_t, size, length);
+>  		size = min_t(size_t, size, iter_iov_len(from));
+> +		size = min_t(size_t, size, binding->tx_max_frag_size);
 
- Documentation/mm/ksm.rst                          | 16 ++++
- mm/ksm.c                                          | 24 +++---
- tools/testing/selftests/mm/ksm_functional_tests.c | 89 ++++++++++++++++++++++-
- tools/testing/selftests/mm/vm_util.c              | 89 ++++++++++++++++++-----
- tools/testing/selftests/mm/vm_util.h              |  3 +
- 5 files changed, 188 insertions(+), 33 deletions(-)
----
-base-commit: eedaa7d61f1ec8ae053a9ece0d553785350ac486
-change-id: 20261016-bug-mm-ksm-smart-scan-align-skips-cd01e5a9889a
+[Severity: Medium]
+Is this the only place the new cap is enforced? The netmem.rst text added
+by this patch says "Devmem TX frags are capped at
+netdev->netmem_tx_max_frag_size". TCP MTU probing looks like it can merge
+the capped frags back together later.
 
-Best regards,
+tcp_mtu_probe()->tcp_can_coalesce_send_queue_head() uses
+tcp_skb_can_collapse(). That check only compares skb_pure_zcopy_same() and
+skb_frags_readable(), so two devmem skbs pass it. tcp_mtu_probe() then
+calls tcp_clone_payload():
+
+net/ipv4/tcp_output.c:tcp_clone_payload() {
+    ...
+			if (lastfrag &&
+			    skb_frag_page(fragfrom) == skb_frag_page(lastfrag) &&
+			    skb_frag_off(fragfrom) == skb_frag_off(lastfrag) +
+						      skb_frag_size(lastfrag)) {
+				skb_frag_size_add(lastfrag, todo);
+				continue;
+			}
+    ...
+}
+
+skb_frag_page() returns NULL for every net_iov, so for devmem frags only
+offset contiguity is checked.
+
+Suppose this line splits one large net_iov into two frags, for example
+(niov0, 0, 4K) and (niov0, 4K, 4K). Those two frags would be merged into
+one frag of up to probe_size bytes. tcp_transmit_skb() then hands it to
+the driver, and nothing checks it against binding->tx_max_frag_size.
+
+At this commit TX net_iovs are still PAGE_SIZE, because
+netdev_nl_bind_tx_doit() passes PAGE_SHIFT. So the merged frag can't go
+past the default cap yet.
+
+The later patch in the series, "net: devmem: size TX net_iovs from the
+dmabuf sg table", lets TX net_iovs grow to 2MB. After that, take a device
+left at the PAGE_SIZE default that runs a jumbo MTU with MTU probing
+enabled. It would get probe frags of roughly MTU size, which is above its
+advertised cap.
+
+In-tree drivers seem fine with this today. bnxt and fbnic advertise 32K,
+mlx5 advertises U32_MAX, and gve already splits frags into its own
+descriptors. Even so, the documented limit would not hold.
+
+Could tcp_clone_payload() compare skb_frag_netmem() and stop merging once
+the binding cap is reached? Another option is to skip MTU probe
+coalescing for unreadable skbs.
+
+[Severity: High]
+This isn't a bug introduced by this patch, but the same merge check in
+tcp_clone_payload() looks like it can also combine frags from different
+net_iovs. skb_frag_page() returns NULL for both frags, so the page
+comparison always passes and only the offsets are compared.
+
+For example, take a single sendmsg on a devmem TX socket with
+iov[0] = {dmabuf offset 0, len 2048} and
+iov[1] = {dmabuf offset 6144, len 2048}. zerocopy_fill_skb_from_devmem()
+builds:
+
+    frag0 = (niov0, off 0, 2048)
+    frag1 = (niov1, off 2048, 2048)
+
+Suppose tcp_mtu_probe() then builds a probe that covers both frags.
+tcp_clone_payload() sees that frag1's offset equals frag0's end, so it
+extends frag0 to (niov0, 0, 4096) and never copies frag1's netmem.
+
+Wouldn't the probe then carry dmabuf bytes [2048, 4096) instead of
+[6144, 8192)?
+
+The NIC computes the checksum over the wrong bytes, so the receiver
+accepts them. If the probe is ACKed, tcp_eat_one_skb() has already
+consumed the original skbs, so the stream stays corrupted.
+
+The merged range stays inside niov0. So the result is wrong data from the
+sender's own dmabuf, not an out-of-bounds DMA.
+
+Should the merge test compare skb_frag_netmem(), the way
+skb_can_coalesce_netmem() does? Nothing later in the series changes
+tcp_output.c.
+
+>  
+>  		netmem_inc_ref(net_iov_to_netmem(niov));
+>  		skb_add_rx_frag_netmem(skb, i, net_iov_to_netmem(niov), off,
+
+[ ... ]
+
 -- 
-Qiliang Yuan <odys.yuan@gmail.com>
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261105222058.944293-1-sdf%40fomichev.me
