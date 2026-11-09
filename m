@@ -1,84 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794230720;
-	b=aWiDf3H4meR9RMEyBFyhcIsh0KYsAyOi1GTJVfEJBFfbAmKAusF5mCTyO7TLTxzN1xQy
-	 W9Dc7x15qN9UCRVoaJyfFSRXPYUKhUwvUgaltAyQ+/PRmPs3t2FhQ2GFFW3znlzF5lXYf
-	 3WVQ83IucLBzUFmSHzXtLX3RHRa5gZb2ym9N/PpGcIxBmc286tbA2SiFEpAdRH6etFU58
-	 ysFER97fx8WjMzVW3lrV38EKTYy/YYMsc5xZXoU01+ocT8p852H255TT3gqAEU0oqLzgX
-	 PR9g5c5MQIQdfe1QpIZNXloePU+1PIvmQQtnMvRhmLTDtpKeZLeu5F7Bpw1/5hg2fTA==
+	t=1794230798;
+	b=V2NuaCkOHan918MKvi//39u4vt50koNqktQS325M0PtvG6OXbDKI8RPa1MY3g9Kimicj
+	 KoMbFbfKD9gpB16/0eRq/p5YRzDsV19LpwWSKCx3mBGZgeI/xv/WMDmGnhHJczZ6CemGm
+	 VDFAbAtoEzgj+JIFGEUriaA9IJoH1FMYAIS76FanOUZIviooEftz4S9Ik0yJvnEN8EfFW
+	 CE5QLZCW49JO9G4zGpcZHtFTDdGOJb1c5fdYTZqEn5zLuYfZ5F2zxuX03y6m09zZhN3t/
+	 FX0vajAspPELrfWgboQdVjpqc1rR2cmUEu8oeEmNKBifAXtrbfx1l58Ige4jfbp4I+Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794230720;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794230798;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 From:To:Cc:Subject:X-Mailer:References:In-Reply-To;
-	bh=n5sfA3SZFOIvKjYmGeq7v7sBZYxGPPKHgjsgmpGTfYY=;
-	b=Zw8jbMY05FJS6HbH9aLKuUzoh1QQGFbqNE6JfQubiaLgyHptIqKJZNf9lV+UycuSx7vA
-	 8Q4vCnLhRJwz3TRR1iCkVU1rnvyy+1BDkXSLbUlgmq4r7XIecc3T0gnHEcVpnRhjgSOSy
-	 uIcU1O2PKyjDYMcKQ9xHFzq3HJwAA8E1HK6WP+eSm9OedIMTpWYT7La0/Hw7OsW/c3lZC
-	 s3GpfNzI0wZRlHms04sOrVjsshcYh537RwqiV6FranuRf1F3BzSyTfri97W3nnPB6O3Mp
-	 psH8uQyuHd4F3lyJnnYjoHj4AQ3ObG0MhvQrsv6kvdYUWASWyPdgmbPd+S2TAZu6Q7w==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=r5X9nZN7OKy8JBdYtqD0PaiACZ3x6osyA60EJf0K3SQ=;
+	b=ZhRy7jAvlKo6prd3W8OXalpeuJuqh3499PjCo0cv18iu6vIcZcBiZOv6P/oiulIvyUe0
+	 6FUd07bD0BYKdEpEgbnSugx1xe/B79uqyk6gi2zR4e6jh3uTX073qdUMctmFdtH4yZfkA
+	 wAN6bmMyuIBqg/90OHaiuJrLVmU+qDEzNIWg/wfG7M6Yba7+GVX834jTPS7NtulMplLgz
+	 eF0X0r0pElJL7+NABSrcDbBz7CpeWwmQ/b53+7v07TC59V6LA2K0/Izlca6TR2qTpqtAw
+	 juYy7bFFM24tTglZREuxWgPuQBYW02G6AmIu1NHI/mwjLYcMqKxrayll6P4Rnf945kg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J5NZW79F;
-	arc=none smtp.remote-ip=209.85.219.52
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XWAnA9Lq;
+	arc=none smtp.remote-ip=209.85.214.182
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09FC606A325
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:25:19 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D09FC606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A035606A31C
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 13:26:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A035606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=J5NZW79F
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91eb7d147b0so3572556d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:25:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XWAnA9Lq
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2eb0f1b592bso2957125ad.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 05:26:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794230719; x=1794835519; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=n5sfA3SZFOIvKjYmGeq7v7sBZYxGPPKHgjsgmpGTfYY=;
-        b=J5NZW79FNr5PJz7kB2vKb2+dmJoGRj56JX9udk5697EYv7c7BK0VzoFseWh1sRihBx
-         /flOUwR6OFIiXNgtzvyNK5oP3AHMpjo+0eSwqYoWawHTj+AjzK4SAEJd7h/fpwaXsUnH
-         tx4zBPZP0g9vjTo5RTuW56TzS2BzRtBRLCn758WHvfaV04ZMlds1+J6jifXjnNxmKWK5
-         QlxNg/XVSVxGWB8uEmrKFkgEF27I+aa7u+tkQbLnm92oJ1GyFU6YaUDGw7HJoQGWHQ6l
-         7giQs+29J2IdvxrWirKLlnFIyTV/uvldUDA6wX4151jAQ1/RzgPgTvu4cJh0R797oITJ
-         rdiA==
+        d=gmail.com; s=20260707; t=1794230797; x=1794835597; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r5X9nZN7OKy8JBdYtqD0PaiACZ3x6osyA60EJf0K3SQ=;
+        b=XWAnA9LqdM0p1McSygOHFQi1k4/3YKYdEv0qzWF/05pBFysKR/RI+uf1GN99jAvJLr
+         gZbyJIRx4Qn1eiW/GWZZdQtBk4cEpyROHQuSJglfa1n0AMCSwTgQ22vR8lAUGr/m1hxo
+         udUIW2jqu434G6xbb7BVjXSL17FymUnxFbr4rcBpi2LKYztw5Uo5qGMT+4dBVqSzw2qO
+         7XdRSCBE8GvEldkRmjif9rlOARg051T8bmHEOacq7gUCNjNempC5JzHF8efFW247E4l9
+         UayMykSMdMMOt1LGM+igMZIvOYrR3EOZvjksVGdXACrxbT3mTPXnZiufyNsd6fEASWxD
+         C20w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794230719; x=1794835519;
-        h=in-reply-to:references:subject:cc:to:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=n5sfA3SZFOIvKjYmGeq7v7sBZYxGPPKHgjsgmpGTfYY=;
-        b=H1MiVisJvNy8RHu+24RRhNxWna0sv+Ap6ynG8QGr78IJ/xjTje2dqvtI7+DGY69vA0
-         6/IkLVu+D3lASJEt2DFwBHjTxmPIwLzPvYyVMjOftyIRigwNGPh2+ZM0G8iORWuJcl1o
-         5EKbMw5JiTnXEozcAoOJNsUAVnVGRdaHS8AX4+uOBC1g7if+LZF4Qw/08pfoKoXX2I8q
-         ixFtyI0Ctvsl0nJc9DKzFvb8qAI5logiuU5Ur2GB/dk4DYzN7Tpt7zN1XqsTq+lhT0Vg
-         pr+8DA14h/YwEdHwPAiqRVJZ/e4JLzFAQsm24kUSoLRFd8w3seDjQJBYcWght41DzTty
-         wfBA==
-X-Forwarded-Encrypted: i=1; AL+hErF4pxc7gy5tTaj6NNXPbjy+fC2E++NwkRn5EsZ60W11zEqMTxJGeSxQ5bwyW8oVIUNIhiFGuJ7iUdw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+CdspodarXjUm9Lux95UQbgx1NePNx95zlMfKUOI3Ui/h2CXZV
-	motJfGlCMduNcktReO1jyMR2dVbgGqOR1lZQMFYhQT/xwlsRlrmSlTqz
-X-Gm-Gg: AYBFou3UZ8bmp5JjCBaZ7RN0mYSYahIz+nYADSgXbtt9zvYJYNOvZUsXWrmyHsmfTYf
-	tI/kX8JY2avuJlLmMkaNO3b/itHiYI1drndQyzFAmwPsdJ7nMKzcpBjV6r6D9GtCX6EysKTVuKL
-	7WRFYpi2H1dgvLS0Qtxukt2CI4c63uL6rJDPcPyP7TMMHiOdnevgohHpNA+YQHtxO87q3KxrGaX
-	wPHXh3fCQ3Nutr+jcZ+wxBvFt0NqpaNvbO3WFQ/W31Icu7hjL1UptyBP63t9oIUta20Vq+yWRBC
-	FnPUwmhz0btvuEvWsQcAQ84VYsR4lmiHjUlrOlyofrehg7ncYil+9rt5rYTPpnlORysQuD6A7hC
-	CjzagksRL0gML0SUFu97OrV+3dF/TY8PXlVtV9sRoVLcWT+DQB3Gl5aV+sAL+n6F7M5wdCD8oaX
-	sbSyoVDs5nyE4vUSNwY9sXCJS8V4EADGuftLNO/XX0tHSibrmrTQ0ZUvGzfnRVnOcawiLLRiFzK
-	LLsqSdFN83PsH1sUISVouS/F6CLJrcpOHHHkj95umUO1CdhHeKjHcb4xb2KPBln4m0PtSg36UK8
-	oSnWDiEePTi9/BKOuNBUKGmAUkKP0WY3bw==
-X-Received: by 2002:a05:6214:19e6:b0:91e:9564:6bc5 with SMTP id 6a1803df08f44-91ed24659dfmr56542736d6.39.1794230717677;
-        Mon, 09 Nov 2026 05:25:17 -0800 (PST)
-Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ecee77f2bsm42145486d6.35.2026.11.09.05.25.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2026 05:25:17 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794230797; x=1794835597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r5X9nZN7OKy8JBdYtqD0PaiACZ3x6osyA60EJf0K3SQ=;
+        b=chYBPcRyr7Lkh5acJ/BH60vI7Kg9jGVMLbCHAG/UbiQV6+Cqlm94PA0DUwhnW9HKB2
+         6OrpPYf72+6CDfojN6zosGYYNFsE47yrQCl5x3/wlLBSEQ7T5oz5zdYK/YZk8e1mUW3n
+         iw3h4rjOkAHJULbNgNLMtrBuTTFnrFYRoZUmrd+0CnHPSCs+bYkrn1i6xjnV7UD0pqKK
+         OWh0D+Qqmqx9hRoAaNbRa0Mib0yRTugtX0UIENuDglK/3biqGGCQfe7+dg4xhU9MHcHF
+         YvSP3nYYobr7Mt6MK8vEO9FXOWA/WkgJj/xl0Agp7aPazOLbQK6h4AboiapJ5eexxwDr
+         DemA==
+X-Forwarded-Encrypted: i=1; AL+hErEUhUAR1W+yw1CIo+5X2yyvLJaPrvd+5OK3yErOY+vnpTjESCbhIAsn0Ow94l07tlHNWxrS277tiog=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+EUzwXLLg8qxJl7z1YrszNl1cr5eMF99tx/SRM25aVz5E9Znja
+	gcB1wNoTSaE61sdEBV/FbfPHABcE9kuOJfC7PETnwLLjQxMcD/ePXTv9
+X-Gm-Gg: AYBFou0OxBRWwRSPhhIwFssu1GRwYi/6bGdalsKjXH0zJm7XKGYxdQEHYZd4axAyand
+	TYGHS+/A3VkUzY1Bqu9zFExCWG5kioPeYBVd9vfltbiBOLd1ZXaAIUwdvgWjH/4osvXpSX9FckL
+	SpoOX5K1m0mWdORMK9SuJ6tO6CCSv+QIliEt1OIRrcuguZWw3nMgWsZCWKZM7XAP8nR7s4hCgGm
+	KG78+4exjL+wXWRR/FQSr9SYhi17PVQL7wcLCHqsHrQiQLFufl83WnpCAPcDk49/wyqxY97lz0t
+	HFXI60pZW4VNjgy7iHsoqGb3I8b04Xif0YiPW/Tm1JssxofQgdkI9J5LYN9zss7lzBdeOsy4Egk
+	ziC4V13UFTumafNstHLMF9WqkrD9TdFSVl7BhddmNwNcvSOpbr2BcRz97t3HXQaMy0KWoZACtfP
+	0t6Jgr+BJeXoEvAMdNvOMIlTZmDEoCGEhdSkZUjK2EPnUCHXftdV3tFdDwdKCx08Dxt1OMqQIS0
+	59Ryza2bqWcmo0SarXenuPM3s5Gj52vhbpFYhYf9t2+sy9nHq0nLg66b4QjXuzNJ+za/Tt22jb+
+	8GF1zSDe9tDvXySLP9NpGrn7xZfloBwcnKJustzI0c69qVH6+Yub/DGnRO8lnd5WA9m/sHj6QgK
+	kdgt10YcX
+X-Received: by 2002:a17:90b:57ee:b0:3ab:b39f:41c8 with SMTP id 98e67ed59e1d1-3b12d564a3emr3973293a91.46.1794230794140;
+        Mon, 09 Nov 2026 05:26:34 -0800 (PST)
+Received: from r00799764-ThinkCentre-M920t-N000.. ([139.159.170.67])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cdb969331f0sm1661701a12.18.2026.11.09.05.26.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2026 05:26:33 -0800 (PST)
+From: Jinjie Ruan <ruanjinjie01@gmail.com>
+To: babu.moger@amd.com,
+	ben.horgan@arm.com,
+	bp@alien8.de,
+	corbet@lwn.net,
+	Dave.Martin@arm.com,
+	fenghuay@nvidia.com,
+	james.morse@arm.com,
+	rdunlap@infradead.org,
+	reinette.chatre@intel.com,
+	skhan@linuxfoundation.org,
+	tony.luck@intel.com,
+	x86@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: ruanjinjie@huawei.com
+Subject: [RFC PATCH 00/6] resctrl: Support mba_MBps on MPAM
+Date: Mon,  9 Nov 2026 21:26:15 +0800
+Message-ID: <20261109132621.3862497-1-ruanjinjie01@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,145 +107,90 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 09 Nov 2026 08:25:16 -0500
-Message-Id: <DMQPPFZ838LR.U3X8GICZQTH6@gmail.com>
-From: "Daniel Zahka" <daniel.zahka@gmail.com>
-To: <netdev-bot+sashiko@kernel.org>, <daniel.zahka@gmail.com>
-Cc: <kuba@kernel.org>, <willemdebruijn.kernel@gmail.com>,
- <davem@davemloft.net>, <edumazet@kernel.org>, <pabeni@redhat.com>,
- <horms@kernel.org>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
- <rdunlap@infradead.org>, <donald.hunter@gmail.com>,
- <andrew+netdev@lunn.ch>, <shuah@kernel.org>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>
-Subject: Re: [PATCH net-next v3 5/5] selftests: drv-net: psp: add rekey
- tests
-X-Mailer: aerc 0.21.0-threadmapfix
-References: <20261106-psp-v3-5-a8dd38f5a727@gmail.com>
- <179408517003.994134.18139473201924553095@kernel.org>
-In-Reply-To: <179408517003.994134.18139473201924553095@kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Sat Nov 7, 2026 at 3:59 PM EST, netdev-bot+sashiko wrote:
-> Thank you for your contribution! Sashiko AI review found more severe
-> issue(s) in other patches of this series. This mail is only an FYI, in ca=
-se
-> you want to address the nit picks below when you respin.
->
-> Low priority / nit picks for your consideration:
->
-> - [Low] In tools/testing/selftests/drivers/net/psp.py, the second half of
->   rekey_both_sides() (the "# now, tx then rx" block, lines 734-736) does=
-=E2=80=A6
->
-> --
->
-> selftests: drv-net: psp: add rekey tests
->
-> This commit adds psp.py selftests for rekeying PSP connections. They cove=
-r
-> basic Rx and Tx rekeys, plus cases where rx-assoc and tx-assoc should fai=
-l
-> because of a psp version mismatch or the psp state. It also adds rx-assoc=
-,
-> tx-assoc and key-rotate RPCs to psp_responder.
->
->> diff --git a/tools/testing/selftests/drivers/net/psp.py b/tools/testing/=
-selftests/drivers/net/psp.py
->> index 71eeade62ad24..004faf4bb57ae 100755
->> --- a/tools/testing/selftests/drivers/net/psp.py
->> +++ b/tools/testing/selftests/drivers/net/psp.py
->
-> [ ... ]
->
->> @@ -489,6 +558,186 @@ def _data_basic_send(cfg, version, ipver):
->
-> [ ... ]
->
->> +@ksft_variants(_get_psp_ver_variants())
->> +def rekey_both_sides(cfg, version):
->> +    """Test rekeying both directions"""
->> +    _init_psp_dev(cfg)
->> +
->> +    s =3D _establish_psp_conn(cfg, version)
->> +    try:
->> +        data_len =3D _psp_txrx(cfg, s, 10)
->> +
->> +        cfg.pspnl.key_rotate({"id": cfg.psp_dev_id})
->> +        _remote_key_rotate(cfg)
->> +
->> +        # first, rx then tx
->> +        data_len =3D _rekey_rx(cfg, s, version, data_len)
->> +        data_len =3D _rekey_tx(cfg, s, data_len)
->> +
->> +        cfg.pspnl.key_rotate({"id": cfg.psp_dev_id})
->> +        _remote_key_rotate(cfg)
->> +
->> +        # now, tx then rx
->> +        data_len =3D _rekey_tx(cfg, s, data_len)
->> +        _rekey_rx(cfg, s, version, data_len)
->
-> [Severity: Low]
-> Does the "tx then rx" half of rekey_both_sides() check that either of its
-> Tx rekeys actually took effect?
->
-> After an Rx rekey, the old SPI stays acceptable:
->
-> net/psp/psp_sock.c:psp_sock_rx_rekey() {
->     ...
-> 	pas->prev_spi =3D prev->rx.spi;
-> 	pas->prev_generation =3D prev->generation;
->
-> 	memcpy(&pas->tx, &prev->tx, sizeof(pas->tx));
->     ...
-> }
->
-> psp_pse_matches_pas() accepts packets that match it:
->
-> include/net/psp/functions.h:psp_pse_matches_pas() {
->     ...
-> 		(pas->prev_spi && pas->prev_spi =3D=3D pse->spi &&
-> 		 pas->prev_generation =3D=3D pse->generation));
-> }
->
-> The old SPI only becomes invalid when the device key is rotated:
->
-> net/psp/psp_sock.c:psp_assocs_key_rotated() {
->     ...
-> 	list_for_each_entry(pas, &psd->active_assocs, assocs_list) {
-> 		if ((pas->rx.spi ^ pas->prev_spi) &
-> 		    cpu_to_be32(PSP_SPI_KEY_PHASE))
-> 			pas->prev_generation |=3D ~PSP_GEN_VALID_MASK;
-> 	}
->     ...
-> }
->
-> In the first half, the key_rotate calls that come next cause a stale Tx
-> SPI to be dropped. The second half ends right after _rekey_rx(), and
-> neither side rotates again.
->
-> Say the local tx_assoc in _rekey_tx() were silently ignored. The local
-> side would keep sending with the old SPI, and the responder would still
-> accept it through prev_spi. The same applies if the responder ignored
-> the tx assoc sent by _remote_tx_assoc() in _rekey_rx(): its echo would
-> still be accepted locally.
->
-> This half is also the only place where an Rx rekey follows a Tx rekey on
-> the same socket, which is the memcpy of prev->tx shown above. If that
-> path lost the Tx key that was just installed, would this test notice?
->
-> The v3 changelog says the basic tests now "rotate again after it to
-> verify the new key is in use". Could this test end the same way, with a
-> final cfg.pspnl.key_rotate() and _remote_key_rotate() and then another
-> _psp_txrx()?
->
->> +    finally:
->> +        _close_psp_conn(cfg, s)
->
-> [ ... ]
+From: Jinjie Ruan <ruanjinjie@huawei.com>
 
-Like you said, the other tests were changed in v3 to pick up this
-coverage. This test was more about crossing device key rotations. I
-think we can let the dedicated rx and tx rekey tests cover this.=20
+Resctrl offers two ways to describe an MBA policy:
+- The percentage interface writes a fraction of the maximum bandwidth
+  into the hardware control register
+- The MBA software controller (mounted with -o mba_MBps) takes
+  an absolute target in MiB/s and adjusts that percentage based on
+  the MBM counters sampled once per second.
+
+The problem is that a percentage alone isn't enough. How much bandwidth
+a percentage actually corresponds to depends on the memory frequency,
+the channel count, how many threads are generating traffic, the access
+pattern, and the traffic of other groups. Neither MPAM nor x86 resctrl
+reports the maximum bandwidth in MiB/s. So an administrator who wants
+to enforce an absolute budget (a tenant SLA, a noisy-neighbour limit)
+has to measure and re-tune the percentage on every machine. x86 resctrl
+has had this software controller since 2018; MPAM has never been able
+to use it. This series makes it work on MPAM.
+
+What this series does
+=====================
+
+MPAM refuses mba_MBps in two places:
+- Its MBM counters are assignable, and supports_mba_mbps() refuses
+  the option when they are.
+- Its maximum bandwidth control is a soft limit by default, which
+  can't hold a single requester down to the target.
+  MPAMF_MBW_IDR.MAX_LIM reports whether the hard limit exists.
+
+MPAM also makes two generic defects reachable:
+- Writing the control register sleeps (smp_call_on_cpu()), while
+  the worker runs under the RCU read lock
+- A 16-bit fraction lets the minimum control value reach zero, which
+  divides by zero in the estimator
+
+The patches:
+
+- Patches 1 and 2 fix the two generic defects.
+- Patches 3 and 4 make the loop runnable on MPAM: the worker takes the
+  CPU hotplug lock around the sleeping control update, and assignable
+  counters are accepted with a fixed assignment mode.
+- Patches 5 and 6 handle the maximum: the driver sets HARDLIM and
+  records the MAX_LIM behaviours, and mba_MBps is refused where only
+  the soft limit exists.
+
+x86 has no assignable counters in the mode where the controller is
+allowed, and does not set the soft-limit flag, so its behaviour is
+unchanged.
+
+Testing
+=======
+
+With the MPAM MSC model in QEMU:
+
+- From a 9606 MiB/s baseline, a 7000 MiB/s target converges to
+  6888 MiB/s and a 9000 MiB/s target to 8766 MiB/s.
+- The memory-side MSC register shows MBW_MAX.HARDLIM set.
+- A modelled MSC that implements only the soft limit refuses the
+  mba_MBps mount, while a plain mount succeeds.
+- With mbm_assign_on_mkdir forced on while the controller is in use,
+  a write of 0 is refused, and the user's value is restored after
+  unmount.
+- The KUnit tests for the MPAM driver pass.
+
+Jinjie Ruan (6):
+  fs/resctrl: Avoid division by zero in the MBA software controller
+  fs/resctrl: Do not update bandwidth from a failed counter read
+  fs/resctrl: Take the CPU hotplug lock for software controller updates
+  fs/resctrl: Allow mba_MBps with assignable MBM counters
+  fs/resctrl: Reject mba_MBps when the maximum is only a soft limit
+  arm_mpam: Program the hard limit for the software controller
+
+ Documentation/filesystems/resctrl.rst | 13 +++-
+ drivers/resctrl/mpam_devices.c        | 55 +++++++++++++----
+ drivers/resctrl/mpam_internal.h       |  4 ++
+ drivers/resctrl/mpam_resctrl.c        |  9 +++
+ fs/resctrl/monitor.c                  | 86 +++++++++++++++++++++------
+ fs/resctrl/rdtgroup.c                 | 48 ++++++++++++---
+ include/linux/resctrl.h               |  5 ++
+ 7 files changed, 179 insertions(+), 41 deletions(-)
+
+-- 
+2.43.0
+
