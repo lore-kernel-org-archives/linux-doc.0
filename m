@@ -1,90 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794217027;
-	b=g9++OvFKw9iq75Jk0RLHEpSFL3+YklEw0BBS2tBQX3BEYbFnvlSgpDR9beK+gdooLAW1
-	 Dfs5b55UTvh+aFG2DmKEECK7bHh63idgp/NjIwul8rY+1oPw/FxI3CLTkUaDysTz1L8UC
-	 56qkgZU/UVV/gA8/2qpoYsIFVbBZNu2GLNHhzx76EEU315N0NUo8mK2ayspfLzAfru0w5
-	 UOKVXu4an6V3n6o5xNmqkRGfkTXtAxA6xFmmNa4XcCp2DSUM/1cJfwrSPzYhK7ll5GlZA
-	 ySqJ1+K6YvYdcX2Vy6N4xS5MoBOCg5/Fk/GYevdCRw8sCvtv9/fBil+nnTOkdBMxC4A==
+	t=1794220812;
+	b=5SZS41e0UQk0Ac8tELIWjbAfQxV1i62mNknZV2Ekr34Q8l2t5qIXG1utliXAnkfLZ1EL
+	 qtSWnhrjyWI6U33Adjz8ponT9McG0YcXy9rNDvlJHlAxHNQ21EZn0bv3tw4R9C8MDuw/U
+	 PfnqI2wfFktwUE0Dz8G3RVN0ZaW5ZIZmhU3K0QB62jasvMDQ3+U+gVJkZwWJgqz5Wawnf
+	 IXzeyMBXCMRzTdpMQyzwcak11Acsnp9rT0cVP7f7RHW1wv8SBfs2f/P0u3GSSIyWo1AtV
+	 h4poWqJosSTO2FZN01UITBAhcb5DJUVSHoqTQEXr3SoBVFd4pN8VWmdoH+bc2k1tHKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794217027;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=vzxDeKvLGYY8yTB90g6Gg3+CEDGUwrlYxKYj6Bd8ql0=;
-	b=JHBOgBmYiRvKWX5y6edO/LmfNU334RoEw1Z6053U+3hVgFxlLHLVeAKOoky96udvMJj1
-	 7Ma+O+znZKrufCH4e1LqALnG+AexRwNpeuR5oYodidbCNZKpeAvQ0vwf0kSRN/K7P1C30
-	 ICLX3+FY5JUaVBmaV9ycPBc5aBm0f2jQjhfLpk94ZGY1+e5xphIFE30izcXdKwKuIM9w2
-	 M/g7DeP7Ob1zm936lVe0n1VYxVYMnQPmzPH1T5vUEavhsUonlFdK2s3e/gey6TVgnFOwT
-	 b0k8F4KjBmg5HlTDS4qBqS58o120DNlwxucj6da0Rko6p7e2TgUj33CI1m5wy4BEHZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794220812;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=eII2xW9eK+JyhszI/hEYk6b5eDf6K60epLky3hR1lTU=;
+	b=VEvBTVRv3rhKErZnwiCw4hNQjVZlsMU1440zWjKd/GlMpbnReaynMZ70zGIpZts71as5
+	 0iF7P4XdOp30UDrQBVs7BseNK0oibeSUW+zZDNgxJjPjZGHIh8Ay6agPNmJXBprg36wGc
+	 A4eVBQIDa3myHP3veFt+gSH6AemCA3KT9QZewZqBrF7/pRsJjERwTUPWQa75GK92S41fO
+	 DmMe0lO1lC0q/Zv5mGB7KiRoTSLLWaRnXNyNchJjRn0oYbH9ZhMFv7lQIYTVbmaYvL53C
+	 97LpFRfG9L7HyFxYFUTrLhwmB4BcwrO2NS+ov78gtYX7EXSWG+eheY71IScRXIqNHCg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="E/sSvVLx";
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mIEZRjjg;
+	arc=none smtp.remote-ip=198.175.65.11
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353A9606D802
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 09:37:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 353A9606D802
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9CA3606A31C;
+	Mon,  9 Nov 2026 10:40:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9CA3606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=E/sSvVLx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794217026;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vzxDeKvLGYY8yTB90g6Gg3+CEDGUwrlYxKYj6Bd8ql0=;
-	b=E/sSvVLxBP5tEdNSz+Wu01s2SFhEdVKC97OkgbKOWPObOud+DuONncbI4JBXZFz0hon3X5
-	5eiHItGhnAcIRhg65R9WYtFZLrsNaT5bNnNGbtAgtNnPm941/WddFxDjr/g4E29HeXcCA3
-	dg5pGBsMmz7A2v8lws4xMsMNBUC9fdo=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-412-QeTzH2XPOZa1880HI0dAFA-1; Mon,
- 09 Nov 2026 04:36:59 -0500
-X-MC-Unique: QeTzH2XPOZa1880HI0dAFA-1
-X-Mimecast-MFC-AGG-ID: QeTzH2XPOZa1880HI0dAFA_1794217017
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4B8FF1800543;
-	Mon,  9 Nov 2026 09:36:57 +0000 (UTC)
-Received: from poros-thinkpadp16vgen1.tpbc.com (unknown [10.44.48.50])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 97FBF18004F7;
-	Mon,  9 Nov 2026 09:36:52 +0000 (UTC)
-From: Petr Oros <poros@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Petr Oros <poros@redhat.com>,
-	Ivan Vecera <ivecera@redhat.com>,
-	Jiri Pirko <jiri@nvidia.com>,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=mIEZRjjg
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794220810; x=1825756810;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=eII2xW9eK+JyhszI/hEYk6b5eDf6K60epLky3hR1lTU=;
+  b=mIEZRjjgH69AJ3Ikqm40jVuVKsw8ClSUay9YIiU+ddJfg1svOWTxbSz5
+   QLWh88Jn3Yb1mC0FW/STQZP0GexBuR82Ov+/ssm3tgpKYKAZO7vnEVmP/
+   muNqNGTGVYITiCF4ZJCsW2P595nlExyV5hnDO6Vx967696jnFPt20sGI+
+   FfD0XApxx6pD4Dqzwbf1So6pA+PWDin+ZLgD79384ntMGe9KSkqNg/RgW
+   OIg59DROEnpo6Q6gZuj4/MgaVLR7jjSpVqYSt4goMrrC26jfd/E4xUmFM
+   yJaaWITPZ6n86PMWBsJhnVCwjmVBtu1M1c6URQmsp3IH8sUYgzzb9hCJI
+   A==;
+X-CSE-ConnectionGUID: hCGfYjPPRLyhe3tPgqglnQ==
+X-CSE-MsgGUID: +SMQPE7GS/2JHIwtFnuweg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11960"; a="2828175"
+X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
+   d="scan'208";a="2828175"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 02:40:09 -0800
+X-CSE-ConnectionGUID: dsf0UpurSGCCWJrR5ePICg==
+X-CSE-MsgGUID: tOpkJ0ZXRV2NcD4A0pGE3A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,203,1787036400"; 
+   d="scan'208";a="8270311"
+Received: from srf-bkc.iind.intel.com ([10.49.110.107])
+  by fmviesa007.fm.intel.com with ESMTP; 09 Nov 2026 02:40:07 -0800
+From: Tirthendu Sarkar <tirthendu.sarkar@intel.com>
+To: Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org
+Cc: "H . Peter Anvin" <hpa@zytor.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jani Nikula <jani.nikula@intel.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH net-next v3 13/14] selftests: dpll: add concurrency stress tests
-Date: Mon,  9 Nov 2026 10:35:22 +0100
-Message-ID: <20261109093523.931201-14-poros@redhat.com>
-In-Reply-To: <20261109093523.931201-1-poros@redhat.com>
-References: <20261109093523.931201-1-poros@redhat.com>
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] x86/time: Enable HPET under ACPI hardware-reduced mode with hpet=force
+Date: Mon,  9 Nov 2026 05:40:05 -0500
+Message-ID: <20261109104005.3391565-1-tirthendu.sarkar@intel.com>
+X-Mailer: git-send-email 2.52.0
+In-Reply-To: <20261005075550.463089-1-tirthendu.sarkar@intel.com>
+References: <20261005075550.463089-1-tirthendu.sarkar@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -95,381 +88,13 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Extend the stress script with tests that register and unregister
-devices from several processes at once and that keep a number of
-devices with many pins live at the same time, checking that every one
-of them is visible on netlink.
+On Mon, Oct 05, 2026 at 03:55:50AM -0400, Tirthendu Sarkar wrote:
+> Let "hpet=force" call hpet_enable() when .timer_init() was stubbed by
+> ACPI hardware-reduced mode.
 
-The workers run in subshells, so the parent cannot track the device a
-worker has in flight. Each worker removes it from its own exit trap
-instead, and the parent reserves a range of clock IDs for every worker,
-so that the devices of a worker cannot collide with those of another
-worker or of the parent and whatever a killed worker left behind can
-be removed by name, at the end of the test and from the cleanup
-handler. The handler stops the recorded workers together with the jobs
-of the shell, gives them a few seconds to run their exit traps before
-forcing the survivors, and goes on without a worker that does not die,
-since one stuck in the kernel would hang the teardown. Deleting a
-device treats a part of it that is gone by the time its step runs as
-removed, so that a removal running concurrently with the one of a
-worker does not turn into a spurious failure. The workers inherit the
-open lock file of the library, so the lock is held until the script
-and every worker have exited.
+Gentle ping. The patch still applies cleanly to tip/master (v7.4-rc1).
+Is there anything I should change, or can it be picked up?
 
-Reviewed-by: Ivan Vecera <ivecera@redhat.com>
-Acked-by: Jiri Pirko <jiri@nvidia.com>
-Signed-off-by: Petr Oros <poros@redhat.com>
----
-v3:
-- follow the move of the selftests to
-  tools/testing/selftests/drivers/dpll
-
-v2:
-- quote the failed and ret expansions (netdev CI shellcheck)
-
-v2: https://lore.kernel.org/all/20261105151852.1844305-14-poros@redhat.com/
-v1: https://lore.kernel.org/all/20261103093910.596225-14-poros@redhat.com/
----
- .../selftests/drivers/dpll/dpll_lib.sh        |  30 ++-
- .../selftests/drivers/dpll/dpll_stress.sh     | 219 +++++++++++++++++-
- 2 files changed, 241 insertions(+), 8 deletions(-)
-
-diff --git a/tools/testing/selftests/drivers/dpll/dpll_lib.sh b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-index 69b66481394b7a..7a0bb144af150c 100644
---- a/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-+++ b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-@@ -54,8 +54,10 @@ dpll_lib_check_prereqs()
- # The scripts that create dpllsim devices share the one dpllsim directory
- # and cannot run alongside each other, so each takes a lock on
- # DPLL_LOCK_FILE before it mounts or creates anything and skips when
--# another run holds it. The file lives under /run rather than in the
--# world-writable /tmp, where a planted symlink could redirect the open.
-+# another run holds it. The workers a script forks inherit the open file
-+# and keep the lock until they exit. The file lives under /run rather
-+# than in the world-writable /tmp, where a planted symlink could
-+# redirect the open.
- DPLL_RUN_DIR="/run/dpll-selftest"
- DPLL_LOCK_FILE="$DPLL_RUN_DIR/lock"
- DPLL_LOCK_FD=""
-@@ -564,8 +566,12 @@ dpllsim_undeploy()
- 
- # Take the device offline and remove it together with all its pins.
- # Every step is attempted even when an earlier one failed, the return
--# value is non-zero when any did. A device that does not exist counts as
--# deleted.
-+# value is non-zero when any did. A device that does not exist counts
-+# as deleted, and so does a part of it that is gone by the time its
-+# step runs, the live file of the undeploy and the pin or device
-+# directory of an rmdir, so that a removal running concurrently, or an
-+# earlier one whose later steps failed, does not turn into a spurious
-+# failure here.
- dpllsim_delete_device()
- {
- 	local dev_path="$DPLLSIM_CFG/$1"
-@@ -573,12 +579,12 @@ dpllsim_delete_device()
- 
- 	[ -d "$dev_path" ] || return 0
- 
--	dpllsim_undeploy "$1" || ret=1
-+	dpllsim_undeploy "$1" || [ ! -e "$dev_path/live" ] || ret=1
- 	for pin_path in "$dev_path"/pins/*/; do
- 		[ -d "$pin_path" ] || continue
--		rmdir "$pin_path" || ret=1
-+		rmdir "$pin_path" || [ ! -d "$pin_path" ] || ret=1
- 	done
--	rmdir "$dev_path" || ret=1
-+	rmdir "$dev_path" || [ ! -d "$dev_path" ] || ret=1
- 
- 	return "$ret"
- }
-@@ -591,6 +597,16 @@ dpllsim_alloc_clock_id()
- 	DPLLSIM_CLOCK_ID=$((DPLLSIM_NEXT_CLOCK_ID++))
- }
- 
-+# Set DPLLSIM_CLOCK_ID to the first of $1 consecutive clock-ids unique
-+# within this test run and move the allocator past them, for a worker
-+# that derives the clock-ids of its devices from it. A device the parent
-+# creates afterwards cannot collide with one of the worker.
-+dpllsim_alloc_clock_id_range()
-+{
-+	DPLLSIM_CLOCK_ID=$DPLLSIM_NEXT_CLOCK_ID
-+	DPLLSIM_NEXT_CLOCK_ID=$((DPLLSIM_NEXT_CLOCK_ID + $1))
-+}
-+
- # Create a device with the standard 3-pin layout, deploy it and resolve
- # the netlink device id. Sets DPLLSIM_CREATED_NAME, DPLLSIM_CLOCK_ID and
- # DPLLSIM_DEV_ID.
-diff --git a/tools/testing/selftests/drivers/dpll/dpll_stress.sh b/tools/testing/selftests/drivers/dpll/dpll_stress.sh
-index 3806fda2e2dfe0..47b8f4bf55b269 100755
---- a/tools/testing/selftests/drivers/dpll/dpll_stress.sh
-+++ b/tools/testing/selftests/drivers/dpll/dpll_stress.sh
-@@ -15,13 +15,24 @@ source "$SCRIPTDIR/dpll_lib.sh"
- 
- ALL_TESTS="
- 	test_rapid_create_delete
-+	test_concurrent_workers
- 	test_pin_state_flooding
-+	test_max_devices
- 	test_deploy_cycle
- "
- 
- STRESS_ITERATIONS=${STRESS_ITERATIONS:-20}
-+STRESS_DEVICES=${STRESS_DEVICES:-5}
-+# The simulator accepts up to 128 pins per device (DPLLSIM_MAX_PINS)
-+STRESS_PINS_PER_DEVICE=${STRESS_PINS_PER_DEVICE:-10}
-+STRESS_CONCURRENT_PROCS=${STRESS_CONCURRENT_PROCS:-4}
-+STRESS_WORKER_ITERATIONS=${STRESS_WORKER_ITERATIONS:-10}
- 
- CREATED_DEVICES=()
-+BACKGROUND_PIDS=()
-+# Base clock-ids of the workers in flight, their devices are named
-+# st<base + iteration>
-+WORKER_BASES=()
- 
- track_device()
- {
-@@ -39,18 +50,103 @@ untrack_device()
- 	CREATED_DEVICES=("${remaining[@]}")
- }
- 
-+# Remove whatever a worker started from the given base clock-id left
-+# behind, which is the device in flight when the worker had to be killed.
-+# A device that does not exist counts as deleted.
-+delete_worker_devices()
-+{
-+	local base=$1
-+	local i name
-+
-+	for i in $(seq 1 "$STRESS_WORKER_ITERATIONS"); do
-+		name="st$((base + i))"
-+		dpllsim_delete_device "$name" ||
-+			log_info "cannot delete device $name"
-+	done
-+}
-+
-+# Return 0 while the process still runs. A process that has exited but
-+# has not been reaped yet is a zombie, state Z in /proc/<pid>/stat, and
-+# counts as gone, or a wait on it would spin until the forced kill.
-+pid_running()
-+{
-+	local stat
-+
-+	kill -0 "$1" 2>/dev/null || return 1
-+	# The state follows the parenthesized command name, which may
-+	# contain spaces and parentheses. The ".*" is greedy, so the
-+	# expression strips everything up to the last ") " of the line, and
-+	# a ")" inside the name is harmless.
-+	stat=$(sed 's/^.*) //' "/proc/$1/stat" 2>/dev/null) || return 1
-+	[ "${stat%% *}" != "Z" ]
-+}
-+
-+# Return 0 once none of the given processes runs any more, 1 when some
-+# still does after about five seconds.
-+pids_gone()
-+{
-+	local i pid alive
-+
-+	for i in $(seq 1 50); do
-+		alive=0
-+		for pid in "$@"; do
-+			pid_running "$pid" && alive=1
-+		done
-+		[ "$alive" -eq 0 ] && return 0
-+		sleep 0.1
-+	done
-+	return 1
-+}
-+
- cleanup()
- {
--	local dev
-+	local pid dev base
-+	local pids=() shell_jobs=()
- 
- 	# A second signal must not abort the teardown half way.
- 	trap '' INT TERM
- 
-+	# A worker forked right before the signal arrived may not be
-+	# recorded yet, so the jobs of the shell are taken as well. The
-+	# jobs builtin reports them from a subshell only when it is the
-+	# whole command of that subshell.
-+	mapfile -t shell_jobs < <(jobs -p)
-+	mapfile -t pids < <(printf '%s\n' "${BACKGROUND_PIDS[@]}" \
-+				   "${shell_jobs[@]}" | grep . | sort -u)
-+	for pid in "${pids[@]}"; do
-+		kill "$pid" 2>/dev/null
-+	done
-+	# Give the workers a few seconds to run their exit traps, then
-+	# force the survivors and give those a few seconds to die. The
-+	# kernel cannot recycle the pid of a child until it is reaped,
-+	# which the wait below does, so the forced kill cannot hit a
-+	# process that reused one. A worker stuck in the kernel does not
-+	# die of the forced kill before whatever it waits for returns, so
-+	# only the workers that are gone are waited for, which reaps them,
-+	# and the teardown goes on without the rest. The removal of what
-+	# such a worker left behind can then fail or race with it, which
-+	# is logged like any other failed removal.
-+	pids_gone "${pids[@]}"
-+	for pid in "${pids[@]}"; do
-+		kill -KILL "$pid" 2>/dev/null
-+	done
-+	pids_gone "${pids[@]}"
-+	for pid in "${pids[@]}"; do
-+		if pid_running "$pid"; then
-+			log_info "worker $pid did not exit, giving up"
-+		else
-+			wait "$pid" 2>/dev/null
-+		fi
-+	done
-+
- 	defer_scopes_cleanup
- 	for dev in "${CREATED_DEVICES[@]}"; do
- 		dpllsim_delete_device "$dev" ||
- 			log_info "cannot delete device $dev"
- 	done
-+	for base in "${WORKER_BASES[@]}"; do
-+		delete_worker_devices "$base"
-+	done
- 	# The device whose creation a signal interrupted is recorded by the
- 	# library alone, a double delete of a tracked one is harmless.
- 	if [ -n "$DPLLSIM_CREATED_NAME" ]; then
-@@ -138,6 +234,83 @@ test_rapid_create_delete()
- 	log_test "DPLL rapid create/delete ($STRESS_ITERATIONS iterations)"
- }
- 
-+# The exit trap of a worker. The worker runs in a subshell, so
-+# track_device() cannot reach CREATED_DEVICES of the parent. Remove the
-+# device in flight from the exit trap instead, or killing the worker
-+# leaks it. The trap saves the exit status first, so that the removal
-+# cannot mask a failed iteration, and drops the traps, since bash runs
-+# the EXIT trap again when a signal handler exits.
-+worker_exit()
-+{
-+	local status=$?
-+
-+	trap - EXIT TERM INT
-+	if [ -n "$DPLLSIM_CREATED_NAME" ]; then
-+		dpllsim_delete_device "$DPLLSIM_CREATED_NAME"
-+		DPLLSIM_CREATED_NAME=""
-+	fi
-+	exit "$status"
-+}
-+
-+# Create and delete STRESS_WORKER_ITERATIONS devices with clock-ids
-+# following the given base, in a subshell. Each worker derives its own
-+# unique clock-ids from a range reserved for it, so its devices can never
-+# be confused with those of another worker or of the parent. The parent
-+# records the base of every worker, so that the device a killed worker
-+# left behind can be removed by name.
-+concurrent_worker()
-+{
-+	# The workers inherit the state of the generator from the parent
-+	# and would draw the same pin layouts, so reseed it with the pid of
-+	# the subshell first.
-+	RANDOM=$BASHPID
-+	local base=$1
-+	local i name failed=0
-+
-+	trap worker_exit EXIT TERM INT
-+
-+	for i in $(seq 1 "$STRESS_WORKER_ITERATIONS"); do
-+		if ! create_stress_device $((base + i)) 3; then
-+			failed=$((failed + 1))
-+			continue
-+		fi
-+		name=$DPLLSIM_CREATED_NAME
-+		dpllsim_delete_device "$name" ||
-+			failed=$((failed + 1))
-+	done
-+
-+	[ "$failed" -eq 0 ]
-+}
-+
-+test_concurrent_workers()
-+{
-+	local pid base failed=0
-+
-+	RET=0
-+
-+	for _ in $(seq 1 "$STRESS_CONCURRENT_PROCS"); do
-+		dpllsim_alloc_clock_id_range $((STRESS_WORKER_ITERATIONS + 1))
-+		base=$DPLLSIM_CLOCK_ID
-+		WORKER_BASES+=("$base")
-+		concurrent_worker "$base" &
-+		BACKGROUND_PIDS+=($!)
-+	done
-+
-+	for pid in "${BACKGROUND_PIDS[@]}"; do
-+		wait "$pid" || failed=1
-+	done
-+	BACKGROUND_PIDS=()
-+
-+	check_err "$failed" "some concurrent workers failed"
-+
-+	for base in "${WORKER_BASES[@]}"; do
-+		delete_worker_devices "$base"
-+	done
-+	WORKER_BASES=()
-+
-+	log_test "DPLL concurrent workers ($STRESS_CONCURRENT_PROCS processes)"
-+}
-+
- test_pin_state_flooding()
- {
- 	local clock_id name dev_id pin_id i last state fails=0
-@@ -194,6 +367,50 @@ test_pin_state_flooding()
- 	log_test "DPLL pin state flooding"
- }
- 
-+test_max_devices()
-+{
-+	local i clock_id created=0 visible
-+	local test_devs=() clock_ids=()
-+
-+	RET=0
-+
-+	for i in $(seq 1 "$STRESS_DEVICES"); do
-+		dpllsim_alloc_clock_id; clock_id=$DPLLSIM_CLOCK_ID
-+		create_stress_device "$clock_id" \
-+				     "$STRESS_PINS_PER_DEVICE" || break
-+		track_device "$DPLLSIM_CREATED_NAME"
-+		test_devs+=("$DPLLSIM_CREATED_NAME")
-+		clock_ids+=("$clock_id")
-+		created=$((created + 1))
-+	done
-+
-+	if [ "$created" -lt "$STRESS_DEVICES" ]; then
-+		check_err 1 "created only $created of $STRESS_DEVICES devices"
-+	fi
-+
-+	# Every created device must be visible on netlink.
-+	visible=0
-+	for clock_id in "${clock_ids[@]}"; do
-+		if dpll_device_wait_by_clock_id "$clock_id" dpllsim \
-+		   > /dev/null; then
-+			visible=$((visible + 1))
-+		fi
-+	done
-+	if [ "$visible" -ne "$created" ]; then
-+		check_err 1 "only $visible of $created devices visible"
-+	fi
-+
-+	for i in "${test_devs[@]}"; do
-+		if dpllsim_delete_device "$i"; then
-+			untrack_device "$i"
-+		else
-+			check_err 1 "cannot delete device $i"
-+		fi
-+	done
-+
-+	log_test "DPLL maximum devices ($STRESS_DEVICES devices)"
-+}
-+
- test_deploy_cycle()
- {
- 	local clock_id name i
--- 
-2.56.0
-
+Thanks,
+Tirthendu
