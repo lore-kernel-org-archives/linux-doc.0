@@ -1,131 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.50
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794244359;
-	b=mYZ8spMX08dIliElvGm1XlglVE2fSRNoG17OmQJtZGFnWCs4TH3G412Ti8HxjUrOUNbm
-	 +1yAbhBHzCN+tTn4VFf1kyGdfSCv2X5CsQH49pXB+FdLXzktHk8bcyb1QBBAyQCbPEUTN
-	 xWyZ52fhyOE6c87VTP1D3LBAdaItI5uVQuu7lfYeLXBsSeQhLNDo4qVV/a9iSEMjeGiNl
-	 bM2QFtsoRw0wd4Y1b9lDIRlPI8WwSIukZU7kmpHJdRE9krveQmxgRq9omNWdLKNxzvakf
-	 YsBdi95WYGsBi+Dl6V6KI9waaqEbZBVV7zG8yak1lzOJ9Ny5FIC5Vwv2NQLtqpSjmtg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794244359;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=mldVdWBWz+slWUX+6pvLrLM/2pda4Td9vv1hcuYueHI=;
-	b=3NY6Xfq+xEImPIG3tpZoFPn+MpC3p6LdNaM17ByWWt3k5pPwm1LFc2c4zbqaoUeGf7mX
-	 1tOL5g857DKbAy8cvC/8XWD4uxmjNqxJv2qCmLMwPpVfdly0FzvBS8hz++ZSFFRaHuGuL
-	 KiBZC3lL3VpfkBnuzMdBNqcNiNek4Zl3AdJU89jDGXyDUNXFUyauvtH9H/8tpWIEUE0w/
-	 Oo/MZhxMaV19OQhJVMHiGiNUJF04jRZNdgyGKkXsDjt0SabzifnLqHkrCO78HdAC/VpFf
-	 fy/uVD9rF5WzRmOtQDqIJBer+Qwsl9KLdMyq2f9pGNOG16BtEVAx2t4iLDbn2KfB7pA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Yl4Em7oV;
-	arc=none smtp.remote-ip=209.85.219.50
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.49
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794244521;
+	b=5gXcL12tpALTZL/sr+LI2qta2XAbilReITiTj4OVt70a0Yva+rqhbWux+ffdl4nfuBRg
+	 FChBLJsJQHzoFphf+ErRRuUDJdcLLOI1fukbgmYE/pLYNG0Czdu8hDJ0aP/lPy6nXL5BB
+	 Ua9/lQZsMYy6bpzfWZzNGb/K4SRJMrIHtycAyK9ICOi4w6tjPFC3+kaGd+EbnpUDG4JrT
+	 wNNNadPv/bTPvpw5Qb7xu2rp6h9kWXxLIdaZwoWYUMQ7zd70Bzx4h412ee7MHrO6ZM/UA
+	 MiNTD9h5PpJqfvwriZPtTj2GHrSwDMUPdg/JSBFRLDajy7A4KBJ/CZd9RFfB84MSMyg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794244521;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
+	 References:MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 X-Originating-IP:X-ClientProxiedBy:X-EOPAttributedMessage:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=0IMeLB1dRvtT+Gu7UebExq027PIbf1THrmDYlH4ys4c=;
+	b=crG2EaKnJWpcAEQ17fl7DPPv0IVJaoKqiJ/0XHg22rXNqwbSL02loZ5UVcb8JZVMrBkK
+	 su6YlzoQY7mnBAAQroUW1b/1jIuQ43K73a18hcDPPNR38F1wyQ/VNjuBmp5DypZzVnCOY
+	 fOTNrN/Ln6GbBMUk8iZxCNO4p4LU5BoznS+mIj8zHub0T/gjb2VeHcPnbeV8+Ej8RoxrK
+	 A3fX89/AKwnl4P/KMFkBfuEO/bKZGcd3Rzwxuae0g4DsKqVYFsmsiEHd3Xgce5Ke2u94n
+	 zPniV8b3dFaqQnNLLiZnTRNfO16v7i68Kv5ajIrYEtUs+/O6Squniev+mgsRV0d+k8Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=foss.st.com;
+	spf=pass smtp.mailfrom=foss.st.com;
+	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=HlpyJv9C;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.49
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013049.outbound.protection.outlook.com [52.101.83.49])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D62B606A326
-	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 17:12:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D62B606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD65606A321;
+	Mon,  9 Nov 2026 17:15:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAD65606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Yl4Em7oV
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91e7fc8265aso13931696d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 09:12:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1794244358; x=1794849158; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mldVdWBWz+slWUX+6pvLrLM/2pda4Td9vv1hcuYueHI=;
-        b=Yl4Em7oVwrZZg0i63RkmLtgR+ZRN9euPgyMkxxN1Ob152+zGGnL2fm2jvTYJo4LVnF
-         vMEovACZqMWqSZBQO8MwjFgjN/VfTU1Hb0gUOSD50ReMsbb4x2PsB8Vqznx9hxIVJ9P/
-         ktueRojchyU0OBQAvs4hpd+FT+5Nl5MGAaSYHa1Vg/86pPRlmOn28BDAbJB366nQmarU
-         C7enZgKp8KEKbUHK1eQuucK6wGkqEYMXhjguAz7je3g8iMjLQyATGWC6+GeMkRPjj6b5
-         YcfHQWnHrd67gsof5g39Wok+gfkBlOMw1fVpw6g/CmgVLoFrpX+x7ke/8IMcGiq6ZU6J
-         xcKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794244358; x=1794849158;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mldVdWBWz+slWUX+6pvLrLM/2pda4Td9vv1hcuYueHI=;
-        b=Rm2kgO2ITrD286yR3occXvxYnzqMHm7GCR/YgVskw8klsubPHwDZlPgGJZmjIpHKMR
-         9rrkFfHH2Y0bguWSdTcH7Ve0iTz8puPfDq4je8gVjYkDdn2DZbTaiIQb2kKQIgW+J4y1
-         KFJ0u1bPjXrvZTAgUhtvjSLUEOdnL1lm1/KX9F5/T0yBU3T+hG+lYgDLn2hLhwPhV3Lm
-         G/yx7laPVlIZulOXY4Zdq76QCqSzoB7euWYE4uqruYHQ+9+oKTzZNvFiuYk5EH6VT8lZ
-         WPMjnpljEQAUWKQ8zZisc/guH2O09hujLvJAjfkByGZhKkHdDPMX9iRPftGA9iEr3Hd2
-         rNfw==
-X-Forwarded-Encrypted: i=1; AL+hErGS35ctzNfitk9qesb/KIKeAHewVfgm67ui9zTksQzp7Z3KIdYki1zRsaQToFf/6W08d7Cn6LbCzCM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/JHffwaVCMEZSnQEgLkUrJWOCEutqwkUqIPIEk/i9++kEwYNMa
-	9QJ5PV82Vji7Oig2UvyMKsglL6VvNPGN1vzKhKrtazAioEfsmo7Pfqn3NcdU7EAmyrQ=
-X-Gm-Gg: AYBFou3ivh7S0XWnRPE31JYV0arlrnPHfgZa931rju3Y8utrJeraBwZapYyBkJFSBPT
-	Mm1FHiDcje06T8xlVY9V6jmSezJXomQ3RX2/oOD7RJ36FzEvD+ucDGeEy5QzuYYUHgUofiRqNty
-	vK+mnwuNJhPBqBU1u2y9wD/aXz9hi+zgAmN0YenxUUmvDZWpEOwYCARZc7Gzg3Vh4EHBaKdItbf
-	YMVZ4/ZmqzkdwCKwFCN8n03Z6jfy4l/efHlTfnDUgllF2f94pUzBk1ONYxU2PDKXBCZvIKzGeij
-	nR4TCkNQnuo5df6MYte9u8KyAKMe1mwVH+uYaf80mH7fw9EDYYBGzT7uitb4XFwh5MgoXBmLtR+
-	2vyQTk7sPvXqA3Euuesai7Gl+QQDZkMuhdRUXMIqiN4HE+qQAn4jEXy1Guad2drcWCb6NU2T0Vl
-	cs7d+EaPqDBX/rquOU8xDzIGsKgjtg2B61J06Q7eEorzWhhSJc2SHoGnFnAVs+YpzYUJmkL4Lvw
-	juloPKIYMo+AXOXPdkl+Gcv18fsTweinmYL5T00rAUcNpSSca2pwl7Hvayd79zFDQ5SxI3s0xm0
-	4+bIP8jKtwm+D3Mb2bu6LmfbAyAZqOGtumhkrqeobRKKPno07MiEUl+ao3oR+AMThwVogY8oCPc
-	fg6TNwJKATw==
-X-Received: by 2002:a05:620a:4625:b0:946:26a:22c4 with SMTP id af79cd13be357-9479f415545mr8700585a.73.1794244358097;
-        Mon, 09 Nov 2026 09:12:38 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ef0540a8dsm277806d6.41.2026.11.09.09.12.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 09:12:37 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xQSv6-00000001ryf-1fz6;
-	Mon, 09 Nov 2026 13:12:36 -0400
-Date: Mon, 9 Nov 2026 13:12:36 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Peter Fang <peter.fang@intel.com>
-Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"drdeeglaze@gmail.com" <drdeeglaze@gmail.com>,
-	"James.Bottomley@hansenpartnership.com" <James.Bottomley@hansenpartnership.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"Xing, Cedric" <cedric.xing@intel.com>,
-	"alistair.francis@wdc.com" <alistair.francis@wdc.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"Reshetova, Elena" <elena.reshetova@intel.com>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"ankita@nvidia.com" <ankita@nvidia.com>,
-	"jiri@resnulli.us" <jiri@resnulli.us>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Jiang, Dave" <dave.jiang@intel.com>,
-	"Quigley, David" <david.quigley@intel.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"pgonda@google.com" <pgonda@google.com>,
-	"jpiotrowski@nvidia.com" <jpiotrowski@nvidia.com>,
-	"Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
-	"lukas@wunner.de" <lukas@wunner.de>,
-	"jic23@kernel.org" <jic23@kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"sameo@meta.com" <sameo@meta.com>, "aik@amd.com" <aik@amd.com>,
-	"sathyanarayanan.kuppuswamy@linux.intel.com" <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	"ksinyuk@kernel.org" <ksinyuk@kernel.org>,
-	"qinkun@google.com" <qinkun@google.com>
-Subject: Re: [PATCH RFC 20/20] attestation: Add the TDX family implementation
-Message-ID: <20261109171236.GP663069@ziepe.ca>
-References: <20261015145053.3664509-1-jiri@resnulli.us>
- <20261015145053.3664509-21-jiri@resnulli.us>
- <ed52bb6d48c87ab8023bf2165cadffa259e21725.camel@intel.com>
- <20261023141218.GD3977851@ziepe.ca>
- <343e4a12f2fdbb4e9a19c4afe49cf2b8908d6739.camel@intel.com>
- <20261023220030.GM3977851@ziepe.ca>
- <7843a833723e3aad40f8fc4de3a83f5a5059280f.camel@intel.com>
- <20261103005851.GH3889730@ziepe.ca>
- <au5LCE1jau0yDo5S@intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=HlpyJv9C
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=fRqgl46EiX7tUsfNgL8n49O4+GEQili33pbxTuSIZNfObKG4WiyTjFOt6fWld2957hZZ+GJLz2XLH7vNAresVw8hrMna4qKNDVGYGtEy4gO8NdBYrZsXvOlHcAn8PLu1JM0V5dapS44mH3nSeLOx+cLn2EWGCNqZgHik4yYT2QE1LgWTNEgvjcG2dR52/V+uRPT0STKV+JLLXVGV1zAKKBQ94QpfCydL9QfG24OCoAeiQfc+BNSWmoP8fvWLRpzNx2lSElz9fvoX4jKGqgCInYi7osU58wmpdO7mWRhtyuEwE7v/P1UGLZojGFdUjs5J5nsRIulJcoR8mXfFMo42rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0IMeLB1dRvtT+Gu7UebExq027PIbf1THrmDYlH4ys4c=;
+ b=W1ooQZIkdtC0wpf29TWrVVdA+Xp25PBDRCk3mI2unjguDul4nOjAQmJZJFJd6kbfEpea6XhhqiNHgv8UJzi3lWdXi2P1yS9G1HAgWoiHeIDF6nVnRHDo2NIEqzTO3HhnyNQOblB+KvzgcatDvmBbBh5K1OfSYFzBT4RNAypWb+undRkpk8tPtCO879IytB72sroWdEFkTUEckFvFFmjAIgqS98m5jxqvryDK/MdIJTzl8JSjx5MucuAiET9PqKiMyLyfFbc28PhfFOdG/Vpy+649FVlgx8k1TLNmVNNk1fKCyLmdIydu5wXkurRJftqNszaBn8ztYRZpGCFzKeF5UQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.60) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=foss.st.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=foss.st.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0IMeLB1dRvtT+Gu7UebExq027PIbf1THrmDYlH4ys4c=;
+ b=HlpyJv9Czsfu+WWA9evxz2/Ahw7U0zT8jqdg/ShY1DhyOKjn5p+Uz07Q+Zdtv6E/AIaNYzwhxlKbBZAmBOCnoQgxMcWBoLvSR361j+AhNKrrbm7mEEY3l9hgBXEF2Fyx2/Ja+fcC+Eb00AczspMfZzuDh91OnQGeTr+ob2+XTJoOyC2a5/yhZ+Xz2iY+oUOvS2jpd8gNoqC3g0ucxDsSuoTpjQ918FRMKoUp1hH4B1A35lPy5HC0DxscjDdT62jGiG32SF65HbPVZxK/In5+GagnWq07C+ZuwAo4ei8bV0JPUjBMY57PlRuxKDBEf0gcPA5xCRKMYrus6x3NAEmxwg==
+Received: from PA7P264CA0095.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:348::6)
+ by GV1PR10MB6660.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:86::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.7; Mon, 9 Nov 2026
+ 17:15:11 +0000
+Received: from MI3PEPF00008490.eurprd03.prod.outlook.com
+ (2603:10a6:102:348:cafe::24) by PA7P264CA0095.outlook.office365.com
+ (2603:10a6:102:348::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.13 via Frontend Transport; Mon, 9
+ Nov 2026 17:15:11 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
+ is 164.130.1.60) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.60; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.60) by
+ MI3PEPF00008490.mail.protection.outlook.com (10.167.240.151) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.615.4 via Frontend Transport; Mon, 9 Nov 2026 17:15:11 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
+ (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Mon, 9 Nov
+ 2026 18:16:07 +0100
+Received: from localhost (10.48.87.238) by STKDAG1NODE2.st.com (10.75.128.133)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Mon, 9 Nov
+ 2026 18:15:10 +0100
+From: Valentin Caron <valentin.caron@foss.st.com>
+To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>
+CC: <Paschalis.Mpeis@arm.com>, <aaupov@meta.com>, <acme@redhat.com>,
+	<corbet@lwn.net>, <irogers@google.com>, <james.clark@linaro.org>,
+	<jolsa@kernel.org>, <leo.yan@arm.com>, <linux-doc@vger.kernel.org>,
+	<mike.leach@arm.com>, <namhyung@kernel.org>, <patches@lists.linux.dev>,
+	<robert.walker@arm.com>, <sashal@kernel.org>, <skhan@linuxfoundation.org>,
+	<suzuki.poulose@arm.com>, <amelie.delaunay@foss.st.com>,
+	<valentin.caron@foss.st.com>
+Subject: [PATCH 6.6.y] perf cs-etm: fix a compilation issue in cs_etm_decoder__set_tid()
+Date: Mon, 9 Nov 2026 18:14:57 +0100
+Message-ID: <20261109171457.1233670-1-valentin.caron@foss.st.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260912065621.463708027@linuxfoundation.org>
+References: <20260912065621.463708027@linuxfoundation.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -135,66 +116,71 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <au5LCE1jau0yDo5S@intel.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MI3PEPF00008490:EE_|GV1PR10MB6660:EE_
+X-MS-Office365-Filtering-Correlation-Id: 568e8cb3-bb19-4e88-6392-08df3e85030e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700016|1800799024|23010399003|261009223027099003|261102123227099003|261028144727099003|261021121427099003|261021123027099003|261022105027099003|261026140227099003|11063799006|56012099006|6133799003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	pKgsyZ/GrPps3f7En5UekHdV76FXJ4qyboOHF+hd+e0fMkoXpGsm+JN1Acq7Xj3xcRZCwsgOhyLsaQLsa9lQPYP32OKRX0zWN9d7PWmBQkgocC8g8r/Dv12c7GNTeEiejO/S5efhXy9F5TzLyUI/jIdG28yXNxX7CN+f8k4e73DRh98vQK+1ttjv3ntEV+eqK+03OCLzbWjwLazbMV7YG41ZAS5pOJCQsn5N/gWp+UyMW8wfRE8uTMcpYRi/ATL0x5fd4A+5E0N8M3MDCnIvhbV8bA9h+jJomWaWBldqMcwGbdzMbtdKUOvwWdfzSkKOzI01OL1ppDgQA/fZhsKzr6O7DrWjrKlQMbEeavGgDJTYyP3HPKLgLYPr9YOHJ0/5R8MYd84P6tpwPijfdR+cntPeHqOKR6FxwNt2O5+V4HzZyGHalzZ7dBnW+mZunT0XBKxZ15LHP2HL5Ml9r+/ikJXpKyz7D/tlJzH7a9RamguOkwf1PkX6JOvjpdEwXEnXStPjurmb5MdFUvSNouORgM14hXjniu1Fs0Xlq5s2kpg4mmikJ01y7ajOVjhDfXD9CquxU/M0sKqmljqKHoOnrhbeE4RLE2wZEXgRzOYCBheM5b3nw8tRAZ/YspQ628RmJO2WR1f3rn8XfmGXCr/mKcK1QTHIVxVI8QoKlFVHDTAqIjPIt6z6WY9lTENK7K7Sz6xRSaGdAdYbwueDlu539Q==
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700016)(1800799024)(23010399003)(261009223027099003)(261102123227099003)(261028144727099003)(261021121427099003)(261021123027099003)(261022105027099003)(261026140227099003)(11063799006)(56012099006)(6133799003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	TspQH7CsYYrqRHqZalDPPdGOrwyZL8ANpaQDHMXNXRnNd2s4LoBkp09bOkwr2jmeH9TzwH9KZy7MDb4Xerr5nTv4z3txlLrGUDPGEWFRQE1wKV7UIq2jl8YkAl/M/WLHaaWIB1UbFvv6OkQhvFNK3vWjornBfGV0P+5L1UngI1nUiPRn+3r+Qr8suwqpNax3fZy5b7shEhxPdxmNC6jf7MxH9rPa3TPkDg8J5Dak/rV8tgP9TrnGQtqCcp9qla4OktFq8KgmQkCvLNuM2xzhUbfJUs+MeDXvthy3nhhXfIMBcXR4WW+z7XVCHsfxgMmPv2Nm/2w8J2mSbTAcE48pXlnE23yp/7dueBX7XLjXPIozp+DGOJeh6OnZpgWT5znORzPkmimUEF34H40f9vZjrkJtdfJ0erBmKqNIFISOg9sbVvWeZpzoSc4aSH+bWXB9
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 17:15:11.2021
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 568e8cb3-bb19-4e88-6392-08df3e85030e
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MI3PEPF00008490.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6660
 
-On Fri, Nov 06, 2026 at 01:47:52PM -0800, Peter Fang wrote:
+When compiling coresight tool with the command:
+make -C tools/perf CORESIGHT=1 all
 
-> For TDX, the direction so far has been to keep the guest as simple as
-> possible in the attestation process. So the "quote type" knowledge is
-> pushed into the TDX module and the remote verifier. The host kernel is
-> mostly tasked with transporting the quote blob from the TDX module back
-> to the guest. In other words, TDX doesn't have any quote type knowledge
-> outside of the module itself. And as far as I know, parsing these blobs
-> is sort of a pain.
-> 
-> The TDX DICE blobs are actually self-describing, meaning the verifier
-> can follow a schema, parse the blob straight away, and know what's
-> inside, including how to verify the signature. They're also
-> distinguishable from the legacy quotes. A launched guest is guaranteed
-> to have a stable format for its quotes. So this makes me wonder how the
-> labeling should be done. Do you think it makes sense to just have a
-> "primary raw TDX quote" label and let the TDX quote blob describe
-> itself? Also, I think currently there are no plans to add
-> secondary/supplementary blobs alongside the quote itself.
+The following build issue occurs:
+util/cs-etm-decoder/cs-etm-decoder.c:551:15: error: too many arguments to
+function 'cs_etm_decoder__buffer_packet'
+  551 |         ret = cs_etm_decoder__buffer_packet(etmq, packet_queue,
+      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-I would be very happy if Intel came with some plan, documented in the
-ABI comments around their labels down the road.
+Fix this by removing the parameter "etmq" from function call to match its
+declaration:
+cs_etm_decoder__buffer_packet(struct cs_etm_packet_queue *packet_queue,
+			      const u8 trace_chan_id,
+			      enum cs_etm_sample_type sample_type)
 
-What I would like is that given a specific label any userspace can do
-a verification and full dump of that data, including signature
-validation, without need of any further external information.
+Fixes: 99d324594165 ("perf cs-etm: Queue context packets for frontend")
+Signed-off-by: Valentin Caron <valentin.caron@foss.st.com>
+---
+ tools/perf/util/cs-etm-decoder/cs-etm-decoder.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ie it is entirely self describing under that label.
+diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+index 277da9f767b9d..caacab8c92e26 100644
+--- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
++++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
+@@ -548,7 +548,7 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
+ 				elem->context.exception_level, tid))
+ 		return OCSD_RESP_FATAL_SYS_ERR;
+ 
+-	ret = cs_etm_decoder__buffer_packet(etmq, packet_queue, trace_chan_id,
++	ret = cs_etm_decoder__buffer_packet(packet_queue, trace_chan_id,
+ 					    CS_ETM_CONTEXT);
+ 	if (ret != OCSD_RESP_CONT && ret != OCSD_RESP_WAIT)
+ 		return ret;
+-- 
+2.43.0
 
-So if someone has to say externally 'oh this was a legacy VM' to make
-parsing work then that needs to go in the label.
-
-Think of it this way, you should be able to run a command, lets imagine:
-
-$ attestctl dump report0
-   intel TDX A:
-     - Field 1
-     - Field 2
-   Signature VALID
-   Certificate chain
-      A
-      B
-      C
-
-It must not be something like:
-
-$ attestctl dump report0 --kind tdx_legacy
-$ attestctl dump report0 --kind tdx_dice
-
-Does it make sense?
-
-Whatever labeling you choose has to follow these goals, and there is
-some trade off between making thing self describing forever into the
-future and exposing protocol details into the guest kernel driver.
-
-The future scares me so I would always design to include a description
-of the blob from TDX module to the guest driver :)
-
-Jason
