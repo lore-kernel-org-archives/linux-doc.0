@@ -1,93 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794185848;
-	b=y9CloeB6ImrPdoBBbR3isW+TwqbrF5wBqSDtLqxoZIhFRhcxyCyJd8NrcGYSmzeBMFHG
-	 WUyHA3LtmAs+OxlofzoQw8jtHoPd1e9buWT3IOn9qFtnOLE4coF3bGrjWWoxT879na6X/
-	 9QTcLdYi8yQ2OK72U3x9VvO482i6AYhOWOGpZAtSNx3Kj0F0Yu6iyCy3BbGA2+9eCf7m4
-	 HBXTfRrxHP+nzfuuN41ooFFkTOrNHsi/XQSq47wjAXkf0LOyw6gDazUZTNujWuvJFSpk9
-	 gjY4NlYfQccU0aLC5r+NMuJq/3JpwKrFvVBRxkm8cwcfj1cHzKtso0AvFvPF+fmTATQ==
+	t=1794187280;
+	b=bGyUfvZ4kwpdLFJUKNU7K0LFZp5OWqV7wh9RlfFAXmgrUcef8jpNgegdSJ+gaWxn2Qq1
+	 2NOaMrWReESHD+iLxQpAgF13vD/shR5sAQDoECEnjFreSOqL96y2FZKxGgGJe7X5Cnlq2
+	 2Jv4s7+Py0d/uK05+9tZrThvXe+G7Lx+uc2ToF2t22AFcqr48q2ctC9FVmsZlR3UxsYt+
+	 8PdUNaayMJPZIkLBcKG/c2dGMUvI/qAxwgwANvVpI6N2nU4BO3UiM51m63qsks6qExxhY
+	 ud0U4LprYbtn8fMNFodBplsFxW7Kg8GbePMpsZbHVE/Np7ypogwB6DKmd/nDUtXBXhQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794185848;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:Received:
-	 Received:Received:Received:Received:Received:From:Date:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-ID:
-	 References:In-Reply-To:To:CC:X-Mailer:X-Developer-Signature:
-	 X-Developer-Key:X-ADIRuleOP-NewSCL:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=uivMuJZoe2S/0CQvYgZGebbq60EIzw0/WQEXTk9GKmI=;
-	b=huUqayBNjceJsXiMNW/MNxIewjc/CaAIRDd1/+qmFKgfCfJyhh9htohQgSe7ofd8wrRm
-	 HbZjqv/SBTU/DiEBzxD75Pk7RGBopDvAv1f9fr48j0NYcEluXIrShrZ1oaR5P+k3HGalL
-	 l6QHoILQbyKu7n77lRcStmwbilu4cFdJy8YNeZqfQc4e2yOLoIvhEex2almjwbqsQC97A
-	 f3uEd8r14c2l4STvJ2fXGnwGjK6e8BMSyAfM8X687uVQ8CLUCACYIAnKlQEfvyXB6/X7T
-	 8uQ7UBk6UmomB75Jd4Z2y9pJJ1VAzmAsatZqHK/HNjk3XDk/EfIdsdWq36uoVnOrV/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794187280;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
+	bh=9xDfu8Ojz205IpnlCE1EQapOMUr1A9VRl7iiM94PLJk=;
+	b=BukwoqTW2woa8w0pqnP0gJ1z/a9C6dr+2ZbuMcTzx03IA5SQNtYchqwZUfi1eWqZ5KHB
+	 Drcfy4khBKeC+sjEhZ//pYVKwAUwL4I6+l90vobGW9lGyTjtVHpvPIolxMcbxd2jJmN1h
+	 9cU8zWI1r3g7M3IIbHsv5DhG1KAsSTBU28ufSo5jKwD0sWlBZIbQX18AUWSH0hO3WU5Fb
+	 wlnIHt2X1t0mKuBFYlvmhcl36Yf03s0UWLhmNgsrhpASkutYOg28BYSraUfhhTLJ8Zvmh
+	 eh5uX9pcct9kHSwMv5q5kLeWSBs99ZUw4dPwNGpd9YqcgAtv0IjTwyXqvXZhwZE0jwA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=analog.com;
-	spf=pass smtp.mailfrom=analog.com;
-	dkim=pass header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=bejh6Pqq;
-	dkim=pass header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=dhBG7T3L;
-	arc=none smtp.remote-ip=148.163.135.77
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	dmarc=pass header.from=infradead.org;
+	spf=none smtp.mailfrom=casper.srs.infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=pjAb4njA;
+	arc=none smtp.remote-ip=90.155.50.34
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D28E606A332;
-	Mon,  9 Nov 2026 00:57:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D28E606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7136F606A321;
+	Mon,  9 Nov 2026 01:21:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7136F606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vtelectron.com header.i=@vtelectron.com header.a=rsa-sha256 header.s=DKIM header.b=bejh6Pqq;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.a=rsa-sha256 header.s=DKIM header.b=dhBG7T3L
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A90Gc2O1672255;
-	Sun, 8 Nov 2026 19:56:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vtelectron.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	DKIM; bh=uivMuJZoe2S/0CQvYgZGebbq60EIzw0/WQEXTk9GKmI=; b=bejh6Pq
-	qLBtToG58kApNgM4JlYldZWDZcQsziO8GrkR3WH/T4RF0eoQ66VxPY8SNO1QEWlB
-	Hk1vP7J3ivZDgv6Vb4EqKlUqpmPzfPuXpbp8FWVeLrCtnrkurjRdB+5LbbzooNkz
-	zRYBXGx6WYOBkNCoEBX8RCenUyg7+rLSZysLr4lN0ROXqNClbE3BwH7o4B6NSWPC
-	52iGYNLFhbSKy6mUIjnNv3irijRl04guaU7rTUyIPY910/OmCLvynWUorWQb6OFA
-	QzBiKziFXNWZEQgJVDCPvsdP5QDGJtH7Bmo9pdxzmvnGGNn35j3jJDv+4rh3E7Wq
-	L6AcsREdlUFhqjw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=uivMu
-	JZoe2S/0CQvYgZGebbq60EIzw0/WQEXTk9GKmI=; b=dhBG7T3LhzKmRyNDSpf78
-	csQW+K8pHB7BiAMMUiyk3c50ZkkqstQ4KoBHr6gmAUHdl7T0LsoF24U+TxrDgucI
-	i1POLLh/I1/tTddegC3Z0oUv0lbTPZtD4ZXP8wKIiBrsx36PNHFBWR/ibDDN/11c
-	RONeOlvw6E3g+DKVWe1AHKKBh+DyfFomfeG58dyAPOQ0qw8C6a+2vlNkfIJ5TO+V
-	J/rMjDXOaIAwyetEY814Qba+pwDYwX4Lj6dMhwKXPt2u0gt2gRjN7leA2aKlrR2F
-	xZWeE/9SnqK8QqcKBID7ZEKbSZKXHpdHfkzDzZDBZFXMuBNEcTz1m4Dx8lFLTI9y
-	g==
-Received: from nwd2mta3.analog.com ([137.71.173.56])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4htk6jbx5w-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 08 Nov 2026 19:56:49 -0500 (EST)
-Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
-	by nwd2mta3.analog.com (8.14.7/8.14.7) with ESMTP id 6A90umkM017380
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Sun, 8 Nov 2026 19:56:48 -0500
-Received: from ASHBCASHYB4.ad.analog.com (10.64.17.132) by
- ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Sun, 8 Nov 2026 19:56:48 -0500
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
- ASHBCASHYB4.ad.analog.com (10.64.17.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.37; Sun, 8 Nov 2026 19:56:48 -0500
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
- (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Sun, 8 Nov 2026 19:56:48 -0500
-Received: from ATORRENO-L02.ad.analog.com ([10.66.6.193])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 6A90uNDn028853;
-	Sun, 8 Nov 2026 19:56:38 -0500
-From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Date: Mon, 9 Nov 2026 08:56:17 +0800
-Subject: [PATCH v2 1/3] dt-bindings: hwmon: ltc4283: add ltc4284
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=pjAb4njA
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
+	To:From:Reply-To:Content-ID:Content-Description;
+	bh=9xDfu8Ojz205IpnlCE1EQapOMUr1A9VRl7iiM94PLJk=; b=pjAb4njAzYV4ChfITlxraQAAEe
+	UmaqXTAdDNDRuGYwR+oUOPp1YQhHWS0R6skFXJRbAIhMhd6nwYAVjxOLuCnxgHhRIgJsfjqWut16r
+	9So/ig6i7x1GgpDvs+paMb7F5lGvhazmtb/8znDz26Hj8MsttuXX1c/ygMJX6lanwnQQRE/lGHIqx
+	F+sTqJ47ZiLtjbOZ5dEKgq6IqYUcvYNHO94CuUb0NbtA7hpdprMPtS0+UBw6U1M9K8xMs8/tgcVPS
+	6JdbuRaN6LGRp2pxyIBj1n6ebU4KOfBzCXrYy/Y3CuehlrRuLsKb2IPTRJ7sxb1GdWD2P4pvwOgbr
+	XQsUWbqg==;
+Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
+	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xQE4P-00000007Pw6-0wab;
+	Mon, 09 Nov 2026 01:21:13 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
+	id 1xQE4P-0000000EKUx-0Bmc;
+	Mon, 09 Nov 2026 01:21:13 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: kvm@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	xen-devel@lists.xenproject.org,
+	x86@kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paul Durrant <paul@xen.org>,
+	Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Sascha Bischoff <Sascha.Bischoff@arm.com>,
+	Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Jack Allister <jalliste@amazon.com>,
+	Dongli Zhang <dongli.zhang@oracle.com>,
+	joe.jin@oracle.com,
+	David Woodhouse <dwmw@amazon.co.uk>
+Subject: [PATCH v12 14/24] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for accurate KVM clock migration
+Date: Sun,  8 Nov 2026 17:21:00 -0800
+Message-ID: <20261109012112.3415328-15-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261109012112.3415328-1-dwmw2@infradead.org>
+References: <20261109012112.3415328-1-dwmw2@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -97,171 +93,405 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Message-ID: <20261109-staging-ltc4284-v2-1-14a270a38f7b@analog.com>
-References: <20261109-staging-ltc4284-v2-0-14a270a38f7b@analog.com>
-In-Reply-To: <20261109-staging-ltc4284-v2-0-14a270a38f7b@analog.com>
-To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
-        Guenter Roeck
-	<linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap
-	<rdunlap@infradead.org>,
-        Linus Walleij <linusw@kernel.org>,
-        "Bartosz
- Golaszewski" <brgl@kernel.org>
-CC: <linux-gpio@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>,
-        Alexis Czezar Torreno
-	<alexisczezar.torreno@analog.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794185784; l=3512;
- i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
- bh=hNTQVnQ97p9HrzNo4KRtFvaC8bGXblkMbJn2E7CYo24=;
- b=giLT2mcSmaZZQI+MJpROxzmkJDGOvubDlKydFqkNSa7/7qPY+VhzA+MQPpk3c6WkMVtgAWGQe
- BPSD7R7m6u1CqFy5Cl7UWhV7Mx3Q5aK/IRMvvFT0C3RKvEnmLWRSM5p
-X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
- pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Proofpoint-ORIG-GUID: nAm1AXU2iWxGvF1JkyvbuaPTZ9D6T5BE
-X-Proofpoint-GUID: nAm1AXU2iWxGvF1JkyvbuaPTZ9D6T5BE
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTA5MDAwMyBTYWx0ZWRfX9ToWJxRLm61c
- ftDy48QUBNCUKUQhJ/tsVYK3MbQ2IEQKC1v2p/WxhLPNhjl3d2INIyl7XxtBTaWhQaHbSzIQPMD
- u58zXfnXjwqUKgHMJ5dpU+b1ortWa8F6ftMHNtUbqNZU6R/NWF9E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTA5MDAwMyBTYWx0ZWRfX4X6q/86a33Pd
- TMV/AfzFRfniMMNA4iqYCaoesUiSOutasEwx25BFv+N+1YvyyAlAzim6U3tvbcbzAr2o9i5Jhbx
- jUELyLVXkn2GaKg2AGLlMmPGkr0s20Cw5Jo5w8RTcKYEKXfBVXdghor+531zniEP1bCRDuJaNfE
- ncq+3/KFjjAOgwUoh95e39xPx3N/lYx3PaM0D9jOF1n9J+spmaCDgEcP3Bn6ryUI0Bt1B6Yt1Pu
- 4MsT2N+H8uziI1+foeZrx3FMmHc2OVKdSBJ3wbQ0xO11wm3BMS7E/UyDSV0APb0kA+BZbiajL1F
- fSIBRUnSLuqEkgVn3Mzjih4vFXlWM9kHGZPepQB9KMdShSpvvJKfyLa0qdqPbLNwSuBow1wSvgU
- eCUWPoMmfmp4ELWpznCAohfcgX4Oqo4nznWwmS0M4+KaTRkctsEe5313uZTWB5ZpvhiJNofMFrJ
- qTcea22dnyncq4NZopQ==
-X-Authority-Analysis: v=2.4 cv=O7+sLx9W c=1 sm=1 tr=0 ts=6af11a52 cx=c_pps
- a=PpDZqlmH/M8setHirZLBMw==:117 a=PpDZqlmH/M8setHirZLBMw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22 a=gAnH3GRIAAAA:8
- a=Mr05Dj8HPuIH2qX4H8UA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-09_01,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 lowpriorityscore=0 malwarescore=0
- suspectscore=0 phishscore=0 clxscore=1015 impostorscore=0 adultscore=0
- bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611090003
+Sender: David Woodhouse <dwmw2@infradead.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 
-The LTC4284 is a negative voltage hot swap controller that drives an
-external N-channel MOSFET to allow a board to be safely inserted and
-removed from a live backplane.
+From: Jack Allister <jalliste@amazon.com>
 
-Note that this device has a MODE pin that is determined by differing
-voltage levels (VEE, VIN, INTVCC, or left open) and cannot be
-controlled via software or GPIO.
+In the common case (where kvm->arch.use_master_clock is true), the KVM
+clock is defined as a simple arithmetic function of the guest TSC, based
+on a reference point stored in kvm->arch.master_kernel_ns and
+kvm->arch.master_cycle_now.
 
-Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+The existing KVM_[GS]ET_CLOCK functionality does not allow for this
+relationship to be precisely saved and restored by userspace. All it can
+currently do is set the KVM clock at a given UTC reference time, which
+is necessarily imprecise.
+
+So on live update, the guest TSC can remain cycle accurate at precisely
+the same offset from the host TSC, but there is no way for userspace to
+restore the KVM clock accurately.
+
+Even on live migration to a new host, where the accuracy of the guest
+time-keeping is fundamentally limited by the accuracy of wallclock
+synchronization between the source and destination hosts, the clock jump
+experienced by the guest's TSC and its KVM clock should at least be
+*consistent*. Even when the guest TSC suffers a discontinuity, its KVM
+clock should still remain the *same* arithmetic function of the guest
+TSC, and not suffer an *additional* discontinuity.
+
+To allow for accurate migration of the KVM clock, add per-vCPU ioctls
+which save and restore the actual PV clock info in
+pvclock_vcpu_time_info.
+
+The restoration in KVM_SET_CLOCK_GUEST works by creating a new reference
+point in time just as kvm_update_masterclock() does, and calculating the
+corresponding guest TSC value. This guest TSC value is then passed
+through the user-provided pvclock structure to generate the *intended*
+KVM clock value at that point in time, and through the *actual* KVM
+clock calculation. Then kvm->arch.kvmclock_offset is adjusted to
+eliminate the difference.
+
+Where kvm->arch.use_master_clock is false (because the host TSC is
+unreliable, or the guest TSCs are configured strangely), the KVM clock
+is *not* defined as a function of the guest TSC so KVM_GET_CLOCK_GUEST
+returns an error. In this case, as documented, userspace shall use the
+legacy KVM_GET_CLOCK ioctl. The loss of precision is acceptable in this
+case since the clocks are imprecise in this mode anyway.
+
+On *restoration*, if kvm->arch.use_master_clock is false, an error is
+returned for similar reasons and userspace shall fall back to using
+KVM_SET_CLOCK. This does mean that, as documented, userspace needs to
+use *both* KVM_GET_CLOCK_GUEST and KVM_GET_CLOCK and send both results
+with the migration data (unless the intent is to refuse to resume on a
+host with bad TSC).
+
+Both ioctls return -ENODATA when the KVM clock is not in master clock
+mode. That covers the case of an unknown TSC frequency on the current
+CPU (possible only on hosts without CONSTANT_TSC): the masterclock
+update performed under the same IRQs-off critical section disables
+master clock mode when the frequency reads as zero. Advertise the
+ioctls with KVM_CAP_CLOCK_GUEST so that userspace need not probe for
+them.
+
+Co-developed-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Signed-off-by: Jack Allister <jalliste@amazon.com>
+Reviewed-by: Paul Durrant <paul@xen.org>
+Cc: Dongli Zhang <dongli.zhang@oracle.com>
+Tested-by: Dongli Zhang <dongli.zhang@oracle.com>
 ---
- .../devicetree/bindings/hwmon/adi,ltc4283.yaml     | 56 ++++++++++++++++++++--
- 1 file changed, 52 insertions(+), 4 deletions(-)
+ Documentation/virt/kvm/api.rst  |  53 +++++++++
+ arch/x86/include/uapi/asm/kvm.h |   1 +
+ arch/x86/kvm/x86.c              | 202 ++++++++++++++++++++++++++++++++
+ include/uapi/linux/kvm.h        |   4 +
+ 4 files changed, 260 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-index 05e2132ad4d8621ab76ee89aa166c131fed08e85..ca62e76f23f1e32df157f138298a4650493b3f08 100644
---- a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-+++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
-@@ -10,22 +10,42 @@ maintainers:
-   - Nuno Sá <nuno.sa@analog.com>
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 9487afc4431f..44c6152c5768 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -6767,6 +6767,59 @@ if the guest_memfd memory was pinned in IOMMU page tables.
  
- description: |
--  The LTC4283 negative voltage hot swap controller drives an external N-channel
--  MOSFET to allow a board to be safely inserted and removed from a live
--  backplane.
-+  The LTC4283 and LTC4284 are negative voltage hot swap controllers that drive
-+  external N-channel MOSFETs to allow a board to be safely inserted and removed
-+  from a live backplane.
-+
-+  The LTC4284 features dual-gate drivers with four operating modes (single
-+  driver, parallel, high stress staged start, and low stress staged start)
-+  configured via the hardware MODE pin. The MODE pin must be connected to the
-+  appropriate voltage level (VEE, VIN, INTVCC, or left open) and cannot be
-+  controlled via software or GPIO.
+ See also: :ref:`KVM_SET_MEMORY_ATTRIBUTES`.
  
-   https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4283.pdf
-+  https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4284.pdf
++4.147 KVM_GET_CLOCK_GUEST
++----------------------------
++
++:Capability: KVM_CAP_CLOCK_GUEST
++:Architectures: x86_64
++:Type: vcpu ioctl
++:Parameters: struct pvclock_vcpu_time_info (out)
++:Returns: 0 on success, <0 on error
++
++Retrieves the current time information structure used for KVM/PV clocks,
++in precisely the form advertised to the guest vCPU, which gives parameters
++for a direct conversion from a guest TSC value to nanoseconds.
++
++The structure is in terms of the given vCPU's TSC. It must be passed back
++to KVM_SET_CLOCK_GUEST on the *same* vCPU (on the destination VM, for
++migration); vCPUs may legitimately have different TSC offsets, which would
++otherwise be silently folded into the restored KVM clock.
++
++When the KVM clock is not in "master clock" mode, for example because the
++host TSC is unreliable or the guest TSCs are oddly configured, the KVM clock
++is actually defined by the host CLOCK_MONOTONIC_RAW instead of the guest TSC.
++In this case, the KVM_GET_CLOCK_GUEST ioctl returns -ENODATA.
++
++4.148 KVM_SET_CLOCK_GUEST
++----------------------------
++
++:Capability: KVM_CAP_CLOCK_GUEST
++:Architectures: x86_64
++:Type: vcpu ioctl
++:Parameters: struct pvclock_vcpu_time_info (in)
++:Returns: 0 on success, <0 on error
++
++Sets the KVM clock (for the whole VM) in terms of the vCPU TSC, using the
++pvclock structure as returned by KVM_GET_CLOCK_GUEST. This allows the precise
++arithmetic relationship between guest TSC and KVM clock to be preserved by
++userspace across migration.
++
++When the KVM clock is not in "master clock" mode, and the KVM clock is actually
++defined by the host CLOCK_MONOTONIC_RAW, this ioctl returns -ENODATA. Userspace
++may choose to set the clock using the less precise KVM_SET_CLOCK ioctl, or may
++choose to fail, denying migration to a host whose TSC is misbehaving. A host
++whose CPU TSC frequency is unknown (only possible without
++X86_FEATURE_CONSTANT_TSC) is never in "master clock" mode, so it also returns
++-ENODATA.
++
++If the mul/shift fields of the provided pvclock structure encode a TSC
++frequency inconsistent with the vCPU's actual TSC frequency, this ioctl
++returns -ERANGE.
++
++If the vCPU's current TSC is behind the tsc_timestamp in the provided
++structure, this ioctl returns -EINVAL. Restore the guest TSC (which the
++documented migration procedure keeps monotonic) before invoking it.
++
+ .. _kvm_run:
  
- properties:
-   compatible:
-     enum:
-       - adi,ltc4283
-+      - adi,ltc4284
+ 5. The kvm_run structure
+diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
+index 1585ec804066..9e3cdc3adb65 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -12,6 +12,7 @@
+ #include <linux/types.h>
+ #include <linux/ioctl.h>
+ #include <linux/stddef.h>
++#include <asm/pvclock-abi.h>
  
-   reg:
-     maxItems: 1
+ #define KVM_PIO_PAGE_OFFSET 1
+ #define KVM_COALESCED_MMIO_PAGE_OFFSET 2
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 4afafe7ed8b8..00e6b2bdaffb 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -2542,6 +2542,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 	case KVM_CAP_MEMORY_FAULT_INFO:
+ 	case KVM_CAP_X86_GUEST_MODE:
+ 	case KVM_CAP_ONE_REG:
++#ifdef CONFIG_X86_64
++	case KVM_CAP_CLOCK_GUEST:
++#endif
+ 		r = 1;
+ 		break;
+ 	case KVM_CAP_PRE_FAULT_MEMORY:
+@@ -3674,6 +3677,197 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_vcpu *vcpu,
+ 	}
+ }
  
-   adi,rsense-nano-ohms:
--    description: Value of the sense resistor.
-+    description:
-+      Value of the sense resistor. For LTC4283, this is the resistor connected
-+      between SENSE+/SENSE- pins. For LTC4284, this is the resistor connected
-+      between SENSE1+/SENSE1- pins.
++#ifdef CONFIG_X86_64
++static int kvm_vcpu_ioctl_get_clock_guest(struct kvm_vcpu *v, void __user *argp)
++{
++	struct pvclock_vcpu_time_info hv_clock = {};
++	struct kvm_arch *ka = &v->kvm->arch;
++	bool use_master_clock;
++	unsigned int seq;
 +
-+  adi,rsense2-nano-ohms:
-+    description:
-+      Value of the SENSE2 current sense resistor. This resistor is connected
-+      between SENSE2+ and SENSE2- pins.
++	/*
++	 * Construct the pvclock purely from the master clock state. The
++	 * master mul/shift are computed for the guest TSC frequency, which
++	 * in master clock mode is the frequency of every vCPU; only the
++	 * tsc_timestamp is per-vCPU, translating the master snapshot into
++	 * this vCPU's TSC domain via its scaling ratio and offset.
++	 *
++	 * Note, this deliberately does NOT invoke kvm_guest_time_update(),
++	 * which would write the guest's pvclock pages: dirtying guest
++	 * memory after the final KVM_RUN would break post-copy migration
++	 * flows. The pvclock returned here describes the same clock as the
++	 * guest-visible copy (the same linear function of the guest TSC),
++	 * anchored at the current master clock snapshot.
++	 *
++	 * Translating the snapshot through the vCPU's *current* scaling
++	 * ratio and offset is correct even if they changed after the
++	 * snapshot was taken: the snapshot anchors a host TSC value, not
++	 * a guest one. A frequency change whose masterclock update is
++	 * still pending does leave stale mul/shift here, but that is the
++	 * paused-VM migration path reading a frequency userspace itself
++	 * has just changed — and the result fails safe, as the same-vCPU
++	 * KVM_SET_CLOCK_GUEST on the destination rejects a mul/shift
++	 * inconsistent with the vCPU's frequency with -ERANGE.
++	 */
++	do {
++		seq = read_seqcount_begin(&ka->pvclock_sc);
 +
-+  adi,radc-nano-ohms:
-+    description:
-+      Value of the effective resistance seen by the ADC+/ADC- pins.
++		use_master_clock = ka->use_master_clock;
++		if (!use_master_clock)
++			continue;
++
++		hv_clock.tsc_timestamp = kvm_read_l1_tsc(v, ka->master_cycle_now);
++		hv_clock.system_time = ka->master_kernel_ns + ka->kvmclock_offset;
++		hv_clock.tsc_shift = ka->master_tsc_shift;
++		hv_clock.tsc_to_system_mul = ka->master_tsc_mul;
++		hv_clock.flags = READ_ONCE(ka->all_vcpus_matched_tsc) ?
++				 PVCLOCK_TSC_STABLE_BIT : 0;
++	} while (read_seqcount_retry(&ka->pvclock_sc, seq));
++
++	if (!use_master_clock)
++		return -ENODATA;
++
++	if (copy_to_user(argp, &hv_clock, sizeof(hv_clock)))
++		return -EFAULT;
++
++	return 0;
++}
++
++/*
++ * Reverse the calculation in the hv_clock definition.
++ *
++ * time_ns = ( (cycles << shift) * mul ) >> 32;
++ * (although shift can be negative, so that's bad C)
++ *
++ * So for a single second,
++ * NSEC_PER_SEC = ( ( FREQ_HZ << shift) * mul ) >> 32
++ * NSEC_PER_SEC << 32 = ( FREQ_HZ << shift ) * mul
++ * ( NSEC_PER_SEC << 32 ) / mul = FREQ_HZ << shift
++ * ( NSEC_PER_SEC << 32 ) / mul ) >> shift = FREQ_HZ
++ */
++static u64 hvclock_to_hz(u32 mul, s8 shift)
++{
++	u64 tm = NSEC_PER_SEC << 32;
++
++	/* Maximise precision. Shift left until the top bit is set */
++	tm <<= 2;
++	shift += 2;
++
++	/* While 'mul' is even, increase the shift *after* the division */
++	while (!(mul & 1)) {
++		shift++;
++		mul >>= 1;
++	}
++
++	tm /= mul;
++
++	if (shift >= 64)
++		return 0;
++	if (shift > 0)
++		return tm >> shift;
++
++	/*
++	 * A left shift can overflow for absurd user-supplied mul/shift
++	 * combinations; saturate (to a value which cannot itself overflow
++	 * the rounding in the caller's kHz conversion) so the frequency
++	 * check certainly rejects them.
++	 */
++	if (shift <= -64 || tm > (U64_MAX >> 1) >> -shift)
++		return U64_MAX >> 1;
++	return tm << -shift;
++}
++
++static int kvm_vcpu_ioctl_set_clock_guest(struct kvm_vcpu *v, void __user *argp)
++{
++	struct pvclock_vcpu_time_info user_hv_clock;
++	struct kvm *kvm = v->kvm;
++	struct kvm_arch *ka = &kvm->arch;
++	u64 curr_tsc_hz, user_tsc_hz;
++	u64 curr_tsc_khz, user_tsc_khz;
++	u64 user_clk_ns;
++	u64 guest_tsc;
++	int rc = 0;
++
++	if (copy_from_user(&user_hv_clock, argp, sizeof(user_hv_clock)))
++		return -EFAULT;
++
++	if (user_hv_clock.pad0 || user_hv_clock.pad[0] || user_hv_clock.pad[1])
++		return -EINVAL;
++
++	if (!user_hv_clock.tsc_to_system_mul)
++		return -EINVAL;
++
++	if (user_hv_clock.tsc_shift < -31 || user_hv_clock.tsc_shift > 31)
++		return -EINVAL;
++
++	user_tsc_hz = hvclock_to_hz(user_hv_clock.tsc_to_system_mul,
++				    user_hv_clock.tsc_shift);
++
++	kvm_hv_request_tsc_page_update(kvm);
++
++	/*
++	 * kvm_start_pvclock_update() takes tsc_write_lock and opens
++	 * the pvclock seqcount; kvm_end_pvclock_update() closes both.
++	 * All clock state modifications between them are atomic with
++	 * respect to readers in kvm_guest_time_update().
++	 */
++	kvm_start_pvclock_update(kvm);
++	pvclock_update_vm_gtod_copy(kvm);
++
++	if (!ka->use_master_clock) {
++		rc = -ENODATA;
++		goto out;
++	}
++
++	/*
++	 * Nonzero, or pvclock_update_vm_gtod_copy() — which read it on
++	 * this CPU, with interrupts still disabled — would have cleared
++	 * use_master_clock above.
++	 */
++	curr_tsc_hz = (u64)get_cpu_tsc_khz() * HZ_PER_KHZ;
++
++	if (kvm_caps.has_tsc_control)
++		curr_tsc_hz = kvm_scale_tsc(curr_tsc_hz,
++					    v->arch.l1_tsc_scaling_ratio);
++
++	/*
++	 * The mul/shift in the provided pvclock structure encode the guest
++	 * TSC frequency at which it was generated. Sanity-check that it is
++	 * consistent with this vCPU's effective TSC frequency, allowing a
++	 * discrepancy of 1 kHz either way since independently calibrated
++	 * hosts will not measure precisely the same value even for the
++	 * same nominal frequency. Compare in kHz: the reconstruction of
++	 * each side's frequency in Hz carries a few Hz of rounding, which
++	 * must not push two hosts calibrated exactly 1 kHz apart over the
++	 * line.
++	 */
++	user_tsc_khz = DIV_ROUND_CLOSEST_ULL(user_tsc_hz, HZ_PER_KHZ);
++	curr_tsc_khz = DIV_ROUND_CLOSEST_ULL(curr_tsc_hz, HZ_PER_KHZ);
++	if (user_tsc_khz + 1 < curr_tsc_khz ||
++	    user_tsc_khz > curr_tsc_khz + 1) {
++		rc = -ERANGE;
++		goto out;
++	}
++
++	/*
++	 * Calculate the guest TSC at the new reference point, and the
++	 * corresponding KVM clock value according to user_hv_clock.
++	 * Adjust kvmclock_offset so both definitions agree.
++	 */
++	guest_tsc = kvm_read_l1_tsc(v, ka->master_cycle_now);
++	if ((s64)(guest_tsc - user_hv_clock.tsc_timestamp) < 0) {
++		rc = -EINVAL;
++		goto out;
++	}
++	user_clk_ns = __pvclock_read_cycles(&user_hv_clock, guest_tsc);
++	ka->kvmclock_offset = user_clk_ns - ka->master_kernel_ns;
++
++out:
++	kvm_end_pvclock_update(kvm);
++	return rc;
++}
++#endif
++
+ long kvm_arch_vcpu_ioctl(struct file *filp,
+ 			 unsigned int ioctl, unsigned long arg)
+ {
+@@ -4067,6 +4261,14 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
+ 		srcu_read_unlock(&vcpu->kvm->srcu, idx);
+ 		break;
+ 	}
++#ifdef CONFIG_X86_64
++	case KVM_SET_CLOCK_GUEST:
++		r = kvm_vcpu_ioctl_set_clock_guest(vcpu, argp);
++		break;
++	case KVM_GET_CLOCK_GUEST:
++		r = kvm_vcpu_ioctl_get_clock_guest(vcpu, argp);
++		break;
++#endif
+ #ifdef CONFIG_KVM_HYPERV
+ 	case KVM_GET_SUPPORTED_HV_CPUID:
+ 		r = kvm_ioctl_get_supported_hv_cpuid(vcpu, argp);
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 8dff2fc1972e..1349387cceb0 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1000,6 +1000,7 @@ struct kvm_enable_cap {
+ #define KVM_CAP_PPC_COMPAT_CAPS 250
+ #define KVM_CAP_ARM_PMU_V3_STRICT 251
+ #define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 252
++#define KVM_CAP_CLOCK_GUEST 253
  
-   adi,current-limit-sense-microvolt:
-     description:
-@@ -195,6 +215,19 @@ required:
-   - adi,rsense-nano-ohms
+ struct kvm_irq_routing_irqchip {
+ 	__u32 irqchip;
+@@ -1690,4 +1691,7 @@ struct kvm_pre_fault_memory {
+ 	__u64 padding[5];
+ };
  
- allOf:
-+  - if:
-+      properties:
-+        compatible:
-+          contains:
-+            const: adi,ltc4284
-+    then:
-+      required:
-+        - adi,radc-nano-ohms
-+    else:
-+      properties:
-+        adi,rsense2-nano-ohms: false
-+        adi,radc-nano-ohms: false
++#define KVM_SET_CLOCK_GUEST	_IOW(KVMIO, 0xd6, struct pvclock_vcpu_time_info)
++#define KVM_GET_CLOCK_GUEST	_IOR(KVMIO, 0xd7, struct pvclock_vcpu_time_info)
 +
-   - if:
-       properties:
-         adi,pgio1-func:
-@@ -269,4 +302,19 @@ examples:
-             #gpio-cells = <2>;
-         };
-     };
-+
-+  - |
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        swap-controller@20 {
-+            compatible = "adi,ltc4284";
-+            reg = <0x20>;
-+
-+            adi,rsense-nano-ohms = <2000000>;
-+            adi,rsense2-nano-ohms = <2000000>;
-+            adi,radc-nano-ohms = <1000000>;
-+        };
-+    };
- ...
-
+ #endif /* __LINUX_KVM_H */
 -- 
-2.34.1
+2.43.0
 
