@@ -1,112 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.49
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794244521;
-	b=5gXcL12tpALTZL/sr+LI2qta2XAbilReITiTj4OVt70a0Yva+rqhbWux+ffdl4nfuBRg
-	 FChBLJsJQHzoFphf+ErRRuUDJdcLLOI1fukbgmYE/pLYNG0Czdu8hDJ0aP/lPy6nXL5BB
-	 Ua9/lQZsMYy6bpzfWZzNGb/K4SRJMrIHtycAyK9ICOi4w6tjPFC3+kaGd+EbnpUDG4JrT
-	 wNNNadPv/bTPvpw5Qb7xu2rp6h9kWXxLIdaZwoWYUMQ7zd70Bzx4h412ee7MHrO6ZM/UA
-	 MiNTD9h5PpJqfvwriZPtTj2GHrSwDMUPdg/JSBFRLDajy7A4KBJ/CZd9RFfB84MSMyg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794244521;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:Content-Type:
-	 X-Originating-IP:X-ClientProxiedBy:X-EOPAttributedMessage:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=0IMeLB1dRvtT+Gu7UebExq027PIbf1THrmDYlH4ys4c=;
-	b=crG2EaKnJWpcAEQ17fl7DPPv0IVJaoKqiJ/0XHg22rXNqwbSL02loZ5UVcb8JZVMrBkK
-	 su6YlzoQY7mnBAAQroUW1b/1jIuQ43K73a18hcDPPNR38F1wyQ/VNjuBmp5DypZzVnCOY
-	 fOTNrN/Ln6GbBMUk8iZxCNO4p4LU5BoznS+mIj8zHub0T/gjb2VeHcPnbeV8+Ej8RoxrK
-	 A3fX89/AKwnl4P/KMFkBfuEO/bKZGcd3Rzwxuae0g4DsKqVYFsmsiEHd3Xgce5Ke2u94n
-	 zPniV8b3dFaqQnNLLiZnTRNfO16v7i68Kv5ajIrYEtUs+/O6Squniev+mgsRV0d+k8Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=foss.st.com;
-	spf=pass smtp.mailfrom=foss.st.com;
-	dkim=pass header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=HlpyJv9C;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.83.49
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013049.outbound.protection.outlook.com [52.101.83.49])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794244715;
+	b=rVu8Dl6seG0xY8XhNz7vARSfGZYtWWkkjSIgDxibBuxkPkYGOyLKYwMEtyJLIei4BqiW
+	 pP9Yvv4qhYxPKcftuEdapVNIvcsKk2GGC/lKCtfqs84FruUD9YG8YNFoApfMzbUVVZxuQ
+	 G8oIjCOaAbh17ymfnPBsBR7SHKiVhXE5bGJNjyjwCi3wR38P9UDYQvr/vXOEMbkVeRttB
+	 3pwlIOzCG5yuVKjYXK/RBnZbYseyrCmme1bitbjgevyp0PkMd5AdqKBx31QqQqUGrJfBj
+	 VKanLM8PvEy5mRsavitzF1aBxuhT4YXuW1pMULm8opmJTJpMeLfen+KcieiuMvhjMrw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794244715;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=NKBythzzX1X+qqWFUaZ4bSCXV58wist4G0vUQRYy4Sg=;
+	b=T8N48/otVnZ9a77k/E5IDy2y1JwpakmDZhloPpF1E5OsLV622+gyjcTmqP29ilbxcScZ
+	 taPGetumVIUEHldOJ91nLkcsxUg+HgiQ1ANwQKg7kPLtTqhsMwdsq+MpRVuMlxVtDMuZd
+	 Dan5/sbUrCz/xhcwXxe/dg8w6HyziOjM3MT4jBswwAnIvVHuqa4eAi62fsLp3jp0UXNj+
+	 4aFG77lmEhaTwagsnNq0u5jI2nJ2zvOoUhxifkQJHEHWM4g2UwSoQrA6nwtYyil2fDZhH
+	 h7y+lQbdEf5oX0uk+XgGQY37Zg6fqaady5Rl0A4GhDR5y3DoyeUAusdXbVy9kbvU64w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="eTU1b/MQ";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD65606A321;
-	Mon,  9 Nov 2026 17:15:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BAD65606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FB1606A33A;
+	Mon,  9 Nov 2026 17:18:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=foss.st.com header.i=@foss.st.com header.a=rsa-sha256 header.s=selector2 header.b=HlpyJv9C
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fRqgl46EiX7tUsfNgL8n49O4+GEQili33pbxTuSIZNfObKG4WiyTjFOt6fWld2957hZZ+GJLz2XLH7vNAresVw8hrMna4qKNDVGYGtEy4gO8NdBYrZsXvOlHcAn8PLu1JM0V5dapS44mH3nSeLOx+cLn2EWGCNqZgHik4yYT2QE1LgWTNEgvjcG2dR52/V+uRPT0STKV+JLLXVGV1zAKKBQ94QpfCydL9QfG24OCoAeiQfc+BNSWmoP8fvWLRpzNx2lSElz9fvoX4jKGqgCInYi7osU58wmpdO7mWRhtyuEwE7v/P1UGLZojGFdUjs5J5nsRIulJcoR8mXfFMo42rg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0IMeLB1dRvtT+Gu7UebExq027PIbf1THrmDYlH4ys4c=;
- b=W1ooQZIkdtC0wpf29TWrVVdA+Xp25PBDRCk3mI2unjguDul4nOjAQmJZJFJd6kbfEpea6XhhqiNHgv8UJzi3lWdXi2P1yS9G1HAgWoiHeIDF6nVnRHDo2NIEqzTO3HhnyNQOblB+KvzgcatDvmBbBh5K1OfSYFzBT4RNAypWb+undRkpk8tPtCO879IytB72sroWdEFkTUEckFvFFmjAIgqS98m5jxqvryDK/MdIJTzl8JSjx5MucuAiET9PqKiMyLyfFbc28PhfFOdG/Vpy+649FVlgx8k1TLNmVNNk1fKCyLmdIydu5wXkurRJftqNszaBn8ztYRZpGCFzKeF5UQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
- 164.130.1.60) smtp.rcpttodomain=linuxfoundation.org
- smtp.mailfrom=foss.st.com; dmarc=fail (p=none sp=none pct=100) action=none
- header.from=foss.st.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0IMeLB1dRvtT+Gu7UebExq027PIbf1THrmDYlH4ys4c=;
- b=HlpyJv9Czsfu+WWA9evxz2/Ahw7U0zT8jqdg/ShY1DhyOKjn5p+Uz07Q+Zdtv6E/AIaNYzwhxlKbBZAmBOCnoQgxMcWBoLvSR361j+AhNKrrbm7mEEY3l9hgBXEF2Fyx2/Ja+fcC+Eb00AczspMfZzuDh91OnQGeTr+ob2+XTJoOyC2a5/yhZ+Xz2iY+oUOvS2jpd8gNoqC3g0ucxDsSuoTpjQ918FRMKoUp1hH4B1A35lPy5HC0DxscjDdT62jGiG32SF65HbPVZxK/In5+GagnWq07C+ZuwAo4ei8bV0JPUjBMY57PlRuxKDBEf0gcPA5xCRKMYrus6x3NAEmxwg==
-Received: from PA7P264CA0095.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:348::6)
- by GV1PR10MB6660.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:86::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.7; Mon, 9 Nov 2026
- 17:15:11 +0000
-Received: from MI3PEPF00008490.eurprd03.prod.outlook.com
- (2603:10a6:102:348:cafe::24) by PA7P264CA0095.outlook.office365.com
- (2603:10a6:102:348::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.13 via Frontend Transport; Mon, 9
- Nov 2026 17:15:11 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
- is 164.130.1.60) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
- header.d=none;dmarc=fail action=none header.from=foss.st.com;
-Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
- designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
- client-ip=164.130.1.60; helo=smtpO365.st.com;
-Received: from smtpO365.st.com (164.130.1.60) by
- MI3PEPF00008490.mail.protection.outlook.com (10.167.240.151) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Mon, 9 Nov 2026 17:15:11 +0000
-Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
- (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.56; Mon, 9 Nov
- 2026 18:16:07 +0100
-Received: from localhost (10.48.87.238) by STKDAG1NODE2.st.com (10.75.128.133)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Mon, 9 Nov
- 2026 18:15:10 +0100
-From: Valentin Caron <valentin.caron@foss.st.com>
-To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>
-CC: <Paschalis.Mpeis@arm.com>, <aaupov@meta.com>, <acme@redhat.com>,
-	<corbet@lwn.net>, <irogers@google.com>, <james.clark@linaro.org>,
-	<jolsa@kernel.org>, <leo.yan@arm.com>, <linux-doc@vger.kernel.org>,
-	<mike.leach@arm.com>, <namhyung@kernel.org>, <patches@lists.linux.dev>,
-	<robert.walker@arm.com>, <sashal@kernel.org>, <skhan@linuxfoundation.org>,
-	<suzuki.poulose@arm.com>, <amelie.delaunay@foss.st.com>,
-	<valentin.caron@foss.st.com>
-Subject: [PATCH 6.6.y] perf cs-etm: fix a compilation issue in cs_etm_decoder__set_tid()
-Date: Mon, 9 Nov 2026 18:14:57 +0100
-Message-ID: <20261109171457.1233670-1-valentin.caron@foss.st.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260912065621.463708027@linuxfoundation.org>
-References: <20260912065621.463708027@linuxfoundation.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eTU1b/MQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4BD81F008A2;
+	Mon,  9 Nov 2026 17:18:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794244714;
+	bh=NKBythzzX1X+qqWFUaZ4bSCXV58wist4G0vUQRYy4Sg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=eTU1b/MQiWfOTY9kq3PDF01WZGqx0cZ2OWXBYeQNJ1PVuoSZkV0UwFA42RS0cRIJy
+	 39jz8Plu/GLK0lK2h3CiaY/B8Z69IF5n6AZq7Yb4ipQVCfOGQeWz9Lnee961PdVj8p
+	 dwtVOxpNr3rTSPPmQPepRnSc9NHJLbf9Jm4VkyZ1GVhWnnc/5XYscvV+2xeEdjk9f9
+	 pW1a7w2OOyJl5lDT1id0rqLk7juHAIFJSq3VAcNWXBNGsjQwLrz3LGijeaA+r79mRS
+	 8n1ohVzbusBcWl4LEKyxWGfvBRM+atXqHq/J+YkWuSaF/z3pWcsSle0KiQxnmUVlAD
+	 UsLUSXLmGQztQ==
+Subject: Re: [PATCH net-next v6 5/6] tls: send a KeyUpdate at the record limit
+ and on request
+From: netdev-bot+sashiko@kernel.org
+To: martin.nvme.dev@gmail.com
+Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
+ davem@davemloft.net, edumazet@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ shuah@kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, hare@kernel.org,
+ cel@kernel.org, kernel-tls-handshake@lists.linux.dev,
+ alistair.francis@wdc.com, martin.belanger@dell.com
+Date: Mon, 09 Nov 2026 17:18:33 +0000
+Message-ID: <179424471332.994134.12793914111732564453@kernel.org>
+In-Reply-To: <20261105-keyupdate-rfc-v6-5-99b695f9eb4f@gmail.com>
+References: <20261105-keyupdate-rfc-v6-5-99b695f9eb4f@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,71 +67,236 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
- (10.75.128.133)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PEPF00008490:EE_|GV1PR10MB6660:EE_
-X-MS-Office365-Filtering-Correlation-Id: 568e8cb3-bb19-4e88-6392-08df3e85030e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|82310400026|36860700016|1800799024|23010399003|261009223027099003|261102123227099003|261028144727099003|261021121427099003|261021123027099003|261022105027099003|261026140227099003|11063799006|56012099006|6133799003|10067099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	pKgsyZ/GrPps3f7En5UekHdV76FXJ4qyboOHF+hd+e0fMkoXpGsm+JN1Acq7Xj3xcRZCwsgOhyLsaQLsa9lQPYP32OKRX0zWN9d7PWmBQkgocC8g8r/Dv12c7GNTeEiejO/S5efhXy9F5TzLyUI/jIdG28yXNxX7CN+f8k4e73DRh98vQK+1ttjv3ntEV+eqK+03OCLzbWjwLazbMV7YG41ZAS5pOJCQsn5N/gWp+UyMW8wfRE8uTMcpYRi/ATL0x5fd4A+5E0N8M3MDCnIvhbV8bA9h+jJomWaWBldqMcwGbdzMbtdKUOvwWdfzSkKOzI01OL1ppDgQA/fZhsKzr6O7DrWjrKlQMbEeavGgDJTYyP3HPKLgLYPr9YOHJ0/5R8MYd84P6tpwPijfdR+cntPeHqOKR6FxwNt2O5+V4HzZyGHalzZ7dBnW+mZunT0XBKxZ15LHP2HL5Ml9r+/ikJXpKyz7D/tlJzH7a9RamguOkwf1PkX6JOvjpdEwXEnXStPjurmb5MdFUvSNouORgM14hXjniu1Fs0Xlq5s2kpg4mmikJ01y7ajOVjhDfXD9CquxU/M0sKqmljqKHoOnrhbeE4RLE2wZEXgRzOYCBheM5b3nw8tRAZ/YspQ628RmJO2WR1f3rn8XfmGXCr/mKcK1QTHIVxVI8QoKlFVHDTAqIjPIt6z6WY9lTENK7K7Sz6xRSaGdAdYbwueDlu539Q==
-X-Forefront-Antispam-Report:
-	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(376014)(82310400026)(36860700016)(1800799024)(23010399003)(261009223027099003)(261102123227099003)(261028144727099003)(261021121427099003)(261021123027099003)(261022105027099003)(261026140227099003)(11063799006)(56012099006)(6133799003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	TspQH7CsYYrqRHqZalDPPdGOrwyZL8ANpaQDHMXNXRnNd2s4LoBkp09bOkwr2jmeH9TzwH9KZy7MDb4Xerr5nTv4z3txlLrGUDPGEWFRQE1wKV7UIq2jl8YkAl/M/WLHaaWIB1UbFvv6OkQhvFNK3vWjornBfGV0P+5L1UngI1nUiPRn+3r+Qr8suwqpNax3fZy5b7shEhxPdxmNC6jf7MxH9rPa3TPkDg8J5Dak/rV8tgP9TrnGQtqCcp9qla4OktFq8KgmQkCvLNuM2xzhUbfJUs+MeDXvthy3nhhXfIMBcXR4WW+z7XVCHsfxgMmPv2Nm/2w8J2mSbTAcE48pXlnE23yp/7dueBX7XLjXPIozp+DGOJeh6OnZpgWT5znORzPkmimUEF34H40f9vZjrkJtdfJ0erBmKqNIFISOg9sbVvWeZpzoSc4aSH+bWXB9
-X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Nov 2026 17:15:11.2021
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 568e8cb3-bb19-4e88-6392-08df3e85030e
-X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MI3PEPF00008490.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB6660
 
-When compiling coresight tool with the command:
-make -C tools/perf CORESIGHT=1 all
+Thank you for your contribution! Sashiko AI review found 4 potential
+issue(s) to consider.
 
-The following build issue occurs:
-util/cs-etm-decoder/cs-etm-decoder.c:551:15: error: too many arguments to
-function 'cs_etm_decoder__buffer_packet'
-  551 |         ret = cs_etm_decoder__buffer_packet(etmq, packet_queue,
-      |               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Critical: 0 · High: 0 · Medium: 3 · Low: 1
 
-Fix this by removing the parameter "etmq" from function call to match its
-declaration:
-cs_etm_decoder__buffer_packet(struct cs_etm_packet_queue *packet_queue,
-			      const u8 trace_chan_id,
-			      enum cs_etm_sample_type sample_type)
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-Fixes: 99d324594165 ("perf cs-etm: Queue context packets for frontend")
-Signed-off-by: Valentin Caron <valentin.caron@foss.st.com>
----
- tools/perf/util/cs-etm-decoder/cs-etm-decoder.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+- [Medium] Race in the kernel KeyUpdate path: its state can change while
+  the socket lock is dropped.
+- [Medium] The record limit is wrong for AES-128-CCM.
+- [Medium] setsockopt(SOL_TLS, TLS_TX_KEY_UPDATE) can block indefinitely
+  and ignores O_NONBLOCK.
+- [Low] Documentation/networking/tls.rst does not match the
+  implementation in two places.
 
-diff --git a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
-index 277da9f767b9d..caacab8c92e26 100644
---- a/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
-+++ b/tools/perf/util/cs-etm-decoder/cs-etm-decoder.c
-@@ -548,7 +548,7 @@ cs_etm_decoder__set_tid(struct cs_etm_queue *etmq,
- 				elem->context.exception_level, tid))
- 		return OCSD_RESP_FATAL_SYS_ERR;
- 
--	ret = cs_etm_decoder__buffer_packet(etmq, packet_queue, trace_chan_id,
-+	ret = cs_etm_decoder__buffer_packet(packet_queue, trace_chan_id,
- 					    CS_ETM_CONTEXT);
- 	if (ret != OCSD_RESP_CONT && ret != OCSD_RESP_WAIT)
- 		return ret;
+--
+
+tls: send a KeyUpdate at the record limit and on request
+
+With this commit, the kernel sends a TLS 1.3 KeyUpdate before the next
+Application Data record in two cases: when the TX key has protected 2^24
+records (except ChaCha20-Poly1305), or when the peer sent
+update_requested. It also adds the TLS_TX_KEY_UPDATE socket option to
+send a KeyUpdate on demand and, optionally, ask the peer to update too.
+
+> diff --git a/Documentation/networking/tls.rst b/Documentation/networking/tls.rst
+> index 2e011bd1ce4ae..69752a6d67df4 100644
+> --- a/Documentation/networking/tls.rst
+> +++ b/Documentation/networking/tls.rst
+> @@ -326,6 +326,23 @@ direction is then left to the application again.
+>  
+>  The secrets cannot be read back.
+>  
+> +With a registered TX secret, the kernel sends a KeyUpdate before the key
+> +reaches its record limit (RFC 9846, section 5.5): after 2^24 records, except
+> +for ChaCha20-Poly1305, which has no limit. It also sends one before the next
+> +record when a received KeyUpdate asks for it. With a registered RX secret,
+> +the kernel processes a received KeyUpdate and does not pass the record to
+> +the application. A peer that sends more than 8 KeyUpdates in one second ends
+> +the connection.
+> +
+> +TLS_TX_KEY_UPDATE
+> +~~~~~~~~~~~~~~~~~
+> +
+> +TLS 1.3 only. Send a KeyUpdate now and install the next TX key. Needs a
+> +registered TX secret. The value is an ``int``: 0 to send a KeyUpdate, 1 to
+> +also ask the peer to update its key. Asking the peer needs a registered RX
+> +secret, and fails with ``EBUSY`` until the peer has answered the previous
+> +request.
+
+[Severity: Low]
+This isn't a bug, but two parts of this text don't seem to match the code.
+
+The text says the reply is sent "before the next record". In
+tls_sw_sendmsg_locked(), the check only runs for data records:
+
+    if ((!ctx->open_rec || !ctx->open_rec->msg_plaintext.sg.size) &&
+        record_type == TLS_RECORD_TYPE_DATA) {
+            ret = tls_tx_maybe_update_key(sk, msg->msg_flags);
+
+Suppose tx_key_update_reply is set and the application sends an alert or
+handshake record with TLS_SET_RECORD_TYPE. That record goes out before
+the reply. This matches RFC 9846 section 4.7.3 and the commit message
+("before the next Application Data record"). Should the documentation
+say the same?
+
+For TLS_TX_KEY_UPDATE, the text says "Send a KeyUpdate now and install
+the next TX key". If the value is 1 and a peer request is pending,
+tls_sw_key_update() calls tls_tx_key_update() twice:
+
+    if (request && ctx->tx_key_update_reply) {
+            ret = tls_tx_key_update(sk, TLS_KEY_UPDATE_NOT_REQUESTED,
+                                    MSG_NOSIGNAL);
+            ...
+    }
+
+    ret = tls_tx_key_update(sk, request ? TLS_KEY_UPDATE_REQUESTED : ...
+
+That sends two KeyUpdates and moves the TX key forward two generations in
+one call. Could the documentation mention this, and also the EKEYEXPIRED
+return?
+
+[ ... ]
+
+> diff --git a/net/tls/tls_sw.c b/net/tls/tls_sw.c
+> index 027c32edaf850..433a43d13a872 100644
+> --- a/net/tls/tls_sw.c
+> +++ b/net/tls/tls_sw.c
+
+[ ... ]
+
+> @@ -1005,6 +1021,153 @@ static int tls_sw_sendmsg_locked(struct sock *sk, struct msghdr *msg,
+>  	return copied > 0 ? copied : ret;
+>  }
+>  
+> +/* RFC 9846 section 5.5 allows 2^24.5 full-size records per AES-GCM key.
+> + * Send the KeyUpdate a little earlier.
+> + */
+> +#define TLS_KEYUPDATE_TX_RECORDS	BIT_ULL(24)
+
+[Severity: Medium]
+The comment bases 2^24 on the AES-GCM figure. However,
+tls_tx_maybe_update_key() applies it to every cipher except
+ChaCha20-Poly1305:
+
+    limit = ctx->prot_info.cipher_type != TLS_CIPHER_CHACHA20_POLY1305 &&
+            get_unaligned_be64(ctx->tx.rec_seq) >= TLS_KEYUPDATE_TX_RECORDS;
+
+tls_traffic_secret_len() accepts TLS_CIPHER_AES_CCM_128. An AES-128-CCM
+socket can therefore register a TX secret and reach this path.
+
+Is 2^24 the right limit for AES-128-CCM? RFC 9147 Appendix B uses the
+CCM confidentiality bound (2l * q)^2 / 2^n. With l = 2^10 blocks and
+n = 128, that gives about 2^23 full-size records for the 2^-60 target
+used by TLS 1.3. At 2^24 records the attacker's advantage is closer to
+2^-58.
+
+Should CCM get a lower threshold? If not, could the comment explain why
+the GCM figure also covers CCM?
+
+[ ... ]
+
+> +	/* A control record closes the open record first, so all data
+> +	 * written so far goes out with the current key, ahead of the
+> +	 * KeyUpdate.
+> +	 */
+> +	ret = tls_sw_sendmsg_locked(sk, &msg, sizeof(body));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	/* Nothing may be encrypted with the next key before the KeyUpdate
+> +	 * is encrypted with the current one.
+> +	 */
+> +	ret = tls_encrypt_async_wait(ctx);
+> +	if (!ret)
+> +		ret = tls_keyupdate_rekey(sk, 1);
+> +	if (ret) {
+> +		/* The peer expects the next key: the connection is lost */
+> +		TLS_INC_STATS(sock_net(sk), LINUX_MIB_TLSTXREKEYERROR);
+> +		tls_err_abort(sk, ret);
+> +		return ret;
+> +	}
+
+[Severity: Medium]
+Can the TX key state change between the caller's tx_secret check and
+this tls_keyupdate_rekey() call?
+
+The nested tls_sw_sendmsg_locked() can drop the socket lock while
+tx_lock is still held. For example, when the send buffer is full:
+
+    wait_for_sndbuf:
+            sk_set_nospace(sk);
+    wait_for_memory:
+            ret = sk_stream_wait_memory(sk, &timeo);
+
+Pushing the record through tcp_sendmsg_locked() can drop it as well.
+
+In do_tls_setsockopt(), TLS_TX and TLS_TX_TRAFFIC_SECRET only take
+lock_sock(), not tx_lock. A TLS_TX rekey from another thread can
+therefore run inside this window. do_tls_setsockopt_conf() then does:
+
+    if (tx) {
+            memzero_explicit(&ctx->tx_secret,
+                             sizeof(ctx->tx_secret));
+            ctx->tx_key_update_reply = false;
+    }
+
+When this thread resumes, tls_keyupdate_rekey(sk, 1) sees
+secret->len == 0 and returns -EINVAL. tls_err_abort() then aborts the
+connection.
+
+If the wait happened before the KeyUpdate record was copied, the
+KeyUpdate is also encrypted with the key user space just installed. The
+peer then receives a KeyUpdate that user space doesn't know about.
+
+tls.rst documents handing KeyUpdate back to the application with TLS_TX
+as supported. The application can't tell when sendmsg() will insert an
+automatic KeyUpdate.
+
+Should TLS_TX and TLS_TX_TRAFFIC_SECRET take tx_lock, as
+TLS_TX_KEY_UPDATE and TLS_TX_MAX_PAYLOAD_LEN do?
+
+[ ... ]
+
+> +	/* A reply must carry update_not_requested */
+> +	if (request && ctx->tx_key_update_reply) {
+> +		ret = tls_tx_key_update(sk, TLS_KEY_UPDATE_NOT_REQUESTED,
+> +					MSG_NOSIGNAL);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ret = tls_tx_key_update(sk, request ? TLS_KEY_UPDATE_REQUESTED :
+> +				TLS_KEY_UPDATE_NOT_REQUESTED, MSG_NOSIGNAL);
+> +	if (!ret && request)
+> +		ctx->tx_key_update_asked = true;
+
+[Severity: Medium]
+Can setsockopt(SOL_TLS, TLS_TX_KEY_UPDATE) block indefinitely on a
+non-blocking socket?
+
+Both calls here pass only MSG_NOSIGNAL, and tls_tx_key_update() keeps
+only these flags:
+
+    msg.msg_flags = flags & (MSG_DONTWAIT | MSG_NOSIGNAL);
+
+MSG_DONTWAIT is therefore never set on this path, and
+tls_sw_sendmsg_locked() uses sock_sndtimeo(sk, 0). That is sk_sndtimeo,
+which defaults to MAX_SCHEDULE_TIMEOUT.
+
+If the send buffer is full, for example because the peer stopped
+reading, the call sleeps in sk_stream_wait_memory() with tx_lock held.
+It waits until space frees up, an error or shutdown happens, or a signal
+arrives. sendmsg() turns O_NONBLOCK into MSG_DONTWAIT, but setsockopt()
+has no such conversion.
+
+tls.rst doesn't mention this blocking. It also lists only EBUSY. It
+leaves out EINVAL (no TX secret, no RX secret with value 1, or not
+TLS_SW), EKEYEXPIRED, and send errors such as EAGAIN after SO_SNDTIMEO,
+EPIPE, or EINTR.
+
+With value 1 and a pending reply, the first KeyUpdate can succeed and
+the second fail. The call then returns an error even though one
+KeyUpdate has gone out and the key has moved forward. Should this be
+documented, or handled differently?
+
 -- 
-2.43.0
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261105-keyupdate-rfc-v6-0-99b695f9eb4f%40gmail.com
