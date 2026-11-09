@@ -1,63 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794245563;
-	b=luwf36s5hHffBrP26kh7uY3soikqejDUsuvtb7Yoaaxo5Or+0sYshc9zxlXmFfRS7yao
-	 WDbnZVMH1dcPCIDAaqs7xTA4MfmvS35d42XIigGRafXjIGhR9HlEMkuC1oBgymmUf9KlZ
-	 PX5gM+LoqSQqMGYCftqAi3LOqfHaE1miwcG3vpMarY6v018a3b8GiqjUKO3EDK9Qmprt7
-	 8nUoOtpFVp911B49a+jXcR3mkGNoYKV3dWP2LhftVERY3fG68Fb7geNSzTntETQ7d2OTp
-	 jwWzeqc9OfsQ9WypMbWmeknVcXkSKGF1L2nJq8yxdlrPhz3+Vx4y35Xp2gVxM6qNbDQ==
+	t=1794245998;
+	b=fbUeAmZAiEyIVceHPEgEI9vsfpsSlQuZX9iBpYTwp8qZ/N7V54gIXe+uq4/XPd9W7NMY
+	 11CE6rgRF19VInbKeWwX5CEWcOFIVOJFakvLGdUSFrJidIClzvGpBfNOWuWQu6+GPtorq
+	 JjfHYb2ged9bCuWZUUlHtnM1BgpIF87IhdQZCuVS6g02MvveURqimhBCoGAOVIUHTIqd7
+	 wUrMoMCuQpNchfGC1XmoCe/tfkLJ+b25IbnYm0X8NSgj6ZtDa5COapWW2KlbndHM1IvPK
+	 7N3ceTiaQXS1j67T/Zo+Iio6PlxTpIRaxLCn5bpL6HxG5KCziOqiWIL3l98447FS36g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794245563;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=mKe7ARg30ugtmOMY2pGpxnyKNaS+xGD77ucYorxS5c8=;
-	b=XvmRW8JuxuMEc1wZo3nNJkJFjdnaAhkjotVRTz+toJ4WDmAARN9a2aGo72blVzGdA2UK
-	 8XFoesQwPahQTwa4wmutuvxKfwL7VXBKDljz4vjL+Ku29R81CaLwD5Us5l6DhkIDEvWhs
-	 SqznUV28TX51A/Tw4ux8i9gcY0wUkaFbg8PP6JnibMv1VkSc5cBvsCxlKdhjnRwgp4JlY
-	 7ZJ7x1j1ApiyKW/eR+u3iT48u1xHOkXZDeuOiJvkxAYKJbQ+bZ9aRr9SJZDVJQFgXB3Sa
-	 686Wvaoym/A4QCAJvW3GfVz+DAHkS92gJ4WTc8GqjCH3ZH27/SbGUUnpRgp/wucBKsw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794245998;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=o5Udb0XWqFBLDvZNe6CnQotNEj65tbZoPfPX1A5XjZQ=;
+	b=X77SC5PWyxVncsktC8zokMfiC5Kn/3GK+5LhyWQ37aJ6AH87DRjkgLURgAZQ7iu6hTRw
+	 Z0I7TaC684ShSUSu/huQ/wV9eV4xKS+7Hr0SVs3dbDrZqarL4aPoNiQFHBfRdi9C5zeFp
+	 mMIlAcy12aX4VFyv2vIKTubbK5CaMZ7HRbpg+kADtNnoiH9GHxrbcuHjbaq2jwai3KdCF
+	 rWnJGm+Ord7+fjifuGnqEL52uLxz5ojvYWIDOzOA3EAoRvsvYiHvPCaVv23sJU6Nd8qBO
+	 p3gD2cHGwM228XqKgO4lGaWqyf9BYw/0uj+KefxxYJ5uTEZkl6atKnvjkzGoveufcIg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=1wt.eu;
-	spf=pass smtp.mailfrom=1wt.eu;
-	dkim=pass header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=OL9R1eTt;
-	arc=none smtp.remote-ip=51.159.59.229
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcZce49I;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70CF4606EE94;
-	Mon,  9 Nov 2026 17:32:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 70CF4606EE94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6031606A32A;
+	Mon,  9 Nov 2026 17:39:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=1wt.eu header.i=@1wt.eu header.a=rsa-sha256 header.s=mail header.b=OL9R1eTt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1794245558; bh=mKe7ARg30ugtmOMY2pGpxnyKNaS+xGD77ucYorxS5c8=;
-	h=From:Message-ID:From;
-	b=OL9R1eTt34vZnwyH1a3m7c4+5h2Q8RhaLoe2FXPFjZ3eCFZ/XqunBISKpqbDu9Vax
-	 lbPzt/XF/ybGYLwSNVyhn86lcUTScZts1fFdBWHoYGw/dQBwTcN4m7IAnv8Es3cBiQ
-	 BfxNFAnPyYY217jCsNg/5fAWuZ0sr7bSWgxcdLFA=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 8D94BC0954;
-	Mon, 09 Nov 2026 18:32:38 +0100 (CET)
-Date: Mon, 9 Nov 2026 18:32:38 +0100
-From: Willy Tarreau <w@1wt.eu>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        netdev@vger.kernel.org, gregkh@linuxfoundation.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-        Simon Horman <horms@kernel.org>
-Subject: Re: [PATCH 14/14] docs: netdev: align the security fixes section
- with security-bugs.rst
-Message-ID: <avIDtoA-w1UQEatq@1wt.eu>
-References: <20261109080240.29444-1-w@1wt.eu>
- <20261109080240.29444-15-w@1wt.eu>
- <20261109080036.11bf06c6@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mcZce49I
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 960C91F008A2;
+	Mon,  9 Nov 2026 17:39:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794245997;
+	bh=o5Udb0XWqFBLDvZNe6CnQotNEj65tbZoPfPX1A5XjZQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=mcZce49IknFj31vX4Xra8sKoPHS+KWe0CPypUVmYctDDPIfVyg6WGQcd567XIWafz
+	 pMQ9dKpJaRrXQD963nd+n9G4wzQvQ5zo6pjrlqeo2Hxgv3xz4lDTl1KiY0bOBqyxO0
+	 LYfUjeFGfIQDHcHQ+IIlVIQTp853nXxRlMN21vRlTUCV30+txQ8Vq5UPXsRU8KQ+5s
+	 DTDYNnOuCb0olwpTj7dJlsJVwhMkWxSR+sNphtL7PH+Tvl/C7nIXCo9C8Mx6zU1UiY
+	 C0DFl2Jw5PkhzuZZ0S2kI75jZqTfg7RLumyIOs/BsmlaKnhmW1bmsxl6tWoc0b7Ife
+	 wGMkuTnUaP1gQ==
+Message-ID: <34c23beb-88d5-4456-b84f-f00e31578468@kernel.org>
+Date: Mon, 9 Nov 2026 11:39:54 -0600
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,35 +51,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109080036.11bf06c6@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/4] Make platform profiles firmware independent
+Content-Language: en-US
+To: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Viresh Kumar
+ <viresh.kumar@linaro.org>, Hans de Goede <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Maximilian Luz <luzmaximilian@gmail.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>, Armin Wolf <W_Armin@gmx.de>,
+ Jai Luthra <jai.luthra@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jack Wu <jackbb_wu@compal.com>, linux-acpi@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pm@vger.kernel.org, platform-driver-x86@vger.kernel.org
+References: <20261024223501.1420953-1-daniel.lezcano@oss.qualcomm.com>
+ <ed4aac63-ac58-4e2a-ae45-ebf4da158228@oss.qualcomm.com>
+ <CAJZ5v0gGeKEqMWvP3cQrXztZt-faFZJF+yNfygcBPT57f-a8Lw@mail.gmail.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <CAJZ5v0gGeKEqMWvP3cQrXztZt-faFZJF+yNfygcBPT57f-a8Lw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Jakub,
-
-On Mon, Nov 09, 2026 at 08:00:36AM -0800, Jakub Kicinski wrote:
-> On Mon,  9 Nov 2026 09:02:40 +0100 Willy Tarreau wrote:
-> > -people use the mailing lists and not reach out directly.  If you aren't
-> > -OK with that, then perhaps consider mailing security@kernel.org or
-> > -reading about http://oss-security.openwall.org/wiki/mailing-lists/distros
-> > -as possible alternative mechanisms.
-> > +people use the mailing lists and not reach out directly. Fixes for such
-> > +bugs are posted to the lists like any other fix, with a commit message
-> > +that does not detail how to exploit the bug. Never post reproducers or
-> > +exploits publicly: maintainers will ask for them privately if needed.
+On 11/9/26 10:46, Rafael J. Wysocki (Intel) wrote:
+> On Mon, Nov 9, 2026 at 5:37 PM Daniel Lezcano
+> <daniel.lezcano@oss.qualcomm.com> wrote:
+>>
+>>
+>> Hi,
+>>
+>> sashiko validated this series
+>>
+>> Is there any other comments for these changes I should take care of ?
 > 
-> Please don't insert the wording about not sharing details.
-> Vast majority of the bugs have no real life security impact
-> and we have to keep asking people to share the repro.
+> I'd love to see some feedback from someone having a vested interest in
+> this interface.  Mario?  Mark?
+> 
+I am onboard with the new approach.
 
-OK.
-
-> Can we instead add a brief "please follow the standard process
-> described in the $security doc" ? Or, maybe even better, can we
-> delete the "security fixes" section completely? it is very old.
-
-Oh yes that would be even better indeed! I'll send a v2 of this one
-ASAP.
-
-thanks!
-Willy
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
