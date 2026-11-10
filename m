@@ -1,114 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.138
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794322588;
-	b=0BaVaYBw0Q3wqI7c0k+rRy2wO6Ed2+zmohoRuV8wURnZIiPHiOYjK1juYvIV3CG97WMl
-	 65Q/9RAs1oAPVryTXgKncWk5um4TVJ7P1SDXQiBm8rJ4+uN3ZGsAPPPOZP6619ZfGPk+I
-	 wemacCzrMpjITOOYJfUoyFVzSRN68eb4cN4q5JvZ1TzBNLSC4MavDB/5ZA8QQZ8DDipmS
-	 AY9AIzrUPZMICW4Ir8vl39bVnT5iPKFLGL6IAdGJxArXT2cEWBnQ0+F0WmAKjhw83ps5r
-	 s2Juhl/8Ifr6erg0FURLAKtwkbh+zNvZIFaiFNHzszuvr30mfMIPrz+FZQt1Odz1DRg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794322588;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=60siS61lJQVsPLSNWq9Yx9eryDhQch+eqG8LRWnJFnM=;
-	b=kSHREHp8/P0eeX6vsjxRK1tN+5LuA4yokEtwr05ab05SEWmIF8onioU9NViRkKTE3aqP
-	 aoA9AwfzzpatuKmSifnimVGwJ35I1upgoFdeQoQuwWIwx6uvaqxL60mMQ9ZuaFI4jZre0
-	 PHdqOBUJaJCubyBEaeFTGe+5VhwboQ/dbiU3euyvCRXGlXpYI7V3Nr0EXIT65yOxoxqlY
-	 A9iFSA3NEb5C2F5BT4umDQ2LyqL6V8eW19US92XI7DgPol3CZcchVYJnalA9xZ/gNqpX/
-	 sMzFN9NwuniL4p6fJE4T+y4gJb59Cj2Vp5tnLj5LGmIabo7uQlweedPxK0eM+spKWGw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=seYoLk8A;
-	arc=none smtp.remote-ip=74.125.231.138
-Received: from mail-oo2-f10.google.com (mail-oo2-f10.google.com [74.125.231.138])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.69
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794322708;
+	b=oUtsY8gOcl4cFFUfKAEnzvGHnXayWIC8qgQGZLV6JKZ/pNEfxFKssCwWakUniA0iS3kr
+	 f0aUaoQbC9o0DpQBFDkiydC0C4qeTBW7HEQjkCDKcSCNS5ppVgARsLHaUilM+T4SOqPr8
+	 pAtwfkEbWef4nFMmzFqW4M+Xl1klLgZFgDTzsCY0ImbuChgg0xn5o3FJpmcAjIVo1OHxm
+	 ZGnTj2DZbsRzihleStLDuhKzHF0v+y/XrI5PNTELM9kg4KSYGiIGo2fYEUECEr/djfGcP
+	 Lai7PeS9LP4cxouc2U4UrvPHQteR/521HUQKKGhQwZ/RII9pH15y9ZAxoIy2FjmAlhg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794322708;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=1fEWVB4s8dxpy7WKjeYRypYyTAh25nN2QNj1LosPIjA=;
+	b=DiE3WS+M7eBzzqJBQZviyCg08CpPAesMLzwcUtgi8DqW5cBPxBlhU1lC2ZQi59tqHP3H
+	 Ufn59vgOjivvExrxr1YjZiPqNpmOhNHp6dDRNLUsOz2dqHnwDLESt/XEhFZooCf54KxAX
+	 ipEQoxbBOe+DK9GSIDkOW2IdV/+3hOjqwAxCmAYRviMkJDhkQDHy2Z72n15rrZZoQYacY
+	 xjL7GfyybqlcGrDm+Dxkqt9pU8Yf+jBk2C8n6+iG6YotfxEcRzQhs3yP+YzSZ1zrx/vjG
+	 lNht8foe1lMpD3iTdZkKDRYWDYtaS6Cf5X9agxHYMaAG7CIgEi70EhLfLZAuukce7sg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=ZT2Vdl+F;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.69
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013069.outbound.protection.outlook.com [40.93.201.69])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5D6606A320
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:56:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7E5D6606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 288EF606A32E;
+	Tue, 10 Nov 2026 14:58:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 288EF606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=seYoLk8A
-Received: by mail-oo2-f10.google.com with SMTP id 46e09a7af769-85ef6c584b0so984143a34.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 06:56:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794322587; x=1794927387; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=60siS61lJQVsPLSNWq9Yx9eryDhQch+eqG8LRWnJFnM=;
-        b=seYoLk8A96spl300imWiXz9j8t81CSB0OC1JqOCnTZYnKOeuCR7GPrp2cWOlrQOoVK
-         lo8LCgN7pkAyD84mq+yXeK5ywKW+GAgQe9rFfN57yl1dslxjHma2xZCM3HbfESCTLHk4
-         0gIVFp2pXQ58eHy0dtpm28KC4ydPES9vfVSzOyTTbB7cdCCAdxDUfWsOZkyNYyhaiNa9
-         cwADC5s1qm0wl0zf8kL4zB4dlFeF+eZ/GklpTbURMOzAYMjdphtlW0BExNZtAFeRz3Bp
-         S+T7OIfMnPUuAs6XCS6wYnqg8+SkoPuW8rXeOblHT7azrh5MyPA4UbgACJZJBvIllqmO
-         FydA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794322587; x=1794927387;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=60siS61lJQVsPLSNWq9Yx9eryDhQch+eqG8LRWnJFnM=;
-        b=LSYehz2/Tnqv8VJ6Np5Jfz9EbrdjEJnW/Padr11JUB+gsYxPfSOTJaIBuOWIzq91m9
-         jGin2XL4fnuPMK7NfrREs4SoLNZfztMuSEI5BusVZ3couRrIjZO37/hQYbZpna5q1Z+i
-         HVMvg6A3QzUfyTD8Ho20VB49Or+G4e8INHzmpD0ysffPjS8RhzbQMicl3ItCGPjo2avC
-         AS/gvI+2O0sGRl1ueqQKiT7fgEE3Pt8tQsjdpQdp7KiF/vzY0WCLIJYTk83fYr4+O4We
-         cVQQAETlXAgjLIGIVN8mTcSF0cILbHYS+rUkTbWetZv5tSXJ9t3IqjqgO0YuJbBoTJoj
-         x1hA==
-X-Forwarded-Encrypted: i=1; AL+hErGXlXgmWXDL1vnykGczl+mcvsP14WZWcAZNmJdsdcHmstDQg8z6pNoiALLWakJfFdLA97MkyQTPuY8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9kFAf9fgpUy9fVi7QjNqR1LNWtjdVBX5SkIcu85E3h/R/nHK75
-	5TWi8+eQFMYnT/67tw7mBiJfbJBST5YXRhrRbHRPWh17cwbo5i31LDg1TC6hYMks
-X-Gm-Gg: AYBFou1gcsjYJmpixMOywfKgbt1XDG6JJ7/nM+dbmdfJMViiNU9/0Nf9XCDhQEpVp1W
-	LwRWsBRkSRFZgxaMZf1ugGPl/Y1YoGoFg+CR47lBMPzNbesVwYcfTHLKfNKXrgu00LZslHqcprM
-	inLXp7mRj6gWOX91gJ7sMHH2Tvhjmx1CfL0CAGoq0XiqQLvl5RO6redninUuSlEmW3rfPUru3bT
-	5y3Tos11Q9FU7xd6UKiY79u6uagWRR+geQpLqfYY9yh8qlJUmrqhLvOToJJA896+6O0OfCx7lV1
-	XX7mGnP8WBU54Q5AnkgonFwXnbGtze/v4dIf63pkHRn7UdhFqt+9pYuq0z6iaSWtteWrFETB23E
-	sVxIP0BNx/B80nDnjlQHWl2c1Fn64UuapLaxn0LnMrzX+4+krVsA3BGWo7fYqnAxw8sdU5Ken5/
-	XLaOLMgEYABldslQ9lbKZjt6t4IG825uDuc9Ov1KsgQerpzP411llxZb0gbA4r0rbcGXAavwlXt
-	LJB0NMp2cg9ac3nUpM91HQZcSAVDkUysnk8DG9xmqOqVnfvzZr5laHpNQjlCBqt3Et69ejPEAzH
-	41lVe1ouk+/YjeQ6NyvzZ0uA0b32SfVbWxF0qAm6G176qmH+eRc7Q4V+zd2Sa7Q=
-X-Received: by 2002:a17:902:f64f:b0:2e9:9bac:2e84 with SMTP id d9443c01a7336-2edb92bb80bmr24201345ad.66.1794316918385;
-        Tue, 10 Nov 2026 05:21:58 -0800 (PST)
-Received: from r00799764-ThinkCentre-M920t-N000.. ([139.159.170.67])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6d4a31esm8861065ad.22.2026.11.10.05.21.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 05:21:58 -0800 (PST)
-From: Jinjie Ruan <ruanjinjie01@gmail.com>
-To: babu.moger@amd.com,
-	ben.horgan@arm.com,
-	bp@alien8.de,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	Dave.Martin@arm.com,
-	fenghuay@nvidia.com,
-	gshan@redhat.com,
-	hpa@zytor.com,
-	james.morse@arm.com,
-	jic23@kernel.org,
-	mingo@redhat.com,
-	rdunlap@infradead.org,
-	reinette.chatre@intel.com,
-	skhan@linuxfoundation.org,
-	tan.shaopeng@fujitsu.com,
-	tglx@kernel.org,
-	tony.luck@intel.com,
-	zengheng4@huawei.com,
-	x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: ruanjinjie@huawei.com
-Subject: [PATCH v5 5/7] fs/resctrl: Release the limbo RMIDs when the CDP state changes
-Date: Tue, 10 Nov 2026 21:20:52 +0800
-Message-ID: <20261110132054.3702-6-ruanjinjie01@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261110132054.3702-1-ruanjinjie01@gmail.com>
-References: <20261110132054.3702-1-ruanjinjie01@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=ZT2Vdl+F
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YW1soDX1RI1GjOOfOFd24YcXUpY+yb2XumymfVOErJPCjLWxJ+OP9r6pGdkpQMdIroZPbgsSZ5QNm0CdiV26yyMS2vy4M2+Y+w3S0mDidvstNq1KWx6sN2ITS+PIKnvtJJcu89W/9t8DPKi+2jvW/OL+xNwteYeRfsmmYXi4SUVqjL9kh4JWri4Mz0wB8A7DoWVw1/d3INOJ/Z9/0s2/tNt8UtOrXGYHhonIpFvdvxqUaEGkNkegEe9pzoNdC68Sr6zQAVw3z5xDLf1zUKmVT4M/Gywy82V21buAB6Nikgb6eC91MVPTyjt/m0pxXTPhOG5wzvzTqDqmhHMcnK+dwQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1fEWVB4s8dxpy7WKjeYRypYyTAh25nN2QNj1LosPIjA=;
+ b=bdVpa/bOV3/38Uft3+ZmuMB8oPm8FvQMbz0JFxfjomPRGzChqEkYqTrFZsFDQ0AR05BFh3CCjgY2/hP1SO5+E3wH1vMAPeNJP/nbfYdmkiSH8uDIKs2H4PlNRTmVm8sDYq78pHuj+4ZnL9oxbFQeuDS3ISPlNca9OSLZKZDCnmcKbW4Gna72XOwo9HXPQ3TJGK/buczXg+WO1FPP6S9EV0sy/4WuiOzaag9c22a70mjlCFnBzuQljj2HwfOqLPLQj3S3aPpxyYkn2CzlgBfcCkLlrSCUJfbhPIHoipLSZIDnDO4aX8efjxgzb10z+9ZUTqQWs0oeQ0W0v8KMhycuVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1fEWVB4s8dxpy7WKjeYRypYyTAh25nN2QNj1LosPIjA=;
+ b=ZT2Vdl+Fx9I8nrxMMMCc0og39ud24jw11IlnhGJKm0N6eryRIudOybN2JZ4QcjwQ/90CMF8Y0O6SUxN7D13uPWH9zaLQp0E8R/YFewULTrZTXrsxp7bQdh4BMdEPAEgovFi50GN0JwLAhtzHM1nAiUDU3nrSFLGq7V6XCQ/MBSNQuKf5GTK3uTn2Hnfo8yxjcVBU43m7zRqOvD5WiinHBwGr50jca1l1OvAphA7lZVFkyvJaOscd0xnxap7pXkqbk5Z45Q3koR/EZgznZX5q40jce1IkpUZvmTtptq9D5k2zF3lrKIIC89v6ym7WUyvEdqklI4i0APppP1KHk1H7cA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from IA4PR12MB932075.namprd12.prod.outlook.com
+ (2603:10b6:207:12d::15) by SJ0PR12MB6990.namprd12.prod.outlook.com
+ (2603:10b6:a03:449::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Tue, 10 Nov
+ 2026 14:58:19 +0000
+Received: from IA4PR12MB932075.namprd12.prod.outlook.com
+ ([fe80::5a6f:1f74:6ccb:cf2f]) by IA4PR12MB932075.namprd12.prod.outlook.com
+ ([fe80::5a6f:1f74:6ccb:cf2f%5]) with mapi id 15.21.0615.007; Tue, 10 Nov 2026
+ 14:58:19 +0000
+Message-ID: <a483f6bd-3fbc-4b9c-9262-5e4dc0d5e849@nvidia.com>
+Date: Tue, 10 Nov 2026 16:58:08 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC net-next 7/7] net/mlx5e: kTLS, Keep a TX connection on one
+ SQ at a time
+To: Rishikesh Jethwani <rjethwani@everpuredata.com>,
+ Tariq Toukan <tariqt@nvidia.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, John Fastabend <john.fastabend@gmail.com>,
+ Kuniyuki Iwashima <kuniyu@google.com>, Neal Cardwell <ncardwell@google.com>,
+ netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>,
+ Sabrina Dubroca <sd@queasysnail.net>, Willem de Bruijn <willemb@google.com>,
+ Alexander Graf <graf@amazon.com>, Aviad Yehezkel <aviadye@mellanox.com>,
+ Bobby Eshleman <bobbyeshleman@meta.com>, Boris Pismenny
+ <borisp@mellanox.com>, Boris Pismenny <borisp@nvidia.com>,
+ Carolina Jubran <cjubran@nvidia.com>, Costa Shulyupin
+ <costa.shul@redhat.com>, Dragos Tatulea <dtatulea@nvidia.com>,
+ Eran Ben Elisha <eranbe@mellanox.com>, Gal Pressman <gal@nvidia.com>,
+ Ilya Lesokhin <ilyal@mellanox.com>, Jacob Keller <jacob.e.keller@intel.com>,
+ Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky <leon@kernel.org>,
+ linux-doc@vger.kernel.org, open list <linux-kernel@vger.kernel.org>,
+ linux-rdma@vger.kernel.org, Mark Bloch <mbloch@nvidia.com>,
+ Martin Karsten <mkarsten@uwaterloo.ca>, Randy Dunlap
+ <rdunlap@infradead.org>, Richard Cochran <richardcochran@gmail.com>,
+ Saeed Mahameed <saeedm@mellanox.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>,
+ Stanislav Fomichev <sdf.kernel@gmail.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Tariq Toukan
+ <tariqt@mellanox.com>, Wang Zhan <wang.zhan@smartx.com>,
+ William Tu <witu@nvidia.com>
+References: <20261109114734.2087878-1-tariqt@nvidia.com>
+ <20261109114734.2087878-8-tariqt@nvidia.com>
+ <CAKaoeS2w15yqv-yd9t8KC3aZMJH1VXM=oepk4sR9h1pPjerKOw@mail.gmail.com>
+Content-Language: en-US
+From: Tariq Toukan <tariqt@nvidia.com>
+In-Reply-To: <CAKaoeS2w15yqv-yd9t8KC3aZMJH1VXM=oepk4sR9h1pPjerKOw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MI2P293CA0006.ITAP293.PROD.OUTLOOK.COM
+ (2603:10a6:290:45::18) To IA4PR12MB932075.namprd12.prod.outlook.com
+ (2603:10b6:207:12d::15)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,197 +124,91 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA4PR12MB932075:EE_|SJ0PR12MB6990:EE_
+X-MS-Office365-Filtering-Correlation-Id: 91e85f05-98d3-4ba0-f91f-08df3f3b0e7c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|376014|366016|7416014|1800799024|11063799006|4143699003|261022105027099003|261026121527099003|261026140227099003|261028144727099003|56012099006|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	BcVI3kgi/ff/RSJ8JVsbmt5TcmlMCfM4TAuSUf9wSEQ4mUNhsQZ0f+SP+7xxwgkVP8n/JJ8OTF2wbeNLKvECRtky3pNYP2+xKc4rn1Y47gojTJtY7hibeVTvhvPF35C74YGOGc+0311OlmC+VuKLT2GUejPH8I3W6RdR7dSGf9akUVaoOORZfpwBSIWNRF4Ft46kPH8euBen2w1YJC5Dkk/iEXikTNLdNSqJP586Aos5yQfJsJBobcFmwxwEgArc6+7OVNxkYRJoRpkX2yvig7FE/YdOs2CDP2LZkH8cG2wW2NYRqFAqQZnkB5aHQzK3fBQ1Qbnk95JCBP/yopLiHnnUMe8Q/UTaInPUnaAt6WeZuYGR39wF8Hdo+sX0oaT8o40YA3NuMsZ8RjKB+PIexNXhz+ElULeSL6hLrW2ILRbF2heczQCslaGmn4vIzmfDT+6OjtmrqBORx+4xs9sXsbnfVqT8Blgzu4WEpFn9A37tkVb2w0Ssy3INkrNhbi+RdTa3hcjVXQ8Ekj2doffKLt0ixIfUNaM9NsWPkiZ9uwiom95gOlZr0W35fnbvZxYPgNSh16vcVxH4Ppq91/7XxhcNlfpiNARIOqYbHogOYATJiGkbLUliR623Ih4lgniyLDVm3OwWuexLBW9vw2HK12rt1uMXJZjEGJ+epkapVDY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA4PR12MB932075.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(7416014)(1800799024)(11063799006)(4143699003)(261022105027099003)(261026121527099003)(261026140227099003)(261028144727099003)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bE41aUQxV01UbktJNE8xYWRwb01QTDlSemlGNUhsYktxeGZwRmM1VUowQ3J6?=
+ =?utf-8?B?T1ZqVFJ4WFZsRFg0WCttWk1KOWY5WEY3bVQvRHRtNERqNCt4dWpTUWlKbW55?=
+ =?utf-8?B?NHk4Vy9Uc0REcncwMFNiZVBCSjF1c0xOanlxMDFaMDExdEVjd2M3M1JBOTMr?=
+ =?utf-8?B?aGVBM0pRaUJnVlRQcTZXNU9INS9LY1JESXhxdkN1d3RHRW9LR2VKaVVJS0RD?=
+ =?utf-8?B?UDdXL0lPRGRKa05PUGxGMFJsaVZjOFNzMUpWOTNXYTdROEhidW1BTVRxTUZT?=
+ =?utf-8?B?cGlPMXlPRDYrdjZJejVVeHU5Mk5TWmNPZUZKRG43NkgvTUZLTFVBL3I1aWNY?=
+ =?utf-8?B?b3BJNjM4V2pCbE5CYnZUWEwwa1ljNnRhR2w2L1NmRXErWDYzVzk0U2lYcDNr?=
+ =?utf-8?B?RmxjM3h5YTRzRUZVcnJ2L3N6dmRGSk8wdGVCeUhQMDZDbVBRTURjUTFRMHdX?=
+ =?utf-8?B?TW9RNDMycmY0WktjTHI4T056ckgzSWRXM29mbnI4ZXBWWWxqWTE2R2YzMlh5?=
+ =?utf-8?B?Ty9ZTlFza3ZOZUdtUjJWU0hFMVlTazduK2pMUXF4VC9raGZoYmdKQVk0VWlM?=
+ =?utf-8?B?ajl6SGJMY1BXODlhZ21NRE1BZHYvYUMrRW1LRTNlT2VTSGlqR0lIcVpCdGJJ?=
+ =?utf-8?B?M1NEMHM5N0QwbU9BUS8yck9RT21RQ09aMFRXS2VERHZBRFJRTDBzNExjSEJD?=
+ =?utf-8?B?cHQ5eEJQcWc2eXhVUVBrV1NxYm1ia00waU9QNHd4SFhqMDY3M2FxNmNLaGd2?=
+ =?utf-8?B?RlVwSytwRnM1Nm1IQmNueEcvcVQwbWFaeEQyVDZZbHZkaUN5eEllaU9jalh5?=
+ =?utf-8?B?VHJOM1p3Rmt0bmgrMFI5dGF2amJ3NkUxT3hPUTdsSy9ydFhIenl4UUNGaGRn?=
+ =?utf-8?B?c1F1eUQxZkxwemZpRWNQVGVHNjBqeUFJSkNZQjVYWTFVOWRrWWNLaDJYTzNn?=
+ =?utf-8?B?TVB5RG9zS3BzWGdmSkVXalJsWmIzZjcvc2ZVbmE2c2ViamtrSWRWS2lKZnNz?=
+ =?utf-8?B?UUJHZGhhUWJwMXplaHhQSzJzU1V1aG9sS3VlTFZoNjdoc1VUTWRaY09NcWJZ?=
+ =?utf-8?B?YU1uMjR4TDVDS2drQWV2QU51TzkwV3dkQUJqSitxUWx2VXcvNlE2UDdlb0hX?=
+ =?utf-8?B?amZSK01kUUZONm1QZXJaQU9wM00zRVFTNzQvTWU2SWpkUDhraURwTkprd3dN?=
+ =?utf-8?B?VnRLSHBaOUx0SE83WjgrKzBqcGdrZG5VMGRnZEJ4L1dzZ1ExSk9McFBPajdo?=
+ =?utf-8?B?dXQrNmIwTEVBZTFWSGttUkVIMGNoeTJkc01OdEN5bnVwY0xPcTg0TWNYWXdK?=
+ =?utf-8?B?VFNNeVdmT0tsNjdsYTlpRXFpTUMyNFBRTy9PZlppTEduZ3JsMi9RWTgyVWdI?=
+ =?utf-8?B?ZSsxa1VicHdxTFpJTFlCampIS3VQL1BkYkN1T3RBaXVMVXdLQ1EwVDBablhj?=
+ =?utf-8?B?UTFtTW5vNkw5RDNjWndraHhabmRrVXBXWWRSa0pqMSsrUjV3a0gvVjVMUFNO?=
+ =?utf-8?B?WHQrZzZmemR0a3RYOGpuMjIzbDBBTzcrMzJtWkhUL2F3UnJzdnZ3R2NOSE1G?=
+ =?utf-8?B?Njl0V1EwU0VFQzFhYldsVWRVMzRybVhaYUZ5bmRYeG94cjZ6b0NwNW1ORnYw?=
+ =?utf-8?B?dkMxSUNXYmQ0elVyOTZBWUhUZTlwMCs1N1ZBQjBxZUYyeUU0Zk5VY2xOcDJ1?=
+ =?utf-8?B?VW9Fd1gxY3hqeGtrVEdoSjNGdmRNKzY4N3VobmFJNXlqS3BsMEVmYnEvZE1W?=
+ =?utf-8?B?ZFJaM1AwZFhzdzlHajl0UGFSMUFtcWFsUXh3ZS9EclZOTUt2bm9mYXVaVFJy?=
+ =?utf-8?B?ZzNScVJhdkFSY3lad01KdU05aDRNNE1Mbm1YWkxBMkhMV0psKytYZ2dqcVIz?=
+ =?utf-8?B?MDVrSUdQSTA5Q2lqM2JjNzZCbVNHekFnNEpvaUlOUWlUUXEvVk1VTU9uamE5?=
+ =?utf-8?B?b2pxYnBUbjlGZW5EZzdzdzdYRitKdTlWUC9yaDlRTUo0YjB0aVRaYXl1TWhV?=
+ =?utf-8?B?dXNTdjF0elRqak1IK3pPQW92ZkcxQWN1L3pZVG5hS3BDaW1yY2tyalNDZ2xs?=
+ =?utf-8?B?QVlIakU5S0dFVmNPamlCR2JGZDNHRlRzZ21Cb1JFai91aFVhblNGdkxVOXBX?=
+ =?utf-8?B?VnBJcEU0Vi93ekp6SjFJZGJ5QlpUNTFOWVRPTjRZSFJ6TVZYQzY4K1dBRGk0?=
+ =?utf-8?B?OCtsaDE1OE5IYlRiL21FOGxRb0Urcjc5aldzajdpaU1WVzhKbEs0aWpsNG9q?=
+ =?utf-8?B?bko2ZzN3OENHQklQQXltaDcwTnR3d2lHTS9PY0lXdDFFQTd1V0tXcHpmM0lh?=
+ =?utf-8?Q?M6ZWZzd4dbxQTQ0k+D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 91e85f05-98d3-4ba0-f91f-08df3f3b0e7c
+X-MS-Exchange-CrossTenant-AuthSource: IA4PR12MB932075.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 14:58:19.0921
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CfjCFefMzXC9VjvgVfAawK+peprI3qgFrsLFfq1YstEFJJXx5LdHU0w3+KVacG1yyhMj2rBCWibsq/njUteD8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6990
 
-From: Jinjie Ruan <ruanjinjie@huawei.com>
 
-On MPAM the counter of an RMID is selected by the PARTIDs of the CLOSID
-that owned it. Without CDP, CLOSID c is PARTID c; with CDP it is
-PARTIDs 2c and 2c+1. An RMID that stays in limbo across an unmount and
-a mount that changes the CDP state is read through the PARTIDs of the
-new state, which are not the PARTIDs its cache lines are tagged with.
+On 10/11/2026 0:15, Rishikesh Jethwani wrote:
+ > This write relies on an earlier may_move check in mlx5e_select_queue(),
+ > without locking the old queue or rechecking wmem.
 
-With 5 PARTIDs:
+Right, I assumed the socket lock serializes selection, which doesn't
+hold with an upper device's qdisc in between.
 
-  mount                  CDP off, CLOSID c -> PARTID c
-  mkdir g1..g4           CLOSIDs 1..4
-  umount                 RMIDs enter limbo with CLOSIDs 1..4
-  mount -o cdp           CDP on, CLOSID c -> PARTIDs 2c, 2c+1
-  limbo handler          reads CLOSID 2 as PARTID 5 > PARTID_MAX 4
-                         MSC error interrupt, mpam_disable()
+ > Selection needs the same initial-claim CAS and locked handoff: recheck
+ > the owner and current wmem under the old queue's lock, and leave
+ > ownership unchanged on failure. Locking only the write leaves the wmem
+ > check stale. Preserve zero self-charge for non-decrypted, possibly
+ > partially orphaned skbs.
+ >
+ > A failed transfer can fall back to the owner's queue, updating the
+ > cache, if the index is in [0, real_num_tx_queues), still maps to a live
+ > SQ and is not a PTP index. Keep the xmit ownership guard.
 
-The other direction is worse because nothing reports it. If resctrl is
-mounted with CDP and mounted again without it, CLOSID c is read as
-PARTID c, which is in range, so the limbo handler silently tests the
-occupancy of the PARTID of a different CLOSID and frees or keeps the
-RMIDs based on it.
+Agreed, v2 does that. Selection and xmit move the connection through
+one helper, as you describe, and a failed move falls back to the
+owner's TX queue under those conditions. The xmit guard stays.
 
-When a mount changes the CDP state, release the RMIDs in limbo without
-reading them instead of restarting the limbo handler. Cache lines that
-still carry those RMIDs are accounted to the next user of each RMID.
-
-The CDP state that matters is the one that changes the PARTIDs used by
-the monitors, which is not necessarily the CDP state of the L3
-resource. MPAM gives every CLOSID two PARTIDs in all MSCs while CDP is
-enabled on any resource, so enabling CDP on L2 alone also changes the
-PARTIDs the L3 monitors use. Add resctrl_arch_mon_cdp_enabled() to let
-the architecture report this. Only MPAM can be affected, so the RMIDs
-are only released where the RMID depends on the CLOSID. On x86 the
-RMID does not depend on the CLOSID, and resctrl_arch_mon_cdp_enabled()
-returns false.
-
-Reproduced on QEMU with the sequence above:
-
-  mpam:__mpam_irq_handler: error irq from msc:1 'MSMONCFG_ID_RANGE', partid:5, pmg: 0, ris: 0
-  mpam:mpam_disable: MPAM disabled due to hardware error interrupt
-
-With the change the sequence completes without an error.
-
-Fixes: 6789fb99282c ("arm_mpam: resctrl: Add CDP emulation")
-Suggested-by: Ben Horgan <ben.horgan@arm.com>
-Suggested-by: Reinette Chatre <reinette.chatre@intel.com>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: <stable@vger.kernel.org> # 7.1+
----
-v5:
-- Split the change of the limbo handler lifetime into the previous
-  patch. The limbo handler now stops while resctrl is unmounted on every
-  architecture, and only the release of the RMIDs depends on
-  CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID.
-- Drop the cqm_work_cpu changes. resctrl_limbo_resume() cancels the
-  worker before it queues it again or releases the RMIDs.
-- Move the rdt_disable_ctx() reordering to a separate patch.
-- Add resctrl_arch_mon_cdp_enabled() instead of comparing the CDP state
-  of L2 in the file system.
-- Rename limbo_cdp to limbo_cdp_enabled and document that it is only set
-  with CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID.
-- Check QOS_L3_OCCUP_EVENT_ID first and drop the rmid_busy_llc check.
-- Use lockdep_assert_cpus_held() at the start of resctrl_limbo_resume().
-- Describe the reverse sequence, from CDP on to CDP off.
-- Link to v4: https://lore.kernel.org/all/20261105070934.2258613-4-ruanjinjie@huawei.com/
-v4:
-- Use resctrl_mounted instead of a separate limbo_paused flag.
-- Record the CDP state once when resctrl is mounted.
-- Add resctrl_limbo_resume(), called once resctrl_mounted is set.
-- Previous Link: https://lore.kernel.org/all/20261031094616.1691026-1-ruanjinjie@huawei.com/
----
- arch/x86/include/asm/resctrl.h |  6 ++++++
- drivers/resctrl/mpam_resctrl.c |  9 +++++++++
- fs/resctrl/monitor.c           | 25 +++++++++++++++++++++++--
- include/linux/arm_mpam.h       |  1 +
- 4 files changed, 39 insertions(+), 2 deletions(-)
-
-diff --git a/arch/x86/include/asm/resctrl.h b/arch/x86/include/asm/resctrl.h
-index 8f6edcdcfd87..d88a09a45d7b 100644
---- a/arch/x86/include/asm/resctrl.h
-+++ b/arch/x86/include/asm/resctrl.h
-@@ -181,6 +181,12 @@ static inline u32 resctrl_arch_rmid_idx_encode(u32 ignored, u32 rmid)
- 	return rmid;
- }
- 
-+/* The RMID does not depend on the CLOSID, so neither does CDP change it */
-+static inline bool resctrl_arch_mon_cdp_enabled(void)
-+{
-+	return false;
-+}
-+
- /* x86 can always read an rmid, nothing needs allocating */
- struct rdt_resource;
- static inline void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r,
-diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
-index 5468367776e2..563ca99a581d 100644
---- a/drivers/resctrl/mpam_resctrl.c
-+++ b/drivers/resctrl/mpam_resctrl.c
-@@ -148,6 +148,15 @@ bool resctrl_arch_get_cdp_enabled(enum resctrl_res_level rid)
- 	return mpam_resctrl_controls[rid].cdp_enabled;
- }
- 
-+/*
-+ * CDP emulation gives every CLOSID two PARTIDs in all MSCs, so CDP enabled
-+ * on any resource changes the PARTIDs the monitors use for a CLOSID.
-+ */
-+bool resctrl_arch_mon_cdp_enabled(void)
-+{
-+	return cdp_enabled;
-+}
-+
- u32 resctrl_arch_preconvert_bw(const struct rdt_resource *r, u32 val)
- {
- 	return val;
-diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-index f56d0e32fd06..87d744a168fb 100644
---- a/fs/resctrl/monitor.c
-+++ b/fs/resctrl/monitor.c
-@@ -70,6 +70,14 @@ static u32 *closid_num_dirty_rmid;
-  */
- static unsigned int rmid_limbo_count;
- 
-+/*
-+ * @limbo_cdp_enabled - Whether CDP changed the hardware IDs the monitors
-+ *			used for a CLOSID when the RMIDs in limbo were freed.
-+ *			Only set when CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID
-+ *			is enabled.
-+ */
-+static bool limbo_cdp_enabled;
-+
- /*
-  * @rmid_entry - The entry in the limbo and free lists.
-  */
-@@ -1044,12 +1052,15 @@ int setup_rmid_lru_list(void)
-  * resctrl_limbo_resume() - Restart the limbo handler after a mount.
-  *
-  * The limbo handler stops while resctrl is unmounted. Restart it on every
-- * domain that still has RMIDs in limbo.
-+ * domain that still has RMIDs in limbo. Where the RMID depends on the
-+ * CLOSID and the mount changed the hardware IDs a CLOSID is monitored
-+ * with, the RMIDs in limbo can no longer be read: release them instead.
-  */
- void resctrl_limbo_resume(void)
- {
- 	struct rdt_l3_mon_domain *d;
- 	struct rdt_resource *r;
-+	bool release = false;
- 
- 	lockdep_assert_cpus_held();
- 	lockdep_assert_held(&rdtgroup_mutex);
-@@ -1057,6 +1068,13 @@ void resctrl_limbo_resume(void)
- 	if (!resctrl_is_mon_event_enabled(QOS_L3_OCCUP_EVENT_ID))
- 		return;
- 
-+	if (IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID)) {
-+		bool cdp_enabled = resctrl_arch_mon_cdp_enabled();
-+
-+		release = cdp_enabled != limbo_cdp_enabled;
-+		limbo_cdp_enabled = cdp_enabled;
-+	}
-+
- 	r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
- 	list_for_each_entry_rcu(d, &r->mon_domains, hdr.list,
- 				lockdep_is_cpus_held()) {
-@@ -1068,7 +1086,10 @@ void resctrl_limbo_resume(void)
- 		 * it is queued again on a CPU picked now.
- 		 */
- 		cancel_delayed_work(&d->cqm_limbo);
--		cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
-+		if (release)
-+			release_limbo_rmids(d);
-+		else
-+			cqm_setup_limbo_handler(d, 0, RESCTRL_PICK_ANY_CPU);
- 	}
- }
- 
-diff --git a/include/linux/arm_mpam.h b/include/linux/arm_mpam.h
-index 002f56e15362..ff1e1d6420fa 100644
---- a/include/linux/arm_mpam.h
-+++ b/include/linux/arm_mpam.h
-@@ -62,6 +62,7 @@ bool resctrl_arch_match_rmid(struct task_struct *tsk, u32 closid, u32 rmid);
- u32 resctrl_arch_rmid_idx_encode(u32 closid, u32 rmid);
- void resctrl_arch_rmid_idx_decode(u32 idx, u32 *closid, u32 *rmid);
- u32 resctrl_arch_system_num_rmid_idx(void);
-+bool resctrl_arch_mon_cdp_enabled(void);
- 
- struct rdt_resource;
- void *resctrl_arch_mon_ctx_alloc(struct rdt_resource *r, enum resctrl_event_id evtid);
--- 
-2.43.0
-
+Thanks,
+Tariq
