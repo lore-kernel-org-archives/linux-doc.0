@@ -1,101 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794302546;
-	b=1ay7sZqDA6f0yABeoQTmSW+obxe8yAgNU3+zrdW4ZxrgjBcGt2L7FEKfxR0hCKfljImD
-	 el8Lp1LPPF8oPfchXhPWCFZJokAvOQOZUEx5rfO5QrEnFTr4u5M4bfX1sdvAEwYg5aFVA
-	 lN3osBUGSVmCR7dS7/MNJ+RFqOoaMdn5ynLBtJ7JSDylaW8cpUtfZbYB1r5FLJGpJXKbx
-	 iSGxrVpTZLZWw78Mv/7fTokJupEA8WWzuPr/XWq7qyP+7y65k+8bqRkTtKnq3AxihrroG
-	 YDzMdh00eSwfbaUs3kGlkWTOHaEuJ34on0sRPbBNuNB3QqLYTBby95OPxlhnWAZd64A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794302546;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=y2+SCNl1g+fUz/U7qKDHB1BkCucwWSgvxXfo/ANkBxE=;
-	b=Wp12XwgB7aJkTBBbi1vuwn4SYQwRxzm9igONnYAa+HKe3qLEBQorxhlTKIN+vsj6iXGG
-	 DeF1p9mNEjn1d+UI5+YgHsNpdxFDMUYvzFo2z3YEwehm9SriXWv/18o0UC8vXCkOZQwUB
-	 D4Bq3q/Xe9+kTMkdg8ESdJA0W9KxolYNuCx2AMqqz0WoFdvvEOz4fTOt4Rikz0Spb4ZOT
-	 f2UiT+X66wjo93K3eX10eNYzcl+bnAtCn4FT3VO62AQBMnXc2WdDG5gBgzIIemJuG5SnE
-	 3Ar4UHfClrZXusav7vjJF6L67X0ToKIbq6cbRU9EMpBuLpqBPR+wqQGIi+mBWQ0iDvg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sartura.hr;
-	spf=pass smtp.mailfrom=sartura.hr;
-	dkim=pass header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=NXR5MPOw;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.221
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794304470;
+	b=VcFkV0Z2Rjd8xMxvBJ9Rmauxbj+X9clNia0Q98/rxJPAn6cwOI6KsOsCygWvYRg98UvW
+	 tfMtyYGgWLns0iwlQTMxSeLkOSVRSDlWwG6vpUkJI1wi1309lSvJuyo7BGjU23x4FiunP
+	 GI4pXlajXCs1ne8zBApUT/otjxrVFcXUIbElVVNmUolYWKfBCdjlSNZM05ckW17Y+iE84
+	 0gCLFBk+RuIaPolBw9tknJ1VnWrswUeas0+yBNgdtdCZjpw0172fmTd4YcFyBU9ziGJnR
+	 BCoEStPkfHerX9VdSzUpZTVQnEWgWFVjrkYnUSNQfdQ40Po9Vb2U1oFW7KZZouN/P2g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794304470;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=+1i1sVyMH9ad9wsU8jFlrzIKrGOD1X4RL8nm+PYmu6A=;
+	b=AVPm9Em3Gwhv0bUDHKHgPKkHzr/qlqNjW3CCf3aYsQf/Mj2fPfKW0koiNpjW1cxFpTbb
+	 bJlVtXLL0jA8k0FXYj1Hvjj9LlRjgQKkGPRwU1fiwhHaYku1XJASbtT1Ve9ksEG0pLwt8
+	 SPLqhyFmMCnSN/0PbICmWxNQJ4JnqwFDkY6e+GOV/iDN5n1K8n1cpfrX9fPQQEs7mOxn4
+	 wW7+gXBAhFu0Bm/oB1iKIo/VQ3HqZf9zEgPuRtXy2U7uPQKURn1rKtgqnv+0JZd47WOUP
+	 w5GZuNZqnjPGanqSPNbntkubjtMAI0VGT8SromwV1yqrIRR8LlPh96K0d6B4rLzhotw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=dxG7dKRj;
+	arc=none smtp.remote-ip=113.46.200.221
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9834606E5A1
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 09:22:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9834606E5A1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sartura.hr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3B2606A900;
+	Tue, 10 Nov 2026 09:54:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D3B2606A900
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=NXR5MPOw
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso3869957a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 01:22:25 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794302544; cv=none;
-        d=google.com; s=arc-20260327;
-        b=VuV2sb6sRDHxJQbRKm8Mvb2/rTAzWf9RZD1r5jJGgWkENMFv1Lni3IOqCdz49e7c+s
-         TpswGOki7z5+Zq5aKPliSrBq2lBU+J17aIF/IJhoNbAEDj9yeATNMFJFSguoEkjolzL/
-         zfo+ViBu+CB3sIm6SuJMez8ufvHpZaqbAaWvCBAuyAb5diiDkeWZiskZ4Zbf4ZWeoDCO
-         rHUMBXIQv2QCfXagIF89PUISfwj/mrrTFI829fI1PuhgaQB18ZZ8OMv2CEFbJEIXDwzw
-         l2XF51/bd+zN+wTe3wYoIJgXPJM/9DOl7OzmVNjMGyK8HcjjOdfTruZPbe9UhLLHsFiI
-         pZWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=y2+SCNl1g+fUz/U7qKDHB1BkCucwWSgvxXfo/ANkBxE=;
-        fh=3seZ70WX+mh3hXImIYXHdY7UNjlNkKfwGxSeZiosRAw=;
-        b=YOqdmMsFYofKakBWvykyWKgwLY8OoqVOPddfx/oVGHYo7sdXsze+BmXtknFKNu9lUu
-         jP7q2kLKWu5bmupGxV2UZrJSKRswgWwSMaaUlWG9ITM2TECN/xJ0DQBUiB0vKz883r1l
-         kSFhgzTkdPTEcoPpOo3JjXgsXxfGQrCwIPMRdQAe+n5VD+PEMvS5yAG8S6na1mkcnQ4u
-         1NSqNZKAMbKa3J9f/3/oxF8WYcht4D6k2weQ9C4PHOe3W1Zrm4uFHcKtxn9GVuHeI7qw
-         3oBFDy862JlEwoWjYArhT5mqpgmv5UnsY3dXijvNyYydutwfEWryqNgqrPdGU9ELFxWf
-         8Yzg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura.hr; s=sartura; t=1794302544; x=1794907344; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y2+SCNl1g+fUz/U7qKDHB1BkCucwWSgvxXfo/ANkBxE=;
-        b=NXR5MPOwdaMf6PEidfFMOtJrDo0++kwwclPaUhT8H6L4jLfdOKxwCWOx1beA+uc4ue
-         ry/eza9Wdt3a+5ILzZTgJocL5sFs48rpDTJcWC0VYblo5HV0vytCkCur2C9urCyRCm6A
-         m4qGgoCBLbVbGsdXG/i0BUKN9gRz8p9rAYcpnEMhmnxA6CXqutbvo3IKl1oYxcIgsQ8q
-         vBlkX+mBKD4dNuxOqnCp++i6xusFxgUoB23EOk6PmiLJTEqEVsAZ1mK5kpbw/gQpIf1+
-         E8VTPL8Q1rx35UO7soJTgEyg/jmib8sV7DVyBqvvydD2dJ5KKB9bYjGkOwjpvwsijzm3
-         wnOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794302544; x=1794907344;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y2+SCNl1g+fUz/U7qKDHB1BkCucwWSgvxXfo/ANkBxE=;
-        b=Xm5nwvYcjp5ln77j8cp35DMxt0WrPtD5Dz7UJgsDicibL2XnwNHHycJHcG8WOXa1PU
-         1dADz7tBY/7Tc50jXlJVE7w2mTpXCASD0v+rw5cfwifJ+3PGNlvILZMZxv7lEmjqJyTY
-         nRYj3ryEuFXEc5kRb4ZNmtro+5C/wnPLY+iAX2Kxu1klM17ZRomT0J/l4rrVHGu/9tvX
-         8A+mUeXIeFa5fB9D3l6bx0hpdxESoX/WT/OQnnnzt+mdB8AJhBpUOnqmyKTvcn6GdcP7
-         wjtb7l3aoowGTnfKlzsTkweM2Db+ZlQyFU67GvoZz31upxlSwwl9nO1TsRc/BKTyLrPq
-         yH2A==
-X-Forwarded-Encrypted: i=1; AL+hErFwMiS1nI3pze/zsDM9LXMWS8JQV61V2FkKxuNoDGUqNDZgSeAcRFv8IoIrK+0/oYWQ4zvtUGEdROE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+jVeV9dk+ksCtoCwPTugAEhI+kW3/ADWxbKoftJmZYa1DEuwZJ
-	RRvP9N90LINpPHcgVD5z07RAAkZjqjfLEnGw+zrQidw1YjXfSdkJyW0Ic0wMiAuMt74yANisV5X
-	rH6oD23BkMSXCLQx4Bdhia32QyD4LvyFyJEcjGBuCLA==
-X-Gm-Gg: AYBFou2kr23SDH5wt0h5XBSaeAaxd0H7i1Tc/YeyYdRCjVf31cm9OxiFcNOo3R7dAFU
-	tjl8lGVWUMc8TVCY/PcbFe2ID/MYpHAmyzaLAj5RlXT5oI1p9sv1sL6eNVn5Lx7YRyXYtiohepN
-	g/JgHcLifx+EM4WLtE4o3c+jtmYsIIH8lZLwroWmvsX27Ebl+6OOjyTmG/50cBbM8dKEGg3G9W2
-	yBohS5RAX9RrBLloR7i8NSMtbOSNbHcDRXCJMe3P2zDOIpoUVNmR2mTCAx4dF88VXB+Tyz9VDX1
-	FcKVrCvi2HTc8wZe3ne2x1MNzCQsZKwl6gwApbUfcJxOm/B1jfhfF2PdG0Y+Vu++6ZcYTBu+BKg
-	HBJ0x0CcQ4O6c8ivwVeoB31pF8pX1+ziVT81kZ5aJcy+MiIN+5B697vRy/JFq1ePUpfovWPJ3f2
-	sdvgjNsoWRFKs5KyEHzg==
-X-Received: by 2002:aa7:d691:0:b0:6b4:206d:724b with SMTP id
- 4fb4d7f45d1cf-6b7564be0dbmr1242231a12.7.1794302544016; Tue, 10 Nov 2026
- 01:22:24 -0800 (PST)
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=dxG7dKRj
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=+1i1sVyMH9ad9wsU8jFlrzIKrGOD1X4RL8nm+PYmu6A=;
+	b=dxG7dKRjQbGQ7VRuW2iwYcZFB00Gynna4dL9BbZdnTflV/D1Wg/cpTkNn9dAnZ2hKAz8J4QjI
+	KPKEz1S6B3O3KKTsJLIY/ciq/IYEqpjZZCDDkY03eaKBWPYRrV39a++e65rCmS5GV/CWyDb0P7N
+	yv54i+EUDCR4VE0ISK3e4iA=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4jP26n00cczRhT3;
+	Tue, 10 Nov 2026 17:54:08 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id CA43C40561;
+	Tue, 10 Nov 2026 17:54:18 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 10 Nov
+ 2026 17:54:17 +0800
+Message-ID: <46e25aa5-4db5-4322-961c-95ac8a2c40d4@huawei.com>
+Date: Tue, 10 Nov 2026 17:54:16 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,393 +62,149 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261109133609.810876-1-robert.marko@sartura.hr>
- <20261109133609.810876-3-robert.marko@sartura.hr> <e189dcb8-1cbd-4629-85dc-1b73243806fd@roeck-us.net>
-In-Reply-To: <e189dcb8-1cbd-4629-85dc-1b73243806fd@roeck-us.net>
-From: Robert Marko <robert.marko@sartura.hr>
-Date: Tue, 10 Nov 2026 10:22:12 +0100
-X-Gm-Features: AclHuK9j1ZB9DgxmBU3BCdoMkXb15eczBUGWQkCKPQtctapS4pYm4i7sf3JyTXQ
-Message-ID: <CA+HBbNHWVEJb+YHt1FLHSihO++6=kKEeOnazX_58cMUSbMfwQA@mail.gmail.com>
-Subject: Re: [PATCH v2 3/6] hwmon: sparx5: add LAN969x fan monitoring support
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, 
-	Steen.Hegelund@microchip.com, daniel.machon@microchip.com, 
-	UNGLinuxDriver@microchip.com, nicolas.ferre@microchip.com, 
-	claudiu.beznea@tuxon.dev, linux-hwmon@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	luka.perkov@sartura.hr
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 00/6] resctrl: Support mba_MBps on MPAM
+To: Ben Horgan <ben.horgan@arm.com>, Jinjie Ruan <ruanjinjie01@gmail.com>,
+	<babu.moger@amd.com>, <bp@alien8.de>, <corbet@lwn.net>,
+	<Dave.Martin@arm.com>, <fenghuay@nvidia.com>, <james.morse@arm.com>,
+	<rdunlap@infradead.org>, <reinette.chatre@intel.com>,
+	<skhan@linuxfoundation.org>, <tony.luck@intel.com>, <x86@kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>
+References: <20261109132621.3862497-1-ruanjinjie01@gmail.com_quarantine>
+ <dc1398f4-b81c-4ad8-b706-df89a1622e6c@arm.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <dc1398f4-b81c-4ad8-b706-df89a1622e6c@arm.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On Tue, Nov 10, 2026 at 12:51=E2=80=AFAM Guenter Roeck <linux@roeck-us.net>=
- wrote:
->
-> On Mon, Nov 09, 2026 at 02:35:07PM +0100, Robert Marko wrote:
-> > LAN969x has a fan controller with a tachometer in a register block
-> > separate from its Sparx5-compatible temperature sensor. Match the fan
-> > node independently and expose fan1_input on its own hwmon device.
-> >
-> > Read the optional pulses-per-revolution property from the fan child.
-> > Preserve the temperature-only behavior of existing device trees.
-> >
-> > Signed-off-by: Robert Marko <robert.marko@sartura.hr>
->
-> I don't see the point of keeping this as single driver with two completel=
-y
-> different sets of functionality. If you want to have two instances, pleas=
-e
-> make it separate drivers.
 
-In v1 it was the same instance but then DT maintainers pointed out
-that it should be different nodes at least.
 
-I will split it into a separate driver in v3.
+在 2026/11/10 1:50, Ben Horgan 写道:
+> Hi Jinjie,
 
-Regards,
-Robert
+Hi Ben,
 
->
+> 
+> On 09/11/2026 13:26, Jinjie Ruan wrote:
+>> From: Jinjie Ruan <ruanjinjie@huawei.com>
+>>
+>> Resctrl offers two ways to describe an MBA policy:
+>> - The percentage interface writes a fraction of the maximum bandwidth
+>>   into the hardware control register
+>> - The MBA software controller (mounted with -o mba_MBps) takes
+>>   an absolute target in MiB/s and adjusts that percentage based on
+>>   the MBM counters sampled once per second.
+>>
+>> The problem is that a percentage alone isn't enough. How much bandwidth
+>> a percentage actually corresponds to depends on the memory frequency,
+>> the channel count, how many threads are generating traffic, the access
+>> pattern, and the traffic of other groups. Neither MPAM nor x86 resctrl
+>> reports the maximum bandwidth in MiB/s. So an administrator who wants
+>> to enforce an absolute budget (a tenant SLA, a noisy-neighbour limit)
+>> has to measure and re-tune the percentage on every machine. x86 resctrl
+>> has had this software controller since 2018; MPAM has never been able
+>> to use it. This series makes it work on MPAM.
+> 
+> I see that you are enabling the software controller at the same time as
+> assignable mbm counters. This means that if you enable the software
+> controller and create too many monitor groups then the software
+> controller will stop working. Any user applications already using the
+
+Thanks for the review.
+
+You are right, once the mbm counter pool is empty a new monitor group
+has no counter, the software controller cannot see it, and it can then
+raise the control above the user's target. The warn was not a fix for that.
+
+> software controller would be broken.
+> 
+> Would instead teaching MPAM about the mbm_default fixed allocation of
+> counters be better? If a platform has sufficient bandwidth counters then
+> we can ensure there is a counter for every monitor group. If necessary,
+
+Right, if the MBM assignable counter is assigned at the time of group
+creation, the MBps mechanism can be prevented from failing due to a lack
+of counters.
+
+> we can also reduce the number of CLOSID/RMID the driver reports so that
+> there is one per monitor group.
+
+I tried this method, and it works fine on QEMU.
+
+> 
 > Thanks,
-> Guenter
->
-> > ---
-> > Changes in v2:
-> > - Register fan and temperature monitoring as separate hwmon devices.
-> > - Reject a present but malformed pulses-per-revolution property.
-> >
-> >  Documentation/hwmon/sparx5-temp.rst |   9 ++
-> >  drivers/hwmon/Kconfig               |   7 +-
-> >  drivers/hwmon/sparx5-temp.c         | 146 ++++++++++++++++++++++++----
-> >  3 files changed, 139 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/Documentation/hwmon/sparx5-temp.rst b/Documentation/hwmon/=
-sparx5-temp.rst
-> > index 0140809089542..a053d12fbdbbb 100644
-> > --- a/Documentation/hwmon/sparx5-temp.rst
-> > +++ b/Documentation/hwmon/sparx5-temp.rst
-> > @@ -15,6 +15,10 @@ Supported chips:
-> >
-> >  Author: Lars Povlsen <lars.povlsen@microchip.com>
-> >
-> > +The driver also supports the Microchip LAN969x temperature sensor and =
-fan
-> > +controller as separate devices. The fan controller uses the
-> > +microchip,lan9691-fan compatible.
-> > +
-> >  Description
-> >  -----------
-> >
-> > @@ -30,4 +34,9 @@ The following attributes are supported.
-> >
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> >  temp1_input          Die temperature (in millidegree Celsius.)
-> > +fan1_input              Fan speed in RPM (LAN969x only).
->
-> FWIW, this is misleading. One instance will support the temperature, a
-> separate hwmon device will support the fan. Really, if you want to have
-> two separate devices, make it two separate drivers.
->
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > +
-> > +The tachometer counts pulses over one-second intervals, independently =
-of the
-> > +PWM output. The fan child's pulses-per-revolution property specifies h=
-ow many
-> > +pulses represent one revolution; it defaults to two.
-> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
-> > index 3ae676a56d95c..deb9eb82b8501 100644
-> > --- a/drivers/hwmon/Kconfig
-> > +++ b/drivers/hwmon/Kconfig
-> > @@ -669,11 +669,12 @@ config SENSORS_I5K_AMB
-> >         will be called i5k_amb.
-> >
-> >  config SENSORS_SPARX5
-> > -     tristate "Sparx5 SoC temperature sensor"
-> > +     tristate "Sparx5 and LAN969x SoC hardware monitoring"
-> >       depends on ARCH_SPARX5 || ARCH_LAN969X || COMPILE_TEST
-> >       help
-> > -       If you say yes here you get support for temperature monitoring
-> > -       with the Microchip Sparx5 SoC.
-> > +       If you say yes here you get support for temperature monitoring =
-on
-> > +       Microchip Sparx5 and LAN969x SoCs, as well as fan monitoring on
-> > +       LAN969x SoCs.
->
-> Same here. Based on the description and the documentation, a user would n=
-ot
-> expect to get two separate hardware monitoring devices.
->
-> >
-> >         This driver can also be built as a module. If so, the module
-> >         will be called sparx5-temp.
-> > diff --git a/drivers/hwmon/sparx5-temp.c b/drivers/hwmon/sparx5-temp.c
-> > index 0fd5c147f8167..1f197004780cc 100644
-> > --- a/drivers/hwmon/sparx5-temp.c
-> > +++ b/drivers/hwmon/sparx5-temp.c
-> > @@ -9,8 +9,11 @@
-> >  #include <linux/hwmon.h>
-> >  #include <linux/init.h>
-> >  #include <linux/io.h>
-> > +#include <linux/kernel.h>
-> >  #include <linux/module.h>
-> > +#include <linux/of.h>
-> >  #include <linux/platform_device.h>
-> > +#include <linux/property.h>
-> >
-> >  #define TEMP_CTRL            0
-> >  #define TEMP_CFG             4
-> > @@ -20,9 +23,26 @@
-> >  #define  TEMP_STAT_VALID     BIT(12)
-> >  #define  TEMP_STAT_TEMP              GENMASK(11, 0)
-> >
-> > +#define FAN_CFG                      0
-> > +#define  FAN_CFG_GATE_ENA    BIT(2)
-> > +#define  FAN_CFG_STAT_MODE   BIT(0)
-> > +#define FAN_PWM_FREQ         4
-> > +#define  FAN_PWM_FREQ_CYCLES GENMASK(27, 16)
-> > +#define FAN_CNT                      8
-> > +#define  FAN_CNT_DATA                GENMASK(15, 0)
-> > +
-> > +#define FAN_TACH_INTERVAL_HZ 100000
-> > +
-> > +struct s5_match_data {
-> > +     bool is_fan;
-> > +};
-> > +
-> >  struct s5_hwmon {
-> >       void __iomem *base;
-> > +     void __iomem *fan;
-> >       struct clk *clk;
-> > +     unsigned long clk_rate;
-> > +     u32 pulses_per_revolution;
-> >  };
-> >
-> >  static void s5_temp_enable(struct s5_hwmon *hwmon)
-> > @@ -37,6 +57,24 @@ static void s5_temp_enable(struct s5_hwmon *hwmon)
-> >       writel(val, hwmon->base + TEMP_CFG);
-> >  }
-> >
-> > +static void s5_fan_enable(struct s5_hwmon *hwmon)
-> > +{
-> > +     u32 cycles, val;
-> > +
-> > +     cycles =3D DIV_ROUND_CLOSEST(hwmon->clk_rate, FAN_TACH_INTERVAL_H=
-Z);
-> > +     cycles =3D clamp_val(cycles, 1, FIELD_MAX(FAN_PWM_FREQ_CYCLES));
-> > +
-> > +     val =3D readl(hwmon->fan + FAN_PWM_FREQ);
-> > +     val &=3D ~FAN_PWM_FREQ_CYCLES;
-> > +     val |=3D FIELD_PREP(FAN_PWM_FREQ_CYCLES, cycles);
-> > +     writel(val, hwmon->fan + FAN_PWM_FREQ);
-> > +
-> > +     /* Count all tachometer pulses over one-second intervals. */
-> > +     val =3D readl(hwmon->fan + FAN_CFG);
-> > +     val &=3D ~(FAN_CFG_STAT_MODE | FAN_CFG_GATE_ENA);
-> > +     writel(val, hwmon->fan + FAN_CFG);
-> > +}
-> > +
-> >  static int s5_read_temp(struct s5_hwmon *hwmon, long *temp)
-> >  {
-> >       int value;
-> > @@ -62,6 +100,17 @@ static int s5_read_temp(struct s5_hwmon *hwmon, lon=
-g *temp)
-> >       return 0;
-> >  }
-> >
-> > +static int s5_read_fan(struct s5_hwmon *hwmon, long *val)
-> > +{
-> > +     u32 count;
-> > +
-> > +     count =3D readl_relaxed(hwmon->fan + FAN_CNT);
-> > +     count =3D FIELD_GET(FAN_CNT_DATA, count);
-> > +     *val =3D count * 60 / hwmon->pulses_per_revolution;
-> > +
-> > +     return 0;
-> > +}
-> > +
-> >  static int s5_read(struct device *dev, enum hwmon_sensor_types type,
-> >                  u32 attr, int channel, long *val)
-> >  {
-> > @@ -72,6 +121,10 @@ static int s5_read(struct device *dev, enum hwmon_s=
-ensor_types type,
-> >               if (attr =3D=3D hwmon_temp_input)
-> >                       return s5_read_temp(hwmon, val);
-> >               break;
-> > +     case hwmon_fan:
-> > +             if (attr =3D=3D hwmon_fan_input && hwmon->fan)
-> > +                     return s5_read_fan(hwmon, val);
-> > +             break;
-> >       default:
-> >               break;
-> >       }
-> > @@ -82,62 +135,115 @@ static int s5_read(struct device *dev, enum hwmon=
-_sensor_types type,
-> >  static umode_t s5_is_visible(const void *_data, enum hwmon_sensor_type=
-s type,
-> >                            u32 attr, int channel)
-> >  {
-> > -     if (type !=3D hwmon_temp)
-> > -             return 0;
-> > +     const struct s5_hwmon *hwmon =3D _data;
-> >
-> > -     switch (attr) {
-> > -     case hwmon_temp_input:
-> > -             return 0444;
-> > +     switch (type) {
-> > +     case hwmon_temp:
-> > +             return attr =3D=3D hwmon_temp_input ? 0444 : 0;
-> > +     case hwmon_fan:
-> > +             if (hwmon->fan && attr =3D=3D hwmon_fan_input)
-> > +                     return 0444;
-> > +             return 0;
-> >       default:
-> >               return 0;
-> >       }
-> >  }
-> >
-> > -static const struct hwmon_channel_info * const s5_info[] =3D {
-> > +static const struct hwmon_channel_info * const s5_temp_info[] =3D {
-> >       HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
-> >       HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
-> >       NULL
-> >  };
-> >
-> > +static const struct hwmon_channel_info * const s5_fan_info[] =3D {
-> > +     HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
-> > +     NULL
-> > +};
-> > +
-> >  static const struct hwmon_ops s5_hwmon_ops =3D {
-> >       .is_visible =3D s5_is_visible,
-> >       .read =3D s5_read,
-> >  };
-> >
-> > -static const struct hwmon_chip_info s5_chip_info =3D {
-> > +static const struct hwmon_chip_info s5_temp_chip_info =3D {
-> >       .ops =3D &s5_hwmon_ops,
-> > -     .info =3D s5_info,
-> > +     .info =3D s5_temp_info,
-> > +};
-> > +
-> > +static const struct hwmon_chip_info s5_fan_chip_info =3D {
-> > +     .ops =3D &s5_hwmon_ops,
-> > +     .info =3D s5_fan_info,
-> >  };
-> >
-> >  static int s5_temp_probe(struct platform_device *pdev)
-> >  {
-> > +     const struct s5_match_data *match_data;
-> > +     struct device *dev =3D &pdev->dev;
-> >       struct device *hwmon_dev;
-> >       struct s5_hwmon *hwmon;
-> > +     struct device_node *fan_np __free(device_node) =3D NULL;
-> > +     void __iomem *base;
-> > +     bool is_fan;
-> > +     int ret;
-> >
-> > -     hwmon =3D devm_kzalloc(&pdev->dev, sizeof(*hwmon), GFP_KERNEL);
-> > +     match_data =3D device_get_match_data(dev);
-> > +     is_fan =3D match_data && match_data->is_fan;
-> > +
-> > +     hwmon =3D devm_kzalloc(dev, sizeof(*hwmon), GFP_KERNEL);
-> >       if (!hwmon)
-> >               return -ENOMEM;
-> >
-> > -     hwmon->base =3D devm_platform_ioremap_resource(pdev, 0);
-> > -     if (IS_ERR(hwmon->base))
-> > -             return PTR_ERR(hwmon->base);
-> > +     base =3D devm_platform_ioremap_resource(pdev, 0);
-> > +     if (IS_ERR(base))
-> > +             return PTR_ERR(base);
-> > +
-> > +     if (is_fan) {
-> > +             hwmon->fan =3D base;
-> > +             hwmon->pulses_per_revolution =3D 2;
-> > +             fan_np =3D of_get_available_child_by_name(dev->of_node, "=
-fan");
-> > +             if (fan_np &&
-> > +                 of_property_present(fan_np, "pulses-per-revolution"))=
- {
-> > +                     ret =3D of_property_read_u32(fan_np, "pulses-per-=
-revolution",
-> > +                                                &hwmon->pulses_per_rev=
-olution);
-> > +                     if (ret)
-> > +                             return dev_err_probe(dev, ret,
-> > +                                                  "invalid pulses-per-=
-revolution\n");
-> > +             }
-> > +             if (!hwmon->pulses_per_revolution ||
-> > +                 hwmon->pulses_per_revolution > 4)
-> > +                     return dev_err_probe(dev, -EINVAL,
-> > +                                          "invalid pulses-per-revoluti=
-on\n");
-> > +     } else {
-> > +             hwmon->base =3D base;
-> > +     }
-> >
-> > -     hwmon->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
-> > +     hwmon->clk =3D devm_clk_get_enabled(dev, NULL);
-> >       if (IS_ERR(hwmon->clk))
-> >               return PTR_ERR(hwmon->clk);
-> > +     hwmon->clk_rate =3D clk_get_rate(hwmon->clk);
-> >
-> > -     s5_temp_enable(hwmon);
-> > +     if (is_fan)
-> > +             s5_fan_enable(hwmon);
-> > +     else
-> > +             s5_temp_enable(hwmon);
-> >
-> > -     hwmon_dev =3D devm_hwmon_device_register_with_info(&pdev->dev,
-> > -                                                      "s5_temp",
-> > -                                                      hwmon,
-> > -                                                      &s5_chip_info,
-> > -                                                      NULL);
-> > +     hwmon_dev =3D devm_hwmon_device_register_with_info(dev,
-> > +                                     is_fan ? "lan969x_fan" : "s5_temp=
-", hwmon,
-> > +                                     is_fan ? &s5_fan_chip_info :
-> > +                                              &s5_temp_chip_info, NULL=
-);
-> >
-> >       return PTR_ERR_OR_ZERO(hwmon_dev);
-> >  }
-> >
-> > +static const struct s5_match_data lan969x_fan_match_data =3D {
-> > +     .is_fan =3D true,
-> > +};
-> > +
-> >  static const struct of_device_id s5_temp_match[] =3D {
-> > +     {
-> > +             .compatible =3D "microchip,lan9691-fan",
-> > +             .data =3D &lan969x_fan_match_data,
-> > +     },
-> >       { .compatible =3D "microchip,sparx5-temp" },
-> >       {},
-> >  };
-> > @@ -154,5 +260,5 @@ static struct platform_driver s5_temp_driver =3D {
-> >  module_platform_driver(s5_temp_driver);
-> >
-> >  MODULE_AUTHOR("Lars Povlsen <lars.povlsen@microchip.com>");
-> > -MODULE_DESCRIPTION("Sparx5 SoC temperature sensor driver");
-> > +MODULE_DESCRIPTION("Sparx5 SoC hardware monitoring driver");
-> >  MODULE_LICENSE("GPL");
+> 
+> Ben
+> 
+>>
+>> What this series does
+>> =====================
+>>
+>> MPAM refuses mba_MBps in two places:
+>> - Its MBM counters are assignable, and supports_mba_mbps() refuses
+>>   the option when they are.
+>> - Its maximum bandwidth control is a soft limit by default, which
+>>   can't hold a single requester down to the target.
+>>   MPAMF_MBW_IDR.MAX_LIM reports whether the hard limit exists.
+>>
+>> MPAM also makes two generic defects reachable:
+>> - Writing the control register sleeps (smp_call_on_cpu()), while
+>>   the worker runs under the RCU read lock
+>> - A 16-bit fraction lets the minimum control value reach zero, which
+>>   divides by zero in the estimator
+>>
+>> The patches:
+>>
+>> - Patches 1 and 2 fix the two generic defects.
+>> - Patches 3 and 4 make the loop runnable on MPAM: the worker takes the
+>>   CPU hotplug lock around the sleeping control update, and assignable
+>>   counters are accepted with a fixed assignment mode.
+>> - Patches 5 and 6 handle the maximum: the driver sets HARDLIM and
+>>   records the MAX_LIM behaviours, and mba_MBps is refused where only
+>>   the soft limit exists.
+>>
+>> x86 has no assignable counters in the mode where the controller is
+>> allowed, and does not set the soft-limit flag, so its behaviour is
+>> unchanged.
+>>
+>> Testing
+>> =======
+>>
+>> With the MPAM MSC model in QEMU:
+>>
+>> - From a 9606 MiB/s baseline, a 7000 MiB/s target converges to
+>>   6888 MiB/s and a 9000 MiB/s target to 8766 MiB/s.
+>> - The memory-side MSC register shows MBW_MAX.HARDLIM set.
+>> - A modelled MSC that implements only the soft limit refuses the
+>>   mba_MBps mount, while a plain mount succeeds.
+>> - With mbm_assign_on_mkdir forced on while the controller is in use,
+>>   a write of 0 is refused, and the user's value is restored after
+>>   unmount.
+>> - The KUnit tests for the MPAM driver pass.
+>>
+>> Jinjie Ruan (6):
+>>   fs/resctrl: Avoid division by zero in the MBA software controller
+>>   fs/resctrl: Do not update bandwidth from a failed counter read
+>>   fs/resctrl: Take the CPU hotplug lock for software controller updates
+>>   fs/resctrl: Allow mba_MBps with assignable MBM counters
+>>   fs/resctrl: Reject mba_MBps when the maximum is only a soft limit
+>>   arm_mpam: Program the hard limit for the software controller
+>>
+>>  Documentation/filesystems/resctrl.rst | 13 +++-
+>>  drivers/resctrl/mpam_devices.c        | 55 +++++++++++++----
+>>  drivers/resctrl/mpam_internal.h       |  4 ++
+>>  drivers/resctrl/mpam_resctrl.c        |  9 +++
+>>  fs/resctrl/monitor.c                  | 86 +++++++++++++++++++++------
+>>  fs/resctrl/rdtgroup.c                 | 48 ++++++++++++---
+>>  include/linux/resctrl.h               |  5 ++
+>>  7 files changed, 179 insertions(+), 41 deletions(-)
+>>
+> 
 
+-- 
+Best regards,
+Jinjie
 
-
---=20
-Robert Marko
-Staff Embedded Linux Engineer
-Sartura d.d.
-Lendavska ulica 16a
-10000 Zagreb, Croatia
-Email: robert.marko@sartura.hr
-Web: www.sartura.hr
