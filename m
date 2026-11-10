@@ -1,84 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794280558;
-	b=IrIiiwv/DVurDRGD4GNaeA9QpYjiDKjJ91/MILH3aeo0AOE9PrvL9oyAehhS6TuTLCBk
-	 Fhyx67lBwkNeANLH3NJ1zrjc0DunBxVuX6udD0Kt0kCDSyoliqFqsmU/DVGfgJnWEcZ3P
-	 m4hu/aegIJeBrHjcq87giJpLVp11G9LFA+rLvjyPUv4aEv/iEWXeIakfFIQQBfdqk5PqD
-	 aA1RT2rwNsmh8f+JjdcG60NA1lx0nVpspVWkuy4igT+ANRRvIbtGhCfXIj9fpWWN1su8Z
-	 ka6QoGAK5lpOk+1056Ws2FjyTTwWKY/NFtwJCc9jIMs9zhoeIfZt+zyuBeEqH1nZxIg==
+	t=1794281869;
+	b=jK4MmbIgfXvr7hO2exrKustbyThNVXmJthvIKkKpXIFmJDjhDvbtVWH5xDuHiTFKS1OB
+	 94jpTX9eLgZRYY8jQd8GlUJze/5kWa7LVbA6618l8Y59P+tNugFTcOS4nbg+TDNP9vsQA
+	 /5zG3E0dCdWRz6CIQPz5kKZypmCkFQZLPSbpoXYglLEzjFwZJJKp6ch2xRndWD7wzCgDs
+	 faLTV7JEmhK7ZV9XnOYdtMmwUQwC0Fb3ME3Fz1LLB+CjQzjZOCLmTq30nA1j4+NWCiYSg
+	 SYNR/OTkDTLLCKJ/5hYjr8xg21kvwhn4m6Ukz4Nj48rb3/2DOtgNjWd4AwPpJZg+WQw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794280558;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Content-Transfer-Encoding:Message-Id:References:To:X-Mailer;
-	bh=tKM22T/D5/SO/MGy5jLdaGL7gHjLOi5ZLHchOauKsAg=;
-	b=bjWfFk+WSPtWIvKH7XSjkB0JmIbvsvcMG/QW9drToDl4/1HLzQ3yfWMGYyX2IQJmon4s
-	 EfMdXt0nobyb124/Oi6W2thYg5q/saJ91UpdKpBu/UReF0SZqPg4Ye3gFr3K/r4WiYjZb
-	 8ksuBfWHYGF7l2VhAEW5txW8AUNDKHjnMoHeLBVw48yFQ8UrbRbMs5lrEd8PyLZ1QOQ2v
-	 St+827mqos/vOXqzOVx9cgmXp+hkyb97yQxRlGvcbWrtloVsc0CgQh/byQ4gIvXtEkIWS
-	 Mc8S1n1fEzK/U8hCVuQg2DEjf15CQlZcM/IQCmYty88EBtr89mQIzE6vjnNvze/7qaA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794281869;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=d57Xwxdq7ggCiZHh4PGNXJufaWf8Hx04l8Vo55VakVk=;
+	b=AUdQtfDyOwRWzyIKu/Vc8tfe2UMMKRcN1VF/G1qtDUZhImBZ5FpWWYh+TC2zBKhaFmbg
+	 DpExW0ZrxbEgXOoiAS5+CbgICuq12YuISc9+ExW/hgKAJLSiGWdYc1NOUKGWRInZGdtsD
+	 MPla2vvoU5YxK5J+7SKlPVVwNAX2kIU2GiUWa4drq8EE10diFg8VZX+WTqg/EP0FW9vWE
+	 eFZoWmlFBfuFNqQca4qjw2NBCX0BJf0h4+FuPWANDAfnD6DDSA12V60TxMsnqGY7xzPFd
+	 mRbsPVm74/iiEA99+nsHMj2IpCouePjHq1r9iK9yjzZAp4nE6dAfi5Ud9RSKHVhabSA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=grdncc.com;
-	spf=pass smtp.mailfrom=grdncc.com;
-	arc=none smtp.remote-ip=209.85.216.46
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bsfVIp2D;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA484606A32E
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 03:15:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA484606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=grdncc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=grdncc.com
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3b0bbdeae06so955726a91.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 19:15:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=grdncc.com; s=google; t=1794280557; x=1794885357; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:content-type:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=tKM22T/D5/SO/MGy5jLdaGL7gHjLOi5ZLHchOauKsAg=;
-        b=NwxIXfIfED92rj+yFVekhg0PoPvL6YqEIV+8UuPTeCTSJGMCqEVq7hIJ+SflQ/2qz9
-         BYV5y3QxZYan/+H9wX4hQnSGdVMybN8ZiGD67y/3gVq0JI/MbBdn6EyqiPRNpSNmG66T
-         p5BcQfDjmSFz6UPCTao36rT920jDVb1XwPgkG0GK59HFH+eAqz3PZrtF35lvRKFfTqzE
-         Iq34Xg54uBrv2zbo+xSnFkrFcsRvDvdiaLNdc2RS/+e455QrfsSbx3CWYH657zWiUoM4
-         z2GWIDCs8gooGGJOV0rqY9f+xuZbR5SbxV3OJvRI9PJZGkA3neqqFc1oCTfcajQFow1Z
-         WLKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794280557; x=1794885357;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:content-type:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tKM22T/D5/SO/MGy5jLdaGL7gHjLOi5ZLHchOauKsAg=;
-        b=dWaqjzlmDtMFEuPhZyuYfvXbpym5TPN/x0PO0hGVQYMvFulygeYcpR3wf5r/s5JYiM
-         E1r4/I7NirwMqW6+molkpEEcvsov5BXH3Zsz+iPW6LFrsLq1iwJ3Wm/LIuUSflEII1Fv
-         amsqmYrzkPJzrrII5qE3cwmKev1/jHoOeJRP0DxebiIEwW3IDFwYCKUbO8d4q8zxNTa6
-         do2/vkqG437xN1CYVZ/ObgUYRfaOuCQF65K3V8d9fF5OAowKjDXH6dLp77ggafUwRpFt
-         aigRAkF05wQsVkoVReGBvKs+Z04N78SOurkOxK9myw94cvQCD5ab4VZyqTeJY36AanYd
-         s9uQ==
-X-Forwarded-Encrypted: i=1; AL+hErHYvcVqXlRxSCzU7V0evkcFh9hdDrBpHP+v/3kMIg1wMErQ8J3qQdwJA3SRNGPYZ80o0FJO2RmpkxU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+X7ukgvRVatCRL0R7wWTxjgGL33mBNgPRWVTKQA40kdykc52H8
-	eA4MWaRyuYemoLBr42PyC6QsIsiPck82sRhl98qMpUjUzxL5ZtUa40yVTl7hYvE2qdc=
-X-Gm-Gg: AYBFou2dARN0z/XST4l9BKf0P7w+8q5PWGBdOCyejKK0CuAQg3rtykgBl9c8vd2PQU3
-	YFEHTHx0vzx1YaGq622IjZuqCo8/EUw1TcBkuTxs8Rm/zIYbcR2Iqn/WyjXBUg2g+9dlv0dcUZ/
-	fhMUJ8x0W9k/cLYhULbF4K/2oLSk+bUAZbnVWE5cV0+Q25FiCp1PyKapMDFlMTOQ9EEq7FFE4UU
-	omKyLXZ3Oop5pXXHTdWtrFGNfmjFgcTfJn2R9ps340JPBwCk/O/5+BI4NliizfynF/ce+9uOHiY
-	ZQLSc8DO+sRWPVc+6skaVy+l5b/1fx5zXbzOOx2c+jyJmkafbz1uetv+ABPQXkOb5KaLyLD+0Qt
-	STaqR6X9PoykRVDDSQpSiy8/c2/LQFFddMTderko6OpuO0vwzpTKgVZIOTqr7/7ebt31ZdDgmUy
-	qCeqF5sewYMmr0ngRfZtFwvHx98zgnoqI2jEpm6NWw7nFB9udxfy6TKXjVRsmawlJqBz+QDmmOZ
-	tJLljIWHvA6HYJwlb4CudqeT+PrwS9YAuw5UOtLoBolz6nWno+/0WOMfHHfo8Gwn6xhdr6mTiIR
-	MHkIwQpr3V7wmKi9roHfY/LF2HFFwM3ckJwZHjbX5oyIrFQEQdNTQNB4QOVRqkbmuL2+DMfrsLa
-	yHjS6JxDtZRkj27Wk5gKBzunVP3wy/i9/og==
-X-Received: by 2002:a17:90a:e7d2:b0:3ab:c80:9365 with SMTP id 98e67ed59e1d1-3b166d11497mr1560555a91.42.1794280556688;
-        Mon, 09 Nov 2026 19:15:56 -0800 (PST)
-Received: from smtpclient.apple ([103.243.98.37])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b16797069bsm1826210a91.14.2026.11.09.19.15.44
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 09 Nov 2026 19:15:56 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 8341C60A6F79;
+	Tue, 10 Nov 2026 03:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bsfVIp2D
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 792771F008A5;
+	Tue, 10 Nov 2026 03:37:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794281869;
+	bh=d57Xwxdq7ggCiZHh4PGNXJufaWf8Hx04l8Vo55VakVk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=bsfVIp2Du7+TXWzzv1AVkg0BHW0AFsZkouQiHfPJWSa2x5FGJe2ANFH0D2Clrwet+
+	 iR16SnW1I/mNLfeEjaYkfLIEimyDJiKfL/QHxUJQ6IHkbuY4q4HbDJ332UY0P4vD0t
+	 /RE+U06aE2/NAX5vLQjvjuDzwypa6ciwFVtPEIggzPQd/A+nsoHDnZ6rE+voj29qQ/
+	 LL1SK2K/KJShnBqE0fMgLQAceCTjZb3vAgoACCjyxgT8mRBWWF+gne6bmQPwClA6I5
+	 c/4nDAiNrC1h6D3p1M4QB1FbuAOqYJ/FpijRP8Evecbhkmq9fJQ0lXs/8QKnSzovQB
+	 YNgvt+MK3ZBmA==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+	bpf@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	fsverity@lists.linux.dev,
+	keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Alex Shi <alexs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ignat Korchagin <ignat@linux.win>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	James Morris <jmorris@namei.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Song Liu <song@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yonghong Song <yonghong.song@linux.dev>
+Subject: [PATCH v7 1/3] KEYS: Introduce keyring_is_empty()
+Date: Tue, 10 Nov 2026 05:37:36 +0200
+Message-ID: <20261110033738.2495880-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261110033738.2495880-1-jarkko@kernel.org>
+References: <20261110033738.2495880-1-jarkko@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,89 +92,108 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.700.51.1.3\))
-Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
- mask
-From: Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>
-In-Reply-To: <20261101192203.6979-1-ynorov@nvidia.com>
-Date: Tue, 10 Nov 2026 16:15:31 +1300
-Cc: Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>,
- Thomas Gleixner <tglx@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Shrikanth Hegde <sshegde@linux.ibm.com>,
- Yury Norov <yury.norov@gmail.com>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Andrea Righi <arighi@nvidia.com>,
- Ben Segall <bsegall@google.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Danilo Krummrich <dakr@kernel.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heiko Carstens <hca@linux.ibm.com>,
- Johan Hovold <johan@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- Mel Gorman <mgorman@suse.de>,
- Mete Durlu <meted@linux.ibm.com>,
- Randy Dunlap <rdunlap@infradead.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Steven Rostedt <rostedt@goodmis.org>,
- Sven Schnelle <svens@linux.ibm.com>,
- Valentin Schneider <vschneid@redhat.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org,
- driver-core@lists.linux.dev,
- linux-s390@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
-References: <20261101192203.6979-1-ynorov@nvidia.com>
-To: Yury Norov <ynorov@nvidia.com>
-X-Mailer: Apple Mail (2.3864.700.51.1.3)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> On Nov 2, 2026, at 08:21, Yury Norov <ynorov@nvidia.com> wrote:
->=20
-> The preferred CPU mask currently lets the steal governor reduce vCPU
-> demand when physical CPUs are contended. This series adds manual =
-control,
-> opening more use cases.
->=20
-> For example, setting CPUs aside for selected fair tasks at runtime =
-while
-> steering other fair tasks toward the remaining CPUs.
+Introduce keyring_is_empty() in order to decouple for BPF, dm-verity and
+fs-verity how keyring internally manages the keys.
 
-Hi Yury,
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+---
+ drivers/md/dm-verity-verify-sig.c                      |  2 +-
+ fs/verity/signature.c                                  |  2 +-
+ include/linux/key.h                                    |  1 +
+ kernel/bpf/keys.c                                      |  2 +-
+ security/keys/keyring.c                                | 10 ++++++++++
+ .../selftests/dm-verity/test-dm-verity-keyring.sh      |  2 +-
+ 6 files changed, 15 insertions(+), 4 deletions(-)
 
-I've been trying to do this with crutches in user-space for a long time. =
- Thanks for implementing this in the kernel, and with a convenient user =
-interface.
-
->=20
-> A user can mark a CPU non-preferred and pin a workload to it. Fair =
-tasks
-> whose affinity includes preferred CPUs are steered away, while tasks
-> whose allowed CPUs contain no preferred CPU can still run there. The =
-CPU
-> stays online, task affinity is preserved, and the selection can be
-> reversed without rebooting:
->=20
->    # rmmod steal_governor
->    # echo 0 > /sys/devices/system/cpu/cpu3/preferred
->    # taskset -c 3 ./my_workload
->    # echo 1 > /sys/devices/system/cpu/cpu3/preferred
-
-My use-case (being a compiler optimization engineer) is to pin =
-benchmarks to specific cores, and stop the system from using those cores =
-even when the cores are idle.  This prevents L1/L2 cache pollution and =
-makes performance numbers more stable.
-
-Thanks!
-
---
-Maxim Kuvyrkov
-Garden City Compilers
+diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+index 0c65c7a31da8..bd5143aae4fa 100644
+--- a/drivers/md/dm-verity-verify-sig.c
++++ b/drivers/md/dm-verity-verify-sig.c
+@@ -153,7 +153,7 @@ int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+ 	if (ret != -ENOKEY && ret != -EKEYREJECTED)
+ 		return ret;
+ 
+-	if (dm_verity_keyring->keys.nr_leaves_on_tree &&
++	if (!keyring_is_empty(dm_verity_keyring) &&
+ 	    dm_verity_keyring->restrict_link)
+ 		ret = verify_pkcs7_signature(root_hash, root_hash_len,
+ 					     sig_data, sig_len,
+diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+index 2f49c5d9d987..b45b39b829b2 100644
+--- a/fs/verity/signature.c
++++ b/fs/verity/signature.c
+@@ -70,7 +70,7 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
+ 		return 0;
+ 	}
+ 
+-	if (fsverity_keyring->keys.nr_leaves_on_tree == 0) {
++	if (keyring_is_empty(fsverity_keyring)) {
+ 		/*
+ 		 * The ".fs-verity" keyring is empty, due to builtin signatures
+ 		 * being supported by the kernel but not actually being used.
+diff --git a/include/linux/key.h b/include/linux/key.h
+index 420412aab926..9ff10b780865 100644
+--- a/include/linux/key.h
++++ b/include/linux/key.h
+@@ -439,6 +439,7 @@ extern int restrict_link_reject(struct key *keyring,
+ 				struct key *restriction_key);
+ 
+ extern int keyring_clear(struct key *keyring);
++bool keyring_is_empty(const struct key *keyring);
+ 
+ extern key_ref_t keyring_search(key_ref_t keyring,
+ 				struct key_type *type,
+diff --git a/kernel/bpf/keys.c b/kernel/bpf/keys.c
+index bffc356839ac..24e0416abc99 100644
+--- a/kernel/bpf/keys.c
++++ b/kernel/bpf/keys.c
+@@ -29,7 +29,7 @@ struct bpf_key *bpf_lookup_keyring(void)
+ 
+ 	if (!bpf_keyring)
+ 		return NULL;
+-	if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
++	if (keyring_is_empty(bpf_keyring) ||
+ 	    !READ_ONCE(bpf_keyring->restrict_link))
+ 		return NULL;
+ 
+diff --git a/security/keys/keyring.c b/security/keys/keyring.c
+index 5281da9d5bf7..ac48d6204915 100644
+--- a/security/keys/keyring.c
++++ b/security/keys/keyring.c
+@@ -443,6 +443,16 @@ static void keyring_destroy(struct key *keyring)
+ 	assoc_array_destroy(&keyring->keys, &keyring_assoc_array_ops);
+ }
+ 
++/**
++ * keyring_is_empty - Check whether a keyring is empty
++ * @keyring: The keyring to check.
++ */
++bool keyring_is_empty(const struct key *keyring)
++{
++	return READ_ONCE(keyring->keys.nr_leaves_on_tree) == 0;
++}
++EXPORT_SYMBOL(keyring_is_empty);
++
+ /*
+  * Describe a keyring for /proc.
+  */
+diff --git a/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh b/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
+index 1f9601ef22f8..792449d356cf 100755
+--- a/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
++++ b/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
+@@ -746,7 +746,7 @@ test_keyring_inactive_when_empty() {
+     log_info "TEST: Verify dm-verity keyring is inactive when sealed empty"
+ 
+     # When keyring_unsealed=0, the keyring is sealed immediately while empty
+-    # This means it should NOT be used for verification (nr_leaves_on_tree=0)
++    # An empty keyring should NOT be used for verification.
+ 
+     log_info "Keyring state (should be empty and sealed):"
+     list_keyring_keys
+-- 
+2.47.3
 
