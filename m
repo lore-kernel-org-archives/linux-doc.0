@@ -1,54 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794353922;
-	b=j7I5PdKmyvvdvARKwnz0Umy8F/QKIVrr98JUDoGdsq7tsXtc3qdPOoCj+XSwtvd6UpMZ
-	 4O4PqraLIcjTSliyYr5I9gstEffM/JoUSOG1jrHjPduCD+O6H9yxVTRPfg3DgDoXSYpDS
-	 6UlTL4y0v0i51XYewMWsUxDWEymRz4kh7LG284IrqDZLPlp0dV3Wo0yL5OF5C7ELjvQ1W
-	 njV8Hm7yAieuPh/qpeR9FCq3J0pmZVrpPphWWUwDWFIKzs8OOANdCaDowGAYmGKzfFg8z
-	 xkNnZIClJPmYzkTr+DVEhZRMYaoC+/JVtt/NJnISBOXqh8ZR1DLyt/llXImbU6FXv2w==
+	t=1794354396;
+	b=v3W482Tk2jpYBB8I44/L6vJQrdnvttepFyomkfEbDog4pF5JAUkn/LD7VR5uXfRdCpnz
+	 klb4MJH6YRNsGTIJq4S5NBr2oxjJg4rxrzPY45/i4MoqbSDuARc99og07IK+ZeMmi7+45
+	 CX8ln6x5mL5sgxpoabEfeiWlHP5vXQOt2lv4PfblkAUSXwgGAHoBbe8hZnnG3aWrn6P4g
+	 VKXgtPx8b4vdokx98Eqx6htz7SoVNp5sPID/ohfaGGPllWM3yfl/3s7ngYADpYjuAXMic
+	 of78C4LTd/35orwPPIUjZ7VUMSndWhbASvh24Bjjn6AL7nCDum4F/15ZfMVFUjadqmQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794353922;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=sSHdcYGiw5uX+5DAMChQVQ2kwmuuDQLs53wCDoEKCUM=;
-	b=LrzAAphw/OCH40b6XSZNd9k1Dgmge2Nz4t2r4y+UNdOZtBXC7kcO9f7xTQM17cHPfMn1
-	 KqQnu8KkuQRuctS90s1aK6Ma4zjA62zYQ6zfGu/MPIPNCpoTgfR0A3RVNa+jRXtdsu+UW
-	 I2/+WaLacHdxaPGl7d53xmM3AnTphsJ/o3gq+BH6P/0hxIJ6dL5Zm0/1CFfdNA4OgegVk
-	 q6Sr1tWPrLJsPyhZbi+CNXMQLZ41je9d1HgJNcEIp/qasnJNUobBmBojQPW7Wyl9Hdhs6
-	 lHWdsHCo/vk33D1lGZkFHYNwmtRtO2K62HH0zKcytBvlT2K6w75xERIO52yQS1CXHAw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794354396;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=tuta7zXDJotP5Mc5TnvlvxObG+w4C4fXcl6owUGWTlA=;
+	b=BoMaBGDx2BUt+QAhushI5SE/5Sp6h+sgM7D4KWuy8GRG9GrjJAwYpD6oyZ7hOHopZ7h/
+	 qRJD4IL1Gvcb7i0nE3PGKCHRXs6Pgob+3SjI0Z+TsS3irqJAMEtACQpoPFUn1U1cAY2Hm
+	 Vg6LCWKqLskqQpHVS+7mHtDLn+I497mP3tYz8BlY0swSWKZMxMiXGUNxu5LePZCrkfGr+
+	 rLZIuJCNwCHhV6DTBUhPlmD2wNTV0N70rwDBGIyT3VztnLvoN0HZT5VUQh+0klco6xopt
+	 BFntUBepRzeJKLaHnnaBMR7IV7s646OaGsYuxS/BfB51aLqMWg9WaErJTslcIQrF2zQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2AVRSIoT;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ngr8t411;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Q2nCYGda;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D261D606A321;
-	Tue, 10 Nov 2026 23:38:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D261D606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA088606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:46:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA088606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=2AVRSIoT
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=sSHdcYGiw5uX+5DAMChQVQ2kwmuuDQLs53wCDoEKCUM=; b=2AVRSIoT3Hlc8p9Sd8i66krZfT
-	AsX+HzKMnBK1ZvBOM3NCUsLweaED6aOyyYY5O6H3hRpyis9u7MfumFVhuxLeTcy1DWDoVKzY76nl0
-	USOdsN9GqeGIEdFhstDlpsnCQF1jgRIL+ySv9+ezQCCblD/1ecnsbUkwr/raKmcEpF0x82e//KF60
-	cwPoByUOMGaZuS2LT1JU1jUQocjInmKQNSNALKBmq2wmmoMRtXi7ZbuiA7pYH444eytVZXYPJqDJ+
-	Dfm3BhZGi561eACEhIAo7nbLei5zuTJrvcYkt3+XJ/REGWu36OSyALZ5NYP0m35kbR0DjD77C50bc
-	hH7Jru+w==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xQvQF-00000005FZd-0c6N;
-	Tue, 10 Nov 2026 23:38:39 +0000
-Message-ID: <9e128735-6f0c-4293-af09-1808b3b32c2e@infradead.org>
-Date: Tue, 10 Nov 2026 15:38:38 -0800
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ngr8t411;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Q2nCYGda
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAMKP0m1448701
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:46:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tuta7zXDJotP5Mc5TnvlvxObG+w4C4fXcl6owUGWTlA=; b=ngr8t411Z5cGLy0a
+	5WrovNSb74tn/rfs52dz3QnAapS4s9etd1QwgY/oURGmgj8zvH5uzECls4XtXEQq
+	PWi9UwlB4R8VWz6nfaH8oJuN3dQaVCSM4X2YwFV2jk680LS4ngOJIF6IToIHXbpx
+	Ji0jGaaecTa91CYpfwGd4iYGNsN/fmPPi3NgyGYMTWNMUtvqJYtrSHVf4EY0RFDF
+	JMH1qMRizpb6WlBtthwBYBaIvfDXJVndI+i48sDyb8K1yibL5tQu8UhoqXawJlAe
+	4ukMdtJ7a2pqbyO9VqV5354685o8P0Kpu6kbdtM1EjQNXfFt2w53rqeKHcWCf+x3
+	HAY7Pg==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huyvwkdkf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:46:34 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-37628596fc9so12346eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:46:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794354394; x=1794959194; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=tuta7zXDJotP5Mc5TnvlvxObG+w4C4fXcl6owUGWTlA=;
+        b=Q2nCYGdauVhDVFg3yVR1DO1fPaU7kRb36Uto1Mfh659r7sa7WkPL2rYKKLPcguw/97
+         SkLfJB0tyvNnbiw125laqKk5qbJYUuiXLOT3+YTioTW9F25h1YGuPHICdROr0mFQGoHx
+         1hertzBvrmWJaiKBxW8GaZoZihz8ZW4qWF27SKth+vl/rwu4w3cFT1fB9WwpjcZJHWtn
+         0IPevwFw4NSH8DuL7nZjpOQ0nir/vSjyNFZLXqWi2sOJLMoAdVwITSb6j6Ol+xZAPZyn
+         aeAwnJFGEd3cHYP5rPqh0/U39tUWf6h1CkQ5NmT6lCXsyjzbqARjM2+ruy/mL9Wy0hq3
+         A4HQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794354394; x=1794959194;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tuta7zXDJotP5Mc5TnvlvxObG+w4C4fXcl6owUGWTlA=;
+        b=Vr0/iNEpT2FTHD5P2xgCzPFmm7lNKfuVVcQAehoX9s0Dhy8nXD7FCeuDMTiOhrm1jf
+         eEIpgfwyJrIE94V/j8TBJtxorSm076A299JzaZmC8I20FvqHmWPAu3Wtg/vieaP8LC+5
+         7QdoUt0huyxDaqJewdq/nFysrI+LyGkWeeCWweuX084EBhd3iXgps5Kux57zirz+GohZ
+         XGXKkIk/cGH2epS+7rQuxC//5f4N5CmhgAcr7OppbfB8XdLvzCQQmynrLa9vzWS8CZB4
+         OyFUV+NmQsUDC0drKrCGL4BdahESrEKKQc6wbkzVKjBQ1FsY3KdGYBPJ+Kv5CFkNmhU1
+         OWkQ==
+X-Forwarded-Encrypted: i=1; AL+hErG1XAjNeYwHvbenzygNFYIpp5JXak7wA3vXas6YyZjHOOgUHPnY/R8sGVYCiPGXhI0KWjHi87pSTwc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+zl8DrmZje7zqsaCQqv9NRLKVRCmOvyAOuq7PnFjKeI68VMkWM
+	4QCgNhtjmZ7umtJHRLBnO4EygBpabzH7ooxSGN+BeSIOZ3em+K8h1FaAQxVIJTwWyN2F7Farm4x
+	Vxn/RYon9kizv0vKsI1H9zDLMb4uBNkdTkt9oNwABD3VYDI5nzpHAFeY7ckvfkkU=
+X-Gm-Gg: AYBFou3Vv23H6oqd/85GF6sE5Xwahz5LSW4f30cwH2PxqLyc39RjKJupvUrWYGuaRv4
+	zvqF2t+zvEg8U2SXSXM90s7QebHWKgGbO7cEElrUtQQZcHjCVP/RM+yV/Am9CW3wPQ9buEcyXLd
+	FKlnQE00+ScIAU/NFVnZhFD59UU36zwWf5jPvSWbd/lNr8X6SJ5EFvarGn7By++7OiTPB4tT39z
+	ClnjecLjjN78b3JdnMXh18V4XWKriGC6G3vaiUyR9FmcZrMHxws8HmKmvD0+5ijO0h0dJqcz4Dm
+	GP8tcTXAm9Z1OBB6SZ42VHPzakaGlhjnwISdntIIiFSYcPYWKsqK9AJ+F9hYi96VLp2/KX+LqR5
+	4PVaHKM/14nKDLLC5D2wEhmADOAmPCNDdSjdlmNbV1MgQ43iWkqarBT9TRh4FsMetDXvyTKH78v
+	WF5VSX7t1ExXf3ZW+dB8poaQYze4A=
+X-Received: by 2002:a05:693c:68da:b0:36c:a104:90db with SMTP id 5a478bee46e88-37687215dffmr1151710eec.41.1794354393796;
+        Tue, 10 Nov 2026 15:46:33 -0800 (PST)
+X-Received: by 2002:a05:693c:68da:b0:36c:a104:90db with SMTP id 5a478bee46e88-37687215dffmr1151665eec.41.1794354393092;
+        Tue, 10 Nov 2026 15:46:33 -0800 (PST)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe306e3sm10664890eec.7.2026.11.10.15.46.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 15:46:32 -0800 (PST)
+Date: Tue, 10 Nov 2026 15:46:07 -0800
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
+        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+        usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 30/35] firmware: arm_scmi: Add System Telemetry
+ driver
+Message-ID: <20261110154607.00002b64@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-31-cristian.marussi@arm.com>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+	<20261109091221.2532706-31-cristian.marussi@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,128 +132,622 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Add category of subsystem-apis
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261105181542.3071-2-manuelebnerli@mailbox.org>
- <43787755-f0ef-4338-b0d6-fcffcdfcc402@infradead.org>
- <cc36e81bf914e1ba3d641d2fe5aa38c52a275ece.camel@mailbox.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <cc36e81bf914e1ba3d641d2fe5aa38c52a275ece.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: 2JpRU2ycuIzV7s40M8lcGP-C6d2oLUCf
+X-Proofpoint-ORIG-GUID: 2JpRU2ycuIzV7s40M8lcGP-C6d2oLUCf
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA5NCBTYWx0ZWRfX3k3V9aTURTuH
+ RBXCEMXAsaoa4ufKXK8EfJuFiEwJp/XhxdkYfQkggAnw5bKs9x0mBIDp0JQ2bQO7gc8Kxdfkxgi
+ 4c20LZU0hB5jS0I1FestZCWGfuHovrQ=
+X-Authority-Analysis: v=2.4 cv=NNpAaE6g c=1 sm=1 tr=0 ts=6af3acda cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=7CQSdrXTAAAA:8 a=J8EkM7pjTVn-s5uLH5oA:9 a=CjuIK1q_8ugA:10
+ a=bBxd6f-gb0O0v-kibOvt:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA5NCBTYWx0ZWRfXwJQXRyA4KDIB
+ bhBV6y8a3lDfCTW0uIQ0Isn1R6JMelkcx3hO+dVzEta6aeA8dWsIbkENLDjb0Lbzw13Itfbs4QZ
+ Vs7nMjMZBMLS2NHRETdfwO0wSxvZG0J2bO87PH19v1uw3xv0RXLpB+G7v56qKKV4Qy2KtGF0jvX
+ ROKL+7dDNLrTPAw+WbWqiCLUtD2vDKd/F0EWmHS+WZDXkzDgFhlcCeTh+NjBZ0Pfxd9JWxiPEEW
+ 8QOkm10Po8W8PXPLzDTayzqNdsTVi26l28+chjhinnBwuc1OpMkhJeuGUdt7DAvkNq1/UDoIrI3
+ VDN9LtuUfEpZEjnOEipkzs3SVQVf1w/757u/dz2fdvsRYVdpKGjDCgKrQtxlQxafO1DnZgt81SD
+ qJj8Lseh1zXLo3pICMhjrbRKaglEhKzwvn4bt3yra7F4LflMWw1wGCZzx86u6yVSR9ppi/QkGzW
+ XDYzizFUfH8D1l/Josg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-10_07,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 priorityscore=1501
+ bulkscore=0 clxscore=1015 impostorscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100094
 
+On Mon,  9 Nov 2026 09:12:16 +0000
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
+> Add an SCMI driver to allow enumeration, configuration and data collection
+> of SCMI Telemetry data.
+> 
+> The driver exposes one character device for each found SCMI instance and a
+> set of related IOCTLs can be used to enumerate, configure and collect
+> Telemetry resources.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+Some comments inline.  I'm not even going to pretend to be
+alert enough to claim this is a thorough review though.
 
-On 11/6/26 3:52 AM, Manuel Ebner wrote:
-> Hi Randy,
-> 
-> On Thu, 2026-11-05 at 14:01 -0800, Randy Dunlap wrote:
->> On 11/5/26 10:15 AM, Manuel Ebner wrote:
->>> Add Bus and Communication category to reduce number of items in
->>> 'Other subsystems'.
->>>
->>> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
->> driver-api/index.html
->> This LGTM but at first I was wondering why I2C is listed here but I3C
->> is not.  I3C is listed under driver-api/index.html. So are some other
->> buses.
-> 
-> I think the actual reason is: There is Documentation/i2c/
-> but no Documentation/i3c/ . subsystem-apis.rst links to Documentation/<name>/index.rst ,
-> core-api/index.rst links to Documentation/core-api/<name>.rst .
-> 
-> however there is driver-api/i2c.rst and driver-api/i3c/index.rst.
-> Thats why Documentation/driver-api/index.rst has this:
->> Bus-level documentation
->>     ...
->>     I3C subsystem
->>     ...
->> Subsystem-specific APIs
->>     ...
->>     I2C and SMBus Subsystem
-> 
-> The structure is weird.
-> 
-> driver-api/index's justification is clearly stated, subsystem-apis's isn't.
-> What is it?
+Jonathan
 
-"... how specific kernel subsystems work from the point of view of a kernel developer."
+> diff --git a/drivers/firmware/arm_scmi/scmi_system_telemetry.c b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
+> new file mode 100644
+> index 000000000000..185c8e646628
+> --- /dev/null
+> +++ b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
 
-so it seems to be kernel internals and maybe some "theory of operation" type
-documentation.
+> +static long scmi_tlm_des_batch_read_ioctl(const struct scmi_tlm_instance *ti,
+> +					  unsigned long arg)
+> +{
+> +	struct scmi_telemetry_de_sample *samples __free(kvfree) = NULL;
 
-> 
->> That is a little confusing to me. ISTM that we need so *not* have
->> 2 places listing bus documentation...
-> 
-> I'm not sure about that. If the files serve to different people/roles both
-> should be kept, adapted and refined.
-> 
->> Anyway, this is a good start on that. It could be merged as is.
->>
->> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
->> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Thanks
->  Manuel
-> 
->>
->>> ---
->>>  Documentation/subsystem-apis.rst | 21 ++++++++++++++-------
->>>  1 file changed, 14 insertions(+), 7 deletions(-)
->>>
->>> diff --git a/Documentation/subsystem-apis.rst b/Documentation/subsystem-apis.rst
->>> index b1ad48bb40..4e886897d3 100644
->>> --- a/Documentation/subsystem-apis.rst
->>> +++ b/Documentation/subsystem-apis.rst
->>> @@ -24,6 +24,20 @@ Core subsystems
->>>     timers/index
->>>     locking/index
->>>  
->>> +Bus and Communication interfaces
->>> +--------------------------------
->>> +
->>> +.. toctree::
->>> +   :maxdepth: 1
->>> +
->>> +   i2c/index
->>> +   pcmcia/index
->>> +   spi/index
->>> +   w1/index
->>> +   usb/index
->>> +   PCI/index
->>> +   peci/index
->>> +
->>>  Human interfaces
->>>  ----------------
->>>  
->>> @@ -72,11 +86,7 @@ Other subsystems
->>>     cpu-freq/index
->>>     edac/index
->>>     fpga/index
->>> -   i2c/index
->>>     iio/index
->>> -   pcmcia/index
->>> -   spi/index
->>> -   w1/index
->>>     watchdog/index
->>>     virt/index
->>>     hwmon/index
->>> @@ -84,9 +94,6 @@ Other subsystems
->>>     security/index
->>>     crypto/index
->>>     bpf/index
->>> -   usb/index
->>> -   PCI/index
->>>     misc-devices/index
->>> -   peci/index
->>>     wmi/index
->>>     tee/index
+As near as possible to the constructor for an __free declarations.
 
--- 
-~Randy
+> +	int ret, *states __free(kvfree) = NULL;
+
+Definitely don't mix __free and non __free declarations.
+Separate lines!
+
+> +	const struct scmi_telemetry_res_info *rinfo;
+> +	void __user *uptr = (void __user *)arg;
+> +	struct scmi_tlm_batch batch = {};
+> +	size_t batch_sz, states_sz;
+> +
+> +	rinfo = scmi_telemetry_res_info_get(ti->tsp);
+> +	ret = scmi_tlm_batch_initialize(uptr, &batch, sizeof(*samples),
+> +					rinfo->num_des, (void **)&samples,
+> +					&batch_sz, &states, &states_sz);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (int i = 0; i < batch.num_items; i++) {
+> +		int ret;
+> +
+> +		ret = ti->tsp->ops->de_data_read(ti->tsp->ph, &samples[i]);
+> +		if (ret) {
+> +			if (!states)
+> +				return ret;
+> +
+> +			states[i] = ret;
+> +			continue;
+> +		}
+> +	}
+> +
+> +	/* Return max batch size on zero query */
+> +	if (!batch.num_items)
+> +		batch.num_items = rinfo->num_des;
+> +
+> +	return scmi_tlm_batch_finalize(uptr, &batch, samples, states, batch_sz,
+> +				       states_sz);
+> +}
+> +
+> +static struct scmi_tlm_shmti_ctx *
+> +scmi_tlm_shmti_ctx_alloc(struct scmi_tlm_instance *ti,
+> +			 struct scmi_telemetry_shmti_info *shmti)
+> +{
+> +	struct scmi_tlm_shmti_ctx *ctx;
+> +
+> +	ctx = kzalloc_obj(*ctx);
+> +	if (!ctx)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	ctx->shmti = shmti;
+> +	kref_init(&ctx->ref);
+> +
+> +	/* Get hold of the Telemetry instance when returning anon_fds */
+
+This bit of the code isn't returning anon_fds???
+
+> +	get_device(&ti->dev);
+> +	ctx->ti = ti;
+> +
+> +	return ctx;
+> +}
+
+> +
+> +static int scmi_tlm_shmti_mmap(struct file *filp, struct vm_area_struct *vma)
+> +{
+> +	unsigned long npages, expect, needed, req;
+> +	struct scmi_tlm_shmti_ctx *ctx;
+> +	phys_addr_t base;
+> +	size_t map_sz;
+> +	int ret, idx;
+> +
+> +	if (vma->vm_pgoff)
+> +		return -EINVAL;
+> +
+> +	if (vma->vm_flags & (VM_WRITE | VM_EXEC))
+> +		return -EPERM;
+> +
+> +	vm_flags_clear(vma, VM_MAYWRITE | VM_MAYEXEC);
+> +
+> +	/* Grab a ctx reference early on */
+> +	ctx = scmi_tlm_shmti_ctx_get(filp->private_data);
+> +	/*
+> +	 * Note that any ctx_put potentially release the device and
+> +	 * cleans the SRCU structure...no guards.
+
+No guards is fine but maybe goto and a common cleanup block?
+
+> +	 */
+> +	idx = srcu_read_lock(&ctx->ti->dead_srcu);
+> +	if (READ_ONCE(ctx->ti->dead)) {
+> +		srcu_read_unlock(&ctx->ti->dead_srcu, idx);
+> +		scmi_tlm_shmti_ctx_put(ctx);
+> +		return -ENODEV;
+> +	}
+> +
+> +	needed = ctx->shmti->len + ctx->shmti->offset;
+> +	req = vma->vm_end - vma->vm_start;
+> +	if (req < needed) {
+> +		srcu_read_unlock(&ctx->ti->dead_srcu, idx);
+> +		scmi_tlm_shmti_ctx_put(ctx);
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Align & reject oversized requests */
+> +	base = ctx->shmti->phys & PAGE_MASK;
+> +	expect = DIV_ROUND_UP(needed, PAGE_SIZE);
+> +	npages = req >> PAGE_SHIFT;
+> +	if (npages > expect) {
+> +		srcu_read_unlock(&ctx->ti->dead_srcu, idx);
+> +		scmi_tlm_shmti_ctx_put(ctx);
+> +		return -EINVAL;
+> +	}
+> +
+> +	map_sz = PAGE_ALIGN(needed);
+> +	vma->vm_private_data = ctx;
+> +	vma->vm_ops = &scmi_tlm_shmti_vm_ops;
+> +	/* Set appropriate caching attributes */
+> +	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+> +
+> +	/* Map physical address range into user space */
+> +	ret = vm_iomap_memory(vma, base, map_sz);
+> +	if (ret) {
+> +		srcu_read_unlock(&ctx->ti->dead_srcu, idx);
+> +		scmi_tlm_shmti_ctx_put(ctx);
+> +		return ret;
+> +	}
+> +
+> +	srcu_read_unlock(&ctx->ti->dead_srcu, idx);
+> +
+> +	return 0;
+> +}
+
+> +static void
+> +scmi_tlm_allocate_anon_fds(struct scmi_tlm_instance *ti, unsigned int *num_shmtis,
+> +			   struct scmi_tlm_shmti_info *shinfo,
+> +			   struct file **filps)
+> +{
+> +	const struct scmi_telemetry_info *info = ti->info;
+> +	struct device *dev = &ti->tsp->sdev->dev;
+> +	int idx = 0;
+> +
+> +	for (int i = 0; i < *num_shmtis; i++) {
+> +		struct scmi_telemetry_shmti_info *shmti = info->shmtis[i];
+> +		struct scmi_tlm_shmti_ctx *ctx;
+> +		struct file *filp;
+> +		int fd;
+> +
+> +		fd = get_unused_fd_flags(O_CLOEXEC);
+
+Bit marginal, but perhaps some __free magic for this.
+
+> +		if (fd < 0) {
+> +			dev_err(dev, "Failed GET_UNUSED_FD for SID: %u\n",
+> +				shmti->sid);
+> +			continue;
+> +		}
+> +
+> +		ctx = scmi_tlm_shmti_ctx_alloc(ti, shmti);
+> +		if (IS_ERR(ctx)) {
+> +			dev_err(dev, "Failed CTX_ALLOC for SID: %u\n", shmti->sid);
+> +			put_unused_fd(fd);
+> +			continue;
+> +		}
+> +
+> +		filp = anon_inode_getfile(SCMI_TLM_DRIVER, &scmi_tlm_shmti_fops,
+> +					  ctx, O_RDONLY | O_CLOEXEC);
+> +		if (IS_ERR(filp)) {
+> +			scmi_tlm_shmti_ctx_put(ctx);
+
+Bit fiddlier but maybe some __free magic for ctx as well.
+
+> +			put_unused_fd(fd);
+> +			dev_err(dev, "Failed ANON GET_FILE for SID: %u\n",
+> +				shmti->sid);
+> +			continue;
+> +		}
+> +
+> +		shinfo[idx].sid = shmti->sid;
+> +		shinfo[idx].fd = fd;
+> +		shinfo[idx].len = shmti->len;
+> +		shinfo[idx].offset = shmti->offset;
+> +
+> +		filps[idx++] = filp;
+> +	}
+> +
+> +	/* Return effective initialized items */
+> +	*num_shmtis = idx;
+> +}
+
+> +
+> +static long
+> +scmi_tlm_shmtis_list_get_ioctl(struct scmi_tlm_instance *ti, unsigned long arg)
+> +{
+> +	struct scmi_tlm_shmti_info *shinfo __free(kvfree) = NULL;
+
+Move down to where it's constructed.  cleanup.h talks about this.
+
+> +	unsigned int max_shmtis = ti->info->base.num_shmtis;
+> +	void __user *uptr = (void __user *)arg;
+> +	struct scmi_tlm_batch batch = {};
+> +	size_t batch_sz;
+> +	int ret;
+> +
+> +	ret = scmi_tlm_batch_initialize(uptr, &batch, sizeof(*shinfo), max_shmtis,
+> +					(void **)&shinfo, &batch_sz, NULL, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (batch.num_items == 0) {
+> +		batch.num_items = max_shmtis;
+> +
+> +		return scmi_tlm_batch_finalize(uptr, &batch, shinfo, NULL,
+> +					       batch_sz, 0);
+> +	}
+> +
+> +	struct file **filps __free(kfree) = kzalloc_objs(*filps, batch.num_items);
+> +	if (!filps)
+> +		return -ENOMEM;
+> +
+> +	/* Passing the array as a param avoids dancing with uptr->items */
+> +	scmi_tlm_allocate_anon_fds(ti, &batch.num_items, shinfo, filps);
+> +	ret = scmi_tlm_batch_finalize(uptr, &batch, shinfo, NULL, batch_sz, 0);
+> +	if (ret) {
+> +		scmi_tlm_anon_fds_free(batch.num_items, shinfo, filps);
+> +		return ret;
+> +	}
+> +
+> +	scmi_tlm_anon_fds_install(batch.num_items, shinfo, filps);
+> +
+> +	return 0;
+> +}
+
+> +
+> +static long
+> +scmi_tlm_uuid_list_get_ioctl(const struct scmi_tlm_instance *ti,
+> +			     unsigned long arg)
+> +{
+> +	struct scmi_tlm_uuid *uuids __free(kvfree) = NULL;
+
+Move this down next to where the constructor is.  See cleanup.h guidance
+on why they should be together.
+
+> +	void __user *uptr = (void __user *)arg;
+> +	struct scmi_tlm_batch batch = {};
+> +	unsigned int num_uuids;
+> +	uuid_t **cur_uuids;
+> +	size_t batch_sz;
+> +	int ret;
+> +
+> +	/*
+> +	 * Note that UUID array can ONLY grow and it has NOT a known upper
+> +	 * bound, so it does not matter if by the time we grab the cur_uuids
+> +	 * via rcu_dereference() the array has grown in size and we end up
+> +	 * here reading a stale/incomplete set of UUIDs, we will simply
+> +	 * read the new UUIDs next-time: this simplifies allocation.
+> +	 */
+> +	num_uuids = smp_load_acquire(&ti->info->num_uuids);
+> +	ret = scmi_tlm_batch_initialize(uptr, &batch, sizeof(*uuids),
+> +					num_uuids, (void **)&uuids, &batch_sz,
+> +					NULL, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	rcu_read_lock();
+> +	cur_uuids = rcu_dereference(ti->info->uuids);
+> +	for (int j = 0; j < batch.num_items; j++)
+> +		export_uuid(uuids[j].bytes, cur_uuids[j]);
+> +	rcu_read_unlock();
+> +
+> +	/* Return max batch size on zero query */
+> +	if (!batch.num_items)
+> +		batch.num_items = num_uuids;
+> +
+> +	return scmi_tlm_batch_finalize(uptr, &batch, uuids, NULL, batch_sz, 0);
+> +}
+> +
+> +static int scmi_tlm_event_subscribe(struct scmi_tlm_instance *ti,
+> +				    struct scmi_tlm_event *evt, void *key)
+> +{
+> +	struct scmi_tlm_events_session *session;
+> +	struct scmi_tlm_registered_event *revt;
+> +	struct eventfd_ctx *ctx;
+> +	u32 cookie;
+> +	int ret;
+> +
+> +	scoped_guard(mutex, &ti->sessions_mtx) {
+> +		session = xa_load(&ti->sessions_xa, (unsigned long)key);
+> +		if (!session) {
+> +			/*
+> +			 * Initialize a new session on first call.
+> +			 * Once created successfully initialized sessions are
+> +			 * freed only on final release.
+> +			 */
+> +			session = kzalloc_obj(*session);
+> +			if (!session)
+> +				return -ENOMEM;
+> +
+> +			/* Initialize inner with proper flags to support xa_alloc */
+> +			xa_init_flags(&session->events_xa, XA_FLAGS_ALLOC);
+> +			mutex_init(&session->events_mtx);
+> +			ret = xa_insert(&ti->sessions_xa, (unsigned long)key,
+> +					session, GFP_KERNEL);
+> +			if (ret) {
+> +				xa_destroy(&session->events_xa);
+> +				kfree(session);
+> +				return ret;
+> +			}
+> +		}
+> +	}
+> +
+> +	ctx = eventfd_ctx_fdget(evt->efd);
+> +	if (IS_ERR(ctx))
+> +		return PTR_ERR(ctx);
+> +
+> +	revt = kzalloc_obj(*revt);
+> +	if (!revt) {
+> +		eventfd_ctx_put(ctx);
+> +		return -ENOMEM;
+> +	}
+> +
+> +	guard(mutex)(&session->events_mtx);
+> +	revt->ctx = ctx;
+> +	revt->type = evt->type;
+> +	ret = xa_alloc(&session->events_xa, &cookie, revt,
+> +		       scmi_evt_xa_limit, GFP_KERNEL);
+> +	if (ret) {
+> +		eventfd_ctx_put(revt->ctx);
+> +		kfree(revt);
+> +		return ret;
+> +	}
+> +
+> +	ret = ti->tsp->ops->event_subscribe(ti->tsp->ph, revt->type, revt->ctx);
+> +	if (ret) {
+> +		xa_erase(&session->events_xa, cookie);
+> +		eventfd_ctx_put(revt->ctx);
+> +		kfree(revt);
+> +		return ret;
+Quite a bit of repetition in the error paths. Use a common goto
+block to clean up.  For the guard stuff above, a helper is probably
+the easiest way to avoid mixing that with cleanup via gotos down here.
+
+> +	}
+> +
+> +	/* Return the allocated cookie */
+> +	evt->cookie = cookie;
+> +
+> +	/* Get hold of the instance */
+> +	get_device(&ti->dev);
+> +
+> +	return 0;
+> +}
+
+> +
+> +static long scmi_tlm_unlocked_ioctl(struct file *filp, unsigned int cmd,
+> +				    unsigned long arg)
+> +{
+> +	struct scmi_tlm_instance *ti = filp->private_data;
+> +	bool writable = filp->f_mode & FMODE_WRITE;
+> +
+> +	guard(srcu)(&ti->dead_srcu);
+> +	if (READ_ONCE(ti->dead))
+> +		return -ENODEV;
+> +
+> +	switch (cmd) {
+> +	case SCMI_TLM_GET_ABI_INFO:
+> +		return scmi_tlm_abi_info_get_ioctl(ti, arg);
+> +	case SCMI_TLM_GET_CFG:
+> +		return scmi_tlm_config_get_ioctl(ti, arg);
+> +	case SCMI_TLM_SET_CFG:
+> +		if (writable)
+> +			return scmi_tlm_config_set_ioctl(ti, arg);
+> +		break;
+> +	case SCMI_TLM_GET_INTRVS:
+> +		return scmi_tlm_intervals_get_ioctl(ti, arg);
+> +	case SCMI_TLM_GET_DE_CFG:
+> +		return scmi_tlm_de_config_get_ioctl(ti, arg);
+> +	case SCMI_TLM_SET_DE_CFG:
+> +		if (writable)
+> +			return scmi_tlm_de_config_set_ioctl(ti, arg);
+> +		break;
+> +	case SCMI_TLM_GET_DE_INFO:
+> +		return scmi_tlm_de_info_get_ioctl(ti, arg);
+> +	case SCMI_TLM_GET_DE_LIST:
+> +		return scmi_tlm_des_list_get_ioctl(ti, arg);
+> +	case SCMI_TLM_DE_READ:
+> +		return scmi_tlm_de_value_get_ioctl(ti, arg);
+> +	case SCMI_TLM_GET_ALL_CFG:
+> +		return scmi_tlm_all_de_config_get_ioctl(ti, arg);
+> +	case SCMI_TLM_SET_ALL_CFG:
+> +		if (writable)
+> +			return scmi_tlm_all_de_config_set_ioctl(ti, arg);
+> +		break;
+> +	case SCMI_TLM_GET_GRP_LIST:
+> +		return scmi_tlm_grps_list_get_ioctl(ti, arg);
+> +	case SCMI_TLM_GET_GRP_INFO:
+> +		return scmi_tlm_grp_info_get_ioctl(ti, arg);
+> +	case SCMI_TLM_GET_GRP_DESC:
+> +		return scmi_tlm_grp_desc_get_ioctl(ti, arg);
+> +	case SCMI_TLM_SINGLE_READ:
+> +		return scmi_tlm_des_read_ioctl(ti, arg, true);
+> +	case SCMI_TLM_BULK_READ:
+> +		return scmi_tlm_des_read_ioctl(ti, arg, false);
+> +	case SCMI_TLM_BATCH_READ:
+> +		return scmi_tlm_des_batch_read_ioctl(ti, arg);
+> +	case SCMI_TLM_GET_SHMTI_LIST:
+> +		return scmi_tlm_shmtis_list_get_ioctl(ti, arg);
+> +	case SCMI_TLM_RESET:
+> +		if (writable)
+> +			return scmi_tlm_reset_ioctl(ti, arg);
+> +		break;
+> +	case SCMI_TLM_GET_UUID_LIST:
+> +		return scmi_tlm_uuid_list_get_ioctl(ti, arg);
+> +	case SCMI_TLM_EVENT_SUBSCRIBE:
+> +		return scmi_tlm_event_subscribe_ioctl(ti, arg, filp);
+> +	default:
+> +		return -ENOTTY;
+> +	}
+> +
+> +	return -EPERM;
+
+I'd just return this where you break above.
+Seems little benefit in coming down here to do so given they
+are all error paths.
+
+> +}
+
+> +
+> +static int scmi_telemetry_probe(struct scmi_device *sdev)
+> +{
+> +	const struct scmi_handle *handle = sdev->handle;
+> +	struct scmi_protocol_handle *ph;
+> +	struct scmi_tlm_instance *ti;
+> +	unsigned int instance;
+> +	const void *ops;
+> +	int ret;
+> +
+> +	if (!handle)
+> +		return -ENODEV;
+> +
+> +	instance = handle->id;
+> +	if (instance >= SCMI_TLM_NUM_DEVS)
+> +		return -ENOSPC;
+> +
+> +	ops = handle->devm_protocol_get(sdev, sdev->protocol_id, &ph);
+> +	if (IS_ERR(ops))
+> +		return dev_err_probe(&sdev->dev, PTR_ERR(ops),
+> +				     "Cannot access protocol:0x%X\n",
+> +				     sdev->protocol_id);
+> +
+> +	ti = scmi_tlm_instance_init(sdev, ops, ph, instance);
+> +	if (IS_ERR(ti))
+> +		return PTR_ERR(ti);
+> +
+> +	/*
+> +	 * Setting the platform device as parent to enforce proper ordering
+> +	 * at shutdown and to avoid the need for explicit get/put_device
+> +	 */
+> +	ti->dev.parent = &sdev->dev;
+> +	ti->dev.devt = MKDEV(MAJOR(stlm_devt), MINOR(stlm_devt) + instance);
+> +	ti->dev.class = &stlm_class;
+> +	ti->dev.release = scmi_tlm_device_release;
+> +	device_initialize(&ti->dev);
+> +
+> +	ret = dev_set_name(&ti->dev, "tlm_%d", ti->id);
+> +	if (ret)
+> +		goto err_dev;
+> +
+> +	cdev_init(&ti->cdev, &stlm_fops);
+> +	ti->cdev.owner = THIS_MODULE;
+> +
+> +	ret = cdev_device_add(&ti->cdev, &ti->dev);
+> +	if (ret)
+> +		goto err_dev;
+> +
+> +	dev_set_drvdata(&sdev->dev, ti);
+> +
+> +	return 0;
+> +
+> +err_dev:
+> +	put_device(&ti->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static void scmi_telemetry_remove(struct scmi_device *sdev)
+> +{
+> +	struct scmi_tlm_events_session *session;
+> +	struct scmi_tlm_instance *ti;
+> +	unsigned long index;
+> +
+> +	ti = dev_get_drvdata(&sdev->dev);
+> +	if (!ti)
+> +		return;
+> +
+> +	/* Stop ongoing opens and wait on in-flight operation to drain */
+> +	WRITE_ONCE(ti->dead, true);
+> +	synchronize_srcu(&ti->dead_srcu);
+> +
+> +	/* Inhibit future opens */
+> +	cdev_device_del(&ti->cdev, &ti->dev);
+> +	/*
+> +	 * Drop any residual session and related events if unbind happened whiel
+
+while
+
+> +	 * some event fds were still open.
+> +	 */
+> +	mutex_lock(&ti->sessions_mtx);
+> +	xa_for_each(&ti->sessions_xa, index, session) {
+> +		xa_erase(&ti->sessions_xa, index);
+> +		/* Force any event unsubscribe...protocol is still alive */
+> +		scmi_tlm_events_session_unsubscribe(ti, session);
+> +	}
+> +	mutex_unlock(&ti->sessions_mtx);
+> +
+> +	put_device(&ti->dev);
+> +}
+
+> +
+> +static int __init scmi_telemetry_init(void)
+> +{
+> +	int ret;
+> +
+> +	ret = alloc_chrdev_region(&stlm_devt, 0, SCMI_TLM_NUM_DEVS,
+> +				  SCMI_TLM_DRIVER);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = class_register(&stlm_class);
+> +	if (ret)
+> +		goto err_class;
+> +
+> +	ret = scmi_register(&scmi_telemetry_driver);
+> +	if (ret)
+> +		goto err_scmi;
+> +
+> +	return 0;
+> +
+> +err_scmi:
+> +	class_unregister(&stlm_class);
+> +
+> +err_class:
+> +	unregister_chrdev_region(stlm_devt, SCMI_TLM_NUM_DEVS);
+> +
+> +	return ret;
+> +}
+> +module_init(scmi_telemetry_init);
+> +
+> +static void __exit scmi_telemetry_exit(void)
+> +{
+> +	scmi_unregister(&scmi_telemetry_driver);
+> +	unregister_chrdev_region(stlm_devt, SCMI_TLM_NUM_DEVS);
+
+This should be reverse order of init == same as error paths
+at the end of init. Anything else needs some comments on why.
+
+> +	class_unregister(&stlm_class);
+> +}
+> +module_exit(scmi_telemetry_exit);
+
 
