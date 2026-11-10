@@ -1,62 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794272767;
-	b=3/rIIao8U/3XG3VHwmai8dgAJLWbBrt+QNtLLGoBiVI48JFGSUdkm29oC4J6cLjdh3ok
-	 jafNj3PpelA0+zWA2TowzalPAkdOaT6AEn5DOZlIWdhkx/QMuMBeubWI02ETMZ70LNZ5i
-	 NscQj40PsS64ShiuVmhVcQ1h+cMpu92JCaqbt/nCL4odt05ZQU44LUcZ3++z33ekPbLEC
-	 +ddsPQui4TFg+5OIJswjOUdIg5gDos7BrpBYCNW+jPsVasbHGiz6kapV77cWTTdLwDNSX
-	 t6YM2/rk9YuMo53ojT5Jnblfrqgy3+vaVuWsw6rHfXV4OBu4U32EY8EVytWcw8jvIOg==
+	t=1794273634;
+	b=5ny2vlnKW5Ra/hHeD9bSdKx7CgjTB9Pz1wOwRoPLr1fY7OfVQj8qXFKfbztGJ+rAkrwP
+	 C6CkizYEz0tvyyY1aDFYPzS/RZCZvzEhlqocYBS8g8h6wU4xSSPll4Ht0Ew0SHurVFJOc
+	 H8WIdEUUMpieVNgxuW8HLKYRGWGG3QHivV1596jAqZSiQbE1ETyQtEyZtSv/KMOgAMIfx
+	 dW+WYGJICvAltyhr2SZxRgIXhL2iOQE8lEiHiksv/iqWJ8AZEf1OJrC/YuZjl6k1oG4Vc
+	 CSUqZsJfpXyXzic653ZcXney9/WlT1qeXI0ItjqkOSFcYm7/z3+bJY1WSxvg9qhVGEA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794272767;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=WnZqF6L3cakkpOkBPQ3GBgvr6hmKQH8Z7qMlUUiyM4U=;
-	b=E8yNL+47AOHWQ/hPX0siv8fCjJ9ZawUyjH3/Jmb7Cu9vkIKcnIgd9pDyrSVUBQcswRBR
-	 BddhRG4PWxLYQ/oHNIYzmzev8BxgU0Wcj20KaL8xQE0rng2ZtBQNkkNE1Qf84qp+ZFjlj
-	 tIw8e0Sq8vaxuraulXvVo1GfQls7lpk5zubXTD1FSl5VFUIrZu48NsDUMDECBjXnjqGA0
-	 rWsA8yJBvnvpkMJGVduZ5I6SAjL0J/5c3fwXTGdqibx2miBzlW1DsVga1qRHhojjj9TYg
-	 MWMP+2qSp2m86LFchcRpJPAGUSgNV1eTtZ+VpRXuPY+bRWDIxQleM9k1DLMBkqX1iNQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794273634;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=m2qXctBTC0OPADf0V2KkMb6r2GA0JgabIuFAMe6ERzQ=;
+	b=n+0Bjsy5CneEcc6O8xw0pyfD5LqkTtymh/YVD1LIbuhGgyxuTpgZmWajzWEK6XH/7a77
+	 fgytenB+VTJ4OP/J5dzV8CdPl2qxWAWDZNfgGrikG+hDKSfmn3FMjpNd+Dfe2qMo27RGC
+	 gMAMCsbyA/2UUgUCtHsOclsKnQsVTWtkF46aHxwcl9cLDNwkfnIJBVwXP0g0f2ckwcOMD
+	 BXTKtgTrs7oELefucPNo7/l6G/gqiZm9SjSIE2mi/pXRRuczNjtyeQrnAXu6cvSrQudzG
+	 niMSUOPTgN/DESubXDP4FjQxlu0RjPQ9f886UPDS4HgIhEZzpLo5GAK52+UgINuoXyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQ7GIrC6;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=HGJGkzR9;
+	arc=none smtp.remote-ip=209.85.218.46
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016C1606A326;
-	Tue, 10 Nov 2026 01:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 328DB606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 01:20:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 328DB606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RQ7GIrC6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 425151F008A4;
-	Tue, 10 Nov 2026 01:06:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794272766;
-	bh=WnZqF6L3cakkpOkBPQ3GBgvr6hmKQH8Z7qMlUUiyM4U=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RQ7GIrC6oQitZJAS2Cilru5She+e9VUU9yjN58IVZ8n2zsdlYUvQqqYuHEWBQbnCD
-	 b3MHGaB24x5nPUUeUJrls3KIDZX/YPf25eF32VjoO99Vy12dnKbENksWixVcZeed2N
-	 UpNF2TRN+95z8Ep2ilNoG9UEiLwtODLFR5JdN02vupSxq9NyfycpQiG+2AcUPvyJT5
-	 cgkp8p4Jv6ymVWkzMNT6fq7JT7VNVpc4wr2d6ui/+U2tRZUoJbpNt2FrXRWy9lqlej
-	 46BiC9eIEPa2UyWlEPpoqeJTdUZDOWRS8523zAxG/LasRcwGBHDnwK54OScaT9gCT/
-	 VCw9s0O+WBIDQ==
-From: SJ Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	Aveline Noir <jm5905938@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	SJ Park <sj@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 2/2] Docs/admin-guide/mm/damon/reclaim: improve language
-Date: Mon,  9 Nov 2026 17:05:57 -0800
-Message-ID: <20261110010558.104905-3-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261110010558.104905-1-sj@kernel.org>
-References: <20261110010558.104905-1-sj@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=HGJGkzR9
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c450ab1483cso245754166b.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 17:20:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1794273633; x=1794878433; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=m2qXctBTC0OPADf0V2KkMb6r2GA0JgabIuFAMe6ERzQ=;
+        b=HGJGkzR9YxHqOZTxLwiOE0IzmrJZGAaWLR2JYA4tSOPhN9f8LWbjZRX338LKM1Y6wx
+         Q6R5n4ftF0K2yUTWW28biSkr2KunAqThfxhHgsIPru632mgd52zCsJ39a+5592huJ98g
+         C0mEc90iCvxQmRprBqvgWcb9s9mSlg6JIFvUk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794273633; x=1794878433;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=m2qXctBTC0OPADf0V2KkMb6r2GA0JgabIuFAMe6ERzQ=;
+        b=vCJec3iS3Rli59UhQOgNqlxsNinjIKaSyl2Pep8VcDJI7lVCUmGFy5bag8SYIE0FB+
+         aKS7jlK8m3grsO9b4WEDUKvWk5CP47AHUSIsX+PKGeaFFM6sZqjiEFqY/olDJfxRAd1N
+         jy4pMTw9R8xRHFxEBfvAqb+jXP2aRYm/k7T9X0X5IehZAYyV0dMUpz9dzEPRJtgK5p8u
+         VKV5hxrEVZ2yjtJvC6TsFwvxJn3zzLd0c/aQ+xoF/mnzxRbcw+8s+jvw5FcGXcEGJ9lE
+         8DbqA5z5/tL+Wq28l+BmQfYK0oZVtRAOLnthDfw4GJc/kcRVPAuZbikUA7mKxEN0qhtX
+         IJaw==
+X-Forwarded-Encrypted: i=1; AL+hErEx5Zf/pFxg9nVDixQNd564Wyr/OSCvS7dqLfUutmDlFFkyaDW3FKXjDcpeCiq95K9lRj3shY4CTCE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8k4ZJzlQq0RlDKMDWpMY2q0oTOh04vINM/yrdYpzsnlMDmKqDX
+	uzXdxOGLo6ST0hUclo9GGN8b7YV5uBHTaV4A2Q+Ny99kDmZ78rMKcwV2sDRvF0LAdp9CxHY32YU
+	C3bDs9AYdhg==
+X-Gm-Gg: AYBFou21kLEBLSyy8glHcMr3joQwYceelU+r9ri8w4vTe35ktTcTCavnBVqVqBz+D8H
+	B5HF6i7M8y8rEWkdfkfIVlRixADQghdkll3N0uy2Mt+PG26m35aP/lOH70b4LpE5Uiw3S8n9FdE
+	HQ1Vz1p6xf2M4Arv5VfrXocCdIith4OvMUdKmbtj3ST9oESdnB0zDQn+OBwFu8bE3wSmgkAzT5R
+	KLyko2I4GCcmohzs2LeeMl8yWeELqVoW6NDrbuWWd0+DYdWk84ufu7f70NFJtAV2LhL33i0nsg4
+	ZTZU6eqioSPThW3yYtcYFYxW+7ZcUw1CbLiifGYldlgJ1FAGfjLGD1IoXNsD6xnPRWwZryoXm+o
+	daFD68iApemDsytu4ewyjLrvGTEYSx+8Wk/yUXwYG2NFtL8hxrHnL62NG0TWSppYUB1i3Kh90vE
+	bqlB2xzyTPbw/W4WuJiP+LUXk2NquVuHyCk88MNQwU+cmUELRxqKK2QBUkaE+sq5IvlsBSOHnJ3
+	a2FO6zLzAAAg2N9FxBLsEcN7GmU5vDRbcbHDxfBufRNuMu1gh9+05JB93Enc2zgkqq4Hy2C6M0Y
+	ekUnjFzUG6g9/Invsff1txkFfrnMUi/i0MCOFNpzEWF+A95Mksr1A1YZoomY5WYTCTBUSWN2HLC
+	kVA==
+X-Received: by 2002:a17:906:4e87:b0:c4c:bff4:200c with SMTP id a640c23a62f3a-c50496aa123mr55610466b.32.1794273632566;
+        Mon, 09 Nov 2026 17:20:32 -0800 (PST)
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com. [209.85.218.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a5704aasm41390066b.25.2026.11.09.17.20.32
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2026 17:20:32 -0800 (PST)
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-c450ab1483cso245752866b.3
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 17:20:32 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHM4D4atm2vgkrgh5Ka76tngzmxay0nknkSkEA7snSYxywR7MQSKD9HcEh04YpG6qbsZduhGVfG/1E=@vger.kernel.org
+X-Received: by 2002:a17:907:9451:b0:c41:1750:59a2 with SMTP id
+ a640c23a62f3a-c50495dfbd5mr87253466b.12.1794273275844; Mon, 09 Nov 2026
+ 17:14:35 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,166 +94,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261104-work-procfs-core-v2-14-76ace653a773@kernel.org>
+ <CAMuHMdVfakapgBK6TBhO1iWX8qzvLDk8jzRS=t2MVa5G=MCUeg@mail.gmail.com>
+ <20261107-akteur-gemieden-eckdaten-21304d085e35@brauner> <20261108185953.28054fb3@pumpkin>
+ <alpine.DEB.2.21.2611090504170.17804@angie.orcam.me.uk> <20261109214558.0d9d5228@pumpkin>
+In-Reply-To: <20261109214558.0d9d5228@pumpkin>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 9 Nov 2026 17:14:19 -0800
+X-Gmail-Original-Message-ID: <CAHk-=whsA3tKcUCBJDj_vmJ11rVGT9rivgnKjGRgMO21CPmCxg@mail.gmail.com>
+X-Gm-Features: AclHuK-x8jcOOQUqd2amGoGEAKER9jIFGaeL4LxxWAd0cGV7dz_RR64PtDogpPU
+Message-ID: <CAHk-=whsA3tKcUCBJDj_vmJ11rVGT9rivgnKjGRgMO21CPmCxg@mail.gmail.com>
+Subject: Re: [PATCH RESEND v2 14/23] proc: let procfs copy in writes before
+ pinning the entry
+To: David Laight <david.laight.linux@gmail.com>
+Cc: "Maciej W. Rozycki" <macro@orcam.me.uk>, Christian Brauner <brauner@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, linux-fsdevel@vger.kernel.org, 
+	Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, Chris Mason <mason@kernel.org>, 
+	Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, Eric Dumazet <edumazet@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Al Viro <viro@zeniv.linux.org.uk>, 
+	Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, Greg Kroah-Hartman <gregkh@suse.de>, 
+	Joel Granados <joel.granados@kernel.org>, Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, 
+	Jan Kara <jack@suse.com>, linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, 
+	linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org, ntfs3@lists.linux.dev, 
+	platform-driver-x86@vger.kernel.org, coreteam@netfilter.org, 
+	kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, ibm-acpi-devel@lists.sourceforge.net, 
+	jfs-discussion@lists.sourceforge.net, linux-alpha@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, 
+	samba-technical@lists.samba.org, sparclinux@vger.kernel.org, 
+	linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, 
+	linux-debuggers@vger.kernel.org, Chuck Lever <cel@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Manuel Ebner <manuelebnerli@mailbox.org>
+On Mon, 9 Nov 2026 at 13:46, David Laight <david.laight.linux@gmail.com> wrote:
+>
+> Just that the cast would have to be:
+>         u8 *foo = (u8 *)bar;
+> where 'bar' is 'char *', and I don't think you need a cast there when
+> char is unsigned.
 
-Fix upper case.  Fix tenses.  Replace 'set as' with 'set to'.  Add space
-after sentence to make it double space.  Rewrite and refine complex
-sentences.
+.. and just to clarify: 'char' is always unsigned in the kernel on all
+architectures since commit 3bc753c06dd0 ("kbuild: treat char as always
+unsigned") back four years ago...
 
-Cc: Aveline Noir <jm5905938@gmail.com>
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-Reviewed-by: SJ Park <sj@kernel.org>
-Signed-off-by: SJ Park <sj@kernel.org>
----
-Changes from v3
-- v3: https://lore.kernel.org/20261103120043.100887-2-manuelebnerli@mailbox.org
-- Apply two Sashiko suggestions.
-- Collect R-b: from SJ.
-- Rebase to the latest mm-new.
-- Wrap commit message for 75 characters limit.
-
-[v3]
- Combine both patches into one
- Incorporate SJ's feedback
-
-[v2]
- https://lore.kernel.org/all/20261027185938.2526259-2-manuelebnerli@mailbox.org/
- Include suggestions from SJ and Aveline
- Split [v1] into
-  [1/2 v2] Docs/admin-guide/mm/damon/reclaim: improve grammar and style
-  [2/2 v2] Docs/admin-guide/mm/damon/reclaim: rewrite complex parts
- Fixed an upper case and a missing double space -> [1/2 v2]
-
-[v1]
- https://lore.kernel.org/all/20261015080623.808458-2-manuelebnerli@mailbox.org/
-
- .../admin-guide/mm/damon/reclaim.rst          | 45 ++++++++++---------
- 1 file changed, 23 insertions(+), 22 deletions(-)
-
-diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-index 028947f5da8ec..0ef784df98680 100644
---- a/Documentation/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-@@ -4,7 +4,7 @@
- DAMON-based Reclamation
- =======================
- 
--DAMON-based Reclamation (DAMON_RECLAIM) is a static kernel module that aimed to
-+DAMON-based reclamation (DAMON_RECLAIM) is a static kernel module that aims to
- be used for proactive and lightweight reclamation under light memory pressure.
- It doesn't aim to replace the LRU-list based page_granularity reclamation, but
- to be selectively used for different level of memory pressure and requirements.
-@@ -30,12 +30,13 @@ guests could mitigate this problem.
- How It Works?
- =============
- 
--DAMON_RECLAIM finds memory regions that didn't accessed for specific time
--duration and page out.  To avoid it consuming too much CPU for the paging out
--operation, a speed limit can be configured.  Under the speed limit, it pages
--out memory regions that didn't accessed longer time first.  System
--administrators can also configure under what situation this scheme should
--automatically activated and deactivated with three memory pressure watermarks.
-+DAMON_RECLAIM finds memory regions that have not been accessed for a
-+specified period and attempts to page out those.  To avoid it consuming
-+too much CPU for the paging out operation, a speed limit can be configured.
-+Within the configured speed limit, it prioritizes regions that have been
-+idle longer for reclamation.  System administrators can also configure under
-+what situation this scheme should automatically be activated and deactivated
-+with three memory pressure watermarks.
- 
- Interface: Module Parameters
- ============================
-@@ -55,10 +56,10 @@ enabled
- 
- Enable or disable DAMON_RECLAIM.
- 
--You can enable DAMON_RECLAIM by setting the value of this parameter as ``Y``.
--Setting it as ``N`` disables DAMON_RECLAIM.  Note that DAMON_RECLAIM could do
-+You can enable DAMON_RECLAIM by setting the value of this parameter to ``Y``.
-+Setting it to ``N`` disables DAMON_RECLAIM.  Note that DAMON_RECLAIM could do
- no real monitoring and reclamation due to the watermarks-based activation
--condition.  Refer to below descriptions for the watermarks parameter for this.
-+condition.  Refer to below descriptions of the watermarks parameter for this.
- 
- commit_inputs
- -------------
-@@ -66,9 +67,9 @@ commit_inputs
- Make DAMON_RECLAIM reads the input parameters again, except ``enabled``.
- 
- Input parameters that updated while DAMON_RECLAIM is running are not applied
--by default.  Once this parameter is set as ``Y``, DAMON_RECLAIM reads values
-+by default.  Once this parameter is set to ``Y``, DAMON_RECLAIM reads values
- of parameters except ``enabled`` again.  Once the re-reading is done, this
--parameter is set as ``N``.  If invalid parameters are found while the
-+parameter is set to ``N``.  If invalid parameters are found while the
- re-reading, DAMON_RECLAIM will be disabled.
- 
- Once ``Y`` is written to this parameter, the user must not write to any
-@@ -88,10 +89,10 @@ identifies the region as cold, and reclaims it.
- autotune_monitoring_intervals
- -----------------------------
- 
--If this parameter is set as ``Y``, DAMON_RECLAIM automatically tunes DAMON's
-+If this parameter is set to ``Y``, DAMON_RECLAIM automatically tunes DAMON's
- sampling and aggregation intervals.  The auto-tuning aims to capture meaningful
- amount of access events in each DAMON-snapshot, while keeping the sampling
--interval 5 milliseconds in minimum, and 10 seconds in maximum.  Setting this as
-+interval 5 milliseconds in minimum, and 10 seconds in maximum.  Setting this to
- ``N`` disables the auto-tuning.
- 
- Disabled by default.
-@@ -113,10 +114,10 @@ quota_sz
- 
- Limit of size of memory for the reclamation in bytes.
- 
--DAMON_RECLAIM charges amount of memory which it tried to reclaim within a time
--window (quota_reset_interval_ms) and makes no more than this limit is tried.
--This can be used for limiting consumption of CPU and IO.  If this value is
--zero, the limit is disabled.
-+DAMON_RECLAIM charges the amount of memory which it tried to reclaim within a time
-+window (quota_reset_interval_ms) and stops trying to reclaim memory when this limit
-+is reached.  This can be used for limiting consumption of CPU and IO.  If this value
-+is zero, the limit is disabled.
- 
- 128 MiB by default.
- 
-@@ -137,7 +138,7 @@ quota_mem_pressure_us
- 
- Desired level of memory pressure-stall time in microseconds.
- 
--While keeping the caps that set by other quotas, DAMON_RECLAIM automatically
-+While keeping the caps that are set by other quotas, DAMON_RECLAIM automatically
- increases and decreases the effective level of the quota aiming this level of
- memory pressure is incurred.  System-wide ``some`` memory PSI in microseconds
- per quota reset interval (``quota_reset_interval_ms``) is collected and
-@@ -223,7 +224,7 @@ monitoring.  This can be used to set lower-bound of the monitoring quality.
- But, setting this too high could result in increased monitoring overhead.
- Please refer to the DAMON documentation (:doc:`usage`) for more detail.
- 
--Note that this must be 3 or higher. Please refer to the :ref:`Monitoring
-+Note that this must be 3 or higher.  Please refer to the :ref:`Monitoring
- <damon_design_monitoring>` section of the design document for the rationale
- behind this lower bound.
- 
-@@ -267,7 +268,7 @@ This parameter is for setting and getting the :ref:`address unit
- 
- ``monitor_region_start`` and ``monitor_region_end`` should be provided in this
- unit.  For example, let's suppose ``addr_unit``, ``monitor_region_start`` and
--``monitor_region_end`` are set as ``1024``, ``0`` and ``10``, respectively.
-+``monitor_region_end`` are set to ``1024``, ``0`` and ``10``, respectively.
- Then DAMON_RECLAIM will work for 10 KiB length of physical address range that
- starts from address zero (``[0 * 1024, 10 * 1024)`` in bytes).
- 
-@@ -284,7 +285,7 @@ skip_anon
- 
- Skip anonymous pages reclamation.
- 
--If this parameter is set as ``Y``, DAMON_RECLAIM does not reclaim anonymous
-+If this parameter is set to ``Y``, DAMON_RECLAIM does not reclaim anonymous
- pages.  By default, ``N``.
- 
- 
--- 
-2.47.3
+            Linus
