@@ -1,58 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.222
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=62.210.214.84
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794317631;
-	b=Qirm9l7iDA0y0zJ/wlgRsm7u9wDKVSwSubj96e9WaXEHHTHLSqwAPV8tQq8I+zSpOs3f
-	 BFUqhR7OBuhP8Yf2UxL5c+xZoN3ZP652qqwGzNAOzBm+rZM4yPR4hZwWk5SJna+JYIxrM
-	 9K+CLlhuD4lXbXHMGBtrAm8ycz5Nv9ZffsQvVtNHYLhJzzn3QeXFdR+FzRDA/X3ULlCYk
-	 tRN+SwSbsh8J7MwvY4HZlhDxhYgX94yYijck0NVeO81+67av4kTsdyu18E0XNZ5Z7BlTv
-	 Mg+wQ/m0nOYgoux2DT4SQYfXLGpScyoxVl6NNa53D5YPRMbxPGWBoExMesRiXmqCSOw==
+	t=1794317941;
+	b=enYBBbNeJ9FhmSjEbnONMBUtvIwtfSOwdT970oy8MJOnl6aPeTrHRq71/ca0Ya1YBCnG
+	 3aaKqji3dCC8Qe3WIS+Y1mPqHxPK3RhVr3it939I37JRUT196fuKWQ+7M+sHvpfhMMINV
+	 bDBzufAxLrS9ykIs6ipE+Jh1u4cTTpBB5nD1N8uDSmFFyU8tb6V89HMJVHQcK0BxG2CG0
+	 9vJ4t09HQhbYwxoLogQCeoOvCLMVopK1ts25KEauqTNqe/SEaXMbLPL9N9MYlEZ/xsaeJ
+	 aBsGAMf2aUiZVLi8e0wQZx8zjvCZ7cPQG1pqDanfNl4o2N58r3et7Hptr84k1HeJnQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794317631;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=469C7cxwQ8pRb1askRJV+4cr7ISUSoEqexSz4jUQ/l4=;
-	b=kbVqWNKMz4Ac3HeAJbKzyWdB/VePbs9fKZE1dbV2IthKioVVlfuy6NthmexCn1JUqHd0
-	 on/MtV35ETzZPE4mE+Y4iaRU74ModqjaolA6KdIqb10ljpWTv+qsVcUGWHxGtMtl8SKJv
-	 7ELWVJpv25OCXWlW8WD48ewwQoE5S/A1yrYBHUrsZHY9k8DHi1RYq+VzEKyYEP9ox5cle
-	 pb+2LT0kpoqZGa/n6ehfNSjU2I0hAMZlWTrnWAeRwxkNK1uttHA5KD0nZd5ef9eFpG3BJ
-	 nJdcyammrW43GABY+7lf1JF8OrLsxOGJeUXGmgWXan78u0fL5WR2/YMPFHi1Em/jO0Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794317941;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=uJAyGgp0q306lE3dBNgeZglrmKITpnYBT4hRyV1iCu8=;
+	b=XDYBKaE2LhFzdX1MyCT1D1X9ROAb9Uz/iJYtn0CZEQkCswLBj89WXSV114J0F25aV55r
+	 +OBZQjPkPOAw7IFa2me7VHSF2Bh1vBwM2YRLSsp19drMHj+TnS+4DcVs5yMVAywELJ2r8
+	 yuqxH9Mtwe7sIzBSJjH2+ohm2/KmHK+5X6Wg766VjamAqJaKiTX2ScblXb8uNwG9pAo2f
+	 NKb4MvPdOCnNHEUxBbbKJKyCgfxKuVLmGI4jroiZ51NLyd8oocv2QRnLEZEuWR0oxmWhR
+	 MQusEva0OiNVXlGG9hqEmtBOdUzJN4nPcTuorWNBsjqLy8XITgWpEn6MSstjCydAMMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=SbPs9s1z;
-	arc=none smtp.remote-ip=113.46.200.222
-Received: from canpmsgout07.his.huawei.com (canpmsgout07.his.huawei.com [113.46.200.222])
+	dmarc=pass header.from=codewreck.org;
+	spf=pass smtp.mailfrom=codewreck.org;
+	dkim=pass header.d=codewreck.org header.i=@codewreck.org header.a=rsa-sha256 header.s=2 header.b="g8q/bMdw";
+	arc=none smtp.remote-ip=62.210.214.84
+Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94935606A7DA;
-	Tue, 10 Nov 2026 13:33:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94935606A7DA
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F7C606A334;
+	Tue, 10 Nov 2026 13:38:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01F7C606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=SbPs9s1z
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=469C7cxwQ8pRb1askRJV+4cr7ISUSoEqexSz4jUQ/l4=;
-	b=SbPs9s1zT9LKQrhQRLSyVO8ow6ONaX4jHFvE2dv2wFraSEG/vjhq4VivxIp2K6Pb0idx/eil4
-	cv+Zck5YLsYYMWWjdO9JkPYJnuG/+6WF8UN08zTmbr3piifah7LJVmBAwQtPxIxcAaB6kUfNOWy
-	7KqGtKbI6osxqptm19A/F/c=
-Received: from mail.maildlp.com (unknown [172.19.162.92])
-	by canpmsgout07.his.huawei.com (SkyGuard) with ESMTPS id 4jP6zs2xf8zLlTt;
-	Tue, 10 Nov 2026 21:33:29 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1DBC940565;
-	Tue, 10 Nov 2026 21:33:44 +0800 (CST)
-Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 10 Nov
- 2026 21:33:32 +0800
-Message-ID: <a5468087-7965-4650-87bc-71811cd4ab14@huawei.com>
-Date: Tue, 10 Nov 2026 21:33:32 +0800
+	dkim=pass (2048-bit key, unprotected) header.d=codewreck.org header.i=@codewreck.org header.a=rsa-sha256 header.s=2 header.b=g8q/bMdw
+Received: from gaia.codewreck.org (localhost [127.0.0.1])
+	by submarine.notk.org (Postfix) with ESMTPS id 46BD814C2D6;
+	Tue, 10 Nov 2026 14:38:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
+	s=2; t=1794317929;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=uJAyGgp0q306lE3dBNgeZglrmKITpnYBT4hRyV1iCu8=;
+	b=g8q/bMdw5r1gr7kWrexHMdvv1TeWb2K1Sk4CfjgtzUiIKlgy94Kkk8GF5vojcn9AYbEWyx
+	95aZbLEkawG/3MejkHpHugF4dCxEOLne0EbAt1HdSoHRukleBg4rwahmfSv0gupFXPFRay
+	MjPGDDvqodOOdbHvKYzlhluLNPF7uYY76grbZuK8bDhcxjKBVa6pXEVFn0ltZX43VnO2jy
+	wU+xx27gBo+J8f2LsPWE1RcZGHPPTlYwlnYBiW4PhFjvdx5ajNloQMa8gm3C4qf7cHAatv
+	9Oh6n+gcuruaYCnCazma9ZNCQgqCTF2N4l6QnwZlI37aDyX+tRJMMBlOy8t8vA==
+Received: from localhost (gaia.codewreck.org [local])
+	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id c25126cb;
+	Tue, 10 Nov 2026 13:38:44 +0000 (UTC)
+Date: Tue, 10 Nov 2026 22:38:29 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
+	ericvh@kernel.org, lucho@ionkov.net, andreas.noever@gmail.com,
+	YehezkelShB@gmail.com, corbet@lwn.net, linux-usb@vger.kernel.org,
+	v9fs@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux_oss@crudebyte.com
+Subject: Re: [PATCH 0/3] net/9p: Add 9P transport over USB4STREAM
+Message-ID: <avMeVSDYT9p9PHz4@codewreck.org>
+References: <20260924162333.147033-1-alan.borzeszkowski@linux.intel.com>
+ <auKzZIyFW2CTci1b@codewreck.org>
+ <bc1ec916278d94116bd9b60e40b549612e3ff3a4.camel@linux.intel.com>
+ <20261109165236.GW176724@black.igk.intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,104 +73,49 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/7] fs/resctrl: Report a temporary RMID shortage per
- CLOSID
-To: Jinjie Ruan <ruanjinjie01@gmail.com>, <babu.moger@amd.com>,
-	<ben.horgan@arm.com>, <bp@alien8.de>, <corbet@lwn.net>,
-	<dave.hansen@linux.intel.com>, <Dave.Martin@arm.com>, <fenghuay@nvidia.com>,
-	<gshan@redhat.com>, <hpa@zytor.com>, <james.morse@arm.com>,
-	<jic23@kernel.org>, <mingo@redhat.com>, <rdunlap@infradead.org>,
-	<reinette.chatre@intel.com>, <skhan@linuxfoundation.org>,
-	<tan.shaopeng@fujitsu.com>, <tglx@kernel.org>, <tony.luck@intel.com>,
-	<zengheng4@huawei.com>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-References: <20261110132054.3702-1-ruanjinjie01@gmail.com>
- <20261110132054.3702-2-ruanjinjie01@gmail.com>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20261110132054.3702-2-ruanjinjie01@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261109165236.GW176724@black.igk.intel.com>
 
-Please ignore, will resend.
+Mika Westerberg wrote on Mon, Nov 09, 2026 at 05:52:36PM +0100:
+> > In case of one-shot backup, I think my drag&drop scenario from cover-
+> > letter fits it well. Assuming single thread copy, both transports
+> > achieve similar results, but with busy-poll enabled, trans=thunderbolt
+> > cuts about 1/3rd of copy time:
+> > Copy from 9P client to a server, using trans=fd, takes 22m29s while
+> > trans=thunderbolt + busy-poll takes 14m50s (~1.5x faster).
+> > Reverse direction, same improvement: reducing copy time from 41m07s to
+> > 26m56s. All done on default msize.
+> 
+> That sounds like a good reason to include it IMHO. Also I like the
+> simplicity - no need to run a separate descriptor feeding process :)
 
-在 2026/11/10 21:20, Jinjie Ruan 写道:
-> From: Jinjie Ruan <ruanjinjie@huawei.com>
+I'm sorry but I'm just not convinced it's useful enough to warrant the
+effort to review this from my point of view given my lack of time for
+linux work:
+- most of the speed benefit comes from busy-poll, can't this be made to
+work for all fd consumers somehow? (it could be an ioctl before passing
+the fd to the mount call, or it could reuse e.g. the existing NAPI
+config with network over usb4stream if that's more practical; in
+particular I recall some drivers supporting a hybrid mode that'd
+busy-poll for x ns/ms then fall back to waiting for the irq, that'd get
+you the best of both worlds as a sane default)
+- for simplicity it looks like mounting from boot without initrd isn't a
+goal, so this can all be hidden in a userspace wrapper. 9p has
+historically always been pretty bare, we're not even doing dns
+resolution that has been a basic feature available for nfs since
+forever.
+You can look at this mount.9P helper for inspiration:
+https://github.com/nfs-ganesha/nfs-ganesha/blob/V15.2/src/tools/mount.9P
+
+> > I would be happy to maintain Thunderbolt transport.
 > 
-> An RMID that is freed is held in limbo until its cache occupancy drops
-> below the threshold, after which it returns to the free list. A request
-> that fails because of limbo is thus temporary and worth retrying, which
-> resctrl reports to userspace as -EBUSY. A request that fails because
-> every RMID is in use is permanent and reported as -ENOSPC.
-> 
-> Where an RMID is only meaningful together with a CLOSID, a request can
-> only be satisfied by an RMID belonging to the requested CLOSID, so the
-> distinction has to be drawn per CLOSID. Instead it is drawn system wide.
-> -ENOSPC is reported when the free list holds no RMID for the requested
-> CLOSID, even when that CLOSID has RMIDs in limbo. -EBUSY is reported
-> when the free list is empty and another CLOSID has an RMID in limbo,
-> even when the requested CLOSID has none. Userspace is thus told to give
-> up on a shortage that may clear on its own, and to retry one that cannot
-> clear until it removes a group itself.
-> 
-> Architectures where the RMID is independent of the CLOSID always match
-> the first entry on the free list, so neither case arises there and only
-> MPAM systems are affected.
-> 
-> Draw the distinction from the number of RMIDs the requested CLOSID has
-> in limbo where the RMID depends on the CLOSID, and from the system wide
-> count otherwise. Drop the separate test for an empty free list, which
-> the search handles on its own.
-> 
-> Fixes: c4c0376eefe1 ("x86/resctrl: Allow RMID allocation to be scoped by CLOSID")
-> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
-> Reviewed-by: Ben Horgan <ben.horgan@arm.com>
-> Cc: James Morse <james.morse@arm.com>
-> Cc: Reinette Chatre <reinette.chatre@intel.com>
-> Cc: Babu Moger <babu.moger@amd.com>
-> Cc: <stable@vger.kernel.org> # 7.1.x
-> ---
->  fs/resctrl/monitor.c | 15 +++++++++++----
->  1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-> index 04e4ea612b7c..b8f4e1ff4083 100644
-> --- a/fs/resctrl/monitor.c
-> +++ b/fs/resctrl/monitor.c
-> @@ -207,9 +207,6 @@ static struct rmid_entry *resctrl_find_free_rmid(u32 closid)
->  	struct rmid_entry *itr;
->  	u32 itr_idx, cmp_idx;
->  
-> -	if (list_empty(&rmid_free_lru))
-> -		return rmid_limbo_count ? ERR_PTR(-EBUSY) : ERR_PTR(-ENOSPC);
-> -
->  	list_for_each_entry(itr, &rmid_free_lru, list) {
->  		/*
->  		 * Get the index of this free RMID, and the index it would need
-> @@ -225,7 +222,17 @@ static struct rmid_entry *resctrl_find_free_rmid(u32 closid)
->  			return itr;
->  	}
->  
-> -	return ERR_PTR(-ENOSPC);
-> +	/*
-> +	 * No free RMID matched. If this CLOSID has RMIDs in limbo, return
-> +	 * -EBUSY so userspace can retry. Otherwise, the CLOSID is genuinely
-> +	 * out of RMIDs. When RMIDs are not per-CLOSID, any RMID in limbo
-> +	 * delays the allocation.
-> +	 */
-> +	if (IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID))
-> +		return closid_num_dirty_rmid[closid] ? ERR_PTR(-EBUSY) :
-> +						       ERR_PTR(-ENOSPC);
-> +
-> +	return rmid_limbo_count ? ERR_PTR(-EBUSY) : ERR_PTR(-ENOSPC);
->  }
->  
->  /**
+> If Dominique is okay with this, I suggest to send v2 with a MAINTAINERS
+> update as well.
+
+OTOH if you're going to maintain this I have no reason to block, I can
+just say I'm not reviewing in depth and pass the ball to Linus or
+someone else higher up the stack to decide...
 
 -- 
-Best regards,
-Jinjie
-
+Dominique Martinet | Asmadeus
