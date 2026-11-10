@@ -1,85 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794296364;
-	b=amEIUw5xTzTzxpFNvYfyF2pPAlcInmfsFMcVeeX6dTG3KrElCUDY/4GOh5+CudDgpiHK
-	 fwl987UaynHn1ChnyJzMXgsBmOSPzw0YSzKd9JosEDUiLHSQqD5c8m/3dxg1bxwe+tuFL
-	 9nI+8fuho4UjOwZFIKzhpAwhqgUOnhMd9Ppfu/kc1aZ6N0I2UyvACFq1y26p/Jd9FxlmV
-	 yAWSv0QkIKvnlbU3PL1scefQP4ZWl44gChBcHnhmxAXXz3X+0ag91ny2l2Dw4HG6rPfYo
-	 LCLFp7qpkCzQDmL+TN9CHZiZai944MnPIfUkMeUoWwd1R2NbfgwWfHJJqbgrITyNkgg==
+	t=1794296614;
+	b=YrE9nOFhfG0hwTex4H4kkzj5ETwOp9Gdl4/ZQ0bRNHYEBy3kwhBrNMEJG1pmIWlgDDsQ
+	 6UwvukRyXAIpuQFF/8c6FXzSixx5YYBbk5B02t5FsXpyt9UGzffhiRSJk4TXaSmNSkkmd
+	 NZELRW0K0kbD0RsXGblJlcHSx/8gPNnOZHtiJ8erPhbY+BqXG4F9uc6Yut7RxeIuO24Ln
+	 OVqpr134lbMc0CqjPJcmmsu7E3TKDEBhNdN+8EInJKd8dC+V5ZcTybZtc/C7XDx+svPYO
+	 SpJ22mvkkNK/ToT5Sq8TYgT+fvqd/GDQPiw+Y54ze5aZLfPJWIZHJ0neIy7NacdjtgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794296364;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=DSBlFGn4E205gXuccBzZwAAPl+yDbfuCcd3h0VNHPkE=;
-	b=Ye92w12yqLwPR0BzL7dvlJW1tsryX5c/jTvgNuJfrT/WDNXA+PYHusOvKFMhiVZh63qv
-	 s84dQNdF51lq4ULHOS9Z2i6gQP+wmCeuUglK8R/D4Pw0RKwongEnPfN+rIke8OkVkc2PF
-	 JfPbaCvff5VlaAT1uZ4rz3NFbvxXWOhtNSR96jPUebHNwWWYN3Sm0q1Zgy60s/Z2Zp8eh
-	 0E9C3xaMa9WbMxBME/QGhDTIgzjTmxz/v+7+/nfw7l/IQW1zyu2eS9SEIG9DaLQ/P4ydi
-	 G8jEw9ovVkjBO00FQTHoZSTcHY90uWdtjBdpONnLvnTb752othy8JRdc9qUvlRVEA4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794296614;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=yIKrqUa698jtkq4S+tNE275rUsH+jw4iBZHp6nea714=;
+	b=ofTAvnYXa/mpAGjpYCGc/HozsCUHDIuLssbhbC/IWOsy9HdCRtO1gvfeLpFbawgQ9rx3
+	 0FrSG03OpAy670psPx/DO07Tpc/EVN/Otm+Y5sKYuuo9kIhsbXenwsIFMr7bHp6hbA1mM
+	 son10eHKLiQ4cUk6DnbJ+yEUznWQCaFky5CZQ2bhMlQyru7PjEXqVAMVCCCknYXPCG/kJ
+	 8sdkz/56k1a3n+yna/wKCWYxBDmKJmjDE8xwJ6HuB0NxkKwFUH+O9NfrM9TZ6uZQjite0
+	 OGxvBSlLv2j3qpSnP/qyg1KnF1CPk4jyxWoqC57sKuS4MQxF4KC3d5xI5JBgwNUA3GA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cua8L9GY;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=aOeOHpYh;
+	arc=none smtp.remote-ip=95.215.58.15
+Received: from mta1.migadu.com (out-15.mta1.migadu.com [95.215.58.15])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5E2F606A31C;
-	Tue, 10 Nov 2026 07:39:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455E4606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:43:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 455E4606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cua8L9GY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC1DB1F0089F;
-	Tue, 10 Nov 2026 07:39:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794296363;
-	bh=DSBlFGn4E205gXuccBzZwAAPl+yDbfuCcd3h0VNHPkE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Cua8L9GY35tzd1wvxIkoHZWoj4b+Jnc4MmmXSS4xz1DMOhF7fnMzyvLCmrsGBqGj1
-	 Jb3832ICvaaSkhpxHKzVktwY0VN55YFhe3ayOJkh72n1kK3xADULAH5Ox4aWZpDvso
-	 SSbBNIbDYBnbE0pl1xpHF+Szz6q8g2PUN/I44F2G4akFrGsrJgkxavsbYV78rdzpjx
-	 zQNz+Gl7ioYOpICsUTt7r4k8bgeTs/LlSH/W8tT7ufcmOxtPXhedsyuDUNY/5l3SKw
-	 qP4k1ZQswUJUdtBBrFidqv9eamm01YnDLo/xUXPHRAgRbSU5FtK+emGYhLCVNfCVFg
-	 cz+s7VuHGQF/w==
-Date: Tue, 10 Nov 2026 09:39:19 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=aOeOHpYh
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=PqgEJ1qFzNTxxzLoVkBM63dh+frDqe4TYsbrUm3uZw4=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794296611; v=1; x=1794901411;
+ b=aOeOHpYhP4JC5moGBDMfC0Xadr1TZnY18hEpwkIH/tKibJ4X9IS1g3lIjbFEI6l/2Lvafrt4
+ VBLSoGU5m2Dx5iOUydtuPRQ/N/OnSNUqE9DIJ11/bfgAIwrRKSR0pE8QOcA9VkI3g+C5XhR2ee6
+ qsmiud3Q4h7Kx7WPVxjN7fLQ=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta11.migadu.com with ESMTPS id 9b3c4fed74b348b8;
+	Tue, 10 Nov 2026 07:43:31 +0000
+X-Mizu-Trace-ID: 9b3c4fed74b348b8
+X-Migadu-Flow: FLOW_OUT
+From: "Xu Xin (vivo)" <xu.xin@linux.dev>
+To: David Hildenbrand <david@kernel.org>,
+	Xu Xin <xu.xin@linux.dev>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v2 10/19] net: phy: Use the compatibility driver
- attachment API
-Message-ID: <20261110073919.GF8635@unreal>
-References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
- <20261109-device-trust-core-v2-10-3b12d9a9f861@nvidia.com>
- <ab062469-ece0-495e-8486-78404c580cdb@lunn.ch>
+	Jinjiang Tu <tujinjiang@huawei.com>,
+	Qiliang Yuan <odys.yuan@gmail.com>
+Cc: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Huan Yang <link@vivo.com>,
+	Wang Xiao <xiao.wang@vivo.com>
+Subject: [PATCH v2 0/4] KSM: introduce only_merge_zero_pages
+Date: Tue, 10 Nov 2026 15:43:12 +0800
+Message-Id: <20261110074312.219847-1-xu.xin@linux.dev>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,41 +77,74 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <ab062469-ece0-495e-8486-78404c580cdb@lunn.ch>
 
-On Mon, Nov 09, 2026 at 02:45:35PM +0100, Andrew Lunn wrote:
-> > @@ -1956,11 +1958,10 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
-> >  	}
-> >  	phydev->drv_owner = drv_owner;
-> >  
-> > -	if (phydev->is_genphy_driven) {
-> > -		err = d->driver->probe(d);
-> > -		if (err >= 0)
-> > -			err = device_bind_driver(d);
-> > -
-> > +	if (bind_genphy) {
-> > +		err = device_driver_attach_full(drv, d);
-> > +		if (err == -EBUSY)
-> > +			irq = phydev->irq;
-> 
-> Just looking at this, it is not clear where the EBUSY can from? 
+Hi all,
 
-I relied on the comment above: “Assume that if there is no driver, ...”.
-Since PHYs do not use the standard automatic probing mechanism, I have no
-way to tell whether a driver is already bound.
+This series adds a new KSM sysfs attribute, only_merge_zero_pages, which
+makes ksmd merge only empty (zeroed) anonymous pages with the kernel
+zero page and skip the stable/unstable trees for pages that  carry data.
 
-> And why set irq to phydev->irq?
+Patch 1 adds the attribute and the early return in cmp_and_merge_page().
 
-If the above operation can fail with -EBUSY, the wrong IRQ was restored.
+Patch 2 (co-developed with Jinjiang Tu) goes one step further and skips
+non-zero pages already in the scan path, before an rmap_item is
+allocated for them, which is what makes the mode practical on
+large-memory workloads with mostly non-mergeable anonymous memory.
 
-I checked this with AI, which says that -EBUSY can originate deep in the
-driver core. It may be better to remove this special case and rely on the
-PHY's guarantee that no driver can be bound concurrently.
+Patch 3 consolidates the ksm_stat readers in vm_util.c into a single
+ksm_get_self_stat() helper (pure refactor). Patch 4 adds a functional
+selftest.
 
-Thanks
+Changelog
+=========
+v1 -> v2
 
-> 
->     Andrew
+- Patch 1: Take ksm_thread_mutex around the check-and-set in both
+           use_zero_pages_store() and only_merge_zero_pages_store(), so
+           that a concurrent write to the two attributes cannot leave
+           use_zero_pages=0 and only_merge_zero_pages=1, a state in which
+           ksmd would scan and checksum pages but never merge any.
+
+- New patch 2, 3 and 4 are added.
+
+Motivation
+==========
+
+On an Android device, I measured the KSM savings potential on 15.7 GiB
+RAM, ~1100 processes, a typical usage session with several video apps
+running) using a userspace survey tool that walks /proc/<pid>/maps +
+/proc/<pid>/pagemap, deduplicates anonymous pages by their physical
+frame number (PFN), and hashes page contents to find identical pages.
+Key results (two samples taken 10 minutes apart):
+
+  Category              Resident    Savings (upper bound)
+  -------------------   ---------   ---------------------
+  anon, non-zero pages  2.9G        67-74 MiB (2.3-2.4%)
+  anon, zero pages      -           281-424 MiB (9.5-13.9%)
+
+In other scenario with a MySQL instance from huawei, there are around
+15 GB consumed by hashtables, which contain many zero-filled pages that
+are eligible for merging to reduce memory footprint [1].
+
+[1] https://lore.kernel.org/all/2a642af6-b97a-4f24-9889-1844812de4cc@huawei.com/
+
+
+Xu Xin (vivo) (4):
+  ksm: add only_merge_zero_pages to merge only empty anonymous pages
+  ksm: skip rmap_item allocation for non-zero pages under
+    only_merge_zero_pages
+  selftests/ksm: consolidate ksm_stat readers into ksm_get_self_stat()
+  selftests/ksm: add test for only_merge_zero_pages
+
+ Documentation/admin-guide/mm/ksm.rst          |  40 ++++-
+ mm/ksm.c                                      | 149 ++++++++++++++++++
+ .../selftests/mm/ksm_functional_tests.c       | 135 ++++++++++++++--
+ tools/testing/selftests/mm/vm_util.c          |  40 ++---
+ tools/testing/selftests/mm/vm_util.h          |   3 +-
+ 5 files changed, 327 insertions(+), 40 deletions(-)
+
+-- 
+2.34.1
+
