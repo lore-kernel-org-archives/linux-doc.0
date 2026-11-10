@@ -1,66 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.80
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794324797;
-	b=ZL3RXZJXGPnFooyh7VVCYt7UOKY17+HBGNOVE5I9cWgXUrn6p6wjg2hXkp6wRwXVttkT
-	 SRBxc8h7QVgfUpy4L7EWfnQhGVvnDkYbxi14tiEvcuIqpK2vYGa6XmlM9lBxNrYAFj/z1
-	 gZm3iEqc2Va6Z+SwtquTWp+QnCtXs+B0nNWG46PHrAXK/10gr/m6htVWF5kDt5p/GTvIj
-	 4dyaYgDFAfeqlkstsOgnb82QVdSF1uK7ze6FbJGKUkUqVZa9ImwmCBpkuhsPxKqYG9G0b
-	 8V1q/iTchH6EQwCSG8sueZ/p1q0jvsHzm6HvqVuAqVw/g3Gt/CIFu14HEfkFc5qnyow==
+	t=1794325070;
+	b=VFT2COVeWTe8HLnztU0KpRZLeuwf4wgmrLJQjH5CUhoSDj0Iw2KQjgySFZyYYjCaZNZC
+	 isiS2A4XRx44SWM/cBQliOhZi8swdVm16Gg0EWIkPcpR6sV0FbY63dBK7ei7Z65+sYtED
+	 uMXVUgrSHJGVb49l9F6ikvQF2OK93TzPwoXV6cuXZ1MNrumxFNlEtXBM4lsHsfkG1LxwS
+	 5o5OHjDbv27MZmJVgYymTMGTs0W0at0LCDLp+NoB8xEv0ayRWi/d/FHdDeiX4ZZwUDWAi
+	 4f4S0v5DxknNtIa9xsbfXk4/0gm+J4F8OsEgBlhLKmxOh7gSF4BI6hQXi+T/XPlJyNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794324797;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=y036tnkZvOptnlPqeztBIgk/DHIDknwaKKSH2dCYLg8=;
-	b=KpjbFv0HjWkumA0iR4Fn6m1GEVjenqcUMp+NzB8wrOtw9qoF5dmiL/t2n/Fm58Msr23c
-	 +BS1pJxj9vJsaik6lV4DnO2+NRfvHgWFZLZ8R1XpUf45ECz4Naqcjsh/0e5qQ+YzQQRbS
-	 BNyPzMbrCjt/JYzMn6G9hlfvITqh9GkoWxr0BKROQ+U8aFB2yJDiD9A/ehlXafxb8/O0a
-	 Qv48+8j7+hdJao7S+v7FUC0BPy25Zy9mbmEVP3BVL+F1brszwN2dOwDCs49D101myd5d5
-	 yZCbcTedxpkMuCsyb8sdX6zVIZ431UgzM+D1mwytJZThuU5FYlq2eYiEGY0uHZagaSQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794325070;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=ogFCUAuBZLZXOutM4r4leQllES0UKlFJyoU3ZQqHWYw=;
+	b=25jrtI9pyKiT6TXgs/SMfxjwS2SfosHMKqyrdSNOh8EF4mjliH4x8RzYIgzP/WlhQ5+S
+	 nir0q695AsoXsLDwzWu5byb+F+JeRUcSHcsR+zOz2JXO8Tfi2W1slg7mhATkRZWBoooBy
+	 6isTUAWf4ldsmUXHhfLZy1rDNjrwOoLy6GsP5SG16KbHR+5WQIeHOYZwDgmtarTIkjVlg
+	 V35HeOKY55PZKIzXeB2OIrHehCw/iXVdhZjLflsX+wn/p+sQagb32wLq9hWlt6he50PnV
+	 vdrM4c7RAGMuPtq+t6tAcDdNKUPQ5hbxWnKUPRnBuTywq8puV2KZFLfFxKtkf/a8XyQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=HxUdNS7v;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6C0606A338;
-	Tue, 10 Nov 2026 15:33:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C6C0606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MGkJK4Ls;
+	arc=none smtp.remote-ip=95.215.58.80
+Received: from mta1.migadu.com (out-80.mta1.migadu.com [95.215.58.80])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C807606A32A
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:37:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2C807606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=HxUdNS7v
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CEA914BF;
-	Tue, 10 Nov 2026 07:33:12 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90BAB3F85F;
-	Tue, 10 Nov 2026 07:33:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794324795; bh=nBUxhmvA0ecyPPwlBOt9fU9SaSIGMd2Zc1jhwGnIkjQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HxUdNS7vTci/GNxuiU+PL6sIw8vYWgYQQ2j9oD3St9Q/dGQHoIwmUTRpuTsyb0nEz
-	 dkDtQ71ZVpWmbsEXtAXUCzdNc9kVvrJHxFiSGuzPDYc8SYBopwf/yUn2UA5itaFKBa
-	 mXuD+KbpVmW4I7LeD8HyNfqqXDYFp5svFesO5ZCI=
-Date: Tue, 10 Nov 2026 15:33:10 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-	philip.radford@arm.com, david@kernel.org,
-	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 10/35] firmware: arm_scmi: Add Telemetry resources
- enumeration
-Message-ID: <avM5No4YdYbQ968p@pluto>
-References: <20261109091221.2532706-1-cristian.marussi@arm.com>
- <20261109091221.2532706-11-cristian.marussi@arm.com>
- <20261109173641.00005289@oss.qualcomm.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=MGkJK4Ls
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=OU2BxWs+fl9KwiOZrZ7MCmCnoYNRzpKdLi98U8rTU+I=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794325067; v=1; x=1794929867;
+ b=MGkJK4LsxUPiK8fFdTMjwZ+4h8LZup3UYVKpKVZuPqAwwcoLwijZdLeeb/g73663HIlgwehl
+ qFqTAnkJ1rrSJPCzWPb83tt2LaGEWCb+1XWYSBk7VIZ8iXHdGWaBRF8Air3TGXe5sKtKkiuMkFK
+ xQzLpgzgfTmsQP7jW9LU4Gao=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 14689b3bd4be339c;
+	Tue, 10 Nov 2026 15:37:47 +0000
+X-Mizu-Trace-ID: 14689b3bd4be339c
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5c144eb2f43so5261e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:37:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHsdyz2WXWT09tUn9LQLxzSIm4j2U2mjB5pX0N950NTjmc5VpKFu+zaN0xxwwg6VdlsR/1VIlRQsRQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/GhHik0PZwIamLTjytpee1LVjFDuYf+3bREzBTy6PoL5my4ZNo
+	F9WKEwy+zoj80hA3NOVb3TtYgVpUVzvmhh0XPwrkulkPePOfjg2b9LXS7d8VpN8107S7NtlJvg/
+	Kmm/XzCUOCH0P1yIP4XvQqwzvhE/Dy35HHKwS1bIx
+X-Received: by 2002:a05:6512:1052:b0:5c0:7c6e:4559 with SMTP id
+ 2adb3069b0e04-5c157db2ba2mr143661e87.9.1794325062152; Tue, 10 Nov 2026
+ 07:37:42 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,88 +66,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109173641.00005289@oss.qualcomm.com>
+References: <20261110110724.3614412-1-fuad.tabba@linux.dev>
+ <20261110110724.3614412-3-fuad.tabba@linux.dev> <avMoubwqgXbpflwM@gremlin>
+In-Reply-To: <avMoubwqgXbpflwM@gremlin>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Tue, 10 Nov 2026 15:37:05 +0000
+X-Gmail-Original-Message-ID: <CA+EHjTxT_9NghyLSZmOOi_oQboQw-g+6z9WxwaF=-7RdaGbMNw@mail.gmail.com>
+X-Gm-Features: AclHuK9GxiFUgfn5RkRxiSl8D-ZsDGIbAcDrgyXgHWZ0Aza6Wilt0GEOkKm-eWo
+Message-ID: <CA+EHjTxT_9NghyLSZmOOi_oQboQw-g+6z9WxwaF=-7RdaGbMNw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] KVM: selftests: Test KVM_PRE_FAULT_MEMORY against a
+ full dirty ring
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Nov 09, 2026 at 05:36:41PM -0800, Jonathan Cameron wrote:
-> On Mon,  9 Nov 2026 09:11:56 +0000
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
-> 
+Hi Lorenzo,
 
-Just one eply down below, I will address and reply more in depth next
-days while addressing the usual zillion Sashiko issues (tiny now at
-least)
-
-> > Add basic Telemetry allocation and initialization routines, introducing and
-> > wiring-up the logic needed to enumerate all the SCMI Telemetry resources
-> > optionally using a lazy on-demand scheme: this approach factors in the
-> > flexibility needed to minimize the amount of initialization work based on
-> > the effective access pattern used by the upper layer ABI.
-> > 
-
-[snip]
-
- 
-> > +
-> > +/**
-> > + * scmi_telemetry_resources_enumerate  - Enumeration helper
-> > + * @ti: A reference to the telemetry info descriptor for this instance
-> > + *
-> > + * This helper is configured to be called once on the first enumeration
-> > + * attempt, when triggered by invoking ti->res_get() from somewhere else.
-> > + *
-> > + * Once run it substitues itself in ti->res_get() with the simple accessor
-> > + * __scmi_telemetry_resources_get, which returns a descriptor to the resources
-> > + * that were possibly discovered.
-> > + *
-> > + * Note that, while it attempts to fully enumerate Data Events and Groups, it
-> > + * does NOT fail when such enumerations fail, instead it simply gives up with
-> > + * the end result that only a partially populated, but consistent, resources
-> > + * descriptor will be returned; in such a case the incomplete descriptor will
-> > + * be marked as NOT fully_enumerated: this design enables the kernel to deal
-> > + * with badly implemented out-of-spec firmware support while keep on providing
-> > + * a minimal sane, albeit possibly incomplete, set of telemetry respources.
-> 
-> I'm curious about this. What's the motivation for being nice to people who
-> write buggy firmware?  I'd kind of prefer an opt in quirk for any that show
-> up where a fix is impractical rather than a paper over the bad from the start.
+On Tue, 10 Nov 2026 14:38:27 +0000, "Lorenzo Stoakes (ARM)"
+<ljs@kernel.org> wrote:
+> On Tue, Nov 10, 2026 at 11:07:24AM +0000, Fuad Tabba wrote:
+> > Pre-fault more populated, dirty-logged pages than the vCPU's dirty ring
+> > holds, and check that each call stops before the ring overflows, that a
+> > retry returns ENOSPC without progress, and that the harvested entries
+> > are the pages in order. A read pre-fault can map a page read-only, or
 >
+> Are we asserting an invariant that prefaulting happens in address order
+> here?  Is that explicitly presumed in the prefault API, or just how it
+> happens to pan out?
+>
+> I wonder if we might decide for whatever reason in future to do things
+> differently there. Bit nitty I know, but wonder if it's asserting an
+> implementation detail?
 
-Trust me it was never about being nice to FW guys :P
+Yes, the API doesn't guarantee an order. I'll assert that every page
+is reported exactly once instead.
 
-The reasoning, which I am indeed myself questioning these days, was to
-be able to carry on and boot a minimal Telemetry working system even
-without all of the detailed description retrieved by this command
-enumeration process since all of that data descriptors are NOT strictly
-needed, unless yout system defines groups or FastChannels.
+[...]
+> > diff --git a/tools/testing/selftests/kvm/pre_fault_memory_test.c b/tools/testing/selftests/kvm/pre_fault_memory_test.c
+[...]
+> > +static void test_pre_fault_dirty_ring(void)
+[...]
+> > +    /* Populate the pages, so that pre-faulting can map them writable. */
+>
+> Reviewed below, but I wonder how x86 could then read fault these?
 
-Because on one side it is true thet DE_DESCRIPTION is a mandatory
-command BUT on the other side it is also true that the spec does really
-delegate any further detailed description of the Telemetry data to some
-external JSON-like file: so you can really carry on without all of this
-informational and topological data.
+KVM_PRE_FAULT_MEMORY is defined as a read fault, but x86 maps the page
+writable when the host page is, and marks it dirty, unless it falls
+back to access tracking (below). Populating the pages makes sure they
+aren't backed by the zero page.
 
-As an example if userspace does not want to use kernel mediated access
-to the Telemetry data (most of the IOCTL ABI later on) but instead it
-decides to grab and parse directly the RAW mmaped data from the SHMTI/TDCF,
-in that case you just need the fds to the areas to mmap and its fully
-comprehensive (hopefully) JSON file.
+[...]
+> > +    while (range.size) {
+>
+> NIT: n could be scoped to this block instead.
 
-Another possible scenario is bring-up with a limited features FW.
+Will do.
 
-This is also the reasoning behind having the lazy resource enumeration:
-you can boot, get the SHMTIs fds and mmap those areas and that's it:
-you're good to go without doing any enumeration at all.
+[...]
+> > +        for (n = 0; ; n++) {
+>
+> Could this loop forever if cur->flags always == KVM_DIRTY_GFN_F_DIRTY? Or
+> is that guaranteed not to be the case?
 
-There were more FW issues indeed that I used to 'survive' early in this
-series that I stop being graceful about it, and even in this case, despite
-surviving in a degraded state I printout a FW_BUG.
+It can't. Every harvested entry is set to KVM_DIRTY_GFN_F_RESET and
+stays that way until KVM_RESET_DIRTY_RINGS, which runs after the loop,
+so one pass stops after at most a full ring.
 
-Now the bad side of the story is that keeping half-initialized stuff
-in a degraded system lead to an increasing number of possible issues
-flagged by Sashiko, mostly rare errors on path conditions to fix, but
-I am starting to wonder if all of this is worth...
+> > +            cur = &gfns[fetch % entries];
+> > +            if (smp_load_acquire(&cur->flags) != KVM_DIRTY_GFN_F_DIRTY)
+>
+> Is this and the below release paired with equivalent stuff in the dirty ring code?
 
-Thanks,
-Cristian
+Yes, the acquire pairs with the smp_wmb() in kvm_dirty_ring_push()
+ahead of the flag store, and the release with the smp_load_acquire()
+in kvm_dirty_gfn_harvested(). dirty_log_test does the same.
+
+[...]
+> > +        /* A read pre-fault can map a page read-only, or access-tracked on x86. */
+>
+> Hmm under what circumstances would that happen? Is there no way to ensure pages
+> are dirtied by prefaulting? I imagine not though!
+
+No, it's up to the architecture. arm64 maps a read fault read-only
+while the slot is logged with a bitmap, and x86 with EPT but no A/D
+bits maps it access-tracked. Neither pushes anything to the ring.
+
+> > +        if (!n && !harvested && !range.size) {
+>
+> Hmm, so !n && (harvested || range_size) will pass this, but then you assert
+> n immediately below, so it seems like n is an unconditional requirement.
+>
+> So I wonder whether this should just be !n in this conditional or maybe the
+> assert afterwards should be dropped?
+
+The skip is for when pre-faulting dirties nothing at all: the first
+call maps the whole range without pushing a single entry, so there's
+nothing to test. Any other empty harvest is a bug, which the assert
+reports, so I'd rather keep both as they are.
+
+Cheers,
+/fuad
