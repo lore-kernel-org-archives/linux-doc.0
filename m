@@ -1,106 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794337338;
-	b=W0a6wSFOu3hPNPVaSknHbrgKVeyxLeMUKITNKySjgtXEQg/xPXfG2lEcsuCvmG8Eixdb
-	 fO0R64jhW8gE+IA8jwZlyRUkNd4fCxPedY+QN46XHOhywArXtfFNHSE/3/Y9bPyhqQoea
-	 4sm/4jOYmPkraYcDxrOUO6VNZyMs57s7ABoruByy6uUFHmWenNbaSp0yu7UmGtaRfgEwV
-	 pMTgH4yb1v7d4KHTasHBeNOCpViExqXGZdWQLJH8HxxGQOyvx83554MbRvYlIGp1iqwfU
-	 /LvDqHSLd8iCII42yYXZoYoZ1I3aMIg2GsDtQiRLPS494hnD9+rKkBZ28fBX+FyLYKg==
+	t=1794337380;
+	b=lPWv8GUkWMRSacS/Cakta2VYnycPv+tJXCGQuA0P/1qlIlYKF0OqFIHItYcthP9KRZg5
+	 X9Gg+qYQZSmh5OAjgL5jV1vLk/uBQqEEI0u2wB1e2zeLdnEfx8fCtaN6iUgBwSIa2yqQl
+	 B6Ew3OW4LsT+pylmKUrxzt7JzZZElg3of0euPVArXj01mN4le7v5HC0r63jDK8aM79Dai
+	 R6VrI1Cjk+Jm1QHlqk3kZbBZCxBLuVzdVe805jwIkRBfj4egw/X9lVSzmGEns3rOWVxYB
+	 u+cA7wi9BNlXAff4MG2TlSIYK03MQIdzP23iROnjrmfo0fnu2ImayqIbU3Nznb+6I2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794337338;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=Rc92iNBDR3TpfE1Wb0FPlqB33KW4gheFc7Efbj9D4zA=;
-	b=AYkpiiWpth9yF55rDU5fYNbATCLHeG3lz9IUEkIBm2pvLIEhYHLe9PrObVyu3VO6czVR
-	 zB9YdoZvUoHPoqZU1b88QgrqEuEUFPeHWsIAvGdGEzFele1VrQDO1XYVGGfKi2OQM01pQ
-	 Sy7RjCr86ENdLmEr7yVh7xSrJzTsGNghgQ0c4dKwjuHV6YSiA7ejwXPozuq1lFRRfnHYp
-	 swzi1BU6dIcVNZzY8odWQPC2j46sOi1ulwLtJEFORuz1runaKCR52NurGWv7FyqPD5Bzu
-	 t0o+7rhwft1R9HWG7vUkuLnVQUCybTti7k1W8nJ2zMBNctYvBw071Rq1rROC4wwUm0w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794337380;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=0Nen3DE75lFZ06p2iNZ1cFUOV53MmCW0/dJJQgl8Lz8=;
+	b=QQtIBv5NdsyECZVWIakuwWvFGyu4PWNc2myc9/OaFbFHpugiJ7y2tNFCejIIOR2c/7h/
+	 crpi+ChyTN48ZCdPOIdCHvhA6uVpQ9VetSzlWnCAjQscUIcVTaIyH+8ZvUSFBAAl0dyuB
+	 fLD98RG9irQogGfy3UM3pxgiSp89k4UY6144covKnaK+tsIYpJKegdmo6jiE9Qho50jD6
+	 kgJTQc7gLJEMXr4avuzBdxrrQdac+xwjr5eTgjuvFnvk9q5NtQEQ4HxivbZyZpa5pDrfI
+	 J4y2QgLTnW+Zoe62zkbNxKSdGr7Tv1NF+AxkQbXYogg2fun+1XGsfGnMwXpnSMmXFlA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=qO+JZOY4;
-	arc=none smtp.remote-ip=209.85.214.169
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ta3ME0TX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50E89606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 19:02:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50E89606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A088606A327;
+	Tue, 10 Nov 2026 19:03:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=qO+JZOY4
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2ed3f563739so6815ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 11:02:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794337338; x=1794942138; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Rc92iNBDR3TpfE1Wb0FPlqB33KW4gheFc7Efbj9D4zA=;
-        b=qO+JZOY4XThqw7+Njn/UYcPIm7ZmOo3MiW+t20KLHVibC+4UuvF6oB0AUlTA5C+Kz5
-         8bfjmyokmdpWkvtsirhnzw3yZxnpal6DZh4ctcbQuikaRqogrXN0Fg5MkiFa8k3d0ZdV
-         6yHbQWhuX6VDHoqmvKkSeQVgoE06RF1Rh46qLj1+0lLUGq1fvXjYSdZ/wzPg2gJdk5mk
-         ri70ob/7Sp1bFE8dTCuvgv7LeNHaYdC667uwY7mMMz+afixjYSayD4a69OskUXzmcrNu
-         AXpWknVWVYiL/bjDdQg7mYlZxD1abxJRY2WRtUvcVfj93a3zD+lUsfOsoLuWUOnWKoUl
-         Z+Tg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794337338; x=1794942138;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Rc92iNBDR3TpfE1Wb0FPlqB33KW4gheFc7Efbj9D4zA=;
-        b=HhOY6XaX7NKmu97xnarjhLkFbBiCVSrj+xLksu0DiA8GXqDRu8JBhVpBc03PkYw0CM
-         6MlvpRbG4wPej9ETBlZnUoID7koXTk7VC57WHZ/Ew5BXU0bvnZBFuHmSY5tHJ3hvbGju
-         ySwk9Sjcd2JINGjlBSaoegO3XQq9DxE2Zf3OGdNam6Pj2FbYhKxD7vzaLM1A5sfk/Mbc
-         fV3tOtwfdGCfAnw/5Af1J6R3Qmu6CFlxsd2q4sKgwOR3vkyiJWmknLaL4Y0gUfnB/xnB
-         r+Zxn1+wcmwDcIxaODZaV/VIP7JM93VE3nqG6M/9GI9SzGaLq/5X30JQfFvQGKP2QfEa
-         o+Mw==
-X-Forwarded-Encrypted: i=1; AL+hErHxOS8+mziPpTpRjW8uPqOIsFC3pbYhyY2eD+NXGudKTG6rmj81sv0QrFdCRkoCk1IVRa7HwRsA5iA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Ht0TpVaDMOGk3Tv9FMBdQ2sT2R54gFrs+zeL3Zwhr7Gq22f2a
-	kjllAPNFpHMaLB/BRPBKz3G+sw8lKNRxU14K5bPFf8lK6gNZPNnnwGiZOLippsb2rQ==
-X-Gm-Gg: AYBFou0uQldUt/hlJ5cecQMAEUxHlUgu4AypR24sJ6HuBx+6uUQTBSz/Zfm1El0pFWz
-	FqoSlcQqIIL0+fHCpUFRvSf49rz3YucO+oRvSJgt1qUFUXlTDvuX3QmylEkGKXIA4bETE1hV5oZ
-	N42VdgQ+fUTUjyVUib5bX5s9RnL161bPBGJPYbTPpcP8E9C4oCuIiywEJl5yKlRTCXCG8LjaJWl
-	sBZEO0jhO4n3iXXCgASxSE+O8EGpzf4BqjLEjM/vEl0XqpMf10FNu0O9bzgkGYZOdX20spTHYz+
-	JO5zjjdk2BK7QtMJRuii1MjkitfotkeTjnbeMbOhPoyKhv03eDyBBqkoOmP0DTmMrpjrqc9+E7U
-	K35+KoT3oqD4Y1z+g5uQx4Tw7UwJiV/QtCiY4QUIjGAVN8e58VkeL0rXX7SOh69Xp+myBbEM9xj
-	ymUnSVqQwmGtFpoqa8HV4djOcU3e6sHqpaDF8/OG9cV0ubODAjyaqxU30u3i4wLZYd5TiZRjlDL
-	XcNA65zyoEaZ7Fqugm3Kn942QA4yXPu2AwincOaSo0cSG1QIOPssaJt0rCsssxlbd/gKj+340Qd
-	yDGZj4GgiUyA1vOt8KHNRPjrBvw/k6wgkTAN2Oz0gG5JtUPGMgFLLVo1rMO1QpuA
-X-Received: by 2002:a17:903:1b44:b0:2d5:db38:8010 with SMTP id d9443c01a7336-2edba3e2a10mr5113665ad.15.1794337336971;
-        Tue, 10 Nov 2026 11:02:16 -0800 (PST)
-Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b17db31cafsm914394a91.3.2026.11.10.11.02.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 11:02:15 -0800 (PST)
-Date: Tue, 10 Nov 2026 11:02:11 -0800
-From: Vipin Sharma <vipinsh@google.com>
-To: Samiullah Khawaja <skhawaja@google.com>
-Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org, ajayachandra@nvidia.com, 
-	alex@shazbot.org, amastro@fb.com, ankita@nvidia.com, apopple@nvidia.com, 
-	bhelgaas@google.com, chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net, 
-	dmatlack@google.com, graf@amazon.com, jacob.pan@linux.microsoft.com, jgg@nvidia.com, 
-	jgg@ziepe.ca, jrhilke@google.com, julianr@linux.ibm.com, kees@kernel.org, 
-	kevin.tian@intel.com, leon@kernel.org, leonro@nvidia.com, lukas@wunner.de, 
-	mattev@meta.com, michal.winiarski@intel.com, parav@nvidia.com, 
-	pasha.tatashin@soleen.com, praan@google.com, pratyush@kernel.org, rananta@google.com, 
-	rdunlap@infradead.org, rientjes@google.com, rodrigo.vivi@intel.com, rppt@kernel.org, 
-	saeedm@nvidia.com, schnelle@linux.ibm.com, skhan@linuxfoundation.org, 
-	vivek.kasireddy@intel.com, witu@nvidia.com, yanjun.zhu@linux.dev, yi.l.liu@intel.com
-Subject: Re: [PATCH v6 04/27] vfio/pci: Register a file handler with Live
- Update Orchestrator
-Message-ID: <20261110185305.GC519525.vipinsh@google.com>
-References: <20261102153656.1431701-1-vipinsh@google.com>
- <20261102153656.1431701-5-vipinsh@google.com>
- <au5T7qouVfxJSDmr@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ta3ME0TX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A3691F008A1;
+	Tue, 10 Nov 2026 19:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794337380;
+	bh=0Nen3DE75lFZ06p2iNZ1cFUOV53MmCW0/dJJQgl8Lz8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ta3ME0TXdyjvWLI8RTl/D/KZ8OX9eIxFE8UPaKUmoHdPpjemp7tE5UYSsEA2L6CRW
+	 cgwohAtvbGVrQJIfaEdZBgeoaeRENsZIBNBiAOa3T2ub/q7g2ZlDykuscP9cTSI9pC
+	 30iE+bW6Rah/0lNVSndbLQYrMidX0okCN6w+9u/kEVQliehneqd0xc97QGwKo7BhXA
+	 Sn3Zr4b7fX5qYWipbipSYJ15Avc4tik8tcKOdsXEzBxQvy0CI6ip7NTIJpyreEieBV
+	 b6CIolTXu7DrA7wTUQrNO6nM+BgPe4fWWpweg2ZgH48TkJJf+s0yAhdgAhifNidIOw
+	 9qjcOvdQJmqhg==
+Date: Tue, 10 Nov 2026 19:02:48 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+	Will Deacon <will@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>,
+	Yury Norov <yury.norov@gmail.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Chao-ying Fu <chao-ying.fu@globalfoundries.com>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	torvalds@linux-foundation.org, olof@lixom.net,
+	aleksa.paunovic@htecgroup.com, arikalo@gmail.com,
+	Boqun Feng <boqun@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	Luke Nelson <luke.r.nels@gmail.com>, Xi Wang <xi.wang@gmail.com>,
+	=?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>,
+	Pu Lehui <pulehui@huawei.com>, Puranjay Mohan <puranjay@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Oleg Nesterov <oleg@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Tamir Duberstein <tamird@kernel.org>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Onur =?iso-8859-1?Q?=D6zkan?= <work@onurozkan.dev>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
+	bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Charlie Jenkins <thecharlesjenkins@gmail.com>,
+	Nam Cao <namcao@linutronix.de>, rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v6 2/6] riscv: build kernel atomics from LR/SC when Zaamo
+ is disabled
+Message-ID: <20261110-revivable-saint-9bcfaa2fd0e7@spud>
+References: <20261110-lrsc-only-v6-0-bafc3cc0fcae@mobileye.com>
+ <20261110-lrsc-only-v6-2-bafc3cc0fcae@mobileye.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -110,69 +98,97 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="yEOv5UU3yImNGsK0"
+Content-Disposition: inline
+In-Reply-To: <20261110-lrsc-only-v6-2-bafc3cc0fcae@mobileye.com>
+
+--yEOv5UU3yImNGsK0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <au5T7qouVfxJSDmr@google.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 06, 2026 at 10:29:06PM +0000, Samiullah Khawaja wrote:
-> On Mon, Nov 02, 2026 at 07:36:33AM -0800, Vipin Sharma wrote:
-> > Register a live update file handler for vfio-pci device files. Add stub
-> > implementations of all required callbacks so that registration does not
-> > fail. Register it with both live update framework and PCI subsystem.
-> > 
-> > This file handler will be extended in subsequent commits to enable a
-> > device bound to vfio-pci to run without interruption while the host is
-> > going through a kexec Live Update.
-> > 
-> > Put this support behind a new Kconfig VFIO_PCI_LIVEUPDATE. Initial
-> > support is added for no-iommu model vfio-pci devices.
-> > 
-> > Co-developed-by: David Matlack <dmatlack@google.com>
-> > Signed-off-by: David Matlack <dmatlack@google.com>
-> > Signed-off-by: Vipin Sharma <vipinsh@google.com>
-> > ---
-> > MAINTAINERS                            |  1 +
-> > drivers/vfio/pci/Kconfig               | 11 ++++
-> > drivers/vfio/pci/Makefile              |  1 +
-> > drivers/vfio/pci/vfio_pci.c            | 11 +++-
-> > drivers/vfio/pci/vfio_pci_liveupdate.c | 75 ++++++++++++++++++++++++++
-> > drivers/vfio/pci/vfio_pci_priv.h       | 14 +++++
-> > include/linux/kho/abi/vfio_pci.h       | 28 ++++++++++
-> > 7 files changed, 140 insertions(+), 1 deletion(-)
-> > create mode 100644 drivers/vfio/pci/vfio_pci_liveupdate.c
-> > create mode 100644 include/linux/kho/abi/vfio_pci.h
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 5d1b58271989..167aa9d66ce8 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -28662,6 +28662,7 @@ F:	Documentation/ABI/testing/debugfs-vfio
-> > F:	Documentation/ABI/testing/sysfs-devices-vfio-dev
-> > F:	Documentation/driver-api/vfio.rst
-> > F:	drivers/vfio/
-> > +F:	include/linux/kho/abi/vfio_pci.h
-> > F:	include/linux/vfio.h
-> > F:	include/linux/vfio_pci_core.h
-> > F:	include/uapi/linux/vfio.h
-> > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
-> > index 296bf01e185e..e8285ad93a69 100644
-> > --- a/drivers/vfio/pci/Kconfig
-> > +++ b/drivers/vfio/pci/Kconfig
-> > @@ -42,6 +42,17 @@ config VFIO_PCI_IGD
-> > 	  and LPC bridge config space.
-> > 
-> > 	  To enable Intel IGD assignment through vfio-pci, say Y.
-> > +
-> > +config VFIO_PCI_LIVEUPDATE
-> > +	bool "VFIO PCI support for Live Update in no-iommu mode"
-> > +	depends on PCI_LIVEUPDATE && VFIO_NOIOMMU
-> 
-> Can we handle this dependency in code instead of doing through
-> configs? Are there any build dependencies on noiommu?
+On Tue, Nov 10, 2026 at 03:20:59PM +0200, Vladimir Kondratiev wrote:
+> The A extension is Zaamo plus Zalrsc. On some CPUs Zaamo is present
+> only formally. MIPS P8700 traps every AMO instruction into M-mode and
+> emulates it there, so the extension is supported but very slow. A
+> typical uncontended atomic increment costs:
+>=20
+>   native AMO                                     2..5 cycles
+>   LR/SC, private L1 reservation monitor         6..12 cycles
+>   LR/SC, PoC (L2) reservation monitor       about 40 cycles
+>   AMO emulated by an M-mode trap           about 600 cycles
+>=20
+> The last two were measured on the eyeq7h hardware. On such a CPU the
+> kernel must use LR/SC for every atomic.
+>=20
+> Add RISCV_ISA_ZAAMO, default y. The default keeps "a" in -march and
+> the generated code unchanged. When it is disabled, -march carries
+> _zalrsc instead of "a", and atomic_*, bitops, xchg, futex and the
+> early boot code use LR/SC loops. The sequence is chosen with the
+> preprocessor, on CONFIG_RISCV_ISA_ZAAMO like the other ISA options in
+> the headers, because the assembler rejects AMO mnemonics once -march
+> lacks Zaamo. A kernel built this way runs on any hart that implements
+> A; it just does not use AMO. It is therefore a plain option, not a
+> NONPORTABLE one, and the hart keeps advertising "a" to userspace,
+> which is true.
+>=20
+> The LR/SC loops follow the ordering convention of the existing ones
+> in cmpxchg.h, from commit 5ce6c1f3535f ("riscv/atomic: Strengthen
+> implementations with fences") and commit 1d84afaf0252 ("riscv: Fix
+> fully ordered LR/SC xchg[8|16]() implementations"): a fully ordered
+> operation is lr, sc.rl and a trailing fence rw,rw; acquire is lr.aq
+> with a plain sc; release is a plain lr with sc.rl. The futex loop is
+> bounded to 128 retries and returns -EAGAIN after that, as arm64 does,
+> because userspace can keep the word changing from another thread and
+> futex_wake_op() retries on -EAGAIN anyway.
+>=20
+> Zabha, Zacas and the ssamoswap instruction of Zicfiss are AMO
+> instructions, so RISCV_ISA_ZABHA, RISCV_ISA_ZACAS and RISCV_USER_CFI
+> depend on RISCV_ISA_ZAAMO. The riscv64imac Rust target emits AMO too,
+> so RUSTC_SUPPORTS_RISCV depends on it as well.
+>=20
+> The choice is made at compile time rather than with alternatives.
+> Nearly every CPU has a native A extension, and an alternative would
+> inflate all those kernels with the nops needed to pad one AMO to the
+> size of an LR/SC loop, at every atomic site, for the benefit of a few.
+>=20
+> Turning Zaamo off needs a compiler that accepts _zaamo and _zalrsc in
+> -march. GCC 15.1 is the first release that does.
+> TOOLCHAIN_HAS_ZALRSC_ZAAMO checks for it; with an older compiler the
+> option stays at y.
+>=20
+> Three sets of extensions provide every atomic Linux needs. "a" is what
+> the kernel supports today. Zalrsc plus Ziccrse is what this patch adds:
+> every atomic is a constrained LR/SC loop, and Ziccrse is the
+> forward-progress guarantee for such loops. Zaamo plus Zacas would do
+> as well, with CAS loops in place of LR/SC as on x86, and is left for
+> whoever has such hardware.
+>=20
+> Suggested-by: Chao-ying Fu <chao-ying.fu@globalfoundries.com>
+> Nacked-by: Conor Dooley <conor.dooley@microchip.com>
+> Link: https://lore.kernel.org/linux-riscv/20261106-smock-headband-d6a7d56=
+8c228@spud/
 
-I can remove it but then by itself VFIO series will enable LIVEUPDATE
-irrespective of VFIO_NOIOMMU and it will just fail when someone tries to
-enable it. So, kconfig looks cleaner to me.
+I had a quick glance at this revision, and I think you've at least tried
+to resolve the things I was pointing out. Did I miss something, or why
+have you kept the NAK after having resolved the things that I was
+objecting to?
 
-Can your series modify this kconfig and add (VFIO_NOIOMMU ||
-IOMMU_LIVEUPDATE)? Will that work for you?
+Thanks,
+Conor.
+
+> Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+
+--yEOv5UU3yImNGsK0
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCavNqVwAKCRB4tDGHoIJi
+0vCIAPwI9tv4/veY1c2lX/x6cUlucNBdIPbCVw9jI0m16SyQIwEAwvrqq4Gw4cdE
+G3N4rmccRtmc+qeZKgNCaWp7/G74kQ4=
+=vYmX
+-----END PGP SIGNATURE-----
+
+--yEOv5UU3yImNGsK0--
