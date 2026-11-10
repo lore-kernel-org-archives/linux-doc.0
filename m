@@ -1,84 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794283053;
-	b=XKLrLvDGxS5Jj4u25LBcIHE+sSZMfeNdYx5lznwU6XJ9br+wcNhu4H4xagttgKq3etVl
-	 NcsNarU1PkwXungY1DT0rwMGWjz3CFIxGw1HWt+ip8eSC0WAq/QyBhEFSKQbJfxTzLaTJ
-	 3S4S7XH1PIDJGVeOUsMzcZTUZrdTA13F+IEQK1MmcPoKQuobGkTuMcpdW5TlNoqeq3VMW
-	 WxcZU1t9UoXSIEND9U2Jt/IW7tKWthaMrm3RA24bIbCfg7HogK8Q488DTl8n45NGQKCX1
-	 zYHpsq2GAhxfokNuvRESBFieyCTdYQWFK6wI72YJEJ5EbJBC8QBT1ou1jB5GMQqpGyA==
+	t=1794283056;
+	b=5eF+18tu5AWaw+UFdq1iAUxE6vJnHLvNzhhv9+lnH1aaCL7zQTJs+vS04vw5VMc+TSU4
+	 cxQ9b2KIGp1HdFUL6QBNDd2JnjQifCNR2XKsqKZlYkmNVMNgwiyq2jBzJTlKnkV3BOfad
+	 F5a4DaQpH8yqdCR+QFdMey4Nk2AaLSJPTcptKyHk3oyX7CroFaBlhlButGiy9qMdvtadj
+	 /NxVgsvHEzpCVsS0fJlQMVjMT1GRiMqmK1+5LxmQ+O3ouCCy7dVQ0pTY+349VVWKX/j1F
+	 fpOWZBrrT25Uaqq2dqYFpXxbFwac7+09hB0MUNAO0/vB3oLo3lQgVaKtEEsIvJeU2GQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794283053;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794283056;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=m8+xowlUwN+TnOKNDaiztwvEmzRJ1pYtLtKYjKSdRBE=;
-	b=kMs/1Ol07w6p9QXJaO2arDc79ILcQKDZFEIPjGGIyeoZbr/cx0Bzfdxc1aX4hrlp8iuv
-	 GRMSHxgHdCWYVAuLfMHMAfaNidq2+UC6F60Sn8xBblAZ1JzHrv9qc2+0LXFKSBVsVu5Cb
-	 hvaN5zuoPrnbwNW2yLlD5VgCWpztOTV7G0RndiReqqUqv0AlZQN3NNTbkNgYoTIV8qNHr
-	 D9LWU6Rcqq+RwdzKTRAhoEoiFgrkEfdb7tW7GfdxdGxqZLcgZgiwrILnUDzrF52GmVGz1
-	 2DAZUarrpfq6Fx1ViFsESwVmFG+pgwvcL1cjGX9gRqImhNlG5RX7ecfOsmr5ecQ79/w==
+	bh=EC2CxfAA6gR7S2oAAPp+eS1dDml83jpwhvD444kpRqo=;
+	b=L4uDMzU/Q+o6TuHAQ1UGBwEtK4wIZbPp7ZDZdS2xV0Orj7yyhYAHwUgtbbokBZ11lrhL
+	 +YzUOMZmwHUxhwaekjSsE7zIClf0xnBm5qFTTQ8o0k/9X8O/Qz/yvpzru0ZmCXwfCzBkt
+	 YOVy1EHvBqXDPiHZ5RT4qCF8jzrggTrBOb7uXmBb/1xZ0/67QjlJV0ruK9/bA/nR2Bisl
+	 vjth7HFZaK6HcU54Yyk1CNFRourVJ6p9HIbFuOGEjgxQxvp4JuuEP8lGcASPspkzpdyCY
+	 T9yfwVQzmQEdS5/EyedQvfPZEDl0O/mrWATW4YMmZ7g8z8ca1kZ1SMYQXT7WgPzmpcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cloudflare.com;
 	spf=pass smtp.mailfrom=cloudflare.com;
-	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=frDisYuM;
-	arc=none smtp.remote-ip=209.85.208.46
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=doJtRZHT;
+	arc=none smtp.remote-ip=209.85.218.52
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EB9606A332
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 03:57:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71EB9606A332
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 066B160A2606
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 03:57:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 066B160A2606
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=frDisYuM
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b56c428212so2067777a12.2
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 19:57:32 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=doJtRZHT
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c4682977f9aso193869766b.1
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 19:57:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1794283051; x=1794887851; darn=vger.kernel.org;
+        d=cloudflare.com; s=google09082023; t=1794283054; x=1794887854; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=m8+xowlUwN+TnOKNDaiztwvEmzRJ1pYtLtKYjKSdRBE=;
-        b=frDisYuMqF5MTN4rJOxySZx1PdsMzx1YdICtAegrnM7DbL9bL3D+HMXHBXpf+Hjt/L
-         b+t6Xllo3eF/5PN0nSwBDoMb4dLOHm8K85EOnJnE8WOd4TBRHfrnzKxz6pdjNJQsBU9E
-         3YvVq8h+FviTtoMM2kU3A7Os298/UI7/NcneCD72CzfnWsjrDeIWeTLvFBf3IecfJsQr
-         D6m4WMtcuDor03w/gDqw0fNwHubqnTzmQuzWm0n4twhIFgfJeecRCr6O96WYzZE/LNtX
-         PNMZ/U2FauZVWW7IUMvC6aGNKJweAb3aky6eAh8t6nHyJWBm+v1Fr2DNc3n9kcjaYBRS
-         RFcQ==
+        bh=EC2CxfAA6gR7S2oAAPp+eS1dDml83jpwhvD444kpRqo=;
+        b=doJtRZHTNbnpgwY0Tk0QABAt2OJ4W+o0eKi+YWqBAxLx0axLIIEdnuobt4IeXlgIWE
+         ITthrLWGQp3Qff4FnMSUWWMW/YsigFzb/d3b3ddZBxAWfbgsU17JxO+UYSa+IyHxuD2X
+         zr/rJSKY1isl/vKP32lbRu88ZwvOxVaqBgFgEkYzqQhtg1z49MD5EtVbQCRGP8HdiJ43
+         dEEBVvvp29r4yGqP6aBpbKGaFq/8OTOQWdKcKr7Os5OpAdRrGUqg48/3pDEVhSElID/5
+         ji1nW9x+H9xk9Oa/a24heU8amtkcVtMEV73aIyT+bjvpB90Zeb5tsLWkedaEE5UoGzRc
+         MRSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794283051; x=1794887851;
+        d=1e100.net; s=20260707; t=1794283054; x=1794887854;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=m8+xowlUwN+TnOKNDaiztwvEmzRJ1pYtLtKYjKSdRBE=;
-        b=OwV7Pwt0SSXNnjm0ILpeYHhXkdsQXR0iDCt0OIDP/bHwCd4PSyXTsa4KLEUamldHxa
-         K+KbSwuXSKSeWuVOZHDV+Z4Y/Ynli2tehpeZAxuIax43yLt9eeLTCK0sl9Le4MgDMp1e
-         F+eFDCio/OkElxN2+JsRUcE/pEW7B4A2tgUrZxOz6ely6xEsLdrTmUVTPrJ1SgdRz3bg
-         bryGyS/wNiaLNPeCMdxl5HqtEEV8TSN+yvR9oAePU4fB3I9ydptifQOVSa7W3qEg6ddC
-         JIxlGrAO4/xAKqS9vBULi/E/M2NsPfRu79fquALa5xBuopU25Ydv4Bx60aPGoZ3m1fVJ
-         a7sw==
-X-Forwarded-Encrypted: i=1; AL+hErGcUcIA62WFe+EPGsEabyHPxpA/YgIg5nWCg3G8q0Ezb5+Ldx8KP38QOh7SVjyCOphS+batItMVhNU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+Zlz1cv582iMEIwv2m7B9SM7huSLw/JxqPBrsl3+nbWk+hDzPA
-	C4P5QSsp3eMpNonkVqetDDpCaimr5dSbw+DuXCc+5lzhwgu0I2z5Wd72rfHtjW5Wv9w=
-X-Gm-Gg: AYBFou20TMNlirbVYGfzUK60s5NtUNeFU7IoVOjc2e8MlK4uvZ+EYuQcbo+X+wDEtDl
-	T7pIKySfwgZAllZyqQSm70QUEtDAvuVPJNNXMmCjqjgbWUogINOoVFFh9sYOtlsL2epqKb8Bkcl
-	xTMp9eRiyygpbgfbNdX4jwsIsICqdrDHlpQteszyiJkFmWwD6y5AdOxvkvJgdV6PZu6ITNBDv5p
-	3R6WUgzRPslwcHoKDFaikb/p3doO/C38HGG6fva4UoX2X9wfroFkU5ei2IV3SKAuNOAWgsB4OYL
-	aPkRktZ13kG2fKCKLDWJGEstl0N2ZELX+PqYGSoChugc1zOVJbR286u4Z4LOeZt/yRH/cdFUeEO
-	Pu1FLfWAuIcR09H2Q3c0xuDAzxkUpb8X46rPjbbv0fL3LwP5QlXL0DV0ble79u/vzB57JaY/BBr
-	/LtQ7oZhJuhYAhVVvhK5KLtEpX4d7o/7D9kWOSCP9hzAJauHfkYnvGlOui+LqyFkoc96/TlHaO6
-	GjkbdmexycFZrr00GW0IShJI49Q3+Bzz28leXclOnrJned3hnjGoKRtic9pZYSMDE/WaJrSR5lh
-	MYMlveSVbTlDWaYbs09bqAQq5d++Vxwe7hnatC9uUcwJD+7oTKDaRuWxHoLiJ8l/TDopF0fvBzq
-	uBhdJAjwJ
-X-Received: by 2002:a05:6402:3227:b0:6b5:66cc:d828 with SMTP id 4fb4d7f45d1cf-6b7564c452dmr973212a12.7.1794283050804;
-        Mon, 09 Nov 2026 19:57:30 -0800 (PST)
+        bh=EC2CxfAA6gR7S2oAAPp+eS1dDml83jpwhvD444kpRqo=;
+        b=I27BzV6MRaxT6QrYeblQ8oaASgTaqK8vG3gKteSvJxd27ysztcpTJU3HsK93NVk9I+
+         eo4xMOZ/sCEmTzeQipGQFzE5XmAXMZYSmSAY/cBZjfvhB5QLIKw4UXo6Ax5PoslqHl2V
+         qSXd8qh6zCtrXA2nyScdIcb8ZPqvncUGgE8UtOV3i5CC0AxcVsJqvEP4guBL6VktcKsL
+         mUVcLycxWzd4/7EVK8fj0laFOVx7XkJt3pVSWbXnCO0GcOPCkZWXet7G3u+Zwnr2SfgW
+         JV1YpkvDuIy94EzvZI3ZqsWFLxbmeoxC4msYLng0LUYMglE0uqwv390Z1lStOU1K4FhK
+         Y79A==
+X-Forwarded-Encrypted: i=1; AL+hErGjpao3e835M2/YFI+R/JmrSmU+SwYVFSXVLpSIcS9OeyIB4X7/YuAIkw4OC23mMFxVLW4WvTP6LIk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8AuU+4rlcReDEuRiJcTuhiF4hsPGPwQz6ZU28ZzS8uBn8OsLRZ
+	swmudxLbgqlA/3Q+nMmFDZntUsi1+0L/LpMCPHRR/F3e9NJdWyCYSzYtYah0TOtRfnY=
+X-Gm-Gg: AYBFou0FsqNKr9tEnXvNGQKWiAATmmXM2dZMJh/XkP1t4W5APiEx3wQpalRSJpAzo47
+	sbLrligLG6ntUYV9fAkSjXv7FPL6iAWaZd345RxFkGlMJBTCvy7puK0z+jgv6eIOg6MlEq0RNWL
+	6xxqlKax866BJ6UfPXdhNq1Ls43ZQFJQvo0yhiJ935Wx3YRlyusmekJN0N0aeGV23wBNNj4uWmM
+	ZKqXTlyeiQWXjObhgO6nRdPS77tGSOxzDWf1VGtS3m9/K7LkOWMqDM+zCkyCZ0ni5yqNkkOhojT
+	OzYggzSZRMG9mjgU5eSzdf8Hs9ywrsPzJKCLUqZ0rWqwCAYbHifoXOIql6IrcZhSwp30Ge7ytIB
+	zKLjwPL1s8gkTrKO1svMC79MyQ6H+FPRAntP2VYO/BFaJSxwADIKtlWBJMxZCeh62XraVVbxywG
+	8gLwCSusKoauMZg4cwKR+vJxnozdgm8SkiGyOTxTqh+SrlMjssiuaKXPJJJ2K5kviMMlePXfoKA
+	haQO64OqakakVVT4YH/ecbJKaObQAar95EjWzYpJAfGZJZooRQscE4bUimMIt4bWamOZIekCt35
+	BuW1m2XtdX6V3c96YhcX6aT71TyVHvlINxbpgxyFiEAymINa1xIKhVvd/yWILZk=
+X-Received: by 2002:a17:906:364f:b0:c2d:be57:f73a with SMTP id a640c23a62f3a-c504952c083mr70409766b.13.1794283054469;
+        Mon, 09 Nov 2026 19:57:34 -0800 (PST)
 Received: from L9JK9NPFH9.lan ([104.28.20.56])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7579047c9sm548801a12.33.2026.11.09.19.57.26
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7579047c9sm548801a12.33.2026.11.09.19.57.30
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 09 Nov 2026 19:57:28 -0800 (PST)
+        Mon, 09 Nov 2026 19:57:32 -0800 (PST)
 From: Tianyi Gao <tianyi@cloudflare.com>
 To: bpf@vger.kernel.org,
 	netdev@vger.kernel.org,
@@ -131,9 +130,9 @@ Cc: John Fastabend <john.fastabend@gmail.com>,
 	llvm@lists.linux.dev,
 	kernel-team@cloudflare.com,
 	Tianyi Gao <tianyi@cloudflare.com>
-Subject: [PATCH bpf-next 03/15] xdp: add kfuncs to store RX hash and VLAN tag
-Date: Tue, 10 Nov 2026 03:57:01 +0000
-Message-ID: <f865ab08e7e0343bcd6eb380f7003ddd32d177e2.1794281983.git.tianyi@cloudflare.com>
+Subject: [PATCH bpf-next 04/15] xdp: add a kfunc to delete skb core extension entries
+Date: Tue, 10 Nov 2026 03:57:02 +0000
+Message-ID: <2892d19e606e3809c268de0610a4ccc8bf68625a.1794281983.git.tianyi@cloudflare.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1794281983.git.tianyi@cloudflare.com>
 References: <cover.1794281983.git.tianyi@cloudflare.com>
@@ -148,207 +147,98 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add bpf_xdp_skb_ext_store_rx_hash() and bpf_xdp_skb_ext_store_rx_vlan().
-They store the RX hash and the VLAN tag in the skb core extension area.
-A later patch sets the stored values on the skb built from the
-xdp_frame.
+bpf_xdp_skb_ext_del() deletes the stored entry for an id. A program on
+cpumap or veth can use it to drop RX metadata that an earlier program
+stored.
 
-Both kfuncs call xdp_skb_ext_add(), which reserves the entry for an id.
-On the first store for a packet, it clears the header and sets
-XDP_FLAGS_HAS_SKB_EXT, so stale headroom is never read as a header. A
-second store of the same id, also after a delete, reuses its offset.
+Without the XDP_FLAGS_HAS_SKB_EXT flag, the kfunc does nothing, because
+the header bytes may then belong to the packet.
 
-xdp_skb_ext_add() returns -EOPNOTSUPP for AF_XDP zero-copy buffers. User
-space can write their headroom while the program runs, and could change
-the header between two stores.
+The kfunc only clears XDP_SKB_EXT_ENTRY_ACTIVE, so a later store of the
+same id reuses its offset. The flag and the size of the area stay the
+same, also after the last delete. To give the bytes back, the kfunc
+would have to move the entries after the deleted one. The cost is
+headroom that bpf_xdp_adjust_head() and bpf_xdp_adjust_meta() cannot
+use.
 
-The store kfuncs are in their own kfunc set. They do not need a
-device-bound program, so programs on cpumap and veth can call them.
-
-bpf_xdp_skb_ext_store_rx_vlan() accepts only ETH_P_8021Q and
-ETH_P_8021AD, because vlan_proto_idx() warns on any other TPID.
-
-A BUILD_BUG_ON() in xdp_skb_ext_struct_check() limits the area to 64
-bytes. As in skb_extensions_init(), the function is noinline
-__no_profile so that it builds with CONFIG_GCOV_PROFILE_ALL.
-
-The two kfuncs are based on bpf_xdp_store_rx_hash() and
-bpf_xdp_store_rx_vlan() by Lorenzo Bianconi in Jesper's XDP_REDIRECT RX
-hints series V2 [1].
-
-Link: https://lore.kernel.org/all/175146831297.1421237.17665319427079757435.stgit@firesoul/ [1]
 Signed-off-by: Tianyi Gao <tianyi@cloudflare.com>
 ---
- net/core/xdp.c | 154 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 151 insertions(+), 3 deletions(-)
+__skb_ext_del() frees struct skb_ext after the last delete, because it
+comes from a slab cache. The skb core extension area uses existing
+headroom, so it is not freed.
+---
+ include/net/xdp.h |  8 ++++++++
+ net/core/xdp.c    | 26 ++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
+diff --git a/include/net/xdp.h b/include/net/xdp.h
+index c888353425d4..23c976e92898 100644
+--- a/include/net/xdp.h
++++ b/include/net/xdp.h
+@@ -486,6 +486,14 @@ static __always_inline struct xdp_skb_ext *xdp_skb_ext(struct xdp_frame *frame)
+ 	return (void *)(frame + 1);
+ }
+ 
++static __always_inline struct xdp_skb_ext *
++xdp_buff_skb_ext(const struct xdp_buff *xdp)
++{
++	if (!xdp_buff_has_skb_ext(xdp))
++		return NULL;
++	return xdp_skb_ext(xdp->data_hard_start);
++}
++
+ static __always_inline void *xdp_skb_ext_end(const struct xdp_buff *xdp)
+ {
+ 	struct xdp_skb_ext *ext = xdp_skb_ext(xdp->data_hard_start);
 diff --git a/net/core/xdp.c b/net/core/xdp.c
-index 1d679e8fd649..97dc0e403a78 100644
+index 97dc0e403a78..2c1d5ec3311b 100644
 --- a/net/core/xdp.c
 +++ b/net/core/xdp.c
-@@ -990,11 +990,159 @@ bool bpf_dev_bound_kfunc_id(u32 btf_id)
- 	return btf_id_set8_contains(&xdp_metadata_kfunc_ids, btf_id);
+@@ -991,6 +991,7 @@ bool bpf_dev_bound_kfunc_id(u32 btf_id)
  }
  
--static int __init xdp_metadata_init(void)
-+#define XDP_SKB_EXT_CHUNKSIZEOF(x) DIV_ROUND_UP(sizeof(x), XDP_SKB_EXT_ALIGN)
-+#define XDP_SKB_EXT_ENTRY_ACTIVE BIT(7)
-+
-+struct xdp_skb_ext_hash {
-+	u32 val;
-+	u32 type; /* enum xdp_rss_hash_type */
-+};
-+
-+struct xdp_skb_ext_vlan {
-+	__be16 proto;
-+	u16 tci;
-+};
-+
-+static const u8 xdp_skb_ext_type_len[] = {
-+	[XDP_SKB_EXT_HASH] = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext_hash),
-+	[XDP_SKB_EXT_VLAN] = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext_vlan),
-+};
-+
-+/* Limit the header and all entries to 64 bytes, so that a new entry
-+ * cannot grow the area without notice.
-+ */
-+static noinline void __init __no_profile xdp_skb_ext_struct_check(void)
-+{
-+	unsigned int chunks = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext);
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(xdp_skb_ext_type_len); i++)
-+		chunks += xdp_skb_ext_type_len[i];
-+
-+	BUILD_BUG_ON(chunks * XDP_SKB_EXT_ALIGN > 64);
-+}
-+
-+static void *xdp_skb_ext_add(struct xdp_buff *xdp, enum xdp_skb_ext_id id)
-+{
-+	struct xdp_skb_ext *ext = xdp_skb_ext(xdp->data_hard_start);
-+	bool valid = xdp_buff_has_skb_ext(xdp);
-+	unsigned int newlen, newoff;
-+	void *start;
-+
-+	/* User space can write the headroom of AF_XDP zero-copy buffers */
-+	if (xdp->rxq->mem.type == MEM_TYPE_XSK_BUFF_POOL)
-+		return ERR_PTR(-EOPNOTSUPP);
-+
-+	if (!valid) {
-+		newoff = XDP_SKB_EXT_CHUNKSIZEOF(*ext);
-+		newlen = newoff + xdp_skb_ext_type_len[id];
-+	} else if (ext->offset[id]) {
-+		newoff = ext->offset[id] & ~XDP_SKB_EXT_ENTRY_ACTIVE;
-+		newlen = ext->chunks;
-+	} else {
-+		newoff = ext->chunks;
-+		newlen = newoff + xdp_skb_ext_type_len[id];
-+	}
-+
-+	start = xdp_data_meta_unsupported(xdp) ? xdp->data : xdp->data_meta;
-+	if ((void *)ext + newlen * XDP_SKB_EXT_ALIGN > start)
-+		return ERR_PTR(-ENOSPC);
-+
-+	if (!valid) {
-+		memset(ext->offset, 0, sizeof(ext->offset));
-+		xdp->flags |= XDP_FLAGS_HAS_SKB_EXT;
-+	}
-+	ext->offset[id] = newoff | XDP_SKB_EXT_ENTRY_ACTIVE;
-+	ext->chunks = newlen;
-+
-+	return (void *)ext + newoff * XDP_SKB_EXT_ALIGN;
-+}
-+
-+__bpf_kfunc_start_defs();
-+
+ #define XDP_SKB_EXT_CHUNKSIZEOF(x) DIV_ROUND_UP(sizeof(x), XDP_SKB_EXT_ALIGN)
++/* A deleted entry keeps its offset, without this bit */
+ #define XDP_SKB_EXT_ENTRY_ACTIVE BIT(7)
+ 
+ struct xdp_skb_ext_hash {
+@@ -1119,11 +1120,36 @@ __bpf_kfunc int bpf_xdp_skb_ext_store_rx_vlan(struct xdp_md *ctx,
+ 	return 0;
+ }
+ 
 +/**
-+ * bpf_xdp_skb_ext_store_rx_hash - Store the RX hash of this packet.
++ * bpf_xdp_skb_ext_del - Delete a stored entry of this packet.
 + * @ctx: XDP context pointer.
-+ * @hash: RX hash value.
-+ * @rss_type: RSS hash type, see &enum xdp_rss_hash_type.
++ * @id: Entry id, see &enum xdp_skb_ext_id.
 + *
 + * Return:
-+ * * Returns 0 on success or ``-errno`` on error.
-+ * * ``-ENOSPC`` : not enough headroom for the entry
-+ * * ``-EOPNOTSUPP`` : AF_XDP zero-copy buffer
++ * * Returns 0 on success, also when the entry is not stored.
++ * * ``-EINVAL`` : @id is not a valid entry id
 + */
-+__bpf_kfunc int bpf_xdp_skb_ext_store_rx_hash(struct xdp_md *ctx, u32 hash,
-+					      enum xdp_rss_hash_type rss_type)
- {
--	return register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &xdp_metadata_kfunc_set);
-+	struct xdp_buff *xdp = (struct xdp_buff *)ctx;
-+	struct xdp_skb_ext_hash *entry;
-+
-+	entry = xdp_skb_ext_add(xdp, XDP_SKB_EXT_HASH);
-+	if (IS_ERR(entry))
-+		return PTR_ERR(entry);
-+
-+	entry->val = hash;
-+	entry->type = rss_type;
-+
-+	return 0;
-+}
-+
-+/**
-+ * bpf_xdp_skb_ext_store_rx_vlan - Store the VLAN tag of this packet.
-+ * @ctx: XDP context pointer.
-+ * @vlan_proto: VLAN tag protocol identifier (TPID), in network byte order.
-+ * @vlan_tci: VLAN TCI, in host byte order.
-+ *
-+ * Return:
-+ * * Returns 0 on success or ``-errno`` on error.
-+ * * ``-EINVAL`` : @vlan_proto is not 802.1Q or 802.1AD
-+ * * ``-ENOSPC`` : not enough headroom for the entry
-+ * * ``-EOPNOTSUPP`` : AF_XDP zero-copy buffer
-+ */
-+__bpf_kfunc int bpf_xdp_skb_ext_store_rx_vlan(struct xdp_md *ctx,
-+					      __be16 vlan_proto, u16 vlan_tci)
++__bpf_kfunc int bpf_xdp_skb_ext_del(struct xdp_md *ctx, enum xdp_skb_ext_id id)
 +{
 +	struct xdp_buff *xdp = (struct xdp_buff *)ctx;
-+	struct xdp_skb_ext_vlan *entry;
++	struct xdp_skb_ext *ext;
 +
-+	if (vlan_proto != htons(ETH_P_8021Q) &&
-+	    vlan_proto != htons(ETH_P_8021AD))
++	if ((u32)id >= XDP_SKB_EXT_NUM)
 +		return -EINVAL;
 +
-+	entry = xdp_skb_ext_add(xdp, XDP_SKB_EXT_VLAN);
-+	if (IS_ERR(entry))
-+		return PTR_ERR(entry);
-+
-+	entry->proto = vlan_proto;
-+	entry->tci = vlan_tci;
++	ext = xdp_buff_skb_ext(xdp);
++	if (ext)
++		ext->offset[id] &= ~XDP_SKB_EXT_ENTRY_ACTIVE;
 +
 +	return 0;
 +}
 +
-+__bpf_kfunc_end_defs();
-+
-+BTF_KFUNCS_START(xdp_skb_ext_kfunc_ids)
-+BTF_ID_FLAGS(func, bpf_xdp_skb_ext_store_rx_hash)
-+BTF_ID_FLAGS(func, bpf_xdp_skb_ext_store_rx_vlan)
-+BTF_KFUNCS_END(xdp_skb_ext_kfunc_ids)
-+
-+static const struct btf_kfunc_id_set xdp_skb_ext_kfunc_set = {
-+	.owner = THIS_MODULE,
-+	.set   = &xdp_skb_ext_kfunc_ids,
-+};
-+
-+static int __init xdp_kfunc_init(void)
-+{
-+	int ret;
-+
-+	xdp_skb_ext_struct_check();
-+
-+	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
-+					&xdp_skb_ext_kfunc_set);
-+	return ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
-+						&xdp_metadata_kfunc_set);
- }
--late_initcall(xdp_metadata_init);
-+late_initcall(xdp_kfunc_init);
+ __bpf_kfunc_end_defs();
  
- void xdp_set_features_flag_locked(struct net_device *dev, xdp_features_t val)
- {
+ BTF_KFUNCS_START(xdp_skb_ext_kfunc_ids)
+ BTF_ID_FLAGS(func, bpf_xdp_skb_ext_store_rx_hash)
+ BTF_ID_FLAGS(func, bpf_xdp_skb_ext_store_rx_vlan)
++BTF_ID_FLAGS(func, bpf_xdp_skb_ext_del)
+ BTF_KFUNCS_END(xdp_skb_ext_kfunc_ids)
+ 
+ static const struct btf_kfunc_id_set xdp_skb_ext_kfunc_set = {
 -- 
 2.56.0
 
