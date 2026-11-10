@@ -1,133 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794316278;
-	b=pwrHn+LRx8eHD/D7HYfNjoZUp6FgZ38aTq+S9IMAvhRvP/4VS+ByGWIOwT1NmDr8hvjf
-	 psUllB/FG0aCiWy5eesRHPmF/CiK71L3b1+YRnRR6Yo0xDHXBua9qoas/sDnswbhrCJGm
-	 ryK6RGtMEt0MAhywAEREdhZDwMjvuNIvsndAmMOdaV+o8tpENEw9C5jGm5NU+INx51dWH
-	 lM4OrTD3RqLYbOsi1qEoOxCl2Pk+y9PreybacUMUdhWlVH1dlA3F2u18pDKCwafCf48RZ
-	 LHJyyTeThbMMTQ2E5GPHHApQ59lGwX8Fx1++ivIu3ddVMTE5wfqu3VfH45DrSG2kWaQ==
+	t=1794316344;
+	b=CLxMcT0wgHjAjBoiQD4D1ozuVFBszniO0o0VccIJs9awKefrusYOp7XbqIdpBre/CTaM
+	 Ohx/dD7mnlnbpg8LsQ5sRkO8rpyqyH7GXyrCI1n8TAg1KbDDS3tTtBh8Mbo0hRT09k/Iw
+	 7D9dH1i3TwC6KZYrdnk/PqR8wyU+Sp48jf06KeiK1jEoUALOa3SRiMF2oJBqXlU3sCM+Y
+	 vh6OM1UIlGWm7dNRcMgckkQDt+xGQBb/lUlfoCA8llucMA7unhA1JsTqH9zuwSlkOd0ia
+	 Z9qbie/rEHiwfsIMGGPg2JYbhmLfbBtdDXA9j6ZytX6lzwcBQUuiurZ2EPV982E+qFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794316278;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=hv46jG8uHZHn78TEQV5LM7K76EVF6QARAJT1M8iUKJw=;
-	b=bmHKhFCkxhKon+rC7OX65Oeg7y+jbA7X3mnf4svwqtMFdoMxA04H3incinAs3u00/4N/
-	 R7RtLUp8CIHUH5x3WkdwsifAr8fI2/K2GCL9rJ0HaZwDP7pXi7RZHhb77YzDrkE88G9aV
-	 ziUuxE9WVHwTmj7e5Ny6Lf+IPsyinwTM0u4N6u5IU8xdSoScSKpGzD3f20PD44nT1nAmc
-	 SnW1CSCLLZkqAnPSMDG2bf45KRZArLpk5jLiHi9AwQh/EC3qb9TR6OqcCSOHUt5bOuA9x
-	 AT3Zp7O+unCrVvMVd7tUSmj3y53jHZ5qFKB8W7woQEMQcmOKM6vUTUIJgk0+aolUcPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794316344;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=S2nIw72/QWiJcD7z728q9oZI514NbA30jujduMfr80o=;
+	b=c/pI6YeT/9tnHoQGaVuLDBbBLRJJ3n+5ijzhuUnjbridZmtgR1rbZRAibEgb5hBTBJss
+	 HClqIFoBr1/cacBcnF6Tx41OFnvtb+gNMYgHkR1XgkWKmT7pElRMNKJvaI9eIKFUWzwnP
+	 eYjmg/8KavcI26KzZ0BAtfUWLYL4k8GBeZHsbVJoFql0VrmFS9Fm4EMsDrFZGjPAh1dnt
+	 LXJUkRHGCWGYwErOJ5zTZCywDt4Oh9ctFoNDiiVeDFOPp1qp4EctOtQngm1bNCbkW8WGp
+	 we8QJgLRDHjLmpYa7CEXedPUW0oqVrCHbNy4g8lwivVM4v1UfovkNtSOIvvZweAy+vw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=e4PFNw24;
-	arc=none smtp.remote-ip=209.85.219.52
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="Y0/ih938";
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10023606A777
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 13:11:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10023606A777
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A6CD606B6DE;
+	Tue, 10 Nov 2026 13:12:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A6CD606B6DE
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=e4PFNw24
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91ea3f6a506so16685826d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 05:11:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1794316276; x=1794921076; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hv46jG8uHZHn78TEQV5LM7K76EVF6QARAJT1M8iUKJw=;
-        b=e4PFNw24vmEx9e6XM/cUzCvRERvJabuTvhno9Gz/JzeZWoLyAEqlwt+PiN7PsREzDe
-         nbBIpkI6JTuornnBm7/42NrL/w4IdXPpgJMXAMUPCFd7jbdDVIEmKh/jdZ+I+dzViXSB
-         H2p2NQNLx9ne0cV1aFkGD5AsPCtzbh2oXhKE+mtPHEk6ablNOVM/G42JAjOhvFRRvEdt
-         SknBoahXSauvPineguU97Ohz82cWAZt6yPRa0ML5YUk7kVUMnIDJn8DUcWsiXLLwSwNl
-         eFseGz8JV2OEeli+2NBdOH9OYZhu03xI/lkGEnFQ2GC/c8NKeMa66k6Yl0PwfnR2fGbK
-         Y+Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794316276; x=1794921076;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hv46jG8uHZHn78TEQV5LM7K76EVF6QARAJT1M8iUKJw=;
-        b=FpaXGcjb+OeebCAqmsOgKJE3APSd926WVZOofSBpOy+Oyhsnbe9M+BnH6KmWhVEnIx
-         8wpy3+xWlqK3VgDf5exCir5OAYq7J4tA3BimRTwovWsQ5tNsGud9FsKBGA60wugAuScI
-         8gV8UNgfAZ7clFrqcvDW3a+3k+bGr/bkTMP9r2moEi/ILAD+KzZ4x/c5jfm5tlJNRILy
-         6ij0XjH55od7BNXyIXx1sybHAT7cJOFyx7Smm/GKkrsNzCP4NtSSZLhHf81E1SW5rBT8
-         yI3EXl5lNrzqEKrwDR0/lheeNFOOqesLjtkjfYPbiG52Ku5G+OFY0dbjiBy+rtYwd31D
-         7KFQ==
-X-Forwarded-Encrypted: i=1; AL+hErFLP/mV2dK80OnlN0wPjawlXk7uxJAJhmx6412MlNk6KzImow79R1h8ITX4kOOsBk09ge2cGvokTT8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+uGlF54vP6KLsUV90fwgsg2HjYGoHRCUmVRY0a5wbIhdNA1wnA
-	lpXbSr+f0AjiNjrY/Rp/Ur8S7nlJiP68qqPanliefCjB/GBvZe8giVwgP+pz6WwCh00=
-X-Gm-Gg: AYBFou0ra5bJwxsVy4+ywhPzo9A6zAA04IP36Ck95Nb47EASQ7cX4dOrQgPRB3SkLWa
-	L5B+waxqRlZAjk5agpaRNDBF1w+xAEw8R5NHm2EcBuWzVKCIlWXdd+yjKOgxOoUlY9MVZ3/OqYw
-	Q7nlZxFyBJ/x9J8R1ZaPMwnFRaTJSFOXsUYaoFmjLksZGMtnsuXDqQOkE3vgcVHeVL6Y4ccBNs7
-	wpS/5DdQcPp950aosIZ+Zqhb5rIBURTpVWPFwJ2BMOvJqY78OhTxyDaGiVdHsa9DvDygt9PX8gl
-	OafNZlUWwWGp4f3IVgQemoXFgKHC5lEx6VFmVdjK43jPyIsa4CkRAGq+X8MHqCdluPgZDUP4NHo
-	0YksvQiaJdh8I6Qaba39n4hIzpApN2YpfPnlI5YwInP72pdKuqfm16nNE/XVfcgg4K15KuW9myq
-	B/66Egya3gQHowiu/oJ7k7Pq6Vt4mXV4EvKxYqg4vQotgEtxAZPSx25M2tKiIxal/CEH5A3PWyu
-	QEjPStakcNhREqzyAMDnU9erYspEZUBffs+Juz2LLybHSbAjVLBOM09mscR3ZHhS3J1idRtA8lY
-	X8vvQ9b0g1QZO+ERz8nFPoSEW4hwUq0UygP5kIK7jCSx8e9X9/Pq457189GiZN3R5hUTBkclc3/
-	hXu91RvoLQf8=
-X-Received: by 2002:ad4:5cc4:0:b0:91e:96f8:f369 with SMTP id 6a1803df08f44-91eef913f53mr42602176d6.36.1794316275746;
-        Tue, 10 Nov 2026 05:11:15 -0800 (PST)
-Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ef052360asm20821916d6.38.2026.11.10.05.11.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 05:11:15 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xQld4-00000005faP-2KGJ;
-	Tue, 10 Nov 2026 09:11:14 -0400
-Date: Tue, 10 Nov 2026 09:11:14 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-Cc: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
-	"drdeeglaze@gmail.com" <drdeeglaze@gmail.com>,
-	"James.Bottomley@hansenpartnership.com" <James.Bottomley@hansenpartnership.com>,
-	"aik@amd.com" <aik@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"Xing, Cedric" <cedric.xing@intel.com>,
-	"alistair.francis@wdc.com" <alistair.francis@wdc.com>,
-	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-	"Reshetova, Elena" <elena.reshetova@intel.com>,
-	"kas@kernel.org" <kas@kernel.org>,
-	"ankita@nvidia.com" <ankita@nvidia.com>,
-	"jiri@resnulli.us" <jiri@resnulli.us>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Jiang, Dave" <dave.jiang@intel.com>,
-	"Quigley, David" <david.quigley@intel.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"x86@kernel.org" <x86@kernel.org>,
-	"jpiotrowski@nvidia.com" <jpiotrowski@nvidia.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
-	"lukas@wunner.de" <lukas@wunner.de>,
-	"Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
-	"Fang, Peter" <peter.fang@intel.com>,
-	"jic23@kernel.org" <jic23@kernel.org>,
-	"ksinyuk@kernel.org" <ksinyuk@kernel.org>,
-	"sameo@meta.com" <sameo@meta.com>,
-	"sathyanarayanan.kuppuswamy@linux.intel.com" <sathyanarayanan.kuppuswamy@linux.intel.com>,
-	"qinkun@google.com" <qinkun@google.com>,
-	"pgonda@google.com" <pgonda@google.com>
-Subject: Re: [PATCH RFC 20/20] attestation: Add the TDX family implementation
-Message-ID: <20261110131114.GV663069@ziepe.ca>
-References: <20261023141218.GD3977851@ziepe.ca>
- <343e4a12f2fdbb4e9a19c4afe49cf2b8908d6739.camel@intel.com>
- <20261023220030.GM3977851@ziepe.ca>
- <7843a833723e3aad40f8fc4de3a83f5a5059280f.camel@intel.com>
- <20261103005851.GH3889730@ziepe.ca>
- <au5LCE1jau0yDo5S@intel.com>
- <20261109171236.GP663069@ziepe.ca>
- <cbef9bda9241ffe98652172edb67fab3eb1c35ee.camel@intel.com>
- <20261109234252.GR663069@ziepe.ca>
- <4c75b369b68c98c5c35e296895b6935342dc7dc1.camel@intel.com>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Y0/ih938
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=S2nIw72/QWiJcD7z728q9oZI514NbA30jujduMfr80o=;
+	b=Y0/ih938SBhWdy8NR5Dsd4/4u1sxJ4uY1ua38n9xF7DKPyhjG8dk1bPFmRBH4dmKPDrLWScyM
+	visal89sw93DF0TrBZEOizRnv413SjR+hXqoy1J05Wr6YSdSpc8FD5Kmyzsfno5Czk5CfPSV9IZ
+	9bkKiggwBlRZ5h+yFLG78Po=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jP6W36VDCz1cyRv;
+	Tue, 10 Nov 2026 21:11:59 +0800 (CST)
+Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
+	by mail.maildlp.com (Postfix) with ESMTPS id DBECE4055B;
+	Tue, 10 Nov 2026 21:12:14 +0800 (CST)
+Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
+ (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Tue, 10 Nov
+ 2026 21:12:14 +0800
+Message-ID: <24a3bf90-48bc-4594-a242-a8f72f05edee@huawei.com>
+Date: Tue, 10 Nov 2026 21:12:13 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -137,106 +62,239 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4c75b369b68c98c5c35e296895b6935342dc7dc1.camel@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] fs/resctrl: Disallow monitor group rename when the
+ RMID changes
+To: Reinette Chatre <reinette.chatre@intel.com>, <tony.luck@intel.com>,
+	<Dave.Martin@arm.com>, <james.morse@arm.com>, <babu.moger@amd.com>,
+	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
+	<zengheng4@huawei.com>, <ben.horgan@arm.com>, <gshan@redhat.com>,
+	<jic23@kernel.org>, <x86@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+References: <20261105123524.2282090-1-ruanjinjie@huawei.com>
+ <f7eb6666-049f-4739-966f-b4ba275c72df@intel.com>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <f7eb6666-049f-4739-966f-b4ba275c72df@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemk200008.china.huawei.com (7.202.194.74)
 
-On Tue, Nov 10, 2026 at 01:30:16AM +0000, Edgecombe, Rick P wrote:
-> On Mon, 2026-11-09 at 19:42 -0400, Jason Gunthorpe wrote:
-> > > So we have this SGX based quote format that is fixed because it already
-> > > exists
-> > > in the wild. Going forward we are moving to DICE, but that is a standard
-> > > format.
-> > > So also somewhat fixed. I guess the question is: is there some combo of bits
-> > > in
-> > > each blob we could check that could deterministically distinguish between
-> > > the
-> > > two? To do this we would need to analyze the quote formats.
-> > 
-> > You guys really didn't make it discoverable when you added DICE? :( :(
+
+
+在 2026/11/10 3:22, Reinette Chatre 写道:
+> Hi Jinjie,
+
+Hi Reinette，
+
 > 
-> Like influence the DICE spec to interop with legacy SGX based attestation? I'm
-> out of my depth to try to say how possible that is.
-
-No, I mean just have the SGX firmware tell the OS if it produced a
-DICE or legacy blob :(
-
-> I'm also under the impression that the quote was not designed for local
-> processing in the guest. But rather remote attestation which, usually involves a
-> helper service that processes the quote. I've never been clear on why that was
-> desired. But it probably is part of the reason attestation doesn't fit this use
-> case perfectly.
-
-Even the remote helper needs to tell the two cases apart so it can
-parse them
-
-Again if you expected the user to pre-tell the helper that this is a
-legacy vs DICE VM then that's exactly the bad user experiance I want
-to avoid.
-
-> > > If there isn't, I'm not sure what we could do at this point. There is a
-> > > library
-> > > Intel publishes (right Peter?) that can verify the quotes. I'd guess it must
-> > > have some way to distinguish between the two. Can you check how it does it
-> > > Peter?
-> > 
-> > See this is exactly what I'm talking about, I don't want to repeatedly
-> > get into this situation down the road over the next decade.
+> Thank you very much for picking this fix up.
 > 
-> I'm not sure if I'm missing something. New incompatible standards seem pretty
-> normal? Sometimes there is a container to specify which type of blob, and
-> sometimes it is just discoverable by clues in the bits.
+> For the subject, since the RMID actually never changes, could it instead be:
+> 	fs/resctrl: Disallow monitor group rename when the RMID index changes
+> 
+> On 11/5/26 4:35 AM, Jinjie Ruan wrote:
+>> From: Peter Newman <peternewman@google.com>
+>>
+>> A monitor group can be renamed into the mon_groups directory of another
+> 
+> "renamed" -> "moved"?
 
-Yes, completely normal. The thing that generates the data should have
-an unambiguous contract with the OS on what kind of data it will
-generate.
+Ok.
 
-If you want to change it, thats fine, but the OS participates in the
-change and is aware of it.
+> 
+> (Since this patch would still support rename of MPAM monitor groups.)
 
-> I think the thing that is a bit dicey (no pun) with this, is that there is kind
-> of a backwards compatibility adjacent change for systems giving the new DICE
-> quotes. This came up in in both discussions with Dave/x86 and Sean/KVM. The
-> reason why it was considered grumble-ok in the end, was because the full
-> verification depends on updates to the library for each new platform due to
-> needing to be aware of new keys. So to actually attest even SGX quotes on a new
-> platform, library updates are needed to whatever tool or service is being used.
-> Since the library needs to be updated in any case, it can also understand the
-> new formats without any impact to the user.
+Right!
 
-I don't know what you guys have done here. There are IETF standards
-for all of this and well defined container formats. Sure to parse
-every bit of the token you might need a new library, but you should at
-least be able to get a signature verified and parse the generic
-information reliably.
+> 
+>> control group to move its tasks to that control group's allocation
+>> while keeping their monitoring data. Where the RMID is only meaningful
+>> together with the CLOSID, as on arm64 MPAM where the RMID is a PMG that
+>> extends the PARTID, this move does not work. The rename succeeds, but:
+>>
+>> - The group's monitoring data is reset. Its counters are identified by
+>>   the CLOSID and RMID together, so after the move the group reads the
+>>   counters of the new CLOSID instead of the ones its tasks used.
+> 
+> Does this not also mean that the the monitor group is assigned an RMID
+> index that is never allocated to it? Sounds like this would cause issues
+> when the monitor group is removed and resctrl tries to free that RMID.
 
-If your plan is TDX releases are ABI incompatible with the verifiers,
-then thats a horrible plan and *much* worse than what ARM is doing,
-for instance.
+Yes, will mention it.
 
-But it sounds like your library can somehow parse the blob and figure
-it out, so maybe it is just a matter of describing how that works.
+> 
+>>
+>> - The tasks are not moved. mongrp_reparent() sets the new parent and
+>>   CLOSID of the group before rdt_move_group_tasks() looks for the tasks
+>>   to update, and the search then matches on the new CLOSID, which none
+>>   of the tasks carries yet. The tasks keep the old CLOSID and the old
+>>   control group's allocation, and the group does not count them.
+>>
+>> The move has never worked on these systems, so rejecting it does not
+>> take away behavior that an existing user can rely on.
+> 
+> Could this snippet please instead motivate why the issues with monitor
+> group move are not/cannot be fixed to help explain why this reject
+> is needed instead?
 
-> But this didn't take into account this generic API, local quote processing use
-> case. Which is kind of a surprise and I'm actually still not 100% clear on how
-> it will be used.
+Sure.
 
-It is not local quote processing. This is labeling data properly so a
-verifier is possible without the user having to manually and directly
-inform the system what versions of Intel CPUs and TDX modules it
-should expect to have.
+> 
+>>
+>> Reject the move with -EOPNOTSUPP when it changes the RMID index of the
+>> group, and document the restriction in resctrl.rst. Where the RMID does
+>> not depend on the CLOSID, such as on x86, the move keeps the same index
+>> and is still allowed.
+> 
+> 
+>>
+>> Fixes: 3e9b35823aab ("arm_mpam: resctrl: Add rmid index helpers")
+>> Signed-off-by: Peter Newman <peternewman@google.com>
+>> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> Cc: <stable@vger.kernel.org> # 7.1.x
+> 
+> Looks like 3e9b35823aab was added in 7.1 so the range is not needed?
+> 
+>> Link: https://lore.kernel.org/lkml/20241205153845.394714-1-peternewman@google.com/
+>> Link: https://lore.kernel.org/lkml/20261031101052.1692230-1-ruanjinjie@huawei.com/
+> 
+> The changelog contains no references to these Link: entries? What are they for?
+> Looks like first is an earlier version of the patch so does not look to be needed
+> as part of permanent changelog related to this patch?
 
-> I think we would have to circle back with everyone that pushed for the host
-> controlled quote type. Let's see if the library can distinguish them already
-> too. This attestctl tool... is that something that could consume a library like
-> this? Or something that would have a no dependency implementation?
+Will remove it. Thank you!
 
-I would hope for no dependency, the idea would be to provide
-references for anyone wanting to make verifier software, and a tool
-for the admin that wants to debug/understand their systems..
+> 
+> Please see: "Ordering of commit tags" in Documentation/process/maintainer-tip.rst
+> on how changelog can refer to Link: tags.
+> 
+> The second Link: seems to be pointing to the decision that this user space request
+> needs to be rejected instead of fixed. Looks like the relevant message is
+> 
+> 	https://lore.kernel.org/lkml/3a637631-c8ec-4e26-a03c-5ac80d16fab3@arm.com/
+> 
+> you could use similar language as recent commit 
+> 	7782a6a8dfc0 ("x86,fs/resctrl: Keep mbm_assign_mode in default mode at boot")
+> 
+> That points to the decision in a "Link:" tag and then uses text in changelog like:
+> 	"... as decided in the thread at the Link tag." 
 
-As well as a point to have a strict injection of sanity into what
-people are doing so we don't get repeated ABI breaking instances in
-future.
+OK
 
-Jason
+> 
+> Above is not actually what Documentation/process/maintainer-tip.rst documents but it
+> is what x86 maintainer changed it to after the original commit followed
+> Documentation/process/maintainer-tip.rst, so I guess either may be ok.
+> 
+> 
+>> ---
+> 
+> 
+>> ---
+>>  Documentation/filesystems/resctrl.rst |  7 ++++---
+>>  fs/resctrl/rdtgroup.c                 | 13 +++++++++++++
+>>  2 files changed, 17 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
+>> index b52795e03303..9ae34aace0ff 100644
+>> --- a/Documentation/filesystems/resctrl.rst
+>> +++ b/Documentation/filesystems/resctrl.rst
+>> @@ -552,9 +552,10 @@ will automatically remove all MON groups below it.
+>>  Moving MON group directories to a new parent CTRL_MON group is supported
+>>  for the purpose of changing the resource allocations of a MON group
+>>  without impacting its monitoring data or assigned tasks. This operation
+>> -is not allowed for MON groups which monitor CPUs. No other move
+>> -operation is currently allowed other than simply renaming a CTRL_MON or
+>> -MON group.
+>> +is not allowed for MON groups which monitor CPUs, and fails with
+>> +-EOPNOTSUPP on systems where the RMID depends on the CLOSID. No other
+>> +move operation is currently allowed other than simply renaming a
+>> +CTRL_MON or MON group.
+> 
+> merging the discussion in 
+>  https://lore.kernel.org/lkml/113c13ba-e1de-44b1-9a6f-4bd94ecbd71e@arm.com/
+> 
+> To avoid user needing to understand the RMID dependency, how about:
+> 
+> ---8<---
+> @@ -566,10 +566,10 @@ will automatically remove all MON groups below it.
+>  
+>  Moving MON group directories to a new parent CTRL_MON group is supported
+>  for the purpose of changing the resource allocations of a MON group
+> -without impacting its monitoring data or assigned tasks. This operation
+> -is not allowed for MON groups which monitor CPUs. No other move
+> -operation is currently allowed other than simply renaming a CTRL_MON or
+> -MON group.
+> +without impacting its monitoring data or assigned tasks. This operation is
+> +not allowed for MON groups which monitor CPUs, or when the monitoring data
+> +or assigned tasks would be impacted. No other move operation is currently
+> +allowed other than simply renaming a CTRL_MON or MON group.
+
+Will update it.
+
+>  
+>  All groups contain the following files:
+> ---8<---
+> 
+>>  
+>>  All groups contain the following files:
+>>  
+>> diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
+>> index e6b64a5c9302..3c002b711024 100644
+>> --- a/fs/resctrl/rdtgroup.c
+>> +++ b/fs/resctrl/rdtgroup.c
+>> @@ -4398,6 +4398,19 @@ static int rdtgroup_rename(struct kernfs_node *kn,
+>>  		goto out;
+>>  	}
+>>  
+>> +	/*
+>> +	 * Moving the group changes the CLOSID. Where the RMID is only
+>> +	 * meaningful together with the CLOSID, the RMID index changes and the
+>> +	 * monitor state cannot follow the move.
+>> +	 */
+>> +	if (rdtgrp->mon.parent != new_prdtgrp && resctrl_arch_mon_capable() &&
+> 
+> The above two checks look unnecessary:
+> 	"rdtgrp->mon.parent != new_prdtgrp" - this check is used to ensure that
+> 	these systems can still just rename existing monitor groups. In this scenario
+> 	the CLOSID will be compared against itself and the two encode() calls will
+> 	return the same index, no?
+
+Yes, the resctrl_arch_rmid_idx_encode() will equal, this is redundant。
+
+> 
+> 	"resctrl_arch_mon_capable()" - earlier in function the source is required
+> 	to be a MON group, which can only be possible if the system supports
+> 	monitoring.
+
+Got it.
+
+> 
+>> +	    resctrl_arch_rmid_idx_encode(rdtgrp->closid, rdtgrp->mon.rmid) !=
+>> +	    resctrl_arch_rmid_idx_encode(new_prdtgrp->closid, rdtgrp->mon.rmid)) {
+>> +		rdt_last_cmd_puts("Changing parent control group not supported\n");
+> 
+> Could this use same terminology as resctrl.rst to help user match documented
+> behavior with the error message? For example,
+> 
+> 		"Moving a MON group to a new CTRL_MON group is not supported\n"
+
+Sure.
+
+> 		
+> 
+>> +		ret = -EOPNOTSUPP;
+>> +		goto out;
+>> +	}
+>> +
+>>  	/*
+>>  	 * If the MON group is monitoring CPUs, the CPUs must be assigned to the
+>>  	 * current parent CTRL_MON group and therefore cannot be assigned to
+> 
+> Reinette
+
+-- 
+Best regards,
+Jinjie
+
