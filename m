@@ -1,62 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794332144;
-	b=uHKKEBJAcVLbGVWjaG8wsQ31COFz9DIwH+G2sGy+w8suwxzzerVpXK2sJu7NT7NYkqMm
-	 eZWxeggOX5b04aqknxkGnMtJJGHrGM7oUYT80jXGOL9ijx+dUdvglUcx17+KEI/i9jnlA
-	 v4GSFsB51ikk1ZIw4Ui9VtYm8RGzJcOI8QaU2ypBxjjwTamHXcPtUwmy8e/x/XsrRkRvU
-	 g3Nh2y2qRfVjR5y1yNIn1HU0FDQ3GpSeyAvtEI26IVJxGQlY0DwARjDKvzQ2CPGsZo+iP
-	 614tq4zjdYmrt7ICSTX6KRZxhjewEF5/rAzVDD5AuqCpTJUQldrCnw486rHLhNKwNHQ==
+	b=xK7EOrMXwJ7lcgRssttSWV1in8wSmDgQRG7okuueKoH6+gvHvk5FCC0eun58a29ubXWV
+	 1RaOUWW3AtdyucGiH2XSo+KA+zbkz3fWjENZ72Pr9kKBGvX0AtB6dBPvjfpawEMcnBLnd
+	 y7fheQhQ+UzdrtOmyTnoIL5BCFueMbXjeIvreDB85wNQdYXopNXQQVPnLZDj/KRLBbN5P
+	 Y11Gsz4WYiGx40AgtCBu+sAAq9OmTlNTTVM6x9VhCK2XvxtpLNZU99adygJV2p7mN8HkR
+	 cUP68AxLRQkod+5ypkGdhvRYqr752dHia80IaqHup0gtOOuo0vXC5GsGvZ/qIxMuf0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794332144;
 	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:Date:
 	 Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=qThPFwQh/YlsuXHUZSO9OIPn8uv/mcMeWuP0/iLWm/M=;
-	b=q2mnlPzWqLqL4bYbPkCBNSpwv0uXpze6m/Wctlmw4p5LRTDQWRyW+TRAdr+yqah/a1MK
-	 0+qr8Q3EciNnRD/alz5gXrjk1Z/CjuFguncttz5BKZxDjjVfo7SMjYvykmA16S0yU9tpz
-	 jzWFzlvEZgbZ0x4Ciin3iARAZK4cg5LoWqKemsWUOxqYtJ2IvM2sg0cPJGbjlzkakkkB8
-	 dwuwHj5lJRJ5cbeo96JMmG8kqaVsMyoVjPkMllrLA7awZLzMLmbp1AqmQTPlwvr2hRrLU
-	 0UM2ng81yDlkYEkC6l1j1YzAlde77MA7Ji6+IwESwOoFa0m+NPma1rgYd3v+RDS62jw==
+	bh=4JIm60LJ5BNoX0E6sxAPVbVA/swv83hxBeMq2hHYq+w=;
+	b=hIZZ9/Ie+LMpfGD+57wcAs0PfP2epl6d4ufodHwdvPfCK3e2JgTISbsCyCT2whIuRn7A
+	 7FBRYjE93UAgZnP3jYFkxx4zCTFjYanQjWjt7PZcMJyIk3gu2jtP0NHfC/TvnvkNuZ29F
+	 C/8zqjm/sgZCIlbMvJS7vzWFnxlVGKMC7VaDdqYJo1EcvgMW72i0lV5xOK6mQQcUJIFFj
+	 8FyT72lZlIP3ryN0vzUs1KUUn20yJIhSN7FJfv+HYZJgCSk6bGs3k1sZ8RouW/ujLxWm5
+	 5JmZWmnnikCi180DA+C7YFVA1a3iMQKps5jmbf6sf1kqWw0CPXhYlUE/hdYYfrSkwtQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linutronix.de;
 	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=TIFXR1gL;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=ZKyr49vR;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=umAS+QZj;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=qnlzkLti;
 	arc=none smtp.remote-ip=193.142.43.55
 Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 686A960A3821;
-	Tue, 10 Nov 2026 17:35:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 686A960A3821
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0BE60A380E;
+	Tue, 10 Nov 2026 17:35:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E0BE60A380E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=TIFXR1gL;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=ZKyr49vR
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=umAS+QZj;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=qnlzkLti
 From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794332143;
+	s=2020; t=1794332141;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qThPFwQh/YlsuXHUZSO9OIPn8uv/mcMeWuP0/iLWm/M=;
-	b=TIFXR1gL/W3mCTLQ0SuJim344Vw8LMC1tDMgN5nXuLDDbn05A9f93/xzcB2sfGkTyu6b5g
-	l+pNinEX/FLmE6QRDCapda90DkBDJG1Ll+xU3XakPov5oaah1+tEU+uothXQNuxbc9N2qo
-	AI0xsNRnEGeRp2lEwKkElUTvsjhAPzsVRxLEo0xbhHOzKAZ76+W1smwdfYgF+GHTq9yEmO
-	F4HafTsYNOopRqMQi1OYmoHPGYbx0667GuQYETQBfQjnX9H8suYUz/sPjo/JjuflHNFh/8
-	/TOQy+4AqTsXOPXuujmIi8yNCWMQFFm1fiFdhHgNRH4K8MJnao6uq/RIWNmhAw==
+	bh=4JIm60LJ5BNoX0E6sxAPVbVA/swv83hxBeMq2hHYq+w=;
+	b=umAS+QZj4g3YkRYy1Epd5TPvM0FbTysr2rIvd7vkzhaw+eiDIBK20EaaiDYiRftRgsqDoa
+	WVbvQbQscQYllsr8e/rYiKBVFQubMWwk76RT+rAMeWyRzRwc3dX/ye6P1q0MDpnZlzr+EW
+	LqEK4nqLFSuE58Y7SDPielIfg1YLz8dFlNY/5DNv7DBlQqs3omOjWJl5pXd6z7QiBxzjlG
+	+JW24Gp3FBpzq8lu5c6/bq8//cW508gUQLgiVksTUDzM6KFf8hxy/mwCYHLSPaqeYQbB0J
+	qXJBacab6Q0uM+FkLa88urkfdvSWj+prme60Z/BIaogGtY7MfmO7qZa/cnI4fA==
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794332143;
+	s=2020e; t=1794332141;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=qThPFwQh/YlsuXHUZSO9OIPn8uv/mcMeWuP0/iLWm/M=;
-	b=ZKyr49vRhR8SNTnOBremmuW9OJw3mRZt4bDur2ZXqgOebyx7f+st7NC5zahBWMo7+FnEFI
-	H4NdhHcafN6W+9AQ==
+	bh=4JIm60LJ5BNoX0E6sxAPVbVA/swv83hxBeMq2hHYq+w=;
+	b=qnlzkLti9C+8CgaIcq5SX1SiEInm4mApuMkZSPOArEIQVbnPQTmMdjzfm0qSrxfI77HvhD
+	VWu+GcxoBaLHmnCw==
 To: linux-kernel@vger.kernel.org,
 	cgroups@vger.kernel.org,
 	rcu@vger.kernel.org,
@@ -94,9 +94,9 @@ Cc: John Ogness <john.ogness@linutronix.de>,
 	Johannes Weiner <hannes@cmpxchg.org>,
 	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
 	Qais Yousef <qyousef@layalina.io>
-Subject: [PATCH v2 5/7] sched: Limit sysctl sched_rt_{period|runtime}_us to RT_GROUP_SCHED
-Date: Tue, 10 Nov 2026 18:34:47 +0100
-Message-ID: <20261110-sched_dl-v2-5-cc9399f7aeb1@linutronix.de>
+Subject: [PATCH v2 3/7] sched: rcutorture: Allow to disable DL fair_server
+Date: Tue, 10 Nov 2026 18:34:45 +0100
+Message-ID: <20261110-sched_dl-v2-3-cc9399f7aeb1@linutronix.de>
 In-Reply-To: <20261110-sched_dl-v2-0-cc9399f7aeb1@linutronix.de>
 References: <20261110-sched_dl-v2-0-cc9399f7aeb1@linutronix.de>
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -111,112 +111,83 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-The admission control for SCHED_DL has been moved to sysfs and RT
-throttling has been moved (long ago) to the fair_server and its debugfs
-interface.
+The rcutorture test used to disable RT throttling only in the built-in
+mode and this functionality got lost while RT throttling was moved to
+the fair_server.
+Enabling this option (built-in) slows down the system considerably.
+Therefore it makes little sense to enable the fair_server once the test
+is done since a reboot comes next.
 
-This file remains to have an impact only on RT_GROUP_SCHED. Keeping it
-for ABI/ compatibility reasons makes no sense because its original
-purpose (RT throttling) is no longer served. Anyone changing this file
-and hoping to change the throttling behaviour will be surprised.
-
-Limit sysctl sched_rt_{period|runtime}_us to RT_GROUP_SCHED so everyone
-using this outdated file is aware.
+Add dl_server_fair_disable() do disable the fair_server which can only
+be used by rcutorture.
 
 Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- kernel/sched/rt.c | 30 +++++++++++++++++++-----------
- 1 file changed, 19 insertions(+), 11 deletions(-)
+ kernel/rcu/rcutorture.c |  4 ++++
+ kernel/sched/deadline.c | 25 +++++++++++++++++++++++++
+ 2 files changed, 29 insertions(+)
 
-diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
-index 1a6450f91d567..855e4ee470f69 100644
---- a/kernel/sched/rt.c
-+++ b/kernel/sched/rt.c
-@@ -25,11 +25,22 @@ int sysctl_sched_rt_runtime =3D 1000000;
+diff --git a/kernel/rcu/rcutorture.c b/kernel/rcu/rcutorture.c
+index aecc4da7161bb..f6f1c0eb2dc73 100644
+--- a/kernel/rcu/rcutorture.c
++++ b/kernel/rcu/rcutorture.c
+@@ -1333,6 +1333,8 @@ static unsigned long rcutorture_seq_diff(unsigned lon=
+g new, unsigned long old)
+ 	return cur_ops->gp_diff(new, old);
+ }
 =20
- #ifdef CONFIG_SYSCTL
- static int sysctl_sched_rr_timeslice =3D (MSEC_PER_SEC * RR_TIMESLICE) / H=
-Z;
--static int sched_rt_handler(const struct ctl_table *table, int write, void=
- *buffer,
--		size_t *lenp, loff_t *ppos);
- static int sched_rr_handler(const struct ctl_table *table, int write, void=
- *buffer,
- 		size_t *lenp, loff_t *ppos);
- static const struct ctl_table sched_rt_sysctls[] =3D {
-+	{
-+		.procname       =3D "sched_rr_timeslice_ms",
-+		.data           =3D &sysctl_sched_rr_timeslice,
-+		.maxlen         =3D sizeof(int),
-+		.mode           =3D 0644,
-+		.proc_handler   =3D sched_rr_handler,
-+	},
-+};
++void dl_server_fair_disable(unsigned int cpu);
 +
-+#ifdef CONFIG_RT_GROUP_SCHED
-+static int sched_rt_handler(const struct ctl_table *table, int write, void=
- *buffer,
-+		size_t *lenp, loff_t *ppos);
-+static const struct ctl_table sched_rt_group_sysctls[] =3D {
- 	{
- 		.procname       =3D "sched_rt_period_us",
- 		.data           =3D &sysctl_sched_rt_period,
-@@ -48,18 +59,15 @@ static const struct ctl_table sched_rt_sysctls[] =3D {
- 		.extra1         =3D SYSCTL_NEG_ONE,
- 		.extra2         =3D (void *)&sysctl_sched_rt_period,
- 	},
--	{
--		.procname       =3D "sched_rr_timeslice_ms",
--		.data           =3D &sysctl_sched_rr_timeslice,
--		.maxlen         =3D sizeof(int),
--		.mode           =3D 0644,
--		.proc_handler   =3D sched_rr_handler,
--	},
- };
-+#endif
-=20
- static int __init sched_rt_sysctl_init(void)
+ static bool rcu_torture_boost_failed(unsigned long gp_state, unsigned long=
+ *start)
  {
- 	register_sysctl_init("kernel", sched_rt_sysctls);
-+#ifdef CONFIG_RT_GROUP_SCHED
-+	register_sysctl_init("kernel", sched_rt_group_sysctls);
-+#endif
- 	return 0;
- }
- late_initcall(sched_rt_sysctl_init);
-@@ -2845,6 +2853,7 @@ int sched_rt_can_attach(struct task_group *tg, struct=
- task_struct *tsk)
- #endif /* !CONFIG_RT_GROUP_SCHED */
+ 	int cpu;
+@@ -3394,6 +3396,8 @@ static int rcutorture_booster_init(unsigned int cpu)
 =20
- #ifdef CONFIG_SYSCTL
-+#ifdef CONFIG_RT_GROUP_SCHED
- static int sched_rt_global_validate(void)
- {
- 	if ((sysctl_sched_rt_runtime !=3D RUNTIME_INF) &&
-@@ -2853,13 +2862,11 @@ static int sched_rt_global_validate(void)
- 			NSEC_PER_USEC > max_rt_runtime)))
- 		return -EINVAL;
-=20
--#ifdef CONFIG_RT_GROUP_SCHED
- 	if (!rt_group_sched_enabled())
- 		return 0;
-=20
- 	scoped_guard(mutex, &rt_constraints_mutex)
- 		return __rt_schedulable(NULL, 0, 0);
--#endif
+ 	/* Don't allow time recalculation while creating a new task. */
+ 	mutex_lock(&boost_mutex);
++	if (IS_BUILTIN(CONFIG_RCU_TORTURE_TEST))
++		dl_server_fair_disable(cpu);
+ 	VERBOSE_TOROUT_STRING("Creating rcu_torture_boost task");
+ 	boost_tasks[cpu] =3D kthread_run_on_cpu(rcu_torture_boost, NULL,
+ 					      cpu, "rcu_torture_boost_%u");
+diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
+index dfae08625342e..24633af261be6 100644
+--- a/kernel/sched/deadline.c
++++ b/kernel/sched/deadline.c
+@@ -1947,6 +1947,31 @@ int dl_server_apply_params(struct sched_dl_entity *d=
+l_se, u64 runtime, u64 perio
  	return 0;
  }
 =20
-@@ -2887,6 +2894,7 @@ static int sched_rt_handler(const struct ctl_table *t=
-able, int write, void *buff
-=20
- 	return ret;
- }
-+#endif /* !CONFIG_RT_GROUP_SCHED */
-=20
- static int sched_rr_handler(const struct ctl_table *table, int write, void=
- *buffer,
- 		size_t *lenp, loff_t *ppos)
++#ifdef CONFIG_RCU_TORTURE_TEST
++/*
++ * The RCU-TORTURE built-in test will disable fair-server to avoid any
++ * throttling while testing RCU-boosting.
++ * If compiled as module then the user needs to disable it manually before
++ * loading the module.
++ */
++void dl_server_fair_disable(unsigned int cpu);
++
++void dl_server_fair_disable(unsigned int cpu)
++{
++	struct rq *rq =3D cpu_rq(cpu);
++	int retval;
++
++	scoped_guard (rq_lock_irqsave, rq) {
++		struct sched_dl_entity *dl_se =3D &rq->fair_server;
++
++		update_rq_clock(rq);
++		dl_server_stop(dl_se);
++		retval =3D dl_server_apply_params(dl_se, 0, dl_se->dl_period, 0);
++	}
++	WARN_ON_ONCE(retval);
++}
++#endif
++
+ /*
+  * Add @dl_se's bw to the root-domain accounting.
+  *
 
 --=20
 2.55.0
