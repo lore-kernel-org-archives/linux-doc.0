@@ -1,86 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.135
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794354730;
-	b=PgJMFjZG3YaE2/XTdS0f7tsYkWHKG3llYQeXSt0t5+0IUNHVNx6MThEi4R//9wR//zgQ
-	 LEyAC9Die+Dq81AoqVolIiSOE2/XPlXNU3eg+DHq3BQChAy3ctZyp6VXy3RCtH5HCz+1W
-	 dIgftmY+j9dHL4bbGNkTG9RKLFzGj8wjIKUq2fNWgWzdrr6TK9v1TXnVMNXqp2VL89A6K
-	 Qioo+ATTLAamceN2YZq/IzngIExB/TtGimjrVf29U1JHmrDpT/MEaNf8+N/KLgw+pQs3L
-	 36DSFYD1wc8rz6UhQ7Hf3k0JQrknlRVeUIywLsubMprC9+hxO/dX578SoxdG1MMZSyw==
+	t=1794354731;
+	b=35IEboh92ZtcmURnwWFfJbkzvgPRo/sv+EDLWxwtNdeN05Oeg1Fk9ffOnV7VbeWhoKut
+	 f4RUZCJcqKoPlcsdfon9qnBr9xl3PoogCLMVJqtVTIPaN7j+Y2jcumq2YX8TPz4B0LF3T
+	 7af9fpersTsd2Kv3ToBw3JeGNXBU4lKSwWj34vkoIIuDNf2BUkpNwuXGzs0DB9k+0M4Z/
+	 G13eNqiwdND/flXjSEbZMksD0rKmhOUfVk4k4PlpYkRoVpEvc6QhYX6N/pqNBdZyYO4uh
+	 QjT4kkHz5sNSnKaJ4hu/vdOccihWs3n8X01BgfUz9mMGOuacZbDNIDCDWes0B+sv3ww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794354730;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794354731;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
 	 In-Reply-To;
-	bh=HCbzSeKuFfgA7xC1jTHYS9c3uRFl3sh3kVDgahIw8r0=;
-	b=S7JxZcuDgVxLLqayrmg+UWKJnRDQ8r5oGIC4dwZhZ7Dmu5KTky8be4YYr64iPIMRG9cn
-	 D6oTV+asK0Dz53VUQq8Le74b+CbbekNeXYbtFFeu2pEgNUOD4wkfjuLgh+IZBK/pSihT5
-	 3wlnEp0LQByXIPGflL3ulRGvIqTRF/4MleSBxX8oiObWoq1qXUstKIHq8BqV8BX6thKky
-	 0vP7lyd7MlICO8QiFi29zNc51DkGh7GtZFsWbdEFYCu8iBj97UtN2voWhtr/u4JpayqOY
-	 duLIFjLhkzn2uDHUqkQsUdIRL1tGpdVt3YDbRO99OHxx+aZ4bSZhMY5Bb8o40RQhPxg==
+	bh=6MfQtXJm79sw7D3UsF08XYwuRq4pspLW3OExU6w9/Kk=;
+	b=UrgGl1eua5nKtWu+0B4BVHUuOkJmWwS8TDvWCh9bpiNDq8fX8rDiqghoxkgvm48gVvUL
+	 8T51Fs4zalfKVNjy7iltokmnjYbB9XyLaOEGiFNbdunpb+9O7goiQEIuQ0+H3ROAL2VaV
+	 eY2zkD4Qy5CD/rqyMC2W/Wb3o3Twq4zKzcADeTenQBhkkBsy9Z2wUL0XI0tDb4cBS8xEr
+	 WnI6ZFuQDPNY+1gd44J0J2VrFoVy5Wz2ac40NmUB1uBGwHd6AxDiz/89/WN9TGxrDlTHy
+	 KdGy4SNaLYOQHcA9ff4g3GuB6xQyYcCgXNLJT4SdMc4ku/y+HcaNty7GexQ7j9XbRUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=u7JnkxtJ;
-	arc=none smtp.remote-ip=74.125.229.6
-Received: from mail-dy2-f6.google.com (mail-dy2-f6.google.com [74.125.229.6])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qGoGBS9y;
+	arc=none smtp.remote-ip=74.125.229.135
+Received: from mail-dl2-f7.google.com (mail-dl2-f7.google.com [74.125.229.135])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1194E606A327
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:52:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1194E606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3C4F606A33F
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:52:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3C4F606A33F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=u7JnkxtJ
-Received: by mail-dy2-f6.google.com with SMTP id 5a478bee46e88-35adc681e1aso3510821eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:52:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qGoGBS9y
+Received: by mail-dl2-f7.google.com with SMTP id a92af1059eb24-13985f8229aso2419077c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:52:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794354728; x=1794959528; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794354730; x=1794959530; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HCbzSeKuFfgA7xC1jTHYS9c3uRFl3sh3kVDgahIw8r0=;
-        b=u7JnkxtJaqeJN05mtzMkDBV+KpcI8VQBx4/tLvzZ+tH3fjAzgGwAs35oOTx3ZX5Zzb
-         /2sbgbmcbAokZZtRxs5HdBKiD2Xvtema/xpx7VJAr6Cwd2xv2ZFF/63h47/NGYMmgf+X
-         KzM6berkOTuJYd61zV8mDdyclLjrSzAmI2vSMSpU5JCUtsXU97YWqqtjtq34Fw5H+0yY
-         DKawJO8pCKWf3BgPks65PX3t3kpscWwekuIawXCowdnSVirmBnUXkkMngNAnaxK6hl7E
-         KLuQhBtpjX2SPrJ0MmpfKW5xwD/xKOfaMa1YdHq/JnkXVEIVE9LsnwMlCLbo/YWUBMVE
-         QsKw==
+        bh=6MfQtXJm79sw7D3UsF08XYwuRq4pspLW3OExU6w9/Kk=;
+        b=qGoGBS9ydlyzha2HhSniQn6m71/HA+v6j87E38b2n/TfFUJ0pcM9dIDBEQkC32znUU
+         YLr5fcmRTVL2hBNuNBtyoLqmdCqXozFPetvH4E6k/UwmOlHlMwGj7hPIED9t+LALovKM
+         /rzSA85y57/W6GE0JuHs3b/FKo3quDIalhKb6Dvaf4vBmu9LZO7qRh7dwyivhXEyt1Rf
+         a9RBAvixuwepr8fEq/yq7KLrAg7+n/byDLGV7GI4GJ8dEVmmhkPlW+ciy2gzJ674T0I0
+         B15ST2nWyGRoBUJwGz6VJOWlbCbiVsZjMcWTk/TX7q6YwxmYIa8JmcyAuZRme64CLP/T
+         2vyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794354728; x=1794959528;
+        d=1e100.net; s=20260707; t=1794354730; x=1794959530;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :content-type:mime-version:references:message-id:subject:cc:to:from
          :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=HCbzSeKuFfgA7xC1jTHYS9c3uRFl3sh3kVDgahIw8r0=;
-        b=jssy87lhBCNc2uaNgeqeNop9u+LA0FW+tUq0l4DWdCtDt3c842OdkONhrjgV42Xfyn
-         hS+54PaQgvMlPW44dYypCzaf/gB7AX0+6yXvF5JoeBabbg03d31WCpsma/7Sn5IKBR76
-         G+BIBAhOX8nZ37mxFhXKX0mDpYRLyztNo0+a/LtBQiEmSoY9H4CLwAzYnGTsXoRdBf9C
-         HzRrqpq/YFpl/v81MWr99/9Au6wgFFQpBb1tkhOMGTAXvdWm0nuJXqAGUoUMJclBo6F2
-         63mFu0lQ+9CW9L+clQWFgtnJedm3b/dFwaAG523fHIW//J+H3qaWzJK+9qYT+R+jwprq
-         yRlA==
-X-Forwarded-Encrypted: i=1; AL+hErF+dYJ0wWD2CyqXSnkQiQBDqkKG2aeh1n5wO3CZOs+AHGmeS/BSDzAPfALWw62dgXll2oYZcvxk34w=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8/KeW9c3/I13Upm5xmvB/q9tC+WXNMOfrv/2Pfzufl61Zty8kO
-	B0MyYH50vELTxJ+KdAODOaxTMZ3Fw8PKITLQ87vI42vgLo5jVdHledFY
-X-Gm-Gg: AYBFou15GPY4PBzkcnz/eKcOkY71spYYQWeoFfkpwHW0qJT99ggn1fr7r1WYVPe7X5e
-	TpXL4Ye21XfxhKze0ZbmTEGb21YQJ0hB+25ha15Ip2y2x+CQveKhHf0AyZsJq4RoQ0T1EZ+Idju
-	ZFaW4VSsIleJbNqNpM8Z5J5oB9HDsqHM8MkprkjZfECFLBzfnl5nwiudt6ZmF8b1YcKgNa2V6X6
-	i+yPXn90gpuEezy93dcxHiEJeDk3dg4KHbNIJ6GwDEQDK4UA4IKmatymwVycZaQd3s1U09nIbr3
-	gT8PkX1SxaHVyFCBdSYbEh+FugUXz5aw1RePIGX6dMEF/pLujt3oqSj3hlqtK6/KppvV/xtXrQI
-	chNwg2gx84rMiYcyGF41TTdfVJl9kXd0XEIZQ8OTH2imFKYBIwtsMV8upWfjXyExuLO33ZnV8mD
-	Nx85/c2hG4W5CSI80lkd46sApV4WhA0ohkgb1UGZpPykG7xYcGGWBR05TXsJuzmkLdGO2YyS0pS
-	EJo4qOtdifc4TuVTSbyRvkEwdZh9fYEgTp5pz411RA/TUPBMzdA5564UEos/7DvCbimtvqcxMYI
-	cJk8YgJq+Mec5qRBzm8ljO4=
-X-Received: by 2002:a05:7023:a4c:b0:184:5f2e:aa52 with SMTP id a92af1059eb24-1b3c02f5697mr648447c88.16.1794354727852;
-        Tue, 10 Nov 2026 15:52:07 -0800 (PST)
-Received: from localhost ([2a03:2880:9ff:44::])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe32276sm9629566eec.8.2026.11.10.15.52.07
+        bh=6MfQtXJm79sw7D3UsF08XYwuRq4pspLW3OExU6w9/Kk=;
+        b=BwEfOSBDWRdRdgZOVfztzRfZaDMsjEsXFdG9fQ8WzFFfo5zncVpGMcFSdNzeBrDP45
+         Vsbo2d9bNucKkbCeVVgryNUdmtSTcW9G7SLc7OEzgdCtX5Ip3KiQnG+1Fnpe4L6fnMq+
+         aavq5yLrBuK3Em4E/LeJoLp8PqWOBhWn+5DzGpDUhD1itbiV1b7YP1hG07I4pCW5TrlS
+         T1DjDw6/2HbUFuqoC56snla+EKMnIy5EUk6HTRzfqc0YvSkdwNR2LdC5yABVVCZBvXvk
+         90ynHRue+jWRpLoz3WBDaaD95b7YXOK3iRQQMLbN1Y1RVqh9+YSvlGc9B/5OJzKFHo4j
+         tU/g==
+X-Forwarded-Encrypted: i=1; AL+hErEv/ux+ElKTN2rjSFNL4MUB1tsSedOACnPEAevQoxL9UkPZDVyBtGVRz4l6Y2MLIS9jwKPtAZkcUEY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8sxJWlnHAttP/Om70QXQqEFa2gaIU4DGo/URr19ByjXsM7z0AZ
+	xPTrl+6BTAz/jo0sFdWeGKMSATrV7973BjEeY6CoW6ukPJhwzO6XtTMe
+X-Gm-Gg: AYBFou3yQE9kcTaYmA2+H1S6TqApYtQVTFd+2zhNUHYysbP2p+nLRTe0+CjKHRsoSBE
+	tTjRsjQg1K3SLAJY/SWYnPp4mElu1TgXD1tSriMyay6vDrOo96cTmOt1dXiX+l/s2xTOhRc35ZA
+	v0INGMoToLX/5VI1LZcqY7jUhB8DUYZyb/JuuMi37IFu7H8eAoNK5g7m/sRFJ9N1Dl7xN4bWTtq
+	LKzejLoko0FduPcnRanH2yfutCTNbBoj72kYUAgNB96MyzAnRtRDGi6llo4lxRBJ84Le9W7cz8n
+	5XXgtO/H5StZ8NuOK/XrWRltj0le19cvSjfmci6k+p0RW2kNhSbHfitm3eibTFLEc2FASvSy3/X
+	7LKU5Vbwo33FnC6SaE4WnA4rv4KdAJZ7jmDgFEzTX83ZWy+7sKYJRC3YLlpb7gYAm+YoTNRbMN8
+	wCs76Yxt1tc4+1ImDe2PMHWswhsF0TamFdwi+xW5WZSgNEJIkfby4+tJQxwJ3hCZryPc8qFXbfm
+	hFjIrsZ0LzXYWhULdoU0Q4Jqm0dseOigX1pGovO+E5U+X0vAv8f0RnBnBTZ4x324U8UQ/kUCE+8
+	mA1cv2ROjTATWls+k55xEwA=
+X-Received: by 2002:a05:7022:1706:b0:151:d6e5:596b with SMTP id a92af1059eb24-1b3c02ec796mr570661c88.9.1794354729456;
+        Tue, 10 Nov 2026 15:52:09 -0800 (PST)
+Received: from localhost ([2a03:2880:9ff:40::])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37520bfb58dsm19178865eec.18.2026.11.10.15.52.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 15:52:07 -0800 (PST)
-Date: Tue, 10 Nov 2026 14:19:56 -0800
+        Tue, 10 Nov 2026 15:52:08 -0800 (PST)
+Date: Tue, 10 Nov 2026 14:32:13 -0800
 From: Stanislav Fomichev <sdf.kernel@gmail.com>
 To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
 Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
@@ -103,10 +103,11 @@ Cc: Magnus Karlsson <magnus.karlsson@intel.com>,
 	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
 	Alexander Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Stuart Clark <stuclar@meta.com>
-Subject: Re: [PATCH net-next v1 02/11] net: Add memory provider capabilities
-Message-ID: <avOYe27x-AlxmyK9@devvm16445.scu0.facebook.com>
+Subject: Re: [PATCH net-next v1 03/11] xdp: Copy buffers with restricted
+ lifetime
+Message-ID: <avOZa6jLnmvYkk2H@devvm16445.scu0.facebook.com>
 References: <20261110102039.1002605-1-bjorn@kernel.org>
- <20261110102039.1002605-3-bjorn@kernel.org>
+ <20261110102039.1002605-4-bjorn@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,367 +120,443 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261110102039.1002605-3-bjorn@kernel.org>
+In-Reply-To: <20261110102039.1002605-4-bjorn@kernel.org>
 
 On 11/10, Björn Töpel wrote:
-> The core treats every memory provider as unreadable: installing one
-> needs header split and no XDP program, and any page pool that allows
-> unreadable netmem takes it. An AF_XDP UMEM provider is readable, needs
-> XDP, and hands out whole buffers.
+> UMEM stays mapped writable in userspace, and it has a fixed number of
+> chunks. The stack must not keep its chunks in an skb or an xdp_frame.
+> Mark the providers whose buffers the stack may keep with
+> MP_CAP_RETAIN, and copy packets of the others on XDP_PASS, on
+> conversion to a frame, and on redirects other than XSKMAP.
 > 
-> Describe providers by MP_CAP_READABLE and MP_CAP_FRAG; devmem and
-> io_uring keep their behavior with MP_CAP_FRAG. A page pool takes a
-> readable provider only with the new PP_FLAG_MEM_PROVIDER:
-> PP_FLAG_ALLOW_UNREADABLE_NETMEM says that a driver handles unreadable
-> netmem, not that it handles any provider.
+> The head chunk is writable by userspace, so it cannot hold
+> skb_shared_info, and virt_to_netmem() cannot find a net_iov head.
+> Drivers pass kernel memory for both to xdp_init_buff_netmem().
+> 
+> A static key keeps the check off while no such page pool exists. A
+> frame copy is linear, so a multi-buffer packet of such a provider
+> cannot go to a device or CPU map.
 > 
 > Signed-off-by: Björn Töpel <bjorn@kernel.org>
 > ---
->  Documentation/networking/netmem.rst     |  5 ++++
->  drivers/net/netkit.c                    |  3 +-
->  include/net/page_pool/helpers.h         | 14 +++++++++-
->  include/net/page_pool/memory_provider.h | 14 ++++++++++
->  include/net/page_pool/types.h           | 15 ++++++++--
->  io_uring/zcrx.c                         |  1 +
->  net/core/dev.c                          | 10 ++++---
->  net/core/devmem.c                       |  1 +
->  net/core/netdev_rx_queue.c              | 37 ++++++++++++++++++++-----
->  net/core/page_pool.c                    | 34 +++++++++++++++++++++--
->  net/ethtool/rings.c                     |  7 +++--
->  net/xdp/xsk_buff_pool.c                 |  3 +-
->  12 files changed, 122 insertions(+), 22 deletions(-)
+>  include/linux/skbuff.h                  |  1 +
+>  include/net/netmem.h                    | 10 +++
+>  include/net/page_pool/memory_provider.h |  3 +
+>  include/net/xdp.h                       | 92 +++++++++++++++++++++++--
+>  io_uring/zcrx.c                         |  2 +-
+>  net/core/dev.h                          |  4 ++
+>  net/core/devmem.c                       |  2 +-
+>  net/core/filter.c                       | 20 +++++-
+>  net/core/page_pool.c                    | 30 ++++++++
+>  net/core/xdp.c                          | 78 +++++++++++++++++----
+>  10 files changed, 221 insertions(+), 21 deletions(-)
 > 
-> diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
-> index 6871dcdd700c..39cb75339704 100644
-> --- a/Documentation/networking/netmem.rst
-> +++ b/Documentation/networking/netmem.rst
-> @@ -103,6 +103,11 @@ Driver RX Requirements
->       which knows when dma-syncing is (or is not) appropriate.
->     - PP_FLAG_ALLOW_UNREADABLE_NETMEM. The driver must specify this flag iff
->       tcp-data-split is enabled.
-> +   - PP_FLAG_MEM_PROVIDER. The page pool takes memory from the memory
-> +     provider of its RX queue, readable or not. Page pool creation fails if
-> +     the provider is unreadable and PP_FLAG_ALLOW_UNREADABLE_NETMEM is not
-> +     set, so do not set it on header page pools of such a queue. Without it,
-> +     PP_FLAG_ALLOW_UNREADABLE_NETMEM selects unreadable providers only.
->  
->  5. The driver must not assume the netmem is readable and/or backed by pages.
->     The netmem returned by the page_pool may be unreadable, in which case
-> diff --git a/drivers/net/netkit.c b/drivers/net/netkit.c
-> index 82e608e733d9..df672ed5ffcc 100644
-> --- a/drivers/net/netkit.c
-> +++ b/drivers/net/netkit.c
-> @@ -12,6 +12,7 @@
->  #include <net/netdev_lock.h>
->  #include <net/netdev_queues.h>
->  #include <net/netdev_rx_queue.h>
-> +#include <net/page_pool/memory_provider.h>
->  #include <net/xdp_sock_drv.h>
->  #include <net/netkit.h>
->  #include <net/dst.h>
-> @@ -289,7 +290,7 @@ static int netkit_xsk(struct net_device *dev, struct netdev_bpf *xdp)
->  		ret = -EOPNOTSUPP;
->  		goto out;
->  	}
-> -	if (!create || !dev_get_min_mp_channel_count(phys))
-> +	if (!create || netif_all_mps_have_cap(phys, MP_CAP_READABLE))
->  		ret = phys->netdev_ops->ndo_bpf(phys, &xdp_lower);
->  out:
->  	netdev_unlock(phys);
-> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
-> index 28635ce9454e..96e6b62cdebb 100644
-> --- a/include/net/page_pool/helpers.h
-> +++ b/include/net/page_pool/helpers.h
-> @@ -62,6 +62,7 @@
->  
->  #include <linux/dma-mapping.h>
->  
-> +#include <net/page_pool/memory_provider.h>
->  #include <net/page_pool/types.h>
->  #include <net/net_debug.h>
->  #include <net/netmem.h>
-> @@ -519,7 +520,18 @@ static inline void page_pool_nid_changed(struct page_pool *pool, int new_nid)
->   */
->  static inline bool page_pool_is_unreadable(struct page_pool *pool)
+> diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+> index 8b0039d49905..a9cc5dd0211a 100644
+> --- a/include/linux/skbuff.h
+> +++ b/include/linux/skbuff.h
+> @@ -2691,6 +2691,7 @@ static inline void skb_add_rx_frag_netmem(struct sk_buff *skb, int i,
+>  					  int size, unsigned int truesize)
 >  {
-> -	return !!pool->mp_ops;
-> +	return pool->mp_ops && !(pool->mp_ops->caps & MP_CAP_READABLE);
+>  	DEBUG_NET_WARN_ON_ONCE(size > truesize);
+> +	DEBUG_NET_WARN_ON_ONCE(!netmem_can_retain(netmem));
+>  
+>  	skb_fill_netmem_desc(skb, i, netmem, off, size);
+>  	skb->len += size;
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index f196b014184c..b986ad616334 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -59,6 +59,7 @@ static_assert(sizeof(struct netmem_desc) <= offsetof(struct page, _refcount));
+>  /* net_iov */
+>  
+>  DECLARE_STATIC_KEY_FALSE(page_pool_mem_providers);
+> +DECLARE_STATIC_KEY_FALSE(page_pool_restricted);
+>  
+>  /*  We overload the LSB of the struct page pointer to indicate whether it's
+>   *  a page or net_iov.
+> @@ -414,6 +415,15 @@ static inline bool net_is_devmem_iov(const struct net_iov *niov)
+>  void net_iov_inc_ref(struct net_iov *niov);
+>  void net_iov_dec_ref(struct net_iov *niov);
+>  
+> +#if IS_ENABLED(CONFIG_PAGE_POOL)
+> +bool netmem_can_retain(netmem_ref netmem);
+> +#else
+> +static inline bool netmem_can_retain(netmem_ref netmem)
+> +{
+> +	return true;
+> +}
+> +#endif
+> +
+>  /**
+>   * netmem_inc_ref - acquire a non-page_pool reference on a netmem
+>   * @netmem: netmem to reference
+> diff --git a/include/net/page_pool/memory_provider.h b/include/net/page_pool/memory_provider.h
+> index 4417e54a0f81..e732b21be9a2 100644
+> --- a/include/net/page_pool/memory_provider.h
+> +++ b/include/net/page_pool/memory_provider.h
+> @@ -25,10 +25,13 @@ struct sk_buff;
+>   * @MP_CAP_READABLE: The CPU can access provider memory. It may back header
+>   *	page pools, and XDP programs may run on it.
+>   * @MP_CAP_FRAG: Page pool fragments may split provider buffers.
+> + * @MP_CAP_RETAIN: The stack may keep page pool references to provider
+> + *	buffers after the RX poll, for example in an skb or an xdp_frame.
+>   */
+>  enum mp_caps {
+>  	MP_CAP_READABLE		= BIT(0),
+>  	MP_CAP_FRAG		= BIT(1),
+> +	MP_CAP_RETAIN		= BIT(2),
+>  };
+>  
+>  struct memory_provider_ops {
+> diff --git a/include/net/xdp.h b/include/net/xdp.h
+> index 07231adfb5f8..1105bb9e3292 100644
+> --- a/include/net/xdp.h
+> +++ b/include/net/xdp.h
+> @@ -81,6 +81,16 @@ enum xdp_buff_flags {
+>  	 * XDP program is not attached.
+>  	 */
+>  	XDP_FLAGS_FRAGS_UNREADABLE	= BIT(2),
+> +	/* Internal: the head netmem and the shared info are in &xdp_buff.ext.
+> +	 * Not copied to xdp_frames or skbs.
+> +	 */
+> +	XDP_FLAGS_EXT			= BIT(3),
+> +};
+> +
+> +/* For a head buffer that cannot hold kernel data, see xdp_init_buff_netmem() */
+> +struct xdp_buff_ext {
+> +	netmem_ref netmem;
+
+nit: netmem -> head ? and the same for xdp_init_buff_netmem netmem arg?
+
+> +	struct skb_shared_info sinfo;
+>  };
+>  
+>  struct xdp_buff {
+> @@ -89,7 +99,12 @@ struct xdp_buff {
+>  	void *data_meta;
+>  	void *data_hard_start;
+>  	struct xdp_rxq_info *rxq;
+> -	struct xdp_txq_info *txq;
+> +	union {
+> +		/* DEVMAP egress programs only */
+> +		struct xdp_txq_info *txq;
+> +		/* RX buffers with XDP_FLAGS_EXT */
+> +		struct xdp_buff_ext *ext;
+> +	};
+>  
+>  	union {
+>  		struct {
+> @@ -138,7 +153,7 @@ static __always_inline void xdp_buff_set_frag_unreadable(struct xdp_buff *xdp)
+>  
+>  static __always_inline u32 xdp_buff_get_skb_flags(const struct xdp_buff *xdp)
+>  {
+> -	return xdp->flags;
+> +	return xdp->flags & ~XDP_FLAGS_EXT;
+
+The only consumer is xdp_update_skb_frags_info, so probably not worth
+filtering out XDP_FLAGS_EXT here? Or is it for
+xdp_update_frame_from_buff? Can we explicitly clear it at the caller? 
+
+>  }
+>  
+>  static __always_inline void xdp_buff_clear_frag_pfmemalloc(struct xdp_buff *xdp)
+> @@ -176,6 +191,50 @@ xdp_prepare_buff(struct xdp_buff *xdp, unsigned char *hard_start,
+>  	xdp->data_meta = meta_valid ? data : data + 1;
+>  }
+>  
+> +/* See MP_CAP_RETAIN */
+> +static __always_inline bool xdp_netmem_restricted(netmem_ref netmem)
+> +{
+> +	return IS_ENABLED(CONFIG_PAGE_POOL) &&
+> +	       static_branch_unlikely(&page_pool_restricted) &&
+> +	       !netmem_can_retain(netmem);
 > +}
 > +
 > +/**
-> + * page_pool_supports_frag() - may page pool buffers be split
-> + * @pool: queried page pool
+> + * xdp_init_buff_netmem - initialize an &xdp_buff for a netmem head buffer
+> + * @xdp: &xdp_buff to initialize
+> + * @frame_sz: frame size
+> + * @rxq: RX queue info
+> + * @netmem: head buffer
+> + * @ext: kernel memory used if @netmem cannot hold the shared info, or the
+> + *	stack must not keep it. It must live as long as @xdp.
 > + *
-> + * Return: false if the memory provider of @pool hands out whole buffers only
+> + * A driver that may receive into memory provider buffers uses this instead
+> + * of xdp_init_buff().
 > + */
-> +static inline bool page_pool_supports_frag(const struct page_pool *pool)
+> +static __always_inline void
+> +xdp_init_buff_netmem(struct xdp_buff *xdp, u32 frame_sz,
+> +		     struct xdp_rxq_info *rxq, netmem_ref netmem,
+> +		     struct xdp_buff_ext *ext)
 > +{
-> +	return !pool->mp_ops || pool->mp_ops->caps & MP_CAP_FRAG;
+> +	xdp_init_buff(xdp, frame_sz, rxq);
+> +	if (likely(!netmem_is_net_iov(netmem) &&
+> +		   !xdp_netmem_restricted(netmem)))
+> +		return;
+> +
+> +	ext->netmem = netmem;
+> +	xdp->ext = ext;
+> +	xdp->flags |= XDP_FLAGS_EXT;
+> +}
+> +
+> +static __always_inline netmem_ref
+> +xdp_buff_head_netmem(const struct xdp_buff *xdp)
+> +{
+> +	if (unlikely(xdp->flags & XDP_FLAGS_EXT))
+> +		return xdp->ext->netmem;
+> +
+> +	return virt_to_netmem(xdp->data);
+> +}
+> +
+>  /* Reserve memory area at end-of data area.
+>   *
+>   * This macro reserves tailroom in the XDP buffer by limiting the
+> @@ -189,9 +248,28 @@ xdp_prepare_buff(struct xdp_buff *xdp, unsigned char *hard_start,
+>  static inline struct skb_shared_info *
+>  xdp_get_shared_info_from_buff(const struct xdp_buff *xdp)
+>  {
+> +	if (unlikely(xdp->flags & XDP_FLAGS_EXT))
+> +		return &xdp->ext->sinfo;
+> +
+>  	return (struct skb_shared_info *)xdp_data_hard_end(xdp);
 >  }
 >  
->  #endif /* _NET_PAGE_POOL_HELPERS_H */
-> diff --git a/include/net/page_pool/memory_provider.h b/include/net/page_pool/memory_provider.h
-> index bceb5f7740e2..4417e54a0f81 100644
-> --- a/include/net/page_pool/memory_provider.h
-> +++ b/include/net/page_pool/memory_provider.h
-> @@ -19,6 +19,18 @@ struct sk_buff;
->   * Per-provider custom logic must be delegated to memory_provider_ops rather
->   * than handled directly in page_pool core code.
->   */
+> +bool __xdp_buff_needs_copy(const struct xdp_buff *xdp);
 > +
-> +/**
-> + * enum mp_caps - memory provider capabilities
-> + * @MP_CAP_READABLE: The CPU can access provider memory. It may back header
-> + *	page pools, and XDP programs may run on it.
-> + * @MP_CAP_FRAG: Page pool fragments may split provider buffers.
+> +/* Must the stack copy a buffer of @xdp before it keeps it? XSK buffers are
+> + * copied by their own conversion.
 > + */
-> +enum mp_caps {
-> +	MP_CAP_READABLE		= BIT(0),
-> +	MP_CAP_FRAG		= BIT(1),
-> +};
+> +static __always_inline bool xdp_buff_needs_copy(const struct xdp_buff *xdp)
+> +{
+> +	if (unlikely(xdp->flags & XDP_FLAGS_EXT))
+> +		return true;
+> +	if (!IS_ENABLED(CONFIG_PAGE_POOL) ||
+> +	    !static_branch_unlikely(&page_pool_restricted))
+> +		return false;
 > +
->  struct memory_provider_ops {
->  	netmem_ref (*alloc_netmems)(struct page_pool *pool, gfp_t gfp);
->  	bool (*release_netmem)(struct page_pool *pool, netmem_ref netmem);
-> @@ -27,6 +39,7 @@ struct memory_provider_ops {
->  	int (*nl_fill)(void *mp_priv, struct sk_buff *rsp,
->  		       struct netdev_rx_queue *rxq);
->  	void (*uninstall)(void *mp_priv, struct netdev_rx_queue *rxq);
-> +	u32 caps;
->  };
->  
->  bool net_mp_niov_set_dma_addr(struct net_iov *niov, dma_addr_t addr);
-> @@ -38,6 +51,7 @@ int netif_mp_open_rxq(struct net_device *dev, unsigned int rxq_idx,
->  		      struct netlink_ext_ack *extack);
->  int netif_mp_close_rxq(struct net_device *dev, unsigned int rxq_idx,
->  		       const struct pp_memory_provider_params *old_p);
-> +bool netif_all_mps_have_cap(struct net_device *dev, u32 cap);
->  
->  /**
->    * net_mp_netmem_place_in_cache() - give a netmem to a page pool
-> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-> index 6d543076a0c0..0d48c05f1462 100644
-> --- a/include/net/page_pool/types.h
-> +++ b/include/net/page_pool/types.h
-> @@ -31,8 +31,19 @@
->   */
->  #define PP_FLAG_ALLOW_UNREADABLE_NETMEM BIT(3)
->  
-> +/* Take memory from the memory provider of the RX queue, if one is installed.
-> + * Set page_pool_params.slow.netdev and queue_idx, and create the pool under
-> + * the instance lock of the netdev.
-> + * An unreadable provider also needs PP_FLAG_ALLOW_UNREADABLE_NETMEM, or page
-> + * pool creation fails. Without this flag, PP_FLAG_ALLOW_UNREADABLE_NETMEM
-> + * selects unreadable providers only.
-> + */
-> +#define PP_FLAG_MEM_PROVIDER	BIT(4)
+> +	return __xdp_buff_needs_copy(xdp);
+> +}
 > +
->  #define PP_FLAG_ALL		(PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV | \
-> -				 PP_FLAG_SYSTEM_POOL | PP_FLAG_ALLOW_UNREADABLE_NETMEM)
-> +				 PP_FLAG_SYSTEM_POOL | \
-> +				 PP_FLAG_ALLOW_UNREADABLE_NETMEM | \
-> +				 PP_FLAG_MEM_PROVIDER)
+>  static __always_inline unsigned int
+>  xdp_get_buff_len(const struct xdp_buff *xdp)
+>  {
+> @@ -379,7 +457,7 @@ xdp_update_skb_frags_info(struct sk_buff *skb, u8 nr_frags,
+>  void xdp_warn(const char *msg, const char *func, const int line);
+>  #define XDP_WARN(msg) xdp_warn(msg, __func__, __LINE__)
 >  
->  /* Index limit to stay within PP_DMA_INDEX_BITS for DMA indices */
->  #define PP_DMA_INDEX_LIMIT XA_LIMIT(1, BIT(PP_DMA_INDEX_BITS) - 1)
-> @@ -82,7 +93,7 @@ struct pp_alloc_cache {
->   * @netdev:	netdev this pool will serve (leave as NULL if none or multiple)
->   * @queue_idx:	queue idx this page_pool is being created for.
->   * @flags:	PP_FLAG_DMA_MAP, PP_FLAG_DMA_SYNC_DEV, PP_FLAG_SYSTEM_POOL,
-> - *		PP_FLAG_ALLOW_UNREADABLE_NETMEM.
-> + *		PP_FLAG_ALLOW_UNREADABLE_NETMEM, PP_FLAG_MEM_PROVIDER.
->   */
->  struct page_pool_params {
->  	struct_group_tagged(page_pool_params_fast, fast,
+> -struct sk_buff *xdp_build_skb_from_buff(const struct xdp_buff *xdp);
+> +struct sk_buff *xdp_build_skb_from_buff(struct xdp_buff *xdp);
+>  struct sk_buff *xdp_build_skb_from_zc(struct xdp_buff *xdp);
+>  struct xdp_frame *xdp_convert_zc_to_xdp_frame(struct xdp_buff *xdp);
+>  struct sk_buff *__xdp_build_skb_from_frame(struct xdp_frame *xdpf,
+> @@ -420,12 +498,15 @@ int xdp_update_frame_from_buff(const struct xdp_buff *xdp,
+>  		return -ENOSPC;
+>  	}
+>  
+> +	/* The stack may keep the frame, see xdp_buff_needs_copy(). */
+> +	DEBUG_NET_WARN_ON_ONCE(xdp_buff_needs_copy(xdp));
+> +
+>  	xdp_frame->data = xdp->data;
+>  	xdp_frame->len  = xdp->data_end - xdp->data;
+>  	xdp_frame->headroom = headroom - sizeof(*xdp_frame);
+>  	xdp_frame->metasize = metasize;
+>  	xdp_frame->frame_sz = xdp->frame_sz;
+> -	xdp_frame->flags = xdp->flags;
+> +	xdp_frame->flags = xdp_buff_get_skb_flags(xdp);
+>  
+>  	return 0;
+>  }
+> @@ -436,7 +517,8 @@ struct xdp_frame *xdp_convert_buff_to_frame(struct xdp_buff *xdp)
+>  {
+>  	struct xdp_frame *xdp_frame;
+>  
+> -	if (xdp->rxq->mem.type == MEM_TYPE_XSK_BUFF_POOL)
+> +	if (xdp->rxq->mem.type == MEM_TYPE_XSK_BUFF_POOL ||
+> +	    xdp_buff_needs_copy(xdp))
+>  		return xdp_convert_zc_to_xdp_frame(xdp);
+>  
+>  	/* Store info in top of packet */
 > diff --git a/io_uring/zcrx.c b/io_uring/zcrx.c
-> index 555f27e6c1ba..3b5bf97aa203 100644
+> index 3b5bf97aa203..98d83a8e45e4 100644
 > --- a/io_uring/zcrx.c
 > +++ b/io_uring/zcrx.c
-> @@ -1478,6 +1478,7 @@ static const struct memory_provider_ops io_uring_pp_zc_ops = {
+> @@ -1478,7 +1478,7 @@ static const struct memory_provider_ops io_uring_pp_zc_ops = {
 >  	.destroy		= io_pp_zc_destroy,
 >  	.nl_fill		= io_pp_nl_fill,
 >  	.uninstall		= io_pp_uninstall,
-> +	.caps			= MP_CAP_FRAG,
+> -	.caps			= MP_CAP_FRAG,
+> +	.caps			= MP_CAP_FRAG | MP_CAP_RETAIN,
+
 >  };
 >  
 >  static unsigned zcrx_parse_rq(netmem_ref *netmem_array, unsigned nr,
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index 3b60b15e2175..663fe3e32ea0 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -10546,8 +10546,9 @@ int netif_xdp_propagate(struct net_device *dev, struct netdev_bpf *bpf)
->  		return -EBUSY;
->  	}
+> diff --git a/net/core/dev.h b/net/core/dev.h
+> index 4e9e8cd15697..e3337013ffc8 100644
+> --- a/net/core/dev.h
+> +++ b/net/core/dev.h
+> @@ -13,6 +13,10 @@ struct netlink_ext_ack;
+>  struct netdev_queue_config;
+>  struct cpumask;
+>  struct pp_memory_provider_params;
+> +struct xdp_buff;
+> +struct xdp_frame;
+> +
+> +struct xdp_frame *xdp_copy_buff_to_frame(const struct xdp_buff *xdp);
 >  
-> -	if (dev_get_min_mp_channel_count(dev)) {
-> -		NL_SET_ERR_MSG(bpf->extack, "unable to propagate XDP to device using memory provider");
-> +	if (!netif_all_mps_have_cap(dev, MP_CAP_READABLE)) {
-> +		NL_SET_ERR_MSG(bpf->extack,
-> +			       "unable to propagate XDP to device using unreadable memory provider");
->  		return -EBUSY;
->  	}
->  
-> @@ -10622,8 +10623,9 @@ static int dev_xdp_install(struct net_device *dev, enum bpf_xdp_mode mode,
->  		return -EBUSY;
->  	}
->  
-> -	if (dev_get_min_mp_channel_count(dev)) {
-> -		NL_SET_ERR_MSG(extack, "unable to install XDP to device using memory provider");
-> +	if (!netif_all_mps_have_cap(dev, MP_CAP_READABLE)) {
-> +		NL_SET_ERR_MSG(extack,
-> +			       "unable to install XDP to device using unreadable memory provider");
->  		return -EBUSY;
->  	}
->  
+>  /* Random bits of netdevice that don't need to be exposed */
+>  #define FLOW_LIMIT_HISTORY	(1 << 7)  /* must be ^2 and !overflow buckets */
 > diff --git a/net/core/devmem.c b/net/core/devmem.c
-> index b9146b1f294a..8f190b574beb 100644
+> index 8f190b574beb..dea4a4a17e86 100644
 > --- a/net/core/devmem.c
 > +++ b/net/core/devmem.c
-> @@ -698,4 +698,5 @@ static const struct memory_provider_ops dmabuf_devmem_ops = {
+> @@ -698,5 +698,5 @@ static const struct memory_provider_ops dmabuf_devmem_ops = {
 >  	.release_netmem		= mp_dmabuf_devmem_release_page,
 >  	.nl_fill		= mp_dmabuf_devmem_nl_fill,
 >  	.uninstall		= mp_dmabuf_devmem_uninstall,
-> +	.caps			= MP_CAP_FRAG,
+> -	.caps			= MP_CAP_FRAG,
+> +	.caps			= MP_CAP_FRAG | MP_CAP_RETAIN,
+
+Not sure I understand this part, can you explain?
+These are MP_CAP_RETAIN because they are unreadable?
+
 >  };
-> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
-> index a7261fedd5e7..9e14a747f9b5 100644
-> --- a/net/core/netdev_rx_queue.c
-> +++ b/net/core/netdev_rx_queue.c
-> @@ -82,9 +82,13 @@ __netif_get_rx_queue_lease(struct net_device **dev, unsigned int *rxq_idx,
->  /* See also page_pool_is_unreadable() */
->  bool netif_rxq_has_unreadable_mp(struct net_device *dev, unsigned int rxq_idx)
+> diff --git a/net/core/filter.c b/net/core/filter.c
+> index 80380f89adf9..f93839b493b2 100644
+> --- a/net/core/filter.c
+> +++ b/net/core/filter.c
+> @@ -4774,12 +4774,28 @@ int xdp_do_redirect(struct net_device *dev, struct xdp_buff *xdp,
 >  {
-> -	if (rxq_idx < dev->real_num_rx_queues)
-> -		return __netif_get_rx_queue(dev, rxq_idx)->mp_params.mp_ops;
-> -	return false;
-> +	const struct memory_provider_ops *ops;
-> +
-> +	if (rxq_idx >= dev->real_num_rx_queues)
-> +		return false;
-> +
-> +	ops = __netif_get_rx_queue(dev, rxq_idx)->mp_params.mp_ops;
-> +	return ops && !(ops->caps & MP_CAP_READABLE);
->  }
->  EXPORT_SYMBOL(netif_rxq_has_unreadable_mp);
+>  	struct bpf_redirect_info *ri = bpf_net_ctx_get_ri();
+>  	enum bpf_map_type map_type = ri->map_type;
+> +	struct xdp_frame *xdpf;
+> +	int err;
 >  
-> @@ -95,6 +99,22 @@ bool netif_rxq_has_mp(struct net_device *dev, unsigned int rxq_idx)
->  	return false;
->  }
+>  	if (map_type == BPF_MAP_TYPE_XSKMAP)
+>  		return __xdp_do_redirect_xsk(ri, dev, xdp, xdp_prog);
 >  
-> +bool netif_all_mps_have_cap(struct net_device *dev, u32 cap)
-> +{
-> +	const struct memory_provider_ops *ops;
-> +	unsigned int i;
+> -	return __xdp_do_redirect_frame(ri, dev, xdp_convert_buff_to_frame(xdp),
+> -				       xdp_prog);
+> +	if (likely(!xdp_buff_needs_copy(xdp)))
+> +		return __xdp_do_redirect_frame(ri, dev,
+> +					       xdp_convert_buff_to_frame(xdp),
+> +					       xdp_prog);
 > +
-> +	netdev_assert_locked_ops_compat(dev);
-> +
-> +	for (i = 0; i < dev->real_num_rx_queues; i++) {
-> +		ops = dev->_rx[i].mp_params.mp_ops;
-> +		if (ops && (ops->caps & cap) != cap)
-> +			return false;
+> +	/* Release the source only after the target took the copy. */
+> +	xdpf = xdp_copy_buff_to_frame(xdp);
+> +	err = __xdp_do_redirect_frame(ri, dev, xdpf, xdp_prog);
+> +	if (unlikely(err)) {
+> +		if (xdpf)
+> +			xdp_return_frame(xdpf);
+> +		return err;
 > +	}
 > +
-> +	return true;
-> +}
-> +
->  static int netdev_rx_queue_reconfig(struct net_device *dev,
->  				    unsigned int rxq_idx,
->  				    struct netdev_queue_config *qcfg_old,
-> @@ -189,6 +209,7 @@ static int __netif_mp_open_rxq(struct net_device *dev, unsigned int rxq_idx,
->  			       struct netlink_ext_ack *extack)
->  {
->  	const struct netdev_queue_mgmt_ops *qops = dev->queue_mgmt_ops;
-> +	bool unreadable = !(p->mp_ops->caps & MP_CAP_READABLE);
->  	struct netdev_queue_config qcfg[2];
->  	struct netdev_rx_queue *rxq;
->  	int ret;
-> @@ -196,16 +217,18 @@ static int __netif_mp_open_rxq(struct net_device *dev, unsigned int rxq_idx,
->  	if (!qops)
->  		return -EOPNOTSUPP;
+> +	xdp_return_buff(xdp);
+> +	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(xdp_do_redirect);
 >  
-> -	if (dev->cfg->hds_config != ETHTOOL_TCP_DATA_SPLIT_ENABLED) {
-> +	if (unreadable &&
-> +	    dev->cfg->hds_config != ETHTOOL_TCP_DATA_SPLIT_ENABLED) {
->  		NL_SET_ERR_MSG(extack, "tcp-data-split is disabled");
->  		return -EINVAL;
->  	}
-> -	if (dev->cfg->hds_thresh) {
-> +	if (unreadable && dev->cfg->hds_thresh) {
->  		NL_SET_ERR_MSG(extack, "hds-thresh is not zero");
->  		return -EINVAL;
->  	}
-> -	if (dev_xdp_prog_count(dev)) {
-> -		NL_SET_ERR_MSG(extack, "unable to custom memory provider to device with XDP program attached");
-> +	if (unreadable && dev_xdp_prog_count(dev)) {
-> +		NL_SET_ERR_MSG(extack,
-> +			       "unable to use unreadable memory provider with XDP program attached");
->  		return -EEXIST;
->  	}
->  	if (p->rx_page_size && !(qops->supported_params & QCFG_RX_PAGE_SIZE)) {
 > diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index d7c88c0b67e5..d88a3ea528d4 100644
+> index d88a3ea528d4..8237fda598ab 100644
 > --- a/net/core/page_pool.c
 > +++ b/net/core/page_pool.c
-> @@ -188,6 +188,29 @@ static void page_pool_struct_check(void)
+> @@ -34,6 +34,10 @@
+>  
+>  DEFINE_STATIC_KEY_FALSE(page_pool_mem_providers);
+>  
+> +/* Enabled while a pool of a provider without MP_CAP_RETAIN exists. */
+> +DEFINE_STATIC_KEY_FALSE(page_pool_restricted);
+> +EXPORT_SYMBOL(page_pool_restricted);
+> +
+>  #define DEFER_TIME (msecs_to_jiffies(1000))
+>  #define DEFER_WARN_INTERVAL (60 * HZ)
+>  
+> @@ -188,6 +192,28 @@ static void page_pool_struct_check(void)
 >  				    PAGE_POOL_FRAG_GROUP_ALIGN);
 >  }
 >  
-> +static int page_pool_select_mp(struct page_pool *pool,
-> +			       const struct pp_memory_provider_params *mpp)
+> +/**
+> + * netmem_can_retain() - may the stack keep @netmem after the RX poll
+> + * @netmem: netmem to check
+> + *
+> + * Context: the caller holds @netmem through its page pool. A plain page
+> + * reference does not keep the page in its pool.
+> + * Return: false if @netmem belongs to a memory provider without
+> + * MP_CAP_RETAIN.
+> + */
+> +bool netmem_can_retain(netmem_ref netmem)
 > +{
-> +	const struct memory_provider_ops *ops = mpp->mp_ops;
-> +	unsigned int flags = pool->slow.flags;
-> +	bool readable;
+> +	const struct memory_provider_ops *ops;
 > +
-> +	if (!ops)
-> +		return 0;
+> +	netmem = netmem_compound_head(netmem);
+> +	if (!netmem_is_pp(netmem))
+> +		return true;
 > +
-> +	readable = ops->caps & MP_CAP_READABLE;
-> +	if (flags & PP_FLAG_MEM_PROVIDER) {
-> +		if (!readable && !(flags & PP_FLAG_ALLOW_UNREADABLE_NETMEM))
-> +			return -EOPNOTSUPP;
-> +	} else if (readable) {
-> +		return 0;
-> +	}
-> +
-> +	pool->mp_priv = mpp->mp_priv;
-> +	pool->mp_ops = ops;
-> +	return 0;
+> +	ops = netmem_get_pp(netmem)->mp_ops;
+> +	return !ops || ops->caps & MP_CAP_RETAIN;
 > +}
+> +EXPORT_SYMBOL(netmem_can_retain);
 > +
->  static int page_pool_init(struct page_pool *pool,
->  			  const struct page_pool_params *params,
->  			  int cpuid)
-> @@ -272,12 +295,14 @@ static int page_pool_init(struct page_pool *pool,
+>  static int page_pool_select_mp(struct page_pool *pool,
+>  			       const struct pp_memory_provider_params *mpp)
+>  {
+> @@ -324,6 +350,8 @@ static int page_pool_init(struct page_pool *pool,
+>  		}
 >  
->  	xa_init_flags(&pool->dma_mapped, XA_FLAGS_ALLOC1);
->  
-> -	if (pool->slow.flags & PP_FLAG_ALLOW_UNREADABLE_NETMEM) {
-> +	if (pool->slow.flags & (PP_FLAG_MEM_PROVIDER |
-> +				PP_FLAG_ALLOW_UNREADABLE_NETMEM)) {
->  		netdev_assert_locked(pool->slow.netdev);
->  		rxq = __netif_get_rx_queue(pool->slow.netdev,
->  					   pool->slow.queue_idx);
-> -		pool->mp_priv = rxq->mp_params.mp_priv;
-> -		pool->mp_ops = rxq->mp_params.mp_ops;
-> +		err = page_pool_select_mp(pool, &rxq->mp_params);
-> +		if (err)
-> +			goto free_ptr_ring;
->  	}
+>  		static_branch_inc(&page_pool_mem_providers);
+> +		if (!(pool->mp_ops->caps & MP_CAP_RETAIN))
+> +			static_branch_inc(&page_pool_restricted);
+>  	} else if (pool->p.order > MAX_PAGE_ORDER) {
+>  		err = -EINVAL;
+>  		goto free_ptr_ring;
+> @@ -352,6 +380,8 @@ static void page_pool_uninit(struct page_pool *pool)
+>  #endif
 >  
 >  	if (pool->mp_ops) {
-> @@ -1070,6 +1095,9 @@ netmem_ref page_pool_alloc_frag_netmem(struct page_pool *pool,
->  	unsigned int max_size = PAGE_SIZE << pool->p.order;
->  	netmem_ref netmem = pool->frag_page;
+> +		if (!(pool->mp_ops->caps & MP_CAP_RETAIN))
+> +			static_branch_dec(&page_pool_restricted);
+>  		pool->mp_ops->destroy(pool);
+>  		static_branch_dec(&page_pool_mem_providers);
+>  	}
+> diff --git a/net/core/xdp.c b/net/core/xdp.c
+> index 1d679e8fd649..0cf46d492d91 100644
+> --- a/net/core/xdp.c
+> +++ b/net/core/xdp.c
+> @@ -23,6 +23,8 @@
+>  #include <trace/events/xdp.h>
+>  #include <net/xdp_sock_drv.h>
 >  
-
-[..]
-
-> +	if (static_branch_unlikely(&page_pool_mem_providers) &&
-> +	    WARN_ON_ONCE(!page_pool_supports_frag(pool)))
-> +		return 0;
->  	if (WARN_ON(size > max_size))
->  		return 0;
+> +#include "dev.h"
+> +
+>  #define REG_STATE_NEW		0x0
+>  #define REG_STATE_REGISTERED	0x1
+>  #define REG_STATE_UNREGISTERED	0x2
+> @@ -559,10 +561,41 @@ void xdp_return_buff(struct xdp_buff *xdp)
+>  			     xdp->rxq->mem.type, true, xdp);
 >  
+>  out:
+> -	__xdp_return(virt_to_netmem(xdp->data), xdp->rxq->mem.type, true, xdp);
+> +	__xdp_return(xdp_buff_head_netmem(xdp), xdp->rxq->mem.type, true, xdp);
+>  }
+>  EXPORT_SYMBOL_GPL(xdp_return_buff);
+>  
+> +bool __xdp_buff_needs_copy(const struct xdp_buff *xdp)
+> +{
+> +	const struct skb_shared_info *sinfo;
+> +	u32 i;
+> +
+> +	/* Provider buffers come only from page pool queues */
+> +	if (xdp->rxq->mem.type != MEM_TYPE_PAGE_POOL)
+> +		return false;
+> +	if (!netmem_can_retain(xdp_buff_head_netmem(xdp)))
+> +		return true;
+> +	if (likely(!xdp_buff_has_frags(xdp)))
+> +		return false;
+> +
+> +	sinfo = xdp_get_shared_info_from_buff(xdp);
+> +	for (i = 0; i < sinfo->nr_frags; i++) {
+> +		if (!netmem_can_retain(skb_frag_netmem(&sinfo->frags[i])))
+> +			return true;
 
-What's the deal with that? How do we get here?
+Do we want/need to go that deep? Can we have a skb-like assumptions that
+mixing retain and non-retain in the same shinfo is not allowed?
