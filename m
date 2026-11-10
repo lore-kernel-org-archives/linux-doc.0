@@ -1,123 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794342269;
-	b=SHuFgc1adDyIeMYI51lDfqHh/7JwZREDxkcUFI9m00jPuOywu1w7cvBSik2n3FRkZwus
-	 E2o75nslBTUmr16gM1VeOjQTbqRNUR60S0LVu8ru3nE9E1BN9qVkwi2MRZuEp4yNFlBcc
-	 Z3/Wy0ZlXq6e8hDKQeh2Mf5dmMmqVzemDRn4nigvtlCtdYwlLea/8JEfIgs22syV84abv
-	 zxhNK4tv6LCghUuBjukw+4u0f4SBis9WewT0Sa7ah6a82+HmUCRAOjTNIca1Hyf0bhK0l
-	 rM/loD9as541BIEXFJpw2cR0CyC631T6yTR8Rg3qhzXagqCSNiZahyLmCvI7jsuhY/A==
+	t=1794342803;
+	b=j30UC/Y1s+/nOJgdyx+64H0FQLijoOnSM8iyzIpfXlGiGMsMrBfmZI/Bimvk5PkjS6Ww
+	 w509GulDPoEbtX/CTc5oqWvM0Vij88HHIlwgBWLY+mRB67PquGE2366XNa5Ga/jqngO96
+	 1KYSPSzz48/7PoJo6R7NnrmMx0OW4UYyR5RKAWa0fbSz80Wu189RI8tNWtjYyZaTy0wTU
+	 UNHsebHKr3JA4AuCYyDTgaKSFeXsot88qnDLgIE8vzZL4LfEo35OATftW74lXtrJ2QMmf
+	 GjGhkpFqyKr/EP5yZ3mr+SGjeeEAzfBdRUYyLYWEeTMwYRJ1XAUHU/rrTPM7whATIIA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794342269;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=NNWkhMM9mRV69+bDPtzO7ZmhT8HSmB461wMg2BUz4JA=;
-	b=rHGefoSFBkoW6xam8dFn+5d7OVNaInboxhZnuFXokffrZ3jnnC0D/sLRk1+hfuaOOTAj
-	 ZlVbpaYJEetM6D1aWtTH94aLdQglpxorklTuOrkuGpXe21rPQmFm1eo1Biqq2FVPiw8PQ
-	 1kZPTqssITB+MoqCDEYRBX/TemKLuCCivrZPgJXT/ogZOI1l5Ybt5YpdZ8fzD+cWvxoOb
-	 hN1Q4DDJJm0nuOXsCtUJR36NrGMKqL42hYtuER6IwY5kHhFuxj+E/+0tY5zqY7ZcVoDGY
-	 RjvibvMxHfKEufLO6nwgmg8f3sa7poSHDb/se0xp3lqTuPJHUd7s7fZx5kjIbaPKmkA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794342803;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=qgTKR/FH4Odf9egaKgFSB+FS6DwQ8nI7QRh2NSJgel8=;
+	b=sbjJoV7p0E2P4JbkM6dlDtZiK+c3evsWUutouaV8QwC0/IGDxPW9fCGsbC8+V2nd//Qq
+	 bdX5fbl99NqcWAcXmokPVqjy9ZDbSqnfJXpdtG8Nmiqq6IYFSqIJZZv+Va2yGArVwS2ES
+	 H3yHNFN5ckoauSNxHwT+rpWweRhX9HHXyaRKY5mIB/UPdn3wuR8z3/YKojhWvJwjOhI3y
+	 DH6atMab9OKYR2lV7F587OnErq67FI8MUc/OhanYnYOyb7ze142HlxdIhkn8pBNFvBVjL
+	 z6ASEJgwTutqHjoCikrRZhBP82JrZuKMAm7xgm8CEhx67ga79Ncm9FTNxhYM8Np338A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=armoriq.io;
-	spf=pass smtp.mailfrom=armoriq.io;
-	dkim=pass header.d=armoriq-io.20260707.gappssmtp.com header.i=@armoriq-io.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=jcqBjeP9;
-	arc=none smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=jVEX0cPa;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=xZ1GCxt8;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DE44606A325
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 20:24:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1DE44606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=armoriq.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=armoriq.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBF7606A32E;
+	Tue, 10 Nov 2026 20:33:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EBF7606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armoriq-io.20260707.gappssmtp.com header.i=@armoriq-io.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=jcqBjeP9
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so4876639eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 12:24:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=armoriq-io.20260707.gappssmtp.com; s=20260707; t=1794342268; x=1794947068; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=NNWkhMM9mRV69+bDPtzO7ZmhT8HSmB461wMg2BUz4JA=;
-        b=jcqBjeP9L1xp1JklGYM0b1vT5HG9543QwujHEfMVyjAPCMy1Z6a2WjLK/Tl762SFJi
-         UfnBKtuHG7xIgvrcmWziQRbrx3Rl1pipPKXO3jAvVYOuhTQKXa2xyePhgc4jFBdyGKJV
-         0OveURAQ+4+DKhtsqgMTu+6eiAg5d3BIrjSN4zl8G6KMfMYX5zo9p94MxmLBvOVFsjat
-         FFEeM3SLOz7sUsMavU/8NkBT/oDHo1q+OEuEgBY5m1b8YIWPzvPr9EZWFUkvsmeruKGp
-         RdTI4f0y9C5oqjnmTfd+7FvunT0vn04W+FqOHN0fvZf8UAAhYAx3SKfSg8Jit5ew2VTt
-         +WMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794342268; x=1794947068;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NNWkhMM9mRV69+bDPtzO7ZmhT8HSmB461wMg2BUz4JA=;
-        b=hnTdMNrAxRBrN99ck/rVUHg2z8fGX+WuNEBwOMu9O3hjzwuZVWjRU3CCiB4/6PSzNS
-         SQRf/U4SyZ4vwVmZRX1UZQQqW1hBpXK++l+Bu+ujDp+diCE0GjhtcTn3rPSvSfOnn8bf
-         RflSy8Ztyo7lHN6nX3+B7B5KwPoIb0IktcmoH4XLq7rbEzxjFd6OYDwde/WYCUkeezLh
-         RJ9jF02YaUq86IyNbMp55+wxtboCjLdq5jniag0NEYFFOp2xQ5PrkSNtXmX7Mg5xJui/
-         Tc1WOY1a/8tat7Robyq1bKD6lI08JWGeavlzlP3cqj1rTZ9LXV3NNwYiPiaGyiVQb++5
-         yQHQ==
-X-Forwarded-Encrypted: i=1; AL+hErFvm02YcPiUFDOyhbd8HOVyVM4pmYWriek/VRfPe0Eq+WvEago0tEmTMVG6tcb8izR1XzNMD96qpgI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/vgTnfkhKdCsZmGJUh5ssdqV+35Sw5ED9wV8HV10jdbHA+bNN2
-	G3cNbaR15LvFpgMKHNxdBKQT4Fm1GscWoAnyNNY5Y6rkqzskLPdOvBHwMx2OPzOORA8Z
-X-Gm-Gg: AYBFou2MEFhf9VKX65vt5HKbz8ImeNg18DSbqcO+ieD55bBQhb8oSgQko1fzPPId4PJ
-	RV9CyY3UU6KDmrl7JmATxh0u+j/+sbS+x6lMk7KZ1qe6qlGk4rjZPOBDQW9VZbxcQHTMbvCnFeq
-	p5VxO4ooJB6yGxwFb5VzexPdoc4gpp93mbfQE+FORy6ILArOoetT1aFt8zR+4J+BeVKsiGezjFa
-	DDZA9eUA/v3sDJOrSScHceJNwWyviMVVZcHuLI5sJrQRZITm9bz1617YvC++86mtOhApv1L7wni
-	vubJ5IKH+aiBngJWE37CYiZZ64XGzYJGwXePLN759UKgwYaV9eH2x6CdGKO96cSi399emzmnjOZ
-	Tz9qIr15X+oNGBlnHRwKyY4uKifm69mWxdctvU9QKfW1CK5mELw5TNmoqfzU9j+2HTGqYHyTt7i
-	oR6QdlRIzYmq98rOEg0phMSg1MjXxLuszXC2E4jx3hw3BNXuYY0IfWXE+wSTTIyBxSn3xedmKyA
-	ac2KJj2cZGK2xLXRgLdSkvo+ws2AQXXjsPuqsN92g0FchHMnqkE6UlXc6X1Cez2PwiEFtPWn4iX
-	hqnCWw8C02qWVdTCu2yV0eJceLbCrzEzLPL8Br7zoQX+vIxEHD4Tg+oO3IHhi7jr6BNKQRF0wYa
-	PNPCW3rmRTrAjeKWxZL8GoOLt1Qpz7zNmBZYyhCLEh0/Ra4JJ1JjL4g==
-X-Received: by 2002:a05:7301:488f:b0:376:2859:5b2f with SMTP id 5a478bee46e88-3768675d705mr516619eec.25.1794342268101;
-        Tue, 10 Nov 2026 12:24:28 -0800 (PST)
-Received: from localhost.localdomain ([2409:40f4:147:2742:6545:702a:2431:7dca])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37520cfe29fsm10076615eec.21.2026.11.10.12.24.17
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 10 Nov 2026 12:24:27 -0800 (PST)
-From: "HARIHARA SUDHAN. R" <harisudhan@armoriq.io>
-To: linux-kernel@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Paul Moore <paul@paul-moore.com>,
-	Kees Cook <kees@kernel.org>,
-	James Morris <jmorris@namei.org>,
-	"Serge E . Hallyn" <serge@hallyn.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=jVEX0cPa;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=xZ1GCxt8
+Date: Tue, 10 Nov 2026 21:33:19 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794342801;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qgTKR/FH4Odf9egaKgFSB+FS6DwQ8nI7QRh2NSJgel8=;
+	b=jVEX0cPaFlxBvXXYB+czWXU0erwrtCmM9sZLs2Jutu1xrqpXv74ZeYtvcuTH9LD1ucheWf
+	Py97rMQTsPY+RrY58menLGqg3D1FDnxbK2zfZVNdPOirKdGADSkZY4WKobTGHI/0BsSB3V
+	/TLozkp8CsNxdoleX6QSP/NF0C/GuoEjQBShzwtRM0k3QqEvqASYTC4pUbbHJgpCMn+l9c
+	IwO7zOZXekYsQs7zalsF1MnOz9hSVuEX7N8fVIQI8xG7rRIUbwBeoBhDNq5yICLG7lh4zU
+	hxjEKJhlIUz1TfWpGy41TszdPWqyZ8OEqwCN6qnPr0zlx9xB7FZ7wSgi1TJGJA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794342801;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=qgTKR/FH4Odf9egaKgFSB+FS6DwQ8nI7QRh2NSJgel8=;
+	b=xZ1GCxt8tXPmk0qC3Z9b5l/3G6MLfqduPjTEaxGwM53vrt+Vd6ThsS59PMscr5/gCB/Wfm
+	cW9W/KDf5TsTZqCQ==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Julian Braha <julianbraha@gmail.com>
+Cc: Clark Williams <clrkwllms@kernel.org>,
 	Steven Rostedt <rostedt@goodmis.org>,
-	"Liam R . Howlett" <liam@infradead.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Ben Segall <bsegall@google.com>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ketan Bhardwaj <ketan@armoriq.io>,
-	bpf@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	"HARIHARA SUDHAN . R" <harisudhan@armoriq.io>
-Subject: [RFC PATCH v3 6/6] MAINTAINERS: add an entry for the Kernel Assurance Plane
-Date: Wed, 11 Nov 2026 01:52:46 +0530
-Message-ID: <20261110202246.274-7-harisudhan@armoriq.io>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261110202246.274-1-harisudhan@armoriq.io>
-References: <20261110202246.274-1-harisudhan@armoriq.io>
+	Ingo Molnar <mingo@redhat.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, arighi@nvidia.com
+Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
+Message-ID: <avN_juQm3x30nP2n@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
+ <avHroNa1vcxmCIOs@lx-t490>
+ <c0ccddbc-539c-4987-8685-ec996285f746@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -127,39 +89,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c0ccddbc-539c-4987-8685-ec996285f746@gmail.com>
 
-Add the KAP maintainers and the files they look after.
+On Tue, 10 Nov 2026, Julian Braha wrote:
+>
+> Yeah, Annotations also supports generation with --export.
+>
+> But it does support validating a config with a policy using --check [1]
+>
 
-Assisted-by: Claude
-Co-developed-by: Ketan Bhardwaj <ketan@armoriq.io>
-Signed-off-by: Ketan Bhardwaj <ketan@armoriq.io>
-Signed-off-by: HARIHARA SUDHAN. R <harisudhan@armoriq.io>
----
- MAINTAINERS | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+I see.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f53047a..0946d15 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14118,6 +14118,16 @@ W:	https://linuxtv.org
- T:	git git://linuxtv.org/media.git
- F:	drivers/media/radio/radio-keene*
- 
-+KERNEL ASSURANCE PLANE (KAP)
-+M:	Ketan Bhardwaj <ketan@armoriq.io>
-+M:	HARIHARA SUDHAN. R <harisudhan@armoriq.io>
-+L:	linux-security-module@vger.kernel.org
-+S:	Supported
-+F:	Documentation/ABI/testing/securityfs-kap
-+F:	Documentation/security/kap.rst
-+F:	include/linux/kap.h
-+F:	security/kap/
-+
- KERNEL AUTOMOUNTER
- M:	Ian Kent <raven@themaw.net>
- L:	autofs@vger.kernel.org
--- 
-2.53.0
+> Anyway, the point was to provide context for the maintainers that this
+> problem is bigger than PREEMPT_RT. I want to see this functionality /
+> your tool in upstream.
 
+Thank you, and I apologize for my defensiveness.
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
