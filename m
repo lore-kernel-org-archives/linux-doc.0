@@ -1,77 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794296753;
-	b=AgbXN9wMaiVfcd41MMRoSLC2ACE6ZdMGxjsgSaLbwn5Xijggo2x8ryucdpmHmUTJDkGa
-	 azXEKuxw6Cf8OW/dKQl2pQ6UHiWLQubvzICcqzlZPDZ2uz99J2RbaB1hJeIhLgIlr1sT7
-	 SQzioW8izpEEuHDFgK3JWpr1vMKaByByTrpWq4oDDQ/BaQKiUPEvdqQYRkCe3NvToGSbR
-	 b9wpmupGYOb147nRDRAw0XDe/r9IAN4M5qyAjpmo1R5SVHGXWMibSq0Q7kkGpttiyjIMR
-	 zdTPLvoEmEFOjf8e0udN+yCu7GR2SfSPvpj8I2gEjRtyM6cTEA0jBdlhzheNFfZmFog==
+	t=1794298781;
+	b=HDbueLg/z9ScI8Cc3ugxOUudRh/AZvC94jgH/3Jg3rUYENCQGv0QYhXAd7IFx62fv1RI
+	 0IQ40sFoD7vZucqTWI/ceE+9i8cqcmnCjnmIy2RSq56efInQ/ut9wdxSCoNf8buaG+nPq
+	 dZe+4C8lUsH1b76NX5w+2CT/daAOWdCf7aIyLb+B+eIaqgkzkhDZfMRnBYZUlijhLsCqI
+	 y6b9zTVJlRB+dHffqm0KOAnA4H3uhDm+KaVvoPaz++qLqvlZZ77kSWXEY+u58XyWo2mgW
+	 Ly4IZIFE71blkBTrUEmtwAcqQdKnKrWf4i3ebeej8zvtduEkgrKS3nS/A27pw+OsV1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794296753;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=97mnfbHxocAhpCaQIusVnq6M8kRtn24K9aSi/cKW7BI=;
-	b=0uwjccl40tzwFaTz8WAqdchMMKXINmw3Dbsxazq2MJaCx+yw/wMM6XxOEYyhIwvozUeI
-	 Dcc7uGtMy9+44r6efq+qwOrgEIiN22xtOl5cQp/5RPfKQO0KCQEi9GYBv74T6+JG5fVUl
-	 XgVy/OSTfVKOAmh5Y6DA81ZkiNnhyXpT99XcI6VDz0Rhjec+JRorbqWf4mvUz228Vl10h
-	 6haME1HNmPd9ubwZIU3nnyczMSq1wiUWQu4FBUnXaHYLPagSwNTCW7QVLeV4lCNchs4cZ
-	 3AofUSWcefECzkaJ8GRFnyh6Nhnk39Aag5vQeysT+1sNrPEAHbusavYQm2iQ+vEEGmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794298781;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=RyGS5BYQsgIK0f3SZKWntgu4dy9J/rSB7/HXNadBGz8=;
+	b=ilIXhppFuw08w2W1FH0M/7ndGKTstVRhYLoZF+gd0RXZhydGt+A0YoPmEGGDOX6oU+Kw
+	 4HCpqbVAfpeUVLQnnF/w0BVwhe4j3lyb2OCjWhUE58d5QJMwISvl4TzfQIyv6eyoM3aGV
+	 oSSTnZ1uO+SnZxgWz0/SGWUdpLUEIwiEUMG28W46lSLU0QGEPgWD79mSWrO5tlVCt3wRk
+	 XaxKoXqjaxlBJ4D6BABNnlHfn8MT6+sTG+dfoSYcMHQt7Sv2SqXr65i/s2JtSNwQhnJ4Y
+	 BRd9NWnZc/AYc0yBvYxGJSBIr8kHYvm68RTlpek25wuBW+D55QqU0CtZyFp1/hGIAag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CGkBLCdy;
-	arc=none smtp.remote-ip=91.218.175.2
-Received: from mta0.migadu.com (out-2.mta0.migadu.com [91.218.175.2])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36D5F606A573
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:45:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36D5F606A573
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="uy/4Vzm5";
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35FA8606A330;
+	Tue, 10 Nov 2026 08:19:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 35FA8606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=CGkBLCdy
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=1opsdpS+bzNavYjufxeQTvMtfH316Seppf9uslprEeo=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794296750; v=1; x=1794901550;
- b=CGkBLCdyeAdmRQaMpYwOsFXQLR9CJ6tNn0SgokvVmqCHlrJNmlAeu0kPYyUKT7nJ2O+nRkEN
- xbm8PFIKoHAso4/v468DBUq8GxVQhz8qFDOOVXo3k9ax9eBrq9KLzP8HiPX/P9BE2cf80gcQ2b2
- 3Mye2KctND06Vm86NdcDvAP0=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta10.migadu.com with ESMTPS id 8b40bb022d5288ba;
-	Tue, 10 Nov 2026 07:45:50 +0000
-X-Mizu-Trace-ID: 8b40bb022d5288ba
-X-Migadu-Flow: FLOW_OUT
-From: "Xu Xin (vivo)" <xu.xin@linux.dev>
-To: xu.xin@linux.dev
-Cc: akpm@linux-foundation.org,
-	chengming.zhou@linux.dev,
-	corbet@lwn.net,
-	david@kernel.org,
-	link@vivo.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	ljs@kernel.org,
-	odys.yuan@gmail.com,
-	rppt@kernel.org,
-	surenb@google.com,
-	tujinjiang@huawei.com,
-	vbabka@kernel.org,
-	xiao.wang@vivo.com
-Subject: [PATCH 4/4] selftests/ksm: add test for only_merge_zero_pages
-Date: Tue, 10 Nov 2026 15:44:51 +0800
-Message-Id: <20261110074451.220524-4-xu.xin@linux.dev>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261110074451.220524-1-xu.xin@linux.dev>
-References: <20261110074312.219847-1-xu.xin@linux.dev>
- <20261110074451.220524-1-xu.xin@linux.dev>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=uy/4Vzm5
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35E851516;
+	Tue, 10 Nov 2026 00:19:35 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 13B6F3F85F;
+	Tue, 10 Nov 2026 00:19:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794298778; bh=ylG4St2aJ0VmW2ktR8NjqrmUljZZyPC2qz7U+ukHujw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uy/4Vzm5LDCZlKDKG5l1x/8xmaojsxT1a3TtNv2PeVPUz1aDBNZmmO4CPoT2426OG
+	 bVhM1ePo8CDGr+jaVsc26knbdY86TVpU9bwEmgHiczkZwj8OBUH1i8IjZfhMtNWTtx
+	 fyFOGnXcW+l903eZ3/xC5t8UL3JnPQNJ9gZqBDZw=
+Date: Tue, 10 Nov 2026 08:19:28 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 01/35] firmware: arm_scmi: Harden iterators state
+ parsing
+Message-ID: <avLTkAtQQSzpgu2A@pluto>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+ <20261109091221.2532706-2-cristian.marussi@arm.com>
+ <20261109135713.000049d6@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,162 +70,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109135713.000049d6@oss.qualcomm.com>
 
-Add a functional test that enables use_zero_pages and
-only_merge_zero_pages, maps a 2 MiB region with the first half filled
-with non-zero data and the second half with zeroes, and verifies that
-after KSM scanning reaches steady state:
+On Mon, Nov 09, 2026 at 01:57:13PM -0800, Jonathan Cameron wrote:
+> On Mon,  9 Nov 2026 09:11:47 +0000
+> Cristian Marussi <cristian.marussi@arm.com> wrote:
+> 
+> > Add checks in the core multi-part iterators support to detect generally
+> > malformed and incosistent multi-part replies.
+> 
+> Spell check patch descriptions.  inconsistent.
 
-  - ksm_zero_pages equals the zero half (merged with the kernel zero
-    page)
-  - ksm_merging_pages is 0 (non-zero pages never reach the stable tree)
-  - ksm_rmap_items is 0 (non-zero pages are skipped before rmap_item
-    allocation, and the zero pages' rmap_items are freed once a scan
-    finds the merged pages are no longer anonymous)
+Ah...checkpatch let me down another time
 
-The test skips if the only_merge_zero_pages attribute is absent.
+> 
+> Otherwise seems fine but I'm too lazy to check all existing protocols for
+> that minimum size!
+>
 
-Signed-off-by: Xu Xin (vivo) <xu.xin@linux.dev>
----
- .../selftests/mm/ksm_functional_tests.c       | 117 ++++++++++++++++++
- 1 file changed, 117 insertions(+)
-
-diff --git a/tools/testing/selftests/mm/ksm_functional_tests.c b/tools/testing/selftests/mm/ksm_functional_tests.c
-index 2ffb97ae3120..764ead3425cb 100644
---- a/tools/testing/selftests/mm/ksm_functional_tests.c
-+++ b/tools/testing/selftests/mm/ksm_functional_tests.c
-@@ -257,6 +257,122 @@ static void test_unmerge_zero_pages(void)
- 	munmap(map, size);
- }
+Indeed I was too lazy to add a dedicated parameter to all the call-sites
+so I verified that any possible standard/vendor protocol has that
+minimum size as of now, since in fcat it is the minimum viable payload
+needed to hold num_returned/num_remanining...if any future spec will
+change this we'll evolve accordingly/...for now it is the simplest
+approach (and kills a lot of Sashiko complaints scattered all over :P)
  
-+/*
-+ * Enable or disable /sys/kernel/mm/ksm/only_merge_zero_pages. Returns 0 on
-+ * success, -errno on failure.
-+ */
-+static int ksm_set_only_merge_zero_pages(int enable)
-+{
-+	int fd;
-+	ssize_t ret;
-+
-+	fd = open("/sys/kernel/mm/ksm/only_merge_zero_pages", O_RDWR);
-+	if (fd < 0)
-+		return -errno;
-+
-+	ret = write(fd, enable ? "1" : "0", 1);
-+	close(fd);
-+	return ret == 1 ? 0 : -errno;
-+}
-+
-+static void test_only_merge_zero_pages(void)
-+{
-+	const unsigned int size = 2 * MiB;
-+	const unsigned int half = size / 2;
-+	const unsigned int half_pages = half / pagesize;
-+	char *map;
-+	int i;
-+	long zero_pages, merging_pages, rmap_items;
-+
-+	ksft_print_msg("[RUN] %s\n", __func__);
-+
-+	if (ksm_use_zero_pages() < 0) {
-+		ksft_test_result_skip("write /sys/kernel/mm/ksm/use_zero_pages failed\n");
-+		return;
-+	}
-+	if (ksm_set_only_merge_zero_pages(1) < 0) {
-+		ksft_test_result_skip("write /sys/kernel/mm/ksm/only_merge_zero_pages failed\n");
-+		return;
-+	}
-+
-+	/* Stabilize accounting by disabling KSM completely. */
-+	if (ksm_stop() < 0) {
-+		ksft_test_result_fail("Disabling (unmerging) KSM failed\n");
-+		goto restore;
-+	}
-+
-+	map = mmap(NULL, size, PROT_READ | PROT_WRITE,
-+		   MAP_PRIVATE | MAP_ANON, -1, 0);
-+	if (map == MAP_FAILED) {
-+		ksft_test_result_fail("mmap() failed\n");
-+		goto restore;
-+	}
-+
-+	/* Don't use THP. Ignore if THP are not around on a kernel. */
-+	if (madvise(map, size, MADV_NOHUGEPAGE) && errno != EINVAL) {
-+		ksft_test_result_fail("MADV_NOHUGEPAGE failed\n");
-+		goto unmap;
-+	}
-+
-+	/*
-+	 * Fill the first half with non-zero data (all 0x01) and the second
-+	 * half with zeroes. Under only_merge_zero_pages the zero half should
-+	 * be merged with the kernel zero page, while the non-zero half must be
-+	 * skipped entirely (no rmap_item allocated, no stable-tree insertion).
-+	 */
-+	memset(map, 0x01, half);
-+	memset(map + half, 0x00, half);
-+
-+	if (madvise(map, size, MADV_MERGEABLE)) {
-+		ksft_test_result_fail("MADV_MERGEABLE failed\n");
-+		goto unmap;
-+	}
-+
-+	/*
-+	 * Run KSM until steady state. Each ksm_start() waits for two full
-+	 * scans: the first records the checksums, the second merges the zero
-+	 * half with the kernel zero page. The second ksm_start() waits for
-+	 * more scans so that the rmap_items of the (now merged, no longer
-+	 * anonymous) zero pages are freed and ksm_rmap_items settles at 0.
-+	 */
-+	for (i = 0; i < 2; i++) {
-+		if (ksm_start() < 0) {
-+			ksft_test_result_fail("Running KSM failed\n");
-+			goto unmap;
-+		}
-+	}
-+
-+	/*
-+	 * Expected results (steady state):
-+	 *  - ksm_zero_pages: the zero half (size/2 pages) is merged with the
-+	 *    kernel zero page.
-+	 *  - ksm_merging_pages: 0, because the non-zero half is skipped before
-+	 *    it can reach the stable tree, and zero pages are accounted in
-+	 *    ksm_zero_pages, not ksm_merging_pages.
-+	 *  - ksm_rmap_items: 0. The non-zero half is skipped before
-+	 *    get_next_rmap_item(), so it never allocates an rmap_item; and the
-+	 *    zero half's rmap_items are freed once a scan finds the (now
-+	 *    merged) pages are no longer anonymous.
-+	 */
-+	zero_pages = ksm_get_self_stat("ksm_zero_pages");
-+	merging_pages = ksm_get_self_stat("ksm_merging_pages");
-+	rmap_items = ksm_get_self_stat("ksm_rmap_items");
-+
-+	ksft_print_msg("ksm_zero_pages=%ld ksm_merging_pages=%ld ksm_rmap_items=%ld"
-+		       " (expected %u/0/0)\n", zero_pages, merging_pages, rmap_items,
-+		       half_pages);
-+
-+	ksft_test_result(zero_pages == half_pages && merging_pages == 0 &&
-+			 rmap_items == 0, "only_merge_zero_pages: zero half merged, "
-+			 "non-zero half skipped\n");
-+
-+unmap:
-+	ksm_stop();
-+	munmap(map, size);
-+restore:
-+	ksm_set_only_merge_zero_pages(0);
-+}
-+
- static void test_unmerge_discarded(void)
- {
- 	const unsigned int size = 2 * MiB;
-@@ -827,6 +943,7 @@ int main(int argc, char **argv)
- 
- 	test_unmerge();
- 	test_unmerge_zero_pages();
-+	test_only_merge_zero_pages();
- 	test_unmerge_discarded();
- #ifdef __NR_userfaultfd
- 	test_unmerge_uffd_wp();
--- 
-2.34.1
-
+Thanks,
+Cristian
