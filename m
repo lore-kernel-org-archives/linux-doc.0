@@ -1,114 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.90.104.144
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794316936;
-	b=DygTUeiUie2+1ysnkJ/+U7J4OzIHEAhFhd4m6ao5Qe0mcxZNz8LaIFcCLyVK3lKHyj+u
-	 Vt+mWgnsV8D3JCpd4KFgzhk32MpbE454M9+YI9ZjhNLgNCETfITbZKIIhBDie1FZwAXeJ
-	 zcIgv4WRCQYksj60Zchhrzow+6EaOmKX2X3jjArc2Vq1Z/LZm6oNCx+LNK9v0ou1caWvb
-	 /TQZsdrNFic4gEm3hvWTpSRzgsvVljYWWh15PQfFhrwCUDhzKoLm05vC8k0dkGO5yGZ2B
-	 iD4oNGLhRKmYzSphI4ijtB6iuRKEB+ZixSU2SbwrDmyk+I0RXd5yXQLTF0B8La7zmhw==
+	t=1794316982;
+	b=uPSTIAkVLZbmUquDrEWGTpfjbHSXmiDnoqh3uQuGNtppaaGOyrjtPCrdmrWTHG0eVlmO
+	 faHNDpmx2RTOLUSm4QFdnpuSKSMliBL6x/JKjk7TIm3ihEKb7dS22hIbJhN56Rv9cg35L
+	 0aUUZmuE6Gw6xRiB3i+ayNbk1OJybxpLneYm/iq6X5xjmVlL0Djiw6ZHeBEhiLwIyFpIn
+	 5VObIuWB8mWTRh4c+FZ2K/VmRvva+gh94LZhKwdbwkbuYTGreeA+Apl0rTs6hI6CRjgng
+	 spvwhl82p7ee+BpzgPUcX3ojrRcH/k7IPZRIYdHDQcDDPUJYPQCbnB/MN1rrYPrnSRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794316936;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=1D2OMakjENy2CCg5zoH16kIpqUwoSYvl8dD8pwUKqpo=;
-	b=PyOxWVbz9yLwmgXJEfa4Yia8EdVgzi1sxsgC+sCltOmAUG7+dRgpklxs3WYvvp+H1fou
-	 aY3G2ee/BnJPEYAVRIpR200E5IqH4UIi+t2tZPkL24kdFm4B9mngs6WQiGu7OtK0Kjwyt
-	 wKW7QgKdScUwijrU9kfzNBzej4GR92gr978PqGn2aBZ16uKA2c6+dyZjK3BmObsRoEbOr
-	 K/1ShBTvghk4y+kPffAfpP2276pwoFgRysl80P1tVoMuIROMIp4i6kPAISpZvzNlkVOoj
-	 57YK7VVxk9EWJgyO7RIIVk+BPXGeI48eHmhzMKB10D3s0M3BqAiEgo+RLwa+A5NddVA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794316982;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-Amp-Result:X-Amp-File-Uploaded:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:Received:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
+	 In-Reply-To:To:Cc:X-Mailer;
+	bh=y2cdaINOWN6BB46Q7wwKG1TihseiJncktr/TfMMhw0g=;
+	b=k2jabjiCepLJFiiC4sOfZiSmTvyuEKW8iam3StOCkfccbK3a67oR79rX3fiwyyaYcv/Y
+	 NzZe8w9Q8WRBCIUSoz/RGtRnFa0+TCKUFJoBMk6g7ymtNfGhaLQ9MjDP2ABBMUPzGEaYq
+	 VlWWULTI2O4ReL8bv2o5XXO4AXYeSK7at7hvSJJEbfs5XuYQDzU3vI/O2YfUfLGaeNmJr
+	 ccHPvZ4a+UpuNx0ZDogfy3EMMsahP9urLZsZjWFGXTPkzrIgpe4ZFP4tihhbBEK2dRL+D
+	 iCJ8T1vuwa73LdXjdlk5E1a636dvfFDx5nQAVR10dXHKfSaiLzbfk+cJdQsGQg4Nbuw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Th590W8O;
-	arc=none smtp.remote-ip=209.85.214.182
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C88606A75C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 13:22:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1C88606A75C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Th590W8O
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2e940d5d2beso7563545ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 05:22:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794316935; x=1794921735; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1D2OMakjENy2CCg5zoH16kIpqUwoSYvl8dD8pwUKqpo=;
-        b=Th590W8OG5dZUoLPtRCpkWnbFR/BORsCeoqr8ft7J/tMy9HArk8fsPjdhUxmcy0gk1
-         iKacQCT8jgGWg6BIOfa5pYndrgNqoHPgFCgN8kL+CqI0lF2dzkFNuuSA/3eAbdgp2rWP
-         ieCYGoCs0G7mgDu6neM1o5tH5H2br8TMW51chw8CxBM39TkTEfLhHDiTwYP5mdKR/aQL
-         YnhSHEqCV3874Pb6m6Et6KN7JGxF708PTrBarJF7+uLlM3ZxoB/XyA3eK2OjsAf+U+xG
-         c932JRmZsvqYUVZLuiWf7RAlfSR2IzVgOqyTYbfl+vsChtORVby1OdpVPNVZQ71N9E2c
-         qocg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794316935; x=1794921735;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1D2OMakjENy2CCg5zoH16kIpqUwoSYvl8dD8pwUKqpo=;
-        b=dMtzZWq5EgthK+NmtZo12f6Zwl5JGiyo1n6TlWL7yqMbHT+kUGcEzMqTN9iinLBq37
-         hXQPC2HZT0GibXaS9xufBTGlFvCXfBOBR9XCLUyF1TPAE3aMYXsatCWxcGXVjRyZvM2Y
-         GLwRYqyx3/P059hK9XWEfXZZXO+0cNZNUXMKZF8dCajfW0ID8oHrXr4hJbAd7Zps34UL
-         GU+3eTZ7QXZDbEmiqKK908XKTvcFpXA4aubUoPK8b7EZJin2KcD5RyEE2nxEfPoIayoy
-         JM+d0DW9IxhyP9JbysmF5IQqJ6+NXnmfN1R2OL1JLLJVn2dDkDZOpiuzqBTNHq9ZaXFx
-         fbfw==
-X-Forwarded-Encrypted: i=1; AL+hErGTRfF7u5NmyzoUPdTHz1uYQwJsDbz+5wa/bKmNmUhwYkcL7RvAjoIg6Kj/j7g8abybiTJe6Ths/z4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+YM5kmaHGQtaQHl4f+rBVRV2JmpqfH7H03cA70ZFeCYNzcQ93D
-	EESDglgoOrxUQDuZGBgd0so+NqHVdC79V+l5y3zXzINcgnpN5C8qeunZ
-X-Gm-Gg: AYBFou0u/xw0r+Pyx0hnQk5ew0gY3xYJ5TOlD6KkHf+UlFhHbo2luj1mE0634bY4Pjb
-	kWCTPOLRsUdPvY41DlJg5oBZAAzyQZSPeYqrSUmgzq5JvfCTfZkKnZh26jkXjrZW8ID3CArGQtX
-	1kUUl/9YavN0CqqcRlDD3tfK3Gxfscj4SPSfCae6Y16t0/SLemCDcXdccN8YyUbB3rz0RqrbtVO
-	635HO+1peVQue49w0Exjm8LTF/Ovbvd86YLW8qP/AHlRTqIgx7/s91UeQQnFALwAlAgvTW86INo
-	7v5E3JbMgyPCgRAu3oHr/Kb6yLIV1Fnd/YMaAwLFScdq1dCQ7MrY2rgD0fal9PBc4FTwCUwMQKI
-	UZWqnT+cdpGklz+saXiOq6HB/p77CNAlJ5G5yZ+wI85pd8M7zWDKiOPe6VIpmgzBGfeB4Qxa6mo
-	22YQqgxYpELH1MZeST8Jxo+7KATjXcR0vRsLGj9O1CTiIfKdC3OwlPuQSjpXMpsds+52x6+X+AN
-	HLI7fVd1fg0w/AYCAbTeWI/3fmZIWcwFX0ZJPjcpfGbNxHdVTLAcTcbaqy1NCjItio3xyO/CFvm
-	iDSVUuFPYjek/qyyP4JNFsHpV2ZN9boM+8ZjF/8lcc9tatiE5wDjgO78YufmDF0=
-X-Received: by 2002:a17:902:ea03:b0:2e9:7dda:bfc7 with SMTP id d9443c01a7336-2edb932f59bmr23584575ad.66.1794316934806;
-        Tue, 10 Nov 2026 05:22:14 -0800 (PST)
-Received: from r00799764-ThinkCentre-M920t-N000.. ([139.159.170.67])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6d4a31esm8861065ad.22.2026.11.10.05.22.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 05:22:14 -0800 (PST)
-From: Jinjie Ruan <ruanjinjie01@gmail.com>
-To: babu.moger@amd.com,
-	ben.horgan@arm.com,
-	bp@alien8.de,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	Dave.Martin@arm.com,
-	fenghuay@nvidia.com,
-	gshan@redhat.com,
-	hpa@zytor.com,
-	james.morse@arm.com,
-	jic23@kernel.org,
-	mingo@redhat.com,
-	rdunlap@infradead.org,
-	reinette.chatre@intel.com,
-	skhan@linuxfoundation.org,
-	tan.shaopeng@fujitsu.com,
-	tglx@kernel.org,
-	tony.luck@intel.com,
-	zengheng4@huawei.com,
-	x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: ruanjinjie@huawei.com
-Subject: [PATCH v5 7/7] fs/resctrl: Add info/moveable_mon_group
-Date: Tue, 10 Nov 2026 21:20:54 +0800
-Message-ID: <20261110132054.3702-8-ruanjinjie01@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261110132054.3702-1-ruanjinjie01@gmail.com>
-References: <20261110132054.3702-1-ruanjinjie01@gmail.com>
+	dmarc=pass header.from=mobileye.com;
+	spf=pass smtp.mailfrom=mobileye.com;
+	arc=none smtp.remote-ip=23.90.104.144
+Received: from esa1.hc555-34.eu.iphmx.com (esa1.hc555-34.eu.iphmx.com [23.90.104.144])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 419A860707AF;
+	Tue, 10 Nov 2026 13:22:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 419A860707AF
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
+  t=1794316986; x=1825852986;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:references:in-reply-to:to:cc;
+  bh=Iv6D6e7CRfaO746bD1hJJNYyxNaP1nv/4CHWfaTQ1+0=;
+  b=Rz4my6uW4QPG75pjdXoRmyED/zqLaRQa6Ka0VRS7UPvCfMk+oTODrJs2
+   uAWfHstIivZLK6rXpNhtGT0m7NkaWdfusnW9rp3eNZINvFiwWsfO9GQWo
+   msacSw1r6pNr4ljHgywRetMZF7L69Iisbn8lBVAo86kxceTCyabOxDyz2
+   X5UFTKYIPetG0gkxjf7clJkLdlarXQ4lmkpOdxolrN4AL6eKxHQ82q8Rp
+   rlIqw9kNRfJkOEQqoiGKnh7fGxlCvvsNl7NzF+6ag8xJ0DMfXjmfV+07Y
+   EE53sv62g3cqRXFME1nHEjpE9tkWHMl7I7CoZeA+Mtt64wxKp6q3UBEeZ
+   Q==;
+X-CSE-ConnectionGUID: K5U7yhEJQkKn19s3N8BCXg==
+X-CSE-MsgGUID: bVOdbvznQCCogYHFmGefzA==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from unknown (HELO ces03_data.me-corp.lan) ([146.255.191.134])
+  by esa1.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 15:23:02 +0200
+X-CSE-ConnectionGUID: lg/nxsEvSIea7AHEBlpmmQ==
+X-CSE-MsgGUID: BAkxBH2aRMW+u4xpuWpZ/g==
+Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.3])
+  by ces03_data.me-corp.lan with SMTP; 10 Nov 2026 15:30:50 +0200
+Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Tue, 10 Nov 2026 15:22:54 +0200
+From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Date: Tue, 10 Nov 2026 15:21:00 +0200
+Subject: [PATCH v6 3/6] riscv: accept the atomic extensions this kernel was
+ built with
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,98 +66,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261110-lrsc-only-v6-3-bafc3cc0fcae@mobileye.com>
+References: <20261110-lrsc-only-v6-0-bafc3cc0fcae@mobileye.com>
+In-Reply-To: <20261110-lrsc-only-v6-0-bafc3cc0fcae@mobileye.com>
+To: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>, 
+ Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>, 
+ Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>, 
+ Yury Norov <yury.norov@gmail.com>, 
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+ Chao-ying Fu <chao-ying.fu@globalfoundries.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, torvalds@linux-foundation.org, 
+ olof@lixom.net, aleksa.paunovic@htecgroup.com, arikalo@gmail.com, 
+ Boqun Feng <boqun@kernel.org>, Alexei Starovoitov <ast@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
+ Eduard Zingerman <eddyz87@gmail.com>, 
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+ Emil Tsalapatis <emil@etsalapatis.com>, 
+ Ihor Solodrai <ihor.solodrai@linux.dev>, 
+ Luke Nelson <luke.r.nels@gmail.com>, Xi Wang <xi.wang@gmail.com>, 
+ =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?= <bjorn@kernel.org>, 
+ Pu Lehui <pulehui@huawei.com>, Puranjay Mohan <puranjay@kernel.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+ Miguel Ojeda <ojeda@kernel.org>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Danilo Krummrich <dakr@kernel.org>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Tamir Duberstein <tamird@kernel.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Boqun Feng <boqun@kernel.org>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Vladimir.Kondratiev@mobileye.com, bpf@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Charlie Jenkins <thecharlesjenkins@gmail.com>, 
+ Nam Cao <namcao@linutronix.de>, rust-for-linux@vger.kernel.org, 
+ Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+X-Mailer: b4 0.16.0
 
-From: Jinjie Ruan <ruanjinjie@huawei.com>
+riscv_early_of_processor_hartid() rejects a hart unless its
+riscv,isa-extensions property contains "a". A hart that lists "zaamo"
+and "zalrsc" instead of "a" is rejected, and so is one that lists only
+"zalrsc", even when the kernel was built to use only LR/SC.
 
-Moving a MON group into the mon_groups directory of another CTRL_MON
-group changes the CLOSID of the group while its RMID stays the same.
-Where the RMID is only meaningful together with the CLOSID, as on arm64
-MPAM, the move changes the RMID index of the group and is rejected with
--EOPNOTSUPP.
+Accept "a" as before. Without it, require "zalrsc", which every kernel
+uses for cmpxchg, and "zaamo" when RISCV_ISA_ZAAMO is enabled. The
+default build therefore needs "a", or "zaamo" together with "zalrsc";
+a kernel built without Zaamo needs only "zalrsc".
 
-Userspace cannot tell whether the move is supported without trying it.
-Add "info/moveable_mon_group", which reads 1 when a MON group can be
-moved to another CTRL_MON group and 0 when the move is rejected, and
-refer to it where resctrl.rst describes the move.
+The legacy "riscv,isa" fallback keeps its rv{32,64}ima check.
 
-Suggested-by: Ben Horgan <ben.horgan@arm.com>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
 ---
- Documentation/filesystems/resctrl.rst | 11 +++++++++--
- fs/resctrl/rdtgroup.c                 | 23 +++++++++++++++++++++++
- 2 files changed, 32 insertions(+), 2 deletions(-)
+ arch/riscv/kernel/cpu.c | 23 ++++++++++++++++++++---
+ 1 file changed, 20 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index fecb2cd2b343..4be0508c18f7 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -526,6 +526,12 @@ conveyed in the error returns from file operations. E.g.
- 	# cat info/last_cmd_status
- 	mask f7 has non-consecutive 1-bits
+diff --git a/arch/riscv/kernel/cpu.c b/arch/riscv/kernel/cpu.c
+index 3dbc8cc557dd..9ba0d49c87bc 100644
+--- a/arch/riscv/kernel/cpu.c
++++ b/arch/riscv/kernel/cpu.c
+@@ -82,12 +82,29 @@ int __init riscv_early_of_processor_hartid(struct device_node *node, unsigned lo
+ 		return -ENODEV;
  
-+The top level of the "info" directory also has a "moveable_mon_group"
-+file, which reports whether a MON group can be moved to the
-+"mon_groups" directory of another CTRL_MON group. It reads 1 if the
-+move is supported, and 0 if the move would impact the monitoring data
-+and fails with -EOPNOTSUPP.
-+
- Resource alloc and monitor groups
- =================================
+ 	if (of_property_match_string(node, "riscv,isa-extensions", "i") < 0 ||
+-	    of_property_match_string(node, "riscv,isa-extensions", "m") < 0 ||
+-	    of_property_match_string(node, "riscv,isa-extensions", "a") < 0) {
+-		pr_warn("CPU with hartid=%lu does not support ima", *hart);
++	    of_property_match_string(node, "riscv,isa-extensions", "m") < 0) {
++		pr_warn("CPU with hartid=%lu does not support im", *hart);
+ 		return -ENODEV;
+ 	}
  
-@@ -553,8 +559,9 @@ Moving MON group directories to a new parent CTRL_MON group is supported
- for the purpose of changing the resource allocations of a MON group
- without impacting its monitoring data or assigned tasks. This operation is
- not allowed for MON groups which monitor CPUs, or when the monitoring data
--or assigned tasks would be impacted. No other move operation is currently
--allowed other than simply renaming a CTRL_MON or MON group.
-+or assigned tasks would be impacted, which "info/moveable_mon_group"
-+reports. No other move operation is currently allowed other than simply
-+renaming a CTRL_MON or MON group.
- 
- All groups contain the following files:
- 
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 2dfb3b54338a..a3362f8ad13b 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -1200,6 +1200,22 @@ static int rdt_num_rmids_show(struct kernfs_open_file *of,
- 	return 0;
- }
- 
-+static int rdt_moveable_mon_group_show(struct kernfs_open_file *of,
-+				       struct seq_file *seq, void *v)
-+{
 +	/*
-+	 * Moving a MON group to another CTRL_MON group keeps its RMID but
-+	 * changes its CLOSID. Where the RMID index depends on the CLOSID,
-+	 * the RMID index changes with the CLOSID and the move is rejected.
++	 * Require the atomic extensions this kernel was built with. "a"
++	 * covers both; otherwise LR/SC is always needed and AMO is needed
++	 * when the kernel uses it.
 +	 */
-+	bool fixed = IS_ENABLED(CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID) &&
-+		     resctrl_arch_alloc_capable();
++	if (of_property_match_string(node, "riscv,isa-extensions", "a") < 0) {
++		if (of_property_match_string(node, "riscv,isa-extensions", "zalrsc") < 0) {
++			pr_warn("CPU with hartid=%lu does not support zalrsc", *hart);
++			return -ENODEV;
++		}
 +
-+	seq_printf(seq, "%u\n", !fixed);
++		if (IS_ENABLED(CONFIG_RISCV_ISA_ZAAMO) &&
++		    of_property_match_string(node, "riscv,isa-extensions", "zaamo") < 0) {
++			pr_warn("CPU with hartid=%lu does not support zaamo", *hart);
++			return -ENODEV;
++		}
++	}
 +
-+	return 0;
-+}
-+
- static int rdt_mon_features_show(struct kernfs_open_file *of,
- 				 struct seq_file *seq, void *v)
- {
-@@ -1975,6 +1991,13 @@ static struct rftype res_common_files[] = {
- 		.seq_show	= rdt_last_cmd_status_show,
- 		.fflags		= RFTYPE_TOP_INFO,
- 	},
-+	{
-+		.name		= "moveable_mon_group",
-+		.mode		= 0444,
-+		.kf_ops		= &rdtgroup_kf_single_ops,
-+		.seq_show	= rdt_moveable_mon_group_show,
-+		.fflags		= RFTYPE_TOP_INFO,
-+	},
- 	{
- 		.name		= "mbm_assign_on_mkdir",
- 		.mode		= 0644,
+ 	return 0;
+ 
+ old_interface:
+
 -- 
 2.43.0
 
