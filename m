@@ -1,109 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794351719;
-	b=K6IX02MSt9/Ww+keU3DDyryEHN0IeHdS1/pXIgASWPvRFkAdW7uMkhOgEEvORKu3vQsy
-	 fwZNHvk9iPfkqSKTj5U4KrDjaeKYoA95xsu6Wf7YyMeo+xa1KuwtxT1psDHRquR0aqhZl
-	 zwtTp5/8RRsIWLoTCARrjQRMcmGBWNfGUQZbdUL5LSm8FxtvjGrWPsgZc11pjNXwmnlFN
-	 JYfXKdJ+iGz3Vrn5E82dXj0k11JqJ51hfgIAVFbGvHAJISPN3b/Xp8abdDEuaDJB6bEgc
-	 //OAUxTCp1+PsfFetqXacJYVsYvRM4GDeqNbFQPRES62pXSDVzMq+0OepFLucYzSdWA==
+	t=1794352457;
+	b=ijaI+nZ7N/qXM+ku2pXa5tiOhfpi1I5SxqnIcrUCxDf45K/evyv6qgbz4ASqIPJO/bDg
+	 +iq3IFYTLb0f0Jl5rfLjY+d4PFcGGnJii9PAeDGyVkSOUojl8uxE2xIdex8T8mP/0dU72
+	 1G2fuhteQhUDDCBnIRXzc7fJ67XosMhcw7fhH46ok0A+5/xNWUbe+nyO9343U07p6fl3G
+	 riYt1+ZveOu+j0ukGwVllySJPq96IAkIHNCBxOLqMQTIHAxN11DJ0a6OiUcg7RJjhAZ2Y
+	 2QW/4bpex6/ZWFt69Fsdsh5NVwBiD2km2CBusnL8uDAeKi4W3PdSO61cihsSnMvO3Gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794351719;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794352457;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
 	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=x99lRuyCSocza6M3mwe4fqI7W2CsKlaKidC+6RvPLO4=;
-	b=nL1cC3UrF6t9rUIJudMUfP/GbT9d4oFUd+I46lvQ5flRBXaW+s/rOO0Ax31FU0WPcCjp
-	 aLsCY2B2vC2T3oZYynlmkmTPkKVM+1Yph9P2w+AtnrAe8Aalgd2MRIUJTRIHAh5bs0LNj
-	 y7ZmN6Z8h9ebgDU361nPI4BQrMGLSa+1F9sJDcIenVOTC06rOoxD0IVGDWbLMD242NY/k
-	 Ggs6kd1HoESw6Fuso0dBE/PGfkiWGQ0umHrbiVwnBnmgl6g9CNNb6IEEbLrhrQ9rmXoWs
-	 nzdqktufbSOpJ0npSP6zVn5EurF1IoNPQIfU21x726XHDJit9UBfmQIPlQuxp3unNvw==
+	bh=4Xpscwyy3jFhQfYrCqIDewqcILIH2yywXOfnayr7y/Q=;
+	b=szxMrAO+aCmPMm2jbayU63n2aQFN8jJO80R+mXJOzjfdgfCVLeV5Z5hZXXUT6P0z1eol
+	 P15uKboA1eFamAWMo9K8y3ULOP3bYg7TPAlQN7NdDaHFyqOFlJn9tWtNGpM83w8XDesKl
+	 uuZuG8eOY8casE1yQkbJE9O/8PGP0gQKTw8mfXZEimnyKR2Tl/Os8G8t7Eug9UA1QUjSH
+	 f0nGNb47eJ7JSHbnsUlHfUr5KOLc+kEZshb+4NLwk4lhIEj3z1Tx91Bn/CdeDkMC2IBDM
+	 CoDun5XfBPsWzXLRGgZKYzk7t2PVvAGR+KHQ5U/oG5PHV11G1V+7L6XgNRuKCR9y8sg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=GsfkK6HN;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=J3d8BM2T;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pg+rAz5n;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HbCJyZAO;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E2FE606A33F
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:01:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E2FE606A33F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43D0A606A327
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:14:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43D0A606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=GsfkK6HN;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=J3d8BM2T
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAMKOtR3060792
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:01:58 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=pg+rAz5n;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=HbCJyZAO
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAMKrdo153235
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:14:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	x99lRuyCSocza6M3mwe4fqI7W2CsKlaKidC+6RvPLO4=; b=GsfkK6HNGbcHCfa1
-	KfU1R0dcCTCdE2EVDwx4d767g1MGETijAE0LOpY5jU1I6jk1f2oiM+FT7GSLSAEh
-	jPr85T/ME9YsWHiUx5Ta8628FoLd8o1u+mAtGQD+hWEIbs8XMJ4vzurJ5olSaT2G
-	tvtbGu1h3xmOP61sHC01yj/xR0MhHZXX+6PHaTBZ0acB4FeczGO6/brYmgvAOv46
-	RA8h7TZ8WOgOfLHb3zRccAsPm+bSxAEhEzMmCIpbNKycqul5io3/w0AJ4JyGzWL/
-	WJnYmZLgvA6Q46doauKWVEuO9UokSIIC71bsyAGHZhXTGzw6iPSmVOJeMUYSLDFq
-	mTmwiw==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hv9b30sgu-1
+	4Xpscwyy3jFhQfYrCqIDewqcILIH2yywXOfnayr7y/Q=; b=pg+rAz5niP/2exc5
+	mmAqnWelZCxUE3DBGcXTX6EVbGMLGuESy8uaJgx+lHzThpBSRau6OQyon1EMXycD
+	udel624sixOUdWNg0uBOyMtSEx2Nv+HNd72dxKdA4/wCgjGuD07G+WR3JT4Hxr53
+	kKokAUEB84+QcitMbyGAs63fxc/tji9cxc5xDzjTJ5mOA4qMniP89Aauj2DIhFG0
+	ePoh6eBPxMXL4SjNjSvk4tMuyPrUD1gk03Ov3MsZANm4LMO3nOeaazXB9tackSm7
+	V656QbeY22V1reYdpD11W5klNuwk66jlKkOYfnL3u0p7QWIs0SZDrKQCr4uELWio
+	HH4mlg==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hux84brmp-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:01:58 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-14373747468so3125150c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:01:58 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:14:13 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-36ecd5db581so3829335eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:14:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794351718; x=1794956518; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1794352453; x=1794957253; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=x99lRuyCSocza6M3mwe4fqI7W2CsKlaKidC+6RvPLO4=;
-        b=J3d8BM2Tv2J5sQIF7LdX0nCC90OxoAMeakc6Pdhi/nirdqQP9KQrk2jCrgl4tS1230
-         0pNqjGi2JgoT4sYT9f04RXIJKkGaVB5NS444Tuki/3RM4FVwyshC3JmVRW5GgWrpF94T
-         31f37oYr2dGR9rB5fo22U7CBHxpyUOe9QqhkEUcqEZq2WhM3nJqiGyn11ClZ7Ta2YVxS
-         XVGC989znbeWmwSAboLrfS6Bj8Np4HaBya30IbK5PjekoxVsS4TaXwd8UT8Nr+8knEIg
-         3nnPKkZTjf3pQUDVAByggV7p98eoCEVzKNXRc/nY3QxoKkrCy1jYnv42kLUtsWZ5oLHt
-         V8Bw==
+        bh=4Xpscwyy3jFhQfYrCqIDewqcILIH2yywXOfnayr7y/Q=;
+        b=HbCJyZAOzGB26wi0Yefw3YX+qMZxioxDZ9e/4Z3dcHFJDtV4v3OMdI3eLAY2oim3TQ
+         tNcbxFQL4q+RwIjKASEiMQhQWiKZeV8HMbhe7WytuDuZkv2ymIaLtESCcKtgpt7vNKaJ
+         B+rhJHOyhAzebbf6iWegu8hpurutWOZ8WMXTska4vANFBVlknvWzS3rAnQCoAn7B+ja7
+         I9rSTu4AE3KsiDQ1jp1My9TBpRVi3/GdRu8DRD69nBK7WvYSpMlGyoT6YCbe491zrhyu
+         c0TlceAtl9RP1bGNyOsk30up4n5JUsNbYW/K+AdGTatvqX8e64kZp24jINBp4PyggTAf
+         bjKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794351718; x=1794956518;
+        d=1e100.net; s=20260707; t=1794352453; x=1794957253;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=x99lRuyCSocza6M3mwe4fqI7W2CsKlaKidC+6RvPLO4=;
-        b=1IdN4E51nXJUIsHeAkdtQGshbfTxsUZMzWIfc9MfvaEpB9DbeHE2txKtDT+YRXLp39
-         XX2ycvq1cjmumBEovYOOWaFzqGeBWewCVnK7g42zA0SvvdW7UqQwxx7UrSUGlrmUE6sW
-         GQUwA3Zey4dQbGQb3/+PgdAhPvAY1A84RXqfytweZyaui83B2PxEUZHB9hJ2BZ1h1/Ty
-         fQJzJTXacRUO2hrFxtJPbN0rVJs/4RoGumg8VL+wc7dWdofSrDoGcclV1LG9ihtdCrfp
-         2SrtLCwsu5o4u29RtqaU6ZcQ8D1pMdVro+n1Ko2HqzmM9lZfI7Y8EwEBcRc3j8mHfgZy
-         Ar8Q==
-X-Forwarded-Encrypted: i=1; AL+hErE2SBGXVIehliuVx3zi1dOf2GdcQV7Srb7rqamFYqgSpwYJGGL1QcZFgZQsFFe2CtTJ5k8mJS7pck8=@vger.kernel.org
-X-Gm-Message-State: APuU4Z92PaBVN1LsXcqJlW6o2nPxvcvBoxSKaZODe2LYKFYbltUaGSUh
-	GDdjZ9c4D13PrIkS/2dg0MMo2HdISL8+RK/lw6+dkrorm49HrhOosQxRI7OWmrk6gZXRNjG6r8w
-	lt96Upw7dFisWgjmAzT5xzCGmxO5/o09Qg855auz8KQefWM0B/S+GZs/lQHIctO0=
-X-Gm-Gg: AYBFou1rkzEd4ay1iEPVrYZbrAW8qCZJgozZBmpEXn0/+y4QCMdsGvFqY0Nd7wsDUM0
-	7Mix1+96upeb57aWXtEzOPkHAiCBwx8Rd2XAOdrhXyLGqwRT95J0f0gRATJsCXwmInwjhRN+QIQ
-	nEaUdzPdLjs4QbT/3elV86QBmry7wh1NKHlSiNj3hWgTfWE+CC9eKM9GuHOkVpBzLpSxxC8sD3h
-	zUDm9zjV+T1YYrhX3Z97zUwdgPHmBmqV3Hz8K0dLwDVU8XNBXzyIDJ8CutDAL7lrVAVv67dm0XL
-	FzemRwOalLI4KyNnoj7aRkVatkRNHCs2sEmmaAqXCim5iI2gBBJVqIxlkKbUrGQ3eW1pytZNVjW
-	+5SoAEO0Cu74Zb+nQ/sd2RkgciIq0klL5G6In6AH90Nnqxbc/gaTBU8f6cQMt3A4XSqSGX72KoP
-	VD5M/l1MLxkQhqErC2v4KVpHK+0Bg=
-X-Received: by 2002:a05:7022:287:10b0:195:9228:50a0 with SMTP id a92af1059eb24-1b3c035325fmr481392c88.42.1794351717637;
-        Tue, 10 Nov 2026 15:01:57 -0800 (PST)
-X-Received: by 2002:a05:7022:287:10b0:195:9228:50a0 with SMTP id a92af1059eb24-1b3c035325fmr481344c88.42.1794351716979;
-        Tue, 10 Nov 2026 15:01:56 -0800 (PST)
+        bh=4Xpscwyy3jFhQfYrCqIDewqcILIH2yywXOfnayr7y/Q=;
+        b=NzvtfRbAQMXFNfvezjFMtn7lwaKJGMdFZs3QSh80j/UbgPvoDpPeLUgcON8xGBGWad
+         Bcp7LwIfwFjfdkkNOx3/yJ4qh6vfZmz8G+wINuKnlyFPxlRDN3MAmsCrQ9ECRgtPF+s9
+         9PnYevRXAHf/pZ7gyLyFVipqedb2/KJsGFETZ8DK0rzjn7C5HMoKaWNemiY88Idd6cpf
+         4OM8KsLXp79ohM2cp26eXjAZtsUIgpC8bpgF/v0yLkDDsrQImhkmd3w97xvuD2j9nvhd
+         qR48CFVttoRGAhXgiadQkdx4PYCVCMST6PjeyexiCR/rTvp5+QhfSj/aFweWIxVBcCyR
+         /d4w==
+X-Forwarded-Encrypted: i=1; AL+hErFFPpuixlL4NPn9T3maRnLCOFkP/oqla0joJ6WmZCdyXTP78NmP7wWZG+fJjqa24f2iSJ9oWkGgTms=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Rm/JVElT7aUrwjaZVFveTdLK0PdvVOwIAwk/qXzvsiXWNbn1u
+	xvXSKJ9ybEVXfKIgGS8DL6LuCjjIx+FrnFm/UtV6P1VUU3j7tLCGdvpKr4g+Ft4VqGQBfNjLQSQ
+	vGGj9uuIE6DfK4wfaE8/1K+D6RCsJ/iuXjyPqbMhJXB/ANy+TJCMbpeGRaDvYXNw=
+X-Gm-Gg: AYBFou0kFZ2UaZXXsBElbHH6muUw94f+ks+9vMto/ThcUT8Vx2qbNh2eBPemGXkDLSw
+	dEwMGTNS/A6ovIDr2pC1O+hLyMKxwTGY5ZNM4OQ8M1h7rxoDx2VujU8RUsvqsfP0wpqEZgnQC9t
+	lxUL2a/t3yqUc+Tu5u+g8EfFazN2ePtQFycprnGYZVp8JTPaPsjCaAZE9ao2rQXI6E9PpGglKj1
+	M6cJS/TtO2NaLpVexoTtb1xSM00kR6KXoQRIbcooK9x73PTtnb/iyIy1goAzDSns107CdKzv0tN
+	WtrSkSFI+wO3Lb8ZtXwbtpEekA6zxVbwoBo88NCOvOCbiNPE/QLi6mVkaLVKVPtkIC+MD1RcYSg
+	eAiPild7pancmj8eN6ePJ+iObh/qKTDd5L6giUfts3yPAMAtCzjmKIJAXerAvBgo+O9qXB3Lj3e
+	tCQHLYh6fwvC/VMGftRCE/iX2xvIE=
+X-Received: by 2002:a05:7300:f78e:b0:36a:12bb:7f8e with SMTP id 5a478bee46e88-37685d7279dmr1026966eec.13.1794352452892;
+        Tue, 10 Nov 2026 15:14:12 -0800 (PST)
+X-Received: by 2002:a05:7300:f78e:b0:36a:12bb:7f8e with SMTP id 5a478bee46e88-37685d7279dmr1026919eec.13.1794352452279;
+        Tue, 10 Nov 2026 15:14:12 -0800 (PST)
 Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b11150sm13944465c88.5.2026.11.10.15.01.48
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe306e3sm10490952eec.7.2026.11.10.15.14.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 15:01:56 -0800 (PST)
-Date: Tue, 10 Nov 2026 15:01:21 -0800
+        Tue, 10 Nov 2026 15:14:11 -0800 (PST)
+Date: Tue, 10 Nov 2026 15:13:49 -0800
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -115,12 +115,11 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
         leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
         usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 28/35] firmware: arm_scmi: Add un-managed methods to
- get/put protocols operations
-Message-ID: <20261110150121.00000c6b@oss.qualcomm.com>
-In-Reply-To: <20261109091221.2532706-29-cristian.marussi@arm.com>
+Subject: Re: [PATCH v15 29/35] uapi: Add ARM SCMI Telemetry definitions
+Message-ID: <20261110151349.00005df7@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-30-cristian.marussi@arm.com>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-29-cristian.marussi@arm.com>
+	<20261109091221.2532706-30-cristian.marussi@arm.com>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -134,64 +133,181 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=GKGdgeNK c=1 sm=1 tr=0 ts=6af3a266 cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA5MiBTYWx0ZWRfX6Lv802dnj1mF
+ zC4EnGhbM8F/jZgW7hd3nP4h+3XZ7G+XOvVlFi/KtARFfHSMuilHwwTwz66Ty7jQofZM1QWl65w
+ 5/9VhukKr9MfpTb3+q0fCK7wTKrkkAXDzAIg4IP2EZB8T3oEZsBx8PXr1HwwU/gajlIYrVWJaou
+ K6FwbnyV1ZJ8vNkFU/EKX+dH0wgkdZ2RBnqgzhPor6AKlmNKHVeXGtGtWg+sEHYqYN9y6BHqMQc
+ 3K/rTL9MN0YFJ5cGNgik7Ua90bKzSOcg8/vG3CwqIBK2YwbEtb8MjZOVTPBzp1+z1u6P2QTtlJj
+ 1E7+wvIiAVBcRrD+OsLvRrROcLFZktUzZQELGnga8cRHuXlCcLEpc5K8eh6feE08rGUnmnoMWV1
+ DkW0NvU40reyM/6tfcvVQi7iV7i478WWyoNntqD/aBZj209h673xV9Oa1oW3u7tJk77S5QAn7DK
+ FRZGmxoLEhN/ERFQM0Q==
+X-Proofpoint-GUID: QfcazFXhzjlm13Ig_WRfcuDQIro7ahRK
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA5MiBTYWx0ZWRfX5lg4EYn72jX5
+ ne3IDKeTQflOqoaOi6VHtdD+5SIZPSOrMh6yJhgZYqI4KnPshtnLl9K1yQL/sOOJ2pDjTdedrwQ
+ a2u2m62GWsfk8Iw8pKM4jKlZ9T+Q+m8=
+X-Proofpoint-ORIG-GUID: QfcazFXhzjlm13Ig_WRfcuDQIro7ahRK
+X-Authority-Analysis: v=2.4 cv=JNSuIMKb c=1 sm=1 tr=0 ts=6af3a546 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=7CQSdrXTAAAA:8 a=JB04BPaodQz_QRRZ9pYA:9 a=CjuIK1q_8ugA:10
- a=vr4QvYf-bLy2KjpDp97w:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA5MSBTYWx0ZWRfX33X2C5b0cXCv
- 4Ll1wsRNNv7RIv6oSsMVLowKVUP0gBV/RE4VI5f66ChGW8ouzWTTtXNLp+4ZY4KfqIZCqZSlDUd
- CRAfLtzSrKAOakkcH6Rz+J1vIBOwabpa8V2KqMqLvtdAeZK1InC8yZoloBNoSYxIPXxjkaFpFeE
- lIbbKluCyzMNntpdIocOO9VNjyUUuLh6idOxBAkgWf0mfGH8vLHz83OBLqUVA5Y8bYC1P5USMRf
- hYH89+xv4XHPRB+MMv9pzVLuZAQIZR0x9ORz08Cag6zB4ZrV9nHNqa4jPb3k4k5VOiVzs30+Pqe
- r4YnQNjm8uPNM4vaqTsmo+JxbsQR80BjMeFM0dBngbYnWSFrS54mgo6+XaYIGwSqdiUKxWTFPa/
- FdysSSgb2QkQ0jHqhnKVawQB3OayJTDxbsUCfqKV2CcZB1M29mXLA0T7L4w0fFNayZY+DuYRq/P
- M3hNETTjrHiDanFYd9Q==
-X-Proofpoint-GUID: T5g5ofIHQF6OdKAXZrRV_xobWxpRXrty
-X-Proofpoint-ORIG-GUID: T5g5ofIHQF6OdKAXZrRV_xobWxpRXrty
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA5MSBTYWx0ZWRfX5Mkad2l8qZCo
- TNZ18YBjIgNy3ttcruUB1bnXwTx7VlCXKc8O8dSBTUcqqS66EMacmrcrw4FAsG1+ns9FJfWtfBN
- vBQiPDoV8rB3pYNxEdK/4hRqwGet854=
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=7CQSdrXTAAAA:8 a=XiCDCQztHa5vJwnvm_YA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22 a=a-qgeE7W1pNrGK8U0ZQC:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-10_07,2026-11-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501 phishscore=0
- spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 malwarescore=0
+ malwarescore=0 suspectscore=0 phishscore=0 clxscore=1015 adultscore=0
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 spamscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100091
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100092
 
-On Mon,  9 Nov 2026 09:12:14 +0000
+On Mon,  9 Nov 2026 09:12:15 +0000
 Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-> Add a couple of simple common methods to be able to manually get and put
-> protocol operations to address situation in which devres managed methods
-> cannot be used.
+> Add a number of structures and ioctls definitions used by the ARM
+> SCMI Telemetry protocol.
 > 
 > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+> ---
+
+> ---
 
 
->  /**
->   * scmi_devm_protocol_acquire  - Devres managed helper to get hold of a protocol
->   * @sdev: A reference to an scmi_device whose embedded struct device is to
-> @@ -2697,6 +2722,18 @@ static void scmi_devm_protocol_put(struct scmi_device *sdev, u8 protocol_id)
->  	WARN_ON(ret);
->  }
->  
+> diff --git a/include/uapi/linux/scmi.h b/include/uapi/linux/scmi.h
+> new file mode 100644
+> index 000000000000..dd78220554a2
+> --- /dev/null
+> +++ b/include/uapi/linux/scmi.h
+> @@ -0,0 +1,531 @@
+> +/* SPDX-License-Identifier: GPL-2.0 WITH Linux-syscall-note */
+> +/*
+> + * Copyright (C) 2026 ARM Ltd.
+> + */
+> +#ifndef _UAPI_LINUX_SCMI_H
+> +#define _UAPI_LINUX_SCMI_H
+> +
+> +/*
+> + * Userspace interface SCMI Telemetry
+> + */
+> +
+> +#include <linux/ioctl.h>
+> +#include <linux/types.h>
+> +
+> +#define SCMI_TLM_ABI_VERSION_V1			1
+> +#define SCMI_TLM_CURRENT_ABI_VERSION		SCMI_TLM_ABI_VERSION_V1
+> +#define SCMI_TLM_DE_IMPL_UUID_SZ		16
+> +
+> +#define SCMI_TLM_SHMTI_ID_INVALID		0xFFFFFFFF
+> +
 > +/**
-> + * scmi_protocol_operations_put  - UnManaged put protocol operations
+> + * struct scmi_tlm_abi_info - Basic information on the ABI/instance
+> + *
+> + * SCMI Telemetry characteristics like number of DEs, Groups, Intervals and
+> + * SHMTIs are statically determined by the platform and do not change within
+> + * one boot/session; they are reported here so that they can be used to properly
+> + * size the requests on other IOCTLs, without having to discover dynamically
+> + * those sizes by issuing a zero-sized IOCTL request at first.
+> + *
+> + * @size: sizeof this structure - IN
+> + * @abi_version: ABI Version - OUT
 
-Bonus space after -
+I'm curious what the plan is for ABI versioning.  Normally to have
+any hope of backwards compatibility it needs to be a negotiation between
+userspace and kernel (and then hardware if appropriate). Is there any route
+to do that?
+
+> + * @abi_features: ABI capabilities bitmap - OUT
+> + * @primary_de_impl_version: SCMI Telemetry DE implementation revision - OUT
+> + * @num_des: Number of defined DEs - OUT
+> + * @num_groups: Number of defined DEs groups - OUT
+> + * @num_intervals: Number of available update intervals (instance-level) - OUT
+> + * @num_shmtis: Number of discovered SHMTI areas - OUT
+> + * @features: Instance specific SCMI feature-support bitmap - OUT
+> + * @reserved: Some room for future expansion without the need to resize.
+> + *	      Must be zero.
+
+Why?  I'd expect the input size to indicate what userspace supports.
+As such what use is this reserved padding?
 
 > + *
-> + * @handle: A reference to the SCMI platform instance.
-> + * @protocol_id: The protocol being released.
+> + * Used by:
+> + *	RW - SCMI_TLM_GET_ABI_INFO
 > + */
-> +static void scmi_protocol_operations_put(const struct scmi_handle *handle,
-> +					 u8 protocol_id)
-> +{
-> +	scmi_protocol_release(handle, protocol_id);
-> +}
+> +struct scmi_tlm_abi_info {
+> +	__u32 size;
+> +	__u32 abi_version;
+> +	__u32 abi_features;
+> +#define SCMI_TLM_ABI_FEAT_RESET				(1 << 0)
+> +#define SCMI_TLM_ABI_FEAT_EVENT				(1 << 1)
+> +#define SCMI_TLM_ABI_FEAT_UUID_LIST			(1 << 2)
+> +#define SCMI_TLM_ABI_FEAT_BATCH_STATE			(1 << 3)
+> +#define SCMI_TLM_ABI_FEAT_BATCHED_CFG			(1 << 4)
+> +#define SCMI_TLM_ABI_FEAT_DE_TRACKING			(1 << 5)
+> +	__u8 primary_de_impl_version[SCMI_TLM_DE_IMPL_UUID_SZ];
+> +	__u32 num_des;
+> +	__u32 num_groups;
+> +	__u32 num_intervals;
+> +	__u32 num_shmtis;
+> +	__u32 features;
+> +#define SCMI_TLM_SCMI_SUPPORT_RESET			(1 << 0)
+> +#define SCMI_TLM_SCMI_SUPPORT_SINGLE_SAMPLE		(1 << 1)
+> +#define SCMI_TLM_SCMI_SUPPORT_GROUP_CONFIG		(1 << 2)
+> +#define SCMI_TLM_SCMI_SUPPORT_UPDATE_NOTIFICATION	(1 << 3)
+> +	__u64 reserved;
+> +};
 > +
 
+
+> +/**
+> + * struct scmi_tlm_config  - Whole instance or group configuration
+> + *
+> + * @enable: Get/Set Telemetry enabled state for the whole instance or the
+> + *	    group specified in @grp_id - IN/OUT
+> + * @t_enable: Get/Set timestamp state for the group specified in @grp_id - IN/OUT
+> + * @flags: Bitmask to represent special characteristics - IN
+> + * @pad: Padding fields to enforce alignment
+> + * @grp_id: Identifier of the target group upon which this configuration will
+> + *	    be applied: ignored if not marked as a group in @flags - IN/OUT
+> + * @active: Get/Set currently active update interval for the whole instance
+> + *	    or the group specified in @grp_id - IN/OUT
+> + * @reserved: Some room for future expansion. Must be zero.
+
+I'd add a size field for this one too to make it easier to expand.
+Probably the same applies to all others.
+
+
+> + *
+> + * Used by:
+> + *	RW - SCMI_TLM_GET_CFG
+> + *	WO - SCMI_TLM_SET_CFG
+> + */
+> +struct scmi_tlm_config {
+> +	__u8 enable;
+> +	__u8 t_enable;
+> +	__u8 flags;
+> +#define SCMI_TLM_CONFIG_GROUP		(1 << 0)
+> +#define SCMI_TLM_CONFIG_FLAGS		(SCMI_TLM_CONFIG_GROUP)
+> +#define SCMI_TLM_CONFIG_IS_GROUP(f)	((f) & SCMI_TLM_CONFIG_GROUP)
+> +	__u8 pad;
+> +	__u32 grp_id;
+> +	struct scmi_tlm_update_interval active;
+> +	__u64 reserved;
+> +};
+> +
+> +/**
+> + * struct scmi_tlm_intervals  - Update intervals descriptor
+> + *
+> + * @grp_id: Identifier of the target group upon which this configuration
+> + *	    will be applied: ignored if not marked as a group in @flags - IN
+> + * @flags: Bitmask to represent special characteristics. When the interval
+> + *	   is NOT marked as SCMI_TLM_INTERV_DISCRETE, @intervals will
+> + *	   contain a triplet: min/max/step - OUT
+
+I'd have a reference to this in the num_intervals text. What happens if the input
+only allows for two intervals?
+
+> + * @pad: Padding fields to enforce alignment
+> + * @num_intervals: Number of entries of @intervals. On input this represents the
+> + *		   size of @intervals, while on output carries the effective
+> + *		   number of entries filled-in.
+> + *		   On input this has an upper-bound determined as:
