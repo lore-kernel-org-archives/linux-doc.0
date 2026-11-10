@@ -1,87 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794312161;
-	b=AzRlnR9Wx+G4WP5LgKgLSDnhuPF0l+QB5fTldR97eE0w6DeutqK97ZotefBQ4Zu0TfEx
-	 aqoq7L8XWXGZm90oNIV+rjuDTw5DnxRVXAszoYiFIUIgL0It09bIt4iI7R8iOPTro/7QN
-	 ovmN37YdcnNsFEc+P+uJD7m0r6GT9zVvCjkDH/aguOVy0GZbPuKMihylPGzPu+Y7uUz6N
-	 2SUk9bBW8L3FnJREH6o3AtyVHMS45/PRckBtl+y3og/azEAFzswKs+o4dUezNHlM83Z1D
-	 rNy0/T6D/YZMBggV831YnJBKt9kYyuErwjyURw/8WeSEkPRGr688GP/2W9eBnzKYXvQ==
+	t=1794312900;
+	b=3+7Vcye8C4xrOb9vSQ41C3bSmvb4vpzCMP7rhch4Q3GAYU6p5SvmSJraTnpjdBY8bu5M
+	 Y2E68N43ZEV6uhhYFtIQO+3SPfI5cLIsJjb0nzkQen/BYmDORMOWhHC1F6j6To0HBkrPE
+	 DAhdILPLzeaDsKivez85xF0bXevYi5N93EV9exrDgfrnOOgrIE3QkUS2dnkjol8Wf8PzJ
+	 eEpEaTj0RPHVL+56+y7INe85G97XkcMUsdjNxmPsyP2AvhlKd2idLkil8cBKxmjTDTVnB
+	 NFf8Os53Bcq4ElAAhaKRKnbdSRftNlLmq2O1a5uxtEl0UlWKrtINk116P6877He8e7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794312161;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:Date:To:cc:
-	 Subject:In-Reply-To:Message-ID:References:MIME-Version:Content-Type;
-	bh=SH/FoN6uZbvhXWx+mjNqxG+5UNI9GCQnZ6S37gnELZA=;
-	b=fBwTqWAwvVLPfMMTc+2PDh+orDURJcBgvoXun4RhsnBltlvIvhai1e8+Kvd8LSK5bM4n
-	 OHv1JngOZRINR0ovhVybyEv1W3Td4DWWCga/QrIrbCI/dGpFrhwNXBimL0T5m9l/H7IGK
-	 VInh6A7W8iofLOy4C3S5Xq1OcV7pz3u1G8DyqCi+9Q596qzFuU15X0skg+HEM7sEU2/TV
-	 DRW4R5G0Js25aTUDh4E8deif3hjU5MUFEm1mIKae2t+jf1uTVhRV/2PCoSrJOwCI3/S/i
-	 P6XOUlhv5l5plrkp8UMJn7sAL5p7QJBUi+YZb5j6M9R7+XmLAadPCSk0i8S+vGQ0GVg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794312900;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=qz9Cg/+Lb0BoddJpAlf9vuo5dFigQSPPYLNDQ49b5og=;
+	b=Z/J8JN5VxCEATLYHkDEdxvFHtdSCfND2HGlqe6P/uUz5Xr7MBoYMK+bCVzJC6B0NEIYq
+	 wsWGmmxECDvd5cGEEt61Y2eCKKFXggpzR/T2m1PVSX07Mu8XmquH0d8z3xBiO/bQTaUbA
+	 XuGCutx732HK75BuGIC93ays2wTs4iwoT0gOtcJ2rBLeCR0zv+s1t/brvhTsaJIm6SvtO
+	 HXobPa1MsdmsTVpDEuuFlOtC4y0eugmTpUSvKGliGIuZxzrOjQeyFcW6oVQCNKqTgwr7u
+	 d4qR2OhoOPGBFkx4ZkJcFHcBkd1h6yB3Jwj+egaKqqjKbC+t3zDrNQksu8QvAx2XeBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kUZTMrNx;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I83LR7wi;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB425606A31C;
-	Tue, 10 Nov 2026 12:02:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB425606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA92B606A31C;
+	Tue, 10 Nov 2026 12:14:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=kUZTMrNx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794312161; x=1825848161;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=eMdM21hEmkcP8lpu6VNP1r22o5MSqJ/EL0i7jh9A8CU=;
-  b=kUZTMrNxJtILykmCCaIXMcwKq3QkLvaW0LIpMR1fXQY62mFaTQGHT5QD
-   rDBW0hlZwjAiw0z7w6xzqxUTfQzf/9a/oE23kojFP5LmugEEEp+1usTTd
-   kWe/Fb8xxlcsycjuEuBX8ZUMCWAcs1AkWOz82LahPdJkDHM0KBJ+mTGp1
-   kRYGV3H5qih5Crm/2YekOVHlwVrJSxhnIiEnxH1UGPO5SgB4vBMwg1h8x
-   8O7efVfrBV71obIM0mkE/FfS/Czz2Ygjj/6ds0he6rwuwvAbn410mCmEx
-   oMNuHk2pdC8+dLZJZIUk4cKFBQDxnfekP9JtTJ+in/eiaKsQ/VSN3XV79
-   Q==;
-X-CSE-ConnectionGUID: eVnBbn3bRc+y8uyAB+YlEA==
-X-CSE-MsgGUID: XhuOpTUeTUWURYnlL8hycA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3138909"
-X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
-   d="scan'208";a="3138909"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 04:02:40 -0800
-X-CSE-ConnectionGUID: xGdkc45iT5eGhiHxJBsghA==
-X-CSE-MsgGUID: 6/P5oL78RfKEQtOZQyxoMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
-   d="scan'208";a="8459686"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.34])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2026 04:02:32 -0800
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 10 Nov 2026 14:02:28 +0200 (EET)
-To: Lee Jones <lee@kernel.org>
-cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-    Shuah Khan <skhan@linuxfoundation.org>, 
-    =?ISO-8859-15?Q?Thomas_Wei=DFschuh?= <linux@weissschuh.net>, 
-    Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
-    =?ISO-8859-15?Q?Marek_Beh=FAn?= <kabel@kernel.org>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    "Derek J. Clark" <derekjohn.clark@gmail.com>, 
-    Hans de Goede <hansg@kernel.org>, Ike Panhc <ikepanhc@gmail.com>, 
-    Rong Zhang <i@rong.moe>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-    Jakub Kicinski <kuba@kernel.org>, Vishnu Sankar <vishnuocv@gmail.com>, 
-    Vishnu Sankar <vsankar@lenovo.com>, linux-leds@vger.kernel.org, 
-    Netdev <netdev@vger.kernel.org>, linux-doc@vger.kernel.org, 
-    LKML <linux-kernel@vger.kernel.org>, chrome-platform@lists.linux.dev, 
-    platform-driver-x86@vger.kernel.org
-Subject: Re: [PATCH v7 00/13] leds: Add support for hardware-initiated hardware
- control trigger transition
-In-Reply-To: <20261110090105.GA6323@joneslee-macbookpro.roam.internal>
-Message-ID: <b19ef65f-c563-07f8-1be8-9a0a0689da22@linux.intel.com>
-References: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe> <179425319974.10927.7190572777719580956.b4-ty@b4> <20261110090105.GA6323@joneslee-macbookpro.roam.internal>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=I83LR7wi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D0F01F0089F;
+	Tue, 10 Nov 2026 12:14:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794312899;
+	bh=qz9Cg/+Lb0BoddJpAlf9vuo5dFigQSPPYLNDQ49b5og=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=I83LR7wiT0O/eZpQPZN1xM/PMVVJQkMFyt9p4NCgPMD4V8mZTfREIiqvcAkKoTKN7
+	 zNzff4tPoD3ewxUVFgoAXmd9KE1CMw/MWfrUcUGsi4MPI9xcY94GefLmFFtZLrzyvv
+	 piD74h9Tj4giYwy5n/joMXw1CfHknf3AOeRJmLORJH++sk6/7aAbxgNZNxzmu7pxoe
+	 7PQTOBKojEghR0pPYtL/+eh8DOilPmL0iIjks/4tC2jeEHAInPovQwqrPJnMJxAn8h
+	 A7C+Q+beN1r/YGkiwItzNA9acDSKKHuzPKbvWD1c0PIxrvtZKpjh900tlvibYuD9WF
+	 LAyRVnvcygujg==
+Subject: Re: [PATCH net-next v2 2/3] RDMA/ionic: Use the ionic command timeout
+ for the admin queue
+From: netdev-bot+sashiko@kernel.org
+To: nikhil.rao@amd.com
+Cc: brett.creeley@amd.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ abhijit.gangurde@amd.com, allen.hubbe@amd.com, jgg@ziepe.ca, leon@kernel.org,
+ jiri@resnulli.us, horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, linux-doc@vger.kernel.org, eric.joyner@amd.com,
+ ArunKumar.Prakash@amd.com
+Date: Tue, 10 Nov 2026 12:14:57 +0000
+Message-ID: <179431289755.994134.3080122667953359752@kernel.org>
+In-Reply-To: <20261105-b4-ionic-cmd-timeout-v2-2-35a9a2aa48b1@amd.com>
+References: <20261105-b4-ionic-cmd-timeout-v2-2-35a9a2aa48b1@amd.com>
+X-sashiko-severity: High
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,97 +67,157 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1170544091-1794312148=:1229"
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
---8323328-1170544091-1794312148=:1229
-Content-Type: text/plain; charset=iso-8859-1
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Critical: 0 · High: 1 · Medium: 0 · Low: 1
 
-On Tue, 10 Nov 2026, Lee Jones wrote:
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-> On Mon, 09 Nov 2026, Ilpo J=E4rvinen wrote:
->=20
-> > On Mon, 21 Sep 2026 03:40:14 +0800, Rong Zhang wrote:
-> >=20
-> > > Some laptops can tune their keyboard backlight according to ambient
-> > > light sensors (auto mode). This capability is essentially a hardware
-> > > control trigger. Meanwhile, such laptops also offer a shrotcut for
-> > > cycling through brightness levels and auto mode. For example, on
-> > > ThinkBook, pressing Fn+Space ("shortcut") cycles keyboard backlight
-> > > levels in the following sequence:
-> > >=20
-> > > [...]
-> >=20
-> > Thank you for your contribution, it has been applied to my local
-> > review-ilpo-next branch. Note it will show up in the public
-> > platform-drivers-x86/review-ilpo-next branch only once I've pushed my
-> > local branch there, which might take a while.
-> >=20
-> > FYI [if applicable to your patch], as per Linus' policy change, also
-> > fixes are mostly routed through for-next unless the fix is for a
-> > commit introduced in the most recent cycle or is clearly a regression
-> > fix.
-> >=20
-> > The list of commits applied:
-> > [01/13] leds: class: Always protect brightness_show() with led_access
-> >         (no commit info)
-> > [02/13] leds: trigger: Move led_trigger_is_hw_controlled() to the right=
- place
-> >         (no commit info)
-> > [03/13] leds: class: Remove hardware control trigger when writing brigh=
-tness
-> >         (no commit info)
-> > [04/13] leds: trigger: Move led_trigger_group to the right place
-> >         (no commit info)
-> > [05/13] leds: trigger: Add hw_offloaded() callback and provide trigger_=
-may_offload_to_hw attribute
-> >         (no commit info)
-> > [06/13] leds: cros_ec: Implement hw_offloaded() trigger callback
-> >         (no commit info)
-> > [07/13] leds: turris-omnia: Implement hw_offloaded() trigger callback a=
-nd declare hw_control_trigger
-> >         (no commit info)
-> > [08/13] leds: trigger: netdev: Implement hw_offloaded() callback
-> >         (no commit info)
-> > [09/13] leds: trigger: Enforce strict checks in led_trigger_is_hw_contr=
-olled()
-> >         (no commit info)
-> > [10/13] leds: trigger: Add led_trigger_notify_hw_control_changed() inte=
-rface
-> >         (no commit info)
->=20
-> This is super confusing!
+- [High] The fix is incomplete: an RDMA LIF reset at 2 seconds can still
+  happen on the AH busy-wait path.
+- [Low] The commit fixes a user-visible bug: a spurious RDMA LIF reset,
+  after which every verb fails with -ENODEV.
 
-I know it is but it's how b4 thankyou mails appear.
+--
 
-> Where does this list come from?
+RDMA/ionic: Use the ionic command timeout for the admin queue
 
-The list comes from the original series that b4 caches somewhere.
-I deleted the patches 1-10 and only applied mbox that contained patches=20
-11-13.
+This patch changes the RDMA admin queue watchdog in ionic_admin_dwork().
+It used a fixed 2 second threshold and now uses HZ * ionic_cmd_timeout(),
+which is 5 seconds by default. The AH create/destroy busy-wait keeps its
+fixed 2 second bound.
 
-When constructing thankyou mail, b4 seems to take the cached list of=20
-patches the series had and does not find 1-10 applied into my tree by me=20
-so it says (no commit info). The rest appear as expected:
+> diff --git a/drivers/infiniband/hw/ionic/ionic_admin.c b/drivers/infiniband/hw/ionic/ionic_admin.c
+> index 0ccd869ad8e6a..b463ad8b4e804 100644
+> --- a/drivers/infiniband/hw/ionic/ionic_admin.c
+> +++ b/drivers/infiniband/hw/ionic/ionic_admin.c
+> @@ -18,8 +18,6 @@
+>  #define IONIC_ADMIN_BUSY_RETRY_COUNT	2000
+>  #define IONIC_ADMIN_BUSY_RETRY_MS	1
+>  
+> -/* admin queue will be considered failed if a command takes longer */
+> -#define IONIC_ADMIN_TIMEOUT	(HZ * 2)
+>  #define IONIC_ADMIN_WARN	(HZ / 8)
+>  
+>  /* will poll for admin cq to tolerate and report from missed event */
+> @@ -28,6 +26,11 @@
+>  /* work queue for polling the event queue and admin cq */
+>  struct workqueue_struct *ionic_evt_workq;
+>  
+> +static unsigned long ionic_admin_timeout(struct ionic_ibdev *dev)
+> +{
+> +	return HZ * ionic_cmd_timeout(dev->lif_cfg.lif);
+> +}
+> +
 
-> > [11/13] platform/x86: ideapad-laptop: Serialize keyboard backlight trac=
-king
-> >         commit: d288a6f989b7b9e6a730140c601987b886af327e
-> > [12/13] platform/x86: ideapad-laptop: Decouple hardware & classdev brig=
-htness for keyboard backlight
-> >         commit: 7d6c073d181d7855561831cb4bba17dc9b7d4aa9
-> > [13/13] platform/x86: ideapad-laptop: Fully support auto keyboard backl=
-ight
-> >         commit: 5d805ca01382d63d54c9984e7f19922c4ae6f3dc
+[Severity: Low]
+This fixes a user-visible problem, but the patch has no Fixes: tag.
+The 2 second IONIC_ADMIN_TIMEOUT removed above was added by f3bdbd42702c
+("RDMA/ionic: Create device queues to support admin operations"), which
+is in released kernels.
 
-Of course it would be much less confusing if it never showed those no=20
-commit info entries at all but unfortunately I don't think I can control=20
-that, sorry.
+Should this carry a Fixes: tag for that commit?
 
---=20
- i.
+ionic_admin_timeout() also depends on ionic_cmd_timeout(). That function
+does not exist at the baseline. The previous patch in the series, "ionic:
+make the command timeout per device", adds it and describes itself as
+"No functional change". If this fix is picked for stable without that
+patch, it won't build.
 
---8323328-1170544091-1794312148=:1229--
+Could the commit message mention this dependency?
+
+>  static void ionic_admin_timedout(struct ionic_aq *aq)
+>  {
+>  	struct ionic_ibdev *dev = aq->dev;
+> @@ -294,7 +297,7 @@ static void ionic_admin_dwork(struct work_struct *ws)
+>  		}
+>  
+>  		if (time_is_after_eq_jiffies(aq->stamp +
+> -					     IONIC_ADMIN_TIMEOUT)) {
+> +					     ionic_admin_timeout(dev))) {
+
+[Severity: High]
+Only the watchdog in ionic_admin_dwork() moves to ionic_cmd_timeout()
+here. Can the RDMA LIF still be reset after 2 seconds through the AH
+busy-wait path?
+
+ionic_create_ah_cmd() and ionic_destroy_ah_cmd() in ionic_controlpath.c
+set IONIC_ADMIN_F_BUSYWAIT for non-sleepable callers. In that case
+ionic_admin_busy_wait() still gives up after about 2 seconds:
+
+drivers/infiniband/hw/ionic/ionic_admin.c:ionic_admin_busy_wait() {
+	for (try_i = 0; try_i < IONIC_ADMIN_BUSY_RETRY_COUNT; ++try_i) {
+		if (completion_done(&wr->work))
+			return 0;
+
+		mdelay(IONIC_ADMIN_BUSY_RETRY_MS);
+		...
+	}
+	...
+	ionic_admin_timedout(aq);
+	return -ETIMEDOUT;
+}
+
+ionic_admin_timedout() then queues the same reset that the watchdog
+uses:
+
+	/* Reset ALL adminq if any one times out */
+	if (atomic_read(&aq->admin_state) < IONIC_ADMIN_KILLED)
+		queue_work(ionic_evt_workq, &dev->reset_work);
+
+After that, ionic_reset_work() calls ionic_kill_rdma_admin(dev, true),
+and every later verb fails with -ENODEV. The commit message describes
+this same failure.
+
+This path seems easy to reach. cm_alloc_msg() in
+drivers/infiniband/core/cm.c creates its AH without
+RDMA_CREATE_AH_SLEEPABLE:
+
+	ah = rdma_create_ah(mad_agent->qp->pd, &cm_id_priv->av.ah_attr, 0);
+
+cm.c also destroys those AHs with flags 0. On RoCE, every IB CM message
+therefore goes through the 2 second busy-wait:
+
+cm_alloc_msg()
+  rdma_create_ah()
+    ionic_create_ah()
+      ionic_create_ah_cmd()
+        ionic_admin_wait()
+          ionic_admin_busy_wait()
+            ionic_admin_timedout()
+
+This happens when firmware takes between 2 seconds and cmd_timeout to
+service the AH command. It can also happen when ionic_admin_post() puts
+the AH command on the queue chosen by raw_smp_processor_id() % aq_count,
+behind a slow command. The watchdog now allows that slow command up to
+cmd_timeout, but the busy-wait still gives up at 2 seconds.
+
+The kernel-doc for ionic_cmd_timeout() in ionic_api.h calls it the
+"device and admin queue command timeout". The busy-wait doesn't follow
+it.
+
+Later in the series, "ionic: add devlink param for command timeout"
+allows cmd_timeout from 5 to 255 seconds. It says it "replaces the device
+command and admin queue timeouts". ionic_admin_busy_wait() is not changed
+anywhere in the series, so the gap gets wider.
+
+The commit message says:
+
+    The AH create/destroy busy-wait keeps its fixed 2 second bound.
+
+It doesn't say that reaching this bound still resets the whole RDMA LIF.
+Should the busy-wait also be bounded by ionic_cmd_timeout(), or should
+its expiry not trigger the LIF reset?
+
+>  			/* Timeout threshold not met */
+>  			ibdev_dbg(&dev->ibdev, "no progress after %ums\n",
+>  				  (u32)jiffies_to_msecs(jiffies - aq->stamp));
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261105-b4-ionic-cmd-timeout-v2-0-35a9a2aa48b1%40amd.com
