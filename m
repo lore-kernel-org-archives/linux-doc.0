@@ -1,115 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794320079;
-	b=yXE6ORYzbUsGHRw+aLNkMQrpzQ4yMprxFoY5nMeFt4aY0x2kKkjMJ9niX9fg5QkITZe4
-	 NPvU4KnnKJe+0dza8riRN05sNaHLstenlVDkordQP62uuPscY5D/LKX4ZjK8oedskunaU
-	 NFcwL8nnPBVluQ5Z/LhpFXeT1gL7lhqfz3lFwe8EyELCM3E642R/CT4JLTmn4krR5HH2r
-	 b6MxMQdZ0ckDYxlaVyAdAF5EZdbfR+KA+op9W2cRLKP4Pa7RsSj2OPehQ58Mg1v6Rowr5
-	 67UmcSgjj4C9ZPNf41f/sEwul599To1q7n8Ew1yT4oUTCDnXRt2FSsWHdflvdoo59mA==
+	t=1794320381;
+	b=O5UKtiXL+6Fp+O+CPC7uiRPXVzn9L+9fmYUFTPmc32TKLaW+ejOhaJ3c7kqTjrsHiCvS
+	 sEpDjNLxlKVumLXHTjtyKTft8I3bIhZCHIo1J2bMipFS6YqV8Ew+DEkzLaBFDIUQhAjfQ
+	 0I3ehZh1/6MItQLQoQfbwtrNBcBQD/sEQCVmKh/rMfIzm8Kg9gLwjMPNWhD8Fxt94yifp
+	 S3FQW1Q8C8BrazquNij9zedOO2LLc7LX6Adh8yFvaXogcSdWlggA+oA3Qy7NOvSuxy2YP
+	 /Q23yBAWZXAtiTRYzMco6E3cfcWmKj6vK3PoCyFDrFDr0SZh1VoW+M7OHJGcuvd5YpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794320079;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
-	 X-Developer-Key:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=HlXgeWxFCsYVgmI1LCtDvAKQFHLkVa3Met4qvlNiqkE=;
-	b=lxF794pCYei7Hj7cKQfzFplMJHBgpYDULimb8Aj3ZszUsG5v1fClsDWTxEDynXNkE1M+
-	 ExF4gHqKn3W8apq4zsZACpFoGra9ZYRTM3Ds7ctXFJvcDuiD6SuO0SEeKoB7UvVubaDoc
-	 pk+pg4M8g1iiXgI2Rgztj4IePrxmrTF6mf6kQo3NffsEjx9C/KpVeQjBc75YtDJvhqTOb
-	 hnG/St5fQWR+Ao+KEErta/DdY9CJDbZyHR7dDV77Jwy1K1DDup7Smr+XMkoE//U5mXvyI
-	 nbwQ0VNBTdp3dEWPYmMFJN3kKJHryEwA5+oUnDnnb0znBPdr1636IiEi49qFmNAwEvQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320381;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Spam-Flag:X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=JeLsbqWiMjdzG6+TgWbDK+u6VONvVQ4vS5lnJDT7W4Ih4MDUjRWkT9qu/byT7EGI7UuI
+	 cdbG6X8Unr5z0g8QBK83y3RqybhhT43ewiDOsxj5UHne7T3bnJ+xr/hfa5TYfMkIB0r/x
+	 Rnw42/0aMcwAIwN7t2eD2RcQ5oU7kWFSRRc2PkP5tRNglsCelBSF7HZnm+G+LY8jAJJRx
+	 AmwHPUbl8AVaEB2NUlZ8tJREGPFjvSbcPbfuIu5iU4PSdT+4YK26NLAMnxgrgzsnOO5Cf
+	 +bo9l1mpnzyCUDZUziUnTSJk+ouoWbVWWXqf7XmzEgAjw7z0BjiWdZvl9zoHRvaGlkw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Gv8VFnF6;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=PSA1ltgi;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6853B606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:14:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6853B606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D7A560A262B;
+	Tue, 10 Nov 2026 14:19:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D7A560A262B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Gv8VFnF6;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=PSA1ltgi
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AABAG0k3839765
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:14:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=HlXgeWxFCsYVgmI1LCtDvAKQFHLkVa3Met4
-	qvlNiqkE=; b=Gv8VFnF69MbsW9vjFEEIFjHErJrOmXFrnaDY34cdITUuPULs3Er
-	YMsWBM99bRUWQqmmrSwvEz0tK+xPGNdLhrK9io3en+EcIEl8StCc8i5+vcxEenIh
-	PzDKhkPZPgZB5v3G82Ve3vt7XV7z4WEEIyF44JVKTbP4wz1vju/tImxXTlgwmKYz
-	u/2TsomGWP+ngHE0lIUiQCBUwZ5tH6vvOi0iHcunWUETVuuA9xG3Va1d5Y2QjKEI
-	b0AclNkqk8sOypWeJyU866qi4ACDkgGeuHS/Mu1TY9sP4+mWXz3vR7oHDGGpzTpG
-	702TtTvRm1uVK9EjbEnBKgkDFedquWY9hDg==
-Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4humjg3qxk-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:14:38 +0000 (GMT)
-Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-99077a0be0bso784629241.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 06:14:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794320078; x=1794924878; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HlXgeWxFCsYVgmI1LCtDvAKQFHLkVa3Met4qvlNiqkE=;
-        b=PSA1ltgiG/2ivCu2rZ+huElYfV/dffBYyc+FfNsFa6D5AkvfwgxSxkT55C2R7EoSx3
-         pL9j2DsjtUqZY47d+26gCykfvP/BcBH6ccTwj2uMK1I9hVbUkfceskbJ9CI1PrIKxg8i
-         gF7ise+xPflj9JRZrQjXBuN0TWj8roQnmm5CDCoViAL13GwTB7qUp1/p2MJ1jHi6SqJ9
-         3JkBsOsgvZtrFt+xQ8zSV8Z2uDTQHgBi/atApErXvvg635fKK5FYRt3tsHZ6r2t2N4mr
-         Aa3/bcjTx4tLtXvuFeEetXx9MYNcNMgNGsdS4MqxJmr7whIKDFMob7Z4gmMH02On4PCB
-         96rQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794320078; x=1794924878;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HlXgeWxFCsYVgmI1LCtDvAKQFHLkVa3Met4qvlNiqkE=;
-        b=LlhSQPzlEo1S6F8T9T66BtXCbjDWTDqF65ry9ztJgWQDttwWSaQC1Wx5qj1JXqy6dy
-         P7vjYr1RILHDPTGRHfH+fBFY9Rf++N/XFny/tp2Pw9I+CLLbEwcpN7O/S0Am+hr0VQIv
-         g227ixuDjzs5FBz983Xn/DFNAm6bMO6iphSYRJojClluCHpLVy9f5hHA2UW+nlnISpcd
-         dexGCIxiUQVAq01GpalpD3eTPKjDMKp0CxyAf0qdUSDDJn06QPHT/pJ1GFa+PP4Tv37b
-         oF67XdBhXYc5XZqxwFJClow1bHtOLdJZiz0DFrxVUOKxF+poT732nInI7G32ob1vmxek
-         U18A==
-X-Forwarded-Encrypted: i=1; AL+hErESO3ypjSYS7jRSpgV+ozUy0kmWk/Wxoo4e8O8JULcR6EweyJQ2HieZ9lB7S2NtMWP/ie/EQFraMQs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+gNqaNwa/dRalNtswmfXGzqDTYjwvQyJy6I/V1lGUH4TvVwY1I
-	Ks6PcbMcqSgxaWfuqxW+rsxEnYGIWXi3R9Wf8FfSKG9H0bXM8JmXMugB/cS5S8Vyp9WXFFM76zJ
-	XqZd2a3ZmMd1u1W181KtjO5CN+pcVKCTENYaCf9axZdyvJXE13cFAKg7sEjhGjdE=
-X-Gm-Gg: AYBFou03kZN2XdJcqv37eNbQ4DTLNFgpxnHjmfl3ovaFvEJ8YV3my0EPsepgh7x3eC5
-	NOkP73q8lbSlj3mFYA0kUcnHa9KXEPoeqc+rzYLGrAXwDFUJbrY9pjv5luRMXxjo99qIKk9hZNm
-	+3kIJ5SxFA8YDCOc2beNQpao/8wcb3fXP/HahziFZs3df7XdWrmsnC1xPB8juK3YPFye2KM3NdG
-	MzGw1Xzagkal58mL4ZyuXX4gj60mOc+4I0zPAehYJ/SvXNtPfT9j3Ptm+D45BurZ39gMoMSlMvk
-	CE2vTDSrGWgkM/wXyR6Jy892XGKxYlPLMewWR4sFnOy75trvakMeV+3+ZHiKU08twHoIe+HY1VX
-	iYr4Fgu7MVn2ggtAnIQ24/tbFUsV+EnCwmqpDIAK/PofsxMzzA7XezbtZo2d8Mg==
-X-Received: by 2002:a05:6102:6a91:b0:7d2:cdd6:6c8 with SMTP id ada2fe7eead31-7d301bb97afmr720179137.21.1794320077600;
-        Tue, 10 Nov 2026 06:14:37 -0800 (PST)
-X-Received: by 2002:a05:6102:6a91:b0:7d2:cdd6:6c8 with SMTP id ada2fe7eead31-7d301bb97afmr720163137.21.1794320076998;
-        Tue, 10 Nov 2026 06:14:36 -0800 (PST)
-Received: from quoll ([178.197.218.7])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49884b99869sm4024355f8f.4.2026.11.10.06.14.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 06:14:35 -0800 (PST)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>
-Subject: [PATCH v3] docs: submitting-patches: Clarify partial review tags
-Date: Tue, 10 Nov 2026 15:14:30 +0100
-Message-ID: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=24m00Mxy;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=gWL5bCh6
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 8A12F21E31;
+	Tue, 10 Nov 2026 14:19:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794320377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=24m00MxyS14C4kCTYYtxKWJP25EBVNVIxLRshWhDnl2XZwRpRipDNZJw4Avu/J2svsqCMy
+	VTYT/SHAlqxbP0FIU7B9V7eV3/1rBXkEe/Lcm9f8ja9SENmigoj1MKRmnopRtQWBaY3OFh
+	eux20BDfQ6AJqBojuMAzQiJJg3QKDxU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794320377;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=gWL5bCh6bmxfDaClyKTxrGr/cthAMhYHhVBSAgTvyrROUNgpSm1do5CLIUVQzQAzFJlTzk
+	zIhImlSyPcZvZwDQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794320377; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=24m00MxyS14C4kCTYYtxKWJP25EBVNVIxLRshWhDnl2XZwRpRipDNZJw4Avu/J2svsqCMy
+	VTYT/SHAlqxbP0FIU7B9V7eV3/1rBXkEe/Lcm9f8ja9SENmigoj1MKRmnopRtQWBaY3OFh
+	eux20BDfQ6AJqBojuMAzQiJJg3QKDxU=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794320377;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ey86SkVvx7i9NDOgarxUx2o/w+Rx/Wx0u51qrIOGmpM=;
+	b=gWL5bCh6bmxfDaClyKTxrGr/cthAMhYHhVBSAgTvyrROUNgpSm1do5CLIUVQzQAzFJlTzk
+	zIhImlSyPcZvZwDQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 5517613479;
+	Tue, 10 Nov 2026 14:19:37 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id I5aLDPkn82qLGgAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:19:37 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id D0CEC22536; Tue, 10 Nov 2026 15:19:36 +0100 (CET)
+Date: Tue, 10 Nov 2026 15:19:36 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 29/51] proc: don't walk through a non-directory when
+ resolving a name
+Message-ID: <okuebbxuf5q6xy452dlnxaqwainsafs5waulvn54j3vqxg2dhx@hh6ql7sg3pte>
+References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-29-bbf7d5546809@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,104 +131,105 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2607; i=krzysztof.kozlowski@oss.qualcomm.com;
- h=from:subject; bh=Zm5ucH3QzyK+131MnhFZbkBIkNzuwWp2O1N8ZiDdMT8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBq8ybFMVJitws7oWjWSIEkO9r5Dx825g3GPOQ9R
- aA8n55mkX+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCavMmxQAKCRDBN2bmhouD
- 10F4D/94N+fw39TgUThBNGBN+e6BIMIw+Im+v1KD4Iqi8iglWXjTO1VZOTudNUW+hTe7X0/JObr
- LT5AZQmur5IWg24i3tmC0lMmOW3NO/cJw5TjLu3oWS9tnQmPxpBV3XeELJBTnsedk3up5CyF3Id
- AFa2mMkZ/gRZgbqvWHeygUBo35+ilZa4kFdJVJ3CNrstlaiN63xDPeB/nAuFoP3fEDty1dSyC4H
- HgUtjRF3PJ0yj0W2dZSsEiMcV0i4l6Trq1vfxVhXjlQb+dA32W2GCadodHN60kbydS+vfuj52ac
- Tuh7j9LySbvNlSPHy00zFvirrwe4jrajT03wkRmz96Cx9F93JResnfEuOMPOjqusyr+IKpLEvBL
- DT6kG5+oOAtAzMEPXoI5vvI10YCvFmmtnp12yqGbybCF4+ZJ1O54hcd69IlBhWjyMvSvUhLtYxJ
- 1Gq/AjWWJxSGTYb3dYL4YTCrV+ji53GngJLv4itS7r7vH7UeKSOzbSCSLnt3GWdKQuSVvv54+eA
- ZgSOIQG3XoH/FymnBqHM6k8uWXvpGEOpqlSfpXInUjgRJF0uHudGkI9Ttnv9UZYHUnYnt6x+Lrt
- hNRZsD+5erYMDhN9YRo9iPtB3sZltkKOlBCfTAJwsraTLMMWqUcO5kVwUxqcBlT3dEbJm1Hlnjw KY7ngzQH951TQUw==
-X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA1NiBTYWx0ZWRfX2M/znR00INV8
- dwXnVEYnSEmpKmm+TXqX68tCmhdqwFGGQw1PnbjJtYUtQj3pk8hEP5yJgkGiEr75IX2AZBPHKP8
- 24wI5jZ1Hxh7E/I4hg2ViaOYdhOw5CmRsMq9Vpj2KVewKuCUHLLrB9cDbeE3b338MIRZUNpoerl
- gGb9otaYaKnmGKgpBAn4odVQ95AeXERDje+tMEOcOkuJTtrE3a2rInC7LxX14XZbmT8b3NITsdx
- JbsT221NDpIHi28FqRgZBfF5PO9kLsW5tnVCaTmgsrjnYIj8KAlyfDqy3hJCCiOEVf+uXH+c2Ji
- WReRnNeHI5W/1QKY15R6oS8SPuA9hr5nbni4a+hWBgLSzpEXRVhKpTRImL9MC3xzq9wo4nqsKej
- p0rzxXg0C7KiX0/I36sIo9/s/KHuwnZ9xUdphJUz4kF1XQBBiKofHl9S9VNGjqbAa/UeGJWl2B6
- IfGmNYtCZMO3lpJkrpQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA1NiBTYWx0ZWRfXyff3QrQLnaxi
- NqoWBdroD/5W7lnSTNGjGNJ+FrVtPejpml6GzcOCh3VWPutd4cF8bZY/maoy7V/DLCFeCykAUQq
- sEdKLk9M8LE1l4RFZFogbsqDn3Jzqqg=
-X-Proofpoint-GUID: gk7n0V7m5faxqKVAwgynl3Msyd8pW93m
-X-Authority-Analysis: v=2.4 cv=B6gsQ+tM c=1 sm=1 tr=0 ts=6af326ce cx=c_pps
- a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=uyPgTw0bjBTS2cVxpiNm5w==:17
- a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=QyXUC8HyAAAA:8
- a=EUspDBNiAAAA:8 a=QIhr-27iAAAA:8 a=LDBv8-xUAAAA:8 a=QtS_tYemhZOPClHeaekA:9
- a=TOPH6uDL9cOC6tEoww4z:22 a=cgaYBWEFosGJW4rWv5Lf:22 a=DZeXCJrVpAJBw65Qk4Ds:22
-X-Proofpoint-ORIG-GUID: gk7n0V7m5faxqKVAwgynl3Msyd8pW93m
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-10_04,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 lowpriorityscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0 malwarescore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611100056
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-29-bbf7d5546809@kernel.org>
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_TLS_LAST(0.00)[];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RL63fqwwx8ot6gmekemcs76f9d)];
+	MISSING_XM_UA(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[60];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,imap1.dmz-prg2.suse.org:helo,suse.cz:email]
+X-Spam-Score: -11.30
 
-Refactoring of driver subsystems or some core driver parts often come
-with change of the actual drivers.  If that happens within one patch,
-people giving "Reviewed-by" tag only to piece of the patch, like one
-driver, and ignoring the rest including the main concept of the patch,
-are not really reviewing "the patch".
+On Wed 04-11-26 18:47:15, Christian Brauner wrote:
+> __xlate_proc_name() walks the components of a name like "a/b/c" and
+> takes whatever it finds for "a" and "b" as the directory to go on in.
+> It never checks that they actually are directories. So
+> proc_create("file/x") hangs x into the subdir tree of the regular file
+> "file". Nobody can look x up there, but remove_proc_subtree() on the
+> file removes and frees x along with it, behind the back of whoever
+> registered x.
+> 
+> pktgen passes the name the writer of "add_device" picks to
+> proc_create_data(), and only the part in front of the '@' has to name
+> a network device:
+> 
+>   echo "add_device lo@"   > /proc/net/pktgen/kpktgend_0
+>   echo "add_device lo@/x" > /proc/net/pktgen/kpktgend_1
+>   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_0
+>   echo "rem_device_all"   > /proc/net/pktgen/kpktgend_1
+> 
+> The third write frees both entries and the fourth one makes kpktgend_1
+> call proc_remove() on the freed second one:
+> 
+>   BUG: KASAN: slab-use-after-free in proc_remove+0x8f/0xa0
+>   Read of size 8 at addr ff110001134c8e70 by task kpktgend_1/243
+>   Call Trace:
+>    proc_remove+0x8f/0xa0
+>    pktgen_remove_device.isra.0+0x118/0x500
+>    pktgen_rem_all_ifs+0xeb/0x1a0
+>    pktgen_thread_worker+0x1b42/0x7280
+> 
+> The files of a network namespace belong to the root of its user
+> namespace and these writes don't require a capability. So once pktgen
+> is loaded an unprivileged user can do this in namespaces of its own.
+> 
+> Treat a component that isn't a directory like one that doesn't exist.
+> All names with a '/' that the tree passes in as literals only walk
+> through directories. pktgen is fixed separately to not pass such names
+> in the first place.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
-As explained in the Submitting Patches document, the "Reviewer's
-statement of oversight" is for patch as in "entire patch" meaning:
+Looks good. Feel free to add:
 
-  (a) I have carried out a technical review of this patch to
-      evaluate its appropriateness and readiness for inclusion into
-      the mainline kernel.
+Reviewed-by: Jan Kara <jack@suse.cz>
 
-The sentence is explicit, exhaustive and complete, meaning it does not
-allow implicit variations like: "this patch or part of this patch".
+								Honza
 
-Reviewing pieces of the patch while ignoring the main part of it, is
-much closer to Acknowledgment, thus Ack or at least "Reviewed-by" should
-be followed by '# subpart' suffix.
-
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
----
-Changes in v3:
-1. Minor commit msg adjustments
-2. Use  Driver X author <foo@example.org> # for Driver
-3. Tag
-
-Changes in v2:
-1. Few grammar fixes in text and commit msg.
-2. Mention the "# subpart-name" marker solution.
-
-Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- Documentation/process/submitting-patches.rst | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index f271d7413f72..040f81b2bedf 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -585,6 +585,11 @@ serves to give credit to reviewers and to inform maintainers of the degree of
- review which has been done on the patch.  Reviewed-by: tags, when supplied by
- reviewers known to understand the subject area and to perform thorough reviews,
- will normally increase the likelihood of your patch getting into the kernel.
-+If the reviewer checks only a piece of the patch, leaving the rest unreviewed,
-+especially skipping the main concept of the patch, then more appropriate is
-+an Acked-by tag or adding a "# subpart-name" marker after the Reviewed-by tag:
-+
-+	Reviewed-by: Driver X Reviewer <foo@example.org> # for Driver
- 
- Both Tested-by and Reviewed-by tags, once received on mailing list from tester
- or reviewer, should be added by author to the applicable patches when sending
+> ---
+>  fs/proc/generic.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/fs/proc/generic.c b/fs/proc/generic.c
+> index 4c3fcaf68ef4..6ac9c4c13897 100644
+> --- a/fs/proc/generic.c
+> +++ b/fs/proc/generic.c
+> @@ -170,7 +170,7 @@ static int __xlate_proc_name(const char *name, struct proc_dir_entry **ret,
+>  	de = *ret ?: &proc_root;
+>  	while ((next = strchr(cp, '/')) != NULL) {
+>  		de = pde_subdir_find(de, cp, next - cp);
+> -		if (!de) {
+> +		if (!de || !S_ISDIR(de->mode)) {
+>  			WARN(1, "name '%s'\n", name);
+>  			return -ENOENT;
+>  		}
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-2.53.0
-
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
