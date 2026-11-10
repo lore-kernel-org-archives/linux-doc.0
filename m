@@ -1,82 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.156.1
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794302210;
-	b=x4gT5f3Rb+c/QK3ZmcQkh1tSqg/9zVbtKSJI7997IhmOhnojQ+43BrQP7rGnjVRs8VIt
-	 MXetltbYV0yK/IvsexPr0E+0pBqtDdFYswlc9duuGUFJP23p4JG1VD6NE6ANu5GfbE2um
-	 UmDfVhCCCBBjXlnf5gmCaJrC0LHiR72Slbv49JF9qfOXVnH0jLE6Fv7e2HBwVTjuYHJZW
-	 Aetin8XgY2QqV9yGMFkAPvzqZL5P31OpbyEZBOH+7D4EeaDgp5CuU0YLKNeWqn9bakw15
-	 BPWbX35UwklQzH8Wl6xrhqZTHhDDQtEOQ4zmcx2j3sE/3+jILYydQhiErHmrUbm0QXQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794302210;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=HcBmS5+Nw/jsTb/Wra7B8fpVNEeGNPFeCKK7weXJ2c0=;
-	b=i7MKWEwWSQJXJ7EEFKLwGz+xqwqtEEJzvyyHcTNMWRXvIrbsjdW1+QsadrrhNCLCInZj
-	 OcK6aL6Tk3lHzm/EOJt46VJng2qkQQXdx2oshaAAM1fnWTawrt3dmhtiS0Z7ygyeKuYEn
-	 aZBHNdWynbnyynFsHUUIXnqqvaZXwyG0ny5wckJx1wI2ev1fuzfoU/HgNrGHu+TW3Wy7E
-	 LMY1d+NBtjOPj+t2Ah4q2s0WEmuyVrkJHvYqVa8niukAdJtW99nxx58rOfkPOYC5YB8p6
-	 qSJRziW253HWSMzdYxuoK69JNmVqdS9YHmBcLArQJV8EQP4hFRuHB4SHZZ7MwK87wbg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Euvb0XBs;
-	arc=none smtp.remote-ip=148.163.156.1
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794302546;
+	b=1ay7sZqDA6f0yABeoQTmSW+obxe8yAgNU3+zrdW4ZxrgjBcGt2L7FEKfxR0hCKfljImD
+	 el8Lp1LPPF8oPfchXhPWCFZJokAvOQOZUEx5rfO5QrEnFTr4u5M4bfX1sdvAEwYg5aFVA
+	 lN3osBUGSVmCR7dS7/MNJ+RFqOoaMdn5ynLBtJ7JSDylaW8cpUtfZbYB1r5FLJGpJXKbx
+	 iSGxrVpTZLZWw78Mv/7fTokJupEA8WWzuPr/XWq7qyP+7y65k+8bqRkTtKnq3AxihrroG
+	 YDzMdh00eSwfbaUs3kGlkWTOHaEuJ34on0sRPbBNuNB3QqLYTBby95OPxlhnWAZd64A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794302546;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=y2+SCNl1g+fUz/U7qKDHB1BkCucwWSgvxXfo/ANkBxE=;
+	b=Wp12XwgB7aJkTBBbi1vuwn4SYQwRxzm9igONnYAa+HKe3qLEBQorxhlTKIN+vsj6iXGG
+	 DeF1p9mNEjn1d+UI5+YgHsNpdxFDMUYvzFo2z3YEwehm9SriXWv/18o0UC8vXCkOZQwUB
+	 D4Bq3q/Xe9+kTMkdg8ESdJA0W9KxolYNuCx2AMqqz0WoFdvvEOz4fTOt4Rikz0Spb4ZOT
+	 f2UiT+X66wjo93K3eX10eNYzcl+bnAtCn4FT3VO62AQBMnXc2WdDG5gBgzIIemJuG5SnE
+	 3Ar4UHfClrZXusav7vjJF6L67X0ToKIbq6cbRU9EMpBuLpqBPR+wqQGIi+mBWQ0iDvg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=sartura.hr;
+	spf=pass smtp.mailfrom=sartura.hr;
+	dkim=pass header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=NXR5MPOw;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.45
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 125D160A3829;
-	Tue, 10 Nov 2026 09:16:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 125D160A3829
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9834606E5A1
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 09:22:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9834606E5A1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sartura.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Euvb0XBs
-Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AA8EQfQ1812456;
-	Tue, 10 Nov 2026 09:16:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=HcBmS5
-	+Nw/jsTb/Wra7B8fpVNEeGNPFeCKK7weXJ2c0=; b=Euvb0XBsl3EzzvP1u1sip/
-	x3IUuRd/ucv8cad57wR0FpCnl6ItPfW4TGhQ7cRRO53dxl1uVqTyo5mQwl9+i4Ba
-	EsUnWqmLLMz3fJ25pv5PMz0mGIYNtzazLArSzKbBkGEClRO1VFQ3pcV6Op7pvTRJ
-	XAXVFG60+9EVDgZ3bvl2daydJvuDCXCHfc7HlmaWlfVT24yFR3/a9td/nRXKzjs8
-	05703+ov/L4aF6mcaD01Gg6i7JJD53pLfbaqNGRayraJqFpHru4FRmCRDQsiyImm
-	X3AtdP4jzebIk2pq+OHQqzp1q4RlqjAYQisVA94wdNzCJQxHdsn2T5NT8O/U+i3g
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hsuq6v2hc-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 10 Nov 2026 09:16:11 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AA851do1498149;
-	Tue, 10 Nov 2026 09:16:10 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4htepvx2cf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 10 Nov 2026 09:16:10 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AA9G6ss56164728
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 10 Nov 2026 09:16:06 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8768D20043;
-	Tue, 10 Nov 2026 09:16:06 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5C22E20040;
-	Tue, 10 Nov 2026 09:15:59 +0000 (GMT)
-Received: from [9.39.31.79] (unknown [9.39.31.79])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Tue, 10 Nov 2026 09:15:59 +0000 (GMT)
-Message-ID: <1d1b22ce-fdf1-47ad-99ec-8c9925ea7275@linux.ibm.com>
-Date: Tue, 10 Nov 2026 14:45:58 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=NXR5MPOw
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b2237b596cso3869957a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 01:22:25 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794302544; cv=none;
+        d=google.com; s=arc-20260327;
+        b=VuV2sb6sRDHxJQbRKm8Mvb2/rTAzWf9RZD1r5jJGgWkENMFv1Lni3IOqCdz49e7c+s
+         TpswGOki7z5+Zq5aKPliSrBq2lBU+J17aIF/IJhoNbAEDj9yeATNMFJFSguoEkjolzL/
+         zfo+ViBu+CB3sIm6SuJMez8ufvHpZaqbAaWvCBAuyAb5diiDkeWZiskZ4Zbf4ZWeoDCO
+         rHUMBXIQv2QCfXagIF89PUISfwj/mrrTFI829fI1PuhgaQB18ZZ8OMv2CEFbJEIXDwzw
+         l2XF51/bd+zN+wTe3wYoIJgXPJM/9DOl7OzmVNjMGyK8HcjjOdfTruZPbe9UhLLHsFiI
+         pZWw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=y2+SCNl1g+fUz/U7qKDHB1BkCucwWSgvxXfo/ANkBxE=;
+        fh=3seZ70WX+mh3hXImIYXHdY7UNjlNkKfwGxSeZiosRAw=;
+        b=YOqdmMsFYofKakBWvykyWKgwLY8OoqVOPddfx/oVGHYo7sdXsze+BmXtknFKNu9lUu
+         jP7q2kLKWu5bmupGxV2UZrJSKRswgWwSMaaUlWG9ITM2TECN/xJ0DQBUiB0vKz883r1l
+         kSFhgzTkdPTEcoPpOo3JjXgsXxfGQrCwIPMRdQAe+n5VD+PEMvS5yAG8S6na1mkcnQ4u
+         1NSqNZKAMbKa3J9f/3/oxF8WYcht4D6k2weQ9C4PHOe3W1Zrm4uFHcKtxn9GVuHeI7qw
+         3oBFDy862JlEwoWjYArhT5mqpgmv5UnsY3dXijvNyYydutwfEWryqNgqrPdGU9ELFxWf
+         8Yzg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura; t=1794302544; x=1794907344; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=y2+SCNl1g+fUz/U7qKDHB1BkCucwWSgvxXfo/ANkBxE=;
+        b=NXR5MPOwdaMf6PEidfFMOtJrDo0++kwwclPaUhT8H6L4jLfdOKxwCWOx1beA+uc4ue
+         ry/eza9Wdt3a+5ILzZTgJocL5sFs48rpDTJcWC0VYblo5HV0vytCkCur2C9urCyRCm6A
+         m4qGgoCBLbVbGsdXG/i0BUKN9gRz8p9rAYcpnEMhmnxA6CXqutbvo3IKl1oYxcIgsQ8q
+         vBlkX+mBKD4dNuxOqnCp++i6xusFxgUoB23EOk6PmiLJTEqEVsAZ1mK5kpbw/gQpIf1+
+         E8VTPL8Q1rx35UO7soJTgEyg/jmib8sV7DVyBqvvydD2dJ5KKB9bYjGkOwjpvwsijzm3
+         wnOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794302544; x=1794907344;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y2+SCNl1g+fUz/U7qKDHB1BkCucwWSgvxXfo/ANkBxE=;
+        b=Xm5nwvYcjp5ln77j8cp35DMxt0WrPtD5Dz7UJgsDicibL2XnwNHHycJHcG8WOXa1PU
+         1dADz7tBY/7Tc50jXlJVE7w2mTpXCASD0v+rw5cfwifJ+3PGNlvILZMZxv7lEmjqJyTY
+         nRYj3ryEuFXEc5kRb4ZNmtro+5C/wnPLY+iAX2Kxu1klM17ZRomT0J/l4rrVHGu/9tvX
+         8A+mUeXIeFa5fB9D3l6bx0hpdxESoX/WT/OQnnnzt+mdB8AJhBpUOnqmyKTvcn6GdcP7
+         wjtb7l3aoowGTnfKlzsTkweM2Db+ZlQyFU67GvoZz31upxlSwwl9nO1TsRc/BKTyLrPq
+         yH2A==
+X-Forwarded-Encrypted: i=1; AL+hErFwMiS1nI3pze/zsDM9LXMWS8JQV61V2FkKxuNoDGUqNDZgSeAcRFv8IoIrK+0/oYWQ4zvtUGEdROE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+jVeV9dk+ksCtoCwPTugAEhI+kW3/ADWxbKoftJmZYa1DEuwZJ
+	RRvP9N90LINpPHcgVD5z07RAAkZjqjfLEnGw+zrQidw1YjXfSdkJyW0Ic0wMiAuMt74yANisV5X
+	rH6oD23BkMSXCLQx4Bdhia32QyD4LvyFyJEcjGBuCLA==
+X-Gm-Gg: AYBFou2kr23SDH5wt0h5XBSaeAaxd0H7i1Tc/YeyYdRCjVf31cm9OxiFcNOo3R7dAFU
+	tjl8lGVWUMc8TVCY/PcbFe2ID/MYpHAmyzaLAj5RlXT5oI1p9sv1sL6eNVn5Lx7YRyXYtiohepN
+	g/JgHcLifx+EM4WLtE4o3c+jtmYsIIH8lZLwroWmvsX27Ebl+6OOjyTmG/50cBbM8dKEGg3G9W2
+	yBohS5RAX9RrBLloR7i8NSMtbOSNbHcDRXCJMe3P2zDOIpoUVNmR2mTCAx4dF88VXB+Tyz9VDX1
+	FcKVrCvi2HTc8wZe3ne2x1MNzCQsZKwl6gwApbUfcJxOm/B1jfhfF2PdG0Y+Vu++6ZcYTBu+BKg
+	HBJ0x0CcQ4O6c8ivwVeoB31pF8pX1+ziVT81kZ5aJcy+MiIN+5B697vRy/JFq1ePUpfovWPJ3f2
+	sdvgjNsoWRFKs5KyEHzg==
+X-Received: by 2002:aa7:d691:0:b0:6b4:206d:724b with SMTP id
+ 4fb4d7f45d1cf-6b7564be0dbmr1242231a12.7.1794302544016; Tue, 10 Nov 2026
+ 01:22:24 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,113 +105,393 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
- mask
-To: Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andrea Righi
- <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
-        Mete Durlu <meted@linux.ibm.com>, Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt
- <rostedt@goodmis.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-s390@vger.kernel.org, Yury Norov <ynorov@nvidia.com>
-References: <20261101192203.6979-1-ynorov@nvidia.com>
- <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDAzNiBTYWx0ZWRfX5pCaNYyeS0GK
- /qoKN2A6JamDgryJ+BemvZnw4QGpf+1XjEjgUG26sziaCDm4OHmG0ASXzl4FJdoOB+vr8TLa+Dy
- dwoirZ0OEIYOZAC4O2tEq+j8pC7vmuA=
-X-Authority-Analysis: v=2.4 cv=HbCB3SE8 c=1 sm=1 tr=0 ts=6af2e0dc cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=Ikd4Dj_1AAAA:8
- a=S2HyHEYmQh1kXY00aCwA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: V0Qpv5g5dMd40m2X4caVWzhKaZKP2Zbn
-X-Proofpoint-GUID: R0Mklm7znZwmumFMQXCwYU792AB9pLQO
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDAzNiBTYWx0ZWRfX0P2aS5Fa+IjE
- mHvDmDdBXSkhujTEso78l7iZZnVhWCSaLmH1Ds1/nVG3OGRd/1ItjrGH9YblNZ2usmsDUKhMbr6
- ETpmBzrql1By6360fUq2AKCeiK1VWwur8GbZ2tgegDqcNKFpF7+LkUKjCmPNocXZ/p8G9YnS8Iq
- 8Z/uRmeVSEwiLM/eO+a1OVE6z+UcwoAq2jdrvL7iGuzuhkRu2n+s5lWdfzKhGSntm+4MwU0ZiOp
- Hlae7G3URIEak5gaQvA6CtZGdfWkfL+M4EfZE1I5yOf6d2bovikSW0xX21nN8b8x1qenDf4Etof
- slwHP2ByJHiTcptVrjFg4Fe9EcNld/VgjHkyITUpqZOUCHLLw7nRKMsZbhjTBQsH9XLKFuV6Npo
- 8Qtb2ldPGC2sazaM0hR+IYAEDisGI0WyokszlznYVpGj2sp43amYRM3Jw6cyxcTjXSGWKHhPWVU
- GxDfYJOEu23bI9c4IYw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-10_03,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 spamscore=0 bulkscore=0 phishscore=0
- impostorscore=0 priorityscore=1501 clxscore=1011 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611100036
+References: <20261109133609.810876-1-robert.marko@sartura.hr>
+ <20261109133609.810876-3-robert.marko@sartura.hr> <e189dcb8-1cbd-4629-85dc-1b73243806fd@roeck-us.net>
+In-Reply-To: <e189dcb8-1cbd-4629-85dc-1b73243806fd@roeck-us.net>
+From: Robert Marko <robert.marko@sartura.hr>
+Date: Tue, 10 Nov 2026 10:22:12 +0100
+X-Gm-Features: AclHuK9j1ZB9DgxmBU3BCdoMkXb15eczBUGWQkCKPQtctapS4pYm4i7sf3JyTXQ
+Message-ID: <CA+HBbNHWVEJb+YHt1FLHSihO++6=kKEeOnazX_58cMUSbMfwQA@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] hwmon: sparx5: add LAN969x fan monitoring support
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
+	skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	Steen.Hegelund@microchip.com, daniel.machon@microchip.com, 
+	UNGLinuxDriver@microchip.com, nicolas.ferre@microchip.com, 
+	claudiu.beznea@tuxon.dev, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	luka.perkov@sartura.hr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, Nov 10, 2026 at 12:51=E2=80=AFAM Guenter Roeck <linux@roeck-us.net>=
+ wrote:
+>
+> On Mon, Nov 09, 2026 at 02:35:07PM +0100, Robert Marko wrote:
+> > LAN969x has a fan controller with a tachometer in a register block
+> > separate from its Sparx5-compatible temperature sensor. Match the fan
+> > node independently and expose fan1_input on its own hwmon device.
+> >
+> > Read the optional pulses-per-revolution property from the fan child.
+> > Preserve the temperature-only behavior of existing device trees.
+> >
+> > Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+>
+> I don't see the point of keeping this as single driver with two completel=
+y
+> different sets of functionality. If you want to have two instances, pleas=
+e
+> make it separate drivers.
 
-On 11/10/26 8:45 AM, Maxim Kuvyrkov wrote:
->> On Nov 2, 2026, at 08:21, Yury Norov <ynorov@nvidia.com> wrote:
->>
->> The preferred CPU mask currently lets the steal governor reduce vCPU
->> demand when physical CPUs are contended. This series adds manual control,
->> opening more use cases.
->>
->> For example, setting CPUs aside for selected fair tasks at runtime while
->> steering other fair tasks toward the remaining CPUs.
-> 
-> Hi Yury,
-> 
-> I've been trying to do this with crutches in user-space for a long time.  Thanks for implementing this in the kernel, and with a convenient user interface.
-> 
->>
->> A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
->> whose affinity includes preferred CPUs are steered away, while tasks
->> whose allowed CPUs contain no preferred CPU can still run there. The CPU
->> stays online, task affinity is preserved, and the selection can be
->> reversed without rebooting:
->>
->>     # rmmod steal_governor
->>     # echo 0 > /sys/devices/system/cpu/cpu3/preferred
->>     # taskset -c 3 ./my_workload
->>     # echo 1 > /sys/devices/system/cpu/cpu3/preferred
-> 
-> My use-case (being a compiler optimization engineer) is to pin benchmarks to specific cores, and stop the system from using those cores even when the cores are idle.  This prevents L1/L2 cache pollution and makes performance numbers more stable.
-> 
+In v1 it was the same instance but then DT maintainers pointed out
+that it should be different nodes at least.
 
-Do you change it when running workload based on any signal/event? or you set it before starting it?
+I will split it into a separate driver in v3.
 
-If it is set before starting, you might as well offline the CPUs to achieve the same. I assume you are
-managing the preferred CPUs manually with write interface. You can do the same for online state.
-(Though it takes a longer)
+Regards,
+Robert
 
-> Thanks!
-> 
-> --
-> Maxim Kuvyrkov
-> Garden City Compilers
-> 
+>
+> Thanks,
+> Guenter
+>
+> > ---
+> > Changes in v2:
+> > - Register fan and temperature monitoring as separate hwmon devices.
+> > - Reject a present but malformed pulses-per-revolution property.
+> >
+> >  Documentation/hwmon/sparx5-temp.rst |   9 ++
+> >  drivers/hwmon/Kconfig               |   7 +-
+> >  drivers/hwmon/sparx5-temp.c         | 146 ++++++++++++++++++++++++----
+> >  3 files changed, 139 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/Documentation/hwmon/sparx5-temp.rst b/Documentation/hwmon/=
+sparx5-temp.rst
+> > index 0140809089542..a053d12fbdbbb 100644
+> > --- a/Documentation/hwmon/sparx5-temp.rst
+> > +++ b/Documentation/hwmon/sparx5-temp.rst
+> > @@ -15,6 +15,10 @@ Supported chips:
+> >
+> >  Author: Lars Povlsen <lars.povlsen@microchip.com>
+> >
+> > +The driver also supports the Microchip LAN969x temperature sensor and =
+fan
+> > +controller as separate devices. The fan controller uses the
+> > +microchip,lan9691-fan compatible.
+> > +
+> >  Description
+> >  -----------
+> >
+> > @@ -30,4 +34,9 @@ The following attributes are supported.
+> >
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> >  temp1_input          Die temperature (in millidegree Celsius.)
+> > +fan1_input              Fan speed in RPM (LAN969x only).
+>
+> FWIW, this is misleading. One instance will support the temperature, a
+> separate hwmon device will support the fan. Really, if you want to have
+> two separate devices, make it two separate drivers.
+>
+> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+> > +
+> > +The tachometer counts pulses over one-second intervals, independently =
+of the
+> > +PWM output. The fan child's pulses-per-revolution property specifies h=
+ow many
+> > +pulses represent one revolution; it defaults to two.
+> > diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+> > index 3ae676a56d95c..deb9eb82b8501 100644
+> > --- a/drivers/hwmon/Kconfig
+> > +++ b/drivers/hwmon/Kconfig
+> > @@ -669,11 +669,12 @@ config SENSORS_I5K_AMB
+> >         will be called i5k_amb.
+> >
+> >  config SENSORS_SPARX5
+> > -     tristate "Sparx5 SoC temperature sensor"
+> > +     tristate "Sparx5 and LAN969x SoC hardware monitoring"
+> >       depends on ARCH_SPARX5 || ARCH_LAN969X || COMPILE_TEST
+> >       help
+> > -       If you say yes here you get support for temperature monitoring
+> > -       with the Microchip Sparx5 SoC.
+> > +       If you say yes here you get support for temperature monitoring =
+on
+> > +       Microchip Sparx5 and LAN969x SoCs, as well as fan monitoring on
+> > +       LAN969x SoCs.
+>
+> Same here. Based on the description and the documentation, a user would n=
+ot
+> expect to get two separate hardware monitoring devices.
+>
+> >
+> >         This driver can also be built as a module. If so, the module
+> >         will be called sparx5-temp.
+> > diff --git a/drivers/hwmon/sparx5-temp.c b/drivers/hwmon/sparx5-temp.c
+> > index 0fd5c147f8167..1f197004780cc 100644
+> > --- a/drivers/hwmon/sparx5-temp.c
+> > +++ b/drivers/hwmon/sparx5-temp.c
+> > @@ -9,8 +9,11 @@
+> >  #include <linux/hwmon.h>
+> >  #include <linux/init.h>
+> >  #include <linux/io.h>
+> > +#include <linux/kernel.h>
+> >  #include <linux/module.h>
+> > +#include <linux/of.h>
+> >  #include <linux/platform_device.h>
+> > +#include <linux/property.h>
+> >
+> >  #define TEMP_CTRL            0
+> >  #define TEMP_CFG             4
+> > @@ -20,9 +23,26 @@
+> >  #define  TEMP_STAT_VALID     BIT(12)
+> >  #define  TEMP_STAT_TEMP              GENMASK(11, 0)
+> >
+> > +#define FAN_CFG                      0
+> > +#define  FAN_CFG_GATE_ENA    BIT(2)
+> > +#define  FAN_CFG_STAT_MODE   BIT(0)
+> > +#define FAN_PWM_FREQ         4
+> > +#define  FAN_PWM_FREQ_CYCLES GENMASK(27, 16)
+> > +#define FAN_CNT                      8
+> > +#define  FAN_CNT_DATA                GENMASK(15, 0)
+> > +
+> > +#define FAN_TACH_INTERVAL_HZ 100000
+> > +
+> > +struct s5_match_data {
+> > +     bool is_fan;
+> > +};
+> > +
+> >  struct s5_hwmon {
+> >       void __iomem *base;
+> > +     void __iomem *fan;
+> >       struct clk *clk;
+> > +     unsigned long clk_rate;
+> > +     u32 pulses_per_revolution;
+> >  };
+> >
+> >  static void s5_temp_enable(struct s5_hwmon *hwmon)
+> > @@ -37,6 +57,24 @@ static void s5_temp_enable(struct s5_hwmon *hwmon)
+> >       writel(val, hwmon->base + TEMP_CFG);
+> >  }
+> >
+> > +static void s5_fan_enable(struct s5_hwmon *hwmon)
+> > +{
+> > +     u32 cycles, val;
+> > +
+> > +     cycles =3D DIV_ROUND_CLOSEST(hwmon->clk_rate, FAN_TACH_INTERVAL_H=
+Z);
+> > +     cycles =3D clamp_val(cycles, 1, FIELD_MAX(FAN_PWM_FREQ_CYCLES));
+> > +
+> > +     val =3D readl(hwmon->fan + FAN_PWM_FREQ);
+> > +     val &=3D ~FAN_PWM_FREQ_CYCLES;
+> > +     val |=3D FIELD_PREP(FAN_PWM_FREQ_CYCLES, cycles);
+> > +     writel(val, hwmon->fan + FAN_PWM_FREQ);
+> > +
+> > +     /* Count all tachometer pulses over one-second intervals. */
+> > +     val =3D readl(hwmon->fan + FAN_CFG);
+> > +     val &=3D ~(FAN_CFG_STAT_MODE | FAN_CFG_GATE_ENA);
+> > +     writel(val, hwmon->fan + FAN_CFG);
+> > +}
+> > +
+> >  static int s5_read_temp(struct s5_hwmon *hwmon, long *temp)
+> >  {
+> >       int value;
+> > @@ -62,6 +100,17 @@ static int s5_read_temp(struct s5_hwmon *hwmon, lon=
+g *temp)
+> >       return 0;
+> >  }
+> >
+> > +static int s5_read_fan(struct s5_hwmon *hwmon, long *val)
+> > +{
+> > +     u32 count;
+> > +
+> > +     count =3D readl_relaxed(hwmon->fan + FAN_CNT);
+> > +     count =3D FIELD_GET(FAN_CNT_DATA, count);
+> > +     *val =3D count * 60 / hwmon->pulses_per_revolution;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> >  static int s5_read(struct device *dev, enum hwmon_sensor_types type,
+> >                  u32 attr, int channel, long *val)
+> >  {
+> > @@ -72,6 +121,10 @@ static int s5_read(struct device *dev, enum hwmon_s=
+ensor_types type,
+> >               if (attr =3D=3D hwmon_temp_input)
+> >                       return s5_read_temp(hwmon, val);
+> >               break;
+> > +     case hwmon_fan:
+> > +             if (attr =3D=3D hwmon_fan_input && hwmon->fan)
+> > +                     return s5_read_fan(hwmon, val);
+> > +             break;
+> >       default:
+> >               break;
+> >       }
+> > @@ -82,62 +135,115 @@ static int s5_read(struct device *dev, enum hwmon=
+_sensor_types type,
+> >  static umode_t s5_is_visible(const void *_data, enum hwmon_sensor_type=
+s type,
+> >                            u32 attr, int channel)
+> >  {
+> > -     if (type !=3D hwmon_temp)
+> > -             return 0;
+> > +     const struct s5_hwmon *hwmon =3D _data;
+> >
+> > -     switch (attr) {
+> > -     case hwmon_temp_input:
+> > -             return 0444;
+> > +     switch (type) {
+> > +     case hwmon_temp:
+> > +             return attr =3D=3D hwmon_temp_input ? 0444 : 0;
+> > +     case hwmon_fan:
+> > +             if (hwmon->fan && attr =3D=3D hwmon_fan_input)
+> > +                     return 0444;
+> > +             return 0;
+> >       default:
+> >               return 0;
+> >       }
+> >  }
+> >
+> > -static const struct hwmon_channel_info * const s5_info[] =3D {
+> > +static const struct hwmon_channel_info * const s5_temp_info[] =3D {
+> >       HWMON_CHANNEL_INFO(chip, HWMON_C_REGISTER_TZ),
+> >       HWMON_CHANNEL_INFO(temp, HWMON_T_INPUT),
+> >       NULL
+> >  };
+> >
+> > +static const struct hwmon_channel_info * const s5_fan_info[] =3D {
+> > +     HWMON_CHANNEL_INFO(fan, HWMON_F_INPUT),
+> > +     NULL
+> > +};
+> > +
+> >  static const struct hwmon_ops s5_hwmon_ops =3D {
+> >       .is_visible =3D s5_is_visible,
+> >       .read =3D s5_read,
+> >  };
+> >
+> > -static const struct hwmon_chip_info s5_chip_info =3D {
+> > +static const struct hwmon_chip_info s5_temp_chip_info =3D {
+> >       .ops =3D &s5_hwmon_ops,
+> > -     .info =3D s5_info,
+> > +     .info =3D s5_temp_info,
+> > +};
+> > +
+> > +static const struct hwmon_chip_info s5_fan_chip_info =3D {
+> > +     .ops =3D &s5_hwmon_ops,
+> > +     .info =3D s5_fan_info,
+> >  };
+> >
+> >  static int s5_temp_probe(struct platform_device *pdev)
+> >  {
+> > +     const struct s5_match_data *match_data;
+> > +     struct device *dev =3D &pdev->dev;
+> >       struct device *hwmon_dev;
+> >       struct s5_hwmon *hwmon;
+> > +     struct device_node *fan_np __free(device_node) =3D NULL;
+> > +     void __iomem *base;
+> > +     bool is_fan;
+> > +     int ret;
+> >
+> > -     hwmon =3D devm_kzalloc(&pdev->dev, sizeof(*hwmon), GFP_KERNEL);
+> > +     match_data =3D device_get_match_data(dev);
+> > +     is_fan =3D match_data && match_data->is_fan;
+> > +
+> > +     hwmon =3D devm_kzalloc(dev, sizeof(*hwmon), GFP_KERNEL);
+> >       if (!hwmon)
+> >               return -ENOMEM;
+> >
+> > -     hwmon->base =3D devm_platform_ioremap_resource(pdev, 0);
+> > -     if (IS_ERR(hwmon->base))
+> > -             return PTR_ERR(hwmon->base);
+> > +     base =3D devm_platform_ioremap_resource(pdev, 0);
+> > +     if (IS_ERR(base))
+> > +             return PTR_ERR(base);
+> > +
+> > +     if (is_fan) {
+> > +             hwmon->fan =3D base;
+> > +             hwmon->pulses_per_revolution =3D 2;
+> > +             fan_np =3D of_get_available_child_by_name(dev->of_node, "=
+fan");
+> > +             if (fan_np &&
+> > +                 of_property_present(fan_np, "pulses-per-revolution"))=
+ {
+> > +                     ret =3D of_property_read_u32(fan_np, "pulses-per-=
+revolution",
+> > +                                                &hwmon->pulses_per_rev=
+olution);
+> > +                     if (ret)
+> > +                             return dev_err_probe(dev, ret,
+> > +                                                  "invalid pulses-per-=
+revolution\n");
+> > +             }
+> > +             if (!hwmon->pulses_per_revolution ||
+> > +                 hwmon->pulses_per_revolution > 4)
+> > +                     return dev_err_probe(dev, -EINVAL,
+> > +                                          "invalid pulses-per-revoluti=
+on\n");
+> > +     } else {
+> > +             hwmon->base =3D base;
+> > +     }
+> >
+> > -     hwmon->clk =3D devm_clk_get_enabled(&pdev->dev, NULL);
+> > +     hwmon->clk =3D devm_clk_get_enabled(dev, NULL);
+> >       if (IS_ERR(hwmon->clk))
+> >               return PTR_ERR(hwmon->clk);
+> > +     hwmon->clk_rate =3D clk_get_rate(hwmon->clk);
+> >
+> > -     s5_temp_enable(hwmon);
+> > +     if (is_fan)
+> > +             s5_fan_enable(hwmon);
+> > +     else
+> > +             s5_temp_enable(hwmon);
+> >
+> > -     hwmon_dev =3D devm_hwmon_device_register_with_info(&pdev->dev,
+> > -                                                      "s5_temp",
+> > -                                                      hwmon,
+> > -                                                      &s5_chip_info,
+> > -                                                      NULL);
+> > +     hwmon_dev =3D devm_hwmon_device_register_with_info(dev,
+> > +                                     is_fan ? "lan969x_fan" : "s5_temp=
+", hwmon,
+> > +                                     is_fan ? &s5_fan_chip_info :
+> > +                                              &s5_temp_chip_info, NULL=
+);
+> >
+> >       return PTR_ERR_OR_ZERO(hwmon_dev);
+> >  }
+> >
+> > +static const struct s5_match_data lan969x_fan_match_data =3D {
+> > +     .is_fan =3D true,
+> > +};
+> > +
+> >  static const struct of_device_id s5_temp_match[] =3D {
+> > +     {
+> > +             .compatible =3D "microchip,lan9691-fan",
+> > +             .data =3D &lan969x_fan_match_data,
+> > +     },
+> >       { .compatible =3D "microchip,sparx5-temp" },
+> >       {},
+> >  };
+> > @@ -154,5 +260,5 @@ static struct platform_driver s5_temp_driver =3D {
+> >  module_platform_driver(s5_temp_driver);
+> >
+> >  MODULE_AUTHOR("Lars Povlsen <lars.povlsen@microchip.com>");
+> > -MODULE_DESCRIPTION("Sparx5 SoC temperature sensor driver");
+> > +MODULE_DESCRIPTION("Sparx5 SoC hardware monitoring driver");
+> >  MODULE_LICENSE("GPL");
 
+
+
+--=20
+Robert Marko
+Staff Embedded Linux Engineer
+Sartura d.d.
+Lendavska ulica 16a
+10000 Zagreb, Croatia
+Email: robert.marko@sartura.hr
+Web: www.sartura.hr
