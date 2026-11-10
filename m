@@ -1,109 +1,109 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794347967;
-	b=XXEdzwxaDwGnZnanaSZ8Kl/x0+TwjAGrf9kqdF/8CUbp8TG04fEt5hrex7smz9GZr1XB
-	 gMya6pCC0rPjHXvNP6iecEtBJJMumVBiWzF8hAighHLnO2oBcNd3MRQoW9BOF4uMiOt9B
-	 hGtwQ1T1LSh0oE37WFF83GB61ACauVJzFmwOdv56c2jZJkImtgEVok9PRmkXaDzDFjfCt
-	 +glaQJXPdA8L/yfiFoCoYwJnWlYf5oIXVKKTOyEYj4+M0rNYI+mMMW+TEvKaR/PIpd4m5
-	 HJAHU50hf80o/M/oF26rQPP5xPEJSu4WKAPHDrI063lIeT+AbvlZg38wjLsazy17sUw==
+	t=1794348482;
+	b=q2AxlZc5GKDzeLNO/SN77sqISb+/ZnQpxKlCvWrNWmiUZ6mu27x8I6hxyO4OwIBWzWpD
+	 oPa5r6JrvPUtAn4iCFIXOaKvifFrizYqnlQlMdNR+JelXKS3zvCMJ2p6oqBHG2IC4qzUP
+	 b2j7CRkinYKiTxOhYjuTJq2EEdhkrI6EIR0+G8EQvvJwwnTIfRZK29T+jAsZgRbM+bwhA
+	 d97aJ/9M4Bz5RdwW936syHBvM+UY3HQ4VGdTR8gyQmOz5OUAp2Y/ab2N8ugtc9BpwK4Nt
+	 PAUuXkULgPlsYkbLh0CFrK5k2X0s9YEKviXAxhriP1NzhmgpY9d+uzHcAbtuCZHHOUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794347967;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794348482;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
 	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=rEYk2hz3ZT8gh5jgp2cuyRyD8kcB8tgP4Wu1VC22UmM=;
-	b=xYplUPACuBtf2J6eUjM1THpAfaGHzRShgLZWUL/EJWBhWYSdXkbqLufTM7wipEHrBJ1M
-	 pR0vD1hlEXDc0fCtpyzTuA7JAL9t/q+V7/iHVwguFwkDsZBMceQEaLEM9o/JswSYQYg2T
-	 btDFcJFVyVRSKHlnUGf+uE8w4+wCASGyntA1k0cC99vMN1srHwstwPBgBpsdRLVZ0OV/F
-	 kGVPtMS+Luft3Fc1sKZjmghPlFhrBSGt8p0cZhwg+UPDUBNWTyO8374w15o1LUA0tWZcP
-	 dxGiOxRYCp4htAGI6JbszSH3lRSgC7kFQOUi+voSV+oWZHFKQbwxM9EkA248SeHDYuw==
+	bh=wFJ1R7uPrqqY5P5JMzwjD2OI5yMoWBhA9w+CZfdg8y8=;
+	b=aAcjgoTziP7TdqyrO9tw6J9srZiBsqqwBe8mZ+oQ1iwVPM0cSYecSyv6yG3ROcPEGl+d
+	 7zuR+Wa/915MOTuZs5AsDxK8VvaLrICF00wFx+qlZ4j+H1XtNXOc7ec74oUcsSroYqf9H
+	 8xA5SiesHMpDNtHUzrDoJ1mkUvLVisL3xLcjL8zUeP1VvzOq0RbGOLu0TnFEJPfMdz+Z0
+	 mrHjxVJoSdODGZG0Ul/ds2YbU0oft5nBV/l6HSrG3d0ucjF4VMzN+twzVqGdt85M8svjB
+	 PbSGF7unTP7RpbchOkqPeFhmA0ATssNOU8BCB87N6tAWsVD5plMa9j2e+16Jj8XnVEQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=eMjT0Un2;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="Z04/Th+A";
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=c86qyAqV;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=VMQplxDZ;
 	arc=none smtp.remote-ip=205.220.180.131
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C892606C982
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 21:59:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C892606C982
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A22D606A330
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:08:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4A22D606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=eMjT0Un2;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Z04/Th+A
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAJC6HV709132
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 21:59:25 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=c86qyAqV;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=VMQplxDZ
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAIpMGj670022
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:08:01 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	rEYk2hz3ZT8gh5jgp2cuyRyD8kcB8tgP4Wu1VC22UmM=; b=eMjT0Un2/C3ifcyq
-	6yWnfWfH6I4DHiYNovnQJoEexXRLhME6cyXbjFnAVLiO4x6z15WCYQmzdWojWeFH
-	LWvyXVeMmKoi8hKUbFIlUYOXzqJ64Nw4ladn7TbI6gIU/3haTCUbOoe//MmLOrbE
-	2J84OeZrVww9WVxDc39Jmiyhrhm5FTOMvk5POeuoz2XLHdR1q/yIRtpDOCC7g9mG
-	lYM3cYfpkSZHY+xzppJ41+9Dfn7AM+c0/YwLUJjx2JPJykxVaiAf0rteQkVGFPHu
-	P9f92xIcdHTW5DTAjT0mpeLieeR01JWhmuL5uoJp18KjNl6Mrp5tqI8zBUox2uHo
-	xpX2Fw==
-Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hv97c8n0j-1
+	wFJ1R7uPrqqY5P5JMzwjD2OI5yMoWBhA9w+CZfdg8y8=; b=c86qyAqVEQjKRFe5
+	Er8KYOzZEgLoic6DIf0SBwpxaNoz94s9EcCc1yjf4dBrtW8TSccPKpcC1gPh4D9j
+	k4Su05jYX00KVsMK0jN5Ls0pJvk76SDxOQsx2Ifnqi72HfXTJj4z0L2UM8r7buUa
+	34Zsg7bZOzgePJMUK2BEtXIL6mxVahb0YbU3huvR4L8iWrbjZZ4ysH8VR4oKkYLf
+	GAQn7SdP5iL+PwtMZR8KhY07k6yTjF3I80Y5w7qPLbjGxgOgSe13wC43l3zvT7ye
+	6dly1MOnE9JFQhlpHOruTcaixz6BzWAc2LLekoZW+Z7VOACVqEoYVCFlmVTEd4hR
+	gCBYnA==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hv4pv9ya1-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 21:59:25 +0000 (GMT)
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1a2b6fab7a6so265801c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 13:59:25 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:08:00 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-36de26cb4b3so3367371eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:08:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794347964; x=1794952764; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1794348480; x=1794953280; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=rEYk2hz3ZT8gh5jgp2cuyRyD8kcB8tgP4Wu1VC22UmM=;
-        b=Z04/Th+AaAoCOAW22uLYE0+KUj7jElKAg6ZKw8ytVFMjgzBhQgNK7xfQZY+RR7+NHd
-         6slJqLfGPpH65mFupWJ2f6znsGRTryx0BzZ5tFdabzOA0fRgDqsC8Wn44BUUK0+GN3CD
-         JiUUh6NUHbQ/OImmrd6714YqAl9LdhZ5RYvYKdhheWlc75nXSphOB7UFnsZPgoMvvJmb
-         pExFP63LcDjYr8iT1iwSG77ExnnI/vbR/DVODUUuivEzt5am8MlHCjb5+Ai+ICmADaZm
-         lx0D7x1UUwszIFCgB+1+s6VfuzJ+ivyBIGVQBUAaWBfh8KbFgEsfpxwEwkR6uoHIQhBs
-         hbCw==
+        bh=wFJ1R7uPrqqY5P5JMzwjD2OI5yMoWBhA9w+CZfdg8y8=;
+        b=VMQplxDZk6oCIhFEWtnJ1FTA3cnZnzA4Cku4/GN3KpNtm72HUpfQbQgM4s52jxr7Zt
+         e52otrMCwZ+D8+QWiMBY+AvdQaU0aB+FGTP1djAhiMofZjNkAH+nEJSTwq4TYhxxXkdq
+         e0C0xtEVdUNRu5/1s4wFG383AxpmnimOC3UiwUfX107ItnQ1GYYvyeTn7LU0aXcVRscW
+         FXwLDaqzTkt5lQ9DPdsPd1WD7db7fgne7C0lwqhUrUCswujEjp4v712HVNBH/OKYZKiY
+         Xwt9o84pJj2qQFMgn7Wfbk+n7RH5Cp/WsB/f1LrVrE0u2a0nokFa+8eFsF+Co+NFeV6M
+         JFDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794347964; x=1794952764;
+        d=1e100.net; s=20260707; t=1794348480; x=1794953280;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=rEYk2hz3ZT8gh5jgp2cuyRyD8kcB8tgP4Wu1VC22UmM=;
-        b=dVV7Bf3rGBy6nIrgcJTS9pHetb+AMzSdjBX/bte1wjEQKnAsbEXhCIgtKhJKJ8ScIy
-         3AOg4scPZREe/47SFeEz9y8xY23TttEY9SL13oE/fJ0Px7hD9UCoMZc0py4Vazw9kg0B
-         fJu0egd/fFAatyuQkfPyO09WDqm8x90VOyMmDyXzAzX7OpD/L7ip59l0b+jzcM/McblH
-         QPq0AYZ+v4YRm7MUrGCusYy0pK9OakFIlOZ8mkviL1oYJlx2c+fd4GU4Rq1XQ2Xfj3xF
-         GDtTyzxaS4PqSQT96tHlP9KVmYfzr+pEFZGjPgnOUTdLNAl2ylA46VO6/QXR2sr6+wBD
-         bcCg==
-X-Forwarded-Encrypted: i=1; AL+hErHlEZgLRm4Oqlf007Z2XzmaALstIjOx4/iuD0dmyvSEOa4zynHNkakz1jqgBolupApbKU0+kZsVW+U=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8ZXYKHerOzbaoiN2MK+pxKiUapKNdRbL3UDRFW7tW/0RS42Aqe
-	EmROajkWefcexvIMLJckxEn3kB/vpEmzUymarK0s/b2Cw/m0mWHhBXUaxvQXbXU6d9P6vnzjalH
-	8iK8Fz7lpuOIYo87f9W8ncipHd2wSyoe4jokgkmp8f9wW/9THBBQLo2FuCqQR9tZ10ILIQyY=
-X-Gm-Gg: AYBFou3HjLMtzCcdkDlw4/wStjABQkEgX2FDu68MEzdgnnF6arnDcKzdrDnjDyhCCdB
-	JFijk6NCN87aQ1Gey1KyZq/jMp/hXflARPqd5aUT4mc+YPNfg8+vkNEau1X6D0O6xJ+HKv+cNkv
-	B1PkVj/4JnjcZB+exjJKtMrt624EYVQTG+gZCs2uBfQju5K4cetlem0BZUo2gg4UZ2zrYMfdCGR
-	82woquQ9Z3QnXIlKOb5scTWB18XewVvv2OOdPwjvHQAhNN3ZmJt+EwC915upbn5+gepBceuBlM3
-	Eua+wFAxdEOSf0orYaQWF2qE0/YGuxqMSB9ZlxPBgow90eEk7RGZ2epnsw2uMmDaooSCnjuMLDT
-	uo0nTZkhMAuYIsm585ubgwwJ20fzteXGOtBfvEkj/3LVOiUHoVbz5hQEHryIJxPZP9WLpLzhYPA
-	XxgcoGgk9NG7ldIx+E4GBkDCprkNw=
-X-Received: by 2002:a05:7022:ec16:b0:1b3:a8ee:a0e5 with SMTP id a92af1059eb24-1b3c0238623mr289955c88.2.1794347963870;
-        Tue, 10 Nov 2026 13:59:23 -0800 (PST)
-X-Received: by 2002:a05:7022:ec16:b0:1b3:a8ee:a0e5 with SMTP id a92af1059eb24-1b3c0238623mr289916c88.2.1794347963155;
-        Tue, 10 Nov 2026 13:59:23 -0800 (PST)
+        bh=wFJ1R7uPrqqY5P5JMzwjD2OI5yMoWBhA9w+CZfdg8y8=;
+        b=f8cpvx/J/nxDyvjVzQXynmBL+prAu2aHCGx6Wq3fHRVp9tJhzVpw5M93cuOwfKAWPk
+         UgFyZeZG2zEwR+ALRNBVBrGo7MJvXNVohwqHRQ9hUdOTv1H89PMfyvEO9asFSDOsFsdT
+         Q2+eZR666Xb5t7jbW9ghsj2iipA5SAuD0eLbXFTEt/s9ukJa7DuysBCcJWo88IbY/pXw
+         WCyAphnJ2UYoq4ybk98UfMu/9z3vdMpybQqCjiLUXosyR89cEV9qQurpcsE8evv1Pd4b
+         ohsQBFOemoEPjizPFhqODhenOIxW9pPArn1YxWkxmFI/oVPNwT0m5HHjmBMN33jbBjUL
+         wXTg==
+X-Forwarded-Encrypted: i=1; AL+hErH/x4zDFTGnawLN4dI3UHIkF94NyDRSQC0R7rK9L8PTA6ZaEEgbKCciYfKgb6m50Sdq+Die8Hrzlgs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+8HaaqiySj1/smXFOnenVfw8iqQSu4D08swFEDw/Myu5r07OO1
+	GVka7MekTA9ddtC+4wf8/BB9EZuCrDInxzijURowkiZ1zLJCCce1AoYFHqeYsAQvhCwAuVkrttI
+	/Fj1d/JXe/L5+/dItYNrg+qq36RN8j8k8h1YyMYlb9SadiXywdw2aJJ1PV70/c68=
+X-Gm-Gg: AYBFou3hjduZEHZRmAUyw8yHGefyX4vh2sUXSIHnETsDGUvz7h3tYVIWamf1S7kwF8c
+	0L6X2p5lNRoQgEJ8gaED2G4c8vFHy0lVqklIeD0y7ihwrlvGzXP+yS4orOThM4+s7PGFM888dkb
+	US2AyRfHkw8IcmsW+f7O10rWtC/HqHN7zcpsvlcisTRXNGx5afI4sLyDjeO6wrJwd/T8rTDHVLg
+	pJlwygSAwZsAjv7Lplli9o9hk8fH3Ysuua+SNhNSeocYSxMNculzT3xVDFTzVBm8/62mzJVyNS/
+	rZ3v491bH3wuryN8m0m/NKfLlOcZSr5yHCOjGd24b35BikQWJmIclBitwf4lZawd+3ZKybtmnuc
+	2BAsvhJHNs8aq2YD4xKLAs735caI6/sl7T+s0FVEwNL2VW4iPbkHuqcv4w1hnx5uPcuVK5Mz4/P
+	NcjGCUMVAAxuujRzwWdXcNDZ0G1aOw
+X-Received: by 2002:a05:7300:ea0d:b0:36d:e4c8:8f04 with SMTP id 5a478bee46e88-37686174a2bmr904349eec.17.1794348479600;
+        Tue, 10 Nov 2026 14:07:59 -0800 (PST)
+X-Received: by 2002:a05:7300:ea0d:b0:36d:e4c8:8f04 with SMTP id 5a478bee46e88-37686174a2bmr904303eec.17.1794348478722;
+        Tue, 10 Nov 2026 14:07:58 -0800 (PST)
 Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b1003fsm9133285c88.6.2026.11.10.13.59.13
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375215d8889sm10250365eec.27.2026.11.10.14.07.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 13:59:22 -0800 (PST)
-Date: Tue, 10 Nov 2026 13:59:01 -0800
+        Tue, 10 Nov 2026 14:07:58 -0800 (PST)
+Date: Tue, 10 Nov 2026 14:07:39 -0800
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -115,12 +115,11 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
         leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
         usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 18/35] firmware: arm_scmi: Add Telemetry DataEvent
- read capabilities
-Message-ID: <20261110135901.00002e53@oss.qualcomm.com>
-In-Reply-To: <20261109091221.2532706-19-cristian.marussi@arm.com>
+Subject: Re: [PATCH v15 19/35] firmware: arm_scmi: Add Telemetry reset logic
+Message-ID: <20261110140739.000026c1@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-20-cristian.marussi@arm.com>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-19-cristian.marussi@arm.com>
+	<20261109091221.2532706-20-cristian.marussi@arm.com>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -134,339 +133,173 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA4NyBTYWx0ZWRfX7U7UvmmaMWRZ
- ZiCySWQNfY9G/z27b7Bl46BnejCs1TCSdcdMNpYuXqR8ipdogAI97pSnu8d48ufwxjNzzV8jW2z
- JInZ6EoFzWqjXOQcjb06izh67SIAtiyIjl/gqOHBSod7lzf/AkhsLdRjbD8j/qCI5ACKiKA3g/j
- 4Nfnxo+1odFq3I/BkdIh5Ny9MtJIWLSkdnfXmt+nBiktdQ3AKpglXD5KfBl2ykjnc0MRMf/SyQF
- JKZkDV5CXYfAGUdCFQRWzDm5c+mH4kXIs55TXRkJdLyEt6KK4KCxkU2W8QrF7knu5Ug9Izx/CHv
- QB/b58lGuVp+GdBMBSdkzBp918x7EpUdBick8hM9DfmAtfubbw8kz63raAXZ2GSIfOeJ6+aXTx9
- uz002+cokmCOsHjFsZZUcwksomFvd7Ckw727q3rLHQRSv49eHnKsnJggPtVDKbOQoEujZkfEQJe
- fwLWu/7X/vZZItIvTgw==
-X-Authority-Analysis: v=2.4 cv=cJl1IVeN c=1 sm=1 tr=0 ts=6af393bd cx=c_pps
- a=bS7HVuBVfinNPG3f6cIo3Q==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Authority-Analysis: v=2.4 cv=XqZvqlF9 c=1 sm=1 tr=0 ts=6af395c0 cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=7CQSdrXTAAAA:8 a=xkoatq2HAAAA:8 a=E7ZmVm72AAAA:8 a=DDYDo27XsBoOhGDe9_AA:9
- a=CjuIK1q_8ugA:10 a=vBUdepa8ALXHeOFLBtFW:22 a=a-qgeE7W1pNrGK8U0ZQC:22
- a=CuNAHyPTimGbZf_9KV2F:22 a=99DZ-gr6pvD72HNFZKZ2:22
-X-Proofpoint-GUID: k51vOCM8wwDXXmtHFSbtDIgHdmpfmc-1
-X-Proofpoint-ORIG-GUID: k51vOCM8wwDXXmtHFSbtDIgHdmpfmc-1
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA4NyBTYWx0ZWRfX2NPRU5tMa1zU
- 9R1Nw74e6efDAkJ23gOAdtuMGWikRpibFAyuam2/ndb/zOZwLpJz/AG54Fnr0k+DP9QlMuOG411
- Y7/GjxwWxhXrJBUnwNP4V0b7OoI4kPE=
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=7CQSdrXTAAAA:8 a=ejotlmTCnjgNnXibSUUA:9 a=CjuIK1q_8ugA:10
+ a=bBxd6f-gb0O0v-kibOvt:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: OOVxOhPllmq6_cEMzwkdJLeQuRun6UNO
+X-Proofpoint-GUID: OOVxOhPllmq6_cEMzwkdJLeQuRun6UNO
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA4OCBTYWx0ZWRfX/JpdPLOswdHU
+ 41gwV/AS9jgLiPv9Mwn9tugTtYcPzxhXij5uxET6kKIMvzbuWfLoxXghDxYmLtVLUfbQEGqACvv
+ BFdtsXyZFCM3rRHAgwv0tgwVuu++wUk=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA4OCBTYWx0ZWRfXxQEsqo22lY8R
+ KjGkEGgBcx6yzogpax1Q4ync2Zkh6RYKiUuTL0dIhEJNtxv4LwIUF89F25jSMyUx2GzAWowZj1F
+ xOM1U2GqKtkJqXcC+b7o0hJOlW0hw9RU3aaK2aFpB2xMIZptOnCPvb31LNk5kJDmpNJOhGWegTa
+ 6Vg+GV7iipgff9BwxwRbxQEKBfk+C7Jk3tq5SmNyeZBWkwJq1VQ9ffSQchm13b7KHfAjUCSLEtp
+ p48YDMlL2xwaNHJ2ewCGcVaO/9a3hDIbRxnJSBO6Ng5YUBhOAx8wyi/qZQZKNBz0Up6ZzMDEtAx
+ I65+vd14E3znRj/ePTS89CejR3LOjkOl8hglGpAMGcvcW2fHuhiCt4a9a/bcnEMoZ9yNilrQSLd
+ pm3ydCIUYkjdpNg0bU7V+2cmWkp92d4hNDdIIvAUxl8E3ZeDM4vHqejcxKUkyFWvpa74fxBy7V2
+ tQ3IYC7APgbpi8sA65Q==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-10_06,2026-11-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 impostorscore=0 malwarescore=0 phishscore=0 suspectscore=0
- priorityscore=1501 spamscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100087
+ impostorscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
+ malwarescore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611100088
 
-On Mon,  9 Nov 2026 09:12:04 +0000
+On Mon,  9 Nov 2026 09:12:05 +0000
 Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-> Add support for Telemetry operations needed to read DataEvent values and
-> timestamps as single entities or all together in a single bulk buffer.
-> The returned values are effectiely retrieved from the platform only
-> when strictly needed, i.e. when no fresh recent cached value was already
-> available.
-> The DataEvent values are fetched transparently from the platform origins
-> using the proper synchronization and consistency primitives, directly from
-> the SHMTIs areas or the FastChannels memory depending on the configuration.
+> Add support for Telemetry operations needed to request platform to
+> reset telemetry current configuration and data events values.
 > 
 > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-As far as I can spot there is nothing stopping you introducing the
-struct scmi_telemetry_de_sample much earlier in the set and reducing
-the churn here.   Does looks like it would be too bad to do so
-I'd suggest you do so.
-
+Just one trivial thing that might be wrong anyway.
 > ---
->  drivers/firmware/arm_scmi/telemetry.c | 678 ++++++++++++++++++++++++--
->  include/linux/scmi_protocol.h         |  24 +
->  2 files changed, 666 insertions(+), 36 deletions(-)
+>  drivers/firmware/arm_scmi/telemetry.c | 81 +++++++++++++++++++++++++++
+>  include/linux/scmi_protocol.h         |  2 +
+>  2 files changed, 83 insertions(+)
 > 
 > diff --git a/drivers/firmware/arm_scmi/telemetry.c b/drivers/firmware/arm_scmi/telemetry.c
-> index 1f6505fff199..bf37faf99865 100644
+> index bf37faf99865..ebad4ec2afda 100644
 > --- a/drivers/firmware/arm_scmi/telemetry.c
 > +++ b/drivers/firmware/arm_scmi/telemetry.c
-
-
-> @@ -695,8 +707,9 @@ scmi_telemetry_tde_cache_stale(struct telemetry_de *tde, u32 magic)
+> @@ -3969,6 +3969,86 @@ static int scmi_telemetry_des_sample_get(const struct scmi_protocol_handle *ph,
+>  	return ret;
 >  }
 >  
->  static void
-> -scmi_telemetry_tde_cache_update(struct telemetry_de *tde, u64 val,
-> -				u64 *tstamp, u32 *magic)
-> +scmi_telemetry_tde_cache_update(struct telemetry_de *tde,
-> +				struct scmi_telemetry_de_sample *sample,
-
-Better to push this back to the patch that introduced this function.  I don't
-think it does any harm to always use the structure for passing in the
-val and tstamp.  Do this earlier will reduce churn here and doesn't
-look that painful to do.
-
-> +				u32 *magic)
->  {
->  	lockdep_assert_held(&tde->mtx);
->  
-> @@ -708,10 +721,37 @@ scmi_telemetry_tde_cache_update(struct telemetry_de *tde, u64 val,
->  		return;
->  
->  	tde->last_magic = magic ? *magic : TDCF_BAD_END_SEQ;
-> -	tde->last_val = val;
-> -	tde->last_ts = tstamp && scmi_tde_has_tstamp(tde) ? *tstamp : 0;
-> -	if (tstamp)
-> -		*tstamp = tde->last_ts;
-> +	tde->last_val = sample->val;
-> +	tde->last_ts = scmi_tde_has_tstamp(tde) ? sample->tstamp : 0;
-> +	/* Update returned value too */
-> +	sample->tstamp = tde->last_ts;
-
-This is currently rather circular.  I guess the aim is to squash
-any stale timestamps.  Probably want a comment about that.
-
+> +static void scmi_telemetry_local_resources_reset(struct telemetry_info *ti)
+> +{
+> +	struct scmi_telemetry_res_info *rinfo;
+> +	unsigned int num_des;
 > +
-> +	trace_scmi_tlm_collect(tde->last_ts, tde->de.info->id,
-> +			       tde->last_val, "CACHED_DE_UPDATED");
+> +	ti->info.enabled = false;
+> +	ti->info.current_mode = SCMI_TLM_ONDEMAND;
+> +	ti->streaming_mode = false;
+> +	ti->info.active_update_interval = 0;
+> +
+> +	/* Get rinfo without triggering an enumeration, cannot be NULL anyway */
+> +	rinfo = __scmi_telemetry_resources_get(ti);
+> +	/* Make sure to see the latest num_des */
+> +	num_des = smp_load_acquire(&rinfo->num_des);
+> +	/* Clear all local state...*/
+> +	for (int i = 0; i < num_des; i++) {
+> +		struct telemetry_de *tde = to_tde(rinfo->des[i]);
+> +
+> +		scoped_guard(mutex, &tde->mtx) {
+
+Unless this gets more complex later,
+		guard(mutex)(&tde->mtx);
+and resulting drop in indent.
+
+If it does get more complex ignore this.
+
+> +			tde->last_ts = 0;
+> +			tde->last_val = 0;
+> +			tde->last_magic = 0;
+> +			tde->cached_msg = false;
+> +			if (!tde->de.fc_support) {
+> +				tde->sid = SHMTI_ID_INVALID;
+> +				tde->base = NULL;
+> +				tde->offset = 0;
+> +				tde->eplg = NULL;
+> +			}
+> +
+> +			scmi_telemetry_de_state_update(ti, ENA_STATE,
+> +						       &tde->de.enabled, false);
+> +
+> +			if (tde->de.tstamp_support)
+> +				scmi_telemetry_de_state_update(ti, ENA_TSTAMP,
+> +							       &tde->de.tstamp_enabled,
+> +							       false);
+> +
+> +			/*
+> +			 * Unlinking ONLY BLK_TS lines since, per the SCMI spec,
+> +			 * the UUID/DE associations are permanent within the same
+> +			 * session boot: after a reset has cleared the server-side
+> +			 * configuration the next time SHMTIs will be re-populated,
+> +			 * these same UUID/DE associations will be re-instated.
+> +			 */
+> +			scmi_telemetry_blkts_unlink(tde);
+> +		}
+> +	}
+> +
+> +	for (int i = 0; i < rinfo->num_groups; i++) {
+> +		rinfo->grps[i].enabled = false;
+> +		rinfo->grps[i].tstamp_enabled = false;
+> +		rinfo->grps[i].current_mode = SCMI_TLM_ONDEMAND;
+> +		rinfo->grps[i].active_update_interval = 0;
+> +	}
 > +}
 > +
-> +static int
-> +scmi_telemetry_tde_cache_lookup(struct telemetry_de *tde,
-> +				struct scmi_telemetry_de_sample *sample,
-> +				u32 *magic)
-> +{
-> +	lockdep_assert_held(&tde->mtx);
-> +
-> +	/*
-> +	 * Bailout without providing any sample when the cache is
-> +	 * stale, i.e. last_magic < *magic
-
-Short line wrap.
-
-> +	 */
-> +	if (magic && scmi_telemetry_tde_cache_stale(tde, *magic))
-> +		return -EAGAIN;
-> +
-> +	sample->id = tde->de.info->id;
-> +	sample->val = tde->last_val;
-> +	sample->tstamp = tde->last_ts;
-	sample = (struct scmi_telemetry_de_sample) {
-		.id = tde.info->id,
-		.val = tde->last_val,
-		.tstamp = tde->last_ts,
-	};
-
-perhaps so it is clear we are setting it all (clearing the padding
-seems fine anyway...
-
-> +
-> +	trace_scmi_tlm_collect(sample->tstamp, sample->id,
-> +			       sample->val, "CACHED_DE_READ");
-> +
-> +	return 0;
->  }
->  
->  struct scmi_tlm_de_priv {
-> @@ -2068,45 +2108,45 @@ scmi_telemetry_tde_allocate(struct telemetry_info *ti, u32 de_id,
->  
->  static inline int
->  scmi_telemetry_line_data_parse(struct telemetry_de *tde, struct shmti_snap *snap,
-> -			       u64 *val, u64 *tstamp, struct payload *payld,
-> -			       struct payload *bts_payld, u32 magic)
-> +			       struct scmi_telemetry_de_sample *sample,
-
-Similar to above. Maybe makes sense to push the existence of the structure earlier
-in the patch set to avoid churn at this point.
-
-> +			       struct payload *payld, struct payload *bts_payld,
-> +			       u32 magic)
->  {
->  	u32 meta = PAYLD_META_RAW(payld);
->  
->  	lockdep_assert_held(&tde->mtx);
->  
->  	/* Clear returned values in case of errors */
-> -	*val = 0;
-> -
-> -	if (tstamp) {
-> -		*tstamp = 0;
-> -		if (USE_BLK_TS_RAW(meta)) {
-> -			/* Read out the actual BLK_TS */
-> -			*tstamp = scmi_telemetry_blkts_read(magic, tde,
-> -							    bts_payld, snap);
-> -		} else if (LINE_TS_VALID_RAW(meta)) {
-> -			/*
-> -			 * Note that LINE_TS_VALID implies HAS_LINE_EXT and that
-> -			 * the per DE line_ts_rate is advertised in the DE
-> -			 * descriptor, BUT we check anyway against buggy FW.
-> -			 */
-> -			if (!HAS_LINE_EXT_RAW(meta)) {
-> -				trace_scmi_tlm_access(tde->de.info->id,
-> -						      "SHMTI_BAD_TS_LINE", 0, 0);
-> -				return -EPROTO;
-> -			}
-> -
-> -			*tstamp = LINE_TSTAMP_GET_RAW(&payld->tsl);
-> +	sample->tstamp = 0;
-> +	sample->val = 0;
-
-If we are clearing for errors, then maybe do the whole thing?
-Generally I'd hope we never use values in error paths and the
-clearing is unnecessary but if doing it seems like doing it general
-makes most sense.
-
-> +
-> +	if (USE_BLK_TS_RAW(meta)) {
-> +		/* Read out the actual BLK_TS */
-> +		sample->tstamp = scmi_telemetry_blkts_read(magic, tde,
-> +							   bts_payld, snap);
-> +	} else if (LINE_TS_VALID_RAW(meta)) {
-> +		/*
-> +		 * Note that LINE_TS_VALID implies HAS_LINE_EXT and that
-> +		 * the per DE line_ts_rate is advertised in the DE
-> +		 * descriptor, BUT we check anyway against buggy FW.
-> +		 */
-> +		if (!HAS_LINE_EXT_RAW(meta)) {
-> +			trace_scmi_tlm_access(tde->de.info->id,
-> +					      "SHMTI_BAD_TS_LINE", 0, 0);
-> +			return -EPROTO;
->  		}
-> +
-> +		sample->tstamp = LINE_TSTAMP_GET_RAW(&payld->tsl);
->  	}
->  
->  	/* Data is always valid since we are NOT handling BLK TS lines here */
-> -	*val = LINE_DATA_GET_RAW(&payld->l);
-> +	sample->val = LINE_DATA_GET_RAW(&payld->l);
->  
-> -	trace_scmi_tlm_collect(tstamp ? *tstamp : 0, tde->de.info->id,
-> -			       *val, "SHMTI_DE_READ");
-> +	/* Trace originally read tstamp */
-> +	trace_scmi_tlm_collect(sample->tstamp, tde->de.info->id,
-> +			       sample->val, "SHMTI_DE_READ");
->  
-> -	scmi_telemetry_tde_cache_update(tde, *val, tstamp, &magic);
-> +	scmi_telemetry_tde_cache_update(tde, sample, &magic);
->  
->  	return 0;
->  }
-
-  
->
-
-> +
-> +static int scmi_telemetry_des_sample_get(const struct scmi_protocol_handle *ph,
-> +					 int grp_id, unsigned int *num_samples,
-> +					 struct scmi_telemetry_de_sample *samples)
+> +static int scmi_telemetry_reset(const struct scmi_protocol_handle *ph)
 > +{
 > +	struct telemetry_info *ti = ph->get_priv(ph);
-> +	struct scmi_msg_telemetry_config_set *msg;
 > +	struct scmi_xfer *t;
-> +	bool is_group;
-> +	u32 control;
 > +	int ret;
-
-I guess it is prevented at a higher level, but perhaps some indication
-of this one not needing to take the config_mtx and why would be helpful.
-It's not locally obvious why other config messages can race with each
-other to need the defense on those config_set calls but not this one.
-
 > +
-> +	if (!ti->info.enabled || !num_samples || !samples ||
-> +	    !ti->info.single_read_support)
-> +		return -EINVAL;
+> +	/* Stall concurrent configuration request */
+> +	guard(mutex)(&ti->config_mtx);
 > +
-> +	is_group = grp_id != SCMI_TLM_GRP_INVALID;
-> +	if (is_group && grp_id >= ti->info.base.num_groups)
-> +		return -EINVAL;
-> +
-> +	ret = ph->xops->xfer_get_init(ph, TELEMETRY_CONFIG_SET,
-> +				      sizeof(*msg), 0, &t);
+> +	ret = ph->xops->xfer_get_init(ph, TELEMETRY_RESET, sizeof(u32), 0, &t);
 > +	if (ret)
 > +		return ret;
 > +
-> +	msg = t->tx.buf;
-> +	msg->group_identifier = cpu_to_le32(grp_id);
-> +	control = TELEMETRY_ENABLE;
-> +	control |= !is_group ? TELEMETRY_SET_SELECTOR_ALL :
-> +		TELEMETRY_SET_SELECTOR_GROUP;
-> +	control |= TELEMETRY_MODE_SINGLE;
-
-Similar to earlier. I think this would be a lot more readable as appropriate
-FIELD_PREP()
-
-> +	msg->control = cpu_to_le32(control);
-> +	msg->sampling_rate = 0;
+> +	put_unaligned_le32(0, t->tx.buf);
+> +	ret = ph->xops->do_xfer(ph, t);
+> +	if (!ret)
+> +		scmi_telemetry_local_resources_reset(ti);
 > +
-> +	ret = ph->xops->do_xfer_with_response(ph, t);
-> +	/*
-> +	 * PARTIAL_ERRORs are reported as -EBADMSG and related lines,
-> +	 * marked as DATA_INVALID, will be properly skipped by
-> +	 * scmi_telemetry_msg_payld_process.
-> +	 */
-> +	if (!ret || ret == -EBADMSG) {
-> +		struct scmi_msg_resp_telemetry_reading_complete *r = t->rx.buf;
-> +		u32 num_dwords;
-> +
-> +		if (ret == -EBADMSG)
-> +			trace_scmi_tlm_access(0, "BAD_SAMPLE_PARTIAL_ERROR", 0, 0);
-> +
-> +		if (t->rx.len < sizeof(*r))
-> +			return -EPROTO;
-> +
-> +		num_dwords = le32_to_cpu(r->num_dwords);
-> +		/* Update cached DEs values from payload */
-> +		if (num_dwords) {
-> +			size_t payld_sz = 0, dwords_sz;
-> +
-> +			if (check_mul_overflow(num_dwords, sizeof(r->array[0]), &dwords_sz) ||
-> +			    check_add_overflow(sizeof(*r), dwords_sz, &payld_sz) ||
-> +			    payld_sz > t->rx.len) {
-> +				dev_err(ph->dev,
-> +					"Malformed Telemetry delayed response - num_dwords:%u  payld_sz:%zd  rx_len:%zd\n",
-> +					num_dwords, payld_sz, t->rx.len);
-> +				ret = -EPROTO;
-> +				goto out;
-> +			}
-> +
-> +			scmi_telemetry_msg_payld_process(ti, num_dwords, r->array,
-> +							 payld_sz - sizeof(*r), false);
-> +		}
-> +
-> +		/* Scan and update SMHTIs and FCs */
-> +		scmi_telemetry_scan_update(ti);
-> +
-> +		/* Collect all last cached values, override any PARTIAL_ERROR */
-> +		ret = scmi_telemetry_samples_collect(ti, grp_id, num_samples,
-> +						     samples);
-> +	}
-> +
-> +out:
 > +	ph->xops->xfer_put(ph, t);
 > +
 > +	return ret;
 > +}
-;
+> +
+>  static const struct scmi_telemetry_proto_ops tlm_proto_ops = {
+>  	.info_get = scmi_telemetry_info_get,
+>  	.de_lookup = scmi_telemetry_de_lookup,
+> @@ -3979,6 +4059,7 @@ static const struct scmi_telemetry_proto_ops tlm_proto_ops = {
+>  	.de_data_read = scmi_telemetry_de_data_read,
+>  	.des_bulk_read = scmi_telemetry_des_bulk_read,
+>  	.des_sample_get = scmi_telemetry_des_sample_get,
+> +	.reset = scmi_telemetry_reset,
+>  };
 >  
 >  /**
 > diff --git a/include/linux/scmi_protocol.h b/include/linux/scmi_protocol.h
-> index ce35734d2249..7177f739f062 100644
+> index 7177f739f062..012894e1d9be 100644
 > --- a/include/linux/scmi_protocol.h
 > +++ b/include/linux/scmi_protocol.h
-> @@ -994,6 +994,13 @@ struct scmi_telemetry_info {
->  	enum scmi_telemetry_collection current_mode;
+> @@ -1024,6 +1024,7 @@ struct scmi_telemetry_de_sample {
+>   *		    the ones belonging to a specific group when provided.
+>   *		    This causes an immediate update platform-side of all the
+>   *		    enabled DEs.
+> + * @reset: reset configuration and telemetry data.
+>   */
+>  struct scmi_telemetry_proto_ops {
+>  	const struct scmi_telemetry_info *(*info_get)
+> @@ -1051,6 +1052,7 @@ struct scmi_telemetry_proto_ops {
+>  	int __must_check (*des_sample_get)(const struct scmi_protocol_handle *ph,
+>  					   int grp_id, unsigned int *num_samples,
+>  					   struct scmi_telemetry_de_sample *samples);
+> +	int (*reset)(const struct scmi_protocol_handle *ph);
 >  };
 >  
-> +struct scmi_telemetry_de_sample {
-> +	unsigned int id;
-> +	unsigned int pad;
-> +	unsigned long long tstamp;
-> +	unsigned long long val;
-
-Why not the fixed size kernel types?
-
-> +};
-
+>  /**
 
