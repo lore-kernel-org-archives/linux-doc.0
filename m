@@ -1,212 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.10
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794274228;
-	b=ogErHtz+GGvNzh6VcbYmhyHjJlEYaeded8IGI2vsiDX2ikKY7pQY2+FJNH8VSQ0TEB09
-	 umaNOURnZju/TAiEMYmXtS25gmSzHR969LGVT+Kjmzm/QeJad4ql5/IUDDBu1ur9Jx3Uc
-	 3mJVlnB9OxFie2b3KjPPjzEXFNLmj/dYlD78cim6qZ4qxPk0F2cLZVFPhuhO5Lc7BqcpF
-	 qI9/T7fR4J5pkFzLUOg+oi+x9kR+zGSN9vAoip9PrcI2/D8j7AB5WqfmfnB6Wn30QsL65
-	 8v2eRVdoY9qGO5HI0mVHNzQ8yvblAugcsk3G3uiIRE3BNUdtPt6X42rBgFeU7vnXaNw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794274228;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:From:To:CC:Subject:Thread-Topic:
-	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
-	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:user-agent:
-	 x-ms-publictraffictype:x-ms-traffictypediagnostic:
-	 x-ms-office365-filtering-correlation-id:x-ms-exchange-senderadcheck:
-	 x-ms-exchange-antispam-relay:x-microsoft-antispam:
-	 x-microsoft-antispam-message-info:x-forefront-antispam-report:
-	 x-ms-exchange-antispam-messagedata-chunkcount:
-	 x-ms-exchange-antispam-messagedata-0:Content-Type:Content-ID:
-	 Content-Transfer-Encoding:MIME-Version:
-	 X-Exchange-RoutingPolicyChecked:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-AuthSource:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-originalarrivaltime:
-	 X-MS-Exchange-CrossTenant-fromentityheader:
-	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
-	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=FGEcX1orlEu//eNeWVUPJlEsoz9V75vnG1fr4rX7zns=;
-	b=RiKMbJlR9gRq01TMj6BD/4MzTneLjl795PFT2SVJx5wUky2tpPSTIx0C6wYc/4RRKTI5
-	 YYgm6/wbLLWolIVxXOC7AEZUc2nUMyCWoss1zdu1skksUeb040vbD+06EaAVZxv1weVjT
-	 AALokDGrADv0VxTlUlIgntQO93uS4IaeqWSeVmVLKP+YpMxOICvOe2YEnAFRvdZHjxnbD
-	 9rr4ItWHrVXHbDRLlPnb5I3FGQDglQClTWAXheSbgJZWAFQBsAxLm+RQV7rAJJu5ajUyI
-	 35WKIunhhwybXc921H5vsekLzC2iGaKeWeG3Jo5XvnRFC2jed0jJ/rFY3wQLIr/REwg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=coBEhLoy;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=192.198.163.10
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.149
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794274486;
+	b=ZLH+elwmkrG0KUIXc/kHY3Orh6lX7TTDSgb+ZshIRZ1Aih2kjW/hUinN9qJZjNtXlO80
+	 q+RnUTA9QrRRnZylQx1C8L3WtuHtI+oXpOmXV1mpVaUbFRnLoDhe4n/WToEDthFhagknX
+	 jZDid8KuPVF0aN6Rqvwh3TkLhNmPpjbprD6O6olAXveThTyVF7+R+l9ikmAhizC/opBQP
+	 6v8U6iZxcYBjgTK4xttQCNZixH1MXUFHtG0AdPilH1+ldT4TGOvyu9ZNSBEpQEpR/q3sf
+	 O99TETQVWN/p0vO0Q4ES/XfwjW+axHztp5kL1F7KSHOmSgfqv4EKZUbfBIyL3Z/rI9w==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794274486;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=mokQoEIcfGB/Z/vjqUY62jcJF6mYDAaM4ddLv+h/SLY=;
+	b=INjqA5hqI1Ujt9pIAwcmXtfGkEGte3QNpTH50QXxQhR2jKNTjwCv1je/r6ybtXxXNzkq
+	 5Tb7KOwDw/kfO0zgf97wUzL5EMZRd+ug7e1hKKg0V6zfcbqEdAe4nTC2b7yVuy2W9X3aI
+	 ZbtTHNsruo0h0OIFnL1KmLHTBnBrxEkiCmvfrmbMDaE1nqGOJ4jpf38q7dDXujbUVMhux
+	 QazvjS4LW+cKz6JXI5KlxCym2n7VKdE9SLlaqZEHCIJjyXjRHryIUd5wgza5VR81VqVqh
+	 EI27bRqwXSFPyQEe7+w4zwLuNyidpvsvKa6GhpIyu092IQBTVkikNvVugtP+5fQSLhQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=e3rPUk5L;
+	arc=none smtp.remote-ip=95.215.58.149
+Received: from mta1.migadu.com (out-149.mta1.migadu.com [95.215.58.149])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F90606A339;
-	Tue, 10 Nov 2026 01:30:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63F90606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10DF606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 01:34:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B10DF606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=coBEhLoy
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794274222; x=1825810222;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=FGEcX1orlEu//eNeWVUPJlEsoz9V75vnG1fr4rX7zns=;
-  b=coBEhLoy1xw66AWmLpc6dBZoewkpjaWkCFzJbFD/HIY3Hz8Y6krHYkpP
-   xCmR7t3hfhgsQv6daRE386k4SnR9J/UxyOgc86/bPl370bByiW42gBiDX
-   ex5nBx9RzDLKUHEHfhUdzprn6JBR8RhBU+OK6QPIhQmMCHaQIRhj9WN3p
-   FRLhDIhaSi/VmYYuJ2AihtFBAHVvN1q+MjaDIex1Vd7z9IXifabNgsK6K
-   BOpgX+oBI0O8l85Eql9OcSiMtei5ZtgYjW+KWrayComjWMyAdaGC17G2P
-   CAfILQG+z1lk/00gU871sPrJk+ljRnyb55WCQtKThlb0Q7eIQsusKQ186
-   w==;
-X-CSE-ConnectionGUID: 92aOdVVBTF+zcuZk+0TfCg==
-X-CSE-MsgGUID: 7WaLWikzQRCa+/YLJBwc1w==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="2909478"
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="2909478"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 17:30:20 -0800
-X-CSE-ConnectionGUID: ZHezD9wDTvahEKpQZYjQ6Q==
-X-CSE-MsgGUID: i0figI7aTNK6zv8pf/POWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,204,1787036400"; 
-   d="scan'208";a="8592172"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 17:30:20 -0800
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 9 Nov 2026 17:30:19 -0800
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Mon, 9 Nov 2026 17:30:19 -0800
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.48) by
- edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Mon, 9 Nov 2026 17:30:19 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=opksjcDjz1zXo9Y0kYgWAOfyRfVZeccesTHve4U6jWKnt8ZMaimy9mmNC7ZJwhVnUuhlE2n38kEiHxwFdz8D5hO1AuwmmZiZIDJWkaWfC2py0cqGeQSkAjlAYyFkpP4ZHtqxqEUPpCMv8pKZHpZjooxLf2XqCoiW+U5tUuxwP6UbyLq1x+LQBONWuNFoY1VOE0FbgOpE557axehVqNRCoS+OTyHOny+qazEy0nF1wqjyrfofr9+WoWmcNd1Ar4QRXynzWmOOG7fm4ySir+LP97rkktbEtSIV9Pb45juC1FXoyuMXWcrDCg27DFIY1QHd9da1H5cbNf5BogEpAqgm2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FGEcX1orlEu//eNeWVUPJlEsoz9V75vnG1fr4rX7zns=;
- b=aJ/YOO+TalxFaTx9/0ZkHuBqY8PFg7c7eX47eF9aQFN3vShUOK8LzJemQwXY94kQqra+9f+OX5HZjzylMy8/Akdzu+6f4+aEH4rbIaUktvNre1j3I+5hR9UEN0U2O91rd5fSrBDNraYnGq+HMxuhYWRtK0ehPpb37gFglpxsVYMWWY/OhcTCid3dLwRBt4jeg1lxDwVZm+svzmV88V7/FxOo5tWmDmH3Mpojapq12tT0c0ZAt4fkrhT/7w9CkX5WDkw/4z7RY1+xicalvSG9pPdFtH6Z9k9ZqBdEN6R5Ahf//33buZrsn7IFvVtvbqDiszhH4o6nSEBi96G4noj41A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA3PR11MB634048.namprd11.prod.outlook.com
- (2603:10b6:208:549::23) by DS0PR11MB7972.namprd11.prod.outlook.com
- (2603:10b6:8:124::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.13; Tue, 10 Nov
- 2026 01:30:16 +0000
-Received: from IA3PR11MB634048.namprd11.prod.outlook.com
- ([fe80::760f:f0a4:7417:6e57]) by IA3PR11MB634048.namprd11.prod.outlook.com
- ([fe80::760f:f0a4:7417:6e57%5]) with mapi id 15.21.0592.012; Tue, 10 Nov 2026
- 01:30:16 +0000
-From: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To: "jgg@ziepe.ca" <jgg@ziepe.ca>
-CC: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-coco@lists.linux.dev"
-	<linux-coco@lists.linux.dev>, "drdeeglaze@gmail.com" <drdeeglaze@gmail.com>,
-	"James.Bottomley@hansenpartnership.com"
-	<James.Bottomley@hansenpartnership.com>, "aik@amd.com" <aik@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>, "Xing, Cedric"
-	<cedric.xing@intel.com>, "alistair.francis@wdc.com"
-	<alistair.francis@wdc.com>, "linux-api@vger.kernel.org"
-	<linux-api@vger.kernel.org>, "Reshetova, Elena" <elena.reshetova@intel.com>,
-	"kas@kernel.org" <kas@kernel.org>, "ankita@nvidia.com" <ankita@nvidia.com>,
-	"jiri@resnulli.us" <jiri@resnulli.us>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "Jiang, Dave" <dave.jiang@intel.com>,
-	"Quigley, David" <david.quigley@intel.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>,
-	"jpiotrowski@nvidia.com" <jpiotrowski@nvidia.com>, "suzuki.poulose@arm.com"
-	<suzuki.poulose@arm.com>, "lukas@wunner.de" <lukas@wunner.de>, "Vivi,
- Rodrigo" <rodrigo.vivi@intel.com>, "Fang, Peter" <peter.fang@intel.com>,
-	"jic23@kernel.org" <jic23@kernel.org>, "ksinyuk@kernel.org"
-	<ksinyuk@kernel.org>, "sameo@meta.com" <sameo@meta.com>,
-	"sathyanarayanan.kuppuswamy@linux.intel.com"
-	<sathyanarayanan.kuppuswamy@linux.intel.com>, "qinkun@google.com"
-	<qinkun@google.com>, "pgonda@google.com" <pgonda@google.com>
-Subject: Re: [PATCH RFC 20/20] attestation: Add the TDX family implementation
-Thread-Topic: [PATCH RFC 20/20] attestation: Add the TDX family implementation
-Thread-Index: AQHdXLTTjrGSfVTT6UCa8v4N/LvKxbcKKgoAgAENkgCAAFvTgIAAJv0AgA+FnACAAGOJgIAGE/cAgARqFgCAAGa/gIAABksAgAAeAYA=
-Date: Tue, 10 Nov 2026 01:30:16 +0000
-Message-ID: <4c75b369b68c98c5c35e296895b6935342dc7dc1.camel@intel.com>
-References: <20261015145053.3664509-21-jiri@resnulli.us>
-	 <ed52bb6d48c87ab8023bf2165cadffa259e21725.camel@intel.com>
-	 <20261023141218.GD3977851@ziepe.ca>
-	 <343e4a12f2fdbb4e9a19c4afe49cf2b8908d6739.camel@intel.com>
-	 <20261023220030.GM3977851@ziepe.ca>
-	 <7843a833723e3aad40f8fc4de3a83f5a5059280f.camel@intel.com>
-	 <20261103005851.GH3889730@ziepe.ca> <au5LCE1jau0yDo5S@intel.com>
-	 <20261109171236.GP663069@ziepe.ca>
-	 <cbef9bda9241ffe98652172edb67fab3eb1c35ee.camel@intel.com>
-	 <20261109234252.GR663069@ziepe.ca>
-In-Reply-To: <20261109234252.GR663069@ziepe.ca>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-user-agent: Evolution 3.44.4-0ubuntu2.1 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA3PR11MB634048:EE_|DS0PR11MB7972:EE_
-x-ms-office365-filtering-correlation-id: 5723e2e2-0bad-4983-5f7b-08df3eca2cdb
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|23010399003|366016|1800799024|22082099003|18002099003|10067099003|38070700021|5023799004|11063799006|4143699003|261102123227099003|261026121527099003|261028144727099003|261022105027099003|56012099006|261022075727099003|261021121427099003|261026140227099003;
-x-microsoft-antispam-message-info: QnQr0u8x290IV+2nXcN+1NUovZ3g9RZSUsKeL58VhPVVrohClzTkuRFx4qLpZ+T+2BR9IguC5oD+X6GZ6514Dm/5I9Nlo89y9leE+vFxyu53Mhr7vkeeBvNp/4atQVWnbgGj3T85wSJsntlPJ7a4XcLm/j//1/GTyyfBLvNsp7IFAGj0cvzVnvPA1fEo3LqWxstU2FMgiBQDaHFNhLMcfiqhKCRdlhvsUn3J6WIuf+9T4TGg/sz5oD2zvRwNKIYegGXS7ggaj7DyoPA2s8byaIm61VWkS0p6DUECxJCV/N9Bqtsgr4QCX1xyaEcoQ95hQfGJUjLXfpDfZ3UB0UnrjzIWZIe4ri6rHgl7PZLuSY0nye32w1L3Hco9s890U57qf9MlgZcMLoI6dgMJpAuDt7FlIIMFRmGjMNWVIgvqnyARHnMpH19cEx5+wNOPeWTQOn6PEI0T4A3um0UuoQCZrOzyFihyO9/gTcmpOwK4tlJ5VrCK5ul/t6Q4aE2OpGa90T21fB3OZG14KicdDay9ozn+M2yq3xfHhwzSctCVETrrQnnIjLSaUBSclvsEmQVNtFFRDwUU0T3p9rtWvsfK16dHuGXsFgJ0OoUl5wfySUOIVWWyrqNd3wNJBaRyLKH6Nz/7Ny7Q1Hphilq2yXMlHm5xP1x6cno/ydB+MFRaWTNIEd6He1HS8le63o9uwagS1ou8nz92tkwdL8/173zJ5l4eYP9SEVmyAjybq0Dy1wg=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB634048.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(23010399003)(366016)(1800799024)(22082099003)(18002099003)(10067099003)(38070700021)(5023799004)(11063799006)(4143699003)(261102123227099003)(261026121527099003)(261028144727099003)(261022105027099003)(56012099006)(261022075727099003)(261021121427099003)(261026140227099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?NFRVZFloVVVqSkk3Y2VneTlJbjNvOHVoMm1xQTR0Mng4UjN5RnN3eDRpOG5V?=
- =?utf-8?B?N3JaL0p5NWR5Vi9DR3d5QUNOMzdra3lBc3lva3dLTGRMK3JyNUQybG41L1Br?=
- =?utf-8?B?K0NHbGRlb0xyeHluR2ZCdW05Q3NwNzhKMDc0U1JFNG5vNHl3TCtyUGNIa0Fu?=
- =?utf-8?B?R0JYVThmK2dKVG5GM3R3K0h2M3czWkhQb2xDZmk1enpid2p0YnBManRPeHox?=
- =?utf-8?B?bU9Ya29PcWU5VVV0a2dMb3JnUjRaa1lZL3UwNU5qZ0YvTXVoWVFocXc4Y2Fw?=
- =?utf-8?B?dXowWnJ4L2p3VGpQaCtzY2l3UEt1K0dVc0pwYzVrbmxOczBLaEtxK0RpZEV6?=
- =?utf-8?B?S2s1UFdueSs1UXVNbXBWM1p5d205ajJsQVAwSnhqeEpQTW54ZXllWlhyeU5S?=
- =?utf-8?B?VkVCdG96TktVMXlBRnVuVDJQUGlzQ1Nxbzl5Z0xDa2FIYVpoTXAvbVYwN3g1?=
- =?utf-8?B?a0YvVzhUWGRvVit6NURnOSt6VnBrVkJnSFN5SEt2cHJhakkzYTVyL3UwQWs0?=
- =?utf-8?B?WVJGb3d4M2IwWnFibG9CNUY3RUYzS28xWGdHaTFMYlJRenBRVmwzcVVDRjNt?=
- =?utf-8?B?RllLUnlnTVJxdlJYcTg4bWtPaVhEVnpBK2FtUHlmZ0ZVQlc3RW1QWDR5VlJh?=
- =?utf-8?B?M3dDWHFkbWJTU2JMWEJyaU5XMU96MVRVUTNjTk5peW5GajBOSi9YekM1Nk9V?=
- =?utf-8?B?enlWYXNSY01BcTNzdFpnL2F3VE9Zd2hOeStUemJSUnljNVk0cG9CbXJPOSt5?=
- =?utf-8?B?MURjWUxObDU3SnQ4MmRkTGU2TU95ZmJKZGFmcTFNdnJoZEdjOE5CcThlZC8w?=
- =?utf-8?B?ZUp5S1lKRyt3WkRnaTZvUjlhclRnb0JYV2lOK0krNFo2KzVXMXd4ZmxmMzls?=
- =?utf-8?B?VDhibFJLbytDNytOdmlPQ2FXdUpFdGRtendQV2tlTE92Q0t4ZzRZZEV5Zmw0?=
- =?utf-8?B?Nm5EYnRLVkg2a2NwcHhJcGJyNlZBQXVQUk5iVkNBOEJKRm5ZaHJseTlkbWkr?=
- =?utf-8?B?bGFscjJwR1dtQkZEY1BwMUlCdWRmSG9SZzR5eFJMZjZoWC9naGhpRjY5WTIx?=
- =?utf-8?B?S0t0ZHhMU2gvcUtXa21pVHd4TUo2UVFKR3Q2UjNUMSt0Z0NhYzA3M0RKdE9X?=
- =?utf-8?B?ZmdMajhRdTZidWFidmgybzAvUWF3REJYM1V4NmgwclBuMlErM1ZTQkZDTkZp?=
- =?utf-8?B?WFlPZUUxdjkzSUlCN0tyalpUa3hBS1NrWUNtZGFKVGM3YU05SlJsS3l1ZGs3?=
- =?utf-8?B?TGFQWnJmN1ZHeCsvTFNEb2plYzJJTExJK3FjYlJVRkVBcVNOblhrZmRReWtI?=
- =?utf-8?B?ajFUM1BZeDhyblhsMXN0MHU4ZkJrS0laSFExRlZzUnFUbmt1SlZYWUd5dzlM?=
- =?utf-8?B?d3h0WTlCY21KUE1ucFB4OGpvWGZMTnl0NlNRVUVMd094RC9XTEFONVBnYm5S?=
- =?utf-8?B?RDFsSzhSNjlEVzJVYVdhMXJDNVc3azBodHZSUEdpVE9IcGFLSWpvVklYN0gv?=
- =?utf-8?B?dUtiT0o3RUpQTFdxSU5KdGw5azJ3TXd4R1RDS2dhS2JFY3RCR3g5ckxESFBE?=
- =?utf-8?B?eGRMN1NtOHIrSjZuVVV5Yk5oekEvZkFxZkxyYXlTVDIzbUpadUxJZktqZ3Ir?=
- =?utf-8?B?eGJ1bmdsa3Jway9zekVpdnlac2oyRnJJdHJPNVFCSW5HODhKQStuSVhzejgx?=
- =?utf-8?B?a3didWFGYXk4Q1EzMU9iVTNrOVVEYi91b1FhOWQxd0c4Y0JJVmZ1ZDZuanpm?=
- =?utf-8?B?VGczbmVyTXRDRUhIbnRFSDBWUVZoREMwZkFIWkk5SW41NHY5d0RlemowQkhl?=
- =?utf-8?B?T1JuMU9ySTBycVBsNHd4bkhuTGMvZ3JUL1h1R3NpWWNjSlZmMEQxd1J1QllG?=
- =?utf-8?B?UUxZdlNZclpTRDExOXBYMmFJaHgvTGFIVU1vSHYxUlRrbjNQaWhhSUpwQzVQ?=
- =?utf-8?B?UXdtT05vRGlsekV0dDZ6R3FDckEyUGJITzdOMDNtaWNqVXdwVVMzdEt5Rm95?=
- =?utf-8?B?eGh5dG9VZzZnaEEyZHRTTFBxMG1GaDEvRlphZWNjZ1JwVElvK2pwUTJoU2x5?=
- =?utf-8?B?ckRoQ3Q5b3NteGhNRFdUdzh3d0FEVGJoSGx2TTRrdm95WFhEdm1ub2V0VmNG?=
- =?utf-8?B?dklLUGM2dVVib0sxVHY2M0RocTBUZmxKcUNUQzZPaGtVN0xVYzFydlhxQzVa?=
- =?utf-8?B?dmdmcFVkWGgrMEdaVjZ0WW5FRzNqUUpKTmp2NnR6dmoxTWlmaEkyMnhwaUdh?=
- =?utf-8?B?cmx4N3hUUmlXZUphNGNjZEhscngyQjRxRk1QUnJ2cjI3Y2lib25GdFdjVURw?=
- =?utf-8?B?eE8vUDJPSE8wby9yM2Q5QXdzUnJDNW1oTFhSMmtIQ0srYUZidXBlVWlacFA3?=
- =?utf-8?Q?vrZMkoBQotB9XeXU=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B4F1DEBFEEB9C2489DCD9074533216FF@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=e3rPUk5L
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=+CVoqE5ZB+NLoPvHg5KqhaCiBL96mDZaZ9g+LiiiVRw=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794274484; v=1; x=1794879284;
+ b=e3rPUk5LBsgmimyOy8skpozEtHUoQOutbtXA9TzeXUZUSvfztLKgH5mRGn6ssOXUbO9+5d1y
+ BmPqVaSdwSHmHpbLMYEuVEpQucHa3jHQSMfny+2YvgTNzFQA4c6B0JehZakiTywzu0+EIA966+r
+ /nURuxXHQnCai6wEcOdV7awQ=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id c7e84b47a2292ca9;
+	Tue, 10 Nov 2026 01:34:43 +0000
+X-Mizu-Trace-ID: c7e84b47a2292ca9
+X-Migadu-Flow: FLOW_OUT
+Date: Tue, 10 Nov 2026 09:34:31 +0800
+From: "Xu Xin (vivo)" <xu.xin@linux.dev>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: g@dgvxl46587.localhost.localdomain,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Chengming Zhou <chengming.zhou@linux.dev>,
+	Lorenzo Stoakes <lstoakes@gmail.com>,
+	"Liam R . Howlett" <liam.howlett@oracle.com>, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, Huan Yang <link@vivo.com>,
+	Wang Xiao <xiao.wang@vivo.com>
+Subject: Re: [PATCH resend] ksm: add merge_only_zero_pages to merge only
+ empty anonymous pages
+Message-ID: <avJ0p8ZfjZc9EewW@dgvxl46587.localhost.localdomain>
+References: <20261106034841.233085-1-xu.xin@linux.dev>
+ <899b1b2b-4f6c-45e2-abd6-a333ac77b23b@kernel.org>
+ <avEkWyGoKsVlCCRG@dgvxl46587.localhost.localdomain>
+ <3e126b7a-d7d9-4a8c-9c83-b6fbf5bf1539@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -216,70 +74,112 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: Nww4VUBSKJQVyRxKBmCJPdRa1yfKuMbZ2ALhG4HBRvr+qTpwWps++yapJ2Gw5nk1E1UjjKsg396xoC2KU8QcXisDsFiN0CRcM/JRPYaR2tX5b9kkpnzeJo1eZHDBmClJsNWrusl57MXCgDwDTWaBzrYMh1RLIlHZnHwtIY81VzKQgx6zi8+fQLluSO1oMmVIX9zjF+WyTOysjD5hJI6rWR5Qd48E8yuKvMOkT+kxZtgJtJOYjcXGH+LY1le5F8ef4Hots1T/mqC89pg/SxhBxSehjxy7Gc2lD7g1ztLpWt39AWtPa5T4evbJVUMUiJRwaW27e8mDlfQQLQ+jqbaP0Q==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB634048.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5723e2e2-0bad-4983-5f7b-08df3eca2cdb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Nov 2026 01:30:16.6730
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 77+PoJU4y2VT3cxmxq0JYG/Hk6MwFFpOAoGq4WHlj4iqEB6b/ZSNWRPIiNHxFf32RAAqhnvJg12UQcwSY813mdOGYYBGhPEHaNDYgeB169U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7972
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3e126b7a-d7d9-4a8c-9c83-b6fbf5bf1539@kernel.org>
 
-T24gTW9uLCAyMDI2LTExLTA5IGF0IDE5OjQyIC0wNDAwLCBKYXNvbiBHdW50aG9ycGUgd3JvdGU6
-DQo+ID4gU28gd2UgaGF2ZSB0aGlzIFNHWCBiYXNlZCBxdW90ZSBmb3JtYXQgdGhhdCBpcyBmaXhl
-ZCBiZWNhdXNlIGl0IGFscmVhZHkNCj4gPiBleGlzdHMNCj4gPiBpbiB0aGUgd2lsZC4gR29pbmcg
-Zm9yd2FyZCB3ZSBhcmUgbW92aW5nIHRvIERJQ0UsIGJ1dCB0aGF0IGlzIGEgc3RhbmRhcmQNCj4g
-PiBmb3JtYXQuDQo+ID4gU28gYWxzbyBzb21ld2hhdCBmaXhlZC4gSSBndWVzcyB0aGUgcXVlc3Rp
-b24gaXM6IGlzIHRoZXJlIHNvbWUgY29tYm8gb2YgYml0cw0KPiA+IGluDQo+ID4gZWFjaCBibG9i
-IHdlIGNvdWxkIGNoZWNrIHRoYXQgY291bGQgZGV0ZXJtaW5pc3RpY2FsbHkgZGlzdGluZ3Vpc2gg
-YmV0d2Vlbg0KPiA+IHRoZQ0KPiA+IHR3bz8gVG8gZG8gdGhpcyB3ZSB3b3VsZCBuZWVkIHRvIGFu
-YWx5emUgdGhlIHF1b3RlIGZvcm1hdHMuDQo+IA0KPiBZb3UgZ3V5cyByZWFsbHkgZGlkbid0IG1h
-a2UgaXQgZGlzY292ZXJhYmxlIHdoZW4geW91IGFkZGVkIERJQ0U/IDooIDooDQoNCkxpa2UgaW5m
-bHVlbmNlIHRoZSBESUNFIHNwZWMgdG8gaW50ZXJvcCB3aXRoIGxlZ2FjeSBTR1ggYmFzZWQgYXR0
-ZXN0YXRpb24/IEknbQ0Kb3V0IG9mIG15IGRlcHRoIHRvIHRyeSB0byBzYXkgaG93IHBvc3NpYmxl
-IHRoYXQgaXMuDQoNCkknbSBhbHNvIHVuZGVyIHRoZSBpbXByZXNzaW9uIHRoYXQgdGhlIHF1b3Rl
-IHdhcyBub3QgZGVzaWduZWQgZm9yIGxvY2FsDQpwcm9jZXNzaW5nIGluIHRoZSBndWVzdC4gQnV0
-IHJhdGhlciByZW1vdGUgYXR0ZXN0YXRpb24gd2hpY2gsIHVzdWFsbHkgaW52b2x2ZXMgYQ0KaGVs
-cGVyIHNlcnZpY2UgdGhhdCBwcm9jZXNzZXMgdGhlIHF1b3RlLiBJJ3ZlIG5ldmVyIGJlZW4gY2xl
-YXIgb24gd2h5IHRoYXQgd2FzDQpkZXNpcmVkLiBCdXQgaXQgcHJvYmFibHkgaXMgcGFydCBvZiB0
-aGUgcmVhc29uIGF0dGVzdGF0aW9uIGRvZXNuJ3QgZml0IHRoaXMgdXNlDQpjYXNlIHBlcmZlY3Rs
-eS4NCg0KPiANCj4gPiBJZiB0aGVyZSBpc24ndCwgSSdtIG5vdCBzdXJlIHdoYXQgd2UgY291bGQg
-ZG8gYXQgdGhpcyBwb2ludC4gVGhlcmUgaXMgYQ0KPiA+IGxpYnJhcnkNCj4gPiBJbnRlbCBwdWJs
-aXNoZXMgKHJpZ2h0IFBldGVyPykgdGhhdCBjYW4gdmVyaWZ5IHRoZSBxdW90ZXMuIEknZCBndWVz
-cyBpdCBtdXN0DQo+ID4gaGF2ZSBzb21lIHdheSB0byBkaXN0aW5ndWlzaCBiZXR3ZWVuIHRoZSB0
-d28uIENhbiB5b3UgY2hlY2sgaG93IGl0IGRvZXMgaXQNCj4gPiBQZXRlcj8NCj4gDQo+IFNlZSB0
-aGlzIGlzIGV4YWN0bHkgd2hhdCBJJ20gdGFsa2luZyBhYm91dCwgSSBkb24ndCB3YW50IHRvIHJl
-cGVhdGVkbHkNCj4gZ2V0IGludG8gdGhpcyBzaXR1YXRpb24gZG93biB0aGUgcm9hZCBvdmVyIHRo
-ZSBuZXh0IGRlY2FkZS4NCg0KSSdtIG5vdCBzdXJlIGlmIEknbSBtaXNzaW5nIHNvbWV0aGluZy4g
-TmV3IGluY29tcGF0aWJsZSBzdGFuZGFyZHMgc2VlbSBwcmV0dHkNCm5vcm1hbD8gU29tZXRpbWVz
-IHRoZXJlIGlzIGEgY29udGFpbmVyIHRvIHNwZWNpZnkgd2hpY2ggdHlwZSBvZiBibG9iLCBhbmQN
-CnNvbWV0aW1lcyBpdCBpcyBqdXN0IGRpc2NvdmVyYWJsZSBieSBjbHVlcyBpbiB0aGUgYml0cy4N
-Cg0KSSB0aGluayB0aGUgdGhpbmcgdGhhdCBpcyBhIGJpdCBkaWNleSAobm8gcHVuKSB3aXRoIHRo
-aXMsIGlzIHRoYXQgdGhlcmUgaXMga2luZA0Kb2YgYSBiYWNrd2FyZHMgY29tcGF0aWJpbGl0eSBh
-ZGphY2VudCBjaGFuZ2UgZm9yIHN5c3RlbXMgZ2l2aW5nIHRoZSBuZXcgRElDRQ0KcXVvdGVzLiBU
-aGlzIGNhbWUgdXAgaW4gaW4gYm90aCBkaXNjdXNzaW9ucyB3aXRoIERhdmUveDg2IGFuZCBTZWFu
-L0tWTS4gVGhlDQpyZWFzb24gd2h5IGl0IHdhcyBjb25zaWRlcmVkIGdydW1ibGUtb2sgaW4gdGhl
-IGVuZCwgd2FzIGJlY2F1c2UgdGhlIGZ1bGwNCnZlcmlmaWNhdGlvbiBkZXBlbmRzIG9uIHVwZGF0
-ZXMgdG8gdGhlIGxpYnJhcnkgZm9yIGVhY2ggbmV3IHBsYXRmb3JtIGR1ZSB0bw0KbmVlZGluZyB0
-byBiZSBhd2FyZSBvZiBuZXcga2V5cy4gU28gdG8gYWN0dWFsbHkgYXR0ZXN0IGV2ZW4gU0dYIHF1
-b3RlcyBvbiBhIG5ldw0KcGxhdGZvcm0sIGxpYnJhcnkgdXBkYXRlcyBhcmUgbmVlZGVkIHRvIHdo
-YXRldmVyIHRvb2wgb3Igc2VydmljZSBpcyBiZWluZyB1c2VkLg0KU2luY2UgdGhlIGxpYnJhcnkg
-bmVlZHMgdG8gYmUgdXBkYXRlZCBpbiBhbnkgY2FzZSwgaXQgY2FuIGFsc28gdW5kZXJzdGFuZCB0
-aGUNCm5ldyBmb3JtYXRzIHdpdGhvdXQgYW55IGltcGFjdCB0byB0aGUgdXNlci4NCg0KQnV0IHRo
-aXMgZGlkbid0IHRha2UgaW50byBhY2NvdW50IHRoaXMgZ2VuZXJpYyBBUEksIGxvY2FsIHF1b3Rl
-IHByb2Nlc3NpbmcgdXNlDQpjYXNlLiBXaGljaCBpcyBraW5kIG9mIGEgc3VycHJpc2UgYW5kIEkn
-bSBhY3R1YWxseSBzdGlsbCBub3QgMTAwJSBjbGVhciBvbiBob3cNCml0IHdpbGwgYmUgdXNlZC4N
-Cg0KPiANCj4gPiBBbm90aGVyIG9wdGlvbiB3b3VsZCBiZSB0byB0ZWFjaCB0aGUgd2hvbGUgc3Rh
-Y2sgdG8gcmVxdWVzdCBzcGVjaWZpYw0KPiA+IHF1b3RlcyB0eXBlcyBmcm9tIHRoZSBndWVzdC4g
-VGhlbiB0aGlzIG5ldyBjb21wb25lbnQgY291bGQgb25seQ0KPiA+IHJlcXVlc3QgRElDRSBhbmQg
-bmV2ZXIgYmUgc3VycHJpc2VkIGJ5IFNHWCBxdW90ZXMuDQo+IA0KPiBJcyB0aGF0IGFuIGV4aXN0
-aW5nIG9wdGlvbj8gSXQgc2VlbXMgT0s/DQoNCkkgdGhpbmsgd2Ugd291bGQgaGF2ZSB0byBjaXJj
-bGUgYmFjayB3aXRoIGV2ZXJ5b25lIHRoYXQgcHVzaGVkIGZvciB0aGUgaG9zdA0KY29udHJvbGxl
-ZCBxdW90ZSB0eXBlLiBMZXQncyBzZWUgaWYgdGhlIGxpYnJhcnkgY2FuIGRpc3Rpbmd1aXNoIHRo
-ZW0gYWxyZWFkeQ0KdG9vLiBUaGlzIGF0dGVzdGN0bCB0b29sLi4uIGlzIHRoYXQgc29tZXRoaW5n
-IHRoYXQgY291bGQgY29uc3VtZSBhIGxpYnJhcnkgbGlrZQ0KdGhpcz8gT3Igc29tZXRoaW5nIHRo
-YXQgd291bGQgaGF2ZSBhIG5vIGRlcGVuZGVuY3kgaW1wbGVtZW50YXRpb24/DQo=
+On Mon, Nov 09, 2026 at 06:41:39PM +0100, David Hildenbrand (Arm) wrote:
+> On 11/9/26 02:39, Xu Xin (vivo) wrote:
+> > On Sat, Nov 07, 2026 at 07:28:50PM +0100, David Hildenbrand (Arm) wrote:
+> >> On 11/6/26 04:48, xu.xin@linux.dev wrote:
+> >>> From: "Xu Xin (vivo)" <xu.xin@linux.dev>
+> >>>
+> >>> Add a new sysfs attribute, /sys/kernel/mm/ksm/merge_only_zero_pages,
+> >>> which, when enabled, makes ksmd merge only empty (zeroed) anonymous
+> >>> pages with the kernel zero page and skip the stable and unstable trees
+> >>> entirely for pages that carry data.
+> >>>
+> >>> The attribute requires use_zero_pages to be 1, and the two are kept
+> >>> consistent by symmetric constraints: it cannot be enabled while
+> >>> use_zero_pages is 0 (-EINVAL), and use_zero_pages cannot be turned
+> >>> off while it is active (-EBUSY). The new attribute can be changed at
+> >>> any time and is only effective for pages merged after the change.
+> >>>
+> >>> Benefits in three aspects
+> >>> =========================
+> >>> - Memory saving:
+> >>>   On memory-constrained systems such as Android and embedded devices,
+> >>>   zero-filled anonymous pages are the largest source of duplicate
+> >>>   anonymous memory. They are produced by userspace allocators: the
+> >>>   zeroing of freshly allocated Java objects and buffers in the ART heap
+> >>>   (new byte[]/int[], Bitmap buffers), calloc/memset in native code, and
+> >>>   preallocated media buffers. Merging them with the kernel zero page
+> >>>   frees a significant amount of physical memory, which matters as DRAM
+> >>>   costs keep rising. With this enabled, we measured 100MB–300MB saving
+> >>>   tested with several popular applications on aarch64 (Android).
+> >>>
+> >>> - CPU overhead reduction:
+> >>>   Merging only zero pages also reduces the overhead of ksmd. A page that
+> >>>   is not merged with the zero page carries data and can never be merged
+> >>>   with the zero page, so there is no point in searching the stable tree
+> >>>   or inserting it into the unstable tree for it. Skipping those tree
+> >>>   operations for data-bearing pages reduces both the CPU time and the
+> >>>   rhashtable memory footprint of ksmd, which makes zero page merging
+> >>>   practical on low-resource devices where full KSM scanning would be too
+> >>>   expensive.
+> >>>
+> >>> - Security:
+> >>>   Finally, this shrinks the KSM side-channel attack surface: only zero
+> >>>   pages are ever merged, so the sharing status of data-bearing pages is
+> >>>   no longer observable through KSM timing side channels.
+> >>
+> >> Lol. Did you come up with that or an LLM :)
+> > 
+> > Ha, fair question :) This came from our own investigation. We were looking
+> > into whether KSM can actually provide benefits on Android phones, and this
+> > observation came from real-world application workloads. To be fully honest:
+> > I did use an LLM to help polish the English wording of the commit description,
+> > but I carefully rechecked and verified every sentence myself..
+> 
+> The reason why I ask is that this effectively disables most deduplication where
+> KSM was originally invented for: VMs running the same kernels, libaries,
+> executables etc.
+
+Yes, it closes the original scenarios like KVM, so I wrote a Note to say that in
+commit description and Documentations. But it opens up some new application scenarios
+ — scenarios with high security and low cpu-consuming requirements, where merging
+zero pages alone can already bring benefits.
+
+> 
+> So yeah, disabling most deduplication shrinks side-channels ... by disabling the
+> core functionality of KSM, to dedupicate pages with the same content :)
+> 
+> > 
+> >>
+> >>>
+> >>> Note
+> >>> =====
+> >>> - Suitable for Android, embedded and low-memory devices, where zero-page
+> >>>   deduplication is wanted but full KSM scanning is too costly, and reduced
+> >>>   KSM side-channel exposure is desired. Many handset vendors may prefer
+> >>>   this knob, which can be used as a default fallback policy.
+> >>>
+> >>> - Not suitable for server and virtualization workloads containing many
+> >>>   non-zero duplicate pages, where vanilla KSM provides better memory
+> >>>   savings.
+> >>
+> >> I proposed something similar when I was still at RH. My concern back then was
+> >> that we don't want/need all of the stable/unstable trees.
+> >>
+> >> IIUC that's all still in place in your implementation, right?
+> > 
+> > We still keep the stable/unstable tree data structures, but zero-page merging
+> > does not participate in the stable/unstable tree search path. One more reason
+> > for keeping them is that merge_only_zero_page is designed as a dynamic knob
+> > that can be toggled at runtime, so when it is disabled KSM can fall back to
+> > the traditional full KSM behavior.
+> 
+> 
+> What's the memory overhead from keeping these datastructures in the
+> merge_only_zero_page-only path?
+
+In the merge_only_zero_page-only path of current implementation, the main memory
+overhead comes from the ksm_rmap_items for non-zero pages, RB trees of stable and
+unstable, and mm_slots.
+
+If the allocation of rmap_item can be avoided (following Tu Jinjiang’s idea), then
+only the stable_tree and unstable_tree remain, which are basically empty, and these
+overheads become so low that they are negligible. The mm_slots are essential so can't
+be avoid, but won't take up much memory.
+
