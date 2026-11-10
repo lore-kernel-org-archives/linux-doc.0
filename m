@@ -1,81 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=65.109.113.108
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794290801;
-	b=bvkR+uUGf6/kjKNJcuD2xtW+5MrZzEqwicSArPhBLijiMXem1FgAEr840wm0wiiSc53S
-	 B384iC949ke3PgIkB38eejMt1n/GVt3r2/OQou9+qEuWPdPGGAWk7Y0Y+Tz+8gqgUv0yr
-	 pH7yB5LN8cpIpsHMYS7KmkXdeZK21jFk1iR1w1wRDsABdufINkg/UP4DYnUvljaJe+6nR
-	 qVFFc3/pSWXdCm7cPTPBLnyI2FuzFwSCp9fI9XQ6gv3R+hm0LmZHXQfp6nJ54sdJewAWQ
-	 qBTZ9oQGYrOpdZfyrBbrLlKUmmgdfGW2lupuLrDhwz+xlWmWscALb8K1TWFcROBu6pA==
+	t=1794295097;
+	b=ngBgf5Y8DEWTz8S0afZ2vJLpWH5pKUv+koZND/eAAgfYCoUs7sKTiHchyJsTGQkmVHKS
+	 4iZLaT6N+tF5I4g6mL0M1Yi/68Stu+dZhdmyPARCKgZvWSBi0aakgdC/5Q1BD9AG4aYCd
+	 HhqKrEzp1KYn/gS9y3jjxbdC9NUWFcTpFKgKfr8FcOW/d7c/EqTtJnovOSg/C+e/iL8Pc
+	 FXEOC1y9QFvEipz1+DE13OjoIhTDvCFnv/WPSd8g3rRcPCezDI6MR3fPfqhMjXZo68Wbi
+	 EhypxnM5m6cZGiVWHAX9C4qCa+TkwziN5ttuZXfXPDVR6Ofs+mav8QOM05Bjuq7fbgA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794290801;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=Hnh10F1zQfs5wctp+i2aDmqIYavrqW0fRXfCXxRBWTE=;
-	b=Y+IrpMwTBYWDBW7NLei4ErsrHYLdkaPn1wTv5MvWYoNTpjOxJCeF8JCknAZDgkKU8Dqj
-	 Vu+amg0YiKqlxshfaPjOHb5yMlsrc7H/WMJ08E8KzjW/+5L84AQ7/7TflOFIjD/oYIRlW
-	 YFaSgHJX4WjZrTlsyHygfRJdjTEpP/157ss2ClwKTzxgxL969LL88ueNmleCV0xRfqfX6
-	 hKJDRjWHdnMwLTDqRjCsamNAzcZ1TXz14TjFGNkioiDGRRbhpOaTQ46yQBMLG3ZHgiJ4C
-	 DqWWj8xt9WGuXZVnJY6r3Xise0Au1aGhYHoPCaModqa9pYdqa27BcYWMHOc8zm0TQ7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794295097;
+	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=AdAheHZEWha9dAehEUE3zXja1Ighlj9AsimpUr1pvrE=;
+	b=j2FUHUjJumrLPmyXRCNTYKH5zfvoUrImO1Osp6xgclVFuwxeTPgfIPI2OegXfLfg26FG
+	 Lx3WumENZwIC/iVehCaSnkKALJnX0XPSb/yW5AylxH+bPGI89UdF+Al6tMg1VKs8jqo2H
+	 d6MtCvL2Zo9KlCz9yg1ybes6cG0Q1zmfGrRgWqJ7BYy/v5vAz/35cB7IUuD0IRB6Io6Nl
+	 HFRCTD31+smFDOOs9ORh3leB8KoTGqjFYlFUCAiDA5dVFdj4Sx6r6/2+h3jtFDC9JnQKh
+	 pxHvAhpzyoXNqrCTCzHILRFrHWkbv4LzgIR5itot9+RXP79bw9OjtR6PE2rTn16ul9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eb8TtXll;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=alien8.de;
+	spf=pass smtp.mailfrom=alien8.de;
+	dkim=pass header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b="CEzYY/Lc";
+	arc=none smtp.remote-ip=65.109.113.108
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id DC7CA606A321;
-	Tue, 10 Nov 2026 06:06:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71BD9606D61E;
+	Tue, 10 Nov 2026 07:18:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71BD9606D61E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eb8TtXll
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9088E1F0089F;
-	Tue, 10 Nov 2026 06:06:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794290800;
-	bh=Hnh10F1zQfs5wctp+i2aDmqIYavrqW0fRXfCXxRBWTE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eb8TtXllKp/I2wuhSS3q+9ykKbgSIsPs7gk7VfGNWmGNU+WjweUEnFKh9TgZTVkGq
-	 sMrc6PQ+88V8fzudWMldoKc2AVHklkzkYa0+40xfi3AW18Q/K4K9h/OocoZpCsVTc7
-	 P3U7Lk6TDzGXSUBWVX72i99ctq9fxpCEAf7EPOcoxKbQ5HoOJlAOSS9DWUBbMFrSGs
-	 wq0Ih3E/DaXojtDOLNMTToD5a4szza7K5jiOH90rJg25i7q+WgS1YpUPqvG8ck732L
-	 facfIldhFjw/2ZFAetpxsSvQgpdMsJ0r4OYiQPZlv8X139dzSSBMZ5/L3G1OVKmP/B
-	 +37+kwO7JItFQ==
-Date: Tue, 10 Nov 2026 08:06:36 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: David Howells <dhowells@redhat.com>
-Cc: bpf@vger.kernel.org, dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
-	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	Alasdair Kergon <agk@redhat.com>,
-	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Benjamin Marzinski <bmarzins@redhat.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Ignat Korchagin <ignat@linux.win>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Mike Snitzer <snitzer@kernel.org>,
-	Mikulas Patocka <mpatocka@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
-	"Theodore Y. Ts'o" <tytso@mit.edu>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v9 2/3] KEYS: Replace assoc_array with rhashtable
-Message-ID: <avK0bC5VmO7LXlfS@kernel.org>
-References: <20261110053323.2936729-1-jarkko@kernel.org>
- <20261110053323.2936729-3-jarkko@kernel.org>
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.a=rsa-sha256 header.s=alien8 header.b=CEzYY/Lc
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id B57BD40E02A0;
+	Tue, 10 Nov 2026 07:18:13 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id PDmFULynP60D; Tue, 10 Nov 2026 07:18:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1794295089; bh=AdAheHZEWha9dAehEUE3zXja1Ighlj9AsimpUr1pvrE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CEzYY/LcNnV752DyANYxRYqCdiauzIqFBIGjeUo6JWwRh0ZEG4G+xwcjd/4/pwNlo
+	 SgC1zKTOZB8iZj1SDS/bnq28O2g1F9OToZcFVfOsDk8XmfPS4hbGyaDCsf+j3VDwre
+	 cIfNdj6mhAsI24JcKwHYZRwtrzkX5OPIMiEOADgkoVPYE9kyOQhQHapkSWS6Vl7i6M
+	 mb5gY8CoaZdZ+voHzb/N0bjI2U7yLfFgJwC+Gorbiw+wNd1dF19wLP2Chvvb6iL4ZW
+	 9G/rstRfW2ee3NRHfVRqPxakhc8UEc+U9wzDzhMh7s2y43/WqXjxNLE9DfrkXcFmm3
+	 cCGJh6S/X2KwesElRDcS4WRX6Ho6mvJpKvlvmqzdXrIgJ9Gt2l1tE0zlAdHPQIPHiB
+	 U9FLw9v+3qrMxvthlBcLQDnBeR0RC0+p+Z3OzvQvyoOZPyaPIfRb8jbAK6UhPmAKE/
+	 LgZhE85VY0O4WoaZPUllv4W5DulETM1Liy93VIjPi59oGnTu843OfF/+B48AnUfFEh
+	 O8hFwxXE1ucYYRjs3Za94QTMFgl2E3vClWk4TvxxyPp/8j9fkibhVMuffhAaw/WGm2
+	 zXb+zSbVyNXx9YL5sBT3MTKOfRUbrPaxHE1wMGKsAUGzY2OwEj5uSsnEy0Vaw0avhv
+	 beFVzWRvzbf05CqvkRyxK/f8=
+Received: from stx.tnic (unknown [IPv6:2600:1700:38ca:c00::42])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id A105A40E0255;
+	Tue, 10 Nov 2026 07:17:32 +0000 (UTC)
+Date: Mon, 9 Nov 2026 23:17:29 -0800
+From: Borislav Petkov <bp@alien8.de>
+To: Shiju Jose <shijujose2008@gmail.com>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org,
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, tony.luck@intel.com, lenb@kernel.org,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	ashok.raj@oss.qualcomm.com, jic23@kernel.org, linuxarm@huawei.com,
+	rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+	dave.hansen@linux.intel.com, naoya.horiguchi@nec.com,
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com,
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com,
+	gthelen@google.com, wschwartz@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+	wanghuiqiang@huawei.com
+Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
+Message-ID: <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local>
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-3-shijujose2008@gmail.com>
+ <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
+ <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -85,117 +95,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261110053323.2936729-3-jarkko@kernel.org>
+In-Reply-To: <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com>
 
-On Tue, Nov 10, 2026 at 07:33:22AM +0200, Jarkko Sakkinen wrote:
->  /*
->   * Preallocate memory so that a key can be linked into to a keyring.
->   */
->  int __key_link_begin(struct key *keyring,
->  		     const struct keyring_index_key *index_key,
-> -		     struct assoc_array_edit **_edit)
-> +		     struct keyring_edit *edit)
->  {
-> -	struct assoc_array_edit *edit;
-> +	struct keyring_link *link = NULL;
-> +	struct keyring_link *replace;
-> +	struct keyring_index *links;
->  	int ret;
->  
->  	kenter("%d,%s,%s,",
->  	       keyring->serial, index_key->type->name, index_key->description);
->  
-> -	BUG_ON(index_key->desc_len == 0);
-> -	BUG_ON(*_edit != NULL);
-> +	if (WARN_ON(index_key->desc_len == 0) || WARN_ON(edit->new)) {
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
->  
-> -	*_edit = NULL;
-> +	edit->new = NULL;
-> +	edit->old = NULL;
->  
-> -	ret = -EKEYREVOKED;
-> -	if (test_bit(KEY_FLAG_REVOKED, &keyring->flags))
-> -		goto error;
-> +	if (test_bit(KEY_FLAG_REVOKED, &keyring->flags)) {
-> +		ret = -EKEYREVOKED;
-> +		goto out;
-> +	}
->  
-> -	/* Create an edit script that will insert/replace the key in the
-> -	 * keyring tree.
-> -	 */
-> -	edit = assoc_array_insert(&keyring->keys,
-> -				  &keyring_assoc_array_ops,
-> -				  index_key,
-> -				  NULL);
-> -	if (IS_ERR(edit)) {
-> -		ret = PTR_ERR(edit);
-> -		goto error;
-> +	links = keyring_get_index(keyring);
-> +	if (IS_ERR(links)) {
-> +		ret = PTR_ERR(links);
-> +		goto out;
->  	}
->  
-> -	/* If we're not replacing a link in-place then we're going to need some
-> +	link = kzalloc_obj(struct keyring_link);
-> +	if (!link) {
-> +		ret = -ENOMEM;
-> +		goto out;
-> +	}
-> +	link->hash = index_key->hash;
-> +
-> +	replace = keyring_find_link(links, index_key);
-> +
-> +	/*
-> +	 * If we're not replacing a link in-place then we're going to need some
->  	 * extra quota.
->  	 */
-> -	if (!edit->dead_leaf) {
-> +	if (!replace) {
->  		ret = key_payload_reserve(keyring,
->  					  keyring->datalen + KEYQUOTA_LINK_BYTES);
->  		if (ret < 0)
-> -			goto error_cancel;
-> +			goto out;
-> +
-> +		ret = rhashtable_insert_fast(&links->ht, &link->node,
-> +					     keyring_link_params);
-> +		if (ret < 0) {
-> +			key_payload_reserve(keyring,
-> +					    keyring->datalen - KEYQUOTA_LINK_BYTES);
-> +			goto out;
-> +		}
->  	}
->  
-> -	*_edit = edit;
-> -	kleave(" = 0");
-> -	return 0;
-> +	edit->new = link;
-> +	edit->old = replace;
-> +	ret = 0;
->  
-> -error_cancel:
-> -	assoc_array_cancel_edit(edit);
-> -error:
-> +out:
-> +	if (ret && link)
-> +		kfree(link);
->  	kleave(" = %d", ret);
->  	return ret;
->  }
+On Sun, Oct 18, 2026 at 11:56:22PM +0100, Shiju Jose wrote:
+> I have got an arm64 setup only, did not try to build for X86 recently
+> after adding the following change
+> of using iowrite64 and ioread64 as suggested by
+> https://sashiko.dev/#/patchset/20260325165714.294-1-shiju.jose%40huawei.com
+> 
+> Following change is required to build for X86_64 build when using
+> iowrite64 and ioread64, while it was
+> fine for the ARM64 build.
+> Note: I'm not sure whether RAS2 is needed for the 32 bit build or not
+> and the result of the 32 bit build.
 
-No additional Sashiko complains.
+I'm not sure iowriteXX/readXX are needed here at all.
 
-Despite a few unfortunate extra rounds I'm happy how this shaped in the
-end. It has a sane flow now I think.
+Documentation/driver-api/device-io.rst talks about all those different options
+and the most generic ones are readq/writeq().
 
-And it definitely made sense to drop cleanup.h shenanigans from
-__key_link_begin().
+About those you're using, it says:
 
-Br, Jarkko
+"ioread64(), ioread32(), ioread16(), ioread8(), 
+iowrite64(), iowrite32(), iowrite16(), iowrite8()
+        
+  These are an alternative to the normal readl()/writel() functions, with almost
+  identical behavior, but they can also operate on ``__iomem`` tokens returned
+  for mapping PCI I/O space with pci_iomap() or ioport_map(). On architectures
+  that require special instructions for I/O port access, this adds a small
+  overhead for an indirect function call implemented in lib/iomap.c, while on
+  other architectures, these are simply aliases."
+
+and I don't see anywhere that you absolutely need those, judging by that
+explanation there. But what do I know.
+
+Unless there's a real reason you cannot use readq/writeq()...?
+
+But those should give you the same fixed endianness when accessing little
+endian ACPI so...
+
+Thx.
+
+-- 
+Regards/Gruss,
+    Boris.
+
+https://people.kernel.org/tglx/notes-about-netiquette
