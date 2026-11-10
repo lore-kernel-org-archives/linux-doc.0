@@ -1,100 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794325561;
-	b=v9IMFpHig8B9J6DVL+aPefcU4UHpmrxprIcR9x218n38DMNFgxn7Ny7pYyj1HaMKmZoS
-	 WFtzVDvBvBY3aJ4ANKTVwyg/1qv8aFH01xL6PL1h0Pu8JooLCPetXZusD8MkumIYXtFab
-	 Vd1A/H3DmhjUZRECHPastzbVFxVyPiRj+3nrlmGNAQpSdLze4L6pYZi9ez0plhv3cbJBc
-	 EO0R5IsBYEJ73irxHpVj7huPnI5hbNRYoCh5w1WTJkNYT2jWCq6J18RejNj78MCpoNz3f
-	 nwQ7qYqQkGG+j1sQ5T0DhAnQahRrJY1nQ0pDeNEeT49gUEZLInJ54FeASa8HHBA9JAg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794325561;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794325566;
+	b=MOcvigBZ6rEd8BQMDcjpYkLZRoyKeFlHruzMnaV1Lel33vF0B057eruSFoF1Jf9ods7j
+	 GAvqE7QXwDr+dvGSkkxFYzEUbko04no6szbKLe6AAm1SEVvmqJkbGFQtZnQc91uG6ZKyM
+	 3ZdTZBfGj1vzcJZYJfYpxepnXxSEQZSaEFkV0Q4uoIn4blSoZVnZRPshIBaKF5tm8hZqI
+	 bUb+d3yu5VKFNK3cnV7Ors9ahgS9sIgW6kUJNNOYoeaeLpo04ahck57+b7WQ3nTL0rHvD
+	 lEybcOxNtSumMIcu8w8FH2k7jsP56iHT2A+34MuRIljtoZb0nDYxT+WIAMcXoZTkErQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794325566;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=4joyfckgOzoxD1v9F8y539Lxr07wRquNtozOKKoNpYs=;
-	b=gDDbFA6/4XJj559xlNf3UYWQ2nKWhBr08WEWk1fnzAGq9ckXf79omLMhwouH59EEXuK3
-	 qLUhHeHNTlcFseU+pwMPdBIvmi6r2PBqJq8IGsKb1CHr7DqJLinWIOsf/O1BHUzDVcs2H
-	 Z8/rPy8L+NrXjsDLu2WaKcRkTNv9f02AtM6ypcYn/HLB1+sZK7QkYaT2q3LjEWPxoo24q
-	 4ydXCgHd4AM8sfGovbz4cuVkR5yF22m353A1QE2pIs2TqL+ryHvy71q1Km5KSA0SRB7DX
-	 RzlGgae7biSD0Teu91GPqRbEEKMoV4xMRepvsBLZjGiStlvyxZwrQosl9IogoiSoxrg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cloudflare.com;
-	spf=pass smtp.mailfrom=cloudflare.com;
-	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=eZLW2NkF;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.45
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=I6jvLVTJ6/L/P1TOo+cN1ccJTZcH95Jo/fx+GgYHa7w=;
+	b=vMBhyEeQybmq++vL8QCPyxoQIANRSBEfVWta+pPJHouHJWlyUsjShYD1BbBHjcvBFXuF
+	 mWhL4sRsja6esJkJfg0VVEI1YzFKNbeKPl/4kVBJAoVaiIV5rfn/cDg9dBJTh6Ncw8pzf
+	 1dIaming+0LfoZflxu4/907HsqkNjCOxAhlngDGh2eUg7DN0r1K8mmo0XRZBFiDuKUNv+
+	 2goZUH4eriaV7cvxyivrx/B7jzm/KuOYmLJUznA2Pk9wb+Ip99z/Dekg8VrGoFM3VDAYb
+	 b9FEwaSds6Zy8hVwLaT3EvuSew1ALY/kXYZYKhHBPVnMLuff0fOUaEEmstm50lA1bGA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b="TxW0Z/LW";
+	arc=none smtp.remote-ip=209.85.215.181
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3807C606AB55
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:45:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3807C606AB55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B17AB606AB75
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:46:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B17AB606AB75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=eZLW2NkF
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-702dedeb70dso1098743eaf.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:45:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794325555; cv=none;
-        d=google.com; s=arc-20260327;
-        b=BjGWrZHv/IZdxIpuflEvWsN6GztziVs21YgoeykynZIg9X/dN2KcOwAcVtBM7xr0bn
-         KJrVY3BCRyn+Vbs/eJ9XexVCLSbRXzGsU61DO9BhNIHBr+0NFu1ieD61dxMHqoSznoc8
-         SsNNN2HQIz+UpOHqjnkWdAmabA4FEyHCtv8fG4M2UtREdCP14CqAesc7oXiKVu/k18Kt
-         CNFOaK5FJVJF4VVm9LfixkIVm5qP1iQorlsYTGOtc77bq97KCDUzXD9jka545ZDOUxJe
-         nJjsYJTAeKFo54ryE7GElh98G6GC56doQHNnwshoLcwzx8+ble8iYyqg32r8HN31NFRo
-         NDbA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=4joyfckgOzoxD1v9F8y539Lxr07wRquNtozOKKoNpYs=;
-        fh=nbLeNt9T2zNYZq2KLD+FGWfMY8GCPppn2nI4Mdwo8uM=;
-        b=rsuWqKBBxbjGQNwDFE+DDp1pztTzmJVlxDoH6LTciGByJ00JDf0nIaZbdziMWZkNnC
-         +3lsr6YNlbpvWS9gLkcHNTw/+i+6Aua2GfUttyzqL+GGN4AXJHeHRghmK/tYyAPNgkgt
-         tzsu5uSNgIXY6N1cmx8ViJ9O2JLKwR0yaGZhL99d+M0Tg/sgs7EaBZRMw60bTtnVsNHq
-         ZtKu/PkNk0D+Qvi0bA52d682jY8On7YCiLlI+lJBX0KbDaS4vgHofol1vHlo65DzTls7
-         bnH2p4nmEz2zTUuIBFoSf++dOtcREgmvbKZexKd5To+0VcRY7n7axYI+Zug/1nzkmZae
-         87+Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=TxW0Z/LW
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cd6acc50b8dso1013177a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:46:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1794325555; x=1794930355; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4joyfckgOzoxD1v9F8y539Lxr07wRquNtozOKKoNpYs=;
-        b=eZLW2NkFr/j9icFxNcvCAM88kGStK/E6aBuXF8X9PTB/TJstGOhvTD+oxnr2K/CFip
-         LcDYPep9GKsBbabgbijJK8fW8Ri7k+AQgTpbE0lfmYbq++4uEecMHCP8cJy+ASy5Fn1C
-         Z7cmYFLcw+cxPvYec6ZFIcz9h0hx9GUCZQNC8nte43cm5qiHbXRbnTNHTBl1+VeMbkIY
-         uqoY4pDGStIpFAnESbzX/o6nCQkRdYtqB95sCYlkXriJV8MXiOEX4NtIJW6wkeAwE2IJ
-         9SnQ/rTMEtIWDIXK5bSkmaqWrqOPx8mk6cdC7zj82UixmIlP+udjnEbIS9a3pHbUWS7o
-         nsRw==
+        d=linaro.org; s=google; t=1794325565; x=1794930365; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=I6jvLVTJ6/L/P1TOo+cN1ccJTZcH95Jo/fx+GgYHa7w=;
+        b=TxW0Z/LWuMJ4ao/uG9mGPMndIv5WC3u70B6uIi8rUgqnmcROMdn9Sl0bVRAXmI59M4
+         /AycfUqZ0pFWfuRkTZyWmAmLqaPNQXOX5W9WGgBiOlmkKsTPL6Sx1k0opbLsIDTni2XS
+         CRCzdKwHbXTTEcJCNQ5liJoYpkajPt4r8MVPmNjLlZYQOPAEQggPHOCuZQDTNChULRor
+         ahABAHl81KNf9V3L/ToxTodxcpB8GsRxYtHCwuYwsc7ex1IYkms0uwl7+Lwe9BoYdtc9
+         NtM3Jj9BI3qZC1OcYx1l9fBWEsd7CSF0dm4d6iGz7gQehCPciPKJyH5cn18rcMALAOQT
+         k2AQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794325555; x=1794930355;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=4joyfckgOzoxD1v9F8y539Lxr07wRquNtozOKKoNpYs=;
-        b=Hbo3TqoisWs3JyJxDTlcYFP0XX3rqAIvsia1Wydbczfx+Kk7vY9/Z9RzvV8xG9RkHC
-         2x70gyH8gUDIWo1haaBohiM6B1/Hhj23aPchEYNfmTBE8fMEeh4yHvvGPdyTRHZjt3P/
-         m9heltd//pw+sBJ3O1UwEmmCJ7b01aq2xTIbv8n1+H2pAmd2D/lC9jzKLFSpVk0QWmu3
-         gDyNLdQpD2IyObtFFuKGYVFmhMf0glmiUoqxeWpCb6tomWEA2fvMCgPScDdCJcr+iuKz
-         ET62gr4WKF9Jt95v+GQUJWUblUy/7PiQlAjPu1UXzwjzh1yD1+kzuRtNIVWJMd8m4ip5
-         FKjA==
-X-Forwarded-Encrypted: i=1; AL+hErGjmgkNgpUsHOVb+H2+QkmGAH4sQn05i77/A1GhOKOBLithKDS5jnwyRA62plUjQ2uP1TSUo+Hsy2M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+ss84BLY4hQoaOywKSMTnBuy5H/fiJ3BQFADMkCKo0YoasP45E
-	V1maVQNim2flEplyfBtTkaDhn5QeR5vdelIfeO4KDx+KluFzzxmOgbCmzFzBQQF3iVq9Ip9AqsX
-	SpmoAmY1+ricQ1AYODLHCamkEf5Z0z+6zJdMeijqAig==
-X-Gm-Gg: AYBFou2R0ylJ9qrnc0eCvfDwVb9fWTNlckDtjLlfNcFjaw/iZV7WLatv2Q88XMVsm9I
-	GumXKwp02WYfgDO6aijgMs1xXiCILcTk503r8WmWUkSFCApRLM/7+amEipkCBYH5Wumt3XB+LCP
-	3XfFEqGXespfL190na/w3joJUKQalLWKFR5khnkvsoYfs3ddMGvkg7M1wzGVF4EwPbxCL40UTM9
-	RbuN9QS61DaWcXGFUnKeVc17pboNSiNAYU39Qu7R1uj1LgbzN5igPXlwEhvsupmNXuTvFnXaWDc
-	35I5d8bd5Iyzfcow6dhI/8v0ghTDLO+hwP0nhbDs5ua1baolgiU8FFzbhbR1XSP3HKAvVifMtOx
-	Lav/cxXNw9rNlzUq1a4OnrBg+OBsUKbJNPq7j+8Aa5nQtEuPxKHmK+IeahSVxqMCI5r2Qj3YfTd
-	7CZxmhcN/BmA==
-X-Received: by 2002:a05:6820:c2c9:10b0:716:ddaa:40eb with SMTP id
- 006d021491bc7-718a4f92ba9mr1015097eaf.28.1794325554928; Tue, 10 Nov 2026
- 07:45:54 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794325565; x=1794930365;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=I6jvLVTJ6/L/P1TOo+cN1ccJTZcH95Jo/fx+GgYHa7w=;
+        b=PlMZbhiDZ+lfvFfKSVlM/y1euofe2yChF+Qog2S1gYGf8lbhSHHAcrsE53shaBXDCW
+         TZJpE0HgfNTMJkZhOO1ua23nVRvZPmxpg3CXg42ruRkvKA0WwKl7FXtgqXV3BGcU9MeT
+         KdYkXC7jjTc1pp5r/PEKpHt7F+4NEMDqxHzHpSquiOM81++7LSkvQdT3QXSIuwN4B8AD
+         yu6bxJQ9RfmJGWX2+zZwNWRsmWOkbAhMKYi6tTehzblOtl2ppxReoZusZPTYve3PTeOx
+         WJyz2V1ZQwtloHrsPg3niGwCZROhfPXfcPIPXxNxgW8JOG2mM6Kp13xsda1/uMmR/quV
+         hNmA==
+X-Forwarded-Encrypted: i=1; AL+hErG8LU/B4dUQHHKpAU6TSVSWygB/h3VxA2dIfLjlt5KEnjEZ/Lr2VK01RdeK/Jqly7kFHwKunZuRBME=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+349Bzuu5QRvBZlclNSw1qwhVkSMTfRIf/yW97bMjXpqkRlD25
+	FH3zjViOZREq5aXla162aEMaQl5t4UTv43np/k/u2Ke3jSpsrY+unc7JP3GXKJywMAQ=
+X-Gm-Gg: AYBFou3VqxVLdzUxMibI4aLXBUGidOrmZN97b75Jgb0lB0jqryjaDtv9YvVLi6JEsfo
+	uUoK1ITJMDU7iJraiVKz3SlJxMgOEnCDmzq2nIInLtZOAC9BEDceILJc4X1whln7pS/hbnc2upT
+	y4Zv5LABRl4SF8JBdVHaSmqg4dk/JiwaMvi2BHxApyoEatgUYaLm7RD+YrQFxidzl4oKXqecei/
+	hxy2zFnN6XhjQpwdiTZn81sYggcBQnVx+dzpKjh7E9Fc3WEMBYSEXTn54Jt2Ry+KSsAcdCQubhZ
+	cWpQ+m3vsMj4yhhJyrdMJHvtMRPOAZpyiQT9DiaSpI248L8w6CUzFqJvkXUhf5nHrzXmz09Uc3C
+	KGcvybcXd3ZeWE2fxIqjxJ0G2vdWd1lv+vPYrPl5cJRPZ4JGUdD5x2w3NkyXkJWRiM7EB7x5xj0
+	A6gOkwUxO/VesXzTMPB1BcPEW2AfX41rMOt8DcDQOJs0T9sOJrOv68Xpbjf1OjE+GIozeCbLlD0
+	5L/giVhlRRHhKqOpX9Zvy6hrknjjv1b+8x8UMcAO63ygygFRJPJl8RpYupikP1iB1i4QdgUwPHO
+	SC0JeCz3iGDjOu8xXh5EQ50KUfpOOYa4tUPxyapdbo5ZkFQxxbaj5Q==
+X-Received: by 2002:a17:90b:57cf:b0:3b0:b64e:1e34 with SMTP id 98e67ed59e1d1-3b166ce8e72mr3333472a91.51.1794325564896;
+        Tue, 10 Nov 2026 07:46:04 -0800 (PST)
+Received: from p14s ([2604:3d09:148c:c800:a917:5683:7f92:9eda])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b17db2fcfesm325724a91.4.2026.11.10.07.46.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 07:46:04 -0800 (PST)
+Date: Tue, 10 Nov 2026 09:46:01 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Francesco Valla <francesco@valla.it>
+Cc: Bjorn Andersson <andersson@kernel.org>, Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, Frank Li <Frank.Li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH RFC v2 04/11] remoteproc: report VIRTIO_F_VERSION_1 for
+ non-rproc-specific vdevs
+Message-ID: <avM8OYHxB4nAKCnb@p14s>
+References: <20261102-remoteproc_virtio_map-v2-0-26b300e01c62@valla.it>
+ <20261102-remoteproc_virtio_map-v2-4-26b300e01c62@valla.it>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,43 +112,110 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1794020868.git.tianyi@cloudflare.com> <73b9d23a4190cdd02e89d3a2ce8a1a21ad5feadb.1794020868.git.tianyi@cloudflare.com>
- <20261110073807.2fa62e6c@kernel.org>
-In-Reply-To: <20261110073807.2fa62e6c@kernel.org>
-From: Tianyi Gao <tianyi@cloudflare.com>
-Date: Tue, 10 Nov 2026 15:45:44 +0000
-X-Gm-Features: AclHuK9D14tZ4FX3CoGnuGmDbJMM4Y36vINL_kHffGczXiZfZcX98tAF2DEPmTU
-Message-ID: <CAG4wq-fJfKAiCY2Z0Hv_nCBM+8gKSBq-N2Xc2KfKREkRL-VDvg@mail.gmail.com>
-Subject: Re: [PATCH net-next 8/8] selftests: net: tx_extra_headroom: test veth
- peer at creation
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, Paolo Abeni <pabeni@redhat.com>, 
-	Eric Dumazet <edumazet@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Simon Horman <horms@kernel.org>, David Keogh <dkeogh@amazon.com>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	David Woodhouse <dwmw2@infradead.org>, Dragos Tatulea <dtatulea@nvidia.com>, 
-	Nimrod Oren <noren@nvidia.com>, Alasdair McWilliam <alasdair@mcwilliam.dev>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Magnus Karlsson <magnus.karlsson@intel.com>, David Ahern <dsahern@kernel.org>, 
-	Ido Schimmel <idosch@nvidia.com>, Alexei Starovoitov <ast@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Donald Hunter <donald.hunter@gmail.com>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Breno Leitao <leitao@debian.org>, 
-	=?UTF-8?B?QXNiasO4cm4gU2xvdGggVMO4bm5lc2Vu?= <ast@fiberby.net>, 
-	Danielle Ratson <danieller@nvidia.com>, Kuniyuki Iwashima <kuniyu@google.com>, bpf@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kernel-team@cloudflare.com, nh-open-source@amazon.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261102-remoteproc_virtio_map-v2-4-26b300e01c62@valla.it>
 
-Hi Jakub,
+Hi,
 
-On Tue, 10 Nov 2026 07:38:07 -0800, Jakub Kicinski wrote:
-> Please use Python YNL directly, we don't want the dependency on iproute2
+I started reviewing this set, making it to this patch.  I will continue tomorrow
+but due to the KVM forum later this week, I may not finish before next week.
+That said, I applied the first 2 patches so no need to include them in the next
+revision.
 
-Thank you for the comment. I will use Python YNL for v2, with no
-dependency on iproute2.
+Thanks,
+Mathieu
 
-Cheers,
-Tianyi
+On Mon, Nov 02, 2026 at 12:26:41AM +0100, Francesco Valla wrote:
+> There is currently no way to report the VIRTIO_F_VERSION_1 using the
+> resource table alone, as the per-vdev feature array is limited to 32
+> bits.
+> 
+> Considering that the VIRTIO 1.0 specification is now ~10 years old,
+> always report the VIRTIO_F_VERSION_1 feature for virtio devices that
+> are not specific for remoteproc usage. These latter, which as of today
+> are rpmsg and rproc-serial, are excluded to avoid impacting the existing
+> usecases, since VIRTIO_F_VERSION_1 changes the semantics of the
+> communication (e.g., the configuration space is assumed to be
+> little-endian rather than follow the device's endianness).
+> 
+> While at it, replace BUG_ON() with WARN_ON() and return an appropriate
+> error in case of features that would overflow the 32 bits limit.
+> 
+> Signed-off-by: Francesco Valla <francesco@valla.it>
+> ---
+>  drivers/remoteproc/remoteproc_virtio.c | 28 +++++++++++++++++++++++++---
+>  1 file changed, 25 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/remoteproc/remoteproc_virtio.c b/drivers/remoteproc/remoteproc_virtio.c
+> index c56d3330adfe..f1b362158a9c 100644
+> --- a/drivers/remoteproc/remoteproc_virtio.c
+> +++ b/drivers/remoteproc/remoteproc_virtio.c
+> @@ -16,6 +16,7 @@
+>  #include <linux/of_reserved_mem.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/remoteproc.h>
+> +#include <linux/rsc_table.h>
+>  #include <linux/virtio.h>
+>  #include <linux/virtio_config.h>
+>  #include <linux/virtio_ids.h>
+> @@ -27,6 +28,11 @@
+>  
+>  #include "remoteproc_internal.h"
+>  
+> +static bool rproc_virtio_rsc_vdev_rproc_specific(struct fw_rsc_vdev *rsc)
+> +{
+> +	return (rsc->id == VIRTIO_ID_RPMSG || rsc->id == VIRTIO_ID_RPROC_SERIAL);
+> +}
+> +
+>  static int copy_dma_range_map(struct device *to, struct device *from)
+>  {
+>  	const struct bus_dma_region *map = from->dma_range_map, *new_map, *r;
+> @@ -268,8 +274,17 @@ static void rproc_virtio_synchronize_cbs(struct virtio_device *vdev)
+>  static u64 rproc_virtio_get_features(struct virtio_device *vdev)
+>  {
+>  	struct fw_rsc_vdev *rsc = vdev_to_rsc(vdev);
+> +	u64 features = (u64)rsc->dfeatures;
+>  
+> -	return rsc->dfeatures;
+> +	/*
+> +	 * All non-remoteproc-specific virtio devices are assumed to be
+> +	 * compliant with virtio specifications 1.x; there is no other method
+> +	 * to transmit this capability from the remote processor to the host.
+> +	 */
+> +	if (!rproc_virtio_rsc_vdev_rproc_specific(rsc))
+> +		features |= (1ULL << VIRTIO_F_VERSION_1);
+> +
+> +	return features;
+>  }
+>  
+>  static void rproc_transport_features(struct virtio_device *vdev)
+> @@ -285,6 +300,7 @@ static void rproc_transport_features(struct virtio_device *vdev)
+>  static int rproc_virtio_finalize_features(struct virtio_device *vdev)
+>  {
+>  	struct fw_rsc_vdev *rsc = vdev_to_rsc(vdev);
+> +	u64 features;
+>  
+>  	/* Give virtio_ring a chance to accept features */
+>  	vring_transport_features(vdev);
+> @@ -292,8 +308,14 @@ static int rproc_virtio_finalize_features(struct virtio_device *vdev)
+>  	/* Give virtio_rproc a chance to accept features. */
+>  	rproc_transport_features(vdev);
+>  
+> -	/* Make sure we don't have any features > 32 bits! */
+> -	BUG_ON((u32)vdev->features != vdev->features);
+> +	/* Make sure we don't have any features > 32 bits except the expected ones. */
+> +	features = vdev->features;
+> +
+> +	if (!rproc_virtio_rsc_vdev_rproc_specific(rsc))
+> +		features &= ~(1ULL << VIRTIO_F_VERSION_1);
+> +
+> +	if (WARN_ON((u32)vdev->features != features))
+> +		return -EINVAL;
+>  
+>  	/*
+>  	 * Remember the finalized features of our vdev, and provide it
+> 
+> -- 
+> 2.56.0
+> 
