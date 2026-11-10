@@ -1,76 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.79
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794308854;
-	b=kwe+5O9E0ZxEqKCj/b/RIaM1KUbG9axIB7ndWeG4aHMF9CcnMI+E88rcE7Z4jykGUhUC
-	 UVT4oIClP0FPoGsPjFdyZ2R3zsnDRy8Big/sVZwpEHMVRlZ+opZ4aocZoz2/HmdjQZlgy
-	 MMDfBwCvnXF8wKlK47aa3u0/9E4h6Ccrv+5GRzNXOLJt699L3OyfX+hcZAZeqyQXoLYXc
-	 PH/1LV9O1P8NsuYFOwmlsR5XaLDLExwau4hv/iu8SFzWaES3J+Z0rxWyorhcZNEKoWxIF
-	 dMK8PnU+SIF7JBzkg0bNOsq3w9TOpNt5zUqYHnP2BiHyit0Uy06f8552yBQNrRiDSUQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794308854;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=sDPsGKf/VHOUS0puZRKQwRQtzDRWIoWykff0y+QcUd4=;
-	b=iaydpdyZK0s9nEGPyzQanDs2VBWty2J2LMBKzBlicXX81jpxiNBqUgd6FpekIJUYMqXX
-	 Dri2wzvf07cy9yXTfIJJ0+FIEowdIZEkfjuGSjyRLIaRksgiM4b4AD/1wOfPmlpiT0d1b
-	 W+WnmlZy78KScUp1Fx3D1ysXFj9OHf+RQlYlOJuHPZaj8yGGn9u6cg9KIfOy8Vr3OaQF+
-	 8P0cZU7Jn7oSRuYr94dDlNFIvG8E/ZR4gMwFRlEWkW+dp0yjxefhT1fQguMEQzC6efqqe
-	 2+FyBIx6cVnVLWvZnMQOs1xJC+XWfpIf6YR0Zlg1QeYTXmC/vmVfxteYq4jLk2iAT/w==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=mmnGMscn;
-	arc=none smtp.remote-ip=95.215.58.79
-Received: from mta1.migadu.com (out-79.mta1.migadu.com [95.215.58.79])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794308921;
+	b=4mLf3WoNqCnG4+r4a6A3Vq6PUyMMK8yCgdmRJY9Z055QbtPqqCJjexuA9oATcYuMeUqq
+	 d7RDnBmoZ0gtxFhsM1StGgFE+TJ125bfZOzsX6DAki4a3AL1AbyHtAtRIZw6jKU3fDwWg
+	 hzEsqC1vpLoosznXXHPt5utxNy+8qmdPdb1R6jhYj7pX5YFg2Fgy2B3bjSutF3UT6awkV
+	 so8M1PtMGQKnfyS4R5pmBIqVRyfMyZODv7UyiqKr0q3GlT8HCWmp0CBaAPAWCzkoeAXaJ
+	 AR+3vzuqhwuVmygJKWUVMJnMYLGSfTpkdtiWapXSkoAPXkYw4T6ft0rF+OCOdm1zQqA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794308921;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=YtphAnQY5mISnzOyw8GgJCX3M5AUjiNclyY0w4znsvE=;
+	b=gJYDEAj+GNq5mBbHRDT0K4tRR3FTVe+BIlYlYVJoo+DwsCt36M6ipIyG51N3vdNR+KCm
+	 8Z1ZhbQ+1dUmn8ITz4vGc/Hsfo0UFX7DL5ZegQt9yz7MXBvRySfodsp974qOgQ5R3IFNm
+	 Fc/OM04xAwEdOxN+sB+roW/QaMWb5Ajs9/Rs7+4mNrtNuP9jYKo96ffcunF0bucnQWQ7b
+	 3Or2M4y/7Gcu5D5qDY4+i+beNcpwPCXZWHIdIdUhOi0gKIUkJuv5YzJSMZtJmoYpdyyRT
+	 obNTEk9zGGZlpI7POl76LXT/NISgqoTqRY+VIjBIKFOBtfA+XOPJ0dGtMbKW2ExQ0Tw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=sartura.hr;
+	spf=pass smtp.mailfrom=sartura.hr;
+	dkim=pass header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=ATKIgBb3;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.48
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88403606A33F
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 11:07:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88403606A33F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5881F606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 11:08:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5881F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sartura.hr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=mmnGMscn
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=wriFOBuWpa9rzFZvu7jWs3HxgvPj7gVRqFrspNzYI9Y=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794308851; v=1; x=1794913651;
- b=mmnGMscnQKYXdSc+pcqmcMmSIPqWkCGejIFXNdogntlH3pO7Z595rnGNcCftoy2+aVnpyM97
- 4UGHpbPYUOUUry2ZPqnmwJnGBEsG1MQgAhfvAWjWAPw+J7VPaB5YDWK3znxZ26Q0bMYb5mUAaP1
- J+hskfdxFzlwvU7WqAZKE1Yw=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 084a61cce26cb8b6;
-	Tue, 10 Nov 2026 11:07:31 +0000
-X-Mizu-Trace-ID: 084a61cce26cb8b6
-X-Migadu-Flow: FLOW_OUT
-From: Fuad Tabba <fuad.tabba@linux.dev>
-To: Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>
-Cc: kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Isaku Yamahata <isaku.yamahata@intel.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	kvmarm@lists.linux.dev,
-	Wei-Lin Chang <weilin.chang@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Fuad Tabba <tabba@google.com>
-Subject: [PATCH 2/2] KVM: selftests: Test KVM_PRE_FAULT_MEMORY against a full dirty ring
-Date: Tue, 10 Nov 2026 11:07:24 +0000
-Message-ID: <20261110110724.3614412-3-fuad.tabba@linux.dev>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261110110724.3614412-1-fuad.tabba@linux.dev>
-References: <20261110110724.3614412-1-fuad.tabba@linux.dev>
+	dkim=pass (2048-bit key) header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=ATKIgBb3
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6b56bbf8330so2445866a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 03:08:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794308919; cv=none;
+        d=google.com; s=arc-20260327;
+        b=skH4xOj7oCA4sa1zFUER5ffYSYFVuyzU3b5avhjOzfuxvxio5m6l0V3W5pBVqVhVIa
+         DWRDDsFE1n1Gsy3TlRmybcsogsmergoWtYGTl9wICaTiFTN5K+WtJWhubJ3RLB2lMk6+
+         AddOyEEoIDV8VMnmUk5UjDtAW10pYaKdlNyqxqAHPJVDJa8Je3r9ZyVci/kIyCvQTcwa
+         qwjTbxQIKawgZkVP6b0qpBBiMKDfTd4ZzeJuX7Jv+q5JgHBEOeRoFIWyy5WXYweBP4Px
+         SWnQQ8Qwo9kHxSLVPxDoZpavUK7k2ZgWxD5aAe76ClEumUHma/8i611IDVzf0GUpd9m9
+         r+lQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=YtphAnQY5mISnzOyw8GgJCX3M5AUjiNclyY0w4znsvE=;
+        fh=9+vfKgYqMn0pSHZGKC//ZmIjnspvEdDaqK0+zjZ42ik=;
+        b=rkW7YYQP/6/EGGoQ4PpgMguOce0UqtIA8xgoorGwLPiqm4toDmSIMAOoQqJe7XB9JW
+         ZwKG7WOHTUUkIzn+EXVOBqSlHj9DxXVsS5E8639DZjK/aS96PHJ375RLNv5jy8FY9A1q
+         M+J/o1zTX5lNDxrfjCEe1mbdbUwgQpM1+BT1lF1yAJOIEb6igsoplDUyJbrSHRxMNiP+
+         fa/YZ7IAW5EaffbPWhH+DEON7KCczE0yKo8NDKGzA2kMU9rTU6s7bEOGErt54MvN5IQ7
+         XYrtTFiBrNaou15Duqe9yrJtieVIdC9opIWoaOQyaWsy//TJIn6EvOJ/hFKz86KbK031
+         ukyA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sartura.hr; s=sartura; t=1794308919; x=1794913719; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YtphAnQY5mISnzOyw8GgJCX3M5AUjiNclyY0w4znsvE=;
+        b=ATKIgBb3COVMm0Tw1w7BDFap2wFE6VMsRLY2235EcBgQAjfRBai5tHoO3eoczAZeoI
+         xPdVkX39CeT5yr1cYxHCog+l7w5Hwu7wkCc0QnKOYyetnIk62HwOV/jznD9K3sSLeJt0
+         Z/Kzjl9Z3GVZIBudJbyaTUK0lUVTxZaDxnmta2GG+H3zek8cExt0msDIAvnFHFSwods/
+         ObTfA9iFJRdlGC7NNUI576c2U+/dUHaVlleic9c45qwALBXEvrhV/qXUTrS8jNDd3IrV
+         X5mjz0zyizKVWEbVILgr5V56bXtHj5pSivuh4rxQ17Y54pUph1yxkZB/nGpMZO62SgLM
+         tsig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794308919; x=1794913719;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YtphAnQY5mISnzOyw8GgJCX3M5AUjiNclyY0w4znsvE=;
+        b=Wioaq3pFV6dgNcwD3BD6BDZUp1NAy2+wfovsFpZskeXUUAKabiXUt06B+L1VKECOZ4
+         9e3NnQjFGfnhZWR3Yw9nreaX7sh9jyTs43RBwHwIrDFhqRiG5wtYdcKlQEBHKDRm6q9+
+         hzmZezeqv+NuSSe+yW9dq8fTUbo3+M8CBW7YYkGEdJ1/yVhBidX7JslRD47Hbw08x5aC
+         sUX4I3TiC0zDFmf1o9w5nP5Z2TLnIvoOyiCP390P36cQ0dtdAwjDskbxOWc5vB/VsIdd
+         mbNJ+mowfKdadv6/eytK+a8Xe+ib2Nkn0/YBSN50AU0B3YnOxt9s2blE9aQO3Tl8TQlP
+         IJIQ==
+X-Forwarded-Encrypted: i=1; AL+hErFO8jVxLqEC34AAGigPU6z8JY6jpnUkVNcAPtlvvw2NtMqv1U2sfJ35+mhZFXOpqt2GjJ5N+0kOXTQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9oz/aMFswY5YDJ0CwudogtQ2anFH3pYPl0wF9QYdiBxVEavp/9
+	MSxoi5wslZNZ0OX6F6hyEVeyvlvTmwx/J+5wg6BSlVWc8sSo2JBkh6w6TBjAuVJPfG7BUjA8LIu
+	izF4N4rMyI5jZJNiFksJBYJ/7IxkcpS/IvGWmH9W2UA==
+X-Gm-Gg: AYBFou1rDdVvEuaIzYUB0/B2z10m645NMZ0hn5WYTyUV7sAqyvX+Mi17P/fPJZWLJN6
+	JB1BGoW2kuIZi0NU7jecWW+A89VFTVg0F/upEE3i3V0fsUEGxTd919eROZkOh8JW7Vtdw46m8qv
+	rkjxXxBWc983YonfcJSuT3yVu/6qHrd8MexW7Z1m0ooNsVjURQQTTqKYKVqEldGFdna9HjeokD+
+	fHsgQb2ejIpk2Lp4YPirp+maI7NUNK7nU9/9gnwSWMXA2j7Dftagn1CtiFOvbQdy43uXcYIf6K5
+	6DdLMY05FRwnCZz9EmJMf3yq01peYs6buWvk3gp3+O0+Jp3me6+cBV8NeAsPNyUlU+esWEar8qk
+	i670OP+Umm6UHlEsbvYxrTr4Xh0oo+4ZRhtRXjFSgf7PNcE1Ug1CfCCoPF+MFDMx6ss3mmmTmZB
+	Qva9v3ASTnbVmMZUmdPIelQ7onaqnmMop8reTi/fm7opwPeh/2E1jMTw==
+X-Received: by 2002:a05:6402:1d54:b0:6b4:59d0:7294 with SMTP id
+ 4fb4d7f45d1cf-6b7564f6f76mr2116289a12.31.1794308918607; Tue, 10 Nov 2026
+ 03:08:38 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,136 +105,216 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261109133609.810876-1-robert.marko@sartura.hr> <20261109-mulch-mountain-118fd114a797@spud>
+In-Reply-To: <20261109-mulch-mountain-118fd114a797@spud>
+From: Robert Marko <robert.marko@sartura.hr>
+Date: Tue, 10 Nov 2026 12:08:27 +0100
+X-Gm-Features: AclHuK8rAj1SvZu7uW13wrFXg8Ofz7g_PIsRsWgsTldu6tOuG_htfxW5SgQtu6M
+Message-ID: <CA+HBbNGUig8q_U075xXc62opOvK7wz0er1c6ROxGnKYKTrwWbQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/6] dt-bindings: hwmon: add Microchip LAN969x fan controller
+To: Conor Dooley <conor@kernel.org>
+Cc: linux@roeck-us.net, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+	rdunlap@infradead.org, Steen.Hegelund@microchip.com, 
+	daniel.machon@microchip.com, UNGLinuxDriver@microchip.com, 
+	nicolas.ferre@microchip.com, claudiu.beznea@tuxon.dev, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, luka.perkov@sartura.hr
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Pre-fault more populated, dirty-logged pages than the vCPU's dirty ring
-holds, and check that each call stops before the ring overflows, that a
-retry returns ENOSPC without progress, and that the harvested entries
-are the pages in order. A read pre-fault can map a page read-only, or
-access-tracked on x86 without EPT A/D bits, so skip the case if
-pre-faulting dirties nothing.
+On Mon, Nov 9, 2026 at 8:14=E2=80=AFPM Conor Dooley <conor@kernel.org> wrot=
+e:
+>
+> On Mon, Nov 09, 2026 at 02:35:05PM +0100, Robert Marko wrote:
+> > The LAN969x fan controller has a PWM output and tachometer input in a
+> > register block separate from the Sparx5-compatible temperature sensor.
+> > Describe it with its own compatible and binding.
+> >
+> > The optional fan child specifies PWM period and polarity, tachometer
+> > pulses per revolution, and thermal cooling levels.
+> >
+> > Signed-off-by: Robert Marko <robert.marko@sartura.hr>
+> > ---
+> > Changes in v2:
+> > - Describe the fan controller in a separate binding and compatible.
+> > - Keep the existing temperature-sensor binding unchanged.
+>
+> So, I think that this device has been modelled incorrectly from the
+> outset. "devcpu_gcb" should probably be a syscon/simplemfd, as least
+> going off of what I see in
+> https://microchip-ung.github.io/lan969x-automotive_reginfo/reginfo_LAN969=
+x-Automotive.html?select=3Ddevcpu_gcb
+> and the fact that we see silly offsets in the dts:
+>                 reset: reset-controller@e201000c {
+>                         reg =3D <0xe201000c 0x4>;
+>                 };
+>
+>                 gpio: pinctrl@e20100d4 {
+>                         reg =3D <0xe20100d4 0xd4>,
+>                               <0xe2010370 0xa8>;
+>                 };
+>
+>                 mdio0: mdio@e20101a8 {
+>                         reg =3D <0xe20101a8 0x24>;
+>                 };
+>
+>                 mdio1: mdio@e20101cc {
+>                         reg =3D <0xe20101cc 0x24>;
+>                 };
+>
+>                 sgpio: gpio@e2010230 {
+>                         reg =3D <0xe2010230 0x118>;
+>                 };
+> That ship has sailed I think though, so I'm not going to ask you to
+> rework this whole device.
+>
+> >
+> >  .../bindings/hwmon/microchip,lan9691-fan.yaml | 83 +++++++++++++++++++
+> >  1 file changed, 83 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/hwmon/microchip,l=
+an9691-fan.yaml
+> >
+> > diff --git a/Documentation/devicetree/bindings/hwmon/microchip,lan9691-=
+fan.yaml b/Documentation/devicetree/bindings/hwmon/microchip,lan9691-fan.ya=
+ml
+> > new file mode 100644
+> > index 0000000000000..0b7d38a6d20ae
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/microchip,lan9691-fan.yam=
+l
+> > @@ -0,0 +1,83 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/hwmon/microchip,lan9691-fan.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Microchip LAN969x Fan Controller
+> > +
+> > +maintainers:
+> > +  - Robert Marko <robert.marko@sartura.hr>
+> > +
+> > +description: |
+> > +  LAN969x fan controller with a PWM output and tachometer input. The f=
+an
+> > +  child's pwms property references this node to specify the PWM period=
+ and
+> > +  polarity.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: microchip,lan9691-fan
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: System reference clock
+> > +
+> > +  '#pwm-cells':
+> > +    const: 2
+> > +    description: |
+> > +      Number of cells in a PWM specifier.
+> > +      - cell 0: PWM period in nanoseconds
+> > +      - cell 1: PWM polarity: 0 or PWM_POLARITY_INVERTED
+> > +
+> > +  fan:
+> > +    $ref: fan-common.yaml#
+> > +    unevaluatedProperties: false
+> > +
+> > +    properties:
+> > +      cooling-levels:
+> > +        description:
+> > +          PWM duty-cycle values corresponding to thermal cooling state=
+s.
+> > +        items:
+> > +          maximum: 255
+> > +
+> > +      pulses-per-revolution:
+> > +        minimum: 1
+> > +        maximum: 4
+> > +        default: 2
+> > +
+> > +    required:
+> > +      - pwms
+> > +
+> > +    dependencies:
+> > +      '#cooling-cells':
+> > +        - cooling-levels
+> > +      cooling-levels:
+> > +        - '#cooling-cells'
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - '#pwm-cells'
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/pwm/pwm.h>
+> > +
+> > +    fanctrl: fan-controller@e2010348 {
+> > +        compatible =3D "microchip,lan9691-fan";
+> > +        reg =3D <0xe2010348 0xc>;
+>
+> btw, how do I translate the addresses you have here to those in
+> https://microchip-ung.github.io/lan969x-automotive_reginfo/reginfo_LAN969=
+x-Automotive.html?select=3Ddevcpu_gcb,fan_ctrl
+> ? Or are you looking at a register map in a different form?
 
-Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
----
- .../selftests/kvm/pre_fault_memory_test.c     | 85 +++++++++++++++++++
- 1 file changed, 85 insertions(+)
+Hi Conor,
+Microchip has cml-utils, which allows exporting the registers and
+masks automatically, its part of the public SDK.
 
-diff --git a/tools/testing/selftests/kvm/pre_fault_memory_test.c b/tools/testing/selftests/kvm/pre_fault_memory_test.c
-index 3082fe09b95fa..18fc1d69acbf0 100644
---- a/tools/testing/selftests/kvm/pre_fault_memory_test.c
-+++ b/tools/testing/selftests/kvm/pre_fault_memory_test.c
-@@ -5,6 +5,7 @@
-  * Author:
-  * Isaku Yamahata <isaku.yamahata at gmail.com>
-  */
-+#include <asm/barrier.h>
- #include <linux/sizes.h>
- 
- #include <test_util.h>
-@@ -17,6 +18,8 @@
- /* Arbitrarily chosen values */
- #define TEST_BASE_SIZE		SZ_2M
- #define TEST_SLOT		10
-+/* Large enough for the entries every architecture reserves. */
-+#define TEST_RING_SIZE		SZ_64K
- 
- /* Storage of test info to share with guest code */
- struct test_config {
-@@ -281,6 +284,87 @@ static void test_pre_fault_memory(unsigned long vm_type, enum vm_mem_backing_src
- 	for_each_guest_mode(__test_pre_fault_memory, &p);
- }
- 
-+/*
-+ * Pre-fault more dirty-logged pages than the ring holds: each call has to stop
-+ * before the ring overflows, and no entry may be lost.
-+ */
-+static void test_pre_fault_dirty_ring(void)
-+{
-+	const u64 entries = TEST_RING_SIZE / sizeof(struct kvm_dirty_gfn);
-+	const u64 npages = entries + entries / 4;
-+	struct kvm_pre_fault_memory range, left;
-+	struct kvm_dirty_gfn *gfns, *cur;
-+	u64 harvested = 0, n, size;
-+	struct kvm_vcpu *vcpu;
-+	int ret, stops = 0;
-+	struct kvm_vm *vm;
-+	u32 fetch = 0;
-+	gpa_t gpa;
-+
-+	if (!kvm_has_cap(KVM_CAP_DIRTY_LOG_RING) && !kvm_has_cap(KVM_CAP_DIRTY_LOG_RING_ACQ_REL)) {
-+		pr_info("Skipping the dirty ring test: no dirty ring\n");
-+		return;
-+	}
-+
-+	vm = vm_create(1);
-+	vm_enable_dirty_ring(vm, TEST_RING_SIZE);
-+	vcpu = vm_vcpu_add(vm, 0, NULL);
-+	gfns = vcpu_map_dirty_ring(vcpu);
-+
-+	size = npages * vm->page_size;
-+	gpa = align_down(vm->max_gfn * vm->page_size - size, SZ_2M);
-+	vm_userspace_mem_region_add(vm, VM_MEM_SRC_ANONYMOUS, gpa, TEST_SLOT, npages,
-+				    KVM_MEM_LOG_DIRTY_PAGES);
-+
-+	/* Populate the pages, so that pre-faulting can map them writable. */
-+	memset(addr_gpa2hva(vm, gpa), 1, size);
-+
-+	range = (struct kvm_pre_fault_memory) { .gpa = gpa, .size = size };
-+	while (range.size) {
-+		vcpu_ioctl(vcpu, KVM_PRE_FAULT_MEMORY, &range);
-+
-+		if (range.size) {
-+			left = range;
-+			ret = __vcpu_ioctl(vcpu, KVM_PRE_FAULT_MEMORY, &range);
-+			TEST_ASSERT_VM_VCPU_IOCTL(ret == -1 && errno == ENOSPC,
-+						  KVM_PRE_FAULT_MEMORY, ret, vm);
-+			TEST_ASSERT(range.gpa == left.gpa && range.size == left.size,
-+				    "KVM_PRE_FAULT_MEMORY made progress on a full ring");
-+			stops++;
-+		}
-+
-+		for (n = 0; ; n++) {
-+			cur = &gfns[fetch % entries];
-+			if (smp_load_acquire(&cur->flags) != KVM_DIRTY_GFN_F_DIRTY)
-+				break;
-+
-+			TEST_ASSERT(cur->slot == TEST_SLOT && cur->offset == harvested + n,
-+				    "Ring entry %u: slot %u offset 0x%llx, expected slot %u offset 0x%lx",
-+				    fetch, cur->slot, cur->offset, TEST_SLOT, harvested + n);
-+			smp_store_release(&cur->flags, KVM_DIRTY_GFN_F_RESET);
-+			fetch++;
-+		}
-+
-+		/* A read pre-fault can map a page read-only, or access-tracked on x86. */
-+		if (!n && !harvested && !range.size) {
-+			pr_info("Skipping the dirty ring test: pre-faulting dirtied no pages\n");
-+			kvm_vm_free(vm);
-+			return;
-+		}
-+		TEST_ASSERT(n, "KVM_PRE_FAULT_MEMORY pushed nothing to the ring");
-+		TEST_ASSERT(kvm_vm_reset_dirty_ring(vm) == n,
-+			    "KVM_RESET_DIRTY_RINGS didn't reset %lu entries", n);
-+		harvested += n;
-+	}
-+
-+	TEST_ASSERT(harvested == npages, "%lu ring entries for %lu pages", harvested, npages);
-+	TEST_ASSERT(stops, "KVM_PRE_FAULT_MEMORY never stopped for a %lu-entry ring", entries);
-+	pr_info("Pre-faulted %lu pages through a %lu-entry ring, stopping %d times\n",
-+		npages, entries, stops);
-+
-+	kvm_vm_free(vm);
-+}
-+
- static void help(char *name)
- {
- 	puts("");
-@@ -320,5 +404,6 @@ int main(int argc, char *argv[])
- 	test_pre_fault_memory(KVM_X86_SW_PROTECTED_VM, backing, false);
- 	test_pre_fault_memory(KVM_X86_SW_PROTECTED_VM, backing, true);
- #endif
-+	test_pre_fault_dirty_ring();
- 	return 0;
- }
--- 
-2.47.3
+Or you can get the address from the register map you linked, its just
+posted as word addresses, so multiply by 4.
+So for DEVCPU_GCB:FAN_CTRL
+- default offset: 0x38800000
+- DEVCPU_GCB target offset: 0x4000
+- FAN_CTRL base =3D 0xd2
 
+And you get:
+(0x38800000 + 0x4000 + 0xd2) =C3=97 4 =3D 0xe2010348
+
+Or you can just task your LLM agent to do the math since its quite annoying=
+.
+
+Regards,
+Robert
+
+>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> pw-bot: not-applicable
+>
+> Cheers,
+> Conor.
+>
+> > +        clocks =3D <&sys_clk>;
+> > +        #pwm-cells =3D <2>;
+> > +
+> > +        fan {
+> > +            pwms =3D <&fanctrl 40000 PWM_POLARITY_INVERTED>;
+> > +            cooling-levels =3D <0 128 192 255>;
+> > +            #cooling-cells =3D <2>;
+> > +        };
+> > +    };
+> > --
+> > 2.56.0
+> >
+
+
+
+--=20
+Robert Marko
+Staff Embedded Linux Engineer
+Sartura d.d.
+Lendavska ulica 16a
+10000 Zagreb, Croatia
+Email: robert.marko@sartura.hr
+Web: www.sartura.hr
