@@ -1,88 +1,133 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794334739;
-	b=tNDsWROrq6Gq7Ovoz6D/RCcL84DBxMCVGVyfhDPq9BMby+T4xbsD9zBbnmk88t7yIgN9
-	 BPdq6wpwwfLvaA49XaoNDNg2aW8rbIuGmmJGxjVj4IVHn69Ocjxq0swb1wQA8/pvnuN99
-	 +Y7+3ezHTENQvwZg8lrjReKZGo0s37oPAoCxWoZfePy0c14DRtrj7SzF26a31BCDFDE5W
-	 HD1sQ6QTXZNvxCtgKTZ8t0XKXNpx6QfcX0aUdQ7jIicIgI7u2sn3hW4WVvvbPzoeDG7vP
-	 Jt98iR1uBpfslH448w75LKDDCfPkEKhBV7C8J9kMl57gDKVmc63v6h0B5NcsQyPLdyQ==
+	t=1794335257;
+	b=2Ho3TcOOah4Mh7AP75EfGnXyWKgEpTnQZnOICrFXV7GL1Iji5mObPwEWkabcGBdjXPBC
+	 lUA96kEHtGF7RZ+AenGOBKWhE7y73oHZODEXSdc94XTwUJQY9mdOmNfokH9hrZZyGLv5P
+	 bQNjHRk5J7POQ7pigbAOtzVF9jM4dfkw7dpSBDSkSvzsX6eGUoqbd3dqcsaaSoLz8zwbQ
+	 M+9V/JUXBnmjOgLrYriCprM+KbDdpk27xxHYP45k94Aj0Hgf043e02IW/ISrl3YIGocqz
+	 9XCd+tvfxntEGP/B+niOc1ZgJYLrpdyTGInSyWFfvO5Bc2bId7lK9ofBeQq3piz0dpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794334739;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794335257;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:Message-ID:Date:MIME-Version:User-Agent:From:Subject:To:Cc:
-	 References:Content-Language:In-Reply-To:Content-Type;
-	bh=SE2lrUu9zrSXQsWXpC9NEVG/yxx3i85b5haa93pV8Hw=;
-	b=OcsGgZMblaFQdyrWSVKrXbJHocR/RNDh+f4FM27Y4dJntO3foKDCDinBrOCAT4TArCmy
-	 N/0UkucYUdDAuyEyHUkRVXb8ue/bFSKFMqaIV7UjcRfoVkNh/rBqIINKRXtcRv5zwOllV
-	 BuzxDtAliKEH14qL7ajMw3ryI+qudY3AtQd9xdnlCK3OyEjGgilSsUomKiI+Y+sohejXB
-	 yY2zYRgyIzV1WtFjbFhRhocne2s2VAqL5yw7QwD7Px2fPLM3NyvwaJ/ZFSzW6QTeBpTlz
-	 Wp8wk6qJP3F9fbk20DltiLapedHUu7D7Spji4RzmJcRr+joKbIKg4alwiqajlHGPIqw==
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=YXIy2qRY3m4JoNqfvZNIVm9KUne3fxI0qe7Yqqt3EGs=;
+	b=B9FoqBXuX9kI+GmmYPsRwxYIyuQEMNeMF9QcAl3uWdp/uJEJ9LTsjv7+tve//gK6fokP
+	 N02ZM+NhCbXQg8vbR/BU168V+To5Fm2BHHlI5J4liGXVznUnI3qs+/GNHrQsEchG+FVPT
+	 R6Mpsnbnj3CQiIitoBCZPWyqwqp9kJ4lydg/xlOCqUCrPDPiNIXVqBg7ePhfbeILAVsco
+	 /8z5br3XMvLmAd2LtffNwddBu2DmWAXm6+uMOw+80Uen6pUiTpVPpVsEa6OojTAfyCVxo
+	 xLPV7SPC+EH+8smDR6NBvAbpZBJwSoa/qSloVSjyu5q/Z9j4bRhf6YpAbH0EsOKRGYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SPZkqliz;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=J7TMm8T3;
+	arc=none smtp.remote-ip=209.85.160.174
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEC5606A33C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 18:18:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAEC5606A33C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30FBF606A323
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 18:27:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30FBF606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SPZkqliz
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so15542675e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 10:18:58 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=J7TMm8T3
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-5364d86f7f0so25845061cf.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 10:27:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794334737; x=1794939537; darn=vger.kernel.org;
-        h=content-type:in-reply-to:content-language:references:cc:to:subject
-         :from:user-agent:mime-version:date:message-id:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SE2lrUu9zrSXQsWXpC9NEVG/yxx3i85b5haa93pV8Hw=;
-        b=SPZkqlizfa4It3AwLdPrXCHtu8hjP8QsFeAuGA6TzWaWCvEuPs6YRFrNxSLhGY6hGO
-         zEkoZN4sdOPDpp0fSVUec9WqjBjvtMVvrEQ65XF2Yed4K+/loVPoO9Ic5C/uFsZE8NIW
-         a7SuXA7nEFvGvWvLFPTq0Ynm5rdM5DLTPlMLycSJFkVrU8JWmlwSUfWDckahUOsYF0/H
-         actdhCUUDnOinRx9t8xsvvN84/pj8Dul9B7nDEmVjtEJdE1h/jhCN5DMjHk5kgAuLSBU
-         2XR0ZbSD1t6mqP82bCf1wjFydzdoOh5APY9FvvrzDfKRwdJ1NyIsBaSfqst7u6E0YpPm
-         teKg==
+        d=ziepe.ca; s=google; t=1794335250; x=1794940050; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YXIy2qRY3m4JoNqfvZNIVm9KUne3fxI0qe7Yqqt3EGs=;
+        b=J7TMm8T34Tu4l5OHcANKwx0/ZOzfapRBnEg4cXPKDFAtzJrkdsQLmXQH1PNBaI+LZH
+         HQxhcvnWaPMv4Mdu99jEJKX1gAfpkqK9bmVZNQr4gKf5Et/58JlVsH9oOxDsx7bqpFQu
+         ZXW3WV+2lrudMoNdhU32xg9MgdSNO1NqIogSK+UVa/6AQgjRkJQkqGErKB9UAMu1XqgJ
+         3fZPTlqW+B98MNIeDrnpleLnnPacRQ56XVQM2pIc4xb54sJcW/ZDtQ/K4p7vR1GL4gM3
+         rK7V1sGMQaqI7HfANYUEMk0S5fY/S6x9xF1CTrUP9NqUwRARSKYQRXehKzOgiVLCp6ft
+         i0vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794334737; x=1794939537;
-        h=content-type:in-reply-to:content-language:references:cc:to:subject
-         :from:user-agent:mime-version:date:message-id:sender:x-gm-gg
+        d=1e100.net; s=20260707; t=1794335250; x=1794940050;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SE2lrUu9zrSXQsWXpC9NEVG/yxx3i85b5haa93pV8Hw=;
-        b=MwZpmSZzCCFSHtQD1gMvRBtkTOyN7UgtoKCMDj+gcnA3LbTi4hCIbgkUUd024Ezrk6
-         rbhfyS2G3gTKeDGKDynJJL/FMogng0stWZJOUGHIgj+ScKV317VIc5f8uZ8u3FId1tBp
-         am67E0eTx6otjr1nCOfM5hjeZFJ4l8dZbaTuiP8wmyXbnutCFngo24uK2Sb61D+PXsjK
-         rnSBnz8uc7/K/4uGfPLkEFrozRHat5Auqp6Rmnfj7T0oU17f9GPjxRoPFI/Q9o2qqYy9
-         uGbnclucAq2TIoLflF6EOtJgz9nWFvgvQP1CHHSiewW/LxbJTcJgeHFqiDJ9phOCsqED
-         kGEA==
-X-Forwarded-Encrypted: i=1; AL+hErGvyRvRNUQY6a7gmHFwrhpPugLzxMmuIpkOhvhTQTP3d1if3nUxm52QCbPTqxHUGb4FJvOvzmgVMO4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8F8kpbUMKmHdAdL4GQQojyW3KlxL/pmFUmzqkssLSr704jSSfl
-	UrmDH02Hl6MSxBcYZDVMhsBv9YHQnMOLltAFBIU5/4tznI7SF2G0tiFg
-X-Gm-Gg: AYBFou23hTLsNjo6CFsjkzfKvchmSoIdX3U9x7O2bwrDpIjhvcNaYR2GavqBIiqb6rP
-	GGtiIKbnm9V4I/DcRWL/oqRkEpXwXHi1Dr8XDmezxFwf94lp3QGAbO0vca/Roi5j0Yel3k+lnwF
-	kqsTiB/yXfc3zO7tcrUrTE81tZXJICJ9LIIar9eVErlKEVChUBiFwV4gx26nFOfegorx7rKuEpW
-	xa2oEhGAoXTt0bMcX5equYhejeANdF6xbup5aAJcglWujMBa1nIqkrINvYRZmXc77hCSMweG+w1
-	b4aqwmJLdp/KyESgvPUzMpqOJrkXZN7tQuCJbf7C11aZsMPOsaZGXGcgfLW2eaMNHg+1n+dW26/
-	BKBhYxSLKrrZLPF0RsspqlRUtcFG6vTAUtCq3rSQFpRw7Z8mnOxLzTmm6uqJZfPeNk71uWMJMCI
-	7RcLxUL+8a46jk70gDRcellR5/37cDm38XRo5GvSJsz10O48chtZwdmoPLSLgObf1B523FOMnLj
-	oPj+RxfwKM10KYjA29E3bYHM+hEuRAcRZpL5L5bOcr3fhsMbr83yDv+h+pG9TdcLH5l0+2JNJeu
-	tXcI2DMQlGYlbSPFV6z+neHtNvoOs03rx8RxzJLXRHI0SNEbNBuVM1IXSuFi04BlhVhEXvIwMcP
-	8R42IXYTIn45QBImaTSX/3MaWcQxHleXKLV4wBxXTwuk=
-X-Received: by 2002:a05:600c:34c7:b0:4a3:5a98:c279 with SMTP id 5b1f17b1804b1-4ba0233a41emr53483145e9.8.1794334736887;
-        Tue, 10 Nov 2026 10:18:56 -0800 (PST)
-Received: from [10.128.10.232] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba01fe63e6sm121456885e9.7.2026.11.10.10.18.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 10:18:56 -0800 (PST)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <c0ccddbc-539c-4987-8685-ec996285f746@gmail.com>
-Date: Tue, 10 Nov 2026 18:18:54 +0000
+        bh=YXIy2qRY3m4JoNqfvZNIVm9KUne3fxI0qe7Yqqt3EGs=;
+        b=HL6navSKLvd6WXTKoX8P4o3Bhtu6DYOuS/QjdVAN8OZ215Mq4UkzfS/LGL1fde0Knx
+         H9EbKyUYvAQJ8Z7G/VOjJH0efKuhq4LRgIOetkhkrfmrDOz+1V09ZSmEZKfnt4fJDd/W
+         RTMVgW0/kU56wuNRka9cmEyoq3W17eH/Gv1QDxKs11WPjji2ViMysdyMAwKMZDPyye4N
+         kEsFr/OQP/dnQcfI6jP2cBxpQu1TZZgLvFg/4/iRvRdjpztJNicxhniLsXKIPE+Cu9+4
+         sIJGdsAvyCwHS95TrjLnGbogq743Q/EtDsUPR8I6QuydA+c3mZL6rcoL+ogrVzjVMSdj
+         DMXw==
+X-Forwarded-Encrypted: i=1; AL+hErEqFlL+hI5IA/cUwXjU6k5FHWviVlbpEwyIYmyC+Sz4GTalW1KPbF45VXxD1e673+bOxdwNneyB94I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9pPwNZwlmgDOTnP5dsLbibRumE394vMp9fZHTPv0AeIHfNXHcJ
+	hOhzUs3OVUfdJUAJrOzTQqlvjXBETVDz8+0TsFVupRb0gU9mFwVmCXRHNQx8B6uheP8=
+X-Gm-Gg: AYBFou3rF33VB4wH0FAqFeDppiRY84ETEkzkdzbxkJ8NnSXs4u6jnOIdcwwPkLzSoHp
+	TbZBvG3nsZCDQIbETbyUJHlf6OCZ/WhZmQUb3V2qZtidSq6ZAyUY7iUbjcGslrm4TjJscDvBJc+
+	X4uufz7vANw+Mff3UHtTo4w7JeuGA7gez2q7mXU1XgtNh2ItfwVsJahHFcyHt3ECeyewkJLsyqU
+	HvJC+/dKi1uqCL3G7O2SBUGyZUhcGazp1J8d+ka4BfsnKeuxPv5reMBjdtM7ytdPyrnNjMXLpc9
+	65YWWF1NpcvujHVJNftWz21XZ7DzaL/SmFJD7eQVsh+YrEqnsHUCGEYmKHhsBBvoxOi9w9zP6nv
+	oM4flekOH3mVYPuN6eCqDPY5S7MiskJLG+CA/j5Up/uufjodZx24OYfsc2bBkFm6hhI7kzhSE6I
+	SMp193WCYb9CkrbkVCcQHcLOXT6atiYKGTWhO0gHmG4/jAtjCvA6qWUXg2Fqm8tn5tp6najjMqh
+	r5Upb/v2zKSFjHiaOwa+DVpCacfTGj+aEDEeoF+0tPxDSNtfPZ4QrQR9DFqYpNwottmpNCJ4OAe
+	Oq9dhlwY0jLX4MeccOVnXi/Ho5/rPErLVq4qgdbu7UDgUF0u75IMGcOjrUGCkT3/6QHsbcGLh6a
+	NMAPpIO3KSaE=
+X-Received: by 2002:a05:622a:313:b0:51c:1590:8e13 with SMTP id d75a77b69052e-555257c5f22mr54402921cf.4.1794335250028;
+        Tue, 10 Nov 2026 10:27:30 -0800 (PST)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-555093d9c3fsm30362981cf.3.2026.11.10.10.27.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 10:27:28 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xQqZ5-00000006j4S-49JU;
+	Tue, 10 Nov 2026 14:27:27 -0400
+Date: Tue, 10 Nov 2026 14:27:27 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Peter Fang <peter.fang@intel.com>
+Cc: "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
+	"drdeeglaze@gmail.com" <drdeeglaze@gmail.com>,
+	"James.Bottomley@hansenpartnership.com" <James.Bottomley@hansenpartnership.com>,
+	"aik@amd.com" <aik@amd.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"Xing, Cedric" <cedric.xing@intel.com>,
+	"alistair.francis@wdc.com" <alistair.francis@wdc.com>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"Reshetova, Elena" <elena.reshetova@intel.com>,
+	"kas@kernel.org" <kas@kernel.org>,
+	"ankita@nvidia.com" <ankita@nvidia.com>,
+	"jiri@resnulli.us" <jiri@resnulli.us>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"Jiang, Dave" <dave.jiang@intel.com>,
+	"Quigley, David" <david.quigley@intel.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"x86@kernel.org" <x86@kernel.org>,
+	"jpiotrowski@nvidia.com" <jpiotrowski@nvidia.com>,
+	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+	"lukas@wunner.de" <lukas@wunner.de>,
+	"Vivi, Rodrigo" <rodrigo.vivi@intel.com>,
+	"jic23@kernel.org" <jic23@kernel.org>,
+	"ksinyuk@kernel.org" <ksinyuk@kernel.org>,
+	"sameo@meta.com" <sameo@meta.com>,
+	"sathyanarayanan.kuppuswamy@linux.intel.com" <sathyanarayanan.kuppuswamy@linux.intel.com>,
+	"qinkun@google.com" <qinkun@google.com>,
+	"pgonda@google.com" <pgonda@google.com>
+Subject: Re: [PATCH RFC 20/20] attestation: Add the TDX family implementation
+Message-ID: <20261110182727.GA663069@ziepe.ca>
+References: <20261023220030.GM3977851@ziepe.ca>
+ <7843a833723e3aad40f8fc4de3a83f5a5059280f.camel@intel.com>
+ <20261103005851.GH3889730@ziepe.ca>
+ <au5LCE1jau0yDo5S@intel.com>
+ <20261109171236.GP663069@ziepe.ca>
+ <cbef9bda9241ffe98652172edb67fab3eb1c35ee.camel@intel.com>
+ <20261109234252.GR663069@ziepe.ca>
+ <4c75b369b68c98c5c35e296895b6935342dc7dc1.camel@intel.com>
+ <20261110131114.GV663069@ziepe.ca>
+ <avNfZ0lLl-OrkCHs@intel.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,150 +137,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Julian Braha <julianbraha@gmail.com>
-Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
- Derek Barbosa <debarbos@redhat.com>,
- =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
- Daan De Meyer <daan.j.demeyer@gmail.com>,
- Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
- debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com> <avHroNa1vcxmCIOs@lx-t490>
-Content-Language: en-US
-In-Reply-To: <avHroNa1vcxmCIOs@lx-t490>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------mHZpGD8kyHvacYrtSD2O5A48"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avNfZ0lLl-OrkCHs@intel.com>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------mHZpGD8kyHvacYrtSD2O5A48
-Content-Type: multipart/mixed; boundary="------------ULacv4ysiB0EGOGi4fngWV05";
- protected-headers="v1"; hp="clear"
-Message-ID: <c0ccddbc-539c-4987-8685-ec996285f746@gmail.com>
-Date: Tue, 10 Nov 2026 18:18:54 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Julian Braha <julianbraha@gmail.com>
-Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
- Derek Barbosa <debarbos@redhat.com>,
- =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
- Daan De Meyer <daan.j.demeyer@gmail.com>,
- Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
- debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com> <avHroNa1vcxmCIOs@lx-t490>
-Content-Language: en-US
-In-Reply-To: <avHroNa1vcxmCIOs@lx-t490>
+On Tue, Nov 10, 2026 at 10:16:07AM -0800, Peter Fang wrote:
+> > It is not local quote processing. This is labeling data properly so a
+> > verifier is possible without the user having to manually and directly
+> > inform the system what versions of Intel CPUs and TDX modules it
+> > should expect to have.
+> 
+> With labeling like tdx-quote-sgx-1.0 and tdx-quote-eat-cwt-1.0, and
+> enough knowledge of these labels, I think this can be achieved.
 
---------------ULacv4ysiB0EGOGi4fngWV05
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Yeah, that's all I'm asking for here, and it sounds like the magic
+bytes are enough for the kernel to deduce it and pass it to userspace.
 
-On 11/9/26 15:49, Ahmed S. Darwish wrote:
-> Hi Julian,
->=20
-> On Sun, 08 Nov 2026, Julian Braha wrote:
->> Cool tool =F0=9F=99=82
->>
-> Thanks!
->=20
->>> If no ruleset is specified, the target prints the available rulesets:=
+In future please transfer labels along with the blobs through out all
+your paths so we don't have to parse magic bytes to know what data we
+are holding.
 
->>>
->>>     $ make checkconfig
->>>       Usage: make RULES=3D<profile> [OVERLAY=3D<overlay>] checkconfig=
-
->>>       Available RULES: preempt_rt
->>>
->>> The overlay mechanism allows distributions, CI systems, and Board Sup=
-port
->> On the topic of distributions, this seems *a lot* like Canonical's
->> Annotations [1], albeit yours uses YAML and supports matching option
->> names with regex.
-> The difference is not only in the implementation details. Please see be=
-low.
->=20
->> As you say about PREEMPT_RT configuration not being
->> "one-size-fits-all", similarly there are 100+ Ubuntu kernels that need=
-
->> to adhere to a configuration "policy".
->>
->> So this seems to be a real problem that others are having.
->>
-> Kernel configuration is definitely getting trickier.  That's why I've
-> contributed the PREEMPT_RT kernel configuration guide earlier:
->=20
->    https://docs.kernel.org/core-api/real-time/kernel-configuration.html=
-
->=20
-> Regarding the Canonical tool, it's the first time I see it.  From that
-> announce e-mail, it seems that they're using it for generating a .confi=
-g:
->=20
->    Starting with 22.04 (Jammy Jellyfish), Ubuntu kernels are now using
->    only annotations to /generate/ their corresponding .config.
->=20
->    ...
->=20
->    $ ./debian/scripts/misc/annotations --arch amd64 --flavour generic >=
- .config
->=20
-> Yocto also provides a very light concept of .config generation:
->=20
->    https://docs.yoctoproject.org/kernel-dev/common.html#creating-
-> configuration-fragments
->=20
-> But this tool does not conern itself with generation.  That is, Canonic=
-al
-> can use this tool to validate that they've generated the right thing! =F0=
-=9F=98=89
-
-Yeah, Annotations also supports generation with --export.
-
-But it does support validating a config with a policy using --check [1]
-
-Anyway, the point was to provide context for the maintainers that this
-problem is bigger than PREEMPT_RT. I want to see this functionality /
-your tool in upstream.
-
-[1]
-https://git.launchpad.net/~arighi/+git/annotations-tools/tree/kconfig/run=
-=2Epy?h=3Dmain#n117
-
-- Julian Braha
-
---------------ULacv4ysiB0EGOGi4fngWV05--
-
---------------mHZpGD8kyHvacYrtSD2O5A48
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQT6qjll++tIFxF8TUPElYPCBXNxIAUCavNgDgUDAAAAAAAKCRDElYPCBXNxICmt
-AQCnoePBJmblDtx791LwMw6vMN74dOGbn1riSxrX5t4lFwEA9U+EgthEgVL036QIb6Xcl3PkwtNL
-NnsnRTbgzz+lNAI=
-=mw7w
------END PGP SIGNATURE-----
-
---------------mHZpGD8kyHvacYrtSD2O5A48--
+Jason
