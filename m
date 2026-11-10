@@ -1,45 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794286391;
-	b=hPnsXt+yrw3jlTiJoyaHnCooCXlFjsMKCq47uKqpXTLE1rbNanyEnKiIGoKr9/Uq0oB6
-	 MrKWl7WiN3GJ94xtw0T9ZmVnq0J8+R99fMoXe0f6vsZoV11BxWyuAbtu7iBwuBYWVOoqC
-	 KiMz0g3FQC+ttruRU3lpPG5zJYDR0Mh/R9qQqdNRx8fT+aeU3Ke9o5EXHaxr+oaOiERsC
-	 U1w7HGIa195gLnVuH+9FtGH4qbJWtCQbiolvbm1zZKs/jKQ62Tahe+IBk2SP8IoN/xdLK
-	 BStNjdZPDjyIoLXVxhWs5i2CowS0dbd+AbQYmg1fE/oRAuF7laFxPpaOB/5NG5V6fvQ==
+	t=1794288102;
+	b=ijCR3hZo8ZYpuvQl2ti7iMq6KMTH+X+bwV176QrnJzWkeWgY3qHu5acJwe2Mu0Mor8cy
+	 Y343BBjqelIo9Rtkf52Sz2S/7B9yDp5vKTs76+W+4LaRSHmWGr6aL727Hi3GfciJ5bHGN
+	 DY1qBdkGFAdKMvQE5LxnSp4s9Z9DkQ1hhiWjYwRfyreneJq51+7hHPhWLAhgJbHlyJGqt
+	 A3oVDFCodC55J8UEXFfjwIZEhC8rr42XLaQfhfaQ7q6oL3nThGVOxOe6n2ALQZVdn9Wp3
+	 9kU5YTwUy2RpTDbMl7ktdai8fYe0RvQJlMzuZAQOn5zvPO0/qMJjsfVwvdoHs9RvZZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794286391;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=USevh6myHxF9emjydPOskkqmK7kqM8+0knzfuWzYf2E=;
-	b=UdbQNvq+AhNQllKRfthI7cCVIN5kWaDmoIjPhYdr4zdr/6EViUlBv9OaBn+7y7KOl3/h
-	 HQprTnPL8lC5WIXb4Ogd7ZF2jSCn4JvHWBEr/Yj5fRuy3iF4a2KzP6wGb650mSRSclx3r
-	 lsaih7NgTxgzqfN06Ed/XsY/vX77Idhw6BdTOEyVYIMrdc7e494ZqwoM5luei8r4RmCul
-	 fwdmIx+4PLqAr3hOiHrMdU8dpaB+2YiHR9xWMlSMaKS0JJR5ff+qaQIRVY5NPPUxXQXeB
-	 qxzhD6BcHsqVG6AlV7HkYaGVFiESXmBjBFIJUHDDiWHzM10cejw0E0GsfAlOdZ45mYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794288102;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=Pecfb5pvLyq9H2GzGT0xx4/rfb25RsEuISA7EJYskG4=;
+	b=piE4rEWQDwZHoGCk5ugs6JJ3eQTFeVY3ZmYQmgJLt4qxrYH/D/p6h5lxDAF+gmUzQbxb
+	 y4KmMdcf7gQu5GvA/RGBYjdQJSWKhNq4x2JNposydUvLQS9sp/5qyvDieENn0eChIlzLv
+	 0pmKxV5klKA1DgTlbNLQtJWbeEW4fj4R/544LqHrcCpovYxPOSWkCXYY65np7EQJNNJNt
+	 zOG9qyIFmskx4nAKIggM14uJkzAwe9XFQbZdDk2goHHwg5Rf3b/uaAmuw8f0ssDe7Dpoo
+	 zIEb/sfixL4MW0bttrKfBAf+7Ap/HyuFCbBv509oiIkh4QyQvw28yucRdvcW7Z8TzLA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=fail reason="signature verification failed" header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bS8QK0uX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bWB0j+MK;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F06606A31C;
-	Tue, 10 Nov 2026 04:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C1A606A31C;
+	Tue, 10 Nov 2026 05:21:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45C1A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bS8QK0uX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE1361F008A5;
-	Tue, 10 Nov 2026 04:53:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794286390;
-	bh=USevh6myHxF9emjydPOskkqmK7kqM8+0knzfuWzYf2E=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=bS8QK0uXH4CiE/pecLjA47r/58HoMdCcVoCr2Aj5ZbqYX8FUfQZw+zR3zouV2mNmK
-	 P0Ggop74FtzZ/noDXpDOmBsU8LuIgDwsRcOwIQBKYfTvnSFlvYyQp6mhCsrJj19i4E
-	 8AtFDqwQo6XuCCnMThbj3A/mquKdc778AaGUdSGFxFPfR9Cu+cvr37erupKdTLZRUZ
-	 slkziQBQN18Ol9bonmpQusu/LLhK4gYdx+hgOYyYs6truDVcFXoA9KNDzIfFgeEexk
-	 mh+SsRfu9Yhsgls4oSul1YEhpSfuBnkutavrJtXalAsKNTjUPk5VxJ5Nr9VxAgQYoD
-	 qETaCtYdWvXGA==
-Content-Type: multipart/mixed; boundary="===============6368028081372406392=="
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bWB0j+MK
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794288102; x=1825824102;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=oFY/jbHuyFVs9fcim3O79B+sKqlAAqnVh+aV2N/0ovY=;
+  b=bWB0j+MKIBWCSDbnAB1Ok5OJ8fBOIsCJRzpg8d3ShztfzT6hlfJJZ4hy
+   97+/td/vHspcKPduRnMGwStMxHQ+AZz77Klmy9M10xvTzLEMmM2ns6uEr
+   a/x3vSRLGPH6LE1u9NSPJQtbiz2h5nQ2M0TtrAdph71Qen4Tjebfz2gjz
+   BEyyR27fHaKM0EBGweJRabDcqet58PoxazrGrearUVJ7lwnqGPScy5TkU
+   chN8fws9Hpe6YIMd6h1dBbMoEk+KpSwmYPqntXiY6/LXzXrMXkSe5pJ72
+   GBMVpgvu4jyYvJhyHK8IvKoGLjO8k7vyBGANXHGzejwDwGmMQMy0zrs0C
+   Q==;
+X-CSE-ConnectionGUID: uMY+Ddy3S2K8gjbt268AyQ==
+X-CSE-MsgGUID: rK2FYPk3RjuE3MVFEVB+AQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3062304"
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="3062304"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 21:21:41 -0800
+X-CSE-ConnectionGUID: RKv6GKLrRXekh8Hyw1NSow==
+X-CSE-MsgGUID: B2DoDwPBT2ynDzLgYC0JmQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
+   d="scan'208";a="8233683"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 09 Nov 2026 21:21:34 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xQeIV-00000000w43-0oq1;
+	Tue, 10 Nov 2026 05:21:31 +0000
+Date: Tue, 10 Nov 2026 13:21:04 +0800
+From: kernel test robot <lkp@intel.com>
+To: David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
+	xen-devel@lists.xenproject.org, x86@kernel.org,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paul Durrant <paul@xen.org>, Vitaly Kuznetsov <vkuznets@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Juergen Gross <jgross@suse.com>,
+	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	Sascha Bischoff <Sascha.Bischoff@arm.com>,
+	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Jack Allister <jalliste@amazon.com>,
+	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com,
+	David Woodhouse <dwmw@amazon.co.uk>
+Subject: Re: [PATCH v12 08/24] KVM: x86: Re-synchronize TSC after
+ KVM_SET_TSC_KHZ
+Message-ID: <202611101323.6WZgh2FM-lkp@intel.com>
+References: <20261109012112.3415328-9-dwmw2@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,79 +100,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <debeafe053a315dc6c0634d019ea48075d9f9f0c68b4395deed84a9630dc77ab@mail.kernel.org>
-In-Reply-To: <15f830924c4d06d3d8c7e41fb8a9f8c29b63d9a7.1794281983.git.tianyi@cloudflare.com>
-References: <15f830924c4d06d3d8c7e41fb8a9f8c29b63d9a7.1794281983.git.tianyi@cloudflare.com>
-Subject: Re: [PATCH bpf-next 10/15] xdp: warn on XDP_PASS with stored values when XDP runs on an skb
-From: bot+bpf-ci@kernel.org
-To: tianyi@cloudflare.com,bpf@vger.kernel.org,netdev@vger.kernel.org,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,martin.lau@linux.dev,kuba@kernel.org,hawk@kernel.org
-Cc: john.fastabend@gmail.com,sdf@fomichev.me,lorenzo@kernel.org,deliran@verdict.gg,davem@davemloft.net,edumazet@kernel.org,pabeni@redhat.com,horms@kernel.org,andrew+netdev@lunn.ch,donald.hunter@gmail.com,eddyz87@gmail.com,memxor@gmail.com,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,ihor.solodrai@linux.dev,anthony.l.nguyen@intel.com,przemyslaw.kitszel@intel.com,maciej.fijalkowski@intel.com,aleksander.lobakin@intel.com,magnus.karlsson@intel.com,tushar.vyavahare@intel.com,kerneljasonxing@gmail.com,razor@blackwall.org,madalin.bucur@nxp.com,ioana.ciornei@nxp.com,corbet@lwn.net,skhan@linuxfoundation.org,shuah@kernel.org,rdunlap@infradead.org,nathan@kernel.org,ndesaulniers@google.com,morbo@google.com,justinstitt@google.com,carges@cloudflare.com,jakub@cloudflare.com,linux-doc@vger.kernel.org,linux-kselftest@vger.kernel.org,intel-wired-lan@lists.osuosl.org,llvm@lists.linux.dev,kernel-team@cloudflare.com,tianyi@cloudflare.com,ast@kernel.org,andrii@kernel.org,d
- aniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Tue, 10 Nov 2026 04:53:09 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109012112.3415328-9-dwmw2@infradead.org>
 
---===============6368028081372406392==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Hi David,
 
-> xdp: warn on XDP_PASS with stored values when XDP runs on an skb
+kernel test robot noticed the following build errors:
 
-TL;DR: Comment nit in xdp_skb_ext_warn_pass(): the new
-generic-XDP/BPF_PROG_RUN comment is inaccurate for BPF_F_TEST_XDP_LIVE_FRAMES,
-which uses a separate rxq, and the next comment is now stale. Not a bug.
+[auto build test ERROR on dea4f6380f4ec96e8f3b0aaf2343764bd0d25ef4]
 
-> diff --git a/net/core/xdp.c b/net/core/xdp.c
-> --- a/net/core/xdp.c
-> +++ b/net/core/xdp.c
+url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/KVM-x86-Improve-synchronization-in-kvm_synchronize_tsc/20261108-172047
+base:   dea4f6380f4ec96e8f3b0aaf2343764bd0d25ef4
+patch link:    https://lore.kernel.org/r/20261109012112.3415328-9-dwmw2%40infradead.org
+patch subject: [PATCH v12 08/24] KVM: x86: Re-synchronize TSC after KVM_SET_TSC_KHZ
+config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20261110/202611101323.6WZgh2FM-lkp@intel.com/config)
+compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611101323.6WZgh2FM-lkp@intel.com/reproduce)
 
-[ ... ]
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611101323.6WZgh2FM-lkp@intel.com/
 
-> @@ -1124,12 +1125,17 @@ void xdp_skb_ext_to_skb(struct sk_buff *skb, const struct xdp_skb_ext *ext)
->  void xdp_skb_ext_warn_pass(const struct bpf_prog *prog,
->  			   const struct xdp_buff *xdp)
->  {
-> -	const struct net_device *dev = xdp->rxq->dev;
-> +	const struct xdp_rxq_info *rxq = xdp->rxq;
-> +	const struct net_device *dev = rxq->dev;
->  
->  	/* The skb is built later from the xdp_frame */
->  	if (prog->expected_attach_type == BPF_XDP_CPUMAP ||
->  	    prog->expected_attach_type == BPF_XDP_DEVMAP)
->  		return;
-> +	/* Generic XDP and BPF_PROG_RUN use the netdev_rx_queue xdp_rxq */
-> +	if (rxq->queue_index < dev->num_rx_queues &&
-> +	    rxq == &dev->_rx[rxq->queue_index].xdp_rxq)
-> +		return;
->  	/* No native XDP, so only generic XDP or BPF_PROG_RUN runs on dev */
->  	if (!(dev->xdp_features & NETDEV_XDP_ACT_BASIC))
->  		return;
+All errors (new ones prefixed by >>, old ones prefixed by <<):
 
-This isn't a bug, but is the new comment accurate for BPF_PROG_RUN?
+>> ERROR: modpost: arch/x86/kvm/kvm.ko: symbol '__udivdi3' undefined!
 
-With BPF_F_TEST_XDP_LIVE_FRAMES, xdp_test_run_setup() registers a separate
-rxq embedded in struct xdp_test_data:
-
-    xdp_rxq_info_reg(&xdp->rxq, orig_ctx->rxq->dev, 0, 0)
-
-and xdp_test_run_init_page() then does:
-
-    xdp_init_buff(new_ctx, TEST_XDP_FRAME_SIZE, &xdp->rxq);
-
-so in live-frames mode rxq != &dev->_rx[rxq->queue_index].xdp_rxq and the
-early return is not taken.
-
-That also makes the following comment stale: generic XDP and non-live
-BPF_PROG_RUN now return at the new check, so only the live-frames
-BPF_PROG_RUN can reach the NETDEV_XDP_ACT_BASIC test.
-
-Would something like "Generic XDP and BPF_PROG_RUN without
-BPF_F_TEST_XDP_LIVE_FRAMES use the netdev_rx_queue xdp_rxq" match the code
-better?
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/42755842687
---===============6368028081372406392==--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
