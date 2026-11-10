@@ -1,97 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794307268;
-	b=UZHsqeuhqTHVTNMgdNvv4x3U54VMV98xlqBjay6Sp/wGFFk0NUvMQ4SxSDwcsCH/dmbs
-	 yg6MOz7zeoUTPCabh9m8h3pDup96umBsKhgMZ74dX1sp8BpiGHF/7lzD2nhxCIBsh0a0b
-	 XVHU9w/lopsx8cPTSEkz3uKaAQrOtPJZAjqqnaOwkPo3Ouaa8JYkKYEFd3Gvjtbdp0UmS
-	 mAAMhYaBBKmD3J5I6PpzhSt2vRrjNDRaoa3+MZA+1VdMytth/gEJ6ZsTmAiS7isvmXlnX
-	 0v7H4rv7UDePGSxMs32imLEF61ZAio4KOyp6E6JJi+HuzU2qra1KI1MbqokwCRuZYPQ==
+	t=1794308637;
+	b=QV9DRY+x52f3YodhAI+KH6zRmbYCr7ew9VGquDUpSbdtNNr0NVH89m6gnbgNNNB9pgX7
+	 F315iFPuwnqyWDxUe2cgTwse9wodk+ih7i101AwxzP5PqbaclJ9IO68Qotnko3/bTj+QL
+	 5Dh98lPh52wrFMspUpEU3p680J932vPrf7r6VAZauVBPjWAG6cQHt95lzMirQoDuqZQXe
+	 8nOprSkFkcYsKJvCuD8BfI/McvP8Sa311Mu4fGeJB76GahVFW1gmS+PuAS45UVQ6meH8/
+	 9aWo9me69Txdye7CterJftdLhU/aOhQexXoaTdppZsxdTuyfTMgHNe4fYl1KRaqta3A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794307268;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-Scanned-By;
-	bh=9RvJebEHN0ToJdhmNwuM3zN40XxviuMMEwwuGiw6/Qg=;
-	b=yUwtXaAZRpVLh+OZTT+0YY4tKfkYcO1pDw1bNVhqOm+p4dKXdci7AY0jqxvvAftvQ5W2
-	 /8Bo22KIy+1dvp5d8xoTyl4wx6gwizy9A+xbAXIIhRzSt+5f5AJ9MMGnpRLzgIvsW9T/n
-	 kgNi1tD9sz1LA6ok7trXyMTKJSmFIkArPBA1aWBMBbGgOzyisb4dIFUwMjwHBCJBgsyjb
-	 YH7uJMiMKyq5Ey0NqpaP6UTtc5Nzi30i5xjU6Y/ERNCiS1iG77x2dxs0S1KTLvtAG6ZGS
-	 BytSZlo9jvcuKLYaQIIN7Y37BYSaUQwnxsKO9hrRv/YIVnNZqFppCW9ZlXxxEtSw/5A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794308637;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=gBaRZPyJTX0vGBHDFrBjUpvgfOXhHnVeShEMkW6baMk=;
+	b=4Z1Lv47Re7G/z+AVVi6UdMNzWA0orDYXRkxJyw8wj7/2o7OYvf5PSUueea/IIllX3bb9
+	 pv9RvzVzqF+A3utQYxuupcqdoPdj7aWtalXZANcUr0sYIZGTo0nUWkbMSxIwSweDbMLkc
+	 40tzsFPXOYZh5O+twhvEkkybjlVWRBWhRix4D4wNXuc3VCIpP1UXkwNpz5zsnFBvEUiGi
+	 BsH2tfvQ5uPD5bjF9M/MMDu+L/puCPkgN0c1kzTV8FgS7DwVrnSQl8azbfcmGdMVHjuvD
+	 Lntb5y3+rpOTPKWscB3H358H2eEtUAmtQVwUugMDik1sX2lmDrhquzJPfUGpwY+o2Jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b="NiS7x/ci";
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ZKj/5PY5";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D14C5606A32E
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 10:41:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D14C5606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E062606A33D;
+	Tue, 10 Nov 2026 11:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=NiS7x/ci
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794307266;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9RvJebEHN0ToJdhmNwuM3zN40XxviuMMEwwuGiw6/Qg=;
-	b=NiS7x/cihC3DcWtdc1C5sr5nRE9fP4//MRAVaWPdpR0fHH2Yl6jXRRHUII1xZlyD8xJqan
-	5r+5rxKc/9f6jNGOVdWNWWgJST2Xh1aVLYV6ZHFUgHtW2gFX940szGl69BxB02NjqKa3Qh
-	ViKEC9e8Axg8mPtYo/KQGGmtP/ZdaQg=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-294-TOY0otYhNVWo4ajIt8-xfA-1; Tue,
- 10 Nov 2026 05:41:01 -0500
-X-MC-Unique: TOY0otYhNVWo4ajIt8-xfA-1
-X-Mimecast-MFC-AGG-ID: TOY0otYhNVWo4ajIt8-xfA_1794307259
-Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B032D18004F9;
-	Tue, 10 Nov 2026 10:40:58 +0000 (UTC)
-Received: from pabeni-thinkpadp1gen8.rmtit.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id CA62626C;
-	Tue, 10 Nov 2026 10:40:51 +0000 (UTC)
-From: Paolo Abeni <pabeni@redhat.com>
-To: bobbyeshleman@meta.com
-Cc: sgarzare@redhat.com,
-	davem@davemloft.net,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	stefanha@redhat.com,
-	mst@redhat.com,
-	jasowangio@gmail.com,
-	xuanzhuo@linux.alibaba.com,
-	eperezma@redhat.com,
-	shuah@kernel.org,
-	rdunlap@infradead.org,
-	donald.hunter@gmail.com,
-	edumazet@kernel.org,
-	virtualization@lists.linux.dev,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	sargun@sargun.me,
-	jlinbox@meta.com,
-	bobbyeshleman@gmail.com
-Subject: Re: [PATCH net-next v5 5/7] vsock/virtio: support guest device network namespace
-Date: Tue, 10 Nov 2026 11:40:35 +0100
-Message-ID: <20261110104035.225429-1-pabeni@redhat.com>
-In-Reply-To: <20261103-vsock-guest-ns-v5-5-48179b9b66b8@meta.com>
-References: <20261103-vsock-guest-ns-v5-5-48179b9b66b8@meta.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZKj/5PY5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 090861F008A1;
+	Tue, 10 Nov 2026 11:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794308637;
+	bh=gBaRZPyJTX0vGBHDFrBjUpvgfOXhHnVeShEMkW6baMk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=ZKj/5PY5g2mRk7ixIGpNVYsamJFsXyppTpT5aG12JpVs938iHS+XsZqb2NA05HSyb
+	 QevnkuJ3yRg5yZf0qj0rVV5seDWkFfcNNjOOCfog8fYAepqmjWwTwAhGVDo3ozRU4L
+	 s9qFVuRgcbUL2RFzFIQGIfIgU64VP0dosj1NW+PIh1fzfh93+StrkKLkM/vMMQZkL7
+	 ek3quQaueUHBANia6NJQFy/7+g2llDmIWaJJcF9q1C5lXLAomAulzd+KFR/LOCfNmb
+	 4m7ug83kqf+Ewo4/nQeAlMDxbfxMwj7I2uaWXvv4YZaDrtAlx6qc989K5Ur5jhB1tP
+	 MAI6ROiQil4eA==
+Subject: Re: [PATCH v11 4/6] net: wwan: t9xx: Add control port
+From: netdev-bot+sashiko@kernel.org
+To: jackbb_wu@compal.com
+Cc: loic.poulain@oss.qualcomm.com, ryazanov.s.a@gmail.com,
+ johannes@sipsolutions.net, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ wen-zhi.huang@mediatek.com, shi-wei.yeh@mediatek.com,
+ Minano.tseng@mediatek.com, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, robert_yu@compal.com, Jeff_Chang@compal.com,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-doc@vger.kernel.org
+Date: Tue, 10 Nov 2026 11:03:55 +0000
+Message-ID: <179430863558.994134.1789647998017952188@kernel.org>
+In-Reply-To: <20261105-t9xx_driver_v1-v11-4-2084aa512864@compal.com>
+References: <20261105-t9xx_driver_v1-v11-4-2084aa512864@compal.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,227 +69,157 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
-Full review at: https://netdev-ai.bots.linux.dev/sashiko/
----
---- Patch [5]: [PATCH net-next v5 5/7] vsock/virtio: support guest device network namespace ---
-I found three issues in this patch: one functional regression, one commit message problem, and one existing tap leak that the patch now reaches.
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-commit 074136a5d2f57598d227b743b7c490274cb32bed
-Author: Bobby Eshleman <bobbyeshleman@meta.com>
+Low priority / nit picks for your consideration:
 
-vsock/virtio: support guest device network namespace
+- [Low] The struct mtk_port comment in drivers/net/wwan/t9xx/mtk_port.h
+  (lines 83-86) says tx_seq and rx_seq "are reset while the channel is…
+- [Low] mtk_port_rx_dispatch() (drivers/net/wwan/t9xx/mtk_port.c:408-409)
+  picks the destination port from the CCCI header channel, which the…
+- [Low] Concern: mtk_port_status_update() and the port->enable field it
+  writes are dead code at this commit and are not mentioned in the…
+- [Low] Concern: mtk_port_internal_enable() sends a compensating DISABLE
+  for every ENABLE failure other than -EBUSY, including failures before…
+- [Low] Concern: mtk_port_send_data() never checks skb->len against
+  port->tx_mtu, and mtk_cldma_submit_tx() writes cpu_to_le16(skb->len)…
+- [Low] Concern: mtk_port_internal_close() runs
+  test_and_clear_bit(PORT_S_OPEN) and then mtk_port_common_close() runs…
+- [Low] Concern: the radix-tree port table has no consistent lock or RCU
+  scheme.
 
-This patch makes the virtio-vsock guest device assignable to a network
-namespace. virtio_transport_rx_work() now re-reads the assigned netns for
-each packet and passes it to virtio_transport_recv_pkt(). The listen and
-connecting receive paths now call vsock_maybe_set_connected() instead of
-vsock_insert_connected(), and virtio_transport_send_pkt() gains a
-reachability check.
+--
 
-> Make the virtio-vsock device assignable to a namespace and initialize it
-> to init_net. Because virtio-vsock and init_net are both hardcoded to
-> global mode, nothing changes until the assign command is issued.
+net: wwan: t9xx: Add control port
+
+This patch adds the t9xx control port layer. A port manager builds a
+radix-tree port table and passes TRBs between port I/O and CLDMA, and an
+internal port type provides open/close/write/recv_register. struct trb
+gets a kref so mtk_ctrl_trb_handler() can hold a reference across a
+dispatch, and TX sequence numbers are stamped at hardware hand-off.
+
+> diff --git a/drivers/net/wwan/t9xx/mtk_port.c b/drivers/net/wwan/t9xx/mtk_port.c
+> new file mode 100644
+> index 0000000000000..7fec696bd6db1
+> --- /dev/null
+> +++ b/drivers/net/wwan/t9xx/mtk_port.c
+> @@ -0,0 +1,667 @@
 
 [ ... ]
 
-> it wins the race to the table and does NOT pass the reachability tests,
-> then it will be reset. This is the purpose of the new helper
-> 'vsock_maybe_set_connected()'.
+> +static int mtk_port_rx_dispatch(struct sk_buff *skb, void *priv)
+> +{
 
-[Severity: Low]
-[Finding: main-1-1]
-[Sources: opus-5-5]
-This isn't a bug, but does this description match what this patch does?
+[ ... ]
 
-The previous commit in the series ("vsock: add a netlink command to
-assign the g2h device to a netns") already defines and exports
-vsock_maybe_set_connected(). The same commit adds netns_assign_allow to
-struct vsock_transport and initializes the g2h netns to init_net:
-
-net/vmw_vsock/af_vsock.c:
-    static struct net __rcu *vsock_g2h_net = RCU_INITIALIZER(&init_net);
-
-This patch only calls the helper and sets .netns_assign_allow = true.
-
-The reachability check added to virtio_transport_send_pkt() is only
-described in the v4 changelog below the --- line, so it won't reach git
-history. Could the commit message say that virtio_transport_send_pkt()
-now drops packets from a netns that cannot reach the device and returns
--ENETUNREACH? That includes credit updates, shutdown packets and RST
-replies.
-
-> diff --git a/net/vmw_vsock/virtio_transport.c b/net/vmw_vsock/virtio_transport.c
-> index eced6929405df..06df82b130cff 100644
-> --- a/net/vmw_vsock/virtio_transport.c
-> +++ b/net/vmw_vsock/virtio_transport.c
-> @@ -256,6 +256,15 @@ virtio_transport_send_pkt(struct sk_buff *skb, struct net *net)
->  		goto out_rcu;
->  	}
->  
-> +	/* A socket reset by an assign can still send credit updates from
-> +	 * recvmsg() and setsockopt(SO_RCVLOWAT).
+> +	channel = FIELD_GET(MTK_HDR_FLD_CHN, le32_to_cpu(ccci_h->status));
+> +	/* A CLDMA instance carries the channels of one peer only (sAP or MD),
+> +	 * the peer of the port that armed this queue.
 > +	 */
-> +	if (!vsock_g2h_net_reachable(net)) {
-> +		kfree_skb(skb);
-> +		len = -ENETUNREACH;
-> +		goto out_rcu;
+> +	if (MTK_PEER_ID(channel) == MTK_PEER_ID(port->info.rx_ch))
+> +		port = mtk_port_search_by_id(port_mngr, channel);
+> +	else
+> +		port = NULL;
+> +	if (unlikely(!port)) {
+> +		dev_warn_ratelimited(port_mngr->ctrl_blk->mdev->dev,
+> +				     "Failed to find port by channel:%d\n", channel);
+> +		goto drop_data;
 > +	}
 > +
+> +	mtk_port_check_rx_seq(port, ccci_h);
+> +	port->rx_seq = FIELD_GET(MTK_HDR_FLD_SEQ, le32_to_cpu(ccci_h->status));
+
+[Severity: Low]
+Should this also check that the channel belongs to the queue the frame
+arrived on?
+
+The destination port is taken from the channel field of the CCCI header,
+and the device writes that field. The only check is that its peer ID
+matches the peer of the port that armed this RX queue.
+
+Later in the series the MD peer has three ports, each on its own queue:
+MDCTRL on CLDMA1 RXQ0, MBIM on CLDMA1 RXQ2 and AT on CLDMA1 RXQ5. If a
+frame arrives on the MBIM or AT queue carrying channel CCCI_CONTROL_RX,
+it goes to the MDCTRL internal port's ->recv().
+
+Each queue has its own CLDMA RX work item on a WQ_UNBOUND workqueue. Two
+queues' workers can therefore run mtk_port_check_rx_seq(), write
+port->rx_seq and call ->recv() for the same port at the same time. That
+breaks the rule in struct mtk_port that rx_seq is written "only from the
+rx_done callback of the one queue serving this channel". That rule is
+the reason rx_seq has no lock.
+
+Could the frame be dropped unless MTK_CH_ID(channel) matches the arming
+port's channel, or unless the channel's queue matches the receiving
+queue? t7xx does this by matching rxq_index.
 
 [ ... ]
 
-> @@ -682,10 +697,15 @@ static void virtio_transport_rx_work(struct work_struct *work)
->  
->  			virtio_transport_deliver_tap_pkt(skb);
->  
-
-[Severity: High]
-[Finding: main-6-6]
-[Sources: opus-5-5]
-This isn't a bug introduced by this patch, but this patch extends it to
-the guest device, which can now be isolated. Can tap delivery leak the
-assigned namespace's traffic to vsockmon devices in other namespaces?
-
-virtio_transport_deliver_tap_pkt() runs before the netns-aware
-virtio_transport_recv_pkt(). The call chain
-vsock_deliver_tap()->__vsock_deliver_tap() then walks the global
-vsock_tap_all list without any netns filter:
-
-net/vmw_vsock/af_vsock_tap.c:__vsock_deliver_tap() {
-    ...
-	list_for_each_entry_rcu(tmp, &vsock_tap_all, list) {
-		ret = __vsock_deliver_tap_skb(skb, tmp->dev);
-    ...
-}
-
-This loop never compares dev_net(tmp->dev) with the packet's namespace.
-vsockmon_link_ops has no netns restriction. RTM_NEWLINK only needs
-CAP_NET_ADMIN in the user namespace that owns the netns.
-
-So an unprivileged user can run unshare -Urn and create a vsockmon link.
-The module autoloads through MODULE_ALIAS_RTNL_LINK("vsockmon"). The user
-can then capture on that link with AF_PACKET.
-
-Wouldn't that let any namespace see the traffic of the local-mode
-namespace the guest device was assigned to? The tap paths in vhost-vsock
-and vsock_loopback have the same problem.
-
-> -			/* Force virtio-transport into global mode since it
-> -			 * does not yet support local-mode namespacing.
-> +			/* Only grab a reference if the net changes underneath
-> +			 * us.
->  			 */
-> -			virtio_transport_recv_pkt(&virtio_transport, skb, NULL);
-> +			if (unlikely(!vsock_g2h_net_eq(net))) {
-> +				put_net_track(net, &ns_tracker);
-> +				net = vsock_g2h_net_get(&ns_tracker);
-> +			}
+> +int mtk_port_ch_enable(struct mtk_port *port)
+> +{
+> +	struct mtk_port_mngr *port_mngr = port->port_mngr;
+> +	struct trb_open_priv *trb_open_priv;
+> +	struct sk_buff *skb;
+> +	struct trb *trb;
+> +	int ret;
 > +
-> +			virtio_transport_recv_pkt(t, skb, net);
->  		}
->  	} while (!virtqueue_enable_cb(vq));
+> +	/* The modem restarts its sequence numbering with the channel, and
+> +	 * the first packet after it is not checked.
+> +	 */
+> +	port->tx_seq = 0;
+> +	port->rx_seq = MTK_INVALID_RX_SEQ;
 
-[ ... ]
+[Severity: Low]
+Is the channel always closed when these counters are reset? The comment
+in struct mtk_port in mtk_port.h depends on it:
 
-> diff --git a/net/vmw_vsock/virtio_transport_common.c b/net/vmw_vsock/virtio_transport_common.c
-> index 1e762a480df49..7efcbdc7e04fc 100644
-> --- a/net/vmw_vsock/virtio_transport_common.c
-> +++ b/net/vmw_vsock/virtio_transport_common.c
+	/* tx_seq is stamped and advanced only at hardware hand-off, by the one
+	 * thread serving this port's TX queue; rx_seq only from the rx_done
+	 * callback of the one queue serving this channel.  Both are reset
+	 * while the channel is disabled, so neither needs a lock.
+	 */
 
-[ ... ]
+These are plain stores, made before the ENABLE is submitted. Nothing
+checks that the CLDMA queue is closed. I can see two ways the queue can
+still be live at this point.
 
-> @@ -1478,9 +1478,14 @@ virtio_transport_recv_connecting(struct sock *sk,
->  
->  	switch (le16_to_cpu(hdr->op)) {
->  	case VIRTIO_VSOCK_OP_RESPONSE:
-> -		sk->sk_state = TCP_ESTABLISHED;
-> +		if (!vsock_maybe_set_connected(vsk)) {
-> +			virtio_transport_reset_no_sock(t, skb, net);
+The first is a retry after a timeout. On -ETIMEDOUT,
+mtk_port_internal_enable() does this:
 
-[Severity: High]
-[Finding: main-1-0]
-[Sources: opus-5-5]
-Can this RST ever reach the host?
-
-virtio_transport_reset_no_sock() ends in t->send_pkt(reply, net). The
-check this patch adds to virtio_transport_send_pkt() frees the reply when
-net cannot reach the device:
-
-	if (!vsock_g2h_net_reachable(net)) {
-		kfree_skb(skb);
-		len = -ENETUNREACH;
-		goto out_rcu;
+	ret = mtk_port_ch_enable(port);
+	if (ret && ret != -EBUSY) {
+		...
+		mtk_port_ch_disable(port);
+		clear_bit(PORT_S_ENABLE, &port->status);
+		return;
 	}
 
-The v5 changelog says the arrival netns is passed here instead of
-sock_net(sk) so that the RST is not dropped. But vsock_net_check_mode()
-looks like an equivalence relation:
+The ENABLE trb is still queued, with the DISABLE behind it. With "Add
+FSM thread" later in the series, the handshake then fails in
+mtk_fsm_ctrl_ch_start()->mtk_port_internal_open() with -ENODEV. The
+device sends HS1 again, and mtk_port_mngr_fsm_state_handler_late() calls
+->enable() a second time.
 
-	if (net_eq(ns0, ns1))
-		return true;
-	...
-	return mode0 == VSOCK_NET_MODE_GLOBAL && mode0 == mode1;
+Suppose the trb thread has already run the first ENABLE. The RX queue is
+then armed with rxq->arg = port, and the DISABLE has not closed it yet.
+mtk_port_rx_dispatch() can then write port->rx_seq while this function
+resets it.
 
-A netns's mode is also fixed when the netns is created: vsock_net_init()
-sets it, and later writes to the ns_mode sysctl return -EPERM.
+The second is -EBUSY, which mtk_port_ch_enable() treats as success.
+Suppose the queue was left open, for example because an earlier DISABLE
+submit failed with -ENOMEM. Both counters are then reset while the queue
+is live. The trb thread may still be running mtk_port_tx_seq_stamp() and
+mtk_port_tx_seq_advance() on queued TX packets.
 
-virtio_transport_recv_pkt() finds the socket through
-__vsock_find_{connected,bound}_socket_net(), which requires
-vsock_net_check_mode(sock_net(sk), net). vsock_maybe_set_connected() only
-fails when sock_net(sk) cannot reach the newly assigned g2h netns.
+rx_seq only feeds the rate-limited warning in mtk_port_check_rx_seq(),
+so the visible effect is a spurious or missed out-of-order warning.
+KCSAN would still report the race.
 
-So the arrival netns cannot reach it either, and
-vsock_g2h_net_reachable(net) is false whenever this branch runs.
+Could the guarantee in the comment be enforced, or could the comment be
+reworded to match what the code actually ensures?
 
-An assign can land after the per-packet snapshot in
-virtio_transport_rx_work() and before the check in
-vsock_maybe_set_connected(). That is the race the commit message
-describes.
-
-In this OP_RESPONSE case the host already holds an ESTABLISHED socket. If
-the RST is dropped, won't that connection stay half-open until the host
-sends something? A host that only reads would wait forever.
-
-The commit message says such a socket "will be reset", but only the
-local socket is closed.
-
-The same applies to the new failure path in
-virtio_transport_recv_listen():
-
-	if (!vsock_maybe_set_connected(vchild)) {
-		release_sock(child);
-		virtio_transport_reset_no_sock(t, skb, net);
-		sock_put(child);
-		return -ENETUNREACH;
-	}
-
-Here the host's connect() gets neither a RESPONSE nor an RST. It waits for
-its connect timeout instead of failing with ECONNRESET.
-
-By the same reasoning, the other virtio_transport_reset_no_sock() calls in
-virtio_transport_recv_listen() that v5 moved from sock_net(sk) to net
-behave the same either way.
-
-Would getting the RST out need a different approach? For example, it
-could be sent on the newly assigned g2h netns, or replies could be exempt
-from the check in virtio_transport_send_pkt().
-
-> +			skerr = ECONNRESET;
-> +			err = -ENETUNREACH;
-> +			goto close;
-> +		}
-> +
->  		sk->sk_socket->state = SS_CONNECTED;
-> -		vsock_insert_connected(vsk);
->  		sk->sk_state_change(sk);
->  		break;
-
-[ ... ]
 -- 
-This is an AI-generated review.
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261105-t9xx_driver_v1-v11-0-2084aa512864%40compal.com
