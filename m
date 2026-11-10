@@ -1,89 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794314365;
-	b=FeltX6C88netksQ9sjrMBUMcoFwdFmP4XRgtkadif9Zq4VKDQ/60gywzTN2djRNwsm86
-	 M/9gVBv9616QZnU7ZOyvnsI51wk9cr9IdLWIvYPiyluQyGdhvThw6cs1x7tYg0+ny1WIw
-	 p3NwkeD/9TZDXgS2dpnCFHIFi3wYgBGJmiQLvSKwIC0lhMkUiOoP1CwEM7Jda0cacKxRU
-	 T1M+YltA4aZc8aouPxQBzLkECkMSecm5Sjr1//upGNXj3SwizuuRFrMbltHlzbjACiJ6r
-	 9BewYOWy/PL8NjKUFUpArtGNUUHUe8WOmj7kRtdFzKL33rLnWfzgiLMsaK7EtPof8dA==
+	t=1794314532;
+	b=Yf1WbkxpdFprwrZd3k02n5RjJUfC9qK9Jx+87dPv++wqTOKHIG4/L2UuKmGj8cot8AeP
+	 yTnfTZblLq6mIOvOn3jt6ZuYcuAXdEwD0wQa20MR95dXL5e3I3aBFWZ5F6CAE5+MfNUhn
+	 SkcAEYQQ8bIWjfteSbgzTIKxuOSZdt8oNhuZOHM1owcM1A44fevzYtC9sk0gR4IW4RcPH
+	 TuIwOxjKTCjH6+FdJdicYwb4cIc3Yf65kl/3KZy6cLRzo2HkfD+X+3BX+dKTaiFIrizXh
+	 9uGaSt3UxKN42luaQ2luINbKtJAwS6dtQxsZz0wh7KJP6xECotlLLvSwK+ITE+BFkpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794314365;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=5rbfN6ub87VSj5g3uxehcp7uqTnHm1v2JJmyLn3wnfo=;
-	b=vET67f11y09DSZQwbUlwPY0bWCeXo6kSaY20+aTjeSXRLCLfU9OPYa5totoeRrvXT0t+
-	 wWatB0A5/jdCKtYETyG7HeEKp+bEV3/73saYdPypU+p8uZPXz3X2+DnuJ9+iJXEO8qPtn
-	 FfkQauLZqpln//kuf6eEp/argsgjrXgWTgUpELPIFEbEW2ZblANFoxh1hf49VXIwKkjZ1
-	 XXzgKKmgLFbT0tMUpiN0UB+dx8ZT8Sj/j/a5IktD4qUAz8nmOnhq+H0KoxXPS/l0TKH9u
-	 E9WVqxoGK+e0M+LldMxkRXSsmA6vzceopVSpzfBrCuk+ZdEUsOSrISPkeGz+FM0G9+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794314532;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=aRoErpQ0qdoUbWw0nfuYgIwgrTUDpslGsShVaP/Z9BQ=;
+	b=DN2G4GDIoTbYSfky36WHDDWnXiyZmGCx12YEUnVDYOooxbKI92Pryg8llAztuZM2fqme
+	 oxvjdoobROgIjIeYOMOZfRSmcadrVF6a60vyZ/3wBkyyQbZib8dbjfx3W3K0CritaIVo9
+	 L7386b49hr8jEvkjABjpOY/6/nPvXj2l4OZ4XPJUeFfPRj+X/SF6GJRDJqGTUc8ueRRRh
+	 DeuP6/aP8zauKX2HvVFqqluaz59WWobjnW2mC2q/B/5kQ3fxBsjArxiVneH8IySZowe3j
+	 3K+au+xW0o6v+ilp7kzzQSMwHOYfbrM486jkuNohAPW544qZ0dUkUkMAwNr/2DeDySg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vJgDN0+e;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jQK63Jsz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39E0060A3815
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 12:39:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39E0060A3815
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB909606A336;
+	Tue, 10 Nov 2026 12:42:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vJgDN0+e
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-491aaed7565so1211587f8f.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 04:39:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794314362; x=1794919162; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5rbfN6ub87VSj5g3uxehcp7uqTnHm1v2JJmyLn3wnfo=;
-        b=vJgDN0+ePr6yw2k9O8A+b8WCk1n8P/kv/ZXD0VjZUfizwqBrbl/40OaHpk5H1JJaYy
-         7ra4PRCbWwMK3nJR8w2+toz/p/aKVoW3QLepyZN9Aozs2I22xIel2jLc32MrC36Ioquu
-         YRjrSInbFlxkCqiGIL6QzzLSaC4NQdjsyLuwlucZ5VlwPczbr54gOpGWWTcJRkzm2k6O
-         iLJaBGZgwDnzD152JClQ58fCI0CyRSIcoPAOLXAzgFoCtV3LyIA/cZV+EBIlcmXY+0A8
-         AWY5T8AWyPF65WlNL6ANqWBBWFf7qKumEmOsx0pQgGRO9qmDHY4H8Bh4BcRf750adneE
-         nL8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794314362; x=1794919162;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :content-type:mime-version:subject:date:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5rbfN6ub87VSj5g3uxehcp7uqTnHm1v2JJmyLn3wnfo=;
-        b=r3RHgV5lpPBVk0UYD5Zj1dhV6Ag3/fusCm4R/BpXdSH5Md9j0tJWqGfc2Vp7HPdJBw
-         0Xf3wGHkX4v9R6wEL6YXylVFC4DwlLXoLxCkuFi+vpZLgfLpz6kX4XOrsryJ2XEKCN4z
-         jngkgFORPX6V/qzhhZBeCrjMUjiBJ8P2u7LYevEsYj+gs9MAldb/6WImu6knEkoCfK+l
-         HU60pYOqzNqA1X0tyc0Db8VV50CT+xlYQ7U2DsWe3ZDzyIhw/JaaKQ50ijwxv5KobHry
-         D1z4EkD5rVFP76AEDnNsEUM6B/1cbkhiWrX34CyUhN8Xv0iKY3IoeDrwF9l4KzOgvjr4
-         CDWQ==
-X-Forwarded-Encrypted: i=1; AL+hErFGRMvYnjmW/x9b5lAIj5ZOthlusswRYbYPOg1uuTQWT3OhdfdLqjSYI/7TVsqUWFKE+QsuZPFPYU0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+H9QEERdeeSRBZPD9v7t1Ne920KPKABRuu+o2NCtmHwQFAQtMt
-	zoX27uGDSj4G/e9aFGdP8ipaK8RUiPVp8DExLgWijuKyLMtlVRPHcjtv
-X-Gm-Gg: AYBFou3tGZyDade/zRvhUTPD26TmmgcSYMb3ZTkdOujSmGNnmmw3Se2xWEcBztQRa0F
-	UMGQYHizL5sylckXI9G0d7hMZBidLTivq0ZZLfL2NmY9eIhnDDH0p0GmeWnsFeJBu9rfTrycQlN
-	Fm+AbbLff1XlWfntyinubrfxyAWi9K4RUCmvj99Uepe+7t2Y9OuGQaOvMyg0G7Dc5hTjBvZKa4V
-	9reabeduo67mY3UqSuWGpad6N3IyYu5xBUxRu2MpSUWWvxNVPxWthuImN2/sUOPCbFMHvFt+w79
-	b0vEWCIDF4kLTqGxkBaeV3de2WtZLh8Zwh1UXXNu7Z50py3EGHxDTjnV+jGt0/60hcWxbnCmunD
-	2x+8XYf4Ir00NxyQu+5tio3658+iULLMjdpXgNl3Z0NrtMvem6ezt90vM31QEdAu/NfqvsMQLFE
-	164lxqlZtUOxyUNVf+S8QAuoGMvGuHU22nNHvLJxjv0GepxvBmmcHvH2Tl5HtlZpt+IF56tixPp
-	XgI7BejTLlSV0PLGUEyvYpv10xA8ay4FJBR7A9Bv63sPh8hf44F409QrRicbuvq2/tSq6No2Dzm
-	SVxETSOxok7XrjQsAjBDpOZo3wrk2UiY4Ph4lkjk
-X-Received: by 2002:a5d:588b:0:b0:494:6f49:246d with SMTP id ffacd0b85a97d-4982fd3e42bmr4685475f8f.24.1794314362448;
-        Tue, 10 Nov 2026 04:39:22 -0800 (PST)
-Received: from [192.168.0.15] ([2a02:a312:c59b:a180:251a:f25f:80fa:af1d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-498363e0019sm5050033f8f.38.2026.11.10.04.39.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 04:39:22 -0800 (PST)
-From: Artur Kowalski <arturkow2000@gmail.com>
-Date: Tue, 10 Nov 2026 13:39:09 +0100
-Subject: [PATCH 4/6] soc/tegra: pmc: Add an option to keep the VDE
- partition on
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jQK63Jsz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A5EA1F0089F;
+	Tue, 10 Nov 2026 12:42:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794314531;
+	bh=aRoErpQ0qdoUbWw0nfuYgIwgrTUDpslGsShVaP/Z9BQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=jQK63JszJQWuuVVPMn7wOCpBAp5Qjsn9Ao4CS45p6vrYYXjwgXnuIlZAzNDlVU65t
+	 BAqNUAcIdkjZ3eYq2E8M5JSgJg665YMLxoUirn3QjqWZkwiuKHn8Zcadz5vRbE89/9
+	 X+vUwfAFfU5ajWYQ9DiDb7Dy1l4pIH9BFt5lc/MiLDCog2WGfxMqNDwNk5RzPWE+ad
+	 w3G0qVRmhefIXgDRJx/pCFFU/LtKpBMJ4EyaUIzuUd3nBwoHUE+zQ7eKfGLkCWCXMS
+	 DVmUOjRxd2gkSjyRefp8Jf3vJUewpZtJS4PgiWZb/GjiJvluv85aVpcRvjJqoPlaH5
+	 oBGgfF4Wfv8lQ==
+Date: Tue, 10 Nov 2026 12:42:04 +0000
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Xu Xin (vivo)" <xu.xin@linux.dev>
+Cc: akpm@linux-foundation.org, chengming.zhou@linux.dev, corbet@lwn.net, 
+	david@kernel.org, link@vivo.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+	odys.yuan@gmail.com, rppt@kernel.org, surenb@google.com, tujinjiang@huawei.com, 
+	vbabka@kernel.org, xiao.wang@vivo.com
+Subject: Re: [PATCH 2/4] ksm: skip rmap_item allocation for non-zero pages
+ under only_merge_zero_pages
+Message-ID: <avMKhCLDv-ybpmIZ@gremlin>
+References: <20261110074312.219847-1-xu.xin@linux.dev>
+ <20261110074451.220524-1-xu.xin@linux.dev>
+ <20261110074451.220524-2-xu.xin@linux.dev>
+ <avLrHrnpP3tuXXPZ@gremlin>
+ <avL+Xj5/Md58Gc98@dgvxl46587.localhost.localdomain>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,186 +64,357 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261110-t20-for-upstream-v1-4-5923449951fe@gmail.com>
-References: <20261110-t20-for-upstream-v1-0-5923449951fe@gmail.com>
-In-Reply-To: <20261110-t20-for-upstream-v1-0-5923449951fe@gmail.com>
-To: Daniel Lezcano <daniel.lezcano@kernel.org>, 
- Thomas Gleixner <tglx@kernel.org>, 
- Thierry Reding <thierry.reding@kernel.org>, 
- Jonathan Hunter <jonathanh@nvidia.com>, 
- Wim Van Sebroeck <wim@linux-watchdog.org>, 
- Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org, 
- linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org, 
- clamor95@gmail.com, Artur Kowalski <arturkow2000@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5931;
- i=arturkow2000@gmail.com; s=default; h=from:subject:message-id;
- bh=RSQhcdhD8zd+9Se8dJwIejTDi+AayGM5TfcHzNLktNA=;
- b=owGbwMvMwCVmYeTc/TaVxZzxtFoSQ9ZngaL411+TulkmKqkpO84Ijl1zaLtWRkLnz06JSXcYX
- ZoPBUV1lLIwiHExyIopspg9FPrCM8/r/YaXWzth5rAygQxh4OIUgIkkHmH4Z9WfdiH5M3fwglqr
- Y2eFCkRVDf7l8MT9cdjAFjYzJ+rpIob/KaVhHkurBb7JPDyhsKkgou9QRtOWDr5JFiaznyZFR+5
- mAQA=
-X-Developer-Key: i=arturkow2000@gmail.com; a=openpgp;
- fpr=F60710C8D69E03A01A2801CD87A47D20C2709637
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avL+Xj5/Md58Gc98@dgvxl46587.localhost.localdomain>
 
-After a warm reset, which doesn't reset the PMC, Tegra20's boot ROM
-hangs if the VDE partition is powered off. The driver powers the
-partition off when it registers it, and genpd powers it off whenever
-the VDE is idle. The VDE driver powers it on again when the system
-shuts down, since commit 8f0c714ad9be ("media: staging: tegra-vde: Turn
-ON power domain on shutdown"), which covers regular reboots. A watchdog
-reset doesn't go through the shutdown, so it still hangs the system
-instead of rebooting it.
+On Tue, Nov 10, 2026 at 07:22:06PM +0800, Xu Xin (vivo) wrote:
+> On Tue, Nov 10, 2026 at 10:05:20AM +0000, Lorenzo Stoakes (ARM) wrote:
+> > On Tue, Nov 10, 2026 at 03:44:49PM +0800, Xu Xin (vivo) wrote:
+> > > When only_merge_zero_pages is enabled, ksmd only ever merges empty
+> > > (zeroed) anonymous pages with the kernel zero page. A page that carries
+> > > data can never be merged, yet the current code still allocates an
+> > > rmap_item for it in scan_get_next_rmap_item() before cmp_and_merge_page()
+> > > decides to skip it.
+> > >
+> > > On workloads with a large amount of non-mergeable anonymous memory this
+> > > is a real cost: every scanned non-zero page pays for an rmap_item
+> > > allocation, and the rmap_items accumulate in the per-mm pending list.
+> > > For example, a MySQL instance with hundreds of gigabytes of anonymous
+> > > memory (mostly buffer pool pages that cannot be merged) ends up with
+> > > ksmd creating rmap_item metadata for each candidate page; the metadata
+> > > overhead can wipe out any gain from the zero-page merging and even turn
+> > > the net benefit negative.
+> > >
+> > > Add should_skip_non_zero_page(), called in scan_get_next_rmap_item() before
+> > > get_next_rmap_item(), which, when only_merge_zero_pages is enabled,
+> > > checks whether the candidate page is all zeros. A non-zero page is
+> > > skipped entirely: no rmap_item is allocated for it, and any stale
+> > > pending rmap_items below it are freed (as get_next_rmap_item() would).
+> > > The page is reported back to ksm_do_scan() as ERR_PTR(-EAGAIN), which
+> > > counts it as scanned and continues, so the pages_to_scan budget is
+> > > preserved.
+> > >
+> > > The all-zero check (pages_identical() against the kernel zero page) reads
+> > > the whole page. For a non-zero page this is a net win: the extra page read
+> > > is cheaper than the rmap_item allocation and the stable/unstable tree
+> > > operations it would otherwise trigger.
+> > >
+> > > A page that is zero now but is written before cmp_and_merge_page() runs
+> > > is still handled correctly, because the checksum-based decision in
+> > > cmp_and_merge_page() (added by the previous patch) is the authoritative
+> > > one.
+> > >
+> >
+> > Please re-write this in your own words.
+> >
+> > It's rambling on and never gets to the point of _what this patch does and
+> > why_.
+> >
+> > I'm not interested in reading a novel to understand the code :)
+> >
+> > It seems very LLM generated, LLMs are _terrible_ at writing commit messages
+> > and commits, please re-write all of that.
+>
+> Indeed, the description was generated by LLM, but I thought that was clear enough
+> to present what this patch do and why. Aparrently, you don't like that style, I'll
+> rewrite that by handd.
 
-Add the vde_always_on module parameter, which keeps the partition
-powered on, at the cost of its idle power. Instead of powering the
-partition off when registering it, the driver runs the power up
-sequence on it, which puts its clocks, resets and clamps into the same
-known state without cutting its power, and registers its genpd as
-always on. tegra_powergate_set() also doesn't power it off, which
-covers the legacy power gating API.
+In general we never want LLM-generated commit messages/comments.
 
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Artur Kowalski <arturkow2000@gmail.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 12 ++++++
- drivers/soc/tegra/pmc.c                         | 54 +++++++++++++++++++++++--
- 2 files changed, 62 insertions(+), 4 deletions(-)
+I do however obviously appreciate and empathise with using it to assist
+non-native speakers. So that's fine, but ideally you would write it up yourself
+and then have the LLM do simply a polishing layer, keeping the length as small
+as possible, which should give us the best of both worlds. Thanks :)
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0b3c140babd9..81af8aa1482a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -7571,6 +7571,18 @@ Kernel parameters
- 
- 	tdfx=		[HW,DRM]
- 
-+	tegra_pmc.vde_always_on=
-+			[HW,ARM] Never power off the VDE power partition.
-+			After a warm reset, which doesn't reset the PMC, the
-+			boot ROM of Tegra20 hangs if the partition is off.
-+			The VDE driver powers it on when the system shuts
-+			down for a regular reboot, but a watchdog reset
-+			doesn't go through the shutdown and hangs. Keeping
-+			the partition on makes watchdog resets work, at the
-+			cost of its idle power.
-+			Format: <bool>
-+			Default: false
-+
- 	test_suspend=	[SUSPEND]
- 			Format: { "mem" | "standby" | "freeze" }[,N]
- 			Specify "mem" (for Suspend-to-RAM) or "standby" (for
-diff --git a/drivers/soc/tegra/pmc.c b/drivers/soc/tegra/pmc.c
-index 2c70eedf514e..807977f52449 100644
---- a/drivers/soc/tegra/pmc.c
-+++ b/drivers/soc/tegra/pmc.c
-@@ -522,6 +522,28 @@ static struct tegra_pmc *early_pmc = &(struct tegra_pmc) {
- };
- #endif
- 
-+#ifdef MODULE_PARAM_PREFIX
-+#undef MODULE_PARAM_PREFIX
-+#endif
-+#define MODULE_PARAM_PREFIX "tegra_pmc."
-+
-+/*
-+ * After a warm reset, which doesn't reset the PMC, Tegra20's boot ROM hangs if
-+ * the VDE partition is powered off. The VDE driver powers it on at shutdown,
-+ * but a watchdog reset doesn't go through the shutdown and hangs. Keeping the
-+ * partition powered on makes watchdog resets work, at the cost of its idle
-+ * power.
-+ */
-+static bool vde_always_on;
-+module_param(vde_always_on, bool, 0444);
-+MODULE_PARM_DESC(vde_always_on,
-+		 "Never power off the VDE partition (default: false)");
-+
-+static bool tegra_powergate_is_always_on(unsigned int id)
-+{
-+	return vde_always_on && id == TEGRA_POWERGATE_VDEC;
-+}
-+
- static inline struct tegra_powergate *
- to_powergate(struct generic_pm_domain *domain)
- {
-@@ -697,6 +719,10 @@ static int tegra_powergate_set(struct tegra_pmc *pmc, unsigned int id,
- 	if (id == TEGRA_POWERGATE_3D && pmc->soc->has_gpu_clamps)
- 		return -EINVAL;
- 
-+	/* the partition is kept powered, also against the legacy API */
-+	if (!new_state && tegra_powergate_is_always_on(id))
-+		return 0;
-+
- 	mutex_lock(&pmc->powergates_lock);
- 
- 	if (tegra_powergate_state(pmc, id) == new_state) {
-@@ -1319,6 +1345,7 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
- 	struct device *dev = pmc->dev;
- 	struct tegra_powergate *pg;
- 	int id, err = 0;
-+	bool always_on;
- 	bool off;
- 
- 	pg = kzalloc_obj(*pg);
-@@ -1346,6 +1373,7 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
- 	pg->pmc = pmc;
- 
- 	off = !tegra_powergate_is_powered(pmc, pg->id);
-+	always_on = tegra_powergate_is_always_on(pg->id);
- 
- 	err = tegra_powergate_of_get_clks(pg, np);
- 	if (err < 0) {
-@@ -1363,9 +1391,20 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
- 	 * If the power-domain is off, then ensure the resets are asserted.
- 	 * If the power-domain is on, then power down to ensure that when is
- 	 * it turned on the power-domain, clocks and resets are all in the
--	 * expected state.
-+	 * expected state. A power-domain that is kept on is powered up instead,
-+	 * which puts it into the same state without powering it off.
- 	 */
--	if (off) {
-+	if (always_on) {
-+		err = tegra_powergate_power_up(pg, true);
-+		if (err) {
-+			dev_err(dev, "failed to turn on PM domain %s: %d\n",
-+				pg->genpd.name, err);
-+			goto remove_resets;
-+		}
-+
-+		dev_info(dev, "keeping PM domain %s powered on\n",
-+			 pg->genpd.name);
-+	} else if (off) {
- 		err = reset_control_assert(pg->reset);
- 		if (err) {
- 			pr_err("failed to assert resets: %d\n", err);
-@@ -1385,11 +1424,18 @@ static int tegra_powergate_add(struct tegra_pmc *pmc, struct device_node *np)
- 	 * the domain and skip the genpd registration.
- 	 */
- 	if (!IS_ENABLED(CONFIG_PM_GENERIC_DOMAINS)) {
--		WARN_ON(tegra_powergate_power_up(pg, true));
-+		if (!always_on)
-+			WARN_ON(tegra_powergate_power_up(pg, true));
- 		goto remove_resets;
- 	}
- 
--	err = pm_genpd_init(&pg->genpd, NULL, true);
-+	if (always_on) {
-+		/* as tegra_genpd_power_on() does after powering up */
-+		reset_control_release(pg->reset);
-+		pg->genpd.flags |= GENPD_FLAG_ALWAYS_ON;
-+	}
-+
-+	err = pm_genpd_init(&pg->genpd, NULL, !always_on);
- 	if (err < 0) {
- 		dev_err(dev, "failed to initialise PM domain %pOFn: %d\n", np,
- 		       err);
+>
+> The goal is only to avoid rmap_item allocation for pages that can never merge
+> under only_merge_zero_pages. The implementation is simple.
+>
+> I'll send a v3 with those changes.
 
--- 
-2.56.0
+Well let's wait on David's POV on this series for this cycle before a respin
+first thanks!
 
+>
+> >
+> > > Signed-off-by: Xu Xin (vivo) <xu.xin@linux.dev>
+> > > Co-developed-by: Jinjiang Tu <tujinjiang@huawei.com>
+> > > Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
+> >
+> > Why are this and the other patches in-reply-to 1/4? That's not how you send
+> > a series in mm.
+>
+> That was my mistake
+
+Ack, sure I've made all sorts of mistakes like that myself :)
+
+> >
+> > > ---
+> > >  mm/ksm.c | 82 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > >  1 file changed, 82 insertions(+)
+> > >
+> > > diff --git a/mm/ksm.c b/mm/ksm.c
+> > > index 49f3728a3d03..e641c37ee096 100644
+> > > --- a/mm/ksm.c
+> > > +++ b/mm/ksm.c
+> > > @@ -2535,6 +2535,69 @@ static bool should_skip_rmap_item(struct folio *folio,
+> > >  	return true;
+> > >  }
+> > >
+> > > +/*
+> > > + * Determines whether a candidate page should be skipped entirely when
+> > > + * only_merge_zero_pages is enabled, before an rmap_item is allocated for
+> > > + * it.
+> > > + *
+> > > + * A page that is not all zeros carries data and can never be merged with
+> > > + * the kernel zero page, so there is no point in allocating an rmap_item
+> > > + * for it. Skipping it here avoids the rmap_item metadata cost that full
+> > > + * KSM would otherwise pay for every non-mergeable page.
+> > > + *
+> > > + * @rmap_list: head of the per-mm pending rmap_item list
+> > > + * @addr:      address of the candidate page
+> > > + * @folio:     folio containing the candidate page
+> > > + * @page:      the candidate page
+> > > + *
+> > > + * Returns true if the page should be skipped (and any stale pending
+> > > + * rmap_items below @addr are freed), false if it should be processed.
+> > > + */
+> >
+> > This is a really weird mix of kdoc style + not kdoc style while not being a
+> > kdoc, for a static function?
+> >
+>
+> Will simplify it.
+
+Thanks.
+
+>
+> > > +static bool should_skip_non_zero_page(struct ksm_rmap_item **rmap_list,
+> > > +			     unsigned long addr, struct folio *folio,
+> > > +			     struct page *page)
+> > > +{
+> > > +	struct ksm_rmap_item *rmap_item;
+> > > +
+> > > +	if (!ksm_only_merge_zero_pages)
+> > > +		return false;
+> > > +
+> > > +	/*
+> > > +	 * Pages already merged by KSM are handled by cmp_and_merge_page();
+> > > +	 * do not skip them here.
+> > > +	 */
+> > > +	if (folio_test_ksm(folio))
+> > > +		return false;
+> > > +
+> > > +	/*
+> > > +	 * An all-zero page is exactly what we want to merge with the kernel
+> > > +	 * zero page; process it.
+> > > +	 */
+> > > +	if (pages_identical(page, ZERO_PAGE(0)))
+> > > +		return false;
+> > > +
+> > > +	/*
+> > > +	 * The page carries data: free any pending rmap_items that are below
+> > > +	 * it (they are stale, as get_next_rmap_item() would), and skip it so
+> > > +	 * no rmap_item is allocated for it.
+> > > +	 *
+> > > +	 * Compare the masked address, unlike get_next_rmap_item() which
+> > > +	 * compares the raw rmap_item->address (which may carry the
+> > > +	 * UNSTABLE/STABLE_FLAG bits). That is intentional: a pending
+> > > +	 * rmap_item at the same address as a non-zero page is stale and must
+> > > +	 * be freed here, not returned for processing.
+> > > +	 */
+> >
+> > We don't need a prose version of the code, and it reads like AI slop, we
+> > don't want AI slop comments, thanks.
+>
+> Sorry, this is to clarify the difference between get_next_rmap_item() and here.
+> Maybe too verbose to you ? I can simplify those words.
+
+It is too verbose yes, and effectively writes out the code in comment form, this
+is not helpful.
+
+>
+> >
+> > > +	while (*rmap_list) {
+> > > +		rmap_item = *rmap_list;
+> >
+> > Why is rmap_item function-scoped when it could be block-scoped here...
+>
+> You are right. Will fix it.
+
+Thanks!
+
+>
+> >
+> > > +		if ((rmap_item->address & PAGE_MASK) > addr)
+> > > +			break;
+> > > +		*rmap_list = rmap_item->rmap_list;
+> > > +		remove_rmap_item_from_tree(rmap_item);
+> > > +		free_rmap_item(rmap_item);
+> > > +	}
+> >
+> > This code is very ugly.
+> >
+> > Newline...
+
+In general I'd prefer a rethink though to make it cleaner.
+
+> >
+> > > +	return true;
+> >
+> >
+> > > +}
+> > > +
+> > >  struct ksm_next_page_arg {
+> > >  	struct folio *folio;
+> > >  	struct page *page;
+> > > @@ -2737,6 +2800,16 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+> > >  			if (tmp_page) {
+> > >  				flush_anon_page(vma, tmp_page, ksm_scan.address);
+> > >  				flush_dcache_page(tmp_page);
+> > > +
+> > > +				if (should_skip_non_zero_page(ksm_scan.rmap_list,
+> > > +						     ksm_scan.address, folio,
+> > > +						     tmp_page)) {
+> > > +					folio_put(folio);
+> > > +					ksm_scan.address += PAGE_SIZE;
+> > > +					mmap_read_unlock(mm);
+> > > +					return ERR_PTR(-EAGAIN);
+> > > +				}
+> > > +
+> >
+> > I don't love just shoving more logic into an already massive function. No
+> > to this.
+> >
+> > At some point technical debt has to be paid, clean up this code first please.
+>
+> Emmm... I agree scan_get_next_rmap_item() is already too large and needs cleanup.
+>
+> But it is the main KSM scan path, and a refactor there is high-risk. The cleanup
+> deserves a separate series with careful review and testing.
+
+Completely disagree. By this logic we'd never improve anything, and even if it
+were true, it's valid to say there should be a feature freeze until that's fixed.
+
+Anyway, let's work through this a bit.
+
+At 50,000 ft:
+
+static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+{
+	...
+
+	if (mm_slot == &ksm_mm_head) {
+		... huge block ...
+next_mm:
+		... of course, nasty non-linear goto logic ...
+	}
+
+	for_each_vma(vmi, vma) {
+		...
+		while (ksm_scan.address < vma->vm_end) {
+			...
+			if (tmp_page) {
+				... <-- you propose to add open-coded logic in
+				        the most nested bit.
+			}
+			...
+		}
+		...
+	}
+	... huge amounts of other code ...
+}
+
+Now very clearly you can separate out these blocks into static functions with
+no risk at all and eliminate most of this indentation.
+
+Digging into your proposal:
+
+			if (tmp_page) {
+				flush_anon_page(vma, tmp_page, ksm_scan.address);
+				flush_dcache_page(tmp_page);
++				if (should_skip_non_zero_page(ksm_scan.rmap_list,
++						     ksm_scan.address, folio,
++						     tmp_page)) {
++					folio_put(folio);
++					ksm_scan.address += PAGE_SIZE;
++					mmap_read_unlock(mm);
++					return ERR_PTR(-EAGAIN);
++				}
+				rmap_item = get_next_rmap_item(mm_slot,
+					ksm_scan.rmap_list, ksm_scan.address);
+				if (rmap_item) {
+					ksm_scan.rmap_list =
+							&rmap_item->rmap_list;
+
+					if (should_skip_rmap_item(folio, rmap_item)) {
+						folio_put(folio);
+						goto next_page;
+					}
+
+					ksm_scan.address += PAGE_SIZE;
+					*page = tmp_page;
+				} else {
+					folio_put(folio);
+				}
+				mmap_read_unlock(mm);
+				return rmap_item;
+			}
+
+Firstly, in context, this is:
+
+			...
+			if (tmp_page) {
+				...
+			}
+next_page:
+			ksm_scan.address += PAGE_SIZE;
+			cond_resched();
+
+Right?
+
+So this could be:
+
+			if (!tmp_page)
+				goto next_page;
+
+			... logic in block above ...
+
+
+With zero risk and immediately you remove one level of indentation.
+
+Since you're returning rmap_item anyway you could do:
+
+			if (should_skip_non_zero_page(ksm_scan.rmap_list,
+				ksm_scan.address, folio, tmp_page)) {
+				ksm_scan.address += PAGE_SIZE;
+				rmap_item = ERR_PTR(-EAGAIN);
+			} else {
+				rmap_item = get_next_rmap_item(mm_slot,
+					ksm_scan.rmap_list, ksm_scan.address);
+			}
+
+Then:
+			if (!IS_ERR_OR_NULL(rmap_item)) {
+				...
+			} else {
+				folio_put(folio);
+			}
+			mmap_read_unlock(mm);
+			return rmap_item;
+
+Which does the mmap_read_unlock(), address update and return for you.
+
+IMO none of this is risky, and this isn't even getting into bigger
+refactorings you could do.
+
+Adding a few of these kinds of things as patches early in the series really
+isn't that hard and improves things for everybody.
+
+I'd love for this to be an instinctive thing people did when adding new
+functionality to stuff like this. That way we pay down technical debt as we
+go :)
+
+--
+Cheers, Lorenzo
