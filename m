@@ -1,136 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794327791;
-	b=oWc3HoxmK1K7EPNOO6YZWmJrjfsOmDmBzYM551S60+9CFzKuH1sP7TbbBAWWT0mGEK4j
-	 mha5PvRSelYbDrs/cr8hhadDxu2+r7MhYe7VNhM2MvtwTCKeYwXJ9IojK87BMssb8P3sl
-	 qCgftmyLk/v+eHQZQesxGloj11SUJ5DCtQ+bBVUV3vq92S3hCUFwuXoLX0CpUVxqVfdts
-	 ZlpzXzzVBhynL6A80X2ycDt82yyA0IM1QKStzWj00S5U/Ova4MOw8YfiR/rdq+nGCijDE
-	 lb7f93a/hnT7qITk0+CFio+mJFggZzqgZt/YS12weqP4onPFueVhlP9YQIoExRj98jQ==
+	t=1794328966;
+	b=WbyGyS8Wn4KDTv0TIMj0rsYPDdfvvN0We1E5TVaDwA41lI2lCyudA5zem/JwAnDC8MBD
+	 C5rML9xr5huwNcER/NP9v8YIMyypT6MwDWGGEv7cusb++EwqyqnmNJNAEUa9aiwHazeX0
+	 5mcpqF5xOfLePK8hZSnbFlo8M2D4RxULZbPjoUlYXRB3njSG4SKk0CagrPD3HfedA6tNO
+	 s8QJqyIx33KFMwFBXhRhy4/k7c0NZdb9+QIg8rgt8sbKMDR1j2DlyLkH9Dp/lCCwi8EpF
+	 R0ppiO+WU5OoeBLKBgSRj7Fn48URxtMDQMiBQWXXkGblnyIOovtkkU/gCXunhder7bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794327791;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=42cpwdtrc4HrP4DqyvReN7gjWda0yb9ngByLx/bSiMU=;
-	b=JjIHbTtL9rMKods+eWkFIFrRX2Krb9dTpvq3349hXT2zZ3RJ/N2HeHlsoIDzuhjoQ56n
-	 Vgg+054epWGg4DFSaymOSkyEjzu7tSd+DUrpf5GBVOFHO05Qls6edG3C1jEh6jJShA611
-	 V6YvaPgfuq9PzJPKMVkHFvBU+dPh/amuaorPirAqGRHleTgAWqNcpMNw/xgtl8SLCb3CO
-	 DbpjEgp1YJWgQW9yYhqkJwyIU0O7xCegj6QvxRthwVP63IlOGRkIKYhAsoAjxMF9Pra6s
-	 j/nBRgG+hGcJec3qojCMfFR2bsRqvnqew8WFP8VZ5msvbPkWf81DdOcPNqVDdHU4F5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794328966;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=bp69TPRSxmVUxIsWkPtU2k8L0z3qUF36utw3VQSvJ5E=;
+	b=MzG11RzpZuR3iLszfGINCXVDXGiMgBfnJ1uxnNswuxLqge4BJlNW3+uCLDiXxzh+AMzr
+	 I2zC+Jzk2ky7qSbwd2J93SLX+Q/x/bNHcmT4Kyi2zrpDidvh0cdLg1Z7argcGuDViPqEN
+	 j3TVH0p/V/H8mkFALxBb+4/RTlIx1DK0lkelHjxRkcSXb2Q5ESav/yZlZJkGOjBpPSHQa
+	 AKM66e22ijaLMKGOU6HLbGHIw4qEt1G00v/H+vNBL7JioKMbSsCw5HWpuNHx8+RgxFqJL
+	 Ziy+ZMdtJz9/DmYiWIsiKaBaiw0yoN5BB2KOLF6/0X+icmhsEzz5051YkC85d+EV58A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k9jynX5W;
-	arc=none smtp.remote-ip=209.85.221.182
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=C8pkaIt2;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937A9606A320
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:23:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 937A9606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0C7606A236;
+	Tue, 10 Nov 2026 16:42:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A0C7606A236
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k9jynX5W
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5eadef147ffso759387e0c.3
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 08:23:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794327790; x=1794932590; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=42cpwdtrc4HrP4DqyvReN7gjWda0yb9ngByLx/bSiMU=;
-        b=k9jynX5WUmAeD9j2NE6/ggs5zDZLdvScu7YwYXbqBbHL22S8jy8N7eEfyWdUvgcBpF
-         8TAHUcgd9VnzhBUjoptLnC2COcPn9xKFLvBh2LvJTPkk9frz8XfKNrLC4YMk3T7aRsTc
-         y5BqzughtJdwuo03qMeGDlzdpIWW9LTkAJVgO/wunOYTcgDRD8NE6D+4pTVaCLr7nUiA
-         uo2X6xEjzPkrR8zphv7oYSD9b8iVKcnZpqlk+Xe11f1uXZIuVS3fF1qUgiJethGSaUS6
-         wlcxLJaReAQCdUgdwFNR3hHlOpTVBIM7HJhltfl/pnlWIeN8VeVhcBWXaAwF/v0hnspp
-         gNzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794327790; x=1794932590;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=42cpwdtrc4HrP4DqyvReN7gjWda0yb9ngByLx/bSiMU=;
-        b=ppyghqgCBT9igfVRIUdLhDzvWZffEqgWhH2Moe09C4/6AotDRaw36Phfc4DrbzooTz
-         GAXG0tq7raM0nxv4SWdssTSqLJ7p6lvr3FF8uUcPHCpMrW72f3wRVyX6s4VTjoWKAN8T
-         QY4WFQ7HWepfOTt5GjbA+jQ2FEof9QU696RKuBsa7sAmRBaV6YY5oU9qOf/QgZdy5SUg
-         Vp0hIgV/ot6Kn9xNHSiSv7Nsv1FgAximlteMe8XC7ic9mt3GhdQBgp4wZNucNIhjMkdE
-         rB8M/FVtCiCphx3eSYY51gz3iRczbvg7H6X3oyfnp5vpGoU16ynuraXg/mYXFuxyQCdM
-         rIfA==
-X-Forwarded-Encrypted: i=1; AL+hErE3CLElARpIUCNZKeKdgD8VF+2JK+9Istnw05yzNg3s9CGr4EGmE2RzFx5W5h1H9LgOxAvpF/R4IjA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8MLZOoO8jWdC6E74cuRxJWj4s2etJL0/P0mrOOrDP2cZNYqNQ1
-	0JrwCu+wmQgc4xhjfc+7gYO+pfab68uzCpbskKlMQVFbnBjA9G7V5sda
-X-Gm-Gg: AYBFou1FmjCsHvs6mOgB3zZ0g299PLvSuHjTbhSL9BANGHcUGeB2oJKf/+s3C9gbUKG
-	qXbnoqcqswCcT981WMneO1ncV1yMFKMiVDJd8bOuS2+DSauA3WJZIFD4mJvuXYxczHC4QMCovVP
-	6b0qXBOVePXJj2b29QVworvCjIuR2RB+/ZDHOGCULG+KTvYuANZdE66XcazlJdrD0v02DyCD72p
-	6MZD+DbJZ32FbthjxnoAFEqHwu25vdFTWWahDK1hPfbCEscuw5lf1q+pb7wsW3zmtkIIRV2Bpul
-	RGDk0g1p0bQ/vUzyZv114yTGq5GcXRn6HPXEsrBDqRmlpc1VzdaoJGSP4bV7BHJsG9aN7H6by87
-	SemMoR+wLKtUPpdkFsN7E4tnxu7r1VvqYuLBK1TyGaUr+zyqSkaMG3TELJp1WMgrYgESlATaFtk
-	i2fN3tcC17nwrOvH3mQooa+U+CiEp7XkU9AkQyaTKvFT4IYR+eECicGnwmi5Dh0vEcHgIJ0dNMC
-	MaFKZ+fVJeRnxLBKOeLKf900oitr7ysQLjeHK874OhjrkB91R0lW+g4MGc6cLlaDvfh1N6UFMjl
-	2TbTGP7zE9l76LYFntIPKaVOw9fDpFdpAO+jjUEszDZgzX1xxc4unXI2dBW2iPx0F7dsYS1qM+v
-	MAXKdH6Hsi1Yd3o+uKBQGqg02E6E5RNvaw4viETL2MdFduS5O/Il4TMgPnThsW4NAlphzB6A=
-X-Received: by 2002:a05:6122:62e9:b0:5c9:c60e:3a4a with SMTP id 71dfb90a1353d-5ee0d19e59amr1124633e0c.22.1794327790334;
-        Tue, 10 Nov 2026 08:23:10 -0800 (PST)
-Received: from gmail.com (223.230.150.34.bc.googleusercontent.com. [34.150.230.223])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99c200838f0sm2123832241.9.2026.11.10.08.23.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 08:23:09 -0800 (PST)
-Date: Tue, 10 Nov 2026 11:23:09 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Tianyi Gao <tianyi@cloudflare.com>, 
- Stephen Hemminger <stephen@networkplumber.org>
-Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
- netdev@vger.kernel.org, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- Eric Dumazet <edumazet@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, 
- Simon Horman <horms@kernel.org>, 
- David Keogh <dkeogh@amazon.com>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- David Woodhouse <dwmw2@infradead.org>, 
- Dragos Tatulea <dtatulea@nvidia.com>, 
- Nimrod Oren <noren@nvidia.com>, 
- Alasdair McWilliam <alasdair@mcwilliam.dev>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- David Ahern <dsahern@kernel.org>, 
- Ido Schimmel <idosch@nvidia.com>, 
- Alexei Starovoitov <ast@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Donald Hunter <donald.hunter@gmail.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Shuah Khan <shuah@kernel.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Breno Leitao <leitao@debian.org>, 
- =?UTF-8?B?QXNiasO4cm4gU2xvdGggVMO4bm5lc2Vu?= <ast@fiberby.net>, 
- Danielle Ratson <danieller@nvidia.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, 
- bpf@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, 
- kernel-team@cloudflare.com, 
- nh-open-source@amazon.com
-Message-ID: <willemdebruijn.kernel.935b9bf7f1a1@gmail.com>
-In-Reply-To: <20261109154909.32748-1-tianyi@cloudflare.com>
-References: <cover.1794020868.git.tianyi@cloudflare.com>
- <e90e748e0aefa7cbe1c2b31b8c7902ccf135c3f2.1794020868.git.tianyi@cloudflare.com>
- <willemdebruijn.kernel.1d64e7848503b@gmail.com>
- <20261107182526.69543-1-tianyi@cloudflare.com>
- <willemdebruijn.kernel.2c6a653eb65fa@gmail.com>
- <20261108190831.3f991a13@phoenix.local>
- <20261109154909.32748-1-tianyi@cloudflare.com>
-Subject: Re: [PATCH net-next 1/8] net: add tx_extra_headroom and
- LL_ALLOC_SPACE()
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=C8pkaIt2
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=bp69TPRSxmVUxIsWkPtU2k8L0z3qUF36utw3VQSvJ5E=; b=C8pkaIt2kjYJ8mK+4vELN482bW
+	RYHAoB7wnGI1eEbq6lTaLl8z+eylhw9AYvrxOdMvHvgMDwJYr1QF0CFLtsLVf7q5qLGs94W8h8myS
+	RH8Mtli9SPynf8ybpt0oa/M2yu2+oah+Iy2t5YLcR3h3Axdh+PKq5LnnERwo4DB0szVI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xQovZ-00FX6P-8l; Tue, 10 Nov 2026 17:42:33 +0100
+Date: Tue, 10 Nov 2026 17:42:33 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v3 1/3] ethtool: add PHY receive frame and byte
+ totals
+Message-ID: <348f19e7-120e-4b41-adab-be016c7a6083@lunn.ch>
+References: <20261109-submit-acx00-phy-stats-v1-v3-0-fbc6327c5be4@gmail.com>
+ <20261109-submit-acx00-phy-stats-v1-v3-1-fbc6327c5be4@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -140,70 +71,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109-submit-acx00-phy-stats-v1-v3-1-fbc6327c5be4@gmail.com>
 
-Tianyi Gao wrote:
-> Hi Stephen,
+On Mon, Nov 09, 2026 at 07:48:32PM -0700, James Hilliard wrote:
+> The generic PHY receive packet and byte counters describe successfully
+> received traffic. Some PHYs instead count all received frames and bytes,
+> including frames with errors. A frame error count cannot recover the
+> number of successfully received bytes because damaged frames have
+> different lengths.
 > 
-> Thanks for the invaluable and detailed review.
+> Add optional receive-total counters to ethtool_phy_stats and the phydev
+> statistics group. Count frame bytes including the Ethernet header, padding
+> and FCS, and excluding the preamble and start frame delimiter. These
+> counters describe reception at the PHY, before MAC or host filtering.
 > 
-> On Sun, 8 Nov 2026 19:08:31 -0800, Stephen Hemminger wrote:
-> > Since the motivating case is XDP, the mechanism should let the XDP program
-> > ask for the padding it needs, rather than making the operator translate
-> > the program's requirement into a device setting by hand.
+> Append the new attributes so existing statistic IDs and their meanings
+> remain unchanged. Publish the names through the existing statistics string
+> set, and retain the unset-counter convention so drivers can report either
+> set of counters independently.
 > 
-> The series started from David Keogh's TC egress case, as described in
-> the RFC [1] and in the first paragraph of the v1 cover letter. The veth
-> XDP case came later, when I found that the same field also avoids the
-> copy for generic XDP on veth.
+> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> ---
+>  Documentation/networking/ethtool-netlink.rst | 16 +++++++++++++++-
+>  include/linux/ethtool.h                      |  6 ++++++
+>  include/uapi/linux/ethtool_netlink.h         |  2 ++
+>  net/ethtool/stats.c                          |  8 +++++++-
+>  4 files changed, 30 insertions(+), 2 deletions(-)
 > 
-> > Your own reply already works this out:
-> >
-> > > - XDP on a veth peer: veth_xdp_set() and generic_xdp_install() can
-> > >   increase the headroom of the peer to XDP_PACKET_HEADROOM on attach
-> > >   and reset it on detach.
-> >
-> > That is the mechanism, and it needs no uapi, no operator arithmetic, and
-> > no stale state. I would rather see it implemented for the cases it covers
-> > than add a permanent uapi that removes the incentive to do so.
-> 
-> Agreed. For this case, I plan to move to this in v2. When an XDP program
-> is attached to a veth device, tx_extra_headroom of the peer is set to
-> XDP_PACKET_HEADROOM.
-> 
-> > On the argument that program-side declaration is itself new uapi, and that
-> > the labeled device is often not the device the skb was allocated on:
-> > granted for the general TC egress case.
-> 
-> For TC egress, the kernel does not know at attach time how many bytes
-> the program pushes. Only the program, or the software that loads it,
-> knows. Attach-time propagation works for XDP because XDP_PACKET_HEADROOM
-> is a fixed value.
-> 
-> Since we both agree that auto-tuning has real problems, a narrow UAPI,
-> such as a BPF-side declaration, seems unavoidable for TC egress. The
-> program declares the headroom that it needs through this UAPI. The
-> initial plan is a BTF decl_tag, as Dragos Tatulea suggested on the RFC
-> [2]. On attach, the kernel increases tx_extra_headroom of the device
-> that the program is attached to.
-> 
-> > Which leaves the genuinely hard case, the one you describe at Cloudflare: a
-> > service in a netns sends through a veth pair, the host forwards to the
-> > uplink, and a TC egress program there encapsulates, after ip_rcv_core()
-> > has orphaned the skb so the allocating device cannot be identified. If
-> > that is the real residue, make it the problem being solved and argue for
-> > the narrowest mechanism that solves it.
-> 
-> This case only came up after I started to look at in-kernel approaches,
-> because the general IFLA_TX_EXTRA_HEADROOM UAPI already solves it. It is
-> not a new case, and it is not uncommon. Cilium, Flannel and Calico use a
-> tunnel by default [3][4][5], so the device that encapsulates is not the
-> device that allocated the skb.
+> diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+> index eba226c79ec3..5528d0f7afdd 100644
+> --- a/Documentation/networking/ethtool-netlink.rst
+> +++ b/Documentation/networking/ethtool-netlink.rst
+> @@ -1665,7 +1665,7 @@ the ``ETHTOOL_A_STATS_GROUPS`` bitset. Currently defined values are:
+>   ETHTOOL_STATS_ETH_PHY  eth-phy  Basic IEEE 802.3 PHY statistics (30.3.2.1.*)
+>   ETHTOOL_STATS_ETH_CTRL eth-ctrl Basic IEEE 802.3 MAC Ctrl statistics (30.3.3.*)
+>   ETHTOOL_STATS_RMON     rmon     RMON (RFC 2819) statistics
+> - ETHTOOL_STATS_PHY      phy      Additional PHY statistics, not defined by IEEE
+> + ETHTOOL_STATS_PHY      phydev   Additional PHY statistics, not defined by IEEE
+>   ====================== ======== ===============================================
+>  
+>  Each group should have a corresponding ``ETHTOOL_A_STATS_GRP`` in the reply.
+> @@ -1683,6 +1683,20 @@ by ``ETHTOOL_A_STATS_GRP_SS_ID``. Complex statistics (such as RMON histogram
+>  entries) are also listed inside ``ETHTOOL_A_STATS_GRP`` and do not have
+>  a string defined in the string set.
+>  
+> +The ``phydev`` group provides separate counters for successfully received
+> +traffic and total received traffic.
 
-I have some hope that if there is sufficient reason, this backlinking
-to the originating netdev (or socket?) can eventually be addressed as
-well. Rather than work around it.
+You need to be careful with naming here. This is a
+kAPI. phydev/phylib/phylink are implementation details, a set of
+helpers which some MAC drivers use to implement PHYs. But MAC driver
+can implement PHYs in different ways, and don't need to use a phydev.
 
-The skb_orphan and iif issues are well know. But not set in stone.
+``ETHTOOL_A_STATS_PHY_RX_PKTS``
+> +(``RxFrames``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES`` (``RxOctets``) count
+> +successfully received frames and bytes. ``ETHTOOL_A_STATS_PHY_RX_PKTS_TOTAL``
+> +(``RxFramesTotal``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES_TOTAL`` (``RxOctetsTotal``)
+> +include frames with errors. The total byte count includes the Ethernet header,
+> +padding and FCS, but excludes the preamble and start frame delimiter.
+
+And what would you call it when the counter does include the preamble
+and start frame delimiter?
+
+Take a step back. Just because this PHY has these counters, do we need
+to support them? And what happens when the next PHY comes along with
+slightly different counters? Do we add them as well?
+
+It is vendor SDK syndrome. The hardware can do this, so lets expose
+it.
+
+What is your use case here which justifies these specific counters.
+
+     Andrew
