@@ -1,62 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.29
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794331943;
-	b=GB2SlKHqE/0lcCEOTEc0l3JHZrml4RJaxiG1HtvptoKIhkAUT7T96WsNsa/lFQ8+5hgb
-	 2vb26yLxxUbRV3qU3lbx/aJV5TO7eXjY4MuWrYXfQhanHunkuaxSQsJaCW7b7U1+eT7Iu
-	 Ka+pi1qldemLGqpWsO1p8zUxswHXou4HIdkFBlyK1L7y2puNyfa0c6fWPuu36sT85Ayj0
-	 8NtJeo5jSIV3zNqwXYnZ2rMrnNLcTPbHVaIoImb1kVzzzikVy1l5Q321yacUWlEPX3x7F
-	 bNyzv0826m+0EnYSm6UiMJZmHlv3jQspePWksqe1mmYHzb7K3RuTnCCkTXNiXZj/18w==
+	t=1794332142;
+	b=3oO9EsoFGoJASqSaE5WOKMytHLr7OU/1HdNUne2MOOlKkSZwXOMcDBYeuoDYT86QEp13
+	 LfdLLNVjCVjjgL5md/0YK0m04VDea4eAGMFPx/t58jlIvOD5IEqW04FHyYm5WIszi+TaX
+	 9Tl/j0d/HFibb+6PbR4rlMpUopkPJFpGnWkNGmuawkeGIrk8TiQviZLUjswBoVAWze6bP
+	 i1Eqz784nVTw7BwuQ0gzfIQGibOm94lxYqp2qbwsdVjAlOnslTvIhmQXgVossz1Mz8V9N
+	 58aLDWmKzlI3nljO+ttneePTD4lLPYk/L0mGp2e/YuLgbdOmX7/9LXHQGZWG6gQ1zxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794331943;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=O/wNfj9zcVudY5TorfEHZYOP0zrjBm5k7fCeb1ImJL0=;
-	b=5SbYYsJqsbiEbew332DrlLwZH30CrFyHl8SXC9JbUCiO9ki8XdIVGtpQZDPc8BizEdIg
-	 faePkFCgWDVN+a+n/DJ5G3OVQpV5lNynHqhOyimz7BdEeA3nHjocFglh8j72Aydagi54o
-	 aZcOMmG2ETyBgiUG0txDtBobn1n7nDnXvhiQGunfn0tN/sfR+R+UPjvbHyM1NGYNaYXwb
-	 M+j7L24OwylEGORT4VyGFw+v4HMO21yJOlxLNT4w9r0Ksjq7B2PfzEpe6/W816dAKx/Vv
-	 v6eN2+G03I2+HCm0VRb5EmfHmhA+/SEr9f2C8x/x4jARDXM1e71G4EJe/FP9TJ7NraA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794332142;
+	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:Date:
+	 Message-ID:In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Mgnj6ylW0VDjl4fG6C0ZCZ9LbXijAapfRV7O3T25kdA=;
+	b=HnOvLqp+nkqa7UH1M70axkPl7m++AxY7/Yyilehck4duaEZe6fheFfxnDtbRMuAgx/9S
+	 xn+klKzDzHm/1eJXAv++jw0NXAwDPAyjJ6DRbyCSFXaN1uJdOr3Mi/N4nwDPUgGlrYNMV
+	 6Cwg4SQxihUJofTskwL9vJXdrAeWCegpVgib3MU5WQ1YaoLiU6fdidFTGe4TmTtgc/bW3
+	 KJfjgj259qv1Mc/Ykv0Yh8Hrt4VkK6zQhvGcpAv50DiKYOIqirDazPx7zXzQtQHC/z9QE
+	 c7/cWtrmnObsdwBLARyofFgNnYmCiZkeG6u1jNdSLohPa4J1pCgF3QiUS/h6ljumpGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UMzGgKBv;
-	arc=none smtp.remote-ip=95.215.58.29
-Received: from mta1.migadu.com (out-29.mta1.migadu.com [95.215.58.29])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=zZ9L9gUP;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=whLvXt2J;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C590E606A321
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 17:32:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C590E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44642606A336;
+	Tue, 10 Nov 2026 17:35:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 44642606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=UMzGgKBv
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=O/wNfj9zcVudY5TorfEHZYOP0zrjBm5k7fCeb1ImJL0=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794331939; v=1; x=1794936739;
- b=UMzGgKBvNBX4bk+Xtr0kW8FFD+qatUIshJY3LtKCWFPWXKE9wh8PE+DfZoW/Ktm9gG9oRIiS
- 61T6mhG2xbaFEnzw41uGcwWIEuOsr8rslXYi6NVdBcP3P6pWHCnfR3GNNFMqV1fZedr2TbdepwO
- WDJ3nPchbY3f5jlqyxmZgHWg=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id ca7ef77f2088ae7e;
-	Tue, 10 Nov 2026 17:32:19 +0000
-X-Mizu-Trace-ID: ca7ef77f2088ae7e
-X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5c14bc5a743so12794e87.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 09:32:18 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGDDQAHZo9v+ypHKaxIQ+i0QXUGeljAiqcC0HqcsFu1BhoxTzFRE21wRCpLNEYRNAAOj0gmy+Pqx0Y=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8YhHDZZS6gt8av8mqmW0mTpCWIpg8xZNDPl1e2Wnu02Rr94SeO
-	pCpH94VB7UnoMskT+Ef83DCxQRjQIiIctcpAdkWG10jPpbSxOOjgQZq76YeM5xbvDYYGxj0/z4h
-	CZIzlMMLRTSLk1cEnxTZH2aHxdoaXneiWE2aWujgg
-X-Received: by 2002:a05:6512:1052:b0:5c0:7c6e:4559 with SMTP id
- 2adb3069b0e04-5c157db2ba2mr166549e87.9.1794331937194; Tue, 10 Nov 2026
- 09:32:17 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=zZ9L9gUP;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=whLvXt2J
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794332140;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mgnj6ylW0VDjl4fG6C0ZCZ9LbXijAapfRV7O3T25kdA=;
+	b=zZ9L9gUPGe4fedapFVMp2/wy2VkNMaDRt1FRcixCQF3nFr+rPcrf8J6mcXDI00dhrk52JF
+	98jQg/ZGln/GmiKfhV71i1gQ1zMUPgHNkyKacTWoLDvIQJidAgCazmyAv4iJuF/U5Vtq50
+	o5GUQQNUZjKVHdesCfSPL+LNlIljQlCcJFqw5S64/SN2BKdk6EXqrHExihyrqVMSuPlKqS
+	nqqv+aQtnnCwieF4oyvZfjUS8QeGoyv9ToDrWmoP23PBXZZAeM9U46Uxpzy/vHjqoR1Fln
+	VIzjvIAVlgLFP8lmf54+jFkeW9+jBkvGMdQtKXsWFYg95lS6cyjmElOpxpQTcw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794332140;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Mgnj6ylW0VDjl4fG6C0ZCZ9LbXijAapfRV7O3T25kdA=;
+	b=whLvXt2J+dfcwHUdcgaDX3ePRkiRcUBM+jOFHDukfjtzwst52C7quGl+bpH0WEOQJ7R9Vn
+	M+g5B5zHpX/7/YCA==
+To: linux-kernel@vger.kernel.org,
+	cgroups@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: John Ogness <john.ogness@linutronix.de>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	luca abeni <luca.abeni@santannapisa.it>,
+	Yuri Andriaccio <yurand2000@gmail.com>,
+	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Tejun Heo <tj@kernel.org>,
+	Johannes Weiner <hannes@cmpxchg.org>,
+	=?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+	Qais Yousef <qyousef@layalina.io>
+Subject: [PATCH v2 1/7] sched: Mark RT_GROUP_SCHED broken
+Date: Tue, 10 Nov 2026 18:34:43 +0100
+Message-ID: <20261110-sched_dl-v2-1-cc9399f7aeb1@linutronix.de>
+In-Reply-To: <20261110-sched_dl-v2-0-cc9399f7aeb1@linutronix.de>
+References: <20261110-sched_dl-v2-0-cc9399f7aeb1@linutronix.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,38 +108,191 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110110724.3614412-1-fuad.tabba@linux.dev>
- <20261110110724.3614412-3-fuad.tabba@linux.dev> <avMoubwqgXbpflwM@gremlin>
- <CA+EHjTxT_9NghyLSZmOOi_oQboQw-g+6z9WxwaF=-7RdaGbMNw@mail.gmail.com> <avM9i8xWNZ2fU8_2@gremlin>
-In-Reply-To: <avM9i8xWNZ2fU8_2@gremlin>
-From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Tue, 10 Nov 2026 17:31:40 +0000
-X-Gmail-Original-Message-ID: <CA+EHjTw-t85cJcZChnuEcTboe9FbLmvFXi+vn3os5N49R-z33Q@mail.gmail.com>
-X-Gm-Features: AclHuK9X3Qq0RyJZlRjr_WD8VHNxqnjWuSAxxr9VQ80XC2fWGGeURk5VvSDZtkI
-Message-ID: <CA+EHjTw-t85cJcZChnuEcTboe9FbLmvFXi+vn3os5N49R-z33Q@mail.gmail.com>
-Subject: Re: [PATCH 2/2] KVM: selftests: Test KVM_PRE_FAULT_MEMORY against a
- full dirty ring
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, 
-	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 10 Nov 2026 15:57:37 +0000, "Lorenzo Stoakes (ARM)"
-<ljs@kernel.org> wrote:
-[...]
-> > Yes, the acquire pairs with the smp_wmb() in kvm_dirty_ring_push()
-> > ahead of the flag store, and the release with the smp_load_acquire()
-> > in kvm_dirty_gfn_harvested(). dirty_log_test does the same.
->
-> I know it's test code, but general kernel practice is to add a comment saying
-> what memory barriers pair with so it's easier to track, could you add those for
-> these?
+The RT_GROUP_SCHED is broken beyond repair and it is best to not enable
+it during compile. If enabled it is recommended to disable it at boot
+time with the rt_group_sched=3D option.
+With it enabled it is not possible to set the policy of a task to
+SCHED_{FIFO|RR} because its cgroup has no runtime assigned. The runtime
+can not be assigned with cgroup v2. The root group has however all the
+runtime assigned meaning the global sysctl runtime parameter
+(sched_rt_runtime_us) can no be reduced because the new bandwidth will
+be less than what is current available.
+It is possible to schedule SCHED_DEADLINE tasks but the admission
+control is stuck can only be disabled via -1 (same sysctl parameter).
 
-Sure.
+As a result all major distors (Debian, Open Suse, Fedora, Archlinux)
+have it disabled.
 
-/fuad
+There is work on Hierarchical constant bandwidth server (HCBS) which aim
+to group multiple real-time tasks within one deadline configuration.
+
+Mark CONFIG_RT_GROUP_SCHED broken. Move code which is not under
+RT_GROUP_SCHED but only used by it within its IFDEF section. This
+includes also RT_RUNTIME_SHARE.
+Update the documentation, to state that it is not related to real-time
+tasks in general but only to RT-group scheduling. While at it, also
+update the current defaults.
+
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ Documentation/scheduler/sched-rt-group.rst |  7 ++++++-
+ init/Kconfig                               |  2 +-
+ kernel/sched/features.h                    |  2 ++
+ kernel/sched/rt.c                          |  6 ------
+ kernel/sched/sched.h                       | 19 +++++++++++--------
+ 5 files changed, 20 insertions(+), 16 deletions(-)
+
+diff --git a/Documentation/scheduler/sched-rt-group.rst b/Documentation/sch=
+eduler/sched-rt-group.rst
+index ab464335d3204..788df93cb3a04 100644
+--- a/Documentation/scheduler/sched-rt-group.rst
++++ b/Documentation/scheduler/sched-rt-group.rst
+@@ -18,6 +18,11 @@ Real-Time group scheduling
+ 0. WARNING
+ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=20
++ This document applies to RT group scheduling provided by CONFIG_RT_GROUP_=
+SCHED.
++ If you don't use, schedule real-time tasks and experience throttling issu=
+es
++ please look into Documentation/scheduler/sched-deadline.rst and there for=
+ the
++ fair_server.
++
+  Fiddling with these settings can result in an unstable system, the knobs =
+are
+  root only and assumes root knows what he is doing.
+=20
+@@ -111,7 +116,7 @@ lack an EDF scheduler to make non-uniform periods usabl=
+e.
+ ---------------------
+=20
+ The default values for sched_rt_period_us (1000000 or 1s) and
+-sched_rt_runtime_us (950000 or 0.95s).  This gives 0.05s to be used by
++sched_rt_runtime_us (1000000 or 1s).  This gives 0s to be used by
+ SCHED_OTHER (non-RT tasks). These defaults were chosen so that a run-away
+ real-time tasks will not lock up the machine but leave a little time to re=
+cover
+ it.  By setting runtime to -1 you'd get the old behaviour back.
+diff --git a/init/Kconfig b/init/Kconfig
+index 4013781e0a029..7d5db38cc82c8 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -980,7 +980,7 @@ config CFS_BANDWIDTH
+=20
+ config RT_GROUP_SCHED
+ 	bool "Group scheduling for SCHED_RR/FIFO"
+-	depends on CGROUP_SCHED
++	depends on CGROUP_SCHED && BROKEN
+ 	default n
+ 	help
+ 	  This feature lets you explicitly allocate real CPU bandwidth
+diff --git a/kernel/sched/features.h b/kernel/sched/features.h
+index 8f0dee8fc4755..acc1c3fdfe2a2 100644
+--- a/kernel/sched/features.h
++++ b/kernel/sched/features.h
+@@ -122,7 +122,9 @@ SCHED_FEAT(RT_PUSH_IPI, false)
+ # endif
+ #endif
+=20
++#ifdef CONFIG_RT_GROUP_SCHED
+ SCHED_FEAT(RT_RUNTIME_SHARE, false)
++#endif
+ SCHED_FEAT(LB_MIN, false)
+ SCHED_FEAT(ATTACH_AGE_LOAD, true)
+=20
+diff --git a/kernel/sched/rt.c b/kernel/sched/rt.c
+index 1535046a23ffa..cdeddd3fc9af2 100644
+--- a/kernel/sched/rt.c
++++ b/kernel/sched/rt.c
+@@ -944,12 +944,6 @@ static inline const struct cpumask *sched_rt_period_ma=
+sk(void)
+ 	return cpu_online_mask;
+ }
+=20
+-static inline
+-struct rt_rq *sched_rt_period_rt_rq(struct rt_bandwidth *rt_b, int cpu)
+-{
+-	return &cpu_rq(cpu)->rt;
+-}
+-
+ static void __enable_runtime(struct rq *rq) { }
+ static void __disable_runtime(struct rq *rq) { }
+=20
+diff --git a/kernel/sched/sched.h b/kernel/sched/sched.h
+index 1d76950dbb0a1..a7964537bac75 100644
+--- a/kernel/sched/sched.h
++++ b/kernel/sched/sched.h
+@@ -313,6 +313,7 @@ struct rt_prio_array {
+ 	struct list_head queue[MAX_RT_PRIO];
+ };
+=20
++#ifdef CONFIG_RT_GROUP_SCHED
+ struct rt_bandwidth {
+ 	/* nests inside the rq lock: */
+ 	raw_spinlock_t		rt_runtime_lock;
+@@ -321,6 +322,7 @@ struct rt_bandwidth {
+ 	struct hrtimer		rt_period_timer;
+ 	unsigned int		rt_period_active;
+ };
++#endif
+=20
+ static inline int dl_bandwidth_enabled(void)
+ {
+@@ -581,6 +583,7 @@ extern void start_cfs_bandwidth(struct cfs_bandwidth *c=
+fs_b);
+ extern void unthrottle_cfs_rq(struct cfs_rq *cfs_rq);
+ extern bool cfs_task_bw_constrained(struct task_struct *p);
+=20
++#ifdef CONFIG_RT_GROUP_SCHED
+ extern void init_tg_rt_entry(struct task_group *tg, struct rt_rq *rt_rq,
+ 		struct sched_rt_entity *rt_se, int cpu,
+ 		struct sched_rt_entity *parent);
+@@ -589,6 +592,14 @@ extern int sched_group_set_rt_period(struct task_group=
+ *tg, u64 rt_period_us);
+ extern long sched_group_rt_runtime(struct task_group *tg);
+ extern long sched_group_rt_period(struct task_group *tg);
+ extern int sched_rt_can_attach(struct task_group *tg, struct task_struct *=
+tsk);
++extern void init_rt_bandwidth(struct rt_bandwidth *rt_b, u64 period, u64 r=
+untime);
++extern bool sched_rt_bandwidth_account(struct rt_rq *rt_rq);
++
++static inline int rt_bandwidth_enabled(void)
++{
++	return sysctl_sched_rt_runtime >=3D 0;
++}
++#endif
+=20
+ extern struct task_group *sched_create_group(struct task_group *parent);
+ extern void sched_online_group(struct task_group *tg,
+@@ -869,11 +880,6 @@ struct scx_rq {
+ };
+ #endif /* CONFIG_SCHED_CLASS_EXT */
+=20
+-static inline int rt_bandwidth_enabled(void)
+-{
+-	return sysctl_sched_rt_runtime >=3D 0;
+-}
+-
+ /* RT IPI pull logic requires IRQ_WORK */
+ #if defined(CONFIG_IRQ_WORK) && defined(CONFIG_SMP)
+ # define HAVE_RT_PUSH_IPI
+@@ -3049,9 +3055,6 @@ extern void resched_curr(struct rq *rq);
+ extern void resched_curr_lazy(struct rq *rq);
+ extern void resched_cpu(int cpu);
+=20
+-extern void init_rt_bandwidth(struct rt_bandwidth *rt_b, u64 period, u64 r=
+untime);
+-extern bool sched_rt_bandwidth_account(struct rt_rq *rt_rq);
+-
+ extern void init_dl_entity(struct sched_dl_entity *dl_se);
+=20
+ extern void init_cfs_throttle_work(struct task_struct *p);
+
+--=20
+2.55.0
+
