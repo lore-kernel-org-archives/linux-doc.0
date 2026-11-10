@@ -1,88 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.129
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794329380;
-	b=SbWi1WbPhu79vSAi6NjJma9aGFC8yELmQBVhjRq6GEDEONzkayABfKm7orH+pcinYily
-	 fMqZPsxRApk1g0d1wn8Od0xEOn8noyle6VZjOXbsH+3TlRXYZWkLubqOF/FgEDi5ejck8
-	 IXK1ESygWLlZ1iK3aQOQa0qlseoJCEcyvoLsHr0v2WwZV5dJYSe+ySxamnDusbTrivvoS
-	 1ZNyeuG/fcI3Qiad68KyPLAHNJVgaGwoxMBUwEvUrVDsmWWvc1amy7uRw9l96n/0he00L
-	 ADTSc6Tf4AaCjDcx+3tAEEVjuBoXwrZAZG4QspNbJzqKQmfgwvyeiphpeAEAbFf8XrQ==
+	t=1794329543;
+	b=MqUrDRKNkm5LTuWw/p72EmWMN8y5gRS7IKO9coqAv0GrbEWIJsBAT987R4Icfg+VWKI2
+	 uo4ni/3H9tbkzcfyK89ILbPx2po3H4aJt8bADreecaLh6FLcAahbfvoewTUJCStR54Bk0
+	 JkbQES+PqiCgbMDyF1EAIJilLbna8+LZHRvL2MPVmcTpyKzzbXa2rQF+IWXQEj0blP8ym
+	 WgivW55NuDvwXCrregevCDHueABXJ1HvJA+1Z++6bstcMbA/95HTL3+D31s3o6SMuwFgR
+	 VlIH7aw/1GBxOdCm8o9fF+QmMVKT9YNCFkJQeswK5esi27KX1ayMXXTXdDTj4VVAQYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794329380;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
-	b=Gik4NitSa8JyiIHsEHyC/dw6Xqc0YQsqKjdbdNHj7zgE7VnTK8l7TEZYtAN82h2zOfGc
-	 namV+3PJuuCy2HFmssaS8n/SFzvXngIRQu5QYcIVqAadPzwwMEUqnBtR0CZ1EfFYcyuop
-	 iluX09A1lYqgjjr6Yo8IKYtyO5lTN/8/cR1e9gWENxAJuRB2Bh/zHmaCK9eTJjc/PYbVI
-	 LWiDyflsxDM1Gm8HvZo7C1as8rEnhcs7k5c2HXtQfscYQVV+u7e4OcFylqqiSjPr32Ek2
-	 VvSEeKzWHnWwLZlKvsEUoH2zRD71cS5ryAfeQrWh2miDLfk6/CLdL6DOpR6dKurpy9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794329543;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=KyDcpTwF2G84cUTe+PVKDz9G3rULU78GRC2w0kOsrLc=;
+	b=l4aw2tre8GbBz5g9LuX5bM4yQTz96CFbLG8LsM7VKIXayuVmXV30ZQ32DPTyLKLklvnF
+	 fYFQ3zY+xdGIl+RC9ylnA/C7J49VUkApYGigBDyRkZo5czIM8Cqw8hUKbFZyn1/IgtQ3m
+	 Z/RGVRymJUJsoZqE4xFLoNPCFQbl09Pa3uiRQy/26ID/0+MFb3/zKlbTzp+JvVrStnzwK
+	 eWITQsh2iQT/0NCBfg5oKIZVh3Q6CWsgmG0dT0HwHYfcy3NvJnhpa5fox9BM20Ijf/wdi
+	 YYcsCHji+6Oik6v5hEeEl7hh1kCC4piXf0Q3DTWANagDf07zGSFRMlxB9cJ+9m6KinQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sd9gmcUC;
-	arc=none smtp.remote-ip=74.125.224.129
-Received: from mail-yx2-f1.google.com (mail-yx2-f1.google.com [74.125.224.129])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="WSR4/meg";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79ACC606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:49:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79ACC606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DB6606A330;
+	Tue, 10 Nov 2026 16:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sd9gmcUC
-Received: by mail-yx2-f1.google.com with SMTP id 956f58d0204a3-67be911a2a5so1164208d50.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 08:49:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794329379; x=1794934179; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
-        b=sd9gmcUC5EjvUfKx68rTBxuM9bdbaznz/tEwxEWenOWnU4qLBJS8XdmeO9Tqxwj+lw
-         oW3msGNKD6Cc/5Hqirx1MWT8/n2v8Qjm9PUcuicql2WYq+rF8q44tafK9hFR2FUQ9pYp
-         OvMf+F5cXA6oZ3QGRiy68Xwm+LHm3/qhIh+r4ya2txJhybsQZsYqO293qHl5BNjQg7xu
-         kRJyWMJJrSkEmzH+uxkug5xGmR3DD1NLa4QS4lTBW9dhmtICsLwf/0BnRL47ootGLSEC
-         AF1ORHoqamMIBedGpXGvtYQ5Rp3f+VaA19VjR2KGUb+z3qUm3l7PYU9mWCi/qlXOPrJL
-         wMAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794329379; x=1794934179;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
-        b=edDUy6ZqssrMOvulzuxI44fGaPUVs7GYubu//TUxJ05oEz16alHyTq3oe0bYN77pNB
-         uvJoDCkODaZ3GIq8CidsEwG736AJFXLoqm4hC8stYQxlxGLWwXcgdAteGIju5fz0p0wx
-         dO0WH/ZSL1AUrtoK/hMZps9IFDKNWj3927gYW9RlJr3kJ8OWS3cV4q+iGov3o3NoSrr8
-         nD82SQKy+YYdBHTPR/2SLXpU8NonbLk7/+p0ISDGbQQqNbLaePKxvqSVe0legpZJ1c+3
-         /iOxNsXwuglnG7dBVEWtdU9P60LwcEqLCJwSP/nKLNnj9Xhrho0gm4dftj1ofRiPKKh4
-         S5Uw==
-X-Forwarded-Encrypted: i=1; AL+hErErB11ItxBQFV2qDJGDehcoQ94RXAHiSYmNloY8ZplD6NQqZjjbRqJ3/PEhqhD+WB150ep7hoVVm+U=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+P3GiAWLiOlBjAMV0hJueq/aX6vC7yIm5aE16iwDoDE5VBhlp5
-	ma/V6Jm/BxxJvku/o0zdiM+/ewYh27R2+hu5XoVtsZZDgEHhXUAFZsAy
-X-Gm-Gg: AYBFou2A6yoGrzHWMfDJN3cPlojNYiRWF+vvcRjOWnSEsxxKdvCvm0aghMrHzZ2KUF6
-	o3EE/urbANy1CYzwYMHXadWYwce9JL4P4dK/CORgL97/ta+UGuvyIiUYkmzBtUHiOZGfdM0od0+
-	Yo/Lod1Lo/+0TUrW0fdPmdz/xBjfEaS4Thpo8Jw1+Kx4z22MA6bHczCQwMPGnYsxip7RNobBt2l
-	G7rL1N9r3SBZZ6FkqYtH4c+zYkyoLPEYWJp9adarm+2z2j+ucKyxk54l5u26FWmeAfmS5ML7acr
-	+rtXWdoiwj2WefJ15kq9+vE2AG9aAv5tE30/A9JvM7EkxPzbpHR2K9tVims7099rbDEfxwfl2Gz
-	6AhAJNn0O1dxLD5UhzjiKZO1t5YiuaysHz7mbZkens8LQiW53qy3gWXpZXX6kfk263w0QSQcuYX
-	AvT1ZAuQz/8Nn8mdL4Rf8vM8nvN2lgCCMYFkWpx3C2l8vIg3xImCotofaSxkDrl3OND3u/SqXYf
-	1+AKcrxj2mibvZdgtooV8wlYIe051QOLD1VnH2LyE0sGIwhMBKAx1qaxQgh8lL1taRtjG86zYHw
-	Y1edjtl/fSmuZXKtRymjN/8YQ93ZU3H62+gyXDTBErzBNGC/JZmbYXjBnQ==
-X-Received: by 2002:a05:690e:12c3:b0:67c:fa4:2b9f with SMTP id 956f58d0204a3-67c566077bbmr2140240d50.15.1794329379380;
-        Tue, 10 Nov 2026 08:49:39 -0800 (PST)
-Received: from [10.0.0.48] ([71.69.222.122])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589a2354sm2244105d50.6.2026.11.10.08.49.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 08:49:38 -0800 (PST)
-Message-ID: <83246c2b-6663-4c52-95f0-50dac116570b@gmail.com>
-Date: Tue, 10 Nov 2026 11:49:33 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WSR4/meg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C6B21F0089F;
+	Tue, 10 Nov 2026 16:52:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794329543;
+	bh=KyDcpTwF2G84cUTe+PVKDz9G3rULU78GRC2w0kOsrLc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WSR4/megdggMO9wsDWOY+uoQSmNtO3j2yfbZkG8wNi5rB7hE651wqOzDxlgDXK7Ew
+	 RmAWiz2VBpllg4ynVFTcPIjgzyk7nAxhySjvb+byysmSgsCnpkfEzxkJqRWKHq9/mc
+	 YNAQhE0ikpxZ0sqlywqGqK0vnkiWmSjRjigl1fL7x76Q0lUOnOc+fEhl7WUDNrnt2X
+	 Hda+VOxkwzLr8arHFGMZFn9v/vCdMOGy5b+eY24hGBQ3e42uhb8xHhCF/aPlSMJPft
+	 3tCywwxXOQqTXxdhv8EqxUpg5QCSLRW2i8oyD+4B0ftty6ddfdgKmdarmtnmAcuyq1
+	 heVa4ehNncfYw==
+Date: Tue, 10 Nov 2026 17:52:03 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Cai Xinchen <caixinchen1@huawei.com>
+Cc: mic@digikod.net, gnoack@google.com, paul@paul-moore.com, 
+	jmorris@namei.org, serge@hallyn.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	utilityemal77@gmail.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org, 
+	eddyz87@gmail.com, memxor@gmail.com, martin.lau@linux.dev, song@kernel.org, 
+	yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev, 
+	rdunlap@infradead.org, gregkh@linuxfoundation.org, rafael@kernel.org, dakr@kernel.org, 
+	johan@kernel.org, dlemoal@kernel.org, hch@lst.de, axboe@kernel.dk, 
+	viro@zeniv.linux.org.uk, jack@suse.cz, dhowells@redhat.com, code@tyhicks.com, 
+	linkinjeon@kernel.org, sj1557.seo@samsung.com, yuezhang.mo@sony.com, 
+	hirofumi@mail.parknet.co.jp, cel@kernel.org, jlayton@kernel.org, neil@brown.name, 
+	okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com, hyc.lee@gmail.com, 
+	miklos@szeredi.hu, amir73il@gmail.com, senozhatsky@chromium.org, 
+	chenxiaosong@chenxiaosong.com, dsterba@suse.com, mason@kernel.org, kpsingh@kernel.org, 
+	matt@bobrowski.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, john.johansen@canonical.com, georgia.garcia@canonical.com, 
+	zohar@linux.ibm.com, roberto.sassu@huawei.com, dmitry.kasatkin@gmail.com, 
+	eric.snowberg@oracle.com, stephen.smalley.work@gmail.com, omosnacek@gmail.com, 
+	casey@schaufler-ca.com, takedakn@nttdata.co.jp, penguin-kernel@i-love.sakura.ne.jp, 
+	xiujianfeng@huawei.com, nanx95726@gmail.com, djwong@kernel.org, lujialin4@huawei.com, 
+	bpf@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, driver-core@lists.linux.dev, linux-block@vger.kernel.org, 
+	linux-btrfs@vger.kernel.org, linux-fsdevel@vger.kernel.org, netfs@lists.linux.dev, 
+	ecryptfs@vger.kernel.org, exfat@lists.linux.dev, linux-nfs@vger.kernel.org, 
+	ntfs@lists.linux.dev, linux-unionfs@vger.kernel.org, linux-cifs@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, apparmor@lists.ubuntu.com, linux-integrity@vger.kernel.org, 
+	selinux@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v3 -next 00/18] landlock: Add READ_METADATA and
+ WRITE_METADATA access rights
+Message-ID: <20261110-rekonstruieren-erbfolge-vollversammlung-26be74966211@brauner>
+References: <20261027121151.1887650-1-caixinchen1@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,61 +81,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v6 4/6] tls: update the RX key when a KeyUpdate
- is received
-To: netdev-bot+sashiko@kernel.org
-Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
- davem@davemloft.net, edumazet@kernel.org, pabeni@redhat.com,
- horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, shuah@kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, hare@kernel.org, cel@kernel.org,
- kernel-tls-handshake@lists.linux.dev, alistair.francis@wdc.com,
- martin.belanger@dell.com
-References: <20261105-keyupdate-rfc-v6-4-99b695f9eb4f@gmail.com>
- <179424471155.994134.17986033334400694237@kernel.org>
-Content-Language: en-US
-From: Martin Belanger <martin.nvme.dev@gmail.com>
-In-Reply-To: <179424471155.994134.17986033334400694237@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261027121151.1887650-1-caixinchen1@huawei.com>
 
+On Tue, Oct 27, 2026 at 08:11:33PM +0800, Cai Xinchen wrote:
+> - The idmap is passed separately from the struct path again, instead
+>   of being derived from path->mnt inside the helpers and the hooks.
+>   As Christian explains in his review of patch 1, the idmap must be
+>   taken of the mount at the time it was checked and passed down to
+>   the filesystem so that the VFS and the filesystem are guaranteed
+>   to see the same idmap.
 
+This regresses AT_EMPTY_PATH. fchmodat2(), fchownat() and utimensat()
+with an empty path now go through CLASS(fd) which is fdget() and that 
+refuses O_PATH file descriptors. IOW, this is very very broken.
 
-On 11/9/26 12:18, netdev-bot+sashiko@kernel.org wrote:
-> [Severity: Medium]
-> What happens when the KeyUpdate is not the first handshake message in the
-> record?
+Please also go through Sashiko's review of v3 (cf. [1]). The new struct
+file arguments need __nullable or bpf programs can dereference NULL,
+and the ntfs3 stream setattr and overlayfs fileattr paths that bypass
+the hooks need treatment.
 
-Valid. A record with [NewSessionTicket][KeyUpdate] is legal (RFC 9846
-section 5.1), and the check reads only the type of the first message.
-Mainline has the same gap: tls_check_pending_rekey() does not set
-key_update_pending for such a record either. With a registered RX
-secret the result is worse, because the kernel owns the rekey and the
-connection ends on the next record.
+[1]: https://sashiko.dev/#/patchset/20261027121151.1887650-1-caixinchen1%40huawei.com
 
-v7 will check every handshake message in the record. A KeyUpdate that
-is the last message will be handled. A KeyUpdate followed by another
-message will end the connection.
-
-> The RFC does not forbid a KeyUpdate that ends a record with several
-> messages, and the rule the code enforces is in section 5.1, not 4.7.3.
-
-Agreed. The commit message in v7 will cite section 5.1 and describe
-what the code does.
-
-> Could the comment be reworded so that a future caller doesn't assume the
-> old key still works after a failed rekey?
-
-Yes. In v7, the kernel-doc will say that the key may be unusable after
-an error, and that the caller must end the connection.
-
-> Should Documentation/networking/tls.rst be updated to match this
-> behaviour?
-
-Yes. v7 will update the "TLS 1.3 Key Updates" section and the
-statistics. TlsRxRekeyError will count every received KeyUpdate that
-ends the connection, not only the rate limit.
-
-pw-bot: cr
+-- 
