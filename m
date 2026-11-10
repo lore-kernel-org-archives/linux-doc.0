@@ -1,47 +1,136 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794327696;
-	b=ZY+tRGqphY5uyRO6CrKB73FydMvYYIbIDgioudeP44WTmhWvBaKW4cVYbk3SDhgYC1tQ
-	 zESmHkdq3jmRgUJGj268KDb4LvR/pSRAGWyOav7LGiSe+YrwB7pn84MB0i2C18RFelBCM
-	 FfNcOgVUm8ed8Pki7D+4JVjH1KSMEQGqwIqACoUpVc5RY9dY7iJjTlgaQGucf1K+Hn1mc
-	 12d28Nw1Yr0avtut4Ik9RNBXPAaVe2Z4rKLa8/ICF6twJFkJfLTFZeR9kSMuS1vtbSpd1
-	 MBTsaHvlA0sdtNuvK1d4ho2EDV0Lqgt4NsLGKf1zw85HwayI3mOrP4QGH5vCkue4tpQ==
+	t=1794327791;
+	b=oWc3HoxmK1K7EPNOO6YZWmJrjfsOmDmBzYM551S60+9CFzKuH1sP7TbbBAWWT0mGEK4j
+	 mha5PvRSelYbDrs/cr8hhadDxu2+r7MhYe7VNhM2MvtwTCKeYwXJ9IojK87BMssb8P3sl
+	 qCgftmyLk/v+eHQZQesxGloj11SUJ5DCtQ+bBVUV3vq92S3hCUFwuXoLX0CpUVxqVfdts
+	 ZlpzXzzVBhynL6A80X2ycDt82yyA0IM1QKStzWj00S5U/Ova4MOw8YfiR/rdq+nGCijDE
+	 lb7f93a/hnT7qITk0+CFio+mJFggZzqgZt/YS12weqP4onPFueVhlP9YQIoExRj98jQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794327696;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=bP5wdLNpyiJ9+ruTpF6sR5/wEnB1y9H630XlBE2DLdQ=;
-	b=F7VKwlzn36Mbc6JTKu0pYTJm7gBHN2mO1N0qJeOz40fy5WeA/IN9+afg1TbU5oS5d6h5
-	 ARSO+aPXIV7AGvKjaFVmaOheSg0+EeLG9BqMLJf5UJH9I8EpqTtHF0QphoOGwmUFiqAvE
-	 czX3Gq3D6xiBAEY6nmMDOc+YLpzlQcSUNFiUBw4n+Jo+ngOt06Vih8zVv/9a3qiFfT6IQ
-	 SVte1E7bDNbDkca3LESicO32ec9lYPx+/WMmYcrloqQGnUToUCWzicYAtzccihjnYmaZq
-	 qJseg/mmZ5LNLqOHHcUZ2J8K63vKEBbqw4nAOBbGfqTGvpmHiKXEVxd7biIlBvux2WA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794327791;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=42cpwdtrc4HrP4DqyvReN7gjWda0yb9ngByLx/bSiMU=;
+	b=JjIHbTtL9rMKods+eWkFIFrRX2Krb9dTpvq3349hXT2zZ3RJ/N2HeHlsoIDzuhjoQ56n
+	 Vgg+054epWGg4DFSaymOSkyEjzu7tSd+DUrpf5GBVOFHO05Qls6edG3C1jEh6jJShA611
+	 V6YvaPgfuq9PzJPKMVkHFvBU+dPh/amuaorPirAqGRHleTgAWqNcpMNw/xgtl8SLCb3CO
+	 DbpjEgp1YJWgQW9yYhqkJwyIU0O7xCegj6QvxRthwVP63IlOGRkIKYhAsoAjxMF9Pra6s
+	 j/nBRgG+hGcJec3qojCMfFR2bsRqvnqew8WFP8VZ5msvbPkWf81DdOcPNqVDdHU4F5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JTGfbKd2;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k9jynX5W;
+	arc=none smtp.remote-ip=209.85.221.182
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9A73606A320;
-	Tue, 10 Nov 2026 16:21:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 937A9606A320
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:23:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 937A9606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JTGfbKd2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A45351F0089F;
-	Tue, 10 Nov 2026 16:21:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794327695;
-	bh=bP5wdLNpyiJ9+ruTpF6sR5/wEnB1y9H630XlBE2DLdQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=JTGfbKd2jUS4VPVhdDdly/iy8wv65CnMHH+paZDTMqxrPURLhYqh8+dlyT/KoAc8y
-	 KFHIePGE/iaUd2Bp4HDpKPw+QT/oIjrpRkf44ON2CuFDW7ZTjlIF5SL2X5AHk6m6eP
-	 6Eby4xYgGaEay2rXmCfdQi3oIjCbBenzGIQsbQFXJ9VA109Xo6Kv/GX19HjXNP52qb
-	 tpwLWp4ocPqZbJcu0lTXwD9/3ZSLs689Ffhz9ED5AXWRVNT9ptrcEkwxQnac671Jx3
-	 q/WMEHxrdrl4NlVyPxeVMU9//QT+82C2U2tLXqDqykMv8p7NQ9oqZsB+sbtRDczRd6
-	 E6o5a0YVNbIxg==
-Message-ID: <eb9fdef7-2cef-425b-a62e-c28b7dbe1596@kernel.org>
-Date: Tue, 10 Nov 2026 17:21:27 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=k9jynX5W
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5eadef147ffso759387e0c.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 08:23:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794327790; x=1794932590; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=42cpwdtrc4HrP4DqyvReN7gjWda0yb9ngByLx/bSiMU=;
+        b=k9jynX5WUmAeD9j2NE6/ggs5zDZLdvScu7YwYXbqBbHL22S8jy8N7eEfyWdUvgcBpF
+         8TAHUcgd9VnzhBUjoptLnC2COcPn9xKFLvBh2LvJTPkk9frz8XfKNrLC4YMk3T7aRsTc
+         y5BqzughtJdwuo03qMeGDlzdpIWW9LTkAJVgO/wunOYTcgDRD8NE6D+4pTVaCLr7nUiA
+         uo2X6xEjzPkrR8zphv7oYSD9b8iVKcnZpqlk+Xe11f1uXZIuVS3fF1qUgiJethGSaUS6
+         wlcxLJaReAQCdUgdwFNR3hHlOpTVBIM7HJhltfl/pnlWIeN8VeVhcBWXaAwF/v0hnspp
+         gNzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794327790; x=1794932590;
+        h=content-transfer-encoding:content-type:mime-version:subject
+         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=42cpwdtrc4HrP4DqyvReN7gjWda0yb9ngByLx/bSiMU=;
+        b=ppyghqgCBT9igfVRIUdLhDzvWZffEqgWhH2Moe09C4/6AotDRaw36Phfc4DrbzooTz
+         GAXG0tq7raM0nxv4SWdssTSqLJ7p6lvr3FF8uUcPHCpMrW72f3wRVyX6s4VTjoWKAN8T
+         QY4WFQ7HWepfOTt5GjbA+jQ2FEof9QU696RKuBsa7sAmRBaV6YY5oU9qOf/QgZdy5SUg
+         Vp0hIgV/ot6Kn9xNHSiSv7Nsv1FgAximlteMe8XC7ic9mt3GhdQBgp4wZNucNIhjMkdE
+         rB8M/FVtCiCphx3eSYY51gz3iRczbvg7H6X3oyfnp5vpGoU16ynuraXg/mYXFuxyQCdM
+         rIfA==
+X-Forwarded-Encrypted: i=1; AL+hErE3CLElARpIUCNZKeKdgD8VF+2JK+9Istnw05yzNg3s9CGr4EGmE2RzFx5W5h1H9LgOxAvpF/R4IjA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8MLZOoO8jWdC6E74cuRxJWj4s2etJL0/P0mrOOrDP2cZNYqNQ1
+	0JrwCu+wmQgc4xhjfc+7gYO+pfab68uzCpbskKlMQVFbnBjA9G7V5sda
+X-Gm-Gg: AYBFou1FmjCsHvs6mOgB3zZ0g299PLvSuHjTbhSL9BANGHcUGeB2oJKf/+s3C9gbUKG
+	qXbnoqcqswCcT981WMneO1ncV1yMFKMiVDJd8bOuS2+DSauA3WJZIFD4mJvuXYxczHC4QMCovVP
+	6b0qXBOVePXJj2b29QVworvCjIuR2RB+/ZDHOGCULG+KTvYuANZdE66XcazlJdrD0v02DyCD72p
+	6MZD+DbJZ32FbthjxnoAFEqHwu25vdFTWWahDK1hPfbCEscuw5lf1q+pb7wsW3zmtkIIRV2Bpul
+	RGDk0g1p0bQ/vUzyZv114yTGq5GcXRn6HPXEsrBDqRmlpc1VzdaoJGSP4bV7BHJsG9aN7H6by87
+	SemMoR+wLKtUPpdkFsN7E4tnxu7r1VvqYuLBK1TyGaUr+zyqSkaMG3TELJp1WMgrYgESlATaFtk
+	i2fN3tcC17nwrOvH3mQooa+U+CiEp7XkU9AkQyaTKvFT4IYR+eECicGnwmi5Dh0vEcHgIJ0dNMC
+	MaFKZ+fVJeRnxLBKOeLKf900oitr7ysQLjeHK874OhjrkB91R0lW+g4MGc6cLlaDvfh1N6UFMjl
+	2TbTGP7zE9l76LYFntIPKaVOw9fDpFdpAO+jjUEszDZgzX1xxc4unXI2dBW2iPx0F7dsYS1qM+v
+	MAXKdH6Hsi1Yd3o+uKBQGqg02E6E5RNvaw4viETL2MdFduS5O/Il4TMgPnThsW4NAlphzB6A=
+X-Received: by 2002:a05:6122:62e9:b0:5c9:c60e:3a4a with SMTP id 71dfb90a1353d-5ee0d19e59amr1124633e0c.22.1794327790334;
+        Tue, 10 Nov 2026 08:23:10 -0800 (PST)
+Received: from gmail.com (223.230.150.34.bc.googleusercontent.com. [34.150.230.223])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-99c200838f0sm2123832241.9.2026.11.10.08.23.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 08:23:09 -0800 (PST)
+Date: Tue, 10 Nov 2026 11:23:09 -0500
+From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+To: Tianyi Gao <tianyi@cloudflare.com>, 
+ Stephen Hemminger <stephen@networkplumber.org>
+Cc: Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+ netdev@vger.kernel.org, 
+ Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, 
+ Eric Dumazet <edumazet@kernel.org>, 
+ "David S. Miller" <davem@davemloft.net>, 
+ Simon Horman <horms@kernel.org>, 
+ David Keogh <dkeogh@amazon.com>, 
+ Jesper Dangaard Brouer <hawk@kernel.org>, 
+ Daniel Borkmann <daniel@iogearbox.net>, 
+ David Woodhouse <dwmw2@infradead.org>, 
+ Dragos Tatulea <dtatulea@nvidia.com>, 
+ Nimrod Oren <noren@nvidia.com>, 
+ Alasdair McWilliam <alasdair@mcwilliam.dev>, 
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+ Stanislav Fomichev <sdf@fomichev.me>, 
+ Magnus Karlsson <magnus.karlsson@intel.com>, 
+ David Ahern <dsahern@kernel.org>, 
+ Ido Schimmel <idosch@nvidia.com>, 
+ Alexei Starovoitov <ast@kernel.org>, 
+ John Fastabend <john.fastabend@gmail.com>, 
+ Donald Hunter <donald.hunter@gmail.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Shuah Khan <shuah@kernel.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Breno Leitao <leitao@debian.org>, 
+ =?UTF-8?B?QXNiasO4cm4gU2xvdGggVMO4bm5lc2Vu?= <ast@fiberby.net>, 
+ Danielle Ratson <danieller@nvidia.com>, 
+ Kuniyuki Iwashima <kuniyu@google.com>, 
+ bpf@vger.kernel.org, 
+ linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, 
+ kernel-team@cloudflare.com, 
+ nh-open-source@amazon.com
+Message-ID: <willemdebruijn.kernel.935b9bf7f1a1@gmail.com>
+In-Reply-To: <20261109154909.32748-1-tianyi@cloudflare.com>
+References: <cover.1794020868.git.tianyi@cloudflare.com>
+ <e90e748e0aefa7cbe1c2b31b8c7902ccf135c3f2.1794020868.git.tianyi@cloudflare.com>
+ <willemdebruijn.kernel.1d64e7848503b@gmail.com>
+ <20261107182526.69543-1-tianyi@cloudflare.com>
+ <willemdebruijn.kernel.2c6a653eb65fa@gmail.com>
+ <20261108190831.3f991a13@phoenix.local>
+ <20261109154909.32748-1-tianyi@cloudflare.com>
+Subject: Re: [PATCH net-next 1/8] net: add tx_extra_headroom and
+ LL_ALLOC_SPACE()
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,111 +140,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] watchdog: tegra_wdt: Support Tegra20
-To: Artur Kowalski <arturkow2000@gmail.com>,
- Daniel Lezcano <daniel.lezcano@kernel.org>, Thomas Gleixner
- <tglx@kernel.org>, Thierry Reding <thierry.reding@kernel.org>,
- Jonathan Hunter <jonathanh@nvidia.com>,
- Wim Van Sebroeck <wim@linux-watchdog.org>, Guenter Roeck
- <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-tegra@vger.kernel.org,
- linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org, clamor95@gmail.com
-References: <20261110-t20-for-upstream-v1-0-5923449951fe@gmail.com>
- <20261110-t20-for-upstream-v1-3-5923449951fe@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261110-t20-for-upstream-v1-3-5923449951fe@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain;
+ charset=utf-8
 Content-Transfer-Encoding: 7bit
 
-On 10/11/2026 13:39, Artur Kowalski wrote:
-> +static int tegra20_wdt_init(struct platform_device *pdev, struct tegra_wdt *wdt,
-> +			    void __iomem *regs)
-> +{
-> +	struct device *dev = &pdev->dev;
-> +	struct device_node *np;
-> +	struct resource res;
-> +	int ret;
-> +
-> +	/*
-> +	 * RST_SOURCE belongs to the clock and reset controller, whose driver
-> +	 * doesn't use it. Map only this register, without requesting it, as
-> +	 * the region belongs to the clock and reset controller.
-> +	 */
-> +	np = of_find_compatible_node(NULL, NULL, "nvidia,tegra20-car");
-> +	if (!np)
-> +		return dev_err_probe(dev, -ENODEV,
-> +				     "clock and reset controller not found\n");
-> +
-> +	ret = of_address_to_resource(np, 0, &res);
-> +	of_node_put(np);
-> +	if (ret)
-
-Looks like doing syscon here. This in general is more fragile.
-
-...
-
-> +/*
-> + * Tegra30 and later list "nvidia,tegra20-timer" as well, but match their more
-> + * specific compatible string.
-> + */
->  static const struct of_device_id tegra_wdt_of_match[] = {
->  	{ .compatible = "nvidia,tegra30-timer", .data = &tegra30_wdt_soc },
-> +	{ .compatible = "nvidia,tegra20-timer", .data = &tegra20_wdt_soc },
-
-Why in reversed order?
-
->  	{ },
->  };
->  MODULE_DEVICE_TABLE(of, tegra_wdt_of_match);
+Tianyi Gao wrote:
+> Hi Stephen,
 > 
+> Thanks for the invaluable and detailed review.
+> 
+> On Sun, 8 Nov 2026 19:08:31 -0800, Stephen Hemminger wrote:
+> > Since the motivating case is XDP, the mechanism should let the XDP program
+> > ask for the padding it needs, rather than making the operator translate
+> > the program's requirement into a device setting by hand.
+> 
+> The series started from David Keogh's TC egress case, as described in
+> the RFC [1] and in the first paragraph of the v1 cover letter. The veth
+> XDP case came later, when I found that the same field also avoids the
+> copy for generic XDP on veth.
+> 
+> > Your own reply already works this out:
+> >
+> > > - XDP on a veth peer: veth_xdp_set() and generic_xdp_install() can
+> > >   increase the headroom of the peer to XDP_PACKET_HEADROOM on attach
+> > >   and reset it on detach.
+> >
+> > That is the mechanism, and it needs no uapi, no operator arithmetic, and
+> > no stale state. I would rather see it implemented for the cases it covers
+> > than add a permanent uapi that removes the incentive to do so.
+> 
+> Agreed. For this case, I plan to move to this in v2. When an XDP program
+> is attached to a veth device, tx_extra_headroom of the peer is set to
+> XDP_PACKET_HEADROOM.
+> 
+> > On the argument that program-side declaration is itself new uapi, and that
+> > the labeled device is often not the device the skb was allocated on:
+> > granted for the general TC egress case.
+> 
+> For TC egress, the kernel does not know at attach time how many bytes
+> the program pushes. Only the program, or the software that loads it,
+> knows. Attach-time propagation works for XDP because XDP_PACKET_HEADROOM
+> is a fixed value.
+> 
+> Since we both agree that auto-tuning has real problems, a narrow UAPI,
+> such as a BPF-side declaration, seems unavoidable for TC egress. The
+> program declares the headroom that it needs through this UAPI. The
+> initial plan is a BTF decl_tag, as Dragos Tatulea suggested on the RFC
+> [2]. On attach, the kernel increases tx_extra_headroom of the device
+> that the program is attached to.
+> 
+> > Which leaves the genuinely hard case, the one you describe at Cloudflare: a
+> > service in a netns sends through a veth pair, the host forwards to the
+> > uplink, and a TC egress program there encapsulates, after ip_rcv_core()
+> > has orphaned the skb so the allocating device cannot be identified. If
+> > that is the real residue, make it the problem being solved and argue for
+> > the narrowest mechanism that solves it.
+> 
+> This case only came up after I started to look at in-kernel approaches,
+> because the general IFLA_TX_EXTRA_HEADROOM UAPI already solves it. It is
+> not a new case, and it is not uncommon. Cilium, Flannel and Calico use a
+> tunnel by default [3][4][5], so the device that encapsulates is not the
+> device that allocated the skb.
 
+I have some hope that if there is sufficient reason, this backlinking
+to the originating netdev (or socket?) can eventually be addressed as
+well. Rather than work around it.
 
-Best regards,
-Krzysztof
+The skb_orphan and iif issues are well know. But not set in stone.
