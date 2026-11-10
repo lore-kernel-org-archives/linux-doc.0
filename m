@@ -1,115 +1,167 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.231.73
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794323401;
-	b=heyjggCiJDjPWcdBHNNt4QtF22voJeZESMrco2DwaEgLaEfe+yOFPSkGPhXp6d7lafek
-	 eNEwSySVOV3WCpjYoNIwtBWkMJdkk32XNkyLzjZVPt2XuU2nT2qZIRWyV0eCI3B0qHZTM
-	 eacUcCKYSy9f9g8qFg3xfJNTqIMsOjTW0PBM2HWC8CSh8U0B6HKdOP6B1mKLFsOyaTzIB
-	 UeqZUlGeK+pOHeNhjpFxBzNTf8Z+TDcWOhsOMHF0tAHeMvYATst7qoMU3oDwtX72lHHJm
-	 4AN+kA+llCylGY5g6768yw1NPGYwxq7Otd2lEE8eTQJ7ml0kQahkAjDr+Xb1uOB2pBg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794323401;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=fzDtepYpPhppRO2OekG3HqAvxmazW/tXwsXJOMA5LnU=;
-	b=QZdXMGMMk1RCtCszuCc/v+htThGk8GFTTTjg2F6UVGxOtchMAk0Z9zFoZFohrhn1JhSV
-	 CqKIYXorN0O8gpoVOyjqn71an5gxeqONJPImeCU/RTeULU6PhUpsKb7UeG0rU+ovxou15
-	 l0had09CDtyQI4Ii9EnQUe7FwSeo4AYRbJaUcq/X9iFeODU3TscqzbLYZZifIiL3lAA7m
-	 WU7uH1BCUjE81wUutgXDKPpXIETuf2s0LxVGUqfDO/ZKdrnSXXJkiDY3n0KfN0ULftwFW
-	 QOOAxm49kbhyRsIwYMxt8s+Dj7HKurkqJPIlZtHH1SypjhTISUMMETms7nep1NsOfsw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bJAYsXDa;
-	arc=none smtp.remote-ip=74.125.231.73
-Received: from mail-oa2-f9.google.com (mail-oa2-f9.google.com [74.125.231.73])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=2 smtp.remote-ip=52.101.70.37
+ARC-Seal: i=3; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794324015;
+	b=uthjkRlJ6D7AmXmKMR5/msHEL6/I1hBw9Q+/gxHelpC0Ew5Gt/+8MjCDkL4oWJf5iIPl
+	 COIVhCf4ls4M0cnlc7Eca36aH8KrVsFoUqJENtyj8oUr2TGxXbz9GloMmvIbLAgoxH9lg
+	 1+EF+XZko91TUB6547jk35fK5v9wTPFxRCHWHLpvpbImAiaSxeEdGnxToY0dhd+he9cwI
+	 DfiXUSuEm/W46sw2pE7PDyxTIgIU2bsfELfR8KCiygkOUcHVQa7wF2b7KRrfftfsUw0d/
+	 aAsY+4Q85dXGA2k4/S0dZ0DPavQC6mVHfz+8tNUYvLULxj98y5MfbnHorFYRQntJZMg==
+ARC-Message-Signature: i=3; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794324015;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:
+	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:
+	 DKIM-Signature:Received:Received:From:To:CC:Subject:Thread-Topic:
+	 Thread-Index:Date:Message-ID:References:In-Reply-To:Accept-Language:
+	 Content-Language:X-MS-Has-Attach:X-MS-TNEF-Correlator:
+	 Authentication-Results-Original:x-ms-traffictypediagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-LD-Processed:
+	 x-checkrecipientrouted:nodisclaimer:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam-Untrusted:
+	 X-Microsoft-Antispam-Message-Info-Original:
+	 X-Forefront-Antispam-Report-Untrusted:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:
+	 X-Exchange-RoutingPolicyChecked:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-EOPAttributedMessage:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+	 X-MS-PublicTrafficType:X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
+	 X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-Id:
+	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=EBA3O3WuBXrmCFhk3xR5JpBf6bi0bHoIglH05xiA7BI=;
+	b=2rwdO+qGPe/S7O3IOYuqrp5d6Bi41p928PZSKhnfxNJQiviw6nhtXmRjadC5Qs6qRA6P
+	 +2CYBMX7pXPKKRh7yzAVc1ZhWEZSzNhSy5ojv5EfGhPq8UtYojVl/yv4bIpZaX618akTI
+	 hMP4HbPks70XmfJzfF2XRc0qHM7YYgKrt+KtwxzYhpDUpgyuL1yrAlVG3jRRKjG9FiUk0
+	 z9J4T0VglBFQuEhezmdlj+5ZEE4uwkN91cvEO7RHdsBBQWAK78nZaYbwxRRnuTr9VwsXp
+	 SY5HbP+n/XTCf3QR/CRIOVhfAoAFbwBiRIthuBCZ75DFug6/RHmX/tPxGZda9gcyLiA==
+ARC-Authentication-Results: i=3; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=ZgTT9Nh+;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=ZgTT9Nh+;
+	arc=pass header.oldest-pass=2 smtp.remote-ip=52.101.70.37
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011037.outbound.protection.outlook.com [52.101.70.37])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765CA606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:10:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 765CA606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DD160A2603;
+	Tue, 10 Nov 2026 15:20:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67DD160A2603
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=bJAYsXDa
-Received: by mail-oa2-f9.google.com with SMTP id 586e51a60fabf-4abbe52a747so992871fac.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:10:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794323400; x=1794928200; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fzDtepYpPhppRO2OekG3HqAvxmazW/tXwsXJOMA5LnU=;
-        b=bJAYsXDapbx1/QLiNtHVevBiK58yrD1XD/zEMOPwd6rnVtG+ajV/P2QZr2LGYyw4ck
-         0UTIVYYFXkkRNzDk+p2umoRDpGF/aYPyPbMMv1FwMY/xDtgsMVuOF3OslQgA5/esyKHN
-         JTVnX9Fdn84DqHqy8yoJemjKz1/NU0oIkEXlXb7p2qrSFDi1k2DQX513cksZefXQ+tm3
-         lNm9mKtzSwpUWYFfFSmA0wG69Y1euzJzXJf0iYnwJHXp/exahZEbK9oqqzPCLyheWbOP
-         sHKhbK0Ez3EHEQpWQd637ZteG3lQhTX9zKFx2X40E5ozYEAewl1PCbOeGqCfTYUwkUkB
-         fy+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794323400; x=1794928200;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fzDtepYpPhppRO2OekG3HqAvxmazW/tXwsXJOMA5LnU=;
-        b=hq9x8CGeanND0pjXvLBnFBToTc6liTjOojo9AT8e+O3ehVtGjZTh29FFcIFLJpS/c+
-         TfVgbE7UNyaXgSMT+kz7KBI2rdHGScnqCZ1V1F0S1IVaepyUEcpgmXfD1vVPjQ3vJplI
-         w5u9Tqoe50f+flZesKtu6E6zstUzBGxpz2/QsUyf+Xva5pBdGzZlLgg+nIDfEUw0k0hx
-         3vdTX7NGR4XMuCJWU/5C4CFlZ/7kbgkeYuzUYgTeKzpKFAjJUbW73ljekxmoab/qRYYI
-         tYjAmjJGJG8MmChXrpBTd5e7+4Um/1zAAf3fFG4A45XbWeo3iUaWbY/YSQ/2ML7QRYZn
-         sNSw==
-X-Forwarded-Encrypted: i=1; AL+hErEP6FLtxw5F33OBtnC19ZovMBdO+ah2ZVioWog+w+9gdAd9IjIsO96z/+jfrrMdGPjXQdnQvuXQ83Q=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/2Tm81WzCAcRYLDIai03445QATPtsOEy8JyYw95PYazx6PZuCW
-	vrPpdwiJ6ZaA9JdGuHnj6wjd4aG/N7Z5RAFIxnDRDc2FYkZ8VA7EpuHChT+GzdtG
-X-Gm-Gg: AYBFou263O8+oXaZoWg0+cSuqCYEwHvkdKbEbhEdm5Vxw8JW++7OUgk87/byze5ayrE
-	jDjqBBZvyqeMXMzcDUMjI3KTAlwvkrFFYLCNvfG1BDBpV/dKgXQsk2fbTAzXWx+M6YHvhKzQdf0
-	/uFFThm/+xX8RkCGPX2M4OnsVRmwN4M7AEgVH91nLncio8rlZAVrwo5TEXrM5x2pfE/i8kOxrCz
-	3rNfZAcWZ1oa/+Z0yoIVxO09joZdQcEr8gNAo0Lipuy/GZ+xiPMOUv0iOLeZ5V7b+Pp6DfYQiE0
-	ZdyMOzOD0LdjeILpm13E4Q3L6RT5RR3ICMu/4jCA6PQcLg1D831kQWwyKK7BgSeU58R5xNi81NB
-	MUobpE5auDl55zCASE196UHkhdsMAW0fsnDtHlILNy8qMTJSZ/G0l14QE/XKMOZDWuUkrTnF01l
-	Vut1Kyhz9sh9Cb0+hrySceXyHRe1LQRgyNUyPsyY25H2YiJKuTo9L1haOWbGRMP0K1M9rKl4L4Y
-	mwucexzV2OLlsjxpYI9DMb75nZrPK0F/g+4AAqxs+sR7MC0e+gLk1BrUSnm4jWUH3V1uwXwAoN9
-	UssOCkGMVpKfBi47zfLkxxy1kJfkrz7j/bhWBgcMuzacPDgyeWVwFjiCZAAkUFHP8FDAy9mHsFx
-	NWQjphzAk
-X-Received: by 2002:a17:903:2a84:b0:2e9:ca71:45f4 with SMTP id d9443c01a7336-2edb91d4de7mr23669695ad.33.1794316927647;
-        Tue, 10 Nov 2026 05:22:07 -0800 (PST)
-Received: from r00799764-ThinkCentre-M920t-N000.. ([139.159.170.67])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6d4a31esm8861065ad.22.2026.11.10.05.21.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 05:22:07 -0800 (PST)
-From: Jinjie Ruan <ruanjinjie01@gmail.com>
-To: babu.moger@amd.com,
-	ben.horgan@arm.com,
-	bp@alien8.de,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	Dave.Martin@arm.com,
-	fenghuay@nvidia.com,
-	gshan@redhat.com,
-	hpa@zytor.com,
-	james.morse@arm.com,
-	jic23@kernel.org,
-	mingo@redhat.com,
-	rdunlap@infradead.org,
-	reinette.chatre@intel.com,
-	skhan@linuxfoundation.org,
-	tan.shaopeng@fujitsu.com,
-	tglx@kernel.org,
-	tony.luck@intel.com,
-	zengheng4@huawei.com,
-	x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: ruanjinjie@huawei.com
-Subject: [PATCH v5 6/7] fs/resctrl: Disallow monitor group move when the RMID index changes
-Date: Tue, 10 Nov 2026 21:20:53 +0800
-Message-ID: <20261110132054.3702-7-ruanjinjie01@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261110132054.3702-1-ruanjinjie01@gmail.com>
-References: <20261110132054.3702-1-ruanjinjie01@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=ZgTT9Nh+;
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=selector1 header.b=ZgTT9Nh+
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=d2cv46GWwm8NXOMF6XZu2bPg6x3p0im09prlla+hLEuheelRLSzPpOK4hgZFr82hiBPe8JBssE8z2VNkm/ZUu+YJ9d0i0QxLKKdyW8fMv8yye77VN94jZYPGpmunL66LVNVxE4/gzUrRJejp3Sj2oHx37Pa7/FEsw4wW1WeZo8wIZtBQEyhz0jLaIsTbMJYj5w1gh05sH9gDgDtXKxcBaEtMUOMn5D01lmYXF0VIbwDxIQ1y8qYScrxPPHRgn+Bpl1xqseKngjJsyfShLSUORbdDBaJgDr1Yght0W4iyWTHnIhWbu1etdaLsCb6ohjGsuJ2hNQ40+BYhGq1diFpDNA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EBA3O3WuBXrmCFhk3xR5JpBf6bi0bHoIglH05xiA7BI=;
+ b=q6lvHTCZTbS4D28iLaV98cr2dDLIdor9UUigAJkSZwG/Hgj/3Rv1BrfwgVSjl4eIA4kSFm5BH5Oalu/WFz3Q+zcPFqHRpflF10vJFq8e9COLbNhlnyWvMByTRsBEZ/AMa0zd1C0ADj1rUS+GWpiCytlyv7sspl9Icera6DEQw59p2JWNAyE8nxKgO99arKshXeqtsTRv95OxW2XSQ2yP8hZf2iHto2TRDYmvzrM2qP3seS/REfLnL2mluWuwwAWpRKvaOKXwBb7Yw1vBV+laz4R3GqYuCiXCto19k7rRO6Wegpm16fRrUvEBZdoVVijHpVoVIKeNGAuQRzAPcAPFuQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=fb.com smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EBA3O3WuBXrmCFhk3xR5JpBf6bi0bHoIglH05xiA7BI=;
+ b=ZgTT9Nh+11+9/X33hYHj2rysPzr0blUwt1Pzz44zwWzplAPCitEkKH6kpXuoYnrD8tnkTIz11ru7xhkJ4cHS6nhdI2Qqskz/uLdFym5VualMOma1MlDsKvKN3XnOpD1TMGxrFjxjIs7hKWQw0TRlGd675AM85Wu4QfzqfuS280M=
+Received: from MA2P292CA0026.ESPP292.PROD.OUTLOOK.COM (2603:10a6:250::12) by
+ GV2PR08MB8193.eurprd08.prod.outlook.com (2603:10a6:150:78::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.592.9; Tue, 10 Nov 2026 15:20:03 +0000
+Received: from MAD0EPF000008BC.eurprd04.prod.outlook.com
+ (2603:10a6:250:0:cafe::b) by MA2P292CA0026.outlook.office365.com
+ (2603:10a6:250::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.592.13 via Frontend Transport; Tue,
+ 10 Nov 2026 15:20:03 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ MAD0EPF000008BC.mail.protection.outlook.com (10.167.241.171) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.4
+ via Frontend Transport; Tue, 10 Nov 2026 15:20:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tD58GmAQIpNY9zcmdlGEUBnzcfk8i6h4QH7i+o4TLoZGasxhk6V4gnVqIp7wrR11laPsgsHyyhLCVNLrEikug/E9NdF3566KtbQokZBTaJRbniPzSwUsMuAqcG+PVs1NAmWyjNVepUyXFGA5rvPr99Cjvv8AVGQJhsTGW7ppAm7X/7LycRie8dNCyoUyDuQktWRQztlk8YXsiFC0WUSUvFIkl1TQqPQmM0tcWRIKDbH1vWnGKkcrpWH0iABogNYq/zSRzf2/lpCgsQ4D2CSEtuA/TTTB0o8izBigHM9cnbMRvPTt6J9aJVulDb4z6/0IpPaTpV62j71aq2S+mdXfkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EBA3O3WuBXrmCFhk3xR5JpBf6bi0bHoIglH05xiA7BI=;
+ b=HISgmfnzF1uAHMO2UwTDFWG+p69Vy7FdQRLyd10wAtOdgambGaZc7S1SUXWLqtC/zjsrkZwAkcjS540KLeqma4Y7h3jpZrJabbv01xJ7m+uI/LcuN72SLJyzUVuibbo7lRJLbSSdukZx8CrlaV9Uoj4wZvrmmhW1+Fr9aWQFdJQMFYHEQzSMsMzC+T72XoLoZTeAXnbuR0Uz+rKplpWh/b6M4xjh7lT2SRemXHpnjOVCM0bYoXmG9olrty5cY0agy4fLe/ka+MXRtwpyiBlhSY0iCdltl0tDS0boOD7DGqGoCI+KQkGZVEpszTPIZZlBbRq8/v2aCfNG3NpvBzAUgQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EBA3O3WuBXrmCFhk3xR5JpBf6bi0bHoIglH05xiA7BI=;
+ b=ZgTT9Nh+11+9/X33hYHj2rysPzr0blUwt1Pzz44zwWzplAPCitEkKH6kpXuoYnrD8tnkTIz11ru7xhkJ4cHS6nhdI2Qqskz/uLdFym5VualMOma1MlDsKvKN3XnOpD1TMGxrFjxjIs7hKWQw0TRlGd675AM85Wu4QfzqfuS280M=
+Received: from DB9PR08MB6475.eurprd08.prod.outlook.com (2603:10a6:10:253::21)
+ by AS4PR08MB7831.eurprd08.prod.outlook.com (2603:10a6:20b:51b::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Tue, 10 Nov
+ 2026 15:19:26 +0000
+Received: from DB9PR08MB6475.eurprd08.prod.outlook.com
+ ([fe80::3f72:27f3:535c:6663]) by DB9PR08MB6475.eurprd08.prod.outlook.com
+ ([fe80::3f72:27f3:535c:6663%7]) with mapi id 15.21.0615.007; Tue, 10 Nov 2026
+ 15:19:26 +0000
+From: Mike Leach <Mike.Leach@arm.com>
+To: Amir Ayupov <aaupov@fb.com>, James Clark <james.clark@linaro.org>, Leo Yan
+	<Leo.Yan@arm.com>, Suzuki Poulose <Suzuki.Poulose@arm.com>, Alexander
+ Shishkin <alexander.shishkin@linux.intel.com>
+CC: Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>, "coresight@lists.linaro.org"
+	<coresight@lists.linaro.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v2 3/4] coresight: etm4x: Report the external outputs the
+ PMU counts
+Thread-Topic: [PATCH v2 3/4] coresight: etm4x: Report the external outputs the
+ PMU counts
+Thread-Index: AQHdWp41P9DSUhwhsU+DIl5Z3p7Gzbcney0A
+Date: Tue, 10 Nov 2026 15:19:26 +0000
+Message-ID:
+ <DB9PR08MB64752311F395D91F4FCBD0CB8C722@DB9PR08MB6475.eurprd08.prod.outlook.com>
+References: <20261012230527.750567-1-aaupov@fb.com>
+ <20261012230527.750567-4-aaupov@fb.com>
+In-Reply-To: <20261012230527.750567-4-aaupov@fb.com>
+Accept-Language: en-US, en-GB
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
+ signed) header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic:
+	DB9PR08MB6475:EE_|AS4PR08MB7831:EE_|MAD0EPF000008BC:EE_|GV2PR08MB8193:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1f876634-9955-4b95-f593-08df3f3e17b4
+X-LD-Processed: f34e5979-57d9-4aaa-ad4d-b122a662184d,ExtAddr,ExtAddr
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted:
+ BCL:0;ARA:13230040|7416014|366016|376014|10070799003|23010399003|1800799024|261028144727099003|261022075727099003|261022105027099003|261021121427099003|261026140227099003|261102123227099003|261021123027099003|10067099003|261026121527099003|11063799006|5023799004|261009223027099003|3023799007|6133799003|18002099003|22082099003|4143699003|56012099006|38070700021;
+X-Microsoft-Antispam-Message-Info-Original:
+ x8ydMDmMEWDu7Qn8jXPzESCrNjnJjaMwGb/J78zpESN9wZoulucoFljd9WAayh7vLHUqmmqbE1tK+T7W0Or0x2HzJHaOV42MSpBjRDyQvAFnwTsvGx1j64Q60oxgiFB7ByCfaymlNHYtmu0ct/nrjxt7luECJnOlIoRxa7nkTjUM/OPhM3NKyC1Ygqak14C5KxpXIfD0CQiuzmn93+BXPMR2tzgYsjxlxkg1BF9cx3j9EJVUCiYfqCfBtqaG6QkYhrfGfR/oSKM1VfOvWOxrp0132Ks7PDq+bDSgXG68CEQc5hXHbVGXtWETQ6WRyL14VvXAIIJ9LRORxKiFIH5O/jRYGm6texC5Y3uY8g2F7531Q0K3KId1Zj4sKlWaUPrPcbXvzTg/cdFVSon7ogHbMwi3PwYOk2SNu3kmzbVWEZC1uf0zrnBe0WQwPaYtzYDexRUSJtVLI/LgO85PcnL0VHYvdh8GGIxcYzt2NhwHCnm6zXGPFXdmmMvhR1ZPLljTDDghUCTwXvFxsvhN0E53ig37qXHx3NdOcc6YssebiDglvADa89wZCu9mc0n3IGgTBSNDKAHxYGxNDcvfm5RRg/ZovSDyBsWf9m79E7RtbWx2e7zg8v7vDftE/GGlHZERADbrOqBn/vIQ/Y8AIdPkgJ7pG7tutabV0VTTLByK+7Z7q+MTtS746swPOS3s9qIwUSrDJmmMtrG2++/XZFskK8E/ARQEnATTcb6EnfL/t2s=
+X-Forefront-Antispam-Report-Untrusted:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR08MB6475.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(10070799003)(23010399003)(1800799024)(261028144727099003)(261022075727099003)(261022105027099003)(261021121427099003)(261026140227099003)(261102123227099003)(261021123027099003)(10067099003)(261026121527099003)(11063799006)(5023799004)(261009223027099003)(3023799007)(6133799003)(18002099003)(22082099003)(4143699003)(56012099006)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,121 +171,281 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Exchange-RoutingPolicyChecked:
+ uj1MliFbiXViRdKFsVLgthv33rvjk4TsEWCFn3kc+w29TYPhRIqAzV35DjGdPV00b7GWFvyjFNGy4rk1GQ5Ff0guqlphlTbo9FWSGSec1oxdEslzIP+pf5E3Xs3oBjXxwpMTM/2MqqvJvW0svjDoLQLIi1yfGsHXtWxk/VphP219v4v7zXZndI8XB9ENgjwnhM1n/hkETfzgYHSZdW2A3HYlGB6HPXsGBZQYsdtN44HfOlxPcqB/TOCdzhpj+SlPZJQsA+otr8whrXhvojKN3ACooGkkM/MZm2a7GMLBrsOLv9Yzu0eC3bogpx2eESEfbQ2zqxsP2u6rSEw5RvrJ+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB7831
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped:
+ MAD0EPF000008BC.eurprd04.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs:
+	32672807-fe1d-47d4-c237-08df3f3e01fa
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|14060799003|1800799024|7416014|35042699022|376014|82310400026|36860700016|4143699003|261022075727099003|261102123227099003|261021121427099003|261026140227099003|56012099006|5023799004|261009223027099003|261021123027099003|261026121527099003|261028144727099003|11063799006|261022105027099003|22082099003|10067099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info:
+	Aq1VC3+myBjl/qDIO5B7kNhMqvkP5i3OMM1HL/Jq9zw1XcdhAZgHoVZW2DrSjn5PoxODLts0XX0+lF6TTLB128oSBPhqTFfNfFqmIamJylf56Bmv6d738HoeqeNplUG904o6koSmUQg700e8SbMLzxZ8bkcebZh1W9LZtrC6FXhsiCqvdjzAQz0fTM6N81D0//ntjx5d9FUhdY9FJKTlzPwQpQYyHudzCsV0vd43voQ6Az2NmTkxTbeA1Xq6d6PzgvgM/is04UZQE3so6aeFpjsgcAU7XuHvLqlB/CJjfsTLE3w9uhEkDb+bf49leN2VnZDB0FCSqP5rk7MooHuWn7aVvObxbA69ykz5nCTbSPkuGRlDaNnXoeovKzL6pDguSuKBrvbcrJ2rjd/4rFSE5kpSCecF5f4OeDyrwAcOgi9lmWem+RRvqP9llwsNrI5KyibwHRlyLSbuIgpuEyUbpJlCCaZzwdPvf+4U69k3kLuVChHQBXltWlZr4EmurS7YJ7Tl0yy5bYj3tiMk1gzndh9KF1VtV0ZiqFryiSRCWF7FCjbZkZQiZTgbWqfPTVdSr78tuBRKuanDbuVtGUCZML18pvMAdStI0OgKIx9Su3h5xz0XRd1RVSP+eXKXEb1z4uMSIokP9WVRw8k9LiZNOeHxUY4F3bMj3E8v/FHmyRjamurIBYELPboD+ot5JiBCp83fdbnp0ufT2ZvWMexhxQ==
+X-Forefront-Antispam-Report:
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(14060799003)(1800799024)(7416014)(35042699022)(376014)(82310400026)(36860700016)(4143699003)(261022075727099003)(261102123227099003)(261021121427099003)(261026140227099003)(56012099006)(5023799004)(261009223027099003)(261021123027099003)(261026121527099003)(261028144727099003)(11063799006)(261022105027099003)(22082099003)(10067099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	pdF2xRUSbarlccz3H5liN1bZ/cYq4ZdCuBoxaYGhcMTeOZNPvlKT6+Kbgr5DruJMYnoujJ/R3Kq11dPp6Jn7PJGzcHySqJ9l5ksuf2RPZcNgsPHqjG6zNvaHII2Ol93ud2y0p1S7JBEK1/HQlQAgPfKHEKrks2DJSDK2LDNbZbyO9BuF7DOVmjCZX5r/+nK9DBgN1TCGi1hS4QhQ9MkWySX8DX3yiZ3pZrr9d+XrNNepMeB/srSfH7xTBdBX9z7i2FmMVXP5EiZgs36R+5xOrqNrbqB8QV57KHRnARJR9PbQ07ONS1r68WwZ3RYFkwl3MdGoIj0YJ1K2JxBI9Pzli0RrrX6Xz8XeslR09rbNMUm5d+dMIwHRKzsMKOnGW16vbifaAvUYPNUE45aXP00mpasvzyCVYfWds07GCZMIbIDKf5SrGSTemMo1ovtlSUqU
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2026 15:20:02.6326
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f876634-9955-4b95-f593-08df3f3e17b4
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MAD0EPF000008BC.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB8193
 
-From: Peter Newman <peternewman@google.com>
+Hi,
 
-A MON group can be moved into the mon_groups directory of another
-CTRL_MON group to move its tasks to that group's allocation while
-keeping their monitoring data. Where the RMID is only meaningful
-together with the CLOSID, as on arm64 MPAM where the RMID is a PMG that
-extends the PARTID, the move changes the RMID index of the group. The
-move succeeds, but:
+> -----Original Message-----
+> From: Amir Ayupov <aaupov@fb.com>
+> Sent: Tuesday, October 13, 2026 12:05 AM
+> To: James Clark <james.clark@linaro.org>; Leo Yan <Leo.Yan@arm.com>;
+> Suzuki Poulose <Suzuki.Poulose@arm.com>; Mike Leach
+> <Mike.Leach@arm.com>; Alexander Shishkin
+> <alexander.shishkin@linux.intel.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>; Randy Dunlap
+> <rdunlap@infradead.org>; Shuah Khan <skhan@linuxfoundation.org>;
+> coresight@lists.linaro.org; linux-arm-kernel@lists.infradead.org; linux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: [PATCH v2 3/4] coresight: etm4x: Report the external outputs the
+> PMU counts
+>=20
+> Some CPUs count the trace unit's external outputs as the PMU common
+> events TRCEXTOUT0-3 (0x4010-0x4013), which lets a configuration drive a
+> PMU event from trace unit events. Other CPUs, Neoverse N1 for example,
+> have no such events, and a feature relying on them would silently do
+> nothing there.
+>=20
+> Detect at probe, on the trace unit's CPU, which outputs the PMU counts:
+> the trace unit has an external output for each of its events
+> (TRCIDR0.NUMEVENT), and from PMUv3p1, PMCEID0_EL0[63:32] reports
+> which of
+> the common events 0x4000-0x401f are implemented. Per the ETE
+> specification, an implemented TRCEXTOUTn event counts external output n;
+> only whether that output is also an external input is IMPLEMENTATION
+> DEFINED.
+>=20
+> Add a capability match flag for each output,
+> CS_CFG_MATCH_CAP_PMU_EXTOUT(n), set it on ETMs whose PMU counts
+> that
+> output, and show it in the feature's configfs 'matches' attribute. With
+> capabilities matched separately from the device class, a feature that
+> requires one only loads on those ETMs.
+>=20
 
-- The group's monitoring data is reset. Its counters are identified by
-  the CLOSID and RMID together, so after the move the group reads the
-  counters of the new CLOSID instead of the ones its tasks used.
+The ability of the PMU to count extout events is a feature of the PMU, not =
+a feature of the ETM/ETE.
 
-- The group uses an RMID index that was never allocated to it. When
-  the group is removed, free_rmid() puts an RMID index of the new CLOSID
-  into limbo without checking that the group owns it. If another group
-  of that CLOSID holds the index, the limbo handler tests and frees an
-  RMID that is still in use, while the RMID index allocated to the
-  moved group is never freed.
+The capability to use extout in a configuration should be predicated solely=
+ on the correctly interpreted values of TRCIDR0 and TRCIDR4 - the number of=
+ available extout events.
 
-- The tasks are not moved. mongrp_reparent() sets the new parent and
-  CLOSID of the group before rdt_move_group_tasks() looks for the tasks
-  to update, and the search then matches on the new CLOSID, which none
-  of the tasks carries yet. The tasks keep the old CLOSID and the old
-  CTRL_MON group's allocation, and the group does not count them.
+There does not have to be a valid pmu counter for a configuration using ext=
+out to work correctly - indeed the extout connections are often implementat=
+ion defined and sometimes connected via coresight CTI.
 
-Fixing the task move does not make the move work. The RMID index is the
-hardware ID the counters count for, so a group whose CLOSID changes
-cannot keep its monitoring data, and it would need a new RMID index
-allocated for the new CLOSID, which fails when every RMID index of that
-CLOSID is in use. The documentation promises that a move keeps the
-monitoring data, so the move cannot be supported, as decided in the
-thread at the Link tag.
+If we have a use case that requires extout to trigger PMUs, then clearly we=
+ have both trace software and PMU software that must be initialised and run=
+.  It seems more relevant to me that the PMU software should check that it =
+can count the extout when it is run, especially given the PMU command line =
+detailed in the next patch is in part " -e armv8_pmuv3_0/trcextout1,aux-act=
+ion=3Dpause,period=3D1000," - specifically identifying extout1 as a paramet=
+er=20
 
-Reject the move with -EOPNOTSUPP when it changes the RMID index of the
-group, and document that a move is not allowed when the monitoring data
-or assigned tasks would be impacted. Where the RMID does not depend on
-the CLOSID, such as on x86, the move keeps the same RMID index and is
-still allowed. Renaming a MON group within the same CTRL_MON group keeps
-the CLOSID and is still allowed everywhere.
 
-Fixes: 3e9b35823aab ("arm_mpam: resctrl: Add rmid index helpers")
-Signed-off-by: Peter Newman <peternewman@google.com>
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Cc: <stable@vger.kernel.org>
-Link: https://lore.kernel.org/lkml/3a637631-c8ec-4e26-a03c-5ac80d16fab3@arm.com/
----
-v5:
-- Retitle as the RMID index changes, not the RMID, and a rename within
-  the same CTRL_MON group is still allowed.
-- Describe the RMID index that is freed without having been allocated,
-  and why the move cannot be fixed instead of being rejected.
-- Drop the parent and resctrl_arch_mon_capable() checks, which the RMID
-  index comparison and the MON group check already cover.
-- Use the resctrl.rst terms in the last_cmd_status message.
-- Drop the stable version range and the Link tags the changelog did not
-  refer to, and link the decision to reject the move instead.
-- Link to v2: https://lore.kernel.org/all/20261105123524.2282090-1-ruanjinjie@huawei.com/
-v2:
-- Drop the Suggested-by tag.
-- Describe the systems by whether the RMID depends on the CLOSID rather
-  than by MPAM, in both the changelog and resctrl.rst.
-- Explain that moving a monitor group is already broken on these systems
-  because the tasks are not moved, so no existing user relies on it.
-- v1: https://lore.kernel.org/all/20261104101913.586595-1-ruanjinjie@huawei.com/
----
- Documentation/filesystems/resctrl.rst |  8 ++++----
- fs/resctrl/rdtgroup.c                 | 13 +++++++++++++
- 2 files changed, 17 insertions(+), 4 deletions(-)
+> Assisted-by: Devmate:Opus-5.5
+> Signed-off-by: Amir Ayupov <aaupov@fb.com>
+> ---
+>  .../hwtracing/coresight/coresight-config.h    |  4 +++
+>  .../hwtracing/coresight/coresight-etm4x-cfg.c |  5 ++-
+>  .../coresight/coresight-etm4x-core.c          | 32 +++++++++++++++++++
+>  drivers/hwtracing/coresight/coresight-etm4x.h |  3 ++
+>  .../coresight/coresight-syscfg-configfs.c     |  7 ++++
+>  5 files changed, 50 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/hwtracing/coresight/coresight-config.h
+> b/drivers/hwtracing/coresight/coresight-config.h
+> index af6ef96b9ae01..10e95f5ecc8d9 100644
+> --- a/drivers/hwtracing/coresight/coresight-config.h
+> +++ b/drivers/hwtracing/coresight/coresight-config.h
+> @@ -35,6 +35,10 @@
+>   * a device that matches one of its classes and has all of its capabilit=
+ies.
+>   */
+>  #define CS_CFG_MATCH_CAP_MASK		0x0000ff00
+> +/* trace unit external output n is countable by the PMU as TRCEXTOUTn */
+> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT	8
+> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT_NR	4	/*
+> TRCEXTOUT0-3 */
+> +#define CS_CFG_MATCH_CAP_PMU_EXTOUT(n)
+> 	BIT(CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT + (n))
+>=20
+>  /* flags defining device instance matching - used in config match desc d=
+ata. */
+>  #define CS_CFG_MATCH_INST_ANY		0x80000000 /* any instance
+> of a class */
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> index e1a59b4345052..09a7a6b86968c 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-cfg.c
+> @@ -174,9 +174,12 @@ static int etm4_cfg_load_feature(struct
+> coresight_device *csdev,
+>=20
+>  int etm4_cscfg_register(struct coresight_device *csdev)
+>  {
+> +	struct etmv4_drvdata *drvdata =3D dev_get_drvdata(csdev-
+> >dev.parent);
+>  	struct cscfg_csdev_feat_ops ops;
+> +	u32 match_flags =3D CS_CFG_ETM4_MATCH_FLAGS;
+>=20
+>  	ops.load_feat =3D &etm4_cfg_load_feature;
+> +	match_flags |=3D (u32)drvdata->pmu_extout <<
+> CS_CFG_MATCH_CAP_PMU_EXTOUT_SHIFT;
+>=20
+> -	return cscfg_register_csdev(csdev, CS_CFG_ETM4_MATCH_FLAGS,
+> &ops);
+> +	return cscfg_register_csdev(csdev, match_flags, &ops);
+>  }
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index 2247ad55d4442..1e78774025d13 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -30,6 +30,7 @@
+>  #include <linux/uaccess.h>
+>  #include <linux/perf_event.h>
+>  #include <linux/perf/arm_pmu.h>
+> +#include <linux/perf/arm_pmuv3.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+>  #include <linux/property.h>
+> @@ -1368,6 +1369,35 @@ static void etm4_fixup_wrong_ccitmin(struct
+> etmv4_drvdata *drvdata)
+>  	}
+>  }
+>=20
+> +/*
+> + * Find the external outputs of this trace unit that the PMU counts as t=
+he
+> + * common events TRCEXTOUT0-3. The trace unit has an external output for
+> each
+> + * of its events, and PMCEID0_EL0[63:32] reports the common events
+> + * 0x4000-0x401f from PMUv3p1.
+> + *
+> + * Must run on the CPU that owns the trace unit.
+> + */
+> +static u8 etm4_pmu_extout(struct etmv4_drvdata *drvdata)
+> +{
+> +	int pmuver =3D read_pmuver();
+> +	u64 pmceid;
+> +	u8 extout =3D 0;
+> +	int n;
+> +
+> +	if (!pmuv3_implemented(pmuver) || pmuver <
+> ID_AA64DFR0_EL1_PMUVer_V3P1)
+> +		return 0;
+> +
+> +	pmceid =3D read_pmceid0() >> 32;
+> +	/* nr_event is TRCIDR0.NUMEVENT, the number of events minus one
+> */
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index b52795e03303..fecb2cd2b343 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -551,10 +551,10 @@ will automatically remove all MON groups below it.
- 
- Moving MON group directories to a new parent CTRL_MON group is supported
- for the purpose of changing the resource allocations of a MON group
--without impacting its monitoring data or assigned tasks. This operation
--is not allowed for MON groups which monitor CPUs. No other move
--operation is currently allowed other than simply renaming a CTRL_MON or
--MON group.
-+without impacting its monitoring data or assigned tasks. This operation is
-+not allowed for MON groups which monitor CPUs, or when the monitoring data
-+or assigned tasks would be impacted. No other move operation is currently
-+allowed other than simply renaming a CTRL_MON or MON group.
- 
- All groups contain the following files:
- 
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index b702fe6dbbec..2dfb3b54338a 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -4403,6 +4403,19 @@ static int rdtgroup_rename(struct kernfs_node *kn,
- 		goto out;
- 	}
- 
-+	/*
-+	 * Moving the group to another CTRL_MON group changes its CLOSID.
-+	 * Where the RMID is only meaningful together with the CLOSID, this
-+	 * changes the RMID index and the monitor state cannot follow the
-+	 * move. A rename within the same CTRL_MON group keeps the index.
-+	 */
-+	if (resctrl_arch_rmid_idx_encode(rdtgrp->closid, rdtgrp->mon.rmid) !=
-+	    resctrl_arch_rmid_idx_encode(new_prdtgrp->closid, rdtgrp->mon.rmid)) {
-+		rdt_last_cmd_puts("Moving a MON group to a new CTRL_MON group is not supported\n");
-+		ret = -EOPNOTSUPP;
-+		goto out;
-+	}
-+
- 	/*
- 	 * If the MON group is monitoring CPUs, the CPUs must be assigned to the
- 	 * current parent CTRL_MON group and therefore cannot be assigned to
--- 
-2.43.0
+Not necessarily - this value depends on the ETM version.
 
+> +	for (n =3D 0; n <=3D drvdata->nr_event; n++) {
+> +		if (pmceid &
+> BIT_ULL(ARMV8_PMUV3_PERFCTR_TRCEXTOUT0 + n -
+> +
+> ARMV8_PMUV3_EXT_COMMON_EVENT_BASE))
+> +			extout |=3D BIT(n);
+> +	}
+> +
+> +	return extout;
+> +}
+> +
+>  static void etm4_init_arch_data(void *info)
+>  {
+>  	u32 etmidr0;
+> @@ -1522,6 +1552,8 @@ static void etm4_init_arch_data(void *info)
+>  	/* NUMCNTR, bits[30:28] number of counters available for tracing */
+>  	drvdata->nr_cntr =3D FIELD_GET(TRCIDR5_NUMCNTR_MASK, etmidr5);
+>=20
+> +	drvdata->pmu_extout =3D etm4_pmu_extout(drvdata);
+> +
+>  	coresight_clear_self_claim_tag_unlocked(csa);
+>  	etm4_cs_lock(drvdata, csa);
+>  	cpu_detect_trace_filtering(drvdata);
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x.h
+> b/drivers/hwtracing/coresight/coresight-etm4x.h
+> index df9e0748d71ec..11d95a4518b88 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x.h
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x.h
+> @@ -979,6 +979,8 @@ struct etmv4_save_state {
+>   * @nrseqstate: The number of sequencer states that are implemented.
+>   * @nr_seq_ctrls: The number of sequence state transition control regist=
+ers.
+>   * @nr_event:	Indicates how many events the trace unit support.
+> + * @pmu_extout:	Bitmap of the external outputs n that the PMU counts
+> as
+> + *		TRCEXTOUTn.
+>   * @nr_resource:The number of resource selection pairs available for tra=
+cing.
+>   * @nr_ss_cmp:	Number of single-shot comparator controls that are
+> available.
+>   * @trcid:	value of the current ID for this component.
+> @@ -1045,6 +1047,7 @@ struct etmv4_drvdata {
+>  	u8				nrseqstate;
+>  	u8				nr_seq_ctrls;
+>  	u8				nr_event;
+> +	u8				pmu_extout;
+
+PMU connection to extout a feature of PMU not the etm. We don't want to add=
+ every single extout connection use-case into the ETM driver. Wouldn't scal=
+e well.
+
+Regards
+
+Mike.
+
+>  	u8				nr_resource;
+>  	u8				nr_ss_cmp;
+>  	u8				trcid;
+> diff --git a/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> b/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> index 2b40e556be872..7893d40f2e9ea 100644
+> --- a/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> +++ b/drivers/hwtracing/coresight/coresight-syscfg-configfs.c
+> @@ -243,6 +243,7 @@ static ssize_t cscfg_feat_matches_show(struct
+> config_item *item, char *page)
+>  							struct
+> cscfg_fs_feature, group);
+>  	u32 match_flags =3D fs_feat->feat_desc->match_flags;
+>  	int used =3D 0;
+> +	int n;
+>=20
+>  	if (match_flags & CS_CFG_MATCH_CLASS_SRC_ALL)
+>  		used =3D scnprintf(page, PAGE_SIZE, "SRC_ALL ");
+> @@ -250,6 +251,12 @@ static ssize_t cscfg_feat_matches_show(struct
+> config_item *item, char *page)
+>  	if (match_flags & CS_CFG_MATCH_CLASS_SRC_ETM4)
+>  		used +=3D scnprintf(page + used, PAGE_SIZE - used,
+> "SRC_ETMV4 ");
+>=20
+> +	for (n =3D 0; n < CS_CFG_MATCH_CAP_PMU_EXTOUT_NR; n++) {
+> +		if (match_flags & CS_CFG_MATCH_CAP_PMU_EXTOUT(n))
+> +			used +=3D scnprintf(page + used, PAGE_SIZE - used,
+> +					  "PMU_EXTOUT%d ", n);
+> +	}
+> +
+>  	used +=3D scnprintf(page + used, PAGE_SIZE - used, "\n");
+>  	return used;
+>  }
+> --
+> 2.52.0
