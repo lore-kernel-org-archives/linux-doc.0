@@ -1,75 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.150
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794270279;
-	b=j+x1i7w4TFTREv4UofSTW1tNxAuDG7SGssUFhxoTM5LKK6z2JjsZaaL5IrKTNGoHQOLZ
-	 za1f3gAn3DEQrH74OfG54PvDJi6+Jrjn4Pk2jETlKBiXAV21f/EZyP8nJ0LeiCHBn+kSg
-	 PO7+zd+j2k8DodIS9+/3l31q5oA7ed1n0XA5r5yna3o5a5FZGG+yEqAJVx12sh9iOiv4i
-	 kB3zyOow+MsEwyF0nLzyBJWiUKvNGfmbT1/pcUhtCb+ywUeLqqZHZDu57GcyYdiZ7eRKa
-	 CNcfwrar+cYNhDIe2rCa6tYtRr+lQuCATxVqg6F0XwEc7k3C0Da9v1w3rVxVoEDBnIQ==
+	t=1794271914;
+	b=rZViOSX0teoeB/COhXY4yjTItmMWWaQOALDShSLmAsXNTl/eek8v4wAkJ6qPTGooZVWx
+	 8NEM2rDMcBLAYRr4wzlaqMePuTCKiXP3ZUjHdgOxrBhoGj9Yu/CJbnP6aq2hf82WWzeK1
+	 V4xUTJKUEVfDLa7FHuS0ijFyjFj89G/uB0tfaRGyzkRoda/+NrThfXVu6t6XDQ0ogrAAR
+	 YjoDRWrsnT1e6itPIDfVyS0Bz+ARPT8d2S6jYI5tTWpWssbjl9zQDtxs8UQiWYR1qpsUY
+	 2cg2uEOV+/cUL2Z0z2yrj6aYSAf+rD8WXKBhwKAox0D+rBtmcP5qNiGxawZHk1xYSnw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794270279;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
-	 Content-Type;
-	bh=8R6psPcEpcxXBloXv1H5EoyGYGx6PRPHPE+vAtNfv8Q=;
-	b=qXh/8ZIoCKkacciolJWUjlNMq7srPBKuc0uokcqSxXk1aW9aaN7WKDX+KdkcXnNBmm6i
-	 oxesy2A8fB/PgIjCF2TDbpBtJpIQqAranAPBZbblSibqZWP9yoxkxqR0vF7OU7FjTI+E2
-	 4Vje2IbFoKFmPThne3ldKyiMbCVyhd8QAORVH1ds1bxN3lI7ZyeHFq33n67g1ZO7KrOuQ
-	 qlmPWft3EWC/PcJCFVUqhQrIeXFmZ/+zsY3y3lqdCI2ZnFqs2lFIy5+NYR7UjEm45PB81
-	 6h4VBWcj2+GXF6JkUITKtXXvEYm42WqNk2aLPBT2avbwX/5Rl2csUlCGxyJjfOeYt+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794271914;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=sfsl0vEvxU/Ixv1S43LGbOFsZ8xd2WGwvs4MQ52W9pk=;
+	b=2w6zI3lyX8TXXijsY7W1mrNdCVzPRiJMJoxX5um7bceaLhaok3XxCySaCAmh/czchNJu
+	 jyfhTfhVXrszYt30uPszb98WVajuX8diROJDmewsTG3SZKKjac/Sk2CU0WWD4GBY1PHV3
+	 OTHirUbYcWDwqX/EQUle0bzsFEXD3vTb5TuQUeSNaTvCOMmuILa5g3hz3+MqmhtD5YPVP
+	 pEVC1Dso5mdO6/NqnOj4Syojazn9VDVF6eISUg3M6/UHbPA+gcSR+kjO2b2cnrnbsjO+A
+	 LnaNhytpyN9bhcwnwD3S1R6cbVM97bjQdXRfAAMysxyP2fIHhTt4EBaw2pVYJX6Gj6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=TuVRyzuW;
-	arc=none smtp.remote-ip=209.85.214.198
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=squebb.ca;
+	spf=pass smtp.mailfrom=squebb.ca;
+	dkim=pass header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm1 header.b="WBfjx/8e";
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=kKAa0w8u;
+	arc=none smtp.remote-ip=202.12.124.150
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE60606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 00:24:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AE60606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--rathodpriyank.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36E4606A335
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 00:51:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E36E4606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=TuVRyzuW
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2e8dd9b9743so16963005ad.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 16:24:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794270278; x=1794875078; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8R6psPcEpcxXBloXv1H5EoyGYGx6PRPHPE+vAtNfv8Q=;
-        b=TuVRyzuWUgVcsf9lNq678ixAFJhPOzvFG4t3LRHWBAlBem5Qaz6FmOVOsmGd4DW/L3
-         WU+Kwj6rfd2umV9dl9/VTCpXF/I9sEA96nbYfl9Oo5RqfmALRzU9IMLvz0Oh2MF8S+5r
-         +ZW/jM1G9O/WQVZme8EkVhftOC6lEUr4xRtvYPDvHvmL00PopnsM7nOyymLOgvQM/RnX
-         wLWpWi4iOC0GVGlmhfgGdoSlR9872llOD8o6fXNDODhkDXS9r5lTh0uAoht/UuGWphZF
-         Etf2c57hXs8kdFp4LjsVEqn9ikfHPTPyqnkwYPPvRGwHwZi2QwpE4jcn6alAxH2G7jX+
-         Dc3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794270278; x=1794875078;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8R6psPcEpcxXBloXv1H5EoyGYGx6PRPHPE+vAtNfv8Q=;
-        b=YJanWE7Sza+78UPc46pQcHdQHjUXQj3r4uUI6NnSj64ZjoJW6kVkilX8SyR61DAKXh
-         +XwHtLT50SeKMzXYIUR4kauJs8h930jcGr7oavnmiazbgjcVyXmbGXK0Qd7BBhejB6PT
-         qjNhNPBwRAstjl9jXncBudy8Sg9TqkFIa7rYNA5r8nwTfW+5N91sHfk6WNbEDjT5stxr
-         rXZaM4mekFrgFo1lgUwz1WSoLvvVneYPiiXyp4eYPkln0Zoh7E4iyAzSY+X9eXdJS4Pd
-         dnUo2dCi4WSOYT62RmS7EYnu/fZlrNYcvDmEy5ZVOwi7WnuBZufHXaDteO3F9K+up/8J
-         6BuA==
-X-Forwarded-Encrypted: i=1; AL+hErG/5iOcJABOzdDABfHw6hPpSWCcwcGnNOESS2qAz6u284ZMJMZi7i7GGJoXLsSh9TgkdHFVrCLRJ1M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+maHWAbAKCn8K1+pppy9jiiugl32zysBNeZZu3FLHuUGoYC7Qd
-	6qi1u1SqTtkJyxVT3m58p6dsOGtJw7Iqu4phALz+2uuGcIjtcgJKd/b1x5LEPYe4T/wF7INZvhZ
-	fATfctqfm9lmhBnUaj8AdLxojhy0DlpRtPA==
-X-Received: from plpb13.prod.google.com ([2002:a17:902:d60d:b0:2e9:6468:1ffe])
- (user=rathodpriyank job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:2302:b0:2e9:6f2c:71b9 with SMTP id d9443c01a7336-2edb8fa3768mr7596535ad.1.1794270278310;
- Mon, 09 Nov 2026 16:24:38 -0800 (PST)
-Date: Tue, 10 Nov 2026 00:24:37 +0000
-In-Reply-To: <20261012-pcie-link-endpoints-v7-0-36aba9c91f10@google.com>
+	dkim=pass (2048-bit key, unprotected) header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm1 header.b=WBfjx/8e;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=kKAa0w8u
+Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
+	by mailfout.stl.internal (Postfix) with ESMTP id 335C91D0019D
+	for <linux-doc@vger.kernel.org>; Mon,  9 Nov 2026 19:51:53 -0500 (EST)
+Received: from stl-imap-02 ([10.204.2.93])
+  by stl-compute-04.internal (MEProxy); Mon, 09 Nov 2026 19:51:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1794271912;
+	 x=1794358312; bh=sfsl0vEvxU/Ixv1S43LGbOFsZ8xd2WGwvs4MQ52W9pk=; b=
+	WBfjx/8edxu/4eaPtcK36DwSAjBvmcVp6vmLi3kuwBAasOsnWXe3LFdK9RMyOanD
+	BvlXRm6Zpgs5E6rFS8oVkP69YpWDrdmqm/imXpOLdAFP9Qy9mkmR2nBcJsAGfYDp
+	x1h1MNxrOns/skXSmccJdethBYskmFOxDkhFjsP8IT0B5e5lJzRn57EFKwpbc2nN
+	lrVhoeThzmiSPATJseBglgPBAKll9wRNoUkqW/0tqeSvAXykLzhi+n4XSpxAHyfJ
+	vcKSO/4TI9wbLr5e2+PbZR8vRGRpUgHUsRHWmkFXv6X0mT/aT5jT3oQ6RauQ2XLv
+	mCDreYbi4jjEvfo9Bx8LoA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794271912; x=
+	1794358312; bh=sfsl0vEvxU/Ixv1S43LGbOFsZ8xd2WGwvs4MQ52W9pk=; b=k
+	KAa0w8upi1TJVG/tb6DhIrUmkJOr1K3ggW77tgj210SOceX9kOcLau5c3C856JX8
+	AdqPPTfdLCdAmyVhKgzBF/pTg6gsIaMzsBASy4zZa5KziTHKxBh2/yJmyD74mM3N
+	LpUZXO+34O1/yIY9MQzLYIPWYu/Xv4wtC07HAVn6h7Z92R3c0sd6K2XWDUotjBKz
+	gV1rsb4D4mTLsQfpjHAzPjjoyMSp1WWexkmbp0sNdUU0HNqb1X5T5Yd2SCXPUUrs
+	SjB4miBn9alxk9H7YqNwUG9SUmuwJHlla9t2VnaklDP4hFb6QTLHCICCfdDTFg+2
+	aI1AWXOxwel95TYfYKEig==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=squebb.ca a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794271912; d=squebb.ca;
+	mf=PG1wZWFyc29uLWxlbm92b0BzcXVlYmIuY2E+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm1:rsa-sha256:LY+pJJwjGRPSacnc0wQxedsypN7zn1mEie0RvUkjAblXeUD
+	IfWYQzYXI2MfnOuIMwxK7cHuunffFeyODPD/GyYwYyVB2Iz2LHnZhfwh3J44a0em
+	Tu/kCOnekpF2IUNTuEO4jqTUFy8EOn8AsrWiRnp83ATliAf5VR/HJDn8E3Ykv0vC
+	zjbv/F0mTsdy0zm9BQUgg1RNtANwN62v8SJFHBWHGNAJj92qeNXhVee+MSDTS0tY
+	1nzs7UdY5yR2mx/qkvxhmYpgAkUs13yMeXMWKII2cY4pX1lDyo/UU5A0hdv+QSiV
+	VFrG3vjPzroc0EMMtjOsqLsjtG6wy8kY77tnozw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:DjYZDj8AWXZrw0aZmqpTzsEU9gJ3ClTub8Nei9DDkHY=:YBcOwyBIC8YvKTrYysH1B1x7wM3DQh3WKmFS4QM9P7M=;
+X-ME-Sender: <xms:p2ryakCEcfZu3Q-egA_-jLDSgPXV9CSyWntVe-PwP3pMft_j4IhXWQ>
+    <xme:p2ryahWjtTG3aSNGgq92RzYGjh_ugqYEkuKjibupYlbWZ0LyGvX4xsqhtkx0BeiaI
+    U7KWsjgXMOrvkkcUOJ-hk16-aIvMH4_YHdjXKbKcm95hOJuTKi8ZX4U>
+X-ME-Proxy-Cause: dmFkZTFBnibe1gUXjuAF2ew4mvxm3Ru7XGV72rMlvd9jd0Ag5igXQbPP/PRZ4bWpQXrOj+
+    petvBH7xBC5Y7UyRNGYF19YilO/GaVTbYBBMajSc+neykayb8uy+jqDmmGxFLf7+Sdu9FD
+    pIXIdaSW+OqaxvD71reKS7hVe40WsDaPa7sAYAa4jy2CSv8VZ1Uyz9NzpBxHMf3nOZgPpt
+    nA5YAmiM+/Z+zCZy1Pi4kTZHnID4kCr63F/oYwmxiazwbcdYuOm/jQlYIGvrauPY/87X3A
+    8sMtB20GvcIbZ1eqoUzuwB2ONPsuo5yXW3o3s/34y6XHxNPeMHkj89T1HY5HjPdlmznhfv
+    xg0S6ZgTjNQT2hT7RBV/2UcZKnCsHOMdmkFfV32e8TEMcPcrtP99qKAPWblhufL2LxF8r1
+    uFrSuU1Dr+lAq9OVEXDv3A7LEcrXqlIjvfafeL0vlYE5g0DXNpcsM9hfknY3UPvUGQANZC
+    ooIBzJT+05AhhKrxJRMpVIYGjwnzJ2fqDliEAnbxDbaVTD1t1sPfFnLu4vm7e45XwQ0IuP
+    K716YM2V11K92bmyyTqR+8uw0+xbaJ8WmMiVSFikF3/4jTeDWJaC5puDTK5V0ijfe/AcxQ
+    0pO0wb9AqjgPVDiNc3ucDKW6gPv6FpLUNlI79fNj2P0Yjd7w1cpayoTVuUDQ
+X-ME-Proxy: <xmx:p2ryamwYlbvgk6tIJJJhRll2-E1V626g02XncTJInHq2iOfVMJoG7Q>
+    <xmx:p2ryaj8JWZE-w3wulezvn7gxE-6i3SR9UcTVZKxz5iBIIpX_XYP7jA>
+    <xmx:p2ryarw6SgaWUejwQr5Ywcu04LGoOqBnU0ie4w6qbqkzTcEwSJEvAg>
+    <xmx:p2ryasXfHuWgsezIyPRA9kqUA2tItnK7KvnqdZiWoK-VUmp_BNvmvA>
+    <xmx:qGryai4BZbKjYAl7AmB9aoQU4mdNELqSSuxGYqSD0NzuymiKx48sQ0VO>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.stl.internal (Postfix, from userid 501)
+	id 1437E2C00085; Mon,  9 Nov 2026 19:51:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,35 +114,62 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261012-pcie-link-endpoints-v7-0-36aba9c91f10@google.com>
-X-Mailer: git-send-email 2.56.0.567.gdb80ae8cd5-goog
-Message-ID: <20261110002437.2376944-1-rathodpriyank@google.com>
-Subject: Re: [PATCH v7 0/2] PCI: Add Lane Margining at the Receiver debugfs interface
-From: Priyank Rathod <rathodpriyank@google.com>
-To: Bjorn Helgaas <helgaas@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, 
-	"=?UTF-8?q?Ilpo=20J=C3=A4rvinen?=" <ilpo.jarvinen@linux.intel.com>, Lukas Wunner <lukas@wunner.de>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-pci@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+X-ThreadId: ADQwfFUtXaMB
+Date: Mon, 09 Nov 2026 19:51:30 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Mario Limonciello" <superm1@kernel.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Daniel Lezcano" <daniel.lezcano@oss.qualcomm.com>
+Cc: "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Randy Dunlap" <rdunlap@infradead.org>,
+ "Viresh Kumar" <viresh.kumar@linaro.org>, "Hans de Goede" <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Maximilian Luz" <luzmaximilian@gmail.com>,
+ "Shyam Sundar S K" <Shyam-sundar.S-k@amd.com>,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>,
+ "Daniel Lezcano" <daniel.lezcano@kernel.org>,
+ "Zhang Rui" <rui.zhang@intel.com>, "Lukasz Luba" <lukasz.luba@arm.com>,
+ "Armin Wolf" <W_Armin@gmx.de>, "Jai Luthra" <jai.luthra@ideasonboard.com>,
+ "Greg KH" <gregkh@linuxfoundation.org>, "Jack Wu" <jackbb_wu@compal.com>,
+ "linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pm@vger.kernel.org,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Message-Id: <9c290945-0281-469a-a5c9-6e6c2bd93c50@app.fastmail.com>
+In-Reply-To: <34c23beb-88d5-4456-b84f-f00e31578468@kernel.org>
+References: <20261024223501.1420953-1-daniel.lezcano@oss.qualcomm.com>
+ <ed4aac63-ac58-4e2a-ae45-ebf4da158228@oss.qualcomm.com>
+ <CAJZ5v0gGeKEqMWvP3cQrXztZt-faFZJF+yNfygcBPT57f-a8Lw@mail.gmail.com>
+ <34c23beb-88d5-4456-b84f-f00e31578468@kernel.org>
+Subject: Re: [PATCH v3 0/4] Make platform profiles firmware independent
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bjorn, Ilpo, Lukas,
 
-Gentle ping on this v7 series now that v7.4-rc1 is out (both patches
-still apply cleanly to v7.4-rc1 and pci/next).
 
-In v7:
-  - Both pcie_get_link_endpoints() and pci_aspm_inhibit() are dropped per
-    Ilpo's earlier feedback, leaving aspm.c, pci.c, and
-    include/linux/pci.h untouched and using the existing ASPM API.
-  - Retimer receiver discovery and margining coverage (receivers 2..5 via
-    LNKSTA2) are included in the pcie_lmr kselftest.
-  - Both patches passed Sashiko review with zero issues.
+On Mon, Nov 9, 2026, at 12:39 PM, Mario Limonciello wrote:
+> On 11/9/26 10:46, Rafael J. Wysocki (Intel) wrote:
+>> On Mon, Nov 9, 2026 at 5:37=E2=80=AFPM Daniel Lezcano
+>> <daniel.lezcano@oss.qualcomm.com> wrote:
+>>>
+>>>
+>>> Hi,
+>>>
+>>> sashiko validated this series
+>>>
+>>> Is there any other comments for these changes I should take care of ?
+>>=20
+>> I'd love to see some feedback from someone having a vested interest in
+>> this interface.  Mario?  Mark?
+>>=20
+> I am onboard with the new approach.
+>
+> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
 
-Please let me know if you have any feedback or would like any changes.
+Ditto. Apologies - I thought I had added my tag already, but if I haven'=
+t:
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
 
-Thanks,
-Priyank
+Mark
