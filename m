@@ -1,96 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794288102;
-	b=ijCR3hZo8ZYpuvQl2ti7iMq6KMTH+X+bwV176QrnJzWkeWgY3qHu5acJwe2Mu0Mor8cy
-	 Y343BBjqelIo9Rtkf52Sz2S/7B9yDp5vKTs76+W+4LaRSHmWGr6aL727Hi3GfciJ5bHGN
-	 DY1qBdkGFAdKMvQE5LxnSp4s9Z9DkQ1hhiWjYwRfyreneJq51+7hHPhWLAhgJbHlyJGqt
-	 A3oVDFCodC55J8UEXFfjwIZEhC8rr42XLaQfhfaQ7q6oL3nThGVOxOe6n2ALQZVdn9Wp3
-	 9kU5YTwUy2RpTDbMl7ktdai8fYe0RvQJlMzuZAQOn5zvPO0/qMJjsfVwvdoHs9RvZZw==
+	t=1794288813;
+	b=RLkyaLwquRrjaiSSnLB6zbRj+xGD8S9Qo6VNnblrra5t1dqWv5+bQnaClR0Qnu2Vzykr
+	 lq7PMGeEZyO3/fSdQb2YiiWKBys3GwAAWrU4UuNxSO7eAqbb/djfIVqPde4DZam9pLK80
+	 JUEm7nYRkbpPwHgsszKOlOaybqniyuB7wvXC6MHezFSNUVWQZvsq84m/r5WPJKbz4VSr2
+	 pbpxbIY3vQ1O9KS0E+VxjgzVbirRnP2xepcLsyVsu8ncCgIZC18Oj/THYSwgnlNESvwTJ
+	 tv1/BASV6n3sixKopEmmmRZKP1nJqaEZ6IlMYzMjAgD6lyoW2A9xVLkuGL5kbiZgLaA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794288102;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=Pecfb5pvLyq9H2GzGT0xx4/rfb25RsEuISA7EJYskG4=;
-	b=piE4rEWQDwZHoGCk5ugs6JJ3eQTFeVY3ZmYQmgJLt4qxrYH/D/p6h5lxDAF+gmUzQbxb
-	 y4KmMdcf7gQu5GvA/RGBYjdQJSWKhNq4x2JNposydUvLQS9sp/5qyvDieENn0eChIlzLv
-	 0pmKxV5klKA1DgTlbNLQtJWbeEW4fj4R/544LqHrcCpovYxPOSWkCXYY65np7EQJNNJNt
-	 zOG9qyIFmskx4nAKIggM14uJkzAwe9XFQbZdDk2goHHwg5Rf3b/uaAmuw8f0ssDe7Dpoo
-	 zIEb/sfixL4MW0bttrKfBAf+7Ap/HyuFCbBv509oiIkh4QyQvw28yucRdvcW7Z8TzLA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794288813;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=l3mgB4Ev1EUFaUriPeIG+9VrVzzDcSV4X6hThy1L/KU=;
+	b=ZwQXKF3JYMG02xfA+EZkSmy5BUbhLdbQ1CKHkpGA8KMR8a/3znshI0Rvtez7vu/Glu7y
+	 ZKKmFRfLpmXj8sZIgGWH59YKLemyWLHV3clJr/o7ySgSpx9gVX43fC0dGe+WKrMBraxQ3
+	 JH9HFzz4gOGDT9GaxJrThYiAXLyU6+gxb3XyOhQufpCR8c7fhy+52cMtplTmgOKy+oY/8
+	 9E1VibBPMeTSqx9eGGuoH4M4/th7InefTWFrwLynC8lC2KCPIpvr9FIi+//tcFFEp+viN
+	 1S2Sp5oDN5R17qhhG8xicPhvFFCjogdkqPBKPQpRA+gSrIbnjg4w+2helPmxD3HHFRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bWB0j+MK;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jB5IgIOj;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45C1A606A31C;
-	Tue, 10 Nov 2026 05:21:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45C1A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 2670460A261F;
+	Tue, 10 Nov 2026 05:33:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=bWB0j+MK
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794288102; x=1825824102;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=oFY/jbHuyFVs9fcim3O79B+sKqlAAqnVh+aV2N/0ovY=;
-  b=bWB0j+MKIBWCSDbnAB1Ok5OJ8fBOIsCJRzpg8d3ShztfzT6hlfJJZ4hy
-   97+/td/vHspcKPduRnMGwStMxHQ+AZz77Klmy9M10xvTzLEMmM2ns6uEr
-   a/x3vSRLGPH6LE1u9NSPJQtbiz2h5nQ2M0TtrAdph71Qen4Tjebfz2gjz
-   BEyyR27fHaKM0EBGweJRabDcqet58PoxazrGrearUVJ7lwnqGPScy5TkU
-   chN8fws9Hpe6YIMd6h1dBbMoEk+KpSwmYPqntXiY6/LXzXrMXkSe5pJ72
-   GBMVpgvu4jyYvJhyHK8IvKoGLjO8k7vyBGANXHGzejwDwGmMQMy0zrs0C
-   Q==;
-X-CSE-ConnectionGUID: uMY+Ddy3S2K8gjbt268AyQ==
-X-CSE-MsgGUID: rK2FYPk3RjuE3MVFEVB+AQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11961"; a="3062304"
-X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
-   d="scan'208";a="3062304"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2026 21:21:41 -0800
-X-CSE-ConnectionGUID: RKv6GKLrRXekh8Hyw1NSow==
-X-CSE-MsgGUID: B2DoDwPBT2ynDzLgYC0JmQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,205,1787036400"; 
-   d="scan'208";a="8233683"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 09 Nov 2026 21:21:34 -0800
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xQeIV-00000000w43-0oq1;
-	Tue, 10 Nov 2026 05:21:31 +0000
-Date: Tue, 10 Nov 2026 13:21:04 +0800
-From: kernel test robot <lkp@intel.com>
-To: David Woodhouse <dwmw2@infradead.org>, kvm@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	xen-devel@lists.xenproject.org, x86@kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paul Durrant <paul@xen.org>, Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jB5IgIOj
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 018931F008BE;
+	Tue, 10 Nov 2026 05:33:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794288812;
+	bh=l3mgB4Ev1EUFaUriPeIG+9VrVzzDcSV4X6hThy1L/KU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=jB5IgIOjN0Xio7JyTF8Sn5VXPSxRxp8cyqUp+ENWai46IqHrU464SuifRg2xOsSTi
+	 wn/Plv0bg+pvi0KtqLINnUqek8GepbkdfphP1w0kAgjDoYMYK7InudlSzgPkUh+Sqn
+	 W47RiqO/9Z29fntZmElmqQvoF3QDhPFzVAo6cK5IwS7OyPb2l1SxSToXaXzeAJYl3m
+	 9yGVQqHIoWlScMnAIcOe5rTAIZE2B77e91k/tvS9qJ9LZIXHORciqpuvl0a+g8lOBj
+	 aWoWq8IUZrch3rxOdCpl1TdFcHzrInO+pRGlRQUrfBivNZ+SFVH1dQbkdEHQ5/osvq
+	 lSjUSU/3ecVaQ==
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: Jarkko Sakkinen <jarkko@kernel.org>,
+	bpf@vger.kernel.org,
+	dm-devel@lists.linux.dev,
+	fsverity@lists.linux.dev,
+	keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Alex Shi <alexs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ignat Korchagin <ignat@linux.win>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	James Morris <jmorris@namei.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Sascha Bischoff <Sascha.Bischoff@arm.com>,
-	Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Jack Allister <jalliste@amazon.com>,
-	Dongli Zhang <dongli.zhang@oracle.com>, joe.jin@oracle.com,
-	David Woodhouse <dwmw@amazon.co.uk>
-Subject: Re: [PATCH v12 08/24] KVM: x86: Re-synchronize TSC after
- KVM_SET_TSC_KHZ
-Message-ID: <202611101323.6WZgh2FM-lkp@intel.com>
-References: <20261109012112.3415328-9-dwmw2@infradead.org>
+	Song Liu <song@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yonghong Song <yonghong.song@linux.dev>
+Subject: [PATCH v9 1/3] KEYS: Introduce keyring_is_empty()
+Date: Tue, 10 Nov 2026 07:33:21 +0200
+Message-ID: <20261110053323.2936729-2-jarkko@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261110053323.2936729-1-jarkko@kernel.org>
+References: <20261110053323.2936729-1-jarkko@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,33 +93,108 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109012112.3415328-9-dwmw2@infradead.org>
+Content-Transfer-Encoding: 8bit
 
-Hi David,
+Introduce keyring_is_empty() in order to decouple for BPF, dm-verity and
+fs-verity how keyring internally manages the keys.
 
-kernel test robot noticed the following build errors:
+Reviewed-by: Eric Biggers <ebiggers@kernel.org>
+Reviewed-by: Ignat Korchagin <ignat@linux.win>
+Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+---
+ drivers/md/dm-verity-verify-sig.c                      |  2 +-
+ fs/verity/signature.c                                  |  2 +-
+ include/linux/key.h                                    |  1 +
+ kernel/bpf/keys.c                                      |  2 +-
+ security/keys/keyring.c                                | 10 ++++++++++
+ .../selftests/dm-verity/test-dm-verity-keyring.sh      |  2 +-
+ 6 files changed, 15 insertions(+), 4 deletions(-)
 
-[auto build test ERROR on dea4f6380f4ec96e8f3b0aaf2343764bd0d25ef4]
+diff --git a/drivers/md/dm-verity-verify-sig.c b/drivers/md/dm-verity-verify-sig.c
+index 0c65c7a31da8..bd5143aae4fa 100644
+--- a/drivers/md/dm-verity-verify-sig.c
++++ b/drivers/md/dm-verity-verify-sig.c
+@@ -153,7 +153,7 @@ int verity_verify_root_hash(const void *root_hash, size_t root_hash_len,
+ 	if (ret != -ENOKEY && ret != -EKEYREJECTED)
+ 		return ret;
+ 
+-	if (dm_verity_keyring->keys.nr_leaves_on_tree &&
++	if (!keyring_is_empty(dm_verity_keyring) &&
+ 	    dm_verity_keyring->restrict_link)
+ 		ret = verify_pkcs7_signature(root_hash, root_hash_len,
+ 					     sig_data, sig_len,
+diff --git a/fs/verity/signature.c b/fs/verity/signature.c
+index 2f49c5d9d987..b45b39b829b2 100644
+--- a/fs/verity/signature.c
++++ b/fs/verity/signature.c
+@@ -70,7 +70,7 @@ int fsverity_verify_signature(const struct fsverity_info *vi,
+ 		return 0;
+ 	}
+ 
+-	if (fsverity_keyring->keys.nr_leaves_on_tree == 0) {
++	if (keyring_is_empty(fsverity_keyring)) {
+ 		/*
+ 		 * The ".fs-verity" keyring is empty, due to builtin signatures
+ 		 * being supported by the kernel but not actually being used.
+diff --git a/include/linux/key.h b/include/linux/key.h
+index 420412aab926..9ff10b780865 100644
+--- a/include/linux/key.h
++++ b/include/linux/key.h
+@@ -439,6 +439,7 @@ extern int restrict_link_reject(struct key *keyring,
+ 				struct key *restriction_key);
+ 
+ extern int keyring_clear(struct key *keyring);
++bool keyring_is_empty(const struct key *keyring);
+ 
+ extern key_ref_t keyring_search(key_ref_t keyring,
+ 				struct key_type *type,
+diff --git a/kernel/bpf/keys.c b/kernel/bpf/keys.c
+index bffc356839ac..24e0416abc99 100644
+--- a/kernel/bpf/keys.c
++++ b/kernel/bpf/keys.c
+@@ -29,7 +29,7 @@ struct bpf_key *bpf_lookup_keyring(void)
+ 
+ 	if (!bpf_keyring)
+ 		return NULL;
+-	if (!READ_ONCE(bpf_keyring->keys.nr_leaves_on_tree) ||
++	if (keyring_is_empty(bpf_keyring) ||
+ 	    !READ_ONCE(bpf_keyring->restrict_link))
+ 		return NULL;
+ 
+diff --git a/security/keys/keyring.c b/security/keys/keyring.c
+index 5281da9d5bf7..ac48d6204915 100644
+--- a/security/keys/keyring.c
++++ b/security/keys/keyring.c
+@@ -443,6 +443,16 @@ static void keyring_destroy(struct key *keyring)
+ 	assoc_array_destroy(&keyring->keys, &keyring_assoc_array_ops);
+ }
+ 
++/**
++ * keyring_is_empty - Check whether a keyring is empty
++ * @keyring: The keyring to check.
++ */
++bool keyring_is_empty(const struct key *keyring)
++{
++	return READ_ONCE(keyring->keys.nr_leaves_on_tree) == 0;
++}
++EXPORT_SYMBOL(keyring_is_empty);
++
+ /*
+  * Describe a keyring for /proc.
+  */
+diff --git a/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh b/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
+index 1f9601ef22f8..792449d356cf 100755
+--- a/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
++++ b/tools/testing/selftests/dm-verity/test-dm-verity-keyring.sh
+@@ -746,7 +746,7 @@ test_keyring_inactive_when_empty() {
+     log_info "TEST: Verify dm-verity keyring is inactive when sealed empty"
+ 
+     # When keyring_unsealed=0, the keyring is sealed immediately while empty
+-    # This means it should NOT be used for verification (nr_leaves_on_tree=0)
++    # An empty keyring should NOT be used for verification.
+ 
+     log_info "Keyring state (should be empty and sealed):"
+     list_keyring_keys
+-- 
+2.47.3
 
-url:    https://github.com/intel-lab-lkp/linux/commits/David-Woodhouse/KVM-x86-Improve-synchronization-in-kvm_synchronize_tsc/20261108-172047
-base:   dea4f6380f4ec96e8f3b0aaf2343764bd0d25ef4
-patch link:    https://lore.kernel.org/r/20261109012112.3415328-9-dwmw2%40infradead.org
-patch subject: [PATCH v12 08/24] KVM: x86: Re-synchronize TSC after KVM_SET_TSC_KHZ
-config: i386-allmodconfig (https://download.01.org/0day-ci/archive/20261110/202611101323.6WZgh2FM-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261110/202611101323.6WZgh2FM-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611101323.6WZgh2FM-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: arch/x86/kvm/kvm.ko: symbol '__udivdi3' undefined!
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
