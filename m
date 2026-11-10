@@ -1,47 +1,115 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794320034;
-	b=HODBLeZpvqUnuHKcpoN49fgBFoF+sf2pnRIdfuqx2FcYXTChYOCh5R4Q+cxuo4jJ7sHk
-	 DV2Tfx2HnAJoUq9aEJ5z5s6lil8DURRMw6yrZURhhhq8O1mArAtYYkDQ8gvxrbm+LYb/c
-	 UXpaScYypNdiYyynQo2yilFPUIpThdAu0idvidpGeqTfw8wWejYTxpDyKKHdFcZ+I1GGK
-	 W0m+NLj6l/Nj/5sX68CtjIEsaoW3hNgoXUt05bR1ncHsreDilBDm2JxssLwlhAJDTbYOI
-	 Uz/A70dnUrbq9b+/FxglcyNeVwph0Q00Norcjfh/6qhZ90XHqbKWKZzj4MboICLClXQ==
+	t=1794320079;
+	b=yXE6ORYzbUsGHRw+aLNkMQrpzQ4yMprxFoY5nMeFt4aY0x2kKkjMJ9niX9fg5QkITZe4
+	 NPvU4KnnKJe+0dza8riRN05sNaHLstenlVDkordQP62uuPscY5D/LKX4ZjK8oedskunaU
+	 NFcwL8nnPBVluQ5Z/LhpFXeT1gL7lhqfz3lFwe8EyELCM3E642R/CT4JLTmn4krR5HH2r
+	 b6MxMQdZ0ckDYxlaVyAdAF5EZdbfR+KA+op9W2cRLKP4Pa7RsSj2OPehQ58Mg1v6Rowr5
+	 67UmcSgjj4C9ZPNf41f/sEwul599To1q7n8Ew1yT4oUTCDnXRt2FSsWHdflvdoo59mA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794320034;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=Xd4nTp86cW9MidEl4iHRTLTDM3LxuvmF0DAhfS6CjOQ=;
-	b=dPypWLYKZ6OFvNZKinW0ZjuTxlcMOjd8MYl9TtUaAe2c7ew7YlMi4dzqgkY3SQo9kbOT
-	 6EVPNILznwAqZGpI2DsPgSW4qjCm1fQWk1iDiOkcfcNnHovmcRHaT/E7wpU3V0FXGuqfG
-	 SQAsFZG3KP6JzORy0MdYPcWO3OKX9kRE3GhtSyfFPyiiRCktuAIgONICAIi2atmKhWQLO
-	 QrY6c1nYMwSAkoRPmr7Lt0jVQn6AhNdQUltNOHQXUMuZXEDTnq3ywB117AT5pJ9FMLYpI
-	 oSit1LUfr7it5Hl0NKeaU8sn0sXtJ8tttEjJCXuzRUgNzeCxgLPd7xZetQFdDRHKcaw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794320079;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:X-Developer-Signature:
+	 X-Developer-Key:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=HlXgeWxFCsYVgmI1LCtDvAKQFHLkVa3Met4qvlNiqkE=;
+	b=lxF794pCYei7Hj7cKQfzFplMJHBgpYDULimb8Aj3ZszUsG5v1fClsDWTxEDynXNkE1M+
+	 ExF4gHqKn3W8apq4zsZACpFoGra9ZYRTM3Ds7ctXFJvcDuiD6SuO0SEeKoB7UvVubaDoc
+	 pk+pg4M8g1iiXgI2Rgztj4IePrxmrTF6mf6kQo3NffsEjx9C/KpVeQjBc75YtDJvhqTOb
+	 hnG/St5fQWR+Ao+KEErta/DdY9CJDbZyHR7dDV77Jwy1K1DDup7Smr+XMkoE//U5mXvyI
+	 nbwQ0VNBTdp3dEWPYmMFJN3kKJHryEwA5+oUnDnnb0znBPdr1636IiEi49qFmNAwEvQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="f8Mt1/7r";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Gv8VFnF6;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=PSA1ltgi;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD959606A32E;
-	Tue, 10 Nov 2026 14:13:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6853B606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:14:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6853B606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8Mt1/7r
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 850981F0089F;
-	Tue, 10 Nov 2026 14:13:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794320033;
-	bh=Xd4nTp86cW9MidEl4iHRTLTDM3LxuvmF0DAhfS6CjOQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=f8Mt1/7rCa1pZCIKwEJ+QowRw7WQd2Mil3HemNjtaswi4u+d03aYrTi40TLXxnCKw
-	 pauvn8khQlPZ8R0mn/xay1EkuRTlVn70VcrXZAEZWngUsD6lexjShgO4SZjUnAw+Y7
-	 IkXLs633FXY+yrUe4/bR9QruYsg3I9GAvk92vUcOMAd/goWCPfS5TkZXmAZlDQU2Xl
-	 CDTMbuumkOVilTAQVmB07pRXPfjrja83JxOczK9RnNr+hOr3Y+05WFCevz3qvEFves
-	 +l5bSjPbG1HZLdG4bfwyu9UpYy3uV/pWeW9XheFevIn2LpwSkiOXknAXotskv9WmEt
-	 hGecO3L5DbctA==
-Message-ID: <2f0e411d-d29a-487a-b7d3-2cd7dd92e456@kernel.org>
-Date: Tue, 10 Nov 2026 15:13:41 +0100
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Gv8VFnF6;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=PSA1ltgi
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AABAG0k3839765
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:14:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=HlXgeWxFCsYVgmI1LCtDvAKQFHLkVa3Met4
+	qvlNiqkE=; b=Gv8VFnF69MbsW9vjFEEIFjHErJrOmXFrnaDY34cdITUuPULs3Er
+	YMsWBM99bRUWQqmmrSwvEz0tK+xPGNdLhrK9io3en+EcIEl8StCc8i5+vcxEenIh
+	PzDKhkPZPgZB5v3G82Ve3vt7XV7z4WEEIyF44JVKTbP4wz1vju/tImxXTlgwmKYz
+	u/2TsomGWP+ngHE0lIUiQCBUwZ5tH6vvOi0iHcunWUETVuuA9xG3Va1d5Y2QjKEI
+	b0AclNkqk8sOypWeJyU866qi4ACDkgGeuHS/Mu1TY9sP4+mWXz3vR7oHDGGpzTpG
+	702TtTvRm1uVK9EjbEnBKgkDFedquWY9hDg==
+Received: from mail-ua1-f69.google.com (mail-ua1-f69.google.com [209.85.222.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4humjg3qxk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:14:38 +0000 (GMT)
+Received: by mail-ua1-f69.google.com with SMTP id a1e0cc1a2514c-99077a0be0bso784629241.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 06:14:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794320078; x=1794924878; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HlXgeWxFCsYVgmI1LCtDvAKQFHLkVa3Met4qvlNiqkE=;
+        b=PSA1ltgiG/2ivCu2rZ+huElYfV/dffBYyc+FfNsFa6D5AkvfwgxSxkT55C2R7EoSx3
+         pL9j2DsjtUqZY47d+26gCykfvP/BcBH6ccTwj2uMK1I9hVbUkfceskbJ9CI1PrIKxg8i
+         gF7ise+xPflj9JRZrQjXBuN0TWj8roQnmm5CDCoViAL13GwTB7qUp1/p2MJ1jHi6SqJ9
+         3JkBsOsgvZtrFt+xQ8zSV8Z2uDTQHgBi/atApErXvvg635fKK5FYRt3tsHZ6r2t2N4mr
+         Aa3/bcjTx4tLtXvuFeEetXx9MYNcNMgNGsdS4MqxJmr7whIKDFMob7Z4gmMH02On4PCB
+         96rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794320078; x=1794924878;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HlXgeWxFCsYVgmI1LCtDvAKQFHLkVa3Met4qvlNiqkE=;
+        b=LlhSQPzlEo1S6F8T9T66BtXCbjDWTDqF65ry9ztJgWQDttwWSaQC1Wx5qj1JXqy6dy
+         P7vjYr1RILHDPTGRHfH+fBFY9Rf++N/XFny/tp2Pw9I+CLLbEwcpN7O/S0Am+hr0VQIv
+         g227ixuDjzs5FBz983Xn/DFNAm6bMO6iphSYRJojClluCHpLVy9f5hHA2UW+nlnISpcd
+         dexGCIxiUQVAq01GpalpD3eTPKjDMKp0CxyAf0qdUSDDJn06QPHT/pJ1GFa+PP4Tv37b
+         oF67XdBhXYc5XZqxwFJClow1bHtOLdJZiz0DFrxVUOKxF+poT732nInI7G32ob1vmxek
+         U18A==
+X-Forwarded-Encrypted: i=1; AL+hErESO3ypjSYS7jRSpgV+ozUy0kmWk/Wxoo4e8O8JULcR6EweyJQ2HieZ9lB7S2NtMWP/ie/EQFraMQs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+gNqaNwa/dRalNtswmfXGzqDTYjwvQyJy6I/V1lGUH4TvVwY1I
+	Ks6PcbMcqSgxaWfuqxW+rsxEnYGIWXi3R9Wf8FfSKG9H0bXM8JmXMugB/cS5S8Vyp9WXFFM76zJ
+	XqZd2a3ZmMd1u1W181KtjO5CN+pcVKCTENYaCf9axZdyvJXE13cFAKg7sEjhGjdE=
+X-Gm-Gg: AYBFou03kZN2XdJcqv37eNbQ4DTLNFgpxnHjmfl3ovaFvEJ8YV3my0EPsepgh7x3eC5
+	NOkP73q8lbSlj3mFYA0kUcnHa9KXEPoeqc+rzYLGrAXwDFUJbrY9pjv5luRMXxjo99qIKk9hZNm
+	+3kIJ5SxFA8YDCOc2beNQpao/8wcb3fXP/HahziFZs3df7XdWrmsnC1xPB8juK3YPFye2KM3NdG
+	MzGw1Xzagkal58mL4ZyuXX4gj60mOc+4I0zPAehYJ/SvXNtPfT9j3Ptm+D45BurZ39gMoMSlMvk
+	CE2vTDSrGWgkM/wXyR6Jy892XGKxYlPLMewWR4sFnOy75trvakMeV+3+ZHiKU08twHoIe+HY1VX
+	iYr4Fgu7MVn2ggtAnIQ24/tbFUsV+EnCwmqpDIAK/PofsxMzzA7XezbtZo2d8Mg==
+X-Received: by 2002:a05:6102:6a91:b0:7d2:cdd6:6c8 with SMTP id ada2fe7eead31-7d301bb97afmr720179137.21.1794320077600;
+        Tue, 10 Nov 2026 06:14:37 -0800 (PST)
+X-Received: by 2002:a05:6102:6a91:b0:7d2:cdd6:6c8 with SMTP id ada2fe7eead31-7d301bb97afmr720163137.21.1794320076998;
+        Tue, 10 Nov 2026 06:14:36 -0800 (PST)
+Received: from quoll ([178.197.218.7])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49884b99869sm4024355f8f.4.2026.11.10.06.14.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 06:14:35 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>
+Subject: [PATCH v3] docs: submitting-patches: Clarify partial review tags
+Date: Tue, 10 Nov 2026 15:14:30 +0100
+Message-ID: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,274 +119,104 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH bpf-next 03/15] xdp: add kfuncs to store RX hash and VLAN
- tag
-To: Tianyi Gao <tianyi@cloudflare.com>, bpf@vger.kernel.org,
- netdev@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Jakub Kicinski <kuba@kernel.org>
-Cc: John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Vladimir Vdovin <deliran@verdict.gg>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Donald Hunter
- <donald.hunter@gmail.com>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
- Emil Tsalapatis <emil@etsalapatis.com>,
- Ihor Solodrai <ihor.solodrai@linux.dev>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
- Alexander Lobakin <aleksander.lobakin@intel.com>,
- Magnus Karlsson <magnus.karlsson@intel.com>,
- Tushar Vyavahare <tushar.vyavahare@intel.com>,
- Jason Xing <kerneljasonxing@gmail.com>,
- Nikolay Aleksandrov <razor@blackwall.org>,
- Madalin Bucur <madalin.bucur@nxp.com>, Ioana Ciornei
- <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>,
- Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Chris J Arges <carges@cloudflare.com>, Jakub Sitnicki
- <jakub@cloudflare.com>, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- llvm@lists.linux.dev, kernel-team@cloudflare.com
-References: <cover.1794281983.git.tianyi@cloudflare.com>
- <f865ab08e7e0343bcd6eb380f7003ddd32d177e2.1794281983.git.tianyi@cloudflare.com>
-Content-Language: en-US
-From: Jesper Dangaard Brouer <hawk@kernel.org>
-In-Reply-To: <f865ab08e7e0343bcd6eb380f7003ddd32d177e2.1794281983.git.tianyi@cloudflare.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2607; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=Zm5ucH3QzyK+131MnhFZbkBIkNzuwWp2O1N8ZiDdMT8=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBq8ybFMVJitws7oWjWSIEkO9r5Dx825g3GPOQ9R
+ aA8n55mkX+JAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCavMmxQAKCRDBN2bmhouD
+ 10F4D/94N+fw39TgUThBNGBN+e6BIMIw+Im+v1KD4Iqi8iglWXjTO1VZOTudNUW+hTe7X0/JObr
+ LT5AZQmur5IWg24i3tmC0lMmOW3NO/cJw5TjLu3oWS9tnQmPxpBV3XeELJBTnsedk3up5CyF3Id
+ AFa2mMkZ/gRZgbqvWHeygUBo35+ilZa4kFdJVJ3CNrstlaiN63xDPeB/nAuFoP3fEDty1dSyC4H
+ HgUtjRF3PJ0yj0W2dZSsEiMcV0i4l6Trq1vfxVhXjlQb+dA32W2GCadodHN60kbydS+vfuj52ac
+ Tuh7j9LySbvNlSPHy00zFvirrwe4jrajT03wkRmz96Cx9F93JResnfEuOMPOjqusyr+IKpLEvBL
+ DT6kG5+oOAtAzMEPXoI5vvI10YCvFmmtnp12yqGbybCF4+ZJ1O54hcd69IlBhWjyMvSvUhLtYxJ
+ 1Gq/AjWWJxSGTYb3dYL4YTCrV+ji53GngJLv4itS7r7vH7UeKSOzbSCSLnt3GWdKQuSVvv54+eA
+ ZgSOIQG3XoH/FymnBqHM6k8uWXvpGEOpqlSfpXInUjgRJF0uHudGkI9Ttnv9UZYHUnYnt6x+Lrt
+ hNRZsD+5erYMDhN9YRo9iPtB3sZltkKOlBCfTAJwsraTLMMWqUcO5kVwUxqcBlT3dEbJm1Hlnjw KY7ngzQH951TQUw==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA1NiBTYWx0ZWRfX2M/znR00INV8
+ dwXnVEYnSEmpKmm+TXqX68tCmhdqwFGGQw1PnbjJtYUtQj3pk8hEP5yJgkGiEr75IX2AZBPHKP8
+ 24wI5jZ1Hxh7E/I4hg2ViaOYdhOw5CmRsMq9Vpj2KVewKuCUHLLrB9cDbeE3b338MIRZUNpoerl
+ gGb9otaYaKnmGKgpBAn4odVQ95AeXERDje+tMEOcOkuJTtrE3a2rInC7LxX14XZbmT8b3NITsdx
+ JbsT221NDpIHi28FqRgZBfF5PO9kLsW5tnVCaTmgsrjnYIj8KAlyfDqy3hJCCiOEVf+uXH+c2Ji
+ WReRnNeHI5W/1QKY15R6oS8SPuA9hr5nbni4a+hWBgLSzpEXRVhKpTRImL9MC3xzq9wo4nqsKej
+ p0rzxXg0C7KiX0/I36sIo9/s/KHuwnZ9xUdphJUz4kF1XQBBiKofHl9S9VNGjqbAa/UeGJWl2B6
+ IfGmNYtCZMO3lpJkrpQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA1NiBTYWx0ZWRfXyff3QrQLnaxi
+ NqoWBdroD/5W7lnSTNGjGNJ+FrVtPejpml6GzcOCh3VWPutd4cF8bZY/maoy7V/DLCFeCykAUQq
+ sEdKLk9M8LE1l4RFZFogbsqDn3Jzqqg=
+X-Proofpoint-GUID: gk7n0V7m5faxqKVAwgynl3Msyd8pW93m
+X-Authority-Analysis: v=2.4 cv=B6gsQ+tM c=1 sm=1 tr=0 ts=6af326ce cx=c_pps
+ a=UbhLPJ621ZpgOD2l3yZY1w==:117 a=uyPgTw0bjBTS2cVxpiNm5w==:17
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=QyXUC8HyAAAA:8
+ a=EUspDBNiAAAA:8 a=QIhr-27iAAAA:8 a=LDBv8-xUAAAA:8 a=QtS_tYemhZOPClHeaekA:9
+ a=TOPH6uDL9cOC6tEoww4z:22 a=cgaYBWEFosGJW4rWv5Lf:22 a=DZeXCJrVpAJBw65Qk4Ds:22
+X-Proofpoint-ORIG-GUID: gk7n0V7m5faxqKVAwgynl3Msyd8pW93m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-10_04,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 lowpriorityscore=0 adultscore=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0 malwarescore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611100056
 
+Refactoring of driver subsystems or some core driver parts often come
+with change of the actual drivers.  If that happens within one patch,
+people giving "Reviewed-by" tag only to piece of the patch, like one
+driver, and ignoring the rest including the main concept of the patch,
+are not really reviewing "the patch".
 
+As explained in the Submitting Patches document, the "Reviewer's
+statement of oversight" is for patch as in "entire patch" meaning:
 
-On 11/10/26 04:57, Tianyi Gao wrote:
-> Add bpf_xdp_skb_ext_store_rx_hash() and bpf_xdp_skb_ext_store_rx_vlan().
-> They store the RX hash and the VLAN tag in the skb core extension area.
-> A later patch sets the stored values on the skb built from the
-> xdp_frame.
-> 
-> Both kfuncs call xdp_skb_ext_add(), which reserves the entry for an id.
-> On the first store for a packet, it clears the header and sets
-> XDP_FLAGS_HAS_SKB_EXT, so stale headroom is never read as a header. A
-> second store of the same id, also after a delete, reuses its offset.
-> 
-> xdp_skb_ext_add() returns -EOPNOTSUPP for AF_XDP zero-copy buffers. User
-> space can write their headroom while the program runs, and could change
-> the header between two stores.
-> 
-> The store kfuncs are in their own kfunc set. They do not need a
-> device-bound program, so programs on cpumap and veth can call them.
-> 
-> bpf_xdp_skb_ext_store_rx_vlan() accepts only ETH_P_8021Q and
-> ETH_P_8021AD, because vlan_proto_idx() warns on any other TPID.
-> 
-> A BUILD_BUG_ON() in xdp_skb_ext_struct_check() limits the area to 64
-> bytes. As in skb_extensions_init(), the function is noinline
-> __no_profile so that it builds with CONFIG_GCOV_PROFILE_ALL.
-> 
-> The two kfuncs are based on bpf_xdp_store_rx_hash() and
-> bpf_xdp_store_rx_vlan() by Lorenzo Bianconi in Jesper's XDP_REDIRECT RX
-> hints series V2 [1].
-> 
-> Link: https://lore.kernel.org/all/175146831297.1421237.17665319427079757435.stgit@firesoul/ [1]
-> Signed-off-by: Tianyi Gao <tianyi@cloudflare.com>
-> ---
->   net/core/xdp.c | 154 ++++++++++++++++++++++++++++++++++++++++++++++++-
->   1 file changed, 151 insertions(+), 3 deletions(-)
-> 
-> diff --git a/net/core/xdp.c b/net/core/xdp.c
-> index 1d679e8fd649..97dc0e403a78 100644
-> --- a/net/core/xdp.c
-> +++ b/net/core/xdp.c
-> @@ -990,11 +990,159 @@ bool bpf_dev_bound_kfunc_id(u32 btf_id)
->   	return btf_id_set8_contains(&xdp_metadata_kfunc_ids, btf_id);
->   }
->   
-> -static int __init xdp_metadata_init(void)
-> +#define XDP_SKB_EXT_CHUNKSIZEOF(x) DIV_ROUND_UP(sizeof(x), XDP_SKB_EXT_ALIGN)
-> +#define XDP_SKB_EXT_ENTRY_ACTIVE BIT(7)
-> +
-> +struct xdp_skb_ext_hash {
-> +	u32 val;
-> +	u32 type; /* enum xdp_rss_hash_type */
-> +};
-> +
-> +struct xdp_skb_ext_vlan {
-> +	__be16 proto;
-> +	u16 tci;
-> +};
-> +
-> +static const u8 xdp_skb_ext_type_len[] = {
-> +	[XDP_SKB_EXT_HASH] = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext_hash),
-> +	[XDP_SKB_EXT_VLAN] = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext_vlan),
-> +};
-> +
-> +/* Limit the header and all entries to 64 bytes, so that a new entry
-> + * cannot grow the area without notice.
-> + */
-> +static noinline void __init __no_profile xdp_skb_ext_struct_check(void)
-> +{
-> +	unsigned int chunks = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext);
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(xdp_skb_ext_type_len); i++)
-> +		chunks += xdp_skb_ext_type_len[i];
-> +
-> +	BUILD_BUG_ON(chunks * XDP_SKB_EXT_ALIGN > 64);
-> +}
-> +
-> +static void *xdp_skb_ext_add(struct xdp_buff *xdp, enum xdp_skb_ext_id id)
-> +{
-> +	struct xdp_skb_ext *ext = xdp_skb_ext(xdp->data_hard_start);
-> +	bool valid = xdp_buff_has_skb_ext(xdp);
-> +	unsigned int newlen, newoff;
-> +	void *start;
-> +
-> +	/* User space can write the headroom of AF_XDP zero-copy buffers */
-> +	if (xdp->rxq->mem.type == MEM_TYPE_XSK_BUFF_POOL)
-> +		return ERR_PTR(-EOPNOTSUPP);
-> +
-> +	if (!valid) {
-> +		newoff = XDP_SKB_EXT_CHUNKSIZEOF(*ext);
-> +		newlen = newoff + xdp_skb_ext_type_len[id];
-> +	} else if (ext->offset[id]) {
-> +		newoff = ext->offset[id] & ~XDP_SKB_EXT_ENTRY_ACTIVE;
+  (a) I have carried out a technical review of this patch to
+      evaluate its appropriateness and readiness for inclusion into
+      the mainline kernel.
 
+The sentence is explicit, exhaustive and complete, meaning it does not
+allow implicit variations like: "this patch or part of this patch".
 
-Given the recent run of security bugs caused by manipulated offsets, I
-would like to limit how far a bad offset can reach here. The offset is
-read back from the packet headroom and is trusted only because
-XDP_FLAGS_HAS_SKB_EXT is set; nothing checks it against ext->chunks or
-the buffer. With the 7-bit mask it can point up to 508 bytes past the
-ext header, beyond the default headroom and into packet data, and in
-this branch the caller then writes the entry (up to 8 bytes) there. I
-have not found a way to get a bad header with this series, but the
-invariant depends on every driver leaving this area alone while the
-flag is set.
+Reviewing pieces of the patch while ignoring the main part of it, is
+much closer to Acknowledgment, thus Ack or at least "Reviewed-by" should
+be followed by '# subpart' suffix.
 
-The BUILD_BUG_ON() in xdp_skb_ext_struct_check() limits the header plus
-all entries to 64 bytes, which is 16 chunks, so a 4-bit mask covers
-every valid offset. A bad offset then starts at most 60 bytes after the
-ext header. It is the same AND with another constant, so it costs
-nothing in the fast path. The same mask should be used in
-xdp_skb_ext_get() in patch 7.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+---
+Changes in v3:
+1. Minor commit msg adjustments
+2. Use  Driver X author <foo@example.org> # for Driver
+3. Tag
 
---Jesper
+Changes in v2:
+1. Few grammar fixes in text and commit msg.
+2. Mention the "# subpart-name" marker solution.
 
-> +		newlen = ext->chunks;
-> +	} else {
-> +		newoff = ext->chunks;
-> +		newlen = newoff + xdp_skb_ext_type_len[id];
-> +	}
-> +
-> +	start = xdp_data_meta_unsupported(xdp) ? xdp->data : xdp->data_meta;
-> +	if ((void *)ext + newlen * XDP_SKB_EXT_ALIGN > start)
-> +		return ERR_PTR(-ENOSPC);
-> +
-> +	if (!valid) {
-> +		memset(ext->offset, 0, sizeof(ext->offset));
-> +		xdp->flags |= XDP_FLAGS_HAS_SKB_EXT;
-> +	}
-> +	ext->offset[id] = newoff | XDP_SKB_EXT_ENTRY_ACTIVE;
-> +	ext->chunks = newlen;
-> +
-> +	return (void *)ext + newoff * XDP_SKB_EXT_ALIGN;
-> +}
-> +
-> +__bpf_kfunc_start_defs();
-> +
-> +/**
-> + * bpf_xdp_skb_ext_store_rx_hash - Store the RX hash of this packet.
-> + * @ctx: XDP context pointer.
-> + * @hash: RX hash value.
-> + * @rss_type: RSS hash type, see &enum xdp_rss_hash_type.
-> + *
-> + * Return:
-> + * * Returns 0 on success or ``-errno`` on error.
-> + * * ``-ENOSPC`` : not enough headroom for the entry
-> + * * ``-EOPNOTSUPP`` : AF_XDP zero-copy buffer
-> + */
-> +__bpf_kfunc int bpf_xdp_skb_ext_store_rx_hash(struct xdp_md *ctx, u32 hash,
-> +					      enum xdp_rss_hash_type rss_type)
->   {
-> -	return register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &xdp_metadata_kfunc_set);
-> +	struct xdp_buff *xdp = (struct xdp_buff *)ctx;
-> +	struct xdp_skb_ext_hash *entry;
-> +
-> +	entry = xdp_skb_ext_add(xdp, XDP_SKB_EXT_HASH);
-> +	if (IS_ERR(entry))
-> +		return PTR_ERR(entry);
-> +
-> +	entry->val = hash;
-> +	entry->type = rss_type;
-> +
-> +	return 0;
-> +}
-> +
-> +/**
-> + * bpf_xdp_skb_ext_store_rx_vlan - Store the VLAN tag of this packet.
-> + * @ctx: XDP context pointer.
-> + * @vlan_proto: VLAN tag protocol identifier (TPID), in network byte order.
-> + * @vlan_tci: VLAN TCI, in host byte order.
-> + *
-> + * Return:
-> + * * Returns 0 on success or ``-errno`` on error.
-> + * * ``-EINVAL`` : @vlan_proto is not 802.1Q or 802.1AD
-> + * * ``-ENOSPC`` : not enough headroom for the entry
-> + * * ``-EOPNOTSUPP`` : AF_XDP zero-copy buffer
-> + */
-> +__bpf_kfunc int bpf_xdp_skb_ext_store_rx_vlan(struct xdp_md *ctx,
-> +					      __be16 vlan_proto, u16 vlan_tci)
-> +{
-> +	struct xdp_buff *xdp = (struct xdp_buff *)ctx;
-> +	struct xdp_skb_ext_vlan *entry;
-> +
-> +	if (vlan_proto != htons(ETH_P_8021Q) &&
-> +	    vlan_proto != htons(ETH_P_8021AD))
-> +		return -EINVAL;
-> +
-> +	entry = xdp_skb_ext_add(xdp, XDP_SKB_EXT_VLAN);
-> +	if (IS_ERR(entry))
-> +		return PTR_ERR(entry);
-> +
-> +	entry->proto = vlan_proto;
-> +	entry->tci = vlan_tci;
-> +
-> +	return 0;
-> +}
-> +
-> +__bpf_kfunc_end_defs();
-> +
-> +BTF_KFUNCS_START(xdp_skb_ext_kfunc_ids)
-> +BTF_ID_FLAGS(func, bpf_xdp_skb_ext_store_rx_hash)
-> +BTF_ID_FLAGS(func, bpf_xdp_skb_ext_store_rx_vlan)
-> +BTF_KFUNCS_END(xdp_skb_ext_kfunc_ids)
-> +
-> +static const struct btf_kfunc_id_set xdp_skb_ext_kfunc_set = {
-> +	.owner = THIS_MODULE,
-> +	.set   = &xdp_skb_ext_kfunc_ids,
-> +};
-> +
-> +static int __init xdp_kfunc_init(void)
-> +{
-> +	int ret;
-> +
-> +	xdp_skb_ext_struct_check();
-> +
-> +	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
-> +					&xdp_skb_ext_kfunc_set);
-> +	return ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
-> +						&xdp_metadata_kfunc_set);
->   }
-> -late_initcall(xdp_metadata_init);
-> +late_initcall(xdp_kfunc_init);
->   
->   void xdp_set_features_flag_locked(struct net_device *dev, xdp_features_t val)
->   {
+Cc: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ Documentation/process/submitting-patches.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+index f271d7413f72..040f81b2bedf 100644
+--- a/Documentation/process/submitting-patches.rst
++++ b/Documentation/process/submitting-patches.rst
+@@ -585,6 +585,11 @@ serves to give credit to reviewers and to inform maintainers of the degree of
+ review which has been done on the patch.  Reviewed-by: tags, when supplied by
+ reviewers known to understand the subject area and to perform thorough reviews,
+ will normally increase the likelihood of your patch getting into the kernel.
++If the reviewer checks only a piece of the patch, leaving the rest unreviewed,
++especially skipping the main concept of the patch, then more appropriate is
++an Acked-by tag or adding a "# subpart-name" marker after the Reviewed-by tag:
++
++	Reviewed-by: Driver X Reviewer <foo@example.org> # for Driver
+ 
+ Both Tested-by and Reviewed-by tags, once received on mailing list from tester
+ or reviewer, should be added by author to the applicable patches when sending
+-- 
+2.53.0
 
