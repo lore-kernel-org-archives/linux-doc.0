@@ -1,56 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=136.143.188.112
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794336158;
-	b=l4G6NliZ0KmeoGiYMFnEPEKOqhnfmJ5mbZ4xVEX47hYoyaJmo7+qri4eLwp/Uw0Hj+tc
-	 /C9sWavda9nK2wC3EakxdLOZ9tYcayKIVUhXqXQ5ndwNLKBPSC8/Z665tIXhGI6e4owpK
-	 7sPd0QGXGTSw8/GoAoTbSOrXh3w8rzNYGTiCNHmBM6hPwY2K/j78W+4Hs4jhRLuyKYnS9
-	 ZOd7D7au7UeG5JE+GMPGiE2aZqsvklbTc225jrmv5S9wR5/Ku7hOAbfoKvUrTtBdV5096
-	 vXmsy63Nj7XmEY+gr924OvNua03mLTmfWG7xW64RaMVynfo9oiu00pO/FW9S+OYadOQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794336158;
-	h=DMARC-Filter:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Message-Id:X-B4-Tracking:
-	 X-Change-ID:To:Cc:X-Mailer:X-ZohoMailClient;
-	bh=sVs7AEuRf7kU4P5SCe65hBRcB2CGaFowKJwUqhl9enY=;
-	b=cd9ziaU6YvqfyChXb5dRnfC0tCpvr/TbUVQdTo5ltIKfDUDLXvUro7cXFpVCtf7fyLQf
-	 U5rbBTvyyq/pmPEO5TS10lIVw70itlpBQO2uQyVmX+WH4CPWvBFDQ6RC6ieUUPUdV/ubj
-	 6zxNDsx9L9pzNJ5fv9dZo8MD+WyCkWoSRFDdkJseuUmJh2TyVEssbqYLB7ZqruVaUVBUP
-	 4OSShlLYWRSJwyzcGeRSAO+jCwtcZJVRbvPS5KpWqtXxpBBiBdYeCPwjMuymRrTe5G3w5
-	 emWi6maLgUmMO+jTW7NVXgVHhwMPEceD80Wt8OThbYOMO3rsuafzr6/v/ss6TVlef6Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rong.moe;
-	spf=pass smtp.mailfrom=rong.moe;
-	dkim=pass header.d=rong.moe header.i=@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=HkxeuUey;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=136.143.188.112
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794336339;
+	b=u3nZLii4H+kA3ltmjUq/BQIxPe4+cbqJixa15KwEVpef9sRG8a3jPoqx+adXRbEmcB5o
+	 o6z6MRDY0rk9eEA2O7Wgq88uBTMB3YWf3lGraVyPM0nXTTpXqc/ntckihv4XM6ymB1gEM
+	 MuWaxjq1YInlWhh8DNom3DElufEFQO0zzrAU5Vf6OXHEtmIm5OzMVRd6/zdESpR6KrFED
+	 4FKDW5I6g5SnvZ5p51MKEJ71YWK02FBfkJMT5BTB+gyNuAIlKeLn3b1jtGf1s1uDiICTF
+	 aE8gv/NqTPoRszLR8DvmjvsvoF7FTdZ4PXaFTP2m4+lLHRa1SvCtml1Y4NyWwAkix5A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794336339;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=j6HenvetdiqKK5Mv1KKa157Ln9/E8xXqIQ72cYSu+2Y=;
+	b=WbkxKSmxGmmaQR3+xnWKxeKldmNT1adPGGu/LmhJu15yp0sreTJZhUN5gsNBj9mbZs2Q
+	 FJOxgsW/pqYj5UUXHGejQJYTWRQkGQMpaYRaV5QnatAhrP6T6mb4KnhWYVH9odvXAh1L2
+	 NkugFqQuCqPTuvC/JpcHlOAtoSVpLB+lAoxb48IupuLR18jXQ/znsmqlCYi6hvDXuv23y
+	 y+hIQ75eF2oQ6dhdBcUfipnEXbTvEaUanduYcTXXt8DJgqaR/6PeOx4Dl+5zRSx8y7MjY
+	 zmfaEsSqFsN7gFaalsmWRGVHRV87T+FqKTTTeOp/Zj5C29/Ef39XI2wi9AN7O+p8vIQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=fqYza+qT;
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C0E5606A92B;
-	Tue, 10 Nov 2026 18:42:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C0E5606A92B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9446B606A335
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 18:45:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9446B606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rong.moe header.i=@rong.moe header.a=rsa-sha256 header.s=zmail2048 header.b=HkxeuUey
-ARC-Seal: i=1; a=rsa-sha256; t=1794336116; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=SwXUuBS99S+3Dqmjogt1iDgRTD/JXQqwe9DrKOJrFYuggy8yMsFs3tdA0TimhdDH/O2aoKB6rQAN/ruhXYRIpUihjeF7wrCsbZIHS9wtmE0bueReqKnG2EeOpPwbBXGTncNP55Sw/dWJcLkQEkrWQyZLCKXmEm67yvhvkGVltlc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1794336116; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=sVs7AEuRf7kU4P5SCe65hBRcB2CGaFowKJwUqhl9enY=; 
-	b=fqQMNDRBkP3H7e8olIha9tfyxK4hyzDnwf87ugDEhe/DwQ8HC+9/un8yUv7F4o3iosQSVSqfPzrQjwPShfKfL0ZUnz4w5cksReRl0EAZDbcrudL4CyeUp7yUXtdQ+43dPXIAUriQWY53SU5/a8Sxjr6zMyq6+AX2aWTHROo/ORk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: a=rsa-sha256; b=HkxeuUeyuOwtt3W+vqumYIKRC/TSxIhGjX87xuQaqMwpkDiqF0luMcYUcQqQsBRFAqZHRRVYoKgBKgz4SNZwNDyxrCxJ9TfwlDxLezNp5VHGvlv8oqdHF+90DLF0O8aHFAbKPu55D3WXvWV/NxMM6vqs5RIZtQ0GZXMbYxfKjOLp7gki94aP5X4mlpQvt8fnp+RPwx1Uo5Y2ANLS/L8lxeH1pt1TWE9p2/HViyYoCWixwnCBZE9PiCFAKdCzhl27N+mnLubMA7pqv7aeQhffMlrHTamd2pzK3dpVDcoLZfEwg6FqZ6j7sWPwt6QhDfRcF1Nxa1hY8XNK481c02fD9Q==; c=relaxed/relaxed; s=zmail2048; d=rong.moe; v=1; bh=sVs7AEuRf7kU4P5SCe65hBRcB2CGaFowKJwUqhl9enY=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1794336114602728.4657860111748;
-	Tue, 10 Nov 2026 10:41:54 -0800 (PST)
-From: Rong Zhang <i@rong.moe>
-Date: Wed, 11 Nov 2026 02:41:42 +0800
-Subject: [PATCH v2] platform/x86: thinkpad_acpi: Add "unrestricted_leds"
- module parameter
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=fqYza+qT
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2eb0a52d605so6575ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 10:45:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794336338; x=1794941138; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=j6HenvetdiqKK5Mv1KKa157Ln9/E8xXqIQ72cYSu+2Y=;
+        b=fqYza+qTmu263ZJR6IQbgcfkkw9jmBae56WVI+o3f6yE+Kb1eAns8SLyCefyix05sI
+         yNFEQKraXZrzlgeP0EDS4+8DlSYhhDPuNHBvo9HtQkvkE80biYpP/AWmMZMb4N/avCqc
+         tiBIiao8l8HKCuoG0Mts/I6lvZxkuP9qJfXB7Cyhx7J46AAPju6wNkwpIXeVimtsE/cG
+         GqmB+KwHAwkczSt+6neTbRmWUTaNZHyZbOq/lWaPoci+yXV25lxstqc4zN1oce/Vkxwn
+         mLCQsVZ9HPbXapT6AxcKUs02u2n1Y2y/FccJnECWdMdOU1ViJg38CiOwYx0X1JHRx/0Z
+         HWgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794336338; x=1794941138;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=j6HenvetdiqKK5Mv1KKa157Ln9/E8xXqIQ72cYSu+2Y=;
+        b=MKjsj0qFz4DUaAGS0GS+y/BTUfkqil9JiGSL1y1bk0k941oYxo3qkaND4+LGe0ikYe
+         UgiASFJxeqMBgMS2Q3nGXrFjFUPZkoSA5fSXqpY7PZzIlXUEiNPWa/+JKhw1J5VmiBe8
+         Bc3jh6FL397q6yT8IzSG3nDmSUD9RtSfe0reFdIGB83f6QVTsQyHHtJwvRmsU6cWAvLb
+         4yXDghDXhiatqAnEAXOrQaHwP+dgSF00SmUa1//VfrCkfZCLBWqqo0gFdsGTRbhxw0Bp
+         0U5eo/5FW8ydQmL1+9C25DGX4xpsuTxLiZTnq+BY30Wo2tNE70sZNOo6ELJK9Fmq9ZBF
+         7Vhw==
+X-Forwarded-Encrypted: i=1; AL+hErF3NeC5t4TlbJb5MQRe6e509PlqAPwnoMd4KK4Q1CEhi7Zu6r2A8UWHHF2FIbTkmlhWEG/B8CBE1tU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/TOb4GRU+2cT08fRkSGiAOaWV2Oh3pRtAY67TRB7ZuepYlLBHs
+	9+q6sPOv7yQxMdSp+ORF/K02gmFHrT/t28xAPSU+8cIpxw+D1KJXSqOOLqc/oWn1lA==
+X-Gm-Gg: AYBFou22a3HMBOMd8hn7QIDH2zopmsw5rDqoHN3m9W8gmLvFARryJZf/wgdyWaar3qa
+	xjWRwZ73dxTSC1/9ZkzlrTSs3e0PYJVqVB6DeQVDManxuw11NGODtclJf8fR7RznpJxq0ZhaYVp
+	wLGT8ESFVsgAomZjNXdEbYIwfEu/5o2DR3PE5FC7VcUMuHHTOCDbitDxMd34sck41kDheeQ2Oxu
+	1soPQOXtitYAvnJUWIWogKFZrZ0oT5v1R0uFr1h/kuNASspYxKywBirDv+gni4LgvkDqIO8i4d0
+	Ooq/YrvQommGFfYydxFQtdy3ldzYcT3+KhzBwlq6A8IWHKTN84A71q3InuNWX2Flkra8s/339Jk
+	z7rv2iyCsn4hQIHbrfHp+73XGUALxh8r9VPyA/LSj53YTMDhqABCg1jOFa79pwIJX3KGIonqBfd
+	Q1hhf3OqblBHPd3JaRyDZ/1IysuV0Xm5UA1FmYOmmZxNhNbew8TGjX6Y8Zp/TRBbyfMfxAKZFr0
+	aPrJFVv85k5b1rcl8cZv4ik7ueHu0bncIPMrXwrIrBTU5lWQ11vsTfm+dczC7iiUAwCdppWCKgF
+	ianz4cbNiubr9JjRyprFteLYahr8HdaSNx6gry7WQRdZmaGyopkEwkC0kT0rsENS
+X-Received: by 2002:a17:903:2a86:b0:2bd:3bfd:74f1 with SMTP id d9443c01a7336-2edd7110fa8mr255665ad.2.1794336337416;
+        Tue, 10 Nov 2026 10:45:37 -0800 (PST)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baaa86ce5fsm1317128b3a.21.2026.11.10.10.45.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 10:45:36 -0800 (PST)
+Date: Tue, 10 Nov 2026 10:45:32 -0800
+From: Vipin Sharma <vipinsh@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: kexec@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kselftest@vger.kernel.org, linux-pci@vger.kernel.org, ajayachandra@nvidia.com, 
+	alex@shazbot.org, amastro@fb.com, ankita@nvidia.com, apopple@nvidia.com, 
+	bhelgaas@google.com, chrisl@kernel.org, christian.koenig@amd.com, corbet@lwn.net, 
+	graf@amazon.com, jacob.pan@linux.microsoft.com, jgg@nvidia.com, jgg@ziepe.ca, 
+	jrhilke@google.com, julianr@linux.ibm.com, kees@kernel.org, kevin.tian@intel.com, 
+	leon@kernel.org, leonro@nvidia.com, lukas@wunner.de, mattev@meta.com, 
+	michal.winiarski@intel.com, parav@nvidia.com, pasha.tatashin@soleen.com, praan@google.com, 
+	pratyush@kernel.org, rananta@google.com, rdunlap@infradead.org, rientjes@google.com, 
+	rodrigo.vivi@intel.com, rppt@kernel.org, saeedm@nvidia.com, schnelle@linux.ibm.com, 
+	skhan@linuxfoundation.org, skhawaja@google.com, vivek.kasireddy@intel.com, witu@nvidia.com, 
+	yanjun.zhu@linux.dev, yi.l.liu@intel.com
+Subject: Re: [PATCH v6 00/27] VFIO PCI Live Update (noiommu mode)
+Message-ID: <20261110184339.GB519525.vipinsh@google.com>
+References: <20261102153656.1431701-1-vipinsh@google.com>
+ <DMOH7D1PZUM4.1X82LVQK7E54Q@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -60,163 +108,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261111-tpacpi-debugfs-unlock-unsafe-led-v2-1-f23a94912a09@rong.moe>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WOQQ6CMBBFr0Jm7RimERRX3sOwKO0UqtiSFoiGc
- HcLHsDVz0t+3v8LRA6WI1yzBQLPNlrvEohDBqqTrmW0OjFURlaFkhrHQarBouZmak3EyfVePVN
- EaRh71khnqU+V0BdTKEiaIbCx733iXv84Ts2D1bh5t0Zn4+jDZ/8w09YDkYuSKD//n5sJCcuqI
- UNMuRLmFrxrjy/PUK/r+gV9UAlo4QAAAA==
-X-Change-ID: 9fa95cad-tpacpi-debugfs-unlock-unsafe-led-17ad492d8f5c
-To: Josh Triplett <josh@joshtriplett.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Mark Pearson <mpearson-lenovo@squebb.ca>, 
- "Derek J. Clark" <derekjohn.clark@gmail.com>, 
- Hans de Goede <hansg@kernel.org>, 
- =?utf-8?q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
- Henrique de Moraes Holschuh <hmh@hmh.eng.br>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- platform-driver-x86@vger.kernel.org, ibm-acpi-devel@lists.sourceforge.net, 
- Rong Zhang <i@rong.moe>
-X-Mailer: b4 0.17-dev-ce4c1
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DMOH7D1PZUM4.1X82LVQK7E54Q@google.com>
 
-Since commit a4d5effcc737 ("thinkpad-acpi: restrict access to some
-firmware LEDs"), most LEDs are classified as unsafe and write access to
-them is restricted by default.
+On Fri, Nov 06, 2026 at 10:20:10PM +0000, David Matlack wrote:
+> On Mon Nov 2, 2026 at 3:36 PM UTC, Vipin Sharma wrote:
+> 
+> > David Matlack (4):
+> >   vfio: Enforce preserved devices are retrieved via
+> >     LIVEUPDATE_SESSION_RETRIEVE_FD
+> >   docs: liveupdate: Add documentation for VFIO PCI
+> >   vfio: selftests: Add vfio_pci_liveupdate_uapi_test
+> >   vfio: selftests: Add Makefile support for TEST_GEN_PROGS_EXTENDED
+> >
+> > Vipin Sharma (23):
+> >   vfio/pci: Factor out the reset logic in VFIO PCI device close path
+> >   vfio: Export various helpers from VFIO
+> >   liveupdate: Export symbols needed by modules
+> >   vfio/pci: Register a file handler with Live Update Orchestrator
+> >   PCI: liveupdate: Add helpers to preserve struct pci_saved_state
+> >   vfio: Add helpers to identify device files that can be preserved
+> >   vfio/pci: Preserve vfio-pci device files across Live Update
+> >   vfio: Introduce vfio_find_device() helper
+> >   vfio: Refactor vfio_device_fops_cdev_open()
+> >   vfio: Add API to open cdev device for Live Update restore
+> >   vfio/pci: Retrieve preserved device files after Live Update
+> >   vfio/pci: Protect incoming preserved devices until they finish Live
+> >     Update
+> >   vfio/pci: Take over preserved devices without resetting them
+> >   vfio: selftests: Build liveupdate library in VFIO selftests
+> >   vfio: selftests: Initialize vfio_pci_device using a VFIO cdev FD
+> >   vfio: selftests: Add iommufd noiommu mode
+> >   vfio: selftests: Add helpers to map DMA memory at IOVA == PA in
+> >     noiommu mode
+> >   vfio: selftests: Add helpers for Live Update DMA memory and sysfs
+> >     state
+> >   vfio: selftests: Add an attach() driver op
+> >   vfio: selftests: Test preserving noiommu devices in
+> >     vfio_pci_liveupdate_uapi_test
+> >   vfio: selftests: Add vfio_pci_liveupdate_kexec_test
+> >   vfio: selftests: Verify that opening VFIO device fails during Live
+> >     Update
+> >   vfio: selftests: Add continuous DMA to vfio_pci_liveupdate_kexec_test
+> 
+> This series is getting quite long. I would consider splitting out the
+> selftests into its own series and we can iterate on each separately.
 
-To enable unrestricted access, users have to build the kernel (module)
-on their own with CONFIG_THINKPAD_ACPI_UNSAFE_LEDS enabled, as it's
-unsupported and no distribution enables it.
-
-The Kconfig option, for sure, acts as a gatekeeper very well, but it may
-be too harsh when a user really has some sensible reasons to enable
-unrestricted access, e.g., disable LEDs for better sleep quality.
-
-As a result, there have been several attempts to loosen the restriction.
-
-Introduce a new module parameter "unrestricted_leds" to allow enabling
-unrestricted access to LEDs without rebuilding the kernel (module).
-
-The module parameter is a bitmask, as we expect that users will read the
-source code to determine which LED to enable and understand the
-consequence. By limiting the scope of access to what the user needs,
-this also prevents accidentally touching other unsafe LEDs via sysfs.
-
-The Kconfig option is kept, but solely changes the default value of the
-module parameter now. The preexisting pr_notice() message now prints
-whenever an extra bit not in TPACPI_SAFE_LEDS is set.
-
-Link: https://lore.kernel.org/all/20181113174136.58198c3a@gmail.com/
-Link: https://lore.kernel.org/all/20250403040846.7834-1-martin@arp242.net/
-Link: https://lore.kernel.org/all/a14640f58be48d4912ce5808faea1402ad7f7ad0.1793906572.git.josh@joshtriplett.org/
-Signed-off-by: Rong Zhang <i@rong.moe>
----
-Changes in v2:
-- Use a module parameter "unrestricted_leds" rather than debugfs nodes
-  (thanks Henrique de Moraes Holschuh, Mark Pearson, Josh Triplett)
-  - https://msgid.link/c70af6c5-3d95-44c5-8f3f-b014178234c9@app.fastmail.com
-- Link to v1: https://patch.msgid.link/20261107-tpacpi-debugfs-unlock-unsafe-led-v1-1-69b1f1e10c2f@rong.moe
----
- .../admin-guide/laptops/thinkpad-acpi.rst          |  9 ++++----
- drivers/platform/x86/lenovo/Kconfig                |  3 +++
- drivers/platform/x86/lenovo/thinkpad_acpi.c        | 25 +++++++++++++++-------
- 3 files changed, 25 insertions(+), 12 deletions(-)
-
-diff --git a/Documentation/admin-guide/laptops/thinkpad-acpi.rst b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-index 60bf6868b849..6e8c8575f758 100644
---- a/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-+++ b/Documentation/admin-guide/laptops/thinkpad-acpi.rst
-@@ -794,10 +794,11 @@ buses are still active), or mask an important alarm (such as a nearly
- empty battery, or a broken battery), access to most LEDs is
- restricted.
- 
--Unrestricted access to all LEDs requires that thinkpad-acpi be
--compiled with the CONFIG_THINKPAD_ACPI_UNSAFE_LEDS option enabled.
--Distributions must never enable this option.  Individual users that
--are aware of the consequences are welcome to enabling it.
-+Individual users that are aware of the consequences may enable
-+unrestricted access to desired LEDs with either the "unrestricted_leds"
-+module parameter or the CONFIG_THINKPAD_ACPI_UNSAFE_LEDS option
-+(distributions must never enable it).  Please always be aware of the
-+danger of unrestricted LED access.
- 
- Audio mute and microphone mute LEDs are supported, but currently not
- visible to userspace. They are used by the snd-hda-intel audio driver.
-diff --git a/drivers/platform/x86/lenovo/Kconfig b/drivers/platform/x86/lenovo/Kconfig
-index 516594993073..0995f61266e7 100644
---- a/drivers/platform/x86/lenovo/Kconfig
-+++ b/drivers/platform/x86/lenovo/Kconfig
-@@ -161,6 +161,9 @@ config THINKPAD_ACPI_UNSAFE_LEDS
- 	  and the driver will allow control of every LED, including
- 	  the ones on the dock stations.
- 
-+	  This is also configurable via the "unrestricted_leds" module
-+	  parameter.
-+
- 	  Never enable this option on a distribution kernel.
- 
- 	  Say N here, unless you are building a kernel for your own
-diff --git a/drivers/platform/x86/lenovo/thinkpad_acpi.c b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-index 4f81855ad721..dc0e4cff72cd 100644
---- a/drivers/platform/x86/lenovo/thinkpad_acpi.c
-+++ b/drivers/platform/x86/lenovo/thinkpad_acpi.c
-@@ -5608,15 +5608,20 @@ static const char * const tpacpi_led_names[TPACPI_LED_NUMLEDS] = {
- 	"tpacpi::unknown_led3",
- 	"tpacpi::thinkvantage",
- };
--#define TPACPI_SAFE_LEDS	0x1481U
- 
--static inline bool tpacpi_is_led_restricted(const unsigned int led)
--{
-+#define TPACPI_SAFE_LEDS		0x1481U
-+
- #ifdef CONFIG_THINKPAD_ACPI_UNSAFE_LEDS
--	return false;
-+#define TPACPI_UNRESTRICTED_LEDS	0xFFFFU
- #else
--	return (1U & (TPACPI_SAFE_LEDS >> led)) == 0;
-+#define TPACPI_UNRESTRICTED_LEDS	TPACPI_SAFE_LEDS
- #endif
-+
-+static unsigned int unrestricted_leds = TPACPI_UNRESTRICTED_LEDS;
-+
-+static inline bool tpacpi_is_led_restricted(const unsigned int led)
-+{
-+	return !(unrestricted_leds & BIT(led));
- }
- 
- static int led_get_status(const unsigned int led)
-@@ -5892,9 +5897,9 @@ static int __init led_init(struct ibm_init_struct *iibm)
- 		}
- 	}
- 
--#ifdef CONFIG_THINKPAD_ACPI_UNSAFE_LEDS
--	pr_notice("warning: userspace override of important firmware LEDs is enabled\n");
--#endif
-+	if (unrestricted_leds & ~TPACPI_SAFE_LEDS)
-+		pr_notice("warning: userspace override of important firmware LEDs is enabled\n");
-+
- 	return 0;
- }
- 
-@@ -12238,6 +12243,10 @@ MODULE_PARM_DESC(uwb_state,
- module_param(profile_force, int, 0444);
- MODULE_PARM_DESC(profile_force, "Force profile mode. -1=off, 1=MMC, 2=PSC");
- 
-+module_param(unrestricted_leds, uint, 0444);
-+MODULE_PARM_DESC(unrestricted_leds,
-+		 "Bitmask. Set/clear a bit to enable/disable unrestricted access to an LED");
-+
- static void thinkpad_acpi_module_exit(void)
- {
- 	tpacpi_lifecycle = TPACPI_LIFE_EXITING;
-
----
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
-change-id: 9fa95cad-tpacpi-debugfs-unlock-unsafe-led-17ad492d8f5c
-
-Thanks,
-Rong
+I think it is a good idea. In next version, v7,  I will send two series,
+kernel and selftests patches.
 
