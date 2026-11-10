@@ -1,128 +1,112 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.6
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794354396;
-	b=v3W482Tk2jpYBB8I44/L6vJQrdnvttepFyomkfEbDog4pF5JAUkn/LD7VR5uXfRdCpnz
-	 klb4MJH6YRNsGTIJq4S5NBr2oxjJg4rxrzPY45/i4MoqbSDuARc99og07IK+ZeMmi7+45
-	 CX8ln6x5mL5sgxpoabEfeiWlHP5vXQOt2lv4PfblkAUSXwgGAHoBbe8hZnnG3aWrn6P4g
-	 VKXgtPx8b4vdokx98Eqx6htz7SoVNp5sPID/ohfaGGPllWM3yfl/3s7ngYADpYjuAXMic
-	 of78C4LTd/35orwPPIUjZ7VUMSndWhbASvh24Bjjn6AL7nCDum4F/15ZfMVFUjadqmQ==
+	t=1794354730;
+	b=PgJMFjZG3YaE2/XTdS0f7tsYkWHKG3llYQeXSt0t5+0IUNHVNx6MThEi4R//9wR//zgQ
+	 LEyAC9Die+Dq81AoqVolIiSOE2/XPlXNU3eg+DHq3BQChAy3ctZyp6VXy3RCtH5HCz+1W
+	 dIgftmY+j9dHL4bbGNkTG9RKLFzGj8wjIKUq2fNWgWzdrr6TK9v1TXnVMNXqp2VL89A6K
+	 Qioo+ATTLAamceN2YZq/IzngIExB/TtGimjrVf29U1JHmrDpT/MEaNf8+N/KLgw+pQs3L
+	 36DSFYD1wc8rz6UhQ7Hf3k0JQrknlRVeUIywLsubMprC9+hxO/dX578SoxdG1MMZSyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794354396;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=tuta7zXDJotP5Mc5TnvlvxObG+w4C4fXcl6owUGWTlA=;
-	b=BoMaBGDx2BUt+QAhushI5SE/5Sp6h+sgM7D4KWuy8GRG9GrjJAwYpD6oyZ7hOHopZ7h/
-	 qRJD4IL1Gvcb7i0nE3PGKCHRXs6Pgob+3SjI0Z+TsS3irqJAMEtACQpoPFUn1U1cAY2Hm
-	 Vg6LCWKqLskqQpHVS+7mHtDLn+I497mP3tYz8BlY0swSWKZMxMiXGUNxu5LePZCrkfGr+
-	 rLZIuJCNwCHhV6DTBUhPlmD2wNTV0N70rwDBGIyT3VztnLvoN0HZT5VUQh+0klco6xopt
-	 BFntUBepRzeJKLaHnnaBMR7IV7s646OaGsYuxS/BfB51aLqMWg9WaErJTslcIQrF2zQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794354730;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
+	 In-Reply-To;
+	bh=HCbzSeKuFfgA7xC1jTHYS9c3uRFl3sh3kVDgahIw8r0=;
+	b=S7JxZcuDgVxLLqayrmg+UWKJnRDQ8r5oGIC4dwZhZ7Dmu5KTky8be4YYr64iPIMRG9cn
+	 D6oTV+asK0Dz53VUQq8Le74b+CbbekNeXYbtFFeu2pEgNUOD4wkfjuLgh+IZBK/pSihT5
+	 3wlnEp0LQByXIPGflL3ulRGvIqTRF/4MleSBxX8oiObWoq1qXUstKIHq8BqV8BX6thKky
+	 0vP7lyd7MlICO8QiFi29zNc51DkGh7GtZFsWbdEFYCu8iBj97UtN2voWhtr/u4JpayqOY
+	 duLIFjLhkzn2uDHUqkQsUdIRL1tGpdVt3YDbRO99OHxx+aZ4bSZhMY5Bb8o40RQhPxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ngr8t411;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Q2nCYGda;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=u7JnkxtJ;
+	arc=none smtp.remote-ip=74.125.229.6
+Received: from mail-dy2-f6.google.com (mail-dy2-f6.google.com [74.125.229.6])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA088606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:46:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CA088606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1194E606A327
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:52:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1194E606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ngr8t411;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Q2nCYGda
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAMKP0m1448701
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:46:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	tuta7zXDJotP5Mc5TnvlvxObG+w4C4fXcl6owUGWTlA=; b=ngr8t411Z5cGLy0a
-	5WrovNSb74tn/rfs52dz3QnAapS4s9etd1QwgY/oURGmgj8zvH5uzECls4XtXEQq
-	PWi9UwlB4R8VWz6nfaH8oJuN3dQaVCSM4X2YwFV2jk680LS4ngOJIF6IToIHXbpx
-	Ji0jGaaecTa91CYpfwGd4iYGNsN/fmPPi3NgyGYMTWNMUtvqJYtrSHVf4EY0RFDF
-	JMH1qMRizpb6WlBtthwBYBaIvfDXJVndI+i48sDyb8K1yibL5tQu8UhoqXawJlAe
-	4ukMdtJ7a2pqbyO9VqV5354685o8P0Kpu6kbdtM1EjQNXfFt2w53rqeKHcWCf+x3
-	HAY7Pg==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huyvwkdkf-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:46:34 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-37628596fc9so12346eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:46:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=u7JnkxtJ
+Received: by mail-dy2-f6.google.com with SMTP id 5a478bee46e88-35adc681e1aso3510821eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:52:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794354394; x=1794959194; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=tuta7zXDJotP5Mc5TnvlvxObG+w4C4fXcl6owUGWTlA=;
-        b=Q2nCYGdauVhDVFg3yVR1DO1fPaU7kRb36Uto1Mfh659r7sa7WkPL2rYKKLPcguw/97
-         SkLfJB0tyvNnbiw125laqKk5qbJYUuiXLOT3+YTioTW9F25h1YGuPHICdROr0mFQGoHx
-         1hertzBvrmWJaiKBxW8GaZoZihz8ZW4qWF27SKth+vl/rwu4w3cFT1fB9WwpjcZJHWtn
-         0IPevwFw4NSH8DuL7nZjpOQ0nir/vSjyNFZLXqWi2sOJLMoAdVwITSb6j6Ol+xZAPZyn
-         aeAwnJFGEd3cHYP5rPqh0/U39tUWf6h1CkQ5NmT6lCXsyjzbqARjM2+ruy/mL9Wy0hq3
-         A4HQ==
+        d=gmail.com; s=20260707; t=1794354728; x=1794959528; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HCbzSeKuFfgA7xC1jTHYS9c3uRFl3sh3kVDgahIw8r0=;
+        b=u7JnkxtJaqeJN05mtzMkDBV+KpcI8VQBx4/tLvzZ+tH3fjAzgGwAs35oOTx3ZX5Zzb
+         /2sbgbmcbAokZZtRxs5HdBKiD2Xvtema/xpx7VJAr6Cwd2xv2ZFF/63h47/NGYMmgf+X
+         KzM6berkOTuJYd61zV8mDdyclLjrSzAmI2vSMSpU5JCUtsXU97YWqqtjtq34Fw5H+0yY
+         DKawJO8pCKWf3BgPks65PX3t3kpscWwekuIawXCowdnSVirmBnUXkkMngNAnaxK6hl7E
+         KLuQhBtpjX2SPrJ0MmpfKW5xwD/xKOfaMa1YdHq/JnkXVEIVE9LsnwMlCLbo/YWUBMVE
+         QsKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794354394; x=1794959194;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=tuta7zXDJotP5Mc5TnvlvxObG+w4C4fXcl6owUGWTlA=;
-        b=Vr0/iNEpT2FTHD5P2xgCzPFmm7lNKfuVVcQAehoX9s0Dhy8nXD7FCeuDMTiOhrm1jf
-         eEIpgfwyJrIE94V/j8TBJtxorSm076A299JzaZmC8I20FvqHmWPAu3Wtg/vieaP8LC+5
-         7QdoUt0huyxDaqJewdq/nFysrI+LyGkWeeCWweuX084EBhd3iXgps5Kux57zirz+GohZ
-         XGXKkIk/cGH2epS+7rQuxC//5f4N5CmhgAcr7OppbfB8XdLvzCQQmynrLa9vzWS8CZB4
-         OyFUV+NmQsUDC0drKrCGL4BdahESrEKKQc6wbkzVKjBQ1FsY3KdGYBPJ+Kv5CFkNmhU1
-         OWkQ==
-X-Forwarded-Encrypted: i=1; AL+hErG1XAjNeYwHvbenzygNFYIpp5JXak7wA3vXas6YyZjHOOgUHPnY/R8sGVYCiPGXhI0KWjHi87pSTwc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+zl8DrmZje7zqsaCQqv9NRLKVRCmOvyAOuq7PnFjKeI68VMkWM
-	4QCgNhtjmZ7umtJHRLBnO4EygBpabzH7ooxSGN+BeSIOZ3em+K8h1FaAQxVIJTwWyN2F7Farm4x
-	Vxn/RYon9kizv0vKsI1H9zDLMb4uBNkdTkt9oNwABD3VYDI5nzpHAFeY7ckvfkkU=
-X-Gm-Gg: AYBFou3Vv23H6oqd/85GF6sE5Xwahz5LSW4f30cwH2PxqLyc39RjKJupvUrWYGuaRv4
-	zvqF2t+zvEg8U2SXSXM90s7QebHWKgGbO7cEElrUtQQZcHjCVP/RM+yV/Am9CW3wPQ9buEcyXLd
-	FKlnQE00+ScIAU/NFVnZhFD59UU36zwWf5jPvSWbd/lNr8X6SJ5EFvarGn7By++7OiTPB4tT39z
-	ClnjecLjjN78b3JdnMXh18V4XWKriGC6G3vaiUyR9FmcZrMHxws8HmKmvD0+5ijO0h0dJqcz4Dm
-	GP8tcTXAm9Z1OBB6SZ42VHPzakaGlhjnwISdntIIiFSYcPYWKsqK9AJ+F9hYi96VLp2/KX+LqR5
-	4PVaHKM/14nKDLLC5D2wEhmADOAmPCNDdSjdlmNbV1MgQ43iWkqarBT9TRh4FsMetDXvyTKH78v
-	WF5VSX7t1ExXf3ZW+dB8poaQYze4A=
-X-Received: by 2002:a05:693c:68da:b0:36c:a104:90db with SMTP id 5a478bee46e88-37687215dffmr1151710eec.41.1794354393796;
-        Tue, 10 Nov 2026 15:46:33 -0800 (PST)
-X-Received: by 2002:a05:693c:68da:b0:36c:a104:90db with SMTP id 5a478bee46e88-37687215dffmr1151665eec.41.1794354393092;
-        Tue, 10 Nov 2026 15:46:33 -0800 (PST)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe306e3sm10664890eec.7.2026.11.10.15.46.22
+        d=1e100.net; s=20260707; t=1794354728; x=1794959528;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=HCbzSeKuFfgA7xC1jTHYS9c3uRFl3sh3kVDgahIw8r0=;
+        b=jssy87lhBCNc2uaNgeqeNop9u+LA0FW+tUq0l4DWdCtDt3c842OdkONhrjgV42Xfyn
+         hS+54PaQgvMlPW44dYypCzaf/gB7AX0+6yXvF5JoeBabbg03d31WCpsma/7Sn5IKBR76
+         G+BIBAhOX8nZ37mxFhXKX0mDpYRLyztNo0+a/LtBQiEmSoY9H4CLwAzYnGTsXoRdBf9C
+         HzRrqpq/YFpl/v81MWr99/9Au6wgFFQpBb1tkhOMGTAXvdWm0nuJXqAGUoUMJclBo6F2
+         63mFu0lQ+9CW9L+clQWFgtnJedm3b/dFwaAG523fHIW//J+H3qaWzJK+9qYT+R+jwprq
+         yRlA==
+X-Forwarded-Encrypted: i=1; AL+hErF+dYJ0wWD2CyqXSnkQiQBDqkKG2aeh1n5wO3CZOs+AHGmeS/BSDzAPfALWw62dgXll2oYZcvxk34w=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8/KeW9c3/I13Upm5xmvB/q9tC+WXNMOfrv/2Pfzufl61Zty8kO
+	B0MyYH50vELTxJ+KdAODOaxTMZ3Fw8PKITLQ87vI42vgLo5jVdHledFY
+X-Gm-Gg: AYBFou15GPY4PBzkcnz/eKcOkY71spYYQWeoFfkpwHW0qJT99ggn1fr7r1WYVPe7X5e
+	TpXL4Ye21XfxhKze0ZbmTEGb21YQJ0hB+25ha15Ip2y2x+CQveKhHf0AyZsJq4RoQ0T1EZ+Idju
+	ZFaW4VSsIleJbNqNpM8Z5J5oB9HDsqHM8MkprkjZfECFLBzfnl5nwiudt6ZmF8b1YcKgNa2V6X6
+	i+yPXn90gpuEezy93dcxHiEJeDk3dg4KHbNIJ6GwDEQDK4UA4IKmatymwVycZaQd3s1U09nIbr3
+	gT8PkX1SxaHVyFCBdSYbEh+FugUXz5aw1RePIGX6dMEF/pLujt3oqSj3hlqtK6/KppvV/xtXrQI
+	chNwg2gx84rMiYcyGF41TTdfVJl9kXd0XEIZQ8OTH2imFKYBIwtsMV8upWfjXyExuLO33ZnV8mD
+	Nx85/c2hG4W5CSI80lkd46sApV4WhA0ohkgb1UGZpPykG7xYcGGWBR05TXsJuzmkLdGO2YyS0pS
+	EJo4qOtdifc4TuVTSbyRvkEwdZh9fYEgTp5pz411RA/TUPBMzdA5564UEos/7DvCbimtvqcxMYI
+	cJk8YgJq+Mec5qRBzm8ljO4=
+X-Received: by 2002:a05:7023:a4c:b0:184:5f2e:aa52 with SMTP id a92af1059eb24-1b3c02f5697mr648447c88.16.1794354727852;
+        Tue, 10 Nov 2026 15:52:07 -0800 (PST)
+Received: from localhost ([2a03:2880:9ff:44::])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe32276sm9629566eec.8.2026.11.10.15.52.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 15:46:32 -0800 (PST)
-Date: Tue, 10 Nov 2026 15:46:07 -0800
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-        f.fainelli@gmail.com, vincent.guittot@linaro.org,
-        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
-        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
-        usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 30/35] firmware: arm_scmi: Add System Telemetry
- driver
-Message-ID: <20261110154607.00002b64@oss.qualcomm.com>
-In-Reply-To: <20261109091221.2532706-31-cristian.marussi@arm.com>
-References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-31-cristian.marussi@arm.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+        Tue, 10 Nov 2026 15:52:07 -0800 (PST)
+Date: Tue, 10 Nov 2026 14:19:56 -0800
+From: Stanislav Fomichev <sdf.kernel@gmail.com>
+To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
+	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org, 
+	io-uring@vger.kernel.org, Mina Almasry <almasrymina@google.com>, 
+	"Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Stuart Clark <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 02/11] net: Add memory provider capabilities
+Message-ID: <avOYe27x-AlxmyK9@devvm16445.scu0.facebook.com>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-3-bjorn@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -132,622 +116,370 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 2JpRU2ycuIzV7s40M8lcGP-C6d2oLUCf
-X-Proofpoint-ORIG-GUID: 2JpRU2ycuIzV7s40M8lcGP-C6d2oLUCf
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA5NCBTYWx0ZWRfX3k3V9aTURTuH
- RBXCEMXAsaoa4ufKXK8EfJuFiEwJp/XhxdkYfQkggAnw5bKs9x0mBIDp0JQ2bQO7gc8Kxdfkxgi
- 4c20LZU0hB5jS0I1FestZCWGfuHovrQ=
-X-Authority-Analysis: v=2.4 cv=NNpAaE6g c=1 sm=1 tr=0 ts=6af3acda cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=7CQSdrXTAAAA:8 a=J8EkM7pjTVn-s5uLH5oA:9 a=CjuIK1q_8ugA:10
- a=bBxd6f-gb0O0v-kibOvt:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA5NCBTYWx0ZWRfXwJQXRyA4KDIB
- bhBV6y8a3lDfCTW0uIQ0Isn1R6JMelkcx3hO+dVzEta6aeA8dWsIbkENLDjb0Lbzw13Itfbs4QZ
- Vs7nMjMZBMLS2NHRETdfwO0wSxvZG0J2bO87PH19v1uw3xv0RXLpB+G7v56qKKV4Qy2KtGF0jvX
- ROKL+7dDNLrTPAw+WbWqiCLUtD2vDKd/F0EWmHS+WZDXkzDgFhlcCeTh+NjBZ0Pfxd9JWxiPEEW
- 8QOkm10Po8W8PXPLzDTayzqNdsTVi26l28+chjhinnBwuc1OpMkhJeuGUdt7DAvkNq1/UDoIrI3
- VDN9LtuUfEpZEjnOEipkzs3SVQVf1w/757u/dz2fdvsRYVdpKGjDCgKrQtxlQxafO1DnZgt81SD
- qJj8Lseh1zXLo3pICMhjrbRKaglEhKzwvn4bt3yra7F4LflMWw1wGCZzx86u6yVSR9ppi/QkGzW
- XDYzizFUfH8D1l/Josg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-10_07,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 adultscore=0 phishscore=0 priorityscore=1501
- bulkscore=0 clxscore=1015 impostorscore=0 malwarescore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100094
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261110102039.1002605-3-bjorn@kernel.org>
 
-On Mon,  9 Nov 2026 09:12:16 +0000
-Cristian Marussi <cristian.marussi@arm.com> wrote:
-
-> Add an SCMI driver to allow enumeration, configuration and data collection
-> of SCMI Telemetry data.
+On 11/10, Björn Töpel wrote:
+> The core treats every memory provider as unreadable: installing one
+> needs header split and no XDP program, and any page pool that allows
+> unreadable netmem takes it. An AF_XDP UMEM provider is readable, needs
+> XDP, and hands out whole buffers.
 > 
-> The driver exposes one character device for each found SCMI instance and a
-> set of related IOCTLs can be used to enumerate, configure and collect
-> Telemetry resources.
+> Describe providers by MP_CAP_READABLE and MP_CAP_FRAG; devmem and
+> io_uring keep their behavior with MP_CAP_FRAG. A page pool takes a
+> readable provider only with the new PP_FLAG_MEM_PROVIDER:
+> PP_FLAG_ALLOW_UNREADABLE_NETMEM says that a driver handles unreadable
+> netmem, not that it handles any provider.
 > 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-Some comments inline.  I'm not even going to pretend to be
-alert enough to claim this is a thorough review though.
-
-Jonathan
-
-> diff --git a/drivers/firmware/arm_scmi/scmi_system_telemetry.c b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
-> new file mode 100644
-> index 000000000000..185c8e646628
-> --- /dev/null
-> +++ b/drivers/firmware/arm_scmi/scmi_system_telemetry.c
-
-> +static long scmi_tlm_des_batch_read_ioctl(const struct scmi_tlm_instance *ti,
-> +					  unsigned long arg)
-> +{
-> +	struct scmi_telemetry_de_sample *samples __free(kvfree) = NULL;
-
-As near as possible to the constructor for an __free declarations.
-
-> +	int ret, *states __free(kvfree) = NULL;
-
-Definitely don't mix __free and non __free declarations.
-Separate lines!
-
-> +	const struct scmi_telemetry_res_info *rinfo;
-> +	void __user *uptr = (void __user *)arg;
-> +	struct scmi_tlm_batch batch = {};
-> +	size_t batch_sz, states_sz;
-> +
-> +	rinfo = scmi_telemetry_res_info_get(ti->tsp);
-> +	ret = scmi_tlm_batch_initialize(uptr, &batch, sizeof(*samples),
-> +					rinfo->num_des, (void **)&samples,
-> +					&batch_sz, &states, &states_sz);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (int i = 0; i < batch.num_items; i++) {
-> +		int ret;
-> +
-> +		ret = ti->tsp->ops->de_data_read(ti->tsp->ph, &samples[i]);
-> +		if (ret) {
-> +			if (!states)
-> +				return ret;
-> +
-> +			states[i] = ret;
-> +			continue;
-> +		}
-> +	}
-> +
-> +	/* Return max batch size on zero query */
-> +	if (!batch.num_items)
-> +		batch.num_items = rinfo->num_des;
-> +
-> +	return scmi_tlm_batch_finalize(uptr, &batch, samples, states, batch_sz,
-> +				       states_sz);
+> Signed-off-by: Björn Töpel <bjorn@kernel.org>
+> ---
+>  Documentation/networking/netmem.rst     |  5 ++++
+>  drivers/net/netkit.c                    |  3 +-
+>  include/net/page_pool/helpers.h         | 14 +++++++++-
+>  include/net/page_pool/memory_provider.h | 14 ++++++++++
+>  include/net/page_pool/types.h           | 15 ++++++++--
+>  io_uring/zcrx.c                         |  1 +
+>  net/core/dev.c                          | 10 ++++---
+>  net/core/devmem.c                       |  1 +
+>  net/core/netdev_rx_queue.c              | 37 ++++++++++++++++++++-----
+>  net/core/page_pool.c                    | 34 +++++++++++++++++++++--
+>  net/ethtool/rings.c                     |  7 +++--
+>  net/xdp/xsk_buff_pool.c                 |  3 +-
+>  12 files changed, 122 insertions(+), 22 deletions(-)
+> 
+> diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
+> index 6871dcdd700c..39cb75339704 100644
+> --- a/Documentation/networking/netmem.rst
+> +++ b/Documentation/networking/netmem.rst
+> @@ -103,6 +103,11 @@ Driver RX Requirements
+>       which knows when dma-syncing is (or is not) appropriate.
+>     - PP_FLAG_ALLOW_UNREADABLE_NETMEM. The driver must specify this flag iff
+>       tcp-data-split is enabled.
+> +   - PP_FLAG_MEM_PROVIDER. The page pool takes memory from the memory
+> +     provider of its RX queue, readable or not. Page pool creation fails if
+> +     the provider is unreadable and PP_FLAG_ALLOW_UNREADABLE_NETMEM is not
+> +     set, so do not set it on header page pools of such a queue. Without it,
+> +     PP_FLAG_ALLOW_UNREADABLE_NETMEM selects unreadable providers only.
+>  
+>  5. The driver must not assume the netmem is readable and/or backed by pages.
+>     The netmem returned by the page_pool may be unreadable, in which case
+> diff --git a/drivers/net/netkit.c b/drivers/net/netkit.c
+> index 82e608e733d9..df672ed5ffcc 100644
+> --- a/drivers/net/netkit.c
+> +++ b/drivers/net/netkit.c
+> @@ -12,6 +12,7 @@
+>  #include <net/netdev_lock.h>
+>  #include <net/netdev_queues.h>
+>  #include <net/netdev_rx_queue.h>
+> +#include <net/page_pool/memory_provider.h>
+>  #include <net/xdp_sock_drv.h>
+>  #include <net/netkit.h>
+>  #include <net/dst.h>
+> @@ -289,7 +290,7 @@ static int netkit_xsk(struct net_device *dev, struct netdev_bpf *xdp)
+>  		ret = -EOPNOTSUPP;
+>  		goto out;
+>  	}
+> -	if (!create || !dev_get_min_mp_channel_count(phys))
+> +	if (!create || netif_all_mps_have_cap(phys, MP_CAP_READABLE))
+>  		ret = phys->netdev_ops->ndo_bpf(phys, &xdp_lower);
+>  out:
+>  	netdev_unlock(phys);
+> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+> index 28635ce9454e..96e6b62cdebb 100644
+> --- a/include/net/page_pool/helpers.h
+> +++ b/include/net/page_pool/helpers.h
+> @@ -62,6 +62,7 @@
+>  
+>  #include <linux/dma-mapping.h>
+>  
+> +#include <net/page_pool/memory_provider.h>
+>  #include <net/page_pool/types.h>
+>  #include <net/net_debug.h>
+>  #include <net/netmem.h>
+> @@ -519,7 +520,18 @@ static inline void page_pool_nid_changed(struct page_pool *pool, int new_nid)
+>   */
+>  static inline bool page_pool_is_unreadable(struct page_pool *pool)
+>  {
+> -	return !!pool->mp_ops;
+> +	return pool->mp_ops && !(pool->mp_ops->caps & MP_CAP_READABLE);
 > +}
 > +
-> +static struct scmi_tlm_shmti_ctx *
-> +scmi_tlm_shmti_ctx_alloc(struct scmi_tlm_instance *ti,
-> +			 struct scmi_telemetry_shmti_info *shmti)
+> +/**
+> + * page_pool_supports_frag() - may page pool buffers be split
+> + * @pool: queried page pool
+> + *
+> + * Return: false if the memory provider of @pool hands out whole buffers only
+> + */
+> +static inline bool page_pool_supports_frag(const struct page_pool *pool)
 > +{
-> +	struct scmi_tlm_shmti_ctx *ctx;
+> +	return !pool->mp_ops || pool->mp_ops->caps & MP_CAP_FRAG;
+>  }
+>  
+>  #endif /* _NET_PAGE_POOL_HELPERS_H */
+> diff --git a/include/net/page_pool/memory_provider.h b/include/net/page_pool/memory_provider.h
+> index bceb5f7740e2..4417e54a0f81 100644
+> --- a/include/net/page_pool/memory_provider.h
+> +++ b/include/net/page_pool/memory_provider.h
+> @@ -19,6 +19,18 @@ struct sk_buff;
+>   * Per-provider custom logic must be delegated to memory_provider_ops rather
+>   * than handled directly in page_pool core code.
+>   */
 > +
-> +	ctx = kzalloc_obj(*ctx);
-> +	if (!ctx)
-> +		return ERR_PTR(-ENOMEM);
+> +/**
+> + * enum mp_caps - memory provider capabilities
+> + * @MP_CAP_READABLE: The CPU can access provider memory. It may back header
+> + *	page pools, and XDP programs may run on it.
+> + * @MP_CAP_FRAG: Page pool fragments may split provider buffers.
+> + */
+> +enum mp_caps {
+> +	MP_CAP_READABLE		= BIT(0),
+> +	MP_CAP_FRAG		= BIT(1),
+> +};
 > +
-> +	ctx->shmti = shmti;
-> +	kref_init(&ctx->ref);
+>  struct memory_provider_ops {
+>  	netmem_ref (*alloc_netmems)(struct page_pool *pool, gfp_t gfp);
+>  	bool (*release_netmem)(struct page_pool *pool, netmem_ref netmem);
+> @@ -27,6 +39,7 @@ struct memory_provider_ops {
+>  	int (*nl_fill)(void *mp_priv, struct sk_buff *rsp,
+>  		       struct netdev_rx_queue *rxq);
+>  	void (*uninstall)(void *mp_priv, struct netdev_rx_queue *rxq);
+> +	u32 caps;
+>  };
+>  
+>  bool net_mp_niov_set_dma_addr(struct net_iov *niov, dma_addr_t addr);
+> @@ -38,6 +51,7 @@ int netif_mp_open_rxq(struct net_device *dev, unsigned int rxq_idx,
+>  		      struct netlink_ext_ack *extack);
+>  int netif_mp_close_rxq(struct net_device *dev, unsigned int rxq_idx,
+>  		       const struct pp_memory_provider_params *old_p);
+> +bool netif_all_mps_have_cap(struct net_device *dev, u32 cap);
+>  
+>  /**
+>    * net_mp_netmem_place_in_cache() - give a netmem to a page pool
+> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
+> index 6d543076a0c0..0d48c05f1462 100644
+> --- a/include/net/page_pool/types.h
+> +++ b/include/net/page_pool/types.h
+> @@ -31,8 +31,19 @@
+>   */
+>  #define PP_FLAG_ALLOW_UNREADABLE_NETMEM BIT(3)
+>  
+> +/* Take memory from the memory provider of the RX queue, if one is installed.
+> + * Set page_pool_params.slow.netdev and queue_idx, and create the pool under
+> + * the instance lock of the netdev.
+> + * An unreadable provider also needs PP_FLAG_ALLOW_UNREADABLE_NETMEM, or page
+> + * pool creation fails. Without this flag, PP_FLAG_ALLOW_UNREADABLE_NETMEM
+> + * selects unreadable providers only.
+> + */
+> +#define PP_FLAG_MEM_PROVIDER	BIT(4)
 > +
-> +	/* Get hold of the Telemetry instance when returning anon_fds */
-
-This bit of the code isn't returning anon_fds???
-
-> +	get_device(&ti->dev);
-> +	ctx->ti = ti;
+>  #define PP_FLAG_ALL		(PP_FLAG_DMA_MAP | PP_FLAG_DMA_SYNC_DEV | \
+> -				 PP_FLAG_SYSTEM_POOL | PP_FLAG_ALLOW_UNREADABLE_NETMEM)
+> +				 PP_FLAG_SYSTEM_POOL | \
+> +				 PP_FLAG_ALLOW_UNREADABLE_NETMEM | \
+> +				 PP_FLAG_MEM_PROVIDER)
+>  
+>  /* Index limit to stay within PP_DMA_INDEX_BITS for DMA indices */
+>  #define PP_DMA_INDEX_LIMIT XA_LIMIT(1, BIT(PP_DMA_INDEX_BITS) - 1)
+> @@ -82,7 +93,7 @@ struct pp_alloc_cache {
+>   * @netdev:	netdev this pool will serve (leave as NULL if none or multiple)
+>   * @queue_idx:	queue idx this page_pool is being created for.
+>   * @flags:	PP_FLAG_DMA_MAP, PP_FLAG_DMA_SYNC_DEV, PP_FLAG_SYSTEM_POOL,
+> - *		PP_FLAG_ALLOW_UNREADABLE_NETMEM.
+> + *		PP_FLAG_ALLOW_UNREADABLE_NETMEM, PP_FLAG_MEM_PROVIDER.
+>   */
+>  struct page_pool_params {
+>  	struct_group_tagged(page_pool_params_fast, fast,
+> diff --git a/io_uring/zcrx.c b/io_uring/zcrx.c
+> index 555f27e6c1ba..3b5bf97aa203 100644
+> --- a/io_uring/zcrx.c
+> +++ b/io_uring/zcrx.c
+> @@ -1478,6 +1478,7 @@ static const struct memory_provider_ops io_uring_pp_zc_ops = {
+>  	.destroy		= io_pp_zc_destroy,
+>  	.nl_fill		= io_pp_nl_fill,
+>  	.uninstall		= io_pp_uninstall,
+> +	.caps			= MP_CAP_FRAG,
+>  };
+>  
+>  static unsigned zcrx_parse_rq(netmem_ref *netmem_array, unsigned nr,
+> diff --git a/net/core/dev.c b/net/core/dev.c
+> index 3b60b15e2175..663fe3e32ea0 100644
+> --- a/net/core/dev.c
+> +++ b/net/core/dev.c
+> @@ -10546,8 +10546,9 @@ int netif_xdp_propagate(struct net_device *dev, struct netdev_bpf *bpf)
+>  		return -EBUSY;
+>  	}
+>  
+> -	if (dev_get_min_mp_channel_count(dev)) {
+> -		NL_SET_ERR_MSG(bpf->extack, "unable to propagate XDP to device using memory provider");
+> +	if (!netif_all_mps_have_cap(dev, MP_CAP_READABLE)) {
+> +		NL_SET_ERR_MSG(bpf->extack,
+> +			       "unable to propagate XDP to device using unreadable memory provider");
+>  		return -EBUSY;
+>  	}
+>  
+> @@ -10622,8 +10623,9 @@ static int dev_xdp_install(struct net_device *dev, enum bpf_xdp_mode mode,
+>  		return -EBUSY;
+>  	}
+>  
+> -	if (dev_get_min_mp_channel_count(dev)) {
+> -		NL_SET_ERR_MSG(extack, "unable to install XDP to device using memory provider");
+> +	if (!netif_all_mps_have_cap(dev, MP_CAP_READABLE)) {
+> +		NL_SET_ERR_MSG(extack,
+> +			       "unable to install XDP to device using unreadable memory provider");
+>  		return -EBUSY;
+>  	}
+>  
+> diff --git a/net/core/devmem.c b/net/core/devmem.c
+> index b9146b1f294a..8f190b574beb 100644
+> --- a/net/core/devmem.c
+> +++ b/net/core/devmem.c
+> @@ -698,4 +698,5 @@ static const struct memory_provider_ops dmabuf_devmem_ops = {
+>  	.release_netmem		= mp_dmabuf_devmem_release_page,
+>  	.nl_fill		= mp_dmabuf_devmem_nl_fill,
+>  	.uninstall		= mp_dmabuf_devmem_uninstall,
+> +	.caps			= MP_CAP_FRAG,
+>  };
+> diff --git a/net/core/netdev_rx_queue.c b/net/core/netdev_rx_queue.c
+> index a7261fedd5e7..9e14a747f9b5 100644
+> --- a/net/core/netdev_rx_queue.c
+> +++ b/net/core/netdev_rx_queue.c
+> @@ -82,9 +82,13 @@ __netif_get_rx_queue_lease(struct net_device **dev, unsigned int *rxq_idx,
+>  /* See also page_pool_is_unreadable() */
+>  bool netif_rxq_has_unreadable_mp(struct net_device *dev, unsigned int rxq_idx)
+>  {
+> -	if (rxq_idx < dev->real_num_rx_queues)
+> -		return __netif_get_rx_queue(dev, rxq_idx)->mp_params.mp_ops;
+> -	return false;
+> +	const struct memory_provider_ops *ops;
 > +
-> +	return ctx;
+> +	if (rxq_idx >= dev->real_num_rx_queues)
+> +		return false;
+> +
+> +	ops = __netif_get_rx_queue(dev, rxq_idx)->mp_params.mp_ops;
+> +	return ops && !(ops->caps & MP_CAP_READABLE);
+>  }
+>  EXPORT_SYMBOL(netif_rxq_has_unreadable_mp);
+>  
+> @@ -95,6 +99,22 @@ bool netif_rxq_has_mp(struct net_device *dev, unsigned int rxq_idx)
+>  	return false;
+>  }
+>  
+> +bool netif_all_mps_have_cap(struct net_device *dev, u32 cap)
+> +{
+> +	const struct memory_provider_ops *ops;
+> +	unsigned int i;
+> +
+> +	netdev_assert_locked_ops_compat(dev);
+> +
+> +	for (i = 0; i < dev->real_num_rx_queues; i++) {
+> +		ops = dev->_rx[i].mp_params.mp_ops;
+> +		if (ops && (ops->caps & cap) != cap)
+> +			return false;
+> +	}
+> +
+> +	return true;
 > +}
-
 > +
-> +static int scmi_tlm_shmti_mmap(struct file *filp, struct vm_area_struct *vma)
+>  static int netdev_rx_queue_reconfig(struct net_device *dev,
+>  				    unsigned int rxq_idx,
+>  				    struct netdev_queue_config *qcfg_old,
+> @@ -189,6 +209,7 @@ static int __netif_mp_open_rxq(struct net_device *dev, unsigned int rxq_idx,
+>  			       struct netlink_ext_ack *extack)
+>  {
+>  	const struct netdev_queue_mgmt_ops *qops = dev->queue_mgmt_ops;
+> +	bool unreadable = !(p->mp_ops->caps & MP_CAP_READABLE);
+>  	struct netdev_queue_config qcfg[2];
+>  	struct netdev_rx_queue *rxq;
+>  	int ret;
+> @@ -196,16 +217,18 @@ static int __netif_mp_open_rxq(struct net_device *dev, unsigned int rxq_idx,
+>  	if (!qops)
+>  		return -EOPNOTSUPP;
+>  
+> -	if (dev->cfg->hds_config != ETHTOOL_TCP_DATA_SPLIT_ENABLED) {
+> +	if (unreadable &&
+> +	    dev->cfg->hds_config != ETHTOOL_TCP_DATA_SPLIT_ENABLED) {
+>  		NL_SET_ERR_MSG(extack, "tcp-data-split is disabled");
+>  		return -EINVAL;
+>  	}
+> -	if (dev->cfg->hds_thresh) {
+> +	if (unreadable && dev->cfg->hds_thresh) {
+>  		NL_SET_ERR_MSG(extack, "hds-thresh is not zero");
+>  		return -EINVAL;
+>  	}
+> -	if (dev_xdp_prog_count(dev)) {
+> -		NL_SET_ERR_MSG(extack, "unable to custom memory provider to device with XDP program attached");
+> +	if (unreadable && dev_xdp_prog_count(dev)) {
+> +		NL_SET_ERR_MSG(extack,
+> +			       "unable to use unreadable memory provider with XDP program attached");
+>  		return -EEXIST;
+>  	}
+>  	if (p->rx_page_size && !(qops->supported_params & QCFG_RX_PAGE_SIZE)) {
+> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
+> index d7c88c0b67e5..d88a3ea528d4 100644
+> --- a/net/core/page_pool.c
+> +++ b/net/core/page_pool.c
+> @@ -188,6 +188,29 @@ static void page_pool_struct_check(void)
+>  				    PAGE_POOL_FRAG_GROUP_ALIGN);
+>  }
+>  
+> +static int page_pool_select_mp(struct page_pool *pool,
+> +			       const struct pp_memory_provider_params *mpp)
 > +{
-> +	unsigned long npages, expect, needed, req;
-> +	struct scmi_tlm_shmti_ctx *ctx;
-> +	phys_addr_t base;
-> +	size_t map_sz;
-> +	int ret, idx;
+> +	const struct memory_provider_ops *ops = mpp->mp_ops;
+> +	unsigned int flags = pool->slow.flags;
+> +	bool readable;
 > +
-> +	if (vma->vm_pgoff)
-> +		return -EINVAL;
+> +	if (!ops)
+> +		return 0;
 > +
-> +	if (vma->vm_flags & (VM_WRITE | VM_EXEC))
-> +		return -EPERM;
-> +
-> +	vm_flags_clear(vma, VM_MAYWRITE | VM_MAYEXEC);
-> +
-> +	/* Grab a ctx reference early on */
-> +	ctx = scmi_tlm_shmti_ctx_get(filp->private_data);
-> +	/*
-> +	 * Note that any ctx_put potentially release the device and
-> +	 * cleans the SRCU structure...no guards.
-
-No guards is fine but maybe goto and a common cleanup block?
-
-> +	 */
-> +	idx = srcu_read_lock(&ctx->ti->dead_srcu);
-> +	if (READ_ONCE(ctx->ti->dead)) {
-> +		srcu_read_unlock(&ctx->ti->dead_srcu, idx);
-> +		scmi_tlm_shmti_ctx_put(ctx);
-> +		return -ENODEV;
+> +	readable = ops->caps & MP_CAP_READABLE;
+> +	if (flags & PP_FLAG_MEM_PROVIDER) {
+> +		if (!readable && !(flags & PP_FLAG_ALLOW_UNREADABLE_NETMEM))
+> +			return -EOPNOTSUPP;
+> +	} else if (readable) {
+> +		return 0;
 > +	}
 > +
-> +	needed = ctx->shmti->len + ctx->shmti->offset;
-> +	req = vma->vm_end - vma->vm_start;
-> +	if (req < needed) {
-> +		srcu_read_unlock(&ctx->ti->dead_srcu, idx);
-> +		scmi_tlm_shmti_ctx_put(ctx);
-> +		return -EINVAL;
-> +	}
-> +
-> +	/* Align & reject oversized requests */
-> +	base = ctx->shmti->phys & PAGE_MASK;
-> +	expect = DIV_ROUND_UP(needed, PAGE_SIZE);
-> +	npages = req >> PAGE_SHIFT;
-> +	if (npages > expect) {
-> +		srcu_read_unlock(&ctx->ti->dead_srcu, idx);
-> +		scmi_tlm_shmti_ctx_put(ctx);
-> +		return -EINVAL;
-> +	}
-> +
-> +	map_sz = PAGE_ALIGN(needed);
-> +	vma->vm_private_data = ctx;
-> +	vma->vm_ops = &scmi_tlm_shmti_vm_ops;
-> +	/* Set appropriate caching attributes */
-> +	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
-> +
-> +	/* Map physical address range into user space */
-> +	ret = vm_iomap_memory(vma, base, map_sz);
-> +	if (ret) {
-> +		srcu_read_unlock(&ctx->ti->dead_srcu, idx);
-> +		scmi_tlm_shmti_ctx_put(ctx);
-> +		return ret;
-> +	}
-> +
-> +	srcu_read_unlock(&ctx->ti->dead_srcu, idx);
-> +
+> +	pool->mp_priv = mpp->mp_priv;
+> +	pool->mp_ops = ops;
 > +	return 0;
 > +}
+> +
+>  static int page_pool_init(struct page_pool *pool,
+>  			  const struct page_pool_params *params,
+>  			  int cpuid)
+> @@ -272,12 +295,14 @@ static int page_pool_init(struct page_pool *pool,
+>  
+>  	xa_init_flags(&pool->dma_mapped, XA_FLAGS_ALLOC1);
+>  
+> -	if (pool->slow.flags & PP_FLAG_ALLOW_UNREADABLE_NETMEM) {
+> +	if (pool->slow.flags & (PP_FLAG_MEM_PROVIDER |
+> +				PP_FLAG_ALLOW_UNREADABLE_NETMEM)) {
+>  		netdev_assert_locked(pool->slow.netdev);
+>  		rxq = __netif_get_rx_queue(pool->slow.netdev,
+>  					   pool->slow.queue_idx);
+> -		pool->mp_priv = rxq->mp_params.mp_priv;
+> -		pool->mp_ops = rxq->mp_params.mp_ops;
+> +		err = page_pool_select_mp(pool, &rxq->mp_params);
+> +		if (err)
+> +			goto free_ptr_ring;
+>  	}
+>  
+>  	if (pool->mp_ops) {
+> @@ -1070,6 +1095,9 @@ netmem_ref page_pool_alloc_frag_netmem(struct page_pool *pool,
+>  	unsigned int max_size = PAGE_SIZE << pool->p.order;
+>  	netmem_ref netmem = pool->frag_page;
+>  
 
-> +static void
-> +scmi_tlm_allocate_anon_fds(struct scmi_tlm_instance *ti, unsigned int *num_shmtis,
-> +			   struct scmi_tlm_shmti_info *shinfo,
-> +			   struct file **filps)
-> +{
-> +	const struct scmi_telemetry_info *info = ti->info;
-> +	struct device *dev = &ti->tsp->sdev->dev;
-> +	int idx = 0;
-> +
-> +	for (int i = 0; i < *num_shmtis; i++) {
-> +		struct scmi_telemetry_shmti_info *shmti = info->shmtis[i];
-> +		struct scmi_tlm_shmti_ctx *ctx;
-> +		struct file *filp;
-> +		int fd;
-> +
-> +		fd = get_unused_fd_flags(O_CLOEXEC);
+[..]
 
-Bit marginal, but perhaps some __free magic for this.
+> +	if (static_branch_unlikely(&page_pool_mem_providers) &&
+> +	    WARN_ON_ONCE(!page_pool_supports_frag(pool)))
+> +		return 0;
+>  	if (WARN_ON(size > max_size))
+>  		return 0;
+>  
 
-> +		if (fd < 0) {
-> +			dev_err(dev, "Failed GET_UNUSED_FD for SID: %u\n",
-> +				shmti->sid);
-> +			continue;
-> +		}
-> +
-> +		ctx = scmi_tlm_shmti_ctx_alloc(ti, shmti);
-> +		if (IS_ERR(ctx)) {
-> +			dev_err(dev, "Failed CTX_ALLOC for SID: %u\n", shmti->sid);
-> +			put_unused_fd(fd);
-> +			continue;
-> +		}
-> +
-> +		filp = anon_inode_getfile(SCMI_TLM_DRIVER, &scmi_tlm_shmti_fops,
-> +					  ctx, O_RDONLY | O_CLOEXEC);
-> +		if (IS_ERR(filp)) {
-> +			scmi_tlm_shmti_ctx_put(ctx);
-
-Bit fiddlier but maybe some __free magic for ctx as well.
-
-> +			put_unused_fd(fd);
-> +			dev_err(dev, "Failed ANON GET_FILE for SID: %u\n",
-> +				shmti->sid);
-> +			continue;
-> +		}
-> +
-> +		shinfo[idx].sid = shmti->sid;
-> +		shinfo[idx].fd = fd;
-> +		shinfo[idx].len = shmti->len;
-> +		shinfo[idx].offset = shmti->offset;
-> +
-> +		filps[idx++] = filp;
-> +	}
-> +
-> +	/* Return effective initialized items */
-> +	*num_shmtis = idx;
-> +}
-
-> +
-> +static long
-> +scmi_tlm_shmtis_list_get_ioctl(struct scmi_tlm_instance *ti, unsigned long arg)
-> +{
-> +	struct scmi_tlm_shmti_info *shinfo __free(kvfree) = NULL;
-
-Move down to where it's constructed.  cleanup.h talks about this.
-
-> +	unsigned int max_shmtis = ti->info->base.num_shmtis;
-> +	void __user *uptr = (void __user *)arg;
-> +	struct scmi_tlm_batch batch = {};
-> +	size_t batch_sz;
-> +	int ret;
-> +
-> +	ret = scmi_tlm_batch_initialize(uptr, &batch, sizeof(*shinfo), max_shmtis,
-> +					(void **)&shinfo, &batch_sz, NULL, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (batch.num_items == 0) {
-> +		batch.num_items = max_shmtis;
-> +
-> +		return scmi_tlm_batch_finalize(uptr, &batch, shinfo, NULL,
-> +					       batch_sz, 0);
-> +	}
-> +
-> +	struct file **filps __free(kfree) = kzalloc_objs(*filps, batch.num_items);
-> +	if (!filps)
-> +		return -ENOMEM;
-> +
-> +	/* Passing the array as a param avoids dancing with uptr->items */
-> +	scmi_tlm_allocate_anon_fds(ti, &batch.num_items, shinfo, filps);
-> +	ret = scmi_tlm_batch_finalize(uptr, &batch, shinfo, NULL, batch_sz, 0);
-> +	if (ret) {
-> +		scmi_tlm_anon_fds_free(batch.num_items, shinfo, filps);
-> +		return ret;
-> +	}
-> +
-> +	scmi_tlm_anon_fds_install(batch.num_items, shinfo, filps);
-> +
-> +	return 0;
-> +}
-
-> +
-> +static long
-> +scmi_tlm_uuid_list_get_ioctl(const struct scmi_tlm_instance *ti,
-> +			     unsigned long arg)
-> +{
-> +	struct scmi_tlm_uuid *uuids __free(kvfree) = NULL;
-
-Move this down next to where the constructor is.  See cleanup.h guidance
-on why they should be together.
-
-> +	void __user *uptr = (void __user *)arg;
-> +	struct scmi_tlm_batch batch = {};
-> +	unsigned int num_uuids;
-> +	uuid_t **cur_uuids;
-> +	size_t batch_sz;
-> +	int ret;
-> +
-> +	/*
-> +	 * Note that UUID array can ONLY grow and it has NOT a known upper
-> +	 * bound, so it does not matter if by the time we grab the cur_uuids
-> +	 * via rcu_dereference() the array has grown in size and we end up
-> +	 * here reading a stale/incomplete set of UUIDs, we will simply
-> +	 * read the new UUIDs next-time: this simplifies allocation.
-> +	 */
-> +	num_uuids = smp_load_acquire(&ti->info->num_uuids);
-> +	ret = scmi_tlm_batch_initialize(uptr, &batch, sizeof(*uuids),
-> +					num_uuids, (void **)&uuids, &batch_sz,
-> +					NULL, NULL);
-> +	if (ret)
-> +		return ret;
-> +
-> +	rcu_read_lock();
-> +	cur_uuids = rcu_dereference(ti->info->uuids);
-> +	for (int j = 0; j < batch.num_items; j++)
-> +		export_uuid(uuids[j].bytes, cur_uuids[j]);
-> +	rcu_read_unlock();
-> +
-> +	/* Return max batch size on zero query */
-> +	if (!batch.num_items)
-> +		batch.num_items = num_uuids;
-> +
-> +	return scmi_tlm_batch_finalize(uptr, &batch, uuids, NULL, batch_sz, 0);
-> +}
-> +
-> +static int scmi_tlm_event_subscribe(struct scmi_tlm_instance *ti,
-> +				    struct scmi_tlm_event *evt, void *key)
-> +{
-> +	struct scmi_tlm_events_session *session;
-> +	struct scmi_tlm_registered_event *revt;
-> +	struct eventfd_ctx *ctx;
-> +	u32 cookie;
-> +	int ret;
-> +
-> +	scoped_guard(mutex, &ti->sessions_mtx) {
-> +		session = xa_load(&ti->sessions_xa, (unsigned long)key);
-> +		if (!session) {
-> +			/*
-> +			 * Initialize a new session on first call.
-> +			 * Once created successfully initialized sessions are
-> +			 * freed only on final release.
-> +			 */
-> +			session = kzalloc_obj(*session);
-> +			if (!session)
-> +				return -ENOMEM;
-> +
-> +			/* Initialize inner with proper flags to support xa_alloc */
-> +			xa_init_flags(&session->events_xa, XA_FLAGS_ALLOC);
-> +			mutex_init(&session->events_mtx);
-> +			ret = xa_insert(&ti->sessions_xa, (unsigned long)key,
-> +					session, GFP_KERNEL);
-> +			if (ret) {
-> +				xa_destroy(&session->events_xa);
-> +				kfree(session);
-> +				return ret;
-> +			}
-> +		}
-> +	}
-> +
-> +	ctx = eventfd_ctx_fdget(evt->efd);
-> +	if (IS_ERR(ctx))
-> +		return PTR_ERR(ctx);
-> +
-> +	revt = kzalloc_obj(*revt);
-> +	if (!revt) {
-> +		eventfd_ctx_put(ctx);
-> +		return -ENOMEM;
-> +	}
-> +
-> +	guard(mutex)(&session->events_mtx);
-> +	revt->ctx = ctx;
-> +	revt->type = evt->type;
-> +	ret = xa_alloc(&session->events_xa, &cookie, revt,
-> +		       scmi_evt_xa_limit, GFP_KERNEL);
-> +	if (ret) {
-> +		eventfd_ctx_put(revt->ctx);
-> +		kfree(revt);
-> +		return ret;
-> +	}
-> +
-> +	ret = ti->tsp->ops->event_subscribe(ti->tsp->ph, revt->type, revt->ctx);
-> +	if (ret) {
-> +		xa_erase(&session->events_xa, cookie);
-> +		eventfd_ctx_put(revt->ctx);
-> +		kfree(revt);
-> +		return ret;
-Quite a bit of repetition in the error paths. Use a common goto
-block to clean up.  For the guard stuff above, a helper is probably
-the easiest way to avoid mixing that with cleanup via gotos down here.
-
-> +	}
-> +
-> +	/* Return the allocated cookie */
-> +	evt->cookie = cookie;
-> +
-> +	/* Get hold of the instance */
-> +	get_device(&ti->dev);
-> +
-> +	return 0;
-> +}
-
-> +
-> +static long scmi_tlm_unlocked_ioctl(struct file *filp, unsigned int cmd,
-> +				    unsigned long arg)
-> +{
-> +	struct scmi_tlm_instance *ti = filp->private_data;
-> +	bool writable = filp->f_mode & FMODE_WRITE;
-> +
-> +	guard(srcu)(&ti->dead_srcu);
-> +	if (READ_ONCE(ti->dead))
-> +		return -ENODEV;
-> +
-> +	switch (cmd) {
-> +	case SCMI_TLM_GET_ABI_INFO:
-> +		return scmi_tlm_abi_info_get_ioctl(ti, arg);
-> +	case SCMI_TLM_GET_CFG:
-> +		return scmi_tlm_config_get_ioctl(ti, arg);
-> +	case SCMI_TLM_SET_CFG:
-> +		if (writable)
-> +			return scmi_tlm_config_set_ioctl(ti, arg);
-> +		break;
-> +	case SCMI_TLM_GET_INTRVS:
-> +		return scmi_tlm_intervals_get_ioctl(ti, arg);
-> +	case SCMI_TLM_GET_DE_CFG:
-> +		return scmi_tlm_de_config_get_ioctl(ti, arg);
-> +	case SCMI_TLM_SET_DE_CFG:
-> +		if (writable)
-> +			return scmi_tlm_de_config_set_ioctl(ti, arg);
-> +		break;
-> +	case SCMI_TLM_GET_DE_INFO:
-> +		return scmi_tlm_de_info_get_ioctl(ti, arg);
-> +	case SCMI_TLM_GET_DE_LIST:
-> +		return scmi_tlm_des_list_get_ioctl(ti, arg);
-> +	case SCMI_TLM_DE_READ:
-> +		return scmi_tlm_de_value_get_ioctl(ti, arg);
-> +	case SCMI_TLM_GET_ALL_CFG:
-> +		return scmi_tlm_all_de_config_get_ioctl(ti, arg);
-> +	case SCMI_TLM_SET_ALL_CFG:
-> +		if (writable)
-> +			return scmi_tlm_all_de_config_set_ioctl(ti, arg);
-> +		break;
-> +	case SCMI_TLM_GET_GRP_LIST:
-> +		return scmi_tlm_grps_list_get_ioctl(ti, arg);
-> +	case SCMI_TLM_GET_GRP_INFO:
-> +		return scmi_tlm_grp_info_get_ioctl(ti, arg);
-> +	case SCMI_TLM_GET_GRP_DESC:
-> +		return scmi_tlm_grp_desc_get_ioctl(ti, arg);
-> +	case SCMI_TLM_SINGLE_READ:
-> +		return scmi_tlm_des_read_ioctl(ti, arg, true);
-> +	case SCMI_TLM_BULK_READ:
-> +		return scmi_tlm_des_read_ioctl(ti, arg, false);
-> +	case SCMI_TLM_BATCH_READ:
-> +		return scmi_tlm_des_batch_read_ioctl(ti, arg);
-> +	case SCMI_TLM_GET_SHMTI_LIST:
-> +		return scmi_tlm_shmtis_list_get_ioctl(ti, arg);
-> +	case SCMI_TLM_RESET:
-> +		if (writable)
-> +			return scmi_tlm_reset_ioctl(ti, arg);
-> +		break;
-> +	case SCMI_TLM_GET_UUID_LIST:
-> +		return scmi_tlm_uuid_list_get_ioctl(ti, arg);
-> +	case SCMI_TLM_EVENT_SUBSCRIBE:
-> +		return scmi_tlm_event_subscribe_ioctl(ti, arg, filp);
-> +	default:
-> +		return -ENOTTY;
-> +	}
-> +
-> +	return -EPERM;
-
-I'd just return this where you break above.
-Seems little benefit in coming down here to do so given they
-are all error paths.
-
-> +}
-
-> +
-> +static int scmi_telemetry_probe(struct scmi_device *sdev)
-> +{
-> +	const struct scmi_handle *handle = sdev->handle;
-> +	struct scmi_protocol_handle *ph;
-> +	struct scmi_tlm_instance *ti;
-> +	unsigned int instance;
-> +	const void *ops;
-> +	int ret;
-> +
-> +	if (!handle)
-> +		return -ENODEV;
-> +
-> +	instance = handle->id;
-> +	if (instance >= SCMI_TLM_NUM_DEVS)
-> +		return -ENOSPC;
-> +
-> +	ops = handle->devm_protocol_get(sdev, sdev->protocol_id, &ph);
-> +	if (IS_ERR(ops))
-> +		return dev_err_probe(&sdev->dev, PTR_ERR(ops),
-> +				     "Cannot access protocol:0x%X\n",
-> +				     sdev->protocol_id);
-> +
-> +	ti = scmi_tlm_instance_init(sdev, ops, ph, instance);
-> +	if (IS_ERR(ti))
-> +		return PTR_ERR(ti);
-> +
-> +	/*
-> +	 * Setting the platform device as parent to enforce proper ordering
-> +	 * at shutdown and to avoid the need for explicit get/put_device
-> +	 */
-> +	ti->dev.parent = &sdev->dev;
-> +	ti->dev.devt = MKDEV(MAJOR(stlm_devt), MINOR(stlm_devt) + instance);
-> +	ti->dev.class = &stlm_class;
-> +	ti->dev.release = scmi_tlm_device_release;
-> +	device_initialize(&ti->dev);
-> +
-> +	ret = dev_set_name(&ti->dev, "tlm_%d", ti->id);
-> +	if (ret)
-> +		goto err_dev;
-> +
-> +	cdev_init(&ti->cdev, &stlm_fops);
-> +	ti->cdev.owner = THIS_MODULE;
-> +
-> +	ret = cdev_device_add(&ti->cdev, &ti->dev);
-> +	if (ret)
-> +		goto err_dev;
-> +
-> +	dev_set_drvdata(&sdev->dev, ti);
-> +
-> +	return 0;
-> +
-> +err_dev:
-> +	put_device(&ti->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static void scmi_telemetry_remove(struct scmi_device *sdev)
-> +{
-> +	struct scmi_tlm_events_session *session;
-> +	struct scmi_tlm_instance *ti;
-> +	unsigned long index;
-> +
-> +	ti = dev_get_drvdata(&sdev->dev);
-> +	if (!ti)
-> +		return;
-> +
-> +	/* Stop ongoing opens and wait on in-flight operation to drain */
-> +	WRITE_ONCE(ti->dead, true);
-> +	synchronize_srcu(&ti->dead_srcu);
-> +
-> +	/* Inhibit future opens */
-> +	cdev_device_del(&ti->cdev, &ti->dev);
-> +	/*
-> +	 * Drop any residual session and related events if unbind happened whiel
-
-while
-
-> +	 * some event fds were still open.
-> +	 */
-> +	mutex_lock(&ti->sessions_mtx);
-> +	xa_for_each(&ti->sessions_xa, index, session) {
-> +		xa_erase(&ti->sessions_xa, index);
-> +		/* Force any event unsubscribe...protocol is still alive */
-> +		scmi_tlm_events_session_unsubscribe(ti, session);
-> +	}
-> +	mutex_unlock(&ti->sessions_mtx);
-> +
-> +	put_device(&ti->dev);
-> +}
-
-> +
-> +static int __init scmi_telemetry_init(void)
-> +{
-> +	int ret;
-> +
-> +	ret = alloc_chrdev_region(&stlm_devt, 0, SCMI_TLM_NUM_DEVS,
-> +				  SCMI_TLM_DRIVER);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = class_register(&stlm_class);
-> +	if (ret)
-> +		goto err_class;
-> +
-> +	ret = scmi_register(&scmi_telemetry_driver);
-> +	if (ret)
-> +		goto err_scmi;
-> +
-> +	return 0;
-> +
-> +err_scmi:
-> +	class_unregister(&stlm_class);
-> +
-> +err_class:
-> +	unregister_chrdev_region(stlm_devt, SCMI_TLM_NUM_DEVS);
-> +
-> +	return ret;
-> +}
-> +module_init(scmi_telemetry_init);
-> +
-> +static void __exit scmi_telemetry_exit(void)
-> +{
-> +	scmi_unregister(&scmi_telemetry_driver);
-> +	unregister_chrdev_region(stlm_devt, SCMI_TLM_NUM_DEVS);
-
-This should be reverse order of init == same as error paths
-at the end of init. Anything else needs some comments on why.
-
-> +	class_unregister(&stlm_class);
-> +}
-> +module_exit(scmi_telemetry_exit);
-
-
+What's the deal with that? How do we get here?
