@@ -1,82 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794352670;
-	b=lcijpXX4iPwb1s3PmiLRNCDQW7JbxE7zr+/YZETz5FC6nbO+MJ+1Va/luDoPwAGtt6Vd
-	 H/rYWBQCcsHdwtOSf/khQIwg+PTRtVckbPzWeskhoGVuCxZakvxxx9XzffC/hJ/wFQRZ0
-	 URL4XM5G4PEV1kDzA+eKzQT++WAN2o8Tp4Gl0Ab+/+2GKg8Rj3s9KemH9APzVb351b78r
-	 npfK7zd1INW2BL7J0bNYyCIOYFH0AnLKYi+7c0JUG1t1SSEZ3oZJO5Ys772geizvsTKN4
-	 d7MfNiiW5ODB1fBIAucMZ7Dle0kEZsPz4amC8V48PkAW1Q9tkC7Sw8dY0LnCbxEdxNA==
+	t=1794352724;
+	b=EgP5M/FVrJhCUD+YsG5dn6z79ANqV74gEtPiNoJ0LRisyrtkUu7KO0+iTKBNkAJFIqYO
+	 jZLQqZR7pvWfJeDIlZWfnl864Ub8wxErtmH0Gg+lPqSDWgID43SDdHgnrbkK+RZPaDBvQ
+	 Qr+H9cYKNp8lWEo8EURRBv7YYQmEckOpYwHkfJDFOodstQZMYMAtmz+jNXvW89Jx5TRHA
+	 m5TPZb6LhPeksBSa62j7K9RHPNr8o95xT7qeQbfUK6phxVpmHtH3FYlX9/ZNwxoa1iVBA
+	 tf2HOLvE0lXlQwyYkmtBdsO3FWhN4Bk+DUHJ+eu6HzBeBApxR2af4nSGyhn51cinV8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794352670;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=gbmiIYRmaOIY16FesNo5fSYIqv3eyHrsXkU16JRHHC8=;
-	b=sNSGPDwBY/Ozu2lOFNE6Om11b9Q3E9fc9pq8EjN7BrAIDqTxlBUK9EcNRds2BpUtMtNO
-	 Ri6BqqI5IFn0dohyxcFrLFiDfDEBTM/vuJe62q8Gjn9k+BsH5JtTMaTzlfikmh1+bW5fU
-	 N/vObU/JQ+QN33zkQQz4q7NrEYoEqiWsarcRgXjxicEC0GnE0Zz+24yk4QXe60UUqfsEs
-	 axrfN3Ah+uyIeXqxG514jkt203knoSJ7/v/efShqhjqObi0bgV1FyrEXgpQ7CncJ8kA2C
-	 fKgQGxU4HXVHg3UxtVPvTJEEo9/whPEtajYcv8WXmiqdMicOh7hg2tz0ttBPCqQagCw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794352724;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=2B5465+J93nF6xCLEsT3nPxNqfsXSEGghlx5MhkIPjg=;
+	b=WC0M5A7vV30XzjMBoViXhm3aanw773SAxVIDnjlEzV5EnQoP0R85x3psc1eVYa5tgA9T
+	 tDpOOCqmVhMUCLCKPsIw3o5/2CeWIp3Lc2/0yLCidOdvolGfKvelI0g4+QA6n8H6YtEWC
+	 s4UY+eUYW+1IZtMN2Fq+jwTs0OtWZR5eccCwzKlxKyTXg15UeI5XXYL5hkxUprjlVCJ93
+	 WN0fvJidbsgA4GMCPzjHxy9BXWEBukqEj4AjWd1yZMDlfGjiPHiQPL8HblUXvlHiptRfw
+	 EWipmTUuq4C5yyUaW3wU3K+n5jMJwh6x4u/cAkdOb0t0MVdVBzaCgMIVPfciECvlyNA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WJS6b8KC;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=U5ARn3aK;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b="Q+iy/jSQ";
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26328606A31C;
-	Tue, 10 Nov 2026 23:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B89EC606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:18:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B89EC606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WJS6b8KC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65F361F0093C;
-	Tue, 10 Nov 2026 23:17:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794352670;
-	bh=gbmiIYRmaOIY16FesNo5fSYIqv3eyHrsXkU16JRHHC8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WJS6b8KC1LJY2RUo9wiF5fL7kLRtABCnBxnzmLOUAlldosxNl2+W+GTjJBDvaRBvm
-	 Fu2jpwZwDfWPJ2Hqn4VF1ipfVWnrZzCXNFfVTAjGpVQco5nVz9fomH48P07U7gOa7Y
-	 rBitF4k71S7d2mXqcdSux3x4V1b5ZJdWi4ALo3+PHFAcr6ya/VnZyaxd6lTF/6eJsF
-	 qfI6EJ+cBIAy9kjD8xtvz7qV+Zsgv9AZwwuA6BYoRf/yZmlEI1gbohNlcix4uQCcYY
-	 1FlJW2JOxAPpUPmbEibgKU0ZWnYf5FOSUaMZ43Jyjnk11EMXIN9uy4Uu56EJ+DVAey
-	 To4C8xAa7SnNQ==
-Date: Tue, 10 Nov 2026 15:17:48 -0800
-From: Drew Fustini <fustini@kernel.org>
-To: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Radim =?utf-8?B?S3LEjW3DocWZ?= <radim.krcmar@oss.qualcomm.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sunil V L <sunilvl@oss.qualcomm.com>,
-	Tony Luck <tony.luck@intel.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	Zeng Heng <zengheng@picoheart.com>, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, x86@kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v11 2/5] riscv_cbqri: resctrl: Add cache allocation via
- capacity block mask
-Message-ID: <avOmHFcy/yFOr9YX@x1>
-References: <20261108-dfustini-atl-sc-cbqri-dt-v11-0-33a1bf0cf01c@kernel.org>
- <20261108-dfustini-atl-sc-cbqri-dt-v11-2-33a1bf0cf01c@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=U5ARn3aK;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Q+iy/jSQ
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAMKlKO501888
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:18:43 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	2B5465+J93nF6xCLEsT3nPxNqfsXSEGghlx5MhkIPjg=; b=U5ARn3aKRc/0s/xT
+	AP3e7rZRyL9xmrEKJQDNOv5f2Dy1phwrmPipC2LpK25ZXhc+O7OiFH9cfPdcEmOg
+	3oa/+DPEAHZEREiCESwy9fZmD7CMj5vQQvLXvS+xbLWfDmJ2EaCHy1c/3lbrtcno
+	T+1RwunzOgV8WykCpRE8ZUVh9NXXxNIo/09UIOrLiO3B1s7qVkhG5uMjR3vYKH16
+	Yl+5F4ccNw9XnJN8OJ76Ymbjcvjbge9dpZ/Mhj225hJiMOGn5B0vAtiYDQltKELU
+	j/NhFqXvmRlfenWzP2BO2TmK74e0Tun9VfmOLhSOH8v/tLw284SnXYqSR4x+4Hz3
+	NKb0Qw==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huy5dbhns-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:18:42 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-30c0d568830so5839632eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:18:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794352722; x=1794957522; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=2B5465+J93nF6xCLEsT3nPxNqfsXSEGghlx5MhkIPjg=;
+        b=Q+iy/jSQ2VYCWRaZKX7F8nhaZoUKeyge5fDs7HyinTznOJ3dA10hNAlm6GUjty6pOf
+         pSHIsV5a+yb8ncyIgoLL4gGkhYXCqmGPhbGgd7QwF35+cJOd0TFfYYXIAjtTZFH2cP59
+         TYBkZbH/rNjpaheQt3ND4O6198boLziwmVQf74Ek55eZMKNuzkeae5EOwhU8dlYb/WgO
+         BoOvJ3nYMdtnW2ycp7L3VYF7T3pfKx/86eVNUaiLD94FHlKStygPd78U4tHn472TwIK6
+         TVAttQihXPSd5BdS8qrR9pRMST3hgOuMHVA3GnWCaEN+dOALsdLrvFPet5ugOG9vsNUv
+         jnPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794352722; x=1794957522;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2B5465+J93nF6xCLEsT3nPxNqfsXSEGghlx5MhkIPjg=;
+        b=lMn/xVXEndVx14tIcoeGn0dO3+0PIUxps7gB7n7uaCyjMEtv0uqPf0JFwJ8XMlkvHZ
+         BBXazfwJXbJMjwY5eGVcvKWeWIg5+haG0bUzlY8dEDEqLDbc42ukRAdr5EyrvE9u42JN
+         lPAi4tuy/YoH7dp/yAnYzHgRVnv5cJoJOFMKaMjkIlNq7aNiuGJLjf39wKqZOfPWHJ3D
+         B80TMv3h8rgsAk+CpwrcOqsoV5t/SQaensW8omHerYJzHH3EX8f95bW3GcVAwT/tPAFr
+         GEU4/WA+dfgOwYagRElbL1wwmHFioZbTiWjiLg5avIyRsGZjzBHgHD37/an1Q6QvPsep
+         jM+A==
+X-Forwarded-Encrypted: i=1; AL+hErH6/xlA+OHdtsKYirrfXyWQ9fdo+qb3SlIa9fJj6Iuw9W5yA3hGphKHALiaWwBCy5ZGly5gu62wwcQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+4wnaAps6Hga/TRwgqbj2PhmV/OkZxorR5bZgFpqNNvcbJMzWM
+	EmjYLf1QjCo9LG8IsRJJ6v8bOZq7R7duPSaUKJnbLonXIUYPPltuxRH9P6b09DAe1MJ//5e/KEs
+	KIcux+6f/viTlE4wXXrfGGyKyA8BzpPeAJjL/1UjfeDRxJlKw8kpHc/qFRwe3Qjs=
+X-Gm-Gg: AYBFou1TRRpWEd3R6ZMBBUDvkL/He5sreinY5qJ4rWsTOcT+PhuApMntHqe1MloTdvx
+	Gd37iUA8gIJoviVkbAKnfXmp5pCnBH6ONaq/fllwxpNU8FlYJ3s8ffjiT1U5jiB5uU7i1ug6Jc/
+	cItTUycVn3+g4nEhupcjWAamAOGJbTjH9J0oYSXlyZ0oSOutPs28yihG+mYzUjP69LXHEMV+uDi
+	ilZUdc4Fnkjbc86qe6eFyEPjXavEXHeyctlw/KpN7p0vAB+VCbteuyK6XkiO/TMRiO4K7ByDzm+
+	+HgRv1rbn4NSPiZdXYNiYvJ0bd9GnWp2FaakwDpaWrn+yf7BYxp92Q4JCEenrqcjHeKTzM82ZBq
+	f+ZTXHF0EhbgG6vw0PiP/bCHqMNjmVMt8Ma1SwANoR/j+xvjKB3zOH0235kQaJDtrkgFam5cu7Y
+	zXpmrfNhri/ol48nS1eM4ElqSdIUk=
+X-Received: by 2002:a05:693c:80cd:b0:36f:202c:48 with SMTP id 5a478bee46e88-37685d728d6mr1283760eec.14.1794352722279;
+        Tue, 10 Nov 2026 15:18:42 -0800 (PST)
+X-Received: by 2002:a05:693c:80cd:b0:36f:202c:48 with SMTP id 5a478bee46e88-37685d728d6mr1283708eec.14.1794352721742;
+        Tue, 10 Nov 2026 15:18:41 -0800 (PST)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe32276sm9454656eec.8.2026.11.10.15.18.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 15:18:41 -0800 (PST)
+Date: Tue, 10 Nov 2026 15:18:11 -0800
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
+        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+        usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 28/35] firmware: arm_scmi: Add un-managed methods to
+ get/put protocols operations
+Message-ID: <20261110151811.000001e1@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-29-cristian.marussi@arm.com>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+	<20261109091221.2532706-29-cristian.marussi@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,40 +132,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261108-dfustini-atl-sc-cbqri-dt-v11-2-33a1bf0cf01c@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: VNBtMyIcU8FOTMhj1JtdqeZcrq3i3N4c
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA5MiBTYWx0ZWRfX0D40pQ6k7cOg
+ +bxli2FpadgC0gLAIdAPVwuZyvuJQTz+0y9LtyJtamPKTYS8xwXTBfy4XDX8tT9l9ta/8RISypw
+ 19qF8HBoNZos3fFaE7gNGyvAhji4dbI=
+X-Authority-Analysis: v=2.4 cv=d+9gWhjE c=1 sm=1 tr=0 ts=6af3a652 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=7CQSdrXTAAAA:8 a=SRBWjgdl_vfv6kPYSD0A:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-ORIG-GUID: VNBtMyIcU8FOTMhj1JtdqeZcrq3i3N4c
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA5MiBTYWx0ZWRfX/z6wfu2BuIpG
+ N7LNNSrx80G5g0P+aC9fIjRSL+75yPcV8RUee7GaAUl8xxXOR+nGJ4ZbD3lF68AeTYIQ2tBk6Q1
+ i8bIl8bdOWas+RYbv6b6DlTWmMeiFpMdlHpA9YKclVn90vzepLlDu3SeA2nloQTUpQJFI+0B1ox
+ ZaT8+ha1xKUaglSqa4DH3+tAyOF85aBSzGtawD08bg79Pfqgp1/qsbGfh9i7kFPh2brao6Ju4tk
+ WZB0hq95nE4m+DoYQ7Fyh7dl4pcfwsvKyk5x+QlaAh25qk11dGhHjFyDFsAJtTI1Bsxxre21rqh
+ tYP1XHjBMUyU6ZiGogw8yBvc4yY36MKTpHh/fFWWBmsZCR+bidm1ldjtKQ/6bVuZOjvc24CPerA
+ k756U7F4IBTaWYbCtVQ4JcLVMxpJUy8lD1FKhPeg3heRhT7oUAWUSZr8mKPWfYT6A8NU0BavCfn
+ XCGYJ4BjfvqOkqEydFg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-10_07,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
+ clxscore=1015 bulkscore=0 priorityscore=1501 adultscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100092
 
-On Sun, Nov 08, 2026 at 03:20:51PM -0800, Drew Fustini wrote:
-> Wire CBQRI capacity controllers into resctrl as the L2 and L3 cache
-> resources.
-> 
-> resctrl exposes a single capacity mask per resource, so when more than
-> one capacity controller backs a cache level they must report the same
-> number of capacity blocks. The same holds for the other capabilities
-> resctrl exposes once per resource. A level whose controllers disagree
-> is left unexposed. Other levels are unaffected.
-> 
-> The set of controllers backing each level is fixed when resctrl is set
-> up at late_initcall. Control domains are created in the cpuhp online
-> callback and keyed on the onlining CPU's cache id from cacheinfo, so a
-> CPU that is offline at probe time still joins its domain once it comes
-> online, provided a controller for its cache is in that set.
-> 
-> A CPU whose cache has no controller, or whose domain cannot be created,
-> still comes online. It is left out of that level and a warning is
-> logged, since bringing the CPU up matters more than controlling its
-> cache traffic. A domain is published on the ctrl_domains RCU list only
-> after it is fully initialized and brought online, and removed from the
-> list before it is taken offline, following the documented safe
-> traversal rules.
-> 
-> Tested-by: Chen Pei <cp0613@linux.alibaba.com>
-> Acked-by: Reinette Chatre <reinette.chatre@intel.com>
+On Mon,  9 Nov 2026 09:12:14 +0000
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-Hi Reinette, I still need to get more reviews on this series, but I
-wanted to check if your expectation is that all the patches in this
-series should be merged through arch/riscv?
+> Add a couple of simple common methods to be able to manually get and put
+> protocol operations to address situation in which devres managed methods
+> cannot be used.
+> 
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+I was kind of assuming you actually use this.  Where does that happen as
+it's not in the obvious place (patch 30).
 
-Thanks,
-Drew
+Jonathan
+
