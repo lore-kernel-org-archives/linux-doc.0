@@ -1,128 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794351452;
-	b=RnkB42m8aE478/dw+w16Dkxz3rxgzRqxWDR6hchla8v/kM5lLHNEkUaB+VJQuRj33LSE
-	 zSsowJIeuxiQvBUMOEej85z8adT2kT7E7HZfMk2JwR5GsgL0NjXdkcdjmfsWrv95R1sTb
-	 hrBxlTZiJOT3ZsN4yIRFA6fNBhShVhnrzaqZbQtxr9RJaoGqlDLJx49W86bEXjHEVIPEm
-	 fYNJNa8tHhE1/0ADrRS+dX41EH95AB9w+GtjO+E2lYyezzVsMCearktMQG902XnXLS/Qy
-	 KI2QEK7QZF2U7AHcLAZpcfXpZU4hnngc61EDUnEENkqe+0Odk3kCpmSq2yFhwK8GJDA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794351452;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Authority-Analysis:X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=delInrFccnRDmpD2O0gZtftiyVmvNs6sg+QiUy5od1A=;
-	b=WCRIKrsp6OAk39TfWrAqeLkgqpvzHFeDapFF7l9TykQgHDwXedtIKw82Om9sMh2UCKTf
-	 bOqc9FMcyeH2fEVvSqjQnrebJTFJGd2OKTBMM20Qq+zBT8Rz0cxx8fYupzQUe6+9NoAO1
-	 1YaHNk/7WhTNyl/Cmg+bVcfcuASP3NxnNM91ed+rYXxJL7vb8noscdIeIMOf/cljdUX58
-	 liYDQviWC2SaAX6dLtrfZDr70ecadgaSrx0y3yVpF9gIEwZAYLtDlLHF36x1Yz0wJ3Iib
-	 ULLP6xOqUrklC13GKwaVTzKwCdOCyasnim7dEEIABJV0ZzSqY9gs7og5/rkTbU7UjzQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Js6AusJU;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ISXlkT0g;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.182
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794351659;
+	b=TfuPb+iKCJig3QxwXCiE/xYkM4NNwz7hZ8tY3qLIqHCY+tq3GX0C6+Y2ZnuuMgYltmSa
+	 MoApi/7mivgF8F1daVkiVex6o/Z57YtrtOhJgGVGFzoBAOecHV5RzcRH9HK3yAO4kkVeZ
+	 NIvHup65QT8pT/1hK7ZZC39rESA39zx6SCZV9C/GNJfAEDs1BODh/fB0dOdVsm2yPeaSi
+	 oLZ5ygkt5aQQsKHJDsn7fioi/rv87Ike2IhoDyc7i7fkQ96unExNFxzDltoLgEqrBhSGC
+	 ndBxuqQw2xnCYJ4VsTDBMfEoZrdgX4QH99n7sNXQqs3++JAxRm2kZXxJBJSFyJKLBvw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794351659;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=o9zfjeLXx8nlaVhvD+KO4LRkpHUPOVyGHHNomAn5t58=;
+	b=daLINnXo7i8IPk+iAN448+gsznNuOJYNkQgSaMWRdLD0m0YYtgIWEAtqOd7NKLaoFjzf
+	 0uNmK2cqbmvlo5RDz4mXZ/ce+G0eadsG53eEFfTM/4zPoVjm+3AZRpFe9ADtI4BO/RK5L
+	 HBCVh5Fafqzu6qXbTUwKJPIhFHe1VQJIB7LsrWrAb7GEkl83VYH29DGmhulGD7V6sIw7t
+	 8+nMhOONeQJXP6GBrjTpC6V9fLphKDxUNMffQ2iNU6u7hfVz47FrygC5pf0ksT2Z1bMJl
+	 deGzI75caoloak1+zlUCj73XEZo9rdysvcpwmnvEKXp6zajM8OPoSB/23UBO75Dp8+Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NME2XDvX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.182
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B811B606A325
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:57:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B811B606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EEF3606A320
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:00:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EEF3606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=Js6AusJU;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=ISXlkT0g
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAML5Kv1117090
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:57:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	delInrFccnRDmpD2O0gZtftiyVmvNs6sg+QiUy5od1A=; b=Js6AusJU1aJqM0Sm
-	v85gNtaAorFofzWUIJj7Ha322GvPgEpTIeZVy1T9q4VzD4/LSFGttG0M6DoaGvk6
-	0ZHvrN1ExCGzKerskWkckIa2bJKrCw/J57iuco6mbbfZS2DR4xwSQmUJNQwy6ASM
-	5dsPklECATLC56/EJd6s2hg+aa7V7DKHOurFeqoV0m3SPrK2H9z6iz0Nu8+7ZyT2
-	Co/GBipnC5PRTxKG3gonvMdijBtHI3BZOpJ1K4C5qYn694totCReBFyZ4xZ6Trn1
-	EHnvY3KqFjffoFFWFc2vv490UPCKr42SksVLKistVAAVMyMZHmShPQLJt+RQc4cf
-	Si6RnQ==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hv4pva4ks-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:57:30 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-375f0fd31f4so1238108eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:57:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=NME2XDvX
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5ec3561b07dso1820121e0c.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:00:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794351658; cv=none;
+        d=google.com; s=arc-20260327;
+        b=X31M2Vk3kGokvS2cnaDqD9/eeLU8FdG86DkaUjcAxrFv6kABZLTGX7/39T0bEVgGey
+         ARlLcV4lGKKY9IDtJqG01DwNX7fkX3cy3Ysx45QS4QWOoswh9qWFrstPe8aHa+w86g0i
+         /GgV8rP8mXw7+fxMoB/qUiO2Dq3S1U+15oJbHFc90zLx0Vt774FvFUoyUxH5+iRJctvX
+         zUtPorDr4ZM2ZphkSAy1O41WCk/344fL/hl3qhjgTmOjoHtBMZznSjBy9Nifwu9vnfvh
+         6DVsPXCfuA/uZo89M/WqGgS5G3qKk2JX+3+Qb3BIn/44vR6qZ640YqtJDccmbYI9d2dR
+         aSyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=o9zfjeLXx8nlaVhvD+KO4LRkpHUPOVyGHHNomAn5t58=;
+        fh=0SqX4Kml1Dha+OMPf2fOmAyRX0wHKrebZ2KwFihY0QM=;
+        b=OkWJl0liyWN6vvOtG2Pv+KVT6yBmp7juPYVd2uhzbI6Urh1ErjASbqMnP4DS81Zneo
+         O1+08vX+7Gdmu3cPCFW6hQ5Bu3j0jMStDt5NwwIT+S6eqqw5nnmZxE48SR1flq/RBFE9
+         6Vv4p5yuaqkBkmwj4O961wZPd+PPONrWsDXHqFp26zxKZf/8qXLHdY+PXtv1A2r2rYmJ
+         i0kEZNHgBhiUVrgwfgccpo4NOvdw/bXq1u3FwLeNpHOejSxubhyvhFl2wNrMyvvq1Ks8
+         o/8vhFYb7KB60Zrg7oUMDdandc7t3lm4Et4Wm8//N14CPfUECnkWpPzbzJlJ9ODLA7Du
+         oKGg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794351450; x=1794956250; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=delInrFccnRDmpD2O0gZtftiyVmvNs6sg+QiUy5od1A=;
-        b=ISXlkT0gdxS2LCoEVKNhs2+2BW0QEC6izaSBA9U9+id3U0YbvEauQtYDggoYEpbvDR
-         gISrPnbIFNsVsmCd2leoL6Ff8J4SbE7NoRdmlHuwAoUBkxtn+8eN8QXRBWY+FX1WHxss
-         4xcD1YafpDWonBqlm7qe9zRIa9opzo0ElI+EEzn9gR5lliT8wpbCgv/kBPpHwl5lAJ/F
-         eBMQw33JrCYfJX2D2RDSoEV+rlt5T3LsIwsPdNZySXSbK75OQP2qY9rcbnsovSdCrvuo
-         MNSRm1T9o3iUHDQVX2wI/qJY8D8ZBu2J5KGalUW18FJmLvrhcW4UUafnhhePV6sUTQmZ
-         Gohw==
+        d=gmail.com; s=20260707; t=1794351658; x=1794956458; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=o9zfjeLXx8nlaVhvD+KO4LRkpHUPOVyGHHNomAn5t58=;
+        b=NME2XDvXz1QujELu1uKRy4PxvIj2Y3PYnDNxLGaRJFXJC5ZFBnWaaDi+D35cX54ClJ
+         trsKh65JQNX56lyiMhfhk4D5VOv1LJGb8xYjL2MxH+kNH82lqbWZMINu6x3XvAZGrVOx
+         GRLav0QN2+HQeaZ5T44dwIaCYcj7H5lhxt7bxACj2RI4wsFf1r32H8s1wAMW8WL279WL
+         KPDhCnEOnAAVi7nJ9gLA/JIjRANM60bMgnBcO5e0xVrZdFDJRkHFLgJPfZbD3PYEnxSJ
+         +MVokBumaQ2FGU2sBvqyi7pOgpugTbA/Htj8GPVvIXIT8FB7Qb+hAXCviNxlVo+d2+wT
+         SDFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794351450; x=1794956250;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1794351658; x=1794956458;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=delInrFccnRDmpD2O0gZtftiyVmvNs6sg+QiUy5od1A=;
-        b=rKKrvumeun4wT7N/vQKDlfda5MTUlMfQEz3K4FiZrGJGuqnioRzCxx6i/2XoBMo9G7
-         1kmmiUlbqNTfkuqvIiUf5AgAQ2ZLR5p/2Bw1sZUEQhH8vmNnW9QfMnmEdoNWIfkPX4uJ
-         W6yRuLkaTUL25liJ2KGrZ81xBzy6UzDIuEYTAEz93qOJ4KERI+PVqQQ9DWcdvwtvu7QY
-         0b+0kbv69zfz6u7iNyYReWZ7KmUdQOcb+80TBtCzJVDaJE/wBR5c1rr9YE8pKfucRNnr
-         wuJCrQRanjRY5aBuYsGT78fLnl7ty26OOfX7e3jbM3AX/3V5k/YpreTOjloHaiuFDHHL
-         zpvg==
-X-Forwarded-Encrypted: i=1; AL+hErFjksSrRv16N/U4/V/K+RCxjrMq0vMSAShP4WCpeTXvhWk9UCP2zJHJ0/vPIzXHUEBjTB3xIuZMSek=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+bavY/1M85YFSwSQ5dNL6UYBZbPi78/jO7DT1bcmmaXVMFKZKr
-	I3D7seOpX8TKvs1VDyGq6hIGlj8mdtOBAuBv368995eUisht8M2f/+SDGuUgW7GABvNuNQXNxEL
-	dUSKKzuMrKYykwmRdg3yHCPhbsfBOgsHQlVvVPw57aDdnjNg04hvB27fUoVuDHYM=
-X-Gm-Gg: AYBFou1cCD0NIGddhqcXnL/G0l/hXsM4ZVzL1D/OCNXF98x96ll+erF2BxRrOTSLCl6
-	Vk4tf6r99THBO5y2W9Nf0zXFtjmYM7ZlkbVtGzf0GPz2QT3J0SVRA6tThBfZ7hJUUtiPUDQx5Na
-	LO1EZF/se/h+bLxD9CoM86Yf23Xosi+n8Unsxbv5Msqhd+lPVHXisGDZyjR5EooiPl9IjsESoNf
-	eIKpDleo9WAtZozVkYmTzDKLsWbGsG1zQWq61EVZRKSpytKSrZK5FGXoiO79yZdV2WGM+f3yVWY
-	dgOGftX8hLK4pER4vEVGoRQXnthQyaC1L3kYTtzGk7wYWl/B11o51o7rOu2o5J2DHfprcTn7tyo
-	u+EwGcYrbI/A6x41wM0q2LvLHN5NiW0YsNb5TT2lwSEz4TuCIQThaIvF8pZw1NNFmFXdcoSOG0c
-	cAURRWRtPI0rDdOnpCjRgZynoYPNc=
-X-Received: by 2002:a05:693c:66d3:20b0:35e:f1a5:9ba6 with SMTP id 5a478bee46e88-37683188881mr1061678eec.5.1794351449656;
-        Tue, 10 Nov 2026 14:57:29 -0800 (PST)
-X-Received: by 2002:a05:693c:66d3:20b0:35e:f1a5:9ba6 with SMTP id 5a478bee46e88-37683188881mr1061633eec.5.1794351449088;
-        Tue, 10 Nov 2026 14:57:29 -0800 (PST)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3752060dc0csm11561398eec.14.2026.11.10.14.57.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 14:57:28 -0800 (PST)
-Date: Tue, 10 Nov 2026 14:57:11 -0800
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-        f.fainelli@gmail.com, vincent.guittot@linaro.org,
-        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
-        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
-        usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 27/35] firmware: arm_scmi: Expose per-instance
- identifier
-Message-ID: <20261110145711.00002217@oss.qualcomm.com>
-In-Reply-To: <20261109091221.2532706-28-cristian.marussi@arm.com>
-References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-28-cristian.marussi@arm.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+        bh=o9zfjeLXx8nlaVhvD+KO4LRkpHUPOVyGHHNomAn5t58=;
+        b=kWH+YGhil+S+/AKMGkn+sZSitDE5oGR6n1OyanRm7vlfUsxaWuBVmUFxYDySQudTSV
+         OIPzLTC/tJUT4oPiVijN5UdXF0oGp8Ck+WRLOSppRwt9AE1LrdKtxo3bURZ+LFjwO5zd
+         kO+96NHN39GRGZdZa8cf6ExVsxNcW3cNqOVyZEjDAtB9NxJ4DJk4q5e5omA8e9l0Khzl
+         ypKoc/9ZujWxTmWwsnuBcDN8sq6XPE5RWcHUfuSCUpvXL8wXkg89jo4gqtqijiZpig8m
+         slnBpkyMb8x0ole0I1+x2id7ht2DaUM3OAp2bP9xozVlxI+PNWR+e22N8RV0NCD0TGcl
+         rDbw==
+X-Forwarded-Encrypted: i=1; AL+hErE+oGHs9xLGF1FHlYTGIvLjEEyHXrFGVG1udVvSl1HXb7N/XhHch7iHXKH/xQALnhjH10EoHKfsPns=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9gU8j/6Rn9e7+qxUBadPY+SLro0OYLuMLd++HxMBY7PBfFilxg
+	0gU8OOotHxdODqpu5aD3Y7EKlPOE7UIhIPnAEmeHnqEAqTqL69oqc5CBN7WPpGF7tr/Z51/TFCR
+	7kcRN8il6WkbZdYbPo87X7Sr4RTszeqg=
+X-Gm-Gg: AYBFou3Eu3ECVbtZ8Lv5K37WntK7l0SOdbJADriDCq/vaNU/JdHDNzT+qNV9sQ/nR8j
+	sRy8Dw84XsX4RS0PxZ/0suH8/tkVoDOVX6D/ibhfJL7PzuDw1lfBaD2F23YEDICzpgL1S6UInpP
+	n4ez7uhrA/pgXG+NdJc6ARRrohVGu9oDDdRnHUaUX74AxJYrNzcZ3K8x+jzorBv84Ana/bskMy2
+	mThZTBHZDM4vIc8dJ2QF0Bebnm2/HUG3URE85UhrNB12Jhz6d2lViZKAYJexj+/lH7QLfzQ+7N5
+	kDF6ns8f3y7Yho+Ntdzk4GZFwGLN6n1U1H0nYxr+m2+mNk4xBGKF7t2aYAlx8cXCMnskCa6DURi
+	SrO8nqEo0lMoNlwnj/qoJYkqJGALlzTtzFwhP4Q==
+X-Received: by 2002:ac5:c752:0:b0:5ee:b3:a43d with SMTP id 71dfb90a1353d-5ee1b02333dmr198001e0c.21.1794351658145;
+ Tue, 10 Nov 2026 15:00:58 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -132,49 +103,264 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=XqZvqlF9 c=1 sm=1 tr=0 ts=6af3a15a cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=P0Bfr-jsjiM-HyT3fQwA:9 a=CjuIK1q_8ugA:10
- a=PxkB5W3o20Ba91AHUih5:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-ORIG-GUID: QD3ojobHMOAknHkXIvMI8maYih12XdAe
-X-Proofpoint-GUID: QD3ojobHMOAknHkXIvMI8maYih12XdAe
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDA5MSBTYWx0ZWRfX7r3B5iWIU/n0
- ad8BtNHqtlXghsyUksx8AjqRP8VFWLuLVqYEBI/2zDanua+MA3dsinFjujJE6UGC3YSQpevlDEn
- 9jcXI9g804lDF64qdehFacSUkR/qmsk=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDA5MSBTYWx0ZWRfXwydNtDpVIICi
- Fsas4j9oUEdijlAHFv7PYDtPkmSYPibGIka0nlqCi4jVa68G1IL4ztFEMeeWHOP+C2bEOPDxGbo
- fhpXlimW0HMTiHba8r6I7rgfeGYhpELgtwXLvFAJkz6CY6teNb+CoqPneQQnbM8qkHwFxhUUADt
- nyg+un37Q9c0THaxHVKXGvI/HqCJqiBZSeCFQ24yHJGugeun/O0oPCu+1dZBSAcpZu+edbWcBkl
- s8wJBqFA33ZSfOQ6xiuZ00SWmkMQ0h79kVA3EDCnT99IHN+O+5i0YL9FZ0Wr4uO+Wtzs0hla4PU
- 5ky2D5yzQUIbc6/64WNN541qko2BWTZ3jOnuLqcZ2GBDqV+0v0XUSIr/dUsILSMtToZ3FJXvMxl
- ZpxB8UTpgb3OGiRlB+RQ/+Aq/bfFNHgnxW/LvpbSwMJrBx/HMgMfq0wJIJk4Fp8pyaGQgcXUY/F
- DwaYGmD22uE/AxR7RGQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-10_07,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 priorityscore=1501
- malwarescore=0 bulkscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611100091
+References: <20260726212812.89266-1-shijujose2008@gmail.com>
+ <20260726212812.89266-3-shijujose2008@gmail.com> <20261017055852.GBatMOnEl66YObvU5k@fat_crate.local>
+ <CAG4KcR+NOKHNzg6FN-oLLHgUxeitZHKXg9cN7dz24+Ap=RrwSA@mail.gmail.com> <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local>
+In-Reply-To: <20261110071729.GIavLFCfLKzPx8R0i0@fat_crate.local>
+From: Shiju Jose <shijujose2008@gmail.com>
+Date: Tue, 10 Nov 2026 23:00:45 +0000
+X-Gm-Features: AclHuK9UQtupPx8LMZTpk2yNTMX5hNKYK0tRiitG5dSZyQW9ncd1bgVrIhw2Lvo
+Message-ID: <CAG4KcR+ikfQEBjCZiNJ1CUz=u3Gtbk_XDroA_GQqYpgO4Lo5Qw@mail.gmail.com>
+Subject: Re: [PATCH v23 2/2] ras: mem: Add ACPI RAS2 memory driver
+To: Borislav Petkov <bp@alien8.de>
+Cc: rafael@kernel.org, akpm@linux-foundation.org, rppt@kernel.org, 
+	dferguson@amperecomputing.com, linux-edac@vger.kernel.org, 
+	linux-acpi@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com, 
+	mchehab@kernel.org, ashok.raj@oss.qualcomm.com, jic23@kernel.org, 
+	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com, 
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, 
+	james.morse@arm.com, jthoughton@google.com, somasundaram.a@hpe.com, 
+	erdemaktas@google.com, pgonda@google.com, duenwen@google.com, 
+	gthelen@google.com, wschwartz@amperecomputing.com, wbs@os.amperecomputing.com, 
+	nifan.cxl@gmail.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com, 
+	roberto.sassu@huawei.com, kangkang.shen@futurewei.com, 
+	wanghuiqiang@huawei.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon,  9 Nov 2026 09:12:13 +0000
-Cristian Marussi <cristian.marussi@arm.com> wrote:
+On Tue, Nov 10, 2026 at 7:18=E2=80=AFAM Borislav Petkov <bp@alien8.de> wrot=
+e:
+>
+> On Sun, Oct 18, 2026 at 11:56:22PM +0100, Shiju Jose wrote:
+> > I have got an arm64 setup only, did not try to build for X86 recently
+> > after adding the following change
+> > of using iowrite64 and ioread64 as suggested by
+> > https://sashiko.dev/#/patchset/20260325165714.294-1-shiju.jose%40huawei=
+.com
+> >
+> > Following change is required to build for X86_64 build when using
+> > iowrite64 and ioread64, while it was
+> > fine for the ARM64 build.
+> > Note: I'm not sure whether RAS2 is needed for the 32 bit build or not
+> > and the result of the 32 bit build.
+>
+> I'm not sure iowriteXX/readXX are needed here at all.
+>
+> Documentation/driver-api/device-io.rst talks about all those different op=
+tions
+> and the most generic ones are readq/writeq().
+>
+> About those you're using, it says:
+>
+> "ioread64(), ioread32(), ioread16(), ioread8(),
+> iowrite64(), iowrite32(), iowrite16(), iowrite8()
+>
+>   These are an alternative to the normal readl()/writel() functions, with=
+ almost
+>   identical behavior, but they can also operate on ``__iomem`` tokens ret=
+urned
+>   for mapping PCI I/O space with pci_iomap() or ioport_map(). On architec=
+tures
+>   that require special instructions for I/O port access, this adds a smal=
+l
+>   overhead for an indirect function call implemented in lib/iomap.c, whil=
+e on
+>   other architectures, these are simply aliases."
+>
+> and I don't see anywhere that you absolutely need those, judging by that
+> explanation there. But what do I know.
+>
+> Unless there's a real reason you cannot use readq/writeq()...?
+>
+> But those should give you the same fixed endianness when accessing little
+> endian ACPI so...
+>
+Hi Boris,
 
-> When multiple SCMI instances are configured, the SCMI stack probes and
-> it is initialized multiple times: one core stack for each defined instance.
-> 
-> Each istance is simply identified internally with a number and such number
-> is already exposed to the user to name the root of the per-instance debugfs
-> subtree, if enabled.
-> 
-> Expose such unique identifier to the SCMI drivers so that they can use
-> that same identifier when in need to name their per-instance resources.
-> 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Thanks for the guidance.
+
+I replaced  ioread8/ioread16/ioread32/ioread64 with readb/readw/readl/readq=
+ and
+iowrite8/iowrite16/iowrite32/iowrite64 with
+writeb/writew/writel/writeq respectively and testing passed
+in the arm64 test setup. Also the X86-64 build is fine.
+
+I am sharing the changes in patch#2 here for feedback while testing on
+other platforms.
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+From d504d61a17d46b0aa1141b5d1cf828facb67eef6 Mon Sep 17 00:00:00 2001
+From: Shiju Jose <shijujose2008@gmail.com>
+Date: Tue, 10 Nov 2026 22:48:52 +0000
+Subject: [PATCH 1/1] ras: mem: Replace ioread8/16/32/64 with readb/w/l/q &
+ iowrite8/16/32/64 with writeb/w/l/q
+
+X86-64 build failed with ioread64 and iowrite64 are not defined.
+
+To fix this issue replace ioread8/16/32/64 with readb/readw/readl/readq and
+iowrite8/16/32/64 with writeb/writew/writel/writeq respectively.
+---
+ drivers/ras/acpi_ras2.c | 56 ++++++++++++++++++++---------------------
+ 1 file changed, 28 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/ras/acpi_ras2.c b/drivers/ras/acpi_ras2.c
+index 51adfcddfa99..0849dd247cac 100644
+--- a/drivers/ras/acpi_ras2.c
++++ b/drivers/ras/acpi_ras2.c
+@@ -51,9 +51,9 @@ static int ras2_is_patrol_scrub_support(struct
+ras2_mem_ctx *ras2_ctx)
+  struct acpi_ras2_shmem __iomem *common =3D (void *)ras2_ctx->comm_addr;
+
+  guard(mutex)(ras2_ctx->pcc_lock);
+- iowrite8(0, &common->set_caps[0]);
++ writeb(0, &common->set_caps[0]);
+
+- return ioread8(&common->features[0]) & RAS2_SUPPORT_HW_PARTOL_SCRUB;
++ return readb(&common->features[0]) & RAS2_SUPPORT_HW_PARTOL_SCRUB;
+ }
+
+ static int ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx *ras2=
+_ctx)
+@@ -63,17 +63,17 @@ static int
+ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx *ras2_ctx)
+  u32 scrub_params_out;
+  int ret;
+
+- iowrite8(RAS2_SUPPORT_HW_PARTOL_SCRUB, &ps_sm->common.set_caps[0]);
+- iowrite16(RAS2_GET_PATROL_PARAMETERS, &ps_sm->params.command);
+- iowrite64(ras2_ctx->mem_base, &ps_sm->params.req_addr_range[0]);
+- iowrite64(ras2_ctx->mem_size, &ps_sm->params.req_addr_range[1]);
++ writeb(RAS2_SUPPORT_HW_PARTOL_SCRUB, &ps_sm->common.set_caps[0]);
++ writew(RAS2_GET_PATROL_PARAMETERS, &ps_sm->params.command);
++ writeq(ras2_ctx->mem_base, &ps_sm->params.req_addr_range[0]);
++ writeq(ras2_ctx->mem_size, &ps_sm->params.req_addr_range[1]);
+  ret =3D ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
+  if (ret) {
+  dev_err(ras2_ctx->dev, "Failed to read patrol scrub parameters\n");
+  return ret;
+  }
+
+- scrub_params_out =3D ioread32(&ps_sm->params.scrub_params_out);
++ scrub_params_out =3D readl(&ps_sm->params.scrub_params_out);
+  ras2_ctx->min_scrub_cycle =3D FIELD_GET(RAS2_PS_MIN_SC_HRS_OUT_MASK,
+       scrub_params_out);
+  ras2_ctx->max_scrub_cycle =3D FIELD_GET(RAS2_PS_MAX_SC_HRS_OUT_MASK,
+@@ -94,10 +94,10 @@ static int
+ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx *ras2_ctx)
+  return 0;
+  }
+
+- if  (ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING) {
++ if  (readl(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING) {
+  ras2_ctx->od_scrub =3D true;
+- ras2_ctx->base =3D ioread64(&ps_sm->params.actl_addr_range[0]);
+- ras2_ctx->size =3D ioread64(&ps_sm->params.actl_addr_range[1]);
++ ras2_ctx->base =3D readq(&ps_sm->params.actl_addr_range[0]);
++ ras2_ctx->size =3D readq(&ps_sm->params.actl_addr_range[1]);
+  } else {
+  ras2_ctx->od_scrub =3D false;
+  }
+@@ -128,7 +128,7 @@ static int ras2_get_demand_scrub_running(struct
+ras2_mem_ctx *ras2_ctx, bool *ru
+  return ret;
+  }
+
+- *running =3D ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING;
++ *running =3D readl(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING;
+  if (!(*running))
+  ras2_ctx->od_scrub =3D false;
+
+@@ -338,18 +338,18 @@ static int __ras2_hw_scrub_set_enabled_bg(struct
+device *dev, void *drv_data, bo
+  if (ret)
+  return ret;
+
+- iowrite8(RAS2_SUPPORT_HW_PARTOL_SCRUB, &ps_sm->common.set_caps[0]);
++ writeb(RAS2_SUPPORT_HW_PARTOL_SCRUB, &ps_sm->common.set_caps[0]);
+  if (enable) {
+  if (ras2_ctx->bg_scrub || running)
+  return -EBUSY;
+
+- iowrite64(0, &ps_sm->params.req_addr_range[0]);
+- iowrite64(0, &ps_sm->params.req_addr_range[1]);
+- scrub_params_in =3D ioread32(&ps_sm->params.scrub_params_in);
++ writeq(0, &ps_sm->params.req_addr_range[0]);
++ writeq(0, &ps_sm->params.req_addr_range[1]);
++ scrub_params_in =3D readl(&ps_sm->params.scrub_params_in);
+  scrub_params_in &=3D ~RAS2_PS_SC_HRS_IN_MASK;
+  scrub_params_in |=3D FIELD_PREP(RAS2_PS_SC_HRS_IN_MASK,
+ras2_ctx->set_scrub_cycle);
+- iowrite32(scrub_params_in, &ps_sm->params.scrub_params_in);
+- iowrite16(RAS2_START_PATROL_SCRUBBER, &ps_sm->params.command);
++ writel(scrub_params_in, &ps_sm->params.scrub_params_in);
++ writew(RAS2_START_PATROL_SCRUBBER, &ps_sm->params.command);
+  } else {
+  /*
+  * There is no need to send the command to stop background scrubbing,
+@@ -358,13 +358,13 @@ static int __ras2_hw_scrub_set_enabled_bg(struct
+device *dev, void *drv_data, bo
+  if (!ras2_ctx->bg_scrub)
+  return -EPERM;
+
+- iowrite16(RAS2_STOP_PATROL_SCRUBBER, &ps_sm->params.command);
++ writew(RAS2_STOP_PATROL_SCRUBBER, &ps_sm->params.command);
+  }
+
+- scrub_params_in =3D ioread32(&ps_sm->params.scrub_params_in);
++ scrub_params_in =3D readl(&ps_sm->params.scrub_params_in);
+  scrub_params_in &=3D ~RAS2_PS_EN_BACKGROUND;
+  scrub_params_in |=3D FIELD_PREP(RAS2_PS_EN_BACKGROUND, enable);
+- iowrite32(scrub_params_in, &ps_sm->params.scrub_params_in);
++ writel(scrub_params_in, &ps_sm->params.scrub_params_in);
+  ret =3D ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
+  if (ret) {
+  dev_err(dev, "Failed to %s background scrubbing\n",
+@@ -449,22 +449,22 @@ static int ras2_hw_scrub_set_enabled_od(struct
+device *dev, void *drv_data, bool
+  goto enable_bg_scrub;
+  }
+
+- iowrite8(RAS2_SUPPORT_HW_PARTOL_SCRUB, &ps_sm->common.set_caps[0]);
+- scrub_params_in =3D ioread32(&ps_sm->params.scrub_params_in);
++ writeb(RAS2_SUPPORT_HW_PARTOL_SCRUB, &ps_sm->common.set_caps[0]);
++ scrub_params_in =3D readl(&ps_sm->params.scrub_params_in);
+  scrub_params_in &=3D ~RAS2_PS_SC_HRS_IN_MASK;
+  scrub_params_in |=3D FIELD_PREP(RAS2_PS_SC_HRS_IN_MASK,
+ras2_ctx->set_scrub_cycle);
+  scrub_params_in &=3D ~RAS2_PS_EN_BACKGROUND;
+- iowrite32(scrub_params_in, &ps_sm->params.scrub_params_in);
+- iowrite64(ras2_ctx->base, &ps_sm->params.req_addr_range[0]);
+- iowrite64(ras2_ctx->size, &ps_sm->params.req_addr_range[1]);
+- iowrite16(RAS2_START_PATROL_SCRUBBER, &ps_sm->params.command);
++ writel(scrub_params_in, &ps_sm->params.scrub_params_in);
++ writeq(ras2_ctx->base, &ps_sm->params.req_addr_range[0]);
++ writeq(ras2_ctx->size, &ps_sm->params.req_addr_range[1]);
++ writew(RAS2_START_PATROL_SCRUBBER, &ps_sm->params.command);
+
+  ret =3D ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
+  if (ret) {
+  dev_err(dev, "Failed to start demand scrubbing rc(%d)\n", ret);
+  if (ret !=3D -EBUSY) {
+- iowrite64(0, &ps_sm->params.req_addr_range[0]);
+- iowrite64(0, &ps_sm->params.req_addr_range[1]);
++ writeq(0, &ps_sm->params.req_addr_range[0]);
++ writeq(0, &ps_sm->params.req_addr_range[1]);
+  ras2_ctx->od_scrub =3D false;
+  ras2_ctx->base =3D 0;
+  ras2_ctx->size =3D 0;
+--=20
+2.25.1
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+> Thx.
+>
+> --
+> Regards/Gruss,
+>     Boris.
+>
+> https://people.kernel.org/tglx/notes-about-netiquette
+
+Thanks,
+Shiju
