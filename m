@@ -1,71 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794276410;
-	b=WiODdb6ZYA7ZJBf/4nsdaSyo2t2MuSABZORB5gPxLEXMzB9VGOppg/3EsR6K6u0XZ2C9
-	 cAtahxpM5GJDikAlUe3Xh4p668CJhE6WKzCjER8Ob6gQx2POYjoqwbixny5Rb+Y561zaF
-	 w2MEMmAS3WbW9bUHopTWhoC00TLBFj86wWw3QVbU/ZEmcK2lRrInVx6ITvuPyJpYwdfUV
-	 m3AcYWNZWcYl4e+luTvFsykowXz9JV3b9OnSg40tHPeRysauaZfSIdfCZDS5dBZHkeIv1
-	 YHdKN+L9dl9BITmrbwd8IFlsfQopWntzafHsx8aFDyXgEGHGUtp98FhSpxxhmhpGmyA==
+	t=1794276421;
+	b=Le7M2YcUmOT9WxqAdN+zg3AltUubEP5xzBkAQaid/48utJxRYBtSN7uUJUaohW/SxSEe
+	 B+QtWAK2yzS+gC/c1TKGSL369hJAowfD4xjiFGwHT98jx6Ps01PHqw7apeMsSiFKztV7x
+	 XYP593qIgJrNUBBFb8vBiQT5J7/WE7NRAVU0DJdjzrScGMsKmLKvgwIAbEORj6r8a74km
+	 9dtHBxHi7KkmzpI1n8oWPQKb0gFkFlTqIQr24BlegKdAL/Nhe9BDAArGdGXbQOXC70JKV
+	 5obrle1nQBvxy66lyJ2yeHCobo3u0E5wpwZcyC7X82aX61aQJsRvpPWBbkO5fOFq6SA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794276410;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794276421;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:Mime-Version:
-	 X-Mailer:Message-ID:Subject:From:To:Cc:Content-Type;
-	bh=YBgckZ7YOb7fe4+YR2v1CJm9q/fhedgcNMRGuz/XwV4=;
-	b=q63F9AgO5bFOxdXGipCmGPNJVxtCcTcQZfY8ahWSXZzG2GmI5nP8de7m4ycRmKEXZn3A
-	 b2ZNRPwfe3EqglwlZpkKNj9a8Gi1yR9S563vUxZKuTpqxqLp/8ApshJb8D78qnddOFfk4
-	 6+y9dO3QpghphjNp9wOABSYYQW6friAD3qFYkLFCvfP/3DoZKH8yhoNBvP4Plq1q5OSsw
-	 rSHi/3S6pNcEbZyfr4wcRghUqsYrUOOT3gr1cXpsuLiBzqRtxzJGhuLmHxMRXw2jEYOXW
-	 6CANBUcu/o6oPiA7a4lNtDsDyIpvikChKFhJ8JMDbP34Hnb5fv7ls/Q4SWGsRe7gJ9w==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=J0T89Mm+Cl6JghlTWTDFBiTbzLpBKNVNjiNMZMUxxTI=;
+	b=jTjnwqvIfhxxLMDyr2+qua/p6sXu/atOCNhLbchQhf2GXQju9KNVpgND+dHvvbijqi2W
+	 bghrFJ9t5kNPaV/KABAM6KA3hA4QHq6JTn7zCM/iPL+mXprFK/1+NHfd6WVE377/ctMHj
+	 CATQCL4ANscW3kagPyxPC19aYMDcLO1ZJcZDId8ghgBVsfXgGogMBLJRsPt3tmT9KdSXK
+	 QtF3vrSFCmn/HEJ4SKkKpgeHbK2hShXY/VC+uQXivP3lOlYMIEdOKhGi9mBnv2jviCx2d
+	 d95vyOINSL2YMyItaia1eqb837IyRJuksMp7vT94x4drfe3hwZLcTqvx4ads1fbupjw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--svv.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hMuXKmgA;
-	arc=none smtp.remote-ip=74.125.82.198
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gwlA4WxK;
+	arc=none smtp.remote-ip=209.85.167.198
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D7D606A325
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 02:06:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8D7D606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A566606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 02:07:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6A566606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--svv.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hMuXKmgA
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-341eff9e381so3603825eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 18:06:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=gwlA4WxK
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4fb73e868aaso2314948b6e.0
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 18:07:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794276409; x=1794881209; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=YBgckZ7YOb7fe4+YR2v1CJm9q/fhedgcNMRGuz/XwV4=;
-        b=hMuXKmgAlxvjCv1tdg9wPUFKW6bfJ1nlFYZzhkjcFlWtoeLRoFqZeZFOKKqRBKuqc5
-         qDB3U4AgTe5xaslef+rRLwkIGMNIx+uLKDPXYI5rSbymiGejA5zS5hl0gIQIdJjQiD0b
-         uJua+RCqYfEsmPQIFbDsW38yTkARoN7EE3eQpBVch1aozOKvdPRGoV21HGCoHd0Y4UAp
-         UDI6CgU9Bvc5gxfB4uvbNR+wGQboiwmAaqJ5YgF50hU31rtcCwpgwlp6EehYrDRbJ8fR
-         Owhy7v1RpkRLld3XelimfhAn059UoRKE67zgeZMmqffHe0sSLbPTtJ41CXoMJP60Fs/3
-         1Nvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794276409; x=1794881209;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=google.com; s=20260707; t=1794276419; x=1794881219; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YBgckZ7YOb7fe4+YR2v1CJm9q/fhedgcNMRGuz/XwV4=;
-        b=VNpNOYUyGcFqlkPYNKXHNgrx1gk8/GAaFx6vzLWjGT/3K06fuDmglXskT3/FqFSRjg
-         zm/vlk7iydU5+vBwh0jlsW0mwzqjFcc122B4cgstnwQLOadSMjeNX62Kgu+vMjHU0Zsv
-         /V7xZZWY5VVqndFEB5LUiRQY+adc1aFC73n5h42hUW/bdwK5mI2CldXGm8taSD6UOkql
-         pOda6hAX3W1lcXOBROMHJ/zXYZNQzLJ5k1X0NE3z//pNsXPf4EHJTnUNULAj14v3BiNT
-         kC/9jGt3hQ20JW9JpBH8f3kK9QaPBrOcLZMD2BrkGJ/OMPmW18sCkkplHxHfx3G2TWgF
-         bryA==
-X-Forwarded-Encrypted: i=1; AL+hErHcfc4JzYzBMJBgGroFDuQpKX4KWg9clPES3juIym9XYb9fsNzLtFVNLPeDnFXTjdBEC7BANjdh57k=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+bic7awihYgioHEbn9zHTRQFCFqpd/S8QrVarQ4sGN1KITLJVV
-	2U1QbyPaKKe9fNSK73yovLfplRrRLXJ1kW7SWF7a+5tKX8s6/VGZd6G6U3WVe46L3q1QsQ==
-X-Received: from dysg19.prod.google.com ([2002:a05:7300:3d13:b0:36d:461b:fa1f])
- (user=svv job=prod-delivery.src-stubby-dispatcher) by 2002:a05:7300:e9cd:10b0:36e:aa5c:7851
- with SMTP id 5a478bee46e88-3751f6593cbmr1699067eec.27.1794276408525; Mon, 09
- Nov 2026 18:06:48 -0800 (PST)
-Date: Mon,  9 Nov 2026 18:06:29 -0800
+        bh=J0T89Mm+Cl6JghlTWTDFBiTbzLpBKNVNjiNMZMUxxTI=;
+        b=gwlA4WxKRoU8Qm7AzOZOBh3c0l0w1+LqQmRHl996cIRG6B9eUUmxzSA+wkhZ7xBisT
+         IjuGVK11H6TAjus85ZMvSqvh2kYcP5d8rCpxeHpsMDzvbKrFgf0Z3gJkTG7pTskA1tGa
+         kAgEwf7XerlTcUtI1q4wJN45kiJLAnByVFiZigfGIFsHgoLF70n0WuBJw5OKI2iiLtq5
+         2rg/jgWSxRd6wBhaoQ8Zh9J1LczBqOG777we6pb2bu1IQGLuZGXlRK3SJqSAOnzS7WD5
+         YmYuZf+Z73qgb5uE4ldEDv9qRd88Tlj13rei6YItQuICaCVz00bKQ2AcK75sjJEY7DlT
+         6J+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794276419; x=1794881219;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=J0T89Mm+Cl6JghlTWTDFBiTbzLpBKNVNjiNMZMUxxTI=;
+        b=mFt4w2s+RfV+OZcoKG4b45augACT53z5M6rvLbGVpCjyH/qULe10N6jJ205BTul523
+         7RzN9CZMAb9AP+mCouO3+6wI2ppkuZjFskK7ZhCh3+zJVx81+o7wdgfe/wG12zC9Q5ul
+         UVYUqdp4J7cksamElohtNatK3qvp3omY/bGiNffPGMt/hSVdwWGd964VZOhNyVoyw3ab
+         EREpy18y/QYiy3Sa+wCLmWdkHv8oGfwDSehNpfoORzXqy7xdbYLuYLPmOJEQm3y5mDvR
+         Dd6dOFR9mXtdzqkkUDxixJfIDNulZm88oNb+6JPOgzCuJVFyp5NX8PQzXj+BpBH8t1rb
+         IogQ==
+X-Forwarded-Encrypted: i=1; AL+hErEaNkoiW+6YZtQIm31+GWt9QInB711dYObd2/2Bi8Egma4BGlVyuic54qBI8dlpIc/j+IJceA/dbWY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9qh9ae9qcIgpf3U5w2bJJaqOH8OCayMcNVtm4Y6VQ73nCCKrbv
+	ldPmow9UjdGiEtqdRlsyMDfUbJ8N6m5vawftPoydpkBBzVpZ3sUbiwMLZ5rn2SlU1yWt1A==
+X-Received: from oixg11-n2.prod.google.com ([2002:a05:6808:e7cb:20b0:4f4:b26a:174b])
+ (user=svv job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6808:4f4c:b0:4fb:ac9b:b06c
+ with SMTP id 5614622812f47-5683c9e2f4fmr1154358b6e.1.1794276419045; Mon, 09
+ Nov 2026 18:06:59 -0800 (PST)
+Date: Mon,  9 Nov 2026 18:06:30 -0800
+In-Reply-To: <20261110020632.4003499-1-svv@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,9 +78,10 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
+References: <20261110020632.4003499-1-svv@google.com>
 X-Mailer: git-send-email 2.56.0.506.g506a7eabc5-goog
-Message-ID: <20261110020632.4003499-1-svv@google.com>
-Subject: [PATCH 0/3] Input: add ABS_TWIST and support it in HID and Wacom
+Message-ID: <20261110020632.4003499-2-svv@google.com>
+Subject: [PATCH 1/3] Input: add ABS_TWIST event code
 From: Siarhei Vishniakou <svv@google.com>
 To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, Jiri Kosina <jikos@kernel.org>, 
 	Benjamin Tissoires <bentiss@kernel.org>, Ping Cheng <ping.cheng@wacom.com>, 
@@ -87,40 +91,79 @@ Cc: Jonathan Corbet <corbet@lwn.net>, Henrik Rydberg <rydberg@bitmath.org>, linu
 	Siarhei Vishniakou <svv@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Some styli can report rotation along their long ("barrel") axis,
-commonly referred to as "twist". While the HID specification defines
-this usage as HID_DG_TWIST (0x000d0041) in the Digitizers page, there is
-currently no corresponding evdev axis code to expose it to userspace.
+Some styli can report the rotation along their long ("barrel") axis.
+This is typically referred to as "twist".
 
-Because evdev has no MSC_SCAN equivalent for axes, drivers and OEMs
-currently work around this by mapping stylus twist onto unrelated axes
-such as ABS_Z or ABS_RZ. As a result, userspace input stacks must
-maintain device-specific workarounds to know which axis carries twist.
+In the HID usage pages, twist is already supported as HID_DG_TWIST.
+However, this usage is not reported to the userspace via evdev interface
+today, since there's no MSC_SCAN equivalent for axes.
 
-This series introduces a dedicated ABS_TWIST (0x1d) axis for single-tool
-devices such as styli and wires it up in the HID subsystem:
+Peripheral OEMs get around this today by mapping this axis to other axes
+like ABS_Z or ABS_RZ. This is not a valid way to report twist.
 
-1. Input: Define ABS_TWIST (0x1d) in input-event-codes.h and document it
-   in event-codes.rst with resolution in units/radian.
-2. HID: Map HID_DG_TWIST (0x000d0041) to ABS_TWIST in hid-input, compute
-   its resolution in units/radian, and add KUnit test coverage.
-3. HID: wacom: Report pen twist on ABS_TWIST in addition to ABS_Z so
-   that userspace can use the standard axis while maintaining backward
-   compatibility with existing applications that expect ABS_Z.
+As a result, the userspace programs that would like to support twist
+must account for the various ways specific OEMs map this, since there's
+no generic axis for this.
 
-Siarhei Vishniakou (3):
-  Input: add ABS_TWIST event code
-  HID: input: map Digitizers Twist usage to ABS_TWIST
-  HID: wacom: report ABS_TWIST alongside ABS_Z for pen twist
+Unify this behaviour by introducing a new axis, ABS_TWIST. This axis will
+only apply to the single-pointer touch devices (stylus), as opposed to
+"per-slot" multi-touch devices (which would then suggest something like
+ABS_MT_TWIST).
 
- Documentation/input/event-codes.rst    |  6 ++
- drivers/hid/hid-debug.c                |  1 +
- drivers/hid/hid-input-test.c           | 87 ++++++++++++++++++++++++++
- drivers/hid/hid-input.c                |  5 ++
- drivers/hid/wacom_wac.c                | 35 +++++++++--
- include/uapi/linux/input-event-codes.h |  1 +
- 6 files changed, 129 insertions(+), 6 deletions(-)
+Here we define the ABS_TWIST absolute axis code (0x1d) to report the
+rotation of a tool (such as a stylus) around its major (barrel) axis,
+and document it in event-codes.rst.
 
+The device can specify its twist resolution as units/radian.
+
+Signed-off-by: Siarhei Vishniakou <svv@google.com>
+---
+ Documentation/input/event-codes.rst    | 6 ++++++
+ drivers/hid/hid-debug.c                | 1 +
+ include/uapi/linux/input-event-codes.h | 1 +
+ 3 files changed, 8 insertions(+)
+
+diff --git a/Documentation/input/event-codes.rst b/Documentation/input/event-codes.rst
+index b4557462edd7..f1f7fd502081 100644
+--- a/Documentation/input/event-codes.rst
++++ b/Documentation/input/event-codes.rst
+@@ -235,6 +235,12 @@ A few EV_ABS codes have special meanings:
+     BTN_TOOL_<name> signals the type of tool that is currently detected by the
+     hardware and is otherwise independent of ABS_DISTANCE and/or BTN_TOUCH.
+ 
++* ABS_TWIST:
++
++  - Used to describe the rotation of a tool (such as a stylus) around its
++    major (barrel) axis. If the resolution is non-zero, the twist data is
++    in units/radian.
++
+ * ABS_PROFILE:
+ 
+   - Used to describe the state of a multi-value profile switch.  An event is
+diff --git a/drivers/hid/hid-debug.c b/drivers/hid/hid-debug.c
+index 15e35702773c..594cf5248163 100644
+--- a/drivers/hid/hid-debug.c
++++ b/drivers/hid/hid-debug.c
+@@ -1015,6 +1015,7 @@ static const char *absolutes[ABS_CNT] = {
+ 	[ABS_HAT3Y] = "Hat 3Y",		[ABS_PRESSURE] = "Pressure",
+ 	[ABS_DISTANCE] = "Distance",	[ABS_TILT_X] = "XTilt",
+ 	[ABS_TILT_Y] = "YTilt",		[ABS_TOOL_WIDTH] = "ToolWidth",
++	[ABS_TWIST] = "Twist",
+ 	[ABS_VOLUME] = "Volume",	[ABS_PROFILE] = "Profile",
+ 	[ABS_MISC] = "Misc",
+ 	[ABS_MT_TOUCH_MAJOR] = "MTMajor",
+diff --git a/include/uapi/linux/input-event-codes.h b/include/uapi/linux/input-event-codes.h
+index f410c22e080d..cdc718fc1c4a 100644
+--- a/include/uapi/linux/input-event-codes.h
++++ b/include/uapi/linux/input-event-codes.h
+@@ -862,6 +862,7 @@
+ #define ABS_TILT_X		0x1a
+ #define ABS_TILT_Y		0x1b
+ #define ABS_TOOL_WIDTH		0x1c
++#define ABS_TWIST		0x1d
+ 
+ #define ABS_VOLUME		0x20
+ #define ABS_PROFILE		0x21
 -- 
 2.56.0.455.g6c5a503b38-goog
 
