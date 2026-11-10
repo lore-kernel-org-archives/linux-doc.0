@@ -1,58 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794300880;
-	b=UfwA4wNZTJFn8Cao5hpo81S0p+ZWtXhehcvIUtcEqlim+/3xm1rEQwMgWsDaFb9Yidry
-	 fL9xEGhE5ctoDDNWBun6XTSBBtEgJwkhMY0qBQ31xXmT9+JwVxPE5ibw/+k4MVWHLcc7p
-	 X+xboJAOYjaJneLhh38D2RybKiHylFgh6MRShz4JgkjxDKQMLSZrVNdy72iIlNPgBhqma
-	 HPuj+54WsCxjJlHvKHRYx9X38ZDwFHr9vY/veYWSOOfkEYFBKkJEhQe3JIqF9RQX4QM/c
-	 PgPSzB/H3Cz4q3uhs63o+LE0kCZTyG7EE5e0D7kXiof/gNruckuf3nChUGnGS8TJ8eg==
+	t=1794301273;
+	b=oKrRsq/DXOxae8dXCVlx/f2y/iNv3nyNMhDn7kZ6lmbOXOWk9t0FEw7q5hlGpL/CaeKZ
+	 hSAlCM3aavYAwR2JmA6vzaJTU4O4++5gant5fOl7n/oJr9fJ/V9kuB8mnA+jF8kjga3tl
+	 LNMWgzhS/J1FborkAP4AS8y45BEH0XcDJ6tDyrlJiTHsoc/V50T6Dlj9zLxepGuOh7jLP
+	 QshLDfY9CyII4DiHIkuHJDPetmNoC/pa4NKMb+YbMLr7BhxDPwfgKa2WspfedDihS9pDX
+	 V2NdQNUItuwsWr05yRFtFByTCIeJ0RQBh/RJkJDRr/JCgH81WLf1o73HuxCKtxQUSsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794300880;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=UzctcF3RMQ+98Eh9MsTnvbxr6SfXwpv8K4a5+Fko6XM=;
-	b=OlsT+Dhdf1Vt/hqUSruZNxdDhKzk54lRwf2kJp0F124sh23JejHKzoy/rwRSBABwNEXf
-	 ZofB2xb/jmIL3LQdtyLrdtHHP1pto6RXVDtR5UpZy4SVWRQgGia6YI/w2g7zMoXBgXt1O
-	 yf9aG/ji0upOT2YkTs3mW+2BhR0gN4RERQbR1QtA3x5XNM2srEt+vfM6o8UlcCj6HlbWb
-	 lwfD0caqtYaQIp6eZdcmnXoZIBOWooeg3wn8rWL5Y51CNVTgxfIkobSdmpgLHNiq3x0dp
-	 KS4iYHB/QoaEqcpzyN834bRjKl1m5+Wz/HT7nnyb2vzPP3XVYQG+o22vk8DyDR8A3HQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794301273;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=uuAWQXqnz1U0BUVQyMKxygbDOS8iqng/23yeDqKQ//8=;
+	b=dfhzH6/5uDh00LU9Zmv8hznLbCTrbERuqnwqE1xhXxK67w//3qd6GcCuw51wQp0kUnzZ
+	 JmqisIaKLeuhAFbY4ZkWx6lvYYvlkzrpKn1GJmJ8V4Q5uzOOoAtrRZwebmuXVx3jwDd70
+	 hCD7yB7m5HtXrh7RiUkfcUAtdPM9fnjiEHZ5tsHQgtyIQkHzqYWZVPm8pLsWDX4LaKVVK
+	 Jtxu5ae6Yq6SQL+1w74zeNBETPBjRDzyzA54azHzCJfuS4+VfZXjUGTNzsfS+qe0CaLKl
+	 w4Bvy04T9pXqwK5wFibgGvGNTZlGqD6M+kcqeJIKb5dPZDs9dHzf3KWiI2d7gsz23tw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=IKzCvlF+;
-	arc=none smtp.remote-ip=113.46.200.218
-Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sm2ffuk+;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3209A606A321;
-	Tue, 10 Nov 2026 08:54:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3209A606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5C3A606A31C;
+	Tue, 10 Nov 2026 09:01:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=IKzCvlF+
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=UzctcF3RMQ+98Eh9MsTnvbxr6SfXwpv8K4a5+Fko6XM=;
-	b=IKzCvlF+ykTmyRaBGt754Lvu0hmrcnRYx6wf48T3kREASWA5l0X4C0QzOmo7voJ/n9MB2pHy/
-	5rMn/RDNQF8i7RZNyNg955atSJZYfXu+SSAVuJyawKp7O11CQmW5x/HiEPXwZ/QPzGT3XxAkVYI
-	IxLLoOoZQ4D/bm5oeL3VRWs=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4jP0nK0klfzpTK7;
-	Tue, 10 Nov 2026 16:53:57 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id B766E40575;
-	Tue, 10 Nov 2026 16:54:32 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.45; Tue, 10 Nov 2026 16:54:31 +0800
-Message-ID: <90775cb3-84ab-4690-a252-1ac41488118f@huawei.com>
-Date: Tue, 10 Nov 2026 16:54:30 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Sm2ffuk+
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E04E1F0089F;
+	Tue, 10 Nov 2026 09:01:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794301272;
+	bh=uuAWQXqnz1U0BUVQyMKxygbDOS8iqng/23yeDqKQ//8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Sm2ffuk+J2Zrts19t5DZts9ivVjcpcqXKjUI9nPLJhex4qiPGAs93ciN1rvY0OdWx
+	 Zl0kHbW3j8NuRqlkW4z2UhJ7dJnIKEjWY/gLPTOmEAX4k0ZiOF0BCXLB/+4tmP2e5G
+	 wKExwb+LKDjwP9/dSYfmtKILBD7fWW1xBvcM+yg30QzyA0u1acIN6pBJI5UxnysmjH
+	 V/VTG/D1jc+gSduUsmRezswdOEA77uZVSv0hspQ7w7kMYWz7dVx4sNAY3B/dFFkor4
+	 qrF6SOe4Jtdj7MPd2vqXczJchZlAItHUi4tR+Qd/5r08kPhhtanD3+Oo9gpjXU/AIs
+	 rooNjsJqjaHpA==
+Date: Tue, 10 Nov 2026 09:01:05 +0000
+From: Lee Jones <lee@kernel.org>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Benson Leung <bleung@chromium.org>,
+	Guenter Roeck <groeck@chromium.org>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Derek J. Clark" <derekjohn.clark@gmail.com>,
+	Hans de Goede <hansg@kernel.org>, Ike Panhc <ikepanhc@gmail.com>,
+	Rong Zhang <i@rong.moe>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Vishnu Sankar <vishnuocv@gmail.com>,
+	Vishnu Sankar <vsankar@lenovo.com>, linux-leds@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
+	platform-driver-x86@vger.kernel.org
+Subject: Re: [PATCH v7 00/13] leds: Add support for hardware-initiated
+ hardware control trigger transition
+Message-ID: <20261110090105.GA6323@joneslee-macbookpro.roam.internal>
+References: <20260921-leds-trigger-hw-changed-v7-0-fe3cdb6dec51@rong.moe>
+ <179425319974.10927.7190572777719580956.b4-ty@b4>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,209 +73,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/15] KVM: arm64: Reserve dirty ring space for the
- HDBSS buffer
-To: Leonardo Bras <leo.bras@arm.com>
-CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <corbet@lwn.net>, <pbonzini@redhat.com>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yangjinqian1@huawei.com>,
-	<caijian11@h-partners.com>, <liuyonglong@huawei.com>,
-	<tangchengchang@huawei.com>, <yezhenyu2@huawei.com>, <yubihong@huawei.com>,
-	<linuxarm@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
-	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <seiden@linux.ibm.com>,
-	<suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>, <mark.rutland@arm.com>,
-	<seanjc@google.com>, <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <skhan@linuxfoundation.org>
-References: <20260929103655.85107-1-zhengtian10@huawei.com>
- <20260929103655.85107-12-zhengtian10@huawei.com> <auikG0clmr19sAjh@LeoBrasDK>
- <afcbf19b-bd13-4afc-ab56-8bc50c793e50@huawei.com>
- <au30DqzWIFny1tpr@LeoBrasDK>
- <d81243e3-d790-4ee8-9b28-36d35591ee77@huawei.com>
- <avIOZTvQF-1sxs2p@LeoBrasDK>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <avIOZTvQF-1sxs2p@LeoBrasDK>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <179425319974.10927.7190572777719580956.b4-ty@b4>
 
+On Mon, 09 Nov 2026, Ilpo Järvinen wrote:
 
-
-On 11/10/2026 2:18 AM, Leonardo Bras wrote:
-> On Mon, Nov 09, 2026 at 12:00:52PM +0800, Tian Zheng wrote:
->>
->>
->> On 11/6/2026 11:36 PM, Leonardo Bras wrote:
->>> On Fri, Nov 06, 2026 at 06:36:04PM +0800, Tian Zheng wrote:
->>>>
->>>>
->>>> On 11/2/2026 10:54 PM, Leonardo Bras wrote:
->>>>> On Tue, Sep 29, 2026 at 06:36:51PM +0800, Tian Zheng wrote:
->>>>>> The dirty ring reserves room for CPU-side dirty buffers via
->>>>>> kvm_cpu_dirty_log_size(). Report the HDBSS buffer entry count
->>>>>> through it, so a full buffer flush always fits in the ring.
->>>>>>
->>>>>> Pin the HDBSS buffer size to PAGE_SIZE when dirty-ring is enabled,
->>>>>> via kvm_arch_dirty_ring_size_updated(): a larger buffer only
->>>>>> shrinks the soft_limit and forces more frequent userspace drains.
->>>>>>
->>>>>> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
->>>>>> ---
->>>>>>     arch/arm64/kvm/arm.c | 8 ++++++++
->>>>>>     arch/arm64/kvm/mmu.c | 8 ++++++++
->>>>>>     2 files changed, 16 insertions(+)
->>>>>>
->>>>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
->>>>>> index 9d7bdece149a..5a7046acb62e 100644
->>>>>> --- a/arch/arm64/kvm/arm.c
->>>>>> +++ b/arch/arm64/kvm/arm.c
->>>>>> @@ -215,6 +215,14 @@ static int kvm_arm_default_max_vcpus(void)
->>>>>>     	return vgic_present ? kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
->>>>>>     }
->>>>>>
->>>>>> +void kvm_arch_dirty_ring_size_updated(struct kvm *kvm)
->>>>>> +{
->>>>>> +	if (!system_supports_hdbss())
->>>>>> +		return;
->>>>>> +
->>>>>> +	kvm->arch.hdbss_buffer_size = KVM_ARM_HDBSS_DEFAULT_SIZE;
->>>>>> +}
->>>>>> +
->>>>>
->>>>> On the same subject as a previous patch:
->>>>> I don't think this is the best approach, on top of adding a new weak
->>>>> function to take care.
->>>>>
->>>>> Maybe during the dirty-ring allocation, on vcpu creation, we could take
->>>>> into account the requested dirty-ring size, and just allocate the HDBSS
->>>>> buffer taking that into account. That would make it simpler, don't you
->>>>> agree?
->>>>>
->>>>> Thanks!
->>>>> Leo
->>>>
->>>> Hi Leo,
->>>>
->>>> The "set once" guard we're discussing comes from the patch that adds the
->>>> ioctl, and it isn't really needed. We discussed this earlier [1]: we can
->>>> just initialize hdbss_buffer_size to PAGE_SIZE at VM creation and let
->>>> the ring reservation use it directly. **That also means
->>>> kvm_arch_dirty_ring_size_updated() can be removed.** Thanks for your
->>>> suggestion.
->>>
->>> :)
->>>
->>>>
->>>> As for why PAGE_SIZE is the right value in ring mode: the HDBSS buffer
->>>> is flushed on every VM exit, so a larger buffer doesn't reduce the flush
->>>> frequency. It only inflates the ring reservation (64 + size/
->>>> sizeof(u64)), which shrinks the soft_limit and forces more frequent
->>>> exits to userspace for the ring to be drained. Draining the dirty ring
->>>> from QEMU is more expensive than draining the HDBSS buffer from the
->>>> kernel, so the smallest buffer gives the best performance. In this mode,
->>>> a larger buffer provides no benefit to users.
->>>
->>> Humm, if properly dimensioned larger buffers would be benefitial for
->>> memory-intensive workloads, unless they are guest_exiting for other
->>> reasons in the meantime.
->>>
->>
->> Agreed, and the workload I tested is on the "unless" side. The guest
->> exits constantly for other reasons, so the larger buffer never got a
->> chance to pay off, and only cost ring capacity.
->>
->>>>
->>>> In my tests, I also saw performance degrade when more space is reserved.
->>>>
->>>
->>> Humm, what kind of workloads did you test?
->>> Did you have the chance to monitor what were the reasons for VM exiting?
->>>
->>
->> For the workload question, it's a Redis server in the guest under redis-
->> benchmark (SET-only, 2KB values, 1M keys, 100M requests). The traffic is
->> network-driven, so the guest exits constantly to service requests. The
->> HDBSS buffer only accumulates entries between two exits and is flushed
->> on every exit, so it rarely fills regardless of size. A larger buffer
->> only inflated the ring reservation, which shrinks the soft_limit and
->> makes the ring-full exit and userspace drain fire more often.
->>
->>> I am not saying this is mandatory for the HDBSS implementation, but the
->>> whole idea of letting the user choose their own HDBSS buffer size is
->>> because different workloads may benefit from different buffer sizes: if a
->>> VM writes a lot to new memory, and exits very little for other reasons,
->>> then a larger buffer will cause the VM to guest_exit much less often.
->>>
->>> Does that make sense?
->>>
->>> Thanks!
->>> Leo
->>
->> It does make sense. That's exactly the workload where a larger buffer
->> pays off, and the next version no longer gets in its way. The two ioctls
->> are no longer mutually exclusive.
->>
->> The only coupling left is the reservation. hdbss_buffer_size starts at
->> SZ_4K at VM creation, so a ring enabled right away reserves for the
->> default buffer (64 + 512 entries), and the minimum ring size accepted is
->> unchanged from v5. KVM_CAP_ARM_HDBSS_BUFFER_SIZE is the gate. When the
->> ring is already enabled, a size is accepted only if its reservation
->> still fits in the ring, otherwise -EINVAL. In the other order, ring-
->> enable validation rejects a ring too small for the configured size.
+> On Mon, 21 Sep 2026 03:40:14 +0800, Rong Zhang wrote:
 > 
-> I don't think this is needed. If using dirtyring, we don't need to allow
-> user to set hdbss size: HDBSS size should be sized according to the
-> dirty-ring dimensions, that are set by userspace before the first vcpu is
-> created.
+> > Some laptops can tune their keyboard backlight according to ambient
+> > light sensors (auto mode). This capability is essentially a hardware
+> > control trigger. Meanwhile, such laptops also offer a shrotcut for
+> > cycling through brightness levels and auto mode. For example, on
+> > ThinkBook, pressing Fn+Space ("shortcut") cycles keyboard backlight
+> > levels in the following sequence:
+> > 
+> > [...]
 > 
+> Thank you for your contribution, it has been applied to my local
+> review-ilpo-next branch. Note it will show up in the public
+> platform-drivers-x86/review-ilpo-next branch only once I've pushed my
+> local branch there, which might take a while.
 > 
->> So SZ_4K is just the conservative default for guests that exit often.
->> Anything larger, within what the ring can reserve, is up to the user.
->>
->> Does this work for you?
+> FYI [if applicable to your patch], as per Linus' policy change, also
+> fixes are mostly routed through for-next unless the fix is for a
+> commit introduced in the most recent cycle or is clearly a regression
+> fix.
 > 
-> I still think we should do PAGE_SIZE for dirty-bitmap. Dirty ring should do
-> based on the dirty-ring size, and maybe review the use of reserved
-> entries, or it's accounting.
+> The list of commits applied:
+> [01/13] leds: class: Always protect brightness_show() with led_access
+>         (no commit info)
+> [02/13] leds: trigger: Move led_trigger_is_hw_controlled() to the right place
+>         (no commit info)
+> [03/13] leds: class: Remove hardware control trigger when writing brightness
+>         (no commit info)
+> [04/13] leds: trigger: Move led_trigger_group to the right place
+>         (no commit info)
+> [05/13] leds: trigger: Add hw_offloaded() callback and provide trigger_may_offload_to_hw attribute
+>         (no commit info)
+> [06/13] leds: cros_ec: Implement hw_offloaded() trigger callback
+>         (no commit info)
+> [07/13] leds: turris-omnia: Implement hw_offloaded() trigger callback and declare hw_control_trigger
+>         (no commit info)
+> [08/13] leds: trigger: netdev: Implement hw_offloaded() callback
+>         (no commit info)
+> [09/13] leds: trigger: Enforce strict checks in led_trigger_is_hw_controlled()
+>         (no commit info)
+> [10/13] leds: trigger: Add led_trigger_notify_hw_control_changed() interface
+>         (no commit info)
+
+This is super confusing!
+
+Where does this list come from?
+
+> [11/13] platform/x86: ideapad-laptop: Serialize keyboard backlight tracking
+>         commit: d288a6f989b7b9e6a730140c601987b886af327e
+> [12/13] platform/x86: ideapad-laptop: Decouple hardware & classdev brightness for keyboard backlight
+>         commit: 7d6c073d181d7855561831cb4bba17dc9b7d4aa9
+> [13/13] platform/x86: ideapad-laptop: Fully support auto keyboard backlight
+>         commit: 5d805ca01382d63d54c9984e7f19922c4ae6f3dc
 > 
-> What do you think?
+> --
+>  i.
 > 
-> Thanks!
-> Leo
 
-Hi Leo,
-
-Thanks for your review. It does make sense!
-
-I agree that dirty-bitmap mode will keep PAGE_SIZE as the default, and
-in that mode the ioctl stays available for a larger buffer.
-
-In ring mode we will drop the ioctl, the two remain mutually exclusive,
-and the buffer will be derived from the ring size userspace configured
-before the first vCPU is created:
-
-```
-hdbss_buffer = clamp_t(unsigned long,
-                        rounddown_pow_of_two(ring_size / 16),
-                        SZ_4K, KVM_ARM_HDBSS_MAX_SIZE);
-```
-
-A buffer entry is 8 bytes and a ring entry is 16 bytes, so:
-
-```
-buffer entries = buffer_size / 8
-ring entries   = ring_size / 16
-```
-
-This means ring_size / 16 reserves at most one eighth of the ring
-entries for the HDBSS buffer. That keeps the usable ring above 85% while
-the buffer still grows with the configured ring size, and the result is
-independent of the kernel page size, with SZ_4K as the only minimum.
-
-One eighth is the ratio that looks reasonable to me so far. What do you
-think?
-
-Thanks,
-Tian
+-- 
+Lee Jones
