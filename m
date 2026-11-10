@@ -1,67 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.129
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794328966;
-	b=WbyGyS8Wn4KDTv0TIMj0rsYPDdfvvN0We1E5TVaDwA41lI2lCyudA5zem/JwAnDC8MBD
-	 C5rML9xr5huwNcER/NP9v8YIMyypT6MwDWGGEv7cusb++EwqyqnmNJNAEUa9aiwHazeX0
-	 5mcpqF5xOfLePK8hZSnbFlo8M2D4RxULZbPjoUlYXRB3njSG4SKk0CagrPD3HfedA6tNO
-	 s8QJqyIx33KFMwFBXhRhy4/k7c0NZdb9+QIg8rgt8sbKMDR1j2DlyLkH9Dp/lCCwi8EpF
-	 R0ppiO+WU5OoeBLKBgSRj7Fn48URxtMDQMiBQWXXkGblnyIOovtkkU/gCXunhder7bw==
+	t=1794329380;
+	b=SbWi1WbPhu79vSAi6NjJma9aGFC8yELmQBVhjRq6GEDEONzkayABfKm7orH+pcinYily
+	 fMqZPsxRApk1g0d1wn8Od0xEOn8noyle6VZjOXbsH+3TlRXYZWkLubqOF/FgEDi5ejck8
+	 IXK1ESygWLlZ1iK3aQOQa0qlseoJCEcyvoLsHr0v2WwZV5dJYSe+ySxamnDusbTrivvoS
+	 1ZNyeuG/fcI3Qiad68KyPLAHNJVgaGwoxMBUwEvUrVDsmWWvc1amy7uRw9l96n/0he00L
+	 ADTSc6Tf4AaCjDcx+3tAEEVjuBoXwrZAZG4QspNbJzqKQmfgwvyeiphpeAEAbFf8XrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794328966;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=bp69TPRSxmVUxIsWkPtU2k8L0z3qUF36utw3VQSvJ5E=;
-	b=MzG11RzpZuR3iLszfGINCXVDXGiMgBfnJ1uxnNswuxLqge4BJlNW3+uCLDiXxzh+AMzr
-	 I2zC+Jzk2ky7qSbwd2J93SLX+Q/x/bNHcmT4Kyi2zrpDidvh0cdLg1Z7argcGuDViPqEN
-	 j3TVH0p/V/H8mkFALxBb+4/RTlIx1DK0lkelHjxRkcSXb2Q5ESav/yZlZJkGOjBpPSHQa
-	 AKM66e22ijaLMKGOU6HLbGHIw4qEt1G00v/H+vNBL7JioKMbSsCw5HWpuNHx8+RgxFqJL
-	 Ziy+ZMdtJz9/DmYiWIsiKaBaiw0yoN5BB2KOLF6/0X+icmhsEzz5051YkC85d+EV58A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794329380;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
+	b=Gik4NitSa8JyiIHsEHyC/dw6Xqc0YQsqKjdbdNHj7zgE7VnTK8l7TEZYtAN82h2zOfGc
+	 namV+3PJuuCy2HFmssaS8n/SFzvXngIRQu5QYcIVqAadPzwwMEUqnBtR0CZ1EfFYcyuop
+	 iluX09A1lYqgjjr6Yo8IKYtyO5lTN/8/cR1e9gWENxAJuRB2Bh/zHmaCK9eTJjc/PYbVI
+	 LWiDyflsxDM1Gm8HvZo7C1as8rEnhcs7k5c2HXtQfscYQVV+u7e4OcFylqqiSjPr32Ek2
+	 VvSEeKzWHnWwLZlKvsEUoH2zRD71cS5ryAfeQrWh2miDLfk6/CLdL6DOpR6dKurpy9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=C8pkaIt2;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sd9gmcUC;
+	arc=none smtp.remote-ip=74.125.224.129
+Received: from mail-yx2-f1.google.com (mail-yx2-f1.google.com [74.125.224.129])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0C7606A236;
-	Tue, 10 Nov 2026 16:42:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A0C7606A236
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79ACC606A31C
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:49:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 79ACC606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=C8pkaIt2
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=bp69TPRSxmVUxIsWkPtU2k8L0z3qUF36utw3VQSvJ5E=; b=C8pkaIt2kjYJ8mK+4vELN482bW
-	RYHAoB7wnGI1eEbq6lTaLl8z+eylhw9AYvrxOdMvHvgMDwJYr1QF0CFLtsLVf7q5qLGs94W8h8myS
-	RH8Mtli9SPynf8ybpt0oa/M2yu2+oah+Iy2t5YLcR3h3Axdh+PKq5LnnERwo4DB0szVI=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xQovZ-00FX6P-8l; Tue, 10 Nov 2026 17:42:33 +0100
-Date: Tue, 10 Nov 2026 17:42:33 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v3 1/3] ethtool: add PHY receive frame and byte
- totals
-Message-ID: <348f19e7-120e-4b41-adab-be016c7a6083@lunn.ch>
-References: <20261109-submit-acx00-phy-stats-v1-v3-0-fbc6327c5be4@gmail.com>
- <20261109-submit-acx00-phy-stats-v1-v3-1-fbc6327c5be4@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=sd9gmcUC
+Received: by mail-yx2-f1.google.com with SMTP id 956f58d0204a3-67be911a2a5so1164208d50.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 08:49:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794329379; x=1794934179; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
+        b=sd9gmcUC5EjvUfKx68rTBxuM9bdbaznz/tEwxEWenOWnU4qLBJS8XdmeO9Tqxwj+lw
+         oW3msGNKD6Cc/5Hqirx1MWT8/n2v8Qjm9PUcuicql2WYq+rF8q44tafK9hFR2FUQ9pYp
+         OvMf+F5cXA6oZ3QGRiy68Xwm+LHm3/qhIh+r4ya2txJhybsQZsYqO293qHl5BNjQg7xu
+         kRJyWMJJrSkEmzH+uxkug5xGmR3DD1NLa4QS4lTBW9dhmtICsLwf/0BnRL47ootGLSEC
+         AF1ORHoqamMIBedGpXGvtYQ5Rp3f+VaA19VjR2KGUb+z3qUm3l7PYU9mWCi/qlXOPrJL
+         wMAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794329379; x=1794934179;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tP18IBGb4RAX2VQoul/BsJwOYmY36Sb1G+z0aM3/z1I=;
+        b=edDUy6ZqssrMOvulzuxI44fGaPUVs7GYubu//TUxJ05oEz16alHyTq3oe0bYN77pNB
+         uvJoDCkODaZ3GIq8CidsEwG736AJFXLoqm4hC8stYQxlxGLWwXcgdAteGIju5fz0p0wx
+         dO0WH/ZSL1AUrtoK/hMZps9IFDKNWj3927gYW9RlJr3kJ8OWS3cV4q+iGov3o3NoSrr8
+         nD82SQKy+YYdBHTPR/2SLXpU8NonbLk7/+p0ISDGbQQqNbLaePKxvqSVe0legpZJ1c+3
+         /iOxNsXwuglnG7dBVEWtdU9P60LwcEqLCJwSP/nKLNnj9Xhrho0gm4dftj1ofRiPKKh4
+         S5Uw==
+X-Forwarded-Encrypted: i=1; AL+hErErB11ItxBQFV2qDJGDehcoQ94RXAHiSYmNloY8ZplD6NQqZjjbRqJ3/PEhqhD+WB150ep7hoVVm+U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+P3GiAWLiOlBjAMV0hJueq/aX6vC7yIm5aE16iwDoDE5VBhlp5
+	ma/V6Jm/BxxJvku/o0zdiM+/ewYh27R2+hu5XoVtsZZDgEHhXUAFZsAy
+X-Gm-Gg: AYBFou2A6yoGrzHWMfDJN3cPlojNYiRWF+vvcRjOWnSEsxxKdvCvm0aghMrHzZ2KUF6
+	o3EE/urbANy1CYzwYMHXadWYwce9JL4P4dK/CORgL97/ta+UGuvyIiUYkmzBtUHiOZGfdM0od0+
+	Yo/Lod1Lo/+0TUrW0fdPmdz/xBjfEaS4Thpo8Jw1+Kx4z22MA6bHczCQwMPGnYsxip7RNobBt2l
+	G7rL1N9r3SBZZ6FkqYtH4c+zYkyoLPEYWJp9adarm+2z2j+ucKyxk54l5u26FWmeAfmS5ML7acr
+	+rtXWdoiwj2WefJ15kq9+vE2AG9aAv5tE30/A9JvM7EkxPzbpHR2K9tVims7099rbDEfxwfl2Gz
+	6AhAJNn0O1dxLD5UhzjiKZO1t5YiuaysHz7mbZkens8LQiW53qy3gWXpZXX6kfk263w0QSQcuYX
+	AvT1ZAuQz/8Nn8mdL4Rf8vM8nvN2lgCCMYFkWpx3C2l8vIg3xImCotofaSxkDrl3OND3u/SqXYf
+	1+AKcrxj2mibvZdgtooV8wlYIe051QOLD1VnH2LyE0sGIwhMBKAx1qaxQgh8lL1taRtjG86zYHw
+	Y1edjtl/fSmuZXKtRymjN/8YQ93ZU3H62+gyXDTBErzBNGC/JZmbYXjBnQ==
+X-Received: by 2002:a05:690e:12c3:b0:67c:fa4:2b9f with SMTP id 956f58d0204a3-67c566077bbmr2140240d50.15.1794329379380;
+        Tue, 10 Nov 2026 08:49:39 -0800 (PST)
+Received: from [10.0.0.48] ([71.69.222.122])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589a2354sm2244105d50.6.2026.11.10.08.49.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Nov 2026 08:49:38 -0800 (PST)
+Message-ID: <83246c2b-6663-4c52-95f0-50dac116570b@gmail.com>
+Date: Tue, 10 Nov 2026 11:49:33 -0500
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,77 +92,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261109-submit-acx00-phy-stats-v1-v3-1-fbc6327c5be4@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v6 4/6] tls: update the RX key when a KeyUpdate
+ is received
+To: netdev-bot+sashiko@kernel.org
+Cc: john.fastabend@gmail.com, kuba@kernel.org, sd@queasysnail.net,
+ davem@davemloft.net, edumazet@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, shuah@kernel.org, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, hare@kernel.org, cel@kernel.org,
+ kernel-tls-handshake@lists.linux.dev, alistair.francis@wdc.com,
+ martin.belanger@dell.com
+References: <20261105-keyupdate-rfc-v6-4-99b695f9eb4f@gmail.com>
+ <179424471155.994134.17986033334400694237@kernel.org>
+Content-Language: en-US
+From: Martin Belanger <martin.nvme.dev@gmail.com>
+In-Reply-To: <179424471155.994134.17986033334400694237@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 09, 2026 at 07:48:32PM -0700, James Hilliard wrote:
-> The generic PHY receive packet and byte counters describe successfully
-> received traffic. Some PHYs instead count all received frames and bytes,
-> including frames with errors. A frame error count cannot recover the
-> number of successfully received bytes because damaged frames have
-> different lengths.
-> 
-> Add optional receive-total counters to ethtool_phy_stats and the phydev
-> statistics group. Count frame bytes including the Ethernet header, padding
-> and FCS, and excluding the preamble and start frame delimiter. These
-> counters describe reception at the PHY, before MAC or host filtering.
-> 
-> Append the new attributes so existing statistic IDs and their meanings
-> remain unchanged. Publish the names through the existing statistics string
-> set, and retain the unset-counter convention so drivers can report either
-> set of counters independently.
-> 
-> Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> ---
->  Documentation/networking/ethtool-netlink.rst | 16 +++++++++++++++-
->  include/linux/ethtool.h                      |  6 ++++++
->  include/uapi/linux/ethtool_netlink.h         |  2 ++
->  net/ethtool/stats.c                          |  8 +++++++-
->  4 files changed, 30 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-> index eba226c79ec3..5528d0f7afdd 100644
-> --- a/Documentation/networking/ethtool-netlink.rst
-> +++ b/Documentation/networking/ethtool-netlink.rst
-> @@ -1665,7 +1665,7 @@ the ``ETHTOOL_A_STATS_GROUPS`` bitset. Currently defined values are:
->   ETHTOOL_STATS_ETH_PHY  eth-phy  Basic IEEE 802.3 PHY statistics (30.3.2.1.*)
->   ETHTOOL_STATS_ETH_CTRL eth-ctrl Basic IEEE 802.3 MAC Ctrl statistics (30.3.3.*)
->   ETHTOOL_STATS_RMON     rmon     RMON (RFC 2819) statistics
-> - ETHTOOL_STATS_PHY      phy      Additional PHY statistics, not defined by IEEE
-> + ETHTOOL_STATS_PHY      phydev   Additional PHY statistics, not defined by IEEE
->   ====================== ======== ===============================================
->  
->  Each group should have a corresponding ``ETHTOOL_A_STATS_GRP`` in the reply.
-> @@ -1683,6 +1683,20 @@ by ``ETHTOOL_A_STATS_GRP_SS_ID``. Complex statistics (such as RMON histogram
->  entries) are also listed inside ``ETHTOOL_A_STATS_GRP`` and do not have
->  a string defined in the string set.
->  
-> +The ``phydev`` group provides separate counters for successfully received
-> +traffic and total received traffic.
 
-You need to be careful with naming here. This is a
-kAPI. phydev/phylib/phylink are implementation details, a set of
-helpers which some MAC drivers use to implement PHYs. But MAC driver
-can implement PHYs in different ways, and don't need to use a phydev.
 
-``ETHTOOL_A_STATS_PHY_RX_PKTS``
-> +(``RxFrames``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES`` (``RxOctets``) count
-> +successfully received frames and bytes. ``ETHTOOL_A_STATS_PHY_RX_PKTS_TOTAL``
-> +(``RxFramesTotal``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES_TOTAL`` (``RxOctetsTotal``)
-> +include frames with errors. The total byte count includes the Ethernet header,
-> +padding and FCS, but excludes the preamble and start frame delimiter.
+On 11/9/26 12:18, netdev-bot+sashiko@kernel.org wrote:
+> [Severity: Medium]
+> What happens when the KeyUpdate is not the first handshake message in the
+> record?
 
-And what would you call it when the counter does include the preamble
-and start frame delimiter?
+Valid. A record with [NewSessionTicket][KeyUpdate] is legal (RFC 9846
+section 5.1), and the check reads only the type of the first message.
+Mainline has the same gap: tls_check_pending_rekey() does not set
+key_update_pending for such a record either. With a registered RX
+secret the result is worse, because the kernel owns the rekey and the
+connection ends on the next record.
 
-Take a step back. Just because this PHY has these counters, do we need
-to support them? And what happens when the next PHY comes along with
-slightly different counters? Do we add them as well?
+v7 will check every handshake message in the record. A KeyUpdate that
+is the last message will be handled. A KeyUpdate followed by another
+message will end the connection.
 
-It is vendor SDK syndrome. The hardware can do this, so lets expose
-it.
+> The RFC does not forbid a KeyUpdate that ends a record with several
+> messages, and the rule the code enforces is in section 5.1, not 4.7.3.
 
-What is your use case here which justifies these specific counters.
+Agreed. The commit message in v7 will cite section 5.1 and describe
+what the code does.
 
-     Andrew
+> Could the comment be reworded so that a future caller doesn't assume the
+> old key still works after a failed rekey?
+
+Yes. In v7, the kernel-doc will say that the key may be unusable after
+an error, and that the caller must end the connection.
+
+> Should Documentation/networking/tls.rst be updated to match this
+> behaviour?
+
+Yes. v7 will update the "TLS 1.3 Key Updates" section and the
+statistics. TlsRxRekeyError will count every received KeyUpdate that
+ends the connection, not only the rate limit.
+
+pw-bot: cr
