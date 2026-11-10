@@ -1,106 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794324671;
-	b=XAzAUSeeafLZxI0Qp8d/vzICI5Y0lXNKAVS/zJ83KXlyGbMkQcoZN84i3LQ3wMCArhAi
-	 BSQJJAg6JIv+8nUUpc9dlqrhCcZA/ah7KJW/Ju4pNMha9fbYUnCLHQnjzHYcO7r+SrCQ1
-	 W7ieHj4Cfiunf19Mgx/muOVid0oUdJSD+axW0HvOasUWIFbuY1s7UWk6mU7Y7kXqBFXDk
-	 +dwhvqzf7o2dUY/SI8NQVAbsPxSotyYpGgCMe1jVWf2icdbqMfTZsnphSb6l+MCB3a1ST
-	 3YgfhJy83XEUDAR1omh3S1RDSNTCVm7tl8ww6pS3DdZjg41xEBLN4U5z7+dB0CX5zRg==
+	t=1794324697;
+	b=S6Xx+qBspIQalM6t74fjUcWDHtlEv/M0R0lbmjRj5IQjkn+w/NS+0A62mv0aA0/O+Hxh
+	 sMahj/JlnNk9361A/L6sYcZLdF2oHlV/BzsRPJt5nTc6Jty4StOL92IUjNkq7FQeBMHWt
+	 vQEnfhUaSPErZNZsTee9qqYGRaXfbGBPKul22VZBEr9Nt6ilCBOkZyWV711zCoSJRwaWt
+	 HSs+z66INcPOpPqriQLkULMykYULIAskHTpDwJoXkrzm8mFcFui5902PMNHnZvB9tSHiT
+	 k8Tv3NS/MnAB0gEUFNIOqLiq15d71SdBJ0KYjSIj00xYFXCKlOcatbRUNmJ8Gf7KBvQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794324671;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
-	 Content-Language:To:Cc:References:From:In-Reply-To:Content-Type:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794324697;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=gXjqAYmOZzBpoVOClTeMCf3Fr5RoD9/tZaRkMD38hnw=;
-	b=vQ3CY07zucGcUIPcDlSZ4EjNNTW4vc6QzVy3up1HCUtjQ78AvaEfrt+E8WiIlVPwhOp0
-	 Ta3HZihUHOrgXDME37g/aa/buQPneqktB6EpciFQeMAdlOGW7or8dxIjxWSNaYeVokom8
-	 ABxCIX2+hAgbQAGtYE6qCnQtWeCSWA+WGZdSGgpYdRyZ5e/tL0vbDSMRD0kNuFXQHpDHj
-	 +43lJ2m5gS1EDfMJTLJI1pz+d4FunzB5gD/UMS2vzSkH+Pp6gMsEWCzvBt/HwsT/eZWm+
-	 L1Ify0emggXRqWc/Ld44lvr1x9KvHfh8yUl0Mwk+fsPxdCd3icWSKczdRN+ajmJqZ7Q==
+	bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
+	b=wjxzV5eWJWGN0gFOk3J5MOKHdsjSOOqifPXMZPRofR/wfyHIUCZL+Cn0dHwZE4hlCR/+
+	 Qb1HVGlQj3AIKJN3uR1ResaMorkoi7V3ZaYwoejXOZK5Ze6WaunnuVKD1OdObE2q22wgN
+	 boOER5SgvJjMtD6INFh6RMtcWdKmQ2LcyzqxYRIB9QGkW2v3fZ2RCMIOjw1MKOoIBEuG0
+	 AfivvVO2WUcl3E1PJpk1f2zG3BgMvLQx2FU5ydJG4MldpZSA8DzIWn9u0Q0yYX7INLqrY
+	 h13jxfmCglBqu+4hnCmqOjfW4PXfF605ugxVR6WW3l3GfT0qdUtV0yZ2ndnrneVn71w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=hcQUGjb4;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=o2DRGKwa;
-	arc=none smtp.remote-ip=170.10.129.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EbaSWAnJ;
+	arc=none smtp.remote-ip=209.85.218.72
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF3560A2600
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:31:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEF3560A2600
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94248606A331
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:31:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94248606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=hcQUGjb4;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=o2DRGKwa
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794324669;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gXjqAYmOZzBpoVOClTeMCf3Fr5RoD9/tZaRkMD38hnw=;
-	b=hcQUGjb4o9ZInWycESOrSrCPhAWfXSoa2WP81h/GTWZB+3SSAaeexbsov8hi+t/xVenCYU
-	XV2VPzeZAd8vcNiPyCyfETT6iGJHPYXANGIAPKDZ+Dpbo/KOytaAE3VpO0CvcxhQ7IEKqu
-	c0xr/Xato41pKFnrogQyusx3RuxjYOo=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-259-_eCnRxgEMz6pV1F5P7uRrA-1; Tue, 10 Nov 2026 10:31:08 -0500
-X-MC-Unique: _eCnRxgEMz6pV1F5P7uRrA-1
-X-Mimecast-MFC-AGG-ID: _eCnRxgEMz6pV1F5P7uRrA_1794324667
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-490a0e72578so1524544f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:31:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EbaSWAnJ
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c505ee61160so29012166b.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:31:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1794324667; x=1794929467; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gXjqAYmOZzBpoVOClTeMCf3Fr5RoD9/tZaRkMD38hnw=;
-        b=o2DRGKwamIrWbnBK8ZAYCOGE6SW95LqzSGt7qtdluNDesOZ5jy4HWjJJUYO3RlAtMY
-         p2LKWjmpdnr8AvjY8atM7KdhDQGSPhIuVPCSDrJby4abJkS3FfEQ5BxA5hemjvN9xZYC
-         f0HQLuHH242uuwmKRoDKbsoz8BP2/4KdsGeCEO+ZpioQLw/PVjVTIUjecxrF5bjUk/dB
-         7w2kcnrcWh5gGvoKh4496mkOxZSXxIvRWmgyNsTl4I4yZvTdCn88gL9cDX10EXtimZ+v
-         id3WdZR5kBsHOGlzrBfsIkTsqhIWc0mipnLJsf8eszFjO8xdX28RHQPKyA+lWVyCnoww
-         d3JA==
+        d=google.com; s=20260707; t=1794324695; x=1794929495; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
+        b=EbaSWAnJ7A533qGpAvii2NS3I9zxkDKlvnsqDPtzIBKMTuzOPF5jRLHhwfsyK6diIL
+         2En3fr/6Wz2Zy14HVjG0BjTT6HzN+p6NPYlr8unPhlA6m2umktQnoqp2AYSjldSAJssk
+         xHzbOcqVaFfuuKFkgO7UgDfRrsaoBkRPDiUM6rHPYGDOR3M31dOOpz5vbhmi2t4d+DUT
+         jeFEACxiutXh0J7ifsM5tXZOXkDouo9+ARx8MVQmgZYMid1HxFVWY6jc0+kGfKGLmr9K
+         dwtVL5ln+2ptHee8NSHeS1SxVprCYBr2xvsLYm8F3UiIKYeFqvbgvqwm4UzA816ruQV6
+         HNoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794324667; x=1794929467;
-        h=content-transfer-encoding:content-type:in-reply-to:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gXjqAYmOZzBpoVOClTeMCf3Fr5RoD9/tZaRkMD38hnw=;
-        b=YNAEP3pmCzRbFr6K461Dd5TLBK0ToqkPtDfpdYWS1BoyEx+OwwwXne2UNILyIPjd1h
-         d/fvFL2LUnYTxsXFmi9cys7jX5W6ObdSEtSpYFzD1N/qjydDtg7/Mt/+hEjzDw4kxUNz
-         V5k9VHDugq+39oofefCMcakzaT2ncnvsrmJFuuQb3mzm/t3kWAoJ4q5BLRZA1trzDyoV
-         OSjAS+iraMYhdDVZqBemCCdsvmV5JFRe5RBrlE9XZXkWcRWOjAgQK4k6MwzMYbiLnZjh
-         emCZfjrFY9KyWY9X1uN/0eh+5K6KH+lHQpBPtFbDjLl/9638JOzTwcdY0JRTbzrykYGh
-         pljQ==
-X-Forwarded-Encrypted: i=1; AL+hErGWEIf0o/Kv1AQ9p3oykLn8grktZXMS/7qtxrn+Mm7+Kki2m2MFnTB9D6ZhiJurMm4yZJUrYXoMZJQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/G6UAyJFKl2Ndeval8mutIYKihY+5AaNCx9fjXOykbpWevugCS
-	GSoHbTUR6c3OHpo55Xg/KJALNAqPejtGbngRpA7o/quNtl7rApeOCr56blpVsB66vB+a8hdKMnn
-	D9lZgMFUbVcafVnmLbZO2MJNOLuhc0qbeaay/NETqCiXNyPuduCQjAVv922iudQ==
-X-Gm-Gg: AYBFou1yDtxsFbb/YC+mXpQ8ZacHAF6ADU9K32yFwHpp1WJ4QF3RR3aggpAD1dEXXpL
-	peiNa8hA8G4J1/N3iTv3+XPWvgnq5lpJ+zcRsVBD4w+ppwFwbQyLBw3EoNN2JlOwNVJEItCJCBA
-	SS0FVEQBxKoskstRf9+uM/GClFkJapCS1oAbctc+0P/r8Kz/TaJjR+rcB9m3VNw7fr2F8MCQ5C2
-	g5zCq0+s/6sNfxPvivwfR/Ih8FVu3rgcNsMjcJhPqXl4yQ3H6WoBCk9vCmW6mfK3Siodax7y+ob
-	yCn4dO70i9dYDLQmt3YFALE1znWwghjwCbHzM3jOlPZ77CqmPyxj7i9c3bNUmBcUA8nxgnAIZK3
-	IAYDpnwl8lAK0VDEfWx/vXVDpPxzCtoP3B+o=
-X-Received: by 2002:a05:600c:811a:b0:4a5:1cf1:b7bd with SMTP id 5b1f17b1804b1-4ba02348d9amr50067545e9.16.1794324666992;
-        Tue, 10 Nov 2026 07:31:06 -0800 (PST)
-X-Received: by 2002:a05:600c:811a:b0:4a5:1cf1:b7bd with SMTP id 5b1f17b1804b1-4ba02348d9amr50066905e9.16.1794324666429;
-        Tue, 10 Nov 2026 07:31:06 -0800 (PST)
-Received: from [10.43.3.161] ([213.175.37.14])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba022ff5c3sm31998605e9.0.2026.11.10.07.31.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 07:31:05 -0800 (PST)
-Message-ID: <f85f84fb-6e19-465b-8bd6-4d62998c1f5a@redhat.com>
-Date: Tue, 10 Nov 2026 16:31:04 +0100
+        d=1e100.net; s=20260707; t=1794324695; x=1794929495;
+        h=content-transfer-encoding:content-type:cc:to:from:subject
+         :message-id:references:mime-version:in-reply-to:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
+        b=Wsb7MnXa1ro5M+CDiWMBu3uNfPPx5M3saidDEa2Gm6qiLS9JeRCOfXJOLQ/v2ojv4t
+         7OdDKVo2/HFVrNC1guyBwWvemWZ4gAxzvpt+2Q48y5JrmJEokZf9E/gq2PvaVDLBtjFm
+         qalhzv21xcfMjc07WMc+S74n+mqskscENz7yBNyXhPPumE61cHckA/+jJTm/f0uh2G9u
+         rODbT9ZTO7tlBu27MXM2Q1Iqr7eBCk91Flv8ngTL1ikLjEk1C31rQ5imtr89AWxR3osp
+         6OODF5QyWpTtaJ1G2IBKK6GTEpfrfa+rZyLM8uF9NEJzOWiQXG1nZUGqikTF8DVIac1T
+         be1A==
+X-Forwarded-Encrypted: i=1; AL+hErFgMHaEfaMSobnyopPibXAJXrQr8DyEkHFgQIaid//5vy1YuUW84cUY0Sx7VSZSNE/+tyNdQujdr8Y=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8L7Cz0pJalzMlqGRJBPbGBZlc0qjy/jculh3PsinanbxbzSjni
+	owA1XEY2Xb0pevZLuqiJSlS9kMaeNXZVaMiQech39z7JCbImHsMe7IPMr6MBkGYFSuzBcBbsSA=
+	=
+X-Received: from edsw12.prod.google.com ([2002:aa7:da4c:0:b0:6b7:834:31d9])
+ (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:68a:b0:6b7:675e:7a2f
+ with SMTP id 4fb4d7f45d1cf-6b7675e7a95mr879624a12.1.1794324694693; Tue, 10
+ Nov 2026 07:31:34 -0800 (PST)
+Date: Tue, 10 Nov 2026 15:31:33 +0000
+In-Reply-To: <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -109,74 +79,152 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 09/10] ice: dpll: update locking comments
-Content-Language: en-US
-To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
-Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Min Li <min.li@microchip.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Richard Cochran <richardcochran@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- Grzegorz Nitka <grzegorz.nitka@intel.com>,
- Karol Kolacinski <karol.kolacinski@intel.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>
-References: <20261106121005.1327603-1-ivecera@redhat.com>
- <20261106121005.1327603-10-ivecera@redhat.com>
-From: Petr Oros <poros@redhat.com>
-In-Reply-To: <20261106121005.1327603-10-ivecera@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
+ <20261106-befreien-addieren-eislauf-e09212803534@brauner> <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
+Message-ID: <avM41a80aig2de-R@google.com>
+Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
+ opt-in netns loopback
+From: "Hallgrimur H. Gunnarsson" <halg@google.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
+	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
+	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jann Horn <jannh@google.com>, "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
+	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
+	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-api@vger.kernel.org, containers@lists.linux.dev, netdev@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, Nov 07, 2026 at 10:47:41AM -0800, Andy Lutomirski wrote:
+> On Fri, Nov 6, 2026 at 5:13=E2=80=AFAM Christian Brauner <brauner@kernel.=
+org> wrote:
+> >
+> > On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
+> > > The whole unshare/clone flag situation is getting out of hand, IMO.
+> > > And this new thing makes logical sense but is really about reducing
+> > > exposure.
+> > >
+> > > Perhaps we should instead have a small list associated with a userns
+> > > (extensible in the future) of things that the ns's admin (i.e. whoeve=
+r
+> > > has CAP_SYS_ADMIN relative to the ns) may do.  That list could
+> > > include:
+> > >
+> > > - Create loopback with sensible defaults for ipv4 and/or ipv6 (i see
+> > > no obvious reason to separate them)
+> > > - Create tun/tap interfaces in that ns (and attach them, etc)
+> > >
+> > > And add a very simple new API to do these things.  Actually, the
+> >
+> > We've had this idea in the past and I think it is reasonable. I had
+> > always thought that we should expose a system call to create empty
+> > namespaces ot any type. Usually I'd be excited about that but I think
+> > that point is a bit moot and I'd really like see whether we can turn
+> > cells (or whatever other name) into a first class api.
+> >
+> > The problem I have with the patchset as written is that adds a lot of
+> > moving parts. And yes, I find the CLONE_* and UNSHARE_* flags plus
+> > sysctl to be suboptimal as well.
+> >
+> > So the TL;DR is that CAP_NET_ADMIN + userns =3D
+> > CAP_NET_PRIVILEGE_ESCALATION 10+ years later. And this patchset wants t=
+o
+> > put it back on a leash.
+> >
+> > So why isn't an aggressively stupid solution to this problem to split a
+> > new capability out of CAP_NET_ADMIN so it covers the absolute minimal
+> > set of things that should be allowed instead of doing effectively the
+> > same thing but split over multiple apis?
+>=20
+> Because we don't actually have a clean way to make a list of
+> privileges that are, in theory, harmless but are hazardous from an
+> attack surface perspective and assign them only to tasks that ought to
+> have them.
 
+Exactly. Furthermore, even if we split a minimal capability out of
+CAP_NET_ADMIN, create_user_ns() still grants CAP_FULL_SET to new
+unprivileged user namespaces by default. Without a mechanism to
+withhold capabilities that are namespaced in scope but carry high
+attack surface risk (like CAP_NET_ADMIN and CAP_NET_RAW) and only
+selectively grant them to tasks that really need them, an unprivileged
+userns would still receive the full set of capabilities.
 
-On 11/6/26 1:10 PM, Ivan Vecera wrote:
-> Callbacks run under the DPLL core domain locks instead of dpll_lock. Note
-> that callbacks of pins of an external DPLL run under the domain of that
-> DPLL, so only pf->dplls.lock serializes them with the rest of the driver.
-> 
-> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
-> ---
->   drivers/net/ethernet/intel/ice/ice_dpll.c | 4 ++--
->   drivers/net/ethernet/intel/ice/ice_dpll.h | 3 +++
->   2 files changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.c b/drivers/net/ethernet/intel/ice/ice_dpll.c
-> index d6302409a2dacf..07cbd4cf0160ca 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_dpll.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_dpll.c
-> @@ -1178,8 +1178,8 @@ ice_dpll_input_state_get(const struct dpll_pin *pin, void *pin_priv,
->    * peer via dpll netlink learn about the update.
->    *
->    * Context: Called from dpll_pin_ops callbacks after pf->dplls.lock is
-> - *          released.  Uses __dpll_pin_change_ntf() because dpll_lock is
-> - *          still held by the dpll netlink layer.
-> + *          released.  Uses __dpll_pin_change_ntf() because the domain lock
-> + *          is still held by the dpll core.
->    */
->   static void ice_dpll_sw_pin_notify_peer(struct ice_dplls *d,
->   					struct ice_dpll_pin *changed)
-> diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.h b/drivers/net/ethernet/intel/ice/ice_dpll.h
-> index 4ba76e2e2e0b01..39e041a30090d0 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_dpll.h
-> +++ b/drivers/net/ethernet/intel/ice/ice_dpll.h
-> @@ -165,6 +165,9 @@ struct ice_dpll {
->    *     tx_refclks usage map), acquire pf->dplls.lock first, then
->    *     ctrl_pf->dplls.lock. Skip the second acquire when pf == ctrl_pf
->    *     to avoid recursive locking.
-> + *   - Callbacks of the SYNCE and TIME_REF pins of an external DPLL run under
-> + *     the DPLL core domain lock of that DPLL, not of the TXC and TSPLL DPLLs,
-> + *     so only @lock serializes them with the callbacks of these DPLLs.
->    *   - @txclk_notify_rwsem is held for read across
->    *     ice_txclk_update_and_notify(), including the out-of-lock
->    *     dpll_*_change_ntf() calls. ice_dpll_deinit() takes the write side
-Reviewed-by: Petr Oros <poros@redhat.com>
+Providing that mechanism is the core goal of the per-userns capability
+bounding set in this series. Even on its own, without any loopback
+changes, it can be configured to prevent unprivileged users from acquiring
+CAP_NET_ADMIN and CAP_NET_RAW when creating a new userns + netns, while
+still supporting sandboxes that use a completely disconnected netns or
+containers whose networking is configured externally.
+
+Finding a solution for loopback simply makes this bounding set more
+practical, as it allows us to also support sandboxes that rely on
+localhost networking without forcing them to retain full CAP_NET_ADMIN.
+
+With a way to withhold CAP_NET_ADMIN from unprivileged userns, splitting
+out a minimal capability (as Christian suggests) is a very appealing way
+to handle the allowed subset for loopback, though the main challenge is
+defining a scope that justifies a capability bit without re-introducing
+LPE risk.
+
+Looking at the CAP_NET_ADMIN LPEs from Google's kernelCTF, most are
+concentrated in netfilter and tc, with a smaller number in virtual
+interfaces and routing. Simply bringing up loopback at netns init
+shouldn't carry any LPE risk, but something like CAP_NET_LOOPBACK_UP
+is obviously too specific to warrant a capability bit. Conversely,
+broadening it into something like CAP_NET_IFCONFIG (allowing link state,
+L3 address and basic route configuration on existing interfaces) might
+justify a bit, but even such a basic subset would still re-introduce
+some LPE risk (see e.g. CVE-2026-53259 / commit f723ccaff2fb),
+although it would drastically reduce the risk by excluding the most
+high-risk components.
+
+Furthermore, I think splitting out a smaller CAP_NET_ADMIN would also
+run into some practical difficulties when it comes to clean enforcement
+in rtnetlink. Currently, rtnetlink_rcv_msg() relies on a coarse
+CAP_NET_ADMIN check at the beginning before any complex message parsing
+occurs. To support more fine-grained capabilities, we would have to push
+these checks much deeper into the stack, spreading security checks
+across many locations, which could easily lead to mistakes.
+
+Given this, I was hoping to have a minimal mechanism to just allow
+bringing up loopback without going for a new capability bit. Ultimately,
+it's a pragmatic judgment call. Maybe something like CAP_NET_IFCONFIG
+offers enough value and risk reduction to be worth the trade-off.
+
+Otherwise, if we want to avoid consuming a capability bit just for
+loopback, we could also consider other alternatives, e.g. a small nsfs
+ioctl on the netns fd (e.g. NS_NET_LOOPBACK_UP). This would align with
+Andy's earlier suggestion of adding a "very simple new API" dedicated
+to these safely scoped operations.
+
+If we drop CLONE_NEWNET_LOOPBACK / UNSHARE_NEWNET_LOOPBACK from this
+series and handle loopback separately, do you think the per-userns
+bounding set is a reasonable approach for withholding capabilities
+(e.g. CAP_NET_ADMIN and CAP_NET_RAW) from unprivileged userns, or
+would you prefer a different mechanism?
+
+I think the single-deep case we were discussing on the other thread
+could also be cleanly built on top of this. The per-userns bounding
+set provides the underlying enforcement mechanism. How we configure
+and trigger that bounding, whether via sysctl and clone3() as proposed
+in this series, or via a per-task securebit to handle single-deep
+containers in init_user_ns as discussed on the other thread, is a
+policy control interface decision that can feed directly into the
+same mechanism.
+
+To address the concern about the number of moving parts, I am also
+happy to simplify the control interfaces. If we decide a per-task
+securebit is the cleanest way to drive this configuration for both
+single-deep and nested cases, we could focus on that and drop the
+clone3() and sysctl from this series entirely, or only expose whatever
+subset you prefer.
+
+Thanks!
 
