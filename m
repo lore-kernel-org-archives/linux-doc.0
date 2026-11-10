@@ -1,47 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794333201;
-	b=hEbySvD2DmtSFCRLPqCqd5x4tKNt3MTsIEPaS0GiYytqDwn+s/JCouLu3fPDdrxrjub/
-	 nzEGb8ksT/kJ2c4GwuBQUI3iFJiE50feCfTZlAzKq5BlUQhhwvmyxTWrjvWtWGr+o6Zhp
-	 vMOsELKxlKtVTr4dI2joTSk/afYlqTwvUyOlHPQW3MHRVG/D3TWOIYqgyJATKRwryOvCV
-	 u6ltNwEGUkrHG3lJFuloCqkn9W5+YdiIQKLQBquTv63eOigtvLNC5q2pIPgpPTlb5tcsP
-	 Gymkzt9KhoNHJn7rngLnzstHFshsdzeZq7ejZDRwRb87JA9dUbUf3stuwmyo1+yQahw==
+	t=1794333207;
+	b=svGuYVVsPFWgXLBGzXxKLf96abK6akcMD6SK5JVfs99nSHYLzjyd+Bs4hwi/uXHOrmf/
+	 O/jJWmrydmuBXk+TYnkuyVTDKqmx8IIJ5kNh5mBTOaCOMkI3xMnkh3zdVBkH5dLDLr6Xc
+	 REgtoGAno/vQgwVs/9aZ7P5JAzjJBtH2Uu6pW3wDhbG7KB8sEd1ejYU1F+f+0NKEjIBDn
+	 jvP99Ea8S8hFc8MXA6f/Ukoz1zOXZxkSPZUH7Dww54su0lFWreoSdMaCtNYdQ/VCUzllG
+	 gORJFUlFIz5P6UrUBt2/C1CdRGO3LOKRjN0YcpfsmB2wpZNWbNBorWZa8FtQNhSVI3g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794333201;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794333207;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=6MQvK9HWwZWHwV5/ACER8rs2MpoHm1YL0h+P0A0LB84=;
-	b=qCZOFLpwkInAH1bfMxk/AzTltScWO/XdFdsecjnS1SPv6fLMRJC02241R+3advoxAt6H
-	 kPH907rIL0IbrhZ7+JUBmYiNcIrpmwU3ReGih4N3Tem+mN0/Rb8dJ4MVVje1VOB27TLqS
-	 0LaCPTw5zaOccYnHcJI3S21NEXYzKaSNmMuMTzI8+VV67PfBo8iqPr8TkOSyhrIcyFfu/
-	 ttrtyLRLvWw/DHAkc7BPa1f8NUXA4F957Qo8+oVqYONHwV8vOayJPUnOF2cmm+z+Oj1Xu
-	 Ugn5Myzh/F9P0s2C7xY/UGSTL7UfLhjHi3eGMs3x4nSefVxlea6qVZ+jhUz3UiBFoOw==
+	bh=ebrgguzYZNPO98ahlAUGmK5SoDtGwXJz8Q3pxsxvEgw=;
+	b=Jmhe+y/BBx7wKErlfOZJjg4b1WjAQkWnaCGUvtJflfDxJ9+syt/grBor0X3K7HZxUCCh
+	 vG8n0BEn4hhROxZ8epyqhF3+pqZ4pBUa9X6wtBYpFz4QrPNy6Xi/5Xb24hysJgFVuzy+9
+	 m+YUfsRJ4p1k6y/jJ8iTbtEgfvT3YV9WFLGZvGZ3qkJIkI4Nup74s7fCSf44WVy4lSm5h
+	 6/VR/zlLkcR9pYO+ZHiR4+BPokIwH8f7/jUSrw0GuJNcz+A4NCr60XV1RMcnV9eZdqcn3
+	 5AKSafWpOH5PLWG4rajnluY+Yeq21DAaaMh4+lUTx7G/e59kTIADCWl1YclYUaoU8/g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ouneHihr;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rpi8Epj2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484EC606A31C;
-	Tue, 10 Nov 2026 17:53:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B850860A262E;
+	Tue, 10 Nov 2026 17:53:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ouneHihr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A48D01F0089F;
-	Tue, 10 Nov 2026 17:53:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Rpi8Epj2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3CD211F008A6;
+	Tue, 10 Nov 2026 17:53:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794333200;
-	bh=6MQvK9HWwZWHwV5/ACER8rs2MpoHm1YL0h+P0A0LB84=;
+	s=k20260515; t=1794333206;
+	bh=ebrgguzYZNPO98ahlAUGmK5SoDtGwXJz8Q3pxsxvEgw=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ouneHihrCG3paXR7Ptpn3Lx6Wvz8tQZc3rajD77OTxzog01M9G8DIlQrR0PlosCoK
-	 dK7EBIK42+YA1f/e9BxrblvrbCvGoa7/BHbl32Be1QFK9DLFB+cLuOIB/T9Bwj66Yd
-	 1jg+ed88eWOWGndCVkkrvrooV7/ZxiIDWdJ/28F+JOwP9Xt0kPepnEIRLcOLFOhZTS
-	 PrduKLSb4RsLMNFFA9s8Q75OapieXdiIOuHMkBgFi98g5v+weyVxMMZ6fBTNA1GTq1
-	 poTl/zVfvu98L5iPdhMnbbpzsxHW9t04hSJGoiqbIIWUltS02JrcGDGByzpoEY/kN3
-	 RQIMYYmU0wQoQ==
-Subject: Re: [PATCH net-next 01/10] ice: dpll: notify TSPLL lock status from
- the periodic work only
+	b=Rpi8Epj2hAbMGS9noZ90k0oah0cdappeJZcbQPqArf6F1P6oyjOuB9F19VFsQBRqI
+	 BTDRBmrLMRK59Px5MifpXTi8+0nYI9q+6dud24HN6qd9SBTEYVCJB8VRdrioJdL3/J
+	 m2TB8nqYGRQ8s+VhX2kSTnU6PP8CFdF2STZur3jU5W5CT1U9wYVnGBV6WS9AvinRf9
+	 5iE0W4OQsMw7Nl3GYZnFsrHZZoOveKiMm5G0BqqOmxhegLnLSCRL7ok/Up0BuA3zGV
+	 i6MhyM0WSzoHyek3oJXGyGAso/leIDGchY8lLvyzCsywGpY/hr6Qej17ir1eWmJdF5
+	 X6HN1Av2KZCJQ==
+Subject: Re: [PATCH net-next 05/10] dpll: convert dpll_lock to rwsem
 From: netdev-bot+sashiko@kernel.org
 To: ivecera@redhat.com
 Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
@@ -54,10 +53,10 @@ Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
  intel-wired-lan@lists.osuosl.org, grzegorz.nitka@intel.com,
  karol.kolacinski@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
  poros@redhat.com
-Date: Tue, 10 Nov 2026 17:53:19 +0000
-Message-ID: <179433319925.994134.5092477928749468374@kernel.org>
-In-Reply-To: <20261106121005.1327603-2-ivecera@redhat.com>
-References: <20261106121005.1327603-2-ivecera@redhat.com>
+Date: Tue, 10 Nov 2026 17:53:24 +0000
+Message-ID: <179433320479.994134.13826920591104367019@kernel.org>
+In-Reply-To: <20261106121005.1327603-6-ivecera@redhat.com>
+References: <20261106121005.1327603-6-ivecera@redhat.com>
 X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -77,86 +76,83 @@ you want to address the nit picks below when you respin.
 
 Low priority / nit picks for your consideration:
 
-- [Low] This patch leaves the comments in
-  ice_dpll_tspll_state_on_dpll_set()…
+- [Low] This patch turns dpll_lock from a mutex into an rwsem.
 
 --
 
-ice: dpll: notify TSPLL lock status from the periodic work only
+dpll: convert dpll_lock to rwsem
 
-This patch stops ice_dpll_tspll_state_on_dpll_set() from sending a TSPLL
-device change notification from the TIME_REF pin callback. The callback
-now only updates dpll_state. ice_dpll_periodic_work_e825() refreshes
-dpll_state on every run and sends the notification when the state differs
-from prev_dpll_state.
+This commit converts dpll_lock from a mutex to an rwsem. Core functions
+that change the topology take it for write. Netlink requests, dump parts
+and change notifications take it for read, so callbacks of different
+domains can run concurrently.
 
-> diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.c b/drivers/net/ethernet/intel/ice/ice_dpll.c
-> index ade1fb3dd0674..bdbcf7af296eb 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_dpll.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_dpll.c
-
-[ ... ]
-
-> @@ -2947,15 +2946,12 @@ ice_dpll_tspll_state_on_dpll_set(const struct dpll_pin *pin, void *pin_priv,
->  		WRITE_ONCE(pf->ptp.tspll_locked,
->  			   new_state == DPLL_LOCK_STATUS_LOCKED);
+> diff --git a/drivers/dpll/dpll_core.c b/drivers/dpll/dpll_core.c
+> index dd09f52817099..8eb7468234315 100644
+> --- a/drivers/dpll/dpll_core.c
+> +++ b/drivers/dpll/dpll_core.c
+> @@ -19,8 +19,12 @@
+>  #include "dpll_core.h"
+>  #include "dpll_netlink.h"
 >  
-> -		if (tp->prev_dpll_state != new_state) {
-> -			tp->dpll_state = new_state;
-> -			tp->prev_dpll_state = new_state;
-> -			changed = true;
-> -		}
-> +		/* ice_dpll_periodic_work_e825() compares the state with
-> +		 * prev_dpll_state and sends the notification.
-> +		 */
-> +		tp->dpll_state = new_state;
+> -/* Mutex lock to protect DPLL subsystem devices and pins */
+> -DEFINE_MUTEX(dpll_lock);
+> +/* Protects the topology and lifetime of DPLL devices and pins. Taken for write
+> + * to change them and for read for the whole netlink request, part of a dump or
+> + * change notification that uses them. Driver callbacks are serialized by domain
+> + * locks, which are only taken under this lock.
+> + */
+> +DECLARE_RWSEM(dpll_lock);
 
 [Severity: Low]
-This isn't a bug, but do the comments in ice_dpll_tspll_state_on_dpll_set()
-still match how the notification path works after this change?
+Should the assertions in dpll_domain_get() and dpll_domain_put() be changed
+to lockdep_assert_held_write() along with this conversion?
 
-The new comment reads as if the periodic work compares the tp->dpll_state
-written here. In ice_dpll_periodic_work_e825() that value is never read.
-The work recomputes the state from the cache and overwrites dpll_state
-before it compares:
+Both helpers still use the plain form:
 
-ice_dpll_periodic_work_e825() {
+drivers/dpll/dpll_core.c:dpll_domain_get() {
+	lockdep_assert_held(&dpll_lock);
+
+	xa_for_each(&dpll_domain_xa, i, domain) {
+		if (domain->clock_id == clock_id && domain->module == module) {
+			refcount_inc(&domain->refcount);
+			return domain;
+		}
+	}
 	...
-	new_state = ice_dpll_tspll_lock_status_get(pf, true);
-
-	tp->dpll_state = new_state;
-	if (tp->prev_dpll_state != new_state) {
+	ret = xa_alloc(&dpll_domain_xa, &domain->id, domain, xa_limit_32b,
+		       GFP_KERNEL);
 	...
 }
 
-The older comment just above the WRITE_ONCE() was not changed:
+drivers/dpll/dpll_core.c:dpll_domain_put() {
+	lockdep_assert_held(&dpll_lock);
 
-	/* Sync the cached lock state to what we just observed from HW
-	 * so ice_dpll_periodic_work_e825() (cached path) does not emit
-	 * a spurious UNLOCKED notification between now and the next
-	 * PTP monitor tick.
-	 */
+	if (refcount_dec_and_test(&domain->refcount)) {
+		xa_erase(&dpll_domain_xa, domain->id);
+		mutex_destroy(&domain->lock);
+		kfree(domain);
+	}
+}
 
-That reason applied when the callback also set prev_dpll_state. Now that
-it doesn't, the WRITE_ONCE() to pf->ptp.tspll_locked is the only way the
-callback's HW reading gets to the periodic work.
+On the old mutex, lockdep_assert_held() checked for exclusive ownership. On
+an rwsem it also passes when only the read lock is held.
 
-Without it, take a switch from TCXO (prev_dpll_state is UNLOCKED) to
-TIME_REF where the HW reports LOCKED but the cache still holds false. The
-next periodic run would compute UNLOCKED, which matches prev_dpll_state.
-No notification would be sent, and dpll_state would go back to UNLOCKED.
-The result would be a lost notification, not a spurious one.
+Every current caller holds dpll_lock for write: dpll_device_get() and
+dpll_pin_get() via the alloc helpers, and dpll_device_put(), dpll_pin_put()
+and the register/unregister paths via the __put helpers. So this is not a
+runtime problem today.
 
-Could both comments say that the periodic work picks up the new state
-through pf->ptp.tspll_locked? Then a later change is less likely to drop
-the WRITE_ONCE() as just a way to avoid spurious notifications. As far as
-I can tell, the comments are still unchanged at the end of the series,
-after "ice: dpll: update locking comments".
+However, the read-side holders added here (dpll_pre_doit(),
+dpll_pin_pre_doit(), the dumpits, dpll_device_change_ntf() and
+dpll_pin_change_ntf()) can now run concurrently. If one of them reached a
+domain lookup-or-create, or a final put, lockdep would no longer warn about
+the race on dpll_domain_xa or on the domain refcount.
 
->  	}
->  	mutex_unlock(&pf->dplls.lock);
-> -	if (changed)
-> -		__dpll_device_change_ntf(tp->dpll);
+call_dpll_notifiers() can keep the plain lockdep_assert_held(), because it
+legitimately runs under the read lock.
+
+These assertions are still unchanged at the end of the series.
 
 [ ... ]
 
