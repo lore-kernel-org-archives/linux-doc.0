@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794283048;
-	b=imXtApUZ41Bu9UlfOAKtxyqqjs51WtviKMtyb9dFoQedLhJo18AJyHyvkdihXwPie6kT
-	 qQvTm/vVAUAOJoyUmml+PUZziFJ6U1gNu+/wD4kl2FAvBsGdy2WjrSo9chZPd3uGg3XWf
-	 xVTbazfrEI7n1KrZCTs7TKm5BCKsUDTavXuPVHOxI57MAoBBpKitsL+RBFeq9a8f5eKHe
-	 D+UBqg2kTk2r9sMdUYX/Q7wqpJYCAcqG1b0VySRO5R2nCp2B3gtwMO8czZ054DrKiBLaU
-	 EfWbH5VGhJGkRBjWTvg5HtQ/da2FM2o5eWXKCnOlgxt+MdHRL7jKdewSumHpcZQzlmA==
+	t=1794283053;
+	b=XKLrLvDGxS5Jj4u25LBcIHE+sSZMfeNdYx5lznwU6XJ9br+wcNhu4H4xagttgKq3etVl
+	 NcsNarU1PkwXungY1DT0rwMGWjz3CFIxGw1HWt+ip8eSC0WAq/QyBhEFSKQbJfxTzLaTJ
+	 3S4S7XH1PIDJGVeOUsMzcZTUZrdTA13F+IEQK1MmcPoKQuobGkTuMcpdW5TlNoqeq3VMW
+	 WxcZU1t9UoXSIEND9U2Jt/IW7tKWthaMrm3RA24bIbCfg7HogK8Q488DTl8n45NGQKCX1
+	 zYHpsq2GAhxfokNuvRESBFieyCTdYQWFK6wI72YJEJ5EbJBC8QBT1ou1jB5GMQqpGyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794283048;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794283053;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=L0xaW/62AQgxFhpajczQ88yBj65kDwjYHTXkn62rfdI=;
-	b=lu42qWqncU3KzTHbJzL3EagUtvFbmLXzEqitVhkwdwWaFEfKU2h/kUcj9RSKLkc9ev7y
-	 tPgoN0csQBLx5aqfM4sbzdqVj9QVnApsEFiULcNKKmw3BCkyF4MGX7qQ/iMvneLUj8PnX
-	 7mXm2GItfhrlWK7GnxrqsfWdtXG8xgca6/lJ4Mg2zAXgGXlsFSJk1axUkgFC8P7AELDrd
-	 FaQCe1JeJPMQR1Cenw/iHWZpd4tg90k8ApOksEEb+3tiqn/MzlukD6yo13WW5Zj9aCIyM
-	 AU9JxPv3JJclNIBvT4OOmz6bRft46PhY9e7OuruLMaiTGP0Z2/At5fLFiG9r/04/Xow==
+	bh=m8+xowlUwN+TnOKNDaiztwvEmzRJ1pYtLtKYjKSdRBE=;
+	b=kMs/1Ol07w6p9QXJaO2arDc79ILcQKDZFEIPjGGIyeoZbr/cx0Bzfdxc1aX4hrlp8iuv
+	 GRMSHxgHdCWYVAuLfMHMAfaNidq2+UC6F60Sn8xBblAZ1JzHrv9qc2+0LXFKSBVsVu5Cb
+	 hvaN5zuoPrnbwNW2yLlD5VgCWpztOTV7G0RndiReqqUqv0AlZQN3NNTbkNgYoTIV8qNHr
+	 D9LWU6Rcqq+RwdzKTRAhoEoiFgrkEfdb7tW7GfdxdGxqZLcgZgiwrILnUDzrF52GmVGz1
+	 2DAZUarrpfq6Fx1ViFsESwVmFG+pgwvcL1cjGX9gRqImhNlG5RX7ecfOsmr5ecQ79/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=cloudflare.com;
 	spf=pass smtp.mailfrom=cloudflare.com;
-	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=B3UO6mYx;
-	arc=none smtp.remote-ip=209.85.208.47
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=frDisYuM;
+	arc=none smtp.remote-ip=209.85.208.46
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0A4606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 03:57:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C0A4606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71EB9606A332
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 03:57:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 71EB9606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=B3UO6mYx
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6b596afb4c5so1828418a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 19:57:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=frDisYuM
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6b56c428212so2067777a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 19:57:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1794283047; x=1794887847; darn=vger.kernel.org;
+        d=cloudflare.com; s=google09082023; t=1794283051; x=1794887851; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=L0xaW/62AQgxFhpajczQ88yBj65kDwjYHTXkn62rfdI=;
-        b=B3UO6mYxBrwbI4EnQx2MJCfYep/7lzLJy9J27S0G6O4GvtAuldRznLGKrqfTHxZKwy
-         8pAtP29K6ylA0zEHKeGYXZl1w2XVzbwIam1ss5NxCX8JGel0U2a4/TGaXtIpR0G132A3
-         SIjYqB5LYtz5aXQMa7VQHXjfgmJr3DFNg2bM/m4fG7KjNqLt2FW6m7RDwNDQASs5rDSZ
-         kXe3in7HjpLK7qHJkb78nOsZ3g1a7uDFw77n7dsnwPZbZ1CFq2cf20jyuaq6hsoc83El
-         MitOrxLYK+ko289aXFEf6w8Z4VKwqe8agX/YQQyNSRqsQLap+MgSPkjtzgAl0JWzJaWj
-         k/sQ==
+        bh=m8+xowlUwN+TnOKNDaiztwvEmzRJ1pYtLtKYjKSdRBE=;
+        b=frDisYuMqF5MTN4rJOxySZx1PdsMzx1YdICtAegrnM7DbL9bL3D+HMXHBXpf+Hjt/L
+         b+t6Xllo3eF/5PN0nSwBDoMb4dLOHm8K85EOnJnE8WOd4TBRHfrnzKxz6pdjNJQsBU9E
+         3YvVq8h+FviTtoMM2kU3A7Os298/UI7/NcneCD72CzfnWsjrDeIWeTLvFBf3IecfJsQr
+         D6m4WMtcuDor03w/gDqw0fNwHubqnTzmQuzWm0n4twhIFgfJeecRCr6O96WYzZE/LNtX
+         PNMZ/U2FauZVWW7IUMvC6aGNKJweAb3aky6eAh8t6nHyJWBm+v1Fr2DNc3n9kcjaYBRS
+         RFcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794283047; x=1794887847;
+        d=1e100.net; s=20260707; t=1794283051; x=1794887851;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=L0xaW/62AQgxFhpajczQ88yBj65kDwjYHTXkn62rfdI=;
-        b=dug1AuMyJbPXbmBwkwG0ErMWvT+5smeK36uHT/+wtfmTguRRT+8DYE4VOxISxa7+KQ
-         JKZRxqQWPOtL/it1xBHA7kjNVR+FR0SiNlwWddxrxyFbEjM+mGpmeXdcU7JXGOmey1tv
-         WUGjLXxafRzQ7ZvCQay+jZ3xkRflpDKqmlM25+afBrOokBHCrCIcmXcB9vZmRSdgazJU
-         ZqwSggW11nFk2lzGvjshuyEOwvv0HADOS2JNRRpiHPpsoESJ4n4g4LHVRYHw3y58f9hL
-         zPn2/enG8SErL7sYysm+qPwgSnQ02w22TAvw1YEI3LKw0C1YgvKxZ+elkLyquTY+eB+c
-         HigQ==
-X-Forwarded-Encrypted: i=1; AL+hErEpueLivI4TfP4HF4DPNqSKQvasEsI6bRGbAPV7fUYoGr8J/FR46iIHIhBBtePWKFPtZvhP14GiKLo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+bTqsEdof5e9q5Xh5kDmEzTvJBJ69XXCdcrOATDOI3H2bj5QFu
-	Ypm2+YzYOBIHLwPxtPucMIesTHmqax4nz0Ml01FcpKLb7sFCMCX1HxsL+SQd/7ZoXLw=
-X-Gm-Gg: AYBFou2cbwwDJGzwjUWpXAHaRv2ob8xwz5pu6un8/sK1/86GXhmYOCHrrZjI3HXxc2T
-	5frlwoO9N+M86EiHyN5/nZeIm2gL4DHNOG9cRFNXI9amump4nYHc2METRISvRhHmPR82kmJIEvl
-	FKhhTr6CsXAwa2CQzu7t4SFxORPCBeAU2ksM5zJeJ2xjCdVMnpreGlXJeI3QjiAsw1RzbUxreNm
-	V7j3qcua/gSDw2lOObhQurANpglpyxt3emyRIWXLVuHLWT+8ySBSXntqUmrk8csoCNDVNZsZFA9
-	ciQ9SSjOY7AexKtGwuPuaxbGqOXEJ08RWYiOn1xEWTza5Us6z5FkbbuqiPloyRdUE5eXHP5feTv
-	lW+rFcbusipS+DaMp9sA9AQqTnL+02PJJxWr9Wh0rPsZn/DL7MdPXtbnPymogGdjfJkWp/k1Md/
-	VjqQeWx96lX++Q6u279I96/NVMkJzoF0JwT88rpM88tiVA0M9hLJuk4dJhqzxJaAGW2L9FgHkuh
-	Y+o6mRa72pzBtDCxwvuWgqFQQ0GZm8TieiPy0IgB8AF7Hx6E3Szqs9QFMwpxA+d4ufg5Da1DcP0
-	KBO6ECoabqinHt8cAhZS434k348eIj11mWJmp4rRsH8zjrKZGN3BJ9talOvK5dOFEcnS9J5b1yY
-	Q8SWCTkpT
-X-Received: by 2002:a05:6402:c4d5:10b0:6b1:d344:c62a with SMTP id 4fb4d7f45d1cf-6b756ae6169mr667065a12.30.1794283046684;
-        Mon, 09 Nov 2026 19:57:26 -0800 (PST)
+        bh=m8+xowlUwN+TnOKNDaiztwvEmzRJ1pYtLtKYjKSdRBE=;
+        b=OwV7Pwt0SSXNnjm0ILpeYHhXkdsQXR0iDCt0OIDP/bHwCd4PSyXTsa4KLEUamldHxa
+         K+KbSwuXSKSeWuVOZHDV+Z4Y/Ynli2tehpeZAxuIax43yLt9eeLTCK0sl9Le4MgDMp1e
+         F+eFDCio/OkElxN2+JsRUcE/pEW7B4A2tgUrZxOz6ely6xEsLdrTmUVTPrJ1SgdRz3bg
+         bryGyS/wNiaLNPeCMdxl5HqtEEV8TSN+yvR9oAePU4fB3I9ydptifQOVSa7W3qEg6ddC
+         JIxlGrAO4/xAKqS9vBULi/E/M2NsPfRu79fquALa5xBuopU25Ydv4Bx60aPGoZ3m1fVJ
+         a7sw==
+X-Forwarded-Encrypted: i=1; AL+hErGcUcIA62WFe+EPGsEabyHPxpA/YgIg5nWCg3G8q0Ezb5+Ldx8KP38QOh7SVjyCOphS+batItMVhNU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+Zlz1cv582iMEIwv2m7B9SM7huSLw/JxqPBrsl3+nbWk+hDzPA
+	C4P5QSsp3eMpNonkVqetDDpCaimr5dSbw+DuXCc+5lzhwgu0I2z5Wd72rfHtjW5Wv9w=
+X-Gm-Gg: AYBFou20TMNlirbVYGfzUK60s5NtUNeFU7IoVOjc2e8MlK4uvZ+EYuQcbo+X+wDEtDl
+	T7pIKySfwgZAllZyqQSm70QUEtDAvuVPJNNXMmCjqjgbWUogINOoVFFh9sYOtlsL2epqKb8Bkcl
+	xTMp9eRiyygpbgfbNdX4jwsIsICqdrDHlpQteszyiJkFmWwD6y5AdOxvkvJgdV6PZu6ITNBDv5p
+	3R6WUgzRPslwcHoKDFaikb/p3doO/C38HGG6fva4UoX2X9wfroFkU5ei2IV3SKAuNOAWgsB4OYL
+	aPkRktZ13kG2fKCKLDWJGEstl0N2ZELX+PqYGSoChugc1zOVJbR286u4Z4LOeZt/yRH/cdFUeEO
+	Pu1FLfWAuIcR09H2Q3c0xuDAzxkUpb8X46rPjbbv0fL3LwP5QlXL0DV0ble79u/vzB57JaY/BBr
+	/LtQ7oZhJuhYAhVVvhK5KLtEpX4d7o/7D9kWOSCP9hzAJauHfkYnvGlOui+LqyFkoc96/TlHaO6
+	GjkbdmexycFZrr00GW0IShJI49Q3+Bzz28leXclOnrJned3hnjGoKRtic9pZYSMDE/WaJrSR5lh
+	MYMlveSVbTlDWaYbs09bqAQq5d++Vxwe7hnatC9uUcwJD+7oTKDaRuWxHoLiJ8l/TDopF0fvBzq
+	uBhdJAjwJ
+X-Received: by 2002:a05:6402:3227:b0:6b5:66cc:d828 with SMTP id 4fb4d7f45d1cf-6b7564c452dmr973212a12.7.1794283050804;
+        Mon, 09 Nov 2026 19:57:30 -0800 (PST)
 Received: from L9JK9NPFH9.lan ([104.28.20.56])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7579047c9sm548801a12.33.2026.11.09.19.57.23
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b7579047c9sm548801a12.33.2026.11.09.19.57.26
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 09 Nov 2026 19:57:25 -0800 (PST)
+        Mon, 09 Nov 2026 19:57:28 -0800 (PST)
 From: Tianyi Gao <tianyi@cloudflare.com>
 To: bpf@vger.kernel.org,
 	netdev@vger.kernel.org,
@@ -131,9 +131,9 @@ Cc: John Fastabend <john.fastabend@gmail.com>,
 	llvm@lists.linux.dev,
 	kernel-team@cloudflare.com,
 	Tianyi Gao <tianyi@cloudflare.com>
-Subject: [PATCH bpf-next 02/15] net: dpaa, dpaa2: clear the skb core extension flag
-Date: Tue, 10 Nov 2026 03:57:00 +0000
-Message-ID: <bff7f72c7c28f67497e23a6629b9e4db74332da6.1794281983.git.tianyi@cloudflare.com>
+Subject: [PATCH bpf-next 03/15] xdp: add kfuncs to store RX hash and VLAN tag
+Date: Tue, 10 Nov 2026 03:57:01 +0000
+Message-ID: <f865ab08e7e0343bcd6eb380f7003ddd32d177e2.1794281983.git.tianyi@cloudflare.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <cover.1794281983.git.tianyi@cloudflare.com>
 References: <cover.1794281983.git.tianyi@cloudflare.com>
@@ -148,50 +148,207 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-dpaa_run_xdp() and dpaa2_eth_run_xdp() move data_hard_start to the start
-of the buffer after the XDP program runs and before XDP_REDIRECT.
-xdp_skb_ext() then returns a different address from the one used while
-storing the entries. These drivers have not implemented the XDP RX
-metadata kfuncs. Hence they now clear the XDP_FLAGS_HAS_SKB_EXT flag
-before XDP_REDIRECT, and their redirected frames carry no stored entries.
+Add bpf_xdp_skb_ext_store_rx_hash() and bpf_xdp_skb_ext_store_rx_vlan().
+They store the RX hash and the VLAN tag in the skb core extension area.
+A later patch sets the stored values on the skb built from the
+xdp_frame.
 
-With the A050385 erratum workaround, dpaa already moves data_hard_start
-before the XDP program runs, so the entries remain valid. The flag is
-cleared on that path too, to keep the change simple. This can change
-when dpaa implements the XDP RX metadata kfuncs.
+Both kfuncs call xdp_skb_ext_add(), which reserves the entry for an id.
+On the first store for a packet, it clears the header and sets
+XDP_FLAGS_HAS_SKB_EXT, so stale headroom is never read as a header. A
+second store of the same id, also after a delete, reuses its offset.
 
+xdp_skb_ext_add() returns -EOPNOTSUPP for AF_XDP zero-copy buffers. User
+space can write their headroom while the program runs, and could change
+the header between two stores.
+
+The store kfuncs are in their own kfunc set. They do not need a
+device-bound program, so programs on cpumap and veth can call them.
+
+bpf_xdp_skb_ext_store_rx_vlan() accepts only ETH_P_8021Q and
+ETH_P_8021AD, because vlan_proto_idx() warns on any other TPID.
+
+A BUILD_BUG_ON() in xdp_skb_ext_struct_check() limits the area to 64
+bytes. As in skb_extensions_init(), the function is noinline
+__no_profile so that it builds with CONFIG_GCOV_PROFILE_ALL.
+
+The two kfuncs are based on bpf_xdp_store_rx_hash() and
+bpf_xdp_store_rx_vlan() by Lorenzo Bianconi in Jesper's XDP_REDIRECT RX
+hints series V2 [1].
+
+Link: https://lore.kernel.org/all/175146831297.1421237.17665319427079757435.stgit@firesoul/ [1]
 Signed-off-by: Tianyi Gao <tianyi@cloudflare.com>
 ---
- drivers/net/ethernet/freescale/dpaa/dpaa_eth.c   | 2 ++
- drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c | 2 ++
- 2 files changed, 4 insertions(+)
+ net/core/xdp.c | 154 ++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 151 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/ethernet/freescale/dpaa/dpaa_eth.c b/drivers/net/ethernet/freescale/dpaa/dpaa_eth.c
-index ad2d8256eb8d..4cafc0b84dc9 100644
---- a/drivers/net/ethernet/freescale/dpaa/dpaa_eth.c
-+++ b/drivers/net/ethernet/freescale/dpaa/dpaa_eth.c
-@@ -2654,6 +2654,8 @@ static u32 dpaa_run_xdp(struct dpaa_priv *priv, struct qm_fd *fd, void *vaddr,
- 		/* Allow redirect to use the full headroom */
- 		xdp.data_hard_start = vaddr;
- 		xdp.frame_sz = DPAA_BP_RAW_SIZE;
-+		/* data_hard_start moves, so the stored entries are lost */
-+		xdp_buff_clear_skb_ext_flag(&xdp);
+diff --git a/net/core/xdp.c b/net/core/xdp.c
+index 1d679e8fd649..97dc0e403a78 100644
+--- a/net/core/xdp.c
++++ b/net/core/xdp.c
+@@ -990,11 +990,159 @@ bool bpf_dev_bound_kfunc_id(u32 btf_id)
+ 	return btf_id_set8_contains(&xdp_metadata_kfunc_ids, btf_id);
+ }
  
- 		err = xdp_do_redirect(priv->net_dev, &xdp, xdp_prog);
- 		if (err) {
-diff --git a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
-index 7227a35dfaf2..fcefdc9daf2b 100644
---- a/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
-+++ b/drivers/net/ethernet/freescale/dpaa2/dpaa2-eth.c
-@@ -472,6 +472,8 @@ static u32 dpaa2_eth_run_xdp(struct dpaa2_eth_priv *priv,
- 		/* Allow redirect use of full headroom */
- 		xdp.data_hard_start = vaddr;
- 		xdp.frame_sz = DPAA2_ETH_RX_BUF_RAW_SIZE;
-+		/* data_hard_start moves, so the stored entries are lost */
-+		xdp_buff_clear_skb_ext_flag(&xdp);
+-static int __init xdp_metadata_init(void)
++#define XDP_SKB_EXT_CHUNKSIZEOF(x) DIV_ROUND_UP(sizeof(x), XDP_SKB_EXT_ALIGN)
++#define XDP_SKB_EXT_ENTRY_ACTIVE BIT(7)
++
++struct xdp_skb_ext_hash {
++	u32 val;
++	u32 type; /* enum xdp_rss_hash_type */
++};
++
++struct xdp_skb_ext_vlan {
++	__be16 proto;
++	u16 tci;
++};
++
++static const u8 xdp_skb_ext_type_len[] = {
++	[XDP_SKB_EXT_HASH] = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext_hash),
++	[XDP_SKB_EXT_VLAN] = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext_vlan),
++};
++
++/* Limit the header and all entries to 64 bytes, so that a new entry
++ * cannot grow the area without notice.
++ */
++static noinline void __init __no_profile xdp_skb_ext_struct_check(void)
++{
++	unsigned int chunks = XDP_SKB_EXT_CHUNKSIZEOF(struct xdp_skb_ext);
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(xdp_skb_ext_type_len); i++)
++		chunks += xdp_skb_ext_type_len[i];
++
++	BUILD_BUG_ON(chunks * XDP_SKB_EXT_ALIGN > 64);
++}
++
++static void *xdp_skb_ext_add(struct xdp_buff *xdp, enum xdp_skb_ext_id id)
++{
++	struct xdp_skb_ext *ext = xdp_skb_ext(xdp->data_hard_start);
++	bool valid = xdp_buff_has_skb_ext(xdp);
++	unsigned int newlen, newoff;
++	void *start;
++
++	/* User space can write the headroom of AF_XDP zero-copy buffers */
++	if (xdp->rxq->mem.type == MEM_TYPE_XSK_BUFF_POOL)
++		return ERR_PTR(-EOPNOTSUPP);
++
++	if (!valid) {
++		newoff = XDP_SKB_EXT_CHUNKSIZEOF(*ext);
++		newlen = newoff + xdp_skb_ext_type_len[id];
++	} else if (ext->offset[id]) {
++		newoff = ext->offset[id] & ~XDP_SKB_EXT_ENTRY_ACTIVE;
++		newlen = ext->chunks;
++	} else {
++		newoff = ext->chunks;
++		newlen = newoff + xdp_skb_ext_type_len[id];
++	}
++
++	start = xdp_data_meta_unsupported(xdp) ? xdp->data : xdp->data_meta;
++	if ((void *)ext + newlen * XDP_SKB_EXT_ALIGN > start)
++		return ERR_PTR(-ENOSPC);
++
++	if (!valid) {
++		memset(ext->offset, 0, sizeof(ext->offset));
++		xdp->flags |= XDP_FLAGS_HAS_SKB_EXT;
++	}
++	ext->offset[id] = newoff | XDP_SKB_EXT_ENTRY_ACTIVE;
++	ext->chunks = newlen;
++
++	return (void *)ext + newoff * XDP_SKB_EXT_ALIGN;
++}
++
++__bpf_kfunc_start_defs();
++
++/**
++ * bpf_xdp_skb_ext_store_rx_hash - Store the RX hash of this packet.
++ * @ctx: XDP context pointer.
++ * @hash: RX hash value.
++ * @rss_type: RSS hash type, see &enum xdp_rss_hash_type.
++ *
++ * Return:
++ * * Returns 0 on success or ``-errno`` on error.
++ * * ``-ENOSPC`` : not enough headroom for the entry
++ * * ``-EOPNOTSUPP`` : AF_XDP zero-copy buffer
++ */
++__bpf_kfunc int bpf_xdp_skb_ext_store_rx_hash(struct xdp_md *ctx, u32 hash,
++					      enum xdp_rss_hash_type rss_type)
+ {
+-	return register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP, &xdp_metadata_kfunc_set);
++	struct xdp_buff *xdp = (struct xdp_buff *)ctx;
++	struct xdp_skb_ext_hash *entry;
++
++	entry = xdp_skb_ext_add(xdp, XDP_SKB_EXT_HASH);
++	if (IS_ERR(entry))
++		return PTR_ERR(entry);
++
++	entry->val = hash;
++	entry->type = rss_type;
++
++	return 0;
++}
++
++/**
++ * bpf_xdp_skb_ext_store_rx_vlan - Store the VLAN tag of this packet.
++ * @ctx: XDP context pointer.
++ * @vlan_proto: VLAN tag protocol identifier (TPID), in network byte order.
++ * @vlan_tci: VLAN TCI, in host byte order.
++ *
++ * Return:
++ * * Returns 0 on success or ``-errno`` on error.
++ * * ``-EINVAL`` : @vlan_proto is not 802.1Q or 802.1AD
++ * * ``-ENOSPC`` : not enough headroom for the entry
++ * * ``-EOPNOTSUPP`` : AF_XDP zero-copy buffer
++ */
++__bpf_kfunc int bpf_xdp_skb_ext_store_rx_vlan(struct xdp_md *ctx,
++					      __be16 vlan_proto, u16 vlan_tci)
++{
++	struct xdp_buff *xdp = (struct xdp_buff *)ctx;
++	struct xdp_skb_ext_vlan *entry;
++
++	if (vlan_proto != htons(ETH_P_8021Q) &&
++	    vlan_proto != htons(ETH_P_8021AD))
++		return -EINVAL;
++
++	entry = xdp_skb_ext_add(xdp, XDP_SKB_EXT_VLAN);
++	if (IS_ERR(entry))
++		return PTR_ERR(entry);
++
++	entry->proto = vlan_proto;
++	entry->tci = vlan_tci;
++
++	return 0;
++}
++
++__bpf_kfunc_end_defs();
++
++BTF_KFUNCS_START(xdp_skb_ext_kfunc_ids)
++BTF_ID_FLAGS(func, bpf_xdp_skb_ext_store_rx_hash)
++BTF_ID_FLAGS(func, bpf_xdp_skb_ext_store_rx_vlan)
++BTF_KFUNCS_END(xdp_skb_ext_kfunc_ids)
++
++static const struct btf_kfunc_id_set xdp_skb_ext_kfunc_set = {
++	.owner = THIS_MODULE,
++	.set   = &xdp_skb_ext_kfunc_ids,
++};
++
++static int __init xdp_kfunc_init(void)
++{
++	int ret;
++
++	xdp_skb_ext_struct_check();
++
++	ret = register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
++					&xdp_skb_ext_kfunc_set);
++	return ret ?: register_btf_kfunc_id_set(BPF_PROG_TYPE_XDP,
++						&xdp_metadata_kfunc_set);
+ }
+-late_initcall(xdp_metadata_init);
++late_initcall(xdp_kfunc_init);
  
- 		err = xdp_do_redirect(priv->net_dev, &xdp, xdp_prog);
- 		if (unlikely(err)) {
+ void xdp_set_features_flag_locked(struct net_device *dev, xdp_features_t val)
+ {
 -- 
 2.56.0
 
