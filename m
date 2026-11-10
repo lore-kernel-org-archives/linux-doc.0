@@ -1,76 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794324697;
-	b=S6Xx+qBspIQalM6t74fjUcWDHtlEv/M0R0lbmjRj5IQjkn+w/NS+0A62mv0aA0/O+Hxh
-	 sMahj/JlnNk9361A/L6sYcZLdF2oHlV/BzsRPJt5nTc6Jty4StOL92IUjNkq7FQeBMHWt
-	 vQEnfhUaSPErZNZsTee9qqYGRaXfbGBPKul22VZBEr9Nt6ilCBOkZyWV711zCoSJRwaWt
-	 HSs+z66INcPOpPqriQLkULMykYULIAskHTpDwJoXkrzm8mFcFui5902PMNHnZvB9tSHiT
-	 k8Tv3NS/MnAB0gEUFNIOqLiq15d71SdBJ0KYjSIj00xYFXCKlOcatbRUNmJ8Gf7KBvQ==
+	t=1794324797;
+	b=ZL3RXZJXGPnFooyh7VVCYt7UOKY17+HBGNOVE5I9cWgXUrn6p6wjg2hXkp6wRwXVttkT
+	 SRBxc8h7QVgfUpy4L7EWfnQhGVvnDkYbxi14tiEvcuIqpK2vYGa6XmlM9lBxNrYAFj/z1
+	 gZm3iEqc2Va6Z+SwtquTWp+QnCtXs+B0nNWG46PHrAXK/10gr/m6htVWF5kDt5p/GTvIj
+	 4dyaYgDFAfeqlkstsOgnb82QVdSF1uK7ze6FbJGKUkUqVZa9ImwmCBpkuhsPxKqYG9G0b
+	 8V1q/iTchH6EQwCSG8sueZ/p1q0jvsHzm6HvqVuAqVw/g3Gt/CIFu14HEfkFc5qnyow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794324697;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
-	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
-	b=wjxzV5eWJWGN0gFOk3J5MOKHdsjSOOqifPXMZPRofR/wfyHIUCZL+Cn0dHwZE4hlCR/+
-	 Qb1HVGlQj3AIKJN3uR1ResaMorkoi7V3ZaYwoejXOZK5Ze6WaunnuVKD1OdObE2q22wgN
-	 boOER5SgvJjMtD6INFh6RMtcWdKmQ2LcyzqxYRIB9QGkW2v3fZ2RCMIOjw1MKOoIBEuG0
-	 AfivvVO2WUcl3E1PJpk1f2zG3BgMvLQx2FU5ydJG4MldpZSA8DzIWn9u0Q0yYX7INLqrY
-	 h13jxfmCglBqu+4hnCmqOjfW4PXfF605ugxVR6WW3l3GfT0qdUtV0yZ2ndnrneVn71w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794324797;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=y036tnkZvOptnlPqeztBIgk/DHIDknwaKKSH2dCYLg8=;
+	b=KpjbFv0HjWkumA0iR4Fn6m1GEVjenqcUMp+NzB8wrOtw9qoF5dmiL/t2n/Fm58Msr23c
+	 +BS1pJxj9vJsaik6lV4DnO2+NRfvHgWFZLZ8R1XpUf45ECz4Naqcjsh/0e5qQ+YzQQRbS
+	 BNyPzMbrCjt/JYzMn6G9hlfvITqh9GkoWxr0BKROQ+U8aFB2yJDiD9A/ehlXafxb8/O0a
+	 Qv48+8j7+hdJao7S+v7FUC0BPy25Zy9mbmEVP3BVL+F1brszwN2dOwDCs49D101myd5d5
+	 yZCbcTedxpkMuCsyb8sdX6zVIZ431UgzM+D1mwytJZThuU5FYlq2eYiEGY0uHZagaSQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=flex--halg.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EbaSWAnJ;
-	arc=none smtp.remote-ip=209.85.218.72
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com [209.85.218.72])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94248606A331
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:31:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94248606A331
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--halg.bounces.google.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=HxUdNS7v;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C6C0606A338;
+	Tue, 10 Nov 2026 15:33:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C6C0606A338
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=EbaSWAnJ
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-c505ee61160so29012166b.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:31:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794324695; x=1794929495; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
-        b=EbaSWAnJ7A533qGpAvii2NS3I9zxkDKlvnsqDPtzIBKMTuzOPF5jRLHhwfsyK6diIL
-         2En3fr/6Wz2Zy14HVjG0BjTT6HzN+p6NPYlr8unPhlA6m2umktQnoqp2AYSjldSAJssk
-         xHzbOcqVaFfuuKFkgO7UgDfRrsaoBkRPDiUM6rHPYGDOR3M31dOOpz5vbhmi2t4d+DUT
-         jeFEACxiutXh0J7ifsM5tXZOXkDouo9+ARx8MVQmgZYMid1HxFVWY6jc0+kGfKGLmr9K
-         dwtVL5ln+2ptHee8NSHeS1SxVprCYBr2xvsLYm8F3UiIKYeFqvbgvqwm4UzA816ruQV6
-         HNoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794324695; x=1794929495;
-        h=content-transfer-encoding:content-type:cc:to:from:subject
-         :message-id:references:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SJjtzkP+sBHxUstFA6XSyOLuoy/E3cjaVl7XAdp7TZ4=;
-        b=Wsb7MnXa1ro5M+CDiWMBu3uNfPPx5M3saidDEa2Gm6qiLS9JeRCOfXJOLQ/v2ojv4t
-         7OdDKVo2/HFVrNC1guyBwWvemWZ4gAxzvpt+2Q48y5JrmJEokZf9E/gq2PvaVDLBtjFm
-         qalhzv21xcfMjc07WMc+S74n+mqskscENz7yBNyXhPPumE61cHckA/+jJTm/f0uh2G9u
-         rODbT9ZTO7tlBu27MXM2Q1Iqr7eBCk91Flv8ngTL1ikLjEk1C31rQ5imtr89AWxR3osp
-         6OODF5QyWpTtaJ1G2IBKK6GTEpfrfa+rZyLM8uF9NEJzOWiQXG1nZUGqikTF8DVIac1T
-         be1A==
-X-Forwarded-Encrypted: i=1; AL+hErFgMHaEfaMSobnyopPibXAJXrQr8DyEkHFgQIaid//5vy1YuUW84cUY0Sx7VSZSNE/+tyNdQujdr8Y=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8L7Cz0pJalzMlqGRJBPbGBZlc0qjy/jculh3PsinanbxbzSjni
-	owA1XEY2Xb0pevZLuqiJSlS9kMaeNXZVaMiQech39z7JCbImHsMe7IPMr6MBkGYFSuzBcBbsSA=
-	=
-X-Received: from edsw12.prod.google.com ([2002:aa7:da4c:0:b0:6b7:834:31d9])
- (user=halg job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6402:68a:b0:6b7:675e:7a2f
- with SMTP id 4fb4d7f45d1cf-6b7675e7a95mr879624a12.1.1794324694693; Tue, 10
- Nov 2026 07:31:34 -0800 (PST)
-Date: Tue, 10 Nov 2026 15:31:33 +0000
-In-Reply-To: <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=HxUdNS7v
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6CEA914BF;
+	Tue, 10 Nov 2026 07:33:12 -0800 (PST)
+Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90BAB3F85F;
+	Tue, 10 Nov 2026 07:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794324795; bh=nBUxhmvA0ecyPPwlBOt9fU9SaSIGMd2Zc1jhwGnIkjQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HxUdNS7vTci/GNxuiU+PL6sIw8vYWgYQQ2j9oD3St9Q/dGQHoIwmUTRpuTsyb0nEz
+	 dkDtQ71ZVpWmbsEXtAXUCzdNc9kVvrJHxFiSGuzPDYc8SYBopwf/yUn2UA5itaFKBa
+	 mXuD+KbpVmW4I7LeD8HyNfqqXDYFp5svFesO5ZCI=
+Date: Tue, 10 Nov 2026 15:33:10 +0000
+From: Cristian Marussi <cristian.marussi@arm.com>
+To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+Cc: Cristian Marussi <cristian.marussi@arm.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+	f.fainelli@gmail.com, vincent.guittot@linaro.org,
+	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+	philip.radford@arm.com, david@kernel.org,
+	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
+	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 10/35] firmware: arm_scmi: Add Telemetry resources
+ enumeration
+Message-ID: <avM5No4YdYbQ968p@pluto>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+ <20261109091221.2532706-11-cristian.marussi@arm.com>
+ <20261109173641.00005289@oss.qualcomm.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,152 +69,89 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-References: <20261028221705.3915340-1-halg@google.com> <CALCETrW9ygriu54gxiHFLEd5+hJminQo0r8Jwd63wR69Dj4W7w@mail.gmail.com>
- <20261106-befreien-addieren-eislauf-e09212803534@brauner> <CALCETrWa1SBLcb5oWjqjgzZvKvCoHjmYFk=Lf5ytEM9uqm5jYA@mail.gmail.com>
-Message-ID: <avM41a80aig2de-R@google.com>
-Subject: Re: [PATCH 0/8] userns: per-namespace capability bounding set and
- opt-in netns loopback
-From: "Hallgrimur H. Gunnarsson" <halg@google.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Paul Moore <paul@paul-moore.com>, Serge Hallyn <sergeh@kernel.org>, Kees Cook <kees@kernel.org>, 
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jan Kara <jack@suse.cz>, 
-	James Morris <jmorris@namei.org>, Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jann Horn <jannh@google.com>, "=?utf-8?Q?G=C3=BCnther?= Noack" <gnoack@google.com>, KP Singh <kpsingh@kernel.org>, 
-	Jonathan Calmels <jcalmels@3xx0.net>, Casey Schaufler <casey@schaufler-ca.com>, 
-	linux-fsdevel@vger.kernel.org, linux-security-module@vger.kernel.org, 
-	linux-api@vger.kernel.org, containers@lists.linux.dev, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261109173641.00005289@oss.qualcomm.com>
 
-On Sat, Nov 07, 2026 at 10:47:41AM -0800, Andy Lutomirski wrote:
-> On Fri, Nov 6, 2026 at 5:13=E2=80=AFAM Christian Brauner <brauner@kernel.=
-org> wrote:
-> >
-> > On Wed, Oct 28, 2026 at 03:56:11PM -0700, Andy Lutomirski wrote:
-> > > The whole unshare/clone flag situation is getting out of hand, IMO.
-> > > And this new thing makes logical sense but is really about reducing
-> > > exposure.
-> > >
-> > > Perhaps we should instead have a small list associated with a userns
-> > > (extensible in the future) of things that the ns's admin (i.e. whoeve=
-r
-> > > has CAP_SYS_ADMIN relative to the ns) may do.  That list could
-> > > include:
-> > >
-> > > - Create loopback with sensible defaults for ipv4 and/or ipv6 (i see
-> > > no obvious reason to separate them)
-> > > - Create tun/tap interfaces in that ns (and attach them, etc)
-> > >
-> > > And add a very simple new API to do these things.  Actually, the
-> >
-> > We've had this idea in the past and I think it is reasonable. I had
-> > always thought that we should expose a system call to create empty
-> > namespaces ot any type. Usually I'd be excited about that but I think
-> > that point is a bit moot and I'd really like see whether we can turn
-> > cells (or whatever other name) into a first class api.
-> >
-> > The problem I have with the patchset as written is that adds a lot of
-> > moving parts. And yes, I find the CLONE_* and UNSHARE_* flags plus
-> > sysctl to be suboptimal as well.
-> >
-> > So the TL;DR is that CAP_NET_ADMIN + userns =3D
-> > CAP_NET_PRIVILEGE_ESCALATION 10+ years later. And this patchset wants t=
-o
-> > put it back on a leash.
-> >
-> > So why isn't an aggressively stupid solution to this problem to split a
-> > new capability out of CAP_NET_ADMIN so it covers the absolute minimal
-> > set of things that should be allowed instead of doing effectively the
-> > same thing but split over multiple apis?
->=20
-> Because we don't actually have a clean way to make a list of
-> privileges that are, in theory, harmless but are hazardous from an
-> attack surface perspective and assign them only to tasks that ought to
-> have them.
+On Mon, Nov 09, 2026 at 05:36:41PM -0800, Jonathan Cameron wrote:
+> On Mon,  9 Nov 2026 09:11:56 +0000
+> Cristian Marussi <cristian.marussi@arm.com> wrote:
+> 
 
-Exactly. Furthermore, even if we split a minimal capability out of
-CAP_NET_ADMIN, create_user_ns() still grants CAP_FULL_SET to new
-unprivileged user namespaces by default. Without a mechanism to
-withhold capabilities that are namespaced in scope but carry high
-attack surface risk (like CAP_NET_ADMIN and CAP_NET_RAW) and only
-selectively grant them to tasks that really need them, an unprivileged
-userns would still receive the full set of capabilities.
+Just one eply down below, I will address and reply more in depth next
+days while addressing the usual zillion Sashiko issues (tiny now at
+least)
 
-Providing that mechanism is the core goal of the per-userns capability
-bounding set in this series. Even on its own, without any loopback
-changes, it can be configured to prevent unprivileged users from acquiring
-CAP_NET_ADMIN and CAP_NET_RAW when creating a new userns + netns, while
-still supporting sandboxes that use a completely disconnected netns or
-containers whose networking is configured externally.
+> > Add basic Telemetry allocation and initialization routines, introducing and
+> > wiring-up the logic needed to enumerate all the SCMI Telemetry resources
+> > optionally using a lazy on-demand scheme: this approach factors in the
+> > flexibility needed to minimize the amount of initialization work based on
+> > the effective access pattern used by the upper layer ABI.
+> > 
 
-Finding a solution for loopback simply makes this bounding set more
-practical, as it allows us to also support sandboxes that rely on
-localhost networking without forcing them to retain full CAP_NET_ADMIN.
+[snip]
 
-With a way to withhold CAP_NET_ADMIN from unprivileged userns, splitting
-out a minimal capability (as Christian suggests) is a very appealing way
-to handle the allowed subset for loopback, though the main challenge is
-defining a scope that justifies a capability bit without re-introducing
-LPE risk.
+ 
+> > +
+> > +/**
+> > + * scmi_telemetry_resources_enumerate  - Enumeration helper
+> > + * @ti: A reference to the telemetry info descriptor for this instance
+> > + *
+> > + * This helper is configured to be called once on the first enumeration
+> > + * attempt, when triggered by invoking ti->res_get() from somewhere else.
+> > + *
+> > + * Once run it substitues itself in ti->res_get() with the simple accessor
+> > + * __scmi_telemetry_resources_get, which returns a descriptor to the resources
+> > + * that were possibly discovered.
+> > + *
+> > + * Note that, while it attempts to fully enumerate Data Events and Groups, it
+> > + * does NOT fail when such enumerations fail, instead it simply gives up with
+> > + * the end result that only a partially populated, but consistent, resources
+> > + * descriptor will be returned; in such a case the incomplete descriptor will
+> > + * be marked as NOT fully_enumerated: this design enables the kernel to deal
+> > + * with badly implemented out-of-spec firmware support while keep on providing
+> > + * a minimal sane, albeit possibly incomplete, set of telemetry respources.
+> 
+> I'm curious about this. What's the motivation for being nice to people who
+> write buggy firmware?  I'd kind of prefer an opt in quirk for any that show
+> up where a fix is impractical rather than a paper over the bad from the start.
+>
 
-Looking at the CAP_NET_ADMIN LPEs from Google's kernelCTF, most are
-concentrated in netfilter and tc, with a smaller number in virtual
-interfaces and routing. Simply bringing up loopback at netns init
-shouldn't carry any LPE risk, but something like CAP_NET_LOOPBACK_UP
-is obviously too specific to warrant a capability bit. Conversely,
-broadening it into something like CAP_NET_IFCONFIG (allowing link state,
-L3 address and basic route configuration on existing interfaces) might
-justify a bit, but even such a basic subset would still re-introduce
-some LPE risk (see e.g. CVE-2026-53259 / commit f723ccaff2fb),
-although it would drastically reduce the risk by excluding the most
-high-risk components.
+Trust me it was never about being nice to FW guys :P
 
-Furthermore, I think splitting out a smaller CAP_NET_ADMIN would also
-run into some practical difficulties when it comes to clean enforcement
-in rtnetlink. Currently, rtnetlink_rcv_msg() relies on a coarse
-CAP_NET_ADMIN check at the beginning before any complex message parsing
-occurs. To support more fine-grained capabilities, we would have to push
-these checks much deeper into the stack, spreading security checks
-across many locations, which could easily lead to mistakes.
+The reasoning, which I am indeed myself questioning these days, was to
+be able to carry on and boot a minimal Telemetry working system even
+without all of the detailed description retrieved by this command
+enumeration process since all of that data descriptors are NOT strictly
+needed, unless yout system defines groups or FastChannels.
 
-Given this, I was hoping to have a minimal mechanism to just allow
-bringing up loopback without going for a new capability bit. Ultimately,
-it's a pragmatic judgment call. Maybe something like CAP_NET_IFCONFIG
-offers enough value and risk reduction to be worth the trade-off.
+Because on one side it is true thet DE_DESCRIPTION is a mandatory
+command BUT on the other side it is also true that the spec does really
+delegate any further detailed description of the Telemetry data to some
+external JSON-like file: so you can really carry on without all of this
+informational and topological data.
 
-Otherwise, if we want to avoid consuming a capability bit just for
-loopback, we could also consider other alternatives, e.g. a small nsfs
-ioctl on the netns fd (e.g. NS_NET_LOOPBACK_UP). This would align with
-Andy's earlier suggestion of adding a "very simple new API" dedicated
-to these safely scoped operations.
+As an example if userspace does not want to use kernel mediated access
+to the Telemetry data (most of the IOCTL ABI later on) but instead it
+decides to grab and parse directly the RAW mmaped data from the SHMTI/TDCF,
+in that case you just need the fds to the areas to mmap and its fully
+comprehensive (hopefully) JSON file.
 
-If we drop CLONE_NEWNET_LOOPBACK / UNSHARE_NEWNET_LOOPBACK from this
-series and handle loopback separately, do you think the per-userns
-bounding set is a reasonable approach for withholding capabilities
-(e.g. CAP_NET_ADMIN and CAP_NET_RAW) from unprivileged userns, or
-would you prefer a different mechanism?
+Another possible scenario is bring-up with a limited features FW.
 
-I think the single-deep case we were discussing on the other thread
-could also be cleanly built on top of this. The per-userns bounding
-set provides the underlying enforcement mechanism. How we configure
-and trigger that bounding, whether via sysctl and clone3() as proposed
-in this series, or via a per-task securebit to handle single-deep
-containers in init_user_ns as discussed on the other thread, is a
-policy control interface decision that can feed directly into the
-same mechanism.
+This is also the reasoning behind having the lazy resource enumeration:
+you can boot, get the SHMTIs fds and mmap those areas and that's it:
+you're good to go without doing any enumeration at all.
 
-To address the concern about the number of moving parts, I am also
-happy to simplify the control interfaces. If we decide a per-task
-securebit is the cleanest way to drive this configuration for both
-single-deep and nested cases, we could focus on that and drop the
-clone3() and sysctl from this series entirely, or only expose whatever
-subset you prefer.
+There were more FW issues indeed that I used to 'survive' early in this
+series that I stop being graceful about it, and even in this case, despite
+surviving in a degraded state I printout a FW_BUG.
 
-Thanks!
+Now the bad side of the story is that keeping half-initialized stuff
+in a degraded system lead to an increasing number of possible issues
+flagged by Sashiko, mostly rare errors on path conditions to fix, but
+I am starting to wonder if all of this is worth...
 
+Thanks,
+Cristian
