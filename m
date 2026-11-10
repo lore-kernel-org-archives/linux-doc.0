@@ -1,128 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794275646;
-	b=aU5kw/mqdHbJr85ERtmpTl/khbnzvJuyF3IhXNGrg8Iidl8/b+pjD2qQyQ1DjyagcuN7
-	 hKMSd94G5D7Nay7W1T9ULYcRtEOAgh4aMhzWR60zdX4Z8VIyw5+JhGmZNglDh840QOG5F
-	 5UsNqmWQm7sOpo22FV9CIqa89elTYadkA7lmCXV9rjhAwbr4XtSeEq8Q2f6tcINL5zQRw
-	 6lcjOl6EvO1j+ANg1PKrR5XIVd0zmkH59wV4X2VUTHMnkQgY66a7OZOBLKHZ6Y2AP/KQc
-	 cHlk2qCxYA6lUWBXs8q/WFwFJY1WlZC27ywSA+WHWrllZrNkvG8PvmQZbG2Yi7/FRDA==
+	t=1794276138;
+	b=TTwt6GtxFCQh8xf6uk38Gma6nbGkTAIXiwt7u5HscYm4USSPOAB+zi8Z2DYaStzic1T+
+	 t42O9IQVTFPso6XhxIVcYxVEx+CNSRAbIDa/53/yP5hVUqWWnNfb22Hq1rwbSlAlIv24d
+	 hpQoH031Kk4wpjPcpi+FsX/q0om0gQmylo2Fdg7zk8yIubQzqEIFX8NNZIoEQMP6CrU5I
+	 eRf6nZHfp4vOSXmlsPNfDKGPeHRByXGp54wrFhfHl8O8KWzvLaYbQS0ubck38LVQlaWui
+	 SqnoPQiREWiQwZoD9M6BMBvHPpOgddTZBNa8hsWS+Za6YXre1lhz5+mqnzaYVBB+IPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794275646;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=vNUYRJyOqyBXuBM9afubrzQAAxPsq0B7mcCz3ADXaiA=;
-	b=gp1A8Mt/G0zx7OwcH8f4ENDnxFw0vB8zvmolYimf6XI4IYrq0R0zROcwuhLzBp2BENKe
-	 WV283++BlIIFJHuIslb2toOt71Bnq6Fan0uDXvVRXI13hdAIQ4vTAZHraX0qBYgnXXAxa
-	 QOym9zzK4bFQ28TesEcxRoznsWodxnoUAUYCSbTm7F//3bg/VTnIpgWAX5AAPPkP+P5cS
-	 oeOypPlYfpgVOe0ZzeqRBzYq3I0Mlyd/kodE3SdnymIQ47wvvKKJg4HMWnhfL6NE3AMtK
-	 fewpjG/+kGlnEUMovH+IDUM5u3jku3TIuiXUnbEw9B+n1TQscwWr2/AaeoWnwcxQF6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794276138;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=PIr3E6RPSp6ASMfLNwlsa5nrnqCawNIBhAi5ZCmMh0k=;
+	b=wX3GwKQVSbLjXLDa/vNs9aH23Rucsi55okFglLasSldcm5kdLF+uIlydUz39KXDYznZb
+	 3FMZwwkGgOEhjb6a+p4EdUFL8MSx2S2wFtdcCLUXec9gSvYpQVjJD8+IUKF5Clqad5Vg7
+	 02vTE49TlyL5f77bXuHGffF6hUVOxOkOMYvelXHR/TK9Pag1R3ctz54XOCngiLTeWjvfg
+	 xq2NqXETCSkFCHYUQsh5HBVgu2rXcw7MHeZpU3A50/mn5wBKfl5sCkEVNNqoMGnrmPxV7
+	 1x4QHUVuT4vPiEQorLVza4ENlexK+FfoCcMlZVHk3zGxg1j2enbbKzAWqH8NMICBxyg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YbGuCeg+;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Z2siSvUs;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=ut5SwFV3;
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5A7A606A31C
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 01:54:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E5A7A606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C78606A330
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 02:02:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09C78606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=YbGuCeg+;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Z2siSvUs
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AA0j7Dk1853829
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 01:54:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	vNUYRJyOqyBXuBM9afubrzQAAxPsq0B7mcCz3ADXaiA=; b=YbGuCeg+OL8arg0D
-	FQid+FuWjDgFl5JcYyY1kre2UEvasRPLKD22+ZYrNj51VN71fTosyJvCDHzRyPc3
-	HD//TPeMyhbJmdlkcSMVsBMYECh7xaGi9cUBgs1sJHH6bx8IctqcQQ7KkfvC//2c
-	KM2vUrPstmF97uhm8q1XP5zphDdR88bDTLjlDkzu/afuccdPWIe0YLyXAU/iT9xn
-	gF12hCOt/h6KimzcP3mJonCKASNg0MS7Cfor5JWlap7AU1NF5eDbLE2/xOMt1Rht
-	WxFxc2kS+6+RWiV7//ykBqhqoS6rMSzTEYkMxQAxTFRUMdkWSblhZ19brlHfUFqs
-	w22a+w==
-Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hu6x2md8b-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 01:54:03 +0000 (GMT)
-Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-139b62317d0so417328c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 09 Nov 2026 17:54:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794275643; x=1794880443; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=vNUYRJyOqyBXuBM9afubrzQAAxPsq0B7mcCz3ADXaiA=;
-        b=Z2siSvUsituLbs/AluxyD3nUh0bgD5uW//0VJ7s83+GBDcDvxvrkukW4YY+aqS+vw1
-         sgSdHStTdkfdIrHSHdsVp3oEkNNbiohr6/+DlgmvVr3bq4bQDm97ncFWQ6hLLdmRgemZ
-         Yoq0SJGH012wGU08QkZ2+gXeQvzqwpPzk4ZqcQvFfR4zv6gKhfE3oKiqAWqpd5nbDsFe
-         5X7PcM+1d5C1NGdm18V9Xb6bZt65bN9s99ZHRgRdUBfaGsuZmfvU3ik0soGN96NoS1ZV
-         As+7Pw4KzYz5LjLf9txjg4+R44yyjT7nuu6Xm9VH2hg4NeC/cVhVtfhQgKI7ZTGDVGLT
-         udgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794275643; x=1794880443;
-        h=content-transfer-encoding:content-type:mime-version:organization
-         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vNUYRJyOqyBXuBM9afubrzQAAxPsq0B7mcCz3ADXaiA=;
-        b=vbzo54zNjZLCyMW5EQSe+eMmySgFjAElxkZ9fBEybadH42PZ5Y6DajRpxjMkaRgvgc
-         /gB5ReLBoXgx6nfzgv8P3ziwbGJ66pm3EfU8bjjdEe94dYZxT5dZGP/SNM3FqXXgiI0Z
-         x8lcnF35ff8YQo972pC9bcUAxmGMxE8DWlvQlAPTyvNM5PsClZr+FtRI6C11qNE7cK/9
-         dzd8gFoQC3Dshwv3sX2w3iv7BlNpBbZX41/PLhTwiJjQwcW70DzOrHw6xcqd0mLmZnax
-         nqu6/1q7cPdgCFyLDpujtRLqJFb0ZxwUuemHsjAd6QS5Nr/oz+vAQzl/pxeg88s4Ay3B
-         g0NQ==
-X-Forwarded-Encrypted: i=1; AL+hErF4rtjLRRE529mU4wjWcrc2Qns9p5vGyq/1OMa/JSu0R3Au277Sxpb0XSiii+I2JWACRSMe5fMhOfg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z92OOFNVBvGiXJKgqywnh9tzrHBCoN66SBWjLPjhdIMpTgvYicN
-	xLF5hE/PPIjcOjmGgubu5QdFZR6TJkNZwHftOsMgL/9qHTsxqHRtTmasdE1Nz9tStTKaBBzkZ6C
-	k8k04skLDXfgTUar0HKMhoVZfY8T77U5YH4D06HRDPp4yPnXJ4RyoL+EoygFWTLc=
-X-Gm-Gg: AYBFou01mFFcLyVPlOvG7sCuuKclpcTh5oXqgXzISAUxGC+i4OsrgUFSwADPUEh9XaT
-	6oPxfArXSGF0kUdZGAZp1+oFER7qRSfHGbPrZKzJKSPFw9Zi5Qr830R3U04YvhrLf25YbOs4prq
-	MQHUgglgsO8z9AO4042Dbykhz9UkJydSWCmcVCc51RoFEMhcViZXv5ntakpkp+BOvXmqQ6F8pzW
-	RpE6IQYMJsKZ7wfUY62aq4rYJIlNqlrpSehOA4ZqmXArBoHOdKivEB9QlrSzuwz5apy/PAkKCaR
-	VDDKHSVFIfkzZI95zDXQr+fPf2RLHwJv1+eZVLovglXgFfIEl7M27g+4TtCb78jnRoogmKrOTu/
-	W5jS4XL9m5BdQ8DN4yy9dBky6w14Ze529Zz/Lg8ViTrJSRR5G2SbVZ7W6cgxjHsYn20nPc2YmmP
-	YUSNT3Ro8P9B3bxh4/dbOJbqboaA==
-X-Received: by 2002:a05:7022:2521:b0:195:e4b9:d326 with SMTP id a92af1059eb24-1b3b5fccc3emr2282457c88.12.1794275642818;
-        Mon, 09 Nov 2026 17:54:02 -0800 (PST)
-X-Received: by 2002:a05:7022:2521:b0:195:e4b9:d326 with SMTP id a92af1059eb24-1b3b5fccc3emr2282413c88.12.1794275642187;
-        Mon, 09 Nov 2026 17:54:02 -0800 (PST)
-Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b11435sm3080274c88.4.2026.11.09.17.54.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2026 17:54:01 -0800 (PST)
-Date: Mon, 9 Nov 2026 17:53:53 -0800
-From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-To: Cristian Marussi <cristian.marussi@arm.com>
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-        f.fainelli@gmail.com, vincent.guittot@linaro.org,
-        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
-        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
-        usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 11/35] firmware: arm_scmi: Add Telemetry groups
- initialization
-Message-ID: <20261109175353.000008c0@oss.qualcomm.com>
-In-Reply-To: <20261109091221.2532706-12-cristian.marussi@arm.com>
-References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-12-cristian.marussi@arm.com>
-Organization: Qualcomm
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=ut5SwFV3
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=PIr3E6RPSp6ASMfLNwlsa5nrnqCawNIBhAi5ZCmMh0k=;
+	b=ut5SwFV33sOXGAHLrF7q14voekIteAK5SFjQK85FAcjOvWm9gUasBTAMX1UZgRBqCx2C6LnHu
+	bl/thUNOwLAJq+dZQmm+J+453z88ORqoFFm1R9hwCCAGmo64SX/crXlDTFDhcEnFyT6jV+o+smp
+	/oMVVdvCU7SVr9N5xHvTQWg=
+Received: from mail.maildlp.com (unknown [172.19.163.127])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jNqdw5g38z1cyxs;
+	Tue, 10 Nov 2026 10:01:56 +0800 (CST)
+Received: from kwepemr500001.china.huawei.com (unknown [7.202.194.229])
+	by mail.maildlp.com (Postfix) with ESMTPS id 762FC40561;
+	Tue, 10 Nov 2026 10:02:11 +0800 (CST)
+Received: from [10.174.178.56] (10.174.178.56) by
+ kwepemr500001.china.huawei.com (7.202.194.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Tue, 10 Nov 2026 10:02:10 +0800
+Message-ID: <cad019b8-b0d2-4fda-b6b5-c01d91174581@huawei.com>
+Date: Tue, 10 Nov 2026 10:02:09 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -132,80 +62,294 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=TMjQ2Fla c=1 sm=1 tr=0 ts=6af2793b cx=c_pps
- a=SvEPeNj+VMjHSW//kvnxuw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=7CQSdrXTAAAA:8 a=EUspDBNiAAAA:8 a=0-nDijDy15vjLcikf0YA:9 a=CjuIK1q_8ugA:10
- a=Kq8ClHjjuc5pcCNDwlU0:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEwMDAwNyBTYWx0ZWRfX4R7SRopTd/ij
- RVnKuOGBs+yjnxbn7dWA3FeCa1V3iGnukR0o184xy+z0W+N93PCFjsBIdcVn+MvIIRw0fjDmyb8
- uCyeNebhc7mgovGoMrD2Y9EhAu+YNul2hH0EXl6xkwLuyRCep2MQlblDUaJ3q2mTcgkZ4OJ1Zv8
- bwuLBtyxb0o3FnxBPmNaF1Z/cKgyygHVA+3TYFlogjaJaPFrgVk0/rJEYF7LwVQqOG4T+nAtJ+V
- yxtpcF7O4+Hc2WIXDsd8rtKIxEvSOqlQokTvptU48OAF+YlQmtheGfNwgTLd6ZSZVWbmccdDZbt
- R0sCgSp7FxLEQxSoAvFwPwGpGniB2RjxDxTkjTf1SnwSJOoLPGCoUewcxQjOBQ+ZJWi6soegdMj
- /VuFd30uJcU1Z4IwW3+bZ5p+IrULZZZbTW1h8aj4EAYpuGKa6Z1S8FNEoVitj1KJWdcV9jCOyi4
- Q5nMQBkBJhkmO8yRMgA==
-X-Proofpoint-GUID: 7Sy_jq3uVP5UXv2oC6OIXQBeIs1Rjgec
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEwMDAwNyBTYWx0ZWRfX6b92pn5Zs8sn
- KIMw1sirbWzO/QYPa4wRty6H28E8j9SyMM+WD01a0W2AqBaC7zatszft5r9wD3MHpEU1hE4CBMf
- NdoMY5eX/WvZgHGnRYsKszG0UJnMJqU=
-X-Proofpoint-ORIG-GUID: 7Sy_jq3uVP5UXv2oC6OIXQBeIs1Rjgec
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-10_01,2026-11-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0
- phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611100007
-
-On Mon,  9 Nov 2026 09:11:57 +0000
-Cristian Marussi <cristian.marussi@arm.com> wrote:
-
-> Allocate and initialize Telemetry Groups from base DataEvent data.
-> 
-> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
-Reviewed-by: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH resend] ksm: add merge_only_zero_pages to merge only empty
+ anonymous pages
+To: "Xu Xin (vivo)" <xu.xin@linux.dev>
+CC: Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Chengming Zhou
+	<chengming.zhou@linux.dev>, Lorenzo Stoakes <lstoakes@gmail.com>, "Liam R .
+ Howlett" <liam.howlett@oracle.com>, <linux-mm@kvack.org>,
+	<linux-doc@vger.kernel.org>, Huan Yang <link@vivo.com>, Wang Xiao
+	<xiao.wang@vivo.com>
+References: <20261106034841.233085-1-xu.xin@linux.dev>
+ <2a642af6-b97a-4f24-9889-1844812de4cc@huawei.com>
+ <avF9IBJWGp31Q0iq@dgvxl46587.localhost.localdomain>
+From: Jinjiang Tu <tujinjiang@huawei.com>
+In-Reply-To: <avF9IBJWGp31Q0iq@dgvxl46587.localhost.localdomain>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemr500001.china.huawei.com (7.202.194.229)
 
 
-> +static int
-> +scmi_telemetry_de_groups_init(struct telemetry_info *ti)
+在 2026/11/9 15:58, Xu Xin (vivo) 写道:
+> On Sat, Nov 07, 2026 at 04:13:40PM +0800, Jinjiang Tu wrote:
+>> 在 2026/11/6 11:48, xu.xin@linux.dev 写道:
+>>> From: "Xu Xin (vivo)" <xu.xin@linux.dev>
+>>>
+>>> Add a new sysfs attribute, /sys/kernel/mm/ksm/merge_only_zero_pages,
+>>> which, when enabled, makes ksmd merge only empty (zeroed) anonymous
+>>> pages with the kernel zero page and skip the stable and unstable trees
+>>> entirely for pages that carry data.
+>>>
+>>> The attribute requires use_zero_pages to be 1, and the two are kept
+>>> consistent by symmetric constraints: it cannot be enabled while
+>>> use_zero_pages is 0 (-EINVAL), and use_zero_pages cannot be turned
+>>> off while it is active (-EBUSY). The new attribute can be changed at
+>>> any time and is only effective for pages merged after the change.
+>>>
+>>> Benefits in three aspects
+>>> =========================
+>>> - Memory saving:
+>>>     On memory-constrained systems such as Android and embedded devices,
+>>>     zero-filled anonymous pages are the largest source of duplicate
+>>>     anonymous memory. They are produced by userspace allocators: the
+>>>     zeroing of freshly allocated Java objects and buffers in the ART heap
+>>>     (new byte[]/int[], Bitmap buffers), calloc/memset in native code, and
+>>>     preallocated media buffers. Merging them with the kernel zero page
+>>>     frees a significant amount of physical memory, which matters as DRAM
+>>>     costs keep rising. With this enabled, we measured 100MB–300MB saving
+>>>     tested with several popular applications on aarch64 (Android).
+>>>
+>>> - CPU overhead reduction:
+>>>     Merging only zero pages also reduces the overhead of ksmd. A page that
+>>>     is not merged with the zero page carries data and can never be merged
+>>>     with the zero page, so there is no point in searching the stable tree
+>>>     or inserting it into the unstable tree for it. Skipping those tree
+>>>     operations for data-bearing pages reduces both the CPU time and the
+>>>     rhashtable memory footprint of ksmd, which makes zero page merging
+>>>     practical on low-resource devices where full KSM scanning would be too
+>>>     expensive.
+>>>
+>>> - Security:
+>>>     Finally, this shrinks the KSM side-channel attack surface: only zero
+>>>     pages are ever merged, so the sharing status of data-bearing pages is
+>>>     no longer observable through KSM timing side channels.
+>>>
+>>> Note
+>>> =====
+>>> - Suitable for Android, embedded and low-memory devices, where zero-page
+>>>     deduplication is wanted but full KSM scanning is too costly, and reduced
+>>>     KSM side-channel exposure is desired. Many handset vendors may prefer
+>>>     this knob, which can be used as a default fallback policy.
+>>>
+>>> - Not suitable for server and virtualization workloads containing many
+>>>     non-zero duplicate pages, where vanilla KSM provides better memory
+>>>     savings.
+>> It’s a coincidence that I’m also working on similar optimizations.
+>> In our scenario, we have a MySQL instance with over 700 GB of anonymous
+>> memory. Most of this memory belongs to the buffer pool, which caches
+>> data from storage; these pages cannot be merged. Of the remaining memory,
+>> around 15 GB is consumed by hashtables, which contain many zero-filled
+>> pages that are eligible for merging to reduce memory footprint.
+>>
+>> When we enabled KSM for the entire MySQL instance, ksmd created rmap_item
+>> metadata for each candidate page.The massive metadata overhead wiped out
+>> any gains from page merging, and even resulted in a negative benefit.
+>>
+>> For this reason, I’m trying to make ksmd merge only zero pages. The goal
+>> is to have ksmd skip scanning non-zero pages entirely, thereby avoiding
+>> the rmap_item metadata cost introduced by scanning non-mergeable pages.
+>>
+>> 1) Before get_next_rmap_item(), check whether the page is all zeros.
+>> If not, skip it directly to avoid allocating an rmap_item.
+>>
+>> 2) When walking page tables to find candidate pages in ksm_next_page_pmd_entry(),
+>> check whether the first and last contents are zero as a quick filter.
+>> This is intended to speed up page-table traversal.
+>>
+>> Would you mind to collaborate? For example, by including my optimization
+>> as the second patch in your patch series?
+>>
+>   
+> Thanks for sharing your work — the motivation is clear and our goals are compatible
+>
+>> Here is the diff. Basic functionality has been tested.
+>>
+>> diff --git a/mm/ksm.c b/mm/ksm.c
+>> index dbfb8f98b189..8a02976b0aba 100644
+>> --- a/mm/ksm.c
+>> +++ b/mm/ksm.c
+>> @@ -296,6 +296,9 @@ static unsigned int zero_checksum __read_mostly;
+>>   /* Whether to merge empty (zeroed) pages with actual zero pages */
+>>   static bool ksm_use_zero_pages __read_mostly;
+>> +/* Whether to merge empty (zeroed) pages only */
+>> +static bool ksm_only_merge_zero_pages __read_mostly;
+>> +
+>>   /* Skip pages that couldn't be de-duplicated previously */
+>>   /* Default to true at least temporarily, for testing */
+>>   static bool ksm_smart_scan = true;
+>> @@ -2524,8 +2527,42 @@ struct ksm_next_page_arg {
+>>   	struct folio *folio;
+>>   	struct page *page;
+>>   	unsigned long addr;
+>> +	unsigned int nr_to_skip;
+>>   };
+>> +static inline bool page_maybe_zero(struct page *page)
+>> +{
+>> +	unsigned long *p;
+>> +	bool ret = true;
+>> +	unsigned int last_pos = PAGE_SIZE / sizeof(*p) - 1;
+>> +
+>> +	p = kmap_local_page(page);
+>> +	if (p[0] || p[last_pos])
+>> +		ret = false;
+>> +	kunmap_local(p);
+>> +	return ret;
+>> +}
+>> +
+>> +static struct page *ksm_skip_nonzero_pages(struct page *page,
+>> +					   unsigned long *addr,
+>> +					   unsigned long nr,
+>> +					   unsigned int *nr_to_skip)
+>> +{
+>> +	unsigned long i;
+>> +
+>> +	for (i = 0; i < nr; i++) {
+>> +		if (!*nr_to_skip)
+>> +			break;
+>> +		(*nr_to_skip)--;
+>> +		if (page_maybe_zero(page + i))
+>> +			break;
+>> +	}
+>> +	if (i == nr)
+>> +		return NULL;
+>> +	*addr += i << PAGE_SHIFT;
+>> +	return page + i;
+>> +}
+>> +
+>>   static int ksm_next_page_pmd_entry(pmd_t *pmdp, unsigned long addr, unsigned long end,
+>>   		struct mm_walk *walk)
+>>   {
+>> @@ -2563,6 +2600,13 @@ static int ksm_next_page_pmd_entry(pmd_t *pmdp, unsigned long addr, unsigned lon
+>>   				goto not_found_unlock;
+>>   			page += ((addr & (PMD_SIZE - 1)) >> PAGE_SHIFT);
+>> +			if (ksm_only_merge_zero_pages) {
+>> +				page = ksm_skip_nonzero_pages(page, &addr,
+>> +					(end - addr) >> PAGE_SHIFT,
+>> +					&private->nr_to_skip);
+>> +				if (!page)
+>> +					goto not_found_unlock;
+>> +			}
+>>   			goto found_unlock;
+>>   		}
+>>   		spin_unlock(ptl);
+>> @@ -2585,6 +2629,14 @@ static int ksm_next_page_pmd_entry(pmd_t *pmdp, unsigned long addr, unsigned lon
+>>   		if (folio_is_zone_device(folio) || !folio_test_anon(folio))
+>>   			continue;
+>> +
+>> +		if (ksm_only_merge_zero_pages && !folio_test_ksm(folio)) {
+>> +			page = ksm_skip_nonzero_pages(page, &addr, 1,
+>> +						      &private->nr_to_skip);
+>> +			if (!page)
+>> +				continue;
+>> +		}
+>> +
+>>   		goto found_unlock;
+>>   	}
+> I'd like to take you up on the collaboration, with a few adjustments to your diff:
+>
+> I'd keep only the precise check in should_skip_page() before get_next_rmap_item(),
+> and remove page_maybe_zero(), ksm_skip_nonzero_pages(), and nr_to_skip.
+>
+> Two concerns drive this:
+>
+> (1) 'nr_to_skip' conflicts semantically with 'pages_to_scan'. nr_to_skip (initialized to 1024,
+> reset per walk) is an independent cap on how much work one walk may do, decoupled from the
+> user-facing pages_to_scan knob. pages_to_scan controls how many pages one scan cycle processes,
+> but the pages skipped inside a walk are not accounted for in that budget, so the actual amount
+> of work ksmd does is no longer fully described by pages_to_scan. A user tuning pages_to_scan to
+> bound ksmd's CPU/power on a battery-powered device would no longer get a bound they can reason
+> about.
+>
+> (2) The same non-zero page can go through page_maybe_zero() more than once. It's only a heuristic
+> (first and last word), so a page that is zero at both ends but carries data in the middle passes
+> the fast filter, is returned as a candidate, and is then rejected by the exact pages_identical()
+> check in should_skip_page(). Because KSM re-walks the same address range on every subsequent scan
+> cycle, that same page is fed through page_maybe_zero() again on each cycle and rejected again
+> — the cost is paid repeatedly while the page is never actually filtered out.
+>
+> Given the above, I'd like to drop ksm _skip_nonzero_pages() and the coarse filter in the page
+> walking path from this round of submission, to keep the code simpler and clearer overall.
+> The precise check in should_skip_page() is kept, so non-zero pages still never get an rmap_item
+> — the metadata saving you're after is preserved. Also, I'll keep the attribute name consistent
+> with yours.
+>
+> On the tags: I'd like to credit you as Co-developed-by and add your Signed-off-by, per
+> submitting-patches.rst, with my own Signed-off-by above them.
+>
+> If you have concerns, let me know before I post.
 
-one line maybe?  I guess follow local style.
+I have no problem with that. Thanks.
 
-> +{
-> +	struct scmi_telemetry_res_info *rinfo;
-
-
-> @@ -701,6 +833,9 @@ static void scmi_telemetry_resources_free(struct telemetry_info *ti)
->  	kfree(rinfo->des);
->  	kfree(rinfo->dei_store);
->  
-> +	kfree(rinfo->grps);
-> +	kfree(rinfo->grps_store);
-
-Same as earlier about reverse order being most consistent way to do
-release of stuff.
-
-> +
->  	kfree(rinfo);
->  
->  	dev_dbg(ti->ph->dev, "SCMI Telemetry resources freed for instance\n");
-> @@ -722,10 +857,25 @@ static void scmi_telemetry_tdes_cleanup(struct telemetry_info *ti)
->  	xa_destroy(&ti->xa_des);
->  }
-
-> +
->  static void scmi_telemetry_instance_cleanup(void *arg)
->  {
->  	struct telemetry_info *ti = arg;
->  
-> +	scmi_telemetry_groups_free(ti->rinfo);
->  	scmi_telemetry_tdes_cleanup(ti);
->  	scmi_telemetry_resources_free(ti);
->  }
-
-
+>
+>> @@ -2609,6 +2661,33 @@ static struct mm_walk_ops ksm_next_page_ops = {
+>>   	.walk_lock = PGWALK_RDLOCK,
+>>   };
+>> +static bool should_skip_page(struct ksm_rmap_item **rmap_list,
+>> +				  unsigned long addr, struct folio *folio,
+>> +				  struct page *page)
+>> +{
+>> +	struct ksm_rmap_item *rmap_item;
+>> +
+>> +	if (!ksm_only_merge_zero_pages)
+>> +		return false;
+>> +
+>> +	if (folio_test_ksm(folio))
+>> +		return false;
+>> +
+>> +	if (pages_identical(page, ZERO_PAGE(0)))
+>> +		return false;
+>> +
+>> +	while (*rmap_list) {
+>> +		rmap_item = *rmap_list;
+>> +		if ((rmap_item->address & PAGE_MASK) > addr)
+>> +			break;
+>> +		*rmap_list = rmap_item->rmap_list;
+>> +		remove_rmap_item_from_tree(rmap_item);
+>> +		free_rmap_item(rmap_item);
+>> +	}
+>> +	return true;
+>> +}
+>> +
+>> +
+>>   static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>>   {
+>>   	struct mm_struct *mm;
+>> @@ -2705,6 +2784,7 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>>   			int found;
+>> +			ksm_next_page_arg.nr_to_skip = 1024;
+>>   			found = walk_page_range_vma(vma, ksm_scan.address,
+>>   						    vma->vm_end,
+>>   						    &ksm_next_page_ops,
+>> @@ -2722,6 +2802,14 @@ static struct ksm_rmap_item *scan_get_next_rmap_item(struct page **page)
+>>   			if (tmp_page) {
+>>   				flush_anon_page(vma, tmp_page, ksm_scan.address);
+>>   				flush_dcache_page(tmp_page);
+>> +
+>> +				if (should_skip_page(ksm_scan.rmap_list, ksm_scan.address, folio, tmp_page)) {
+>> +					folio_put(folio);
+>> +					ksm_scan.address += PAGE_SIZE;
+>> +					mmap_read_unlock(mm);
+>> +					return ERR_PTR(-EAGAIN);
+>> +				}
+>> +
+>>   				rmap_item = get_next_rmap_item(mm_slot,
+>>   					ksm_scan.rmap_list, ksm_scan.address);
+>>   				if (rmap_item) {
+>> @@ -2824,6 +2912,10 @@ static void ksm_do_scan(unsigned int scan_npages)
+>>   		rmap_item = scan_get_next_rmap_item(&page);
+>>   		if (!rmap_item)
+>>   			return;
+>> +		if (rmap_item == ERR_PTR(-EAGAIN)) {
+>> +			ksm_pages_scanned++;
+>> +			continue;
+>> +		}
+>>   		cmp_and_merge_page(page, rmap_item);
+>>   		put_page(page);
+>>   		ksm_pages_scanned++;
+>> @@ -3674,6 +3766,28 @@ static ssize_t use_zero_pages_store(struct kobject *kobj,
+>>   }
+>>   KSM_ATTR(use_zero_pages);
+>>
