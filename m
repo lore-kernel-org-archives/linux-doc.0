@@ -1,76 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794321625;
-	b=LvZCWLYySkMp/lQxfSDLbJPZUyeSlbh4Lk0tQzZLnC9BaLpnz61kJ2fBddYgdtwBv/og
-	 6s9/o9ssFvs4Y6Df2kCdi0KZmXujERzct1B6CCydPxfeKxElXjBCxXkt1uA/ncgQ8/mTj
-	 J51RlhnFFytV+lohT+hKrqjfJ5oGQLiSmpwj7VqtXY8cpYiJhRqmSmpC1QSvsmOJcPJ2M
-	 iZDogCVS5Aqi+DKhcFXC7GLAwf3G0u2xaH0PH5HU07zi4YhH2xQfeENkcXg/LmY7iM2Hg
-	 cFArsV/8s4XR/F60wPSxgaxMbWUsmjiE1gXRDeYO71oeLNTAthyj7Dv2e32rn459LcQ==
+	t=1794321680;
+	b=qamPRb65Cqu+k96KhgXpo+aozC1EFRDV4zuOlQNzvB0gW6T1KfzDp2KEWB/Q9yGrlUSk
+	 E4Q5hpmQ8zQsAdYxbDlRJSyQQUiKZmzdwctoLyKDmKb+qogTH0hZVRE6siazxEmyTBk35
+	 zyqfklAJXKK6MTmAsKkt+vgXO9FaqIxXOaSob0HBeLlTYThCatVL3YvLNk6GDoSH94Ypw
+	 N6qH5CSYyH9haefnNVhwLpoJZ+LU726GgbsOhevIvUGFVCxBsFHFapzFnmovXr00WowNF
+	 Ff8bryIu0jXU0tRTn2ZOweeKr3aVI5bsAMZXp4occj3RRhRVa41yGqm3yA7derCE3rw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794321625;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Received:
-	 X-Forwarded-Encrypted:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type;
-	bh=NdsGEmcnwDERcnYVwxnzF5K4RGP76a4vobMfRThtHus=;
-	b=eE05nM92Mg1c1roYLNM8JJtgXq2HF4nvWgK0z55dOpkUvX80LZW4VOUkmq40jk4vbSHi
-	 75yF7XJNJ1WpnmxcJNTa8nnOybAoYxy46Ei+jL71QyyP8N7k+HhEydHs/YtOeQ8B3LgrG
-	 jXGyQKQyMaAHd2CCra8k6MmTZp1KLBDgSoqU6U8cy6Y6YcWddgfeRvAykdEt8Q/dpt4jN
-	 7BnJuWVEGeChKio0BbYzALNd1spewwQQulWuyUS6ncM3CBQ0SxGMDYbh3OdG7DyV9ryJN
-	 jEaVXfpN/8jV1GLXclyNEOtUuP0I1NK9DME+kv7UFNDWxe4aI+JqrNQG65MgLn2wwEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794321680;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To:X-Rspamd-Queue-Id:X-Spam-Level:X-Rspamd-Server:
+	 X-Rspamd-Action:X-Spam-Flag:X-Spamd-Result:X-Spam-Score;
+	bh=n9Z1w4YYO/lfKbwO0/Zyyv0ODPBk2vg1/mG8PGnweiw=;
+	b=ayY+DLL+3Mmi5q7xXGhHt+NDjdRyAjKHKsBaWXf4cT+6l1gw5GCnRFE+6+dxneRSycQd
+	 wlsQt/c4C2TNFrNCYT138VG1WxdBsnMniv/LmA1nBqr1XLJRJwTcpZ0MHj4FOD7n7Kr7V
+	 tH1+1FSKvU2vy4d+TKe1Jjjk/qD3lD6sdqUcqlYVSErYiu7QangpkYT8eTPjMCKMa1AFq
+	 ukEL/AmQCWaXjQiAjiO8rugpE1TemTKBll4Dxnn+Ji4aQGswTLRkZeYXOKGpb9uqdx4k3
+	 XIV30G9m8CtaXU5jxMXlgpMxBuiB/gCL0lqA7yrtk6Hi7COMn/rZAX7/9HRVTDRgxdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-m68k.org;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.218.44
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=suse.cz;
+	spf=pass smtp.mailfrom=suse.cz;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zgDVyhh8;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=369eyxEs;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zgDVyhh8;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=369eyxEs;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A058606A325
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 14:40:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A058606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c505186727fso97736166b.3
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 06:40:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794321623; x=1794926423;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=NdsGEmcnwDERcnYVwxnzF5K4RGP76a4vobMfRThtHus=;
-        b=Oz4jLbIU6AeyQQ7tFCEMs9fPTLLfvOIJJL1ZNiCF7aTKX0Yq/3EJXlucdsnHAQE8jY
-         8nYFxh9woXYF16tKYsQbXASHEAaeW53yM/8i8zC0X4th4FgLShAgQK2X0rDCCDd3dtn/
-         VkLzEt485owQ0XERkwK3TuGRWS823LMTVjiKH/I30KvPwN7NZf/lYqRYxu15whmlYcIg
-         UeeLZv7s7hi50C1hjzOngXiwNL7gmlCULTGuCRGpWq7FVBqj3okp6xbm76ZA1rNtwrGa
-         sBRl192bPGf71HLdyDMxQXqu1yjBFGQUx4Cqmj2yhB3eblHvla94uUTcFNNDkrgIOUHG
-         grrg==
-X-Forwarded-Encrypted: i=1; AL+hErGJyCrs72Un5fifZ2Pwk16qf3bvpeaLPL6YcHR50geuoJITud3X3gkIwE77w1uTgak3O1IX/Qc1fSQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+uzTcVSQu0biddJNU20mSqnXVKsnPQw/Y7+0UdXYg/fxeicbuH
-	wwI3vpEqs9mRzP5TmCHUd7GLPCDeJtNnLmhgqgDKc8RtyiU6bM8XeSzYymX0wyju8o8=
-X-Gm-Gg: AYBFou3ojXNjSQ6prQ7YtWMFpRiOet9b0BF5kdHwRLugOkkI/4v7Ii1pCOA9or9/rSe
-	RpOmrhGgtYtH9TKaNsKTQnj5UM8BgxXyNmJt/puqkcHuJFh7ZBrV5HmelhTyfxsjZjcHf/n2mEI
-	z6BMMD0/stLqdThQB762BeMAqAVuTD+rfsaSu7HQPxTP+x/z++TKWOd5key62weoiMPp3kUWO2/
-	vekoGt4KBFun4vBxFhmM+EFeQbyWDVHe1htlSfL4p3uOJJJR79r/Paorol478Ccj3R0uGCTp4zN
-	7M+t6wHxBPN9yPqNJcgTDhUcTv4VzU6YW0fiLKVTz9ov+LvYkgrbLr6xvr6EG3LgVuLrkyW6H01
-	9ikKONWKryRXhZrsVk5VQXfb3iAsls1Bqfd1wr/9ovAG+Gf7USioBDAPtI7UMZoTI04kFYIlcvS
-	yZw6P437xBP5U/dgFNZ7V4llzHLgGo9WACIYYBGSHu/W/yXOKKKLGPkSr+F8ZAM/Y1M018MU7gV
-	MGRBGktJruUhfmtyTcxKe/RKAqNf2V0VoDhtxV42vf8yaGTBXSZP9mj08h4Zt13YMHMP0VR+0mK
-	r8aLA4t5+7hEQ8pL84O8Y6lo6TxM9v0ZVtNMpLQuil9YrsLjxzGv3kA/mbVc2hUfnuA=
-X-Received: by 2002:a17:907:9304:b0:c43:ae92:9a9 with SMTP id a640c23a62f3a-c504964fdadmr254696866b.33.1794321622760;
-        Tue, 10 Nov 2026 06:40:22 -0800 (PST)
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a628c6bsm112891066b.56.2026.11.10.06.40.20
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2026 06:40:20 -0800 (PST)
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6b571979178so2872218a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 06:40:20 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFJF1N3ku1KJCJOWUAHoJxvE/ac+61kg29qAwS41Cp3cxjZg/hCxy1mDpg3xawU1cAjSFwbIIv8jPI=@vger.kernel.org
-X-Received: by 2002:aa7:d78b:0:b0:6b5:9150:edf3 with SMTP id
- 4fb4d7f45d1cf-6b756b12aeemr1910612a12.43.1794321620553; Tue, 10 Nov 2026
- 06:40:20 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B7C60A262B;
+	Tue, 10 Nov 2026 14:41:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38B7C60A262B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zgDVyhh8;
+	dkim=pass header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=369eyxEs;
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.a=rsa-sha256 header.s=susede2_rsa header.b=zgDVyhh8;
+	dkim=neutral header.d=suse.cz header.i=@suse.cz header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=369eyxEs
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 5C15521EA9;
+	Tue, 10 Nov 2026 14:41:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794321678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n9Z1w4YYO/lfKbwO0/Zyyv0ODPBk2vg1/mG8PGnweiw=;
+	b=zgDVyhh8pCYegE1kzm5xIANNPglMEgeuZuIQhodg3Iqv/wmt77lmYCRPxvkovOojFne6ow
+	xYY18x6DlFzq3ln+FuD7YcKaRbr9DnDPAC2XyRl48GG8goA6gsBhUKpVrrgGwTQE9D6lAy
+	YLWLP+bL+HAY3ZU8JGWkN/YRjQArPjo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794321678;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n9Z1w4YYO/lfKbwO0/Zyyv0ODPBk2vg1/mG8PGnweiw=;
+	b=369eyxEsAFmpmDiuBidhIEN7pEn7fzlKO8/ywBH2pvsXDNxLEXvezP0hQQ7rW/b6nD06GK
+	hdXtKW5t/c3G3NDw==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=zgDVyhh8;
+	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=369eyxEs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1794321678; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n9Z1w4YYO/lfKbwO0/Zyyv0ODPBk2vg1/mG8PGnweiw=;
+	b=zgDVyhh8pCYegE1kzm5xIANNPglMEgeuZuIQhodg3Iqv/wmt77lmYCRPxvkovOojFne6ow
+	xYY18x6DlFzq3ln+FuD7YcKaRbr9DnDPAC2XyRl48GG8goA6gsBhUKpVrrgGwTQE9D6lAy
+	YLWLP+bL+HAY3ZU8JGWkN/YRjQArPjo=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1794321678;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=n9Z1w4YYO/lfKbwO0/Zyyv0ODPBk2vg1/mG8PGnweiw=;
+	b=369eyxEsAFmpmDiuBidhIEN7pEn7fzlKO8/ywBH2pvsXDNxLEXvezP0hQQ7rW/b6nD06GK
+	hdXtKW5t/c3G3NDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 0C9731339F;
+	Tue, 10 Nov 2026 14:41:18 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id HT40MQ0t82qpMQAAD6G6ig
+	(envelope-from <jack@suse.cz>); Tue, 10 Nov 2026 14:41:18 +0000
+Received: by quack.suse.cz (Postfix, from userid 1000)
+	id EF45D2254C; Tue, 10 Nov 2026 15:41:12 +0100 (CET)
+Date: Tue, 10 Nov 2026 15:41:12 +0100
+From: Jan Kara <jack@suse.cz>
+To: Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Jann Horn <jannh@google.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Chris Mason <mason@kernel.org>, Jeff Layton <jlayton@kernel.org>, NeilBrown <neil@brown.name>, 
+	Eric Dumazet <edumazet@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Al Viro <viro@zeniv.linux.org.uk>, Jonathan Corbet <corbet@lwn.net>, Christoph Hellwig <hch@lst.de>, 
+	Greg Kroah-Hartman <gregkh@suse.de>, Joel Granados <joel.granados@kernel.org>, 
+	Kees Cook <kees@kernel.org>, Jan Kara <jack@suse.cz>, Jan Kara <jack@suse.com>, 
+	linux-kernel@vger.kernel.org, linux-nfs@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-s390@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-um@lists.infradead.org, linux-wireless@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, 
+	netdev@vger.kernel.org, ntfs3@lists.linux.dev, platform-driver-x86@vger.kernel.org, 
+	coreteam@netfilter.org, kexec@lists.infradead.org, linux-pci@vger.kernel.org, 
+	linux-sound@vger.kernel.org, netfilter-devel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	ibm-acpi-devel@lists.sourceforge.net, jfs-discussion@lists.sourceforge.net, 
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-cifs@vger.kernel.org, 
+	linux-fbdev@vger.kernel.org, linux-hwmon@vger.kernel.org, linux-mm@kvack.org, 
+	linux-sh@vger.kernel.org, linux-usb@vger.kernel.org, samba-technical@lists.samba.org, 
+	sparclinux@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-doc@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net, 
+	Takashi Iwai <tiwai@suse.de>, linux-input@vger.kernel.org, linux-raid@vger.kernel.org, 
+	linux-ext4@vger.kernel.org, linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org, 
+	Chuck Lever <cel@kernel.org>
+Subject: Re: [PATCH v2 35/51] proc: warn about entries left in /proc/net of a
+ dying namespace
+Message-ID: <redzyadnsedot7ckkbzf5wi3zqlwtujbbupudri6riwxxt3hka@w32wugbs5mdf>
+References: <20261104-work-procfs-bugfixes-v2-0-bbf7d5546809@kernel.org>
+ <20261104-work-procfs-bugfixes-v2-35-bbf7d5546809@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,61 +133,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
-In-Reply-To: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 10 Nov 2026 15:40:06 +0100
-X-Gmail-Original-Message-ID: <CAMuHMdWOgiYZmK52--Dcuat-gHtW-GOhiQfHBoSDMcefWzUx+A@mail.gmail.com>
-X-Gm-Features: AclHuK-vciKQvIOU3wexWocdK7lSDvoS7oWEizuJMJhyo6occ__o2qwUAjcDY0U
-Message-ID: <CAMuHMdWOgiYZmK52--Dcuat-gHtW-GOhiQfHBoSDMcefWzUx+A@mail.gmail.com>
-Subject: Re: [PATCH v3] docs: submitting-patches: Clarify partial review tags
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261104-work-procfs-bugfixes-v2-35-bbf7d5546809@kernel.org>
+X-Rspamd-Queue-Id: 5C15521EA9
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-11.51 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	RCVD_COUNT_THREE(0.00)[3];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_TLS_LAST(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	ARC_NA(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	DKIM_TRACE(0.00)[suse.cz:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLpnapcpkwxdkc5mopt1ezhhna)];
+	TO_MATCH_ENVRCPT_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_GT_50(0.00)[59];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	MISSING_XM_UA(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:email,suse.cz:dkim,suse.cz:email]
+X-Spam-Score: -11.51
 
-On Tue, 10 Nov 2026 at 15:36, Krzysztof Kozlowski
-<krzysztof.kozlowski@oss.qualcomm.com> wrote:
-> Refactoring of driver subsystems or some core driver parts often come
-> with change of the actual drivers.  If that happens within one patch,
-> people giving "Reviewed-by" tag only to piece of the patch, like one
-> driver, and ignoring the rest including the main concept of the patch,
-> are not really reviewing "the patch".
->
-> As explained in the Submitting Patches document, the "Reviewer's
-> statement of oversight" is for patch as in "entire patch" meaning:
->
->   (a) I have carried out a technical review of this patch to
->       evaluate its appropriateness and readiness for inclusion into
->       the mainline kernel.
->
-> The sentence is explicit, exhaustive and complete, meaning it does not
-> allow implicit variations like: "this patch or part of this patch".
->
-> Reviewing pieces of the patch while ignoring the main part of it, is
-> much closer to Acknowledgment, thus Ack or at least "Reviewed-by" should
-> be followed by '# subpart' suffix.
->
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+On Wed 04-11-26 18:47:21, Christian Brauner wrote:
+> proc_net_ns_exit() runs after all the other pernet exits and frees
+> net->proc_net right after removing "stat" from it. An entry that some
+> pernet exit forgot to remove is left with a freed ->parent, and so
+> PDE_NET() hands seq_open_net() and single_open_net() a freed struct net
+> when the entry is opened through a file descriptor that someone kept.
+> 
+> There is no such entry in the tree that we know of, but nothing would
+> tell us about one either. So warn about it like remove_proc_entry()
+> does for a directory that isn't empty.
+> 
+> Reported-by: Chris Mason <mason@kernel.org>
+> Fixes: e9720acd728a ("[NET]: Make /proc/net a symlink on /proc/self/net (v3)")
+> Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
+
+Makes sense. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
 > ---
-> Changes in v3:
-> 1. Minor commit msg adjustments
-> 2. Use  Driver X author <foo@example.org> # for Driver
-> 3. Tag
-
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+>  fs/proc/proc_net.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/fs/proc/proc_net.c b/fs/proc/proc_net.c
+> index dbcf87a257e1..df5484813d5d 100644
+> --- a/fs/proc/proc_net.c
+> +++ b/fs/proc/proc_net.c
+> @@ -410,7 +410,13 @@ out:
+>  
+>  static __net_exit void proc_net_ns_exit(struct net *net)
+>  {
+> +	struct proc_dir_entry *left;
+> +
+>  	remove_proc_entry("stat", net->proc_net);
+> +	/* Whatever is left still points at net->proc_net and so at net. */
+> +	left = rb_entry_safe(rb_first(&net->proc_net->subdir),
+> +			     struct proc_dir_entry, subdir_node);
+> +	WARN(left, "/proc/net: leaking at least '%s'\n", left->name);
+>  	pde_free(net->proc_net);
+>  }
+>  
+> 
+> -- 
+> 2.53.0
+> 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
