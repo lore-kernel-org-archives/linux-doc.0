@@ -1,62 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794326549;
-	b=m4gtuCqOh4z5nNnwvbWVaIGJ8dyxPzvHSWZJSEf7cbyibgGdzMqbL1uk/GM+Jxq2Pqmm
-	 1Q9FMbtSKxtcQGshlFN1o7FIUfbM567Nes4h3zCgPN67aLgpQZwACFNR1kOIqapUxhBO0
-	 kc+GjqVKDyY1+aapMTEhZohWc/BQYwXtzPhJKlSUCD98dfg+AyEW2LMwFaQk6iF+SLvzs
-	 /lspT8orDnotBR9P/V+0UnyaZ1MvgS8CEIR8jsDVLfy2Y1XfMZ/9zSHl/+06dBUlFn2u3
-	 Z/bYyCPpv47CSbX1qna02aswRn9jEutsfoSJDSAN3QavNX8bKpvBCeT/gZYsihbQhHQ==
+	t=1794326642;
+	b=sQRq1cN0XzDaZRKRP8GkN5tQZCJmJkbf5MwviAVlT9QxbpNOB8NtaN5xT5Bda5CabF+7
+	 g3kCNSU2+AfRnhpkDxVwWtqGujqVng4iXi5AiIfjg61BL2KXhp2mkvWQfjPkYXAxE9WnX
+	 /fRRP7oVeuQ3XiibXuCMY+TwyDc70NugSi360MTgJ2Un5XLo6GfPhKluVMTxlxNtZgXpZ
+	 wkd37Sj436tos01EE/RGthTIN0TK/e/yhcTxkcBjOdK9eaAneAnwsjUubZBcF3Mw/OZPI
+	 iV3YYB4E460hddxv2AMjVDMl0zhcOl3GO6GDwoOowfE2qhAm7NsdCYro6QeFl5jVjYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794326549;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794326642;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=8npCNmyNjIE2pJbjFcsGaVN8VHiMIR3RoakRQ7io9Yc=;
-	b=Pjn8Aro1zcHhvKKuATMZzO+wu6fnhlqH8AMMw93xP57FmlBu/GPfvh2Zi/+xLirvqxye
-	 e2maJakMCC0cDgJUfP8w4mCCFnijsLZM+fllNz+OGvGq2rt5jMszngvBNtBenqR7RNB9r
-	 VdTTJSR8ttwCV6Yic2ANJeXEjJgKMqfG6LpZNUBYsdl3eGa4Oo4JM5V0vrXP9CmDbKU7p
-	 RToIDv7jsXseuo/NapntEOo/NpJTCNU8IrMoJgGJZw82giUQge3byhF+aZKMG2YWro4N+
-	 izSZooNhMuFTfFOQPDK35uvLvpZn5KNgOhvpkqNBZz0TYO6daYj2jL7d6+ZfPp4I+Wg==
+	bh=w7agHuXtBJI6ahKZzHDMUpFWZT/q/VA7pg0wHCd8yCY=;
+	b=J8mUXAetFn/ONHHPmC1kdAn6VK5VUr0wpGRghDLqmXbFQVqHZssFIPHaWOixGpWh+xcX
+	 lQgKpR+LNsv7RIY8gUm3u42UdrxPl0UE/4peQk88D6qcJBFODw76e7Y/OQOdMKi80TAxu
+	 gJW5iu2UV/iDY2WoOgcADtQl/LD1pZc8uDAQJ7WGv8AgAou4pt4RTyQIQeZjI7kPcVrOV
+	 eDIpcyLbGcftyl5B1IPq3ARu/u5Ysj/5mpg2lcjueUP5E0HC30ymQw4yKZYo+CTgFsobX
+	 73bUYaGkuNDIuWWG/ePKUbyvgirlt0VVPvrK9iS9sMqrxgizXuJqE9awCMy0LQxZwjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CQ3xHtNM;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kHaj9GV9;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3475D606A31C;
-	Tue, 10 Nov 2026 16:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1075606A323;
+	Tue, 10 Nov 2026 16:04:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CQ3xHtNM
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C1A1F0089F;
-	Tue, 10 Nov 2026 16:02:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kHaj9GV9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A56E91F008A1;
+	Tue, 10 Nov 2026 16:03:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794326548;
-	bh=8npCNmyNjIE2pJbjFcsGaVN8VHiMIR3RoakRQ7io9Yc=;
+	s=k20260515; t=1794326641;
+	bh=w7agHuXtBJI6ahKZzHDMUpFWZT/q/VA7pg0wHCd8yCY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=CQ3xHtNM0fEUOWRCRgWtk59j0P8jSaTryPnb2RKY4dFnKizwLXx4yGZfLdlYmHAgx
-	 TAo0sFtyqTc+3ZGkL80xa9+Cu06CgzQBDFEzIxFKi5ZsYK8tWB1ZVKnqp/Yn7wcDmA
-	 1X7Y5I1ooIc2wDkaWs7EwLkCDhqj1sBUjwR09JrV7uCU0ofja+oiZ/UZvGjINFSoaW
-	 LGbJ9ajsorBJEyPsfQNw1oSlQvI2v/XJJU2d5nGMgib2ub1Z4edaLtJJeKgVpSok0v
-	 8sdin6B+NaKId7yQrwE3chP/YXRk4cm6kxCPRx+ksI4RkJmM88sSP3ta+BbGogi1IE
-	 CUIrG8UAgHYsg==
-Date: Tue, 10 Nov 2026 16:02:21 +0000
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Fuad Tabba <fuad.tabba@linux.dev>, Paolo Bonzini <pbonzini@redhat.com>, 
-	kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, Wei-Lin Chang <weilin.chang@arm.com>, 
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH 2/2] KVM: selftests: Test KVM_PRE_FAULT_MEMORY against a
- full dirty ring
-Message-ID: <avM_FXXF9oBkderF@gremlin>
-References: <20261110110724.3614412-1-fuad.tabba@linux.dev>
- <20261110110724.3614412-3-fuad.tabba@linux.dev>
- <avMoubwqgXbpflwM@gremlin>
- <CA+EHjTxT_9NghyLSZmOOi_oQboQw-g+6z9WxwaF=-7RdaGbMNw@mail.gmail.com>
- <avM9_7aWUDJSL3Lq@seanjc-mac.roam.internal>
+	b=kHaj9GV9K5ZCAeq/HZGYZvkFdn1diYI98q6gPGdcdwPXWecqeV7sjrMMve5SKyC4p
+	 ubzJkBkk9ykKSRVUG7s7Eq627ohVLzvhTg96tatx1yC4yeLWal3gXlHUyvoFjTysK4
+	 KbGW43ZLPBHbaNMlvNuRrNj8nVtv00LDmjRYbs/V7pu1M6aSc6xCQdjM6+OMZvPsOZ
+	 J7rEV7axlH04+Wb40eJcbUoK+fH1DbFaWscG9vkyX78Mf7f0yv+Pyz5kWD2Y3ClUrd
+	 uFP2ZkUbCQgQvAceT41SkYHN3O5kf55d1C7FRGGYiwQLEc9D4lUXs/jv9xbzfNTf2d
+	 fyiPA+dVdQH/Q==
+Date: Tue, 10 Nov 2026 17:03:55 +0100
+From: Christian Brauner <brauner@kernel.org>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Dave Hansen <dave.hansen@intel.com>, James Bottomley <James.Bottomley@hansenpartnership.com>, 
+	Helge Deller <deller@gmx.de>, Matthew Wilcox <willy@infradead.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 0/7] init: discoverable root partitions
+Message-ID: <20261110-fachlehrer-anhaften-unkenntlich-86fc48b56f8f@brauner>
+References: <20261102-discoverable-root_partitions-v3-0-27f04b69b7ab@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,66 +61,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <avM9_7aWUDJSL3Lq@seanjc-mac.roam.internal>
+In-Reply-To: <20261102-discoverable-root_partitions-v3-0-27f04b69b7ab@kernel.org>
 
-On Tue, Nov 10, 2026 at 07:53:35AM -0800, Sean Christopherson wrote:
-> On Tue, Nov 10, 2026, Fuad Tabba wrote:
-> > Hi Lorenzo,
-> >
-> > On Tue, 10 Nov 2026 14:38:27 +0000, "Lorenzo Stoakes (ARM)"
-> > <ljs@kernel.org> wrote:
-> > > On Tue, Nov 10, 2026 at 11:07:24AM +0000, Fuad Tabba wrote:
-> > > > Pre-fault more populated, dirty-logged pages than the vCPU's dirty ring
-> > > > holds, and check that each call stops before the ring overflows, that a
-> > > > retry returns ENOSPC without progress, and that the harvested entries
-> > > > are the pages in order. A read pre-fault can map a page read-only, or
-> > >
-> > > Are we asserting an invariant that prefaulting happens in address order
-> > > here?  Is that explicitly presumed in the prefault API, or just how it
-> > > happens to pan out?
-> > >
-> > > I wonder if we might decide for whatever reason in future to do things
-> > > differently there. Bit nitty I know, but wonder if it's asserting an
-> > > implementation detail?
-> >
-> > Yes, the API doesn't guarantee an order. I'll assert that every page
-> > is reported exactly once instead.
-> >
-> > [...]
-> > > > diff --git a/tools/testing/selftests/kvm/pre_fault_memory_test.c b/tools/testing/selftests/kvm/pre_fault_memory_test.c
-> > [...]
-> > > > +static void test_pre_fault_dirty_ring(void)
-> > [...]
-> > > > +    /* Populate the pages, so that pre-faulting can map them writable. */
-> > >
-> > > Reviewed below, but I wonder how x86 could then read fault these?
-> >
-> > KVM_PRE_FAULT_MEMORY is defined as a read fault, but x86 maps the page
-> > writable when the host page is, and marks it dirty, unless it falls
-> > back to access tracking (below). Populating the pages makes sure they
-> > aren't backed by the zero page.
->
-> Before we effectively solidify the behavior, I think we should have an explicit
-> discussion about the desired behavior of KVM_PRE_FAULT_MEMORY when dirty logging
-> is enabled.  E.g. the only reason I kept the existing behavior in my auto-prefault
-> series was because I couldn't think of a good reason to change it.  But we never
-> made a concious decision in the first place, i.e. we never considered what would
-> happen if prefaulting collided with dirty logging (as evidenced by this bug).
+On Mon, Nov 02, 2026 at 10:29:07PM +0100, Vincent Mailhol wrote:
+> This series adds root discovery directly into the kernel so that people
+> who are not using an initrd can still benefit from it.
 
-Yeah, I do worry about implicit assumptions (also commented re: ordering).
+Nothing has changed since
+https://lore.kernel.org/r/20260617-irritation-rollen-wirst-7d636cbfec92@brauner
 
-I guess what makes sense, given the general approach for prefaulting = injecting
-a synthetic read fault, is for the expectation to be that it matches the
-behaviour of an ordinary read fault.
-
-Or do you feel that it makes sense for the pre-faulting to do something special
-in these cases and establish a sensible invariant?
-
-If the pre-faulting does indeed dirty the pages, you'd need the dirty logging to
-do its usual thing (not familiar with the code, so I'm guessing logging the page
-:) though right?
-
---
-Cheers, Lorenzo
+-- 
