@@ -1,62 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.57
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.192
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794331147;
-	b=oRdcYxEtMyJsCEmwJ31H6m1JLcA2mxTk61mPXUWSEq75fjBknWyexBxMthJ4emT2zkB2
-	 /LbkZLvAnbcyRMh8rgvLFu1BA6VyuLWM7pTj6tfDx62P4ll7MwiIPBXDk/81GZfJ2n6dF
-	 RXY3b1Reu0CZyQj14VgL1qp8sdcMVzocW8b1Ecr0o13TPWyRvavitgn6WtQQ2KQKd4Qva
-	 KHQYK/zkt9N4S25DEohy6aqV8zmA61QyiMuiSui8a9ZmbkkEtYsSKUY6nV4irMUBSDqH6
-	 0onBHdcgEtQt2fqrVaJaPSjTC2mmaYGfDNyZ0UuzNRXnrIOw3C5SzFVceOUV3fyq4nw==
+	t=1794331795;
+	b=gNPaERORaSSpRGyciBhhfqQsiwazuEsURn4Z4443dq6fLphhCgYZYBSMjKt4oqmnU6AS
+	 5kne8RAF3phCKmn0ram6UZlIWFot/VhewhEBghuj4CY0r5SA4q5vIPcCTwXQFDGVLxHrs
+	 +8UfPQO2RISWWZuJqLMSYZ0P2J0/JYi8erLtCaRjnor7Sxrsjg2rX9jp7ppx0UPtK718a
+	 YfvtfS83vXqETypOJJbYHBHo1xWks9hdvh/4e+CPFhHn0mwRLYfr2Ixzc3mlEY42XkE/7
+	 UYg7MS3sWDFEggWAjpIWcGIere06Vlm8TEHzCFW3UgIcYYSSjlhu8PISLzBko3cCq8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794331147;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794331795;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
 	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
 	 Subject:To:Cc:Content-Type;
-	bh=V7fyh20lQdCfEvkMlKmFXdlszEDXLNAOR5UNt1WFBvY=;
-	b=sbZFORs5EFknABXVR9bDOGR3jXct79+IowtbisErHoOEIMckH0E3rMIonrxniLo5wobN
-	 w6/mDJd4O+xq97m/MSpxGURD2ojl/pR/rBfQx1mfgRjD6b+MlvkiHjTBj7zFBJoGCt8pL
-	 m6n2ac8CSlQCalsix+Vs9ptIr9/G+Q7W12nbhOtUV+0AG0teUB+Q4H2T3tYvHFcEgEgiB
-	 yyWwvdfSxrwLHh8RqbpxPzh49L+dQDIZDG/XGo8FGSshz43/WtILiCd0CPH26vjdlNePn
-	 IVp4nzBr1nrQx96EUZA6t2lZxKfDZJxlcQhDE/qAWWPdSvn6Rt2jVpNAICmb3vPhZnA==
+	bh=5wx+HPVDzMK2ZNFwmp4IvNdPd/griQf8bcKEGlkTO38=;
+	b=V0a/+XmZ4ux4wiYBDscj2plgFBVpwbjBmk9EbumUnNKYPMDd4G/2GLkqHoe2G7Zg0baS
+	 y8XJMqo7+/F6ayBnL+ELXDjcdMrHmPZ9fhC0NWzT1OmBiXwniXFEOKPZ3wxyT1IQ3q7hn
+	 XcADJ4VMaGD96EgN/KpQcsvwRTyUfxCXUnRPIOXUOUNeQ3K5qMww7zxFAcZtRyV/Tmx5d
+	 fVbNPteW6U2NREr70EhLuxco5eO4Meor8j9mtHjONnzlKuDZqoGfWWYQ5lzePXM6XakkY
+	 6wKYrdTsYIl8NdQ1f/Hpi6awoZ2/J8+uowUiAl4tdl9adlYFwTtjwza1wEr41o7qSLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=nqNAPJyr;
-	arc=none smtp.remote-ip=91.218.175.57
-Received: from mta0.migadu.com (out-57.mta0.migadu.com [91.218.175.57])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=TyRfx+Nj;
+	arc=none smtp.remote-ip=91.218.175.192
+Received: from mta0.migadu.com (out-192.mta0.migadu.com [91.218.175.192])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D46606A323
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 17:19:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6D46606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2158860A2617
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 17:29:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2158860A2617
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=nqNAPJyr
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=TyRfx+Nj
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=5N+pLaOxaXEBjI3kYto3LAKJTxf1OYPE2hTSsrnSYYI=;
+DKIM-Signature: a=rsa-sha256; bh=xgvHwTGa+PgFPe0I//hfxTTphupF934nrFHnim+v1LA=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794331144; v=1; x=1794935944;
- b=nqNAPJyrr0Ds9wQm2r4y6Z8BxTtSGQFm/wTwnfz59I7GNjjdKAldmTKk3Hb/U/2crh7A+SCq
- AE8/Uy/OofTS0+vQVf/6v2MaCWNjPorE9j2INEc9mu40KDkVMLrmanTX7MOIWKzoaXay7oO9v0V
- 2fwPBb5zw3yYHe9kJc/Nj1xw=
+ t=1794331793; v=1; x=1794936593;
+ b=TyRfx+Nj9qhWLJORmQJkG00WidAQKrEmEkReze3dFnDwOMG5ubMz5j6TBbU5gxNKUSSo22+l
+ RWQiBQEJC7Fzy+MHA7hiTKNiaCPdYnviaThWvOsPIOxLxDZxE941403fyalQxUfCxRXvuJnAfzI
+ 6YYHpzt1bWfshz4xe2pGwoLk=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id b847da00c06e83d1;
-	Tue, 10 Nov 2026 17:19:04 +0000
-X-Mizu-Trace-ID: b847da00c06e83d1
+Received: by smtp.migadu.com with ESMTPS id 9eadaa61fae98012;
+	Tue, 10 Nov 2026 17:29:53 +0000
+X-Mizu-Trace-ID: 9eadaa61fae98012
 X-Migadu-Flow: FLOW_OUT
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5c00d7ac49dso7789e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 09:18:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErFuqYodsDbFqEbASpyYJGKh9G6AbSYWOwWsDylvSGKeOVH+dP7uc18ZEicrKwJBHtY27emW0ZWDVhM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z//MfDZ+9LVsFr4AdIin2JyRcluMnwV2UoDQamUb+4ge0/tYHn3
-	8olUUMy9B3jVAn2NpoimvYtbqbbFspyea/wsAbnxFh7/GdPz4DhtQ4hCcF5vptXv80l2he5WDrB
-	3uhr0kZfgm1iMaxoWizLcjWQu6wbkTEBpbOkM8un4
-X-Received: by 2002:a05:6512:1153:b0:5c1:5361:4aae with SMTP id
- 2adb3069b0e04-5c157dccb40mr145514e87.11.1794331138677; Tue, 10 Nov 2026
- 09:18:58 -0800 (PST)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5c144eb2f43so6200e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 09:29:48 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFYGVCKB9tbw9rg+Vset9tGvan/I4DGwyrSql4B440B1kDLR0RoG68qajomNM1+tSB8wVnG2fnUFDM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/95BZ9PKFd3hfOVN8Mn8JhUch8k/XPVOro2Pv0KFWYpXIrEuEU
+	p5THc7XIXY08uj+X0xtxUtslZz6EtNHhD7wZ1RgSVwyVfCGAwtXEQV4giw6onPW4RvB7gZAIRjT
+	mSHGuqbz1YGFyHs2NyW/DhTBSjLgNiQhnAoyu60xc
+X-Received: by 2002:a05:6512:33cb:b0:5bf:f81a:f24e with SMTP id
+ 2adb3069b0e04-5c157dba643mr143671e87.10.1794331787336; Tue, 10 Nov 2026
+ 09:29:47 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,72 +67,47 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 References: <20261110110724.3614412-1-fuad.tabba@linux.dev>
- <20261110110724.3614412-2-fuad.tabba@linux.dev> <avM81YcTBTJ8zCMX@seanjc-mac.roam.internal>
-In-Reply-To: <avM81YcTBTJ8zCMX@seanjc-mac.roam.internal>
+ <20261110110724.3614412-3-fuad.tabba@linux.dev> <avMoubwqgXbpflwM@gremlin>
+ <CA+EHjTxT_9NghyLSZmOOi_oQboQw-g+6z9WxwaF=-7RdaGbMNw@mail.gmail.com> <avM9_7aWUDJSL3Lq@seanjc-mac.roam.internal>
+In-Reply-To: <avM9_7aWUDJSL3Lq@seanjc-mac.roam.internal>
 From: Fuad Tabba <fuad.tabba@linux.dev>
-Date: Tue, 10 Nov 2026 17:18:22 +0000
-X-Gmail-Original-Message-ID: <CA+EHjTz-Nb-g9YQKX2fKk61hC2BfzXfmUHv=2j+eZ18YuTv2Eg@mail.gmail.com>
-X-Gm-Features: AclHuK8XEMs-LG2DuXG_orFbD_2iTQdN4-tg95UYPdRQQh0AwcU2lWY30uJCy0M
-Message-ID: <CA+EHjTz-Nb-g9YQKX2fKk61hC2BfzXfmUHv=2j+eZ18YuTv2Eg@mail.gmail.com>
-Subject: Re: [PATCH 1/2] KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's dirty
- ring is full
+Date: Tue, 10 Nov 2026 17:29:10 +0000
+X-Gmail-Original-Message-ID: <CA+EHjTzS-=5kKVLD2tH7cvHJXK5UrMkHwHt43oGTz-LfgwnzEw@mail.gmail.com>
+X-Gm-Features: AclHuK_8onLfxAou1vV3GX8Fp1YuNIw5KxweJ38CdU52leAU_A1H9EYmOqgJEWU
+Message-ID: <CA+EHjTzS-=5kKVLD2tH7cvHJXK5UrMkHwHt43oGTz-LfgwnzEw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] KVM: selftests: Test KVM_PRE_FAULT_MEMORY against a
+ full dirty ring
 To: Sean Christopherson <seanjc@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
 	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
 	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
-	Rick Edgecombe <rick.p.edgecombe@intel.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, 
-	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>, stable@vger.kernel.org
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Sean,
-
-On Tue, 10 Nov 2026 15:48:37 +0000, Sean Christopherson
+On Tue, 10 Nov 2026 15:53:35 +0000, Sean Christopherson
 <seanjc@google.com> wrote:
-> On Tue, Nov 10, 2026, Fuad Tabba wrote:
-> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
 [...]
-> > @@ -4461,6 +4461,12 @@ static int kvm_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
-> >                          break;
-> >                  }
-> >
-> > +                /* Like KVM_RUN: only the iteration crossing the soft limit uses the reserve. */
->
-> Please don't include AI comments verbatim.
+> Before we effectively solidify the behavior, I think we should have an explicit
+> discussion about the desired behavior of KVM_PRE_FAULT_MEMORY when dirty logging
+> is enabled.  E.g. the only reason I kept the existing behavior in my auto-prefault
+> series was because I couldn't think of a good reason to change it.  But we never
+> made a concious decision in the first place, i.e. we never considered what would
+> happen if prefaulting collided with dirty logging (as evidenced by this bug).
 
-The series is LLM-assisted, but the comment was actually me.
+FWIW, I'd lean towards a pre-fault not dirtying the page. arm64 (with
+a dirty bitmap) and riscv already map a read fault on a logged page
+read-only.
 
-> > +                if (vcpu->kvm->dirty_ring_size && kvm_dirty_ring_soft_full(&vcpu->dirty_ring)) {
->
-> Eh, I vote to just use kvm_dirty_ring_check_request(), I don't see any harm in
-> clobbering vcpu->run->exit_reason.
+Tried it on x86 by not mapping a prefetch writable in a logged slot,
+so that the fast path logs the first write. That also changes async
+#PF completion, so I don't think it's a stable fix.
 
-Will do.
-
-> Side topic, kvm_dirty_ring_check_request() is rather confusing (clears and then
-> re-sets the requests).  AFAICT, it can be this instead:
->
->         lockdep_assert_held(vcpu->mutex);
->
->         /*
->          * The vCPU isn't runnable when the dirty ring becomes soft full.  Keep
->          * the requests set until the dirty pages are harvested and the dirty
->          * ring is reset by userspace.  Note, checking if the ring is soft-full
->          * can get a false positive, but not a false negative, because only the
->          * vCPU can add entries to the ring, and its mutex is held.
->          */
->         if (kvm_test_request(KVM_REQ_DIRTY_RING_SOFT_FULL, vcpu) &&
->             kvm_dirty_ring_soft_full(&vcpu->dirty_ring)) {
->                 vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
->                 trace_kvm_dirty_ring_exit(vcpu);
->                 return true;
->         }
->
->         kvm_clear_request(KVM_REQ_DIRTY_RING_SOFT_FULL, vcpu);
->         return false;
-
-I'll send it as its own patch.
+The loop has to stop for as long as x86 logs, so should patch 1 stay
+as the stable fix? The test skips when pre-faulting dirties no pages,
+so it doesn't pin either behavior.
 
 Cheers,
 /fuad
