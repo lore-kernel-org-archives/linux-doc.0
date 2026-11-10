@@ -1,85 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794342803;
-	b=j30UC/Y1s+/nOJgdyx+64H0FQLijoOnSM8iyzIpfXlGiGMsMrBfmZI/Bimvk5PkjS6Ww
-	 w509GulDPoEbtX/CTc5oqWvM0Vij88HHIlwgBWLY+mRB67PquGE2366XNa5Ga/jqngO96
-	 1KYSPSzz48/7PoJo6R7NnrmMx0OW4UYyR5RKAWa0fbSz80Wu189RI8tNWtjYyZaTy0wTU
-	 UNHsebHKr3JA4AuCYyDTgaKSFeXsot88qnDLgIE8vzZL4LfEo35OATftW74lXtrJ2QMmf
-	 GjGhkpFqyKr/EP5yZ3mr+SGjeeEAzfBdRUYyLYWEeTMwYRJ1XAUHU/rrTPM7whATIIA==
+	t=1794344400;
+	b=Iu9x++1bqYB29mAb6qMSFXw72Y0aNewZ0j8hRD2Dhn/BHjKnmD7PD+2BSbZ8zRqvJ7rb
+	 AYJ6k7+XEYc9adMmEraThCO7VQZpAFXaUyhIF9q25wYBVD1Am128wLSzYC4ZU59+pSLWZ
+	 h6Qg1bltN1CIef9dusIa0XIqoB+U5VbQCn285FsxKpBhHSLfkKsaVKyLWfn6zRXo2c+Nz
+	 NUn7/Hl6d9/tZothO1hUCIjJHuOzKsw5WQe//CGVMypBYug19Xu+rZsIKxODQIZqLPMJk
+	 XqRGdF1s7HeMHwz5RECv3pCWD8q2HIw1e4qHIy9neQrWjykxWdKE1KmhW7ai0IVnOGA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794342803;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=qgTKR/FH4Odf9egaKgFSB+FS6DwQ8nI7QRh2NSJgel8=;
-	b=sbjJoV7p0E2P4JbkM6dlDtZiK+c3evsWUutouaV8QwC0/IGDxPW9fCGsbC8+V2nd//Qq
-	 bdX5fbl99NqcWAcXmokPVqjy9ZDbSqnfJXpdtG8Nmiqq6IYFSqIJZZv+Va2yGArVwS2ES
-	 H3yHNFN5ckoauSNxHwT+rpWweRhX9HHXyaRKY5mIB/UPdn3wuR8z3/YKojhWvJwjOhI3y
-	 DH6atMab9OKYR2lV7F587OnErq67FI8MUc/OhanYnYOyb7ze142HlxdIhkn8pBNFvBVjL
-	 z6ASEJgwTutqHjoCikrRZhBP82JrZuKMAm7xgm8CEhx67ga79Ncm9FTNxhYM8Np338A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794344400;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=S/FeE+RC3DzmhiiSy3tAczDptJXTBkeu9oA2OuyOpIM=;
+	b=IPab0MADyO4bha9hWoikILWj9aT9Rjc1mePY0JZ4Csa1iImzvYG30hsHYNjKya2AQ0Nw
+	 7TjYgZOfZ/9xgtCwvv6KUxwi9JZcZKzEyw2wc3n2YGG8lEFhKo6B5ADiiuYa2tTgFnMLf
+	 Vzi+vf36A8FkW3hLD00pfAa2BBciF+Xga34kbuJdIVkwtEaY/vtMmrpHSHqq3kydXuQnN
+	 ZfmvSy8IhNGmrlokQYoKd9fQ2QsVaxTWtcryu8DxyZF5uUNCHnCNPE50U8QenYLFkSx4i
+	 jqjuujue/5PIVZqL2SSmuxdjn1H9CtDSziByemrxLNvkHMfH2R6xOeRXR5xBATbClPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=jVEX0cPa;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=xZ1GCxt8;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zz69psnD;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EBF7606A32E;
-	Tue, 10 Nov 2026 20:33:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EBF7606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 927AD606A32E;
+	Tue, 10 Nov 2026 21:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=jVEX0cPa;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=xZ1GCxt8
-Date: Tue, 10 Nov 2026 21:33:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794342801;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qgTKR/FH4Odf9egaKgFSB+FS6DwQ8nI7QRh2NSJgel8=;
-	b=jVEX0cPaFlxBvXXYB+czWXU0erwrtCmM9sZLs2Jutu1xrqpXv74ZeYtvcuTH9LD1ucheWf
-	Py97rMQTsPY+RrY58menLGqg3D1FDnxbK2zfZVNdPOirKdGADSkZY4WKobTGHI/0BsSB3V
-	/TLozkp8CsNxdoleX6QSP/NF0C/GuoEjQBShzwtRM0k3QqEvqASYTC4pUbbHJgpCMn+l9c
-	IwO7zOZXekYsQs7zalsF1MnOz9hSVuEX7N8fVIQI8xG7rRIUbwBeoBhDNq5yICLG7lh4zU
-	hxjEKJhlIUz1TfWpGy41TszdPWqyZ8OEqwCN6qnPr0zlx9xB7FZ7wSgi1TJGJA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794342801;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qgTKR/FH4Odf9egaKgFSB+FS6DwQ8nI7QRh2NSJgel8=;
-	b=xZ1GCxt8tXPmk0qC3Z9b5l/3G6MLfqduPjTEaxGwM53vrt+Vd6ThsS59PMscr5/gCB/Wfm
-	cW9W/KDf5TsTZqCQ==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: Julian Braha <julianbraha@gmail.com>
-Cc: Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, arighi@nvidia.com
-Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
-Message-ID: <avN_juQm3x30nP2n@lx-t490>
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <a20153cd-d148-4618-8089-ad81cb16fe23@gmail.com>
- <avHroNa1vcxmCIOs@lx-t490>
- <c0ccddbc-539c-4987-8685-ec996285f746@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zz69psnD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8037D1F008A1;
+	Tue, 10 Nov 2026 20:59:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794344400;
+	bh=S/FeE+RC3DzmhiiSy3tAczDptJXTBkeu9oA2OuyOpIM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Zz69psnDyoNEEep/IIPTPO3nm/3MiE7qpYfXKD1yzl1Ow9Slp8S/8WuCXpr0ImfoY
+	 NiKqYpjGejyRiBDwKEmfRZ1ZzTEEC91J4wAKAAKdGaS051VAcGTcJ23vJj097yBcov
+	 XI3ILLsfxBpN1Nw4BeKL0kPf3otzE75cm5eipl7Wlxj2rzjOsSsdNg4uHicYLDLSwE
+	 pS4+8NJPPXyksEvfqWyW9HDjPvWNlkywMGEgVknH0a69Va7bOSt53ZXSTFu85i3qW0
+	 2ugdgeTKhd+5vVe2u45TPPJKf8BtyfuhN1prRSs5Gpi4zrbk5CVSADo2big55tpYww
+	 bQDZ5XcE8wPTg==
+From: Sasha Levin <sashal@kernel.org>
+To: gregkh@linuxfoundation.org,
+	stable@vger.kernel.org
+Cc: Sasha Levin <sashal@kernel.org>,
+	Paschalis.Mpeis@arm.com,
+	aaupov@meta.com,
+	acme@redhat.com,
+	corbet@lwn.net,
+	irogers@google.com,
+	james.clark@linaro.org,
+	jolsa@kernel.org,
+	leo.yan@arm.com,
+	linux-doc@vger.kernel.org,
+	mike.leach@arm.com,
+	namhyung@kernel.org,
+	patches@lists.linux.dev,
+	robert.walker@arm.com,
+	skhan@linuxfoundation.org,
+	suzuki.poulose@arm.com,
+	amelie.delaunay@foss.st.com,
+	valentin.caron@foss.st.com
+Subject: Re: [PATCH 6.6.y] perf cs-etm: fix a compilation issue in cs_etm_decoder__set_tid()
+Date: Tue, 10 Nov 2026 15:59:24 -0500
+Message-ID: <2026-11-10-1-daily-reply-0028-perf-cs-etm-6.6@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261109171457.1233670-1-valentin.caron@foss.st.com>
+References: <20261109171457.1233670-1-valentin.caron@foss.st.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,25 +75,12 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c0ccddbc-539c-4987-8685-ec996285f746@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Nov 2026, Julian Braha wrote:
->
-> Yeah, Annotations also supports generation with --export.
->
-> But it does support validating a config with a policy using --check [1]
->
+> perf cs-etm: fix a compilation issue in cs_etm_decoder__set_tid()
 
-I see.
+Queued for 6.6, thanks.
 
-> Anyway, the point was to provide context for the maintainers that this
-> problem is bigger than PREEMPT_RT. I want to see this functionality /
-> your tool in upstream.
-
-Thank you, and I apologize for my defensiveness.
-
---
-Ahmed S. Darwish
-Linutronix GmbH
+-- 
+Thanks,
+Sasha
