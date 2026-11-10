@@ -1,67 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.57
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794330881;
-	b=hHV1/5kedS8Wiq8wykukPuRqat1DjYkuzvtaEnoRnAy0zKhzAgsDe8ARWJ5uNoSk25vB
-	 6zO6Hijnf3uS01a8uMVpaP5nKpL8l8JX0nNAcBiegCSC0eGGtBwl+N9ZqO1TeOf6ye/A+
-	 eKTbPZet25JDAO6mLubq+dnExz7hwengyVrNHfzhHncJkajX89vdbMwqjvuuAk92ufI+0
-	 CtXNbEC/KQU97Fu5kQZrryWca4fAmoCrVGczHtKh1Uq5L2nd3Opg/1UKvsYyRmy0Gedxw
-	 ZuaY/Lu/egVV+u+Pt30ZLlRyIEN/Rk5/sKw1EH9CFjYPVbSBxHJ+FNpVyqfU42aSbpA==
+	t=1794331147;
+	b=oRdcYxEtMyJsCEmwJ31H6m1JLcA2mxTk61mPXUWSEq75fjBknWyexBxMthJ4emT2zkB2
+	 /LbkZLvAnbcyRMh8rgvLFu1BA6VyuLWM7pTj6tfDx62P4ll7MwiIPBXDk/81GZfJ2n6dF
+	 RXY3b1Reu0CZyQj14VgL1qp8sdcMVzocW8b1Ecr0o13TPWyRvavitgn6WtQQ2KQKd4Qva
+	 KHQYK/zkt9N4S25DEohy6aqV8zmA61QyiMuiSui8a9ZmbkkEtYsSKUY6nV4irMUBSDqH6
+	 0onBHdcgEtQt2fqrVaJaPSjTC2mmaYGfDNyZ0UuzNRXnrIOw3C5SzFVceOUV3fyq4nw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794330881;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=2CWWwBUP75y7qeaBbwDnAx9ZaNZrhjbF8wSCiL7IKSU=;
-	b=0uw5m70sTqlFkyYlaOevDnHqr8MV0ti3VqGRLYWpyhzOyFwt7H9yab3kVHgD/xAA/KDI
-	 5A93KrLxYn9WaA1hezkxUuLtcXk/6VeBPGYUHKJ1iAMxCBix5LXL01VVcoAsZ54ynJFZL
-	 KW62kSMlIil4qfV++SSOThpc8JLfvQb+8aq4zYmN9QBuRK4b7DAugUOkGtQojpCR/IPdc
-	 LpaKqklsR6qTJzym+hK9FG4AQnPYxmBbBlc6ngWIO+v1L6D40Yc61NCMjuepm4wYZE2RM
-	 tPNex639WtAE1ZLVHUkBghoXNQ3RYmFYdyjSg0MbQ9XTU5y0mo5zEWmUkz9Ad2XrXPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794331147;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=V7fyh20lQdCfEvkMlKmFXdlszEDXLNAOR5UNt1WFBvY=;
+	b=sbZFORs5EFknABXVR9bDOGR3jXct79+IowtbisErHoOEIMckH0E3rMIonrxniLo5wobN
+	 w6/mDJd4O+xq97m/MSpxGURD2ojl/pR/rBfQx1mfgRjD6b+MlvkiHjTBj7zFBJoGCt8pL
+	 m6n2ac8CSlQCalsix+Vs9ptIr9/G+Q7W12nbhOtUV+0AG0teUB+Q4H2T3tYvHFcEgEgiB
+	 yyWwvdfSxrwLHh8RqbpxPzh49L+dQDIZDG/XGo8FGSshz43/WtILiCd0CPH26vjdlNePn
+	 IVp4nzBr1nrQx96EUZA6t2lZxKfDZJxlcQhDE/qAWWPdSvn6Rt2jVpNAICmb3vPhZnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jwon+Oqb;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=nqNAPJyr;
+	arc=none smtp.remote-ip=91.218.175.57
+Received: from mta0.migadu.com (out-57.mta0.migadu.com [91.218.175.57])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203D5606A31C;
-	Tue, 10 Nov 2026 17:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D46606A323
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 17:19:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6D46606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jwon+Oqb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1424F1F008A3;
-	Tue, 10 Nov 2026 17:14:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794330881;
-	bh=2CWWwBUP75y7qeaBbwDnAx9ZaNZrhjbF8wSCiL7IKSU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=jwon+Oqb/6PP0H1Io0CQtrXfQ71uqFebwkSxchnbrREoZ2ERqfWIEXPqB3jOOPX/O
-	 lTA+de6AB7YDR5Og30I+JjzHdVEyefUXxDm1FnwIhaX7LriRmYHswKuE9bPhrih1xY
-	 REHOm+pSBrN1uEssH1HOvUCtHR1HeYFCmBlPPCubUtXhHqPGf4oXDexj5MFc+IY2vb
-	 ojB6jkLMyOzEH89kXQnr8xHq28MHyKbi9nimZmfBOq1OvC5ZuJ4HkaLc4rLXbFxmDl
-	 Z48pcdv73bOmHUCs54lCosSsdB0bKTRkwQKg/Y3Xum2UXQHZAW34ATP5IT3fIoGzk5
-	 UJDbglDwIvcfg==
-From: Sasha Levin <sashal@kernel.org>
-To: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kbuild@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [GIT PULL] Kernel API specification framework for v7.4
-Date: Tue, 10 Nov 2026 12:14:37 -0500
-Message-ID: <20261110171437.2854704-1-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261025164719.1831477-1-sashal@kernel.org>
-References: <20261025164719.1831477-1-sashal@kernel.org>
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=nqNAPJyr
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=5N+pLaOxaXEBjI3kYto3LAKJTxf1OYPE2hTSsrnSYYI=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794331144; v=1; x=1794935944;
+ b=nqNAPJyrr0Ds9wQm2r4y6Z8BxTtSGQFm/wTwnfz59I7GNjjdKAldmTKk3Hb/U/2crh7A+SCq
+ AE8/Uy/OofTS0+vQVf/6v2MaCWNjPorE9j2INEc9mu40KDkVMLrmanTX7MOIWKzoaXay7oO9v0V
+ 2fwPBb5zw3yYHe9kJc/Nj1xw=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id b847da00c06e83d1;
+	Tue, 10 Nov 2026 17:19:04 +0000
+X-Mizu-Trace-ID: b847da00c06e83d1
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5c00d7ac49dso7789e87.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 09:18:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFuqYodsDbFqEbASpyYJGKh9G6AbSYWOwWsDylvSGKeOVH+dP7uc18ZEicrKwJBHtY27emW0ZWDVhM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z//MfDZ+9LVsFr4AdIin2JyRcluMnwV2UoDQamUb+4ge0/tYHn3
+	8olUUMy9B3jVAn2NpoimvYtbqbbFspyea/wsAbnxFh7/GdPz4DhtQ4hCcF5vptXv80l2he5WDrB
+	3uhr0kZfgm1iMaxoWizLcjWQu6wbkTEBpbOkM8un4
+X-Received: by 2002:a05:6512:1153:b0:5c1:5361:4aae with SMTP id
+ 2adb3069b0e04-5c157dccb40mr145514e87.11.1794331138677; Tue, 10 Nov 2026
+ 09:18:58 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,18 +66,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261110110724.3614412-1-fuad.tabba@linux.dev>
+ <20261110110724.3614412-2-fuad.tabba@linux.dev> <avM81YcTBTJ8zCMX@seanjc-mac.roam.internal>
+In-Reply-To: <avM81YcTBTJ8zCMX@seanjc-mac.roam.internal>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Tue, 10 Nov 2026 17:18:22 +0000
+X-Gmail-Original-Message-ID: <CA+EHjTz-Nb-g9YQKX2fKk61hC2BfzXfmUHv=2j+eZ18YuTv2Eg@mail.gmail.com>
+X-Gm-Features: AclHuK8XEMs-LG2DuXG_orFbD_2iTQdN4-tg95UYPdRQQh0AwcU2lWY30uJCy0M
+Message-ID: <CA+EHjTz-Nb-g9YQKX2fKk61hC2BfzXfmUHv=2j+eZ18YuTv2Eg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] KVM: Stop KVM_PRE_FAULT_MEMORY when the vCPU's dirty
+ ring is full
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Isaku Yamahata <isaku.yamahata@intel.com>, 
+	Rick Edgecombe <rick.p.edgecombe@intel.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Linus,
+Hi Sean,
 
-Ping? It didn't make rc1 and I never heard back.
+On Tue, 10 Nov 2026 15:48:37 +0000, Sean Christopherson
+<seanjc@google.com> wrote:
+> On Tue, Nov 10, 2026, Fuad Tabba wrote:
+> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
+[...]
+> > @@ -4461,6 +4461,12 @@ static int kvm_vcpu_pre_fault_memory(struct kvm_vcpu *vcpu,
+> >                          break;
+> >                  }
+> >
+> > +                /* Like KVM_RUN: only the iteration crossing the soft limit uses the reserve. */
+>
+> Please don't include AI comments verbatim.
 
-Are you still planning to pull it? If not, could you tell me what you
-don't like about it? I'd much rather fix whatever it is (or rethink the
-approach) than send you the same thing again next cycle.
+The series is LLM-assisted, but the comment was actually me.
 
-It's still the same tag, nothing changed on my end...
+> > +                if (vcpu->kvm->dirty_ring_size && kvm_dirty_ring_soft_full(&vcpu->dirty_ring)) {
+>
+> Eh, I vote to just use kvm_dirty_ring_check_request(), I don't see any harm in
+> clobbering vcpu->run->exit_reason.
 
--- 
-Thanks,
-Sasha
+Will do.
+
+> Side topic, kvm_dirty_ring_check_request() is rather confusing (clears and then
+> re-sets the requests).  AFAICT, it can be this instead:
+>
+>         lockdep_assert_held(vcpu->mutex);
+>
+>         /*
+>          * The vCPU isn't runnable when the dirty ring becomes soft full.  Keep
+>          * the requests set until the dirty pages are harvested and the dirty
+>          * ring is reset by userspace.  Note, checking if the ring is soft-full
+>          * can get a false positive, but not a false negative, because only the
+>          * vCPU can add entries to the ring, and its mutex is held.
+>          */
+>         if (kvm_test_request(KVM_REQ_DIRTY_RING_SOFT_FULL, vcpu) &&
+>             kvm_dirty_ring_soft_full(&vcpu->dirty_ring)) {
+>                 vcpu->run->exit_reason = KVM_EXIT_DIRTY_RING_FULL;
+>                 trace_kvm_dirty_ring_exit(vcpu);
+>                 return true;
+>         }
+>
+>         kvm_clear_request(KVM_REQ_DIRTY_RING_SOFT_FULL, vcpu);
+>         return false;
+
+I'll send it as its own patch.
+
+Cheers,
+/fuad
