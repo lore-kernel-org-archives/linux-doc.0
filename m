@@ -1,85 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794314959;
-	b=J6MeK61RQMeNIEnpb2Pylae8gdtUYcFCS6QRZpv/TLE9vtVQjpYjoS4l5ZoXLyFznTgq
-	 rgvKAS6nYyGyl+s3jQPbdqNlusDB6s+MzvktkQBFYSzFxJDysm/D2EptAIGb1aN6I2GR8
-	 GkHUas2XLUA0+ssogn4DWQOc5YzuiQK8ED64/nsoD5C5l6yiGRzkVDsdOfxiFJuJTifUg
-	 gPfoJwcNO18ogMhlmIbU48FybJd+tMCRYo7ABhKWqfPYmSL7nulmK1eb3Yet6rseoissu
-	 CxHAVUbCZXlZc/wDu+/zaOeHDSri/wsX1bjvmS65ZGlMg5cXHH0b8KXpVRDfv08r4CQ==
+	t=1794315733;
+	b=PZPt37Dk9Of2llU1fsYA2S4p6PxdOWVd1IOMC4WV9ReI0+gCFIGzXduzweVL1Zd0Fha8
+	 VnSAGIknmeGpU8z+q1CcQvl1umm7sEHuyjmIlhmtO2qtg7FUnxt1a4i/FLrA6pL6eb92H
+	 i71o2IPFxyEimu6IGaL72jExbaxQQmqJVlbyRsNqd35ly886ZtEQstEpQNB8p/sMoS/Lj
+	 I7pd14VWvl89+vC7UzS9V7oB+GJhIKSHGJR6KHTxGYuvqOqF1K7sbGHlWtLj9ESq+S97f
+	 cdcemjcGoYpf2JUFAbz31UfVkkv2YbOYo+vIMB6GGh8dAcgfEuQ5+eRQhkEeWHqczNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794314959;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding;
-	bh=CbaK/OiLsBp24ctmmqfxEDeKLJHZS6Yzb8a5ARPuJDc=;
-	b=Up1iCLU55Gvct4GpFEuZ/qlqo3GbEVU5QvUkDvfiR8q66O3MRLDkdssuOM/grykJYp9g
-	 Gw2jnkjn/MIRin4zbQ68YoPE8P5ymk7EzOOFQUoYzuqw2jkU3cyfDv8PuEElMU5gsqM/T
-	 zeKGi6loSNxcuIXk/P7as/k+WW/sbk87sVdCwrx7NdaYfR0TGF3iToc37jCtxuqlllWi0
-	 NjsGo7joE9faeF58gdCT6sochgfyhYPSLYez0X/wAqzIAI8/vGjeqxUj4KtALZOzljPVh
-	 HPm+BHf3pjTgVHr6lMDxI4dLneuVEz173/6nD+9+OG8sdrq7A4dC8vEuE3uG0FbXS8w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794315733;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=jmytX1alxm46Z7KikqFXBcorSxxsi2qlPM9aYuMFJLo=;
+	b=LUiHKnTu9UasjpjnrXLXv6PCeKuIvuAb3iP8tgULbzOAurWBB3LfYDXpjGGmNZGxrBa0
+	 Dii0EZ9jKQA72UPO7kTiiIP2pn1q7oqRsFKs8NTDd68qRj4VdWoWOT7iVy/mUU5PJLdjk
+	 hX2bpEAS61DeJfoPHDGM3QUQoLzHRTzN6ZkP1o1vS6DzkZdQhRQSZc/5l5wRYjRYb1crX
+	 vLWUyvrYRB4vvGN/XB8olrk1nrxP6+X4PPb2aTOXV1wPBu+SxTiHtBNVBqMFzZA2NQ/0d
+	 UJ+b/DjkAiPsuWZpZAKIZY1fMGdLd+vI74wgZzy9IackExBVVyF7Cy575sUQ+k7lq1g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b="FW4jWPq/";
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99B25606A337;
-	Tue, 10 Nov 2026 12:49:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99B25606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eAo3gcZm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06368606A7D6;
+	Tue, 10 Nov 2026 13:02:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=FW4jWPq/
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C64A514BF;
-	Tue, 10 Nov 2026 04:49:14 -0800 (PST)
-Received: from LeoBrasDK.cambridge.arm.com (LeoBrasDK.cambridge.arm.com [10.2.212.21])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8EE773F85F;
-	Tue, 10 Nov 2026 04:49:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794314957; bh=P5lO3LRwfz3Xx9spMdnYq5HZgom/q8jT5u8waDgtbsc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FW4jWPq/tfDZxBG7gTvwO6Saghy4qPGyV+hze///XZNsFLtYaK5wj2gUsAQ3b/1gh
-	 T6W5B9h4lNu/oIbpkFS2CPsomzXXZPsB1rdaGrB44ze6FvmHsifyDOH/BV74iyXiQD
-	 /n5r91Z2/5jv4DVU8iWFUs+t19uEOqOgbofPVNlY=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	yangjinqian1@huawei.com,
-	caijian11@h-partners.com,
-	liuyonglong@huawei.com,
-	tangchengchang@huawei.com,
-	yezhenyu2@huawei.com,
-	yubihong@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	seiden@linux.ibm.com,
-	suzuki.poulose@arm.com,
-	fuad.tabba@linux.dev,
-	mark.rutland@arm.com,
-	seanjc@google.com,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	skhan@linuxfoundation.org
-Subject: Re: [PATCH v5 11/15] KVM: arm64: Reserve dirty ring space for the HDBSS buffer
-Date: Tue, 10 Nov 2026 12:49:07 +0000
-Message-ID: <avMSw3LLDIFT3kSR@LeoBrasDK>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <90775cb3-84ab-4690-a252-1ac41488118f@huawei.com>
-References: <20260929103655.85107-1-zhengtian10@huawei.com> <20260929103655.85107-12-zhengtian10@huawei.com> <auikG0clmr19sAjh@LeoBrasDK> <afcbf19b-bd13-4afc-ab56-8bc50c793e50@huawei.com> <au30DqzWIFny1tpr@LeoBrasDK> <d81243e3-d790-4ee8-9b28-36d35591ee77@huawei.com> <avIOZTvQF-1sxs2p@LeoBrasDK> <90775cb3-84ab-4690-a252-1ac41488118f@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eAo3gcZm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94E9B1F008A1;
+	Tue, 10 Nov 2026 13:02:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794315732;
+	bh=jmytX1alxm46Z7KikqFXBcorSxxsi2qlPM9aYuMFJLo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=eAo3gcZmqWtOPx75UD0JZIp0/rUOLSR0khkKOdV3zDQpnO/7F2bZHqCcpNMU1s4Uw
+	 hWoWOZt/+jQTl7OgWOqvnge9FG9Fl/PAdnGKw7zFrGaUHZI/XslnIp+3eHejYM5OPC
+	 RD8x1cruazrVkl32sSZURBRLH/JOoe7yL8qFJr+fh3AWCGpNoq6qyH5yUujdFxbUHU
+	 6Rno1WwU7leYRROXtOmhgileWTmV45YB4mm5bWRb3TU/2g/mCEKhONzuGe2fF2Njrb
+	 etwhPt6N036CMwbplvwU+KhtCGY8K6gt508qM69S4B1uyQNA8toNyyXwnGBAuFo2te
+	 Z90IQAjrffWjw==
+Message-ID: <287c1cb5-7523-4f73-a16b-b066fd9d56a7@kernel.org>
+Date: Tue, 10 Nov 2026 14:01:59 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,228 +51,184 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH bpf-next 00/15] xdp: add SKB core extensions to keep RX
+ metadata until skb creation
+To: Tianyi Gao <tianyi@cloudflare.com>, bpf@vger.kernel.org,
+ netdev@vger.kernel.org, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Jakub Kicinski <kuba@kernel.org>
+Cc: John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Lorenzo Bianconi <lorenzo@kernel.org>,
+ Vladimir Vdovin <deliran@verdict.gg>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Donald Hunter
+ <donald.hunter@gmail.com>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>,
+ Tony Nguyen <anthony.l.nguyen@intel.com>,
+ Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>,
+ Magnus Karlsson <magnus.karlsson@intel.com>,
+ Tushar Vyavahare <tushar.vyavahare@intel.com>,
+ Jason Xing <kerneljasonxing@gmail.com>,
+ Nikolay Aleksandrov <razor@blackwall.org>,
+ Madalin Bucur <madalin.bucur@nxp.com>, Ioana Ciornei
+ <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>,
+ Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
+ <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Chris J Arges <carges@cloudflare.com>, Jakub Sitnicki
+ <jakub@cloudflare.com>, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+ llvm@lists.linux.dev, kernel-team@cloudflare.com
+References: <cover.1794281983.git.tianyi@cloudflare.com>
+Content-Language: en-US
+From: Jesper Dangaard Brouer <hawk@kernel.org>
+In-Reply-To: <cover.1794281983.git.tianyi@cloudflare.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 10, 2026 at 04:54:30PM +0800, Tian Zheng wrote:
+
+
+On 11/10/26 04:56, Tianyi Gao wrote:
+> An skb gets its RX hash, VLAN tag and checksum status from the RX
+> descriptor, which describes the packet before the XDP program ran.
 > 
+> Without this series:
 > 
-> On 11/10/2026 2:18 AM, Leonardo Bras wrote:
-> > On Mon, Nov 09, 2026 at 12:00:52PM +0800, Tian Zheng wrote:
-> > > 
-> > > 
-> > > On 11/6/2026 11:36 PM, Leonardo Bras wrote:
-> > > > On Fri, Nov 06, 2026 at 06:36:04PM +0800, Tian Zheng wrote:
-> > > > > 
-> > > > > 
-> > > > > On 11/2/2026 10:54 PM, Leonardo Bras wrote:
-> > > > > > On Tue, Sep 29, 2026 at 06:36:51PM +0800, Tian Zheng wrote:
-> > > > > > > The dirty ring reserves room for CPU-side dirty buffers via
-> > > > > > > kvm_cpu_dirty_log_size(). Report the HDBSS buffer entry count
-> > > > > > > through it, so a full buffer flush always fits in the ring.
-> > > > > > > 
-> > > > > > > Pin the HDBSS buffer size to PAGE_SIZE when dirty-ring is enabled,
-> > > > > > > via kvm_arch_dirty_ring_size_updated(): a larger buffer only
-> > > > > > > shrinks the soft_limit and forces more frequent userspace drains.
-> > > > > > > 
-> > > > > > > Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
-> > > > > > > ---
-> > > > > > >     arch/arm64/kvm/arm.c | 8 ++++++++
-> > > > > > >     arch/arm64/kvm/mmu.c | 8 ++++++++
-> > > > > > >     2 files changed, 16 insertions(+)
-> > > > > > > 
-> > > > > > > diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> > > > > > > index 9d7bdece149a..5a7046acb62e 100644
-> > > > > > > --- a/arch/arm64/kvm/arm.c
-> > > > > > > +++ b/arch/arm64/kvm/arm.c
-> > > > > > > @@ -215,6 +215,14 @@ static int kvm_arm_default_max_vcpus(void)
-> > > > > > >     	return vgic_present ? kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
-> > > > > > >     }
-> > > > > > > 
-> > > > > > > +void kvm_arch_dirty_ring_size_updated(struct kvm *kvm)
-> > > > > > > +{
-> > > > > > > +	if (!system_supports_hdbss())
-> > > > > > > +		return;
-> > > > > > > +
-> > > > > > > +	kvm->arch.hdbss_buffer_size = KVM_ARM_HDBSS_DEFAULT_SIZE;
-> > > > > > > +}
-> > > > > > > +
-> > > > > > 
-> > > > > > On the same subject as a previous patch:
-> > > > > > I don't think this is the best approach, on top of adding a new weak
-> > > > > > function to take care.
-> > > > > > 
-> > > > > > Maybe during the dirty-ring allocation, on vcpu creation, we could take
-> > > > > > into account the requested dirty-ring size, and just allocate the HDBSS
-> > > > > > buffer taking that into account. That would make it simpler, don't you
-> > > > > > agree?
-> > > > > > 
-> > > > > > Thanks!
-> > > > > > Leo
-> > > > > 
-> > > > > Hi Leo,
-> > > > > 
-> > > > > The "set once" guard we're discussing comes from the patch that adds the
-> > > > > ioctl, and it isn't really needed. We discussed this earlier [1]: we can
-> > > > > just initialize hdbss_buffer_size to PAGE_SIZE at VM creation and let
-> > > > > the ring reservation use it directly. **That also means
-> > > > > kvm_arch_dirty_ring_size_updated() can be removed.** Thanks for your
-> > > > > suggestion.
-> > > > 
-> > > > :)
-> > > > 
-> > > > > 
-> > > > > As for why PAGE_SIZE is the right value in ring mode: the HDBSS buffer
-> > > > > is flushed on every VM exit, so a larger buffer doesn't reduce the flush
-> > > > > frequency. It only inflates the ring reservation (64 + size/
-> > > > > sizeof(u64)), which shrinks the soft_limit and forces more frequent
-> > > > > exits to userspace for the ring to be drained. Draining the dirty ring
-> > > > > from QEMU is more expensive than draining the HDBSS buffer from the
-> > > > > kernel, so the smallest buffer gives the best performance. In this mode,
-> > > > > a larger buffer provides no benefit to users.
-> > > > 
-> > > > Humm, if properly dimensioned larger buffers would be benefitial for
-> > > > memory-intensive workloads, unless they are guest_exiting for other
-> > > > reasons in the meantime.
-> > > > 
-> > > 
-> > > Agreed, and the workload I tested is on the "unless" side. The guest
-> > > exits constantly for other reasons, so the larger buffer never got a
-> > > chance to pay off, and only cost ring capacity.
-> > > 
-> > > > > 
-> > > > > In my tests, I also saw performance degrade when more space is reserved.
-> > > > > 
-> > > > 
-> > > > Humm, what kind of workloads did you test?
-> > > > Did you have the chance to monitor what were the reasons for VM exiting?
-> > > > 
-> > > 
-> > > For the workload question, it's a Redis server in the guest under redis-
-> > > benchmark (SET-only, 2KB values, 1M keys, 100M requests). The traffic is
-> > > network-driven, so the guest exits constantly to service requests. The
-> > > HDBSS buffer only accumulates entries between two exits and is flushed
-> > > on every exit, so it rarely fills regardless of size. A larger buffer
-> > > only inflated the ring reservation, which shrinks the soft_limit and
-> > > makes the ring-full exit and userspace drain fire more often.
-> > > 
-> > > > I am not saying this is mandatory for the HDBSS implementation, but the
-> > > > whole idea of letting the user choose their own HDBSS buffer size is
-> > > > because different workloads may benefit from different buffer sizes: if a
-> > > > VM writes a lot to new memory, and exits very little for other reasons,
-> > > > then a larger buffer will cause the VM to guest_exit much less often.
-> > > > 
-> > > > Does that make sense?
-> > > > 
-> > > > Thanks!
-> > > > Leo
-> > > 
-> > > It does make sense. That's exactly the workload where a larger buffer
-> > > pays off, and the next version no longer gets in its way. The two ioctls
-> > > are no longer mutually exclusive.
-> > > 
-> > > The only coupling left is the reservation. hdbss_buffer_size starts at
-> > > SZ_4K at VM creation, so a ring enabled right away reserves for the
-> > > default buffer (64 + 512 entries), and the minimum ring size accepted is
-> > > unchanged from v5. KVM_CAP_ARM_HDBSS_BUFFER_SIZE is the gate. When the
-> > > ring is already enabled, a size is accepted only if its reservation
-> > > still fits in the ring, otherwise -EINVAL. In the other order, ring-
-> > > enable validation rejects a ring too small for the configured size.
-> > 
-> > I don't think this is needed. If using dirtyring, we don't need to allow
-> > user to set hdbss size: HDBSS size should be sized according to the
-> > dirty-ring dimensions, that are set by userspace before the first vcpu is
-> > created.
-> > 
-> > 
-> > > So SZ_4K is just the conservative default for guests that exit often.
-> > > Anything larger, within what the ring can reserve, is up to the user.
-> > > 
-> > > Does this work for you?
-> > 
-> > I still think we should do PAGE_SIZE for dirty-bitmap. Dirty ring should do
-> > based on the dirty-ring size, and maybe review the use of reserved
-> > entries, or it's accounting.
-> > 
-> > What do you think?
-> > 
-> > Thanks!
-> > Leo
+> - On XDP_PASS, the values are stale. After the program strips a UDP
+>    tunnel header, the stack applies the outer CHECKSUM_UNNECESSARY to the
+>    inner packet [1]. If the outer UDP checksum is 0, a packet with a bad
+>    inner checksum reaches the socket.
+
+Our XDP Unimog load-balancer uses GUE like packet encapsulation, so it
+hits above case all the time. If packet is end-host, it modify packet by
+popping header and returns XDP_PASS for local netstack delivery.
+
+> - On XDP_REDIRECT, the values are lost. The skb that cpumap or veth
+>    builds from the xdp_frame has no RX hash and no VLAN tag, and its
+>    checksum status is CHECKSUM_NONE.
 > 
-> Hi Leo,
+> In one use case, an XDP program redirects packets into a veth device.
+> The checksum status is lost, so GRO verifies every checksum in software.
+> With one TCP flow, this costs 34% of the receiving CPU.
 > 
-> Thanks for your review. It does make sense!
-> 
-> I agree that dirty-bitmap mode will keep PAGE_SIZE as the default, and
-> in that mode the ioctl stays available for a larger buffer.
-> 
-> In ring mode we will drop the ioctl, the two remain mutually exclusive,
-> and the buffer will be derived from the ring size userspace configured
-> before the first vCPU is created:
-> 
-> ```
-> hdbss_buffer = clamp_t(unsigned long,
->                        rounddown_pow_of_two(ring_size / 16),
->                        SZ_4K, KVM_ARM_HDBSS_MAX_SIZE);
-> ```
+> Another use case [2] is load balancing IPsec tunnel traffic with cpumap.
+> Without the RX hash, GRO on cpumap puts all flows into the same bucket.
+> In a cpumap test with 16 TCP flows and no IPsec, the throughput is
+> 17.6 Gbit/s instead of 23.4.
 > 
 
-Are you allocating 1/16th of the ring size in bytes as an hdbss buffer?
-That's confusing. I recommend we rather have something like:
+Yes, GRO missing RX-hash for bucket split is real. Above IPsec XDP load-
+balacing have been running in production for a year by now.
+Our more general RX-pipeline CPUMAP redirect is currently being tested
+in production.  This means all of our traffic will soon be hitting this
+GRO limitation.
 
-ring_entries = ring_size / sizeof(struct kvm_dirty_gfn);
-hdbss_entries = ring_entries / 2; // Or any number we decide to use here.
-hdbss_buf_size = hdbss_entries * sizeof(hdbss_buf_entry);
-
-Then we do 
-hdbss_buf_size = clamp_t(unsigned long,
-                         rounddown_pow_of_two(hdbss_buf_size),
-                         SZ_4K, KVM_ARM_HDBSS_MAX_SIZE);
-
-So it's clear what is what here. 
-Just dividing by 16 above can be confusing to whoever is reading the code.
-
-
-> A buffer entry is 8 bytes and a ring entry is 16 bytes, so:
-> 
-> ```
-> buffer entries = buffer_size / 8
-> ring entries   = ring_size / 16
-> ```
-
-Remember to use the sizeof instead of fixed numbers.
-
-> 
-> This means ring_size / 16 reserves at most one eighth of the ring
-> entries for the HDBSS buffer. That keeps the usable ring above 85% while
-> the buffer still grows with the configured ring size, and the result is
-> independent of the kernel page size, with SZ_4K as the only minimum.
-
-Yeah, remember that if you are dealing with the ringbuffer like this, an 
-user can request a 4k ringbuffer and we just won't be able to use hdbss, as 
-it means 4k/16 entries, and hdbss has the minimum of 4k/8.
-
-As I mentioned, maybe this approach of reserved entries is not the right 
-way of dealing with it in arm64.
-
-> 
-> One eighth is the ratio that looks reasonable to me so far. What do you
-> think?
+> This series introduces SKB core extensions for XDP. It reserves an skb
+> core extension area in the headroom, right after the space for struct
+> xdp_frame. An XDP program stores RX metadata in the area with kfuncs,
+> and the kernel sets the skb fields from it. This design was initially
+> proposed in [3].
 > 
 
-I see no reason why it could not be higher than that. It all depends on how 
-you want to deal with the full buffer in the future patchset. If hdbss 
-buffer is full, it has to exit and drain to the dirtyring. The guarantee 
-you seek with reserved entries is that all hdbss entries fit in the 
-dirty-ring.
+Yes, I agree. We don't want to add static members to xdp_frame, as it
+will always reserve the space.  Instead this only takes up the space
+when needed.  The most obvious case is the VLAN.
 
-As long as the user is required to drain entries until the dirty-ring is 
-not 'full' anymore, we could easily work with dirty-ring having twice as 
-many entries as the hdbss buffer.
 
-How does it sound?
+> The layout of the area follows skb extensions (struct skb_ext). A small
+> header gives the offset of each entry. An entry takes headroom only when
+> the program stores it, so the area does not grow with each new type of
+> RX metadata, unlike [4]. Unlike skb_ext, the area needs no allocation.
+> 
 
-Thanks!
-Leo
+Hopefully other maintainers like this encoding format better than our
+previous attempt.  As this is already used by existing skb extensions.
+This is not expose as UAPI and BPF access this via helpers.
+
+
+> This series supports three types of RX metadata. Each type has a store
+> kfunc, and bpf_xdp_skb_ext_del() deletes an entry:
+> 
+> - The RX hash and its type: bpf_xdp_skb_ext_store_rx_hash().
+> - The VLAN tag and its protocol: bpf_xdp_skb_ext_store_rx_vlan().
+> - The checksum status: bpf_xdp_skb_ext_store_rx_csum(). Only
+>    XDP_CHECKSUM_NONE, or XDP_CHECKSUM_UNNECESSARY with a csum_level up to
+>    SKB_MAX_CSUM_LEVEL, are allowed [5][6].
+> 
+> The kernel sets the skb fields from the area:
+> 
+> - After XDP_REDIRECT, in __xdp_build_skb_from_frame().
+> - On XDP_PASS, in the NIC driver. A driver that does this sets the new
+>    XDP feature skb-ext-pass. On other native XDP drivers, the kernel
+>    warns once when the program returns XDP_PASS with stored values, and
+>    ignores the area. This series adds the support to ice.
+> 
+> The existing XDP RX metadata kfuncs are bpf_xdp_metadata_rx_*(). Only
+> a device-bound program can call them. Programs on cpumap and devmap are
+> not device-bound, so they cannot call them. Relaxing this check would
+> change their semantics. So this series adds three load kfuncs,
+> bpf_xdp_skb_ext_load_rx_*(). They read the stored values.
+> 
+> bpf_xdp_adjust_head(), bpf_xdp_adjust_meta() and bpf_xdp_pull_data() do
+> not move the packet or the metadata into the area. In this series, the
+> area takes at most 20 bytes of headroom. With the hardware RX timestamp,
+> the RX queue index and CHECKSUM_COMPLETE, it would take up to 40 bytes.
+> 
+
+I like how the size usage is limited in this patchset. As I understood, 
+this was previously a concern from Jakub/kuba in my previous patchset.
+In my previous patchset we allowed more flexibility and others to use 
+this area. This has been dropped. Notice how this patchset focus only on 
+the fields needed for the SKB.  This is basically working towards that
+xdp_frame becomes the "mini-SKB" concept.
+
+
+> Lorenzo's RX checksum kfunc series v5 [7] also defines enum
+> xdp_checksum. The series that is merged second drops its copy.
+> 
+> Performance:
+> 
+> We measured on ice (E810, 25 Gbit/s) with bpf-next 0fb18ce8a2e9, patches
+> 1-3 of [7] and this series. In the RX metadata column, the XDP program
+> reads a value with bpf_xdp_metadata_rx_*() and stores it. The veth test
+> stores the checksum status, and the cpumap test stores the RX hash. The
+> kernel then sets the value on the skb. Baseline does not store it. Each
+> value is the median of 5 rounds:
+> 
+> test                  metric          baseline     RX metadata
+> veth, 1 TCP flow      RX CPU busy     100%         66% (-34%)
+> veth, 1 TCP flow      RX cycles/pkt   2027         1343 (-34%)
+> cpumap, 16 TCP flows  throughput      17.6 Gbit/s  23.4 (+33%)
+> cpumap, 16 TCP flows  pkts/GRO skb    3.4          7.5 (+122%)
+> 
+> Both veth columns reach line rate, so the gain is in CPU time. A store
+> kfunc takes 2.9 to 4.9 ns. Details are in [8].
+> 
+
+Nice performance gains :-)
+
+--Jesper
+
+[... cut ...]
+ > [1]https://lore.kernel.org/all/20260227153231.78d16b69@kernel.org/
+ > 
+[2]https://lore.kernel.org/all/ca38f2ed-999f-4ce1-8035-8ee9247f27f2@kernel.org/
+ > 
+[3]https://lore.kernel.org/all/1d5521eb-84fc-4417-a3f5-6366694d160a@kernel.org/
+ > [4]https://lore.kernel.org/
+ > all/175146824674.1421237.18351246421763677468.stgit@firesoul/
+ > [5]https://lore.kernel.org/all/20260722113525.34092660@kernel.org/
+ > [6]https://lore.kernel.org/all/20260721183256.6f49d6e1@kernel.org/
+ > [7]https://lore.kernel.org/all/20260715-bpf-xdp-meta-rxcksum-
+ > v5-0-623d5c0d0ab7@kernel.org/
+ > [8]https://github.com/tgao-cf/skb-core-extensions-bench
+
 
