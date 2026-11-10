@@ -1,114 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.230.193
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794322860;
-	b=Vzfg+udBeo2gdHiFM5p2rMV4VSDn03PoGS7/mrzfKay35lBPEY/CnLjr4Os+hYLjHCFw
-	 p3cSmI3r5ykBOXEU4Y7/raa7fvRLHAXg938byU8c/95tFER7Vjkf/P2s79gARciVY4ml0
-	 piBw4a3rdtljh45SFQx9fX5lVtPEbWBp4w8fTLLSddcPyuheyE7Mg+/CXc6bI1adDiToK
-	 qpOv0r/OaLjxqtM9NgS1aGOAWwSqUxYxgP56oAw6U7XLwGjWRVwouvWHPQx0IQSAErY6Y
-	 iXwBawdQoJTFpPXQsF7L/4j9mzTkMLT0UNlH8DqkR2yBnwe0nC3bb2FDhuzC4qMQleg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794322860;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794323325;
+	b=RdFjgTVdlLX2tZrLNdaAcJM0LlxNU2Vc9ms0biTMWrFbj7Vjdfk75kbsqJhQjZaofEPG
+	 UZbhjTbabzKmuxm13PmsDKHKLggwxOOL1MosoJ8o7fOyX+HsBW7WZKIVBE7cvpk94wz7a
+	 FA/X4K77vC99LVDpUADUnenDYUQZ/WHVJO7qndqLjlNijCZDUPmY/fwX6JuYvSpm7PhVC
+	 MCuWYG2qNd3Ih9HDAhjoSh0fHRIXPo13iVFFGA1/Lhn/IldzyAvxH+FKn9CLOHByHM1wV
+	 dbryVkWkHqBdjhrOJFlcDBKp6tg+tyIzm+3h1DkrUzkGFcptTm65QUFIRNWrCKSLbYQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794323325;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=RYs2hSwn8nYjE7NjLz5FT3KJmBw5ONd9purncIQHNZ8=;
-	b=h7lb4Rn2OtzgpKbg3H2YwvXguBU/8SVms9WLcIW7YTGkaSxif3X6y793Mxk+Lr/4lGdg
-	 j72sqArhsp96gYXcZunfOVE83ft7LsA+V5J4iBJQZVXLNIQZnF2qhi5Xfe2zkAFiSn8zo
-	 sHjObKFrTRblVMFevqDeMBBnKK6Ftha5aU7/Dh4lWRsHw6IK0adAJypft8cT2wVNAwkDf
-	 nvUtetcnd4f7eXI47K0w6tiewqXMhTBJu2fQs1Y1Q7BaE1mtyzDBrgOuCMMJLeQINAMmS
-	 6KRF1moBKiqin+uyQo5jx5VLU/HulnfwZ03kJNXzN8nGBVHXrZy4IR0fSLwLViieaQQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=c1nbMdS2/wACnz7+n6RyuA+wAdoXXvtuh3t/Ui9Sz3A=;
+	b=XIDlAyu247O73r4dpg7vbQXRC88WSKkWRMiRD850HDW78ueMx0x+l6DLdT1UCw7qdzHd
+	 s/jisNfCjiPMCwTURVvFakLzfFdfIOrU2OwLcfhETmT7xYxnOBaUsCUO0UZAeRWwOl7V2
+	 vncZWrqGr8dq7ShDsOFgQO6y7jnDFOsJZOBeUo8Z2fIaYkTCgTmZkAPkmz77R3Qq8V8o0
+	 vfOG6T3SCb3WTbkJ2X1x6Hz6+rWVsw9VmfNAbJ8mIK7ytAJCP4hpfTekxjA0OXdSt9Wo+
+	 hYIWYDm8IlX9v5Q1YFjgFEc31LxblMsq4UpbUIi2neMRf9aCoP78vBgxY3slhHTkwXA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LObETGRv;
-	arc=none smtp.remote-ip=74.125.230.193
-Received: from mail-qk2-f1.google.com (mail-qk2-f1.google.com [74.125.230.193])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CFJvOvW6;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1528560A2626
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:00:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1528560A2626
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE7C606A337
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:08:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DE7C606A337
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LObETGRv
-Received: by mail-qk2-f1.google.com with SMTP id d75a77b69052e-534b7b19206so20050921cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:00:59 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CFJvOvW6
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ed1414df17so8879695ad.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:08:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794323325; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QehWUX0MsTmCe/lEmRFzY+jnHJsQKrh/yyFyx9YhVwWP3Sp96psG3cDvGRaVNeCSVy
+         eRYaosdgEEEge24PWHLUGFoGgofgDPdo2vQNFAqMmNNZrlaH/fi5I9CZ9ABtuwph0wJ5
+         RdqSvzwHZ1TJwxu7deToVUi9QmG6NHwifdn1V/iiHgXNF+o1+mQvJRl/gJ2qSMhMM00T
+         LHAVPIDbjZ8msYSIDxdWGYERM+/8OAFNkL1ASC4N0aaal2BA1fFAefAPM+nV0y8RZyDq
+         j22lYiUZKMsQfI2Xh1h8mbH2JnA02R52MvBVg2E4J/XCTkdyByIWftyM6qvc8rd2e5wB
+         4ZXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=c1nbMdS2/wACnz7+n6RyuA+wAdoXXvtuh3t/Ui9Sz3A=;
+        fh=OKFnNNXxQD5opVFbFebhULwO6XX9vPASCRM+l1yxj00=;
+        b=U6cdOk+9NuCvzZ85n9LmuI+IgBUPjwT7DP8Ohxwfvjwp9bNDxHiUBLfplc0JBf2dDF
+         sernkeVbfuORCEAI5Oot+Jl0gzakDiF4LFpsVmsAF1HYca0V6qf3PFK6d8Srv18iXQdk
+         XcTUNSSKTPIw/DGMlzQbo2D/yeX+UAZreNxV16SqFc9wX0wRASuaNpQpfxyaXpuvGV+G
+         GRPXqPcKgHMfrGETrAVJdM/maQ1ecRezgIxHjngp4rWkWpfItbwLxqMpRXYp1oB5jir1
+         sG7Exzkai5dvbV1wrvhqpV+NOsjCeHk9/4+k0Ls+Z4grg5cIbAOoSiIbVW9VUxT9Q6Cx
+         k3UQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794322859; x=1794927659; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=RYs2hSwn8nYjE7NjLz5FT3KJmBw5ONd9purncIQHNZ8=;
-        b=LObETGRvkOTzbPVo6xs4B2jXCfIQ4+O9RPa79ZNNZyjh6OFPLV1p2dWoNW0ObOi7Qa
-         jbY8t9if1yRPz0S+1wOcmtlKb2Wf9moTf5OC/pWoLEQ8hdJO5C76U8wkSPaJEDB7NKvd
-         pFc8S/IXXNkE3lBrezXxIt77YsVoaV6rLK+4+0uKUzMTfs07JeSmKcD0qAbU1Ce6Sm3W
-         ohHfoE5kWoSfUgxX9UmrxPTZEor2Ci3l3gK77hBp5GrRn3zGBvNx1vMEr/MF2Q1RqaZE
-         M940spvwibNXTea2hIZ8QhkMlEbdXCfCAwvgyJgUP34pr3HB5pXBW313Rim69e1Y8Nwa
-         iISQ==
+        d=gmail.com; s=20260707; t=1794323325; x=1794928125; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=c1nbMdS2/wACnz7+n6RyuA+wAdoXXvtuh3t/Ui9Sz3A=;
+        b=CFJvOvW6jk27IyasqE7tgYN8mkBBsQ0gyKXftzU/SGayTPf5b9yiXujRNHgwuPxNKr
+         kU1R4YfpEa7oQ+xNbKT6eGcyTRCfWwMh/ELCAOC7fhMqpizV9k+f/8o9DY1LGNdgkecH
+         VNKViEw++ZKjHT/3owob37cMu+P29+gUI7K9Di9sB6SdH38oMrXAYizUfDF1birdN4YO
+         nge4tFm1ywqVh67GmI4kQhM/7oZNLwyAnkt78X3uDGRGxQeJ4rhv2dZh2uOX4veNrc1P
+         omClfrAfH2DqoMwrMBqv488JV79Kty5ozzzmgDwUg5ZiBWvPOfKCqXJRnyhtL6Iolc02
+         aJ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794322859; x=1794927659;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=RYs2hSwn8nYjE7NjLz5FT3KJmBw5ONd9purncIQHNZ8=;
-        b=Jb4BRtUTCOm1bI9P7EF/Sf0oAFnqP9OUecsUu0pdIIMFfe6izB9ZmxBWleV2KdTKvJ
-         Yj17qEjNbx3avWv+3d4BBN2X7/GflMZIonksO3hT3C0katdmrESzNrDtceExUhaSVddB
-         /OsW7HGpmV86dmXa2Pdi6AHWkkjTHhzleu22t/Rrnjb6SeKBNlnaAkCsostmnHFJ0Ivc
-         wRIoiATR82IufWRWDYssCi44KKSo45CIpXngbWxu0k3Iqof/LtFJAs3mjvvEdirX6UQe
-         UID2XP+ojx8dTkFJxg5SGuKuSIACkrsXKsprG7LKdHo1fpVGtQEAL75BCet22KtGkRWR
-         RKOw==
-X-Forwarded-Encrypted: i=1; AL+hErF9rreJblyGRj0MwG0LOes4vb1jekQiiUnPpXkmJM3eT/pV1H5a5YUxYw97JAtqv3qO1dVwvL5A6lo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/fBer9yq7kIifaayEg7VBbLwkDXCBzjBNe8jEo0E5H68IvgUdd
-	yAU0SuY9uuj77voQ0fYhzYDZ8wX7X7FFjPvgAsBlvMOpxkeZYA8oa3viaTBzD2N0
-X-Gm-Gg: AYBFou3B3UFT8iRzn2qPf1NOSpdW3Rkv4DgdTHsVejHAdexQ0TRnKNn4uYSZSaN9XtS
-	IPugpTErv2j8XoaO/S12xu0DqhS2DGP9w8Hf3dci/zYUPxZpD73F/9A3YOFLJWN/ufKgNk3sFpO
-	Xwl+08axH/rW3+OndxHlYgkVF6m1rBn9CGxAteEywYgz29L/u9Np5HxkjrCJ9v+wt/9kd0pZDlz
-	CtfsCWNdNAhgrmsP2QUzIB6PDnXNa7spK33mXCGXjAVE8meMbb2NE03WG/m/88x4aJ+JaeYKyhy
-	FOzVVxv5W+2UiXz0qxMIQwSnSKb3lypP83v/0aQlb0RGHk9opqcgNtsYJzZ8ihOqBeR2bWy8/vR
-	7XrF8VfpU+pqi+vvdO5Ycd07UjaF8+6Dw0ndaL8AF2zFWWEM2rPEfkn1frpaJSvGcpK75czQpNZ
-	HyIC0YqCSwcIEyKPLnCjrxU7C3OVWkKwf+5iRH1Hir8Yzq6tTyc8gRdaERx1SIOMOwyGJgiMnOP
-	M3T0KelinDLOO++zhCznszCXl7v4eTUW7ZxxhvR/0GubTI0AaXwyTfKFgL3C2DylmMrvrA/wmR9
-	r3I2v6an98vXwDa9fSe4ms7ybRxgbuOx26Pq0M6OewDC4DD+w5hdcKTg+JqJfzE=
-X-Received: by 2002:a17:902:e751:b0:2dd:c053:a6ee with SMTP id d9443c01a7336-2edb9260ab0mr26092925ad.32.1794316893463;
-        Tue, 10 Nov 2026 05:21:33 -0800 (PST)
-Received: from r00799764-ThinkCentre-M920t-N000.. ([139.159.170.67])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6d4a31esm8861065ad.22.2026.11.10.05.21.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 05:21:32 -0800 (PST)
-From: Jinjie Ruan <ruanjinjie01@gmail.com>
-To: babu.moger@amd.com,
-	ben.horgan@arm.com,
-	bp@alien8.de,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	Dave.Martin@arm.com,
-	fenghuay@nvidia.com,
-	gshan@redhat.com,
-	hpa@zytor.com,
-	james.morse@arm.com,
-	jic23@kernel.org,
-	mingo@redhat.com,
-	rdunlap@infradead.org,
-	reinette.chatre@intel.com,
-	skhan@linuxfoundation.org,
-	tan.shaopeng@fujitsu.com,
-	tglx@kernel.org,
-	tony.luck@intel.com,
-	zengheng4@huawei.com,
-	x86@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: ruanjinjie@huawei.com
-Subject: [PATCH v5 2/7] fs/resctrl: Do not allocate a monitor context when releasing limbo RMIDs
-Date: Tue, 10 Nov 2026 21:20:49 +0800
-Message-ID: <20261110132054.3702-3-ruanjinjie01@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261110132054.3702-1-ruanjinjie01@gmail.com>
-References: <20261110132054.3702-1-ruanjinjie01@gmail.com>
+        d=1e100.net; s=20260707; t=1794323325; x=1794928125;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=c1nbMdS2/wACnz7+n6RyuA+wAdoXXvtuh3t/Ui9Sz3A=;
+        b=ajoOgguH8Y/0oYx8xC+/HhBElkrUXFMpXdCY2D+NapVO7pL+ZzEbysDHmTJ9HgY9Xj
+         1GnKXhXKKBXkTGHJgWartIKisvFvgEeb5SX7tmIE4YeBIg7TmYyFPoLkb4TEzyKkXsJv
+         s6hTRwpLQ2654KS+S3wgJb5Sqv59T4fkTHbS2cukrZzeWj1moZDRHK7CItG+HBmIepU5
+         qp/IEsqG7XenAcXG6pj2Zms5cMOLCTsl/DNAMXrXxPJy7PUoFRJa4JrXNAd9K5Sy4yqu
+         wO/rJRJJsUhl48JUqcPeGgyemCWojXiCllN3pq4Wpw4ujh25y/zTSRaBEHGX78UTlGbT
+         eJ6g==
+X-Forwarded-Encrypted: i=1; AL+hErGB3H5/3qb616QqDgAMRabj512BoHCuvyLoCTS2L1eSHjLvccvEZ0vm5ri1Dv2M/p3HNkwy4qaKF4I=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8DL2rtyA+v9dzToJ8claLgMiAFIEjZU/hPBWEHvBXRPk+Y5vQ3
+	4pB7d1dywLBtz1TfWpNhsdGqXaK2grUscYIIPkqXDY08riAsVhq35L0JxzwQiEcEH2PYqbgoYte
+	QWTD8M8XZe01cz+H4EG6FjZd8vsIE7g4=
+X-Gm-Gg: AYBFou3k7kO9QSSvOIW2D5HAK9DffDLaQZdFjhvfTEDKodemNoLhbXX4Ae+7QySfRPW
+	GcIh0uOqrPQdhavTp5ZKsdXd0s0hPj3hVRIXXszK2BnFUBODnhSPPfhEpI3RKYleKFd2xWfk/Zq
+	6u2xIaDmzZJrlvgJkZ/2Q8vGyS8pxKF+nMpB44hr1NNCksKfDg9j58syz9BlMCpfnIzKv43cySY
+	V/pF72xC85FkdWuhKbjsj/8FlNVAzJXvy15YWiRnoN3xE0i7CK0OHP3mZjQmIWBs54S5D5Yfs90
+	YfDlUVu9WusWzx4QSkmMlP1QXyg+UnKZKdDvNWObXsUo3m6tJqN2Jevm3dLgLBgT7/3mWncfazS
+	Cwb5vXjHzHIbG6Nm/zg6GRHwaYI/NdXr8hcCSeqE=
+X-Received: by 2002:a17:903:1aef:b0:2e8:4040:792b with SMTP id
+ d9443c01a7336-2edb9120edemr28852925ad.22.1794323324501; Tue, 10 Nov 2026
+ 07:08:44 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -118,184 +104,473 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261110102039.1002605-1-bjorn@kernel.org> <20261110102039.1002605-5-bjorn@kernel.org>
+In-Reply-To: <20261110102039.1002605-5-bjorn@kernel.org>
+From: Magnus Karlsson <magnus.karlsson@gmail.com>
+Date: Tue, 10 Nov 2026 16:08:32 +0100
+X-Gm-Features: AclHuK8pcGlhvdthobLOqB0JgP37exZok7OAn9iLvLH8hYIBz6_niNrIr15aryU
+Message-ID: <CAJ8uoz0gcQmqTPGBmNF6+WvWZHPOVRsPoEmTwG6WeOaq1vPxcg@mail.gmail.com>
+Subject: Re: [PATCH net-next v1 04/11] xsk: Allocate UMEM chunks through page_pool
+To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, 
+	bpf@vger.kernel.org, io-uring@vger.kernel.org, 
+	Mina Almasry <almasrymina@google.com>, 
+	"Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jinjie Ruan <ruanjinjie@huawei.com>
+On Tue, 10 Nov 2026 at 12:26, Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> wrot=
+e:
+>
+> AF_XDP zero copy needs a second RX allocator in every driver. A
+> page_pool driver can take UMEM chunks from a memory provider instead,
+> and keep its refill, recycling and DMA sync code.
+>
+> Each aligned chunk becomes a net_iov, whose address netmem_address()
+> finds without calling the provider. Userspace may post a chunk that
+> the kernel still owns, so the provider tracks the owner of each chunk
+> and drops such FILL entries. Chunks that a page pool releases stay in
+> the kernel for reuse. Nothing installs the provider yet.
+>
+> Signed-off-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
+> ---
+>  include/net/netmem.h |  25 ++++-
+>  include/net/xdp.h    |   2 +-
+>  net/xdp/Kconfig      |   1 +
+>  net/xdp/Makefile     |   2 +-
+>  net/xdp/xsk.h        |   6 ++
+>  net/xdp/xsk_pp.c     | 246 +++++++++++++++++++++++++++++++++++++++++++
+>  6 files changed, 279 insertions(+), 3 deletions(-)
+>  create mode 100644 net/xdp/xsk_pp.c
+>
+> diff --git a/include/net/netmem.h b/include/net/netmem.h
+> index b986ad616334..a3b67ef32b21 100644
+> --- a/include/net/netmem.h
+> +++ b/include/net/netmem.h
+> @@ -69,6 +69,7 @@ DECLARE_STATIC_KEY_FALSE(page_pool_restricted);
+>  enum net_iov_type {
+>         NET_IOV_DMABUF,
+>         NET_IOV_IOURING,
+> +       NET_IOV_XSK,
+>  };
+>
+>  /* A memory descriptor representing abstract networking I/O vectors.
+> @@ -107,6 +108,10 @@ struct net_iov_area {
+>         size_t num_niovs;
+>         /* Each net_iov covers 1 << niov_shift bytes. */
+>         unsigned int niov_shift;
+> +       /* CPU address of the first net_iov, or NULL if the CPU cannot re=
+ad
+> +        * the area.
+> +        */
+> +       void *vaddr;
+>  };
+>
+>  static inline struct net_iov_area *net_iov_owner(const struct net_iov *n=
+iov)
+> @@ -119,6 +124,18 @@ static inline unsigned int net_iov_idx(const struct =
+net_iov *niov)
+>         return niov - net_iov_owner(niov)->niovs;
+>  }
+>
+> +static inline void *net_iov_address(const struct net_iov *niov)
+> +{
+> +       const struct net_iov_area *area =3D net_iov_owner(niov);
+> +       unsigned long off;
+> +
+> +       if (!area->vaddr)
+> +               return NULL;
+> +
+> +       off =3D (unsigned long)net_iov_idx(niov) << area->niov_shift;
+> +       return area->vaddr + off;
+> +}
+> +
+>  /* Initialize a niov: stamp the owning area, the memory provider type.
+>   */
+>  static inline void net_iov_init(struct net_iov *niov,
+> @@ -345,10 +362,16 @@ static inline void *__netmem_address(netmem_ref net=
+mem)
+>         return page_address(__netmem_to_page(netmem));
+>  }
+>
+> +/**
+> + * netmem_address - get the CPU address of the memory behind @netmem
+> + * @netmem: netmem to get the address of
+> + *
+> + * Return: the address, or NULL if the CPU cannot read @netmem.
+> + */
+>  static inline void *netmem_address(netmem_ref netmem)
+>  {
+>         if (netmem_is_net_iov(netmem))
+> -               return NULL;
+> +               return net_iov_address(netmem_to_net_iov(netmem));
+>
+>         return __netmem_address(netmem);
+>  }
+> diff --git a/include/net/xdp.h b/include/net/xdp.h
+> index 1105bb9e3292..5ab7802ac4e1 100644
+> --- a/include/net/xdp.h
+> +++ b/include/net/xdp.h
+> @@ -368,7 +368,7 @@ static inline bool xdp_buff_add_frag(struct xdp_buff =
+*xdp, netmem_ref netmem,
+>
+>         if (unlikely(netmem_is_pfmemalloc(netmem)))
+>                 xdp_buff_set_frag_pfmemalloc(xdp);
+> -       if (unlikely(netmem_is_net_iov(netmem)))
+> +       if (unlikely(netmem_is_net_iov(netmem) && !netmem_address(netmem)=
+))
+>                 xdp_buff_set_frag_unreadable(xdp);
+>
+>         return true;
+> diff --git a/net/xdp/Kconfig b/net/xdp/Kconfig
+> index 71af2febe72a..c9c68d3b3712 100644
+> --- a/net/xdp/Kconfig
+> +++ b/net/xdp/Kconfig
+> @@ -2,6 +2,7 @@
+>  config XDP_SOCKETS
+>         bool "XDP sockets"
+>         depends on BPF_SYSCALL
+> +       select PAGE_POOL
+>         default n
+>         help
+>           XDP sockets allows a channel between XDP programs and
+> diff --git a/net/xdp/Makefile b/net/xdp/Makefile
+> index 30cdc4315f42..6e9d60f9f7f1 100644
+> --- a/net/xdp/Makefile
+> +++ b/net/xdp/Makefile
+> @@ -1,4 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  obj-$(CONFIG_XDP_SOCKETS) +=3D xsk.o xdp_umem.o xsk_queue.o xskmap.o
+> -obj-$(CONFIG_XDP_SOCKETS) +=3D xsk_buff_pool.o
+> +obj-$(CONFIG_XDP_SOCKETS) +=3D xsk_buff_pool.o xsk_pp.o
+>  obj-$(CONFIG_XDP_SOCKETS_DIAG) +=3D xsk_diag.o
+> diff --git a/net/xdp/xsk.h b/net/xdp/xsk.h
+> index 7c811b5cce76..4dab7b9a1487 100644
+> --- a/net/xdp/xsk.h
+> +++ b/net/xdp/xsk.h
+> @@ -34,6 +34,12 @@ static inline struct xdp_sock *xdp_sk(struct sock *sk)
+>
+>  void xsk_map_try_sock_delete(struct xsk_map *map, struct xdp_sock *xs,
+>                              struct xdp_sock __rcu **map_entry);
+> +struct xsk_pp;
 
-Busy RMIDs of a monitor domain are normally released by the limbo
-handler once their cache occupancy drops below the threshold. When a
-domain goes offline, its busy RMIDs are released without checking
-occupancy, since the domain is going away and the RMIDs would otherwise
-never return to the free list.
+How about a header file instead of a forward declaration?
 
-On the monitor domain offline path, __check_limbo() allocates the
-monitor context that an occupancy check needs before it scans the busy
-RMIDs, but without using it, and returns early when that allocation
-fails. Then the caller destroys the domain's monitoring state, including
-the bitmap that records which RMIDs are busy, so nothing can clear those
-bits afterwards and the busy counts never reach zero. Those RMIDs never
-return to the free list and, where the RMID depends on the CLOSID, the
-dirty count of their CLOSID never decreases. The allocation can also
-wait for a monitor to become free, which stalls the CPU offline path on
-a context that is not going to be used.
+> +extern const struct memory_provider_ops xsk_pp_ops;
+> +
+> +struct xsk_pp *xsk_pp_create(struct xsk_buff_pool *pool);
+> +void xsk_pp_put(struct xsk_pp *pp);
+>  void xsk_clear_pool_at_qid(struct net_device *dev, u16 queue_id);
+>  int xsk_reg_pool_at_qid(struct net_device *dev, struct xsk_buff_pool *po=
+ol,
+>                         u16 queue_id);
+> diff --git a/net/xdp/xsk_pp.c b/net/xdp/xsk_pp.c
+> new file mode 100644
+> index 000000000000..fdd55265a6cd
+> --- /dev/null
+> +++ b/net/xdp/xsk_pp.c
+> @@ -0,0 +1,246 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/* AF_XDP UMEM as a page pool memory provider
+> + *
+> + * Each aligned UMEM chunk is a readable net_iov with one owner at a tim=
+e:
+> + *
+> + *   userspace --FILL--> page pool --release--> reuse --alloc--> page po=
+ol
+> + *       ^                   |
+> + *       +-----RX ring-------+
+> + */
+> +
+> +#include <net/page_pool/helpers.h>
+> +#include <net/page_pool/memory_provider.h>
+> +#include <net/xdp_sock_drv.h>
+> +
+> +#include "xsk.h"
+> +#include "xsk_queue.h"
+> +
+> +enum xsk_pp_chunk {
+> +       XSK_PP_USER,    /* owned by userspace */
+> +       XSK_PP_POOL,    /* owned by a page pool */
+> +       XSK_PP_REUSE,   /* on the reuse stack */
+> +};
+> +
+> +struct xsk_pp {
+> +       struct net_iov_area area;
+> +       struct xsk_buff_pool *pool;
+> +       /* Protects fq, state and reuse */
+> +       spinlock_t lock;
+> +       struct xsk_queue *fq;
+> +       refcount_t refs;
+> +       u32 nr_pools;
+> +       bool dma_need_sync;
+> +       u8 *state;
+> +       u32 reuse_cnt;
+> +       u32 reuse[];
 
-Only MPAM systems are affected. An architecture that can always read an
-RMID allocates nothing for the monitor context, so the allocation can
-neither fail nor wait there.
+Is the reason that you have a reuse stack here and not use the one in
+xsk_buff_pool that it only exists in unaligned mode, which you are not
+supporting? Could you still use the "pre-calculated" heads in aligned
+mode and link them up? There is already a xskb_list and free_list in
+there that is used for that purpose. Just an idea that could cut down
+the state and maybe the amount of code.
 
-Move the release of busy RMIDs into a separate function that does not
-take a monitor context and leave the occupancy check to __check_limbo().
+> +};
+> +
+> +static void xsk_pp_free(struct xsk_pp *pp)
+> +{
+> +       kvfree(pp->state);
+> +       kvfree(pp->area.niovs);
+> +       kvfree(pp);
+> +}
+> +
+> +void xsk_pp_put(struct xsk_pp *pp)
+> +{
+> +       if (refcount_dec_and_test(&pp->refs))
+> +               xsk_pp_free(pp);
+> +}
+> +
+> +/* @pool must be DMA mapped and have aligned chunks. The provider must b=
+e
+> + * the only consumer of its FILL ring.
+> + */
+> +struct xsk_pp *xsk_pp_create(struct xsk_buff_pool *pool)
+> +{
+> +       struct net_iov *niov;
+> +       struct xsk_pp *pp;
+> +       dma_addr_t dma;
+> +       u32 i;
+> +
+> +       pp =3D kvzalloc_flex(*pp, reuse, pool->heads_cnt, GFP_KERNEL_ACCO=
+UNT);
+> +       if (!pp)
+> +               return ERR_PTR(-ENOMEM);
+> +
+> +       pp->area.niovs =3D kvzalloc_objs(*pp->area.niovs, pool->heads_cnt=
+,
+> +                                      GFP_KERNEL_ACCOUNT);
+> +       pp->state =3D kvzalloc(pool->heads_cnt, GFP_KERNEL_ACCOUNT);
+> +       if (!pp->area.niovs || !pp->state) {
+> +               xsk_pp_free(pp);
+> +               return ERR_PTR(-ENOMEM);
+> +       }
+> +
+> +       pp->area.num_niovs =3D pool->heads_cnt;
+> +       pp->area.niov_shift =3D pool->chunk_shift;
+> +       pp->area.vaddr =3D pool->addrs;
+> +       pp->pool =3D pool;
+> +       pp->fq =3D pool->fq;
+> +       pp->dma_need_sync =3D dma_dev_need_sync(pool->dev);
 
-Fixes: e557999f80a5 ("x86/resctrl: Allow arch to allocate memory needed in resctrl_arch_rmid_read()")
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
-Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
-Cc: James Morse <james.morse@arm.com>
-Cc: Reinette Chatre <reinette.chatre@intel.com>
-Cc: <stable@vger.kernel.org> # 7.1.x
----
- fs/resctrl/internal.h |  2 +-
- fs/resctrl/monitor.c  | 72 ++++++++++++++++++++++++++++---------------
- fs/resctrl/rdtgroup.c |  2 +-
- 3 files changed, 49 insertions(+), 27 deletions(-)
+Are you copying these for performance reasons, i.e. no extra pointer
+dereference in the fast path? In the same manner as the pool copies
+some information from the umem?
 
-diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index e62a277dee85..1c85e06f09bf 100644
---- a/fs/resctrl/internal.h
-+++ b/fs/resctrl/internal.h
-@@ -405,7 +405,7 @@ void cqm_handle_limbo(struct work_struct *work);
- 
- bool has_busy_rmid(struct rdt_l3_mon_domain *d);
- 
--void __check_limbo(struct rdt_l3_mon_domain *d, bool force_free);
-+void release_limbo_rmids(struct rdt_l3_mon_domain *d);
- 
- void resctrl_file_fflags_init(const char *config, unsigned long fflags);
- 
-diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-index b8f4e1ff4083..ae9ddd380515 100644
---- a/fs/resctrl/monitor.c
-+++ b/fs/resctrl/monitor.c
-@@ -124,21 +124,45 @@ static void limbo_release_entry(struct rmid_entry *entry)
- 		closid_num_dirty_rmid[entry->closid]--;
- }
- 
-+/*
-+ * Release the RMIDs that are marked as busy for this domain without
-+ * checking their LLC occupancy. Cache lines may still be tagged with
-+ * these RMIDs and will be accounted to the next user of each RMID.
-+ */
-+void release_limbo_rmids(struct rdt_l3_mon_domain *d)
-+{
-+	u32 idx_limit = resctrl_arch_system_num_rmid_idx();
-+	struct rmid_entry *entry;
-+	u32 idx, cur_idx = 1;
-+
-+	for (;;) {
-+		idx = find_next_bit(d->rmid_busy_llc, idx_limit, cur_idx);
-+		if (idx >= idx_limit)
-+			break;
-+
-+		entry = __rmid_entry(idx);
-+		clear_bit(idx, d->rmid_busy_llc);
-+		if (!--entry->busy)
-+			limbo_release_entry(entry);
-+		cur_idx = idx + 1;
-+	}
-+}
-+
- /*
-  * Check the RMIDs that are marked as busy for this domain. If the
-  * reported LLC occupancy is below the threshold clear the busy bit and
-  * decrement the count. If the busy count gets to zero on an RMID, we
-  * free the RMID
-  */
--void __check_limbo(struct rdt_l3_mon_domain *d, bool force_free)
-+static void __check_limbo(struct rdt_l3_mon_domain *d)
- {
- 	struct rdt_resource *r = resctrl_arch_get_resource(RDT_RESOURCE_L3);
- 	u32 idx_limit = resctrl_arch_system_num_rmid_idx();
- 	struct rmid_entry *entry;
--	bool rmid_dirty = true;
- 	u32 idx, cur_idx = 1;
- 	void *arch_mon_ctx;
- 	void *arch_priv;
-+	bool rmid_dirty;
- 	u64 val = 0;
- 
- 	arch_priv = mon_event_all[QOS_L3_OCCUP_EVENT_ID].arch_priv;
-@@ -161,30 +185,28 @@ void __check_limbo(struct rdt_l3_mon_domain *d, bool force_free)
- 			break;
- 
- 		entry = __rmid_entry(idx);
--		if (!force_free) {
--			if (resctrl_arch_rmid_read(r, &d->hdr, entry->closid,
--						   entry->rmid, QOS_L3_OCCUP_EVENT_ID,
--						   arch_priv, &val, arch_mon_ctx)) {
--				rmid_dirty = true;
--			} else {
--				rmid_dirty = (val >= resctrl_rmid_realloc_threshold);
--
--				/*
--				 * x86's CLOSID and RMID are independent numbers,
--				 * so the entry's CLOSID is an empty CLOSID
--				 * (X86_RESCTRL_EMPTY_CLOSID). On Arm the RMID
--				 * (PMG) extends the CLOSID (PARTID) space with
--				 * bits that aren't used to select the configuration.
--				 * It is thus necessary to track both CLOSID and
--				 * RMID because there may be dependencies between
--				 * them on some architectures.
--				 */
--				trace_mon_llc_occupancy_limbo(entry->closid, entry->rmid,
--							      d->hdr.id, val);
--			}
-+		if (resctrl_arch_rmid_read(r, &d->hdr, entry->closid,
-+					   entry->rmid, QOS_L3_OCCUP_EVENT_ID,
-+					   arch_priv, &val, arch_mon_ctx)) {
-+			rmid_dirty = true;
-+		} else {
-+			rmid_dirty = (val >= resctrl_rmid_realloc_threshold);
-+
-+			/*
-+			 * x86's CLOSID and RMID are independent numbers,
-+			 * so the entry's CLOSID is an empty CLOSID
-+			 * (X86_RESCTRL_EMPTY_CLOSID). On Arm the RMID
-+			 * (PMG) extends the CLOSID (PARTID) space with
-+			 * bits that aren't used to select the configuration.
-+			 * It is thus necessary to track both CLOSID and
-+			 * RMID because there may be dependencies between
-+			 * them on some architectures.
-+			 */
-+			trace_mon_llc_occupancy_limbo(entry->closid, entry->rmid,
-+						      d->hdr.id, val);
- 		}
- 
--		if (force_free || !rmid_dirty) {
-+		if (!rmid_dirty) {
- 			clear_bit(idx, d->rmid_busy_llc);
- 			if (!--entry->busy)
- 				limbo_release_entry(entry);
-@@ -843,7 +865,7 @@ void cqm_handle_limbo(struct work_struct *work)
- 	if (cpumask_empty(&d->hdr.cpu_mask))
- 		goto out_unlock;
- 
--	__check_limbo(d, false);
-+	__check_limbo(d);
- 
- 	if (has_busy_rmid(d)) {
- 		d->cqm_work_cpu = cpumask_any_housekeeping(&d->hdr.cpu_mask,
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 57ab090072c2..5d0351453c2f 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -4590,7 +4590,7 @@ void resctrl_offline_mon_domain(struct rdt_resource *r, struct rdt_domain_hdr *h
- 		 * the RMID as busy creates RMID leaks if the
- 		 * package never comes back.
- 		 */
--		__check_limbo(d, true);
-+		release_limbo_rmids(d);
- 	}
- 
- 	domain_destroy_l3_mon_state(d);
--- 
-2.43.0
+> +       spin_lock_init(&pp->lock);
+> +       refcount_set(&pp->refs, 1);
+> +
+> +       for (i =3D 0; i < pp->area.num_niovs; i++) {
+> +               niov =3D &pp->area.niovs[i];
+> +               dma =3D xp_raw_get_dma(pool, (u64)i << pool->chunk_shift)=
+;
+> +               net_iov_init(niov, &pp->area, NET_IOV_XSK);
+> +               if (net_mp_niov_set_dma_addr(niov, dma)) {
+> +                       xsk_pp_free(pp);
+> +                       return ERR_PTR(-ERANGE);
+> +               }
+> +       }
+> +
+> +       return pp;
+> +}
+> +
+> +static int xsk_pp_init(struct page_pool *pool)
+> +{
+> +       struct xsk_pp *pp =3D pool->mp_priv;
+> +
+> +       if (pool->p.order || pool->p.dma_dir !=3D DMA_BIDIRECTIONAL ||
+> +           pool->p.dev !=3D pp->pool->dev)
+> +               return -EINVAL;
+> +       if (pool->p.max_len > pp->pool->chunk_size ||
+> +           pool->p.offset > pp->pool->chunk_size - pool->p.max_len)
+> +               return -EINVAL;
+> +
+> +       refcount_inc(&pp->refs);
+> +       spin_lock_bh(&pp->lock);
+> +       pp->nr_pools++;
 
+What is the difference between this counter and the refcount?
+
+> +       spin_unlock_bh(&pp->lock);
+> +       return 0;
+> +}
+> +
+> +static void xsk_pp_destroy(struct page_pool *pool)
+> +{
+> +       struct xsk_pp *pp =3D pool->mp_priv;
+> +
+> +       spin_lock_bh(&pp->lock);
+> +       pp->nr_pools--;
+> +       spin_unlock_bh(&pp->lock);
+> +       xsk_pp_put(pp);
+> +}
+> +
+> +static bool xsk_pp_claim(struct xsk_pp *pp, u32 idx, enum xsk_pp_chunk f=
+rom)
+> +{
+> +       lockdep_assert_held(&pp->lock);
+> +
+> +       if (pp->state[idx] !=3D from)
+> +               return false;
+> +
+> +       pp->state[idx] =3D XSK_PP_POOL;
+> +       return true;
+> +}
+> +
+> +static u32 xsk_pp_alloc_reuse(struct xsk_pp *pp, netmem_ref *netmems, u3=
+2 max)
+> +{
+> +       u32 idx, n =3D 0;
+> +
+> +       while (n < max && pp->reuse_cnt) {
+> +               idx =3D pp->reuse[--pp->reuse_cnt];
+> +               if (WARN_ON_ONCE(!xsk_pp_claim(pp, idx, XSK_PP_REUSE)))
+> +                       continue;
+> +               netmems[n++] =3D net_iov_to_netmem(&pp->area.niovs[idx]);
+> +       }
+> +
+> +       return n;
+> +}
+> +
+> +static u32 xsk_pp_alloc_fill(struct xsk_pp *pp, netmem_ref *netmems, u32=
+ max)
+> +{
+> +       struct xsk_buff_pool *pool =3D pp->pool;
+> +       struct xsk_queue *fq =3D pp->fq;
+> +       u32 i, entries, cons, idx, n =3D 0;
+> +       u64 addr;
+> +
+> +       if (!fq || !max)
+> +               return 0;
+> +
+> +       entries =3D xskq_cons_nb_entries(fq, max);
+> +       if (!entries) {
+> +               fq->queue_empty_descs++;
+> +               return 0;
+> +       }
+> +
+> +       cons =3D fq->cached_cons;
+> +       for (i =3D 0; i < entries; i++) {
+> +               __xskq_cons_read_addr_unchecked(fq, cons++, &addr);
+> +               addr &=3D pool->chunk_mask;
+> +               idx =3D addr >> pp->area.niov_shift;
+> +               if (unlikely(addr >=3D pool->addrs_cnt ||
+> +                            !xsk_pp_claim(pp, idx, XSK_PP_USER))) {
+> +                       fq->invalid_descs++;
+> +                       continue;
+> +               }
+> +               netmems[n++] =3D net_iov_to_netmem(&pp->area.niovs[idx]);
+> +       }
+> +
+> +       xskq_cons_release_n(fq, entries);
+> +       __xskq_cons_release(fq);
+> +       return n;
+> +}
+> +
+> +static netmem_ref xsk_pp_alloc_netmems(struct page_pool *pool, gfp_t gfp=
+)
+> +{
+> +       netmem_ref *netmems =3D pool->alloc.cache;
+> +       struct xsk_pp *pp =3D pool->mp_priv;
+> +       struct net_iov *niov;
+> +       dma_addr_t dma;
+> +       u32 i, n;
+> +
+> +       if (WARN_ON_ONCE(pool->alloc.count))
+
+What has the driver writer or system done if this ever happens?
+
+> +               return 0;
+> +
+> +       spin_lock_bh(&pp->lock);
+
+For my understanding, what entities can call this function at the same
+time? With the xsk_buff_pool we were protected by NAPI.
+
+
+> +       n =3D xsk_pp_alloc_reuse(pp, netmems, PP_ALLOC_CACHE_REFILL);
+> +       n +=3D xsk_pp_alloc_fill(pp, netmems + n, PP_ALLOC_CACHE_REFILL -=
+ n);
+> +       spin_unlock_bh(&pp->lock);
+> +       if (!n)
+> +               return 0;
+> +
+> +       for (i =3D 0; i < n; i++) {
+> +               niov =3D netmem_to_net_iov(netmems[i]);
+> +               dma =3D page_pool_get_dma_addr_netmem(netmems[i]);
+> +               if (pp->dma_need_sync)
+> +                       dma_sync_single_range_for_device(pool->p.dev, dma=
+,
+> +                                                        pool->p.offset,
+> +                                                        pool->p.max_len,
+> +                                                        pool->p.dma_dir)=
+;
+> +               net_mp_niov_set_page_pool(pool, niov);
+> +       }
+> +
+> +       pool->alloc.count =3D n - 1;
+> +       return netmems[n - 1];
+> +}
+> +
+> +static bool xsk_pp_release_netmem(struct page_pool *pool, netmem_ref net=
+mem)
+> +{
+> +       struct net_iov *niov =3D netmem_to_net_iov(netmem);
+> +       struct xsk_pp *pp =3D pool->mp_priv;
+> +       u32 idx =3D net_iov_idx(niov);
+> +
+> +       spin_lock_bh(&pp->lock);
+> +       net_mp_niov_clear_page_pool(niov);
+> +       if (!WARN_ON_ONCE(pp->state[idx] !=3D XSK_PP_POOL ||
+> +                         pp->reuse_cnt =3D=3D pp->area.num_niovs)) {
+> +               pp->state[idx] =3D XSK_PP_REUSE;
+> +               pp->reuse[pp->reuse_cnt++] =3D idx;
+> +       }
+> +       spin_unlock_bh(&pp->lock);
+> +
+> +       return false;
+> +}
+> +
+> +static int xsk_pp_nl_fill(void *mp_priv, struct sk_buff *rsp,
+> +                         struct netdev_rx_queue *rxq)
+> +{
+> +       return 0;
+> +}
+> +
+> +const struct memory_provider_ops xsk_pp_ops =3D {
+> +       .init           =3D xsk_pp_init,
+> +       .destroy        =3D xsk_pp_destroy,
+> +       .alloc_netmems  =3D xsk_pp_alloc_netmems,
+> +       .release_netmem =3D xsk_pp_release_netmem,
+> +       .nl_fill        =3D xsk_pp_nl_fill,
+> +       .caps           =3D MP_CAP_READABLE,
+> +};
+> --
+> 2.56.0
+>
+>
