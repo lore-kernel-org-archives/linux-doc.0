@@ -1,100 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794323325;
-	b=RdFjgTVdlLX2tZrLNdaAcJM0LlxNU2Vc9ms0biTMWrFbj7Vjdfk75kbsqJhQjZaofEPG
-	 UZbhjTbabzKmuxm13PmsDKHKLggwxOOL1MosoJ8o7fOyX+HsBW7WZKIVBE7cvpk94wz7a
-	 FA/X4K77vC99LVDpUADUnenDYUQZ/WHVJO7qndqLjlNijCZDUPmY/fwX6JuYvSpm7PhVC
-	 MCuWYG2qNd3Ih9HDAhjoSh0fHRIXPo13iVFFGA1/Lhn/IldzyAvxH+FKn9CLOHByHM1wV
-	 dbryVkWkHqBdjhrOJFlcDBKp6tg+tyIzm+3h1DkrUzkGFcptTm65QUFIRNWrCKSLbYQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794323325;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.9
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794323363;
+	b=PYh0DyZSxm7DAzk8+VxZlfiT5DFZCBycWZhYsR0k3jBLsmsiVz7r7oR5z0L/qMe8hmy3
+	 2V/zc6jupJ+2Xz9tNgd7U2g+N+sdhU157z9lY4BWg3MUC2lalLYTA8Z663TvXzF472tmj
+	 H3EcOjQPVyrTWLqXKaBs855ohQhojghQknaIMQSgQSE6xvOP4PsBkku0Ocn8b76xzIlXr
+	 UTNzNfbuiA+SCdcDEWExHhurdQtwakrRSdlfznvSpBQqYXI3GljXxA82QTkhdVx6Vv4Uo
+	 93AuoN52+BYy9ugvNeGs7bi81qwZmPIBhAzwT2qmUTNqYDVVhk3CPYp2TDDn2cT7aEA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794323363;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=c1nbMdS2/wACnz7+n6RyuA+wAdoXXvtuh3t/Ui9Sz3A=;
-	b=XIDlAyu247O73r4dpg7vbQXRC88WSKkWRMiRD850HDW78ueMx0x+l6DLdT1UCw7qdzHd
-	 s/jisNfCjiPMCwTURVvFakLzfFdfIOrU2OwLcfhETmT7xYxnOBaUsCUO0UZAeRWwOl7V2
-	 vncZWrqGr8dq7ShDsOFgQO6y7jnDFOsJZOBeUo8Z2fIaYkTCgTmZkAPkmz77R3Qq8V8o0
-	 vfOG6T3SCb3WTbkJ2X1x6Hz6+rWVsw9VmfNAbJ8mIK7ytAJCP4hpfTekxjA0OXdSt9Wo+
-	 hYIWYDm8IlX9v5Q1YFjgFEc31LxblMsq4UpbUIi2neMRf9aCoP78vBgxY3slhHTkwXA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=rW7wY2dSAmljd85v6jjosIWS8OLneAfUfN99gDJ44Us=;
+	b=RDh2SAsX7UXlkmKEDE4MZDzCSMErmHmuQH2auOv1QXJhMsSAacDIwDBGlDr6gY4MjWIG
+	 n1HXKZ60elV9L77HR2CE5OC+5pIuxtKyxK3fFg4i3uZ5Qko3oH2QyXHmPejOLSyKSYITw
+	 X1QNDqWks0c598q000m3jz5rKrry28JJmW+p7UikIUK6PId4KoenndpMHT19fSOKzhqmH
+	 hHXuqcpqyXCctqYCOl+D05zOvaSUd6i+3Kc4xPLcKCvp7QDD2vRjfDwQtFQG2AovB5XFl
+	 niHZ0v7nUP7QE9JF43jkNl4mnBA4kqjmACB7srgyPYNBgm1N1XsbpJxhUTRkpbS1mRw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CFJvOvW6;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.214.171
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=B4QpF8ou;
+	arc=none smtp.remote-ip=74.125.229.9
+Received: from mail-dy2-f9.google.com (mail-dy2-f9.google.com [74.125.229.9])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DE7C606A337
-	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:08:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DE7C606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01487606A323
+	for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 15:09:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 01487606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CFJvOvW6
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2ed1414df17so8879695ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:08:45 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794323325; cv=none;
-        d=google.com; s=arc-20260327;
-        b=QehWUX0MsTmCe/lEmRFzY+jnHJsQKrh/yyFyx9YhVwWP3Sp96psG3cDvGRaVNeCSVy
-         eRYaosdgEEEge24PWHLUGFoGgofgDPdo2vQNFAqMmNNZrlaH/fi5I9CZ9ABtuwph0wJ5
-         RdqSvzwHZ1TJwxu7deToVUi9QmG6NHwifdn1V/iiHgXNF+o1+mQvJRl/gJ2qSMhMM00T
-         LHAVPIDbjZ8msYSIDxdWGYERM+/8OAFNkL1ASC4N0aaal2BA1fFAefAPM+nV0y8RZyDq
-         j22lYiUZKMsQfI2Xh1h8mbH2JnA02R52MvBVg2E4J/XCTkdyByIWftyM6qvc8rd2e5wB
-         4ZXA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=c1nbMdS2/wACnz7+n6RyuA+wAdoXXvtuh3t/Ui9Sz3A=;
-        fh=OKFnNNXxQD5opVFbFebhULwO6XX9vPASCRM+l1yxj00=;
-        b=U6cdOk+9NuCvzZ85n9LmuI+IgBUPjwT7DP8Ohxwfvjwp9bNDxHiUBLfplc0JBf2dDF
-         sernkeVbfuORCEAI5Oot+Jl0gzakDiF4LFpsVmsAF1HYca0V6qf3PFK6d8Srv18iXQdk
-         XcTUNSSKTPIw/DGMlzQbo2D/yeX+UAZreNxV16SqFc9wX0wRASuaNpQpfxyaXpuvGV+G
-         GRPXqPcKgHMfrGETrAVJdM/maQ1ecRezgIxHjngp4rWkWpfItbwLxqMpRXYp1oB5jir1
-         sG7Exzkai5dvbV1wrvhqpV+NOsjCeHk9/4+k0Ls+Z4grg5cIbAOoSiIbVW9VUxT9Q6Cx
-         k3UQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=B4QpF8ou
+Received: by mail-dy2-f9.google.com with SMTP id 5a478bee46e88-3678f64d078so2621675eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 07:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794323325; x=1794928125; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=c1nbMdS2/wACnz7+n6RyuA+wAdoXXvtuh3t/Ui9Sz3A=;
-        b=CFJvOvW6jk27IyasqE7tgYN8mkBBsQ0gyKXftzU/SGayTPf5b9yiXujRNHgwuPxNKr
-         kU1R4YfpEa7oQ+xNbKT6eGcyTRCfWwMh/ELCAOC7fhMqpizV9k+f/8o9DY1LGNdgkecH
-         VNKViEw++ZKjHT/3owob37cMu+P29+gUI7K9Di9sB6SdH38oMrXAYizUfDF1birdN4YO
-         nge4tFm1ywqVh67GmI4kQhM/7oZNLwyAnkt78X3uDGRGxQeJ4rhv2dZh2uOX4veNrc1P
-         omClfrAfH2DqoMwrMBqv488JV79Kty5ozzzmgDwUg5ZiBWvPOfKCqXJRnyhtL6Iolc02
-         aJ+w==
+        d=gmail.com; s=20260707; t=1794323362; x=1794928162; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rW7wY2dSAmljd85v6jjosIWS8OLneAfUfN99gDJ44Us=;
+        b=B4QpF8ouB8Q6nBzEB/Q7sZusx5i7sWZ5TsA820PHsIelv6zqt9zXo3py/jnQI6nYBh
+         eivnC71PPNFzu0zyymC1VUVPS1qtNvwBB7itMcUZ5Yr6wjwjmOzR9j3Y2xM5HoPNJGUj
+         eKHQJTCklWk3jvJoVhr0gbzXe8e9p9z3kqOirY7n3ZdbVWyjgQfp59L9C6CLxJE1H6x5
+         ATjVNFtlJOVN31RSDy4KeQnqqZqSv1N9xMB1ASaZlsB4H2cqOpOZvgzowtKtf+sK5xk4
+         /J6Zqc7N5alDJraLGQ0oIQWRHbR/8ccv4ynPFNGIdFYPPhwo6IGR7ZxD3h4s/82ZbT9x
+         ZxCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794323325; x=1794928125;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=c1nbMdS2/wACnz7+n6RyuA+wAdoXXvtuh3t/Ui9Sz3A=;
-        b=ajoOgguH8Y/0oYx8xC+/HhBElkrUXFMpXdCY2D+NapVO7pL+ZzEbysDHmTJ9HgY9Xj
-         1GnKXhXKKBXkTGHJgWartIKisvFvgEeb5SX7tmIE4YeBIg7TmYyFPoLkb4TEzyKkXsJv
-         s6hTRwpLQ2654KS+S3wgJb5Sqv59T4fkTHbS2cukrZzeWj1moZDRHK7CItG+HBmIepU5
-         qp/IEsqG7XenAcXG6pj2Zms5cMOLCTsl/DNAMXrXxPJy7PUoFRJa4JrXNAd9K5Sy4yqu
-         wO/rJRJJsUhl48JUqcPeGgyemCWojXiCllN3pq4Wpw4ujh25y/zTSRaBEHGX78UTlGbT
-         eJ6g==
-X-Forwarded-Encrypted: i=1; AL+hErGB3H5/3qb616QqDgAMRabj512BoHCuvyLoCTS2L1eSHjLvccvEZ0vm5ri1Dv2M/p3HNkwy4qaKF4I=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8DL2rtyA+v9dzToJ8claLgMiAFIEjZU/hPBWEHvBXRPk+Y5vQ3
-	4pB7d1dywLBtz1TfWpNhsdGqXaK2grUscYIIPkqXDY08riAsVhq35L0JxzwQiEcEH2PYqbgoYte
-	QWTD8M8XZe01cz+H4EG6FjZd8vsIE7g4=
-X-Gm-Gg: AYBFou3k7kO9QSSvOIW2D5HAK9DffDLaQZdFjhvfTEDKodemNoLhbXX4Ae+7QySfRPW
-	GcIh0uOqrPQdhavTp5ZKsdXd0s0hPj3hVRIXXszK2BnFUBODnhSPPfhEpI3RKYleKFd2xWfk/Zq
-	6u2xIaDmzZJrlvgJkZ/2Q8vGyS8pxKF+nMpB44hr1NNCksKfDg9j58syz9BlMCpfnIzKv43cySY
-	V/pF72xC85FkdWuhKbjsj/8FlNVAzJXvy15YWiRnoN3xE0i7CK0OHP3mZjQmIWBs54S5D5Yfs90
-	YfDlUVu9WusWzx4QSkmMlP1QXyg+UnKZKdDvNWObXsUo3m6tJqN2Jevm3dLgLBgT7/3mWncfazS
-	Cwb5vXjHzHIbG6Nm/zg6GRHwaYI/NdXr8hcCSeqE=
-X-Received: by 2002:a17:903:1aef:b0:2e8:4040:792b with SMTP id
- d9443c01a7336-2edb9120edemr28852925ad.22.1794323324501; Tue, 10 Nov 2026
- 07:08:44 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794323362; x=1794928162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rW7wY2dSAmljd85v6jjosIWS8OLneAfUfN99gDJ44Us=;
+        b=rnYajtUkTzKsdDXAHuqwUkwhaD09j+gs7qhvag0zHxQCe1HNTx4O2DuO4IIZ+ke3nQ
+         dOtBwk5+ukTdxEtMVFRkNVPMBmr7suPsI5JUO8CrmUl70DsnXVWY5ht1l6KlU+6mVPyp
+         ijgu+VqnnQU1XdC7HNGgVfKxddrevdTCv4VzNcjiUm1FqaS4ld+0eWOZ+WU1cmnA3aTj
+         17M+bZqXhb/1hwHuSJfYlbBwzWyf8Khu2o9eXg2Cp2+uk3uFO6ziRwYuXzKeUSpS+PgU
+         vPUubk9+Hb9Cen8ktsofdflQv+dnj5QhgQE8SazudwJqNvgC6D62w4LyTM2Zz9OSbyKI
+         k3SA==
+X-Forwarded-Encrypted: i=1; AL+hErE2VFlE5PvTVfF64Kq/TcDqGLzXxflqIabBRQf0wdlgnMVnvUZEMywSdYoEgCoBPdr8CNKYtdV+GwQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+feWanmgvBN7ViutkQlsd1/8KWWWhh7eDTB/WmVt9jyZ299hYP
+	mHp4Ity/M5NiR2R+U5JqfHaVS+rS8dfJq53oaaoUcsvqmjqvouRqjTmCUaEzVmlh
+X-Gm-Gg: AYBFou1GP35Q/P0+Y1+jJK2CHQVVV3seXgWTk3yxG5dqdarQ2uzPwoLQzChR8bVw35x
+	PkJl6Qi823BwvzNWlK4vjShdMk6/vf1UAI9cTriw6dCkUB6Lf21SD8AO4zj+2x9JO/6uHP9O8/J
+	UQIO9YZaToT7Q97AS6oa3TatdOZbKR4sheiEOLYB6c564qk6P0eHxGq92GxfaRxIiiSU6Ba2rnQ
+	QaSFz0PSJRTBYhWPWAAOm24IruW4TP1+0zlEAHrk7CLzbLxgob8kZATrXN0vlmGiaR0h3B+LAt3
+	wgxSHJ+nQSiY68hd9rVuo/zpuL+E6YSp6/dKlM/4tDrsizfp6ksZ9mE77g+MCGPVz29Llvaf6/u
+	y1rrHO7zmPod86R3+fG9rOyBqNk8ubnnyix0hUYxg2C2Jz6wBz54Qpm+1LiDo6xNQFfWA85zeol
+	CPT0nMPqUOGbbSmFb5K/r3XDjDkb9zvD4BZqa8zdWweJcs70HKgT7KWOONik0voPlEux9h1ocEH
+	WwS1p/6hlpGCHF2jYKcbM7y1tAyBvIMZqeYio+JGncP6nxy0B3oz7btdenHYABXTnukOAvYMt8K
+	KOtAzre56aOUqJucg3KATPIYtVGFcfE0VH9NraUmAaAIF3D0
+X-Received: by 2002:a17:902:f644:b0:2e2:f379:82b9 with SMTP id d9443c01a7336-2edb924c692mr24302405ad.61.1794316877150;
+        Tue, 10 Nov 2026 05:21:17 -0800 (PST)
+Received: from r00799764-ThinkCentre-M920t-N000.. ([139.159.170.67])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6d4a31esm8861065ad.22.2026.11.10.05.21.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 05:21:16 -0800 (PST)
+From: Jinjie Ruan <ruanjinjie01@gmail.com>
+To: babu.moger@amd.com,
+	ben.horgan@arm.com,
+	bp@alien8.de,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	Dave.Martin@arm.com,
+	fenghuay@nvidia.com,
+	gshan@redhat.com,
+	hpa@zytor.com,
+	james.morse@arm.com,
+	jic23@kernel.org,
+	mingo@redhat.com,
+	rdunlap@infradead.org,
+	reinette.chatre@intel.com,
+	skhan@linuxfoundation.org,
+	tan.shaopeng@fujitsu.com,
+	tglx@kernel.org,
+	tony.luck@intel.com,
+	zengheng4@huawei.com,
+	x86@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: ruanjinjie@huawei.com
+Subject: [PATCH v5 0/7] fs/resctrl: Fix some resctl bugs related to mpam
+Date: Tue, 10 Nov 2026 21:20:47 +0800
+Message-ID: <20261110132054.3702-1-ruanjinjie01@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,473 +115,71 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261110102039.1002605-1-bjorn@kernel.org> <20261110102039.1002605-5-bjorn@kernel.org>
-In-Reply-To: <20261110102039.1002605-5-bjorn@kernel.org>
-From: Magnus Karlsson <magnus.karlsson@gmail.com>
-Date: Tue, 10 Nov 2026 16:08:32 +0100
-X-Gm-Features: AclHuK8pcGlhvdthobLOqB0JgP37exZok7OAn9iLvLH8hYIBz6_niNrIr15aryU
-Message-ID: <CAJ8uoz0gcQmqTPGBmNF6+WvWZHPOVRsPoEmTwG6WeOaq1vPxcg@mail.gmail.com>
-Subject: Re: [PATCH net-next v1 04/11] xsk: Allocate UMEM chunks through page_pool
-To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, 
-	bpf@vger.kernel.org, io-uring@vger.kernel.org, 
-	Mina Almasry <almasrymina@google.com>, 
-	"Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, 10 Nov 2026 at 12:26, Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> wrot=
-e:
->
-> AF_XDP zero copy needs a second RX allocator in every driver. A
-> page_pool driver can take UMEM chunks from a memory provider instead,
-> and keep its refill, recycling and DMA sync code.
->
-> Each aligned chunk becomes a net_iov, whose address netmem_address()
-> finds without calling the provider. Userspace may post a chunk that
-> the kernel still owns, so the provider tracks the owner of each chunk
-> and drops such FILL entries. Chunks that a page pool releases stay in
-> the kernel for reuse. Nothing installs the provider yet.
->
-> Signed-off-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
-> ---
->  include/net/netmem.h |  25 ++++-
->  include/net/xdp.h    |   2 +-
->  net/xdp/Kconfig      |   1 +
->  net/xdp/Makefile     |   2 +-
->  net/xdp/xsk.h        |   6 ++
->  net/xdp/xsk_pp.c     | 246 +++++++++++++++++++++++++++++++++++++++++++
->  6 files changed, 279 insertions(+), 3 deletions(-)
->  create mode 100644 net/xdp/xsk_pp.c
->
-> diff --git a/include/net/netmem.h b/include/net/netmem.h
-> index b986ad616334..a3b67ef32b21 100644
-> --- a/include/net/netmem.h
-> +++ b/include/net/netmem.h
-> @@ -69,6 +69,7 @@ DECLARE_STATIC_KEY_FALSE(page_pool_restricted);
->  enum net_iov_type {
->         NET_IOV_DMABUF,
->         NET_IOV_IOURING,
-> +       NET_IOV_XSK,
->  };
->
->  /* A memory descriptor representing abstract networking I/O vectors.
-> @@ -107,6 +108,10 @@ struct net_iov_area {
->         size_t num_niovs;
->         /* Each net_iov covers 1 << niov_shift bytes. */
->         unsigned int niov_shift;
-> +       /* CPU address of the first net_iov, or NULL if the CPU cannot re=
-ad
-> +        * the area.
-> +        */
-> +       void *vaddr;
->  };
->
->  static inline struct net_iov_area *net_iov_owner(const struct net_iov *n=
-iov)
-> @@ -119,6 +124,18 @@ static inline unsigned int net_iov_idx(const struct =
-net_iov *niov)
->         return niov - net_iov_owner(niov)->niovs;
->  }
->
-> +static inline void *net_iov_address(const struct net_iov *niov)
-> +{
-> +       const struct net_iov_area *area =3D net_iov_owner(niov);
-> +       unsigned long off;
-> +
-> +       if (!area->vaddr)
-> +               return NULL;
-> +
-> +       off =3D (unsigned long)net_iov_idx(niov) << area->niov_shift;
-> +       return area->vaddr + off;
-> +}
-> +
->  /* Initialize a niov: stamp the owning area, the memory provider type.
->   */
->  static inline void net_iov_init(struct net_iov *niov,
-> @@ -345,10 +362,16 @@ static inline void *__netmem_address(netmem_ref net=
-mem)
->         return page_address(__netmem_to_page(netmem));
->  }
->
-> +/**
-> + * netmem_address - get the CPU address of the memory behind @netmem
-> + * @netmem: netmem to get the address of
-> + *
-> + * Return: the address, or NULL if the CPU cannot read @netmem.
-> + */
->  static inline void *netmem_address(netmem_ref netmem)
->  {
->         if (netmem_is_net_iov(netmem))
-> -               return NULL;
-> +               return net_iov_address(netmem_to_net_iov(netmem));
->
->         return __netmem_address(netmem);
->  }
-> diff --git a/include/net/xdp.h b/include/net/xdp.h
-> index 1105bb9e3292..5ab7802ac4e1 100644
-> --- a/include/net/xdp.h
-> +++ b/include/net/xdp.h
-> @@ -368,7 +368,7 @@ static inline bool xdp_buff_add_frag(struct xdp_buff =
-*xdp, netmem_ref netmem,
->
->         if (unlikely(netmem_is_pfmemalloc(netmem)))
->                 xdp_buff_set_frag_pfmemalloc(xdp);
-> -       if (unlikely(netmem_is_net_iov(netmem)))
-> +       if (unlikely(netmem_is_net_iov(netmem) && !netmem_address(netmem)=
-))
->                 xdp_buff_set_frag_unreadable(xdp);
->
->         return true;
-> diff --git a/net/xdp/Kconfig b/net/xdp/Kconfig
-> index 71af2febe72a..c9c68d3b3712 100644
-> --- a/net/xdp/Kconfig
-> +++ b/net/xdp/Kconfig
-> @@ -2,6 +2,7 @@
->  config XDP_SOCKETS
->         bool "XDP sockets"
->         depends on BPF_SYSCALL
-> +       select PAGE_POOL
->         default n
->         help
->           XDP sockets allows a channel between XDP programs and
-> diff --git a/net/xdp/Makefile b/net/xdp/Makefile
-> index 30cdc4315f42..6e9d60f9f7f1 100644
-> --- a/net/xdp/Makefile
-> +++ b/net/xdp/Makefile
-> @@ -1,4 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-$(CONFIG_XDP_SOCKETS) +=3D xsk.o xdp_umem.o xsk_queue.o xskmap.o
-> -obj-$(CONFIG_XDP_SOCKETS) +=3D xsk_buff_pool.o
-> +obj-$(CONFIG_XDP_SOCKETS) +=3D xsk_buff_pool.o xsk_pp.o
->  obj-$(CONFIG_XDP_SOCKETS_DIAG) +=3D xsk_diag.o
-> diff --git a/net/xdp/xsk.h b/net/xdp/xsk.h
-> index 7c811b5cce76..4dab7b9a1487 100644
-> --- a/net/xdp/xsk.h
-> +++ b/net/xdp/xsk.h
-> @@ -34,6 +34,12 @@ static inline struct xdp_sock *xdp_sk(struct sock *sk)
->
->  void xsk_map_try_sock_delete(struct xsk_map *map, struct xdp_sock *xs,
->                              struct xdp_sock __rcu **map_entry);
-> +struct xsk_pp;
+From: Jinjie Ruan <ruanjinjie@huawei.com>
 
-How about a header file instead of a forward declaration?
+Fix resctrl RMID allocation to report a retryable -EBUSY only when
+the target CLOSID actually has RMIDs in limbo.
 
-> +extern const struct memory_provider_ops xsk_pp_ops;
-> +
-> +struct xsk_pp *xsk_pp_create(struct xsk_buff_pool *pool);
-> +void xsk_pp_put(struct xsk_pp *pp);
->  void xsk_clear_pool_at_qid(struct net_device *dev, u16 queue_id);
->  int xsk_reg_pool_at_qid(struct net_device *dev, struct xsk_buff_pool *po=
-ol,
->                         u16 queue_id);
-> diff --git a/net/xdp/xsk_pp.c b/net/xdp/xsk_pp.c
-> new file mode 100644
-> index 000000000000..fdd55265a6cd
-> --- /dev/null
-> +++ b/net/xdp/xsk_pp.c
-> @@ -0,0 +1,246 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* AF_XDP UMEM as a page pool memory provider
-> + *
-> + * Each aligned UMEM chunk is a readable net_iov with one owner at a tim=
-e:
-> + *
-> + *   userspace --FILL--> page pool --release--> reuse --alloc--> page po=
-ol
-> + *       ^                   |
-> + *       +-----RX ring-------+
-> + */
-> +
-> +#include <net/page_pool/helpers.h>
-> +#include <net/page_pool/memory_provider.h>
-> +#include <net/xdp_sock_drv.h>
-> +
-> +#include "xsk.h"
-> +#include "xsk_queue.h"
-> +
-> +enum xsk_pp_chunk {
-> +       XSK_PP_USER,    /* owned by userspace */
-> +       XSK_PP_POOL,    /* owned by a page pool */
-> +       XSK_PP_REUSE,   /* on the reuse stack */
-> +};
-> +
-> +struct xsk_pp {
-> +       struct net_iov_area area;
-> +       struct xsk_buff_pool *pool;
-> +       /* Protects fq, state and reuse */
-> +       spinlock_t lock;
-> +       struct xsk_queue *fq;
-> +       refcount_t refs;
-> +       u32 nr_pools;
-> +       bool dma_need_sync;
-> +       u8 *state;
-> +       u32 reuse_cnt;
-> +       u32 reuse[];
+Split the domain-offline path out so it releases busy RMIDs without
+allocating a monitor context it never uses.
 
-Is the reason that you have a reuse stack here and not use the one in
-xsk_buff_pool that it only exists in unaligned mode, which you are not
-supporting? Could you still use the "pre-calculated" heads in aligned
-mode and link them up? There is already a xskb_list and free_list in
-there that is used for that purpose. Just an idea that could cut down
-the state and maybe the amount of code.
+Also unmount resctrl with the CDP state it was mounted with to fix
+another bug with mpam cdp.
 
-> +};
-> +
-> +static void xsk_pp_free(struct xsk_pp *pp)
-> +{
-> +       kvfree(pp->state);
-> +       kvfree(pp->area.niovs);
-> +       kvfree(pp);
-> +}
-> +
-> +void xsk_pp_put(struct xsk_pp *pp)
-> +{
-> +       if (refcount_dec_and_test(&pp->refs))
-> +               xsk_pp_free(pp);
-> +}
-> +
-> +/* @pool must be DMA mapped and have aligned chunks. The provider must b=
-e
-> + * the only consumer of its FILL ring.
-> + */
-> +struct xsk_pp *xsk_pp_create(struct xsk_buff_pool *pool)
-> +{
-> +       struct net_iov *niov;
-> +       struct xsk_pp *pp;
-> +       dma_addr_t dma;
-> +       u32 i;
-> +
-> +       pp =3D kvzalloc_flex(*pp, reuse, pool->heads_cnt, GFP_KERNEL_ACCO=
-UNT);
-> +       if (!pp)
-> +               return ERR_PTR(-ENOMEM);
-> +
-> +       pp->area.niovs =3D kvzalloc_objs(*pp->area.niovs, pool->heads_cnt=
-,
-> +                                      GFP_KERNEL_ACCOUNT);
-> +       pp->state =3D kvzalloc(pool->heads_cnt, GFP_KERNEL_ACCOUNT);
-> +       if (!pp->area.niovs || !pp->state) {
-> +               xsk_pp_free(pp);
-> +               return ERR_PTR(-ENOMEM);
-> +       }
-> +
-> +       pp->area.num_niovs =3D pool->heads_cnt;
-> +       pp->area.niov_shift =3D pool->chunk_shift;
-> +       pp->area.vaddr =3D pool->addrs;
-> +       pp->pool =3D pool;
-> +       pp->fq =3D pool->fq;
-> +       pp->dma_need_sync =3D dma_dev_need_sync(pool->dev);
+And do not allow monitor group move when the RMID index changes.
 
-Are you copying these for performance reasons, i.e. no extra pointer
-dereference in the fast path? In the same manner as the pool copies
-some information from the umem?
+These fixes are split out of the v10 Narrow-PARTID series below.
+        https://lore.kernel.org/all/20261020134239.3921377-1-ruanjinjie@huawei.com/
 
-> +       spin_lock_init(&pp->lock);
-> +       refcount_set(&pp->refs, 1);
-> +
-> +       for (i =3D 0; i < pp->area.num_niovs; i++) {
-> +               niov =3D &pp->area.niovs[i];
-> +               dma =3D xp_raw_get_dma(pool, (u64)i << pool->chunk_shift)=
-;
-> +               net_iov_init(niov, &pp->area, NET_IOV_XSK);
-> +               if (net_mp_niov_set_dma_addr(niov, dma)) {
-> +                       xsk_pp_free(pp);
-> +                       return ERR_PTR(-ERANGE);
-> +               }
-> +       }
-> +
-> +       return pp;
-> +}
-> +
-> +static int xsk_pp_init(struct page_pool *pool)
-> +{
-> +       struct xsk_pp *pp =3D pool->mp_priv;
-> +
-> +       if (pool->p.order || pool->p.dma_dir !=3D DMA_BIDIRECTIONAL ||
-> +           pool->p.dev !=3D pp->pool->dev)
-> +               return -EINVAL;
-> +       if (pool->p.max_len > pp->pool->chunk_size ||
-> +           pool->p.offset > pp->pool->chunk_size - pool->p.max_len)
-> +               return -EINVAL;
-> +
-> +       refcount_inc(&pp->refs);
-> +       spin_lock_bh(&pp->lock);
-> +       pp->nr_pools++;
+Changes in v5:
+- Update and split the patch as Reinette and Ben suggested.
+- Adjust the commit message.
+- Add Reviewed-by.
+- Link to v4:
+  - https://lore.kernel.org/all/20261105070934.2258613-1-ruanjinjie@huawei.com/
+  - https://lore.kernel.org/all/20261105123524.2282090-1-ruanjinjie@huawei.com/
 
-What is the difference between this counter and the refcount?
+Changes in v4:
+- Fix the unmount resctrl bug as Reinette suggested.
+- Adjust the commit message.
+- Add Reviewed-bys.
+- Link to v3:
+  - https://lore.kernel.org/all/20261031063634.1678345-1-ruanjinjie@huawei.com/
+  - https://lore.kernel.org/all/20261031094616.1691026-1-ruanjinjie@huawei.com/
 
-> +       spin_unlock_bh(&pp->lock);
-> +       return 0;
-> +}
-> +
-> +static void xsk_pp_destroy(struct page_pool *pool)
-> +{
-> +       struct xsk_pp *pp =3D pool->mp_priv;
-> +
-> +       spin_lock_bh(&pp->lock);
-> +       pp->nr_pools--;
-> +       spin_unlock_bh(&pp->lock);
-> +       xsk_pp_put(pp);
-> +}
-> +
-> +static bool xsk_pp_claim(struct xsk_pp *pp, u32 idx, enum xsk_pp_chunk f=
-rom)
-> +{
-> +       lockdep_assert_held(&pp->lock);
-> +
-> +       if (pp->state[idx] !=3D from)
-> +               return false;
-> +
-> +       pp->state[idx] =3D XSK_PP_POOL;
-> +       return true;
-> +}
-> +
-> +static u32 xsk_pp_alloc_reuse(struct xsk_pp *pp, netmem_ref *netmems, u3=
-2 max)
-> +{
-> +       u32 idx, n =3D 0;
-> +
-> +       while (n < max && pp->reuse_cnt) {
-> +               idx =3D pp->reuse[--pp->reuse_cnt];
-> +               if (WARN_ON_ONCE(!xsk_pp_claim(pp, idx, XSK_PP_REUSE)))
-> +                       continue;
-> +               netmems[n++] =3D net_iov_to_netmem(&pp->area.niovs[idx]);
-> +       }
-> +
-> +       return n;
-> +}
-> +
-> +static u32 xsk_pp_alloc_fill(struct xsk_pp *pp, netmem_ref *netmems, u32=
- max)
-> +{
-> +       struct xsk_buff_pool *pool =3D pp->pool;
-> +       struct xsk_queue *fq =3D pp->fq;
-> +       u32 i, entries, cons, idx, n =3D 0;
-> +       u64 addr;
-> +
-> +       if (!fq || !max)
-> +               return 0;
-> +
-> +       entries =3D xskq_cons_nb_entries(fq, max);
-> +       if (!entries) {
-> +               fq->queue_empty_descs++;
-> +               return 0;
-> +       }
-> +
-> +       cons =3D fq->cached_cons;
-> +       for (i =3D 0; i < entries; i++) {
-> +               __xskq_cons_read_addr_unchecked(fq, cons++, &addr);
-> +               addr &=3D pool->chunk_mask;
-> +               idx =3D addr >> pp->area.niov_shift;
-> +               if (unlikely(addr >=3D pool->addrs_cnt ||
-> +                            !xsk_pp_claim(pp, idx, XSK_PP_USER))) {
-> +                       fq->invalid_descs++;
-> +                       continue;
-> +               }
-> +               netmems[n++] =3D net_iov_to_netmem(&pp->area.niovs[idx]);
-> +       }
-> +
-> +       xskq_cons_release_n(fq, entries);
-> +       __xskq_cons_release(fq);
-> +       return n;
-> +}
-> +
-> +static netmem_ref xsk_pp_alloc_netmems(struct page_pool *pool, gfp_t gfp=
-)
-> +{
-> +       netmem_ref *netmems =3D pool->alloc.cache;
-> +       struct xsk_pp *pp =3D pool->mp_priv;
-> +       struct net_iov *niov;
-> +       dma_addr_t dma;
-> +       u32 i, n;
-> +
-> +       if (WARN_ON_ONCE(pool->alloc.count))
+Changes in v3:
+- Add Reviewed-by.
+- Local varibles uses reverse Christmas tree style.
+- Update the commit message as Reinette suggested.
+- Link to v2: https://lore.kernel.org/all/20261030092144.1233551-1-ruanjinjie@huawei.com/
 
-What has the driver writer or system done if this ever happens?
+Changes in v2
+- Update the commit message as Reinette suggested.
+- Link to v1: https://lore.kernel.org/all/20261029081513.924019-1-ruanjinjie@huawei.com/
 
-> +               return 0;
-> +
-> +       spin_lock_bh(&pp->lock);
+Jinjie Ruan (6):
+  fs/resctrl: Report a temporary RMID shortage per CLOSID
+  fs/resctrl: Do not allocate a monitor context when releasing limbo
+    RMIDs
+  fs/resctrl: Clear the CDP state after the cleanup
+  fs/resctrl: Stop the limbo handler while resctrl is unmounted
+  fs/resctrl: Release the limbo RMIDs when the CDP state changes
+  fs/resctrl: Add info/moveable_mon_group
 
-For my understanding, what entities can call this function at the same
-time? With the xsk_buff_pool we were protected by NAPI.
+Peter Newman (1):
+  fs/resctrl: Disallow monitor group move when the RMID index changes
 
+ Documentation/filesystems/resctrl.rst |  15 ++-
+ arch/x86/include/asm/resctrl.h        |   6 +
+ drivers/resctrl/mpam_resctrl.c        |   9 ++
+ fs/resctrl/internal.h                 |   3 +-
+ fs/resctrl/monitor.c                  | 151 ++++++++++++++++++++------
+ fs/resctrl/rdtgroup.c                 |  50 ++++++++-
+ include/linux/arm_mpam.h              |   1 +
+ 7 files changed, 196 insertions(+), 39 deletions(-)
 
-> +       n =3D xsk_pp_alloc_reuse(pp, netmems, PP_ALLOC_CACHE_REFILL);
-> +       n +=3D xsk_pp_alloc_fill(pp, netmems + n, PP_ALLOC_CACHE_REFILL -=
- n);
-> +       spin_unlock_bh(&pp->lock);
-> +       if (!n)
-> +               return 0;
-> +
-> +       for (i =3D 0; i < n; i++) {
-> +               niov =3D netmem_to_net_iov(netmems[i]);
-> +               dma =3D page_pool_get_dma_addr_netmem(netmems[i]);
-> +               if (pp->dma_need_sync)
-> +                       dma_sync_single_range_for_device(pool->p.dev, dma=
-,
-> +                                                        pool->p.offset,
-> +                                                        pool->p.max_len,
-> +                                                        pool->p.dma_dir)=
-;
-> +               net_mp_niov_set_page_pool(pool, niov);
-> +       }
-> +
-> +       pool->alloc.count =3D n - 1;
-> +       return netmems[n - 1];
-> +}
-> +
-> +static bool xsk_pp_release_netmem(struct page_pool *pool, netmem_ref net=
-mem)
-> +{
-> +       struct net_iov *niov =3D netmem_to_net_iov(netmem);
-> +       struct xsk_pp *pp =3D pool->mp_priv;
-> +       u32 idx =3D net_iov_idx(niov);
-> +
-> +       spin_lock_bh(&pp->lock);
-> +       net_mp_niov_clear_page_pool(niov);
-> +       if (!WARN_ON_ONCE(pp->state[idx] !=3D XSK_PP_POOL ||
-> +                         pp->reuse_cnt =3D=3D pp->area.num_niovs)) {
-> +               pp->state[idx] =3D XSK_PP_REUSE;
-> +               pp->reuse[pp->reuse_cnt++] =3D idx;
-> +       }
-> +       spin_unlock_bh(&pp->lock);
-> +
-> +       return false;
-> +}
-> +
-> +static int xsk_pp_nl_fill(void *mp_priv, struct sk_buff *rsp,
-> +                         struct netdev_rx_queue *rxq)
-> +{
-> +       return 0;
-> +}
-> +
-> +const struct memory_provider_ops xsk_pp_ops =3D {
-> +       .init           =3D xsk_pp_init,
-> +       .destroy        =3D xsk_pp_destroy,
-> +       .alloc_netmems  =3D xsk_pp_alloc_netmems,
-> +       .release_netmem =3D xsk_pp_release_netmem,
-> +       .nl_fill        =3D xsk_pp_nl_fill,
-> +       .caps           =3D MP_CAP_READABLE,
-> +};
-> --
-> 2.56.0
->
->
+-- 
+2.43.0
+
