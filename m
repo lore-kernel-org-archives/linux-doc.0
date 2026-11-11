@@ -1,98 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.227
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.227
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794376815;
-	b=OceWWPXYWDHl8We54SKqSi2DsyercD6B0H1EDru9JIyEZMuxnUaBP5vsllBETNmJ4asP
-	 W03/YwoMTay2SHjt8JC11pNBTm3jA0Q8JNSIYyqjIYcvc5J9K7bd3HMxPrqzlo6dGwujw
-	 kZMVSS5uq0ae1mKsDWARQbgnAAXVOfip007Lw4r7a1gN5qR0y9VPvo3SzwCD2+9IR8+/Z
-	 eP7wWB5Ip/iHoIOmLZnLTjhEjiHLCAY4E71Hv3mI8NlaS02ZJcFMC7iY6hvL/bmyGAr+K
-	 wEoCXY1XyZeiyAJrEMUFLzwG8WxsV0baOqaIpEt+CLaWCXavsp9hdUlqgFDOTPftM6g==
+	t=1794376833;
+	b=VTtS5BcMxgfbiPDfqhPn15SdWJxMhRdVRpEw22WrDbkis9H6TuJl9Y/sNUsPEcwViIFz
+	 CBEKyBaoSpbIM/9t/9mr1Qt71ST9MgkOQ5LNXcRYdOJSpHQzk7/V7pFJnXibehH84PTrD
+	 u4kt7eY1UC1QmmUx0tngSOeMTefIcAzLkCet6xYanWB57YUu84Z/12/YwnQwowbrmPIQk
+	 3ELlHTkpQNBRNjQawHj9qRknKIjV0PJ/eiqdY7PfYw83ehS/Vt6EpzCIk+QRfGeZL6JbC
+	 idzOoi8WWHo48XM3J5vVgJxvyaRj+nGyuxt/wArGP/jcIErSPN2j9dBApjm6s/YHJgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794376815;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794376833;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
 	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Received:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=7MFXZIdj2HlQkbhckc0+l+zCwbBlVh492hcyewGBnHg=;
-	b=Uif7kBP7LU61DrMWoSBJel9Gy/WSAJcmlRCP+y5aD5zZ9/okgNJji/vMndO3Ob0Z08lP
-	 ioFZBGPMjKzcs44HUT3LwhOAlDwhLpbHq/EJ0gZHuKVdIJ3sWHzq8eF+ZsLgEQwv9rZeD
-	 MH0VjavXTfEfvbruzxEZ+rOBdU95qpVpzeU1kFTcDlZm0d6RlXYrBv+QdLbBIzfeoOuFX
-	 X62N3kQVgvAThmwN4wLhXWywwRdBZ3tE6LdfjSZW/92zIPVHR761rA/NuQtGOjA1CLQnN
-	 insGq2MFwiQG0tqkVkIjdtpPFK+qOa5lGNrkm4TWcmPtSvPkcDf45IOlGsUhydEn8/w==
+	bh=Wea7mMzw8MaI8LWt3cOMZKJ4EZ/5ojFJ5zLjX644Hno=;
+	b=pTfrxILcybgZnr6JIzdThK8xmu5lB7xepuuhEM2gpr4iZHRJgFJwxyV5DK5ZAoLEa0GE
+	 SVBMtFccimTF7xZNq/MBsaiQkoWkSu7FVy0lknQ+RFJuf984/+M997LjggHQm3QJp6+la
+	 sgv4W4f0aC1xopMaThmRTudsZEURZ9xBqctCmEAEZAKMnuexqOjmCUb+90+qF5B7NWIcn
+	 pB7+iLSZrZx23AFJSDN0QaoFw5ksDYLVepPAkY2E1zaffEAqTmBjhlwn/eCdKPt31SX3J
+	 6GRY5RBqY+xWQyb2qhEiE16FGICHdCujsRXKJc2qJuEuALTd3auwgvNFg3bbTrtOzBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=broadcom.com;
 	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=I6q+yNQs;
-	arc=none smtp.remote-ip=209.85.210.227
-Received: from mail-pf1-f227.google.com (mail-pf1-f227.google.com [209.85.210.227])
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=MswletqD;
+	arc=none smtp.remote-ip=74.125.82.227
+Received: from mail-dy1-f227.google.com (mail-dy1-f227.google.com [74.125.82.227])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F7660A383F
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 06:00:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33F7660A383F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEFF560A3816
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 06:00:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EEFF560A3816
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=I6q+yNQs
-Received: by mail-pf1-f227.google.com with SMTP id d2e1a72fcca58-8b5a6f2f27fso1150875b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:00:14 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=MswletqD
+Received: by mail-dy1-f227.google.com with SMTP id 5a478bee46e88-37000e7234bso546882eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:00:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794376814; x=1794981614;
+        d=1e100.net; s=20260707; t=1794376831; x=1794981631;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=7MFXZIdj2HlQkbhckc0+l+zCwbBlVh492hcyewGBnHg=;
-        b=dij4kZEY467QMXcEziOHfV61L7LHhXUd0GYdIwmDsx1QSatYRgtliNC9nE7xPziyBS
-         S4acisVadLN2xR+hKwbYug8DNpChtDvSFdTRJiHetqBFGgbd70mV8quzrRfi9qxnKP0I
-         yG1eogj9N0L9k4SlQhIqiwcEbLxOtCzkJawhO3/SoLHah+uz9qrbzBwSj90Glx3I4nmW
-         UjzqOSAMLqKlzviSrHqJ3RQm1MmTjg7nsp/EUppT5yYo5pGwq3E1Iqgu/PJhUBzsrvTx
-         ZTSed7u1lf//Ft6sXbZukFxCN7+RSPO5SbutfuWMjhZ0lPEkEb2o7u1XXliH2UvB3tRU
-         XXQA==
-X-Forwarded-Encrypted: i=1; AL+hErGO/ls/rhY6NjP63ouCdzRXpnN1OWWsCj04dFKo5MzUQXBPPDYpYhjwdMDn4iWcZTDPG3+E7NfFCSA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/w/CgtNOCbCt4A3wAfV+BqYzkZxKYgJPiXyGE6Ay+i30YQjohF
-	NQ/aRY0RpFQ3RqMM73qv1Y/7M2cprskZmGwRX0AvjzJBBS7eAMwqS0X0kNYVT5cVQ7NLbly2fLI
-	MIF1ZrlNRJ3t5/GG5ns16IxgtlnWllyLoMfW5o1yaGbhxLTNblTjSSn9YaHu1epaB0bYWsGufjD
-	6G4JAb8qBZLJ92hccHcTfBJ4sUC3DbhgsPjSzN3atrQvhGIbHqjcCFt2Uh2Sy2MWSIzE0R2sHvQ
-	Fp4NBTq/MCj
-X-Gm-Gg: AYBFou2xLasIHABnWbxrylI3b/oVIaqniu2TdOSmeufdsVjbqucaEpKU+wL3ZkNdPx5
-	dLOPGEIMrKGJPEOmqc9s9z7Mszm+VvDkpef8tiDem8/oLkMHPlS4OoI12GucaWBw+xazOFz+CGC
-	1RfZbbH8GmLSlWKo87qj/M5Jlpn3svQN6jIOjfqK6BWUU2dHBpqQstmyyveWYK6R/GdoshjW1Nj
-	x55okjpY2oUINR8m7axZtq34pig9Sh3+eHNwQR4FBKrjqcj45FC254z2FnsSZnoFpKkf2ByVVbY
-	+NEz24vboW66euwXHriBZbdvhJP6dKeqvtBromc0SmNRSDntY8Y17bXmVwTqdl3oGhkblJjD4C2
-	NLENyjq6wUjvBE/T6p+HIBvBZl8eIjg80Eah/Z5/Eh3OmD6e/mY8PpQaedlGhDPqOA65GLZBO4E
-	ieVjD/3gXI/pTuNeNhIf3aKRSFU+rzLpib
-X-Received: by 2002:a05:6a21:3991:b0:3e1:d43e:367f with SMTP id adf61e73a8af0-3f2fffbe63cmr1665356637.73.1794376814120;
-        Tue, 10 Nov 2026 22:00:14 -0800 (PST)
+        bh=Wea7mMzw8MaI8LWt3cOMZKJ4EZ/5ojFJ5zLjX644Hno=;
+        b=EeWe7Kwoi96e3uVALiWBwE8n1rpOpnjrx3hDQ4+AtoNy1ltMqOWv15u/8q3ordi2VI
+         O+o4ShXPb794kDKicDf6SieONsM1X0jbtTGcIsojmBoq47gaGIU+CzlnX5jheQnUwInB
+         WsRR+EL546Bdli9TvmlNS6R9cS1+SiRRaWsU4CZ+urW4PvM1VePU+EWAcmDOnuX8lG2q
+         H4E9QeDKkkjanPKOB362yepFTUbeWCsNqcKNu9LSJqEG5GYtUnVb9z+AwHTYBJ4wH13U
+         OOjScC2Mamh2FywexfQwDIBM+RkpULaA93yMxt1OGZujqoqkHRcvYgOop873GHVibwBp
+         wLXQ==
+X-Forwarded-Encrypted: i=1; AL+hErGIHTghltpT0aGfrAD0lBGtoVZxm4C/o+YcOI5MnveZceWxNFNQOe+dtpf8pYWHzmGuXE/mr7pbLgw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/oph/xuCw1nEGBYRnfJgi9KUpIfKp9u+fhcs3DiMj0qn/JYpLF
+	ALre3JUnyD964QExQY1SuaSh03fGGgHOrVb7a4VigUE3xFA8VZKVfEMPHoip/b8PSw+oY3KjI/4
+	WTj7etgNE8xa+l4vPRypJQoH4QJ6J9rMO544m56S5L5qozW+O+XyZ3SQWwx6hV0yEARpIiNQ+xn
+	G5F6Eb3KQfEya9XJDfHi2lEmrIADI54szDpqofj9Q8oIn79nbon3b+syvM5yurWyJmbukD9rhVA
+	TJOIGS8B5LJ
+X-Gm-Gg: AYBFou36xjabmhFvF7YTNO92Cd/8A6ot8NDztDCEn/o59dHgRNDfUk6hyI4AoRLqc62
+	Kuhvg5fwuDcfAvJeLwL1FfyTWbtkPr6c5LuI/OeUXcb059lSTeKNleP+Z5V7icFh6CMAaOe5CEI
+	Z6h565JKqnHWuLA5+OrPf6+TiwVNJ/+1jzJWW12TaSQabJ4NdQ1JHqCvmRx51cCO1N6VPDTegfx
+	32oxtEFKQyYnQT3xAGq2WMF9uX5yzeizohSfZ4cD2KaiG1xtHnZY75diHcdavYuKngahRMmc9pr
+	w/yFZWtCDAkZhhZ5ic41Scoy2cy12VfraemWBd8T8mSU7PYBDeUr2VDGzwlUoYvQRu7En6foF8d
+	pT7lqMl72v/xC4YHIENaMAI4CK3Sy0bRBw87BINKKgw6d9aC3m+LbBMYut2XMWvwTa6SiCVoNSg
+	qYNjRzCUHrJ+M/ZHlLt+chr20MuvjTHgNl
+X-Received: by 2002:a05:693c:4083:b0:36c:9f1a:30b8 with SMTP id 5a478bee46e88-37686d34757mr2477803eec.31.1794376830617;
+        Tue, 10 Nov 2026 22:00:30 -0800 (PST)
 Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-28.dlp.protect.broadcom.com. [144.49.247.28])
-        by smtp-relay.gmail.com with ESMTPS id 41be03b00d2f7-cdd8d7e7dd0sm73891a12.24.2026.11.10.22.00.13
+        by smtp-relay.gmail.com with ESMTPS id 5a478bee46e88-375210e558asm41596eec.22.2026.11.10.22.00.29
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Nov 2026 22:00:14 -0800 (PST)
+        Tue, 10 Nov 2026 22:00:30 -0800 (PST)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93f6f4fe531so514625085a.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:00:12 -0800 (PST)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93cb7f9bb86so601551985a.2
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:00:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794376812; x=1794981612; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1794376829; x=1794981629; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7MFXZIdj2HlQkbhckc0+l+zCwbBlVh492hcyewGBnHg=;
-        b=I6q+yNQsHSf9TZC6Uw617ROgEBmVAGuDHTWcQdnj3fOaOhHfIdMxqVHWdOXdeqI/tt
-         Q2Y9r0xTxp/y5RPdbAaQPy2jCulWJwwg+vhiQW3oowN21hYtg9KVpRe3N8K58dIQsgJR
-         eOe8gJi5yhcbTQ4fndpnW1PH4qXEfwe61wv2c=
-X-Forwarded-Encrypted: i=1; AL+hErEmQnvyJPGpGsVRrbQ4uQ2gOGQDAQx/NBhrDefuoxySbOGUQQC+ZngMkYKc6eQt+HRODQ9Ydhiwm/w=@vger.kernel.org
-X-Received: by 2002:a05:620a:28c8:b0:945:c3b7:e704 with SMTP id af79cd13be357-947aff8dcf0mr206704785a.39.1794376812389;
-        Tue, 10 Nov 2026 22:00:12 -0800 (PST)
-X-Received: by 2002:a05:620a:28c8:b0:945:c3b7:e704 with SMTP id af79cd13be357-947aff8dcf0mr206700585a.39.1794376811878;
-        Tue, 10 Nov 2026 22:00:11 -0800 (PST)
+        bh=Wea7mMzw8MaI8LWt3cOMZKJ4EZ/5ojFJ5zLjX644Hno=;
+        b=MswletqDCx3BRZ3J9bAae0sCHSDskFHbqRtt0M//OutG3/KDTVx5fYqVot9mbPF88G
+         OH8EN9PdZRXgticEVajwvHNHlpsgohisg8/l6nA35J9K0PICqW0ILR+yUnPBjwcFDyf8
+         IA9d9UyzHLLZpgdDoUvCSvO8LhQY6D5KBEs/E=
+X-Forwarded-Encrypted: i=1; AL+hErHNU39hnayP8iguuriIsY/L6j5ci+ThkqD0cE2DUsCpxCgqeL5J6fC0jhwiEFJS8aYQDlAi184aTx8=@vger.kernel.org
+X-Received: by 2002:a05:620a:2993:b0:940:f224:5a67 with SMTP id af79cd13be357-947b00cea7amr220971485a.69.1794376828423;
+        Tue, 10 Nov 2026 22:00:28 -0800 (PST)
+X-Received: by 2002:a05:620a:2993:b0:940:f224:5a67 with SMTP id af79cd13be357-947b00cea7amr220963685a.69.1794376827725;
+        Tue, 10 Nov 2026 22:00:27 -0800 (PST)
 Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7e7f3bsm411506885a.37.2026.11.10.22.00.06
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7e7f3bsm411506885a.37.2026.11.10.22.00.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 22:00:07 -0800 (PST)
+        Tue, 10 Nov 2026 22:00:24 -0800 (PST)
 From: Zack Rusin <zack.rusin@broadcom.com>
 To: Sean Christopherson <seanjc@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -120,9 +120,9 @@ Cc: Doug Covelli <doug.covelli@broadcom.com>,
 	bcm-kernel-feedback-list@broadcom.com,
 	linux-kernel@vger.kernel.org,
 	Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH v3 02/12] KVM: x86: Move VMware backdoor support to separate files
-Date: Wed, 11 Nov 2026 00:59:51 -0500
-Message-ID: <07581ff5998d40092c2f171ffe1fb05ac48f9446.1794374897.git.zack.rusin@broadcom.com>
+Subject: [PATCH v3 06/12] KVM: x86: Forward VMware hypercalls to userspace
+Date: Wed, 11 Nov 2026 00:59:55 -0500
+Message-ID: <90467782be23b83fd3e9a6afe2f1d2149eaf9db9.1794374897.git.zack.rusin@broadcom.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1794374897.git.zack.rusin@broadcom.com>
 References: <cover.1794374897.git.zack.rusin@broadcom.com>
@@ -138,385 +138,398 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-Move the enable_vmware_backdoor module parameter, the VMware backdoor
-port and pseudo-PMC definitions, and the VMware pseudo-PMC and opcode
-helpers out of x86.c, emulate.c and pmu.{c,h} into new vmware.{c,h}
-files, and add a MAINTAINERS entry for the new files.
+Add KVM_VMWARE_ENABLE_HYPERCALL.  When it is enabled, exit to userspace
+with KVM_EXIT_VMWARE when an L1 vCPU executes VMCALL or VMMCALL with
+VMware's magic value in EAX, and let userspace complete the call by
+updating the guest's registers or by having KVM inject #UD, #GP or #PF.
 
-KVM's VMware emulation is spread across the emulator, the PMU code and
-x86.c, and both vendor modules read the module parameter directly.  The
-following patches make the VMware interfaces a per-VM setting, add a
-userspace exit for VMware hypercalls and allow compiling the emulation
-out.  Collect the code in one place first, as KVM already does for
-Hyper-V and Xen emulation, so that those changes stay local and the
-code movement can be reviewed on its own.
+VMware guests reach the hypervisor through the "backdoor": either the
+I/O-port interface that KVM already emulates or, on newer guests,
+VMCALL or VMMCALL, with the same commands and register conventions.
+VMware's userspace implements the roughly one hundred commands, and
+reviewing the command list on the mailing list found none that needs
+to be handled in KVM (see the Links), so leave them in userspace.
 
-No functional change intended.
+Only claim calls that carry the magic value, so that the same VM can
+still use Xen, Hyper-V or KVM hypercalls.  Never claim a call from L2:
+the only L2 hypercall that L0 handles itself is Hyper-V's L2 TLB flush,
+which doesn't use RAX as an input.
 
-Link: https://lore.kernel.org/r/aIEgVpjXDR0BXgHq@google.com
-Link: https://lore.kernel.org/r/aIEwOToiAkKfQA-4@google.com
+Pass operands and results through KVM_SYNC_X86_REGS instead of defining
+a second register ABI; KVM_EXIT_HYPERCALL returns a single value in
+RAX, while backdoor commands use RAX through RBP.  Report the CPL and
+leave the privilege policy to userspace, as VMware Tools call the
+backdoor from user mode.  Instead of completing the call, userspace can
+have KVM inject a validated #UD, #GP or #PF at the hypercall, and may
+update the registers as well to keep the partial progress of a
+high-bandwidth transfer.
+
+Don't forward hypercalls of vCPUs whose state is protected, as KVM
+can't access their registers: reject the flag for VMs with protected
+state, omit it from their VM-scoped KVM_CHECK_EXTENSION result, and
+ignore it once a vCPU of a VM set up with the legacy KVM_SEV_ES_INIT
+becomes protected.
+
+Link: https://lore.kernel.org/r/c60b32a3-e699-4a8c-8d52-09b34c4d5269@redhat.com
+Link: https://lore.kernel.org/r/CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=0YZ3j2gGhgmaFRdCFg@mail.gmail.com
+Link: https://lore.kernel.org/r/CADH9ctBivnvP1tNcatLKzd8EDz8Oo6X65660j8ccxYzk3aFzCA@mail.gmail.com
+Link: https://lore.kernel.org/r/aIEmawm9gLflg8zt@google.com
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
 ---
- MAINTAINERS            |  9 +++++
- arch/x86/kvm/Makefile  |  3 +-
- arch/x86/kvm/emulate.c |  4 +--
- arch/x86/kvm/pmu.c     | 35 +-----------------
- arch/x86/kvm/pmu.h     |  5 ---
- arch/x86/kvm/svm/svm.c |  1 +
- arch/x86/kvm/vmware.c  | 81 ++++++++++++++++++++++++++++++++++++++++++
- arch/x86/kvm/vmware.h  | 22 ++++++++++++
- arch/x86/kvm/vmx/vmx.c |  1 +
- arch/x86/kvm/x86.c     | 36 +------------------
- arch/x86/kvm/x86.h     |  2 --
- 11 files changed, 119 insertions(+), 80 deletions(-)
- create mode 100644 arch/x86/kvm/vmware.c
- create mode 100644 arch/x86/kvm/vmware.h
+ Documentation/virt/kvm/api.rst  | 84 ++++++++++++++++++++++++++++++++-
+ arch/x86/include/uapi/asm/kvm.h | 24 ++++++++++
+ arch/x86/kvm/vmware.c           | 78 ++++++++++++++++++++++++++++++
+ arch/x86/kvm/vmware.h           |  7 +++
+ arch/x86/kvm/x86.c              | 11 ++++-
+ include/uapi/linux/kvm.h        |  5 ++
+ 6 files changed, 206 insertions(+), 3 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 222b7fc2c3aa..017053e8f76e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15042,6 +15042,15 @@ F:	arch/x86/kvm/svm/hyperv.*
- F:	arch/x86/kvm/svm/svm_onhyperv.*
- F:	arch/x86/kvm/vmx/hyperv.*
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 57517ebd4340..e2f0e329f748 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -6963,7 +6963,7 @@ to the byte array.
+ .. note::
  
-+KVM X86 VMWARE (KVM/VMware)
-+M:	Zack Rusin <zack.rusin@broadcom.com>
-+M:	Doug Covelli <doug.covelli@broadcom.com>
-+L:	kvm@vger.kernel.org
-+S:	Supported
-+T:	git git://git.kernel.org/pub/scm/virt/kvm/kvm.git
-+T:	git https://github.com/kvm-x86/linux.git
-+F:	arch/x86/kvm/vmware.*
+       For KVM_EXIT_IO, KVM_EXIT_MMIO, KVM_EXIT_OSI, KVM_EXIT_PAPR, KVM_EXIT_XEN,
+-      KVM_EXIT_EPR, KVM_EXIT_HYPERCALL, KVM_EXIT_TDX,
++      KVM_EXIT_EPR, KVM_EXIT_HYPERCALL, KVM_EXIT_TDX, KVM_EXIT_VMWARE,
+       KVM_EXIT_X86_RDMSR and KVM_EXIT_X86_WRMSR the corresponding
+       operations are complete (and guest state is consistent) only after userspace
+       has re-entered the kernel with KVM_RUN.  The kernel side will first finish
+@@ -7017,6 +7017,73 @@ Definition of ``flags``:
+ At the point of exit, PC points to the instruction immediately following
+ the trapping instruction.
+ 
++::
 +
- KVM X86 Xen (KVM/Xen)
- M:	David Woodhouse <dwmw2@infradead.org>
- M:	Paul Durrant <paul@xen.org>
-diff --git a/arch/x86/kvm/Makefile b/arch/x86/kvm/Makefile
-index c6bf463f5032..0cb47cfc1162 100644
---- a/arch/x86/kvm/Makefile
-+++ b/arch/x86/kvm/Makefile
-@@ -6,7 +6,8 @@ ccflags-$(CONFIG_KVM_WERROR) += -Werror
- include $(srctree)/virt/kvm/Makefile.kvm
++		/* KVM_EXIT_VMWARE */
++		struct kvm_vmware_exit {
++			__u32 type;
++			__u32 pad1;
++			union {
++				struct {
++					__u32 longmode;
++					__u32 cpl;
++					struct {
++						__u32 inject;
++						__u32 pad2;
++						__u32 vector;
++						__u32 error_code;
++						__u64 address;
++					} exception;
++				} hcall;
++			};
++		} vmware;
++
++KVM_EXIT_VMWARE is returned when userspace has enabled VMware hypercall
++forwarding and the guest executes a VMCALL or VMMCALL with VMware's magic
++value in RAX.  ``type`` is ``KVM_EXIT_VMWARE_HCALL``.  ``longmode`` reports
++the calling convention and ``cpl`` reports the privilege level.  Userspace
++must set ``pad1`` and ``exception.pad2`` to zero when re-entering KVM.
++
++The VMware exit takes precedence over Xen, Hyper-V, and KVM hypercalls only
++when the low 32 bits of RAX contain VMware's magic value.  Non-matching calls
++continue through the normal hypercall dispatch.  Xen and KVM hypercall numbers
++never match the magic value, but a 64-bit Hyper-V hypercall does not use RAX
++as an input, so one issued with the magic value left in RAX is reported as
++KVM_EXIT_VMWARE.  KVM reports CPL but does not enforce a VMware hypercall
++privilege policy; that policy belongs to userspace.
++
++KVM never reports an L2 hypercall through KVM_EXIT_VMWARE.  VMX reflects an
++L2 VMCALL to L1 and SVM injects #UD for an L2 VMMCALL that L1 does not
++intercept, except that both handle a supported Hyper-V nested TLB flush
++hypercall in L0, as a Hyper-V hypercall even if RAX holds VMware's magic
++value.  VMware hypercall exits cannot be enabled for a VM with protected vCPU
++state, and KVM does not forward hypercalls from a vCPU whose state is
++protected, e.g. in a VM initialized with the legacy KVM_SEV_ES_INIT.
++
++Hypercall operands are available through ``KVM_SYNC_X86_REGS``.  Userspace
++must request synchronized REGS through ``kvm_valid_regs`` on every KVM_RUN
++that can produce this exit; otherwise the synchronized state is stale.  To
++complete the hypercall successfully, userspace may update all GPRs and RFLAGS,
++set ``kvm_dirty_regs`` accordingly, and re-enter with KVM_RUN.  KVM applies
++the synchronized registers using KVM_SET_REGS semantics and then advances
++past the hypercall instruction.  Userspace must leave synchronized RIP at the
++hypercall instruction so that KVM advances it exactly once.  RFLAGS is
++accepted with normal KVM_SET_REGS ownership; KVM forces X86_EFLAGS_FIXED but
++does not apply an exit-specific writable-bit mask.
++
++Userspace may instead set ``exception.inject`` to one and request #UD, #GP,
++or #PF.  #UD requires a zero error code and address.  #GP accepts an error
++code verbatim and requires a zero address.  #PF also accepts the error code
++verbatim and uses ``address`` as CR2.  Userspace may dirty synchronized REGS
++when requesting an exception, e.g. to preserve partial progress from a
++high-bandwidth backdoor transfer.  KVM applies the synchronized registers
++before queuing the exception.  Userspace must leave synchronized RIP at the
++hypercall instruction so that the exception is delivered at the faulting
++instruction.  Invalid completion data makes KVM_RUN fail with -EINVAL and
++leaves the instruction incomplete.  The completion callback is consumed, so
++another KVM_RUN re-executes the instruction and produces a fresh
++KVM_EXIT_VMWARE.
++
+ ::
  
- kvm-y			+= x86.o emulate.o irq.o lapic.o cpuid.o msrs.o pmu.o regs.o \
--			   mtrr.o debugfs.o mmu/mmu.o mmu/page_track.o mmu/spte.o
-+			   mtrr.o debugfs.o mmu/mmu.o mmu/page_track.o mmu/spte.o \
-+			   vmware.o
+ 		/* KVM_EXIT_TPR_ACCESS */
+@@ -9211,6 +9278,21 @@ instruction.  Enabling this flag therefore does not bypass the guest's I/O
+ permission checks.  Privileged backdoor I/O and pseudo-PMC accesses remain
+ available.
  
- kvm-$(CONFIG_X86_64) += mmu/tdp_iter.o mmu/tdp_mmu.o
- kvm-$(CONFIG_KVM_IOAPIC) += i8259.o i8254.o ioapic.o
-diff --git a/arch/x86/kvm/emulate.c b/arch/x86/kvm/emulate.c
-index c1b21282187f..a7bcde6f0359 100644
---- a/arch/x86/kvm/emulate.c
-+++ b/arch/x86/kvm/emulate.c
-@@ -33,6 +33,7 @@
- #include "tss.h"
- #include "mmu.h"
- #include "pmu.h"
-+#include "vmware.h"
++``KVM_VMWARE_ENABLE_HYPERCALL`` forwards VMCALL and VMMCALL instructions to
++userspace as ``KVM_EXIT_VMWARE``.  The architecture-specific ``vmware``
++member of ``struct kvm_run`` reports the guest's calling convention and CPL.
++Operands and successful register and RFLAGS outputs are transferred through
++``KVM_SYNC_X86_REGS`` as described in chapter 5.  The flag cannot be enabled
++for a VM with protected vCPU state, and a VM-fd ``KVM_CHECK_EXTENSION`` omits
++the flag for such a VM.  In a VM initialized with the legacy
++``KVM_SEV_ES_INIT``, the flag can be enabled but has no effect on a vCPU once
++its state is protected.
++
++Userspace can instead request that the hypercall instruction inject an
++exception by setting ``vmware.hcall.exception.inject`` and filling in the
++validated vector, error code, and address fields.  When an exception is
++requested, KVM does not advance past the hypercall instruction.
++
+ 8. Other capabilities.
+ ======================
  
- /*
-  * Operand types
-@@ -2523,9 +2524,6 @@ static bool emulator_bad_iopl(struct x86_emulate_ctxt *ctxt)
- 	return ctxt->ops->cpl(ctxt) > iopl;
- }
+diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
+index 57167683692b..3b9f53bce2d9 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -53,6 +53,7 @@
+ #define __KVM_HAVE_DEBUGREGS
+ #define __KVM_HAVE_XSAVE
+ #define __KVM_HAVE_XCRS
++#define __KVM_HAVE_VMWARE_EXIT
  
--#define VMWARE_PORT_VMPORT	(0x5658)
--#define VMWARE_PORT_VMRPC	(0x5659)
--
- static bool emulator_io_port_access_allowed(struct x86_emulate_ctxt *ctxt,
- 					    u16 port, u16 len)
- {
-diff --git a/arch/x86/kvm/pmu.c b/arch/x86/kvm/pmu.c
-index ca6dfb44949f..ae7000c44677 100644
---- a/arch/x86/kvm/pmu.c
-+++ b/arch/x86/kvm/pmu.c
-@@ -23,6 +23,7 @@
- #include "cpuid.h"
- #include "lapic.h"
- #include "pmu.h"
-+#include "vmware.h"
+ /* Architectural interrupt line count. */
+ #define KVM_NR_INTERRUPTS 256
+@@ -966,6 +967,29 @@ struct kvm_hyperv_eventfd {
+ #define KVM_EXIT_HYPERCALL_LONG_MODE	_BITULL(0)
  
- /* This is enough to filter the vast majority of currently defined events. */
- #define KVM_PMU_EVENT_FILTER_MAX_EVENTS 300
-@@ -716,40 +717,6 @@ int kvm_pmu_check_rdpmc_early(struct kvm_vcpu *vcpu, unsigned int idx)
- 	return kvm_pmu_call(check_rdpmc_early)(vcpu, idx);
- }
+ #define KVM_VMWARE_ENABLE_BACKDOOR	_BITULL(0)
++#define KVM_VMWARE_ENABLE_HYPERCALL	_BITULL(1)
++
++struct kvm_vmware_exit {
++#define KVM_EXIT_VMWARE_HCALL	1
++	__u32 type;
++	__u32 pad1;
++	union {
++		struct {
++			/* out */
++			__u32 longmode;
++			__u32 cpl;
++
++			/* in */
++			struct {
++				__u32 inject;
++				__u32 pad2;
++				__u32 vector;
++				__u32 error_code;
++				__u64 address;
++			} exception;
++		} hcall;
++	};
++};
  
--bool is_vmware_backdoor_pmc(u32 pmc_idx)
--{
--	switch (pmc_idx) {
--	case VMWARE_BACKDOOR_PMC_HOST_TSC:
--	case VMWARE_BACKDOOR_PMC_REAL_TIME:
--	case VMWARE_BACKDOOR_PMC_APPARENT_TIME:
--		return true;
--	}
--	return false;
--}
--
--static int kvm_pmu_rdpmc_vmware(struct kvm_vcpu *vcpu, unsigned idx, u64 *data)
--{
--	u64 ctr_val;
--
--	switch (idx) {
--	case VMWARE_BACKDOOR_PMC_HOST_TSC:
--		ctr_val = rdtsc();
--		break;
--	case VMWARE_BACKDOOR_PMC_REAL_TIME:
--		ctr_val = ktime_get_boottime_ns();
--		break;
--	case VMWARE_BACKDOOR_PMC_APPARENT_TIME:
--		ctr_val = ktime_get_boottime_ns() +
--			vcpu->kvm->arch.kvmclock_offset;
--		break;
--	default:
--		return 1;
--	}
--
--	*data = ctr_val;
--	return 0;
--}
--
- int kvm_pmu_rdpmc(struct kvm_vcpu *vcpu, unsigned idx, u64 *data)
- {
- 	struct kvm_pmu *pmu = vcpu_to_pmu(vcpu);
-diff --git a/arch/x86/kvm/pmu.h b/arch/x86/kvm/pmu.h
-index 090c9bbb74f4..3fc2ce713b6f 100644
---- a/arch/x86/kvm/pmu.h
-+++ b/arch/x86/kvm/pmu.h
-@@ -17,10 +17,6 @@
- #define fixed_ctrl_field(ctrl_reg, idx) \
- 	(((ctrl_reg) >> ((idx) * INTEL_FIXED_BITS_STRIDE)) & INTEL_FIXED_BITS_MASK)
- 
--#define VMWARE_BACKDOOR_PMC_HOST_TSC		0x10000
--#define VMWARE_BACKDOOR_PMC_REAL_TIME		0x10001
--#define VMWARE_BACKDOOR_PMC_APPARENT_TIME	0x10002
--
- #define KVM_FIXED_PMC_BASE_IDX INTEL_PMC_IDX_FIXED
- 
- struct kvm_pmu_ops {
-@@ -287,7 +283,6 @@ void kvm_pmu_branch_retired(struct kvm_vcpu *vcpu);
- void kvm_mediated_pmu_load(struct kvm_vcpu *vcpu);
- void kvm_mediated_pmu_put(struct kvm_vcpu *vcpu);
- 
--bool is_vmware_backdoor_pmc(u32 pmc_idx);
- bool kvm_need_perf_global_ctrl_intercept(struct kvm_vcpu *vcpu);
- bool kvm_need_rdpmc_intercept(struct kvm_vcpu *vcpu);
- 
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index 721dc5e7e13a..980841d153f3 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -9,6 +9,7 @@
- #include "smm.h"
- #include "cpuid.h"
- #include "pmu.h"
-+#include "vmware.h"
- 
- #include <linux/module.h>
- #include <linux/kernel.h>
+ #define KVM_X86_DEFAULT_VM	0
+ #define KVM_X86_SW_PROTECTED_VM	1
 diff --git a/arch/x86/kvm/vmware.c b/arch/x86/kvm/vmware.c
-new file mode 100644
-index 000000000000..772f295f8ff5
---- /dev/null
+index 3136e2971afe..8407dccf81fd 100644
+--- a/arch/x86/kvm/vmware.c
 +++ b/arch/x86/kvm/vmware.c
-@@ -0,0 +1,81 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * KVM VMware emulation support
-+ *
-+ * Copyright (C) 2025-2026 Broadcom. All Rights Reserved. The term
-+ * "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
-+ */
+@@ -11,6 +11,7 @@
+ #include <asm/vmware.h>
+ 
+ #include "vmware.h"
++#include "x86.h"
+ 
+ static bool __read_mostly enable_vmware_backdoor;
+ module_param(enable_vmware_backdoor, bool, 0444);
+@@ -29,6 +30,10 @@ int kvm_vmware_enable_cap(struct kvm *kvm, u64 flags)
+ {
+ 	int r = -EINVAL;
+ 
++	if (kvm->arch.has_protected_state &&
++	    (flags & KVM_VMWARE_ENABLE_HYPERCALL))
++		return -EINVAL;
 +
-+#include <linux/moduleparam.h>
-+
-+#include "kvm_emulate.h"
-+#include "vmware.h"
-+
-+bool __read_mostly enable_vmware_backdoor;
-+EXPORT_SYMBOL_FOR_KVM_INTERNAL(enable_vmware_backdoor);
-+module_param(enable_vmware_backdoor, bool, 0444);
-+
-+bool is_vmware_backdoor_pmc(u32 pmc_idx)
+ 	mutex_lock(&kvm->lock);
+ 	if (!kvm->created_vcpus) {
+ 		kvm->arch.vmware.enabled_caps |= flags;
+@@ -39,6 +44,79 @@ int kvm_vmware_enable_cap(struct kvm *kvm, u64 flags)
+ 	return r;
+ }
+ 
++static int complete_vmware_hypercall_exit(struct kvm_vcpu *vcpu)
 +{
-+	switch (pmc_idx) {
-+	case VMWARE_BACKDOOR_PMC_HOST_TSC:
-+	case VMWARE_BACKDOOR_PMC_REAL_TIME:
-+	case VMWARE_BACKDOOR_PMC_APPARENT_TIME:
-+		return true;
++	struct kvm_vmware_exit *vmware = &vcpu->run->vmware;
++	u32 pad1 = READ_ONCE(vmware->pad1);
++	u32 inject = READ_ONCE(vmware->hcall.exception.inject);
++	u32 pad2 = READ_ONCE(vmware->hcall.exception.pad2);
++	u32 vector = READ_ONCE(vmware->hcall.exception.vector);
++	u32 error_code = READ_ONCE(vmware->hcall.exception.error_code);
++	u64 address = READ_ONCE(vmware->hcall.exception.address);
++
++	if (pad1 || pad2 || inject > 1)
++		return -EINVAL;
++
++	if (!inject)
++		return kvm_skip_emulated_instruction(vcpu);
++
++	switch (vector) {
++	case UD_VECTOR:
++		if (error_code || address)
++			return -EINVAL;
++		kvm_queue_exception(vcpu, UD_VECTOR);
++		break;
++	case GP_VECTOR:
++		if (address)
++			return -EINVAL;
++		kvm_queue_exception_e(vcpu, GP_VECTOR, error_code);
++		break;
++	case PF_VECTOR: {
++		struct x86_exception fault = {
++			.vector = PF_VECTOR,
++			.error_code_valid = true,
++			.error_code = error_code,
++			.address = address,
++		};
++
++		kvm_inject_page_fault(vcpu, &fault, false);
++		break;
 +	}
-+	return false;
++	default:
++		return -EINVAL;
++	}
++
++	/* Retry the instruction so the exception is delivered at its RIP. */
++	return 1;
 +}
 +
-+int kvm_pmu_rdpmc_vmware(struct kvm_vcpu *vcpu, unsigned int idx, u64 *data)
++bool kvm_is_vmware_hypercall(struct kvm_vcpu *vcpu)
 +{
-+	u64 ctr_val;
++	/*
++	 * Never claim a hypercall from L2: the only one that L0 handles is
++	 * Hyper-V's L2 TLB flush.  The exit also needs the vCPU's registers,
++	 * which KVM can't access once the vCPU's state is protected.
++	 */
++	return kvm_is_vmware_cap_enabled(vcpu->kvm,
++					 KVM_VMWARE_ENABLE_HYPERCALL) &&
++	       !is_guest_mode(vcpu) && !vcpu->arch.guest_state_protected &&
++	       lower_32_bits(kvm_rax_read_raw(vcpu)) == VMWARE_HYPERVISOR_MAGIC;
++}
 +
-+	switch (idx) {
-+	case VMWARE_BACKDOOR_PMC_HOST_TSC:
-+		ctr_val = rdtsc();
-+		break;
-+	case VMWARE_BACKDOOR_PMC_REAL_TIME:
-+		ctr_val = ktime_get_boottime_ns();
-+		break;
-+	case VMWARE_BACKDOOR_PMC_APPARENT_TIME:
-+		ctr_val = ktime_get_boottime_ns() +
-+			vcpu->kvm->arch.kvmclock_offset;
-+		break;
-+	default:
-+		return 1;
-+	}
++int kvm_vmware_hypercall(struct kvm_vcpu *vcpu)
++{
++	struct kvm_vmware_exit *vmware = &vcpu->run->vmware;
 +
-+	*data = ctr_val;
++	memset(vmware, 0, sizeof(*vmware));
++	vcpu->run->exit_reason = KVM_EXIT_VMWARE;
++	vmware->type = KVM_EXIT_VMWARE_HCALL;
++	vmware->hcall.longmode = is_64_bit_hypercall(vcpu);
++	vmware->hcall.cpl = kvm_x86_call(get_cpl)(vcpu);
++
++	vcpu->arch.complete_userspace_io = complete_vmware_hypercall_exit;
 +	return 0;
 +}
 +
-+bool is_vmware_backdoor_opcode(struct x86_emulate_ctxt *ctxt)
-+{
-+	switch (ctxt->opcode_len) {
-+	case 1:
-+		switch (ctxt->b) {
-+		case 0xe4:	/* IN */
-+		case 0xe5:
-+		case 0xec:
-+		case 0xed:
-+		case 0xe6:	/* OUT */
-+		case 0xe7:
-+		case 0xee:
-+		case 0xef:
-+		case 0x6c:	/* INS */
-+		case 0x6d:
-+		case 0x6e:	/* OUTS */
-+		case 0x6f:
-+			return true;
-+		}
-+		break;
-+	case 2:
-+		switch (ctxt->b) {
-+		case 0x33:	/* RDPMC */
-+			return true;
-+		}
-+		break;
-+	}
-+
-+	return false;
-+}
+ bool kvm_is_vmware_io_port(struct kvm_vcpu *vcpu, u16 port)
+ {
+ 	return kvm_is_vmware_backdoor_enabled(vcpu) &&
 diff --git a/arch/x86/kvm/vmware.h b/arch/x86/kvm/vmware.h
-new file mode 100644
-index 000000000000..debabaff9654
---- /dev/null
+index c4ad1958a4da..de1dc8971ec6 100644
+--- a/arch/x86/kvm/vmware.h
 +++ b/arch/x86/kvm/vmware.h
-@@ -0,0 +1,22 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef __KVM_X86_VMWARE_H
-+#define __KVM_X86_VMWARE_H
-+
-+#include <linux/kvm_host.h>
-+
-+struct x86_emulate_ctxt;
-+
-+#define VMWARE_BACKDOOR_PMC_HOST_TSC		0x10000
-+#define VMWARE_BACKDOOR_PMC_REAL_TIME		0x10001
-+#define VMWARE_BACKDOOR_PMC_APPARENT_TIME	0x10002
-+
-+#define VMWARE_PORT_VMPORT	(0x5658)
-+#define VMWARE_PORT_VMRPC	(0x5659)
-+
-+extern bool enable_vmware_backdoor;
-+
-+bool is_vmware_backdoor_pmc(u32 pmc_idx);
-+int kvm_pmu_rdpmc_vmware(struct kvm_vcpu *vcpu, unsigned int idx, u64 *data);
-+bool is_vmware_backdoor_opcode(struct x86_emulate_ctxt *ctxt);
-+
-+#endif /* __KVM_X86_VMWARE_H */
-diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index 68fa251dda60..d407eecf1034 100644
---- a/arch/x86/kvm/vmx/vmx.c
-+++ b/arch/x86/kvm/vmx/vmx.c
-@@ -68,6 +68,7 @@
- #include "trace.h"
- #include "vmcs.h"
- #include "vmcs12.h"
-+#include "vmware.h"
- #include "vmx.h"
- #include "x86.h"
- #include "x86_ops.h"
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 2cd9ee316aad..389ae6213c85 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -31,6 +31,7 @@
- #include "pmu.h"
- #include "hyperv.h"
- #include "lapic.h"
-+#include "vmware.h"
- #include "xen.h"
- #include "smm.h"
+@@ -23,6 +23,7 @@ kvm_is_vmware_backdoor_enabled(struct kvm_vcpu *vcpu)
+ 	return kvm_is_vmware_cap_enabled(vcpu->kvm, KVM_VMWARE_ENABLE_BACKDOOR);
+ }
  
-@@ -191,10 +192,6 @@ module_param(min_timer_period_us, uint, 0644);
- static u32 __read_mostly tsc_tolerance_ppm = 250;
- module_param(tsc_tolerance_ppm, uint, 0644);
- 
--bool __read_mostly enable_vmware_backdoor = false;
--module_param(enable_vmware_backdoor, bool, 0444);
--EXPORT_SYMBOL_FOR_KVM_INTERNAL(enable_vmware_backdoor);
--
- /*
-  * Flags to manipulate forced emulation behavior (any non-zero value will
-  * enable forced emulation).
-@@ -6291,37 +6288,6 @@ static bool kvm_vcpu_check_code_breakpoint(struct kvm_vcpu *vcpu,
++bool kvm_is_vmware_hypercall(struct kvm_vcpu *vcpu);
+ bool kvm_is_vmware_io_port(struct kvm_vcpu *vcpu, u16 port);
+ bool kvm_is_vmware_backdoor_pmc(struct kvm_vcpu *vcpu, u32 pmc_idx);
+ bool kvm_is_vmware_backdoor_opcode(u8 opcode_len, u8 opcode);
+@@ -46,6 +47,11 @@ kvm_is_vmware_backdoor_enabled(struct kvm_vcpu *vcpu)
  	return false;
  }
  
--static bool is_vmware_backdoor_opcode(struct x86_emulate_ctxt *ctxt)
--{
--	switch (ctxt->opcode_len) {
--	case 1:
--		switch (ctxt->b) {
--		case 0xe4:	/* IN */
--		case 0xe5:
--		case 0xec:
--		case 0xed:
--		case 0xe6:	/* OUT */
--		case 0xe7:
--		case 0xee:
--		case 0xef:
--		case 0x6c:	/* INS */
--		case 0x6d:
--		case 0x6e:	/* OUTS */
--		case 0x6f:
--			return true;
--		}
--		break;
--	case 2:
--		switch (ctxt->b) {
--		case 0x33:	/* RDPMC */
--			return true;
--		}
--		break;
--	}
--
--	return false;
--}
--
- static bool is_soft_int_instruction(struct x86_emulate_ctxt *ctxt,
- 				    int emulation_type)
++static __always_inline bool kvm_is_vmware_hypercall(struct kvm_vcpu *vcpu)
++{
++	return false;
++}
++
+ static __always_inline bool
+ kvm_is_vmware_io_port(struct kvm_vcpu *vcpu, u16 port)
  {
-diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
-index 43850b524774..4d0a8558d931 100644
---- a/arch/x86/kvm/x86.h
-+++ b/arch/x86/kvm/x86.h
-@@ -718,8 +718,6 @@ static inline bool kvm_mpx_supported(void)
+@@ -68,6 +74,7 @@ kvm_is_vmware_backdoor_opcode(u8 opcode_len, u8 opcode)
  
- extern unsigned int min_timer_period_us;
+ void kvm_vmware_init_vm(struct kvm *kvm);
+ int kvm_vmware_enable_cap(struct kvm *kvm, u64 flags);
++int kvm_vmware_hypercall(struct kvm_vcpu *vcpu);
+ int kvm_vmware_pmu_rdpmc(struct kvm_vcpu *vcpu, unsigned int idx, u64 *data);
  
--extern bool enable_vmware_backdoor;
--
- extern int pi_inject_timer;
+ #endif /* __KVM_X86_VMWARE_H */
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 1425376b4f0e..bd4142763f10 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -118,7 +118,8 @@ EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_host);
  
- static inline u64 nsec_to_cycles(struct kvm_vcpu *vcpu, u64 nsec)
+ #define KVM_CAP_PMU_VALID_MASK KVM_PMU_CAP_DISABLE
+ 
+-#define KVM_CAP_VMWARE_VALID_MASK KVM_VMWARE_ENABLE_BACKDOOR
++#define KVM_CAP_VMWARE_VALID_MASK (KVM_VMWARE_ENABLE_BACKDOOR | \
++				   KVM_VMWARE_ENABLE_HYPERCALL)
+ 
+ #define KVM_GUESTDBG_VALID_MASK \
+ 	(KVM_GUESTDBG_ENABLE | \
+@@ -2432,8 +2433,11 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 		break;
+ 	case KVM_CAP_X86_VMWARE:
+ 		BUILD_BUG_ON(KVM_CAP_VMWARE_VALID_MASK > INT_MAX);
+-		if (kvm_is_vmware_supported())
++		if (kvm_is_vmware_supported()) {
+ 			r = KVM_CAP_VMWARE_VALID_MASK;
++			if (kvm && kvm->arch.has_protected_state)
++				r &= ~KVM_VMWARE_ENABLE_HYPERCALL;
++		}
+ 		break;
+ 	default:
+ 		break;
+@@ -7469,6 +7473,9 @@ EXPORT_SYMBOL_FOR_KVM_INTERNAL(____kvm_emulate_hypercall);
+ 
+ int kvm_emulate_hypercall(struct kvm_vcpu *vcpu)
+ {
++	if (kvm_is_vmware_hypercall(vcpu))
++		return kvm_vmware_hypercall(vcpu);
++
+ 	if (kvm_xen_hypercall_enabled(vcpu->kvm))
+ 		return kvm_xen_hypercall(vcpu);
+ 
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index e43c15c6e5cc..c01bb6a612fe 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -193,6 +193,7 @@ struct kvm_exit_snp_req_certs {
+ #define KVM_EXIT_ARM_SEA          41
+ #define KVM_EXIT_ARM_LDST64B      42
+ #define KVM_EXIT_SNP_REQ_CERTS    43
++#define KVM_EXIT_VMWARE           44
+ 
+ /* For KVM_EXIT_INTERNAL_ERROR */
+ /* Emulate instruction failed. */
+@@ -497,6 +498,10 @@ struct kvm_run {
+ 		} arm_sea;
+ 		/* KVM_EXIT_SNP_REQ_CERTS */
+ 		struct kvm_exit_snp_req_certs snp_req_certs;
++#ifdef __KVM_HAVE_VMWARE_EXIT
++		/* KVM_EXIT_VMWARE */
++		struct kvm_vmware_exit vmware;
++#endif
+ 		/* Fix the size of the union. */
+ 		char padding[256];
+ 	};
 -- 
 2.53.0
 
