@@ -1,78 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.246.68.102
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794438069;
-	b=1ox8vzj+lbWNnYrBjfXofVi9Q7+F7ZXhU7c56MNwnQ19qJwCZzkeV6He9xVeI6i9ZK4z
-	 5CHBcaAwOMW23OuVlTomewBL0aWSDtrPEnzO1miA0jMqEky/pdEOJHvN0c0vzYjSk9AAL
-	 pPGC/RfNDlqAXk7pqDoyGJPeUxMdkUsjnnUSwINFUx/o1kvJ3UrrtPCxQjzhsmO9MOtWc
-	 7XEhJejLgEPcIsSd3mlrLU8HbBNcS6fAFFt5e72JqUH53k//cAsEKDHo5yl/lXI+vBLGt
-	 BtU/8oacjSxTitfrEE44kKrr1QFF0sBU3DQZ6BCUFik38IwOz68Af7s2BhUgdonRe+g==
+	t=1794438093;
+	b=Or53pve2h04JLHPGwnZmWB2r/RvMfCFGpFNmUZTMmPUnv8A1DKWDGMC+v3BlxaskrPRn
+	 HZlw9KgE+7G6rhFVyuo4vKqs54HnrLS3+hsp2g6v6PFrkMFHhEP06Jw4s1cOWWzkcyysO
+	 FXyD1E0o1MVbvNED5XgalVmCDnjCyxPkFtQbHV8e0H+wv6E65rbH4UFpIbor0Ce6p6LNT
+	 g7ydvMuLhbMmOafCEZGlPxJKD8vR1cww91qSSN6GMvFiTx0nf9BvR6pdL4lgkba3fGU3H
+	 Pbdkz9M0m5ejcRGLiCo0yoqqfI5ltplXXk1XCfMDrEJaY2MY84dHsYWPIcr/sDcYZxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794438069;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=5XX+6a8VKJgr+gsRg+vssuVU0CYAju3DsYYpYuowGVQ=;
-	b=Ilelto/YrzT5vNnkWr6dB2NlTkdBCiaAUiVN0XazekPbrQe482aT65LSL31GjwpGW2bw
-	 bL2YonNSwgXi1h32GhxmKr9GiBFPQuDJd2biA3KuEHOZ4B1N4Ln/lUe8YgIhoNaE3/Gyx
-	 tiYp9If+rwxDYNz44wFyVvyLhnZ9+EsEd9dkhpkvWeRFMuNIyV2nNfn97uGg+BtcqEuET
-	 ynOIg+fp93Xx6wXxAFiCIycfFVOiG3MSDjCzgRivvDsus+K6QtvZUEoBlBOv8NCSLvDnV
-	 aY+n0Yjjse0hTH87TZNggFlF5XCmCFzoJKDs73q66T1sfjsj7kQeyQtMmaLIDsMlOsw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794438093;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=GXtmYIrfPivQz7FmakInhnYFI+uktb0W76Paq4YTuo8=;
+	b=TYaQ0cIMkuvb/sO0gGEUrROJOQe+NAzMb4pMhcYoeXUc7VQQ/JZUzRiunR1yljS9rGI3
+	 Y+7f18OxjW9uaHXiABafeRMKpOLa6vGVzIch0UheG3SX9BEBysyWo2zltwC3dSkVq5V92
+	 lTYtbgKq8ALlzYUtPbkGZhRWhRufFylk3XhcchqVdB3uUMR4I5JxYrw7+SWStsML+m3NF
+	 5OXMwFw9/woYWLmdZ28o7hCu8ZZBabdIFjss5tSjhy0loplUBuL/8NA2uexQUZSImd4AN
+	 zG22UoFq2gN3oW0uyACqCuuFTownn7ftmsTdWX3OM0goYjnBwPZ08ZYEV93i40ad7dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mit.edu;
-	spf=pass smtp.mailfrom=mit.edu;
-	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=Uqpi4ODt;
-	arc=none smtp.remote-ip=18.9.28.11
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.de;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=ZC2GLXhD;
+	arc=none smtp.remote-ip=44.246.68.102
+Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4874360A260F
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 23:01:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4874360A260F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEE9B606A336;
+	Wed, 11 Nov 2026 23:01:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EEE9B606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=Uqpi4ODt
-Received: from trampoline.thunk.org (pool-173-48-111-191.bstnma.fios.verizon.net [173.48.111.191])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6ABMxqho027064
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 11 Nov 2026 17:59:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1794437996; bh=5XX+6a8VKJgr+gsRg+vssuVU0CYAju3DsYYpYuowGVQ=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type;
-	b=Uqpi4ODtiWeuJo+GEiLOtCBT5FTkCdH+8uU3LjMBmTQ6gmaj4m3QQ0Zllp+YNfTuM
-	 NbW7neYIuvakjw7DH5lGN01FD81WLAEbWKyh9lDN+n+vTq+fG0qRvQlfn3V8qZzaPe
-	 a2uq5KWZ9veW/cnmPzwjQxBZZf8pcwa/941jD3w4P0JWXoULkk+a1FctVVVhB1xpeU
-	 rEyY1iWeF6yIOb9cC25OleFG35BEZmGU9gj2Dkw75ZMfPr+1bishuVxbePagjFCuz6
-	 hWGbUBB9jcbNRBj9HHL6LnTERbH6x6Z2IWGIV/iO5ToUNye1Mm9gplzeiRFoQ7VGG4
-	 ERDadQ87giIYQ==
-Received: by trampoline.thunk.org (Postfix, from userid 15806)
-	id D7B842E0148; Wed, 11 Nov 2026 17:59:44 -0500 (EST)
-From: "Theodore Ts'o" <tytso@mit.edu>
-To: workflows@vger.kernel.org, ksummit@lists.linux.dev
-Cc: "Theodore Ts'o" <tytso@mit.edu>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        "Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dan Carpenter <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
-        Bradley Morgan <brads@mainlining.org>, Sasha Levin <sashal@kernel.org>,
-        stable@vger.kernel.org
-Subject: [PATCH v5 6/6] agents: add a skill to write KUnit tests
-Date: Wed, 11 Nov 2026 17:59:38 -0500
-Message-ID: <20261111225940.1573565-7-tytso@mit.edu>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261111225940.1573565-1-tytso@mit.edu>
-References: <20261111225940.1573565-1-tytso@mit.edu>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=ZC2GLXhD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794438091; x=1825974091;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=GXtmYIrfPivQz7FmakInhnYFI+uktb0W76Paq4YTuo8=;
+  b=ZC2GLXhD39pZz7ky4rU29OzRpx7AGY2loKWlZDDz0cRJFfwmkIMpfqco
+   Y0JWOmX3CocTsZXUbNB/lkRsJbmI9y0+epksMVNj9z8x+r+sz84UF1fiE
+   ar3NyphELm1VT5gEaWgtC13qbEN+tkgGjfSmyI02ernVqMcConnfgyW51
+   gwMnVfJ9FfSThU0ZekOemI9aEPCb0DR/WIcV7sCirlhbcplxO3wgyKEcS
+   UkQSCQCwIupu7e78ApcuieRgYExhBDz+GfbtpQnn8nNBmnMH40NJAQ10J
+   QlIukJwc6MWrXe7DLlcuAr+Y7yQr99BpO3/5n+yXBBg1HyR7+1OXVPXwy
+   w==;
+X-CSE-ConnectionGUID: 9drxTOTsQwyc1weMq2Ey1w==
+X-CSE-MsgGUID: n7+vjtjPQvevBFUbDMxJdQ==
+X-IronPort-AV: E=Sophos;i="6.27,208,1787011200"; 
+   d="scan'208";a="33678373"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 23:01:31 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:5815]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.24.250:2525] with esmtp (Farcaster)
+ id a1e45171-b7a8-43b1-a8a4-8be601ccfb00; Wed, 11 Nov 2026 23:01:31 +0000 (UTC)
+X-Farcaster-Flow-ID: a1e45171-b7a8-43b1-a8a4-8be601ccfb00
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 23:01:30 +0000
+Received: from ip-10-253-83-51.amazon.com (172.19.99.218) by
+ EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 23:01:28 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <linux-kernel@vger.kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>
+CC: The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy
+	<robin.murphy@arm.com>, <linux-doc@vger.kernel.org>, <iommu@lists.linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	<nh-open-source@amazon.com>, <linux-mm@kvack.org>, Jonathan Corbet
+	<corbet@lwn.net>
+Subject: [PATCH 18/40] nitro_enclaves: Donate memory for the slot pool
+Date: Wed, 11 Nov 2026 22:59:22 +0000
+Message-ID: <5ad724cf5ed725a38ee73d501ebe2d26d1d40d2c.1794393490.git.graf@amazon.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1794300002.git.graf@amazon.com>
+References: <cover.1794300002.git.graf@amazon.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,408 +91,673 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWA004.ant.amazon.com (10.13.139.19) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Add a skill under agents/skills/writing-kunit-tests/ to guide coding
-assistants when designing, implementing, verifying, or reviewing KUnit
-unit tests. Point the skill at the KUnit and process documentation and
-cover unit testing principles (testing behaviors rather than
-implementation details, keeping tests focused and DAMP, choosing
-non-default and distinct test values, using narrow expectations, and
-maintaining test isolation), KUnit resource management and static stub
-idioms, and verification with kunit.py.
+To launch the first Nitro Sandbox, the parent must donate memory to the
+device. So at probe, on a device whose vendor-specific PCI capability
+reports a slot pool, donate the base run and one donation of
+NE_SLOT_POOL_GRAN_SIZE bytes from ne_alloc_contig().
 
-Update Documentation/process/coding-assistants.rst to list the new skill
-and note that skills only inspect and report unless their task is to
-write or modify code or tests.
+The device holds a donated page until SLOT_POOL_SHUTDOWN, which it
+refuses while a slot is in use. So remove, shutdown and a probe that
+fails after donating first run ne_enclave_free_slot() on every enclave
+and then take the pool back, before any page goes to the allocator. That
+way the device stays usable after an unbind or a kexec with enclaves
+running. Like the two free commands, SLOT_POOL_SHUTDOWN waits for
+pci_dev_mutex even for a process that is being killed. This teardown
+runs on every device, and a slot the device confirms as free lets the
+driver release the memory and CPUs of a classic enclave too, once its
+file is closed. ENCLAVE_STOP now goes out in any state, because an
+enclave that exited may still be scrubbed, and the device answers a stop
+for a slot that never started as well.
 
-Signed-off-by: Theodore Ts'o <tytso@mit.edu>
+An enclave whose slot was freed that way gives its CPUs back on close,
+so count the enclaves created from the CPU pool and refuse to replace
+the pool while the count is not zero. A donation that got no answer
+stays recorded as donated, because the device may take it.
+
+Signed-off-by: Alexander Graf <graf@amazon.com>
 ---
- Documentation/process/coding-assistants.rst |  11 +-
- agents/skills/writing-kunit-tests/SKILL.md  | 344 ++++++++++++++++++++
- 2 files changed, 351 insertions(+), 4 deletions(-)
- create mode 100644 agents/skills/writing-kunit-tests/SKILL.md
+ drivers/virt/nitro_enclaves/ne_misc_dev.c |  53 +++-
+ drivers/virt/nitro_enclaves/ne_misc_dev.h |   7 +
+ drivers/virt/nitro_enclaves/ne_pci_dev.c  | 334 +++++++++++++++++++++-
+ drivers/virt/nitro_enclaves/ne_pci_dev.h  |  25 ++
+ 4 files changed, 401 insertions(+), 18 deletions(-)
 
-diff --git a/Documentation/process/coding-assistants.rst b/Documentation/process/coding-assistants.rst
-index f0bae6bfe9a0..bb927fea5024 100644
---- a/Documentation/process/coding-assistants.rst
-+++ b/Documentation/process/coding-assistants.rst
-@@ -28,10 +28,11 @@ skill with a ``SKILL.md`` entry point in the `Agent Skills format
- documents that apply to its task and adds only what assistants tend to get
- wrong.
+diff --git a/drivers/virt/nitro_enclaves/ne_misc_dev.c b/drivers/virt/nitro_enclaves/ne_misc_dev.c
+index 77b15eda8d120..2fae731acb977 100644
+--- a/drivers/virt/nitro_enclaves/ne_misc_dev.c
++++ b/drivers/virt/nitro_enclaves/ne_misc_dev.c
+@@ -201,6 +201,11 @@ static const struct kernel_param *ne_cpus_kp;
+  *				and leaves when the enclave is freed, in
+  *				the same two places that move the core out of
+  *				and back into @avail_threads_per_core.
++ * @nr_enclaves:			How many enclaves were created from the pool and
++ *				have not been freed yet, whether or not they are
++ *				on the list of a device. The pool is not replaced
++ *				while any is, so the cores an enclave gives back
++ *				go back to the pool they came from.
+  */
+ struct ne_cpu_pool {
+ 	cpumask_var_t	*avail_threads_per_core;
+@@ -211,6 +216,7 @@ struct ne_cpu_pool {
+ 	cpumask_var_t	*node_cpus;
+ 	struct cpumask	total_cpus;
+ 	struct cpumask	used_cpus;
++	unsigned int	nr_enclaves;
+ };
  
--Skills inspect and report. They do not change files, create commits or tags,
--or send mail. A skill returns its result with the evidence for it, or says what
--is missing. Do not fill a missing result with a guess or a placeholder, and do
--not finalize the work until it is resolved.
-+Unless a skill's task is to write or modify code or tests, skills only inspect
-+and report: they do not change files, create commits or tags, or send mail. A
-+skill returns its result with the evidence for it, or says what is missing. Do
-+not fill a missing result with a guess or a placeholder, and do not finalize
-+the work until it is resolved.
+ static struct ne_cpu_pool ne_cpu_pool = {
+@@ -931,6 +937,7 @@ static int ne_replace_cpu_pool(const char *val, const struct kernel_param *kp)
+ 	cpumask_var_t cpu_pool;
+ 	cpumask_var_t old_pool;
+ 	struct ne_pci_dev *ne_pci_dev = NULL;
++	unsigned int nr_enclaves = 0;
+ 	int rc = -EINVAL;
  
- The following skills are available:
+ 	if (!zalloc_cpumask_var(&cpu_pool, GFP_KERNEL))
+@@ -961,7 +968,11 @@ static int ne_replace_cpu_pool(const char *val, const struct kernel_param *kp)
+ 			goto unlock_devs;
+ 	}
  
-@@ -43,6 +44,8 @@ The following skills are available:
-   tree.
- * agents/skills/commit-message/SKILL.md writes, rewrites or reviews a commit
-   message or cover letter, and writes the text of a pull request.
-+* agents/skills/writing-kunit-tests/SKILL.md designs, writes, verifies, or
-+  reviews KUnit unit tests.
+-	if (ne_pci_dev && !list_empty(&ne_pci_dev->enclaves_list)) {
++	mutex_lock(&ne_cpu_pool.mutex);
++	nr_enclaves = ne_cpu_pool.nr_enclaves;
++	mutex_unlock(&ne_cpu_pool.mutex);
++
++	if (nr_enclaves) {
+ 		pr_err("%s: The CPU pool is used by enclave(s)\n", ne_misc_dev.name);
  
- Licensing and Legal Requirements
- ================================
-diff --git a/agents/skills/writing-kunit-tests/SKILL.md b/agents/skills/writing-kunit-tests/SKILL.md
-new file mode 100644
-index 000000000000..1f19b585b9b4
---- /dev/null
-+++ b/agents/skills/writing-kunit-tests/SKILL.md
-@@ -0,0 +1,344 @@
-+---
-+# SPDX-License-Identifier: GPL-2.0-only
-+name: writing-kunit-tests
-+description: >-
-+  Design, implement, verify, or review KUnit unit tests for the Linux kernel.
-+  Use when writing new KUnit tests, expanding existing KUnit test suites,
-+  adding regression tests with KUnit, or reviewing KUnit test patches.
-+---
+ 		rc = -EPERM;
+@@ -2293,6 +2304,8 @@ static void ne_enclave_remove_all_vcpu_id_entries(struct ne_enclave *ne_enclave)
+ 	for (i = 0; i < ne_enclave->nr_parent_vm_cores; i++)
+ 		free_cpumask_var(ne_enclave->threads_per_core[i]);
+ 
++	ne_cpu_pool.nr_enclaves--;
 +
-+# Write KUnit tests
+ 	mutex_unlock(&ne_cpu_pool.mutex);
+ 
+ 	kfree(ne_enclave->threads_per_core);
+@@ -2337,8 +2350,8 @@ static void ne_pci_dev_remove_enclave_entry(struct ne_enclave *ne_enclave,
+  * * 0 once the device has freed the slot.
+  * * Negative return value on failure.
+  */
+-static int ne_enclave_free_slot(struct ne_pci_dev *ne_pci_dev,
+-				struct ne_enclave *ne_enclave)
++int ne_enclave_free_slot(struct ne_pci_dev *ne_pci_dev,
++			 struct ne_enclave *ne_enclave)
+ {
+ 	struct ne_pci_dev_cmd_reply cmd_reply = {};
+ 	struct enclave_stop_req enclave_stop_request = {};
+@@ -2346,17 +2359,20 @@ static int ne_enclave_free_slot(struct ne_pci_dev *ne_pci_dev,
+ 	struct pci_dev *pdev = ne_pci_dev->pdev;
+ 	int rc;
+ 
+-	if (ne_enclave->state != NE_STATE_INIT && ne_enclave->state != NE_STATE_STOPPED) {
+-		enclave_stop_request.slot_uid = ne_enclave->slot_uid;
++	/*
++	 * An enclave that exited may still be scrubbed, so the stop goes out
++	 * whatever the state, and the device answers it once the slot is
++	 * neither running nor being scrubbed.
++	 */
++	enclave_stop_request.slot_uid = ne_enclave->slot_uid;
+ 
+-		rc = ne_do_request(pdev, ENCLAVE_STOP,
+-				   &enclave_stop_request, sizeof(enclave_stop_request),
+-				   &cmd_reply, sizeof(cmd_reply));
+-		if (rc < 0)
+-			return rc;
++	rc = ne_do_request(pdev, ENCLAVE_STOP,
++			   &enclave_stop_request, sizeof(enclave_stop_request),
++			   &cmd_reply, sizeof(cmd_reply));
++	if (rc < 0)
++		return rc;
+ 
+-		memset(&cmd_reply, 0, sizeof(cmd_reply));
+-	}
++	memset(&cmd_reply, 0, sizeof(cmd_reply));
+ 
+ 	slot_free_req.slot_uid = ne_enclave->slot_uid;
+ 
+@@ -2416,10 +2432,13 @@ static int ne_enclave_release(struct inode *inode, struct file *file)
+ 	/*
+ 	 * The device the enclave was created on is gone, and with it the only
+ 	 * party that can confirm that the slot no longer uses its memory and
+-	 * its CPUs, so the enclave keeps both.
++	 * its CPUs, so the enclave keeps both, unless the device freed the
++	 * slot before it went away.
+ 	 */
+ 	if (ne_enclave->detached) {
+-		rc = -ENODEV;
++		rc = ne_enclave->slot_freed ? 0 : -ENODEV;
++		if (!rc)
++			ne_enclave_free(ne_enclave);
+ 
+ 		goto unlock_devs;
+ 	}
+@@ -2525,7 +2544,7 @@ static int ne_create_vm_ioctl(struct ne_pci_dev *ne_pci_dev, u64 flags,
+ 	 * capability. One without it takes no launch flags and would allocate a
+ 	 * slot without the properties they ask for.
+ 	 */
+-	if (flags && !pci_find_capability(ne_pci_dev->pdev, PCI_CAP_ID_VNDR)) {
++	if (flags && !ne_pci_dev->has_vendor_cap) {
+ 		dev_err_ratelimited(ne_misc_dev.this_device,
+ 				    "Device takes no launch flags\n");
+ 
+@@ -2630,6 +2649,10 @@ static int ne_create_vm_ioctl(struct ne_pci_dev *ne_pci_dev, u64 flags,
+ 
+ 	list_add(&ne_enclave->enclave_list_entry, &ne_pci_dev->enclaves_list);
+ 
++	mutex_lock(&ne_cpu_pool.mutex);
++	ne_cpu_pool.nr_enclaves++;
++	mutex_unlock(&ne_cpu_pool.mutex);
 +
-+Before writing or modifying any code, read the relevant kernel documentation:
-+- **KUnit Framework & Style**:
-+  `Documentation/dev-tools/kunit/usage.rst`,
-+  `Documentation/dev-tools/kunit/style.rst`,
-+  `Documentation/dev-tools/kunit/start.rst`, and
-+  `Documentation/dev-tools/kunit/api/functionredirection.rst`
-+- **Kernel Development & Patch Submission**:
-+  `Documentation/process/development-process.rst`,
-+  `Documentation/process/coding-style.rst`,
-+  `Documentation/process/submitting-patches.rst`, and
-+  `Documentation/process/license-rules.rst`
-+- **AI Coding Assistants & Tool-Generated Content**:
-+  `Documentation/process/coding-assistants.rst` and
-+  `Documentation/process/generated-content.rst`
+ 	if (copy_to_user(slot_uid, &ne_enclave->slot_uid, sizeof(ne_enclave->slot_uid))) {
+ 		/*
+ 		 * As we're holding the only reference to 'enclave_file', fput()
+diff --git a/drivers/virt/nitro_enclaves/ne_misc_dev.h b/drivers/virt/nitro_enclaves/ne_misc_dev.h
+index d0d1973bfbe9d..59374a35c3c7d 100644
+--- a/drivers/virt/nitro_enclaves/ne_misc_dev.h
++++ b/drivers/virt/nitro_enclaves/ne_misc_dev.h
+@@ -116,6 +116,9 @@ struct ne_mem_region {
+  * @enclave_info_mutex :	Mutex for accessing this internal state.
+  * @detached:			The NE PCI device the enclave was created on is
+  *				gone. Written with ne_devs.lock held for writing.
++ * @slot_freed:			The device freed the slot of a detached enclave
++ *				before it went away. Written with ne_devs.lock
++ *				held for writing.
+  * @contig_regions_list:	List of %NE_ALLOC_MEMORY allocations given to the
+  *				enclave with %NE_ADD_MEMORY_REGION.
+  * @enclave_list_entry :	Entry in the list of created enclaves.
+@@ -157,6 +160,7 @@ struct ne_mem_region {
+ struct ne_enclave {
+ 	struct mutex		enclave_info_mutex;
+ 	bool			detached;
++	bool			slot_freed;
+ 	struct list_head	contig_regions_list;
+ 	struct list_head	enclave_list_entry;
+ 	wait_queue_head_t	eventq;
+@@ -221,6 +225,9 @@ void ne_contig_free_run(struct cma *cma, struct page *page,
+ /* Nitro Enclaves (NE) data structure for keeping refs to the NE misc and PCI devices. */
+ extern struct ne_devs ne_devs;
+ 
++int ne_enclave_free_slot(struct ne_pci_dev *ne_pci_dev,
++			 struct ne_enclave *ne_enclave);
 +
-+Also inspect existing KUnit tests in the target subsystem (e.g., `*-test.c` or
-+`tests/*_kunit.c`) to follow established local conventions for file naming,
-+symbol visibility, Kconfig, and Makefile integration.
+ int ne_cpu_pool_sysfs_init(void);
+ void ne_cpu_pool_sysfs_exit(void);
+ 
+diff --git a/drivers/virt/nitro_enclaves/ne_pci_dev.c b/drivers/virt/nitro_enclaves/ne_pci_dev.c
+index 8ed2349dea878..e42be1742a39c 100644
+--- a/drivers/virt/nitro_enclaves/ne_pci_dev.c
++++ b/drivers/virt/nitro_enclaves/ne_pci_dev.c
+@@ -7,14 +7,20 @@
+  * DOC: Nitro Enclaves (NE) PCI device driver.
+  */
+ 
++#include <linux/cma.h>
+ #include <linux/delay.h>
+ #include <linux/device.h>
++#include <linux/err.h>
+ #include <linux/iopoll.h>
++#include <linux/jiffies.h>
+ #include <linux/list.h>
++#include <linux/minmax.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/nitro_enclaves.h>
+ #include <linux/pci.h>
++#include <linux/sizes.h>
++#include <linux/sysfs.h>
+ #include <linux/types.h>
+ #include <linux/wait.h>
+ 
+@@ -211,10 +217,11 @@ int ne_do_request(struct pci_dev *pdev, enum ne_pci_dev_cmd_type cmd_type,
+ 	/*
+ 	 * Use this mutex so that the PCI device handles one command request at
+ 	 * a time. A slot being freed can hold it for minutes, so let a task
+-	 * that waits for it be killed, unless the task frees a slot itself:
+-	 * release has to do that for a process that is being killed too.
++	 * that waits for it be killed, unless the task frees a slot or takes
++	 * the slot pool back: release and unbind have to finish those for a
++	 * process that is being killed too.
+ 	 */
+-	if (ne_cmd_frees_slot(cmd_type)) {
++	if (ne_cmd_frees_slot(cmd_type) || cmd_type == SLOT_POOL_SHUTDOWN) {
+ 		mutex_lock(&ne_pci_dev->pci_dev_mutex);
+ 	} else {
+ 		rc = mutex_lock_killable(&ne_pci_dev->pci_dev_mutex);
+@@ -609,6 +616,14 @@ static void ne_pci_dev_disable(struct pci_dev *pdev)
+  *				  goes away.
+  * @ne_pci_dev:	Private data associated with the PCI device.
+  *
++ * A device with a slot pool refuses SLOT_POOL_SHUTDOWN while one of its slots
++ * is in use, and the pages it was donated would stay with it. Each enclave is
++ * therefore stopped and its slot freed here, before ne_slot_pool_release()
++ * runs, the same way as on release. An enclave gives its memory and CPUs back
++ * when its file is released, if the device freed its slot here. An enclave
++ * whose file is already gone is one the device did not free on release, and
++ * it keeps both.
++ *
+  * Context: Process context. This function is called with ne_devs.lock held
+  *	    for writing.
+  */
+@@ -625,6 +640,7 @@ static void ne_pci_dev_detach_enclaves(struct ne_pci_dev *ne_pci_dev)
+ 
+ 		mutex_lock(&ne_enclave->enclave_info_mutex);
+ 
++		ne_enclave->slot_freed = !ne_enclave_free_slot(ne_pci_dev, ne_enclave);
+ 		ne_enclave->detached = true;
+ 		ne_enclave->has_event = true;
+ 
+@@ -636,6 +652,281 @@ static void ne_pci_dev_detach_enclaves(struct ne_pci_dev *ne_pci_dev)
+ 	mutex_unlock(&ne_pci_dev->enclaves_list_mutex);
+ }
+ 
++/**
++ * ne_slot_pool_read_geometry() - Read how much memory the slot pool wants.
++ * @pdev:	PCI device to read the slot pool registers of.
++ *
++ * The slot pool registers only exist on a device that publishes a
++ * vendor-specific capability, so a device without one keeps a zero ceiling and
++ * reads no slot pool register at all. A device that stores its slot
++ * descriptors itself reports a zero ceiling and the driver donates nothing to
++ * it. A device that asks for parent memory is only usable if it asks in units
++ * the driver can allocate, so a granularity other than 2 MiB leaves the
++ * ceiling at zero as well.
++ *
++ * Context: Process context.
++ */
++static void ne_slot_pool_read_geometry(struct pci_dev *pdev)
++{
++	struct ne_pci_dev *ne_pci_dev = pci_get_drvdata(pdev);
++	u32 size, align;
 +
-+---
++	if (!ne_pci_dev->has_vendor_cap)
++		return;
 +
-+## 1. Core Unit Testing Principles
++	ne_pci_dev->slot_pool_max = ioread16(ne_pci_dev->iomem_base + NE_SLOT_POOL_MAX);
++	if (!ne_pci_dev->slot_pool_max)
++		return;
 +
-+Apply the following software testing best practices to ensure KUnit tests have
-+high **fidelity** (fail when code is broken), **resilience** (only fail when
-+actual behavior breaks, not during internal refactoring), **precision**
-+(pinpoint the exact defect on failure), and **clarity** (serve as executable
-+documentation):
++	size = ioread32(ne_pci_dev->iomem_base + NE_SLOT_POOL_GRAN_SIZE);
++	align = ioread32(ne_pci_dev->iomem_base + NE_SLOT_POOL_GRAN_ALIGN);
++	if (size != SZ_2M || align != SZ_2M) {
++		dev_dbg(&pdev->dev, "Slot pool granularity size=%u align=%u unusable\n",
++			size, align);
 +
-+### 1.1 Test Behaviors, Not Functions or Implementation Details
-+- **Avoid a 1:1 function-to-test mapping**: A single C function often exhibits
-+  multiple distinct behaviors (e.g., normal insertion, merging with left/right
-+  neighbors, splitting an existing entry, error handling), and a single logical
-+  behavior may span multiple functions (e.g., insert followed by lookup and
-+  removal). Write separate test cases for each distinct behavior.
-+- **Test public/subsystem APIs over internal details**: Exercise the unit
-+  through its intended interface rather than testing private helper functions in
-+  isolation whenever possible. If internal implementation details are
-+  refactored without changing observable behavior, existing tests should
-+  continue to pass.
-+- **Do not write "change-detector" tests**: Never write tests that merely
-+  mirror the implementation line-by-line or assert an exact sequence of
-+  internal helper calls without checking the resulting state or output.
++		ne_pci_dev->slot_pool_max = 0;
 +
-+### 1.2 Keep Tests Focused
-+- **One scenario per test case**: Each `static void test_...(struct kunit *test)`
-+  function should test a single scenario or behavior.
-+- **Do not chain unrelated scenarios in one test**: Avoid mutating state across
-+  a long sequence of unrelated scenarios in a single test function where side
-+  effects from an earlier check can mask bugs or invalidate assumptions in
-+  later checks.
-+- **Include the scenario and expected outcome in test names**: Name test
-+  functions so a developer can tell what scenario is being exercised and what
-+  should happen from the function name alone (e.g.,
-+  `test_es_insert_adjacent_same_status_merges_extents` or
-+  `unpack_u32_with_null_name_fails` rather than just `test_insert` or
-+  `test_unpack`).
++		return;
++	}
 +
-+### 1.3 Make Tests DAMP, Not Overly DRY
-+- **Prioritize readability by inspection (DAMP — Descriptive and Meaningful
-+  Phrases)**: Because tests do not have their own tests, their correctness must
-+  be obvious to a human reviewer reading top-to-bottom. Do not over-abstract
-+  tests just to eliminate a few lines of duplication.
-+- **Keep cause and effect together**: Set up the specific inputs that drive a
-+  test's outcome directly inside the test case body right before the call under
-+  test and its `KUNIT_EXPECT_*` checks. Never hide the critical input values
-+  that determine an expected output inside a distant `.init` function.
-+- **Include only relevant details (hide noise)**: Use helper functions to hide
-+  irrelevant boilerplate setup (such as allocating a dummy `super_block`,
-+  initializing locks, or zeroing unrelated struct fields), but pass the values
-+  that actually matter to the test explicitly as arguments at the call site:
++	ne_pci_dev->slot_pool_gran = size;
++}
 +
-+  ```c
-+  /* BAD: Critical values hidden inside helper, or noisy setup inline */
-+  inode = create_test_inode();
-+  KUNIT_EXPECT_EQ(test, get_quota_blocks(inode), 42); /* Where did 42 come from? */
++/**
++ * ne_slot_pool_donate_base() - Donate the base run of the slot pool.
++ * @pdev:	PCI device to donate to.
++ *
++ * The device turns down a donation to the slot pool until it has the base
++ * run, so the base run is donated before any other donation. Donating a
++ * second time is a no-op.
++ *
++ * A donation the device never answered was submitted with the run's physical
++ * address in it, so the run is recorded as donated and left to
++ * ne_slot_pool_release() rather than given back.
++ *
++ * Context: Process context. This function is called with the enclaves list
++ *	    mutex held.
++ * Return:
++ * * 0 on success or if the base run has already been donated.
++ * * Negative return value on failure.
++ * * -ETIMEDOUT, or any other code ne_request_unanswered() names, if the
++ *   request went unanswered, in which case the run stays recorded as donated
++ *   because the driver cannot establish that the device refused it. A device
++ *   that answers such a code itself lands here too and costs one held run.
++ */
++static int ne_slot_pool_donate_base(struct pci_dev *pdev)
++{
++	struct ne_pci_dev *ne_pci_dev = pci_get_drvdata(pdev);
++	struct ne_pci_dev_cmd_reply cmd_reply = {};
++	struct slot_pool_donate_req donate_req = {};
++	struct cma *cma = NULL;
++	unsigned long nr_pages;
++	struct page *page;
++	u32 size;
++	int rc;
 +
-+  /* GOOD: Helper hides boilerplate; test-relevant value is explicit */
-+  inode = create_test_inode_with_reserved_blocks(test, 42);
-+  KUNIT_EXPECT_EQ(test, get_quota_blocks(inode), 42);
-+  ```
++	if (ne_pci_dev->slot_pool_base_page)
++		return 0;
 +
-+### 1.4 Don't Put Logic in Tests & Prefer Literals/Constants
-+- **State expected outputs directly**: Never compute expected values in
-+  assertions using arithmetic, bit shifts, string concatenation, loops, or
-+  conditionals that duplicate the production algorithm. Computing expectations
-+  in tests can introduce bugs in the test itself or mask a shared bug in
-+  production code.
-+- **Prefer literals or named constants in assertions**: Compare actual results
-+  against concrete literals or self-explanatory constants rather than dynamic
-+  expressions derived from the system under test.
++	size = ioread32(ne_pci_dev->iomem_base + NE_SLOT_POOL_BASE_SIZE);
++	if (!size || !IS_ALIGNED(size, PAGE_SIZE)) {
++		dev_warn(&pdev->dev, "Slot pool base size=%u unusable\n", size);
 +
-+### 1.5 Choose Robust Test Values & Think Beyond Line Coverage
-+- **Test with non-default values**: In the kernel, structs are frequently
-+  zero-allocated (`kzalloc` / `kunit_kzalloc`). If you test a setter, parser,
-+  or lookup using `0`, `false`, `NULL`, or enum value `0`, a broken
-+  implementation that never writes the field will still pass! Always use
-+  non-zero, non-default test values for positive tests.
-+- **Use distinct values for each parameter**: When calling a function that
-+  takes multiple arguments of the same or compatible types (e.g.,
-+  `ext4_es_insert_extent(inode, lblk, len, pblk, status, ...)`), use clearly
-+  distinct values (e.g., `lblk = 10`, `len = 5`, `pblk = 1000`) so swapped
-+  arguments or off-by-one mixups are caught immediately.
-+- **Think beyond line coverage**:
-+  - **Branch & Condition coverage**: For compound boolean conditions like
-+    `if ((a && b) || !c)`, write test cases that exercise each condition
-+    independently, not just a single path that executes the line.
-+  - **Boundary & Edge cases**: Test `0`, `1`, exact power-of-two/cluster
-+    boundaries, maximum legal limits (e.g., `INT_MAX`, `ULONG_MAX`,
-+    `EXT_MAX_BLOCKS`), overflow/underflow boundaries, empty trees/lists,
-+    single-element collections, and multi-element spans.
-+  - **Error paths**: Test invalid inputs, `-EINVAL` / `-ENOMEM` / `-ENOSPC`
-+    conditions, and verify that error paths leave data structures in a valid,
-+    uncorrupted state without leaking resources.
++		return -EOPNOTSUPP;
++	}
 +
-+### 1.6 Prefer Narrow Assertions & Make Failures Actionable
-+- **Actionable failure messages**: When a test fails, the test name and KUnit
-+  failure log alone should be enough to start debugging without adding
-+  `printk`s and re-running.
-+- **Use specific KUnit expectation macros**:
-+  - Use `KUNIT_EXPECT_EQ(test, actual, expected)`, `KUNIT_EXPECT_NE`,
-+    `KUNIT_EXPECT_LT`, `KUNIT_EXPECT_LE`, `KUNIT_EXPECT_GT`, `KUNIT_EXPECT_GE`
-+    for integers/enums (instead of `KUNIT_EXPECT_TRUE(test, a == b)`, which
-+    only prints `Expected true, got false`).
-+  - Use `KUNIT_EXPECT_PTR_EQ`, `KUNIT_EXPECT_NULL`, `KUNIT_EXPECT_NOT_NULL`,
-+    `KUNIT_EXPECT_NOT_ERR_OR_NULL` for pointers.
-+  - Use `KUNIT_EXPECT_STREQ` / `KUNIT_EXPECT_MEMEQ` for strings and buffers.
-+- **Use `_MSG` variants in loops and helpers**: Whenever an expectation is
-+  inside a helper function, loop, or table-driven check, use
-+  `KUNIT_EXPECT_*_MSG(test, ..., "context fmt", ...)` so the failure output
-+  identifies the exact case or index that failed.
-+- **Prefer narrow assertions**: Assert only the struct fields or properties
-+  relevant to the behavior under test, rather than asserting every unrelated
-+  field of a large struct (which creates brittle tests that break whenever
-+  unrelated fields change).
++	nr_pages = size >> PAGE_SHIFT;
 +
-+### 1.7 Test Isolation, Order Independence, and Zero Flakiness
-+- **Complete independence between test cases**: Every test case must pass when
-+  run by itself (`kunit.py run suite.test`), in any order, or repeatedly.
-+- **Never leak mutable shared state**: Avoid file-scope mutable globals. Prefer
-+  allocating per-test context in `test->priv` via `kunit_kzalloc(test, ...)` in
-+  `.init`. If a suite shares a fixture structure, ensure `.init` and `.exit`
-+  completely reset all trees, lists, flags, and stub counters before and after
-+  every single test case.
-+- **No "sleep gambling"**: Never use `msleep()` or arbitrary delays to wait for
-+  asynchronous work in unit tests. Test synchronous entry points, flush
-+  workqueues deterministically, or inject synchronous stubs.
++	page = ne_alloc_contig(nr_pages, numa_node_id(), &cma);
++	if (IS_ERR_OR_NULL(page)) {
++		rc = page ? PTR_ERR(page) : -ENOMEM;
 +
-+### 1.8 High Fidelity & Smart Use of Test Doubles (Real > Fake > Stub > Mock)
-+- **Prefer real implementations first**: Use real kernel data structures (e.g.,
-+  `rbtree`, `xarray`, `list_head`, in-memory anonymous `super_block` / `inode`,
-+  or `kunit_device_register()`) whenever they run fast and deterministically in
-+  memory.
-+- **Use fakes or stubs to isolate heavyweight dependencies**: When code under
-+  test interacts with hardware, disk I/O, journals, block allocators, or global
-+  kernel state, isolate it using:
-+  1. **Lightweight in-memory fakes** (e.g., an ops struct backed by a memory
-+     buffer), or
-+  2. **KUnit static stubs** (`KUNIT_STATIC_STUB_REDIRECT` and
-+     `kunit_activate_static_stub`).
-+- **Avoid overusing mocks / interaction verification**:
-+  - Prefer **state testing** (verifying return values and resulting data
-+    structure state) over **interaction testing** (verifying that function X
-+    was called).
-+  - Only verify **state-changing** external calls (e.g., verifying that a
-+    delayed-allocation block reservation was claimed or released), never
-+    read-only query helpers.
-+  - When verifying stub calls, only check arguments relevant to the behavior
-+    being tested.
++		dev_warn(&pdev->dev,
++			 "Slot pool base size=%u not allocated on node %d [rc=%d]\n",
++			 size, numa_node_id(), rc);
 +
-+### 1.9 Parameterize Repetitive Tests Judiciously
-+- **Use parameterized or table-driven tests for input/output matrices**: When
-+  testing the same behavior across many input combinations (e.g., extent
-+  merge/split geometries, timestamp bit-decoding tables, hash test vectors),
-+  use `KUNIT_ARRAY_PARAM` / `KUNIT_ARRAY_PARAM_DESC` with `KUNIT_CASE_PARAM`
-+  (or a clean table-driven helper) to avoid copy-pasting identical test
-+  functions.
-+- **Do not put conditional logic inside parameterized tests**: If a
-+  parameterized test requires `if (param->expect_error)` or
-+  `switch (param->mode)` inside the test function to decide what assertions to
-+  run, split it into separate parameterized or standalone tests instead.
++		return rc;
++	}
 +
-+---
++	donate_req.paddr = page_to_phys(page);
 +
-+## 2. KUnit Framework Idioms & Mechanics
++	rc = ne_do_request(pdev, SLOT_POOL_BASE_DONATE,
++			   &donate_req, sizeof(donate_req),
++			   &cmd_reply, sizeof(cmd_reply));
++	if (rc < 0) {
++		dev_err_ratelimited(&pdev->dev, "Error in slot pool base donate [rc=%d]\n",
++				    rc);
 +
-+### 2.1 Expectations vs. Assertions
-+- **`KUNIT_EXPECT_*`**: Records a test failure and logs diagnostic details, but
-+  **continues** executing the rest of the test case. Use `KUNIT_EXPECT_*` for
-+  the behavioral checks in your test.
-+- **`KUNIT_ASSERT_*`**: Immediately **aborts** the current test case
-+  (terminating the KUnit kthread) on failure. Use `KUNIT_ASSERT_*` for
-+  preconditions whose failure makes continuing impossible or unsafe (e.g.,
-+  `KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ptr)` after memory allocation or object
-+  lookup before dereferencing `ptr`).
-+- **CRITICAL**: **Never** use `KUNIT_ASSERT_*` in `.exit()`, `.suite_exit()`,
-+  or `kunit_resource` / action cleanup callbacks. Aborting during teardown
-+  skips subsequent cleanup steps and causes memory or resource leaks in the
-+  running kernel.
++		/*
++		 * A request the device never answered was submitted with the
++		 * run's physical address in it, and there is nothing to cancel
++		 * it with, so the device may take the run yet.
++		 * ne_request_unanswered() picks out that case. Record the run as
++		 * donated, so that ne_slot_pool_release() owns it from here the
++		 * way it owns a donation the device accepted. The errors left
++		 * over say the device answered to refuse the donation, or never
++		 * saw it, and the run is the parent's again.
++		 */
++		if (ne_request_unanswered(rc)) {
++			ne_pci_dev->slot_pool_base_page = page;
++			ne_pci_dev->slot_pool_base_cma = cma;
++			ne_pci_dev->slot_pool_base_nr_pages = nr_pages;
++		} else {
++			ne_contig_free_run(cma, page, nr_pages);
++		}
 +
-+### 2.2 Resource & Memory Management
-+- **Managed memory**: Always prefer `kunit_kmalloc()`, `kunit_kzalloc()`,
-+  `kunit_kcalloc()`, `kunit_kmalloc_array()`, and `kunit_kstrdup()` over raw
-+  `kmalloc`/`kzalloc`. KUnit automatically frees these allocations when the
-+  test case exits—even if a `KUNIT_ASSERT_*` aborts the test midway.
-+- **Deferred cleanup actions**: For non-memory resources (e.g., unregistering a
-+  shrinker, freeing slab cache objects, releasing locks/superblocks, cleaning
-+  up trees), either clean them up in `.exit` or register a deferred action
-+  immediately after acquisition using `kunit_add_action_or_reset()`:
++		return rc;
++	}
 +
-+  ```c
-+  KUNIT_DEFINE_ACTION_WRAPPER(my_resource_cleanup, my_resource_cleanup_wrapper,
-+                              struct my_resource *);
-+  ...
-+  ret = kunit_add_action_or_reset(test, my_resource_cleanup_wrapper, res);
-+  KUNIT_ASSERT_EQ(test, ret, 0);
-+  ```
-+  Always use `KUNIT_DEFINE_ACTION_WRAPPER()` rather than casting function
-+  pointers to `kunit_action_t`, as casting function pointers breaks Control
-+  Flow Integrity (CFI).
-+- **Safe `.exit` functions**: Remember that `.exit` and `.suite_exit` run even
-+  if `.init` or `.suite_init` failed or exited early. Always guard `.exit`
-+  cleanup against NULL or partially initialized pointers.
-+- **Fake devices**: When code under test requires a `struct device *` (e.g.,
-+  for `devm_*` managed APIs), use `kunit_device_register(test, "name")` from
-+  `<kunit/device.h>`.
++	ne_pci_dev->slot_pool_base_page = page;
++	ne_pci_dev->slot_pool_base_cma = cma;
++	ne_pci_dev->slot_pool_base_nr_pages = nr_pages;
 +
-+### 2.3 Testing Static Functions & Isolating Dependencies
-+Check how the target subsystem exposes internal functions to KUnit tests and
-+follow the local convention:
++	return 0;
++}
 +
-+1. **Subsystem export macros** (e.g., `EXPORT_SYMBOL_FOR_EXT4_TEST(fn)` or
-+   `VISIBLE_IF_KUNIT` / `EXPORT_SYMBOL_IF_KUNIT(fn)` from
-+   `<kunit/visibility.h>` paired with
-+   `MODULE_IMPORT_NS("EXPORTED_FOR_KUNIT_TESTING");` in the test file).
-+2. **Conditionally `#include`ing the test file** at the bottom of the `.c` file
-+   under `#if IS_ENABLED(CONFIG_<SUBSYSTEM>_KUNIT_TEST)` if the subsystem
-+   already uses that pattern to test `static` functions directly.
-+3. **Function Redirection (Static Stubs)**: To intercept calls to external
-+   functions during a test without refactoring production APIs:
-+   - In the real function (right after variable declarations):
-+     ```c
-+     #include <kunit/static_stub.h>
-+     ...
-+     KUNIT_STATIC_STUB_REDIRECT(my_external_fn, arg1, arg2);
-+     ```
-+   - In the KUnit test:
-+     ```c
-+     kunit_activate_static_stub(test, my_external_fn, my_external_fn_stub);
-+     ```
-+   - If the stub needs the current `struct kunit *`, call
-+     `kunit_get_current_test()` (`#include <kunit/test-bug.h>`).
-+4. **Suppressing expected warning backtraces**: If a test intentionally
-+   triggers `WARN()` / `WARN_ON()`, wrap the call in
-+   `kunit_warning_suppress(test)` and verify with
-+   `KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1)` so intentional warnings do
-+   not pollute kernel logs.
++/**
++ * ne_slot_pool_donate() - Donate one granularity of pages to the slot pool.
++ * @pdev:	PCI device to donate to.
++ *
++ * A donation raises the number of slots the pool has room for, up to the
++ * ceiling the device reports, and a pool that has reached that ceiling takes no
++ * further donation.
++ *
++ * Context: Process context. This function is called with the enclaves list
++ *	    mutex held.
++ * Return:
++ * * 0 on success.
++ * * -ENOSPC if the pool has reached the ceiling the device reports.
++ * * Negative return value on failure.
++ * * -ETIMEDOUT, or any other code ne_request_unanswered() names, if the
++ *   request went unanswered, in which case the run stays recorded as donated
++ *   because the driver cannot establish that the device refused it. A device
++ *   that answers such a code itself lands here too and costs one held run.
++ */
++static int ne_slot_pool_donate(struct pci_dev *pdev)
++{
++	struct ne_pci_dev *ne_pci_dev = pci_get_drvdata(pdev);
++	struct ne_pci_dev_cmd_reply cmd_reply = {};
++	struct slot_pool_donate_req donate_req = {};
++	struct cma *cma = NULL;
++	unsigned long nr_pages;
++	struct page *page;
++	int rc;
 +
-+### 2.4 Suite, File, and Kconfig Nomenclature
-+Unless the subsystem has an established convention (such as `fs/ext4/*-test.c`
-+linked into `ext4-test.o`), follow `Documentation/dev-tools/kunit/style.rst`:
++	if (ne_pci_dev->slot_pool_page)
++		return 0;
 +
-+- **Subsystem & Suite naming**: Name the suite `<subsystem>_<area>` using
-+  underscores, without redundant `_kunit` or `_test` suffixes in `.name`
-+  (unless matching existing suites in that directory).
-+- **File naming**: Place new standalone test files in `tests/<suite>_kunit.c`
-+  (or match the subsystem's existing `*-test.c` / `*_kunit.c` pattern).
-+- **Kconfig**:
-+  ```kconfig
-+  config FOO_KUNIT_TEST
-+  	tristate "KUnit test for foo" if !KUNIT_ALL_TESTS
-+  	depends on FOO && KUNIT
-+  	default KUNIT_ALL_TESTS
-+  	help
-+  	  This builds unit tests for foo.
++	if (!ne_pci_dev->slot_pool_gran)
++		return -EOPNOTSUPP;
 +
-+  	  For more information on KUnit and unit tests in general,
-+  	  please refer to the KUnit documentation in
-+  	  Documentation/dev-tools/kunit/.
++	if (ioread16(ne_pci_dev->iomem_base + NE_SLOT_POOL_LIMIT) >=
++	    ne_pci_dev->slot_pool_max)
++		return -ENOSPC;
 +
-+  	  If unsure, say N.
-+  ```
++	nr_pages = ne_pci_dev->slot_pool_gran >> PAGE_SHIFT;
 +
-+---
++	page = ne_alloc_contig(nr_pages, numa_node_id(), &cma);
++	if (IS_ERR_OR_NULL(page)) {
++		rc = page ? PTR_ERR(page) : -ENOMEM;
 +
-+## 3. Building, Running, and Verifying Tests
++		dev_warn(&pdev->dev,
++			 "Slot pool granularity size=%u not allocated on node %d [rc=%d]\n",
++			 ne_pci_dev->slot_pool_gran, numa_node_id(), rc);
 +
-+Build and run the KUnit tests before finalizing or committing changes:
++		return rc;
++	}
 +
-+1. **Run the test suite with `kunit.py`**:
-+   ```bash
-+   ./tools/testing/kunit/kunit.py run <suite_name>
-+   ```
-+   (If a `.kunitconfig` exists in the repo root or subsystem directory, pass
-+   `--kunitconfig=.kunitconfig` or `--kunitconfig=<subdir>/.kunitconfig`, or
-+   add needed configs via `--kconfig_add CONFIG_...=y`).
-+2. **Verify zero build warnings**: Ensure the added or modified files compile
-+   with zero compiler warnings or errors.
-+3. **Verify test isolation**: Run individual test cases using glob filtering to
-+   confirm no test depends on state left behind by an earlier test:
-+   ```bash
-+   ./tools/testing/kunit/kunit.py run "<suite_name>.<test_case_name>"
-+   ```
-+4. **Verify test fidelity**: Confirm that the tests actually exercise the
-+   intended code paths (e.g., via GCOV/coverage if configured, or by
-+   verifying that breaking the condition under test causes the KUnit
-+   expectation to fail).
++	donate_req.paddr = page_to_phys(page);
 +
-+---
++	rc = ne_do_request(pdev, SLOT_POOL_DONATE,
++			   &donate_req, sizeof(donate_req),
++			   &cmd_reply, sizeof(cmd_reply));
++	if (rc < 0) {
++		dev_err_ratelimited(&pdev->dev, "Error in slot pool donate [rc=%d]\n", rc);
 +
-+## 4. Coding Style, Licensing, and Commits
++		/*
++		 * Record a run whose donation went unanswered as donated
++		 * instead of giving it back, as ne_slot_pool_donate_base()
++		 * does and for the same reason.
++		 */
++		if (ne_request_unanswered(rc)) {
++			ne_pci_dev->slot_pool_page = page;
++			ne_pci_dev->slot_pool_cma = cma;
++		} else {
++			ne_contig_free_run(cma, page, nr_pages);
++		}
 +
-+Follow `Documentation/process/coding-style.rst`,
-+`Documentation/process/submitting-patches.rst`,
-+`Documentation/process/license-rules.rst`, and
-+`Documentation/process/coding-assistants.rst`:
++		return rc;
++	}
 +
-+- **SPDX & Module Macros**:
-+  - Line 1 of every new `.c` test file must be
-+    `// SPDX-License-Identifier: GPL-2.0` (or the appropriate
-+    GPL-2.0-compatible identifier).
-+  - Include `MODULE_LICENSE("GPL");` and `MODULE_DESCRIPTION("...");` at the
-+    bottom of the test module.
-+- **Checkpatch**: Run `./scripts/checkpatch.pl` on the changes and fix all
-+  reported `ERROR`, `WARNING`, and `CHECK` issues.
-+- **Commits**: When asked to create a commit, use the `commit-message` skill
-+  (`agents/skills/commit-message/SKILL.md`). Explain what behaviors and edge
-+  cases are covered, any minimal production code hooks added (such as
-+  `KUNIT_STATIC_STUB_REDIRECT` or KUnit symbol exports), and how the tests were
-+  verified. Never add a `Signed-off-by:` tag.
-+- **Report verification status**: Clearly state what was built and tested
-+  (including `kunit.py` and `checkpatch.pl` results), and explicitly note
-+  anything that could not be built or verified.
++	ne_pci_dev->slot_pool_page = page;
++	ne_pci_dev->slot_pool_cma = cma;
++
++	return 0;
++}
++
++/**
++ * ne_slot_pool_release() - Take the whole slot pool back from the device.
++ * @pdev:	PCI device to take the pool back from.
++ *
++ * The device keeps a slot's descriptor in a page the parent donated, and
++ * SLOT_POOL_SHUTDOWN names no slot, so a pool taken back while the device still
++ * has a slot is parent memory the device goes on writing after the allocator has
++ * handed it to somebody else. ne_pci_dev_detach_enclaves() frees the slot of
++ * every enclave before this runs, and the device refuses SLOT_POOL_SHUTDOWN
++ * while a slot it would not free is still in use. A SLOT_POOL_SHUTDOWN that
++ * fails leaves the pages with the device whatever the failure was: a refusal
++ * means the device still has the pool, and an answer that never came means it
++ * may still have it.
++ *
++ * A donation that was never answered is recorded as donated, and the pages stay
++ * with the device: ne_do_request() sends no command after one that went
++ * unanswered, so SLOT_POOL_SHUTDOWN fails as well.
++ *
++ * Context: Process context.
++ */
++static void ne_slot_pool_release(struct pci_dev *pdev)
++{
++	struct ne_pci_dev *ne_pci_dev = pci_get_drvdata(pdev);
++	struct ne_pci_dev_cmd_reply cmd_reply = {};
++	struct slot_pool_shutdown_req shutdown_req = {};
++	int rc;
++
++	if (!ne_pci_dev->slot_pool_base_page)
++		return;
++
++	mutex_lock(&ne_pci_dev->enclaves_list_mutex);
++
++	rc = ne_do_request(pdev, SLOT_POOL_SHUTDOWN,
++			   &shutdown_req, sizeof(shutdown_req),
++			   &cmd_reply, sizeof(cmd_reply));
++	if (rc < 0) {
++		dev_err(&pdev->dev, "Error in slot pool shutdown [rc=%d]\n", rc);
++
++		goto unlock_mutex;
++	}
++
++	if (ne_pci_dev->slot_pool_page) {
++		ne_contig_free_run(ne_pci_dev->slot_pool_cma,
++				   ne_pci_dev->slot_pool_page,
++				   ne_pci_dev->slot_pool_gran >> PAGE_SHIFT);
++
++		ne_pci_dev->slot_pool_page = NULL;
++		ne_pci_dev->slot_pool_cma = NULL;
++	}
++
++	ne_contig_free_run(ne_pci_dev->slot_pool_base_cma,
++			   ne_pci_dev->slot_pool_base_page,
++			   ne_pci_dev->slot_pool_base_nr_pages);
++
++	ne_pci_dev->slot_pool_base_page = NULL;
++	ne_pci_dev->slot_pool_base_cma = NULL;
++
++unlock_mutex:
++	mutex_unlock(&ne_pci_dev->enclaves_list_mutex);
++}
++
+ /**
+  * ne_pci_probe() - Probe function for the NE PCI device.
+  * @pdev:	PCI device to match with the NE PCI driver.
+@@ -689,6 +980,15 @@ static int ne_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	mutex_init(&ne_pci_dev->pci_dev_mutex);
+ 	ne_pci_dev->pdev = pdev;
+ 
++	/*
++	 * The registers past the command interface only exist on a device that
++	 * publishes a vendor-specific capability, and a read of a register the
++	 * device does not implement has no defined value. The answer holds for
++	 * the life of the device, so look it up once here.
++	 */
++	ne_pci_dev->has_vendor_cap =
++		pci_find_capability(pdev, PCI_CAP_ID_VNDR) != 0;
++
+ 	rc = ne_setup_msix(pdev);
+ 	if (rc < 0) {
+ 		dev_err(&pdev->dev, "Error in pci dev msix setup [rc=%d]\n", rc);
+@@ -721,6 +1021,29 @@ static int ne_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 
+ 	ne_devs.ne_pci_dev = ne_pci_dev;
+ 
++	ne_slot_pool_read_geometry(pdev);
++
++	if (ne_pci_dev->slot_pool_max) {
++		const char *stage;
++
++		mutex_lock(&ne_pci_dev->enclaves_list_mutex);
++
++		rc = ne_slot_pool_donate_base(pdev);
++		if (rc < 0) {
++			stage = "base";
++		} else {
++			rc = ne_slot_pool_donate(pdev);
++			stage = "granularity";
++		}
++
++		mutex_unlock(&ne_pci_dev->enclaves_list_mutex);
++
++		if (rc < 0)
++			dev_warn(&pdev->dev,
++				 "No slot donated to the slot pool [stage=%s rc=%d]\n",
++				 stage, rc);
++	}
++
+ 	rc = misc_register(ne_devs.ne_misc_dev);
+ 	if (rc < 0) {
+ 		dev_err(&pdev->dev, "Error in misc dev register [rc=%d]\n", rc);
+@@ -745,6 +1068,7 @@ static int ne_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	ne_pci_dev_detach_enclaves(ne_pci_dev);
+ 	misc_deregister(ne_devs.ne_misc_dev);
+ disable_ne_pci_dev:
++	ne_slot_pool_release(pdev);
+ 	ne_devs.ne_pci_dev = NULL;
+ unlock_ne_devs:
+ 	up_write(&ne_devs.lock);
+@@ -782,6 +1106,8 @@ static void ne_pci_remove(struct pci_dev *pdev)
+ 
+ 	misc_deregister(ne_devs.ne_misc_dev);
+ 
++	ne_slot_pool_release(pdev);
++
+ 	ne_devs.ne_pci_dev = NULL;
+ 
+ 	ne_pci_dev_disable(pdev);
+@@ -822,6 +1148,8 @@ static void ne_pci_shutdown(struct pci_dev *pdev)
+ 
+ 	misc_deregister(ne_devs.ne_misc_dev);
+ 
++	ne_slot_pool_release(pdev);
++
+ 	ne_devs.ne_pci_dev = NULL;
+ 
+ 	ne_pci_dev_disable(pdev);
+diff --git a/drivers/virt/nitro_enclaves/ne_pci_dev.h b/drivers/virt/nitro_enclaves/ne_pci_dev.h
+index e651e74ab656e..4e991c4b0e70f 100644
+--- a/drivers/virt/nitro_enclaves/ne_pci_dev.h
++++ b/drivers/virt/nitro_enclaves/ne_pci_dev.h
+@@ -433,10 +433,27 @@ static_assert(offsetof(struct ne_pci_dev_cmd_reply, info.state) == 64);
+  *				triggered by the Nitro Hypervisor which require
+  *				enclave state scanning and propagation to the
+  *				enclave process.
++ * @has_vendor_cap:		Whether the PCI device publishes a vendor-specific
++ *				capability, and with it the registers past the
++ *				command interface.
+  * @iomem_base :		MMIO region of the PCI device.
+  * @notify_work:		Work item for every received out-of-band event.
+  * @pci_dev_mutex:		Mutex for accessing the PCI device MMIO space.
+  * @pdev:			PCI device data structure.
++ * @slot_pool_max:		Highest number of slots the device lets the slot
++ *				pool grow to, zero on a device that takes no
++ *				donation.
++ * @slot_pool_gran:		Size, in bytes, of one donation to the slot pool.
++ *				Written once at probe, before any donation is
++ *				made, so a later reader of it sees the size the
++ *				donation was allocated with.
++ * @slot_pool_base_page:	First page of the base donation, NULL until it
++ *				has been made.
++ * @slot_pool_base_cma:		CMA area the base donation came from.
++ * @slot_pool_base_nr_pages:	Number of pages in the base donation.
++ * @slot_pool_page:		First page of the donation to the slot pool, NULL
++ *				until it has been made.
++ * @slot_pool_cma:		CMA area the donation came from.
+  */
+ struct ne_pci_dev {
+ 	atomic_t		cmd_reply_avail;
+@@ -445,10 +462,18 @@ struct ne_pci_dev {
+ 	struct list_head	enclaves_list;
+ 	struct mutex		enclaves_list_mutex;
+ 	struct workqueue_struct	*event_wq;
++	bool			has_vendor_cap;
+ 	void __iomem		*iomem_base;
+ 	struct work_struct	notify_work;
+ 	struct mutex		pci_dev_mutex;
+ 	struct pci_dev		*pdev;
++	u16			slot_pool_max;
++	u32			slot_pool_gran;
++	struct page		*slot_pool_base_page;
++	struct cma		*slot_pool_base_cma;
++	unsigned long		slot_pool_base_nr_pages;
++	struct page		*slot_pool_page;
++	struct cma		*slot_pool_cma;
+ };
+ 
+ /* Whether a failure left a submitted request in flight. */
 -- 
-2.53.0
+2.47.1
 
