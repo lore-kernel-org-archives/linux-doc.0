@@ -1,100 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.226
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794368676;
-	b=3WdqXgJp8MMHk5j95IklahsfqGDATkuXqdw8mhHQcZaLyX+T6w3CIXkLInBSE8X1is7I
-	 Qyuakz+JJ5KL1Rz8DnMBUIaG+Sd87b8F6PO45L+1QlKam6wQcSWRicH7EakAjD6a4CkvW
-	 ksh6RM7uVhz+ZwqDZJa/4LYIfhym1B/0ddiXUqEYYHhMzNrTwv+UvGbbd0QMOUzrFwxSF
-	 dhBKa2RALIvjJpreca/3FTKovYUw7fp1VUCzYJ3aY+NQw1Xpg5dMYnEmMfokC4fM4XqYo
-	 aqKgUkGRVpmma78wmT7BoTAP05diB8u6HlvdPCYty4qv9W4S0as1fbEmUZGTRbOBMag==
+	t=1794370596;
+	b=R88XlzJlK7vZ52vnot5VndK6rg7woklsT4KbccqBsm+tBuerBhFdPTDX9HADMCGWI7HP
+	 tTaZMkU81ouexRVvS5Osdz4nNJsspFsMjpO7/Cb2WlOv8jKMltP5K1wUlqS1jUIPnMX14
+	 kz5dVi7lLXl2wiNd0xJBcu46PY+j30s26zo6PfqlIUgX/xEWLIxz4VlREJKOgX/DtMuev
+	 GtW9K7J5Z+OZDlAphk+fjk5Z8PI4f+gKKh07iooP0DuRDof30CYe/yo/XsUoGgsKuI/2w
+	 R0KEUlYzSXNWXk8Xx67apQLXb6b6b6He9yNUSZucihbP5H3XN/z80CFQqlWO6ssHKow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794368676;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=7Rx2xMMXNqFSdZ4hSTTgyPdyZObPE5Ic1lNABuktusY=;
-	b=xfFlGQz+yBqVac5rOjzhnk6ITF/vQNB5qwEeIyrQgveQD+g2AXans9NnUYeGegBYTNqV
-	 6eHH3BEh+gNn4XRh2eUY7zjCQTlQZExvG4GB8x9C5gKMQeX/vN8bHC7+gVuLF8SgoiiDg
-	 dkQqc/3T2CzbE90iSebJVj1S5Vyy94LMDviAG6azjchONELvYEPZrkY/itf+UU/W8CNOf
-	 kGmx+P9XetKh/Rv+xlVgePaILuqUB9SNLZ57OTcGJjjP2AGHw/tbZOC1xectUIi93TkH2
-	 PIS1X/+qkUOuIImmOrLm1la/rt0lNnUx0fIJM0cd4tatQO7Imt9UeGP8PZV7h8dqbTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794370596;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Received:From:
+	 To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=2f/Alns9YdFyAlX1rCcIBcf8bfBx4O208HusuqK0LT0=;
+	b=dTl6i4v39pdlBpDamkUlFtCC5jxlt3ZVNKW7A/ReZ9FWpTB9rgw0cS42tk84V6kiYhb3
+	 UXnuRBuZ6y1cT4SW/0dGe8gNbyLTHV6Gg/CJ4O+oOXDJnylA0Q1AFkx3oPcksXBDF0Qlj
+	 Kbh1Rm/85yemPhZCo44n6C+TcQ2P+dQAPmlDQ8EPdR4s8RGMPxrR880cWMgEd3fStNl4a
+	 2PL5HcLGG2WpDxyKdc0cwePpiMpsvBbNoBNeBOO9L7YYE20ZQouongV1VY4tQVCSO88e5
+	 UfYWajd0lLVgBl08XcodCnenJT7Vrz7II3Kb27ZlZC/EnSOdYeKgTNnfYDCjLitFIcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lIyqBdXK;
-	arc=none smtp.remote-ip=74.125.82.52
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=yvMMVfCJ;
+	arc=none smtp.remote-ip=113.46.200.226
+Received: from canpmsgout11.his.huawei.com (canpmsgout11.his.huawei.com [113.46.200.226])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD38606A31C
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 03:44:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FD38606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86D38606A320;
+	Wed, 11 Nov 2026 04:16:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 86D38606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lIyqBdXK
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1a3c08d6928so4725661c88.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 19:44:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794368676; x=1794973476; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7Rx2xMMXNqFSdZ4hSTTgyPdyZObPE5Ic1lNABuktusY=;
-        b=lIyqBdXKGql3khtJNo74Hqj4TjQMXuuoxuhrMpLFYWjnDtGb8b4AaaXgnFjsD32cUO
-         dnt4b1XGFfw/q3SPZhnl4Myui4WbMv+Es2IswVTKSPfbg6jqmWQm/BqmjX4SB8p6CEI0
-         Ogmg8yyzC/AlWcVbL0ML32c5HjiPzvp0vyVxrck36MfwfBxcc1xryewy0JbNVuNGYb2q
-         CsU3rvFG4zL7scIGYU2C3N+svp9U8d33bp7zvZreYcS2EKZ+WZ2bL3WF617d+kb4xNcW
-         H1VGxMeQfLJ+EtYXHiRa9ANbQB/ikMZG9+/1FXsIWt2LYqjcZoJ8pp/TiegEfcsyA6oI
-         IOyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794368676; x=1794973476;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7Rx2xMMXNqFSdZ4hSTTgyPdyZObPE5Ic1lNABuktusY=;
-        b=0kjyOtnd9o9oaNOSLjeMd38cQUOrjlNaVvDoFl/5SjaJMmwUNi+knjG3mKl83fyC5o
-         YKaJE9jtvL4lbsZ3odbiDpG8fdZx5Gw82gpGSOTsvQVbXicHggsq5Aa+PRKmtlu13HuB
-         cvINbRZkZyBUJbHoq7/+pngvdyO2MoZAUV7oc+0iUGLiSGbE6IYM9A+Z/mEw65AMdGN8
-         ryjGt7ZWKqoeCGaOHMqM944mTkSzi+dJpVB6SFtF/3tXBNmNeju0mmhQ6KZPdBNlOwEl
-         scTVBoeYkpkt6RG74fX7By/bt9OFtQdpQzVu6jZmxfqD6dCQLEZ1u/QUEjqJ0HS1uDQ7
-         6Zzw==
-X-Forwarded-Encrypted: i=1; AL+hErHHdOSjScVahDm3ArKW9a7CLkzImVp+//OYlOKizkGvqCjxnAKozL8Ear251Bh2hA//RVuJL+CF8vc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8aevftC62yVDFRwujxAwuO7myU1lzil96tNFI/80TZM5khwVoC
-	3CTyFV3g+fQqA7amDUlLDgR4hUClTFVCTxWHhujKFPhrqBwXmiOZggME
-X-Gm-Gg: AYBFou2kz8n9DbmYLdqHL3C+g4uBjT75xR0E9PbD6jcIMLX+DjQIknjqaBtAzYsCWns
-	B8mhKHLoiGZ+Wo9D/tUS8Mqy3b8+1rGdBc8GMmkCI0ve8A65DwpLW72j3EfmUOtf78GWtpiKKJr
-	B/obOdTNU0gOvWDHGQJ0QLw7Xad1pY+GfXzk6G6UdQL23Q8gHHbSkl9P0ZSUGioENztrJIhXUEC
-	EB9hEJhJORFbddE0hMjtGv0rhKEImOImDT26OkdKAA6ORFmDkwLn9M11Z7RG5h2X46yHXyH6lj8
-	f9QX9rBV+RxdZjkLQt31dPbe/Jplv2/FwpoR2+QCBk3Y/rsHJ01kJ5Wei0R8g8xImi5HOFQ86Gs
-	pZWuX0k/s5lkwo7J40ejSa2mlisPC4zr2Nd4eKgBZ14Tz7FbpfsvzakjN6S89THTnzwGTmuHPrv
-	RaNPHQRezHae2rk8ssAwE66KTDbHg2u3MBwci3MYmKK+4MAFWyNwP21eLIH+RBYT3nBMOHqxlQe
-	Qgui4aK0Eet2ARA5NbYtE2d+8aHpbwCyEu4CgCV/XVNPNZF0oo9CobGV+7CBU96vT9k0vt9t5AC
-	V5HMEYqWiVB/oI6/7HRL
-X-Received: by 2002:a05:701b:261c:b0:1b2:46ca:242e with SMTP id a92af1059eb24-1b3c02f34camr1200137c88.14.1794368675565;
-        Tue, 10 Nov 2026 19:44:35 -0800 (PST)
-Received: from a1-free ([161.33.196.121])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b2fc09sm23664862c88.10.2026.11.10.19.44.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 19:44:35 -0800 (PST)
-From: TAKANO Mitsuhiro <takano32@gmail.com>
-To: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Namhyung Kim <namhyung@kernel.org>,
-	James Clark <james.clark@linaro.org>,
-	linux-doc@vger.kernel.org,
-	linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	TAKANO Mitsuhiro <takano32@gmail.com>
-Subject: [PATCH v3] arm64: perf: Drop the example the userspace counter section points at
-Date: Wed, 11 Nov 2026 03:44:32 +0000
-Message-ID: <20261111034432.2020955-1-takano32@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261111023550.1971639-1-takano32@gmail.com>
-References: <20261111023550.1971639-1-takano32@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=yvMMVfCJ
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=2f/Alns9YdFyAlX1rCcIBcf8bfBx4O208HusuqK0LT0=;
+	b=yvMMVfCJbOIjAhl0aH24+F6qsAfQUnaqwDCf+pnwnRDIJhEu4HTcyM/MzIBRDnG5uuWZV7PuY
+	dcaxY03L45nbaqBHDBfrvkRrfGiRxeZsSFHVh0LcSTsGRlGYPcQxyabSnTvc3YRhbqPqmOzvRlQ
+	IdnJ2gAveS1Owq7cINtVibA=
+Received: from mail.maildlp.com (unknown [172.19.163.214])
+	by canpmsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4jPVZX5DhrzKm4x;
+	Wed, 11 Nov 2026 12:16:20 +0800 (CST)
+Received: from dggpemr500013.china.huawei.com (unknown [7.185.36.37])
+	by mail.maildlp.com (Postfix) with ESMTPS id 9B7A34056C;
+	Wed, 11 Nov 2026 12:16:30 +0800 (CST)
+Received: from whupemq100015.china.huawei.com (7.152.185.230) by
+ dggpemr500013.china.huawei.com (7.185.36.37) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Wed, 11 Nov 2026 12:16:30 +0800
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.220.94) by
+ whupemq100015.china.huawei.com (7.152.185.230) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Wed, 11 Nov 2026 12:16:28 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>, Teng Peisen
+	<tengpeisen@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei
+	<ioana.ciornei@nxp.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Mohsin Bashir <mohsin.bashr@gmail.com>, Dimitri Daskalakis
+	<dimitri.daskalakis1@gmail.com>, Harshitha Ramamurthy
+	<hramamurthy@google.com>, Larysa Zaremba <larysa.zaremba@intel.com>, "Vadim
+ Fedorenko" <vadim.fedorenko@linux.dev>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>
+Subject: [PATCH net-next v02 0/5] net: hinic3: Bugfix for later patch-set.
+Date: Wed, 11 Nov 2026 12:15:42 +0800
+Message-ID: <cover.1794371175.git.gongfan1@huawei.com>
+X-Mailer: git-send-email 2.50.1.windows.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,72 +82,47 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
+ whupemq100015.china.huawei.com (7.152.185.230)
 
-Documentation/arch/arm64/perf.rst points at
-tools/perf/arch/arm64/tests/user-events.c, in the text and in the link
-target, but that file is not in the tree and no commit in the history
-leading to this base has added one.
+Testing:
+  These patch-set have been tested on hinic3 hardware.
 
-The section already describes how to use the libperf helpers and points at
-tools/lib/perf/tests/test-evsel.c as the example, so the sentence that
-sends the reader elsewhere is redundant.  Remove it and the link target
-rather than pointing at another test, and move the instruction for running
-the example into the How-to section, next to the reference it belongs to.
+V02:
+* Rewrite the commit message and provide an explanation for each
+  patch.(AI Review)
+* Split checkpatchs in to a separate patch.(AI Review)
+* Fix the failure of napi_alloc_skb() in recv_one_pkt().(AI Review)
+* READ_ONCE()/WRITE_ONCE() only stop the compiler from tearing or caching
+  the access. They don't order anything against the work item, and they
+  can't stop it from running. So, remove READ_ONCE() and WRITE_ONCE() on
+  nic_dev->adaptive_rx_coal.(AI Review)
 
-Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
----
-v2: drop the reference instead of pointing it at another file, and move
-    the instruction for running the example into the How-to section.
-v3: the v1 history moves here, so the commit log is the change alone; the
-    sentence about the missing file is stated once.  Raised by Sashiko.
+V01: https://lore.kernel.org/netdev/cover.1793946318.git.gongfan1@huawei.com/
 
- Documentation/arch/arm64/perf.rst | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+Fan Gong(5)
+  hinic3: Solve an stall issue in hinic3_rx_poll()
+  hinic3: Avoid concurrent updates on 32-bit systems.
+  hinic3: fix some checkpatchs.
+  hinic3: Ensure the value of max_qps is greater than 1
+  hinic3: Ensure that the value of max_qps is not changed
 
-diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
-index 997fd716b82f..5b9cc2aeb642 100644
---- a/Documentation/arch/arm64/perf.rst
-+++ b/Documentation/arch/arm64/perf.rst
-@@ -131,7 +131,12 @@ changed.
- 
- The userspace access is supported in libperf using the perf_evsel__mmap()
- and perf_evsel__read() functions. See `tools/lib/perf/tests/test-evsel.c`_ for
--an example.
-+an example, which can be built and run from the source tree:
-+
-+.. code-block:: sh
-+
-+  make -C tools/lib/perf make-tests
-+  tools/lib/perf/tests-static
- 
- About heterogeneous systems
- ---------------------------
-@@ -140,14 +145,6 @@ only be enabled when the tasks are pinned to a homogeneous subset of cores and
- the corresponding PMU instance is opened by specifying the 'type' attribute.
- The use of generic event types is not supported in this case.
- 
--Have a look at `tools/perf/arch/arm64/tests/user-events.c`_ for an example. It
--can be run using the perf tool to check that the access to the registers works
--correctly from userspace:
--
--.. code-block:: sh
--
--  perf test -v user
--
- About chained events and counter sizes
- --------------------------------------
- The user can request either a 32-bit (config1:0 == 0) or 64-bit (config1:0 == 1)
-@@ -160,8 +157,6 @@ userspace must treat the upper 32-bits read from the counter as UNKNOWN. The
- and should be used to mask the upper bits as needed.
- 
- .. Links
--.. _tools/perf/arch/arm64/tests/user-events.c:
--   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
- .. _tools/lib/perf/tests/test-evsel.c:
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
- 
+Fan Gong (5):
+  hinic3: Solve an stall issue in hinic3_rx_poll()
+  hinic3: Avoid concurrent updates on 32-bit systems.
+  hinic3: fix some checkpatchs.
+  hinic3: Ensure the value of max_qps is greater than 1
+  hinic3: Ensure that the value of max_qps is not changed
 
-base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+ .../ethernet/huawei/hinic3/hinic3_hw_cfg.c    |  4 +-
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 66 ++++++++-----------
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   |  9 +--
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    | 11 +++-
+ 4 files changed, 41 insertions(+), 49 deletions(-)
+
+
+base-commit: 73022f605c447f31610b94ed4a983d2b4bf2c721
 -- 
-2.53.0
+2.43.0
 
