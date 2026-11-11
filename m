@@ -1,46 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794389864;
-	b=t+13rcobSq4IfZFhmEoGg7eHm6tsdTF7R1DC6J7tjtID9T+qSWuGkhuB0i9jyUOskZbH
-	 /vcIU20EyiWwY758yR/Cl8RwBC9UTdb8yZQSZ0Q/41nwAVa+Y86LCoOd4/Pj3my961VJf
-	 WBZ7lavQ+ePe/GubI4QmhHDcp00iKSG2t2VyrNZVpjM67EHD8jXpW/r2W0WVUqDvekRRS
-	 THpie/0jQyqBQzH5FMjFjwtcIkV6YlB1jBt9F1ob/sIfij8A74phLIyZVyl+pDXW8dshh
-	 wIj8CpCL//pr3rZndCVotPKeVsgJT8Axgj5PIs/rgZ3WM8UkZ/Um74TD+Y9IynxxGUw==
+	t=1794389866;
+	b=bnLbTIBSvS/9st7RE+3ONWOBKogH3ukeJsF+eej/iQfZnASrr832BGCUB+t8yco93w/6
+	 vWnMNgCCW3RNo3caWdw3P9oCnMPtr0GBGozKh+v/HAsgCaw2zk4v7IINf5vl6JrWsiWH7
+	 vi+aCkppBiTY/Szqsy8WK8hDoukEA3nbzB/CqwdrGlyj4L5QCXGWQNDiKcDJADEyZ2ye4
+	 IvaIdY3GK9LEiFSGQmqmc2SJOG3PnUSEn0iuHzSIYMkS6towzUv8rub6n6tewQbqjs2VJ
+	 jSQx3Rg9QTo/NDfmbS1cFt0KuFC9sd1S20mG/w+5Lxslf/FGlqYm6T+iqnVDYwRbP0g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794389864;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389866;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=LnEy2gNwwGZed6zexISpJOpe9S/xWai8iYl6gzy6RkA=;
-	b=QmQPzG6Uh4++svWumMjrSeTDNcvDzI+wBPgc5Mt1EeEgHD+ctqCrEoNbV63c8J1hhokL
-	 5y+UreKaOIOHglfe7Hj8m/cZxgjcX2/pE5cEPgOTSPdc3BAlB+uPB9mVEG6Mo1yaBxg8H
-	 s2hNanDXtpwanlqxgkamwhX0qpDuPvTeeW9xVbg8x6U+lb889VnfHggXclS00ipK415lp
-	 DO1QaB7h9JsP+zPUu2OC2LY3FVZnQKXcYG2hXcLMCa29AZHwZ2vF0ig9YkkzIPymm/xuz
-	 Nv/dpYNcWv1WvpQXEOb29nb9vngvaXu8zNDxsLZCpiO4HqFW7zbzBUMKYwZ/7JsuRQA==
+	bh=7mRIPrrWym9nHtfwltiGFQkt9EoedI3hHVAO9jrL20U=;
+	b=kz3EzPPRGCYf3FMFdPItUAqeQ66RFnat/84ULkt0MHURwcqVdCYwgJ7gJIHlQDgLrIyr
+	 LabEidBwFE2vrOA+KycYCmHYvz4/KaFoJaRa5TNz3asqM/RDQqnUSYIUjAA9fVR/jEvAb
+	 3sroXaq7OXBCz6OTeKqwOI4n7Txooir/2YQzuT6M+UhNM0yuDez6wfUQzuJDiImWDWuvi
+	 W+tyVHMKvy4gVNDYqqCLgF1OgsaEbdLH9Dp6ABKuQHoNUeYaEo4EPtHSEPcyIXXWhKWOp
+	 7xhlyWZ+u2MUiUv11c2J1FZvBThmg+1HFRB+fvhyNhQIRXmJl106F/R+0lC639qAJew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DIBNwc4Z;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HltODuFj;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95458606A33B;
-	Wed, 11 Nov 2026 09:37:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6506A606A33B;
+	Wed, 11 Nov 2026 09:37:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DIBNwc4Z
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E2231F00A05;
-	Wed, 11 Nov 2026 09:37:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=HltODuFj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15E921F00A0D;
+	Wed, 11 Nov 2026 09:37:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794389864;
-	bh=LnEy2gNwwGZed6zexISpJOpe9S/xWai8iYl6gzy6RkA=;
+	s=k20260515; t=1794389866;
+	bh=7mRIPrrWym9nHtfwltiGFQkt9EoedI3hHVAO9jrL20U=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=DIBNwc4ZxNN676gnsmn5Ie0PZeAn7ydmsFwDNMKCknauMS5hMeX2IfRUo6bkLtRtM
-	 jJdEoxOWzcmQwjaDQtOUAa2ff6RI2zBYki/44laiiSPhv1vjikn7hGX5opFCozDWph
-	 yLNkNInLHHQPwQl3VJlEhezKKkxTtg+CihWaRUVjOxazUEDGycjxdU8anXOm8DCoSb
-	 ryHbMJiYW3TNx+V2DN+X9ky/L8l5uwZVvJMsO0klsdMKy0F9K2vNb2p81TmqsWNbxl
-	 i73pYwrbSKROELjWY10dH66x10TsNEd1cRlXl7ZHd0nPVVYNl4AzVG0iyv1EoEygVX
-	 qEsCKBO7NmPWA==
-Subject: Re: [PATCH net-next v3 03/14] dpll: dpllsim: Add configurable pins
+	b=HltODuFj6Fe6gW9Wv9RMdWkVvJHhsWoo4CGUFRUzEPNG/Aop10MLlDnqVD9ArnPb9
+	 JNCZLczrVU0x1IerkDpxpJobexLeY8AX4oXlO6JE1cjOyFaCbU6HklYwDp+zH9ubSl
+	 GnOPLl4JDD+5rJR1wYqkH+kAqeQKLTNnIyzDexKv0/BLxNeYQere2oqvVXteHEt7aW
+	 Y/ltsl3zHQRLLDnR6RjG9RJdqJNILA99H5/xXtfulCadvGUUsbXvSpfgJLqYL1ZGgV
+	 qei/J0slxtIxCRIZ48YaK2utOG4dAd4wWabyXs7X07czDFVWseIz0VUcHIkHFK23Yp
+	 8Eye/LXhw/5jw==
+Subject: Re: [PATCH net-next v3 04/14] selftests: dpll: add pin enumeration
+ and property tests
 From: netdev-bot+sashiko@kernel.org
 To: poros@redhat.com
 Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
@@ -49,11 +50,11 @@ Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
  davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Date: Wed, 11 Nov 2026 09:37:42 +0000
-Message-ID: <179438986299.2199510.5672761213435189612@kernel.org>
-In-Reply-To: <20261109093523.931201-4-poros@redhat.com>
-References: <20261109093523.931201-4-poros@redhat.com>
-X-sashiko-severity: Low
+Date: Wed, 11 Nov 2026 09:37:44 +0000
+Message-ID: <179438986463.2199510.16200117375791840074@kernel.org>
+In-Reply-To: <20261109093523.931201-5-poros@redhat.com>
+References: <20261109093523.931201-5-poros@redhat.com>
+X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -66,218 +67,131 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Low priority / nit picks for your consideration:
+Critical: 0 · High: 0 · Medium: 1 · Low: 1
 
-- [Low] A pin mkdir or rmdir that runs alongside `live=1` on the same
-  instance makes the live transition fail with -ENOENT.
-- [Low] Two pin-creation limits are visible to users but not documented.
-- [Low] dpllsim.rst describes the pin frequency attribute only as 'must
-  be supported by the pin type (default 0, which is rejected)' and never…
-- [Low] Concern: dpllsim_pin_types[] maps only 5 of the 6 values of enum
-  dpll_pin_type and leaves out DPLL_PIN_TYPE_INT_NCO, so a simulated pin…
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
+
+- [Medium] In dpll_basic.sh, a failed pin dump is reported as SKIP
+  instead of FAIL on hardware or user-selected DPLL devices.
+- [Low] The comment in check_pin_properties (dpll_basic.sh line 106) says
+  'The parent-device nest is not present for all pin types'.
 
 --
 
-dpll: dpllsim: Add configurable pins
+selftests: dpll: add pin enumeration and property tests
 
-This patch lets a dpllsim device instance carry configurable pins. Each
-pin is a configfs directory under pins/ with type, frequency and direction
-attributes. At live=1 the pins are validated, ordered, obtained and
-registered with the DPLL subsystem after the device, and while the
-instance is live the pin items are held with
-configfs_depend_item_unlocked().
+This adds pin query helpers and dpllsim_add_pin() to the dpll selftest
+library and gives the standard dpllsim device three pins. dpll_basic.sh
+gains pin enumeration, pin property and pin state tests. The stress
+script now creates its devices with a random set of pins.
 
-> diff --git a/drivers/dpll/dpllsim/core.c b/drivers/dpll/dpllsim/core.c
-> index 0772f409d013b..97b3cf48772e7 100644
-> --- a/drivers/dpll/dpllsim/core.c
-> +++ b/drivers/dpll/dpllsim/core.c
+> diff --git a/tools/testing/selftests/drivers/dpll/dpll_basic.sh b/tools/testing/selftests/drivers/dpll/dpll_basic.sh
+> index 827c389fe1aa3..eb5de2e22081e 100755
+> --- a/tools/testing/selftests/drivers/dpll/dpll_basic.sh
+> +++ b/tools/testing/selftests/drivers/dpll/dpll_basic.sh
 
 [ ... ]
 
-> +static struct config_item *dpllsim_pins_make_item(struct config_group *group,
-> +						  const char *name)
+> @@ -43,6 +65,114 @@ test_device_properties()
+>  	log_test "DPLL device properties"
+>  }
+>  
+> +test_pin_enumeration()
 > +{
-> +	struct dpllsim_dev *sim = container_of(group, struct dpllsim_dev,
-> +					       pins_group);
-> +	struct dpllsim_pin *pin;
+> +	local pin_ids
 > +
-> +	lockdep_assert_held(&dpllsim_subsys.su_mutex);
+> +	RET=0
 > +
-> +	if (dpllsim_dev_frozen(sim))
-> +		return ERR_PTR(-EBUSY);
-> +	if (list_count_nodes(&sim->pin_list) >= DPLLSIM_MAX_PINS)
-> +		return ERR_PTR(-ENOSPC);
+> +	mapfile -t pin_ids < <(dpll_pin_get_ids "$DPLL_DEV_ID")
+> +	if [ "${#pin_ids[@]}" -eq 0 ]; then
+> +		dpll_log_test_skip_or_fail "DPLL pin enumeration" \
+> +		    "no pins found"
+> +		return
+> +	fi
 
-[Severity: Low]
-Should these two mkdir limits be described in
-Documentation/driver-api/dpllsim.rst?
+[Severity: Medium]
+Can a failed pin dump get reported as a skip here?
 
-Once the instance is frozen, mkdir of a new pin fails with EBUSY. Once
-the instance has DPLLSIM_MAX_PINS (128) pins, it fails with ENOSPC. The
-documentation only says:
+dpll_pin_get_ids() returns 1 when the tool fails:
 
-    Structural attributes return EBUSY while the instance is live
-    and pins of a live instance cannot be removed.
+	out=$(dpll pin show -j 2>/dev/null) || return 1
 
-It doesn't say that pins can't be added to a live instance, and it
-doesn't mention the 128 pin cap. The commit message also says an instance
-can carry "an arbitrary set of them".
+The exit status of a process substitution is lost, though, and mapfile
+itself succeeds. So a failed query leaves pin_ids empty, which looks the
+same as a device with no pins.
 
-Separately, a pin with an invalid frequency or direction makes live=1
-fail with a bare -EINVAL from dpllsim_order_pins():
+test_pin_properties() uses the same pattern:
 
-	list_for_each_entry(pin, &sim->pin_list, list) {
-		if (!dpllsim_pin_frequency_valid(pin) ||
-		    !dpllsim_pin_direction_valid(pin))
-			return -EINVAL;
+	mapfile -t pin_ids < <(dpll_pin_get_ids "$DPLL_DEV_ID")
 
-Nothing tells the user which pin was rejected. Could that be reported?
+test_pin_state() has the same problem. pipefail is not enabled there, so
+the pipeline returns the status of head:
 
+	pin_id=$(dpll_pin_find_by_direction "$DPLL_DEV_ID" input | head -1)
+
+All three then call dpll_log_test_skip_or_fail(), which calls
+log_test_skip whenever DPLL_CREATED_DEVICE is empty. That happens for the
+hardware device dpll_lib_init() picks by default, for a device chosen
+through DPLL_DRIVER and for one set with DPLL_DEV_ID.
+
+On such a device, would a pin dump that fails because of a driver or
+netlink regression be logged as a skip with "no pins found" or "no input
+pin", and not as a failure? On the created dpllsim device the test still
+fails, but it gives "no pins found" as the reason and does not say that
+the query failed.
+
+The commit message says:
+
+    every pin query runs the tool first and jq on what it printed, so
+    that a query which fails returns the status of the tool instead of
+    the empty output a missing attribute produces too
+
+None of these callers seem to check that status.
+
+> +	check_pin_ids "${pin_ids[@]}"
 > +
-> +	pin = kzalloc_obj(*pin);
-
-[ ... ]
-
-> +/* Pin mkdir and rmdir run under the subsystem mutex like live transitions */
-> +static void dpllsim_pins_drop_item(struct config_group *group,
-> +				   struct config_item *item)
-> +{
-> +	list_del(&to_dpllsim_pin(item)->list);
-> +	config_item_put(item);
+> +	log_test "DPLL pin enumeration (${#pin_ids[@]} pins)"
 > +}
+> +
+> +check_pin_properties()
+> +{
 
 [ ... ]
 
-> +static int dpllsim_dev_depend_pins(struct dpllsim_dev *sim)
-> +{
-> +	struct dpllsim_pin *pin;
-> +	int err;
-> +
-> +	list_for_each_entry(pin, &sim->pin_list, list) {
-> +		err = configfs_depend_item_unlocked(&dpllsim_subsys,
-> +						    &pin->item);
+> +	# The parent-device nest is not present for all pin types, but when
+> +	# the device under test is in it, that entry must carry the
+> +	# direction. A pin can be registered on more than one device, so
+> +	# match on parent-id instead of taking the first entry.
 
 [Severity: Low]
-Can a pin mkdir or rmdir that runs at the same time as "echo 1 > live" on
-the same instance make this return -ENOENT?
+This isn't a bug, but is the first sentence of this comment accurate? In
+the DPLL core, whether the parent-device nest is present depends on how
+the pin was registered, not on its type:
 
-The comments above dpllsim_pins_drop_item() and dpllsim_dev_live_store()
-say the subsystem mutex excludes pin mkdir and rmdir. However, configfs
-only holds su_mutex around the make_item() and drop_item() callbacks.
-
-For mkdir, dpllsim_pins_make_item() adds the pin to sim->pin_list under
-su_mutex. The dirent is only attached and readied after the mutex has
-been dropped:
-
-fs/configfs/dir.c:configfs_mkdir() {
+drivers/dpll/dpll_netlink.c:dpll_cmd_pin_get_one() {
     ...
-	mutex_unlock(&subsys->su_mutex);
-    ...
-		ret = configfs_attach_item(item, dentry, frag);
-    ...
-		configfs_dir_set_ready(dentry->d_fsdata);
+	if (xa_empty(&pin->parent_refs))
+		ret = dpll_msg_add_pin_dplls(msg, pin, extack);
+	else
+		ret = dpll_msg_add_pin_parents(msg, pin, ref, extack);
     ...
 }
 
-Suppose dpllsim_dev_live_store() takes su_mutex inside that window.
-dpllsim_dev_depend_pins() then finds the half-created pin on pin_list.
-configfs_depend_prep() doesn't find it, either because there is no
-dirent yet or because it skips CONFIGFS_USET_CREATING entries. So
-live=1 fails with -ENOENT.
+A pin registered directly on a device always gets parent-device nests,
+MUX pins included. A pin registered on a parent pin gets parent-pin nests
+instead, whatever its type.
 
-rmdir has the same window. configfs_rmdir() marks the item as dropping
-in configfs_detach_prep() and detaches the dirent without su_mutex. Only
-after that does it take su_mutex for
-client_drop_item()->dpllsim_pins_drop_item(), which does the list_del():
-
-fs/configfs/dir.c:configfs_rmdir() {
-    ...
-			ret = configfs_detach_prep(sd, &wait);
-    ...
-		configfs_detach_item(dentry);
-
-		mutex_lock(&subsys->su_mutex);
-    ...
-	client_drop_item(parent_item, item);
-	mutex_unlock(&subsys->su_mutex);
-    ...
-}
-
-A live=1 in between still sees the pin on pin_list, and the depend fails
-with -ENOENT.
-
-Nothing is corrupted and a retry succeeds. Should the comments be
-corrected, or should a pin that is still being created or removed be
-handled here?
-
-> +		if (err) {
-> +			dpllsim_dev_undepend_pins(sim, pin);
-> +			return err;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-
-[ ... ]
-
-> diff --git a/drivers/dpll/dpllsim/dpll.c b/drivers/dpll/dpllsim/dpll.c
-> index ae2c8fcf238c6..a1d5921fb8d01 100644
-> --- a/drivers/dpll/dpllsim/dpll.c
-> +++ b/drivers/dpll/dpllsim/dpll.c
-
-[ ... ]
-
-> +static void dpllsim_pin_props(struct dpllsim_pin *pin,
-> +			      struct dpll_pin_properties *prop)
-> +{
-> +	prop->type = pin->type;
-> +	prop->board_label = config_item_name(&pin->item);
-> +
-> +	switch (pin->type) {
-> +	case DPLL_PIN_TYPE_GNSS:
-> +		prop->freq_supported = dpllsim_freq_1pps;
-> +		prop->freq_supported_num = ARRAY_SIZE(dpllsim_freq_1pps);
-> +		break;
-> +	case DPLL_PIN_TYPE_INT_OSCILLATOR:
-> +		prop->freq_supported = dpllsim_freq_int_osc;
-> +		prop->freq_supported_num = ARRAY_SIZE(dpllsim_freq_int_osc);
-> +		break;
-> +	case DPLL_PIN_TYPE_MUX:
-> +	case DPLL_PIN_TYPE_SYNCE_ETH_PORT:
-> +		prop->freq_supported = dpllsim_freq_synce;
-> +		prop->freq_supported_num = ARRAY_SIZE(dpllsim_freq_synce);
-> +		break;
-> +	default:
-> +		prop->freq_supported = dpllsim_freq_ext;
-> +		prop->freq_supported_num = ARRAY_SIZE(dpllsim_freq_ext);
-> +		break;
-> +	}
-> +}
-
-[Severity: Low]
-Should dpllsim.rst list the frequencies each pin type accepts? The
-frequency row only says:
-
-    Frequency in Hz, must be supported by the pin type
-    (default 0, which is rejected)
-
-dpllsim_pin_frequency_valid() accepts only the fixed tables chosen here:
-
-    gnss: 1 Hz
-    int-oscillator: 25 MHz
-    synce-eth-port and mux: 1.544, 2.048, 10 and 25 MHz
-    ext: 1 Hz and 10, 19.44, 25, 77.76, 125, 156.25 MHz
-
-The documentation also doesn't say that mux uses the SyncE table.
-
-freq-supported can only be seen over netlink after live=1 has succeeded.
-An unsupported frequency makes live=1 fail with a bare -EINVAL that
-names neither the pin nor the value.
+The comment above dpll_pin_get_ids() in dpll_lib.sh gets this right
+("pins registered on those pins (MUX children)"). Could this comment say
+the same thing, that the nest is missing for pins registered on a parent
+pin? The check itself is not affected.
 
 [ ... ]
 
