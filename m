@@ -1,118 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=158.69.130.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=34.218.115.239
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794429413;
-	b=sfh0HjogNu8h9VM+aQlx8goaVbwWWn31//VT/ke61hiTFIMZ+pYdoKv0Je4h4q586MIl
-	 fchKJol4DvgT4S89cC0CW4tJ+wHUA4pcoH0zH8/JYse28bSpC3kvGS/0svUR97g5pk/+C
-	 plfTLaj7tZhQWAd2cB3D3G7XEYQoVVuzLPqC/v11lBnAGu7IOSLMhUyWKHqBTaBqMk76w
-	 12hjQFueoLfTdF5+95W6FC7QdZXe3c7IwyuLnt3tVD0s2gGzEEJZ8U+bj79jqy37Dr8vh
-	 spiFQnIJPPjOUqlIvB4L8ZJ8AfRjRGe6wKI7PIOTcMAU/iLrlw4n6gzzGKvT/WC+eNw==
+	t=1794429454;
+	b=fNEukRASf06Uvp+hpW8QB7uRGOSw4uf/qncCDbiOpFQfOvvW8VOxTIngSPpOEWn1TkS7
+	 sXYu5stPD5iZW+K6UGsRx/ztaLgOAThzFgVCqr5Ei6InIvUBi9MMChnLs/UmFDFWIDmJo
+	 RWoSrmeMS5BEXt+2hPkC9oEbw5lV677iO6PcPYLfCzvNHR1mIA6es9Zns/+pntN2a2Bn/
+	 f3REUD5lgTOoLmW1bCGObtGItYYitl6mNU6y5ZbFH7V0soiQIVMxiOn+MnFQ7DZjTCMDK
+	 CpZq/Nq67QS1V8pI6NIliLIVgHjJHW1EX4LhWr+C29hxEEBjd0+rKbkF6ffPbw3lAyg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794429413;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=IG2i4eM11A8lVv+NbNC7CjJ7zEpmOtNYGqSnK/Rh/6Y=;
-	b=W4sK46/dbqO4xMA6cjlmGS27PUm6TPx97Y5ilmtH68vU40S9k+PD1FYCMWx9pR8rnIJI
-	 6rs1/evUuPO0yGpdHOOs/o2lCUyNv9T3psrVfH82Ar8vcW99hYMliRcW7Ze+0qVSdCvIm
-	 VDaZpxjzA3igr1LsiIplZgzeOwESufMLLaa5P+jvNnydsknPHMxX13YjW04itgTS2H57o
-	 op828LW1bM3w5pBTQ+autvAN8deM/aprG3vcLj2T8wvYRlqjeVdC8Z2UzeBGL//2eSMOX
-	 xnG6lmC0FXnXfRjSTKCx61lNAXd7LyS4UJvkPKwlgjBHxcpg70kosCFeIABB8ozbKrg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794429454;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=vpIyzJPxRnrClrGT6opul0fGUGxCRQ7iTyzY6dXBUDc=;
+	b=zxAmY3ZOMfYU7j0Ax/EivjCF0hX+8RUtcbG+wH6m+aEyWS2NagOvExHTwK40JM/QlbiN
+	 d4k9swPVOucbFdqgW2pjXxfTesb5rYi1h/j+UXlzpdOMNWGuioJ114vOpcYEhaB4xXLQA
+	 /KaaCFpGUy+wa3AWyHm7xRzJ7xxNCSpceadgWaGcbgq1JDTuu3OSMlYgjKRYrDbQ0fDcr
+	 jFoWe/0ygw3bHHRQUngGjJUDTskzuOK7B1f8eyAW9vl4qT3wmPKbO3xLSfalMHpBIsCx7
+	 F8AsPnpzL7BtiwnuPjyZbJmA9xx8x7E9innHGZFu4PHYnF0QQ7anhMJR6HFhZNac6uQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=efficios.com;
-	spf=pass smtp.mailfrom=efficios.com;
-	dkim=pass header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ALp+ZqNe;
-	arc=none smtp.remote-ip=158.69.130.18
-Received: from smtpout.efficios.com (smtpout.efficios.com [158.69.130.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=YYK+ZnQk;
+	arc=none smtp.remote-ip=34.218.115.239
+Received: from pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com [34.218.115.239])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E1D606A88E;
-	Wed, 11 Nov 2026 20:36:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11E1D606A88E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=efficios.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=efficios.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDD6606A89F;
+	Wed, 11 Nov 2026 20:37:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BDDD6606A89F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=efficios.com header.i=@efficios.com header.a=rsa-sha256 header.s=smtpout1 header.b=ALp+ZqNe
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=smtpout1; t=1794429407;
-	bh=IG2i4eM11A8lVv+NbNC7CjJ7zEpmOtNYGqSnK/Rh/6Y=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ALp+ZqNezrOAxayzvPcDAUX20E5pghRS59g6lOQSA2zej8fZoYWUwg6rL1ZSV17YD
-	 sGTIIb+53qYGxyuLe2xHUY+6lASwNHa5sjz3rdQNed6KddL9rF7kfx5JssGDJIY4XS
-	 0BjSNkXziuJ/WZYP5NXR+SfzipTUGkBp2fxNM40Vpo/AAQ4/GZDsZ2+bxV9/iNxgSc
-	 kLvqwkGfDppndZrqnnfVeGy5nvWt0KBCaK259IxQ1mKycTcqHLfxYTnG/pIvrCH8ye
-	 9AU+ieilBaQ/IECjOJs27hzUhF41Y9GEqlYFX1Yr2P3hu3pPeqWaxh3DsAIXjwGwDS
-	 9sU6gb9AQ/mNA==
-Received: from thinkos.internal.efficios.com (mtl.efficios.com [216.120.195.104])
-	by smtpout.efficios.com (Postfix) with ESMTPSA id 4jPwKp6tFLzP3s;
-	Wed, 11 Nov 2026 15:36:46 -0500 (EST)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: David Hildenbrand <david@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>,
-	Christoph Lameter <cl@gentwo.org>,
-	Martin Liu <liumartin@google.com>,
-	David Rientjes <rientjes@google.com>,
-	christian.koenig@amd.com,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	SeongJae Park <sj@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Sweet Tea Dorminy <sweettea-kernel@dorminy.me>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Wei Yang <richard.weiyang@gmail.com>,
-	Miaohe Lin <linmiaohe@huawei.com>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Yu Zhao <yuzhao@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Mateusz Guzik <mjguzik@gmail.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	Aboorva Devarajan <aboorvad@linux.ibm.com>,
-	David Carlier <devnexen@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	Harry Yoo <harry@kernel.org>,
-	Hao Li <hao.li@linux.dev>,
-	Kees Cook <kees@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	linux-trace-kernel@vger.kernel.org,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	Oleg Nesterov <oleg@redhat.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Hugh Dickins <hughd@google.com>
-Subject: [RFC PATCH v25 11/14] mm: shmem: use a limit counter for the tmpfs size limit
-Date: Wed, 11 Nov 2026 15:36:23 -0500
-Message-Id: <20261111203626.95838-12-mathieu.desnoyers@efficios.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20261111203626.95838-1-mathieu.desnoyers@efficios.com>
-References: <20261111203626.95838-1-mathieu.desnoyers@efficios.com>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=YYK+ZnQk
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794429454; x=1825965454;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vpIyzJPxRnrClrGT6opul0fGUGxCRQ7iTyzY6dXBUDc=;
+  b=YYK+ZnQkBuda9ap87dQ89X265NEdYSbOfrslXe+vr4TgOAvKtLF2YWFh
+   pA6hFgDHWeVo72/2XUwFeictRpNtmLjDn9VcZa21pMPhbpsa35xOVGjcn
+   iBoVHonTPHh1awrKgicakSWwvsLqHmMXsVSWx8k0FqVG4jxycVkNFZXJU
+   2j/1u4z4/4B+/qit6fiDCVZxcGZkJGwJ/qLm+UWENRaH84I7jjF8WbzrP
+   x39J6naVHcWAk75aPjEfG7wr8T0GgyftPcU3su3CL3ywyKh7kGzWWn77Y
+   RdJKCu0+40Th3c6s2ixzkwC9BaOB3MLNZsQkEU7JpSvjT5yXs8SD9M/by
+   A==;
+X-CSE-ConnectionGUID: tiE9b2HlQrqB/PDjzj+nRw==
+X-CSE-MsgGUID: GGJF9NIVRMGQ5ByMC+l/mA==
+X-IronPort-AV: E=Sophos;i="6.27,208,1787011200"; 
+   d="scan'208";a="33526248"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-013.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 20:37:30 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:13310]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.12.127:2525] with esmtp (Farcaster)
+ id 389de7d3-cdac-4a03-93bb-a296349c3841; Wed, 11 Nov 2026 20:37:30 +0000 (UTC)
+X-Farcaster-Flow-ID: 389de7d3-cdac-4a03-93bb-a296349c3841
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 20:37:30 +0000
+Received: from dev-dsk-dkeogh-ai2-36d3b9a7.us-west-2.amazon.com
+ (172.19.55.127) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56; Wed, 11 Nov 2026
+ 20:37:29 +0000
+Date: Wed, 11 Nov 2026 20:37:24 +0000
+From: David Keogh <dkeogh@amazon.com>
+To: Tianyi Gao <tianyi@cloudflare.com>
+CC: Stephen Hemminger <stephen@networkplumber.org>, Willem de Bruijn
+	<willemdebruijn.kernel@gmail.com>, <netdev@vger.kernel.org>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
+	<edumazet@kernel.org>, "David S. Miller" <davem@davemloft.net>, Simon Horman
+	<horms@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>, Daniel Borkmann
+	<daniel@iogearbox.net>, David Woodhouse <dwmw2@infradead.org>, Dragos Tatulea
+	<dtatulea@nvidia.com>, Nimrod Oren <noren@nvidia.com>, Alasdair McWilliam
+	<alasdair@mcwilliam.dev>, Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Magnus Karlsson
+	<magnus.karlsson@intel.com>, David Ahern <dsahern@kernel.org>, Ido Schimmel
+	<idosch@nvidia.com>, Alexei Starovoitov <ast@kernel.org>, John Fastabend
+	<john.fastabend@gmail.com>, Donald Hunter <donald.hunter@gmail.com>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, Randy Dunlap
+	<rdunlap@infradead.org>, Breno Leitao <leitao@debian.org>,
+	=?iso-8859-1?Q?Asbj=F8rn_Sloth_T=F8nnesen?= <ast@fiberby.net>, "Danielle
+ Ratson" <danieller@nvidia.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+	<bpf@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <kernel-team@cloudflare.com>,
+	<nh-open-source@amazon.com>
+Subject: Re: [PATCH net-next 1/8] net: add tx_extra_headroom and
+ LL_ALLOC_SPACE()
+Message-ID: <avTSBFpR2t7PO9tx@dev-dsk-dkeogh-ai2-36d3b9a7.us-west-2.amazon.com>
+References: <cover.1794020868.git.tianyi@cloudflare.com>
+ <e90e748e0aefa7cbe1c2b31b8c7902ccf135c3f2.1794020868.git.tianyi@cloudflare.com>
+ <willemdebruijn.kernel.1d64e7848503b@gmail.com>
+ <20261107182526.69543-1-tianyi@cloudflare.com>
+ <willemdebruijn.kernel.2c6a653eb65fa@gmail.com>
+ <20261108190831.3f991a13@phoenix.local>
+ <20261109154909.32748-1-tianyi@cloudflare.com>
+ <avTOvr+yy+2j8xrQ@dev-dsk-dkeogh-ai2-36d3b9a7.us-west-2.amazon.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -122,172 +109,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <avTOvr+yy+2j8xrQ@dev-dsk-dkeogh-ai2-36d3b9a7.us-west-2.amazon.com>
+X-ClientProxiedBy: EX19D031UWC002.ant.amazon.com (10.13.139.212) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-The size limit of tmpfs (the size= mount option) is a struct
-percpu_counter. Each block allocation checks it with
-percpu_counter_limited_add(). That check takes no lock only while the
-mount is more than batch * nr_cpus pages below its size. With the
-default batch size of 768 at 384 CPUs, this is 294912 pages, 1.1 GB.
-A smaller mount, such as a 64 MB /dev/shm, takes the counter spinlock
-and sums all CPUs on every page. On a 384-CPU host with 384 processes
-allocating, 99.5% of the time goes to that spinlock.
+On Wed, Nov 11, 2026 at 08:23:26PM +0000, David Keogh wrote:
+> Dropping IFLA_TX_EXTRA_HEADROOM is fine with me. A BPF-side
+> declaration covers the TC egress case, as long as the program is
+> attached to the device the skb is allocated for.
 
-Use a hierarchical limit counter instead. Its batch size is chosen from
-the size. When the size allows, its accuracy is within 1/4 of the size.
-Block allocations then sum the CPUs only in the last 1/4 of the size.
-They take no lock. The limit stays strict.
+One correction to that, after checking how our hosts run the program.
 
-Near a full mount, an allocation can fail although it fits. This
-happens while a concurrent allocation of a few pages, which does not
-fit, is being undone. A large folio is checked before it is added, so a
-large folio which does not fit has no such effect.
+Our TC egress programs are not attached individually. A loader keeps
+a chain: only the head is attached to the NIC, and the rest, including
+the program that encapsulates, are reached by bpf_tail_call through a
+prog array. The head can change as programs are added and removed.
 
-A mount without a size limit never counts its blocks. A remount cannot
-add a limit. So such a mount no longer allocates the counter.
+So if the kernel reads the declaration when a program is attached, it
+never sees the encapsulating program, because that program is only
+ever inserted into the prog array. Putting the declaration on the head
+instead does not help either: the head is a different program that
+pushes no headers itself, and it can change.
 
-A remount keeps the batch size. A mount grown by remount thus keeps the
-smaller batch size of its first size. Under concurrent allocations, a
-remount to a smaller size can be refused although the use fits.
+For the BPF-side declaration to cover the TC egress case, it needs to
+account for tail call targets. Tianyi, how were you planning to handle
+a program that is only reached by tail call?
 
-Test: fallocate() of one page at a time into one file per process, all
-on one mount. This is a will-it-scale variant. It ran in a 384-vCPU
-guest pinned to a 2-socket AMD EPYC 9654 host, on v7.4-rc2. In
-thousands of calls per second:
-
-  size=  processes   before    after
-  64 MB          1      208      483
-  64 MB         64      256    17771
-  64 MB        384      126    54275
-  1 GB         384      125    93879
-  2 GB         384    93851    93476
-  16 GB        384    93737    94806
-
-Below 1.1 GB, the mount scales again with the number of processes. At
-2 GB and above, the results are within 1% of before. Within the last
-1/4 of the size, each allocation sums both counters over all CPUs. With
-one process, this is 37% slower than before. With 384 processes, it is
-about 100 times faster.
-
-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
----
- include/linux/shmem_fs.h |  3 ++-
- mm/shmem.c               | 33 +++++++++++++++++++++++----------
- 2 files changed, 25 insertions(+), 11 deletions(-)
-
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index f89b4b151133..b37adf32e4ef 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -7,6 +7,7 @@
- #include <linux/mempolicy.h>
- #include <linux/pagemap.h>
- #include <linux/percpu_counter.h>
-+#include <linux/percpu_counter_tree.h>
- #include <linux/xattr.h>
- #include <linux/fs_parser.h>
- #include <linux/userfaultfd_k.h>
-@@ -76,7 +77,7 @@ struct shmem_quota_limits {
- 
- struct shmem_sb_info {
- 	unsigned long max_blocks;   /* How many blocks are allowed */
--	struct percpu_counter used_blocks;  /* How many are allocated */
-+	struct percpu_counter_tree_limit used_blocks; /* How many are allocated */
- 	unsigned long max_inodes;   /* How many inodes are allowed */
- 	unsigned long free_ispace;  /* How much ispace left for allocation */
- 	raw_spinlock_t stat_lock;   /* Serialize shmem_sb_info changes */
-diff --git a/mm/shmem.c b/mm/shmem.c
-index b8399bb71997..2e368d7b0e41 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -231,13 +231,13 @@ int shmem_inode_acct_blocks(struct inode *inode, long pages)
- 
- 	might_sleep();	/* when quotas */
- 	if (sbinfo->max_blocks) {
--		if (!percpu_counter_limited_add(&sbinfo->used_blocks,
--						sbinfo->max_blocks, pages))
-+		if (!percpu_counter_tree_limit_add(&sbinfo->used_blocks,
-+						   sbinfo->max_blocks, pages))
- 			goto unacct;
- 
- 		err = dquot_alloc_block_nodirty(inode, pages);
- 		if (err) {
--			percpu_counter_sub(&sbinfo->used_blocks, pages);
-+			percpu_counter_tree_limit_sub(&sbinfo->used_blocks, pages);
- 			goto unacct;
- 		}
- 	} else {
-@@ -262,7 +262,7 @@ static void shmem_inode_unacct_blocks(struct inode *inode, long pages)
- 	dquot_free_block_nodirty(inode, pages);
- 
- 	if (sbinfo->max_blocks)
--		percpu_counter_sub(&sbinfo->used_blocks, pages);
-+		percpu_counter_tree_limit_sub(&sbinfo->used_blocks, pages);
- 	shmem_unacct_blocks(info->flags, pages);
- }
- 
-@@ -4048,9 +4048,11 @@ static int shmem_statfs(struct dentry *dentry, struct kstatfs *buf)
- 	buf->f_namelen = NAME_MAX;
- 	if (sbinfo->max_blocks) {
- 		buf->f_blocks = sbinfo->max_blocks;
-+		/* Under concurrent allocations, the sum can be above the size. */
- 		buf->f_bavail =
- 		buf->f_bfree  = sbinfo->max_blocks -
--				percpu_counter_sum(&sbinfo->used_blocks);
-+				min(percpu_counter_tree_limit_precise_sum(&sbinfo->used_blocks),
-+				    sbinfo->max_blocks);
- 	}
- 	if (sbinfo->max_inodes) {
- 		buf->f_files = sbinfo->max_inodes;
-@@ -5020,8 +5022,8 @@ static int shmem_reconfigure(struct fs_context *fc)
- 			err = "Cannot retroactively limit size";
- 			goto out;
- 		}
--		if (percpu_counter_compare(&sbinfo->used_blocks,
--					   ctx->blocks) > 0) {
-+		if (percpu_counter_tree_limit_precise_sum(&sbinfo->used_blocks) >
-+		    ctx->blocks) {
- 			err = "Too small a size for current use";
- 			goto out;
- 		}
-@@ -5187,7 +5189,7 @@ static void shmem_put_super(struct super_block *sb)
- 	shmem_disable_quotas(sb);
- #endif
- 	free_percpu(sbinfo->ino_batch);
--	percpu_counter_destroy(&sbinfo->used_blocks);
-+	percpu_counter_tree_limit_destroy(&sbinfo->used_blocks);
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- 	list_lru_destroy(&sbinfo->shrinklist);
- #endif
-@@ -5212,6 +5214,7 @@ static int shmem_fill_super(struct super_block *sb, struct fs_context *fc)
- 	static struct lock_class_key shmem_unused_huge_lock_key;
- #endif
- 	struct shmem_options *ctx = fc->fs_private;
-+	unsigned long batch;
- 	struct inode *inode;
- 	struct shmem_sb_info *sbinfo;
- 	int error = -ENOMEM;
-@@ -5286,8 +5289,18 @@ static int shmem_fill_super(struct super_block *sb, struct fs_context *fc)
- 	ctx->mpol = NULL;
- 
- 	raw_spin_lock_init(&sbinfo->stat_lock);
--	if (percpu_counter_init(&sbinfo->used_blocks, 0, GFP_KERNEL))
--		goto failed;
-+	/*
-+	 * A mount without a size limit never counts its blocks. A remount
-+	 * cannot add a limit. Otherwise, pick the batch size from the size.
-+	 * When the size allows, its accuracy is within 1/4 of the size. A
-+	 * block allocation then sums all CPUs only within the last 1/4 of the
-+	 * size. A remount keeps the batch size.
-+	 */
-+	if (sbinfo->max_blocks) {
-+		batch = percpu_counter_tree_batch_for_accuracy(sbinfo->max_blocks / 4);
-+		if (percpu_counter_tree_limit_init(&sbinfo->used_blocks, batch, GFP_KERNEL))
-+			goto failed;
-+	}
- 
- #ifdef CONFIG_TRANSPARENT_HUGEPAGE
- 	if (list_lru_init_memcg_key(&sbinfo->shrinklist, sb->s_shrink,
--- 
-2.47.3
-
+Thanks,
+David
