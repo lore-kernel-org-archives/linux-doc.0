@@ -1,61 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794423260;
-	b=P77mGpBltN6++fLhYEyjIN2KmcB7EdJMVadDTFEgAu9A76Cfe1dZDNxVwKKTwwno25d3
-	 JwKlbyJS9po1BQzdMkfqHCPSVzXV5MhxyDTeopxX1rFQ94Gv7no1JzGmoGqxEa6m3/kdx
-	 vYgzJz3jMjGXqQwxbXr4DN2Tchpv8Kna9l/hTGCaWzE2JssLImKSsCKu8YKXFUEkN6JqW
-	 D3ZJ9SS9gkgb5k+Lklib9jYjzh8FsXKBm6RiGGQ+GmJORtZDl8RAoNWN0roZmlDxepUWl
-	 LwthHP0nseJScLmmGQFiPxhz5m9iPxGSAhNQbBmTiSXFki0pRS1ZAFRp82wWviy1aDg==
+	t=1794423678;
+	b=3znAAUBdzQxVyh2EPk+2i3ry95pjxpjp2sE2HLkbPDO2Thh7Rjb1lckPK+RnVwf+HE93
+	 uueZxUAQk7n7+2wcWeRjY2K51EL80K4egdIBx/TOzxc37hSvnLTWZqDJdG3H5LFPewUL1
+	 hg0Zo3dMUQz3JSrDsCPpPnnm4eMupokrOl90ZwVNrpoX0CxZeJney6MTdA9tZS+wna/0L
+	 oNpNlRGkGPfZUfO1ESGTK+FnnkSE3+ivIPWvMwo2nCjr91zxT0MwP+YVpceDgx+DjBy9g
+	 quRSJsf65KuqisFRnCSGKQ/LGahnmSH8ur3NKGdUY9BPZf4A01TmF1lZzZFCWchcTAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794423260;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=7ZxY6FRy+iKIYaOcDLkICzfkOfpdlmgKNXCeP3oQIdA=;
-	b=jxXAIKTy8JQyHG7EXnLcTMRmD4U7+lIY2Ah/hD8J/E+RfEM19cRo9EeHUOt/sLdRzX7F
-	 sInpN4EUsqnLwf4SsH/IN/fkz3Jw2Bx4vng80t0/vdFUGBke4R47MEe52UkL8PGxADCVp
-	 8gvjTOuNxFAxTswQDkWu9AK/pjp6YacIVaGym/6Dcu8RX5XZdv87eQ5g4fDuUAJy5h2DU
-	 khsjn1qeMyZF4in2/hdTgYeypzDCbS7+nGN/aCOMqoBBOq0xMdKTQzq9X+mC1M61Xv5XM
-	 zPTea2cJ5pTaPDnQEVjyuXkB4LEKCPRnS/m9AIL7olD3Qsu6y9dUdgX2sHAkgrwMUPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794423678;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=3mcdsvysa9luSuezEbeTLmuh15u7mjwAepQLZ7oOKD4=;
+	b=2Qg6PlLkO2k9oolw5doUmnO6nU6Qnv62kd7VYui2tq/s7YpsAWUUtTKHwgg1knDBEG/Y
+	 3GYRO+F0idBhXZgI2NLvIz5L+/3EaVb77tvWppia0jZCSJpbxcKsKpG1kfoq5yAkMpE/W
+	 qG3iGxpikvUDQhAcV5GKANJjvQlNbx+0MVOd0BJ+r7j3zhzYfOMkzC7zA8VyNMcH2FklC
+	 o6HgvdvNTTlNuex9/tXFBPGMt+LlSXPy5KrcPehY/KVlSj20UqeslGse2l2wuk7kWWsrQ
+	 wZSbPCE1LTaVvknF2D0a5krRzCGpEIY2xulIuITdjP7v+Bg7uiawAkB8s1bRR9T73hw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KfLQmTEy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LHkRigWs;
+	arc=none smtp.remote-ip=209.85.222.182
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11FA3606A324;
-	Wed, 11 Nov 2026 18:54:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DBA606A32A
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 19:01:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49DBA606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KfLQmTEy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AE5F1F00A05;
-	Wed, 11 Nov 2026 18:54:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794423259;
-	bh=7ZxY6FRy+iKIYaOcDLkICzfkOfpdlmgKNXCeP3oQIdA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=KfLQmTEyEkOjYetaEk86ZORqkxLgjToheQz9VDFoVBwVZrB/rJa6h9lEWderuWfiQ
-	 ULjZbma3rGqhDciaC502VLOZvkQ2w2xErqM0Hog1YFYSl4Rx45zl/ZAd0ri7hH+qrE
-	 QtErvf9h8g+tbl8H2VGCQgGiUxktXrOOCgR6qJgXFpuJwyiDiwlNzq3/4FOBJ7+Gle
-	 U+l8BYmRkJ4nk8jnkKBSiuaUjytbADFO4Ek9XJKkuXU9UxzuVsmyH+LaQrP5sPgNIt
-	 OIJrWa6AiIZyTHrYGmq6W1he/IXInF4jzwG/wDVRVWDLWU3myEF/9tyx/Jq8wtt+E/
-	 ruJB9OrNjbp8g==
-From: SJ Park <sj@kernel.org>
-To: Aveline Noir <jm5905938@gmail.com>
-Cc: SJ Park <sj@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [RFC PATCH v0] Docs/mm/damon/design: document data attributes report infra design (beyond page table accessed-bit milestone 2)
-Date: Wed, 11 Nov 2026 10:54:11 -0800
-Message-ID: <20261111185412.145514-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <179438255225.3134195.10613668244848761847.b4-reply@b4>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LHkRigWs
+Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f1cf92c9eso337138085a.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 11:01:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794423677; x=1795028477; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=3mcdsvysa9luSuezEbeTLmuh15u7mjwAepQLZ7oOKD4=;
+        b=LHkRigWscoO1IXIQFs6/S7w1FUhRnu66lP+me1F9tp+woQK1t61v4UNNSyggqb4mOX
+         hkOb5/IVXmfs4ZveeHLDMgbH2NVuzIEY/J/WPy/shFxDKAiXJz6IbXyPUV4ckFZ+CsC+
+         c9gkmXH6qx8NuT+7knfat6nN41LKdJI5AqHmXOuhg18s+O76DdTa+1UL8roEbcvId/Ns
+         kTG/VWDpa7xwT+xoPmwPqh3uf6iTwuE9zBLajqn7CgcAuA/eMNIzXPPLnoO373jqfflo
+         BWXGJsKWiNERilvEBM6NM78A4lF9eT8HO6VECVYKCKap11URDX6Ewiu7J/Bp2B4VyeQc
+         r7RQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794423677; x=1795028477;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3mcdsvysa9luSuezEbeTLmuh15u7mjwAepQLZ7oOKD4=;
+        b=jDkg2P8ukqwNwWqCjWopfJCRJwsA/4sKguOtscUCQaing2rHy9zNghz0VTG/q0Qgzl
+         FhRnnkJ56PphN2jUuFLf+k8VHHQV0HXfmSaXu7zL21g07Q4cwuA59x+EwVQnJcsWtAOH
+         EGjFqwPdB0G7Wpvsf9cSIm0+fNe9hGtvq9vokrAGpdwtKTaENqOHOSWoMltSgA4jVLlk
+         IHMNzzh6scHhsnsGo2tRvOFidi3Bn0ZJlQvdYxpda9jkfTuhZp20c5QOu87SdcUj2/fu
+         isUW2zUPqkjyzsuIEKQZtKwjZczmfxi8FEXZ4x3heFPIkKsglQB1VqwybfYdXPY9AYZv
+         6yqw==
+X-Forwarded-Encrypted: i=1; AL+hErHCYWkFAufUnZ4t16xdE3jkUTXlZhzeVpWydd3o6H6bsghlt/dqXDJB8rmJIoym+PMBUgRrQacLg4c=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8NHzhn278eNgKO/JjVtvv0rHrAAg3kekm5Q/4iBIEajuTdQkS8
+	eW4uiT6ZzGNnP7xHpXDxTZgR5NEtZUPzNJVN6GwOdK4TcMvZaGX4QrxA
+X-Gm-Gg: AYBFou0XDk+JsLBCgOjl6Zl981N8D1ZxxTzZNsxY2QFpYF/Nyb/0IPuajYZRQuFugZ3
+	Dm5Ei6U3oftfce+rZVNFajanznM9JnsIvwKsTKYVUj+qEqyNVTs5GJvcEsywi2Mj5inEbQrxhdF
+	rnBGz4k8r5ZlKBBVrFtWPD6ah0Lb9VUm9AXJtDBag3nct+754wBQ6rBZDGPAdV3omACtNpafNAC
+	9dBqERIF1mjeJ79189qPDP+/SPBIzg6WINgw8fnUlNqTwRjd1ePfDMqXBeDFyccYev5UstN4Nq7
+	NQ4CwB2RBa55mBPo0f5WnNWIXdaVJdxV27GCNFlJakLK3F3OvJKQ7wfT/Em58yj2DDOE7FtD6+A
+	kkesTi1MMJ/SC4/SU9kCiL+WxEflSsSg7EYKa8Bni3C3KBSi0fI9ntBEVLeiW1BNF5fprKg9Yuf
+	U5dmxAzrufDrsrGmLInCJezHniSH1sMlCAulUzPoCqh49zJE3A0UDW1JX+lXCVJfZVrArlK66uv
+	/vE7hJtVaIBoS+L8qYL3GkL6IS7sWoPN9xwO96EypYBtWSciv5vq0njjFNvVQldxRmutkwNXwyd
+	w01SwYNBBP8hgTFlNbaCSHdELJ4MWh33BhwsGuiFhYWrbF403iLlJic=
+X-Received: by 2002:a05:620a:2b96:b0:93f:53d1:54c7 with SMTP id af79cd13be357-947b00d141dmr521152085a.70.1794423676923;
+        Wed, 11 Nov 2026 11:01:16 -0800 (PST)
+Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e73b2d2sm545314185a.10.2026.11.11.11.01.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Nov 2026 11:01:15 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,62 +87,104 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Nov 2026 14:01:14 -0500
+Message-Id: <DMSM3RNRY412.1GXB07F4KGJYR@gmail.com>
+Cc: <netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ "Andrew Lunn" <andrew+netdev@lunn.ch>, =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?=
+ <bjorn@kernel.org>, <bpf@vger.kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Donald Hunter" <donald.hunter@gmail.com>, "Eric
+ Dumazet" <edumazet@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>, "Jamal
+ Hadi Salim" <jhs@mojatatu.com>, "Jiri Pirko" <jiri@resnulli.us>, "John
+ Fastabend" <john.fastabend@gmail.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Saeed Mahameed" <saeedm@nvidia.com>,
+ "Simon Horman" <horms@kernel.org>, "Tariq Toukan" <tariqt@nvidia.com>, "Wei
+ Wang" <weiwan@google.com>, "Willem de Bruijn"
+ <willemdebruijn.kernel@gmail.com>
+Subject: Re: [PATCH net-next v1 04/15] psp: add support for socket-less psp
+ associations
+From: "Daniel Zahka" <daniel.zahka@gmail.com>
+To: "Todd Bert Freed" <toddfreed@meta.com>, "Daniel Zahka"
+ <daniel.zahka@gmail.com>
+X-Mailer: aerc 0.21.0-threadmapfix
+References: <20261111005533.6436-1-toddfreed@meta.com>
+ <20261111005533.6436-5-toddfreed@meta.com>
+ <DMSJB8MZZCXK.MCEBRZQDAM5Q@gmail.com>
+ <CADh2yMx8MPjcH7Bpj72rNNd_tT=6uSC5Ow9JyGjTMjFgs499Pw@mail.gmail.com>
+In-Reply-To: <CADh2yMx8MPjcH7Bpj72rNNd_tT=6uSC5Ow9JyGjTMjFgs499Pw@mail.gmail.com>
 
-Hi Aveline,
+On Wed Nov 11, 2026 at 1:23 PM EST, Todd Bert Freed wrote:
+>> I'm not sure the kernel actually needs any bookkeeping at all for these
+>> generic rx spi allocations. You could probably just pass the spi, dev
+>> id, key, and probably rotation count (as a device key generation of
+>> sorts) to the user without creating a kernel object. For socket
+>> psp_assocs, the rx state is consulted on the datapath before queueing to
+>> the socket. For tx state in all psp_assocs, there is the possibility
+>> that an SADB handle needs to be cleaned up. Neither of those apply here
+>> or in the rest of the series as I understand it.
+>>
+>> I figure the tc ingress rule can just take the spi and dev id by value
+>> rather than needing a reference to an object that we create here.
+>
+> That is how it works in this series. The tc psp decap rule (ingress) does=
+ not
+> make reference to an rx assoc ; instead, it should have flower matches on
+> psp_spi, psp_ver, and psp_dev. That effectively ties it to packets from j=
+ust
+> one rx assoc.
+>
+> So why keep track of rx assoc objects at all? Two considerations.
+>
+> 1/ don't accept packets that correspond to a stale association. That is, =
+even
+> if the device decrypted the packet, it should be dropped if the device ke=
+y
+> which minted the assoc's SPI is two rotations behind. For psp socket offl=
+oad
+> that is enforced in __psp_sk_rx_policy_check() with the pas->generation
+> check.
+>
 
-On Wed, 11 Nov 2026 18:35:52 +1100 Aveline Noir <jm5905938@gmail.com> wrote:
+I asked why we needed to keep track of socketless rx assoc objects. The
+above applies to the existing transport mode code, which is my point.
+The rx state from the assoc is looked up from the datapath. It doesn't
+seem like that is the case in this series.
 
-> Hi SJ,
-> 
-> On Sat, 17 Oct 2026 12:57:45 -0700 SJ Park wrote:
-> 
-> > +The data attribute probe supports the reports.  The probes can be configured to
-> > +hit for a given memory region depending on the existence of specific types of
-> > +reports that associated with the memory region in given report buffers.
-> 
-> I'm wondering how this would interact with the region size.  If each
-> page of a region is reported with probability q, a region of s pages
-> would hit with probability 1 - (1 - q)^s, so a large region may hit
-> more often than a small region of the same access density.
+> The spec permits SPIs to be reused immediately after two rotations. So th=
+e
+> device could decrypt a packet with a SPI that is more than two rotations =
+old
+> in that case, or if a previous packet is being replayed, for example.
+>
 
-Thank you for sharing this finding.  Seems this theory assumes the probe will
-hit for report of any byte of the region exists in the report buffers.  Under
-the assumption, that makes sense.
+A SPI that is two generations old will cause and auth error on rx. The
+hazard is that an old tc rule with a SPI from two generations ago can
+alias a different SPI from this generation. Userspace can just flush old
+rules before doing a key rotation. That is why I suggested including a
+'rotations' attribute, although that is probably not even necessary to
+keep track of which rules need to be flushed.
 
-But I'd say the assumed implementation is not realistic.  That's because DAMON
-design does probing for only single sampling byte of the region, not the entire
-bytes of the region.  In a real implementation that is aligned with the design,
-the probe will hit if a report associated with the sampling byte exists.
+> 2/ hardware offload. the solution to #1 should be able to be fully offloa=
+ded
+> to the device. psp tunnel mode will be hw offload only, and is implemente=
+d
+> in the eswitch with connect-x.
+>
+> We could add a psp_gen flower match to replicate the pas->generation
+> check, but the device has no access to the pas and can't offload that.
+>
+> Keeping track of the rx assoc means that the kernel can take action on th=
+e
+> "this assoc is now stale" event. Possibly by enumerating the tc rules and
+> either deleting them, or marking them stale for userspace to reap.
+>
 
-> The page
-> table accessed-bit check samples one page per region, so its hit rate
-> doesn't depend on the region size in the same way.
+I think it makes more sense for userspace to just get rid of the rules
+before rotating the keys.=20
 
-I'd say it is not because it uses accessed-bit, but it respects the address
-sampling design.
+> -Todd
 
-> 
-> A quick replay of the crediting rule of Ravi's RFC v4 [1] on synthetic
-> traces showed a similar trend.  The adaptive regions adjustment would
-> mitigate this to some extent, but large cold-only regions still kept
-> high hit rates after split and merge in the replay.  I'm not sure how
-> much it matters on real workloads, though.
-> 
-> Would crediting the hits relative to the region size, e.g., reported
-> bytes / region bytes, make sense to you?  It would need probe_hits
-> wider than u8, so it is not free.  If you think it is worth exploring,
-> I may run more experiments and share the results.
-
-As long as the real implementation respects the address sampling design, I
-think this will not be needed.
-
-Thank you again for raising this question, and please let me know if I missed
-something.
-
-
-Thanks,
-SJ
-
-[...]
