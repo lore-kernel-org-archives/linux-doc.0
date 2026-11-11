@@ -1,13 +1,13 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.21
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.67
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794437150;
-	b=EnpUlhqVbVgxZizl34JTNyGRx9R6ouLgiSQp0jS+sCuIIr7lO9zvEFRGrhsLhOIM5M5A
-	 dnRoQXdS3zJSKxJbUr+ASwyaf3uYwc+hISAv+sfpI2KCzU1XZ/Ij3nBrd3TimjB43UUoZ
-	 05INMYZNL7mMVS4ovaS+0BQOI2Ia0B1xQU41r5x5/vGyiU/3ck/nVd+DP86CfDwI2iCAs
-	 RcAcecHZjB7VmQy9333F/nytQ2ksHHqW5nlHW92H2d2xIBKtHYMVJ3LnjKRqj7SubB1Qt
-	 O3AtGT5XaLZ7zugdrIxgxvJ+4icHcOASgEVsAIoQk9NGzer9LOaYFBYxvB4fz90BLfA==
+	t=1794437160;
+	b=kiv/bg4POfFNgtV/vq+U0wRlMPEpbY3DF06k+XUlxGMhxJj9eSnbCZVGWJvkTNL6l1TS
+	 vhczxuM05edoi8dEY/UbgJSrdBgRNeQVcf+urhCVdsv5veVwfu0y9SVFDDhe9GjKdQMG4
+	 DR0e19fQvezvzSSlqyGHHwFG+GNIgMF5YBifUSN2kS+5UCJ5J4CE2d80jl9utG24ArXk9
+	 yArD/3+6fTpx3Mjbio9rs6q+TWJ0BvDKsKkrGZ1eu2pqI9+cap7HC1IXdmZBE+8fAXheQ
+	 hEF3K5hvTQHhzZC/rSljsUpnxamxSLmHewx0TvKlRyaHCB19NnC3XruSUVPxDrZ7LVA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794437150;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794437160;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:
 	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
 	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
@@ -26,53 +26,53 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=Hi3sSDr6dyWN3jL7fFBOyyXv5vLrq/tlUBvvJIpkto4=;
-	b=uqIFIPvhEgG+gMvmCQCBYb/xtukRYlKgsteu/1DtfQ4yOW6yfn3LoIRb73DzGizg501h
-	 q7aE2RhNVMpMP/NgUD6Vs5erPsMZbAbxZWdXuPErYoQOZqi+vnJP1AstgrPDa9azefeDd
-	 hztWTaBQXaysU/D95lUae+JHdjt9smD60Jw9Iva0u55HZ7JU8BLCnyZMQQgabQSX3twYw
-	 EfSR/DG91SK1uG7RLn+Guse2yhb4n/8D4FIZ5yIBk2FmCUhCpVVJwHBjp8ZBVzIflUVGu
-	 lKrlWVLxyPkd+YKRHurGhVJctbKhKUiu8fx29Ar2wayBF2aA2k8ujdNP/xKeYLGO03A==
+	bh=urtcCVDZ0ACMntiD8yFZkAoWtHfGygLCQYrOmcndWSE=;
+	b=r1nu+tpPPjFmlynue838HtehYZJFfju5cDDhlB/r1WWIaevs4pQIws/Jm8oNIAn6cwgl
+	 7L/paGdZVda74zf0fzM1g1y/YG82yWBOIzY4rx6bf4OyL4Z4HszgyMyKojBRKGCjFVfMo
+	 FuGkXpKbVdh0D/b9doA6XuerKlimkahsmnLUbdD94AA4ZA3X+EWBUOV0kpeY+2L0rT1OW
+	 s1uqb/UawL4c+2lBbGUD+QwcqX8do7sFeSVrbggcMRtK0Tf1VlmYso3N4y9YYYoNjhxFf
+	 9fUzk6wC87CTgN2AzcyU44DxKMIPIZiOlAPbsyu7bYdNHWlv+djl7HKiwneKpsKGITw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=amd.com;
 	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=hesYNNGt;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.201.21
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013021.outbound.protection.outlook.com [40.93.201.21])
+	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=3SfoRGis;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.52.67
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011067.outbound.protection.outlook.com [52.101.52.67])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2CA1606AEF1;
-	Wed, 11 Nov 2026 22:45:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2CA1606AEF1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1471606A8B1;
+	Wed, 11 Nov 2026 22:45:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1471606A8B1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=hesYNNGt
+	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=3SfoRGis
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MSHR7U3xpzYlw4mwZPT1J18751zX96alF9vmb7RPBwPx++gZi5uhq4VrATxvSPVS7eUkCVfYj9QXhoZTvyFlokgpqJ59Z6iavKWXhSEhxwzP6iBHnKlRsxFJoO00ZRjlrIAuGFSxUf1/UE4rmaIEs0mSwdbo/T2tI7L4QBv3lS5JqMAQSHjWbgCko7HwK5ReqflWdgWCXfcVkyx99zBoXdApQHxA3TZVX6tTuoQkazg3j1pMGmEFCwxBbKH6TGARP3HdpYA/vSRIWAKHShaq5NQWY5g8kyERPddySTL+6migLX/OI/uXCZVA0W+o9G1wZOjtPyPL+UxEW0MePXBoiQ==
+ b=Ucj/nunbZmfW49a4qwJ9d6TegKGy/90eNgv5dI5tBWu8k1SqwCUtkqfiVYO/KzC960p9qVu+dqHS+8yEVcBNgMhCHxtElRlZkMxsG5qpUAes3dH5vN8K7My17JwkcxLYx+UyOu5SHquK9nvp2OJGPeE7un//uZWl3g/UdKbETzY3cVuAvd4hKD22aRHVyZsH+xL456KSDq5m7XcFBj01FVFJnUxd7eRhhDHx+PkfXeYxfIvGrKV+bzAGzwflTkn0VIVRGbwTgONeuxJXMUgufxH54qRGismHcZjGkSdpBq/CNV+MXgUWVpGRDuBk+nNV4XrIGma/FZaupDWIet/Xug==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Hi3sSDr6dyWN3jL7fFBOyyXv5vLrq/tlUBvvJIpkto4=;
- b=rGU12rVpHFzNv0Xf6pDc6J8/q2UamGumk4g1B/f3PbgJPkSFCvVBQgtAvySLrKfF+ZvwvmkU4lq5dMnddS6RweLq+1yL3TNNc+sDA1zTgIqLQ7g7GrkDPsAbs/njbdFQx/JZ6KJXJFL1jy6mG2/LGFMisCzbTyyOIBY3msiQCL9sxewNX484O0NKMqnIo4BvPMhTzQn5C7yJi5olvQKaF3OhpKTSLfaihoAtwGn1zA6/6rA2BGkJBicATTBvgTZ++XBGpg0JLESj1Dwf2dVNwfijKAOx01NU3Nijk94MLKsWfjm85bFFaJ/qVuDobK2WoX4Hd7iGDLZLYZhmkxXqVQ==
+ bh=urtcCVDZ0ACMntiD8yFZkAoWtHfGygLCQYrOmcndWSE=;
+ b=AWUekrimIOgm6c1+Ai87Y2dMgUyu6vnImA1aZP94yej9bpFqmRmP78FUVN8grJlCTD+CuMf8mYD49HKlFDNGy06mkArSSxhJ4ddG2M4vzwCMbBf1650PNwIs3XPZAYZ0hulv3vp8oYRXN75dpLI3TpfjZRoYqxjP3RG3k0700FKmOP75VtJZVm8Bne8zq5+6GKGIUvOWOwoB0n3KRmfTOubVJhYPEeeQSqxOa4H0FldjwLSitah2TQ3jRFmAlAhNffZYtlpB8ikIBm/d/tocF2NPRbaN9T2KvRB8hkyrLDOEzXcxzAGbr2g+kWijW0xAtiezoAUCFxr8sT753p5cQg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Hi3sSDr6dyWN3jL7fFBOyyXv5vLrq/tlUBvvJIpkto4=;
- b=hesYNNGtej862iMyxp2cD0jR4+z2Vaszzw74IugYXCoGJNWg+KOxd0wD5O3GT2JNgttOXDWPPRg+5qh4pk5gdoPHabedYIREHz8YUzSxcZwaVJgF7YZB1jp260rNAXIeAo0eW5bD4zyfVaPO69C+AcBxhbqpC2uYqt0tsDQKb1M=
-Received: from BY1P220CA0022.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:5c3::14)
- by CH2PR12MB4101.namprd12.prod.outlook.com (2603:10b6:610:a8::22) with
+ bh=urtcCVDZ0ACMntiD8yFZkAoWtHfGygLCQYrOmcndWSE=;
+ b=3SfoRGisS9bq1arQnMHxqMVcu4z0PGJVHJRr1P/pyBPpKW9s0ljUCqODNMrndHVIwIPmVnBFdfwG9BZi+ddkdcEiYScYmsX9cgB5r1+GPwovLI4qMyILVk1twOZZ4RzBv4/6X8u2wcYTEDJEi5Z4FgSsqqk04c+mA9OcZGZkIsc=
+Received: from SJ0PR13CA0023.namprd13.prod.outlook.com (2603:10b6:a03:2c0::28)
+ by PH7PR12MB5974.namprd12.prod.outlook.com (2603:10b6:510:1d9::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
- 2026 22:45:38 +0000
-Received: from SJ5PEPF000001F3.namprd05.prod.outlook.com
- (2603:10b6:a03:5c3:cafe::37) by BY1P220CA0022.outlook.office365.com
- (2603:10b6:a03:5c3::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.9 via Frontend Transport; Wed, 11
- Nov 2026 22:45:38 +0000
+ 2026 22:45:49 +0000
+Received: from SJ5PEPF000001F0.namprd05.prod.outlook.com
+ (2603:10b6:a03:2c0:cafe::8d) by SJ0PR13CA0023.outlook.office365.com
+ (2603:10b6:a03:2c0::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.8 via Frontend Transport; Wed, 11
+ Nov 2026 22:45:49 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
  is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -80,13 +80,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ5PEPF000001F3.mail.protection.outlook.com (10.167.242.71) with Microsoft
+ SJ5PEPF000001F0.mail.protection.outlook.com (10.167.242.68) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Wed, 11 Nov 2026 22:45:38 +0000
+ 15.21.615.4 via Frontend Transport; Wed, 11 Nov 2026 22:45:49 +0000
 Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Wed, 11 Nov
- 2026 16:45:26 -0600
+ 2026 16:45:47 -0600
 From: Babu Moger <babu.moger@amd.com>
 To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <ben.horgan@arm.com>,
 	<Dave.Martin@arm.com>, <james.morse@arm.com>, <bp@alien8.de>
@@ -102,9 +102,9 @@ CC: <babu.moger@amd.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
 	<kim.phillips@amd.com>, <ricardo.neri-calderon@linux.intel.com>,
 	<darwi@linutronix.de>, <linux-doc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v7 06/19] fs/resctrl: Introduce data structures for kernel mode configuration
-Date: Wed, 11 Nov 2026 16:43:59 -0600
-Message-ID: <4c86fe8b1d5d5e405faa67d19b5f6a236843b093.1794437052.git.babu.moger@amd.com>
+Subject: [PATCH v7 08/19] x86/resctrl: Register RESCTRL_GLOBAL_ENABLE_PER_CPU when PLZA is available
+Date: Wed, 11 Nov 2026 16:44:01 -0600
+Message-ID: <ddeebe4ac2708a57cc91a3a34e08e7978bd4a8cc.1794437052.git.babu.moger@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1794437052.git.babu.moger@amd.com>
 References: <cover.1794437052.git.babu.moger@amd.com>
@@ -123,102 +123,69 @@ X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F3:EE_|CH2PR12MB4101:EE_
-X-MS-Office365-Filtering-Correlation-Id: 715fa251-067e-43c9-4f76-08df404581cf
+X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F0:EE_|PH7PR12MB5974:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d9d9815-46b2-449d-8178-08df40458844
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|23010399003|376014|36860700016|82310400026|7416014|13003099007|261009223027099003|10067099003|261102123227099003|261021121427099003|261022075727099003|11063799006|5023799004|56012099006|6133799003|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|36860700016|82310400026|7416014|261009223027099003|10067099003|261102123227099003|261021121427099003|261022075727099003|11063799006|5023799004|56012099006|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	ksD01jCD2+K+bflFREtgLW38ofnbhL/eXW1cbceTCrSrM1M0ejKHtI3DzunKX0gxrFTlJvCpQ/T4CKbj8/GbYQdykp30Xf6+9eLlLWF54urtYxjGuzdzj3LXonhGdPNwdt59NkyEaVfYKNCg5X8y+xYM00ezBu1D0nsfawX4hcLYnTliD222HEqTYmUlfmeDuObFIhAOdgS5aYNcdmrCg+EbGHwykwwH5zJir7BSMqO1vgnUMgKI+b5e2JAElJ8yr+fMiVVxgz0jaT9+oYA+D4SxKnewwCUkzgLr4Cw5PvVoK61qlZVcdzJpzeFrttnHuBmllrhxEQD2FPzsuILbedmWggBLiW2hw7fzx/zMzAU8J0TD3fVZ9ycMd9fv/8DBqW/fp5LfjHaAuKrPW7k/9Q2Ih1ehMSC/S5ps+YJGq5j5IMTSMxZ3Ate9IbxDe2/fi1C56eb8bQTpefxbF/ga8pmxMpm0pXF/MQ+bGZOdlewX4GqsKH1s8rg2FG/nUMCEEMrlRGdoc308nMYjalhVOxN7GrR8hiSwMDHLeKdNPp0Q7FtJvz4Z90pr2C4hV1vtkvpD6af/6Sq9kvg+mSKhsxv+lE1uXAvdY2I7i5wlqgqJLbHUAs+NOg2s5e+5uk72ndW5KpT6gp/vAn86JDnFiNZrTb2XMaKrcMe0huy+2+A=
+	3e8Qka9ZRhlVS1yyVa9UOkNasbfPsedjDjFhJ4JjvfFo/ww62vlIh3U0gK6UX6zAUE/xntK178u/1Xo7W1i5YwBGbCTezYaIe4pvq05u0eOZ/1BfdYyuQY30hL/a5e3OZ+1I3cYf9IEtBx07mXj+cHac+293jTq0NPRhiBoUfWItvhZgq/0P4Na6Ez9CXyrBQUz2wBILn/ZA/JPOYWad03RXxVMG4gRI0YvlntFmsFHOaRHpmg7dFiuiKKXIZSMFK1SNwKs9vIPkCLjcbwzF+4cvY20Q8+BeiZ2TxF2kvkFyKI5CALYL0y1gZrms2KTBiMxR1LekZRQUB0fLlZ+YLe13EDe5lrPGOwx6J4hUAM0v9TOyr2ioYM7Va/5ZY+/tc9ajhUUhzvmPVuiipVSYqgM+EiQacd15UJ6y7t98qG2vwTHYut1opoo0O65xROkXOCm+ohNeGAuDWXIFnYvzRrxmJBO78zzIvcvCVAeJ1MNZkP/xyAZ5pEdaegkh09zvixOuHap6XIipkag4VCaJ/3q6fZVTu91NcESiOAClaGsjl+ZxMuXzyu31UHyAoNDNqNaHnRygnR5vbg13ROaG20vt5POtdJWsVUiAbct2Y7qlBo7gQYJ4n2kwafXBqkijgXRjFgDzm2y7vQsVJSMPzIDaM/bEmAvsyaZqXJAODemHzItfObmT85SE1vTMmSLsVavTf4km8NvSuxJTe86eFA==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(36860700016)(82310400026)(7416014)(13003099007)(261009223027099003)(10067099003)(261102123227099003)(261021121427099003)(261022075727099003)(11063799006)(5023799004)(56012099006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(36860700016)(82310400026)(7416014)(261009223027099003)(10067099003)(261102123227099003)(261021121427099003)(261022075727099003)(11063799006)(5023799004)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	VOD14SOEeSF0+hL/xlUJa3PJFe4a+F5F6gixhSEGHacIpBWN44BFtJI2JGBqbEYNczMVEiv+Opy34vml6wrPq9AFF9mw9bZguH+b9IiSfDnRXubf8T76ur1K6dQq9WhQFso8td0k+odDiy4jNdEy2lY+K4ypu0r6fxtu0QMRjp05j9mHIDbEim6Dt7M6yi7kOguEYfWJdp9uXPVFQaFXavmZJ4rAWHuElpfuxzZ/Bn8+DXB0LOUuDVILh7aw21D+b24nSj5DWdck1jUE8i4KLOsGfcQHtVwkj61So8JQwnEUK0MvZk6nc8JvAgDRd3H7hUjhVNljfjc3b1mfrHsmfSTpId2AOe7DtKol93rp4LuDZpaIH8QCOdDOH57uHd6qGxYHUoKv7Eo3cJxX6sEK9jRk3hIFDDCySDdCW0ZPVWp7XpMtiCb/1u7PkEu3Yusl
+	PdB6f1GKohKWkrTtFyr/5fyC26MsTK5LCdR7yqDjKlUvgtACxJVMdC+iI4Ufphi8poImQNlBuOuagTpEeOZW73ipENz5R1brzDtc0YAsQHexHC/D1wnT1Lzg9UmF+sREDmI3Ck27vz/7xFofMzzRfHsrcn8y815MB3v/sPzaCSm7iqg9Dvmjlnav31XPMbi2pf7gJ440T010l6r1/cr70qrsgm+Iuf7BMx6WqfEKkwkOfTxYqlfyhkGRd/HDAWmjyCHfyCQ2RhrUQ4kMLQeKQKkU1hyGusgczvAM9HHHWb6EjPR8Li3lWjuJMdsuNkyu6EpA1KuCYph4AgDEwxF1Y18Rb9fTwWhb/Koqcpby97BLg7yAcC8LUf7s7ETZrohMT4O9T2P4wX8i3Upvz5DpHkQ9+K8hTfHD2g/Hdz3/mvg8cupFUBqo2XCoxPQJcyhW
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 22:45:38.3423
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 22:45:49.1750
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 715fa251-067e-43c9-4f76-08df404581cf
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d9d9815-46b2-449d-8178-08df40458844
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001F3.namprd05.prod.outlook.com
+	SJ5PEPF000001F0.namprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4101
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5974
 
-The resctrl filesystem needs to track the supported kernel modes, the
-active mode, and whether the backing group's CLOSID and RMID are assigned
-or inherited.
+PLZA (Privilege Level Zero Association) provides the global per-CPU kernel
+mode, RESCTRL_GLOBAL_ENABLE_PER_CPU, which enables a CPU to use a different
+CLOSID and/or RMID association when executing in kernel mode than those
+used in user mode.
 
-Introduce struct resctrl_kmode_cfg to represent supported kernel modes and
-their configuration.
+Register the RESCTRL_GLOBAL_ENABLE_PER_CPU kernel mode with the resctrl
+kernel mode infrastructure when PLZA is supported.
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
-v7: Changed kmode_sup -> supported, kmode_cur -> active.
-    Updated the changelog.
-    Removed resctrl_kmode_init().
-    Updated the code comments.
+v7: Changelog Update for consistancy.
 
-v6: Drop ctrl_en/mon_en and use resctrl_arch_alloc_capable() /
-    resctrl_arch_mon_capable() directly. Flatten caps/active into
-    resctrl_kmode_cfg. Rename resctrl_kcfg to resctrl_kmode, ctrl_mode
-    to ctrl, mon_mode to mon, and k_rdtgrp to rdtgrp. Comments describe
-    the objects, not a member list. Rewrite changelog.
+v6: Use RESCTRL_GLOBAL_ENABLE_PER_CPU.
+    Rewrite changelog (not a bugfix).
 
-v5: Replace per-mode registration helpers with a single resctrl_kmode_cfg
-    structure. Derive ctrl_en and mon_en from resctrl_arch_alloc_capable()
-    and resctrl_arch_mon_capable() during filesystem init. Update code
-    comments and changelog.
+v5: Update the patch to adapt new data structure and resctrl_set_kmode_support()
+    changes.
 
-v4: New patch to initialize supported kernel modes.
-    https://lore.kernel.org/lkml/737a4228-52fb-4583-ac64-8efe79c107e6@intel.com/
-    Changed the kmode_cur to enum resctrl_kernel_mode in resctrl_kmode_cfg.
-    Moved the resctrl_kmode_cfg to filesystem code.
+v4: New patch to set the supported features during arch init.
 ---
- fs/resctrl/internal.h | 27 +++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
+ arch/x86/kernel/cpu/resctrl/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/fs/resctrl/internal.h b/fs/resctrl/internal.h
-index e62a277dee85..38aa0c0cfb7e 100644
---- a/fs/resctrl/internal.h
-+++ b/fs/resctrl/internal.h
-@@ -314,6 +314,33 @@ struct mbm_state {
- 	u32	prev_bw;
- };
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index e64e9191184e..14530c11bbd7 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -990,6 +990,10 @@ static __init bool get_rdt_resources(void)
+ 	rdt_alloc_capable = get_rdt_alloc_resources();
+ 	rdt_mon_capable = get_rdt_mon_resources();
  
-+/**
-+ * enum kmode_state - Kernel mode association state.
-+ * @KMODE_INHERIT:    Inherit the CLOSID or RMID from the user task.
-+ * @KMODE_ASSIGN:     Use the CLOSID or RMID from the backing resource group.
-+ */
-+enum kmode_state {
-+	KMODE_INHERIT,
-+	KMODE_ASSIGN
-+};
++	if (rdt_cpu_has(X86_FEATURE_PLZA) &&
++	    (rdt_alloc_capable || rdt_mon_capable))
++		resctrl_set_kmode_support(RESCTRL_GLOBAL_ENABLE_PER_CPU);
 +
-+/**
-+ * struct resctrl_kmode_cfg - Kernel mode configuration
-+ * @supported:	Bitmap of supported kernel modes.
-+ * @active:	Currently active kernel mode.
-+ * @ctrl:	CLOSID assign or inherit in %RESCTRL_GLOBAL_ENABLE_PER_CPU.
-+ * @mon:	RMID assign or inherit in %RESCTRL_GLOBAL_ENABLE_PER_CPU.
-+ * @rdtgrp:	Resource group backing %RESCTRL_GLOBAL_ENABLE_PER_CPU.
-+ *		%NULL while the mode is not selected.
-+ */
-+struct resctrl_kmode_cfg {
-+	DECLARE_BITMAP(supported, RESCTRL_NUM_KERNEL_MODES);
-+	enum resctrl_kernel_mode	active;
-+	enum kmode_state		ctrl;
-+	enum kmode_state		mon;
-+	struct rdtgroup			*rdtgrp;
-+};
-+
- extern struct mutex rdtgroup_mutex;
+ 	return (rdt_mon_capable || rdt_alloc_capable);
+ }
  
- static inline const char *rdt_kn_name(const struct kernfs_node *kn)
 -- 
 2.43.0
 
