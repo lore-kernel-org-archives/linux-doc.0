@@ -1,103 +1,128 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794355615;
-	b=aFBbyfMzdXnZ8pGkbCNggD/gSsY7w7UCa7tL0E84ybXyOqvoPYQQZ+hvEXZHM1anONmQ
-	 kUnb/SE6gYkfC8DtM/SZ2kGFBsx62Gq88s/XaC5+i6vjZeWDIjJzTFivZNcwzD1dhV9gi
-	 xYCpBeL4cPFPARp1axvDlKnQi58Cv8CURsgMpToIwXa1sYRZlYmb3f6USt81Cgd/NXy7O
-	 /Flh37E2xKW/IeHSOlXUSVHtG7sXUHVrVA9206w7a2UiPSenu6ywsMyAxSUSv2UKAgk+0
-	 fDSrU7ev5wkl5FbbwQf1Hqr+u53iGkLfexxZT3fXEf4zk0RdYp+HlmJxY6kruVR7Jxg==
+	t=1794356029;
+	b=WCp4B3jrU/GjaqsnSqtTkIx6FKdL4u9L60LG2wYfsSUhBK2upGltnBrA2wD4Ptwd3NTi
+	 NYs1t2+N6Drdno+WRmEDLBaYTkBO1+DgQI8l40F63D6DutO3WlXSbNxvSDHNPE0Q7BuFG
+	 39FL6jje7ZQDFBlQwe8CP7iSgYzz28aRPPrDaBMikoYwc3JlMLpO+Fx8FmQwdbfMHubLg
+	 7NqvoONzu56Fn1RUfxx6B2Oi9JNvJBdhSeD6gbADjCMosydbFREvynM2aNnyPP0QUNMno
+	 zMnUH892cQJUsopAVFVif4bTlmIVI2pi0AmEp+0057fZDsiqwpqOIOjT9z+s6gJfWeg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794355615;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=bI2qMwtSokUZoL5Zm53kc3fAF8wxP+z1vLTf3dEo/cQ=;
-	b=l24QK/JjMPiXpCBKY2MM915Akqb3D0pmDOEX6PlqmjBpSME2lEFvp04w7TtGjjEhrpVP
-	 9LRFFUnkjo6G84hPGhtpvg1JincSTWjIN2MfUQEJGJHI+BgaiXx9rsPWzBcnsVdcBpJYf
-	 rZvrk+4n6sZZTRFV7846MjqtBLO4PLKAxaMX7n8B2VYdHp4dYsxJs3oXOYV3EKG1BXNRE
-	 mha533ORlIOsQQUUcdT39M+SarArF93tIwd4JEaLZnS5RXJA1rCCIwLYjdR0KOthzkLmA
-	 DNwuvj17sWI2mErQ8887yaHnPBO/qTbm+tIYqKCURa5R9FH0gYP+qHE4xmIKxMgD8NA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794356029;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=ukfXMgMljG56TGff4D1CCtoxMKeKh2ELvZ0jC57C+PA=;
+	b=aSKf9hG4eHql8fS4datxnbCgRf4s9O7tlMoAn/M5J7Eojke9BjBBhhWrIlqLHRpMfFNP
+	 bZcWAmoI7CLLa/O7YpH1HZAoOi25lkkF9rsqg2WFfiVQasILE38Ggh7tE8NwhRkOrhrtn
+	 3aeZ7UXR4Jolj+xMYBXqva6WIN81XvHPumT4u08WUsbcE/3mudBFPWO/QCMbyRZjKSe1C
+	 IEtLUHf63j4ZdQU/qvbPBD8rdt8Oqu5gPJBfLa38ahAt5ws/O97L19idb8zInUQLcorOl
+	 k6UnDqjBGpYd5DSbWqcQRfKyYBeUKhFAqNRShwdHrHrf/lbBwho3kzUm8eyoEgod34Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x2ptl3vI;
-	arc=none smtp.remote-ip=209.85.216.42
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=L02Iwgpf;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=D0Ra251N;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47009607000E
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:06:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 47009607000E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A29606A31C
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:13:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5A29606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x2ptl3vI
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3ae691283ecso1459110a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:06:54 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=L02Iwgpf;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=D0Ra251N
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAMKKYv3714340
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:13:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ukfXMgMljG56TGff4D1CCtoxMKeKh2ELvZ0jC57C+PA=; b=L02IwgpfCH28nKkn
+	o7ML802NZ4WPIOUk9eTpvWQDs4il2ijVFnlIjmWXrM8zyU3dBCvZQnp6ZMlshWOz
+	22QzWOWkFRGjO5lKAsWWMOdbdojxI72/Dx2PiOnqH1hkgzKgy76+FblhDvegbmln
+	/UNDbp3cWq5p5c54XKGJQPASzGup4pY/+dr8BFJgXO1woYafueq1GX8yxHsBnhPc
+	yC4j8JroS4irTrt4L364ManYcJ3uKBmp/cYHPswqEUeqXVNlq5ujV/waTqUPT7HB
+	buqAn+fVcdbRamqRtQV16Dtjq2qJOu0JBX7AeShl440SPO0l/NcmoTPjAJsUzTeu
+	CGSrDg==
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huyw4bg8c-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:13:47 +0000 (GMT)
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-14373747468so3178811c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:13:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794355614; x=1794960414; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bI2qMwtSokUZoL5Zm53kc3fAF8wxP+z1vLTf3dEo/cQ=;
-        b=x2ptl3vIvr/jyR8QI04l8BZwOg25KzZ2lRqx8JNCzaQ3zu4lRIUwsORsEMnup6Yjcu
-         iU4PdTTRIt+QR4pvsvJ50VyagxRY2r1knJWGckdJD6uVTTmq7P46ZEjneBhKYRRg67Lk
-         DiCVeNtdB5zCyA9MidZmvfOKSD4s/rGs7GtFbioCZeIZ8mx3Gb3F7qM2fGmHYbYf852y
-         RhcDTCpoe3VS6dJo9ISlMFdBU9y22Zc2Ozs8YDylQg47suRMR5d2zsLaJU2ow0oChWuC
-         RBTeYr/Ajv34ddbE6jIDmyEsBezyPlR9HPcxUg/Qcy+REYXYleQI5tPe+Pqjzm8gy387
-         2MJQ==
+        d=oss.qualcomm.com; s=google; t=1794356027; x=1794960827; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ukfXMgMljG56TGff4D1CCtoxMKeKh2ELvZ0jC57C+PA=;
+        b=D0Ra251N14gZPAUAEzUvzoSovhZobUn8LoRvVC9v1f8Lj5nwuSzVARMao/8dkF6DGs
+         be05JK9qiPE7OQp5MKTtMSOedRJhkypX8d/i7NbOsbHgycuqxrYoNzR5gswSFxa5Vw5c
+         ID9/RwziePSLUx/E2TUXb/N3cOHPA6acoBeAWNIfrccyU4rUTwlAuO+phyvM0yKRhKeA
+         miXE+g7hWwNJWw1Ox3ZhEP8astFJZrwSftFTJqWEGULKgPRBrpqRFimP41p5NeKcJg7p
+         ElSLMnv/P1lIhUaLWFxK2HenhjM3/44tF0yXR+1MPw+utrggbVai6RE09J61mSl6XWxL
+         OPgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794355614; x=1794960414;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bI2qMwtSokUZoL5Zm53kc3fAF8wxP+z1vLTf3dEo/cQ=;
-        b=HbcD36HRTozMYpFJ1WCo7IB+mDDSx4uCs7CJE/SCz3UfrqehPTjjRP8XS2n2z2EVXm
-         e81NXJ1Lqvc1NRAB/rlmdQ/w55SP1ZOIxDMLM8Sn2oT9q9kAj8W27hwZMNx3V1mY2HeG
-         S4K0VVp26aDq3vQDkZXzfZTPtqUreZZvdslJX8fkvcL1fNuJDxsy0s7AH8Flz/1OSXlN
-         QV4NlsnQ064PqYAYQyVa1eLZeAISE0WiwzRmsFmN6CTzijXokJAxfswE+DbCIS8/2IS6
-         4aCEZvgtfCTT3yRCIXs/pY0N/8BqX/eHf6C5nEk0blJoRid/SL4DXIwD1mDOo0PG9GSM
-         L8yQ==
-X-Forwarded-Encrypted: i=1; AL+hErExcifgo/Tr8C45CG3N5DP/xxU6yLxfihtHNF6YM8tsVBs7qfO0ASY6QrFcmgZ/qtl+XDME4H1QoTU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9N/ZlD5u9PekPZUoIY+ChWC8Gj+XNdBGH5RowTE4hx/lXLO23x
-	FDOFoizmIh2afKZe9ZTrK429yhC9u5IEBaEdZ9c0OSDj0fhU1YWdsKXK/BctEg==
-X-Gm-Gg: AYBFou10jmBMOtoWvd9FlnhQmJKDTToqLbkENClFDYtNMq9gaH1HlbylydEDpoFqKAQ
-	a/p4yMfj07JqZgK1OlfsEhdLtfA9cfxY7K8Bnaa/fpat9iNk3Q2195B5ULXD53XIoTTU9hI2+95
-	JmLAr+hJpWyHUerjpf/+LWaOjHuKiU/D70FEW1027vGS6uAZ4yt0ke4X00Wul0GGWWfu5DRg9C4
-	QwJzZk7JBoYsRPd6RPRrNRgjy+95h51F7BLeTRj1BW2IjPgiABCamORxdgW4g2t069VUj3f97Ym
-	SvZyKXMyog2IMOyr7aUOlBUSG+jAfTERGAJdakYr1shTTCtwhdZAz8U85yUf/OBeABmqcP8uOor
-	a0H5CfIz4tCPU15PZCBGfc5Rykdk3hyaOVmsx/497y9RFVonYNsTmDgTI2nY4KwED598JQG8JzV
-	kaDMNwKKFpYeAnC+bobEVs2CYGdQ9BG11JLD4p7+tVKbXK/4M3y9dyfviv1Fs+Y3+bAc32vIk7j
-	J+OttxnSjlWdOtPDGW7ysn+3zVO+MhTTkU6n1wzwx6avkaBfHQzAPlp1xeZ3+AMtynEU+meWsr1
-	rXwC8apsfD1hAKuCwzfC9jldw6asbLlr/hUM1Oc6Exltp5e7BQYaEGngyvRh08c50bBq/U7hOJe
-	q3U5RregqA7x0zf6lHVp4p5dDBLQ9sA/QW4f7OtesrmL1+DU=
-X-Received: by 2002:a17:90a:e7cd:b0:3ae:3e9b:5265 with SMTP id 98e67ed59e1d1-3b182f2b5ebmr413417a91.26.1794355613529;
-        Tue, 10 Nov 2026 16:06:53 -0800 (PST)
-Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1838e616dsm474361a91.4.2026.11.10.16.06.49
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 10 Nov 2026 16:06:51 -0800 (PST)
-From: Joonho Lee <mynameisjune111@gmail.com>
-To: linux-sound@vger.kernel.org
-Cc: tiwai@suse.com,
-	perex@perex.cz,
-	anton.yakovlev@opensynergy.com,
-	mst@redhat.com,
-	virtualization@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	Joonho Lee <mynameisjune111@gmail.com>
-Subject: [PATCH v24 16/16] ALSA: virtio: preserve playback progress across pause
-Date: Wed, 11 Nov 2026 09:05:43 +0900
-Message-ID: <20261111000543.28550-17-mynameisjune111@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261111000543.28550-1-mynameisjune111@gmail.com>
-References: <20261111000543.28550-1-mynameisjune111@gmail.com>
+        d=1e100.net; s=20260707; t=1794356027; x=1794960827;
+        h=content-transfer-encoding:content-type:mime-version:organization
+         :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ukfXMgMljG56TGff4D1CCtoxMKeKh2ELvZ0jC57C+PA=;
+        b=KKZb2Q0Hm0cvaEyepl7NO/z9QdFpJhFCH55VhRX9TkkGBgGHzKpaErsFUtzyJ9Y9nx
+         Yk+95Ue8JqD0/NlaQgQqrxoxEAjXKkuEu3PwmyOGYAuXEdeNsSnGZUGGEGJ/J1MrFif+
+         Mwl+M2I2CMlOFWsI58ynxYZtyOengO6iJN96mAPoGU+V7ZxZGP6VQ88pCx45cdFKWqEx
+         X/tF/wGgmva7RRK6TIE+YucXP1LWbtZEZx78BM6pIdL8e+CkFESUJWVs6n9jydWr4M1E
+         Rcx+bheJuMNaprnLQwYerQeG4v69tQZ4ElhuPXuVeAAZ+LqHE2Z0i4jlRqWyHABQus+b
+         /ykQ==
+X-Forwarded-Encrypted: i=1; AL+hErEEMuOtkib4ZaNn9kQoneOwfDYJyTDfb6nAFBV7esKT2nqbs7vNgaZ7VekEBtyTzgCgP3YruJyvXJ4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8beTsv4BmGHGpooA+LqeLjYmpjwudQqd97UvIlb1atI9WMBzEz
+	ol5JNWfQvQ1dOcL1kuXPClRAh+GENWvnPH5E555ZepdMxoBFzrIOynbE6V9bLuj6BSg8xLalACs
+	K9OzLS0tBAWZqDQF1Fq8offEtv36SKyr+TEdlOY0X+eLxlIHekUg2jx78y4NB/yE=
+X-Gm-Gg: AYBFou0w17zxPmwF/eZAMEVEDc9gZTOD1K5O++NN6vq/8ZHgUsLhwusGChyJxYfs24F
+	i0igk8WoRhb6sv9hlcVYtB+m7b55Mum1YYxe2HurPHx7hMwaXJRa4JtDugd2fQuVhWulB1wCoZZ
+	uf24XBMnwviKIXSna/SEwRrG4yd05rJsHgNot60vy3Qe4DDX5P4qY0r57uerDxOD8zRhtROKo1o
+	5+4+zQEHK68AbHYwKgqV3e+3yGWeAthJ11yxJIc2Tnhr64zJYxWY24SGGik+24mtGsaLmtDFTU5
+	uG50Be1N8LALgk6Aq8Qj13iXI5WnYoc8hRJfI0AqYonHGxYvMUUAn929bThDOHp7/lffWHPeaPX
+	hoRzWJZ5qKxNUkDFFgRqTFHIeJRl0pV2Ut+xbg5JJLNBmzDyyFlldEUByInxECdZyCTzDo7ZTo4
+	P9TqtkW7VvkoMG1/LPHyPIrBCBmMo=
+X-Received: by 2002:a05:701b:2710:b0:1b3:aa92:b183 with SMTP id a92af1059eb24-1b3c02fb105mr705218c88.15.1794356027099;
+        Tue, 10 Nov 2026 16:13:47 -0800 (PST)
+X-Received: by 2002:a05:701b:2710:b0:1b3:aa92:b183 with SMTP id a92af1059eb24-1b3c02fb105mr705197c88.15.1794356026555;
+        Tue, 10 Nov 2026 16:13:46 -0800 (PST)
+Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b11435sm10948342c88.4.2026.11.10.16.13.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 10 Nov 2026 16:13:46 -0800 (PST)
+Date: Tue, 10 Nov 2026 16:13:28 -0800
+From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
+To: Cristian Marussi <cristian.marussi@arm.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
+        sudeep.holla@kernel.org, james.quinlan@broadcom.com,
+        f.fainelli@gmail.com, vincent.guittot@linaro.org,
+        etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
+        d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
+        philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
+        leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
+        usama.arif@linux.dev, kernel-team@meta.com
+Subject: Re: [PATCH v15 34/35] [RFC] kselftest/arm64: Add SCMI Telemetry
+ UAPI compliance testcases
+Message-ID: <20261110161328.000056c4@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-35-cristian.marussi@arm.com>
+References: <20261109091221.2532706-1-cristian.marussi@arm.com>
+	<20261109091221.2532706-35-cristian.marussi@arm.com>
+Organization: Qualcomm
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -107,147 +132,159 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDAwMCBTYWx0ZWRfX3F/mYIc3HKhT
+ 6U9E6dhaS96242SN52X2vxHyyc2ciu5Ro2ZCI45ossWi/pBzydNTsjOn47/VpE8NAkHtaOUoYWm
+ 4eDEqzhmZ9BMUDSqy4mp9EwAzP/Pu+KuJVvnqJr8Jh8CB8lolTZvjVFznpSTf+kvRJyKqT91r1g
+ ayEK5lYFqdKj6ImV/LzfSsj3vdjuzU1bO8QTwYG6yuismfL5S/ZBuBiix4bfdViv9rNsGSWvzpQ
+ FVLwQcHstoc4xpNVY6ifEzpCDvZGKA98E816G46jNHIaLI08UH9EpT00UedOag6pp9Zxrw6goC2
+ j47kK5EfIWg4HZydFFAujvO0p24ZIPaUgz0IQ9XfL0bMvmiQFlygQ2HgUuwsMrRJgQ7fjrIJpGW
+ 5znbMZa5VBPCkwp3Z9azZRxxwpym12hZCEgXMRVnphtVzcRUd5QYq4X+I3+E41ERGLvdFpNOTCP
+ 920j8mw2p9vAxdTxbEA==
+X-Authority-Analysis: v=2.4 cv=Ee1d0/mC c=1 sm=1 tr=0 ts=6af3b33c cx=c_pps
+ a=kVLUcbK0zfr7ocalXnG1qA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=7CQSdrXTAAAA:8 a=Knn1SA45J_WYkMnPUZgA:9 a=CjuIK1q_8ugA:10
+ a=vr4QvYf-bLy2KjpDp97w:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDAwMCBTYWx0ZWRfX3lzSw9AZdDyI
+ xWkT0Y9FgYiQpdJhsjFBqp9DhO4q5yTl3VZPSEAMMLxH05Yuw8IsKswkQRkDg6Pty+ao1yMvX1K
+ bXi1hvLXYCpxPu9HekG3o2LLR3kgCcY=
+X-Proofpoint-GUID: u99i_dMQokDvpghLpopKmHYio3C5W2g7
+X-Proofpoint-ORIG-GUID: u99i_dMQokDvpghLpopKmHYio3C5W2g7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-10_07,2026-11-06_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
+ suspectscore=0 clxscore=1015 adultscore=0 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611110000
 
-TX completions can arrive after PAUSE closes transfer admission.
-Preserve that progress and schedule catch-up when the stream resumes or
-a rejected pause restores RUNNING. Cache device latency in stream-owned
-state so a late completion does not need to dereference the ALSA
-runtime. Clear the cache on prepare and RESET.
+On Mon,  9 Nov 2026 09:12:20 +0000
+Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-Use the existing indirect hw_queue_size to keep outstanding TX below one
-physical ring: buffer_bytes - period_bytes. Equal modulo cursors then
-mean no unobserved completion, and a non-interrupt HWSYNC cannot consume
-a hidden full-ring wrap before deferred period work. Continue using the
-ordinary ALSA pointer update for silence, drain, stop-threshold and
-wakeup policy.
+> From: Philip Radford <philip.radford@arm.com>
+> 
+> Add support to test SCMI Telemetry UAPI compliance testcases.
 
-This also reduces queued buffering by one period. With two periods, only
-one period can be queued. The minimum geometry and pause/reopen cases
-pass in QEMU, but worst-case scheduling tolerance has not been
-qualified.
+I'm thoroughly in favor of self tests, but rather less 1825 line patches!
+I'd figure out an initial subset to propose of a few 100 lines then
+build the rest up. Possibly just have a minimal set as part of first
+series. 
 
-Assisted-by: LLM
-Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+I took a look at the code style for a few as not going to dig into whether
+they are all functionally correct.
+Given I'm assuming this LLM output, and those are pretty good at this
+sort of test authoring I'm assuming they are probably ok.
 
----
-sound/virtio/virtio_pcm.h     |    2 ++
- sound/virtio/virtio_pcm_msg.c |    8 +++-----
- sound/virtio/virtio_pcm_ops.c |   25 ++++++++++++++++++++++---
- 3 files changed, 27 insertions(+), 8 deletions(-)
+Jonathan
 
-diff --git a/sound/virtio/virtio_pcm.h b/sound/virtio/virtio_pcm.h
---- a/sound/virtio/virtio_pcm.h
-+++ b/sound/virtio/virtio_pcm.h
-@@ -53,6 +53,7 @@
-  *        substream operators, including @stopped.
-  * @buffer_bytes: Current buffer size in bytes.
-  * @hw_ptr: Substream hardware pointer value in bytes [0 ... buffer_bytes).
-+ * @playback_latency_bytes: Device delay cached independently of the ALSA runtime.
-  * @capture_ready: Managed-mode bytes copied but not yet acknowledged by ALSA;
-  *                 always zero in free-running mode.
-  * @capture_boundary: ALSA boundary captured for this prepared epoch.
-@@ -113,6 +114,7 @@
- 	bool resetting;
- 	size_t buffer_bytes;
- 	size_t hw_ptr;
-+	u32 playback_latency_bytes;
- 	size_t capture_ready;
- 	snd_pcm_uframes_t capture_boundary;
- 	u64 capture_copied_total;
-diff --git a/sound/virtio/virtio_pcm_msg.c b/sound/virtio/virtio_pcm_msg.c
---- a/sound/virtio/virtio_pcm_msg.c
-+++ b/sound/virtio/virtio_pcm_msg.c
-@@ -1002,12 +1002,10 @@
- 	/* Keep latched errors until prepare establishes a fresh epoch. */
- 	vss->msg_count--;
- 
--	if (vss->xfer_enabled) {
--		struct snd_pcm_runtime *runtime = vss->substream->runtime;
--
--		runtime->delay = bytes_to_frames(runtime, latency_bytes);
-+	/* A queued request can outlive the ALSA runtime after hw_free. */
-+	vss->playback_latency_bytes = latency_bytes;
-+	if (vss->prepared && !vss->preparing)
- 		virtsnd_pcm_schedule_period_elapsed(vss);
--	}
- 	if (!vss->msg_count)
- 		wake_up_all(&vss->msg_empty);
- }
-diff --git a/sound/virtio/virtio_pcm_ops.c b/sound/virtio/virtio_pcm_ops.c
---- a/sound/virtio/virtio_pcm_ops.c
-+++ b/sound/virtio/virtio_pcm_ops.c
-@@ -770,6 +770,12 @@
- 		memset(&vss->pcm_indirect, 0, sizeof(vss->pcm_indirect));
- 		vss->pcm_indirect.sw_buffer_size = vss->buffer_bytes;
- 		vss->pcm_indirect.hw_buffer_size = vss->buffer_bytes;
-+		if (vss->direction == SNDRV_PCM_STREAM_PLAYBACK) {
-+			/* Keep unobserved completions below one physical ring. */
-+			vss->pcm_indirect.hw_queue_size = vss->buffer_bytes -
-+				snd_pcm_lib_period_bytes(substream);
-+			vss->playback_latency_bytes = 0;
-+		}
- 		if (vss->direction == SNDRV_PCM_STREAM_CAPTURE) {
- 			vss->capture_boundary = substream->runtime->boundary;
- 			rc = virtsnd_pcm_capture_refresh_mode_locked(vss,
-@@ -1143,6 +1149,14 @@
- 	return rc;
- }
- 
-+/* The queue capacity keeps equal cursors unambiguous for playback. */
-+static bool
-+virtsnd_pcm_playback_progress_pending(struct virtio_pcm_substream *vss)
-+{
-+	guard(spinlock_irqsave)(&vss->lock);
-+	return vss->xfer_xrun || vss->hw_ptr != vss->pcm_indirect.hw_io;
-+}
-+
- /**
-  * virtsnd_pcm_trigger_inner() - Process command for the PCM substream.
-  * @substream: Kernel ALSA substream.
-@@ -1197,7 +1211,8 @@
- 		}
- 
- 		if (running) {
--			if (vss->direction == SNDRV_PCM_STREAM_CAPTURE)
-+			if (vss->direction == SNDRV_PCM_STREAM_CAPTURE ||
-+			    virtsnd_pcm_playback_progress_pending(vss))
- 				virtsnd_pcm_schedule_period_elapsed(vss);
- 			return 0;
- 		}
-@@ -1219,7 +1234,8 @@
- 				return -ECANCELED;
- 			vss->device_running = true;
- 		}
--		if (!rc && (vss->direction == SNDRV_PCM_STREAM_CAPTURE))
-+		if (!rc && (vss->direction == SNDRV_PCM_STREAM_CAPTURE ||
-+			    virtsnd_pcm_playback_progress_pending(vss)))
- 			virtsnd_pcm_schedule_period_elapsed(vss);
- 		return rc;
- 	case SNDRV_PCM_TRIGGER_SUSPEND:
-@@ -1260,7 +1276,8 @@
- 				virtsnd_pcm_trigger_failed(vss, epoch);
- 			} else if (virtsnd_pcm_start_queue(vss, epoch)) {
- 				virtsnd_pcm_trigger_failed(vss, epoch);
--			} else if (vss->direction == SNDRV_PCM_STREAM_CAPTURE) {
-+			} else if (vss->direction == SNDRV_PCM_STREAM_CAPTURE ||
-+				   virtsnd_pcm_playback_progress_pending(vss)) {
- 				virtsnd_pcm_schedule_period_elapsed(vss);
- 			}
- 		}
-@@ -1610,6 +1627,7 @@
- 		}
- 		if (!paused_pointer)
- 			hw_ptr = vss->hw_ptr;
-+		runtime->delay = bytes_to_frames(runtime, vss->playback_latency_bytes);
- 	}
- 	if (paused_pointer) {
- 		if (defer_work)
-@@ -2226,6 +2244,7 @@
- 	vss->pcm_indirect.hw_data = position;
- 	vss->pcm_indirect.sw_io = position;
- 	vss->pcm_indirect.sw_data = position;
-+	vss->playback_latency_bytes = 0;
- 	vss->pcm_indirect.hw_ready = 0;
- 	vss->pcm_indirect.sw_ready = 0;
- 	vss->pcm_indirect.appl_ptr = runtime->status->hw_ptr;
+
+> 
+> Signed-off-by: Philip Radford <philip.radford@arm.com>
+> Co-developed-by: Cristian Marussi <cristian.marussi@arm.com>
+> Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
+
+> diff --git a/tools/testing/selftests/arm64/scmi/config b/tools/testing/selftests/arm64/scmi/config
+> new file mode 100644
+> index 000000000000..63cd7e67ab55
+> --- /dev/null
+> +++ b/tools/testing/selftests/arm64/scmi/config
+> @@ -0,0 +1,2 @@
+> +CONFIG_ARM_SCMI_SYSTEM_TELEMETRY=y
+> +
+> diff --git a/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c b/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c
+> new file mode 100644
+> index 000000000000..24a8170a4380
+> --- /dev/null
+> +++ b/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c
+...
+I commented on style for a few near the end.
+> +
+> +TEST_F(stlm, tlm_get_uuid_list)
+> +{
+> +	struct scmi_tlm_batch batch = {};
+> +	struct scmi_tlm_uuid *uuids;
+> +	int i, j;
+> +	bool nonzero;
+
+No other reason for order? Go with reverse xmas tree.
+
+> +
+> +	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_UUID_LIST) == 0)
+> +		SKIP(return, "UUID list not supported");
+> +
+> +	batch.num_items = 0;
+> +	batch.item_sz = sizeof(*uuids);
+> +
+> +	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
+> +
+> +	if (!batch.num_items)
+> +		SKIP(return, "no UUIDs available");
+> +
+> +	uuids = malloc(sizeof(*uuids) * batch.num_items);
+> +	ASSERT_NE(NULL, uuids);
+> +	bzero(uuids, sizeof(*uuids) * batch.num_items);
+> +
+> +	batch.items = (__u64)uuids;
+> +
+> +	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
+> +	ASSERT_GT(batch.num_items, 0);
+> +	ASSERT_EQ(sizeof(*uuids), batch.item_sz);
+> +	ASSERT_EQ(0, batch.reserved);
+> +
+> +	for (i = 0; i < batch.num_items; i++) {
+	for (int i = 0; ... 
+> +		nonzero = false;
+> +
+> +		for (j = 0; j < SCMI_TLM_DE_IMPL_UUID_SZ; j++) {
+		for (int j = 0; j < ...
+
+> +			if (uuids[i].bytes[j]) {
+> +				nonzero = true;
+> +				break;
+> +			}
+> +		}
+> +
+> +		EXPECT_TRUE(nonzero);
+> +
+> +		TH_LOG("SCMI_TLM_GET_UUID_LIST - [%d] %02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
+> +		       i, uuids[i].bytes[0], uuids[i].bytes[1],
+> +		       uuids[i].bytes[2], uuids[i].bytes[3],
+> +		       uuids[i].bytes[4], uuids[i].bytes[5],
+> +		       uuids[i].bytes[6], uuids[i].bytes[7],
+> +		       uuids[i].bytes[8], uuids[i].bytes[9],
+> +		       uuids[i].bytes[10], uuids[i].bytes[11],
+> +		       uuids[i].bytes[12], uuids[i].bytes[13],
+> +		       uuids[i].bytes[14], uuids[i].bytes[15]);
+> +	}
+> +
+> +	free(uuids);
+> +}
+
+> +TEST_F(stlm, tlm_get_uuid_list_bad_items_ptr)
+> +{
+> +	struct scmi_tlm_batch batch = {};
+> +
+> +	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_UUID_LIST) == 0)
+> +		SKIP(return, "UUID list not supported");
+> +
+Where possible I'd assign structures with
+	batch = (struct scmi_tlm_batch) {
+		.num_items = 1,
+		.items_sz = sizeof(struct scmi_tlm_uid),
+		.items = 0, //Invalid pointer
+	};
+as that avoids having to zero explicitly and tends to end up more readable
+than a wall of separate values being set in the same structure.
+> +	batch.num_items = 1;
+> +	batch.item_sz = sizeof(struct scmi_tlm_uuid);
+> +	batch.items = 0;
+> +
+> +	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
+> +	EXPECT_EQ(EFAULT, errno);
+> +}
+
+
