@@ -1,113 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.6
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794437350;
-	b=CKiE2Zovjms4W2AFHq6I2GiEtSgKEfIbwhhhuHY0mfup+7hq5Vyj88wRCOtB5eZQibYb
-	 XVu3C+ae5ow+VPnUkfZGjodHIePlsAoK/1y9WhZtabL8j9fik4BnLAN3Pnm26rmM+oz+O
-	 lASkwS/pECd9aVplAZcBcqnebgvuLXQEiesEZ71NjHzZI/RI4gieeq8sXZCAFuAyr7Wjs
-	 e7TQ+EDeG2hnrJaBOGGdKfGaglZHA5hfdyBYCMgvGGuiBL6oop355T0tVqQn4RxCZfzXJ
-	 OyacwpSenpVKWHZco9Kst+dQs6ooSVgzo/MScc9L8U2cO5nV8K5j8JtkwjCd45KxBZQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794437350;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.246.1.125
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794437805;
+	b=cYsh0r5ZGyYpzYQL4CGCOQUU70zpauFFcr8Kqre+u8HGjp3bgKlziY1F3UlAhRlgowrT
+	 YNov8gA7766afvOvj2CnbIMbPq8/ZWk7J+aAlBAtPPWxCLQhQ8m4mTZJ8DNL5pTsnJj0H
+	 g3Z3LRYpa2lsG1Lg3yZ2rmKUe/0pkvh6FRHQD25LZcGETrdmRVo5eTVjMEVHiyzLYkq1a
+	 1n4wGyWeC1Acx5y3n9uXvooeQvOhofI/UN7z6AHGKakQdqf7MGm3NAHNCf0EjuUWYqzKJ
+	 8DWDGGrFfBqOdSWfRHb05BvYyPxhJAlSQgdrCkzOunZRVpb466sN98XT/M1giuJcsWQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794437805;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
 	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy:X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=2BUOGcrh2S97il4Ttrd7WSFGfZ/SB2ZyhbaF0FuMYg0=;
-	b=JZ/FbJ7H0/nAllFqfOimVZtG9o9BVve3vxeiKKxRk6q6eAdeLfI7t5CEq6kKYd3OhCBW
-	 +jlt2H1Qg3jhRrjq9YGpUL8OGR1gE/CRuu+/ilUJKKYueS0z04VDZ3yh3r4znO8oJToRO
-	 F4L+hrXkR9WI6AnJqswMBhm6Ik5b1mnYB5rn/yRTqXHcMg9uCycOTgDDaqKqVzsPW8dYy
-	 F9n53Ln1pEziNI5CxXSUMmuWBgnhFylhcFtZc3Z7jYFWTrIst9dbDwNJFGmQv1dAeYPBM
-	 Kz3Iu/40b/n4tueKagtTuZNaxZk2NcOQuyQ/u2s5ypBoqzi6l0/K8j8D+pHwC/INEUQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=K+5tY+xW;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.6
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010006.outbound.protection.outlook.com [40.93.198.6])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 X-ClientProxiedBy;
+	bh=yYMEYJ24OUuzOLV0bUm1SjvT6uAQ7Lce3VFNDOvs9Ho=;
+	b=YMMFqrg0+WW2V0jmAIaJn5h/lSi9Sfe17itp9MIoW6jaPdVg3x/MBvvnZ9RH8Mk/3HxJ
+	 Y0z3OM84kZPQGpdodzgqr/Ed6WujlyWF+zpdi6TWNrBMcH7W8h5WJuAc2XhlR4NRq20Qd
+	 3EmaRnJgq9WqkSNXqKuL8JIasHaiCh1MHPgndOIHvnmic8xlQ7UaiqACYzXK5NAkNRZxi
+	 NTPSVDpjRN4efLPnGkPhywXwd6YLn0aKEAtUdvHyO8waX6kB9hmtDkuSPFEvEeGioL9+T
+	 gg+AvNuxFAr9ITgrpLtR1WplDuuw0ggL+Zb1gmkQ9o0qWWf5i2Bne2hLbKCU049mC7A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.de;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=FDGCaGIQ;
+	arc=none smtp.remote-ip=44.246.1.125
+Received: from pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.1.125])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5226606A897;
-	Wed, 11 Nov 2026 22:49:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5226606A897
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D946606A324;
+	Wed, 11 Nov 2026 22:56:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D946606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=K+5tY+xW
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=od4pSscMDiC7q2SE+BUP9lvvdNTEDIWNWYL8B81T3BVzRJskZav/NG+jxOEOcL5TQzZXV6XiygcVww/A+iT1xIBfCtpdRgLXtGY7tm8oEnUKtlmUz2RzRx5CqixKTZxtBvZS6Ej80QQNVT/irwqR4rQlQbY21X2mVFLt/RUAs8li5ULW1JD2cF3gCN07vhu2RM5WbOHdUPle88qqol7l6XYzLWfebCVPQK4GvLsba8wu+hqDrGeoFWE5F/e69SvfbK/eFQhnsbkNcf9nmm7Rodd/VSIPjdzHU8Briz5I4iYpRZSg8BKhlk0QKMu+i06A/t58PuYRgJv4gzu3RM+Ptw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2BUOGcrh2S97il4Ttrd7WSFGfZ/SB2ZyhbaF0FuMYg0=;
- b=MmWRudPtbUqMOoKQYqkMsFu5lIpRrjB4w0i5DcOPvQV8/0V3XqPrPLHVyzMCpxSpbk6FiOegCQ0RxQFTkMOenmM6cPwL0bSB7PEkqahdb96IR9oaJL7y0yY3OAw5fEcrn0kDunTKMPOchz6cE+bdyjUuyz4Zyyr9Gp6efYKGUqBzX9gMtcFjXoa5fjgHH9GWhem7rBfdo0oq0k6KS7fRaYP9WSfBQNRmzBVighAh6PgMEGe0gZyHZVhAFA9mdx/OyJXBQT8422PPfnaMPicacZ8Lom+1urZuHTh2TEzHAvYt890Y0vSnuSCoEsPup7mk1XQJ4UkXWBFmOEE/gCGeXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2BUOGcrh2S97il4Ttrd7WSFGfZ/SB2ZyhbaF0FuMYg0=;
- b=K+5tY+xW5SqPW8DavTMqvNVVspzhVbbe9WhzKxAjqpipCkYuh0yfEop9z/FdSGOzC66Kt1s7FdxaCLluSlYtb1USDQKaB0vyxBTcvXb+JvW4dEX3BDFpoo6BfptYOZP1AAPU13PsqzLy9SveRBeJl1PVNzzd7mxQgcdduViVusg=
-Received: from MW4PR04CA0234.namprd04.prod.outlook.com (2603:10b6:303:87::29)
- by PH8PR12MB999298.namprd12.prod.outlook.com (2603:10b6:510:40b::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Wed, 11 Nov
- 2026 22:47:03 +0000
-Received: from SJ5PEPF000001F2.namprd05.prod.outlook.com
- (2603:10b6:303:87:cafe::5) by MW4PR04CA0234.outlook.office365.com
- (2603:10b6:303:87::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.615.9 via Frontend Transport; Wed, 11
- Nov 2026 22:47:03 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ5PEPF000001F2.mail.protection.outlook.com (10.167.242.70) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.615.4 via Frontend Transport; Wed, 11 Nov 2026 22:47:02 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Wed, 11 Nov
- 2026 16:47:01 -0600
-From: Babu Moger <babu.moger@amd.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <ben.horgan@arm.com>,
-	<Dave.Martin@arm.com>, <james.morse@arm.com>, <bp@alien8.de>
-CC: <babu.moger@amd.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<rdunlap@infradead.org>, <x86@kernel.org>, <fustini@kernel.org>,
-	<tglx@kernel.org>, <mingo@redhat.com>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <fenghuay@nvidia.com>, <rppt@kernel.org>, <arnd@arndb.de>,
-	<kmehltretter@gmail.com>, <dapeng1.mi@linux.intel.com>, <elver@google.com>,
-	<enelsonmoore@gmail.com>, <jlayton@kernel.org>, <seanjc@google.com>,
-	<ewanhai-oc@zhaoxin.com>, <binbin.wu@linux.intel.com>, <nikunj@amd.com>,
-	<ashish.kalra@amd.com>, <peterz@infradead.org>, <superm1@kernel.org>,
-	<thomas.lendacky@amd.com>, <prathyushi.nangia@amd.com>,
-	<kim.phillips@amd.com>, <ricardo.neri-calderon@linux.intel.com>,
-	<darwi@linutronix.de>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH v7 16/19] fs/resctrl: Reject mode changes for groups backing kernel mode
-Date: Wed, 11 Nov 2026 16:44:09 -0600
-Message-ID: <582409f73650a18edc594c2c40e14b404b0d25b8.1794437052.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1794437052.git.babu.moger@amd.com>
-References: <cover.1794437052.git.babu.moger@amd.com>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=FDGCaGIQ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794437804; x=1825973804;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=yYMEYJ24OUuzOLV0bUm1SjvT6uAQ7Lce3VFNDOvs9Ho=;
+  b=FDGCaGIQ8PyuuCiodIo4v8aSt3XIlZNeRR2ozkVF9JG8fxNynz23IkDK
+   9JmU9c8K3UsFhc6kQxkQuIKO5yzSin7fp06tCXUslZPgm4g+E8+unnJPA
+   58GprQCUnE7kkdZD3DgzIUIa+rojrxFYOl/V9Aky2XgmKKHpW/Z+/XNGR
+   stiA1igjs00prY3SdgK0QcS0K3nOXp9lROxIbts9PMElj5rpyhBha2osd
+   bYJXMAIVarqBjooobIFqfZI3zsQSAqPrzeTNdylGZEWZ1Q6MEE7SrT8uM
+   N8UcTkDJWPtm+xTHXzEgtJiI4DhxkPPNRnFjx3kqCWwmyrjCMZzhRxdS1
+   g==;
+X-CSE-ConnectionGUID: Dl2d7JYFSKy27U++yBuEJQ==
+X-CSE-MsgGUID: flCm2CKaQkaLMiISwRyCOg==
+X-IronPort-AV: E=Sophos;i="6.27,208,1787011200"; 
+   d="scan'208";a="33769754"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-002.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 22:56:43 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [205.251.233.111:26998]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.16.231:2525] with esmtp (Farcaster)
+ id f6d7f87e-fc72-4657-b064-553b276f0156; Wed, 11 Nov 2026 22:56:43 +0000 (UTC)
+X-Farcaster-Flow-ID: f6d7f87e-fc72-4657-b064-553b276f0156
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 22:56:43 +0000
+Received: from ip-10-253-83-51.amazon.com (172.19.99.218) by
+ EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 22:56:40 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <linux-kernel@vger.kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>
+CC: The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy
+	<robin.murphy@arm.com>, <linux-doc@vger.kernel.org>, <iommu@lists.linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	<nh-open-source@amazon.com>, <linux-mm@kvack.org>, Jonathan Corbet
+	<corbet@lwn.net>
+Subject: [PATCH 14/40] nitro_enclaves: Add NE_SET_INFO_PAGE
+Date: Wed, 11 Nov 2026 22:56:38 +0000
+Message-ID: <502b33c4d212373d67006e47bf1c4882d9a4ad95.1794393490.git.graf@amazon.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1794300002.git.graf@amazon.com>
+References: <cover.1794300002.git.graf@amazon.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,124 +93,719 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001F2:EE_|PH8PR12MB999298:EE_
-X-MS-Office365-Filtering-Correlation-Id: e3733dac-75f7-42cc-b4a0-08df4045b426
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|7416014|23010399003|376014|22082099003|18002099003|6133799003|261009223027099003|13003099007|260925022911599003|11063799006|56012099006|260925021911599003|261028144727099003|261021121427099003|261102123227099003|261026140227099003|261026121527099003|261022105027099003|261022075727099003|260925021311599003|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	w5dJjv9EfHQzii+TX6UibDNAdmliMAFoDkQnuZBv21IGnQWH3hMST+Sv6GfmS7kWagj8XOKEw/4P22hh8zazMOdcQlTSEbfnp2avg43hdinJUaW22P8CzCwTiaeFqEXSq1S8XM8gfkPjTW67/TSv4lbRq7cg7ZL2exmXIhJ50d6FgywaAEUv5h23jD481wUNKCBm52pvyUR6uQhavCldPIFv5mn5TTRiBIPPabEZtgkAIzLC7iURDzcU5f7Ae7qsCBZc8MGg+9/1RuZnyA4yyv+IB2cOTsdnSh0E1nGHc1Jzdiva0gJqEhCJxgV0O0+Qp8MctfZnSjJ6Hk3pHdsNaHIkRgBcOIBnGqzf8deUobH9L5di0tuPvmI64R8jdV5K/n8oH2X0+iDyTx1pTpqxSYTcDkYNkurOwpS1DtY0mJltLyGnu93WTFXx950qOOcMwvFaIgdvx7z26vssVzDAQM7reaknMcP333mcTGxeCGHlZjEg3kwDaFh/7VoCHp9N8VKXXFMPnl9O2OJpQhbzh/2Wb3zy4AM2Su1fNghEfXKYhenPM1ipg7nZB1sE29zuIAW2pnK3RUFP0dNwDxcRi+hXc9kMr39C8fKJG46ee94MEEso3DEGSetnwWi/WNgOZSq7acyIfEsiwNnzntu0CQ==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(7416014)(23010399003)(376014)(22082099003)(18002099003)(6133799003)(261009223027099003)(13003099007)(260925022911599003)(11063799006)(56012099006)(260925021911599003)(261028144727099003)(261021121427099003)(261102123227099003)(261026140227099003)(261026121527099003)(261022105027099003)(261022075727099003)(260925021311599003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	uVNoLKjKHnuYm0CYhmFAZlG4AkK3tUP2ZowAKW4EySK0j/fD5SPZAIERJWRy7PWEh5X/+PIYQ6h9wbSnoBODg7Oq4mA3CMPhALsKsdb9GDyUeBYGSKa+xBGMWU8kEoEhrzA/l2Zx2ECdimU1kIBveVKzQ09Hjpd9Jk8R8c0M9kurhAkZt1wPirCstudaanPhl7FiqgiD/5NBIFKuTA8epeyK1n1xo1iQy9Rj/UIz5Gz2gm++g7fAJz1k4IE3PFqDu5E3F3YxMmSFQm3O6Y6bKV+y+RkfK8uCCn9/IJEObwWQpe4ZA/K8E25zPc2tuk3ht9vOw/FghsSwslIfz5qtD6+FNiqbS0vTX1hxI4YPmPiQPSN0pkNU/Q/4j8ZU3jnzqGsQlo0MJ7B5+r3cRHoNCsFa49T+LXFxMxwtKH0I5q4XqzvM0ZV40WjwrZ9okDjK
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 22:47:02.8003
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e3733dac-75f7-42cc-b4a0-08df4045b426
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001F2.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB999298
+X-ClientProxiedBy: EX19D031UWA003.ant.amazon.com (10.13.139.47) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-The RESCTRL_GLOBAL_ENABLE_PER_CPU kernel mode uses the CLOSID and/or
-RMID of a backing group when transitioning from user mode to kernel
-mode. Since the CLOSID and RMID are shared with the group's tasks, the
-backing group must remain shareable while kernel mode is active.
+Nitro Sandboxes introduce the info page, a page of parent memory that
+the device writes and the parent reads, to share various information about
+the state of devices inside the slot.
 
-Reject mode changes for a group backing the active kernel mode and for
-the parent of a backing monitor group.
+Add the NE_SET_INFO_PAGE ioctl to register a NE_MEMORY_SHARED allocation
+as info page. This page is always read-only to user space.
 
-Also reject reparenting a backing monitor group, as it would change the
-monitor group's parent and implicitly modify the active kernel mode
-configuration.
-
-Signed-off-by: Babu Moger <babu.moger@amd.com>
+Signed-off-by: Alexander Graf <graf@amazon.com>
 ---
-v7: Changelog update.
-    Moved the patch after the kernel_mode modify interface.
-    Added code comments to justify reparenting.
+ drivers/virt/nitro_enclaves/ne_misc_dev.c | 276 +++++++++++++++++++++-
+ drivers/virt/nitro_enclaves/ne_misc_dev.h |  35 ++-
+ drivers/virt/nitro_enclaves/ne_pci_dev.c  |  25 ++
+ drivers/virt/nitro_enclaves/ne_pci_dev.h  |  21 ++
+ include/uapi/linux/nitro_enclaves.h       | 106 ++++++++-
+ 5 files changed, 435 insertions(+), 28 deletions(-)
 
-v6: New patch to fix sashiko feedback.
-    https://sashiko.dev/#/patchset/cover.1787772750.git.babu.moger%40amd.com
----
- fs/resctrl/rdtgroup.c | 40 ++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
-
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index 872755532fb4..1ad169e714a4 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -1994,6 +1994,27 @@ static bool rdtgroup_mode_test_exclusive(struct rdtgroup *rdtgrp)
- 	return true;
+diff --git a/drivers/virt/nitro_enclaves/ne_misc_dev.c b/drivers/virt/nitro_enclaves/ne_misc_dev.c
+index 0bf62f703806e..610d98264e5a1 100644
+--- a/drivers/virt/nitro_enclaves/ne_misc_dev.c
++++ b/drivers/virt/nitro_enclaves/ne_misc_dev.c
+@@ -123,6 +123,8 @@ static int ne_add_memory_region_ioctl(struct ne_enclave *ne_enclave,
+ 				      struct ne_add_memory_region_args *args);
+ static int ne_alloc_memory_ioctl(struct ne_enclave *ne_enclave,
+ 				 struct ne_alloc_memory_args *args);
++static int ne_set_info_page_ioctl(struct ne_enclave *ne_enclave,
++				  struct ne_set_info_page_args *args);
+ static const struct file_operations ne_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.llseek		= noop_llseek,
+@@ -2137,6 +2139,39 @@ static long ne_enclave_do_ioctl(struct file *file, unsigned int cmd, unsigned lo
+ 		return rc;
+ 	}
+ 
++	case NE_EA_IOCTL(NE_SET_INFO_PAGE): {
++		struct ne_set_info_page_args __user *uargs = (void __user *)arg;
++		unsigned int usize = _IOC_SIZE(cmd);
++		struct ne_set_info_page_args args;
++		int rc;
++
++		if (usize < offsetofend(struct ne_set_info_page_args, flags))
++			return -EINVAL;
++
++		rc = copy_struct_from_user(&args, sizeof(args), uargs, usize);
++		if (rc)
++			return rc;
++
++		rc = mutex_lock_killable(&ne_enclave->enclave_info_mutex);
++		if (rc)
++			return rc;
++
++		if (ne_enclave->state != NE_STATE_INIT) {
++			dev_err_ratelimited(ne_misc_dev.this_device,
++					    "Enclave is not in init state\n");
++
++			mutex_unlock(&ne_enclave->enclave_info_mutex);
++
++			return -NE_ERR_NOT_IN_INIT_STATE;
++		}
++
++		rc = ne_set_info_page_ioctl(ne_enclave, &args);
++
++		mutex_unlock(&ne_enclave->enclave_info_mutex);
++
++		return rc;
++	}
++
+ 	default:
+ 		return -ENOTTY;
+ 	}
+@@ -2344,6 +2379,9 @@ static void ne_enclave_free(struct ne_enclave *ne_enclave)
+ 	ne_enclave_remove_all_mem_region_entries(ne_enclave);
+ 	ne_enclave_remove_all_vcpu_id_entries(ne_enclave);
+ 
++	if (ne_enclave->info_file)
++		fput(ne_enclave->info_file);
++
+ 	kfree(ne_enclave);
  }
  
-+/* True when @rdtgrp or one of its monitor groups backs the kernel mode. */
-+static bool rdtgroup_has_kmode_global(struct rdtgroup *rdtgrp)
+@@ -3152,6 +3190,9 @@ static bool ne_contig_supports_mmap(struct file *file)
+  * asks for VM_HUGEPAGE because a fault on a VM_PFNMAP mapping without it only
+  * reaches ->huge_fault where the transparent_hugepage policy is "always".
+  *
++ * An allocation that is a slot's info page is mapped without write access, and
++ * without the right to gain it with mprotect().
++ *
+  * Return: 0 on success, negative return value on failure.
+  */
+ static int ne_contig_mmap_prepare(struct vm_area_desc *desc)
+@@ -3177,6 +3218,13 @@ static int ne_contig_mmap_prepare(struct vm_area_desc *desc)
+ 	if (offset > mem->size || size > mem->size - offset)
+ 		return -EINVAL;
+ 
++	if (READ_ONCE(mem->read_only)) {
++		if (vma_desc_test(desc, VMA_WRITE_BIT))
++			return -EACCES;
++
++		vma_desc_clear_flags(desc, VMA_MAYWRITE_BIT);
++	}
++
+ 	desc->vm_ops = &ne_contig_vm_ops;
+ 	vma_desc_set_flags(desc, VMA_IO_BIT, VMA_PFNMAP_BIT, VMA_DONTEXPAND_BIT,
+ 			   VMA_DONTDUMP_BIT, VMA_DONTCOPY_BIT, VMA_HUGEPAGE_BIT);
+@@ -3242,11 +3290,12 @@ static int ne_write_span(void *arg, struct page *page, u64 off, u64 len)
+  * refusal is -EFBIG, the same as generic_write_check_limits() gives for a write
+  * beyond s_maxbytes. There is no RLIMIT_FSIZE in it, so no SIGXFSZ either.
+  *
+- * Donating an allocation closes this path, and @lock is what makes the two
+- * orderly. It is taken here and in ne_add_memory_region_ioctl() and nowhere
+- * else; setting a mapping up and faulting one in both read only fields that
+- * never change, so nothing takes it under mmap_write_lock or in a fault, and
+- * copying from user space under it cannot invert against the fault path.
++ * Donating an allocation closes this path, and so does making it an info page.
++ * This function, ne_add_memory_region_ioctl(), ne_contig_make_read_only() and
++ * ne_contig_allow_writes() take @lock, which orders those state changes against
++ * a write. Setting a mapping up and faulting one in do not take it, so nothing
++ * takes it under mmap_write_lock or in a fault, and copying from user space
++ * under it cannot invert against the fault path.
+  *
+  * Return: the number of bytes written, or a negative return value on failure.
+  */
+@@ -3266,7 +3315,7 @@ static ssize_t ne_contig_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 
+ 	guard(mutex)(&mem->lock);
+ 
+-	if (mem->donated)
++	if (mem->donated || mem->read_only)
+ 		return -EPERM;
+ 
+ 	rc = ne_walk_allocs(mem, pos, count, NE_WRITE_SPAN_PAGES, ne_write_span,
+@@ -3281,6 +3330,60 @@ static ssize_t ne_contig_write_iter(struct kiocb *iocb, struct iov_iter *from)
+ 	return rc;
+ }
+ 
++/**
++ * ne_contig_make_read_only() - Take write access to an allocation away from
++ *				user space.
++ * @file:	The allocation's file.
++ *
++ * From here on a write to the descriptor fails and a new mapping has no write
++ * access, so only the device and the kernel change the memory. The descriptor
++ * is open for writing, so a mapping made before could be made writable with
++ * mprotect(), and one that exists makes this fail.
++ *
++ * mmap_region() raises i_mmap_writable with full ordering before it calls
++ * ne_contig_mmap_prepare() for a mapping that may write, and the mapping keeps
++ * it raised for as long as it exists. @read_only is set before the count is
++ * read, so a mapping that ne_contig_mmap_prepare() set up without seeing it is
++ * counted here. A mapping that is being set up as this runs counts too, even
++ * one that ends up without write access, so a caller sees -EBUSY for it and
++ * can try again.
++ *
++ * Return: 0 on success, -EBUSY if the allocation is mapped.
++ */
++static int ne_contig_make_read_only(struct file *file)
 +{
-+	struct rdtgroup *child;
++	struct ne_contig_mem *mem = file->private_data;
 +
-+	if (!resctrl_kmode.rdtgrp)
-+		return false;
++	guard(mutex)(&mem->lock);
 +
-+	if (resctrl_kmode.rdtgrp == rdtgrp)
-+		return true;
++	WRITE_ONCE(mem->read_only, true);
 +
-+	if (rdtgrp->type != RDTCTRL_GROUP)
-+		return false;
++	/* Pairs with the full ordering of mapping_map_writable(). */
++	smp_mb();
 +
-+	list_for_each_entry(child, &rdtgrp->mon.crdtgrp_list, mon.crdtgrp_list)
-+		if (child == resctrl_kmode.rdtgrp)
-+			return true;
++	if (mapping_writably_mapped(file->f_mapping)) {
++		WRITE_ONCE(mem->read_only, false);
 +
-+	return false;
++		return -EBUSY;
++	}
++
++	return 0;
 +}
 +
- /*
-  * rdtgroup_mode_write - Modify the resource group's mode
-  */
-@@ -2034,6 +2055,12 @@ static ssize_t rdtgroup_mode_write(struct kernfs_open_file *of,
- 		goto out;
++/**
++ * ne_contig_allow_writes() - Give write access to an allocation back to user
++ *			      space.
++ * @file:	The allocation's file.
++ */
++static void ne_contig_allow_writes(struct file *file)
++{
++	struct ne_contig_mem *mem = file->private_data;
++
++	guard(mutex)(&mem->lock);
++
++	WRITE_ONCE(mem->read_only, false);
++}
++
+ /**
+  * ne_contig_release() - Free an allocation once nothing holds it any more.
+  * @inode:	The allocation's inode, unused.
+@@ -3612,6 +3715,13 @@ static int ne_add_memory_region_ioctl(struct ne_enclave *ne_enclave,
+ 		return -EINVAL;
  	}
  
-+	if (rdtgroup_has_kmode_global(rdtgrp)) {
-+		rdt_last_cmd_puts("Cannot change mode for kernel mode backing group\n");
-+		ret = -EINVAL;
-+		goto out;
++	if (fd_file(f) == ne_enclave->info_file) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "The allocation is the enclave's info page\n");
++
++		return -NE_ERR_MEM_REGION_ALREADY_USED;
 +	}
 +
- 	if (!strcmp(buf, "shareable")) {
- 		if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
- 			ret = rdtgroup_locksetup_exit(rdtgrp);
-@@ -4922,6 +4949,19 @@ static int rdtgroup_rename(struct kernfs_node *kn,
- 		goto out;
- 	}
+ 	list_for_each_entry(held, &ne_enclave->contig_regions_list, list) {
+ 		if (held->file == fd_file(f)) {
+ 			dev_err_ratelimited(ne_misc_dev.this_device,
+@@ -3714,6 +3824,160 @@ static int ne_add_memory_region_ioctl(struct ne_enclave *ne_enclave,
+ 	return rc;
+ }
  
++/**
++ * ne_set_info_page_ioctl() - Give the slot associated with the current enclave
++ *			      the info page.
++ * @ne_enclave:	Private data associated with the current enclave.
++ * @args:	Descriptor for the allocation, and flags.
++ *
++ * The device writes the info page, so the run behind it has to stay where the
++ * device was told it is for as long as the enclave lives. The runs belong to the
++ * file, so a reference on it keeps them whatever user space does with the
++ * descriptor and its mappings, and ne_enclave_free() drops that reference
++ * after SLOT_FREE and after the enclave's memory regions. The reference is taken
++ * before the request, since a request that timed out may still be completed by
++ * the device. A rejected request drops it again.
++ *
++ * Only the device writes the page, and the parent reads back from it what the
++ * device reports about the slot, so user space loses write access to the
++ * allocation before the device is told about it and gets it back only if the
++ * device rejects the request.
++ *
++ * Context: Process context. This function is called with the ne_enclave mutex held.
++ * Return:
++ * * 0 on success.
++ * * Negative return value on failure.
++ * * -ETIMEDOUT if the device did not answer, in which case the slot keeps the
++ *   allocation until the enclave goes away.
++ */
++static int ne_set_info_page_ioctl(struct ne_enclave *ne_enclave,
++				  struct ne_set_info_page_args *args)
++{
++	struct ne_pci_dev_cmd_reply cmd_reply = {};
++	struct slot_add_info_page_req req = {};
++	struct pci_dev *pdev = ne_devs.ne_pci_dev->pdev;
++	struct ne_contig_mem *mem = NULL;
++	int rc = -EINVAL;
++
++	if (ne_enclave->mm != current->mm)
++		return -EIO;
++
++	if (args->flags) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "Incorrect flag for info page\n");
++
++		return -NE_ERR_INVALID_FLAG_VALUE;
++	}
++
++	if (ne_enclave->info_file) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "The slot already has an info page\n");
++
++		return -EEXIST;
++	}
++
++	CLASS(fd, f)(args->fd);
++
++	if (fd_empty(f))
++		return -EBADF;
++
++	if (fd_file(f)->f_op != &ne_contig_fops) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "Not an enclave memory allocation\n");
++
++		return -EINVAL;
++	}
++
++	mem = fd_file(f)->private_data;
++
++	if (mem->enclave_id != ne_enclave->id) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "Allocation was made for another enclave\n");
++
++		return -EINVAL;
++	}
++
++	if (!mem->shared) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "The info page allocation is not shared\n");
++
++		return -EINVAL;
++	}
++
 +	/*
-+	 * Changing the parent of a group backing the active kernel mode changes
-+	 * the effective CLOSID and/or RMID configuration applied to kernel work.
-+	 * Reject such moves and require kernel mode to be reconfigured explicitly
-+	 * instead.
++	 * The device takes one address and one length, so an allocation the
++	 * allocator had to satisfy in several runs has no single address to
++	 * name. A request of NE_MIN_MEM_REGION_SIZE cannot be split, since the
++	 * allocator has nothing smaller to fall back to.
 +	 */
-+	if (rdtgrp == resctrl_kmode.rdtgrp &&
-+	    rdtgrp->mon.parent != new_prdtgrp) {
-+		rdt_last_cmd_puts("Cannot move a group that backs kernel mode\n");
-+		ret = -EPERM;
-+		goto out;
++	if (mem->nr_allocs != 1) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "The info page allocation is not one run\n");
++
++		return -EINVAL;
 +	}
 +
- 	/*
- 	 * Allocate the cpumask for use in mongrp_reparent() to avoid the
- 	 * possibility of failing to allocate it after kernfs_rename() has
++	/*
++	 * An allocation the enclave already has as memory is not available to
++	 * be its info page as well, since the device would be handed the same
++	 * run twice in two roles. @donated is only ever set from
++	 * ne_add_memory_region_ioctl(), which runs under the same enclave mutex
++	 * as this function for the one enclave the allocation was made for, so
++	 * the read needs no lock of its own.
++	 */
++	if (mem->donated) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "The info page allocation was donated\n");
++
++		return -NE_ERR_MEM_REGION_ALREADY_USED;
++	}
++
++	rc = ne_contig_make_read_only(fd_file(f));
++	if (rc < 0) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "The info page allocation is mapped\n");
++
++		return rc;
++	}
++
++	req.slot_uid = ne_enclave->slot_uid;
++	req.info_phys = page_to_phys(mem->allocs[0].page);
++	req.info_size = mem->size;
++
++	/*
++	 * Take the reference before the request, so that the run stays where the
++	 * device is told it is from the moment the device is told, as the memory
++	 * region path does.
++	 */
++	ne_enclave->info_file = get_file(fd_file(f));
++
++	rc = ne_do_request(pdev, SLOT_ADD_INFO_PAGE,
++			   &req, sizeof(req), &cmd_reply, sizeof(cmd_reply));
++	if (rc < 0) {
++		dev_err_ratelimited(ne_misc_dev.this_device,
++				    "Error in slot add info page [rc=%d]\n", rc);
++
++		/*
++		 * A request the device never answered was submitted with the
++		 * run's physical address in it, so the device may write the page
++		 * yet. Keep the reference and let ne_enclave_free() drop it
++		 * after SLOT_FREE. Every other error means the device either
++		 * never saw the request or answered to reject it, and the run is
++		 * the parent's again. ne_request_unanswered() tells the two
++		 * apart.
++		 */
++		if (!ne_request_unanswered(rc)) {
++			ne_contig_allow_writes(ne_enclave->info_file);
++			fput(ne_enclave->info_file);
++			ne_enclave->info_file = NULL;
++		}
++
++		return rc;
++	}
++
++	return 0;
++}
++
+ #if defined(CONFIG_NITRO_ENCLAVES_MISC_DEV_TEST)
+ #include "ne_misc_dev_test.c"
+ #endif
+diff --git a/drivers/virt/nitro_enclaves/ne_misc_dev.h b/drivers/virt/nitro_enclaves/ne_misc_dev.h
+index 2502cca3f3f64..d0d1973bfbe9d 100644
+--- a/drivers/virt/nitro_enclaves/ne_misc_dev.h
++++ b/drivers/virt/nitro_enclaves/ne_misc_dev.h
+@@ -38,27 +38,37 @@ struct ne_contig_alloc {
+  * @allocs:	Contiguous runs backing the allocation, ordered by offset.
+  * @nr_allocs:	Number of runs in @allocs.
+  * @size:	Size of the allocation in bytes, mirrored in i_size.
+- * @shared:	Whether the allocation may be mapped by the caller.
++ * @shared:	Whether the caller asked for a shared allocation. A shared one may
++ *		be mapped by the caller and may be a slot's info page; a private
++ *		one is neither.
+  * @enclave_id:	Id of the enclave the allocation was made for.
+  * @mm:		The mm charged for the pinned pages, held via mmgrab().
+  * @nr_pinned:	Pages charged to @mm->pinned_vm.
+- * @lock:	Serialises a write against the donation that ends writing.
++ * @lock:	Serialises a write against the donation or the info page that
++ *		ends writing.
+  * @donated:	Whether the allocation has been given to its enclave.
++ * @read_only:	Whether user space has lost write access to the allocation,
++ *		which it does when the allocation becomes a slot's info page.
+  *
+  * The runs hang off the file, so that closing the last descriptor does not free
+  * memory an enclave is still using: a donated region holds the file with
+- * get_file(). That is also what keeps a mapping's page table entries from
+- * outliving the runs, since a VMA holds vm_file for as long as it exists.
++ * get_file(), and so does the enclave the allocation is the info page of. That
++ * is also what keeps a mapping's page table entries from outliving the runs,
++ * since a VMA holds vm_file for as long as it exists.
+  *
+  * The array is built before the file is published and not mutated afterwards, so
+  * any holder of a reference can read it without a lock of its own, which is what
+  * lets a page fault resolve an offset to a run. @shared and @size are set in the
+- * same place and are read the same way. @donated is the one field that changes
+- * after publication, and @lock covers it.
++ * same place and are read the same way. @donated and @read_only are the fields
++ * that change after publication. @lock covers both on the write path;
++ * ne_set_info_page_ioctl() reads @donated under the enclave mutex its writer also
++ * holds, and ne_contig_mmap_prepare() reads @read_only without a lock, which
++ * ne_contig_make_read_only() orders against.
+  *
+  * @enclave_id is compared, never dereferenced, and the counter it comes from is
+- * 64 bits wide, so an allocation cannot be donated to a later enclave that
+- * happens to have been placed at the address of the one it was made for.
++ * 64 bits wide, so an allocation cannot be donated to, or become the info page
++ * of, a later enclave that happens to have been placed at the address of the one
++ * it was made for.
+  */
+ struct ne_contig_mem {
+ 	struct ne_contig_alloc	*allocs;
+@@ -68,9 +78,10 @@ struct ne_contig_mem {
+ 	u64			enclave_id;
+ 	struct mm_struct	*mm;
+ 	unsigned long		nr_pinned;
+-	/* Serialises a write against the donation that ends writing. */
++	/* Serialises a write against what ends writing. */
+ 	struct mutex		lock;
+ 	bool			donated;
++	bool			read_only;
+ };
+ 
+ /**
+@@ -116,6 +127,11 @@ struct ne_mem_region {
+  * @id:				Id of this enclave, unique for the lifetime of the
+  *				driver, recorded in an %NE_ALLOC_MEMORY allocation
+  *				as the enclave it was made for.
++ * @info_file:			File of the %NE_ALLOC_MEMORY allocation the slot
++ *				was given as its info page, held with get_file()
++ *				so that the device keeps the page after user space
++ *				has closed the descriptor. NULL until
++ *				%NE_SET_INFO_PAGE is called.
+  * @max_mem_regions:		The maximum number of memory regions that can be
+  *				handled by the hypervisor.
+  * @mem_regions_list:		Enclave user space memory regions list.
+@@ -146,6 +162,7 @@ struct ne_enclave {
+ 	wait_queue_head_t	eventq;
+ 	bool			has_event;
+ 	u64			id;
++	struct file		*info_file;
+ 	u64			max_mem_regions;
+ 	struct list_head	mem_regions_list;
+ 	u64			mem_size;
+diff --git a/drivers/virt/nitro_enclaves/ne_pci_dev.c b/drivers/virt/nitro_enclaves/ne_pci_dev.c
+index f258e04ee9e47..a07dbc6d8a9b7 100644
+--- a/drivers/virt/nitro_enclaves/ne_pci_dev.c
++++ b/drivers/virt/nitro_enclaves/ne_pci_dev.c
+@@ -128,6 +128,31 @@ static int ne_wait_for_reply(struct pci_dev *pdev, unsigned int timeout_msecs)
+ 	return 0;
+ }
+ 
++/**
++ * ne_request_unanswered() - Whether a failure left a submitted request in
++ *			     flight.
++ * @rc:		Failure a command request came back with.
++ *
++ * A request the device never answered was submitted with whatever the caller
++ * put in it, and there is nothing to cancel it with, so a resource whose
++ * address is in it may still be written by the device. A caller that has to
++ * decide who owns such a resource asks here instead of naming an errno of its
++ * own.
++ *
++ * Every code the wait for a reply can fail a submitted request with belongs
++ * here. ne_wait_for_reply() times out, so -ETIMEDOUT is named. A code raised
++ * before ne_submit_request(), and a code the device answered with, do not:
++ * nothing is in flight in either case. A
++ * device that answers one of the codes named here of its own accord lands here
++ * too and costs one held resource, which is the side to be wrong on.
++ *
++ * Return: true if the request may still be in flight.
++ */
++bool ne_request_unanswered(int rc)
++{
++	return rc == -ETIMEDOUT;
++}
++
+ /**
+  * ne_cmd_frees_slot() - Whether a command is one of the two that free a slot.
+  * @cmd_type:	Command type of the request.
+diff --git a/drivers/virt/nitro_enclaves/ne_pci_dev.h b/drivers/virt/nitro_enclaves/ne_pci_dev.h
+index b0957e2606ec3..4f670c53dd3c0 100644
+--- a/drivers/virt/nitro_enclaves/ne_pci_dev.h
++++ b/drivers/virt/nitro_enclaves/ne_pci_dev.h
+@@ -123,6 +123,8 @@
+  * @NEXT_SLOT:			Get the next slot in the list of allocated slots.
+  * @SLOT_INFO:			Get the info for a slot e.g. slot uid, vCPUs count.
+  * @SLOT_ADD_BULK_VCPUS:	Add a number of vCPUs, not providing CPU ids.
++ * @SLOT_ADD_INFO_PAGE:		Give a slot the info page, a memory region the
++ *				device writes.
+  * @MAX_CMD:			A gatekeeper for max possible command type.
+  */
+ enum ne_pci_dev_cmd_type {
+@@ -138,6 +140,8 @@ enum ne_pci_dev_cmd_type {
+ 	NEXT_SLOT		= 9,
+ 	SLOT_INFO		= 10,
+ 	SLOT_ADD_BULK_VCPUS	= 11,
++	/* 12 is a command this driver does not implement. */
++	SLOT_ADD_INFO_PAGE	= 13,
+ 	MAX_CMD,
+ };
+ 
+@@ -266,6 +270,20 @@ struct slot_add_bulk_vcpus_req {
+ 	u64	nr_vcpus;
+ };
+ 
++/**
++ * struct slot_add_info_page_req - SLOT_ADD_INFO_PAGE request.
++ * @slot_uid:	Slot unique id mapped to the slot to give the info page to.
++ * @flags:	Flags for the info page. Zero is the only value the driver sends.
++ * @info_phys:	Physical address of the info page.
++ * @info_size:	Size, in bytes, of the info page.
++ */
++struct slot_add_info_page_req {
++	u64	slot_uid;
++	u64	flags;
++	u64	info_phys;
++	u64	info_size;
++};
++
+ /**
+  * struct ne_pci_dev_cmd_reply - NE PCI device command reply.
+  * @rc :		Return code of the logic that processed the request.
+@@ -327,6 +345,9 @@ struct ne_pci_dev {
+ 	struct pci_dev		*pdev;
+ };
+ 
++/* Whether a failure left a submitted request in flight. */
++bool ne_request_unanswered(int rc);
++
+ /**
+  * ne_do_request() - Submit command request to the PCI device based on the command
+  *		     type and retrieve the associated reply.
+diff --git a/include/uapi/linux/nitro_enclaves.h b/include/uapi/linux/nitro_enclaves.h
+index 6dd00c41c07d5..4f604712983f1 100644
+--- a/include/uapi/linux/nitro_enclaves.h
++++ b/include/uapi/linux/nitro_enclaves.h
+@@ -287,13 +287,15 @@ struct ne_alloc_memory_args {
+ 
+ /**
+  * NE_ALLOC_MEMORY - The command is used to allocate physically contiguous
+- *		     memory to give to an enclave with %NE_ADD_MEMORY_REGION,
+- *		     drawn from one host NUMA node. The argument is input only;
++ *		     memory to give to an enclave with %NE_ADD_MEMORY_REGION or
++ *		     to provide to the device with %NE_SET_INFO_PAGE, drawn from
++ *		     one host NUMA node. The argument is input only;
+  *		     on success the return value is a file descriptor for the
+  *		     allocation.
+  *		     Writing to the descriptor places bytes in the allocation,
+  *		     which is how an enclave image gets there, and stops
+- *		     working once the allocation has been donated.
++ *		     working once the allocation has been donated or provided
++ *		     with %NE_SET_INFO_PAGE.
+  *		     O_APPEND has no effect. There is no read operation, so
+  *		     read() and pread() both fail with EINVAL and a caller that
+  *		     wants to check what it wrote keeps its own copy.
+@@ -308,16 +310,18 @@ struct ne_alloc_memory_args {
+  *		     allocation over, including once the allocation has been
+  *		     donated and writing to the descriptor has stopped working.
+  *		     Such a mapping is readable too, which is the only way to
+- *		     read allocated memory back. The mapping is not inherited
+- *		     across fork(); a child that needs one maps the descriptor
+- *		     itself.
++ *		     read allocated memory back, and is how a parent reads an
++ *		     info page provided with %NE_SET_INFO_PAGE, which it maps
++ *		     without %PROT_WRITE. The mapping is not inherited across
++ *		     fork(); a child that needs one maps the descriptor itself.
+  *		     Donating does not take a mapping away, so a parent that
+  *		     mapped a shared allocation can still write to it through
+  *		     that mapping afterwards.
+  *		     The allocation lives until the last of the descriptor, its
+- *		     mappings and the enclave regions donated from it is gone,
+- *		     so a caller can close the descriptor as soon as it has
+- *		     donated.
++ *		     mappings, the enclave regions donated from it and the
++ *		     enclave it is the info page of is gone, so a caller can
++ *		     close the descriptor as soon as it has donated it or
++ *		     provided it to the device.
+  *		     The ioctl can be invoked on the enclave fd, before an
+  *		     enclave is started.
+  *
+@@ -351,7 +355,8 @@ struct ne_alloc_memory_args {
+  *
+  * Writing to the descriptor sets errno to:
+  * * EPERM			- The allocation has been donated with
+- *				  %NE_ADD_MEMORY_REGION.
++ *				  %NE_ADD_MEMORY_REGION or provided with
++ *				  %NE_SET_INFO_PAGE.
+  * * EFBIG			- The write does not fit inside the allocation.
+  * * EFAULT			- Part of the buffer is not readable. Any bytes
+  *				  copied before that are reported as a short
+@@ -361,6 +366,9 @@ struct ne_alloc_memory_args {
+  *
+  * An mmap() of the descriptor sets errno to:
+  * * ENODEV			- The allocation is %NE_MEMORY_PRIVATE.
++ * * EACCES			- The mapping asks for %PROT_WRITE and the
++ *				  allocation has been provided with
++ *				  %NE_SET_INFO_PAGE.
+  * * EINVAL			- The mapping is %MAP_PRIVATE, or its offset or
+  *				  length is not a multiple of 2 MiB, or it does
+  *				  not fit inside the allocation.
+@@ -388,7 +396,8 @@ struct ne_add_memory_region_args {
+  *			  contiguous run it is made of, or fewer where runs turn
+  *			  out to be physically adjacent. The argument is input
+  *			  only. The allocation has to have been made for this
+- *			  enclave, and can be given away once.
++ *			  enclave, cannot be its info page, and can be given away
++ *			  once.
+  *			  Writing to the descriptor stops working here, so an
+  *			  enclave image goes in before this call. The allocation
+  *			  has to be %NE_MEMORY_PRIVATE, since memory the parent
+@@ -425,13 +434,82 @@ struct ne_add_memory_region_args {
+  *					  before being started).
+  * * NE_ERR_INVALID_FLAG_VALUE		- The value of the provided flag is invalid.
+  * * NE_ERR_MEM_REGION_ALREADY_USED	- The allocation was already given to the
+- *					  enclave.
++ *					  enclave, or is its info page.
+  * * NE_ERR_MEM_MAX_REGIONS		- The number of memory regions set for the
+  *					  enclave reached maximum.
+  * * Error codes from the NE PCI device request.
+  */
+ #define NE_ADD_MEMORY_REGION		_IOW(0xAE, 0x2F, struct ne_add_memory_region_args)
+ 
++/**
++ * struct ne_set_info_page_args - Allocation to provide to the device (in).
++ * @fd:		Descriptor from %NE_ALLOC_MEMORY, made for this enclave, asked
++ *		for as %NE_MEMORY_SHARED, and made of one contiguous run.
++ * @flags:	Must be zero.
++ */
++struct ne_set_info_page_args {
++	__s32	fd;
++	__u32	flags;
++};
++
++/**
++ * NE_SET_INFO_PAGE - The command is used to give an enclave's slot the info
++ *		      page, a %NE_ALLOC_MEMORY allocation the device writes. The
++ *		      argument is input only. The allocation has to be
++ *		      %NE_MEMORY_SHARED, since a mapping is the only way for
++ *		      the parent to read an allocation back. It also has to be
++ *		      one contiguous run, since the device is given one address
++ *		      and one length for it, and a request of 2 MiB is the one
++ *		      size the allocator cannot come back from in several runs.
++ *		      The info page is not enclave memory: it does not count
++ *		      towards the memory regions %NE_ADD_MEMORY_REGION fills.
++ *		      Only the device writes the page, so from this call on the
++ *		      allocation is read-only to user space: writing to the
++ *		      descriptor fails, and the descriptor is mapped without
++ *		      %PROT_WRITE. A mapping made before the call could still be
++ *		      made writable, so the call fails while one exists, and a
++ *		      caller maps the page after the call. A call the device
++ *		      rejects leaves the allocation writable again.
++ *		      A slot takes one info page, and an allocation is either an
++ *		      enclave's memory or its info page. The driver holds the
++ *		      allocation until the enclave is gone, so closing the
++ *		      descriptor does not free the run the device was given.
++ *		      The ioctl can be invoked on the enclave fd, before an
++ *		      enclave is started.
++ *
++ * Context: Process context.
++ * Return:
++ * * 0					- Logic successfully completed.
++ * * -1					- There was a failure in the ioctl logic.
++ * On failure, errno is set to:
++ * * ENODEV				- The NE PCI device is not available.
++ * * EFAULT				- Argument read failure.
++ * * EBADF				- @fd is not an open file descriptor.
++ * * EINVAL				- The argument is shorter than @flags, or @fd
++ *					  is not a descriptor from %NE_ALLOC_MEMORY,
++ *					  or the allocation was made for another
++ *					  enclave, or it is %NE_MEMORY_PRIVATE, or it
++ *					  is made of more than one contiguous run.
++ * * EIO				- Current task mm is not the same as the one
++ *					  that created the enclave.
++ * * EEXIST				- The slot already has an info page.
++ * * EBUSY				- The allocation has a mapping made before the
++ *					  call, or one is being set up.
++ * * E2BIG				- The argument is longer than this kernel knows
++ *					  about and the excess is not all zero.
++ * * NE_ERR_NOT_IN_INIT_STATE		- The enclave is not in init state (init =
++ *					  before being started).
++ * * NE_ERR_INVALID_FLAG_VALUE		- The value of the provided flag is invalid.
++ * * NE_ERR_MEM_REGION_ALREADY_USED	- The allocation was already given to the
++ *					  enclave with %NE_ADD_MEMORY_REGION.
++ * * ETIMEDOUT				- The device did not answer. The slot keeps
++ *					  the allocation, read-only, until the
++ *					  enclave is gone, since the device may
++ *					  still write the page.
++ * * Error codes from the NE PCI device request.
++ */
++#define NE_SET_INFO_PAGE		_IOW(0xAE, 0x25, struct ne_set_info_page_args)
++
+ /**
+  * NE_START_ENCLAVE - The command is used to trigger enclave start after the
+  *		      enclave resources, such as memory and CPU, have been set.
+@@ -775,7 +853,9 @@ struct ne_user_memory_region {
+  *		      it has been donated. It costs page tables for the part of
+  *		      it a caller touches, and it leaves the memory reachable
+  *		      from the parent for as long as it lives, so an allocation
+- *		      that is only being handed over does not ask for one.
++ *		      that is only being handed over does not ask for one. It is
++ *		      also what an allocation given to %NE_SET_INFO_PAGE has to
++ *		      be.
+  */
+ #define NE_MEMORY_SHARED		(0x01)
+ 
 -- 
-2.43.0
+2.47.1
 
