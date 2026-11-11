@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794389874;
-	b=iQC9RfgqI5W/bZ8mHc7CgCOZLQDDDd9UIY9fmijFCTpJtwjHQZhzclfc786eTCzykSyw
-	 7KK1dk4GYzZGG3xorB1yo/KJEGgfxCWPjYZYNk7G8ObnpBeSV2vqIzPJBPiFBgJNz32UT
-	 SfSD7wnP6FPVdik+aKHgNKi3SuAea+A/db7H6o6IX1rfb7rzscBe2NHIC401icQ69CfMC
-	 UIYQ38QOdVFi/7UchrOT9m6AVVENlLCfJlKtMUnyVcCfkzjrOr6fRNo++OT6CIaaGE/8z
-	 PC0FQLnXErIOwWUSocO1joO8423Skl5ZPY0eQYQdPrQ45o3OclhJqMh/RY8sdUKNtsg==
+	t=1794389871;
+	b=FIgeeYIqJMUifOu8xH2RNhiy8gSiceFjKZV6BTVaCK6mO6A3VH0krjkolfj1/T8Y50gx
+	 0Oh48A/eq63MdXEGwCbH43Zqn3sywly8qK4++hATYDN03tbRPurhapAiWzXQo7zTJiBXG
+	 /+0he/L58+D9sy5V9EqeL5SUxuhzYNYh2jAfo7psD9+sItm6+tH8SV+sUmHvUQDK9F1Wr
+	 ppYfIRaC3gZPMLgbOugqVpnXoTL56PQqsj8ZQSaArp/I+nTe1kU20tw0b7Dzvu58q4IuG
+	 +VT09tGTBtDm1O7QqPuzLf1gtE++xHNRXIZk0vmLFZ8qNuvqZymv3M8INspodXs/aAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794389874;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389871;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=PkJfKwkqKNE4ImiCuQKubmjkOE1XDfvLZ9rc4/zmoHU=;
-	b=27KtWIYJTPumvkVA0KQKPz4EMS9C+lnifsq73o1Rufan23U4u8rK2TOVJhqHOgryJEFc
-	 C7BIP9ec4Od3KeU0TalVaT00Z2hcbRGj9tKDuk26nG8Tnrh2e+plrVE1xnPxztmh8d7Hz
-	 G+KYGCPzKBnEL8oZlzoCuzKkq88E7Qu4WQz4ZGsQ2VcO5vA6Zyprx2+UbfOMk5v2a4wl0
-	 BnjMltfynLXFMQU0J2JlbqYFQY//rUQ/yhWRqvZM2n7ThRwxIrP31gWOuE96hJ0eMycNs
-	 Sg2JA6PGAZ7yCElI3ZqRhVkneRHj/FGssodYy74PyGf7JcPMlAlEIXOBMZBg0jIegAA==
+	bh=ER4yqahQ5ZFgcMtry2SA5Dt9v7EW2BpAfsXeWQFD2tQ=;
+	b=T/nvvN2fzQtEyUjIdUUlROaBKa1rn1dCGwmFXmGCOEUxSjMMvw/TbRmhUlJHtBy6uEed
+	 9OJwEhaL65Wwe+2/LF8MW0ubUXPCrgmaQX0Te9BDSZFRU621ZvrKaEQlKJcO5n6RWIUJc
+	 8tdHHyl0nYwAVfApBD1iUao9X7zWyxPwjpHKt+7l+DN3whq3JGfZYJpRZw6ZuS9LSErKa
+	 c9z7E8FQTnnD8SttE1DX0vzlxXGMmtZY7sl+f3IeDANt9cZpQfBxAbnLXi4WATNqLPqdf
+	 /l6AkmSqt8aMxJFTauc7/SgNyku6rvUxa4r9wcHNHy2ottaSqdGI3Od+cJQkR6kXGLQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJC9HxML;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zu4khBmu;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D413606A338;
-	Wed, 11 Nov 2026 09:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445D8606A33F;
+	Wed, 11 Nov 2026 09:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJC9HxML
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA01E1F00A0C;
-	Wed, 11 Nov 2026 09:37:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zu4khBmu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B621F00A07;
+	Wed, 11 Nov 2026 09:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794389873;
-	bh=PkJfKwkqKNE4ImiCuQKubmjkOE1XDfvLZ9rc4/zmoHU=;
+	s=k20260515; t=1794389870;
+	bh=ER4yqahQ5ZFgcMtry2SA5Dt9v7EW2BpAfsXeWQFD2tQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=PJC9HxML0ZEOhuM6eIC49L6nzywHpT9Rj1sf0JsA0f8CO0CnuZ8yzDwG8O6ATyYfL
-	 AevD6G+sQ2Mmovqqzuztd8/MKbvQLJikgfYVSisGWcUC1PLEjLe6wqtBrRRj+yPPHs
-	 tJ1h9Q9vuqNzRBAFDvwapgKTk52jNjtfVKxTrLR5HjhqTSt7vPOKxyLgdaF0puf8t1
-	 K2PjVg2OuRFmV1sigsMGzU3eNRXFmdgdRw0Cyn33LrKhiNhlfRv3rxSOI/AvnZh9b/
-	 G3nb0ZVuPfnBb5dcDWaRUrrvUo4G2UKrrfgwintp3MlK+PQKZ1VfPOhKdQ75qLEVSQ
-	 2fxtgQupFuYdQ==
-Subject: Re: [PATCH net-next v3 10/14] selftests: dpll: add pin frequency test
+	b=Zu4khBmuMJDijZq7jx13joav4HI5ulOVDzOq9anNIkEwcNtX15NtHh7V8HDcDcYnq
+	 BxaT8gvfLkqhhvcZOaJyyBTqYXH+ezOThjRmARxjCEbjORK8FSdcZufeu1IdK2cCDR
+	 ktl6HUih3vHT6zFByEP91/x8eYlAEkCuO5UoqSAixQLcw/t9im3TBjC5bXoA4kYXMU
+	 Af3fkaIjWUiVDkylSGfBPU+zWHVW14u+Oq5yG5JVi7tPxmd+Bg1vsZryV0xkaY0ts0
+	 0uOX86iR10urw3RQVfL2GBRnoRvz6qJymfuvPLTTs1nViM/hb2GwYcyAXFJlQp1Q7j
+	 BJsMv2vtXyLBg==
+Subject: Re: [PATCH net-next v3 08/14] selftests: dpll: add pin priority test
 From: netdev-bot+sashiko@kernel.org
 To: poros@redhat.com
 Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
@@ -49,10 +49,10 @@ Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
  davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Date: Wed, 11 Nov 2026 09:37:52 +0000
-Message-ID: <179438987253.2199510.13974311226677874539@kernel.org>
-In-Reply-To: <20261109093523.931201-11-poros@redhat.com>
-References: <20261109093523.931201-11-poros@redhat.com>
+Date: Wed, 11 Nov 2026 09:37:49 +0000
+Message-ID: <179438986953.2199510.11828052858797872845@kernel.org>
+In-Reply-To: <20261109093523.931201-9-poros@redhat.com>
+References: <20261109093523.931201-9-poros@redhat.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -66,10 +66,10 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential
+Thank you for your contribution! Sashiko AI review found 4 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 2 · Low: 0
+Critical: 0 · High: 0 · Medium: 2 · Low: 2
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -77,153 +77,188 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] test_pin_frequency_set_get() in
-  tools/testing/selftests/drivers/dpll/dpll_features.sh only checks that…
-- [Medium] test_pin_frequency_set_get() reprograms the frequency of
-  PIN_TUNE_ID.
+- [Medium] pick_tune_pin() says PIN_TUNE_ID "must not be the reference
+  the device is locked to" and that tests skip "rather than…
+- [Medium] The candidate loop in test_pin_priority_get_set() is built for
+  the case the commit message describes: "a large current value may mark…
+- [Low] The comment in test_pin_priority_get_set()
+  (tools/testing/selftests/drivers/dpll/dpll_features.sh) and the commit…
+- [Low] This patch adds a layout comment above
+  dpllsim_setup_standard_device() in…
 
 --
 
-selftests: dpll: add pin frequency test
+selftests: dpll: add pin priority test
 
-This adds test_pin_frequency_set_get() to dpll_features.sh. The test
-takes a supported frequency other than the current one from an input
-pin's frequency-supported list, sets it, reads it back and restores the
-original value. It also adds a dpll_pin_set_frequency() helper to
-dpll_lib.sh, which keeps the tool's error output in DPLL_LAST_ERR.
+This adds test_pin_priority_get_set() to dpll_features.sh. The test sets a
+new priority on a spare input pin, reads it back and restores the original
+value. dpllsim_add_pin() gains an optional priority argument, and the
+standard and stress simulator devices now set priorities on their input
+pins.
 
 > diff --git a/tools/testing/selftests/drivers/dpll/dpll_features.sh b/tools/testing/selftests/drivers/dpll/dpll_features.sh
-> index b4b1eff322a21..6649936c710e4 100755
+> index 874007411bc5e..b4b1eff322a21 100755
 > --- a/tools/testing/selftests/drivers/dpll/dpll_features.sh
 > +++ b/tools/testing/selftests/drivers/dpll/dpll_features.sh
 
 [ ... ]
 
-> @@ -237,6 +238,69 @@ test_pin_state_transitions()
->  	log_test "DPLL pin state transitions"
->  }
->  
-> +test_pin_frequency_set_get()
-> +{
-
-[ ... ]
-
-> +	before=$(dpll_pin_get_frequency "$PIN_TUNE_ID")
+> +	before=$(dpll_pin_get_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID")
 > +	if [ -z "$before" ]; then
-> +		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
-> +		    "frequency not reported"
+> +		dpll_log_test_skip_or_fail "DPLL pin priority set/get" \
+> +		    "prio not reported"
 > +		return
 > +	fi
-> +	defer dpll_pin_set_frequency "$PIN_TUNE_ID" "$before"
+> +	defer dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" "$before"
+> +
+> +	# The accepted range is not advertised, so try one below the current
+> +	# value and then small values, a refusal of all of them is a skip on
+> +	# a device the user provided, the simulator accepts every priority.
 
-[Severity: Medium]
-Can the original frequency always be written back here? The only check
-on before is that it is not empty. The DPLL core refuses any value
-outside the pin's frequency-supported ranges, and it does this before
-it compares the value with the current frequency:
+[Severity: Low]
+Is "the simulator accepts every priority" accurate? The commit message makes
+the same claim. However, dpllsim_pin_prio_set() rejects anything above
+DPLLSIM_PIN_PRIO_MAX, which is 255 in dpllsim.h:
 
-drivers/dpll/dpll_netlink.c:dpll_pin_freq_set() {
-	...
-	if (!dpll_pin_is_freq_supported(pin, freq)) {
-		NL_SET_ERR_MSG_ATTR(extack, a, "frequency is not supported by the device");
+drivers/dpll/dpllsim/dpll.c:dpllsim_pin_prio_set() {
+    ...
+	if (prio > DPLLSIM_PIN_PRIO_MAX) {
+		NL_SET_ERR_MSG_FMT(extack, "Pin priority must be in range 0-%u",
+				   DPLLSIM_PIN_PRIO_MAX);
 		return -EINVAL;
 	}
-	...
+    ...
 }
 
-zl3073x hits this case on purpose. It reads a sub-Hz reference back as
-0 Hz and leaves 0 out of freq_supported:
+The configfs store dpllsim_pin_prio_store() applies the same limit.
 
-drivers/dpll/zl3073x/prop.c:zl3073x_pin_props_get() {
-	...
-	/* Start with current frequency at index 0. A sub-Hz frequency is
-	 * read back as 0 Hz and cannot be set, so it is not offered.
-	 */
-	j = 0;
-	if (curr_freq) {
-	...
-}
+The test still works today. Since before is capped at 255, the candidates
+(before - 1, 1 and 7) are always in range.
 
-Here is what happens on such a pin on a device the user provided:
+This comment is the reason a refusal on the created device is a failure and
+not a skip. Could it say "every priority in 0-255" or "every value tried
+here"? The comment is still the same at the end of the series.
 
-- before=0 passes the -z check.
-- The jq filter picks the first advertised frequency as target.
-- Setting target succeeds and reprograms the hardware reference.
-- The explicit restore and the deferred restore are both refused with
-  EINVAL.
+> +	target=""
+> +	for candidate in $((before - 1)) 1 7; do
+> +		[ "$candidate" -ge 0 ] && [ "$candidate" != "$before" ] ||
+> +			continue
+> +		if dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" \
+> +				     "$candidate"; then
 
-Wouldn't this leave the user's device on a frequency the test picked?
-The commit message says the test "restores the original value".
+[Severity: Medium]
+Can this make a user-provided device switch its reference?
 
-The phase adjust test later in the series bails out before it schedules
-the restore when the current value could not be written back. Would a
-similar check fit here, one that confirms before lies inside an
-advertised frequency-supported range before the pin is touched?
+The comment above pick_tune_pin() says PIN_TUNE_ID "must not be the
+reference the device is locked to". It also says tests skip "rather than
+reconfiguring the reference". But pick_tune_pin() accepts selectable pins:
 
-> +
-> +	# Pick a supported frequency different from the current one. Both
-> +	# ends of every supported range are candidates, so a pin with a
-> +	# single range still has an alternative unless it is one value wide.
-> +	target=$(dpll_pin_json "$PIN_TUNE_ID" | \
-> +		 jq -r --argjson cur "$before" \
-> +		    '[.["frequency-supported"][]? |
-> +		      .["frequency-min"], .["frequency-max"] |
-> +		      numbers | select(. != $cur)][0] // empty')
+	case "$state" in
+	disconnected|selectable)
+		;;
+
+In automatic mode, a selectable input takes part in reference selection by
+priority. This loop gives that pin a higher priority (a smaller value). It
+never compares the new value with the priority of the current reference.
+
+On a device set through DPLL_DEV_ID or DPLL_DRIVER, the new priority reaches
+hardware straight away. zl3073x_dpll_input_pin_prio_set() writes REF_PRIO
+through zl3073x_chan_state_set() when zl3073x_chan_ref_is_selectable()
+holds. ice_dpll_hw_input_prio_set() sends it to the CGU firmware through
+ice_aq_set_cgu_ref_prio().
+
+Take a device in automatic, revertive mode with a valid signal on the spare
+input. If before - 1 ties the locked reference's priority, or if 1 or 7
+beats it, could the DPLL switch to the spare pin? Restoring the priority
+could then switch it back. Each switch can disturb outputs feeding SyncE or
+PTP.
+
+Would it work to pick a target that does not outrank the connected
+reference? Other options are to change the priority only on disconnected
+pins, or to skip in automatic mode on user-provided devices.
+
+> +			target=$candidate
+> +			break
+> +		fi
+> +		reason=${DPLL_LAST_ERR%%$'\n'*}
+> +	done
 
 [ ... ]
 
-> +	# A driver without a frequency setter or with constraints of its own
-> +	# may refuse the candidate, a skip on a device the user provided, the
-> +	# simulator accepts every advertised value.
-> +	if ! dpll_pin_set_frequency "$PIN_TUNE_ID" "$target"; then
+> +	dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" "$before"
+> +	check_err $? "cannot restore pin priority"
 
 [Severity: Medium]
-Is it safe to reprogram this pin's frequency based only on its state on
-DPLL_DEV_ID? pick_tune_pin() counts a pin as spare when it is
-disconnected or selectable on that one device:
+What happens here in the case the candidate loop is built for? The commit
+message says:
 
-tools/testing/selftests/drivers/dpll/dpll_features.sh:pick_tune_pin() {
-	...
-		state=$(dpll_pin_get_state "$DPLL_DEV_ID" "$pin_id")
-		case "$state" in
-		disconnected|selectable)
-	...
-}
+  since a large current value may mark an unused pin outside the settable
+  range, as the ice driver does with 255.
 
-State and priority are per parent device, but frequency belongs to the
-pin itself. It is shared by every DPLL device the pin is registered
-with.
+In that case before itself cannot be set. Suppose before - 1 (254) is
+refused and then 1 or 7 is accepted. The pin's hardware priority has
+changed, and this restore to before would be refused for the same reason.
 
-On zl3073x, every channel gets the same dpll_pin for an input index
-through dpll_pin_get(clock_id, index). The setter then writes the
-chip-wide reference state:
+The test would then report a failure, not a skip, on a user-provided
+device. The deferred restore sends the same value, so it also fails, and
+without any message. The unused input stays at priority 1 or 7 on the
+user's hardware, and in automatic mode it could then be picked as a
+reference.
 
-drivers/dpll/zl3073x/dpll.c:zl3073x_dpll_input_pin_frequency_set() {
-	...
-	ref_id = zl3073x_input_pin_ref_get(pin->id);
-	ref = *zl3073x_ref_state_get(zldev, ref_id);
+ice_dpll_input_prio_set() and ice_dpll_hw_input_prio_set() do no range
+check of their own. They pass (u8)prio to firmware, so only firmware
+decides whether 255 can be written back.
 
-	/* Update frequency */
-	zl3073x_ref_freq_set(&ref, frequency);
+test_pin_state_transitions() treats a refused restore as a skip when RET is
+0, but this test does not. Should it first check that before can be set,
+for example by writing it back once, before trying a different value? The
+code is still the same at the end of the series.
 
-	/* Commit reference state */
-	return zl3073x_ref_state_set(zldev, ref_id, &ref);
-}
-
-Say the chosen input is selectable on the EEC channel but is the locked
-reference of the PPS channel. Could the PPS channel then lose lock, go
-into holdover or switch references until the restore runs? ice also
-registers its inputs with both its EEC and PPS DPLLs. The test never
-checks that the other channel locks again.
-
-Should the pin be checked against all of its parent devices before this
-test changes its frequency?
-
-> +		reason=${DPLL_LAST_ERR%%$'\n'*}
-> +		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
-> +		    "cannot set frequency=$target${reason:+, $reason}"
-> +		return
+> +	after=$(dpll_pin_get_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID")
+> +	if [ "$after" != "$before" ]; then
+> +		check_err 1 "priority not restored, got '$after'"
 > +	fi
+
+[ ... ]
+
+> diff --git a/tools/testing/selftests/drivers/dpll/dpll_lib.sh b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
+> index 63c70a4aaab6e..6fe707c2609c5 100644
+> --- a/tools/testing/selftests/drivers/dpll/dpll_lib.sh
+> +++ b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
+
+[ ... ]
+
+> @@ -559,8 +579,8 @@ dpllsim_alloc_clock_id()
+>  # Create a device with the standard 3-pin layout, deploy it and resolve
+>  # the netlink device id. Sets DPLLSIM_CREATED_NAME, DPLLSIM_CLOCK_ID and
+>  # DPLLSIM_DEV_ID.
+> -#   gnss0: GNSS, 1 Hz, input
+> -#   ext0: EXT, 10 MHz, input
+> +#   gnss0: GNSS, 1 Hz, input, prio 0 (active reference)
+
+[Severity: Low]
+Is "(active reference)" correct for the simulator? It does not seem to ever
+select or lock to a reference.
+
+dpllsim_pin_reset() starts every pin disconnected:
+
+	pin->ops = dpllsim_pin_select_ops(pin);
+	pin->state = DPLL_PIN_STATE_DISCONNECTED;
+
+dpllsim_pin_prio_set() only stores sim_pin->prio, and nothing else reads
+it. sim->lock_status is set once to DPLL_LOCK_STATUS_UNLOCKED in core.c and
+never changes.
+
+The device is always in automatic mode. dpllsim_pin_state_set() accepts
+only disconnected and selectable there, so no pin is ever connected.
+
+So gnss0 never becomes the active reference, and its prio 0 does not affect
+which pin is used. That includes the tie test_pin_priority_get_set() can
+create by setting ext0 to 0. The comment is still the same at the end of
+the series, and no later patch adds selection by priority.
+
+> +#   ext0: EXT, 10 MHz, input, prio 1
+>  #   out0: EXT, 10 MHz, output
 
 [ ... ]
 
