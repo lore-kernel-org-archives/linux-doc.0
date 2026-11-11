@@ -1,47 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794388217;
-	b=BPQ7GCzPkrQAx2mpongMrWbAgzHnOPmbbyH8ou+pkANonwnt4uMFQlLDlLCsI0pihqKp
-	 ZG0HcqK9NT9HSuezM5JjHvbPlDSlZC3Kff4EZ18UTmsZPqtmpR8HONq1e9DtvOU819n3h
-	 SUzdtF4gkFnbmy8dnbRF7GH6NxvoocvzBdfyc99r6P9dwrib7vtEdJ9efsC+jgkX9Gmbm
-	 XuOLp+asXthf4mWzUxljHd8hkhp4fGvR6LmPjaIbgrVtygAvr6UNQ1YKeF1DeNqKYF1pi
-	 4AMk3rCgkHitNdnajXWuaKJ8XVMHcZPOOF3hAycWA7a5EPCkd6CTg3uy93ewe2JRGdQ==
+	t=1794389832;
+	b=fc9AM88WDwbwKzmzjZOOkTuX/lCr7EwzebP1XxVeQL1mK1oya4GJ3KlxiF+J0cQzz4xN
+	 EgZz0kkAPqAZx9rrfS0WFmAiBORPyfhotDMbvNJ3RlPxuY4pVbOw53WLoTwI2KNuADFgB
+	 o1p+6MLVZX5eWYh/4F+sH43IstvgmR/i5uy8Dzg7NL57dlE1v9uM82EJ61k1j6uQL6VvU
+	 6vjbH+5A2623X9Ul3oSBWaYt6dpI+LhnJg8F1r5w9aD9aItgXELzCkeLbdRutGQXCT/yR
+	 JPD0nIuqFPnkrVQD5KVqoTvweUSerbQVBcxpT6qCsxpHPBlPKEOMudWil/NX4h5WU9Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794388217;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=xH9l3vH/C4QDmuSYkhVbjVTYTvtMqxmFM17WSOqQ34E=;
-	b=fOnxGnNM/luZRSVYtrNP0EG4mB4pYppC9zAT7dMAhySESTA8e29kXjHKJsqRKp3G1Le3
-	 9lMFoqSWh6rPWhNjNbUr/GC4qynt/oCpU2SA8sSb0I5lIvBqHkdi8NLGG7LoIBW/0lgEO
-	 Vcx7S9hwfxhAqSfzj+KIRCKNy3yX2p5k/TWZORpJYmfGahywJIMk8GEHBK3/tKNeustgm
-	 0t0gq9ZSjrrzIO0EAleRqRmthpgLdLSF9M0j9G+x4cYwCVL+z0bfgbvTT1FTaOgpegCqq
-	 tQQzUbsxqPX9682omzPKBG04DtwnplKjBTqbCvzfP8QX5GpqiNzN8KexPBLyyOv1IeA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389832;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-Id:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=fU9XfcyXyDYY96b4oLkbxP2QCB6xnQM84ny0U+EIIak=;
+	b=nmoc4FgiuAM7AODWtKEj/TwUUl+e2KICur+vbD4b8ym7vQN5Iqvm+vZe67ppygZNGoSl
+	 rRq+EZQ0oeQp+XnI0icAuXR9vscC1JAiN94uYdYXn4i4VshCf6D0ExQTme8r/dncX7AIL
+	 Bou3kYK4gOmojf+5ZF6PvqzpIHycgm4AdVKS+0mSIugnFDHmjz1hAq5DkaPfp/ai3ww2d
+	 7WZhm6+wkSzGLWBMehSbno/4C9/RF9hQ4KNQC+adqsST9IvP3cnLkwnCDm6BNG0Za9yAj
+	 aV8cyLoQ6Ik4yWvmiiSlElrubAD6elt3OWrp6k40+HRJ1uytll7Rk7tAyeFdSAuODxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QQZJDCma;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b="d9Av/BHV";
+	arc=none smtp.remote-ip=91.218.175.3
+Received: from mta0.migadu.com (out-3.mta0.migadu.com [91.218.175.3])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7C6E606A31C;
-	Wed, 11 Nov 2026 09:10:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 536D3606A32E
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 09:37:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 536D3606A32E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QQZJDCma
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77FE21F00A05;
-	Wed, 11 Nov 2026 09:10:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794388217;
-	bh=xH9l3vH/C4QDmuSYkhVbjVTYTvtMqxmFM17WSOqQ34E=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=QQZJDCmaKacfblRcagLi02rbg4jcCBwjp9GW5ASiJ8taKOiX+os9eVBIIXUG8CZHs
-	 UP9BXvgSxs3gHLnqayo3DnLh2wb3rk/JbGvU6a2Io0b/Qu2Bd3x2ZmAk28LVJCpAk+
-	 ROfQ3iEyQKObZevE0BedWNZrvGK9ayUJyuyshutw3A7iSM3s91J3IqkZRMyQDb6FVn
-	 NlCjXqDr0jV4ZgvARvuY0guxenbSBTpwGYlUJhfJv1baYnkjQO1x0ZAR/uT0QPwIee
-	 ETXVJTcYUe87V8Vk3RT0Nw7bfpV2NeR7mTFNYEW/olNUeI4L4wYcR9EQ718KHiEL0y
-	 hRM9iGghejhlg==
-Message-ID: <d43cf7bd-6a6a-4102-95cc-cb236eb49e0d@kernel.org>
-Date: Wed, 11 Nov 2026 10:10:07 +0100
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=d9Av/BHV
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=6wp3khVZFr9nCgPoeJN5KkCAJtgzTDUmCQsA5IU4RCg=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794389828; v=1; x=1794994628;
+ b=d9Av/BHVMSaBOhJ9tQ4D+vWpZKoty1v3C0dRUpHbHptA8MVuGOCheqnA74/ZXe9jFnZ38cIg
+ A/EmWY7naiTBS9B3vdzrolqw5pIS3BBYlxKgp3eFFpQpjBHMGvn6lVZ0O3zmyPDI9LOHH3HQs1C
+ jafFTp+ux8W7ZGoQ5nHPLHd4=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by mta12.migadu.com with ESMTPS id 3265524654880463;
+	Wed, 11 Nov 2026 09:37:07 +0000
+X-Mizu-Trace-ID: 3265524654880463
+X-Migadu-Flow: FLOW_OUT
+From: "Xu Xin (vivo)" <xu.xin@linux.dev>
+To: david@kernel.org
+Cc: akpm@linux-foundation.org,
+	chengming.zhou@linux.dev,
+	link@vivo.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	ljs@kernel.org,
+	tujinjiang@huawei.com,
+	xiao.wang@vivo.com,
+	xu.xin@linux.dev
+Subject: Re: [PATCH 2/4] ksm: skip rmap_item allocation for non-zero pages under only_merge_zero_pages
+Date: Wed, 11 Nov 2026 17:36:57 +0800
+Message-Id: <20261111093657.123292-1-xu.xin@linux.dev>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <5445434f-078f-47d8-9851-dcc3712d18f1@kernel.org>
+References: <5445434f-078f-47d8-9851-dcc3712d18f1@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,134 +75,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] ksm: add only_merge_zero_pages to merge only empty
- anonymous pages
-To: "Xu Xin (vivo)" <xu.xin@linux.dev>
-Cc: akpm@linux-foundation.org, chengming.zhou@linux.dev, corbet@lwn.net,
- link@vivo.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org,
- odys.yuan@gmail.com, rppt@kernel.org, surenb@google.com,
- tujinjiang@huawei.com, vbabka@kernel.org, xiao.wang@vivo.com
-References: <20261110074312.219847-1-xu.xin@linux.dev>
- <20261110074451.220524-1-xu.xin@linux.dev>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261110074451.220524-1-xu.xin@linux.dev>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 11/10/26 08:44, Xu Xin (vivo) wrote:
-> Add a new sysfs attribute, /sys/kernel/mm/ksm/only_merge_zero_pages,
-> which, when enabled, makes ksmd merge only empty (zeroed) anonymous
-> pages with the kernel zero page and skip the stable and unstable trees
-> entirely for pages that carry data.
+> I think we should get rid of any rmap items when merging the shared zeropage
+> only. That might require more changes to the ksm code, but it really doesn't
+> make any sense to have rmap items.
 > 
-> The attribute requires use_zero_pages to be 1, and the two are kept
-> consistent by symmetric constraints: it cannot be enabled while
-> use_zero_pages is 0 (-EINVAL), and use_zero_pages cannot be turned
-> off while it is active (-EBUSY). Both store handlers take
-> ksm_thread_mutex around their check-and-set so that a concurrent write
-> to the two attributes cannot leave use_zero_pages=0 and
-> only_merge_zero_pages=1, a state in which ksmd would scan and checksum
-> pages but never merge any. The new attribute can be changed at any time
-> and is only effective for pages merged after the change.
+> Maybe we just want a separate KSM infrastrcture that only focuses on
+> deduplciating shared zeropages in KSM: get a page, see if it is zero-filled. If
+> so, try deduplciating with the shared zeropage. Done.
 > 
-> Benefits in three aspects
-> =========================
-> - Memory saving:
->   On memory-constrained systems such as Android and embedded devices,
->   zero-filled anonymous pages are the largest source of duplicate
->   anonymous memory. They are produced by userspace allocators: the
->   zeroing of freshly allocated Java objects and buffers in the ART heap
->   (new byte[]/int[], Bitmap buffers), calloc/memset in native code, and
->   preallocated media buffers. Merging them with the kernel zero page
->   frees a significant amount of physical memory, which matters as DRAM
->   costs keep rising. With this enabled, we measured 100MB–300MB saving
->   tested with several popular applications on aarch64 (Android).
-> 
-> - CPU overhead reduction:
->   Merging only zero pages also reduces the overhead of ksmd. A page that
->   is not merged with the zero page carries data and can never be merged
->   with the zero page, so there is no point in searching the stable tree
->   or inserting it into the unstable tree for it. Skipping those tree
->   operations for data-bearing pages reduces both the CPU time and the
->   rhashtable memory footprint of ksmd, which makes zero page merging
->   practical on low-resource devices where full KSM scanning would be too
->   expensive.
-> 
-> - Security:
->   Finally, this shrinks the KSM side-channel attack surface: only zero
->   pages are ever merged, so the sharing status of data-bearing pages is
->   no longer observable through KSM timing side channels.
-> 
-> Note
-> =====
-> - Suitable for Android, embedded and low-memory devices, where zero-page
->   deduplication is wanted but full KSM scanning is too costly, and reduced
->   KSM side-channel exposure is desired. Many handset vendors may prefer
->   this knob, which can be used as a default fallback policy.
-> 
-> - Not suitable for server and virtualization workloads containing many
->   non-zero duplicate pages, where vanilla KSM provides better memory
->   savings.
-> 
-> Signed-off-by: Xu Xin (vivo) <xu.xin@linux.dev>
-> Reviewed-by: Huan Yang <link@vivo.com>
-> Cc: Wang Xiao <xiao.wang@vivo.com>
-> ---
+> Mangling this into the existing infrastructure might look easier but it just
+> adds things like additional zero-page comparisons and (as Lorenzo points out)
+> makes the code harder to understand + maintain.
 
-See my reply to #2. I think the overall feature makes sense, but reusing all of
-KSM infrastructure just to deduplicate zero-filled pages looks suboptimal.
+Makes sense, I agree.
 
-Please investigate how we could selectively reuse some pieces to just scan +
-dedulicate zero-filled pages, avoiding the whole rmap item stuff etc.
+I actually thought about doing it this way at first, but went with the
+current approach since it looked simpler back then. Without needing any
+rmap_item tracking for zero pages, we can avoid rewriting scan_get_next_rmap_item()
+with more complexities.
 
--- 
-Cheers,
+Splitting them up has two obvious wins:
 
-David
+1. ksm_do_scan() becomes much easier to read:
+
+   if (only_merge_zero_pages) {
+           scan_get_empty_page();
+           try_to_merge_with_zero_pages();
+   } else {
+           /* existing logic */
+   }
+
+2. We can even add better filtering in scan_get_empty_page() to speed up
+   empty page scanning, without making scan_get_next_rmap_item() even messier.
+
+That's a very constructive suggestion. I'll rework v3 this way.
+
+Thanks,
+Xu
