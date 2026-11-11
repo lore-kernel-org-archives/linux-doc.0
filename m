@@ -1,96 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794371945;
-	b=vBelab7YtP1j5bMk0KLDcWiT+3fIfe/GiUFl9KWq/gOy4blS7V8mRsNF15/gYTUAbc7S
-	 wD+QXvSFmHde7q67oEtvYAolvSJVAyeWsWOzqIjGAOoRUxsCVbEzFFDG/0kKQTKEltqfJ
-	 7Hvs4Y/lkZeBjbMBwhB1w9qGapC4ZfhXDA+J31vmOsGikTTlVefStIPqCoBjvfA0+Xboe
-	 jRpnPQbqQAC5IuHbBxStAUfmZYUL8vKBo3jF2Zo8tkUDUyc1Hs+Gh3yzycct9ulJlvr6j
-	 caOuPlwAEMwsKvcvfkOxu90S6ysw+7XKVfjayHZxesVrhshpaQBiRz8IJAg7ntEyqNA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794371945;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=siZmirI+f1Pyy8EXeDTuyyN9Ke8UwfOLkM0owVcLHTc=;
-	b=EY2GG1HlylUjcgKtqEi/XbIyeBPZAmxvz1BK4tYUNyzPr6nchaq9FukOn3PRvBgDJUDA
-	 zPjPJujCbuL03Xt6VjYCpABWDHikkTe/L6o+ZkxKYlzkW/YvJuMTrzWXwKeDCKzZaVdql
-	 VYRTER1j8t7MWAb5Vjirxs43U7yeGLjM9smgplYjaBhcLoGsoip8W+h8TuNEljKVYU6zC
-	 LT9lNgXGb3CZJITcPdQPh8kC/dvFxIZWSNg06VKZB/XW/vjoMN1XeWhHLEP3d2yC1LR0Z
-	 AU0UDjo1QMJVAVJX7sujJYlZK7Xc/4/ga6RC3McffVHfG3qU3VqTxSHdHTUykwm4+SQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ihi7Z3mW;
-	arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794372888;
+	b=kJm3VDgzQqsGDTg7MGYlforAB6NhBNC1PXMRVFZkK2J8pvbTYJY5Z/cOO+QvLdzInepY
+	 1kevAfwcIM1h6TeVdHuNVleKSoc2bzSOz7HkNAoI35gGbuR6eM4a98nCek245fEsOX9X2
+	 /C7W1DRAzIvQNlOCvuMLGZ7g3Utzdfyjeg+yf686XwQBgBSIyeq0Hl+QvYO1XLtsWYTzj
+	 MHFm+Zpr1xW/CBhHlIMPgN7hCkN/Xs4O0K4oWVC9C+r8PIp4HRr5hPk0QU622usBANVbi
+	 dkx5YYtAoYK+8brYyEaSqD+OwjSeXYZ6Myv/QFLLVFfv8ON90PwJN+FaejYSVIirLog==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794372888;
+	h=Received:DKIM-Signature:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=yHTqYk5LyUXJH1MJkA1V1ZTEvy+nMYFD/OUdr/NdRxY=;
+	b=hG7gDT3O/vW5saP/N52LxIiAgFysw4yI2BeHFgohNI/OtAJT8DkQq1l3p4U4B95V10Wv
+	 kvhBKTKwHdhax2dj6KNFlbFjoJoe5Ez+ZNYiyw6b2PERZgt3pfAPDbM+NynTVVXKk1fPl
+	 K2jQfZwUFqJuChiODwOwaeFi6EteYGJ1FxAqIes+binZ7BiLFYcv3QjAaQowcYGDJ0m3q
+	 jDyPlpZjswabJbyKIFrelT+/4og/OeQNw23rCBAKvJc/zlh38PS/NpsCJGZsuB3bRaDdX
+	 63X71iTArAYIpSBs11f5G4fNv38mRiXOPYnuo1W6tv0ci7chy39svojGEODtd9v88yQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iPhqrFp6;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBF72606A321;
-	Wed, 11 Nov 2026 04:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594E1606A320;
+	Wed, 11 Nov 2026 04:54:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ihi7Z3mW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B0221F0089F;
-	Wed, 11 Nov 2026 04:38:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iPhqrFp6
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794372888;
+	b=cxoW7mTL3r95EX/Y1f+hmDM/tG3Dxx1Z2w0n9j5qx8D8sPTauT5iLyeHkYiHa7BTtsWh
+	 bi67FW/c9PGd+ZhAbaFyQl17pDZZMs1kuKqTgBGjrl9W7LFGri9jds5iJp9tXP1laBQ3A
+	 Ir9NLZ2TsLoGG8/bbLmSqgUzLgIXCGIDl3brA8W9Qtx794xug2ch9p9E3T6MoIe0vEGxQ
+	 We6vSomta8ieiVygnvjuQLv+kGMoDwpaaSgY8tQvO7wwG9D3kCFFP8ZcY+w0ZFYPWJ0r5
+	 AOkrFJuHNYcYNGLJQo+LjzMnfM9jf37PKbs6d8Yxig0Harh0NCwMPRW4usVVC0FIuTg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794372888;
+	h=DKIM-Signature:Received:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To;
+	bh=yHTqYk5LyUXJH1MJkA1V1ZTEvy+nMYFD/OUdr/NdRxY=;
+	b=D90oCFu+twhgPT5/j0hUYBRuEp9BCYpoxrhwJbozz9ER2pOK8nuG4awAxIcwAybNh07F
+	 YeNpA07wEeLbhirmvov9v9qj6EAUMn/pAtP7O/B5SvgQFZYuK/vyYz/MgxXrcSZ++1Y3H
+	 NIvWqHYA9xglVczSeecSsEPocSI3s0ldpmwc5SZkSRCXF3vq2HD2BCRo4rOl2uG9w2aV7
+	 WlDeYX5PYRyzfdho1BP7/5/8jl111+pJPOeIv7lYYgKPZAw3E+vTSHpooCVQTUUn1C32G
+	 kABuIIKRev9zzBhAjQdOmBf0Wrp//6ql4subN705UdkRlaFXnM2oQJ7huUwzuGsunFQ==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 7310A1F0093C;
+	Wed, 11 Nov 2026 04:54:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794371945;
-	bh=siZmirI+f1Pyy8EXeDTuyyN9Ke8UwfOLkM0owVcLHTc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Ihi7Z3mWuOUA+kXYCdelMQfc0wNHEyM63cO8JoyRFYBXxLRj8v9SXEXjRfpt4HZsv
-	 II8l7k07UN+GKvuGkYa8T9S1h38HBW19Rc0o9Hxs5BkXX0G2sL3QNUJqiwVXXT5ZSO
-	 41eAboMlgACcl6rcoxul6g6au1reU9+lgHoppdBVGDiUeRgoQeUpuPIInwj97STiaz
-	 qrj49xx01AHBcnRPjlhs2SzAiXgvOgz7ILb1AnMtBVoA0VaOOFVv0XcS/9vr86vOqh
-	 wVb5zsw2OiBPHuZn/vrAQEVMXB94uXx3SwfFKg4196+omMgSgdfscT1mCVx2pZ0y4o
-	 ip2vQIxoEvWbw==
-Date: Wed, 11 Nov 2026 12:18:36 +0800
-From: Jisheng Zhang <jszhang@kernel.org>
-To: Conor Dooley <conor@kernel.org>
-Cc: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>,
-	Yury Norov <yury.norov@gmail.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Chao-ying Fu <chao-ying.fu@globalfoundries.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	torvalds@linux-foundation.org, olof@lixom.net,
-	aleksa.paunovic@htecgroup.com, arikalo@gmail.com,
-	Boqun Feng <boqun@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
-	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	Jiri Olsa <jolsa@kernel.org>,
-	Emil Tsalapatis <emil@etsalapatis.com>,
-	Ihor Solodrai <ihor.solodrai@linux.dev>,
-	Luke Nelson <luke.r.nels@gmail.com>, Xi Wang <xi.wang@gmail.com>,
-	=?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-	Pu Lehui <pulehui@huawei.com>, Puranjay Mohan <puranjay@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Oleg Nesterov <oleg@redhat.com>, Miguel Ojeda <ojeda@kernel.org>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Daniel Almeida <daniel.almeida@collabora.com>,
-	Tamir Duberstein <tamird@kernel.org>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	Onur =?utf-8?B?w5Z6a2Fu?= <work@onurozkan.dev>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Charlie Jenkins <thecharlesjenkins@gmail.com>,
-	Nam Cao <namcao@linutronix.de>, rust-for-linux@vger.kernel.org
-Subject: Re: [PATCH v6 2/6] riscv: build kernel atomics from LR/SC when Zaamo
- is disabled
-Message-ID: <avPsnAlbfEsNa5zq@xhacker>
-References: <20261110-lrsc-only-v6-0-bafc3cc0fcae@mobileye.com>
- <20261110-lrsc-only-v6-2-bafc3cc0fcae@mobileye.com>
- <20261110-revivable-saint-9bcfaa2fd0e7@spud>
+	s=k20260515; t=1794372887;
+	bh=yHTqYk5LyUXJH1MJkA1V1ZTEvy+nMYFD/OUdr/NdRxY=;
+	h=From:Subject:Date:To:Cc:Reply-To;
+	b=iPhqrFp62ocYWmcPo4P/iuntSuLGsPniD4EFr/UQrJbxij1/SpEJNWZQkMGRGzDsU
+	 0WZEywl9L/3Jo9svdWRL+v0661bUv72iqiG/Kv7tbUvBORk5EKrFsKTj1eSuDAbneg
+	 dZog+3TMwGVIMKn59ytzyBV50Nu64OkoRnHJ/Iq2EcTqVzI6rDQe2hrSACbCJX5a/g
+	 SswK30IzpMYQQ6QePQjjmLK/pTyxNKKDzh2lyoN5LpwUwhj7OSdX9vMggtyqCfETj2
+	 /CQTSAEmAjf2NdDYYa8d+axJOcjM0DqXI4Jmfqi+jQ8lp407GAx7d2VgD6ooZ7BuNE
+	 A3SP/W0IWas6A==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id C343F48D9B;
+	Wed, 11 Nov 2026 04:54:46 +0000 (UTC)
+From: Daejun Park via B4 Relay <devnull+daejun7.park.samsung.com@kernel.org>
+Subject: [PATCH 0/2] landlock: Fix landlock_restrict_self() on long
+ executable paths
+Date: Wed, 11 Nov 2026 13:54:45 +0900
+Message-Id: <20261111-landlock-long-exe-v1-0-588cfd174a10@samsung.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,89 +84,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261110-revivable-saint-9bcfaa2fd0e7@spud>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABX182oC/x3MQQqAIBBA0avErBtwFFp0lWiROtWQaCiEEN49a
+ fkW/79QOAsXmIcXMj9SJMUOGgdw5xYPRvHdoJWeiEhh2KIPyV0YUjyQK+NEztrdOmOUgt7dmXe
+ p/3NZW/sAA1FTl2MAAAA=
+To: =?utf-8?q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack@google.com>
+Cc: Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
+ "Serge E. Hallyn" <serge@hallyn.com>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Dwi Siswanto <me@dw1.io>, 
+ =?utf-8?q?G=C3=BCnther_Noack?= <gnoack3000@gmail.com>, 
+ linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, Daejun Park <daejun7.park@samsung.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794372885; l=1166;
+ i=daejun7.park@samsung.com; s=20261006; h=from:subject:message-id;
+ bh=xaD9x5hOGi5bU7Yh+ce0HiRT3Akp4JNRN8QyWNIXG58=;
+ b=o1+NYJLc/GsQlPVEcfpw+6EGdbF5/yRNquIi6RQb7zWg7iJHGvMT8vlyHXHquEooXjdnKCeOD
+ /tr4JPiSF96BXKxKIdCQa2NZryQMhVALjr423/dTt/eSSyj6hf8K66a
+X-Developer-Key: i=daejun7.park@samsung.com; a=ed25519;
+ pk=4yUfDqGRZTIj0Ik43z1GoMZRWCNm/rgX6uJuM9dtNIg=
+X-Endpoint-Received: by B4 Relay for daejun7.park@samsung.com/20261006 with
+ auth_id=1122
+X-Original-From: Daejun Park <daejun7.park@samsung.com>
+Reply-To: daejun7.park@samsung.com
 
-On Tue, Nov 10, 2026 at 07:02:48PM +0000, Conor Dooley wrote:
-> On Tue, Nov 10, 2026 at 03:20:59PM +0200, Vladimir Kondratiev wrote:
-> > The A extension is Zaamo plus Zalrsc. On some CPUs Zaamo is present
-> > only formally. MIPS P8700 traps every AMO instruction into M-mode and
-> > emulates it there, so the extension is supported but very slow. A
-> > typical uncontended atomic increment costs:
-> > 
-> >   native AMO                                     2..5 cycles
-> >   LR/SC, private L1 reservation monitor         6..12 cycles
-> >   LR/SC, PoC (L2) reservation monitor       about 40 cycles
-> >   AMO emulated by an M-mode trap           about 600 cycles
-> > 
-> > The last two were measured on the eyeq7h hardware. On such a CPU the
-> > kernel must use LR/SC for every atomic.
-> > 
-> > Add RISCV_ISA_ZAAMO, default y. The default keeps "a" in -march and
-> > the generated code unchanged. When it is disabled, -march carries
-> > _zalrsc instead of "a", and atomic_*, bitops, xchg, futex and the
-> > early boot code use LR/SC loops. The sequence is chosen with the
-> > preprocessor, on CONFIG_RISCV_ISA_ZAAMO like the other ISA options in
-> > the headers, because the assembler rejects AMO mnemonics once -march
-> > lacks Zaamo. A kernel built this way runs on any hart that implements
-> > A; it just does not use AMO. It is therefore a plain option, not a
-> > NONPORTABLE one, and the hart keeps advertising "a" to userspace,
-> > which is true.
-> > 
-> > The LR/SC loops follow the ordering convention of the existing ones
-> > in cmpxchg.h, from commit 5ce6c1f3535f ("riscv/atomic: Strengthen
-> > implementations with fences") and commit 1d84afaf0252 ("riscv: Fix
-> > fully ordered LR/SC xchg[8|16]() implementations"): a fully ordered
-> > operation is lr, sc.rl and a trailing fence rw,rw; acquire is lr.aq
-> > with a plain sc; release is a plain lr with sc.rl. The futex loop is
-> > bounded to 128 retries and returns -EAGAIN after that, as arm64 does,
-> > because userspace can keep the word changing from another thread and
-> > futex_wake_op() retries on -EAGAIN anyway.
-> > 
-> > Zabha, Zacas and the ssamoswap instruction of Zicfiss are AMO
-> > instructions, so RISCV_ISA_ZABHA, RISCV_ISA_ZACAS and RISCV_USER_CFI
-> > depend on RISCV_ISA_ZAAMO. The riscv64imac Rust target emits AMO too,
-> > so RUSTC_SUPPORTS_RISCV depends on it as well.
-> > 
-> > The choice is made at compile time rather than with alternatives.
-> > Nearly every CPU has a native A extension, and an alternative would
-> > inflate all those kernels with the nops needed to pad one AMO to the
-> > size of an LR/SC loop, at every atomic site, for the benefit of a few.
-> > 
-> > Turning Zaamo off needs a compiler that accepts _zaamo and _zalrsc in
-> > -march. GCC 15.1 is the first release that does.
-> > TOOLCHAIN_HAS_ZALRSC_ZAAMO checks for it; with an older compiler the
-> > option stays at y.
-> > 
-> > Three sets of extensions provide every atomic Linux needs. "a" is what
-> > the kernel supports today. Zalrsc plus Ziccrse is what this patch adds:
-> > every atomic is a constrained LR/SC loop, and Ziccrse is the
-> > forward-progress guarantee for such loops. Zaamo plus Zacas would do
-> > as well, with CAS loops in place of LR/SC as on x86, and is left for
-> > whoever has such hardware.
-> > 
-> > Suggested-by: Chao-ying Fu <chao-ying.fu@globalfoundries.com>
-> > Nacked-by: Conor Dooley <conor.dooley@microchip.com>
-> > Link: https://lore.kernel.org/linux-riscv/20261106-smock-headband-d6a7d568c228@spud/
-> 
-> I had a quick glance at this revision, and I think you've at least tried
-> to resolve the things I was pointing out. Did I miss something, or why
-> have you kept the NAK after having resolved the things that I was
-> objecting to?
-> 
+A task whose executable has an absolute path longer than 4106 bytes
+triggers a WARN and cannot sandbox itself. Patch 2 adds selftests that
+fail without patch 1.
 
-I searched the maillist for this errata, or workaround or downgrading 'A'
-or anything else it's named, found something interesting:
+Tested on v7.4-rc2 with KASAN and lockdep. landlock_restrict_self()
+from 4107- and 4350-byte paths fails before the series and works after
+it. The domain records then show exe="<too_long>". The other Landlock
+selftests pass on both kernels, apart from five skipped hostfs tests.
 
-IIUC, Paul has rejected the series, at least call for "hold off on merging them"
-see
-https://lore.kernel.org/linux-riscv/8afa0702-4d30-86e2-5afb-a7c113a92dec@kernel.org/
+---
+Daejun Park (2):
+      landlock: Fix landlock_restrict_self() failure on long executable paths
+      selftests/landlock: Test a long executable path
 
-and 
+ Documentation/admin-guide/LSM/landlock.rst         |   3 +-
+ security/landlock/domain.c                         |  15 +-
+ security/landlock/domain.h                         |   3 +-
+ tools/testing/selftests/landlock/fs_test.c         | 175 +++++++++++++++++++++
+ .../testing/selftests/landlock/wait-pipe-sandbox.c |   3 +-
+ 5 files changed, 192 insertions(+), 7 deletions(-)
+---
+base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+change-id: 20261110-landlock-long-exe-61cbbfbc3300
 
-https://lore.kernel.org/linux-riscv/6201870b-b50d-f6e2-814b-7a1fdbf064db@kernel.org/
+Best regards,
+-- 
+Daejun Park <daejun7.park@samsung.com>
 
-But I'm not sure why the same series is still continuously sent out but
-in different titles. I think this series can be ignored until riscv
-maintainers agree to downgrade the 'A' to subset of 'A', I.E zalrsc
+
