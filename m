@@ -1,79 +1,129 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.37
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794377931;
-	b=1EM5MKoNAGjOIWIBS5u92LcXYmTMO9CGr7j8B+GfM7hrN7T22aCAsgkZGhs/TB+xQJeI
-	 RkecijKRNkKYmKCJa30bczZ1/Ym01s/0d/KrhRAqgwLJpXzJwy5wU0fbV0bJDWidXao8I
-	 hc49sNuAHDcktfPEv7+nVLEgifvi9fLHEm13rL7sssWEfnhrc3Rl+URiczKrKqnSy6VZC
-	 b3U4iouAgVR4iqUZU9B9DeDWV3v+clzEoZFG/H75GEak39aA3GCa11rrhKVOP4P3BDQSm
-	 axygMa/Iz4Li5S+FF5xdL/3fHODsh+WRxwew3fgu7sgFchMvL6twlBiMmp1chzfc4UA==
+	t=1794379057;
+	b=lUXE+nXWXFtHomY6WCv7giwemeIMVNZ6ZuqDjomnfZIvO+PvKc+tDTl2nxWyrjmExaya
+	 QaqW1N8nbFxt5eIqGAGcFiUMTCcDKY2rtuJm0lz5FI4lacdmgb2pIep6T/vUeeCjMEj3L
+	 C6KCzLklBZA+TXArOqDvvkBZZOY87YoOaAVO+KF0VNsrpzLQ9XjqKy2FGOqeASU9xmFoB
+	 1fKKhVIjQLfpAMwnEtEfpUA01HqW45Yie6VGl3pAifD9tPRk6CdMTx+JQhXxrrWEDcdUW
+	 /mJCfW8aj1XUH8Y3HI7EKpYP0UnU/vXtwzH8mdtj+G7Ky1HMkl64lRsQz12JgWGb7og==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794377931;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=uIR/VbAS1G7PDEsn/cN0Z0Ds1Axz5h3Z6HjOuuhVWNg=;
-	b=W84fyMs1H7t8cUuWOzFmdXUucQ+pkjRKtkBmzN3E72BwW3QN6ILXyBYplvvhFll8K5Oh
-	 6eryVtsZBu12MZMNSButR9KKZdttGxlqUoHvpketSRmPG7iVJMTjL8ZzMjCX0ffTJw/YJ
-	 ZtgvTc1ySK7yFMl8A3X1X81MVRHPzzzNZR8071uYbGk+/dc42sfYoqSPxaV/z2P0jwCTG
-	 s8UhT3YcyLJ+ON4zhS1IBQZI+D96kL2Mi5VjYuHQhs8CYkAQjQaeXiLxONAhmP2CBAOq1
-	 1yD320L57hLYCh5N+tonr6iA+wTiHPJiB+f9JOpiyTVX/FV3N4+gG4QLytZcRuYXPHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794379057;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=yRVSTSW/pXP3lvC5DMwXYrLI7vYhQgncjlMhf/BHqX8=;
+	b=3WRklBE7OD1uyNVT5zP9WdOzkNM2bacdWWMvzPcJVNccIDUlnnzdIhMvec3zCxynu6HE
+	 jgc8rULqCpLI/W/0cxphypYLdTM4bHL1uCu9yq7FDXEksyh71DGgHN/UuvW1Ghx0No/4M
+	 4+voOUfvkUKJ2ASw69XzGsX0R1k3q6j4GEOJFmcMm+L0Hgg6Z7OQXrvjR07AicyY3THhg
+	 dFNHXrpejCu5xBQ434R/ey62JiflPp7I3KUCrebR5H55nMx+qJPfjKXQBdYLPHcY47dCo
+	 l6oe+9BXy0Sh/LE7kp+6IPsFGkn6JSInXVzG55SH8golrfReSg2VSDHvogHX2WFWx2Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E52hNhuv;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=mobileye.com;
+	spf=pass smtp.mailfrom=mobileye.com;
+	dkim=pass header.d=mobileye.com header.i=@mobileye.com header.a=rsa-sha256 header.s=selector1 header.b=c5MRKVlg;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.84.37
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010037.outbound.protection.outlook.com [52.101.84.37])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB90D60A380E;
-	Wed, 11 Nov 2026 06:18:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F85606A31C;
+	Wed, 11 Nov 2026 06:37:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2F85606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=E52hNhuv
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794377930;
-	b=cEPHlrxYLI1Rz/8Hkzhb/Ht3sSmenGuzqe6p2xXtioE7euBCmFzDsJdULUwFRXT5g6Qj
-	 GTVDb8c7eNKns3Ruu3bsiJzJ4Pvx4QH5Nk15NBYncSjWpd/p7R7ofN9nnmh6Qz4F5kSJ1
-	 KeZftKm4Qa+mrSHjs5G0Df7pcTa+Bt1GVK5avoWMofqUDLy/xaSdWeF5zl+v7BTRB1Ely
-	 hb7U4eLDbnDu+ytj10+VuzViy6UmmTsh3/nw04adksZmDugWpwy5mGiUaVwzKSE02+9C5
-	 su3444RhK8Phgcy3dHzhwoN55dS+Ht+tY9hKyJql+5wqXEKEOHD4vtuDj7gC6yonDoQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794377930;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=uIR/VbAS1G7PDEsn/cN0Z0Ds1Axz5h3Z6HjOuuhVWNg=;
-	b=KA3YZ9kJAEY086h/hCii/QIHRgHfRx95JV3ak55tSCVx0JUHhG9yaQnPedIS13Hq0pKM
-	 njeSRzgS3uRSzAsmyV6reVcPlMwi1BEIFy7TaladaO6XBLJi7DUaG+MKEHzqW0VkTlZ6l
-	 Phqag9W5uK3xzKiyo8xolyCMbyy2YPN9wEDqUhg653FCpHMcCl6LkCnN6oic2IvYFGVFW
-	 2ltT4vEtJCxIZbW+LOZyzLrZWhceoYKeUyEa6HkrTbHKWZWp7i9VibFY9tmacRNUj8ZAt
-	 Py157HB9kiZqq02fDbKwZNj9+q/Lvj3SCTV+5WBAMnfRC3sUZdRqRDGOtBv+2ICZ+wA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id F2C061F00A13;
-	Wed, 11 Nov 2026 06:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794377930;
-	bh=uIR/VbAS1G7PDEsn/cN0Z0Ds1Axz5h3Z6HjOuuhVWNg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=E52hNhuvnBgJD2r5zqhJJl43DfpuND5fHHdCy1ykIjUHmLkVmoBKlgPN5U/gNeHMD
-	 XWJFSSntLl7ZQ1Ww2RQsyaZEeYDh+jWLhC7J5YbXP4bN9Nyu2JdPQWuM6uhiUpRhgA
-	 2uDMP6SYJ/XUmPWd2mA6ioUQ1g0g6xYZZ1dzzrl6XnpUIveKu+Yufcz6QnesXWo47r
-	 UsnHuAfWz9LolFGQo+XXZ66VdlD694e8FB9VrnHktey+RU0Ac6Zjx/NZm5ohvLPqXO
-	 zjIiJygOtbozkxFccyBOE1Wvvgz+VM1HAD48Mna+70B83yC3zcBnTcqrEwvhDTSrzi
-	 i9tnYfcjp1/kQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 5747248E1A;
-	Wed, 11 Nov 2026 06:18:47 +0000 (UTC)
-From: Cunhao Lu via B4 Relay <devnull+1579567540.qq.com@kernel.org>
-Date: Wed, 11 Nov 2026 14:18:02 +0800
-Subject: [PATCH net v9 08/10] can: rockchip_canfd: serialize TX with
- bus-off and restart
+	dkim=pass (1024-bit key, unprotected) header.d=mobileye.com header.i=@mobileye.com header.a=rsa-sha256 header.s=selector1 header.b=c5MRKVlg
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yhD057JtMsng5ZS+eFtCNG1NtV68ABx6evxqH5qnZmqDr+SMBaKwAWGAFJqL6xEJVRuU7NdlWm2CFjFCeRjJOoguQ9MfUxbD/Wz25kBz+YYXP3oseds6aqBgdojFUp3E7NJDVB/2LT4RfJnALqoFjEqofkQ8KwElGodg6lKf/XZHYoqgS+2DuZ5lfOyK/5wiYlypFrp92XlyNyuV8y0QvUT0NZ0yGe3iJJd8HJNUxdVa0bYcaxs+YWK/yKKpa7olyp8VTrjHO5crz/ltq+VpCbv+qgmZHcz7u/dvf33fLbK1KbzzJhmtiesm+qFoYUyzrkvvSQvbGsM+MMZjJQHnuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yRVSTSW/pXP3lvC5DMwXYrLI7vYhQgncjlMhf/BHqX8=;
+ b=jOiY8iKN14NNYmKBC3bTvg8UsaDhFq73x+QMyDxlnl2K9EQIVMfkYCZv9kZlIgGPJlyv1+9VQCK003KZTBO+GPuH3nELwbG47WL+ZrZZD/qC7xXVGxp5T0ray1ftZjY/3yIoEsHnq/CBh6EB+uStzsEb1zs7jva4/EeWDSmYrNWQvGWc+NNR8eJ9YVyGUrVEJtxag711FGxY12IuJ2avJNpBoU7k9Mri4wjbkyeogSUewrDnePur0L+5WCq53Kd4Ra6dx/tFGe2Lbto6/PdnDwNcedKMi4aFe4lE9KPmv3cHa6yPiae6yrnuYtVouEWvGF00qXkSM4/3Kk3QcEdV4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mobileye.com; dmarc=pass action=none header.from=mobileye.com;
+ dkim=pass header.d=mobileye.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mobileye.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yRVSTSW/pXP3lvC5DMwXYrLI7vYhQgncjlMhf/BHqX8=;
+ b=c5MRKVlgfayAklQfiq4IEOPOnfhkwZV5CqBv4DIsm6RMv41iZlg0BMWl7HmddpK6sNlSZxOZNcN7TNbEuN7EezGzuCqF5/Nw7VXWxeYWdbm9Y16Ted8v1IGq6P5z5pYl63VJtaSLqkovaRg33NztMCzYem3ARhb2mJ22R/Ae16U=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mobileye.com;
+Received: from ZR6PR09MB889505.eurprd09.prod.outlook.com
+ (2603:10a6:910:e0::22) by VI0PR09MB8916.eurprd09.prod.outlook.com
+ (2603:10a6:800:345::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.8; Wed, 11 Nov
+ 2026 06:37:29 +0000
+Received: from ZR6PR09MB889505.eurprd09.prod.outlook.com
+ ([fe80::9006:1164:b51f:23a2]) by ZR6PR09MB889505.eurprd09.prod.outlook.com
+ ([fe80::9006:1164:b51f:23a2%4]) with mapi id 15.21.0615.007; Wed, 11 Nov 2026
+ 06:37:29 +0000
+Message-ID: <3308062b-9d0f-436f-a22a-217cc1c59aed@mobileye.com>
+Date: Wed, 11 Nov 2026 08:37:23 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/6] riscv: build kernel atomics from LR/SC when Zaamo
+ is disabled
+To: Conor Dooley <conor@kernel.org>
+Cc: Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
+ Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Mark Rutland <mark.rutland@arm.com>, Gary Guo <gary@garyguo.net>,
+ Yury Norov <yury.norov@gmail.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Chao-ying Fu <chao-ying.fu@globalfoundries.com>,
+ Conor Dooley <conor.dooley@microchip.com>, torvalds@linux-foundation.org,
+ olof@lixom.net, aleksa.paunovic@htecgroup.com, arikalo@gmail.com,
+ Boqun Feng <boqun@kernel.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>, Luke Nelson
+ <luke.r.nels@gmail.com>, Xi Wang <xi.wang@gmail.com>,
+ =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Pu Lehui <pulehui@huawei.com>, Puranjay Mohan <puranjay@kernel.org>,
+ Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>,
+ Miguel Ojeda <ojeda@kernel.org>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
+ <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Tamir Duberstein <tamird@kernel.org>, Alexandre Courbot
+ <acourbot@nvidia.com>, =?UTF-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, bpf@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>,
+ Charlie Jenkins <thecharlesjenkins@gmail.com>, Nam Cao
+ <namcao@linutronix.de>, rust-for-linux@vger.kernel.org
+References: <20261110-lrsc-only-v6-0-bafc3cc0fcae@mobileye.com>
+ <20261110-lrsc-only-v6-2-bafc3cc0fcae@mobileye.com>
+ <20261110-revivable-saint-9bcfaa2fd0e7@spud>
+Content-Language: en-US
+From: Vladimir Kondratiev <Vladimir.Kondratiev@mobileye.com>
+In-Reply-To: <20261110-revivable-saint-9bcfaa2fd0e7@spud>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TLZP290CA0015.ISRP290.PROD.OUTLOOK.COM
+ (2603:1096:950:9::11) To ZR6PR09MB889505.eurprd09.prod.outlook.com
+ (2603:10a6:910:e0::22)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,351 +133,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261111-rockchip-canfd-restart-close-v9-8-6643f3825ba3@qq.com>
-References: <20261111-rockchip-canfd-restart-close-v9-0-6643f3825ba3@qq.com>
-In-Reply-To: <20261111-rockchip-canfd-restart-close-v9-0-6643f3825ba3@qq.com>
-To: Marc Kleine-Budde <mkl@pengutronix.de>, kernel@pengutronix.de, 
- Vincent Mailhol <mailhol@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Oliver Hartkopp <socketcan@hartkopp.net>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Wolfgang Grandegger <wg@grandegger.com>
-Cc: linux-can@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Cunhao Lu <1579567540@qq.com>, 
- stable@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794377925; l=12091;
- i=1579567540@qq.com; s=20261015; h=from:subject:message-id;
- bh=D399Iw8j6hNv0Cn3aQm8+RtJqxFTtDhKP8vRs6yDOk8=;
- b=Gn0rKSjMnyfyf8ILLxlDCJ6oMD+CVKuxSueW5lBzKw4APACLdl0hc81qUora+Hg+sDDRRS2ob
- 3TPEU00Ws3vBV+4iMUCVnea6BizFoNz5a20YcsbEUqPdzN6gcSqGHfZ
-X-Developer-Key: i=1579567540@qq.com; a=ed25519;
- pk=sUTWrzlIwT4C7ctjNfVZAzzg0G7QUn2XxRGpYsw4RtM=
-X-Endpoint-Received: by B4 Relay for 1579567540@qq.com/20261015 with
- auth_id=1177
-X-Original-From: Cunhao Lu <1579567540@qq.com>
-Reply-To: 1579567540@qq.com
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZR6PR09MB889505:EE_|VI0PR09MB8916:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4158b3c2-9c5c-409f-4c12-08df3fbe41a8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|23010399003|1800799024|366016|376014|18002099003|22082099003|56012099006|4143699003|261026121527099003|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	IJnuXnAPI4B+VrzrC+/zJavqcrbzj9NGDxV0zOPFubbB+9fLRvcV9k1miFZd+2v/JrTPEXrztGX7RADpXX17f4fQjz5EGftC/LHgKX67ia8Cka5ARrx8mW88kJ17bMcGGsjCbOxSWxtfAMNXKWfqZow3S91Kh2ND6QHsA8DYYKe1o5alKGVXyccy5ZvFqaUxVxhDCB3SNNbOEqUC+gICjDZJTHXzNonxexAqnzh6ZzomnDO2UQ1Y+lGoxI0zexJjV73zkV2/9+91zhOwUAMKVTGuadqpGZZGZVg7P3JLDBUnxPa75Jg4jalDc1b7BLgEHNCnQ0ffOWvQvL8/agQmEQfuXoRGEjXlKWM/TMCeaaSOLvpUCs6MQg+2GbxhvpMX7bPgihwB+rzZfTEAnoTyNwWYJF1bh5d/LUwLhw2LQ2zC5er+g8jb4ytdMg/9woMzau4dnDGD9RIgCEXwnEr8xjIW/LPQTdQ4/JmvQA7OjdTo+Il8UubNt7isbgku3i1wCjiQbPq9wzSsmuu2fxdfL5/sfN/m3AcS/SuXaa6HRf7XTsYWLyTbTSG133JpCrfLUK4gwI2CHfz2AVXj9c+SEUR7OO6nHoTBvxwID0wmDpNLv9rwVBjsoQrDPxS2bnxNgSp8yFWsSleEC8djtf3tPftsN/LYq/zqtpFIbCrbMuM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZR6PR09MB889505.eurprd09.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(1800799024)(366016)(376014)(18002099003)(22082099003)(56012099006)(4143699003)(261026121527099003)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bzBIYldJOVhFTE9aTWY3eTA2a3gzdERKY0hVaFVmREtrMXlUVTB1eWxEYWw0?=
+ =?utf-8?B?UytHbHJBczVCc2t0YTBSMTVrcDNvalA4UzdGU1BxTjdlUHVLbTI5ZHl3VERu?=
+ =?utf-8?B?N1RVaHhXUkxwTmw2Z2lxMzFPNzNzUTk3UE1SN0luTDcwckpFbUQzenF2dHhp?=
+ =?utf-8?B?aHFKaWN3aVp5NVNxSjhsRnUxN1BVNEFSeng0Vkxvc0Z1YWFjVERoNzZtd2Rm?=
+ =?utf-8?B?aWNMQWFxazBhVVg4ZExnbFZxalYvSXcyTzRZQUg5NERBMXNuOFRvTjMyakhu?=
+ =?utf-8?B?T04yc0VwQlRUd0sybG51UDM1QWRGZFN3bDNpQk8yWFE5ZVZlRkpKNThuWGtJ?=
+ =?utf-8?B?QktDL21HN1ExZUU0NGswYXhUUFJTYWFKSER2cnpjTjJxV2o1MXNmM013cUJE?=
+ =?utf-8?B?NkJlVzZKc1pReGpHZXBTR0JLU1F5TGk0QVJYTzhyZUJrNTB0T1dHN3RXVnY3?=
+ =?utf-8?B?YkFmSGVwYUxRNTl3RW93Ly9PamFQbWtHek1LUFdCQ1d1RFkzRzJGZTlFNjdP?=
+ =?utf-8?B?WXdJclR6N05wZ3lORlJTbnpneUlkRFpWaXVZOVFTUUFRaXhWL0hMVHZBZDNU?=
+ =?utf-8?B?R000KzB6aUdSRFZLaVhxY0x6bXlUdGM0TkpaZEtOZTNORkx2QUJvMmRmOFl2?=
+ =?utf-8?B?Zy8rNEZkRzRmOFZnOU4wbzVhbWNQaGkvamJyVDBMYW4xNXJpL0F3empVakdS?=
+ =?utf-8?B?VWRWMUxCOFlhSjhLVHBTWXNvT28xWmdKZlJVN1lPSCtORzVsRWY2Y01tczNs?=
+ =?utf-8?B?V1hCbm9vWVpvR1RhRk4zRTAxT1EyTFA3WEtuL0hmZUE0Ni9VRWhjRU5pODU3?=
+ =?utf-8?B?TWZUL3MraXpaNjk3WFprT0RaQzJ0eXRXOEttUS9aSkJRM3ZDQmVoNWtsUUc4?=
+ =?utf-8?B?U0JuRkxOQWFLdEdJUDlPM2p6ZUdudUZXWFYvMnJvTE1YZFRHZFhMYWQzUTQv?=
+ =?utf-8?B?ZXQvcDU4ZktzRUhaMldMdVZaRUhTTHNDckIrM0R2TEU5UGhON1l4QXlTRno0?=
+ =?utf-8?B?TWs2eThXK1RsQ1kralBETWVpRmdXcW1IUklTQ3czSGFFc0c3TDQvTitOanJ6?=
+ =?utf-8?B?bE5wRERONk16VnNKNXBMNTRhZjhueHNqMVJEOE5EanJkNmZNS0R0c0c4aUxM?=
+ =?utf-8?B?VWV5di9vK243Y0QrRmQxaFpMcTh1WkJ5WUtIbk9kS2M5MWhYdzZtSFd5L0NC?=
+ =?utf-8?B?YlFrcE5QTVZEMWZnTXJ3YmJXb0ZQcDMzKzl4dGsyNDF4b1pzMnVRRndFSDJU?=
+ =?utf-8?B?T2Q5dXl4VUxBRU03a3dTaDBXSHd5aXFYU3F1MzcxYzh6N0VKWWVDaVUwR1kw?=
+ =?utf-8?B?ZEQ2bm1zajZ1SmF5TGNXWDFCcVhSLzhxZmNranVObUM1UmNwYXpyRk1ZOEhs?=
+ =?utf-8?B?djA1ZFdwcUFpdG52NllRSjdkbm5lc2NvMWRYUkFrVTdNTVk5V0lwNmhJSUlM?=
+ =?utf-8?B?N1cvdExrcmU2QzVhcE9lMVozUGhwQ2h6TVQ3cFptZkJ0VWZnNHhRQjRqajdO?=
+ =?utf-8?B?ZjJXZFlXN1cwY1NTSm85aXRFYmN4S1g5ZS9GNFZDVkYyUm93aUFaanpFUFU0?=
+ =?utf-8?B?dDlJVk5nbVFSYnBGOW84Vzd1TVZ4MHU1U3UxdFpXZ2NFUW5Rd2VaNzJpWlBj?=
+ =?utf-8?B?UUIwbFJpRE0zZUM1OUZIN1NaRDFYeWxHM1hsSkFXRWM0YU5ja0ZTQXF5QlBw?=
+ =?utf-8?B?M2tKQ3RvN3d4OUpLYmxzMTluaTVpWS9kRXFBOEZMcDJSQlk0WlpTN3JsMmhJ?=
+ =?utf-8?B?TjhrUURkQ3JmLzVjQXRNaTRra0lJZm5md1VQMEFVcll2YkVYMFZYZVFwUzZP?=
+ =?utf-8?B?RU8vTnZrSjVwc2JDZFpJUkhYWGVidzhzSVY5SnNkaUZwZE01UWVjaHp4b2RL?=
+ =?utf-8?B?c0JlcE5WcXlnMHZHREZtRE9tNFpoTUEzOW9hUWp3MEt4UEVXV05sWGpRQ0ZI?=
+ =?utf-8?B?UHNRYzFLalhnNzYvd2l0Z3ltT21EVDJ1ZTF1aFhUbDZ1Vm5nR0J5c0RLVm5r?=
+ =?utf-8?B?RStyU3RBTW9RdHNBdDQrSm9BeGhFUFkyYnhXcGtjQ1EzSkZHMXF1cHl2Vmhs?=
+ =?utf-8?B?eW9Tb1Q5TGRqQXkwbFYxaVp2dm5vTkRiZXpUM3J4ZVJCQ2h0UTVzNjVsbVp1?=
+ =?utf-8?B?WTIvcGhiK01xQ1VGVHc1MzZ1TndxRnA5d25za0dubGpPaXVLcjVlNzB2MUky?=
+ =?utf-8?B?N2U3NXpkSjNIWmVrZ3ZCbVhZVUZmN2g5eFRQU21RWDMwaThoSy9WS3BRSDBp?=
+ =?utf-8?B?by93T0VlNVR5eTlUVmY1RkNvTzd5ZjVHNzI5WTQ2RlpQWkFYNldaT0l0Sklo?=
+ =?utf-8?B?RDYzSm5JeFUzZWR3SSs0QUxNOFhjTFhGZFFId0NpVjk1cTJ1T1Jsdz09?=
+X-OriginatorOrg: mobileye.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4158b3c2-9c5c-409f-4c12-08df3fbe41a8
+X-MS-Exchange-CrossTenant-AuthSource: ZR6PR09MB889505.eurprd09.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Nov 2026 06:37:28.8748
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4f85ba13-6953-46a6-9c5b-7599fd80e9aa
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JhxcDIu7/KzmPCw90yCr7jgfbQgWav0cbQjrgG3G91SD8zk36FhuPong/3q0EjogQV+PmWy9hERFC0CAEBF0Pw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR09MB8916
 
-From: Cunhao Lu <1579567540@qq.com>
+On 11/10/26 21:02, Conor Dooley wrote:
+> I had a quick glance at this revision, and I think you've at least tried
+> to resolve the things I was pointing out. Did I miss something, or why
+> have you kept the NAK after having resolved the things that I was
+> objecting to?
 
-The bus-off path can reset the controller while TX submission or RX-side
-echo handling is active. CAN restart flushes echo skbs before set_mode(),
-so disabling TX in that callback is too late to protect the echo ring.
+I'll be happy to remove it. Was not feeling right to do this without
+your permission.
 
-Use tx_lock and tx_enabled to drain TX and RX-side echo users before
-publishing CAN_STATE_BUS_OFF. Return NETDEV_TX_BUSY while TX is disabled
-and drop consumed RX entries so self-transmitted frames cannot escape
-echo filtering as ordinary RX.
-
-Before restart, mask device interrupts and flush the mask write, suspend
-shared IRQ access, and drain active handlers and timestamp work. After
-reinitialization, restore carrier, TX, IRQ handling and the queue under
-tx_lock, so the old bus-off IRQ cannot leave carrier off and a new bus-off
-takes precedence. Keep synchronous waits outside the lock and other
-shared IRQ users enabled.
-
-Reset clears INT_MASK. Restore and flush the full mask immediately after
-deassertion so the remaining controller configuration stays masked.
-
-Keep IRQ handling suspended until open completes and TX disabled on
-close or failed open. Initialize timestamp work once at probe.
-
-Fixes: ff60bfbaf67f ("can: rockchip_canfd: add driver for Rockchip CAN-FD controller")
-Fixes: b6661d73290c ("can: rockchip_canfd: add TX PATH")
-Cc: stable@vger.kernel.org
-Signed-off-by: Cunhao Lu <1579567540@qq.com>
-
----
-Changes in v9:
-- Restore and flush the full interrupt mask immediately after reset
-  deassertion, before the remaining controller configuration.
-- Count consumed RX FIFO entries discarded while TX is disabled.
-- Include asm/barrier.h directly for release/acquire operations.
-
-Changes in v8:
-- Move skb ownership handling and running TX/RX critical sections to
-  the preceding TX patches.
-
-Changes in v7:
-- Introduce restart/IRQ synchronization and TX protection together.
-- Reuse prerequisite TX locking and adapt to the updated skb ownership.
-
-Changes in v6:
-- Defer the original skb's release until after unlocking.
-- Abort TX submission if echo preparation fails.
-
-Changes in v5:
-- Drop consumed RX FIFO entries when tx_enabled is false under tx_lock,
-  rather than skipping only echo filtering and delivering them as RX.
-
-Changes in v3:
-- Replace disable_irq()/enable_irq() with device interrupt masking,
-  mask readback, an irq_suspended flag and synchronize_irq().
-- Pair release/acquire accesses to publish reinitialized state before
-  the IRQ handler resumes, without disabling other shared IRQ users.
-- Initialize timestamp delayed work once at probe and synchronously
-  cancel it before reinitializing the timestamp state during restart.
----
- drivers/net/can/rockchip/rockchip_canfd-core.c     | 66 ++++++++++++++++++++--
- drivers/net/can/rockchip/rockchip_canfd-rx.c       | 11 +++-
- .../net/can/rockchip/rockchip_canfd-timestamp.c    |  6 +-
- drivers/net/can/rockchip/rockchip_canfd-tx.c       |  4 ++
- drivers/net/can/rockchip/rockchip_canfd.h          |  6 +-
- 5 files changed, 84 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/net/can/rockchip/rockchip_canfd-core.c b/drivers/net/can/rockchip/rockchip_canfd-core.c
-index d05264605efc2..a5c6331191d17 100644
---- a/drivers/net/can/rockchip/rockchip_canfd-core.c
-+++ b/drivers/net/can/rockchip/rockchip_canfd-core.c
-@@ -22,6 +22,8 @@
- #include <linux/pm_runtime.h>
- #include <linux/string.h>
- 
-+#include <asm/barrier.h>
-+
- #include "rockchip_canfd.h"
- 
- static const struct rkcanfd_devtype_data rkcanfd_devtype_data_rk3568v2 = {
-@@ -116,6 +118,10 @@ static void rkcanfd_chip_set_reset_mode(const struct rkcanfd_priv *priv)
- 	udelay(2);
- 	reset_control_deassert(priv->reset);
- 
-+	/* Reset clears INT_MASK; restore it before configuring the controller. */
-+	rkcanfd_write(priv, RKCANFD_REG_INT_MASK, RKCANFD_REG_INT_ALL);
-+	rkcanfd_read(priv, RKCANFD_REG_INT_MASK);
-+
- 	rkcanfd_write(priv, RKCANFD_REG_MODE, 0x0);
- }
- 
-@@ -325,6 +331,34 @@ static void rkcanfd_chip_start(struct rkcanfd_priv *priv)
- 		   rkcanfd_read(priv, RKCANFD_REG_MODE));
- }
- 
-+static void rkcanfd_tx_disable(struct rkcanfd_priv *priv)
-+{
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&priv->tx_lock, flags);
-+	priv->tx_enabled = false;
-+	netif_stop_queue(priv->ndev);
-+	spin_unlock_irqrestore(&priv->tx_lock, flags);
-+}
-+
-+static void rkcanfd_chip_start_finish(struct rkcanfd_priv *priv)
-+{
-+	unsigned long flags;
-+
-+	/* Restore carrier after draining the old bus-off IRQ. Hold tx_lock
-+	 * through IRQ resumption and queue wake so a new bus-off takes
-+	 * precedence.
-+	 */
-+	spin_lock_irqsave(&priv->tx_lock, flags);
-+	netif_carrier_on(priv->ndev);
-+	priv->tx_enabled = true;
-+	/* Publish initialized state to the IRQ handler's acquire. */
-+	smp_store_release(&priv->irq_suspended, false);
-+	rkcanfd_chip_interrupts_enable(priv);
-+	netif_wake_queue(priv->ndev);
-+	spin_unlock_irqrestore(&priv->tx_lock, flags);
-+}
-+
- static void __rkcanfd_chip_stop(struct rkcanfd_priv *priv, const enum can_state state)
- {
- 	priv->can.state = state;
-@@ -356,9 +390,17 @@ static int rkcanfd_set_mode(struct net_device *ndev,
- 
- 	switch (mode) {
- 	case CAN_MODE_START:
-+		rkcanfd_tx_disable(priv);
-+		rkcanfd_chip_interrupts_disable(priv);
-+		/* Flush the interrupt mask write before suspending the handler. */
-+		rkcanfd_read(priv, RKCANFD_REG_INT_MASK);
-+		WRITE_ONCE(priv->irq_suspended, true);
-+		/* Wait for handlers that already passed the suspended check. */
-+		synchronize_irq(ndev->irq);
-+		rkcanfd_timestamp_stop_sync(priv);
-+
- 		rkcanfd_chip_start(priv);
--		rkcanfd_chip_interrupts_enable(priv);
--		netif_wake_queue(ndev);
-+		rkcanfd_chip_start_finish(priv);
- 		break;
- 
- 	default:
-@@ -592,6 +634,11 @@ static int rkcanfd_handle_state_error_int(struct rkcanfd_priv *priv)
- 	 * handles cf == NULL.
- 	 */
- 	skb = rkcanfd_alloc_can_err_skb(priv, &cf, &timestamp);
-+	/* Drain TX before publishing BUS_OFF, which permits a manual
-+	 * restart to flush echo SKBs before calling our set_mode().
-+	 */
-+	if (new_state == CAN_STATE_BUS_OFF)
-+		rkcanfd_tx_disable(priv);
- 	can_change_state(ndev, cf, tx_state, rx_state);
- 
- 	if (new_state == CAN_STATE_BUS_OFF) {
-@@ -666,6 +713,10 @@ static irqreturn_t rkcanfd_irq(int irq, void *dev_id)
- 	struct rkcanfd_priv *priv = dev_id;
- 	u32 reg_int_unmasked, reg_int;
- 
-+	/* Pairs with smp_store_release() in rkcanfd_chip_start_finish(). */
-+	if (smp_load_acquire(&priv->irq_suspended))
-+		return IRQ_NONE;
-+
- 	reg_int_unmasked = rkcanfd_read(priv, RKCANFD_REG_INT);
- 	reg_int = reg_int_unmasked & ~priv->reg_int_mask_default;
- 
-@@ -733,6 +784,8 @@ static int rkcanfd_open(struct net_device *ndev)
- 	if (err)
- 		goto out_close_candev;
- 
-+	/* The shared IRQ handler may run before request_irq() returns. */
-+	WRITE_ONCE(priv->irq_suspended, true);
- 	rkcanfd_chip_start(priv);
- 	can_rx_offload_enable(&priv->offload);
- 
-@@ -740,13 +793,12 @@ static int rkcanfd_open(struct net_device *ndev)
- 	if (err)
- 		goto out_rkcanfd_chip_stop;
- 
--	rkcanfd_chip_interrupts_enable(priv);
--
--	netif_start_queue(ndev);
-+	rkcanfd_chip_start_finish(priv);
- 
- 	return 0;
- 
- out_rkcanfd_chip_stop:
-+	rkcanfd_tx_disable(priv);
- 	can_rx_offload_disable(&priv->offload);
- 	rkcanfd_chip_stop_sync(priv, CAN_STATE_STOPPED);
- 	pm_runtime_put(ndev->dev.parent);
-@@ -760,7 +812,7 @@ static int rkcanfd_stop(struct net_device *ndev)
- 	struct rkcanfd_priv *priv = netdev_priv(ndev);
- 
- 	close_candev_cancel_restart_sync(ndev);
--	netif_stop_queue(ndev);
-+	rkcanfd_tx_disable(priv);
- 
- 	rkcanfd_chip_interrupts_disable(priv);
- 	free_irq(ndev->irq, priv);
-@@ -937,6 +989,8 @@ static int rkcanfd_probe(struct platform_device *pdev)
- 	if (err)
- 		goto out_free_candev;
- 
-+	rkcanfd_timestamp_work_init(priv);
-+
- 	err = rkcanfd_register(priv);
- 	if (err)
- 		goto out_can_rx_offload_del;
-diff --git a/drivers/net/can/rockchip/rockchip_canfd-rx.c b/drivers/net/can/rockchip/rockchip_canfd-rx.c
-index 23476a334d6c3..0eab00623e037 100644
---- a/drivers/net/can/rockchip/rockchip_canfd-rx.c
-+++ b/drivers/net/can/rockchip/rockchip_canfd-rx.c
-@@ -91,7 +91,7 @@ rkcanfd_fifo_header_to_cfd_header(const struct rkcanfd_priv *priv,
- 	return len + cfd->len;
- }
- 
--/* Called with tx_lock held. */
-+/* Called with tx_lock held and TX enabled. */
- static int rkcanfd_rxstx_filter(struct rkcanfd_priv *priv,
- 				const struct canfd_frame *cfd_rx, const u32 ts,
- 				bool *tx_done)
-@@ -242,7 +242,16 @@ static int rkcanfd_handle_rx_int_one(struct rkcanfd_priv *priv)
- 		return 0;
- 	}
- 
-+	/* Drop consumed FIFO entries while TX is disabled to avoid delivering
-+	 * self-received frames as ordinary RX without echo filtering.
-+	 */
- 	spin_lock_irqsave(&priv->tx_lock, flags);
-+	if (unlikely(!priv->tx_enabled)) {
-+		spin_unlock_irqrestore(&priv->tx_lock, flags);
-+		stats->rx_dropped++;
-+		return 0;
-+	}
-+
- 	err = 0;
- 	if (rkcanfd_get_tx_pending(priv))
- 		err = rkcanfd_rxstx_filter(priv, cfd, header->ts, &tx_done);
-diff --git a/drivers/net/can/rockchip/rockchip_canfd-timestamp.c b/drivers/net/can/rockchip/rockchip_canfd-timestamp.c
-index 72774cd2f94b7..ad582afbbd682 100644
---- a/drivers/net/can/rockchip/rockchip_canfd-timestamp.c
-+++ b/drivers/net/can/rockchip/rockchip_canfd-timestamp.c
-@@ -37,6 +37,11 @@ static void rkcanfd_timestamp_work(struct work_struct *work)
- 	schedule_delayed_work(&priv->timestamp, priv->work_delay_jiffies);
- }
- 
-+void rkcanfd_timestamp_work_init(struct rkcanfd_priv *priv)
-+{
-+	INIT_DELAYED_WORK(&priv->timestamp, rkcanfd_timestamp_work);
-+}
-+
- void rkcanfd_timestamp_init(struct rkcanfd_priv *priv)
- {
- 	const struct can_bittiming *dbt = &priv->can.fd.data_bittiming;
-@@ -73,7 +78,6 @@ void rkcanfd_timestamp_init(struct rkcanfd_priv *priv)
- 	max_cycles = min(max_cycles, cc->mask);
- 	work_delay_ns = clocksource_cyc2ns(max_cycles, cc->mult, cc->shift);
- 	priv->work_delay_jiffies = div_u64(work_delay_ns, 3u * NSEC_PER_SEC / HZ);
--	INIT_DELAYED_WORK(&priv->timestamp, rkcanfd_timestamp_work);
- 
- 	netdev_dbg(priv->ndev, "clock=%lu.%02luMHz bitrate=%lu.%02luMBit/s div=%u rate=%lu.%02luMHz mult=%u shift=%u delay=%lus\n",
- 		   priv->can.clock.freq / MEGA,
-diff --git a/drivers/net/can/rockchip/rockchip_canfd-tx.c b/drivers/net/can/rockchip/rockchip_canfd-tx.c
-index 8998b7855d15d..6f60d4119812f 100644
---- a/drivers/net/can/rockchip/rockchip_canfd-tx.c
-+++ b/drivers/net/can/rockchip/rockchip_canfd-tx.c
-@@ -85,6 +85,10 @@ netdev_tx_t rkcanfd_start_xmit(struct sk_buff *skb, struct net_device *ndev)
- 		return NETDEV_TX_OK;
- 
- 	spin_lock_irqsave(&priv->tx_lock, flags);
-+	if (unlikely(!priv->tx_enabled)) {
-+		netif_stop_queue(ndev);
-+		goto out_busy;
-+	}
- 
- 	if (!netif_subqueue_maybe_stop(priv->ndev, 0,
- 				       rkcanfd_get_effective_tx_free(priv),
-diff --git a/drivers/net/can/rockchip/rockchip_canfd.h b/drivers/net/can/rockchip/rockchip_canfd.h
-index 077dd57d42de9..8fdb59025bfaf 100644
---- a/drivers/net/can/rockchip/rockchip_canfd.h
-+++ b/drivers/net/can/rockchip/rockchip_canfd.h
-@@ -475,7 +475,7 @@ struct rkcanfd_priv {
- 	struct can_rx_offload offload;
- 	struct net_device *ndev;
- 
--	/* Protect running TX/RX echo state, queue updates and TX commands. */
-+	/* Serialize TX submission/completion with bus-off and restart. */
- 	spinlock_t tx_lock;
- 	void __iomem *regs;
- 	unsigned int tx_head;
-@@ -485,6 +485,9 @@ struct rkcanfd_priv {
- 	u32 reg_int_mask_default;
- 	struct rkcanfd_devtype_data devtype_data;
- 
-+	bool tx_enabled;
-+	bool irq_suspended;
-+
- 	struct cyclecounter cc;
- 	struct timecounter tc;
- 	struct delayed_work timestamp;
-@@ -554,6 +557,7 @@ int rkcanfd_handle_rx_int(struct rkcanfd_priv *priv);
- 
- void rkcanfd_skb_set_timestamp(const struct rkcanfd_priv *priv,
- 			       struct sk_buff *skb, const u32 timestamp);
-+void rkcanfd_timestamp_work_init(struct rkcanfd_priv *priv);
- void rkcanfd_timestamp_init(struct rkcanfd_priv *priv);
- void rkcanfd_timestamp_start(struct rkcanfd_priv *priv);
- void rkcanfd_timestamp_stop(struct rkcanfd_priv *priv);
-
--- 
-2.34.1
-
-
+Thanks, Vladimir
