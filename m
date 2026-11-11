@@ -1,87 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794407558;
-	b=zbXs8BM9xUtgR3EQZbouHX8iKaRAEbL6+WY9FcaIoFdC20YvG6eA9MaRr6AT2mcsFqvg
-	 cxTNTQTCjA4+lbGJCgG5DMU81TOmv0UCT29iq3e/Ms6W7HRDe1rDiXrjyGesRZFhF2ru/
-	 q+MLjv1OJtN9835ltowXGFV4VXzj8dmW7tGDQpHdJTxWfRF1xiHwBEf6F0VT22Bfh9oEj
-	 fhNTdcNJukqsWwvftnjUQJC1FKafZ7H4K7pSdbBnUbLCAM9EHFPOGJjHFTPa2vx7AB1lf
-	 5oeH8v3bDs5Ptwl3MsGrTJKZOCBE8R+9nHFKHlUyWnDT7eu5K3ksqAcsLYO/yIwgm2w==
+	t=1794409069;
+	b=PztaPsCOvv5kyNM5NYH5oLY1emBA2euroLnFKyN2+wWFzp9YE2KtwFE+ADDd4pQEYCJe
+	 81R/yEncVeMa4/g4tULjwEzotjEK5Mh6h/53Wb9JLoadEmpOhoJ85x4fG4TDJdBf0y+4I
+	 fTr9KZmS/s1UdzCXceIBoxjoFfbwpxLGOgunZyUyKvZLWn6aQgghYNUH/6sfs4w3qPodD
+	 AzfVu3Rx9b0NnDMyN0vsZRvUvgbEDCY2+cfuLFWLn0YohozeAp7/49sZTcwaTJYjedTWl
+	 3vWCpJSe6uMkClNHUL6vfZQQKyWXMaRU9OmXc1HUd9MnMJYr8ZuiJ5iNvnXBZjEdOPw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794407558;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794409069;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=u2q57S1P8aLiRzndP7EZ4yhSSjdu/KIimRft1ZX+f7s=;
-	b=0PHQeGGA8j1nOlIDe3q6lZlfxgNues0O9kQYHVBIFxTfM92NXaaZDeS/I+8RKsVgLcja
-	 bVMhUTkE3hpYT0dnOwyruaLLePfkdT+eu52xcyNS2doBO+LDhDqWcwxUNXTadKc0Lj+VE
-	 eIRBffiIyre0YVuypp1gRojqIHJO0dM52bHjNJC9wP+GxAkqi/l+7beylnXMn+u81af0e
-	 49EeZkhhy5fkvAuqtSGlL+n4+a2MC7lTtwpXJPcqCjCbIk8+mBPU2bCrGs80K4+SXxGpi
-	 peLo/PIapwftVEDebg8vn0tkUNHFklu/AEISMLV+SRAgY5EGE6FoLlE1SLJKgECez2Q==
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Cc:Content-Type;
+	bh=eAVBx7wFjerY7MFoeOAbmTCOK2sMbdc2RAGG1TuVAr8=;
+	b=0YhhUCKMzbianDhuZE50lkEvs0ijObXDs3xsljpnKahggnceXuUbq/64k0ApppiJIOsk
+	 1+WTfbrlWpYcx3uA0pq+MdQD1CIjaEEyALk75XPWxgsDEqap+AlIXdvWmWKBNSj40UzuG
+	 ZhKSWC+Ih2TuhllJZcVnvFw7gmSXNOdxsK0mKo2dSDR3djRmEUg1kGgfmqfB/7VBSBhGN
+	 kt+l1Q40kXy8uPIkZ2OtoSbLUYNPj8TwjGINcA3nV7IwRZucNQD0X1nhz4KsW2WtUkdao
+	 AugPSIqAqwB2WvNFw6gby+WQqIyltwhFyCUvICP/VVuVfraS6K27dPvy2vgQmRi3EWA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kGESD6D3;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SnDZnbQW;
+	arc=none smtp.remote-ip=209.85.214.197
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2319606A888
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 14:32:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2319606A888
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9150F606A32D
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 14:57:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9150F606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kGESD6D3
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so29956335e9.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 06:32:37 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=SnDZnbQW
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2e8e16d22d8so51480085ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 06:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794407556; x=1795012356; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=u2q57S1P8aLiRzndP7EZ4yhSSjdu/KIimRft1ZX+f7s=;
-        b=kGESD6D3K5rNLXktY3XUbrN1LELRYhOLI4vtgb5J7UqgZe0eKNJEgP2mDmH6uZwK4M
-         BiMOTHlZZFFXe7cRhCG/KhCN54/JGd74gxJ+L5CMq5ylf4bpJ1Ijo/m9EMproX0MAJUA
-         oie3qUbyQtSjde5Xjhq+ynB8rT4dJLGTqfWWYdB5tqgfz9TUu49i+6lXtIFYUrSNI0Ep
-         kpTVnATgKS82Rl+dbR55im460UtSO+ZxZ7SB6TcT0x8OPcyk7ALN/OxIhAqdSxiZV6cL
-         Wp0eTR1aA1mPfEh/jXBJvI2fJPFySod8Ep5/eO1Li/ObLtx1AvqPHmFgdBaprWsjrRhg
-         nz8Q==
+        d=google.com; s=20260707; t=1794409068; x=1795013868; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eAVBx7wFjerY7MFoeOAbmTCOK2sMbdc2RAGG1TuVAr8=;
+        b=SnDZnbQW08z6Fo4oJucBlqSIoq6P3dVOZg3XM1Dl/02agzkA/301/aw2F7NgWhAchy
+         Wrg3nXmwTrMfZdpaRe6LCOV0iBJotVmWkTKtR6lmYksyh9YQT30J1u8TqxL8NSwBEJ82
+         6s+Kzx8EwS9d4JgM255tB6JnwGGEcH87zaEeSrPuXt3/fVAXl9GgdYWOXnMXxgJj/onR
+         TPukIkcch7Kyq/N/MD4PSICv8FhVaHu01Y7RNzFFNpHWn1Bd+LbJy/xLbKreSZcB2Df4
+         I4Mu/MsJhKxSLF0dAtCfTtLoDcVSAQFGEqPmyZj2Ia7x9yDNmdOOTpKTQnia1OnqZfqu
+         ceuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794407556; x=1795012356;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=u2q57S1P8aLiRzndP7EZ4yhSSjdu/KIimRft1ZX+f7s=;
-        b=G3Rbfh06DSuME/vSd8ksjAyvDsOwPLtCSjOE/ulJg4khbVo0IaVt6TA2k/D9GRl+jK
-         5RgTMrb0p5FZADDxqCLA0bW5knRieitIUuRnEziHBFNnhMGioNWg2NGpHrsVIS5BLkLU
-         NUXXr2uCCsTBPBFiJStT1kCBNvHzDf2GSApMDeroUCTjArMtRIJa4AeFYl3hAiSSaFJv
-         akdgO38l97mVQy5ldfEW//vZ7ePoynzKMmRX1/ZSW0W0XXSwFL/vbTqqPVeSV03jGEoM
-         J5ar59X7Kzes3SOb8Uw6L+gvQ2K9EDSXoqEsivP68/qOAlwgaQ8t0VWj8zheMgXXcnyQ
-         3N3Q==
-X-Forwarded-Encrypted: i=1; AL+hErHcWrFShGzBZ61L9xprd4lqvmzopUG51HB6slLoKNqd8P29GZM63KPb7oEPofzP9JZL1ArQXq21gGs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/w6u1B3cytAC+Jp9mtbB3Pmv9Scl8zU6raLohsMe77NCBd/AFc
-	XKZivj5fEbZyRWmYFoRW+pYgpZqYyhtTefGxKsWPGnv/HRThZqBgXhQs
-X-Gm-Gg: AYBFou1c3R9yVOzaVQ1NbYYxknoBgCgt/zgsWlj81brWprqWMOdgQ2/EaB5cCBdXRbA
-	wTWFQbgfuDfCPoAUGvRWX/CfFHJx+BjbtyeAX9V7CJgtV7TKrpsk/4/+Yz1UPkm/7NmspxuQHWE
-	H+86wUKUjtwfQtKqgl+zXZmygClhWewj2RXxf4xwegcUZkHNrVtRNFDovTdtH5/FPTtmx+83uVR
-	cw1cF1lLTYbx3CN4AgovK8oVMguwzplb1lLDO3gjlUDSdRmVqKTlWnzlzyEWoT9RP69vfNMQ1DO
-	Uuc1U0krs+M0PQ91+MnAQ/WnQpiZkuv+V1nZGEA2B57RvKyxx8CaNbYF0KSE0FgNSVxEKDshEuK
-	VnMkye3ZbRgDoMxYPC3vff7vcY/hcpH3TZD1hOytGZ1v7NNOqCVwkonD3iGxHtUiW6qgBAWhRUu
-	oWmLobq5tr35m4+pNmt9ifOTClehWDBJfCa5GrGWqSWzDeDfFXqM9q9L8CSpFCn1CoMu/p4pAcj
-	CAawe+Nx9FWpek95ggEypxYEwjgw2FAvUJyDfMtwnFvMUv1SwCbMOfIHxv9Ujtwww7wfT4OtlPg
-	rAcPWqodto9zHDoGHDYQqmJzFf/fp28TOK5lec0KYCmkyllJTheSJhe/wcFbbX4=
-X-Received: by 2002:a05:600c:1d1d:b0:4ab:cc03:7f60 with SMTP id 5b1f17b1804b1-4ba09365d6fmr46922765e9.18.1794407555956;
-        Wed, 11 Nov 2026 06:32:35 -0800 (PST)
-Received: from [10.111.176.198] ([2001:19f0:6c01:2c43:5400:5ff:fef6:1b30])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba08e423dfsm62256485e9.1.2026.11.11.06.32.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 06:32:35 -0800 (PST)
-From: Oarora Etimis <oaroraetimis@gmail.com>
-Date: Wed, 11 Nov 2026 14:32:24 +0000
-Subject: [PATCH] drm/vkms: use a bitmask instead of a bool for composer
- users
+        d=1e100.net; s=20260707; t=1794409068; x=1795013868;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=eAVBx7wFjerY7MFoeOAbmTCOK2sMbdc2RAGG1TuVAr8=;
+        b=DjKT3cjthz3+9bhVanaawPTwpZfHGWKYA13fHCdpFAKYM1j6BDTEmPGxzNjoFxg8Ly
+         n+/wHh8RldKDxFhPs8HSYxLwSEzuVNXCxjmz3K22ZZqV6P2brHKlSfwYDdoPWosQ/LgO
+         lc8abVBMt5yCt/sZWcaau31N14Vi5d0FS1dPVaC37rMHn7K1xFNIy+iLcsqyVAKIBVuX
+         MHuAi1b9Lwul9ToSXmQOs55fSGOP36AXQr8lU+j89KUkxoNFn8+kHC7ECk4N936H+QL+
+         DIboao6h/mzeFwPcT4cl3qVwFKQrnxHUUW6Evs2GVBgmyVSvoMYgWO/iCal/q7GQT3WY
+         5/ZA==
+X-Forwarded-Encrypted: i=1; AL+hErEbU4Dje1FcfeM39gFOmOS6hSNAaMBL/+DAHLbADX+Qn6XKEpEW5sMkZRwXQQGc83Sjk87v2d92kJU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+T03JYMJ9KYaqId6w9LtkYipjzVNBpnrlFXaobDtJ9CZcdHmyL
+	m5UIt2Y8Pb+4QRGRNhP9V7QI5kp1uLqAdrZ1LLYUdWHEn0FCMkXBc+q0VZrKcUFuOCcNDpgnoLv
+	EuR9QXQ==
+X-Received: from plri11.prod.google.com ([2002:a17:903:32cb:b0:2e9:4bf0:5f17])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:b84:b0:2ed:238b:7db8
+ with SMTP id d9443c01a7336-2edd7bae0fcmr30337835ad.61.1794409067689; Wed, 11
+ Nov 2026 06:57:47 -0800 (PST)
+Date: Wed, 11 Nov 2026 06:57:46 -0800
+In-Reply-To: <avQ9Jhsnq7e3KPw-@raptor>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,237 +77,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261111-composer-v1-1-9d5fa94656f8@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yWM0QpAQBBFf0XzbGt3axW/Ig+MwShWu0hp/93gv
- p2659wQKTBFqLIbAp0c2a8CJs8Ap3YdSXEvDFbbwsgU+mXzIinEsrDaGddhD3LfAg18fam6+Tk
- e3Uy4vz6k9ABvGo/TbAAAAA==
-X-Change-ID: 20261111-composer-cc9620515bcd
-To: Louis Chauvet <louis.chauvet@bootlin.com>, 
- Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Melissa Wen <melissa.srw@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Liviu Dudau <liviu.dudau@arm.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Oarora Etimis <oaroraetimis@gmail.com>
-X-Mailer: b4 0.15.2
+Mime-Version: 1.0
+References: <20261110110724.3614412-1-fuad.tabba@linux.dev>
+ <20261110110724.3614412-3-fuad.tabba@linux.dev> <avMoubwqgXbpflwM@gremlin>
+ <CA+EHjTxT_9NghyLSZmOOi_oQboQw-g+6z9WxwaF=-7RdaGbMNw@mail.gmail.com>
+ <avM9_7aWUDJSL3Lq@seanjc-mac.roam.internal> <avM_FXXF9oBkderF@gremlin> <avQ9Jhsnq7e3KPw-@raptor>
+Message-ID: <avSCaugZ4fRxRdpT@seanjc-mac.roam.internal>
+Subject: Re: [PATCH 2/2] KVM: selftests: Test KVM_PRE_FAULT_MEMORY against a
+ full dirty ring
+From: Sean Christopherson <seanjc@google.com>
+To: Alexandru Elisei <alexandru.elisei@arm.com>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Fuad Tabba <fuad.tabba@linux.dev>, 
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Isaku Yamahata <isaku.yamahata@intel.com>, Rick Edgecombe <rick.p.edgecombe@intel.com>, 
+	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, kvmarm@lists.linux.dev, 
+	Wei-Lin Chang <weilin.chang@arm.com>, Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 
-The composer has a single on/off switch, shared by the CRC reader and the
-writeback job, and no record of who needs it. Either of them turns it off
-for both:
+On Wed, Nov 11, 2026, Alexandru Elisei wrote:
+> On Tue, Nov 10, 2026 at 04:02:21PM +0000, Lorenzo Stoakes (ARM) wrote:
+> > On Tue, Nov 10, 2026 at 07:53:35AM -0800, Sean Christopherson wrote:
+> > > On Tue, Nov 10, 2026, Fuad Tabba wrote:
+> > > > > > diff --git a/tools/testing/selftests/kvm/pre_fault_memory_test.c b/tools/testing/selftests/kvm/pre_fault_memory_test.c
+> > > > [...]
+> > > > > > +static void test_pre_fault_dirty_ring(void)
+> > > > [...]
+> > > > > > +    /* Populate the pages, so that pre-faulting can map them writable. */
+> > > > >
+> > > > > Reviewed below, but I wonder how x86 could then read fault these?
+> > > >
+> > > > KVM_PRE_FAULT_MEMORY is defined as a read fault, but x86 maps the page
+> > > > writable when the host page is, and marks it dirty, unless it falls
+> > > > back to access tracking (below). Populating the pages makes sure they
+> > > > aren't backed by the zero page.
+> > >
+> > > Before we effectively solidify the behavior, I think we should have an explicit
+> > > discussion about the desired behavior of KVM_PRE_FAULT_MEMORY when dirty logging
+> > > is enabled.  E.g. the only reason I kept the existing behavior in my auto-prefault
+> > > series was because I couldn't think of a good reason to change it.  But we never
+> > > made a concious decision in the first place, i.e. we never considered what would
+> > > happen if prefaulting collided with dirty logging (as evidenced by this bug).
+> > 
+> > Yeah, I do worry about implicit assumptions (also commented re: ordering).
+> > 
+> > I guess what makes sense, given the general approach for prefaulting = injecting
+> > a synthetic read fault, is for the expectation to be that it matches the
+> > behaviour of an ordinary read fault.
+> 
+> Unfortunately, what happens in this case is not as obvious as it sounds,
+> because a read fault on a memslot backed by guest_memfd maps the GPA with
+> read *and* write permission on arm64 (if the memslot is not readonly,
+> haven't checked what x86 does).
 
-  - with CRC being captured, cleaning up a writeback job stops the CRC
-    entries;
-  - with a writeback job pending, closing the CRC source leaves the frame
-    uncomposed and its out-fence never signalled.
+Ya, this isn't about read vs. write faults, it's about whether or not *any* "fault"
+from KVM_PRE_FAULT_MEMORY should be allowed if the target memslot has dirty logging
+enabled.
 
-Replace the switch with a bitmask holding one bit per user, so a user only
-clears its own bit and the composer stays active while any bit is set. The
-vblank reference follows the bitmask: taken when it becomes non-zero and
-dropped when it becomes zero again. vkms_set_composer() becomes
-vkms_composer_get() and vkms_composer_put().
-
-Fixes: dbd9d80c1b2e ("drm/vkms: Add support for writeback")
-
-Signed-off-by: Oarora Etimis <oaroraetimis@gmail.com>
----
-- Why not use a refcount? Because there are only a few users, and a bit
-  per user shows the working state of each one. A repeated put() from the
-  same user does nothing, and it also helps future work that makes the
-  vblank timeout synchronous.
-
-- Tested with vng: read crc/data and submitted three writeback jobs with a
-  small libdrm helper. The entries kept coming at the full rate of the
-  1024x768@60 mode, 235 to 237 of them over the 3.97 s the three jobs
-  took, where the current code stops at five.
----
- Documentation/gpu/vkms.rst            |  5 -----
- drivers/gpu/drm/vkms/vkms_composer.c  | 34 ++++++++++++++++++++++++++--------
- drivers/gpu/drm/vkms/vkms_crtc.c      |  2 +-
- drivers/gpu/drm/vkms/vkms_drv.h       | 27 +++++++++++++++++++++++----
- drivers/gpu/drm/vkms/vkms_writeback.c |  4 ++--
- 5 files changed, 52 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/gpu/vkms.rst b/Documentation/gpu/vkms.rst
-index 1e79e62a6bc4..fe7dc8def44a 100644
---- a/Documentation/gpu/vkms.rst
-+++ b/Documentation/gpu/vkms.rst
-@@ -246,11 +246,6 @@ module through configfs. Use/Test-cases:
- Writeback support
- -----------------
- 
--- The writeback and CRC capture operations share the use of composer_enabled
--  boolean to ensure vblanks. Probably, when these operations work together,
--  composer_enabled needs to refcounting the composer state to proper work.
--  [Good to get started]
--
- - Add support for cloned writeback outputs and related test cases using a
-   cloned output in the IGT kms_writeback.
- 
-diff --git a/drivers/gpu/drm/vkms/vkms_composer.c b/drivers/gpu/drm/vkms/vkms_composer.c
-index 0fc915a954ba..59f1dd50b5bd 100644
---- a/drivers/gpu/drm/vkms/vkms_composer.c
-+++ b/drivers/gpu/drm/vkms/vkms_composer.c
-@@ -711,19 +711,34 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *src_name,
- 	return 0;
- }
- 
--void vkms_set_composer(struct vkms_output *out, bool enabled)
-+void vkms_composer_get(struct vkms_output *out, u8 user)
- {
--	bool old_enabled;
-+	bool was_enabled;
- 
--	if (enabled)
--		drm_crtc_vblank_get(&out->crtc);
-+	if (drm_crtc_vblank_get(&out->crtc))
-+		return;
-+
-+	spin_lock_irq(&out->lock);
-+	was_enabled = out->composer_users;
-+	out->composer_users |= user;
-+	spin_unlock_irq(&out->lock);
-+
-+	/* Another user already holds the reference for the composer. */
-+	if (was_enabled)
-+		drm_crtc_vblank_put(&out->crtc);
-+}
-+
-+void vkms_composer_put(struct vkms_output *out, u8 user)
-+{
-+	bool was_set, enabled;
- 
- 	spin_lock_irq(&out->lock);
--	old_enabled = out->composer_enabled;
--	out->composer_enabled = enabled;
-+	was_set = out->composer_users & user;
-+	out->composer_users &= ~user;
-+	enabled = out->composer_users;
- 	spin_unlock_irq(&out->lock);
- 
--	if (old_enabled)
-+	if (was_set && !enabled)
- 		drm_crtc_vblank_put(&out->crtc);
- }
- 
-@@ -735,7 +750,10 @@ int vkms_set_crc_source(struct drm_crtc *crtc, const char *src_name)
- 
- 	ret = vkms_crc_parse_source(src_name, &enabled);
- 
--	vkms_set_composer(out, enabled);
-+	if (enabled)
-+		vkms_composer_get(out, VKMS_COMPOSER_CRC);
-+	else
-+		vkms_composer_put(out, VKMS_COMPOSER_CRC);
- 
- 	return ret;
- }
-diff --git a/drivers/gpu/drm/vkms/vkms_crtc.c b/drivers/gpu/drm/vkms/vkms_crtc.c
-index fe17f49305a9..4e15abfd92a0 100644
---- a/drivers/gpu/drm/vkms/vkms_crtc.c
-+++ b/drivers/gpu/drm/vkms/vkms_crtc.c
-@@ -29,7 +29,7 @@ static bool vkms_crtc_handle_vblank_timeout(struct drm_crtc *crtc)
- 	state = output->composer_state;
- 	spin_unlock(&output->lock);
- 
--	if (state && output->composer_enabled) {
-+	if (state && READ_ONCE(output->composer_users)) {
- 		u64 frame = drm_crtc_accurate_vblank_count(crtc);
- 
- 		/* update frame_start only if a queued vkms_composer_worker()
-diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_drv.h
-index dea6cad3f1b9..c3bb3cd46863 100644
---- a/drivers/gpu/drm/vkms/vkms_drv.h
-+++ b/drivers/gpu/drm/vkms/vkms_drv.h
-@@ -27,6 +27,9 @@
- 
- #define VKMS_LUT_SIZE 256
- 
-+#define VKMS_COMPOSER_CRC  (1U << 0)
-+#define VKMS_COMPOSER_WB   (1U << 1)
-+
- /**
-  * struct vkms_frame_info - Structure to store the state of a frame
-  *
-@@ -210,8 +213,9 @@ struct vkms_crtc_state {
-  *	       vblank timestamps
-  * @composer_workq: Ordered workqueue for @composer_state.composer_work.
-  * @lock: Lock used to protect concurrent access to the composer
-- * @composer_enabled: Protected by @lock, true when the VKMS composer is active (crc needed or
-- *		      writeback)
-+ * @composer_users: Bitmask of the users that need the VKMS composer; the composer is only
-+ *		    active when it is non-zero. Updated under @lock, and read with
-+ *		    READ_ONCE() from the vblank timeout.
-  * @composer_state: Protected by @lock, current state of this VKMS output
-  * @composer_lock: Lock used internally to protect @composer_state members
-  */
-@@ -222,7 +226,7 @@ struct vkms_output {
- 	struct workqueue_struct *composer_workq;
- 	spinlock_t lock;
- 
--	bool composer_enabled;
-+	u8 composer_users;
- 	struct vkms_crtc_state *composer_state;
- 
- 	spinlock_t composer_lock;
-@@ -317,7 +321,22 @@ int vkms_verify_crc_source(struct drm_crtc *crtc, const char *source_name,
- 
- /* Composer Support */
- void vkms_composer_worker(struct work_struct *work);
--void vkms_set_composer(struct vkms_output *out, bool enabled);
-+
-+/**
-+ * vkms_composer_get() - Enable the composer for a user
-+ * @out: VKMS output
-+ * @user: bit of the user that needs the composer (VKMS_COMPOSER_CRC or
-+ *	  VKMS_COMPOSER_WB)
-+ */
-+void vkms_composer_get(struct vkms_output *out, u8 user);
-+
-+/**
-+ * vkms_composer_put() - Disable the composer for a user
-+ * @out: VKMS output
-+ * @user: bit of the user that no longer needs the composer
-+ */
-+void vkms_composer_put(struct vkms_output *out, u8 user);
-+
- void vkms_writeback_row(struct vkms_writeback_job *wb, const struct line_buffer *src_buffer, int y);
- 
- /* Writeback */
-diff --git a/drivers/gpu/drm/vkms/vkms_writeback.c b/drivers/gpu/drm/vkms/vkms_writeback.c
-index 858df1f89f66..7e2f82e44b39 100644
---- a/drivers/gpu/drm/vkms/vkms_writeback.c
-+++ b/drivers/gpu/drm/vkms/vkms_writeback.c
-@@ -118,7 +118,7 @@ static void vkms_wb_cleanup_job(struct drm_writeback_connector *connector,
- 
- 	drm_framebuffer_put(vkmsjob->wb_frame_info.fb);
- 
--	vkms_set_composer(vkms_output, false);
-+	vkms_composer_put(vkms_output, VKMS_COMPOSER_WB);
- 	kfree(vkmsjob);
- }
- 
-@@ -141,7 +141,7 @@ static void vkms_wb_atomic_commit(struct drm_connector *conn,
- 	if (!conn_state)
- 		return;
- 
--	vkms_set_composer(output, true);
-+	vkms_composer_get(output, VKMS_COMPOSER_WB);
- 
- 	active_wb = conn_state->writeback_job->priv;
- 	wb_frame_info = &active_wb->wb_frame_info;
-
----
-base-commit: 1116f4aee916ca13d3e40ce87e67835f51576fcb
-change-id: 20261111-composer-cc9620515bcd
-
-Best regards,
---  
-Oarora Etimis <oaroraetimis@gmail.com>
-
+I'm leaning toward "yes", mainly because I suspect that fully preventing installing
+writable mappings when dirty logging is enabled across all architectures would be
+more difficult that ensuring generic code doesn't explode, and in practice I doubt
+any real VMM usage of KVM_PRE_FAULT_MEMORY will care about dirty logging interactions,
+i.e. any KVM behavior will be a-ok with userspace.
