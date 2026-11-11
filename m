@@ -1,101 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.173
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794433730;
-	b=bMWliaztKrM3HtMzMbt2RdwVmfHI2Cj0i3ZXcG9iCcPYF07+BHe6iGqp4XcYrjhIpZcq
-	 6Xz5YttGUrm4Z2+VftK2hj3PsCCL58SvZ7VhGcnelTECu4yShdhXihXpe/lD/t7odgjPV
-	 Mpc4Eg7WwtyxGOHZeuYto6XBPRkQN1r+kiCALdkEltLrMBxOAe+0Zk+ADdhLtW5f7wrwA
-	 3KmHAHrpgk8zWdp5m2pK3bByFRciCKCjosWtDGmonbWD5HFtXpHihjMj7AstdD3oCR8KK
-	 a819eH9QCUvEVPa57TNnmnrhBU0byv4eMAgT/seV7iv4bSHntYwAZPZrhxHUE22eW8w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794433730;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=in2H/EiTzu7oKMx0oXEGmqlnXShESJ9rcbe+oDUN+Fs=;
-	b=xyQLoD+dH1Vlf9urSXACvCwTIZMtR65DDM3KkMwha9PGzV8LodnG8V7dZJtm+P9dcd1i
-	 zjPaffZhF3gu82VyvQTLGkl2RsT/fcs9xLCxhvp4+791dqC66O6xXymxJpsUbOZ9Bv6bT
-	 hC6D7G0lJk9gXpC/fCSPwEW+FHGWCe7S/WpP1D9Q3O2Jkxd5WBTW+2N1wMVe8Z7KoPN6c
-	 E+3QGu9IB1+skoApB3Z1ro8zh97dj1i7SEOfNCND++l421bxeZrE8CEAZOdJPZOTBBfNU
-	 CwlmBtw9HWnRRMYbPn5aOwZ103zhOYuWFiKngT4ns+37+yuoS0m4iwWz6jTre35qzqw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MF0INbu5;
-	arc=none smtp.remote-ip=209.85.215.173
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.153.30
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794433789;
+	b=RR4drRFGLRokd6+lKX+nc5VVfhXd66B0JIfEzyEIWk8FB3Hr/eK1TaLT5AWwt3alzZqR
+	 shhgymlZ0mtFjfDSGnlGg+a2CNYjj3+wXPe0KTbjsYlR7p9UpwsINsygS28aLlHXJVgox
+	 zGzwzmtGnfY7TbLoATFWUZNj8sPFrmD8MAaFhT3iiwRTwPmIgiCJMz4xODIgM/fJrFIjP
+	 eXz6+Ll/KWORTALBhZ9vb8/0CEJ9ND8FHrchCJosO5Ce/d+1bIOit3o1ohOPNIA5F4q5E
+	 x7wxs2dyDSM2ZGrWlyc7SXrR6yfiroaiGs+Oeei5zLu0vWjwmSOijbj+VXIn5uAEJ0Q==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794433789;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 X-Google-DKIM-Signature:X-Forwarded-Encrypted:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version;
+	bh=5hjKfboVBJ7OBGDq8Y9w5OdAYwdgZTN1RE/HZ7spSHE=;
+	b=fGE2X38MCMo39C+ML0KpyetAcniE2VsFtAKg+3XYJ7LbMyQHU4T97vFQaMtqeklgYV6z
+	 MqWkxPsto4X7pEKkX1ZpaZN/fnF1cHUKdxEelTnXrLYjyGNMjTQ3iHYnNWWQYPvk+gmJd
+	 1p5OGJX0Mq7ecFhejr5vFwmosZaJz6HA5lxB5VZVk2ySKn+X0UxmA+FQPHd3ss6bwGvWw
+	 1JRyzdmNUg6BbWSuWJEL/52x8wau2CKQny58u8/GAGtukkoDe9Pw9Ral35cTK7h3Y3XSm
+	 emJfwpKFWMdunvNlNJnPeKrJa00vfvEgFwi/zh+B6yBA+RW63lLRFtHSQjxhy5pDGZA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=GeyeUFFi;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.153.30
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4057606A884
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:48:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D4057606A884
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C071C606A334
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:49:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C071C606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MF0INbu5
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cd69954c755so2539570a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 13:48:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794433729; x=1795038529; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=in2H/EiTzu7oKMx0oXEGmqlnXShESJ9rcbe+oDUN+Fs=;
-        b=MF0INbu5MaaNPwlPqfOGFWmfOBBlMsgwfTX9yqoOQukKszhiLhWsvensSmgg5EwMX0
-         6xHhym5nnd39YYfADosiSRok6GnimKHgUbRgwEvwTzSdhR9TwY1aFdZy3PAvbHfDkxf4
-         fwIbFP0hBOGfh5wEfRpIlV6YGjnwXsaDvaK34MsthoCLKaD9NkCqZlwMQdJ+xA8tT0qv
-         l7Jmm2K6lqcavReO4u+S/hvMvGBUxKnCOEBaAmFlifxfixKEhojKyoJmNVskhij0z665
-         iWs560WG4BQFURNTTvXOqXp0L9jbbhNh/EWEizzJs9SE4kU1tr5CPbxOfcCqT+FEy8i5
-         vkIg==
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=GeyeUFFi
+Received: from pps.filterd (m0528004.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABKjitp1265843
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 13:49:47 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=5hjKfboVBJ7
+	OBGDq8Y9w5OdAYwdgZTN1RE/HZ7spSHE=; b=GeyeUFFiqCEKPkYZuQ6WCtcJ+ir
+	veBlhkSCp2XR6ZvVC1Xnkgk73qpCo4mRZiSx00pz0ZaPhEttkWlhUPmxfs40TTQ5
+	/X8zBYWeMo5qo2ppLp4+UZMJyHFMoiEX2DHlDDezkJ+ymYQXutBVAG3oQhntG9hM
+	ZVeerH9U4yDTyfZo8k5T3RGORiWlI7Sy4seS228sgPILhH6xhQjGBjjWZwg6qsn8
+	Vlh4ScYyoi1E4wMGavc4pJXl7aCS2fuFIr3busZsxl7CXn30LOVds332fP4+nkTl
+	nDWVNpN6J2Xxb3bHvFuoJ6S2atc4WxsC5TivihwZ04AgSP+XyPVs1XTkmTQ==
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com [209.85.221.71])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hvaejgtt2-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 13:49:47 -0800 (PST)
+Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-49166c8a60dso2576806f8f.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 13:49:47 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794433786; cv=none;
+        d=google.com; s=arc-20260327;
+        b=exE+7fo6rY/8IIiOToRd53Kpe2LGKXwwaCpTuli6bBrml1s70Mo1zsVPvpEyQV3zWQ
+         6zUfDBTd5dAZnlKoXrhvCzcV6SfktaM12R+0Wya2i8ounW7l9PQ0+YgS5VHKEjzgZFiN
+         eWF7VND5iwNMJLqPpvPQ6BsgZTd2x/MbkxFS0Mq42rR/UPs6i+Zn+FgL5w2iTz8XG/V9
+         2YDxq1QLJUK3PoRyVStuxIxhkwtEma9KERsxlD6d3mb8JlOqMM8PGezWWFzy0F8J0A+a
+         /zwf+AUx/eBuGSjKoKcHqPlzFONqGKJb0k6O/tTnY/t3BTQJ8tqeos2Jbvx/sZbliGzb
+         GYpQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version;
+        bh=5hjKfboVBJ7OBGDq8Y9w5OdAYwdgZTN1RE/HZ7spSHE=;
+        fh=QvZoxmc8VZXj6Dwp3t4oeVwiTPJu6Ceeyl0GLMcUnwE=;
+        b=Ru2IToBeXyEPwbZAK1siecnthafv4GAHdD877mibdKFP8pzSL4liyZ8xSKLLVuv+hc
+         h6b6A5Q9ZvjPxOcjDJ7Sahe4O4Z9aghwoCxhe2H3pZ0nLDWVz/CzCLRnDwTRFbjtdsIV
+         rG7b+ZXkdSxPqVlicjHYiJXqJgOKAokppiYNbToOU1Ss33EaMiQf+YoWPL6cK1H3flgw
+         QaPDNwVqmLNA9/L/VgNAlca/T4AIyKTlU17+i7IZDaks5upO0rKrYz5cRqXs0fvMg/fH
+         2pYRE4zXTSEXkwzKacNU/KMHtLl+IniM3Im5amg84zLlrzg/XZ9M26mgvxUXFz/3Sb7N
+         47eQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794433729; x=1795038529;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=in2H/EiTzu7oKMx0oXEGmqlnXShESJ9rcbe+oDUN+Fs=;
-        b=onH39F1S1RKvpqFayHv9i5Kl6+mknqikvAHLX4F51zL3ZEB35hQR5JpcuCv1Sy6BpV
-         3thqZXC1Q9h6TmH4Ok292vZPUKTiY7CINbyMHN8IBfEIOltyEvivUFyDpXewrHgxA0sx
-         nXzirXcO1eZlycoodYgbX853aYH2WzGH2UAJNHK+s7rOEEtuve+x+RULt9t2Pqrlabr/
-         55Jw7SPw7ysk7+RjAr7GYxl4Kk4A3bOEluN5quBdKejD3BhBSDwsqKRudOimHZWUM3ir
-         5PnC0x/IlTbJZ6YGYubTEUOv3ig08kMGMnoZPt1n55ykLGMaWf7seBmUCSUKL0hxBvM0
-         iSNg==
-X-Forwarded-Encrypted: i=1; AL+hErFDdYCGhRf/is8lQG5Er17O89IODzx+4D7gAo+tnNgY4ZtNFiUW30+uU0RYYMuZ2R4F6OCtfxSJG6I=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9Pl6sZVb5uLZRr19sRA0lyIZMdPel9+ChA/byvDSQ3fideg/nu
-	SERaLYr2DaiRyaHJDDy9D9Kq8Uwy8nIEtS6LFO9+FUOilCo+S8lZcOVG
-X-Gm-Gg: AYBFou2yCILuQv4tABoAOC2vKgA1LVSAlpNFZe3f6zd3BM+FvMSvwMEt2h4QcyXJl6+
-	Q+HGoMPlpLYRqzz/s/cBo03017GoUn5buroZIzaO0N1lhGUcyLH0xb2EQhJuxUzmTGJjZG2NRH1
-	Czx2Yu6Wp0zymKECi5I2D/YiJsz6ntFGI2fBhKcjRuwggAVo2dydPuNPqgVDYUb9zDZoe2gkQ0G
-	8JSS61ccra/jjhz/hs4+Ayxk5pOirc1zC/mEIgxHFwrK1hcjKHGUkfc9YLBKeKIbtdRfYnwFPoc
-	q/KPZcKY2p4JI59tGHNAPsb23QAq5/eULeWI2Tyvdy4+Fz1X7LFL8LFN5WyjaRFt1DBjVvBjZLw
-	WmHDFNY5AcH/QI9QyES/3Pb+6vUiCdsSNwPsuTIqwcBWsOY+vVYQshlOeX1AcSK240KI0NukTD/
-	7T0YYxt/Krx6ZGZa/28p0cLAWw541K1Eba39gdODP5kWRtf3kIyv1yBhZZVm+FS0znchR5EazBy
-	h8UnguXTp1Y9A+NS/pxpPcVnBDeCs/tmgvgqa2pxCSuomKZ3OSpWJmNm9D56G0MZpw53WnwvE3w
-	dDA64nUF8Cd+JrDhaBA22jFtItoAk694ZdEHUrygTcv+sNMhZivLkKBP0vjBqcrrnhc52Lws7z0
-	HIAmEsEEz3+1E47GulH9YCG/IPS3qeqWpU+HbCd94WUSVWNreqddsdW82o7e8GXYDK2i4WWBese
-	ICwg==
-X-Received: by 2002:a17:90b:4ad0:b0:3a7:3474:b1ee with SMTP id 98e67ed59e1d1-3b182f1adcdmr3660412a91.60.1794433729109;
-        Wed, 11 Nov 2026 13:48:49 -0800 (PST)
-Received: from ryzen.lan ([2601:644:8000:37f::e34])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b182de1dafsm2754761a91.3.2026.11.11.13.48.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 13:48:47 -0800 (PST)
-From: Rosen Penev <rosenp@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Stuart Hayes <stuart.w.hayes@gmail.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Subject: [PATCH 2/2] platform/x86: dell_rbu: Allocate large monolithic images contiguously
-Date: Wed, 11 Nov 2026 13:48:26 -0800
-Message-ID: <20261111214826.6577-3-rosenp@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261111214826.6577-1-rosenp@gmail.com>
-References: <20261111214826.6577-1-rosenp@gmail.com>
+        d=1e100.net; s=20260707; t=1794433786; x=1795038586;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5hjKfboVBJ7OBGDq8Y9w5OdAYwdgZTN1RE/HZ7spSHE=;
+        b=lx46ZqOZ7MMjyLUVttGg7YXTpIjNKfHJy2o4RJdrY4mGfBNs6+NuZWqDbyxO7OEb+b
+         xg4cpl0fjNC5gVBUocwNnpZUGdMYaKN4Vea+E//tXqhFcoqeIDpoBrC03nRstkfaVOJM
+         KGEgoyiXDQ3X5xbjgAbiMUXz9aleuaUemp0dS+QROb93N22Vc9VKooQGQ9iPdgR/j5Qz
+         qqtJZLLqpVguWSRHiKBoV4WvkGK3st1tmcl+/qBTGX5aD3czXocNtZJm2BmOt92a8Ba2
+         lp6Y6Ynys9Ac2Is8Pp+riTwG/VzpqiPiWzL2tkw843DVPXyUwOj/D/oIV2wJ412PRXp9
+         GCKA==
+X-Forwarded-Encrypted: i=1; AL+hErFbrz4oZ4zV3BEhnqkbspU0OVa2tYeelYW9ttZt2saHENitwXqRNDTAOzbKAwRtjw7POqC8+e8EoYA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+AvQgWGyfpKJDKVoO1CKh24xz8pfJQKhapbAtObMTsyvTLo8K7
+	tJxPblc7sjE/U94MevCOTH+0WBcbh23pEl23OlOfOSvYTjZpX2ZnmMlOvU6B9HMmNVf5PbcoLPo
+	lRSbGlTsn9KguYig/xwd/rrs636g3Iv1ogSpJPyC2eyNJyO9kRsilPJKFMieB5M1n6EJE0bAfea
+	rj4+ZzWBMIqLwUBhqcYlytH3u+uCQwKqRzhtQ=
+X-Gm-Gg: AYBFou2z18WWnWQ6cu/Q15EBFTRkEyXLD2m2Qhzg662RAcLdficzjsHSQthk82eB+Q1
+	rrSknfbiraR0MS0B4Dpg7/a42XloPcqOaMPwmnuWrq/bz8oR68EcD08lHhaXVHDlP+HeI34bs4c
+	vcfoT7hnnuj0RimMLh3AOxgfMur9ggxYpdRMdFdRdtI8j5YoF3wDfQ4nle3FMdeBR06MPCEtvDH
+	qJGLEoDhdKiaQ0b+UWJv5yuXjDLwlmM
+X-Received: by 2002:a05:600c:34c7:b0:49f:e701:51c8 with SMTP id 5b1f17b1804b1-4ba093583eemr60183615e9.9.1794433786461;
+        Wed, 11 Nov 2026 13:49:46 -0800 (PST)
+X-Received: by 2002:a05:600c:34c7:b0:49f:e701:51c8 with SMTP id
+ 5b1f17b1804b1-4ba093583eemr60183425e9.9.1794433786168; Wed, 11 Nov 2026
+ 13:49:46 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,144 +111,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261111005533.6436-1-toddfreed@meta.com> <20261111005533.6436-5-toddfreed@meta.com>
+ <DMSJB8MZZCXK.MCEBRZQDAM5Q@gmail.com> <CADh2yMx8MPjcH7Bpj72rNNd_tT=6uSC5Ow9JyGjTMjFgs499Pw@mail.gmail.com>
+ <DMSM3RNRY412.1GXB07F4KGJYR@gmail.com>
+In-Reply-To: <DMSM3RNRY412.1GXB07F4KGJYR@gmail.com>
+From: Todd Bert Freed <toddfreed@meta.com>
+Date: Wed, 11 Nov 2026 13:49:33 -0800
+X-Gm-Features: AclHuK_3wPHrs7nAKCIlAv8DB3IRwLLgS4civoUiRATHWDoZevdks1911kjhq28
+Message-ID: <CADh2yMwFu5Gyadm2Y-NHCBtayEvN5H9LUM=Kf-tT69vmjm0DEw@mail.gmail.com>
+Subject: Re: [PATCH net-next v1 04/15] psp: add support for socket-less psp associations
+To: Daniel Zahka <daniel.zahka@gmail.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        bpf@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>,
+        Donald Hunter <donald.hunter@gmail.com>,
+        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
+        John Fastabend <john.fastabend@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, Martin KaFai Lau <martin.lau@linux.dev>,
+        Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+        Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+        Wei Wang <weiwan@google.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Authority-Analysis: v=2.4 cv=LZipeTfi c=1 sm=1 tr=0 ts=6af4e2fb cx=c_pps
+ a=pX1sPZUoWPGeQgUnKQNIgA==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=GbPsI2Ihf5RTnMjR_gZv:22
+ a=VU9VbmEmTQsFja8ue1gA:9 a=QEXdDO2ut3YA:10 a=XGGHjNwGSpTZ5T66x7Ix:22
+X-Proofpoint-GUID: LREwxO2tukN9k5C0mz34aQ6ZjQA4BeUj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDA4NiBTYWx0ZWRfX34xuxwpyr/kJ
+ 8wyDdcmcD5inKaSw+nSlL/ydcLmtGhz7teEHqC2ZXxo6WIWWfUl7tW0LF5Ag9Y5DeF1mHxpnvOM
+ Zq+N8foJXgeO8QEfoBMX8jfDWSMWzNUAnqXGmewvdr3oh9jbBdeyy6T8p+MixEjXcUmiYpp0Jip
+ 8p673JMr6J6NEEzcH/gAtFT8RFZrmqEbLtiM6R331omhDsZiT4VnoE6YJBm8e1/BGR6XVbRwgCJ
+ VPXxijxpBUIF7JbxbRoZ7l1tONk28e4RABPpmgw0bBpfXn8oylTWNrJvgkNLQMPQ6BC0ZD+V1Ck
+ 4c7bjVlVtQ4TIvnO/gL+QfitLp/kuj8EHrFibZENwHnxVysiQzPTIRHLMfdhZrhJT7+vMurKVi9
+ 37R2IZVUZ7FYkHVrxFptE07fjBtMUEi6EuGZcLv0tdL3kUTkP6vE8X/zyBZwJmDWJLpTGwPUVlO
+ xKcX2oGT6TxKcnbI6ng==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDA4NiBTYWx0ZWRfX1gjjcGdRpFiO
+ gcOcEwLPXqgFxMCbBqw7KzS0RmXsL6vUJrFS63+osD3N6GlZioDAYorNVowcvPmwWUiQWF0htAN
+ +YGiLQIYCPofzRwXHwChTiHd7TRIAkw=
+X-Proofpoint-ORIG-GUID: LREwxO2tukN9k5C0mz34aQ6ZjQA4BeUj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-11_05,2026-11-11_03,2025-10-01_01
 
-Monolithic RBU images must live in a single physically contiguous block
-below 4GB. img_update_realloc() gets that block from __get_free_pages(),
-which cannot return more than MAX_PAGE_ORDER (4MB on x86). Current Dell
-BIOS packages are larger than that: the Precision M4800 A26 image
-(the PFS container extracted from the update executable) is about 16MB,
-and SMBIOS structure 0xDE on that system reports no packet-mode support,
-so the image cannot be loaded at all.
+> I think it makes more sense for userspace to just get rid of the rules
+> before rotating the keys.
 
-When the required order exceeds MAX_PAGE_ORDER, fall back to
-alloc_contig_pages() with __GFP_DMA32 so the range is still below 4GB,
-and free it with free_contig_range(). Smaller images keep using the
-buddy allocator as before.
+Ok. I will drop the rx assoc objects. The robust userspace protocol will
+be some combination of using cookies for state recovery from a rule
+dump, and using chains to flush old-generation rules at once.
 
-Tested on a Precision M4800 by uploading the 16MB A26 image through
-/sys/class/firmware/dell_rbu and reading it back byte-for-byte from
-/sys/devices/platform/dell_rbu/data; a 300KB image still uses the
-buddy allocator path.
-
-Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- drivers/platform/x86/dell/dell_rbu.c | 54 +++++++++++++++++++++++++---
- 1 file changed, 50 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/platform/x86/dell/dell_rbu.c b/drivers/platform/x86/dell/dell_rbu.c
-index a121f59a215d..d71fa9584831 100644
---- a/drivers/platform/x86/dell/dell_rbu.c
-+++ b/drivers/platform/x86/dell/dell_rbu.c
-@@ -41,6 +41,8 @@
- #include <linux/moduleparam.h>
- #include <linux/firmware.h>
- #include <linux/dma-mapping.h>
-+#include <linux/gfp.h>
-+#include <linux/mm.h>
- #include <asm/set_memory.h>
- 
- MODULE_AUTHOR("Abhay Salunke <abhay_salunke@dell.com>");
-@@ -55,6 +57,7 @@ static struct _rbu_data {
- 	unsigned long image_update_buffer_size;
- 	unsigned long bios_image_size;
- 	int image_update_ordernum;
-+	unsigned long image_update_contig_pages;
- 	spinlock_t lock;
- 	unsigned long packet_read_count;
- 	unsigned long num_packets;
-@@ -335,6 +338,37 @@ static void packet_empty_list(void)
- 	rbu_data.imagesize = 0;
- }
- 
-+/*
-+ * Monolithic images must sit in one physically contiguous block below 4GB.
-+ * Current BIOS images (16MB on some systems) exceed what the buddy allocator
-+ * can hand out (MAX_PAGE_ORDER), so fall back to the contiguous range
-+ * allocator for those when it is available.
-+ */
-+#ifdef CONFIG_CONTIG_ALLOC
-+static void *img_alloc_contig(unsigned long nr_pages)
-+{
-+	struct page *page;
-+
-+	page = alloc_contig_pages(nr_pages, GFP_KERNEL | __GFP_DMA32 | __GFP_NOWARN,
-+				  first_online_node, NULL);
-+	return page ? page_address(page) : NULL;
-+}
-+
-+static void img_free_contig(void *buf, unsigned long nr_pages)
-+{
-+	free_contig_range(PHYS_PFN(virt_to_phys(buf)), nr_pages);
-+}
-+#else
-+static void *img_alloc_contig(unsigned long nr_pages)
-+{
-+	return NULL;
-+}
-+
-+static void img_free_contig(void *buf, unsigned long nr_pages)
-+{
-+}
-+#endif
-+
- /*
-  * img_update_free: Frees the buffer allocated for storing BIOS image
-  * Always called with lock held and returned with lock held
-@@ -349,13 +383,18 @@ static void img_update_free(void)
- 	 */
- 	memset(rbu_data.image_update_buffer, 0,
- 		rbu_data.image_update_buffer_size);
--	free_pages((unsigned long) rbu_data.image_update_buffer,
--		rbu_data.image_update_ordernum);
-+	if (rbu_data.image_update_contig_pages)
-+		img_free_contig(rbu_data.image_update_buffer,
-+				rbu_data.image_update_contig_pages);
-+	else
-+		free_pages((unsigned long) rbu_data.image_update_buffer,
-+			rbu_data.image_update_ordernum);
- 
- 	/*
- 	 * Re-initialize the rbu_data variables after a free
- 	 */
- 	rbu_data.image_update_ordernum = -1;
-+	rbu_data.image_update_contig_pages = 0;
- 	rbu_data.image_update_buffer = NULL;
- 	rbu_data.image_update_buffer_size = 0;
- 	rbu_data.bios_image_size = 0;
-@@ -375,6 +414,7 @@ static int img_update_realloc(unsigned long size)
- {
- 	unsigned char *image_update_buffer = NULL;
- 	unsigned long img_buf_phys_addr;
-+	unsigned long contig_pages = 0;
- 	int ordernum;
- 
- 	/*
-@@ -404,8 +444,13 @@ static int img_update_realloc(unsigned long size)
- 	spin_unlock(&rbu_data.lock);
- 
- 	ordernum = get_order(size);
--	image_update_buffer =
--		(unsigned char *)__get_free_pages(GFP_DMA32, ordernum);
-+	if (ordernum <= MAX_PAGE_ORDER) {
-+		image_update_buffer =
-+			(unsigned char *)__get_free_pages(GFP_DMA32, ordernum);
-+	} else {
-+		contig_pages = PAGE_ALIGN(size) >> PAGE_SHIFT;
-+		image_update_buffer = img_alloc_contig(contig_pages);
-+	}
- 	spin_lock(&rbu_data.lock);
- 	if (!image_update_buffer) {
- 		pr_debug("Not enough memory for image update: size = %ld\n", size);
-@@ -420,6 +465,7 @@ static int img_update_realloc(unsigned long size)
- 	rbu_data.image_update_buffer_size = size;
- 	rbu_data.bios_image_size = rbu_data.image_update_buffer_size;
- 	rbu_data.image_update_ordernum = ordernum;
-+	rbu_data.image_update_contig_pages = contig_pages;
- 	return 0;
- }
- 
--- 
-2.56.1
-
+-Todd
