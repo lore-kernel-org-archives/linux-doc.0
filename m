@@ -1,86 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794436165;
-	b=SRONAPSR97PTBgTMFF67J4McUrsnbCa/k7x9GyC1NrJS2VPv7K6RiQ8oyqENMQa1GSFY
-	 hq+wjGR8aik6zR2AcqdTjUa2+/hOUywI5AppUX/mYDbCTXdytyOnsi+1gPnOJmHNR5ILj
-	 KFIKrdxe3OpMfhmP1mYkTfys27t+SGT/tyjJ12IT3FJUHXKMdIzJiI5lurpNeyV8I0q6s
-	 uBVImpC9GdyQfQ0hYYz6YgUZ6YimA9SsAYOef2hobPwfK3gAZCUBawWbFYZ9mmtPmXa01
-	 ndT8xAd4CCk35uhMf1UoJmk4jJIC9iUo53JVED2ms4pF4smqCKRqNcgIYLBu6qgbU6g==
+	t=1794436884;
+	b=33Yg3Fc90+hGzWZNNUdKG+iRg4ktvVieQioYkI0EDqjFZ4KZkhveCyhrpwGx7BD2qjor
+	 IE+Q6nHtoEyUTZdkvhqA68/2vuR/78ReHbBJXvtRFK5vnpBsrmyTJz3K6rVYw+lLxytC0
+	 c529b+4Y3xAn4kBoSlKl7j+Sjp+OL67cUI4IUa8aqWJMBrUtcdDYmBfXKPounrEjdku8w
+	 jzEmWkFmc54tvUsh/sbn7GslVHf5jtIJt2WAJ0JyRCkmhTmkltd1tnojHSE0LwZHKxtqF
+	 qXjUhgHqQKvTu4FKsP4EhX09WFDuzQPnFHNf/s8MGz+uuKz4mdyvdgwK9HtjPLNxrPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794436165;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=VhufRV4BoS98pezOde2Ss8la06aT4y3vZY8jTMf1PWs=;
-	b=NVpmkj78czHD24rK/5tKrgCmbuZlc3Ss2Tft7Pt8cPNukgBf4qEFeVWMRSyPJwxOPaBZ
-	 sJVrSdfMw+Gk+HjNXTdspZBzVBHMFhnEVKrgyZZP3u3QYfDk7v9lVfUXMXay/Yj6nbeIT
-	 iIbM2w4iRr07QW0BQzKOraHwhrP8pAYTtXO3pxw2l8PUS22lOpbtYSwcel6msZtm7TRq9
-	 Y/qmDRC9s0vjZU6djCP0a1R5PClrJkdqslB2iCWKUz2ydv1GWmwIGVgbA/0YnNlKs1ozG
-	 oiW+FMFap3WS2oRVkRWSelLGYXuZwg9cTM7rFqaLXQlKes1MZJroP4AScNMuwBSoi4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794436884;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=1ZszL408OtVOYhxcADqDXyCFPN2IPKvweH7l3LeJgEc=;
+	b=Kd4AYtacdyeXhjp4jGsydUorxKXwICT8AXlRcmEr5rBzCNsJ1YNPT/kKdyN/RmPi8gAk
+	 mIYXC12hwHIGXU7/P2sKSSAoFSC1EXt8kNx2lK7Y8VLw5ZNZFnKbkQYVdCMgbAp/4un1M
+	 Dar3XvOFzUIjBci9a1aYd0+lzQn2NVuJFp8LHeh5W7B3FvWEU1ct1v79YwDNDzzD5cIdr
+	 wAagb4h0o3GSJBOOlLHuzbpsaMRE05NMlGdVvIbHTihBuW8bQwN54p1QR0E0ak9MPnv9J
+	 UzJ5FNj3Cc7GKK02oxY7tu/Gqovq0mWgSKs7dsxlht/BkTfSppk4i2/4L0N4A3QT0WA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=soleen.com;
-	spf=pass smtp.mailfrom=soleen.com;
-	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=UBFkvSSO;
-	arc=none smtp.remote-ip=209.85.221.175
-Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VhGYVF1A;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1BC606B36C
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 22:29:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E1BC606B36C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A7B606A336;
+	Wed, 11 Nov 2026 22:41:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=UBFkvSSO
-Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5eadadf23e5so2431430e0c.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 14:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1794436164; x=1795040964; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=VhufRV4BoS98pezOde2Ss8la06aT4y3vZY8jTMf1PWs=;
-        b=UBFkvSSO181dGTbEnl6AnPlOEkQY6F/N95xQxRJhz7c5IRO+VEbXWFIAEvayCl/kd5
-         XeIOKPIflSGTa0amiUI8hlmChz01GDdMJoJXIkPvK98reSRtBR1m1PN2vN7xIi0X5cRy
-         k/8OwfXIJR9a+GpkSMTKBHAXotf6lbT74Dxn4nCF39EG1vsYs+l0x4yZ05dNsK2F8Rso
-         OkApORfkZWbfd437HGZ97KSbMtLEJUNCYRe/Dvf6WuJILzoV5eNpOwOWh8qaO2J+8M/9
-         3/QMolihpp0Pu27cTdtC1fJ2EBc+eWuuYZvgLLSTxjca8+wEb1qO0xhKn0DL2G5WLy9E
-         6aXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794436164; x=1795040964;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VhufRV4BoS98pezOde2Ss8la06aT4y3vZY8jTMf1PWs=;
-        b=0B3EEcDlPGm0Yc1P161yuFgIiyfqLI1JSFXDhmtwyTYE6S5IRRn/GkwtHH6JLkXa4T
-         3daTxFb4LLMEf89yrUeArAjnwWGBhIaAlVFnvUHxVWFBE2tioEXBxypUQ/HLCx+VBDt6
-         YjksiOF/8mfdSgc+nvSdKpMcdtwj71d1/w+zB7QvB2AgKWwChckEyqVOwiAUq60eekXe
-         YQJH6VO5yZiZwZwP3f61v42olKGlRauMzM3B4WFxoonUQTPUmQlpXQmvGcRB/Q9EKqca
-         CFHRy8537DsFwmKsatGW2HqRbBkX1976LU9jpzQpjWENBqIZkI9X6XD+5W92/z4O15Xt
-         Q9mg==
-X-Forwarded-Encrypted: i=1; AL+hErGXjYJoYOrY8TtFJIr4wcTwSMxkxyJG+ZCW17CZPt4JnE4jbRHf4OX42YAFfjcdZ9GOraE+oi76TKU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/OVBJ8nPebOuu/weWtmPlCXGTjqCH0DJllqbCtaPFVC3GOnsB1
-	gkOUogGewq7D6Xhcro2N5rOQuwId3N5kCOqbFtpoQ1E3FD0shkW56TNrriX9jJP+XlA=
-X-Gm-Gg: AYBFou2qAX+TBwyPCk39bAXRvJk7J2dfCRFMq/6aEVkStTsNWpeAjuGaNpM7FbBrRtz
-	t9GI7AMPXcWN+QEo2xrnFD7d94XEh8n9uDo8DBVc7xyq1mPrlb02nKe2LJMN9OoZQz3mgOP6R8n
-	Oc2WB3KdUm5IVFXP/cIw8wbj6JUOSqTMUOUvz41MtGsfnp0dExEJIHbB73GH2LWS8/qfjeCPa0a
-	K70f5dkdiJbrQSzD3YRV++agB0G7riKAve3yTd+hatRTZjVnsMtb/VMiiR4ON4E3fViV/tg63Wy
-	rSXm5pvnb9byIxWf/LHXbXOo2TykA6Aa7I+VGXPvDlx2hq3eofWdDtTm+mNdpWuqza+ld5bh3vq
-	qQLUaXZs5L1sV8VFLwdbgJiMI81G2lNYMdlyjSrgXg+Coj/vw/gXsdlqFnQOo2x9mBtExRmeCdx
-	+KFTz4Pkxc5J0huoU9qoimTcd6JBJgynfPNnNJAVHhkbclte8WajTpiAbAiND6VaCl8fWEBdDG1
-	aUQ6DbFiq9JHqds0JtzfxxugCw7dX7j5zPThCEPYIvKzf6pm4tqAvwKk3fFOb2V1t78BtYy8Zpf
-	kB705arpld8J1VVMfmV1RdT3tya4KmTIt6ZxEvbhST2ogxyzHnUFYBOZXgsxTsbN0dlUnSBmRxN
-	Mft6m/kdTPAHIsvkvJGDUxJKadW22Xg4vT720IzCghAp6
-X-Received: by 2002:a05:6122:4210:b0:5ec:d84e:3833 with SMTP id 71dfb90a1353d-5ee1c453cbdmr1849715e0c.14.1794436164290;
-        Wed, 11 Nov 2026 14:29:24 -0800 (PST)
-Received: from soleen.c.googlers.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee0c58ee8csm4508834e0c.6.2026.11.11.14.29.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 14:29:23 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VhGYVF1A
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6C21F00A05;
+	Wed, 11 Nov 2026 22:41:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794436884;
+	bh=1ZszL408OtVOYhxcADqDXyCFPN2IPKvweH7l3LeJgEc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=VhGYVF1ACkNkJmWQcgrSe4xq0u7p9IcPv50kYi0r0zkpK9kBgNCeLK5j/JWEIVewS
+	 SYM1BlCdSaKoa1Q8lDng/fxwNyw3HGDnK5lIxS/JkjCjpsng/iaSRridBJUevSX+DZ
+	 HnMAHRW9YMcJQzDvvOMG02pMh4btDUUj1zh8liWLiF9mlwpcdc6DOmEdKpsdho/OYF
+	 2ET5J0xk+iq1mFj+j2/PPi6p8RCK9S1l0GU/2PYech/JAwq7V1P61c8Sv8z7vRV9Fm
+	 OgpP++8N1IrCl6T6jZndpm5cJdtQrapg8uQJ940/ocRUORHk+P3LsAIipcog1dAgC2
+	 sUMFE6ef483Hg==
+Subject: Re: [PATCH net-next v1 02/11] net: Add memory provider capabilities
+From: netdev-bot+sashiko@kernel.org
+To: bjorn@kernel.org
+Cc: magnus.karlsson@intel.com, maciej.fijalkowski@intel.com, sdf@fomichev.me,
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, alexanderduyck@fb.com, kernel-team@meta.com,
+ andrew+netdev@lunn.ch, hawk@kernel.org, ilias.apalodimas@linaro.org,
+ ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com,
+ asml.silence@gmail.com, axboe@kernel.dk, andrii@kernel.org, eddyz87@gmail.com,
+ memxor@gmail.com, martin.lau@linux.dev, song@kernel.org,
+ yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com,
+ ihor.solodrai@linux.dev, netdev@vger.kernel.org, bpf@vger.kernel.org,
+ io-uring@vger.kernel.org, almasrymina@google.com, mike.marciniszyn@gmail.com,
+ bestswngs@gmail.com, razor@blackwall.org, dw@davidwei.uk,
+ aleksander.lobakin@intel.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stuclar@meta.com
+Date: Wed, 11 Nov 2026 22:41:21 +0000
+Message-ID: <179443688151.2199510.3920075646889577971@kernel.org>
+In-Reply-To: <20261110102039.1002605-3-bjorn@kernel.org>
+References: <20261110102039.1002605-3-bjorn@kernel.org>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,113 +73,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 1/9] kho: Reclaim the metadata page left reserved after
- kexec
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Chris Down <chris@chrisdown.name>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
- Mike Rapoport <rppt@kernel.org>, Pratyush Yadav <pratyush@kernel.org>, 
- Breno Leitao <leitao@debian.org>, Alexander Graf <graf@amazon.com>, 
- Baoquan He <baoquan.he@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, kexec@lists.infradead.org, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kernel-team@meta.com
-In-Reply-To: <63ca64c004b296a998a3e531f8c0c4964916b70c.1794383544.git.chris@chrisdown.name>
-References: <cover.1794383544.git.chris@chrisdown.name>
- <63ca64c004b296a998a3e531f8c0c4964916b70c.1794383544.git.chris@chrisdown.name>
-Date: Wed, 11 Nov 2026 17:29:20 -0500
-Message-Id: <179443616043.2329176.17166425351392983946.b4-review@b4>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2439;
- i=pasha.tatashin@soleen.com; h=from:subject:message-id;
- bh=jGQo4CvboZX/j4iYyskgIcnUkGUfctp7MromfOrLaYc=;
- b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBq9OxDl5eSqxBhOZE5p1XG7yi8PQ1rOiwUmOTWN
- tSoxjgP6WuJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCavTsQwAKCRC7dyhM23N6
- 3uNSD/0Wo/iIWR2aXRe5YzNSrRfo/731JlX1MXOtpy+A5vTlCNvhVm398rzpLHqepWduInwcdRK
- 4tex7caWuDlEdOt+RIVRYZ9mDjBo4xRQ0pvDBu9TWfu/8iU6zATD9T2YuP0IZnK23JCBq2LZdNL
- Pd1ZB7+If5y2zy1PJcSHbWDjJR9cu52ZsvA6Ni0FgTTyy3SdqMWwntgGPXP/LkzxuTKVIxTCew/
- zAi8DC6COcIzjFKPckc3lqS4x+o2s5Zwpfgfa/yAKCJIXNcdgmZhS/bqjRG1k30OiLRzjm1AUH0
- +/Wzasj+qb7r0d0gsdRO44Q3LUAgYoBNNtbFLy+xdLMwqLcDpWFCNFIsuQoxoTLzbNi/ldIvWM7
- Bhe1ME5c/vfVxRfgVtSpaG6iwt7oCEesTRczv6SaBP0L2VXQcphd+4/BXqpxAX3OQlRgygYDjh2
- 1FlvPx3aw7hsvLSA1SpUCaE1/h4TboRhZXeYpX7Qjfo5WJMt9pwdUSkpQoQ/IZ0H7DlnI3dcKAJ
- LKGf5Y3yLsfxcsbOghJ6yLAHz8Qa5p2lyNP/Jke0X30ny06+HzRS9+hTk2lJkxIc+bfFW/kZkt1
- l4/OofVK10BUEKi4onJaayj27ChYPFFdnwt9J1sO+PHCisIKLgi9L8aR/AUtsyOX7ZBzKO2lVH8
- P8fa89xifqHqa4w==
-X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
- fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-> After a KHO kexec, the new kernel keeps the page holding the previous
-> kernel's kexec metadata reserved for as long as it runs. It only needs
-> the page once, since kho_in_kexec_metadata() copies the previous release
-> and the kexec count out of it at boot, and nothing reads it again.
-> 
-> Free it with kho_restore_free() once copying is complete.
-> 
-> Fixes: 76aa46b9e404 ("kho: kexec-metadata: track previous kernel chain")
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Do we really need to apply this to stable? It behaves correctly, and 
-your patch performs a minor optimization by releasing a single page back 
-to the system.
+Low priority / nit picks for your consideration:
 
-> Signed-off-by: Chris Down <chris@chrisdown.name>
->
-> diff --git a/Documentation/admin-guide/mm/kho.rst b/Documentation/admin-guide/mm/kho.rst
-> index 902d171a780a..f9d2cc5999ee 100644
-> --- a/Documentation/admin-guide/mm/kho.rst
-> +++ b/Documentation/admin-guide/mm/kho.rst
-> @@ -120,4 +120,6 @@ stabilized.
+- [Low] Documentation/networking/netmem.rst, 'Driver RX Requirements',
+  disagrees with the readable-provider semantics this patch adds.
+
+--
+
+net: Add memory provider capabilities
+
+This adds MP_CAP_READABLE and MP_CAP_FRAG memory provider capabilities.
+The header split and XDP restrictions now apply only to unreadable
+providers. A new PP_FLAG_MEM_PROVIDER flag lets a page pool take a
+readable provider from its RX queue. devmem and io_uring are marked
+MP_CAP_FRAG and keep their current behavior.
+
+> diff --git a/Documentation/networking/netmem.rst b/Documentation/networking/netmem.rst
+> index 6871dcdd700cc..39cb75339704d 100644
+> --- a/Documentation/networking/netmem.rst
+> +++ b/Documentation/networking/netmem.rst
+> @@ -103,6 +103,11 @@ Driver RX Requirements
+>       which knows when dma-syncing is (or is not) appropriate.
+>     - PP_FLAG_ALLOW_UNREADABLE_NETMEM. The driver must specify this flag iff
+>       tcp-data-split is enabled.
+> +   - PP_FLAG_MEM_PROVIDER. The page pool takes memory from the memory
+> +     provider of its RX queue, readable or not. Page pool creation fails if
+> +     the provider is unreadable and PP_FLAG_ALLOW_UNREADABLE_NETMEM is not
+> +     set, so do not set it on header page pools of such a queue. Without it,
+> +     PP_FLAG_ALLOW_UNREADABLE_NETMEM selects unreadable providers only.
+
+[Severity: Low]
+This isn't a bug, but does this entry belong under item 4's heading, "The
+driver must use the following PP_FLAGS:"?
+
+PP_FLAG_MEM_PROVIDER is opt-in. The comment in
+include/net/page_pool/types.h says "Take memory from the memory provider
+of the RX queue, if one is installed".
+
+devmem and io_uring pools still get their unreadable provider with only
+PP_FLAG_ALLOW_UNREADABLE_NETMEM set, because page_pool_select_mp() assigns
+unreadable providers without the new flag. The entry itself also says not
+to set the flag on header page pools of a queue with an unreadable
+provider.
+
+Item 2 above is still an unconditional requirement:
+
+    2. The driver must support the tcp-data-split ethtool option.
+
+However, __netif_mp_open_rxq() now checks hds_config and hds_thresh only
+when the provider lacks MP_CAP_READABLE:
+
+    if (unreadable &&
+        dev->cfg->hds_config != ETHTOOL_TCP_DATA_SPLIT_ENABLED) {
+
+The MP_CAP_READABLE kernel-doc also says such a provider "may back header
+page pools".
+
+Could items 2 and 4 be reworded to cover the readable provider case? As
+far as I can tell, this text is still unchanged at the end of the series.
+That leaves af_xdp.rst as the only place that describes the
+readable-provider driver contract.
+
 >  
->  ``/sys/kernel/debug/kho/in/sub_fdts/``
->      Similar to ``kho/out/sub_fdts/``, but contains sub blobs
-> -    of KHO producers passed from the old kernel.
-> +    of KHO producers passed from the old kernel. A blob disappears
-> +    once the kernel has read and freed it, as ``kexec-metadata`` does
-> +    during boot.
-> diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
-> index 6f1f55fe3181..8a07783326a4 100644
-> --- a/kernel/liveupdate/kexec_handover.c
-> +++ b/kernel/liveupdate/kexec_handover.c
-> @@ -1782,6 +1782,9 @@ static void __init kho_in_kexec_metadata(void)
->  
->  	pr_info("exec from: %s (count %u)\n",
->  		kho_in.previous_release, kho_in.kexec_count);
-> +
-> +	kho_debugfs_blob_remove(&kho_in.dbg, metadata);
-> +	kho_restore_free(metadata);
->  }
->  
->  /*
-> @@ -1859,14 +1862,15 @@ static __init int kho_init(void)
->  	if (err)
->  		goto err_free_fdt;
->  
-> +	if (fdt)
-> +		kho_in_debugfs_init(&kho_in.dbg, fdt);
-> +
+>  5. The driver must not assume the netmem is readable and/or backed by pages.
+>     The netmem returned by the page_pool may be unreadable, in which case
 
-so add debugfs node here.
-
->  	err = kho_kexec_metadata_init(fdt);
-
-Remove the kexec metadata node here. While this is somewhat unintuitive, 
-I do not see a better alternative.
-
->  	if (err)
->  		goto err_free_fdt;
->  
-> -	if (fdt) {
-> -		kho_in_debugfs_init(&kho_in.dbg, fdt);
-> +	if (fdt)
->  		return 0;
-> -	}
->  
->  	for (int i = 0; i < kho_bootmem_cnt; i++) {
->  		unsigned long base_pfn = PHYS_PFN(kho_bootmem[i].addr);
-
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+[ ... ]
 
 -- 
-Pasha
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261110102039.1002605-1-bjorn%40kernel.org
