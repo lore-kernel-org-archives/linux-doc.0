@@ -1,86 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794400927;
-	b=R+Zn9pvx8AOZa+E+j4mt/cF05obg6vr69JvLWMvReJY0Si/nGKvbVWf4UIHJsDGR8kIu
-	 J0kj+XRS3VgNlldDAA91HuDXaoapK3VUJrhGcyoBL6CUc+aBkrKdRt50MkfrK7Tpd+MxB
-	 Z7SMoz4fNd5PFtPmT0vnB3B1uxpNmoOyzDbrLRR0SHzHSKCigj39TZj0yEfEQqCjKArgE
-	 rw06KAV6jqc/fXU8tOWYgurc5mVZw1g5yUPzoV89uC9yOzogptGwpnXOGo9iBSJ/Ec3yK
-	 DQ8prA1F/UcvDBJlcNb8r24FAisZNoU0S+Gxekv6RWpZ9wYsq71DngNvvPVxJnymEpA==
+	t=1794402001;
+	b=p9v1Y9D1j8vs5Fu3Ktrh85g4tc/b8BBotc6DA2MCbpr1vN5fqbttw7d0j3ahuNFz+qs0
+	 jZD2+613i3+JW8JQsAnoE/Stn07ywr2an51+5Glxj8yLvADZUCHo1jd3jGHqcSpkdkP8Z
+	 plbqtH7E0vyKBE4CTUSJ+zlWgPuHqTCSA9VsHKm3WVdQz2DoYbxfAeqo38R/kOIhnSKM6
+	 PYxYS8lXnMFFP02xVQvmEhsQlsCupAvIUJAudtQ01w2IZUinymn3xY6ZpxDzHD+dTdMwE
+	 3eotajg9A1PVvpr5SHgsLC/K/i4MnrzoZht3Q8g+rFTPlVY0zZgGJ4ZI3qLKHxVvXAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794400927;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=OQ16sdEJf1gdJkohVqyloM5KBnz2C1+nxajXYYSElQA=;
-	b=A9IsVXijSswJLBWkfs4pGoPVSZ/IKOjSeUeKG99IbM1B2GdUXzQF4CC/0lKAR/irv4nc
-	 X/0j2yXbJmD7IB/h64YJyF4n3mnj9Wk0BjaBONhKFe3G79WvbpIBGIBEmaMJQjAk8kwFH
-	 uqEBCfvFK0H+ABulfDUuvPH1mlH6Ak5V/bKSafP3CL3BnJ6Z+tPfkqqThqal7ago5hRi7
-	 gxCykZdtkfImoI1bvwxUrNqmflX7L6coybDzdX/XepwnKyVwEsyvJhqAJqLNZpd++navj
-	 G3kAHVABCBd1SpAWH/1rr011T/c8+Z/r/F5WuF8XnsUpQI+o5TRTu7pUwQkkP7d7eeQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794402001;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
+	 X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
+	 X-Spamd-Result:X-Spam-Score;
+	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
+	b=h2F++KnOmh7Z7DLAbRqaGSVSr3oKDdEjX7PGbtAPAR/YNrUejRzLldxEp7fprgsNwNEL
+	 w29vePttxInvyUa1ZwZAcNLn1V8S4D024hFb6PmoZZODE+Zsz9nI1mUEUgz8Me2ucQazK
+	 DQyA+gcQhVFGjYzcgDN7zZVRz9mDkxUT1kaoMmFVqs+tLC8AX1RwHqTPbjFYVaviTfaaQ
+	 GQniQulwJ18+E5gG3Gm2nOPp4aoUEcrqdhLDdDaSwnmPc+uGHGwunMJsDK0WTxfYy7gXv
+	 SV7gq4D7/f5rBO9SfQrVvMoG/py9gIDK0fZUjVBiUcnjee+l0aP4iCCRUoISdGqvf2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0Pou1PQP;
-	arc=none smtp.remote-ip=74.125.82.180
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=otOxawUx;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fg+Nrul0;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EhbSiBds;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3pIOXjjl;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFD4E606A326
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 12:42:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFD4E606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F31606A331;
+	Wed, 11 Nov 2026 13:00:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73F31606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=0Pou1PQP
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-372cba0ecf9so55024eec.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 04:42:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794400926; x=1795005726; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=OQ16sdEJf1gdJkohVqyloM5KBnz2C1+nxajXYYSElQA=;
-        b=0Pou1PQPAuvbVRhRj9+hhQ5LLYq2V5/nMuKx/UUTnGe6vVRdZBQ2wGseEP21of/KFn
-         sJMYUNBub5q7J0KLDM5gpc1xQr7ppK5Y2bfQ4x8RF2WXVzAXErxUQk15lKkh5RIS5/zo
-         I1EWB5zWqPe4LF2NV0i0t+uOnP46AcBgB0GZFloQViZ5RVIIYIgPKymoYOVgAgA5++JF
-         teVuAbHRYpk5ZBwsyKP+FqUapvJbBC7nurVSgwxcM8jaIJwpU1W18t2iINsQOEh9i9o2
-         ZHdroZI9LkfOtvZn562cwN/2UHOLRODFi1ZxOOZ1/xU/SaoVwl5PSyA52RsShLlFjEaH
-         twXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794400926; x=1795005726;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=OQ16sdEJf1gdJkohVqyloM5KBnz2C1+nxajXYYSElQA=;
-        b=u/YFs2bJjeKo//U5DhXi6ANsIGlBwM8my4LODtlhIc/rJa7PgccTMtFR/gvUGLi29F
-         Do2Bov0/k+aomVgHY4Z2l66QJdc1FObZyFAvqghez2clXGnihKm8y59alN9crv/E1suu
-         h01NFMn6YaaeV6njma31D+G/KPKTKWB8ss9jokv22AVY1VchrT2xiJ1+pdLYvm20QUa/
-         zMvd9GT08JCtZw4vIyZQwAMDbbix9tGg7E/OmpInQ0AfybMMD2/29wGuGqu25/T7X6/9
-         dNbSbkWBkIUlBmC45kXS1S0WougFWW3H1hfku1ONqzhy8XfYt1orHyxVojIRVhXKIinr
-         Ja6A==
-X-Forwarded-Encrypted: i=1; AL+hErFIX0niHfcSgaXUpxXslV8D90R72OxoYo0SmPazJ7XYV6knAdEwrsKvcAZIcTNLge8W8ihPYEol0jM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+HvQLk1pYVsol6O6cowUU7SSVZQl+9DswrwNWhQ/2dWKA5RJSi
-	G02aRU2VZkYEBV0wCVeVEskLf6SUdj2GDHL+GgiMHYQpfuTO9ZHCh6ZH
-X-Gm-Gg: AYBFou1F2E/gXDBr9bBG7rT9+fmhqOTeQq+ciNBeF8RIb/VQWZtin/Y5ligTUKtffqZ
-	haKoYyKaHL/S8dogPPSsqJYoq6n3IqvueH2TjFDF/8HjaIRnrsQq0tE5MUOmdI1OVPxQYhW8Y26
-	SPzutNRaNFEa4TFqAl1YJCtDUBBtQ9OSa71oPpYopukcUlYdFMew9QtAnu+WdisIsf1XvvfRoJ7
-	gv23p+n/Ix6fp//I36bp7isKmTFYvwndiM/Okv94mp89iV2MgQ9dy7mscH6dUU1IHsu5KrNbx1w
-	j7jZvVYys/n+7/wmU7dSwKJfzVFaE9w1XEgg1z4i3oNxa3vJqpSwy6ee+NqXdSgh6Enao6UH8En
-	5p8XomepOR2NuaxRBs+ASkXvsRoTNXmYpVlfdyc9WJ5Q6SCudgEa890s3lebZfwvi9Yp7dU5SCg
-	nA7DuBc/ndSOMii7AkumFbDolSgCqKVpiX5TUPzQhcaVK2YLZND5FXULOqmfz1wBAMAdc9uabUx
-	tXDz5KKgTz5sn+IJOHgn4pEoMnANooaH7xLeVlEsqWJziPOjg65bcOjWtfKAMFc96Jc83O2UXuv
-	x4dTfAgTHVe2PdtGEV+je8574wIPYuFoU9DvPsw7DV7gaHnmCVhcoke5bjlvScK3DK8=
-X-Received: by 2002:a05:7022:3a86:b0:143:5c2a:e45f with SMTP id a92af1059eb24-1b3c01600d4mr3616454c88.0.1794400925446;
-        Wed, 11 Nov 2026 04:42:05 -0800 (PST)
-Received: from o6.lan ([2602:fce1:44f:115e::])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4efc2sm13462032c88.15.2026.11.11.04.41.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 04:42:04 -0800 (PST)
-From: Xueyuan Chen <xueyuan.chen21@gmail.com>
-Date: Wed, 11 Nov 2026 20:41:26 +0800
-Subject: [PATCH v3] mm/zsmalloc: remove CONFIG_ZSMALLOC_STAT
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=otOxawUx;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fg+Nrul0;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EhbSiBds;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3pIOXjjl
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 1077822163;
+	Wed, 11 Nov 2026 12:59:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794401998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
+	b=otOxawUxw790/QFBjM3l+MFthA3861nlTmYALPAV8UroFCQPTuhWdqQLx2Bc1uIFTNjUSf
+	mnB6pWLs5IMmL/6Nh1C4bBTDNKUwUU7gS0QrpHdV+W4K35O9r7vi4hE7ol2MHfBI5rkx3k
+	JbleWrObvsXGVSk2sYZAGh9tC4q+53o=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794401998;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
+	b=Fg+Nrul0Jyo5LklpxiAuZ0HYrvjr7mnXZnx3MVHOfvH21g/exOhh1s1UL3D/FUe/akkrR2
+	wP4WfFpYZXc1TlDQ==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EhbSiBds;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3pIOXjjl
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794401997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
+	b=EhbSiBdsrSVaKSADwnL0R0h2FhNTtiQe8O4S+eqdUQd7Xrl3mwHjJ524yrql/BM+FAIbBh
+	HcAzG0kPGFOJOYhrbr+minyw5ZLHbacQpG6BNn1fmyvfN8AukapPIrVspm4teWxjv0DZBr
+	REDvjtoemSrILrH4izF8HUQ1q72PYZk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794401997;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
+	b=3pIOXjjlSEb/Dd0pQ3rAW5PfZnnK2WJEDuZe2OvPfIrsqGCueoEmJPkiIgDh+2Aw4Jz8eq
+	hcEUcN+9syH0oIBQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E94B11339F;
+	Wed, 11 Nov 2026 12:59:55 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id SHrxKstm9GqAMwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 11 Nov 2026 12:59:55 +0000
+Message-ID: <64a26d9d-664b-4443-8d71-b854bb01316d@suse.de>
+Date: Wed, 11 Nov 2026 13:59:55 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,279 +108,141 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 07/10] drm/gem: Switch to __nonnull_args() macro
+To: Dmitry Ilvokhin <d@ilvokhin.com>, Alex Deucher
+ <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>,
+ Pavel Machek <pavel@kernel.org>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>,
+ Ryan Chen <ryan_chen@aspeedtech.com>, Billy Tsai
+ <billy_tsai@aspeedtech.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Kees Cook <kees@kernel.org>,
+ Andy Shevchenko <andy@kernel.org>, Matthew Wilcox <willy@infradead.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Andy Whitcroft
+ <apw@canonical.com>, Joe Perches <joe@perches.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+ linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+References: <cover.1793027261.git.d@ilvokhin.com>
+ <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Message-Id: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAHVi9GoC/3WO2wrCMBBEf6Xk2dUmxlZ98j9EZJNs20jbSFKLF
- /rvNhWhCD7OMOcwLxbIWwpsn7yYp94G69oxrBcJ0xW2JYE1Y2YiFRnnaQbP0GBdO30OHXZAY2u
- k0VzkGRuZq6fC3iff8fTJ4aYupLsoiQuFgUB5bHUVKyUhNquvFox3V4juOK5s6Jx/TO96HqX/j
- vQcOKhNLguZc4mmOJQN2nqpXcPikV7M6d0vLSAFjUSSZ1uJCuf0MAxvI0pZ6ycBAAA=
-X-Change-ID: 20261106-zsmalloc_stat-e261d4dc1276
-To: Minchan Kim <minchan@kernel.org>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, 
- Helen Koike <helen.fornazier@gmail.com>, 
- Vignesh Raman <vignesh.raman@collabora.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Nhat Pham <nphamcs@gmail.com>, 
- Xueyuan Chen <xueyuan.chen21@gmail.com>
-X-Mailer: b4 0.16.0
+X-Rspamd-Queue-Id: 1077822163
+X-Spam-Level: 
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spamd-Result: default: False [-12.00 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	XM_UA_NO_VERSION(0.01)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCPT_COUNT_TWELVE(0.00)[38];
+	FREEMAIL_TO(0.00)[ilvokhin.com,amd.com,gmail.com,ffwll.ch,linux.intel.com,intel.com,ursulin.net,kernel.org,jms.id.au,codeconstruct.com.au,aspeedtech.com,infradead.org,linux-foundation.org,canonical.com,perches.com,lwn.net,linuxfoundation.org];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	RCVD_TLS_ALL(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	MID_RHS_MATCH_FROM(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,kvack.org,gmail.com];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+];
+	R_RATELIMIT(0.00)[to_ip_from(RLgosu6qu4h11rje89ht7rjgg5)];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[ilvokhin.com:email,suse.de:dkim,suse.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.00
 
-CONFIG_ZSMALLOC_STAT only controls the debugfs interface. The class
-counters are updated regardless of this option.
 
-Remove the CONFIG_ZSMALLOC_STAT guards and rely on the debugfs API
-stubs when CONFIG_DEBUG_FS=n. Skip statistics setup silently when
-debugfs is unavailable.
 
-Remove the Kconfig entry and replace the existing CONFIG_ZSMALLOC_STAT
-settings with CONFIG_DEBUG_FS=y. Update the English and Chinese
-documentation to match, and clarify the pool name in the debugfs path.
+Am 28.10.26 um 09:19 schrieb Dmitry Ilvokhin:
+> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
+> nonnull") added the macro __nonnull_args() to wrap raw compiler
+> attribute.
+>
+> Replace __attribute__((nonnull)) with __nonnull_args() to standardize
+> nonnull attribute usage across the tree and keep the attribute's quirks
+> in one place rather than open-coded at every call site.
+>
+> Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+> Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
 
-Suggested-by: Nhat Pham <nphamcs@gmail.com>
-Reviewed-by: Nhat Pham <nphamcs@gmail.com>
-Signed-off-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
----
-Drop CONFIG_ZSMALLOC_STAT instead of making the counters conditional. The
-option only controls the debugfs interface, while the class counters are
-updated unconditionally. Removing it simplifies the code.
+I've added this patch to drm-misc-next
 
-Following Nhat's suggestion, remove CONFIG_ZSMALLOC_STAT and rely on
-the existing debugfs API stubs when CONFIG_DEBUG_FS=n.
----
-Changes in v3:
-- Squash the three patches into one (Nhat, Sergey).
-- Add Nhat's Reviewed-by.
-- Update the documentation wording.
-- Link to v2: https://patch.msgid.link/20261109-zsmalloc_stat-v2-0-caee41684aba@gmail.com
+> ---
+>   include/drm/drm_gem.h | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index ed329408acbe..56dd15921c7a 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -566,7 +566,7 @@ static inline void drm_gem_object_get(struct drm_gem_object *obj)
+>   	kref_get(&obj->refcount);
+>   }
+>   
+> -__attribute__((nonnull))
+> +__nonnull_args()
+>   static inline void
+>   __drm_gem_object_put(struct drm_gem_object *obj)
+>   {
 
-Changes in v2:
-- Drop CONFIG_ZSMALLOC_STAT instead of making the counters conditional.
-- Update configuration files and documentation.
-- Link to v1: https://patch.msgid.link/20261106-zsmalloc_stat-v1-1-b574f4714adf@gmail.com
----
- Documentation/mm/zsmalloc.rst                    |  4 +--
- Documentation/translations/zh_CN/mm/zsmalloc.rst |  2 +-
- arch/s390/configs/debug_defconfig                |  2 +-
- arch/s390/configs/defconfig                      |  2 +-
- drivers/gpu/drm/ci/arm.config                    |  2 +-
- drivers/gpu/drm/ci/arm64.config                  |  2 +-
- drivers/gpu/drm/ci/x86_64.config                 |  2 +-
- mm/Kconfig                                       |  9 -------
- mm/zsmalloc.c                                    | 33 ++----------------------
- 9 files changed, 10 insertions(+), 48 deletions(-)
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
 
-diff --git a/Documentation/mm/zsmalloc.rst b/Documentation/mm/zsmalloc.rst
-index d2bbecd78e14..4c0786378dc3 100644
---- a/Documentation/mm/zsmalloc.rst
-+++ b/Documentation/mm/zsmalloc.rst
-@@ -33,8 +33,8 @@ proper handle-based APIs.
- stat
- ====
- 
--With CONFIG_ZSMALLOC_STAT, we could see zsmalloc internal information via
--``/sys/kernel/debug/zsmalloc/<user name>``. Here is a sample of stat output::
-+With CONFIG_DEBUG_FS, we could see zsmalloc internal information via
-+``/sys/kernel/debug/zsmalloc/<pool-name>``. Here is a sample of stat output::
- 
-  # cat /sys/kernel/debug/zsmalloc/zram0/classes
- 
-diff --git a/Documentation/translations/zh_CN/mm/zsmalloc.rst b/Documentation/translations/zh_CN/mm/zsmalloc.rst
-index 4c8c9b1006a9..b555a07ac871 100644
---- a/Documentation/translations/zh_CN/mm/zsmalloc.rst
-+++ b/Documentation/translations/zh_CN/mm/zsmalloc.rst
-@@ -32,7 +32,7 @@ zs_unmap_object()解除映射。
- stat
- ====
- 
--通过CONFIG_ZSMALLOC_STAT，我们可以通过 ``/sys/kernel/debug/zsmalloc/<user name>``
-+启用CONFIG_DEBUG_FS，我们可以通过 ``/sys/kernel/debug/zsmalloc/<pool-name>``
- 看到zsmalloc内部信息。下面是一个统计输出的例子。::
- 
-  # cat /sys/kernel/debug/zsmalloc/zram0/classes
-diff --git a/arch/s390/configs/debug_defconfig b/arch/s390/configs/debug_defconfig
-index d44674b63715..83193ef8efb9 100644
---- a/arch/s390/configs/debug_defconfig
-+++ b/arch/s390/configs/debug_defconfig
-@@ -100,7 +100,7 @@ CONFIG_UNIXWARE_DISKLABEL=y
- CONFIG_IOSCHED_BFQ=y
- CONFIG_BINFMT_MISC=m
- CONFIG_ZSWAP=y
--CONFIG_ZSMALLOC_STAT=y
-+CONFIG_DEBUG_FS=y
- CONFIG_SLAB_BUCKETS=y
- CONFIG_SLUB_STATS=y
- # CONFIG_COMPAT_BRK is not set
-diff --git a/arch/s390/configs/defconfig b/arch/s390/configs/defconfig
-index e00e252d4694..694a309377d5 100644
---- a/arch/s390/configs/defconfig
-+++ b/arch/s390/configs/defconfig
-@@ -94,7 +94,7 @@ CONFIG_UNIXWARE_DISKLABEL=y
- CONFIG_IOSCHED_BFQ=y
- CONFIG_BINFMT_MISC=m
- CONFIG_ZSWAP=y
--CONFIG_ZSMALLOC_STAT=y
-+CONFIG_DEBUG_FS=y
- CONFIG_SLAB_BUCKETS=y
- # CONFIG_COMPAT_BRK is not set
- CONFIG_MEMORY_HOTPLUG=y
-diff --git a/drivers/gpu/drm/ci/arm.config b/drivers/gpu/drm/ci/arm.config
-index d7c51670da2f..fc0a8a4bfb18 100644
---- a/drivers/gpu/drm/ci/arm.config
-+++ b/drivers/gpu/drm/ci/arm.config
-@@ -5,7 +5,7 @@ CONFIG_CRYPTO_ZSTD=y
- CONFIG_ZRAM_MEMORY_TRACKING=y
- CONFIG_ZRAM_WRITEBACK=y
- CONFIG_ZRAM=y
--CONFIG_ZSMALLOC_STAT=y
-+CONFIG_DEBUG_FS=y
- 
- # abootimg with a 'dummy' rootfs fails with root=/dev/nfs
- CONFIG_BLK_DEV_INITRD=n
-diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
-index c46125c1f80f..10b01b55a66d 100644
---- a/drivers/gpu/drm/ci/arm64.config
-+++ b/drivers/gpu/drm/ci/arm64.config
-@@ -5,7 +5,7 @@ CONFIG_CRYPTO_ZSTD=y
- CONFIG_ZRAM_MEMORY_TRACKING=y
- CONFIG_ZRAM_WRITEBACK=y
- CONFIG_ZRAM=y
--CONFIG_ZSMALLOC_STAT=y
-+CONFIG_DEBUG_FS=y
- 
- # abootimg with a 'dummy' rootfs fails with root=/dev/nfs
- CONFIG_BLK_DEV_INITRD=n
-diff --git a/drivers/gpu/drm/ci/x86_64.config b/drivers/gpu/drm/ci/x86_64.config
-index 7ac98a78691e..8225b806dad8 100644
---- a/drivers/gpu/drm/ci/x86_64.config
-+++ b/drivers/gpu/drm/ci/x86_64.config
-@@ -5,7 +5,7 @@ CONFIG_CRYPTO_ZSTD=y
- CONFIG_ZRAM_MEMORY_TRACKING=y
- CONFIG_ZRAM_WRITEBACK=y
- CONFIG_ZRAM=y
--CONFIG_ZSMALLOC_STAT=y
-+CONFIG_DEBUG_FS=y
- 
- CONFIG_PWM=y
- CONFIG_PM_DEVFREQ=y
-diff --git a/mm/Kconfig b/mm/Kconfig
-index afff1b25b543..4a77cda7f1d7 100644
---- a/mm/Kconfig
-+++ b/mm/Kconfig
-@@ -130,15 +130,6 @@ menu "Zsmalloc allocator options"
- 
- comment "Zsmalloc is a common backend allocator for zswap & zram"
- 
--config ZSMALLOC_STAT
--	bool "Export zsmalloc statistics"
--	select DEBUG_FS
--	help
--	  This option enables code in the zsmalloc to collect various
--	  statistics about what's happening in zsmalloc and exports that
--	  information to userspace via debugfs.
--	  If unsure, say N.
--
- config ZSMALLOC_CHAIN_SIZE
- 	int "Maximum number of physical pages per-zspage"
- 	default 8
-diff --git a/mm/zsmalloc.c b/mm/zsmalloc.c
-index 7ef80e0da626..104ccf3aa170 100644
---- a/mm/zsmalloc.c
-+++ b/mm/zsmalloc.c
-@@ -222,9 +222,7 @@ struct zs_size_stat {
- 	unsigned long objs[NR_CLASS_STAT_TYPES];
- };
- 
--#ifdef CONFIG_ZSMALLOC_STAT
- static struct dentry *zs_stat_root;
--#endif
- 
- static size_t huge_class_size;
- 
-@@ -279,9 +277,7 @@ struct zs_pool {
- 	/* Compact classes */
- 	struct shrinker *shrinker;
- 
--#ifdef CONFIG_ZSMALLOC_STAT
- 	struct dentry *stat_dentry;
--#endif
- #ifdef CONFIG_COMPACTION
- 	struct work_struct free_work;
- #endif
-@@ -565,14 +561,10 @@ static inline unsigned long class_stat_read(struct size_class *class, int type)
- 	return class->stats.objs[type];
- }
- 
--#ifdef CONFIG_ZSMALLOC_STAT
--
- static void __init zs_stat_init(void)
- {
--	if (!debugfs_initialized()) {
--		pr_warn("debugfs not available, stat dir not created\n");
-+	if (!debugfs_initialized())
- 		return;
--	}
- 
- 	zs_stat_root = debugfs_create_dir("zsmalloc", NULL);
- }
-@@ -650,10 +642,8 @@ DEFINE_SHOW_ATTRIBUTE(zs_stats_size);
- 
- static void zs_pool_stat_create(struct zs_pool *pool, const char *name)
- {
--	if (!zs_stat_root) {
--		pr_warn("no root stat dir, not creating <%s> stat dir\n", name);
-+	if (IS_ERR_OR_NULL(zs_stat_root))
- 		return;
--	}
- 
- 	pool->stat_dentry = debugfs_create_dir(name, zs_stat_root);
- 
-@@ -666,25 +656,6 @@ static void zs_pool_stat_destroy(struct zs_pool *pool)
- 	debugfs_remove_recursive(pool->stat_dentry);
- }
- 
--#else /* CONFIG_ZSMALLOC_STAT */
--static void __init zs_stat_init(void)
--{
--}
--
--static void __exit zs_stat_exit(void)
--{
--}
--
--static inline void zs_pool_stat_create(struct zs_pool *pool, const char *name)
--{
--}
--
--static inline void zs_pool_stat_destroy(struct zs_pool *pool)
--{
--}
--#endif
--
--
- /*
-  * For each size class, zspages are divided into different groups
-  * depending on their usage ratio. This function returns fullness
-
----
-base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
-
---  
-Best regards,
-Xueyuan
 
