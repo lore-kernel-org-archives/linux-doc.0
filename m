@@ -1,57 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794398732;
-	b=rCUtt9I0s9/2mmDPyrE36Wr6vQ7IcRFfKt/LkxLvxvdCBymu0+/17uSiWgDiZB2Dr2hT
-	 wYH/xDghO7+Og8IFir4YDiPPOPteIho1ZRdwFbOaCqsQ8+2e/oWTtNierAH/sZ6mbT2PV
-	 HyzNmzr2GTCNjCy9BQYCsJZ/EIaS2xiomMnf8ZhRf4erCLwalASpp3lQM/ZKrbkdlw32g
-	 O/Vte6Qp3QX7lp5jBGXZUIiWnGodxNl0YjiUw6uM9OO/us7OAUSJ+HaXEjE7GV/i1tU5r
-	 yeMkKIPH1awcWlVxoh7rgyiw3RvSGRGLj6L8r0Vv4nQzYCYoS5GOpSaraffiBLlEV7Q==
+	t=1794399366;
+	b=1sHZ4bKzrYGRfcjMn4mCoMouIhn9t/XLa8MAk20T8Q8WDGQmTBTZ/DQXhqXcLSf6oJv+
+	 ExBspPsE8Ulg7mD3NJe42uRlR/0vM6aiKc3OmwhGpFOcRsUlMYBS9fA5jMbWQXCAwm5I1
+	 Aav5Dlu/OoJGgjoFdu+siwyrUUnXw6mzIZPj/VmqTaxIhhfCO+VB5f9t1HA1k60F+RPsf
+	 fOKYQ3wE8I/L1OWivo1wBCxdtTkhh0X/gDIwMXI/xcZ9lhwqIwJrIiMenMzB8lHrvm/9j
+	 sZMKm6WLfDRIbebp50HHj9mKPY2s7z9M66hTWtqvqM6lBdpqeIKQjKwh5I4TnvXWqoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794398732;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794399366;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=RB+v9kGjAfTy79oHEdctUyXDIbX8iDLKp/kTF8WJwCk=;
-	b=2brXCbqVz5d4Wx2xzgH4W8MBa944AEcadx92GFRElewLxvGRsasA60xSEc4U/Y7HruLu
-	 oAqdbBOI7Y1Y0TckMCdo0WHdaqmwRd4MmMltjXhy/7IpH1mLneOMw7I47+aitUZKanvbD
-	 F5m1dm6ajAl+KO9N8WXPZ9pMfJE6DN1JJb+32x1m72ed/4OFFLnUgStfRaUSQBUHSPOZu
-	 OrQcDTfKukmC7iOLJ+IVhhIaJtcbz/DtxVa6lJ1nJFjBlzPX+oGS279X137Q/fkvy/Z2V
-	 mx0sPEyjkVU5hpog4ZJmRgAZmXmDAsmEWLewsNULyIWL4CUbZgnF6AlYaSg1q3ZSjIg==
+	bh=qc1N5Uc+wy8ltC14m/VdOEe2OVJ/DsFDi7Wdu8p3PFI=;
+	b=vbAelOssuEfijUQEXq93I2eCDzdK9pJvpPHIYohIQu23n4GWRg0vBoVhvPHh7D3tYy5C
+	 tXDlDhLo+4LtwHK9KMuIzcch6tlEugsJek82I8SIr54FbBgTRmTzmDe5yAsZrIGIlFQjq
+	 O97oskrsBznyQ+ZoWKBg/eziDqv7Lc8pa+I926DuJkQkptO20yKQ6UB53EDJLoYp8eila
+	 QbpGtEuxlsyzeXgWAk8aOKNecE7RwRWWDYDdYPj7CjnVX+wAC2VBfuL9YG3NGW4CUXsAz
+	 l4UHEvRzOZD27vSi9TS4rhpq7rXqrhDZGCB6EbZbQJhR9EGTdHBRe1Q1onRTyeAY6NQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ADtVhjp3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=onlB7k+k;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4498606A31C;
-	Wed, 11 Nov 2026 12:05:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74E9606A334;
+	Wed, 11 Nov 2026 12:16:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ADtVhjp3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C0D41F00A05;
-	Wed, 11 Nov 2026 12:05:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=onlB7k+k
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2C291F00A05;
+	Wed, 11 Nov 2026 12:16:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794398732;
-	bh=RB+v9kGjAfTy79oHEdctUyXDIbX8iDLKp/kTF8WJwCk=;
+	s=k20260515; t=1794399366;
+	bh=qc1N5Uc+wy8ltC14m/VdOEe2OVJ/DsFDi7Wdu8p3PFI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ADtVhjp3pHegy9yFpy9X3VTLPr5TaYXbBpyU+LE3G4y+F4EJwGtEgCrHWUr61W1aA
-	 ZS4v/Bnvyv+dmw8W/CUUTzfyGEra1vXaRrROSAgnY4IMMbTGTF1Q2aH6oGAOdlYrmZ
-	 iEUz/geYKs2t11+3NWMkrOYMN3LDHZTfl1bFJ4nsRVoVeDHidgGID8PuEb78Fq+9o9
-	 W7N8APrupvJWcP2lWYBtsj3mTaRJMv2zxx3CgV5/cFBG2F8bhZRoN+aHlR205I5Lsh
-	 esYx7M1Gf6ZM8Yy65S/TLaEpBHo0KiifIa7bCISx1blx/AGMMYKRrDmkNV+m05Dn06
-	 St34G20a7qUbQ==
-Date: Wed, 11 Nov 2026 13:05:28 +0100
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Christopher de Guzman <christopher.deguzman@analog.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: hwmon: ltc2978: Add support for
- LT7175 and LT7176P
-Message-ID: <20261111-amazing-saluki-of-bloom-b6ceaf@quoll>
-References: <20261110-upstream-lt7175-lt7176p-v2-0-dd60d28383bf@analog.com>
- <20261110-upstream-lt7175-lt7176p-v2-1-dd60d28383bf@analog.com>
+	b=onlB7k+kkABml/t8+gkpZvXlK49IkjHX0Ie3jRPouDS1A37DXNb3sWucYH9w1UmkJ
+	 XbuCu4sR7afiwRAvdfhrIkNZqmMAbjVZsOd2YwvLkM0Oja5F5phRdXIVlHZ8Q6u4al
+	 wo6iIi7sN/Qln9v5Pm/OlG6P7GoTC+kacdGWaaJjGJePEmUwIu/Du8hFGyKVovLqU7
+	 kHBCtP4zKeQ3IzCrEMOwBcWq9gSg7u38qZkj7SbT1NsgYAMgJ8fnM3buiBS51WY+wP
+	 T9rECHE6S532kCq9g6YcpisTsaqIxxuzx88iv4PcnNkIycJDOHa3Ik1ey4T3i2e1J7
+	 /+IZl1Op9qp8A==
+Date: Wed, 11 Nov 2026 14:16:02 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>
+Cc: Logan Gunthorpe <logang@deltatee.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v13 00/19] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Message-ID: <20261111121602.GQ8635@unreal>
+References: <20261105-fix-p2p-acs-v4-0-v13-0-3dd065907c3b@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -61,21 +71,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261110-upstream-lt7175-lt7176p-v2-1-dd60d28383bf@analog.com>
+In-Reply-To: <20261105-fix-p2p-acs-v4-0-v13-0-3dd065907c3b@nvidia.com>
 
-On Tue, Nov 10, 2026 at 06:00:40PM +0800, Christopher de Guzman wrote:
-> Document the compatible strings for the LT7175 and LT7176P PMBus buck
-> regulators supported by the ltc2978 driver.
-> 
-> Signed-off-by: Christopher de Guzman <christopher.deguzman@analog.com>
-> ---
->  Documentation/devicetree/bindings/hwmon/lltc,ltc2978.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+On Thu, Nov 05, 2026 at 12:04:31PM +0200, Leon Romanovsky wrote:
+> Punch line for Linus from Jason:
+> "Enhance detecting if the PCI fabric can support a peer to peer path
+> by evaluating the full bi-directional fabric path over each of the
+> three traffic type ACS controls. Expand the number of fabric
+> configurations where the P2P algorithm makes the correct determination
+> of support to include non-uniform ACS and situations where translated
+> takes different routes from untranslated."
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Bjorn,
 
-Best regards,
-Krzysztof
+Just a friendly reminder.
 
+Thanks,
