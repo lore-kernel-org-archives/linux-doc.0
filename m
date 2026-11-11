@@ -1,109 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794356029;
-	b=WCp4B3jrU/GjaqsnSqtTkIx6FKdL4u9L60LG2wYfsSUhBK2upGltnBrA2wD4Ptwd3NTi
-	 NYs1t2+N6Drdno+WRmEDLBaYTkBO1+DgQI8l40F63D6DutO3WlXSbNxvSDHNPE0Q7BuFG
-	 39FL6jje7ZQDFBlQwe8CP7iSgYzz28aRPPrDaBMikoYwc3JlMLpO+Fx8FmQwdbfMHubLg
-	 7NqvoONzu56Fn1RUfxx6B2Oi9JNvJBdhSeD6gbADjCMosydbFREvynM2aNnyPP0QUNMno
-	 zMnUH892cQJUsopAVFVif4bTlmIVI2pi0AmEp+0057fZDsiqwpqOIOjT9z+s6gJfWeg==
+	t=1794356244;
+	b=2YhTiaqPk4rqZU+9b4Lew7EXfTgI2878QA5vueXZrD8Lrt0mkVClz5ghu6RBVEykhx9J
+	 dJ9gDddonnKH8PuTMJHc9JW2P7zzm0PcJezcMgY36gP+1gYzv/zk40CcpvGwZcHgW8gku
+	 kwOKgX4W/5vx5up+vzeEQK6C4+/nkVKDOVI9Dsmv5FkEKtPBqmVdH9j1Dvig00Js3lEKp
+	 +YONfy1ptum1PtwA8JY7+mptxWOGtcJObkTZMSJF/IJCpqBc0soVPlP3VPdWTy7+pPcLf
+	 aKGf7l2wT6xC6NqtlRWw1ubn8dbQEt4V2tSXRV+gHPLEVOfKy7DI06HuMw+EAN8r+xA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794356029;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794356244;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
 	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
 	 To:Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=ukfXMgMljG56TGff4D1CCtoxMKeKh2ELvZ0jC57C+PA=;
-	b=aSKf9hG4eHql8fS4datxnbCgRf4s9O7tlMoAn/M5J7Eojke9BjBBhhWrIlqLHRpMfFNP
-	 bZcWAmoI7CLLa/O7YpH1HZAoOi25lkkF9rsqg2WFfiVQasILE38Ggh7tE8NwhRkOrhrtn
-	 3aeZ7UXR4Jolj+xMYBXqva6WIN81XvHPumT4u08WUsbcE/3mudBFPWO/QCMbyRZjKSe1C
-	 IEtLUHf63j4ZdQU/qvbPBD8rdt8Oqu5gPJBfLa38ahAt5ws/O97L19idb8zInUQLcorOl
-	 k6UnDqjBGpYd5DSbWqcQRfKyYBeUKhFAqNRShwdHrHrf/lbBwho3kzUm8eyoEgod34Q==
+	bh=nbWhx2amPnBedKqcixZZvPPSyHTBlFBe/3TWhbUU5Nk=;
+	b=nDtuvB7Wx1LoK+z0yrPiEBiNE9xvD7FBS+rjni72aTltUE4nTQkiW9YnTVL5ANuxQ2VM
+	 1QOFONSstdoTAIXmQUyLNn3yimGvZ5b3hQ3SroVE6vzLPOrdeEw3HBPIb9t4BxSilr+Ov
+	 B5mnRWQpe5ZOXpqNb0WpFLW/Ys6jLQh7/rXFt2hkOSBmR4Pr6C6+lrQsstm/Jw1sBX29v
+	 kmUOv1qLTfv2vK63jRpWya+Q7W/cxPj7WH+SVpfd/7i99tTmtO5/pZSEzMnmIWSgFqFmV
+	 3BqbrrG2pXFALodyPoCQ/1CRvSE41dfA5DD+PuXiIehQTXO4f0AvAxh6eLk+SFz7yRQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=oss.qualcomm.com;
 	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=L02Iwgpf;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=D0Ra251N;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=P1jWdHr6;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=IfKcJwZ2;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A29606A31C
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:13:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D5A29606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD03606A31C
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:17:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FD03606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=L02Iwgpf;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=D0Ra251N
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAMKKYv3714340
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:13:48 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=P1jWdHr6;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=IfKcJwZ2
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AAML8Ce153505
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:17:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ukfXMgMljG56TGff4D1CCtoxMKeKh2ELvZ0jC57C+PA=; b=L02IwgpfCH28nKkn
-	o7ML802NZ4WPIOUk9eTpvWQDs4il2ijVFnlIjmWXrM8zyU3dBCvZQnp6ZMlshWOz
-	22QzWOWkFRGjO5lKAsWWMOdbdojxI72/Dx2PiOnqH1hkgzKgy76+FblhDvegbmln
-	/UNDbp3cWq5p5c54XKGJQPASzGup4pY/+dr8BFJgXO1woYafueq1GX8yxHsBnhPc
-	yC4j8JroS4irTrt4L364ManYcJ3uKBmp/cYHPswqEUeqXVNlq5ujV/waTqUPT7HB
-	buqAn+fVcdbRamqRtQV16Dtjq2qJOu0JBX7AeShl440SPO0l/NcmoTPjAJsUzTeu
-	CGSrDg==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4huyw4bg8c-1
+	nbWhx2amPnBedKqcixZZvPPSyHTBlFBe/3TWhbUU5Nk=; b=P1jWdHr6o70PdxdE
+	ca3zbWHpNS/Q01CDJVg19jkHrl++unZ1XbyzY7IsBwRaRE98NN5l57+rfglCjeUs
+	EUzFmvU2dHipnb51F/07MnWsrAT3JLLqaS70e8R8bqSzycczc6dy6CqnrEuVAqKu
+	nq1TCW6iE1eq39FbMLvDxji8cx0sV2H9n5TQFTz3+z3CtTKIidu2Xia/1LsqCJM7
+	bugsPotgrISQsh1mLnoqZhzMQfmCRbwrprnHgHYj1gFH5lV4pvfT9BHZ1yvwCE4a
+	r2Ya+sB5losn1NopcXYulLCciEAn065bS/RRGx7WTUiJF4I/T8Cz69InGfJ4ZM+8
+	6daWUw==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hux84bxhu-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:13:47 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-14373747468so3178811c88.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:13:47 -0800 (PST)
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:17:21 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-36ecd5db581so3983025eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:17:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794356027; x=1794960827; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1794356240; x=1794961040; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=ukfXMgMljG56TGff4D1CCtoxMKeKh2ELvZ0jC57C+PA=;
-        b=D0Ra251N14gZPAUAEzUvzoSovhZobUn8LoRvVC9v1f8Lj5nwuSzVARMao/8dkF6DGs
-         be05JK9qiPE7OQp5MKTtMSOedRJhkypX8d/i7NbOsbHgycuqxrYoNzR5gswSFxa5Vw5c
-         ID9/RwziePSLUx/E2TUXb/N3cOHPA6acoBeAWNIfrccyU4rUTwlAuO+phyvM0yKRhKeA
-         miXE+g7hWwNJWw1Ox3ZhEP8astFJZrwSftFTJqWEGULKgPRBrpqRFimP41p5NeKcJg7p
-         ElSLMnv/P1lIhUaLWFxK2HenhjM3/44tF0yXR+1MPw+utrggbVai6RE09J61mSl6XWxL
-         OPgw==
+        bh=nbWhx2amPnBedKqcixZZvPPSyHTBlFBe/3TWhbUU5Nk=;
+        b=IfKcJwZ23KCmVgfWqjInA/YlX9jyme5yUyzl51RliJC9RALv2izz6/I8YPlGOrDSdN
+         CYSG8BKDuaX/HCLYwyLioiAroFk37HD9sGPYtU3gVaZVMhAX0kGxQeDfVraS/lHpR66c
+         qGpbh2UDA9eOJies0Uvn8oDHhWTNpq0cRo7sDWqPcvA32wFtY+KVVMQG2+ZALdR+OBDx
+         CQB1QDfkBUklbYXddFVeNrC4OECHgb1ln9cfNGug9KmIo+r82bip7arXeT5ASi1J4I6N
+         6zyPTstWdvw5/mMJnastI1bPcgSbbT6+vzH3zzB6qlggHwg+ho5NkcSUZhn3Wl85xxFP
+         yIpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794356027; x=1794960827;
+        d=1e100.net; s=20260707; t=1794356240; x=1794961040;
         h=content-transfer-encoding:content-type:mime-version:organization
          :references:in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=ukfXMgMljG56TGff4D1CCtoxMKeKh2ELvZ0jC57C+PA=;
-        b=KKZb2Q0Hm0cvaEyepl7NO/z9QdFpJhFCH55VhRX9TkkGBgGHzKpaErsFUtzyJ9Y9nx
-         Yk+95Ue8JqD0/NlaQgQqrxoxEAjXKkuEu3PwmyOGYAuXEdeNsSnGZUGGEGJ/J1MrFif+
-         Mwl+M2I2CMlOFWsI58ynxYZtyOengO6iJN96mAPoGU+V7ZxZGP6VQ88pCx45cdFKWqEx
-         X/tF/wGgmva7RRK6TIE+YucXP1LWbtZEZx78BM6pIdL8e+CkFESUJWVs6n9jydWr4M1E
-         Rcx+bheJuMNaprnLQwYerQeG4v69tQZ4ElhuPXuVeAAZ+LqHE2Z0i4jlRqWyHABQus+b
-         /ykQ==
-X-Forwarded-Encrypted: i=1; AL+hErEEMuOtkib4ZaNn9kQoneOwfDYJyTDfb6nAFBV7esKT2nqbs7vNgaZ7VekEBtyTzgCgP3YruJyvXJ4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8beTsv4BmGHGpooA+LqeLjYmpjwudQqd97UvIlb1atI9WMBzEz
-	ol5JNWfQvQ1dOcL1kuXPClRAh+GENWvnPH5E555ZepdMxoBFzrIOynbE6V9bLuj6BSg8xLalACs
-	K9OzLS0tBAWZqDQF1Fq8offEtv36SKyr+TEdlOY0X+eLxlIHekUg2jx78y4NB/yE=
-X-Gm-Gg: AYBFou0w17zxPmwF/eZAMEVEDc9gZTOD1K5O++NN6vq/8ZHgUsLhwusGChyJxYfs24F
-	i0igk8WoRhb6sv9hlcVYtB+m7b55Mum1YYxe2HurPHx7hMwaXJRa4JtDugd2fQuVhWulB1wCoZZ
-	uf24XBMnwviKIXSna/SEwRrG4yd05rJsHgNot60vy3Qe4DDX5P4qY0r57uerDxOD8zRhtROKo1o
-	5+4+zQEHK68AbHYwKgqV3e+3yGWeAthJ11yxJIc2Tnhr64zJYxWY24SGGik+24mtGsaLmtDFTU5
-	uG50Be1N8LALgk6Aq8Qj13iXI5WnYoc8hRJfI0AqYonHGxYvMUUAn929bThDOHp7/lffWHPeaPX
-	hoRzWJZ5qKxNUkDFFgRqTFHIeJRl0pV2Ut+xbg5JJLNBmzDyyFlldEUByInxECdZyCTzDo7ZTo4
-	P9TqtkW7VvkoMG1/LPHyPIrBCBmMo=
-X-Received: by 2002:a05:701b:2710:b0:1b3:aa92:b183 with SMTP id a92af1059eb24-1b3c02fb105mr705218c88.15.1794356027099;
-        Tue, 10 Nov 2026 16:13:47 -0800 (PST)
-X-Received: by 2002:a05:701b:2710:b0:1b3:aa92:b183 with SMTP id a92af1059eb24-1b3c02fb105mr705197c88.15.1794356026555;
-        Tue, 10 Nov 2026 16:13:46 -0800 (PST)
+        bh=nbWhx2amPnBedKqcixZZvPPSyHTBlFBe/3TWhbUU5Nk=;
+        b=m/qlvz11ZSbI4d2S0NGpW0gsIQFgWBJxhOxhAiPLxYwHQPvA1rGl7FfKe3PdCEgqjy
+         Qcns0LeXbusMV2fb4hrIVnSZWnd5ZIwR29FHBOFAg8BWWvEJuUzAAcBmA6e+bdr4B2I7
+         u98EcyYeKldsj8T3sr1ycHdY+l1gmdNyov8TTSc+Zr8e6iXRb6LfIt6rVnaWGwbQhhvk
+         NptxwtcGifES7cFdhIzxyEbOlj9KYpkF9sm98byDHaLjoYFWNTxMe3jEL8ZNnT93LJeh
+         6BRpLeYKL48fWiE0hkFcc+WdbU1CHtnXdvOIMsGgNrTZuBmfyU762PigwtSCmFCL/9/3
+         zE4Q==
+X-Forwarded-Encrypted: i=1; AL+hErEZ2KUhMfq2JnqokO9TsVN9VQr4RdWkk6bRLHErwFuAJMzdPWICG68PzUomJGx0VIt/og4E1OjLauA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/xwOcImuYZiy/Gt9XwCzyq7W3PlEPib8R6fGVVcCWI0wXDoUNf
+	KDwCaJFcInVmH4EkVpzaB5cscvqem4MNeRLE4WlWiHJAr8cq/iFRdAKIUIvYWl+FMmTVABbTj8x
+	+FF3P+6hhFCRVp1JKefnSC5S71SBrbHo+3IXpfpbAT2W1BcrxhDyZDUgEYnUh1dI=
+X-Gm-Gg: AYBFou0YU4CZefA4lpGmwRw5DnDLN0CacEqG+0nAThU0Tycv9P2bSWlcjDPY7AHSxSU
+	TvtVf1LBf21y8YM6efYTX52rWuzaBNrEAqAQeBWioRb5k+4eBAySCJWNn+c+2R+194WWejdll9B
+	aE9VbCaQiF1iitAv1IrximL0zhUc2FJbk3QyOk+j0WNseiEey+8LEGgP+Fq/PA9SFvgAWUb4e26
+	w33U1DedxWgNvkMtlrXXpqEjcteMBDkyTLbGc8jxNt0Z/7r9fPs8FaHbylxW7iRy7diaZvZObS+
+	8xWr5wD4bVCUdX2Yww2cVbVfUSuW4aJoqe3K9vguqp6oJWROvKlCEAiZcCoyFxvR94/83p5Z1QU
+	rGck7IKIvsZwpNVzWLCUi6IYQyN3MW5Nd+JSfSAaZ5WGboMbq3O2rEqz/mmhYcpp4WNoz9xGCdS
+	DrYESXI8t/7pZjwiBSaBRYo4IPZqjt
+X-Received: by 2002:a05:7301:904:b0:375:c862:34e with SMTP id 5a478bee46e88-3768636dc95mr1339961eec.20.1794356240122;
+        Tue, 10 Nov 2026 16:17:20 -0800 (PST)
+X-Received: by 2002:a05:7301:904:b0:375:c862:34e with SMTP id 5a478bee46e88-3768636dc95mr1339925eec.20.1794356239547;
+        Tue, 10 Nov 2026 16:17:19 -0800 (PST)
 Received: from localhost (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b11435sm10948342c88.4.2026.11.10.16.13.38
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375218c7c50sm19260603eec.29.2026.11.10.16.17.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 16:13:46 -0800 (PST)
-Date: Tue, 10 Nov 2026 16:13:28 -0800
+        Tue, 10 Nov 2026 16:17:19 -0800 (PST)
+Date: Tue, 10 Nov 2026 16:16:56 -0800
 From: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
 To: Cristian Marussi <cristian.marussi@arm.com>
 Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
@@ -115,12 +115,12 @@ Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         philip.radford@arm.com, david@kernel.org, souvik.chakravarty@arm.com,
         leitao@kernel.org, kas@kernel.org, puranjay@kernel.org,
         usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 34/35] [RFC] kselftest/arm64: Add SCMI Telemetry
- UAPI compliance testcases
-Message-ID: <20261110161328.000056c4@oss.qualcomm.com>
-In-Reply-To: <20261109091221.2532706-35-cristian.marussi@arm.com>
+Subject: Re: [PATCH v15 35/35] [RFC] tools/testing/scmi: Add SCMI Telemetry
+ testing tool
+Message-ID: <20261110161656.00002a1c@oss.qualcomm.com>
+In-Reply-To: <20261109091221.2532706-36-cristian.marussi@arm.com>
 References: <20261109091221.2532706-1-cristian.marussi@arm.com>
-	<20261109091221.2532706-35-cristian.marussi@arm.com>
+	<20261109091221.2532706-36-cristian.marussi@arm.com>
 Organization: Qualcomm
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.51; x86_64-w64-mingw32)
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -134,157 +134,54 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDAwMCBTYWx0ZWRfX3F/mYIc3HKhT
- 6U9E6dhaS96242SN52X2vxHyyc2ciu5Ro2ZCI45ossWi/pBzydNTsjOn47/VpE8NAkHtaOUoYWm
- 4eDEqzhmZ9BMUDSqy4mp9EwAzP/Pu+KuJVvnqJr8Jh8CB8lolTZvjVFznpSTf+kvRJyKqT91r1g
- ayEK5lYFqdKj6ImV/LzfSsj3vdjuzU1bO8QTwYG6yuismfL5S/ZBuBiix4bfdViv9rNsGSWvzpQ
- FVLwQcHstoc4xpNVY6ifEzpCDvZGKA98E816G46jNHIaLI08UH9EpT00UedOag6pp9Zxrw6goC2
- j47kK5EfIWg4HZydFFAujvO0p24ZIPaUgz0IQ9XfL0bMvmiQFlygQ2HgUuwsMrRJgQ7fjrIJpGW
- 5znbMZa5VBPCkwp3Z9azZRxxwpym12hZCEgXMRVnphtVzcRUd5QYq4X+I3+E41ERGLvdFpNOTCP
- 920j8mw2p9vAxdTxbEA==
-X-Authority-Analysis: v=2.4 cv=Ee1d0/mC c=1 sm=1 tr=0 ts=6af3b33c cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDAwMCBTYWx0ZWRfXxJ7TCcildWGd
+ zNCIBsXMxy3j36DSofDENcnBoGC6g6tJKxSP/527hjApcVMzYmuUcfD5Kvfp3RRHaGRcS67LC/6
+ CYyoE0vVOLJfS+uDg2sWo4f8taTOb/+lQV9vllZhFRAq2ImE5S4IxZLQtC6IyQW22bURcxjJRbh
+ wJUrJj4Q2yXol5Jeus8stjxrr5qpQBEJxwC1ltqLScOrM2cYteOPERosmMffIweiOwp9S3+A3ND
+ PlqV4cpzd5c83v2IAWrWHJjSoSKhZMpzBKX1l4WCxARU4kZXKDqhhfzj/w+GVkPuUFcn3c2SghE
+ 4Eab2xDphL9AeWVOP2vq4ARrcnjBR04KXUhr5z02zxTZa6FKrI9M+ZL2RLEwSijvMnrE71SJNgP
+ lIrnO6+6vGGzhJ6z1z8Dl3G14ubTXYq7TSPKPZM4L3SVshcFjQYomhTY8KLtxKTywk88HJ/roM9
+ cuEVJ2aQ1wjO//wrRXA==
+X-Proofpoint-GUID: qXS8B87EtWkAnmDAm978x_M7A8_jXxEk
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDAwMCBTYWx0ZWRfX0Tg1kR52GmAZ
+ GWDb/lFUs1VS3RQP3Nz22NsB9LbvbAm4QdsZxStCqGRvZSsNrjNYXUUc/EJBzk/3qVDr7CEf3Nn
+ bW6IK9w94kBdSz9ptwbcXLPTWwEDurA=
+X-Proofpoint-ORIG-GUID: qXS8B87EtWkAnmDAm978x_M7A8_jXxEk
+X-Authority-Analysis: v=2.4 cv=JNSuIMKb c=1 sm=1 tr=0 ts=6af3b411 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
  a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=7CQSdrXTAAAA:8 a=Knn1SA45J_WYkMnPUZgA:9 a=CjuIK1q_8ugA:10
- a=vr4QvYf-bLy2KjpDp97w:22 a=a-qgeE7W1pNrGK8U0ZQC:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDAwMCBTYWx0ZWRfX3lzSw9AZdDyI
- xWkT0Y9FgYiQpdJhsjFBqp9DhO4q5yTl3VZPSEAMMLxH05Yuw8IsKswkQRkDg6Pty+ao1yMvX1K
- bXi1hvLXYCpxPu9HekG3o2LLR3kgCcY=
-X-Proofpoint-GUID: u99i_dMQokDvpghLpopKmHYio3C5W2g7
-X-Proofpoint-ORIG-GUID: u99i_dMQokDvpghLpopKmHYio3C5W2g7
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=7CQSdrXTAAAA:8 a=Rq-k35hIRNRoFwHvQQQA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22 a=a-qgeE7W1pNrGK8U0ZQC:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-10_07,2026-11-06_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0 bulkscore=0
- suspectscore=0 clxscore=1015 adultscore=0 phishscore=0 lowpriorityscore=0
+ malwarescore=0 suspectscore=0 phishscore=0 clxscore=1015 adultscore=0
+ lowpriorityscore=0 impostorscore=0 bulkscore=0 spamscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611110000
 
-On Mon,  9 Nov 2026 09:12:20 +0000
+On Mon,  9 Nov 2026 09:12:21 +0000
 Cristian Marussi <cristian.marussi@arm.com> wrote:
 
-> From: Philip Radford <philip.radford@arm.com>
+> Add a testing tool that exercises the SCMI ioctls UAPI interface: as of
+> now the tool simply queries the initial state of the SCMI Telemetry
+> subsystem, tries to enable all the existent Data Events and dumps all
+> the Telemetry data.
 > 
-> Add support to test SCMI Telemetry UAPI compliance testcases.
-
-I'm thoroughly in favor of self tests, but rather less 1825 line patches!
-I'd figure out an initial subset to propose of a few 100 lines then
-build the rest up. Possibly just have a minimal set as part of first
-series. 
-
-I took a look at the code style for a few as not going to dig into whether
-they are all functionally correct.
-Given I'm assuming this LLM output, and those are pretty good at this
-sort of test authoring I'm assuming they are probably ok.
-
-Jonathan
-
-
-> 
-> Signed-off-by: Philip Radford <philip.radford@arm.com>
-> Co-developed-by: Cristian Marussi <cristian.marussi@arm.com>
 > Signed-off-by: Cristian Marussi <cristian.marussi@arm.com>
 
-> diff --git a/tools/testing/selftests/arm64/scmi/config b/tools/testing/selftests/arm64/scmi/config
-> new file mode 100644
-> index 000000000000..63cd7e67ab55
-> --- /dev/null
-> +++ b/tools/testing/selftests/arm64/scmi/config
-> @@ -0,0 +1,2 @@
-> +CONFIG_ARM_SCMI_SYSTEM_TELEMETRY=y
-> +
-> diff --git a/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c b/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c
-> new file mode 100644
-> index 000000000000..24a8170a4380
-> --- /dev/null
-> +++ b/tools/testing/selftests/arm64/scmi/test_scmi_telemetry_uapi.c
-...
-I commented on style for a few near the end.
-> +
-> +TEST_F(stlm, tlm_get_uuid_list)
-> +{
-> +	struct scmi_tlm_batch batch = {};
-> +	struct scmi_tlm_uuid *uuids;
-> +	int i, j;
-> +	bool nonzero;
+Test tools need breaking up into bite sized patches too!
+Perhaps a little easier to read than kernel code, but you aren't
+generally going to get great review on a 2000 line ish single
+patch.  I'd be tempted to do this a bit like we do PMUs vs perf.
+Separate series, often posted before the driver merges but not
+really considered for merge until afterwards.
 
-No other reason for order? Go with reverse xmas tree.
+Anyhow, enough telemetry for me for now so not going to review
+this yet.
 
-> +
-> +	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_UUID_LIST) == 0)
-> +		SKIP(return, "UUID list not supported");
-> +
-> +	batch.num_items = 0;
-> +	batch.item_sz = sizeof(*uuids);
-> +
-> +	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-> +
-> +	if (!batch.num_items)
-> +		SKIP(return, "no UUIDs available");
-> +
-> +	uuids = malloc(sizeof(*uuids) * batch.num_items);
-> +	ASSERT_NE(NULL, uuids);
-> +	bzero(uuids, sizeof(*uuids) * batch.num_items);
-> +
-> +	batch.items = (__u64)uuids;
-> +
-> +	ASSERT_EQ(0, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-> +	ASSERT_GT(batch.num_items, 0);
-> +	ASSERT_EQ(sizeof(*uuids), batch.item_sz);
-> +	ASSERT_EQ(0, batch.reserved);
-> +
-> +	for (i = 0; i < batch.num_items; i++) {
-	for (int i = 0; ... 
-> +		nonzero = false;
-> +
-> +		for (j = 0; j < SCMI_TLM_DE_IMPL_UUID_SZ; j++) {
-		for (int j = 0; j < ...
-
-> +			if (uuids[i].bytes[j]) {
-> +				nonzero = true;
-> +				break;
-> +			}
-> +		}
-> +
-> +		EXPECT_TRUE(nonzero);
-> +
-> +		TH_LOG("SCMI_TLM_GET_UUID_LIST - [%d] %02x%02x%02x%02x-%02x%02x-%02x%02x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-> +		       i, uuids[i].bytes[0], uuids[i].bytes[1],
-> +		       uuids[i].bytes[2], uuids[i].bytes[3],
-> +		       uuids[i].bytes[4], uuids[i].bytes[5],
-> +		       uuids[i].bytes[6], uuids[i].bytes[7],
-> +		       uuids[i].bytes[8], uuids[i].bytes[9],
-> +		       uuids[i].bytes[10], uuids[i].bytes[11],
-> +		       uuids[i].bytes[12], uuids[i].bytes[13],
-> +		       uuids[i].bytes[14], uuids[i].bytes[15]);
-> +	}
-> +
-> +	free(uuids);
-> +}
-
-> +TEST_F(stlm, tlm_get_uuid_list_bad_items_ptr)
-> +{
-> +	struct scmi_tlm_batch batch = {};
-> +
-> +	if ((ksft_session.info.abi_features & SCMI_TLM_ABI_FEAT_UUID_LIST) == 0)
-> +		SKIP(return, "UUID list not supported");
-> +
-Where possible I'd assign structures with
-	batch = (struct scmi_tlm_batch) {
-		.num_items = 1,
-		.items_sz = sizeof(struct scmi_tlm_uid),
-		.items = 0, //Invalid pointer
-	};
-as that avoids having to zero explicitly and tends to end up more readable
-than a wall of separate values being set in the same structure.
-> +	batch.num_items = 1;
-> +	batch.item_sz = sizeof(struct scmi_tlm_uuid);
-> +	batch.items = 0;
-> +
-> +	ASSERT_EQ(-1, ioctl(self->fd, SCMI_TLM_GET_UUID_LIST, &batch));
-> +	EXPECT_EQ(EFAULT, errno);
-> +}
+Jonathan
 
 
