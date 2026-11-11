@@ -1,104 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794402001;
-	b=p9v1Y9D1j8vs5Fu3Ktrh85g4tc/b8BBotc6DA2MCbpr1vN5fqbttw7d0j3ahuNFz+qs0
-	 jZD2+613i3+JW8JQsAnoE/Stn07ywr2an51+5Glxj8yLvADZUCHo1jd3jGHqcSpkdkP8Z
-	 plbqtH7E0vyKBE4CTUSJ+zlWgPuHqTCSA9VsHKm3WVdQz2DoYbxfAeqo38R/kOIhnSKM6
-	 PYxYS8lXnMFFP02xVQvmEhsQlsCupAvIUJAudtQ01w2IZUinymn3xY6ZpxDzHD+dTdMwE
-	 3eotajg9A1PVvpr5SHgsLC/K/i4MnrzoZht3Q8g+rFTPlVY0zZgGJ4ZI3qLKHxVvXAg==
+	t=1794402258;
+	b=lzMq1Xcs4ltNvQ//rJRX0AuiQTpvMzZeiP38mp6BY30pVyKA+G+j8iD9s1NaBUoo8qS4
+	 8deZ8k9Ei98lwKkw+8VZSL0PiesUStJPoeYoffC7z31q+aP4ywY310EbjCFxUMV9Hb5Ow
+	 xLM2s9JwBZ9iFvgKiYpnTp+5qghy3JSAjO6PvuDVx9reKD3+Y1MLgEg+kNFlOQSXqeaC0
+	 iiFzalvqRUX2d+ECOPtSAW19bwefDopqHEYsko1HQH4B6kHfWLpbCQKDLbKKLQJ48CfL2
+	 rItABg0DDd21jqomr4JCIBW4CB2F3qoTCHz266gA0hOmRQG3cBRsqz/bo/r2T6WV0IQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794402001;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794402258;
 	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
 	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
-	 X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spamd-Result:X-Spam-Score;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=h2F++KnOmh7Z7DLAbRqaGSVSr3oKDdEjX7PGbtAPAR/YNrUejRzLldxEp7fprgsNwNEL
-	 w29vePttxInvyUa1ZwZAcNLn1V8S4D024hFb6PmoZZODE+Zsz9nI1mUEUgz8Me2ucQazK
-	 DQyA+gcQhVFGjYzcgDN7zZVRz9mDkxUT1kaoMmFVqs+tLC8AX1RwHqTPbjFYVaviTfaaQ
-	 GQniQulwJ18+E5gG3Gm2nOPp4aoUEcrqdhLDdDaSwnmPc+uGHGwunMJsDK0WTxfYy7gXv
-	 SV7gq4D7/f5rBO9SfQrVvMoG/py9gIDK0fZUjVBiUcnjee+l0aP4iCCRUoISdGqvf2w==
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Flag:
+	 X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=hXIi1oTzxmzik4fQEkb2sT89bv5gy4wFQ0vSFZHeTvU=;
+	b=LC7jHtcTSvCsTxi5t5mhA8HPTxJ6DbEoqn+Y3FdGHrLMT2yPmRn0G/H6PMmXDOcHqD4F
+	 D8JpY1a0VwUJ5c0RryM0owEQkLU3nJlkaGffA52WSwLovsMvW5g8F3POXT1Smz2CTQ/Ou
+	 n8R4xhV4wC7qciy/nvISYjjRqaPzxNLp1wftEpfLjw22EPh+1ACA4lTOZDmBPA5QK7QSm
+	 Tj+FROltY9W7bxKe38vNhNoUNH1FqpsB0Zx9YcqfBFFGzqLW4dRG2/fBaR7IfYK5L/wfj
+	 An12K/WARqXIBY+GUtbb//DZCbFCapwtZqhen4NSkNPv/VCRtdgzLPLVQxuTLcgukHg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.de;
 	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=otOxawUx;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fg+Nrul0;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EhbSiBds;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3pIOXjjl;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DtZI6Reu;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=B99jS6Jf;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DtZI6Reu;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=B99jS6Jf;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F31606A331;
-	Wed, 11 Nov 2026 13:00:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73F31606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A927606A886;
+	Wed, 11 Nov 2026 13:04:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5A927606A886
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=otOxawUx;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Fg+Nrul0;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=EhbSiBds;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=3pIOXjjl
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DtZI6Reu;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=B99jS6Jf;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=DtZI6Reu;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=B99jS6Jf
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 1077822163;
-	Wed, 11 Nov 2026 12:59:57 +0000 (UTC)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 4A70F5C4E0;
+	Wed, 11 Nov 2026 13:04:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794401998; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794402255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=otOxawUxw790/QFBjM3l+MFthA3861nlTmYALPAV8UroFCQPTuhWdqQLx2Bc1uIFTNjUSf
-	mnB6pWLs5IMmL/6Nh1C4bBTDNKUwUU7gS0QrpHdV+W4K35O9r7vi4hE7ol2MHfBI5rkx3k
-	JbleWrObvsXGVSk2sYZAGh9tC4q+53o=
+	bh=hXIi1oTzxmzik4fQEkb2sT89bv5gy4wFQ0vSFZHeTvU=;
+	b=DtZI6Reur2+aCCjHwohRzTX/jLFEtllaTu/GZ3Wb7fb5a0KCUQplnUpIsIy4XOZeS3mgmF
+	SJdeMdV2GkgeSvy25qEK8DxAk/SQAq/AkgH9r2+XFb/HL86bVD35DJQn+uonwCCtC4fU10
+	yjP+aq+CEMk2AnA6kNTAn6PhmDxihq8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794401998;
+	s=susede2_ed25519; t=1794402255;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=Fg+Nrul0Jyo5LklpxiAuZ0HYrvjr7mnXZnx3MVHOfvH21g/exOhh1s1UL3D/FUe/akkrR2
-	wP4WfFpYZXc1TlDQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EhbSiBds;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=3pIOXjjl
+	bh=hXIi1oTzxmzik4fQEkb2sT89bv5gy4wFQ0vSFZHeTvU=;
+	b=B99jS6Jf/Ym/k/J5HtVXOw06J0NYUWt1DlgTasENiCFMSag9Sbp2dZcPkTVPmrf7mfK/77
+	I01KAjdzSWPUBjAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794401997; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	t=1794402255; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=EhbSiBdsrSVaKSADwnL0R0h2FhNTtiQe8O4S+eqdUQd7Xrl3mwHjJ524yrql/BM+FAIbBh
-	HcAzG0kPGFOJOYhrbr+minyw5ZLHbacQpG6BNn1fmyvfN8AukapPIrVspm4teWxjv0DZBr
-	REDvjtoemSrILrH4izF8HUQ1q72PYZk=
+	bh=hXIi1oTzxmzik4fQEkb2sT89bv5gy4wFQ0vSFZHeTvU=;
+	b=DtZI6Reur2+aCCjHwohRzTX/jLFEtllaTu/GZ3Wb7fb5a0KCUQplnUpIsIy4XOZeS3mgmF
+	SJdeMdV2GkgeSvy25qEK8DxAk/SQAq/AkgH9r2+XFb/HL86bVD35DJQn+uonwCCtC4fU10
+	yjP+aq+CEMk2AnA6kNTAn6PhmDxihq8=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794401997;
+	s=susede2_ed25519; t=1794402255;
 	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
 	 mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=vckRnu8yhYPujC9czlRHD4eY30Ogbh/EdkpZK4P1gpY=;
-	b=3pIOXjjlSEb/Dd0pQ3rAW5PfZnnK2WJEDuZe2OvPfIrsqGCueoEmJPkiIgDh+2Aw4Jz8eq
-	hcEUcN+9syH0oIBQ==
+	bh=hXIi1oTzxmzik4fQEkb2sT89bv5gy4wFQ0vSFZHeTvU=;
+	b=B99jS6Jf/Ym/k/J5HtVXOw06J0NYUWt1DlgTasENiCFMSag9Sbp2dZcPkTVPmrf7mfK/77
+	I01KAjdzSWPUBjAA==
 Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id E94B11339F;
-	Wed, 11 Nov 2026 12:59:55 +0000 (UTC)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 566151339F;
+	Wed, 11 Nov 2026 13:04:13 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
 	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id SHrxKstm9GqAMwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 11 Nov 2026 12:59:55 +0000
-Message-ID: <64a26d9d-664b-4443-8d71-b854bb01316d@suse.de>
-Date: Wed, 11 Nov 2026 13:59:55 +0100
+	id uVx7A81n9GoAOAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 11 Nov 2026 13:04:13 +0000
+Message-ID: <a23d9d70-a2e1-49a9-a590-3a3c035d5f1b@suse.de>
+Date: Wed, 11 Nov 2026 14:04:12 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -109,33 +107,29 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] drm/gem: Switch to __nonnull_args() macro
-To: Dmitry Ilvokhin <d@ilvokhin.com>, Alex Deucher
- <alexander.deucher@amd.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Joel Stanley <joel@jms.id.au>,
- Andrew Jeffery <andrew@codeconstruct.com.au>,
- Ryan Chen <ryan_chen@aspeedtech.com>, Billy Tsai
- <billy_tsai@aspeedtech.com>,
+Subject: Re: [PATCH v6 03/15] fbdev: efifb: move the BMP headers to
+ <video/bmp.h>
+To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Kees Cook <kees@kernel.org>,
- Andy Shevchenko <andy@kernel.org>, Matthew Wilcox <willy@infradead.org>,
- Andrew Morton <akpm@linux-foundation.org>, Andy Whitcroft
- <apw@canonical.com>, Joe Perches <joe@perches.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- linux-leds@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-aspeed@lists.ozlabs.org, linux-hardening@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-References: <cover.1793027261.git.d@ilvokhin.com>
- <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
+ Peter Jones <pjones@redhat.com>
+Cc: Francesco Valla <francesco@valla.it>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-embedded@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261027135342.2003632-1-maximpedraza@gmail.com>
+ <20261027135342.2003632-4-maximpedraza@gmail.com>
 Content-Language: en-US
 From: Thomas Zimmermann <tzimmermann@suse.de>
 Autocrypt: addr=tzimmermann@suse.de; keydata=
@@ -162,80 +156,223 @@ Autocrypt: addr=tzimmermann@suse.de; keydata=
  SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
  Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
  4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <5bfdc1491d297b5e98cf42322c790f06481c28c7.1793027261.git.d@ilvokhin.com>
+In-Reply-To: <20261027135342.2003632-4-maximpedraza@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 1077822163
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
 X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.00 / 50.00];
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.79 / 50.00];
 	SUSE_INTERNAL_BYPASS(-9.00)[];
 	BAYES_HAM(-3.00)[100.00%];
 	SUSPICIOUS_RECIPS(1.50)[];
 	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
 	NEURAL_HAM_SHORT(-0.20)[-1.000];
 	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
 	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	FREEMAIL_TO(0.00)[ilvokhin.com,amd.com,gmail.com,ffwll.ch,linux.intel.com,intel.com,ursulin.net,kernel.org,jms.id.au,codeconstruct.com.au,aspeedtech.com,infradead.org,linux-foundation.org,canonical.com,perches.com,lwn.net,linuxfoundation.org];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	RCVD_TLS_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[dt];
 	TO_DN_SOME(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,lwn.net,gmx.de,redhat.com];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	R_RATELIMIT(0.00)[to_ip_from(RL9smr3mp78sgfo6am5n6ykess)];
 	FROM_EQ_ENVFROM(0.00)[];
 	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[lists.freedesktop.org,vger.kernel.org,lists.infradead.org,lists.ozlabs.org,kvack.org,gmail.com];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLgosu6qu4h11rje89ht7rjgg5)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[ilvokhin.com:email,suse.de:dkim,suse.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Spam-Score: -12.00
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.com:url,imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -11.79
 
 
 
-Am 28.10.26 um 09:19 schrieb Dmitry Ilvokhin:
-> Commit 22302af28d3f ("cleanup: Annotate guard constructors with
-> nonnull") added the macro __nonnull_args() to wrap raw compiler
-> attribute.
+Am 27.10.26 um 14:53 schrieb Màxim Pedraza Padilla:
+> The DRM splash client parses the same BMP headers as efifb. Rather than
+> keep a second copy of the structures, move them to include/video/bmp.h
+> with the magic number.
 >
-> Replace __attribute__((nonnull)) with __nonnull_args() to standardize
-> nonnull attribute usage across the tree and keep the attribute's quirks
-> in one place rather than open-coded at every call site.
+> BMP is little endian whatever the CPU, so the header gives the fields
+> as __le16 and __le32, and efifb now reads them with
+> get_unaligned_le16() and get_unaligned_le32(). Width and height are
+> read signed, as the format has them. No change on the little endian
+> systems EFI runs on.
 >
-> Suggested-by: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-> Signed-off-by: Dmitry Ilvokhin <d@ilvokhin.com>
+> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
 
-I've added this patch to drm-misc-next
+Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
 
 > ---
->   include/drm/drm_gem.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index ed329408acbe..56dd15921c7a 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -566,7 +566,7 @@ static inline void drm_gem_object_get(struct drm_gem_object *obj)
->   	kref_get(&obj->refcount);
->   }
+> Notes:
+>      TODO for the efifb maintainers, not changed here so that this patch
+>      only moves the headers: the bound check
+>      
+>      	if ((bitmap_offset + bmp_pitch * bmp_height) > bgrt_image_size)
+>      
+>      is done in u32 and can wrap with a crafted BGRT image, for instance
+>      with a bitmap_offset close to 4 GiB, and so can round_up(3 * bmp_width,
+>      4) and the product with a huge width; image_offset_x + bmp_width against
+>      lfb_width is a u32 sum too. efifb_copy_bmp() would then read outside the
+>      mapped image. The DRM splash client checks the same headers with
+>      check_add_overflow() and check_mul_overflow(). I can send a separate fix
+>      if wanted.
+>
+>   drivers/video/fbdev/efifb.c | 49 ++++++++++++++-----------------------
+>   include/video/bmp.h         | 40 ++++++++++++++++++++++++++++++
+>   2 files changed, 58 insertions(+), 31 deletions(-)
+>   create mode 100644 include/video/bmp.h
+>
+> diff --git a/drivers/video/fbdev/efifb.c b/drivers/video/fbdev/efifb.c
+> index 3411be06d3e6..fd348a72f780 100644
+> --- a/drivers/video/fbdev/efifb.c
+> +++ b/drivers/video/fbdev/efifb.c
+> @@ -16,32 +16,13 @@
+>   #include <linux/platform_device.h>
+>   #include <linux/printk.h>
+>   #include <linux/sysfb.h>
+> +#include <linux/unaligned.h>
+> +#include <video/bmp.h>
+>   #include <video/vga.h>
+>   #include <asm/efi.h>
+>   #include <drm/drm_connector.h>  /* For DRM_MODE_PANEL_ORIENTATION_* */
+>   #include <drm/drm_panel_quirks.h> /* For drm_get_panel_orientation_quirk */
 >   
-> -__attribute__((nonnull))
-> +__nonnull_args()
->   static inline void
->   __drm_gem_object_put(struct drm_gem_object *obj)
+> -struct bmp_file_header {
+> -	u16 id;
+> -	u32 file_size;
+> -	u32 reserved;
+> -	u32 bitmap_offset;
+> -} __packed;
+> -
+> -struct bmp_dib_header {
+> -	u32 dib_header_size;
+> -	s32 width;
+> -	s32 height;
+> -	u16 planes;
+> -	u16 bpp;
+> -	u32 compression;
+> -	u32 bitmap_size;
+> -	u32 horz_resolution;
+> -	u32 vert_resolution;
+> -	u32 colors_used;
+> -	u32 colors_important;
+> -} __packed;
+> -
+>   static bool use_bgrt = true;
+>   static bool request_mem_succeeded = false;
+>   static u64 mem_flags = EFI_MEMORY_WC | EFI_MEMORY_UC;
+> @@ -145,9 +126,10 @@ static bool efifb_bgrt_sanity_check(const struct screen_info *si, u32 bmp_width)
+>   
+>   static void efifb_show_boot_graphics(struct fb_info *info, const struct screen_info *si)
 >   {
+> -	u32 bmp_width, bmp_height, bmp_pitch, dst_x, y, src_y;
+> +	u32 bmp_width, bmp_height, bmp_pitch, bitmap_offset, dst_x, y, src_y;
+>   	struct bmp_file_header *file_header;
+>   	struct bmp_dib_header *dib_header;
+> +	s32 width, height;
+>   	void *bgrt_image = NULL;
+>   	u8 *dst = info->screen_base;
+>   
+> @@ -186,20 +168,25 @@ static void efifb_show_boot_graphics(struct fb_info *info, const struct screen_i
+>   		goto error;
+>   
+>   	file_header = bgrt_image;
+> -	if (file_header->id != 0x4d42 || file_header->reserved != 0)
+> +	if (get_unaligned_le16(&file_header->id) != BMP_FILE_MAGIC_ID ||
+> +	    get_unaligned_le32(&file_header->reserved) != 0)
+>   		goto error;
+> +	bitmap_offset = get_unaligned_le32(&file_header->bitmap_offset);
+>   
+>   	dib_header = bgrt_image + sizeof(*file_header);
+> -	if (dib_header->dib_header_size != 40 || dib_header->width < 0 ||
+> -	    dib_header->planes != 1 || dib_header->bpp != 24 ||
+> -	    dib_header->compression != 0)
+> +	width = get_unaligned_le32(&dib_header->width);
+> +	height = get_unaligned_le32(&dib_header->height);
+> +	if (get_unaligned_le32(&dib_header->dib_header_size) != 40 ||
+> +	    width < 0 || get_unaligned_le16(&dib_header->planes) != 1 ||
+> +	    get_unaligned_le16(&dib_header->bpp) != 24 ||
+> +	    get_unaligned_le32(&dib_header->compression) != 0)
+>   		goto error;
+>   
+> -	bmp_width = dib_header->width;
+> -	bmp_height = abs(dib_header->height);
+> +	bmp_width = width;
+> +	bmp_height = abs(height);
+>   	bmp_pitch = round_up(3 * bmp_width, 4);
+>   
+> -	if ((file_header->bitmap_offset + bmp_pitch * bmp_height) >
+> +	if ((bitmap_offset + bmp_pitch * bmp_height) >
+>   				bgrt_image_size)
+>   		goto error;
+>   
+> @@ -222,12 +209,12 @@ static void efifb_show_boot_graphics(struct fb_info *info, const struct screen_i
+>   
+>   		src_y = y - bgrt_tab.image_offset_y;
+>   		/* Positive header height means upside down row order */
+> -		if (dib_header->height > 0)
+> +		if (height > 0)
+>   			src_y = (bmp_height - 1) - src_y;
+>   
+>   		memset(dst, 0, bgrt_tab.image_offset_x * 4);
+>   		dst_x = bgrt_tab.image_offset_x;
+> -		efifb_copy_bmp(bgrt_image + file_header->bitmap_offset +
+> +		efifb_copy_bmp(bgrt_image + bitmap_offset +
+>   					    src_y * bmp_pitch,
+>   			       (u32 *)dst + dst_x, bmp_width, si);
+>   		dst_x += bmp_width;
+> diff --git a/include/video/bmp.h b/include/video/bmp.h
+> new file mode 100644
+> index 000000000000..8aa249f2302f
+> --- /dev/null
+> +++ b/include/video/bmp.h
+> @@ -0,0 +1,40 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#ifndef _VIDEO_BMP_H
+> +#define _VIDEO_BMP_H
+> +
+> +#include <linux/types.h>
+> +
+> +/* "BM", the first two bytes of a BMP file */
+> +#define BMP_FILE_MAGIC_ID 0x4d42
+> +
+> +/*
+> + * The headers at the start of a BMP file. Every field is little endian,
+> + * whatever the CPU, and the headers need not be aligned in memory: read them
+> + * with get_unaligned_le16() and get_unaligned_le32().
+> + */
+> +struct bmp_file_header {
+> +	__le16 id;
+> +	__le32 file_size;
+> +	__le32 reserved;
+> +	__le32 bitmap_offset;
+> +} __packed;
+> +
+> +/*
+> + * BITMAPINFOHEADER. Width and height are signed: a negative width means
+> + * nothing, and a negative height that the rows go top to bottom.
+> + */
+> +struct bmp_dib_header {
+> +	__le32 dib_header_size;
+> +	__le32 width;
+> +	__le32 height;
+> +	__le16 planes;
+> +	__le16 bpp;
+> +	__le32 compression;
+> +	__le32 bitmap_size;
+> +	__le32 horz_resolution;
+> +	__le32 vert_resolution;
+> +	__le32 colors_used;
+> +	__le32 colors_important;
+> +} __packed;
+> +
+> +#endif /* _VIDEO_BMP_H */
 
 -- 
 --
