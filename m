@@ -1,89 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794394536;
-	b=3GplvnbjmoKdmHemkZafEeL8x7idplgHcJjc/7OJJ+43YSz2nG11qWJiI59R41UFMzP0
-	 nHgxgCLpfOwLrH1A6xCQ/Kgo8RjvOh5U5QcSEw8iN4JUd3L+P983TEhaor4GpTjucqjDN
-	 XmDi8dMgxpld7Ec4cTaVxmdKfGUp6cX+Ti81JSlhwQclR7aaRahrY/2wTFEYr8QFJNgvc
-	 lU+flYua9paQT/mI+QsHh1pVd/az0iVRc3/CMslLt49W12SaCoQEuui+SltKt+UYUNeyW
-	 BvXwFkDX6Hj4XyWoYmA779aoL9Jd4UO3a+PH3wRtANW/SJGowpcKSluUMF/oMHsVomQ==
+	t=1794394634;
+	b=0Hw+YPBEjfmqysYbYZEsJme93PSTPnMHrMC/rYjvFDBiYIbu914p7MUFcKCKb4/uD5mE
+	 lknWsofxXj7oIVvUg25QDDYrqXlyyi8lY8fGkURQJtZDZFB6pvKHTpVD2Iblh1lJZdt+N
+	 1DboQ04VfZVdEKIxujsfdtEAdaXi7qbNGWKvFJaWNXesA0voEtXZfSnKILTATDS3tsGCP
+	 DQ/HzfKR4csjpoAxmq2KIPJSNBxbwRp81QfYN1Mh3Uxrew7nUslZik9P3S7bYE16rx//m
+	 0pKLyyZ97LzhwikLJZkMWvwMhZIgugmdxVaYJJzgXhC0XyjydoO5f58sK4E19QjAk7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794394536;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=OUolrd1OXwKS6nKNPAcHQ6jGSl8Pb/p1AAcQQX44668=;
-	b=WY0zaprBQsrliROT5rc4qXaKrS65JGRJbPXFO7MBktkukB+RsvKRyOJDiF3vYdwblIL3
-	 prjaTLcbyNxrPUc3Xcm0amN76K2SHrouNTZzCmSovw7Ubrsds2Aeeb/3CA7sHi7MD8shN
-	 gdKtt8hmXfPoy6OmnWK+YyorI39lFG/gSHDndnfaG0X+nF7tUqXumH9AHE2B08iZlT6GH
-	 eEkn1Yh0RSvU1WsX+LSyuSBp90aTLKnfUoUK/Beam81tD4vub78UyK0HppZjYl3aFihqd
-	 dwJr7wYQ6b4Qs7W//BB7xCK4nzCc+OEORW/PXNW5LY6IAv97IN+RuCT/FXwDeZxWqww==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794394634;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
+	bh=y71I2g5CiY6ZLFtOOjFefsyXa2Y2V1HXYev8hBP6Jd4=;
+	b=PzqPhI/B8EA6fSQQL1yftBmMSvjINGy4kGSJV2u5YtUqPczGe6Ik7bKZ0o9DE0R9RVt+
+	 aLOCWEYTyXa+5QbUQjTX0mLJosaj3/XIY0xFXscG+bYUyn5jFLnB7AhypSLesBkaW3kgx
+	 3x1/An9whXhIhDOiuSlttQYncRuHhbJNtZrAinzhM46QqbGM6EJ/fGddhZZeV0/B/8icg
+	 iN82cBN8lfc2yA3ssl8S6hpW5Gom6c8Hafyv9OWjunQWNAJr2Pz7wtd32Ek4FhGcxQATf
+	 SgL1xP+90yoj4JlDRSvX8ljD4po7a5JpYQA5xPdOfPplkq/dYf0hzMm6lCW4/KjxV1w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qX6mmiwl;
-	arc=none smtp.remote-ip=209.85.210.174
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LJcz3i2L;
+	arc=none smtp.remote-ip=170.10.133.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 642E1606A326
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:55:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 642E1606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49E5606A321
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:57:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A49E5606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=qX6mmiwl
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8b600fae14dso1191760b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 02:55:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794394536; x=1794999336; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=OUolrd1OXwKS6nKNPAcHQ6jGSl8Pb/p1AAcQQX44668=;
-        b=qX6mmiwlVzVGsWOMKEWWvxEj2iBU/YsFpiaOK9z13xs7rZod1b2GgVozZZuZ6VFQ0s
-         KpHTT/gLHkNv+lCYfK/my3GHGPQpHJXBEAeRWH4V7CBOZYJ09pKQ4bxSGB4qjJs1EIV6
-         B7IJCQS7nHWkhDg/6WbMD2jRzPYqclpFoFUzrOKeNJkilWfCSYRKw16XK7LAOyaESVY3
-         EoBaVuSGvbtUZMAMZpggw6j6wZTZJ3Ry1TlsCt/nDQF4x61BrEQ4D2K7rLXXJoGPf6sH
-         6fTgv2tTmxXApLTU8zzTSbc4mNvzsFpn88XIL9a3TzRVG+bAYs6eJkRxaV4ali8McXrf
-         w6Ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794394536; x=1794999336;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=OUolrd1OXwKS6nKNPAcHQ6jGSl8Pb/p1AAcQQX44668=;
-        b=MSykzqmxuOLTUcXmNfi38i7EItyL2tfOadaWnIyNNy1NVct5p5DoN1wFYDniRUNKRl
-         VnnjjtYXGWcb+xZrFIGML2rqPAIfTKpUUW61sD77KHXLJHRj/jqmWZ7Fmc5Cn4Kj7Vfr
-         vVBWWs0TuORu6Rh6nELLBSc+JbyWEph7eTAA9RdjV6Q1HiqNO5mJ7T0MmsDekv2Ntt6u
-         MU+8KdcqcjUgwdqidG6AuhMOdJ46ow9w8TrVG8uZiOzNla39mWoxnOqgdnw2CtKZh/NM
-         gR+Deg3v6deH1lbOCELGdX6NajzjPLdxF6fP2w1Sgl3J/+HOt48hHEfRqOTvxiFJEaJy
-         G66g==
-X-Forwarded-Encrypted: i=1; AL+hErFxVVQJgWuLAwkD+k7XH0wBOcUrNtCu0xtSoncPwKFEzYS3vYrnwV6HXFiA2yrVubqe5kQjprMPhAY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/k/7yP1e5JcO9Cg2mt3gDFzm1ODjVqVah8nP1vp0cNc2/4TbeC
-	FJ8XKms486qZqVKwoqQIH1YtAd5lyU1N7MA6MVhKl9lWeSqeRiHUZ/uR
-X-Gm-Gg: AYBFou0z9Dh63EHZuQ1EyJGw0eTbR+EZFPbPJvrcBKyJ13IEobxvMKnm7vwPjiK1P9M
-	2/CpXpvYxJyGp1pKw1R5BeJ1ZUcOJoqUH/HU2Zz/80Hs7VLIvnYH8cKrI8kd8H7S3OvIMVhEnoZ
-	KFhq634SZdQ/gEK+4V9x7+5X+1MBoFSY2oPCqi+KeQL9Fhnh2QvC1UOfoB6xB3B95tvcTQ8axtg
-	1I+zL8UXtiuLOBLo+m0YsA8nrhIaYiZyLPPJSeomEK5TXpKT8ntsq/OeZZo9EB24e6bhhnF2GLk
-	rR2GezLfjw9xNqES1VkXV/vhZHfR2CID9A0KCIKAiAV51OuitL126byhoACxz0QMZnGwnTomISh
-	yNALOZpLmFGSMQmSs1y5ZxYVKjwZNJg4uvpFAZAo6V8IZvF9Di2WOfMMbUnnqBwxswDoxE1yHA/
-	gEMTKXpXlNDQT8Tx8lsboODVNJPa/w46ocjh3JmRzW6K/aHyiz3LHyZHzTP/+L/QbXXuA1RgVp5
-	MLaTr06C89vzqXBgb0j4bUMT5m7EKNhJnUI2MwOhbXPskobx0+kLmClL/zlsgQ/BXL/MkQUIqZs
-	uIRmAaL1tjcNpJO5ep60qBaUtY8A0fN4cSUIcbJnQfTFaTTBYTV7j6JVnNihidQ7SGYLU51mLG3
-	QmtKCFP4DbjpBPoZl+ZM=
-X-Received: by 2002:a05:6372:a701:b0:3eb:b1a1:5ca8 with SMTP id adf61e73a8af0-3f2fead849fmr1883650637.27.1794394535375;
-        Wed, 11 Nov 2026 02:55:35 -0800 (PST)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baa7de3619sm2029198b3a.5.2026.11.11.02.55.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2026 02:55:34 -0800 (PST)
-Message-ID: <18d55a74-869e-4d5c-9687-820502623aae@gmail.com>
-Date: Wed, 11 Nov 2026 19:55:32 +0900
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LJcz3i2L
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794394632;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y71I2g5CiY6ZLFtOOjFefsyXa2Y2V1HXYev8hBP6Jd4=;
+	b=LJcz3i2L3K2BBo4ahQLJAfzdjdNtDuB0P5x1fyq9oRGFJsvsu0KNYquhiAj4gMl5weB1CM
+	IWtDF8ao6daFvIPurkPa/ce8FWBdvAADaRy/nDXcE6hdkw02/b9H2+dYwzVYJmnOjn9gXk
+	HHEioKqJ+wcugjuPb/vQJEfEbndSmJA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-2-VSeC4wBmMpOyp6eJ7S0wcA-1; Wed,
+ 11 Nov 2026 05:57:09 -0500
+X-MC-Unique: VSeC4wBmMpOyp6eJ7S0wcA-1
+X-Mimecast-MFC-AGG-ID: VSeC4wBmMpOyp6eJ7S0wcA_1794394625
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8C3941955F18;
+	Wed, 11 Nov 2026 10:57:05 +0000 (UTC)
+Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2DD8C19634EF;
+	Wed, 11 Nov 2026 10:56:58 +0000 (UTC)
+Message-ID: <47221876-07a8-46c1-86f7-552402a8d5a9@redhat.com>
+Date: Wed, 11 Nov 2026 11:56:56 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -94,176 +72,70 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] docs/ja_JP: translate submitting-patches.rst (patch
- format)
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>
-References: <20261106225619.12869-1-weibu@redadmin.org>
+Subject: Re: [PATCH net-next 02/10] ice: dpll: serialize changes of the SyncE
+ CGU registers
+To: netdev-bot+sashiko@kernel.org
+Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
+ arkadiusz.kubalewski@intel.com, jiri@resnulli.us, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, min.li@microchip.com,
+ anthony.l.nguyen@intel.com, przemyslaw.kitszel@intel.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, richardcochran@gmail.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-wired-lan@lists.osuosl.org, grzegorz.nitka@intel.com,
+ karol.kolacinski@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
+ poros@redhat.com
+References: <20261106121005.1327603-3-ivecera@redhat.com>
+ <179433320107.994134.16333323653199953270@kernel.org>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20261106225619.12869-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <179433320107.994134.16333323653199953270@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hi,
-
-A couple of comments.  Please see below.
-
-On Sat,  7 Nov 2026 07:56:19 +0900, Akiyoshi Kurita wrote:
-> Translate the sections describing permission requirements for
-> adding tags, the canonical patch format, and subject line
-> conventions into Japanese.
+On 11/10/26 18:53, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found more severe
+> issue(s) in other patches of this series. This mail is only an FYI, in case
+> you want to address the nit picks below when you respin.
 > 
-> Update existing cross-references to point to the newly
-> translated section.
+> Low priority / nit picks for your consideration:
 > 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
->  .../ja_JP/process/submitting-patches.rst      | 108 ++++++++++++++++--
->  1 file changed, 100 insertions(+), 8 deletions(-)
+> - [Low] The commit fixes a race that already exists in the tree, but it
+>    has no Fixes: tag and no stable Cc.
 > 
-> diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rst b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> index cc0b348086da..bcc0ffd74b17 100644
-> --- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> @@ -85,11 +85,8 @@ Linux の多くの環境は、上流から特定のパッチだけを取り込
->  
->  パッチ説明を Linux のソースコード管理システム ``git`` の
->  「コミットログ」としてそのまま取り込める形で書けば、メンテナは
-> -助かります。詳細は原文の該当節 ("The canonical patch format") を
-> -参照してください。
-> +助かります。詳細は :ref:`jp_the_canonical_patch_format` を参照してください。
->  
-> -.. TODO: Convert to file-local cross-reference when the destination is
-> -   translated.
->  
->  1 つのパッチでは 1 つの問題だけを解決してください。記述が長くなり
->  始めたら、パッチを分割すべきサインです。詳細は `変更を分割する`_ を
-> @@ -343,11 +340,8 @@ Documentation/process/email-clients.rst を参照してください。
->  ときにはレビューアが機嫌を損ねることもあります。そのような場合でも、
->  丁寧に応答し、指摘された問題に対応してください。次の版を送る際には、
->  カバーレターまたは個々のパッチに ``patch changelog`` を追加し、前回の
-> -投稿との差分を説明してください。詳細は原文の該当節
-> -("The canonical patch format") を参照してください。
-> +投稿との差分を説明してください。詳細は :ref:`jp_the_canonical_patch_format` を参照してください。
->  
-> -.. TODO: Convert to file-local cross-reference when the destination is
-> -   translated.
->  
->  あなたのパッチにコメントしてくれた人たちは、パッチの Cc リストに追加して
->  新しい版について知らせてください。
-> @@ -688,3 +682,101 @@ Documentation/process/stable-kernel-rules.rst を参照してください。
->  最後に、タグを付けることは歓迎され、通常は非常にありがたいものですが、
->  署名者（すなわち、提出者およびメンテナー）は、提示されたタグを
->  適用するかどうかを自身の判断で決めることができます。
-> +
-> +.. _jp_tagging_people:
-> +
-> +人をタグ付けするには許可が必要
-> +--------------------------------
-> +
-> +前述のタグをパッチに追加する際は注意してください。``Cc:``、
-> +``Reported-by:``、``Suggested-by:`` を除くすべてのタグには、
-> +名前を記載される本人の明示的な許可が必要です。これら三つのタグについては、
-> +lore のアーカイブやコミット履歴から、その人が同じ名前とメールアドレスで
-> +Linux カーネルに貢献していることを確認できれば、黙示的な許可で十分です。
-> +ただし、``Reported-by:`` と ``Suggested-by:`` については、
-> +その人が報告や提案を公開の場で行っている必要もあります。
-> +
-> +なお、bugzilla.kernel.org は、この意味では公開の場とみなされますが、
-> +そこで使用されるメールアドレスは非公開情報です。その人が過去の貢献で
-> +同じメールアドレスを使用していない限り、タグに記載して公開してはいけません。
-> +
-> +.. _jp_the_canonical_patch_format:
-> +
-> +標準的なパッチ形式
-> +------------------
-> +
-> +この節では、パッチ自体の形式を説明します。パッチを ``git`` リポジトリで
-> +管理している場合は、``git format-patch`` で適切な形式のパッチを
-> +生成できます。ただし、必要な説明文までツールで作成できるわけでは
-> +ありません。そのため、以下の説明にも目を通してください。
-> +
-> +件名行
-> +^^^^^^
-> +
-> +標準的なパッチの件名行は次の形式です::
-> +
-> +    Subject: [PATCH 001/123] subsystem: summary phrase
-> +
-> +標準的なパッチメールの本文には、次の要素が含まれます。
-> +
-> +  - パッチの作者を示す ``from`` 行と、その後の空行
-> +    （パッチの送信者と作者が異なる場合にのみ必要です）。
-> +
-> +  - このパッチの説明として恒久的な変更履歴に記録される本文。
-> +    1 行を 75 桁以内で折り返します。
-> +
-> +  - 空行。
-> +
-> +  - 前述の ``Signed-off-by:`` 行。これも変更履歴に記録されます。
-> +
-> +  - ``---`` だけを記載した区切り行。
-> +
-> +  - 変更履歴に含めるのが適切でない追加のコメント。
-> +
-> +  - 実際のパッチ（``diff`` の出力）。
-> +
-> +件名行をこの形式にすると、メールを件名のアルファベット順に
-> +並べ替えることが非常に簡単になります。ほぼすべてのメールソフトが
+> --
+> 
+> ice: dpll: serialize changes of the SyncE CGU registers
+> 
+> This patch adds a cgu_synce_lock mutex to struct ice_adapter, which all
+> E825C PFs share. It holds that lock around the CGU R10/R11
+> read-modify-write sequences in ice_dpll_synce_update_e825c(), and around
+> the ice_tspll_cfg_synce_ethdiv_e825c() call in ice_ptp_link_change().
+> 
+>> ice_ptp_link_change() does not hold dpll_lock, so it can already overwrite
+>> an update of another PF. RCLK callbacks are serialized by dpll_lock, but
+>> the DPLL core is going to serialize callbacks per (module, clock_id), and
+>> each complex has its own DSN and so its own clock_id. With that change, a
+>> test toggling RCLK pins of both complexes lost an update.
+> 
+> [ ... ]
+> 
+>> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+> 
+> [Severity: Low]
+> Should this patch have a Fixes: tag?
 
-My interpretation of original sentence is closer to the following:
+[...]
 
-  件名行をこの形式にすると、メールの並び替えを件名のアルファベット順で
-  容易にできます。というのも、ほぼすべてのメールソフトが
+> Another option is to split this patch out of the series and send it to
+> net.
+Done, the patch went to net with this tag:
 
-> +この並べ替えに対応しており、連番がゼロ埋めされているため、
-> +数値順とアルファベット順の並びが一致します。
-> +
-> +件名の ``subsystem`` には、パッチの対象となるカーネル内の領域や
-> +サブシステムを指定してください。
-> +
-> +件名の ``summary phrase`` には、メールに含まれるパッチの内容を
-> +簡潔に記述してください。ファイル名を使ってはいけません。また、
-> +一連のパッチシリーズ（関連する複数のパッチを順序付けたもの）の
-> +すべてに同じ ``summary phrase`` を使わないでください。
-> +
-> +メールの ``summary phrase`` は、そのパッチを識別するための
-> +世界的に一意な識別子になることに注意してください。これは ``git`` の
+https://lore.kernel.org/netdev/20261110094350.184185-1-ivecera@redhat.com/
 
-I'd say "大域的" for "global".
+v2 of this series drops it.
 
-> +変更履歴にも記録され、その後の開発者間の議論でパッチを参照する際に
-> +使われることがあります。パッチについての議論を調べるために、
-> +``summary phrase`` で Web 検索する人もいるでしょう。また、
-> +2 ～ 3 か月後に ``gitk`` や ``git log --oneline`` などで
-> +数千件ものパッチを確認するとき、すぐに目に入る情報が
-> +``summary phrase`` だけという場合もあります。
-> +
-> +このため、``summary`` は 70 ～ 75 文字以内とし、パッチが
-> +**何を変更するのか** と **なぜその変更が必要なのか** の両方を
-> +説明する必要があります。簡潔さと説明の十分さを両立させるのは
-> +簡単ではありませんが、適切な要約にはその両方が求められます。
-> +
-> +``summary phrase`` の前には、角括弧で囲んだタグを付けることができます。
-> +たとえば ``Subject: [PATCH <tag>...] <summary phrase>`` の形式です。
-> +これらのタグは要約の一部とはみなされず、パッチをどのように
-> +扱うべきかを示します。一般的なタグには、コメントを受けて
-> +複数の版を送信した場合のバージョン番号（``v1``、``v2``、``v3`` など）や、
-> +意見を求めることを示す ``RFC`` などがあります。
-> +
-> +パッチシリーズが四つのパッチで構成される場合は、各パッチに
-> +``1/4``、``2/4``、``3/4``、``4/4`` のように番号を付けられます。
-> +これにより、開発者はパッチを適用する順序を把握でき、
-> +シリーズ内のすべてのパッチをレビューまたは適用したか確認できます。
-> +
-> +適切な件名の例を以下に示します::
-> +
-> +    Subject: [PATCH 2/5] ext2: improve scalability of bitmap searching
-> +    Subject: [PATCH v2 01/27] x86: fix eflags tracking
-> +    Subject: [PATCH v2] sub/sys: Condensed patch summary
-> +    Subject: [PATCH v2 M/N] sub/sys: Condensed patch summary
+Thanks,
+Ivan
 
-Thanks, Akira
