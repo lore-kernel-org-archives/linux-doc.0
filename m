@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794394634;
-	b=0Hw+YPBEjfmqysYbYZEsJme93PSTPnMHrMC/rYjvFDBiYIbu914p7MUFcKCKb4/uD5mE
-	 lknWsofxXj7oIVvUg25QDDYrqXlyyi8lY8fGkURQJtZDZFB6pvKHTpVD2Iblh1lJZdt+N
-	 1DboQ04VfZVdEKIxujsfdtEAdaXi7qbNGWKvFJaWNXesA0voEtXZfSnKILTATDS3tsGCP
-	 DQ/HzfKR4csjpoAxmq2KIPJSNBxbwRp81QfYN1Mh3Uxrew7nUslZik9P3S7bYE16rx//m
-	 0pKLyyZ97LzhwikLJZkMWvwMhZIgugmdxVaYJJzgXhC0XyjydoO5f58sK4E19QjAk7g==
+	t=1794394730;
+	b=1dSVHaAoW98TvW1HhlPgbFwqGrzbuJxblUvW3+4LvgI+Tcps9QiAUUh1gn8u1l5bIyV5
+	 v50NTZlofWUnWBYGgApRsafswdfCGl+dZE0zJMTFcOnF6qdaWbHRX6g+DzDnhOx89m9pT
+	 389FYs7vVZl1zfW9ZZEgXUsMmyzr4tWhciUR6VkaT2LBa3bdov1tbwldV5t1cLs7WBO/p
+	 ejQwAzpojykPn2/UhBdC2YV/3x6iycYmJH+ciOqWBnyNQH6fHobHgdYq0Mgg44CQcO99v
+	 OtIxxJfDQA5Lxanizbn4OWaCp+IF+FjyG4ghbSebWUKbCO8ZKk1mq6k94iVuXtFS5tg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794394634;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794394730;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=y71I2g5CiY6ZLFtOOjFefsyXa2Y2V1HXYev8hBP6Jd4=;
-	b=PzqPhI/B8EA6fSQQL1yftBmMSvjINGy4kGSJV2u5YtUqPczGe6Ik7bKZ0o9DE0R9RVt+
-	 aLOCWEYTyXa+5QbUQjTX0mLJosaj3/XIY0xFXscG+bYUyn5jFLnB7AhypSLesBkaW3kgx
-	 3x1/An9whXhIhDOiuSlttQYncRuHhbJNtZrAinzhM46QqbGM6EJ/fGddhZZeV0/B/8icg
-	 iN82cBN8lfc2yA3ssl8S6hpW5Gom6c8Hafyv9OWjunQWNAJr2Pz7wtd32Ek4FhGcxQATf
-	 SgL1xP+90yoj4JlDRSvX8ljD4po7a5JpYQA5xPdOfPplkq/dYf0hzMm6lCW4/KjxV1w==
+	bh=Ihetc2DxDCVVTHEoFYuGdLd4AvFTx8i+2f03biFLNnc=;
+	b=mzV1RkSTWFCtsjLTHjmaPsY/3hIOaAnOPoaGlhf+tbWHlAq8/2OduOfiQm7S7NcnSZrc
+	 UwasoLaXmdbQaWi174+GykWzabP0w3GzlHpxZIagORLhSRV8kQIY/4PJ9cWhjOeCk9ZcC
+	 i4deHl4wWoTkRG2hD4P8IAYJ9WWKcQh/qPfO1ZEPYIhgdFl6+H1Rs0kJ1k/xFyx6YCUao
+	 nXk0izGkxn0WfCNIiLW356rooJSKIwTP+8bY4MByG38tWqx6UJrPpGuTyI/VRJVdQ7qX6
+	 u6f9fC3Pi3H0j4zX9gTU9f/XbGMgY4paTY+QUZ9SzuSVYeSsJ4yfq/fQ/MejNi8/MQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LJcz3i2L;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=d8dnlWCt;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49E5606A321
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:57:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A49E5606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE928606A324
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:58:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE928606A324
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=LJcz3i2L
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=d8dnlWCt
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794394632;
+	s=mimecast20190719; t=1794394728;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=y71I2g5CiY6ZLFtOOjFefsyXa2Y2V1HXYev8hBP6Jd4=;
-	b=LJcz3i2L3K2BBo4ahQLJAfzdjdNtDuB0P5x1fyq9oRGFJsvsu0KNYquhiAj4gMl5weB1CM
-	IWtDF8ao6daFvIPurkPa/ce8FWBdvAADaRy/nDXcE6hdkw02/b9H2+dYwzVYJmnOjn9gXk
-	HHEioKqJ+wcugjuPb/vQJEfEbndSmJA=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+	bh=Ihetc2DxDCVVTHEoFYuGdLd4AvFTx8i+2f03biFLNnc=;
+	b=d8dnlWCtsmXWFzSobKkj5jXct0X2mK7Hq2KnkRDOZl+UmlfbVcQmCIU+kKUSC2oKaAdsqB
+	1Di84e6g7dRhYmCrrieYvCx0bsWf6ZzHi0Mr/Oq7mOl0tmU50tQMDM3go11eSx78qBgqTb
+	QAw7014+ARoXI1hMHULqpL4TvQZXXB8=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-2-VSeC4wBmMpOyp6eJ7S0wcA-1; Wed,
- 11 Nov 2026 05:57:09 -0500
-X-MC-Unique: VSeC4wBmMpOyp6eJ7S0wcA-1
-X-Mimecast-MFC-AGG-ID: VSeC4wBmMpOyp6eJ7S0wcA_1794394625
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-623-_cNDg14-MKmcaMnxWv85kg-1; Wed,
+ 11 Nov 2026 05:58:45 -0500
+X-MC-Unique: _cNDg14-MKmcaMnxWv85kg-1
+X-Mimecast-MFC-AGG-ID: _cNDg14-MKmcaMnxWv85kg_1794394722
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8C3941955F18;
-	Wed, 11 Nov 2026 10:57:05 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 398A51955F6D;
+	Wed, 11 Nov 2026 10:58:42 +0000 (UTC)
 Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 2DD8C19634EF;
-	Wed, 11 Nov 2026 10:56:58 +0000 (UTC)
-Message-ID: <47221876-07a8-46c1-86f7-552402a8d5a9@redhat.com>
-Date: Wed, 11 Nov 2026 11:56:56 +0100
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BD9F718004FC;
+	Wed, 11 Nov 2026 10:58:35 +0000 (UTC)
+Message-ID: <38e49109-be77-4f81-a663-276c0e6301c0@redhat.com>
+Date: Wed, 11 Nov 2026 11:58:34 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,8 +72,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 02/10] ice: dpll: serialize changes of the SyncE
- CGU registers
+Subject: Re: [PATCH net-next 03/10] dpll: add domain object
 To: netdev-bot+sashiko@kernel.org
 Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, corbet@lwn.net,
@@ -85,14 +84,14 @@ Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
  intel-wired-lan@lists.osuosl.org, grzegorz.nitka@intel.com,
  karol.kolacinski@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
  poros@redhat.com
-References: <20261106121005.1327603-3-ivecera@redhat.com>
- <179433320107.994134.16333323653199953270@kernel.org>
+References: <20261106121005.1327603-4-ivecera@redhat.com>
+ <179433320288.994134.11961533455589849486@kernel.org>
 Content-Language: en-US
 From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <179433320107.994134.16333323653199953270@kernel.org>
+In-Reply-To: <179433320288.994134.11961533455589849486@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
 On 11/10/26 18:53, netdev-bot+sashiko@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found more severe
@@ -101,40 +100,45 @@ On 11/10/26 18:53, netdev-bot+sashiko@kernel.org wrote:
 > 
 > Low priority / nit picks for your consideration:
 > 
-> - [Low] The commit fixes a race that already exists in the tree, but it
->    has no Fixes: tag and no stable Cc.
+> - [Low] The comment on `lock` in the new struct dpll_domain
+>    (drivers/dpll/dpll_core.h) says it "Serializes the driver callbacks of…
 > 
 > --
 > 
-> ice: dpll: serialize changes of the SyncE CGU registers
+> dpll: add domain object
 > 
-> This patch adds a cgu_synce_lock mutex to struct ice_adapter, which all
-> E825C PFs share. It holds that lock around the CGU R10/R11
-> read-modify-write sequences in ice_dpll_synce_update_e825c(), and around
-> the ice_tspll_cfg_synce_ethdiv_e825c() call in ice_ptp_link_change().
+> This commit adds struct dpll_domain, which groups all dpll devices and
+> pins created with the same (module, clock_id) pair. Domains are
+> refcounted, stored in an xarray and freed along with their last object.
+> It prepares for serializing driver callbacks per driver instance instead
+> of under the global dpll_lock, and states no functional change.
 > 
->> ice_ptp_link_change() does not hold dpll_lock, so it can already overwrite
->> an update of another PF. RCLK callbacks are serialized by dpll_lock, but
->> the DPLL core is going to serialize callbacks per (module, clock_id), and
->> each complex has its own DSN and so its own clock_id. With that change, a
->> test toggling RCLK pins of both complexes lost an update.
+>> diff --git a/drivers/dpll/dpll_core.h b/drivers/dpll/dpll_core.h
+>> index da8a369556ed1..6705e81bc11de 100644
+>> --- a/drivers/dpll/dpll_core.h
+>> +++ b/drivers/dpll/dpll_core.h
 > 
 > [ ... ]
 > 
->> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+>> +struct dpll_domain {
+>> +	u32 id;
+>> +	u64 clock_id;
+>> +	struct module *module;
+>> +	refcount_t refcount;
+>> +	/* Serializes the driver callbacks of all DPLL devices and pins
+>> +	 * that share one (module, clock_id) pair.
+>> +	 */
+>> +	struct mutex lock;
 > 
 > [Severity: Low]
-> Should this patch have a Fixes: tag?
+> This isn't a bug, but is this comment accurate at this point in the
+> series?
 
 [...]
-
-> Another option is to split this patch out of the series and send it to
-> net.
-Done, the patch went to net with this tag:
-
-https://lore.kernel.org/netdev/20261110094350.184185-1-ivecera@redhat.com/
-
-v2 of this series drops it.
+> Could the comment say the lock will serialize the callbacks, or could it
+> be added in the patch that starts taking the lock?
+Right, nothing takes it before patch 4. In v2 the lock will be added by the
+patch that starts taking it.
 
 Thanks,
 Ivan
