@@ -1,104 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794403965;
-	b=X3GKu9AJCDNm4rh1uPmEkkiS6cDUFmRgvSgAvtfHCz5aZX8dznZ08L2FdpkyHaT7dgKa
-	 QckUrx/1jCdXcwC1gxTc5lMhqb3Aay6spF1jZ15VT5nrl2sLKuNU0kJyIGTuMf9lNKasO
-	 Srwv56DwoPMdthoOZofg5sx6ZxpoOX4kjA594Q0cM2qvMgbEfPI+eXcKstMF3TFM9CFub
-	 sLb3EOEzKjpABqNPAT9ZK+EfibwbVGnnc7t2v2wUOkBflG2WWWy2LJEfsXJ9WorphJdY1
-	 hsMiSygZCeyFVjU1wGtpNfXduC8ufCCnFUkAvGWDlusI/Zao6ifNIS519rdgdefaDBw==
+	t=1794404253;
+	b=AIckC/+1tghZYJJzTNtUAnuvSVspi8lovAYamPogwIiu1AIiq81FMHuBH2oqz+u1XYBw
+	 0d5pOPEtToSE4ZTfZ8obomDURCT20uMGUax2ZwgXggn1oueG2LD6F10WwIL7Ed6rCmdj7
+	 j+fP2337k0YJ75Csb3sJV7AHaQtth6ysp2AiZeBvaJdoDc5zp9TPNtZ08ZWebdLA5+t5L
+	 6yZoTlAE9Sfu7mavA3Sy+XF6Zf/Si/PqwOCB4ENxHqDj9lI+e5nBrhJYXaXeZr1pT3Tce
+	 8cxG4cdLFdmyrCkSbSUlPtL44jJ6/W2bpZ4snCMg3iVPHxMJFAjmaWbioAsLpmYbUxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794403965;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Rspamd-Queue-Id:
-	 X-Spam-Level:X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:
-	 X-Spamd-Result:X-Spam-Score;
-	bh=e7z68HpmiXeC9H97zBTrax0xsqzXKKitlWH4KRxwk6M=;
-	b=3Em8H2hRZXDOUsRyVK7LFSbiN3WTSwa0v2ukCAKjg0Oky1MQNpAWQVn0u076R0WSTetd
-	 z8lBTaBT7DcYK5PRJpb3dtF1o6IWgttE5Bhm0ymm6COD5KHpcN4V9Y8RaoVkb44avcchU
-	 kFVfjjeuix8jI5NVSmP3D/s61/RYbLKqIkwq9D02sHjTiV2CEYle1XGy3dsp54SIZAnaQ
-	 B9h1yBJbzWn1nv8AfW02w58mydCRG65Fx0f3n+Wh6IhJT8DkxJNmXMgJkHnQBhMBnzmVT
-	 qg0QXU9ucwJzoPulE/E7xvCwDD1Sd5kGebVUWFyn8UMPDi6ayG9wpxZYq2CQnhQbwgQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794404253;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=v/XnkVND7TsTxq/odAIiRN0hPdLg6CJMukesjiTzxG0=;
+	b=oBc43BA8CRvcb+zsP2i6P/jcVXZYgkIvcdUI7x03eqpb31mO0TtcXVV31Jmqs8CWf6x6
+	 zf9clETbnOtXMpdgLTVVIrv96nBUFr/CGZdhCzkK7PihS2YdJId9tAFW3CDOhkMIHCvkk
+	 9ym/FbnYbpkzu8c7jNppggdo71dxuDrTNlCsBf4nsQHFGfi2ni/JQ/H34H1Qt9x2cCYj/
+	 Z7N0sMdL/xJNacY2iZJmQL8Um7KvYBWOCFilsK2IPIXSVQdORBgeGY0qchcUqTzgya6Y/
+	 YNHwAlD0J0bHb1d+V7AvXL/D3rATEJlQ5QDH19lJjR6BdoPJoAhoUiJAl28N3IFs/Eg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=oV7sNpKt;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wKzYBZSN;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TcAGs3Pe;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=MLamnDrL;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=VDRY8Wi5;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=nRWpizR8;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A74A9606A31C;
-	Wed, 11 Nov 2026 13:32:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A74A9606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A30E4606A324;
+	Wed, 11 Nov 2026 13:37:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A30E4606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=oV7sNpKt;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=wKzYBZSN;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=TcAGs3Pe;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=MLamnDrL
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 6EA5C5C5A3;
-	Wed, 11 Nov 2026 13:32:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794403963; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=e7z68HpmiXeC9H97zBTrax0xsqzXKKitlWH4KRxwk6M=;
-	b=oV7sNpKtQUP+XCrIwJ9vmr1a/hIepyee8rtAOnqs4b7Bp55cpy9BErfQX+GcH1K8BX0HjU
-	ZyF2NHu6MXecMZwMFed3qrbYecZ8GG1sYZj1bM4/P3Ubgi21ohSabzJG28V0gW91t4FohR
-	Q4bYbaE8oUPLJwrbIQeYoTu3OeSUGGo=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794403963;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=e7z68HpmiXeC9H97zBTrax0xsqzXKKitlWH4KRxwk6M=;
-	b=wKzYBZSNql2bQTGND4h0zHEXCHdVSvZ8x6LQOjYo3SUjFjCC1N7DaxtNSdJXVoNVXEQ52B
-	tt62tMDdUyrJCLCw==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=TcAGs3Pe;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MLamnDrL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794403961; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=e7z68HpmiXeC9H97zBTrax0xsqzXKKitlWH4KRxwk6M=;
-	b=TcAGs3Pe811lw/I6rgmCFa7s4fN/gpO6QCTfA/tt2KjxBubX8zN/sgYf31N+7m5WEJtoKX
-	//N1ixFYnotItdt07vEZNmoVisQQZZVGcBsAEOCdUQQE8uYC3zD3ftgoKXKnyUiFPov1Ux
-	lRms4Uyb3TRJ3z/c8XHsMcFCizyDgOE=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794403961;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=e7z68HpmiXeC9H97zBTrax0xsqzXKKitlWH4KRxwk6M=;
-	b=MLamnDrLzMYlNR9eKOxS4pqe/b7Zevkh0gp9zi9Ho5Lszt1xFBs6edOzQ4eYNbPbGn2XyU
-	i302lMispj/RtpBA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 97F3D1339F;
-	Wed, 11 Nov 2026 13:32:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id WJ5TEXhu9GpuVAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 11 Nov 2026 13:32:40 +0000
-Message-ID: <2d57015d-5ad3-4cfc-b001-2cbbbf9d7bfd@suse.de>
-Date: Wed, 11 Nov 2026 14:32:39 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=VDRY8Wi5;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=nRWpizR8
+Date: Wed, 11 Nov 2026 14:37:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794404249;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v/XnkVND7TsTxq/odAIiRN0hPdLg6CJMukesjiTzxG0=;
+	b=VDRY8Wi5Fq1KdkSK3JL+gYw/U7wHX8s34x4I28496P/84nz5jFPEWovH4HvFRE4K431Yqb
+	WUhJ18r+bUzDm3YgLQCzIqkLflkzv918A7op8hiiE4fJuIW+OcCZP1sEE+bGScVYl9GlIS
+	K8eQoF5O02skIuiGebVG1imDL/awdmxv/Atg/FilfE8Y/63sGQ9MjGrhB2VJHgi3V4n41D
+	D4l/4yLspxcxG6uSA2PT88EOLlCo2HeObO6smMmFzmMgYvr1GNdu2mspt6T3abx8jgszn4
+	WbZUyA9AWCfLlCmTwpsjpS4m/AYArEHVk9Eh5rjmMQxHQcRReoYgVV4jFbRu3Q==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794404249;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v/XnkVND7TsTxq/odAIiRN0hPdLg6CJMukesjiTzxG0=;
+	b=nRWpizR8cBGGwsexVShuXZ3RUsYyFkRJXV0Wkw3czjei+tSbqeK4CWUpLZKRgxJfk6c9rk
+	w1G639mgNacYXVDA==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+	John Ogness <john.ogness@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	luca abeni <luca.abeni@santannapisa.it>,
+	Yuri Andriaccio <yurand2000@gmail.com>,
+	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>,
+	Qais Yousef <qyousef@layalina.io>
+Subject: Re: [PATCH v2 1/7] sched: Mark RT_GROUP_SCHED broken
+Message-ID: <20261111133728.6RfqZWwx@linutronix.de>
+References: <20261110-sched_dl-v2-0-cc9399f7aeb1@linutronix.de>
+ <20261110-sched_dl-v2-1-cc9399f7aeb1@linutronix.de>
+ <1927ace7-86f4-463e-bdda-b3a5bc300eb2@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,147 +100,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/15] drm: docs: remove bootsplash from TODO
-To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
- Peter Jones <pjones@redhat.com>
-Cc: Francesco Valla <francesco@valla.it>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-embedded@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261027135342.2003632-1-maximpedraza@gmail.com>
- <20261027135342.2003632-7-maximpedraza@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20261027135342.2003632-7-maximpedraza@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 6EA5C5C5A3
-X-Spam-Level: 
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spamd-Result: default: False [-12.00 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	XM_UA_NO_VERSION(0.01)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,lwn.net,gmx.de,redhat.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	R_RATELIMIT(0.00)[to_ip_from(RLtokucttkpew6o6awf6ycppik)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,patchwork.freedesktop.org:url,valla.it:email,suse.de:dkim,suse.de:email]
-X-Spam-Score: -12.00
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1927ace7-86f4-463e-bdda-b3a5bc300eb2@infradead.org>
 
+On 2026-11-10 09:42:00 [-0800], Randy Dunlap wrote:
+> > --- a/Documentation/scheduler/sched-rt-group.rst
+> > +++ b/Documentation/scheduler/sched-rt-group.rst
+> > @@ -18,6 +18,11 @@ Real-Time group scheduling
+> >  0. WARNING
+> >  ==========
+> >  
+> > + This document applies to RT group scheduling provided by CONFIG_RT_GROUP_SCHED.
+> > + If you don't use, schedule real-time tasks and experience throttling issues
+> 
+> -ENOPARSE.  Is that:
+>     If you don't use or schedule real-time tasks and experience throttling issues,
+> 
+> 
+> 
+> > + please look into Documentation/scheduler/sched-deadline.rst and there for the
+> 
+>                                                                 for the
+> 
+> > + fair_server.
 
+Thank you. I have now:
 
-Am 27.10.26 um 14:53 schrieb Màxim Pedraza Padilla:
-> From: Francesco Valla <francesco@valla.it>
->
-> Now that a splash client exists, remove the bootsplash task from the
-> TODO list for the DRM subsystem.
->
-> Signed-off-by: Francesco Valla <francesco@valla.it>
-> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
+  If you don't use RT-group scheduling, schedule real-time tasks and experience
+  throttling issues please look into Documentation/scheduler/sched-deadline.rst
+  for the fair_server.
 
-Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-> ---
->   Documentation/gpu/todo.rst | 17 -----------------
->   1 file changed, 17 deletions(-)
->
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index e6d36f8da086..5e987e18bfcd 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -756,23 +756,6 @@ See drivers/gpu/drm/amd/display/TODO for tasks.
->   
->   Contact: Harry Wentland, Alex Deucher
->   
-> -Bootsplash
-> -==========
-> -
-> -There is support in place now for writing internal DRM clients making it
-> -possible to pick up the bootsplash work that was rejected because it was written
-> -for fbdev.
-> -
-> -- [v6,8/8] drm/client: Hack: Add bootsplash example
-> -  https://patchwork.freedesktop.org/patch/306579/
-> -
-> -- [RFC PATCH v2 00/13] Kernel based bootsplash
-> -  https://lore.kernel.org/r/20171213194755.3409-1-mstaudt@suse.de
-> -
-> -Contact: Sam Ravnborg
-> -
-> -Level: Advanced
-> -
->   Brightness handling on devices with multiple internal panels
->   ============================================================
->   
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
-
-
+Sebastian
