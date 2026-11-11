@@ -1,66 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.146
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794440210;
-	b=W6wdfiiKjVR+R926Z5QiYhKs6AxYV9X1NnVzS5dGMQzDUaK2HRgzmtG1g58v8Z0QAwnh
-	 Ez5Us9znBfcrR2gjJZrRcJkQo39ZGqXpMTdg26SDaWZE1S8W5yjsR30aXUMl5b1jXp0fc
-	 nsJHSr5d33eZM0W7E51evfCc8Lm0/Zcm37O1Zql887VrArl9GqvZEGAZVDfRVVUWxuveE
-	 mYl/k77PntgKLENBOU1sRekhof92CkWbISXzKdkP/zYu17lBVTAthgY4wYBbZVfA7Djpf
-	 zqmyLY5GRkdJoIJxO6jk4z2eg0zbs6fa7Nyx3lWn1QXIkebXC6kfp+YbjCLWNwwrq4A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794440210;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Subject:X-Change-ID:To:Cc:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Date:Message-Id;
-	bh=klPxEVlV5vJD8T8vgL/Cq3QGPhsTWJ6oYKoaaEvavVc=;
-	b=BTww1WppEhNu5wb2yTwXa4CvfSit/TC+Y9O98qSYKnGUeIIpDhtAkf0GfAASTSPrgSi5
-	 6Fp/YHzb201njvaW+SyTKgZJXEnJhsB+TC587wLvYmEa9Ya+OsZ/cwJ+VK8H6FYaLN3eW
-	 stsjVCDIZiVaSGi06WBfLY2RPoHG7IoLyIKkRTKfnUXsQTY1GUvO7wGTeTzuCvzgcnKhx
-	 +OTbl3M+buHje7Xjaw03z31u8kQ+EGivNKNlAzJbI0+ry+XNnNeMj5F2V/u29DBysCAMU
-	 GYMeED0YtM9/vxzH+wsZBiy0LtuZ7+8/7NUzm5hOY7f7Cnrvn1js/KpcVjDueU5wWpQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cressey.dev;
-	spf=pass smtp.mailfrom=cressey.dev;
-	dkim=pass header.d=cressey.dev header.i=@cressey.dev header.a=rsa-sha256 header.s=key1 header.b=q9eETb3J;
-	arc=none smtp.remote-ip=95.215.58.146
-Received: from mta1.migadu.com (out-146.mta1.migadu.com [95.215.58.146])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.41
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794440816;
+	b=ToFPCemC5+3K4LMunvaE0ljbEyUgSGSkNdkkRr10NS2yWVXsZG4esApFK7cQFvX+zw+u
+	 8KDFwiqBWrUxV1OvpajQ4LcbEZ6D9vsrbaH0SGrkTPE5AXIWwh5U9+wviCEDM733GwOGP
+	 iR+K8SCDUE1A0PNoOE7+ieHzudT4QW6WzLNbjgSU4dN4+P7zfYxEgH6Shs2K7XbM/L1Y5
+	 5S5GzGuQYZxO+wnFiwW6Sl7lFryYnIJs4MTISXj6YEcSGeuB0XA0POd4jZR/fJWpm1qcT
+	 X/0axPD1jwP9hcJmahs8rqJMURQfkLImdgNVPTifX6Upvg/NQTT0USx9gkVeodDJ9oA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794440816;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=qNTqvp880V1AzQPjbJWvL9f9zomucT2LF6ZlJcI1BTI=;
+	b=utuEaZgR2FkYJ6nZ0XGucwvlK8lofzOLTYqXEMgapWhneJNxZzxuLgG2SvrSOQxhhoBr
+	 4wJIJCDl9Tb5h3yd7d25H+ic8lCEPyLkR3jRYky/Q0hK5XTPTLfcjng4QXmj7da9rsnxq
+	 iJbpTrxhZZTOSoEo2e2MsABTTs+vlStur3lvAIvkKIpg+0Leo9DENngLQGnGfK1JDtlBV
+	 BSeZzPPxErJYZ8fNdjlVHy3Xazcf6neAX8guZ8pt+ECYnda5wEYLqxMGIiFikXYRcyQyg
+	 ZdUHEzfRAhuYJNJssTSnoZAUQZGLzntiSB4fd7vHwcvV7/p4GIHeTdmzJMPyvqHNadA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=cloudflare.com;
+	spf=pass smtp.mailfrom=cloudflare.com;
+	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=dac2R7p9;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.161.41
+Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC74606A324
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 23:36:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CC74606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cressey.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cressey.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F42606A32D
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 23:46:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06F42606A32D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cressey.dev header.i=@cressey.dev header.a=rsa-sha256 header.s=key1 header.b=q9eETb3J
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=jvnaHbrD3GKuc0kVTJXIvjvxRseCe9rmXMZmsYFOqy0=;
- c=simple/simple; d=cressey.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794440207; v=1; x=1795045007;
- b=q9eETb3JPeZxZBrD/mFXAIHDWksZmYd0/ZcBa/GduTVnJytZ6df6fPYIEd3Z07cXvInGRfpx
- gChdfr15HLgv4Kmt/D/KVNYn2Ss4mSLgA5UiEldYxzZrWOEt7TdrXuHEGZ7wNhQ6T2HRqOpJEfk
- yoDQ9pXEX5E4bdJz9qrQj0CtmjAUmK4y2XZKv7Dvx3aQk6fuD+Y+I0/7SdX4igt9STRdH1EzoPI
- 09j/k5GXaoqLDoeIpxkmhGMFU7v4tpqS8OouNKa1dwt/KjBHrjgskVwLD1dLpsBF6ELC8tnGhZn
- vJVQfDTnzf+gk1QWpn4EvWbhw/8kR4KwprNQVIXLZa2ew==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id dba58aabdcacc9cc;
-	Wed, 11 Nov 2026 23:36:47 +0000
-X-Mizu-Trace-ID: dba58aabdcacc9cc
-X-Migadu-Flow: FLOW_OUT
-From: Ben Cressey <ben@cressey.dev>
-Subject: [PATCH v2] PCI: Add ID@path device format for pci= parameters
-X-Change-ID: 20260919-pci-idpath-selector-2847a8afe92c
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-pci@vger.kernel.org, 
- =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
- Logan Gunthorpe <logang@deltatee.com>, Alex Williamson <alex@shazbot.org>, 
- Wei Wang <wei.w.wang@hotmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- "Anthony Vardaro (Anthropic)" <me@anthonyvardaro.com>
-X-Mailer: b4 0.15.2
+	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=dac2R7p9
+Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-705cb6cedd5so217997eaf.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 15:46:55 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794440815; cv=none;
+        d=google.com; s=arc-20260327;
+        b=pACodp0quzPvp7dMOBAMjEa6bDL1fynJ0zw5tU47Z5wc7PCbE/Frod+F+p1t6rlbwa
+         aoWYeeedIqK/gbmDupVOv7G/V1B+S3RQX9Xna7ndYZg3lebk2TGKBgkISIQGvqEtHmht
+         AK7QoCpoKg5yUDFwRS7nKZrx5ExIj25crtYrlvmx97dNAs19oVldn7r6EBNOZAGpslSb
+         MStU9jPLhwyHXqezHVYXwvdMCarfzlyqeTxTqa5mOAafMbMWp1FEYMibVeIe4l0IvpPV
+         3orgwFSIGHvgHTOR101AT/qXx0hPv4UQiCVUA2Djn+LFXgSFcrgG4fw1/hDdQklrE9UT
+         6zVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qNTqvp880V1AzQPjbJWvL9f9zomucT2LF6ZlJcI1BTI=;
+        fh=lp0eSv0NoMK0YK6HXQAAELqLSTwH6QJrUnE9M1PB93U=;
+        b=JfDCoKqaLdlbaZqVKDPRauYWEqSphzcoKpOSkUgkGNRaoolvPoHT3eXWBM3X72rEc2
+         jy7aZmH0CUR1/bspSRxSJxu/ZZjW6oo9ZxQcs58oc72EG4hBSa884flymk0LBnnG8zCW
+         InIvDshesLhiaSaQZ5F4p2Tc9OJzsEcbG281oHLwL/CyWL4cFXD6etdIb+vhwfOnVQyC
+         dAfYPNTJqGVeXRLQOmUgs7VkheA+NZuDyKA4BLXs4Qbhz5Ok15OLtVuD85+z0WEcxqGe
+         YMt5unKEVW66pHLwxkLfo1fVS1c6k4nS/00EW76ULMtXIuE2nhTwnMWgunR8mUygAz75
+         2JBw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google09082023; t=1794440815; x=1795045615; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qNTqvp880V1AzQPjbJWvL9f9zomucT2LF6ZlJcI1BTI=;
+        b=dac2R7p9+cB5BEzTcZEC4UD5mSqiP31C+zHEerdXQhO9cW04nOmQ6IxCLJoufj2a4i
+         lIheF7foV3U82lvP4a7X/X1u109RkXk+aPRqcUGbxlqzgSjw0NEkdBiwN8VRoSfL3BGV
+         neWl5celWXwE4ZCMZ0Sd6+YZMf5rgmhZ6Tm8AynGjTx4XoY9jcnbeHlnZXKJzrv82bWh
+         hCRsdmnAVPxYyjyboftLO0ldrMfAzyjeiPnkgeGqmWiI3koRt+qdfGCL0+gpKKt39cdB
+         JKrXQrL0w3C6Xu2BQAq0yY94+hFUHZUoqt9alAom/ErZsjCUjtrjuTTPTqPWxK+lfu1U
+         LGbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794440815; x=1795045615;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qNTqvp880V1AzQPjbJWvL9f9zomucT2LF6ZlJcI1BTI=;
+        b=CoGy+WZuGEMc3pBQGHk0b9hGl3AvZVRy2JFdgBB3xlnKT0tAgIhIqhbmT76BqOf/vu
+         gKa+RdihbTqKU5A372QAeQLL9Cb/oj3PQ0v9MXETUznOhS767w9rwO9Cu9P48c2/MzwC
+         gznCtGn9zfs6heKp71DK7LMCfR4f4RocwRgGwgTUwfwzwsM/XYzFlUhsnr7qtIoO+w1H
+         PgnSQ/pETeDmDqYPCdOvgzDtwAVXFJkz8OIEkbWB6L76YBDzZGIN/rqSThF/tNjuOfLo
+         QInAQjX+E3DXlieoyRi5rd6zecb0Nk5ERaVSSpMnBc38WFC1pUMK6oVvIIE5aTw/CJj8
+         TeyA==
+X-Forwarded-Encrypted: i=1; AL+hErFLHOaOVC8Lb1un3tHDpTATQ7RFxv5WXK4hHDdKTz3dddY6Qv3Mo1gBZI1D8QyaARWHsmY27DhgwyQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Ql6ikaY4KxxjeNXyD7g0E+FzL+1TIvGZjiZa7+JDiXSjhtH7l
+	ppksOx/dObqMJyNITmM1IliFNxYVepL54RLXbuPbOH/i5QpwbrLf+DYn4PTju9jKWdx+dP0FUgx
+	XelcykURakeaMBebNoPydCGhhv4ktaTVUalCndp1yIQ==
+X-Gm-Gg: AYBFou2ofnzs3oR16DWERiV0oZy+TJ/IfX80se9yOiC/rHOUX+K8mJUwQAZ3BxefuGi
+	ef87dq3rgHImFL2Pbpx4+xjcrnwL6Yh1drLnyznI/y5EhRUhrXgj6svc7FqPYh4XZBrpkeqZ+4y
+	9inaRXL7+c3XL1o5nwzHMISYTjpKoTvJ5j9a95s7K3Q5DIxQp4Z/dpF6LugQiGrAMbmJLBrn+lt
+	4zPA9Ob8y+JZYiZc4KvWrknCme77izkf6o1jP3K6DIviROeRe1ZWBuofK30JZB1qRCZ14NsFEHC
+	+/f+1pKirOvGKMbJxPFLOd1KWn/GDhrZPMh03Rg82pDIoxGnI9eMTp8ap+TLXxV1NzWKJCPKsir
+	45nrAKjfYtqYDt+xnb8bsgDkq0P0zp0d4pJlHdMHzItWvLchFBgW9sVN6I5IdJLz8m+SG+mArDP
+	K0G/sTOcfmDw==
+X-Received: by 2002:a05:6820:f004:b0:719:1627:6c16 with SMTP id
+ 006d021491bc7-7196b62ab2dmr743911eaf.12.1794440810117; Wed, 11 Nov 2026
+ 15:46:50 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,154 +104,85 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Date: Wed, 11 Nov 2026 15:36:31 -0800
-Message-Id: <20261111-pci-idpath-selector-v2-1-83ea668e38f0@cressey.dev>
+References: <cover.1794281983.git.tianyi@cloudflare.com> <avOvI8xrHI0dwyHj@devvm16445.scu0.facebook.com>
+ <CAG4wq-egD55NZDw+OKVKTKN2tQJ9oKEC504wFv=xoMXyJ-0z4g@mail.gmail.com> <avTqb--WfUNBcEyN@devvm16445.scu0.facebook.com>
+In-Reply-To: <avTqb--WfUNBcEyN@devvm16445.scu0.facebook.com>
+From: Tianyi Gao <tianyi@cloudflare.com>
+Date: Wed, 11 Nov 2026 23:46:39 +0000
+X-Gm-Features: AclHuK98I8l2CyqIug_hRhhYiDHFe7Xrim7_SwhM5rRiI9ms5coKAG0rV8Jl2JY
+Message-ID: <CAG4wq-dw8VqiVTbi-fSJTnwj+amkfE_56ndKCYk4v31z2ppcTA@mail.gmail.com>
+Subject: Re: [PATCH bpf-next 00/15] xdp: add SKB core extensions to keep RX
+ metadata until skb creation
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: bpf@vger.kernel.org, netdev@vger.kernel.org, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Jakub Kicinski <kuba@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Lorenzo Bianconi <lorenzo@kernel.org>, Vladimir Vdovin <deliran@verdict.gg>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Donald Hunter <donald.hunter@gmail.com>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
+	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Tushar Vyavahare <tushar.vyavahare@intel.com>, Jason Xing <kerneljasonxing@gmail.com>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, Madalin Bucur <madalin.bucur@nxp.com>, 
+	Ioana Ciornei <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Chris J Arges <carges@cloudflare.com>, 
+	Jakub Sitnicki <jakub@cloudflare.com>, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
+	llvm@lists.linux.dev, kernel-team@cloudflare.com
+Content-Type: text/plain; charset="UTF-8"
 
-The <pci_dev> grammar shared by pci=resource_alignment=,
-pci=disable_acs_redir= and pci=config_acs= names a device either by
-address, with an optional path, or by ID. When one command line serves
-more than one platform, neither form limits an entry to the intended
-device: an address applies to whatever occupies it on each platform, and
-an ID applies to every instance, such as all Downstream Ports of a
-switch rather than the one that needs different ACS settings.
+Hi Stanislav,
 
-Accept pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>, where
-<path> is the address format, and match only when both halves match. An
-entry written for one platform is then inert on another where that
-address holds a different device. For example,
+On 11/11, Stanislav Fomichev wrote:
+> My main concern is that we are adding a lot of code and one more
+> special way to plumb the metadata (and another metadata area), another
+> set of kfuncs
 
-  pci=config_acs=xx111x1@pci:10b5:8749@0000:80:02.0/00.0/08.0
+The RX metadata can be stale on XDP_PASS and lost on XDP_REDIRECT.
+There are already separate attempts to fix it:
 
-configures ACS on the Downstream Port at that path only if it is a
-PEX 8749 port.
+- the RX hash and the VLAN tag [1],
+- a checksum assertion [2],
+- the checksum invalidation that you suggested [3].
 
-The path goes last since pci_dev_str_match_path() consumes up to the
-next ';'. The IDs are compared first, and the path is parsed only for a
-device that matches them. The <order>@ and <flags>@ prefixes of
-resource_alignment and config_acs are stripped before
-pci_dev_str_match() is called, so the callers are unchanged.
+For me, the question is not whether to plumb the metadata, but how.
+It is not great to have fragmented mechanisms. The skb core extension
+area aims to unify them.
 
-Suggested-by: Wei Wang <wei.w.wang@hotmail.com>
-Signed-off-by: Ben Cressey <ben@cressey.dev>
----
-Changes in v2:
-- Compare the IDs first and walk the path only for a device that matches
-  them. An entry whose IDs do not match skips its path up to the next
-  ';', so that later entries are still read. Thanks to Wei Wang for the
-  review and the suggestion.
-  https://lore.kernel.org/r/SI2PR01MB4393779B4E590C6D76FD12A3DC822@SI2PR01MB4393.apcprd01.prod.exchangelabs.com
-- A malformed path is now an error only for a device that matches the
-  IDs. Any other device skips it.
-- Rebase onto v7.4-rc1.
-- Drop Anthony Vardaro's Reviewed-by, since the matching logic moved.
-- Drop the Assisted-by tag. The notes below say how tools were used.
-- Link to v1: https://lore.kernel.org/r/20260919-pci-idpath-selector-v1-1-5881de83f248@cressey.dev
+That is my view. What do you think is the best way to solve these
+problems?
 
-The ID comparison is assigned to ret with the same lines as Wei Wang's
-"[PATCH v10 3/6] PCI: Consolidate delimiter handling into
-pci_dev_str_match()". The two conflict in that hunk, whichever is
-applied second; on top of 3/6 the hunk is an 8-line insertion.
-https://lore.kernel.org/r/SI2PR01MB4393A855D592C1F484DEF778DC832@SI2PR01MB4393.apcprd01.prod.exchangelabs.com
+> and slowly creeping more features into xdp making it
+> more and more like skb.
 
-Tested under QEMU (TCG). Each of the three options selected only the
-intended one of several devices with the same ID, and a later entry
-still applied after one that did not match. The two ACS options were
-tested on Root Ports, since QEMU's switch ports have no ACS capability.
-v2 has not been run on hardware; the test on two server models in v1's
-notes was of v1.
+I will leave this to Jesper.
 
-An LLM wrote the patch, the changelog and these notes, wrote and ran
-the QEMU test, and ran W=1 builds of drivers/pci/ for x86_64 and arm64.
----
- Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++-
- drivers/pci/pci.c                               | 28 +++++++++++++++++++------
- 2 files changed, 31 insertions(+), 7 deletions(-)
+> For containers in general, and for fast af_/xdp, we seem to have been
+> moving into netkit with queue leasing. Maybe that's something that
+> can help with your veth performance?
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0b3c140babd9..12b91186a1ec 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5038,6 +5038,7 @@ Kernel parameters
- 
- 				[<domain>:]<bus>:<dev>.<func>[/<dev>.<func>]*
- 				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-+				pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
- 
- 				Note: the first format specifies a PCI
- 				bus/device/function address which may change
-@@ -5052,7 +5053,14 @@ Kernel parameters
- 				renumbering issues).  The second format
- 				selects devices using IDs from the
- 				configuration space which may match multiple
--				devices in the system.
-+				devices in the system.  The third format
-+				combines the first two: the device must
-+				match the IDs and also be at the address
-+				given by <path>, which takes the first
-+				format.  This allows an entry written for a
-+				device on one system to have no effect on
-+				another system where the same address is
-+				occupied by a different device.
- 
- 		earlydump	dump PCI config space before the kernel
- 				changes anything
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index 7c6f2aba8144..cd5b627da88d 100644
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -343,6 +343,7 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
-  *
-  *   [<domain>:]<bus>:<device>.<func>[/<device>.<func>]*
-  *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
-+ *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
-  *
-  * The first format specifies a PCI bus/device/function address which
-  * may change if new hardware is inserted, if motherboard firmware changes,
-@@ -359,6 +360,12 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
-  * legacy reasons and convenience so users don't have to specify
-  * FFFFFFFFs on the command line.)
-  *
-+ * The third format combines the first two: the device must match the IDs
-+ * and also be at the address given by <path>, which takes the first
-+ * format.  This allows a parameter written for a device at a known
-+ * address on one system to have no effect on another system where that
-+ * address is occupied by a different device.
-+ *
-  * Returns 1 if the string matches the device, 0 if it does not and
-  * a negative error code if the string cannot be parsed.
-  */
-@@ -385,12 +392,21 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
- 
- 		p += count;
- 
--		if ((!vendor || vendor == dev->vendor) &&
--		    (!device || device == dev->device) &&
--		    (!subsystem_vendor ||
--			    subsystem_vendor == dev->subsystem_vendor) &&
--		    (!subsystem_device ||
--			    subsystem_device == dev->subsystem_device))
-+		ret = (!vendor || vendor == dev->vendor) &&
-+		      (!device || device == dev->device) &&
-+		      (!subsystem_vendor ||
-+		       subsystem_vendor == dev->subsystem_vendor) &&
-+		      (!subsystem_device ||
-+		       subsystem_device == dev->subsystem_device);
-+
-+		/* Third format: the device must also be at <path> */
-+		if (ret && *p == '@')
-+			ret = pci_dev_str_match_path(dev, p + 1, &p);
-+		else if (*p == '@')
-+			p = strchrnul(p, ';');
-+		if (ret < 0)
-+			return ret;
-+		if (ret)
- 			goto found;
- 	} else {
- 		/*
+Thank you for the suggestion. Unfortunately, it does not fit our case.
+Our XDP program decides where each packet goes, from the inner
+headers after decap or even partial decryption [4]. Hardware queue
+steering cannot do this.
 
----
-base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
-change-id: 20260919-pci-idpath-selector-2847a8afe92c
+This series also covers cases without containers: XDP_PASS on the NIC
+and cpumap load balancing.
 
+[1] https://lore.kernel.org/all/175146824674.1421237.18351246421763677468.stgit@firesoul/
+[2] https://lore.kernel.org/all/20260630191510.81402-1-deliran@verdict.gg/
+[3] https://lore.kernel.org/all/amEojEGsIGkUjIWn@devvm7509.cco0.facebook.com/
+[4] https://lore.kernel.org/all/ca38f2ed-999f-4ce1-8035-8ee9247f27f2@kernel.org/
+
+Cheers,
+Tianyi
