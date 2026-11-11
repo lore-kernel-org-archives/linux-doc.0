@@ -1,104 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794404580;
-	b=1yrjpZf42c5LeifGArIcrDKOkj1hKCMerhyA035eGhlwq2Ncuxj83+q1zWUJCdN4s9Rm
-	 b1Eu5Q/ipusKzO1iNTNkEMEkIKIrS3JwRatxy+f9XnICa4Lya2exJJ8UCiTh6BwRHa0+c
-	 ybK8z+ZJod7xpWoNTx2KB7LvYdXNAYXWnx86hNEirLgLc5+i6uY6YVbGF097ZIemLo9Ay
-	 kCHut6Wm2WFymGpcqwRLytf/LTynFIuK/ClD1v1AkR2Tu5gZCv47dEpY9AvPrLrenZcOo
-	 GlMP22OkJhOEYHhdN90/dCzwmITSDWRMv1B5w//bLINBcHi0Ky2RvK8w9RAC3w0daTQ==
+	t=1794405102;
+	b=rIbPb6cwjQEQ1/vUTcQZxdiTg8WrsA7Jycwlpe6fgTTSxskQ57sv6jP/W8j2ldKs+s8R
+	 qeBpnY8+FyctvtWay/mSi2zHA9/dRvb3HVW8j0DrkbMFqzFJpKyNnC7KEPrZXhRO5nqz6
+	 BCIP81zG9wTJ9uZ3mki/jaGDZSwxyg+I8W1BUlmjtO5BWq4GQGUv8R8r94VWo7VjJq35s
+	 Bf/sm52g5Xt8leoJlhBVqR5dTKsg97VcIeV3jzNy5Ps07yhfhGWmWwtZq5to0T0GBpbjZ
+	 M9tERdAwGgx5trsILifQexjMzGs9ugjE0T2EChppE4HReasmXXsPPsqAqn5/5gYW72A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794404580;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spamd-Result:
-	 X-Rspamd-Server:X-Rspamd-Action:X-Spam-Flag:X-Spam-Score:X-Spam-Level:
-	 X-Rspamd-Queue-Id;
-	bh=gBW4ewbMTG6RG9hWValIfTxQoON66XUwaxu1E612AK0=;
-	b=VaIAg1habeILU8KEab0l6YC8eAz90GtM/D3rpCBbIiqAutFSWFYfhHlGv2H49BCWHHX2
-	 bOTHZLbI/9J+qVJZ3X9zgR60z5cFGPGKDYeJ3RALBUf/a2VCEF5rm1SfMrsto2LzgI5zN
-	 VNz3EJTWWoosPXHEmBpgS3Zze3whx0IMsqlyUz4WYWtWuJpHeLuGidRmUwvchlWLUnVtE
-	 AkercXBDts0jAMJQXXwcDWED2NOpvEtVQWfJU/+0qUIDnrgzjVftFPrKMk5o+FfUn6viM
-	 G/RPWao+7mLrOynMXfvT1BMGv3QXejHrHbmHKoGTgnDz+lEH/7C6RIhDGPEAGKGLt/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794405102;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=xdwgS6nFFPgGcnzDnviv3rlnY2N4c/xLYaETcsEp4NQ=;
+	b=bs+Xkr51kysk3PJEN6ZwfW/TLIz1cW46mHTlEWJleNWNGDlyuCXv230eBTUgDRlboWPo
+	 EBkOnjcRRTzY0R1wkELcle0CEoBRyqB6BE2yUt2mDZhdxjGjyucmFgssJ05WffS3pyPoe
+	 RkYl3027uyOANMDvvKOQsB1uPQh3PFArFA3Z2i60T7QD0Nk4KK7GNm637oCGKLbXTmdmm
+	 VipC3HyNY/SLGwm0EMIL8DLECxGM6V0at8bQnAIXI8FIpxrhoIZtp2wHgluBaKq9Ozgvp
+	 j49LKt/2fKt8DlS8MSipIx8QojYj+3aX/DeqqJhIgCdR9PKtCJcuaHzFC90Mz44n00Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nCJHLJSH;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HltmtrYc;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b="ZqMFgX/Y";
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=kSurVkYJ;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VOEM2LJj;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E871606A8A4;
-	Wed, 11 Nov 2026 13:42:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2E871606A8A4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C07CE606A321;
+	Wed, 11 Nov 2026 13:51:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=nCJHLJSH;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=HltmtrYc;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=ZqMFgX/Y;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=kSurVkYJ
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C1A005CD45;
-	Wed, 11 Nov 2026 13:42:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794404578; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gBW4ewbMTG6RG9hWValIfTxQoON66XUwaxu1E612AK0=;
-	b=nCJHLJSHmwetqnRekosDQH3pW0NXodCbj5AHXg2bajivqcMdFbHe3X+6Kjh4xwUS5C3riS
-	izaX5wyF4Mk8xdl+hnBkSZDsT6u1w61M4J5jG/80/dIkMQzLED0hAd4kPNsVIZAxb4XK0A
-	IOLwJYTgCtmax6j1TEYQFLDxXtzGpQU=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794404578;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gBW4ewbMTG6RG9hWValIfTxQoON66XUwaxu1E612AK0=;
-	b=HltmtrYcdBKzJla3QuYhHR3mK6Mfp6J1+2MNQ7gHSPMrZxiN6zGQTOCICr2XajaBlRP/aZ
-	EN0fc3nZkamHFzCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b="ZqMFgX/Y";
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=kSurVkYJ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794404577; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gBW4ewbMTG6RG9hWValIfTxQoON66XUwaxu1E612AK0=;
-	b=ZqMFgX/Ycvj0V6D7whtErBY4t0j61F7Nu9eWp7O8VRLMjoEgydkBWkFvMHQvzjw0Wqlk8w
-	kYMOo09J0n6vu0HQHcCkbToT10nnIhepXA5p9ZXrkwUp3AaTKXwuHT7uE4r3Gi5sjeE03b
-	/QEh4F7EVGf2SgUnUL84Olt3dwsjnPc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794404577;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=gBW4ewbMTG6RG9hWValIfTxQoON66XUwaxu1E612AK0=;
-	b=kSurVkYJsIz/A7tx1thcSWtnZkSFgZO/pTOaWGQqDfgiBUI4kYwZkS7txD7cR/aYOQgrVn
-	brOagByGJ553hdDA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id F01331339F;
-	Wed, 11 Nov 2026 13:42:56 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id utsxMeBw9GpeXwAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 11 Nov 2026 13:42:56 +0000
-Message-ID: <8eaf9955-485f-4908-bb65-1e0c3184fb36@suse.de>
-Date: Wed, 11 Nov 2026 14:42:56 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VOEM2LJj
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A051F00A05;
+	Wed, 11 Nov 2026 13:51:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794405102;
+	bh=xdwgS6nFFPgGcnzDnviv3rlnY2N4c/xLYaETcsEp4NQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=VOEM2LJjaiSVRyMdMxeRjb+JH91r76k7rrchf2Q0YlZ+O2d2YPHl8W2itpk5Q4d6R
+	 EN4Lsb9fdyI7lxf9Fppr5u7HCb4e3+gqojPwIuDYF37FlGyQV7XrxW52Hk4j9M6OMM
+	 t9JJofvC2SYkc0gjMtsd/X2lMkdGM9NGVsGH+xPAMoa5519oI6MjVJk4SoM76Vkcgn
+	 CL6u+hEBA/JiFSavEVYpXn03Gryo/ZEewXyZ486my9LGCMDVkSLlUzM/UgjxdFy8om
+	 C+VtmctaB0fgmgYcljhJF7toQT7a9XSmn5MzciMPq1dY9jOCJ8qjxhSPCGx7KsRsMW
+	 YyCCFPoUT0aaA==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Magnus Karlsson <magnus.karlsson@gmail.com>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
+ <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ Mina Almasry <almasrymina@google.com>, "Mike Marciniszyn (Meta)"
+ <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Nikolay
+ Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Alexander
+ Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 04/11] xsk: Allocate UMEM chunks through
+ page_pool
+In-Reply-To: <CAJ8uoz0gcQmqTPGBmNF6+WvWZHPOVRsPoEmTwG6WeOaq1vPxcg@mail.gmail.com>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-5-bjorn@kernel.org>
+ <CAJ8uoz0gcQmqTPGBmNF6+WvWZHPOVRsPoEmTwG6WeOaq1vPxcg@mail.gmail.com>
+Date: Wed, 11 Nov 2026 05:51:39 -0800
+Message-ID: <87wlqj8oic.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,216 +81,326 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 08/15] drm/client: splash: pick the image source in one
- place
-To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
- Peter Jones <pjones@redhat.com>
-Cc: Francesco Valla <francesco@valla.it>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Javier Martinez Canillas <javierm@redhat.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-embedded@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261027135342.2003632-1-maximpedraza@gmail.com>
- <20261027135342.2003632-9-maximpedraza@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20261027135342.2003632-9-maximpedraza@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-12.00 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	FREEMAIL_TO(0.00)[gmail.com,linux.intel.com,kernel.org,ffwll.ch,lwn.net,gmx.de,redhat.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TAGGED_RCPT(0.00)[dt];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:email,suse.de:dkim]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -12.00
-X-Spam-Level: 
-X-Rspamd-Queue-Id: C1A005CD45
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi
+Magnus Karlsson <magnus.karlsson@gmail.com> writes:
 
-Am 27.10.26 um 14:53 schrieb Màxim Pedraza Padilla:
-> The client chooses between two sources with a boolean: the BGRT if the
-> firmware left one, otherwise the BMP loaded as firmware. A third one is
-> coming, and with it an order of preference that a boolean cannot hold.
+> On Tue, 10 Nov 2026 at 12:26, Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> wr=
+ote:
+
+>> diff --git a/net/xdp/xsk.h b/net/xdp/xsk.h
+>> index 7c811b5cce76..4dab7b9a1487 100644
+>> --- a/net/xdp/xsk.h
+>> +++ b/net/xdp/xsk.h
+>> @@ -34,6 +34,12 @@ static inline struct xdp_sock *xdp_sk(struct sock *sk)
+>>
+>>  void xsk_map_try_sock_delete(struct xsk_map *map, struct xdp_sock *xs,
+>>                              struct xdp_sock __rcu **map_entry);
+>> +struct xsk_pp;
 >
-> Name the source in use with an enum, picked once by
-> drm_splash_pick_source(), and have drm_splash_image_load() switch on
-> it. No functional change.
+> How about a header file instead of a forward declaration?
+
+Thanks for taking a look, Magnus!
+
+Hmm, my take was this this was ont by itself sufficient for a header.
+Let me think about it, and I might add net/xdp/xsk_pp.h.
+
 >
-> Suggested-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Màxim Pedraza Padilla <maximpedraza@gmail.com>
-> ---
->   drivers/gpu/drm/clients/drm_splash.c | 45 +++++++++++++++++++++++-----
->   1 file changed, 38 insertions(+), 7 deletions(-)
+>> +extern const struct memory_provider_ops xsk_pp_ops;
+>> +
+>> +struct xsk_pp *xsk_pp_create(struct xsk_buff_pool *pool);
+>> +void xsk_pp_put(struct xsk_pp *pp);
+>>  void xsk_clear_pool_at_qid(struct net_device *dev, u16 queue_id);
+>>  int xsk_reg_pool_at_qid(struct net_device *dev, struct xsk_buff_pool *p=
+ool,
+>>                         u16 queue_id);
+>> diff --git a/net/xdp/xsk_pp.c b/net/xdp/xsk_pp.c
+>> new file mode 100644
+>> index 000000000000..fdd55265a6cd
+>> --- /dev/null
+>> +++ b/net/xdp/xsk_pp.c
+>> @@ -0,0 +1,246 @@
+>> +// SPDX-License-Identifier: GPL-2.0
+>> +/* AF_XDP UMEM as a page pool memory provider
+>> + *
+>> + * Each aligned UMEM chunk is a readable net_iov with one owner at a ti=
+me:
+>> + *
+>> + *   userspace --FILL--> page pool --release--> reuse --alloc--> page p=
+ool
+>> + *       ^                   |
+>> + *       +-----RX ring-------+
+>> + */
+>> +
+>> +#include <net/page_pool/helpers.h>
+>> +#include <net/page_pool/memory_provider.h>
+>> +#include <net/xdp_sock_drv.h>
+>> +
+>> +#include "xsk.h"
+>> +#include "xsk_queue.h"
+>> +
+>> +enum xsk_pp_chunk {
+>> +       XSK_PP_USER,    /* owned by userspace */
+>> +       XSK_PP_POOL,    /* owned by a page pool */
+>> +       XSK_PP_REUSE,   /* on the reuse stack */
+>> +};
+>> +
+>> +struct xsk_pp {
+>> +       struct net_iov_area area;
+>> +       struct xsk_buff_pool *pool;
+>> +       /* Protects fq, state and reuse */
+>> +       spinlock_t lock;
+>> +       struct xsk_queue *fq;
+>> +       refcount_t refs;
+>> +       u32 nr_pools;
+>> +       bool dma_need_sync;
+>> +       u8 *state;
+>> +       u32 reuse_cnt;
+>> +       u32 reuse[];
 >
-> diff --git a/drivers/gpu/drm/clients/drm_splash.c b/drivers/gpu/drm/clients/drm_splash.c
-> index 337c7160c4a1..911149b92a52 100644
-> --- a/drivers/gpu/drm/clients/drm_splash.c
-> +++ b/drivers/gpu/drm/clients/drm_splash.c
-> @@ -39,6 +39,16 @@
->    * a static image.
->    */
->   
-> +/*
-> + * Where the image comes from. drm_splash_pick_source() sets the order of
-> + * preference; NONE is zero, so that a new splash starts without a source.
-> + */
-> +enum drm_splash_source {
-> +	DRM_SPLASH_SRC_NONE,
-> +	DRM_SPLASH_SRC_BGRT,
-> +	DRM_SPLASH_SRC_BMP,
-
-I'd call this DRM_SPLASH_SRC_FW, because that's what you're loading 
-from.  Although the format is a BMP, BMP is also the format of BGRT.
-
-Patch 4 already mixed this up. Renaming the BMP names there to FW seems 
-sensible.
-
-The rest of the patch looks good.
-
-> +};
-> +
->   struct drm_splash_scanout {
->   	int id;
->   	/* Modesets scanning this buffer out, by position in the list */
-> @@ -87,7 +97,7 @@ struct drm_splash {
->   	const struct firmware *fw;
->   	void *map_data;
->   
-> -	bool use_bgrt;
-> +	enum drm_splash_source src;
->   };
->   
->   static struct drm_splash *client_to_drm_splash(struct drm_client_dev *client)
-> @@ -429,7 +439,7 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
->   		return -EINVAL;
->   	}
->   
-> -	if (splash->use_bgrt) {
-> +	if (splash->src == DRM_SPLASH_SRC_BGRT) {
->   		x_pad = efi_bgrt_image_offset_x();
->   		y_pad = efi_bgrt_image_offset_y();
->   
-> @@ -498,10 +508,31 @@ static int drm_splash_bmp_to_scanout(struct drm_splash *splash,
->   static int drm_splash_image_load(struct drm_splash *splash, const u8 **img_data,
->   				 size_t *img_data_len)
->   {
-> -	if (splash->use_bgrt)
-> +	switch (splash->src) {
-> +	case DRM_SPLASH_SRC_BGRT:
->   		return drm_splash_bgrt_load(splash, img_data, img_data_len);
-> +	case DRM_SPLASH_SRC_BMP:
-> +		return drm_splash_fw_load(splash, img_data, img_data_len);
-> +	case DRM_SPLASH_SRC_NONE:
-> +		break;
-> +	}
-> +
-> +	return -ENOENT;
-> +}
-> +
-> +/*
-> + * Pick the one source the image will come from: the BGRT is whatever the
-> + * firmware shows, and the BMP loaded as firmware is the fallback. With
-> + * neither, only the background colour is drawn.
-> + */
-> +static enum drm_splash_source drm_splash_pick_source(struct drm_splash *splash)
-> +{
-> +	if (drm_splash_bgrt_available(splash))
-> +		return DRM_SPLASH_SRC_BGRT;
-> +	if (IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_BMP))
-> +		return DRM_SPLASH_SRC_BMP;
->   
-> -	return drm_splash_fw_load(splash, img_data, img_data_len);
-> +	return DRM_SPLASH_SRC_NONE;
->   }
->   
->   /* At unregister, once nothing else can use the image */
-> @@ -818,10 +849,10 @@ static int drm_splash_client_hotplug(struct drm_client_dev *client)
->   
->   	if (!splash->source_picked) {
->   		splash->source_picked = true;
-> -		splash->use_bgrt = drm_splash_bgrt_available(splash);
-> +		splash->src = drm_splash_pick_source(splash);
->   
-> -		/* If no other image has been loaded, try to load a BMP as firmware */
-> -		if (IS_ENABLED(CONFIG_DRM_CLIENT_SPLASH_SRC_BMP) && !splash->use_bgrt) {
-> +		/* The BMP loaded as firmware is the only source that arrives later */
-> +		if (splash->src == DRM_SPLASH_SRC_BMP) {
->   			ret = drm_splash_fw_request_bmp(splash);
->   			splash->fw_requested = !ret;
->   			if (ret)
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
+> Is the reason that you have a reuse stack here and not use the one in
+> xsk_buff_pool that it only exists in unaligned mode, which you are not
+> supporting? Could you still use the "pre-calculated" heads in aligned
+> mode and link them up? There is already a xskb_list and free_list in
+> there that is used for that purpose. Just an idea that could cut down
+> the state and maybe the amount of code.
 
 
+Not quite. reuse is the counterpart of free_list, which aligned mode has
+too. But free_list links xdp_buff_xsk, and this mode has none: the page
+pool hands out net_iovs, and the driver has its own xdp_buff. Patch 5
+stops allocating the heads here: 128 bytes per chunk, against 69 for
+net_iov, reuse and state. devmem and zcrx use the same kind of index
+stack.
+
+free_list is also NAPI only, while the page pool releases chunks from
+process context too (below). And state is needed either way; it is what
+drops a FILL entry for a chunk the kernel still owns.
+
+
+>> +};
+>> +
+>> +static void xsk_pp_free(struct xsk_pp *pp)
+>> +{
+>> +       kvfree(pp->state);
+>> +       kvfree(pp->area.niovs);
+>> +       kvfree(pp);
+>> +}
+>> +
+>> +void xsk_pp_put(struct xsk_pp *pp)
+>> +{
+>> +       if (refcount_dec_and_test(&pp->refs))
+>> +               xsk_pp_free(pp);
+>> +}
+>> +
+>> +/* @pool must be DMA mapped and have aligned chunks. The provider must =
+be
+>> + * the only consumer of its FILL ring.
+>> + */
+>> +struct xsk_pp *xsk_pp_create(struct xsk_buff_pool *pool)
+>> +{
+>> +       struct net_iov *niov;
+>> +       struct xsk_pp *pp;
+>> +       dma_addr_t dma;
+>> +       u32 i;
+>> +
+>> +       pp =3D kvzalloc_flex(*pp, reuse, pool->heads_cnt, GFP_KERNEL_ACC=
+OUNT);
+>> +       if (!pp)
+>> +               return ERR_PTR(-ENOMEM);
+>> +
+>> +       pp->area.niovs =3D kvzalloc_objs(*pp->area.niovs, pool->heads_cn=
+t,
+>> +                                      GFP_KERNEL_ACCOUNT);
+>> +       pp->state =3D kvzalloc(pool->heads_cnt, GFP_KERNEL_ACCOUNT);
+>> +       if (!pp->area.niovs || !pp->state) {
+>> +               xsk_pp_free(pp);
+>> +               return ERR_PTR(-ENOMEM);
+>> +       }
+>> +
+>> +       pp->area.num_niovs =3D pool->heads_cnt;
+>> +       pp->area.niov_shift =3D pool->chunk_shift;
+>> +       pp->area.vaddr =3D pool->addrs;
+>> +       pp->pool =3D pool;
+>> +       pp->fq =3D pool->fq;
+>> +       pp->dma_need_sync =3D dma_dev_need_sync(pool->dev);
+>
+> Are you copying these for performance reasons, i.e. no extra pointer
+> dereference in the fast path? In the same manner as the pool copies
+> some information from the umem?
+
+Only dma_need_sync is a cache -- I'll drop that!
+
+fq stays. It's the provider's handle on FILL: unbind clears it under the
+lock (patch 5), so the provider stops reading FILL, while pool->fq stays
+with the socket for mmap, need_wakeup and copy mode until the ring is
+freed. The area fields are the generic net_iov_area that
+netmem_address() needs.
+
+Does that make sense?
+
+>> +       spin_lock_init(&pp->lock);
+>> +       refcount_set(&pp->refs, 1);
+>> +
+>> +       for (i =3D 0; i < pp->area.num_niovs; i++) {
+>> +               niov =3D &pp->area.niovs[i];
+>> +               dma =3D xp_raw_get_dma(pool, (u64)i << pool->chunk_shift=
+);
+>> +               net_iov_init(niov, &pp->area, NET_IOV_XSK);
+>> +               if (net_mp_niov_set_dma_addr(niov, dma)) {
+>> +                       xsk_pp_free(pp);
+>> +                       return ERR_PTR(-ERANGE);
+>> +               }
+>> +       }
+>> +
+>> +       return pp;
+>> +}
+>> +
+>> +static int xsk_pp_init(struct page_pool *pool)
+>> +{
+>> +       struct xsk_pp *pp =3D pool->mp_priv;
+>> +
+>> +       if (pool->p.order || pool->p.dma_dir !=3D DMA_BIDIRECTIONAL ||
+>> +           pool->p.dev !=3D pp->pool->dev)
+>> +               return -EINVAL;
+>> +       if (pool->p.max_len > pp->pool->chunk_size ||
+>> +           pool->p.offset > pp->pool->chunk_size - pool->p.max_len)
+>> +               return -EINVAL;
+>> +
+>> +       refcount_inc(&pp->refs);
+>> +       spin_lock_bh(&pp->lock);
+>> +       pp->nr_pools++;
+>
+> What is the difference between this counter and the refcount?
+
+refs is the lifetime of struct xsk_pp. The buffer pool holds one
+reference, and each page pool that takes the provider holds one. A page
+pool can outlive the socket, as page_pool_destroy() defers while buffers
+are in flight. The struct is freed with the last reference.
+
+nr_pools only tells whether a page pool still exists, when a failed bind
+(patch 5) hands the leftover chunks to copy mode. But the page pools of
+a failed bind never ran, and are gone by then, so a WARN on refs !=3D 1
+does the same job... I'll drop nr_pools. Thanks!
+
+>> +       spin_unlock_bh(&pp->lock);
+>> +       return 0;
+>> +}
+>> +
+>> +static void xsk_pp_destroy(struct page_pool *pool)
+>> +{
+>> +       struct xsk_pp *pp =3D pool->mp_priv;
+>> +
+>> +       spin_lock_bh(&pp->lock);
+>> +       pp->nr_pools--;
+>> +       spin_unlock_bh(&pp->lock);
+>> +       xsk_pp_put(pp);
+>> +}
+>> +
+>> +static bool xsk_pp_claim(struct xsk_pp *pp, u32 idx, enum xsk_pp_chunk =
+from)
+>> +{
+>> +       lockdep_assert_held(&pp->lock);
+>> +
+>> +       if (pp->state[idx] !=3D from)
+>> +               return false;
+>> +
+>> +       pp->state[idx] =3D XSK_PP_POOL;
+>> +       return true;
+>> +}
+>> +
+>> +static u32 xsk_pp_alloc_reuse(struct xsk_pp *pp, netmem_ref *netmems, u=
+32 max)
+>> +{
+>> +       u32 idx, n =3D 0;
+>> +
+>> +       while (n < max && pp->reuse_cnt) {
+>> +               idx =3D pp->reuse[--pp->reuse_cnt];
+>> +               if (WARN_ON_ONCE(!xsk_pp_claim(pp, idx, XSK_PP_REUSE)))
+>> +                       continue;
+>> +               netmems[n++] =3D net_iov_to_netmem(&pp->area.niovs[idx]);
+>> +       }
+>> +
+>> +       return n;
+>> +}
+>> +
+>> +static u32 xsk_pp_alloc_fill(struct xsk_pp *pp, netmem_ref *netmems, u3=
+2 max)
+>> +{
+>> +       struct xsk_buff_pool *pool =3D pp->pool;
+>> +       struct xsk_queue *fq =3D pp->fq;
+>> +       u32 i, entries, cons, idx, n =3D 0;
+>> +       u64 addr;
+>> +
+>> +       if (!fq || !max)
+>> +               return 0;
+>> +
+>> +       entries =3D xskq_cons_nb_entries(fq, max);
+>> +       if (!entries) {
+>> +               fq->queue_empty_descs++;
+>> +               return 0;
+>> +       }
+>> +
+>> +       cons =3D fq->cached_cons;
+>> +       for (i =3D 0; i < entries; i++) {
+>> +               __xskq_cons_read_addr_unchecked(fq, cons++, &addr);
+>> +               addr &=3D pool->chunk_mask;
+>> +               idx =3D addr >> pp->area.niov_shift;
+>> +               if (unlikely(addr >=3D pool->addrs_cnt ||
+>> +                            !xsk_pp_claim(pp, idx, XSK_PP_USER))) {
+>> +                       fq->invalid_descs++;
+>> +                       continue;
+>> +               }
+>> +               netmems[n++] =3D net_iov_to_netmem(&pp->area.niovs[idx]);
+>> +       }
+>> +
+>> +       xskq_cons_release_n(fq, entries);
+>> +       __xskq_cons_release(fq);
+>> +       return n;
+>> +}
+>> +
+>> +static netmem_ref xsk_pp_alloc_netmems(struct page_pool *pool, gfp_t gf=
+p)
+>> +{
+>> +       netmem_ref *netmems =3D pool->alloc.cache;
+>> +       struct xsk_pp *pp =3D pool->mp_priv;
+>> +       struct net_iov *niov;
+>> +       dma_addr_t dma;
+>> +       u32 i, n;
+>> +
+>> +       if (WARN_ON_ONCE(pool->alloc.count))
+>
+> What has the driver writer or system done if this ever happens?
+
+A correct driver can't get there; the page pool calls ->alloc_netmems()
+only with an empty cache. It fires on a page_pool core bug, or when a
+driver recycles with allow_direct outside the pool's NAPI, and races the
+cache. The provider fills the cache from index 0, so failing beats
+overwriting live entries. devmem and zcrx have the same check; I'll add
+zcrx's comment.
+
+
+>> +               return 0;
+>> +
+>> +       spin_lock_bh(&pp->lock);
+>
+> For my understanding, what entities can call this function at the same
+> time? With the xsk_buff_pool we were protected by NAPI.
+
+Yeah... this is a bit gnarley.=20
+
+The provider outlives a page pool: a queue restart starts the new queue
+before it frees the old pool, so the old pool releases chunks while the
+new NAPI allocates. Teardown can be deferred to a work item, and the
+initial fill, bind and unbind run in process context. A driver that
+fills its new rings in ndo_queue_mem_alloc() even has two pools on one
+FILL ring.
+
+However, in steady state only in NAPI, once per refill, so the lock is
+uncontended. I haven't been able to see it in perf...
+
+I'll list that in a comment.
+
+
+Bj=C3=B6rn
