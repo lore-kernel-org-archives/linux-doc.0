@@ -1,85 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794383627;
-	b=BDA4V34AvaFXu9kYcNCFRXHeFfcgQ843PZ2oeUcCW/zO3bUZWnvFRTSm/vgH6yU8bNvl
-	 xpldm+Grr4bX5gMHb8wtZ0DI7LK7sQb9GPLSAPhBpn7kEo0BRLSo6R/rTsnXawQb7usZ3
-	 QyqrmaEckxd9aerag0Ph2ktKK+YRj6Wo4yxL2tAHTAVmpFR5BbYlLr2dMUcBnaNEFAMrC
-	 XSrqUqcLCigDTdryMBLAVTZn75H3m6ezK6bODVTqmh5a5UyQ/VgUwe1OXXjeVdyCBsg8Z
-	 X9U7j1PZl/KMHGCXd3QS9o7BGvs3isNZvBmde5rK7b8sOsy4jCcRLjwz5YaC6Bnj1Fg==
+	t=1794383630;
+	b=ugPDCUovJYrc36CUB4h9npP+SvyAjBYijemFaPFcUsDKtotRPfteR6rzFFuyzQoIS6SL
+	 lO5WHaUQ0ktiCGcLkrMX8ZU4wqLlwqxQ5avAg95tnb/Cj21nxFpY37z107Txcorw08z6L
+	 a19T+RDG9jyKbDfP7dp/IP7TzI/P7BM+ZWk2vLRobEqnObOvR01ZrMOJ0rIPrQet+YX32
+	 +eWorzQwLKsO0dBR09Zew++p6s5dGb3x6+qRHLN7D1ysm6st3Po7+GfNQSI7St93LRbVl
+	 XcKN5dQbp0W1XYtVpE3lAIEVJVIvs5opV3nI8cn60gkJvDmLCYfQKUv51UxcKY9oU/g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794383627;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794383630;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To:User-Agent;
-	bh=dTOr68dqd9pXsH3sDySoD8YNtJ+vod0XkUHzER129hw=;
-	b=PN9aezcJCNrmpfSmlTrSCOP78zB6kJxLEyE7DUtqSo7sIdwMTOT3rhDP1KLHFbJ+/A25
-	 a7Msbelxt9ZQrrVyqNtnRqCIUP6cR6gYua2tiVOsu+zoJ9PX0B3G1Is4UeAdi+PMBUY4r
-	 zrak767YAXaQyI8P0LroJvRWyHg6Gcud4jj6AW6XsS67Ls8oyNBPfaYIHGMh+EtMkOy30
-	 TqIUobk2Xmm63Fpuxbt+v9xSVJiOXLIzYoHApfVFVPvYqDOfrIwu1Do3aRgKFX747mCrs
-	 wNA30KCabEGoadpbIFjWUGuAWAaOattXLYb30h+4LgG+z8G/MZ/JUMKmF87K2jTKoow==
+	bh=SSI9syxLw5WcjFuLZ1glFarNni2XFz8U30mQtyysmWI=;
+	b=OBjCGDILsN+PRFiVYt6d8ocS820AvsL6N+B6DYZNDGwquUXdJRXOKGwOZbhwaDi5xPYy
+	 Uz1sZATqz4bBmQkVLSeDkTAQO+Cjlc2QdRinckOsTSFpq3DBu36nEptUA57Zk6VT0FGxE
+	 tYCmdBWJYAxfi1vv3l2QgrdmCTlzK8xmrwIXKuNRIggLo6x3kJJqFwHjQYmzCEmEqKm6A
+	 dAtvKKoYlxzYoSt00PuArtxK4V3qRjCEx8CXRhh3U7pcIVyfaZ13t2yZghWfKtypoGjqp
+	 PwbXM2DHdzE6jPnX7giHfaxI/qu7JxFFB3lPglIxkvkQLezJGdb3R0p6SfoYwoeaI2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chrisdown.name;
 	spf=pass smtp.mailfrom=chrisdown.name;
-	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=c2OEhHvm;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=eSrG0lFG;
+	arc=none smtp.remote-ip=209.85.216.51
+Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BFC9606A31C
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 07:53:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BFC9606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37582606A32E
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 07:53:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37582606A32E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=c2OEhHvm
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a59100fa83so25042715e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:53:45 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=eSrG0lFG
+Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b08cf16decso1897784a91.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 23:53:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chrisdown.name; s=google; t=1794383624; x=1794988424; darn=vger.kernel.org;
+        d=chrisdown.name; s=google; t=1794383629; x=1794988429; darn=vger.kernel.org;
         h=user-agent:in-reply-to:content-disposition:content-type
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=dTOr68dqd9pXsH3sDySoD8YNtJ+vod0XkUHzER129hw=;
-        b=c2OEhHvmER3+RZdFGbo6s/3sc/wn863f4xlIqCDTNcNCkBfkQMKkhrp9MIDIJdMHJ5
-         gn5vAGI08jqoP/CuW2e9fdcilkN78XuU1mWqLv9aEgCHB/Mw4dz+qMVHvd5kxhmAq7Xe
-         WQnWwjfTwZpAILgiIKAhoBJn8CwuHQ+7Z6CmM=
+        bh=SSI9syxLw5WcjFuLZ1glFarNni2XFz8U30mQtyysmWI=;
+        b=eSrG0lFG7ySeSzefrD8AR8ZX0qx68Br5x/TZblJhR3nl+ObylVOTerjSzmy8C4PBMi
+         zQ8XaEcAQ853WdxMFYccDPa1xeiDsJZyucqlmn4WRgozQGECM/gtMifq/tBf/bSL7BIf
+         7HssaeBv173YHqdkxXqCrzCGGeEn1Z0k2X2II=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794383624; x=1794988424;
+        d=1e100.net; s=20260707; t=1794383629; x=1794988429;
         h=user-agent:in-reply-to:content-disposition:content-type
          :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dTOr68dqd9pXsH3sDySoD8YNtJ+vod0XkUHzER129hw=;
-        b=XdVP7ROYKZyMl9ABNeXYea48ATKMMY8jEe06di9IBck4n2EL978mm76zGrR88loc2Y
-         gN2MXZuSD/P+XQfWrUoZVnvYoDJlCHFsvdalmu6zTQKXShWH15I5ushAqj88Wa/5BxBI
-         cEEnfkUsCxJookZozxr9DfrProTaNVzJiSNanf3fGqm1py+TrZpUY+0R20DNy0fWaCfB
-         /oMUTK0gJSduBNRG0RR7Rp/Nuix0JBxf0ToAnITrjuJ2kUVs2HHkGdwGoK5aJZdGiwfE
-         UYCFS9PssdhrtPtISkWuTOb3z3ICH+GBir1fig2k8+GQBbJ6Dzp4HKuhTdbAEXhjoF5r
-         t9yg==
-X-Forwarded-Encrypted: i=1; AL+hErGDBW2W4EkzdJRcAv2J4ZbXFMsvY+7NR4CVSdO8p3rDDQ+/072ZM4/ey7g3Kqxz5K8u6Hqvfs/4EY4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8/+QZi9X3gYV1JwQj494z+tj2wfmcd5Oz0P/LC0/DWePr8fNyx
-	d12HXVLcGuQJqUmbFAmasqQd7D4iG1CKBPuGrbrV/lUemmzovVXQpFKJmf3jydMcEdWhBgqt9SM
-	YdPiCtx2OvBgXCHs=
-X-Gm-Gg: AYBFou1FPFpIJcE/plmU/wauFBGfNDvfhYZKbDswQNsKswWRZpnNz2Etm2hyQ+LakF8
-	wUq0MXiZtUXZ0Y8RfcXMOKI06JvC190+y+gvWuTBzBlOeez7kxRETZP4efI/eDwnGFkWf2j2u8b
-	y8/1NKD3eBXvqiCCc9OC9m/qFOQ55yRNjys6OBIVnifdp8LeeR0xFXrbdrx/hd0c5H9utqfA3tV
-	Hz7ptafCs/npGEaQZxrORWaYJVgjB/Bw5Uk48Y1X8TFto6kIAWYFumYwUGypNAN6VvmwNLcQs8B
-	5bhbUh4IEaEVmjmMTXVnCmdauJDDQSZd7l7687IyPjhDr8e7tCN1QsXx12ok3YE7QE25+LWZeTg
-	JdIXten5o0YTgAQ3E0OUi6P/R22ucKKF5svX/3sZaEJu6rwejGEf5yVTrCTbGGCvabbduTsvaAE
-	h81cil75YEwnPwo81u3AYqi5VVvST9Gr25ikrJMK82Rnqb0U7E4/JTxJFtmELkX71I3w9ZxQDhe
-	fNz3RtY/zOg3rtuGWV98eZIFd//6HchwqRTrFh8khGgCKjuMukSKip3Q6uvgUtnhSJE/hJPLDcb
-	TOFJE7wtnBKUVNz32GYkLNYg6NiUplbRrp0y7EPLCKrV7crFnz3Qt4Y0q1sK3BhdlhUg0Rp/qry
-	E4SoankbW4BWtBH+imppeld2RNscNOJXYaMMCnDfK9Hec1nnhCtvL4krQRBkYWPsNXeFH+6lNhg
-	CoY3EMwRePhkxls9IorEhxqTEfyR5rKencWroz7197dqRtrPUvcMyy
-X-Received: by 2002:a05:600c:a00d:b0:4a1:fa27:df7c with SMTP id 5b1f17b1804b1-4ba093acadfmr26469595e9.34.1794383624548;
-        Tue, 10 Nov 2026 23:53:44 -0800 (PST)
+        bh=SSI9syxLw5WcjFuLZ1glFarNni2XFz8U30mQtyysmWI=;
+        b=wW1CgrHXm8Sa5VLND3iK/2wqdhHRZHQDhhMX3oDFO6Zlg3kMp9w0YQfQqFdR4cXDJ3
+         ROvTCGDdplxi6hce51i3a/JjI3Q5upyScaj68kWnNMBaJQJoE98ZI4fgFOTCzVwASCjZ
+         mrOhVzbysvAGuI4mmt4bk+Z2lSGatd6WX/zYV/N28AJ3tZBjV1lcasd483+q0NYN39b3
+         W8Dm1aXXd3DmkTcB2tbebvI4+/xGR4wvf3mJ9Qt5Vy/POnSN/RN3nhFgj/VksklMbWtc
+         3VkOe7vCxQXjGhxMf/hzPar4DgWcpT/SshWDH/Mr13o1HVJ+0h6xFmp0E3Aqu6Gx78gy
+         dK3A==
+X-Forwarded-Encrypted: i=1; AL+hErFUGji9PcKo884Wx5ShKE/sChMb+9a2r+LDxOXgtwMAISkHUbDrU+t0VtMn4WiMdBabYhcXW0B0eE0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9V1oUouEzL93sOs4a9T/Yl++qJzyAv7vFEt842FMbLcYjsJ6zM
+	9EtK4FzCCdS12zGYt5Z3O7hAwa9eh1e7BP+tO69UbLovCEpnQsLX4P/BU9MhmiUSjbk=
+X-Gm-Gg: AYBFou16ZBBOZ8nSnh2+N48bxO/JalGFqGNQem4HsR/eUYbWTYlv5PjWTEOZolgogy8
+	AmfyOfD/eoxJodN4Rc5KRjwSKykpzjRcGA1WqQ906KziUIna1igcnTbdFy74WowR1zpIlhGCya1
+	ojFaWv4F+L3HASDsi1Nndwq+FVFMBiyEfWC5jQXRT/wff4dmWQ1DfqczLKcNlA50tSKk+SowMP1
+	OflQyWL5v87fnyQrXoZ44qkNeXBSThKPEiJFtxJ1dG+Gn1r3ojj7k353C07dDN3y4el/m5WuV9t
+	6/D4LDDMyfhDm2AeTdAjsu7zv9Vi1ZLiiSycPIylMsFG2kvzuEAn45G2JtWRRRKKdrqXqvYREPZ
+	VGOQ6eHgHo40oA3TgrerkUc7V0/U0rXtFEJoOiDtsl6zwiJ2J+sjzSU3WBSmam89yIrmnsHh+JD
+	IWewWHSrzAckbKO4roHd0wjswTfFSPp3AC6RLdoMi8YYItTHWXfN3zRhcOKNk02rKHHFK1YvK4U
+	bJj3TIySScCmMWAaY7iPyTTeT6BaoU/yufeSEdMRBWn84IOTA73L5W4NypdPYQd71VpkBZ8pBdU
+	Sx0rhIKEPik43dWFY2J0NibrAQEbLqRMyW4Av42viQEI0HlrJzXI/37gxOOmRFm42e3FKc9MCRQ
+	goiLGCa4HYEuvjyGnw1bjXndB5lwV1XcYsE/XbDGRQF3sCUqH+o4UWI7MkpG/cEzSTxLNpwr0Sh
+	Skn4ArYYhXs47J9S0cmR5JvvhOiZMGUdTiW5Nxw1hkhwR9VvWDCpIU
+X-Received: by 2002:a17:90b:5483:b0:3ac:80dc:f419 with SMTP id 98e67ed59e1d1-3b182fb308emr1835511a91.25.1794383629583;
+        Tue, 10 Nov 2026 23:53:49 -0800 (PST)
 Received: from localhost ([199.201.64.8])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba01ff3428sm138135715e9.15.2026.11.10.23.53.43
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b17da4cd8csm3404966a91.2.2026.11.10.23.53.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 23:53:44 -0800 (PST)
-Date: Tue, 10 Nov 2026 23:53:41 -0800
+        Tue, 10 Nov 2026 23:53:49 -0800 (PST)
+Date: Tue, 10 Nov 2026 23:53:45 -0800
 From: Chris Down <chris@chrisdown.name>
 To: Pasha Tatashin <pasha.tatashin@soleen.com>,
 	Mike Rapoport <rppt@kernel.org>,
@@ -90,9 +89,9 @@ Cc: Alexander Graf <graf@amazon.com>, Baoquan He <baoquan.he@linux.dev>,
 	linux-mm@kvack.org, linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
 	kernel-team@meta.com
-Subject: [PATCH 8/9] liveupdate: Expose the sequence number for consecutive
- live updates
-Message-ID: <6f10302874805eccc3960531194c989cdd1588c4.1794383544.git.chris@chrisdown.name>
+Subject: [PATCH 9/9] selftests/liveupdate: Check handover revival, sequence
+ and memory stats
+Message-ID: <738fbfd19034ce495de9b22c705a7815a236907d.1794383544.git.chris@chrisdown.name>
 References: <cover.1794383544.git.chris@chrisdown.name>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -108,78 +107,200 @@ Content-Disposition: inline
 In-Reply-To: <cover.1794383544.git.chris@chrisdown.name>
 User-Agent: Mutt/2.3.3 (9073d26d) (2026-06-12)
 
-Export LUO's live update sequence number, so that fleet monitoring can
-compare hosts on their first live update with hosts that have been
-through several.
+Extend the handover stats test to cover the new files. On the first
+boot, kho_incoming/state should be none, liveupdate_num 0, and both KHO
+sizes 0. After the kexec, the handover should be revived and
+liveupdate_num should be 1.
 
-We want this because some bugs, like memory corruption, may only show up
-after several live updates in a row.
+restored_size should grow by at least a page each time a memfd is
+retrieved or dropped. The memfd in the unclaimed session is retrieved
+last, once everything else is done.
 
 Signed-off-by: Chris Down <chris@chrisdown.name>
 ---
- Documentation/ABI/testing/sysfs-class-misc-liveupdate | 9 +++++++++
- Documentation/userspace-api/liveupdate.rst            | 1 +
- kernel/liveupdate/luo_core.c                          | 8 ++++++++
- 3 files changed, 18 insertions(+)
+ .../selftests/liveupdate/luo_handover_stats.c | 74 +++++++++++++++++--
+ 1 file changed, 67 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/ABI/testing/sysfs-class-misc-liveupdate b/Documentation/ABI/testing/sysfs-class-misc-liveupdate
-index 608f788ef0fa..b0ba0f626793 100644
---- a/Documentation/ABI/testing/sysfs-class-misc-liveupdate
-+++ b/Documentation/ABI/testing/sysfs-class-misc-liveupdate
-@@ -24,6 +24,15 @@ Description:	read only
- 		the underlying KHO handover.
- Users:		system monitoring
+diff --git a/tools/testing/selftests/liveupdate/luo_handover_stats.c b/tools/testing/selftests/liveupdate/luo_handover_stats.c
+index f18df79dda55..2863630b823e 100644
+--- a/tools/testing/selftests/liveupdate/luo_handover_stats.c
++++ b/tools/testing/selftests/liveupdate/luo_handover_stats.c
+@@ -10,6 +10,7 @@
+ #include <libliveupdate.h>
  
-+What:		/sys/class/misc/liveupdate/incoming/liveupdate_num
-+Date:		Nov 2026
-+Contact:	kexec@lists.infradead.org
-+Description:	read only
-+		LUO sequence number passed by the previous kernel. Reads 0
-+		if no LUO state was handed over, 1 after the first live
-+		update in a sequence, and increments with each update.
-+Users:		system monitoring
-+
- What:		/sys/class/misc/liveupdate/incoming/sessions
- What:		/sys/class/misc/liveupdate/incoming/files
- Date:		Nov 2026
-diff --git a/Documentation/userspace-api/liveupdate.rst b/Documentation/userspace-api/liveupdate.rst
-index 39bbb91d0dd4..61c246371200 100644
---- a/Documentation/userspace-api/liveupdate.rst
-+++ b/Documentation/userspace-api/liveupdate.rst
-@@ -50,6 +50,7 @@ Monitoring
+ #define INCOMING_DIR "/sys/class/misc/liveupdate/incoming/"
++#define KHO_INCOMING_DIR "/sys/kernel/kexec/kho_incoming/"
  
- Read ``/sys/class/misc/liveupdate/incoming/`` to monitor incoming
- sessions and file retrievals without opening ``/dev/liveupdate``.
-+``liveupdate_num`` gives the LUO sequence number for the current boot.
- See Documentation/ABI/testing/sysfs-class-misc-liveupdate for the sysfs ABI.
+ #define SESSION_CLAIMED "stats-claimed"
+ #define SESSION_UNCLAIMED "stats-unclaimed"
+@@ -28,13 +29,13 @@
+ /* The first open starts deserialization. */
+ static char state_before_open[16];
  
- See Also
-diff --git a/kernel/liveupdate/luo_core.c b/kernel/liveupdate/luo_core.c
-index ba174e9aae03..3ca7b3875247 100644
---- a/kernel/liveupdate/luo_core.c
-+++ b/kernel/liveupdate/luo_core.c
-@@ -441,6 +441,13 @@ static ssize_t state_show(struct device *dev, struct device_attribute *attr,
+-static void read_incoming(const char *name, char *buf, size_t len)
++static void read_sysfs(const char *dir, const char *name, char *buf, size_t len)
+ {
+ 	char path[128];
+ 	ssize_t n;
+ 	int fd;
+ 
+-	snprintf(path, sizeof(path), INCOMING_DIR "%s", name);
++	snprintf(path, sizeof(path), "%s%s", dir, name);
+ 	fd = open(path, O_RDONLY);
+ 	if (fd < 0)
+ 		fail_exit("open %s", path);
+@@ -54,6 +55,11 @@ static void read_incoming(const char *name, char *buf, size_t len)
+ 		buf[n - 1] = '\0';
  }
- static DEVICE_ATTR_RO(state);
  
-+static ssize_t liveupdate_num_show(struct device *dev,
-+				   struct device_attribute *attr, char *buf)
++static void read_incoming(const char *name, char *buf, size_t len)
 +{
-+	return sysfs_emit(buf, "%llu\n", luo_global.liveupdate_num);
++	read_sysfs(INCOMING_DIR, name, buf, len);
 +}
-+static DEVICE_ATTR_RO(liveupdate_num);
 +
- #define LUO_INCOMING_ATTR_RO(_name)					\
- static ssize_t _name##_show(struct device *dev,				\
- 			    struct device_attribute *attr, char *buf)	\
-@@ -458,6 +465,7 @@ LUO_INCOMING_ATTR_RO(files_dropped);
+ static void expect_state(const char *state, const char *expected)
+ {
+ 	if (strcmp(state, expected))
+@@ -61,13 +67,13 @@ static void expect_state(const char *state, const char *expected)
+ 				   expected);
+ }
  
- static struct attribute *luo_incoming_attrs[] = {
- 	&dev_attr_state.attr,
-+	&dev_attr_liveupdate_num.attr,
- 	&dev_attr_sessions.attr,
- 	&dev_attr_files.attr,
- 	&dev_attr_files_retrieved.attr,
+-static unsigned long long read_number(const char *name)
++static unsigned long long read_number(const char *dir, const char *name)
+ {
+ 	unsigned long long val = 0;
+ 	char buf[32];
+ 	char *p;
+ 
+-	read_incoming(name, buf, sizeof(buf));
++	read_sysfs(dir, name, buf, sizeof(buf));
+ 	for (p = buf; *p >= '0' && *p <= '9'; p++) {
+ 		if (val > (ULLONG_MAX - (*p - '0')) / 10)
+ 			break;
+@@ -75,19 +81,45 @@ static unsigned long long read_number(const char *name)
+ 	}
+ 	if (p == buf || *p)
+ 		ksft_exit_fail_msg("%s%s reads '%s', not a 64-bit unsigned number\n",
+-				   INCOMING_DIR, name, buf);
++				   dir, name, buf);
+ 	return val;
+ }
+ 
+ static void expect_count(const char *name, unsigned long long expected)
+ {
+-	unsigned long long val = read_number(name);
++	unsigned long long val = read_number(INCOMING_DIR, name);
+ 
+ 	if (val != expected)
+ 		ksft_exit_fail_msg("%s is %llu, expected %llu\n", name, val,
+ 				   expected);
+ }
+ 
++static void expect_kho_state(const char *expected)
++{
++	char state[16];
++
++	read_sysfs(KHO_INCOMING_DIR, "state", state, sizeof(state));
++	if (strcmp(state, expected))
++		ksft_exit_fail_msg("kho_incoming/state is '%s', expected '%s'\n",
++				   state, expected);
++}
++
++static unsigned long long kho_size(const char *name)
++{
++	return read_number(KHO_INCOMING_DIR, name);
++}
++
++static unsigned long long expect_more_restored(unsigned long long prev)
++{
++	unsigned long long restored = kho_size("restored_size");
++
++	if (restored < prev + getpagesize() ||
++	    restored > kho_size("preserved_size"))
++		ksft_exit_fail_msg("restored_size went from %llu to %llu\n",
++				   prev, restored);
++	return restored;
++}
++
+ static void expect_counts(long retrieved, long dropped)
+ {
+ 	char state[16];
+@@ -111,6 +143,10 @@ static void run_stage_1(int luo_fd)
+ 	expect_state(state_before_open, "none");
+ 	expect_count("sessions", 0);
+ 	expect_count("files", 0);
++	expect_count("liveupdate_num", 0);
++	expect_kho_state("none");
++	if (kho_size("preserved_size") || kho_size("restored_size"))
++		ksft_exit_fail_msg("KHO sizes aren't 0 on a cold boot\n");
+ 
+ 	create_state_file(luo_fd, STATE_SESSION_NAME, STATE_MEMFD_TOKEN, 2);
+ 
+@@ -144,11 +180,16 @@ static void run_stage_1(int luo_fd)
+ 
+ static void run_stage_2(int luo_fd, int state_session_fd)
+ {
+-	int claimed_fd, mfd, stage;
++	int claimed_fd, unclaimed_fd, mfd, stage;
++	unsigned long long restored;
+ 
+ 	ksft_print_msg("[STAGE 2] Checking state before and after the first open...\n");
+ 	expect_state(state_before_open, "pending");
+ 	expect_counts(0, 0);
++	expect_count("liveupdate_num", 1);
++	expect_kho_state("revived");
++	if (!kho_size("preserved_size"))
++		ksft_exit_fail_msg("kho_incoming/preserved_size is 0\n");
+ 
+ 	restore_and_read_stage(state_session_fd, STATE_MEMFD_TOKEN, &stage);
+ 	if (stage != 2)
+@@ -163,6 +204,7 @@ static void run_stage_2(int luo_fd, int state_session_fd)
+ 	if (claimed_fd < 0)
+ 		fail_exit("luo_retrieve_session for '%s'", SESSION_CLAIMED);
+ 
++	restored = kho_size("restored_size");
+ 	mfd = restore_and_verify_memfd(claimed_fd, MFD_RETRIEVED_TOKEN,
+ 				       MFD_RETRIEVED_DATA);
+ 	if (mfd < 0)
+@@ -170,6 +212,7 @@ static void run_stage_2(int luo_fd, int state_session_fd)
+ 			  MFD_RETRIEVED_TOKEN);
+ 	close(mfd);
+ 	expect_counts(2, 0);
++	restored = expect_more_restored(restored);
+ 
+ 	ksft_print_msg("[STAGE 2] Finishing '%s'...\n", SESSION_CLAIMED);
+ 	if (luo_session_finish(claimed_fd) < 0)
+@@ -177,6 +220,7 @@ static void run_stage_2(int luo_fd, int state_session_fd)
+ 	close(claimed_fd);
+ 
+ 	expect_counts(2, 1);
++	expect_more_restored(restored);
+ 
+ 	ksft_print_msg("[STAGE 2] Finishing the state session...\n");
+ 	if (luo_session_finish(state_session_fd) < 0)
+@@ -185,6 +229,22 @@ static void run_stage_2(int luo_fd, int state_session_fd)
+ 
+ 	/* Finishing the state session must not drop anything. */
+ 	expect_counts(2, 1);
++	restored = kho_size("restored_size");
++
++	ksft_print_msg("[STAGE 2] Retrieving the memfd in '%s'...\n",
++		       SESSION_UNCLAIMED);
++	unclaimed_fd = luo_retrieve_session(luo_fd, SESSION_UNCLAIMED);
++	if (unclaimed_fd < 0)
++		fail_exit("luo_retrieve_session for '%s'", SESSION_UNCLAIMED);
++	mfd = restore_and_verify_memfd(unclaimed_fd, MFD_UNCLAIMED_TOKEN,
++				       MFD_UNCLAIMED_DATA);
++	if (mfd < 0)
++		fail_exit("restore_and_verify_memfd for token %#x",
++			  MFD_UNCLAIMED_TOKEN);
++	close(mfd);
++	close(unclaimed_fd);
++	expect_counts(3, 1);
++	expect_more_restored(restored);
+ 
+ 	ksft_print_msg("\n--- HANDOVER STATS TEST PASSED ---\n");
+ }
 -- 
 2.54.0
 
