@@ -1,84 +1,134 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794423678;
-	b=3znAAUBdzQxVyh2EPk+2i3ry95pjxpjp2sE2HLkbPDO2Thh7Rjb1lckPK+RnVwf+HE93
-	 uueZxUAQk7n7+2wcWeRjY2K51EL80K4egdIBx/TOzxc37hSvnLTWZqDJdG3H5LFPewUL1
-	 hg0Zo3dMUQz3JSrDsCPpPnnm4eMupokrOl90ZwVNrpoX0CxZeJney6MTdA9tZS+wna/0L
-	 oNpNlRGkGPfZUfO1ESGTK+FnnkSE3+ivIPWvMwo2nCjr91zxT0MwP+YVpceDgx+DjBy9g
-	 quRSJsf65KuqisFRnCSGKQ/LGahnmSH8ur3NKGdUY9BPZf4A01TmF1lZzZFCWchcTAw==
+	t=1794423688;
+	b=J6I3tojXXzpAtjl3B/nrA7tEFNOWpV/DYcv6yITl+bplZPxX+CM/wcfiiAA1bZ59LyMz
+	 EOXCyJhknTepV5SB5K4kSjuJKLQV6VQC0zvNlFt1Uf6wjONk5Pf9YQzNkxDdRGcCB3Atf
+	 95AAyf6BUVHjrVhRyhkFXgo9pmO59PQ1jsm/0ii2zohpLgVowYmlI7oiv0JgPYeoqqEcV
+	 pl7w3IUX1RFKKu0j7XCrH+4P1oHxNPSGMJrPLe2Y1NFMuTNqs9nT5afoVZ1T/OhIdXXKx
+	 h3yzPc8Q9SsC6O/4gKGk7JhjmRhJFkMBOlaDcCwb4g8r7hZdubpcgQaRbBjabIGoi2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794423678;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794423688;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=3mcdsvysa9luSuezEbeTLmuh15u7mjwAepQLZ7oOKD4=;
-	b=2Qg6PlLkO2k9oolw5doUmnO6nU6Qnv62kd7VYui2tq/s7YpsAWUUtTKHwgg1knDBEG/Y
-	 3GYRO+F0idBhXZgI2NLvIz5L+/3EaVb77tvWppia0jZCSJpbxcKsKpG1kfoq5yAkMpE/W
-	 qG3iGxpikvUDQhAcV5GKANJjvQlNbx+0MVOd0BJ+r7j3zhzYfOMkzC7zA8VyNMcH2FklC
-	 o6HgvdvNTTlNuex9/tXFBPGMt+LlSXPy5KrcPehY/KVlSj20UqeslGse2l2wuk7kWWsrQ
-	 wZSbPCE1LTaVvknF2D0a5krRzCGpEIY2xulIuITdjP7v+Bg7uiawAkB8s1bRR9T73hw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=hVyacmRdBOkB2N2YFKJvLgcn+V87gTIBQfflrVVKvU0=;
+	b=OxVthB86k3N6uka9XKF6awxN7NDtPtc4OxncimEJePr4duS0ocTH6HsOt6tLDxSovEr3
+	 DnCHUkHBGqPCFm6CdIe+9zxU5+X3if97hvCbPbVDZYkFqlYnOTKu6F8ZVlBDtg7FD467S
+	 Uj+p8/ZJetqRHx4tWjyjag/Y7L0r4Y8rej7J0IjFbXfQMRuSGAOZkt3Sm6xGgb20cijyH
+	 r18KtIczneoDPYqhTrGGv8H40lMIMdqKp//7gkwU72SYtJZj+rAHnD0eeUNvh8uFj7Ux7
+	 y+ReU2Sv6ntOc7EcG4l/nYBJyjY/EZvyZcJKTasy5xs+9Q5fapnW49oASZH7+qVviuQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LHkRigWs;
-	arc=none smtp.remote-ip=209.85.222.182
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	dmarc=pass header.from=tenstorrent.com;
+	spf=pass smtp.mailfrom=tenstorrent.com;
+	dkim=pass header.d=tenstorrent.com header.i=@tenstorrent.com header.a=rsa-sha256 header.s=google header.b="Ie/nYuVB";
+	arc=none smtp.remote-ip=74.125.224.46
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49DBA606A32A
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 19:01:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49DBA606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1968F606A883
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 19:01:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1968F606A883
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=tenstorrent.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tenstorrent.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=LHkRigWs
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f1cf92c9eso337138085a.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 11:01:18 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=tenstorrent.com header.i=@tenstorrent.com header.a=rsa-sha256 header.s=google header.b=Ie/nYuVB
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-675617e81f9so3648963d50.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 11:01:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794423677; x=1795028477; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=3mcdsvysa9luSuezEbeTLmuh15u7mjwAepQLZ7oOKD4=;
-        b=LHkRigWscoO1IXIQFs6/S7w1FUhRnu66lP+me1F9tp+woQK1t61v4UNNSyggqb4mOX
-         hkOb5/IVXmfs4ZveeHLDMgbH2NVuzIEY/J/WPy/shFxDKAiXJz6IbXyPUV4ckFZ+CsC+
-         c9gkmXH6qx8NuT+7knfat6nN41LKdJI5AqHmXOuhg18s+O76DdTa+1UL8roEbcvId/Ns
-         kTG/VWDpa7xwT+xoPmwPqh3uf6iTwuE9zBLajqn7CgcAuA/eMNIzXPPLnoO373jqfflo
-         BWXGJsKWiNERilvEBM6NM78A4lF9eT8HO6VECVYKCKap11URDX6Ewiu7J/Bp2B4VyeQc
-         r7RQ==
+        d=tenstorrent.com; s=google; t=1794423687; x=1795028487; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hVyacmRdBOkB2N2YFKJvLgcn+V87gTIBQfflrVVKvU0=;
+        b=Ie/nYuVBjLeIDwa9tMiDX3hjrzh0ADws+algDtBDPcXfstSZiYxkG3eM2ISQ5Ew9js
+         3WPFR3K5AtfL2aXwUeiLeq4mvSX/vT5ctXm/c8hD0LAY3o+gWotwNW0W8v5z5DemCaB6
+         CV8mVottjk391iKXszIP0XQ8ZsXJlX/3Dd4nYdZjSsSJWUDfKi23ZFGaLPX8OPNOLVNB
+         n8oE00dLfZDu4WXmO/q/u9gptzIHmP8gJrXYXsQQceRU4iArqYPpeJw48jg6ks7Ut4Q/
+         4UBLL1xrHHEascDpGqpqrHitzmcAWuGswE2NUvAjt5B+zT4R8iChx18TrZSNWVEJk7kt
+         iYZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794423677; x=1795028477;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3mcdsvysa9luSuezEbeTLmuh15u7mjwAepQLZ7oOKD4=;
-        b=jDkg2P8ukqwNwWqCjWopfJCRJwsA/4sKguOtscUCQaing2rHy9zNghz0VTG/q0Qgzl
-         FhRnnkJ56PphN2jUuFLf+k8VHHQV0HXfmSaXu7zL21g07Q4cwuA59x+EwVQnJcsWtAOH
-         EGjFqwPdB0G7Wpvsf9cSIm0+fNe9hGtvq9vokrAGpdwtKTaENqOHOSWoMltSgA4jVLlk
-         IHMNzzh6scHhsnsGo2tRvOFidi3Bn0ZJlQvdYxpda9jkfTuhZp20c5QOu87SdcUj2/fu
-         isUW2zUPqkjyzsuIEKQZtKwjZczmfxi8FEXZ4x3heFPIkKsglQB1VqwybfYdXPY9AYZv
-         6yqw==
-X-Forwarded-Encrypted: i=1; AL+hErHCYWkFAufUnZ4t16xdE3jkUTXlZhzeVpWydd3o6H6bsghlt/dqXDJB8rmJIoym+PMBUgRrQacLg4c=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8NHzhn278eNgKO/JjVtvv0rHrAAg3kekm5Q/4iBIEajuTdQkS8
-	eW4uiT6ZzGNnP7xHpXDxTZgR5NEtZUPzNJVN6GwOdK4TcMvZaGX4QrxA
-X-Gm-Gg: AYBFou0XDk+JsLBCgOjl6Zl981N8D1ZxxTzZNsxY2QFpYF/Nyb/0IPuajYZRQuFugZ3
-	Dm5Ei6U3oftfce+rZVNFajanznM9JnsIvwKsTKYVUj+qEqyNVTs5GJvcEsywi2Mj5inEbQrxhdF
-	rnBGz4k8r5ZlKBBVrFtWPD6ah0Lb9VUm9AXJtDBag3nct+754wBQ6rBZDGPAdV3omACtNpafNAC
-	9dBqERIF1mjeJ79189qPDP+/SPBIzg6WINgw8fnUlNqTwRjd1ePfDMqXBeDFyccYev5UstN4Nq7
-	NQ4CwB2RBa55mBPo0f5WnNWIXdaVJdxV27GCNFlJakLK3F3OvJKQ7wfT/Em58yj2DDOE7FtD6+A
-	kkesTi1MMJ/SC4/SU9kCiL+WxEflSsSg7EYKa8Bni3C3KBSi0fI9ntBEVLeiW1BNF5fprKg9Yuf
-	U5dmxAzrufDrsrGmLInCJezHniSH1sMlCAulUzPoCqh49zJE3A0UDW1JX+lXCVJfZVrArlK66uv
-	/vE7hJtVaIBoS+L8qYL3GkL6IS7sWoPN9xwO96EypYBtWSciv5vq0njjFNvVQldxRmutkwNXwyd
-	w01SwYNBBP8hgTFlNbaCSHdELJ4MWh33BhwsGuiFhYWrbF403iLlJic=
-X-Received: by 2002:a05:620a:2b96:b0:93f:53d1:54c7 with SMTP id af79cd13be357-947b00d141dmr521152085a.70.1794423676923;
-        Wed, 11 Nov 2026 11:01:16 -0800 (PST)
-Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e73b2d2sm545314185a.10.2026.11.11.11.01.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Nov 2026 11:01:15 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794423687; x=1795028487;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hVyacmRdBOkB2N2YFKJvLgcn+V87gTIBQfflrVVKvU0=;
+        b=zZmn71DxPfj5WtVTBBKGJaCVhZaF+DaQy4ismcFqYc6t5P88mP9YphCo8Qhdhl6Vhx
+         9STv0ZM8oCKYbdOpIq8VkYlu11E1vtu3yFe93pl5q5Mm8CrzWjaNsyJu4hw6GucUX7br
+         7xNbwr/3hl6r5oj1f4m0PTASjsyZLn8OT/xzS0Fpgvo/zW3py6DHcQEUL7vdHX+EWb8w
+         JWJp6qFDZuY385ZeYLiovPkKTfeNaPK5p80yEZMDwQE65dmvWPX9gCVt9WPkTZp6gMW4
+         gUbotdTsA9tJGZTtdV54L05gHi0Yn9dH7Db4pK/fp/OzTDeUWU34Tv8yLblLXOAQIm+E
+         WQwg==
+X-Forwarded-Encrypted: i=1; AL+hErEtRArNuAqBUYjvEv+rCV8MrneAtqh7jKJYq1FSS0rjtLT8kbXp4s41Df4aKzBqpyfHY6SGO6XpV9U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+MzT9tQlAmkJtFfomB/Nu5Y4yhhnrK3uwbrDVdgNSIY8pTkI2J
+	bBiOfQFibioPU2GHzCAMMp7m1GVr/c+Y6eT9jOfmgXdIILu6qN1BqvSt8Db/Q63cTlg=
+X-Gm-Gg: AYBFou1Ci830fTarbYHcg59yJxU9eb+nx5dO8aK6NMhX9H8zWCg+OZngw8nvBBf/Tet
+	GKs6K8K39BFLzRzoOaexM+gc5PaRRCJGppDs9pqXCiR7g6MM+DFJTeJE8okx/mYB4nuZv13rJFc
+	detiVgtht5HNubkyawzrlmejZu0gHQVJwVh6VMIkQ4e35pPyb7KIqBJ11agjwt4OsGGUYtABxcR
+	spsASMsGcEegzchMNbJQabDPhHvyPhY2Lc41LqKIF/jltUs7mt5QwQnxMddhmOPR7qk0kGYDfLE
+	oY0T6AELka2hRDcbeeXhiV0U1W4VzjkSAwaE4Mn4+PIYFm/p4mF9oiPPJZojvcQzxdmjdYjIrnK
+	5GcpRRc5vYihcAUNpVUa+5VOSHMovq1zSOv0GJrdeBtZX1fT7j7iwvW06jhewmxwSmKUNkd1kd6
+	ibGgwSF9bsxJTgmmNGcXO70Jjc3WAp5RcyYjAsdSGCkMB2bYN/B6qwvZ+JYwPnZQjq7xTA5MbnD
+	FwSKqfXU9pUYuEOJ8X2xts0dJoIJI6r+9dHbMIgwAAbC2qLYOLe0PP1JQr5ZgqWrqUe2Rn0WgMK
+	mpUyLOWhyUKptbDaRrm3E4XGfgGQmQUYALFLaRDQza/DV0C4F3ePCaA9lLj6ywyojeJTmmKm3z8
+	tKUkhsvc5Ga1mzImfNa75tcwZ0BehPuEBG0ZORUy0kgu/I5U=
+X-Received: by 2002:a05:690e:140e:b0:679:9b73:bf9e with SMTP id 956f58d0204a3-67c67fa690fmr2275064d50.57.1794423686682;
+        Wed, 11 Nov 2026 11:01:26 -0800 (PST)
+Received: from lima-default.tail89d63.ts.net (108-196-157-19.lightspeed.austtx.sbcglobal.net. [108.196.157.19])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-67c589a2354sm5209197d50.6.2026.11.11.11.01.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 11:01:26 -0800 (PST)
+From: Andy Chiu <tchiu@tenstorrent.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Paul Walmsley <pjw@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Cc: andybnac@gmail.com,
+	Andy Chiu <tchiu@tenstorrent.com>,
+	dfustini@oss.tenstorrent.com,
+	greentime.hu@sifive.com,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Karl Mehltretter <kmehltretter@gmail.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Marco Elver <elver@google.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Jisheng Zhang <jszhang@kernel.org>,
+	Conor Dooley <conor.dooley@microchip.com>,
+	Yong-Xuan Wang <yongxuan.wang@sifive.com>,
+	Anup Patel <anup@brainfault.org>,
+	Aurelien Jarno <aurelien@aurel32.net>,
+	daichengrong <daichengrong@iscas.ac.cn>,
+	Troy Mitchell <troy.mitchell@linux.dev>,
+	Guobin Zhang <guobin.zhang@intel.com>,
+	Guodong Xu <docular.xu@gmail.com>,
+	Andrew Jones <andrew.jones@linux.dev>,
+	Charlie Jenkins <thecharlesjenkins@gmail.com>,
+	Atish Patra <atishp@rivosinc.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Hui Wang <hui.wang@canonical.com>,
+	Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>,
+	Zong Li <zong.li@sifive.com>,
+	Vivian Wang <wangruikang@iscas.ac.cn>,
+	Rui Qi <qirui.001@bytedance.com>,
+	Yunhui Cui <cuiyunhui@bytedance.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Zishun Yi <vulab@iscas.ac.cn>,
+	Sergey Matyukevich <geomatsi@gmail.com>
+Subject: [PATCH v7 5/6] riscv: vector: optimize vstate operations
+Date: Wed, 11 Nov 2026 12:43:27 -0600
+Message-ID: <20261111184359.1239821-6-tchiu@tenstorrent.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261111184359.1239821-1-tchiu@tenstorrent.com>
+References: <20261111184359.1239821-1-tchiu@tenstorrent.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,104 +137,315 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 11 Nov 2026 14:01:14 -0500
-Message-Id: <DMSM3RNRY412.1GXB07F4KGJYR@gmail.com>
-Cc: <netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
- "Andrew Lunn" <andrew+netdev@lunn.ch>, =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?=
- <bjorn@kernel.org>, <bpf@vger.kernel.org>, "Daniel Borkmann"
- <daniel@iogearbox.net>, "Donald Hunter" <donald.hunter@gmail.com>, "Eric
- Dumazet" <edumazet@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>, "Jamal
- Hadi Salim" <jhs@mojatatu.com>, "Jiri Pirko" <jiri@resnulli.us>, "John
- Fastabend" <john.fastabend@gmail.com>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <linux-rdma@vger.kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>,
- "Paolo Abeni" <pabeni@redhat.com>, "Saeed Mahameed" <saeedm@nvidia.com>,
- "Simon Horman" <horms@kernel.org>, "Tariq Toukan" <tariqt@nvidia.com>, "Wei
- Wang" <weiwan@google.com>, "Willem de Bruijn"
- <willemdebruijn.kernel@gmail.com>
-Subject: Re: [PATCH net-next v1 04/15] psp: add support for socket-less psp
- associations
-From: "Daniel Zahka" <daniel.zahka@gmail.com>
-To: "Todd Bert Freed" <toddfreed@meta.com>, "Daniel Zahka"
- <daniel.zahka@gmail.com>
-X-Mailer: aerc 0.21.0-threadmapfix
-References: <20261111005533.6436-1-toddfreed@meta.com>
- <20261111005533.6436-5-toddfreed@meta.com>
- <DMSJB8MZZCXK.MCEBRZQDAM5Q@gmail.com>
- <CADh2yMx8MPjcH7Bpj72rNNd_tT=6uSC5Ow9JyGjTMjFgs499Pw@mail.gmail.com>
-In-Reply-To: <CADh2yMx8MPjcH7Bpj72rNNd_tT=6uSC5Ow9JyGjTMjFgs499Pw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed Nov 11, 2026 at 1:23 PM EST, Todd Bert Freed wrote:
->> I'm not sure the kernel actually needs any bookkeeping at all for these
->> generic rx spi allocations. You could probably just pass the spi, dev
->> id, key, and probably rotation count (as a device key generation of
->> sorts) to the user without creating a kernel object. For socket
->> psp_assocs, the rx state is consulted on the datapath before queueing to
->> the socket. For tx state in all psp_assocs, there is the possibility
->> that an SADB handle needs to be cleaned up. Neither of those apply here
->> or in the rest of the series as I understand it.
->>
->> I figure the tc ingress rule can just take the spi and dev id by value
->> rather than needing a reference to an object that we create here.
->
-> That is how it works in this series. The tc psp decap rule (ingress) does=
- not
-> make reference to an rx assoc ; instead, it should have flower matches on
-> psp_spi, psp_ver, and psp_dev. That effectively ties it to packets from j=
-ust
-> one rx assoc.
->
-> So why keep track of rx assoc objects at all? Two considerations.
->
-> 1/ don't accept packets that correspond to a stale association. That is, =
-even
-> if the device decrypted the packet, it should be dropped if the device ke=
-y
-> which minted the assoc's SPI is two rotations behind. For psp socket offl=
-oad
-> that is enforced in __psp_sk_rx_policy_check() with the pas->generation
-> check.
->
+Introduce the riscv_novstateopt to control the optimization of vector
+state operations in the kernel space.
 
-I asked why we needed to keep track of socketless rx assoc objects. The
-above applies to the existing transport mode code, which is my point.
-The rx state from the assoc is looked up from the datapath. It doesn't
-seem like that is the case in this series.
+The optimization enables vector in kernel mode and bypasses vector
+register nulling for user space on the syscall fast path when the boot
+argument "riscv_novstateopt" is not set
 
-> The spec permits SPIs to be reused immediately after two rotations. So th=
-e
-> device could decrypt a packet with a SPI that is more than two rotations =
-old
-> in that case, or if a previous packet is being replayed, for example.
->
+Enabling this optimization yields the following performance benefits:
+ - Cut 80 cycles latency for getpid on Ascalon.
+ - 1.1% ~ 4.09% request throughput improvment on nginx workload with web
+   serving size under 4KB
 
-A SPI that is two generations old will cause and auth error on rx. The
-hazard is that an old tc rule with a SPI from two generations ago can
-alias a different SPI from this generation. Userspace can just flush old
-rules before doing a key rotation. That is why I suggested including a
-'rotations' attribute, although that is probably not even necessary to
-keep track of which rules need to be flushed.
+Signed-off-by: Andy Chiu <tchiu@tenstorrent.com>
+---
+Changelog v6:
+ - upgrade it to use alternative and change default to enable the
+   optimization
+Changelog v5:
+ - new patch since v5
+---
+ .../admin-guide/kernel-parameters.txt          | 13 +++++++++++++
+ arch/riscv/include/asm/alternative-macros.h    |  6 ++++++
+ arch/riscv/include/asm/alternative.h           |  3 ---
+ arch/riscv/include/asm/cpufeature-macros.h     |  6 ++++--
+ arch/riscv/include/asm/vector.h                | 16 +++++++++++++++-
+ arch/riscv/kernel/cpufeature.c                 | 18 ++++++++++++++++++
+ arch/riscv/kernel/entry.S                      | 15 +++++++++++++--
+ arch/riscv/kernel/process.c                    |  3 +++
+ arch/riscv/kernel/vector.c                     | 17 +++++++++++++++--
+ 9 files changed, 87 insertions(+), 10 deletions(-)
 
-> 2/ hardware offload. the solution to #1 should be able to be fully offloa=
-ded
-> to the device. psp tunnel mode will be hw offload only, and is implemente=
-d
-> in the eswitch with connect-x.
->
-> We could add a psp_gen flower match to replicate the pas->generation
-> check, but the device has no access to the pas and can't offload that.
->
-> Keeping track of the rx assoc means that the kernel can take action on th=
-e
-> "this assoc is now stale" event. Possibly by enumerating the tc rules and
-> either deleting them, or marking them stale for userspace to reap.
->
-
-I think it makes more sense for userspace to just get rid of the rules
-before rotating the keys.=20
-
-> -Todd
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 0b3c140babd9..e1146ee6ab1e 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6722,6 +6722,19 @@ Kernel parameters
+ 		fcfi	Disable user forward CFI ABI to userspace even if the
+ 			landing pad extension is available.
+ 
++	riscv_novstateopt [RISCV,EARLY]
++			Disable the vector state optimization. By default the
++			kernel keeps Vector enabled while running in kernel
++			space, rather than toggling sstatus.VS on every use of
++			the kernel-mode vector, and skips nulling the vector
++			registers for user space. Pass this option to restore the
++			conservative behavior, which catches illegal use of
++			Vector in kernel code. The optimization roughly cuts
++			30 ns of getpid() latency on a Blackhole x280 and gives
++			a 4.09% request throughput improvement for an nginx
++			workload serving a 2KB web page on a four-core
++			Ascalon-S.
++
+ 	ro		[KNL] Mount root device read-only on boot
+ 
+ 	rodata=		[KNL,EARLY]
+diff --git a/arch/riscv/include/asm/alternative-macros.h b/arch/riscv/include/asm/alternative-macros.h
+index 629d884578da..45d9ae1e0aa8 100644
+--- a/arch/riscv/include/asm/alternative-macros.h
++++ b/arch/riscv/include/asm/alternative-macros.h
+@@ -2,6 +2,12 @@
+ #ifndef __ASM_ALTERNATIVE_MACROS_H
+ #define __ASM_ALTERNATIVE_MACROS_H
+ 
++#include <linux/wordpart.h>
++#define PATCH_ID_CPUFEATURE_ID(p)		lower_16_bits(p)
++#define PATCH_ID_CPUFEATURE_VALUE(p)		upper_16_bits(p)
++
++#define RISCV_CPUFEAT_VSTATEOPT	0x1
++
+ #ifdef __ASSEMBLER__
+ 
+ .macro ALT_ENTRY oldptr newptr vendor_id patch_id new_len
+diff --git a/arch/riscv/include/asm/alternative.h b/arch/riscv/include/asm/alternative.h
+index 6be7b2b6ade9..bc2ecaa9125a 100644
+--- a/arch/riscv/include/asm/alternative.h
++++ b/arch/riscv/include/asm/alternative.h
+@@ -16,9 +16,6 @@
+ #include <linux/stddef.h>
+ #include <asm/hwcap.h>
+ 
+-#define PATCH_ID_CPUFEATURE_ID(p)		lower_16_bits(p)
+-#define PATCH_ID_CPUFEATURE_VALUE(p)		upper_16_bits(p)
+-
+ #define RISCV_ALTERNATIVES_BOOT		0 /* alternatives applied during regular boot */
+ #define RISCV_ALTERNATIVES_MODULE	1 /* alternatives applied during module-init */
+ #define RISCV_ALTERNATIVES_EARLY_BOOT	2 /* alternatives applied before mmu start */
+diff --git a/arch/riscv/include/asm/cpufeature-macros.h b/arch/riscv/include/asm/cpufeature-macros.h
+index adaf9e3fb25c..7bd900899bb0 100644
+--- a/arch/riscv/include/asm/cpufeature-macros.h
++++ b/arch/riscv/include/asm/cpufeature-macros.h
+@@ -45,14 +45,16 @@ static __always_inline bool __riscv_has_extension_unlikely(const unsigned long v
+ 
+ static __always_inline bool riscv_has_extension_unlikely(const unsigned long ext)
+ {
+-	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
++	int realext = PATCH_ID_CPUFEATURE_ID(ext);
++	compiletime_assert(realext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
+ 
+ 	return __riscv_has_extension_unlikely(STANDARD_EXT, ext);
+ }
+ 
+ static __always_inline bool riscv_has_extension_likely(const unsigned long ext)
+ {
+-	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
++	int realext = PATCH_ID_CPUFEATURE_ID(ext);
++	compiletime_assert(realext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT_MAX");
+ 
+ 	return __riscv_has_extension_likely(STANDARD_EXT, ext);
+ }
+diff --git a/arch/riscv/include/asm/vector.h b/arch/riscv/include/asm/vector.h
+index e83f9e0046a9..745ac3ca67b7 100644
+--- a/arch/riscv/include/asm/vector.h
++++ b/arch/riscv/include/asm/vector.h
+@@ -49,6 +49,7 @@
+ 	_res;								\
+ })
+ 
++extern bool riscv_v_vstate_opt;
+ extern unsigned long riscv_v_vsize;
+ int riscv_v_setup_vsize(void);
+ bool insn_is_vector(u32 insn_buf);
+@@ -78,6 +79,11 @@ static __always_inline bool has_vector(void)
+ 	return riscv_has_extension_unlikely(RISCV_ISA_EXT_ZVE32X);
+ }
+ 
++static __always_inline bool has_vstate_opt(void)
++{
++	return riscv_has_extension_likely((RISCV_CPUFEAT_VSTATEOPT << 16) | RISCV_ISA_EXT_ZVE32X);
++}
++
+ static __always_inline bool has_xtheadvector_no_alternatives(void)
+ {
+ 	if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR))
+@@ -122,6 +128,9 @@ static inline bool riscv_v_vstate_query(struct pt_regs *regs)
+ 
+ static __always_inline void riscv_v_enable(void)
+ {
++	if (has_vstate_opt())
++		return;
++
+ 	if (has_xtheadvector())
+ 		csr_set(CSR_SSTATUS, SR_VS_THEAD);
+ 	else
+@@ -130,6 +139,9 @@ static __always_inline void riscv_v_enable(void)
+ 
+ static __always_inline void riscv_v_disable(void)
+ {
++	if (has_vstate_opt())
++		return;
++
+ 	if (has_xtheadvector())
+ 		csr_clear(CSR_SSTATUS, SR_VS_THEAD);
+ 	else
+@@ -336,7 +348,8 @@ static inline void riscv_v_vstate_set_restore(struct task_struct *task,
+ static inline void riscv_v_vstate_discard(struct pt_regs *regs)
+ {
+ 	if (__riscv_v_vstate_check_gt(regs->status, INITIAL)) {
+-		riscv_v_vstate_set_restore(current, regs);
++		if (!has_vstate_opt())
++			riscv_v_vstate_set_restore(current, regs);
+ 		riscv_v_vstate_init(regs);
+ 	}
+ }
+@@ -422,6 +435,7 @@ struct pt_regs;
+ 
+ static inline int riscv_v_setup_vsize(void) { return -EOPNOTSUPP; }
+ static __always_inline bool has_vector(void) { return false; }
++static __always_inline bool has_vstate_opt(void) { return false; }
+ static __always_inline bool insn_is_vector(u32 insn_buf) { return false; }
+ static __always_inline bool has_xtheadvector_no_alternatives(void) { return false; }
+ static __always_inline bool has_xtheadvector(void) { return false; }
+diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
+index 72bce616491f..041f6a35fba3 100644
+--- a/arch/riscv/kernel/cpufeature.c
++++ b/arch/riscv/kernel/cpufeature.c
+@@ -1294,6 +1294,19 @@ void riscv_clear_hypervisor_csr(void)
+ 	csr_clear(CSR_HSTATUS, HSTATUS_HU);
+ }
+ 
++/*
++ * Leaving Vector enabled while in the kernel relies on the vstate alternatives
++ * being patched in. It can be turned off on the command line to catch illegal
++ * use of Vector in kernel code.
++ */
++bool riscv_v_vstate_opt = true;
++static int __init riscv_novstateopt_setup(char *__unused)
++{
++	riscv_v_vstate_opt = false;
++	return 0;
++}
++early_param("riscv_novstateopt", riscv_novstateopt_setup);
++
+ /*
+  * Alternative patch sites consider 48 bits when determining when to patch
+  * the old instruction sequence with the new. These bits are broken into a
+@@ -1322,6 +1335,11 @@ static bool riscv_cpufeature_patch_check(u16 id, u16 value)
+ 		 * then the alternative cannot be applied.
+ 		 */
+ 		return riscv_cboz_block_size <= (1U << value);
++	case RISCV_ISA_EXT_ZVE32X:
++		if (value == RISCV_CPUFEAT_VSTATEOPT)
++			return riscv_v_vstate_opt;
++
++		return true;
+ 	}
+ 
+ 	return false;
+diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+index 628b85e3915a..bb4787711f2c 100644
+--- a/arch/riscv/kernel/entry.S
++++ b/arch/riscv/kernel/entry.S
+@@ -6,6 +6,7 @@
+ 
+ #include <linux/init.h>
+ #include <linux/linkage.h>
++#include <linux/stringify.h>
+ 
+ #include <asm/alternative-macros.h>
+ #include <asm/asm.h>
+@@ -175,10 +176,13 @@ SYM_CODE_START(handle_exception)
+ 	 * Disable user-mode memory access as it should only be set in the
+ 	 * actual user copy routines.
+ 	 *
+-	 * Disable the FPU/Vector to detect illegal usage of floating point
++	 * Disable the FPU to detect illegal usage of floating point
+ 	 * or vector in kernel space.
+ 	 */
+-	li t0, SR_SUM | SR_FS_VS
++	li t0, SR_SUM | SR_FS
++	ALTERNATIVE(__stringify(ori t0, t0, SR_VS), "nop", 0,
++		    (RISCV_CPUFEAT_VSTATEOPT << 16) | RISCV_ISA_EXT_ZVE32X,
++		    CONFIG_RISCV_ISA_V)
+ #ifdef CONFIG_64BIT
+ 	li t1, SR_ELP
+ 	or t0, t0, t1
+@@ -186,6 +190,13 @@ SYM_CODE_START(handle_exception)
+ 
+ 	REG_L s0, TASK_TI_USER_SP(tp)
+ 	csrrc s1, CSR_STATUS, t0
++	ALTERNATIVE("j .Lskip_v_enable", __stringify(andi t0, s1, SR_VS), 0,
++		    (RISCV_CPUFEAT_VSTATEOPT << 16) | RISCV_ISA_EXT_ZVE32X,
++		    CONFIG_RISCV_ISA_V)
++	bnez t0, .Lskip_v_enable
++	li a0, SR_VS_INITIAL
++	csrs CSR_STATUS, a0
++.Lskip_v_enable:
+ 	save_userssp s2, s1
+ 	csrr s2, CSR_EPC
+ 	csrr s3, CSR_TVAL
+diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
+index 34c1d498d1ca..27146b3fa738 100644
+--- a/arch/riscv/kernel/process.c
++++ b/arch/riscv/kernel/process.c
+@@ -258,6 +258,9 @@ int copy_thread(struct task_struct *p, const struct kernel_clone_args *args)
+ 		/* Supervisor/Machine, irqs on: */
+ 		childregs->status = SR_PP | SR_PIE;
+ 
++		if (has_vstate_opt())
++			riscv_v_vstate_init(childregs);
++
+ 		p->thread.s[0] = (unsigned long)args->fn;
+ 		p->thread.s[1] = (unsigned long)args->fn_arg;
+ 		p->thread.ra = (unsigned long)ret_from_fork_kernel_asm;
+diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
+index 6fd541f5d5cb..eec9deff8da7 100644
+--- a/arch/riscv/kernel/vector.c
++++ b/arch/riscv/kernel/vector.c
+@@ -12,6 +12,7 @@
+ #include <linux/prctl.h>
+ 
+ #include <asm/thread_info.h>
++#include <asm/cpufeature.h>
+ #include <asm/processor.h>
+ #include <asm/insn.h>
+ #include <asm/vector.h>
+@@ -69,6 +70,16 @@ void riscv_v_ucontext_save(struct task_struct *tsk)
+ int riscv_v_setup_vsize(void)
+ {
+ 	unsigned long this_vsize;
++	bool v_always_on = false;
++
++	/*
++	 * has_vstate_opt() cannot be used here if called from riscv_fill_hwcap(), before
++	 * apply_boot_alternatives(),
++	 */
++	if (__riscv_isa_extension_available(NULL, RISCV_ISA_EXT_ZVE32X) && riscv_v_vstate_opt) {
++		v_always_on = true;
++		csr_set(CSR_SSTATUS, SR_VS_INITIAL);
++	}
+ 
+ 	/*
+ 	 * There are 32 vector registers with vlenb length.
+@@ -81,9 +92,11 @@ int riscv_v_setup_vsize(void)
+ 		return 0;
+ 	}
+ 
+-	riscv_v_enable();
++	if (!v_always_on)
++		riscv_v_enable();
+ 	this_vsize = csr_read(CSR_VLENB) * 32;
+-	riscv_v_disable();
++	if (!v_always_on)
++		riscv_v_disable();
+ 
+ 	if (!riscv_v_vsize) {
+ 		riscv_v_vsize = this_vsize;
+-- 
+2.43.0
 
