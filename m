@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794395988;
-	b=4XeGfvHcCvvw9oMXiqaGTUMxUW9T11Ah3YTQhYLTfMcxPokZhPLd2ctC42MSRjKBgw0i
-	 iuw/PPlCx/HxqWL+2K4IN0Q3JJbbgMOZcr9mmt0Kf+rFsM2j+Zw3wUQPJetpES0z6NJfT
-	 8jqMARN+BrFsfEZH9fbtvGPjd6AmdKuQMcJRVrCzRqvSifxO9DAfF8ZNi+gNxrZIqTDHV
-	 Cyx3tRabqtiHL4DG264YyT+6hCkF+cKaHG3aUOAYPPUFpUPCLqrtYnnQMrctwLdHiOLNU
-	 Oh+EwRuCFHDTTqEuGKvkikdGckNojNm8KQe6tOTDAkuz1ECa0fSexGb+MpKwI5UKiKw==
+	t=1794397061;
+	b=yX7p4xwjRsXeerKwfJggXRIVMKjQpm/5M/qimHu/kuhKGc93+DQKkqrxHP7nQ4siRstU
+	 S1acA8Xrgn3C+Gyfv0YcB0VWYHXlPbSsXYKKyClvB+cyKbKjKnGmSRl3uBJW37HMJw+9T
+	 M3Dikp825nX3bE1I0iyxoP7i/8hvfculE9H2c776u0WKAWgaeCvCRLXUS9xX+8NqjQYA9
+	 3AZKnhnnP1ZCCT5VvM4K7pJiJHUZVTPQADg9/F2KJRp+1o/cZt/4dJ6rYRK1KxnkvCKy/
+	 IhuD4B8uVnGPq24Zk9cHnM9FcN7SpF0Q5fti4dRmiVvOyFpb6myZJ3Bcx6lkPAhAHVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794395988;
-	h=DMARC-Filter:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:X-Mailer:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=UGGOSnoQOa8uQR6vbajtQptujNdknjBUZcDCmSIDNdo=;
-	b=5TL6NjrmVTrzwcA+KCiF7blRqQ+tlV5SKvIPt4ozJvKzos/Bakb2Bt7ywaY6wRwyheXe
-	 bt5qTgd0xCzgsfYsTYLEI5FOvdBZpM42KmJQVq+dwg0uevdyXK9eFDjyZxPg8UWfiWm3T
-	 9Ot5KvFwyysRQHfcWhW/CVtbAIs/fQhNtyiadgel2EqN9bDaD2rwNIM3zqQLifOG5L2JR
-	 eap85DsGPhgwyUamMFkqY9+/ErNeL+20tG3G/rYuqeoQfx6+cYiJkRJNZDUoCFFcE1uDx
-	 kPWRMT9ea9YhzmaveoSK/efsudlu5mnMUKxEe1mOkn/ppaeT2gM7C354ryCnyccsfSA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794397061;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=GWmJbLCR3Z0PWF883WQy0SlXPcx6C4wxGpgsQpGnChg=;
+	b=SAfO2/ljF1yNAKUBj4QE0q+wtV5ZLzOf4wuymfAY/mzZ3Z0gvFloPDs08zeONZ3It6/9
+	 6VX6vFqqlPDo7MGvZzXP7NUSPaSS7fPemvhUnuC5i2+Vho+RXIgpWlxK0gv8VM0LIhHpI
+	 sacRcNW2+sfFzTiF8q/jVgzw9oEf3zYPBcm3FOU4lvehtYqbc4wZI2BrTpJkfPirzEf+M
+	 RtI59tif2rAvYnCV7/vXlGocR+0AvMLK9TUMV1QTZwlzmLyiIAGnZvXdh2ap9E2OQ+1Jo
+	 +7Ux3nJnjVWSbgtERDiA1BXg7TAXOEAsNDkgPddQLXIiZuohvSeLWScGb3HIX2Fb+Lg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=kemnade.info;
-	spf=pass smtp.mailfrom=kemnade.info;
-	dkim=pass header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=QBOWFM3N;
-	arc=none smtp.remote-ip=178.238.236.174
-Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BlC5Gblx;
+	arc=none smtp.remote-ip=209.85.222.171
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CEF606A321;
-	Wed, 11 Nov 2026 11:19:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32CEF606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AEF1606A326
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 11:37:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4AEF1606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.a=rsa-sha256 header.s=20220719 header.b=QBOWFM3N
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
-	Reply-To:Content-ID:Content-Description;
-	bh=UGGOSnoQOa8uQR6vbajtQptujNdknjBUZcDCmSIDNdo=; t=1794395987; x=1795605587; 
-	b=QBOWFM3NmCqXcWpeEpiAe1sLa7w9smTt2ygsWJvoDwexClILCEuyimAjy2Dszrb3lsYu4Acc/Uu
-	2c6vYi4oIu+hgg+ymTO9QaAf7UP7ZP3OL3Tax6Zb8rzT9A7pywLwZCQnNXt8ysE66/Br8fzvZ1ZWA
-	EW3f7wb/10m3DojJt++RZ/cJIBx/4TDW8smgJurrgvL3p7fLP1eUX3PrmqPN5sOTKz/YStz3jaL4H
-	20DoIqZoybcHHvr0hpzBJjr71aTMyS5F4hLjaIEd1yoM5CspZlFMsTqAliqzPNQgcdKYx3ff/z2Hp
-	I8VsFee+B2mi0pf6N1osXzG9wsT9UQPsgmjQ==;
-Date: Wed, 11 Nov 2026 12:19:24 +0100
-From: Andreas Kemnade <andreas@kemnade.info>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>,
- tomi.valkeinen@ideasonboard.com
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong
- <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, Laurent
- Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman
- <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jessica Zhang
- <jesszhan0024@gmail.com>, Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
- Lucas Stach <l.stach@pengutronix.de>, Frank Li <Frank.Li@nxp.com>, Sascha
- Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team
- <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Paul Cercueil
- <paul@crapouillou.net>, Paul Kocialkowski <paulk@sys-base.io>, Linus
- Walleij <linusw@kernel.org>, Inki Dae <inki.dae@samsung.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Sean Paul <sean@poorly.run>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Albert
- Esteve <aesteve@redhat.com>, Anusha Srivatsa <asrivats@redhat.com>, Dmitry
- Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Ian Ray <ian.ray@gehealthcare.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-mips@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, asahi@lists.linux.dev,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-tegra@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org
-Subject: Re: [PATCH v3 17/19] drm/omap: dss: don't create a panel_bridge
-Message-ID: <20261111121924.0e54e7e8@kemnade.info>
-In-Reply-To: <20260916-drm-bridge-every-panel-v3-17-83afb4f1a707@bootlin.com>
-References: <20260916-drm-bridge-every-panel-v3-0-83afb4f1a707@bootlin.com>
-	<20260916-drm-bridge-every-panel-v3-17-83afb4f1a707@bootlin.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=BlC5Gblx
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93f259cdc86so275142085a.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 03:37:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794397060; x=1795001860; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GWmJbLCR3Z0PWF883WQy0SlXPcx6C4wxGpgsQpGnChg=;
+        b=BlC5GblxeuC6mh7E5mlcHWaa6FbwL7M5zsHQyzNo0ElWDR1HAb/10OXHf4NPTjJrYZ
+         28qVLgXYI0cEYMl1lacrKBU6nz6AUicANfMZJzE7tO5nUNNb/YLGhvSTEHQIGzEOAuHd
+         nVuqyNnNQTSTYCKjeMB9T9GmTGazkGf9pwsNZ07qbwteqNGC2d7g3SsUnHMTDJ/U9yLA
+         UNk/kC7bqqiC/S3ciUXpdExCDcSYSMdftZTBSKD4owXddH4eUYyHOmIyppHH6JwIk37s
+         OAcw2gv8gQOn9dcZudYcQ7SMmXcsyH1a+VEFKbwnhezz+4FwBTNzgzrVoz9I0rpjutiu
+         fZ8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794397060; x=1795001860;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GWmJbLCR3Z0PWF883WQy0SlXPcx6C4wxGpgsQpGnChg=;
+        b=QUbNP1Q8SIhKAOhaHztK6YReK9pnQgctIHI67Ymdi/uEZSlEhetPs2PUGHMFiq5c9M
+         n3VwwRLtYz7BzLm2PGKc325/7YVXCnWhV1d8f1kd3kLgYEp0QZBytE0/IW1ULU4Stz+u
+         kLllB3DfqKaPdfmVQI24+Bak44pmIsWFqpcOHY3bxOCfAIrTk2/G3hCmUm2Pc0PZont+
+         4FWIyh11iW5F1I2LGyDW1TC4cpBxaynf7tD/ozquCTCTin/8sTNnGsxShGzoVaiWfWT6
+         IyaylQDpN471tlfI4rAx8PpRdkQKcbVsPsVvIiGztb+LEUlQbDNsQBl2RUSckiPqsUIu
+         0Ydg==
+X-Forwarded-Encrypted: i=1; AL+hErHms7O6W5FR6kFKhFw9Y7zxdphQPhpIzZ7v4E/GR9/We2Alc6+fp2bnn/5Fd5eVWsHFuLjAPWi4emw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+zekVzAmGTH2dxeJI8H6LjBZhSLFZs6k92a0DC/6qeQncfey0i
+	Ezp7Len0/sMShyXZ7DGa+i20lotj6ULu5ylXOeRHZwRvpdvgBt8fpH7N
+X-Gm-Gg: AYBFou2NQdtGDK0QQL/PuWnYluoAwJpox6juXgzWFPervvCD/4ok7KNetWGD82MYjlj
+	RCV9aEWcYhZiUoSkAhGKnvsc54WeJUZpL4asKDh5kMYuMXp8CbvZLAN0/wS4hu/5Tlgz7W8oXp8
+	Gnr8JXAckBgsiHMymobXGNErNUc3UgxMzBy0RgpAhPuDP/Eb1gCV3kNX/qnlyihileqUPbNjBgF
+	woF9n+CPQes1CQcCx9okls7AFaiCCZEwFwbFJ5Oc2HzP8Fv+Hxg9u03dgW5RwakvgS/PZuiUpyc
+	9kod8bzJhsMKLbNUITlLrKFJ7v3hetzfDeLjQAvp1sXyM0TAvh94IAsbPiEQ1zW4o07+5r3arDE
+	KmaKYbQN6wX93lwdjGWk0jdCwmug2D5oXUslag5TTrRRtzYAeFUSrKGsco1q0lRZyVjfmnv8pgK
+	T8OoY+WT7JlmWEHxLDx3FDeARiDLXqGJQ8t8mgyVIu1YGXU8hJfkw1PW247DL3VnSL4wmL/4XO2
+	eB9QYzyHeYL7pOU1n4kmQuIdb3V2H7wgXclyPudL5Nkk9LOUviJGvL+ukzRfzK+W//kKGXJcKuT
+	NgbBfauF/nhs65wxXFXavT1bj2XN4bOeBcDpgYMB+91I6hIP3LqAaJM=
+X-Received: by 2002:a05:620a:4444:b0:93f:3e45:a419 with SMTP id af79cd13be357-947b002af5bmr318209785a.38.1794397060199;
+        Wed, 11 Nov 2026 03:37:40 -0800 (PST)
+Received: from localhost ([2600:4040:9399:4000:e553:72e5:7d37:c7ef])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7dc398sm462686385a.35.2026.11.11.03.37.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Nov 2026 03:37:39 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,133 +87,81 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 11 Nov 2026 06:37:38 -0500
+Message-Id: <DMSCO4I434TK.15MMEZI0V4UZR@gmail.com>
+Cc: "David S. Miller" <davem@davemloft.net>, "Andrew Lunn"
+ <andrew+netdev@lunn.ch>, =?utf-8?q?Bj=C3=B6rn_T=C3=B6pel?=
+ <bjorn@kernel.org>, <bpf@vger.kernel.org>, "Daniel Borkmann"
+ <daniel@iogearbox.net>, "Daniel Zahka" <daniel.zahka@gmail.com>, "Donald
+ Hunter" <donald.hunter@gmail.com>, "Eric Dumazet" <edumazet@kernel.org>,
+ "Jakub Kicinski" <kuba@kernel.org>, "Jamal Hadi Salim" <jhs@mojatatu.com>,
+ "Jiri Pirko" <jiri@resnulli.us>, "John Fastabend"
+ <john.fastabend@gmail.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <linux-rdma@vger.kernel.org>, "Martin KaFai Lau" <martin.lau@linux.dev>,
+ "Paolo Abeni" <pabeni@redhat.com>, "Saeed Mahameed" <saeedm@nvidia.com>,
+ "Simon Horman" <horms@kernel.org>, "Tariq Toukan" <tariqt@nvidia.com>, "Wei
+ Wang" <weiwan@google.com>, "Willem de Bruijn"
+ <willemdebruijn.kernel@gmail.com>
+Subject: Re: [PATCH net-next v1 08/15] psp: only give time-wait sockets of
+ psp connections a validator
+From: "Daniel Zahka" <daniel.zahka@gmail.com>
+To: "Todd Freed" <toddfreed@meta.com>, <netdev@vger.kernel.org>
+X-Mailer: aerc 0.21.0-threadmapfix
+References: <20261111005533.6436-1-toddfreed@meta.com>
+ <20261111005533.6436-9-toddfreed@meta.com>
+In-Reply-To: <20261111005533.6436-9-toddfreed@meta.com>
 
-On Wed, 16 Sep 2026 15:45:41 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+On Tue Nov 10, 2026 at 7:55 PM EST, Todd Freed wrote:
+> psp_twsk_init() sets tw_validate_xmit_skb on tcp time-wait sockets.
+> today, that becomes set whether or not the socket has psp offload, which
+> is not needed but is harmless. psp_validate_xmit() passes such packets.
+>
 
-> Now a panel_bridge is automatically created for every drm_panel and the
-> panel-bridge API is just a deprecated wrapper to access it.
-> 
-> Update and simplify the code by just getting a reference to the
-> already-existing bridge using of_drm_get_bridge_by_endpoint().
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+This can get sent as a standalone patch. I would probably tag it as a
+fix too, even though it is benign. I can't remember why we (I) didn't
+put the validation hook under the branch, but looking at it now, it just
+looks like a bug.
 
-This breaks the display on GTA04/OMAPDRM.
-
-Panel is panel-tpo-td028ttec1 attached via DPI, controlled
-via spi_gpio.
-
-I get
-[   12.050201] omapdrm omapdrm.0: [drm] No compatible format found
-[   12.050231] omapdrm omapdrm.0: [drm] Cannot find any crtc or sizes
-
-Workaround:
-rmmod omapdrm
-modprobe omapdrm
-
-Regards,
-Andreas
-
+> but a validator makes a socket look like it has an encryption offload of
+> its own, and the tc psp action, added in the next patch, relies on that:
+> encap refuses the packets of such a socket, and sk_validate_xmit_skb()
+> drops a packet with a psp association whose socket has a validator.
+>
+> set the validator only when the socket has a psp association.
+>
+> Signed-off-by: Todd Freed <toddfreed@meta.com>
 > ---
->  drivers/gpu/drm/omapdrm/dss/omapdss.h |  1 -
->  drivers/gpu/drm/omapdrm/dss/output.c  | 42 ++++-------------------------------
->  2 files changed, 4 insertions(+), 39 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/omapdrm/dss/omapdss.h b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> index 4c22c09c93d5..e3e685c931f1 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> +++ b/drivers/gpu/drm/omapdrm/dss/omapdss.h
-> @@ -204,7 +204,6 @@ struct omap_dss_device {
->  	struct dss_device *dss;
->  	struct drm_bridge *bridge;
->  	struct drm_bridge *next_bridge;
-> -	struct drm_panel *panel;
->  
->  	struct list_head list;
->  
-> diff --git a/drivers/gpu/drm/omapdrm/dss/output.c b/drivers/gpu/drm/omapdrm/dss/output.c
-> index 6e9bc605ee22..36d37deac802 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/output.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/output.c
-> @@ -12,7 +12,6 @@
->  #include <linux/of_graph.h>
->  
->  #include <drm/drm_bridge.h>
-> -#include <drm/drm_panel.h>
->  
->  #include "dss.h"
->  #include "omapdss.h"
-> @@ -20,40 +19,16 @@
->  int omapdss_device_init_output(struct omap_dss_device *out,
->  			       struct drm_bridge *local_bridge)
+>  net/psp/psp_sock.c | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>
+> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
+> index 609b06c7af65..664955bfb4fd 100644
+> --- a/net/psp/psp_sock.c
+> +++ b/net/psp/psp_sock.c
+> @@ -330,10 +330,14 @@ void psp_twsk_init(struct inet_timewait_sock *tw, c=
+onst struct sock *sk)
 >  {
-> -	struct device_node *remote_node;
-> +	struct drm_bridge *bridge;
->  	int ret;
->  
-> -	remote_node = of_graph_get_remote_node(out->dev->of_node,
-> -					       out->of_port, 0);
-> -	if (!remote_node) {
-> +	bridge = of_drm_get_bridge_by_endpoint(out->dev->of_node, out->of_port, 0);
-> +	if (IS_ERR(bridge)) {
->  		dev_dbg(out->dev, "failed to find video sink\n");
->  		return 0;
->  	}
->  
-> -	out->panel = of_drm_find_panel(remote_node);
-> -	if (IS_ERR(out->panel))
-> -		out->panel = NULL;
-> -
-> -	if (!out->panel)
-> -		out->bridge = of_drm_find_and_get_bridge(remote_node);
-> -
-> -	of_node_put(remote_node);
-> -
-> -	if (out->panel) {
-> -		struct drm_bridge *bridge;
-> -
-> -		bridge = drm_panel_bridge_add(out->panel);
-> -		drm_panel_put(out->panel);
-> -		if (IS_ERR(bridge)) {
-> -			dev_err(out->dev,
-> -				"unable to create panel bridge (%ld)\n",
-> -				PTR_ERR(bridge));
-> -			ret = PTR_ERR(bridge);
-> -			goto error;
-> -		}
-> -
-> -		out->bridge = drm_bridge_get(bridge);
-> -	}
-> +	out->bridge = bridge;
->  
->  	if (local_bridge) {
->  		if (!out->bridge) {
-> @@ -65,11 +40,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
->  		out->bridge = drm_bridge_get(local_bridge);
->  	}
->  
-> -	if (!out->bridge) {
-> -		ret = -EPROBE_DEFER;
-> -		goto error;
-> -	}
-> -
->  	return 0;
->  
->  error:
-> @@ -79,10 +49,6 @@ int omapdss_device_init_output(struct omap_dss_device *out,
->  
->  void omapdss_device_cleanup_output(struct omap_dss_device *out)
->  {
-> -	if (out->bridge && out->panel)
-> -		drm_panel_bridge_remove(out->next_bridge ?
-> -					out->next_bridge : out->bridge);
-> -
->  	drm_bridge_put(out->next_bridge);
->  	drm_bridge_put(out->bridge);
+>  	struct psp_assoc *pas =3D psp_sk_assoc(sk);
+> =20
+> -	if (pas)
+> +	if (pas) {
+>  		refcount_inc(&pas->refcnt);
+> +		/* Only for PSP connections: a validator makes the socket
+> +		 * look like it has an encryption offload of its own
+> +		 */
+
+comment nit: for my taste, having a comment that starts with "Only for
+PSP connections:" two lines under an if (pas) branch feels unnecessary.
+
+> +		tw->tw_validate_xmit_skb =3D psp_validate_xmit;
+> +	}
+>  	rcu_assign_pointer(tw->psp_assoc, pas);
+> -	tw->tw_validate_xmit_skb =3D psp_validate_xmit;
 >  }
-> 
+> =20
+>  void psp_twsk_assoc_free(struct inet_timewait_sock *tw)
 
