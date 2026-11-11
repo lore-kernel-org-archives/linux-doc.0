@@ -1,138 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794367657;
-	b=be16EXPrmhS1pr9ax8ykUZIgbJ1oxQ1TC0VjSGXRrnv28nFM6pYawPYP+osYnYOnRn41
-	 Y/VxX3GROM55KbX7kO3GltaybUgvK2j5hUFt0bIO0c1mCwa5PIzKHsY+D+i9VCqiO6ufI
-	 k5yP7mzFWXn/+BiOI556hZkchoFsM5DV4a/jwxtWt7oqr02A0BhFen1QLIgl+7/R11hSf
-	 9AC/7e4Z6Dc9Zfg0I1pMvcj6hFTWCw7v7DbDJ06yqING9Nz9JbuYTAqtcgertOqIeLFzh
-	 WzxPsYi83Snj+Ycebff1Zh/TzhoaEp3X810qOGTvMPkIkOWl5vFZyD1zDANl2r2vv3Q==
+	t=1794368676;
+	b=3WdqXgJp8MMHk5j95IklahsfqGDATkuXqdw8mhHQcZaLyX+T6w3CIXkLInBSE8X1is7I
+	 Qyuakz+JJ5KL1Rz8DnMBUIaG+Sd87b8F6PO45L+1QlKam6wQcSWRicH7EakAjD6a4CkvW
+	 ksh6RM7uVhz+ZwqDZJa/4LYIfhym1B/0ddiXUqEYYHhMzNrTwv+UvGbbd0QMOUzrFwxSF
+	 dhBKa2RALIvjJpreca/3FTKovYUw7fp1VUCzYJ3aY+NQw1Xpg5dMYnEmMfokC4fM4XqYo
+	 aqKgUkGRVpmma78wmT7BoTAP05diB8u6HlvdPCYty4qv9W4S0as1fbEmUZGTRbOBMag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794367657;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794368676;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=6ftcOiAn6XPDtcpJvCuZr8LxfA1KHRDI2fDlQ+L+wc4=;
-	b=sz60XOgDDmBLxuk8ioQGqQGg156AyPp3yM/Lap8VoqFjYuxtsG2ncXOK3CcM39ksACFB
-	 l1KynXbjPq5NDW3FP6uei1kF9I953UMhOOOWUzo7Xnn2E4JjeZkpWMjJ/E6X1qKim9xEY
-	 n5484N0R2AOOj+LOsZpk6ZkaJj7F9tmXtt3Hj5q9tgUuI4NcKDuCYkdSbxBdBcFCZozvK
-	 nLvyjWjg1oWb+ZpKumhwjahhkiagSVGyPMqgQAXxIv8Gtwh1piJ8/ZD/Jle2BNrXgV9qu
-	 iw4cJUcX2Lw0S6E4sNktOWyehJ8dobSXqiMpoKzgBDCoUIIz1g3c660X/JjB4AT8GXg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=7Rx2xMMXNqFSdZ4hSTTgyPdyZObPE5Ic1lNABuktusY=;
+	b=xfFlGQz+yBqVac5rOjzhnk6ITF/vQNB5qwEeIyrQgveQD+g2AXans9NnUYeGegBYTNqV
+	 6eHH3BEh+gNn4XRh2eUY7zjCQTlQZExvG4GB8x9C5gKMQeX/vN8bHC7+gVuLF8SgoiiDg
+	 dkQqc/3T2CzbE90iSebJVj1S5Vyy94LMDviAG6azjchONELvYEPZrkY/itf+UU/W8CNOf
+	 kGmx+P9XetKh/Rv+xlVgePaILuqUB9SNLZ57OTcGJjjP2AGHw/tbZOC1xectUIi93TkH2
+	 PIS1X/+qkUOuIImmOrLm1la/rt0lNnUx0fIJM0cd4tatQO7Imt9UeGP8PZV7h8dqbTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gs27mUwN;
-	arc=none smtp.remote-ip=209.85.221.180
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lIyqBdXK;
+	arc=none smtp.remote-ip=74.125.82.52
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6859606A327
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 03:27:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6859606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FD38606A31C
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 03:44:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8FD38606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Gs27mUwN
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-5eac01ff101so971713e0c.2
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 19:27:36 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lIyqBdXK
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1a3c08d6928so4725661c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 19:44:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794367656; x=1794972456; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=6ftcOiAn6XPDtcpJvCuZr8LxfA1KHRDI2fDlQ+L+wc4=;
-        b=Gs27mUwNykVEwrA3DiBS2V9/b/rXJOS2VWp/xhCQT45S5oHsdWjcVvPPEmcibkVEcX
-         na3SoKaPijfWx2N9UFDA2yfziwAl6fpEKGH/vOh1kVLenaKb3p+ykPWwpQOtvrOEOm/k
-         /KkK1qVt+6PHvR/r2W3Ob8i7A+odPqqB3vjp6vJq3ytQHQiJnj+7j3ZBhGKGc5+YOAFY
-         YRJ3z/Q0EqrPUeIPp9SWqMfUStLMPadMe6AYvgA5OJ6ihREIlvcv8V0AFPI8roljyJ3P
-         uYBniZ6b5vySVHJru0SEN1GymH6mYPuFJNDFQmOFEPxmjQxLk2VzEw45P2j7ghjS/kT6
-         w9ng==
+        d=gmail.com; s=20260707; t=1794368676; x=1794973476; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7Rx2xMMXNqFSdZ4hSTTgyPdyZObPE5Ic1lNABuktusY=;
+        b=lIyqBdXKGql3khtJNo74Hqj4TjQMXuuoxuhrMpLFYWjnDtGb8b4AaaXgnFjsD32cUO
+         dnt4b1XGFfw/q3SPZhnl4Myui4WbMv+Es2IswVTKSPfbg6jqmWQm/BqmjX4SB8p6CEI0
+         Ogmg8yyzC/AlWcVbL0ML32c5HjiPzvp0vyVxrck36MfwfBxcc1xryewy0JbNVuNGYb2q
+         CsU3rvFG4zL7scIGYU2C3N+svp9U8d33bp7zvZreYcS2EKZ+WZ2bL3WF617d+kb4xNcW
+         H1VGxMeQfLJ+EtYXHiRa9ANbQB/ikMZG9+/1FXsIWt2LYqjcZoJ8pp/TiegEfcsyA6oI
+         IOyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794367656; x=1794972456;
-        h=content-transfer-encoding:content-type:mime-version:subject
-         :references:in-reply-to:message-id:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6ftcOiAn6XPDtcpJvCuZr8LxfA1KHRDI2fDlQ+L+wc4=;
-        b=05rTstqZHWLjfqOaBtal+gZyrRSnpNSO8QHr14LqazvoHlSjQ8ZoaUCt1QhrKQnevD
-         +F5cQzxQRHc1k1I7QZhBFlv/Lzpp/PokFXpCatr2x6A7FkjsJgaEyyZYgKjRUGjKIvXF
-         mXBpU1WinJxaqB0afDenlSAl8tZEwOdJ+ZIXpS16tqaoc+6DGdkvBbgExKoMA2jiR58c
-         AOebKwjnyOT9kxUHwlbBLv5FhEwb7TeA38qrb9BciBSbOXFLg0adAeW1UM3wXtuG8MYu
-         IOlfotAfUM8IYNOzGxl3PI4kU0GPh1qnzY3e3Ry4bup0L7piC64a6VjHra4Nrkbb57OM
-         zDDQ==
-X-Forwarded-Encrypted: i=1; AL+hErF+iH5CdMx6lljTxiHBYF+BHsUUFmp3Rc5KbXdHuHNHYmnrjiLrt02LgRRqPHLmttdQr5Jb9QMa6Ps=@vger.kernel.org
-X-Gm-Message-State: APuU4Z//AUnzY5+sYf1P9pHJuPyZPonI+urPk7xxDtooOyaAmtZbrFzJ
-	JAxX7v+hedpI3RK7bC2mWW069sH4sUEn+A+n8e/cSAkS48BkCTVlKm4R
-X-Gm-Gg: AYBFou3rqtbuazIqtOhapUt+taTWLDSLRGdbsfgkwtPztmSyzyoJpe78gaAwR/2flCB
-	CXKD59/DoJ1PUey48u/q85TKz9dg3NqDfX/z0RofKtFUnofqGavbmSdDmcccQ2tT6oWxhnqtcbO
-	L6899YEhfhjzZPe/9EV7drwnEzyG0Xi0a/hlf4HJB0iKXO0gKpCoyMxBbk/7cAEou1PlwaulftR
-	KA00S0WkBojFxbDwtLoun8SnXMCDg8pw9Fc/LxtfQ+km/4uHQJhH6Vy6Imv2n5gfnFW7gssqkQ0
-	BHgd0NlaaxDlrx3uzdJ0UlHIyaroAl5xAQdBYenzS53D3lyWNlGsAduOX1eRLWxpOasDlrOTVRa
-	d1VnEZkyFUv+b4/e3dbL/lYrnawxkrOFZc0UMTmN1v3vFp+hReVJh/jHsVosOvL0pl3rybBjkOB
-	3ALPQIJ8UyqDaL7CbqL62BoPK8G9HbAJapzLolGkotSM5NpuSu9WGovqr0ROuzKxd5RKaAce4VC
-	TzFol+RJkOapEyedTh/xBQCUKckkNkH/Uxi9Buw8PkOzsMSVHL9X75fGGx0z1xsTDv1sXG0QM3T
-	F+D2BDyjBPYqBQgTWbXXJ2ES0n1K/A+BTjC1SyNgT3jZJi9o09sdGHWAiI/1coO/3bpFQLv0Tp2
-	AWwOSBrhxseauEFYVHyUS9gwOADHt4IYUDMpYO+MdTvAXAf7alq0TnJyfivK4MO/oLUk9qO4=
-X-Received: by 2002:a05:6122:3d0b:b0:5c9:66f7:2f23 with SMTP id 71dfb90a1353d-5ee1c29a86amr335477e0c.2.1794367655542;
-        Tue, 10 Nov 2026 19:27:35 -0800 (PST)
-Received: from gmail.com (223.230.150.34.bc.googleusercontent.com. [34.150.230.223])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee0c5afeb2sm3174383e0c.9.2026.11.10.19.27.34
+        d=1e100.net; s=20260707; t=1794368676; x=1794973476;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7Rx2xMMXNqFSdZ4hSTTgyPdyZObPE5Ic1lNABuktusY=;
+        b=0kjyOtnd9o9oaNOSLjeMd38cQUOrjlNaVvDoFl/5SjaJMmwUNi+knjG3mKl83fyC5o
+         YKaJE9jtvL4lbsZ3odbiDpG8fdZx5Gw82gpGSOTsvQVbXicHggsq5Aa+PRKmtlu13HuB
+         cvINbRZkZyBUJbHoq7/+pngvdyO2MoZAUV7oc+0iUGLiSGbE6IYM9A+Z/mEw65AMdGN8
+         ryjGt7ZWKqoeCGaOHMqM944mTkSzi+dJpVB6SFtF/3tXBNmNeju0mmhQ6KZPdBNlOwEl
+         scTVBoeYkpkt6RG74fX7By/bt9OFtQdpQzVu6jZmxfqD6dCQLEZ1u/QUEjqJ0HS1uDQ7
+         6Zzw==
+X-Forwarded-Encrypted: i=1; AL+hErHHdOSjScVahDm3ArKW9a7CLkzImVp+//OYlOKizkGvqCjxnAKozL8Ear251Bh2hA//RVuJL+CF8vc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8aevftC62yVDFRwujxAwuO7myU1lzil96tNFI/80TZM5khwVoC
+	3CTyFV3g+fQqA7amDUlLDgR4hUClTFVCTxWHhujKFPhrqBwXmiOZggME
+X-Gm-Gg: AYBFou2kz8n9DbmYLdqHL3C+g4uBjT75xR0E9PbD6jcIMLX+DjQIknjqaBtAzYsCWns
+	B8mhKHLoiGZ+Wo9D/tUS8Mqy3b8+1rGdBc8GMmkCI0ve8A65DwpLW72j3EfmUOtf78GWtpiKKJr
+	B/obOdTNU0gOvWDHGQJ0QLw7Xad1pY+GfXzk6G6UdQL23Q8gHHbSkl9P0ZSUGioENztrJIhXUEC
+	EB9hEJhJORFbddE0hMjtGv0rhKEImOImDT26OkdKAA6ORFmDkwLn9M11Z7RG5h2X46yHXyH6lj8
+	f9QX9rBV+RxdZjkLQt31dPbe/Jplv2/FwpoR2+QCBk3Y/rsHJ01kJ5Wei0R8g8xImi5HOFQ86Gs
+	pZWuX0k/s5lkwo7J40ejSa2mlisPC4zr2Nd4eKgBZ14Tz7FbpfsvzakjN6S89THTnzwGTmuHPrv
+	RaNPHQRezHae2rk8ssAwE66KTDbHg2u3MBwci3MYmKK+4MAFWyNwP21eLIH+RBYT3nBMOHqxlQe
+	Qgui4aK0Eet2ARA5NbYtE2d+8aHpbwCyEu4CgCV/XVNPNZF0oo9CobGV+7CBU96vT9k0vt9t5AC
+	V5HMEYqWiVB/oI6/7HRL
+X-Received: by 2002:a05:701b:261c:b0:1b2:46ca:242e with SMTP id a92af1059eb24-1b3c02f34camr1200137c88.14.1794368675565;
+        Tue, 10 Nov 2026 19:44:35 -0800 (PST)
+Received: from a1-free ([161.33.196.121])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b2fc09sm23664862c88.10.2026.11.10.19.44.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 19:27:34 -0800 (PST)
-Date: Tue, 10 Nov 2026 22:27:33 -0500
-From: Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-To: Tianyi Gao <tianyi@cloudflare.com>, 
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Cc: Stephen Hemminger <stephen@networkplumber.org>, 
- netdev@vger.kernel.org, 
- Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, 
- Eric Dumazet <edumazet@kernel.org>, 
- "David S. Miller" <davem@davemloft.net>, 
- Simon Horman <horms@kernel.org>, 
- David Keogh <dkeogh@amazon.com>, 
- Jesper Dangaard Brouer <hawk@kernel.org>, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- David Woodhouse <dwmw2@infradead.org>, 
- Dragos Tatulea <dtatulea@nvidia.com>, 
- Nimrod Oren <noren@nvidia.com>, 
- Alasdair McWilliam <alasdair@mcwilliam.dev>, 
- Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
- Stanislav Fomichev <sdf@fomichev.me>, 
- Magnus Karlsson <magnus.karlsson@intel.com>, 
- David Ahern <dsahern@kernel.org>, 
- Ido Schimmel <idosch@nvidia.com>, 
- Alexei Starovoitov <ast@kernel.org>, 
- John Fastabend <john.fastabend@gmail.com>, 
- Donald Hunter <donald.hunter@gmail.com>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Shuah Khan <shuah@kernel.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Breno Leitao <leitao@debian.org>, 
- =?UTF-8?B?QXNiasO4cm4gU2xvdGggVMO4bm5lc2Vu?= <ast@fiberby.net>, 
- Danielle Ratson <danieller@nvidia.com>, 
- Kuniyuki Iwashima <kuniyu@google.com>, 
- bpf@vger.kernel.org, 
- linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, 
- kernel-team@cloudflare.com, 
- nh-open-source@amazon.com
-Message-ID: <willemdebruijn.kernel.37fb7add3354a@gmail.com>
-In-Reply-To: <20261110201250.95225-1-tianyi@cloudflare.com>
-References: <cover.1794020868.git.tianyi@cloudflare.com>
- <e90e748e0aefa7cbe1c2b31b8c7902ccf135c3f2.1794020868.git.tianyi@cloudflare.com>
- <willemdebruijn.kernel.1d64e7848503b@gmail.com>
- <20261107182526.69543-1-tianyi@cloudflare.com>
- <willemdebruijn.kernel.2c6a653eb65fa@gmail.com>
- <20261108190831.3f991a13@phoenix.local>
- <20261109154909.32748-1-tianyi@cloudflare.com>
- <willemdebruijn.kernel.935b9bf7f1a1@gmail.com>
- <20261110201250.95225-1-tianyi@cloudflare.com>
-Subject: Re: [PATCH net-next 1/8] net: add tx_extra_headroom and
- LL_ALLOC_SPACE()
+        Tue, 10 Nov 2026 19:44:35 -0800 (PST)
+From: TAKANO Mitsuhiro <takano32@gmail.com>
+To: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Namhyung Kim <namhyung@kernel.org>,
+	James Clark <james.clark@linaro.org>,
+	linux-doc@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	TAKANO Mitsuhiro <takano32@gmail.com>
+Subject: [PATCH v3] arm64: perf: Drop the example the userspace counter section points at
+Date: Wed, 11 Nov 2026 03:44:32 +0000
+Message-ID: <20261111034432.2020955-1-takano32@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261111023550.1971639-1-takano32@gmail.com>
+References: <20261111023550.1971639-1-takano32@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -142,44 +104,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Tianyi Gao wrote:
-> Hi Willem,
-> 
-> On Tue, 10 Nov 2026 11:23:09 -0500, Willem de Bruijn wrote:
-> > I have some hope that if there is sufficient reason, this backlinking
-> > to the originating netdev (or socket?) can eventually be addressed as
-> > well. Rather than work around it.
-> >
-> > The skb_orphan and iif issues are well know. But not set in stone.
-> 
-> Thank you for the suggestion. I looked at what backlinking would take.
-> 
-> For the socket, ip_rcv_core() orphans the skb, and after that skb->sk
-> holds the receiving socket, for tproxy and early demux. Keeping the
-> sender's socket there would break that assumption.
-> 
-> For the netdev, skb_iif is the last receiving device, not the
-> allocating one. So keeping the origin needs new state in the skb,
-> such as an skb extension.
-> 
-> Even with a backlink, the kernel still needs to know when to adjust
-> tx_extra_headroom of the originating netdev. This brings back
-> auto-tuning, with the problems from my earlier reply.
-> 
-> Taking a step back, IMHO it is more natural to set the extra headroom
-> indication on the netdev that the skb is allocated for, than to have
-> other devices raise it through a backlink, which can get messy.
+Documentation/arch/arm64/perf.rst points at
+tools/perf/arch/arm64/tests/user-events.c, in the text and in the link
+target, but that file is not in the tree and no commit in the history
+leading to this base has added one.
 
-As said, the problem with that is that an admin has to do it, each
-time. Whereas the kernel has this information.
+The section already describes how to use the libperf helpers and points at
+tools/lib/perf/tests/test-evsel.c as the example, so the sentence that
+sends the reader elsewhere is redundant.  Remove it and the link target
+rather than pointing at another test, and move the instruction for running
+the example into the How-to section, next to the reference it belongs to.
 
-> For v2, I would prefer the narrow VETH_INFO_TX_EXTRA_HEADROOM UAPI,
-> following what has been done for IFLA_NETKIT_HEADROOM. I will put it
-> in the last two patches, so the rest of the series can be taken
-> without it if you prefer.
+Signed-off-by: TAKANO Mitsuhiro <takano32@gmail.com>
+---
+v2: drop the reference instead of pointing it at another file, and move
+    the instruction for running the example into the How-to section.
+v3: the v1 history moves here, so the commit log is the change alone; the
+    sentence about the missing file is stated once.  Raised by Sashiko.
 
-Ok. I don't expect this to be solved in this series.
+ Documentation/arch/arm64/perf.rst | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
+
+diff --git a/Documentation/arch/arm64/perf.rst b/Documentation/arch/arm64/perf.rst
+index 997fd716b82f..5b9cc2aeb642 100644
+--- a/Documentation/arch/arm64/perf.rst
++++ b/Documentation/arch/arm64/perf.rst
+@@ -131,7 +131,12 @@ changed.
+ 
+ The userspace access is supported in libperf using the perf_evsel__mmap()
+ and perf_evsel__read() functions. See `tools/lib/perf/tests/test-evsel.c`_ for
+-an example.
++an example, which can be built and run from the source tree:
++
++.. code-block:: sh
++
++  make -C tools/lib/perf make-tests
++  tools/lib/perf/tests-static
+ 
+ About heterogeneous systems
+ ---------------------------
+@@ -140,14 +145,6 @@ only be enabled when the tasks are pinned to a homogeneous subset of cores and
+ the corresponding PMU instance is opened by specifying the 'type' attribute.
+ The use of generic event types is not supported in this case.
+ 
+-Have a look at `tools/perf/arch/arm64/tests/user-events.c`_ for an example. It
+-can be run using the perf tool to check that the access to the registers works
+-correctly from userspace:
+-
+-.. code-block:: sh
+-
+-  perf test -v user
+-
+ About chained events and counter sizes
+ --------------------------------------
+ The user can request either a 32-bit (config1:0 == 0) or 64-bit (config1:0 == 1)
+@@ -160,8 +157,6 @@ userspace must treat the upper 32-bits read from the counter as UNKNOWN. The
+ and should be used to mask the upper bits as needed.
+ 
+ .. Links
+-.. _tools/perf/arch/arm64/tests/user-events.c:
+-   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/perf/arch/arm64/tests/user-events.c
+ .. _tools/lib/perf/tests/test-evsel.c:
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/perf/tests/test-evsel.c
+ 
+
+base-commit: 7475ea8b58616b33c04afb976cf0fbaad9dd63fb
+-- 
+2.53.0
+
