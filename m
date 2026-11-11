@@ -1,117 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.135
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794435917;
-	b=iqZn7p29ui7GtFPHsq2DToAojSmScdr/G1+ItVN7Xmk4LCWMzq1yaMdVbgvgk6FHK6Tk
-	 nlxT0z+xN/oYg41q+U7LyuROHxoZsdB6xIfoCMBPAoWfbz2ylYY4P9o6gRnn0+Il39v5R
-	 VkPzkQMMgD8jCQiZlEd+SwJpymFhn9yosuN1OtgcCVtu4kMotgaQW9QgmLt4JTEfoGcwZ
-	 vy+Ch6aTuXqjw5eE/XQbcdee6QMoT8Qa7ptI5KUj9+h87VQYV0GK9muQaLREUgN34EgLb
-	 TQjP5amOnqfRXyYnqsa/3QOltP84eqFV4IKVjTFIS9HNf64oTva3Qv/ksjRYrFKZvKA==
+	t=1794436165;
+	b=SRONAPSR97PTBgTMFF67J4McUrsnbCa/k7x9GyC1NrJS2VPv7K6RiQ8oyqENMQa1GSFY
+	 hq+wjGR8aik6zR2AcqdTjUa2+/hOUywI5AppUX/mYDbCTXdytyOnsi+1gPnOJmHNR5ILj
+	 KFIKrdxe3OpMfhmP1mYkTfys27t+SGT/tyjJ12IT3FJUHXKMdIzJiI5lurpNeyV8I0q6s
+	 uBVImpC9GdyQfQ0hYYz6YgUZ6YimA9SsAYOef2hobPwfK3gAZCUBawWbFYZ9mmtPmXa01
+	 ndT8xAd4CCk35uhMf1UoJmk4jJIC9iUo53JVED2ms4pF4smqCKRqNcgIYLBu6qgbU6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794435917;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794436165;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=LcIgSNREManU20T5ds32E1qosC1xbF0e9vbPmoZw/SM=;
-	b=o2AyMNmRCl9N4DnMDEiLLoARl0uLmTnIhgf7JeFJ2KM3BW96BvAS2xUsZNryL60SPihS
-	 K4qR5NdIMhEvgB3SS9/HBLPMyUtlWI1gLs2R+NiAunK/uYPtcCRVX38JWtCl2HY5IfQ+a
-	 G/0Amt2KCdUdRuY3SCSExwaTHIhOvh5jYjB3fkesOMhF1VWKf6Ke2/KNviAK9LEGVPm8K
-	 Anh765WcjHSx/u0G9M08e7moIQWLJ8C1vaRufPL2KG3DIuzLrX3bHlwkr3OKh+M7FgJUA
-	 /7rOh98yr6/cPq9LguhYmx5VUuc0x/igkFF4RjTx1XoJjWhQGJbpUxD+2U61fQfB4/w==
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=VhufRV4BoS98pezOde2Ss8la06aT4y3vZY8jTMf1PWs=;
+	b=NVpmkj78czHD24rK/5tKrgCmbuZlc3Ss2Tft7Pt8cPNukgBf4qEFeVWMRSyPJwxOPaBZ
+	 sJVrSdfMw+Gk+HjNXTdspZBzVBHMFhnEVKrgyZZP3u3QYfDk7v9lVfUXMXay/Yj6nbeIT
+	 iIbM2w4iRr07QW0BQzKOraHwhrP8pAYTtXO3pxw2l8PUS22lOpbtYSwcel6msZtm7TRq9
+	 Y/qmDRC9s0vjZU6djCP0a1R5PClrJkdqslB2iCWKUz2ydv1GWmwIGVgbA/0YnNlKs1ozG
+	 oiW+FMFap3WS2oRVkRWSelLGYXuZwg9cTM7rFqaLXQlKes1MZJroP4AScNMuwBSoi4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="WRxwN8/y";
-	arc=none smtp.remote-ip=74.125.229.135
-Received: from mail-dl2-f7.google.com (mail-dl2-f7.google.com [74.125.229.135])
+	dmarc=pass header.from=soleen.com;
+	spf=pass smtp.mailfrom=soleen.com;
+	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=UBFkvSSO;
+	arc=none smtp.remote-ip=209.85.221.175
+Received: from mail-vk1-f175.google.com (mail-vk1-f175.google.com [209.85.221.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE2AC606A327
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 22:25:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CE2AC606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1BC606B36C
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 22:29:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6E1BC606B36C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=WRxwN8/y
-Received: by mail-dl2-f7.google.com with SMTP id a92af1059eb24-13985f8229aso3309024c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 14:25:16 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=UBFkvSSO
+Received: by mail-vk1-f175.google.com with SMTP id 71dfb90a1353d-5eadadf23e5so2431430e0c.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 14:29:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794435916; x=1795040716; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LcIgSNREManU20T5ds32E1qosC1xbF0e9vbPmoZw/SM=;
-        b=WRxwN8/yRQXnBMs79H4zEYpeGEdBg8BnKhaHIb1pRpEfUeouvtNDop9d5/n4XDIsTE
-         bS+RCTNz2dFaoNvhaPgORvboxzRWa6ylYl/nYhEZ5DewOd9+xQHb3ySenQgqSb3A3aAB
-         EQy827yfXzHAx0VVyQT/26oNznABcK6D66SnLGHhy387O11NbSMNyPxIFHGmHX1Mix2l
-         6mNwh1bPwiaWQ0K4p5tC9qsb/pgi0MigrZTf6G2BFqiTQ/4H1N8FfNfOVZccC6GSxP3g
-         +lo10dqt1ZyMjXI9qhOjp9SauzZgLfWXaLHu1tPrqDh+qWL6hHkpxkqYzy3Mq2Asx7sU
-         qu8Q==
+        d=soleen.com; s=google; t=1794436164; x=1795040964; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=VhufRV4BoS98pezOde2Ss8la06aT4y3vZY8jTMf1PWs=;
+        b=UBFkvSSO181dGTbEnl6AnPlOEkQY6F/N95xQxRJhz7c5IRO+VEbXWFIAEvayCl/kd5
+         XeIOKPIflSGTa0amiUI8hlmChz01GDdMJoJXIkPvK98reSRtBR1m1PN2vN7xIi0X5cRy
+         k/8OwfXIJR9a+GpkSMTKBHAXotf6lbT74Dxn4nCF39EG1vsYs+l0x4yZ05dNsK2F8Rso
+         OkApORfkZWbfd437HGZ97KSbMtLEJUNCYRe/Dvf6WuJILzoV5eNpOwOWh8qaO2J+8M/9
+         3/QMolihpp0Pu27cTdtC1fJ2EBc+eWuuYZvgLLSTxjca8+wEb1qO0xhKn0DL2G5WLy9E
+         6aXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794435916; x=1795040716;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1794436164; x=1795040964;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LcIgSNREManU20T5ds32E1qosC1xbF0e9vbPmoZw/SM=;
-        b=nkmnuH6uIhrpJo8giOo0BEj4U62L/bi18rrtRhyI/qEtBPMQhMhEwmSOy7OLQogCqC
-         OLpJxXm5pHPoPUXKfl/nXJLYx7Wm0eTw6wwVFgOn5wLIF9vv/arlYQpzPAbh0H9aTVZm
-         rHW8AiEyGRQBC+B3CdAV1NOsQCa22mpw8vduDvmMupHsOIttxbRzi2hEOOm7Zu7OUQkw
-         gj8FjuHGDjGsnIvtzW3Uzw2GjufXLaLLG5jqh/bUPzrCOd5TMvljt78idut9c1t0UIxE
-         s+lZSlSRBygkD1JxjrXI0DTpCIEHTEkkSGX0F0iGUDkomqGzV33xcGJ3Av0TiXxR5I+K
-         6iYg==
-X-Forwarded-Encrypted: i=1; AL+hErFhGBS4yvSPue6Rxqws8ugVgryQpeSuH80L5ANbo+2LFl5Wb7MlO1PKok1IEC8G5AMziW7zFHvhxTA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+QsG/pcndeaYeuw6n0XAJvS1AOcqh4G1VvsPevKo08ZQtck9g4
-	xqxoN6Du4vbcaW6vAXO+bk8O+MeHvV8i59uvnjXGH9bKKHpHp75Kn++l
-X-Gm-Gg: AYBFou3AVNanc70ibaNIqQbGeZ9gqvP637mxRoiYXU2UCA3C6oQj/G+3UG0vhcrZaJJ
-	W4OlYGKqqfAY+rmNHZWnknFg6FkgYGtgPQDuw3rVlR+QfK/+3p3DzAVGnk/S2ZeXObC1bAHa1ao
-	RLFiFA1jYzuVMlZx+2bdPX1566ZfeNVUUJF3Co7A01LLmAV9eEIi7PgvLyTHn3FofE/qkA+ZM2g
-	1AoYN2XYSeo24wIf8uu/no2/jz+Qun705NkBKeupzIqoXnZqKTE4wNYUDB/OZf9wPUrAn/0Cgl/
-	mikmPUugnqnEwQ+XdcitpVDJeK9wxZeU6pFX9TYCZV6WVkecV7gvnegspkU+AeCHDneQAC9FrLb
-	TexMLJ3U6zp+VzbDPwOQxQZJKIZ7blMGQGFz6JPDZiZyj/O+kRkMgmaRiOYtH7i3pBghN+Ghj8y
-	3PO+pvG/mztNzRkjc+ni6HD8In2p/xN4Uf7lvrI+sQuadlMhSL/NpxqY33VR/5Fh0D5nfzxirZd
-	gC1vaLXVuAYQf72TtIUQhvNfBtLTVPFgBdWcXf0p3VSRfJU7eVUemfa7JUUvO8wjp1qjEhycN1S
-	2+1LbFZesmqZUeH03mfvesw=
-X-Received: by 2002:a05:7022:286:10b0:1b3:a23a:d1f3 with SMTP id a92af1059eb24-1b3c03037a9mr3351998c88.18.1794435915687;
-        Wed, 11 Nov 2026 14:25:15 -0800 (PST)
-Received: from localhost ([2a03:2880:9ff:43::])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5890584sm20682923c88.3.2026.11.11.14.25.14
+        bh=VhufRV4BoS98pezOde2Ss8la06aT4y3vZY8jTMf1PWs=;
+        b=0B3EEcDlPGm0Yc1P161yuFgIiyfqLI1JSFXDhmtwyTYE6S5IRRn/GkwtHH6JLkXa4T
+         3daTxFb4LLMEf89yrUeArAjnwWGBhIaAlVFnvUHxVWFBE2tioEXBxypUQ/HLCx+VBDt6
+         YjksiOF/8mfdSgc+nvSdKpMcdtwj71d1/w+zB7QvB2AgKWwChckEyqVOwiAUq60eekXe
+         YQJH6VO5yZiZwZwP3f61v42olKGlRauMzM3B4WFxoonUQTPUmQlpXQmvGcRB/Q9EKqca
+         CFHRy8537DsFwmKsatGW2HqRbBkX1976LU9jpzQpjWENBqIZkI9X6XD+5W92/z4O15Xt
+         Q9mg==
+X-Forwarded-Encrypted: i=1; AL+hErGXjYJoYOrY8TtFJIr4wcTwSMxkxyJG+ZCW17CZPt4JnE4jbRHf4OX42YAFfjcdZ9GOraE+oi76TKU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/OVBJ8nPebOuu/weWtmPlCXGTjqCH0DJllqbCtaPFVC3GOnsB1
+	gkOUogGewq7D6Xhcro2N5rOQuwId3N5kCOqbFtpoQ1E3FD0shkW56TNrriX9jJP+XlA=
+X-Gm-Gg: AYBFou2qAX+TBwyPCk39bAXRvJk7J2dfCRFMq/6aEVkStTsNWpeAjuGaNpM7FbBrRtz
+	t9GI7AMPXcWN+QEo2xrnFD7d94XEh8n9uDo8DBVc7xyq1mPrlb02nKe2LJMN9OoZQz3mgOP6R8n
+	Oc2WB3KdUm5IVFXP/cIw8wbj6JUOSqTMUOUvz41MtGsfnp0dExEJIHbB73GH2LWS8/qfjeCPa0a
+	K70f5dkdiJbrQSzD3YRV++agB0G7riKAve3yTd+hatRTZjVnsMtb/VMiiR4ON4E3fViV/tg63Wy
+	rSXm5pvnb9byIxWf/LHXbXOo2TykA6Aa7I+VGXPvDlx2hq3eofWdDtTm+mNdpWuqza+ld5bh3vq
+	qQLUaXZs5L1sV8VFLwdbgJiMI81G2lNYMdlyjSrgXg+Coj/vw/gXsdlqFnQOo2x9mBtExRmeCdx
+	+KFTz4Pkxc5J0huoU9qoimTcd6JBJgynfPNnNJAVHhkbclte8WajTpiAbAiND6VaCl8fWEBdDG1
+	aUQ6DbFiq9JHqds0JtzfxxugCw7dX7j5zPThCEPYIvKzf6pm4tqAvwKk3fFOb2V1t78BtYy8Zpf
+	kB705arpld8J1VVMfmV1RdT3tya4KmTIt6ZxEvbhST2ogxyzHnUFYBOZXgsxTsbN0dlUnSBmRxN
+	Mft6m/kdTPAHIsvkvJGDUxJKadW22Xg4vT720IzCghAp6
+X-Received: by 2002:a05:6122:4210:b0:5ec:d84e:3833 with SMTP id 71dfb90a1353d-5ee1c453cbdmr1849715e0c.14.1794436164290;
+        Wed, 11 Nov 2026 14:29:24 -0800 (PST)
+Received: from soleen.c.googlers.com (16.49.199.35.bc.googleusercontent.com. [35.199.49.16])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee0c58ee8csm4508834e0c.6.2026.11.11.14.29.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 14:25:15 -0800 (PST)
-Date: Wed, 11 Nov 2026 14:25:09 -0800
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: Tianyi Gao <tianyi@cloudflare.com>
-Cc: bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Jakub Kicinski <kuba@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Vladimir Vdovin <deliran@verdict.gg>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Donald Hunter <donald.hunter@gmail.com>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
-	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Tushar Vyavahare <tushar.vyavahare@intel.com>, Jason Xing <kerneljasonxing@gmail.com>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Madalin Bucur <madalin.bucur@nxp.com>, 
-	Ioana Ciornei <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Chris J Arges <carges@cloudflare.com>, 
-	Jakub Sitnicki <jakub@cloudflare.com>, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	intel-wired-lan@lists.osuosl.org, llvm@lists.linux.dev, kernel-team@cloudflare.com
-Subject: Re: [PATCH bpf-next 00/15] xdp: add SKB core extensions to keep RX
- metadata until skb creation
-Message-ID: <avTqb--WfUNBcEyN@devvm16445.scu0.facebook.com>
-References: <cover.1794281983.git.tianyi@cloudflare.com>
- <avOvI8xrHI0dwyHj@devvm16445.scu0.facebook.com>
- <CAG4wq-egD55NZDw+OKVKTKN2tQJ9oKEC504wFv=xoMXyJ-0z4g@mail.gmail.com>
+        Wed, 11 Nov 2026 14:29:23 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -121,44 +90,113 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAG4wq-egD55NZDw+OKVKTKN2tQJ9oKEC504wFv=xoMXyJ-0z4g@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 1/9] kho: Reclaim the metadata page left reserved after
+ kexec
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+To: Chris Down <chris@chrisdown.name>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
+ Mike Rapoport <rppt@kernel.org>, Pratyush Yadav <pratyush@kernel.org>, 
+ Breno Leitao <leitao@debian.org>, Alexander Graf <graf@amazon.com>, 
+ Baoquan He <baoquan.he@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, kexec@lists.infradead.org, 
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, kernel-team@meta.com
+In-Reply-To: <63ca64c004b296a998a3e531f8c0c4964916b70c.1794383544.git.chris@chrisdown.name>
+References: <cover.1794383544.git.chris@chrisdown.name>
+ <63ca64c004b296a998a3e531f8c0c4964916b70c.1794383544.git.chris@chrisdown.name>
+Date: Wed, 11 Nov 2026 17:29:20 -0500
+Message-Id: <179443616043.2329176.17166425351392983946.b4-review@b4>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2439;
+ i=pasha.tatashin@soleen.com; h=from:subject:message-id;
+ bh=jGQo4CvboZX/j4iYyskgIcnUkGUfctp7MromfOrLaYc=;
+ b=owEBbQKS/ZANAwAKAbt3KEzbc3reAcsmYgBq9OxDl5eSqxBhOZE5p1XG7yi8PQ1rOiwUmOTWN
+ tSoxjgP6WuJAjMEAAEKAB0WIQRBMaqT7LRvGvB/NmK7dyhM23N63gUCavTsQwAKCRC7dyhM23N6
+ 3uNSD/0Wo/iIWR2aXRe5YzNSrRfo/731JlX1MXOtpy+A5vTlCNvhVm398rzpLHqepWduInwcdRK
+ 4tex7caWuDlEdOt+RIVRYZ9mDjBo4xRQ0pvDBu9TWfu/8iU6zATD9T2YuP0IZnK23JCBq2LZdNL
+ Pd1ZB7+If5y2zy1PJcSHbWDjJR9cu52ZsvA6Ni0FgTTyy3SdqMWwntgGPXP/LkzxuTKVIxTCew/
+ zAi8DC6COcIzjFKPckc3lqS4x+o2s5Zwpfgfa/yAKCJIXNcdgmZhS/bqjRG1k30OiLRzjm1AUH0
+ +/Wzasj+qb7r0d0gsdRO44Q3LUAgYoBNNtbFLy+xdLMwqLcDpWFCNFIsuQoxoTLzbNi/ldIvWM7
+ Bhe1ME5c/vfVxRfgVtSpaG6iwt7oCEesTRczv6SaBP0L2VXQcphd+4/BXqpxAX3OQlRgygYDjh2
+ 1FlvPx3aw7hsvLSA1SpUCaE1/h4TboRhZXeYpX7Qjfo5WJMt9pwdUSkpQoQ/IZ0H7DlnI3dcKAJ
+ LKGf5Y3yLsfxcsbOghJ6yLAHz8Qa5p2lyNP/Jke0X30ny06+HzRS9+hTk2lJkxIc+bfFW/kZkt1
+ l4/OofVK10BUEKi4onJaayj27ChYPFFdnwt9J1sO+PHCisIKLgi9L8aR/AUtsyOX7ZBzKO2lVH8
+ P8fa89xifqHqa4w==
+X-Developer-Key: i=pasha.tatashin@soleen.com; a=openpgp;
+ fpr=CAAAB722DD22A081F0D49F35633A6A993D43B569
 
-On 11/11, Tianyi Gao wrote:
-> Hi Stanislav,
+> After a KHO kexec, the new kernel keeps the page holding the previous
+> kernel's kexec metadata reserved for as long as it runs. It only needs
+> the page once, since kho_in_kexec_metadata() copies the previous release
+> and the kexec count out of it at boot, and nothing reads it again.
 > 
-> On 11/10, Stanislav Fomichev wrote:
-> > Awhile ago we discussed the alternative of adding setters for xdp
-> > metadata. Then the veth (or whoever turns xdp frame into an skb) can
-> > apply whatever metadata it needs (and there is some magic behind the
-> > scenes that takes it into account when creating an skb). That keeps
-> > the layout and most of the code outside of kernel. Have we considered
-> > that here?
+> Free it with kho_restore_free() once copying is complete.
 > 
-> Thanks for the reminder. Yes, we considered [1] and [2], and took
-> parts of them.
-> 
-> The alternative setter model in [1] requires a program on veth or
-> cpumap to call the setters for the RX metadata. We want to avoid that:
-> 
-> - On veth, an XDP program removes software GSO from the peer, limits
->   its MTU, and can copy skbs from the peer.
-> - On cpumap, each entry would need a program only for this.
-> 
-> This series achieves the same with only the XDP program on the NIC,
-> which stores the values with kfuncs in the skb core extension area
-> after the xdp_frame. cpumap and veth take this area into account when
-> they create the skb, which is the "magic behind the scenes".
-> 
-> [1] https://lore.kernel.org/all/20250616145523.63bd2577@kernel.org/
-> [2] https://lore.kernel.org/all/aGvcb53APFXR8eJb@mini-arch/
+> Fixes: 76aa46b9e404 ("kho: kexec-metadata: track previous kernel chain")
 
-My main concern is that we are adding a lot of code and one more special
-way to plumb the metadata (and another metadata area), another set
-of kfuncs and slowly creeping more features into xdp making it more
-and more like skb.
+Do we really need to apply this to stable? It behaves correctly, and 
+your patch performs a minor optimization by releasing a single page back 
+to the system.
 
-For containers in general, and for fast af_/xdp, we seem to have been
-moving into netkit with queue leasing. Maybe that's something that
-can help with your veth performance?
+> Signed-off-by: Chris Down <chris@chrisdown.name>
+>
+> diff --git a/Documentation/admin-guide/mm/kho.rst b/Documentation/admin-guide/mm/kho.rst
+> index 902d171a780a..f9d2cc5999ee 100644
+> --- a/Documentation/admin-guide/mm/kho.rst
+> +++ b/Documentation/admin-guide/mm/kho.rst
+> @@ -120,4 +120,6 @@ stabilized.
+>  
+>  ``/sys/kernel/debug/kho/in/sub_fdts/``
+>      Similar to ``kho/out/sub_fdts/``, but contains sub blobs
+> -    of KHO producers passed from the old kernel.
+> +    of KHO producers passed from the old kernel. A blob disappears
+> +    once the kernel has read and freed it, as ``kexec-metadata`` does
+> +    during boot.
+> diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
+> index 6f1f55fe3181..8a07783326a4 100644
+> --- a/kernel/liveupdate/kexec_handover.c
+> +++ b/kernel/liveupdate/kexec_handover.c
+> @@ -1782,6 +1782,9 @@ static void __init kho_in_kexec_metadata(void)
+>  
+>  	pr_info("exec from: %s (count %u)\n",
+>  		kho_in.previous_release, kho_in.kexec_count);
+> +
+> +	kho_debugfs_blob_remove(&kho_in.dbg, metadata);
+> +	kho_restore_free(metadata);
+>  }
+>  
+>  /*
+> @@ -1859,14 +1862,15 @@ static __init int kho_init(void)
+>  	if (err)
+>  		goto err_free_fdt;
+>  
+> +	if (fdt)
+> +		kho_in_debugfs_init(&kho_in.dbg, fdt);
+> +
+
+so add debugfs node here.
+
+>  	err = kho_kexec_metadata_init(fdt);
+
+Remove the kexec metadata node here. While this is somewhat unintuitive, 
+I do not see a better alternative.
+
+>  	if (err)
+>  		goto err_free_fdt;
+>  
+> -	if (fdt) {
+> -		kho_in_debugfs_init(&kho_in.dbg, fdt);
+> +	if (fdt)
+>  		return 0;
+> -	}
+>  
+>  	for (int i = 0; i < kho_bootmem_cnt; i++) {
+>  		unsigned long base_pfn = PHYS_PFN(kho_bootmem[i].addr);
+
+Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+
+-- 
+Pasha
+
