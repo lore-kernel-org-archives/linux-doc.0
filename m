@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794384538;
-	b=bWwDOkqCO8yQKauMgbSozJKt5UDYgznrovM2H5Bj8tFg38fNdkVmXOi1uHl9RTGYe7Dd
-	 iCJBKH/3AjVdGrEiBg4K+V0R6MXp807alBciaL0J0CkgpsuxhYjEMaketzcb1R3m7oLlw
-	 NLpyqAkuDCcx1b9Q6qExwgudeF+7O/9yJ+0Io9s2sjW4N2Zi5qHwdemUb0JdFEyvrYpgA
-	 5MfFKJ3fjShyLBA2E+3C0twC+YHkA7P0KkQlvgar1lMKGoMFfiAJDjWc6TNY5MM8CfWnt
-	 s3DIeaj21xMvtpzxo5gnQX2CTCHaDplEQrvMMp+r2kgSVp0IPsDwBHoSYfnNq3cb/cA==
+	t=1794385701;
+	b=2CXc+DlWK6edoAgkWmxp3DGtAy+IU4mc81c8EaGziUXLlLdJSeXHDAxUJYct0gyblPTn
+	 YamwpYF4HeKR7zYhMEGbIxnCJpQUvtmvsU3VlKlwJH399x/5j5NuG0+vGJFclNmv6NWJ1
+	 DCCgBp7sLN/G4/x/19MWCIlSxlV81ZcPuNhxQJdMLgAd8ZGnRcyZWtF8TlgEi1U6k7SCq
+	 Tc9TjYzFhV6bwxUsYsNsJb+boAwAR8ZUjsVyXH2z56UL1AGPAzpDnEm48wrdGmuRR5KQB
+	 d/vST9MmWzrzQuNdmFsAAtPUPrWSuY6FhUA7UPavSFqhTqJBK+uQWLOmz/aRgFVSrBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794384538;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794385701;
 	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
 	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=OMx8DURBi1HKQNsNSde4ObBuj2cCKjyxSIgE906Z6wU=;
-	b=kGoVRNrOz9zjp0XyRR/p8sbFK5B3je+jGAsAO09eJ7qGvr9YD0EaeQx0fBZ+r9urdyxk
-	 OJoZm9/5ZfIF4I623HTxZvhzVlT6UHfpOobrkfIhjiDfGebJ8d6NLTQShhNJoKnf4ROHH
-	 MOX7uGokDETWNgHGrYLATrB7/7WbKhjKOQWBvzLdysD0zz3Zumc+nqXMhPXz9ECkGJtX6
-	 TcYn6MAQURAARJC2E+xuBHix2T9qlT37cfiNaS/ybrfFQtfQ21Q1j+y4Wv7dNYuTkLxRx
-	 nw8OOfxwI83iHryIMDDKj4IORz5D+F0RxKLBvE93+0e0AKRqw3jOUmmeXyt+DUq+SQg==
+	bh=gcIKN4jsIQlyGqAhuZyA/IGoRoSGh5xeSKn5q/FW1ss=;
+	b=5LS0QQ+RY1QTPLK84F3e2DK+PEk41byqsgN1B+gWrWicezsssv5L1Pvba8RTLaE/X+cV
+	 FtL/GxljaJDymqqQvlFbhJvpdbopHukz4OOqTlnhMLyiT8PQcYDRgvDfpkm+p5QShpLX5
+	 yAyzDIvXFQv3g4tsRoNF55n4ymbqRh5cl+Et7wnMPV9m+fD5dR1UHPND9xkYa7HQuHk7T
+	 DTGNfj//0VS060pyMg9o9tH12MQiGNB6XMbiXbnj02f5a33aacg8uAUWcVVxKdDP7Wsib
+	 hm0hV8FbWSsxFDczgi0DBdcgDzSc5X7imRsrf5xMvaYKhRo9DUYosSkykZxClijvElA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vj5n5e0S;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DOKn+x4R;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87AE3606A8D3;
-	Wed, 11 Nov 2026 08:08:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D085960A2619;
+	Wed, 11 Nov 2026 08:28:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Vj5n5e0S
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAA231F00A05;
-	Wed, 11 Nov 2026 08:08:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DOKn+x4R
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8DDF1F00A05;
+	Wed, 11 Nov 2026 08:28:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794384538;
-	bh=OMx8DURBi1HKQNsNSde4ObBuj2cCKjyxSIgE906Z6wU=;
+	s=k20260515; t=1794385701;
+	bh=gcIKN4jsIQlyGqAhuZyA/IGoRoSGh5xeSKn5q/FW1ss=;
 	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=Vj5n5e0SBFA1j4z0Z15SdCzc4M3OrCLsWJXqhvLQqGwHQKanl350MBfbSz8ARxnFD
-	 jOWJ3MA9OMnNp4iJ2t22+M/1LUETLN++x1e4PQAlu084/gezb1EGPHwXX4AkHLZ9Xe
-	 amH9gwOhhyHIrBsWhaeeuFm8XCfe57IygtxfcZNX6YATAJkMKLeLNvpsUuq2Oa7MeQ
-	 QfAyTDiSl0sVpXOH6ghIFl1wmICmjoaLePNWKQw8Q0Vjkc0RW7jhiS4QEeokPdTnbz
-	 M7Y9tkPjkPDpcplzDhf60pYRsJkFGU8yEqUlPEN3t39trYPzNLA7pz1bc5Spos97Dn
-	 XKUhumL8wOfGA==
-Content-Type: multipart/mixed; boundary="===============5888328363070956270=="
+	b=DOKn+x4R0Lt241rvPfHbxLwI3TJZ73SkJeFKg3QHd4Sjlu+UXEvaHs3kOxAQVdmXd
+	 7EMaFty5yM9ipJC6s+Bu6ihn0z/25MASyoU2hRvYOK0+gIjvnKpfxtKywyZ99nsAzt
+	 XPQ5HqOgYzS78Tjln5IBCxiL3rqcTYZCCJW+hc5rjO5GDhjxYjW0TeGTSpuKaqqdg7
+	 08b9g6UCwVtayD1B//JXQbRGH/HmvqPHEqWQhbxCeA4ZRm+09K6P98PCo2SkQJhP+e
+	 ybREy979hEcgrIiSX0v5mwUZ49sbflsjOYXT0DEGoBcq6j/7zIKTput0MA99eNuaPD
+	 SWmPOxL9NpQtw==
+Content-Type: multipart/mixed; boundary="===============0887953150388126547=="
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,90 +49,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <ab530d93c7383ec9cd5d9fbedc531e933d4b812ddb367bb85c940b870d34c247@mail.kernel.org>
-In-Reply-To: <a07b9717684d5e20d8ff7a778a5f031d1092f18a.1794303670.git.sieberf@amazon.com>
-References: <a07b9717684d5e20d8ff7a778a5f031d1092f18a.1794303670.git.sieberf@amazon.com>
-Subject: Re: [PATCH v2 3/4] sched_ext: add cgroup_set_runtime ops callback
+Message-Id: <804b992eb8d1be9849d102cff1b87303b024cde4b09e16c4a18842a53f2196da@mail.kernel.org>
+In-Reply-To: <3977ed2471c6fdc19c672b2dcd13c70f997b9eff.1794303670.git.sieberf@amazon.com>
+References: <3977ed2471c6fdc19c672b2dcd13c70f997b9eff.1794303670.git.sieberf@amazon.com>
+Subject: Re: [PATCH v2 4/4] sched_ext: charge BPF scheduler tasks to cpu.max bandwidth
 From: bot+bpf-ci@kernel.org
 To: sieberf@amazon.com,mingo@redhat.com,peterz@infradead.org,juri.lelli@redhat.com,vincent.guittot@linaro.org,tj@kernel.org
 Cc: bsegall@google.com,dietmar.eggemann@arm.com,rostedt@goodmis.org,mgorman@suse.de,vschneid@redhat.com,kprateek.nayak@amd.com,hannes@cmpxchg.org,mkoutny@suse.com,void@manifault.com,arighi@nvidia.com,changwoo@igalia.com,skhan@linuxfoundation.org,corbet@lwn.net,rdunlap@infradead.org,cgroups@vger.kernel.org,sched-ext@lists.linux.dev,linux-doc@vger.kernel.org,linux-kselftest@vger.kernel.org,bpf@vger.kernel.org,linux-kernel@vger.kernel.org,nh-open-source@amazon.com,hborghor@amazon.de,fmubeen@amazon.de,dwmw@amazon.co.uk,karataev@amazon.com,sieberf@amazon.com,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Wed, 11 Nov 2026 08:08:56 +0000 (UTC)
+Date: Wed, 11 Nov 2026 08:28:19 +0000 (UTC)
 
---===============5888328363070956270==
+--===============0887953150388126547==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-> sched_ext: add cgroup_set_runtime ops callback
+> sched_ext: charge BPF scheduler tasks to cpu.max bandwidth
 
-TL;DR: The documented guarantee that cgroup_set_runtime never exceeds the
-quota the scheduler was last given may not hold for schedulers lacking
-cgroup_init or cgroup_set_bandwidth; comment and commit message may need
-qualifying, or validation tightened.
+TL;DR: Nit only, in the selftest: join_path(), cgroup_id() and
+controller_enabled() in cgroup_runtime.c duplicate helpers in
+cgroup_nr_cpus.c; consider moving them into shared util.c/util.h.
 
-> diff --git a/kernel/sched/ext/internal.h b/kernel/sched/ext/internal.h
-> --- a/kernel/sched/ext/internal.h
-> +++ b/kernel/sched/ext/internal.h
-
-[ ... ]
-
-> @@ -863,6 +863,26 @@ struct sched_ext_ops {
->  	 */
->  	void (*cgroup_set_idle)(struct cgroup *cgrp, bool idle);
->  
-> +	/**
-> +	 * @cgroup_set_runtime: A cgroup's runtime is being set
-> +	 * @cgrp: cgroup whose runtime is being set
-> +	 * @runtime_us: runtime in microseconds
+> diff --git a/tools/testing/selftests/sched_ext/cgroup_runtime.c b/tools/testing/selftests/sched_ext/cgroup_runtime.c
+> new file mode 100644
+> --- /dev/null
+> +++ b/tools/testing/selftests/sched_ext/cgroup_runtime.c
 
 [ ... ]
 
-> +	 * @cgrp has a quota, and @runtime_us is at most the quota + burst the
-> +	 * scheduler was last given, by @cgroup_init or @cgroup_set_bandwidth:
-> +	 * cpu.max and cpu.max.runtime writes reach the scheduler in the order
-> +	 * the fair class applied them.
-> +	 *
-> +	 * Delivery follows the same rule as cgroup_set_weight().
-> +	 */
-> +	void (*cgroup_set_runtime)(struct cgroup *cgrp, u64 runtime_us);
+> +static int join_path(char *dst, size_t dst_size, const char *parent, const char *name)
+> +{
+> +	int ret;
+> +
+> +	ret = snprintf(dst, dst_size, "%s/%s", parent, name);
+> +	if (ret < 0 || (size_t)ret >= dst_size)
+> +		return -ENAMETOOLONG;
+> +	return 0;
+> +}
 
-Does this guarantee hold for a scheduler that implements
-cgroup_set_runtime but not cgroup_init or cgroup_set_bandwidth?  The
-commit message makes the same claim: "The runtime passed is then at most
-the quota + burst the scheduler was last given".
+[ ... ]
 
-scx_group_set_bandwidth() still updates tg->scx.bw_* when the op is
-missing:
+this isn't a bug, but join_path(), cgroup_id() and controller_enabled() look
+identical to the static helpers of the same names in cgroup_nr_cpus.c.
 
-    if (scx_cgroup_enabled && sch && SCX_HAS_OP(sch, cgroup_set_bandwidth) && ...)
-            SCX_CALL_OP(sch, cgroup_set_bandwidth, ...);
-    tg->scx.bw_period_us = period_us;
-    tg->scx.bw_quota_us = quota_us;
-    tg->scx.bw_burst_us = burst_us;
-
-while scx_group_set_runtime() calls the op whenever
-SCX_HAS_OP(sch, cgroup_set_runtime) is true, and the fair class only
-checks the runtime against its own cfs_b->quota + cfs_b->burst in
-cfs_bandwidth_set_runtime().
-
-For example, take a scheduler with cgroup_init and cgroup_set_runtime but
-no cgroup_set_bandwidth.  Cgroup C has cpu.max "10000 100000" at load, so
-ops.cgroup_init() sees bw_quota_us=10000.  Userspace then writes cpu.max
-"50000 100000", which the fair class applies but the scheduler is never
-told about.  A following write of 40000 to cpu.max.runtime passes
-cfs_bandwidth_set_runtime() since 40000 <= 50000, and
-ops.cgroup_set_runtime(C, 40000) runs, four times the quota the scheduler
-was last given.
-
-Similarly, a scheduler without cgroup_init that loads after C's quota was
-set is never given a quota, yet still receives cgroup_set_runtime for that
-cgroup.
-
-Should the comment (and commit message) make the guarantee conditional on
-the scheduler implementing @cgroup_init and @cgroup_set_bandwidth, or
-should validation reject cgroup_set_runtime without cgroup_set_bandwidth?
-The later commit eb360e17b06e ("sched_ext: charge BPF scheduler tasks to
-cpu.max bandwidth") does not change this text.
+Could they move into the shared util.c/util.h so both cgroup tests use one
+copy?
 
 
 ---
@@ -140,4 +100,4 @@ AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
 See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
 CI run summary: https://github.com/kernel-patches/bpf/actions/runs/42982707042
---===============5888328363070956270==--
+--===============0887953150388126547==--
