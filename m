@@ -1,84 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794433725;
-	b=nk+qQA8ZrmSlSWhGv9cPNNI6QzpM/VycNMN2NTTO80XKwKcsKH2rzu2WCyj5oc1UHpUs
-	 +CZnAfez1DwoOftNFat3b3X3n2WibQ+D8lVglhwB39UdneKn05UNUxd3+YobVX5ylXa9/
-	 2ZMgpdrbn/0JdwnHsKoKZry0QccGYxZ4D61AuWQM5eK2+Q/Guj9u9ANoFPe28PmgZz3Tp
-	 6vDd7ztIcgPkotm8dkwJcvYOj+HNpR9O+4ZKi0rZAx+pQO8GIhkLVkZC4sDNDIShS8+pC
-	 Xjba+HsQYLRpj4qvt+TGd9XJnd3mHOEsIBHxA/02ewxurgV7XbCyUmjy+JdowNRdLQQ==
+	t=1794433728;
+	b=qjippyboIxkdb1A2ii83uNUtQNzfNsIq9C9bj749peaoqgWpCajs89t6z22WTkOU3yfK
+	 wf7COZXoBtg1MrlqNMfFbZp2GxIAuiDKAObVKKsJoEeebWQFpUpU99qL6C2/NxfKct5M7
+	 nT6HWfZKdIqpNtJV52JPVSlpzNx+7rXNPg3DGLaP4X7CfNKIF1Wzfrt9xLt2mKoPOf/fe
+	 B0MWopfwu9atLQ8VeyRLZJ9+s9Z2TiG/yS2do32SbXZmS0oj2Ue+XnjyHTWJrWxE/dMpM
+	 uunALoZYBTdINIsNVv4XsfWfUZ7Tt0LCBp9xZ7opJFBewO+tTM4yRvQ3bAthm7GlVHg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794433725;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794433728;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=KqvT//ywRZvyN5aUarjR+h8osuwosZKu+ejEl3vYsLU=;
-	b=OXQFsTWZ/1ApL9JpbKK9tNbCIYE49yfwEDxWn35LSU90xbNnNwBX/afBMH6jvr2tOQ5y
-	 msFEQRAt2zb1qgtesnAX9TibTs8CUuOipxz4lGVE7I6QnA03edM+FXVmZyETaYuMvlhMq
-	 SQJZYwx5sTxc82ZNAX6/zIOhfirEmLUBbcoNVb1aoTk9CkVLtAiQR9EUfQkVuJC7CUNEI
-	 VcVS9/sn4TmiaW8HvJbK0stlsB+nN+IL7q6T4T4XBP6YwTo9UH+Pd7iVH0zQy0EbLVxK+
-	 sJ8x2YzPx1ysjMxFTi/VJ0m0OlSUHoNFS3vjhXOf5w4MnEhqsERij74GY15xJwomODg==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=w1WQDWdW+OMrA6GWRTziLNz2ylBjmo0GVysq8sWfl/w=;
+	b=RXWFG0MMu8TYeXl9IETyR2gTk8bnEKnru/WE6xmk760gF9qEyMrkvmcTL6XtZ+D61c9f
+	 zxmo/pBvWPdjen28AkC1YnththeUHQghiUBOjqlFqh2sLBqML4wmA+wvlgB+WNHf89kfl
+	 eb0d0wXCCqc+2E2kJdgLI8l5wW0xfSK0Vsce4ggd8O/v5j/oPTNJ4IrdEftFt3Ukjwggo
+	 M263XMeAs2/T3SlywhM2+HvqPfNDebgYME+CWtFv/JgQ/6jZYLLKMM4jYmiyL06uQxQ5U
+	 PCJXo3GMoUaZ6flSoRPlSBHSGMblZW4kuQrqIDtlUaQbOv2Y9lS6LtFjchlYm3VBIsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ake94c02;
-	arc=none smtp.remote-ip=209.85.215.171
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YYfr9xBW;
+	arc=none smtp.remote-ip=209.85.215.175
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06A22606A321
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:48:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06A22606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDB8606A336
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:48:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EDB8606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ake94c02
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cdab6ae1ee9so1667594a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 13:48:44 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YYfr9xBW
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-cd6acc50b8dso1728500a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 13:48:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794433724; x=1795038524; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KqvT//ywRZvyN5aUarjR+h8osuwosZKu+ejEl3vYsLU=;
-        b=ake94c025Pcg8BInjOErVqxBlmWTqqVgqg2H4GFWuVtFOV/VA8AOF5EBhpeakZxZqM
-         giPzK+C4b4BCW0QcvuFW+11krFPw8NRmt2qHNei4AJA+wEGJxHcLoCbUetZYQN0+RQEQ
-         auoNJD0qDQ1224vXtoxj4YIhPRw3Lwz6jbl+AmvKRfENbmldxiMBKhxW4swAovAv91d5
-         xBs1BjwShouGoiwRJcn4uqBK8DGCmnrpCbNWOh8ohmFQSP5pQ7p3KJU5OqgwSdRBgKTm
-         AGTXCghXyc0r2OUchoSUzlmzorZbSOFkVWhPW6QPwyDlfQU2bB7OREnhzMFMXYii55Dv
-         YgKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794433724; x=1795038524;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794433727; x=1795038527; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=KqvT//ywRZvyN5aUarjR+h8osuwosZKu+ejEl3vYsLU=;
-        b=LXFfjWyPGtJsE4sF6/PRf/g4nzJbdsQY9Tp+zxThg3JpVK2WLI223z8Rn/J0Pk6WiU
-         G5N2ROaktAn/mghmhdznX3MN9/2uVHTEKVi3YXw6rv9CisbxHhUpsikGnPMzJGR59z83
-         v86p5v3eBRfGU4TcGo6yRz7kbgDV6VUEORKDcRhXgyvntP8rxMrzHAAqcXPnyknGxbFz
-         6TqZPsmCXTVUG+V0mrOZRhCLvDtUpR4w3J60tjrJn1eyw0dUdMYebF95BFXN/byYX6iZ
-         Dutwhv7aDQudhskXl1iI6/KraW2IDq5y9VhiXfSS0ZLaUpPd6V+IaOcnVJ1/guRVOKj1
-         7WpA==
-X-Forwarded-Encrypted: i=1; AL+hErFLdc/VsgLrtrHvNGFXDkCjzCs8uhwYYW7rISBzvEjgtsWLG+IYSQoj3OLPzb3pTlS2Z+49/8efbX0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9tpl3mOfmq+NPf8YoYLDbpdu6HQAu2bSRIcb6GYtbuaK98oa1r
-	fNquGKuWh0NzI4UAfb7iC5j+t6ULuw+TkCqIpCgB9WX7BHorFwjsua8o
-X-Gm-Gg: AYBFou1JNUksRzEgce92hjmgPNtr+22gucanXZqdOxlrcyT8whggq0Si+Wd2v5d5ni4
-	eJ8KZqZIglLcPaXjMBkk+t3iHB2s+QGmY4Px+yK1E+TZ3N/zEYg81xRSXS/0j1oajkxjCb4G3Ln
-	X7ZryBNBm4jBlIQKhHnmsFCsfYju/04YleYeguBgF6W+RXRGaHtM93jh6a9czJYb8kkKq2M2+/s
-	DMMejH4/WWHDllNqnvHwDcZMW4e5VkDxeHg5EkM8oDH81H+qldhe6MaSzVYy5fktrHs0W8FtECn
-	+UjqDNtC5m50L4k8G2PH584N9yCup9MoI2NSeimdB2cPO/t1GaHw4Yila9oy8v1ym4d8Jz3pyvz
-	r7lO73O3i3Isf6yvRE3LPnNYoTJfZiOd4b44zowr2PrBxWFlOZNwVCf/Nb9flvJ0YKyudqfNLGC
-	ZbAD8CphPPjWTQJ3Vq2CT8Un18hKpTw37rw4PrEWp4HXLV0ysAbAI0PQlQtnG3um0ZxTZ6TD2Wz
-	xRc1Qn74pfbY2o8/O2YdNTd65RaTkVc1u5WJCUwCXQEAjrm7yQCoysmQ/Xze5SEQnEGIgkBnqsH
-	b1KhWl6N0il9Hzi1tCnRoXXHukswiZVm0bkAraJkspmJcz+xA3kk2gICETNy/FKmaQkpiwGgxZn
-	vIjQ+VJhpWISZn0NZlEmsMEqPDySKX6gladA+baOsJu6FnFcOhvaKYilq3oIFQNzv9sZ72xafxr
-	wEy8PMxh8iV8vcFn7QVqF4rLM=
-X-Received: by 2002:a17:90b:2649:b0:3b0:d070:3c4b with SMTP id 98e67ed59e1d1-3b182f235c3mr3064154a91.33.1794433724406;
-        Wed, 11 Nov 2026 13:48:44 -0800 (PST)
+        bh=w1WQDWdW+OMrA6GWRTziLNz2ylBjmo0GVysq8sWfl/w=;
+        b=YYfr9xBWJqbeeiCd68v6kLrnESRi2Ut1gEUBiyNHctdVO4kRGi8FupHtUAHPyLuYHV
+         +TMRqqR57A3JoZCXIjsBxMKFS4TOlFdwZKNFuIVj7mpdZ4D2oF7Vl2dS48UgMAppVxTd
+         TyWgdQuJeL3qSrNstuitMK2+xkvBS2kgU6io+ofGSGb/eX7DVH8pq4dj3RgUcLqGfluQ
+         akGNkNrL+EZ0DPM64TrdG2aEULD/EHKqywW4AAm+eDMoThTpl3DUQTZ/JHyvf/GhYKfl
+         1FIQY+lyGOttsxecWPq6wYUHtf88GjAddOR3gRvuhve8cvfEzTD2jQYEziVNmgHm90Mf
+         R0vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794433727; x=1795038527;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=w1WQDWdW+OMrA6GWRTziLNz2ylBjmo0GVysq8sWfl/w=;
+        b=sG+spCkcEZJTAQg/WCSV3ilmy5gqoseSih7gEJQYPxXL6R3ksmzQrtmOhC9Bd4UDKj
+         Oc70heeM//hJgcwNdC74ksSTgISLLzEHxwUmZpLcTTflIqxrjXyd0FLNCa8xbp/7peZG
+         /qCykjAgCT79vlZpFGhTvcJEzDVE4lLR5kp+IFYjpF/AaERb/lenxueapWGVPAW0v8bV
+         0rZqtGVpQB7hfLLw4LXZr4+zjy442XSAwQ06Xvt1H9/Dym/JzRccgawqdRNcM+aV+L3j
+         R8/n1i3VyVQY1IZcUJ6nM/MHwtTTcOV2NRmUpSuYXBuATyDooAyWKWYSc9wBpWT3TslP
+         b+9A==
+X-Forwarded-Encrypted: i=1; AL+hErEwx70Q5oj77Qx6f27KUGoMufSwpq3kHTjJAtu/CybaIrLHGyWfjzKAuiYUwMRs20mtDFPJ9Sf3eMo=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/Nskb3TmYtfJa2ISE2BVMGrSL7y7eEcDwVtBdGRuY5XhrqRuU/
+	mDavQSEkGpdH6evhzPim/peG56Rb7w/I6x1GQ2KAU5Q70XbmeWkO/I8HUuHJBXUs
+X-Gm-Gg: AYBFou1FCeuepTWmVkuDYijwO5V4lffKIgTdoNi3zzFdwMeRnE6Bmv+Tos+5VtyH3i2
+	12bvE/j5J6UninCs8bLlm+vEpYHu6oQWdDIQ0H7xM6lfsHCw0oC6w7EApGZeEzeWzVpk/vqSrBX
+	RsBSSgVBVOQ+v1bR6sCVQGXiSEs4kPglngVQP9jFAy3+hZB0EA0vRgUhuiHzHDVqUYqlW5t1Rsa
+	SeCdGX7a5x7X2DlWCy4NZqayBa4O5eB7t7a6unxqWl75L/1387KQztkFvt1w8EOaNK7yTihRN45
+	4ZGXjUhpbsaFNHL7Gg8d1/Xxvv/fpVxEaT3naujJ7boJl31j8EA9C1ovLmE4DeDiw07B+0n80eG
+	bo2dsVanp3zjUC+SWF+/kFp5gmD+c1JjbIzFEmwHgNa4ZBBTsMhuSXa1ZkrSWZeX7UluItpM9Tb
+	rP0j+4FzQVV8+TFOvjjnAqY2FHwJISJinw8nNXaNNRZK+bb93qY9bLuzO+OSuu+jPm/+/EHdAnh
+	ybaElwj/ERJPThDCRpL4eeWIqw3ZSkZ3Zn0OptI68DUoDQGLwnWuY0PeRp6thMEgA7ufpWTK318
+	O9tsrGslFuoEJJxZTaMUC6ma1V/oIQPxsY0wf+S5HzYSp0K1oXBIgtlP/8dpwjEAASQDCadwux6
+	8Xc1y3lLTn37zg3o96Xhn5HE4T7UZiJW3W6hk+xH4XgSAbXfpah/kIjwsEDw1Wcs/t1ewvbtKcC
+	enJg==
+X-Received: by 2002:a17:90b:2252:b0:3ab:9c73:12e with SMTP id 98e67ed59e1d1-3b182e03266mr3695944a91.6.1794433726803;
+        Wed, 11 Nov 2026 13:48:46 -0800 (PST)
 Received: from ryzen.lan ([2601:644:8000:37f::e34])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b182de1dafsm2754761a91.3.2026.11.11.13.48.41
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b182de1dafsm2754761a91.3.2026.11.11.13.48.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 13:48:42 -0800 (PST)
+        Wed, 11 Nov 2026 13:48:46 -0800 (PST)
 From: Rosen Penev <rosenp@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Hans de Goede <hansg@kernel.org>,
@@ -89,10 +90,12 @@ Cc: Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	platform-driver-x86@vger.kernel.org
-Subject: [PATCH 0/2] platform/x86: dell_rbu: make usable
-Date: Wed, 11 Nov 2026 13:48:24 -0800
-Message-ID: <20261111214826.6577-1-rosenp@gmail.com>
+Subject: [PATCH 1/2] platform/x86: dell_rbu: Use the firmware upload API
+Date: Wed, 11 Nov 2026 13:48:25 -0800
+Message-ID: <20261111214826.6577-2-rosenp@gmail.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261111214826.6577-1-rosenp@gmail.com>
+References: <20261111214826.6577-1-rosenp@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,20 +107,295 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-First commit updates the API to one not disabled by default on many distros.
+dell_rbu receives the BIOS image through the legacy firmware sysfs
+fallback: writing "init" to image_type calls request_firmware_nowait()
+with FW_ACTION_NOUEVENT, and userspace feeds the image through
+/sys/class/firmware/dell_rbu/{loading,data}. This is why DELL_RBU
+selects FW_LOADER_USER_HELPER, an option most distributions disable.
+On such kernels the driver cannot be enabled at all.
 
-Second commit fixes upload of firmware more than 4MB in size, which is most
-modern ones,
+The firmware upload API (FW_UPLOAD) was added for this use case and
+provides the same /sys/class/firmware/<name>/{loading,data} interface
+without the user helper. Register a firmware upload device at module init
+and move the work done in callbackfn_rbu() into the prepare() op,
+which receives the whole image. The BIOS picks the image up from memory
+on the next reboot, so write(), poll_complete() and cancel() have
+nothing to do.
 
-Rosen Penev (2):
-  platform/x86: dell_rbu: Use the firmware upload API
-  platform/x86: dell_rbu: Allocate large monolithic images contiguously
+The upload entries now persist for the lifetime of the module, so
+the "init" image_type workaround for recreating them and the
+entry_created tracking are no longer needed. "init" is still accepted
+and frees any downloaded image, as documented. Allocation or
+packetizing failures are now reported via the error attribute instead
+of being silently dropped.
 
- Documentation/admin-guide/dell_rbu.rst |  25 ++--
+The upload device is registered from module init and unregistered from
+module exit, so pass a NULL module to firmware_upload_register():
+otherwise the reference it takes would pin dell_rbu and make it
+impossible to unload. firmware_upload_unregister() cancels and flushes
+any in-flight upload before returning.
+
+The userspace sequence documented in dell_rbu.rst (echo 1 > loading,
+cp image > data, echo 0 > loading) is unchanged.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
+---
+ Documentation/admin-guide/dell_rbu.rst |  25 +++---
  drivers/platform/x86/dell/Kconfig      |   2 +-
- drivers/platform/x86/dell/dell_rbu.c   | 161 ++++++++++++++++++-------
- 3 files changed, 131 insertions(+), 57 deletions(-)
+ drivers/platform/x86/dell/dell_rbu.c   | 107 ++++++++++++++++---------
+ 3 files changed, 81 insertions(+), 53 deletions(-)
 
+diff --git a/Documentation/admin-guide/dell_rbu.rst b/Documentation/admin-guide/dell_rbu.rst
+index 2196caf1b939..d33927b0d52d 100644
+--- a/Documentation/admin-guide/dell_rbu.rst
++++ b/Documentation/admin-guide/dell_rbu.rst
+@@ -47,6 +47,10 @@ The driver load creates the following directories under the /sys file system::
+ 
+ 	/sys/class/firmware/dell_rbu/loading
+ 	/sys/class/firmware/dell_rbu/data
++	/sys/class/firmware/dell_rbu/status
++	/sys/class/firmware/dell_rbu/error
++	/sys/class/firmware/dell_rbu/remaining_size
++	/sys/class/firmware/dell_rbu/cancel
+ 	/sys/devices/platform/dell_rbu/image_type
+ 	/sys/devices/platform/dell_rbu/data
+ 	/sys/devices/platform/dell_rbu/packet_size
+@@ -95,26 +99,21 @@ Do the steps below to download the BIOS image.
+ 2) cp bios_image.hdr /sys/class/firmware/dell_rbu/data
+ 3) echo 0 > /sys/class/firmware/dell_rbu/loading
+ 
+-The /sys/class/firmware/dell_rbu/ entries will remain till the following is
+-done.
+-
+-::
++The /sys/class/firmware/dell_rbu/ entries are provided by the firmware upload
++framework (see Documentation/driver-api/firmware/fw_upload.rst) and remain
++for as long as the driver is loaded. Once step 3 is done,
++/sys/class/firmware/dell_rbu/status returns to "idle" and
++/sys/class/firmware/dell_rbu/error is empty if the image was accepted.
++A download in progress can be aborted with::
+ 
+ 	echo -1 > /sys/class/firmware/dell_rbu/loading
+ 
+-Until this step is completed the driver cannot be unloaded.
+-
+ Also echoing either mono, packet or init in to image_type will free up the
+ memory allocated by the driver.
+ 
+-If a user by accident executes steps 1 and 3 above without executing step 2;
+-it will make the /sys/class/firmware/dell_rbu/ entries disappear.
+-
+-The entries can be recreated by doing the following::
+-
+-	echo init > /sys/devices/platform/dell_rbu/image_type
+-
+ .. note:: echoing init in image_type does not change its original value.
++   It is kept for compatibility; the /sys/class/firmware/dell_rbu/ entries
++   no longer need to be recreated.
+ 
+ Also the driver provides /sys/devices/platform/dell_rbu/data readonly file to
+ read back the image downloaded.
+diff --git a/drivers/platform/x86/dell/Kconfig b/drivers/platform/x86/dell/Kconfig
+index f6acf1cc2a2f..1672ed04a36a 100644
+--- a/drivers/platform/x86/dell/Kconfig
++++ b/drivers/platform/x86/dell/Kconfig
+@@ -89,7 +89,7 @@ config DELL_RBU
+ 	default m
+ 	depends on X86
+ 	select FW_LOADER
+-	select FW_LOADER_USER_HELPER
++	select FW_UPLOAD
+ 	help
+ 	 Say m if you want to have the option of updating the BIOS for your
+ 	 DELL system. Note you need a Dell OpenManage or Dell Update package (DUP)
+diff --git a/drivers/platform/x86/dell/dell_rbu.c b/drivers/platform/x86/dell/dell_rbu.c
+index 768b15f406d3..a121f59a215d 100644
+--- a/drivers/platform/x86/dell/dell_rbu.c
++++ b/drivers/platform/x86/dell/dell_rbu.c
+@@ -60,12 +60,11 @@ static struct _rbu_data {
+ 	unsigned long num_packets;
+ 	unsigned long packetsize;
+ 	unsigned long imagesize;
+-	int entry_created;
+ } rbu_data;
+ 
+ static char image_type[MAX_IMAGE_LENGTH + 1] = "mono";
+ module_param_string(image_type, image_type, sizeof (image_type), 0);
+-MODULE_PARM_DESC(image_type, "BIOS image type. choose- mono or packet or init");
++MODULE_PARM_DESC(image_type, "BIOS image type. choose- mono or packet");
+ 
+ static unsigned long allocation_floor = 0x100000;
+ module_param(allocation_floor, ulong, 0644);
+@@ -81,7 +80,7 @@ struct packet_data {
+ static struct list_head packet_data_list;
+ 
+ static struct platform_device *rbu_device;
+-static int context;
++static struct fw_upload *rbu_fw_upload;
+ 
+ static void init_packet_head(void)
+ {
+@@ -497,41 +496,72 @@ static ssize_t data_read(struct file *filp, struct kobject *kobj,
+ }
+ static const BIN_ATTR_RO(data, 0);
+ 
+-static void callbackfn_rbu(const struct firmware *fw, void *context)
++/*
++ * The whole image is handed to prepare() by the firmware upload core, so
++ * all of the work happens here. The BIOS consumes the image from memory on
++ * the next reboot; there is nothing to stream to hardware afterwards.
++ */
++static enum fw_upload_err rbu_fw_prepare(struct fw_upload *fw_upload,
++					 const u8 *data, u32 size)
+ {
+-	rbu_data.entry_created = 0;
+-
+-	if (!fw)
+-		return;
+-
+-	if (!fw->size)
+-		goto out;
++	enum fw_upload_err ret = FW_UPLOAD_ERR_NONE;
+ 
+ 	spin_lock(&rbu_data.lock);
+ 	if (!strcmp(image_type, "mono")) {
+-		if (!img_update_realloc(fw->size))
+-			memcpy(rbu_data.image_update_buffer,
+-				fw->data, fw->size);
++		if (img_update_realloc(size))
++			ret = FW_UPLOAD_ERR_RW_ERROR;
++		else
++			memcpy(rbu_data.image_update_buffer, data, size);
+ 	} else if (!strcmp(image_type, "packet")) {
+ 		/*
+ 		 * we need to free previous packets if a
+ 		 * new hunk of packets needs to be downloaded
+ 		 */
+ 		packet_empty_list();
+-		if (packetize_data(fw->data, fw->size))
++		if (packetize_data(data, size)) {
+ 			/* Incase something goes wrong when we are
+ 			 * in middle of packetizing the data, we
+ 			 * need to free up whatever packets might
+ 			 * have been created before we quit.
+ 			 */
+ 			packet_empty_list();
+-	} else
++			ret = FW_UPLOAD_ERR_RW_ERROR;
++		}
++	} else {
+ 		pr_debug("invalid image type specified\n");
++		ret = FW_UPLOAD_ERR_FW_INVALID;
++	}
+ 	spin_unlock(&rbu_data.lock);
+- out:
+-	release_firmware(fw);
++
++	return ret;
++}
++
++static enum fw_upload_err rbu_fw_write(struct fw_upload *fw_upload,
++				       const u8 *data, u32 offset,
++				       u32 size, u32 *written)
++{
++	/* Already consumed in rbu_fw_prepare() */
++	*written = size;
++	return FW_UPLOAD_ERR_NONE;
++}
++
++static enum fw_upload_err rbu_fw_poll_complete(struct fw_upload *fw_upload)
++{
++	return FW_UPLOAD_ERR_NONE;
++}
++
++static void rbu_fw_cancel(struct fw_upload *fw_upload)
++{
++	/* Nothing in flight to abort; the image only lives in memory. */
+ }
+ 
++static const struct fw_upload_ops rbu_fw_ops = {
++	.prepare = rbu_fw_prepare,
++	.write = rbu_fw_write,
++	.poll_complete = rbu_fw_poll_complete,
++	.cancel = rbu_fw_cancel,
++};
++
+ static ssize_t image_type_read(struct file *filp, struct kobject *kobj,
+ 			       const struct bin_attribute *bin_attr,
+ 			       char *buffer, loff_t pos, size_t count)
+@@ -547,7 +577,6 @@ static ssize_t image_type_write(struct file *filp, struct kobject *kobj,
+ 				char *buffer, loff_t pos, size_t count)
+ {
+ 	int rc = count;
+-	int req_firm_rc = 0;
+ 	int i;
+ 	spin_lock(&rbu_data.lock);
+ 	/*
+@@ -567,26 +596,10 @@ static ssize_t image_type_write(struct file *filp, struct kobject *kobj,
+ 		strscpy(image_type, "packet");
+ 	else if (strstr(buffer, "init")) {
+ 		/*
+-		 * If due to the user error the driver gets in a bad
+-		 * state where even though it is loaded , the
+-		 * /sys/class/firmware/dell_rbu entries are missing.
+-		 * to cover this situation the user can recreate entries
+-		 * by writing init to image_type.
++		 * Historically this recreated the /sys/class/firmware/dell_rbu
++		 * entries. They are now persistent, so "init" only frees
++		 * any previously downloaded image, as before.
+ 		 */
+-		if (!rbu_data.entry_created) {
+-			spin_unlock(&rbu_data.lock);
+-			req_firm_rc = request_firmware_nowait(THIS_MODULE,
+-				FW_ACTION_NOUEVENT, "dell_rbu",
+-				&rbu_device->dev, GFP_KERNEL, &context,
+-				callbackfn_rbu);
+-			if (req_firm_rc) {
+-				pr_err("request_firmware_nowait failed %d\n", rc);
+-				rc = -EIO;
+-			} else
+-				rbu_data.entry_created = 1;
+-
+-			spin_lock(&rbu_data.lock);
+-		}
+ 	} else {
+ 		pr_warn("image_type is invalid\n");
+ 		spin_unlock(&rbu_data.lock);
+@@ -661,9 +674,24 @@ static int __init dcdrbu_init(void)
+ 	if (rc)
+ 		goto out_devreg;
+ 
+-	rbu_data.entry_created = 0;
++	/*
++	 * Registered from module init and unregistered from module exit, so
++	 * don't let the upload device pin this module: that would make it
++	 * impossible to unload. firmware_upload_unregister() cancels and
++	 * flushes any in-flight upload before returning.
++	 */
++	rbu_fw_upload = firmware_upload_register(NULL, &rbu_device->dev,
++						 "dell_rbu", &rbu_fw_ops, NULL);
++	if (IS_ERR(rbu_fw_upload)) {
++		rc = PTR_ERR(rbu_fw_upload);
++		pr_err("firmware_upload_register failed %d\n", rc);
++		goto out_group;
++	}
++
+ 	return 0;
+ 
++out_group:
++	sysfs_remove_group(&rbu_device->dev.kobj, &rbu_group);
+ out_devreg:
+ 	platform_device_unregister(rbu_device);
+ 	return rc;
+@@ -671,6 +699,7 @@ static int __init dcdrbu_init(void)
+ 
+ static __exit void dcdrbu_exit(void)
+ {
++	firmware_upload_unregister(rbu_fw_upload);
+ 	spin_lock(&rbu_data.lock);
+ 	packet_empty_list();
+ 	img_update_free();
 -- 
 2.56.1
 
