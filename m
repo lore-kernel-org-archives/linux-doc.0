@@ -1,67 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794395014;
-	b=BuYIoRUSc7rz2QCA2/TYc4Ay6y2IW+VWMa+UVfW64cMsIVhvYmGU1LWEFeMwhTLT0dEC
-	 3bB0G3No1arVmr3Jh4bC/XbU7nSsobtXulnmoPDv1McsuUwNKfkIUAhyxBv11QhC/KdVg
-	 bd8mNmlR0vZQeGZQzFecppGNwnCIbEdhd/bUrx9OKFXKAv8wC9PslhLJCYNgmPpj5fQ6Y
-	 iyvRcrB+ToyJHePlnWgkxgaNwKkD6n/OKqHi36uxe3S2g4Li669GGutSmho481QaeCxGs
-	 DQKqGxAsCLD13TJhU67uQ+xr9kBVMsO4EQA/wInpnddZf1KuwupECixINZ+5PaNxg0A==
+	t=1794395266;
+	b=YU2Dc2ClFmMzHzNqr5ZlzENPwkpTyqcaT4Uj0yrtLYTDQau8yiYXKnisIZumMTGXY9ni
+	 gddAd0O5rBhDMmjW+o7BHKuLL1Nhm7yWyqyjN4ipp9frGFIbwONPAoS3Gk41+K0olSQ57
+	 x6zaBwrPi7i5/FLTnaG4g9AKysQ1uGIiUDLOfr2/yFZKFRRQUkvMvu43cao4wK4WlJM09
+	 hIYxXnB0UiLgAfYvIIFzdBeohAi3dS6WLl8cd8dzgA8Ga7N76JuKYDy0MNiMurav5GgkV
+	 dYp8ra8zMYUja7rv07A97R+YE24Pg76Q3nhDJSpAkf5UAOvZn8jYKdARys/F2OQItcQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794395014;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794395266;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=9xCaKikxY5SCwLczpS9oMIGpBnm49BMiWeY8N1jcjvk=;
-	b=iFwRcnJOGaoBVw8KUdnXQlmxvCXnn+6/d+KJQV5pIMPunnarcNwL/fBuCwPARBP4zHg2
-	 NTbbk6IKeI3c6HTZD+/B2hTvKXxPTx/VsQ4GlE2gSFudJnAwmk0bLxmgbKFB3nnX1Q2P+
-	 L0muogoarlLnETVeVJ5AFt9J/siIlGH/mM9pA/Aw1nXjfeleHM0hFmfD6N+CFWs248AqG
-	 MrXC5x7X0eUEBl0obA1dh0XrFZ2iZxVrUlphyzZafOoZz+D0371pfeSi1zNOhbqHd7TOo
-	 9C0JHAZTBny4NdBtCZoAt19ihXmYtM6hnqJLnZxoFJGaZ0+xbi7OJAmUIzL3L5L5tLA==
+	bh=qg3J6V8yVsrpDP4IPe5+8PWSFroLKLf+tnGolm3Dn0o=;
+	b=fgj+JlYNV9DrbmQb82hyNAUhu2DOA8f77K8TLG4SmY8XLFrLeGLFfGdOY4YcAYbTlhXK
+	 nG/6IUNOZhQClXS89H2ZyrBQQ8CRgCFnxwP3BigZjvFMrNeVdm0IGdTIHvF2N20DaZlL2
+	 cq5tff92Ui5O3IM3SdmtUuo/ZavZivy4s6xNvOKl5CbbN3veDW5RT9RBKlGGdiGSlL52r
+	 tTkRzW4hyy9XKE/f5i3+KhiCvemSUaMV81OuIFpQsT3X8OsjVCdLMPYAq8c98Jwemb56t
+	 xHjltEHE8LHg5fUZvl7y1szpQR9LRYLHcswX1i/R7M2pdZwpOs3y1cN/PKz2dJpVCqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=R++CgykO;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bKaMGPau;
 	arc=none smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5370606A32A
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 11:03:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B5370606A32A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C9D9606A880
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 11:07:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C9D9606A880
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=R++CgykO
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=bKaMGPau
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794395012;
+	s=mimecast20190719; t=1794395265;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=9xCaKikxY5SCwLczpS9oMIGpBnm49BMiWeY8N1jcjvk=;
-	b=R++CgykOmkLCZzl3pxT1f3l0DUrQemxACw8vhyb3ZkShL1cttrx7J8q2cec0mMpORqt3Zb
-	TY5ZLj/40hzOr8Sa2dZwVwkIx0MekeQkkhtmSe5On70BSRby8IX+9oda7gtTHTU9OdJHEq
-	UBakyKL6j2b7BSefCm7e1FrDV/0ZCi8=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+	bh=qg3J6V8yVsrpDP4IPe5+8PWSFroLKLf+tnGolm3Dn0o=;
+	b=bKaMGPauF5HJZPIydp4qfAnZgVYZiu4k49jmTLMAp3YNAcyuLHrZTb2ZkcxwUrKDKdCDYA
+	c2ABEvXigK1vEBfi1SO8C5f9X3xpoIMpMg99FYS53COwYm+9X/1l9glNTJsUVTXS/YOq+u
+	dUTg4nOUSzirt+XGHvHFaD2JXS7pAcY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-607-N6vwd9lROFKYldtDPkqikQ-1; Wed,
- 11 Nov 2026 06:03:27 -0500
-X-MC-Unique: N6vwd9lROFKYldtDPkqikQ-1
-X-Mimecast-MFC-AGG-ID: N6vwd9lROFKYldtDPkqikQ_1794395004
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-45-J2onJeQLMJ27aPHD_IZPJw-1; Wed,
+ 11 Nov 2026 06:07:42 -0500
+X-MC-Unique: J2onJeQLMJ27aPHD_IZPJw-1
+X-Mimecast-MFC-AGG-ID: J2onJeQLMJ27aPHD_IZPJw_1794395259
 Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A14B818002C8;
-	Wed, 11 Nov 2026 11:03:24 +0000 (UTC)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E581218005BA;
+	Wed, 11 Nov 2026 11:07:38 +0000 (UTC)
 Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 621521956087;
-	Wed, 11 Nov 2026 11:03:18 +0000 (UTC)
-Message-ID: <230b9191-ed71-47b2-8e64-456b6c60b480@redhat.com>
-Date: Wed, 11 Nov 2026 12:03:17 +0100
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 98DE31956087;
+	Wed, 11 Nov 2026 11:07:32 +0000 (UTC)
+Message-ID: <10769f32-0570-484b-a518-144fd3bdd4b7@redhat.com>
+Date: Wed, 11 Nov 2026 12:07:31 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,7 +72,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 09/10] ice: dpll: update locking comments
+Subject: Re: [PATCH net-next 10/10] dpll: document locking rules
 To: netdev-bot+sashiko@kernel.org
 Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, corbet@lwn.net,
@@ -84,11 +84,11 @@ Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
  intel-wired-lan@lists.osuosl.org, grzegorz.nitka@intel.com,
  karol.kolacinski@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
  poros@redhat.com
-References: <20261106121005.1327603-10-ivecera@redhat.com>
- <179433320858.994134.3648996641880038315@kernel.org>
+References: <20261106121005.1327603-11-ivecera@redhat.com>
+ <179433321053.994134.15233379643090486121@kernel.org>
 Content-Language: en-US
 From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <179433320858.994134.3648996641880038315@kernel.org>
+In-Reply-To: <179433321053.994134.15233379643090486121@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
@@ -100,44 +100,79 @@ On 11/10/26 18:53, netdev-bot+sashiko@kernel.org wrote:
 > 
 > Low priority / nit picks for your consideration:
 > 
-> - [Low] The locking note this patch adds to the struct ice_dplls kernel-
->    doc (drivers/net/ethernet/intel/ice/ice_dpll.h, lines 168-170) is…
+> - [Low] The new Locking section in Documentation/driver-api/dpll.rst
+>    covers three cases where a pin callback reaches private data owned by…
+> - [Low] The new driver rule in Documentation/driver-api/dpll.rst (lines
+>    716-718) says notifications for objects outside the callback's domain…
 > 
 > --
 > 
-> ice: dpll: update locking comments
+> dpll: document locking rules
 > 
-> This commit updates the ice DPLL locking comments now that callbacks run
-> under the DPLL core domain locks instead of dpll_lock. It also adds a note
-> saying that callbacks of the external DPLL's pins run under that DPLL's
-> domain, so only pf->dplls.lock serializes them with the rest of the
-> driver.
+> This commit adds a Locking section to the dpll driver API documentation.
+> The section describes the dpll_lock and per-domain lock levels, the domain
+> each driver callback runs under, and the rules drivers have to follow. It
+> also adds matching notes to the kernel-doc of dpll_pin_register() and
+> dpll_pin_on_pin_register().
 > 
->> diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.h b/drivers/net/ethernet/intel/ice/ice_dpll.h
->> index 4ba76e2e2e0b0..39e041a30090d 100644
->> --- a/drivers/net/ethernet/intel/ice/ice_dpll.h
->> +++ b/drivers/net/ethernet/intel/ice/ice_dpll.h
->> @@ -165,6 +165,9 @@ struct ice_dpll {
->>    *     tx_refclks usage map), acquire pf->dplls.lock first, then
->>    *     ctrl_pf->dplls.lock. Skip the second acquire when pf == ctrl_pf
->>    *     to avoid recursive locking.
->> + *   - Callbacks of the SYNCE and TIME_REF pins of an external DPLL run under
->> + *     the DPLL core domain lock of that DPLL, not of the TXC and TSPLL DPLLs,
->> + *     so only @lock serializes them with the callbacks of these DPLLs.
+>> diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
+>> index 7c117ae37cc1b..40d5037ff3bb0 100644
+>> --- a/Documentation/driver-api/dpll.rst
+>> +++ b/Documentation/driver-api/dpll.rst
+>> @@ -675,6 +675,50 @@ In the error path we have to rewind every allocation in the reverse order:
+> 
+> [ ... ]
+> 
+>> +Callbacks of a dpll device run under the domain of the device. Callbacks of a
+>> +pin run under the domain of the pin, whichever driver registered them:
+>> +
+>> +- A driver registering a pin of another driver with its dpll device has these
+>> +  callbacks serialized with the driver that created the pin, not with the other
+>> +  callbacks of its device, so it has to protect the state they share by itself.
+>> +  A callback stuck in such a registration stops the domain of the pin.
+>> +- The parent pin of a pin registered with dpll_pin_on_pin_register() and its
+>> +  dpll devices can belong to another driver, so the callback must not
+>> +  dereference their private data.
+>> +- The frequency monitor belongs to the dpll device, so only callbacks of a pin
+>> +  of the same domain registered with dpll_pin_register() can include
+>> +  ``.measured_freq_get``.
 > 
 > [Severity: Low]
-> Could this note be clearer that TXC and TSPLL are not in the same core
-> domain either?
+> Should reference-sync pairs be in this list too?
 
 [...]
-> The new sentence is accurate per DPLL, and the first bullet still says
-> @lock serializes all DPLL state mutations. Since this patch exists to
-> document the domain-lock rules, though, would it make sense to say that
-> TXC, TSPLL and the DSN-domain objects are each in their own domain?
-Yes. v2 will say that the core serializes callbacks per (module, clock_id),
-that the TXC DPLL, the TSPLL DPLL and the other objects of a PF have a
-clock_id each, and that the SYNCE and TIME_REF pins of an external DPLL
-are one more such case. @lock serializes all of them.
+> Could the documentation say whether a ref-sync pair may cross domains, and
+> whether ref_sync_pin_priv may be dereferenced? The parent pin case in the
+> dpll_pin_on_pin_register() bullet already has an explicit rule like this.
+
+Yes. zl3073x and ice pair only their own input pins, so no in-tree pair
+crosses domains. v2 will add a rule that both pins of a reference sync pair
+have to belong to one domain, as the ref-sync callbacks of a pin get the
+private data of the other one.
+
+[...]
+
+> [Severity: Low]
+> Can a driver follow the work item suggestion safely without two more rules?
+
+[...]
+
+> Here the writer waits for the callback's read hold. The work's down_read()
+> blocks behind the queued writer, and the callback waits for the work.
+
+Right, and if the work notifies an object of the same domain, it also
+waits for the domain lock. v2 will extend the rules to waiting for a work
+item that makes these calls.
+
+[...]
+> The second rule is about lifetime. The text does not say that the work has
+> to be cancelled or flushed before the target pin or device is unregistered
+> and released with dpll_pin_put() or dpll_device_put(). __dpll_device_put()
+> ends in kfree(dpll). A work item that keeps a struct dpll_device or struct
+> dpll_pin pointer and runs after the final put would touch freed memory.
+
+This holds for any work item that keeps a pointer to a refcounted object
+and is not about locking, so I would leave it out of this section.
 
 Thanks,
 Ivan
