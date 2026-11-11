@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.70
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794356666;
-	b=MtNVPDaOAQ3rvpPXKVsnIXlwh847ZdD7FCeXRClprHUB4BR21/MGEVhDW/CVPt6TEfKe
-	 C2hfnk4aO9kEPVFbGlPcor7e7KiQ/67lnFBi8LVmm0c+R/8yiOgxYHHD4W9Un5MCztvjr
-	 xuj3rXxsqJGxBJD4rycj71EDyCle+/cbO1IjA1gcTWqaHTZR0dz96wl6dXZui/1EyEm7x
-	 fDVmlCTixogG1eb6rJ7HcsXhuTJ4v3H94QwWZS0NctOxkOazxIMdvLtGsXMrgkIS5//j+
-	 5vY3P6xgZxzpH38dIMx2lxXiG8hReTDFPxU5Z9PYmPAkKEeUv05ZgrtUgwi19AkRJ0g==
+	t=1794356667;
+	b=I6QYxms58a9SWMbu+TrGtUk36YPz2BejAc1XqDAGNnbDP0JlenrBXhY09W4fV4U/VYrU
+	 pdRv2/O/ehv3ux0tXRlt7MR0eh1qFh6BDMzHmjrX1kTri9zVjY/UTARTdw6mqtqXkBuT+
+	 j7J/+2o3LfsFQRnUSVj50VfHlGpW1w68zQov5I1W5BiDBmzH9mZtFJs2yT4K/dfZHR43q
+	 LhrPQw84nFLnOzoLoBrNykATPdGZspUPgi/Jn7gbCQfizDWWIkXf82b2XOZUx/VTKpU2a
+	 MGVyD5ipGxPnqXWEHjW5NR5PMCyUdepxZS/quL7/D+fuEdB8ji90LZyIbYBdahr4dmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794356666;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794356667;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=WlJZl+UE9pf/QC95ZJSnwsGYNSdLtTHc9yxgINOhNxY=;
-	b=IhCd1QV4n5D2bOuwof1VRWmjZgo/WRzpSkVtt3cl6VRVdFJv4jxhGD8foFFIqy/XEXbV
-	 S3vAcO6IkJ8sdvAOm+i9bNaV2d4Cq+ATHtXu1vsZsU4w0NANpy4N4bF+FJxC9wHvrl8xs
-	 8o1ZWoyAu1NJsHFm9jtxHwLybjwhxdgk4AMzeTDtK+c+1ZYLzGlPYXoJ4xQez7v+J/rGd
-	 HZpOrsLIHMHwTcETbW27urOBwUkfw3opiKruVCrzOCTbxx4QjBLKIXChiJ1ME+p+fPFQD
-	 B4BT1awm6bWTLviP0jm3sSTeJv+e5wrcpCrtfGxkR/nVje+4Y/o1pVpVFnteYNadVbA==
+	bh=M468tcMTyxiICGASSjMUyw305Z48xpIK1tm16lcJZuA=;
+	b=Som8d27md3oXaqO0PBE5/BfLDD/Bx5YC7kDK7vNhS0JpfqCFJ0hriInN9zI83OZkEXcM
+	 IYsePNwgx/yXvWI3jeM7oLC3WisyXWvUzh1mCHYcZ0g9HoFr7wYU7YH9fSFVYy/5Yqvsa
+	 2K9Hytjuwnq4DmhkscKDgEr2rCDXpXJ/lBE0UHg0Y0Mxlsla6Qmr4VFL/0Ht7+RdGl63i
+	 RE8gK4hifqirIc3mf+DLgwerAYmqf9ssZ9kHQ34pLgy7zmrq7xuBdK+dCKLXPXaYQn7VK
+	 xGGku6kntzN4Sf6YyLSTz6SE9NqRCczA+4iSZFoLVuy+WYkQn0xa2PMsVKsylE0LS3g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=p85Su7jF;
-	arc=none smtp.remote-ip=209.85.210.70
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=mUsB0rlp;
+	arc=none smtp.remote-ip=209.85.210.72
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46EA560A6F72
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:24:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46EA560A6F72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D95B60A6F7E
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:24:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D95B60A6F7E
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=p85Su7jF
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-84fe2593525so3521257a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:24:25 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=mUsB0rlp
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-85f39501878so3467369a34.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794356664; x=1794961464; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1794356665; x=1794961465; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=WlJZl+UE9pf/QC95ZJSnwsGYNSdLtTHc9yxgINOhNxY=;
-        b=p85Su7jFZ6yoicaYSLsRSAUeStCdDIVjHpc8l0nMwF1Ga2T8cUkPWsoJhSidQozccT
-         9VfXHPEtDI+1iyAC5elG5TMivCYmn/zpSdGvYvxM46wmdTvdSEUitNmah2oX4ar24CC2
-         iB4Nz7mOBnt70VOO3pxN8KGmB/JxloUHuWixW0af1AFirnKsKvWJ1ggy+PzQ5ELEVLL/
-         +IkuOFmzp3MdFUCpETF1CGtgebDAePa68se8EZkBlrdzbhO03pFt8nSBf+V+Cp74MgdW
-         Ki9Lirbeoc/TrbLX7SPh3xr7HDi6+NUK5280gQCgIbfzppffKHToco4m1uSGZ2nqW5Me
-         y7Dg==
+        bh=M468tcMTyxiICGASSjMUyw305Z48xpIK1tm16lcJZuA=;
+        b=mUsB0rlpotMemZbYK2JTkc6PJeStFLwkCsRoMZ6F5ggeXOhebXYPTJnrtZFQN+LLKL
+         1fs6lthIxLra1ecvwFmCsv0wkJHezdz7V8b6Xy6P9pqYxBelx3eiOjZGPGxY8ET8p/vK
+         jd24GgNFsqdY0jxJp7lSwPCSdrW1cv4rcNguxULOMILDJIbDk8SjmnBeDxaWXQkyMB8W
+         f1Wc990k5yy/v2+fh/nj0bbom3+Ycr3Tkg7xb1KKlwiiAZ3eL8nJV/qPCMg0mInQyIqk
+         U+YffT8ekj2MiqXA+0Uroqp4j/DdCY5jf1VCjZ8jqE4Pea4Ec+CiTjrbNkTAe4xZoLsD
+         i1eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794356664; x=1794961464;
+        d=1e100.net; s=20260707; t=1794356665; x=1794961465;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=WlJZl+UE9pf/QC95ZJSnwsGYNSdLtTHc9yxgINOhNxY=;
-        b=a1ktGcG4VBbp6XGc72N920sK0KZi8D8xVqQlEn78YmSqmxzCVwQZA4GhGwBTh4bxUD
-         65vPpVbw+KRabJE9fftMbU1f/+S+QFnS/whWVvzT4aJ5M/T8amPDFa14sLWVvLni0tCT
-         sppNHax/hXJpGsbJKssXSBebutVDXH8hGg2wJi43re9DANRg1RwCfWDNzsHhfiP0GRSl
-         UFG00AjucA9V8xYFkwTl9D6s8pojD+RaZiLKnXyUdnTi3IR/b08WHC7ZkmDkbZ+L/8Kh
-         5aLqnzSTQQUhfyHTkT2c4QTy4Xgg+F1druHDxF8+zvbNme4uVqa6Wrk7WI8SC6HUaZPa
-         SLBQ==
-X-Forwarded-Encrypted: i=1; AL+hErEyqVECHBbU22rPfHBn6zZ8HIifJqomZdoZbE1fSjZB2U2R3iY1kw+1eRHAdCFEvoXCr2L+F03plTs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9bhn0ovVe1NOlwSgVdjzd88fZ7A/i7pD/E9bRIKjsXtG3pig4d
-	qyNp07QNqBYSDgo6AH+3aTjaJ7j/wPjtWWi/lTFh6bfO/p192Qa5wun9xrogy1mtajygs7r2y66
-	6fp37KYh7O0AMKw==
-X-Received: from iovs14.prod.google.com ([2002:a05:6602:2bce:b0:9c7:8645:9285])
+        bh=M468tcMTyxiICGASSjMUyw305Z48xpIK1tm16lcJZuA=;
+        b=j0+G9FH3+LZibzUYD2MR+AO+3VUz+nICcmny980wEsja+B3wOXIbK6j+nbwbQJToSj
+         fwH9KWP85M/43dEsQCeINx9BQIBmkUGS+O1YWi4ZF1MIGh2Kxl4sAAbiBRAThLxO84Uj
+         bq5Xj0WqkV+VjdIS3vcPrbbbL5QxCIlA9KsLqwEMFh9RLsuNWQKD1VCPLKVKtkwUj7nn
+         nSxrfPLoTKpjuukOn2ZHThNJ2geHg8cmrAG5lYLoAHm5IrhcPoOVfLfAbWhq8+fSEEgF
+         vdpH7HSD6cXuInHdL43t010HTgwZSCRXr9s5TRmYsxL3P1DA1GLNNQWFRMiVEidA4kIR
+         X7Nw==
+X-Forwarded-Encrypted: i=1; AL+hErFAuTcmN4DoOEy7/Vr7gSlPwBw/WMr/Ob/7PoRYCqxDbDitiIiEkfQXKm2FtMvgV/eaoN1r1XX9XwY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8goIYwxTudG3NPiBwWv4yt43HYPfi+8sK6Pp5Sil/Ue6P+KJ4M
+	D5O2HHWVSSLLTysHggQ5iCZ0F79AUc2rPN/YlynB8YA0YtyZnocHF/o9QNxyuYfH/PtO3TKQgI7
+	UyMtKzOx0xgKI/A==
+X-Received: from iocot34-n1.prod.google.com ([2002:a05:6602:c2a2:10b0:9c7:75ad:5e7b])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6808:1a01:b0:540:5827:6d8a with SMTP id 5614622812f47-56b98d23beemr555789b6e.66.1794356663846;
- Tue, 10 Nov 2026 16:24:23 -0800 (PST)
-Date: Wed, 11 Nov 2026 00:23:51 +0000
+ 2002:a05:6808:2507:b0:4f6:6041:f0a2 with SMTP id 5614622812f47-56b96def35emr633097b6e.27.1794356665063;
+ Tue, 10 Nov 2026 16:24:25 -0800 (PST)
+Date: Wed, 11 Nov 2026 00:23:52 +0000
 In-Reply-To: <20261111002358.1842967-1-dmatlack@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,8 +81,8 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261111002358.1842967-1-dmatlack@google.com>
 X-Mailer: git-send-email 2.56.0.542.g3ef89b7020-goog
-Message-ID: <20261111002358.1842967-14-dmatlack@google.com>
-Subject: [PATCH v4 13/19] mm/shmem_luo: Allow preserving tmpfs files
+Message-ID: <20261111002358.1842967-15-dmatlack@google.com>
+Subject: [PATCH v4 14/19] selftests/liveupdate: Test which tmpfs files can be preserved
 From: David Matlack <dmatlack@google.com>
 To: kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
@@ -98,42 +98,364 @@ Cc: Alexander Graf <graf@amazon.com>, Andrew Morton <akpm@linux-foundation.org>,
 	David Matlack <dmatlack@google.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Allow preserving files on tmpfs mounts by dropping the link count check
-from shmem_luo_can_preserve(). The check was meant to limit preservation
-to memfds, which never have links. It isn't needed anymore, since tmpfs
-files are now retrieved into a file on a tmpfs mount.
+Add tests to liveupdate.c for the checks done when preserving a tmpfs
+file: A file can be preserved through a read-only fd, but not a
+write-only fd. Preserving it requires permission to write to it, except
+for the owner of an immutable file or of a file on a read-only
+superblock. Append-only files can't be preserved, and files can be
+preserved through a read-only mount. Also check that the size of a
+preserved file is frozen until the file is unpreserved.
 
-Userspace can keep using a linked file by its path until the Live
-Update. The path of the file isn't preserved. Userspace creates the file
-to retrieve it into, and can then link that file at the path it wants.
+These checks don't need a kexec, so they run as part of the regular
+liveupdate selftest.
 
-Preserving a linked file affects everyone who opens it by its path,
-since its size is frozen while it is preserved. The permission check
-added by "mm/shmem_luo: Require permission to preserve a file" covers
-that: Callers need permission to write to the file, or must own it if
-its size can't change anyway.
+Enable CONFIG_TMPFS_XATTR for FS_IOC_SETFLAGS. The test cases that use
+it are skipped without it.
 
 Signed-off-by: David Matlack <dmatlack@google.com>
-Acked-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- mm/shmem_luo.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ tools/testing/selftests/liveupdate/config     |   1 +
+ .../testing/selftests/liveupdate/liveupdate.c | 303 ++++++++++++++++++
+ 2 files changed, 304 insertions(+)
 
-diff --git a/mm/shmem_luo.c b/mm/shmem_luo.c
-index 7242664ee4ae..94d617b15489 100644
---- a/mm/shmem_luo.c
-+++ b/mm/shmem_luo.c
-@@ -757,9 +757,7 @@ static int shmem_luo_retrieve(struct liveupdate_file_op_args *args)
- static bool shmem_luo_can_preserve(struct liveupdate_file_handler *handler,
- 				   struct file *file)
- {
--	struct inode *inode = file_inode(file);
--
--	return shmem_file(file) && !inode->i_nlink;
-+	return shmem_file(file);
+diff --git a/tools/testing/selftests/liveupdate/config b/tools/testing/selftests/liveupdate/config
+index 016d009dba13..37230f4c488f 100644
+--- a/tools/testing/selftests/liveupdate/config
++++ b/tools/testing/selftests/liveupdate/config
+@@ -9,4 +9,5 @@ CONFIG_LIVEUPDATE=y
+ CONFIG_LIVEUPDATE_TEST=y
+ CONFIG_MEMFD_CREATE=y
+ CONFIG_TMPFS=y
++CONFIG_TMPFS_XATTR=y
+ CONFIG_SHMEM=y
+diff --git a/tools/testing/selftests/liveupdate/liveupdate.c b/tools/testing/selftests/liveupdate/liveupdate.c
+index 4c4272167635..3d943b5672e6 100644
+--- a/tools/testing/selftests/liveupdate/liveupdate.c
++++ b/tools/testing/selftests/liveupdate/liveupdate.c
+@@ -16,15 +16,24 @@
+  * - Resource preservation: successfully preserving individual and multiple memfds,
+  *   verifying contents remain accessible.
+  * - Complex multi-session scenarios involving mixed empty and populated files.
++ * - Which tmpfs files can be preserved, and the frozen size of preserved files.
+  */
+ 
+ #include <errno.h>
+ #include <fcntl.h>
++#include <grp.h>
+ #include <stddef.h>
++#include <stdlib.h>
+ #include <string.h>
+ #include <sys/ioctl.h>
++#include <sys/mount.h>
++#include <sys/stat.h>
++#include <sys/wait.h>
+ #include <unistd.h>
+ 
++#include <linux/falloc.h>
++#include <linux/fs.h>
++
+ #include <libliveupdate.h>
+ #include <linux/liveupdate.h>
+ 
+@@ -574,4 +583,298 @@ TEST_F(liveupdate_device, preserve_memfd_with_arg)
+ 	ASSERT_EQ(close(mem_fd2), 0);
  }
  
- static unsigned long shmem_luo_get_id(struct file *file)
++#define NOBODY 65534
++
++FIXTURE(preserve_tmpfs) {
++	char dir[32];
++	int luo_fd;
++	int session_fd;
++	bool mounted;
++};
++
++FIXTURE_SETUP(preserve_tmpfs)
++{
++	self->luo_fd = -1;
++	self->session_fd = -1;
++	self->mounted = false;
++
++	self->luo_fd = open(LIVEUPDATE_DEV, O_RDWR);
++	if (self->luo_fd < 0 && errno == ENOENT)
++		SKIP(return, "%s does not exist", LIVEUPDATE_DEV);
++	ASSERT_GE(self->luo_fd, 0);
++
++	self->session_fd = luo_create_session(self->luo_fd, "preserve-tmpfs");
++	ASSERT_GE(self->session_fd, 0);
++
++	strcpy(self->dir, "/tmp/luo-tmpfs-XXXXXX");
++	ASSERT_NE(mkdtemp(self->dir), NULL);
++	if (mount("tmpfs", self->dir, "tmpfs", 0, "size=1M"))
++		SKIP(return, "Failed to mount tmpfs: %s", strerror(errno));
++	self->mounted = true;
++	ASSERT_EQ(chdir(self->dir), 0);
++}
++
++FIXTURE_TEARDOWN(preserve_tmpfs)
++{
++	if (self->session_fd >= 0)
++		close(self->session_fd);
++	if (self->luo_fd >= 0)
++		close(self->luo_fd);
++	if (chdir("/"))
++		return;
++	if (self->mounted)
++		umount2(self->dir, MNT_DETACH);
++	rmdir(self->dir);
++}
++
++/* Create the file @path with some contents and the mode @mode. */
++static int create_file(const char *path, mode_t mode)
++{
++	int fd;
++
++	fd = open(path, O_CREAT | O_EXCL | O_RDWR, mode);
++	if (fd < 0)
++		return -1;
++
++	if (write(fd, "data", 4) != 4 || fchmod(fd, mode)) {
++		close(fd);
++		return -1;
++	}
++
++	return fd;
++}
++
++/* Open @path with @flags and preserve it. Return 0 or -errno. */
++static int preserve_path(int session_fd, const char *path, int flags,
++			 __u64 token)
++{
++	int fd, ret;
++
++	fd = open(path, flags);
++	if (fd < 0)
++		return -errno;
++
++	ret = luo_session_preserve_fd(session_fd, fd, token);
++	close(fd);
++	return ret;
++}
++
++/* Like preserve_path(), but as the user nobody. */
++static int preserve_as_nobody(int session_fd, const char *path, __u64 token)
++{
++	int status;
++	pid_t pid;
++
++	pid = fork();
++	if (pid < 0)
++		return -errno;
++
++	if (!pid) {
++		if (setgroups(0, NULL) || setresgid(NOBODY, NOBODY, NOBODY) ||
++		    setresuid(NOBODY, NOBODY, NOBODY))
++			_exit(255);
++		_exit(-preserve_path(session_fd, path, O_RDONLY, token));
++	}
++
++	if (waitpid(pid, &status, 0) != pid || !WIFEXITED(status))
++		return -ECHILD;
++
++	return -WEXITSTATUS(status);
++}
++
++/* Add the inode flag @flag, e.g. FS_IMMUTABLE_FL, to the file @fd. */
++static int add_inode_flag(int fd, int flag)
++{
++	int flags;
++
++	if (ioctl(fd, FS_IOC_GETFLAGS, &flags))
++		return -errno;
++
++	flags |= flag;
++	if (ioctl(fd, FS_IOC_SETFLAGS, &flags))
++		return -errno;
++
++	return 0;
++}
++
++/*
++ * Test Case: Preserve Through Read-Only and Write-Only Fds
++ *
++ * A file can be preserved through a read-only fd, but not through a
++ * write-only fd, since the retrieved file can be read.
++ */
++TEST_F(preserve_tmpfs, access_mode)
++{
++	int fd;
++
++	fd = create_file("file", 0644);
++	ASSERT_GE(fd, 0);
++	close(fd);
++
++	EXPECT_EQ(preserve_path(self->session_fd, "file", O_WRONLY, 1), -EBADF);
++	EXPECT_EQ(preserve_path(self->session_fd, "file", O_RDONLY, 2), 0);
++}
++
++/*
++ * Test Case: Preserve Without Write Permission
++ *
++ * Preserving a file freezes its size for all of its users, so it requires
++ * permission to write to the file.
++ */
++TEST_F(preserve_tmpfs, unwritable)
++{
++	int fd;
++
++	fd = create_file("file", 0644);
++	ASSERT_GE(fd, 0);
++	close(fd);
++
++	EXPECT_EQ(preserve_as_nobody(self->session_fd, "file", 1), -EACCES);
++	EXPECT_EQ(preserve_path(self->session_fd, "file", O_RDONLY, 2), 0);
++}
++
++/*
++ * Test Case: Preserve an Append-Only File
++ *
++ * Freezing the size of an append-only file would stop all writes to it, so
++ * append-only files can't be preserved.
++ */
++TEST_F(preserve_tmpfs, append_only)
++{
++	int fd, ret;
++
++	fd = create_file("file", 0644);
++	ASSERT_GE(fd, 0);
++	ret = add_inode_flag(fd, FS_APPEND_FL);
++	close(fd);
++	if (ret == -ENOTTY || ret == -EOPNOTSUPP)
++		SKIP(return, "FS_IOC_SETFLAGS is not supported");
++	ASSERT_EQ(ret, 0);
++
++	EXPECT_EQ(preserve_path(self->session_fd, "file", O_RDONLY, 1), -EPERM);
++}
++
++/*
++ * Test Case: Preserve an Immutable File
++ *
++ * The size of an immutable file can't change anyway, so its owner may preserve
++ * it. Others still need permission to write to it.
++ */
++TEST_F(preserve_tmpfs, immutable)
++{
++	int fd, ret;
++
++	fd = create_file("own", 0644);
++	ASSERT_GE(fd, 0);
++	ASSERT_EQ(fchown(fd, NOBODY, NOBODY), 0);
++	ret = add_inode_flag(fd, FS_IMMUTABLE_FL);
++	close(fd);
++	if (ret == -ENOTTY || ret == -EOPNOTSUPP)
++		SKIP(return, "FS_IOC_SETFLAGS is not supported");
++	ASSERT_EQ(ret, 0);
++
++	fd = create_file("other", 0666);
++	ASSERT_GE(fd, 0);
++	ASSERT_EQ(add_inode_flag(fd, FS_IMMUTABLE_FL), 0);
++	close(fd);
++
++	EXPECT_EQ(preserve_as_nobody(self->session_fd, "own", 1), 0);
++	EXPECT_EQ(preserve_as_nobody(self->session_fd, "other", 2), -EPERM);
++}
++
++/*
++ * Test Case: Preserve Through a Read-Only Mount
++ *
++ * Preserving a file only needs permission to write to the file, not a writable
++ * mount, so it works through a read-only mount.
++ */
++TEST_F(preserve_tmpfs, rdonly_mount)
++{
++	int fd;
++
++	ASSERT_EQ(mkdir("src", 0755), 0);
++	fd = create_file("src/file", 0644);
++	ASSERT_GE(fd, 0);
++	close(fd);
++
++	ASSERT_EQ(mkdir("ro", 0755), 0);
++	ASSERT_EQ(mount("src", "ro", NULL, MS_BIND, NULL), 0);
++	ASSERT_EQ(mount(NULL, "ro", NULL, MS_REMOUNT | MS_BIND | MS_RDONLY,
++			NULL), 0);
++
++	EXPECT_EQ(preserve_path(self->session_fd, "ro/file", O_RDONLY, 1), 0);
++	umount2("ro", MNT_DETACH);
++}
++
++/*
++ * Test Case: Preserve on a Read-Only Superblock
++ *
++ * The size of a file on a read-only superblock can't change anyway, so its
++ * owner may preserve it. Others still need permission to write to it.
++ */
++TEST_F(preserve_tmpfs, rdonly_sb)
++{
++	int fd;
++
++	fd = create_file("own", 0644);
++	ASSERT_GE(fd, 0);
++	ASSERT_EQ(fchown(fd, NOBODY, NOBODY), 0);
++	close(fd);
++
++	fd = create_file("other", 0666);
++	ASSERT_GE(fd, 0);
++	close(fd);
++
++	ASSERT_EQ(mount(NULL, self->dir, NULL, MS_REMOUNT | MS_RDONLY, NULL),
++		  0);
++
++	EXPECT_EQ(preserve_as_nobody(self->session_fd, "own", 1), 0);
++	EXPECT_EQ(preserve_as_nobody(self->session_fd, "other", 2), -EROFS);
++}
++
++/*
++ * Test Case: Frozen Size of a Preserved File
++ *
++ * While a file is preserved, its size can't change and no holes can be punched
++ * into it. Writes within the file still work. Closing the session unpreserves
++ * the file, after which its size can change again.
++ */
++TEST_F(preserve_tmpfs, frozen_size)
++{
++	long page_size = getpagesize();
++	struct stat st;
++	char c;
++	int fd;
++
++	fd = create_file("file", 0644);
++	ASSERT_GE(fd, 0);
++	ASSERT_EQ(ftruncate(fd, 2 * page_size), 0);
++	ASSERT_EQ(luo_session_preserve_fd(self->session_fd, fd, 1), 0);
++
++	EXPECT_EQ(ftruncate(fd, page_size), -1);
++	EXPECT_EQ(errno, EPERM);
++	EXPECT_EQ(ftruncate(fd, 4 * page_size), -1);
++	EXPECT_EQ(errno, EPERM);
++	EXPECT_EQ(fallocate(fd, 0, 0, 4 * page_size), -1);
++	EXPECT_EQ(errno, EPERM);
++	EXPECT_EQ(fallocate(fd, FALLOC_FL_PUNCH_HOLE | FALLOC_FL_KEEP_SIZE, 0,
++			    page_size), -1);
++	EXPECT_EQ(errno, EPERM);
++	EXPECT_EQ(pwrite(fd, "x", 1, 2 * page_size), -1);
++	EXPECT_EQ(errno, EPERM);
++
++	/* The size didn't change, but writes within the file work. */
++	ASSERT_EQ(fstat(fd, &st), 0);
++	EXPECT_EQ(st.st_size, 2 * page_size);
++	EXPECT_EQ(pwrite(fd, "x", 1, page_size), 1);
++	EXPECT_EQ(pread(fd, &c, 1, page_size), 1);
++	EXPECT_EQ(c, 'x');
++
++	ASSERT_EQ(close(self->session_fd), 0);
++	self->session_fd = -1;
++	EXPECT_EQ(ftruncate(fd, page_size), 0);
++
++	close(fd);
++}
++
+ TEST_HARNESS_MAIN
 -- 
 2.56.0.542.g3ef89b7020-goog
 
