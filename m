@@ -1,88 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.34.181.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794438023;
-	b=Ejy6hzmn3w0/0bqOMS7syx7Nc68TNF7A48MYpGIK4+vtft7fLLQ1KuT3csaa+XLJLu95
-	 gdCk+2i2dI0/TY96lt/PIVlKN9dwt9IaiQ8LsproQHtQ6yBQovEW/18QXr/QjfT9Zcmsm
-	 HkCe9DedT5Nr6mjcfbLyE6CyVoE3bppCoMLgijOZgYOypnqmFZcMYCu859iHntuuHTtva
-	 dB9Gl98t7BGi5M3agxtgxDt88Ahh+1ZurZe9Rsrgj31/kB/RNXdPkZkXv7Gzy83xxwWom
-	 4OhMLilDKwWXShZ/r2jWFkwdEYq4C2RCNT4ZbVIAdtsmCTWOL/g9inHbZbl+KUgQXJw==
+	t=1794438024;
+	b=x/nudxpFNGTPoIyI5zu1tpWShDCKUPth0v8PC2NWL0xv0CFCWaLlWZ9XzA3zE5++4Gnn
+	 y4sdOgSYZAmPqfioC/T+SjXYSL1WWi2/HKk1zrt+3T7ZL5KnQ804oO3ghGrSi/skuHy3P
+	 Jh+yWFhwsbPNM6843KkWJZtfhdeIPRw82NMiwzzxilMon8eAsYkLFCkoRGXSS5csedpOI
+	 C+uN7YlhUhF9nw2+fN/36YPBBpD0UAChXTIemYN9Gpslr7hqTv3BbaZG2uSsKOdFYP03a
+	 eqjywWqHdBNxY7XcyYBmuzrHmQUa0nmZI5z40/4fkaahhB8dP9XhRr97br3lyYFa/Bg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794438023;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=OQeaV0w4tb0J6j8SWQvY9CmlhiytbgVdcb+fFsFpy8E=;
-	b=c3VRbuUjP5eUTEcV9WM30CnwG+6G5Qq1Y2TqHVBnqKQxzRbwl8lMUxkl97+hl40djtKW
-	 PIaWgcJloOEba4LKrMI9ckdXkXk5BP+y6NLhHI6aMPvMoeTEchwT0JJANSsjpgRKYMhjk
-	 LpRfoLBsLxrK3tP3WdJU8kDVnnrNbSbHO9hUYUCZFZWQ93u4dUrSHZnnIFRRlSleegYKc
-	 mAk/O0iDe8YNi6K9r5HLPyE9ZKKKRq9TuBp+6uc2Q8//rloUDaRp8FnKjq9nshiRl5Wcw
-	 h+6OnM6bwqSYsJJlML7t/7CQlfx/GtVd+upFfWBfe0LNtoEKXjsczgdPO1SKuBoUScQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794438024;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=l5bcno4UXP7N2txNavRMGh0sD6iLfaBBk7CthX8bdlU=;
+	b=XJiXI6DILBpORaEVF0utnjI9vspvkIyIdgdqrZgH1bjOAvT3qUyhTquQ53X3gizi3xE+
+	 c2Eq86pE6QIkk1todazhhutf+xPrdbEpp4BZWe8MHAa2QwcFJj3D6LK9v2wBwEmDT4i4H
+	 HLfDR7m3B5LCIcAC1ms2hajvRpthZv7fqevFaJ+sQNV23NWFJiDFaNaPbFXpx0VgpmXlw
+	 emBMOlzxwA8GYY4ZTvZqmrfsBqbB+jwQMSR05ZjXfnNDRMjiaPWqwil0v+DqHstfpf5Sw
+	 lqnFuGV1a9MzBWjL4zsDJR/ShWA74FxnebdIwGhbgk9W+18c1QnzwUJZ06KZa2DmtMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="GglSYSj/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.de;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=iRtyY3z5;
+	arc=none smtp.remote-ip=52.34.181.151
+Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9257360A2603
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 23:00:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FC1B606A33F;
+	Wed, 11 Nov 2026 23:00:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FC1B606A33F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GglSYSj/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5F21F00A14;
-	Wed, 11 Nov 2026 23:00:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794438023;
-	bh=OQeaV0w4tb0J6j8SWQvY9CmlhiytbgVdcb+fFsFpy8E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=GglSYSj/h2ZHOvWNRVPwdEX6MI+8RwWzWXrbraSx4wqgT2Jz1iIQ38GXbRL+joYJZ
-	 xkucejQH73qj/cQ7Pa+CXczkyG3R6nS81BL4Z4AUU7Hqc9s5sXpUrRJ1uXiVKJ/oTP
-	 3HIi/WBJBZE07QJCBuFi3JTn4JMMU4QC0DaY2ygSzUhwTrPuc3JFsg9WKC3nU24iMI
-	 xdFWSuQxJ7S4c4tUxtM5Cor0AjFxGeiGPxfVkY0VKyop/AEhQBhsYreKBbNSiZgF1w
-	 VkCYWe16Q08zIpwP1d2f+zcSQLgm4RsO2AvvKs7yF4LenJqxkZR4q2qSN8S/0NBEWy
-	 0WyeR8Fe0941Q==
-Date: Wed, 11 Nov 2026 23:00:13 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Andy Chiu <tchiu@tenstorrent.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-doc@vger.kernel.org, linux-riscv@lists.infradead.org,
-	andybnac@gmail.com, dfustini@oss.tenstorrent.com,
-	greentime.hu@sifive.com,
-	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Karl Mehltretter <kmehltretter@gmail.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Marco Elver <elver@google.com>,
-	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Jeff Layton <jlayton@kernel.org>,
-	Jisheng Zhang <jszhang@kernel.org>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Yong-Xuan Wang <yongxuan.wang@sifive.com>,
-	Anup Patel <anup@brainfault.org>,
-	Aurelien Jarno <aurelien@aurel32.net>,
-	daichengrong <daichengrong@iscas.ac.cn>,
-	Troy Mitchell <troy.mitchell@linux.dev>,
-	Guobin Zhang <guobin.zhang@intel.com>,
-	Guodong Xu <docular.xu@gmail.com>,
-	Andrew Jones <andrew.jones@linux.dev>,
-	Charlie Jenkins <thecharlesjenkins@gmail.com>,
-	Atish Patra <atishp@rivosinc.com>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Hui Wang <hui.wang@canonical.com>,
-	Pincheng Wang <pincheng.plct@isrc.iscas.ac.cn>,
-	Zong Li <zong.li@sifive.com>, Vivian Wang <wangruikang@iscas.ac.cn>,
-	Rui Qi <qirui.001@bytedance.com>,
-	Yunhui Cui <cuiyunhui@bytedance.com>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Zishun Yi <vulab@iscas.ac.cn>,
-	Sergey Matyukevich <geomatsi@gmail.com>
-Subject: Re: [PATCH v7 5/6] riscv: vector: optimize vstate operations
-Message-ID: <20261111-perplexed-encircle-af05cda3dc9c@spud>
-References: <20261111184359.1239821-1-tchiu@tenstorrent.com>
- <20261111184359.1239821-6-tchiu@tenstorrent.com>
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=iRtyY3z5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794438023; x=1825974023;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=l5bcno4UXP7N2txNavRMGh0sD6iLfaBBk7CthX8bdlU=;
+  b=iRtyY3z5ETcuaDr9xik/PtH0jidymKFp0JqGkXHy4xTpm7ex4uzKPmmz
+   RnbCT25iXg1XUP/izzhxGWrPhDRHYfyC1nsi1W3GVa4DJ/iciOe3ihxlo
+   NuJXTvsuzWlgspBB2zarKkClUyH+C4MCpOrtSy0+gGpBLYuySKym3EtZD
+   linfoPXlfaOnfNzCplR8NcvZBLCEBuzj9RiQs5jV8jbhzuG/JCGpGZxpa
+   NImu/9Il2+YLfRIjyqdXUsdW4q6IdL8nppsq2hnyqp/QNTYBhDWJj10O/
+   FIiwvSvWgZMVyeZIy8cBAdRu0nOxhpbc8i7iWsR2xz1X6Z6YY+kO56Znu
+   A==;
+X-CSE-ConnectionGUID: bQJCdL0lTrSHcC+Vs8ubIA==
+X-CSE-MsgGUID: rcJECCCSTmuuDApB103yLw==
+X-IronPort-AV: E=Sophos;i="6.27,208,1787011200"; 
+   d="scan'208";a="33757073"
+Received: from ip-10-5-9-48.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.9.48])
+  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 23:00:23 +0000
+Received: from EX19MTAUWC001.ant.amazon.com [205.251.233.53:2153]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.142:2525] with esmtp (Farcaster)
+ id 1ab7d5a6-029a-4b3d-8053-f474fd6a8a95; Wed, 11 Nov 2026 23:00:22 +0000 (UTC)
+X-Farcaster-Flow-ID: 1ab7d5a6-029a-4b3d-8053-f474fd6a8a95
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 23:00:22 +0000
+Received: from ip-10-253-83-51.amazon.com (172.19.99.218) by
+ EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 23:00:19 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <linux-kernel@vger.kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>
+CC: The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy
+	<robin.murphy@arm.com>, <linux-doc@vger.kernel.org>, <iommu@lists.linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	<nh-open-source@amazon.com>, <linux-mm@kvack.org>, Jonathan Corbet
+	<corbet@lwn.net>
+Subject: [PATCH 16/40] nitro_enclaves: Turn the command reply into a per-command union
+Date: Wed, 11 Nov 2026 22:59:20 +0000
+Message-ID: <3512d2f3fb3ecb4a9795f50b2f61f371c3ac6458.1794393490.git.graf@amazon.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <cover.1794300002.git.graf@amazon.com>
+References: <cover.1794300002.git.graf@amazon.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,433 +91,175 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3ubzUPwuD85SzVnU"
-Content-Disposition: inline
-In-Reply-To: <20261111184359.1239821-6-tchiu@tenstorrent.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
---3ubzUPwuD85SzVnU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In preparation to support Nitro Sandboxes, whose commands carry
+unrelated payloads in their replies, convert struct ne_pci_dev_cmd_reply
+into a per-command union. A command with fields of its own in the reply
+gets an arm holding them, and a caller reads the reply through the arm
+for the command it issued.
 
-On Wed, Nov 11, 2026 at 12:43:27PM -0600, Andy Chiu wrote:
-> Introduce the riscv_novstateopt to control the optimization of vector
-> state operations in the kernel space.
->=20
-> The optimization enables vector in kernel mode and bypasses vector
-> register nulling for user space on the syscall fast path when the boot
-> argument "riscv_novstateopt" is not set
->=20
-> Enabling this optimization yields the following performance benefits:
->  - Cut 80 cycles latency for getpid on Ascalon.
->  - 1.1% ~ 4.09% request throughput improvment on nginx workload with web
->    serving size under 4KB
->=20
-> Signed-off-by: Andy Chiu <tchiu@tenstorrent.com>
-> ---
-> Changelog v6:
->  - upgrade it to use alternative and change default to enable the
->    optimization
+The device writes every reply into the same 72 byte window of the PCI
+BAR and picks the offset of each field itself, so we place an arm's
+fields at the offsets the flat struct gave them and name the holes where
+another command owns the bytes. static_assert() on every offset and on
+the total size pins each arm to the layout the device uses.
 
-Why? Argument for the default being like this needs to be in the commit
-message.
+Signed-off-by: Alexander Graf <graf@amazon.com>
+---
+ drivers/virt/nitro_enclaves/ne_misc_dev.c |  6 +-
+ drivers/virt/nitro_enclaves/ne_pci_dev.c  |  4 +-
+ drivers/virt/nitro_enclaves/ne_pci_dev.h  | 86 +++++++++++++++++------
+ 3 files changed, 71 insertions(+), 25 deletions(-)
 
-> Changelog v5:
->  - new patch since v5
-> ---
->  .../admin-guide/kernel-parameters.txt          | 13 +++++++++++++
->  arch/riscv/include/asm/alternative-macros.h    |  6 ++++++
->  arch/riscv/include/asm/alternative.h           |  3 ---
->  arch/riscv/include/asm/cpufeature-macros.h     |  6 ++++--
->  arch/riscv/include/asm/vector.h                | 16 +++++++++++++++-
->  arch/riscv/kernel/cpufeature.c                 | 18 ++++++++++++++++++
->  arch/riscv/kernel/entry.S                      | 15 +++++++++++++--
->  arch/riscv/kernel/process.c                    |  3 +++
->  arch/riscv/kernel/vector.c                     | 17 +++++++++++++++--
->  9 files changed, 87 insertions(+), 10 deletions(-)
->=20
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
-ion/admin-guide/kernel-parameters.txt
-> index 0b3c140babd9..e1146ee6ab1e 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -6722,6 +6722,19 @@ Kernel parameters
->  		fcfi	Disable user forward CFI ABI to userspace even if the
->  			landing pad extension is available.
-> =20
-> +	riscv_novstateopt [RISCV,EARLY]
-> +			Disable the vector state optimization. By default the
-> +			kernel keeps Vector enabled while running in kernel
-> +			space, rather than toggling sstatus.VS on every use of
-> +			the kernel-mode vector, and skips nulling the vector
-> +			registers for user space. Pass this option to restore the
-> +			conservative behavior, which catches illegal use of
-> +			Vector in kernel code. The optimization roughly cuts
-> +			30 ns of getpid() latency on a Blackhole x280 and gives
-> +			a 4.09% request throughput improvement for an nginx
-> +			workload serving a 2KB web page on a four-core
-> +			Ascalon-S.
-> +
->  	ro		[KNL] Mount root device read-only on boot
-> =20
->  	rodata=3D		[KNL,EARLY]
-> diff --git a/arch/riscv/include/asm/alternative-macros.h b/arch/riscv/inc=
-lude/asm/alternative-macros.h
-> index 629d884578da..45d9ae1e0aa8 100644
-> --- a/arch/riscv/include/asm/alternative-macros.h
-> +++ b/arch/riscv/include/asm/alternative-macros.h
-> @@ -2,6 +2,12 @@
->  #ifndef __ASM_ALTERNATIVE_MACROS_H
->  #define __ASM_ALTERNATIVE_MACROS_H
-> =20
-> +#include <linux/wordpart.h>
-> +#define PATCH_ID_CPUFEATURE_ID(p)		lower_16_bits(p)
-> +#define PATCH_ID_CPUFEATURE_VALUE(p)		upper_16_bits(p)
-> +
-> +#define RISCV_CPUFEAT_VSTATEOPT	0x1
-
-This isn't a cpu feature at all though, so it should not be named like that.
-
-> +
->  #ifdef __ASSEMBLER__
-> =20
->  .macro ALT_ENTRY oldptr newptr vendor_id patch_id new_len
-> diff --git a/arch/riscv/include/asm/alternative.h b/arch/riscv/include/as=
-m/alternative.h
-> index 6be7b2b6ade9..bc2ecaa9125a 100644
-> --- a/arch/riscv/include/asm/alternative.h
-> +++ b/arch/riscv/include/asm/alternative.h
-> @@ -16,9 +16,6 @@
->  #include <linux/stddef.h>
->  #include <asm/hwcap.h>
-> =20
-> -#define PATCH_ID_CPUFEATURE_ID(p)		lower_16_bits(p)
-> -#define PATCH_ID_CPUFEATURE_VALUE(p)		upper_16_bits(p)
-> -
->  #define RISCV_ALTERNATIVES_BOOT		0 /* alternatives applied during regula=
-r boot */
->  #define RISCV_ALTERNATIVES_MODULE	1 /* alternatives applied during modul=
-e-init */
->  #define RISCV_ALTERNATIVES_EARLY_BOOT	2 /* alternatives applied before m=
-mu start */
-> diff --git a/arch/riscv/include/asm/cpufeature-macros.h b/arch/riscv/incl=
-ude/asm/cpufeature-macros.h
-> index adaf9e3fb25c..7bd900899bb0 100644
-> --- a/arch/riscv/include/asm/cpufeature-macros.h
-> +++ b/arch/riscv/include/asm/cpufeature-macros.h
-> @@ -45,14 +45,16 @@ static __always_inline bool __riscv_has_extension_unl=
-ikely(const unsigned long v
-> =20
->  static __always_inline bool riscv_has_extension_unlikely(const unsigned =
-long ext)
->  {
-> -	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EX=
-T_MAX");
-> +	int realext =3D PATCH_ID_CPUFEATURE_ID(ext);
-> +	compiletime_assert(realext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_IS=
-A_EXT_MAX");
-> =20
->  	return __riscv_has_extension_unlikely(STANDARD_EXT, ext);
->  }
-
-Please don't abuse riscv_has_extension_*() for things that are not
-extensions. I don't mind if you do something that wraps
-__riscv_has_extension_*() to make use of the underlying infrastructure
-but I am against muddying the standard extension space with linux internal
-stuff - particularly in this manner because this:
-> +static __always_inline bool has_vstate_opt(void)
-> +{
-> +	return riscv_has_extension_likely((RISCV_CPUFEAT_VSTATEOPT << 16) | RIS=
-CV_ISA_EXT_ZVE32X);
-> +}
-is incredibly confusing and error prone.
-
-Recently enough I talked about something very very similar with Jisheng,
-in the context of using an alternative for misaligned access, and I
-said:
-| ...I'd rather see __riscv_has_extension_*() get renamed
-| to __riscv_has_cap*(), so that things like unaligned access speed get a
-| different namespace to standard and vendor extensions. IOW you'd end up
-| with
-|=20
-| static __always_inline bool riscv_has_extension_unlikely(const unsigned l=
-ong ext)
-| {
-| 	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EXT=
-_MAX");
-|=20
-| 	return __riscv_has_cap_unlikely(STANDARD_EXT, ext);
-| }
-|=20
-| static __always_inline bool riscv_has_vendor_extension_unlikely(const uns=
-igned long vendor,
-| 								const unsigned long ext)
-| {
-| 	if (!IS_ENABLED(CONFIG_RISCV_ISA_VENDOR_EXT))
-| 		return false;
-|=20
-| 	return __riscv_has_cap_unlikely(vendor, ext + RISCV_VENDOR_EXT_ALTERNATI=
-VES_BASE);
-| }
-|=20
-| static __always_inline bool riscv_has_cap_unlikely(const unsigned long ca=
-p)
-| {
-| 	return __riscv_has_cap_unlikely(LINUX_CAP, cap);
-| }
-|=20
-| Currently standard extensions use 0 as the vendor, perhaps we could then
-| use -1 (the value is an unsigned long) for non extension related caps?
-
-What's here, with this realext business definitely looks like a hack.
-Doing what I suggest above allows you to have a real key that you can
-set, just like the vendor extensions do. You can call a function from
-riscv_fill_hwcap() to populate the bitmap and modify
-_apply_alternatives() to additionally patch this sort of thing.
-
-Cheers,
-Conor.
-
-pw-bot: changes-requested
-
-> =20
->  static __always_inline bool riscv_has_extension_likely(const unsigned lo=
-ng ext)
->  {
-> -	compiletime_assert(ext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_ISA_EX=
-T_MAX");
-> +	int realext =3D PATCH_ID_CPUFEATURE_ID(ext);
-> +	compiletime_assert(realext < RISCV_ISA_EXT_MAX, "ext must be < RISCV_IS=
-A_EXT_MAX");
-> =20
->  	return __riscv_has_extension_likely(STANDARD_EXT, ext);
->  }
-> diff --git a/arch/riscv/include/asm/vector.h b/arch/riscv/include/asm/vec=
-tor.h
-> index e83f9e0046a9..745ac3ca67b7 100644
-> --- a/arch/riscv/include/asm/vector.h
-> +++ b/arch/riscv/include/asm/vector.h
-> @@ -49,6 +49,7 @@
->  	_res;								\
->  })
-> =20
-> +extern bool riscv_v_vstate_opt;
->  extern unsigned long riscv_v_vsize;
->  int riscv_v_setup_vsize(void);
->  bool insn_is_vector(u32 insn_buf);
-> @@ -78,6 +79,11 @@ static __always_inline bool has_vector(void)
->  	return riscv_has_extension_unlikely(RISCV_ISA_EXT_ZVE32X);
->  }
-> =20
-> +static __always_inline bool has_vstate_opt(void)
-> +{
-> +	return riscv_has_extension_likely((RISCV_CPUFEAT_VSTATEOPT << 16) | RIS=
-CV_ISA_EXT_ZVE32X);
-> +}
-> +
->  static __always_inline bool has_xtheadvector_no_alternatives(void)
->  {
->  	if (IS_ENABLED(CONFIG_RISCV_ISA_XTHEADVECTOR))
-> @@ -122,6 +128,9 @@ static inline bool riscv_v_vstate_query(struct pt_reg=
-s *regs)
-> =20
->  static __always_inline void riscv_v_enable(void)
->  {
-> +	if (has_vstate_opt())
-> +		return;
-> +
->  	if (has_xtheadvector())
->  		csr_set(CSR_SSTATUS, SR_VS_THEAD);
->  	else
-> @@ -130,6 +139,9 @@ static __always_inline void riscv_v_enable(void)
-> =20
->  static __always_inline void riscv_v_disable(void)
->  {
-> +	if (has_vstate_opt())
-> +		return;
-> +
->  	if (has_xtheadvector())
->  		csr_clear(CSR_SSTATUS, SR_VS_THEAD);
->  	else
-> @@ -336,7 +348,8 @@ static inline void riscv_v_vstate_set_restore(struct =
-task_struct *task,
->  static inline void riscv_v_vstate_discard(struct pt_regs *regs)
->  {
->  	if (__riscv_v_vstate_check_gt(regs->status, INITIAL)) {
-> -		riscv_v_vstate_set_restore(current, regs);
-> +		if (!has_vstate_opt())
-> +			riscv_v_vstate_set_restore(current, regs);
->  		riscv_v_vstate_init(regs);
->  	}
->  }
-> @@ -422,6 +435,7 @@ struct pt_regs;
-> =20
->  static inline int riscv_v_setup_vsize(void) { return -EOPNOTSUPP; }
->  static __always_inline bool has_vector(void) { return false; }
-> +static __always_inline bool has_vstate_opt(void) { return false; }
->  static __always_inline bool insn_is_vector(u32 insn_buf) { return false;=
+diff --git a/drivers/virt/nitro_enclaves/ne_misc_dev.c b/drivers/virt/nitro_enclaves/ne_misc_dev.c
+index 610d98264e5a1..77b15eda8d120 100644
+--- a/drivers/virt/nitro_enclaves/ne_misc_dev.c
++++ b/drivers/virt/nitro_enclaves/ne_misc_dev.c
+@@ -1749,7 +1749,7 @@ static int ne_start_enclave_ioctl(struct ne_enclave *ne_enclave,
+ 
+ 	ne_enclave->state = NE_STATE_RUNNING;
+ 
+-	enclave_start_info->enclave_cid = cmd_reply.enclave_cid;
++	enclave_start_info->enclave_cid = cmd_reply.start.enclave_cid;
+ 
+ 	return 0;
  }
->  static __always_inline bool has_xtheadvector_no_alternatives(void) { ret=
-urn false; }
->  static __always_inline bool has_xtheadvector(void) { return false; }
-> diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeatur=
-e.c
-> index 72bce616491f..041f6a35fba3 100644
-> --- a/arch/riscv/kernel/cpufeature.c
-> +++ b/arch/riscv/kernel/cpufeature.c
-> @@ -1294,6 +1294,19 @@ void riscv_clear_hypervisor_csr(void)
->  	csr_clear(CSR_HSTATUS, HSTATUS_HU);
->  }
-> =20
-> +/*
-> + * Leaving Vector enabled while in the kernel relies on the vstate alter=
-natives
-> + * being patched in. It can be turned off on the command line to catch i=
-llegal
-> + * use of Vector in kernel code.
-> + */
-> +bool riscv_v_vstate_opt =3D true;
-> +static int __init riscv_novstateopt_setup(char *__unused)
-> +{
-> +	riscv_v_vstate_opt =3D false;
-> +	return 0;
-> +}
-> +early_param("riscv_novstateopt", riscv_novstateopt_setup);
-> +
->  /*
->   * Alternative patch sites consider 48 bits when determining when to pat=
-ch
->   * the old instruction sequence with the new. These bits are broken into=
- a
-> @@ -1322,6 +1335,11 @@ static bool riscv_cpufeature_patch_check(u16 id, u=
-16 value)
->  		 * then the alternative cannot be applied.
->  		 */
->  		return riscv_cboz_block_size <=3D (1U << value);
-> +	case RISCV_ISA_EXT_ZVE32X:
-> +		if (value =3D=3D RISCV_CPUFEAT_VSTATEOPT)
-> +			return riscv_v_vstate_opt;
-> +
-> +		return true;
->  	}
-> =20
->  	return false;
-> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
-> index 628b85e3915a..bb4787711f2c 100644
-> --- a/arch/riscv/kernel/entry.S
-> +++ b/arch/riscv/kernel/entry.S
-> @@ -6,6 +6,7 @@
-> =20
->  #include <linux/init.h>
->  #include <linux/linkage.h>
-> +#include <linux/stringify.h>
-> =20
->  #include <asm/alternative-macros.h>
->  #include <asm/asm.h>
-> @@ -175,10 +176,13 @@ SYM_CODE_START(handle_exception)
->  	 * Disable user-mode memory access as it should only be set in the
->  	 * actual user copy routines.
->  	 *
-> -	 * Disable the FPU/Vector to detect illegal usage of floating point
-> +	 * Disable the FPU to detect illegal usage of floating point
->  	 * or vector in kernel space.
->  	 */
-> -	li t0, SR_SUM | SR_FS_VS
-> +	li t0, SR_SUM | SR_FS
-> +	ALTERNATIVE(__stringify(ori t0, t0, SR_VS), "nop", 0,
-> +		    (RISCV_CPUFEAT_VSTATEOPT << 16) | RISCV_ISA_EXT_ZVE32X,
-> +		    CONFIG_RISCV_ISA_V)
->  #ifdef CONFIG_64BIT
->  	li t1, SR_ELP
->  	or t0, t0, t1
-> @@ -186,6 +190,13 @@ SYM_CODE_START(handle_exception)
-> =20
->  	REG_L s0, TASK_TI_USER_SP(tp)
->  	csrrc s1, CSR_STATUS, t0
-> +	ALTERNATIVE("j .Lskip_v_enable", __stringify(andi t0, s1, SR_VS), 0,
-> +		    (RISCV_CPUFEAT_VSTATEOPT << 16) | RISCV_ISA_EXT_ZVE32X,
-> +		    CONFIG_RISCV_ISA_V)
-> +	bnez t0, .Lskip_v_enable
-> +	li a0, SR_VS_INITIAL
-> +	csrs CSR_STATUS, a0
-> +.Lskip_v_enable:
->  	save_userssp s2, s1
->  	csrr s2, CSR_EPC
->  	csrr s3, CSR_TVAL
-> diff --git a/arch/riscv/kernel/process.c b/arch/riscv/kernel/process.c
-> index 34c1d498d1ca..27146b3fa738 100644
-> --- a/arch/riscv/kernel/process.c
-> +++ b/arch/riscv/kernel/process.c
-> @@ -258,6 +258,9 @@ int copy_thread(struct task_struct *p, const struct k=
-ernel_clone_args *args)
->  		/* Supervisor/Machine, irqs on: */
->  		childregs->status =3D SR_PP | SR_PIE;
-> =20
-> +		if (has_vstate_opt())
-> +			riscv_v_vstate_init(childregs);
-> +
->  		p->thread.s[0] =3D (unsigned long)args->fn;
->  		p->thread.s[1] =3D (unsigned long)args->fn_arg;
->  		p->thread.ra =3D (unsigned long)ret_from_fork_kernel_asm;
-> diff --git a/arch/riscv/kernel/vector.c b/arch/riscv/kernel/vector.c
-> index 6fd541f5d5cb..eec9deff8da7 100644
-> --- a/arch/riscv/kernel/vector.c
-> +++ b/arch/riscv/kernel/vector.c
-> @@ -12,6 +12,7 @@
->  #include <linux/prctl.h>
-> =20
->  #include <asm/thread_info.h>
-> +#include <asm/cpufeature.h>
->  #include <asm/processor.h>
->  #include <asm/insn.h>
->  #include <asm/vector.h>
-> @@ -69,6 +70,16 @@ void riscv_v_ucontext_save(struct task_struct *tsk)
->  int riscv_v_setup_vsize(void)
->  {
->  	unsigned long this_vsize;
-> +	bool v_always_on =3D false;
-> +
-> +	/*
-> +	 * has_vstate_opt() cannot be used here if called from riscv_fill_hwcap=
-(), before
-> +	 * apply_boot_alternatives(),
-> +	 */
-> +	if (__riscv_isa_extension_available(NULL, RISCV_ISA_EXT_ZVE32X) && risc=
-v_v_vstate_opt) {
-> +		v_always_on =3D true;
-> +		csr_set(CSR_SSTATUS, SR_VS_INITIAL);
-> +	}
-> =20
->  	/*
->  	 * There are 32 vector registers with vlenb length.
-> @@ -81,9 +92,11 @@ int riscv_v_setup_vsize(void)
->  		return 0;
->  	}
-> =20
-> -	riscv_v_enable();
-> +	if (!v_always_on)
-> +		riscv_v_enable();
->  	this_vsize =3D csr_read(CSR_VLENB) * 32;
-> -	riscv_v_disable();
-> +	if (!v_always_on)
-> +		riscv_v_disable();
-> =20
->  	if (!riscv_v_vsize) {
->  		riscv_v_vsize =3D this_vsize;
-> --=20
-> 2.43.0
->=20
+@@ -2621,11 +2621,11 @@ static int ne_create_vm_ioctl(struct ne_pci_dev *ne_pci_dev, u64 flags,
+ 	init_waitqueue_head(&ne_enclave->eventq);
+ 	ne_enclave->has_event = false;
+ 	mutex_init(&ne_enclave->enclave_info_mutex);
+-	ne_enclave->max_mem_regions = cmd_reply.mem_regions;
++	ne_enclave->max_mem_regions = cmd_reply.alloc.mem_regions;
+ 	INIT_LIST_HEAD(&ne_enclave->contig_regions_list);
+ 	INIT_LIST_HEAD(&ne_enclave->mem_regions_list);
+ 	ne_enclave->mm = current->mm;
+-	ne_enclave->slot_uid = cmd_reply.slot_uid;
++	ne_enclave->slot_uid = cmd_reply.alloc.slot_uid;
+ 	ne_enclave->state = NE_STATE_INIT;
+ 
+ 	list_add(&ne_enclave->enclave_list_entry, &ne_pci_dev->enclaves_list);
+diff --git a/drivers/virt/nitro_enclaves/ne_pci_dev.c b/drivers/virt/nitro_enclaves/ne_pci_dev.c
+index a07dbc6d8a9b7..8ed2349dea878 100644
+--- a/drivers/virt/nitro_enclaves/ne_pci_dev.c
++++ b/drivers/virt/nitro_enclaves/ne_pci_dev.c
+@@ -404,8 +404,8 @@ static void ne_event_work_handler(struct work_struct *work)
+ 		}
+ 
+ 		/* Notify enclave process that the enclave state changed. */
+-		if (ne_enclave->state != cmd_reply.state) {
+-			ne_enclave->state = cmd_reply.state;
++		if (ne_enclave->state != cmd_reply.info.state) {
++			ne_enclave->state = cmd_reply.info.state;
+ 
+ 			ne_enclave->has_event = true;
+ 
+diff --git a/drivers/virt/nitro_enclaves/ne_pci_dev.h b/drivers/virt/nitro_enclaves/ne_pci_dev.h
+index 4f670c53dd3c0..835413fca8040 100644
+--- a/drivers/virt/nitro_enclaves/ne_pci_dev.h
++++ b/drivers/virt/nitro_enclaves/ne_pci_dev.h
+@@ -286,32 +286,78 @@ struct slot_add_info_page_req {
+ 
+ /**
+  * struct ne_pci_dev_cmd_reply - NE PCI device command reply.
+- * @rc :		Return code of the logic that processed the request.
+- * @padding0:		Padding for the overall data structure.
+- * @slot_uid:		Valid for all commands except SLOT_COUNT.
+- * @enclave_cid:	Valid for ENCLAVE_START command.
+- * @slot_count :	Valid for SLOT_COUNT command.
+- * @mem_regions:	Valid for SLOT_ALLOC and SLOT_INFO commands.
+- * @mem_size:		Valid for SLOT_INFO command.
+- * @nr_vcpus:		Valid for SLOT_INFO command.
+- * @flags:		Valid for SLOT_INFO command.
+- * @state:		Valid for SLOT_INFO command.
+- * @padding1:		Padding for the overall data structure.
++ *
++ * The device writes the reply of every command into the same 72-byte
++ * window. A command whose reply carries fields of its own has an arm of
++ * the union below holding them, at the offsets the device writes them
++ * to, and a caller reads through the arm for the command it issued.
++ *
++ * @rc :			Return code of the logic that processed the
++ *				request.
++ * @padding0:			Padding for the overall data structure.
++ * @start:			Fields ENCLAVE_START fills.
++ * @start.slot_uid:		ENCLAVE_START. Slot of the started enclave.
++ * @start.enclave_cid:		ENCLAVE_START. Context ID of the enclave
++ *				vsock device.
++ * @alloc:			Fields SLOT_ALLOC fills.
++ * @alloc.slot_uid:		SLOT_ALLOC. Slot unique id of the new slot.
++ * @alloc.reserved8:		SLOT_ALLOC. Bytes owned by other commands.
++ * @alloc.mem_regions:		SLOT_ALLOC. Maximum number of memory
++ *				regions the slot accepts.
++ * @info:			Fields SLOT_INFO fills.
++ * @info.slot_uid:		SLOT_INFO. Slot the reply describes.
++ * @info.enclave_cid:		SLOT_INFO. Context ID of the enclave vsock
++ *				device.
++ * @info.reserved24:		SLOT_INFO. Bytes owned by other commands.
++ * @info.mem_regions:		SLOT_INFO. Maximum number of memory regions
++ *				the slot accepts.
++ * @info.mem_size:		SLOT_INFO. Memory size added to the slot.
++ * @info.nr_vcpus:		SLOT_INFO. Number of vCPUs added to the slot.
++ * @info.flags:			SLOT_INFO. Slot flags.
++ * @info.state:			SLOT_INFO. Slot state.
++ * @info.padding1:		SLOT_INFO. Padding for the overall data
++ *				structure.
+  */
+ struct ne_pci_dev_cmd_reply {
+ 	s32	rc;
+ 	u8	padding0[4];
+-	u64	slot_uid;
+-	u64	enclave_cid;
+-	u64	slot_count;
+-	u64	mem_regions;
+-	u64	mem_size;
+-	u64	nr_vcpus;
+-	u64	flags;
+-	u16	state;
+-	u8	padding1[6];
++	union {
++		struct {
++			u64	slot_uid;
++			u64	enclave_cid;
++		} start;
++		struct {
++			u64	slot_uid;
++			u64	reserved8[2];
++			u64	mem_regions;
++		} alloc;
++		struct {
++			u64	slot_uid;
++			u64	enclave_cid;
++			u64	reserved24;
++			u64	mem_regions;
++			u64	mem_size;
++			u64	nr_vcpus;
++			u64	flags;
++			u16	state;
++			u8	padding1[6];
++		} info;
++	};
+ };
+ 
++static_assert(sizeof(struct ne_pci_dev_cmd_reply) == 72);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, start.slot_uid) == 8);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, start.enclave_cid) == 16);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, alloc.slot_uid) == 8);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, alloc.mem_regions) == 32);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, info.slot_uid) == 8);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, info.enclave_cid) == 16);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, info.mem_regions) == 32);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, info.mem_size) == 40);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, info.nr_vcpus) == 48);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, info.flags) == 56);
++static_assert(offsetof(struct ne_pci_dev_cmd_reply, info.state) == 64);
++
+ /**
+  * struct ne_pci_dev - Nitro Enclaves (NE) PCI device.
+  * @cmd_reply_avail:		Variable set if a reply has been sent by the
+-- 
+2.47.1
 
---3ubzUPwuD85SzVnU
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCavTzfQAKCRB4tDGHoIJi
-0ndnAQCKzecachS9T5ZG9WIZP+gS6AEsnCkQ6kui9SbEafTRSQD+Lh9wwdapFarD
-hHhgB7Tfpuhk3A6bH15wbiexqUiZtAQ=
-=uiDG
------END PGP SIGNATURE-----
-
---3ubzUPwuD85SzVnU--
