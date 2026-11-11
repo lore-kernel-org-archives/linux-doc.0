@@ -1,47 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794389875;
-	b=1b9j+hXxjKEANkx+wQ4zETjeHCsdWg6Nfe4zhSJL5m3ja7JVJs6YCoSwiDeVgTI0okFX
-	 uuTTdZgc8iGb8ET/iOeLsfvOdwHmYiIxM9ZsrhZPvNoSieGX1pLI2evZwk+LKytMDHvI+
-	 Vi0k4mMIGl2f7Y0Gp9noxQOu9RInkijWjQni9pK+tnB4IZqBTr8zBuyJuRMirvTGlxWqU
-	 cGBY6m2ZsZWua9kQrE1skvYDhuOYfLAT+LrS4D4eBwgRg7FLwt3mKlrUqmnl2DpvkWRfM
-	 oqXsDsUSEB1opJu2IuVGMbE2aQiKhAB9YlsHLZALLpYXelBb87uiuWOHwjdPnZNZh0w==
+	t=1794389874;
+	b=iQC9RfgqI5W/bZ8mHc7CgCOZLQDDDd9UIY9fmijFCTpJtwjHQZhzclfc786eTCzykSyw
+	 7KK1dk4GYzZGG3xorB1yo/KJEGgfxCWPjYZYNk7G8ObnpBeSV2vqIzPJBPiFBgJNz32UT
+	 SfSD7wnP6FPVdik+aKHgNKi3SuAea+A/db7H6o6IX1rfb7rzscBe2NHIC401icQ69CfMC
+	 UIYQ38QOdVFi/7UchrOT9m6AVVENlLCfJlKtMUnyVcCfkzjrOr6fRNo++OT6CIaaGE/8z
+	 PC0FQLnXErIOwWUSocO1joO8423Skl5ZPY0eQYQdPrQ45o3OclhJqMh/RY8sdUKNtsg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794389875;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389874;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=+zqg+uj9kcQo+azk071I8gmi2T0sx8zHCk/mu15uxA0=;
-	b=V9jsrk9BYn1PhxI9Fe8jXzSDrkhj8fCOaolbaNoNdhBaNRxjpca+tB1bUS5Xb9b2Vmg2
-	 FttJY5oQNS7GJOFg5MHY0j74Q2bejbjM6q/Sg40yYMquyjSRujmygWs4qkyvPXWKPy5Dn
-	 SsqY3rpGBeenC7wQvDzx83trGxzNEsfHUxBkcgiJgdfc8QImTJZEHTeDOCoyihYfwdtKn
-	 E4DKN4G1Q2Yz/17KiGeZTO2Zx6YADRTbJLClpk7dWt4fT2VEF9C1jHWr9QI79X4+8OBXg
-	 Tlx6fvYAv7fQ0yKfoCRuDJW9EEurava4k73+nuTwvxlSMQ5pt9FKnDTbYDI/Idt3RpQ==
+	bh=PkJfKwkqKNE4ImiCuQKubmjkOE1XDfvLZ9rc4/zmoHU=;
+	b=27KtWIYJTPumvkVA0KQKPz4EMS9C+lnifsq73o1Rufan23U4u8rK2TOVJhqHOgryJEFc
+	 C7BIP9ec4Od3KeU0TalVaT00Z2hcbRGj9tKDuk26nG8Tnrh2e+plrVE1xnPxztmh8d7Hz
+	 G+KYGCPzKBnEL8oZlzoCuzKkq88E7Qu4WQz4ZGsQ2VcO5vA6Zyprx2+UbfOMk5v2a4wl0
+	 BnjMltfynLXFMQU0J2JlbqYFQY//rUQ/yhWRqvZM2n7ThRwxIrP31gWOuE96hJ0eMycNs
+	 Sg2JA6PGAZ7yCElI3ZqRhVkneRHj/FGssodYy74PyGf7JcPMlAlEIXOBMZBg0jIegAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="QC5wF2w/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJC9HxML;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE88760A2606;
-	Wed, 11 Nov 2026 09:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QC5wF2w/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81F231F00A05;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D413606A338;
 	Wed, 11 Nov 2026 09:37:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PJC9HxML
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA01E1F00A0C;
+	Wed, 11 Nov 2026 09:37:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794389875;
-	bh=+zqg+uj9kcQo+azk071I8gmi2T0sx8zHCk/mu15uxA0=;
+	s=k20260515; t=1794389873;
+	bh=PkJfKwkqKNE4ImiCuQKubmjkOE1XDfvLZ9rc4/zmoHU=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=QC5wF2w/oTD7DOzHAwPtCsWvFqLksnxEHhs3rS45SeX4s2rIWgw12TJ5o449b06y7
-	 OltsZQ9XXGquSnakexV3jl/s6oK/T/ttVTHVY7Uz+wQldjUa2q7e2dfSihhmeZiCrc
-	 5Rve1NKIKe1uOv/ioUabxn4+hm7oIjggLn5rZUYK/cZspXJXlTf2VjhEiLQQb6YCGX
-	 tU5KR1aMcz9v8r8WDtCbHNCo1nmn/jZn5REwY3RfjNwh30gWcoeTFtTSMYm5szQS8F
-	 FfwRGkoFAiVE3vTUJ+zoKcQ/UVRN3Cci9DP6cUkpr1zkLG+PjXwZVyRq04+Ma5/r6s
-	 hZ3+3ItvTVFuQ==
-Subject:
- Re: [PATCH net-next v3 12/14] selftests: dpll: add pin phase adjust test
+	b=PJC9HxML0ZEOhuM6eIC49L6nzywHpT9Rj1sf0JsA0f8CO0CnuZ8yzDwG8O6ATyYfL
+	 AevD6G+sQ2Mmovqqzuztd8/MKbvQLJikgfYVSisGWcUC1PLEjLe6wqtBrRRj+yPPHs
+	 tJ1h9Q9vuqNzRBAFDvwapgKTk52jNjtfVKxTrLR5HjhqTSt7vPOKxyLgdaF0puf8t1
+	 K2PjVg2OuRFmV1sigsMGzU3eNRXFmdgdRw0Cyn33LrKhiNhlfRv3rxSOI/AvnZh9b/
+	 G3nb0ZVuPfnBb5dcDWaRUrrvUo4G2UKrrfgwintp3MlK+PQKZ1VfPOhKdQ75qLEVSQ
+	 2fxtgQupFuYdQ==
+Subject: Re: [PATCH net-next v3 10/14] selftests: dpll: add pin frequency test
 From: netdev-bot+sashiko@kernel.org
 To: poros@redhat.com
 Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
@@ -50,10 +49,10 @@ Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
  davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Date: Wed, 11 Nov 2026 09:37:54 +0000
-Message-ID: <179438987403.2199510.18272371580964161191@kernel.org>
-In-Reply-To: <20261109093523.931201-13-poros@redhat.com>
-References: <20261109093523.931201-13-poros@redhat.com>
+Date: Wed, 11 Nov 2026 09:37:52 +0000
+Message-ID: <179438987253.2199510.13974311226677874539@kernel.org>
+In-Reply-To: <20261109093523.931201-11-poros@redhat.com>
+References: <20261109093523.931201-11-poros@redhat.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -67,10 +66,10 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential
+Thank you for your contribution! Sashiko AI review found 2 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
+Critical: 0 · High: 0 · Medium: 2 · Low: 0
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -78,89 +77,153 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] In tools/testing/selftests/drivers/dpll/dpll_features.sh,
-  test_pin_phase_adjust_set_get() refuses to schedule a restore it…
+- [Medium] test_pin_frequency_set_get() in
+  tools/testing/selftests/drivers/dpll/dpll_features.sh only checks that…
+- [Medium] test_pin_frequency_set_get() reprograms the frequency of
+  PIN_TUNE_ID.
 
 --
 
-selftests: dpll: add pin phase adjust test
+selftests: dpll: add pin frequency test
 
-This adds test_pin_phase_adjust_set_get() to the dpll selftests. The test
-picks a granularity multiple inside the pin's advertised phase adjust
-range, sets it, reads it back and then restores the original value. It
-bails out before scheduling the restore when the current value is not a
-granularity multiple.
+This adds test_pin_frequency_set_get() to dpll_features.sh. The test
+takes a supported frequency other than the current one from an input
+pin's frequency-supported list, sets it, reads it back and restores the
+original value. It also adds a dpll_pin_set_frequency() helper to
+dpll_lib.sh, which keeps the tool's error output in DPLL_LAST_ERR.
 
 > diff --git a/tools/testing/selftests/drivers/dpll/dpll_features.sh b/tools/testing/selftests/drivers/dpll/dpll_features.sh
-> index 6649936c710e4..b529b19e355db 100755
+> index b4b1eff322a21..6649936c710e4 100755
 > --- a/tools/testing/selftests/drivers/dpll/dpll_features.sh
 > +++ b/tools/testing/selftests/drivers/dpll/dpll_features.sh
 
 [ ... ]
 
-> +	json=$(dpll_pin_json "$PIN_TUNE_ID")
-> +	min=$(jq -r '.["phase-adjust-min"] // empty' <<< "$json")
-> +	max=$(jq -r '.["phase-adjust-max"] // empty' <<< "$json")
-> +	gran=$(jq -r '.["phase-adjust-gran"] // empty' <<< "$json")
-> +	if [ -z "$min" ] || [ -z "$max" ]; then
-> +		dpll_log_test_skip_or_fail "DPLL pin phase-adjust set/get" \
-> +		    "no adjust range"
-> +		return
-> +	fi
-> +	# A current value that is not a granularity multiple could not be
-> +	# written back, so bail out before the restore is scheduled.
-> +	if [ -n "$gran" ] && [ $((before % gran)) -ne 0 ]; then
-> +		dpll_log_test_skip_or_fail "DPLL pin phase-adjust set/get" \
-> +		    "current phase adjust not a granularity multiple"
-> +		return
-> +	fi
-> +	[ -n "$gran" ] || gran=1
-> +	defer dpll_pin_set_phase_adjust "$PIN_TUNE_ID" "$before"
-
-[Severity: Medium]
-Can the restore be refused when before lies outside [min, max]?
-
-The granularity guard is the only check before the defer. The core also
-checks the range, and it does that first, in dpll_pin_phase_adj_set():
-
-drivers/dpll/dpll_netlink.c:dpll_pin_phase_adj_set() {
-    ...
-	phase_adj = nla_get_s32(phase_adj_attr);
-	if (phase_adj > pin->prop.phase_range.max ||
-	    phase_adj < pin->prop.phase_range.min) {
-		NL_SET_ERR_MSG_ATTR(extack, phase_adj_attr,
-				    "phase adjust value of out range");
-		return -EINVAL;
-	}
-	if (pin->prop.phase_gran && phase_adj % (s32)pin->prop.phase_gran) {
-    ...
-}
-
-So an out-of-range current value cannot be written back either, the same
-as a value that is not a granularity multiple.
-
-On such a pin, target is built inside [min, max] and the set succeeds.
-After that, the explicit restore and the deferred one both fail with
--EINVAL. The pin on a user-supplied device then stays at the top (or
-bottom) of the range, and the test reports a FAIL instead of a skip.
-
-ice may hit this. ice_dpll_phase_range_set() derives the range from the
-CGU abilities. The current value is read separately from firmware via
-ice_aq_get_input_pin_cfg() in ice_dpll_pin_state_update(), and nothing
-checks that the two agree. If the abilities report 0, the range is
-[0, 0], and any nonzero firmware value is out of range.
-
-Should the guard also bail out when before is less than min or greater
-than max, before the restore is scheduled?
-
-> +
-> +	# Shell division truncates towards zero, so round the bounds towards
-> +	# the inside of the range explicitly, which matters for negative ones.
+> @@ -237,6 +238,69 @@ test_pin_state_transitions()
+>  	log_test "DPLL pin state transitions"
+>  }
+>  
+> +test_pin_frequency_set_get()
+> +{
 
 [ ... ]
 
-> +	dpll_pin_set_phase_adjust "$PIN_TUNE_ID" "$before"
-> +	check_err $? "cannot restore phase-adjust"
+> +	before=$(dpll_pin_get_frequency "$PIN_TUNE_ID")
+> +	if [ -z "$before" ]; then
+> +		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
+> +		    "frequency not reported"
+> +		return
+> +	fi
+> +	defer dpll_pin_set_frequency "$PIN_TUNE_ID" "$before"
+
+[Severity: Medium]
+Can the original frequency always be written back here? The only check
+on before is that it is not empty. The DPLL core refuses any value
+outside the pin's frequency-supported ranges, and it does this before
+it compares the value with the current frequency:
+
+drivers/dpll/dpll_netlink.c:dpll_pin_freq_set() {
+	...
+	if (!dpll_pin_is_freq_supported(pin, freq)) {
+		NL_SET_ERR_MSG_ATTR(extack, a, "frequency is not supported by the device");
+		return -EINVAL;
+	}
+	...
+}
+
+zl3073x hits this case on purpose. It reads a sub-Hz reference back as
+0 Hz and leaves 0 out of freq_supported:
+
+drivers/dpll/zl3073x/prop.c:zl3073x_pin_props_get() {
+	...
+	/* Start with current frequency at index 0. A sub-Hz frequency is
+	 * read back as 0 Hz and cannot be set, so it is not offered.
+	 */
+	j = 0;
+	if (curr_freq) {
+	...
+}
+
+Here is what happens on such a pin on a device the user provided:
+
+- before=0 passes the -z check.
+- The jq filter picks the first advertised frequency as target.
+- Setting target succeeds and reprograms the hardware reference.
+- The explicit restore and the deferred restore are both refused with
+  EINVAL.
+
+Wouldn't this leave the user's device on a frequency the test picked?
+The commit message says the test "restores the original value".
+
+The phase adjust test later in the series bails out before it schedules
+the restore when the current value could not be written back. Would a
+similar check fit here, one that confirms before lies inside an
+advertised frequency-supported range before the pin is touched?
+
+> +
+> +	# Pick a supported frequency different from the current one. Both
+> +	# ends of every supported range are candidates, so a pin with a
+> +	# single range still has an alternative unless it is one value wide.
+> +	target=$(dpll_pin_json "$PIN_TUNE_ID" | \
+> +		 jq -r --argjson cur "$before" \
+> +		    '[.["frequency-supported"][]? |
+> +		      .["frequency-min"], .["frequency-max"] |
+> +		      numbers | select(. != $cur)][0] // empty')
+
+[ ... ]
+
+> +	# A driver without a frequency setter or with constraints of its own
+> +	# may refuse the candidate, a skip on a device the user provided, the
+> +	# simulator accepts every advertised value.
+> +	if ! dpll_pin_set_frequency "$PIN_TUNE_ID" "$target"; then
+
+[Severity: Medium]
+Is it safe to reprogram this pin's frequency based only on its state on
+DPLL_DEV_ID? pick_tune_pin() counts a pin as spare when it is
+disconnected or selectable on that one device:
+
+tools/testing/selftests/drivers/dpll/dpll_features.sh:pick_tune_pin() {
+	...
+		state=$(dpll_pin_get_state "$DPLL_DEV_ID" "$pin_id")
+		case "$state" in
+		disconnected|selectable)
+	...
+}
+
+State and priority are per parent device, but frequency belongs to the
+pin itself. It is shared by every DPLL device the pin is registered
+with.
+
+On zl3073x, every channel gets the same dpll_pin for an input index
+through dpll_pin_get(clock_id, index). The setter then writes the
+chip-wide reference state:
+
+drivers/dpll/zl3073x/dpll.c:zl3073x_dpll_input_pin_frequency_set() {
+	...
+	ref_id = zl3073x_input_pin_ref_get(pin->id);
+	ref = *zl3073x_ref_state_get(zldev, ref_id);
+
+	/* Update frequency */
+	zl3073x_ref_freq_set(&ref, frequency);
+
+	/* Commit reference state */
+	return zl3073x_ref_state_set(zldev, ref_id, &ref);
+}
+
+Say the chosen input is selectable on the EEC channel but is the locked
+reference of the PPS channel. Could the PPS channel then lose lock, go
+into holdover or switch references until the restore runs? ice also
+registers its inputs with both its EEC and PPS DPLLs. The test never
+checks that the other channel locks again.
+
+Should the pin be checked against all of its parent devices before this
+test changes its frequency?
+
+> +		reason=${DPLL_LAST_ERR%%$'\n'*}
+> +		dpll_log_test_skip_or_fail "DPLL pin frequency set/get" \
+> +		    "cannot set frequency=$target${reason:+, $reason}"
+> +		return
+> +	fi
 
 [ ... ]
 
