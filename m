@@ -1,46 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794389871;
-	b=FIgeeYIqJMUifOu8xH2RNhiy8gSiceFjKZV6BTVaCK6mO6A3VH0krjkolfj1/T8Y50gx
-	 0Oh48A/eq63MdXEGwCbH43Zqn3sywly8qK4++hATYDN03tbRPurhapAiWzXQo7zTJiBXG
-	 /+0he/L58+D9sy5V9EqeL5SUxuhzYNYh2jAfo7psD9+sItm6+tH8SV+sUmHvUQDK9F1Wr
-	 ppYfIRaC3gZPMLgbOugqVpnXoTL56PQqsj8ZQSaArp/I+nTe1kU20tw0b7Dzvu58q4IuG
-	 +VT09tGTBtDm1O7QqPuzLf1gtE++xHNRXIZk0vmLFZ8qNuvqZymv3M8INspodXs/aAQ==
+	t=1794389879;
+	b=Ki4+B3ItuQmXy/N6Fwbs5FoDbHyWUziyArBniDac9UDy+UzhKQUOTBf8WfnwBygX0OeF
+	 RVOZ9/UVRhvjopslYTvG/+SBHDMbhv8xK33w0X3GKOG0TjTdb+oaLT0zzinMxQV5D9N/C
+	 Qdu5IVO5tcwgOkk35u7GENMRyG6wq3RuQn17gzZ6mSEOk2ajMf4xM+H9gg14qkSYKKgQQ
+	 XOblPi9GWMGHo+hPTjxV/gzt7VjNLVnylndmf6KvPEotrdEOeyhr7u87H6BRe7ybNjN9q
+	 apxMjftp8ExCkg29GE1BnKS1T23tQFYq6YnTTF/gYoJddd2lCJncWAzrDtGLKBQ2qGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794389871;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389879;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=ER4yqahQ5ZFgcMtry2SA5Dt9v7EW2BpAfsXeWQFD2tQ=;
-	b=T/nvvN2fzQtEyUjIdUUlROaBKa1rn1dCGwmFXmGCOEUxSjMMvw/TbRmhUlJHtBy6uEed
-	 9OJwEhaL65Wwe+2/LF8MW0ubUXPCrgmaQX0Te9BDSZFRU621ZvrKaEQlKJcO5n6RWIUJc
-	 8tdHHyl0nYwAVfApBD1iUao9X7zWyxPwjpHKt+7l+DN3whq3JGfZYJpRZw6ZuS9LSErKa
-	 c9z7E8FQTnnD8SttE1DX0vzlxXGMmtZY7sl+f3IeDANt9cZpQfBxAbnLXi4WATNqLPqdf
-	 /l6AkmSqt8aMxJFTauc7/SgNyku6rvUxa4r9wcHNHy2ottaSqdGI3Od+cJQkR6kXGLQ==
+	bh=BXmWGa5GpI8AotEk4GpASQZyzQY6QDF5+PiWYnJSL6o=;
+	b=CMmWaVrIu19dBvhRFlmVdmHbz6GK7KrUMLDBt7el27t+YVW08cAl05bmxL8oy2yffPdR
+	 chWn94+drqEYnRKSTFj/9q57LQuZN8lcIDK94ra2025NJKKKXdGsWEAx01BZrW0pLnHIB
+	 TYXV9D/kJnBhOYKzpirl7deiNijHre63qL7h8TuT9wlhia40e1W4sIp2mg44JaQU/7rp4
+	 ALDuiXACXtwS7Dj0+GL1tFRPwinN1sitiZy2Gft0Jklrr8OZL8/uGg/i/N2Sp3dhHa1Vy
+	 5NZ92vfCNtv1Rvwr9cWLdlW4JRMPIzllIZltr+PS5QcwZGeH4tHfPMdYr0D/hy1UbFw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zu4khBmu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MJrc+CN3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 445D8606A33F;
-	Wed, 11 Nov 2026 09:37:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5A660A3818;
+	Wed, 11 Nov 2026 09:37:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zu4khBmu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B621F00A07;
-	Wed, 11 Nov 2026 09:37:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MJrc+CN3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E50751F00A09;
+	Wed, 11 Nov 2026 09:37:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794389870;
-	bh=ER4yqahQ5ZFgcMtry2SA5Dt9v7EW2BpAfsXeWQFD2tQ=;
+	s=k20260515; t=1794389879;
+	bh=BXmWGa5GpI8AotEk4GpASQZyzQY6QDF5+PiWYnJSL6o=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Zu4khBmuMJDijZq7jx13joav4HI5ulOVDzOq9anNIkEwcNtX15NtHh7V8HDcDcYnq
-	 BxaT8gvfLkqhhvcZOaJyyBTqYXH+ezOThjRmARxjCEbjORK8FSdcZufeu1IdK2cCDR
-	 ktl6HUih3vHT6zFByEP91/x8eYlAEkCuO5UoqSAixQLcw/t9im3TBjC5bXoA4kYXMU
-	 Af3fkaIjWUiVDkylSGfBPU+zWHVW14u+Oq5yG5JVi7tPxmd+Bg1vsZryV0xkaY0ts0
-	 0uOX86iR10urw3RQVfL2GBRnoRvz6qJymfuvPLTTs1nViM/hb2GwYcyAXFJlQp1Q7j
-	 BJsMv2vtXyLBg==
-Subject: Re: [PATCH net-next v3 08/14] selftests: dpll: add pin priority test
+	b=MJrc+CN3thjLuEEMBMYZoav9Dn1rdhsbwfnJepybOj8NG4VzJgtGFfpxy10JSrs+x
+	 IjSAi/Q+WOZJPpuc2aymeprIojy1fNVW4F6C+HseuxvhmW4SKTM4X/1oQhQCO9hCht
+	 OG/mte1MuddBHp9UW7tneEv/u2PluBfQNy1oem6K/bRtV1kO0iemDqueTFx6wA076v
+	 i0oW8HhC7DQugfIm5dXhmlj05F/eu3USRjJU6S/bq4rg0I7gKZ3jO0MxgYYu2/sB1w
+	 dDc4FZFbJCxqGqBhQ7Y/OJLwGUfEtRySP9nbQoPOPK2Do3hEapJO3asoT9ipM8e9xn
+	 Trs8wb5uAX7VA==
+Subject:
+ Re: [PATCH net-next v3 14/14] selftests: dpll: add reference leak tests
 From: netdev-bot+sashiko@kernel.org
 To: poros@redhat.com
 Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
@@ -49,10 +50,10 @@ Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
  davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Date: Wed, 11 Nov 2026 09:37:49 +0000
-Message-ID: <179438986953.2199510.11828052858797872845@kernel.org>
-In-Reply-To: <20261109093523.931201-9-poros@redhat.com>
-References: <20261109093523.931201-9-poros@redhat.com>
+Date: Wed, 11 Nov 2026 09:37:57 +0000
+Message-ID: <179438987744.2199510.9390854175096346888@kernel.org>
+In-Reply-To: <20261109093523.931201-15-poros@redhat.com>
+References: <20261109093523.931201-15-poros@redhat.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -66,10 +67,10 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 4 potential
+Thank you for your contribution! Sashiko AI review found 5 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 2 · Low: 2
+Critical: 0 · High: 0 · Medium: 1 · Low: 4
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -77,188 +78,269 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] pick_tune_pin() says PIN_TUNE_ID "must not be the reference
-  the device is locked to" and that tests skip "rather than…
-- [Medium] The candidate loop in test_pin_priority_get_set() is built for
-  the case the commit message describes: "a large current value may mark…
-- [Low] The comment in test_pin_priority_get_set()
-  (tools/testing/selftests/drivers/dpll/dpll_features.sh) and the commit…
-- [Low] This patch adds a layout comment above
-  dpllsim_setup_standard_device() in…
+- [Medium] The snapshot taken right after the probe can record the probe
+  device's own dead ref_tracker entries.
+- [Low] The leak check treats any non-empty dpll_device@*/dpll_pin@*
+  entry missing from the snapshot as a leak of this run.
+- [Low] The two new final leak checks handle a leftover device
+  differently.
+- [Low] dpll_ref_tracker_probe() returns 1 whenever the deployed probe
+  device produces no non-empty new entry.
+- [Low] dpll_debugfs_available() mounts debugfs when /sys/kernel/debug is
+  not a mountpoint and sets DPLL_MOUNTED_DEBUGFS=1.
 
 --
 
-selftests: dpll: add pin priority test
+selftests: dpll: add reference leak tests
 
-This adds test_pin_priority_get_set() to dpll_features.sh. The test sets a
-new priority on a spare input pin, reads it back and restores the original
-value. dpllsim_add_pin() gains an optional priority argument, and the
-standard and stress simulator devices now set priorities on their input
-pins.
-
-> diff --git a/tools/testing/selftests/drivers/dpll/dpll_features.sh b/tools/testing/selftests/drivers/dpll/dpll_features.sh
-> index 874007411bc5e..b4b1eff322a21 100755
-> --- a/tools/testing/selftests/drivers/dpll/dpll_features.sh
-> +++ b/tools/testing/selftests/drivers/dpll/dpll_features.sh
-
-[ ... ]
-
-> +	before=$(dpll_pin_get_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID")
-> +	if [ -z "$before" ]; then
-> +		dpll_log_test_skip_or_fail "DPLL pin priority set/get" \
-> +		    "prio not reported"
-> +		return
-> +	fi
-> +	defer dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" "$before"
-> +
-> +	# The accepted range is not advertised, so try one below the current
-> +	# value and then small values, a refusal of all of them is a skip on
-> +	# a device the user provided, the simulator accepts every priority.
-
-[Severity: Low]
-Is "the simulator accepts every priority" accurate? The commit message makes
-the same claim. However, dpllsim_pin_prio_set() rejects anything above
-DPLLSIM_PIN_PRIO_MAX, which is 255 in dpllsim.h:
-
-drivers/dpll/dpllsim/dpll.c:dpllsim_pin_prio_set() {
-    ...
-	if (prio > DPLLSIM_PIN_PRIO_MAX) {
-		NL_SET_ERR_MSG_FMT(extack, "Pin priority must be in range 0-%u",
-				   DPLLSIM_PIN_PRIO_MAX);
-		return -EINVAL;
-	}
-    ...
-}
-
-The configfs store dpllsim_pin_prio_store() applies the same limit.
-
-The test still works today. Since before is capped at 255, the candidates
-(before - 1, 1 and 7) are always in range.
-
-This comment is the reason a refusal on the created device is a failure and
-not a skip. Could it say "every priority in 0-255" or "every value tried
-here"? The comment is still the same at the end of the series.
-
-> +	target=""
-> +	for candidate in $((before - 1)) 1 7; do
-> +		[ "$candidate" -ge 0 ] && [ "$candidate" != "$before" ] ||
-> +			continue
-> +		if dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" \
-> +				     "$candidate"; then
-
-[Severity: Medium]
-Can this make a user-provided device switch its reference?
-
-The comment above pick_tune_pin() says PIN_TUNE_ID "must not be the
-reference the device is locked to". It also says tests skip "rather than
-reconfiguring the reference". But pick_tune_pin() accepts selectable pins:
-
-	case "$state" in
-	disconnected|selectable)
-		;;
-
-In automatic mode, a selectable input takes part in reference selection by
-priority. This loop gives that pin a higher priority (a smaller value). It
-never compares the new value with the priority of the current reference.
-
-On a device set through DPLL_DEV_ID or DPLL_DRIVER, the new priority reaches
-hardware straight away. zl3073x_dpll_input_pin_prio_set() writes REF_PRIO
-through zl3073x_chan_state_set() when zl3073x_chan_ref_is_selectable()
-holds. ice_dpll_hw_input_prio_set() sends it to the CGU firmware through
-ice_aq_set_cgu_ref_prio().
-
-Take a device in automatic, revertive mode with a valid signal on the spare
-input. If before - 1 ties the locked reference's priority, or if 1 or 7
-beats it, could the DPLL switch to the spare pin? Restoring the priority
-could then switch it back. Each switch can disturb outputs feeding SyncE or
-PTP.
-
-Would it work to pick a target that does not outrank the connected
-reference? Other options are to change the priority only on disconnected
-pins, or to skip in automatic mode on user-provided devices.
-
-> +			target=$candidate
-> +			break
-> +		fi
-> +		reason=${DPLL_LAST_ERR%%$'\n'*}
-> +	done
-
-[ ... ]
-
-> +	dpll_pin_set_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID" "$before"
-> +	check_err $? "cannot restore pin priority"
-
-[Severity: Medium]
-What happens here in the case the candidate loop is built for? The commit
-message says:
-
-  since a large current value may mark an unused pin outside the settable
-  range, as the ice driver does with 255.
-
-In that case before itself cannot be set. Suppose before - 1 (254) is
-refused and then 1 or 7 is accepted. The pin's hardware priority has
-changed, and this restore to before would be refused for the same reason.
-
-The test would then report a failure, not a skip, on a user-provided
-device. The deferred restore sends the same value, so it also fails, and
-without any message. The unused input stays at priority 1 or 7 on the
-user's hardware, and in automatic mode it could then be picked as a
-reference.
-
-ice_dpll_input_prio_set() and ice_dpll_hw_input_prio_set() do no range
-check of their own. They pass (u8)prio to firmware, so only firmware
-decides whether 255 can be written back.
-
-test_pin_state_transitions() treats a refused restore as a skip when RET is
-0, but this test does not. Should it first check that before can be set,
-for example by writing it back once, before trying a different value? The
-code is still the same at the end of the series.
-
-> +	after=$(dpll_pin_get_prio "$DPLL_DEV_ID" "$PIN_TUNE_ID")
-> +	if [ "$after" != "$before" ]; then
-> +		check_err 1 "priority not restored, got '$after'"
-> +	fi
-
-[ ... ]
+This adds helpers to dpll_lib.sh that snapshot the ref_tracker debugfs
+entries before a test creates dpllsim devices. A test then fails when an
+entry that is not in the snapshot still holds references afterwards. A
+throwaway probe device checks that the tracker works; the probe runs first
+in dpll_stress.sh, which also gains a final leak check, and in the new
+dpll_reftrack.sh.
 
 > diff --git a/tools/testing/selftests/drivers/dpll/dpll_lib.sh b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-> index 63c70a4aaab6e..6fe707c2609c5 100644
+> index 7a0bb144af150..87686bb53d355 100644
 > --- a/tools/testing/selftests/drivers/dpll/dpll_lib.sh
 > +++ b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
 
 [ ... ]
 
-> @@ -559,8 +579,8 @@ dpllsim_alloc_clock_id()
->  # Create a device with the standard 3-pin layout, deploy it and resolve
->  # the netlink device id. Sets DPLLSIM_CREATED_NAME, DPLLSIM_CLOCK_ID and
->  # DPLLSIM_DEV_ID.
-> -#   gnss0: GNSS, 1 Hz, input
-> -#   ext0: EXT, 10 MHz, input
-> +#   gnss0: GNSS, 1 Hz, input, prio 0 (active reference)
+> @@ -641,3 +658,215 @@ dpllsim_setup_standard_device()
+
+[ ... ]
+
+> +dpll_debugfs_available()
+> +{
+> +	if ! mountpoint -q "$DEBUGFS_DIR"; then
+> +		mount -t debugfs none "$DEBUGFS_DIR" &> /dev/null &&
+> +			DPLL_MOUNTED_DEBUGFS=1
+> +	fi
+> +	mountpoint -q "$DEBUGFS_DIR"
+> +}
 
 [Severity: Low]
-Is "(active reference)" correct for the simulator? It does not seem to ever
-select or lock to a reference.
+The only sign that this script owns the mount is that debugfs was not
+mounted when it checked. If no dpllsim device is left behind,
+dpll_lib_cleanup() unmounts it at exit:
 
-dpllsim_pin_reset() starts every pin disconnected:
+	[ "$DPLL_MOUNTED_DEBUGFS" -eq 1 ] && mounted+=("$DEBUGFS_DIR")
+	...
+	for dir in "${mounted[@]}"; do
+		__dpll_lib_umount "$dir"
+	done
 
-	pin->ops = dpllsim_pin_select_ops(pin);
-	pin->state = DPLL_PIN_STATE_DISCONNECTED;
+During a long dpll_stress.sh run, another process (another selftest, a
+tracing tool, a user) can find debugfs already mounted and start using it
+without mounting it itself.
 
-dpllsim_pin_prio_set() only stores sim_pin->prio, and nothing else reads
-it. sim->lock_status is set once to DPLL_LOCK_STATUS_UNLOCKED in core.c and
-never changes.
+Would the umount at exit pull debugfs out from under that process? A plain
+umount succeeds unless a file or cwd is held open at that moment, and the
+other process would not remount it.
 
-The device is always in automatic mode. dpllsim_pin_state_set() accepts
-only disconnected and selectable there, so no pin is ever connected.
+The configfs handling already works this way. This patch applies the same
+pattern to debugfs, which is shared far more widely.
 
-So gnss0 never becomes the active reference, and its prio 0 does not affect
-which pin is used. That includes the tie test_pin_priority_get_set() can
-create by setting ext0 to 0. The comment is still the same at the end of
-the series, and no later patch adds selection by priority.
+[ ... ]
 
-> +#   ext0: EXT, 10 MHz, input, prio 1
->  #   out0: EXT, 10 MHz, output
+> +__dpll_ref_tracker_new_entries()
+> +{
+> +	local file=$1
+> +	local entry name content
+> +
+> +	for entry in "$DPLL_REF_TRACKER_DIR"/dpll_device@* \
+> +		     "$DPLL_REF_TRACKER_DIR"/dpll_pin@*; do
+> +		[ -f "$entry" ] || continue
+> +		name=$(basename "$entry")
+> +		grep -q "^$name " "$file" && continue
+> +		content=$(cat "$entry" 2>/dev/null)
+> +		[ -n "$content" ] || continue
+> +		echo "Unreleased references in $name:"
+> +		echo "$content"
+> +	done
+> +}
+
+[Severity: Low]
+The only attribution here is snapshot membership plus non-empty content.
+What happens when another DPLL driver (ice, zl3073x, ptp_ocp, ...)
+registers a new dpll_device or dpll_pin after the snapshot? This could come
+from a deferred or async probe, a driver bind, a module reload, or a driver
+re-allocating its pins during the long dpll_stress.sh run.
+
+A live object of that driver always holds tracked references, so its entry
+is non-empty and not in the snapshot.
+
+Would test_basic_reftrack(), test_final_leak_check() and test_ref_leaks()
+then wait BUSYWAIT_TIMEOUT and fail, blaming dpllsim for references it does
+not own?
+
+dpll_lib_lock() is an flock on /run/dpll-selftest/lock, so it only excludes
+other dpll selftest scripts. The library comment only covers objects of
+other drivers that already exist when the snapshot is taken.
+
+[ ... ]
+
+> +dpll_ref_tracker_probe()
+> +{
+
+[ ... ]
+
+> +	if dpllsim_add_pin "$name" ext0 ext 10000000 input &&
+> +	   dpllsim_deploy "$name"; then
+> +		ret=1
+> +		[ -n "$(__dpll_ref_tracker_new_entries "$file")" ] && ret=0
+> +	fi
+
+[Severity: Low]
+Can this tell a kernel without CONFIG_DPLL_REFCNT_TRACKER apart from one
+where the tracker is enabled but does not record anything?
+
+dpll_device_alloc() and dpll_pin_alloc() call ref_tracker_dir_init()
+unconditionally:
+
+	ref_tracker_dir_init(&dpll->refcnt_tracker, 128, "dpll_device");
+
+So the dpll_device@ and dpll_pin@ files exist whenever CONFIG_REF_TRACKER
+and CONFIG_DEBUG_FS are set. Only dpll_device_tracker_alloc/free and
+dpll_pin_tracker_alloc/free are under #ifdef CONFIG_DPLL_REFCNT_TRACKER, and
+an empty dir->list prints nothing.
+
+Suppose a regression makes the core stop calling ref_tracker_alloc(), or
+pass a NULL tracker so that only no_tracker is bumped. The probe would then
+return 1, and both scripts log:
+
+	log_test_skip "DPLL ref_tracker probe" \
+		      "CONFIG_DPLL_REFCNT_TRACKER not enabled"
+
+This happens even though the selftest config sets
+CONFIG_DPLL_REFCNT_TRACKER=y. Would such a regression show up as a SKIP
+with a misleading reason instead of a FAIL?
+
+> +
+> +	if dpllsim_delete_device "$name"; then
+> +		DPLLSIM_PROBE_DEVICE=""
+> +	else
+> +		log_info "cannot delete device $name"
+> +		return 4
+> +	fi
+> +	if [ "$ret" -eq 0 ] &&
+> +	   ! busywait "$BUSYWAIT_TIMEOUT" __dpll_ref_tracker_settled "$file" \
+> +		      > /dev/null; then
+> +		ret=3
+> +	fi
+> +	return "$ret"
+> +}
+
+[Severity: Medium]
+Can the snapshot taken right after the probe record the probe device's own
+dead ref_tracker entries?
+
+The commit message says:
+
+  The teardown of a device releases its references before the write to
+  live returns, so the entries are expected to be gone at the first look
+
+In lib/ref_tracker.c only the references go away synchronously.
+ref_tracker_dir_exit() calls ref_tracker_debugfs_mark(), which only marks
+the dir dead and schedules the reaper:
+
+	__xa_set_mark(&debugfs_dentries, (unsigned long)dir, REF_TRACKER_DIR_DEAD);
+	...
+	schedule_work(&debugfs_reap_worker);
+
+The dentry is removed later, in debugfs_reap_work(). Until then the file
+still exists, and reading it returns -ENODATA from
+ref_tracker_debugfs_show().
+
+That allows this sequence:
+
+dpllsim_delete_device(probe)
+  dpll_device_put() -> ref_tracker_dir_exit(), kfree(dpll)
+busywait __dpll_ref_tracker_settled
+  cat of the dead entry fails, content is empty, entry is skipped
+test_ref_tracker_probe()
+  dpll_ref_tracker_snapshot "$REF_SNAPSHOT"
+    [ -f "$entry" ] is still true, so the probe's names are recorded
+
+The next test (test_basic_reftrack() or test_rapid_create_delete()) then
+allocates a dpll_device right away. It can land on the probe's freed slab
+slot, and the %p hash then gives the same entry name.
+
+If the reaper has run by then, the new object's entry is in the snapshot,
+and __dpll_ref_tracker_new_entries() skips it:
+
+	grep -q "^$name " "$file" && continue
+
+If the reaper still has not run, ref_tracker_dir_debugfs() returns early:
+
+	/* No-op if already created */
+	dentry = xa_load(&debugfs_dentries, (unsigned long)dir);
+	if (dentry && !xa_is_err(dentry))
+		return;
+
+The reaper later removes the old dentry, so the new object never gets a
+debugfs file at all.
+
+In either case, would a leak in the first device created after the probe go
+unreported?
+
+Would it help to skip unreadable entries in dpll_ref_tracker_snapshot(), or
+to wait after deleting the probe until its entries are gone from the
+ref_tracker dir before taking the snapshot again?
+
+[ ... ]
+
+> diff --git a/tools/testing/selftests/drivers/dpll/dpll_stress.sh b/tools/testing/selftests/drivers/dpll/dpll_stress.sh
+> index 47b8f4bf55b26..198a50ed67873 100755
+> --- a/tools/testing/selftests/drivers/dpll/dpll_stress.sh
+> +++ b/tools/testing/selftests/drivers/dpll/dpll_stress.sh
+
+[ ... ]
+
+> @@ -463,16 +524,36 @@ test_deploy_cycle()
+>  	log_test "DPLL deploy/undeploy cycling"
+>  }
+>  
+> +test_ref_leaks()
+> +{
+> +	RET=0
+> +
+> +	# The probe test found the tracker inactive or could not run.
+> +	if [ "$REF_TRACKER" -eq 0 ]; then
+> +		log_test_skip "DPLL stress ref_tracker check" \
+> +			      "DPLL reference tracker not available"
+> +		return
+> +	fi
+> +
+> +	dpll_ref_tracker_check_leaks "$REF_SNAPSHOT"
+> +	check_err $? "leaked DPLL references after stress"
+
+[Severity: Low]
+Should this skip when CREATED_DEVICES is not empty, the way
+test_final_leak_check() in dpll_reftrack.sh does?
+
+	# A device an earlier test could not remove still holds its
+	# references, the failure to report is that one.
+	if [ -n "$CREATED_DEVICE" ]; then
+		log_test_skip "DPLL final ref_tracker check" \
+			      "device from an earlier test still present"
+
+dpllsim_delete_device() can fail in test_pin_state_flooding(),
+test_max_devices() or test_deploy_cycle() because the undeploy failed. The
+device then stays live and stays in CREATED_DEVICES.
+
+It still holds its dpll_device_get(..., &sim->tracker) and
+dpll_pin_get(..., &pin->tracker) references, so its entries are non-empty
+and not in the snapshot.
+
+cleanup() only removes those devices at exit. Wouldn't test_ref_leaks()
+spin for BUSYWAIT_TIMEOUT and then report "leaked DPLL references after
+stress" for references the device legitimately holds?
+
+> +
+> +	log_test "DPLL stress ref_tracker check"
+> +}
 
 [ ... ]
 
