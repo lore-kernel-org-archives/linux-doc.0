@@ -1,67 +1,67 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794394730;
-	b=1dSVHaAoW98TvW1HhlPgbFwqGrzbuJxblUvW3+4LvgI+Tcps9QiAUUh1gn8u1l5bIyV5
-	 v50NTZlofWUnWBYGgApRsafswdfCGl+dZE0zJMTFcOnF6qdaWbHRX6g+DzDnhOx89m9pT
-	 389FYs7vVZl1zfW9ZZEgXUsMmyzr4tWhciUR6VkaT2LBa3bdov1tbwldV5t1cLs7WBO/p
-	 ejQwAzpojykPn2/UhBdC2YV/3x6iycYmJH+ciOqWBnyNQH6fHobHgdYq0Mgg44CQcO99v
-	 OtIxxJfDQA5Lxanizbn4OWaCp+IF+FjyG4ghbSebWUKbCO8ZKk1mq6k94iVuXtFS5tg==
+	t=1794394893;
+	b=cVvA8u0ZkgcQFrpQW4HQyS6eAV6Bdsa0f5HOoNKcJaCLoHTkGkm0EiuvqTHTVfSOpzij
+	 YnCwtYpW15jdU1vG5om7ndB0eJ21V8eOKdN9lsQCnSqbV/d9RJ7G0BQf6GcbTdRsV26xj
+	 E18PiGboQp3BSnD7rKyX/hiJAONQQ0wT85YzEyfgSEiQ6KQQJ6nUjx4HZkYP+Sc0I+zvb
+	 AQi5Ypa4hUAT2DUbuFLGTXzaHgEucyRqx16IEFFcfspEqrhAxd3SwvOEDxmTa0yL++cKR
+	 Qqk5M7mDGnNUPyMa4Y80jVWGr0GWn9tAnqgv2EDNPd49FfQW+WzNbOoMMFcL0dAKYsg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794394730;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794394893;
 	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
 	 X-Mimecast-MFC-AGG-ID:Received:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Scanned-By;
-	bh=Ihetc2DxDCVVTHEoFYuGdLd4AvFTx8i+2f03biFLNnc=;
-	b=mzV1RkSTWFCtsjLTHjmaPsY/3hIOaAnOPoaGlhf+tbWHlAq8/2OduOfiQm7S7NcnSZrc
-	 UwasoLaXmdbQaWi174+GykWzabP0w3GzlHpxZIagORLhSRV8kQIY/4PJ9cWhjOeCk9ZcC
-	 i4deHl4wWoTkRG2hD4P8IAYJ9WWKcQh/qPfO1ZEPYIhgdFl6+H1Rs0kJ1k/xFyx6YCUao
-	 nXk0izGkxn0WfCNIiLW356rooJSKIwTP+8bY4MByG38tWqx6UJrPpGuTyI/VRJVdQ7qX6
-	 u6f9fC3Pi3H0j4zX9gTU9f/XbGMgY4paTY+QUZ9SzuSVYeSsJ4yfq/fQ/MejNi8/MQw==
+	bh=j68fncYFG3wRKRfnvYuffOG/HpagUvbeYFES/ium9zw=;
+	b=i4fuX1PTdN2dv3eKKQ39oOtOuSp9QIrRpeOAUM8qMMipYKTsyYlpB284TRx7hTrgiVX7
+	 WI2km1o7Nc3cab6sN2XlGB8eJfE3opNwNCaSB3w8jYdempYbqCoN/IxCnJ4z9u5MGeGPF
+	 Ow4GzOuPzAHKxFtjg0lZp6GBDvRsTA2vMIjFozxB+qFZJu9/ykrPyRxCvonbkuJzUlImJ
+	 XhP0RSDQoaYteW2wJjo8Q1kwnW5IBZr5FUEYMvZiur9Gu6BDd0N5WLqFtEXVpr5rI7+m0
+	 RtZqngMevwBl7bpA1EOFrIAlUUVLMenTpMKWguOZMOwCAj9EcLCBOZ5KCYFHmMYNvog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=redhat.com;
 	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=d8dnlWCt;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BcUXrh6M;
 	arc=none smtp.remote-ip=170.10.129.124
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE928606A324
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:58:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE928606A324
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ABFA606A321
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 11:01:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7ABFA606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=d8dnlWCt
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BcUXrh6M
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794394728;
+	s=mimecast20190719; t=1794394891;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Ihetc2DxDCVVTHEoFYuGdLd4AvFTx8i+2f03biFLNnc=;
-	b=d8dnlWCtsmXWFzSobKkj5jXct0X2mK7Hq2KnkRDOZl+UmlfbVcQmCIU+kKUSC2oKaAdsqB
-	1Di84e6g7dRhYmCrrieYvCx0bsWf6ZzHi0Mr/Oq7mOl0tmU50tQMDM3go11eSx78qBgqTb
-	QAw7014+ARoXI1hMHULqpL4TvQZXXB8=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=j68fncYFG3wRKRfnvYuffOG/HpagUvbeYFES/ium9zw=;
+	b=BcUXrh6M3aHGOxeVCq1Saufl0L6nR7aQlE80lfaUlMBCXpLMcinnWQr8NBNEiPh865bSR7
+	cwl+Pe+QsKSgygYedUjYMLpqxFduQmmarVvHDMfxbGaAcIfhCiJ8bWJcmu/fBCqxB3A4OS
+	oRHm65TJj973DlYS0U59DeFYGcK7G3o=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-623-_cNDg14-MKmcaMnxWv85kg-1; Wed,
- 11 Nov 2026 05:58:45 -0500
-X-MC-Unique: _cNDg14-MKmcaMnxWv85kg-1
-X-Mimecast-MFC-AGG-ID: _cNDg14-MKmcaMnxWv85kg_1794394722
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-223-rbdtinCuP1GMtHMkRB0Fgg-1; Wed,
+ 11 Nov 2026 06:01:27 -0500
+X-MC-Unique: rbdtinCuP1GMtHMkRB0Fgg-1
+X-Mimecast-MFC-AGG-ID: rbdtinCuP1GMtHMkRB0Fgg_1794394884
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 398A51955F6D;
-	Wed, 11 Nov 2026 10:58:42 +0000 (UTC)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DCE261955F0E;
+	Wed, 11 Nov 2026 11:01:23 +0000 (UTC)
 Received: from [100.91.101.41] (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BD9F718004FC;
-	Wed, 11 Nov 2026 10:58:35 +0000 (UTC)
-Message-ID: <38e49109-be77-4f81-a663-276c0e6301c0@redhat.com>
-Date: Wed, 11 Nov 2026 11:58:34 +0100
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B82171800495;
+	Wed, 11 Nov 2026 11:01:17 +0000 (UTC)
+Message-ID: <373e80ec-de22-4486-afdf-1a88f6207b9f@redhat.com>
+Date: Wed, 11 Nov 2026 12:01:16 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,7 +72,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 03/10] dpll: add domain object
+Subject: Re: [PATCH net-next 05/10] dpll: convert dpll_lock to rwsem
 To: netdev-bot+sashiko@kernel.org
 Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, corbet@lwn.net,
@@ -84,14 +84,14 @@ Cc: netdev@vger.kernel.org, vadim.fedorenko@linux.dev,
  intel-wired-lan@lists.osuosl.org, grzegorz.nitka@intel.com,
  karol.kolacinski@intel.com, saeedm@nvidia.com, tariqt@nvidia.com,
  poros@redhat.com
-References: <20261106121005.1327603-4-ivecera@redhat.com>
- <179433320288.994134.11961533455589849486@kernel.org>
+References: <20261106121005.1327603-6-ivecera@redhat.com>
+ <179433320479.994134.13826920591104367019@kernel.org>
 Content-Language: en-US
 From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <179433320288.994134.11961533455589849486@kernel.org>
+In-Reply-To: <179433320479.994134.13826920591104367019@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
 On 11/10/26 18:53, netdev-bot+sashiko@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found more severe
@@ -100,45 +100,43 @@ On 11/10/26 18:53, netdev-bot+sashiko@kernel.org wrote:
 > 
 > Low priority / nit picks for your consideration:
 > 
-> - [Low] The comment on `lock` in the new struct dpll_domain
->    (drivers/dpll/dpll_core.h) says it "Serializes the driver callbacks of…
+> - [Low] This patch turns dpll_lock from a mutex into an rwsem.
 > 
 > --
 > 
-> dpll: add domain object
+> dpll: convert dpll_lock to rwsem
 > 
-> This commit adds struct dpll_domain, which groups all dpll devices and
-> pins created with the same (module, clock_id) pair. Domains are
-> refcounted, stored in an xarray and freed along with their last object.
-> It prepares for serializing driver callbacks per driver instance instead
-> of under the global dpll_lock, and states no functional change.
+> This commit converts dpll_lock from a mutex to an rwsem. Core functions
+> that change the topology take it for write. Netlink requests, dump parts
+> and change notifications take it for read, so callbacks of different
+> domains can run concurrently.
 > 
->> diff --git a/drivers/dpll/dpll_core.h b/drivers/dpll/dpll_core.h
->> index da8a369556ed1..6705e81bc11de 100644
->> --- a/drivers/dpll/dpll_core.h
->> +++ b/drivers/dpll/dpll_core.h
-> 
-> [ ... ]
-> 
->> +struct dpll_domain {
->> +	u32 id;
->> +	u64 clock_id;
->> +	struct module *module;
->> +	refcount_t refcount;
->> +	/* Serializes the driver callbacks of all DPLL devices and pins
->> +	 * that share one (module, clock_id) pair.
->> +	 */
->> +	struct mutex lock;
+>> diff --git a/drivers/dpll/dpll_core.c b/drivers/dpll/dpll_core.c
+>> index dd09f52817099..8eb7468234315 100644
+>> --- a/drivers/dpll/dpll_core.c
+>> +++ b/drivers/dpll/dpll_core.c
+>> @@ -19,8 +19,12 @@
+>>   #include "dpll_core.h"
+>>   #include "dpll_netlink.h"
+>>   
+>> -/* Mutex lock to protect DPLL subsystem devices and pins */
+>> -DEFINE_MUTEX(dpll_lock);
+>> +/* Protects the topology and lifetime of DPLL devices and pins. Taken for write
+>> + * to change them and for read for the whole netlink request, part of a dump or
+>> + * change notification that uses them. Driver callbacks are serialized by domain
+>> + * locks, which are only taken under this lock.
+>> + */
+>> +DECLARE_RWSEM(dpll_lock);
 > 
 > [Severity: Low]
-> This isn't a bug, but is this comment accurate at this point in the
-> series?
+> Should the assertions in dpll_domain_get() and dpll_domain_put() be changed
+> to lockdep_assert_held_write() along with this conversion?
 
 [...]
-> Could the comment say the lock will serialize the callbacks, or could it
-> be added in the patch that starts taking the lock?
-Right, nothing takes it before patch 4. In v2 the lock will be added by the
-patch that starts taking it.
+> call_dpll_notifiers() can keep the plain lockdep_assert_held(), because it
+> legitimately runs under the read lock.
+Yes, v2 uses lockdep_assert_held_write() in both and keeps
+lockdep_assert_held() in call_dpll_notifiers().
 
 Thanks,
 Ivan
