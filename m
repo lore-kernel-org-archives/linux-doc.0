@@ -1,47 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794410681;
-	b=F2co37cB6rrPkBJCNQ9Ior1vOasPiVSY6OFqnPwPq5St9Toj98UpVn9+A6SjAEqiFUU9
-	 soKEkIT4cjeSuc2+hpPjwql1mrmS8V0/t0q48viodFMMdNvFhnjMPIW2nB48EFGOC6fCL
-	 pxgm1nyBJRuMKzV0tNBk6Q6l1okXMW6UgmUftiG83uY05SYXuI3i6PO4oW+fAUlWBs9rZ
-	 +Mz91bmI/aNac0bVZt8sYiyCkg0MUXMo0jJA2SCx/0xfg6IvqXmexQcnNKM4+T9qbigcG
-	 ZaAK+6zZ9GBraJ2l4THjqNQ4dMZFMMN+uSk3q4Y765VpuuOqiROhSnCmQqrHJ4Kqmhg==
+	t=1794411464;
+	b=DNp3RCg/cKLPgzYn+laYruu+4/SRiIQY2ikaxlcyfybHX0zzakAWSWFpqPVRTZw7QHA1
+	 3UyLLtwhFN6nsKadne+SVMayZnc8BilCeD+UjfQU0GQTmlYriJ2icroyLSlLrCSvzsTus
+	 KSP1GBA1/QlN1AVQ6N4R82b+gtAoBzTa154DJ7xKfylBrreJEJAvH8BfXp1AUDWe8f4iH
+	 XIng2DpPMTKxhJixqqyrsGdUeZQSahz5pzk4yE7RV/kw/JuLqi8ZbUawrWdh7lgND4vBc
+	 266vBkZnB8+fMgyFuR+SMz5az0rWLl7ttKC7Nh3Siqbi9xH2GCCgN5Ae7T+MrFnrWOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794410681;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=7rlJEv9evoBI2KAjTlHLGZOiwbHI0+oY97L62l2xy8o=;
-	b=lyd1r+GL1bj6DBXXkR9ZnR0rhpd8HwaheBqz73VqwJ5+bFu4G4OTDVQVqoI7RQTLjWIm
-	 hDQZ303F3MllQLB9vx5aPq/4vbsegTkjKfUGelMqWrcTa/gJXHncN6LlMz8LrLxH8om8S
-	 ZoqS921ENWiZyLnSFbHLE9TnNSNlxeL5wHqoSlJzPgQLcjiYiktwbVhmEpWYCUP2SyXXE
-	 jB8PQ5IiPY6IYiaOs1gByNzfzRir5RoHJnqEDeb+FNohaZTOpb8kzrZjYyFzSU9hoNzXn
-	 GizOt6PXcf4Jm1U8f3FJ/6mueDdNOhnU+DuRZbekgnHoxg4N46Dvc6uYRpbEXrvwPpw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794411464;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
+	bh=zyPyNsXNnyLp0wiWkbZYu4vFk3ow/rtQP4zegoB1/BA=;
+	b=xmWayJ2iR2HpyB8dzVGjHS3asK6j1hw5IWMzl3Fie7oksV+vDPkzpxQVjVcIk+GntJKo
+	 lu0F7mRcVhPdw7mwlw9TQp4SjVEOcQnpeNG3rYuLqzOgzFpCxwnjkiCU9V1V9Syq6PjxF
+	 BamQoaWN066csvnms+BTr0qRFs1F/LLdILjmSOY3RMI/0oA4jr6xZq9QdDxjUv8HziI+E
+	 KkcBH62T7rv6R8DrlhuGxUNCs2hmAzLimZ9tkBoOby/evVNvClmoLnFoSEi7SEoTNmwzL
+	 3xUG7FHd9tqTc0vWGedYdY/QyINKBlw8jqxK20zxikXQyC//CCzfYHA4FyYwZNhh4mw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UP0WtOTS;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=soleen.com;
+	spf=pass smtp.mailfrom=soleen.com;
+	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=KSuOhJwR;
+	arc=none smtp.remote-ip=209.85.222.52
+Received: from mail-ua1-f52.google.com (mail-ua1-f52.google.com [209.85.222.52])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0244B606A321;
-	Wed, 11 Nov 2026 15:24:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46FC8606A324
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 15:37:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46FC8606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UP0WtOTS
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90E171F00A06;
-	Wed, 11 Nov 2026 15:24:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794410680;
-	bh=7rlJEv9evoBI2KAjTlHLGZOiwbHI0+oY97L62l2xy8o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UP0WtOTSWMqKEZDXuJZiTJAE6wRoWBDo1pbT4VRCMFyZWqITM3/tzSpcGU22ySLk0
-	 Twf5YoC8ENgWXKEuA0hnf6q4YbCOx2OAVAIYzYrJqpAlt2bOGsT2J4yDKth6tNnymm
-	 B+r409xvxfyqXGh8eG99Vm8M2BVAWvm1uLlE2ntQO6dZbPPKpyEm6HhAH2fYbJO5lq
-	 CsPJg/rbWWYjTfbwqlShW+gqYEv5NQGYbvqdFKnxFrfnY91BG0gsxotesYonbwKUHQ
-	 U/oUp3lcvFJF4W835IEEYpOcStF7CJpHDSOPzYEWoGg64AhMduzX8uIzGPQ790cmVQ
-	 I+qMUbEIiZ41A==
-Message-ID: <182e7cc2-43cd-4858-99ca-5f243e2c9eb5@kernel.org>
-Date: Wed, 11 Nov 2026 16:24:35 +0100
+	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=KSuOhJwR
+Received: by mail-ua1-f52.google.com with SMTP id a1e0cc1a2514c-9905d61449cso943641241.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 07:37:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen.com; s=google; t=1794411462; x=1795016262; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=zyPyNsXNnyLp0wiWkbZYu4vFk3ow/rtQP4zegoB1/BA=;
+        b=KSuOhJwRVn6ezxXqsCVqq2eIvk3Dh/kvI46PwVUnLm7knleX/h46MK9EnsyzF2uPT2
+         8znC4z0CgZzu0GCKZGNR5klElinZk1//9/Vo6D1XDoyvdj1n2JDddPbgLuO1ItUhXQYP
+         ih1bhIB6EifntfuJRr1WuPoN9tze2Dpqo+wdyf7oqdDFcB4//nHcro2M8WIA8EGgKRJ7
+         V0/u59fnHK2FeHAX3ugQvtmuvbdXBh3QXpHv5I49SsH2WX6vIJ8+r82opWYWS5wP43oQ
+         CgvLb+EGw3c1cWJmX3IjDt+tT0oCUJB09UIjYquFsegJVlnjvDZl1t5TF38O4xHJVPmo
+         rYRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794411462; x=1795016262;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zyPyNsXNnyLp0wiWkbZYu4vFk3ow/rtQP4zegoB1/BA=;
+        b=VIiR+s4OoPpglIxwnXZTc/p7Q0GJ0HSbsk49dhGC30XNKP3eTGva+34iUoYFrvX5ql
+         i/O0CiQFXm4JyKur0YpZX8cTS3abHmcxxTfSRhGuPM0KgwNe28xclqwXTFGYzOYLX3K9
+         pQbitAgHzlPjc6gDEIWua3ZiKo3wBVedehAjKLZFlH6u4M84EOd9WhhYLzXFynEarsve
+         TupRxhiyiMofIBYXvEFZl6N92ovXTvgtuLsK7KJe1tJyQRT4NPnMZ2QqodWHZwQ6LE9e
+         a2h/EEa+haLOVBcEVO3FsHYvk5snOz5bTEwscexyVwxNwjqbHEE/lzUz/6oKsoy/J533
+         Q/Yg==
+X-Forwarded-Encrypted: i=1; AL+hErEx+YMktPij0UnXTQqKpaJy9E1btxiz+3VgI1r/MmcqlZrxkUE5HzWk8dM3lI1PcAMXn0pQcR+l2mw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+CXXSSPbDNvMHgEE2STGRBh2Dpkpq1GfJGF0utCJlY6gm00OoO
+	9gNweN4q0FJ1YYfEppBmHRNWbZ7BMI5IGGOf0fhWBNjC2W2lhJXHORT8Tq/dECU1iIU=
+X-Gm-Gg: AYBFou0EHpOO7r2jKN1NlBBwcuSccnBAzb7fFndS151ppv09lUFPrPmw2iAOsnqjgZb
+	5r8LWMsvoNAjPTNgUbw0i5B3HrIgLsWYEZtyWtq4dxNMT5uZBrDBdn+bAFFZZzPYSlGjZFC7zZQ
+	DVtITslLB9jLgcRa7HxpnYSxrSsG7ftdw3aAoaNPTzUOKUa63jZp8Ab0/1AEC07heFte/YtTDZn
+	OGhYTpYTZ8sQDIvT6eSiyDmRGLU8znSiagu15Alkj51w9G5Os5hxDxOb/PDJ3z1Ieum6FTpxWK0
+	d6InarnQeuWOfJAjk5g7xPrc0joPsB5kl3eiU3A802J/wLHLTCa20S3r1SMbvXNZallf8eTSPxG
+	wUd3x9lwHVUINzwyzBMJA3UPoHyo0f/A6/huEIp2aIRbBXEkWcGvEJ8PSA7+p7QMrYUSRulXLS6
+	tYPClnecHTmD0oxp8RFJF4dita9qLiLBT0FLoHkgeGTgpO/zrPAwCBc5/d+/fRVsY0kNnEK7sCz
+	reXZfByzEuILF3wrSaMdKz6xiA9zbS1bNkTyV8a5Wjn3jlPbHyfPplJ60ydjJPtM428n1vORIha
+	xmHRRybIh8gEGIW39JZZOs9BhZ5Yl8xiA+tX6ytZW92F/UWQdJ29s3k8dQLwqBbz1GKMtYaT4CD
+	VAU8xMEgE+JzUR5+uMiwxetuzJyTO8RUD
+X-Received: by 2002:a05:6102:6f06:b0:7c3:9059:49c2 with SMTP id ada2fe7eead31-7d50609f040mr768713137.22.1794411461945;
+        Wed, 11 Nov 2026 07:37:41 -0800 (PST)
+Received: from localhost (64.167.245.35.bc.googleusercontent.com. [35.245.167.64])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d3023aeac7sm3957545137.9.2026.11.11.07.37.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Nov 2026 07:37:41 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -50,75 +88,233 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/7] init: discoverable root partitions
-To: Christian Brauner <brauner@kernel.org>
-Cc: Jens Axboe <axboe@kernel.dk>, Davidlohr Bueso <dave@stgolabs.net>,
- Alexander Viro <viro@zeniv.linux.org.uk>, Jan Kara <jack@suse.cz>,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Dave Hansen <dave.hansen@intel.com>,
- James Bottomley <James.Bottomley@hansenpartnership.com>,
- Helge Deller <deller@gmx.de>, Matthew Wilcox <willy@infradead.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org
-References: <20261102-discoverable-root_partitions-v3-0-27f04b69b7ab@kernel.org>
- <20261110-fachlehrer-anhaften-unkenntlich-86fc48b56f8f@brauner>
-From: Vincent Mailhol <mailhol@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBAhsDBQsJCAcC
- AiICBhUKCQgLAgQWAgMBAh4HAheAFiEE7Y9wBXTmfyDldOjiq1/riG27mcIFAmrTM8wFCR1O
- HxcACgkQq1/riG27mcJ2KAEAhG19xBSkjiA9dtatvq2WJnGaes4SUmY+LSn7dh1Lf7YBAIwB
- lsMMmigMTk3Qgwymg1nT+Z8z1Owc/TGtRlo4ZcwMzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmAhsMFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmrTNKcFCRUFdT0ACgkQq1/riG27mcLEVwD/VmnQtTf6yhowaIFj
- AjUtwiyQz9ja4NRu9GOvz/pb2L8A/3QcADR0dcxADGsmOiBpN2M9KI7nqdNIq3VPM/3/5fcB
-In-Reply-To: <20261110-fachlehrer-anhaften-unkenntlich-86fc48b56f8f@brauner>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Date: Wed, 11 Nov 2026 10:37:40 -0500
+Message-Id: <DMSHRWYSS8FJ.2H4W2E388G00V@soleen.com>
+Cc: <linux-kselftest@vger.kernel.org>, <shuah@kernel.org>,
+ <linux-mm@kvack.org>, <skhan@linuxfoundation.org>,
+ <linux-doc@vger.kernel.org>, <vipinsh@google.com>,
+ <linux-kernel@vger.kernel.org>, <corbet@lwn.net>, <dmatlack@google.com>,
+ <kexec@lists.infradead.org>, <pratyush@kernel.org>,
+ <rdunlap@infradead.org>, <graf@amazon.com>
+Subject: Re: [PATCH v5 3/6] liveupdate: luo: serialize sessions via
+ per-session publish helper
+From: "Pasha Tatashin" <pasha.tatashin@soleen.com>
+To: "Mike Rapoport" <rppt@kernel.org>, "Pasha Tatashin"
+ <pasha.tatashin@soleen.com>
+X-Mailer: aerc 0.22.0-39-g5d7784875be2
+References: <20261105050053.3063001-1-pasha.tatashin@soleen.com>
+ <20261105050053.3063001-4-pasha.tatashin@soleen.com>
+ <179439592040.425130.1571434550510654411.b4-review@b4>
+In-Reply-To: <179439592040.425130.1571434550510654411.b4-review@b4>
 
-On 10/11/2026 at 17:03, Christian Brauner wrote:
-> On Mon, Nov 02, 2026 at 10:29:07PM +0100, Vincent Mailhol wrote:
->> This series adds root discovery directly into the kernel so that people
->> who are not using an initrd can still benefit from it.
-> 
-> Nothing has changed since
-> https://lore.kernel.org/r/20260617-irritation-rollen-wirst-7d636cbfec92@brauner
+On Wed Nov 11, 2026 at 6:18 AM EST, Mike Rapoport wrote:
+> Hi,
+>
+>> With incremental kho_block publication in place, LUO sessions can be
+>> published into sh->block_set individually as they are committed, rather
+>> than rebuilding the entire session serialization chain during reboot.
+>>=20
+>> Currently, luo_session_serialize() resets *sh->sessions_pa and
+>> serializes all outgoing sessions from scratch in a single pass at reboot
+>> time.
+>>=20
+>> Introduce luo_session_publish_one() to append a session's
+>> luo_session_ser entry via kho_block_set_it_append() and move the session
+>> onto sh->published_list. Update luo_session_serialize() to freeze all
+>> remaining unpublished sessions first (rolling back via
+>> luo_session_unfreeze_one() on failure) and then publish them in a second
+>> pass.
+>>=20
+>> Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
+>> ---
+>>  kernel/liveupdate/luo_session.c | 92 ++++++++++++++++++++++-----------
+>>  1 file changed, 63 insertions(+), 29 deletions(-)
+>>
+>> diff --git a/kernel/liveupdate/luo_session.c b/kernel/liveupdate/luo_ses=
+sion.c
+>> index 6dea359111818..caf0e85081e87 100644
+>> --- a/kernel/liveupdate/luo_session.c
+>> +++ b/kernel/liveupdate/luo_session.c
+>> @@ -103,20 +103,30 @@
+>>  static DECLARE_RWSEM(luo_session_serialize_rwsem);
+>>  /**
+>>   * struct luo_session_header - Header struct for managing LUO sessions.
+>> - * @count:       The number of sessions currently tracked in the @list.
+>> + * @count:       The number of sessions currently tracked in the header=
+.
+>> + * @published_count: The number of outgoing sessions currently publishe=
+d in
+>> + *                   @block_set.
+>>   * @list:        The head of the linked list of `struct luo_session` in=
+stances.
+>
+> Add "yet unpublished" to the description?
 
-I replied to your earlier message to explain my position but did not
-hear back.
+Yeap, will clarify list holds yet-unserialized sessions.
 
-Since v1, I have rewritten the cover letter to better explain why I
-think implementing a subset of DPS in the kernel makes a
-difference. The relevant paragraph is:
+>> + * @published_list:  The head of the linked list of published outgoing
+>> + *                   sessions, ordered identically to their entries in
+>> + *                   @block_set.
+>>   * @rwsem:       A read-write semaphore providing synchronized access t=
+o the
+>>   *               session list and other fields in this structure.
+>>   * @block_set:   The set of serialization blocks.
+>> + * @it:          Iterator tracking the next slot in @block_set for outg=
+oing
+>> + *               session serialization.
+>>   * @sessions_pa: Points to the location of sessions_pa within struct lu=
+o_ser.
+>>   * @active:      Set to true when first initialized. If previous kernel=
+ did not
+>>   *               send session data, active stays false for incoming.
+>>   */
+>>  struct luo_session_header {
+>>  	long count;
+>> +	long published_count;
+>>  	struct list_head list;
+>> +	struct list_head published_list;
+>>  	struct rw_semaphore rwsem;
+>>  	struct kho_block_set block_set;
+>> +	struct kho_block_set_it it;
+>>  	u64 *sessions_pa;
+>>  	bool active;
+>>  };
+>> @@ -134,12 +144,14 @@ struct luo_session_global {
+>>  static struct luo_session_global luo_session_global =3D {
+>>  	.incoming =3D {
+>>  		.list =3D LIST_HEAD_INIT(luo_session_global.incoming.list),
+>> +		.published_list =3D LIST_HEAD_INIT(luo_session_global.incoming.publis=
+hed_list),
+>>  		.rwsem =3D __RWSEM_INITIALIZER(luo_session_global.incoming.rwsem),
+>>  		.block_set =3D KHO_BLOCK_SET_INIT(luo_session_global.incoming.block_s=
+et,
+>>  						sizeof(struct luo_session_ser)),
+>>  	},
+>>  	.outgoing =3D {
+>>  		.list =3D LIST_HEAD_INIT(luo_session_global.outgoing.list),
+>> +		.published_list =3D LIST_HEAD_INIT(luo_session_global.outgoing.publis=
+hed_list),
+>>  		.rwsem =3D __RWSEM_INITIALIZER(luo_session_global.outgoing.rwsem),
+>>  		.block_set =3D KHO_BLOCK_SET_INIT(luo_session_global.outgoing.block_s=
+et,
+>>  						sizeof(struct luo_session_ser)),
+>> @@ -186,6 +198,10 @@ static int luo_session_insert(struct luo_session_he=
+ader *sh,
+>>  		if (!strncmp(it->name, session->name, sizeof(it->name)))
+>>  			return -EEXIST;
+>>  	}
+>> +	list_for_each_entry(it, &sh->published_list, list) {
+>> +		if (!strncmp(it->name, session->name, sizeof(it->name)))
+>> +			return -EEXIST;
+>> +	}
+>> =20
+>>  	/*
+>>  	 * For outgoing we should make sure there is room in serialization arr=
+ay
+>> @@ -203,6 +219,42 @@ static int luo_session_insert(struct luo_session_he=
+ader *sh,
+>>  	return 0;
+>>  }
+>> =20
+>> +static void luo_session_publish_one(struct luo_session *session)
+>> +{
+>> +	struct luo_session_header *sh =3D &luo_session_global.outgoing;
+>> +	struct luo_session_ser entry =3D {};
+>> +
+>> +	lockdep_assert_held_write(&sh->rwsem);
+>> +	lockdep_assert_held(&session->mutex);
+>> +
+>> +	if (!sh->active || !sh->sessions_pa)
+>> +		return;
+>> +
+>> +	if (!sh->published_count)
+>> +		kho_block_set_it_init(&sh->it, &sh->block_set);
+>> +
+>> +	strscpy(entry.name, session->name, sizeof(entry.name));
+>> +	entry.file_set_ser.count =3D session->file_set.count;
+>> +	entry.file_set_ser.files =3D
+>> +		kho_block_set_head_pa(&session->file_set.block_set);
+>> +
+>> +	/* This should not fail normally as blocks were pre-allocated */
+>> +	if (WARN_ON_ONCE(!kho_block_set_it_append(&sh->it, &entry)))
+>> +		return;
+>> +
+>> +	if (!sh->published_count) {
+>> +		/*
+>> +		 * Ensure the first block header and entry are visible before
+>> +		 * publishing sessions_pa to concurrent KHO readers.
+>> +		 */
+>> +		smp_store_release(sh->sessions_pa,
+>> +				  kho_block_set_head_pa(&sh->block_set));
+>> +	}
+>
+>
+>> +
+>> +	list_move_tail(&session->list, &sh->published_list);
+>> +	sh->published_count++;
+>> +}
+>> +
+>>  static void luo_session_remove(struct luo_session_header *sh,
+>>  			       struct luo_session *session)
+>>  {
+>> @@ -636,50 +688,32 @@ int luo_session_deserialize(void)
+>>  int luo_session_serialize(void)
+>>  {
+>>  	struct luo_session_header *sh =3D &luo_session_global.outgoing;
+>> -	struct luo_session *session;
+>> -	struct kho_block_set_it it;
+>> +	struct luo_session *session, *tmp;
+>>  	int err;
+>> =20
+>>  	down_write(&luo_session_serialize_rwsem);
+>>  	down_write(&sh->rwsem);
+>> -	*sh->sessions_pa =3D 0;
+>> -
+>> -	kho_block_set_it_init(&it, &sh->block_set);
+>> =20
+>>  	list_for_each_entry(session, &sh->list, list) {
+>> -		struct luo_session_ser *ser =3D kho_block_set_it_reserve_entry(&it);
+>> -
+>> -		/* This should not fail normally as blocks were pre-allocated */
+>> -		if (WARN_ON_ONCE(!ser)) {
+>> -			err =3D -ENOSPC;
+>> -			goto err_undo;
+>> -		}
+>> -
+>>  		err =3D luo_session_freeze_one(session);
+>>  		if (err) {
+>> -			kho_block_set_it_prev(&it);
+>> -			goto err_undo;
+>> +			list_for_each_entry_continue_reverse(session, &sh->list, list)
+>> +				luo_session_unfreeze_one(session);
+>> +			goto err_unlock;
+>
+> Why goto err_ can do this?
+> I really prefer to avoid error handling inside if (err) blocks whenever
+> possible.
 
-  This is useful for booting a kernel manually, for example from the edk2
-  file browser, or recovering from a lost or corrupted bootloader
-  configuration without having to supply the correct root= argument or
-  load an initrd from the bootloader shell. Finally, it allows systems
-  that otherwise need no initrd to discover their root partition through
-  DPS without introducing an early userspace environment solely for that
-  lookup.
+Makes sense, will move it.
 
-Similarly, I clarified the scope to address your concern about the
-complexity of DPS:
+>
+>>  		}
+>> +	}
+>> =20
+>> -		strscpy(ser->name, session->name, sizeof(ser->name));
+>> -		ser->file_set_ser.count =3D session->file_set.count;
+>> -		ser->file_set_ser.files =3D
+>> -			kho_block_set_head_pa(&session->file_set.block_set);
+>> +	list_for_each_entry_safe(session, tmp, &sh->list, list) {
+>> +		mutex_lock(&session->mutex);
+>> +		luo_session_publish_one(session);
+>
+> And running a loop of _publish() in _serialize() makes my bikeshedding
+> argument stronger ;-)
 
-  The scope is deliberately limited to block devices that the kernel can
-  already mount through the root= parameter. Other DPS features, such as
-  setting up LUKS-encrypted partitions, mounting partitions other than
-  root or container setup, remain userspace responsibilities, with no
-  future plan to implement them in the kernel. The intended usage is
-  thus a hybrid approach in which the kernel DPS only mounts the root
-  partition and leaves the remaining setup to userspace (either with DPS
-  or with a classic fstab), just as it does today when root= specifies
-  the root device.
++1, will fix it in v6.
 
-I would appreciate hearing whether these use cases and the limited
-scope address your concerns.
+--=20
+Pasha
 
-
-Yours sincerely,
-Vincent Mailhol
