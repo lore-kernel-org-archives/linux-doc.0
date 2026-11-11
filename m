@@ -1,108 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794413803;
-	b=1BnLXq/c0uC9keDX8WW+14KqgbQgox7/R0qa4W23cgOTi2LaJKJcjaLurZ44PmpMQarc
-	 xTlNUdG8kPGW9FW0r+KjQsZ79cKh9gU8MmPRAO8ELOIWsap8NmIkjhhjPDBdYCp26WlC3
-	 hlWdsx5+N/gqW0Q7Tty1zBvqpgoijs9Ivc78gVtZxAfZuloRmO4B6P21b+aT/yW8KFQxx
-	 6YUPmOTGD8F9Y1tOWQZ0dI065JgDFIVqkDhcSsiR0Ga3gaQusvyhp9tAWHRVixIwGevTw
-	 SSm6CXGFUG1awIr8CgRAvWul+4arSceUkrAZyXQnHnfMFE/fzqXv/1QxZ7/WTPoO1yg==
+	t=1794415238;
+	b=Je38a/T/PCtNJ9RTgJIolX3KUnjjTRFeYuJN4jMRLwpD5+nN7eKCVA6+LmtX3uYEMWrM
+	 82ZKY4ZIu86higEIbU9a54oDVDO6ZYkdezP+lelgkow8CDkJAI+zbuNR71qzluJldn285
+	 PXzixAdMvZTraXYsxhj1UKHwGsHgkHr/R4rJ20MP5RE8rNORycVd4oT0f1uG68qTUWEJh
+	 gbcH8e0/oJnzcAWjihQnWJSZx2ss+x6Ea7CyAzKgbqN13Ae0qMoZXlSCtbDenfAY9OcbF
+	 h0JmNfUnsbWbihnbAkFXI819XATKdLiCcFDEGdNks5klr1S43CAfaZiWZEAUuuF1+Yg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794413803;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=+dRaeVfgsyPtrbZOsuqy4B0zrN0QNLB0gPpKiOiCtw0=;
-	b=PB26OqLKUTYXYq9g0SivccinMU9bDLR0jtKP2BUhxZbCFlPwHT3DMK3cgx13gG9d4Fe6
-	 6cU405M33OKQappfJtXCJWy+qtzNyu5fjWMXMcCCjBHs6utNrFoP8pkklEtlfpHN5a2zm
-	 OA/xEgU2sAvbIgo/dMHt+MjaJ8fsyl3HD5kdlNHqHuWY3jVXJqmo3iFdNNwVQcFrNZh06
-	 DkA9Io0Bf2bgEEUA/JTMAZLA1KtYmHLrZClA3NFhC45OJUGun9rX0WuaOT+IxHEeHCpdO
-	 RLqRAc20EfM6EEwFAOeaYBHqwCn/5ILt4+6YZk2BkysXJfjRrs8SeHbx7SQX0ecrNgQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794415238;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:Received:From:To:Cc:Subject:Date:
+	 Message-ID:MIME-Version:Content-Transfer-Encoding:X-Scanned-By;
+	bh=NShsA9MlHZ9FwmFpGhwUtm1mborr1aSrRmco7ok7QSA=;
+	b=O+4FNyp88KTQpjUSxxMSqb+tcZp4Y61LOEotc+l/LO0HYiICn8uQ0QVIvQzjwu57K/MR
+	 cOHGm00Rhs5ifMDrEZGgugqecH0uyvYdq8O3jz1nnmFS5Wem+E6SLybEigOYgNMdC0ysC
+	 wDAAE5vQxu4uY7HTbt3f+fLKaGWKefj5I5tqE63jqGHVUbNiSVKtAOo891tBtjsXkK4e7
+	 pk9SjXwMCMm3OEAUQeBRfnHwvkZEt2rkGwwCfPn7yDRWBXtQlfOelUYI+7OrMx8sifsLL
+	 BTYu7wW28Ls3c5sIkg27kzdZNQzqj1EmDU3eihmXrNcBHjjtWQl0n7GspPsA91SQ4oQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=sartura.hr;
-	spf=pass smtp.mailfrom=sartura.hr;
-	dkim=pass header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b="CVimmv9/";
-	arc=none smtp.remote-ip=209.85.128.44
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ADkSPwxG;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CCF4606A887
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 16:16:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CCF4606A887
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=sartura.hr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sartura.hr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693E8606A33D
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 16:40:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 693E8606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sartura.hr header.i=@sartura.hr header.a=rsa-sha256 header.s=sartura header.b=CVimmv9/
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a2167bd087so33007915e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 08:16:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sartura.hr; s=sartura; t=1794413801; x=1795018601; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+dRaeVfgsyPtrbZOsuqy4B0zrN0QNLB0gPpKiOiCtw0=;
-        b=CVimmv9/YyZU6AJwXGaip7fVyORgOVY9vHCD0+v9Wsq2yB1Mgho/tn/ThCTYFKNijG
-         oV0p33U2a1daomR19trtTfpeUBCWvFTNi4+juWIcEu4kjy3hQ9AurAVAfbuEBQh0qie/
-         3g0dDnORCF42d1HF4U+O4bx10ZDDeqbDtc/+bNWE68IhE2Dw1dB90XPgmcbClpwLelqw
-         se75rKSVFNADxNyHo4nwo2YKPPUlO+TizaKYzva+wrIt2vlopEERzC2WC/Aw3fVFU8v2
-         f5ctqoTruT+DUYX7023GtjqCUtLnlcE4np1oDxg3RJpbzwn9cw5iwvdZ6MdDjer2XkYF
-         afYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794413801; x=1795018601;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+dRaeVfgsyPtrbZOsuqy4B0zrN0QNLB0gPpKiOiCtw0=;
-        b=RHinipYUEB0RwaIDHg5On4Y+MWB8CiVLlVt3ML+KGTdg6OIvDb3o3tGgYSkC40l96X
-         ZI6t5X9eA4YjpAP53/jjr1KZ6XFBpt6k5zaMxg8SmA3rQBDHMyoTI1bxc/zBLC6IFzEz
-         phFifqD0tRYr8KJDJF/XS0x54iuml5+5zYR53SJ63xvB942NczIuMwuzI+H/W+dHQ3uk
-         Bxq2/B86ogyRxJDx6zTIiN5nOAh2YzotTu/m4vCZ1u/KG/P77BctYvigUp0O9eyINYTT
-         rIgvIvaOSrSbyaHfDMq+VqbQJZx+lo+UVL/fBzFmI977PhDaKFRzM6HmSUUi3FcTcwlw
-         sFPA==
-X-Forwarded-Encrypted: i=1; AL+hErGbkzRuhmpyMTwcjGvg79CgJltcte8ESFpiMZhgi+3ubyVHuj8RzmlbEFEP2ALizJXqw6mEO0oucqk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+JlgIAhokq19qVWD5vtpnb5y6MzWJOuhU+6VesXV9kAPLJmIAq
-	eX+c7cIz7Dc2AHbRh5lQ9327SYAiywU0MmGSzKv2W7fptKkHRGaGk+n2LzxfCsVopFo=
-X-Gm-Gg: AYBFou0a1hYJcsIU8zKBxthBPsxQwEXV4XJMDMottU+9AIs2HeKAxfoh1zTizi7v1yE
-	hO/Rjnfv+CmUK8gpKrMoPuDpsSsw5MYOVPoaKTiz/fYHWpX9paIwXrBgNZmd794A63y6kOsAMqU
-	7e5Y3NIp0H5VomrnZ4iLjD4oc9aDfK/XUlsn1B/aO3f4l315yJuJbBK/vVicy/VVL/oaCWvvq/w
-	1sTfqn0/ZDQ3wl5HyefKyIk9jy6KJ+4TMy+bEamOP7JcPsVvhHMJ7yRLtMoF/Dj+smowIhcMLyT
-	zUnO/sRU2BlaCHd3tte6j+9bZmbcRc9UJZxZ6+1NAHe6aH65pbjNxJmfQgcUHUq/2+L/q/+7PXz
-	7TQV+XsTE46YY1DNXoGec/WxCYOxT+iShYfOu339/o3gyHhH0DxOTiBsun/I0gDBj6/xVKNLhp2
-	qNqxUXyH2Flu2Gb54zvLNeWiWZcQeK0z1ceZaDXozraC+16SfZMzyNo9Ftb6BhE1jCLBRy1vNWu
-	JUs4gDDM739X3bbUhkozT4c5hP1e79zB5/IGFX/548HVU9ddwWtGTlCX7MI1kkRLHBFA/wYB164
-	9XxxMYnQUA0oXLWR+UFnUevAan7LPT+VcmIOs++Kv0OGXeyKIS2YTqbotC1n1/qfe+tk612eQvJ
-	Y2x0vD6uujm3HcbCR71/gYh/Euu6R0rpWiozOtIYK3S+v9IcUfhxtYMcmzfRZS1sh4VIddNEQ1x
-	bbJZMVpfk/WuhXThQpC2LQEBJWp+Zc2dGZrtxyD5LUpdBw
-X-Received: by 2002:a05:600c:1986:b0:4a2:397:73f6 with SMTP id 5b1f17b1804b1-4ba09379b69mr50759305e9.8.1794413801590;
-        Wed, 11 Nov 2026 08:16:41 -0800 (PST)
-Received: from threadripper-fedora-workstation (d-zg1-240.globalnet.hr. [213.149.36.254])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4c52fd01sm8374925e9.4.2026.11.11.08.16.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 08:16:39 -0800 (PST)
-From: Robert Marko <robert.marko@sartura.hr>
-To: linux@roeck-us.net,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	nicolas.ferre@microchip.com,
-	claudiu.beznea@tuxon.dev,
-	linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=ADkSPwxG
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794415237;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=NShsA9MlHZ9FwmFpGhwUtm1mborr1aSrRmco7ok7QSA=;
+	b=ADkSPwxG2Um+rkzQaB3KyaK3m+qlrSZzqdY6RqDtih89dK9I2gZH9ouB2/cAesJLA5YgeM
+	D1DjoKfOXAo8iQ3eVeMMaIpEpMBWs/sGlSb4v4i73Z1jTSnQ2xRXY7V28OxIpexAh9/+Sq
+	rWADW5FHLaoHlHUZZ+B2zbe2GAllOgU=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-277-nIjXMsnDO9OwQ5BZKCeBBw-1; Wed,
+ 11 Nov 2026 11:40:32 -0500
+X-MC-Unique: nIjXMsnDO9OwQ5BZKCeBBw-1
+X-Mimecast-MFC-AGG-ID: nIjXMsnDO9OwQ5BZKCeBBw_1794415229
+Received: from mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.95])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id A797C1955BC4;
+	Wed, 11 Nov 2026 16:40:28 +0000 (UTC)
+Received: from ivecera-thinkpadp16vgen1.tpbc.csb (headnet04.pony-001.prod.iad2.dc.redhat.com [10.2.32.116])
+	by mx-prod-int-10.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 40D41421;
+	Wed, 11 Nov 2026 16:40:22 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Min Li <min.li@microchip.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Richard Cochran <richardcochran@gmail.com>,
 	linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Cc: luka.perkov@sartura.hr,
-	Robert Marko <robert.marko@sartura.hr>
-Subject: [PATCH v3 4/4] arm64: dts: microchip: lan969x: add fan controller
-Date: Wed, 11 Nov 2026 17:12:48 +0100
-Message-ID: <20261111161619.232141-4-robert.marko@sartura.hr>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261111161619.232141-1-robert.marko@sartura.hr>
-References: <20261111161619.232141-1-robert.marko@sartura.hr>
+	linux-kernel@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org,
+	Grzegorz Nitka <grzegorz.nitka@intel.com>,
+	Karol Kolacinski <karol.kolacinski@intel.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Petr Oros <poros@redhat.com>
+Subject: [PATCH net-next v2 0/9] dpll: do not serialize driver callbacks under global dpll_lock
+Date: Wed, 11 Nov 2026 17:40:11 +0100
+Message-ID: <20261111164021.273409-1-ivecera@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,67 +96,95 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.6 on 10.30.177.95
 
-LAN969x provides a PWM fan output and tachometer input in a register
-block separate from the temperature sensor. Describe it as its own
-fan-controller node and keep the temperature sensor compatible.
+dpll_lock protects topology and object lifetime, but it also serializes
+all driver callbacks in the system, so one slow device stalls every other
+DPLL device, whichever driver it belongs to. mlx5 callbacks issue firmware
+commands with a 60 s default timeout, and zl3073x callbacks can wait
+seconds on a driver lock held across ToD writes and phase steps.
 
-Connect the EV23X71A fan to the controller and route its pins. Use a
-25 kHz normal-polarity PWM for the board low-side FET. Set cooling
-levels so the fan starts at full speed.
+Make dpll_lock an rwsem for topology and lifetime and add a mutex per
+domain for callbacks. A domain is all objects created with one (module,
+clock_id), in practice one chip or card, so channels of one chip stay
+serialized as drivers expect, and they still block each other. Device
+callbacks run under the domain of the device, pin callbacks under the
+domain of the pin, whichever driver registered them. Only one domain lock
+is ever held, so domains have no lock order. A lock per device would not
+work, because pins are N:M with devices and callbacks notify sibling
+channels.
 
-Signed-off-by: Robert Marko <robert.marko@sartura.hr>
----
-Changes in v3:
-- No DTS changes; renumber from 6/6 to 4/4.
+The driver API does not change, but a callback can now notify only
+objects of its own domain. Patch 1 changes the one in-tree callback that
+does not follow this.
+
+Registrations across domains exist in the tree only on E825, where ice
+registers fwnode pins of an external DPLL with its TXC and TSPLL DPLLs.
+These callbacks are no longer serialized with TXC and TSPLL, they rely on
+pf->dplls.lock, and requests about these pins wait while the external
+DPLL is busy. Intel folks, please check that this is fine.
+
+Each complex of a dual complex E825 has its own DSN and so its own
+domain, but both use the CGU of complex 0. The lock for the registers
+they share is in a fix sent to net [1], which this series needs. Without
+it a test lost updates of them.
+
+Patch 4 is the only patch that lets callbacks run concurrently. Patch 5
+adds KUnit tests. I also tested each commit with a mock driver and YNL in
+QEMU, with lockdep and KASAN, and the tip with lockdep on two systems:
+
+- A board with ZL30732A: every notification the driver sends from a
+  callback, concurrent traffic with PTP, driver reload and rebind.
+- GNR-D with dual complex E825 and zl3073x: callbacks of the pins shared
+  by both drivers, TX clock switches, RCLK pins of both complexes, a port
+  going down and up, and both drivers unloaded and loaded in either order
+  under load.
+
+mlx5 is build tested only.
+
+On GNR-D, with ToD writes running on the zl3073x and requests waiting for
+them, requests to an ice DPLL took 1448 ms in median and 3.9 s at most
+before this series, 0.2 ms and 0.3 ms with it, the same as when idle.
+Requests about the pins shared by both drivers still wait for the zl3073x.
 
 Changes in v2:
-- Split the fan controller from the temperature node.
-- Add the EV23X71A fan child with board-specific PWM and cooling levels.
+- Dropped "ice: dpll: serialize changes of the SyncE CGU registers", sent
+  to net with a fix of the SyncE divider [1]
+- Addressed the Sashiko review, see the patches for details
+- Added Reviewed-by tags from Petr
 
- arch/arm64/boot/dts/microchip/lan9691.dtsi         | 7 +++++++
- arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts | 8 +++++++-
- 2 files changed, 14 insertions(+), 1 deletion(-)
+v1: https://lore.kernel.org/netdev/20261106121005.1327603-1-ivecera@redhat.com/
 
-diff --git a/arch/arm64/boot/dts/microchip/lan9691.dtsi b/arch/arm64/boot/dts/microchip/lan9691.dtsi
-index 52c22dd1a15d5..039c2014aa341 100644
---- a/arch/arm64/boot/dts/microchip/lan9691.dtsi
-+++ b/arch/arm64/boot/dts/microchip/lan9691.dtsi
-@@ -522,6 +522,13 @@ sgpio_out: gpio@1 {
- 			};
- 		};
- 
-+		fanctrl: fan-controller@e2010348 {
-+			compatible = "microchip,lan9691-fan";
-+			reg = <0xe2010348 0xc>;
-+			clocks = <&fx100_clk>;
-+			#pwm-cells = <2>;
-+		};
-+
- 		tmon: hwmon@e2020100 {
- 			compatible = "microchip,lan9691-temp", "microchip,sparx5-temp";
- 			reg = <0xe2020100 0xc>;
-diff --git a/arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts b/arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts
-index abb21a8bace9e..3cbe5beebce1d 100644
---- a/arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts
-+++ b/arch/arm64/boot/dts/microchip/lan9696-ev23x71a.dts
-@@ -775,9 +775,15 @@ port29: port@29 {
- 	};
- };
- 
--&tmon {
-+&fanctrl {
- 	pinctrl-0 = <&fan_pins>;
- 	pinctrl-names = "default";
-+
-+	fan {
-+		pwms = <&fanctrl 40000 0>;
-+		cooling-levels = <0 128 192 255>;
-+		#cooling-cells = <2>;
-+	};
- };
- 
- &usart0 {
+[1] https://lore.kernel.org/netdev/20261110094350.184185-1-ivecera@redhat.com/
+
+Ivan Vecera (9):
+  ice: dpll: notify TSPLL lock status from the periodic work only
+  dpll: add domain object
+  dpll: take domain locks around driver callbacks
+  dpll: convert dpll_lock to rwsem
+  dpll: add KUnit tests for core locking
+  dpll: reject measured_freq_get for foreign and on-pin registrations
+  dpll: zl3073x: update locking comments
+  ice: dpll: update locking comments
+  dpll: document locking rules
+
+ Documentation/driver-api/dpll.rst         |   48 +
+ drivers/dpll/.kunitconfig                 |    5 +
+ drivers/dpll/Kconfig                      |   13 +
+ drivers/dpll/Makefile                     |    1 +
+ drivers/dpll/dpll_core.c                  |  204 ++-
+ drivers/dpll/dpll_core.h                  |   34 +-
+ drivers/dpll/dpll_core_kunit.c            | 1580 +++++++++++++++++++++
+ drivers/dpll/dpll_netlink.c               |  117 +-
+ drivers/dpll/zl3073x/dpll.c               |    9 +-
+ drivers/net/ethernet/intel/ice/ice_dpll.c |   24 +-
+ drivers/net/ethernet/intel/ice/ice_dpll.h |    5 +
+ 11 files changed, 1919 insertions(+), 121 deletions(-)
+ create mode 100644 drivers/dpll/.kunitconfig
+ create mode 100644 drivers/dpll/dpll_core_kunit.c
+
+
+base-commit: 368fbf5d82da9ebce309449c74fc0b128f7d0219
 -- 
 2.56.0
 
