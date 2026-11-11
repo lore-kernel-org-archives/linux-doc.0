@@ -1,110 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794421038;
-	b=QrbFB2AcLxWIdHyc51oSSbeahVmw1Rn+27ze2gkJ1rJkpIX9WgesyP8j2XG33rglKIWU
-	 /Zq5ZxQiizPMXmeyiWuMs4nx4jiTtPJVEWSx7sSASptAtF2OZ4f5wTx5NzE3Hc+mBomNh
-	 nOh42ud2/pJE+5BirHB8LCHMDzEyj0+WOLGg4cCsrUoU6W0h/aZnYuDodilZauunlbEv/
-	 WN58TLgGkw6pAWnW3Lned+oto9rOFhR8kjp6aUq76ktKeJR+DYMVttN1awgCcU6bArTle
-	 ReWoDR9+aByTsCU/0eD5CHGa0mbvj6GY9c01ZGuIsxJZIxDx+qbKBv/5IR51oM14JAg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794421038;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=JAFBic9FeqiTcoA9Sc56oOZoN08uUZIC/3Jq0YqoHLY=;
-	b=eNUzX2aixedFVbdjrovaV/UbIpnAsaKjfmzlt7sV2+xxYl1rF447IuXxdSrX0NGoRR5q
-	 TJlRjgblAkk0fMcaGC3MDclqQL57nRQfqJhE9x8J0qesf+Tv3ajTyfIeOfmsZUZmyQNE8
-	 bQHvZswv32G/qWmuo5kk1IG90qbd1oE0dEXCa4q3BmLGCHvrmShdlFs3gkzf0BzIosBxb
-	 UW+jpAUoO+VHmk6tbsRV6qBssM5plqjJ3H0nCQ3/YGBiTIsMUGa1INLZnlyZlyHX0thI/
-	 LFee1FnFNo37vOQdQQbs3CApyNrg3ksQhBQSYd3C6TSEgj25f8tq2pJER1/J9yE+NSw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UhRh2+QK;
-	arc=none smtp.remote-ip=209.85.128.169
-Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.153.30
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794421450;
+	b=ovEy2SyPt6ONFCUO6a89fCMgR5hIjjSIMxDYfCDAT9jFlOqIymnMENOc/LMqP+Gvzosa
+	 d7JWs7VbuMgruS4ed+h1g4sTkFLP9sziFDBbK0df5RJyJjEiiUW5Y1U+F59pfp56RRcm2
+	 7IpOP459Vx+yabreamNlaa3mMDD7LhSE3G48sSgD6QehoN5Xma2ylVmBqFsbStIzT/WdD
+	 9L2Waqnmd4F2ZA74qgEwDeEcqYzRCwobMu/6cKfM9kZfW3/79sbw2IzXDxbNzPStPYfww
+	 onEHlCMDoN4OrwWi9nOxi8ec6ygS5G0greIosYGzRs94smhGgrCkpv2AXKhJ6Su/k6A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794421450;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 X-Google-DKIM-Signature:X-Forwarded-Encrypted:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
+	 X-Authority-Analysis:X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Virus-Version;
+	bh=aMG9NSIoryJ6ZmHzBOTcIKDBni97i5hfecL1FAmnbM4=;
+	b=Ll+lsyKcpuOqp+Aw7t0AVpFX3xmWTgmnqUuM64Zc6tsiycm23jY8JZZV86ZU/F+e89hK
+	 oOut+OmozwmYzel7M4mSBu0pQ2mbWuhB+dES8SjLJx/8Bb3YuLTvC1hhDocAbU7ZEyImF
+	 Q/tPkPpn0hvrQtRJcy4gkUQ7Un4+x7Tgsv3qllhMRjzwxaG8t2mzc3udu/4fXGBs9ooie
+	 DXnftilDwSnaE/5ui5nQRHNF80ph0dqXalxKVJ6ld5cwhYweEJAflBJnI+i+m6+dIBWA7
+	 evA8YvvZiP1Np0qROV4hIUV3LfSnrae9BlM8q6a99ZMVPq6nSozP61CEq5G7CGSs9Qg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=isns6Mqh;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.153.30
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA733606C17C
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 18:17:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA733606C17C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB818606A882
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 18:24:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB818606A882
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UhRh2+QK
-Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b0ca1ebc8bso48321487b3.2
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:17:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794421036; x=1795025836; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JAFBic9FeqiTcoA9Sc56oOZoN08uUZIC/3Jq0YqoHLY=;
-        b=UhRh2+QKrJuMUqoVkAZwLp8mjesVP5rOdbeqxz4Qd7xPhFQ7cqnpBQcOCKce2Dv+Ys
-         JDUyUFr3MiMLq6MxAJzkSqEfhTzdl76LeLgd+pOsMx2+XeQYBoYuKI7QkF1fp8IymDmk
-         KJX1eeF9+XTsdNrPc8KEwUSLMb7634nwNpC+cTuxn0Z2TIOeFQMk9n/Y0ie3/+B/3X05
-         7xZwGQl7MS/HdOcR4MHHCdM5R+x16qvI2Pj+MyhpUkNOORYFs5pTh9M9jPGXP7mIW18c
-         9Sfu3b+GWiqTy1rQATsAE0TIfLiAlTwki7umXwi8lBrYXDH2KUD6EEKFHHhrwwKziBC0
-         RgiA==
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=isns6Mqh
+Received: from pps.filterd (m0528004.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ABHt2si889850
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:24:09 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=aMG9NSIoryJ
+	6ZmHzBOTcIKDBni97i5hfecL1FAmnbM4=; b=isns6MqhLK2gICBmvsfmHDefPrM
+	fcse+kjR+dgFtXbRypDtqotW1Yl02H8zLF60ugJCdMKKjv2bgp3/FfDVbtAj0qPL
+	nMdiMIQxDW/X1fu1xFPQrqO7h+9kKGnsak6+fIA8XRHkd2ZnZxPL61j+PZEgibEy
+	nBb5hifSwAd17cHCObGIGWr6WQCyzXxmQufY6UHIk7KcX4LXVPfTsiACYBolCFv2
+	uZsIapcgbM6aipiYch9uLbCT+xrDb7WMyVR20uj/cvl1DYR6dMROu6AKFq/+SWeu
+	7vwmmqM2W1TLALIA4l+/gOuarfulif/2FeT4KQUkwmvzHlyXdH6HmkOe6Mg==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hvaejfatm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:24:08 -0800 (PST)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3ad30487d55so5719844a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:24:08 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794421448; cv=none;
+        d=google.com; s=arc-20260327;
+        b=aHmi5svDnes0XjvvkeHg0W85EqGV+ChbEeT6kxpT3jYr6KXlum8E1uCP1jREZjMZsV
+         xe/IT4AMdb8R4CG2ikaEVbM8WYbANNI8xiGXXsJqcpRkmH6bA8pxqVsAZL9dZsHIjS9W
+         ybYAWpDEw/ztAV3XOnAN05k94iGSg9c2mc5fVvLlERvMxWd32+POzRKe2LP7VQQusp1W
+         DlXYMNX/fgHoQ96ZMyaIi0eM4oozpQz+L0frD5fg+IJ7mH/hzpX+7ZcEfKGDGo8MirYc
+         tJLv0M9rYO2lQm5Fd8bZ1r+A+Tch/bl/AlqgQ5pqbBCQEr/41avGhJKHPRbSMllhsDEM
+         mbBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version;
+        bh=aMG9NSIoryJ6ZmHzBOTcIKDBni97i5hfecL1FAmnbM4=;
+        fh=sxCMYdpBVysEEWWrrxevm2+srUSosN0z0LjbXxywK58=;
+        b=QHaVp/cCz5nh0519+31RXc65qb20eN7uaJ+5xBgyRy1nlFAIozoxbvVwa/exnKYq22
+         W+8qv/ZXA9RofriyYNQhRJgI7zC19zVAhin7Lmkr9uYVl3QoGPbcJ19JBqkBbT1neMxR
+         YzMtw4PzPFV9vY2XuvIIkx0iNfq6nFMW8tccdvmgXtcC5Jgqu7LpumBufYiLd6k+GrV2
+         EZsKb3/jZTbY1uR8Wi+nl7gDXiaf+aIaRAaFuwy58iqRrD3yrjNuIRfBxnQfPPwZzoeL
+         3KBnKnAlRPtrDp6Eu53aYwzSC3lV0Bh8SViK6vwBiA2rWgnK2FgfPoBOX/DTkNuDx9EB
+         FTvg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794421036; x=1795025836;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JAFBic9FeqiTcoA9Sc56oOZoN08uUZIC/3Jq0YqoHLY=;
-        b=Od0UgNQfjOWxUGQRrg5jOnNeT+E116yPkKQGFs74GbFafnhfO/HWylRRYTuhdwoqTU
-         TgzV3D/xbjF++QmFNQEkt/l2BJ55HbafPopQMonOpmmUfrYz9NTzrrn4657iJC5vvE+h
-         Aec9n5WYzq7paegvhU28kR+fKiOL/g6W5ZOVVB+klkQ0aJaGihKMYzaHkqWlgqyJxL2K
-         oxZKiF4yP1bFQj+A/fbJHFONJ/did2wCXl3U+8oVUGONRALamOHyimjAwx8stB9fpYF0
-         0EHg9AOnhMQF6dh5/JxjwhqV2aO7eTvc5GjfCheGGaBWkrE1hIdtQuqt61CYcpHNPRDS
-         7gcg==
-X-Forwarded-Encrypted: i=1; AL+hErFjDTgZHVOl0+F+3Ov5xLxr7t25saYqJ/7v1cpGE2CEP8Y2EkSx6JvMgdqvGAeKOf/fBrIhnH0dto4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z89ixyIUy95IWHkriJYZjej9TedXh+FEMAf8NBn0y5vzomg90UF
-	Xc+XfaeqRs76CR/cxKOmisa84vtilUSjL84AMr67QzjamlzvNKXFxd0x
-X-Gm-Gg: AYBFou3pRKsIK/MzOtdqSiuex2RpvRvsAXOVeqvecr8hxRoiNCPePu9Ep3TnV84BWir
-	CHkITxrJNRN9f5Z2EGWfhyzyqlM+ZHT3xpbaAE7/XhP9fjhKHou0QgdMhy5bS/X42tyFJ9Cx6YV
-	ORFOCYRZbYztK4EdyP/lfOhbOc6OtlRrrczoZnxQfZ4wOQIEkCmV9bl9BHHTqt2iIQPyul7TTQo
-	3+B2DlMAraN9/vRhn1RZa+0nyjqmV08bCyr5X+5j18GjqBeeO9FDoyknIYZpPWhqZ5QHE86iznn
-	kkumrKRBRFCxpysgjq5LbIkPRZ/Dosk/5RkOco0sW051rXX757GAVnu0Lbm2I5yVVsGhFDN+ggH
-	ngnXnwpQI29z+fvuyeqCTvCMx/7SxXr1gPdLAYdsx+RztEqAFHbWi5nzfO/47wC0iRJUcLTMMPe
-	ULilWzPmZYYecJPNZf711H4RHo7tMxf0A3OZOdpAVc1TmtfqKjK2aEQjFGqyrpceE3QscKjlpdd
-	/NTBXCc6ZJzb8k06JRLJti1/8fJkLxBhHpRQg+pJQubszo0AHmU2Y3pGITGhNyRF/IYGio+eVAs
-	vtnvV265y5xB4POa8bevcP59lAoGPEsphi15FDY602gYgYDg2mdRRUkA49+GLINiE5nfU2cMFr3
-	NBug4zw==
-X-Received: by 2002:a05:690c:4f07:b0:8b0:d837:364b with SMTP id 00721157ae682-8b3a7e3b702mr19660887b3.7.1794421036454;
-        Wed, 11 Nov 2026 10:17:16 -0800 (PST)
-Received: from localhost ([2a03:2880:10ff:5b::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b39324c124sm49936597b3.6.2026.11.11.10.17.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 10:17:15 -0800 (PST)
-From: Joshua Hahn <joshua.hahnjy@gmail.com>
-To: "Li Zhe" <lizhe.67@bytedance.com>
-Cc: akpm@linux-foundation.org,
-	david@kernel.org,
-	gourry@gourry.net,
-	ziy@nvidia.com,
-	joshua.hahnjy@gmail.com,
-	rakie.kim@sk.com,
-	ying.huang@linux.alibaba.com,
-	ljs@kernel.org,
-	mhocko@suse.com,
-	muchun.song@linux.dev,
-	roman.gushchin@linux.dev,
-	shakeel.butt@linux.dev,
-	weixugc@google.com,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Johannes Weiner <hannes@cmpxchg.org>
-Subject: Re: [RFC 0/2] mm: add source selectors to memory.reclaim
-Date: Wed, 11 Nov 2026 10:17:13 -0800
-Message-ID: <20261111181714.1463827-1-joshua.hahnjy@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261019141401.11927-1-lizhe.67@bytedance.com>
-References: 
+        d=1e100.net; s=20260707; t=1794421448; x=1795026248;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=aMG9NSIoryJ6ZmHzBOTcIKDBni97i5hfecL1FAmnbM4=;
+        b=hz3UXru4nURfMSNlIWILj3iJbyjqreS0YTrPsEI47Hg27iIDM6Pzea9f+jK0yGlmMW
+         rytk8G1BbRPLw04pYg+AOdhBehPGez9cpl/Csw5W4dVRrK0phE34Jtoko2dWEEO8B4u4
+         rPO2LL53ZlSIv8ruX5ilvFk/flqRfulZhD6216ipXH8NQtlkqUTFMtEq79d88ZW4d8zt
+         Hb0KOZft2lWxidAFbg5w9vwnKvjt2LaL22bQGAErxMRDRXW7b6aYvAAw4SCezBN1szy7
+         Tk4ErUZjqjBEhhVmw1nkK13ZDP68+7BJKwXIg4CYzdpBYrdssA3QtVbd4eG0e+a/CTC8
+         yeBA==
+X-Forwarded-Encrypted: i=1; AL+hErHDP1skxHWfeHCFKDThNfOWTKlXWU2cmzioNgDeU1LWc7vp25/fH5dobEY6+TCCxoyhrGfqKDeZq+U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8CbMI9kXh7v9loJa1dT801LYGQaE0odX73LlsoG32WE3h8ZaQl
+	jgCmeyTT3m7cYHsvia6Z4Y80OAcrZJtzHHHPXYhuZWgVAA/0fekAzdz8KVQY53y9WHzfEb8mPrt
+	mHxw18UDKBOKfqn1Arffe/wUKYOWMJmeZkMvHopbTabrtJg/4lPAzEE83m4wV3+XQOZO9Xyj9Am
+	h9cA2lEvtoW2/XTUFin74ChvbDhni1trrnwbM=
+X-Gm-Gg: AYBFou0lrVhUPzQgUr/RiMkQbD4ubgek4NDt8CnnVOkR2YebeYPVnGdFW/1hnaAfBaZ
+	a7qobmuO4ZrWniZyWHGePr+v/NTnKdbTJWGdWrgMRR80gbvCb2UzmUgVBaXFlfKEMdTI2aG1aY/
+	Pzb7ICEHCKU7Fgeek+GTT6820Mp5+2yjxt4gWQk3Ir/dPEL3HWfgfa8RaCOCC22Ucyf5l62BHdL
+	ST8bRjSidTD1Zg2s+MHpGOtaWEDgae3
+X-Received: by 2002:a17:90b:2f83:b0:3ab:884b:65a8 with SMTP id 98e67ed59e1d1-3b182eda7efmr3257451a91.26.1794421447603;
+        Wed, 11 Nov 2026 10:24:07 -0800 (PST)
+X-Received: by 2002:a17:90b:2f83:b0:3ab:884b:65a8 with SMTP id
+ 98e67ed59e1d1-3b182eda7efmr3257421a91.26.1794421447127; Wed, 11 Nov 2026
+ 10:24:07 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,124 +111,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261111005533.6436-1-toddfreed@meta.com> <20261111005533.6436-5-toddfreed@meta.com>
+ <DMSJB8MZZCXK.MCEBRZQDAM5Q@gmail.com>
+In-Reply-To: <DMSJB8MZZCXK.MCEBRZQDAM5Q@gmail.com>
+From: Todd Bert Freed <toddfreed@meta.com>
+Date: Wed, 11 Nov 2026 10:23:56 -0800
+X-Gm-Features: AclHuK8_olqmA7fXTYgEAj2-H4kgkwQj_X0uL-xyG8nZrZvhci79BGaB7ila0uo
+Message-ID: <CADh2yMx8MPjcH7Bpj72rNNd_tT=6uSC5Ow9JyGjTMjFgs499Pw@mail.gmail.com>
+Subject: Re: [PATCH net-next v1 04/15] psp: add support for socket-less psp associations
+To: Daniel Zahka <daniel.zahka@gmail.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        bpf@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>,
+        Donald Hunter <donald.hunter@gmail.com>,
+        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
+        John Fastabend <john.fastabend@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, Martin KaFai Lau <martin.lau@linux.dev>,
+        Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+        Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+        Wei Wang <weiwan@google.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Authority-Analysis: v=2.4 cv=LZipeTfi c=1 sm=1 tr=0 ts=6af4b2c8 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=GbPsI2Ihf5RTnMjR_gZv:22
+ a=-xR6GoDS8vL2zpuMsZwA:9 a=QEXdDO2ut3YA:10 a=rl5im9kqc5Lf4LNbBjHf:22
+X-Proofpoint-GUID: _v84RoQFktzxTlzbbboatmRkFLscCk0z
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTExMDA3MyBTYWx0ZWRfX1tBmsWpd864G
+ Rif8xee6kpyx0v0/YazraJCUKtui3UT39syrIFViVd3aXTb2LYTQ33OEwwobG0quPAsk8euWLLr
+ NJfIvUgWVVs0WuQewFhnbIuZ3v9rVSg+iuoDiB2bwf/o3dtL8dPmUVQaD/e93VNvMOjZrBpAM6C
+ rrad86rg1lXNjAPiTDl9hUtyvZPu7nOQ/Ee4C58wupzKZS1QjTmYByCBKFWjs8ETsQK/achGLtm
+ S3bDXNXpRvuz7jD2QN240ABFRQlAxWEs+i+L3U6BracVdWXNKEvqFVS1AN+UaP3ZNBfCqh0nGOh
+ DqedPqY7myOD7pls9moCzqwPGnWQyTNP3+JWVUChbS+brQX2bNc4GPxwNSDK7B3xWU8TGi0ovBY
+ +2j6fNzgu0H1m2ZotsrMAaEMCqVKQGMyt7MXUGRhW7eWhq0Ih/JUbR56bP/i5nI/VHwZOCsIA3E
+ KFcpIpjOrkIjZtCMu7w==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTExMDA3MyBTYWx0ZWRfX8/BYINdIH1fS
+ v/jkV4OuKgusde50qZNNQ4A5f/ZGMZKglw0S9ke3XNBkDf8P0pyMLUozbO9GfGjTJLU/VqVNLwb
+ uPKgZSQqTpi/LafwqB1l9KBOftNUu0Y=
+X-Proofpoint-ORIG-GUID: _v84RoQFktzxTlzbbboatmRkFLscCk0z
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-11_04,2026-11-11_03,2025-10-01_01
 
-On Mon, 19 Oct 2026 22:13:59 +0800 "Li Zhe" <lizhe.67@bytedance.com> wrote:
+> I'm not sure the kernel actually needs any bookkeeping at all for these
+> generic rx spi allocations. You could probably just pass the spi, dev
+> id, key, and probably rotation count (as a device key generation of
+> sorts) to the user without creating a kernel object. For socket
+> psp_assocs, the rx state is consulted on the datapath before queueing to
+> the socket. For tx state in all psp_assocs, there is the possibility
+> that an SADB handle needs to be cleaned up. Neither of those apply here
+> or in the rest of the series as I understand it.
+>
+> I figure the tc ingress rule can just take the spi and dev id by value
+> rather than needing a reference to an object that we create here.
 
-> memory.reclaim is a useful proactive reclaim interface for memcgs, but
-> tiered memory makes "reclaim N bytes from this memcg" underspecified for
-> userspace controllers that manage memory placement across tiers. The
-> kernel's reclaim policy is aging-based, and on tiered systems aging may
-> demote folios before they are eventually evicted. Without a way to
-> declare where reclaim pressure should start, userspace can only reclaim
-> from the memcg as a whole and observe one aggregate progress value.
+That is how it works in this series. The tc psp decap rule (ingress) does not
+make reference to an rx assoc ; instead, it should have flower matches on
+psp_spi, psp_ver, and psp_dev. That effectively ties it to packets from just
+one rx assoc.
 
-Hi Zhe,
+So why keep track of rx assoc objects at all? Two considerations.
 
-I hope you have been doing well. I'm circling back to this discussion
-to see if there have been any updates since we last spoke about this.
+1/ don't accept packets that correspond to a stale association. That is, even
+if the device decrypted the packet, it should be dropped if the device key
+which minted the assoc's SPI is two rotations behind. For psp socket offload
+that is enforced in __psp_sk_rx_policy_check() with the pas->generation
+check.
 
-I'm wondering how feasible it would be to enforce some kind of placement
-decision from userspace with this new tool. That is, I think I would be
-interested to see if this solution was enough to grant fair placement
-of memroy across tiers within a memcg.
+The spec permits SPIs to be reused immediately after two rotations. So the
+device could decrypt a packet with a SPI that is more than two rotations old
+in that case, or if a previous packet is being replayed, for example.
 
-Were you able to run tests to demonstrate how effective this was at
-managing placement decisions for memory?
+2/ hardware offload. the solution to #1 should be able to be fully offloaded
+to the device. psp tunnel mode will be hw offload only, and is implemented
+in the eswitch with connect-x.
 
-Of course, I think we should answer the ABI questions below. Maybe some
-of the memcg folks could chime in a bit about what kinds of interfaces
-they would like to see.
+We could add a psp_gen flower match to replicate the pas->generation
+check, but the device has no access to the pas and can't offload that.
 
-To start, I'll reiterate what I've said in the previous response, I
-think we should keep this a node extension until we can demonstrate a
-scenario where there needs to be tier-awareness (to be honest, I don't
-think there is one).
+Keeping track of the rx assoc means that the kernel can take action on the
+"this assoc is now stale" event. Possibly by enumerating the tc rules and
+either deleting them, or marking them stale for userspace to reap.
 
-Cc-ing Johannes who is a memcg maintainer but was not CCed in the
-original series:
-Cc: Johannes Weiner <hannes@cmpxchg.org>
-
-Thanks, have a great day!
-Joshua
-
-> There is prior history here [1]. The old nodes= proposal tried to let
-> memory.reclaim scan selected NUMA nodes, but the discussion left several
-> ABI questions unresolved:
-> 
-> - nodes= did not clearly say whether the mask was a source selector, a
->   reclaim domain, or a demotion-target constraint.
-> - The implementation did not apply the mask to the whole reclaim path,
->   so demotion could allocate outside the mask. If userspace interpreted
->   the mask as a domain or target constraint, the ABI did not provide
->   that.
-> - Selecting top-tier nodes could become an implicit way to request
->   demotion without uncharge. That would make userspace depend on a
->   particular reclaim policy and could make future policy changes hard.
-> - The separate completion-accounting question remained: demotion can
->   count as reclaim progress even though memory.current is not reduced.
-> 
-> This series takes a narrower approach. It adds a typed source= key which
-> declares only the source on which the existing memory.reclaim aging
-> pipeline should be applied. It is not a demotion target selector, not a
-> demotion-only goal, not an eviction-only goal, and not a change to the
-> existing completion accounting. Leaving source unspecified preserves the
-> existing memory.reclaim behavior.
-> 
-> In that sense, this series extends node-scoped reclaim pressure to the
-> memcg memory.reclaim interface. The existing node memory_reclaim
-> interface can apply pressure to a node, but it is not scoped to a
-> particular memcg. This series lets userspace apply the same kind of
-> source-scoped pressure to a cgroup's resident memory on selected nodes
-> or tiers, while still using the normal memcg reclaim path.
-> 
-> The main benefit of this series is to give userspace a steering knob
-> for per-node and per-tier memory placement control. A tiering controller
-> can observe the resident memory distribution across nodes or memory
-> tiers, and then apply reclaim pressure to the source that should be
-> relieved. For example, it can apply pressure to top-tier nodes so that,
-> under the existing tiering policy, cold folios can be aged and usually
-> demoted to lower tiers, or reclaim from a terminal tier when it needs
-> actual charge reduction.
-> 
-> The existing memory.reclaim interface cannot express this. It applies
-> pressure to the memcg as a whole, so on a multi-tier system the kernel
-> may make progress in a tier different from the one userspace is trying
-> to control. That makes feedback control of tier ratios ineffective: the
-> controller can observe that a specific tier is over its desired resident
-> footprint, but it cannot direct the next reclaim request to that tier.
-> 
-> Patch 1 adds source=nodes:<nodelist>, which is the basic source
-> selector. Patch 2 adds source=tier:<N>, where N is the memory_tierN id
-> exposed by /sys/devices/virtual/memory_tiering/. The tier selector is
-> only a convenience layer over the same source semantics: it resolves the
-> current tier nodelist at write time and then uses the same source-scoped
-> reclaim path as source=nodes:<nodelist>.
-> 
-> The remaining issues from the old discussion are intentionally left out
-> of this series. If userspace needs to control demotion targets, that
-> should be a separate target/demotion-policy ABI rather than folded into
-> source=. If userspace needs a strict "bytes actually uncharged"
-> completion mode, that should be discussed as a separate accounting or
-> goal extension because it would change the observable meaning of
-> memory.reclaim progress. This series only adds source selection for the
-> existing reclaim policy.
-> 
-> References:
-> [1] https://lore.kernel.org/all/Y5bsmpCyeryu3Zz1@dhcp22.suse.cz/
-> 
-> Li Zhe (2):
->   mm: add source selector to memory.reclaim
->   mm: add tier source selector to memory.reclaim
-> 
->  Documentation/admin-guide/cgroup-v2.rst | 29 +++++++++++
->  include/linux/memory-tiers.h            |  6 +++
->  mm/internal.h                           |  3 +-
->  mm/memcontrol-v1.c                      |  6 ++-
->  mm/memcontrol.c                         | 11 +++--
->  mm/memory-tiers.c                       | 24 ++++++++++
->  mm/vmscan.c                             | 64 +++++++++++++++++++++++--
->  7 files changed, 133 insertions(+), 10 deletions(-)
-> 
-> -- 
-> 2.20.1
+-Todd
