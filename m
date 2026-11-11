@@ -1,83 +1,84 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794355549;
-	b=dQ7WJJNxSJfhHPO9DInRVxouWy25eyESmKNmDXp76d+oydboNsEkRKdclcEDb9nceL+Z
-	 uDN4JnPloPzoXPNM18UxqLU/jHUcXIZwel6HWPnEA837+n2bPW8ijOSx31tvki1DekIvj
-	 sRZxVs0wQPYk1B+jDjPxYYb8hj8BJguhtIFum1p/q0VAhTgvh35dpQq0AUxwD3L/dYpW3
-	 L+1H4v2eI6SSMY4SdnEO0aflkVGrfcx2LwEQxPJdQXSgPn6dQEe4L4RtIhr78JmedVqUj
-	 nNWlTPEFLcwHDAm0erdm+HyU1utJsz1U98W38QEs3Mc2MFtQykUo9eyKYNFnDqhjeXQ==
+	t=1794355557;
+	b=hoa5kUDH6fQaMDq0w7TZWRpl3X2TZcAh8dVsMf0xjNYgfmIuI7ISJ9vuQqvlrdBEs659
+	 gUIhAIjfKI8ijTr6QqyoL+YicBctDcsO4UjJKp10zGm+G48v74YSllP79wBDpknNeLwHz
+	 Nv5L2XoYMdDB0YsrNe9OcUUdVbaWZduloQchsVRAuW3LBLT0+QqsvrX3eqiW2yUmGl1mS
+	 VDyIhInAJ1U/Tm8q5XHAT2gjwLfnBKw+8GHnw3OnQDmUGzmW0GN2MSnZsC4/yH2mYrC8a
+	 q3l32pHAPbyprSF38RBDnEubLkATmEOvoAFeeHV11lpEiFVY2O0ZYGBmRVNvIWNMrgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794355549;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794355557;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=zX4uQsxXhxyepa6SxEX75JVt+g8l7wUTYuvdXb188cM=;
-	b=viaqsX90SFcyLxcJpu5u8NBPHkYvRbqX7Yl+ePY/YpxFyIm2WVm7PhkphulaWtSEbyKp
-	 ddKo/KbGDq3F2Gp2ZlOw5EHsuNqWnvOS5jjtlKyQ8S0zCVltlzCVHFNg/wLmpqfeXF8H9
-	 0llO6lyYJxJjgKvI34mcZgND2n3vt9ZtXaGzakqRjG2QR/CLca7hpPL6mJrzSYCl1ILra
-	 NroZhEJ30Ysp8BRGnssSeWEGo5gxQtiLjB8SOCw9oX+AEVttno5BVu5d4h5PqWq/EDFfC
-	 5dvZYVkDh4IFRMPPWFt+d1hU7nkBmQx2gcS5hvO8R5saGzDa28bJbg/kQSuBQO7wMFA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=QL7qMQJCM15dowTzRdUWpkJm+YzN+M4BPLeeodrjsps=;
+	b=pXtM07yUZCMQ8NtSdUUWvNULbnZpyHnigDC25oCxmOZSAlTMzIkY5yfpthx8G8o95TQ6
+	 2cWlBmxp2pfvII/BfUT1+P2Pqke73NkdtVEtEQjtrN8ZvEzhYC2p68aGtlWPR2yoaX6Ip
+	 wiCPt9T9dfafkX9f2uco9PNzdJTNTrkzdoEtd/Qu15O/KPYuyHjk1viBYZ0hEFUazsWQe
+	 4NIYMGLpcW9eWZsaZov36LFadaVgCt0Lwd2fmWF04UUOxMI4Cm/OmOafAt9Q0EL+YYoKz
+	 yOeAq5/+6MhZWok+EaG4/XznZRuRGJ2zu36Fqd5jbiCTAfEKP7ch6dNiAhpbPEXDIDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="f7e8poz/";
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TLCiXCou;
 	arc=none smtp.remote-ip=209.85.216.45
 Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7253B606A325
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:05:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7253B606A325
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 099E860A2612
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:05:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 099E860A2612
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=f7e8poz/
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3b0d09df973so2046652a91.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:05:49 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TLCiXCou
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3b0a519049aso1764363a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:05:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794355549; x=1794960349; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zX4uQsxXhxyepa6SxEX75JVt+g8l7wUTYuvdXb188cM=;
-        b=f7e8poz/5Clox4WDRyNqP1Jp6o7MT/306TEdwMySi6LiSghlBcSVIWpUQ4K7LzBI7h
-         R5xXkX2l+0WYf9XLbb8f7SBfTozr3F7Jwp4GQxpDCcBdqLhiB1vdmlBSU50ppMATBUBo
-         mF3CWHd1VrkddqeilPjFFb0gD7aXtiBbtoX1PRKTtR6zsix/56FfS91XfT4OVzz+54ZM
-         mMNVT/CHzCTLPBP6WALCcFLDuuFyNz5mB4GGC2lT0VL8X4ZUFpRhO01/qyEcUJkyTyPK
-         Xgwg625Ed8CGDSJ0cVUoemiEVa0pkB7YbcZ/SSJmwiZECuzGV40s/P1IGzxzGOC6etHQ
-         HUmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794355549; x=1794960349;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794355556; x=1794960356; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zX4uQsxXhxyepa6SxEX75JVt+g8l7wUTYuvdXb188cM=;
-        b=eNHYpUpMBnkLi7mei3Qqm7bg+21/BOcfIKOMeHhgaXfNLRnhY9+A7ydx1pLsY58Rp+
-         xYfPteSIix2gXLsy4FJvLtiasIXgpTe3i9G//yN3ROZEeoRR5mPC86bmrvp8Z0PsMG+O
-         a23s/2AqML+u3FzmGQFAyzfHR3z95roxoG1F19xNXDtTqghVuHYEsII4s1VaDawaOrid
-         qFqHdfp9Ho3XfDinOE1K783fD6Kz3pEcEzs8uL5hzrGoSVPszisNSaVAkMAJECapycGb
-         s+Pi172ZHzL/YWn1xXHZbf5tI+XWQxP6Lv0tz7mw7XImwrrapcQ8RJ8HbLVMaKGZbHIK
-         Dk2A==
-X-Forwarded-Encrypted: i=1; AL+hErHVPpRaErtItR8i20EGpTsGO+okd6RD+cKzKydqQZqsPWRSupweItRjchVoIG4rlaNiWfLjP/0ZET4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8MULhS7GF7xedTER0jmKoo3QjYOITNzXHXv3MNLZeHGYr/+udS
-	g34gDGz9FiYgFdJuJbPj2fispEkIrp81N1jXUCltJBSXI4CyQf3cnoGTAACtRA==
-X-Gm-Gg: AYBFou1At1gSeEybAmbN+1KNshz9tlyei13vEGUwdIuytPNnWrxZmN/gdrTQwcbVAAa
-	jzDa2aPjewW/VM/1Zy/3fEKyZ434KCqcQlf1f7GHdlKodSpUnmZgjONraoRm32ibJQ8v11ffkjO
-	Isqxj3NsY1P++DYxKQWTCKye421M3VtC0JQGjL0gH29dOU1wyhu8K2Jc1p1kAeEcRxDBFe6CX5X
-	cJTOeDLujyHo5+lVYn/+sIKsM07bf4MutoDnvo7mFsXz+EFjsFrGsSoD2pomDGLFJSyO87XuZ2T
-	1O5B7H4dG9i5Z3cuevx6JWehTfaI8Vhj9OaB1EIXKItEmrmAD1psCqttR+YQwJchN/7Q3QZU/X0
-	5rggorIKnE0AOtdJpM/BSTUztxmgRrUqhVWFSgzs0K9VIkAPPuEgcZt6NAo5aDDQR1y5rMe6D9V
-	MfryvVOVcbx3vadkTDeRwN0Qyzy7SOz/nNXHPm6d7s1zMQyqMVxyE92zPplwBqkZNKnW2p73uhP
-	fZEpUCEt2HbaCyVW1oTfft0yjczRuJBKO0dxNEb4WKn5vhyhEhEpG4+6QQuYmH/t67a8OvmrrtN
-	l0Wc1Yd3NzUkEBTW86TXK4n5koaLPIJzYdRp2WD89D4J7RMjspN/xeRxMCDpcu0tXVeXN9J8nzi
-	/mqkhLetuB5Sjf149Uv2YJcq7OGmRKOtdG24y4UpHNFcG+xA=
-X-Received: by 2002:a17:90b:1c11:b0:3ae:a4fe:7ad4 with SMTP id 98e67ed59e1d1-3b182def9e2mr675655a91.2.1794355548631;
-        Tue, 10 Nov 2026 16:05:48 -0800 (PST)
+        bh=QL7qMQJCM15dowTzRdUWpkJm+YzN+M4BPLeeodrjsps=;
+        b=TLCiXCouxRQsySRLF4jYb4EARhU/XvlRWElzYhgGKvt634MXWfsCR5W2qWiQGNiB+S
+         RByd8Ib5etlaMk4WuH639pCCns/bU188ErMFjtgMAqtVWTbqk3r48R/1646DasJSB5jw
+         ALYPokjYhOsLTpUots+SFMfsXC3scwrf+P8VTj1BHaUchkpLryKjMlyEJr1jQaAUI+yy
+         Xgv/2uW2w285W7hzy7xRdw/hkkNtQtGNoW/kTd2pa50+5JBOcd9RGfFW/60wNXxRoHE9
+         WGOOyLg4/YMrGs3aCiNp1Er+nfhQYFPOTY3BxhR7SOT6cCAU1ARPK/BgqxRjRzV9TfmI
+         /XCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794355556; x=1794960356;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=QL7qMQJCM15dowTzRdUWpkJm+YzN+M4BPLeeodrjsps=;
+        b=qrACHE0sYLkoK3fsJF6kGKUifcfykd5OZsz7dCPZRLOBNXed36A97rU5FqPATpJtlF
+         0aMm0gTX2W+ph9wNf2Jm2LOxJ4Y/vrqumk5rLrX7nvnn4qX9pRnp7Av2n7Q2DsJQTBKS
+         9wSKfByJWcxWqFvo8gcOC0Eem/TkhFqJaTycXJeZlfGv/2Jjy8WYKHfL6/jywkJHfMnF
+         rNUGp4mJmZEfoQk1KrpqLJDDz1A/w9B9pJKDk14RoSaunGJfEqp3gNe+SHDGow9Z4o/d
+         IsqnrpGXYTAUKZ1+FzPxcShMNq/cU7kWEM18+qZa46/1Cp6O4gv6nIaQ5Ncti7kDntAj
+         bIWQ==
+X-Forwarded-Encrypted: i=1; AL+hErHbq7vHTlTw6YW1SvzSflNMmOvSaS3oDPz3ZDr5d6L/m5O7xLEjreikVMCU6OhthjE86PmMMT7lKfE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/6a6oksloUzsKNJJ/3N6aa6yIov8gRKeLPvvcemf67xQPcCikC
+	rg/B2OY2FZUP8rUINFCZHYBMPs/b3uV4T69Ehxz81ZptOaxlP8TbkRvU
+X-Gm-Gg: AYBFou3Z5Yec3/oxsnD1NrhbsXNtLSimVwu8If/MRXT5jh42FKUKcp/f4IE5TU5Xdu1
+	JwAxcj38mOQokz4qbTI0BPb8RdAc0MMi9n2QYlnEkZUHLp5sC6iRgjaXFW+FALB0FBFgLJCzPDM
+	dxF9e74+II0qf3ZV0gkgeHWBNq1E5wWHxfWAdGPbr10ydozRVRVnysYelGmwbkV9ppiWsrxqIu9
+	Xqwo+vnyFroBw8lcY0iSTBBMnPKJSArbu0afMi+rRb51sXMiICosKcxQ1IJDCqtbrPG5v5U8z01
+	K10m9VIGzzvT+CePVZ4fuWpNGO0ETkHmdGOJXBUnva0N4EmAYfFPKpfOpMwSlCukEOGto91CIiW
+	M2peNfnFU6lbjdeXjVtTPmQjJKmgjIZZaVJ2tPKI0NGlqNDARGIGe0MYWj7VBZkQ/lwqX56G39V
+	RY0qpcDHVjWYSMyK4f5pHECthq63IiuXo/nKTzZEHFnoQPFueNgbP+2d0G1pjj84mLCi7UTSezM
+	x0Dhzc6mGTxdfqZ9vP9LGBhz8/RwoRh/gOMdr8bKhgLtHxBN5GGQSXqBWzWne0F69gGwkrOKmu2
+	lxmbCA9tBV0R4nX7+dGvcAnDGQJfNGHz2xAwsAmm/6oc9kq0eioOvmGYESQq5LP5GF3jm4WhO35
+	8T975t9xxrTdipZVfbCMZgu5ID1LDaVj2fiXDOHCB1lYbPKg=
+X-Received: by 2002:a17:90b:4c:b0:3ac:c024:b275 with SMTP id 98e67ed59e1d1-3b182df3c21mr660693a91.9.1794355556265;
+        Tue, 10 Nov 2026 16:05:56 -0800 (PST)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1838e616dsm474361a91.4.2026.11.10.16.05.45
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1838e616dsm474361a91.4.2026.11.10.16.05.53
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 10 Nov 2026 16:05:48 -0800 (PST)
+        Tue, 10 Nov 2026 16:05:55 -0800 (PST)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -89,11 +90,14 @@ Cc: tiwai@suse.com,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
 	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v24 00/16] ALSA: virtio: serialize PCM recovery and preserve capture and playback progress
-Date: Wed, 11 Nov 2026 09:05:27 +0900
-Message-ID: <20261111000543.28550-1-mynameisjune111@gmail.com>
+	linux-doc@vger.kernel.org,
+	Joonho Lee <mynameisjune111@gmail.com>
+Subject: [PATCH v24 02/16] ALSA: pcm: report partial progress under the stream lock
+Date: Wed, 11 Nov 2026 09:05:29 +0900
+Message-ID: <20261111000543.28550-3-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261111000543.28550-1-mynameisjune111@gmail.com>
+References: <20261111000543.28550-1-mynameisjune111@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,102 +109,62 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series updates ALSA PCM recovery and virtio-snd request ownership.
-It also changes capture to request-owned RX buffers so a valid short
-completion can be appended to the ALSA ring without leaving a gap.
+Allow a driver to publish subperiod progress under the PCM stream lock
+without generating a period timer notification. Use the ordinary pointer
+update, XRUN and wakeup path. Capture DRAINING can publish its final
+tail while playback and other inactive states retain their existing
+behavior.
 
-The previous version is at:
-https://lore.kernel.org/linux-sound/20261109234049.79534-1-mynameisjune111@gmail.com/T/
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
-This replaces v23 in full. Apply all sixteen patches to the base commit
-listed below; do not apply this series on top of v23.
+---
+include/sound/pcm.h  |    1 +
+ sound/core/pcm_lib.c |   24 ++++++++++++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-Changes since v23:
-
-Capture now retains frame-aligned short completions and handles empty
-requests returned at STOP or PAUSE. The final tail can update capture
-DRAINING. A paused RESET observes the last committed position, discards
-samples through that point, and keeps subsequent data at the matching
-ring offset. The earlier direct/staged capture split is removed.
-
-The intermediate bounds patch accepts a bounded partial RX response.
-Initial RX reservation, ACK validation and refill enter together with
-request-owned capture. Earlier patches preserve legacy capture ACK and
-completion behavior while adding bounded payload checks. This avoids a
-partially converted PAUSE path between the ACK and RX conversion
-patches.
-
-Playback response validation and pause progress are separate patches. An
-invalid used length or device error latches XRUN without publishing
-successful progress. TX completion caches latency without dereferencing
-the ALSA runtime. Resume and failed-pause recovery schedule pending
-progress. Limiting the indirect queue to buffer_bytes - period_bytes
-prevents an unobserved full-ring completion from looking like no
-progress.
-
-Matched pristine-base and v23 QEMU tests reproduced the capture
-regression and the playback stalls. The playback missed wakeup and
-modulo ambiguity also occur on the pristine base. This comparison does
-not establish the first affected version within the earlier revisions of
-this series.
-
-The final candidate built with W=1 without warnings. Cumulative stages
-12 through 16 were rebuilt after the DRAINING notification correction.
-Unchanged stages 2 and 6 through 11 match the earlier build inputs
-exactly; stages 0, 1 and 3 through 5 have no fresh build in this
-preparation.
-
-A delayed-RX comparison establishes DRAINING before returning the final
-completion. The earlier local candidate left the cached pointer
-unchanged for a full-period tail or a short tail crossing a period
-boundary, and left an invalid response in DRAINING. These six failures
-reproduce across RW and MMAP. A non-crossing partial tail succeeds in
-both versions. The corrected candidate passes all eight cases, including
-marker readback, XRUN delivery and reopen. Cached state is sampled with
-SYNC_PTR using APPL and AVAIL_MIN flags, with HWSYNC disabled, so the
-observer does not refresh the hardware pointer or invoke ACK. This
-checks autonomous publication; blocked-reader wakeup timing is not
-measured.
-
-Earlier R5 tests cover partial, late, empty and overflow STOP,
-PAUSE/resume, DROP, RESET and reopen, plus playback accepted/rejected
-PAUSE, immediate HWSYNC, two-period queues, stop-threshold XRUN/POLLERR,
-and malformed TX status/length. The R6 change is limited to capture
-DRAINING dispatch; playback and running-capture notification paths are
-unchanged. R6 repeats the partial STOP, PAUSE/resume and reopen checks
-in RW/MMAP. Final-source RW and MMAP captures each ran for seventy
-seconds with RESET/reopen checks. All seven segments, totaling 7,104,000
-frames, matched the unchanged independent sample oracle. Eight
-additional final-source cases with stop_threshold set to buffer_size
-also pass in RW and MMAP. All completed R6 runs used ARM64 QEMU with
-KASAN and lockdep without reports.
-
-A delayed-TX test observed completion, close returning -EIO and
-continued guest execution. Its buffered log does not establish
-completion timing relative to close return, and its backend hook does
-not read audio pages. It therefore does not establish post-close payload
-DMA safety.
-
-The default RX conversion adds request-owned memory and an IRQ-path
-copy. The capture_staging, capture_allow_short and capture_allow_empty
-options from v23 are removed. Existing configurations using them need
-updating. Packed status and RELEASE/reprepare pause remain opt-in and
-disabled by default. The new default path, removed options and cost need
-maintainer review. CPU, IRQ lock-hold time and worst-case resource
-overhead have not been qualified. The playback queue cap reduces
-buffering tolerance, especially with two periods. This revision has no
-new physical VZ or KCSAN qualification; the earlier v23 physical/KCSAN
-results do not qualify this changed RX path. Uncertain control timeouts
-can still require device reset or reprobe.
-
-I would particularly appreciate feedback on using request-owned buffers
-for ordinary capture and the playback queue-capacity tradeoff.
-Preserving full-ring TX capacity would require a larger exact-progress
-interface.
-
-The new STOP and pause fixtures are local and have not been published.
-
-The pause option documentation describes the STOP/START default and the
-optional STOP/RELEASE followed by SET_PARAMS/PREPARE/START sequence.
-
-base-commit: a4311e9447bbb219044db38897f95be112f46a8a
+diff --git a/include/sound/pcm.h b/include/sound/pcm.h
+--- a/include/sound/pcm.h
++++ b/include/sound/pcm.h
+@@ -1182,6 +1182,7 @@
+ int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
+ 		      unsigned int cmd, void *arg);                      
+ void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substream);
++void snd_pcm_progress_under_stream_lock(struct snd_pcm_substream *substream);
+ void snd_pcm_period_elapsed(struct snd_pcm_substream *substream);
+ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
+ 				     void *buf, bool interleaved,
+diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
+--- a/sound/core/pcm_lib.c
++++ b/sound/core/pcm_lib.c
+@@ -1919,6 +1919,30 @@
+ EXPORT_SYMBOL(snd_pcm_period_elapsed_under_stream_lock);
+ 
+ /**
++ * snd_pcm_progress_under_stream_lock - Report progress without a period IRQ
++ * @substream: PCM substream
++ *
++ * Context: PCM stream lock held, with no driver pointer or trigger locks held.
++ * Updates the pointer and wakes readers for partial-period transfers. Capture
++ * streams may report their final tail while DRAINING. Unlike a period
++ * notification, this does not imply an elapsed period or tick the PCM timer.
++ * The same pointer, trigger and timestamp callbacks may be invoked.
++ */
++void snd_pcm_progress_under_stream_lock(struct snd_pcm_substream *substream)
++{
++	if (PCM_RUNTIME_CHECK(substream))
++		return;
++	if (!snd_pcm_running(substream) &&
++	    !(substream->stream == SNDRV_PCM_STREAM_CAPTURE &&
++	      substream->runtime->state == SNDRV_PCM_STATE_DRAINING))
++		return;
++	snd_pcm_update_hw_ptr(substream);
++	snd_kill_fasync(substream->runtime->fasync, SIGIO, POLL_IN);
++}
++EXPORT_SYMBOL_GPL(snd_pcm_progress_under_stream_lock);
++
++
++/**
+  * snd_pcm_period_elapsed() - update the status of runtime for the next period by acquiring lock of
+  *			      PCM substream.
+  * @substream: the instance of PCM substream.
