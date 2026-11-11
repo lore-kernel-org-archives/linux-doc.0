@@ -1,51 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.248
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794387292;
-	b=j91cTYHc2unXyxOwEk0KxoIiGTc5tZEqTc32N5QXoXMKuEfHPLd0twA+w2ZCimxKzlZu
-	 qSAazY+mrNs5kRMLvoVN1KoDZkwWRJq8s2KpFx1WPeg1pCYlBpkxcrrhrlEIu/fYUE7+Y
-	 xNqRg1Uts6WS2MZAoQRCb5Uuv4bC/C/Sn7q1pVig9gqfd+i1voKm91gXrQAW3ap0FMhUx
-	 1G65m50ubvDS188IsYaqn6jv815/MJH+dEkFP0m+Ty7zzOahrRIHe0mt1qjifHVjwHtM5
-	 8tdmJYYAl8wDrwLqlYN5K3vFyYLs86NMm9GCSXO5NEuit1c4SRdEzCoGqL/NbGdsYOw==
+	t=1794387295;
+	b=u8Jnr0PJ00IArmMHfVKsAOs+SO5piXPM6rFVggF/vrMYVSZ1gY4CW3YAv1icBttM1TuF
+	 4X0TCL8vDCIjhOLFwGEI4Yxv36rK2jQAqf5X2S+D8npdkO2abYh37opBvZuGlvKcbHMQ+
+	 72J2Be6dEEAv/HASS3ucGbY+ErsbdlFap6aI8jb86NdQY+RPPsHVSl9rpHllegfS/l5IM
+	 W7twz21oAKFP8gb2m/GcHgR10utUXYUeB2O9l/0vRBR5295SJsShuIT2Em8bClYVrlWjE
+	 HjjYi6Lj3PmOf0/4J6M7Sq4NYoBYaiNR4K4eF4Ox5LB/rf0Xd+g9nbymPlA78BpqE5w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794387292;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794387295;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=h89S9x+6FNbsx1kk0qOjiYteMD3ffDL4FelhcMuCPmM=;
-	b=yxYrIqTyJvc56+YJDXgYQTj+UlFiyMHLDX6AzMSgTI1TivdR999Q2iGMWiZ2PBKLUyEb
-	 Oa6O9rJq/CFbzHMA1hxIzex9juh3uL0tQnNybxD8X4qnyStcURIyZRcueI0aaDxB0c9Yw
-	 lNoCgKOQbjwBGCTgP+bmTFEYcGB5974eeJUy3QnrIXuZF3mCTsCclJmtLUTO/p/rg0Nut
-	 4LziOpMyxp43caf0ceNuRjFRf/p247roO84UmFvFV1KXwuGot3VJmMS/uPqF1eGXOPHAX
-	 4xk3agoPrM+TQUIp5qDU3j+QaQxjIZaGaB+3rviDRJVfwSkvQ2kz8fQhKuEI7jmbReg==
+	bh=CrFXQqZImTyTdzq1JyhUooge2du6VO16INEiE6z0KsU=;
+	b=p7IvIXnq70mstBBTFfVdgSM/CUuGiFPoHjW2l/4WVyiVymbGeq+GoYc9W0g/AqaZYnKM
+	 +2ERWJvvJwMpRDdyKr7Yx2HLHTN6OZjk0YPdHP0UOe+EMeJseisjD/U6/PLD80n8Jhr9H
+	 Drq6Fx81fSc+h7vtJH7OhSeX3gUd6McPAgwF9XY6F8GwTPys2vVC9kdx5X9SzDZZL89Wa
+	 lFVdSxHIMkjeYutWQO4LgDB0eO4QPgjLgq8Lab44qEwDrxrCMW16qGPj9nxTYEp5FThht
+	 mZDCyAJFvIXs9DR6GhmwVqt/tfaXIROmXlkApq40miYyNhxYFZ/lA5Nr3hkuvjMPGig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=TnwNEjHG;
-	arc=none smtp.remote-ip=95.215.58.248
-Received: from mta1.migadu.com (out-248.mta1.migadu.com [95.215.58.248])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qNIPEw56;
+	arc=none smtp.remote-ip=95.215.58.1
+Received: from mta1.migadu.com (out-1.mta1.migadu.com [95.215.58.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45D9160A2606
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 08:54:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45D9160A2606
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C225C60A380D
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 08:54:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C225C60A380D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=TnwNEjHG
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=qNIPEw56
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=WIWob8CPC1BsEJZy81fYICtAeoeG+8SX6viRZjO9vQE=;
+DKIM-Signature: a=rsa-sha256; bh=tM7HGf7cYZfxl1BGl3iBn5UcJ++Tp8B1iBd0ZTTM0rA=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794387290; v=1; x=1794992090;
- b=TnwNEjHGDHf/4d9hy33NMTCRg+LPASjHssOb1iOXg0B7ACIvPbt4VAT/eqxM3Cr8Mbk2169E
- PE7QTn8aMebYU7RYBYfbR/DHIyKbe5NdaTq4gT/7k+OhGC6wBOB9//VcJ3HANVbd6BVxWHVY741
- dA6eB5l+1SfuLREPTS5v+ztI=
+ t=1794387292; v=1; x=1794992092;
+ b=qNIPEw56+d6OKOBKXwSZQuG7WVFvUGvPCxS2MZ6Q6ts7SSAkSYn8hQv0PPackJcEUvyev9Eu
+ 4XPcRQJsrp1Arcqw6RU5M5AT5KCQZjsd/0FBEmoWDzpDCYQ+zbpEBBbwifl0W3fmCj+4KhumHBL
+ dn6N1Atd6CSreucZtC1iOtaA=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 170e20bcb6536ab6;
-	Wed, 11 Nov 2026 08:54:50 +0000
-X-Mizu-Trace-ID: 170e20bcb6536ab6
+Received: by smtp.migadu.com with ESMTPS id c236bbaf59a3afe3;
+	Wed, 11 Nov 2026 08:54:52 +0000
+X-Mizu-Trace-ID: c236bbaf59a3afe3
 X-Migadu-Flow: FLOW_OUT
 From: Fuad Tabba <fuad.tabba@linux.dev>
 To: Paolo Bonzini <pbonzini@redhat.com>,
@@ -61,9 +61,9 @@ Cc: kvm@vger.kernel.org,
 	linux-mips@vger.kernel.org,
 	Will Deacon <will@kernel.org>,
 	Fuad Tabba <tabba@google.com>
-Subject: [PATCH 3/7] Documentation: KVM: Fix the function that implements halt polling
-Date: Wed, 11 Nov 2026 08:54:44 +0000
-Message-ID: <20261111085448.1130701-4-fuad.tabba@linux.dev>
+Subject: [PATCH 4/7] Documentation: KVM: Drop the stale number of vCPU request flags
+Date: Wed, 11 Nov 2026 08:54:45 +0000
+Message-ID: <20261111085448.1130701-5-fuad.tabba@linux.dev>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <20261111085448.1130701-1-fuad.tabba@linux.dev>
 References: <20261111085448.1130701-1-fuad.tabba@linux.dev>
@@ -78,28 +78,28 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The generic halt polling code is in kvm_vcpu_halt() since
-commit 91b99ea706578 ("KVM: Rename kvm_vcpu_block() =>
-kvm_vcpu_halt()"), but halt-polling.rst still names kvm_vcpu_block().
+vcpu-requests.rst states that only two request flags are defined, but
+KVM_REQUEST_NO_ACTION is a third. Drop the number.
 
 Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
 ---
- Documentation/virt/kvm/halt-polling.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ Documentation/virt/kvm/vcpu-requests.rst | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/Documentation/virt/kvm/halt-polling.rst b/Documentation/virt/kvm/halt-polling.rst
-index a6790a67e2058..c311aac1ff9e9 100644
---- a/Documentation/virt/kvm/halt-polling.rst
-+++ b/Documentation/virt/kvm/halt-polling.rst
-@@ -22,7 +22,7 @@ savings of not invoking the scheduler are distinguishable.
+diff --git a/Documentation/virt/kvm/vcpu-requests.rst b/Documentation/virt/kvm/vcpu-requests.rst
+index 06718b9bc9597..eedf338d47d6a 100644
+--- a/Documentation/virt/kvm/vcpu-requests.rst
++++ b/Documentation/virt/kvm/vcpu-requests.rst
+@@ -141,8 +141,7 @@ KVM_REQUEST_MASK
  
- The generic halt polling code is implemented in:
+ VCPU requests should be masked by KVM_REQUEST_MASK before using them with
+ bitops.  This is because only the lower 8 bits are used to represent the
+-request's number.  The upper bits are used as flags.  Currently only two
+-flags are defined.
++request's number.  The upper bits are used as flags.
  
--	virt/kvm/kvm_main.c: kvm_vcpu_block()
-+	virt/kvm/kvm_main.c: kvm_vcpu_halt()
- 
- The powerpc kvm-hv specific case is implemented in:
- 
+ VCPU Request Flags
+ ------------------
 -- 
 2.47.3
 
