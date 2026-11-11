@@ -1,98 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.99
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.226
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794376840;
-	b=YT7HZDtZsckjZL9+L+Cas56XRLa1/IKLxzaNNjIx2wzWij74Q3yEeJoou787nAxF8ua6
-	 jehexT0BVtVg5Q1e6nJUK0aWf9jpUTPBkIgBqiY5+8wjU6T6SjSKYq7HTMAZ3xGHVzxhu
-	 KKlBd+qtQl2CghzwA83hfrxUMwCmtV3nZelWGfWxrf+S/2GSZYCPJPy47vwi1avwXKYZ7
-	 cwzeBd6sw6W4ejY6v+Ug6xL4geoD0rpPa6kMf90kN0joxNn7sLO1hi+mlS7Zce4XnGNpY
-	 wex0+sR8gxhK5lIUFYCD09BuNLR1Sck45l16AOwzdq3MtpQYDy/y1JXLa3UHRZKkP1g==
+	t=1794376843;
+	b=tqDUl26dlKjuqzaGUqBURI4js13ToACLL3J6w5N5MIgq+wZbpOSke3roTVNGUysQ4NdJ
+	 UNZrUonYBhQTZcGYi4Rk8hx7YDnoE/7lw6WDT4IJhK4A2ifGJ2jXgc7i8pWCUrpDuXh6T
+	 Ao6pGahMrTKV5/aCUMeukIil3Ngs9y43EqcA68t23tm5xIQxSXt3HnefsqNwbWtzLQBJX
+	 OZqmfaRUX1/4WiI0S5OB2B7+YFKXIbEoc5D90TYfinEibkU2S3ibngZWn0w//pohZiBTU
+	 UYTaCs7d70TMm26pIkZjMr2R+PvGfe0IEMUIkdzl8db0vKBS9jQ0bH3LaoNHpVf6uvg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794376840;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794376843;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
 	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Received:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=Xinb0q2RhrG3aZtWkosSNECDDlqXXXklCJemB2uKTO0=;
-	b=AbrBAlyv1vkgBXxoOgkQEfYtJvCS3+eMZWHWvriBFB9MLSfFONukG8N4U1zEij8UwTDa
-	 9jl4eRDsj/tpQnWrjZMfNyBpm+9KtYT5KkqxiCSaBGkpg/+JY6NiyKeoANZCt5RGUrb+z
-	 8xEJsXtuwmkBY+o838XWZqYnR7Nrw5QNMdxm8enRjzn/Nl4imyGp4kjRY5ZXDhoi85IW1
-	 cHWSN0fkKJrJPp6LSh/BBoRM5se55RdcKSQYVKvdaj2+mCL3bxFvMSVEksvbBuXJoiR3t
-	 j7GzhBOcrE1MCPkOxr2myMhOYjiBllh2yYft/xzKI5IBK3TvDJUh+7dxN8QWfCRF4lA==
+	bh=Vgb5KbfLXjqL8iV/MCTqSzX96RhTYAbLrdtarSFXk0A=;
+	b=o/ntSLwdVgr+vZQoeZnDWSGNUrM8VZSKkR3zA2QkQT/kVLkjko83x9Yl8iccPFCXuRuY
+	 wcPzsNwmjY8N+FBXw8lwSDJkuKdv3smsYZY456AjfJmCsS6r3cC2EXTzKcAsQV7h3oO1E
+	 6k0TDybEIYlm0kQ+nysGKNQGvsgdFHMmbvCG/Ks22awq1q15ocCQ9SsEhsUIPO6iQgB00
+	 wZHQxMnhsU6Q/L5JakPA6r6pDn7N9LxVVU7fMPxd3mLGYamhSwYjJHytdRI2CH6KS3zgx
+	 EpaTGRTLTvWTqtjaPgnz1V+WpysMQLgCBnpAqSgiEzr78eARCrZN40dNgDUbGIwtHbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=broadcom.com;
 	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=aJv5ozIY;
-	arc=none smtp.remote-ip=209.85.161.99
-Received: from mail-oo1-f99.google.com (mail-oo1-f99.google.com [209.85.161.99])
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=YO8gsR4f;
+	arc=none smtp.remote-ip=209.85.215.226
+Received: from mail-pg1-f226.google.com (mail-pg1-f226.google.com [209.85.215.226])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B3360A261D
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 06:00:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20B3360A261D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F077660A5BC1
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 06:00:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F077660A5BC1
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=aJv5ozIY
-Received: by mail-oo1-f99.google.com with SMTP id 006d021491bc7-714d57774d8so1800065eaf.1
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:00:40 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=YO8gsR4f
+Received: by mail-pg1-f226.google.com with SMTP id 41be03b00d2f7-cdb45e96d2bso1169727a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:00:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794376839; x=1794981639;
+        d=1e100.net; s=20260707; t=1794376842; x=1794981642;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Xinb0q2RhrG3aZtWkosSNECDDlqXXXklCJemB2uKTO0=;
-        b=z/TjCzmxKa2oz2+eJXOFKPjWS1CsFF3e4Er0ILsQjxQj5oeVqzNjnDqME+LL2gLs5e
-         0oGEGs9jKraR3xea4H2Hn2Nz51/4YNyrsep9HTnmmfKStwQaSB5B3ynyhX0nvpqwl48y
-         8iugXgJO+inanqfKsMRcKXRQroYAyj+1wP33IEeBGCGuxXxmj5j41AxeBNi9PpK+KdGu
-         V09Avqq8EKRNAglRRsgKuglbLYvkwMZNpCcbJkktycq0dr74kKv/lpb5sPkVtCB1zfpv
-         6jV2bWAAe/TwiPvz0viY6mG2VgF6afVOJ6a+lFbIUkk2x62FiLGJVlUBUyLQyjtNyNh/
-         9M5w==
-X-Forwarded-Encrypted: i=1; AL+hErFJDUJg1F70nhNzaTnL5ZkvewNCvN2XUmXf6ee0PAM+ES7SGZlgdwHbrqjfIwKoA34vLy48P5maZGA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+qGjYP1jRAd8ehwsKlSvHgeabLAG+SR11wQSea8IJjETdpZrQ7
-	3qpNQhcHtMsAT6ls3sDXSOlbTf46z/pzDHjis+cJRRqy8TZGqQnhIB/6uU5CnT0UywUcfiF/bmj
-	mQP2ZwPy2oBELOCFeQc3ucgZlUzjPPq+aXOl05PQ9mcEr3Zxr0SAPpDlw1DrmgXEKod/2igch1w
-	gjR7jfS2XCaWNEnZUYggYcqD7d+7TPmvRzhmFBbITKrX3+Ip9tNLAxficKrlybacCc4A56UT+I6
-	aW/4PQKwgus
-X-Gm-Gg: AYBFou3lbXvFcyo48gDdwfhesQYt1SOswVpS2uJGg+4a365qnb4oiJK8L9JE1LabzqS
-	HpbsOWkPOqjjX3WHY1k3VaT/oHys4jR4Ujk+o1yAzEJl7UCqdNPurRgFLcSQWzu3e8RBsecIyXv
-	O2oDUb0LtIHAZOMxpgUWA2537xoGCtkSCxKVOpofR3Rtn2swlcaiuY7K+qNgfFOh0HZsr1R8KQ8
-	LaKZLfTzQIY9M9V9Rpxh/ImHRanR1rd1d9XGXUUXdj1potElNFLNvmCP+CAsQLeS11i+qzXBaGE
-	cK2d9gAXI4Hb2Z+hUSnK2HhjjIF72NmkwJHQ1cll0nCtxf8rjSr9Rzwbp/hndaE9O9rfT21tABU
-	Ks+80JkriGJdayCTT0+LlKHKpaDqDE5j5JYBH+mhjbG2nJcFRZUtp8u3Y8of6C5pcUJofjHfTN9
-	wjyDjfFodrRr0YVmBm6eHEntQe9ByKYi+E
-X-Received: by 2002:a05:6820:4281:b0:6d8:462d:2756 with SMTP id 006d021491bc7-71917839b13mr803603eaf.43.1794376838857;
-        Tue, 10 Nov 2026 22:00:38 -0800 (PST)
+        bh=Vgb5KbfLXjqL8iV/MCTqSzX96RhTYAbLrdtarSFXk0A=;
+        b=OcFguCxwjzTscXA5TUb1zYfApnYuyUOezWPNkzY8o2bsLZVpoMsGdg6eIyMaoIKg18
+         ApXc+atNLtpOtpDvebNZO15gdxs96fAFGSOMwSFt5WQYCZmxKO0FusYlKPM9B5pYDxqV
+         r3MdZy9/+BwitgKrV0Zspdz7iJDjfB/tNqcyWj7PzA08a8Ooa9itPc2r2h2PoIABKRTe
+         5H2zInyAqs+iTi3/fvT5xmuNiW5S60UPdKXCqlRGN+EBsovtiQCHBlG1aCTz6rJNT0m6
+         98y4LtAPikztA/CbCU/RpnVqP0n/KfZ7Xf7+mVRfrEsHFCxHCUXi0Cy+Ql9KLgHXREdf
+         YELw==
+X-Forwarded-Encrypted: i=1; AL+hErE75FKePopmY5Bnfd1BkDlMGOBGsr8wIVSsjwQuwxpCf5hrukITbDRNdWAPdu2RhPvTXoPa+z20AeM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8wosul74zP+azQ09gBgaDMF4JzzbZREs+sj7A2QvWQ+DJ/amnO
+	DbxhnIcFkbs13bU+p52bgPb+SVnX7oyiJt/2dcelqooI0t1jdu1J34WN5VfzdljX1u1fURIjplw
+	ZJWS6xLcdMhjFuGcFNlWopNvSwqAzkbCMNfyMZWdREND/ZJWSSbuegqUzxTFM7lJx9NVC8aK2Ru
+	/OAMWoIaNIM3kYdwA7t9ZLApSz6TJDkel2PV/jxKYLIOK5MQASe2J00D48mIkY4f0nvhp7bCOCQ
+	s/0u8CocXEH
+X-Gm-Gg: AYBFou2U6zuxAyyu/I9/M/XIFsMtNf3bHKM4ZJm+tsRz46z3i1G2+nYHfOcow6vx4jA
+	gtKiwsdL4e0+LL9jA/GB1pCvepdSMVg/3RxOvkH4aBQIR6IjDT5bBHeQ51pffvuk8SrXlxhiJ7c
+	qLAb7KtAhv63Qr/95DVNTaWDhidVSolXj+zNbsikLmKeYdYRc/K3om2Qa3eqQVENPHDfZuAcdDz
+	IgqE6AxjshxcTA5KbGK0r5Rp35f878huIa8p+GUjePh/v9vUJ6usNVKRC4gE/FvjXa9sXyvt33S
+	rcIvoIIuzXxELgjNbUNQCViFKDyHdSSePuJdIJ3ysi43y40OhDYs863H3NDeiPAnqG5x0598CdR
+	kQ/0BfXHLYQRSE2ysIrpceQR4WxmXZM6fDuuyHEgZ/f31VpMgiS4lpahrifdSw0rYm42o6ixW+/
+	OQWU4dUXEb1nEb2euSOqF2Rri7QB1j8I7A
+X-Received: by 2002:a17:90b:3a10:b0:3b0:aaa3:ce8c with SMTP id 98e67ed59e1d1-3b182f660f8mr1398440a91.14.1794376842277;
+        Tue, 10 Nov 2026 22:00:42 -0800 (PST)
 Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-28.dlp.protect.broadcom.com. [144.49.247.28])
-        by smtp-relay.gmail.com with ESMTPS id 006d021491bc7-718a9066a03sm39735eaf.12.2026.11.10.22.00.37
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b17db37301sm1375574a91.0.2026.11.10.22.00.40
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Tue, 10 Nov 2026 22:00:38 -0800 (PST)
+        Tue, 10 Nov 2026 22:00:42 -0800 (PST)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f559420f3so328121085a.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:00:37 -0800 (PST)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93f62934ef6so651170485a.3
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 22:00:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794376837; x=1794981637; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1794376839; x=1794981639; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Xinb0q2RhrG3aZtWkosSNECDDlqXXXklCJemB2uKTO0=;
-        b=aJv5ozIYRvdfCr8jUG6VH7DecLbe7I8ddpxe9bdPR+nDo3863D2cUY7UZtAQkDaQbF
-         Pov+NfzK1lHUpg8Y2HRCXyyqb3ncq7zbIeRJqrdgEdKr2+fSf7intJguoPVE8SnlcXrw
-         HysvVrdlRtFxca71lOH9M7TbE+U2jNwXgp6ME=
-X-Forwarded-Encrypted: i=1; AL+hErFVyTnUIrBTQKrzT1YMoHSE54mxPt225Q4l3pOrgLxio+vXfCPEBc8QzcITPe5Va26bSjJcvC6EKxQ=@vger.kernel.org
-X-Received: by 2002:a05:620a:1b94:b0:93b:d7a2:dd2b with SMTP id af79cd13be357-947b00082bfmr202727685a.59.1794376836550;
-        Tue, 10 Nov 2026 22:00:36 -0800 (PST)
-X-Received: by 2002:a05:620a:1b94:b0:93b:d7a2:dd2b with SMTP id af79cd13be357-947b00082bfmr202720285a.59.1794376836004;
-        Tue, 10 Nov 2026 22:00:36 -0800 (PST)
+        bh=Vgb5KbfLXjqL8iV/MCTqSzX96RhTYAbLrdtarSFXk0A=;
+        b=YO8gsR4fYDDlhERZZDonCaPPpQ77QNj5fspgq1GVoGUlu3tXoHFb9jM8VAwviT4Wqs
+         /Ym5rEFYjvw+yptsub7G2Go2IBxFCMswJpgSxL56SU2Us4WKbic0yOyvuglA3rW7nS7q
+         AdzUqHqlNgpANU81RZ0TkzLgNhZx/B88ZWtrg=
+X-Forwarded-Encrypted: i=1; AL+hErGbOC7a/cU4/uq6jh+GfcnA8oqvppT5c52aY6TFrWfJvwm5Hfob5VekW5PVbTAHDT5+xEKzpUR/Bp0=@vger.kernel.org
+X-Received: by 2002:a05:620a:1a25:b0:93f:5f83:2ca3 with SMTP id af79cd13be357-947b007e993mr212498285a.54.1794376839255;
+        Tue, 10 Nov 2026 22:00:39 -0800 (PST)
+X-Received: by 2002:a05:620a:1a25:b0:93f:5f83:2ca3 with SMTP id af79cd13be357-947b007e993mr212492885a.54.1794376838652;
+        Tue, 10 Nov 2026 22:00:38 -0800 (PST)
 Received: from vertex.localdomain (pool-173-49-113-140.phlapa.fios.verizon.net. [173.49.113.140])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7e7f3bsm411506885a.37.2026.11.10.22.00.29
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9479e7e7f3bsm411506885a.37.2026.11.10.22.00.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 22:00:30 -0800 (PST)
+        Tue, 10 Nov 2026 22:00:37 -0800 (PST)
 From: Zack Rusin <zack.rusin@broadcom.com>
 To: Sean Christopherson <seanjc@google.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
@@ -120,9 +120,9 @@ Cc: Doug Covelli <doug.covelli@broadcom.com>,
 	bcm-kernel-feedback-list@broadcom.com,
 	linux-kernel@vger.kernel.org,
 	Zack Rusin <zack.rusin@broadcom.com>
-Subject: [PATCH v3 08/12] KVM: selftests: Add helpers to run x86 guest code in user mode
-Date: Wed, 11 Nov 2026 00:59:57 -0500
-Message-ID: <e2a6f09d80b30aa2ab14f013f5b344156a7f89cb.1794374897.git.zack.rusin@broadcom.com>
+Subject: [PATCH v3 09/12] KVM: selftests: Port VMware backdoor coverage
+Date: Wed, 11 Nov 2026 00:59:58 -0500
+Message-ID: <4dca09deb85d2d5db157888ae4a2de7cbf6421d2.1794374897.git.zack.rusin@broadcom.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1794374897.git.zack.rusin@broadcom.com>
 References: <cover.1794374897.git.zack.rusin@broadcom.com>
@@ -138,138 +138,335 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-Add vm_init_user_mode() and vcpu_enter_user_mode().  The former installs
-flat 64-bit user code and data segments, makes the guest memory mapped
-so far accessible to user mode, and gives the TSS a kernel stack and no
-I/O permission bitmap; the latter switches a vCPU to CPL3.
+Add vmware_backdoor_test, adapted from KVM-unit-tests' vmware_backdoors
+test.  From CPL3, with CR4.PCE clear and no I/O permission bitmap in
+the TSS, read the VMware pseudo-PMCs with RDPMC and issue backdoor
+commands on the backdoor port with IN.  Verify that the pseudo-PMC
+reads succeed and the port accesses exit to userspace only when the
+backdoor is enabled and raise #GP otherwise, and that other PMC indices
+and ports always raise #GP.  Repeat the pseudo-PMC checks at CPL3 with
+CR4.PCE set and at CPL0, where RDPMC doesn't fault before KVM handles
+it.  Skip the pseudo-PMC checks if KVM doesn't virtualize a PMU, as KVM
+then injects #GP for every RDPMC.
 
-The selftest infrastructure only sets up CPL0, but testing the VMware
-backdoor requires guest code at CPL3, where the I/O permission checks
-and CR4.PCE apply.  Provide the setup once instead of open coding it in
-each test.
+Run the checks for a VM that relies on the enable_vmware_backdoor
+default and for a VM that enables KVM_VMWARE_ENABLE_BACKDOOR, and
+verify that KVM_CAP_X86_VMWARE rejects every flag it doesn't report.
+KVM-unit-tests can only cover the module parameter, which applies to
+every VM, while the selftest also covers the per-VM capability.
 
+Suggested-by: Sean Christopherson <seanjc@google.com>
+Link: https://lore.kernel.org/r/aIEoNpe-LFoH6LBm@google.com
 Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
 ---
- .../selftests/kvm/include/x86/processor.h     |  7 ++
- .../testing/selftests/kvm/lib/x86/processor.c | 87 +++++++++++++++++++
- 2 files changed, 94 insertions(+)
+ MAINTAINERS                                   |   1 +
+ tools/testing/selftests/kvm/Makefile.kvm      |   1 +
+ .../selftests/kvm/x86/vmware_backdoor_test.c  | 272 ++++++++++++++++++
+ 3 files changed, 274 insertions(+)
+ create mode 100644 tools/testing/selftests/kvm/x86/vmware_backdoor_test.c
 
-diff --git a/tools/testing/selftests/kvm/include/x86/processor.h b/tools/testing/selftests/kvm/include/x86/processor.h
-index 3e4351ccb359..f7fd4aafccae 100644
---- a/tools/testing/selftests/kvm/include/x86/processor.h
-+++ b/tools/testing/selftests/kvm/include/x86/processor.h
-@@ -1310,6 +1310,13 @@ void vm_install_exception_handler(struct kvm_vm *vm, int vector,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 017053e8f76e..39fa67a180f5 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15050,6 +15050,7 @@ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/virt/kvm/kvm.git
+ T:	git https://github.com/kvm-x86/linux.git
+ F:	arch/x86/kvm/vmware.*
++F:	tools/testing/selftests/kvm/x86/vmware_backdoor_test.c
  
- gva_t vm_alloc_stack(struct kvm_vm *vm, int nr_pages);
- 
-+/* Flat 64-bit code and data segments for user mode, see vm_init_user_mode(). */
-+#define USER_CS_SELECTOR	0x28
-+#define USER_DS_SELECTOR	0x30
-+
-+void vm_init_user_mode(struct kvm_vm *vm);
-+void vcpu_enter_user_mode(struct kvm_vcpu *vcpu);
-+
- /*
-  * Exception fixup morphs #DE to an arbitrary magic vector so that '0' can be
-  * used to signal "no expcetion".
-diff --git a/tools/testing/selftests/kvm/lib/x86/processor.c b/tools/testing/selftests/kvm/lib/x86/processor.c
-index ee8a1715d844..6099d386abe9 100644
---- a/tools/testing/selftests/kvm/lib/x86/processor.c
-+++ b/tools/testing/selftests/kvm/lib/x86/processor.c
-@@ -768,6 +768,93 @@ void vm_install_exception_handler(struct kvm_vm *vm, int vector,
- 	handlers[vector] = (gva_t)handler;
- }
- 
-+struct tss64 {
-+	u32 reserved0;
-+	u64 rsp0;
-+	u64 rsp1;
-+	u64 rsp2;
-+	u64 reserved1;
-+	u64 ist[7];
-+	u64 reserved2;
-+	u16 reserved3;
-+	u16 iomap_base;
-+} __packed;
-+
-+static void kvm_seg_set_user_code_64bit(struct kvm_segment *segp)
-+{
-+	kvm_seg_set_kernel_code_64bit(segp);
-+	segp->selector = USER_CS_SELECTOR | 3;
-+	segp->dpl = 3;
-+}
-+
-+static void kvm_seg_set_user_data_64bit(struct kvm_segment *segp)
-+{
-+	kvm_seg_set_kernel_data_64bit(segp);
-+	segp->selector = USER_DS_SELECTOR | 3;
-+	segp->dpl = 3;
-+}
-+
-+static void virt_set_user_pte(struct kvm_vm *vm, gva_t gva)
-+{
-+	struct kvm_mmu *mmu = &vm->mmu;
-+	u64 *pte = &mmu->pgd;
-+	int level;
-+
-+	for (level = mmu->pgtable_levels; level >= PG_LEVEL_4K; level--) {
-+		pte = virt_get_pte(vm, mmu, pte, gva, level);
-+		TEST_ASSERT(is_present_pte(mmu, pte),
-+			    "PTE not PRESENT at level %d for gva: 0x%lx",
-+			    level, gva);
-+		*pte |= PTE_USER_MASK(mmu);
-+		if (is_huge_pte(mmu, pte))
-+			break;
-+	}
-+}
-+
+ KVM X86 Xen (KVM/Xen)
+ M:	David Woodhouse <dwmw2@infradead.org>
+diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
+index 95867977beb3..0ef08d7783ae 100644
+--- a/tools/testing/selftests/kvm/Makefile.kvm
++++ b/tools/testing/selftests/kvm/Makefile.kvm
+@@ -140,6 +140,7 @@ TEST_GEN_PROGS_x86 += x86/sync_regs_test
+ TEST_GEN_PROGS_x86 += x86/ucna_injection_test
+ TEST_GEN_PROGS_x86 += x86/userspace_io_test
+ TEST_GEN_PROGS_x86 += x86/userspace_msr_exit_test
++TEST_GEN_PROGS_x86 += x86/vmware_backdoor_test
+ TEST_GEN_PROGS_x86 += x86/vmx_apic_access_test
+ TEST_GEN_PROGS_x86 += x86/vmx_apicv_updates_test
+ TEST_GEN_PROGS_x86 += x86/vmx_exception_with_invalid_guest_state
+diff --git a/tools/testing/selftests/kvm/x86/vmware_backdoor_test.c b/tools/testing/selftests/kvm/x86/vmware_backdoor_test.c
+new file mode 100644
+index 000000000000..e4e87d2ce3c3
+--- /dev/null
++++ b/tools/testing/selftests/kvm/x86/vmware_backdoor_test.c
+@@ -0,0 +1,272 @@
++// SPDX-License-Identifier: GPL-2.0-only
 +/*
-+ * Prepare @vm for running guest code at CPL3: install flat user-mode code and
-+ * data segments, make all memory that is currently mapped accessible to user
-+ * mode, and give the TSS a kernel stack so that exceptions from user mode can
-+ * be delivered.  The TSS has no I/O permission bitmap, i.e. user mode can't
-+ * access I/O ports unless IOPL allows it.  Call this after allocating all
-+ * memory, vCPUs included, that user mode needs.  All vCPUs share the kernel
-+ * stack.
++ * Copyright (C) 2025-2026 Broadcom. All Rights Reserved. The term
++ * "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
++ *
++ * Adapted from kvm-unit-tests' x86/vmware_backdoors.c.
 + */
-+void vm_init_user_mode(struct kvm_vm *vm)
++
++#include "kvm_util.h"
++#include "processor.h"
++#include "test_util.h"
++
++#define VMWARE_BACKDOOR_PMC_HOST_TSC		0x10000
++#define VMWARE_BACKDOOR_PMC_REAL_TIME		0x10001
++#define VMWARE_BACKDOOR_PMC_APPARENT_TIME	0x10002
++
++#define VMWARE_BACKDOOR_PORT	0x5658
++#define VMWARE_MAGIC		0x564d5868
++#define VMPORT_CMD_GETVERSION	0x0a
++#define VMPORT_CMD_ILLEGAL	0xfff
++#define VMPORT_DEFAULT_RETVAL	0xdeadbeef
++#define RANDOM_IO_PORT		0x1234
++#define RANDOM_PMC		0xfff
++
++struct insn_result {
++	u64 value;
++	u8 vector;
++};
++
++struct backdoor_results {
++	struct insn_result pmc[4];
++	struct insn_result port[3];
++};
++
++enum backdoor_mode {
++	USER_MODE,		/* CPL3, CR4.PCE clear */
++	USER_MODE_PCE,		/* CPL3, CR4.PCE set */
++	KERNEL_MODE,		/* CPL0 */
++};
++
++static struct backdoor_results results;
++static bool expect_backdoor;
++static bool test_pmcs;
++
++static struct insn_result guest_rdpmc(u32 pmc)
 +{
-+	struct tss64 *tss = addr_gva2hva(vm, vm->arch.tss);
-+	sparsebit_idx_t begin, end, page;
-+	struct kvm_segment seg;
++	struct insn_result result;
++	u32 eax;
++	u32 edx;
++	u64 error_code;
 +
-+	kvm_seg_set_user_code_64bit(&seg);
-+	kvm_seg_fill_gdt_64bit(vm, &seg);
-+	kvm_seg_set_user_data_64bit(&seg);
-+	kvm_seg_fill_gdt_64bit(vm, &seg);
-+
-+	tss->rsp0 = vm_alloc_stack(vm, 1);
-+	tss->iomap_base = sizeof(*tss);
-+
-+	sparsebit_for_each_set_range(vm->vpages_mapped, begin, end) {
-+		for (page = begin; page <= end; page++)
-+			virt_set_user_pte(vm, page << vm->page_shift);
-+	}
++	asm volatile(KVM_ASM_SAFE("rdpmc")
++		     : "=a"(eax), "=d"(edx),
++		       KVM_ASM_SAFE_OUTPUTS(result.vector, error_code)
++		     : "c"(pmc)
++		     : KVM_ASM_SAFE_CLOBBERS);
++	result.value = ((u64)edx << 32) | eax;
++	return result;
 +}
 +
-+/* Run @vcpu at CPL3 using the segments installed by vm_init_user_mode(). */
-+void vcpu_enter_user_mode(struct kvm_vcpu *vcpu)
++static struct insn_result guest_inl(u16 port, u32 command)
++{
++	struct insn_result result;
++	unsigned long rax = VMPORT_DEFAULT_RETVAL;
++	unsigned long rbx = VMPORT_DEFAULT_RETVAL;
++	unsigned long rcx = command;
++	unsigned long rdx = port;
++	u64 error_code;
++
++	asm volatile(KVM_ASM_SAFE("inl %%dx, %%eax")
++		     : "+a"(rax), "+b"(rbx), "+c"(rcx), "+d"(rdx),
++		       KVM_ASM_SAFE_OUTPUTS(result.vector, error_code)
++		     :
++		     : KVM_ASM_SAFE_CLOBBERS);
++	result.value = rbx;
++	return result;
++}
++
++static void guest_read_pmcs(void)
++{
++	results.pmc[0] = guest_rdpmc(VMWARE_BACKDOOR_PMC_HOST_TSC);
++	results.pmc[1] = guest_rdpmc(VMWARE_BACKDOOR_PMC_REAL_TIME);
++	results.pmc[2] = guest_rdpmc(VMWARE_BACKDOOR_PMC_APPARENT_TIME);
++	results.pmc[3] = guest_rdpmc(RANDOM_PMC);
++}
++
++static void guest_check_pmcs(void)
++{
++	int i;
++
++	for (i = 0; i < 3; i++) {
++		GUEST_ASSERT_EQ(results.pmc[i].vector,
++				expect_backdoor ? 0 : GP_VECTOR);
++		if (expect_backdoor)
++			GUEST_ASSERT_NE(results.pmc[i].value, 0);
++	}
++	GUEST_ASSERT_EQ(results.pmc[3].vector, GP_VECTOR);
++}
++
++static void guest_done_handler(struct ex_regs *regs)
++{
++	if (test_pmcs)
++		guest_check_pmcs();
++
++	GUEST_ASSERT_EQ(results.port[0].vector,
++			expect_backdoor ? 0 : GP_VECTOR);
++	GUEST_ASSERT_EQ(results.port[1].vector,
++			expect_backdoor ? 0 : GP_VECTOR);
++	if (expect_backdoor)
++		GUEST_ASSERT_EQ(results.port[0].value, VMWARE_MAGIC);
++	GUEST_ASSERT_EQ(results.port[2].vector, GP_VECTOR);
++
++	GUEST_DONE();
++}
++
++static void guest_user_code(void)
++{
++	if (test_pmcs)
++		guest_read_pmcs();
++
++	results.port[0] = guest_inl(VMWARE_BACKDOOR_PORT,
++				    VMPORT_CMD_GETVERSION);
++	results.port[1] = guest_inl(VMWARE_BACKDOOR_PORT,
++				    VMPORT_CMD_ILLEGAL);
++	results.port[2] = guest_inl(RANDOM_IO_PORT, VMPORT_CMD_ILLEGAL);
++
++	asm volatile("int3");
++}
++
++/* At CPL0, only the pseudo-PMCs depend on the backdoor. */
++static void guest_kernel_code(void)
++{
++	guest_read_pmcs();
++	guest_check_pmcs();
++	GUEST_DONE();
++}
++
++static void handle_vmware_port(struct kvm_vcpu *vcpu)
++{
++	struct kvm_run *run = vcpu->run;
++	struct kvm_regs regs;
++	u32 *data;
++
++	TEST_ASSERT_EQ(run->io.direction, KVM_EXIT_IO_IN);
++	TEST_ASSERT_EQ(run->io.size, 4);
++	TEST_ASSERT_EQ(run->io.count, 1);
++	TEST_ASSERT_EQ(run->io.port, VMWARE_BACKDOOR_PORT);
++
++	data = (void *)run + run->io.data_offset;
++	*data = 0;
++
++	vcpu_regs_get(vcpu, &regs);
++	regs.rbx = VMWARE_MAGIC;
++	vcpu_regs_set(vcpu, &regs);
++}
++
++static void test_unsupported_flags(u64 supported)
++{
++	struct kvm_vm *vm = vm_create_barebones();
++	int bit, ret;
++
++	for (bit = 0; bit < 64; bit++) {
++		if (supported & BIT_ULL(bit))
++			continue;
++
++		errno = 0;
++		ret = __vm_enable_cap(vm, KVM_CAP_X86_VMWARE, BIT_ULL(bit));
++		TEST_ASSERT(ret == -1 && errno == EINVAL,
++			    "Unsupported VMware flag %d: ret=%d errno=%d",
++			    bit, ret, errno);
++	}
++	kvm_vm_free(vm);
++}
++
++static void run_backdoor_test(bool enable_cap, bool expected,
++			      enum backdoor_mode mode)
 +{
 +	struct kvm_sregs sregs;
++	struct idt_entry *idt;
++	struct kvm_vcpu *vcpu;
++	struct kvm_vm *vm;
++	int port_exits = 0;
 +
-+	vcpu_sregs_get(vcpu, &sregs);
-+	kvm_seg_set_user_code_64bit(&sregs.cs);
-+	kvm_seg_set_user_data_64bit(&sregs.ds);
-+	sregs.es = sregs.ds;
-+	sregs.fs = sregs.ds;
-+	sregs.gs = sregs.ds;
-+	sregs.ss = sregs.ds;
-+	vcpu_sregs_set(vcpu, &sregs);
++	expect_backdoor = expected;
++	memset(&results, 0, sizeof(results));
++
++	vm = vm_create(1);
++	sync_global_to_guest(vm, expect_backdoor);
++	sync_global_to_guest(vm, test_pmcs);
++	sync_global_to_guest(vm, results);
++	if (enable_cap)
++		vm_enable_cap(vm, KVM_CAP_X86_VMWARE,
++			      KVM_VMWARE_ENABLE_BACKDOOR);
++	if (mode == KERNEL_MODE) {
++		vcpu = vm_vcpu_add(vm, 0, guest_kernel_code);
++	} else {
++		vcpu = vm_vcpu_add(vm, 0, guest_user_code);
++
++		idt = addr_gva2hva(vm, vm->arch.idt);
++		idt[BP_VECTOR].dpl = 3;
++		vm_install_exception_handler(vm, BP_VECTOR, guest_done_handler);
++		vm_init_user_mode(vm);
++		vcpu_enter_user_mode(vcpu);
++	}
++
++	if (mode == USER_MODE_PCE) {
++		vcpu_sregs_get(vcpu, &sregs);
++		sregs.cr4 |= X86_CR4_PCE;
++		vcpu_sregs_set(vcpu, &sregs);
++	}
++
++	for (;;) {
++		struct kvm_run *run = vcpu->run;
++		struct ucall uc;
++
++		vcpu_run(vcpu);
++		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
++
++		if (run->io.port == VMWARE_BACKDOOR_PORT) {
++			TEST_ASSERT(expected,
++				    "Disabled VMware backdoor reached userspace");
++			handle_vmware_port(vcpu);
++			port_exits++;
++			continue;
++		}
++
++		switch (get_ucall(vcpu, &uc)) {
++		case UCALL_ABORT:
++			REPORT_GUEST_ASSERT(uc);
++			break;
++		case UCALL_DONE:
++			TEST_ASSERT_EQ(port_exits,
++				       expected && mode != KERNEL_MODE ? 2 : 0);
++			kvm_vm_free(vm);
++			return;
++		default:
++			TEST_FAIL("Unexpected ucall 0x%lx", uc.cmd);
++		}
++	}
 +}
 +
- void assert_on_unhandled_exception(struct kvm_vcpu *vcpu)
- {
- 	struct ucall uc;
++int main(int argc, char *argv[])
++{
++	unsigned int supported = kvm_check_cap(KVM_CAP_X86_VMWARE);
++	enum backdoor_mode mode;
++	bool module_default;
++
++	TEST_REQUIRE(supported & KVM_VMWARE_ENABLE_BACKDOOR);
++
++	test_unsupported_flags(supported);
++
++	/* KVM serves the pseudo-PMCs only if it virtualizes a PMU. */
++	test_pmcs = kvm_is_pmu_enabled();
++	if (!test_pmcs)
++		ksft_print_msg("vPMU disabled, skipping pseudo-PMC checks\n");
++
++	module_default = get_kvm_param_bool("enable_vmware_backdoor");
++	run_backdoor_test(false, module_default, USER_MODE);
++	run_backdoor_test(true, true, USER_MODE);
++
++	/*
++	 * RDPMC at CPL0, or at CPL3 with CR4.PCE set, doesn't raise the #GP
++	 * that the emulator handles, so check the pseudo-PMCs there as well.
++	 */
++	if (test_pmcs) {
++		for (mode = USER_MODE_PCE; mode <= KERNEL_MODE; mode++) {
++			run_backdoor_test(false, module_default, mode);
++			run_backdoor_test(true, true, mode);
++		}
++	}
++	return 0;
++}
 -- 
 2.53.0
 
