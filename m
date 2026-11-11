@@ -1,115 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794355258;
-	b=tXu1bq6J5os4YepxcvGyOSeEu84xYxhckYrg6XR1otxGuqxMDV46xUcHU10rd+PsGk17
-	 qUoP8DoemznxbDwwMUgl7N1sCFpVzF3+Sf/d3t4E6SM/WWxRYu3FN96lK5Gf5uzHhwcRK
-	 MuyRGQZv2qVOcJrbsyIvsd7K9lt2yCqCFrn571hXkP9B5iDhqTua2nwBadpaaycTSuu9p
-	 xDwNX1NNoTA3J8+SShhsjW61AnM2KX0uKHaJb6dLiYDZ/AxK94jyzPpKH6IUk3lVvojf+
-	 nqDYKxcUPYeBHwVr7nKhW8RTc809PKm4mtP8OdkN/R5KvF7pJh+xXj5PyN1cYTnTI1g==
+	t=1794355554;
+	b=k8vIcpYODXzAhk/KtdCnRqIn7CjJpsMNbzEwoLJSfQtNGpzG2UMrGffyyXQSgvhMJ4x4
+	 VvfdtpNH5Gzt9lqro7YnqBiF8Ls+9XPlK6xvET8XzoOvAPDyb5abspP8SP2QSFmlr0jpF
+	 R0hlr9Sv521rtUN4d2BR8RuJnLiV0dVm01RPL8aI02P7s0xcvf7V38QR5I4anBl6zDvhf
+	 j6vr1yW2OXbx8V4U3asIU55OltWBQuxXtDQ8H9Y3qF2O1NVBBjKfu+BfIHZq+IhkIwpYu
+	 edJXUc/9qNi+eyTpqhOS3nqEkiLKHl/k/Vz9Ty9S3AnvuvOH4aGTnL9iQMUXsf0SQFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794355258;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794355554;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=bYaErAxQk82jgbOAPhvOLDjqMW7sA/6+9+NevIx4alw=;
-	b=K+SNxP4Mx48HGLdUvsNZCXUAxtQ9KnWphgmdRW9Ivb+mp1n7h2qjobbwL7qdfZdfzwp6
-	 XkCwVX6buPVj+FclNocIfZ9xkpDxXWBS2IlXYXE/4qIUn5L80NTJOplKlew/PNHFmYFJD
-	 0vZU/NYcKDwI7EtBH1CVRUKLpHJPSfjgrfWOuK78CLA5qDIkN8oH2YBT/5Hyd/BZIGaSW
-	 Ry+t/L3yUh2gQ9qOmBarUmydsm0RHAgP8ygpcYplYzHiXnjK7q4oV/lvqpzc2Fn78FRni
-	 uOB45Y4h5JEpBNKH2CZMBClXLj2hjpY/szQK1ngqnImoYg5Z+bWg2tg8spwgXHLYIHw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Bu79jnLYOYZ0lwXrvvCFZpjbtsmUaJ7g+2H7bpOxRio=;
+	b=Go3UqqD9g+LyF8VYUlnyyMemIxea7pOT4IWIV7zlNnmY1KbfHx6P0a0UNWGOf53EDHvm
+	 +j1HTwjjVX+01cpnGiGD/y5bDPb4mnn65bmVxZdc8+uo5Bash9zq6egPAXG2cpTWQz8RX
+	 +UvMsBzNq8mXQUjiK+H+YY+h6DMqsHL3DVmfL0J5kyD8iNxETlJ9MXF3BgRZF2IgBiI9v
+	 hMLgUdFR+6tveJu395wlhf6FvohRpCpzrg+w7xRVkdCaB14Yjs3gK1ieEzZ/4e6YhhUl+
+	 uSTalJLhB8/3dbqS0y1q74brE6ctbnC2WMianx4fKQXIw14tNMRd3B+DvKBg72hiOpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t9TAbB+g;
-	arc=none smtp.remote-ip=74.125.229.4
-Received: from mail-dy2-f4.google.com (mail-dy2-f4.google.com [74.125.229.4])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MpV1k9cV;
+	arc=none smtp.remote-ip=209.85.210.181
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC2F606A326
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:00:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FC2F606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 871B9606A321
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 00:05:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 871B9606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=t9TAbB+g
-Received: by mail-dy2-f4.google.com with SMTP id 5a478bee46e88-36f758312e0so1267572eec.0
-        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:00:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=MpV1k9cV
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-8a06e79e152so1466378b3a.0
+        for <linux-doc@vger.kernel.org>; Tue, 10 Nov 2026 16:05:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794355257; x=1794960057; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bYaErAxQk82jgbOAPhvOLDjqMW7sA/6+9+NevIx4alw=;
-        b=t9TAbB+gGdTcVq3NKRacPVt0N7MjkADs80KixPKvho+VsCVkoONwqkO/yJ/R8u5s2t
-         sU9qfXBu+fZ2f+ktLbaRcQP1JUWWcVt1Fdbqa/eQbcIiLEtxXQoKQ3sLAmrxeQykyCN2
-         49gyjEHNylCKfRyIbQk8A7tQfltVuGM4+o9KlANYaQOAdjVDaBEFIYSTSPPuHrHa5vH4
-         1ntDDzByXQNjxkoHCJ8Zg+FfDpNx5BdDMLoBbqgU2bUForQ7XgCLF8X3ErsGHfHghBfW
-         TrPH66Wi7muVvYkZOho47s0CKpbAoxIu5IjK2FIpcRJF2KmPFdk+AT0W3KF20V5scofS
-         +4sw==
+        d=gmail.com; s=20260707; t=1794355553; x=1794960353; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Bu79jnLYOYZ0lwXrvvCFZpjbtsmUaJ7g+2H7bpOxRio=;
+        b=MpV1k9cVRo42tR/lASLz7dwsoXaP6lc/cQKqmFLqaK3MhIAZ19v0VVf//zYTsvvzL0
+         BXi59ypQMnyJftH9KWQwqfo22HKxPeMDDq74sEaKaPmBGoQAr47xWzFXWBy0CEtg8zc1
+         rviZj/Mz1vOfCySzRf3KPc0JdvB5gVGC61GyGbDfB9ahxNfsoEvSdlglAedX+AtqUVoc
+         02iaKuxfPAlMAByITTTB5l84rsQYJZ0G5SiK4hWarjTSjMQovDKh6Tw1OwUt7DyxGlwF
+         aCkF1xsFszmsA9wJo6uD2XM5T9BESfES8jNSvbS5HE1hffyoaThQMt4OTQF3rDEGvXAr
+         eVRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794355257; x=1794960057;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bYaErAxQk82jgbOAPhvOLDjqMW7sA/6+9+NevIx4alw=;
-        b=SM5u9QcEj2oH9JoFuNZUEp/K3ylocDjtLEytbFtQaPUpx09i4g9HURN+VPeEh/iPD3
-         sEFEa94kT4I4HaNGlyN7eBZRmYRbW29wZUZ+QJfYu3F6fFR8sB7u24GtJDUdazLGvc5z
-         SoWhQe1aSYKiGRWKyph8GikrOdZB32MjLiwH66I8rkw3QB41HJjykKxKpFSFVui47p5z
-         ExnAkDjrchBr41i1W9MM/Ow3oLWzAhHk1lFJr0EnEnhgYDeV/YughVoCjdWDjLQuyfP+
-         aMlADdhdoX/DqVogqtqKyB20tYky8b9OpVJ3M9NgMLgNU++R/SZx/EWWdWPinDouz2yn
-         abpA==
-X-Forwarded-Encrypted: i=1; AL+hErGBbDGT7DMakq1+N7leSSg0arsgG+jAZF8QrfBEGkMcxHwHeyi+vUKlPw9urqqdAm/HU43zA/ovVPo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9dcGbSy/RRE/Jv8FZ1k8OjA14jQQHdjbBSunW/fjj5kFMXcXjt
-	FkIiWstL2kLXkpWXipE+w/ZuM46z4HuywMAVgr9gnxe4X7F/s5MXKQPH
-X-Gm-Gg: AYBFou1qONK0kHI5UJ95HvyzuOFmU94+hbEg3ERXYV9SFDbM3Bw7vAa6meK6+QyXV2y
-	abGO1saVrzPPSEdmBs/lwXtiaxvPtx/StAvxsp9S//jbMWJWaKXqSGpQC/K4cWoMSr6q5+04Jv+
-	n7GY8t6HxZ802DzNWM2JzD68nAfteRobsmFKZM7jmjkreH7AF8nApZ/bJ+GIFCtYIpzz/NxeM+E
-	lRJ/B0i/aHn5CpXjYHRvx5gFy5p4QkFrdw0XNHNj0Az2CD7uhmA/5Ojm9cqCa4/u6rg4TzSXwRZ
-	3g0iLpmY3opWc8v4EZCrP3aE+W7+skm3CPCjtJ/6o9NRYmFeiaM1SEMGNT/F7aQdGrvK4ymDFpc
-	dJstHIRW04Z3Ku5MCgxGxdcp3dZ8DsNMITPmexP/7MLCmdSvI5PEl9zaI+2vBDTXEWRpbHOYMxr
-	qLtR+vh1/HQUJs2YTKfqssnePNtxbWnyar+TdPH8DT1/4Pkl45xo5gx7r75j+r9ynGrd7I5PGnG
-	CbAkD5U2T0HbvVOA2BND5Pzv/BUoqp+Dp/Yt63Atd5BYIewqBbsRFAfDWMTkFFk9FhUGgm0uVMT
-	xtHBkfMQi2i97kB8u8WAf87G
-X-Received: by 2002:a05:7301:90b:b0:375:4366:a90c with SMTP id 5a478bee46e88-3768730e517mr1138142eec.41.1794355256884;
-        Tue, 10 Nov 2026 16:00:56 -0800 (PST)
-Received: from localhost ([2a03:2880:9ff:71::])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-375218c7c50sm19090263eec.29.2026.11.10.16.00.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2026 16:00:55 -0800 (PST)
-Date: Tue, 10 Nov 2026 16:00:51 -0800
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: Tianyi Gao <tianyi@cloudflare.com>
-Cc: bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Jakub Kicinski <kuba@kernel.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	Lorenzo Bianconi <lorenzo@kernel.org>, Vladimir Vdovin <deliran@verdict.gg>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Donald Hunter <donald.hunter@gmail.com>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
-	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, Tony Nguyen <anthony.l.nguyen@intel.com>, 
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>, Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Tushar Vyavahare <tushar.vyavahare@intel.com>, Jason Xing <kerneljasonxing@gmail.com>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Madalin Bucur <madalin.bucur@nxp.com>, 
-	Ioana Ciornei <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Chris J Arges <carges@cloudflare.com>, 
-	Jakub Sitnicki <jakub@cloudflare.com>, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	intel-wired-lan@lists.osuosl.org, llvm@lists.linux.dev, kernel-team@cloudflare.com
-Subject: Re: [PATCH bpf-next 00/15] xdp: add SKB core extensions to keep RX
- metadata until skb creation
-Message-ID: <avOvI8xrHI0dwyHj@devvm16445.scu0.facebook.com>
-References: <cover.1794281983.git.tianyi@cloudflare.com>
+        d=1e100.net; s=20260707; t=1794355553; x=1794960353;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Bu79jnLYOYZ0lwXrvvCFZpjbtsmUaJ7g+2H7bpOxRio=;
+        b=eFkIPDxGw8pDqrUcbcOmSENWaaFUf5kPn6TqKgpAwI2aRnZMyMWB9pP3pu9/lt/O+6
+         Bj6mWVIqX6dk4qbBW9RhQ+NzvI5c5g3YEbaKd6jJRpL7plzjDP41Mmxu2BRbRPUaFDXj
+         XxyPYsUTtMfmPQPJPQQznZOUAibFA3koxUI9ri0jy/lwFCYNkRLot1FTKpXH7RJ53iDx
+         TZRyvkZO/cN3SFbHuoLOTEo0ifsRMYe0q2GYZTj9xdhgdj3qOLs16E93/y4zEb82n6Uk
+         o+MdI0vER61SwTrXUmXRPcpN7zxp+0vGpoWwIN1xbJBdj41/yNEu+NAO0WKzqymxm4Et
+         e7LA==
+X-Forwarded-Encrypted: i=1; AL+hErGY0jUFR/TUhi+G7JaDrguIZiKNvOZbSIZIuy4isv20VzypCftFz+wRpCabqWvxtH9Sko9nL6OUAUA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+SRuH8cBUo/XXm2JnMk//JSqF+0AQsZDt8ORvRVlsqSWQix7Fy
+	wIopv/d9WtmsQGVHajOmMG+Gjkbgq8Ys+qbGi7pgfpBCCorlKJgOrswe
+X-Gm-Gg: AYBFou2Gwgz5nr7aCMAxKC0IvIIrILyjppNipNI5Eu94qhRmUmadYBbGllZqjN3acZf
+	R5XK2xU7tgJiyVQmcHHjFI9mwzS4mgqtEXl2z0bwQ5g8TACB20P/vISbRIyPYHCQA0901RZbmrf
+	5yAHnhmUCk+n+Sl0s2JPx2YhiWTUYet9JzmDxI68IpvP0fDII0J/ekIU3C0VzzOpU7Zm0TDcEON
+	/WVYpfxZwo8LPR2zSUc3P/Bs/Gq68S2W6ur4QoEnn5ggy61gNcptxvDLAY3qE6+2YbzNtgiU39n
+	XL1bbkWcB8gTguSFUSZ/LnKnEgEW38NYsP5eFTmGI1OO+OpQbCDV5mzgvoD6/4IeM1XWYpT6q8W
+	3wvSgfO/pfVpn3As4VF5ziHJuFSUlnx3ZDzqCurtTycU7PkGcoKnNAbLvi4l4eHNy35iP434/Gy
+	/N0qOUiiANY+hzt0Vc+QB9bgBmRxQARHHe5ZdnyQ1oteflqdpL4rEcUMYC6y6ZTdAPQPunlfr5+
+	GT+gtR9e1KHXo1VN4CSvlwTtO1BdmbxLjx6QBoeOTzIwmX39y+v9F6cRBq1mP2QLwdpsVBR+8hR
+	VfzQrgRfAh/Dnd1IZUtTMzxkQ2WxzC61WhVlvnElN6IHKmXDbFS4gKQkti/tIte/j2ShSy+GQb/
+	TIl4agiXBMWKVqjpPpircvX7sNS9HVoPdY9+NFETof3Z1aRo=
+X-Received: by 2002:a17:90b:224b:b0:3ac:403d:6239 with SMTP id 98e67ed59e1d1-3b182f45135mr614942a91.43.1794355552868;
+        Tue, 10 Nov 2026 16:05:52 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1838e616dsm474361a91.4.2026.11.10.16.05.48
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 10 Nov 2026 16:05:51 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	Joonho Lee <mynameisjune111@gmail.com>
+Subject: [PATCH v24 01/16] ALSA: pcm: mark stop-threshold accesses for capture policy sampling
+Date: Wed, 11 Nov 2026 09:05:28 +0900
+Message-ID: <20261111000543.28550-2-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261111000543.28550-1-mynameisjune111@gmail.com>
+References: <20261111000543.28550-1-mynameisjune111@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -119,41 +107,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cover.1794281983.git.tianyi@cloudflare.com>
+Content-Transfer-Encoding: 8bit
 
-On 11/10, Tianyi Gao wrote:
-> An skb gets its RX hash, VLAN tag and checksum status from the RX
-> descriptor, which describes the packet before the XDP program ran.
-> 
-> Without this series:
-> 
-> - On XDP_PASS, the values are stale. After the program strips a UDP
->   tunnel header, the stack applies the outer CHECKSUM_UNNECESSARY to the
->   inner packet [1]. If the outer UDP checksum is 0, a packet with a bad
->   inner checksum reaches the socket.
-> - On XDP_REDIRECT, the values are lost. The skb that cpumap or veth
->   builds from the xdp_frame has no RX hash and no VLAN tag, and its
->   checksum status is CHECKSUM_NONE.
-> 
-> In one use case, an XDP program redirects packets into a veth device.
-> The checksum status is lost, so GRO verifies every checksum in software.
-> With one TCP flow, this costs 34% of the receiving CPU.
-> 
-> Another use case [2] is load balancing IPsec tunnel traffic with cpumap.
-> Without the RX hash, GRO on cpumap puts all flows into the same bucket.
-> In a cpumap test with 16 TCP flows and no IPsec, the throughput is
-> 17.6 Gbit/s instead of 23.4.
-> 
-> This series introduces SKB core extensions for XDP. It reserves an skb
-> core extension area in the headroom, right after the space for struct
-> xdp_frame. An XDP program stores RX metadata in the area with kfuncs,
-> and the kernel sets the skb fields from it. This design was initially
-> proposed in [3].
+The staged virtio-snd capture path needs to sample stop_threshold from
+completion context to distinguish free-running capture from bounded
+capture. Software parameters can update this field while capture runs.
 
-Awhile ago we discussed the alternative of adding setters for xdp metadata.
-Then the veth (or whoever turns xdp frame into an skb) can apply whatever
-metadata it needs (and there is some magic behind the scenes that takes
-it into account when creating an skb). That keeps the layout and most
-of the code outside of kernel. Have we considered that here?
+Mark the runtime stop-threshold assignments with WRITE_ONCE and the proc
+status read with READ_ONCE. This pairs the assignments with the driver's
+staged-capture policy sampling.
+
+These annotations do not provide a transaction for the entire sw_params
+update. The driver serializes its cached policy and accounting with its
+own substream lock.
+
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
+
+---
+sound/core/oss/pcm_oss.c |    2 +-
+ sound/core/pcm.c         |    3 ++-
+ sound/core/pcm_native.c  |    5 +++--
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -2958,7 +2958,7 @@
+ 	       runtime->oss.mmap_bytes);
+ #endif
+ 	/* In mmap mode we never stop */
+-	runtime->stop_threshold = runtime->boundary;
++	WRITE_ONCE(runtime->stop_threshold, runtime->boundary);
+ 
+ 	return 0;
+ }
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -422,7 +422,8 @@
+ 	snd_iprintf(buffer, "period_step: %u\n", runtime->period_step);
+ 	snd_iprintf(buffer, "avail_min: %lu\n", runtime->control->avail_min);
+ 	snd_iprintf(buffer, "start_threshold: %lu\n", runtime->start_threshold);
+-	snd_iprintf(buffer, "stop_threshold: %lu\n", runtime->stop_threshold);
++	snd_iprintf(buffer, "stop_threshold: %lu\n",
++		    READ_ONCE(runtime->stop_threshold));
+ 	snd_iprintf(buffer, "silence_threshold: %lu\n", runtime->silence_threshold);
+ 	snd_iprintf(buffer, "silence_size: %lu\n", runtime->silence_size);
+ 	snd_iprintf(buffer, "boundary: %lu\n", runtime->boundary);
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -871,7 +871,7 @@
+ 	runtime->period_step = 1;
+ 	runtime->control->avail_min = runtime->period_size;
+ 	runtime->start_threshold = 1;
+-	runtime->stop_threshold = runtime->buffer_size;
++	WRITE_ONCE(runtime->stop_threshold, runtime->buffer_size);
+ 	runtime->silence_threshold = 0;
+ 	runtime->silence_size = 0;
+ 	runtime->boundary = runtime->buffer_size;
+@@ -1062,7 +1062,8 @@
+ 		runtime->period_step = params->period_step;
+ 		runtime->control->avail_min = params->avail_min;
+ 		runtime->start_threshold = params->start_threshold;
+-		runtime->stop_threshold = params->stop_threshold;
++		/* Drivers may sample the stop policy from completion context. */
++		WRITE_ONCE(runtime->stop_threshold, params->stop_threshold);
+ 		runtime->silence_threshold = params->silence_threshold;
+ 		runtime->silence_size = params->silence_size;
+ 		params->boundary = runtime->boundary;
