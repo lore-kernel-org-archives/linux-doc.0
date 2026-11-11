@@ -1,70 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.34.181.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794436904;
-	b=VgdmUocqzdGXsjTEIQNd/9525IpOXZ/JpDkDCKj9SGQ8RsYfeDZtfYPPWm3xi/Y78rHq
-	 preXEYiHA1EiDa0TDijvWDdY9zlyaiXGaOOHqfEiAHqhAWBJhMszNGCChQ3PWaaX7xVSL
-	 CF/w+HlyOJB6TyG07b/2I56WWWwOF/E9crskxZcwmJUMPXIUqcL+DtNmtmb3u5kLjYHPV
-	 G7puwwqJNzFwLXKObx3/4G7MJvQcFBqr4RIOkSi6LEB6QP+rtvNT5b5RROsOheceXqLVu
-	 xAQVj6xpEHJioWYDqfjGAaLGfthqFdlWNuOT4hnXn+0UB0w2t67d6EkTN0FLQaTSccw==
+	t=1794436954;
+	b=NG8jnydX4wnOa/wJmSnK8GVt+jjtBQxsqfMB6091Fl9fTSi/IuaK6hoSDQyxmCVzRmof
+	 eK1urbg9AwBWWlcGR5lymTbn/vL0QbRGnoimgbnIdZ/DPuG/xDOkfGHZPLGu4h5klAhlv
+	 i55iZYHyoGdCfoTtZTGzq6GAslJKWIZZ+OVcstRE2KCP5Cp1RC1beG/mfJo3qIPYjkGdb
+	 ZFFboP+VlzU1Yzt8KLGb0Lo7HlGQNS6f0IS5C2bY4BapiLnvAhpw8JnRpe36dfrEBv0TY
+	 4EjFUp/ZRUGVfCA3clEPcLbx/uIHuARYy2M6CBQcOGCq8Kbm7+s68vlslG7ALTmofwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794436904;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=1VxYrnk3EGdLlXmWiNcVYysu+JK3YRtT9g9emVyC1Wg=;
-	b=tQnlUgd5Ra3352COzXaEkcehg1RNXQVitGBoKKxDexB80Uexs0KcFMI1aNVt4sxXAiM4
-	 DgvqVH0w7Ee2Amt3sIt8ClAk7gQod+N99aJoFmZH5k1qLxVGPsjddWY1eoUyCy/CidRFB
-	 OwngNq+Gf6cqHlt1ZyjHB7m7IsX0q+9hQpPZwQSxrvYtLvu8D/LBTHRamtJtsP9n9Mp+G
-	 FpcwyrjrE45jKuxNaf3+UgUP/HQ8AsMi5lCDyPQV/r+LEEQNa8VwN5kdFocMyOxyuwoGF
-	 i7+3eHxJ3Sqr9TToSxPfcZHNIoYi+yE+Wc1WOF1VKosEvRkxprQKJdMsESFZsSmqKpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794436954;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=Nf/e7h6zi5zw9Vu4WfB0GEyN8EmLcf8HjHUMJ9G9oow=;
+	b=BLJGtXsE/M4T0KefrDhT/xsHGk2xl5Ic6MmH51crDZZveExo5EfkHVmfz0VpG40IE6m+
+	 20RbvYqlVABuBVRBK7dHB8h4SCzzwszkYAJfUL8se0wt1ZZmEAv/RTgXU6CfWDHhVuP0w
+	 hNQCT7qojAD0UPrbiv32rM0M/orOYkNiDIHMXRuBVQFEWyvxuv87JfJ9+K88UdQc/jPOS
+	 v20JZ4jA39MjN+jhnEub3CL7I9eGFT7J2wgt4tMHczEs47KJ2ayKWuEOsCMqH/r6dKHrj
+	 TcX8Eef/2l0BIl0Od+Azi7/fSaTu3syzSkZptyQCHiyThhjbjPRaPIh0B4emQy3FzxQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nccq3Pbr;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.de;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b="REWBOM2/";
+	arc=none smtp.remote-ip=52.34.181.151
+Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9727B60A6F55;
-	Wed, 11 Nov 2026 22:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AF05606A327;
+	Wed, 11 Nov 2026 22:42:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5AF05606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Nccq3Pbr
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34CB31F00A07;
-	Wed, 11 Nov 2026 22:41:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794436904;
-	bh=1VxYrnk3EGdLlXmWiNcVYysu+JK3YRtT9g9emVyC1Wg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Nccq3PbrXWNWsFEWSLzMIsLjSSYh7CxcgVNAGHTp+2y++opajMDXxcl4EWuswD3JI
-	 z4dFF1B/KyhSO2Ll0mpYTEECFEkX9twB0vMo2pXWqwmr8SnpsqIrSUZCfNckBYJP8s
-	 GU4qTta3D5wx99z1ioCB62kCwd526KtlcENyU3KWxpXTisBtnI3fWNqn/GNbBovOct
-	 l/vwfvlZunQawTvATN1kdfdK81ZeojHlom/dLB9MMUiH48Y8+jQJTaY15u5cE5/V6e
-	 61ZaLLaPkxe+9J9DbcE1BKQPTkRYMtvlsPcVfY+XyqqWO1Dozvb1PFbNUzFqGTrbAQ
-	 ZLQavktXhQ5WA==
-Subject:
- Re: [PATCH net-next v1 11/11] eth: fbnic: Support AF_XDP page pool zero copy
-From: netdev-bot+sashiko@kernel.org
-To: bjorn@kernel.org
-Cc: magnus.karlsson@intel.com, maciej.fijalkowski@intel.com, sdf@fomichev.me,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, alexanderduyck@fb.com, kernel-team@meta.com,
- andrew+netdev@lunn.ch, hawk@kernel.org, ilias.apalodimas@linaro.org,
- ast@kernel.org, daniel@iogearbox.net, john.fastabend@gmail.com,
- asml.silence@gmail.com, axboe@kernel.dk, andrii@kernel.org, eddyz87@gmail.com,
- memxor@gmail.com, martin.lau@linux.dev, song@kernel.org,
- yonghong.song@linux.dev, jolsa@kernel.org, emil@etsalapatis.com,
- ihor.solodrai@linux.dev, netdev@vger.kernel.org, bpf@vger.kernel.org,
- io-uring@vger.kernel.org, almasrymina@google.com, mike.marciniszyn@gmail.com,
- bestswngs@gmail.com, razor@blackwall.org, dw@davidwei.uk,
- aleksander.lobakin@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, stuclar@meta.com
-Date: Wed, 11 Nov 2026 22:41:41 +0000
-Message-ID: <179443690174.2199510.10806656670743256191@kernel.org>
-In-Reply-To: <20261110102039.1002605-12-bjorn@kernel.org>
-References: <20261110102039.1002605-12-bjorn@kernel.org>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=REWBOM2/
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794436953; x=1825972953;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Nf/e7h6zi5zw9Vu4WfB0GEyN8EmLcf8HjHUMJ9G9oow=;
+  b=REWBOM2/S7wRYVmCVCWDrMVbS0ZXNm1hzfNkRG3O0IUy76btBalKfOZd
+   H3tVWfp51d7m/okS0aLhlH+gRK+KRLplsqqvAaSoFcon2qoyPif5cVfBR
+   OcZpxbGeFhAUSvigkuwMyw14iqwpql0Q6L05XodjdZAr8Zj3i5uLYV7xX
+   fSgj1nUHiQ0XFNpROJCVvI1bZ3YakSiLhPoAERRju6uThfqxGMeboDdK1
+   JCZ9LbPUxVh0QNlQpimP20E57WLLc++1lcc8kEwfM3DOaBfYHdZQLqttX
+   R4gMfx87Rnqg0IGKcHKCENfXvMp9imfXcaF+rcmQ2kPVjWW8jurulrkMf
+   w==;
+X-CSE-ConnectionGUID: G7TPEGiWQRSBLwmwzCQc/A==
+X-CSE-MsgGUID: DDSJSqkBS+O+gJ5y7ySdsA==
+X-IronPort-AV: E=Sophos;i="6.27,208,1787011200"; 
+   d="scan'208";a="33756163"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2026 22:42:30 +0000
+Received: from EX19MTAUWA002.ant.amazon.com [205.251.233.178:31849]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.31.142:2525] with esmtp (Farcaster)
+ id 152a9830-b7c4-42e9-a68c-30a0443400c8; Wed, 11 Nov 2026 22:42:30 +0000 (UTC)
+X-Farcaster-Flow-ID: 152a9830-b7c4-42e9-a68c-30a0443400c8
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA002.ant.amazon.com (10.250.64.202) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 22:42:29 +0000
+Received: from ip-10-253-83-51.amazon.com (172.19.99.218) by
+ EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Wed, 11 Nov 2026 22:42:27 +0000
+From: Alexander Graf <graf@amazon.com>
+To: <linux-kernel@vger.kernel.org>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>
+CC: The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>, "Shuah
+ Khan" <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy
+	<robin.murphy@arm.com>, <linux-doc@vger.kernel.org>, <iommu@lists.linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand
+	<david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	<nh-open-source@amazon.com>, <linux-mm@kvack.org>, Jonathan Corbet
+	<corbet@lwn.net>
+Subject: [PATCH 00/40] nitro_enclaves: Add support for Nitro Sandboxes
+Date: Wed, 11 Nov 2026 22:41:45 +0000
+Message-ID: <cover.1794300002.git.graf@amazon.com>
+X-Mailer: git-send-email 2.47.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -74,263 +89,147 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Thank you for your contribution! Sashiko AI review found 5 potential
-issue(s) to consider.
+Nitro Sandboxes [1] are a new EC2 feature that build on top of the
+technical foundations of Nitro Enclaves - an EC2 feature that allows
+you to spawn a virtio-vsock-only VM sibling constructed out of resources
+donated by the VM you execute in.
 
-Critical: 0 · High: 1 · Medium: 1 · Low: 3
+Nitro Sandboxes build on that concept and the same hypervisor interface,
+but add the ability to implement virtio devices in the parent, run vCPUs
+oversubscribed, add device hotplug support and allow to spawn a sandbox
+without attestation, but shared memory. They also boot a full EC2-like VM
+that runs with a UEFI stack and executes the EIF-wrapped kernel as UEFI
+executable.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+In combination, Nitro Sandboxes provide a way to create a confidential
+compute VM for almost all workloads, but without the biggest gaps that
+other confidential compute offerings have: The parent has no timing
+control and the parent also has no control over the base device model,
+such as timers, PCIe, UART, etc. All base devices are implemented in
+Nitro.
 
-- [High] Stale, unreferenced xsk_buff_pool pointer is used after a failed
-  queue restart during AF_XDP unbind.
-- [Medium] On an AF_XDP provider queue, an empty FILL ring is normal flow
-  control, but fbnic counts it as a buffer allocation failure.
-- [Low] The commit message presents the balanced header/payload refill as
-  something for the shared provider page pool ("Header and payload rings…
-- [Low] The new "Zero-copy through page pool" section of
-  Documentation/networking/af_xdp.rst says "MTU and XDP program changes…
-- [Low] The new af_xdp.rst text says: "If the device cannot do zero-copy
-  for the socket, a bind with XDP_ZEROCOPY fails with EOPNOTSUPP, while…
+This series adds parent-side support for Nitro Sandboxes to the
+nitro_enclaves driver.
 
---
+This supports adds a few non-obvious technical foundations:
 
-eth: fbnic: Support AF_XDP page pool zero copy
+guest_memfd like CMA allocator - With Nitro Enclaves, memory came from
+hugetlbfs and user space maintained visibility into it. That led to a
+few problems. With this new enablement, we add a guest_memfd like
+allocator that seeds from CMA, allows the parent to seed the EIF before
+hand-over and then loses any mechanism to access donated memory. Thanks
+to CMA, it also provides much larger contiguous chunks than 2M huge pages.
 
-This adds AF_XDP zero-copy support to fbnic through a page pool memory
-provider. The header and payload BDQs share one provider page pool and
-use a new balanced refill policy, and socket TX descriptors go out on
-the XDP TX ring from the RX NAPI after RX processing. It also adds
-per-queue rx_headroom support and documents the page pool zero-copy mode
-in af_xdp.rst.
+Virtio notifications - To implement virtio in the parent, we need to
+handle notifications in both directions. Parent to sandbox goes through
+a BAR write; sandbox to parent through multiplexed IRQs. We provide
+eventfd support in both directions, which also enables vhost support.
 
-> diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
-> index e73a0005e169c..f152ae8812d17 100644
-> --- a/Documentation/networking/af_xdp.rst
-> +++ b/Documentation/networking/af_xdp.rst
-> @@ -346,6 +346,64 @@ Note that a UMEM can be shared between sockets on the same queue id
+NUMA - With Nitro Sandboxes, NUMA became a first class citizen and all
+APIs now support NUMA targeting.
 
-[ ... ]
+Memory Donations - Every sandbox requires hypervisor memory. To allow
+for a larger scale of sandboxes you can run, we add a way to donate
+memory from the parent to the hypervisor. The user visible effect of
+that is that there is a slot limit sysfs file which you can increase.
+On write, we allocate physically contiguous CMA memory and donate it.
 
-> +If the device cannot do zero-copy for the socket, a bind with
-> +XDP_ZEROCOPY fails with EOPNOTSUPP, while a bind without it falls back
-> +to copy mode. MTU and XDP program changes that a bound socket cannot
-> +handle are refused.
+This series depends on "nitro_enclaves: Fix enclave release, command
+retries and the CPU pool", which I posted earlier today.
 
-[Severity: Low]
-Does the page pool bind path always behave this way?
+I used Kiro, an AI coding assistant running Claude Opus and GPT models,
+to draft the initial code and patch descritptions.
 
-xsk_pp_bind() in net/xdp/xsk_pp.c returns -EBUSY when another queue has
-an unreadable memory provider:
+I validated all new functionality on x86_64 and arm64 as well as ensured
+that Nitro Enclaves are still fully functional after this patch series.
 
-    if (!netif_all_mps_have_cap(dev, MP_CAP_READABLE))
-        return -EBUSY;
+[1] https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/amazon-ec2-nitro-sandboxes.html
 
-It also passes on errors from the driver's XDP_VALIDATE_XSK_POOL check,
-xp_dma_map(), xsk_pp_create() (-ENOMEM, -ERANGE) and netif_mp_open_rxq()
-(for example -EEXIST, -EINVAL, -ENOMEM).
+Alex
 
-The copy-mode fallback is also conditional. In xp_assign_dev():
+Alexander Graf (40):
+  nitro_enclaves: Allow the CPU pool to span NUMA nodes
+  nitro_enclaves: Add NE_ADD_ANY_VCPU
+  nitro_enclaves: Expose CPU pool state under sysfs
+  nitro_enclaves: Document multi-NUMA CPU pools
+  dma-contiguous: add dma_get_numa_cma_area() accessor
+  nitro_enclaves: Allocate physically contiguous enclave memory
+  nitro_enclaves: Add NE_MEMORY_SHARED
+  nitro_enclaves: Add NE_ADD_MEMORY_REGION
+  nitro_enclaves: Document the memory pool
+  nitro_enclaves: Add NE_CREATE_VM2 with a launch flag word
+  nitro_enclaves: Add NE_ENCLAVE_PCIE_MODE launch flag
+  nitro_enclaves: Name the device's error codes in the UAPI header
+  nitro_enclaves: Log a reached device limit at info level
+  nitro_enclaves: Add NE_SET_INFO_PAGE
+  nitro_enclaves: Document the info page in the memory pool
+  nitro_enclaves: Turn the command reply into a per-command union
+  nitro_enclaves: Add the slot pool donation commands
+  nitro_enclaves: Donate memory for the slot pool
+  nitro_enclaves: Add the slot pool growth commands
+  nitro_enclaves: Add a helper to grow the slot pool
+  nitro_enclaves: Document the slot pool
+  nitro_enclaves: Expose slot pool state under sysfs
+  nitro_enclaves: Add the device add command
+  nitro_enclaves: Add NE_ADD_DEVICE
+  nitro_enclaves: Read the interrupt multiplexer geometry at probe
+  nitro_enclaves: Donate a bitmap page per multiplexed vector
+  nitro_enclaves: Dispatch multiplexed interrupts to per-queue bindings
+  nitro_enclaves: Add NE_SET_NOTIFY_EVENTFD
+  nitro_enclaves: Report the device's info notification
+  nitro_enclaves: Count multiplexed interrupts under debugfs
+  nitro_enclaves: Map the doorbell window at probe
+  nitro_enclaves: Add NE_SET_VRING_CALL
+  nitro_enclaves: Assert the layout of the ioctl argument structs
+  nitro_enclaves: Pass on the Nitro Sandbox launch flags
+  nitro_enclaves: Add NE_ENCLAVE_DIRECT_MODE
+  nitro_enclaves: Add NE_ENCLAVE_PCIE_HOTPLUG_MODE
+  nitro_enclaves: Add NE_ENCLAVE_CPU_OVERCOMMIT_MODE
+  nitro_enclaves: Add NE_GET_CAPS
+  nitro_enclaves: Add NE_UPDATE_DEVICE_CONFIG
+  nitro_enclaves: Document the driver side of Nitro Sandboxes
 
-    if (!force_zc && !pool->pp)
-        err = xp_alloc_heads(pool); /* fallback to copy mode */
+ .../sysfs-devices-virtual-misc-nitro_enclaves |  232 +
+ Documentation/virt/ne_overview.rst            |  256 +-
+ MAINTAINERS                                   |    1 +
+ drivers/virt/nitro_enclaves/Kconfig           |   19 +
+ drivers/virt/nitro_enclaves/ne_misc_dev.c     | 4832 +++++++++++++++--
+ drivers/virt/nitro_enclaves/ne_misc_dev.h     |  206 +-
+ drivers/virt/nitro_enclaves/ne_pci_dev.c      | 1568 +++++-
+ drivers/virt/nitro_enclaves/ne_pci_dev.h      |  599 +-
+ include/linux/dma-map-ops.h                   |    7 +
+ include/uapi/linux/nitro_enclaves.h           | 1182 +++-
+ kernel/dma/contiguous.c                       |   36 +
+ samples/nitro_enclaves/ne_ioctl_sample.c      |   10 +-
+ 12 files changed, 8282 insertions(+), 666 deletions(-)
+ create mode 100644 Documentation/ABI/testing/sysfs-devices-virtual-misc-nitro_enclaves
 
-Suppose netif_mp_open_rxq() fails, and then either xp_alloc_heads()
-fails or xsk_pp_abandon() finds an old page pool still holding chunks.
-In that case xsk_pp_bind() leaves pool->pp set, and a bind without
-XDP_ZEROCOPY fails instead of falling back to copy mode.
 
-Could the text mention the other errnos, and the case where copy mode is
-not available?
-
-[ ... ]
-
-> +* advertises NETDEV_XDP_ACT_XSK_ZEROCOPY and xdp_zc_max_segs,
-> +* checks the setup in XDP_VALIDATE_XSK_POOL, and sets xsk_page_pool
-> +  in its netdev_queue_mgmt_ops.
-
-[Severity: Low]
-Should this list also say that the driver must call xsk_validate_dev()
-from its own ndo_change_mtu?
-
-In net/core/dev.c, the only callers of xsk_validate_dev() are the XDP
-program install paths. No core MTU path calls it. fbnic refuses such MTU
-changes only because this patch adds this to fbnic_change_mtu():
-
-    err = xsk_validate_dev(dev, new_mtu, NULL, XDP_MODE_DRV, NULL);
-
-A driver that follows only this list would accept MTU changes that a
-bound socket cannot handle. One example is raising the MTU above the
-header buffer size for a non-SG socket. The statement above that such
-MTU changes are refused would then not hold.
-
-[ ... ]
-
-> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_txrx.c b/drivers/net/ethernet/meta/fbnic/fbnic_txrx.c
-> index d96c957d6fbad..c358003f053b6 100644
-> --- a/drivers/net/ethernet/meta/fbnic/fbnic_txrx.c
-> +++ b/drivers/net/ethernet/meta/fbnic/fbnic_txrx.c
-
-[ ... ]
-
-> @@ -938,66 +969,146 @@ static void fbnic_bd_prep(struct fbnic_ring *bdq, u16 id, netmem_ref netmem)
->  	} while (--i);
->  }
->  
-> +static bool fbnic_fill_bdq_one(struct fbnic_ring *bdq, unsigned int *tail)
-> +{
-> +	netmem_ref netmem;
-> +
-> +	netmem = page_pool_dev_alloc_netmems(bdq->page_pool);
-> +	if (!netmem) {
-> +		u64_stats_update_begin(&bdq->stats.syncp);
-> +		bdq->stats.bdq.alloc_failed++;
-> +		u64_stats_update_end(&bdq->stats.syncp);
-> +
-> +		return false;
-> +	}
-
-[Severity: Medium]
-On an AF_XDP provider queue, xsk_pp_alloc_netmems() returns 0 whenever
-the reuse stack and the FILL ring are empty. That is normal flow control
-for the socket. Is it intended to count it as alloc_failed?
-
-Without XDP_USE_NEED_WAKEUP, xsk_pp_refill_done() returns false in this
-case:
-
-    more = pp->reuse_cnt || xskq_cons_nb_entries(pp->fq, 1);
-    WRITE_ONCE(pp->starved, !more);
-    spin_unlock_bh(&pp->lock);
-
-    return !more && wait;
-
-fbnic_fill_bdqs() then returns false, fbnic_clean_rcq() returns budget,
-and NAPI polls again at once. Each poll fails the allocation again and
-increments the counter again.
-
-This counter reaches userspace through the standard queue stats in
-fbnic_netdev.c:
-
-    rx->alloc_fail = fbn->rx_stats.rx.alloc_failed +
-        fbn->bdq_stats.bdq.alloc_failed;
-
-Won't an idle xsk queue then report a fast-growing alloc_fail count that
-has nothing to do with memory pressure? With need_wakeup, each wakeup
-that finds the FILL ring empty would also be counted.
-
-[ ... ]
-
-> +static bool fbnic_fill_bdqs(struct fbnic_q_triad *qt)
-> +{
-> +	struct fbnic_ring *hpq = &qt->sub0, *ppq = &qt->sub1;
-> +	enum pp_refill state;
-> +	bool done;
->  
-> -		writel(i * fbnic_bd_page_count(bdq), bdq->doorbell);
-> +	if (hpq->page_pool == ppq->page_pool) {
-> +		fbnic_fill_shared_bdqs(hpq, ppq);
-
-[Severity: Low]
-The commit message says:
-
-    Header and payload rings share one provider page pool, so refills even
-    them out, and a short pool does not starve one of them.
-
-In the default configuration, without AF_XDP, fbnic_alloc_qt_page_pools()
-already shares one regular page pool between sub0 and sub1, through this
-unchanged branch:
-
-    } else {
-        page_pool_get(pp);
-    }
-    qt->sub1.page_pool = pp;
-
-So this test is true for every normal RX queue as well.
-fbnic_fill_shared_bdqs() replaces the old policy, which filled the HPQ
-fully and then filled the PPQ, on the default datapath. The new policy
-interleaves per buffer through fbnic_hpq_takes_next(), which does u64
-multiplications for each buffer. Filling of both rings also stops at the
-first allocation failure.
-
-Should the commit message mention this change to the existing datapath?
-It also does not mention two other changes: QCFG_RX_HEADROOM is now
-accepted, and RDE_CTL0 MIN_HROOM is programmed per queue.
-
-> +		state = fbnic_bdq_state(hpq);
-> +		if (state == PP_REFILL_FULL)
-> +			state = fbnic_bdq_state(ppq);
-> +		return page_pool_refill_done(hpq->page_pool, state);
->  	}
-
-[ ... ]
-
-> @@ -1674,8 +1901,29 @@ fbnic_alloc_qt_page_pools(struct fbnic_net *fbn, struct fbnic_q_triad *qt,
->  		.netdev	= fbn->netdev,
->  		.queue_idx = rxq_idx,
->  	};
-> +	struct xsk_buff_pool *xsk;
->  	struct page_pool *pp;
->  
-
-[ ... ]
-
-> +	/* Payload buffers come from UMEM only for multi-buffer sockets */
-> +	xsk = xsk_rxq_pool(fbn->netdev, rxq_idx);
-> +	qt->xsk_pool = xsk;
-
-[Severity: High]
-This stores the xsk_buff_pool pointer without taking a reference, and
-fbnic_queue_start() copies it into the live triad. What happens to this
-pointer if the queue restart during unbind fails?
-
-On socket close, this chain can fail:
-
-__xp_clear_dev()
-  xsk_pp_unbind()
-    netif_mp_close_rxq()
-      __netif_mp_close_rxq()
-        netdev_rx_queue_reconfig()
-
-Some ways it can fail:
-
-- fbnic_queue_mem_alloc() returns -ENOMEM from page_pool_create(),
-  kvzalloc() or the descriptor ring allocation.
-- fbnic_queue_stop() fails through fbnic_wait_queue_idle().
-- ndo_queue_start() fails and the old queue is restarted.
-
-__netif_mp_close_rxq() only warns:
-
-    err = netdev_rx_queue_reconfig(dev, rxq_idx, &qcfg[0], &qcfg[1]);
-    if (err == -ENETDOWN)
-        return 0;
-    WARN_ON(err);
-    return err;
-
-xsk_pp_unbind() then ignores the result:
-
-    netif_mp_close_rxq(pool->netdev, pool->queue_id, &mp);
-    xsk_pp_detach(pp);
-
-xsk_pp_detach() unmaps the DMA through xp_dma_unmap(), and xp_destroy()
-later frees the pool. Meanwhile the old fbnic triad keeps running with
-qt->xsk_pool still set.
-
-On every poll, fbnic_poll()->fbnic_xsk_tx()->fbnic_xsk_tx_pool() calls
-xsk_set_tx_need_wakeup(), xsk_tx_peek_release_desc_batch() and
-xsk_buff_raw_get_dma() on that pool. Wouldn't these then read and write
-freed memory? In-flight entries in ring->xdp_buf[].xsk would also be
-passed to xsk_tx_completed() from fbnic_clean_twq1().
-
-The xsk_rxq_pool() comment says "The pool stays valid while the queue
-that the caller allocates runs", but that does not seem to hold on this
-failure path. Part of the cause is the core error handling. Still, the
-fbnic TX code added here is what keeps using the raw pointer.
-
-[ ... ]
-
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+prerequisite-patch-id: 542b3d78fda912095b75a49becd1b93109befdbc
+prerequisite-patch-id: 318368e966c1925652b7976948f435d42b87c72f
+prerequisite-patch-id: eb35b5d713e7f50f6d1d02310c9afe10b1628fc6
+prerequisite-patch-id: 223bf6e60620ca8fe72f3ff6f3bd3f5839cdd6d5
+prerequisite-patch-id: e5305ce0515a02f7f88e72adf02c6a2bee2fd2e0
+prerequisite-patch-id: 759b5920f842d70e675770608d9088639c10559e
+prerequisite-patch-id: e1837df37663da3d3ce53afa4594828b2d602152
+prerequisite-patch-id: f0d4302bd36f94de95951a0db1ae9eb9747076aa
+prerequisite-patch-id: 41159b92e250fef705be52f714b6e2761a2cd1f7
+prerequisite-patch-id: a0c3a56907acac2297c800209faa2849a8df0e48
+prerequisite-patch-id: a80a95bd682b540be5760e8fdf7044379fe32d61
+prerequisite-patch-id: 9c01e0fecd6810f3448582715c87cd3dd7a6cdf1
+prerequisite-patch-id: b94dfc8bb1039740d88a30535445bb7b3dd1fe74
+prerequisite-patch-id: bd76f15728dc0ee2ca3417cd95a6b23a7d63e91f
+prerequisite-patch-id: 0c60f1574b590f68885a25760017e9ff87752f66
+prerequisite-patch-id: 63dff43da52934a6e6f5e65c3e235a7114b6b4dc
+prerequisite-patch-id: af52cf938525874cadd6d879aa76495e563876d2
+prerequisite-patch-id: f53ee22764b5f13708cacd3e48a59a82d71a270c
+prerequisite-patch-id: 258b8c18168db49aacbda5156e33978b539666ab
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261110102039.1002605-1-bjorn%40kernel.org
+2.47.1
+
