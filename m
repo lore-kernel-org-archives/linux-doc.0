@@ -1,89 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794420578;
-	b=knmIpMPBKl4RFiKpZZ6TUhlR/9L7UYgijWt6dmUiHsVI9OYhTQ5Jqpwzig/IOG8mDYni
-	 paHesJdBQcv1zRPI/EVUP/8F2eogesWSKQEGk8NuIhq8+NCqd5Vn6oXQsZLLfNob3fyub
-	 g0mjQE5vod80seqq8w1wdOPzUJbEBM3oH8Zxq4ppskVbn02vyu7G/5BkMHyCaK/sq9UkR
-	 UP8S1p9eBJOLM1I6ZHksy/uJzsRTWnFYROW7c/AtxFFMAyUdJWbQjpQwS7wJ5fjKWc6Ot
-	 vtI8OBodO3+WP/3ICL1TynJJSCbolrvNV7xRAl78VobqIVrxw2rnhVwYla9ZZeEtqhQ==
+	t=1794421038;
+	b=QrbFB2AcLxWIdHyc51oSSbeahVmw1Rn+27ze2gkJ1rJkpIX9WgesyP8j2XG33rglKIWU
+	 /Zq5ZxQiizPMXmeyiWuMs4nx4jiTtPJVEWSx7sSASptAtF2OZ4f5wTx5NzE3Hc+mBomNh
+	 nOh42ud2/pJE+5BirHB8LCHMDzEyj0+WOLGg4cCsrUoU6W0h/aZnYuDodilZauunlbEv/
+	 WN58TLgGkw6pAWnW3Lned+oto9rOFhR8kjp6aUq76ktKeJR+DYMVttN1awgCcU6bArTle
+	 ReWoDR9+aByTsCU/0eD5CHGa0mbvj6GY9c01ZGuIsxJZIxDx+qbKBv/5IR51oM14JAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794420578;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=5G4dkMkeeEEES1E20oyB/QGve810jrImqh7f4e8JtX4=;
-	b=BTR88jEYWJ2xU8YiztzzcPYjvQFQThxguaR04GfC8j4PdQsYd5BFIvV9PoY/FXU3ZSX9
-	 2FiFNTptiB0SrA/pFpIqDuGZ/VkH6+0tsPViR9HY21k4veQaPRQe9XnMkPVX5ghMotciG
-	 Z/ywXPcfKmSOpNy0VBM19/OE8/lzalMQeb1pHqeDKqXPaA6fgHpQcHKc2n9djOPunL1tL
-	 Wjfkpmdb7I2zohT1qONAOczAqjl7gU51ESfnKUkTuD/VtEq4NONx6y6xFdDpjHa4hnyan
-	 +epmEfShjQw4w7e5LR8VsnbMw9YNk1Adb1kkrM/HxPWRbzOooBIzdOjeZVRD0itJ/JA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794421038;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=JAFBic9FeqiTcoA9Sc56oOZoN08uUZIC/3Jq0YqoHLY=;
+	b=eNUzX2aixedFVbdjrovaV/UbIpnAsaKjfmzlt7sV2+xxYl1rF447IuXxdSrX0NGoRR5q
+	 TJlRjgblAkk0fMcaGC3MDclqQL57nRQfqJhE9x8J0qesf+Tv3ajTyfIeOfmsZUZmyQNE8
+	 bQHvZswv32G/qWmuo5kk1IG90qbd1oE0dEXCa4q3BmLGCHvrmShdlFs3gkzf0BzIosBxb
+	 UW+jpAUoO+VHmk6tbsRV6qBssM5plqjJ3H0nCQ3/YGBiTIsMUGa1INLZnlyZlyHX0thI/
+	 LFee1FnFNo37vOQdQQbs3CApyNrg3ksQhBQSYd3C6TSEgj25f8tq2pJER1/J9yE+NSw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=desiato.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=HHsxjGw8;
-	arc=none smtp.remote-ip=90.155.92.199
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UhRh2+QK;
+	arc=none smtp.remote-ip=209.85.128.169
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36737606B781;
-	Wed, 11 Nov 2026 18:09:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36737606B781
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA733606C17C
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 18:17:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA733606C17C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=desiato.20200630 header.b=HHsxjGw8
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Reply-To:Content-ID:Content-Description;
-	bh=5G4dkMkeeEEES1E20oyB/QGve810jrImqh7f4e8JtX4=; b=HHsxjGw8YuLdboJkLNfoNYypns
-	ZAeCh18TQWY9tIOU1RGqCKQXummhYO+/jFzfSLBuv/6Y5GVh6BYEwGPU3AzVoUXU9KWivJzHYeoqD
-	XRpi1556SnyJS6i/XILeZaDfZKCyPO8tzNYz8I2/QXIZk1X9seZP9UEKgaYSQr8s6qgsp541OjbUg
-	GR5iN7zx4RHaY4lBvkweYVDey8tIdFdr/y/tjleqj5lQx7RASJJXefmAuHIBp1v1DRegjFTdmnXfC
-	b2nJUU/zzstbd8zKNL2oG3799+2aLFlYLWaeVDnLp3BqnPTvdefm6LInlMtUBhx0Cj/hHkkCqRkcB
-	DAK3it5Q==;
-Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
-	by desiato.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRClB-00000009PvQ-3Drr;
-	Wed, 11 Nov 2026 18:09:25 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRCl9-0000000HWt3-1t6h;
-	Wed, 11 Nov 2026 18:09:23 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: kvm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=UhRh2+QK
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-8b0ca1ebc8bso48321487b3.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 10:17:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794421036; x=1795025836; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=JAFBic9FeqiTcoA9Sc56oOZoN08uUZIC/3Jq0YqoHLY=;
+        b=UhRh2+QKrJuMUqoVkAZwLp8mjesVP5rOdbeqxz4Qd7xPhFQ7cqnpBQcOCKce2Dv+Ys
+         JDUyUFr3MiMLq6MxAJzkSqEfhTzdl76LeLgd+pOsMx2+XeQYBoYuKI7QkF1fp8IymDmk
+         KJX1eeF9+XTsdNrPc8KEwUSLMb7634nwNpC+cTuxn0Z2TIOeFQMk9n/Y0ie3/+B/3X05
+         7xZwGQl7MS/HdOcR4MHHCdM5R+x16qvI2Pj+MyhpUkNOORYFs5pTh9M9jPGXP7mIW18c
+         9Sfu3b+GWiqTy1rQATsAE0TIfLiAlTwki7umXwi8lBrYXDH2KUD6EEKFHHhrwwKziBC0
+         RgiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794421036; x=1795025836;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JAFBic9FeqiTcoA9Sc56oOZoN08uUZIC/3Jq0YqoHLY=;
+        b=Od0UgNQfjOWxUGQRrg5jOnNeT+E116yPkKQGFs74GbFafnhfO/HWylRRYTuhdwoqTU
+         TgzV3D/xbjF++QmFNQEkt/l2BJ55HbafPopQMonOpmmUfrYz9NTzrrn4657iJC5vvE+h
+         Aec9n5WYzq7paegvhU28kR+fKiOL/g6W5ZOVVB+klkQ0aJaGihKMYzaHkqWlgqyJxL2K
+         oxZKiF4yP1bFQj+A/fbJHFONJ/did2wCXl3U+8oVUGONRALamOHyimjAwx8stB9fpYF0
+         0EHg9AOnhMQF6dh5/JxjwhqV2aO7eTvc5GjfCheGGaBWkrE1hIdtQuqt61CYcpHNPRDS
+         7gcg==
+X-Forwarded-Encrypted: i=1; AL+hErFjDTgZHVOl0+F+3Ov5xLxr7t25saYqJ/7v1cpGE2CEP8Y2EkSx6JvMgdqvGAeKOf/fBrIhnH0dto4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z89ixyIUy95IWHkriJYZjej9TedXh+FEMAf8NBn0y5vzomg90UF
+	Xc+XfaeqRs76CR/cxKOmisa84vtilUSjL84AMr67QzjamlzvNKXFxd0x
+X-Gm-Gg: AYBFou3pRKsIK/MzOtdqSiuex2RpvRvsAXOVeqvecr8hxRoiNCPePu9Ep3TnV84BWir
+	CHkITxrJNRN9f5Z2EGWfhyzyqlM+ZHT3xpbaAE7/XhP9fjhKHou0QgdMhy5bS/X42tyFJ9Cx6YV
+	ORFOCYRZbYztK4EdyP/lfOhbOc6OtlRrrczoZnxQfZ4wOQIEkCmV9bl9BHHTqt2iIQPyul7TTQo
+	3+B2DlMAraN9/vRhn1RZa+0nyjqmV08bCyr5X+5j18GjqBeeO9FDoyknIYZpPWhqZ5QHE86iznn
+	kkumrKRBRFCxpysgjq5LbIkPRZ/Dosk/5RkOco0sW051rXX757GAVnu0Lbm2I5yVVsGhFDN+ggH
+	ngnXnwpQI29z+fvuyeqCTvCMx/7SxXr1gPdLAYdsx+RztEqAFHbWi5nzfO/47wC0iRJUcLTMMPe
+	ULilWzPmZYYecJPNZf711H4RHo7tMxf0A3OZOdpAVc1TmtfqKjK2aEQjFGqyrpceE3QscKjlpdd
+	/NTBXCc6ZJzb8k06JRLJti1/8fJkLxBhHpRQg+pJQubszo0AHmU2Y3pGITGhNyRF/IYGio+eVAs
+	vtnvV265y5xB4POa8bevcP59lAoGPEsphi15FDY602gYgYDg2mdRRUkA49+GLINiE5nfU2cMFr3
+	NBug4zw==
+X-Received: by 2002:a05:690c:4f07:b0:8b0:d837:364b with SMTP id 00721157ae682-8b3a7e3b702mr19660887b3.7.1794421036454;
+        Wed, 11 Nov 2026 10:17:16 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff:5b::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b39324c124sm49936597b3.6.2026.11.11.10.17.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 10:17:15 -0800 (PST)
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: "Li Zhe" <lizhe.67@bytedance.com>
+Cc: akpm@linux-foundation.org,
+	david@kernel.org,
+	gourry@gourry.net,
+	ziy@nvidia.com,
+	joshua.hahnjy@gmail.com,
+	rakie.kim@sk.com,
+	ying.huang@linux.alibaba.com,
+	ljs@kernel.org,
+	mhocko@suse.com,
+	muchun.song@linux.dev,
+	roman.gushchin@linux.dev,
+	shakeel.butt@linux.dev,
+	weixugc@google.com,
+	cgroups@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	xen-devel@lists.xenproject.org,
-	x86@kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paul Durrant <paul@xen.org>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Juergen Gross <jgross@suse.com>,
-	Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Sascha Bischoff <Sascha.Bischoff@arm.com>,
-	Marc Zyngier <maz@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Jack Allister <jalliste@amazon.com>,
-	Dongli Zhang <dongli.zhang@oracle.com>,
-	joe.jin@oracle.com,
-	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v13 16/26] KVM: x86: Add KVM_[GS]ET_CLOCK_GUEST for accurate KVM clock migration
-Date: Wed, 11 Nov 2026 10:09:12 -0800
-Message-ID: <20261111180922.4177927-17-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261111180922.4177927-1-dwmw2@infradead.org>
-References: <20261111180922.4177927-1-dwmw2@infradead.org>
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Johannes Weiner <hannes@cmpxchg.org>
+Subject: Re: [RFC 0/2] mm: add source selectors to memory.reclaim
+Date: Wed, 11 Nov 2026 10:17:13 -0800
+Message-ID: <20261111181714.1463827-1-joshua.hahnjy@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261019141401.11927-1-lizhe.67@bytedance.com>
+References: 
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,431 +114,124 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
-From: Jack Allister <jalliste@amazon.com>
+On Mon, 19 Oct 2026 22:13:59 +0800 "Li Zhe" <lizhe.67@bytedance.com> wrote:
 
-In the common case (where kvm->arch.use_master_clock is true), the KVM
-clock is defined as a simple arithmetic function of the guest TSC, based
-on a reference point stored in kvm->arch.master_kernel_ns and
-kvm->arch.master_cycle_now.
+> memory.reclaim is a useful proactive reclaim interface for memcgs, but
+> tiered memory makes "reclaim N bytes from this memcg" underspecified for
+> userspace controllers that manage memory placement across tiers. The
+> kernel's reclaim policy is aging-based, and on tiered systems aging may
+> demote folios before they are eventually evicted. Without a way to
+> declare where reclaim pressure should start, userspace can only reclaim
+> from the memcg as a whole and observe one aggregate progress value.
 
-The existing KVM_[GS]ET_CLOCK functionality does not allow for this
-relationship to be precisely saved and restored by userspace. All it can
-currently do is set the KVM clock at a given UTC reference time, which
-is necessarily imprecise.
+Hi Zhe,
 
-So on live update, the guest TSC can remain cycle accurate at precisely
-the same offset from the host TSC, but there is no way for userspace to
-restore the KVM clock accurately.
+I hope you have been doing well. I'm circling back to this discussion
+to see if there have been any updates since we last spoke about this.
 
-Even on live migration to a new host, where the accuracy of the guest
-time-keeping is fundamentally limited by the accuracy of wallclock
-synchronization between the source and destination hosts, the clock jump
-experienced by the guest's TSC and its KVM clock should at least be
-*consistent*. Even when the guest TSC suffers a discontinuity, its KVM
-clock should still remain the *same* arithmetic function of the guest
-TSC, and not suffer an *additional* discontinuity.
+I'm wondering how feasible it would be to enforce some kind of placement
+decision from userspace with this new tool. That is, I think I would be
+interested to see if this solution was enough to grant fair placement
+of memroy across tiers within a memcg.
 
-To allow for accurate migration of the KVM clock, add per-vCPU ioctls
-which save and restore the actual PV clock info in
-pvclock_vcpu_time_info.
+Were you able to run tests to demonstrate how effective this was at
+managing placement decisions for memory?
 
-The restoration in KVM_SET_CLOCK_GUEST works by creating a new reference
-point in time just as kvm_update_masterclock() does, and calculating the
-corresponding guest TSC value. This guest TSC value is then passed
-through the user-provided pvclock structure to generate the *intended*
-KVM clock value at that point in time, and through the *actual* KVM
-clock calculation. Then kvm->arch.kvmclock_offset is adjusted to
-eliminate the difference.
+Of course, I think we should answer the ABI questions below. Maybe some
+of the memcg folks could chime in a bit about what kinds of interfaces
+they would like to see.
 
-Both ioctls return -ENODATA when the KVM clock is not in master clock
-mode (because the host TSC is unreliable, or the guest TSCs are
-configured strangely); the KVM clock is then not a function of the
-guest TSC at all, so userspace shall fall back to the legacy
-KVM_[GS]ET_CLOCK, whose imprecision is acceptable in a mode which is
-imprecise anyway. That means sending the results of *both* GET ioctls
-with the migration data, unless the intent is to refuse to resume on a
-host with a bad TSC. An unknown TSC frequency on the current CPU
-(possible only without CONSTANT_TSC) also reads as -ENODATA. The
-ioctls are advertised with KVM_CAP_CLOCK_GUEST.
+To start, I'll reiterate what I've said in the previous response, I
+think we should keep this a node extension until we can demonstrate a
+scenario where there needs to be tier-awareness (to be honest, I don't
+think there is one).
 
-KVM_GET_CLOCK_GUEST services a masterclock update pending on the vCPU
-before reading: a backwards host TSC on resume parks the request and
-leaves the snapshot stale, while vcpu_load() has already applied the
-offset compensation — combining the two yields a value whose frequency
-still matches, which the destination could not reject. Servicing the
-update makes that case correctly return -ENODATA.
+Cc-ing Johannes who is a memcg maintainer but was not CCed in the
+original series:
+Cc: Johannes Weiner <hannes@cmpxchg.org>
 
-The set side validates everything it is given — padding, version (must
-be zero), flags (nothing beyond PVCLOCK_TSC_STABLE_BIT) — so the fields
-keep meaning for the future, and re-marks the Hyper-V TSC page once the
-new clock is published, with a consumer queued behind the re-mark, as
-kvm_update_masterclock() does.
+Thanks, have a great day!
+Joshua
 
-Co-developed-by: David Woodhouse <dwmw@amazon.co.uk>
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-Signed-off-by: Jack Allister <jalliste@amazon.com>
-Reviewed-by: Paul Durrant <paul@xen.org>
-Cc: Dongli Zhang <dongli.zhang@oracle.com>
-Tested-by: Dongli Zhang <dongli.zhang@oracle.com>
----
- Documentation/virt/kvm/api.rst  |  56 ++++++++
- arch/x86/include/uapi/asm/kvm.h |   1 +
- arch/x86/kvm/x86.c              | 223 ++++++++++++++++++++++++++++++++
- include/uapi/linux/kvm.h        |   4 +
- 4 files changed, 284 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 9487afc4431f..98f5da057b86 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6767,6 +6767,62 @@ if the guest_memfd memory was pinned in IOMMU page tables.
- 
- See also: :ref:`KVM_SET_MEMORY_ATTRIBUTES`.
- 
-+4.147 KVM_GET_CLOCK_GUEST
-+----------------------------
-+
-+:Capability: KVM_CAP_CLOCK_GUEST
-+:Architectures: x86_64
-+:Type: vcpu ioctl
-+:Parameters: struct pvclock_vcpu_time_info (out)
-+:Returns: 0 on success, <0 on error
-+
-+Retrieves the current time information structure used for KVM/PV clocks,
-+in precisely the form advertised to the guest vCPU, which gives parameters
-+for a direct conversion from a guest TSC value to nanoseconds.
-+
-+The structure is in terms of the given vCPU's TSC. It must be passed back
-+to KVM_SET_CLOCK_GUEST on the *same* vCPU (on the destination VM, for
-+migration); vCPUs may legitimately have different TSC offsets, which would
-+otherwise be silently folded into the restored KVM clock.
-+
-+When the KVM clock is not in "master clock" mode, for example because the
-+host TSC is unreliable or the guest TSCs are oddly configured, the KVM clock
-+is actually defined by the host CLOCK_MONOTONIC_RAW instead of the guest TSC.
-+In this case, the KVM_GET_CLOCK_GUEST ioctl returns -ENODATA.
-+
-+4.148 KVM_SET_CLOCK_GUEST
-+----------------------------
-+
-+:Capability: KVM_CAP_CLOCK_GUEST
-+:Architectures: x86_64
-+:Type: vcpu ioctl
-+:Parameters: struct pvclock_vcpu_time_info (in)
-+:Returns: 0 on success, <0 on error
-+
-+Sets the KVM clock (for the whole VM) in terms of the vCPU TSC, using the
-+pvclock structure as returned by KVM_GET_CLOCK_GUEST. This allows the precise
-+arithmetic relationship between guest TSC and KVM clock to be preserved by
-+userspace across migration.
-+
-+When the KVM clock is not in "master clock" mode, and the KVM clock is actually
-+defined by the host CLOCK_MONOTONIC_RAW, this ioctl returns -ENODATA. Userspace
-+may choose to set the clock using the less precise KVM_SET_CLOCK ioctl, or may
-+choose to fail, denying migration to a host whose TSC is misbehaving. A host
-+whose CPU TSC frequency is unknown (only possible without
-+X86_FEATURE_CONSTANT_TSC) is never in "master clock" mode, so it also returns
-+-ENODATA.
-+
-+If the mul/shift fields of the provided pvclock structure encode a TSC
-+frequency inconsistent with the vCPU's actual TSC frequency, this ioctl
-+returns -ERANGE.
-+
-+If the vCPU's current TSC is behind the tsc_timestamp in the provided
-+structure, this ioctl returns -EINVAL. Restore the guest TSC (which the
-+documented migration procedure keeps monotonic) before invoking it.
-+The padding fields must be zero, the version field must be zero, and
-+no flags beyond PVCLOCK_TSC_STABLE_BIT are accepted; anything else
-+returns -EINVAL.
-+
- .. _kvm_run:
- 
- 5. The kvm_run structure
-diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
-index 1585ec804066..9e3cdc3adb65 100644
---- a/arch/x86/include/uapi/asm/kvm.h
-+++ b/arch/x86/include/uapi/asm/kvm.h
-@@ -12,6 +12,7 @@
- #include <linux/types.h>
- #include <linux/ioctl.h>
- #include <linux/stddef.h>
-+#include <asm/pvclock-abi.h>
- 
- #define KVM_PIO_PAGE_OFFSET 1
- #define KVM_COALESCED_MMIO_PAGE_OFFSET 2
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index 743da71cd84d..16383c71131d 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -2777,6 +2777,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
- 	case KVM_CAP_MEMORY_FAULT_INFO:
- 	case KVM_CAP_X86_GUEST_MODE:
- 	case KVM_CAP_ONE_REG:
-+#ifdef CONFIG_X86_64
-+	case KVM_CAP_CLOCK_GUEST:
-+#endif
- 		r = 1;
- 		break;
- 	case KVM_CAP_PRE_FAULT_MEMORY:
-@@ -3941,6 +3944,218 @@ static int kvm_vcpu_ioctl_enable_cap(struct kvm_vcpu *vcpu,
- 	}
- }
- 
-+#ifdef CONFIG_X86_64
-+static int kvm_vcpu_ioctl_get_clock_guest(struct kvm_vcpu *v, void __user *argp)
-+{
-+	struct pvclock_vcpu_time_info hv_clock = {};
-+	struct kvm_arch *ka = &v->kvm->arch;
-+	bool use_master_clock;
-+	unsigned int seq;
-+
-+	/*
-+	 * Construct the pvclock purely from the master clock state. The
-+	 * master mul/shift are computed for the guest TSC frequency, which
-+	 * in master clock mode is the frequency of every vCPU; only the
-+	 * tsc_timestamp is per-vCPU, translating the master snapshot into
-+	 * this vCPU's TSC domain via its scaling ratio and offset.
-+	 *
-+	 * Note, this deliberately does NOT invoke kvm_guest_time_update(),
-+	 * which would write the guest's pvclock pages: dirtying guest
-+	 * memory after the final KVM_RUN would break post-copy migration
-+	 * flows. The pvclock returned here describes the same clock as the
-+	 * guest-visible copy (the same linear function of the guest TSC),
-+	 * anchored at the current master clock snapshot.
-+	 *
-+	 * Translating the snapshot through the vCPU's *current* scaling
-+	 * ratio and offset is correct even if they changed after the
-+	 * snapshot was taken: the snapshot anchors a host TSC value, not
-+	 * a guest one.
-+	 */
-+
-+	/*
-+	 * Service a pending masterclock update first. Events like a
-+	 * backwards host TSC on resume, or a frequency change, park
-+	 * KVM_REQ_MASTERCLOCK_UPDATE on the vCPUs and leave the snapshot
-+	 * — and use_master_clock itself — stale until a guest entry.
-+	 * vcpu_load() has already applied any pending backwards-TSC
-+	 * offset adjustment to this vCPU, and combining that with the
-+	 * pre-suspend snapshot would produce a value the destination
-+	 * cannot reject: the frequency still matches.
-+	 */
-+	if (kvm_test_request(KVM_REQ_MASTERCLOCK_UPDATE, v))
-+		kvm_update_masterclock(v->kvm, v);
-+
-+	do {
-+		seq = read_seqcount_begin(&ka->pvclock_sc);
-+
-+		use_master_clock = ka->use_master_clock;
-+		if (!use_master_clock)
-+			continue;
-+
-+		hv_clock.tsc_timestamp = kvm_read_l1_tsc(v, ka->master_cycle_now);
-+		hv_clock.system_time = ka->master_kernel_ns + ka->kvmclock_offset;
-+		hv_clock.tsc_shift = ka->master_tsc_shift;
-+		hv_clock.tsc_to_system_mul = ka->master_tsc_mul;
-+		hv_clock.flags = READ_ONCE(ka->all_vcpus_matched_tsc) ?
-+				 PVCLOCK_TSC_STABLE_BIT : 0;
-+	} while (read_seqcount_retry(&ka->pvclock_sc, seq));
-+
-+	if (!use_master_clock)
-+		return -ENODATA;
-+
-+	if (copy_to_user(argp, &hv_clock, sizeof(hv_clock)))
-+		return -EFAULT;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Reverse the calculation in the hv_clock definition.
-+ *
-+ * time_ns = ( (cycles << shift) * mul ) >> 32;
-+ * (although shift can be negative, so that's bad C)
-+ *
-+ * So for a single second,
-+ * NSEC_PER_SEC = ( ( FREQ_HZ << shift) * mul ) >> 32
-+ * NSEC_PER_SEC << 32 = ( FREQ_HZ << shift ) * mul
-+ * ( NSEC_PER_SEC << 32 ) / mul = FREQ_HZ << shift
-+ * ( NSEC_PER_SEC << 32 ) / mul ) >> shift = FREQ_HZ
-+ */
-+static u64 hvclock_to_hz(u32 mul, s8 shift)
-+{
-+	u64 tm = NSEC_PER_SEC << 32;
-+
-+	/* Maximise precision. Shift left until the top bit is set */
-+	tm <<= 2;
-+	shift += 2;
-+
-+	/* While 'mul' is even, increase the shift *after* the division */
-+	while (!(mul & 1)) {
-+		shift++;
-+		mul >>= 1;
-+	}
-+
-+	tm /= mul;
-+
-+	if (shift >= 64)
-+		return 0;
-+	if (shift > 0)
-+		return tm >> shift;
-+
-+	/*
-+	 * A left shift can overflow for absurd user-supplied mul/shift
-+	 * combinations; saturate (to a value which cannot itself overflow
-+	 * the rounding in the caller's kHz conversion) so the frequency
-+	 * check certainly rejects them.
-+	 */
-+	if (shift <= -64 || tm > (U64_MAX >> 1) >> -shift)
-+		return U64_MAX >> 1;
-+	return tm << -shift;
-+}
-+
-+static int kvm_vcpu_ioctl_set_clock_guest(struct kvm_vcpu *v, void __user *argp)
-+{
-+	struct pvclock_vcpu_time_info user_hv_clock;
-+	struct kvm *kvm = v->kvm;
-+	struct kvm_arch *ka = &kvm->arch;
-+	u64 curr_tsc_hz, user_tsc_hz;
-+	u64 curr_tsc_khz, user_tsc_khz;
-+	u64 user_clk_ns;
-+	u64 guest_tsc;
-+	int rc = 0;
-+
-+	if (copy_from_user(&user_hv_clock, argp, sizeof(user_hv_clock)))
-+		return -EFAULT;
-+
-+	if (user_hv_clock.pad0 || user_hv_clock.pad[0] || user_hv_clock.pad[1])
-+		return -EINVAL;
-+
-+	/*
-+	 * KVM_GET_CLOCK_GUEST emits version 0 and at most
-+	 * PVCLOCK_TSC_STABLE_BIT; reject anything else now, so the
-+	 * fields keep meaning for the future rather than carrying
-+	 * whatever garbage old userspace got away with.
-+	 */
-+	if (user_hv_clock.version ||
-+	    (user_hv_clock.flags & ~PVCLOCK_TSC_STABLE_BIT))
-+		return -EINVAL;
-+
-+	if (!user_hv_clock.tsc_to_system_mul)
-+		return -EINVAL;
-+
-+	if (user_hv_clock.tsc_shift < -31 || user_hv_clock.tsc_shift > 31)
-+		return -EINVAL;
-+
-+	user_tsc_hz = hvclock_to_hz(user_hv_clock.tsc_to_system_mul,
-+				    user_hv_clock.tsc_shift);
-+
-+	kvm_hv_request_tsc_page_update(kvm);
-+
-+	/*
-+	 * kvm_start_pvclock_update() takes tsc_write_lock and opens
-+	 * the pvclock seqcount; kvm_end_pvclock_update() closes both.
-+	 * All clock state modifications between them are atomic with
-+	 * respect to readers in kvm_guest_time_update().
-+	 */
-+	kvm_start_pvclock_update(kvm);
-+	pvclock_update_vm_gtod_copy(kvm);
-+
-+	if (!ka->use_master_clock) {
-+		rc = -ENODATA;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Nonzero, or pvclock_update_vm_gtod_copy() — which read it on
-+	 * this CPU, with interrupts still disabled — would have cleared
-+	 * use_master_clock above.
-+	 */
-+	curr_tsc_hz = (u64)get_cpu_tsc_khz() * HZ_PER_KHZ;
-+
-+	if (kvm_caps.has_tsc_control)
-+		curr_tsc_hz = kvm_scale_tsc(curr_tsc_hz,
-+					    v->arch.l1_tsc_scaling_ratio);
-+
-+	/*
-+	 * The mul/shift in the provided pvclock structure encode the guest
-+	 * TSC frequency at which it was generated. Sanity-check that it is
-+	 * consistent with this vCPU's effective TSC frequency, allowing a
-+	 * discrepancy of 1 kHz either way since independently calibrated
-+	 * hosts will not measure precisely the same value even for the
-+	 * same nominal frequency. Compare in kHz: the reconstruction of
-+	 * each side's frequency in Hz carries a few Hz of rounding, which
-+	 * must not push two hosts calibrated exactly 1 kHz apart over the
-+	 * line.
-+	 */
-+	user_tsc_khz = DIV_ROUND_CLOSEST_ULL(user_tsc_hz, HZ_PER_KHZ);
-+	curr_tsc_khz = DIV_ROUND_CLOSEST_ULL(curr_tsc_hz, HZ_PER_KHZ);
-+	if (user_tsc_khz + 1 < curr_tsc_khz ||
-+	    user_tsc_khz > curr_tsc_khz + 1) {
-+		rc = -ERANGE;
-+		goto out;
-+	}
-+
-+	/*
-+	 * Calculate the guest TSC at the new reference point, and the
-+	 * corresponding KVM clock value according to user_hv_clock.
-+	 * Adjust kvmclock_offset so both definitions agree.
-+	 */
-+	guest_tsc = kvm_read_l1_tsc(v, ka->master_cycle_now);
-+	if ((s64)(guest_tsc - user_hv_clock.tsc_timestamp) < 0) {
-+		rc = -EINVAL;
-+		goto out;
-+	}
-+	user_clk_ns = __pvclock_read_cycles(&user_hv_clock, guest_tsc);
-+	ka->kvmclock_offset = user_clk_ns - ka->master_kernel_ns;
-+
-+out:
-+	kvm_end_pvclock_update(kvm);
-+
-+	kvm_hv_remark_tsc_page(kvm);
-+	return rc;
-+}
-+#endif
-+
- long kvm_arch_vcpu_ioctl(struct file *filp,
- 			 unsigned int ioctl, unsigned long arg)
- {
-@@ -4334,6 +4549,14 @@ long kvm_arch_vcpu_ioctl(struct file *filp,
- 		srcu_read_unlock(&vcpu->kvm->srcu, idx);
- 		break;
- 	}
-+#ifdef CONFIG_X86_64
-+	case KVM_SET_CLOCK_GUEST:
-+		r = kvm_vcpu_ioctl_set_clock_guest(vcpu, argp);
-+		break;
-+	case KVM_GET_CLOCK_GUEST:
-+		r = kvm_vcpu_ioctl_get_clock_guest(vcpu, argp);
-+		break;
-+#endif
- #ifdef CONFIG_KVM_HYPERV
- 	case KVM_GET_SUPPORTED_HV_CPUID:
- 		r = kvm_ioctl_get_supported_hv_cpuid(vcpu, argp);
-diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-index 8dff2fc1972e..1349387cceb0 100644
---- a/include/uapi/linux/kvm.h
-+++ b/include/uapi/linux/kvm.h
-@@ -1000,6 +1000,7 @@ struct kvm_enable_cap {
- #define KVM_CAP_PPC_COMPAT_CAPS 250
- #define KVM_CAP_ARM_PMU_V3_STRICT 251
- #define KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES 252
-+#define KVM_CAP_CLOCK_GUEST 253
- 
- struct kvm_irq_routing_irqchip {
- 	__u32 irqchip;
-@@ -1690,4 +1691,7 @@ struct kvm_pre_fault_memory {
- 	__u64 padding[5];
- };
- 
-+#define KVM_SET_CLOCK_GUEST	_IOW(KVMIO, 0xd6, struct pvclock_vcpu_time_info)
-+#define KVM_GET_CLOCK_GUEST	_IOR(KVMIO, 0xd7, struct pvclock_vcpu_time_info)
-+
- #endif /* __LINUX_KVM_H */
--- 
-2.43.0
-
+> There is prior history here [1]. The old nodes= proposal tried to let
+> memory.reclaim scan selected NUMA nodes, but the discussion left several
+> ABI questions unresolved:
+> 
+> - nodes= did not clearly say whether the mask was a source selector, a
+>   reclaim domain, or a demotion-target constraint.
+> - The implementation did not apply the mask to the whole reclaim path,
+>   so demotion could allocate outside the mask. If userspace interpreted
+>   the mask as a domain or target constraint, the ABI did not provide
+>   that.
+> - Selecting top-tier nodes could become an implicit way to request
+>   demotion without uncharge. That would make userspace depend on a
+>   particular reclaim policy and could make future policy changes hard.
+> - The separate completion-accounting question remained: demotion can
+>   count as reclaim progress even though memory.current is not reduced.
+> 
+> This series takes a narrower approach. It adds a typed source= key which
+> declares only the source on which the existing memory.reclaim aging
+> pipeline should be applied. It is not a demotion target selector, not a
+> demotion-only goal, not an eviction-only goal, and not a change to the
+> existing completion accounting. Leaving source unspecified preserves the
+> existing memory.reclaim behavior.
+> 
+> In that sense, this series extends node-scoped reclaim pressure to the
+> memcg memory.reclaim interface. The existing node memory_reclaim
+> interface can apply pressure to a node, but it is not scoped to a
+> particular memcg. This series lets userspace apply the same kind of
+> source-scoped pressure to a cgroup's resident memory on selected nodes
+> or tiers, while still using the normal memcg reclaim path.
+> 
+> The main benefit of this series is to give userspace a steering knob
+> for per-node and per-tier memory placement control. A tiering controller
+> can observe the resident memory distribution across nodes or memory
+> tiers, and then apply reclaim pressure to the source that should be
+> relieved. For example, it can apply pressure to top-tier nodes so that,
+> under the existing tiering policy, cold folios can be aged and usually
+> demoted to lower tiers, or reclaim from a terminal tier when it needs
+> actual charge reduction.
+> 
+> The existing memory.reclaim interface cannot express this. It applies
+> pressure to the memcg as a whole, so on a multi-tier system the kernel
+> may make progress in a tier different from the one userspace is trying
+> to control. That makes feedback control of tier ratios ineffective: the
+> controller can observe that a specific tier is over its desired resident
+> footprint, but it cannot direct the next reclaim request to that tier.
+> 
+> Patch 1 adds source=nodes:<nodelist>, which is the basic source
+> selector. Patch 2 adds source=tier:<N>, where N is the memory_tierN id
+> exposed by /sys/devices/virtual/memory_tiering/. The tier selector is
+> only a convenience layer over the same source semantics: it resolves the
+> current tier nodelist at write time and then uses the same source-scoped
+> reclaim path as source=nodes:<nodelist>.
+> 
+> The remaining issues from the old discussion are intentionally left out
+> of this series. If userspace needs to control demotion targets, that
+> should be a separate target/demotion-policy ABI rather than folded into
+> source=. If userspace needs a strict "bytes actually uncharged"
+> completion mode, that should be discussed as a separate accounting or
+> goal extension because it would change the observable meaning of
+> memory.reclaim progress. This series only adds source selection for the
+> existing reclaim policy.
+> 
+> References:
+> [1] https://lore.kernel.org/all/Y5bsmpCyeryu3Zz1@dhcp22.suse.cz/
+> 
+> Li Zhe (2):
+>   mm: add source selector to memory.reclaim
+>   mm: add tier source selector to memory.reclaim
+> 
+>  Documentation/admin-guide/cgroup-v2.rst | 29 +++++++++++
+>  include/linux/memory-tiers.h            |  6 +++
+>  mm/internal.h                           |  3 +-
+>  mm/memcontrol-v1.c                      |  6 ++-
+>  mm/memcontrol.c                         | 11 +++--
+>  mm/memory-tiers.c                       | 24 ++++++++++
+>  mm/vmscan.c                             | 64 +++++++++++++++++++++++--
+>  7 files changed, 133 insertions(+), 10 deletions(-)
+> 
+> -- 
+> 2.20.1
