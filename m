@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794434251;
-	b=x34A/KqyI1Ots6bbJJp58JesDAGQ14Fksh6VlRt4HgsFgBWT51vUbjVfU8BIsoADdJxR
-	 4e4mXLhr/3a8ZXDphCeUQABznDl85sUGWBnQHIuaFlJVyX2sslHyvIMRZHxhgUnyyiRrg
-	 mowcHKKWUR9JwxOjEflRo04edNZ2Nx7Kn2QmkfZeMAFYjYMnQiLZvZblUexR9Kv719x0W
-	 W+H95okyAipIO8sZtRKmEkbQSRC+KJtr+Dts2vYhkQ/H1KyWS1DCJrO9Nqpps7f+35aEU
-	 DfbOEZMlVxTTOwdsJh27GneENguNkDvfN2Za/LZVmqrozaeahq6JlbyTF0UODiBrP4Q==
+	t=1794434255;
+	b=P0Y71hBPbcU3iJhkgWa/SyBo0vwYqlEuyhfSvCpaAFjtlJa9SeAx6LHbc0QkpxsLN+Oz
+	 KQs51LQ9nzersanLj2R3/hXtDReB5ZBBFNG+iop6YaFXk1EHsyUO67XEwSx8r5PzCHlOq
+	 0EnNxJVMGuOhCTLA58Nj8oDcjeJJAtvezd2L1pBc3fs+QjshsIjZObIHLazXTSG+6diMD
+	 LNPGb2wHcQIxD3q0B1VelfJNlqGTlmcfLU/gXLBLsQm80JhoHERuyGRQR+nQXCr/3xyIL
+	 tFJdYEsckrI3vhpQf+7vAUYGMG5Xx57aUSAFdTUlIr5hftIyG6ObyozoORC461CdIKQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794434251;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794434255;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=1ggCgsA+NJ3WO/E1t+Aq1JDPeicUUtkRHraZJ7K1wtc=;
-	b=ZDm6kZEKqaW3T8Vu/nq2WA4vLUVStTVXOfEg5H+aje/y7j2DclAGlJfqJUcuLUThnUd6
-	 ZgTzetIWea8kHBFbt5AC+bU0YM1qvM4/LooYh6fPU74Aq8ITRUdN6lJoupxUyPfmxvMhu
-	 VcSuRKK90vWrzkB7Kq4mirKRc4qk3vExDgCRXm1u6GFKRHRh+cVZyspy3BXH4sI5CbOEn
-	 HXCe5aTCEFJJf5kuPHxIH0pr2ojCagwMdaWQQQ6C3vdms9lXiLAgMHoNI7PuaZiDKvDP6
-	 AArVxMUQtRUiaNrkLaJ+En57z+eknDK+Riu0OmcBkh9u/oqZ87LUPVvxlvPfmI+oEcQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=SpxeEyGCBIe2pmFodowG7QVxBvAwlFcEp0A+XN+w7cc=;
+	b=1NvuwUd4PHdDrUMstqVyUp3hFnZoAi65l5mfJxbKdR1KK0cFxQWWQo6xodJEITh/j9KU
+	 nhH1KsL9moeLnYqPg8obvAvPSFsrReDQHUM5YrrTJc4q8UoJ5XJnW+iHz2pCbonxGZV1/
+	 bmySzfiT/1zwGe2uBxhO3tYDVfUBQo0kMiZC6zGi1OXNv3JaGuIQtZy18yHI82B7N/7l9
+	 hEXp3caXQzRI/4o39Hni1s0XsZYDqU+K0BSjOJHKYTwJ1OWRa8Mepo8ZqeiumRI6Tun+O
+	 zGSCokm1Ae+9iXIAdr6Frd5JQN7OrEam3rPX1mu+6T2WBgHR82WOW8okArmw6lCSieA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dpRqHE6w;
-	arc=none smtp.remote-ip=74.125.82.181
-Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nEQlVa7S;
+	arc=none smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06180606A326
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:57:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06180606A326
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8314A606A326
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:57:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8314A606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dpRqHE6w
-Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-37071c0f42aso6201222eec.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 13:57:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=nEQlVa7S
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-36f6295304dso4432220eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 13:57:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794434250; x=1795039050; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1ggCgsA+NJ3WO/E1t+Aq1JDPeicUUtkRHraZJ7K1wtc=;
-        b=dpRqHE6wmn5/kypQAavyk2ufy8OymjXbdHszRThOGjX0jhpHZE2qgnjwzT3Vy1/b41
-         yQ4Gi3hSMKciusY7qlEJ5+14hX1uBKQfaMxw5cA9h2m6f2Am4HkhyTRKppbGkixO96I9
-         4xshsjXZE3rQFOSViTCZVmT9vw1xcGdCrxvzRzieFMx4zhtiRLUIObcxOwBbp+LDcplg
-         A6OM9KKLpskJGQyuytSPCIf/ZJCEx7YbYp9PX4Rpv6SrtWlfX1tPBRbZKQWvjwWIf2fz
-         TQxHreUPkPkn9Z+C4+hQ+743rtYhXfedsICOSLIje0r6hLPhyzp3psTVzDLlw1t16rGn
-         EHxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794434250; x=1795039050;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794434255; x=1795039055; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1ggCgsA+NJ3WO/E1t+Aq1JDPeicUUtkRHraZJ7K1wtc=;
-        b=cezUyL4pOAIpyBh/VUiAV3VLP3/Lvcq9rYzuPzorhP8TE0OvYWm5YOIL7puBmCmxCQ
-         zZ5IQa+09hJTKHEy4GpsdRA1NxV8d+HNAkYe1HdcAaLNUZZH/YadHI0gprsagmk/bznN
-         5IxcibMYSKwg9buKNYbQu7LKFyuRMRtaNSOdCBZotvcPMHVT2e/7Ard9JyrkdxdpKWWn
-         yhHMrkbZpWkG2AZOFPVXxwxXEqO+0tBLntsw93g+w4DQIPB/MNBNpFlcYpuQubd/RA83
-         ymMM+kZ91MEJ6jwsXMxutdWMuei+Bntb72jvuhRtDNMeNMAWUUpzVdJno5Q5CYdRzZwH
-         bsyw==
-X-Forwarded-Encrypted: i=1; AL+hErFCPV7AjLTziA3aMDb893O8cDTHJ64Fx2bXz0F5PAQ04h1yTLXwLU92GTCAF/sW9Jz729MjREPB/+g=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9A5HzvDLwL1GKkWbZMpGSWqEjoGF3iRqrlRWXCjh7HGos24c+N
-	7jie5qgw7HNiWSDB9RKrRDr64LqNCvNMzPr/Cj7DIDaZaOUM6CxJ3Bf1
-X-Gm-Gg: AYBFou2lchGOwkHSxpcHJjsUjmdSIeYIhO9NBxkckEWtzw2b742xLIxc/xPgQ4SnJyw
-	ZRYVRlVXmTiseZ/nI0CYeCAA15m4WiqxpDJsV0O2cA1PbL/bAYjZezYwYrORDF2+GYO3i9G/sk3
-	Rjsw1rliukuRQtI3fk5rqBigJKTcOejjXleZ4nrtQ4VWdkQq/IeU4/zqHHsurJHEyNPhwDnZdhh
-	gWyvq9Bp9zyVS84jnqHTTKibQJF4CDUVO9vS62v5FReCRTo+YrRX2y6obJzjVWQ7v9v98UzpRV/
-	qoantf0Cy2z+VlMHyWYAUPrIcv2qZy/rsj3lo8hvlxoL38lYiFa7Nu8UACRDCsESTHdsZFeEQ8d
-	3CBLqf4dr+VF4uGSgvXlJxxrJ7rVcOsmolJjav3Xk+pIhqV+qMMjA5sA3esO76rK42iKBit+O92
-	qNa8n6YjsJzr13d45AXq2qsSuyBJuHnWok8Pr+wFHv+77rVzj9k7YEsdMeFvWim+KBC/ahZKHqe
-	WynEmaLPEyaV4VoKHhgS35+7s0/8VdHioP/V1o2GdABpwIWyf8YI+Kv8NjUubAtOPod+VPBYpaV
-	+MriKP6rrdW0j33tbP8M7GNoEPLPW0mH1S3fl/I9/nvsYgYUcvqNnK8kpuhzMTZycvJNc20Z62v
-	WQ+a4bfwRKNIJMvJFRQ==
-X-Received: by 2002:a05:7300:2d2b:b0:36d:2704:6adf with SMTP id 5a478bee46e88-3768579df8bmr5681391eec.11.1794434249909;
-        Wed, 11 Nov 2026 13:57:29 -0800 (PST)
+        bh=SpxeEyGCBIe2pmFodowG7QVxBvAwlFcEp0A+XN+w7cc=;
+        b=nEQlVa7SBqq5wJgUoTQc0s6JCfis1TV1le55JeVM4syZGTmNngYzCg3Zyltd0lK+Ox
+         XTKKuObijblBkqafA7E8qpcMVg62I77jo49rqLT640mDOr9OUoofzd1h8qsHDMTm0q77
+         lNm74rfCLHwzuwDMmZo4D5pXFiPlcA6DA6aDeqhT49PhrCpV7+gkzCbpUmap0O8qbkV3
+         /EEwLA9ARHl05MSOrb3woRUXjJkDJMF4Z7gvqMCIKQs6ZehuENwy++kvYFoO3pQxKspH
+         j3bwqpvBow2fabNc5eoWT0Y+H90vaRhaLbv9TC9dmouPLwV0a5qzRg4XUeOyodmKItH2
+         IYZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794434255; x=1795039055;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SpxeEyGCBIe2pmFodowG7QVxBvAwlFcEp0A+XN+w7cc=;
+        b=QWxCJvDXbJzkpZoBZAHrDV+1uXLVIpt4pl27OpsKFMWaFFYuCRPRy9dovByUYhXoBr
+         a6xp9KhUHjITLjspgIW5i2ak4ZdXnASYnFzwVxasVn0w0bYkOqG7Ag1Gk0Hz7dwEfMYJ
+         MKbRVjNw+/KvodwlGHTVgOk5/r7AIQNL8NHNZ1icONEVN6OgPGRmNKESc3NMVArAv5p0
+         h8CguNuJ5GCrhkmcxYr+lFyL7zgG3fMjUSO/HgIqodz8N0aT3urgMpriRY63C0XiOY9Y
+         QlxpukI6OeC/AJoBncrtPBALfNa0U8oUt4L0fa/Aj7OXtfRqFnbVGzF06CWupOpO4W5/
+         mkVg==
+X-Forwarded-Encrypted: i=1; AL+hErGNqq3zupXRAl0yVccLGKOYZKVGIMOZQtNuYi0XcJ8VRNZnKkd5Y4gAC6XWoslsA6tvJI97c1xTpAE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8/zYRgqoSrgGTFoOtuXEpMdAaAU2ersp29c51gFYHxRyepU2EF
+	Wdzcs0g6mX4sHmTSq76VeHh3CPIooWScUihKxi5zXPc1A3rlUp4OXwYF
+X-Gm-Gg: AYBFou0qZ4Nss1LbTsPNiPHEp7ei/MDqZZs/DNg4afOdHY9v2MU2MwHZ/uAS8EcEOpx
+	qTiV9JDMW5RfOLCReMO7B9TypHSaqmkeo3eqAPW0DlxJaoq6VjxdX60bIREQIJudsUVQbBaqKGE
+	dssiuzWDAOS1O40LNnkJaw0LaNkWm1oI5aVIQOvzG2Q30lb8ZkDy7nSiFyOmLqLtHKjG84hdgVg
+	eullA7pxkjn++qjJdvP5W3Qt+AYYZQdYA7y5NfBemO0pjVHGXhcRiGqikvmZejgrBfYxEXihNkF
+	uvEMx6fOYVZW+PhobYhyE78A8xTAEIabInWsg0tIWsUTpg08OsHROsGwyIsfrwnpbRsXW7aMgp3
+	1UAfTgg02VrSC0ptGVwDqeQNdtNwQYB9Q9/R8wMfMhj47B4bC2j/x6SKGfYA1qnPjtknPsiGZ0n
+	zhc9yyRQgZQqW3KkBganlsCe9pSRQSuAcvW9sqtASiphe7OdSW1jsBF9bNHiKqReS0CECkgOAAg
+	z8Iy86d2BlO3HvrDgWRfys6EIF8+pXKLXOVeySCIkPWdSvxpxJuZRsufQrLGNLyeOKkMAnB0W4o
+	GqGjV23uJ4oqgEwL40BZkSQULWQiQNfxehJzyODok2TIGwEduPEo1DI9liiFYbVhOM/0U5o8iGN
+	wOLxarv2/1DFoXq8/2A==
+X-Received: by 2002:a05:693c:60cd:b0:369:f18f:3492 with SMTP id 5a478bee46e88-37686d38d9dmr5076667eec.35.1794434254626;
+        Wed, 11 Nov 2026 13:57:34 -0800 (PST)
 Received: from dtor-ws.sjc.corp.google.com ([2a00:79e0:2ebe:8:eb83:637b:7b26:8dfe])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751dae6377sm17823523eec.3.2026.11.11.13.57.26
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751dae6377sm17823523eec.3.2026.11.11.13.57.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 13:57:27 -0800 (PST)
+        Wed, 11 Nov 2026 13:57:33 -0800 (PST)
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Henk Vergonet <Henk.Vergonet@gmail.com>,
 	Jiri Kosina <jikos@kernel.org>,
@@ -101,10 +102,12 @@ Cc: Oliver Neukum <oneukum@suse.com>,
 	linux-doc@vger.kernel.org,
 	linuxppc-dev@lists.ozlabs.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] Input: remove obsolete yealink USB phone driver
-Date: Wed, 11 Nov 2026 13:57:21 -0800
-Message-ID: <20261111215723.3802209-1-dmitry.torokhov@gmail.com>
+Subject: [PATCH 1/2] powerpc/configs: drop CONFIG_INPUT_YEALINK from ppc6xx_defconfig
+Date: Wed, 11 Nov 2026 13:57:22 -0800
+Message-ID: <20261111215723.3802209-2-dmitry.torokhov@gmail.com>
 X-Mailer: git-send-email 2.56.0.567.gdb80ae8cd5-goog
+In-Reply-To: <20261111215723.3802209-1-dmitry.torokhov@gmail.com>
+References: <20261111215723.3802209-1-dmitry.torokhov@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -116,40 +119,26 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This short series removes the obsolete yealink driver for the mid-2000s
-Yealink USB-P1K (0x6993:0xb001) USB 1.1 Skype/VoIP telephone handset
-and drops its module selection from ppc6xx_defconfig.
+The yealink driver is obsolete and being removed. Drop its module
+selection from ppc6xx_defconfig.
 
-The hardware relied on dedicated userspace bridge utilities (such as
-usbb2k-api / kb2kskype for the defunct legacy Skype desktop API, or
-yeaphone for liblinphone) to drive its keypad, segmented LCD, and tones
-through custom sysfs attributes. That userspace ecosystem has been
-unmaintained for over 15 years, and the driver itself has seen no
-functional updates, hardware testing, or new device IDs since 2008
-while continuing to attract syzbot USB fuzzing reports and drive-by
-cleanup patches.
+Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+---
+ arch/powerpc/configs/ppc6xx_defconfig | 1 -
+ 1 file changed, 1 deletion(-)
 
-Thanks.
-
-Dmitry Torokhov (2):
-  powerpc/configs: drop CONFIG_INPUT_YEALINK from ppc6xx_defconfig
-  Input: yealink - remove driver
-
- Documentation/.renames.txt              |   1 -
- Documentation/input/devices/yealink.rst | 226 ------
- MAINTAINERS                             |   6 -
- arch/powerpc/configs/ppc6xx_defconfig   |   1 -
- drivers/hid/hid-ids.h                   |   3 -
- drivers/hid/hid-quirks.c                |   1 -
- drivers/input/misc/Kconfig              |  15 -
- drivers/input/misc/Makefile             |   1 -
- drivers/input/misc/yealink.c            | 950 ------------------------
- drivers/input/misc/yealink.h            | 206 -----
- 10 files changed, 1410 deletions(-)
- delete mode 100644 Documentation/input/devices/yealink.rst
- delete mode 100644 drivers/input/misc/yealink.c
- delete mode 100644 drivers/input/misc/yealink.h
-
+diff --git a/arch/powerpc/configs/ppc6xx_defconfig b/arch/powerpc/configs/ppc6xx_defconfig
+index 8aab229fb909..29acc77573d6 100644
+--- a/arch/powerpc/configs/ppc6xx_defconfig
++++ b/arch/powerpc/configs/ppc6xx_defconfig
+@@ -537,7 +537,6 @@ CONFIG_INPUT_PCSPKR=m
+ CONFIG_INPUT_ATI_REMOTE2=m
+ CONFIG_INPUT_KEYSPAN_REMOTE=m
+ CONFIG_INPUT_POWERMATE=m
+-CONFIG_INPUT_YEALINK=m
+ CONFIG_INPUT_CM109=m
+ CONFIG_INPUT_UINPUT=m
+ CONFIG_SERIO_RAW=m
 -- 
 2.56.0.567.gdb80ae8cd5-goog
 
