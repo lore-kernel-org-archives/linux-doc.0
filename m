@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794389879;
-	b=Ki4+B3ItuQmXy/N6Fwbs5FoDbHyWUziyArBniDac9UDy+UzhKQUOTBf8WfnwBygX0OeF
-	 RVOZ9/UVRhvjopslYTvG/+SBHDMbhv8xK33w0X3GKOG0TjTdb+oaLT0zzinMxQV5D9N/C
-	 Qdu5IVO5tcwgOkk35u7GENMRyG6wq3RuQn17gzZ6mSEOk2ajMf4xM+H9gg14qkSYKKgQQ
-	 XOblPi9GWMGHo+hPTjxV/gzt7VjNLVnylndmf6KvPEotrdEOeyhr7u87H6BRe7ybNjN9q
-	 apxMjftp8ExCkg29GE1BnKS1T23tQFYq6YnTTF/gYoJddd2lCJncWAzrDtGLKBQ2qGQ==
+	t=1794389877;
+	b=DrB2BHgjBUTPAozqAjwneGrvlSl1Dnd0mCaMaGEY5u/DpA+VBAG5Pfec85r2YAyHsQVR
+	 EgKu3eFovEBYCrdUP2sbuFai4T2sioR4KIF/Q4C3s++9JPU00lMaMEVLsgQF7CcW2Fl58
+	 Obg6NZeMFLVl+N992WpJbAHNXA9sW1LsO/bcl1iyAF+F7eMZki4Y//tO1JyRgl+M9uYnd
+	 Mjk25VvFcjIfeHowUqyQH1Tj20Vs/fPtpnLsnS642ZR7MWU/aYHzLWCM1vVq8xTs0rePK
+	 6NOSXyZI8i45g3BQWtIGE2DpZhHaS7i+0SvSFKfQf102lOSTaljp4bYxSX48YQ+oXIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794389879;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794389877;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=BXmWGa5GpI8AotEk4GpASQZyzQY6QDF5+PiWYnJSL6o=;
-	b=CMmWaVrIu19dBvhRFlmVdmHbz6GK7KrUMLDBt7el27t+YVW08cAl05bmxL8oy2yffPdR
-	 chWn94+drqEYnRKSTFj/9q57LQuZN8lcIDK94ra2025NJKKKXdGsWEAx01BZrW0pLnHIB
-	 TYXV9D/kJnBhOYKzpirl7deiNijHre63qL7h8TuT9wlhia40e1W4sIp2mg44JaQU/7rp4
-	 ALDuiXACXtwS7Dj0+GL1tFRPwinN1sitiZy2Gft0Jklrr8OZL8/uGg/i/N2Sp3dhHa1Vy
-	 5NZ92vfCNtv1Rvwr9cWLdlW4JRMPIzllIZltr+PS5QcwZGeH4tHfPMdYr0D/hy1UbFw==
+	bh=kVFdLeWHhFiDEphbw9qjX1+kPhQJB3mSR5y2mW+n61s=;
+	b=RJm4zHfTDs8+9mHjOYXn4A6v6GPVM5O9SwkDJMUzvPcsUJANM84GA7aTgh9Z+YUzJ6gd
+	 G7N6zcOYJ//KCsR1X84O5+X/wYADQXEbZ0VZzpCj2s65N+8mGTQrBsiHKWFi+h/EswObL
+	 0Fk57NjTjeDXlRKO21NYvOANIS8Pg7uTvPT88JznysjTO+L3Qnyp5h1S/q51Cx/+wrNEp
+	 JIQsUhkwpgYCtRTg3DYkwcgz+3HuTcpCmmzQ+cPvsmOMTkjfhWP738Jm+zKm4My1Dl88u
+	 McKzxhHE1l0m3VxVPuNomlxhoWPqdwru2V7qAkfnLqGTHa3EubOdORSMTq9IY08E2iQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MJrc+CN3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=isZdn2xH;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D5A660A3818;
-	Wed, 11 Nov 2026 09:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MJrc+CN3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E50751F00A09;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D01606A33B;
 	Wed, 11 Nov 2026 09:37:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=isZdn2xH
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 403A01F00A09;
+	Wed, 11 Nov 2026 09:37:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794389879;
-	bh=BXmWGa5GpI8AotEk4GpASQZyzQY6QDF5+PiWYnJSL6o=;
+	s=k20260515; t=1794389877;
+	bh=kVFdLeWHhFiDEphbw9qjX1+kPhQJB3mSR5y2mW+n61s=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=MJrc+CN3thjLuEEMBMYZoav9Dn1rdhsbwfnJepybOj8NG4VzJgtGFfpxy10JSrs+x
-	 IjSAi/Q+WOZJPpuc2aymeprIojy1fNVW4F6C+HseuxvhmW4SKTM4X/1oQhQCO9hCht
-	 OG/mte1MuddBHp9UW7tneEv/u2PluBfQNy1oem6K/bRtV1kO0iemDqueTFx6wA076v
-	 i0oW8HhC7DQugfIm5dXhmlj05F/eu3USRjJU6S/bq4rg0I7gKZ3jO0MxgYYu2/sB1w
-	 dDc4FZFbJCxqGqBhQ7Y/OJLwGUfEtRySP9nbQoPOPK2Do3hEapJO3asoT9ipM8e9xn
-	 Trs8wb5uAX7VA==
+	b=isZdn2xHG8FFCkFzBKP7Je2xR7XC6hO0vrf/wMAdZFOIVJPrDK2uXIyjr0g7Rj4XO
+	 sYLSkCiExrQmpgLpRG1fRX0tB9Itq/527QLDGwYjXlVxs2Zyr5UvvlZ2A3L50aHtLV
+	 7IsekMX/VmC65scyu/ND4+ug1AkiB8NPPftrdQng8t3iSlt6sWWXhGt9kbWVE8N28G
+	 enclRfAlz0KSZyKAbehONuy88xhWurBcMrB5aGt/fOeuD/ezHgoKuu/wcAe1tPDpnJ
+	 o2OCz5IVvD1WxCL9gvlTZxkvpjt6uFShcDsp8flzCzTbtnZEAp4m2mSRvYqOALox7i
+	 a/knECC+ggNxg==
 Subject:
- Re: [PATCH net-next v3 14/14] selftests: dpll: add reference leak tests
+ Re: [PATCH net-next v3 13/14] selftests: dpll: add concurrency stress tests
 From: netdev-bot+sashiko@kernel.org
 To: poros@redhat.com
 Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
@@ -50,10 +50,10 @@ Cc: netdev@vger.kernel.org, ivecera@redhat.com, jiri@nvidia.com,
  arkadiusz.kubalewski@intel.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
  davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-Date: Wed, 11 Nov 2026 09:37:57 +0000
-Message-ID: <179438987744.2199510.9390854175096346888@kernel.org>
-In-Reply-To: <20261109093523.931201-15-poros@redhat.com>
-References: <20261109093523.931201-15-poros@redhat.com>
+Date: Wed, 11 Nov 2026 09:37:55 +0000
+Message-ID: <179438987581.2199510.17652993019541756821@kernel.org>
+In-Reply-To: <20261109093523.931201-14-poros@redhat.com>
+References: <20261109093523.931201-14-poros@redhat.com>
 X-sashiko-severity: Medium
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -67,10 +67,10 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 5 potential
+Thank you for your contribution! Sashiko AI review found 3 potential
 issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 1 · Low: 4
+Critical: 0 · High: 0 · Medium: 1 · Low: 2
 
 If you believe none of the issues are legitimate, please reply to each
 issue of Medium severity or higher and explain why the AI is wrong.
@@ -78,271 +78,194 @@ If any of them are legitimate and you plan to respin, please let patchwork
 know by including "pw-bot: cr" as a separate line at the end of your reply
 (one such reply per series is enough).
 
-- [Medium] The snapshot taken right after the probe can record the probe
-  device's own dead ref_tracker entries.
-- [Low] The leak check treats any non-empty dpll_device@*/dpll_pin@*
-  entry missing from the snapshot as a leak of this run.
-- [Low] The two new final leak checks handle a leftover device
-  differently.
-- [Low] dpll_ref_tracker_probe() returns 1 whenever the deployed probe
-  device produces no non-empty new entry.
-- [Low] dpll_debugfs_available() mounts debugfs when /sys/kernel/debug is
-  not a mountpoint and sets DPLL_MOUNTED_DEBUGFS=1.
+- [Medium] In tools/testing/selftests/drivers/dpll/dpll_stress.sh,
+  cleanup() can send SIGTERM and then SIGKILL to PIDs that bash has…
+- [Low] test_max_devices() in
+  tools/testing/selftests/drivers/dpll/dpll_stress.sh reports itself as…
+- [Low] cleanup() in tools/testing/selftests/drivers/dpll/dpll_stress.sh
+  signals only the PID of each worker subshell, never the external…
 
 --
 
-selftests: dpll: add reference leak tests
+selftests: dpll: add concurrency stress tests
 
-This adds helpers to dpll_lib.sh that snapshot the ref_tracker debugfs
-entries before a test creates dpllsim devices. A test then fails when an
-entry that is not in the snapshot still holds references afterwards. A
-throwaway probe device checks that the tracker works; the probe runs first
-in dpll_stress.sh, which also gains a final leak check, and in the new
-dpll_reftrack.sh.
+This adds two tests to dpll_stress.sh. One registers and unregisters
+dpllsim devices from several background workers at once. The other
+keeps several devices with many pins live and checks that each one is
+visible on netlink.
 
-> diff --git a/tools/testing/selftests/drivers/dpll/dpll_lib.sh b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-> index 7a0bb144af150..87686bb53d355 100644
-> --- a/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-> +++ b/tools/testing/selftests/drivers/dpll/dpll_lib.sh
-
-[ ... ]
-
-> @@ -641,3 +658,215 @@ dpllsim_setup_standard_device()
-
-[ ... ]
-
-> +dpll_debugfs_available()
-> +{
-> +	if ! mountpoint -q "$DEBUGFS_DIR"; then
-> +		mount -t debugfs none "$DEBUGFS_DIR" &> /dev/null &&
-> +			DPLL_MOUNTED_DEBUGFS=1
-> +	fi
-> +	mountpoint -q "$DEBUGFS_DIR"
-> +}
-
-[Severity: Low]
-The only sign that this script owns the mount is that debugfs was not
-mounted when it checked. If no dpllsim device is left behind,
-dpll_lib_cleanup() unmounts it at exit:
-
-	[ "$DPLL_MOUNTED_DEBUGFS" -eq 1 ] && mounted+=("$DEBUGFS_DIR")
-	...
-	for dir in "${mounted[@]}"; do
-		__dpll_lib_umount "$dir"
-	done
-
-During a long dpll_stress.sh run, another process (another selftest, a
-tracing tool, a user) can find debugfs already mounted and start using it
-without mounting it itself.
-
-Would the umount at exit pull debugfs out from under that process? A plain
-umount succeeds unless a file or cwd is held open at that moment, and the
-other process would not remount it.
-
-The configfs handling already works this way. This patch applies the same
-pattern to debugfs, which is shared far more widely.
-
-[ ... ]
-
-> +__dpll_ref_tracker_new_entries()
-> +{
-> +	local file=$1
-> +	local entry name content
-> +
-> +	for entry in "$DPLL_REF_TRACKER_DIR"/dpll_device@* \
-> +		     "$DPLL_REF_TRACKER_DIR"/dpll_pin@*; do
-> +		[ -f "$entry" ] || continue
-> +		name=$(basename "$entry")
-> +		grep -q "^$name " "$file" && continue
-> +		content=$(cat "$entry" 2>/dev/null)
-> +		[ -n "$content" ] || continue
-> +		echo "Unreleased references in $name:"
-> +		echo "$content"
-> +	done
-> +}
-
-[Severity: Low]
-The only attribution here is snapshot membership plus non-empty content.
-What happens when another DPLL driver (ice, zl3073x, ptp_ocp, ...)
-registers a new dpll_device or dpll_pin after the snapshot? This could come
-from a deferred or async probe, a driver bind, a module reload, or a driver
-re-allocating its pins during the long dpll_stress.sh run.
-
-A live object of that driver always holds tracked references, so its entry
-is non-empty and not in the snapshot.
-
-Would test_basic_reftrack(), test_final_leak_check() and test_ref_leaks()
-then wait BUSYWAIT_TIMEOUT and fail, blaming dpllsim for references it does
-not own?
-
-dpll_lib_lock() is an flock on /run/dpll-selftest/lock, so it only excludes
-other dpll selftest scripts. The library comment only covers objects of
-other drivers that already exist when the snapshot is taken.
-
-[ ... ]
-
-> +dpll_ref_tracker_probe()
-> +{
-
-[ ... ]
-
-> +	if dpllsim_add_pin "$name" ext0 ext 10000000 input &&
-> +	   dpllsim_deploy "$name"; then
-> +		ret=1
-> +		[ -n "$(__dpll_ref_tracker_new_entries "$file")" ] && ret=0
-> +	fi
-
-[Severity: Low]
-Can this tell a kernel without CONFIG_DPLL_REFCNT_TRACKER apart from one
-where the tracker is enabled but does not record anything?
-
-dpll_device_alloc() and dpll_pin_alloc() call ref_tracker_dir_init()
-unconditionally:
-
-	ref_tracker_dir_init(&dpll->refcnt_tracker, 128, "dpll_device");
-
-So the dpll_device@ and dpll_pin@ files exist whenever CONFIG_REF_TRACKER
-and CONFIG_DEBUG_FS are set. Only dpll_device_tracker_alloc/free and
-dpll_pin_tracker_alloc/free are under #ifdef CONFIG_DPLL_REFCNT_TRACKER, and
-an empty dir->list prints nothing.
-
-Suppose a regression makes the core stop calling ref_tracker_alloc(), or
-pass a NULL tracker so that only no_tracker is bumped. The probe would then
-return 1, and both scripts log:
-
-	log_test_skip "DPLL ref_tracker probe" \
-		      "CONFIG_DPLL_REFCNT_TRACKER not enabled"
-
-This happens even though the selftest config sets
-CONFIG_DPLL_REFCNT_TRACKER=y. Would such a regression show up as a SKIP
-with a misleading reason instead of a FAIL?
-
-> +
-> +	if dpllsim_delete_device "$name"; then
-> +		DPLLSIM_PROBE_DEVICE=""
-> +	else
-> +		log_info "cannot delete device $name"
-> +		return 4
-> +	fi
-> +	if [ "$ret" -eq 0 ] &&
-> +	   ! busywait "$BUSYWAIT_TIMEOUT" __dpll_ref_tracker_settled "$file" \
-> +		      > /dev/null; then
-> +		ret=3
-> +	fi
-> +	return "$ret"
-> +}
-
-[Severity: Medium]
-Can the snapshot taken right after the probe record the probe device's own
-dead ref_tracker entries?
-
-The commit message says:
-
-  The teardown of a device releases its references before the write to
-  live returns, so the entries are expected to be gone at the first look
-
-In lib/ref_tracker.c only the references go away synchronously.
-ref_tracker_dir_exit() calls ref_tracker_debugfs_mark(), which only marks
-the dir dead and schedules the reaper:
-
-	__xa_set_mark(&debugfs_dentries, (unsigned long)dir, REF_TRACKER_DIR_DEAD);
-	...
-	schedule_work(&debugfs_reap_worker);
-
-The dentry is removed later, in debugfs_reap_work(). Until then the file
-still exists, and reading it returns -ENODATA from
-ref_tracker_debugfs_show().
-
-That allows this sequence:
-
-dpllsim_delete_device(probe)
-  dpll_device_put() -> ref_tracker_dir_exit(), kfree(dpll)
-busywait __dpll_ref_tracker_settled
-  cat of the dead entry fails, content is empty, entry is skipped
-test_ref_tracker_probe()
-  dpll_ref_tracker_snapshot "$REF_SNAPSHOT"
-    [ -f "$entry" ] is still true, so the probe's names are recorded
-
-The next test (test_basic_reftrack() or test_rapid_create_delete()) then
-allocates a dpll_device right away. It can land on the probe's freed slab
-slot, and the %p hash then gives the same entry name.
-
-If the reaper has run by then, the new object's entry is in the snapshot,
-and __dpll_ref_tracker_new_entries() skips it:
-
-	grep -q "^$name " "$file" && continue
-
-If the reaper still has not run, ref_tracker_dir_debugfs() returns early:
-
-	/* No-op if already created */
-	dentry = xa_load(&debugfs_dentries, (unsigned long)dir);
-	if (dentry && !xa_is_err(dentry))
-		return;
-
-The reaper later removes the old dentry, so the new object never gets a
-debugfs file at all.
-
-In either case, would a leak in the first device created after the probe go
-unreported?
-
-Would it help to skip unreadable entries in dpll_ref_tracker_snapshot(), or
-to wait after deleting the probe until its entries are gone from the
-ref_tracker dir before taking the snapshot again?
-
-[ ... ]
+The workers clean up from their own exit trap, and cleanup() stops
+recorded workers and shell jobs before it removes their devices by name.
 
 > diff --git a/tools/testing/selftests/drivers/dpll/dpll_stress.sh b/tools/testing/selftests/drivers/dpll/dpll_stress.sh
-> index 47b8f4bf55b26..198a50ed67873 100755
+> index 3806fda2e2dfe..47b8f4bf55b26 100755
 > --- a/tools/testing/selftests/drivers/dpll/dpll_stress.sh
 > +++ b/tools/testing/selftests/drivers/dpll/dpll_stress.sh
 
 [ ... ]
 
-> @@ -463,16 +524,36 @@ test_deploy_cycle()
->  	log_test "DPLL deploy/undeploy cycling"
->  }
->  
-> +test_ref_leaks()
-> +{
-> +	RET=0
-> +
-> +	# The probe test found the tracker inactive or could not run.
-> +	if [ "$REF_TRACKER" -eq 0 ]; then
-> +		log_test_skip "DPLL stress ref_tracker check" \
-> +			      "DPLL reference tracker not available"
-> +		return
-> +	fi
-> +
-> +	dpll_ref_tracker_check_leaks "$REF_SNAPSHOT"
-> +	check_err $? "leaked DPLL references after stress"
-
-[Severity: Low]
-Should this skip when CREATED_DEVICES is not empty, the way
-test_final_leak_check() in dpll_reftrack.sh does?
-
-	# A device an earlier test could not remove still holds its
-	# references, the failure to report is that one.
-	if [ -n "$CREATED_DEVICE" ]; then
-		log_test_skip "DPLL final ref_tracker check" \
-			      "device from an earlier test still present"
-
-dpllsim_delete_device() can fail in test_pin_state_flooding(),
-test_max_devices() or test_deploy_cycle() because the undeploy failed. The
-device then stays live and stays in CREATED_DEVICES.
-
-It still holds its dpll_device_get(..., &sim->tracker) and
-dpll_pin_get(..., &pin->tracker) references, so its entries are non-empty
-and not in the snapshot.
-
-cleanup() only removes those devices at exit. Wouldn't test_ref_leaks()
-spin for BUSYWAIT_TIMEOUT and then report "leaked DPLL references after
-stress" for references the device legitimately holds?
-
-> +
-> +	log_test "DPLL stress ref_tracker check"
-> +}
+> @@ -39,18 +50,103 @@ untrack_device()
 
 [ ... ]
+
+>  cleanup()
+>  {
+> -	local dev
+> +	local pid dev base
+> +	local pids=() shell_jobs=()
+
+[ ... ]
+
+> +	mapfile -t shell_jobs < <(jobs -p)
+> +	mapfile -t pids < <(printf '%s\n' "${BACKGROUND_PIDS[@]}" \
+> +				   "${shell_jobs[@]}" | grep . | sort -u)
+> +	for pid in "${pids[@]}"; do
+> +		kill "$pid" 2>/dev/null
+> +	done
+> +	# Give the workers a few seconds to run their exit traps, then
+> +	# force the survivors and give those a few seconds to die. The
+> +	# kernel cannot recycle the pid of a child until it is reaped,
+> +	# which the wait below does, so the forced kill cannot hit a
+> +	# process that reused one. A worker stuck in the kernel does not
+> +	# die of the forced kill before whatever it waits for returns, so
+> +	# only the workers that are gone are waited for, which reaps them,
+> +	# and the teardown goes on without the rest. The removal of what
+> +	# such a worker left behind can then fail or race with it, which
+> +	# is logged like any other failed removal.
+> +	pids_gone "${pids[@]}"
+> +	for pid in "${pids[@]}"; do
+> +		kill -KILL "$pid" 2>/dev/null
+> +	done
+
+[Severity: Medium]
+Does bash really leave the pid unreaped until the wait below? Bash reaps
+exited background children itself. It does this from its SIGCHLD handler
+and from waitpid(-1) whenever it waits for a foreground command. It keeps
+their status in its bgpids table for a later wait.
+
+pids_gone() runs seq, $(sed ...) and sleep 0.1 on every pass. A worker
+that exits after the SIGTERM can therefore be reaped, and its pid freed,
+before this loop sends SIGKILL to every entry of pids[]. The loop does
+not check pid_running() first.
+
+test_concurrent_workers() makes the window wider:
+
+	for pid in "${BACKGROUND_PIDS[@]}"; do
+		wait "$pid" || failed=1
+	done
+	BACKGROUND_PIDS=()
+
+Workers that finish early are reaped right away, but they stay in
+BACKGROUND_PIDS until the last wait returns. Suppose a harness timeout or
+Ctrl-C arrives while the parent is still waiting on a slower worker.
+cleanup() then sends SIGTERM and later SIGKILL, as root, to those stale
+pids.
+
+If one of those pids was handed out again after a pid-space wrap, could
+this kill an unrelated process?
+
+pid_running() relies on kill -0 and /proc/<pid>/stat, so a reused pid
+also looks like a live worker. In that case pids_gone() would spin for
+the full five seconds and log a false "worker N did not exit".
+
+> +	pids_gone "${pids[@]}"
+> +	for pid in "${pids[@]}"; do
+> +		if pid_running "$pid"; then
+> +			log_info "worker $pid did not exit, giving up"
+> +		else
+> +			wait "$pid" 2>/dev/null
+> +		fi
+> +	done
+> +
+>  	defer_scopes_cleanup
+>  	for dev in "${CREATED_DEVICES[@]}"; do
+>  		dpllsim_delete_device "$dev" ||
+>  			log_info "cannot delete device $dev"
+>  	done
+> +	for base in "${WORKER_BASES[@]}"; do
+> +		delete_worker_devices "$base"
+> +	done
+
+[Severity: Low]
+Does the forced kill above reach the external helpers that a worker runs?
+In dpll_lib.sh, dpllsim_create_device() and dpllsim_add_pin() create the
+configfs entries with an external mkdir. dpllsim_delete_device() removes
+them with an external rmdir.
+
+The commit message describes a worker "stuck in the kernel". Take the
+case where a worker's mkdir blocks in configfs. Bash holds back the
+worker's TERM trap until the foreground child returns. kill -KILL then
+kills only the subshell, and the mkdir child keeps running as an orphan.
+
+The second pids_gone() and pid_running() check only the subshell pid.
+The worker therefore counts as gone and is reaped, and "worker $pid did
+not exit, giving up" is never logged.
+
+cleanup() then runs delete_worker_devices() and dpll_lib_cleanup() while
+the orphan is still busy. If its mkdir completes afterwards, can a
+dpllsim device or pin directory appear after the last removal pass and
+be leaked?
+
+The in-flight mkdir would also keep the configfs mount busy, so the
+unmount in dpll_lib_cleanup() may fail.
+
+This seems to contradict this part of the commit message:
+
+  "whatever a killed worker left behind can be removed by name, at the
+  end of the test and from the cleanup handler"
+
+Would it help to start each worker in its own process group and signal
+the whole group, or to track the helper processes?
+
+[ ... ]
+
+> @@ -194,6 +367,50 @@ test_pin_state_flooding()
+>  	log_test "DPLL pin state flooding"
+>  }
+>  
+> +test_max_devices()
+> +{
+
+[ ... ]
+
+> +	# Every created device must be visible on netlink.
+> +	visible=0
+> +	for clock_id in "${clock_ids[@]}"; do
+> +		if dpll_device_wait_by_clock_id "$clock_id" dpllsim \
+> +		   > /dev/null; then
+> +			visible=$((visible + 1))
+> +		fi
+> +	done
+
+[ ... ]
+
+> +	log_test "DPLL maximum devices ($STRESS_DEVICES devices)"
+> +}
+
+[Severity: Low]
+This isn't a bug, but is "maximum devices" the right name for this test?
+dpllsim has no limit on the number of devices. Its only per-device limit
+is DPLLSIM_MAX_PINS:
+
+drivers/dpll/dpllsim/core.c:dpllsim_pins_make_item() {
+    ...
+	if (list_count_nodes(&sim->pin_list) >= DPLLSIM_MAX_PINS)
+		return ERR_PTR(-ENOSPC);
+    ...
+}
+
+By default the test creates 5 devices with 10 pins each. It never
+reaches that limit, and it never checks that a pin beyond the limit is
+rejected. The comment above STRESS_PINS_PER_DEVICE mentions the 128 pin
+limit, but the default is well below it.
+
+The visibility check also only looks up the devices with
+dpll_device_wait_by_clock_id(). It does not check their pins, so the
+test would still pass if the pins of these many-pin devices did not
+appear on netlink.
+
+Could the test be renamed, or extended to cover the pin limit and to
+check that the pins are visible?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261109093523.931201-1-poros%40redhat.com
