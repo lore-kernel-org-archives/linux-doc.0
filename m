@@ -1,113 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.135
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.146
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794439269;
-	b=BBd6VHma2TEPSSf2582ZGsvQtssYqfjh+iuyi5PSzvkZg0t0HDMd6RUwNdS3gjVA/YC6
-	 9LRkrWTW+5U8NGYop61XDeGIaLYFWd4xPGzCZMl77++sgN9M7uDZq/uYe1NzjDgYPq2QP
-	 aRODS80AP8i4HcNMsDQOsFCCxVyt+hIq50u1fGhmNXpmUvbEp8hsTMgojN1S3MBe9ZmKo
-	 kwGkv0xdwNkmIywAlMw+5z89scQIaWeXQdwVG88NTqlAkQWEL6k9YZ1mC8MpEQzJOLggp
-	 UGkUpt81ZFv7dANKtW3AP8NwTPpxx8vGNaWQavySzKuG8BYe/0n3rIC5NwLUlMP6ONQ==
+	t=1794440210;
+	b=W6wdfiiKjVR+R926Z5QiYhKs6AxYV9X1NnVzS5dGMQzDUaK2HRgzmtG1g58v8Z0QAwnh
+	 Ez5Us9znBfcrR2gjJZrRcJkQo39ZGqXpMTdg26SDaWZE1S8W5yjsR30aXUMl5b1jXp0fc
+	 nsJHSr5d33eZM0W7E51evfCc8Lm0/Zcm37O1Zql887VrArl9GqvZEGAZVDfRVVUWxuveE
+	 mYl/k77PntgKLENBOU1sRekhof92CkWbISXzKdkP/zYu17lBVTAthgY4wYBbZVfA7Djpf
+	 zqmyLY5GRkdJoIJxO6jk4z2eg0zbs6fa7Nyx3lWn1QXIkebXC6kfp+YbjCLWNwwrq4A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794439269;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:Content-Transfer-Encoding:
-	 In-Reply-To;
-	bh=yLiNMvxVQruQcm1dmYQM6B9T1c0wqmTNiOzMtEKz3a0=;
-	b=kdIep82rrUL2zNLoB3H5hCtQQ2Eiz2gwP+1TZgr7j34Sw1iqSIRnUGufZ5/xuSmT3P9/
-	 VaN5HaaebBzC6PCjDRzRExLPXO/r2icg3xNCvKZdEO1iO1TYB+MrCd51crdj3SufhUZIS
-	 tk6yNlgPErh+RK3W4qnJgHYvgQGFlM0cLee3VME09SgrUmKadKbjSRE5X/uGdEv7AB5hl
-	 PDfgYemV+QErmF2EgdB4SXQ9H7FzDRnW5dbzY9jEcvgK2LTac6al9+KMmSIxw3TBySNP7
-	 sm5Zi6l1kmT6wvWu2pJaZN+qwH6HC0zGKEs5ZbEHQB3UqeEv7jrFZ8EEB1G2MV9vEPA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794440210;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Subject:X-Change-ID:To:Cc:X-Mailer:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Date:Message-Id;
+	bh=klPxEVlV5vJD8T8vgL/Cq3QGPhsTWJ6oYKoaaEvavVc=;
+	b=BTww1WppEhNu5wb2yTwXa4CvfSit/TC+Y9O98qSYKnGUeIIpDhtAkf0GfAASTSPrgSi5
+	 6Fp/YHzb201njvaW+SyTKgZJXEnJhsB+TC587wLvYmEa9Ya+OsZ/cwJ+VK8H6FYaLN3eW
+	 stsjVCDIZiVaSGi06WBfLY2RPoHG7IoLyIKkRTKfnUXsQTY1GUvO7wGTeTzuCvzgcnKhx
+	 +OTbl3M+buHje7Xjaw03z31u8kQ+EGivNKNlAzJbI0+ry+XNnNeMj5F2V/u29DBysCAMU
+	 GYMeED0YtM9/vxzH+wsZBiy0LtuZ7+8/7NUzm5hOY7f7Cnrvn1js/KpcVjDueU5wWpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="tWA/XaWh";
-	arc=none smtp.remote-ip=74.125.229.135
-Received: from mail-dl2-f7.google.com (mail-dl2-f7.google.com [74.125.229.135])
+	dmarc=pass header.from=cressey.dev;
+	spf=pass smtp.mailfrom=cressey.dev;
+	dkim=pass header.d=cressey.dev header.i=@cressey.dev header.a=rsa-sha256 header.s=key1 header.b=q9eETb3J;
+	arc=none smtp.remote-ip=95.215.58.146
+Received: from mta1.migadu.com (out-146.mta1.migadu.com [95.215.58.146])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A33660A3814
-	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 23:21:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A33660A3814
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CC74606A324
+	for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 23:36:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CC74606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cressey.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cressey.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=tWA/XaWh
-Received: by mail-dl2-f7.google.com with SMTP id a92af1059eb24-13985f8229aso3336347c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 15:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794439267; x=1795044067; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yLiNMvxVQruQcm1dmYQM6B9T1c0wqmTNiOzMtEKz3a0=;
-        b=tWA/XaWhilDIFlnze3RfmXPT3zuLapRVFasaiN9nd0tewyRhLSq/JoPBuRjVBnWEQF
-         EfJ2wfgsGX9owNgchteKd1lIu6RiSP3OH9AEtymuJ65j8FrudMdGkfDxyMJoyeAIJoM5
-         wXaQ1drt7KU9O2M3MfvOiG8VNWFHnGTmcWYxF43Uv/U157sVRXT6hKUfXK1PW7gw0sHJ
-         RwVku3hTl++BEabzGqVclt/k2pJ9Vb6VrzAfl7t5hSqMBdtfkABefgGE5YtRN0IX4PLj
-         ceM2Gr/lktRQmiB0BBCRstLwizRWtFbe4/wlxG3NV4klLz1FaaanhWSP9Z65w3fzO8E2
-         J3Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794439267; x=1795044067;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :content-type:mime-version:references:message-id:subject:cc:to:from
-         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=yLiNMvxVQruQcm1dmYQM6B9T1c0wqmTNiOzMtEKz3a0=;
-        b=hrlsT98ekM1XIfDVHRE+XoCqOBdZUGB2fCPk8g+/gnVX1z9tGxk0KgywTniZ87NIna
-         0aTMDSDK3q5vbcC3mGHX2s1h7YGhFXJaL5ZvbgqrCQ11WB7xUjQeggaiYkHQU8QqVQd+
-         t3iEu3YpM7GjV8ztAJeM3ktqYNY84ogj3eCHSYqhUDN5UUppqUXqMiFIuNa1YHCQ638I
-         Euy8Cn6TqUG4Ju+UZtVwTbcoi/BcDkzxmuwxE8PXE/CdoJ5fy72Yn/qY+JXMjOkEhrCu
-         Cc9l74ONGlu+1oPER1AmJHmaCxP9QOeZqSnqbGVlVzBPMD/yVMfn0+d9tpMsmRSeGur0
-         y4fA==
-X-Forwarded-Encrypted: i=1; AL+hErGH8LFFKrBYKQ+GuBMTU2itXl9XlZ5sWpm9oJme/XDyc1UBVPhMWVT+zMYUjcErJwOzeC6kKp+48VI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/dr2OZejRmLZ612PLWrtwPagYcZOMv4nMN3V5TyLqb1Ts05ZbR
-	KYeQ+yK+lSifspUxxjGdJR9373Lu+VIZ+83zKs6gU8gqisSTyXEuqxuq
-X-Gm-Gg: AYBFou3UgywlTIMZqpiZ3Quu+q8gfunYhPzmvovJ92YQFM2p7viuR7uyNfjhLZYWQFP
-	62CBwORg2jjNDXEWNXbHCYDlWzqCLYpj/h+AtJdsAy9pxtG9+YhXKrMj83FLknACe6SdSLyh+kJ
-	q5AUTjDNUNkEXPMBVo+hKojFVuVArA+8jgpVRUZoDScm3FoDA+uQsdz1LHQqwjQD9BXDu5eqg+n
-	K/X1eHk3scOdrfmr59GGzE4KYn3/MzqLLY5Y5w7yvJYNVpgFgGEWkF3/x1P1nR85rYukWpd6W0C
-	eNkeTbmwdPW2y/VnwBjOx1dP0FgA2vIo1p2eDh7nDkWVH19a0CrQTsAY6VCaszIfsG3H2OkuK4L
-	D8HTqUHotS2yTdBnlP5ycDdl8FUL+gRk6o9kWr7Bk/4se/MG6osyA8SN2sTjZGwVkev4G2llpnA
-	RVip5hNA02ccS+9R4lfLTgmCI/1Qol6W1wT2GY31qm976Ol8NvZzZY1PiCu483fxrXxTzhgjsXL
-	13JXM89LHyEvIw0ru/ChJh0+d4/LGzqujBiQPMqRv+4/llOGq9DSX45Btq/kThifqGdRF96G6S5
-	5dcLmBbD8eHkHAs7iV3U1nWTh888Uu+RzF0uYO/t8ACW
-X-Received: by 2002:a05:701b:420e:20b0:144:c112:5f24 with SMTP id a92af1059eb24-1b3c031ae2fmr3766487c88.25.1794439267244;
-        Wed, 11 Nov 2026 15:21:07 -0800 (PST)
-Received: from localhost ([2a03:2880:9ff:60::])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3772121e654sm7807640eec.2.2026.11.11.15.21.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 15:21:06 -0800 (PST)
-Date: Wed, 11 Nov 2026 15:20:41 -0800
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
-	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, 
-	Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, 
-	Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org, 
-	io-uring@vger.kernel.org, Mina Almasry <almasrymina@google.com>, 
-	"Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Stuart Clark <stuclar@meta.com>
-Subject: Re: [PATCH net-next v1 07/11] xsk: Deliver provider chunks without
- copying
-Message-ID: <avT3vVT8iyKqyW8q@devvm16445.scu0.facebook.com>
-References: <20261110102039.1002605-1-bjorn@kernel.org>
- <20261110102039.1002605-8-bjorn@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=cressey.dev header.i=@cressey.dev header.a=rsa-sha256 header.s=key1 header.b=q9eETb3J
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=jvnaHbrD3GKuc0kVTJXIvjvxRseCe9rmXMZmsYFOqy0=;
+ c=simple/simple; d=cressey.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794440207; v=1; x=1795045007;
+ b=q9eETb3JPeZxZBrD/mFXAIHDWksZmYd0/ZcBa/GduTVnJytZ6df6fPYIEd3Z07cXvInGRfpx
+ gChdfr15HLgv4Kmt/D/KVNYn2Ss4mSLgA5UiEldYxzZrWOEt7TdrXuHEGZ7wNhQ6T2HRqOpJEfk
+ yoDQ9pXEX5E4bdJz9qrQj0CtmjAUmK4y2XZKv7Dvx3aQk6fuD+Y+I0/7SdX4igt9STRdH1EzoPI
+ 09j/k5GXaoqLDoeIpxkmhGMFU7v4tpqS8OouNKa1dwt/KjBHrjgskVwLD1dLpsBF6ELC8tnGhZn
+ vJVQfDTnzf+gk1QWpn4EvWbhw/8kR4KwprNQVIXLZa2ew==
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id dba58aabdcacc9cc;
+	Wed, 11 Nov 2026 23:36:47 +0000
+X-Mizu-Trace-ID: dba58aabdcacc9cc
+X-Migadu-Flow: FLOW_OUT
+From: Ben Cressey <ben@cressey.dev>
+Subject: [PATCH v2] PCI: Add ID@path device format for pci= parameters
+X-Change-ID: 20260919-pci-idpath-selector-2847a8afe92c
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-pci@vger.kernel.org, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Logan Gunthorpe <logang@deltatee.com>, Alex Williamson <alex@shazbot.org>, 
+ Wei Wang <wei.w.wang@hotmail.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+ "Anthony Vardaro (Anthropic)" <me@anthonyvardaro.com>
+X-Mailer: b4 0.15.2
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -117,262 +70,154 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261110102039.1002605-8-bjorn@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Date: Wed, 11 Nov 2026 15:36:31 -0800
+Message-Id: <20261111-pci-idpath-selector-v2-1-83ea668e38f0@cressey.dev>
 
-On 11/10, Björn Töpel wrote:
-> A provider socket still receives through the copy path, which takes
-> FILL entries without the provider's ownership checks: a chunk that a
-> page pool holds could be handed out twice. No driver opts in yet.
-> 
-> Put packets whose buffers all belong to the socket's provider on the
-> RX ring as they are, and copy others into chunks the provider claims.
-> Only the queue NAPI may produce to such a socket, so generic XDP and
-> CPUMAP redirects to it are dropped.
-> 
-> A device may place payload at chunk offset 0, as fbnic does, so only
-> the first buffer of a packet keeps the UMEM headroom. Such buffers may
-> be sent back as they are, so only descriptors with XDP_TX_METADATA
-> need room for TX metadata in front.
-> 
-> Signed-off-by: Björn Töpel <bjorn@kernel.org>
-> ---
->  Documentation/networking/af_xdp.rst          |   6 +-
->  Documentation/networking/xsk-tx-metadata.rst |   3 +-
->  include/net/page_pool/memory_provider.h      |   2 +
->  net/core/page_pool.c                         |  34 +++-
->  net/xdp/xsk.c                                |  82 ++++++++-
->  net/xdp/xsk.h                                |   5 +
->  net/xdp/xsk_pp.c                             | 165 +++++++++++++++++++
->  net/xdp/xsk_queue.h                          |  18 +-
->  8 files changed, 304 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/networking/af_xdp.rst b/Documentation/networking/af_xdp.rst
-> index cc3f0d16b28f..e73a0005e169 100644
-> --- a/Documentation/networking/af_xdp.rst
-> +++ b/Documentation/networking/af_xdp.rst
-> @@ -428,8 +428,10 @@ area and that your largest packet size can be 2K.
->  There is also an option to set the headroom of each single buffer in
->  the UMEM. If you set this to N bytes, it means that the packet will
->  start N bytes into the buffer leaving the first N bytes for the
-> -application to use. The final option is the flags field, but it will
-> -be dealt with in separate sections for each UMEM flag.
-> +application to use. In a multi-buffer packet, only the first buffer is
-> +guaranteed this headroom; the others may start at offset 0 of their
-> +chunk. The final option is the flags field, but it will be dealt with
-> +in separate sections for each UMEM flag.
->  
->  SO_BINDTODEVICE setsockopt
->  --------------------------
-> diff --git a/Documentation/networking/xsk-tx-metadata.rst b/Documentation/networking/xsk-tx-metadata.rst
-> index f240930ca1df..8bb74a569c26 100644
-> --- a/Documentation/networking/xsk-tx-metadata.rst
-> +++ b/Documentation/networking/xsk-tx-metadata.rst
-> @@ -59,7 +59,8 @@ The flags field enables the particular offload:
->  Besides the flags above, in order to trigger the offloads, the first
->  packet's ``struct xdp_desc`` descriptor should set ``XDP_TX_METADATA``
->  bit in the ``options`` field. Also note that in a multi-buffer packet
-> -only the first chunk should carry the metadata.
-> +only the first chunk should carry the metadata. Only a descriptor with
-> +``XDP_TX_METADATA`` needs ``tx_metadata_len`` bytes in front of it.
->  
->  Software TX Checksum
->  ====================
-> diff --git a/include/net/page_pool/memory_provider.h b/include/net/page_pool/memory_provider.h
-> index daec73c9dcee..849db08513b8 100644
-> --- a/include/net/page_pool/memory_provider.h
-> +++ b/include/net/page_pool/memory_provider.h
-> @@ -49,6 +49,8 @@ struct memory_provider_ops {
->  bool net_mp_niov_set_dma_addr(struct net_iov *niov, dma_addr_t addr);
->  void net_mp_niov_set_page_pool(struct page_pool *pool, struct net_iov *niov);
->  void net_mp_niov_clear_page_pool(struct net_iov *niov);
-> +void net_mp_release_page_pool_bulk(struct page_pool *pool,
-> +				   netmem_ref *netmems, u32 count);
->  
->  int netif_mp_open_rxq(struct net_device *dev, unsigned int rxq_idx,
->  		      const struct pp_memory_provider_params *p,
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index e897e79d31f1..56c299f2280d 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -1401,7 +1401,7 @@ bool net_mp_niov_set_dma_addr(struct net_iov *niov, dma_addr_t addr)
->  }
->  
->  /* Associate a niov with a page pool. Should follow with a matching
-> - * net_mp_niov_clear_page_pool()
-> + * net_mp_niov_clear_page_pool() or net_mp_release_page_pool_bulk()
->   */
->  void net_mp_niov_set_page_pool(struct page_pool *pool, struct net_iov *niov)
->  {
-> @@ -1422,3 +1422,35 @@ void net_mp_niov_clear_page_pool(struct net_iov *niov)
->  
->  	page_pool_clear_pp_info(netmem);
->  }
-> +
-> +/**
-> + * net_mp_release_page_pool_bulk() - take net_iovs back from a page pool
-> + * @pool: page pool that holds one reference to each net_iov
-> + * @netmems: net_iovs of the memory provider of @pool
-> + * @count: number of entries in @netmems
-> + *
-> + * A memory provider takes net_iovs out of a page pool without
-> + * ->release_netmem(), for example to give them to userspace. @pool may be
-> + * freed on return.
-> + */
-> +void net_mp_release_page_pool_bulk(struct page_pool *pool,
-> +				   netmem_ref *netmems, u32 count)
-> +{
-> +	bool trace = trace_page_pool_state_release_enabled();
-> +	atomic_t *release_cnt = &pool->pages_state_release_cnt;
-> +	int released;
-> +	u32 i;
-> +
-> +	for (i = 0; i < count; i++) {
-> +		DEBUG_NET_WARN_ON_ONCE(netmem_get_pp(netmems[i]) != pool);
-> +		page_pool_clear_pp_info(netmems[i]);
-> +		if (!trace)
-> +			continue;
-> +
-> +		released = atomic_inc_return_relaxed(release_cnt);
-> +		trace_page_pool_state_release(pool, netmems[i], released);
-> +	}
-> +
-> +	if (!trace)
-> +		atomic_add(count, release_cnt);
-> +}
-> diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
-> index 113b0b08356d..b419c673e3f1 100644
-> --- a/net/xdp/xsk.c
-> +++ b/net/xdp/xsk.c
-> @@ -386,6 +386,54 @@ static int __xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp, u32 len)
->  	return -ENOMEM;
->  }
->  
-> +static int xsk_pp_rcv_copy(struct xdp_sock *xs, struct xdp_buff *xdp, u32 len)
-> +{
-> +	u32 frame_size = __xsk_pool_get_rx_frame_size(xs->pool);
-> +	u32 headroom = xsk_pool_get_headroom(xs->pool);
-> +	void *copy_from = xsk_copy_xdp_start(xdp);
-> +	u32 from_len, meta_len, rem, num_desc, i;
-> +	u64 addrs[MAX_SKB_FRAGS + 1];
-> +	skb_frag_t *frag = NULL;
-> +	u32 to_len, copied;
-> +	void *to;
-> +
-> +	from_len = xdp->data_end - copy_from;
-> +	meta_len = xdp->data - copy_from;
-> +	rem = len + meta_len;
-> +
-> +	num_desc = (len - 1) / frame_size + 1;
-> +	if (num_desc > ARRAY_SIZE(addrs)) {
-> +		xs->rx_dropped++;
-> +		return -ENOSPC;
-> +	}
-> +	if (xskq_prod_nb_free(xs->rx, num_desc) < num_desc) {
-> +		xs->rx_queue_full++;
-> +		return -ENOBUFS;
-> +	}
-> +	if (!xsk_pp_claim_copy(xs->pool->pp, addrs, num_desc)) {
-> +		xs->rx_dropped++;
-> +		return -ENOMEM;
-> +	}
-> +
-> +	if (xdp_buff_has_frags(xdp))
-> +		frag = &xdp_get_shared_info_from_buff(xdp)->frags[0];
-> +
-> +	for (i = 0; rem && i < num_desc; i++) {
-> +		to = xp_raw_get_data(xs->pool, addrs[i] + headroom) - meta_len;
-> +		to_len = frame_size + meta_len;
-> +		copied = xsk_copy_xdp(to, &copy_from, to_len, &from_len, &frag,
-> +				      rem);
-> +		rem -= copied;
-> +
-> +		__xskq_prod_reserve_desc(xs->rx, addrs[i] + headroom,
-> +					 copied - meta_len,
-> +					 rem ? XDP_PKT_CONTD : 0);
-> +		meta_len = 0;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static bool xsk_tx_writeable(struct xdp_sock *xs)
->  {
->  	if (xskq_cons_present_entries(xs->tx) > xs->tx->nentries / 2)
-> @@ -453,8 +501,14 @@ static int xsk_rcv_check(struct xdp_sock *xs, struct xdp_buff *xdp, u32 len)
->  
->  static void xsk_flush(struct xdp_sock *xs)
->  {
-> +	struct xsk_pp *pp = xs->pool->pp;
-> +
-> +	if (pp)
-> +		xsk_pp_flush(pp);
->  	xskq_prod_submit(xs->rx);
-> -	__xskq_cons_release(xs->pool->fq);
-> +	/* A provider releases FILL entries under its lock. */
-> +	if (!pp)
-> +		__xskq_cons_release(xs->pool->fq);
->  	sock_def_readable(&xs->sk);
+The <pci_dev> grammar shared by pci=resource_alignment=,
+pci=disable_acs_redir= and pci=config_acs= names a device either by
+address, with an optional path, or by ID. When one command line serves
+more than one platform, neither form limits an entry to the intended
+device: an address applies to whatever occupies it on each platform, and
+an ID applies to every instance, such as all Downstream Ports of a
+switch rather than the one that needs different ACS settings.
 
-optional nit:
+Accept pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>, where
+<path> is the address format, and match only when both halves match. An
+entry written for one platform is then inert on another where that
+address holds a different device. For example,
 
-if (pp) {
-	pp_flush
-	prod_submit
-} else {
-	prod_submit
-	cons_release
-}
+  pci=config_acs=xx111x1@pci:10b5:8749@0000:80:02.0/00.0/08.0
 
-sock_def_readable
+configures ACS on the Downstream Port at that path only if it is a
+PEX 8749 port.
 
-(hard to follow these scattered if(pp) checks :-( )
+The path goes last since pci_dev_str_match_path() consumes up to the
+next ';'. The IDs are compared first, and the path is parsed only for a
+device that matches them. The <order>@ and <flags>@ prefixes of
+resource_alignment and config_acs are stripped before
+pci_dev_str_match() is called, so the callers are unchanged.
 
->  }
->  
-> @@ -464,6 +518,11 @@ int xsk_generic_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
->  	int err;
->  
->  	err = xsk_rcv_check(xs, xdp, len);
-> +	/* Only the NAPI of the queue feeds a memory provider socket. */
-> +	if (!err && xs->pool->pp) {
-> +		xs->rx_dropped++;
-> +		err = -EOPNOTSUPP;
-> +	}
+Suggested-by: Wei Wang <wei.w.wang@hotmail.com>
+Signed-off-by: Ben Cressey <ben@cressey.dev>
+---
+Changes in v2:
+- Compare the IDs first and walk the path only for a device that matches
+  them. An entry whose IDs do not match skips its path up to the next
+  ';', so that later entries are still read. Thanks to Wei Wang for the
+  review and the suggestion.
+  https://lore.kernel.org/r/SI2PR01MB4393779B4E590C6D76FD12A3DC822@SI2PR01MB4393.apcprd01.prod.exchangelabs.com
+- A malformed path is now an error only for a device that matches the
+  IDs. Any other device skips it.
+- Rebase onto v7.4-rc1.
+- Drop Anthony Vardaro's Reviewed-by, since the matching logic moved.
+- Drop the Assisted-by tag. The notes below say how tools were used.
+- Link to v1: https://lore.kernel.org/r/20260919-pci-idpath-selector-v1-1-5881de83f248@cressey.dev
 
-This is confusing? Why even call xsk_rcv_check for pp case?
+The ID comparison is assigned to ret with the same lines as Wei Wang's
+"[PATCH v10 3/6] PCI: Consolidate delimiter handling into
+pci_dev_str_match()". The two conflict in that hunk, whichever is
+applied second; on top of 3/6 the hunk is an 8-line insertion.
+https://lore.kernel.org/r/SI2PR01MB4393A855D592C1F484DEF778DC832@SI2PR01MB4393.apcprd01.prod.exchangelabs.com
 
->  	if (!err) {
->  		spin_lock_bh(&xs->pool->rx_lock);
->  		err = __xsk_rcv(xs, xdp, len);
-> @@ -488,7 +547,26 @@ static int xsk_rcv(struct xdp_sock *xs, struct xdp_buff *xdp)
->  		return xsk_rcv_zc(xs, xdp, len);
->  	}
->  
-> -	err = __xsk_rcv(xs, xdp, len);
-> +	if (!xs->pool->pp) {
-> +		err = __xsk_rcv(xs, xdp, len);
-> +	} else {
+Tested under QEMU (TCG). Each of the three options selected only the
+intended one of several devices with the same ID, and a later entry
+still applied after one that did not match. The two ACS options were
+tested on Root Ports, since QEMU's switch ports have no ACS capability.
+v2 has not been run on hardware; the test on two server models in v1's
+notes was of v1.
 
-[..]
+An LLM wrote the patch, the changelog and these notes, wrote and ran
+the QEMU test, and ran W=1 builds of drivers/pci/ for x86_64 and arm64.
+---
+ Documentation/admin-guide/kernel-parameters.txt | 10 ++++++++-
+ drivers/pci/pci.c                               | 28 +++++++++++++++++++------
+ 2 files changed, 31 insertions(+), 7 deletions(-)
 
-> +		/* A CPUMAP program runs XDP on another CPU, not in NAPI. */
-> +		if (unlikely(!xdp_rxq_info_is_reg(xdp->rxq))) {
-> +			xs->rx_dropped++;
-> +			return -EINVAL;
-> +		}
-> +
-> +		err = xsk_pp_rcv_zc(xs->pool->pp, xs, xdp);
-> +		if (err != -EXDEV)
-> +			return err;
-> +
-> +		/* Copy only packets of the queue, from its NAPI */
-> +		if (unlikely(!xsk_pp_queue_buf(xs->pool->pp, xdp))) {
-> +			xs->rx_dropped++;
-> +			return -EINVAL;
-> +		}
-> +		err = xsk_pp_rcv_copy(xs, xdp, len);
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 0b3c140babd9..12b91186a1ec 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5038,6 +5038,7 @@ Kernel parameters
+ 
+ 				[<domain>:]<bus>:<dev>.<func>[/<dev>.<func>]*
+ 				pci:<vendor>:<device>[:<subvendor>:<subdevice>]
++				pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
+ 
+ 				Note: the first format specifies a PCI
+ 				bus/device/function address which may change
+@@ -5052,7 +5053,14 @@ Kernel parameters
+ 				renumbering issues).  The second format
+ 				selects devices using IDs from the
+ 				configuration space which may match multiple
+-				devices in the system.
++				devices in the system.  The third format
++				combines the first two: the device must
++				match the IDs and also be at the address
++				given by <path>, which takes the first
++				format.  This allows an entry written for a
++				device on one system to have no effect on
++				another system where the same address is
++				occupied by a different device.
+ 
+ 		earlydump	dump PCI config space before the kernel
+ 				changes anything
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+index 7c6f2aba8144..cd5b627da88d 100644
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -343,6 +343,7 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
+  *
+  *   [<domain>:]<bus>:<device>.<func>[/<device>.<func>]*
+  *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]
++ *   pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>
+  *
+  * The first format specifies a PCI bus/device/function address which
+  * may change if new hardware is inserted, if motherboard firmware changes,
+@@ -359,6 +360,12 @@ static int pci_dev_str_match_path(struct pci_dev *dev, const char *path,
+  * legacy reasons and convenience so users don't have to specify
+  * FFFFFFFFs on the command line.)
+  *
++ * The third format combines the first two: the device must match the IDs
++ * and also be at the address given by <path>, which takes the first
++ * format.  This allows a parameter written for a device at a known
++ * address on one system to have no effect on another system where that
++ * address is occupied by a different device.
++ *
+  * Returns 1 if the string matches the device, 0 if it does not and
+  * a negative error code if the string cannot be parsed.
+  */
+@@ -385,12 +392,21 @@ static int pci_dev_str_match(struct pci_dev *dev, const char *p,
+ 
+ 		p += count;
+ 
+-		if ((!vendor || vendor == dev->vendor) &&
+-		    (!device || device == dev->device) &&
+-		    (!subsystem_vendor ||
+-			    subsystem_vendor == dev->subsystem_vendor) &&
+-		    (!subsystem_device ||
+-			    subsystem_device == dev->subsystem_device))
++		ret = (!vendor || vendor == dev->vendor) &&
++		      (!device || device == dev->device) &&
++		      (!subsystem_vendor ||
++		       subsystem_vendor == dev->subsystem_vendor) &&
++		      (!subsystem_device ||
++		       subsystem_device == dev->subsystem_device);
++
++		/* Third format: the device must also be at <path> */
++		if (ret && *p == '@')
++			ret = pci_dev_str_match_path(dev, p + 1, &p);
++		else if (*p == '@')
++			p = strchrnul(p, ';');
++		if (ret < 0)
++			return ret;
++		if (ret)
+ 			goto found;
+ 	} else {
+ 		/*
 
-Move this into __xsk_rcv_pp ?
+---
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+change-id: 20260919-pci-idpath-selector-2847a8afe92c
+
