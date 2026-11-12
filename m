@@ -1,108 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=52.34.181.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794501230;
-	b=N2TflblCmRb5H4qRQEzCAZWhlt+Ea4Qn2n+FhamP+EeQ0JkgcayM+etZ+Mn3low+nRun
-	 tEXdPao5eHeNpA+HQM/NyrIybUWq6acUdn6ddnjvn4O/h5LjkEnulCGWSabZLVO5b9pFh
-	 VXOavQBmrorMu85EHcVFKvmqOKWC2DdYp5TWkBPf5enHkrMNLrX1y70sRn9ecOA8Mt3Vh
-	 JLZt2zLFBHozanT9VsG84XSkopii4ga388MSCr4Z684zyMcbY1/5z8IpTGNRzh3sq2vAM
-	 A81nn5px8tYZum4LyvTTEDF9EnkVNrBCWNIeYl9GNugbu0pmkCDREAh6ckc8NvbH6Mw==
+	t=1794501533;
+	b=WlGIT2aNWuBjtvbJ43MRhT+9uV1ilTeragpqJjQJYVX2WYv/hNRfH6SGPsOPjHAc1CT7
+	 KGFVcoG+qV7KKHkS7pgU2xC8dVVSBYrNQ7NEiNVUU5kvfyJx3mEe/VoTQNIxavravTl3g
+	 BJT7umgX3q7qxyAtTfjNA+WBl/Dgv/4kt/1qSy/7RzSi5xuwGwiP3YvN+NrdAT9regeSv
+	 6GSf8X2odBFQUO9wdteG4YanVBrMYvmrkQzP0629+vVERbuHPNZhhJweqELUGvtN1ynX9
+	 Vi3j/oDb+Lu681zFQtNY+3YsKZ0Ig1Yu3Tn3r/gEpK6+X/mYQEc8gJvQMKNYK1Xyl+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794501230;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=gyJuNAeoXszdWFzMU5/1mECWPAANZRNlmYnCDitqtII=;
-	b=AImZFWhWusucCCn2OOIS2XTLF68o/bIxILLxXW6fLDM/C6Z9oEc6tz2rIsHiJFOIOIFr
-	 VOwIfqO1PrAAppkL9NM5M7r60o6Vp69sYQWUTGr5f3e3kjCOROpdqIGchRuA3CE5ZVnZw
-	 ms7VrO0AGv/YwSjmBtr6ew2WUIWOMCQeNgxK58YLm0Mz9JhvWqkrNeGGp+0j3D+mj2+hT
-	 Zk+28ubgMst80btAP6ETqL2ip9OoFxncKbZFg2NF+wzO4HSrvKC3W+7hL9QEYokAScC+d
-	 PZf5Kl7JrdkRhqrKZMyVNgF/u2ck0mWbhOdn0jsgrYXFTKa5oVi40qXpj/rH0CpWvWw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794501533;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=S0NOAvNsy2O0DFJHbbWBCZrA7P2aZL+2vuTfscCO/DM=;
+	b=bjRpz6x+nRzuzE9efSfE4OCAEvZnGSnN68aezovB1A7ZMBGGgmoq7zfWR3eCxxqFXS91
+	 /NggYVexfIMSl6zCAN8vaovws8Dv5Z2A8/2tqjt5tjCVNq6pCGs4oz1+P0yIyTgqf0G2A
+	 NQ50B8zHfoDybT50mnznha2U8+pk3uzrbPuYhcvyXMP1X6GiINV6hcTfvV0JCVd4GfV0G
+	 G8ekfUyU68BUVPW8fSCM12KOSvezbgmvlhSp9fqUkeCMj85BBFv+4PSXB0qL4TAc1M79C
+	 QAqf/g5HjrS4qTg2H56SiRYML6evOA7eGTyE+L5v1EHomOlbOE/gRlwTJS60+HyK5sA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AQ1O4O+C;
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=XN9ZXYjk;
+	arc=none smtp.remote-ip=52.34.181.151
+Received: from pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com [52.34.181.151])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A994C606AB3E
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:33:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A994C606AB3E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C3E606A330;
+	Thu, 12 Nov 2026 16:38:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60C3E606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=AQ1O4O+C
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1a8cc11ac42so4482265c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 08:33:48 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=XN9ZXYjk
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794501228; x=1795106028; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gyJuNAeoXszdWFzMU5/1mECWPAANZRNlmYnCDitqtII=;
-        b=AQ1O4O+CnBvsL9liNvWZ3q49mbpN4U96ovP7fMhFg5HLVFpZ63BOy4LXGh01oL3veU
-         nT+KDclIHFCUos4TZhssNnxmT/sNB0I8nhrkVGCsrD+Dpp/YmM+EGOVYKgeJr3bqHr3n
-         DJdXX+edd8qL9bd9BiVS1OoLecKMbXpFnNX6vGm50Sl/W2iOn0R4flS/T6U++BZuqaHi
-         dtfzGR39P9l/FMyT3YVkFPchMJ4IFNnHANhze0vs7Zkqp1w5onvRATa/Lh3mllAXeoWh
-         yM0wxFVjGk7MmTplwTLd9qSOAerRZM7vKpoh7kIK19kRHiwe1oZ32MyCjrsiucpNuY2A
-         AOJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794501228; x=1795106028;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gyJuNAeoXszdWFzMU5/1mECWPAANZRNlmYnCDitqtII=;
-        b=rcYKvKGThnS6U8b1Ykaw/JDmWnpgD3Phbt41Ci5cZQxjkcOsbnpTKoluRBkqsgXNyV
-         s0nmzQxH38fEFeCNWOXVtwVfgI38lbDQz3XMa4+igjCbFSLilyPYFg3hvwrCWBu7G1In
-         ZSb9h0eY92wubJ0MKvIhYbgOm6C+7zCoH/tP0D1rM867HmyMddl24vgs8drOrdQUxTwU
-         miTVbJuTAz/ONND0Qx7fYKleVQpIwgYun60ubA/19100Pk8flABV0PLvF3GWj28mYezz
-         lqMSNMHGBnZqMec6nENADhvPxhvZ19JWrdDaTAj3K2ZtiYZWLruHXkN92axXfZJhn1hJ
-         Z/DA==
-X-Forwarded-Encrypted: i=1; AL+hErHWS5b52CCHs+FpwjMVdGsbWjQpqOSJpEEIpj4bFD4IsK8zSiiZiFH8aAfgHXgrO8KuDrGaN/Bb2eI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8jFIgqjjCzLBX1cHlW0p2burjRcIBCAtcyyH3dWbWnugYvLPcd
-	HL6Dq2KZ7Lnl00r3ZrsbBWwMw0yK64m0zYFHOfLC5PGM/HyjlewOW/WF
-X-Gm-Gg: AYBFou1K+0dlbxN/wHN4AMq/2wyyIEUSjYQd4hKYpFX5EUVVLrZySKgvuol6XXJd527
-	0g+BkrM/WKGj6g2hq031WKLfdqkJoj5xSGny8/KHf+F+WkKdumSqJIFMKqp2D5Jactj1R/nl+pj
-	ahU5k3Q/qenueN1A55nZOYNnD95WlApBshkD2MsbAI5HTbrDNn+MYl+I2jA8o3e1egQt9wh04pg
-	2KtsrCes+ZG7q+ag3my2mILqFJlhqxu21SjZ1I55COQmQsXmIHAA1Wxl35NpFrsPsUYfjn35hYk
-	YXwqOnWH2m9NURNp15xUJID7ymE2ePps8EogWiXio8Bc920r+A5XT4jU3zMbq/RJV7pOmTa+nwT
-	g3MsDmRLSfdt/ftjJ9V9hAOWxwEE6LIkGOZOeb7kvLhs0SwknZWH6ZLYycJS62GZLqEn3R0J7aP
-	icR2FbomnvuIjkTecH2vqcz/PUfO1CKM7lrRLC20tKw0iDqna8V444TuUlYnbsUXGm1jJNunX7j
-	Zd8GQpN7T9GaIEMtNndBu5WWFgNJCwhvxy2SxWLeIf7UaFIT5wguTWob9xoRlpeSA5kU6hr6PiZ
-	aG36Njkp92SkWpGOqgOlRpcS2aYlZbbxxWfFOALKC9xgZ9LHbNFsGG3ETr1cHrNthP4APLVxLoE
-	sK8kJq9pcESvtX0ikoi6Br+9frzwMQwNnTIrIupOwjMI4M7ONZKfhbPSR7gUkC0/+fgFLG45s
-X-Received: by 2002:a05:7022:3a85:b0:185:fd0c:4585 with SMTP id a92af1059eb24-1b50312b3b0mr80585c88.33.1794501227470;
-        Thu, 12 Nov 2026 08:33:47 -0800 (PST)
-Received: from Mac.localdomain (198-27-228-154.fiber.dynamic.sonic.net. [198.27.228.154])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50300e5dcsm230248c88.0.2026.11.12.08.33.46
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 12 Nov 2026 08:33:46 -0800 (PST)
-From: Ahmad Byagowi <ahmadexp@gmail.com>
-To: netdev@vger.kernel.org,
-	vadim.fedorenko@linux.dev,
-	andi.shyti@kernel.org
-Cc: linux-i2c@vger.kernel.org,
-	Jiri Pirko <jiri@resnulli.us>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v2 3/3] ptp: ocp: support the WiWi revision 02 Time Card
-Date: Thu, 12 Nov 2026 08:33:32 -0800
-Message-ID: <20261112163333.12523-4-ahmadexp@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261112163333.12523-1-ahmadexp@gmail.com>
-References: <20261112163333.12523-1-ahmadexp@gmail.com>
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794501533; x=1826037533;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=S0NOAvNsy2O0DFJHbbWBCZrA7P2aZL+2vuTfscCO/DM=;
+  b=XN9ZXYjkeL7jRadVI94iQkW9CagpmViwi7SmE8beMdQVfc8EE92L5yUq
+   A4RAZYt9OkqIum1VaphDuMmWb4UNMElGo0cYxjKFbN+BlWD0mzt+bNBxf
+   1e7vEFdJNoQeA4gCzkoD09QdIBNlaotlqgp+3uEUChAS+2KvUNJjfS1U7
+   JhxcSukOhXOW2q2Vz5ywqmZ2pcSInV2GMAm9X2UMzU2XgISITcUtVGYkB
+   r6XcMKj2JsnQcrYJYtexnUVWYDMfKv3yny3A+iQQVeDTWb6g26EGt7H61
+   SKxMGezqHA6RAalBhCqg4GwQ0p5B6iGFeXqv9UdwfxPZAu0H9TzMugMmq
+   w==;
+X-CSE-ConnectionGUID: euqIrGhkRfKGtLSxI4MJ0A==
+X-CSE-MsgGUID: sxw/XaqySw+9XMRZpuvYww==
+X-IronPort-AV: E=Sophos;i="6.27,210,1787011200"; 
+   d="scan'208";a="33826407"
+Received: from ip-10-5-0-115.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.0.115])
+  by internal-pdx-out-007.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 16:38:51 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [205.251.233.104:26362]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.34.255:2525] with esmtp (Farcaster)
+ id 19a4b56d-2474-43be-9930-9f83efeb2f5a; Thu, 12 Nov 2026 16:38:50 +0000 (UTC)
+X-Farcaster-Flow-ID: 19a4b56d-2474-43be-9930-9f83efeb2f5a
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Thu, 12 Nov 2026 16:38:50 +0000
+Received: from dev-dsk-surenkj-2b-416930d2.us-west-2.amazon.com (10.169.26.94)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Thu, 12 Nov 2026 16:38:50 +0000
+From: Surendran Kanagaraj <surenkj@amazon.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>, Peter Huewe <peterhuewe@gmx.de>
+CC: Jason Gunthorpe <jgg@ziepe.ca>, <linux-integrity@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	<linux-doc@vger.kernel.org>, Jonathan McDowell <noodles@earth.li>, "Breno
+ Leitao" <leitao@debian.org>, <nh-open-source@amazon.com>, Alexander Graf
+	<graf@amazon.de>, Gunnar Kudrjavets <gunnarku@amazon.com>, Josh Levinson
+	<joshlev@amazon.com>
+Subject: [RFC PATCH v3 3/8] tpm: Take command durations from the limits table
+Date: Thu, 12 Nov 2026 16:38:41 +0000
+Message-ID: <20261112163846.97654-4-surenkj@amazon.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261112163846.97654-1-surenkj@amazon.com>
+References: <20261112163846.97654-1-surenkj@amazon.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -113,405 +89,713 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWC004.ant.amazon.com (10.13.139.246) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Match WiWi 2163:1008, subsystem 10ee:0007. NetTimeLogic uses the PCI
-Revision ID for incompatible interface changes. Revision 02 identifies
-the LitePCIe/MSI-X interface; the Xilinx subsystem ID and FPGA build
-number do not identify the register interface. Reject unknown revisions
-and check BAR0 and the MSI-X layout before accessing FPGA registers.
-Do not probe a CoreList or require exact versions of individual cores.
+TPM 2.0 commands still get their wait from a fixed map of durations.
+The limits table never sees those values so they have no bounds and a
+driver cannot adjust them. TPM 1.x already maps each ordinal to a class
+through tpm1_ordinal_duration[] but reads the value from the jiffies
+copies in struct tpm_chip.
 
-Report the full 32-bit image ID as the running firmware build. Derive
-signal and frequency capabilities from the supported revision, not the
-legacy FB build-number thresholds. Retain legacy version behavior on
-other cards.
+Map each TPM 2.0 ordinal to a class too and have
+tpm_calc_ordinal_duration() read the class's limit from the table for
+both families. An ordinal neither table knows gets DEFAULT.
 
-Translate a copy of each peripheral resource by 0x02000000 and its
-interrupt input by 32. Use aligned 32-bit UART and XIIC register I/O.
-Leave GNSS2 unregistered: it is not wired on the tested production
-image. Do not change other cards' resource tables or access modes.
+With the default limits, TPM2_VerifySignature is the only command whose
+wait changes. Its 30 s matched no class, so it now gets DEFAULT 120 s.
+On TPM 1.x an unknown ordinal still waits two minutes, unless LONG
+ends up above that and validation raises DEFAULT to match.
 
-Open the UART, I2C and SPI inputs before probing children: SPI NOR
-identification can wait for an interrupt. Enable timing inputs after
-registering the PHC and its consumers. Keep unused inputs masked and
-leave child interrupts available through removal.
-
-Reject WiWi devlink flash updates before looking up or modifying MTD.
-The flash header differs from Celestica and the vendor update path
-requires a modified spi-xilinx. Device recognition is not validation
-of an update path.
-
-Thomas Schaub of NetTimeLogic described the production register layout
-and interrupt gate on 10 November 2026 and the PCI revision convention
-on 11 November.
-
-On a revision 02 production card, devlink reported build 0x0000800f.
-The driver allocated 64 MSI-X vectors, registered the PHC, PPS and
-three UARTs, and exposed four generator and four frequency-counter
-groups. SPI NOR and both at24 devices bound. The PHC advanced
-3.000441080 s over three one-second sleeps, with each delta inside
-the host monotonic bounds. PCIe AER counters did not change. The clock
-reported UNSYNCED at probe; the test did not establish PPS lock or UTC.
-
-Tool-origin disclosure: Codex assisted with the driver changes, tests
-and changelog using the supplied hardware evidence and revision rule.
-
-Signed-off-by: Ahmad Byagowi <ahmadexp@gmail.com>
+Signed-off-by: Surendran Kanagaraj <surenkj@amazon.com>
 ---
- Documentation/networking/devlink/ptp_ocp.rst |  36 +++-
- drivers/ptp/ptp_ocp.c                        | 163 ++++++++++++++++++-
- 2 files changed, 190 insertions(+), 9 deletions(-)
+ drivers/char/tpm/tpm-interface.c |  15 +-
+ drivers/char/tpm/tpm.h           |   4 +-
+ drivers/char/tpm/tpm1-cmd.c      | 518 +++++++++++++++----------------
+ drivers/char/tpm/tpm2-cmd.c      |  58 ++--
+ 4 files changed, 294 insertions(+), 301 deletions(-)
 
-diff --git a/Documentation/networking/devlink/ptp_ocp.rst b/Documentation/networking/devlink/ptp_ocp.rst
-index f94b759d9..2515dcccd 100644
---- a/Documentation/networking/devlink/ptp_ocp.rst
-+++ b/Documentation/networking/devlink/ptp_ocp.rst
-@@ -54,7 +54,8 @@ selected with the component name.
-      - Description
-    * - (none)
-      - The card's own flash, written through the SPI controller the driver
--       exposes.  The card runs the new image after its next reset.
-+       exposes. Not supported on WiWi. The card runs the new image after
-+       its next reset.
-    * - ``fw.cpld``
-      - The configuration flash of the TAP CPLD on ADVA TimeCard X1 boards,
-        programmed over I2C with the MachXO3 in-system programming commands
-@@ -73,3 +74,36 @@ with the standard devlink status notifications.
- Example::
+diff --git a/drivers/char/tpm/tpm-interface.c b/drivers/char/tpm/tpm-interface.c
+index e0385b16616b..8e6ea9c04019 100644
+--- a/drivers/char/tpm/tpm-interface.c
++++ b/drivers/char/tpm/tpm-interface.c
+@@ -40,6 +40,14 @@ module_param_named(suspend_pcr, tpm_suspend_pcr, uint, 0644);
+ MODULE_PARM_DESC(suspend_pcr,
+ 		 "PCR to use for dummy writes to facilitate flush on suspend.");
  
-     $ devlink dev flash pci/0000:02:00.0 file adva-cpld.bin component fw.cpld
-+
-+WiWi production firmware
-+========================
-+
-+WiWi Time Cards with PCI ID ``2163:1008`` and subsystem ID ``10ee:0007``
-+use the PCI Revision ID to identify the register interface. The driver
-+supports revision ``02`` (LitePCIe/MSI-X) and rejects unknown revisions
-+before accessing FPGA registers. Incompatible interface changes require
-+a new revision. The driver also checks the BAR and MSI-X layout before
-+initializing the card.
-+
-+The image ID at BAR0 offset ``0x02020000`` identifies a firmware build,
-+not the register interface. The running ``fw`` version in devlink reports
-+the full image ID, for example ``0x0000800f``. Compatible builds need not
-+have the same image ID or individual core versions. PCIe access to the
-+CoreList is not required.
-+
-+The image uses the Celestica LitePCIe production map: add ``0x02000000``
-+to the peripheral offsets and use aligned 32-bit MMIO. Interrupt input
-+``n`` uses MSI-X vector ``n + 32``. The per-input enable mask is at BAR0
-+offset ``0x1800``. The driver enables the SPI interrupt before probing
-+the flash and defers timing interrupts until the PHC is ready. GNSS2 is
-+not wired to pins on the tested image; no second GNSS port is registered.
-+The separate EEPROM and RGB I2C inputs (17 and 18) have no handlers in
-+this driver and stay masked; these are distinct from its I2C input 7.
-+
-+WiWi firmware updates through ``devlink dev flash`` are not supported.
-+The WiWi image has a different flash header from the Celestica image.
-+The golden image at flash offset zero boots the update image via MultiBoot
-+with watchdog fallback. The vendor's programming path requires a modified
-+``spi-xilinx`` driver. Recognizing the SPI NOR does not validate that path
-+or the image header. Successful clock registration does not establish
-+GNSS synchronization or valid UTC.
-diff --git a/drivers/ptp/ptp_ocp.c b/drivers/ptp/ptp_ocp.c
-index 625a85b2d..10ad2fbeb 100644
---- a/drivers/ptp/ptp_ocp.c
-+++ b/drivers/ptp/ptp_ocp.c
-@@ -34,6 +34,23 @@
- #define PCI_VENDOR_ID_CELESTICA			0x18d4
- #define PCI_DEVICE_ID_CELESTICA_TIMECARD	0x1008
- 
-+#define PCI_VENDOR_ID_WIWI			0x2163
-+#define PCI_DEVICE_ID_WIWI_TIMECARD		0x1008
-+
-+/* WiWi production firmware uses the Celestica map behind LitePCIe. */
-+#define OCP_WIWI_MMIO_OFFSET			0x02000000
-+#define OCP_WIWI_IRQ_OFFSET			32
-+#define OCP_WIWI_MSI_ENABLE			0x1800
-+/* Upper 32 bits: UARTs, I2C and SPI can interrupt during probe. */
-+#define OCP_WIWI_PERIPHERAL_IRQS	(BIT(3) | BIT(5) | BIT(7) | \
-+					 BIT(9) | BIT(10))
-+/* PPS/TS0/TS1, TS2, GEN1-4 and TS3/TS4. */
-+#define OCP_WIWI_TIMING_IRQS			(GENMASK(2, 0) | BIT(6) | \
-+						 GENMASK(16, 11))
-+/* Leave unwired GNSS2 (4), HWICAP (8) and EEPROM/RGB I2C (17/18) masked. */
-+#define OCP_WIWI_IRQS				(OCP_WIWI_PERIPHERAL_IRQS | \
-+						 OCP_WIWI_TIMING_IRQS)
-+
- #define PCI_VENDOR_ID_OROLIA			0x1ad7
- #define PCI_DEVICE_ID_OROLIA_ARTCARD		0xa000
- 
-@@ -404,6 +421,9 @@ struct ptp_ocp {
- 	struct delayed_work	sync_work;
- 	int			id;
- 	int			n_irqs;
-+	bool			wiwi;
-+	u32			wiwi_image_id;
-+	void __iomem		*wiwi_msi;
- 	struct ptp_ocp_serial_port	port[__PORT_COUNT];
- 	bool			fw_loader;
- 	u8			fw_tag;
-@@ -1321,6 +1341,13 @@ static struct ocp_resource ocp_adva_x1_resource[] = {
- static const struct pci_device_id ptp_ocp_pcidev_id[] = {
- 	{ PCI_DEVICE_DATA(META, TIMECARD, &ocp_fb_resource) },
- 	{ PCI_DEVICE_DATA(CELESTICA, TIMECARD, &ocp_fb_resource) },
-+	{
-+		PCI_DEVICE_SUB(PCI_VENDOR_ID_WIWI, PCI_DEVICE_ID_WIWI_TIMECARD,
-+			       PCI_VENDOR_ID_XILINX, 0x0007),
-+		.class = PCI_CLASS_MEMORY_OTHER << 8,
-+		.class_mask = 0xffffff,
-+		.driver_data = (kernel_ulong_t)ocp_fb_resource,
-+	},
- 	{ PCI_DEVICE_DATA(OROLIA, ARTCARD, &ocp_art_resource) },
- 	{ PCI_DEVICE_DATA(ADVA, TIMECARD, &ocp_adva_resource) },
- 	{ PCI_DEVICE_DATA(ADVA, TIMECARD_X1, &ocp_adva_x1_resource) },
-@@ -2173,6 +2200,12 @@ ptp_ocp_devlink_flash_update(struct devlink *devlink,
- 	const char *msg;
- 	int err;
- 
-+	if (bp->wiwi) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "WiWi flash updates are not supported");
-+		return -EOPNOTSUPP;
-+	}
-+
- 	if (params->component) {
- 		if (!bp->has_cpld ||
- 		    strcmp(params->component, ADVA_CPLD_COMPONENT)) {
-@@ -2219,7 +2252,10 @@ ptp_ocp_devlink_info_get(struct devlink *devlink, struct devlink_info_req *req,
- 	u32 id;
- 
- 	fw_image = bp->fw_loader ? "loader" : "fw";
--	sprintf(buf, "%d.%d", bp->fw_tag, bp->fw_version);
-+	if (bp->wiwi)
-+		snprintf(buf, sizeof(buf), "0x%08x", bp->wiwi_image_id);
-+	else
-+		sprintf(buf, "%d.%d", bp->fw_tag, bp->fw_version);
- 	err = devlink_info_version_running_put(req, fw_image, buf);
- 	if (err)
- 		return err;
-@@ -2331,20 +2367,29 @@ ptp_ocp_register_spi(struct ptp_ocp *bp, struct ocp_resource *r)
- }
- 
- static struct platform_device *
--ptp_ocp_i2c_bus(struct pci_dev *pdev, struct ocp_resource *r, int id)
-+ptp_ocp_i2c_bus(struct ptp_ocp *bp, struct ocp_resource *r, int id)
- {
-+	struct xiic_i2c_platform_data wiwi_data;
-+	struct pci_dev *pdev = bp->pdev;
- 	struct ptp_ocp_i2c_info *info;
- 	struct resource res[2];
- 	resource_size_t start;
-+	const void *data;
- 
- 	info = r->extra;
-+	data = info->data;
-+	if (bp->wiwi) {
-+		wiwi_data = *(struct xiic_i2c_platform_data *)info->data;
-+		wiwi_data.force_32bit_access = true;
-+		data = &wiwi_data;
-+	}
- 	start = pci_resource_start(pdev, 0) + r->offset;
- 	res[0] = DEFINE_RES_MEM(start, r->size);
- 	res[1] = DEFINE_RES_IRQ(pci_irq_vector(pdev, r->irq_vec));
- 
- 	return platform_device_register_resndata(&pdev->dev, info->name,
- 						 id, res, ARRAY_SIZE(res),
--						 info->data, info->data_size);
-+						 data, info->data_size);
- }
- 
- static int
-@@ -2369,7 +2414,7 @@ ptp_ocp_register_i2c(struct ptp_ocp *bp, struct ocp_resource *r)
- 
- 	sprintf(buf, "%s.%d", info->name, id);
- 	devm_clk_hw_register_clkdev(&pdev->dev, clk, NULL, buf);
--	p = ptp_ocp_i2c_bus(bp->pdev, r, id);
-+	p = ptp_ocp_i2c_bus(bp, r, id);
- 	if (IS_ERR(p))
- 		return PTR_ERR(p);
- 
-@@ -2640,7 +2685,7 @@ ptp_ocp_serial_line(struct ptp_ocp *bp, struct ocp_resource *r)
- 	 */
- 	memset(&uart, 0, sizeof(uart));
- 	uart.port.dev = &pdev->dev;
--	uart.port.iotype = UPIO_MEM;
-+	uart.port.iotype = bp->wiwi ? UPIO_MEM32 : UPIO_MEM;
- 	uart.port.regshift = 2;
- 	uart.port.mapbase = pci_resource_start(pdev, 0) + r->offset;
- 	uart.port.irq = pci_irq_vector(pdev, r->irq_vec);
-@@ -3036,6 +3081,13 @@ ptp_ocp_fb_set_version(struct ptp_ocp *bp)
- 
- 	version = ioread32(&bp->image->version);
- 
-+	if (bp->wiwi) {
-+		/* Revision 02 defines capabilities; report the build ID. */
-+		bp->wiwi_image_id = version;
-+		bp->fw_cap = OCP_CAP_BASIC | OCP_CAP_SIGNAL | OCP_CAP_FREQ;
-+		return;
-+	}
-+
- 	/* if lower 16 bits are empty, this is the fw loader. */
- 	if ((version & 0xffff) == 0) {
- 		version = version >> 16;
-@@ -3068,7 +3120,6 @@ ptp_ocp_fb_board_init(struct ptp_ocp *bp, struct ocp_resource *r)
- 
- 	bp->flash_start = 1024 * 4096;
- 	bp->eeprom_map = fb_eeprom_map;
--	bp->fw_version = ioread32(&bp->image->version);
- 	bp->sma_op = &ocp_fb_sma_op;
- 	bp->signals_nr = 4;
- 	bp->freq_in_nr = 4;
-@@ -3109,7 +3160,26 @@ ptp_ocp_register_resources(struct ptp_ocp *bp, kernel_ulong_t driver_data)
- 	int err = 0;
- 
- 	table = (struct ocp_resource *)driver_data;
--	for (r = table; r->setup; r++) {
-+	for (; table->setup; table++) {
-+		struct ocp_resource translated = *table;
-+
-+		r = table;
-+		if (bp->wiwi) {
-+			/* GNSS2 is instantiated but not routed to FPGA pins. */
-+			if (r->setup == ptp_ocp_register_serial &&
-+			    r->bp_offset == offsetof(struct ptp_ocp,
-+						    port[PORT_GNSS2]))
-+				continue;
-+			/* Leave the shared resource table unchanged. */
-+			if (translated.offset)
-+				translated.offset += OCP_WIWI_MMIO_OFFSET;
-+			if (r->setup == ptp_ocp_register_ext ||
-+			    r->setup == ptp_ocp_register_serial ||
-+			    r->setup == ptp_ocp_register_i2c ||
-+			    r->setup == ptp_ocp_register_spi)
-+				translated.irq_vec += OCP_WIWI_IRQ_OFFSET;
-+			r = &translated;
-+		}
- 		if (!ptp_ocp_allow_irq(bp, r))
- 			continue;
- 		err = r->setup(bp, r);
-@@ -5786,6 +5856,12 @@ ptp_ocp_detach(struct ptp_ocp *bp)
- 	platform_device_unregister(bp->i2c_ctrl);
- 	if (bp->i2c_clk)
- 		clk_hw_unregister_fixed_rate(bp->i2c_clk);
-+	/* Child removal can need interrupts, notably SPI NOR reset. */
-+	if (bp->wiwi_msi) {
-+		iowrite32(0, bp->wiwi_msi);
-+		iowrite32(0, bp->wiwi_msi + 4);
-+		ioread32(bp->wiwi_msi);
-+	}
- 	if (bp->n_irqs)
- 		pci_free_irq_vectors(bp->pdev);
- 	mutex_destroy(&bp->cpld_lock);
-@@ -5951,6 +6027,49 @@ ptp_ocp_sync_work(struct work_struct *work)
- 	queue_delayed_work(system_power_efficient_wq, &bp->sync_work, HZ);
- }
- 
-+/* The PCI revision identifies the register interface, not the FPGA build. */
-+static int ptp_ocp_wiwi_validate(struct pci_dev *pdev)
++static enum tpm_limit tpm_duration_limit(struct tpm_chip *chip, u32 ordinal)
 +{
-+	u32 table, pba;
-+	int cap;
++	if (chip->flags & TPM_CHIP_FLAG_TPM2)
++		return tpm2_duration_limit(ordinal);
 +
-+	if (pdev->revision != 0x02)
-+		return dev_err_probe(&pdev->dev, -ENODEV,
-+				     "Unsupported WiWi PCI revision %#02x\n",
-+				     pdev->revision);
-+
-+	cap = pci_find_capability(pdev, PCI_CAP_ID_MSIX);
-+	if (!(pci_resource_flags(pdev, 0) & IORESOURCE_MEM) ||
-+	    pci_resource_len(pdev, 0) != 0x04000000 || !cap ||
-+	    pci_msix_vec_count(pdev) != 64 ||
-+	    pci_read_config_dword(pdev, cap + PCI_MSIX_TABLE, &table) ||
-+	    pci_read_config_dword(pdev, cap + PCI_MSIX_PBA, &pba) ||
-+	    table != 0x2000 || pba != 0x1808)
-+		return dev_err_probe(&pdev->dev, -ENODEV,
-+				     "Unsupported WiWi PCI layout\n");
-+
-+	return 0;
++	return tpm1_duration_limit(ordinal);
 +}
 +
-+static int ptp_ocp_wiwi_irq_init(struct ptp_ocp *bp)
-+{
-+	void __iomem *msi;
-+
-+	msi = __ptp_ocp_get_mem(bp, pci_resource_start(bp->pdev, 0) +
-+			      OCP_WIWI_MSI_ENABLE, 8);
-+	if (IS_ERR(msi))
-+		return PTR_ERR(msi);
-+	bp->wiwi_msi = msi;
-+
-+	/* LiteX stores bits 63:32 before bits 31:0, as little-endian words. */
-+	iowrite32(0, msi);
-+	iowrite32(0, msi + 4);
-+	if (ioread32(msi) || ioread32(msi + 4))
-+		return -EIO;
-+
-+	return 0;
-+}
-+
- static int
- ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ /**
+  * tpm_calc_ordinal_duration() - calculate the maximum command duration
+  * @chip:    TPM chip to use.
+@@ -52,10 +60,9 @@ MODULE_PARM_DESC(suspend_pcr,
+  */
+ unsigned long tpm_calc_ordinal_duration(struct tpm_chip *chip, u32 ordinal)
  {
-@@ -5972,6 +6091,14 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 	}
- 
- 	bp = devlink_priv(devlink);
-+	bp->wiwi = pdev->vendor == PCI_VENDOR_ID_WIWI &&
-+		   pdev->device == PCI_DEVICE_ID_WIWI_TIMECARD;
-+	if (bp->wiwi) {
-+		/* Validate before IRQ setup, bus mastering or FPGA writes. */
-+		err = ptp_ocp_wiwi_validate(pdev);
-+		if (err)
-+			goto out_disable;
-+	}
- 	err = ptp_ocp_device_init(bp, pdev);
- 	if (err)
- 		goto out_disable;
-@@ -5987,18 +6114,33 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 
- 	INIT_DELAYED_WORK(&bp->sync_work, ptp_ocp_sync_work);
- 
-+	if (bp->wiwi) {
-+		err = ptp_ocp_wiwi_irq_init(bp);
-+		if (err)
-+			goto out;
-+	}
+-	if (chip->flags & TPM_CHIP_FLAG_TPM2)
+-		return tpm2_calc_ordinal_duration(ordinal);
+-	else
+-		return tpm1_calc_ordinal_duration(chip, ordinal);
++	enum tpm_limit limit = tpm_duration_limit(chip, ordinal);
 +
- 	/* compat mode.
- 	 * Older FPGA firmware only returns 2 irq's.
- 	 * allow this - if not all of the IRQ's are returned, skip the
- 	 * extra devices and just register the clock.
++	return usecs_to_jiffies(chip->limits.entry[limit].time_us);
+ }
+ EXPORT_SYMBOL_GPL(tpm_calc_ordinal_duration);
+ 
+diff --git a/drivers/char/tpm/tpm.h b/drivers/char/tpm/tpm.h
+index be88011f9618..1e023f12a400 100644
+--- a/drivers/char/tpm/tpm.h
++++ b/drivers/char/tpm/tpm.h
+@@ -66,7 +66,7 @@ int tpm1_pm_suspend(struct tpm_chip *chip, u32 tpm_suspend_pcr);
+ int tpm1_auto_startup(struct tpm_chip *chip);
+ int tpm1_do_selftest(struct tpm_chip *chip);
+ int tpm1_get_timeouts(struct tpm_chip *chip);
+-unsigned long tpm1_calc_ordinal_duration(struct tpm_chip *chip, u32 ordinal);
++enum tpm_limit tpm1_duration_limit(u32 ordinal);
+ int tpm1_pcr_extend(struct tpm_chip *chip, u32 pcr_idx, const u8 *hash,
+ 		    const char *log_msg);
+ int tpm1_pcr_read(struct tpm_chip *chip, u32 pcr_idx, u8 *res_buf);
+@@ -132,7 +132,7 @@ ssize_t tpm2_get_tpm_pt(struct tpm_chip *chip, u32 property_id,
+ ssize_t tpm2_get_pcr_allocation(struct tpm_chip *chip);
+ int tpm2_auto_startup(struct tpm_chip *chip);
+ void tpm2_shutdown(struct tpm_chip *chip, u16 shutdown_type);
+-unsigned long tpm2_calc_ordinal_duration(u32 ordinal);
++enum tpm_limit tpm2_duration_limit(u32 ordinal);
+ int tpm2_probe(struct tpm_chip *chip);
+ int tpm2_get_cc_attrs_tbl(struct tpm_chip *chip);
+ int tpm2_find_cc(struct tpm_chip *chip, u32 cc);
+diff --git a/drivers/char/tpm/tpm1-cmd.c b/drivers/char/tpm/tpm1-cmd.c
+index 9586b4944578..117948a2b318 100644
+--- a/drivers/char/tpm/tpm1-cmd.c
++++ b/drivers/char/tpm/tpm1-cmd.c
+@@ -31,279 +31,267 @@
+  * from the chip during initialization with a call to tpm_get_timeouts.
+  */
+ static const u8 tpm1_ordinal_duration[TPM_MAX_ORDINAL] = {
+-	TPM_UNDEFINED,		/* 0 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 5 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 10 */
+-	TPM_SHORT,
+-	TPM_MEDIUM,
+-	TPM_LONG,
+-	TPM_LONG,
+-	TPM_MEDIUM,		/* 15 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_MEDIUM,
+-	TPM_LONG,
+-	TPM_SHORT,		/* 20 */
+-	TPM_SHORT,
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_SHORT,		/* 25 */
+-	TPM_SHORT,
+-	TPM_MEDIUM,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_MEDIUM,		/* 30 */
+-	TPM_LONG,
+-	TPM_MEDIUM,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,		/* 35 */
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_MEDIUM,		/* 40 */
+-	TPM_LONG,
+-	TPM_MEDIUM,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,		/* 45 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_LONG,
+-	TPM_MEDIUM,		/* 50 */
+-	TPM_MEDIUM,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 55 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_MEDIUM,		/* 60 */
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_MEDIUM,		/* 65 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 70 */
+-	TPM_SHORT,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 75 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_LONG,		/* 80 */
+-	TPM_UNDEFINED,
+-	TPM_MEDIUM,
+-	TPM_LONG,
+-	TPM_SHORT,
+-	TPM_UNDEFINED,		/* 85 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 90 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_UNDEFINED,		/* 95 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_MEDIUM,		/* 100 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 105 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 110 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,		/* 115 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_LONG,		/* 120 */
+-	TPM_LONG,
+-	TPM_MEDIUM,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,
+-	TPM_SHORT,		/* 125 */
+-	TPM_SHORT,
+-	TPM_LONG,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,		/* 130 */
+-	TPM_MEDIUM,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,
+-	TPM_MEDIUM,
+-	TPM_UNDEFINED,		/* 135 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 140 */
+-	TPM_SHORT,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 145 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 150 */
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_UNDEFINED,		/* 155 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 160 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 165 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_LONG,		/* 170 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 175 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_MEDIUM,		/* 180 */
+-	TPM_SHORT,
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,		/* 185 */
+-	TPM_SHORT,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 190 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 195 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 200 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,
+-	TPM_SHORT,		/* 205 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_MEDIUM,		/* 210 */
+-	TPM_UNDEFINED,
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_MEDIUM,
+-	TPM_UNDEFINED,		/* 215 */
+-	TPM_MEDIUM,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,
+-	TPM_SHORT,		/* 220 */
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_SHORT,
+-	TPM_UNDEFINED,		/* 225 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 230 */
+-	TPM_LONG,
+-	TPM_MEDIUM,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,		/* 235 */
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_UNDEFINED,
+-	TPM_SHORT,		/* 240 */
+-	TPM_UNDEFINED,
+-	TPM_MEDIUM,
++	TPM_LIMIT_DEFAULT,	/* 0 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 5 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 10 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_MEDIUM,	/* 15 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_SHORT,	/* 20 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_SHORT,	/* 25 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,	/* 30 */
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,	/* 35 */
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_MEDIUM,	/* 40 */
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,	/* 45 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_MEDIUM,	/* 50 */
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 55 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_MEDIUM,	/* 60 */
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,	/* 65 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 70 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 75 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_LONG,		/* 80 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,	/* 85 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 90 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,	/* 95 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_MEDIUM,	/* 100 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 105 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 110 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,	/* 115 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_LONG,		/* 120 */
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,	/* 125 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,	/* 130 */
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_DEFAULT,	/* 135 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 140 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 145 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 150 */
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,	/* 155 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 160 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 165 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_LONG,		/* 170 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 175 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_MEDIUM,	/* 180 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,	/* 185 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 190 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 195 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 200 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,	/* 205 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_MEDIUM,	/* 210 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_DEFAULT,	/* 215 */
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,	/* 220 */
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_SHORT,
++	TPM_LIMIT_DEFAULT,	/* 225 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 230 */
++	TPM_LIMIT_LONG,
++	TPM_LIMIT_MEDIUM,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,	/* 235 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_SHORT,	/* 240 */
++	TPM_LIMIT_DEFAULT,
++	TPM_LIMIT_MEDIUM,
+ };
+ 
+ /**
+- * tpm1_calc_ordinal_duration() - calculate the maximum command duration
+- * @chip:    TPM chip to use.
++ * tpm1_duration_limit() - the execution class of a TPM 1.x command
+  * @ordinal: TPM command ordinal.
+  *
+- * The function returns the maximum amount of time the chip could take
+- * to return the result for a particular ordinal in jiffies.
+- *
+- * Return: A maximal duration time for an ordinal in jiffies.
++ * Return: The limit that bounds the execution of @ordinal.
+  */
+-unsigned long tpm1_calc_ordinal_duration(struct tpm_chip *chip, u32 ordinal)
++enum tpm_limit tpm1_duration_limit(u32 ordinal)
+ {
+-	int duration_idx = TPM_UNDEFINED;
+-	int duration = 0;
+-
+ 	/*
+-	 * We only have a duration table for protected commands, where the upper
+-	 * 16 bits are 0. For the few other ordinals the fallback will be used.
++	 * The table covers protected commands, where the upper 16 bits are 0.
++	 * The few other ordinals use the DEFAULT limit.
  	 */
--	err = pci_alloc_irq_vectors(pdev, 1, 17, PCI_IRQ_MSI | PCI_IRQ_MSIX);
-+	if (bp->wiwi)
-+		err = pci_alloc_irq_vectors(pdev, 49, 64, PCI_IRQ_MSIX);
-+	else
-+		err = pci_alloc_irq_vectors(pdev, 1, 17,
-+					    PCI_IRQ_MSI | PCI_IRQ_MSIX);
- 	if (err < 0) {
- 		dev_err(&pdev->dev, "alloc_irq_vectors err: %d\n", err);
- 		goto out;
- 	}
- 	bp->n_irqs = err;
- 	pci_set_master(pdev);
-+	/* SPI NOR needs IRQs now; timestamp consumers are not ready. */
-+	if (bp->wiwi_msi) {
-+		iowrite32(OCP_WIWI_PERIPHERAL_IRQS, bp->wiwi_msi);
-+		ioread32(bp->wiwi_msi);
-+	}
+-	if (ordinal < TPM_MAX_ORDINAL)
+-		duration_idx = tpm1_ordinal_duration[ordinal];
+-
+-	if (duration_idx != TPM_UNDEFINED)
+-		duration = chip->duration[duration_idx];
+-	if (duration <= 0)
+-		return 2 * 60 * HZ;
+-	else
+-		return duration;
++	if (ordinal >= TPM_MAX_ORDINAL)
++		return TPM_LIMIT_DEFAULT;
++
++	return tpm1_ordinal_duration[ordinal];
+ }
  
- 	err = ptp_ocp_register_resources(bp, id->driver_data);
- 	if (err)
-@@ -6047,6 +6189,11 @@ ptp_ocp_probe(struct pci_dev *pdev, const struct pci_device_id *id)
- 			goto out_dpll;
- 		}
- 	}
-+	/* All handlers and the PHC are ready for timestamp interrupts. */
-+	if (bp->wiwi_msi) {
-+		iowrite32(OCP_WIWI_IRQS, bp->wiwi_msi);
-+		ioread32(bp->wiwi_msi);
-+	}
- 	queue_delayed_work(system_power_efficient_wq, &bp->sync_work, HZ);
+ /**
+@@ -612,7 +600,7 @@ int tpm1_do_selftest(struct tpm_chip *chip)
+ 	unsigned long duration;
+ 	u8 dummy[TPM_DIGEST_SIZE];
  
+-	duration = tpm1_calc_ordinal_duration(chip, TPM_ORD_CONTINUE_SELFTEST);
++	duration = tpm_calc_ordinal_duration(chip, TPM_ORD_CONTINUE_SELFTEST);
+ 
+ 	loops = jiffies_to_msecs(duration) / delay_msec;
+ 
+diff --git a/drivers/char/tpm/tpm2-cmd.c b/drivers/char/tpm/tpm2-cmd.c
+index f943f1c05721..629caaeffa17 100644
+--- a/drivers/char/tpm/tpm2-cmd.c
++++ b/drivers/char/tpm/tpm2-cmd.c
+@@ -48,47 +48,45 @@ int tpm2_get_timeouts(struct tpm_chip *chip)
  	return 0;
+ }
+ 
+-/*
+- * Contains the maximum durations in milliseconds for TPM2 commands.
+- */
++/* The execution class of each TPM2 command with a known limit. */
+ static const struct {
+-	unsigned long ordinal;
+-	unsigned long duration;
+-} tpm2_ordinal_duration_map[] = {
+-	{TPM2_CC_STARTUP, 750},
+-	{TPM2_CC_SELF_TEST, 3000},
+-	{TPM2_CC_GET_RANDOM, 2000},
+-	{TPM2_CC_SEQUENCE_UPDATE, 750},
+-	{TPM2_CC_SEQUENCE_COMPLETE, 750},
+-	{TPM2_CC_EVENT_SEQUENCE_COMPLETE, 750},
+-	{TPM2_CC_HASH_SEQUENCE_START, 750},
+-	{TPM2_CC_VERIFY_SIGNATURE, 30000},
+-	{TPM2_CC_PCR_EXTEND, 750},
+-	{TPM2_CC_HIERARCHY_CONTROL, 2000},
+-	{TPM2_CC_HIERARCHY_CHANGE_AUTH, 2000},
+-	{TPM2_CC_GET_CAPABILITY, 750},
+-	{TPM2_CC_NV_READ, 2000},
+-	{TPM2_CC_CREATE_PRIMARY, 300000},
+-	{TPM2_CC_CREATE, 300000},
+-	{TPM2_CC_CREATE_LOADED, 300000},
++	u32 ordinal;
++	u8 limit;
++} tpm2_duration_limits[] = {
++	{TPM2_CC_STARTUP, TPM_LIMIT_SHORT},
++	{TPM2_CC_SELF_TEST, TPM_LIMIT_LONG},
++	{TPM2_CC_GET_RANDOM, TPM_LIMIT_MEDIUM},
++	{TPM2_CC_SEQUENCE_UPDATE, TPM_LIMIT_SHORT},
++	{TPM2_CC_SEQUENCE_COMPLETE, TPM_LIMIT_SHORT},
++	{TPM2_CC_EVENT_SEQUENCE_COMPLETE, TPM_LIMIT_SHORT},
++	{TPM2_CC_HASH_SEQUENCE_START, TPM_LIMIT_SHORT},
++	/* LONG, 3 s, is too short for signature verification. */
++	{TPM2_CC_VERIFY_SIGNATURE, TPM_LIMIT_DEFAULT},
++	{TPM2_CC_PCR_EXTEND, TPM_LIMIT_SHORT},
++	{TPM2_CC_HIERARCHY_CONTROL, TPM_LIMIT_MEDIUM},
++	{TPM2_CC_HIERARCHY_CHANGE_AUTH, TPM_LIMIT_MEDIUM},
++	{TPM2_CC_GET_CAPABILITY, TPM_LIMIT_SHORT},
++	{TPM2_CC_NV_READ, TPM_LIMIT_MEDIUM},
++	{TPM2_CC_CREATE_PRIMARY, TPM_LIMIT_LONG_LONG},
++	{TPM2_CC_CREATE, TPM_LIMIT_LONG_LONG},
++	{TPM2_CC_CREATE_LOADED, TPM_LIMIT_LONG_LONG},
+ };
+ 
+ /**
+- * tpm2_calc_ordinal_duration() - Calculate the maximum command duration
++ * tpm2_duration_limit() - the execution class of a TPM2 command
+  * @ordinal: TPM command ordinal.
+  *
+- * Returns the maximum amount of time the chip is expected by kernel to
+- * take in jiffies.
++ * Return: The limit that bounds the execution of @ordinal.
+  */
+-unsigned long tpm2_calc_ordinal_duration(u32 ordinal)
++enum tpm_limit tpm2_duration_limit(u32 ordinal)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < ARRAY_SIZE(tpm2_ordinal_duration_map); i++)
+-		if (ordinal == tpm2_ordinal_duration_map[i].ordinal)
+-			return msecs_to_jiffies(tpm2_ordinal_duration_map[i].duration);
++	for (i = 0; i < ARRAY_SIZE(tpm2_duration_limits); i++)
++		if (ordinal == tpm2_duration_limits[i].ordinal)
++			return tpm2_duration_limits[i].limit;
+ 
+-	return msecs_to_jiffies(TPM2_DURATION_DEFAULT);
++	return TPM_LIMIT_DEFAULT;
+ }
+ 
+ /**
+-- 
+2.47.3
+
