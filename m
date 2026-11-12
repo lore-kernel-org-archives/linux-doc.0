@@ -1,100 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.161.53
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794495328;
-	b=wrTI6shNDh1QTpvaRSVYf4nt3M3NH1auohoZE5w8XQkzpGFw5O9u0X6mntwp5Ha5I0Dq
-	 +zw1+sjU8gahiKrYr1g+X6if6E6d4MbnsrorAs3vTQdJwP95NgXGSY78m8C4X8HRC8DD5
-	 dovhhynfXCI+Y3DAT1Z/RipGB4yTQfUBDw9l6+vMWpSHkGMPeemx++31eZ/56c0MIGmXN
-	 FLXaav7vQapyVCtJQEHn27Lzb6Q8k09xcZdaZFJa514mdKWzU3eMAslICpIsBEEfQQVLi
-	 UcSM/M4Nej2uq6TgenEoqjyxzsC38qRnbri4ZeON15ZXfxtsndb17EBO0DWEI+ZQZHQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794495328;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=vwPTmyMvNhiyDg4UslxzJuuKVfCT6YaQluFzq5V0j6g=;
-	b=fsCXM5NJviVWk6P4z4IAZOflf+NuVEzgo8htuywkyQRy/BmuRhOlI/JMcbCjT18KMS4k
-	 HMQIpzFdBIH6VotgQbCflozLTP+EQ4UDq1jZovwLrXnqXom1ZB+x33TKLc/MreNFHzGC7
-	 fcuUFDrN2xKekvztKWdLW3UrmR/YDaPwHab4tXyiBPY+npuipzbEWSK1heSqMEg+QpSkl
-	 iDqliCo9FWTsiHqUTi3LqUcRYCIeHMWD+KdAjvskXNBAfZ0EQ7bZerfhsKYG/1dA2vA9R
-	 6LDbuM0Wewvx/7I44a62e5KzOgxHa3RLIWsqQ0Hgz+I1QdnXF2dAwd6GcIOxcboxPTw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cloudflare.com;
-	spf=pass smtp.mailfrom=cloudflare.com;
-	dkim=pass header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=U5KQI7tP;
-	arc=fail smtp.remote-ip=209.85.161.53
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794495386;
+	b=dj9FJiX+gXlo47kRoqq/5NcEeqHIdpfPVyALUAQtgeL96sCCpyigcbouj60fr6GIBNjj
+	 ZUrtN8rpwOuhl7+C6KD1MjWx/dFwpv5LKg/wv2ULPgXELZ8ZuPAIMUJBbSpA6jCYqmxB7
+	 +/wu3yEl0m1EV3lR+1fbcT2PomhRpUg2r4i9TuEl2eEVHHm+Y5ZdMWU8yDHLZxoGRqmAY
+	 6GPrs25Z6j59Vqr/C7SxCNppyX2XitURc7GTlFVlxNEkedsp39Io/f3pDHlWWWs5MUvyJ
+	 2MKRv/vbx3UYhuceNP2ynCaan/lOPBwQadtuoQvHaw/liklEvztVTu+iOnoN+Gf/8WA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794495386;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=eR/dgfTX4uX3tTDw1oIx0quyMtQsSjo0do2Wb4F29/s=;
+	b=GihHFFicksl7hpdm5+gsBrmIWtt4bdP9NWIdj+9RJly92xNVyBE+emYon4ub8ECoeVRF
+	 OLrAKTCgIqoJZ/AuebTLOWc6rBpFVXyyX/dikwOKYIPR0BnIfSnEtWe6qqUyiidqRNIez
+	 M6tynTHJTXOsBSthjcuEgqml5up5e6zeb0SfP2xt1onkY54bPmPkX0DKCWS9Mwry9/50g
+	 DhiNb/vWO+/cW4mSULd0O4hz79uWw2tz8MqWS3gliyisVDAUlDL9Y+h6PGVvezI/X7nHg
+	 v8w+ys3UU1iB2RVREgSRHO1uLXD0h7rY7gxHMvZPNmhHwLQQeevE5T+8OfxeZTxdxzw==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jFAL8ciK;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77BAC606A323
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:55:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 77BAC606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B33D606A31C;
+	Thu, 12 Nov 2026 14:56:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.a=rsa-sha256 header.s=google09082023 header.b=U5KQI7tP
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-716b58a4365so2295704eaf.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 06:55:28 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794495327; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XIOcsPnfyGIednpSh8WgDPd/iUwSJLeskyHjVl6S8Wge90f6PbdBbfBLPQaCsruLQg
-         t1iAvv1tJ6rJvniRGxpNJC8ImxWKcW6QKITVhB4jnFc+thv2jRN57vgH7gW75YWkD28y
-         avCOXLyupf/HBKwPZdkR/jYRMC6HioaxNzAhZUthV2fueBltgedf/mtx6e0JCZsbFFSZ
-         mTwnf0L2pj+mQmtbXkxvultSEarBeEmbzaJhS/53gFq0ake/a4XnKvcu2f4f96WBUv7N
-         z4J2SLgk2kdqlZZa1ssl/LI05hcMhV3zLBbc6k9aYfqU/cC4OR3MONuKBx7/1RDLKMrw
-         bfAg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=vwPTmyMvNhiyDg4UslxzJuuKVfCT6YaQluFzq5V0j6g=;
-        fh=oQ/pCNBMOrJYgMJsk4YWGNA0b89OY1WSVlbHEYCyxC0=;
-        b=p9G6nAk9Ex7Pv926BWy2PhpOTdq1USL5+7inGblpdmHD5qpPn/4PjYe4+I6qpKIm7n
-         kzoMJFETeOW3mln+ZLXSkApt+9HTL+3tlzqWQJZV067zLKNMFVh8TAk9wsr0/IK3My9K
-         C93tloziqIrhpL7WwoENnfx0hhcjct22Koy3v9uVecw1fOrEF/+dXn3ScVloPXLTeOcU
-         qtlygTcnqC9f7FsjfQEj0nuFw9862gDyDeyZgXXhoXf1p413dzxzY74NSBHitEXTJuwd
-         +pCpPEupZjUVFxnzWfIx1aP7fQXi9SJW27dvCQ6VZRWBHVVe1HFxWGvtSUXeRNLtqWQ+
-         NAbQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cloudflare.com; s=google09082023; t=1794495327; x=1795100127; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vwPTmyMvNhiyDg4UslxzJuuKVfCT6YaQluFzq5V0j6g=;
-        b=U5KQI7tPQrZmVs2O+/K/2qinNoIrgmL+JN3JGy7b9UiDPeSLDrYZUz8m3+Fi+GmK4d
-         FPhVPTsRS15yE/k7GknytYpWAG6MwHXBIIKa8+5OUMRQdlbNuFvA+ep3tr0dGAEsUuqS
-         a+qAoHXBep9HV3bGKKYHTsPNJ9pBthMfNLk3q0DuYIG3pLV59xn/MzPe5hgZKfRheDNT
-         6JXrnL43z2Low687s4+keArBSR7IBzhVjsWA3Ig96aNpRQIwExEY7RDDcIQ+BgeozV2b
-         TQoClntxCegkGq8td3fNEFFkUr2rZefYM3k1Tn1u2EN6NmmUeW9xJMDbZ19emN/tNOTo
-         3cxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794495327; x=1795100127;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=vwPTmyMvNhiyDg4UslxzJuuKVfCT6YaQluFzq5V0j6g=;
-        b=cQ/IUuYUnZRH9+f9jWF6FwyChCpuFNaKq5TsaFcMPWd+l5REHbBL3hAlmh65Hd6T3b
-         rZbG2pxI7tZKO0zu8imtv1LKyYwBWT7OyzoEs2OIri8kvCPHjoLP5AC7IJmygSWS3Px0
-         j44aK1bBQ+kDTgKM90HBKpINNMmXAhLlj68zcpcAD2d/eyaWMUmi9iwlyw61ooey9UQl
-         pKkDofFO8a898NyzhlzxyHoIG8Ac39esj52j+oIiDkoN2+3zIeabKH642lec/ta1AxB1
-         8RuLg2er5X92QzM4PBB7wqZ066WOt0z0k8+i5i72B0s1ZoQhdmQW7yP5izN+qiJNCDP9
-         HKEA==
-X-Forwarded-Encrypted: i=1; AL+hErG2sUOLqBkDnG0L1Crg2Vk6SeCtesmHlhxjgpupTrkIQMQmVcnepupWW5lDqOW5ELtMW+NRrk2HKRA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+c3FgI3nkd/qkHZUuMx68tPPmK7e/SkDOjkayr/vNI0+EBik1t
-	BqSPxVD0dPY6+FQqNIfjhxbZikBxVQzfvXOcgCpSIGvxc1H9lIww1ccxehSEuCU3yqq0sCEQqUR
-	axLad4QzDaDmlxmoR0uz26tdDbWc3uE5Kd2/Bjota8w==
-X-Gm-Gg: AYBFou3Izyqp36DqOUBZw/uzEahUUqz7gCeQSHGcKWNA0mR4dTFMx7ifRE39wUDvI4w
-	TVV6BhdxSbqUNbLdmpM9WWnbHnufFWWSs6Meqet5QEtyNtnz/ZysEfmXCexDPUt9c6ahB6/plR5
-	KKObDgtkPjT0TtVpPi5HVZ54vHyNRIv326Jj+cjk1zR3CtzzzOIxmnyWy//G3LZ6hKY+8n4jVEl
-	oMEQOXlQYES94FdSzHWwV7XjHK0EUAegGYcCHBOhnpbWuRyZu7MgBzuxx+wnL4WoZ4Mz14eRMRP
-	hRZZOZvq1kKEWzTIY19WGHjW+kVtx4+rc8BjdKUUogU5ZL66u1G6Zw/zcnKAKxLtysO7zLnS2nz
-	CCjjp0AbE8b8avV7ZTC3Xl3idEYRhJgXy4RHFenuHPIi9WzZzgL3G6BdNBGDPuFNxNhLwMyfknA
-	ghBciA8idF5Q==
-X-Received: by 2002:a05:6820:a50f:20b0:716:bb4f:9d1c with SMTP id
- 006d021491bc7-719179b52cdmr2435932eaf.70.1794495327350; Thu, 12 Nov 2026
- 06:55:27 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jFAL8ciK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0B6B1F00A06;
+	Thu, 12 Nov 2026 14:56:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794495386;
+	bh=eR/dgfTX4uX3tTDw1oIx0quyMtQsSjo0do2Wb4F29/s=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jFAL8ciKEPVfAPoFJqaLI+cRjztWGxLzlgZ2ubFd8NzVcqMHflFmdg6cBG5Ea3qjr
+	 cAsCTFkQ1DLiHdTb3b7tEJx9lTfP4X3ouFkbcwzDHDtV5DVcg57mDlApUrs9lMZozH
+	 wIiyeIWYQjdjciPnOgA566JuvnvZDjabQ1Nq435e6TcbAmDdRI2w7AYsm7bZclylNn
+	 V/4Fl3/vi8CQdYAP4UiyRkaA3HmO1132K5MwyVyls4rh/T1L9eJLQdKz76LO0Y3x0a
+	 PTvQng3hL63LTAWArdr0iyj/zBtrojSGz61c3HSC2WwRH2L1u3MH3/skHjjta55OCt
+	 nILJqbzVcn2fw==
+Message-ID: <45fd1a88-8fbf-4735-9892-c374d8bf4df5@kernel.org>
+Date: Thu, 12 Nov 2026 15:56:15 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,59 +51,114 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1794281983.git.tianyi@cloudflare.com> <DMST78XBB2RK.2BKP3O07GEWZQ@gmail.com>
-In-Reply-To: <DMST78XBB2RK.2BKP3O07GEWZQ@gmail.com>
-From: Tianyi Gao <tianyi@cloudflare.com>
-Date: Thu, 12 Nov 2026 14:55:16 +0000
-X-Gm-Features: AclHuK_osBWVQK63DcE7gK81kaRbLSav5BXe8bL_6Bp3W1Mewum9RV7hacJBHqc
-Message-ID: <CAG4wq-cXJtTzG2GO9KTL04b=prS+X67fRBJ=nriOO0G-24Rjzw@mail.gmail.com>
-Subject: Re: [PATCH bpf-next 00/15] xdp: add SKB core extensions to keep RX
- metadata until skb creation
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: bpf@vger.kernel.org, netdev@vger.kernel.org, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Jakub Kicinski <kuba@kernel.org>, 
-	Jesper Dangaard Brouer <hawk@kernel.org>, John Fastabend <john.fastabend@gmail.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Lorenzo Bianconi <lorenzo@kernel.org>, 
-	Vladimir Vdovin <deliran@verdict.gg>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Donald Hunter <donald.hunter@gmail.com>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, 
-	Alexander Lobakin <aleksander.lobakin@intel.com>, Magnus Karlsson <magnus.karlsson@intel.com>, 
-	Tushar Vyavahare <tushar.vyavahare@intel.com>, Jason Xing <kerneljasonxing@gmail.com>, 
-	Nikolay Aleksandrov <razor@blackwall.org>, Madalin Bucur <madalin.bucur@nxp.com>, 
-	Ioana Ciornei <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Chris J Arges <carges@cloudflare.com>, 
-	Jakub Sitnicki <jakub@cloudflare.com>, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
-	llvm@lists.linux.dev, kernel-team@cloudflare.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/6] agents: add skills for Fixes tags, stable tags,
+ similar bugs, and commit messages
+To: Theodore Tso <tytso@mit.edu>
+Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Leon Romanovsky <leon@kernel.org>,
+ Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+ Thorsten Leemhuis <linux@leemhuis.info>, "Michael S. Tsirkin"
+ <mst@redhat.com>, Kees Cook <kees@kernel.org>,
+ Geert Uytterhoeven <geert@linux-m68k.org>, Dan Carpenter
+ <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
+ Bradley Morgan <brads@mainlining.org>, Sasha Levin <sashal@kernel.org>,
+ stable@vger.kernel.org
+References: <20261111225940.1573565-1-tytso@mit.edu>
+ <9c5f5976-ebed-48f3-94ab-1121231af6e1@kernel.org> <avXCcPYM9VAP0JHf@mit.edu>
+ <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org> <avXOSg4jOlzBY1r5@mit.edu>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <avXOSg4jOlzBY1r5@mit.edu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Alexei,
+On 12/11/2026 15:42, Theodore Tso wrote:
+> On Thu, Nov 12, 2026 at 02:49:09PM -0500, Krzysztof Kozlowski wrote:
+>>
+>> Specification is also documentation, just like for example specification
+>> for our ABI. It's also located in Documentation directory.
+> 
+> Source and header files can also contain documentation.  But we don't
+> put them in the Documentation directory because they do not contain
+> *exclusively* documentation.
 
-On Thu, 12 Nov 2026 00:34:54 +0000, Alexei Starovoitov wrote:
-> I'm with Stan on this. It looks heavy.
->
-> How about the following idea:
+The type of file and its main purpose is a C unit file. Documentation is
+only an addon to that.
 
-Thank you very much for the patch and the idea. I really appreciate it!
+Here, the main purpose and type of file is documentation. Specification
+IS a documentation, just like in-kernel ABI specification is.
 
-v1 uses the skb_ext-like layout mainly because of the earlier pushback
-on a fixed struct [1][2]. This series adds only the three most commonly
-needed types of RX metadata. A 12-byte fixed struct that takes headroom
-only when any RX metadata is stored can be a reasonable middle ground.
+I found no other than RST and MD files in this patchset, so I really do
+not understand why this is not documentation.
 
-I would like to hear from Jesper and Jakub before I move to v2.
+> 
+> If the complaint is that it is visible when we run "ls", one
 
-Thanks,
-Tianyi
+Yes, that's one complain and making it hidden is improving the
+perception, but it does not solve the point - it's Documentation so
+should be placed in respective directory.
 
-[1] https://lore.kernel.org/all/20250805172831.213ddd8d@kernel.org/
-[2] https://lore.kernel.org/all/1d5521eb-84fc-4417-a3f5-6366694d160a@kernel.org/
+> compromise might be to put the skills in .agents/skills.  This is a
+> cross-harness standard which is supported by some code harneses
+> (Google Antigravity, Github Copilot, etc.).  Some harneses (including
+> Claude Code, Opencode) don't, but people who use these harneses can
+> solve it by installing their own symlink from .claude/skills,
+> .opencode/skills, etc. to the right place.
+
+Why does it have to be in the top-level in the first place? There is no
+point in making LLM stuff visible to humans, except maybe pleasing
+people behind upcoming IPO...
+
+Best regards,
+Krzysztof
