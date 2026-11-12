@@ -1,66 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794514666;
-	b=fA9K7kVt/qnNxbukVWbjc+mTbjEsT0nMoRXXcoqIT4KEmPs+WuiI12umMOQIs5q3LLlk
-	 XkT4HT05BmicQaPTSS2TKYAW2yGqAeIG8bilL6ni/2ZjfrhKAtP3gMbA3NktaeqxGrYKF
-	 zmXFBKARel3z+Ee0RTj+rxZ2j8RIfxWLZr9dkuI/mQdvjBKWbJC1Ys4Ohl2tD521l06/6
-	 iZ1nCDqGQxwbTvxJ4UsBrvDrai0kR6fHwhHlpGHvpB/vLbqPEPs3ERTHOxo/z/yQ4m3iz
-	 wYXwRz3EmltNuyTYzmbPRsQsgTM+6TC+AdwHQx3+fKNhzECv8dLXXuFoHxfGcZ2NNbQ==
+	t=1794514707;
+	b=IiPTLglby0yQE1DWYld1LUhkXaGfqCpOk3zGMfSyL24fQSnMM4hIVd9Ft7klhUfOnkNn
+	 2IoNFrVqeQeRXps3Zc6r92xNkfT54ANvZxXXM4taYV5jpzRmqdPQZaZWxBaQamV/cECrq
+	 o9YIyTDm6wpCCaOBwOYznnu+TWuwI2qmfPz/S0oMOpX7GyUsiysxM9WE3o94aETa1bKhK
+	 mygWrSYQ1WeBO6ceHWQZfBz4UAfUZeSQzucSUFOJg9OXqWJlui25Y0MNo3sNf27v4hNvp
+	 iyAxoe5KJgGdulTipnyCLTBLSaFinzrwrdlmXQ/GEbKvPyMiuITWHIaZeSX06xbPzhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794514666;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=vlZqzvtO/HmxUCVMk4ClrKPfCBbBD3nwIw0Aqx6q7s8=;
-	b=sFFSoefCZREAgkRlkhMJaFBUoMr1vesScLpnVUIt4+WR5eDlwlm/Q+XGWJCfBs4GM6Ri
-	 xgeBnlow1qAiOz5Modeby9epWvkbC3hiub+MVJ8vhyhxqyrqMal/aU+ispo8cSSuxumEn
-	 vchuzWqs/3nJl94XqObFLmJzeD8S+6yW4w00S3ilqp27X6hcvJ4JH/OmtFIeAo5fRde+P
-	 P4Ox0dMYSuR3vqEOv2o81PQb0F2KwCT+3YfJ+7VG+2IslipNaVLGjT/lFlxBcQNs4xjp7
-	 91HCGX8mT3O1y7RQ9HJpivV10dLei3NACzo5i4uIktXspBVp92cYF17ee0U0qiHf7rw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794514707;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=PELjK/L9jce4ay8aMBxnTmm3MZS6/0vTv4b1DOTHnXs=;
+	b=tzaATanDG4C8vWbI+GH21eUxln3XtZlEpIz+bpq6FRG3AvlidY79yh5nj6vQgDZxrCar
+	 F6l4QMn0MfqIUBIkMY+YY/JB+6ktnfy/rt1ct2h2BVZC+zXfStyupS7zBosppwNy4UUy9
+	 I/0tjuqV0QT2xkwYwz6ydMhl4ebYqUkzLEf9JeNqtWGH31e8QkVmE0rCQ4arSKUKPpcQO
+	 tFgCS31zJXZDY1a27JvQPZ28OISbsohEC2sbCO4FQOEOIVitxdQY+olbtpwE6tqbJz5Nw
+	 LkkEjclAskJPntGGkWhhT/TgYmQ4bkiBdi44BaYez28sV8fNl31ib73QCZhlyHfpyLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Jq7zX7UP;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89FF3606A31C;
-	Thu, 12 Nov 2026 20:17:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 89FF3606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RV51zSWA;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8666B606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 20:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=Jq7zX7UP
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 999E91476;
-	Thu, 12 Nov 2026 12:17:41 -0800 (PST)
-Received: from pluto (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C24143F85F;
-	Thu, 12 Nov 2026 12:17:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794514664; bh=DnwmvWTMD0sYcZHcAwFeqJGrssc3hWAPd1jsUWH9nHg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jq7zX7UPusnlrQDCRHmcPNVl/vzqAPi+FegZnwm3Pt1YkHaYivIZr71Q5Drr84h3q
-	 jz0ToTS4kG49dKWJZ/N5/ZJWJSNWuMDd578NPEuGqhVAmmghvcy+m/z7Wlgc9nlwG8
-	 aMukWx6kAdWikQyxq87aS9kWk0f0h7pze288UyMw=
-Date: Thu, 12 Nov 2026 20:17:35 +0000
-From: Cristian Marussi <cristian.marussi@arm.com>
-To: Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>
-Cc: Cristian Marussi <cristian.marussi@arm.com>,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	arm-scmi@vger.kernel.org, linux-doc@vger.kernel.org,
-	sudeep.holla@kernel.org, james.quinlan@broadcom.com,
-	f.fainelli@gmail.com, vincent.guittot@linaro.org,
-	etienne.carriere@st.com, peng.fan@oss.nxp.com, michal.simek@amd.com,
-	d-gole@ti.com, elif.topuz@arm.com, lukasz.luba@arm.com,
-	philip.radford@arm.com, david@kernel.org,
-	souvik.chakravarty@arm.com, leitao@kernel.org, kas@kernel.org,
-	puranjay@kernel.org, usama.arif@linux.dev, kernel-team@meta.com
-Subject: Re: [PATCH v15 23/35] firmware: arm_scmi: Add Telemetry generation
- counter event
-Message-ID: <avYe37QP4Upvp51c@pluto>
-References: <20261109091221.2532706-1-cristian.marussi@arm.com>
- <20261109091221.2532706-24-cristian.marussi@arm.com>
- <20261110144635.00005964@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RV51zSWA
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C3051F000C9
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 20:18:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794514707;
+	bh=PELjK/L9jce4ay8aMBxnTmm3MZS6/0vTv4b1DOTHnXs=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=RV51zSWAeX3l/5mLe0fPRliGyDx+PvZFURqVBlheSHcmcZOr7xCw/H2ruJIbBadKZ
+	 FHLR/OWlUbeu4rGlh0xRIygVUxNlxHYE+bp6HXrNkc1Ipb+2P3nm8Kc/0SyV7ISGh4
+	 TuE1gaetH5yPGzok2F9hb+btdrpFYQn/7EdW+GfsBVzhuGLxg5l94MAeni55Fgqs75
+	 ZHYbDDjM9jg0y/L7yxQKaxx7tEtYWK3HxSCep7gzYUxXot783rYRC7J5k84FZzeC3T
+	 zkrDiT/RxHgLEBWbdDFqUsbl4XfNwD+qAaJQ8hPoNDWh7rbOnMd2x5Ji/iXdG5l/WS
+	 B6Y/Zk1OMzQXg==
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5c1479be604so202600e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 12:18:27 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFBHh1woPULGXR71AwEKUrACSCsD7yni3VxxLMq7eYqBbtxr984PioeOOCjB6ic3Zldi5G1ehviaDA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8LJ6nXR4PAdZTrYtE356UFsCYBS1ZZLDHrAE0sLCaBSCwTLBZv
+	fm9wYh2D13FI+wP5rjQRv49LN0f7IO5zF/Gqf+w1CF4/vvkPPvnYP+rVK7QJqNO+jET1GmTqF+m
+	NRkCjhdHzaRdYPjqz2206eEmyOI83j/4=
+X-Received: by 2002:a05:6512:1292:b0:5bc:f2fb:f50c with SMTP id
+ 2adb3069b0e04-5c1709cd3afmr151270e87.53.1794514705799; Thu, 12 Nov 2026
+ 12:18:25 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,46 +59,159 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261110144635.00005964@oss.qualcomm.com>
+References: <20261111225940.1573565-1-tytso@mit.edu> <20261111225940.1573565-3-tytso@mit.edu>
+In-Reply-To: <20261111225940.1573565-3-tytso@mit.edu>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Thu, 12 Nov 2026 21:18:12 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0iaHqEkr+WqHLfJ6qYaC6n73BCo0NiKgQhf466Cr_RQzA@mail.gmail.com>
+X-Gm-Features: AclHuK-IiYj--CiaJbtqzk4cWOHkMMr3R1ChUBdeGcZceIdAKYSCedVswaPimxM
+Message-ID: <CAJZ5v0iaHqEkr+WqHLfJ6qYaC6n73BCo0NiKgQhf466Cr_RQzA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/6] agents: add a skill to determine Fixes tags
+To: "Theodore Ts'o" <tytso@mit.edu>
+Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev, 
+	Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Leon Romanovsky <leon@kernel.org>, 
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>, Thorsten Leemhuis <linux@leemhuis.info>, 
+	"Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Dan Carpenter <error27@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+	Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>, 
+	Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 10, 2026 at 02:46:35PM -0800, Jonathan Cameron wrote:
-> On Mon,  9 Nov 2026 09:12:09 +0000
-> Cristian Marussi <cristian.marussi@arm.com> wrote:
-> 
-> > Add a per-instance generation counter to track configuration changes which
-> > uses the common telemetry events framework.
-> Why?  What's the usecase for this?
-> Needs some more information or I'd leave it for now.
-> 
+On Thu, Nov 12, 2026 at 12:00=E2=80=AFAM Theodore Ts'o <tytso@mit.edu> wrot=
+e:
+>
+> From: Sasha Levin <sashal@kernel.org>
+>
+> Blame and existing Fixes tags can point to code movement instead of the
+> change that introduced a bug. Add a skill that sends the agent to the
+> description of the Fixes: tag in submitting-patches.rst, and adds the
+> checks agents tend to skip: pinning down the bug before searching,
+> following the code past moves and refactors, comparing each candidate
+> with its parent, tagging a later commit that only exposed the bug as
+> well, handling merges, reverts, backports and bugs older than the Git
+> history, and taking the commit ID and subject from the commit rather
+> than typing them.
+>
+> If the origin cannot be established, the skill returns no tag. Point the
+> bug-fix procedure in coding-assistants.rst at the skill.
+>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> Link: https://patch.msgid.link/20261020161642.3713052-3-sashal@kernel.org
+> Signed-off-by: Theodore Ts'o <tytso@mit.edu>
 
-SCMI Telemetry is specified and designed FW/Kernel side to allow for
-multiple readers and multiple writers issuing configuration changes:
-give that there is NO HW/FW/SPEC limitation in allowing such concurrency
-(unlike e.g. for a serial or an RTC) the telemetry driver does NOT
-enfroce any kind of exclusive access...last one wins when multiple
-acctors tries to configure overlapping stuff...none of kernel problem
-userspace should co-ordinate...and I suspect most of the time having
-multiple apps trying to concurrently issue conflicting Telemetry request
-would be a matter of wrong platform configuration/setup (similarly to
-what would happen by running together all the lovely varied network
-configiratio solution on a Linux box...)
+Looks reasonable to me.
 
-As said the Kernel SHOULD NOT care, going back to the networking example
-Kernel indeed does NOT active policy netlink access..you are free to shot
-into your foot...
+Acked-by: Rafael J. Wysocki (Intel) <rafael@kernel.org>
 
-Anyway, co-ordinating access to the Telemetry resources in userspace can
-be a pain, so the the generation counter is an optional mechanism to be
-alerted when some of the Telemetry has been changed, so that userspace
-can spot that something odd is happening (if it was unexpected) and
-avoid to sample and analyze bogus data...
-
-The generic event support upon which this is based, it is meant to
-support future events like relaying notifications to userspace...but
-given that notifs were NOT implemented for real, it is not present (NOR
-the related ABI...)
-
-Thanks,
-Cristian
+> ---
+>  Documentation/process/coding-assistants.rst |  8 ++++-
+>  agents/skills/find-fixes/SKILL.md           | 39 +++++++++++++++++++++
+>  2 files changed, 46 insertions(+), 1 deletion(-)
+>  create mode 100644 agents/skills/find-fixes/SKILL.md
+>
+> diff --git a/Documentation/process/coding-assistants.rst b/Documentation/=
+process/coding-assistants.rst
+> index b8f2c74e46fc..ca1cc255606b 100644
+> --- a/Documentation/process/coding-assistants.rst
+> +++ b/Documentation/process/coding-assistants.rst
+> @@ -33,6 +33,11 @@ or send mail. A skill returns its result with the evid=
+ence for it, or says what
+>  is missing. Do not fill a missing result with a guess or a placeholder, =
+and do
+>  not finalize the work until it is resolved.
+>
+> +The following skills are available:
+> +
+> +* agents/skills/find-fixes/SKILL.md determines the Fixes tag of a bug fi=
+x, or
+> +  checks an existing one.
+> +
+>  Licensing and Legal Requirements
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+>
+> @@ -78,7 +83,8 @@ these steps:
+>     another one. The fix must not add build warnings and must pass the
+>     checkpatch.pl checks (see submitting-patches.rst).
+>  6. Commit the working fix with a detailed message describing the problem=
+, the
+> -   solution and a Fixes tag. Do not add a Signed-off-by tag.
+> +   solution and a Fixes tag determined with the find-fixes skill.  Do no=
+t
+> +   add a Signed-off-by tag.
+>  7. Identify the maintainers and lists using scripts/get_maintainer.pl.
+>     Documentation/process/security-bugs.rst shows how to do that.
+>  8. Indicate what could not be done. If the fix could not be built or tes=
+ted, or
+> diff --git a/agents/skills/find-fixes/SKILL.md b/agents/skills/find-fixes=
+/SKILL.md
+> new file mode 100644
+> index 000000000000..12b6ea83876d
+> --- /dev/null
+> +++ b/agents/skills/find-fixes/SKILL.md
+> @@ -0,0 +1,39 @@
+> +---
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +name: find-fixes
+> +description: >-
+> +  Determine the bug-introducing commit and return a verified Fixes tag f=
+or
+> +  a Linux kernel fix. Use when preparing or reviewing bug-fix patches,
+> +  drafting their commit messages, or checking an existing Fixes tag.
+> +---
+> +
+> +# Determine a Fixes tag
+> +
+> +Read the description of the Fixes: tag in
+> +Documentation/process/submitting-patches.rst. It says which commit to na=
+me
+> +and how to format the tag. Follow the rules for skills in
+> +Documentation/process/coding-assistants.rst.
+> +
+> +- First establish exactly which bug the fix addresses: the failure, how =
+it is
+> +  triggered and the code involved. Trace only that bug. If the search le=
+ads
+> +  to a different bug or subsystem, go back to the fix.
+> +- Name a commit from the history of the tree the fix applies to. A stabl=
+e
+> +  backport of that commit, or a commit that exists only on another branc=
+h, is
+> +  not a valid tag.
+> +- Treat blame output, an existing Fixes tag and a bisection result as le=
+ads,
+> +  not answers. Follow the code back through moves, renames, file splits =
+and
+> +  older implementations to the commit that made it wrong.
+> +- For each candidate, compare the commit with its parent and explain why=
+ the
+> +  code was correct before and wrong after. Keep apart the commit that ad=
+ded
+> +  the code, the commit that made it wrong, and a later commit that only =
+made
+> +  the bug reachable, which gets a tag of its own.
+> +- Check each parent of a merge, whether the bug was reverted and later
+> +  reintroduced, and whether a backport differs from its upstream commit.
+> +- If the bug is already present in the first commit of the Git history, =
+name
+> +  that commit: Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2"). Confirm that th=
+e bug
+> +  exists there instead of using it as a default. A shallow clone boundar=
+y is
+> +  not an introducing commit; report the limit instead.
+> +
+> +Take the commit ID and subject from the commit itself instead of typing =
+them.
+> +Return the tags with that explanation and the candidates you rejected. I=
+f the
+> +origin cannot be established, return no tag and say what is missing.
+> --
+> 2.53.0
+>
+>
