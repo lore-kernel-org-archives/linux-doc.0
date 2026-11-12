@@ -1,72 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794489206;
-	b=ve8NDM/co/0NIAoan7E+NVCBdslypjI1Y+I7D7DaaeZdBBuTM6GpWAP4sIcFRxX58b9A
-	 AMj5oxcrDgR56wfT2a/KpUDq/39Xo9XgHNR2YcM/Aydf+CmeUZwR7HwGLtlQVU9B9MsQ+
-	 E2zXZBuZmJ4zAycajdAUjETUbMa/SYgYOJhXj9sv3R/KsMBS0WxkBBB9OGazhJs847uYE
-	 gUD7WxlSVhK1GTIaHxkI3yyedITnEZ36yN79+gxLCw9/AmEZjX+gPhkg7Y8HeG5b8D7vp
-	 ymB0zmpR9wqG41fWamCEp8+tk4MYQ57enXOZpSCwvOb1yQ31wfXc6HHOAHUjLvli1iA==
+	t=1794489265;
+	b=pyyBRtzelAu7Z5R5moYLBdGEpotSd9r0cKYqR5h3NYsn0otNi9QxykKjMp1ADhEnZynl
+	 3NrxwXiGI7tOmncmZAOF1d/jZh3LIP7vqS400P1PTaSBMitexORl2Gq5g/k3jZZOZjNdF
+	 rtfGUG/aLfuz3HmOyRtPunoPETXasA05M1ne0P8uqTtOrV6F4IAv2ISBRc4yx07jhiqef
+	 Js0lpN411Ug2HRrBlj8613H+sic3cfk9xFiFXjdkw4kabWAlL3Znel+fYi2JBAt4rktD8
+	 oZQmaramDDB3Xckb3mV03xBPDRFhU/KNro8efQyHae9YVsupKufZNRCprTl7sda58BA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794489206;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=wU31mejql4PZZEtgae16N4HX4x4UHd5kwXITvcm2N2A=;
-	b=3vJFcdLjrJhjHI6CvXu6FvdkqZQ++119ltb+uwNnX/n89/cO433n6e9Un5orlEnogdJP
-	 3HwOXumoKKcpyEnOrJfn01QpHLWNgM8fKrJwnEvjsKR1RcOdjZc46C3TSUF1qdxQgW4A+
-	 J+mUuIffIUF7BnIUMikXCVsOWjb8sZpS27UsKvRz3cVTy49dq/mRfXByO2rEmKjBFKo/i
-	 KLHA2PuEro0tOT6f6BrhpQ2BrHZC/Wbs8QL/ZF3Fwlujv1/hq/g10mch7KR82X/J8yExA
-	 N/0WEUVA5JWyvgMZ8Q1l6jwu5HpHBvQWWShItKfYwNxhsLYxRW5F/O72N23g1fVyIdQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794489265;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=9mxKg6PFH2mKgwRlY7JWxXK8RldI6RUjgfddAJpwc7I=;
+	b=UrLA8vjS8hsmaNvbyRYqEN4ChKTSBSK/qGmxiK3Q5mmu6FzhHOggwGyP9CaQ4oUXkTio
+	 8LEWhvkc/Hc25oeQIxipuOSTp6/3yULxIrfA/bt4m9iTjs5fVE6TKqJe9YB21OxMOUp6f
+	 tqE3MTLxblEl9kuiiaM0eDtUWc+yMPT6B05Hz5XQK/c7KQZBpua3dBVWBtSylCPPDkL/Q
+	 z/Vi6a5CeYyknjm6QhuJ/e8JviTWR305v5PFEBkVzfTPGxL8c6SRX39eX6OsxW5NoMjn/
+	 oxbnP7CqD9kz3B7FF4cWHXnhdWR9zVBLYyWvL/W3PiS5Uxl5P6ZftG7S3PU1u2nz1CA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=YOH2z47x;
-	arc=none smtp.remote-ip=113.46.200.221
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFF560A2631;
-	Thu, 12 Nov 2026 13:13:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EFF560A2631
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=eTo2jkKY;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C02E560A2627;
+	Thu, 12 Nov 2026 13:14:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C02E560A2627
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=YOH2z47x
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=wU31mejql4PZZEtgae16N4HX4x4UHd5kwXITvcm2N2A=;
-	b=YOH2z47xfLP3iWrQL8m1jnQ2PfUMKMOeXoGvAO89FIX2UxeFs4J0xxGL+qGyrCHGfb0MkxRot
-	vZ29cnj0vtJV/Uwbg9UAtoAU/3C9AEXDvpaEl1aQ0Yv2ZxSvGYAaXgjjjFiYw466xi80jq6uyo+
-	ttTWpJC7rQsMjWEX329kT0A=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4jQLRP1Tf9zRhQs;
-	Thu, 12 Nov 2026 21:13:05 +0800 (CST)
-Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 47E6C40579;
-	Thu, 12 Nov 2026 21:13:16 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
- (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 12 Nov
- 2026 21:13:15 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
-	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<hpa@zytor.com>, <ben.horgan@arm.com>, <fenghuay@nvidia.com>,
-	<tan.shaopeng@fujitsu.com>, <quic_jiles@quicinc.com>, <x86@kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>
-CC: <ruanjinjie@huawei.com>
-Subject: [RFC PATCH v2 7/9] arm_mpam: Program the hard limit for the software controller
-Date: Thu, 12 Nov 2026 21:12:52 +0800
-Message-ID: <20261112131255.4043381-8-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261112131255.4043381-1-ruanjinjie@huawei.com>
-References: <20261112131255.4043381-1-ruanjinjie@huawei.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=eTo2jkKY
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D3981477;
+	Thu, 12 Nov 2026 05:14:21 -0800 (PST)
+Received: from [10.0.130.226] (e127648.arm.com [10.0.130.226])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E4913F632;
+	Thu, 12 Nov 2026 05:14:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794489264; bh=sJI57U+WQOiBy+zdKsRY1/z8s+X/kd45XllUmlTevYM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=eTo2jkKY3U51csyMMrfFFecVyff9fAh9wtLCDpLVnzECVxAuLlgP6dRXs3hc9xvT1
+	 HnmFmYqbfi2H67ZLhTUvZnjQ1xOhfn/mNez+PQo06bYMt1d1YHpgd7q99t+tuhgW/O
+	 smFX5zUsYOoS8bP4A869wo2NHR9ZF2gmtUcPXuLk=
+Message-ID: <8d335175-7d1e-4e12-b28b-d6f2ee13edee@arm.com>
+Date: Thu, 12 Nov 2026 13:14:16 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -76,190 +53,308 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemk200008.china.huawei.com (7.202.194.74)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 RESEND] cpufreq: CPPC: Add autonomous mode boot
+ parameter support
+To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
+ viresh.kumar@linaro.org, zhanjie9@hisilicon.com, zhenglifeng1@huawei.com,
+ pierre.gondois@arm.com, ionela.voinescu@arm.com, mario.limonciello@amd.com,
+ maciej.wieczor-retman@intel.com, pawel.chmielewski@intel.com,
+ lenb@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
+ acpica-devel@lists.linux.dev, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
+ ksitaraman@nvidia.com, sanjayc@nvidia.com, mochs@nvidia.com, bbasu@nvidia.com
+References: <20261112080442.4007723-1-sumitg@nvidia.com>
+Content-Language: en-US
+From: Christian Loehle <christian.loehle@arm.com>
+In-Reply-To: <20261112080442.4007723-1-sumitg@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-MPAM's maximum bandwidth control has a HARDLIM bit:
-- When set, a PARTID that uses more than its maximum gets no further
-  bandwidth
-- When clear, requests above the maximum are serviced when no other
-  request is waiting
+On 11/12/26 08:04, Sumit Gupta wrote:
+> Configuring autonomous selection and Energy Performance Preference (EPP)
+> at every boot currently requires per-policy sysfs writes.
+> 
+> Add the 'cppc_cpufreq.auto_sel_mode' boot parameter to enable autonomous
+> selection during policy initialization and optionally set EPP. In
+> autonomous mode, the platform selects the performance level within the
+> MIN and MAX limits, which the driver sets from the policy limits. The EPP
+> hint guides that selection.
+> 
+> The parameter accepts:
+> - performance: enable autonomous selection and set EPP to 0x00
+> - balance_performance: enable it and set EPP to 0x80
+> - balance_power: enable it and set EPP to 0xc0
+> - power: enable it and set EPP to 0xff
+> - default_epp: enable it and preserve firmware EPP
+> - disabled: preserve the firmware configuration (default)
+> 
+> Warn about unrecognized values and ignore them.
+> 
+> Skip policies without autonomous-selection support. The driver enables
+> autonomous selection before writing EPP, as the platform may ignore EPP
+> while autonomous selection is disabled.
+> 
+> Record successful writes so the existing online and resume paths reapply
+> the requested values. The offline and suspend paths restore the saved
+> firmware values, including during driver unload.
+> 
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+> ---
+> Resending v6 with base-commit info and Pierre added to Cc.
+> No changes to the code or commit message.
+> 
+> This is based on the "Preserve OSPM-set registers" [1] and
+> "ospm_nominal_perf" [2] series, which are applied for 7.5.
 
-The driver writes only the 16-bit maximum, so the control is a soft
-limit and the controller cannot keep a single requester below its target.
+I've sent out
+https://lore.kernel.org/lkml/20261112113204.778904-1-christian.loehle@arm.com/
+as a follow up, if it looks sound to you, feel free to pick it up
+as a series to go in before $SUBJECT?
 
-Carry the hard limit in mpam_config and set it when the controller is
-enabled. MPAMF_MBW_IDR.MAX_LIM reports the implemented behaviors: 00
-both, 10 hard only, 01 soft only. Record the soft-only case and the
-reserved 0b11 in resctrl_membw::max_is_soft_limit so mba_MBps is
-refused there. Merging resources into a class propagates the soft-only
-case, because the hard limit is usable only when every resource
-implements it.
+> 
+> v5 -> v6:
+> - Split "Set CPPC Enable register in cpu_init" into a separate fix [3].
+> - Accept strings only (Pierre [4]).
+> - Move the setup into cppc_cpufreq_setup_auto_sel_mode() and check
+>   autonomous selection support first (Pierre [4]).
+> - Drop the last_governor check, as init() now runs only for a new
+>   policy (Pierre [4]).
+> - Drop the MIN/MAX seeding, Desired hint and policy->min/max override,
+>   as init() and the governor already set valid values (Pierre [4]).
+> - Apply the parameter at the end of init(), after the usual
+>   performance controls write.
+> - Save auto_sel and EPP through the saved-register code from [1]
+>   (Sashiko [5]).
+> - Drop the cppc_cpufreq_exit() loop that cleared auto_sel on all
+>   present CPUs (Pierre [4], Sashiko [5]).
+> - Enable autonomous selection before writing EPP.
+> - Set EPP also when firmware has already enabled autonomous selection.
+> - Add the balance_power (0xc0) and power (0xff) modes.
+> - Ignore an unrecognized value instead of treating it as disabled.
+> 
+> v5: https://lore.kernel.org/lkml/20260623080652.3353386-1-sumitg@nvidia.com/
+> [1] https://lore.kernel.org/lkml/20261106193304.3347374-1-sumitg@nvidia.com/
+> [2] https://lore.kernel.org/lkml/20261109195400.3600561-1-sumitg@nvidia.com/
+> [3] https://lore.kernel.org/lkml/20261110101246.3665797-1-sumitg@nvidia.com/
+> [4] https://lore.kernel.org/lkml/f61f592a-bc9c-4a83-bde1-e999c8101c36@nvidia.com/
+> [5] https://sashiko.dev/#/patchset/20260623080652.3353386-1-sumitg@nvidia.com
+> 
+>  .../admin-guide/kernel-parameters.txt         |  26 ++++
+>  drivers/cpufreq/cppc_cpufreq.c                | 120 ++++++++++++++++++
+>  include/acpi/cppc_acpi.h                      |   2 +
+>  3 files changed, 148 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 0b3c140babd9..5714c0d30fce 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1015,6 +1015,32 @@ Kernel parameters
+>  			Format:
+>  			<first_slot>,<last_slot>,<port>,<enum_bit>[,<debug>]
+>  
+> +	cppc_cpufreq.auto_sel_mode=
+> +			[ACPI,CPU_FREQ] Enable ACPI CPPC autonomous performance
+> +			selection on all CPUs at boot. In autonomous mode, the
+> +			platform selects the performance level within the CPPC
+> +			Minimum and Maximum Performance limits. The driver sets
+> +			these limits from scaling_min_freq and scaling_max_freq.
+> +			The Energy Performance Preference (EPP) hint guides the
+> +			platform toward performance (0x00) or energy efficiency
+> +			(0xff).
+> +			Requires the ACPI CPPC Autonomous Selection Enable
+> +			register. EPP is set only if the platform implements it.
+> +			Format: <string>
+> +			  performance:
+> +				  enable autonomous selection, set EPP to 0x00
+> +			  balance_performance:
+> +				  enable autonomous selection, set EPP to 0x80
+> +			  balance_power:
+> +				  enable autonomous selection, set EPP to 0xc0
+> +			  power:
+> +				  enable autonomous selection, set EPP to 0xff
+> +			  default_epp:
+> +				  enable autonomous selection, keep firmware EPP
+> +			  disabled:
+> +				  keep the firmware configuration (default)
+> +			An unrecognized value is ignored with a warning.
+> +
+>  	cpuidle.off=1	[CPU_IDLE]
+>  			disable the cpuidle sub-system
+>  
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
+> index a62589c0674f..c9bed93cf0c9 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -238,6 +238,58 @@ static void cppc_cpufreq_apply_saved_regs(struct cpufreq_policy *policy,
+>  					     saved_type);
+>  }
+>  
+> +/* Autonomous Selection boot parameter modes */
+> +enum {
+> +	AUTO_SEL_MODE_DISABLED,
+> +	AUTO_SEL_MODE_PERFORMANCE,
+> +	AUTO_SEL_MODE_BALANCE_PERFORMANCE,
+> +	AUTO_SEL_MODE_BALANCE_POWER,
+> +	AUTO_SEL_MODE_POWER,
+> +	AUTO_SEL_MODE_DEFAULT_EPP,
+> +};
+> +
+> +static const char * const auto_sel_mode_names[] = {
+> +	[AUTO_SEL_MODE_DISABLED]		= "disabled",
+> +	[AUTO_SEL_MODE_PERFORMANCE]		= "performance",
+> +	[AUTO_SEL_MODE_BALANCE_PERFORMANCE]	= "balance_performance",
+> +	[AUTO_SEL_MODE_BALANCE_POWER]		= "balance_power",
+> +	[AUTO_SEL_MODE_POWER]			= "power",
+> +	[AUTO_SEL_MODE_DEFAULT_EPP]		= "default_epp",
+> +};
+> +
+> +static int auto_sel_mode;
+> +
+> +static int auto_sel_mode_set(const char *val, const struct kernel_param *kp)
+> +{
+> +	int *mode = kp->arg;
+> +	int ret;
+> +
+> +	ret = sysfs_match_string(auto_sel_mode_names, val);
+> +	if (ret < 0) {
+> +		pr_warn("Invalid auto_sel_mode \"%s\", ignoring it\n", val);
+> +		return 0;
+> +	}
+> +
+> +	*mode = ret;
+> +	return 0;
+> +}
+> +
+> +static int auto_sel_mode_get(char *buffer, const struct kernel_param *kp)
+> +{
+> +	int *mode = kp->arg;
+> +
+> +	return sysfs_emit(buffer, "%s\n", auto_sel_mode_names[*mode]);
+> +}
+> +
+> +static const struct kernel_param_ops auto_sel_mode_ops = {
+> +	.set = auto_sel_mode_set,
+> +	.get = auto_sel_mode_get,
+> +};
+> +
+> +module_param_cb(auto_sel_mode, &auto_sel_mode_ops, &auto_sel_mode, 0444);
+> +MODULE_PARM_DESC(auto_sel_mode,
+> +		 "Autonomous selection mode: performance, balance_performance, balance_power, power, default_epp, disabled");
+> +
+>  #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
+>  static enum {
+>  	FIE_UNSET = -1,
+> @@ -938,6 +990,72 @@ static u32 cppc_cpufreq_effective_nominal(struct cpufreq_policy *policy)
+>  	return (u32)ospm_nominal;
+>  }
+>  
+> +/*
+> + * Apply the auto_sel_mode boot parameter in init(). Enable autonomous
+> + * selection unless it is already enabled. Then set EPP for the selected mode.
+> + *
+> + * Enable auto_sel before writing EPP, as the platform may ignore EPP while
+> + * autonomous selection is disabled. Save each value written, so that online()
+> + * and resume() write it again.
+> + */
+> +static void cppc_cpufreq_setup_auto_sel_mode(struct cpufreq_policy *policy)
+> +{
+> +	struct cppc_policy_state *st = cppc_cpufreq_policy_state(policy);
+> +	struct cppc_cpudata *cpu_data = policy->driver_data;
+> +	unsigned int cpu = policy->cpu;
+> +	u64 auto_sel, epp;
+> +	int ret;
+> +
+> +	if (auto_sel_mode == AUTO_SEL_MODE_DISABLED)
+> +		return;
+> +
+> +	/* U64_MAX means the platform does not implement the register. */
+> +	auto_sel = st->regs[CPPC_SAVED_AUTO_SEL][CPPC_SAVED_FIRMWARE];
+> +	if (auto_sel == U64_MAX) {
+> +		pr_info_once("Autonomous selection is not supported, ignoring auto_sel_mode\n");
+> +		return;
+> +	}
+> +
+> +	if (!auto_sel) {
+> +		ret = cppc_set_auto_sel(cpu, true);
+> +		if (ret) {
+> +			pr_warn("Failed to enable auto_sel for CPU%u (%d)\n",
+> +				cpu, ret);
+> +			return;
+> +		}
+> +		cppc_cpufreq_save_requested(policy, CPPC_SAVED_AUTO_SEL, true);
+> +	}
+> +	cpu_data->perf_ctrls.auto_sel = true;
+> +
+> +	switch (auto_sel_mode) {
+> +	case AUTO_SEL_MODE_PERFORMANCE:
+> +		epp = CPPC_EPP_PERFORMANCE_PREF;
+> +		break;
+> +	case AUTO_SEL_MODE_BALANCE_PERFORMANCE:
+> +		epp = CPPC_EPP_BALANCE_PERFORMANCE_PREF;
+> +		break;
+> +	case AUTO_SEL_MODE_BALANCE_POWER:
+> +		epp = CPPC_EPP_BALANCE_POWER_PREF;
+> +		break;
+> +	case AUTO_SEL_MODE_POWER:
+> +		epp = CPPC_EPP_ENERGY_EFFICIENCY_PREF;
+> +		break;
+> +	default:
+> +		/* default_epp keeps the EPP value set by firmware. */
+> +		return;
+> +	}
+> +
+> +	/* EPP is optional. */
+> +	ret = cppc_set_epp(cpu, epp);
+> +	if (ret) {
+> +		if (ret != -EOPNOTSUPP)
+> +			pr_warn("Failed to set EPP for CPU%u (%d)\n", cpu, ret);
+> +		return;
+> +	}
+> +	cpu_data->perf_ctrls.energy_perf = epp;
 
-The percentage interface never sets the hard limit, and resctrl clears
-a limit set by the controller when it resets the controls on unmount.
-Write the bit from the controller state on every write, so that a hard
-limit left by an interrupted reset is cleared.
+So EPP is also allowed to be 4 or 6 bits wide and we might wanna account
+for that either here or in acpi-cppc.
+That being said that's already not working, I usually think all these
+technically compliant platforms should just be filtered out on
+acpi-cppc probe and we don't support EPP then and not worry about it.
+That being said amd-pstate requires EPP for active mode and in this case
+just handling the read/writes seems the pass of less resistance:
+https://lore.kernel.org/all/20261112131316.827708-1-christian.loehle@arm.com/
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- drivers/resctrl/mpam_devices.c  | 55 ++++++++++++++++++++++++++-------
- drivers/resctrl/mpam_internal.h |  4 +++
- drivers/resctrl/mpam_resctrl.c  |  8 +++++
- 3 files changed, 56 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/resctrl/mpam_devices.c b/drivers/resctrl/mpam_devices.c
-index c067b6d57d71..2c8f60c96d3f 100644
---- a/drivers/resctrl/mpam_devices.c
-+++ b/drivers/resctrl/mpam_devices.c
-@@ -1025,8 +1025,22 @@ static int mpam_ris_hw_probe(struct mpam_msc_ris *ris)
- 		 */
- 		props->bwa_wd = min(props->bwa_wd, 16);
- 
--		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MAX, mbw_features))
-+		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MAX, mbw_features)) {
-+			/*
-+			 * MAX_LIM: 0b00 both limits, 0b01 the soft limit
-+			 * only, 0b10 the hard limit only. 0b11 is reserved;
-+			 * treat it as the soft limit only so the software
-+			 * controller is refused rather than rely on an
-+			 * unknown limit behavior.
-+			 */
-+			props->max_lim = FIELD_GET(MPAMF_MBW_IDR_MAX_LIM, mbw_features);
-+			if (props->max_lim == 3)
-+				props->max_lim = 1;
-+
- 			mpam_set_feature(mpam_feat_mbw_max, props);
-+			/* The hard-limit bit is a configuration bit. */
-+			mpam_set_feature(mpam_feat_max_limit, props);
-+		}
- 
- 		if (props->bwa_wd && FIELD_GET(MPAMF_MBW_IDR_HAS_MIN, mbw_features))
- 			mpam_set_feature(mpam_feat_mbw_min, props);
-@@ -1911,16 +1925,21 @@ static int mpam_reprogram_ris_partid(struct mpam_msc_ris *ris, u16 partid,
- 	}
- 
- 	if (mpam_has_feature(mpam_feat_mbw_max, rprops)) {
--		if (mpam_has_feature(mpam_feat_mbw_max, cfg)) {
--			ret = mpam_write_partsel_reg(msc, MBW_MAX, cfg->mbw_max);
--			if (ret)
--				return ret;
--		} else {
--			ret = mpam_write_partsel_reg(msc, MBW_MAX,
--						     MPAMCFG_MBW_MAX_MAX);
--			if (ret)
--				return ret;
--		}
-+		u32 val = MPAMCFG_MBW_MAX_MAX;
-+
-+		if (mpam_has_feature(mpam_feat_mbw_max, cfg))
-+			val = cfg->mbw_max;
-+
-+		/*
-+		 * The hard-limit bit follows its own feature bit so that it
-+		 * can be set without changing the maximum.
-+		 */
-+		if (mpam_has_feature(mpam_feat_max_limit, cfg) && cfg->max_limit)
-+			val |= MPAMCFG_MBW_MAX_HARDLIM;
-+
-+		ret = mpam_write_partsel_reg(msc, MBW_MAX, val);
-+		if (ret)
-+			return ret;
- 	}
- 
- 	if (mpam_has_feature(mpam_feat_mbw_prop, rprops)) {
-@@ -2661,6 +2680,19 @@ static void __props_mismatch(struct mpam_props *parent,
- 		parent->bwa_wd = min(parent->bwa_wd, child->bwa_wd);
- 	}
- 
-+	/*
-+	 * The hard limit is only usable if every resource implements it,
-+	 * so the soft limit only wins the merge. The encoding follows
-+	 * MPAMF_MBW_IDR.MAX_LIM.
-+	 */
-+	if (alias && !mpam_has_feature(mpam_feat_mbw_max, parent) &&
-+	    mpam_has_feature(mpam_feat_mbw_max, child)) {
-+		parent->max_lim = child->max_lim;
-+	} else if (mpam_has_feature(mpam_feat_mbw_max, parent) &&
-+		   child->max_lim == 1) {
-+		parent->max_lim = 1;
-+	}
-+
- 	if (alias && !mpam_has_cmax_wd_feature(parent) && mpam_has_cmax_wd_feature(child)) {
- 		parent->cmax_wd = child->cmax_wd;
- 	} else if (MISMATCHED_HELPER(parent, child, mpam_has_cmax_wd_feature,
-@@ -3405,6 +3437,7 @@ static bool mpam_update_config(struct mpam_config *cfg,
- 	maybe_update_config(cfg, mpam_feat_cpor_part, newcfg, cpbm, has_changes);
- 	maybe_update_config(cfg, mpam_feat_mbw_part, newcfg, mbw_pbm, has_changes);
- 	maybe_update_config(cfg, mpam_feat_mbw_max, newcfg, mbw_max, has_changes);
-+	maybe_update_config(cfg, mpam_feat_max_limit, newcfg, max_limit, has_changes);
- 
- 	return has_changes;
- }
-diff --git a/drivers/resctrl/mpam_internal.h b/drivers/resctrl/mpam_internal.h
-index 1f86cc158100..184fbc01fa91 100644
---- a/drivers/resctrl/mpam_internal.h
-+++ b/drivers/resctrl/mpam_internal.h
-@@ -234,6 +234,7 @@ enum mpam_device_features {
- 	mpam_feat_msmon_mbwu_capture,
- 	mpam_feat_msmon_mbwu_rwbw,
- 	mpam_feat_partid_nrw,
-+	mpam_feat_max_limit,
- 	MPAM_FEATURE_LAST
- };
- 
-@@ -243,6 +244,7 @@ struct mpam_props {
- 	u16			cpbm_wd;
- 	u16			mbw_pbm_bits;
- 	u16			bwa_wd;
-+	u8			max_lim;
- 	u16			cmax_wd;
- 	u16			cassoc_wd;
- 	u16			intpri_wd;
-@@ -364,6 +366,7 @@ struct mpam_config {
- 	u32	cpbm;
- 	u32	mbw_pbm;
- 	u16	mbw_max;
-+	bool	max_limit;
- 
- 	struct mpam_garbage	garbage;
- };
-@@ -628,6 +631,7 @@ int mpam_fb_check_shared_buffer_size(struct mpam_msc *msc);
- 
- /* MPAMF_MBW_IDR - MPAM features memory bandwidth partitioning ID register */
- #define MPAMF_MBW_IDR_BWA_WD		GENMASK(5, 0)
-+#define MPAMF_MBW_IDR_MAX_LIM		GENMASK(9, 8)
- #define MPAMF_MBW_IDR_HAS_MIN		BIT(10)
- #define MPAMF_MBW_IDR_HAS_MAX		BIT(11)
- #define MPAMF_MBW_IDR_HAS_PBM		BIT(12)
-diff --git a/drivers/resctrl/mpam_resctrl.c b/drivers/resctrl/mpam_resctrl.c
-index 5468367776e2..53fcffb23984 100644
---- a/drivers/resctrl/mpam_resctrl.c
-+++ b/drivers/resctrl/mpam_resctrl.c
-@@ -1236,6 +1236,7 @@ static int mpam_resctrl_control_init(struct mpam_resctrl_res *res)
- 		r->ctrl_scope = RESCTRL_L3_CACHE;
- 
- 		r->membw.delay_linear = true;
-+		r->membw.max_is_soft_limit = (cprops->max_lim == 1);
- 		r->membw.throttle_mode = THREAD_THROTTLE_UNDEFINED;
- 		r->membw.min_bw = get_mba_min(cprops);
- 		r->membw.max_bw = MAX_MBA_BW;
-@@ -1481,6 +1482,13 @@ int resctrl_arch_update_one(struct rdt_resource *r, struct rdt_ctrl_domain *d,
- 		if (mpam_has_feature(mpam_feat_mbw_max, cprops)) {
- 			cfg.mbw_max = percent_to_mbw_max(cfg_val, cprops);
- 			mpam_set_feature(mpam_feat_mbw_max, &cfg);
-+			/*
-+			 * Always carry the hard-limit bit: the control follows
-+			 * the software controller, so a hard limit left by an
-+			 * earlier mount is cleared by the next write.
-+			 */
-+			mpam_set_feature(mpam_feat_max_limit, &cfg);
-+			cfg.max_limit = r->membw.mba_sc;
- 			break;
- 		}
- 		fallthrough;
--- 
-2.34.1
+> +	cppc_cpufreq_save_requested(policy, CPPC_SAVED_EPP, epp);
+> +}
+> +
+>  static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  {
+>  	unsigned int cpu = policy->cpu;
+> @@ -1058,6 +1176,8 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  	}
+>  	cpu_data->perf_limits_valid = true;
+>  
+> +	cppc_cpufreq_setup_auto_sel_mode(policy);
+> +
+>  	cppc_cpufreq_cpu_fie_init(policy);
+>  	return 0;
+>  
+> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
+> index 2cec54b4d2e2..3d47c07f494b 100644
+> --- a/include/acpi/cppc_acpi.h
+> +++ b/include/acpi/cppc_acpi.h
+> @@ -42,6 +42,8 @@
+>  #define CPPC_AUTO_ACT_WINDOW_SIG_CARRY_THRESH 129
+>  
+>  #define CPPC_EPP_PERFORMANCE_PREF		0x00
+> +#define CPPC_EPP_BALANCE_PERFORMANCE_PREF	0x80
+> +#define CPPC_EPP_BALANCE_POWER_PREF		0xC0
+>  #define CPPC_EPP_ENERGY_EFFICIENCY_PREF		0xFF
+>  
+>  #define CPPC_PERF_LIMITED_DESIRED_EXCURSION	BIT(0)
+> 
+> base-commit: a917b5968c17196b98b514158de800194d09e505
 
+Actual $SUBJECT looks okay to me, I'd wait with the R-b for the
+series, though.
