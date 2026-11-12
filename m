@@ -1,75 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.174
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794524348;
-	b=M/wdX3+fwiejdWbvEEWjp/4AgsXihUaPfBZV/y7WsEqkySSB+FuSSisx84OgVaqp5c2Y
-	 ACNyorkU1gtxBUQ3hol2HCazvQnCN2TZANc/81/r6MdFGb+lxbL9iLDXS/epmDXS+MzHB
-	 mBbip3BPhqKQ9RhUz6Vs+FW2EBI8hIEPpCVTiRf9Y+YVrLJEqw51Fhkxar0l3hrTPHCx5
-	 bxnIj05grKcpZgv7cGMLJtwY+x1kdpihv4gg46w6Icd38o7PYTF6DacoZfZatXKgV3A/e
-	 1HjsbEsnD1/5suxQgvN47osiAyiY+s3FhxC3YiyATG0sJKbBP+xagjWN11SYk1REw0w==
+	t=1794524349;
+	b=wEpD9HRzNjjNNddfh2kdmIeMwP+oEFM/heSMlBfVLejnI22NL9KbB2OUIklwVQSTKIgV
+	 7WugFQWStQuGsTh06NjsdAr/iNOCdJxndP7pLEZdvY410fbIXI+4Yos2FuXTxLBwkKlux
+	 6nu1r5IwAHDrmx08tdRpblsQF9HPHx4llLH/hgdngve+cELzR3h0Y3W+dHqO6SHruFoLx
+	 F19p5lvtM8yYVoef0hQOPnPlvp5TZwbBg7URrw5wIGESsBWav9vlh7BEPW/I1Yy8A90o5
+	 X3UDIPcfuRCAyEeBHqMGHhhYdcXu965ogfu3nMpbK23UqoJXw7Wn4NbF2rexE2x9neg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794524348;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794524349;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Subject:Date:
-	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
-	bh=blshDriFn5UbMDKS3q3Vd5jruWnlAyFKn7ja3qEeVzY=;
-	b=sW1/0nCx8806cJH8RuQX6qgzkxnwyEeG3ToBPTzRwTDo5i8j/iYsWE8dgpMy8AoK6Lkw
-	 HyT47h3SFMiE8rvFLD0/TsK7PK+jK4uRnGjuLRoUc+0qzXs2o8rrLdBDDuXYHKXyJEZE9
-	 2bgjDpHH/VR2rnUT91LXRCwhDYtgvapj9027eZbMBlOUIpkyYzumIxvrQBWEnD7MbIej8
-	 cQEdYoScEs2E3ON+QspGfKs8BxAdIYtCEoEoOEulsX6YgMN2kT93wnPelMzwaXDB5U6fW
-	 lVZCCJKYcgPZnOxlboBOUn+SPv4b0ogUB1kKzzgC4ec1KORqX2wLm11uDqxrI6322gQ==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 References:In-Reply-To:To:Cc:X-Mailer;
+	bh=7n6Ho7cbKGIt/bJ4mNlulH+IAm5/LdmJToLUGkwX7ac=;
+	b=HcT9oglZjREbdWpntIxyBL2d1jb7Ry49SAQD97yGMiKI3628pzXsTbxlVJqTm21csSvc
+	 5uROusHQzjADronG0ViTw9p8xD9hOnPa5o5Zt6dL0w+H+KxqUMQg6G5QSZBXH80xKUma8
+	 jZHS4VHEu3Bcu+ZLLsEbTgoeiEuIjyaC8Xno2PnIQfYFdxnDdId8aZLKitfx/8XY1YNdt
+	 7sXQYybDeNw76KH+7UOiW2WHazBEFcrm6ngnR6fFk/U0KFuNsZrhkXdPzZZsn1912xV/u
+	 uApfbJFaRUMj6hy+bQRWf/7J4ScYXKbjndSSkzo0/c7HQ1upWvhh59SSB7ywAcxCMHw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=telaak.dev;
 	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=74.125.224.44
-Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	arc=none smtp.remote-ip=209.85.128.174
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485D8606A321
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 22:59:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 485D8606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10FC606A881
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 22:59:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F10FC606A881
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-679a2b5fe87so345793d50.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:59:07 -0800 (PST)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8b4a15c84c5so4037537b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:59:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794524346; x=1795129146;
-        h=cc:to:content-transfer-encoding:content-type:mime-version
-         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=blshDriFn5UbMDKS3q3Vd5jruWnlAyFKn7ja3qEeVzY=;
-        b=l0vrf2DN3c+Mz3hqyWxXgJdr2XJPFkNpyXK/I7nCDkVrUmcG2Dybnxyxg1Pr+TMVUm
-         bENp9AUXSfmUCPBbmC+0aYXKiOZlz05iKghzUSFJTzlg3lQu84QtwxLoo5lAVydDCqep
-         rWsxot1zoRZMg7YptWFZSXnYGwjTLB9gAImjcMkT2QYT4H+RHsckm3R4sKF6jBrsi7bx
-         coADj95U48ZpylICFdWHCIoKc5begNeZd6IMqnyFVwd+1BnhJRh+Bq2jkkaqr95RRw8O
-         NwwU1kwysgWKex6KQl2crdSfGx+0Cah/3rP+E5/4RKMM2W7kmKP6GLqrRmI2TTxPgGIa
-         cNXQ==
-X-Forwarded-Encrypted: i=1; AL+hErGflHtod0sZP1c47TCdW1/ZcJU1OJcVlNN/CTDndKsnZh3eY1n6pbW1GD87r++uERbHzapJjQ5BhN0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+/i4CJTlgWOJuE5qPh5aFBhNuWikV97cp7jAmdu/duPoy2qlcC
-	7DViwFlLy6GpYTstTVH7BOcENNKPLy10qheTXq1yfbnHYSeoFkcRg7R2
-X-Gm-Gg: AYBFou0Q+/ZRAjs3KxEWTqeAVjtqW2SUPAMeYPBq01fEwKvsZFqSVb2BYxMZGoVp8jd
-	ssrd/A1Pkdi0oXH43ZsVxzWh2JHBzRTGpLQQoqmgxEpYz1ix39whJrAFakaOQfj2tz9ZdwvERMK
-	xM+I6jnuQ/KbkXRsUjKt8IGGmLLz3Yw5p6/Fz5QvRj6aseR3tlVFikQ7+dmXgHvVgoFq0KrkJJv
-	GGbrkmlkMiUadpPoVcydUGDPUcSANHcs451E/XsEPu55t5JmTUhRq+7CkiUSkeJJrCsroupFF3l
-	4GWywh0c8Hz0e5sob52GXWv8flLOfMHJ2xR8Cx195wOHLwJT2pYejFv1uF4DkTBqKogNATYLQcq
-	1YbafqDbnyiK42nyk2IbeCedM2bV2o+cFsmFEymWvMZYqVYJbKjCE1FRBl/tgMjuKG/sXqsZbj5
-	18Ol8dkj2gCA7qI4vCW45DUPMMpqLpNVZkUKRG84X85PBbRVgNfUVJG8Myn0rVkTpEPSJ3/LFGO
-	y53HYcMosaf8yAkWhts8s2m1cr7bfOJrOAdL7uonQudWd15HI3wVjTUBE0/FjI08fpAP+Je+v3q
-	qBHkSQwSYEwCTKWL3EKXQSy/p3FitV735ITX5RjP1gCw2INs0Udt7K+tkVs7JWwptaBRIQAGUfY
-	w5LutrJ2uMFO37F1dC8i3WxAU4UBfIABCP869c9cJ9OV7qx1YrqVDR/e4k2pjE8VTiP53+AEC1Z
-	75csJpZpHxkHsH8pM6cwA69tnZ
-X-Received: by 2002:a05:690e:12c7:b0:67c:4b6e:1119 with SMTP id 956f58d0204a3-67d89738ccbmr443575d50.128.1794524346057;
-        Thu, 12 Nov 2026 14:59:06 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794524348; x=1795129148;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :content-type:mime-version:subject:date:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7n6Ho7cbKGIt/bJ4mNlulH+IAm5/LdmJToLUGkwX7ac=;
+        b=m3p51yPT8zPgwLBEwrNEFsZJE4+Dbk4b9Xdbpn4sGMLy9TmxBV2I5cYCDF6IPZHBxT
+         sJB+IUfbS5Dejpbb88Y5Ps/8NeQMW0rb1ZxqIG6UUtnhPkiinShqOxxp5cF5y6yGtn+Y
+         kZdVx9bEVm7rRegyyCGXF0swbQ13CiGOXclSr1RILYGJ0y6swbV1Ugi4Bb041PSf16+P
+         AmwNoak9P8ET1P0ELKsJ/RpQ896AW0jhVoGK6VNwoiV40WpUKFGQ9V6QZBz5Pcwf0d7m
+         p+fUmBntSJqidwWfO++v0SJ78F8h6jDhWFmq/3//b5uMGgqarTYfPjncqNWEeE+674QS
+         OvtA==
+X-Forwarded-Encrypted: i=1; AL+hErGA3ItYK6EqLDaB2osnm5BhI36CaJa56ZtJHTm8wBbtk9o9asf7aZ85JpXZIA0CeKDf6d81pDPMDGg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Onp1Oh7kHz4qdDgLzlOR4V2mhAv5XJ6WS2OjMk8lhHUdeBY4q
+	TNnvztkm7pXkI8OLg8eh/aTzPF0Oooaagjsivvy3s2Yf2TKCTLgRbP7M
+X-Gm-Gg: AYBFou3zSyJGi54nmDVrx7R7DflgFhyn+EsnKqSs38LY/Khv9SJ3UIFBZpaUeu7iXOl
+	IJq8dBWSAu9FuQSUolXbHCuS0S/N3w0jZsESxesKqSS4EEXt9yyByYCRL43eg1yKwgO6s8La5iR
+	lQspcoztOPIGXi/t8PoW2FkqalPoLf/4vvUrc8buL7OC/UyNIv0Nd8ZaozhCdbX5QM3ONV/BUFr
+	CjyFEdUNZpc99eVPq3dQ5dOwIFcbT+oG4Hi/cNk5tyqaiqi1nVtVZRgqj7skRwb4LHs4tpoa2Mh
+	JdkTVPyzki3Us8mVltmIVTEXZzYMwIWJn4z0W68Rzg35VcLPZPNmswZlF0MWoHjPzbxEoa8DCqP
+	rKuC1wuuiaAosYiQq+tVTbPwaZnePfok7vc90RhhudszEUi6xMFbW5oeEPZ8Bh8GYIsZJibXw1H
+	5QW4Ql6bsWkqy5lcVbE4UMUycj8x8IN7tgMIuqm335QhdwoJDx7/goJGEuSQv6lT/2XFdmtZb9n
+	2qRNPKDQBjQVxycxdzJmwPR5nB64+lcEeZ4zE2LsALrCg9q1Qwx1jutZ9RE/E50+nlG5GG4AhLq
+	/u5zL3GaOlCZJLH/5hRZShBCqaO6QAXzDkUptUUIIwkKAJ6CEp6LCYyJ2qzFJryYuW8hCPvz/k+
+	14aS2sGmX6x3X3ph5HAeTuQrTayFcE8/79jv2qXrcFHgSwmNWJRGFtR2ryC3q1hf8FdhxmCdEiT
+	+zj4OPnlkgUrr1w/dloUrIP5ep
+X-Received: by 2002:a05:690c:c189:b0:8b3:5f41:3c3c with SMTP id 00721157ae682-8b4aa233286mr6243907b3.17.1794524348062;
+        Thu, 12 Nov 2026 14:59:08 -0800 (PST)
 Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([71.68.170.161])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa8f354asm7261077b3.14.2026.11.12.14.59.04
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa8f354asm7261077b3.14.2026.11.12.14.59.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 14:59:05 -0800 (PST)
+        Thu, 12 Nov 2026 14:59:07 -0800 (PST)
 From: Joseph Telaak <joseph@telaak.dev>
-Subject: [PATCH RFC 00/13] drm/powervr_sgx: Add a DRM driver for PowerVR
- SGX5xx GPUs
-Date: Thu, 12 Nov 2026 17:58:50 -0500
-Message-Id: <20261112-powervr-sgx-v1-0-c69b84bac011@telaak.dev>
+Date: Thu, 12 Nov 2026 17:58:51 -0500
+Subject: [PATCH RFC 01/13] drm/gem-shmem: Map pages for the DMA device
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,10 +80,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAA/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzNDQ0Mj3YL88tSisiLd4vQK3WTDJDPzFNPUtMREIyWgjoKi1LTMCrBp0Up
- Bbs5KsRDB4tKkrNTkEpA5SrW1AOkCaHl0AAAA
-X-Change-ID: 20261112-powervr-sgx-c1b67d5efaa2
+Message-Id: <20261112-powervr-sgx-v1-1-c69b84bac011@telaak.dev>
+References: <20261112-powervr-sgx-v1-0-c69b84bac011@telaak.dev>
+In-Reply-To: <20261112-powervr-sgx-v1-0-c69b84bac011@telaak.dev>
 To: dri-devel@lists.freedesktop.org, 
  Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -104,194 +102,71 @@ Cc: imagination@lists.freedesktop.org, Frank Binns <frank.binns@imgtec.com>,
  linux-kernel@vger.kernel.org, Joseph Telaak <joseph@telaak.dev>
 X-Mailer: b4 0.16.0
 
-This RFC asks for design review of a render-only DRM driver for the
-PowerVR SGX5xx (Series5) GPUs. It is not for merging: the Mesa driver
-isn't in Mesa yet, the firmware isn't in linux-firmware, and until each
-client has its own parameter buffer it isn't safe to expose to
-untrusted clients.
+A DRM device whose DMA goes through another device sets it with
+drm_dev_set_dma_dev(). The DMA helper allocates and maps for that
+device, and PRIME imports attach with it, but the shmem helper still
+maps and unmaps its pages for drm_device.dev, and
+drm_gem_shmem_prime_import_no_map() still attaches with it. On such a
+device that is a struct device without DMA ops or a DMA mask.
 
-The first platform is the SGX545 of the Intel Atom CE5300 (PCI
-8086:089b). The second is Cedarview, where gma500 publishes the SGX as
-an auxiliary device (patches 2 and 3). The OMAP3630's SGX530 is there
-for bring-up only: it has one memory context, so the driver refuses it
-without powervr_sgx.allow_unisolated=1, which drops client isolation and
-isn't for general use.
+Map and unmap shmem pages, and attach in
+drm_gem_shmem_prime_import_no_map(), for drm_dev_dma_dev(), as the DMA
+helper and drm_prime do. Nothing changes for drivers that don't set a
+DMA device. Of those that do and use the shmem helpers (gud, udl,
+gm12u320, appletbdrm), none maps an object's pages through
+drm_gem_shmem_get_pages_sgt() or imports with
+drm_gem_shmem_prime_import_no_map().
 
-Design
-- drm_sched, one job on the GPU at a time; drm_gpuvm, a page directory
-  per VM; GEM shmem; explicit sync only. A core table; an unknown core
-  is refused before any register write.
-- An open microkernel (MIT OR Apache-2.0) [4], loaded only in secure
-  mode, where no client maps the firmware's memory.
-- Commands are plain structs, checked field by field; uploaded shader
-  code is checked instruction by instruction.
-- The GPU doesn't snoop: a job lists the imported ranges it touches,
-  and the kernel flushes them around it.
+The first user is powervr_sgx, later in this series: behind gma500 its
+DRM device is an auxiliary device, and its DMA goes through the GPU's
+PCI function.
 
-Known limits, to fix before a v1:
-- One parameter buffer serves every client, so one client's GPU work
-  can read and write another's binned geometry.
-- Kernel objects and page tables use CPU physical addresses (x86
-  without an IOMMU), imports keep the exporter's vmap, and cache flushes
-  run uncapped in the fence-signaling path. All three move to the DMA
-  API.
-- Some firmware words are still written by index or named unk_*.
-- Transfer and NULL jobs have no Mesa user, and a client's first
-  transfer can fault after another client's transfers.
-
-Userspace is a Gallium driver with a NIR compiler [3]. On this tree, a
-2,146-case sample of dEQP-GLES2 on the CE5300 gives the same results as
-before the last uAPI revision (2,082 pass, 7 fail, 56 not supported, 1
-warning), with no GPU resets; it is a sample, not the full suite.
-
-Questions
-1. Imagination said in 2023 that SGX should have its own driver [1].
-   Alessio, Luigi: beside drivers/gpu/drm/imagination, or under it?
-2. gma500 publishes the SGX as an auxiliary device, as nova-core does
-   for nova-drm, and forwards its interrupt through a callback, because
-   CE5300 kernels have no gma500 to link against. Gabriel Gama is
-   preparing gma500's SGX535 code [2]. Is a separate driver the right
-   split?
-3. Is cache maintenance in SUBMIT_JOBS, as per-job ranges, acceptable,
-   or should it be a BO_SYNC-style ioctl?
-4. On x86, shmem flips every map_wc object's pages to write-combined
-   and back. Is TTM, cached pages with flushes, or a GFP_WC allocator
-   the way?
-
-I maintain this alone for now and would welcome a reviewer.
-
-Most of this series was written using the assistance of an AI coding
-assistant, Claude Code (Anthropic), working under my direction over many
-sessions: the kernel driver, the open microkernel, the Mesa driver and
-most of the documentation. I set the design and the uAPI decisions,
-chose what to fix or disclose, and reviewed the changes; before posting,
-the series also had an independent automated review whose findings are
-fixed or listed above. All the testing described here ran on my own
-hardware. I'm responsible for every line and will answer review
-questions myself.
-
-Testing: on the CE5300, 7.3.3 kernels with this series plus board
-patches outside it: the uAPI, frame, hang, PRIME and unbind tests [5]
-and a three-client soak, also under lockdep, KASAN, UBSAN, kmemleak and
-DMA-API debugging. Testers ran an earlier version of the import path on
-four Cedarview machines; this posting's path isn't retested there.
-Suspend is tested with pm_test only. CI applies each patch to
-drm-misc-next and runs checkpatch --strict and kernel-doc on it, and gcc
-and clang W=1, sparse and smatch on what it builds (the driver builds
-from patch 12).
-
-[1] https://lore.kernel.org/r/ccfae572cb6a5ba70eea273e641b66cd7f6fe58b.camel@imgtec.com
-[2] https://lore.kernel.org/r/20261109063303.32658-1-operatingsystemsdepression@gmail.com
-[3] https://github.com/The1TrueJoe/powervr_sgx/tree/525bdadb0e088bd3f64f0407b8cb0a16c6c03a2d/mesa
-[4] https://github.com/The1TrueJoe/powervr_sgx/tree/525bdadb0e088bd3f64f0407b8cb0a16c6c03a2d/ukernel
-[5] https://github.com/The1TrueJoe/powervr_sgx/tree/525bdadb0e088bd3f64f0407b8cb0a16c6c03a2d/drm/tests
-
+Signed-off-by: Joseph Telaak <joseph@telaak.dev>
 ---
-Joseph Telaak (13):
-      drm/gem-shmem: Map pages for the DMA device
-      drm/gma500: Publish the Cedarview SGX as an auxiliary device
-      drm/gma500: Export GEM objects as dma-bufs
-      drm/powervr_sgx: Add the uAPI header and its documentation
-      drm/powervr_sgx: Add the core table, registers and device bring-up
-      drm/powervr_sgx: Load and start the microkernel
-      drm/powervr_sgx: Add GEM objects, VMs and dma-buf sharing
-      drm/powervr_sgx: Add contexts, the scheduler and SUBMIT_JOBS
-      drm/powervr_sgx: Add the client command checks
-      drm/powervr_sgx: Add render jobs
-      drm/powervr_sgx: Validate shader code in the kernel
-      drm/powervr_sgx: Add the DRM driver, power management and debugging
-      drm/powervr_sgx: Add KUnit tests
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
- Documentation/gpu/drivers.rst                      |    1 +
- Documentation/gpu/powervr_sgx/index.rst            |  201 ++++
- Documentation/gpu/powervr_sgx/uapi.rst             |  133 +++
- MAINTAINERS                                        |   11 +
- drivers/gpu/drm/Kconfig                            |    1 +
- drivers/gpu/drm/Makefile                           |    1 +
- drivers/gpu/drm/drm_gem_shmem_helper.c             |    8 +-
- drivers/gpu/drm/gma500/Kconfig                     |    1 +
- drivers/gpu/drm/gma500/Makefile                    |    3 +-
- drivers/gpu/drm/gma500/cdv_device.c                |    5 +
- drivers/gpu/drm/gma500/gem.c                       |  192 +++-
- drivers/gpu/drm/gma500/gem.h                       |    1 +
- drivers/gpu/drm/gma500/psb_drv.c                   |   42 +-
- drivers/gpu/drm/gma500/psb_drv.h                   |   26 +
- drivers/gpu/drm/gma500/psb_irq.c                   |   32 +-
- drivers/gpu/drm/gma500/sgx_aux.c                   |  102 ++
- drivers/gpu/drm/powervr_sgx/Kconfig                |   65 ++
- drivers/gpu/drm/powervr_sgx/Makefile               |   34 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_aux.c           |   83 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_cache.h         |   66 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_ccb.c           |  208 ++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_ccb.h           |   52 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_cmd.c           |  234 ++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_cmd.h           |  132 +++
- drivers/gpu/drm/powervr_sgx/pvrsgx_cmd_checks.c    |   62 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_cmd_checks.h    |   13 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_cmd_defs.c      |  353 ++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_cmd_defs.h      |   43 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_core.c          |  300 +++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_core.h          |  196 ++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_debugfs.c       |   78 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_debugfs.h       |   13 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_device.c        |  461 ++++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_device.h        |  354 ++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_drv.c           |  378 +++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_drv.h           |   52 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_dump.c          |  227 ++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_dump.h          |   16 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_fw.c            |  736 ++++++++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_fw.h            |   77 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_fwif.h          |  519 +++++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_gem.c           |  120 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_gem.h           |   46 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_hw.h            |   55 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_job.c           | 1028 +++++++++++++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_job.h           |  143 +++
- drivers/gpu/drm/powervr_sgx/pvrsgx_kobj.c          |  285 +++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_kobj.h          |   82 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_mmu.c           |  281 +++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_mmu.h           |   28 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_of.c            |  119 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_pds.c           |   97 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_pds.h           |   37 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_pm.c            |  138 +++
- drivers/gpu/drm/powervr_sgx/pvrsgx_pm.h            |   30 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_prime.c         |  207 ++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_prime.h         |   26 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_regs.h          |   79 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_render.c        |  957 ++++++++++++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_render.h        |  122 ++
- drivers/gpu/drm/powervr_sgx/pvrsgx_trace.c         |    5 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_trace.h         |  134 +++
- drivers/gpu/drm/powervr_sgx/pvrsgx_transfer.c      |  175 +++
- drivers/gpu/drm/powervr_sgx/pvrsgx_transfer.h      |   38 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_usse.c          |  240 ++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_usse.h          |   45 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_usse_table.h    |  342 ++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_validate.c      |  192 ++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_validate.h      |   25 +
- drivers/gpu/drm/powervr_sgx/pvrsgx_vm.c            |  799 +++++++++++++
- drivers/gpu/drm/powervr_sgx/pvrsgx_vm.h            |   69 ++
- drivers/gpu/drm/powervr_sgx/tests/.kunitconfig     |    5 +
- .../gpu/drm/powervr_sgx/tests/pvrsgx_ccb_test.c    |  111 ++
- .../gpu/drm/powervr_sgx/tests/pvrsgx_core_test.c   |  119 ++
- .../drm/powervr_sgx/tests/pvrsgx_equiv_golden.h    |   32 +
- .../gpu/drm/powervr_sgx/tests/pvrsgx_equiv_test.c  |  555 +++++++++
- drivers/gpu/drm/powervr_sgx/tests/pvrsgx_fw_test.c |  168 +++
- .../gpu/drm/powervr_sgx/tests/pvrsgx_kobj_test.c   |  203 ++++
- .../gpu/drm/powervr_sgx/tests/pvrsgx_prime_test.c  |  125 +++
- drivers/gpu/drm/powervr_sgx/tests/pvrsgx_rt_test.c |   63 ++
- .../gpu/drm/powervr_sgx/tests/pvrsgx_usse_test.c   |  145 +++
- .../drm/powervr_sgx/tests/pvrsgx_validate_test.c   |   32 +
- include/drm/gma500_sgx.h                           |   52 +
- include/uapi/drm/powervr_sgx_drm.h                 | 1175 ++++++++++++++++++++
- 84 files changed, 14178 insertions(+), 63 deletions(-)
----
-base-commit: c88084027d0e922dd925b96e5a0d184ba04a8f43
-change-id: 20261112-powervr-sgx-c1b67d5efaa2
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index d654a22a3..4bce0a716 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -175,7 +175,7 @@ void __drm_gem_shmem_free_sgt_locked(struct drm_gem_shmem_object *shmem)
+ {
+ 	dma_resv_assert_held(shmem->base.resv);
+ 
+-	dma_unmap_sgtable(shmem->base.dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
++	dma_unmap_sgtable(drm_dev_dma_dev(shmem->base.dev), shmem->sgt, DMA_BIDIRECTIONAL, 0);
+ 	sg_free_table(shmem->sgt);
+ 	kfree(shmem->sgt);
+ 	shmem->sgt = NULL;
+@@ -535,7 +535,7 @@ void drm_gem_shmem_purge_locked(struct drm_gem_shmem_object *shmem)
+ 
+ 	drm_WARN_ON(obj->dev, !drm_gem_shmem_is_purgeable(shmem));
+ 
+-	dma_unmap_sgtable(dev->dev, shmem->sgt, DMA_BIDIRECTIONAL, 0);
++	dma_unmap_sgtable(drm_dev_dma_dev(dev), shmem->sgt, DMA_BIDIRECTIONAL, 0);
+ 	sg_free_table(shmem->sgt);
+ 	kfree(shmem->sgt);
+ 	shmem->sgt = NULL;
+@@ -854,7 +854,7 @@ static struct sg_table *drm_gem_shmem_get_pages_sgt_locked(struct drm_gem_shmem_
+ 		goto err_put_pages;
+ 	}
+ 	/* Map the pages for use by the h/w. */
+-	ret = dma_map_sgtable(obj->dev->dev, sgt, DMA_BIDIRECTIONAL, 0);
++	ret = dma_map_sgtable(drm_dev_dma_dev(obj->dev), sgt, DMA_BIDIRECTIONAL, 0);
+ 	if (ret)
+ 		goto err_free_sgt;
+ 
+@@ -964,7 +964,7 @@ struct drm_gem_object *drm_gem_shmem_prime_import_no_map(struct drm_device *dev,
+ 		return obj;
+ 	}
+ 
+-	attach = dma_buf_attach(dma_buf, dev->dev);
++	attach = dma_buf_attach(dma_buf, drm_dev_dma_dev(dev));
+ 	if (IS_ERR(attach))
+ 		return ERR_CAST(attach);
+ 
 
-Best regards,
---  
-Joseph Telaak <joseph@telaak.dev>
+-- 
+2.50.1
 
