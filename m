@@ -1,79 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794491256;
-	b=HSSf7KDe/btg+2shwquHHyQl5r15QnLIMd4i+d8arVn6obBA3OKOejfV6fqBkePG5aKY
-	 zRHN8NQEhXm2idpud2k083KHu2E86+g5OU4uDVHJUJhZqZlpFSNjl1FrKVaskKhnNxars
-	 5V9bM9xI2MWfVdMNyxZm/zVahWMWYJ/4s0Y+ZIss33tptALKvyKJQZFLcDolFaQCL4KHz
-	 c0P1UHFx6koawRdTqoMwmVdTc717IEhlAcrrWi0AWjcXUEVTbA/GR1fhu8Vde66X5uP4N
-	 nI2YeBj0qkiAPWeuCgYhgn7SRUTM5/JwTyrW6fmhb44vKbeuc8x2Y0txFO2qSUHHk6A==
+	t=1794491340;
+	b=rwbKXFAuRzhemwZ3b0VWthtTeIuIkj36P6E/QrHHxe58snBYMZyGKsU+W5lXGj1Iv13/
+	 Nhkxdg56WAvHpJyv9k+8k3U5EDrXZSMByQ8NJOALotzRGCMQxHvqd5l2kC8NwbbzsMTxb
+	 lCTLewFWimdJHGN/N/nyy+KeBVINzBDSZwHgT3P4JRNBa70lLcgzZQ8TslyLoN6LaY/vP
+	 o+CwmwaDN+mQsAYarUoA7+ldo2+wMgceoDJ80mqWLqk8L7DdoILYpRk9AR+grvIkMfRJ9
+	 wAVdMSXpT7cpR5MgheMBT/jkOqbRlAE0Oyc298ck85Qbn97MX964YPg1ZOKjhgulBqA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794491256;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=3YZAzcE1/EpGmUjmz5u1eGptWHji3T8YXnmCFTn4ugM=;
-	b=y7XjuRf3HwtPIaZg8CSixtVJge6bM3Mk3yOc63iLBZUuTxRPKFfvRtIMOmJS5PRDJyG2
-	 csaFLpczUzudjmWQeDcCU8HHjWYh8Vy0yZ5aDvLFYWLTwX2iDhOQBNSefG+pDdKqa+pVF
-	 w6fREetQ3bU6DQxoXQW9TQAckBt8ivzlXOYMBhp7d9DD/oQ1AKxGjlutjsqgXzoRX0WlC
-	 d0odxiTahAMx6lzcXMlYHHhJlLwrJFtJrz1hMcgONJ2A5xS+lfwX5bD5S9ykPHcV868en
-	 BfGcLHFDbkWhJfrzYZ6sGXkzN7K8CGtPjqbyEFHVod6pTuiNECryPv3GqesF0go57BQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794491340;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:User-Agent:MIME-Version:Content-Type;
+	bh=kkl+icFjzxE01q0Je1m7UUl7PHHf9qq5oQVDLnVQrE4=;
+	b=omoqYjKJZFl2GAkge3uUir6+dgpExb3nZTtpSIVWN9fENGpLUo5seId+nVlNe3BkZ7xN
+	 llEHKi6wB1GAOpyH2FEIQWTCYJL4WFF9yhMBk+anl2VCfPMShmBGk0NViFGUaEoaCGLfT
+	 EMhMTezYgJZD2jiSUGP4bpn6ptJo5m2XFxJbjfPZzrMM3r9DBvIblITp888T7yddYaZLu
+	 jBCAcDGcynW3E62wmUb+PCpUoLookhpafMpWz+zQOUGBo6+2jTcdveA24QSPtbuYLFYEG
+	 HDW8XMg0UocrxkpMHLDz9bbD6Qqi57DZZVYNV2Mdpt51I3o1NPVliQ15fkxcigyQaBg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mit.edu;
-	spf=pass smtp.mailfrom=mit.edu;
-	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=ZyWmHjFT;
-	arc=none smtp.remote-ip=18.9.28.11
-Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BfR8WLKm;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26319606A321
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 13:47:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26319606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66702606A31C;
+	Thu, 12 Nov 2026 13:49:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=ZyWmHjFT
-Received: from macsyma.thunk.org (pool-173-48-111-191.bstnma.fios.verizon.net [173.48.111.191])
-	(authenticated bits=0)
-        (User authenticated as tytso@ATHENA.MIT.EDU)
-	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6ACDkjFc002782
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Nov 2026 08:46:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
-	t=1794491212; bh=3YZAzcE1/EpGmUjmz5u1eGptWHji3T8YXnmCFTn4ugM=;
-	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
-	b=ZyWmHjFTGOwAApBFdsJlk7IeyqDSq2vhUc/zeFgql9RtL02ocRFdu/XBx8Lt89Tiu
-	 ZtB+IIHD3ucY5nr5jHEhD43ElWI2goLnpll5rrFOt+YhZpfpxXSEYnRn+gaRodlf9u
-	 raXhl/uk9kHdF/ImFDElqrFFoJBzbfk8QG++m7szVDWSBbTN6Frb6irZEYZnDNP8CI
-	 o+Y3rhzvVBvsOQPFSj/QPdYQrWxPSmJRw4K09X6Mqth7CPKC6xlnk+kvxKtNQEsuth
-	 puDjMzUPSfQ/f80W1sY3xybe9UVwnpP1IM4Fa20NkzuMpntbyOpZGrQ84YQTs4Me9p
-	 Kb6As6/2xoplA==
-Received: by macsyma.thunk.org (Postfix, from userid 15806)
-	id 3DB4A26E324F; Thu, 12 Nov 2026 08:46:45 -0500 (EST)
-Date: Thu, 12 Nov 2026 08:46:45 -0500
-From: "Theodore Tso" <tytso@mit.edu>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Leon Romanovsky <leon@kernel.org>,
-        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-        Thorsten Leemhuis <linux@leemhuis.info>,
-        "Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dan Carpenter <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-        Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
-        Bradley Morgan <brads@mainlining.org>, Sasha Levin <sashal@kernel.org>,
-        stable@vger.kernel.org
-Subject: Re: [PATCH v5 0/6] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-Message-ID: <avXCcPYM9VAP0JHf@mit.edu>
-References: <20261111225940.1573565-1-tytso@mit.edu>
- <9c5f5976-ebed-48f3-94ab-1121231af6e1@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BfR8WLKm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EE841F00A05;
+	Thu, 12 Nov 2026 13:48:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794491340;
+	bh=kkl+icFjzxE01q0Je1m7UUl7PHHf9qq5oQVDLnVQrE4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=BfR8WLKmKOsDXaKLiM1Ug8DXfW2zJBjiN9fzDTa5EwV3z/sxUhZlb7IASSQ96U421
+	 Mt4TsyTelm4lALktExl12zsgk/+O+uSElGKX4+AShhNRldi1RycsYF4np8RLDt3NZp
+	 8zD45kOYeEt6mwyEf0cEPy7UpQBZWN7nmcvPQqBD+YWWwG/W2vcy03aA5x0fytDeNn
+	 fygblzfkCt0nOWp/i5DNrXmtHLKMLXPo2+xEYTZjGBMNgySpYJ2Btfzk6TE9FopFdb
+	 FX0hHNLxoFBG1EABRvXPDQGLR6rN+Ep1ph0B9qT/pSsNowZHegrNPUMrgsc77wzFlV
+	 2GfEPlkisak9w==
+From: Pratyush Yadav <pratyush@kernel.org>
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,  Pasha Tatashin
+ <pasha.tatashin@soleen.com>,  Pratyush Yadav <pratyush@kernel.org>,
+  Alexander Graf <graf@amazon.com>,  Andrew Morton
+ <akpm@linux-foundation.org>,  Chen Pei <cp0613@linux.alibaba.com>,  George
+ Guo <guodongtai@kylinos.cn>,  Kexin Liu <liukexin@kylinos.cn>,  Randy
+ Dunlap <rdunlap@infradead.org>,  Shuah Khan <skhan@linuxfoundation.org>,
+  Sourabh Jain <sourabhjain@linux.ibm.com>,  kexec@lists.infradead.org,
+  linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
+  linux-mm@kvack.org
+Subject: Re: [PATCH v3 5/5] kho: docs: update description of bootmem regions
+In-Reply-To: <20261112-kho-bootmem-sizing-v3-5-f0c8d00295d5@kernel.org> (Mike
+	Rapoport's message of "Thu, 12 Nov 2026 12:38:57 +0200")
+References: <20261112-kho-bootmem-sizing-v3-0-f0c8d00295d5@kernel.org>
+	<20261112-kho-bootmem-sizing-v3-5-f0c8d00295d5@kernel.org>
+Date: Thu, 12 Nov 2026 14:48:56 +0100
+Message-ID: <2vxzcxsagnxz.fsf@kernel.org>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,23 +67,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9c5f5976-ebed-48f3-94ab-1121231af6e1@kernel.org>
+Content-Type: text/plain
 
-On Thu, Nov 12, 2026 at 09:26:09AM -0500, Krzysztof Kozlowski wrote:
-> 
-> All these are docs (even if you call them as a skill, it's the same),
-> therefore they should be placed in Documentation, not in top-level. We
-> should not create one documentation for humans and another for agents.
-> It's just one documentation.
+On Thu, Nov 12 2026, Mike Rapoport (Microsoft) wrote:
 
-Skills aren't necessarily *just* documentation.  The skills
-specification[1] also defines a structured location in the skill's
-directory hierarchy for Python scripts or other executables.
+> The description of the boot memory regions does not mention the low
+> memory region and claims there is always a region per node plus a global
+> region, while the low memory and the global regions are not allocated
+> when they would be empty.
+>
+> List all types of the boot memory regions and describe when they are not
+> allocated.
+>
+> While on it, fix grammar and split the description of the regions size
+> and of the CMA usage into separate paragraphs.
+>
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 
-[1] https://agentskills.io/specification
+Reviewed-by: Pratyush Yadav (Google) <pratyush@kernel.org>
 
-Cheers,
+[...]
 
-					- Ted
+-- 
+Regards,
+Pratyush Yadav
