@@ -1,157 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=198.175.65.19
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1794485888;
-	b=CyCRPp0uFNKdoLaHrrFyOn8L9BL4H5AOblBqZFQY4LjXktci1Hq8STRc+icxhu29ouGB
-	 rJNySEGgkQ3CFhs8jStD9K3MxKLbmg7lMqSl+ZuYWm5+F1R+CNYS0NsraX1GjSVk8ZN7h
-	 UJjQKgQ5oBqLulNsiSdiQfAYSZ4Ub2R2vCMKG0r0UASyCD4EzdVN7Pw1QFRb1wp7sxgTE
-	 u+iuGrFJhZrl+9Ul2Xy/E7WQi1LLjGgHffVss1aYVWtA5Ol0YalW1jeCCWN5/vluWwsHd
-	 zLKzcuM9ofiMsVDdR6+XXoGICDAFUgV8oKFpTaCuN3vBvEjGxNFzn8CYcI6CGTYZH7Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794485888;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.90.104.144
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794486561;
+	b=APZ2doo7v3uol8pK9IGXgDcJtlH3htgf7UpmYkEZaK4rXYHKJNvgbgoZ3S4VYNl5jH9R
+	 tEEwCB5pqIvAhr9T4aPpVDguAG459iv5BQ5TnkyTTSpV8lRZ6x2MpgEMe044TICJb3v8r
+	 AzNGpt0CGefpK3gER1LzO1JTP32QyTr+4r9QHAeIJX35MxDDnCLh8SDVg7g/0/Kqm+0PX
+	 hNHjH+xJwamUHEu6CvWkyNFiWWUA8bsBJ3KwaoZtllVv8i6KIfRGmiWDdgQoh0+TnCgm1
+	 qM1IehlKkbQHAc0yW84obAcX6x1I39mQQCJQTQ7NDf0a4tK743OK2l3bX+mZSP7+MfQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794486561;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:DKIM-Signature:Received:Received:Date:From:To:CC:Subject:
-	 Message-ID:References:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=nGSFsb5tCeV12a115Jv1Rrt62GTEPMO5YdB2wl6D6Tc=;
-	b=TBeOLMGxaiBp0NSs+Mqlvw87fkgSggahX88gyMiPaFfb0VJov8b9Dov7+MILBxl+30GZ
-	 oUvmzxJmBCLdQnjB1QxzSxRsgssr8Vnx/jYp5ZwqZZhnjB3z7f4Xp46DH6RqWN7t4sDYl
-	 eobi0Jx6RoA3t/gV8N7mL4Qz2CLGRvuKAH1nEd/SLJ37XLUeP0V7RD4nVWg3Gbr7aXnIZ
-	 dQ1sfNxIXqHykSrD1qTg8LNIGF23I8V7OxRfrJgzn2shdUbcXnX0fICghs6bZR1+nggxN
-	 0gJnRBhZ+FmpsFqs0LkiFtxx4sPp2MCPf7w9hWa1uTRia6Yts+iUhXhqLEy/xDeK/NQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i0GwuEYh;
-	dkim=fail reason="signature verification failed" header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=NGLxRHpb;
-	arc=fail smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583FD606A31C;
-	Thu, 12 Nov 2026 12:18:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 583FD606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=i0GwuEYh;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=selector1 header.b=NGLxRHpb
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794485888; x=1826021888;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=oScwrDMwY2vQdtKj6nzupia7fH/vOd/pISkBAuD2YP8=;
-  b=i0GwuEYhRuWa2xSOWb9HwRT4CmiSc3MAKN/ZxV9XmFO+5bw2FpJOslHW
-   ni0+vcHG0yMtHgbeTjINPW2WNE1xruOExhTJoI5asHzOaewFJWSE94G/7
-   3kKj/cUaTcFzI5pZeEIvmpXw4rfa6yrXCD2n4yerIS9iYXJgHxPQOhL3i
-   xoom7Mc09AoVxaAd8aO+8uf4gj9ZKj9G2kx5zxkPpx2XHJ4Pkvigfhuvj
-   eOUHpoMW+mwR1eU2S9bl9fzu5Oz4aD+oura708xJY4TgfN6UmBwhfuONx
-   nkfsbxZ4rQmBf54n7DJ+5VBPq8y2o3r9p1tYBIrT537QV9ZiTWNWGIDcG
-   Q==;
-X-CSE-ConnectionGUID: fEqxQytSQRqBVPF41f+aNA==
-X-CSE-MsgGUID: vAy2uvlcQrOvl72DaaITVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11963"; a="3313282"
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="3313282"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 04:18:07 -0800
-X-CSE-ConnectionGUID: 7d699Q+MTRyyv/Mn4a8Gtg==
-X-CSE-MsgGUID: dJePKQfdRDSccQRkIifbug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,209,1787036400"; 
-   d="scan'208";a="8597729"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 04:18:06 -0800
-Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 12 Nov 2026 04:18:05 -0800
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Thu, 12 Nov 2026 04:18:05 -0800
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.65) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 12 Nov 2026 04:18:05 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pI1WS4Jx/u2HQH5o+MRzXxR4maMQzyBw6Rl8j+f6IQk0QRvOoZ5r9GU3nc6AOaoYiukkZw54EvUoqrq+oDyUGt+J/k9g/w7UZC46vnWkJ4e8aL64Pz/QKwwH64gTlUV0tkKnP6GkJo0WDPx8ytg95W0pJn6P3CfTaOMWW378MkAddT3WExpCi2DIXd8WSAmNQH7epri527Ag9BMIKrAs5BGir34jqr39WpAlCjww8qr2tMdhBfNFX0rLEuUTJilhJnoBY9uPoZ9e5ykQ6l/v+NyRkH1gwBqnV3Uafmg7VgAvNiE65itzg3mWZMunO4YJmpBi7x3PbICV2PLeM6wryg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=70JxUuXTJPnRkSzNpzylxmCb5NM7FSflk87A9wf2syc=;
- b=cWUKJzA1DLWo5paP43jjpDEdGXasa2tymYVf9nkq4/+QogA7W+UOAz1MOto/7mE5byHhoEiIhraCoMCN2Ur+wuZOzorAJ2qVLkiVnEVWOGwQhT8VVbaIgrDWjRhY9hk1MGUx4uPrdbPKANcKa94G6f79lOkjlblY70cOTqFJwQ8H+Qo5ia+Cygplf5FJSdMhOXDAShycPCWGFwymef0NcU8MvQw7u7y/A13ou69xsP/aUqhogN8B+s0SJ5rIxO5fLvQSXKoJ50RyhGJzqzgp4fkqpJOTZ/IE4ytSKGczcJk0cTgUwn2aQKfw1jAvhyNXby/ndGaDrpPvKyTEWRgkRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=70JxUuXTJPnRkSzNpzylxmCb5NM7FSflk87A9wf2syc=;
- b=NGLxRHpbuT9c5Y1ML88eAisKrTBjKWXpZO4GEVzuvvCX7fdhlaImWijzlrd959WVFSLZ8SNg4GSyDnWKHLXRkwb8ET1gRaRs+PsPCaNv0v91vB5CFB2GBXdhbAUUYYYpG4aRBVhbU6etJjqqEAfP3YnAIdZ/+ll1LxPtEeUYQfY=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from LV2PR11MB868673.namprd11.prod.outlook.com
- (2603:10b6:408:422::13) by MW4PR11MB6861.namprd11.prod.outlook.com
- (2603:10b6:303:213::18) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.9; Thu, 12 Nov
- 2026 12:18:01 +0000
-Received: from LV2PR11MB868673.namprd11.prod.outlook.com
- ([fe80::5bfd:6afe:a9db:b7de]) by LV2PR11MB868673.namprd11.prod.outlook.com
- ([fe80::5bfd:6afe:a9db:b7de%4]) with mapi id 15.21.0615.007; Thu, 12 Nov 2026
- 12:18:01 +0000
-Date: Thu, 12 Nov 2026 13:17:47 +0100
-From: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-To: =?iso-8859-1?Q?Bj=F6rn_T=F6pel?= <bjorn@kernel.org>
-CC: Magnus Karlsson <magnus.karlsson@intel.com>, Stanislav Fomichev
-	<sdf@fomichev.me>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
-	<edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
-	<rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
-	<kernel-team@meta.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "Jesper Dangaard
- Brouer" <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
-	John Fastabend <john.fastabend@gmail.com>, Pavel Begunkov
-	<asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii Nakryiko
-	<andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, "Kumar Kartikeya
- Dwivedi" <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song
- Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
-	<jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai
-	<ihor.solodrai@linux.dev>, <netdev@vger.kernel.org>, <bpf@vger.kernel.org>,
-	<io-uring@vger.kernel.org>, Mina Almasry <almasrymina@google.com>, "Mike
- Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
-	<bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David Wei
-	<dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Stuart Clark
-	<stuclar@meta.com>
-Subject: Re: [PATCH net-next v1 07/11] xsk: Deliver provider chunks without
- copying
-Message-ID: <avWua/xvHrUa5wUI@boxer>
-References: <20261110102039.1002605-1-bjorn@kernel.org>
- <20261110102039.1002605-8-bjorn@kernel.org>
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261110102039.1002605-8-bjorn@kernel.org>
-X-ClientProxiedBy: WA2P291CA0029.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1f::29) To LV2PR11MB868673.namprd11.prod.outlook.com
- (2603:10b6:408:422::13)
+	 X-Amp-Result:X-Amp-File-Uploaded:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:Received:Received:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:
+	 X-Change-ID:To:Cc:X-Mailer;
+	bh=nDW+I7pR54nOMsKvI1W+hH5KbFWxBLJmUjtsUkPGktE=;
+	b=ZPN3YELHPEWpdKeH/3/YCAQe1cq3dSlckM9FiZTIuVgqttTa7sEZ1m4r9mwVR2lNG4PD
+	 WISLnUIxfuylgiWQ/hEjDt+126Btmfnff8PFAEUU9DKd823uXYyx+xWnjtzKn6WvqlUAC
+	 rsG2HB4L4ahYudxHpQtkVFDNhvL5vTpNseYW2n/CO2lfJJ5YYAhGAHGus3rILFt+xqVKV
+	 b3z7HK3hSyIuxDImW1D9C6Jz1QpAKBp7Nn+qHMfpzH8dcb8zaQwsB3JyZgdjmH/OL7ji5
+	 vT/ZHVQPfLKGfE7LCSpbnQIpQdXYxjj1NpTsyooPQxjVExO173X3SJzIkKtRMJY2GTA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=mobileye.com;
+	spf=pass smtp.mailfrom=mobileye.com;
+	arc=none smtp.remote-ip=23.90.104.144
+Received: from esa1.hc555-34.eu.iphmx.com (esa1.hc555-34.eu.iphmx.com [23.90.104.144])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81697606A323;
+	Thu, 12 Nov 2026 12:29:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 81697606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mobileye.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mobileye.com
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=mobileye.com; i=@mobileye.com; q=dns/txt; s=MoEyIP;
+  t=1794486560; x=1826022560;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:to:cc;
+  bh=8ZFQvAS7fy+Es8ydgt0QM68OCf5wxuSnAUS6l0H+WCo=;
+  b=F6SwZqUc2aLs9RoioXdVHNmxrSwM8ecybP0GENv0iRdE0079fPv4DK4J
+   rzY/Yqa6JuqMP8E+sj6qv13CrivOdZXpaBADtFUS+aUK5I2q4lAr18Ud0
+   yEum/nNkS1UIEi0GUEKf7CiKLYWYnp3UogY/I0tL3LzT7aSzNCl2oHL2j
+   O9Xt/7WteL/SY2EyGnB6Oi454XYH5JomvTvEmK9UcCzk/vaPXrV4AxKHQ
+   JB0DCETWh7yZByHwWYncMCzyYT26nX5lILh5V/ApI1KBmZz4tztVCF4QE
+   B6JARGoZhlnZKtiXtV1ASp5p3kWa9DXfHu7B6kvFgfLH4H7048gT4p8e+
+   w==;
+X-CSE-ConnectionGUID: Jly7lB5MTe+QEe3/IDSYWg==
+X-CSE-MsgGUID: UUoNWntTRpKzgfht6SX57Q==
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from unknown (HELO ces02_data.me-corp.lan) ([146.255.191.134])
+  by esa1.hc555-34.eu.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 14:29:17 +0200
+X-CSE-ConnectionGUID: SM6LiygqQzy9bfr3IerDhA==
+X-CSE-MsgGUID: CRTdBiWZQzyyAh7FTl/ZyA==
+Received: from unknown (HELO epgd071.me-corp.lan) ([10.154.54.3])
+  by ces02_data.me-corp.lan with SMTP; 12 Nov 2026 14:37:24 +0200
+Received: by epgd071.me-corp.lan (sSMTP sendmail emulation); Thu, 12 Nov 2026 14:29:15 +0200
+From: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+Subject: [PATCH v2 0/6] perf: add PMU driver for the MIPS Coherence Manager
+ 3 performance counters
+Date: Thu, 12 Nov 2026 14:28:57 +0200
+Message-Id: <20261112-i6500-cm3-pmu-v2-0-cd2569571819@mobileye.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -161,165 +67,280 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR11MB868673:EE_|MW4PR11MB6861:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2fe2868-84db-433c-7ea2-08df40b6fee4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|22082099003|261009223027099003|18002099003|261022075727099003|261022105027099003|261021121427099003|261021135927099003|261102123227099003|261028144727099003|261026121527099003|261026140227099003|261021123027099003|56012099006|10067099003|11063799006|4143699003;
-X-Microsoft-Antispam-Message-Info: RqVw8bESgUgzJLqH/8a1fBxjWE094MpOC2Oo+JU+tHqXA3foZJDfcxKXSD6T1QqOi5tM0sPlAmxj0PfONyuuvmNJKrUciEJzDws5cJeKIsO2vaK65+fmtsEFNp+a4Ac4Jw+CZJNh8xyQ/O/fNAMEvcCGJgTxkcXQsRe+3y2YnsqBDVlFeb3bGksIV0NoGVTb1RqhmsEhmGlxElrH1a14jEVXPmg3uTD62qqK1lBVzpqPqUPeTPC8To2eobj41A1p7sF2FeFL7WieMhmJASkWfP4A3xL/odebQW6OtkdzcXoKpWi4zzDGcZcVNRVS4wgKFrlyib/co25i7uedHmynRKrVCDv7YKD7ljRS0mxmzHQgBOta2HyQ2OsAt/CGSeiHESH3tbdF3oJi2D5l7GyNrj4giOEuwfCG708eIQts6dnR+W0Zv/EH8sIY340HmQmir0yUo7ulBW+PDUUGhkcnCEzZeLw9yf/umPhJYd/upOnwOP/e/UOcgyGfuosiD62So+Id6r60Ts3/vdBHUPa7HDADbFVKt/f5CEbETnVdUkdTIQyVKl/DLSG0LHJjxQni7/ZWoA5WZZ/tK5yEoHsIo+vt8FqMmD++vfdvduPAwM0A5daiJi7Y4tyAxWLo2kbZyFCk8T+Lo6VJ7GSPoWmBK1Ypc7R9cckMR+AJIYudkhQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR11MB868673.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(22082099003)(261009223027099003)(18002099003)(261022075727099003)(261022105027099003)(261021121427099003)(261021135927099003)(261102123227099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021123027099003)(56012099006)(10067099003)(11063799006)(4143699003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?CsaldlLtBSymbVh2zdtSzGpfGFbBkit3uuc2+eCE+QdO4+7KuhLBvxzF4Z?=
- =?iso-8859-1?Q?BVLTZ7GeN7v4b23nsfdXDG64BSuxrpubkOzs0ppFYZHlmtAY/+9oWGimyf?=
- =?iso-8859-1?Q?Q0zP1rmRohDpSUtz5nH1KhjUlmZA2U+NXAk/QALj7hH9Fu5RMu3J4rqoi9?=
- =?iso-8859-1?Q?993TcGWUKro0cis4FYnGQhLzFvdnuCcmWgDW/UQFeAr1TixRrKxAeFJccu?=
- =?iso-8859-1?Q?s2xo8Y6XU18TDa+yS4vY14MC16CySdLkQFRerPxDiXiOizjF70wJuQBajL?=
- =?iso-8859-1?Q?QnmYaUM1VZuKisxDzijzpTiLj0Tvc1qGpCuAXd9V2+OrBpx8mB42TYhm2h?=
- =?iso-8859-1?Q?dGCVr8Ehcrm8/JxL5Hd0SFuw6XX2rlO9+rlHyNMKu+4BAKKxHqwr+QBBqG?=
- =?iso-8859-1?Q?OWLGQcVM7RB7X9BlP79cKVB3/omXPuFDki+p6m8RIqtwXHPUNCYBWY48yF?=
- =?iso-8859-1?Q?5bEsCyrxH5guR1kMcb4Uf8Gj9a7Dh9Kn0WyzD2NVlWbYaegLX8BBmKO7EM?=
- =?iso-8859-1?Q?3NJ18/d/M4S/Hpa2zhzQfIZQG+3ZDaxNIVEexKVGmwL0MfkWsbLXD13srO?=
- =?iso-8859-1?Q?RHm6XR2uN7KQFkjuxkTzoW5naqOd2OvEazq8wNfQKNtSGWMAwmqS1ogoTF?=
- =?iso-8859-1?Q?/WO6w+fZpgfn/vCLF9HzWs0bYjYo1oYcnc2E2Rm9s15r4rJrXOEeIRl2LC?=
- =?iso-8859-1?Q?Ul6betVbkRnFatdgr1h+qO6+LIoXFLf6l11ZseDC5mDKS+OMSYhD5MWCkx?=
- =?iso-8859-1?Q?DYZCwhEiSthY5Cy66UtfsLljiZFt/iLNupnzyLMbzzWFu4nk9YK2jYVCI0?=
- =?iso-8859-1?Q?H5hHZWmEAwpaaDh6i2mhMT3EqLqJdNydui8JzfIpNQOlNhmUvT3c1ss63x?=
- =?iso-8859-1?Q?VbOv+i9p7X+chwCZCuRWWUZN+mQCQ0sEA1UQJVos38538Zhg1CCo2vC/s0?=
- =?iso-8859-1?Q?cHgwxiAcLk8uc1XVRwlGvMqoPo8CynoEab8FB8PsKQbP+ltvRksGhOIzZS?=
- =?iso-8859-1?Q?dmDr5aeWdp8jpbBlmB5YD1U6vE8bD3rzSSoP3ctZ3f8+e5un8BAGw+lpOM?=
- =?iso-8859-1?Q?5BfTcd31UZTr7gFaivYbFY1bTBWvivFSLmkgeJrgG1xZCV+GHYua0Klzu/?=
- =?iso-8859-1?Q?xwvkYlPPz6Urun+KGx9zdKliFINKzJBlLzhEZstY1HxZQJrdNNH8ipZC5Y?=
- =?iso-8859-1?Q?2N38AIVqiDqoHAmdNbKBDsDDVDGi+5Y3CC1s33SlUEKlrZY1BUHr1JDmci?=
- =?iso-8859-1?Q?cGMgIVc+2AyFPwvylcyYCqYM4WMx5QO9GU3u5yFlfclFDWVff0v4TIRWLi?=
- =?iso-8859-1?Q?717ba3/xuS25WP6ed2xEhhmx71DXPmg2d/tPzJaqjbhSmGcZ5lEOzLVI00?=
- =?iso-8859-1?Q?M0eobErDBgykuCU0A2x1+QUAvZSWnCbS6VXqF7DV/+5GiJl/oFJ649RAqg?=
- =?iso-8859-1?Q?YlpkDc02UEMNmo3KSjXIZCPjpiZTYsJtL9HGUjAajRswR89aa3GEKBOMPS?=
- =?iso-8859-1?Q?u47RLOIHc6UH6TimTfHHAP7XnDYLdZO293u5dskkWYaC4kMnP9lKB9IISv?=
- =?iso-8859-1?Q?HfZVCvtzi0WJQ5ZHA7+Ahjuw/UFaWkIsyEN8B0MXPRgL1wyGH8/Z8/FXG1?=
- =?iso-8859-1?Q?jwDEIeZ2cIcdL54ChtbhlvZSPKsdKE2pDYo8uVJUlpmMbIMBhV/qqo1Cqf?=
- =?iso-8859-1?Q?M0WNzFgqrr2IiQ3u3xIv73uaA3hvthmcxEyUJFdMilFM1NoDIzb/5ctL7X?=
- =?iso-8859-1?Q?nTdHtxyLnG64q01Y2PZxBDVKRf41ggG5wbPq6eV7fhtbmbC3TWBycYhqJz?=
- =?iso-8859-1?Q?3Hh17nKGjk78lPeeKTmQ24x6k+1nQDg=3D?=
-X-Exchange-RoutingPolicyChecked: d1AiVtni1Z+3UsrAWDn1t9Pms6xRz+m62Lo4Odl4ekxE9YAGZQU+Nq5FGUuxgXg8FoL7QFI6Beb0uAln0TbwXlUnTFj63dKbxICbUyI1OKLT2iOVEkdPRPzeOijFkmheyKHtkULx53VHD1S8pyYQ4wuQ2k6RnuY1h8vP9v60vtBUL3JRhub90mOKq0og/GWUuM2D9ErE7udsVl2vWxcmaRgK/7hZEMT0uNZpoClUlJ4GsIQgDm0lXnFQaZTq0Bey28xyWCbETTuM0R4nbNUDcWSnn7OpBVa3fHhrZ1r9VuTqzs1SfsnOQph86RneQT9vtdLi50ISOrtYJ6RwJDNj9g==
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2fe2868-84db-433c-7ea2-08df40b6fee4
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR11MB868673.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Nov 2026 12:18:01.5404
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H4W+AOx9CXFI3LpZVtqAX3GEtt9TK3tTIzB4TVEEGIISYgAsL6BXIJAAG5OTAhQ2z8btHapvdmigSXoo205vsIrDHc4HHJf2Y7piNUaQrrk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6861
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAqx9WoC/12Nyw6CMBBFf4V07ZgOr1BX/IdhQcsgYywlLRAJ4
+ d8FjBuXJzn33FUE8kxB3KJVeJo5sOt3iC+RMF3dPwi42VnEMs4RJQLnmZRgbAKDnSCtEdtEKZ0
+ mUuybwVPL77N3r74cJv0kMx6Rw+g4jM4v5+GMh/drF3/tGUGCbhBVVqSFwrq0TvOLFroaZ0W1b
+ dsH3CAVU78AAAA=
+X-Change-ID: 20261101-i6500-cm3-pmu-4a11f399b430
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>, 
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
+ Clark Williams <clrkwllms@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Will Deacon <will@kernel.org>, 
+ Mark Rutland <mark.rutland@arm.com>, Kees Cook <kees@kernel.org>, 
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ =?utf-8?q?Beno=C3=AEt_Monin?= <benoit.monin@bootlin.com>, 
+ Gregory CLEMENT <gregory.clement@bootlin.com>, 
+ =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
+ Fu Chao-Ying <chao-ying.fu@globalfoundries.com>
+Cc: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>, 
+ linux-mips@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-rt-devel@lists.linux.dev, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-perf-users@vger.kernel.org, linux-hardening@vger.kernel.org, 
+ Paul Burton <paulburton@kernel.org>
+X-Mailer: b4 0.16.0
 
-On Tue, Nov 10, 2026 at 11:20:28AM +0100, Björn Töpel wrote:
-> A provider socket still receives through the copy path, which takes
-> FILL entries without the provider's ownership checks: a chunk that a
-> page pool holds could be handed out twice. No driver opts in yet.
-> 
-> Put packets whose buffers all belong to the socket's provider on the
-> RX ring as they are, and copy others into chunks the provider claims.
-> Only the queue NAPI may produce to such a socket, so generic XDP and
-> CPUMAP redirects to it are dropped.
-> 
-> A device may place payload at chunk offset 0, as fbnic does, so only
-> the first buffer of a packet keeps the UMEM headroom. Such buffers may
-> be sent back as they are, so only descriptors with XDP_TX_METADATA
-> need room for TX metadata in front.
-> 
-> Signed-off-by: Björn Töpel <bjorn@kernel.org>
-> ---
->  Documentation/networking/af_xdp.rst          |   6 +-
->  Documentation/networking/xsk-tx-metadata.rst |   3 +-
->  include/net/page_pool/memory_provider.h      |   2 +
->  net/core/page_pool.c                         |  34 +++-
->  net/xdp/xsk.c                                |  82 ++++++++-
->  net/xdp/xsk.h                                |   5 +
->  net/xdp/xsk_pp.c                             | 165 +++++++++++++++++++
->  net/xdp/xsk_queue.h                          |  18 +-
->  8 files changed, 304 insertions(+), 11 deletions(-)
-> 
+The Coherence Manager 3 (CM3) of the MIPS I6500 multiprocessing system
+is the point where the requests of all cores, I/O coherence units and
+the hardware prefetcher are serialized before reaching the shared L2
+cache and the memory interface. It carries a small set of performance
+counters which observe this traffic: two programmable 32-bit event
+counters and a 32-bit cycle counter, programmed through the GCR global
+debug block (GCR_DB_PC_*).
 
-(...)
+The counters can count requests serialized by the CM, requests received
+by an IOCU, requests issued on the memory interface, AXI handshake
+cycles on the memory and IOCU buses, and PDTrace statistics. Each event
+is refined by a 64-bit qualifier made of groups of bits (originating
+port, thread, command, cacheability, L1/L2 line state, eviction, bank,
+scheduler, ...): a request is counted when it matches a set bit in
+every group, so the same event can be narrowed down to, for example,
+L2 misses caused by coherent reads from core 1.
 
-> +
->  static int xsk_pp_nl_fill(void *mp_priv, struct sk_buff *rsp,
->  			  struct netdev_rx_queue *rxq)
->  {
-> diff --git a/net/xdp/xsk_queue.h b/net/xdp/xsk_queue.h
-> index 1bc42c8902f4..b9464b917a88 100644
-> --- a/net/xdp/xsk_queue.h
-> +++ b/net/xdp/xsk_queue.h
-> @@ -156,17 +156,24 @@ static inline bool xp_unused_options_set(u32 options)
->  	return options & ~(XDP_PKT_CONTD | XDP_TX_METADATA);
->  }
->  
-> +static inline u32 xp_desc_meta_len(struct xsk_buff_pool *pool,
-> +				   struct xdp_desc *desc)
-> +{
-> +	return desc->options & XDP_TX_METADATA ? pool->tx_metadata_len : 0;
+This is the only visibility into the L2 and the memory interface that
+the I6500 offers; the per-core counters stop at the L1. It is the
+natural place to attribute memory bandwidth to cores and IOCUs, or to
+measure the L2 hit rate of a workload, on SoCs such as the Mobileye
+EyeQ6H.
 
-How is it related to this patch? I know I trimmed, but I didn't see any
-references above to tx_metadata_len, only some documentation bump.
+This series adds an uncore perf driver for these counters.
 
-Besides, the amount of branches introduced to existing hot path is
-worrying. On next revision, could you provide numbers from xdpsock before
-and after this set run on existing zc driver?
+Design notes
+------------
 
-> +}
-> +
->  static inline bool xp_aligned_validate_desc(struct xsk_buff_pool *pool,
->  					    struct xdp_desc *desc)
->  {
-> +	u32 meta = xp_desc_meta_len(pool, desc);
->  	u64 len = desc->len;
->  	u64 addr, offset;
->  
->  	if (!len)
->  		return false;
->  
-> -	/* Can overflow if desc->addr < pool->tx_metadata_len */
-> -	if (check_sub_overflow(desc->addr, pool->tx_metadata_len, &addr))
-> +	/* Can overflow if desc->addr < meta */
-> +	if (check_sub_overflow(desc->addr, meta, &addr))
->  		return false;
->  
->  	offset = addr & (pool->chunk_size - 1);
-> @@ -176,7 +183,7 @@ static inline bool xp_aligned_validate_desc(struct xsk_buff_pool *pool,
->  	 * (pool->chunk_size is ``u32``), @len is guaranteed
->  	 * to be <= ``U32_MAX``.
->  	 */
-> -	if (offset + len + pool->tx_metadata_len > pool->chunk_size)
-> +	if (offset + len + meta > pool->chunk_size)
->  		return false;
->  
->  	if (addr >= pool->addrs_cnt)
-> @@ -191,6 +198,7 @@ static inline bool xp_aligned_validate_desc(struct xsk_buff_pool *pool,
->  static inline bool xp_unaligned_validate_desc(struct xsk_buff_pool *pool,
->  					      struct xdp_desc *desc)
->  {
-> +	u32 meta = xp_desc_meta_len(pool, desc);
->  	u64 len = desc->len;
->  	u64 addr, end;
->  
-> @@ -198,13 +206,13 @@ static inline bool xp_unaligned_validate_desc(struct xsk_buff_pool *pool,
->  		return false;
->  
->  	/* Can't overflow: @len is guaranteed to be <= ``U32_MAX`` */
-> -	len += pool->tx_metadata_len;
-> +	len += meta;
->  	if (len > pool->chunk_size)
->  		return false;
->  
->  	/* Can overflow if desc->addr is close to 0 */
->  	if (check_sub_overflow(xp_unaligned_add_offset_to_addr(desc->addr),
-> -			       pool->tx_metadata_len, &addr))
-> +			       meta, &addr))
->  		return false;
->  
->  	if (addr >= pool->addrs_cnt)
-> -- 
-> 2.56.0
-> 
+The driver binds to the existing coherency-manager device tree node
+("mti,mips-cm" / "mobileye,eyeq6-cm") and reuses the GCR mapping
+already set up by mips_cm_probe(), so no new reg property is needed:
+the GCR base is discovered from CP0 CMGCRBase as for everything else in
+the CM. The register definitions go into asm/mips-cm.h next to the
+other GCRs, following the existing accessor scheme.
+
+Events are described by two fields: 'event' (config:0-8) is the number
+written to GCR_DB_PC_EVENT, with 0x100 as a pseudo event selecting the
+cycle counter, and 'qual' (config1:0-63) is the raw qualifier. A
+qualifier of 0 picks a per-event default counting every occurrence;
+this matters for the I/O and AXI events, whose qualifiers contain
+encoded values (IOCU number, AXI channel) rather than masks, so "all
+ones" is not a sensible default there. Named events cover the common
+combinations and, since they are plain event=/qual= strings, serve as
+templates for custom qualifiers.
+
+A multi-cluster system has one CM3, and thus one set of counters, per
+cluster. The number of clusters comes from GCR_CONFIG and one PMU is
+registered per cluster, named mips_cm3_pmu_<cluster>. A cluster need
+not have CPUs, online or at all, for its CM to be busy: its L2 and
+memory interface may serve the I/O devices behind its IOCUs while its
+cores are absent or powered down. The counters of a cluster are thus
+accessed through the GCR redirect block (GCR_Cx_OTHER with BLOCK set
+to the debug block) from whichever CPU the PMU runs on, which may be in
+any cluster. The one thing required is that the CM of the counted
+cluster is powered, which the driver checks in the CPC (the CM "core"
+STAT_CONF sequencer state) when an event is opened; the counters of a
+cluster that is powered down at probe time are initialized on first
+use, and events on it fail with -ENODEV until then. The counters are
+shared by the whole cluster: events are system-wide only, pinned to one
+CPU which follows CPU hotplug, and sampling, task events and the
+exclude_* attributes are rejected.
+
+A cluster holding CPUs is a special case of the above: Linux leaves
+CPC_PWRUP_CTL.CM_PWRUP clear once it has booted a cluster, so the CM
+powers down together with the last of its cores and the counters go
+with it. The hotplug callbacks track this: when the last online CPU
+of a cluster goes down and CM_PWRUP is clear, the PMU of that cluster
+is paused (counts harvested, running events kept but not counting,
+new events refused with -ENODEV) and it is resumed, the events
+restarted, when a CPU of the cluster comes back online and the CM
+with it. Pause and resume run on the PMU's CPU with interrupts
+disabled, like the perf callbacks, so they do not race with them;
+the pause precedes the death of the last CPU, hence the power down,
+so everything that touches the counters either runs on that CPU
+with interrupts disabled or is waited for by the pause (the poll
+timer). The remaining exposure is a cluster without CPUs whose power
+is not managed by this kernel: only the CPC check at event open
+covers it.
+
+Overflow is where the SoC integration leaks in. The CM3 has a
+so_cm_perf_cnt_int output, but whether it is wired to a GIC input is
+the integrator's choice and is not discoverable. The binding therefore
+gains an optional 'interrupts' property: when present the driver uses
+it to extend the 32-bit counters, otherwise it polls them every 250 ms,
+which is comfortably below the time the fastest event needs to wrap
+at the CM3 clock rates. Both paths yield 64-bit counts. In interrupt
+mode the counter is only read on demand and may make a full turn
+between two reads, so the overflow status is folded into the delta.
+No DTS change is included because the EyeQ6H routing of that signal
+is not documented on my side; the driver works in polling mode
+without it.
+
+The interrupt can only serve the cluster the CPUs live in, and only
+when they all live in that one cluster. Each cluster's CM drives its
+own interrupt output into its own GIC, and the GIC driver routes a
+shared interrupt to the cluster of its affinity CPU, so a single
+'interrupts' entry cannot serve several clusters at once. The PMUs of
+the other clusters, and all PMUs when CPUs are spread over clusters,
+are polled.
+
+The driver can be built as a module. That requires exporting
+mips_gcr_base, mips_cpc_base, mips_cm_{lock,unlock}_other() and, less
+obviously, mips_cm_is64, since the CPS accessor macros consult it on
+every 64-bit GCR access. All are exported _GPL.
+
+The redirect block is reached from the perf callbacks, which run under
+the raw perf context lock, and from the polling timer in hard
+interrupt context. mips_cm_lock_other() takes cm_core_lock, a plain
+spinlock, which is an invalid wait context there and on PREEMPT_RT.
+Paul Burton's patch turning it into a raw spinlock, posted in 2019 but
+never merged, is picked up as the first patch of the series.
+
+Patches
+-------
+
+Patch 1 is Paul Burton's conversion of cm_core_lock to a raw spinlock.
+
+Patch 2 adds the GCR_DB_PC_* register and field definitions, with
+local and redirect accessors.
+
+Patch 3 exports the CM and CPC symbols needed by a modular user of the
+GCR accessors.
+
+Patch 4 extends the mti,mips-cm binding with the optional performance
+counter interrupt.
+
+Patch 5 is the driver itself together with its admin-guide document,
+which describes the perf interface and transcribes the event numbers
+and qualifier layouts so that users do not need the TRM to build a
+qualifier.
+
+Patch 6 enables the driver (as a module) in eyeq6_defconfig.
+
+Testing
+-------
+
+Built with eyeq6_defconfig with the driver both built-in and as a
+module; every patch of the series builds on its own, and the binding
+and the document pass their respective checkers.
+
+Run on the EyeQ6H board with 2 clusters, loaded as module in polling
+mode. The overflow interrupt path could not be validated on real
+hardware: I have no platform where so_cm_perf_cnt_int is wired to the
+GIC, so that mode is build-tested and reviewed only.
+
+[   66.128375] mips_cm3_pmu coherency-manager: mips_cm3_pmu_0: 2 counters + cycles, polled
+[   66.129617] mips_cm3_pmu coherency-manager: mips_cm3_pmu_1: 2 counters + cycles, polled
+
+dev / # perf stat -a -e mips_cm3_pmu_0/cm_requests_l2_hit/,mips_cm3_pmu_0/cm_requests_l2_miss/,mips_cm3_p
+mu_1/cm_requests_l2_hit/,mips_cm3_pmu_1/cm_requests_l2_miss/,mips_cm3_pmu_0/cycles/,mips_cm3_pmu_1/cycles
+/ sleep 1
+
+ Performance counter stats for 'system wide':
+
+            505821      mips_cm3_pmu_0/cm_requests_l2_hit/                                   
+             49083      mips_cm3_pmu_0/cm_requests_l2_miss/                                   
+            184893      mips_cm3_pmu_1/cm_requests_l2_hit/                                   
+             37760      mips_cm3_pmu_1/cm_requests_l2_miss/                                   
+        1807514589      mips_cm3_pmu_0/cycles/                                      
+        1807491360      mips_cm3_pmu_1/cycles/                                      
+
+       1.005857149 seconds time elapsed
+
+Signed-off-by: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+---
+Changes in v2:
+- Pick up Paul Burton's "MIPS: CM: Make cm_core_lock raw spinlocks" as
+  patch 1: the redirect block is accessed under the raw perf context
+  lock and from hard interrupt context (Sashiko).
+- Account a full counter turn in interrupt mode: fold the overflow
+  status into the delta instead of relying on the 32-bit difference
+  alone, which lost 2^32 on every wrap (Sashiko).
+- Keep the 64-bit qualifier in hwc->config1 rather than the
+  unsigned long hwc->config_base, truncated on 32-bit (Sashiko).
+- Set hwc->config before validating the group, and do not walk the
+  siblings of an event that is its own leader: it has none yet and
+  its context is not set (Sashiko).
+- Use cpuhp_state_remove_instance_nocalls() so that the unregistered
+  PMU is not migrated (Sashiko).
+- Check that the cluster is powered on every event open, not only
+  the first time (Sashiko).
+- Pause the PMU of a cluster when its last online CPU goes down and
+  the CM is set to power down with its cores, resume it when a CPU
+  of the cluster comes back online; closes the window where the
+  counters of a cluster could vanish under running events. The
+  poll timer stops with the pause and is re-armed by the resume.
+- Note in the cover letter that the interrupt mode was not validated
+  on hardware.
+- Link to v1: https://patch.msgid.link/20261108-i6500-cm3-pmu-v1-0-bd119584891a@mobileye.com
+
+To: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Clark Williams <clrkwllms@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>
+To: Rob Herring <robh@kernel.org>
+To: Krzysztof Kozlowski <krzk+dt@kernel.org>
+To: Conor Dooley <conor+dt@kernel.org>
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+To: Will Deacon <will@kernel.org>
+To: Mark Rutland <mark.rutland@arm.com>
+To: Kees Cook <kees@kernel.org>
+To: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+To: Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+To: BenoÃ®t Monin <benoit.monin@bootlin.com>
+To: Gregory CLEMENT <gregory.clement@bootlin.com>
+To: ThÃ©o Lebrun <theo.lebrun@bootlin.com>
+To: Fu Chao-Ying <chao-ying.fu@globalfoundries.com>
+Cc: linux-mips@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-rt-devel@lists.linux.dev
+Cc: devicetree@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-perf-users@vger.kernel.org
+Cc: linux-hardening@vger.kernel.org
+
+---
+Paul Burton (1):
+      MIPS: CM: Make cm_core_lock raw spinlocks
+
+Vladimir Kondratiev (5):
+      MIPS: CM: add CM3 performance counter GCR definitions
+      MIPS: CM: export the symbols needed to access the GCRs from a module
+      dt-bindings: mips: mti,mips-cm: add performance counter interrupt
+      perf: add MIPS Coherence Manager 3 (CM3) PMU driver
+      MIPS: eyeq6_defconfig: enable the CM3 PMU
+
+ Documentation/admin-guide/perf/index.rst           |    1 +
+ Documentation/admin-guide/perf/mips_cm3_pmu.rst    |  346 ++++++
+ .../devicetree/bindings/mips/mti,mips-cm.yaml      |    6 +
+ arch/mips/configs/eyeq6_defconfig                  |    2 +
+ arch/mips/include/asm/mips-cm.h                    |   51 +-
+ arch/mips/kernel/mips-cm.c                         |   25 +-
+ arch/mips/kernel/mips-cpc.c                        |    2 +
+ drivers/perf/Kconfig                               |   12 +
+ drivers/perf/Makefile                              |    1 +
+ drivers/perf/mips_cm3_pmu.c                        | 1237 ++++++++++++++++++++
+ 10 files changed, 1672 insertions(+), 11 deletions(-)
+---
+base-commit: c03c1a14507dfaf8b856c2608f9ac216021fc222
+change-id: 20261101-i6500-cm3-pmu-4a11f399b430
+
+Best regards,
+--  
+Vladimir Kondratiev <vladimir.kondratiev@mobileye.com>
+
