@@ -1,64 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794522738;
-	b=hpc1YYJGAJXoB2SyCV2FJlqiNLEmI2+6e8GIqG5WbxFTatH2cMTNykWsORJ0loT/v4KS
-	 P6YJKlHV5/RiCFPUUWBh8sk+E9vcRzCZ8MwZDsvGVhujdgarJOZBhFiFHMD83f43EAQiM
-	 Z6C7iW/5+ZLzMN9eB4slXIJBQjJcFRNNLqQ0TN19qyPIOy+qD5hxGklsePlfvwruH/ruD
-	 1/jnfsGk9HL3u/E9PvBS5k8S6qMAOLvdp0gb97BkiageVnEmguJJA7q2DCoE5B9TpOavl
-	 KTzT9iv6R6RswpXuhBiEJuDR6rR7wYghx3q7pe9moArmNvTH/JBSmfyOPypnssPzikA==
+	t=1794524169;
+	b=q/UOW1tMSZ4wlU3Heh52eC+9BjfMuvlq+ZoNwHXSKRJBDB0s0el6E2+rpMJE1lC37gO7
+	 Dii5PFjYLNaRy52/SsaN0sNEmZ94w0ESVmvgEdDK4Kg+LyQt5rjz6I+4PJbBNyfJGVorU
+	 PR/U2spaTmlgb4S25SwexULvqs6zJVuu4ypWdAWwGKYjXp2beWcPyKRW214bVMpMFNDzu
+	 2gNB12skppCUG8awSVNUArz+iW2W54Cvrz68FQfVnRXIcMww7NnQhVjdDUl4E4zbZMMzP
+	 PHFOgdUgJ737ebrvlH5KsjSPO0un6IxOe2XgTInmILlKEzDzBN+kajrrd9/8u2kwETA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794522738;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=7I8Bl8j2DkVNE27qVMX3vqtaNvrvL7NhHRJK3KxV54A=;
-	b=irzdLl6g2hWL1aX55X442Bk5lBVAaWt1PBma3y7OjfI5F5SDH5kaY86LxLvYt4Dvi12k
-	 qpJZxacMm7eTy79Ear/Un6InfRv8v/0P+jVrepYuIP8xNKEhecMl6Ct3O/KL5Zv4nExvd
-	 5H/xb0JWmouRmzO9MUerIVNFE+S1lNjjBKYkdfJw5O5UF8iJ3fxCLh+Fy22rrjJzlwePR
-	 v2OJyMbiJebGGJonrYr5cllBForNOAE91YLmb0unTWid4r+85v1TnoS5uS8Dje70wyh8C
-	 d0edHkEaXec9FnXincRGQH0BtuBxYHL8LOFKkPdOdBHiO/dNSvjnrnTZmnUzqijn5ZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794524169;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Sender:Message-ID:Date:MIME-Version:User-Agent:From:Subject:To:Cc:
+	 References:Content-Language:In-Reply-To:Content-Type;
+	bh=ZxJf8bmNk9QYTuWMTZ/K0FYOKOyHJkvCDvBuAHHFKsk=;
+	b=YqNmUJ0OrCl+f98UK/vlme+llj7Pc6Bzc2yfjNu9ai6PvmMdz6OdXLLguGRMhVK+yWBN
+	 6y6zZFyqdHvD8zEPyJ9cXae90WxoXt2sEDT4qA/glSHR2TT28eMd1EEdWVvqRYSDtM/3n
+	 pWQbzO8QuteJIS9EC6Bu+TMUlUJ3hQLgv51epLIfo94PgDJ+sRbrki0WeOyX/zghfZ4FK
+	 FNJtbRaPpgZCjxwinDGoscL8V37gJ8e6v3kXuWF1OAnpY2m9s7RBKNmVBQFJdkXT46FTd
+	 zPU0dB1+RjHWZV+178LPaInMhlbB3yZR4abKvQOgfik6k04Hsb5WL7ramxCU1C6tCEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WR3VWbUK;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HkBis687;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18AF260A3811;
-	Thu, 12 Nov 2026 22:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1FA606A32A
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 22:56:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F1FA606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WR3VWbUK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B350D1F000C5;
-	Thu, 12 Nov 2026 22:32:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794522737;
-	bh=7I8Bl8j2DkVNE27qVMX3vqtaNvrvL7NhHRJK3KxV54A=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=WR3VWbUK1imnQlQmpNAhqSsCOW99QnIUHIcVwRERBUB4R/jAwYxqHbCFi1NkKzLoa
-	 ++/G59vhWLixAa9mEUEFGaU4gePyrs3VnVA09595dCjvaKajFGHofoN8XhUcYErqHP
-	 mChkoSGEKpddY3E1an1/DwCzTOeoAfXiiV55MWuRWtgoWvpRLoORurIa4d8gh/hEcp
-	 K+epw8KzroVsBPW5kuFg8ur7b1k8r1APmZnYOG0rRYfEeEaF5aWQPJ6qMb639O7JbH
-	 0Y8hT2yAVt9BfRDAyG2aNSLli4ZxHj62IV5iifmtuRZCbF+l9cL+Y+KQCwGeE9GoNI
-	 XttgZKyF9yFfw==
-Subject: Re: [PATCH net v9 09/10] can: rockchip_canfd: prevent timestamp work
- from rearming after bus-off
-From: netdev-bot+sashiko@kernel.org
-To: 1579567540@qq.com
-Cc: mkl@pengutronix.de, kernel@pengutronix.de, mailhol@kernel.org,
- heiko@sntech.de, socketcan@hartkopp.net, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- wg@grandegger.com, linux-can@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- stable@vger.kernel.org
-Date: Thu, 12 Nov 2026 22:32:16 +0000
-Message-ID: <179452273623.488853.960003123754786062@kernel.org>
-In-Reply-To: <20261111-rockchip-canfd-restart-close-v9-9-6643f3825ba3@qq.com>
-References: <20261111-rockchip-canfd-restart-close-v9-9-6643f3825ba3@qq.com>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HkBis687
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a35db1f202so2216575e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:56:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794524167; x=1795128967; darn=vger.kernel.org;
+        h=content-type:in-reply-to:content-language:references:cc:to:subject
+         :from:user-agent:mime-version:date:message-id:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=ZxJf8bmNk9QYTuWMTZ/K0FYOKOyHJkvCDvBuAHHFKsk=;
+        b=HkBis687YMWsR/0fg9xOnoliz5zUt4JgZhssjAGFZn2qoEu9lBaGgAE4Pct0jhoyYG
+         hok3LeTFHCBdZAbo440ONBw9YRtXgJcr8QGB0z326PWIHc3eoSmy5l4Ig3JaKpzdEUHZ
+         9V54pMvzhaf58xbXx6GGjB/4Rk6HaM5NIpITDLuTulJHwm2zR/qLOo8d3Y1aj4chOELL
+         0DlW/FWJUUcAg+QxC5mzlkabkrYLbKjgp8wjKMS7pjxlHrkY54YG5SF3ndKCh8qfae3m
+         FjwmsS1OCcexuvkGCA3ioDZq23WX/5zgfSQTTDL9e30aRQptEXPW/I2XIM5IAiJr975t
+         ghDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794524167; x=1795128967;
+        h=content-type:in-reply-to:content-language:references:cc:to:subject
+         :from:user-agent:mime-version:date:message-id:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZxJf8bmNk9QYTuWMTZ/K0FYOKOyHJkvCDvBuAHHFKsk=;
+        b=EjfNiHfow0UI+gS5mH9X1uaIf20tBOGvy/el13RzZ6PmTxjzBpt4UidSVfg4toHisU
+         V1YUgINCFWI4864jJ6EXlgju/wBBHwZxmBqrO5NCxM1N+YK65dHSOealigxNBRxq+YcQ
+         ZWthJFVYA4hCvqmfciR2D/VW68/H5SMwevtNyG6mmw2r763RfGgBS8nLuoPkhTJ7jeWU
+         KEYGKLiNG7dxgbnKiL6Sqi7ip4ANApa08jEl868BFlakhN2jCOMw/UdH0vowuMB8H+TW
+         0pOven0hK3a9n3tal+BZ7fp24XaRr3rotq//TI+5oIbFMSrXMcR8wW8dbL0f1lVsH4qU
+         9ovw==
+X-Forwarded-Encrypted: i=1; AL+hErFhicMBZsHZl+GYrNHUsoyAXLGeQUnBaYlKOvszV8Z0SE9sYCm9sVTr6fO4rjzE+yG4YFeMbTOb00A=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9xelJLkWSENVXBeEQuxVvuIi9QOs7AAT7NwF1Gq7G+ar77/hd6
+	k/q6YcWPSW1+Of0tDsaIXUfrb45ALjVys1oeA5eHl0/tvkzPbfGLIZw4
+X-Gm-Gg: AYBFou0hw31qn56HfN43nws7TghWlmtAg9ubXDk4VuW41nFfuCtBy3Lvgy9IyAuQg3R
+	dDP6xqmJtF0fRtYMDNoTdfeX6ARxVhB6V3X+WrCc2NG0R6mEINLvUVeeu94RASQlvmnDHzq7s+T
+	Gh9eGnHXkQwurXmjqE1XYdsvQ+lTW28pZlc/xO4Zy0UWyGLZBvVNrX+kvWE4XEq/uONrV5RULMk
+	8Y9IFjWhxO9S4X7/TXkXqV9FUX+m9+xAtzdj0phy52Z1RG1QL8rOT4aMiyRZBt1a4RnwMXl0QJC
+	LtukKm5bvnhG+tOKCqPacn+/B7aF7T9D4ZwKz7IUEPboMMuVNJhhrGyurQWBkdjF06VnCLXdVv6
+	3zKm6ilTiVgEHtGXI03N0qRYtqT/+KsB0zJcGiYtNFsVhlccyszZ9ggiAeWhOS7iYexsARCBgaV
+	6ZsUUgsQBRJCT30sfYlr0BcoSS3EiN07JopX0U4dEtq9jdAuW5YmAGJU5QbHo6Dr6UvxQUjB7rN
+	X5g+3AcebDG/zHXFMhDLjBHkvPa0HZlXJQjAXGDlkCJegqM5TZY+mYeF8Pf9Lh2/kIFzeIqCqlG
+	FlTirkBDJiSxp2l/hRyawcU844Pr4UaX7YbcDJCCUlvk6iq6BAPApZ5lH/WO361LX7NCykcfMQf
+	FTGJWXOpClcy+DQiU/Q==
+X-Received: by 2002:a05:600c:46d5:b0:4a5:87b3:ddc1 with SMTP id 5b1f17b1804b1-4bb55a8329amr12879245e9.13.1794524166792;
+        Thu, 12 Nov 2026 14:56:06 -0800 (PST)
+Received: from [192.168.0.41] (bl22-190-205.dsl.telepac.pt. [2.83.190.205])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb55af2a9bsm14024995e9.14.2026.11.12.14.56.04
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 14:56:05 -0800 (PST)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <81c91813-79ff-4d36-92e6-8c0ecc1772c7@gmail.com>
+Date: Thu, 12 Nov 2026 22:56:02 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,75 +92,202 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Julian Braha <julianbraha@gmail.com>
+Subject: Re: [PATCH v1 03/10] kconfig-checker: Add the configuration checker
+ code
+To: "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
+ Derek Barbosa <debarbos@redhat.com>,
+ =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+ Daan De Meyer <daan.j.demeyer@gmail.com>,
+ Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
+ debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-4-darwi@linutronix.de>
+ <9729a4c6-22f9-4102-b62f-c76a75488240@gmail.com> <avHD-3JwbQofpJdH@lx-t490>
+Content-Language: en-US
+In-Reply-To: <avHD-3JwbQofpJdH@lx-t490>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------VdvWlLDeG07vMoPV8nhx8PYM"
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------VdvWlLDeG07vMoPV8nhx8PYM
+Content-Type: multipart/mixed; boundary="------------Rga8Q7Rmd8rON8aXdAwiRZDL";
+ protected-headers="v1"; hp="clear"
+Message-ID: <81c91813-79ff-4d36-92e6-8c0ecc1772c7@gmail.com>
+Date: Thu, 12 Nov 2026 22:56:02 +0000
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Julian Braha <julianbraha@gmail.com>
+Subject: Re: [PATCH v1 03/10] kconfig-checker: Add the configuration checker
+ code
+To: "Ahmed S. Darwish" <darwi@linutronix.de>
+Cc: Clark Williams <clrkwllms@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
+ Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
+ Derek Barbosa <debarbos@redhat.com>,
+ =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+ Daan De Meyer <daan.j.demeyer@gmail.com>,
+ Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
+ debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-4-darwi@linutronix.de>
+ <9729a4c6-22f9-4102-b62f-c76a75488240@gmail.com> <avHD-3JwbQofpJdH@lx-t490>
+Content-Language: en-US
+In-Reply-To: <avHD-3JwbQofpJdH@lx-t490>
 
-Low priority / nit picks for your consideration:
+--------------Rga8Q7Rmd8rON8aXdAwiRZDL
+Content-Type: multipart/mixed; boundary="------------0BXEV3ylG2oOQNRGA3FZ8ghK"
 
-- [Low] Commit "can: rockchip_canfd: prevent timestamp work from rearming
-  after bus-off" is tagged Cc: stable but does not say it depends on the…
+--------------0BXEV3ylG2oOQNRGA3FZ8ghK
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
---
+On 11/9/26 13:00, Ahmed S. Darwish wrote:
+> On Sun, 08 Nov 2026, Julian Braha wrote:
+>> On 11/6/26 09:19, Ahmed S. Darwish wrote:
+>>> +
+>>> +class KernelConfig:
+>>> +    """.config file parser"""
+> ...
+>>> +
+>>> +    def _parse_symbols(self) -> dict[str, str]:
+>>> +        """Extract CONFIG_* symbol assignments from .config"""
+>>> +        symbol_set =3D re.compile(r'^(CONFIG_[A-Za-z0-9_]+)=3D([ym])=
+$')
+>>> +        symbol_unset =3D re.compile(r'^# (CONFIG_[A-Za-z0-9_]+) is n=
+ot set$')
+>> What does this do for Kconfig's int, hex, and string options?
+>>
+> So far, the tool only supports stating whether an option is enabled,
+> disabled, or have a neutral 'allowed' policy.
+>=20
+> But there's nothing stopping us from supporting something like:
+>=20
+> - name: CONFIG_PANIC_TIMEOUT
+>   expected: int
+>   expected_value: 10
+>=20
+> - name: CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE
+>   expected: hex
+>   expected_value: 0x1
+>=20
+> - name: CONFIG_NLS_DEFAULT
+>   expected: string
+>   expected_value: "utf-8"
+>=20
+> In v2 of this series, I'll make the schema explicitly versioned.  This =
+way,
+> new features like the above can be cleanly added.
 
-can: rockchip_canfd: prevent timestamp work from rearming after bus-off
+Adding schema versioning would be great.
 
-After bus-off, the rockchip_canfd timestamp worker could requeue itself
-and keep polling. This patch switches the worker to disable_delayed_work()
-and enable_delayed_work() to stop that. It also adds timestamp_lock and
-timestamp_active so counter reads are serialized with start and stop, and
-rkcanfd_timestamp_stop_sync() now calls the non-sync stop before it
-cancels the work.
+>=20
+> P.S.,  I can definitely implement such support, but I'm a bit hesitant =
+to
+> adding features that are not yet needed by the existing mainline polici=
+es.
 
-> Keep workqueue operations outside timestamp_lock; the IRQ and restart
-> paths already serialize start and stop. Synchronous stop waits for the
-> callback before reinitialization or clock shutdown.
->
-> Fixes: 4e1a18bab124 ("can: rockchip_canfd: add hardware timestamping support")
-> Cc: stable@vger.kernel.org
+I suppose it's not necessary to support these option types at the start,
+as there are few of them, relatively speaking. But it would be good to
+add some input validation in case a user attempts this.
 
-[Severity: Low]
-This doesn't affect the current tree, but should this patch say that
-it depends on the previous commit, "can: rockchip_canfd: serialize TX
-with bus-off and restart"?
+So I've finally had some time to sit down and test this:
 
-That commit created the one-time probe helper that this patch extends.
-It moved INIT_DELAYED_WORK() out of rkcanfd_timestamp_init(), which
-runs on every chip start. With this patch, rkcanfd_timestamp_work_init()
-in rockchip_canfd-timestamp.c becomes:
+I created my own policy with these other types, and sure enough, if I
+specify them as 'disabled' in the policy like this:
 
-	spin_lock_init(&priv->timestamp_lock);
-	priv->timestamp_active = false;
-	INIT_DELAYED_WORK(&priv->timestamp, rkcanfd_timestamp_work);
-	disable_delayed_work(&priv->timestamp);
+    rules:
+      - name: CONFIG_LOG_BUF_SHIFT
+        expected: n
+        severity: high
 
-Three calls need to stay balanced: the disable at probe,
-enable_delayed_work() in rkcanfd_timestamp_start(), and
-disable_delayed_work() in rkcanfd_timestamp_stop(). That only works if
-the work is initialized exactly once.
+      - name: CONFIG_PHYSICAL_START
+        expected: n
+        severity: high
 
-The sentence "the IRQ and restart paths already serialize start and
-stop" also relies on that commit. It added the restart quiescing in
-rkcanfd_set_mode() for CAN_MODE_START:
+      - name: CONFIG_DEFAULT_HOSTNAME
+        expected: n
+        severity: high
 
-	WRITE_ONCE(priv->irq_suspended, true);
-	/* Wait for handlers that already passed the suspended check. */
-	synchronize_irq(ndev->irq);
-	rkcanfd_timestamp_stop_sync(priv);
+and my .config has these values:
+    CONFIG_LOG_BUF_SHIFT=3D17
+    CONFIG_PHYSICAL_START=3D0x1000000
+    CONFIG_DEFAULT_HOSTNAME=3D"example"
 
-Without the prerequisite, this patch won't apply to stable trees.
-Suppose a backport fixes the conflict by hand and leaves
-INIT_DELAYED_WORK() in rkcanfd_timestamp_init(). Then every chip start
-resets the disable count to 0 just before enable_delayed_work() runs.
-That would trigger the workqueue disable count underflow warning and
-undo the requeue blocking added here.
+then the config passes the check -- but it would probably be better to
+provide a warning or something about these options.
 
-The prerequisite is in the same series and is also Cc: stable, so
-stable tooling would normally apply both in order. Could the dependency
-still be made explicit? A prerequisite note on the Cc: stable line, as
-stable-kernel-rules.rst describes, or a "Backports must include ..."
-line would do it.
+Also, if I modify my policy to set 'expected' to 'y' for these, it
+reports "not in .config" (which would likely be confusing to the user).
 
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261111-rockchip-canfd-restart-close-v9-0-6643f3825ba3%40qq.com
+This regex stmt should match all int, hex, and string options for you:
+    unsupported =3D re.compile(r'^(CONFIG_[A-Za-z0-9_]+)=3D[0-9a-fA-F"-]'=
+)
+by checking the first character of its value.
+
+The included preempt_rt policy worked as expected (nice).
+
+- Julian Braha
+--------------0BXEV3ylG2oOQNRGA3FZ8ghK
+Content-Type: application/pgp-keys; name="OpenPGP_0x0664101D2FC252D1.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x0664101D2FC252D1.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+xjMEapsKOBYJKwYBBAHaRw8BAQdA3mvh6nlHEvnMtdMGgqCAaM3Nsvuf8218NgEp
+UYZ3GanNJEp1bGlhbiBCcmFoYSA8anVsaWFuYnJhaGFAZ21haWwuY29tPsKWBBMW
+CgA+FiEE3vXonTpsa3w5RQqpBmQQHS/CUtEFAmqbCjgCGwEFCQPCZwAFCwkIBwIG
+FQoJCAsCBBYCAwECHgECF4AACgkQBmQQHS/CUtFZJQEA1KusHq55e97aMeBrp7e7
+UVBW/KSQwD74hTv5flHpEioA/REUaia815i+qzvft2b2k6OklqL7Nk5vXcmEZS7e
+VRwBzjMEapsLWBYJKwYBBAHaRw8BAQdA9/bcRDPCvFzqqx4b3LVPDeOF6sju1/WR
+4h3ldYdesrXCwDUEGBYKACYWIQTe9eidOmxrfDlFCqkGZBAdL8JS0QUCapsLWAIb
+AgUJA8JnAACBCRAGZBAdL8JS0XYgBBkWCgAdFiEE+qo5ZfvrSBcRfE1DxJWDwgVz
+cSAFAmqbC1gACgkQxJWDwgVzcSCsFgD/U4j7hwSEh61Oa4s7R4tUW7Rk4QXJ5QYs
+vcIagFNebLEA/2pJH0zmbz5SKUKctYslxZ5kIwmTwHv1WrpJkp+LQKcEmMIBAO/h
+CxaCZqrsGDSNflfIV9VyUMEPLbCvfTBYjNwdsPCYAQCoTYODxyxaV961a6Jq0E70
+Js0eCdlqdx90XMjUDQBOAs44BGqbC2kSCisGAQQBl1UBBQEBB0CfrYRXqZGPNhdK
+Db1uwVFrlLz9hAa3mhsuj1l00A5JbAMBCAfCfgQYFgoAJhYhBN716J06bGt8OUUK
+qQZkEB0vwlLRBQJqmwtpAhsMBQkDwmcAAAoJEAZkEB0vwlLR4B4A/AmkIlpPLSZ0
+C6yjqhpnDw4h5sIMu9fzfY+wpyONkYB9AP0a3QyeX2lCHdqdEsNX3ubF/ulc2DYS
+0cxeDFVX3Sz7BM4zBGrJT6UWCSsGAQQB2kcPAQEHQGX2XtPmGz+dyR78C2db90ry
+FJ4j/ekbwHQ41WdLi26jwngEGBYKACAWIQTe9eidOmxrfDlFCqkGZBAdL8JS0QUC
+aslPpQIbIAAKCRAGZBAdL8JS0YE4AQCrPL7T+dv83/SgWVsa2LwUxJiLbiTCctzc
+5rISDmWHAgD/TnBEQkxYBXJTgnvjVmuMGSSl0SQZ5z6hVZvH4mU7zQ0=3D
+=3Dyg1h
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------0BXEV3ylG2oOQNRGA3FZ8ghK--
+
+--------------Rga8Q7Rmd8rON8aXdAwiRZDL--
+
+--------------VdvWlLDeG07vMoPV8nhx8PYM
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQT6qjll++tIFxF8TUPElYPCBXNxIAUCavZEAwUDAAAAAAAKCRDElYPCBXNxIMuZ
+AQDMrrOgssYsmZu7r97D0KltSrsj4rjS9lQpoKvtgWkLgQD/QUf7yjdW3ke5GhASowk8x+G76gpu
+WHV+5iNnSCYOfwM=
+=KhF2
+-----END PGP SIGNATURE-----
+
+--------------VdvWlLDeG07vMoPV8nhx8PYM--
