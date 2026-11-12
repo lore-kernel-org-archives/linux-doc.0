@@ -1,65 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.141
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.200
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794461825;
-	b=XWt1gLstGBbwmEwiWtiZeJzYYi29fovdQj+qWRAkYjS+TuZpGsVp8PrBpKmQvdfF7m4F
-	 BFc9zA3ClYGUpHsKeg68enObzjvDVdQMmu7UoWfHnNASiMALbN9k2CHpgFivQm93oTXB9
-	 LNmhMBXAOUBqBqtkJRAyyuLyYrALmbPTYDU4BMlJAdph3huRs9M4/oAraEF/wIxlcjW5H
-	 NLXsQUz+t61IZhjIrTjzGRCFgZbC7xGpK7Yu4YzNX3GEBSjnm3gpn6Kz8vvxvaTkC+IEw
-	 4iIFSLGNT2l8XwCAnh+fvD4uSsuy4gr1iVUQgphwcEk+yek47sp95zaKBankBa7rbnw==
+	t=1794462404;
+	b=K9RQ/r6MSP3gxMGsJ981lrt+wwxs0o/Ks9qGFphmOoqNQ6drlSd0Ros4/ywBfNtgG7ow
+	 4obG2kAk42vhi4p2E5JzQBXtWrvjpdmK46NMmLoFAWwAO4u4qG/4jDY6ytTmVk2akkree
+	 vosS3FzQwplHq6UPODHZLyOvTcInmW4zKhs8UxJlRbio0Y/EI3V3LOZVu7hv7s8jKzLH/
+	 c4BYDccYLgp+M7QCHTwprZuPN4oEHkvON9KY3nc7Jvy8sFSNfe6ximt9UVnh/bJpzXcDt
+	 FGHdmWDimp5nchcVgFpJlgHWohOlA4GemBBHHWQDE4UHZdkzZnJz1oJ5v/xxEwIeU2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794461825;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=EG9t4mZCkW5bj94FWQdTBwdy/NVixZXrhszDaNAIfek=;
-	b=mKzcz+ngPIYxbNz8No4jvq5vw/XypizwLphR1m1K0EcmCTE8sLAQY/a83KkzAwvX6mmh
-	 7Si22UhMI2B/OQz1j1CeWzDDwGkbHEXw5ijh4ena96rZzO9scuzzFcL9n7VBKKTjauGsM
-	 4BJ1+WGs9yoaojB5fEjHuC2XZ0J0hKDJWwylGhzIUVLe93AZX+OlznYKA8aavSNO/e7Kz
-	 a/KKi+hKIQgdfbtyecuqYMOZoNQYNtupW85O6tXoKTTZZi/s15nEk1aez9t8ibO75lFne
-	 TZTqvRS2qBT+lhJ5bWxMnbBxl6Ij+DVp6i2rhIzGu8Ks0NMl0pNUtCQzXRzgrTfYAug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794462404;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:Date:
+	 Message-Id:To:Cc:In-Reply-To:References:X-Mailer;
+	bh=+13rBtkeR+s+DndYboZRmZoW8VMp8Nay7Rh+6kbD7E4=;
+	b=Cv5n/CBWVlXZ/1eEzU7zu1ZDyX74c55p3jP0DmvQEvMeBT1bt28oiFQCo/+Wx5PC61/8
+	 TdCv/blALT9FRMTrB58uRPUuNQ7HzLs8mAtFxmXT7TkeiN1c3pdNSinQb1ceAJNCEhsOZ
+	 pAw1zVeMS2h9dMZHofrY+INy+K8njLpqSGMm6lRTZ7Sg+p5k3WIFD63vSNw2zTHczHg6o
+	 HifrVeb9csuIkTcssfnV0JsTey96jIbNw0bpoijQGWanE3CQyV3yD/epmUiiehfwned81
+	 35U8ySA7mXhExceVcRnWD/rnnfXKODfxNEQ0N6S9Up6iU4fZibuLbp3HJiawRuvFGbQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=PQzR9qQI;
-	arc=none smtp.remote-ip=95.215.58.141
-Received: from mta1.migadu.com (out-141.mta1.migadu.com [95.215.58.141])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ny08dYQg;
+	arc=none smtp.remote-ip=74.125.227.200
+Received: from mail-pi2-f8.google.com (mail-pi2-f8.google.com [74.125.227.200])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45BCF606A333
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 05:37:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45BCF606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7294E606A323
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 05:46:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7294E606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=PQzR9qQI
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=EG9t4mZCkW5bj94FWQdTBwdy/NVixZXrhszDaNAIfek=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794461822; v=1; x=1795066622;
- b=PQzR9qQIbf3p4A6OWITxFkEazjhTHdcwK7OI1p4iFcr8SPq+7VSMyf4XnRUKbDv46KMeCvmA
- S/wt951G7wn+0UBeO/l8PJGFm9Bs0jLxRXBioeWSBcc9PyG4Y5PGGPAR6WsG5k1u6xV3G0a+3BB
- TYocxRN4QlHq1XIuWLf+Zbho7ApxQDUsQcBtoV7EWb17Z5JNClD/iEt6HwY2AlUkTDSZD9HhPLg
- DYV1qoenas49Q9Y0/RiCqhOJgzWCpFI4hL2DK3Cr7VtRYBf+P5Vz5tA8nUiMM5lemdQQIQ3xC16
- zAAsQs7M5/z+VGBgjVgMIVIdNaNy9qtXDvUDZV5kkqXcg==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 0f7c7ee188fea858;
-	Thu, 12 Nov 2026 05:37:02 +0000
-X-Mizu-Trace-ID: 0f7c7ee188fea858
-X-Migadu-Flow: FLOW_OUT
-Date: Thu, 12 Nov 2026 13:36:54 +0800
-From: Weijie Yuan <wy@wyuan.org>
-To: Chen-Yu Yeh <chenyou910331@gmail.com>
-Cc: Alex Shi <alexs@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Dongliang Mu <dzm91@hust.edu.cn>, Yanteng Si <si.yanteng@linux.dev>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 03/25] docs/zh_TW: process: sync 4.Coding.rst with the
- English original
-Message-ID: <avVQdrfqVqRfY5ex@wyuan.org>
-References: <20261106113142.706783-1-chenyou910331@gmail.com>
- <20261106113142.706783-4-chenyou910331@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ny08dYQg
+Received: by mail-pi2-f8.google.com with SMTP id 41be03b00d2f7-cddb56fa486so82007a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:46:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794462404; x=1795067204; darn=vger.kernel.org;
+        h=references:in-reply-to:cc:to:message-id:date:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=+13rBtkeR+s+DndYboZRmZoW8VMp8Nay7Rh+6kbD7E4=;
+        b=ny08dYQgHyS1aoL7W3IywVpcNJWKttWcUi4k/lbUwGHcv8kpm1AnQppcEQESH4qsAl
+         i0jj0ulIpHhqKoRw4TicGzk/Jarc9xrheuql3p1WoWRjUhIiWMe20FPzqBgFtisU03X7
+         Uj1Jxvu7iex+W9YASHDgYL3Nyb6ECgXtvm8Dwu1Q8ddGIPunf3OSOP3xmG4FV7DDL52D
+         HWW0O5s9fcmKOvBaK3LXUceW1fEZNMCrTZmqPvtMnw8hm97mLexoNLlfCJKpqfK1JFNF
+         hqmS8oDhNzklm6KorH43IT50dxSWy82uii1p2X3DGW5qo5P2o/Y4rxX6zHYSE3+BTx3h
+         yQKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794462404; x=1795067204;
+        h=references:in-reply-to:cc:to:message-id:date:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+13rBtkeR+s+DndYboZRmZoW8VMp8Nay7Rh+6kbD7E4=;
+        b=LrP1FJfDz3GaPZCzbCaFkpuyhgUpiIg0xuzp1dKSE1QlkaJLB4WNQPCO0IsZ32D26s
+         Dk36FqRRyc9dN3KhK+9QAXy0YxbhwH1ue8aCHou02q+vOQgj6FnJaK+tuQksfuFt+4Is
+         Xjhm63VLirksw+keg2ExuF3LlxFPz2AraUiogyLvsDig1hrkJLA/fLllRZwTeZvH8zur
+         oCvrPBgm5k/9IkWTxf9j9y5Wlqyw985fMsGb/U1GIYhY0o1zjKiRyegYm6iuVausP2RG
+         P1ldX6Wf9qaIvoWL1cbhrbsEASDr5oXAFzdBOSQiC0XzidVuHyqnomiW0JjAtXDJrUaW
+         3oaA==
+X-Forwarded-Encrypted: i=1; AL+hErE7GoxJgm0nJ9dJRlYIP3WnfgVZKmEclSdny83OomVwUZ9w3IZGhfoF3eFXvJRSjNQQYzd1ItlPPq0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+iDkR8LQ14+Sw2XgLh8g9/s31Paqjw6OCqmI+jd0bXR4YkDKnQ
+	QRBSXEbUi4LuneiubtyPNd34Q9+4wSMa5mEL9vzc6DRco0m1TGxQyGYZ
+X-Gm-Gg: AYBFou27Bw80xLKjvMOUkcrVDiCdjOw88nPy+QNv00h9GZ2F8rZT0CqyIv+24aVcXjD
+	+LCLQXtp4MG9Dbw94vVfzPdi1nG+SUAf6qA9AHlPcr/XoM4KIE2kuDV+8iV/EB/l8ROwNVWKy4h
+	xS3G2mo24wXXd32n94lyjTY04GTlrdBz/CSWVBbOqxOgb/2hEnu160q4jfCbsG1pLVoUaGV7dbi
+	8r0FEe9JHVCB26cq1AmIRlSLBuG1yD11FtErYXPbdyg+8vhQYW+ma30+/Vxq94zXz7CXG2UJven
+	OmHR0KvmepTKZk4ZW5xNgWUZCQ9SGuUKjs4iNk4MVkdmjeNBrVRELDcq9tEqd8Ev7ixkQC/GS92
+	d68mgHgKGO3hDsrSNRg+KYn3aV6vW8EnPtPAe1vwBu28KN87HgQ1mG3Obsta2AyNs5XwHjlHnWq
+	01gG5euScNB0Wzm7yhb3osP3gH4gUCgo9wtHykYhldGri+YevgOo20M827PFav9hd72rqI4Nqr1
+	Wnr8+GFCrY429rIoZ6cT8XsC4vkGUJt8xI7S0CVXlIEsbIe34hxS2ow5d3Tx7si79TaqsVjFQGL
+	7GSS7/q+hg+KKR4r5o/MU9SlvMGYQzxIcfHNH/1iYUwHN9+NX8I5yBEDozmQVgOXb7YQCEOhWo0
+	cHrXBFsizEBi7i3y7hkPZdTF0ag==
+X-Received: by 2002:aa7:9a86:0:b0:8a0:4032:af85 with SMTP id d2e1a72fcca58-8bc16651ea2mr4128251b3a.0.1794462403606;
+        Wed, 11 Nov 2026 21:46:43 -0800 (PST)
+Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baab8dccc7sm2776591b3a.52.2026.11.11.21.46.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 21:46:43 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,44 +89,32 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20261106113142.706783-4-chenyou910331@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH v0] Docs/mm/damon/design: document data attributes
+ report infra design (beyond page table accessed-bit milestone 2)
+From: Aveline Noir <jm5905938@gmail.com>
+Date: Thu, 12 Nov 2026 16:45:39 +1100
+Message-Id: <179446233975.762943.16115029371266375222.b4-reply@b4>
+To: SJ Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ Ravi Jonnalagadda <ravis.opensrc@gmail.com>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20261111185412.145514-1-sj@kernel.org>
+References: <179438255225.3134195.10613668244848761847.b4-reply@b4>
+ <20261111185412.145514-1-sj@kernel.org>
+X-Mailer: b4 0.16.0
 
-On Fri, Nov 06, 2026 at 07:31:18PM +0800, Chen-Yu Yeh wrote:
-> -內核長期以來都有其標準的代碼風格，如
-> -:ref:`Documentation/translations/zh_CN/process/coding-style.rst <tw_codingstyle>`
-> -中所述。在多數時候，該文檔中描述的準則至多被認爲是建議性的。因此，內核中存在
-> -大量不符合代碼風格準則的代碼。這種代碼的存在會給內核開發人員帶來兩方面的危害。
-> +核心長期以來都有其標準的程式碼風格，如
-> +:ref:`Documentation/process/coding-style.rst <tw_codingstyle>` 中所述。在其中
-> +大部分時間裡，該文件中描述的準則至多被認為是建議性的。因此，核心中存在大量不
-> +符合程式碼風格準則的程式碼。這種程式碼的存在會給核心開發人員帶來兩方面的危害。
+Hi SJ,
 
-Sorry, but wait a minute.
+On Wed, 11 Nov 2026 10:54:11 -0800 SJ Park wrote:
 
-You used <tw_codingstyle> label here, but after rendering, the html
-output is still "Documentation/process/coding-style.rst", which is
-pointing to the zh-tw translation, not the original one. So it is
-inconsistent, right?
+> In a real implementation that is aligned with the design,
+> the probe will hit if a report associated with the sampling byte exists.
 
-During my review of these patches, I didn't pay close attention to this
-point. I'm so sorry. I originally thought that the compilation of Sphinx
-would have pointed out the problem like this, but it turned out that I
-had misunderstood the grammar of this "ref". Therefore I can see that
-there're some instances in this serie doing like this.
+Ah, I missed that.  Thanks for clarifying.
 
-I suggest that in this series, either use the full path to refer to a
-file directly, or stick to the discouraged writing style and wait until
-once these two series are completed, we can then carry out a thorough
-cleanup. What do you think?
-
-Regarding the "ref" of one specific section, I remember that it could be
-referred to using a relative path, and with a label?
-
-So please drop my review trailer, or directly point out that I'm
-misunderstanding this again.
-
-Thanks.
-
+Thanks,
+Aveline Noir
