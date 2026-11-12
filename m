@@ -1,62 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794522548;
-	b=VDZU2wJe2j4j/qGZzNNRUQwWJ0ElHJH0c1jTQ25Toam10BVmtRn+4hFSy1KInGWZOrRC
-	 L3tCRO9+4siRsq4qCv+3ypS3GXminMWoqP0e/iiwHFaVMEruJZZVWhyn5tSSIJi48nG3k
-	 CZb3wppbbj0utqZqkYnR2BhXiLhIV73caS0wgFY1no7ByHQ7fyEkEE3dn+SvQgRjHJZdc
-	 YzW2IXPfovT75d2MMql4Twu9sofFK0B1afIulc0rDVvVXuWkTh9AqD5CF+eOnVaROd3PR
-	 qZVl3Kfn6d6TJrQKwg0xtHgOJxhnSp2rphUAzBaPXEGa5yKstYFLW1olsotoOzGnLnQ==
+	t=1794522726;
+	b=pepPYLDiQTORkQiiDN5PyuO55bCSxtEYwOp08ZIDG8Wy4ZtatL4lump8ErCXDif9zS6c
+	 sAk+nIga5oKu6LiHiC0X9Z+C5v+a08ZDFILgjVJjYf323b8ZWjqxIWqW9733ydLdSc8pb
+	 9KEhKhhZPdhiKY5PPHYAfEQLo0s04NYd1AAXnHcQvee8L7YclXtXqeqjlLFU3STcb9QfM
+	 +vrHn225ohRC40O7QX8b8H7iDae6LdUH5Q6F4ThGagSoaFsK1NF77JQco6yGerC7cEWzr
+	 gs63qVNUnpz4PB4xhIHT01nOE9qskhfCf15Tg5qv4/Pf3VsfLAfy2Y0ccTTVtjxeOsg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794522548;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=d9HqcoeNHJyDgz6tOXUr/ILnaf4DmJWp/tpITSQKCxw=;
-	b=Yt5q9e7ZV5pcImZ3eIfusdP6752DgSu3ITXEl6ScyXgS1SK77CRA6I5irtKgKQh3QAcS
-	 kQGEl4cbGwpz2QY9p9o6kIJJmWjF6MxQfEhJg+SpXA/JqloHZsjHsC8TqQZxWrXjlH6oz
-	 Bdz9FeOXMQfAn6lt7PFm0dIKg50WMGpIVmAhyXUT3ZTped+/41lXw4jfgtdo2bCN8cOXU
-	 A8+nX65NGZIQ/EpE+raUe2YhqQFthvmnVN2ItNrO/lkIQJYZD2uLBPbFSoV0Xwj1xI0PV
-	 OPv89IegYkU8KCpza/cQQUAQnu0otAFDJp6pZldYQOn+zgFKWXREipRH4rMRgD3Krng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794522726;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=7Dww7rLEK29Z8yiJXV5V5KMhrywlVHiQMndBRuw4E/0=;
+	b=U6kvSDm9saedIENkHWGZD/hP3iE5srjWVzVH/ra/WO50kSLetl9lWj6FvZ3L1Qk4dmXH
+	 h5w/P/yc6eYS2hW1Cl2OjFtuekZM2hNba7/iX3OF9KdkGfMq2skxxdPObm7v8NvePmcgr
+	 2Uog5JpRaUPEnLTai+qAkehTOf4Tw+cC8CjYdadsQwxhrFWmgWauU6ABlJ1EEI7IYSY1S
+	 AGcFDIK3sDvxAZewMIUzZkbu9FCN0Bwpqfzsd57ZSiW7us+QoWK6AMlkcOuydazcraetA
+	 l0BKFI6tXXCX+uJNsuLRb2HR4vOPGqL04CGH2YyB6cmpWLcIHTZ1nM9FJibU+gAJ2Dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ezdQW6pq;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qu4iskwl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1218606A321;
-	Thu, 12 Nov 2026 22:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB70606A31C;
+	Thu, 12 Nov 2026 22:32:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ezdQW6pq
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE9F51F000C4;
-	Thu, 12 Nov 2026 22:29:07 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qu4iskwl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B53AD1F000C4;
+	Thu, 12 Nov 2026 22:32:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794522548;
-	bh=d9HqcoeNHJyDgz6tOXUr/ILnaf4DmJWp/tpITSQKCxw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ezdQW6pqcxFMJcYJFFPD9hbeweIh+6jYpHzoEXouApF9tIO6lTRiFLNyNaFFcO9oP
-	 f/BIxsHrpBFkP3UjTVFc6KCPv1ei0fmG/bElj3Fg7iQFLETwZRXVffsGbkvgYwy8Mr
-	 u407Fr2IrXfW6R5XTjti7rPckeX/mAF/6A7kTSZZu5jVlPE/OCOilDQ8/CkhI74NNc
-	 03WcmuI0R+cSwz/IjRhd85nRi9sE36yXUdsGzUOl9LMRjOdkK8JDXHId+CixkjzOOF
-	 r0M5RXxl+6IcxZLzWltD8wpCviNk7eO9ZjP3MwUCj7+4ejguyi3HtVJFTpXoeq/ep3
-	 fNL3Xo8QV7i/g==
-Date: Thu, 12 Nov 2026 16:29:06 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Alex Ousherovitch <aousherovitch@rambus.com>
-Cc: linux-crypto@vger.kernel.org, Randy Dunlap <rdunlap@infradead.org>,
-	devicetree@vger.kernel.org, Thi Nguyen <thin@rambus.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Joel Wittenauer <Joel.Wittenauer@cryptography.com>,
-	linux-doc@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>
-Subject: Re: [PATCH v8 1/5] dt-bindings: crypto: add Rambus CryptoManager Hub
-Message-ID: <179452254555.1729707.16190118012277319671.robh@kernel.org>
-References: <20261110-cmh-b4-a-v8-v8-0-4cea8ebc1d40@rambus.com>
- <20261110-cmh-b4-a-v8-v8-1-4cea8ebc1d40@rambus.com>
+	s=k20260515; t=1794522725;
+	bh=7Dww7rLEK29Z8yiJXV5V5KMhrywlVHiQMndBRuw4E/0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=Qu4iskwlFTCn0sPnAuYguLRUDzos0rP2oiB2AV6297+eONMYTmxzBG9ldyx/ZiwMH
+	 4BY6Bbuc8BzogjDhd1FpX2D22Bq66YV3QjstHiZVSsAEAvwBb+IGvdpRR74rHU+oa8
+	 KBMUbqeMZcw0Oi/dEada+JA93TRZo6z9Ru+aC1yc8NlYXImB561/9XVKiugV9zc3U4
+	 JSoYaEkEnSBNr67EPpqg/LjteW0gzZHlx1WD/ZvUv+5UWCga6NW18cNLWNCGd823qe
+	 Aj3DX1K027sMoeGt+7Dnkhqg/2zyOjFh7nkH3/Ab2FVepFBESbMmCI2HNXYfJ1ZTfV
+	 /qZN/Ot3wccGg==
+Subject: Re: [PATCH net v9 01/10] can: rockchip_canfd: prevent TX stall on
+ echo skb failure
+From: netdev-bot+sashiko@kernel.org
+To: 1579567540@qq.com
+Cc: mkl@pengutronix.de, kernel@pengutronix.de, mailhol@kernel.org,
+ heiko@sntech.de, socketcan@hartkopp.net, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ wg@grandegger.com, linux-can@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ stable@vger.kernel.org
+Date: Thu, 12 Nov 2026 22:32:04 +0000
+Message-ID: <179452272422.488853.17004807498883326670@kernel.org>
+In-Reply-To: <20261111-rockchip-canfd-restart-close-v9-1-6643f3825ba3@qq.com>
+References: <20261111-rockchip-canfd-restart-close-v9-1-6643f3825ba3@qq.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,31 +68,73 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261110-cmh-b4-a-v8-v8-1-4cea8ebc1d40@rambus.com>
 
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-On Tue, 10 Nov 2026 08:52:27 -0800, Alex Ousherovitch wrote:
-> Add device tree binding schema for the Rambus CryptoManager Hub (CMH)
-> hardware crypto accelerator.  The binding describes the parent
-> SoC-level node with its SIC register region and one queue@N child
-> node per mailbox the host owns, each carrying a reg (mailbox instance
-> index), an optional interrupt, VCQ ring geometry (rambus,num-slots /
-> rambus,slot-stride-bytes) and a rambus,cores affinity list.  Which
-> crypto cores are present is discovered from the SIC CORE_ENABLE
-> register at probe, not described in the device tree.
-> 
-> Register the 'rambus' vendor prefix for Rambus Inc.
-> 
-> Co-developed-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-> Signed-off-by: Saravanakrishnan Krishnamoorthy <skrishnamoorthy@rambus.com>
-> Signed-off-by: Alex Ousherovitch <aousherovitch@rambus.com>
-> ---
->  .../bindings/crypto/rambus,cmh-v1030.yaml          | 145 +++++++++++++++++++++
->  .../devicetree/bindings/vendor-prefixes.yaml       |   2 +
->  2 files changed, 147 insertions(+)
-> 
+Low priority / nit picks for your consideration:
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+- [Low] The commit message understates how bad the bug is.
 
+--
+
+can: rockchip_canfd: prevent TX stall on echo skb failure
+
+This commit moves can_put_echo_skb() in rkcanfd_start_xmit() so it runs
+before the hardware TX buffer is written. If no echo skb was installed, the
+frame is dropped and tx_head and the BQL bytes are left unchanged. It also
+passes an extra skb reference to can_put_echo_skb() and releases the
+original skb once submission finishes or fails.
+
+> rkcanfd_start_xmit() advances tx_head and requests transmission even when
+> can_put_echo_skb() fails. Completion matches self-received frames against
+> the echo ring, so an entry without an echo skb cannot be completed and
+> can leave the TX queue stopped.
+
+[Severity: Low]
+The code change looks right to me. Does this description cover the whole
+impact, though? It looks like RX stops as well as TX.
+
+can_create_echo_skb() uses skb_clone(GFP_ATOMIC), so can_put_echo_skb() can
+fail with -ENOMEM under memory pressure. Before this patch, the empty slot
+still became tx_tail, so rkcanfd_get_tx_pending() stayed non-zero.
+
+After that, every received frame goes through rkcanfd_rxstx_filter():
+
+drivers/net/can/rockchip/rockchip_canfd-rx.c:rkcanfd_rxstx_filter() {
+    ...
+	skb = priv->can.echo_skb[tx_tail];
+	if (!skb) {
+		netdev_err(priv->ndev, ...);
+
+		return -ENOMSG;
+	}
+    ...
+}
+
+By this point rkcanfd_handle_rx_int_one() has already pulled the frame out
+of the FIFO with rkcanfd_read_rep(). It then returns before
+alloc_can_skb() and can_rx_offload_queue_timestamp() are called:
+
+drivers/net/can/rockchip/rockchip_canfd-rx.c:rkcanfd_handle_rx_int_one() {
+    ...
+	if (rkcanfd_get_tx_pending(priv)) {
+		bool tx_done = false;
+
+		err = rkcanfd_rxstx_filter(priv, cfd, header->ts, &tx_done);
+		if (err)
+			return err;
+    ...
+}
+
+rkcanfd_handle_rx_int() then leaves its FIFO loop on that error. tx_tail
+never advances, so the same thing happens on every later RX interrupt, with
+a netdev_err() each time. Frames from other nodes on the bus are lost as
+well until the interface is restarted.
+
+Could the commit message say that both RX and TX stop? That would help
+stable backporters judge how urgent this fix is.
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261111-rockchip-canfd-restart-close-v9-0-6643f3825ba3%40qq.com
