@@ -1,84 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.245.243.92
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794501996;
-	b=mllLM3jtvxP53NVHFJgB3DaL6+xr4nriRjba+hLjWzvYBspAWbF4IH5h2NUGwxjiYv9F
-	 jvAN3//kTanhrgkjRPLEs496qCDVJ+1a0EEsHypH+f55jTPgcOOz45f4MKteBjUm2zx4f
-	 7ZRGxBZxU2gUdDGETGzaR5icHMKgbx2JnFEuyaUQIWYNb3z6LWuaQr9OdepZ2ICCkUxSP
-	 ZVdLxUTtKfa3+W+0KFXx5uysBSJphM24JjiF7N41LnKQCMsyVZqX47PrMPYiFYlh511WK
-	 EP/YKL2gcsswu9yaG6p6jsszzs1XOr3UMQ6ZmcDOxKfMDz+kVwt6Glo2O/K6Gg6H7kg==
+	t=1794502672;
+	b=ckQfLDwspB4FIo5h+LJP7WxdJlJdq1f4uvc/76/BZHw152s4mcvnX3+xRl5sqFJugDpv
+	 iMaGu7+PWgY5Wguyi5VGbyMqSpf7tM6LW2ArQmOle8N0lcIlaHikKNrrgzK4khRezmlqu
+	 ompS0BRnlVMcjUlHGscyfU5yEljEulrNZT5rUe1oUc/DdiLrxDMPLQ6jIhoDY8SKlmXYp
+	 SCXiBPaMjySnzYI3OsMKlRuRi4dWSN9940tPASzD7cT/S3J3CUW4aubr10hkFovG6T++U
+	 d8wPOSFiFXaA2Zuc24NakE6audx3P1okh1HsMXK+tsVkgHSsPHZpM2kw3HaB4xSiBlg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794501996;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
-	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=xNz64j0McT9dIRYa5D9GRgq1blnxgnKU+6IqC8Q3v5U=;
-	b=DLTHCN909Fi1Vu8Wz9nzt56V7TmOQIGwvxLgW29RlB3Z5w/fb0zYGahmiGDjuU5FE0mC
-	 78LsFq9+iujOO6SRR4KD5FGJYtSa6dmOtI2nAAxN720stme4Sups1h3CnKGYSphBuUwEq
-	 qS193BUX8B7qAoU42c/X1pdQd/8IrhjnH99PMU8cqp/jjDaCvx1HWDPyxuv15dma1q5lp
-	 3F23vyLZvwEvXoYTXIkEtIlkjMtgDRNJ6BrZAoDWMG28j/w07IggyGvu+7e7tQLJmuQ2c
-	 t+PKzXixIFijAIkkoueNndqUtEZbVlz61jYee+60KgJdBNsFu5frf7bbQmLvqexoaGg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794502672;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=hUnOVjFYHGFbt1mgqPXrl0v314IpNkEBO0y4IzTD0JQ=;
+	b=2IAyF0xWD24ngPiqDzBQOsmSmbxQ10/UkP3X9CX+Nyp9F7GPePQ0PwkzXoPexWQGtQe9
+	 rajN6BBcgXHnKR+OAIHqNkjqJwX2Atd+Kh+bR9pu9Sd6gjMMKeI1ag1BVWlm3PiRH1S40
+	 XR599lf0t9vpxyL2Hc2qr8wkJHw9JiAkkK85ddwinyAgwT4eQNGPaTvDj6bKk0fiYwncE
+	 /IFn4QtnUJoHlCql1cokiUcyTeVJcxTx8ae/LWUEYwPI2uFT7TI+bP+NpHEJaV1q5Wh4Y
+	 VbJ/mOBybfNUHhqEOZwm9B7a/Ge/yWpgfYCLhKX+YmamPl5ftGH8om6pGUFs6thOALg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amazon.com;
-	spf=pass smtp.mailfrom=amazon.com;
-	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=VRGsWl26;
-	arc=none smtp.remote-ip=44.245.243.92
-Received: from pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.245.243.92])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=furiosa.ai;
+	spf=none smtp.mailfrom=furiosa.ai;
+	dkim=pass header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=eFsdmVnw;
+	arc=none smtp.remote-ip=209.85.215.172
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F528606A8A3;
-	Thu, 12 Nov 2026 16:46:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5F528606A8A3
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 373AA606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:57:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 373AA606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furiosa.ai
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=furiosa.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=VRGsWl26
+	dkim=pass (1024-bit key) header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=eFsdmVnw
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cc4aa0246b7so37563a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 08:57:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1794501996; x=1826037996;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=xNz64j0McT9dIRYa5D9GRgq1blnxgnKU+6IqC8Q3v5U=;
-  b=VRGsWl26zKFYIrK9qB9P9cO92sRjJ9swVfa0mvRfWsYqYYsptSFrkMtz
-   acj2ZTKT6cNkTcbDO84C69ESgnZbbG4d8dv0Eu+2XbAmkgukesNYQJVQT
-   HH3v+iaABhLYef3nLlRhlCexRHTfj3Dc/EJZGuYu1/9+PltXHtZ0/e7Lr
-   N6WPr4ZnUtqWJ4XfU3jfJ+dTXKFrmSi2DDAU+b9X006PftnFzJ2Im5zFr
-   HQl6sijtwT7DE/Pg2Mb7XU3lAfxj7nAbXgAA65RbNAnrOkX95fgBSg5zY
-   cQAvOIY/7gPtv2A6z5Osa6c7ESVIioTuBGhv58ZztofXxEGeUQUxEc4jq
-   A==;
-X-CSE-ConnectionGUID: M3uxj+oWTaGVnVFTezF7+w==
-X-CSE-MsgGUID: T6xCuqlBQraj/j04FJr78w==
-X-IronPort-AV: E=Sophos;i="6.27,210,1787011200"; 
-   d="scan'208";a="33343779"
-Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
-  by internal-pdx-out-001.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Nov 2026 16:46:36 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.182:5075]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.16.231:2525] with esmtp (Farcaster)
- id ee27b830-e949-4985-8d33-62faba8a9563; Thu, 12 Nov 2026 16:46:35 +0000 (UTC)
-X-Farcaster-Flow-ID: ee27b830-e949-4985-8d33-62faba8a9563
-Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Thu, 12 Nov 2026 16:46:35 +0000
-Received: from dev-dsk-surenkj-2b-416930d2.us-west-2.amazon.com (10.169.26.94)
- by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
- Thu, 12 Nov 2026 16:46:35 +0000
-From: Surendran Kanagaraj <surenkj@amazon.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>, Peter Huewe <peterhuewe@gmx.de>
-CC: Jason Gunthorpe <jgg@ziepe.ca>, <linux-integrity@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	<linux-doc@vger.kernel.org>, Jonathan McDowell <noodles@earth.li>, "Breno
- Leitao" <leitao@debian.org>, <nh-open-source@amazon.com>, Alexander Graf
-	<graf@amazon.de>, Gunnar Kudrjavets <gunnarku@amazon.com>, Josh Levinson
-	<joshlev@amazon.com>
-Subject: [RFC PATCH v3 8/8] tpm_crb: Raise the limits for Amazon NitroTPM
-Date: Thu, 12 Nov 2026 16:46:21 +0000
-Message-ID: <20261112164621.62645-1-surenkj@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261112163846.97654-1-surenkj@amazon.com>
-References: <20261112163846.97654-1-surenkj@amazon.com>
+        d=furiosa.ai; s=google; t=1794502671; x=1795107471; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hUnOVjFYHGFbt1mgqPXrl0v314IpNkEBO0y4IzTD0JQ=;
+        b=eFsdmVnws1YHcyPrg5gzVXT1wz4U85lItJg/8kGHzCRkFAUjQgrJnFC21MTgfQWpBX
+         Pl0DRhj6De+1QUD8pFyORIbWjMZt0B3hX79aaEdnvv+yTCyWKj9tQ7LRY71LHoX2485V
+         yB/SYnFHTpEGTrAeZekNh+uXfa7nVnGleI2Nk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794502671; x=1795107471;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hUnOVjFYHGFbt1mgqPXrl0v314IpNkEBO0y4IzTD0JQ=;
+        b=aWUv1+B06OE/KXKVO51zJyXAx6w20eqz3Vk+tY6zFKPmrFe/scJKDggWCtzC1MCJRp
+         tw4xfoN1mCTWYXhUOSzsRZi8WAp/t1dFR33964I3HLVajQuqR+UHoaCbQ2b81gL/h9H+
+         4a248fM2iGRg0IyvkXjLEsJcyDr5b1TfaD+3iy3c8bMf8uFtWSzbd6Vsu3heHb7ZDX0n
+         vsEjasTjO5HK2Xm9tSXK86WOdExkF7aKzBIeLc310HKc54F6jAUhxTYtNUhcS/RAymAw
+         TkNxw4Rj5Lh/uDcLmkEi2cihBag+qX9A39rsHblC5dY4mGyXm+SXo723lTf8qyh2hJVa
+         Gozw==
+X-Forwarded-Encrypted: i=1; AL+hErHSNTJ8TESjSOZEsQEam7ffU1arMxkQ4W0Ys6jQLYqZR+fPoKfUmJmm+RQ2pNOnI4hRpxC5ZKMkMUk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+6xxGjwcwBPqkRdFjfxoM/slqfPU/TklbNs5PHecS3PSXFtpxh
+	HH/JK2BYLIqFSgLMGree5l8zpVM6ZgOhwjj4p8h1f4+ExdSfnlqgtCft5dsVvi4JQ+AAOKVTyn1
+	OgU/qLLU=
+X-Gm-Gg: AYBFou2Li+ZoBaeIMdfJA5M8xxMxIJxxvrIkxYcyhVf4BkM1xBsTao+P2g0+LNFhh5Q
+	XONzqo4sLzvhIr4xe1oYcJ/LOipCIKYobWsaEJo2lrwAnx4UrFFsLUb5a/7dn2e9i9v0Gkbpixd
+	JG6F6hz0Ji4wCNEo3wQMy93BrYo0eXzciS8GRIkQClXMbdic6XUz8y9jyhDLw/tu2gRKKP1xPoi
+	GscP3hU+GEFDL+xPWV7vIFv5Hw7BsmDV5sCM96fp242FzYQJ0KEFvmQf9Wk2AlATZBA/UN5nlEO
+	cu2p8qeBSrqDFLQCrinkeczgx5mnpnwGJ141ceLcdRtqtTrB5pfL9xSrjlCGhuWlI8Kihh832hj
+	etDzYdrBXO3KPgMX/rlbwls/VL/rWRolxp05+Fqdr4bUgb9+kaLq8Ql3bNMKjgR5du984j+YR39
+	ibxusdCyNh+C2J6Fb0MWnfuvIBCbiP3YJWS1ogh6PksFXwP5D4UemW/2f5CE/ZgbiiExwiL//tY
+	VWuiAEy180pjl2SwWZtdgw9BE2Vg9QxmGsfxz6igwAha2MOgW5A2dciXmDMiUHccoi9A7ucCTZ7
+	/uIN9b7+jEbDoJDL0+alOjW4iBlyqv2B2oHs3fP8j6kXoDjrPuOCrNO1rEYI+PynczmuWPTb6+T
+	FmuH2CcymaaE4
+X-Received: by 2002:a17:90a:c110:b0:3ac:d39d:ee4f with SMTP id 98e67ed59e1d1-3b182f58538mr5387882a91.44.1794502671465;
+        Thu, 12 Nov 2026 08:57:51 -0800 (PST)
+Received: from rock-5b-plus ([61.83.209.48])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1aed76745sm163431a91.16.2026.11.12.08.57.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 08:57:51 -0800 (PST)
+Date: Fri, 13 Nov 2026 01:57:35 +0900
+From: Sidong Yang <sidong.yang@furiosa.ai>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+Cc: =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>, 
+	Gyeyoung Baek <gye976@gmail.com>, Philipp Stanner <phasta@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] accel/rocket: Report NPU usage through fdinfo
+Message-ID: <avXv7jGeaXOPeHCR@rock-5b-plus>
+References: <20261103155338.1949294-1-sidong.yang@furiosa.ai>
+ <a9f016ce-f086-412d-9ca6-6608a41840e5@ursulin.net>
+ <33ccceef-3498-426a-ae7c-a8bafbb88992@igalia.com>
+ <2ca12f1b-89f6-4069-aedf-4e5d645e8deb@ursulin.net>
+ <au31m2jC9SmQ6iZh@rock-5b-plus>
+ <fc21d057-be4a-4cea-ab92-0951c4eb7de2@ursulin.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,137 +103,14 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D031UWC003.ant.amazon.com (10.13.139.252) To
- EX19D001UWA001.ant.amazon.com (10.13.138.214)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fc21d057-be4a-4cea-ab92-0951c4eb7de2@ursulin.net>
 
-In rare scenarios NitroTPM can enter a mode where it either sends
-TPM2_RC_RETRY for longer than LONG duration or delays
-command completion for longer than the TPM 2.0 durations allow.
-When this happens during auth session start, the driver disables
-the chip and every subsequent request fails:
+On Thu, Nov 12, 2026 at 01:46:37PM +0000, Tvrtko Ursulin wrote:
+> I am neither Philipp nor Danilo but I would say go for it.
 
-    tpm tpm0: in retry loop
-    tpm tpm0: tpm2_load_context: failed with a TPM error 0x0922
+Thanks, I'll send v5 with drm_sched_entity_get_runtime().
 
-Add a quirk table to the CRB driver keyed by the vendor ID from the
-interface ID register, and apply it from ->adjust_limits(). For
-NitroTPM, raise the SHORT and MEDIUM durations to 30 s, which covers
-the longest unavailability with some headroom, and LONG to 45 s. With
-the back-off doubling from 20 ms, a 45 s LONG duration lets the driver
-resubmit a command for about 40.9 s, so the retry loop covers the
-entire unavailability window.
-
-These are upper bounds, not expected waits. A command that completes
-sooner ends the wait as soon as the poll sees it. Add TPM_VID_AMZN
-next to the vendor ID list in tpm.h.
-
-Tested on an EC2 instance with NitroTPM by inducing multiple
-unavailability windows with no TPM errors, and in QEMU with swtpm by
-holding the TPM in TPM2_RC_RETRY and stalling command completion for
-longer than 2s.
-
-Signed-off-by: Surendran Kanagaraj <surenkj@amazon.com>
----
- drivers/char/tpm/tpm_crb.c | 50 ++++++++++++++++++++++++++++++++++++++
- include/linux/tpm.h        |  1 +
- 2 files changed, 51 insertions(+)
-
-diff --git a/drivers/char/tpm/tpm_crb.c b/drivers/char/tpm/tpm_crb.c
-index 7c1011eb855a..0e18f61cfddf 100644
---- a/drivers/char/tpm/tpm_crb.c
-+++ b/drivers/char/tpm/tpm_crb.c
-@@ -13,6 +13,7 @@
- 
- #include <linux/acpi.h>
- #include <linux/highmem.h>
-+#include <linux/io-64-nonatomic-lo-hi.h>
- #include <linux/rculist.h>
- #include <linux/module.h>
- #include <linux/platform_device.h>
-@@ -26,6 +27,14 @@
- #define ACPI_SIG_TPM2 "TPM2"
- #define TPM_CRB_MAX_RESOURCES 3
- 
-+/* TPM_CRB_INTF_ID_x vendor ID field, bits 47:32 of the 64-bit register */
-+#define TPM_CRB_INTF_ID_VID(intf_id)	(((intf_id) >> 32) & 0xffff)
-+
-+/* Longest NitroTPM unavailability, with some headroom */
-+#define TPM_CRB_AMZN_LIMIT_US		(30 * USEC_PER_SEC)
-+/* LONG also bounds the retry loop: 45 s lets it resubmit for 40.9 s */
-+#define TPM_CRB_AMZN_LONG_US		(45 * USEC_PER_SEC)
-+
- static const guid_t crb_acpi_start_guid =
- 	GUID_INIT(0x6BBF6CAB, 0x5463, 0x4714,
- 		  0xB7, 0xCD, 0xF0, 0x20, 0x3C, 0x03, 0x68, 0xD4);
-@@ -663,6 +672,46 @@ static bool crb_req_canceled(struct tpm_chip *chip, u8 status)
- 	return (cancel & CRB_CANCEL_INVOKE) == CRB_CANCEL_INVOKE;
- }
- 
-+/*
-+ * Read the vendor ID from the interface ID register. Returns -ENODEV when
-+ * the head registers are not mapped for this start method.
-+ */
-+static int crb_vendor_id(struct crb_priv *priv)
-+{
-+	u64 intf_id;
-+
-+	if (!priv->regs_h)
-+		return -ENODEV;
-+
-+	intf_id = lo_hi_readq(&priv->regs_h->intf_id);
-+
-+	return TPM_CRB_INTF_ID_VID(intf_id);
-+}
-+
-+/* Limits keyed by the vendor ID of the interface ID register */
-+static const struct tpm_limits_quirk crb_limits_quirks[] = {
-+	{
-+		.id = TPM_VID_AMZN,
-+		.time_us = {
-+			[TPM_LIMIT_SHORT]	= TPM_CRB_AMZN_LIMIT_US,
-+			[TPM_LIMIT_MEDIUM]	= TPM_CRB_AMZN_LIMIT_US,
-+			[TPM_LIMIT_LONG]	= TPM_CRB_AMZN_LONG_US,
-+		},
-+	},
-+};
-+
-+static void crb_adjust_limits(struct tpm_chip *chip, struct tpm_limits *p)
-+{
-+	struct crb_priv *priv = dev_get_drvdata(&chip->dev);
-+	int vid = crb_vendor_id(priv);
-+
-+	if (vid < 0)
-+		return;
-+
-+	tpm_limits_apply_quirks(p, crb_limits_quirks,
-+				ARRAY_SIZE(crb_limits_quirks), vid);
-+}
-+
- static const struct tpm_class_ops tpm_crb = {
- 	.flags = TPM_OPS_AUTO_STARTUP,
- 	.status = crb_status,
-@@ -674,6 +723,7 @@ static const struct tpm_class_ops tpm_crb = {
- 	.cmd_ready = crb_cmd_ready,
- 	.request_locality = crb_request_locality,
- 	.relinquish_locality = crb_relinquish_locality,
-+	.adjust_limits = crb_adjust_limits,
- 	.req_complete_mask = CRB_DRV_STS_COMPLETE,
- 	.req_complete_val = CRB_DRV_STS_COMPLETE,
- };
-diff --git a/include/linux/tpm.h b/include/linux/tpm.h
-index a4b7282d88b5..f557c1a32388 100644
---- a/include/linux/tpm.h
-+++ b/include/linux/tpm.h
-@@ -220,6 +220,7 @@ static inline enum tpm2_mso_type tpm2_handle_mso(u32 handle)
- #define TPM_VID_STM      0x104A
- #define TPM_VID_ATML     0x1114
- #define TPM_VID_IFX      0x15D1
-+#define TPM_VID_AMZN     0x0EC2
- 
- enum tpm_chip_flags {
- 	TPM_CHIP_FLAG_BOOTSTRAPPED		= BIT(0),
--- 
-2.47.3
-
+Thanks,
+Sidong
