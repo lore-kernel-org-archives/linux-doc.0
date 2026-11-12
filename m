@@ -1,48 +1,59 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794479965;
-	b=BpYR/eMJqaPvBuJ/HSkDbcCorQsatBJ+4IMN+2OqVvWMfHrpGMBMawixitBiLbphZ/Br
-	 /rMGpF6afwvdHq7qOkQ+YiwbFVX7OBpFkXJP3saonqV9kwEAJVekhM7YhLCmdeSpNybl4
-	 ALM6rXBH4WyctCAr/WMS6uEDlLMHNk5Ux2YpjspTQ0zRI+65LUDksmjx9DeIBsDy2uy6g
-	 lXovklWooHAt+eoSvFE/nOVAXY0d71bH6itBo8y9GH4LjZDj1/s2AQkXt/pXW0ZLDM3zm
-	 8KjrtRA7U3MCK4EdJDBd1oyK5/SqAzBHzKcRKxkpSkfxkgItGHz87PgDPjF8Q4ygurA==
+	t=1794480695;
+	b=lP6e5n+ionOMBxWq4mz+h/W9cRjjk8cmbKO9rTjmFx34+1+WSaOsEktpMr3R+sqg+Lcg
+	 CdjgjJk0mnmLgqb++gYVFoZP+RiQYpD7oJ27gLJVm4DUIsuKlajdPb8UEllau5NJ5C1Gt
+	 iAMuGOEigV/fxRcfvmLAD5TLVJNbs957jbn9Sq89G06wEwMlG/l4C2EOE5eXQW/pLU6QS
+	 9aJHFYQRTjQlno+MBzSgdF++0zDzku4+hIbG8jbOXNrHPLqWAxXQbrFaDIvvZdUBBD+eA
+	 wm1pzZzmLoMf4HG3DKfBbcUtzc9yOiwUuSdXT0cdkkp6jhXQ/bna5V4C9+UDjQ2VxtA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794479965;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer;
-	bh=cz2r/Y2RPzkO+j+uVzXdreXvdepgECgH9EKrVQJEg7Q=;
-	b=HTOdhgzymx5BmnD1vkLXo3Xkr9Q0PtitXr361axR5kZKjwaW+7ujmMddqxqQr89CO7Y0
-	 VPIRDpe6JmzV35z0UthpHTawUH+ZcGIum483unNCdXAr/zcDbwaFh8uIwtgmelTJlHo9W
-	 lG0rEVe5ItNd/izgq7k9BTdbMxmdCCwxIWHlNxg5xaS1FStqqUnAnYwXZUv+t0dSCfvif
-	 6KwuUYdz7REU8Q+8XDzQeqMVEUQrW9qZ0CVBDbpvEZeznOx+UAeiX/J2dJTPeHqiY/17H
-	 QJA9w1N/jVdOooE0hmxi2v0RC5+IEL9cvVVPrdYDgSKmYFpPpRfsF+GwFBQx9krwcpQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794480695;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=ejEK37JAi9bafNpazn77ePmP+dJqOQAro7/bKPfQcYU=;
+	b=L+BwsW7d0DMCwx/FlcyWdaWeUH3J0grWMe3LKU/G/jlG9yF/MutXdNezdl5oj5g3ZDWU
+	 +RvxnxmqZkogvK+lGhxI0xFJKr2Ua5enuwgBn1uBndfS5T6tvxiMSQmcWD4f5Pj6CMgHH
+	 mED56twkUN/rzpUp0NHRxBJ4y3tQnXRxGJ/YDFKGGEHQsOVvx7ckGfbYxSjpkKZ26deht
+	 fwdeSNcJS6iTIhMvH8rVPyLlG37RgsUfh8HtmWGsVYSoozsUzsmdQCPOv38RYhihgoYFa
+	 5dFK9IwcbP4Dv7wUuerQCv1J2bNFcc4OchiwlrbWT9B3+ebC8Rbqk7lq5FlX2C7sNzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aM3mzmKI;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iCwWk6bf;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E331A606A339;
-	Thu, 12 Nov 2026 10:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B724F606A32E;
+	Thu, 12 Nov 2026 10:51:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aM3mzmKI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32A6C1F00A06;
-	Thu, 12 Nov 2026 10:39:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iCwWk6bf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 618301F00A06;
+	Thu, 12 Nov 2026 10:51:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794479964;
-	bh=cz2r/Y2RPzkO+j+uVzXdreXvdepgECgH9EKrVQJEg7Q=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=aM3mzmKI0GmlyxQCwRqIdTeDtT0/EkcRgXJqO8ZBSxOztx0GD3kM7pxCxTvuI6bWL
-	 MAKSxVbRYHVhlIvlXkKUKAAfZyvvr+Ydf0POkAqRJf7LOKPxy8YakB9NQK4bUKrK90
-	 vTfKz89aFtB9W2vtJhdgPijQChR/2aNFBgW0zCJ58q8xOyLwnNLj9Qcqy9FGSacTy1
-	 DpUmPBZEEqnDVIu9K8UwDTpwAiycuDEh2XnUj+LHjMN/vWv0HAu+Akq6EIQUbHtG8n
-	 aSlHPG19OlhtCa8az5aDP76zrHzt2H+/GoUaj0qUBw+C2HWU9vCt48hdNRe4zjs0BJ
-	 cDAuDWQHAJFEg==
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Date: Thu, 12 Nov 2026 12:38:57 +0200
-Subject: [PATCH v3 5/5] kho: docs: update description of bootmem regions
+	s=k20260515; t=1794480695;
+	bh=ejEK37JAi9bafNpazn77ePmP+dJqOQAro7/bKPfQcYU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=iCwWk6bfgqhbBenrCDuIsqeXD1KJBAYB3NDv/OYZDGktuOqMgVNwDn/vqYpqp4JMm
+	 jHMhYA9p9lbu6QWwDu1s9AFSYAr3I8rZlVtCHxuNXP8IM8YYoG6c8eh2weet72FURs
+	 /9BGpJffjZq1KqRStv45dxkOQYHyioYFvuLdkjVkeHdycrerJr18Uxesi3sHMtZVYP
+	 cCPMKaGLeka8MXsgR1DFbdgLjQqaFRzyfOTR7Bx437wsxFDh3CrVCy20vnMe/ZdK/s
+	 9B9D0GLdSbRV3/BPDRLHu4LpXe4CVvWa/qJQNhosjY4ec74b7JkUclxJsOuZa02qX1
+	 63Mg/4G85JHMA==
+Date: Thu, 12 Nov 2026 11:51:32 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: hwmon: ltc4283: add ltc4284
+Message-ID: <20261112-misty-beautiful-caribou-c9bbea@quoll>
+References: <20261109-staging-ltc4284-v2-0-14a270a38f7b@analog.com>
+ <20261109-staging-ltc4284-v2-1-14a270a38f7b@analog.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,82 +63,92 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-kho-bootmem-sizing-v3-5-f0c8d00295d5@kernel.org>
-References: <20261112-kho-bootmem-sizing-v3-0-f0c8d00295d5@kernel.org>
-In-Reply-To: <20261112-kho-bootmem-sizing-v3-0-f0c8d00295d5@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>, Mike Rapoport <rppt@kernel.org>, 
- Pasha Tatashin <pasha.tatashin@soleen.com>, 
- Pratyush Yadav <pratyush@kernel.org>
-Cc: Alexander Graf <graf@amazon.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Chen Pei <cp0613@linux.alibaba.com>, George Guo <guodongtai@kylinos.cn>, 
- Kexin Liu <liukexin@kylinos.cn>, Randy Dunlap <rdunlap@infradead.org>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Sourabh Jain <sourabhjain@linux.ibm.com>, kexec@lists.infradead.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
-X-Mailer: b4 0.16.1-dev
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20261109-staging-ltc4284-v2-1-14a270a38f7b@analog.com>
 
-The description of the boot memory regions does not mention the low
-memory region and claims there is always a region per node plus a global
-region, while the low memory and the global regions are not allocated
-when they would be empty.
+On Mon, Nov 09, 2026 at 08:56:17AM +0800, Alexis Czezar Torreno wrote:
+> The LTC4284 is a negative voltage hot swap controller that drives an
+> external N-channel MOSFET to allow a board to be safely inserted and
+> removed from a live backplane.
+>=20
+> Note that this device has a MODE pin that is determined by differing
+> voltage levels (VEE, VIN, INTVCC, or left open) and cannot be
+> controlled via software or GPIO.
+>=20
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> ---
+>  .../devicetree/bindings/hwmon/adi,ltc4283.yaml     | 56 ++++++++++++++++=
+++++--
+>  1 file changed, 52 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml b/D=
+ocumentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
+> index 05e2132ad4d8621ab76ee89aa166c131fed08e85..ca62e76f23f1e32df157f1382=
+98a4650493b3f08 100644
+> --- a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
+> +++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
+> @@ -10,22 +10,42 @@ maintainers:
+>    - Nuno S=C3=A1 <nuno.sa@analog.com>
+> =20
+>  description: |
+> -  The LTC4283 negative voltage hot swap controller drives an external N-=
+channel
+> -  MOSFET to allow a board to be safely inserted and removed from a live
+> -  backplane.
+> +  The LTC4283 and LTC4284 are negative voltage hot swap controllers that=
+ drive
+> +  external N-channel MOSFETs to allow a board to be safely inserted and =
+removed
+> +  from a live backplane.
+> +
+> +  The LTC4284 features dual-gate drivers with four operating modes (sing=
+le
+> +  driver, parallel, high stress staged start, and low stress staged star=
+t)
+> +  configured via the hardware MODE pin. The MODE pin must be connected t=
+o the
+> +  appropriate voltage level (VEE, VIN, INTVCC, or left open) and cannot =
+be
+> +  controlled via software or GPIO.
+> =20
+>    https://www.analog.com/media/en/technical-documentation/data-sheets/lt=
+c4283.pdf
+> +  https://www.analog.com/media/en/technical-documentation/data-sheets/lt=
+c4284.pdf
+> =20
+>  properties:
+>    compatible:
+>      enum:
+>        - adi,ltc4283
+> +      - adi,ltc4284
+> =20
+>    reg:
+>      maxItems: 1
+> =20
+>    adi,rsense-nano-ohms:
+> -    description: Value of the sense resistor.
+> +    description:
+> +      Value of the sense resistor. For LTC4283, this is the resistor con=
+nected
+> +      between SENSE+/SENSE- pins. For LTC4284, this is the resistor conn=
+ected
+> +      between SENSE1+/SENSE1- pins.
+> +
+> +  adi,rsense2-nano-ohms:
+> +    description:
+> +      Value of the SENSE2 current sense resistor. This resistor is conne=
+cted
+> +      between SENSE2+ and SENSE2- pins.
+> +
+> +  adi,radc-nano-ohms:
+> +    description:
+> +      Value of the effective resistance seen by the ADC+/ADC- pins.
 
-List all types of the boot memory regions and describe when they are not
-allocated.
+These two properties are not required by the device? Is there a default
+in such case?
 
-While on it, fix grammar and split the description of the regions size
-and of the CMA usage into separate paragraphs.
-
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
----
- Documentation/core-api/kho/index.rst | 31 ++++++++++++++++++++-----------
- 1 file changed, 20 insertions(+), 11 deletions(-)
-
-diff --git a/Documentation/core-api/kho/index.rst b/Documentation/core-api/kho/index.rst
-index e78a2bbe2be1d..ce2bf9cf66514 100644
---- a/Documentation/core-api/kho/index.rst
-+++ b/Documentation/core-api/kho/index.rst
-@@ -52,17 +52,26 @@ allocations before during boot up to the initialization of the page allocator.
- 
- We guarantee that we always have such regions through the boot memory regions:
- On first boot KHO allocates several physically contiguous memory regions. Since
--after kexec these regions will be used by early memory allocations, there is a
--boot memory region per NUMA node plus a boot memory region to satisfy
--allocations requests that do not require particular NUMA node assignment. By
--default, size of the boot memory region is calculated based on amount of memory
--allocated during boot. The ``kho_bootmem`` kernel command line option may be
--used to explicitly define size of the boot memory regions. The boot memory
--regions are declared as CMA when page allocator is initialized so that their
--memory can be used during system lifetime. CMA gives us the guarantee that no
--handover pages land in that region, because handover pages must be at a static
--physical memory location and CMA enforces that only movable pages can be located
--inside.
-+after kexec these regions will be used by early memory allocations, there are
-+several types of such regions to ensure that all boot-time allocations work:
-+
-+* a low memory region for allocations below ``ARCH_LOW_ADDRESS_LIMIT``
-+* a region per NUMA node
-+* a global region for allocations that do not require a particular NUMA node
-+
-+Regions that would be empty are not allocated. For example, there is no low
-+memory region when ``ARCH_LOW_ADDRESS_LIMIT`` covers all memory, and there is
-+no global region when ``CONFIG_NUMA`` is disabled.
-+
-+By default, the size of the boot memory regions is calculated based on the
-+amount of memory allocated during boot. The ``kho_bootmem`` kernel command line
-+option may be used to explicitly define the size of the boot memory regions.
-+
-+The boot memory regions are declared as CMA when the page allocator is
-+initialized so that their memory can be used during system lifetime. CMA gives
-+us the guarantee that no handover pages land in that region, because handover
-+pages must be at a static physical memory location and CMA enforces that only
-+movable pages can be located inside.
- 
- After KHO kexec, we ignore the ``kho_bootmem`` kernel command line option and
- instead reuse the exact same region that was originally allocated. This allows
-
--- 
-2.53.0
+Best regards,
+Krzysztof
 
