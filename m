@@ -1,63 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794495708;
-	b=OhyPz10AwE1Gwsd0Xd2vi+SGbElv5ffpaEaCH0mrB/7X+KqxDj/BmUvUnXsmutUOO/95
-	 s5i0CQOt3zRq5z88F5CSoTLgjFH2Of4cHiZ4Mzk4BbQxnkUe5lZjBEA88xWK/4A/mzZ9h
-	 ltIrAY90QyUC9wU/byGg7mk902KSXKB+LB2H65mp38Ifeqj37EHWET1M1p8r39CrtKdIt
-	 GWYfQ2m6DRzz6JdnY3QpAjKet42MeQs0rFh62O0gqw16WQsViWz+8qQnueaKP4LSff/Ed
-	 5enX/MtxcB63enkFf4HVnSm4V1RV3fbPk04pk/GZ4yHnhpeNlPikoxwLRMK04be0AnA==
+	t=1794495782;
+	b=40O8+B0I91KZRwd2SjgEXsrWUZ+O2VvV6ZtKW4+xlaFCTjCxzx2idOb3hOoDgDm+LAPL
+	 D/V698osLvEqFuT4CiUFjwXF9TnTrfBSsMHgClaoVUkzdrKpIBmCP3GDiIWYgHSOCqeiP
+	 N2kEK2QtoeNbQtwcUc9aN01LwmKGRUerzPUTuJ9dmoW9VhTSLrtJofzbUUCbnQTBKjamA
+	 16cLf8w9SWkTBNZmr2NT8HH6OKFOFCk6JG6NQuxvRRqKPHGIjgB/zQKHuWYGALRoK7nju
+	 /3q6iK7aswfkWn96cmn2C0eJ7gXpRkFXpOx7iS3J8M/V5bGTpFUqrX+/z0nX4cwUHyw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794495708;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794495782;
 	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
 	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=mpXlpjdkWY46x6nl2lgddCsBWNhG/QtyR/nSFtAJaS8=;
-	b=xm8j/oh0wv5F/5D17wEdrmh0aKzKFrCi0i1OG2+8hANUErPCySmetdg/DqZXLwEoiKiq
-	 yh8T1Fih5b+0cHAjHlwkU+HdJe+JzsVo4HaborfmgG35zvbE8Q7qByz7Jn1UUc8j5CCKt
-	 jBF5PZoSe/goLamSayoZ8rTtiXNDLzv8YyVtbJrlsUQZ160iitj+gWs64O6fuQxgEsblf
-	 73LHS/Up9xubXFLOLMxekmT+GYU0LpTF5pLCo4L8fch4uUn12nvQnkh/U5rPyukk/jRjI
-	 N12q7b2T/UiR0LJExMILXC/A0QmfuaIyekPKn7LNmdUxADmCtJ/E8fyXs12NWteJjPQ==
+	bh=UTq3Ug+A1WyzxOJ6gjEEmCWETAT3P103xDAvVf4D39g=;
+	b=JE3l+BGaJgXsylzJBCzVCCbauf9zkVdzSBKnOy+tUIYzje+oah5s06NLsBJc+PmMlJKy
+	 i86ToFLdZ9PJGkJ8L0sk4xfVacDpN5j4FihJIhOqrjc/CB8qQ7C9gwP6/Gw424uZFY7nP
+	 nYh3tQu0gjygAtaZw0CUxRkWJHohjWzRVJ7Eojvm56dCyuxder3MjzZQwTNT8gCikJZI0
+	 cmED3LHDhAkJn9FwP9+jN7L2dUXU3s0eQmmFWqN+F1JS4gR3Hm4nr3BvbAB2rC8KOUMgA
+	 OZTzyPa3LW7BWPipv5DkjRuoMHGntD0uPNam7okOPwvN4T9y554uoW8T+co7c8rS3Ng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=lwn.net;
 	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=DJbmiuP+;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=iBzGQls3;
 	arc=none smtp.remote-ip=45.79.88.28
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88962606A321;
-	Thu, 12 Nov 2026 15:01:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 88962606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC06606A8A5;
+	Thu, 12 Nov 2026 15:03:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EC06606A8A5
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=DJbmiuP+
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 40B5A40904
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=iBzGQls3
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 58C1840904
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1794495707; bh=mpXlpjdkWY46x6nl2lgddCsBWNhG/QtyR/nSFtAJaS8=;
+	t=1794495781; bh=UTq3Ug+A1WyzxOJ6gjEEmCWETAT3P103xDAvVf4D39g=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=DJbmiuP+vyLzDQqWzlybH0zs83ocLR2kXe9XKBAZgnhm+CKOba/3u0e3mHeD+KibI
-	 2bqFHDRNU/FO5P3FrJb8yOMTAEe0dR8BMFYcBeXsBCF/oyvUJiQ5kIskw+RnGSvLhL
-	 cxOIyawAYLy+kFZ6nMfhit0nrmuPEpcMuQiUtKqqddCPXK+t3+itMUJAGFic2NTKZf
-	 gJ86wEreaox2E2iYxp33ngbRYA3wKgeMj8wIibK8BRk3crzfDWg9wDrSyXQtnXjFRF
-	 WVSkDSWs8uLuP+qFFmaF1gwYGyuw8H3fxUvHAq+M4zBvK4TJ24jjgZRjTSpeW8/uo7
-	 wwoclZbsl784g==
+	b=iBzGQls351RHtoDHfevR/pPFRLuU/15FbX60AHpT7fZajFLudiCSaIojIwVt2c18Q
+	 GtCp7UFvmkkjf9j5Opnq7Fp5Y0/FbkHH4KgrCYWB/+LORi8bldF0WTOuxtZNQMgbqe
+	 QTtp3tJNnR8dEWvMBBWVSHY+TXsbH0A9SWAAHRcAzEpPJaOYlPWKSjxrB4SMChJjUw
+	 Wkp+7WOczGllto0kGf4L5vQuIfpzaPIB9VY0vqGA6DFtXv+5YHJMXsaJoeCe8tFt/8
+	 bvpPVbN1NAzCtosuXsvozMdPjWI5WZVbKfZAy+icBgEyPkLRZIvitv+ZszC1tY1Qst
+	 rGgB7vT5q+E3A==
 Received: from localhost (unknown [151.38.237.230])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 40B5A40904;
-	Thu, 12 Nov 2026 15:01:46 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 58C1840904;
+	Thu, 12 Nov 2026 15:03:00 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Wei Lixiang <weilixiang@kylinos.cn>, Miklos Szeredi <miklos@szeredi.hu>
+To: Dongliang Mu <dzm91@hust.edu.cn>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
 Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, fuse-devel@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: fuse: fix spelling of 'successfully'
-In-Reply-To: <20261102093827.6-1-weilixiang@kylinos.cn>
-References: <20261102093827.6-1-weilixiang@kylinos.cn>
-Date: Thu, 12 Nov 2026 08:01:43 -0700
-Message-ID: <87v7625c14.fsf@trenco.lwn.net>
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Dongliang Mu <dzm91@hust.edu.cn>
+Subject: Re: [PATCH v2 0/2] docs: Update Sphinx dependency checker
+In-Reply-To: <cover.1793375024.git.dzm91@hust.edu.cn>
+References: <cover.1793375024.git.dzm91@hust.edu.cn>
+Date: Thu, 12 Nov 2026 08:02:56 -0700
+Message-ID: <87qzgq5bz3.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,29 +70,24 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Wei Lixiang <weilixiang@kylinos.cn> writes:
+Dongliang Mu <dzm91@hust.edu.cn> writes:
 
-> Fix two misspellings of 'successfully' in the FUSE dentry cache
-> documentation. No functional change.
+> Add Deepin to the distributions that receive Debian-style dependency
+> installation hints. Correct typos and awkward wording in comments and
+> docstrings in the Sphinx dependency checker.
 >
-> Signed-off-by: Wei Lixiang <weilixiang@kylinos.cn>
-> ---
->  Documentation/filesystems/fuse/fuse-caches.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> v1->v2:
+> - Patch 1: keep the Deepin change unchanged and add Mauro's Reviewed-by.
+> - Patch 2: limit the wording fixes to comments and docstrings. Drop the
+>   v1 changes to printed messages and command-line help, and add Randy's
+>   Acked-by.
 >
-> diff --git a/Documentation/filesystems/fuse/fuse-caches.rst b/Documentation/filesystems/fuse/fuse-caches.rst
-> index 0778dd3d357f..de1a452fdd31 100644
-> --- a/Documentation/filesystems/fuse/fuse-caches.rst
-> +++ b/Documentation/filesystems/fuse/fuse-caches.rst
-> @@ -156,8 +156,8 @@ in several occasions:
->  
->  - When a new file system object is created (e.g. ``FUSE_CREATE``,
->    ``FUSE_MKDIR``, etc).
-> -- When a lookup is sucessfully performed.
-> -- When a dentry is sucessfully revalidated (``->d_revalidate()``).
-> +- When a lookup is successfully performed.
-> +- When a dentry is successfully revalidated (``->d_revalidate()``).
->  
+> Dongliang Mu (2):
+>   docs: Recognize Deepin for dependency hints
+>   docs: Correct comments in Sphinx dependency checker
+>
+>  tools/docs/sphinx-pre-install | 53 ++++++++++++++++++-----------------
+>  1 file changed, 27 insertions(+), 26 deletions(-)
 
 Applied, thanks.
 
