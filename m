@@ -1,119 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794496942;
-	b=UimD0PKwyDGhSmqjNkGCB2RYGgdiPRKjOApPYcLqGYJWBs1RjAWrq1GtF8cykUVTU7cb
-	 HZVjifF7rTHYF5cmZHy9vX7RCL/Y+yLwk3v7P3zAmZJwSe9SySuHhDpNCNqPy6DoSL6TL
-	 fv+PC943OM93T1TDnkLFVsXthG2CS01YRBDbNa+y8mz+ztAifjcJnSe7jQXVd6c6krg1D
-	 MOxBWVgE0lRBzrU//vEk8ohWUhuhwfKmL8QVNtiRYu29eDuS4/huuBKC/3B6GxiPDsxqJ
-	 D3k/kL131VflypdQLusxDi8eO7TnTMVZrFCpXNadejNj8Kni7GP55mHHE2DymomBZtw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794496942;
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.42
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794496999;
+	b=2g1XmM3ey2EsIUnLomwRJ6LrtA54Mk+OAu0jyXWxClkKnZIwfAPGz3H1UqDFcUX/Eejb
+	 SltC3I5vlsg1r+Yj2FPMkoL681JYvB58uuy/pgRe7A1FkjoiguUadJwS/4puRlOZmssgJ
+	 6Kt444PIgjsz3XOmZj+G6STu7vOXracFv4VDbRPfnJng+wjPqBKzbESg1pt1TfFNSLwmF
+	 5G6ko4C29WyR18I3BkCMGXspwDJ36dPhlXsn681Cq1DiMC/5O0knRFymbVLue1Q3koUXO
+	 UAQF9/9BIIXn+h1AYyfSHorsAjEa+z3Mtj0fujSYadQee6keI3Z8iBuQ6Q7K/ucxdeQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794496999;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=E8QRxqca6MPKKmYjqBq9RkAfrZBWcYxQ/ymz9RyAO8Y=;
-	b=p06vvoTSy3UCq52mLyx3n3pjCPHVpePsEnXtQwYSBzEUJkMgkM/OoILu3GgZoLh5JIdc
-	 E7pWolTc+71JNs/79t9nG8a5jjuaZJCOftVki3bsfpqmpyTZ8qjOQVpLkGkIM42HmG3Qf
-	 njm8OUORDNkSRWldJAMLZyjUZ6V3r4hzZV4Z+l4e1T38wMTmEHu9dbPp4c0vva/mHrFts
-	 ufeXsy9JHzMNhXG3eMtMLLOhKRJVTU85qf6UBAcO2aj0WKuKxohVlqNYiPKLbqDXI33Q3
-	 r4hriGg7i+zHj/2mFdbkXjz82Xc9sZDj5jDbd5uJBNc55/1aqn02LsND4bOuU8e0vRg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=/gWf9tRn8xdRTedV8zLP5Bk/WzXXZIsEniM+eU5R+pI=;
+	b=CcIHO6iBosDWcs1wczPnoc++7xqYdTZTxnlHz+rs+51UscBX59rLXp1+9yhp4i9HU5sv
+	 ypGdFXxFmoaZEUezLnu5cLQYRiWbsxd7nZ66bWhFhRhMOABWPtIFvbXycz6krkMToXBnB
+	 Ll7NF7pXMvHgIfNNnxN2KNtauZr6AiqgrLhuj4GV6rBWtJcJhvJ2vPE0tYGtN3A9J9SiS
+	 ZeWyY4sssp0fLQbBEZSZsuV/DBn/1/NFm8KmKL7H4SIvo77lPP+BUbgkgx3vvcK/C97CN
+	 sfvqlEgtHhzhi+TUWxiOai9nNx2zbye2UCV9HaGRZRipaOOr3Ri/igoqmpcvcm3vGoQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CFNCS1RQ;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xdHySA5y;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE1460A5BE1
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 15:22:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AE1460A5BE1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C139860A2607
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 15:23:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C139860A2607
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CFNCS1RQ
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso34765705e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 07:22:21 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xdHySA5y
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a208d93758so47159905e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 07:23:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794496997; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sYm5cz4cAOHX5mXT/RxUIgh40/QXGT4EHg9z5shFVBKZsMDOqpXbnoXtyOG2pNFiW0
+         1qZ986FGxeJyVCv3A/tcCLodmr2dP7b9uSGgnNjMcTrewda5N249KvZsLt0bpS8F3fFR
+         55VcdIjt+qKnMdfvym0pWwl6ox9KsfDG2815OOiLuWLQwxlUKC+ko8Rn+eCwu+cPtLMG
+         qLXM1jsMP+BLaBQv7VQQOXrO8YcPzTCDilMwotC2+uFElPQr9ZzqjmD5LlbxvS6qunBR
+         0dmsdxb7/zUzQzDZW17QfL3qvo0EKnxRKxlGnSJHfFFeNUvVMZcvVYl3JvwhER7ly+C0
+         YlXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=/gWf9tRn8xdRTedV8zLP5Bk/WzXXZIsEniM+eU5R+pI=;
+        fh=YuE+xj+2G6Hj76v/u5N80Jo/j7QJQZU910TG9f+OSW4=;
+        b=AhmD+1UUgVTs3qP/SJZo4erYpd+2tcw4INK+0NkPKWGsW4lxvDeyH6VO6rPLWF9LHs
+         b3gFmS2nSNu0JtIcYF8kBD2soflw2oVjfrIiet1zuOvs/DsdSupWYZqQwh7n4hF2m/TD
+         GHVh1EQbZ5daIPF6lczGzNH9bv5DOukmQ/gOljLzeFhKLwQS20vhujjQzdzndL5J4VJL
+         O6HXnPvOI7ppa6RJX5fKsH9i3MaACU8TlufwNbc9t5je/+YnLEblQoZ4nFGSDhbiB+QL
+         +hwKosoMVFeKdIb7OspvR+lPGWs34bLastmeroflC761anP0faMovHzcF20qHPfwz10t
+         5O5A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794496940; x=1795101740; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1794496997; x=1795101797; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=E8QRxqca6MPKKmYjqBq9RkAfrZBWcYxQ/ymz9RyAO8Y=;
-        b=CFNCS1RQhtbSxMwdv4RT7HaDOzw5D755nrRVwkL4k/OwRxOF9nDaPmGgbE6aBTSXWH
-         msk1dQ3pVIxMk4yUT4CG9M7TNrpwaoIvNpJ3/pm/e0iSCd4XEBJKI8p9xJEwtSIfutCC
-         stsi/5l34qljqB3RcnE4mIfJDNGptsv048CrwnBwOr0aEQYAk0b59wCbdRvQ6o8OL+fb
-         cvAtr7bg4Ikai7/soQQ6V0PODVJ4pPFSeLLwUnbQMGtni8xKfY3UKMvp3w+fEstsPVjc
-         i5FAdugW53dj2trdg9Fn6RkfhC18gt5RpmdSGsBIKL2h48wr0gH7pQH+a3qJOwITfh9h
-         SU1Q==
+        bh=/gWf9tRn8xdRTedV8zLP5Bk/WzXXZIsEniM+eU5R+pI=;
+        b=xdHySA5yJr8R3v1bJTdVJvaIGdetLFfLzfjuM+o7syK/yGeAzwWzFMxbWd/Ct+6rMK
+         MVANAOQwCJNG35jAUcUyz4qb96VvSdxfmtWqtOhL07JUGI5YDqKmQrWanxsYe0RUh4zA
+         h/f/rDCpmTn4mbz57neFPhvuuBN/Tq6CJYzLaR1BKKzGinJoy41is6MxKy1i9f9xSrkJ
+         Eh+N8FqElCwLLQdbDMED3VH/oMYEJIZfp3JDX38AozVHqv61qQEQ8tJnfedJbuyUQKf3
+         2G72UmsyJWQGEErAwHvQG+tY7G0eeC/0puJ2E95E1nXfJyAsX9FNegJ6m2ZoHeIHGgXM
+         AMVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794496940; x=1795101740;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1794496997; x=1795101797;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=E8QRxqca6MPKKmYjqBq9RkAfrZBWcYxQ/ymz9RyAO8Y=;
-        b=jBbsFHlbzIzx+d8W8sEVD18+uQKIBGBZ67j6CG5MgeuSNOKyRD8MSWMFYlhFBPiFYN
-         fjfL6YkNs3gdnXoiD61fuUEnrBi44Bi3zbgxIuG5GUSmrCfYjuJu2e7Y6ycIrEqoR2Xm
-         eQWd/yiqVMwKXxpjNk2Nvs6KNwnzRFh6WVlCdHwS1WPqIRWGA+iViVQxFQXA5MEiLt+p
-         ushvtO/Idir9y3Th4WWpLF0Y6TRBEKCtS7lvLLgQyRItg0NgkX032m/M25uNA2O7lMzJ
-         +qpK3K5zv01KihjzfI6rvE5H88CX1JNlHUmXEFjnFwdLsy+rIZ6IjHGgHkIWY1l/uLAp
-         +NGA==
-X-Forwarded-Encrypted: i=1; AL+hErFzs5VNuKOgMKwmkj6Zn4Xtr+JziyZ2MuoLRmyEq0Oki2VRU0hLkH69s/bF/ltrz22iQT/YUyfPyl4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8gCa+OyT+9kYBxRMSAUxJghWG3Mfil0D+MqTwjeSBYR+sCdotV
-	7CdKUKMcbktx6TZiTpR8+hztSpvuJdaJHgmDGXDtpiAynPG8G8TILmEv
-X-Gm-Gg: AYBFou0lUM7iyPu/8deZlEwgHWGdpI24/T7ZS+Q6v2XBFpFOIfCflIVwsVVn/66vI6m
-	I6JP7a0uHDfgE7nH6Rb4UNgUwM4n4X/qSyjcBdh3NtFMb+46MytnIWbpPhjsz6l83LZn+QGUuJk
-	wuVE/F7X/7rsB0hmGnGkFPBew8mWeBHxMplTrfJy93k8dfWwI0PW66q25Xl9sZu2CCu2+s2JctK
-	9JNO7ma91/WsFFGwrLHBPGtuRGAZmdbFFMTcn9KQp8HAhhsfjoW4MoiW78jKtDGtCX+sAMfefv9
-	b1YM2hD6HfPuIcB3Ng5PyCJLMwW9oYHVy5Pf7rIUSZHPX5DnR5KSwvYgFhtvYDWWK7QLKY9uomI
-	VP0qVNqOSWZ/wjAe9zR7kf6rGoMIh7zksbQRWUnExjIIlpHmU+bm2lrGA7wj4rqNA1jBZAtZWZf
-	neWZ3vfkwxfS46NQZFZSbWbKfA2ID9WQDu1Vxa7OAhm1V1aY3b2FwBJoxiVDbq1CxBedAQglelR
-	/gKPybrLaizWlZCcDuEwMlgSvX1AhONrT58jnbeQAe2xfFXW74jkyxCDtJZb6x5CcbGQfcCzYxA
-	Jc4VqcWZ5qrmoRkpAAgfcAZSIpwKgkivK2NTJaJswQtNt+YBymGocJM=
-X-Received: by 2002:a05:600c:1c0d:b0:4a2:1e1:d55 with SMTP id 5b1f17b1804b1-4ba093a3cf9mr132094285e9.28.1794496939343;
-        Thu, 12 Nov 2026 07:22:19 -0800 (PST)
-Received: from ingenieria31.oficinasStQ.local ([79.117.0.220])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e252f7fsm84746205e9.2.2026.11.12.07.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 07:22:18 -0800 (PST)
-From: =?UTF-8?q?M=C3=A0xim=20Pedraza=20Padilla?= <maximpedraza@gmail.com>
-To: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
-	Francesco Valla <francesco@valla.it>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Helge Deller <deller@gmx.de>,
-	Peter Jones <pjones@redhat.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Jocelyn Falempe <jfalempe@redhat.com>,
-	Sam Ravnborg <sam@ravnborg.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	dri-devel@lists.freedesktop.org,
-	devicetree@vger.kernel.org,
-	linux-efi@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-embedded@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 00/15] Add splash DRM client
-Date: Thu, 12 Nov 2026 16:22:09 +0100
-Message-Id: <20261112152209.3297409-1-maximpedraza@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <066197a1-aa2b-455b-84d8-4e2215fad764@suse.de>
-References: <20261027135342.2003632-1-maximpedraza@gmail.com> <066197a1-aa2b-455b-84d8-4e2215fad764@suse.de>
+        bh=/gWf9tRn8xdRTedV8zLP5Bk/WzXXZIsEniM+eU5R+pI=;
+        b=xH8QcWBSYquiGh72zzhM6lJKq40k8BVSV4t5yRe3BsnDPmj9c7PpuKkfKAPlpvUjBq
+         1sngLJlHPDbc21/F2fA7VFHSOPwyj2Pf5O6/PcnabVO45cx/buYeo0ZoCFxsiNxQYQ/o
+         qeI6sW9ut4DH+RjxLm8HZnrqZPEMAtlhdbF05DAYX03AweH403QPoCvLiAnasgVr4Imp
+         nJ9m5FEWPaXRJGznWKkLbcd7dFmm8ySWv4iRRXUOi1LgcFdA2teRh3nUX2+gDXPMuQ2X
+         nRjxXk9nn20aKlsuRvW+4eaivKgaQVY1YIvC1jDph9/cnQTwALpEIybGXpeMSyXSjhmv
+         Ir0A==
+X-Forwarded-Encrypted: i=1; AL+hErGLNQeSjsn0A41PgRyyv+8WNepjuOblwvzNSxJ4xs4mZIJfCS4n50pbzgPp5yQF15gobN7inkTgTW0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/jXEFl68gl4bIcGuvucWjcv/CSIoQVYV4fEwNL+nzWyz2AHAon
+	JpsFeAOoPJ9K1dmXU5m3OVvuzTiJuN4Ycmu7GfBxX8Xzrk0hjz2uKGbLfvZz1pF2Z4/pJFZV4aL
+	HFSxGpg+UUVpkLS7CggSGPNIiyibCW6k=
+X-Gm-Gg: AYBFou1GNMEfalAEIDyAiC0dxaoZV9z1MzNdq6xCW3ZVzdcuMGp8q78M/ZZMgdXYnvg
+	jtLfMQTsPEG16J09FOfTWh+iBiaLb4SxhSfhNqneAOzyYRYP8rNQUd6sLYLplZjGsf1k9BL4vMv
+	DkLZHdk6JUnTrf0KxJzE7YxFUNzus5YyuQk8zQb8I8ovMwUi8fU9rMHYWATG1+3SopIZQSheW5A
+	M6iP0eVktnG9z6w07fZ5TsCDqVP6f6JNn/NK/M6a66y7vxum9/jdwRrAor1NPpFcI1D6u4+nlKi
+	ronecKKcK7wcfVVK4VgplCclwnfKaLAi2aqY3hzRAR7rI0ZQ2Rd+B8lxTnkA43NrH1h32At8ojz
+	Ue2B4ltyXXKQtHxNxFWdaV3fOeUW6YfGAhXL7oMgk+7oc2FJqQynzItzXxXcUffZdlJ0UxMog+x
+	xy0eb2p3PooVZzkCor
+X-Received: by 2002:a05:600c:1986:b0:4a1:f7f4:7ced with SMTP id
+ 5b1f17b1804b1-4ba0937a886mr110753845e9.17.1794496996738; Thu, 12 Nov 2026
+ 07:23:16 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -123,53 +105,113 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20261104165504.2430480-1-kunwu.chan@gmail.com>
+ <20261104165504.2430480-27-kunwu.chan@gmail.com> <444c9bb1-fccc-44ff-8bcb-a04dd36eeecb@paulmck-laptop>
+In-Reply-To: <444c9bb1-fccc-44ff-8bcb-a04dd36eeecb@paulmck-laptop>
+From: KunWu Chan <kunwu.chan@gmail.com>
+Date: Thu, 12 Nov 2026 23:23:05 +0800
+X-Gm-Features: AclHuK-Vxw-TWlfdg2rnJncie6E1-Z5rOKezLCml8xvtMgG1OEVJSy5iWLiq3yg
+Message-ID: <CAN_Opa8-macEL323Tw3JUai3ETmq0CCt93ddCZ+Xqd1RF1Q5nA@mail.gmail.com>
+Subject: Re: [PATCH 26/28] hazptrtorture: Add torture_type=none clean skip for
+ rcuscale coexistence
+To: paulmck@kernel.org
+Cc: boqun@kernel.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, 
+	corbet@lwn.net, mingo@redhat.com, frederic@kernel.org, 
+	neeraj.upadhyay@kernel.org, josh@joshtriplett.org, urezki@gmail.com, 
+	dave@stgolabs.net, stern@rowland.harvard.edu, parri.andrea@gmail.com, 
+	will@kernel.org, dhowells@redhat.com, j.alglave@ucl.ac.uk, 
+	luc.maranget@inria.fr, akiyks@gmail.com, dlustig@nvidia.com, 
+	joelagnelf@nvidia.com, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	longman@redhat.com, rostedt@goodmis.org, qiang.zhang@linux.dev, 
+	brads@mainlining.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, lkmm@lists.linux.dev, linux-doc@vger.kernel.org, 
+	rcu@vger.kernel.org, linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Thomas, Javier, Francesco,
+On Wed, Nov 11, 2026 at 5:31=E2=80=AFAM Paul E. McKenney <paulmck@kernel.or=
+g> wrote:
+>
+> On Thu, Nov 05, 2026 at 12:54:44AM +0800, Kunwu Chan wrote:
+> > When both HAZPTR_TORTURE_TEST and RCU_SCALE_TEST are built into
+> > the same kernel, hazptrtorture calls torture_init_begin() first
+> > and rcuscale fails with -EBUSY.  torture_type=3Dnone makes
+> > hazptrtorture return early without registering, allowing the
+> > rcuscale hazptr scale type to run in the same boot.
+> >
+> > Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
+>
 
-Thanks a lot for the reviews. I'm answering everything here in one go.
+ Thanks Paul for the detailed reply.
 
-On 11/11/26 14:52, Thomas Zimmermann wrote:
-> So shall we merge patches 1 to 6 and 8 first? You'd have something in
-> upstream already and not chase a moving target. From there, we can merge
-> the other features in the coming weeks.
+> You are only supposed to build one of them into the kernel at a time,
+> so the intent of the torture_init_begin() failure paths is to enforce
+> this rule.  If you want to run both in the same kernel, the way to do
+> that is to build both as kernel modules, then do modprobe and then rmmod
+> of the first one, followed by modprobe and rmmod of the second one.
+>
+> So please help me out here.  Why do we need to allow both rcuscale and
+> hazptrtorture to be built into the same kernel?
+>
 
-Yes, that sounds great. v7 is ready and holds just those: patches 1 to 4,
-6 and 8 of v6, with the MAINTAINERS entry squashed into the patch that
-adds drm_splash.c, so six patches in all. The DT binding, the placement
-and rotation, and the connector orientation will follow as a separate
-series once this one is in.
+You're right. I had incorrectly made rcuscale's hazptr scale ops
+depend on CONFIG_HAZPTR_TORTURE_TEST.
+That led me to enable both tests in the same kernel and add
+torture_type=3Dnone to keep hazptrtorture from registering.
 
-What changes in v7 from your comments:
+> If your desire is simply better handling of an error condition, an
+> alternative is to force either a Kconfig or build failure when more than
+> one of the modules invoking torture_init_begin() is built into the same
+> kernel at the same time.
+>
 
-- the Assisted-by tags are gone from every patch (Javier)
-- MAINTAINERS: I'm listed as M: and Francesco as R: (thanks, Francesco),
-  in the same patch as drm_splash.c
-- the firmware source is now DRM_SPLASH_SRC_FW, and the Kconfig options
-  DRM_CLIENT_SPLASH_SRC_FW and DRM_CLIENT_SPLASH_FW_NAME; the BMP decoder
-  keeps its name, since the BGRT goes through it too
-- the drm_splash_fw_load() stub returns 0
+The hazptr core is available independently, so that dependency is
+unnecessary. I'll remove the guard from patch 23, leave
+HAZPTR_TORTURE_TEST disabled in the rcuscale configuration, and
+drop the torture_type=3Dnone workaround.
 
-On the CONFIG_X86 around the BGRT check in patch 4: it comes from efifb,
-where efifb_bgrt_sanity_check() is x86 only too, and its comment says
-that all x86 firmwares centre the image horizontally. I haven't found
-that promised for other architectures, and there the check could reject
-a logo that is fine, so I'd rather keep it as efifb does. If you prefer
-it on every architecture, or gone, I'll change it.
+Thanks,
+Kunwu
 
-The issue Sashiko found on v6 (a restore deferred while the device was
-suspended) is fixed in v7, together with a few more that a later Sashiko
-run found; the changelog of patch 4 lists them.
-
-About your Reviewed-by on patch 4: since v6 the work has changed quite a
-bit. Restore now leaves the commit to the work, a hotplug while userspace
-holds the display waits for the next restore as fbdev does, and
-unregister waits for the work before it looks for a pending firmware
-request. Shall I keep your tag, or drop it so you can look at the new
-version first? Whichever you prefer.
-
-I'll send v7 shortly.
-
-Best regards,
-Màxim
+>                                                         Thanx, Paul
+>
+> > ---
+> >  .../selftests/rcutorture/configs/rcuscale/HAZPTR    | 13 +++++++++++++
+> >  .../rcutorture/configs/rcuscale/HAZPTR.boot         |  1 +
+> >  2 files changed, 14 insertions(+)
+> >  create mode 100644 tools/testing/selftests/rcutorture/configs/rcuscale=
+/HAZPTR
+> >  create mode 100644 tools/testing/selftests/rcutorture/configs/rcuscale=
+/HAZPTR.boot
+> >
+> > diff --git a/tools/testing/selftests/rcutorture/configs/rcuscale/HAZPTR=
+ b/tools/testing/selftests/rcutorture/configs/rcuscale/HAZPTR
+> > new file mode 100644
+> > index 000000000000..c5e9cf0184ae
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/rcutorture/configs/rcuscale/HAZPTR
+> > @@ -0,0 +1,13 @@
+> > +CONFIG_SMP=3Dy
+> > +CONFIG_NR_CPUS=3D128
+> > +CONFIG_PREEMPT=3Dy
+> > +CONFIG_HZ_PERIODIC=3Dn
+> > +CONFIG_NO_HZ_IDLE=3Dy
+> > +CONFIG_HOTPLUG_CPU=3Dy
+> > +CONFIG_DEBUG_KERNEL=3Dy
+> > +CONFIG_HAZPTR_TORTURE_TEST=3Dy
+> > +CONFIG_HAZPTR_DEBUG=3Dy
+> > +CONFIG_HAZPTR_STALL_DETECTOR=3Dy
+> > +CONFIG_HAZPTR_STALL_TIMEOUT=3D1000
+> > +CONFIG_HAZPTR_DRAIN_ASSIST=3Dy
+> > +CONFIG_RCU_SCALE_TEST=3Dy
+> > diff --git a/tools/testing/selftests/rcutorture/configs/rcuscale/HAZPTR=
+.boot b/tools/testing/selftests/rcutorture/configs/rcuscale/HAZPTR.boot
+> > new file mode 100644
+> > index 000000000000..e9cca4cf453b
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/rcutorture/configs/rcuscale/HAZPTR.boot
+> > @@ -0,0 +1 @@
+> > +hazptrtorture.torture_type=3Dnone
+> > --
+> > 2.43.0
+> >
