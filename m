@@ -1,54 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794448146;
-	b=21/IrL9r2dyloiZ1hsy0v4hunAWzVXT7EwoMAbXYEHncpaxm3qFUGfVkOBHKdsiXGSeD
-	 +fCq+XO003hsKHZ6U+HAecI2xgSLj325ioyiuEKVIHAX+NFn56jo+ipnhMj4zNwNulKdb
-	 2fgIlrzronZJOOm/XgX1D0p1oyoWBiijZADczn9KRG7iuwyLSTMdIVn1BCJXlBXwTaYWK
-	 UM+5PBTQVfquDAkcchP9NVpP6wqb2bg/2q60wW6WyM/xNBx9pCX/1a45KJy8u2n4l/T3U
-	 8KoY2F/ffDjMb1vEJAm6S2W26xXPJMb80weuYctL+xSZlZdMOWAyzU7slxhKaRo/5GA==
+	t=1794448639;
+	b=Q022gjR/Rt/lm8mJmdTpzrTMDaq35+OEgZ5ilE0OWj0eXLa8D3RYXOdgBqs7UVS2coOh
+	 ECN6wxiyMoYZdYkwTbfQGCH0HDbRbu+zSEWrfPptGd07/xRckHjtnETYhyZnFkjUpIpr0
+	 n776YDCnQ0xYqmpQ8v5zcXpQXURB+S5O0kfuF36a1WZnPSNpMBSJBvTnhJ1VOO9tRhBV1
+	 koUWuqkL1QYP6wJ36jQ3mJXrhx7ipw25rK7wEunKdYRZ7+VwsgNZOrpFA8vFILseYSa85
+	 HwpSHGQC7EenygIrMI3BHEYeQb16bQWGYi0gLEBmxW15El0CylWviHlqe8QpdMeVFpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794448146;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=8vIz8xYau+WtFrk0xTr9b5QoDkJ8T5uH0TopCPW+Ht0=;
-	b=VAAccSG3qITPuS52fMaR/1XIs9B6B7lURoi/qsQqlXV/goMjv/IsjrbjItYhsOnNRie0
-	 b6kuakT87QMq96QFrGriKORYui0NNhrBgqffMorzgKQDlc8L7QJ0Zw5kKh0Ejw7GLsLN9
-	 8fr7x8be7kQupDVAFUoT3/8BHY/DqtO0ZJcqsLJxcvSEjF5g4EKF24L7KuA5Uy8x+TIh+
-	 Oje424A7U3UuwdqebSdYnF/qZreGm78ZwgaOVKKKBH2r5pRBelrdiXTFwNkSCYItRsJ//
-	 mo+1oEVNmOGmS+B6aLm8y/PMZMJWXyptR1Y35V4ZsTNlYZG4sieMRl05cHeKV3uTngA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794448639;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=i9rfrReLPN4eoCuhLh++xCTWs2P8s66MnyJOkAlyAg0=;
+	b=w1f3V4LQlvdHMpQDQmXq16WQRZavJ/IZF3OpdAh+/e8MzbupMHEyh1OrIf/F6ZIwxbTm
+	 9Fi0wLbtZrkbD47cmFg5e49Cce6Lh1KwV/lIgCrdvnTwaoRRtWfZtKxpsnuIIq33bpePN
+	 cgykELfaHMG0fnSvgMVhwmDgZw5gDeUxJs2pppivQsgOjGTPQuiBgVvHHzohCu4S8pfW5
+	 gbZs6AbgXNPwSTQI1E8cgeppDF7JWCOWxVZg9480inzOuUXv6W5klsUIo3OrHLW8MDKcr
+	 kPgi6uPneGjBkkGqCC03+hB2zY5amgnPEXsDv7z2nOYrXCQIw1BlwidPcUiTG4837YQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZUR1Pivf;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mdrF9o6F;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023FB606A323;
-	Thu, 12 Nov 2026 01:49:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 023FB606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A966606A31C;
+	Thu, 12 Nov 2026 01:57:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZUR1Pivf
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8vIz8xYau+WtFrk0xTr9b5QoDkJ8T5uH0TopCPW+Ht0=; b=ZUR1Pivf7YfAPwvJVMDDsk3Jzp
-	0grOW/HpN24mmm5CWYJw548vD7py3YwdfURplC+tK3WNgHgaeIg97N5X5IGC60uprIDaFcaXyldV0
-	2DDUf82sallNIesdaI5ir+Q5DxcH4WUNSi3ZaXYfklmnu+JhczffaiyoWlhpis9DDh7ke2D0Wnm1/
-	E8ejpeBozWlDmjGCvrWyNho5YVnSCC5MJdfvxhCr1tpAItxFYwXbla0UNRiy8fC7NOVOGZgzTMGDD
-	cy9/lqEVBA9tJCrOPHsaM7rk7Dslgfi23hgjhP/gtg02gehiZhyG+jNlFvmxiYZaacJUI0k6lYz0T
-	MxJBZESQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRJvz-00000008RjV-3qVJ;
-	Thu, 12 Nov 2026 01:49:03 +0000
-Message-ID: <e6f8e81b-3c49-4112-b119-778fb8b89f38@infradead.org>
-Date: Wed, 11 Nov 2026 17:49:02 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mdrF9o6F
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C9A1F00A05;
+	Thu, 12 Nov 2026 01:57:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794448639;
+	bh=i9rfrReLPN4eoCuhLh++xCTWs2P8s66MnyJOkAlyAg0=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=mdrF9o6FROv/mgAPvMpl+QiF3JupPX1P1uoWPHATrVXMSEfMTZIxv02J5UNbbBQTG
+	 XmQWi3bBr5iOKInVlrxNI0cmROqz5hG/x6pdA/JVjAyaLyN/Oxx7f9iJ1p+cJbm+0b
+	 cKXKvfh3JwO/MctQmCOLRsvViLS7PQvOrP2zCYGgz4lvuU8pKiJx8fUiS4eFsqynCH
+	 RE7ynLHMY7nIDSFsOUBS58APApbq5qziRG/kZceg9CWSw8IzT5bYj5aOnzwZ2htzD+
+	 6yfXQtpK5UufU+FSKrT780J0u1qtKGOcXg9nJFMmujbYBvKlCwCp/6NH7CnUMZb3/J
+	 Roc0rnupeYE6A==
+Date: Wed, 11 Nov 2026 17:57:14 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: Vitaly Zuevsky <vitaly.zuevsky@gcore.com>
+Cc: netdev@vger.kernel.org, David Miller <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Richard
+ Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>,
+ Magnus Lindholm <linmag7@gmail.com>, Thomas Bogendoerfer
+ <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
+ Andreas Larsson <andreas@gaisler.com>, Kuniyuki Iwashima
+ <kuniyu@google.com>, Willem de Bruijn <willemb@google.com>, Arnd Bergmann
+ <arnd@arndb.de>, Christian Brauner <brauner@kernel.org>, Andrew Halaney
+ <andrew@amutable.com>, Jori Koolstra <jkoolstra@xs4all.nl>, Alexander
+ Mikhalitsyn <alexander@mihalicyn.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Chuang Wang <nashuiliang@gmail.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
+ linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
+ linux-arch@vger.kernel.org
+Subject: Re: [PATCH net-next v2] net: add SO_BYPASS_RFS to exclude a socket
+ from RFS and aRFS
+Message-ID: <20261111175714.1bea2584@kernel.org>
+In-Reply-To: <20261109014547.81555-1-vitaly.zuevsky@gcore.com>
+References: <20261109014547.81555-1-vitaly.zuevsky@gcore.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,116 +75,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/40] nitro_enclaves: Add support for Nitro Sandboxes
-To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Arnd Bergmann <arnd@arndb.de>
-Cc: The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
- iommu@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- nh-open-source@amazon.com, linux-mm@kvack.org,
- Jonathan Corbet <corbet@lwn.net>
-References: <cover.1794300002.git.graf@amazon.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <cover.1794300002.git.graf@amazon.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Sun,  8 Nov 2026 20:45:47 -0500 Vitaly Zuevsky wrote:
+> RFS and accelerated RFS are enabled per host and per rx queue, but
+> whether steering helps is a property of the flow. A host that carries
+> a few long-lived flows which benefit from steering alongside a large
+> churn of short-lived flows which arrive on the right CPU already has
+> no way to express that today.
 
+1) Please respond to netdev-bot+sashiko@kernel.org, we don't use 
+the global bot (you only got a reply from it because you CCed half 
+of the universe for no real reason).
 
-On 11/11/26 2:41 PM, Alexander Graf wrote:
-> 
-> Alexander Graf (40):
->   nitro_enclaves: Allow the CPU pool to span NUMA nodes
->   nitro_enclaves: Add NE_ADD_ANY_VCPU
->   nitro_enclaves: Expose CPU pool state under sysfs
->   nitro_enclaves: Document multi-NUMA CPU pools
->   dma-contiguous: add dma_get_numa_cma_area() accessor
->   nitro_enclaves: Allocate physically contiguous enclave memory
->   nitro_enclaves: Add NE_MEMORY_SHARED
->   nitro_enclaves: Add NE_ADD_MEMORY_REGION
->   nitro_enclaves: Document the memory pool
->   nitro_enclaves: Add NE_CREATE_VM2 with a launch flag word
->   nitro_enclaves: Add NE_ENCLAVE_PCIE_MODE launch flag
->   nitro_enclaves: Name the device's error codes in the UAPI header
->   nitro_enclaves: Log a reached device limit at info level
->   nitro_enclaves: Add NE_SET_INFO_PAGE
->   nitro_enclaves: Document the info page in the memory pool
->   nitro_enclaves: Turn the command reply into a per-command union
->   nitro_enclaves: Add the slot pool donation commands
->   nitro_enclaves: Donate memory for the slot pool
->   nitro_enclaves: Add the slot pool growth commands
->   nitro_enclaves: Add a helper to grow the slot pool
->   nitro_enclaves: Document the slot pool
->   nitro_enclaves: Expose slot pool state under sysfs
->   nitro_enclaves: Add the device add command
->   nitro_enclaves: Add NE_ADD_DEVICE
->   nitro_enclaves: Read the interrupt multiplexer geometry at probe
->   nitro_enclaves: Donate a bitmap page per multiplexed vector
->   nitro_enclaves: Dispatch multiplexed interrupts to per-queue bindings
->   nitro_enclaves: Add NE_SET_NOTIFY_EVENTFD
->   nitro_enclaves: Report the device's info notification
->   nitro_enclaves: Count multiplexed interrupts under debugfs
->   nitro_enclaves: Map the doorbell window at probe
->   nitro_enclaves: Add NE_SET_VRING_CALL
->   nitro_enclaves: Assert the layout of the ioctl argument structs
->   nitro_enclaves: Pass on the Nitro Sandbox launch flags
->   nitro_enclaves: Add NE_ENCLAVE_DIRECT_MODE
->   nitro_enclaves: Add NE_ENCLAVE_PCIE_HOTPLUG_MODE
->   nitro_enclaves: Add NE_ENCLAVE_CPU_OVERCOMMIT_MODE
->   nitro_enclaves: Add NE_GET_CAPS
->   nitro_enclaves: Add NE_UPDATE_DEVICE_CONFIG
->   nitro_enclaves: Document the driver side of Nitro Sandboxes
-> 
->  .../sysfs-devices-virtual-misc-nitro_enclaves |  232 +
->  Documentation/virt/ne_overview.rst            |  256 +-
->  MAINTAINERS                                   |    1 +
->  drivers/virt/nitro_enclaves/Kconfig           |   19 +
->  drivers/virt/nitro_enclaves/ne_misc_dev.c     | 4832 +++++++++++++++--
->  drivers/virt/nitro_enclaves/ne_misc_dev.h     |  206 +-
->  drivers/virt/nitro_enclaves/ne_pci_dev.c      | 1568 +++++-
->  drivers/virt/nitro_enclaves/ne_pci_dev.h      |  599 +-
->  include/linux/dma-map-ops.h                   |    7 +
->  include/uapi/linux/nitro_enclaves.h           | 1182 +++-
->  kernel/dma/contiguous.c                       |   36 +
->  samples/nitro_enclaves/ne_ioctl_sample.c      |   10 +-
->  12 files changed, 8282 insertions(+), 666 deletions(-)
->  create mode 100644 Documentation/ABI/testing/sysfs-devices-virtual-misc-nitro_enclaves
-> 
-> 
-> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+2) Some data showing the win from this on real production workloads
+would be nice.
 
-That's 7.4-rc1, but I can't get this series to apply cleanly to
-7.4-rc1 or linux-next...
+3) The API looks backwards? I'd think that most users would want an opt
+in for sockets they care about rather than having to chase down every
+other socket on the system to exclude?
 
-IMO it would be better if the series applied to something
-newer than 7.4-rc1.
-
-> prerequisite-patch-id: 542b3d78fda912095b75a49becd1b93109befdbc
-> prerequisite-patch-id: 318368e966c1925652b7976948f435d42b87c72f
-> prerequisite-patch-id: eb35b5d713e7f50f6d1d02310c9afe10b1628fc6
-> prerequisite-patch-id: 223bf6e60620ca8fe72f3ff6f3bd3f5839cdd6d5
-> prerequisite-patch-id: e5305ce0515a02f7f88e72adf02c6a2bee2fd2e0
-> prerequisite-patch-id: 759b5920f842d70e675770608d9088639c10559e
-> prerequisite-patch-id: e1837df37663da3d3ce53afa4594828b2d602152
-> prerequisite-patch-id: f0d4302bd36f94de95951a0db1ae9eb9747076aa
-> prerequisite-patch-id: 41159b92e250fef705be52f714b6e2761a2cd1f7
-> prerequisite-patch-id: a0c3a56907acac2297c800209faa2849a8df0e48
-> prerequisite-patch-id: a80a95bd682b540be5760e8fdf7044379fe32d61
-> prerequisite-patch-id: 9c01e0fecd6810f3448582715c87cd3dd7a6cdf1
-> prerequisite-patch-id: b94dfc8bb1039740d88a30535445bb7b3dd1fe74
-> prerequisite-patch-id: bd76f15728dc0ee2ca3417cd95a6b23a7d63e91f
-> prerequisite-patch-id: 0c60f1574b590f68885a25760017e9ff87752f66
-> prerequisite-patch-id: 63dff43da52934a6e6f5e65c3e235a7114b6b4dc
-> prerequisite-patch-id: af52cf938525874cadd6d879aa76495e563876d2
-> prerequisite-patch-id: f53ee22764b5f13708cacd3e48a59a82d71a270c
-> prerequisite-patch-id: 258b8c18168db49aacbda5156e33978b539666ab
-
+4) Please trim the slop in the documentation.
 -- 
-~Randy
-
+pw-bot: cr
