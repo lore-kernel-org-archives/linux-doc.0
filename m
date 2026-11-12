@@ -1,71 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794448639;
-	b=Q022gjR/Rt/lm8mJmdTpzrTMDaq35+OEgZ5ilE0OWj0eXLa8D3RYXOdgBqs7UVS2coOh
-	 ECN6wxiyMoYZdYkwTbfQGCH0HDbRbu+zSEWrfPptGd07/xRckHjtnETYhyZnFkjUpIpr0
-	 n776YDCnQ0xYqmpQ8v5zcXpQXURB+S5O0kfuF36a1WZnPSNpMBSJBvTnhJ1VOO9tRhBV1
-	 koUWuqkL1QYP6wJ36jQ3mJXrhx7ipw25rK7wEunKdYRZ7+VwsgNZOrpFA8vFILseYSa85
-	 HwpSHGQC7EenygIrMI3BHEYeQb16bQWGYi0gLEBmxW15El0CylWviHlqe8QpdMeVFpA==
+	t=1794449123;
+	b=lkV3BJflWEcVJvEsZCAqsfJkOarQCvP4RUD7Xy0qc5CVA01ZdSm2ikfS7f5vVPIETuae
+	 C6jeMbchF9aWhVrF69r1XXBa7aCj8MLxEwAogiKqQz1wF80WORKBWS7ef9L4qenU9s1/U
+	 /6QOyKM/buB0eZ/g5xhtDm/hQvB7DTX+sd3Bxc7LSjgkB2ab3+O7OzJEdDQ0E3N323Igl
+	 q+STbFW+Mr7JreoEidA1qO/LOR7v6T8EwLVhzmKRwXBq90sq5Yn+GbMyHx6Mm3MUHMbGB
+	 oj6S4/IxrtdxcXecFChxtSoCBWrwRYpHfoewzqSrCKvNIGiLGni0sZkNoIKfqimShCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794448639;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=i9rfrReLPN4eoCuhLh++xCTWs2P8s66MnyJOkAlyAg0=;
-	b=w1f3V4LQlvdHMpQDQmXq16WQRZavJ/IZF3OpdAh+/e8MzbupMHEyh1OrIf/F6ZIwxbTm
-	 9Fi0wLbtZrkbD47cmFg5e49Cce6Lh1KwV/lIgCrdvnTwaoRRtWfZtKxpsnuIIq33bpePN
-	 cgykELfaHMG0fnSvgMVhwmDgZw5gDeUxJs2pppivQsgOjGTPQuiBgVvHHzohCu4S8pfW5
-	 gbZs6AbgXNPwSTQI1E8cgeppDF7JWCOWxVZg9480inzOuUXv6W5klsUIo3OrHLW8MDKcr
-	 kPgi6uPneGjBkkGqCC03+hB2zY5amgnPEXsDv7z2nOYrXCQIw1BlwidPcUiTG4837YQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794449123;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=qKzq1YaHaTK/cMOsuVlloBBGSRBcO+4dM5JD9G9qTYM=;
+	b=s+BOcAe1hKOJ6kEzSBthIt05887fxSVeUHmH4CZFwZBBByMsDmKFQ1eilKIHbM4nPcZu
+	 yQsUE+3T3mo6qPQ15m9twRQwfk5somvRycfr75HYiDGMR+UeLmcfpVvYZs7VMJZ43q8NG
+	 nD05MoNqLn86irl+j8iZimbgdSQ3R+qZJwSOcjs96LEFAxjuzZqnDYzkMZxanyz1I91SG
+	 R/Jvcuk6MB8wSbQ3k7w3wYIOMBugXZL5HLTKbs4I0UG7v4r8dnWyUGECzyxlerYlscsck
+	 dfdalJdy1/aTqcK/SfQfoNLWcuSAxblCdzK+pSzxKdFxXEJnz+9EDlV8wjsZ10oaD5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mdrF9o6F;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=chromium.org;
+	spf=pass smtp.mailfrom=chromium.org;
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=M8LMUd9p;
+	arc=none smtp.remote-ip=209.85.216.50
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A966606A31C;
-	Thu, 12 Nov 2026 01:57:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49442606A324
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 02:05:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49442606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mdrF9o6F
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C9A1F00A05;
-	Thu, 12 Nov 2026 01:57:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794448639;
-	bh=i9rfrReLPN4eoCuhLh++xCTWs2P8s66MnyJOkAlyAg0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=mdrF9o6FROv/mgAPvMpl+QiF3JupPX1P1uoWPHATrVXMSEfMTZIxv02J5UNbbBQTG
-	 XmQWi3bBr5iOKInVlrxNI0cmROqz5hG/x6pdA/JVjAyaLyN/Oxx7f9iJ1p+cJbm+0b
-	 cKXKvfh3JwO/MctQmCOLRsvViLS7PQvOrP2zCYGgz4lvuU8pKiJx8fUiS4eFsqynCH
-	 RE7ynLHMY7nIDSFsOUBS58APApbq5qziRG/kZceg9CWSw8IzT5bYj5aOnzwZ2htzD+
-	 6yfXQtpK5UufU+FSKrT780J0u1qtKGOcXg9nJFMmujbYBvKlCwCp/6NH7CnUMZb3/J
-	 Roc0rnupeYE6A==
-Date: Wed, 11 Nov 2026 17:57:14 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Vitaly Zuevsky <vitaly.zuevsky@gcore.com>
-Cc: netdev@vger.kernel.org, David Miller <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Richard
- Henderson <richard.henderson@linaro.org>, Matt Turner <mattst88@gmail.com>,
- Magnus Lindholm <linmag7@gmail.com>, Thomas Bogendoerfer
- <tsbogend@alpha.franken.de>, "James E.J. Bottomley"
- <James.Bottomley@HansenPartnership.com>, Helge Deller <deller@gmx.de>,
- Andreas Larsson <andreas@gaisler.com>, Kuniyuki Iwashima
- <kuniyu@google.com>, Willem de Bruijn <willemb@google.com>, Arnd Bergmann
- <arnd@arndb.de>, Christian Brauner <brauner@kernel.org>, Andrew Halaney
- <andrew@amutable.com>, Jori Koolstra <jkoolstra@xs4all.nl>, Alexander
- Mikhalitsyn <alexander@mihalicyn.com>, Tariq Toukan <tariqt@nvidia.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Chuang Wang <nashuiliang@gmail.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-alpha@vger.kernel.org, linux-mips@vger.kernel.org,
- linux-parisc@vger.kernel.org, sparclinux@vger.kernel.org,
- linux-arch@vger.kernel.org
-Subject: Re: [PATCH net-next v2] net: add SO_BYPASS_RFS to exclude a socket
- from RFS and aRFS
-Message-ID: <20261111175714.1bea2584@kernel.org>
-In-Reply-To: <20261109014547.81555-1-vitaly.zuevsky@gcore.com>
-References: <20261109014547.81555-1-vitaly.zuevsky@gcore.com>
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=M8LMUd9p
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ad41b47541so2355731a91.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 18:05:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1794449122; x=1795053922; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=qKzq1YaHaTK/cMOsuVlloBBGSRBcO+4dM5JD9G9qTYM=;
+        b=M8LMUd9pSI4E189tEYTQVVCeqMNbmM8OBOGdL5r1WCP+ApYPIFhMe0GulCPpc/maC6
+         v9xWV2K8DWgADKMPZxbEZBtBgtXib/TA5zvfMr1oREvVJC04J0SflCaRXieUd+SQZqHV
+         AecGMblpWBVJMHQl+geL5R3Hc+6KlnC6RG6f8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794449122; x=1795053922;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qKzq1YaHaTK/cMOsuVlloBBGSRBcO+4dM5JD9G9qTYM=;
+        b=SwwgQ904c/C/aDn8RJY8yh64K4a4YBo+V6Ln4Xh5doAHu1soD8/DfT0E90Jmm27a7K
+         cauwTrX5/EUl13jo5Z9KbRwPpBqJVzPgE3aS8fY1pkGQ58DuJb76E3V2fZgarzky2DmB
+         AQ50oxqU76C6hqDQLAFQduIQqq7HHnbjckv9WGHTKXHBWmAW9eYJ/LD/GYKouaSLNTZ3
+         TUPMHE2TbWMcrumEle2Y8cKRIJEMAqsWlbE/obxYBaAA77q+wckgNi9tT9/1ADO01kwb
+         4lXcui8imzqAzp8aSPKZn43tIhhm2hhqCjFIOagHefdXmhDOAQ0XAVWx9X6qCcOWt+Bs
+         hGFQ==
+X-Forwarded-Encrypted: i=1; AL+hErFfXkQDCwQ4rmOEDneXsrwBqZZSu0QnqklJhE8L93QUScd4qJYUrKP2gBNK2XtcAzLxVUtCLDnquKg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8mBb2BjvJkDM0TneidDSr+aHZVt8QBq6it90Wo4dU1vtds/JC2
+	flUB0Qebevmazx+rah56lpltxJRVV2ToCLY1+/zbDmTBANT/ZVhyxI9QECkaPCfyIw==
+X-Gm-Gg: AYBFou1hbbPz+kAXQH0lpyggKs0EhWFG6/Um36DpSjKPp357v9CBdmQDl6B9q4URfl3
+	dBDv5p5taRQHTVQ4AbWe5Hs4LKvEhRgSXyWLx7xrdeK+K7oUy3o4NGnTePJb4HzxIUAAN7z+Dw/
+	waeQrkNp6PH8oVtJ8jZSqhx43+/Itk6AypEuait7+0IUNsBhMouHx62333pdEzg2OBTIOlgs6Nx
+	PFYikVErIemXJasPUMuoDF5FIzdqpvSibTmlQBtZQaqvi0amtsrD6MExOMK4NYnfNsW0GcLmt2q
+	HqVN/LtzeYIidHCjvchQuq+DVXvVLMf97wcTzcSHterNry4FM8zeoHFHAQS9EZ7LdqIMrrdV9Z5
+	bXO/v0jdSL+mOJIcN+BfCTLKFChKPhooELOSi7S44m/3Wja9cEG9VyBPGKLkBQ0V3VXPUOYHh2V
+	Ei+6KPuZfINch5cckEqrUf8RfZbVAOKTabvjRSigD5C8kCfXyx7j+796qmQbU1By85DravF8Ss2
+	rXypNjrz/SuNWHP0Tv75uEFCNS0iNCRZ/Cd4qxG65AErHslCGiX3TXo3IdsjdIZUrjmTX2wuZaN
+	2o1ZWrSZooA9lWzBprsYUvnmfH6zZuH5GqjKGVeeF0iPBvf4nKkpCWaavqS/9WxoBScYhw==
+X-Received: by 2002:a17:90b:4ad0:b0:3a7:3474:b1ee with SMTP id 98e67ed59e1d1-3b182f1adcdmr4140105a91.60.1794449122530;
+        Wed, 11 Nov 2026 18:05:22 -0800 (PST)
+Received: from google.com ([2a00:79e0:2031:6:ace7:ac44:3dca:1bb4])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197c6c9c5sm1832060a91.1.2026.11.11.18.05.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 18:05:21 -0800 (PST)
+Date: Thu, 12 Nov 2026 11:05:13 +0900
+From: Sergey Senozhatsky <senozhatsky@chromium.org>
+To: Xueyuan Chen <xueyuan.chen21@gmail.com>
+Cc: Minchan Kim <minchan@kernel.org>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Dongliang Mu <dzm91@hust.edu.cn>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
+	Helen Koike <helen.fornazier@gmail.com>, Vignesh Raman <vignesh.raman@collabora.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	Nhat Pham <nphamcs@gmail.com>
+Subject: Re: [PATCH v3] mm/zsmalloc: remove CONFIG_ZSMALLOC_STAT
+Message-ID: <avUet_6jVqlWSP00@google.com>
+References: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,27 +108,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
 
-On Sun,  8 Nov 2026 20:45:47 -0500 Vitaly Zuevsky wrote:
-> RFS and accelerated RFS are enabled per host and per rx queue, but
-> whether steering helps is a property of the flow. A host that carries
-> a few long-lived flows which benefit from steering alongside a large
-> churn of short-lived flows which arrive on the right CPU already has
-> no way to express that today.
+On (26/11/11 20:41), Xueyuan Chen wrote:
+> CONFIG_ZSMALLOC_STAT only controls the debugfs interface. The class
+> counters are updated regardless of this option.
+> 
+> Remove the CONFIG_ZSMALLOC_STAT guards and rely on the debugfs API
+> stubs when CONFIG_DEBUG_FS=n. Skip statistics setup silently when
+> debugfs is unavailable.
+> 
+> Remove the Kconfig entry and replace the existing CONFIG_ZSMALLOC_STAT
+> settings with CONFIG_DEBUG_FS=y. Update the English and Chinese
+> documentation to match, and clarify the pool name in the debugfs path.
+> 
+> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> Reviewed-by: Nhat Pham <nphamcs@gmail.com>
+> Signed-off-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
 
-1) Please respond to netdev-bot+sashiko@kernel.org, we don't use 
-the global bot (you only got a reply from it because you CCed half 
-of the universe for no real reason).
-
-2) Some data showing the win from this on real production workloads
-would be nice.
-
-3) The API looks backwards? I'd think that most users would want an opt
-in for sockets they care about rather than having to chase down every
-other socket on the system to exclude?
-
-4) Please trim the slop in the documentation.
--- 
-pw-bot: cr
+Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
