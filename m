@@ -1,65 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794493082;
-	b=Z8D8BPXRvwfG8uSTvhSmL0/tXcAXcSKxGHHq8XTYqwJxfSTfVVWjtP1Cr+Henb85AzCj
-	 WHxGiZuAev3bWw+pnttoHXrVWBr1UrnxNAfgsHJ0NvaOudZ6LLUCunV1SpNaUlEaU0bsq
-	 HJOrJhldgEV4LYVqAMDy1m5w8jN/sBcj8ycSFSeQLRWxDXNn4xfzL+4qd1BAkrDuGm1cj
-	 m2chyx+eVOBMuz7H124CmeHijLxx0mJ0FC98vJM/43HYzCLaPcxL13S6gt6GgsFddPP40
-	 dPomTywTOLes8GQMd4d7lWzXLsNt+ZRGDTMUQeq6abbEqJ7to+C8TbLBDpQojFeH9LQ==
+	t=1794493173;
+	b=u8hilQYCIPnIgVM+HF0USvW1R4Sz6qgdZAS3dMN1FqAm43Tomkufpz7rKnvLZpuzPSYk
+	 W5RbSDFoJ5w3ORtRGUVBJyReG46qCAfYc30HCbzdldvnYxLD2cfUGEErA/t8o5D8J9a9I
+	 PnHPrF89HZJWB5C3/GQchD8+muDdGmNN4l46+9ndow0/sdxt6hRl7AM1Wxk77TxxmgLzh
+	 Sf4YbcX45CHHvvmMxzL0fdkFWEyJISQOxENG48BndbJxxEITDJI/q75RDIBte3DlXTyFX
+	 AWWWMEMCCmbkWdePmIghrjJ4+mhVSBR//exRlt+2KMcnpixApkLLUbBBQDmuG0eWAuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794493082;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=5M/PwM9mUmbTzOCDNqAycHJtgySfGH/PUnOQ9n9PwL0=;
-	b=nnsFno1+ke9uTEb58Oq5WJMpvhnMz1ea6VDlo4CEGXyDIs0nN7M5OBgEc3JM/jhFQSRD
-	 rhTIyhvIzZqG9WhH6/dDlNm5+hjS9aM26DFhNnXpw9MmOE4v8fD5CRreeHaN7eW6JtwPX
-	 CWREOB+eTXuW6Ruc8+xkp+duRvZSRWSGARtlLX2NK/U1QXAL8KnXFS8UcxO3ItmOYdlBb
-	 JmsauAIGl3gvAfLS48izaCFgLFoZjbc1SR57+aLp+5fGNbCywA923+BpjyYWieAXglh/q
-	 Rs3ZCfCxROge529/aFek1UwLOtXUMhzMVUhnC5aZjvQnFzM3PyeZGP+3uozKt4RvBIg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794493173;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=PtL6fQIP5x0WU3dTc2bEBHEkK0f64LH1mQ5PFkYFhLE=;
+	b=kmRT+bTpOmqqTFGPSbLW7KoCtYbf7RXKPFwjDdpzlxUM04BqUoM+JO16Xgb1gdsGI+To
+	 KuaB4/avsQF0iAORXukcXgtymH4emMKcbDoAC/TgkjDOH9+/mMXLk6P16DzIG7ohtctC5
+	 Thuusv0R5FV07S0eq1UvVoZyH7iu0tfaJEMJhQxNLgxOA4rFDgrWgX++O/uZLl4qyu7Wp
+	 GYp3/UBEm8VHhKkWQMe+3SgmoVY9+Hmt0VHTaHxEg/YCrMGzw+d775KkUH7rMSCvBRzE4
+	 UoyOLxmIHaoQsJpxXDUsUI3yw0lYiW4zekEpiUzBjyJwGBdJiJSw3gllA3Dw5gIRFKw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=hWs9JrmQ;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8Roc0cn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29487606A32A;
-	Thu, 12 Nov 2026 14:18:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 29487606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7BA71606A8B8;
+	Thu, 12 Nov 2026 14:19:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=hWs9JrmQ
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C09F540920
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1794493081; bh=5M/PwM9mUmbTzOCDNqAycHJtgySfGH/PUnOQ9n9PwL0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=hWs9JrmQAS3kzaFP6LPOIiP8eMbsg+2ZZRchSHvv3Wn+gDpCDozfbzVOcBEadWQ8V
-	 9Vtiy203C2c3Oxchfcujs1By5FdAVJbF/7nHj494qida3sfCjPfrHhkX7wvdLKXpDX
-	 WGDOPZAxVscbvjWvldpudEjcEXqGYiY4OLqPyDNoeEnnu1/DB8c6nigAewEXksikdY
-	 RX49Y+thl50nMcsus0F3VwwNSXZoftve2zZ+5iX/Uo5tX+HZvH4ZAIcUKhUUiebFm5
-	 WASLRLlskTtbBZ7wLLeSbS1jlAGlZ6X7oLjcu/87q5ZakHghX51C1UMESgaRZ5hcFg
-	 Ra82/hpkvex5g==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C09F540920;
-	Thu, 12 Nov 2026 14:18:00 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Dongliang Mu <dzm91@hust.edu.cn>
-Cc: Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>, Yanteng Si
- <si.yanteng@linux.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: improve translation update checks across locales
-In-Reply-To: <4c0221d662b7e8521d93000ad6ae09300dbda9c1.1794196480.git.dzm91@hust.edu.cn>
-References: <20261107000338.1243411-1-dzm91@hust.edu.cn>
- <4c0221d662b7e8521d93000ad6ae09300dbda9c1.1794196480.git.dzm91@hust.edu.cn>
-Date: Thu, 12 Nov 2026 07:17:58 -0700
-Message-ID: <87pkwa6smh.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=f8Roc0cn
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 8A5A81F00A05;
+	Thu, 12 Nov 2026 14:19:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794493173;
+	bh=PtL6fQIP5x0WU3dTc2bEBHEkK0f64LH1mQ5PFkYFhLE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=f8Roc0cn+u0O6ciGdXv0N/5hcJSLC8kHdFhAQejJqfdgDhIHN7lbJIFyWjliyn9wv
+	 AHbYxO6tYFds4zpiwiNjwDENXGeowTYs1VpY2vh9W0r1YiuRyl2LWdNnx3JO/5GS+R
+	 m9kHpUSrAVM4oc8cB59tP2gyh5shglS+H/fY5e/h8k74l3RK7OdzKafIA+M/4z5OaU
+	 jo8Lx61IXK9lgsoKiKfzQnpssl+cW/pfFg8khmPNbM7Y6w/DoFd+8U5BjWvCXleo9Z
+	 LL+umGjeOKnYEvxWh1rCvVVBaJR+QBYwrwMNc8KtpQHX+cuHVFFLcWjQysR7+uIe/o
+	 3R3xCo03mT+NQ==
+Date: Thu, 12 Nov 2026 16:19:29 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: David Howells <dhowells@redhat.com>
+Cc: bpf@vger.kernel.org, dm-devel@lists.linux.dev, fsverity@lists.linux.dev,
+	keyrings@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	Alasdair Kergon <agk@redhat.com>,
+	Alexei Starovoitov <ast@kernel.org>, Alex Shi <alexs@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Benjamin Marzinski <bmarzins@redhat.com>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Dongliang Mu <dzm91@hust.edu.cn>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Emil Tsalapatis <emil@etsalapatis.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Ignat Korchagin <ignat@linux.win>,
+	Ihor Solodrai <ihor.solodrai@linux.dev>,
+	James Morris <jmorris@namei.org>, Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Mike Snitzer <snitzer@kernel.org>,
+	Mikulas Patocka <mpatocka@redhat.com>,
+	Paul Moore <paul@paul-moore.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Shuah Khan <skhan@linuxfoundation.org>, Song Liu <song@kernel.org>,
+	"Theodore Y. Ts'o" <tytso@mit.edu>,
+	Yanteng Si <si.yanteng@linux.dev>,
+	Yonghong Song <yonghong.song@linux.dev>
+Subject: Re: [PATCH v9 0/3] KEYS: Replace assoc_array with rhashtable
+Message-ID: <avXK8UKNmsr8NwSM@kernel.org>
+References: <20261110053323.2936729-1-jarkko@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,28 +83,33 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261110053323.2936729-1-jarkko@kernel.org>
 
-Dongliang Mu <dzm91@hust.edu.cn> writes:
+On Tue, Nov 10, 2026 at 07:33:20AM +0200, Jarkko Sakkinen wrote:
+> The keyrings subsystem is the sole user of assoc_array. It has over 1700
+> lines of code, no test suite, and a long history of bugs, with LLMs now
+> finding more.
+> 
+> This unfortunate outcome has evolved over time by large from the shortage
+> of in-kernel callers, time bandwidth and 3rd party contributors.  What the
+> keyrings subsystem needs is just a generic key-value store, which performs
+> well with sparse key sets. Replace assoc_array with an rhashtable-backed
+> keyring index and remove assoc_array from the kernel.
 
-> Improve locale-wide scans and report English documents without matching
-> translations. When a translation commit lacks its English source in its
-> history, use the source history at HEAD for the author-date fallback.
-> Capture Git errors for unavailable commit IDs, honor --logfile, and stop
-> at the first file that cannot be checked.
->
-> Update the English and zh_CN guides to describe the fallback behavior,
-> directory arguments, and logging options.
->
-> Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
-> ---
-> v1->v2: add the missing sign-off-by tag
->
->  Documentation/doc-guide/checktransupdate.rst  | 42 ++++++++--
->  .../zh_CN/doc-guide/checktransupdate.rst      | 38 ++++++---
->  tools/docs/checktransupdate.py                | 83 ++++++++++---------
->  3 files changed, 107 insertions(+), 56 deletions(-)
+Hmm...
 
-Applied, thanks.
+- 1/3: 2x R-by
+- 2/3: 1x R-by
+- 3/3: 1x R-by
 
-jon
+Does anyone want to bring something up, and should I just apply these?
+
+I'm lost of ideas what to do with this further.
+
+The only thing that comes up to my mind is whether it would be smart to
+stick to ids instead of moving back to addresses. This is not actually
+important (and can be always revisited).
+
+Br, Jarkko
