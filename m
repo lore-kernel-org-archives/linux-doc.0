@@ -1,88 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794524169;
-	b=q/UOW1tMSZ4wlU3Heh52eC+9BjfMuvlq+ZoNwHXSKRJBDB0s0el6E2+rpMJE1lC37gO7
-	 Dii5PFjYLNaRy52/SsaN0sNEmZ94w0ESVmvgEdDK4Kg+LyQt5rjz6I+4PJbBNyfJGVorU
-	 PR/U2spaTmlgb4S25SwexULvqs6zJVuu4ypWdAWwGKYjXp2beWcPyKRW214bVMpMFNDzu
-	 2gNB12skppCUG8awSVNUArz+iW2W54Cvrz68FQfVnRXIcMww7NnQhVjdDUl4E4zbZMMzP
-	 PHFOgdUgJ737ebrvlH5KsjSPO0un6IxOe2XgTInmILlKEzDzBN+kajrrd9/8u2kwETA==
+	t=1794524348;
+	b=M/wdX3+fwiejdWbvEEWjp/4AgsXihUaPfBZV/y7WsEqkySSB+FuSSisx84OgVaqp5c2Y
+	 ACNyorkU1gtxBUQ3hol2HCazvQnCN2TZANc/81/r6MdFGb+lxbL9iLDXS/epmDXS+MzHB
+	 mBbip3BPhqKQ9RhUz6Vs+FW2EBI8hIEPpCVTiRf9Y+YVrLJEqw51Fhkxar0l3hrTPHCx5
+	 bxnIj05grKcpZgv7cGMLJtwY+x1kdpihv4gg46w6Icd38o7PYTF6DacoZfZatXKgV3A/e
+	 1HjsbEsnD1/5suxQgvN47osiAyiY+s3FhxC3YiyATG0sJKbBP+xagjWN11SYk1REw0w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794524169;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Sender:Message-ID:Date:MIME-Version:User-Agent:From:Subject:To:Cc:
-	 References:Content-Language:In-Reply-To:Content-Type;
-	bh=ZxJf8bmNk9QYTuWMTZ/K0FYOKOyHJkvCDvBuAHHFKsk=;
-	b=YqNmUJ0OrCl+f98UK/vlme+llj7Pc6Bzc2yfjNu9ai6PvmMdz6OdXLLguGRMhVK+yWBN
-	 6y6zZFyqdHvD8zEPyJ9cXae90WxoXt2sEDT4qA/glSHR2TT28eMd1EEdWVvqRYSDtM/3n
-	 pWQbzO8QuteJIS9EC6Bu+TMUlUJ3hQLgv51epLIfo94PgDJ+sRbrki0WeOyX/zghfZ4FK
-	 FNJtbRaPpgZCjxwinDGoscL8V37gJ8e6v3kXuWF1OAnpY2m9s7RBKNmVBQFJdkXT46FTd
-	 zPU0dB1+RjHWZV+178LPaInMhlbB3yZR4abKvQOgfik6k04Hsb5WL7ramxCU1C6tCEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794524348;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Subject:Date:
+	 Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer;
+	bh=blshDriFn5UbMDKS3q3Vd5jruWnlAyFKn7ja3qEeVzY=;
+	b=sW1/0nCx8806cJH8RuQX6qgzkxnwyEeG3ToBPTzRwTDo5i8j/iYsWE8dgpMy8AoK6Lkw
+	 HyT47h3SFMiE8rvFLD0/TsK7PK+jK4uRnGjuLRoUc+0qzXs2o8rrLdBDDuXYHKXyJEZE9
+	 2bgjDpHH/VR2rnUT91LXRCwhDYtgvapj9027eZbMBlOUIpkyYzumIxvrQBWEnD7MbIej8
+	 cQEdYoScEs2E3ON+QspGfKs8BxAdIYtCEoEoOEulsX6YgMN2kT93wnPelMzwaXDB5U6fW
+	 lVZCCJKYcgPZnOxlboBOUn+SPv4b0ogUB1kKzzgC4ec1KORqX2wLm11uDqxrI6322gQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
+	dmarc=none header.from=telaak.dev;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HkBis687;
-	arc=none smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	arc=none smtp.remote-ip=74.125.224.44
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F1FA606A32A
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 22:56:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9F1FA606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 485D8606A321
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 22:59:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 485D8606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HkBis687
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a35db1f202so2216575e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:56:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794524167; x=1795128967; darn=vger.kernel.org;
-        h=content-type:in-reply-to:content-language:references:cc:to:subject
-         :from:user-agent:mime-version:date:message-id:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZxJf8bmNk9QYTuWMTZ/K0FYOKOyHJkvCDvBuAHHFKsk=;
-        b=HkBis687YMWsR/0fg9xOnoliz5zUt4JgZhssjAGFZn2qoEu9lBaGgAE4Pct0jhoyYG
-         hok3LeTFHCBdZAbo440ONBw9YRtXgJcr8QGB0z326PWIHc3eoSmy5l4Ig3JaKpzdEUHZ
-         9V54pMvzhaf58xbXx6GGjB/4Rk6HaM5NIpITDLuTulJHwm2zR/qLOo8d3Y1aj4chOELL
-         0DlW/FWJUUcAg+QxC5mzlkabkrYLbKjgp8wjKMS7pjxlHrkY54YG5SF3ndKCh8qfae3m
-         FjwmsS1OCcexuvkGCA3ioDZq23WX/5zgfSQTTDL9e30aRQptEXPW/I2XIM5IAiJr975t
-         ghDw==
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-679a2b5fe87so345793d50.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:59:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794524167; x=1795128967;
-        h=content-type:in-reply-to:content-language:references:cc:to:subject
-         :from:user-agent:mime-version:date:message-id:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZxJf8bmNk9QYTuWMTZ/K0FYOKOyHJkvCDvBuAHHFKsk=;
-        b=EjfNiHfow0UI+gS5mH9X1uaIf20tBOGvy/el13RzZ6PmTxjzBpt4UidSVfg4toHisU
-         V1YUgINCFWI4864jJ6EXlgju/wBBHwZxmBqrO5NCxM1N+YK65dHSOealigxNBRxq+YcQ
-         ZWthJFVYA4hCvqmfciR2D/VW68/H5SMwevtNyG6mmw2r763RfGgBS8nLuoPkhTJ7jeWU
-         KEYGKLiNG7dxgbnKiL6Sqi7ip4ANApa08jEl868BFlakhN2jCOMw/UdH0vowuMB8H+TW
-         0pOven0hK3a9n3tal+BZ7fp24XaRr3rotq//TI+5oIbFMSrXMcR8wW8dbL0f1lVsH4qU
-         9ovw==
-X-Forwarded-Encrypted: i=1; AL+hErFhicMBZsHZl+GYrNHUsoyAXLGeQUnBaYlKOvszV8Z0SE9sYCm9sVTr6fO4rjzE+yG4YFeMbTOb00A=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9xelJLkWSENVXBeEQuxVvuIi9QOs7AAT7NwF1Gq7G+ar77/hd6
-	k/q6YcWPSW1+Of0tDsaIXUfrb45ALjVys1oeA5eHl0/tvkzPbfGLIZw4
-X-Gm-Gg: AYBFou0hw31qn56HfN43nws7TghWlmtAg9ubXDk4VuW41nFfuCtBy3Lvgy9IyAuQg3R
-	dDP6xqmJtF0fRtYMDNoTdfeX6ARxVhB6V3X+WrCc2NG0R6mEINLvUVeeu94RASQlvmnDHzq7s+T
-	Gh9eGnHXkQwurXmjqE1XYdsvQ+lTW28pZlc/xO4Zy0UWyGLZBvVNrX+kvWE4XEq/uONrV5RULMk
-	8Y9IFjWhxO9S4X7/TXkXqV9FUX+m9+xAtzdj0phy52Z1RG1QL8rOT4aMiyRZBt1a4RnwMXl0QJC
-	LtukKm5bvnhG+tOKCqPacn+/B7aF7T9D4ZwKz7IUEPboMMuVNJhhrGyurQWBkdjF06VnCLXdVv6
-	3zKm6ilTiVgEHtGXI03N0qRYtqT/+KsB0zJcGiYtNFsVhlccyszZ9ggiAeWhOS7iYexsARCBgaV
-	6ZsUUgsQBRJCT30sfYlr0BcoSS3EiN07JopX0U4dEtq9jdAuW5YmAGJU5QbHo6Dr6UvxQUjB7rN
-	X5g+3AcebDG/zHXFMhDLjBHkvPa0HZlXJQjAXGDlkCJegqM5TZY+mYeF8Pf9Lh2/kIFzeIqCqlG
-	FlTirkBDJiSxp2l/hRyawcU844Pr4UaX7YbcDJCCUlvk6iq6BAPApZ5lH/WO361LX7NCykcfMQf
-	FTGJWXOpClcy+DQiU/Q==
-X-Received: by 2002:a05:600c:46d5:b0:4a5:87b3:ddc1 with SMTP id 5b1f17b1804b1-4bb55a8329amr12879245e9.13.1794524166792;
-        Thu, 12 Nov 2026 14:56:06 -0800 (PST)
-Received: from [192.168.0.41] (bl22-190-205.dsl.telepac.pt. [2.83.190.205])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb55af2a9bsm14024995e9.14.2026.11.12.14.56.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2026 14:56:05 -0800 (PST)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <81c91813-79ff-4d36-92e6-8c0ecc1772c7@gmail.com>
-Date: Thu, 12 Nov 2026 22:56:02 +0000
+        d=1e100.net; s=20260707; t=1794524346; x=1795129146;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=blshDriFn5UbMDKS3q3Vd5jruWnlAyFKn7ja3qEeVzY=;
+        b=l0vrf2DN3c+Mz3hqyWxXgJdr2XJPFkNpyXK/I7nCDkVrUmcG2Dybnxyxg1Pr+TMVUm
+         bENp9AUXSfmUCPBbmC+0aYXKiOZlz05iKghzUSFJTzlg3lQu84QtwxLoo5lAVydDCqep
+         rWsxot1zoRZMg7YptWFZSXnYGwjTLB9gAImjcMkT2QYT4H+RHsckm3R4sKF6jBrsi7bx
+         coADj95U48ZpylICFdWHCIoKc5begNeZd6IMqnyFVwd+1BnhJRh+Bq2jkkaqr95RRw8O
+         NwwU1kwysgWKex6KQl2crdSfGx+0Cah/3rP+E5/4RKMM2W7kmKP6GLqrRmI2TTxPgGIa
+         cNXQ==
+X-Forwarded-Encrypted: i=1; AL+hErGflHtod0sZP1c47TCdW1/ZcJU1OJcVlNN/CTDndKsnZh3eY1n6pbW1GD87r++uERbHzapJjQ5BhN0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+/i4CJTlgWOJuE5qPh5aFBhNuWikV97cp7jAmdu/duPoy2qlcC
+	7DViwFlLy6GpYTstTVH7BOcENNKPLy10qheTXq1yfbnHYSeoFkcRg7R2
+X-Gm-Gg: AYBFou0Q+/ZRAjs3KxEWTqeAVjtqW2SUPAMeYPBq01fEwKvsZFqSVb2BYxMZGoVp8jd
+	ssrd/A1Pkdi0oXH43ZsVxzWh2JHBzRTGpLQQoqmgxEpYz1ix39whJrAFakaOQfj2tz9ZdwvERMK
+	xM+I6jnuQ/KbkXRsUjKt8IGGmLLz3Yw5p6/Fz5QvRj6aseR3tlVFikQ7+dmXgHvVgoFq0KrkJJv
+	GGbrkmlkMiUadpPoVcydUGDPUcSANHcs451E/XsEPu55t5JmTUhRq+7CkiUSkeJJrCsroupFF3l
+	4GWywh0c8Hz0e5sob52GXWv8flLOfMHJ2xR8Cx195wOHLwJT2pYejFv1uF4DkTBqKogNATYLQcq
+	1YbafqDbnyiK42nyk2IbeCedM2bV2o+cFsmFEymWvMZYqVYJbKjCE1FRBl/tgMjuKG/sXqsZbj5
+	18Ol8dkj2gCA7qI4vCW45DUPMMpqLpNVZkUKRG84X85PBbRVgNfUVJG8Myn0rVkTpEPSJ3/LFGO
+	y53HYcMosaf8yAkWhts8s2m1cr7bfOJrOAdL7uonQudWd15HI3wVjTUBE0/FjI08fpAP+Je+v3q
+	qBHkSQwSYEwCTKWL3EKXQSy/p3FitV735ITX5RjP1gCw2INs0Udt7K+tkVs7JWwptaBRIQAGUfY
+	w5LutrJ2uMFO37F1dC8i3WxAU4UBfIABCP869c9cJ9OV7qx1YrqVDR/e4k2pjE8VTiP53+AEC1Z
+	75csJpZpHxkHsH8pM6cwA69tnZ
+X-Received: by 2002:a05:690e:12c7:b0:67c:4b6e:1119 with SMTP id 956f58d0204a3-67d89738ccbmr443575d50.128.1794524346057;
+        Thu, 12 Nov 2026 14:59:06 -0800 (PST)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([71.68.170.161])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa8f354asm7261077b3.14.2026.11.12.14.59.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 14:59:05 -0800 (PST)
+From: Joseph Telaak <joseph@telaak.dev>
+Subject: [PATCH RFC 00/13] drm/powervr_sgx: Add a DRM driver for PowerVR
+ SGX5xx GPUs
+Date: Thu, 12 Nov 2026 17:58:50 -0500
+Message-Id: <20261112-powervr-sgx-v1-0-c69b84bac011@telaak.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,202 +79,219 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Julian Braha <julianbraha@gmail.com>
-Subject: Re: [PATCH v1 03/10] kconfig-checker: Add the configuration checker
- code
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
- Derek Barbosa <debarbos@redhat.com>,
- =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
- Daan De Meyer <daan.j.demeyer@gmail.com>,
- Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
- debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-4-darwi@linutronix.de>
- <9729a4c6-22f9-4102-b62f-c76a75488240@gmail.com> <avHD-3JwbQofpJdH@lx-t490>
-Content-Language: en-US
-In-Reply-To: <avHD-3JwbQofpJdH@lx-t490>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------VdvWlLDeG07vMoPV8nhx8PYM"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAA/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQ0Mj3YL88tSisiLd4vQK3WTDJDPzFNPUtMREIyWgjoKi1LTMCrBp0Up
+ Bbs5KsRDB4tKkrNTkEpA5SrW1AOkCaHl0AAAA
+X-Change-ID: 20261112-powervr-sgx-c1b67d5efaa2
+To: dri-devel@lists.freedesktop.org, 
+ Patrik Jakobsson <patrik.r.jakobsson@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Alessio Belle <alessio.belle@imgtec.com>, 
+ Luigi Santivetti <luigi.santivetti@imgtec.com>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ =?utf-8?q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>
+Cc: imagination@lists.freedesktop.org, Frank Binns <frank.binns@imgtec.com>, 
+ Gabriel Gama <operatingsystemsdepression@gmail.com>, 
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>, 
+ Philipp Stanner <phasta@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+ linux-media@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Joseph Telaak <joseph@telaak.dev>
+X-Mailer: b4 0.16.0
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------VdvWlLDeG07vMoPV8nhx8PYM
-Content-Type: multipart/mixed; boundary="------------Rga8Q7Rmd8rON8aXdAwiRZDL";
- protected-headers="v1"; hp="clear"
-Message-ID: <81c91813-79ff-4d36-92e6-8c0ecc1772c7@gmail.com>
-Date: Thu, 12 Nov 2026 22:56:02 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Julian Braha <julianbraha@gmail.com>
-Subject: Re: [PATCH v1 03/10] kconfig-checker: Add the configuration checker
- code
-To: "Ahmed S. Darwish" <darwi@linutronix.de>
-Cc: Clark Williams <clrkwllms@kernel.org>,
- Steven Rostedt <rostedt@goodmis.org>, Ingo Molnar <mingo@redhat.com>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jonathan Corbet <corbet@lwn.net>, John Ogness <john.ogness@linutronix.de>,
- Derek Barbosa <debarbos@redhat.com>,
- =?UTF-8?Q?Zbigniew_J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
- Daan De Meyer <daan.j.demeyer@gmail.com>,
- Luca Boccassi <luca.boccassi@gmail.com>, linux-rt-devel@lists.linux.dev,
- debian-kernel@lists.debian.org, linux-kbuild@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, arighi@nvidia.com
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-4-darwi@linutronix.de>
- <9729a4c6-22f9-4102-b62f-c76a75488240@gmail.com> <avHD-3JwbQofpJdH@lx-t490>
-Content-Language: en-US
-In-Reply-To: <avHD-3JwbQofpJdH@lx-t490>
+This RFC asks for design review of a render-only DRM driver for the
+PowerVR SGX5xx (Series5) GPUs. It is not for merging: the Mesa driver
+isn't in Mesa yet, the firmware isn't in linux-firmware, and until each
+client has its own parameter buffer it isn't safe to expose to
+untrusted clients.
 
---------------Rga8Q7Rmd8rON8aXdAwiRZDL
-Content-Type: multipart/mixed; boundary="------------0BXEV3ylG2oOQNRGA3FZ8ghK"
+The first platform is the SGX545 of the Intel Atom CE5300 (PCI
+8086:089b). The second is Cedarview, where gma500 publishes the SGX as
+an auxiliary device (patches 2 and 3). The OMAP3630's SGX530 is there
+for bring-up only: it has one memory context, so the driver refuses it
+without powervr_sgx.allow_unisolated=1, which drops client isolation and
+isn't for general use.
 
---------------0BXEV3ylG2oOQNRGA3FZ8ghK
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Design
+- drm_sched, one job on the GPU at a time; drm_gpuvm, a page directory
+  per VM; GEM shmem; explicit sync only. A core table; an unknown core
+  is refused before any register write.
+- An open microkernel (MIT OR Apache-2.0) [4], loaded only in secure
+  mode, where no client maps the firmware's memory.
+- Commands are plain structs, checked field by field; uploaded shader
+  code is checked instruction by instruction.
+- The GPU doesn't snoop: a job lists the imported ranges it touches,
+  and the kernel flushes them around it.
 
-On 11/9/26 13:00, Ahmed S. Darwish wrote:
-> On Sun, 08 Nov 2026, Julian Braha wrote:
->> On 11/6/26 09:19, Ahmed S. Darwish wrote:
->>> +
->>> +class KernelConfig:
->>> +    """.config file parser"""
-> ...
->>> +
->>> +    def _parse_symbols(self) -> dict[str, str]:
->>> +        """Extract CONFIG_* symbol assignments from .config"""
->>> +        symbol_set =3D re.compile(r'^(CONFIG_[A-Za-z0-9_]+)=3D([ym])=
-$')
->>> +        symbol_unset =3D re.compile(r'^# (CONFIG_[A-Za-z0-9_]+) is n=
-ot set$')
->> What does this do for Kconfig's int, hex, and string options?
->>
-> So far, the tool only supports stating whether an option is enabled,
-> disabled, or have a neutral 'allowed' policy.
->=20
-> But there's nothing stopping us from supporting something like:
->=20
-> - name: CONFIG_PANIC_TIMEOUT
->   expected: int
->   expected_value: 10
->=20
-> - name: CONFIG_MAGIC_SYSRQ_DEFAULT_ENABLE
->   expected: hex
->   expected_value: 0x1
->=20
-> - name: CONFIG_NLS_DEFAULT
->   expected: string
->   expected_value: "utf-8"
->=20
-> In v2 of this series, I'll make the schema explicitly versioned.  This =
-way,
-> new features like the above can be cleanly added.
+Known limits, to fix before a v1:
+- One parameter buffer serves every client, so one client's GPU work
+  can read and write another's binned geometry.
+- Kernel objects and page tables use CPU physical addresses (x86
+  without an IOMMU), imports keep the exporter's vmap, and cache flushes
+  run uncapped in the fence-signaling path. All three move to the DMA
+  API.
+- Some firmware words are still written by index or named unk_*.
+- Transfer and NULL jobs have no Mesa user, and a client's first
+  transfer can fault after another client's transfers.
 
-Adding schema versioning would be great.
+Userspace is a Gallium driver with a NIR compiler [3]. On this tree, a
+2,146-case sample of dEQP-GLES2 on the CE5300 gives the same results as
+before the last uAPI revision (2,082 pass, 7 fail, 56 not supported, 1
+warning), with no GPU resets; it is a sample, not the full suite.
 
->=20
-> P.S.,  I can definitely implement such support, but I'm a bit hesitant =
-to
-> adding features that are not yet needed by the existing mainline polici=
-es.
+Questions
+1. Imagination said in 2023 that SGX should have its own driver [1].
+   Alessio, Luigi: beside drivers/gpu/drm/imagination, or under it?
+2. gma500 publishes the SGX as an auxiliary device, as nova-core does
+   for nova-drm, and forwards its interrupt through a callback, because
+   CE5300 kernels have no gma500 to link against. Gabriel Gama is
+   preparing gma500's SGX535 code [2]. Is a separate driver the right
+   split?
+3. Is cache maintenance in SUBMIT_JOBS, as per-job ranges, acceptable,
+   or should it be a BO_SYNC-style ioctl?
+4. On x86, shmem flips every map_wc object's pages to write-combined
+   and back. Is TTM, cached pages with flushes, or a GFP_WC allocator
+   the way?
 
-I suppose it's not necessary to support these option types at the start,
-as there are few of them, relatively speaking. But it would be good to
-add some input validation in case a user attempts this.
+I maintain this alone for now and would welcome a reviewer.
 
-So I've finally had some time to sit down and test this:
+Most of this series was written using the assistance of an AI coding
+assistant, Claude Code (Anthropic), working under my direction over many
+sessions: the kernel driver, the open microkernel, the Mesa driver and
+most of the documentation. I set the design and the uAPI decisions,
+chose what to fix or disclose, and reviewed the changes; before posting,
+the series also had an independent automated review whose findings are
+fixed or listed above. All the testing described here ran on my own
+hardware. I'm responsible for every line and will answer review
+questions myself.
 
-I created my own policy with these other types, and sure enough, if I
-specify them as 'disabled' in the policy like this:
+Testing: on the CE5300, 7.3.3 kernels with this series plus board
+patches outside it: the uAPI, frame, hang, PRIME and unbind tests [5]
+and a three-client soak, also under lockdep, KASAN, UBSAN, kmemleak and
+DMA-API debugging. Testers ran an earlier version of the import path on
+four Cedarview machines; this posting's path isn't retested there.
+Suspend is tested with pm_test only. CI applies each patch to
+drm-misc-next and runs checkpatch --strict and kernel-doc on it, and gcc
+and clang W=1, sparse and smatch on what it builds (the driver builds
+from patch 12).
 
-    rules:
-      - name: CONFIG_LOG_BUF_SHIFT
-        expected: n
-        severity: high
+[1] https://lore.kernel.org/r/ccfae572cb6a5ba70eea273e641b66cd7f6fe58b.camel@imgtec.com
+[2] https://lore.kernel.org/r/20261109063303.32658-1-operatingsystemsdepression@gmail.com
+[3] https://github.com/The1TrueJoe/powervr_sgx/tree/525bdadb0e088bd3f64f0407b8cb0a16c6c03a2d/mesa
+[4] https://github.com/The1TrueJoe/powervr_sgx/tree/525bdadb0e088bd3f64f0407b8cb0a16c6c03a2d/ukernel
+[5] https://github.com/The1TrueJoe/powervr_sgx/tree/525bdadb0e088bd3f64f0407b8cb0a16c6c03a2d/drm/tests
 
-      - name: CONFIG_PHYSICAL_START
-        expected: n
-        severity: high
+---
+Joseph Telaak (13):
+      drm/gem-shmem: Map pages for the DMA device
+      drm/gma500: Publish the Cedarview SGX as an auxiliary device
+      drm/gma500: Export GEM objects as dma-bufs
+      drm/powervr_sgx: Add the uAPI header and its documentation
+      drm/powervr_sgx: Add the core table, registers and device bring-up
+      drm/powervr_sgx: Load and start the microkernel
+      drm/powervr_sgx: Add GEM objects, VMs and dma-buf sharing
+      drm/powervr_sgx: Add contexts, the scheduler and SUBMIT_JOBS
+      drm/powervr_sgx: Add the client command checks
+      drm/powervr_sgx: Add render jobs
+      drm/powervr_sgx: Validate shader code in the kernel
+      drm/powervr_sgx: Add the DRM driver, power management and debugging
+      drm/powervr_sgx: Add KUnit tests
 
-      - name: CONFIG_DEFAULT_HOSTNAME
-        expected: n
-        severity: high
+ Documentation/gpu/drivers.rst                      |    1 +
+ Documentation/gpu/powervr_sgx/index.rst            |  201 ++++
+ Documentation/gpu/powervr_sgx/uapi.rst             |  133 +++
+ MAINTAINERS                                        |   11 +
+ drivers/gpu/drm/Kconfig                            |    1 +
+ drivers/gpu/drm/Makefile                           |    1 +
+ drivers/gpu/drm/drm_gem_shmem_helper.c             |    8 +-
+ drivers/gpu/drm/gma500/Kconfig                     |    1 +
+ drivers/gpu/drm/gma500/Makefile                    |    3 +-
+ drivers/gpu/drm/gma500/cdv_device.c                |    5 +
+ drivers/gpu/drm/gma500/gem.c                       |  192 +++-
+ drivers/gpu/drm/gma500/gem.h                       |    1 +
+ drivers/gpu/drm/gma500/psb_drv.c                   |   42 +-
+ drivers/gpu/drm/gma500/psb_drv.h                   |   26 +
+ drivers/gpu/drm/gma500/psb_irq.c                   |   32 +-
+ drivers/gpu/drm/gma500/sgx_aux.c                   |  102 ++
+ drivers/gpu/drm/powervr_sgx/Kconfig                |   65 ++
+ drivers/gpu/drm/powervr_sgx/Makefile               |   34 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_aux.c           |   83 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_cache.h         |   66 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_ccb.c           |  208 ++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_ccb.h           |   52 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_cmd.c           |  234 ++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_cmd.h           |  132 +++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_cmd_checks.c    |   62 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_cmd_checks.h    |   13 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_cmd_defs.c      |  353 ++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_cmd_defs.h      |   43 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_core.c          |  300 +++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_core.h          |  196 ++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_debugfs.c       |   78 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_debugfs.h       |   13 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_device.c        |  461 ++++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_device.h        |  354 ++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_drv.c           |  378 +++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_drv.h           |   52 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_dump.c          |  227 ++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_dump.h          |   16 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_fw.c            |  736 ++++++++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_fw.h            |   77 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_fwif.h          |  519 +++++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_gem.c           |  120 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_gem.h           |   46 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_hw.h            |   55 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_job.c           | 1028 +++++++++++++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_job.h           |  143 +++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_kobj.c          |  285 +++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_kobj.h          |   82 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_mmu.c           |  281 +++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_mmu.h           |   28 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_of.c            |  119 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_pds.c           |   97 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_pds.h           |   37 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_pm.c            |  138 +++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_pm.h            |   30 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_prime.c         |  207 ++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_prime.h         |   26 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_regs.h          |   79 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_render.c        |  957 ++++++++++++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_render.h        |  122 ++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_trace.c         |    5 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_trace.h         |  134 +++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_transfer.c      |  175 +++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_transfer.h      |   38 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_usse.c          |  240 ++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_usse.h          |   45 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_usse_table.h    |  342 ++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_validate.c      |  192 ++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_validate.h      |   25 +
+ drivers/gpu/drm/powervr_sgx/pvrsgx_vm.c            |  799 +++++++++++++
+ drivers/gpu/drm/powervr_sgx/pvrsgx_vm.h            |   69 ++
+ drivers/gpu/drm/powervr_sgx/tests/.kunitconfig     |    5 +
+ .../gpu/drm/powervr_sgx/tests/pvrsgx_ccb_test.c    |  111 ++
+ .../gpu/drm/powervr_sgx/tests/pvrsgx_core_test.c   |  119 ++
+ .../drm/powervr_sgx/tests/pvrsgx_equiv_golden.h    |   32 +
+ .../gpu/drm/powervr_sgx/tests/pvrsgx_equiv_test.c  |  555 +++++++++
+ drivers/gpu/drm/powervr_sgx/tests/pvrsgx_fw_test.c |  168 +++
+ .../gpu/drm/powervr_sgx/tests/pvrsgx_kobj_test.c   |  203 ++++
+ .../gpu/drm/powervr_sgx/tests/pvrsgx_prime_test.c  |  125 +++
+ drivers/gpu/drm/powervr_sgx/tests/pvrsgx_rt_test.c |   63 ++
+ .../gpu/drm/powervr_sgx/tests/pvrsgx_usse_test.c   |  145 +++
+ .../drm/powervr_sgx/tests/pvrsgx_validate_test.c   |   32 +
+ include/drm/gma500_sgx.h                           |   52 +
+ include/uapi/drm/powervr_sgx_drm.h                 | 1175 ++++++++++++++++++++
+ 84 files changed, 14178 insertions(+), 63 deletions(-)
+---
+base-commit: c88084027d0e922dd925b96e5a0d184ba04a8f43
+change-id: 20261112-powervr-sgx-c1b67d5efaa2
 
-and my .config has these values:
-    CONFIG_LOG_BUF_SHIFT=3D17
-    CONFIG_PHYSICAL_START=3D0x1000000
-    CONFIG_DEFAULT_HOSTNAME=3D"example"
+Best regards,
+--  
+Joseph Telaak <joseph@telaak.dev>
 
-then the config passes the check -- but it would probably be better to
-provide a warning or something about these options.
-
-Also, if I modify my policy to set 'expected' to 'y' for these, it
-reports "not in .config" (which would likely be confusing to the user).
-
-This regex stmt should match all int, hex, and string options for you:
-    unsupported =3D re.compile(r'^(CONFIG_[A-Za-z0-9_]+)=3D[0-9a-fA-F"-]'=
-)
-by checking the first character of its value.
-
-The included preempt_rt policy worked as expected (nice).
-
-- Julian Braha
---------------0BXEV3ylG2oOQNRGA3FZ8ghK
-Content-Type: application/pgp-keys; name="OpenPGP_0x0664101D2FC252D1.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x0664101D2FC252D1.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEapsKOBYJKwYBBAHaRw8BAQdA3mvh6nlHEvnMtdMGgqCAaM3Nsvuf8218NgEp
-UYZ3GanNJEp1bGlhbiBCcmFoYSA8anVsaWFuYnJhaGFAZ21haWwuY29tPsKWBBMW
-CgA+FiEE3vXonTpsa3w5RQqpBmQQHS/CUtEFAmqbCjgCGwEFCQPCZwAFCwkIBwIG
-FQoJCAsCBBYCAwECHgECF4AACgkQBmQQHS/CUtFZJQEA1KusHq55e97aMeBrp7e7
-UVBW/KSQwD74hTv5flHpEioA/REUaia815i+qzvft2b2k6OklqL7Nk5vXcmEZS7e
-VRwBzjMEapsLWBYJKwYBBAHaRw8BAQdA9/bcRDPCvFzqqx4b3LVPDeOF6sju1/WR
-4h3ldYdesrXCwDUEGBYKACYWIQTe9eidOmxrfDlFCqkGZBAdL8JS0QUCapsLWAIb
-AgUJA8JnAACBCRAGZBAdL8JS0XYgBBkWCgAdFiEE+qo5ZfvrSBcRfE1DxJWDwgVz
-cSAFAmqbC1gACgkQxJWDwgVzcSCsFgD/U4j7hwSEh61Oa4s7R4tUW7Rk4QXJ5QYs
-vcIagFNebLEA/2pJH0zmbz5SKUKctYslxZ5kIwmTwHv1WrpJkp+LQKcEmMIBAO/h
-CxaCZqrsGDSNflfIV9VyUMEPLbCvfTBYjNwdsPCYAQCoTYODxyxaV961a6Jq0E70
-Js0eCdlqdx90XMjUDQBOAs44BGqbC2kSCisGAQQBl1UBBQEBB0CfrYRXqZGPNhdK
-Db1uwVFrlLz9hAa3mhsuj1l00A5JbAMBCAfCfgQYFgoAJhYhBN716J06bGt8OUUK
-qQZkEB0vwlLRBQJqmwtpAhsMBQkDwmcAAAoJEAZkEB0vwlLR4B4A/AmkIlpPLSZ0
-C6yjqhpnDw4h5sIMu9fzfY+wpyONkYB9AP0a3QyeX2lCHdqdEsNX3ubF/ulc2DYS
-0cxeDFVX3Sz7BM4zBGrJT6UWCSsGAQQB2kcPAQEHQGX2XtPmGz+dyR78C2db90ry
-FJ4j/ekbwHQ41WdLi26jwngEGBYKACAWIQTe9eidOmxrfDlFCqkGZBAdL8JS0QUC
-aslPpQIbIAAKCRAGZBAdL8JS0YE4AQCrPL7T+dv83/SgWVsa2LwUxJiLbiTCctzc
-5rISDmWHAgD/TnBEQkxYBXJTgnvjVmuMGSSl0SQZ5z6hVZvH4mU7zQ0=3D
-=3Dyg1h
------END PGP PUBLIC KEY BLOCK-----
-
---------------0BXEV3ylG2oOQNRGA3FZ8ghK--
-
---------------Rga8Q7Rmd8rON8aXdAwiRZDL--
-
---------------VdvWlLDeG07vMoPV8nhx8PYM
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQT6qjll++tIFxF8TUPElYPCBXNxIAUCavZEAwUDAAAAAAAKCRDElYPCBXNxIMuZ
-AQDMrrOgssYsmZu7r97D0KltSrsj4rjS9lQpoKvtgWkLgQD/QUf7yjdW3ke5GhASowk8x+G76gpu
-WHV+5iNnSCYOfwM=
-=KhF2
------END PGP SIGNATURE-----
-
---------------VdvWlLDeG07vMoPV8nhx8PYM--
