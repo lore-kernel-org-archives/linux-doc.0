@@ -1,49 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794489265;
-	b=pyyBRtzelAu7Z5R5moYLBdGEpotSd9r0cKYqR5h3NYsn0otNi9QxykKjMp1ADhEnZynl
-	 3NrxwXiGI7tOmncmZAOF1d/jZh3LIP7vqS400P1PTaSBMitexORl2Gq5g/k3jZZOZjNdF
-	 rtfGUG/aLfuz3HmOyRtPunoPETXasA05M1ne0P8uqTtOrV6F4IAv2ISBRc4yx07jhiqef
-	 Js0lpN411Ug2HRrBlj8613H+sic3cfk9xFiFXjdkw4kabWAlL3Znel+fYi2JBAt4rktD8
-	 oZQmaramDDB3Xckb3mV03xBPDRFhU/KNro8efQyHae9YVsupKufZNRCprTl7sda58BA==
+	t=1794489309;
+	b=tZOUSLYeKq3oNt2a389scX37GaXy56UdsjAqXgcr1IFyCOk+4fjsG3ELiJM5fQWg5HGA
+	 67SjcLBs1TPbYmt7htgTTLG1twAr0mxFle8XYmSX/UHfI9BcicvddjN845s7Pnp1ti3qH
+	 TUOANAIFtvB3qrqo72qR7x1Civ9Xh+u5v6A8wPxf/DPDLwCyf6540YL33lfonoUOYpZiV
+	 vX1qsl99V0K3QzD9g4T7rx54ZNyR87vwDNqlqNHS6WN15wyAploBunaM7lBUtvygXXUOm
+	 0hDHsnvi2oStPOUHp3NFqk6Ckn+UjPmf2VxDY5FP4Lhr8jR47N/AcAFJmgUIQs8yehg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794489265;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=9mxKg6PFH2mKgwRlY7JWxXK8RldI6RUjgfddAJpwc7I=;
-	b=UrLA8vjS8hsmaNvbyRYqEN4ChKTSBSK/qGmxiK3Q5mmu6FzhHOggwGyP9CaQ4oUXkTio
-	 8LEWhvkc/Hc25oeQIxipuOSTp6/3yULxIrfA/bt4m9iTjs5fVE6TKqJe9YB21OxMOUp6f
-	 tqE3MTLxblEl9kuiiaM0eDtUWc+yMPT6B05Hz5XQK/c7KQZBpua3dBVWBtSylCPPDkL/Q
-	 z/Vi6a5CeYyknjm6QhuJ/e8JviTWR305v5PFEBkVzfTPGxL8c6SRX39eX6OsxW5NoMjn/
-	 oxbnP7CqD9kz3B7FF4cWHXnhdWR9zVBLYyWvL/W3PiS5Uxl5P6ZftG7S3PU1u2nz1CA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794489309;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=WugcE7vBuFSmf7462xh20D/WJqEas4fzxwH29ysv18s=;
+	b=fXkJ+vZf/Q0oyXubDV/QlRG0Ll/e/UQmV4KeWHnf7+7DlcuY0kT6Ranb/f7KmCiMUqka
+	 Wk2MqUHfCo3XcYtwJRkjKVVtStYyeh5VT1Liq/68JGCofJry3MSzVcs7EebRXMwJWySDw
+	 bTl8PSGD8HhWrQzSMw9s5lvAa72Mbk3wVTZ3KsJZwAr5rHmyINmr9KMnm2S+doospTjFM
+	 /bVpYKCNh8SvSZI0OyLfMWrrFKMSjCjwjqpPfCsb2dD9lGRW4M6Y2Sn7BSJoZbJyPADM4
+	 wUaXYxgcIOLQPGScepVa4ttR9pooWIDXFDqdn3VrtW23Ra0ly8O7w3u9OMhF2B8vG2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=arm.com;
-	spf=pass smtp.mailfrom=arm.com;
-	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=eTo2jkKY;
-	arc=none smtp.remote-ip=217.140.110.172
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C02E560A2627;
-	Thu, 12 Nov 2026 13:14:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C02E560A2627
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=MBujkgxw;
+	arc=none smtp.remote-ip=113.46.200.220
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64ECF606A33D;
+	Thu, 12 Nov 2026 13:15:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64ECF606A33D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=eTo2jkKY
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2D3981477;
-	Thu, 12 Nov 2026 05:14:21 -0800 (PST)
-Received: from [10.0.130.226] (e127648.arm.com [10.0.130.226])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E4913F632;
-	Thu, 12 Nov 2026 05:14:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794489264; bh=sJI57U+WQOiBy+zdKsRY1/z8s+X/kd45XllUmlTevYM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=eTo2jkKY3U51csyMMrfFFecVyff9fAh9wtLCDpLVnzECVxAuLlgP6dRXs3hc9xvT1
-	 HnmFmYqbfi2H67ZLhTUvZnjQ1xOhfn/mNez+PQo06bYMt1d1YHpgd7q99t+tuhgW/O
-	 smFX5zUsYOoS8bP4A869wo2NHR9ZF2gmtUcPXuLk=
-Message-ID: <8d335175-7d1e-4e12-b28b-d6f2ee13edee@arm.com>
-Date: Thu, 12 Nov 2026 13:14:16 +0000
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=MBujkgxw
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=WugcE7vBuFSmf7462xh20D/WJqEas4fzxwH29ysv18s=;
+	b=MBujkgxw/LgkfQWxtQpizS2+i71khFhMJYAwF3FbI5PiJzy7AJcJ49U34EpqkMOnFUTLgCvbs
+	/vUvuprN4d17pRx2flYki3azkm6XKr2x60t9ZAz8FRIA73OQjeQdL95YMmmXtlzS6NguL8Bc6d2
+	2pOrmEUd1w7TJGM7Pb/k3lw=
+Received: from mail.maildlp.com (unknown [172.19.162.140])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4jQLTp6ZR3z12LdQ;
+	Thu, 12 Nov 2026 21:15:10 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id 5880D203AB;
+	Thu, 12 Nov 2026 21:15:05 +0800 (CST)
+Received: from [10.67.120.103] (10.67.120.103) by
+ kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Thu, 12 Nov 2026 21:15:04 +0800
+Message-ID: <fee835a5-a027-4b68-b933-6f8e81987bce@huawei.com>
+Date: Thu, 12 Nov 2026 21:15:02 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -54,307 +63,275 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 RESEND] cpufreq: CPPC: Add autonomous mode boot
- parameter support
-To: Sumit Gupta <sumitg@nvidia.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, zhanjie9@hisilicon.com, zhenglifeng1@huawei.com,
- pierre.gondois@arm.com, ionela.voinescu@arm.com, mario.limonciello@amd.com,
- maciej.wieczor-retman@intel.com, pawel.chmielewski@intel.com,
- lenb@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org,
- acpica-devel@lists.linux.dev, linux-tegra@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: treding@nvidia.com, jonathanh@nvidia.com, vsethi@nvidia.com,
- ksitaraman@nvidia.com, sanjayc@nvidia.com, mochs@nvidia.com, bbasu@nvidia.com
-References: <20261112080442.4007723-1-sumitg@nvidia.com>
-Content-Language: en-US
-From: Christian Loehle <christian.loehle@arm.com>
-In-Reply-To: <20261112080442.4007723-1-sumitg@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v5 11/15] KVM: arm64: Reserve dirty ring space for the
+ HDBSS buffer
+To: Leonardo Bras <leo.bras@arm.com>
+CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <corbet@lwn.net>, <pbonzini@redhat.com>,
+	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <yangjinqian1@huawei.com>,
+	<caijian11@h-partners.com>, <liuyonglong@huawei.com>,
+	<tangchengchang@huawei.com>, <yezhenyu2@huawei.com>, <yubihong@huawei.com>,
+	<linuxarm@huawei.com>, <joey.gouly@arm.com>, <kvmarm@lists.linux.dev>,
+	<kvm@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <seiden@linux.ibm.com>,
+	<suzuki.poulose@arm.com>, <fuad.tabba@linux.dev>, <mark.rutland@arm.com>,
+	<seanjc@google.com>, <rdunlap@infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <skhan@linuxfoundation.org>
+References: <20260929103655.85107-1-zhengtian10@huawei.com>
+ <20260929103655.85107-12-zhengtian10@huawei.com> <auikG0clmr19sAjh@LeoBrasDK>
+ <afcbf19b-bd13-4afc-ab56-8bc50c793e50@huawei.com>
+ <au30DqzWIFny1tpr@LeoBrasDK>
+ <d81243e3-d790-4ee8-9b28-36d35591ee77@huawei.com>
+ <avIOZTvQF-1sxs2p@LeoBrasDK>
+ <90775cb3-84ab-4690-a252-1ac41488118f@huawei.com>
+ <avMSw3LLDIFT3kSR@LeoBrasDK>
+From: Tian Zheng <zhengtian10@huawei.com>
+In-Reply-To: <avMSw3LLDIFT3kSR@LeoBrasDK>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-
-On 11/12/26 08:04, Sumit Gupta wrote:
-> Configuring autonomous selection and Energy Performance Preference (EPP)
-> at every boot currently requires per-policy sysfs writes.
-> 
-> Add the 'cppc_cpufreq.auto_sel_mode' boot parameter to enable autonomous
-> selection during policy initialization and optionally set EPP. In
-> autonomous mode, the platform selects the performance level within the
-> MIN and MAX limits, which the driver sets from the policy limits. The EPP
-> hint guides that selection.
-> 
-> The parameter accepts:
-> - performance: enable autonomous selection and set EPP to 0x00
-> - balance_performance: enable it and set EPP to 0x80
-> - balance_power: enable it and set EPP to 0xc0
-> - power: enable it and set EPP to 0xff
-> - default_epp: enable it and preserve firmware EPP
-> - disabled: preserve the firmware configuration (default)
-> 
-> Warn about unrecognized values and ignore them.
-> 
-> Skip policies without autonomous-selection support. The driver enables
-> autonomous selection before writing EPP, as the platform may ignore EPP
-> while autonomous selection is disabled.
-> 
-> Record successful writes so the existing online and resume paths reapply
-> the requested values. The offline and suspend paths restore the saved
-> firmware values, including during driver unload.
-> 
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
-> Resending v6 with base-commit info and Pierre added to Cc.
-> No changes to the code or commit message.
-> 
-> This is based on the "Preserve OSPM-set registers" [1] and
-> "ospm_nominal_perf" [2] series, which are applied for 7.5.
-
-I've sent out
-https://lore.kernel.org/lkml/20261112113204.778904-1-christian.loehle@arm.com/
-as a follow up, if it looks sound to you, feel free to pick it up
-as a series to go in before $SUBJECT?
-
-> 
-> v5 -> v6:
-> - Split "Set CPPC Enable register in cpu_init" into a separate fix [3].
-> - Accept strings only (Pierre [4]).
-> - Move the setup into cppc_cpufreq_setup_auto_sel_mode() and check
->   autonomous selection support first (Pierre [4]).
-> - Drop the last_governor check, as init() now runs only for a new
->   policy (Pierre [4]).
-> - Drop the MIN/MAX seeding, Desired hint and policy->min/max override,
->   as init() and the governor already set valid values (Pierre [4]).
-> - Apply the parameter at the end of init(), after the usual
->   performance controls write.
-> - Save auto_sel and EPP through the saved-register code from [1]
->   (Sashiko [5]).
-> - Drop the cppc_cpufreq_exit() loop that cleared auto_sel on all
->   present CPUs (Pierre [4], Sashiko [5]).
-> - Enable autonomous selection before writing EPP.
-> - Set EPP also when firmware has already enabled autonomous selection.
-> - Add the balance_power (0xc0) and power (0xff) modes.
-> - Ignore an unrecognized value instead of treating it as disabled.
-> 
-> v5: https://lore.kernel.org/lkml/20260623080652.3353386-1-sumitg@nvidia.com/
-> [1] https://lore.kernel.org/lkml/20261106193304.3347374-1-sumitg@nvidia.com/
-> [2] https://lore.kernel.org/lkml/20261109195400.3600561-1-sumitg@nvidia.com/
-> [3] https://lore.kernel.org/lkml/20261110101246.3665797-1-sumitg@nvidia.com/
-> [4] https://lore.kernel.org/lkml/f61f592a-bc9c-4a83-bde1-e999c8101c36@nvidia.com/
-> [5] https://sashiko.dev/#/patchset/20260623080652.3353386-1-sumitg@nvidia.com
-> 
->  .../admin-guide/kernel-parameters.txt         |  26 ++++
->  drivers/cpufreq/cppc_cpufreq.c                | 120 ++++++++++++++++++
->  include/acpi/cppc_acpi.h                      |   2 +
->  3 files changed, 148 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 0b3c140babd9..5714c0d30fce 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1015,6 +1015,32 @@ Kernel parameters
->  			Format:
->  			<first_slot>,<last_slot>,<port>,<enum_bit>[,<debug>]
->  
-> +	cppc_cpufreq.auto_sel_mode=
-> +			[ACPI,CPU_FREQ] Enable ACPI CPPC autonomous performance
-> +			selection on all CPUs at boot. In autonomous mode, the
-> +			platform selects the performance level within the CPPC
-> +			Minimum and Maximum Performance limits. The driver sets
-> +			these limits from scaling_min_freq and scaling_max_freq.
-> +			The Energy Performance Preference (EPP) hint guides the
-> +			platform toward performance (0x00) or energy efficiency
-> +			(0xff).
-> +			Requires the ACPI CPPC Autonomous Selection Enable
-> +			register. EPP is set only if the platform implements it.
-> +			Format: <string>
-> +			  performance:
-> +				  enable autonomous selection, set EPP to 0x00
-> +			  balance_performance:
-> +				  enable autonomous selection, set EPP to 0x80
-> +			  balance_power:
-> +				  enable autonomous selection, set EPP to 0xc0
-> +			  power:
-> +				  enable autonomous selection, set EPP to 0xff
-> +			  default_epp:
-> +				  enable autonomous selection, keep firmware EPP
-> +			  disabled:
-> +				  keep the firmware configuration (default)
-> +			An unrecognized value is ignored with a warning.
-> +
->  	cpuidle.off=1	[CPU_IDLE]
->  			disable the cpuidle sub-system
->  
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index a62589c0674f..c9bed93cf0c9 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -238,6 +238,58 @@ static void cppc_cpufreq_apply_saved_regs(struct cpufreq_policy *policy,
->  					     saved_type);
->  }
->  
-> +/* Autonomous Selection boot parameter modes */
-> +enum {
-> +	AUTO_SEL_MODE_DISABLED,
-> +	AUTO_SEL_MODE_PERFORMANCE,
-> +	AUTO_SEL_MODE_BALANCE_PERFORMANCE,
-> +	AUTO_SEL_MODE_BALANCE_POWER,
-> +	AUTO_SEL_MODE_POWER,
-> +	AUTO_SEL_MODE_DEFAULT_EPP,
-> +};
-> +
-> +static const char * const auto_sel_mode_names[] = {
-> +	[AUTO_SEL_MODE_DISABLED]		= "disabled",
-> +	[AUTO_SEL_MODE_PERFORMANCE]		= "performance",
-> +	[AUTO_SEL_MODE_BALANCE_PERFORMANCE]	= "balance_performance",
-> +	[AUTO_SEL_MODE_BALANCE_POWER]		= "balance_power",
-> +	[AUTO_SEL_MODE_POWER]			= "power",
-> +	[AUTO_SEL_MODE_DEFAULT_EPP]		= "default_epp",
-> +};
-> +
-> +static int auto_sel_mode;
-> +
-> +static int auto_sel_mode_set(const char *val, const struct kernel_param *kp)
-> +{
-> +	int *mode = kp->arg;
-> +	int ret;
-> +
-> +	ret = sysfs_match_string(auto_sel_mode_names, val);
-> +	if (ret < 0) {
-> +		pr_warn("Invalid auto_sel_mode \"%s\", ignoring it\n", val);
-> +		return 0;
-> +	}
-> +
-> +	*mode = ret;
-> +	return 0;
-> +}
-> +
-> +static int auto_sel_mode_get(char *buffer, const struct kernel_param *kp)
-> +{
-> +	int *mode = kp->arg;
-> +
-> +	return sysfs_emit(buffer, "%s\n", auto_sel_mode_names[*mode]);
-> +}
-> +
-> +static const struct kernel_param_ops auto_sel_mode_ops = {
-> +	.set = auto_sel_mode_set,
-> +	.get = auto_sel_mode_get,
-> +};
-> +
-> +module_param_cb(auto_sel_mode, &auto_sel_mode_ops, &auto_sel_mode, 0444);
-> +MODULE_PARM_DESC(auto_sel_mode,
-> +		 "Autonomous selection mode: performance, balance_performance, balance_power, power, default_epp, disabled");
-> +
->  #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->  static enum {
->  	FIE_UNSET = -1,
-> @@ -938,6 +990,72 @@ static u32 cppc_cpufreq_effective_nominal(struct cpufreq_policy *policy)
->  	return (u32)ospm_nominal;
->  }
->  
-> +/*
-> + * Apply the auto_sel_mode boot parameter in init(). Enable autonomous
-> + * selection unless it is already enabled. Then set EPP for the selected mode.
-> + *
-> + * Enable auto_sel before writing EPP, as the platform may ignore EPP while
-> + * autonomous selection is disabled. Save each value written, so that online()
-> + * and resume() write it again.
-> + */
-> +static void cppc_cpufreq_setup_auto_sel_mode(struct cpufreq_policy *policy)
-> +{
-> +	struct cppc_policy_state *st = cppc_cpufreq_policy_state(policy);
-> +	struct cppc_cpudata *cpu_data = policy->driver_data;
-> +	unsigned int cpu = policy->cpu;
-> +	u64 auto_sel, epp;
-> +	int ret;
-> +
-> +	if (auto_sel_mode == AUTO_SEL_MODE_DISABLED)
-> +		return;
-> +
-> +	/* U64_MAX means the platform does not implement the register. */
-> +	auto_sel = st->regs[CPPC_SAVED_AUTO_SEL][CPPC_SAVED_FIRMWARE];
-> +	if (auto_sel == U64_MAX) {
-> +		pr_info_once("Autonomous selection is not supported, ignoring auto_sel_mode\n");
-> +		return;
-> +	}
-> +
-> +	if (!auto_sel) {
-> +		ret = cppc_set_auto_sel(cpu, true);
-> +		if (ret) {
-> +			pr_warn("Failed to enable auto_sel for CPU%u (%d)\n",
-> +				cpu, ret);
-> +			return;
-> +		}
-> +		cppc_cpufreq_save_requested(policy, CPPC_SAVED_AUTO_SEL, true);
-> +	}
-> +	cpu_data->perf_ctrls.auto_sel = true;
-> +
-> +	switch (auto_sel_mode) {
-> +	case AUTO_SEL_MODE_PERFORMANCE:
-> +		epp = CPPC_EPP_PERFORMANCE_PREF;
-> +		break;
-> +	case AUTO_SEL_MODE_BALANCE_PERFORMANCE:
-> +		epp = CPPC_EPP_BALANCE_PERFORMANCE_PREF;
-> +		break;
-> +	case AUTO_SEL_MODE_BALANCE_POWER:
-> +		epp = CPPC_EPP_BALANCE_POWER_PREF;
-> +		break;
-> +	case AUTO_SEL_MODE_POWER:
-> +		epp = CPPC_EPP_ENERGY_EFFICIENCY_PREF;
-> +		break;
-> +	default:
-> +		/* default_epp keeps the EPP value set by firmware. */
-> +		return;
-> +	}
-> +
-> +	/* EPP is optional. */
-> +	ret = cppc_set_epp(cpu, epp);
-> +	if (ret) {
-> +		if (ret != -EOPNOTSUPP)
-> +			pr_warn("Failed to set EPP for CPU%u (%d)\n", cpu, ret);
-> +		return;
-> +	}
-> +	cpu_data->perf_ctrls.energy_perf = epp;
-
-So EPP is also allowed to be 4 or 6 bits wide and we might wanna account
-for that either here or in acpi-cppc.
-That being said that's already not working, I usually think all these
-technically compliant platforms should just be filtered out on
-acpi-cppc probe and we don't support EPP then and not worry about it.
-That being said amd-pstate requires EPP for active mode and in this case
-just handling the read/writes seems the pass of less resistance:
-https://lore.kernel.org/all/20261112131316.827708-1-christian.loehle@arm.com/
+X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
 
-> +	cppc_cpufreq_save_requested(policy, CPPC_SAVED_EPP, epp);
-> +}
-> +
->  static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
->  {
->  	unsigned int cpu = policy->cpu;
-> @@ -1058,6 +1176,8 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
->  	}
->  	cpu_data->perf_limits_valid = true;
->  
-> +	cppc_cpufreq_setup_auto_sel_mode(policy);
-> +
->  	cppc_cpufreq_cpu_fie_init(policy);
->  	return 0;
->  
-> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
-> index 2cec54b4d2e2..3d47c07f494b 100644
-> --- a/include/acpi/cppc_acpi.h
-> +++ b/include/acpi/cppc_acpi.h
-> @@ -42,6 +42,8 @@
->  #define CPPC_AUTO_ACT_WINDOW_SIG_CARRY_THRESH 129
->  
->  #define CPPC_EPP_PERFORMANCE_PREF		0x00
-> +#define CPPC_EPP_BALANCE_PERFORMANCE_PREF	0x80
-> +#define CPPC_EPP_BALANCE_POWER_PREF		0xC0
->  #define CPPC_EPP_ENERGY_EFFICIENCY_PREF		0xFF
->  
->  #define CPPC_PERF_LIMITED_DESIRED_EXCURSION	BIT(0)
-> 
-> base-commit: a917b5968c17196b98b514158de800194d09e505
 
-Actual $SUBJECT looks okay to me, I'd wait with the R-b for the
-series, though.
+On 11/10/2026 8:49 PM, Leonardo Bras wrote:
+> On Tue, Nov 10, 2026 at 04:54:30PM +0800, Tian Zheng wrote:
+>>
+>>
+>> On 11/10/2026 2:18 AM, Leonardo Bras wrote:
+>>> On Mon, Nov 09, 2026 at 12:00:52PM +0800, Tian Zheng wrote:
+>>>>
+>>>>
+>>>> On 11/6/2026 11:36 PM, Leonardo Bras wrote:
+>>>>> On Fri, Nov 06, 2026 at 06:36:04PM +0800, Tian Zheng wrote:
+>>>>>>
+>>>>>>
+>>>>>> On 11/2/2026 10:54 PM, Leonardo Bras wrote:
+>>>>>>> On Tue, Sep 29, 2026 at 06:36:51PM +0800, Tian Zheng wrote:
+>>>>>>>> The dirty ring reserves room for CPU-side dirty buffers via
+>>>>>>>> kvm_cpu_dirty_log_size(). Report the HDBSS buffer entry count
+>>>>>>>> through it, so a full buffer flush always fits in the ring.
+>>>>>>>>
+>>>>>>>> Pin the HDBSS buffer size to PAGE_SIZE when dirty-ring is enabled,
+>>>>>>>> via kvm_arch_dirty_ring_size_updated(): a larger buffer only
+>>>>>>>> shrinks the soft_limit and forces more frequent userspace drains.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Tian Zheng <zhengtian10@huawei.com>
+>>>>>>>> ---
+>>>>>>>>      arch/arm64/kvm/arm.c | 8 ++++++++
+>>>>>>>>      arch/arm64/kvm/mmu.c | 8 ++++++++
+>>>>>>>>      2 files changed, 16 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
+>>>>>>>> index 9d7bdece149a..5a7046acb62e 100644
+>>>>>>>> --- a/arch/arm64/kvm/arm.c
+>>>>>>>> +++ b/arch/arm64/kvm/arm.c
+>>>>>>>> @@ -215,6 +215,14 @@ static int kvm_arm_default_max_vcpus(void)
+>>>>>>>>      	return vgic_present ? kvm_vgic_get_max_vcpus() : KVM_MAX_VCPUS;
+>>>>>>>>      }
+>>>>>>>>
+>>>>>>>> +void kvm_arch_dirty_ring_size_updated(struct kvm *kvm)
+>>>>>>>> +{
+>>>>>>>> +	if (!system_supports_hdbss())
+>>>>>>>> +		return;
+>>>>>>>> +
+>>>>>>>> +	kvm->arch.hdbss_buffer_size = KVM_ARM_HDBSS_DEFAULT_SIZE;
+>>>>>>>> +}
+>>>>>>>> +
+>>>>>>>
+>>>>>>> On the same subject as a previous patch:
+>>>>>>> I don't think this is the best approach, on top of adding a new weak
+>>>>>>> function to take care.
+>>>>>>>
+>>>>>>> Maybe during the dirty-ring allocation, on vcpu creation, we could take
+>>>>>>> into account the requested dirty-ring size, and just allocate the HDBSS
+>>>>>>> buffer taking that into account. That would make it simpler, don't you
+>>>>>>> agree?
+>>>>>>>
+>>>>>>> Thanks!
+>>>>>>> Leo
+>>>>>>
+>>>>>> Hi Leo,
+>>>>>>
+>>>>>> The "set once" guard we're discussing comes from the patch that adds the
+>>>>>> ioctl, and it isn't really needed. We discussed this earlier [1]: we can
+>>>>>> just initialize hdbss_buffer_size to PAGE_SIZE at VM creation and let
+>>>>>> the ring reservation use it directly. **That also means
+>>>>>> kvm_arch_dirty_ring_size_updated() can be removed.** Thanks for your
+>>>>>> suggestion.
+>>>>>
+>>>>> :)
+>>>>>
+>>>>>>
+>>>>>> As for why PAGE_SIZE is the right value in ring mode: the HDBSS buffer
+>>>>>> is flushed on every VM exit, so a larger buffer doesn't reduce the flush
+>>>>>> frequency. It only inflates the ring reservation (64 + size/
+>>>>>> sizeof(u64)), which shrinks the soft_limit and forces more frequent
+>>>>>> exits to userspace for the ring to be drained. Draining the dirty ring
+>>>>>> from QEMU is more expensive than draining the HDBSS buffer from the
+>>>>>> kernel, so the smallest buffer gives the best performance. In this mode,
+>>>>>> a larger buffer provides no benefit to users.
+>>>>>
+>>>>> Humm, if properly dimensioned larger buffers would be benefitial for
+>>>>> memory-intensive workloads, unless they are guest_exiting for other
+>>>>> reasons in the meantime.
+>>>>>
+>>>>
+>>>> Agreed, and the workload I tested is on the "unless" side. The guest
+>>>> exits constantly for other reasons, so the larger buffer never got a
+>>>> chance to pay off, and only cost ring capacity.
+>>>>
+>>>>>>
+>>>>>> In my tests, I also saw performance degrade when more space is reserved.
+>>>>>>
+>>>>>
+>>>>> Humm, what kind of workloads did you test?
+>>>>> Did you have the chance to monitor what were the reasons for VM exiting?
+>>>>>
+>>>>
+>>>> For the workload question, it's a Redis server in the guest under redis-
+>>>> benchmark (SET-only, 2KB values, 1M keys, 100M requests). The traffic is
+>>>> network-driven, so the guest exits constantly to service requests. The
+>>>> HDBSS buffer only accumulates entries between two exits and is flushed
+>>>> on every exit, so it rarely fills regardless of size. A larger buffer
+>>>> only inflated the ring reservation, which shrinks the soft_limit and
+>>>> makes the ring-full exit and userspace drain fire more often.
+>>>>
+>>>>> I am not saying this is mandatory for the HDBSS implementation, but the
+>>>>> whole idea of letting the user choose their own HDBSS buffer size is
+>>>>> because different workloads may benefit from different buffer sizes: if a
+>>>>> VM writes a lot to new memory, and exits very little for other reasons,
+>>>>> then a larger buffer will cause the VM to guest_exit much less often.
+>>>>>
+>>>>> Does that make sense?
+>>>>>
+>>>>> Thanks!
+>>>>> Leo
+>>>>
+>>>> It does make sense. That's exactly the workload where a larger buffer
+>>>> pays off, and the next version no longer gets in its way. The two ioctls
+>>>> are no longer mutually exclusive.
+>>>>
+>>>> The only coupling left is the reservation. hdbss_buffer_size starts at
+>>>> SZ_4K at VM creation, so a ring enabled right away reserves for the
+>>>> default buffer (64 + 512 entries), and the minimum ring size accepted is
+>>>> unchanged from v5. KVM_CAP_ARM_HDBSS_BUFFER_SIZE is the gate. When the
+>>>> ring is already enabled, a size is accepted only if its reservation
+>>>> still fits in the ring, otherwise -EINVAL. In the other order, ring-
+>>>> enable validation rejects a ring too small for the configured size.
+>>>
+>>> I don't think this is needed. If using dirtyring, we don't need to allow
+>>> user to set hdbss size: HDBSS size should be sized according to the
+>>> dirty-ring dimensions, that are set by userspace before the first vcpu is
+>>> created.
+>>>
+>>>
+>>>> So SZ_4K is just the conservative default for guests that exit often.
+>>>> Anything larger, within what the ring can reserve, is up to the user.
+>>>>
+>>>> Does this work for you?
+>>>
+>>> I still think we should do PAGE_SIZE for dirty-bitmap. Dirty ring should do
+>>> based on the dirty-ring size, and maybe review the use of reserved
+>>> entries, or it's accounting.
+>>>
+>>> What do you think?
+>>>
+>>> Thanks!
+>>> Leo
+>>
+>> Hi Leo,
+>>
+>> Thanks for your review. It does make sense!
+>>
+>> I agree that dirty-bitmap mode will keep PAGE_SIZE as the default, and
+>> in that mode the ioctl stays available for a larger buffer.
+>>
+>> In ring mode we will drop the ioctl, the two remain mutually exclusive,
+>> and the buffer will be derived from the ring size userspace configured
+>> before the first vCPU is created:
+>>
+>> ```
+>> hdbss_buffer = clamp_t(unsigned long,
+>>                         rounddown_pow_of_two(ring_size / 16),
+>>                         SZ_4K, KVM_ARM_HDBSS_MAX_SIZE);
+>> ```
+>>
+> 
+> Are you allocating 1/16th of the ring size in bytes as an hdbss buffer?
+> That's confusing. I recommend we rather have something like:
+> 
+> ring_entries = ring_size / sizeof(struct kvm_dirty_gfn);
+> hdbss_entries = ring_entries / 2; // Or any number we decide to use here.
+> hdbss_buf_size = hdbss_entries * sizeof(hdbss_buf_entry);
+> 
+> Then we do
+> hdbss_buf_size = clamp_t(unsigned long,
+>                           rounddown_pow_of_two(hdbss_buf_size),
+>                           SZ_4K, KVM_ARM_HDBSS_MAX_SIZE);
+> 
+> So it's clear what is what here.
+> Just dividing by 16 above can be confusing to whoever is reading the code.
+> 
+> 
+>> A buffer entry is 8 bytes and a ring entry is 16 bytes, so:
+>>
+>> ```
+>> buffer entries = buffer_size / 8
+>> ring entries   = ring_size / 16
+>> ```
+> 
+> Remember to use the sizeof instead of fixed numbers.
+> 
+>>
+>> This means ring_size / 16 reserves at most one eighth of the ring
+>> entries for the HDBSS buffer. That keeps the usable ring above 85% while
+>> the buffer still grows with the configured ring size, and the result is
+>> independent of the kernel page size, with SZ_4K as the only minimum.
+> 
+> Yeah, remember that if you are dealing with the ringbuffer like this, an
+> user can request a 4k ringbuffer and we just won't be able to use hdbss, as
+> it means 4k/16 entries, and hdbss has the minimum of 4k/8.
+> 
+> As I mentioned, maybe this approach of reserved entries is not the right
+> way of dealing with it in arm64.
+> 
+>>
+>> One eighth is the ratio that looks reasonable to me so far. What do you
+>> think?
+>>
+> 
+> I see no reason why it could not be higher than that. It all depends on how
+> you want to deal with the full buffer in the future patchset. If hdbss
+> buffer is full, it has to exit and drain to the dirtyring. The guarantee
+> you seek with reserved entries is that all hdbss entries fit in the
+> dirty-ring.
+> 
+> As long as the user is required to drain entries until the dirty-ring is
+> not 'full' anymore, we could easily work with dirty-ring having twice as
+> many entries as the hdbss buffer.
+> 
+> How does it sound?
+> 
+> Thanks!
+> Leo
+
+Hi Leo,
+
+Thanks for the suggestion.
+
+For the next version I'll still go with the reservation scheme. It's the
+safest approach I can think of. The guarantee I want is that a full
+buffer flush always fits in the ring by construction, without depending
+on how quickly userspace drains it.
+
+I'll also switch to sizeof(struct kvm_dirty_gfn) and
+sizeof(hdbss_buf_entry) instead of the hardcoded 16 and 8, and size the
+HDBSS buffer at half the ring entries as you suggested.
+
+On the 4K ring case: HDBSS can't fit there. One option is to just not
+enable HDBSS in that scenario, but I'll start with returning -EINVAL for
+now. I'm happy to switch to the other option if you think that's better.
+
+Thanks,
+Tian
