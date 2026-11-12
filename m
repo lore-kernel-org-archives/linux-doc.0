@@ -1,83 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794461693;
-	b=SP5TZCNJcCPTuSGuyBp+toUo0pZfCEUpEdZYTJgbJCkZKNWf2o7OW1QTGFJGt0uxF4aj
-	 +FkHt059pLzC2/y+gfByA06B4j2UuS+xLBibqVnTy6hRzn3VICK1im6XZOpZVllhFWSDe
-	 vVcrJ6IUZE/ShqPVag+n7NU8g/LXpEwUzF9ZpTnbOKMUHeF/Lds7TiVwA6gsYJWUKllhC
-	 FCHemPU0KmTz+jzuWbJnv5YQXZwZhAKxaWoqqIAi5IWe+XWbFHkWt3pAssprtAx4FlA1z
-	 cwKIeL2NoK5wcXhTfjCGXCVERWqZQk4dg/f0+e6Gk+XJdCOTHBLQHYQWE2Bw+ATlxkQ==
+	t=1794461696;
+	b=cDEI9beN/fI1Uxb8VCPGOi1iPuNO0QYG9kvXwcfneYktXRNCij+PfTJU/OE2+RyMnDo0
+	 b9O3xzwgOt74DTv0YNELKSuQeTDO4Df1myTu4+RatXG9fzo+W6ECK6xHAqjawYuUZniHQ
+	 kXbpvvhSUWAXkZqmasCzCxFmY84mTednLW2EFXEXSy6/hE1ovTWHuPpa92MGc2HbAuoEg
+	 04F8CSmt1vZ+7gZF8SD3LqDPmefcI0EyEYSDnr9xxn1mliHsVth/kyMIEQvmGC2CSNudc
+	 g3ug8nb9+5RVjp5BkpUw/gBAUwet/NvpAj3q0xTU+2vwlJ+LSRb8mciFcoLVzHDF+Og==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794461693;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794461696;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ZBzb0jWFuu4WC1vXCF6cW6GE7gHM+sCU4Tmo420Ip/c=;
-	b=jkBrkgdJYrzA1EZtp81bjUueZi7e5J4ZkU6ShYBP6nc4IDX2cNgIhHZuneP5/xNY2336
-	 3ZmDGBcW7MbgMCeuz0BhPanXcukxl3ewmDBTbDNdDltHAnp1p3MVV99+PVas3bNoQr1cd
-	 mWSOyulk/6mZfpVraSk30sPUA8AcqEsX+9AjUnTY9NnSz9IcpCadYtqQ8h20eegEWrZDM
-	 Iw6WQigHn3+rmQhjGOdzkrBo0TY1Xqu6W2mmKmPiIPiW96grnUMJm/PFlOuTzSJB9a+Zq
-	 Sqv4+EwbSZsVELdOikjIq/PmviMjD4n8YSB6JUsl6xmzMhsvFI2TEzCU4qDGnpa2AOA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=Bu79jnLYOYZ0lwXrvvCFZpjbtsmUaJ7g+2H7bpOxRio=;
+	b=tma+eLpb7ZkrlSV6vr8anashFcaaYpx6ryFuLj1FRmKDJrcNP6bCOeiUCjjaHTyjO+sy
+	 h+WIAJWoWSiQ2nDIoD+SetVNv3lbsNp6u6FenIrnkNT96kvlbjuZVYA6MUn3la7HjwHQt
+	 3uxgo3r8qFB6U8klsaAW/DHWipplDttKEsZl43i9FJdLPc90DU6SParoMRnSEiZHURwQq
+	 GGSSxWHCL35FbAiv2R5r5TReja+5QiyaP1hhI7Tvfkp1RCaxmEkyitx/isJiafisbaBxm
+	 lpYrh3OIKbH+8Dy3f7QsRPQbeKOR7xESXX61LsVM9KUZ9dJrhXkSzrljqXxoGJ04Umg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EKLyEyvl;
-	arc=none smtp.remote-ip=74.125.82.42
-Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dQ+iAVGr;
+	arc=none smtp.remote-ip=74.125.82.54
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28958606A327
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 05:34:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28958606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63D44606A881
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 05:34:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63D44606A881
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=EKLyEyvl
-Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-1b3a05f8b5bso5495793c88.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:34:52 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=dQ+iAVGr
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1438d9363fbso318883c88.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:34:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794461692; x=1795066492; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZBzb0jWFuu4WC1vXCF6cW6GE7gHM+sCU4Tmo420Ip/c=;
-        b=EKLyEyvlzMKSq6OEIIQREfxshLeZnru40IjQZm2aIj1zYNJZARALaU5lfOvdaOuQ/+
-         s3D4BNuqsfUo7HUW1p/H93MshLd+ofXu/Onr/ckGkw/DkFWziumdVNwFrf/Mwyp9B871
-         vXdGkZVtI936EzjXpH9JPe3TLoz+PioUyyA0kNdfhK9I+9vrSTbPPI1OeJQR6yIYrmbR
-         Q/Kut/BV0+GvsD9JHH/7O6UeGnR484jCWrKwFxGK8zYz5Uc4fq5RNkDuQ7a39uHSukh7
-         5PQ6kTV0j+VGp5VFkErFaAGEKAq4jul6YcthGobHE11aDzOq/zxk1EP8TjrCddivdi8x
-         fHDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794461692; x=1795066492;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794461695; x=1795066495; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZBzb0jWFuu4WC1vXCF6cW6GE7gHM+sCU4Tmo420Ip/c=;
-        b=y1JhsSRvYqsOjs6MC0zHDACVY+HbbZUeXIsyMAgZqCnO9OX4Al+BgoLiTVn7gphsA5
-         u08zbfwrVrA3WU/9knbExwxZUlsLE329BnajlCjGz6zSYZQ1aMwsP/R40KOuTgoVo5ba
-         dgamTFdt/chltZXCN8UktqQJFPy4G9eS4u75aM7pX+u+hDAZ0IQGLCCMQxu15QHp0JOD
-         DLfgM7IA/optV+MC9WQmnlijuq5j6Vq1UjZDK4MwVyrOZToTULd3fJxhNOklJ+kC0rKo
-         EQWmpQshjiuF2AmtF9e4aYn5nY6kLdB8GU7qiXtsNdxRpJNytauUQdksC9E30eSwAZFy
-         6D0A==
-X-Forwarded-Encrypted: i=1; AL+hErG+fQIVecDizYzHnFE6SSjZFmLaAM4sPB/9r9erBc4CWYqeRb7TZJrD3zsAYV8OW+kpIxyJWGiXC4s=@vger.kernel.org
-X-Gm-Message-State: APuU4Z99JodkWz/FfJKJhr53MwczuWqceSMq3O7noKUNupw01EOGlqkf
-	feCe0NxtzcW9IoyUSbQoIEgGCxgt3LcaSDfMjAAqt9Q4/mqWpIMt/SsT
-X-Gm-Gg: AYBFou1i53g3QVz9/SsDB/lGy1gPr+SS4SF/C0ORl/fkT+SFZy1TTIICBeRLBok9n6t
-	GOBQT61JbamHySpONp4Q+6Bn4OgauqpRXr4wCGlOxwUcUmqOXtSapHFKE4ANLCEhSyRrtVGKVlB
-	eYx/J+Chw0HzU+7zTBkDuZUDjVddMvovp4SQONAQmYowhSg17JD1BkGZJ944Rg4rKpbRuQaLddk
-	C20cTADTNPBH7eZ0DvXT5KptvICQGyYt+pE0xioAT89OSiZnhTDrPQNltXBTBz8npOJICEibr3Y
-	IGhb3bCWw4SGnzsO4TUV8fAfXGv4y87lI32RTO/4s/kxEfCsrMTCRGvNhIhx+GRj/nlaqm20yWz
-	63CqzKQfK+j/OirBThCsyclzu52HiP3MA08Mv3SU9ZzOGTW3OLFfIhWuJ3X0utZ0O94C5kCzJaA
-	01X6pYUI8UaRoMC/UDuYtlLCluHiH4VjDNiCk9NaJeLDPchlVMllh+75j6fZZue7lMGFRXC3KYO
-	MuED+8/GRILFkarVi1witq+AOja4BwEYIjBdioTIOvStKdB/PdzmUjDbKwadvkGTNqOlcztpz0q
-	oJgGkaJDoaN6Y4qe26Fjjy0D41LsWq9ZGX2i7AjOaxX4PKASimz2tSn1+HSR3hxUZZYRLpBPN++
-	riXooKIVOtx7HMIuQve8Ybbz1NbYs+HneDS/5zFofkQaC2XLMcga+uzNf3mnawFYZ6P/t
-X-Received: by 2002:a05:7022:b0c5:b0:1a7:7160:ffc8 with SMTP id a92af1059eb24-1b3c27a7bc3mr2652841c88.10.1794461692054;
-        Wed, 11 Nov 2026 21:34:52 -0800 (PST)
+        bh=Bu79jnLYOYZ0lwXrvvCFZpjbtsmUaJ7g+2H7bpOxRio=;
+        b=dQ+iAVGrs40P3mvOnsMx386F8x4T7hbt6QJVwaw4bN3WscCPOFlAT769rRBBC2dE7m
+         6CtlmkSISj8zLFXvkwVDmd2CxyC2uvv1EYh/lasvpNnmiUXyjoqzG+Fi7u60tyz9br4J
+         KwIz8yLlNpgIj885KK9b5Vb02B1EJOL6C+yvJvLLKrvf71di9USNV7R+u2nW1L2ilNG2
+         3BB0EKujATiVzo0W5IMWOgiqLRKmi/+0wvWoNdLdFGF3Za0UVxOl6EhgStNKz6ltq5ex
+         O12e0xKNHDW6j+k7Njl5mg/6h8B3rgp5kwlOsp3Pjr0baIAdD8Wqr8LN2CK734UfLr6L
+         O/OA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794461695; x=1795066495;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Bu79jnLYOYZ0lwXrvvCFZpjbtsmUaJ7g+2H7bpOxRio=;
+        b=wzk/mH5x8Y4w+RKCFG2/sw5QCUzCoh2XPR8GQoPAg3BjJdldQE+5LwiVnDAZzGtl5x
+         H7jrP2qAs3c36l2Z4QCRoiFR/tsHZQLq6KY7FGLS883q7g2VloDl0LN9L4zlxz579eYX
+         qxP+cn3DdCZ64N2bM3aY5K/sqw0ZZz5FN20SCJIGLkNBkKkkN70jYLwhGdbY1ImbKZE2
+         mFqXkIATFYuD1/3tyBE2htmWtVGFC+Byn6U9cIa5c3FEJrFPGo5WUTkquolt0bGGIv1p
+         Y71MlW6qEA4lf8yCsSIgLYMjLYX5xdjo6rPYnesCZwH2VxpxgWNtGWzI6Nw6A5bYuLT4
+         Gokw==
+X-Forwarded-Encrypted: i=1; AL+hErGG6fEfVVTT3cU5h7UhKb2aF8V6VgAYlWAFfFhfNZpYBJt4FCL29mPHNj1lH3C5mdDdneoGyqd/9Sg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+i1yhQRVYFthMneUCbikMPRiRE+IwYFN+OX8uIDTk3TTnNBrJw
+	RjcOqZazLKZLToq2leN2FfcpzlvolyQ+WOiBsXCJhIpf61udDZ6X6eWr
+X-Gm-Gg: AYBFou397pWoj6VVofhPfENXL7nNzWJAxdF3R2cTTnb0DG05FrHL0XEkTQ1fW42F823
+	C269JD9Dt3U0cMuYMeiZl4DKLJ5adnUwJVgcHA+kWn782VmkBIQ0Twhi3cmzzmOmQUGx9vIOGK0
+	hI2zyO46XU3dHj5DuULZgCYSAPBRf2oB+ZK/CS3ZyV6gOnvQmjsq/15S3gn+4wXL96I1/joLaim
+	fTZ5X1iC+pif+6lfGF/t8D3tdCHtN40nZZm79k/ufNGGHI1+gkiqZNWHqt/7MZc6scyLKqgDOIP
+	BhftESoYG8itnR9UaT0HYMCZqu77QdEDSw+NQQiZMP5m3oQ4YxD4nn2nPrNA0qjjufQT9Hkib01
+	19tqDZkOXzeohpnDQTlsd5Vir1qVBH0RPQaJSttQ4NqdsdA/sYx6buWisSPCF7H+WlB8rz/3Tn0
+	9qqJz+Wqm6X/YVkeKtj+FhBTzi9dx5wI0lwPkIXG29nsqj27qsnUQSgMWfH+dJlXgnpd2HF6RgA
+	TMz88mFO+ihSezz+3P0RqZ1D5ssmB54Iq9zo+XxHyrBue14YKUTHEWjzDqgeOVbaEsm99NLWCbv
+	PQ+o4U7knjBysehjLGyz0oaWg7REqb0BipGuZsQArtxDSTyVWoqLPfIR4wA1iamAgoF0peVMuSd
+	atLDbfQ+ly90e2bAS9X/cfBxpnllBEkw1ee5RRuO2xBtEc0S6JWdCozMBnTZj9Ta36D5w
+X-Received: by 2002:a05:701b:420f:20b0:1b3:a87e:8040 with SMTP id a92af1059eb24-1b4f5eba049mr1425278c88.20.1794461695410;
+        Wed, 11 Nov 2026 21:34:55 -0800 (PST)
 Received: from localhost.localdomain ([183.96.175.225])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5890c0esm21953240c88.1.2026.11.11.21.34.48
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5890c0esm21953240c88.1.2026.11.11.21.34.52
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 11 Nov 2026 21:34:51 -0800 (PST)
+        Wed, 11 Nov 2026 21:34:54 -0800 (PST)
 From: Joonho Lee <mynameisjune111@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -89,11 +90,14 @@ Cc: tiwai@suse.com,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
 	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v29 00/17] ALSA: virtio: preserve PCM progress
-Date: Thu, 12 Nov 2026 14:34:29 +0900
-Message-ID: <20261112053446.73504-1-mynameisjune111@gmail.com>
+	linux-doc@vger.kernel.org,
+	Joonho Lee <mynameisjune111@gmail.com>
+Subject: [PATCH v29 01/17] ALSA: pcm: mark stop-threshold accesses for capture policy sampling
+Date: Thu, 12 Nov 2026 14:34:30 +0900
+Message-ID: <20261112053446.73504-2-mynameisjune111@gmail.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261112053446.73504-1-mynameisjune111@gmail.com>
+References: <20261112053446.73504-1-mynameisjune111@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,81 +109,71 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This resends v28 in full using mynameisjune111@gmail.com for every
-message. There are no code or patch-description changes from v28; the
-existing human DCO trailers are retained.
+The staged virtio-snd capture path needs to sample stop_threshold from
+completion context to distinguish free-running capture from bounded
+capture. Software parameters can update this field while capture runs.
 
-The v28 documentation patch 14 was rejected by Gmail. Sending that
-message through my Workspace account made it available on Lore, but
-Sashiko grouped it separately from the other sixteen patches. This
-revision sends the complete series with one From address.
+Mark the runtime stop-threshold assignments with WRITE_ONCE and the proc
+status read with READ_ONCE. This pairs the assignments with the driver's
+staged-capture policy sampling.
 
-Previous version:
+These annotations do not provide a transaction for the entire sw_params
+update. The driver serializes its cached policy and accounting with its
+own substream lock.
 
-https://lore.kernel.org/linux-sound/20261112043516.37010-1-mynameisjune111@gmail.com/T/
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
-The following describes the changes and validation already included in
-v28.
+---
+sound/core/oss/pcm_oss.c |    2 +-
+ sound/core/pcm.c         |    3 ++-
+ sound/core/pcm_native.c  |    5 +++--
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
-This replaces v27 in full. Apply all seventeen patches directly to base
-commit a4311e9447bbb219044db38897f95be112f46a8a. The previous public
-version is at:
-
-https://lore.kernel.org/linux-sound/20261112004704.49758-1-mynameisjune111@gmail.com/T/
-
-Changes since v27 are confined to patch 12. The other patch diffs are
-unchanged.
-
-I reproduced both capture findings from the Sashiko review. If request
-N+1 completed before N, RESET could leave N+1's already completed
-payload eligible for later delivery. After an external XRUN, rejecting N
-also left N+1 buffered until generation cleanup. PREPARE cleared that
-state in the control test, so this does not establish a permanent
-recovery failure.
-
-RESET now marks valid completed payloads present at the pointer
-observation as discarded while retaining their ordered placeholders.
-This lets the commit sequence advance when older requests return.
-Transport-owned requests and data arriving after the observation remain
-eligible to commit. Repeated RESET preserves the discard, and invalid
-response status still reports XRUN. Rejected completions also release
-returned buffered entries without resetting the sequence of requests
-still owned by the transport.
-
-The failed native PAUSE path previously reopened the queue with the STOP
-quiet boundary and capture_stopping flag still set. A running stream
-could then accept an empty completion without the normal XRUN check.
-Rollback now restores the prior flags under the substream lock and
-checks the reset epoch before reopening admission.
-
-ARM64 QEMU tests use the actual driver functions with test-only request
-ordering and STOP allocation-failure injection. The v27 baseline fails
-eight affected assertions; the candidate passes all thirteen assertions,
-including normal reordering, post-observation delivery, invalid status,
-and STOP empty-tail controls. The running-observation test invokes the
-actual pointer-observation helper. Full RUNNING RESET ioctls are covered
-separately by the production regression.
-
-The production driver module was built separately without those hooks.
-Its ARM64 W=1 build and eight QEMU regression runs passed with the
-matching v27 KASAN/lockdep kernel and core modules. These cover RW/MMAP
-capture, PREPARED RESET with DRAIN/reopen, RUNNING RESET, and playback
-PAUSE/RELEASE, HWSYNC/poll, DROP and reopen. Capture includes 70-second
-RW and resumed MMAP phases. The independent backend-sequence oracle
-matched 7,104,000 frames across seven capture phases. No KASAN or
-lockdep diagnostic appeared.
-
-The kernel image and core were reused unchanged; the modified driver was
-rebuilt. Fresh KCSAN and physical VZ tests were not run for this
-revision. The earlier v27 KCSAN and Scarlett results describe that
-earlier build. The controlled tests use synthetic requests and a known
-STOP failure before submission; they do not qualify transport
-timeout/uncertainty or demonstrate out-of-order completions on physical
-hardware. Intermediate patch stages are application-checked; the fresh
-runtime tests cover the final candidate.
-
-Review addressed:
-
-https://lore.kernel.org/linux-sound/sashiko-outbox-210240@kernel.org/
-
-base-commit: a4311e9447bbb219044db38897f95be112f46a8a
+diff --git a/sound/core/oss/pcm_oss.c b/sound/core/oss/pcm_oss.c
+--- a/sound/core/oss/pcm_oss.c
++++ b/sound/core/oss/pcm_oss.c
+@@ -2958,7 +2958,7 @@
+ 	       runtime->oss.mmap_bytes);
+ #endif
+ 	/* In mmap mode we never stop */
+-	runtime->stop_threshold = runtime->boundary;
++	WRITE_ONCE(runtime->stop_threshold, runtime->boundary);
+ 
+ 	return 0;
+ }
+diff --git a/sound/core/pcm.c b/sound/core/pcm.c
+--- a/sound/core/pcm.c
++++ b/sound/core/pcm.c
+@@ -422,7 +422,8 @@
+ 	snd_iprintf(buffer, "period_step: %u\n", runtime->period_step);
+ 	snd_iprintf(buffer, "avail_min: %lu\n", runtime->control->avail_min);
+ 	snd_iprintf(buffer, "start_threshold: %lu\n", runtime->start_threshold);
+-	snd_iprintf(buffer, "stop_threshold: %lu\n", runtime->stop_threshold);
++	snd_iprintf(buffer, "stop_threshold: %lu\n",
++		    READ_ONCE(runtime->stop_threshold));
+ 	snd_iprintf(buffer, "silence_threshold: %lu\n", runtime->silence_threshold);
+ 	snd_iprintf(buffer, "silence_size: %lu\n", runtime->silence_size);
+ 	snd_iprintf(buffer, "boundary: %lu\n", runtime->boundary);
+diff --git a/sound/core/pcm_native.c b/sound/core/pcm_native.c
+--- a/sound/core/pcm_native.c
++++ b/sound/core/pcm_native.c
+@@ -871,7 +871,7 @@
+ 	runtime->period_step = 1;
+ 	runtime->control->avail_min = runtime->period_size;
+ 	runtime->start_threshold = 1;
+-	runtime->stop_threshold = runtime->buffer_size;
++	WRITE_ONCE(runtime->stop_threshold, runtime->buffer_size);
+ 	runtime->silence_threshold = 0;
+ 	runtime->silence_size = 0;
+ 	runtime->boundary = runtime->buffer_size;
+@@ -1062,7 +1062,8 @@
+ 		runtime->period_step = params->period_step;
+ 		runtime->control->avail_min = params->avail_min;
+ 		runtime->start_threshold = params->start_threshold;
+-		runtime->stop_threshold = params->stop_threshold;
++		/* Drivers may sample the stop policy from completion context. */
++		WRITE_ONCE(runtime->stop_threshold, params->stop_threshold);
+ 		runtime->silence_threshold = params->silence_threshold;
+ 		runtime->silence_size = params->silence_size;
+ 		params->boundary = runtime->boundary;
