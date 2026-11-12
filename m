@@ -1,63 +1,64 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794494055;
-	b=2LQ2XkiZVTS+KHTLLMPoUXpNL0fqNbf2cNYfLrE7oUstsSnyqPwMdwXo2GCWsJKM5DTT
-	 dJx8JLQAS3adp9CehgXYZyh+a2W3YvA7eJ2DKANkn+GtwxP+Nwu5GIeUFafn5OqxsmHPA
-	 noa9WVZvNyeU6qrLXFrvi5s/nrMZGzI8DSj3hm/ofDuPx1mFEuNEfZKwExJzdMg2KmDjk
-	 C7qx02nZcWkm4dWHDVhX23X++L0QszkHRrmq+Nz+Sgdw9lpXmvrO6VG3R7o54ayPOwPsu
-	 ykonSrY62itca1eMs2v7T1HdbhSYyk+o04gAu3eLiizfZCT0b6XU78zQaDYq/tlKMuw==
+	t=1794494207;
+	b=eSSQoYB+OZJQqDTTxpspLrl12g/sq9+zRe/PsUK9tOmikhx7kFPttOOTn09GdHJUaIPa
+	 ePR8xq/hZfa9yOS59wlHzEodd5MMbOdW7HNAB7WSSSO118CT3uDQA8NfXNF7b5OhdVlOd
+	 QDKxdzcgv1wlvUnVgc7Zghl7Jr8Gl8dsG6egJreAo8X/hHD3tHaNj4MEGKIAnd8daq0YR
+	 5J/w4+u45Qy6U68yv9+y1kcN2fkTv0l9yoksy5XV11aMi5Yc7WhChQOar3+vmt6ztty85
+	 +BBSaHf24Lc7WGqiKSyazajVRvpxEGpg01PYl29kAIwi0wh1oO4IcTDrSyzoq4YTUGQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794494055;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794494207;
 	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
 	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=fEJo6vbvhz1XZl5tpxWvOSvlbS9UMk64Ct6jD/81+qc=;
-	b=wmPfWxpunDhtAMLEmXaIRYufimMhC+Rk2uuA/za1z0BycBwKLuf1PMNtMHotQLQipyff
-	 UnMl7iocRc0SYVBjkpmruNm7JL/MxlBXXlsHYYPY7HusEoyz2Sw/agExXkE+MC2JocObj
-	 I13oj4T2uLJa6rkrVi/u+slIs7sV303uVJxfudWT43/84wjag/3i9gdBnwzzRURVyZMyF
-	 EcEqRpaxsNwsvjJOP3CNJWsyRWBacCXnR6ah/+THJ3FWbX/7TznsXZIiN4JSMJKG3L1ty
-	 6PVh+gYmEuzT+gjk8uc9CTpHTHShSG9ccKrXVzAQDCin8inBbKQRZrP2uS7ChFOnLNg==
+	bh=qURwc0r5NDQy2lLQayYqs3VpyJ0zWpWXT5E/+vERTKk=;
+	b=CRCIzoRMPNFX6nu74A6YYIW25giMSUQIUOA8r95zu0/mnQD6IrMcINv6C7r/FTu0rVNs
+	 UALbfw0H2UTfC6oBHOLuKGh9SBQdm/1ECz4dK8u7KRyE6e6kQJA33MHW0JA98xz+1iU60
+	 dpqiXVhQJU+T494gx59s0juqrfJiQe6gkRlX28aLwF55LLVfk8RdrV4Ub6PWVv7wZTud6
+	 dyuiVsno7NBI7qPni2ED4coybVJ4bCa6/mVO4RqiI3GJ/gQLgcFEPLPv2jZASrJyIfDbA
+	 8LvakLX/jg5++L/l5URAJot6uZh/angqSwMOoTYz/oE8eKwcNxWzK4/3PwZ/ltKp7rA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=lwn.net;
 	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=OnZtIQnz;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Z9UdqpgW;
 	arc=none smtp.remote-ip=45.79.88.28
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BCE606A327;
-	Thu, 12 Nov 2026 14:34:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24BCE606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB44606B2C4;
+	Thu, 12 Nov 2026 14:36:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AB44606B2C4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=OnZtIQnz
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 83C8640B2D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Z9UdqpgW
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 96A3840B2D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1794494054; bh=fEJo6vbvhz1XZl5tpxWvOSvlbS9UMk64Ct6jD/81+qc=;
+	t=1794494206; bh=qURwc0r5NDQy2lLQayYqs3VpyJ0zWpWXT5E/+vERTKk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OnZtIQnzzvr3Vo3hkdjhwAOPrLXCHAQDGrZT808UW1TvvrmopmjW0Mkp8d8z60+gD
-	 4N2bfmbpZqyjVhvkJPNRcV0aB1ZLNHwzlwC1hc8sKFCFSvsL1I5ONbu2YIluLemRKH
-	 JTwgoYN8QmbtN7L2aD32F0lnA+pWHbIr68q8cOF3uKpoXqD8fgxhpKysVADuVKm5B4
-	 jjVYHhG1M16t+L4mml6gAQodqzHjmRvJMJLZldy7H/+AMSk/qlKMNWMGd+gzbXqj1+
-	 c5+I1nlcLmuUU0WCqDemelgGp0aon169CO+rkXgjUCLakWGu9RDup9HO27MQHksLtv
-	 GXXFC3nZUzFDw==
+	b=Z9UdqpgWeasiVqxwiL/COQngMLbEZSpE4AYSA6I+ApIp3l9jiNkTVjAbjqwg8JVtZ
+	 IBeT4m1lmC4XqpmoDDCR8rdofoOeuvpraHPoSLO+rc9Hc0MuX6iRi22APJqUslPBlR
+	 hUvKIeSNKSsoE9maKH2Pf3bqtaJqBEWVZqtOCJVBGPLz1b/XI+f0mjwukPHyuyTRy8
+	 B3A/SL8DSECIzLDWRwrq+d4m8SZ1lDlqBseeDt5wkRdfwkWiE8YALbppG0O50sF5LQ
+	 QqzWIkUWjmMurzl5FX7jg04pFyeZsHGxXErAiuRWdanNadapnQKso9eO59+CEbfXpj
+	 M6nK/QXkSH90A==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 83C8640B2D;
-	Thu, 12 Nov 2026 14:34:13 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 96A3840B2D;
+	Thu, 12 Nov 2026 14:36:45 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: Add category of subsystem-apis
-In-Reply-To: <20261105181542.3071-2-manuelebnerli@mailbox.org>
-References: <20261105181542.3071-2-manuelebnerli@mailbox.org>
-Date: Thu, 12 Nov 2026 07:34:10 -0700
-Message-ID: <87ld6y6rvh.fsf@trenco.lwn.net>
+To: Antonio Borneo <antonio.borneo@foss.st.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
+Cc: Antonio Borneo <antonio.borneo@foss.st.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
+ linux-stm32@st-md-mailman.stormreply.com
+Subject: Re: [PATCH] Documentation: .gitignore: exclude .renames.txt
+In-Reply-To: <20261105104132.566314-1-antonio.borneo@foss.st.com>
+References: <20261105104132.566314-1-antonio.borneo@foss.st.com>
+Date: Thu, 12 Nov 2026 07:36:42 -0700
+Message-ID: <87h5hm6rr9.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -69,15 +70,27 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Manuel Ebner <manuelebnerli@mailbox.org> writes:
+Antonio Borneo <antonio.borneo@foss.st.com> writes:
 
-> Add Bus and Communication category to reduce number of items in
-> 'Other subsystems'.
+> W=1 builds reported warnings regarding files being ignored:
+> 	Documentation/.renames.txt: warning: ignored by one of the .gitignore files
 >
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> Exclude the file in .gitignore
+>
+> Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
 > ---
->  Documentation/subsystem-apis.rst | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+>  Documentation/.gitignore | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/.gitignore b/Documentation/.gitignore
+> index d6dc7c9b8e250..9c7247f9449b4 100644
+> --- a/Documentation/.gitignore
+> +++ b/Documentation/.gitignore
+> @@ -1,3 +1,4 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> +!.renames.txt
+>  output
+>  *.pyc
 
 Applied, thanks.
 
