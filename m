@@ -1,89 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794463353;
-	b=1Y7J9Ux8O7z5kq9pbNZTIl+vV3bgDjOb0+OHlq92VGJnMnKU8YJd+bK+ZxX0yhBl4HSE
-	 ua+76mjKCo7sRcftnzcZBHFyIhEs5F6O1iTeXQMCCU4inLFxK5SZYJgvYaOTsKS9Tfd9r
-	 6Npo9udKhh9hBnQDByCcSWFN1xuBit1jmNa4yCD9vzRXBTiSuAC6cosipwBEFOoW5yNHU
-	 rAEcr4DENY1w3h02vxuxR4NLnqExW6rjviNVjPtGvB9lcxa2D1iXKCIcNAe5PPew959Ws
-	 CAdktCdCfrxzEmBCa3ob+RowX+v+WMcJ6xcF+eit5xlsIsFZYlRlUauIv9f41nCH7tg==
+	t=1794464693;
+	b=pXFJNKXXRn8/yb/c8uUI8+bA5Tt9lIQsKbAn/6io4t/G9DNBvxwl/RYW7TmYkkIcXTXZ
+	 mjFc3HVl9lhIqiQPl1VVQ1+O1WG25yIZevfIimZ+5ka1SiboifvzW3ZF87r2+/0REDB21
+	 4CY8gasWpdvkynOxcVX35c0VeiFK79eNLu3wrdECaXKe0JcacxfPxxT8hecozr/t9Lu7Q
+	 Pzp/joi3g6bazjQCX5f7XnmUnDzSzMWjAGT3XTVoUfi3Q+VJ9MwHvw31CS348IlXgPyRV
+	 G8PZlGruwhMa8TTxqD97NGpqeqdwGn4tyoegTnNn7egTiMQyqwvIQnlewnqj8YA6QCA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794463353;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794464693;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key;
-	bh=Rw7Bx0dLkNzuOX+yqngAb7zMgStoCLsXZz0OyPBFN3k=;
-	b=QeRm/c6IvTxai6WZbatsYGoPG+hqlqMnonrXmAvhZ3QLKL2MF4INhkCPY/4y+t5X0G8K
-	 p9uNvhFjE8zFFHYlAMDsTn6fSjIYTLf/qLXsuHmqxUrEsGpYikAkBfkIYZg4KRaAk8CRc
-	 z3wQZ4ZwGVxw/KOsghvVsTvR+tzdbCln+UahvTNxZ5L3LGIc97QE4SuqNpico3zAo6uB+
-	 hPxHQJ/2D/UjLKbvqx1EEzl5NW8DV+M74DtspkxWx7JoYbDRe9NA0f8fcRi+g16tyhfhI
-	 4SAH/WiTiNFkWnHauhzFP2pAldLk3qWLKMojMKmeVbNRQaVN7BiGQK6GngsWmFGytqw==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=q37qpXEwMyyzIQB5U811Z5lpryLHK/HfdcL3ssQu8Qo=;
+	b=4/WoGf4YNzIWE2O7t2DoFsDZJW1I06hrjwanHdzhBT66vChjTrtfb+7PsbPWUhp+juov
+	 oZjZ6D0p4ocB+SJepuZzHpqLYhluc9gqmdLktzs5G5LaK3EESUNtYIlmGw9J0hgxvZJHP
+	 HQUzJryWVBo1wABPVSB1Hg7JC+MMpXjqB481gGbRT3qwrUytVy7CbDjE03y2WMgLA8HE2
+	 L0w7s0TpZWdLb61mB/yfqRed8e3z56tCEGsHUrrUE8LV58Q4Cr30HWpvySUPKUbyIvNBP
+	 P9bC+7SdkLnCxX1YDeU7OIO+Uz0GW6r3l7wOJLPpu/g9n/TIaKyr/+ZNbb3LPGe6l9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=a46UpnvK;
-	arc=none smtp.remote-ip=209.85.216.48
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YaPUHdyE;
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A9D606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 06:02:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 31A9D606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43197606A327
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 06:24:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43197606A327
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=a46UpnvK
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3b0b3754f57so2271769a91.0
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 22:02:33 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YaPUHdyE
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e9d7791b00so32974085ad.0
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 22:24:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794463352; x=1795068152; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Rw7Bx0dLkNzuOX+yqngAb7zMgStoCLsXZz0OyPBFN3k=;
-        b=a46UpnvKbWTNlsCa+FpDBLlf/4fLcpzR2NUPtorGMWEnbpDpK9/8303wJ6S0fITbpD
-         EZTIqtKNtt/9pwIRkhnmNr8rMBGuI3CErXj3shpsSB79t84OGOXeWMEffSp9zfUFzdzw
-         q2pqI7m5VlWh5skqpYgyt9o+2MeFn7SmvrcPj5fC7FEMHZZENXtOD5aCA1mVzG/wq332
-         I5km1JgJNizRSyWkvcNAV2FecjH5V3L6uot7ls0+JzsVa4Hm1jI77cexThx9P5jC3QdO
-         mqOlBqTC80NNZGeMFNCYHMfrnt6ivd6QCaQDvU59cpc8UEKX4zZJ5smwaKNhxyQs+2S6
-         YDHw==
+        d=gmail.com; s=20260707; t=1794464692; x=1795069492; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=q37qpXEwMyyzIQB5U811Z5lpryLHK/HfdcL3ssQu8Qo=;
+        b=YaPUHdyEhUEkOcR6aPnH+zXrYeNOPl/EbbDIJNEAh8SJMCPUXOIo+ikMQJQfH9zp7h
+         GXErPCmTGuP8DpP82P7tdRliwFgcwVcqsNS++xYzyNjketv4tqDWRkDnVhJeeS6GjqKP
+         TAISUyVmXsJO0/Xouf1WotFCU95eSPJjeyZi+7GvTLgNWXViHPjCF5Qj7ERNTOVz+UAs
+         hjQf8MsCuD7gNyHPESmt+Uqz7G4ZloiUZYB2pOGl3zcCrnFntv2ngTPZcUEwvzlsqP6m
+         ArwvOjjSlwIf7rh/99g7c91QcJIBtS3w8pobGnmAsE6abKlSKKJS49SFfeq2XYFXV+hs
+         XADA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794463352; x=1795068152;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Rw7Bx0dLkNzuOX+yqngAb7zMgStoCLsXZz0OyPBFN3k=;
-        b=fAM6gRmS6JXCLrNmMIiZbF0pFBfafU/Qbzdmzi1kwuytIByHu5VydKkiNBclDBwUY7
-         LWmv92aOcSYwCvjBY+tzRYvgYtJwbRZhOwplj4ps3ZpwIa1laVgTYeBcswdTV7HvUNBL
-         PMmJImhfR+ADhLVv9dA+adPEj7u/OwizHVbUwl041bZa71+RNSBwpz/VD36Kybq/eB8A
-         3PMH+sBOLyMdRZr1NGVMDeTYrvXhVxgkLKVkumIr1p2MfRTzJ24SslXmmzoIkTqdeOOD
-         WD6tQuL4Y/SEW4qTAREyHP3AjOqvgae2VfsLavLWSEbbld0yBNLcFqA2JHQAZ+cRLsTb
-         RsHA==
-X-Forwarded-Encrypted: i=1; AL+hErFJEY4ZCw0Lh9g7kr2WRVWiv1mmmugUrEBTxwg9rPtDco+oUsSPYF0ellVVwyhW0abeeqowGXMJohU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/z6IyMQQd20UylHBSCCCAdp8rcnzB8vKGF5ld7ciInDXBCRAx4
-	ft7zKDnwi6qNqIBXz2TtIR9HqQwl8QD86/hjv1IrsYQyRvoA9iusmY/N
-X-Gm-Gg: AYBFou2vPD3svfgPg4VaIilIacQ7KllGjN9n6Ifnf0JfZAc00MP86pvhxjbdM9VhQ6e
-	3A9SHJWd/905NuFgaVzIs/UI98klr8/puq5p/du2+ndRTOqPTS96yyoxUSPfQdjIOQMwimwymPX
-	OT1Du8PNIZu5VNzHoC9vxh8TaOYQWa4jMfhwoHuHIHtRi6f7Xo8lxK4Ls9Ch9sZ1Looi9m90uUr
-	P6+Tf1h14tdTidgP1x8v3xt+Caw+/b7fquNeVAnMQj1xy8lHvwrvNoMVK+C7AKST8h3pSwAiRuV
-	u9JWWGovtAMJKoiecWqjM6kkhWo0iTSaoRTlNaBnK4g3TlxyzWCbRNfRZ4tsgTGcZAB4Gc0ACrK
-	BIFPJHPdeuC+mYe3tzp8qsT3KuwxY3kYuLJBNUQ0AFSUGFn6fn2vG49ulYifQ8Yx7Xj1i6OevU0
-	sje9/nmMraTu+O+Lw+S0fi+mquvvbr4AIpl/YI64Oo4RnKzwMWYxmYUFy5pcZnWefmBmjKl0wF+
-	zeyvhJXQPF5C78ouYd34F7mvhBdSV/uZ39pg2r1q4E6SCEgnjS8c2m9EmFHJuPsmZanP7kZNV3Y
-	dS3j0fNv4/25KFntyK4jsPKvnetQDY6Kphs/eT40gtV7eHOn8OJNbXCLmAcjf6qOWG/t7lje7GJ
-	RUeEcI/d85VK/Hqd6KsEiMa/awKzAsARN75cNSbXpE8dld6nhSAaQW/sF5u5KCsNtgvtLOZXxIA
-	1gR7up6ELsuwsnlGC027KNWKGIILbDvm42ZUe8kRWxyxF0lg0d7COebg==
-X-Received: by 2002:a17:90b:4a51:b0:3b0:accf:5c66 with SMTP id 98e67ed59e1d1-3b182f29822mr4190053a91.49.1794463352444;
-        Wed, 11 Nov 2026 22:02:32 -0800 (PST)
-Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa (2001-b400-e25c-c447-65e5-0e2f-5b6d-25ff.emome-ip6.hinet.net. [2001:b400:e25c:c447:65e5:e2f:5b6d:25ff])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b181beffcfsm3177149a91.0.2026.11.11.22.02.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 22:02:31 -0800 (PST)
-From: Wayne Ho <wayneho219@gmail.com>
-Date: Thu, 12 Nov 2026 14:01:57 +0800
-Subject: [PATCH] hwmon: (sht3x) Fix alarm attribute names in documentation
+        d=1e100.net; s=20260707; t=1794464692; x=1795069492;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=q37qpXEwMyyzIQB5U811Z5lpryLHK/HfdcL3ssQu8Qo=;
+        b=GurGNcWutqFbYgyc/c7dUee6yUIixocODkbslTLOtUXIwSDNB1eCMY8l5kDH8wFexb
+         l4lDBCrCo330ZswUEkw2Q/xo2r1p/M0B3O8MmiYNTM4Otk5EhX37kBSXHli3cv4IDnAQ
+         wUekHnG7a1WYJMRHIBLet5gbU9JEgz/vP5S8jt3rKe6paSqyH+wCG1JkWfDsVolmabBs
+         gHY1HqCmXeRGacubZTawMC2KzlKyRL5foQOni6LblqY2Ee2ei9V4AX5XUPqH9XP8uG0g
+         OHQryT+21TUll0pug80HuLdaNlNFU0+mPXaS1URRZdQBF4sVnWqz8PJwDohhPGwqGL7t
+         +omA==
+X-Forwarded-Encrypted: i=1; AL+hErErfO1xRBkL7/6wBQH95xlNFqUn1rZKA8tfYWi297R+ow7W82UMHvS/XKrs0MrS5IQdCGTsD2KSjXM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8CJl99/B/FCXyIhfqQqzlCur+zTxhYmMYvlF68PA9WcD4no6lc
+	Wh+FTDQnM+0zur7wgpv7T6jWyi+kGLjGtljkneC2tbkQQWRVQoM+QopC
+X-Gm-Gg: AYBFou1gNJyjsQQJHYPBp4pssAueZiqtl8TyEoeR8QhyKgMNlyroEk8AaOwSbmf2iAq
+	AFC9IGKicar04MAGkwG3k1DVjGqr4kidnhsWI7v5xNw6XUNRIFbvcWCFXprDH2UDU5a1RTUGxca
+	vDTdS+nsh/PT4JZqqoeBC+OiaGpgO6y7qCGUevKbw314hqyjRqiVji4pL01xm63arwdKQVdgJvZ
+	bcC13EA3wU52ywenFhPn1NH7YqoDimhnO5n+pr7yP0ZE0pndw1VW4rahWkXC/pkDWctrPGozR08
+	Io9Jxe4jmC6qblnERJGUAlPHrHGv/aW58RHQkQtBJBqwq8RlnLZSpRxvnT9nnSCT1dcC7UZQrk3
+	AhuevCEWamfAAKeM2eLMUc9fJ9VQpsBFMrvNVlLHLPxXgfICaizJsea5NnBs+pVxeBBIdiLOvmA
+	s73oPHGv/gQtJmmOWJRP0hnhHn5I7Ge6cSMcFo5S2AGSrR0+T2bPO9ob9nDTBrtvxeSzjhV48q6
+	HnVApLCJOna4rF9o42Q75zeSBGwW1nDMrawdlNvmQhhaQe45FNvh+9hgTrOWGCm2Jhywf8PIXF2
+	HcXYV7opE+22jbGaL86U4BjQt0LpjH/EuhnyNzNX8sCNmIiUGXn4waYK5bhsOEPal82Vpk1bDQ3
+	hFlh1N6o3JuGp9e0Xa58hYO6x7HhhYa3sB6wz6f8pLRd+Plg=
+X-Received: by 2002:a17:903:1a26:b0:2e9:4e83:1969 with SMTP id d9443c01a7336-2edd7b394cbmr42229315ad.34.1794464692369;
+        Wed, 11 Nov 2026 22:24:52 -0800 (PST)
+Received: from localhost.localdomain ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2edb6a3e61bsm26979965ad.11.2026.11.11.22.24.48
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 11 Nov 2026 22:24:51 -0800 (PST)
+From: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	anton.yakovlev@opensynergy.com,
+	mst@redhat.com,
+	virtualization@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v30 00/17] ALSA: virtio: preserve PCM progress
+Date: Thu, 12 Nov 2026 15:24:29 +0900
+Message-ID: <20261112062446.159-1-mynameisjune111@gmail.com>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -93,69 +103,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-sht3x-doc-alarm-attr-v1-1-91676362d133@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqDQAxA4atI1g2YKUjxKqWLOBM1xZ+STIsg3
- r1ju/wW7+3gYioObbWDyUdd16WALhXEkZdBUFMxhDo0RBTQx3zdMK0ReWKbkXM2JLql1EsXGxY
- o6cuk1+23vT/+9nf3lJjPFxzHF56ob094AAAA
-X-Change-ID: 20261112-sht3x-doc-alarm-attr-118ddfebc6ae
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Pascal Sachs <pascal.sachs@sensirion.com>, linux-hwmon@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794463349; l=1932;
- i=wayneho219@gmail.com; s=20261001; h=from:subject:message-id;
- bh=zsSKgXhZU6KjZKkVqHl4QSQxcP74nzzHdwMx2Z6u6Pw=;
- b=8KLjbsfdy1taUMi+ZXefmWeolEFLVJeha699NRMSlNH6Es2k+WrvtaJGADLbhzB4Rw0bPZ2xQ
- ex4V/XP4UCXB9kOWMNojNXrLRihF4L6ErBXsXYtwLM7IHhIpQm626eS
-X-Developer-Key: i=wayneho219@gmail.com; a=ed25519;
- pk=j25LRSikYRlv0PpovZSgSrCQwsy7WDzIYum/mydUa3A=
+Content-Transfer-Encoding: 8bit
 
-The description of the periodic measure mode says that "the alert
-attribute" is set when a reading exceeds the configured limits. The
-driver has no such attribute, and never had one. The alarm state has
-been exposed through temp1_alarm and humidity1_alarm since the driver
-was added, which is also what the sysfs interface table further down in
-the same document lists.
+This v30 revision resends v29 with no code changes. Patch 17 clarifies
+the commit description and moves qualification limits to this cover
+letter, following the review. The other patch messages and code are
+unchanged.
 
-Refer to the actual attribute names.
+Previous version:
 
-Fixes: 7c84f7f80d6f ("hwmon: add support for Sensirion SHT3x sensors")
-Signed-off-by: Wayne Ho <wayneho219@gmail.com>
----
- Documentation/hwmon/sht3x.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+https://lore.kernel.org/linux-sound/20261112053446.73504-1-mynameisjune111@gmail.com/T/
 
-diff --git a/Documentation/hwmon/sht3x.rst b/Documentation/hwmon/sht3x.rst
-index 4f67671eb0c..3c022c058be 100644
---- a/Documentation/hwmon/sht3x.rst
-+++ b/Documentation/hwmon/sht3x.rst
-@@ -78,11 +78,11 @@ The allowed update_interval in milliseconds are as follows:
- 
- In the periodic measure mode, the sensor automatically triggers a measurement
- with the configured update interval on the chip. When a temperature or humidity
--reading exceeds the configured limits, the alert attribute is set to 1 and
--the alert pin on the sensor is set to high.
-+reading exceeds the configured limits, the temp1_alarm or humidity1_alarm
-+attribute is set to 1 and the alert pin on the sensor is set to high.
- When the temperature and humidity readings move back between the hysteresis
--values, the alert bit is set to 0 and the alert pin on the sensor is set to
--low.
-+values, the alarm attribute is set to 0 and the alert pin on the sensor is set
-+to low.
- 
- The serial number exposed to debugfs allows for unique identification of the
- sensors. For sts32, sts33 and sht33, the manufacturer provides calibration
+This resends v28 in full using mynameisjune111@gmail.com for every
+message. There are no code or patch-description changes from v28; the
+existing human DCO trailers are retained.
 
----
-base-commit: 44c8ceae2dd3ae536c5f4f956cedb24c157aac23
-change-id: 20261112-sht3x-doc-alarm-attr-118ddfebc6ae
+The v28 documentation patch 14 was rejected by Gmail. Sending that
+message through my Workspace account made it available on Lore, but
+Sashiko grouped it separately from the other sixteen patches. This
+revision sends the complete series with one From address.
 
-Best regards,
---  
-Wayne Ho <wayneho219@gmail.com>
+Previous version:
 
+https://lore.kernel.org/linux-sound/20261112043516.37010-1-mynameisjune111@gmail.com/T/
+
+The following describes the changes and validation already included in
+v28.
+
+This replaces v27 in full. Apply all seventeen patches directly to base
+commit a4311e9447bbb219044db38897f95be112f46a8a. The previous public
+version is at:
+
+https://lore.kernel.org/linux-sound/20261112004704.49758-1-mynameisjune111@gmail.com/T/
+
+Changes since v27 are confined to patch 12. The other patch diffs are
+unchanged.
+
+I reproduced both capture findings from the Sashiko review. If request
+N+1 completed before N, RESET could leave N+1's already completed
+payload eligible for later delivery. After an external XRUN, rejecting N
+also left N+1 buffered until generation cleanup. PREPARE cleared that
+state in the control test, so this does not establish a permanent
+recovery failure.
+
+RESET now marks valid completed payloads present at the pointer
+observation as discarded while retaining their ordered placeholders.
+This lets the commit sequence advance when older requests return.
+Transport-owned requests and data arriving after the observation remain
+eligible to commit. Repeated RESET preserves the discard, and invalid
+response status still reports XRUN. Rejected completions also release
+returned buffered entries without resetting the sequence of requests
+still owned by the transport.
+
+The failed native PAUSE path previously reopened the queue with the STOP
+quiet boundary and capture_stopping flag still set. A running stream
+could then accept an empty completion without the normal XRUN check.
+Rollback now restores the prior flags under the substream lock and
+checks the reset epoch before reopening admission.
+
+ARM64 QEMU tests use the actual driver functions with test-only request
+ordering and STOP allocation-failure injection. The v27 baseline fails
+eight affected assertions; the candidate passes all thirteen assertions,
+including normal reordering, post-observation delivery, invalid status,
+and STOP empty-tail controls. The running-observation test invokes the
+actual pointer-observation helper. Full RUNNING RESET ioctls are covered
+separately by the production regression.
+
+The production driver module was built separately without those hooks.
+Its ARM64 W=1 build and eight QEMU regression runs passed with the
+matching v27 KASAN/lockdep kernel and core modules. These cover RW/MMAP
+capture, PREPARED RESET with DRAIN/reopen, RUNNING RESET, and playback
+PAUSE/RELEASE, HWSYNC/poll, DROP and reopen. Capture includes 70-second
+RW and resumed MMAP phases. The independent backend-sequence oracle
+matched 7,104,000 frames across seven capture phases. No KASAN or
+lockdep diagnostic appeared.
+
+The kernel image and core were reused unchanged; the modified driver was
+rebuilt. Fresh KCSAN and physical VZ tests were not run for this
+revision. The earlier v27 KCSAN and Scarlett results describe that
+earlier build. The controlled tests use synthetic requests and a known
+STOP failure before submission; they do not qualify transport
+timeout/uncertainty or demonstrate out-of-order completions on physical
+hardware. Intermediate patch stages are application-checked; the fresh
+runtime tests cover the final candidate.
+
+Review addressed:
+
+https://lore.kernel.org/linux-sound/sashiko-outbox-210240@kernel.org/
+
+Playback validation limits: The one-period reduction in the TX queue
+has not been qualified for worst-case scheduling tolerance. The tree
+through the preceding playback-completion change was inspected but not
+run separately. The playback gate tests used ARM64 QEMU; they did not
+include KCSAN or physical audio. They do not qualify the full series.
+
+base-commit: a4311e9447bbb219044db38897f95be112f46a8a
