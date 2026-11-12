@@ -1,104 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794449123;
-	b=lkV3BJflWEcVJvEsZCAqsfJkOarQCvP4RUD7Xy0qc5CVA01ZdSm2ikfS7f5vVPIETuae
-	 C6jeMbchF9aWhVrF69r1XXBa7aCj8MLxEwAogiKqQz1wF80WORKBWS7ef9L4qenU9s1/U
-	 /6QOyKM/buB0eZ/g5xhtDm/hQvB7DTX+sd3Bxc7LSjgkB2ab3+O7OzJEdDQ0E3N323Igl
-	 q+STbFW+Mr7JreoEidA1qO/LOR7v6T8EwLVhzmKRwXBq90sq5Yn+GbMyHx6Mm3MUHMbGB
-	 oj6S4/IxrtdxcXecFChxtSoCBWrwRYpHfoewzqSrCKvNIGiLGni0sZkNoIKfqimShCg==
+	t=1794449813;
+	b=G9gNrymSi3pA9Ht/GDFJhRC/8idzAgOmuory/NZHI9Kt8gHlhiAbEnkquK7VjhRkOphD
+	 JxecsKSjait2g1gX6TMixtRKmzOjBf8MBfbLVQ7UPiQNz6d29XdqwY9Ve9XJzwlSrxxmT
+	 GI/E9r76MJ923Yf03EMW+k4+2MtM6DpKj1eXafNi92sVmI6YaG7PGiJsD9zUVQTbQRLuB
+	 Dds6/sx6I7pvv+z9JcaSPieSgO2CLPjAgUmO2OVzkaOwPyMCKnZXP9ILsLsveOIZDqYcD
+	 aF/C4YLKx4kDA3hf3QkGORyATJTsQHy4Ylvota5wbc5WEHNiAdjuasZJ4M9n3ZUK1IA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794449123;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=qKzq1YaHaTK/cMOsuVlloBBGSRBcO+4dM5JD9G9qTYM=;
-	b=s+BOcAe1hKOJ6kEzSBthIt05887fxSVeUHmH4CZFwZBBByMsDmKFQ1eilKIHbM4nPcZu
-	 yQsUE+3T3mo6qPQ15m9twRQwfk5somvRycfr75HYiDGMR+UeLmcfpVvYZs7VMJZ43q8NG
-	 nD05MoNqLn86irl+j8iZimbgdSQ3R+qZJwSOcjs96LEFAxjuzZqnDYzkMZxanyz1I91SG
-	 R/Jvcuk6MB8wSbQ3k7w3wYIOMBugXZL5HLTKbs4I0UG7v4r8dnWyUGECzyxlerYlscsck
-	 dfdalJdy1/aTqcK/SfQfoNLWcuSAxblCdzK+pSzxKdFxXEJnz+9EDlV8wjsZ10oaD5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794449813;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:References:Content-Language:Cc:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=qmgUyfk8WV4aWH8UenZtW/YyeUIA1n0+cWDnJ+tIrdc=;
+	b=1aZRDq7DinSIqjVWPcbPjzLXzgRfUXisUXtgmm+8YI92GU5WWSnJuNz80dhJLmED8S0d
+	 unUHr4oOZMb8wQphtrSok2mN5qEPQACffEmpMLACfffj4gGhKbgfAh7f+sBmfSp8nCvqT
+	 xxhu2J1aQ1ViB6tx1d8zzszkEq9jCsECxqA6STVH6yaLPAPwIxGMfxkqA4pnEaW6v/DbR
+	 MVLYy/GhnMKVZDHHneCYmD33KJscTFI4zrZArA10qSWn25hzp83f9kSFsh+GACXNsAokJ
+	 4rGNfkNlM4ypUnjdnpihb1V3LCuI9S6choce0Mk7ZQB0vvUS1ZrZ4ZDQDyCRHihBCGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=chromium.org;
-	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=M8LMUd9p;
-	arc=none smtp.remote-ip=209.85.216.50
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4X38J56L;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49442606A324
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 02:05:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 49442606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B461606A31C;
+	Thu, 12 Nov 2026 02:16:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B461606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=M8LMUd9p
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3ad41b47541so2355731a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 18:05:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1794449122; x=1795053922; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=qKzq1YaHaTK/cMOsuVlloBBGSRBcO+4dM5JD9G9qTYM=;
-        b=M8LMUd9pSI4E189tEYTQVVCeqMNbmM8OBOGdL5r1WCP+ApYPIFhMe0GulCPpc/maC6
-         v9xWV2K8DWgADKMPZxbEZBtBgtXib/TA5zvfMr1oREvVJC04J0SflCaRXieUd+SQZqHV
-         AecGMblpWBVJMHQl+geL5R3Hc+6KlnC6RG6f8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794449122; x=1795053922;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qKzq1YaHaTK/cMOsuVlloBBGSRBcO+4dM5JD9G9qTYM=;
-        b=SwwgQ904c/C/aDn8RJY8yh64K4a4YBo+V6Ln4Xh5doAHu1soD8/DfT0E90Jmm27a7K
-         cauwTrX5/EUl13jo5Z9KbRwPpBqJVzPgE3aS8fY1pkGQ58DuJb76E3V2fZgarzky2DmB
-         AQ50oxqU76C6hqDQLAFQduIQqq7HHnbjckv9WGHTKXHBWmAW9eYJ/LD/GYKouaSLNTZ3
-         TUPMHE2TbWMcrumEle2Y8cKRIJEMAqsWlbE/obxYBaAA77q+wckgNi9tT9/1ADO01kwb
-         4lXcui8imzqAzp8aSPKZn43tIhhm2hhqCjFIOagHefdXmhDOAQ0XAVWx9X6qCcOWt+Bs
-         hGFQ==
-X-Forwarded-Encrypted: i=1; AL+hErFfXkQDCwQ4rmOEDneXsrwBqZZSu0QnqklJhE8L93QUScd4qJYUrKP2gBNK2XtcAzLxVUtCLDnquKg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8mBb2BjvJkDM0TneidDSr+aHZVt8QBq6it90Wo4dU1vtds/JC2
-	flUB0Qebevmazx+rah56lpltxJRVV2ToCLY1+/zbDmTBANT/ZVhyxI9QECkaPCfyIw==
-X-Gm-Gg: AYBFou1hbbPz+kAXQH0lpyggKs0EhWFG6/Um36DpSjKPp357v9CBdmQDl6B9q4URfl3
-	dBDv5p5taRQHTVQ4AbWe5Hs4LKvEhRgSXyWLx7xrdeK+K7oUy3o4NGnTePJb4HzxIUAAN7z+Dw/
-	waeQrkNp6PH8oVtJ8jZSqhx43+/Itk6AypEuait7+0IUNsBhMouHx62333pdEzg2OBTIOlgs6Nx
-	PFYikVErIemXJasPUMuoDF5FIzdqpvSibTmlQBtZQaqvi0amtsrD6MExOMK4NYnfNsW0GcLmt2q
-	HqVN/LtzeYIidHCjvchQuq+DVXvVLMf97wcTzcSHterNry4FM8zeoHFHAQS9EZ7LdqIMrrdV9Z5
-	bXO/v0jdSL+mOJIcN+BfCTLKFChKPhooELOSi7S44m/3Wja9cEG9VyBPGKLkBQ0V3VXPUOYHh2V
-	Ei+6KPuZfINch5cckEqrUf8RfZbVAOKTabvjRSigD5C8kCfXyx7j+796qmQbU1By85DravF8Ss2
-	rXypNjrz/SuNWHP0Tv75uEFCNS0iNCRZ/Cd4qxG65AErHslCGiX3TXo3IdsjdIZUrjmTX2wuZaN
-	2o1ZWrSZooA9lWzBprsYUvnmfH6zZuH5GqjKGVeeF0iPBvf4nKkpCWaavqS/9WxoBScYhw==
-X-Received: by 2002:a17:90b:4ad0:b0:3a7:3474:b1ee with SMTP id 98e67ed59e1d1-3b182f1adcdmr4140105a91.60.1794449122530;
-        Wed, 11 Nov 2026 18:05:22 -0800 (PST)
-Received: from google.com ([2a00:79e0:2031:6:ace7:ac44:3dca:1bb4])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b197c6c9c5sm1832060a91.1.2026.11.11.18.05.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 18:05:21 -0800 (PST)
-Date: Thu, 12 Nov 2026 11:05:13 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Xueyuan Chen <xueyuan.chen21@gmail.com>
-Cc: Minchan Kim <minchan@kernel.org>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>, 
-	Helen Koike <helen.fornazier@gmail.com>, Vignesh Raman <vignesh.raman@collabora.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	Nhat Pham <nphamcs@gmail.com>
-Subject: Re: [PATCH v3] mm/zsmalloc: remove CONFIG_ZSMALLOC_STAT
-Message-ID: <avUet_6jVqlWSP00@google.com>
-References: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4X38J56L
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:Cc:References:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=qmgUyfk8WV4aWH8UenZtW/YyeUIA1n0+cWDnJ+tIrdc=; b=4X38J56LnvOgYr6B1uVqluZteJ
+	hELccqpHkHCpTUjRZwXGISGWno5amd75kaD1jAX/r3v0m1TkLtvinRISxOlFlFiOVlWopISQaNwcS
+	s4ZQGxroQS0VKjZkgK+BBxvyUimHE4SMakXpMkSbSWwLhoZSFdWjKVXYWXZd/qGbAEBKOcMwPdaN1
+	8Jz2k/iqW5xuEfo7fplG2tUDLhdFSp4p6Y8wPkRcAyuTupuWiPkgwqALRo8bV7I0sX3w7ZMj/KJhN
+	+d6AwbYc7882QP/e9Nek3MvWf/S6PITY+ujXW/d0a5CjKLF4sxoPXVroxBxhdk64p+oSydgxKieV2
+	eGZAEGgA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xRKMt-00000008UXt-3TVY;
+	Thu, 12 Nov 2026 02:16:51 +0000
+Message-ID: <cff30946-5984-4d69-a590-3c7291d8f32c@infradead.org>
+Date: Wed, 11 Nov 2026 18:16:51 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,24 +58,43 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: Documentation suggestion on Netlink specs: missing fixed-header
+ info
+To: Wessel Jacobi <wessel@jacobi.pw>, linux-doc@vger.kernel.org
+References: <8610ee11-e1dc-481a-9654-11188a06786a@jacobi.pw>
+Content-Language: en-US
+Cc: Hangbin Liu <liuhangbin@kylinos.cn>, Jakub Kicinski <kuba@kernel.org>,
+ Linux Networking <netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Yuyang Huang <sigefriedhyy@gmail.com>,
+ Donald Hunter <donald.hunter@gmail.com>
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <8610ee11-e1dc-481a-9654-11188a06786a@jacobi.pw>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On (26/11/11 20:41), Xueyuan Chen wrote:
-> CONFIG_ZSMALLOC_STAT only controls the debugfs interface. The class
-> counters are updated regardless of this option.
-> 
-> Remove the CONFIG_ZSMALLOC_STAT guards and rely on the debugfs API
-> stubs when CONFIG_DEBUG_FS=n. Skip statistics setup silently when
-> debugfs is unavailable.
-> 
-> Remove the Kconfig entry and replace the existing CONFIG_ZSMALLOC_STAT
-> settings with CONFIG_DEBUG_FS=y. Update the English and Chinese
-> documentation to match, and clarify the pool name in the debugfs path.
-> 
-> Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> Reviewed-by: Nhat Pham <nphamcs@gmail.com>
-> Signed-off-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
+Hi netdev:
 
-Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+Does anyone know what this means and what to do about it?
+Thanks.
+
+On 11/5/26 2:48 AM, Wessel Jacobi wrote:
+> Hello,
+> 
+> The "fixed-header" information is missing for the Netlink rt-route specification docs.
+> This is pretty essential information for working with Netlink, and I was tearing my hair out on why I couldn't find it.
+> 
+> Compare the (visible) `fixed-header` at [1] with the (absent) `fixed-header` information on [2]. The `fixed-header` key *is* present in the source yaml `Documentation/netlink/specs/rt-route.yaml` [3], but it seems it doesn't get reflected in the generated HTML version.
+> 
+> The HTML documentation would be more pleasant and useful if it had all the relevant information.
+> 
+> Thank you
+> 
+> [1]: https://www.kernel.org/doc/html/v7.4-rc1/netlink/specs/rt-link.html#operations
+> [2]: https://www.kernel.org/doc/html/v7.4-rc1/netlink/specs/rt-route.html#operations
+> [3]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/netlink/specs/rt-route.yaml?h=v7.4-rc1#n709
+> 
+
+-- 
+~Randy
+
