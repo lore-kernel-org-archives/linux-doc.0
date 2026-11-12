@@ -1,80 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794503536;
-	b=nrc+wwzQtAsKO3rMw28nkFwbO2HS0qEi1agoxdTEePmerrD719s5UIg1kAB7E93lYIuX
-	 FW3ogVFhsdZoA2ubo6O63G9xX1vqS9zbOahJOnfl1YSUGoy9Gmpx/iBEL8e0ygI3P32PQ
-	 FFQfLAI15P8JSiDPyRUs50+JjwD+yE+/0naymWmUww6YV75y1Fi56bINq4PuKYnLaj2kp
-	 vpVd/KQDIvagOTM7AhwXzKqXaQ2YbjWHGAZt6nGegSLMkRLMYuSUt6dtVgGykGqvJ/8qp
-	 fT0ldxQWR1e3Ihhu3CLXr3ia51yBXY88FxOj8z6mOjxZaXuKOS4duppy1MnBFK6z4sg==
+	t=1794503539;
+	b=UjFVr9Jz47GQx73YZedMhECK4x5xJLMlYpP5Es3iX73DZTybjh6HClZqopLnw35jAIxB
+	 Ufn4975bg7Pa5YN0C2xJG0seBKnsET1Q+Dpln+eZMF6uUoYjq+gTB4M9w2zWwgKItgrYS
+	 QaHdoxVPREakA/iDhKq4KCYX9NGzBz5WCIPdRIXK0DOxrFiOn9ofmquzLr5hshlsLPqQj
+	 4ryFQf+EFNnnGf8Oeth3NmmUVlnjbT4uiVxFCILAt7nDycmffj9uRhPjktH/dsxQxGaIY
+	 1wceHFs98wNZlMYXnFmXz2ocJyRv5RJ2ipsh4W/6pLp26TMI2PR7vYRjeMcarncaPAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794503536;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794503539;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ZQNtd1ogtUf073Hn9VbhfcKkxE1DWp6VlKt/Boo33zg=;
-	b=0XTBa2X82XTigHEXqWRsbwKQjOmcDSdmXloDCGeJ8IM/LZEKCB9ZzAknwshwMZKg2j0d
-	 FGOv2cCdtCfwIOtp0P4oLDWmRBiEtyLk7l41z4eqOvpgjQNKTsSgVAzjzfjsUP5llIpOf
-	 dOw/kZ5bONZKYLckrxZXvcffLMJFZ1CYtO9g1hwmKJU/QC5Nw6X7Zc8wFfVoM8zvL95rc
-	 wfc5sYc9uBNa3DpYFqHCt7pqhGRdy5xyAWVSBerZHEhJyE6d/M+NVr6P9ctqEOCDbAj8i
-	 bsqJRQg3v2lQFmltNqJsR78ngQG38BMbMYPTznwRWynTS7V0ht+ozHASawpM3+Y91pQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=7qKiaMfPXurmREX1W524fvP1dWjjQw0qkmJh5bTsW7M=;
+	b=gJwzBeepcalXLliH9cNMRmC5cvzDaAlQO7Fw1xogViw8Dn29HLtHhu5ZAADbG47Hb67a
+	 w60hs5Wy/KdIIKOM+Q5yC7GiLiOBdteoa5wSkeyW5jIi4RtSHlbJeTiOlmu4Mi3tHNKCV
+	 ih5yfxxdvBFmPfL5tJ9SyREreKMj+tAYlnoS8vfdjF4s84jMuRPndqllVl6fQrZ0ZisXd
+	 KZVJDPtm1SEJiH0QjcYxtRDCR729T76JmNyAlIOK0rt8u/tWWts26zMo/gAPzSm1bHzLu
+	 SPtNJCITYMpGtZ2YN3JyGSTiw8TLCyYmncPqBqknR9R87dExEsA/6vo26vGpMNUk/2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=furiosa.ai;
 	spf=none smtp.mailfrom=furiosa.ai;
-	dkim=pass header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b="JmT/knbt";
-	arc=none smtp.remote-ip=209.85.216.50
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+	dkim=pass header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b="OG/3gwiS";
+	arc=none smtp.remote-ip=209.85.215.181
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211A3606A31C
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 17:12:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 211A3606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D663606A883
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 17:12:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D663606A883
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=furiosa.ai
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=furiosa.ai
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=JmT/knbt
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-3b094e649d3so2940a91.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 09:12:15 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=furiosa.ai header.i=@furiosa.ai header.a=rsa-sha256 header.s=google header.b=OG/3gwiS
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cd6acc50b8dso46730a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 09:12:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=furiosa.ai; s=google; t=1794503535; x=1795108335; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZQNtd1ogtUf073Hn9VbhfcKkxE1DWp6VlKt/Boo33zg=;
-        b=JmT/knbtVs4zufKToj3YLkgoL/gYsPFCn3ruKI8fQWhDWXIXrQBmQTaMTChxTTd42d
-         I/a8W8XbUCZ7HvXUMMNPb24Kbk6qqkOcwBD7tibW2JSd+rSks5ah91GF7KN6hMUAeRUj
-         HyNE7nCfDMO3346vsyPi5MPGY8npeFmrJutts=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794503535; x=1795108335;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=furiosa.ai; s=google; t=1794503538; x=1795108338; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZQNtd1ogtUf073Hn9VbhfcKkxE1DWp6VlKt/Boo33zg=;
-        b=CCjCyZtgBm2ozQUOTsLKM8u7eYGX+UqhEW/lTAvRW2XihO5DSV8FE7VMRI5UVpMCCn
-         5vvRaEtB8/nck0dQiuOWl0R1N8H7k8s2Ny6/zo6jDkPfxw9Xbb+PJt9xDLB1zEF+tXWK
-         v6AzgKlVGM3AcWGpPzIf4P+Z8MfsZFGCjJZsq5hxpFGRA5M3EOMLtb3Rt7hqiPaKlh0u
-         zbkjc3eA1uTKyGhBGVMykJ97qVYsvcKiX/iAk9hJqTTt81VR5dSDcjp9iaFEbK4aCxYQ
-         BZm08CTdSwXpyZ8D+rlXdiBhjnzEXzcZK6CUp7TpJ1RN2PFEyuLZWnDcUu0BY79dPpCD
-         OBRA==
-X-Forwarded-Encrypted: i=1; AL+hErGWfCCmxjO/gm4VGBTAoS6yIoF9oSLUXbTGNLwhu1mj6ywSL5GbLoyseCXp1y8NeJNvjtBPjYypzEg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z98lzIm9nSFz5QfPtr7CmDga/0wXZNthn7Xdvw1S2T3SQXWjJMB
-	LN9u/hXGzjW6gIYn1+rBxOtYQalGWkfIBHFSOQwU3dhUWmJGcBoHmAXCngOfIToTrTM=
-X-Gm-Gg: AYBFou0Ky/ibRY+g1MIlDHdLIvjAfM63Y5F5dzzxfiN2jEvsZBYUHMg3zOE1myDrw3r
-	olZqke7VXnm5GAuN2GSWvDl566VVzmjIaQG46uWhgSZO5vWl0/EcLZTibjHsNhOONiwYGUK9LQ0
-	hteEZ5qgK3jtCvu2kLycVTMc09FRX0YxPK9/onur9tCwTGsOppCHo9YuiHh4ZlYwpgdEM19PrZE
-	Ci21JQgZB3K0jEy6D0xPNhx+kOvHNxzzCRHdSOOgVQwQmwIAJnzq6lmYw+nHLNXZz+qXiH7sPm5
-	LFewdhDg0USEPAXtheofroLthnHyZ3TVVLkEd9e/x2KBrMOMY/wugjP4Ul1f8qpbNGYbVjdo3Ey
-	nZZeXNHrssg7Px7hBqL21OXM7ThdjnuPyn84FicqnAH57E5wnqwrVTLnQbGHB1LwcR8rpXku+uT
-	TyjN78BXWDFuZJHIy8BN+Vxry6cqST0kpcPFQgcZVaJ9bEZ0KO6BlCviwOX0WVakRIGd54ICwvm
-	tjyWxr8GIk+GEaO9XsUSOCGM3Cq2vE44tMrG4Fp/gzxbxW0MzJk9eVreoBsuBOoL4jDK07SSgz5
-	dM+lkBNUr70+/COJB+dc9mQVfCFcl2fn8QhDlaq2nWUaKpxQi6nCBEpN4JYhIkWRl/RXVloWvW7
-	JpPagQ06hHnWT
-X-Received: by 2002:a17:90b:1c01:b0:3b0:9a2e:b491 with SMTP id 98e67ed59e1d1-3b182f8c3e4mr5361131a91.66.1794503535321;
-        Thu, 12 Nov 2026 09:12:15 -0800 (PST)
+        bh=7qKiaMfPXurmREX1W524fvP1dWjjQw0qkmJh5bTsW7M=;
+        b=OG/3gwiSbVbrZvWorPjSmTb0Y5E3jANFERzLMRUD+F7lbXwHBe2WxAPOzv0WLit3lk
+         VxkgysCKt+ob9g+UvhYqtNFNOcOsJVcPVKsfhJZ+F9aR+8ttM3+sr9D+j0jsXn9RnK1D
+         wqhAVUI3/Kk+hRPUENc2OZJmy0XLff6P58fgk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794503538; x=1795108338;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7qKiaMfPXurmREX1W524fvP1dWjjQw0qkmJh5bTsW7M=;
+        b=LbkGb2/6gOKBrRNnmtwIB0bMIcQO7/zwcu73swigHMH4rcfLUOkQ+lcOKjvKu7Mb8I
+         Akx1aW2wraBztzpmwnxmrGwywTfXZKi/l2mSZ4+4KNY8mV+jOntE9tAin9GXq1z8qvfS
+         w1lHHE99+ZwHH1rkWPg7RKjFLhm0egnyBK3/FdHHwOELteiOl/TKtVRtaPqqE0EDf5qR
+         NWZsLm74+y1h+ugImhHiMCJnZ3Po6yb/wv7jL9Hwx7SJ8VHMVi2R94/c73EdEWGZ9w/t
+         EYBB3VhTR9ZDm3pXj+5PhsXTM7lGkrOAd4LYuhU59QHgT8JXOmZ7VD2qGUfabyZRSQ1D
+         3LUw==
+X-Forwarded-Encrypted: i=1; AL+hErER0W6Qi/2s8DXXWwSE/1itjV3ENtQeFwQlSyRjge5QuCG4hrtWFbkzfyCRZgUQdz8E3m6ocI65bmM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8r+Ydvu9JGEBXfcm7lGVVfVLdMoXkom3cu1OAnkZeUGdFG1Mgd
+	LM9sPc+1auPKYgV7uYtVrWHeKqmnwa8TgKDN0uFJh1gu0QoBqpl4K3spY+3om3sEUggayD/1ITu
+	ih4z7ghU=
+X-Gm-Gg: AYBFou0SR0yFOzIlSyCr6qMllOiJ4Xmv7de3vVkRTd0TMcfeqT3TNopZcaVf3xQ6alT
+	ihcmuEfylWiu6xIZNR4gnVWBo5BnWiulWW6qbgzQ7kTsATLL0UgcOar1kl7fxnmGjhWPa/758F+
+	X5wkx3YDlw6mYVNQTS95FEMmFoZTnIdEGWKruQp8Zqj2hJkCMnJ6GXISBSThkeO6fYVxiGVnHrN
+	uOElnvLGsb0YZpxnpTVsTzYjyCo2G095NOf9PscZ3ES2arBouruiA++wcUVoxse29Pe3aIWvsdP
+	FV6O/IOVytDIxlNvzmlGEX9/Ste6sRWYPoahg1H09CP7v860NlnSOHtzfev4lWEBgHj14qJSGNG
+	Mb72Qk0m15Wy0XZaDWx/LSfDqPxidXNC488ZgIwb/JhWDJy8jY19B9AQvdQsZXm/nCLEE3Y0kmW
+	tPanF3pXWnfFZvEZhTNen1s9/fEgcl5SkRlxxCh6JhYtflNS5J53N0MWCOf5SPKULjTIBEfmqiM
+	48O9z5/jC3XNbz7MM7+V40KUsXJtATwZAj6GH2XPBeWZT/6h0ZYCLpGwCx8Xme7qDmo9peifCku
+	9aE8zH+LudjcsWhxw/79T88AAlzMhjqegzYyMn7QYeiN8/c5a7O8dTW2Yzl6qyEXXCATgmDjf+o
+	4QbAB9Sci2DEiaqj1IsxeDQsOFpGboNlDsw==
+X-Received: by 2002:a17:90b:2fd0:b0:3ac:7842:bd50 with SMTP id 98e67ed59e1d1-3b182f6607amr6241433a91.15.1794503538590;
+        Thu, 12 Nov 2026 09:12:18 -0800 (PST)
 Received: from rock-5b-plus ([61.83.209.48])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1ae981c55sm263682a91.1.2026.11.12.09.12.12
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1ae981c55sm263682a91.1.2026.11.12.09.12.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 09:12:14 -0800 (PST)
+        Thu, 12 Nov 2026 09:12:18 -0800 (PST)
 From: Sidong Yang <sidong.yang@furiosa.ai>
 To: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
 	Oded Gabbay <ogabbay@kernel.org>,
@@ -90,10 +92,12 @@ Cc: Tvrtko Ursulin <tursulin@ursulin.net>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Sidong Yang <sidong.yang@furiosa.ai>
-Subject: [PATCH v5 0/2] accel/rocket: Report NPU usage through fdinfo
-Date: Fri, 13 Nov 2026 02:11:42 +0900
-Message-ID: <20261112171144.3151554-1-sidong.yang@furiosa.ai>
+Subject: [PATCH v5 1/2] drm/sched: Add drm_sched_entity_get_runtime()
+Date: Fri, 13 Nov 2026 02:11:43 +0900
+Message-ID: <20261112171144.3151554-2-sidong.yang@furiosa.ai>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261112171144.3151554-1-sidong.yang@furiosa.ai>
+References: <20261112171144.3151554-1-sidong.yang@furiosa.ai>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,36 +109,71 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Report how much of the NPU each client uses through fdinfo. Patch 1
-exports the runtime the scheduler already accounts per entity, and patch
-2 uses it for rocket's drm-engine-npu key.
+The scheduler accumulates the time each entity's jobs spend on the
+hardware for the fair policy, but drivers cannot read it. Export it so
+drivers can report per-client engine time through fdinfo without
+keeping their own counter.
 
-v5: Use the entity runtime from the new drm_sched_entity_get_runtime()
-    instead of a counter in rocket (Tvrtko Ursulin). Reviewed-by tags
-    are not carried as the accounting changed. Based on drm-misc-next.
-v4: Single drm-engine-npu key with drm-engine-capacity-npu, and
-    documentation (Tomeu Vizoso).
-v3: Add a rocket_engine_usage_create() helper (Gyeyoung Baek).
-v2: Size the per-core counters by rdev->max_cores.
+The stats object is refcounted and held by the entity and its jobs, so
+unlike commit df622729ddbf ("drm/scheduler: track GPU active time per
+entity"), which was reverted, accounting a job does not touch the
+entity.
 
-Link to v4: https://lore.kernel.org/all/20261103155338.1949294-1-sidong.yang@furiosa.ai/
-Link to v3: https://lore.kernel.org/all/20261103104804.1887489-1-sidong.yang@furiosa.ai/
-Link to v2: https://lore.kernel.org/all/20261101152723.1430312-1-sidong.yang@furiosa.ai/
-Link to v1: https://lore.kernel.org/all/20261031083642.1076356-1-sidong.yang@furiosa.ai/
-
-Sidong Yang (2):
-  drm/sched: Add drm_sched_entity_get_runtime()
-  accel/rocket: Report NPU usage through fdinfo
-
- Documentation/accel/rocket/index.rst     | 28 ++++++++++++++++++++++++
- Documentation/gpu/drm-usage-stats.rst    |  1 +
- drivers/accel/rocket/rocket_drv.c        | 21 +++++++++++++++++-
- drivers/gpu/drm/scheduler/sched_entity.c | 25 +++++++++++++++++++++
+Suggested-by: Tvrtko Ursulin <tursulin@ursulin.net>
+Signed-off-by: Sidong Yang <sidong.yang@furiosa.ai>
+---
+ drivers/gpu/drm/scheduler/sched_entity.c | 25 ++++++++++++++++++++++++
  include/drm/gpu_scheduler.h              |  1 +
- 5 files changed, 75 insertions(+), 1 deletion(-)
+ 2 files changed, 26 insertions(+)
 
-
-base-commit: 7678b7f2d38b5575981b1a7c09139a4660b66826
+diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+index 03e68b4102d5..ac040f95876a 100644
+--- a/drivers/gpu/drm/scheduler/sched_entity.c
++++ b/drivers/gpu/drm/scheduler/sched_entity.c
+@@ -238,6 +238,31 @@ int drm_sched_entity_error(struct drm_sched_entity *entity)
+ }
+ EXPORT_SYMBOL(drm_sched_entity_error);
+ 
++/**
++ * drm_sched_entity_get_runtime - Get the time an entity's jobs have run
++ * @entity: scheduler entity
++ *
++ * Returns the time the jobs of @entity have spent on the hardware, measured
++ * from the scheduled to the finished fence of each job. A job is accounted
++ * when the scheduler frees it.
++ *
++ * The caller must ensure @entity has not been finalized.
++ *
++ * Return: Accumulated runtime in nanoseconds.
++ */
++u64 drm_sched_entity_get_runtime(struct drm_sched_entity *entity)
++{
++	struct drm_sched_entity_stats *stats = entity->stats;
++	ktime_t runtime;
++
++	spin_lock(&stats->lock);
++	runtime = stats->runtime;
++	spin_unlock(&stats->lock);
++
++	return ktime_to_ns(runtime);
++}
++EXPORT_SYMBOL(drm_sched_entity_get_runtime);
++
+ static void drm_sched_entity_kill_jobs_cb(struct dma_fence *f,
+ 					  struct dma_fence_cb *cb);
+ 
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index 3b0978fa8cf0..96a3401d4c88 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -730,6 +730,7 @@ void drm_sched_entity_destroy(struct drm_sched_entity *entity);
+ void drm_sched_entity_set_priority(struct drm_sched_entity *entity,
+ 				   enum drm_sched_priority priority);
+ int drm_sched_entity_error(struct drm_sched_entity *entity);
++u64 drm_sched_entity_get_runtime(struct drm_sched_entity *entity);
+ void drm_sched_entity_modify_sched(struct drm_sched_entity *entity,
+ 				   struct drm_gpu_scheduler **sched_list,
+ 				   unsigned int num_sched_list);
 -- 
 2.53.0
 
