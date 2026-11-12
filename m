@@ -1,54 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=54.254.200.128
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794449813;
-	b=G9gNrymSi3pA9Ht/GDFJhRC/8idzAgOmuory/NZHI9Kt8gHlhiAbEnkquK7VjhRkOphD
-	 JxecsKSjait2g1gX6TMixtRKmzOjBf8MBfbLVQ7UPiQNz6d29XdqwY9Ve9XJzwlSrxxmT
-	 GI/E9r76MJ923Yf03EMW+k4+2MtM6DpKj1eXafNi92sVmI6YaG7PGiJsD9zUVQTbQRLuB
-	 Dds6/sx6I7pvv+z9JcaSPieSgO2CLPjAgUmO2OVzkaOwPyMCKnZXP9ILsLsveOIZDqYcD
-	 aF/C4YLKx4kDA3hf3QkGORyATJTsQHy4Ylvota5wbc5WEHNiAdjuasZJ4M9n3ZUK1IA==
+	t=1794450721;
+	b=SxAkBovN7Um1CQHTfHx/LZJ1O66xUoJbPMvIGaZ8Lz/hzkHBPOdEJlI7qYCKRAg6CFj2
+	 cmiTc3sjR69Ma8jHMjebdvLVyG1cjEXrl2gt29SnsY0KCk1FBqGQvd1TNHDGsZIsQOV/v
+	 TldOWMwcTVeKhbCZurX77f3Qgx2Va1YiyDkqGvmCOjrBylC8/d2MJIcoK0F7OxTkAV0xF
+	 APX1ZyAP1zxGAZmJzEzh7H4UeG3Tnwof1DvJCZQ00sh3czQOLBFoZOciUrfFl2FjQ/z3B
+	 YeArq0XGY3GSfmq9ODr9RnQvL3iJzzChRrMbsewuoljQt1NiTEpFv/jj7NitKITBA+g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794449813;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:References:Content-Language:Cc:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=qmgUyfk8WV4aWH8UenZtW/YyeUIA1n0+cWDnJ+tIrdc=;
-	b=1aZRDq7DinSIqjVWPcbPjzLXzgRfUXisUXtgmm+8YI92GU5WWSnJuNz80dhJLmED8S0d
-	 unUHr4oOZMb8wQphtrSok2mN5qEPQACffEmpMLACfffj4gGhKbgfAh7f+sBmfSp8nCvqT
-	 xxhu2J1aQ1ViB6tx1d8zzszkEq9jCsECxqA6STVH6yaLPAPwIxGMfxkqA4pnEaW6v/DbR
-	 MVLYy/GhnMKVZDHHneCYmD33KJscTFI4zrZArA10qSWn25hzp83f9kSFsh+GACXNsAokJ
-	 4rGNfkNlM4ypUnjdnpihb1V3LCuI9S6choce0Mk7ZQB0vvUS1ZrZ4ZDQDyCRHihBCGQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794450721;
+	h=DMARC-Filter:DKIM-Signature:X-QQ-mid:X-QQ-Originating-IP:Received:
+	 X-QQ-SSF:X-QQ-GoodBg:X-BIZMAIL-ID:EX-QQ-RecipientCnt:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding:X-QQ-SENDSIZE:Feedback-ID:X-QQ-XMAILINFO:
+	 X-QQ-XMRINFO:X-QQ-RECHKSPAM;
+	bh=nV2murFzK6Id3OzsA14Tj/XTXZ8jVdkIsvs9wKWBvWQ=;
+	b=yWYTsRkcYQZ0Ma5XwHjXLydqFxniCRqfhGOEd3HePjfksUiSEo033TbEXCgIXc4SZbFq
+	 TVqogA04ow3aPPj+4YUPbAeQ+81kmXcf2s8MzK7gsdLB0701XimX8wWMOutzzkO8GdImj
+	 jhk7Mq6Ow934LTU1VaHEg1uI/RSjIxWB5de58aww+yZ5QkjLPjbhYUyosP65DqlrlG9AS
+	 AS7a8tULojz1Ii57N+Oag36aAigf4QF7wlQZEKYqq+DuOr2o+QDYaxggpc5KKTrSgV4g1
+	 CiTsq2nymivkfENj97OPvjSxXEtu6WGCL6Se7kXF0Bc4pKr9s/4dDF8bAizSE//sdfg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4X38J56L;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=uniontech.com;
+	spf=pass smtp.mailfrom=uniontech.com;
+	dkim=pass header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=iA4r9sjF;
+	arc=none smtp.remote-ip=54.254.200.128
+Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B461606A31C;
-	Thu, 12 Nov 2026 02:16:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B461606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1CA5606A334;
+	Thu, 12 Nov 2026 02:31:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F1CA5606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=4X38J56L
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:Cc:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=qmgUyfk8WV4aWH8UenZtW/YyeUIA1n0+cWDnJ+tIrdc=; b=4X38J56LnvOgYr6B1uVqluZteJ
-	hELccqpHkHCpTUjRZwXGISGWno5amd75kaD1jAX/r3v0m1TkLtvinRISxOlFlFiOVlWopISQaNwcS
-	s4ZQGxroQS0VKjZkgK+BBxvyUimHE4SMakXpMkSbSWwLhoZSFdWjKVXYWXZd/qGbAEBKOcMwPdaN1
-	8Jz2k/iqW5xuEfo7fplG2tUDLhdFSp4p6Y8wPkRcAyuTupuWiPkgwqALRo8bV7I0sX3w7ZMj/KJhN
-	+d6AwbYc7882QP/e9Nek3MvWf/S6PITY+ujXW/d0a5CjKLF4sxoPXVroxBxhdk64p+oSydgxKieV2
-	eGZAEGgA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRKMt-00000008UXt-3TVY;
-	Thu, 12 Nov 2026 02:16:51 +0000
-Message-ID: <cff30946-5984-4d69-a590-3c7291d8f32c@infradead.org>
-Date: Wed, 11 Nov 2026 18:16:51 -0800
+	dkim=pass (1024-bit key, unprotected) header.d=uniontech.com header.i=@uniontech.com header.a=rsa-sha256 header.s=onoh2408 header.b=iA4r9sjF
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
+	s=onoh2408; t=1794450682;
+	bh=nV2murFzK6Id3OzsA14Tj/XTXZ8jVdkIsvs9wKWBvWQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=iA4r9sjFtLoOHwjoIc1jZ8Z5HTvb/1yn3Ycmc3TZCOLXtmIt1G0bVGItfdWIujkak
+	 Z7IAw0HVIHFavJfmXAsMOQA+vRTPDwOL63ofuaOOeeQ+8Vdhfaia5H27WrjkpBXIF8
+	 dFJJ/WVz91lb+MCVzV6sDmCf7CNLhBA2e4+YCicg=
+X-QQ-mid: zesmtpgz3t1794450677t2a70f49d
+X-QQ-Originating-IP: LPLIix0d1dOs8h+/ort2k/3s/9IXSF8BgFpyPjy3Svs=
+Received: from PEN202512010004 ( [113.57.152.160])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Thu, 12 Nov 2026 10:31:16 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 1
+X-BIZMAIL-ID: 13082129355398645022
+EX-QQ-RecipientCnt: 8
+From: raoxu <raoxu@uniontech.com>
+To: socketcan@hartkopp.net,
+	mkl@pengutronix.de
+Cc: linux-can@vger.kernel.org,
+	netdev@vger.kernel.org,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	raoxu@uniontech.com
+Subject: [PATCH net-next] can: bcm: Document ival1 count semantics
+Date: Thu, 12 Nov 2026 10:31:10 +0800
+Message-ID: <12B691026195694E+20261112023110.1234039-1-raoxu@uniontech.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,43 +72,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Documentation suggestion on Netlink specs: missing fixed-header
- info
-To: Wessel Jacobi <wessel@jacobi.pw>, linux-doc@vger.kernel.org
-References: <8610ee11-e1dc-481a-9654-11188a06786a@jacobi.pw>
-Content-Language: en-US
-Cc: Hangbin Liu <liuhangbin@kylinos.cn>, Jakub Kicinski <kuba@kernel.org>,
- Linux Networking <netdev@vger.kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Yuyang Huang <sigefriedhyy@gmail.com>,
- Donald Hunter <donald.hunter@gmail.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <8610ee11-e1dc-481a-9654-11188a06786a@jacobi.pw>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpgz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz6b-0
+X-QQ-XMAILINFO: OKhYnE1LzMsBiVblgfzh1Ihh/jzNbaxbRiqrW0PC4RLzVRcns3iUQkMD
+	bEav44c2qm4jE7HAXlcZWNP1Zl1/DhU4xURC3TSuZrzLFWJpsDFFQUxwAzFmbppEjkMUhYQ
+	1ASZmWinIyYRGVnHYgEIc0gDKfaOcyr1TYsl7CeT8AvaBwtUd2BGWrDc5ATINyloQFAw/Jn
+	cUohm/osbJn82w5OYvknCjMqgFyBa0WRcBRF4mKZ9QK1hfeyOpg05n93AI7jGSPCi+KJWjt
+	X90SENk2rVVDWRhsYLigYO8M2h7hKZwW3gv5Vmmw68R1pivEuCIftN5HhUVKgnV9vK2NfEJ
+	cM5nZElAqHYl+rW50xSowz+vy2Z+HDX5FnlKIq+V1pPSqh0bNSepdbVM/bI0AthXz4/0+f3
+	VUYrwEzIMIYAtCfbv2CeE77rmZucno7DcO5M1q+kaU/unoIe6tLN3hDy8/xQj4VRHrAQwsW
+	7FZBvPF2DeFnm5vGuyF7bRSWY29ZhPma5179bzziN6ojk8Z+Nqg1XOh5FFsUCXKNEjMnGzw
+	e6CvxsVtE080wEadeiFNlhYLdyRiQJixmnq/SNL4bFlhu6e1d/HyEsaDqK5+46tXWjPAt3w
+	UNgNRPWyunU2hwR5VTxgxQsI0mWwWCfl8T9HIxgin+pCu3UJ+6GdN1z9oZHB0YPZHFeUEgW
+	JZANyidvKVectLw4XhKtdjszj5RPN4elCEY7C2GynFhzwRyOfqx1DlpzHlYjIB5E/QO/br8
+	x/0MUgkgfM7ve/aGOpLxEIpjgg1eGPtqVdSjkP4p/6ux9bMyxq5DXB3iYrOAjl0DMLKXr09
+	bT5pbg4cB7o/j3BYuOxO0NX7TbBsxW6iRIWJ2DZZjoVhzX/6g+vlDzzrlvpHIHkSvNvLJZe
+	a6B0QIfT/qgTEyn5QHvopR5saJHLbyux6ouv/sJzgGzFHVOHA+Oysi1zkt99n9nGkrF1+91
+	BZ4hJKrIuI5hNGAxzTHx89z0nb0jNTQSaA2nB96slCJa6y+ihGMQ/0/xj6DwLW2zUxiMB2H
+	3Od4oPvNadHCGNCPWlD7oeCvFYcAcvzaWFCgknNw==
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+X-QQ-RECHKSPAM: 0
 
-Hi netdev:
+From: Xu Rao <raoxu@uniontech.com>
 
-Does anyone know what this means and what to do about it?
-Thanks.
+Clarify that count controls the initial transmission schedule rather
+than counting successfully transmitted CAN frames. An error returned by
+can_send() does not prevent the counter from advancing.
 
-On 11/5/26 2:48 AM, Wessel Jacobi wrote:
-> Hello,
-> 
-> The "fixed-header" information is missing for the Netlink rt-route specification docs.
-> This is pretty essential information for working with Netlink, and I was tearing my hair out on why I couldn't find it.
-> 
-> Compare the (visible) `fixed-header` at [1] with the (absent) `fixed-header` information on [2]. The `fixed-header` key *is* present in the source yaml `Documentation/netlink/specs/rt-route.yaml` [3], but it seems it doesn't get reflected in the generated HTML version.
-> 
-> The HTML documentation would be more pleasant and useful if it had all the relevant information.
-> 
-> Thank you
-> 
-> [1]: https://www.kernel.org/doc/html/v7.4-rc1/netlink/specs/rt-link.html#operations
-> [2]: https://www.kernel.org/doc/html/v7.4-rc1/netlink/specs/rt-route.html#operations
-> [3]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/netlink/specs/rt-route.yaml?h=v7.4-rc1#n709
-> 
+Describe the transition to ival2 when count reaches zero, or termination
+if ival2 is zero.
 
--- 
-~Randy
+Signed-off-by: Xu Rao <raoxu@uniontech.com>
+---
+This documentation-only patch follows Oliver Hartkopp's suggestion to
+clarify count semantics in the discussion of my earlier patch,
+"can: bcm: Account cyclic transmissions only on success".
+That code change has been dropped; this patch does not change BCM behavior.
 
+ Documentation/networking/can.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
+index 51bc70748f75..840d840665a4 100644
+--- a/Documentation/networking/can.rst
++++ b/Documentation/networking/can.rst
+@@ -892,6 +892,11 @@ only one timer is needed 'count' is set to zero and only 'ival2' is used.
+ When SET_TIMER and START_TIMER flag were set the timers are activated.
+ The timer values can be altered at runtime when only SET_TIMER is set.
+
++For cyclic transmission tasks, ``count`` specifies the number of
++transmission attempts scheduled at ``ival1``, not the number of
++successfully transmitted CAN frames. The counter advances even when
++``can_send()`` returns an error. When ``count`` reaches zero, the
++transmission continues at ``ival2`` if nonzero, or stops otherwise.
+
+ Broadcast Manager message sequence transmission
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+2.50.1
