@@ -1,100 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.54
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794499201;
-	b=BYqEBifM8IiuJ69luU8B9IwvKxLT3nOM0EGB2bXYuSw+ekeF3ekrlgfkyyajUlYGEY1L
-	 NaYdD/AyzaxKsw3RdDyPyRDaZ7lgHXWReOyUzbnY/1NCrbX/+DAV4zZYbk/tmBcKDOq43
-	 GeOjcXuIbIQV40XiKdSm0o2u5REZrzMPqvnjmuU3AWrXnoM6OejCRkrVCQxIMmzTNSeuA
-	 sDTzejdSxYuEaGjGJCstVkTjeaHj89ZBeAcfVg/zGMHn3DlujZncNqo8UckeapiwXq05R
-	 8mDNHUDXFdNQPCuknf5wyk735Plk44E1j6J2SR7IE8WeluXb8jTRZhAL1aulJqbBztg==
+	t=1794499285;
+	b=J+zEyFef1N96O9jBXYPzM/e1VRqalRxBj1hOadAAVLNoymr1GEta57FhNWjWHD8ksvag
+	 AXXx0YWvNkdt8llbzRv2iAG6V32SshspQkuwBiDZUMBzcXqJBz5I5VQxfDpYsax38E2bk
+	 iLX1I7fOy5RbjENBMGommCf04boslQQ2QWkmocQN8lXJZtkmCHA+thk7k7LA+aDTvqTO0
+	 zME9eBOeDzAJz5RMDtFsdPhcEiSHvhJjzUUFd7NG6gEGvrDd0qbfrb9HDHM9HqYRuzzUp
+	 9xOJYnjl3vLM4GYrNYayX1nPLou0YPy4/VatwWJUh7Zr59vhqRECJeuh3ktngPSz3lg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794499201;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794499285;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
 	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
 	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=o1Dliguz4u44qwi4R1eK834/qPlvvb9pc8ymG3pNfYo=;
-	b=bu2GdnANbJq2BlxKOLSIQtdQ9UUwPWVHCSpXsIxXl/jIlh24LJKyJJgkfemnu5uFgOJc
-	 l/KdOd53wECg7GZ60RkQNgeP+3qLXGsYiqoDnAkLK6GhQ1xZ+oLu+rMZxDIiBY1yzFn+z
-	 RJHgFOhyFUtgWoQn+sxuCJkV0Pc3fFZRXJwqwXoL6Xv7FGXbKvbI6PN5cFlMqKPCyBPo/
-	 37+XiiGQxeMu+354UCbHPvzrNWrVvf+nbgU5LIN7iexgWJHKr1X9zqD/IX3R+og7E9URu
-	 CYwFWRo6l17NajHNJotMrcdXG7wwsTBDncbcOi/8riiIPKlwA/akYH3uMS/i0nsn7Hw==
+	bh=K30WU9LcDm9KOHnUzmPG5F9Q3grxCVKpIQuAPTV3Oio=;
+	b=5icYIz+PJ107rbPyEt65repSU4tUTt1ipeTXC4uSeHqeubgYkRHxWLqj/6FsEfe2hX2J
+	 CfltXz3NAPLd1uAj4kBzxc4Yza2+LMR7seS1wbkh4t/HaBSNMMkyG864xnUqVddf0JBDP
+	 4Ay0bbHlYLOvOG3CnIB/XvKPYPEhihrNLNpEdVZVw0XtcrqMH+m/QfYvHg5Xr9M7aYAN6
+	 ZKc/QTchy30lrwZOlPLQ1OKrYi20q4QE3fuj/hZ2Q6SUiVAOcukHuIdRQvAAmFusik1+i
+	 oAafvJ+x66pwnzR63PfboPzUJ7R5ZfV1nB4vTVnK3pUGmmJIGaobieJa6RglEk7v1ZQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="VNq/TS9Y";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=asQ6Kkgb;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.54
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A17E606A330
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:00:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A17E606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30947606A330
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:01:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 30947606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=VNq/TS9Y
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a208d93758so47556735e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 08:00:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794499199; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=asQ6Kkgb
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4b4571ff080so48953765e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 08:01:23 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794499283; cv=none;
         d=google.com; s=arc-20260327;
-        b=MIpQO5O3yDaB4ymHIUDyRI0inbY2r777UGBQxRFI8b69OEk+BJxrxR/jeYPRBjLrla
-         Ds2en82avU9v9nPT+da221y1guKN2YKX/9qO+uZaQrXpZk3hFXIsgpvDhf3ppUWJwA3/
-         xgQAjIrXfTuO0bbzmmwJVS8wm49iKIHS2Ijrv9zgUB68NR7MS4ECwR+nZxIVj9nYG3Wf
-         0ulQfE/6eZYWsfjwBZJ9CmMj7IaCzHO6ZJ0LwZUwooY+Qe/I80smH8uwcbVATWeWxsWu
-         pwNg/XEWvTBFbcL0Ko2MzyY75HSS+eioBstfiC68Tac7nf8uOTecmHt3OFBx4n8L6Si5
-         Dtjg==
+        b=IRA+M+dzrrtMKo8soBncDRuzzC2nDQkY7u4AhqL1NU7N+y2747K09TxFGGdMvHqdRO
+         task26JI4Ylj8E18CVYN0jI3rk8+oK/lsWzDCyMRaeuhhJEFLY3QK0gBZU1wZA30DzDx
+         8lyy2k4n8xs72FFuukLHuZ8OdROLPlyEf+muqDS3EbsnIsRxGWnpkz93LYcAalLOQvA5
+         YtbniJmKetIlmi+hueN+7jL0mQ3DRcsXI3JYIAO2q8knoDgtpgfColr5BEpGOoYc09ul
+         IUPX9gN+Ccl1UVO9JQMYzAFgfWU7HyreXl15MpOhs50nLqEgwmKBl5M9fNyyHCRNONys
+         2Jkg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=o1Dliguz4u44qwi4R1eK834/qPlvvb9pc8ymG3pNfYo=;
-        fh=5L05hRMNy6qKqDYX6Vuztizf19ZjubSN7jqh9Bjlz5o=;
-        b=d9opEGnR4G3Dzi8ZLcg4xeIEunpUyTkjH9ShJkeGtrhX5KYZ7VV5yDO5pDI90yq47A
-         juT+i0QwREQP3paRx9V9UwWrSJ+XLjJBEL9fmB4+Pe3s97oY5zX3OwZL+intyjD8awEt
-         L8JemffcsziAx/foUtESAnF99VurW04KRDA+ib9/5lV1txmGQ0ytrt+ET6/P06ZpsUwB
-         5UzgV060uFe1EiqUbLu3K5efwE1J+osX1YVeuZueYuYq2E/zvI++jQGKqx4pbL4fTBML
-         ruZPb6rBZFuM9+Bl6pC/noX75GDGGs3cZ2h/HP4ZefsKR8C2/H+PQ6AIDa4Pg/DvX1IA
-         uMVQ==;
+        bh=K30WU9LcDm9KOHnUzmPG5F9Q3grxCVKpIQuAPTV3Oio=;
+        fh=eEkrPhqetkvOv/3i9W+zpeETo3eYEQ6IVSaoiQYbOXs=;
+        b=rJWqO+oohnBEKjcbZFOS0iY+6fSUkC6IGg4+sNHwHPmaa9+jjE9Trv+tOh+fN7JsW+
+         RTY/2VRCfFOoJSfEkTSSTtqqyWRsX25oVH7G3dsIiPEs4D4ZO6IGoHHHxk1zYGtC/rTo
+         RBcHg3HqP2LRl1+/CynFQinL5KUUDEFjIv7bMx5qn3PDarwrIEl+zfTySIkpYyN4rrRq
+         TeNvtpuYsY8r+5GRzM6LoupMLfnDh/qPxm9Tv96iZYFMUifQM4y9BhegEhOvJX8gqd7R
+         2p1X3SWTKlmZUlxPW09mq656Sm0N8KCKZwwrBWklY0nR3DewC3SMDWht95XbtQzzFadv
+         yzJA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794499199; x=1795103999; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794499282; x=1795104082; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=o1Dliguz4u44qwi4R1eK834/qPlvvb9pc8ymG3pNfYo=;
-        b=VNq/TS9YxMxpbxP3+3LmkMowYv8beN+AZb3BYPOxmeYCeq9+wN7D+1Kyz71UyEdZF4
-         IkvZSUOob95mNXALzE8xn3UgGVvP1eilHuH2U+u79e5E6ebphwRqn0mF6VRmKlKbGuJV
-         tX0doJRuOkq2kcmCTLV6p8qoCbmNRJKe+nDaeE5VHBDXVlMDcguz4kusAP5WttG8yNL9
-         3VO7sjdZKkPWklzSyO1jeUoz0ev96lP1NhlgObkTjbJ0pR8NLBKYy+7KOmYJ4U2CmPlt
-         2g4GlHdLb9s+LAr08FGs3b8IRKIIoVRwlbqGIrwvA4w3PCfbmNbrUIrHWx1ydZ4pSl2y
-         z6Dw==
+        bh=K30WU9LcDm9KOHnUzmPG5F9Q3grxCVKpIQuAPTV3Oio=;
+        b=asQ6KkgboxQr2Mix4uFXV97OZ4yQDaOEh9XXJvisPx2EPGhn5J8mcUoEZGV1Qeagb0
+         Ai7PxqX8tEH8mdpe/wwT65dwo+YA6B9kehSmgtkDDpS13Hr62CAOHX7C5QdKM+IGnSfI
+         QkCMfS34Um5jNw5/L/5hM0f9cN8RySssd5TviZczWCdI7osE4Z8oZQAb9qD794opBVCq
+         gpAzdC2ceN0QkqGe+vB6SzZyXV84S/smCWXulY4TtzR5YGtNMSBL48Is2CzXKFW2QfGf
+         6O0jxlFZn87zP3M5OnX6S5Pxeu/cFTk/Et89FxtMSHEkDVN1+uecNnARomY1gctIsF1O
+         qqgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794499199; x=1795103999;
+        d=1e100.net; s=20260707; t=1794499282; x=1795104082;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=o1Dliguz4u44qwi4R1eK834/qPlvvb9pc8ymG3pNfYo=;
-        b=BKPDsGZMkn0jUQ1HKxVxQUpXm5SyyiErrFG3RW2RQa77Km89Txrt9070/Y5CLlflmp
-         R+n67oUtJJtYQYM02M79FbQNwhUz4RVsad6hGt9C+zamExrDbmn8W55FaM9EYtse1Fo0
-         +EGj1I6l30QVpcFcubbRsueYBabdslILDLO3JSAeggGIemK+cgxqXHwXXZmpsakGdV93
-         KZX/hSKbqxsS/DrPGaTRRHJmxMRWOwNbmayuJURkjFb9n5fXoduSIEWaUoJlSzqLvBfP
-         UWbL0x5L3xKU+I8/fILhvXKX9Ex5WhiGXOY+cSMqoE+DQUsV4cs3bCM8fP7r8VoXlSjU
-         E29g==
-X-Forwarded-Encrypted: i=1; AL+hErHsWBg9B7/M6xBzqpi7p6M7r/xi9Z0vpz3i+nxcUX0ZtnVloZcipQki2D6Pw0B2l24ZJqpJmI6YYhs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/uLAzoWXPQzTFhhX16yqftgqB+JFIv9W9PgIQ7xoAQ7giGsChB
-	S26MVB1h5YLI6iVXW54wJjQLJVShqV1VSXrNxQ5iHjYtT9iT/Ts9fiDmQAgsc5s3LVqSNDgEQbt
-	9uShn40Nx4PqUtiuPmLGbrQM/lOql/Z4=
-X-Gm-Gg: AYBFou1EOI/iYfrgXMm0D4EtPFtvmi863Y2dBRphnvlwNPqilg5Z3WWXF5kDL1y6ZDa
-	m5xf2OYHkiq0TkMXcWreFb9XX2ZQpfK60wUwaEmxGFgUxgRJJBV3P2tELRTWjZS925LNcT65Zm8
-	HjbJpGQfq68huTf8NsAap/3In19yN0k6yp4M152xar246+3QX45jsCICkAtipM+xKD8Us/WsnGL
-	FVlfsSWqJREA3Yk1M9xi5b10Ji0xqJNlC0tF8KUixymrssf9UBrU4Vyn/AWQKhMkvlxlDUqN77D
-	ZAkkBLItemkl6R2Q3In8lOGPgiFHOUejue9xxYKpCAx8MMonP0RHxl6B7ooZCU6oV/X5V+XYKan
-	AI/1y1tfnc1fQD+EAknpgm3ey2k4BxpF42/W8SoIao6yhJYL1gcJTS/ERPs6kKDJ3rzacZg==
-X-Received: by 2002:a05:600c:e558:20b0:4bb:4b30:8042 with SMTP id
- 5b1f17b1804b1-4bb4b308088mr61967275e9.19.1794499199056; Thu, 12 Nov 2026
- 07:59:59 -0800 (PST)
+        bh=K30WU9LcDm9KOHnUzmPG5F9Q3grxCVKpIQuAPTV3Oio=;
+        b=vWsJDudpnGr/DJ+ZodXoheqWrYGoT+C35CJrfniho7RKs4dbXhYMTaMxZGa6llErBH
+         bs6UMB95roGFR6/gwqgQ/0FRFHLBrF69dBRbkbUmleE8T3j1IsUq9MmhjpI1xqmI7hre
+         b41a+FIOK98vSUh7Dh9knjeTtpal5u95gd1h2OI4zsV3QGmMfjPixzEuOpbXk67QSuf4
+         ivsHFLzOEymKG9L72fREdg0vr2kgZ1m6ssjdRSAjP8Xo0QOR4/vS5368gl4G3AQFpK2/
+         nSvSUP+vouKY4yQwASykFVQhSdXvXnjlQpATtl2Cm29ItBxVmj8Ay9WPDJAa3FC9a1vG
+         nl+Q==
+X-Forwarded-Encrypted: i=1; AL+hErEy63qWUY65v30/G1FTcm7PHF/RgCXhI4iZO133MSlTdDzMleUi4nggkZqHxt9IX1BngQ+UWRSwzhk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z82X4NbLAHxsKlgUXsSNiWGn/oS9v1eFtO7fXchptcn+UM/fYjt
+	uahacMKBGfu0sQbEXMj3RfAy3oayyoDuIwXfX81FH4wYIkqcuZgEDkLiBIZt/ubjI/+uceBAH/b
+	m8NoZZVoMOSTjsIit1zjVI4ZxK3rovzA=
+X-Gm-Gg: AYBFou2VW/mSydjN0IFGK7m9q+aKgi2g/rvPaA1f6rktlYHYSDNOLaHJt+HHz4iYyyy
+	0ZaeZAJ31FH16lNk/GTwLYbApPzptHdU4etDDIQn0VHw3t0fMi9Xy9Ym/1KyeyELRS7NfIkXNyy
+	M5SwEwnfXCUlY/SGztNOYqN+ezHq/KlfHgFOsn1oyCMSfRI6gkBL/LIUbOMc3NYbxV2lnYxbSBq
+	UtXgkcNJSbF2Kn2CwkbtxO+p7iDzmALUNvPeZTQ33cztf+hUfbFzZ2wXYjhw67pm7PTMVESbsVq
+	vddq39U+oaR7nfgR2Vh+O/IlErdmWJdJ/Ez+EwLq3T+5MuKRumpbCF6vSoTnYf8uSD7TmVW5k7Q
+	L1RivAB52D2zc7xuSGs2eepGvxVgGfrPIdylPrC0sg5wdsvkGhnmB/aFdUe/61wdmBzT5ww==
+X-Received: by 2002:a05:600c:1d29:b0:4a6:42cc:bf65 with SMTP id
+ 5b1f17b1804b1-4ba0938182bmr115084735e9.17.1794499282029; Thu, 12 Nov 2026
+ 08:01:22 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,13 +105,13 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 References: <20261104165504.2430480-1-kunwu.chan@gmail.com>
- <20261104165504.2430480-11-kunwu.chan@gmail.com> <83463788-5e18-4932-99c9-4cbf4148a213@paulmck-laptop>
-In-Reply-To: <83463788-5e18-4932-99c9-4cbf4148a213@paulmck-laptop>
+ <20261104165504.2430480-10-kunwu.chan@gmail.com> <381033ae-d65e-44de-bbe7-69f707405f40@paulmck-laptop>
+In-Reply-To: <381033ae-d65e-44de-bbe7-69f707405f40@paulmck-laptop>
 From: KunWu Chan <kunwu.chan@gmail.com>
-Date: Thu, 12 Nov 2026 23:59:47 +0800
-X-Gm-Features: AclHuK-mTFCsu5EzH21jY8YFD-8az2xhySVKCOowInql9XH_2VCFG8c3gHLmBa8
-Message-ID: <CAN_Opa-bdkVQWNHm1N7Kk-sD36SM8Z99odPkCTngcnkWwU8tpw@mail.gmail.com>
-Subject: Re: [PATCH 10/28] hazptrtorture: Add 128- and 256-CPU configs
+Date: Fri, 13 Nov 2026 00:01:10 +0800
+X-Gm-Features: AclHuK_r0z0qzRgTWpnMwVZyYzYAfYE6f8hG1Sg9QutknQhxmorMBRwJwam3dq4
+Message-ID: <CAN_Opa9F9prFRqta5KwCHoQHrmsOEB4_m2tst0+0VY+fh5o2cg@mail.gmail.com>
+Subject: Re: [PATCH 09/28] hazptrtorture: Add READERS4 and READERS0 torture configs
 To: paulmck@kernel.org
 Cc: boqun@kernel.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, 
 	corbet@lwn.net, mingo@redhat.com, frederic@kernel.org, 
@@ -127,26 +127,28 @@ Cc: boqun@kernel.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 11, 2026 at 5:35=E2=80=AFAM Paul E. McKenney <paulmck@kernel.or=
+On Wed, Nov 11, 2026 at 5:37=E2=80=AFAM Paul E. McKenney <paulmck@kernel.or=
 g> wrote:
 >
-> On Thu, Nov 05, 2026 at 12:54:28AM +0800, Kunwu Chan wrote:
-> > Add CPU128 and CPU256 configs for hazptr-stack torture testing.
-> > These configs exercise the shared-scan path at larger CPU counts.
+> On Thu, Nov 05, 2026 at 12:54:27AM +0800, Kunwu Chan wrote:
+> > Add READERS4 and READERS0 configs to cover reader-active and
+> > reader-free synchronize paths.
+> >
+> > Both use the PREEMPT baseline and hazptr-stack torture type,
+> > with four readers for READERS4 and no readers for READERS0.
 > >
 > > Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
 >
-> For these, why not instead add '--kconfig "CONFIG_NR_CPUS=3D128"' to a
-> run in torture.sh?  Ditto for 256 CPUs.  These will override the values
-> given in the hazptr Kconfig files.
+> For these, why not just add '--bootargs "hazptrtorture.nreaders=3D0"'
+> to the kvm.sh command line, for example in torture.sh?  Ditto for the
+> four-readers case.
 >
-
 Hi Paul,
 
-Agreed. I added these to keep the 128- and 256-CPU cases explicit
-and repeatable, but the configurations duplicate PREEMPT. I'll
-drop the separate configs and retain the cases as scripted PREEMPT
-runs using --cpus N and --kconfig "CONFIG_NR_CPUS=3DN".
+Agreed. I wanted to keep the zero- and four-reader cases as
+explicit, repeatable tests. I'll drop the separate configs and
+retain them as scripted PREEMPT runs, passing nreaders=3D0 or 4
+and torture_type=3Dhazptr-stack through --bootargs.
 
 Thanks,
 Kunwu
@@ -155,29 +157,29 @@ Kunwu
 >
 > > Acked-by: Bradley Morgan <brads@mainlining.org>
 > > ---
-> >  .../selftests/rcutorture/configs/hazptr/CPU128   | 16 ++++++++++++++++
-> >  .../rcutorture/configs/hazptr/CPU128.boot        |  1 +
-> >  .../selftests/rcutorture/configs/hazptr/CPU256   | 16 ++++++++++++++++
-> >  .../rcutorture/configs/hazptr/CPU256.boot        |  1 +
-> >  4 files changed, 34 insertions(+)
-> >  create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/C=
-PU128
-> >  create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/C=
-PU128.boot
-> >  create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/C=
-PU256
-> >  create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/C=
-PU256.boot
+> >  .../selftests/rcutorture/configs/hazptr/READERS0 | 16 ++++++++++++++++
+> >  .../rcutorture/configs/hazptr/READERS0.boot      |  2 ++
+> >  .../selftests/rcutorture/configs/hazptr/READERS4 | 16 ++++++++++++++++
+> >  .../rcutorture/configs/hazptr/READERS4.boot      |  2 ++
+> >  4 files changed, 36 insertions(+)
+> >  create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/R=
+EADERS0
+> >  create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/R=
+EADERS0.boot
+> >  create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/R=
+EADERS4
+> >  create mode 100644 tools/testing/selftests/rcutorture/configs/hazptr/R=
+EADERS4.boot
 > >
-> > diff --git a/tools/testing/selftests/rcutorture/configs/hazptr/CPU128 b=
-/tools/testing/selftests/rcutorture/configs/hazptr/CPU128
+> > diff --git a/tools/testing/selftests/rcutorture/configs/hazptr/READERS0=
+ b/tools/testing/selftests/rcutorture/configs/hazptr/READERS0
 > > new file mode 100644
-> > index 000000000000..079b463607e8
+> > index 000000000000..c5b12f3bef74
 > > --- /dev/null
-> > +++ b/tools/testing/selftests/rcutorture/configs/hazptr/CPU128
+> > +++ b/tools/testing/selftests/rcutorture/configs/hazptr/READERS0
 > > @@ -0,0 +1,16 @@
 > > +CONFIG_SMP=3Dy
-> > +CONFIG_NR_CPUS=3D128
+> > +CONFIG_NR_CPUS=3D16
 > > +CONFIG_PREEMPT_NONE=3Dn
 > > +CONFIG_PREEMPT_VOLUNTARY=3Dn
 > > +CONFIG_PREEMPT=3Dy
@@ -192,23 +194,24 @@ PU256.boot
 > > +CONFIG_DEBUG_OBJECTS_RCU_HEAD=3Dn
 > > +CONFIG_DEBUG_KERNEL=3Dy
 > > +CONFIG_HAZPTR_DEBUG=3Dy
-> > diff --git a/tools/testing/selftests/rcutorture/configs/hazptr/CPU128.b=
-oot b/tools/testing/selftests/rcutorture/configs/hazptr/CPU128.boot
+> > diff --git a/tools/testing/selftests/rcutorture/configs/hazptr/READERS0=
+.boot b/tools/testing/selftests/rcutorture/configs/hazptr/READERS0.boot
 > > new file mode 100644
-> > index 000000000000..1d09a6446080
+> > index 000000000000..f5564c218902
 > > --- /dev/null
-> > +++ b/tools/testing/selftests/rcutorture/configs/hazptr/CPU128.boot
-> > @@ -0,0 +1 @@
+> > +++ b/tools/testing/selftests/rcutorture/configs/hazptr/READERS0.boot
+> > @@ -0,0 +1,2 @@
+> > +hazptrtorture.nreaders=3D0
 > > +hazptrtorture.torture_type=3Dhazptr-stack
-> > diff --git a/tools/testing/selftests/rcutorture/configs/hazptr/CPU256 b=
-/tools/testing/selftests/rcutorture/configs/hazptr/CPU256
+> > diff --git a/tools/testing/selftests/rcutorture/configs/hazptr/READERS4=
+ b/tools/testing/selftests/rcutorture/configs/hazptr/READERS4
 > > new file mode 100644
-> > index 000000000000..b00a984977f3
+> > index 000000000000..c5b12f3bef74
 > > --- /dev/null
-> > +++ b/tools/testing/selftests/rcutorture/configs/hazptr/CPU256
+> > +++ b/tools/testing/selftests/rcutorture/configs/hazptr/READERS4
 > > @@ -0,0 +1,16 @@
 > > +CONFIG_SMP=3Dy
-> > +CONFIG_NR_CPUS=3D256
+> > +CONFIG_NR_CPUS=3D16
 > > +CONFIG_PREEMPT_NONE=3Dn
 > > +CONFIG_PREEMPT_VOLUNTARY=3Dn
 > > +CONFIG_PREEMPT=3Dy
@@ -223,13 +226,14 @@ oot b/tools/testing/selftests/rcutorture/configs/hazptr/CPU128.boot
 > > +CONFIG_DEBUG_OBJECTS_RCU_HEAD=3Dn
 > > +CONFIG_DEBUG_KERNEL=3Dy
 > > +CONFIG_HAZPTR_DEBUG=3Dy
-> > diff --git a/tools/testing/selftests/rcutorture/configs/hazptr/CPU256.b=
-oot b/tools/testing/selftests/rcutorture/configs/hazptr/CPU256.boot
+> > diff --git a/tools/testing/selftests/rcutorture/configs/hazptr/READERS4=
+.boot b/tools/testing/selftests/rcutorture/configs/hazptr/READERS4.boot
 > > new file mode 100644
-> > index 000000000000..1d09a6446080
+> > index 000000000000..0d0df3f7dca4
 > > --- /dev/null
-> > +++ b/tools/testing/selftests/rcutorture/configs/hazptr/CPU256.boot
-> > @@ -0,0 +1 @@
+> > +++ b/tools/testing/selftests/rcutorture/configs/hazptr/READERS4.boot
+> > @@ -0,0 +1,2 @@
+> > +hazptrtorture.nreaders=3D4
 > > +hazptrtorture.torture_type=3Dhazptr-stack
 > > --
 > > 2.43.0
