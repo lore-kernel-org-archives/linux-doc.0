@@ -1,82 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794460384;
-	b=1lwLeSBToDY4hApQWWCHjRopkjanqU+LiFYQDZLC2fKuMxDd77woldKI/7PD9JN1wVgk
-	 bsYGt5/IQxZ538JvjHBuoeI/bHn/zgZ7fpFV2ngdfLUcqjtzG8zRxNfyvdHRKDGKilHYE
-	 nsguWkmJjfgH2UWn6+FefknQlO+Nf8Wqj9zB19OJwoF4+3gdY3X9hx/WLIO7zEBD+a5xO
-	 +UUI4/JN6hU52mTc3B7AilJkbcMbmCA5m+A7zK9FEKdT521A7myVkgSNDHTfDUeHPivIn
-	 ZxSlHCwhJ8U1tupqrsKjdM7bBzMSRigqF8Ihiu3tMrE9SRB8RjjbXXuUHMGRwBzIBog==
+	t=1794460736;
+	b=EI0pfuvBUIFtzT/8n4a2pov4NDIKbWGP+M/kXJnHVe7XPqsCr9ShObD32tQJ8qL9I2Lc
+	 XLemoqyMUudslOPTz639RsNGCvdJdB5Vy+weW/iV3/1TCh+kEASpVC6mWzJxDekvMe+/d
+	 LmT0ClNWsPSHnMFPUXTVa5iuz41hn9NvSg9FYt89REcL/t1FxfbCbtvNd8sQjrAsKGfBs
+	 CfkJnXmyRbITFIJhx8Wqbhf1DGJI/wXcEB7Qf7tF6V70zkiqqZ7uohZpyQhNQhxsyOsT7
+	 Gwsv+ZjlDAmBHiFIwr/z3M2fzC3TJZf61t5Ix51jsiVbF4/parj++1xzJCVp7dKrtrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794460384;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
-	 Received:Received:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:From:Content-Language:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-TM-AS-GCONF:
-	 X-Proofpoint-Reinject:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=Hf0AXvsUNvjXjOJMG3JDj4EuaQqMCaznHS3229Oa2a4=;
-	b=HtEv6IrXReZIVJpf2pvMOF7lw+BiDn7ND34N9l/siAoIvm4WKvk+AZjRUpaA+TEfNoof
-	 HKu8Md3XaCuj4WoYRfo3GDjEQZZTb566wt2CSZKpw+LEjmS6U2v9gCqp6Ua8MLCtbHbU4
-	 4f4pi5ABNy++7E1keNomiEngh2FeTAWi6u+ZyCEEGY9pMGzmCBPvF7WDEqsNL27u4bGfT
-	 DLyiwtgUfqmU42jwKIrHJKpDm7bJSzomPDO17toAoac88tFzA1h80ot97bVeBA81Ttjm5
-	 hUPna7rb9eUnN1MI9Htzvy2451Dxm0aay1WMHwkhzXrBL8nOEtzBSswa/QdXY0msd5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794460736;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Reply-To:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
+	b=m1rEMTod+YVZ8vLu4zZW7G5Ps5fNFVzlJiPW/UjuiQhnJyHNesZFGbMZFAcLR7I4eMFm
+	 Hn/h8pa3OLo0qifb7UhuyyovVlLHMUGH4GbtdYwtp/rx6zwOjIu4xx8Yv46Pkh7MD4WN3
+	 9hPnzIkk5ZK6ld7hQ242t9LOVvSGg6AjoJwpPSJaUpbvjg36MBiNBlHmxvlnYnbz/TVNj
+	 Sg1YYRG9T3OG7EIbG4xYmV/lE+IK5+zXLa+lMNTqN36A4KNrseQXu6KDbi1ZPnWPJCO3A
+	 AFFyW6G5+hWIJ/ndNr76sOE/YC04w54vrb0Kkp8GMO9nxy5k7PmEC1brKbkv9Mr/a2A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.ibm.com;
-	spf=pass smtp.mailfrom=linux.ibm.com;
-	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b="phrgYDB/";
-	arc=none smtp.remote-ip=148.163.158.5
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=deeply.co.kr;
+	spf=pass smtp.mailfrom=deeply.co.kr;
+	dkim=pass header.d=deeply-co-kr.20260707.gappssmtp.com header.i=@deeply-co-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b="c0u/NX8S";
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4C6606A324;
-	Thu, 12 Nov 2026 05:13:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4B4C6606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281BB606A323
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 05:18:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 281BB606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=deeply.co.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deeply.co.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=phrgYDB/
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2j2js2796920;
-	Thu, 12 Nov 2026 05:12:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=Hf0AXv
-	sUNvjXjOJMG3JDj4EuaQqMCaznHS3229Oa2a4=; b=phrgYDB/P661J+qWMoI7Lc
-	YLcoxQLPj+c4Id3YKDBrUzd9xoojQvEQSDutEJppDScv3cKRtUeVon0L0mWpw7RP
-	+FFEJakNqOFeJ3brm6PT9SOfg2Zdg2usjGWW/JQFnys7leLFv5YCkg7mB1vpLgjR
-	xgmLvLDQ8M8yLB7GY/NqtUDvjLrwdjHPJGMTyT1oilQ52QOAxI35ecbinU0K7Ocn
-	qUA0LRwphlWWXbXuuidH9fUIUI4tmCU+A1/P7tZuV5r1d6+FO6h83WIFwbBOGG3u
-	j5LQYRB2FERJAhV/NlvhwRJZo3eo4s5pcJYSWSMWIr37ZenbwOj4iwe4IEN9idcA
-	==
-Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hssdkwgcv-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 12 Nov 2026 05:12:32 +0000 (GMT)
-Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AC2ZoCX106626;
-	Thu, 12 Nov 2026 05:12:31 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
-	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4hv4nsy3k0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 12 Nov 2026 05:12:31 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
-	by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6AC5CSkZ47120742
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 12 Nov 2026 05:12:28 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EEC862005A;
-	Thu, 12 Nov 2026 05:12:27 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 611332004E;
-	Thu, 12 Nov 2026 05:12:18 +0000 (GMT)
-Received: from [9.39.17.134] (unknown [9.39.17.134])
-	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 12 Nov 2026 05:12:18 +0000 (GMT)
-Message-ID: <ef8dcbd9-61e9-467a-88da-3d159a5df9df@linux.ibm.com>
-Date: Thu, 12 Nov 2026 10:42:17 +0530
+	dkim=pass (2048-bit key) header.d=deeply-co-kr.20260707.gappssmtp.com header.i=@deeply-co-kr.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=c0u/NX8S
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-37628596783so3678801eec.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:18:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=deeply-co-kr.20260707.gappssmtp.com; s=20260707; t=1794460734; x=1795065534; darn=vger.kernel.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:reply-to:from:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
+        b=c0u/NX8SiRs8e1+N3Ad4VnS3ir7oMnQ2hHdX/cFoPNmEt79EEYN2ctR4xlJPe3O/qu
+         SVxqaVrxSKxOq2Dm4GmGG0hKbcri8SzGDmN1TMiPTFjFimgPeJ34b578EXgSWxIMLUKQ
+         GT6yLwCEkOJvg1D2rWyGuUYO8fhvPSUwQYGVlKDdYqJUyoXk0t4xhxeh383vW21dEDtZ
+         DBaSYlbMrJ9S7miRkyBelEynVNR90OjXXKEw8jwOmB35Z+ctVC0AUBU7VEvUTg17AbLn
+         1NhUy54sDw9QbrEjm9o1AuYSbEYN+wniDcZqDfcyEvRM28qcMT9xpnLgZlgweV/g4Tlr
+         md3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794460734; x=1795065534;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:reply-to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PeZmCzba2M5Jt4hjT2xigzRftMQa1cn3KQXiYi9CbsM=;
+        b=YqOHfmi3ROMz5LLeOTJtT1l1sCdpP9/rdLCXf6ggUhZ7J/EqFWHfe+cgeCbrGuYECG
+         0z72Z52HL8Lr4dkvaD1mYdE/7Y0Xkn29G7mnpmqmP7qk3sH6BuKSzjqR/Ux55CSGvlbq
+         9Mmi2Lbc5KyMyr3uHP2yFxBXP9/42nTKB3xXJe30KyM+ZFNDMRWdOSN7NbZXHOU/Pbz7
+         Tcn8txIyxK1CDCyoajrg5YXwChOuwohr9FRTiyy8Yf8OiQvXEDMY5VqOPrzyRTfURClC
+         oZOrEoDM38HpisLfzvGF+l/u3XZEQr/8UadyeEjn17MnjM44tLkA8iLVR/ollBJki+Vd
+         fgpA==
+X-Forwarded-Encrypted: i=1; AL+hErG5ZeRAovEl1s9buKKFwZf/ac3wFP2WwChTp+DGUpbI68VhJwvy+u3ZlIZntLQuw3IXfx2oo6xV9x4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z++UGpruwt46UIdXVQ9K3WoKgsj17Ap3ap0Uy+aN0n4VYnAeYU/
+	8TOwJygje9gPKxaldZTTbdFaDiPDeBbUixw9cCtCyIGn6bAkiu6sdSBPQajbe8QlJc8=
+X-Gm-Gg: AYBFou2RqXFjfk9oIv6hGhF+PrhKtUXg0agTz+m8AteHEnHSOWZn4WY/0vKSwAXzCk3
+	qwaTQ0pUmcUjikNlyn+ruu6JygIuf0ktVL6W7TZTo2AV8fUtpa2DNpGynClr0a+sfLaUtyNZSVO
+	/Q0sxWbIZxjoUG8SJcPtKVy8eapsAw9mQLKztNOf59DuuexJ8ChG4GGzEkF8BNSpgmHScjIYAPM
+	x/U9UAxwByO0K89wynT5l16BFIpmXTbqZNZgDI0nPGcA3K8PPiMQvprugiWlTnJU+sInJaBXc82
+	fDBW60a4aL2ZTenjnF0KSyU5hsb/f3vj7OBoGTcJpGYU1o4OD6uE8HqV31XiPM936fjD422o+K+
+	xVVm1yn/guNsKdmgsYWFEeJ6ib2nwWlRTt+onQibwXRPZR0D+Mm4zoJIc4OxN6jlaZb+T0so4WS
+	r7awp0pbuAsS6KkKOzjQq2n3f/jRCO+iQzj74i2o7pBJOwGM2ry0KiaD3I9vc4Hv6WvYqgJ5Kb+
+	EuchpDdiPHKwHYb+UHVG3QPPehpJo77+usNSe6dR7vXm+mCtWRA8/zo5QnAjOPS4xbBOHiHLm/9
+	P3Aay2HbLSDDR7xtiC9B3GmUE2Mow4PvPx9GFj4/xXrSin5cxvcfaXAvqBdLLBCvS6alv09guRx
+	76dCalNB5ZfPNoVP+DzJfQAx75VKJEtPmaLNKd8ibQX/dctY=
+X-Received: by 2002:a05:701a:844d:20b0:163:c5eb:d42f with SMTP id a92af1059eb24-1b3c024ad18mr4159915c88.5.1794460733817;
+        Wed, 11 Nov 2026 21:18:53 -0800 (PST)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([183.96.175.225])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b3b5b4b90csm19764527c88.14.2026.11.11.21.18.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 11 Nov 2026 21:18:52 -0800 (PST)
+From: Joonho Lee <joon@deeply.co.kr>
+Reply-To: Joonho Lee <mynameisjune111@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: tiwai@suse.com, perex@perex.cz, anton.yakovlev@opensynergy.com,
+ mst@redhat.com, virtualization@lists.linux.dev, linux-kernel@vger.kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ linux-doc@vger.kernel.org, mynameisjune111@gmail.com
+Subject: [PATCH v28 14/17] docs: describe virtio-sound capture options
+Date: Thu, 12 Nov 2026 05:18:44 -0000
+Message-ID: <20261112043516.37010-15-mynameisjune111@gmail.com>
+In-Reply-To: <20261112043516.37010-1-mynameisjune111@gmail.com>
+References: <20261112043516.37010-1-mynameisjune111@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -86,120 +103,88 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/6] sched: Expose writable interface for preferred CPUs
- mask
-To: Yury Norov <ynorov@nvidia.com>, Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>
-Cc: Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
-        Thomas Gleixner <tglx@kernel.org>, Juri Lelli <juri.lelli@redhat.com>,
-        Vincent Guittot <vincent.guittot@linaro.org>,
-        Yury Norov <yury.norov@gmail.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Andrea Righi
- <arighi@nvidia.com>, Ben Segall <bsegall@google.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Danilo Krummrich <dakr@kernel.org>,
-        Dietmar Eggemann <dietmar.eggemann@arm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiko Carstens <hca@linux.ibm.com>, Johan Hovold <johan@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        K Prateek Nayak <kprateek.nayak@amd.com>, Mel Gorman <mgorman@suse.de>,
-        Mete Durlu <meted@linux.ibm.com>, Randy Dunlap <rdunlap@infradead.org>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Steven Rostedt
- <rostedt@goodmis.org>,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Valentin Schneider <vschneid@redhat.com>,
-        Vasily Gorbik <gor@linux.ibm.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-s390@vger.kernel.org
-References: <20261101192203.6979-1-ynorov@nvidia.com>
- <A2B09626-39F0-4EC3-B57D-CD83D77DD208@grdncc.com> <avTSC2r61uht9oFK@yury>
-From: Shrikanth Hegde <sshegde@linux.ibm.com>
-Content-Language: en-US
-In-Reply-To: <avTSC2r61uht9oFK@yury>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Authority-Analysis: v=2.4 cv=POqaavqC c=1 sm=1 tr=0 ts=6af54ac1 cx=c_pps
- a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=Ikd4Dj_1AAAA:8
- a=z54utOFOnMwhspSCAOEA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDAxOCBTYWx0ZWRfX3HJBwkFMsPvJ
- KkBYz83eIQRrbY6olD6lX9j+0ShfGj+XJt9LC462ChLKoGT0RzsWvLO8b+x/v7T2G4VXdyxFph4
- oxQ/4WwjA4u4AfX2ds4RN5TZlHZDWbyQLgbZf3toZPVPtwzaCCona9UL77gXDsFXgzasD8olizX
- hE+IakX4XD+OQpCtc7qIosTQrAkClbrBSW2nsQ01gbgVs9exHtx3UGohOB9UxTXEB4P3G8ejqzM
- fo4Wr6VlNY52a4YiuYMO3WrS0/KAt3L/Qsj2IxfWxd8cwMW9mqE4XRpCua32+tbDcq/5MZAogd4
- AhVnIjozx/lfN03XuVaJyz2ofbeHnz41DcIdfo8xX9KkeFp0AJOuXohxr8Pkvk6d4Nf88Kuu86N
- 9QPrpqd2dL+yLWZYtymQoONG//uExILycR7L7YGZVk8vkyw+AjgEIUXXA+rmz0KHEkjPJwUBjZ3
- 43uiCUi5mSnWD2oZtew==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDAxOCBTYWx0ZWRfX4ySYHq3mrpLD
- YyFPk/DpwQxMq+nCCul4/3HNMD8JXVdQHv7ViYPl15osg7LlQhcjefX5QF90wKBNFi0BtBqtiUy
- CF0K+GmNhIfjYAIszT9BvAZI4CKeChs=
-X-Proofpoint-ORIG-GUID: OeJyO-NNYMTgqCIJOKHW8OLywsnJAI7o
-X-Proofpoint-GUID: RZFZPk8z2WiLfkrE2NbB4E5FQNS6XzlV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-12_01,2026-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 impostorscore=0 malwarescore=0 phishscore=0
- lowpriorityscore=0 suspectscore=0 adultscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611120018
 
-Hi Yury,
+From: Joonho Lee <mynameisjune111@gmail.com>
 
-On 11/12/26 2:07 AM, Yury Norov wrote:
-> On Tue, Nov 10, 2026 at 04:15:31PM +1300, Maxim Kuvyrkov wrote:
->>> On Nov 2, 2026, at 08:21, Yury Norov <ynorov@nvidia.com> wrote:
->>>
->>> The preferred CPU mask currently lets the steal governor reduce vCPU
->>> demand when physical CPUs are contended. This series adds manual control,
->>> opening more use cases.
->>>
->>> For example, setting CPUs aside for selected fair tasks at runtime while
->>> steering other fair tasks toward the remaining CPUs.
->>
->> Hi Yury,
->>
->> I've been trying to do this with crutches in user-space for a long time.  Thanks for implementing this in the kernel, and with a convenient user interface.
->>
->>>
->>> A user can mark a CPU non-preferred and pin a workload to it. Fair tasks
->>> whose affinity includes preferred CPUs are steered away, while tasks
->>> whose allowed CPUs contain no preferred CPU can still run there. The CPU
->>> stays online, task affinity is preserved, and the selection can be
->>> reversed without rebooting:
->>>
->>>     # rmmod steal_governor
->>>     # echo 0 > /sys/devices/system/cpu/cpu3/preferred
->>>     # taskset -c 3 ./my_workload
->>>     # echo 1 > /sys/devices/system/cpu/cpu3/preferred
->>
->> My use-case (being a compiler optimization engineer) is to pin benchmarks to specific cores, and stop the system from using those cores even when the cores are idle.  This prevents L1/L2 cache pollution and makes performance numbers more stable.
-> 
-> Hi Maxim,
-> 
-> Thank you for the feedback.
-> 
-> I agree, this trick with pinning a workload to an non-preferred CPU
-> looks promising for benchmarking purposes, and probably for more.
-> 
+Document request-owned capture in the ALSA configuration guide. Describe
+`capture_packed_status` as default-off, reading a packed trailer after
+returned data while the fixed status scatterlist remains the default.
+Describe default-off `capture_pause_restart`: pause uses STOP and
+RELEASE, then resume uses PREPARE and START; disabled mode uses STOP and
+START while retaining the prepared stream.
 
-Sorry, i don't follow.
+Note that on MMU systems request buffers are vmalloc-backed and
+page-rounded individually. They remain allocated from hw_params through
+hw_free, and capture data is copied into the ALSA ring.
 
-Did you mean pin to preferred CPUs? Why would anyone want to run their
-workload only on non-preferred CPUs? By definition, they are not meant to
-be used as much as possible. and It is benchmarking.
+Assisted-by: LLM
+Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 
-> I'm going to split this series to the cleanup and follow-up parts.
-> In the follow-up, I'll focus on this writable interface. I'll keep
-> you in CC there.
-> 
-> Thanks,
-> Yury
+---
+Documentation/admin-guide/kernel-parameters.txt |   14 +++++++++++++
+ Documentation/sound/alsa-configuration.rst      |   25 +++++++++++++++++++++=
+++
+ 2 files changed, 39 insertions(+)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/=
+admin-guide/kernel-parameters.txt
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -8344,6 +8344,20 @@
+=20
+ 			Can be used multiple times for multiple devices.
+=20
++	virtio_snd.capture_packed_status=3D [HW,ALSA]
++			Read an explicitly enabled packed status trailer after
++			the returned capture data. The fixed status scatterlist is
++			used by default.
++			Format: <bool>
++			Default: false.
++
++	virtio_snd.capture_pause_restart=3D [HW,ALSA]
++			Stop and release the stream when pausing capture. On
++			resume, send PREPARE and START. If disabled, pause uses
++			STOP and START while retaining the prepared stream.
++			Format: <bool>
++			Default: false.
++
+ 	vga=3D		[BOOT,X86-32] Select a particular video mode
+ 			See Documentation/arch/x86/boot.rst and
+ 			Documentation/admin-guide/svga.rst.
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound=
+/alsa-configuration.rst
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2537,6 +2537,31 @@
+=20
+ This module supports multiple cards.
+=20
++Module virtio-snd
++-----------------
++
++Virtio-sound capture receives data into a separate request buffer for each
++PCM period. The driver validates the responses and appends frame-aligned aud=
+io
++to the ALSA ring in request order. Valid short responses are retained. Empty
++responses are accepted only during bounded startup or for requests already in
++flight at STOP or PAUSE.
++
++capture_packed_status
++    Read an explicitly enabled packed status trailer after returned capture
++    data. The fixed status scatterlist is used by default.
++    (default =3D false)
++
++capture_pause_restart
++    Stop and release capture on pause. Resume with PREPARE and START. When
++    disabled, pause uses STOP and START while retaining the prepared stream.
++    (default =3D false)
++
++On MMU systems, the request buffers are vmalloc-backed and page-rounded
++individually. Allocator rounding can make total additional memory exceed the
++ALSA ring size, especially with small periods. The request buffers remain
++allocated from hw_params until hw_free.
++Captured audio is copied from each request buffer into the ALSA ring.
++
+ Module snd-virtuoso
+ -------------------
+=20
