@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794489201;
-	b=GS8MlAEkULi89Uf364dshjyE0GgeMWvPUf7eopiAzBEqQ7BdXHEukLdu0e2m441mfDhU
-	 SdmMDudS4RkB86+fUiobVBRlQ39aaLp6XA+aRFDv7cMHCwMf/SuNutHrlBf0g5EJNH2Zc
-	 oJk0kBVJi4L9J1/TCSeSKO7P5QtsTWhavtlmYpJH+Ws76H5wm4VSrr/tyvBCiLM7aYy7n
-	 0X2egyQkur9hTWmgX+w2YmP+n01V7pHZ1u80Bajgsf4g5cGF5whXBFyizLTu0j2WolPJf
-	 K9ETG57Cyx2tdFSBjgdABsJESVtNC1ZAKds+sF4Sm5FGJAVHtfxPjd3HASpbvDnoTWA==
+	t=1794489202;
+	b=eT7l4iGMv5jRbisNoJAVr+3103ZFfenPRlQESHcAkWsi8r6/QuNQ9YqHX/8sGnieOnPr
+	 106Ah4f1NCEJ3AoFgrOGqmMPMIl94Nyvwy3i4VO/LQXGcZJMEy237YUNh49m9hx5v+PQJ
+	 Iq1meVazFaflRmU0eu996NS7jUXU1gWIF+goYmldd/3bS9ndSa4qKvevjhECwhhszaoxh
+	 sulQ6POerbbOIB9Gk5jtST9UkcALyvS9fkTp6lz3DDt0inUdDjK7Y8laSxzHaCxOjiB1c
+	 yZb5voLmTnUVNehjpXw5fkD9vXbVKapdjMDFn46VxOPgMtJhSHRBwVPbv06/GrFmyhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794489201;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794489202;
 	h=DMARC-Filter:dkim-signature:Received:Received:Received:From:To:CC:
-	 Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
 	 Content-Transfer-Encoding:Content-Type:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=BCDGiFTL7bEho1teaaR+h3F3jJTu4tY+KLRp0jIgfEk=;
-	b=3iLc9uysoK749GNKMJUnVGLaSm1Mt8AqthZGy+R5CMVt5odmOm6QH3GJS336/5DFhgd9
-	 cYErZE4mAzG6x9Hio1aa3rMnrfQXm+u5TetQqJUNVf+IbbBAwGMNQPI9a4F/89oG0w0oz
-	 TrpgsG7dzSBFiYyHxf+UwATywbNMYpy5UntVwXFSUCXb5Cd+FRBcpYEMvfUnP0FKOhpRX
-	 A3BlAK1o0MWDjbjWGwzin7YUmjL2iT5QUHeKRpOm9UP6nYPK4E5A1ArWZE6GgVyh7NqC4
-	 pkWP70njZSvYHDxlFCH9QtV7Tzk8CYfUEaAB2tBV+n0FGw2sNvxNQ7hrluZGmPHjN6w==
+	bh=uAjtZOgqP1xFIodDG4lxbEDIZIdahu3nqR7pJwwfQ0I=;
+	b=w6wLtAjHdMav3QAal0zYEDSU4KvfCXxeM9qWhElF+bXjO81Nv2QFfqtozCtRy3YSqqmD
+	 5yOaIrIQpJ4nuX+UqbbKPc0yGmYi/JWHbR73DUG0aMlBM3Pucg67uF9QKh2R5izVNSBVc
+	 8SDCqc5FEHLFkoaumC0awy0b0kn9yyZ7FE/7tJkzilhX5KpGKrEqXyyGNbZye53CCthbr
+	 xMjD4QWuBcYxZ3380H97sKT6Dt3m6dGFqDilTwZK0MEtQGt2v7t7BN31tRRH6aTdnH4gj
+	 fOoXJy3f27VosOgDPZ21LgK2CeqXMA7WCXzpW/5im5elW3sPM3V2Lu5+3fM3R8Moihw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=huawei.com;
 	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Uq9jxE24;
-	arc=none smtp.remote-ip=113.46.200.216
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=MfQ0njGU;
+	arc=none smtp.remote-ip=113.46.200.217
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD074606A88B;
-	Thu, 12 Nov 2026 13:13:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BD074606A88B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FC6C606A332;
+	Thu, 12 Nov 2026 13:13:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3FC6C606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=Uq9jxE24
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=MfQ0njGU
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=BCDGiFTL7bEho1teaaR+h3F3jJTu4tY+KLRp0jIgfEk=;
-	b=Uq9jxE24HjGXST5HHEpVr7kDwwuMKs4eg6oQ+GgM41GKEF97mVDdLaC679k0FF2FVirVEkGwo
-	FEU41UYnLHVs7CZ/51h4d4eveoQMWtb/l4+JLZrqUPCJH4H4xW4ZVbDzcemKNHH4/zTLjBf7Sn3
-	E2cuTckOB69GvTREopDm3zI=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4jQLQx07b9z1T4KS;
-	Thu, 12 Nov 2026 21:12:41 +0800 (CST)
+	bh=uAjtZOgqP1xFIodDG4lxbEDIZIdahu3nqR7pJwwfQ0I=;
+	b=MfQ0njGUgySFiCDcmSDn4lF6Shc6Hpyq2Ho6GpDY5+0t5ZpYu96000K5qo1JR8wM+o6XWX72b
+	M9DgOJBL2rHkMSYVUqePW7G2fyTLaJuUxsILVxXqROwgNcDlNXigB15N+c1LL2p1Lg222VXtJAs
+	0DnqT+mQNTrd6+LA6qY7kz4=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4jQLQj6jVRzcbPN;
+	Thu, 12 Nov 2026 21:12:29 +0800 (CST)
 Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 5E7B840538;
-	Thu, 12 Nov 2026 21:13:12 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id B256D40579;
+	Thu, 12 Nov 2026 21:13:11 +0800 (CST)
 Received: from huawei.com (10.90.53.73) by kwepemk200008.china.huawei.com
  (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 12 Nov
- 2026 21:13:11 +0800
+ 2026 21:13:10 +0800
 From: Jinjie Ruan <ruanjinjie@huawei.com>
 To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
 	<james.morse@arm.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
@@ -61,12 +61,10 @@ To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <Dave.Martin@arm.com>,
 	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
 	<linux-arm-kernel@lists.infradead.org>
 CC: <ruanjinjie@huawei.com>
-Subject: [RFC PATCH v2 1/9] fs/resctrl: Extract the software controller's step decision
-Date: Thu, 12 Nov 2026 21:12:46 +0800
-Message-ID: <20261112131255.4043381-2-ruanjinjie@huawei.com>
+Subject: [RFC PATCH v2 0/9] fs/resctrl: Support mba_MBps on MPAM
+Date: Thu, 12 Nov 2026 21:12:45 +0800
+Message-ID: <20261112131255.4043381-1-ruanjinjie@huawei.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261112131255.4043381-1-ruanjinjie@huawei.com>
-References: <20261112131255.4043381-1-ruanjinjie@huawei.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,89 +79,135 @@ Content-Type: text/plain
 X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
  kwepemk200008.china.huawei.com (7.202.194.74)
 
-Move the condition that picks the next control value out of
-update_mba_bw() and into a helper of its own.
+Resctrl offers two ways to describe an MBA policy:
 
-No functional change intended.
+- The percentage interface writes a fraction of the maximum bandwidth
+  into the hardware control register
 
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- fs/resctrl/monitor.c | 54 ++++++++++++++++++++++++++++----------------
- 1 file changed, 34 insertions(+), 20 deletions(-)
+- The MBA software controller (mounted with -o mba_MBps) takes
+  an absolute target in MiB/s and adjusts that percentage based on
+  the MBM counters sampled once per second.
 
-diff --git a/fs/resctrl/monitor.c b/fs/resctrl/monitor.c
-index 04e4ea612b7c..75abbf90d090 100644
---- a/fs/resctrl/monitor.c
-+++ b/fs/resctrl/monitor.c
-@@ -661,6 +661,38 @@ static struct rdt_ctrl_domain *get_sc_ctrl_domain_from_cpu(int cpu,
- 	return NULL;
- }
- 
-+/*
-+ * Pick the control value for the next interval: step down while the
-+ * measured bandwidth is above the target, and step up when the target is
-+ * above the bandwidth the next step up is expected to yield.
-+ *
-+ * Always increase throttling if current bandwidth is above the target set
-+ * by user. But avoid thrashing up and down on every poll by checking
-+ * whether a decrease in throttling is likely to push the group back over
-+ * target. E.g. if currently throttling to 30% of bandwidth on a system
-+ * with 10% granularity steps, check whether moving to 40% would go past
-+ * the limit by multiplying current bandwidth by "(30 + 10) / 30".
-+ *
-+ * Return: true when the control value changes, false otherwise.
-+ */
-+static bool mba_sc_next_ctrl_val(struct rdt_resource *r_mba, u32 cur_msr_val,
-+				 u32 cur_bw, u32 user_bw, u32 *new_msr_val)
-+{
-+	if (cur_msr_val > r_mba->membw.min_bw && user_bw < cur_bw) {
-+		*new_msr_val = cur_msr_val - r_mba->membw.bw_gran;
-+		return true;
-+	}
-+
-+	if (cur_msr_val < MAX_MBA_BW &&
-+	    user_bw > (cur_bw * (cur_msr_val + r_mba->membw.min_bw) /
-+		       cur_msr_val)) {
-+		*new_msr_val = cur_msr_val + r_mba->membw.bw_gran;
-+		return true;
-+	}
-+
-+	return false;
-+}
-+
- /*
-  * Feedback loop for MBA software controller (mba_sc)
-  *
-@@ -737,27 +769,9 @@ static void update_mba_bw(struct rdtgroup *rgrp, struct rdt_l3_mon_domain *dom_m
- 		cur_bw += cmbm_data->prev_bw;
- 	}
- 
--	/*
--	 * Scale up/down the bandwidth linearly for the ctrl group.  The
--	 * bandwidth step is the bandwidth granularity specified by the
--	 * hardware.
--	 * Always increase throttling if current bandwidth is above the
--	 * target set by user.
--	 * But avoid thrashing up and down on every poll by checking
--	 * whether a decrease in throttling is likely to push the group
--	 * back over target. E.g. if currently throttling to 30% of bandwidth
--	 * on a system with 10% granularity steps, check whether moving to
--	 * 40% would go past the limit by multiplying current bandwidth by
--	 * "(30 + 10) / 30".
--	 */
--	if (cur_msr_val > r_mba->membw.min_bw && user_bw < cur_bw) {
--		new_msr_val = cur_msr_val - r_mba->membw.bw_gran;
--	} else if (cur_msr_val < MAX_MBA_BW &&
--		   (user_bw > (cur_bw * (cur_msr_val + r_mba->membw.min_bw) / cur_msr_val))) {
--		new_msr_val = cur_msr_val + r_mba->membw.bw_gran;
--	} else {
-+	if (!mba_sc_next_ctrl_val(r_mba, cur_msr_val, cur_bw, user_bw,
-+				  &new_msr_val))
- 		return;
--	}
- 
- 	resctrl_arch_update_one(r_mba, dom_mba, closid, CDP_NONE, new_msr_val);
- }
+The problem is that a percentage alone isn't enough. How much bandwidth
+a percentage actually corresponds to depends on the memory frequency,
+the channel count, how many threads are generating traffic, the access
+pattern, and the traffic of other groups. And neither MPAM nor x86
+resctrl reports the maximum bandwidth in MiB/s. So an administrator who
+wants to enforce an absolute budget (a tenant SLA, a noisy-neighbour
+limit) has to measure and re-tune the percentage on every machine. x86
+resctrl has had this software controller since 2018; MPAM has never been
+able to use it.
+
+This series makes mba_MBps work on MPAM.
+
+What this series does
+=====================
+
+MPAM refuses mba_MBps in two places:
+
+- Its MBM counters are assignable, and supports_mba_mbps() refuses
+  the option when they are.
+
+- Its maximum bandwidth control is a soft limit by default, which
+  can't hold a single requester down to the target.
+  MPAMF_MBW_IDR.MAX_LIM reports whether the hard limit exists.
+
+MPAM's monitor groups also each take a bandwidth counter from a shared
+pool, while nothing relates the number of groups to the number of
+counters: a group created once the pool is empty is invisible to the
+controller.
+
+MPAM also makes two generic defects reachable:
+
+- Writing the control register sleeps (smp_call_on_cpu()), while
+  the worker runs under the RCU read lock
+
+- A 16-bit fraction lets the minimum control value reach zero, which
+  divides by zero in the estimator
+
+The patches:
+
+- Patches 1 to 3 fix the two generic defects
+
+- Patches 4 and 5 make the loop runnable on MPAM: the worker takes the
+  CPU hotplug lock around the sleeping control update, and assignable
+  counters are accepted with a fixed assignment mode
+
+- Patches 6 and 7 handle the maximum: mba_MBps is refused where only
+  the soft limit exists, and the driver sets HARDLIM.
+
+- Patches 8 and 9 cap the CLOSID/RMID space resctrl may use to the
+  number of counters while the controller is enabled, so that every
+  group it measures has a counter.
+
+x86 has no assignable counters in the mode where the controller is
+allowed, and does not set the soft-limit flag, so its behaviour is
+unchanged.
+
+Changes in RFC v2
+=============
+
+- Extract the step decision into a helper, with no behaviour change
+- Use bw_gran instead of min_bw in the estimate
+- Drop the warning when a monitor group gets no counter, as
+  the new cap makes it unreachable (Ben)
+- While the controller is enabled, cap the CLOSID/RMID space to the
+  number of bandwidth counters (Ben)
+- Link to RFC v1:
+ - https://lore.kernel.org/all/20261109132621.3862497-1-ruanjinjie01@gmail.com/
+ - https://lore.kernel.org/all/dc1398f4-b81c-4ad8-b706-df89a1622e6c@arm.com/
+
+Testing
+=======
+
+With the MPAM MSC model in QEMU:
+
+- From a 9595 MiB/s baseline, a 7000 MiB/s target converges to
+  6978 MiB/s and a 9000 MiB/s target to 8732 MiB/s.
+
+- The memory-side MSC register shows MBW_MAX.HARDLIM set.
+
+- A modelled MSC that implements only the soft limit refuses the
+  mba_MBps mount, while a plain mount succeeds.
+
+- With 8 counters and 32 PARTIDs, an mba_MBps mount reports 8 CLOSIDs
+  and 8 RMIDs, and the 8th mkdir fails with ENOSPC instead of
+  creating a group the controller cannot see
+
+- With 4 PMGs and 64 counters, a plain mount reports 32 CLOSIDs and
+  128 RMIDs while an mba_MBps mount reports 32 and 64: only the RMIDs
+  per CLOSID shrink
+
+- With mbm_assign_on_mkdir forced on while the controller is in use,
+  a write of 0 is refused, and the user's value is restored after
+  unmount
+
+- The KUnit tests for the MPAM driver pass.
+
+Jinjie Ruan (9):
+  fs/resctrl: Extract the software controller's step decision
+  fs/resctrl: Avoid division by zero in the MBA software controller
+  fs/resctrl: Do not update bandwidth from a failed counter read
+  fs/resctrl: Take the CPU hotplug lock for software controller updates
+  fs/resctrl: Allow mba_MBps with assignable MBM counters
+  fs/resctrl: Reject mba_MBps when the maximum is only a soft limit
+  arm_mpam: Program the hard limit for the software controller
+  x86,fs/resctrl: Let the architecture cap the RMIDs for the software
+    controller
+  arm_mpam: Cap the CLOSID/RMID space by the bandwidth counters for
+    mba_MBps
+
+ Documentation/filesystems/resctrl.rst |   7 +-
+ arch/x86/include/asm/resctrl.h        |   6 ++
+ drivers/resctrl/mpam_devices.c        |  55 +++++++++---
+ drivers/resctrl/mpam_internal.h       |   4 +
+ drivers/resctrl/mpam_resctrl.c        |  56 +++++++++++-
+ fs/resctrl/monitor.c                  | 123 +++++++++++++++++++-------
+ fs/resctrl/rdtgroup.c                 |  66 +++++++++++---
+ include/linux/arm_mpam.h              |   2 +
+ include/linux/resctrl.h               |   2 +
+ 9 files changed, 259 insertions(+), 62 deletions(-)
+
 -- 
 2.34.1
 
