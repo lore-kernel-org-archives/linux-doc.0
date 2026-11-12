@@ -1,85 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.227
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794462404;
-	b=K9RQ/r6MSP3gxMGsJ981lrt+wwxs0o/Ks9qGFphmOoqNQ6drlSd0Ros4/ywBfNtgG7ow
-	 4obG2kAk42vhi4p2E5JzQBXtWrvjpdmK46NMmLoFAWwAO4u4qG/4jDY6ytTmVk2akkree
-	 vosS3FzQwplHq6UPODHZLyOvTcInmW4zKhs8UxJlRbio0Y/EI3V3LOZVu7hv7s8jKzLH/
-	 c4BYDccYLgp+M7QCHTwprZuPN4oEHkvON9KY3nc7Jvy8sFSNfe6ximt9UVnh/bJpzXcDt
-	 FGHdmWDimp5nchcVgFpJlgHWohOlA4GemBBHHWQDE4UHZdkzZnJz1oJ5v/xxEwIeU2w==
+	t=1794462535;
+	b=suyEd4g/QjdSWXKtNd82bB3eqlcL9+8qEWjt3drONIzlTPwQ2KDZhF2YIfWS1jy3UrVj
+	 imqoQ8kFgF7L+Y0SzJEil5LLvjmNl62XckFEWl83wdtH6t6FNePTA9D8Pf28CvgMs3JAy
+	 OwnP6/cxkHYlGd4cG1ANpjwR8KDlWs/25lvUcQElzFRHkY6Cgry91Q/FbhRiLqrx3OglF
+	 jNm4JXYwbakbJw23fPiSXvmxTOw8ATjZedLESKI8+sgTmXDBW8ZU1Wa0xKDXPi4uXnKYs
+	 PsP0WNmw+NN/ESAQDMot2ULeoN5FTc1C2Z+bvdsJf/Pe1c1XV2s4Z11Yr5o9eLSwNjQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794462404;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:Date:
-	 Message-Id:To:Cc:In-Reply-To:References:X-Mailer;
-	bh=+13rBtkeR+s+DndYboZRmZoW8VMp8Nay7Rh+6kbD7E4=;
-	b=Cv5n/CBWVlXZ/1eEzU7zu1ZDyX74c55p3jP0DmvQEvMeBT1bt28oiFQCo/+Wx5PC61/8
-	 TdCv/blALT9FRMTrB58uRPUuNQ7HzLs8mAtFxmXT7TkeiN1c3pdNSinQb1ceAJNCEhsOZ
-	 pAw1zVeMS2h9dMZHofrY+INy+K8njLpqSGMm6lRTZ7Sg+p5k3WIFD63vSNw2zTHczHg6o
-	 HifrVeb9csuIkTcssfnV0JsTey96jIbNw0bpoijQGWanE3CQyV3yD/epmUiiehfwned81
-	 35U8ySA7mXhExceVcRnWD/rnnfXKODfxNEQ0N6S9Up6iU4fZibuLbp3HJiawRuvFGbQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794462535;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:X-Relaying-Domain:
+	 X-CFilter-Loop:Received:DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Received:X-Received:MIME-Version:References:In-Reply-To:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:X-DetectorID-Processed:
+	 Content-Type;
+	bh=b0h43WWokGv9T6YKJyl/cM1sFPLKx780tIaQYJ3oez4=;
+	b=CMRiOQFBA1ySIiwLUdCFDLrNkc1/phwkVYpjh5iOBkRQwMkDGlSRcP/RnR7IJQPGpEqu
+	 uuc6cE/e+EiRWbANPAyLUlQG6TzQd7l04WCnUDX9htMOq3i8c0xxOmCKPLhDRzXSBEMIp
+	 OSibtqssTnVqRnV3lNvI02fprNXy9FsyCa+ue6bx7k/M4fQMfIuHv6AP+ZZProFUv4ae8
+	 tYN6RpUdm9PY+qndhfTf32FUo975bk0baLl+Lcl2fgNeRl0o3YgUcDvZHuBjmPKGM30tp
+	 Zg3TgCXwGJiciPzr+mc7/dW626gb83ZG+gBwrxuEV8XRxEp1UZGaduFSTzhP3XA+zbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ny08dYQg;
-	arc=none smtp.remote-ip=74.125.227.200
-Received: from mail-pi2-f8.google.com (mail-pi2-f8.google.com [74.125.227.200])
+	dmarc=pass header.from=broadcom.com;
+	spf=fail smtp.mailfrom=broadcom.com;
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=bDuqu7RY;
+	arc=none smtp.remote-ip=209.85.215.227
+Received: from mail-pg1-f227.google.com (mail-pg1-f227.google.com [209.85.215.227])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7294E606A323
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 05:46:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7294E606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3477F606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 05:48:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3477F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ny08dYQg
-Received: by mail-pi2-f8.google.com with SMTP id 41be03b00d2f7-cddb56fa486so82007a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:46:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794462404; x=1795067204; darn=vger.kernel.org;
-        h=references:in-reply-to:cc:to:message-id:date:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=+13rBtkeR+s+DndYboZRmZoW8VMp8Nay7Rh+6kbD7E4=;
-        b=ny08dYQgHyS1aoL7W3IywVpcNJWKttWcUi4k/lbUwGHcv8kpm1AnQppcEQESH4qsAl
-         i0jj0ulIpHhqKoRw4TicGzk/Jarc9xrheuql3p1WoWRjUhIiWMe20FPzqBgFtisU03X7
-         Uj1Jxvu7iex+W9YASHDgYL3Nyb6ECgXtvm8Dwu1Q8ddGIPunf3OSOP3xmG4FV7DDL52D
-         HWW0O5s9fcmKOvBaK3LXUceW1fEZNMCrTZmqPvtMnw8hm97mLexoNLlfCJKpqfK1JFNF
-         hqmS8oDhNzklm6KorH43IT50dxSWy82uii1p2X3DGW5qo5P2o/Y4rxX6zHYSE3+BTx3h
-         yQKw==
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=bDuqu7RY
+Received: by mail-pg1-f227.google.com with SMTP id 41be03b00d2f7-cd8ba7c2694so1544910a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:48:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794462404; x=1795067204;
-        h=references:in-reply-to:cc:to:message-id:date:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=1e100.net; s=20260707; t=1794462533; x=1795067333;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:dkim-signature:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=b0h43WWokGv9T6YKJyl/cM1sFPLKx780tIaQYJ3oez4=;
+        b=JxKqFY/dpTiXJOYw0T+AOdtrZ/TxpN2JS/EstHKtl/41FKSLDkuAaK777UY9wXRbF5
+         RuNcW3ibPv34pGdnKMgpeJzvX6qxKCJZVKFIinzR5v8GCz2R9zbsVQxcMQGJR7WLO/oj
+         EttUWhtdKEeWAdT6j5/OmAH8IDLOp3AevZD9AlFEVlYAt6VKE4ZgFGBth1rudoaTeF+t
+         1LKigrB7XdsLaGUC7on+08rE6ocOdFNee3cCX2PsCYU4Wf00camPCeilvjiFBDiZRZ6a
+         YwgWxtGwM5/2elV99bHWA2S3+ENA4Btwr08tKeLoCLU5WVZxkFQxyx7kCJbqUwblpo9w
+         NdzQ==
+X-Forwarded-Encrypted: i=1; AL+hErHOI/wfUTmfYkQj0W3rJoXsjLr39/MggsxPwUzGhWySDpkFoi6j3rdzZbTsHRoibbusHJj0UBKRR+Q=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+MKZTciGS/Z7sFnX3LWDVi98VelYvIKQO+zJdD3Xo3AlOj9uB0
+	TP4nubnjNjuywZASa/z3GpLegLUZTunr5GSLkrytdXz4IX9c+fzlev/QdBFxcKQqcdzq3JRUms/
+	Gp7RAxUVzaKKNOk+V3djk4jMPGkn814uH7YKvNm7xqBIFDx2U5os9E9E6OxjKKjlfXYypptRuPK
+	UZWiHY03RlIb5SqLOV00KB2Syz0b2HiyIG97OQnw1PFB2pj3pl3w35TtOK1zDcO68gUpmMikMY0
+	P39oAQpmj5G
+X-Gm-Gg: AYBFou085RmTzhqBCd25cwjp81Ivpjlq0nKB60m9pzvEd0247ZW4HfFxEBdSlfY7FYp
+	YHveJ2XcOpoYusMYyTwtCatyc7yZHNmHuK0vTdHfFBHIugXhkHGDQ1fTjPyYcqaV+edMkHvVk+7
+	GWzSEM6ekH7lAwJS82a2++1b62ilSsSyU1Atjq/nW4kEy1vKKD9t8n6e05S+tUjFuGVWblNvke+
+	lE7tMB/Fqt8knQgl+NGn7w0MFTnGsnmOoFuvV9m+8htd7qnWFXDTKbsXSmUxje+tbFMphIygPWl
+	tJg1wZLEQNGQ02fdh6tTr24RjEl+PAz7GQrjpJcW1JKX+QCf8zFOQrDzodu3bavwzKuf8dmmWBx
+	pqBtI+1HPeJc3VcMcDBrG0GCAcUPiMlSEO5Q8WwyJFg4h3Pwk/2XK8xanoDxjGJpUfju6uUzTwl
+	v5ULB3XPwL7FUf4vXUqEK7aYdwFCfdTEWH
+X-Received: by 2002:a17:90b:1f90:b0:3a7:e11c:4e6e with SMTP id 98e67ed59e1d1-3b182f5a142mr4469944a91.59.1794462533359;
+        Wed, 11 Nov 2026 21:48:53 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-22.dlp.protect.broadcom.com. [144.49.247.22])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b197cdf4dbsm1145420a91.8.2026.11.11.21.48.52
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 11 Nov 2026 21:48:53 -0800 (PST)
+X-Relaying-Domain: broadcom.com
+X-CFilter-Loop: Reflected
+Received: by mail-lj1-f200.google.com with SMTP id 38308e7fff4ca-3ab2f8ce13dso2735261fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 21:48:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1794462531; x=1795067331; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=+13rBtkeR+s+DndYboZRmZoW8VMp8Nay7Rh+6kbD7E4=;
-        b=LrP1FJfDz3GaPZCzbCaFkpuyhgUpiIg0xuzp1dKSE1QlkaJLB4WNQPCO0IsZ32D26s
-         Dk36FqRRyc9dN3KhK+9QAXy0YxbhwH1ue8aCHou02q+vOQgj6FnJaK+tuQksfuFt+4Is
-         Xjhm63VLirksw+keg2ExuF3LlxFPz2AraUiogyLvsDig1hrkJLA/fLllRZwTeZvH8zur
-         oCvrPBgm5k/9IkWTxf9j9y5Wlqyw985fMsGb/U1GIYhY0o1zjKiRyegYm6iuVausP2RG
-         P1ldX6Wf9qaIvoWL1cbhrbsEASDr5oXAFzdBOSQiC0XzidVuHyqnomiW0JjAtXDJrUaW
-         3oaA==
-X-Forwarded-Encrypted: i=1; AL+hErE7GoxJgm0nJ9dJRlYIP3WnfgVZKmEclSdny83OomVwUZ9w3IZGhfoF3eFXvJRSjNQQYzd1ItlPPq0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+iDkR8LQ14+Sw2XgLh8g9/s31Paqjw6OCqmI+jd0bXR4YkDKnQ
-	QRBSXEbUi4LuneiubtyPNd34Q9+4wSMa5mEL9vzc6DRco0m1TGxQyGYZ
-X-Gm-Gg: AYBFou27Bw80xLKjvMOUkcrVDiCdjOw88nPy+QNv00h9GZ2F8rZT0CqyIv+24aVcXjD
-	+LCLQXtp4MG9Dbw94vVfzPdi1nG+SUAf6qA9AHlPcr/XoM4KIE2kuDV+8iV/EB/l8ROwNVWKy4h
-	xS3G2mo24wXXd32n94lyjTY04GTlrdBz/CSWVBbOqxOgb/2hEnu160q4jfCbsG1pLVoUaGV7dbi
-	8r0FEe9JHVCB26cq1AmIRlSLBuG1yD11FtErYXPbdyg+8vhQYW+ma30+/Vxq94zXz7CXG2UJven
-	OmHR0KvmepTKZk4ZW5xNgWUZCQ9SGuUKjs4iNk4MVkdmjeNBrVRELDcq9tEqd8Ev7ixkQC/GS92
-	d68mgHgKGO3hDsrSNRg+KYn3aV6vW8EnPtPAe1vwBu28KN87HgQ1mG3Obsta2AyNs5XwHjlHnWq
-	01gG5euScNB0Wzm7yhb3osP3gH4gUCgo9wtHykYhldGri+YevgOo20M827PFav9hd72rqI4Nqr1
-	Wnr8+GFCrY429rIoZ6cT8XsC4vkGUJt8xI7S0CVXlIEsbIe34hxS2ow5d3Tx7si79TaqsVjFQGL
-	7GSS7/q+hg+KKR4r5o/MU9SlvMGYQzxIcfHNH/1iYUwHN9+NX8I5yBEDozmQVgOXb7YQCEOhWo0
-	cHrXBFsizEBi7i3y7hkPZdTF0ag==
-X-Received: by 2002:aa7:9a86:0:b0:8a0:4032:af85 with SMTP id d2e1a72fcca58-8bc16651ea2mr4128251b3a.0.1794462403606;
-        Wed, 11 Nov 2026 21:46:43 -0800 (PST)
-Received: from localhost (n106-71-19-159.sun21.vic.optusnet.com.au. [106.71.19.159])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8baab8dccc7sm2776591b3a.52.2026.11.11.21.46.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2026 21:46:43 -0800 (PST)
+        bh=b0h43WWokGv9T6YKJyl/cM1sFPLKx780tIaQYJ3oez4=;
+        b=bDuqu7RYhJK/SjNlye6E/rmhXkoVjVrBr7SUZ/zg19CzA0eNhxF1IDioubyWlgGdhy
+         KHrKlUQL6RqqznwNiqVwAV9zuODS3a+9bkCKRMGIwMTzC2mHJjjG6+qzkX+djy3PEkMl
+         JlL9TCnVDRH3x2guuZ0xkzdgQCuOkxQVYQF1o=
+X-Forwarded-Encrypted: i=1; AL+hErE7YvXGdN2BDqp44ZA2Sn640LzWPuIvKBV0+GqDuqE+BspYBZBa2doaIjgW+cap5G//t0A4LHNg1jI=@vger.kernel.org
+X-Received: by 2002:a2e:a98b:0:b0:3ab:1dcd:934c with SMTP id 38308e7fff4ca-3ae1bf10d93mr2744301fa.1.1794462531175;
+        Wed, 11 Nov 2026 21:48:51 -0800 (PST)
+X-Received: by 2002:a2e:a98b:0:b0:3ab:1dcd:934c with SMTP id
+ 38308e7fff4ca-3ae1bf10d93mr2744181fa.1.1794462530604; Wed, 11 Nov 2026
+ 21:48:50 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,32 +98,211 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC PATCH v0] Docs/mm/damon/design: document data attributes
- report infra design (beyond page table accessed-bit milestone 2)
-From: Aveline Noir <jm5905938@gmail.com>
-Date: Thu, 12 Nov 2026 16:45:39 +1100
-Message-Id: <179446233975.762943.16115029371266375222.b4-reply@b4>
-To: SJ Park <sj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, damon@lists.linux.dev, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
- Ravi Jonnalagadda <ravis.opensrc@gmail.com>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20261111185412.145514-1-sj@kernel.org>
-References: <179438255225.3134195.10613668244848761847.b4-reply@b4>
- <20261111185412.145514-1-sj@kernel.org>
-X-Mailer: b4 0.16.0
+References: <cover.1794374897.git.zack.rusin@broadcom.com> <90467782be23b83fd3e9a6afe2f1d2149eaf9db9.1794374897.git.zack.rusin@broadcom.com>
+ <CALMp9eR2tm=RkNk_cYsYj0SZmcUBTfxpYiqtLbtCE4TJ4H6jzg@mail.gmail.com>
+In-Reply-To: <CALMp9eR2tm=RkNk_cYsYj0SZmcUBTfxpYiqtLbtCE4TJ4H6jzg@mail.gmail.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Thu, 12 Nov 2026 00:48:37 -0500
+X-Gm-Features: AclHuK8ZMoRLTwx7GdlQFNy0IhAHQdBDtS2QIwUSLiDD8CGm6dyYo5afDPhKYYI
+Message-ID: <CABQX2QNsMCke2vKuXarXbvVcC2H4FNq2=zNqrq2PO1Hv2cfSDA@mail.gmail.com>
+Subject: Re: [PATCH v3 06/12] KVM: x86: Forward VMware hypercalls to userspace
+To: Jim Mattson <jmattson@google.com>
+Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
+	Doug Covelli <doug.covelli@broadcom.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
+	Shuah Khan <shuah@kernel.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
+	David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>, Xin Li <xin@zytor.com>, 
+	Francesco Lavra <flavra@baylibre.com>, =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, 
+	Liran Alon <liran.alon@oracle.com>, Arbel Moshe <arbel.moshe@oracle.com>, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
+X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="000000000000c0b36106600ddd0f"
 
-Hi SJ,
+--000000000000c0b36106600ddd0f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 11 Nov 2026 10:54:11 -0800 SJ Park wrote:
+On Wed, Nov 11, 2026 at 7:29=E2=80=AFPM Jim Mattson <jmattson@google.com> w=
+rote:
+>
+> On Tue, Nov 10, 2026 at 10:05=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.=
+com> wrote:
+> >
+> > Add KVM_VMWARE_ENABLE_HYPERCALL.  When it is enabled, exit to userspace
+> > with KVM_EXIT_VMWARE when an L1 vCPU executes VMCALL or VMMCALL with
+> > VMware's magic value in EAX, and let userspace complete the call by
+> > updating the guest's registers or by having KVM inject #UD, #GP or #PF.
+> >
+> > VMware guests reach the hypervisor through the "backdoor": either the
+> > I/O-port interface that KVM already emulates or, on newer guests,
+> > VMCALL or VMMCALL, with the same commands and register conventions.
+> > VMware's userspace implements the roughly one hundred commands, and
+> > reviewing the command list on the mailing list found none that needs
+> > to be handled in KVM (see the Links), so leave them in userspace.
+> >
+> > Only claim calls that carry the magic value, so that the same VM can
+> > still use Xen, Hyper-V or KVM hypercalls.  Never claim a call from L2:
+> > the only L2 hypercall that L0 handles itself is Hyper-V's L2 TLB flush,
+> > which doesn't use RAX as an input.
+> >
+> > Pass operands and results through KVM_SYNC_X86_REGS instead of defining
+> > a second register ABI; KVM_EXIT_HYPERCALL returns a single value in
+> > RAX, while backdoor commands use RAX through RBP.  Report the CPL and
+> > leave the privilege policy to userspace, as VMware Tools call the
+> > backdoor from user mode.  Instead of completing the call, userspace can
+> > have KVM inject a validated #UD, #GP or #PF at the hypercall, and may
+> > update the registers as well to keep the partial progress of a
+> > high-bandwidth transfer.
+> >
+> > Don't forward hypercalls of vCPUs whose state is protected, as KVM
+> > can't access their registers: reject the flag for VMs with protected
+> > state, omit it from their VM-scoped KVM_CHECK_EXTENSION result, and
+> > ignore it once a vCPU of a VM set up with the legacy KVM_SEV_ES_INIT
+> > becomes protected.
+> >
+> > Link: https://lore.kernel.org/r/c60b32a3-e699-4a8c-8d52-09b34c4d5269@re=
+dhat.com
+> > Link: https://lore.kernel.org/r/CADH9ctD1uf_yBA3NXNQu7TJa_TPhLRN=3D0YZ3=
+j2gGhgmaFRdCFg@mail.gmail.com
+> > Link: https://lore.kernel.org/r/CADH9ctBivnvP1tNcatLKzd8EDz8Oo6X65660j8=
+ccxYzk3aFzCA@mail.gmail.com
+> > Link: https://lore.kernel.org/r/aIEmawm9gLflg8zt@google.com
+> > Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> > ---
+>
+> [ ... ]
+>
+> > +static int complete_vmware_hypercall_exit(struct kvm_vcpu *vcpu)
+> > +{
+> > +       struct kvm_vmware_exit *vmware =3D &vcpu->run->vmware;
+> > +       u32 pad1 =3D READ_ONCE(vmware->pad1);
+> > +       u32 inject =3D READ_ONCE(vmware->hcall.exception.inject);
+> > +       u32 pad2 =3D READ_ONCE(vmware->hcall.exception.pad2);
+> > +       u32 vector =3D READ_ONCE(vmware->hcall.exception.vector);
+> > +       u32 error_code =3D READ_ONCE(vmware->hcall.exception.error_code=
+);
+> > +       u64 address =3D READ_ONCE(vmware->hcall.exception.address);
+> > +
+> > +       if (pad1 || pad2 || inject > 1)
+> > +               return -EINVAL;
+> > +
+>
+> Should this check kvm_is_linear_rip(vcpu, vcpu->arch.cui_linear_rip),
+> like the fast PIO completions do?
 
-> In a real implementation that is aligned with the design,
-> the probe will hit if a report associated with the sampling byte exists.
+Yes, I think it should. It seems Xen has the same check. Thank you for
+spotting this!
 
-Ah, I missed that.  Thanks for clarifying.
+I'll fix it in the next version alongside the issues sashiko found
+(most of them valid). afaict one thing that this fix doesn't cover is
+if userspace swaps in different vcpu state that happens to have the
+same linear RIP. That's a preexisting blind spot though.
 
-Thanks,
-Aveline Noir
+z
+
+--000000000000c0b36106600ddd0f
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIHh2
+ojIoVc+3rn2irljZv3qzzE3vW23R3iHaCmMN+AQSMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI2MTExMjA1NDg1MVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAA6K3wUCPVcdX/KTXHg0WvMYuBl83T1MRwsPq4Fg
+TtIJamnHoRyG9hIrpfGcBkNDYNhKCU6IlIfP+NCiHctqFspBnCk+A8Fcqz6xaFAg1aGPMu5IhCgm
+/dOzGq9QUJ6v/aVCF0PNK0JRB0CEKew6aDAnZkKw6t9g3hZ0jkmU9uVQxKfXwW6njrvWd8ow3dEy
+lZsMQ2WosgYdHOdrIRglt260kTCzTIvO0L3MFTIxsS1N5iD2fCSGJ5Wx7O1G4JNy98uWRgqyFVel
+z111ia6n47Y5NVkrA1MfW+KR0lk9dds1z0CAyc0XaAA5ta22UJXamPo0B+xFUrsa3EQKzIHOVLQ=
+--000000000000c0b36106600ddd0f--
