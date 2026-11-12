@@ -1,59 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794445567;
-	b=tp8kZQIyA33ZEFIdRbCl2scMX7hG/46Elmn07yE85kp+NptzTc2LihIFiFaW2n5Z4PJO
-	 tIFwyWDvFzkTYFHYfCUbGc21x9tlqZH9LAnoizeUWruL2srEFX8tcDzAXLwphVXTpLDwa
-	 cBxDUf9LPZZEz+4mfgZ2M46p+X2/I5tjVTDZKYM966pzRKOwOrD8Xb8K0PzqdlMETjXmt
-	 ZCPzqDeaLiDFLPVCycYzMTBj/KkRADz3CdABdrPnU8GjP/NevCV2TDw9djEMR/PmXbR72
-	 oiAp1WR73D6SAktnOCC5B3xHmXwWyvPtcm7lhuR5XYz02eoqt8Jq7+PYPZkhg7qJ1Yg==
+	t=1794445811;
+	b=fONiV9ZzROEIrMBNE2/LXNycP0dxD/pJ5N3CK85v6vKM6F5Xz7H8bClzNr1WQOeoKlfO
+	 VKhfVTYnCrdhPoFLsh+1iII/yjGpjm0gdaYhbK81DkCRTlXkIOL1NyV9anE3Z10WDrQ2U
+	 ysBpg2or8ksBVxr/eK2mAuwQ+PPFF6J9vFmDQW+gXNvuoPXYZS8gOGpsINT4/QKwRc8qX
+	 cAM1isq3aHOyVpr/PT3EGyE5fGwzR4/stssHmuyCNBN+QECz3U2LREfcDncqeNEpx2i4J
+	 rosUBAN3ZLhp4uuN4jcNJVyRX/SCY/QKI/QCGDEnqcFa+jrDkJcPlxIoywBLVLzH7Bw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794445567;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=+QKWNF013aDPSU8lbGBlKzPWdu+x0Ycm3WsJvLZrms8=;
-	b=IjfgWvzXr9K0ZrnmP08RenkfE6LzFPS+3qarKAQHCYSTqmSA5lV5uuR4y4VP3U5+tMF1
-	 Zl0wtK3R61JujRErfYhRL1KuzeFTIVOStImGMDsjxrMn5idc4ceWZbqReuFRZzKwz/uUJ
-	 0ZAp8a9RE0PEw/LLKKEsLg/KfIEF2IgEdwicUbTLNE2Pq2P6FIQbjn+noZtklO9LfhGAD
-	 Gos8XwZKJzvtBVi5rWFAnab6PLOKXHmY8JX5Ad4tAlRS9IYVWKXaxyJI18eVgfV5OQxni
-	 eZh9r8XguXkPME3FkR3pPE3hxEwYE72e/UhVsbDhqaAQVsVTLY+MszYAegZHnh6VD+Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794445811;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=iUK3OkXodJtPrkBBoTTM4dXdzIv8wcciK9J4kqlaKsw=;
+	b=gs/AoOsVf12VymJfJ73iEwdWFLgLXaWi9y50tB8om6A7YnIquTN42BA5P1n3BK1gwfox
+	 NVh9+tAJAtP1sP9JxCKZxc30FqOENQDsIU6b6NlmXMaKIEfkdqa//cRsqzOlTmyerMIHs
+	 QMhsmO0qbOi3WLfo+AD7XtO+9biLmw1lduthCwdrlFevW98zcrPVUnymYiGh8ixFmTLNW
+	 KOQRdJZnyknZQ9jzUfoD1Ck6n1H/AomgLSXBAueTY4+c8FCydqwmgWO7nnxNJrHaQHkgA
+	 xk/GaA7xct848FF1SIDov5bqbElvwBMME33QPmJ+nKNVfLk2mOR356IZabq+KLufxPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xr5LkQl2;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ex9uc6Ld;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC279606A32E;
-	Thu, 12 Nov 2026 01:06:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76652606A89D;
+	Thu, 12 Nov 2026 01:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Xr5LkQl2
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 989F31F00A05;
-	Thu, 12 Nov 2026 01:06:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ex9uc6Ld
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D8061F00A0C;
+	Thu, 12 Nov 2026 01:10:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794445566;
-	bh=+QKWNF013aDPSU8lbGBlKzPWdu+x0Ycm3WsJvLZrms8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Xr5LkQl2U7rG6JJ19orlIuMeBIBDVBPqEamKTFx5FdpJfFV7p83X5m56Qc9lwbArh
-	 xbLVzrcTWQiBqbGY4jAe6NV/c/M4svGGW6PaRJLY9KN53tqkLqYFOuxjcVY++D4Qod
-	 1LV+LmJwg8tUCSIW9X+5Trji+AEga7caRPAef6/o3WwyL+yDcqYZc8duOtA3Bg+vGT
-	 sl2MlY0/J1EQ/VLvnzK8vw5SNi/Z5JN+bfLaPii8jIA5ijegNvPPnL/2JPGmkZbcCv
-	 kT8v2f07fg8pYJNmUgMxRAZak1e8mscoRf2iHiYD2Lk68w+S4JOlhaXkF5Gqur/it6
-	 6oRjzY53W78QA==
-Date: Wed, 11 Nov 2026 19:06:05 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Robert Marko <robert.marko@sartura.hr>
-Cc: skhan@linuxfoundation.org, rdunlap@infradead.org,
-	nicolas.ferre@microchip.com, claudiu.beznea@tuxon.dev,
-	Conor Dooley <conor.dooley@microchip.com>, conor+dt@kernel.org,
-	luka.perkov@sartura.hr, linux@roeck-us.net,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, corbet@lwn.net, krzk+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 2/4] dt-bindings: hwmon: add Microchip LAN969x fan
- controller
-Message-ID: <179444556456.3829380.4513786084250860193.robh@kernel.org>
-References: <20261111161619.232141-1-robert.marko@sartura.hr>
- <20261111161619.232141-2-robert.marko@sartura.hr>
+	s=k20260515; t=1794445811;
+	bh=iUK3OkXodJtPrkBBoTTM4dXdzIv8wcciK9J4kqlaKsw=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=Ex9uc6LdL9rleAtamx2w1yYQbWoASBjdzLUGYVplfMCUUehtGTNP1csnq/CXZQFEl
+	 P99nwsNFwJTOofQcJt/BbEzVfFiHCw+4qptwXiQdOvHojdyVBcNfGCgus0GXQZUo7r
+	 DZR8JF19Lmm1DSdH55s1cnB+FlwX1yaTm9yhnO0ZZkvQWf+X3qOHzNIhbeR/QO5G7B
+	 ypyUCnWUm3LJhR+eE0Sd3dfB3nBnJcU5bICJc7QJcZzx7tK/QAZA17USCGdKOY6j0d
+	 2wqsBtFPPSkpBV7VmCkoaRM3h3FenZvUNt2M7MowFt2wzEf7kSLLRJSrJkxMObpLUn
+	 vtOUzkUQ+5Jlw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 45847391AFCE;
+	Thu, 12 Nov 2026 01:10:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,36 +53,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261111161619.232141-2-robert.marko@sartura.hr>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next] docs: net: fix outdated default values of four
+ sysctls
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179444580992.1745669.85658794440257470.git-patchwork-notify@kernel.org>
+Date: Thu, 12 Nov 2026 01:10:09 +0000
+References: <20261108061746.32090-1-gopalmalaviya53@gmail.com>
+In-Reply-To: <20261108061746.32090-1-gopalmalaviya53@gmail.com>
+To: Gopal Malaviya <gopalmalaviya53@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, rdunlap@infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
+Hello:
 
-On Wed, 11 Nov 2026 17:12:46 +0100, Robert Marko wrote:
-> The LAN969x fan controller has a PWM output and tachometer input in a
-> register block separate from the Sparx5-compatible temperature sensor.
-> Describe it with its own compatible and binding.
-> 
-> The optional fan child specifies PWM period and polarity, tachometer
-> pulses per revolution, and thermal cooling levels.
-> 
-> Acked-by: Conor Dooley <conor.dooley@microchip.com>
-> Signed-off-by: Robert Marko <robert.marko@sartura.hr>
-> ---
-> Changes in v3:
-> - Drop the unnecessary literal-style description marker.
-> - Inherit pulse-count bounds from fan-common.yaml.
-> - Require cooling-levels only when #cooling-cells is present.
-> - Add Conor Dooley's Acked-by tag.
-> 
-> Changes in v2:
-> - Describe the fan controller in a separate binding and compatible.
-> - Keep the existing temperature-sensor binding unchanged.
-> 
->  .../bindings/hwmon/microchip,lan9691-fan.yaml | 79 +++++++++++++++++++
->  1 file changed, 79 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/microchip,lan9691-fan.yaml
-> 
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+On Sun,  8 Nov 2026 06:17:46 +0000 you wrote:
+> The defaults documented in ip-sysctl.rst for four sysctls differ from
+> the values the kernel actually uses:
+> 
+>   sysctl                  documented  actual
+>   cipso_rbm_strictvalid   0           1
+>   flowlabel_state_ranges  1           0
+>   router_solicitations    3           -1
+>   regen_max_retry         5           3
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next] docs: net: fix outdated default values of four sysctls
+    https://git.kernel.org/netdev/net-next/c/06f74055bc1b
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
