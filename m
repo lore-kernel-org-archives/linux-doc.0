@@ -1,42 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=94.136.29.106
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794490922;
-	b=LwBw02R9zR+ny31hU+GwP+NIoX7bozQJXsyuSVaQccFHMg4u9S3VyTVW+y05s8Qa8yNb
-	 LH0EpUtOIM1AlV52K2gD3jGjvWxI64ey4YCPHSP0dDyjcZLK7nnCk8h26AEYEJrESx9Rb
-	 rbtqU3dQRg5SCiJn+SOSDaJ5dFoAJNpjXwbbUXwLKt3r6P1d/ze9v7N+7viMGflVsa2Gq
-	 UCnN7WhLRBSElhzHot/6HAZdhqKMaA/KjHWjiJZtneAndiOfsgDUZEJ9PV2LaURf1nXi2
-	 xDVSgoHZ9loZ7gO9ifzpO1vd2gbafuyRM4lY7JxEQQYAVXn+9d5Rx8Xxlzm2JKHbYhQ==
+	t=1794491200;
+	b=KboWTRXNHigyjUfbWZ+W69Xhg8fnFVTBk3TPVRAcVH7sxJYBdG3FZYdYlsz3UN2yOGbW
+	 /zdgAiF1x9Xh5bivoaVeywJqStLUc7d6tA7FzptP4HN0r63PJ5esHvRQOGexrg0kTTdpk
+	 2wy3IBGW+jXNDQfkPl00ij5ytn1/WL4ZQfxAPrsGV/TCUTgN7mmPYxHiBx9wjRDwWOa2B
+	 ETpL8idV0jnHNcl3IeAfJn0kpaTRznsuv7PwKprzaCPnuv6kFA8J5j/yNR/k/sui7dzAG
+	 hyE+XQRo9N8u5I4HGt/D/4HRCKSY2FiWjAE39XGn9v3i8xlQpLCNTvLzhWDFJkG4bXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794490922;
-	h=DMARC-Filter:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:
-	 X-Mailer:X-Bm-Milter-Handled:X-Bm-Transport-Timestamp;
-	bh=YfBBZc7pNzNbAvzjWT1h8ZQQXAFZwd0rLhVnqfxyIdI=;
-	b=VRqlz5wdUbqpUSWjy58QDBE8tPPPuXID8jkPG8tD0oNawJhK85OEKEYExSntBlS2c/xg
-	 w9rpr0xaowGjPL0m1skTxBXx0vd2vqZ1iJp320YixEAVbDYdhShw0RT2l5aUhDHeiRqy2
-	 jq+kvn4dzH76W7ppRQD5HftcJ7/K58drKmQvSMADpK4V7gW6Wzcgxsw31reo71sebMeZX
-	 fMQ30RfYklsvfXuMjhrGBPM3ZVHBxddHFkGtSyZnSyGLVLPaIagWoGPTGDbEn2+KnV1Jk
-	 J0L7eZRx5dwtUAwC5KQzYDya/RYjCPCYbmQFto4egPIjjBXQ6Fdklpn9SSnyckwfzvA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794491200;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=2yGUa3yvv9BwAmjth7xVSNIdT1WjubKlsaL334MWC0w=;
+	b=zq7UT5NiibhMYBKKSanj0Aw64t+EFywJxuvMJACKvjtdh43zU2aRRYYs/51E3B4QWVDx
+	 9w99NVHOMnVASIRqptojvvuj0tiOEIVlFgJXWEd5VfMuYFVKmP3BXXgSfvXIdgvzPNMrY
+	 6hFSrW3ANsjBB87BS1o6iJkkS9tpakeqJdxX4MrPQWRJgHLzBpKSGZUO3XpsFrFTxsLRY
+	 4+t1fvzEAr/FWF1U/o7CP23rxdIzOXJ90Z7EQuwLp3k8oWvRIU72YQGPTyBLjBVvf3hM6
+	 WjWRZcL2eT3zG3yYNipBML2L8uJ/RI3ThWyfiEPsjIo9/5W7bcjJ5dwo3XSSdN4yqJw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=proxmox.com;
-	spf=pass smtp.mailfrom=proxmox.com;
-	arc=none smtp.remote-ip=94.136.29.106
-Received: from proxmox-new.maurer-it.com (proxmox-new.maurer-it.com [94.136.29.106])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ursulin.net;
+	spf=pass smtp.mailfrom=ursulin.net;
+	dkim=pass header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=M35LRWQM;
+	arc=none smtp.remote-ip=209.85.218.44
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35CB606A321;
-	Thu, 12 Nov 2026 13:42:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C35CB606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=proxmox.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proxmox.com
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
-	by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 5B28446704;
-	Thu, 12 Nov 2026 14:41:59 +0100 (CET)
-From: Gabriel Goller <g.goller@proxmox.com>
-Date: Thu, 12 Nov 2026 14:41:00 +0100
-Subject: [PATCH net-next] ipv6: always apply all.force_forwarding to every
- interface
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AE70606A336
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 13:46:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3AE70606A336
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ursulin.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=ursulin.net header.i=@ursulin.net header.a=rsa-sha256 header.s=google header.b=M35LRWQM
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c50604721c8so399389266b.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 05:46:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ursulin.net; s=google; t=1794491198; x=1795095998; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2yGUa3yvv9BwAmjth7xVSNIdT1WjubKlsaL334MWC0w=;
+        b=M35LRWQMrNcnZaf9izfF5L/wkiTPEnRJx/eRvDaNfpJBY1/h8gufbYUi3BPcZnP1Lw
+         HRdkM95xUNpJBGKuIaU6Bhhfne8TOE7e4ILfhaKOQdjLQgzvHBNNlxB7m5VVYJsSNS3Z
+         GrpcAFxsgeIjvwJfpExEXIXU8qqqnkZbfq9uBetitGS/hAtMNNwD4wZ9idVIt8CMFKSr
+         j2AYz6dKzOt9EkKi+QtL+R5jvl01hexjRgP2+JthKkfiYX8o+k6HLgCiuSss/UieWTfj
+         F6rIg8nsIuhxJ5GxWoQz/LCKdn5i2YmFMoTyN8bU45Rhy/Kv3Nlm0pZnzHWbPWQfaERT
+         bchg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794491198; x=1795095998;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=2yGUa3yvv9BwAmjth7xVSNIdT1WjubKlsaL334MWC0w=;
+        b=yEcE5QC0Zmi61Y9DcM5qP/Q+lSS3gMe7ng7igG7tpHLqI0ybqVaLDVjusNLf9mOL/b
+         7ayYJY1gw5a+izgPaMfNqVEfoG27mKs8i59xzmYCyzAgA9/rfY2p3qlQ1xedvur0LjRT
+         Xce6yBu2LThqJUvKT7vcR1yrXlyR3M1RifuhukHECKod0aX4Q1dCMs9q/aBUXMo5/+tz
+         WEXsN48ICtcbAbKo65ecd50Pg1uMFTB50Hkamqwty4plD+btOW8VOFdSpfWv/CDP5CQI
+         VFTO2zX2piMaWVLHPAUpU68ZYZaxQgoxJFLCjIoBk8lv5XvEiGf50AFbR+BNhmIzarNh
+         +2Tg==
+X-Forwarded-Encrypted: i=1; AL+hErFdX5TcCswn0Wox6Cb4ap0qmk/idAKoSTNXrKz7qdWlbH/+OHcvj8TsoDMHuamGFaWoCqZqmn/JiTc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z83HbnvUOCOtKWwV7b9I/RVTcpSndQtc9PCCVtbCllTaBGfAuwz
+	8FBzsvWNQ5YJrn97Hq/8W2M41zzao8KKzcWTAAhFv4UB1wJVfcnDZXJ2F+BFP3iIppU=
+X-Gm-Gg: AYBFou2a4XJ6SRWlfUewynFaz26bhU5ksCLIq7v9xTZJyYp+qDyQJrmxHikMHOdINt6
+	4YmoxQow770lomhwqY9dTpISS4gR4DZ44mFLTrE5KBYKmuEMNSvVBiBBbudimWSUuIMgzJ88auD
+	AObUvFN5l0RWyc5rogN4JMlNhPeSLNWnaK4Nk5SncClRAMjbJidwp9WKYwyhCoNoeTrAvA1piTi
+	8YBY4L+DMTROFTUV0LY3vpwgKq7zWhs8ZN9bNoOuTEYnhoTVwRVN/bO3WjErjy8kSe+zInOK/k6
+	je0nepKIc2Wpv5AeRzZGoY1n2xHJoN2mfapn/Oj72K18R18yOGwKajdWCUbPmmjYDFE7i963fMW
+	vZVMKv2Pgtx8AjK6qv4h+9ZWpciwx6d9dG19FjkSHZ5OSh904aQtbfOypONJ0uR9FZVfUA+/AZS
+	CLeVIJVqKheEISbN3sn1fdEPEORZ8l5ldNdUZyMaWoy/fJYTi7Ivlzz4Pm73bTAHahKQIaPeauu
+	VLk4R5AdS9ih2uc8yG/1kwe4zmj4jDlBW+BwrMXyw3oibJkCyiuZ70WUKD8fwLus+HVJkGSqRO2
+	Aa5E24vR66JWV0ctbqUmv4a8ojTY8q4ko3+y3y5WwGG3IA==
+X-Received: by 2002:a17:906:f587:b0:c4d:31c5:cda with SMTP id a640c23a62f3a-c5066ae249bmr493311766b.21.1794491198313;
+        Thu, 12 Nov 2026 05:46:38 -0800 (PST)
+Received: from [192.168.0.116] ([81.79.79.1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c504a5d54bbsm349754666b.48.2026.11.12.05.46.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 05:46:37 -0800 (PST)
+Message-ID: <fc21d057-be4a-4cea-ab92-0951c4eb7de2@ursulin.net>
+Date: Thu, 12 Nov 2026 13:46:37 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -46,218 +92,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4] accel/rocket: Report NPU usage through fdinfo
+To: Sidong Yang <sidong.yang@furiosa.ai>
+Cc: =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, Oded Gabbay <ogabbay@kernel.org>,
+ Gyeyoung Baek <gye976@gmail.com>, Philipp Stanner <phasta@kernel.org>,
+ Danilo Krummrich <dakr@kernel.org>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261103155338.1949294-1-sidong.yang@furiosa.ai>
+ <a9f016ce-f086-412d-9ca6-6608a41840e5@ursulin.net>
+ <33ccceef-3498-426a-ae7c-a8bafbb88992@igalia.com>
+ <2ca12f1b-89f6-4069-aedf-4e5d645e8deb@ursulin.net>
+ <au31m2jC9SmQ6iZh@rock-5b-plus>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tursulin@ursulin.net>
+In-Reply-To: <au31m2jC9SmQ6iZh@rock-5b-plus>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261112-ipv6_always_apply-v1-1-8df846631005@proxmox.com>
-X-B4-Tracking: v=1; b=H4sIAPfB9WoC/y2NUQ6CMBBEr0L22ya2gWK8iiFkLYuuIbV2C0IId
- 7eKn5OZ92YFocgkcC5WiDSx8NPnoA8FuDv6GynucgZzNFZrbRSHybY4vHGRFkMYFoW9K0+VMbW
- 2NWQuROp5/jkv4CkpT3OCZm9kvD7Ipa/yv430GvNt2oFm2z5/T7/plAAAAA==
-X-Change-ID: 20261112-ipv6_always_apply-afc485227167
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, David Ahern <dsahern@kernel.org>, 
- Ido Schimmel <idosch@nvidia.com>, 
- Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Gabriel Goller <g.goller@proxmox.com>
-X-Mailer: b4 0.17-dev
-X-Bm-Milter-Handled: 55990f41-d878-4baa-be0a-ee34c49e34d2
-X-Bm-Transport-Timestamp: 1794490917824
 
-Currently, writing to all.force_forwarding updates the interfaces
-only if the value stored in all.force_forwarding changes. Setting an
-interface to a different value and then writing the same value to all
-leaves that interface unchanged:
 
-  # sysctl -wq net.ipv6.conf.all.force_forwarding=1
-  # sysctl -wq net.ipv6.conf.dummy1.force_forwarding=0
-  # sysctl -wq net.ipv6.conf.all.force_forwarding=1
-  # sysctl net.ipv6.conf.dummy1.force_forwarding
-  net.ipv6.conf.dummy1.force_forwarding = 0
+On 06/11/2026 15:44, Sidong Yang wrote:
+> On Thu, Nov 05, 2026 at 11:04:29AM +0000, Tvrtko Ursulin wrote:
+>> It would just be adding u64 drm_sched_entity_get_runtime(entity).
+>> Nothing else would need to be exported and the implementation simply
+>> locks entity->stats and returns the runtime. As long as the caller knows
+>> they haven't destroyed the entity it is safe since entity holds a
+>> reference to the stats object.
+> 
+> Thanks for the suggestion. If Philipp and Danilo are fine with it, may I
+> add drm_sched_entity_get_runtime() and switch rocket to it in v5?
 
-Apply every write to all.force_forwarding to all interfaces, even when
-its stored value is unchanged, matching all.forwarding. In the example,
-the final write to all now sets dummy1.force_forwarding back to 1.
+I am neither Philipp nor Danilo but I would say go for it.
 
-Also match forwarding's locking: take RTNL for every write and compare
-the old and new values under the lock, rather than returning early based
-on an unlocked comparison. Send netconf notifications only for actual
-value changes, including for default and per-interface writes.
+Regards,
 
-Note that IPv4's forwarding does not behave like this, but we won't
-change that one and align force_forward to the IPv6 forwarding.
-
-Fixes: f24987ef6959 ("ipv6: add `force_forwarding` sysctl to enable per-interface forwarding")
-Suggested-by: Nicolas Dichtel <nicolas.dichtel@6wind.com>
-Signed-off-by: Gabriel Goller <g.goller@proxmox.com>
----
- Documentation/networking/ip-sysctl.rst             |  2 +
- net/ipv6/addrconf.c                                | 38 +++++++++-------
- .../testing/selftests/net/ipv6_force_forwarding.sh | 51 ++++++++++++++++++++++
- 3 files changed, 75 insertions(+), 16 deletions(-)
-
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 0b7bfbd98a92..3cc80d9b024b 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -2683,6 +2683,8 @@ force_forwarding - BOOLEAN
- 	Enable forwarding on this interface only -- regardless of the setting on
- 	``conf/all/forwarding``. When setting ``conf.all.forwarding`` to 0,
- 	the ``force_forwarding`` flag will be reset on all interfaces.
-+	Writing to ``conf/all/force_forwarding`` applies the value to all
-+	interfaces, even if the value did not change.
- 
- fwmark_reflect - BOOLEAN
- 	Controls the fwmark of kernel-generated IPv6 reply packets that are not
-diff --git a/net/ipv6/addrconf.c b/net/ipv6/addrconf.c
-index 6572bb22b2c0..10642c68571b 100644
---- a/net/ipv6/addrconf.c
-+++ b/net/ipv6/addrconf.c
-@@ -6841,7 +6841,7 @@ static int addrconf_sysctl_force_forwarding(const struct ctl_table *ctl, int wri
- 	struct net *net = ctl->extra2;
- 	int *valp = ctl->data;
- 	int new_val = *valp;
--	int old_val = *valp;
-+	int old_val;
- 	int ret;
- 
- 	tmp_ctl.extra1 = SYSCTL_ZERO;
-@@ -6849,35 +6849,41 @@ static int addrconf_sysctl_force_forwarding(const struct ctl_table *ctl, int wri
- 	tmp_ctl.data = &new_val;
- 
- 	ret = proc_douintvec_minmax(&tmp_ctl, write, buffer, lenp, ppos);
-+	if (ret || !write)
-+		return ret;
- 
--	if (write && old_val != new_val) {
--		if (!rtnl_net_trylock(net))
--			return restart_syscall();
-+	if (!rtnl_net_trylock(net))
-+		return restart_syscall();
- 
--		WRITE_ONCE(*valp, new_val);
-+	old_val = *valp;
-+	WRITE_ONCE(*valp, new_val);
- 
--		if (valp == &net->ipv6.devconf_dflt->force_forwarding) {
-+	if (valp == &net->ipv6.devconf_dflt->force_forwarding) {
-+		if (old_val != new_val)
- 			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
- 						     NETCONFA_FORCE_FORWARDING,
- 						     NETCONFA_IFINDEX_DEFAULT,
- 						     net->ipv6.devconf_dflt);
--		} else if (valp == &net->ipv6.devconf_all->force_forwarding) {
-+	} else if (valp == &net->ipv6.devconf_all->force_forwarding) {
-+		if (old_val != new_val)
- 			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
- 						     NETCONFA_FORCE_FORWARDING,
- 						     NETCONFA_IFINDEX_ALL,
- 						     net->ipv6.devconf_all);
- 
--			addrconf_force_forward_change(net, new_val);
--		} else {
--			inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
--						     NETCONFA_FORCE_FORWARDING,
--						     idev->dev->ifindex,
--						     &idev->cnf);
--		}
--		rtnl_net_unlock(net);
-+		/* Like all.forwarding, apply to every interface even if
-+		 * all.force_forwarding did not change.
-+		 */
-+		addrconf_force_forward_change(net, new_val);
-+	} else if (old_val != new_val) {
-+		inet6_netconf_notify_devconf(net, RTM_NEWNETCONF,
-+					     NETCONFA_FORCE_FORWARDING,
-+					     idev->dev->ifindex,
-+					     &idev->cnf);
- 	}
-+	rtnl_net_unlock(net);
- 
--	return ret;
-+	return 0;
- }
- 
- static int minus_one = -1;
-diff --git a/tools/testing/selftests/net/ipv6_force_forwarding.sh b/tools/testing/selftests/net/ipv6_force_forwarding.sh
-index bf0243366caa..383d1ec64f1c 100755
---- a/tools/testing/selftests/net/ipv6_force_forwarding.sh
-+++ b/tools/testing/selftests/net/ipv6_force_forwarding.sh
-@@ -86,12 +86,63 @@ test_force_forwarding() {
-     return $ret
- }
- 
-+check_force_forwarding() {
-+    local dev=$1
-+    local expected=$2
-+    local msg=$3
-+    local val
-+
-+    val=$(ip netns exec $ns2 sysctl -n net.ipv6.conf.$dev.force_forwarding) || return 1
-+    if [ "$val" = "$expected" ]; then
-+        echo "PASS: $msg"
-+        return 0
-+    fi
-+
-+    echo "FAIL: $msg (got $val, expected $expected)"
-+    return 1
-+}
-+
-+test_all_force_forwarding() {
-+    local ret=0
-+
-+    echo "TEST: all.force_forwarding"
-+
-+    ip netns exec $ns2 sysctl -qw net.ipv6.conf.veth21.force_forwarding=0 || return 1
-+    ip netns exec $ns2 sysctl -qw net.ipv6.conf.all.force_forwarding=1 || return 1
-+    check_force_forwarding veth21 1 "all.force_forwarding applied to interfaces" || ret=1
-+
-+    # Rewriting the same value to all re-applies it to every interface
-+    ip netns exec $ns2 sysctl -qw net.ipv6.conf.veth21.force_forwarding=0 || return 1
-+    check_force_forwarding veth21 0 "interface force_forwarding overridden" || return 1
-+    ip netns exec $ns2 sysctl -qw net.ipv6.conf.all.force_forwarding=1 || return 1
-+    check_force_forwarding veth21 1 "unchanged all.force_forwarding re-applied" || ret=1
-+
-+    if ip netns exec $ns1 ping -6 -c 1 -W 2 2001:db8:2::2 &>/dev/null; then
-+        echo "PASS: forwarding after re-applying all.force_forwarding"
-+    else
-+        echo "FAIL: ping failed after re-applying all.force_forwarding"
-+        ret=1
-+    fi
-+
-+    # Disabling all.forwarding resets force_forwarding, including on all
-+    ip netns exec $ns2 sysctl -qw net.ipv6.conf.all.forwarding=1 || return 1
-+    ip netns exec $ns2 sysctl -qw net.ipv6.conf.all.forwarding=0 || return 1
-+    check_force_forwarding all 0 "all.forwarding=0 resets all.force_forwarding" || ret=1
-+    check_force_forwarding veth21 0 "all.forwarding=0 resets interface force_forwarding" || ret=1
-+
-+    return $ret
-+}
-+
- echo "IPv6 force_forwarding test"
- echo "=========================="
- 
- setup_test
- test_force_forwarding
- ret=$?
-+if [ $ret -eq 0 ]; then
-+    test_all_force_forwarding
-+    ret=$?
-+fi
- 
- if [ $ret -eq 0 ]; then
-     echo "OK"
-
----
-base-commit: 676f3aace662fbbc180b3898b190a372fa2a516b
-base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git main
-change-id: 20261112-ipv6_always_apply-afc485227167
-
-Best regards,
---  
-Gabriel Goller <g.goller@proxmox.com>
-
+Tvrtko
 
