@@ -1,84 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794510890;
-	b=zdLAvZ5pW3pCdmVu63ZR9M/yeZD3mKiKSKRPCrJez7Js9M/nl/4YqXqNN+ovnV0csNLQ
-	 tqYLd/bHCizwqV/rO0miV7hYLDjjgnYF/RXKxfeWv2rOskd4A+8BsiSB/ZBOkhv5vnQmn
-	 Y2KVzNtN+LQEsPf6iVJaDUHGJ9w8mCgDgNE7xcqkQ7yy1IV2TZPa+At9kuiDkyTlM8KQL
-	 4qfMg7TypJ5rl3V/Snj8aEC8mOM8ZdQPpVl+sTZutuvx6DfhUwkrg5Kx2zGfogcSkKXTi
-	 LtLB7cAHSYbOjXk4FjlbnXdXBEzVAZ5M3uWK3o4p0Ih5Hgy8IByOqQ8U4fb9SzHlKTA==
+	t=1794511122;
+	b=RYTmXr3tm7eMf4bExNdH0P9nczqVlU4nEqoTmTz9bd4F5OZ/0H9pl9W/KZSsVj3q9IeY
+	 AWvbz0ocIndk8XMPQXi0iUCwEKhK3tM3Xwcng7bd2+cZV1mQxFvoTzmgRLYIpltWDgIZ/
+	 rXkszN1X5aF9nSx7dL4HbgxZWnKcf5LU7EsXpMFgE9GwyCbsp8M0x3PeorFundh6S0RXT
+	 sldJnWRPAliIOW2UZ8hJfSyQgUe4dyobOHXHXNzkt6WweDamPKK6YiFHXr3pNFwUjwlsA
+	 4+7/g3jcewIK/rju4nhPslE54vnwL4uZ4ZfShZyF0exWE6g+UkJgeiE4hhUmzZwd0iA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794510890;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=zNlGFfzkwV6FPF6+BDZB5x8JOUEfDn0OibP8uM9DPxU=;
-	b=nPM3OHH1qkrejpCRoYJRYTNu+C08FEXxnIdX90ZHrmT3ME0Uu0Zxt2QAbomwf9sNHj/V
-	 3wN25LY2ZwuKxHpPtWo3OVolv7q9DP9npmcsJiB5kg5tdwcM3PMv+I4X0X7Y71DiIojGk
-	 GjJAahoS+S99nT5m/0ScsF0gWCtI84CaFL5zIniz1apmAjsc3rqPN5b9SQKWPTY2Kr4Ay
-	 XG6AbmuaMRVi87vV2IUyVA7FxYHF/aKkE4xu/xOowZy/ArBDNZ+nP3ysAGHqLZDZDhAUV
-	 VhzTQGFiWJ6sP6Xo/85aCwOdTIuUaiZ4kibzcomBMJ6BVaw5d3mMlJkDmiXT9ZbscVw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794511122;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=IXexg50WmPwtfGt6g4HQnuTR66f0QjGX0HYreFyKgk8=;
+	b=xuQT2WH5A9pkEbUS9Eivj8yIQNDPthuoKzpJJFhcwEkppquFx6Gx1aUk2Zqw/UtH8QvZ
+	 wHhhtdpQVi+/VesCA3uskeDjRkl3yzSQScc19YI/lOMgwE7AdzRxfHsIvSBh9qUDwtVPu
+	 zsUWM6wouK5xb90Fe4tGzIZTmg/O/u74R9ArSUdvjLrNCxKJET45pz97NY6CVJl4Aw5/x
+	 J/NH5Hp65IQ2QjUyTvrp+xqcTuc1E01MivzAMoH5sVuOfJCHApKsrWJWy0Ybp2EVlLIwc
+	 gqwgskunUOFA2mVYsLpi1Y5VjHSoRvVDJ+GnGjgrHTaXkFoyC+6uh7qEPFvi1qprUAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=dgf9PKGP;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=BuI05u+J;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mBerxBeQ;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A823606A321;
-	Thu, 12 Nov 2026 19:14:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3A823606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFFB606A31C;
+	Thu, 12 Nov 2026 19:18:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCFFB606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=dgf9PKGP;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=BuI05u+J
-Date: Thu, 12 Nov 2026 20:14:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794510888;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zNlGFfzkwV6FPF6+BDZB5x8JOUEfDn0OibP8uM9DPxU=;
-	b=dgf9PKGPPx6MMiVxAPo5ClHsYi0fWqjpAjmvvMZ49eOommAsRo3sGZjni06W/f8HM8UB1Y
-	iZBNrBH9nLTiorhkSKwKbrsNPxgY/zTFnOBgDT1kGIUg5SG9nq0A36ZtzS2VLIP2Qq5C88
-	nddRFEzBTAhHA/MDnxJoiD6uQWHSNLfuLruJcguv3eziiKR5TnvtauI1vxHl/zSEXCBizW
-	0f+bJ0LYN7k3Ruwq3qzjLdFiNoy4+Sh3Jb22U/uzGM31Yo89yQREnpo2VkG5D0WaYjD41z
-	gRH1AXMxqUqfDDmeYLd1luUk8ay/LCl3vWXTJlyMOrnKWuzNVp+lhJNf0+wpTw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794510888;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zNlGFfzkwV6FPF6+BDZB5x8JOUEfDn0OibP8uM9DPxU=;
-	b=BuI05u+JiHs7vQsJX/T/5J4yDMpGINOxVPsk6nzq3wwhvQVDxEnC4YTlm2ahGnhGWTcvLu
-	MIiIXuwGnSE2F+CA==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Nicolas Schier <nsc@kernel.org>, Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Julian Braha <julianbraha@gmail.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 00/10] tools: Introduce a kernel configuration checker
-Message-ID: <avYQJiHwzCkzeONg@lx-t490>
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <avQNdicGzL3De556@derry.ads.avm.de>
- <avWy2r1BcDatzwo1@lx-t490>
- <20261112175042.GD4107043@ax162>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mBerxBeQ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=IXexg50WmPwtfGt6g4HQnuTR66f0QjGX0HYreFyKgk8=; b=mBerxBeQJnkwjlzlTDbN+kj3WM
+	jVZ3tair82aWMzz3qk4bpNKHWO94V1zNOy0+Dhq3LSdZhRfUGH7uD/iclRys16i9W2yOER3toc2s+
+	rU5TYF530d7Xw3Lvpya35OspbW+W7YUg6X406AIXh7V4+LHx5JZ4ZYZQp+egcfiSNiIz4MYr0LPET
+	DBOkUxvx8c37785YnZ05KRWu9ibuw7WY8NGsnmi9R/fkAvNXoFsqWu2tK1DwRP59O+XKYUu2ZS6kR
+	BIscE1U2DwqAD3rzlLjNDLcQRRFnREAtEVvDsjoMOhsBrxF0KQQWxPwBIFCzu4VED8+H6fz/jJ14F
+	4Hu+9oag==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xRaJj-0000000AwDP-3EYQ;
+	Thu, 12 Nov 2026 19:18:39 +0000
+Message-ID: <85567abf-bf15-4cd8-a04d-d1238cb5fbd3@infradead.org>
+Date: Thu, 12 Nov 2026 11:18:38 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,29 +58,68 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112175042.GD4107043@ax162>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] MIPS: perf: Add SB1 and SB1A performance counter
+ support
+To: Florian Fainelli <f.fainelli@gmail.com>, linux-mips@vger.kernel.org
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
+ Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, James Clark
+ <james.clark@linaro.org>, Thomas Gleixner <tglx@kernel.org>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:PERFORMANCE EVENTS SUBSYSTEM" <linux-perf-users@vger.kernel.org>,
+ "Maciej W. Rozycki" <macro@orcam.me.uk>
+References: <20261112190916.3725141-1-f.fainelli@gmail.com>
+ <20261112190916.3725141-4-f.fainelli@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261112190916.3725141-4-f.fainelli@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 12 Nov 2026, Nathan Chancellor wrote:
->
-> On Thu, Nov 12, 2026 at 01:36:42PM +0100, Ahmed S. Darwish wrote:
-> >
-> > Would it be OK if one or two people from the Kconfig side also step-up as
-> > reviewrs?  Julian? Nicolas? Nathan?
-> >
->
-> Sure, I have no objections to being a reviewer for this tool.
->
+Hi,
+This has one 'make htmldocs' warning (see below).
 
-Thanks a lot!
+On 11/12/26 11:09 AM, Florian Fainelli wrote:
 
->
-> What tree(s) do you envision this initially landing in and taking
-> subsequent updates through?
->
+> ---
+>  Documentation/arch/mips/index.rst    |   1 +
+>  Documentation/arch/mips/sb1-pmu.rst  | 162 ++++++++++++
+>  arch/mips/kernel/perf_event_mipsxx.c | 373 ++++++++++++++++++++++++++-
+>  include/linux/cpuhotplug.h           |   1 +
+>  4 files changed, 526 insertions(+), 11 deletions(-)
+>  create mode 100644 Documentation/arch/mips/sb1-pmu.rst
+> 
 
-Unless you have any objections, I think kbuild would be the right tree ;)
+> diff --git a/Documentation/arch/mips/sb1-pmu.rst b/Documentation/arch/mips/sb1-pmu.rst
+> new file mode 100644
+> index 000000000000..d589a6262c65
+> --- /dev/null
+> +++ b/Documentation/arch/mips/sb1-pmu.rst
+> @@ -0,0 +1,162 @@
 
-All the best,
-Ahmed
+> +Counter selection and mode filtering
+> +-----------------------------------
+
+Documentation/arch/mips/sb1-pmu.rst:57: WARNING: Title underline too short.
+
+Counter selection and mode filtering
+----------------------------------- [docutils]
+
+> +
+> +The ``counter`` format field selects a physical counter: 0 means automatic,
+> +and values 1 through 4 select physical counters 0 through 3.  A non-cycle
+> +event requesting physical counter 0 is rejected.  Automatic events may move
+> +to another eligible counter when a fixed-counter event is added, preserving
+> +their accumulated counts and sample periods.
+
+
+-- 
+~Randy
+
