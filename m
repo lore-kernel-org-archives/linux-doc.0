@@ -1,68 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794447992;
-	b=aDES7JFBAHPh3vwhdEQXlGOsYfmPdfd/1fUg6vEuAqv4QAAYZf/crJ880yreTdHR7NK+
-	 JXgWi8FsAApnjAJG6e++xEGVDS1H3VSUS6PIm1fuRAO1fAE2QEMNu/fFA5Nex3L1c9Qyj
-	 55ZcT9xbyU2nUnY9cGRMGllH480gOjPOIX85QkhpmkV2QcXHZVwlmMaADADDPGpRip95M
-	 Q+LH2LnpMfb+0SnSXPCc3LbQdQTDxGg0pHdj5adxrDEWrtV5f+WDSS93blamJVHmE838O
-	 ZbeeyonuQYMVGO+kD6X6FdQAzgPk0L+55lxdsvQBPcKXaY1GHIvcu4Lq6ZLtimSJmNQ==
+	t=1794448146;
+	b=21/IrL9r2dyloiZ1hsy0v4hunAWzVXT7EwoMAbXYEHncpaxm3qFUGfVkOBHKdsiXGSeD
+	 +fCq+XO003hsKHZ6U+HAecI2xgSLj325ioyiuEKVIHAX+NFn56jo+ipnhMj4zNwNulKdb
+	 2fgIlrzronZJOOm/XgX1D0p1oyoWBiijZADczn9KRG7iuwyLSTMdIVn1BCJXlBXwTaYWK
+	 UM+5PBTQVfquDAkcchP9NVpP6wqb2bg/2q60wW6WyM/xNBx9pCX/1a45KJy8u2n4l/T3U
+	 8KoY2F/ffDjMb1vEJAm6S2W26xXPJMb80weuYctL+xSZlZdMOWAyzU7slxhKaRo/5GA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794447992;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=f+XkNcgdG0Sy9wKL/HCuBDFw6WXi30Rm2xWjumq4AE8=;
-	b=eAWzdNjByBcOBKpuMwjJq6CMs3KyiUrN6Bl+tks7KI1twdocV4uacAFgUDza1d6502nK
-	 gPMRMx1pyB4Fxv9ObCWodWzaS5xB/LpD//h/I6KYkM9VaMhxbuxVLHitK+FDXJ1qTOoHI
-	 xuqNZLJMbHq8f0L1eOC+zkW5SPs6T1ZFsQ5puu8gbpO0chnfIm9lWQBLwY0y8iwtfaTfA
-	 9l8kT8McI7naPzIpvDHcD5i1Uh17xq6VtTiDokgNTchH/Hxee2tBFIX4jj31BESLSv6gF
-	 ZQ6e89tBrfOnoEk3JmP+GsGV0Hfmlxrukek9MBFoxSeZ0s4cQIS1Eq5rpoEd0EsjIwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794448146;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=8vIz8xYau+WtFrk0xTr9b5QoDkJ8T5uH0TopCPW+Ht0=;
+	b=VAAccSG3qITPuS52fMaR/1XIs9B6B7lURoi/qsQqlXV/goMjv/IsjrbjItYhsOnNRie0
+	 b6kuakT87QMq96QFrGriKORYui0NNhrBgqffMorzgKQDlc8L7QJ0Zw5kKh0Ejw7GLsLN9
+	 8fr7x8be7kQupDVAFUoT3/8BHY/DqtO0ZJcqsLJxcvSEjF5g4EKF24L7KuA5Uy8x+TIh+
+	 Oje424A7U3UuwdqebSdYnF/qZreGm78ZwgaOVKKKBH2r5pRBelrdiXTFwNkSCYItRsJ//
+	 mo+1oEVNmOGmS+B6aLm8y/PMZMJWXyptR1Y35V4ZsTNlYZG4sieMRl05cHeKV3uTngA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VnKsYILe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZUR1Pivf;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20B7E606A338;
-	Thu, 12 Nov 2026 01:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 023FB606A323;
+	Thu, 12 Nov 2026 01:49:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 023FB606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VnKsYILe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9FAC21F00A05;
-	Thu, 12 Nov 2026 01:46:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794447991;
-	bh=f+XkNcgdG0Sy9wKL/HCuBDFw6WXi30Rm2xWjumq4AE8=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=VnKsYILesXYWEYm/qO+C8ozkPFtrbagYux+N40hoTqwuraizfOxhaum/g8oqq/+us
-	 AiAL1pywFeUQbSJOjQL96kktN1RInFGf64VRezBLUW3aDXw1nnpYM7SPfAiNpctDgj
-	 EA3NzG/LCUXQ0Lm0Od27k9DSdXxzE7lIJjnRdwyW3GDQ0pNWycQBJ5mtZpdjxYhGeC
-	 j6HWcL+rXoSUoxxJzG0Pi229MK+cIx+Vkyt5Rnd9nFiLfjzTlpyKT+Mqy+YVdOSXf6
-	 NOAmjC/spTQLBhA6fYJp5qFjGaEIN+FHKLm/BH6XZ//YerAS6hM2HM6yvLgDvZ3GNG
-	 iqfm9bM8ko59Q==
-Subject: Re: [PATCH net-next v2] net: add SO_BYPASS_RFS to exclude a socket
- from RFS and aRFS
-From: netdev-bot+sashiko@kernel.org
-To: vitaly.zuevsky@gcore.com
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org,
- richard.henderson@linaro.org, mattst88@gmail.com, linmag7@gmail.com,
- tsbogend@alpha.franken.de, James.Bottomley@HansenPartnership.com,
- deller@gmx.de, andreas@gaisler.com, kuniyu@google.com, willemb@google.com,
- arnd@arndb.de, brauner@kernel.org, andrew@amutable.com, jkoolstra@xs4all.nl,
- alexander@mihalicyn.com, tariqt@nvidia.com, saeedm@nvidia.com,
- nashuiliang@gmail.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-alpha@vger.kernel.org,
- linux-mips@vger.kernel.org, linux-parisc@vger.kernel.org,
- sparclinux@vger.kernel.org, linux-arch@vger.kernel.org
-Date: Thu, 12 Nov 2026 01:46:29 +0000
-Message-ID: <179444798912.2199510.16652368770211815180@kernel.org>
-In-Reply-To: <20261109014547.81555-1-vitaly.zuevsky@gcore.com>
-References: <20261109014547.81555-1-vitaly.zuevsky@gcore.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=ZUR1Pivf
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=8vIz8xYau+WtFrk0xTr9b5QoDkJ8T5uH0TopCPW+Ht0=; b=ZUR1Pivf7YfAPwvJVMDDsk3Jzp
+	0grOW/HpN24mmm5CWYJw548vD7py3YwdfURplC+tK3WNgHgaeIg97N5X5IGC60uprIDaFcaXyldV0
+	2DDUf82sallNIesdaI5ir+Q5DxcH4WUNSi3ZaXYfklmnu+JhczffaiyoWlhpis9DDh7ke2D0Wnm1/
+	E8ejpeBozWlDmjGCvrWyNho5YVnSCC5MJdfvxhCr1tpAItxFYwXbla0UNRiy8fC7NOVOGZgzTMGDD
+	cy9/lqEVBA9tJCrOPHsaM7rk7Dslgfi23hgjhP/gtg02gehiZhyG+jNlFvmxiYZaacJUI0k6lYz0T
+	MxJBZESQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xRJvz-00000008RjV-3qVJ;
+	Thu, 12 Nov 2026 01:49:03 +0000
+Message-ID: <e6f8e81b-3c49-4112-b119-778fb8b89f38@infradead.org>
+Date: Wed, 11 Nov 2026 17:49:02 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,228 +58,116 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/40] nitro_enclaves: Add support for Nitro Sandboxes
+To: Alexander Graf <graf@amazon.com>, linux-kernel@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Arnd Bergmann <arnd@arndb.de>
+Cc: The AWS Nitro Enclaves Team <aws-nitro-enclaves-devel@amazon.com>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, linux-doc@vger.kernel.org,
+ iommu@lists.linux.dev, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ nh-open-source@amazon.com, linux-mm@kvack.org,
+ Jonathan Corbet <corbet@lwn.net>
+References: <cover.1794300002.git.graf@amazon.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <cover.1794300002.git.graf@amazon.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 5 potential
-issue(s) to consider.
 
-Critical: 0 · High: 0 · Medium: 2 · Low: 3
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+On 11/11/26 2:41 PM, Alexander Graf wrote:
+> 
+> Alexander Graf (40):
+>   nitro_enclaves: Allow the CPU pool to span NUMA nodes
+>   nitro_enclaves: Add NE_ADD_ANY_VCPU
+>   nitro_enclaves: Expose CPU pool state under sysfs
+>   nitro_enclaves: Document multi-NUMA CPU pools
+>   dma-contiguous: add dma_get_numa_cma_area() accessor
+>   nitro_enclaves: Allocate physically contiguous enclave memory
+>   nitro_enclaves: Add NE_MEMORY_SHARED
+>   nitro_enclaves: Add NE_ADD_MEMORY_REGION
+>   nitro_enclaves: Document the memory pool
+>   nitro_enclaves: Add NE_CREATE_VM2 with a launch flag word
+>   nitro_enclaves: Add NE_ENCLAVE_PCIE_MODE launch flag
+>   nitro_enclaves: Name the device's error codes in the UAPI header
+>   nitro_enclaves: Log a reached device limit at info level
+>   nitro_enclaves: Add NE_SET_INFO_PAGE
+>   nitro_enclaves: Document the info page in the memory pool
+>   nitro_enclaves: Turn the command reply into a per-command union
+>   nitro_enclaves: Add the slot pool donation commands
+>   nitro_enclaves: Donate memory for the slot pool
+>   nitro_enclaves: Add the slot pool growth commands
+>   nitro_enclaves: Add a helper to grow the slot pool
+>   nitro_enclaves: Document the slot pool
+>   nitro_enclaves: Expose slot pool state under sysfs
+>   nitro_enclaves: Add the device add command
+>   nitro_enclaves: Add NE_ADD_DEVICE
+>   nitro_enclaves: Read the interrupt multiplexer geometry at probe
+>   nitro_enclaves: Donate a bitmap page per multiplexed vector
+>   nitro_enclaves: Dispatch multiplexed interrupts to per-queue bindings
+>   nitro_enclaves: Add NE_SET_NOTIFY_EVENTFD
+>   nitro_enclaves: Report the device's info notification
+>   nitro_enclaves: Count multiplexed interrupts under debugfs
+>   nitro_enclaves: Map the doorbell window at probe
+>   nitro_enclaves: Add NE_SET_VRING_CALL
+>   nitro_enclaves: Assert the layout of the ioctl argument structs
+>   nitro_enclaves: Pass on the Nitro Sandbox launch flags
+>   nitro_enclaves: Add NE_ENCLAVE_DIRECT_MODE
+>   nitro_enclaves: Add NE_ENCLAVE_PCIE_HOTPLUG_MODE
+>   nitro_enclaves: Add NE_ENCLAVE_CPU_OVERCOMMIT_MODE
+>   nitro_enclaves: Add NE_GET_CAPS
+>   nitro_enclaves: Add NE_UPDATE_DEVICE_CONFIG
+>   nitro_enclaves: Document the driver side of Nitro Sandboxes
+> 
+>  .../sysfs-devices-virtual-misc-nitro_enclaves |  232 +
+>  Documentation/virt/ne_overview.rst            |  256 +-
+>  MAINTAINERS                                   |    1 +
+>  drivers/virt/nitro_enclaves/Kconfig           |   19 +
+>  drivers/virt/nitro_enclaves/ne_misc_dev.c     | 4832 +++++++++++++++--
+>  drivers/virt/nitro_enclaves/ne_misc_dev.h     |  206 +-
+>  drivers/virt/nitro_enclaves/ne_pci_dev.c      | 1568 +++++-
+>  drivers/virt/nitro_enclaves/ne_pci_dev.h      |  599 +-
+>  include/linux/dma-map-ops.h                   |    7 +
+>  include/uapi/linux/nitro_enclaves.h           | 1182 +++-
+>  kernel/dma/contiguous.c                       |   36 +
+>  samples/nitro_enclaves/ne_ioctl_sample.c      |   10 +-
+>  12 files changed, 8282 insertions(+), 666 deletions(-)
+>  create mode 100644 Documentation/ABI/testing/sysfs-devices-virtual-misc-nitro_enclaves
+> 
+> 
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
 
-- [Medium] The commit message says setting SO_BYPASS_RFS on a socket that
-  was already recorded means the flow "stops being steered with the next…
-- [Medium] Setting SO_BYPASS_RFS does not reliably remove the socket's
-  rps_sock_flow_table entry, and an entry re-recorded in a race is never…
-- [Low] The commit message says that setting SO_BYPASS_RFS on a listening
-  socket "excludes every connection accepted from it".
-- [Low] SO_BYPASS_RFS is added as a generic SOL_SOCKET option, but
-  MPTCP's SOL_SOCKET handler was not updated.
-- [Low] sk_bypass_rfs is a 1-bit bitfield in sock_common
-  (include/net/sock.h:186).
+That's 7.4-rc1, but I can't get this series to apply cleanly to
+7.4-rc1 or linux-next...
 
---
+IMO it would be better if the series applied to something
+newer than 7.4-rc1.
 
-net: add SO_BYPASS_RFS to exclude a socket from RFS and aRFS
-
-This adds a boolean SOL_SOCKET option, SO_BYPASS_RFS, that keeps a
-socket out of rps_sock_flow_table, so neither RFS nor aRFS steers its
-flow. The state is a new bit in sock_common that sock_copy() copies to
-children, and setting the option clears any existing table entry. Close
-time deletion is skipped for bypassing sockets.
-
-> diff --git a/Documentation/networking/scaling.rst b/Documentation/networking/scaling.rst
-> index 6c9836000a8d1..b23c874056225 100644
-> --- a/Documentation/networking/scaling.rst
-> +++ b/Documentation/networking/scaling.rst
-> @@ -428,6 +428,21 @@ queues. So for instance, if rps_sock_flow_entries is set to 131072 and there
->  are 16 configured receive queues, rps_flow_cnt for each queue might be
->  configured as 8192.
->  
-> +Excluding individual sockets
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> +
-> +RFS is configured per host and per queue, but whether it pays off
-> +depends on the traffic pattern. SO_BYPASS_RFS keeps a socket's flow
-> +out of rps_sock_flow_table, so neither RFS nor accelerated RFS acts on
-> +it: packets stay on the CPU chosen by RSS or RPS, and no filter is
-> +programmed into the NIC. The option is inherited through accept(), so
-> +a listening socket that sets it excludes every connection it accepts
-> +while the sockets the process connects itself remain steered. It may
-> +be set at any time; an entry already recorded is removed. This suits
-
-[Severity: Low]
-
-Is "inherited through accept()" accurate? The bit sits in the copied
-part of sock_common. It reaches the child through sock_copy() in
-sk_clone() when the child is created at handshake completion, not at
-accept():
-
-	memcpy(nsk, osk, offsetof(struct sock, sk_dontcopy_begin));
-
-Setting the option on the listener does not walk the accept queue. A
-connection whose handshake finished before the setsockopt() therefore
-has sk_bypass_rfs == 0. When that connection is accepted later,
-__inet_accept() still does:
-
-	sock_rps_record_flow(newsk);
-
-so the flow is recorded and steered.
-
-The commit message says "setting it on a listening socket excludes
-every connection accepted from it". Should both texts say that only
-connections established after the option is set inherit it?
-
-[ ... ]
-
-> diff --git a/include/net/rps.h b/include/net/rps.h
-> index e33c6a2fa8bbc..7c62ae607d182 100644
-> --- a/include/net/rps.h
-> +++ b/include/net/rps.h
-> @@ -149,7 +149,7 @@ static inline void sock_rps_record_flow_hash(__u32 hash)
->  static inline void sock_rps_record_flow(const struct sock *sk)
->  {
->  #ifdef CONFIG_RPS
-> -	if (!rfs_is_needed())
-> +	if (!rfs_is_needed() || sk->sk_bypass_rfs)
->  		return;
-
-[Severity: Low]
-
-Will KCSAN report this read? sk_bypass_rfs is a 1-bit bitfield. It
-shares a byte with skc_reuse, skc_reuseport, skc_ipv6only,
-skc_net_refcnt and skc_bypass_prot_mem.
-
-sk_setsockopt() writes it with a plain read-modify-write under the
-socket lock. sock_rps_record_flow() reads it without the lock on the
-per-packet paths (inet_recvmsg(), inet_send_prepare(),
-mptcp_rps_record_subflows() and others). sock_rps_delete_flow() and
-sk_getsockopt() also read it without the lock.
-
-Bitfields cannot be wrapped in READ_ONCE()/WRITE_ONCE(), and none of
-these accesses use data_race(). Nearby lockless fields such as
-sk_rxhash and sk_incoming_cpu use READ_ONCE()/WRITE_ONCE(), and the v1
-sk_flags approach used atomic bitops. Would non-bitfield storage or
-data_race() annotations be better here?
-
-[ ... ]
-
-> diff --git a/net/core/sock.c b/net/core/sock.c
-> index e2401d735c5a7..00808217aebf1 100644
-> --- a/net/core/sock.c
-> +++ b/net/core/sock.c
-
-[ ... ]
-
-> @@ -1597,6 +1598,14 @@ int sk_setsockopt(struct sock *sk, int level, int optname,
->  		reuseport_update_incoming_cpu(sk, val);
->  		break;
->  
-> +#ifdef CONFIG_RPS
-> +	case SO_BYPASS_RFS:
-> +		if (valbool)
-> +			sock_rps_delete_flow(sk);
-> +		sk->sk_bypass_rfs = valbool;
-
-[Severity: Medium]
-
-Can a concurrent recvmsg() or sendmsg() put the entry back here? The
-delete runs while sk_bypass_rfs is still 0. inet_recvmsg() and
-inet_send_prepare() check the bit and write the table without the
-socket lock:
-
-CPU0 (setsockopt, lock_sock held)    CPU1 (recvmsg, no socket lock)
-                                     sock_rps_record_flow()
-                                       sees sk_bypass_rfs == 0
-sock_rps_delete_flow()
-  slot = RPS_NO_CPU
-                                       _sock_rps_record_flow()
-                                         slot = hash | cpu
-sk->sk_bypass_rfs = 1
-
-After this, every sock_rps_record_flow() and sock_rps_delete_flow() on
-the socket returns early on the bit. That includes the close-time
-cleanup in inet_unhash(), udp and sctp.
-
-Does the stale entry then keep steering the flow through RFS after the
-socket is closed, until a colliding hash overwrites it? With aRFS it
-would also keep the NIC filter active, since rflow->last_qtail keeps
-advancing.
-
-Setting the bit before the delete would only narrow the window, unless
-the record side re-checks after a paired barrier or the close-time
-delete is kept for this case.
-
-[Severity: Medium]
-
-Does this stop steering for a flow that accelerated RFS has already
-steered? The only cleanup here is
-sock_rps_delete_flow()->_sock_rps_delete_flow(), which writes
-RPS_NO_CPU into the rps_sock_flow_table slot. The per-rxqueue
-rps_dev_flow entry and the filter installed by ndo_rx_flow_steer()
-stay in place.
-
-The driver removes that filter only when rps_may_expire_flow() returns
-true:
-
-net/core/dev.c:rps_may_expire_flow() {
-    ...
-		if (READ_ONCE(rflow->filter) == filter_id &&
-		    rps_flow_is_active(rflow, log, cpu))
-			expire = false;
-    ...
-}
-
-Once the socket entry is cleared, get_rps_cpu() sends this flow to
-try_rps:
-
-		ident = READ_ONCE(sock_flow_table[flow_id].ent);
-		if ((ident ^ hash) & ~net_hotdata.rps_cpu_mask)
-			goto try_rps;
-
-At that point rflow->last_qtail stops advancing. Expiry then depends
-only on unrelated backlog traffic on the target CPU. If that CPU sees
-little RPS/RFS backlog traffic, can the flow stay hardware-steered
-indefinitely?
-
-With software RFS, the flow also moves to the RSS/RPS CPU at once. It
-skips the input_queue_head vs last_qtail check that get_rps_cpu()
-normally uses to hand off in order. If the option is set mid-flow, can
-packets still queued in the old CPU's backlog be delivered out of
-order?
-
-The commit message says "a flow recorded earlier stops being steered
-with the next packet". scaling.rst says "no filter is programmed into
-the NIC" and "It may be set at any time; an entry already recorded is
-removed". Should the documentation describe these effects, or should
-the rps_dev_flow and filter state be handled too?
-
-> +		break;
-> +#endif
-
-[Severity: Low]
-
-Should MPTCP be covered as well? mptcp_setsockopt_sol_socket() accepts
-a fixed list of SOL_SOCKET options and ends with:
-
-	return -EOPNOTSUPP;
-
-so setsockopt(SO_BYPASS_RFS) on an MPTCP socket fails. The option is
-also not in the comment there that lists unsupported options.
-
-MPTCP records RFS entries per subflow through
-mptcp_rps_record_subflows()->sock_rps_record_flow(ssk), which tests
-ssk->sk_bypass_rfs. sync_socket_options() copies sk_incoming_cpu to new
-subflows but has nothing for sk_bypass_rfs. So allowing the option on
-the msk alone would not affect the subflows.
-
-SO_INCOMING_CPU is handled in mptcp_setsockopt_sol_socket(),
-mptcp_sol_socket_sync_intval() and sync_socket_options(). Could
-SO_BYPASS_RFS be handled the same way, or at least be listed as
-unsupported?
+> prerequisite-patch-id: 542b3d78fda912095b75a49becd1b93109befdbc
+> prerequisite-patch-id: 318368e966c1925652b7976948f435d42b87c72f
+> prerequisite-patch-id: eb35b5d713e7f50f6d1d02310c9afe10b1628fc6
+> prerequisite-patch-id: 223bf6e60620ca8fe72f3ff6f3bd3f5839cdd6d5
+> prerequisite-patch-id: e5305ce0515a02f7f88e72adf02c6a2bee2fd2e0
+> prerequisite-patch-id: 759b5920f842d70e675770608d9088639c10559e
+> prerequisite-patch-id: e1837df37663da3d3ce53afa4594828b2d602152
+> prerequisite-patch-id: f0d4302bd36f94de95951a0db1ae9eb9747076aa
+> prerequisite-patch-id: 41159b92e250fef705be52f714b6e2761a2cd1f7
+> prerequisite-patch-id: a0c3a56907acac2297c800209faa2849a8df0e48
+> prerequisite-patch-id: a80a95bd682b540be5760e8fdf7044379fe32d61
+> prerequisite-patch-id: 9c01e0fecd6810f3448582715c87cd3dd7a6cdf1
+> prerequisite-patch-id: b94dfc8bb1039740d88a30535445bb7b3dd1fe74
+> prerequisite-patch-id: bd76f15728dc0ee2ca3417cd95a6b23a7d63e91f
+> prerequisite-patch-id: 0c60f1574b590f68885a25760017e9ff87752f66
+> prerequisite-patch-id: 63dff43da52934a6e6f5e65c3e235a7114b6b4dc
+> prerequisite-patch-id: af52cf938525874cadd6d879aa76495e563876d2
+> prerequisite-patch-id: f53ee22764b5f13708cacd3e48a59a82d71a270c
+> prerequisite-patch-id: 258b8c18168db49aacbda5156e33978b539666ab
 
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261109014547.81555-1-vitaly.zuevsky%40gcore.com
+~Randy
+
