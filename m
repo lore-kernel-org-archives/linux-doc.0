@@ -1,58 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.217
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794447758;
-	b=wAbsEnmfm9ovyRtd1LjskSUGeAuOuSgJMBRZ6ya2/kC0GLEFjqSSQh68Uvx87DlalyxW
-	 kyFE76GS/QwWBrob0/UXSsnwr2IBSVleely5p+LtVincJnkxNiDmuGC/PSgXm4q8yyCgd
-	 AarEQ6ugoQ7rLh5eaXI5hoIZcO2H1ZJl3vlcLIguM5sJHthek8NkcfcKTL/Y/9Cq5Y8kf
-	 efa6LWGpL/VmtMshpGJIQ51/1/0mXr6pNsfboxpy2cvLDphYRnNj3hsVXOD3baC8Qq+to
-	 oJ1CEXqotsO8WRPxdpQfHr9EpPjvgZ9+b1C7HdmUlEbh0pSrVR7+AHNIuU3wcOM6pUQ==
+	t=1794447898;
+	b=DJmYNxIDtyi6YGXm82KshFtC1/WufKbeRekVOV4etx4cD3BpY0SqQCvWGpiJxTzzNvAl
+	 HSYyS3N4Y5in999hZy4ir2/h6x/gowG3PHLGIOq4rjg6DfImmwH+IeVUmq6rSXbB9duSP
+	 QwLw/SIkvq8Y3iYhqvnEkpUpi/qm5UNWKKudbh33UbMLINX1EE9PjCIpD0lKlWJiR+m9L
+	 wpuMz39Y5rF43pcNKG0SGNlaBpNn5CcW1RSz24s630vjIQcfQVIoRJli5TOAhSVT7SfFA
+	 rsN2Dt4E4jpoy5WMsVil290SQnx4CXIRlJMIj7TUDCwH307NUpPPJJeLnnpGnekDAKg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794447758;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794447898;
 	h=DMARC-Filter:dkim-signature:Received:Received:Received:Message-ID:
 	 Date:MIME-Version:User-Agent:Subject:To:References:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:X-Originating-IP:
 	 X-ClientProxiedBy;
-	bh=qW9MSBzHosQ7hdtobAJ7KEVajyY4W/gqzP4pj0COmPc=;
-	b=XNZZgIoS+bCoR8nJAW2c+UEbCNArPudZ65oKirlxZVNM+uApyucFBf82+vpL/dpR0rMC
-	 pvbM7ypAKSFohgI3uuE+96yXkZvxk76tn/rGi9lGx/XZ6jpnNp5XxaTxh7vRMjk+Cii73
-	 QYImnEkxNTZ3uPemEbqTCMGZPe8CXph5EKtgz2YjnaEwNaPVT35K5P5vCE9oNhAW1vp4k
-	 KwdT0J1f2BZi/K6dO5dD2A3fucAa6VckXzlS4cAvc0bCoeblviHvJOoq545TSMoa811xX
-	 Y6rSgYa0UbL8dRhJuaM7VMUAKI1m3WtskotjvXu6/+T70TvIXZLhwfdv6MhZ1zykJnA==
+	bh=SwB65NDCD7dMl4GMFsA6YFDjlZbBOrv7n+wN9M5+n+k=;
+	b=ruisT0mVqsjspE2BYz0d9xUP8dPeawwXx0X/9C64v/gkKyrZw4QkHLspsjP6a/z6MixH
+	 Pe4q56JB49bDbCExyJfzqLCOwQ1RM8RzxIBBMlB8pniHvwN/C/eakR7xFiYsZOUCHJLnp
+	 /2dLn9GJWCKYw6/D/CVPeypSte9pkC5ttw9NC3uFCQfS+PV0rx+K0t03KWb8xkjEADqPm
+	 +fiKUDxhVktLnofk81k/eWGnVMeYuG/en3VDtB1IyYT+eFzzN/8YrHZfQSqc09vp0rSRw
+	 roBa9to5E/Xf6IVZqubsqmko6uG0fZ3FZ1xHFctI2D1qKhP6uV4hDxd8lPjTbI0cI+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=huawei.com;
 	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=VPfINziM;
-	arc=none smtp.remote-ip=113.46.200.224
-Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b="mSGHV/fR";
+	arc=none smtp.remote-ip=113.46.200.217
+Received: from canpmsgout02.his.huawei.com (canpmsgout02.his.huawei.com [113.46.200.217])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 519F3606A323;
-	Thu, 12 Nov 2026 01:42:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 519F3606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FE27606A31C;
+	Thu, 12 Nov 2026 01:44:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4FE27606A31C
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=VPfINziM
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=mSGHV/fR
 dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
 	c=relaxed/relaxed; q=dns/txt;
 	h=From;
-	bh=qW9MSBzHosQ7hdtobAJ7KEVajyY4W/gqzP4pj0COmPc=;
-	b=VPfINziMutmXzV51O0x5Q8I/yYikzzBejH83e1meaMnYhaleoueAtFgbUctSPO5l8+ER9+kwc
-	VjpVw9ZxTtA7rGXfplerLYkNHJXidhA38iozeWzw9VZis0gAOobg+DSyVkQkPzy8zyCLHbUzi+A
-	5r0i0vA4P5rDJXYTNFq2d54=
-Received: from mail.maildlp.com (unknown [172.19.163.15])
-	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jQ36K1vHHz1cyS0;
-	Thu, 12 Nov 2026 09:42:17 +0800 (CST)
+	bh=SwB65NDCD7dMl4GMFsA6YFDjlZbBOrv7n+wN9M5+n+k=;
+	b=mSGHV/fR8NRZ00QkQkxMsHT2/fNb1dGbrG0Aza/+7P9FywLB7M/q0XAH+pHDn2X2xEnU1awzB
+	MzUL474Y0lp/k0rQtAwYmg6VTDlmks8GIEJPww3VmqMFhWKIU6/wWBoWXDBUF96RvtBdcxv4aim
+	4Lrm8hKbbgx0esMny6tczf8=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout02.his.huawei.com (SkyGuard) with ESMTPS id 4jQ38Y2gZCzcb0y;
+	Thu, 12 Nov 2026 09:44:13 +0800 (CST)
 Received: from kwepemk200008.china.huawei.com (unknown [7.202.194.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 2D61340578;
-	Thu, 12 Nov 2026 09:42:33 +0800 (CST)
+	by mail.maildlp.com (Postfix) with ESMTPS id 477D94056E;
+	Thu, 12 Nov 2026 09:44:54 +0800 (CST)
 Received: from [10.67.110.68] (10.67.110.68) by kwepemk200008.china.huawei.com
  (7.202.194.74) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.45; Thu, 12 Nov
- 2026 09:42:31 +0800
-Message-ID: <7d27b172-d186-4b7a-87af-d0d25554b964@huawei.com>
-Date: Thu, 12 Nov 2026 09:42:31 +0800
+ 2026 09:44:53 +0800
+Message-ID: <e4bfab88-be7f-4146-99ff-c7023f2cb0bb@huawei.com>
+Date: Thu, 12 Nov 2026 09:44:52 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -63,7 +63,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 RESEND 7/7] fs/resctrl: Add info/moveable_mon_group
+Subject: Re: [PATCH v5 RESEND 3/7] fs/resctrl: Clear the CDP state after the
+ cleanup
 To: Reinette Chatre <reinette.chatre@intel.com>, <tony.luck@intel.com>,
 	<Dave.Martin@arm.com>, <james.morse@arm.com>, <babu.moger@amd.com>,
 	<corbet@lwn.net>, <skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
@@ -74,10 +75,10 @@ To: Reinette Chatre <reinette.chatre@intel.com>, <tony.luck@intel.com>,
 	<x86@kernel.org>, <linux-kernel@vger.kernel.org>,
 	<linux-doc@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
 References: <20261110133938.3768632-1-ruanjinjie@huawei.com>
- <20261110133938.3768632-8-ruanjinjie@huawei.com>
- <efd9c3d5-a732-47bf-bca1-50a8650fd0ef@intel.com>
+ <20261110133938.3768632-4-ruanjinjie@huawei.com>
+ <ad702ee1-ef91-412a-99ad-e425325e21a4@intel.com>
 From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <efd9c3d5-a732-47bf-bca1-50a8650fd0ef@intel.com>
+In-Reply-To: <ad702ee1-ef91-412a-99ad-e425325e21a4@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
@@ -85,60 +86,91 @@ X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
 
 
 
-在 2026/11/12 2:34, Reinette Chatre 写道:
-> Hi Jinjie and Ben,
-
-Hi Reinette,
-
+在 2026/11/12 2:27, Reinette Chatre 写道:
+> Hi Jinjie,
 > 
 > On 11/10/26 5:39 AM, Jinjie Ruan wrote:
->> Moving a MON group into the mon_groups directory of another CTRL_MON
->> group changes the CLOSID of the group while its RMID stays the same.
->> Where the RMID is only meaningful together with the CLOSID, as on arm64
->> MPAM, the move changes the RMID index of the group and is rejected with
->> -EOPNOTSUPP.
+>> On MPAM a CLOSID is translated into the PARTIDs that the hardware
+>> configuration uses. Without CDP, CLOSID c is PARTID c; with CDP it is
+>> PARTIDs 2c and 2c+1. resctrl_unmount() clears the CDP state with
+>> rdt_disable_ctx() before resctrl_fs_teardown() removes the groups, so
+>> the teardown translates the CLOSIDs differently from when the groups
+>> were set up.
+> 
+> This behavior is not unique to MPAM. Above makes this sound like
+> architecture specific behavior that makes one wonder why this needs
+> to be fixed in resctrl filesystem
+
+Will update it >
 >>
->> Userspace cannot tell whether the move is supported without trying it.
->> Add "info/moveable_mon_group", which reads 1 when a MON group can be
->> moved to another CTRL_MON group and 0 when the move is rejected, and
->> refer to it where resctrl.rst describes the move.
+>> For example, rdtgroup_unassign_cntrs() unassigns and resets the MBM
+>> counters of each group through resctrl_arch_config_cntr(). On MPAM that
+>> helper maps a counter to a monitor with the index
+>> resctrl_get_config_index() returns for the CDP state. A counter assigned
+> 
+> Please take care not to narrate the code. Instead just describe the flow
+> on a high level to help understand the change without needing reader to
+> refer to the code much.
+
+Sorry, will describe it on a high level>
+>> while CDP was enabled is mapped to the monitor for PARTIDs 2c and 2c+1.
+>> With CDP cleared, MPAM removes the mapping of PARTID c and resets the
+>> monitor for PARTID c instead, so the mappings of PARTIDs 2c and 2c+1 are
+>> left behind. The helper had an empty body on MPAM until the ABMC support
+>> implemented it, which is when the teardown started to program the
+>> mapping with the cleared state.
 >>
->> Suggested-by: Ben Horgan <ben.horgan@arm.com>
+>> Clear the CDP state after resctrl_fs_teardown(), so the teardown runs
+>> with the CDP state the configuration was created under.
+>>
+>> x86 is not affected as its RMIDs and counters do not depend on the
+>> CLOSID.
+> 
+> I think x86 is lucky here to not have encountered this issue and this fix
+> applies to it just as much, adding to motivation for this needing to be
+> included in the filesystem. Below is an example of a changelog that aims
+> to capture all the comments, you need not use verbatim and are welcome to
+> improve (and please correct) it:
+
+Will consider the example, thank you!
+
+> 
+> 	To support CDP, resctrl halves the number of CLOSIDs available to
+> 	resource groups and gives each remaining CLOSID two hardware
+> 	configurations instead of one, distinguished by index: 2 * CLOSID for
+> 	data and 2 * CLOSID + 1 for code. Without CDP a CLOSID has a single
+> 	configuration, at index CLOSID. Every architecture computes these
+> 	indices the same way.
+> 
+> 	Unmounting clears the CDP state before it undoes what the groups were
+> 	given, so the cleanup computes index CLOSID where the group was set up
+> 	with 2 * CLOSID and 2 * CLOSID + 1. The group's two configurations are
+> 	left in place and index CLOSID is cleared instead, which with CDP
+> 	enabled is a configuration of a different CLOSID. The architecture may
+> 	keep this state for as long as the resource exists.
+> 
+> 	Only MPAM can reach this today. Of everything the cleanup has to undo,
+> 	MPAM addresses only the MBM counter assignment by the translated CLOSID,
+> 	and it only began doing so when it implemented assignable counters. x86
+> 	addresses its counters by RMID alone.
+> 
+> 	Clear the CDP state after the cleanup, so that the cleanup runs with the
+> 	CDP state the groups were set up under.
+> 
+>>
+>> Fixes: 6e0e538a75ce ("arm_mpam: resctrl: Add resctrl_arch_config_cntr() for ABMC use")
 >> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+>> Cc: <stable@vger.kernel.org> # 7.3+
 > 
-> Do you find that this binary "supported/unsupported" accurately captures
+> Looks like 6e0e538a75ce landed in 7.3 so the stable constraint looks unnecessary?
+> 
+>> ---
+> Patch looks good to me.
 
-I think this behavior is deterministic on MPAMv1, so that's enough for mpam.
-
-> everything that MPAM may ever want to do in this area? Could it be that, for
-
-That would be what the new version of MPAM does (such as v2 mentioned
-below), the behavior of the mapmv1 version is already determined..
-
-> example, one day MPAM may be asked to support the move of a monitor group to
-> support scenarios where the reset of monitor counts is acceptable to the customer
-> and availability of PMG will be managed as part of the scenario needing support?
-
-As stated in the MPAM manual, MPAMv2 completely separates PARTID and
-PMG, allowing for more flexible and fine-grained monitoring statistics
-across partitions, so the CONFIG_RESCTRL_RMID_DEPENDS_ON_CLOSID will not
-set for v2, However, it might need to be changed to a dynamic switch..
+Thanks for the review.
 
 > 
-> When adding a new interface it helps to consider future possible changes and
-> aim to create an interface that solves the immediate problem while leaving room
-> for future enhancements. If we do not do that the interface becomes a maze due
-> to new files just being added to address the problem of the day.
-> 
-
-I agree with your idea. We need to think twice before we act.
-
-> I would like to propose that this patch be submitted separately with the goal
-> to obtain more feedback on the new interface. 
-
-I don't object, but I understand this is the same thing as the previous
-patch. I'd like to hear Ben's advice.
-
+> Thank you very much.
 > 
 > Reinette
 
