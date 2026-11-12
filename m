@@ -1,84 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794482789;
-	b=V6hDR1BT2r9Cwg0gI/8FWbDoX1n4i6Sh9lUuMi3kUwuf0E+zFIvHG60CE56pRlGGFa3i
-	 FfWqZWeBDPP/K9ndon65XPYltsI0aalOwdaNg6amnqT2YfkaExto3TC5+Tj/OiaaXiEUt
-	 yB7JQJoBsAZSd4onoossIMER8efvKtgYVn/HjDlSZQaCcNULrp7MbOQRz9oTdz+03K8Me
-	 MMitnC0+AWRjmuqxfrS3Crxoen05jLwou1eN2C7gFT0qgZ4wKwBsmtuKFwBOY7TNZH3pf
-	 FAQmcD1TgnCged4iDmAQeJdskLdKj7gBWVS15QlAfn+j7yWZfTg4102PaNPRtnAlb2g==
+	t=1794483158;
+	b=jHsMiGs4OOGnS/GY9D63pE6S7E2YKcXidT2uRxVNDmh6xBD549s6mhoNdPSng/Pm/reS
+	 JDMjwe1dTHdNVRr1VVrbb/sAc90JHcvxS/W8dquispfaoOE2lG0w5GLH9rxCZIyMgRzZu
+	 t9oH4iuKOVyVuUMVx4tKr5thbo986Y1rMIgyENFuCqxHEavpFSdqycmJMXAWkXSfcZxeF
+	 dwt8piTHAuvGeF6IouEXsIMNeR3fRA1sekrvh2VOzu1Gt6wlkZeOk5+7ThktyqzHkJJWw
+	 +aZN739AUQoXWuMldi6k9/GhDQz1MVmT434PvQNWTc6gHVc+TVmLbQjagScygvw4KdA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794482789;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=2nWBtEEn4hd48cIOC+JW/bLoHA1gTBtQ/8nPmmpZzBk=;
-	b=DJH+W4k+rAl3VU4n3gQ9P4cGFDY1x26kbSsDIma+fCf/dtqqwtCzE/3PrhrHoPq3maCx
-	 Z1llBrYMu39mDOvvKzyH6MEMMIAk56FVtUOXgu4vvQhJlQ9DQPxbRvLACP6iYJAW1AeC3
-	 4I3bdxBIlbq4OXhyhijjdWqXyv8y8RxJh4CsKA+QG1Xz2gKI/TINnf1f63UmTLOiJ+48e
-	 caabL6XYdQgBIyEA7OW2y3iyywnm6ZGPkM9gYB8/UH7XKVzCiUpxvmoDmLhMRltOVNCE8
-	 jvTjWNXWg14NPsIyLZ/tziFbDsQB4V+F7pplIZpv7oZZ3q9ggwR3nreY3i3km1v+P9w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794483158;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=E30ohjkNEQQO5IQT4pDBP5MSNoM/lhLP9pcvjKk/Sew=;
+	b=pFKVhM8LsA7n+j1hHTSZrdJMhMMgil/dUIHsfxcauiybfBRjVWo/HQv1Pl+infWLsW0E
+	 JB+HchfMd6MsY+4nFGbfst+1iA7+L7Fc8Evjt5HatREfhf7afzt3qDpYVLRJF6yJr7yG4
+	 M86SU5TdfnNNK8osUvCKDo+t1i/NdHXFYeJj0TWoKwPRb+8t5/HiWxwcC4ROPSW6OY3Ru
+	 oG1TRlmFzhNsV0ECbHePEVEW/eUhyOhXQoBnJZgqHg25uzZt1RhaqmGE1FjTxeN/gJORf
+	 DtcalgnfWJ/4HR/gJBQtRko9BSq9nja+7w+O9WZp11/btVAHZSFRvAA80Pk15ukZ8zw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W9UGKRc2;
-	arc=none smtp.remote-ip=74.125.82.177
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=gJ3auvYB;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=gwLsnWYD;
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67EF4606B368
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 11:26:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 67EF4606B368
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AB5606A332;
+	Thu, 12 Nov 2026 11:32:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96AB5606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W9UGKRc2
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-37123334649so166629eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 03:26:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794482787; x=1795087587; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=2nWBtEEn4hd48cIOC+JW/bLoHA1gTBtQ/8nPmmpZzBk=;
-        b=W9UGKRc2VpXLmhTp/WpfJWMZ8+yRuAb6+uRW/wiTSfJRv2O4YFBYyF2VrghSwiHmtj
-         m88CI55CSUU09SUUnLyLquc8Rum0kVd/GVSZ0dyVx6hamjNBtfkVl+jxNggqxGMOH0rs
-         x9SeNmVOrPcixQY99GpzlDmY201Ozk6VJeAjxeE+Mn3fkKmGXOdZreoPuUk+KdLeHIqc
-         xfKvuJyKAoBobiXe4PODiMLA3u3LNONJd2fxNIPULiBxAjwmBOzn6GG6OmR5l5D1WFxq
-         PoiPJ7eQ8GHDoNgo87TAOi235ekR9nfqaqJZ7BF6Lu18RXMrbJuupNFqYzOgPkVq2Uau
-         6iKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794482787; x=1795087587;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2nWBtEEn4hd48cIOC+JW/bLoHA1gTBtQ/8nPmmpZzBk=;
-        b=g+2pLdRH+Pi67+WmcN7Hna0wAlr+Zc1V4TgAY9G1DQafk0gxZoVbEfbUJti6NY08Vg
-         hbguOXObcrxMj7rv9GaDhuOlApqKxwMB/uMJBMvfDb3uQvVdilB8TxC0MA2fMhRlvebg
-         Y3jWdQpT9r9ZDVPf23tHvcvjndCOUf0AuD3r3kzp8okGGq6o8Wz4SUaqS/U8Ypt0YKg9
-         Lq+ukPLg1MRQBGs5xjxlMYGuEi7EONdLolqYC6IV4CxdgsaKiWDKzG4MaA3yKL3J7V9a
-         CEZgMyA/v6C6Dk2A/WQMlHG165KaK42pkivYnhhkFuqWPKh6Qau+t2CWuWR1A6H/AnxQ
-         /ASQ==
-X-Forwarded-Encrypted: i=1; AL+hErHl/33CUPVTB+eDChcrsUTVUbOODr0G3OvxhPPTo5SsZwyahn+oQ6DfPVBWlT3HwiQc2jiB9h3u2uk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+rXG27I+gTDYFrwBZSkabKV7M/ZV2pe649x/eoZsvvr6NmeoEl
-	7fIkJqDuOGBckBqcXajJLu0vtr9hd25LafVpz7h7taztpqNDjRVI7/6i
-X-Gm-Gg: AYBFou2//gweIWE6e5vqt+CruTreSqCdMSLMdF4bR56VUUx1JoszcusPQpJ6q+NVPiz
-	p1n2kTs6iozCvLBQBekyaYm6yD0/QGJzqKOlvZJAFKNeM2h/Q9oqrXZYUmcjSboc0E7mxJMVuvt
-	bESKrTPQILJqO4c3i5WcXn1rOXTmv6oAuOqI3SKkCbLELehMqiqqV3TDyKx79OPWq5AfmOP9Dwg
-	X8Efa9CvRrwl3XY+VM4hqUGSu9YBHVWz/xaEHWQ1k0Xn9nC9Ps0io1/PID3PLPCzrkkAbScJkxb
-	dAqlIgvNAbjT14guOZ1Ceo1qsQGgEe5JTDTt5E13yuW6sQ5tCTC3mTAIXySDwexhiOko++wFP7M
-	cfWN1GPZW3XrgXQEID7nUfTdULRmcqKbXupF+sWARkDmU3HUgFZBVDiAi6hPrya6fw9UOKSQJJA
-	ihHbUh2F/a/wUjph1SAddPWYQsg9lhBzQDC5LpeiRC3wMB0tSzrwaPKaBKoCVfWWa57Lg78//QU
-	I+NVadJ1wkrRJoiG7U7A3Szvvlww9z2VG2peoVXglNhoUT/7oyRmKW4Q+Fjm50s0mz1z9KkLf27
-	XTXh/ruhCp0FYVSjOgxu5R+BCCHDGJbPfTUkrlX9XU2KglbymDY0Ih7ZbIFBg/JGRyc=
-X-Received: by 2002:a05:693c:8113:b0:35f:ea17:d171 with SMTP id 5a478bee46e88-37684ceea1emr9219901eec.2.1794482787103;
-        Thu, 12 Nov 2026 03:26:27 -0800 (PST)
-Received: from o6.lan ([2602:fce1:44f:115e::])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3751fe306e3sm27380131eec.7.2026.11.12.03.26.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 03:26:26 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=gJ3auvYB;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=gwLsnWYD
+Date: Thu, 12 Nov 2026 12:32:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794483154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E30ohjkNEQQO5IQT4pDBP5MSNoM/lhLP9pcvjKk/Sew=;
+	b=gJ3auvYBsG3YbD8W8Ej/BMM/KtBvqmYRVkOTwlq2EbzZrAzCSgzS/Oqc1IoH38elxHmjVU
+	DxT3O6WlVy6FwvOzGN6nQNnOjHTxEZcKjVwmwha5dZhMQEMpTYYrpJdlFAePemRVc1nwmH
+	BgB5z1c716W9xroh9SPmVOundqzvqyEcgU83HY8yfNGJAj+xNDn3C/qQ8kjJ15rUCEWEtX
+	oHkFTTMEEpGuuPH1cYunw8eL+SnxS4yV1EjOYZiYVLsSK23l36YBZmzeXVh+b8H0ZUKf0M
+	amBij9kvvDJ66fEv1nicdvUD/vCB2zBHpsxucDoywaOwl8ZbUtwFDasIGKGc9g==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794483154;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=E30ohjkNEQQO5IQT4pDBP5MSNoM/lhLP9pcvjKk/Sew=;
+	b=gwLsnWYD7XGOUzElu7f+eFnHJXWRvaGcgZTEWak+pKXU9nXSHM9+DEfep0qYoAOBmOSjSy
+	VYmOxm4cKivkgrAQ==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Nicolas Schier <nsc@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>,
+	Julian Braha <julianbraha@gmail.com>,
+	Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>,
+	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
+	Daan De Meyer <daan.j.demeyer@gmail.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 04/10] kconfig: Introduce checkconfig target
+Message-ID: <avWj0PDoPWu2IkgD@lx-t490>
+References: <20261106091922.7560-1-darwi@linutronix.de>
+ <20261106091922.7560-5-darwi@linutronix.de>
+ <3dd2bb0d-8486-4630-b496-e92e4ac37c29@gmail.com>
+ <20261109003909.GB3429615@ax162>
+ <avHIOS9NHwCCMITd@lx-t490>
+ <avQNfFbeoMImmtre@derry.ads.avm.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,59 +91,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v3] mm/zsmalloc: remove CONFIG_ZSMALLOC_STAT
-From: Xueyuan Chen <xueyuan.chen21@gmail.com>
-To: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Xueyuan Chen <xueyuan.chen21@gmail.com>, 
- Minchan Kim <minchan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, 
- Helen Koike <helen.fornazier@gmail.com>, 
- Vignesh Raman <vignesh.raman@collabora.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- Nhat Pham <nphamcs@gmail.com>
-In-Reply-To: <avUet_6jVqlWSP00@google.com>
-References: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
- <avUet_6jVqlWSP00@google.com>
-Date: Thu, 12 Nov 2026 19:26:15 +0800
-Message-Id: <179448277582.2553194.12524350925159624366.b4-reply@b4>
-X-Mailer: b4 0.16.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <avQNfFbeoMImmtre@derry.ads.avm.de>
 
-On 2026-11-12 11:05 +0900, Sergey Senozhatsky wrote:
-> On (26/11/11 20:41), Xueyuan Chen wrote:
-> > CONFIG_ZSMALLOC_STAT only controls the debugfs interface. The class
-> > counters are updated regardless of this option.
-> > 
-> > Remove the CONFIG_ZSMALLOC_STAT guards and rely on the debugfs API
-> > stubs when CONFIG_DEBUG_FS=n. Skip statistics setup silently when
-> > debugfs is unavailable.
-> > 
-> > Remove the Kconfig entry and replace the existing CONFIG_ZSMALLOC_STAT
-> > settings with CONFIG_DEBUG_FS=y. Update the English and Chinese
-> > documentation to match, and clarify the pool name in the debugfs path.
-> > 
-> > Suggested-by: Nhat Pham <nphamcs@gmail.com>
-> > Reviewed-by: Nhat Pham <nphamcs@gmail.com>
-> > Signed-off-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
-> 
-> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-Thanks!
-> 
-> 
+Hi Nicolas,
 
+On Wed, 11 Nov 2026, Nicolas Schier wrote:
+>
+> On Mon, Nov 09, 2026 at 02:18:49PM +0100, Ahmed S. Darwish wrote:
+> >
+> > This is why one of the development rules at the top of the Python script,
+> > at patch 03/10, is:
+> >
+> >   The tool must not depend on being run inside the kernel source tree.
+> >   This simplifies invocation, testing and possible future packaging.
+>
+> Then, please move the argument checking from Makefile to the script
+> itself.  Handling wrong arguments is good native feature for the script.
+>
 
+The script does its own argument checking, all through Python's native
+argparse mechanism:
+
+    $ ./tools/kconfig-checker/check.py check -h
+    usage: check.py check [-h] -c KCONFIG_FILE -r RULES [-o OVERLAY_FILE]
+
+    options:
+      -h, --help            show this help message and exit
+      -c, --config KCONFIG_FILE
+                            .config file to be checked
+      -r, --rules RULES     rules file to check against
+      -o, --overlay OVERLAY_FILE
+                            file overlay over picked rules
+
+    $ ./tools/kconfig-checker/check.py check -r safety
+
+    usage: check.py check [-h] -c KCONFIG_FILE -r RULES [-o OVERLAY_FILE]
+
+    check.py check: error: argument -r/--rules: invalid choice: 'safety'
+    (choose from 'preempt_rt')
+
+And that's by design, as an independent tool that can be later packaged.
+
+Regarding the Makefile's own error handling, I'll touch upon that below.
+
+> As far as I have seen when skimming through the kconfig policy checker
+> code, it does not use any Kbuild variables.  So, if it is being placed
+> below tools/ and does not use Kbuild at all, and is expected to be run
+> w/o Linux tree context at all: why do we need an additional top-level
+> Makefile target for it at all (alongside of
+> 'make tools/kconfig-policy-checker')?
+
+The reason is the expected kernel configuration workflow, e.g.:
+
+    $ make defconfig			# Generate a default .config
+    $ make debug.config			# Add debug options to it
+    $ make menuconfig			# Manually customize it
+
+    $ make RULES=preempt_rt checkconfig	# Validate it
+    $ make menuconfig			# Follow checkconfig advice
+    $ make RULES=preempt_rt checkconfig	# Try again..
+
+and so on.
+
+So the "checkconfig" target fits that workflow, even when the checker
+itself does not depend on any Kbuild internals.
+
+The Makefile-side validation is also there to improve error handling for
+that workflow:
+
+    $ make checkconfig
+
+    Usage: make RULES=<profile> [OVERLAY=<overlay>] checkconfig
+    Available RULES: preempt_rt
+
+    make[2]: *** [scripts/kconfig/Makefile:138: checkconfig] Error 2
+
+Without it, the user just sees the lower-level script errors:
+
+    $ make checkconfig
+
+    usage: check.py check [-h] -c KCONFIG_FILE -r RULES [-o OVERLAY_FILE]
+    check.py check: error: argument -r/--rules: invalid choice: '' (choose from 'preempt_rt')
+
+Both error messages are correct, but the former informs the user, exactly,
+on how to call the Makefile target.  This matches the aforementioned kernel
+configuration workflow as well.
+
+I hope this clarifies things a bit.
+
+Thank you!
+
+--
+Ahmed S. Darwish
+Linutronix GmbH
