@@ -1,75 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.224.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794524351;
-	b=H+EU0Buwj1ZC2X/zfTE3RYIF7O0HpgB26aIvQqSaW/OKASagAvKQ3Q1mxrtnWxExQ997
-	 /OpKyyY75ixMNRb5lX6tJvMTE+uzVdF6HfIZn9d+L7UZ6tgjfGxJcD/Q/e/RkX4UOcIRZ
-	 w7TgOiRtM6t+XlfVF4iClUIXb+IQ3fzqZMpwTdWNpUe7OhenR9KnrTN4JAvfXhs+4OcE0
-	 oS3qSrY/dcF4KTAScUE63eujXIElPRD59c9wsY6dbhYWGquDIVSm5039vc+nhYbs8U1Vp
-	 0bPnOyfmoIAc61Gkbc/aOjLEn8IGkZcpEnZVKCSj5xClWxnKYPQV/aG89fMth5YWSDQ==
+	t=1794524353;
+	b=j47GDv09ZKw8E1lsE2eNkyYf+PNueSbapXXfoNmib9a3rc6qCoLmLJ+O+PetKaBVZpHe
+	 M0pA9TEaS7TtuyPQxqDDSjcHpiNJVTYnsQewNySQWveBS0rins94DjVPmiWCcjh6n6zBl
+	 /MUSPprX6Os9tPqxX5Z71VmQH8jGfj7IJm4WN4hAp4lIddmP3SIM337BEFYoH7fRhDwB/
+	 JEFsEmbbdYPIQVtsE307Ixktc6ldlXjHEk+1jJ7a6dpQFsbVmoYyr1gkIgJDPu5KuUidv
+	 0CAbX2qOMYlV4gSBw8Ad6eGQxDE0gtWb7W78WzL2VCPnhlL5iStLUqeuIYGM0/4zkAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794524351;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794524353;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer;
-	bh=zNF9YXON1GVhSmp92ZjW6spQZHVtZO/rRYWbrwvCykw=;
-	b=o17Oy8FONDve3UEk1Ezq8rOmGqC8dKx9iRzKN43qBk2r0eLHM70Z0KcHmhjFNW7duIdO
-	 MzZlhpoPG98KdrFxcBDbgqoGY/0DvzHXRLRbuYIw8aKFnPJTw0QXrXF24mdpNRRGaNIo8
-	 jLdDSx1luIuT2SpYkDlqpy9cYK7hc2XicaO/yEkHw6J+wsWKrfIB1UmpHLGnzTbgsDwUS
-	 QQ+YAJwx/G9rgefFCwInu3Rbw0Vm0yjM6Putk5fMYV1fJsJWD66qP66rdMZNdZ0RvZ77c
-	 xThKBkYrwmV76Maj2hcRXDu38ByGNcIfJRtykZsN4Qvrm+mDCgAoxAvgrRcDVW989QA==
+	bh=4xpeSCzbdtgpV+wabu6FimfaTfSr38PgllCPL0OdJGU=;
+	b=rzqhAbe6EfnRChJ46pnloiyUnIKRR76xzCWGnUpcGXpZDVsIyEqn2ZNSSLgThnB/4DWA
+	 hthfVy+lesu/A/CDb/P752O+mOTjHpJiEQ08gbzb/IO0RVX/akbrqHMZaxJuW1G0AyJzT
+	 tWwlIa8/sMUulmWbWm/+5uxZqI+GrvZlKtTZLZ3CamiWSVXnUbKKgcSp2tIZrz+EWAXEv
+	 dwbACiLfuOO7kYprTpseKA5K0uy3xTvOWmbTbaiJJrT9dI7rUDDUVqdFOGmqe0cYshb10
+	 /hPhp4ehRD8uZ+QdC+D5nPS+xfndr3crpuUfYDttfcZCoHLWCjVryLMXCsRykJI76Mw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=telaak.dev;
 	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=74.125.224.50
-Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
+	arc=none smtp.remote-ip=209.85.128.171
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DEB606A8A2
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 22:59:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61DEB606A8A2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FE47606A8B3
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 22:59:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6FE47606A8B3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-67c246c0c60so1474867d50.0
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:59:11 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8b33de9d2b1so3043177b3.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:59:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794524350; x=1795129150;
+        d=1e100.net; s=20260707; t=1794524352; x=1795129152;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=zNF9YXON1GVhSmp92ZjW6spQZHVtZO/rRYWbrwvCykw=;
-        b=pE3p9DWqZ6IPG+94OsB9m6ILf7gdXbXBvJ0Qt7w5E0uh2Gf0fDwxZeVxdDJ+6IXg20
-         nZXw/5D1IduBQO0+4MRzv/tA7sOM4RihI8Fz6fVLoY8vrI8iy/qepe4biGf99Ov8JkIy
-         R4/c+JIxzrv7i/4V84vlTCxlv62bF0pn934nK5m3YSjAm2s+9KLLP8LqIVdKDQ3N3c0Z
-         HV7+6GAItvA18M4jve0xYYwyaaLCOZDYmrfmBFBCRlRVzFC1p2os244ReMvmtAIHL4G2
-         RnH0PBtD5mKURaw0FTVpEfi38JCXyqUIGOJyu9u3FQYgWZ5o1hq32UE9yMK3EidqNMbg
-         fHEg==
-X-Forwarded-Encrypted: i=1; AL+hErFfZsxC83Uan08yFkAGppD62MAF4iWi7G03HsdqhchmjHdHJlmQU57xP/PK8eYduOE91wAhjrz7ecg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/yNvD/oP412fZrOi7gJSsTyQp86WsLkydXyidb34xp1oaerObw
-	FJrDDlTvhTaz345LR+dsIjtSzEG6MtkphXBPiXcd8XWZk2eSpuZqrssV
-X-Gm-Gg: AYBFou1pp4JpjBGTtFGtxH6EfPNhOsx8fMddpobAo2sgUh3LbFkXrGzZK/QHt+WuQ9g
-	QehMOAZiiQFGwAj6yEFNdEloiyvw6sRRu4iq0TCEA0xJ0KCxKhKKix2XSm0trgQkWVvWh8ehKnu
-	KJyDyoJAQBMQ/abSHX8CXRmFclzZc5+iXVJ4I/Qcy38yWJcqO+nW/Ij2zdDnA3XYA0H5rXPzlsP
-	HD1+pvQt7ADMekPBm6B8mSUjN2LOCFpTFlaCDGOMFdKVfopp9zecM/q9FRrlgopuDNDRb28zWMe
-	iEofTbtiTd/zDwCW76BM7actqAR6Fo4Rwf8G6GyXzW9ilH8uozrnux4pUVELnq9Ry6kyJ2CBqGG
-	bvcQSypjXpjXu+F1pc+99AEF3YiqB0rAJiroisDDXnzc7gJHkThU+slvyoBffA6gbEj3mjb4/4t
-	MQDElJJFgKXi4n6V5P/uPyUF9Owpj70kRJfCeZSvUcJbKw5FOEzzYriMdMop8C1AjPYMt4lT/lW
-	iLPsQrAJzTwXqWvR3ny8AoN5iXE4gsHGBkGWBbBysv11orkhRfPUE1rfp9UqgLBM1Z5zws3pTKD
-	6xfLbklxgCa8n2a+1UtjWDYWvZnMa+d3ubjUOkASmmWz8fcFaYoBnPIdDDUPvh3WDYIL2tOMQy7
-	g1uZanYd6/5G1osbx0BaSEpG1oHmF0g+JgiI1UIr0bq/mOKdDU1O/UmkTb+iQJAMS1ZOhoZt5xQ
-	68ZjRPglcP7y81UncAGQ7wZUIh
-X-Received: by 2002:a05:690e:144a:b0:679:9310:6581 with SMTP id 956f58d0204a3-67c78cb7797mr2809652d50.23.1794524350323;
-        Thu, 12 Nov 2026 14:59:10 -0800 (PST)
+        bh=4xpeSCzbdtgpV+wabu6FimfaTfSr38PgllCPL0OdJGU=;
+        b=ofsXYnDGid/8DUnD9MWcHNsmo9eSAoBI1RpXjPvEZ2adbG1F2mZ/2OEGkcUM0ztloZ
+         6ge6aB2n+8cea9CaUTqVY2TbrunCoVqvoiKpoXtKHTjyp0KmHignAX4rWQKKAxUK+oEA
+         DyMxTCLYM5KjSt/yyu28m1+azWSyI1VR2ayVgx36i2aSKs+JNNT4GXmuQD84XMuvEzM2
+         XlP3RX60/DBVE7wGIWcmBqBfmibP3/TYWL2gk42Eewg9THdlSSNczBmQ3uQ+fhifPRzt
+         67/70WeVtRLwwxUMKwoCGqA+Ba2mCspSKEJp3+DLZBrfNLge5sw/zIi29a07xp74Y1f7
+         RTnQ==
+X-Forwarded-Encrypted: i=1; AL+hErE/VMZMHIFiF11J7bh/GeO/ile4s6Il7nWQPsWYYxNYBaGeHVwRdtGjTvpRi9mXAjytBaPXbGQLFK8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+xMdl3+zE8FnwmwPagoza+hAWc6f2laz70vMCU4DF0gUg6GFYq
+	50aiy5EIJ/HW5YcBCv8fJc/mw8+wDSwMsb7Gcp6V+a7mAmsXU9GPyMru
+X-Gm-Gg: AYBFou1a+EkhLr+K+PUyVw8vsG8ClaZEqFdC2PYfRw1s5X2nXYwry35hGrPeDTTLwmz
+	7aIahY9neEuEB+79qOatNMdmlOskzzqN1MK0kdYJjTQadkjG4rInSGou2ZkoWH5pwfdjs266oUY
+	E3ljmShk/zRB8VaFiWaYOVetFwxkKzbmeFKRBle1A0CU3XnObbuDfCDyxliFI53y0VDXPKXyVEf
+	o/yULMwoX7DlQrCPe3bhsR/sKgNeG08yuMtKGo0UpQbGT4DNFYjjA3kocsqu+ZuMJ7Q7TqkVzPQ
+	k1/CQJzdNZsp+W6rherkRsEGO79qH8+OpKbD7YoYy8DS1yXbNCpFWrCYcWWjZ6C4cxoidsHqWnA
+	8yqJbrZMv+9bJ0+APR9pLlef26VgcxDL3T+m630oBmgO4u6tO5RLJ66oUAMZaaILIR7PyCx2qsf
+	mCr0Ysv8l6FQOeJIj5y6jqx7PFn027RntDw2RXoPyRRiebWwPzF8MY4Uu6obUl3d+veC81i06vL
+	KqufJzNCYiPdlCe90BD7qilAaYxeDPBKEydt7cSbpJK706nTknMAN7n9xii2rjCahBZKI3JYFaC
+	AMZIAU7u/Hbo18ed+s39/HhClq7w2r+AoDO0k4e250Q2vXut8Qp5IxbwWStRkO4CEoYZt9I6t8S
+	NzN+ct7ISCCOw72hic3dpHCeswIuA2hXozd/cT7PTz5q4JbQ/8smepARwS2uVKndCSfB7fi8fQc
+	44xgVA+Jjkq4Rh8NIsfuyI82+g
+X-Received: by 2002:a05:690c:6987:b0:8b3:361f:5d7a with SMTP id 00721157ae682-8b4aa25cab2mr5540957b3.41.1794524352554;
+        Thu, 12 Nov 2026 14:59:12 -0800 (PST)
 Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([71.68.170.161])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa8f354asm7261077b3.14.2026.11.12.14.59.08
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa8f354asm7261077b3.14.2026.11.12.14.59.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 14:59:09 -0800 (PST)
+        Thu, 12 Nov 2026 14:59:11 -0800 (PST)
 From: Joseph Telaak <joseph@telaak.dev>
-Date: Thu, 12 Nov 2026 17:58:52 -0500
-Subject: [PATCH RFC 02/13] drm/gma500: Publish the Cedarview SGX as an
- auxiliary device
+Date: Thu, 12 Nov 2026 17:58:53 -0500
+Subject: [PATCH RFC 03/13] drm/gma500: Export GEM objects as dma-bufs
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,8 +79,8 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20261112-powervr-sgx-v1-2-c69b84bac011@telaak.dev>
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261112-powervr-sgx-v1-3-c69b84bac011@telaak.dev>
 References: <20261112-powervr-sgx-v1-0-c69b84bac011@telaak.dev>
 In-Reply-To: <20261112-powervr-sgx-v1-0-c69b84bac011@telaak.dev>
 To: dri-devel@lists.freedesktop.org, 
@@ -103,516 +102,312 @@ Cc: imagination@lists.freedesktop.org, Frank Binns <frank.binns@imgtec.com>,
  linux-kernel@vger.kernel.org, Joseph Telaak <joseph@telaak.dev>
 X-Mailer: b4 0.16.0
 
-The GMA3600/3650 (Cedarview) GPU is a PowerVR SGX545 behind the same PCI
-function and register BAR as the display engine gma500 drives. gma500
-uses the SGX for nothing but an MMU it sets up at probe and fills when it
-pins framebuffers; no gma500 code reads through that MMU. So give the SGX
-to a driver of its own: publish an auxiliary device, "gma500_gfx.sgx",
-carrying the mapped SGX register window, which SGX core it is, and a hook
-that routes the SGX's interrupt to that driver.
+A render GPU next to gma500 draws into gma500's scanout buffers: on
+Cedarview the SGX545, driven by powervr_sgx through gma500's auxiliary
+device, renders while gma500 scans out. Mesa's kmsro allocates the
+buffers on the display device and imports them into the render device,
+which needs gma500 to export them.
 
-Each chip's psb_ops says whether its SGX has a driver of its own, and as
-which core. On such a chip gma500 hands the SGX over for good: it doesn't
-reset it or program its BIF at probe, creates no SGX MMU and maps nothing
-into one, masks the SGX's events at interrupt (re)install until a
-handler is registered, and passes the SGX's interrupt to the registered
-handler. Teardown clears the handler itself, whatever the SGX driver did.
+Add the pin, unpin, get_sg_table, vmap and vunmap hooks the PRIME
+helpers need. An export pins the object's pages, write-combined as for a
+framebuffer, but doesn't insert them into the GTT: the importer maps the
+pages itself, and powervr_sgx takes a write-combined kernel mapping of
+an import for its cache maintenance. (A CPU mmap through
+dma_buf_mmap() still goes through psb_gem_fault(), which pins the object
+into the GTT.) A use count shares the pages between GTT pins, exports
+and kernel mappings. Objects in stolen memory have no struct pages and
+can't be exported.
 
-The interrupt reaches the SGX driver through a callback on the auxiliary
-device, not an exported symbol: an exported gma500 symbol would make
-that driver depend on gma500, and the same driver runs the Intel Atom
-CE5300, where the SGX is a PCI function of its own and there is no
-gma500.
+The PRIME helpers call pin and unpin with the object's reservation lock
+held, and psb_gem_pin() and psb_gem_unpin() take that lock themselves.
+Split each into a variant that expects the lock held.
 
-The auxiliary device's parent is the GPU's PCI device, so runtime PM on
-the SGX side would keep gma500, and with it the graphics power island,
-awake; gma500 holds a runtime-PM reference for its whole life today.
-
-Only Cedarview's psb_ops names an SGX. Poulsbo and Oaktrail leave it NULL
-and are unchanged until an SGX driver has run on them.
+The importer's CPU mapping, dma_buf_mmap(), goes through the object's
+fake mmap offset, which a dumb buffer only gets from MAP_DUMB, and Mesa's
+kmsro never calls that for the buffers it exports. Create the offset at
+export.
 
 Signed-off-by: Joseph Telaak <joseph@telaak.dev>
 ---
- MAINTAINERS                         |   1 +
- drivers/gpu/drm/gma500/Kconfig      |   1 +
- drivers/gpu/drm/gma500/Makefile     |   3 +-
- drivers/gpu/drm/gma500/cdv_device.c |   5 ++
- drivers/gpu/drm/gma500/gem.c        |  12 +++--
- drivers/gpu/drm/gma500/psb_drv.c    |  42 +++++++++------
- drivers/gpu/drm/gma500/psb_drv.h    |  26 +++++++++
- drivers/gpu/drm/gma500/psb_irq.c    |  32 +++++++----
- drivers/gpu/drm/gma500/sgx_aux.c    | 102 ++++++++++++++++++++++++++++++++++++
- include/drm/gma500_sgx.h            |  52 ++++++++++++++++++
- 10 files changed, 246 insertions(+), 30 deletions(-)
+ drivers/gpu/drm/gma500/gem.c | 182 ++++++++++++++++++++++++++++++++++++-------
+ drivers/gpu/drm/gma500/gem.h |   1 +
+ 2 files changed, 153 insertions(+), 30 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c4f4e4877..e1b0a4245 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -9036,6 +9036,7 @@ L:	dri-devel@lists.freedesktop.org
- S:	Maintained
- T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	drivers/gpu/drm/gma500/
-+F:	include/drm/gma500_sgx.h
- 
- DRM DRIVERS FOR HISILICON HIBMC
- M:	Yongbang Shi <shiyongbang@huawei.com>
-diff --git a/drivers/gpu/drm/gma500/Kconfig b/drivers/gpu/drm/gma500/Kconfig
-index dc4c56638..bece965b2 100644
---- a/drivers/gpu/drm/gma500/Kconfig
-+++ b/drivers/gpu/drm/gma500/Kconfig
-@@ -4,6 +4,7 @@ config DRM_GMA500
- 	depends on DRM && PCI && X86 && HAS_IOPORT
- 	select DRM_CLIENT_SELECTION
- 	select DRM_KMS_HELPER
-+	select AUXILIARY_BUS
- 	select FB_IOMEM_HELPERS if DRM_FBDEV_EMULATION
- 	select I2C
- 	select I2C_ALGOBIT
-diff --git a/drivers/gpu/drm/gma500/Makefile b/drivers/gpu/drm/gma500/Makefile
-index 58fed80c7..a933940e2 100644
---- a/drivers/gpu/drm/gma500/Makefile
-+++ b/drivers/gpu/drm/gma500/Makefile
-@@ -34,7 +34,8 @@ gma500_gfx-y += \
- 	  psb_intel_lvds.o \
- 	  psb_intel_modes.o \
- 	  psb_intel_sdvo.o \
--	  psb_irq.o
-+	  psb_irq.o \
-+	  sgx_aux.o
- 
- gma500_gfx-$(CONFIG_ACPI) +=  opregion.o
- gma500_gfx-$(CONFIG_DRM_FBDEV_EMULATION) +=  fbdev.o
-diff --git a/drivers/gpu/drm/gma500/cdv_device.c b/drivers/gpu/drm/gma500/cdv_device.c
-index fd6ea8998..f0a835366 100644
---- a/drivers/gpu/drm/gma500/cdv_device.c
-+++ b/drivers/gpu/drm/gma500/cdv_device.c
-@@ -563,6 +563,10 @@ static int cdv_chip_setup(struct drm_device *dev)
- 
- /* CDV is much like Poulsbo but has MID like SGX offsets and PM */
- 
-+static const struct gma_sgx_info cdv_sgx_info = {
-+	.core = 545,
-+};
-+
- const struct psb_ops cdv_chip_ops = {
- 	.name = "GMA3600/3650",
- 	.pipes = 2,
-@@ -572,6 +576,7 @@ const struct psb_ops cdv_chip_ops = {
- 	.sdvo_mask = (1 << 0),
- 	.cursor_needs_phys = 0,
- 	.sgx_offset = MRST_SGX_OFFSET,
-+	.sgx = &cdv_sgx_info,
- 	.chip_setup = cdv_chip_setup,
- 	.errata = cdv_errata,
- 
 diff --git a/drivers/gpu/drm/gma500/gem.c b/drivers/gpu/drm/gma500/gem.c
-index 2708e8c68..4a4ecfb7b 100644
+index 4a4ecfb7b..9eff7a739 100644
 --- a/drivers/gpu/drm/gma500/gem.c
 +++ b/drivers/gpu/drm/gma500/gem.c
-@@ -54,9 +54,10 @@ int psb_gem_pin(struct psb_gem_object *pobj)
- 	set_pages_array_wc(pages, npages);
+@@ -11,11 +11,14 @@
+  *		accelerated operations on a GEM object)
+  */
  
- 	psb_gtt_insert_pages(dev_priv, &pobj->resource, pages);
--	psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu), pages,
--			     (gpu_base + pobj->offset), npages, 0, 0,
--			     PSB_MMU_CACHED_MEMORY);
-+	if (dev_priv->mmu)
-+		psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu), pages,
-+				     (gpu_base + pobj->offset), npages, 0, 0,
-+				     PSB_MMU_CACHED_MEMORY);
++#include <linux/iosys-map.h>
+ #include <linux/pagemap.h>
++#include <linux/vmalloc.h>
  
- 	pobj->pages = pages;
+ #include <asm/set_memory.h>
  
-@@ -93,8 +94,9 @@ void psb_gem_unpin(struct psb_gem_object *pobj)
+ #include <drm/drm.h>
++#include <drm/drm_prime.h>
+ #include <drm/drm_print.h>
+ #include <drm/drm_vma_manager.h>
  
- 	npages = obj->size / PAGE_SIZE;
+@@ -26,71 +29,104 @@
+  * PSB GEM object
+  */
  
--	psb_mmu_remove_pages(psb_mmu_get_default_pd(dev_priv->mmu),
--			     (gpu_base + pobj->offset), npages, 0, 0);
-+	if (dev_priv->mmu)
-+		psb_mmu_remove_pages(psb_mmu_get_default_pd(dev_priv->mmu),
-+				     (gpu_base + pobj->offset), npages, 0, 0);
- 	psb_gtt_remove_pages(dev_priv, &pobj->resource);
- 
- 	/* Reset caching flags */
-diff --git a/drivers/gpu/drm/gma500/psb_drv.c b/drivers/gpu/drm/gma500/psb_drv.c
-index d17cb5b4a..c29cc64cc 100644
---- a/drivers/gpu/drm/gma500/psb_drv.c
-+++ b/drivers/gpu/drm/gma500/psb_drv.c
-@@ -145,6 +145,10 @@ static int psb_do_init(struct drm_device *dev)
- 
- 	spin_lock_init(&dev_priv->irqmask_lock);
- 
-+	/* The SGX's own driver sets it up. */
-+	if (gma_sgx_external(dev_priv))
+-int psb_gem_pin(struct psb_gem_object *pobj)
++/*
++ * The object's pages, write-combined, for a GART pin or a PRIME export: an
++ * exported object needs them, not a slot in the small GTT aperture.
++ */
++static int psb_gem_get_pages_locked(struct psb_gem_object *pobj)
++{
++	struct drm_gem_object *obj = &pobj->base;
++	struct page **pages;
++
++	dma_resv_assert_held(obj->resv);
++
++	if (pobj->pages_use++)
 +		return 0;
-+
- 	PSB_WSGX32(0x00000000, PSB_CR_BIF_BANK0);
- 	PSB_WSGX32(0x00000000, PSB_CR_BIF_BANK1);
- 	PSB_RSGX32(PSB_CR_BIF_BANK1);
-@@ -172,6 +176,7 @@ static void psb_driver_unload(struct drm_device *dev)
- 	gma_backlight_exit(dev);
- 	psb_modeset_cleanup(dev);
- 
-+	gma_sgx_aux_fini(dev);
- 	gma_irq_uninstall(dev);
- 
- 	if (dev_priv->ops->chip_teardown)
-@@ -337,29 +342,34 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 
- 	ret = -ENOMEM;
- 
--	dev_priv->mmu = psb_mmu_driver_init(dev, 1, 0, NULL);
--	if (!dev_priv->mmu)
--		goto out_err;
-+	/* No SGX MMU where the SGX has a driver of its own. */
-+	if (!gma_sgx_external(dev_priv)) {
-+		dev_priv->mmu = psb_mmu_driver_init(dev, 1, 0, NULL);
-+		if (!dev_priv->mmu)
-+			goto out_err;
- 
--	dev_priv->pf_pd = psb_mmu_alloc_pd(dev_priv->mmu, 1, 0);
--	if (!dev_priv->pf_pd)
--		goto out_err;
-+		dev_priv->pf_pd = psb_mmu_alloc_pd(dev_priv->mmu, 1, 0);
-+		if (!dev_priv->pf_pd)
-+			goto out_err;
++	pages = drm_gem_get_pages(obj);
++	if (IS_ERR(pages)) {
++		pobj->pages_use--;
++		return PTR_ERR(pages);
 +	}
- 
- 	ret = psb_do_init(dev);
- 	if (ret)
- 		return ret;
- 
--	/* Add stolen memory to SGX MMU */
--	ret = psb_mmu_insert_pfn_sequence(psb_mmu_get_default_pd(dev_priv->mmu),
--					  dev_priv->stolen_base >> PAGE_SHIFT,
--					  pg->gatt_start,
--					  pg->stolen_size >> PAGE_SHIFT, 0);
-+	if (!gma_sgx_external(dev_priv)) {
-+		/* Add stolen memory to SGX MMU */
-+		ret = psb_mmu_insert_pfn_sequence(psb_mmu_get_default_pd(dev_priv->mmu),
-+						  dev_priv->stolen_base >> PAGE_SHIFT,
-+						  pg->gatt_start,
-+						  pg->stolen_size >> PAGE_SHIFT, 0);
- 
--	psb_mmu_set_pd_context(psb_mmu_get_default_pd(dev_priv->mmu), 0);
--	psb_mmu_set_pd_context(dev_priv->pf_pd, 1);
-+		psb_mmu_set_pd_context(psb_mmu_get_default_pd(dev_priv->mmu), 0);
-+		psb_mmu_set_pd_context(dev_priv->pf_pd, 1);
- 
--	PSB_WSGX32(0x20000000, PSB_CR_PDS_EXEC_BASE);
--	PSB_WSGX32(0x30000000, PSB_CR_BIF_3D_REQ_BASE);
-+		PSB_WSGX32(0x20000000, PSB_CR_PDS_EXEC_BASE);
-+		PSB_WSGX32(0x30000000, PSB_CR_BIF_3D_REQ_BASE);
-+	}
- 
- 	acpi_video_register();
- 
-@@ -383,6 +393,8 @@ static int psb_driver_load(struct drm_device *dev, unsigned long flags)
- 	spin_unlock_irqrestore(&dev_priv->irqmask_lock, irqflags);
- 
- 	gma_irq_install(dev);
-+	if (dev_priv->ops->sgx)
-+		gma_sgx_aux_init(dev);
- 
- 	dev->max_vblank_count = 0xffffff; /* only 24 bits of frame count */
- 
-diff --git a/drivers/gpu/drm/gma500/psb_drv.h b/drivers/gpu/drm/gma500/psb_drv.h
-index db197b865..dbc5827aa 100644
---- a/drivers/gpu/drm/gma500/psb_drv.h
-+++ b/drivers/gpu/drm/gma500/psb_drv.h
-@@ -8,10 +8,12 @@
- #ifndef _PSB_DRV_H_
- #define _PSB_DRV_H_
- 
-+#include <linux/interrupt.h>
- #include <linux/kref.h>
- #include <linux/mm_types.h>
- 
- #include <drm/drm_device.h>
-+#include <drm/gma500_sgx.h>
- 
- #include "gtt.h"
- #include "intel_bios.h"
-@@ -407,6 +409,11 @@ struct drm_psb_private {
- 
- 	/* Register base */
- 	uint8_t __iomem *sgx_reg;
-+
-+	/* The SGX's own driver, if one is bound (sgx_aux.c) */
-+	struct gma500_sgx_device *sgx_adev;
-+	gma500_sgx_irq_handler_t sgx_handler;
-+	void *sgx_data;
- 	uint8_t __iomem *vdc_reg;
- 	uint8_t __iomem *aux_reg; /* Auxillary vdc pipe regs */
- 	uint16_t lpc_gpio_base;
-@@ -541,12 +548,18 @@ static inline struct drm_psb_private *to_drm_psb_private(struct drm_device *dev)
- 	return container_of(dev, struct drm_psb_private, dev);
- }
- 
-+/* An SGX that gma500 publishes for a driver of its own (sgx_aux.c) */
-+struct gma_sgx_info {
-+	unsigned int core;	/* SGX core number: 545 for an SGX545 */
-+};
-+
- /* Operations for each board type */
- struct psb_ops {
- 	const char *name;
- 	int pipes;		/* Number of output pipes */
- 	int crtcs;		/* Number of CRTCs */
- 	int sgx_offset;		/* Base offset of SGX device */
-+	const struct gma_sgx_info *sgx;	/* SGX for a driver of its own, or NULL */
- 	int hdmi_mask;		/* Mask of HDMI CRTCs */
- 	int lvds_mask;		/* Mask of LVDS CRTCs */
- 	int sdvo_mask;		/* Mask of SDVO CRTCs */
-@@ -719,10 +732,23 @@ static inline void REGISTER_WRITE8(struct drm_device *dev,
- #define PSB_WVDC32(_val, _offs)		iowrite32(_val, dev_priv->vdc_reg + (_offs))
- #define PSB_RVDC32(_offs)		ioread32(dev_priv->vdc_reg + (_offs))
- 
-+/*
-+ * The chip's SGX has a driver of its own (psb_ops.sgx): gma500 never sets it
-+ * up, maps nothing in its MMU and writes none of its registers.
-+ */
-+static inline bool gma_sgx_external(struct drm_psb_private *dev_priv)
-+{
-+	return dev_priv->ops->sgx;
-+}
-+
- #define PSB_RSGX32(_offs)		ioread32(dev_priv->sgx_reg + (_offs))
- #define PSB_WSGX32(_val, _offs)		iowrite32(_val, dev_priv->sgx_reg + (_offs))
- 
- #define PSB_WMSVDX32(_val, _offs)	iowrite32(_val, dev_priv->msvdx_reg + (_offs))
- #define PSB_RMSVDX32(_offs)		ioread32(dev_priv->msvdx_reg + (_offs))
- 
-+/* sgx_aux.c */
-+void gma_sgx_aux_init(struct drm_device *dev);
-+void gma_sgx_aux_fini(struct drm_device *dev);
-+
- #endif
-diff --git a/drivers/gpu/drm/gma500/psb_irq.c b/drivers/gpu/drm/gma500/psb_irq.c
-index c224c7ff3..426efc126 100644
---- a/drivers/gpu/drm/gma500/psb_irq.c
-+++ b/drivers/gpu/drm/gma500/psb_irq.c
-@@ -224,10 +224,19 @@ static irqreturn_t gma_irq_handler(int irq, void *arg)
- 	}
- 
- 	if (sgx_int) {
--		sgx_stat_1 = PSB_RSGX32(PSB_CR_EVENT_STATUS);
--		sgx_stat_2 = PSB_RSGX32(PSB_CR_EVENT_STATUS2);
--		gma_sgx_interrupt(dev, sgx_stat_1, sgx_stat_2);
--		handled = 1;
-+		if (gma_sgx_external(dev_priv)) {
-+			gma500_sgx_irq_handler_t sgx_handler;
-+
-+			/* Pairs with the release in gma_sgx_set_irq_handler(). */
-+			sgx_handler = smp_load_acquire(&dev_priv->sgx_handler);
-+			if (sgx_handler && sgx_handler(dev_priv->sgx_data) != IRQ_NONE)
-+				handled = 1;
-+		} else {
-+			sgx_stat_1 = PSB_RSGX32(PSB_CR_EVENT_STATUS);
-+			sgx_stat_2 = PSB_RSGX32(PSB_CR_EVENT_STATUS2);
-+			gma_sgx_interrupt(dev, sgx_stat_1, sgx_stat_2);
-+			handled = 1;
-+		}
- 	}
- 
- 	/* Note: this bit has other meanings on some devices, so we will
-@@ -257,8 +266,11 @@ void gma_irq_preinstall(struct drm_device *dev)
- 	PSB_WVDC32(0xFFFFFFFF, PSB_HWSTAM);
- 	PSB_WVDC32(0x00000000, PSB_INT_MASK_R);
- 	PSB_WVDC32(0x00000000, PSB_INT_ENABLE_R);
--	PSB_WSGX32(0x00000000, PSB_CR_EVENT_HOST_ENABLE);
--	PSB_RSGX32(PSB_CR_EVENT_HOST_ENABLE);
-+	/* An SGX driver of its own enables what it needs; until one binds, mask it. */
-+	if (!gma_sgx_external(dev_priv) || !READ_ONCE(dev_priv->sgx_handler)) {
-+		PSB_WSGX32(0x00000000, PSB_CR_EVENT_HOST_ENABLE);
-+		PSB_RSGX32(PSB_CR_EVENT_HOST_ENABLE);
-+	}
- 
- 	if (dev->vblank[0].enabled)
- 		dev_priv->vdc_irq_mask |= _PSB_VSYNC_PIPEA_FLAG;
-@@ -284,9 +296,11 @@ void gma_irq_postinstall(struct drm_device *dev)
- 	spin_lock_irqsave(&dev_priv->irqmask_lock, irqflags);
- 
- 	/* Enable 2D and MMU fault interrupts */
--	PSB_WSGX32(_PSB_CE2_BIF_REQUESTER_FAULT, PSB_CR_EVENT_HOST_ENABLE2);
--	PSB_WSGX32(_PSB_CE_TWOD_COMPLETE, PSB_CR_EVENT_HOST_ENABLE);
--	PSB_RSGX32(PSB_CR_EVENT_HOST_ENABLE); /* Post */
-+	if (!gma_sgx_external(dev_priv)) {
-+		PSB_WSGX32(_PSB_CE2_BIF_REQUESTER_FAULT, PSB_CR_EVENT_HOST_ENABLE2);
-+		PSB_WSGX32(_PSB_CE_TWOD_COMPLETE, PSB_CR_EVENT_HOST_ENABLE);
-+		PSB_RSGX32(PSB_CR_EVENT_HOST_ENABLE); /* Post */
-+	}
- 
- 	/* This register is safe even if display island is off */
- 	PSB_WVDC32(dev_priv->vdc_irq_mask, PSB_INT_ENABLE_R);
-diff --git a/drivers/gpu/drm/gma500/sgx_aux.c b/drivers/gpu/drm/gma500/sgx_aux.c
-new file mode 100644
-index 000000000..671cb6c33
---- /dev/null
-+++ b/drivers/gpu/drm/gma500/sgx_aux.c
-@@ -0,0 +1,102 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * The SGX of a GMA500-family GPU, published as an auxiliary device for a
-+ * driver of its own on the chips whose psb_ops name it (Cedarview). gma500
-+ * keeps the PCI function and the interrupt line, hands the SGX's interrupt
-+ * over, and never sets the SGX up or touches its registers on those chips.
-+ *
-+ * Copyright © 2026 Joseph Telaak
-+ */
-+
-+#include <linux/pci.h>
-+#include <linux/slab.h>
-+
-+#include <drm/drm_print.h>
-+#include <drm/gma500_sgx.h>
-+
-+#include "psb_drv.h"
-+
-+struct gma_sgx_aux {
-+	struct gma500_sgx_device sgx;
-+	struct drm_psb_private *dev_priv;
-+};
-+
-+static int gma_sgx_set_irq_handler(struct gma500_sgx_device *sgx,
-+				   gma500_sgx_irq_handler_t handler, void *data)
-+{
-+	struct gma_sgx_aux *aux = container_of(sgx, struct gma_sgx_aux, sgx);
-+	struct drm_psb_private *dev_priv = aux->dev_priv;
-+	struct pci_dev *pdev = to_pci_dev(dev_priv->dev.dev);
-+	unsigned long flags;
-+
-+	spin_lock_irqsave(&dev_priv->irqmask_lock, flags);
-+	if (handler && dev_priv->sgx_handler) {
-+		spin_unlock_irqrestore(&dev_priv->irqmask_lock, flags);
-+		return -EBUSY;
-+	}
-+	dev_priv->sgx_data = data;
-+	/* The data reaches the interrupt handler before the handler does. */
-+	smp_store_release(&dev_priv->sgx_handler, handler);
-+	spin_unlock_irqrestore(&dev_priv->irqmask_lock, flags);
-+
-+	/* No handler call still running on another CPU once this returns. */
-+	if (!handler && dev_priv->irq_enabled)
-+		synchronize_irq(pdev->irq);
++	set_pages_array_wc(pages, obj->size / PAGE_SIZE);
++	pobj->pages = pages;
 +	return 0;
 +}
 +
-+static void gma_sgx_aux_release(struct device *dev)
++static void psb_gem_put_pages_locked(struct psb_gem_object *pobj)
 +{
-+	struct auxiliary_device *adev = to_auxiliary_dev(dev);
++	struct drm_gem_object *obj = &pobj->base;
 +
-+	kfree(container_of(to_gma500_sgx_device(adev), struct gma_sgx_aux, sgx));
++	dma_resv_assert_held(obj->resv);
++
++	if (WARN_ON(!pobj->pages_use) || --pobj->pages_use)
++		return;
++	/* Reset caching flags */
++	set_pages_array_wb(pobj->pages, obj->size / PAGE_SIZE);
++	drm_gem_put_pages(obj, pobj->pages, true, false);
++	pobj->pages = NULL;
 +}
 +
-+void gma_sgx_aux_init(struct drm_device *dev)
++static int psb_gem_pin_locked(struct psb_gem_object *pobj)
+ {
+ 	struct drm_gem_object *obj = &pobj->base;
+ 	struct drm_device *dev = obj->dev;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	u32 gpu_base = dev_priv->gtt.gatt_start;
+-	struct page **pages;
+ 	unsigned int npages;
+ 	int ret;
+ 
+-	ret = dma_resv_lock(obj->resv, NULL);
+-	if (drm_WARN_ONCE(dev, ret, "dma_resv_lock() failed, ret=%d\n", ret))
+-		return ret;
++	dma_resv_assert_held(obj->resv);
+ 
+ 	if (pobj->in_gart || pobj->stolen)
+ 		goto out; /* already mapped */
+ 
+-	pages = drm_gem_get_pages(obj);
+-	if (IS_ERR(pages)) {
+-		ret = PTR_ERR(pages);
+-		goto err_dma_resv_unlock;
+-	}
++	ret = psb_gem_get_pages_locked(pobj);
++	if (ret)
++		return ret;
+ 
+ 	npages = obj->size / PAGE_SIZE;
+ 
+-	set_pages_array_wc(pages, npages);
+-
+-	psb_gtt_insert_pages(dev_priv, &pobj->resource, pages);
++	psb_gtt_insert_pages(dev_priv, &pobj->resource, pobj->pages);
+ 	if (dev_priv->mmu)
+-		psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu), pages,
++		psb_mmu_insert_pages(psb_mmu_get_default_pd(dev_priv->mmu), pobj->pages,
+ 				     (gpu_base + pobj->offset), npages, 0, 0,
+ 				     PSB_MMU_CACHED_MEMORY);
+ 
+-	pobj->pages = pages;
+-
+ out:
+ 	++pobj->in_gart;
+-	dma_resv_unlock(obj->resv);
+-
+ 	return 0;
++}
++
++int psb_gem_pin(struct psb_gem_object *pobj)
 +{
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+	struct gma_sgx_aux *aux;
++	struct drm_gem_object *obj = &pobj->base;
++	int ret;
+ 
+-err_dma_resv_unlock:
++	ret = dma_resv_lock(obj->resv, NULL);
++	if (drm_WARN_ONCE(obj->dev, ret, "dma_resv_lock() failed, ret=%d\n", ret))
++		return ret;
++	ret = psb_gem_pin_locked(pobj);
+ 	dma_resv_unlock(obj->resv);
++
+ 	return ret;
+ }
+ 
+-void psb_gem_unpin(struct psb_gem_object *pobj)
++static void psb_gem_unpin_locked(struct psb_gem_object *pobj)
+ {
+ 	struct drm_gem_object *obj = &pobj->base;
+ 	struct drm_device *dev = obj->dev;
+ 	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
+ 	u32 gpu_base = dev_priv->gtt.gatt_start;
+ 	unsigned long npages;
+-	int ret;
+ 
+-	ret = dma_resv_lock(obj->resv, NULL);
+-	if (drm_WARN_ONCE(dev, ret, "dma_resv_lock() failed, ret=%d\n", ret))
+-		return;
++	dma_resv_assert_held(obj->resv);
+ 
+ 	WARN_ON(!pobj->in_gart);
+ 
+ 	--pobj->in_gart;
+ 
+ 	if (pobj->in_gart || pobj->stolen)
+-		goto out;
++		return;
+ 
+ 	npages = obj->size / PAGE_SIZE;
+ 
+@@ -99,13 +135,18 @@ void psb_gem_unpin(struct psb_gem_object *pobj)
+ 				     (gpu_base + pobj->offset), npages, 0, 0);
+ 	psb_gtt_remove_pages(dev_priv, &pobj->resource);
+ 
+-	/* Reset caching flags */
+-	set_pages_array_wb(pobj->pages, npages);
++	psb_gem_put_pages_locked(pobj);
++}
+ 
+-	drm_gem_put_pages(obj, pobj->pages, true, false);
+-	pobj->pages = NULL;
++void psb_gem_unpin(struct psb_gem_object *pobj)
++{
++	struct drm_gem_object *obj = &pobj->base;
++	int ret;
+ 
+-out:
++	ret = dma_resv_lock(obj->resv, NULL);
++	if (drm_WARN_ONCE(obj->dev, ret, "dma_resv_lock() failed, ret=%d\n", ret))
++		return;
++	psb_gem_unpin_locked(pobj);
+ 	dma_resv_unlock(obj->resv);
+ }
+ 
+@@ -133,8 +174,89 @@ static const struct vm_operations_struct psb_gem_vm_ops = {
+ 	.close = drm_gem_vm_close,
+ };
+ 
++/*
++ * PRIME export, for a render GPU to draw into scanout buffers. Only objects
++ * with pages can be shared: stolen memory has none. An export pins the pages,
++ * write-combined, and doesn't insert them into the GTT. The PRIME helpers
++ * call pin and unpin with the reservation lock held.
++ */
++static int psb_gem_prime_pin(struct drm_gem_object *obj)
++{
++	struct psb_gem_object *pobj = to_psb_gem_object(obj);
++
++	if (pobj->stolen)
++		return -EINVAL;
++	return psb_gem_get_pages_locked(pobj);
++}
++
++static void psb_gem_prime_unpin(struct drm_gem_object *obj)
++{
++	psb_gem_put_pages_locked(to_psb_gem_object(obj));
++}
++
++static struct sg_table *psb_gem_prime_get_sg_table(struct drm_gem_object *obj)
++{
++	struct psb_gem_object *pobj = to_psb_gem_object(obj);
++
++	if (!pobj->pages)
++		return ERR_PTR(-EINVAL);
++	return drm_prime_pages_to_sg(obj->dev, pobj->pages, obj->size >> PAGE_SHIFT);
++}
++
++/*
++ * A kernel mapping for an importer, write-combined like the pages. It holds
++ * the pages as a PRIME pin does. The PRIME helpers call it with the
++ * reservation lock held.
++ */
++static int psb_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map)
++{
++	struct psb_gem_object *pobj = to_psb_gem_object(obj);
++	void *vaddr;
 +	int ret;
 +
-+	aux = kzalloc_obj(*aux);
-+	if (!aux) {
-+		drm_warn(dev, "SGX auxiliary device not published (-ENOMEM)\n");
-+		return;
++	if (pobj->stolen)
++		return -EINVAL;
++	ret = psb_gem_get_pages_locked(pobj);
++	if (ret)
++		return ret;
++	vaddr = vmap(pobj->pages, obj->size >> PAGE_SHIFT, VM_MAP,
++		     pgprot_writecombine(PAGE_KERNEL));
++	if (!vaddr) {
++		psb_gem_put_pages_locked(pobj);
++		return -ENOMEM;
 +	}
-+	aux->dev_priv = dev_priv;
-+	aux->sgx.regs = dev_priv->sgx_reg;
-+	aux->sgx.regs_len = PSB_SGX_SIZE;
-+	aux->sgx.core = dev_priv->ops->sgx->core;
-+	aux->sgx.set_irq_handler = gma_sgx_set_irq_handler;
-+	aux->sgx.adev.name = "sgx";
-+	aux->sgx.adev.id = pci_dev_id(to_pci_dev(dev->dev));
-+	aux->sgx.adev.dev.parent = dev->dev;
-+	aux->sgx.adev.dev.release = gma_sgx_aux_release;
-+
-+	ret = auxiliary_device_init(&aux->sgx.adev);
-+	if (ret) {
-+		kfree(aux);
-+		drm_warn(dev, "SGX auxiliary device not published (%d)\n", ret);
-+		return;
-+	}
-+	ret = auxiliary_device_add(&aux->sgx.adev);
-+	if (ret) {
-+		auxiliary_device_uninit(&aux->sgx.adev);
-+		drm_warn(dev, "SGX auxiliary device not published (%d)\n", ret);
-+		return;
-+	}
-+	dev_priv->sgx_adev = &aux->sgx;
++	iosys_map_set_vaddr(map, vaddr);
++	return 0;
 +}
 +
-+void gma_sgx_aux_fini(struct drm_device *dev)
++static void psb_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map)
 +{
-+	struct drm_psb_private *dev_priv = to_drm_psb_private(dev);
-+
-+	if (!dev_priv->sgx_adev)
-+		return;
-+	/* Unbinding the SGX driver hands the interrupt back; make sure of it. */
-+	auxiliary_device_delete(&dev_priv->sgx_adev->adev);
-+	gma_sgx_set_irq_handler(dev_priv->sgx_adev, NULL, NULL);
-+	auxiliary_device_uninit(&dev_priv->sgx_adev->adev);
-+	dev_priv->sgx_adev = NULL;
++	vunmap(map->vaddr);
++	psb_gem_put_pages_locked(to_psb_gem_object(obj));
 +}
-diff --git a/include/drm/gma500_sgx.h b/include/drm/gma500_sgx.h
-new file mode 100644
-index 000000000..00a034f1a
---- /dev/null
-+++ b/include/drm/gma500_sgx.h
-@@ -0,0 +1,52 @@
-+/* SPDX-License-Identifier: MIT */
-+/* Copyright © 2026 Joseph Telaak */
 +
-+#ifndef __DRM_GMA500_SGX_H__
-+#define __DRM_GMA500_SGX_H__
-+
-+#include <linux/auxiliary_bus.h>
-+#include <linux/interrupt.h>
-+#include <linux/types.h>
-+
-+/* The SGX's interrupt handler: hard interrupt context. */
-+typedef irqreturn_t (*gma500_sgx_irq_handler_t)(void *data);
-+
-+/**
-+ * struct gma500_sgx_device - The PowerVR SGX inside a GMA500-family GPU
-+ *
-+ * gma500 owns the PCI function, its register BAR and its interrupt. On parts
-+ * whose SGX has a driver of its own (&psb_ops.sgx), it publishes this auxiliary
-+ * device, named "gma500_gfx.sgx", whose parent is the GPU's PCI device. The SGX
-+ * driver uses the parent for DMA and runtime PM: holding the auxiliary device
-+ * awake keeps gma500, and so the graphics power island, awake.
++/*
++ * dma_buf_mmap() maps through the object's fake offset (drm_gem_prime_mmap()),
++ * which a dumb buffer only gets from MAP_DUMB: make sure it has one.
 + */
-+struct gma500_sgx_device {
-+	/** @adev: The auxiliary device. */
-+	struct auxiliary_device adev;
-+
-+	/** @regs: The SGX's register window, mapped by gma500. */
-+	void __iomem *regs;
-+
-+	/** @regs_len: Length of @regs in bytes. */
-+	resource_size_t regs_len;
-+
-+	/** @core: Which SGX core this is, by number: 545 for an SGX545. */
-+	unsigned int core;
-+
-+	/**
-+	 * @set_irq_handler: Route the SGX's interrupts to @handler, which runs in
-+	 * hard interrupt context with @data; with a NULL @handler they are
-+	 * ignored. gma500 never touches an SGX it publishes, handler or not.
-+	 * Returns -EBUSY if another handler is set.
-+	 */
-+	int (*set_irq_handler)(struct gma500_sgx_device *sgx,
-+			       gma500_sgx_irq_handler_t handler, void *data);
-+};
-+
-+static inline struct gma500_sgx_device *
-+to_gma500_sgx_device(struct auxiliary_device *adev)
++static struct dma_buf *psb_gem_prime_export(struct drm_gem_object *obj, int flags)
 +{
-+	return container_of(adev, struct gma500_sgx_device, adev);
++	int ret;
++
++	ret = drm_gem_create_mmap_offset(obj);
++	if (ret)
++		return ERR_PTR(ret);
++	return drm_gem_prime_export(obj, flags);
 +}
 +
-+#endif /* __DRM_GMA500_SGX_H__ */
+ static const struct drm_gem_object_funcs psb_gem_object_funcs = {
+ 	.free = psb_gem_free_object,
++	.export = psb_gem_prime_export,
++	.pin = psb_gem_prime_pin,
++	.unpin = psb_gem_prime_unpin,
++	.get_sg_table = psb_gem_prime_get_sg_table,
++	.vmap = psb_gem_prime_vmap,
++	.vunmap = psb_gem_prime_vunmap,
+ 	.vm_ops = &psb_gem_vm_ops,
+ };
+ 
+diff --git a/drivers/gpu/drm/gma500/gem.h b/drivers/gpu/drm/gma500/gem.h
+index 27df6ff4e..539f8f20a 100644
+--- a/drivers/gpu/drm/gma500/gem.h
++++ b/drivers/gpu/drm/gma500/gem.h
+@@ -27,6 +27,7 @@ struct psb_gem_object {
+ 	bool stolen;			/* Backed from stolen RAM */
+ 	bool mmapping;			/* Is mmappable */
+ 	struct page **pages;		/* Backing pages if present */
++	unsigned int pages_use;		/* GART pins and PRIME pins of @pages */
+ };
+ 
+ static inline struct psb_gem_object *to_psb_gem_object(struct drm_gem_object *obj)
 
 -- 
 2.50.1
