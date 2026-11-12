@@ -1,85 +1,139 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794495637;
-	b=wYilm+u797NJQTTe0UQEE6OBaXBg1h/tSuS38r8NArsVzThufPha7/1yYLaYtwNhqp38
-	 dTvfGDi+08Zoe3bnd9HQq5p3ssYWkQ2j8+jlxP8H/UAMkNQfT+2TtDRmu2cSmh5cZYatN
-	 Nel02kkQOvEUOgSDzdDeXiFbrnMBfXSaU7ElvUIg6tuaoe9IAju+uuFUGRTyjklKXC7FL
-	 ZMVPe41cpBf+yOyZkQaFGvG1kdOG+ESiBeaLH96eoWBXR1gDkC9NqlZk8ykpSVYCQNjA3
-	 w4vcctaFR32BdaP+RlzYZ/bkvHGaujlbezKdl1zOp5bLjHHB2Rll55iSBm+Xz+Iubbw==
+	t=1794495677;
+	b=IFkUJawl38w1DSF9Ce6JzHLI3S3edBbRW7glzPmbsaX+kJwxSkR/g2v3Vkn1ApbuwdN1
+	 lmHekRClCMsbvxh20ZOef+fUn6KdoWAyA2GXBzQZvoq5iojovJY2YEmrCxtCgN6AxqFV3
+	 cdiHt/+isxip/Mtbv5XHbhyCbJjiNzA8WhBR+saSc4mujWr6Z/R1sOpOAOQFaQixhVxlG
+	 jLfmbwnaa5pkODRzv+IugSLgma8koshZIosmz4ETcQA7MOa3+twnJ0QJrdmgDkEjfUA+l
+	 voI+vC54Pk0j7rhmcGMzZxHNHHqvxtV3S+2AJDFho6QfIsRXXhF0olQM16ZnTWcefwQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794495637;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=8yYqy1tuA0FyJjrVSCVgV+Doj8Jl7Ml/5bTTP3YOpXU=;
-	b=vEIPeLn1kKQ7Pnc5423QP65oWkfRgd0tKhJVv60trXAqoADT4vwAGYG0twNdNyPkHKVn
-	 7P6EafF0HCMTtLrTbgqIlsSdFbw5Nc7GMZy/cpo0kJUWsDTdfWnGttyE1dkroFlSKhdVC
-	 xzhab+paSmvVlt427XHDSgKG1x9sU/LRFdHOVSetVOP+wv+6+ZhBJgBCBHxxDIqOIzRv1
-	 rbhLZIIBO5pIUXadKl454WcPBUGTUoj5ueBxSONG3V2UNjsiO4ygunQ/x+oFwXaD8bSDO
-	 nLTujyp2yLxOVPtk4ADXecKwx02Vrk9KOFNXC5FzoT3k+IPIbbkTDxPqNjRJmdiXdYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794495677;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=M/6u10agl+rdRWY13WawdsYLlQi9SJfLtYTamWTVA+8=;
+	b=WH+33JeY91v/v1bmo8x1Oi131qe4uNsZv+hpIhI8LKsTEymQWX7wHnbWkS7lASsCAAfl
+	 AvvAU59Vj5/12GaLixa+5oCk+8PMIcu+f5aX6N1LRxeaVxo5ilYSpE2y21v3xzLb69iyf
+	 VFz9G1GZyqcT9F/XgBLlHoAA9MZUrkipEqNzdgwiSssyXEC4VVKxYyrgmjpUQZjQGA9/t
+	 gmlbiQkHnv7UBccn9VEkiZHaGpMMoj5vuIiN6PWFcqAj8TUxaIyZ3JZYoRlYHzwdZklq1
+	 OIWmCoj+AjSxez4PKj43ZnC+LuHSYyA+kvwNZ6DEsY+Jb3tIRZEhkMHuqRWdibR04pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=soleen.com;
-	spf=pass smtp.mailfrom=soleen.com;
-	dkim=pass header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=UNTUk5Ph;
-	arc=none smtp.remote-ip=209.85.221.172
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BOHPyxJv;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=RTr+R4Yb;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21073606A323
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 15:00:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21073606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3B1606A31C
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 15:01:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1A3B1606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.a=rsa-sha256 header.s=google header.b=UNTUk5Ph
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5eadef147ffso2264542e0c.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 07:00:36 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BOHPyxJv;
+	dkim=pass (2048-bit key, unprotected) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=RTr+R4Yb
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794495676;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=M/6u10agl+rdRWY13WawdsYLlQi9SJfLtYTamWTVA+8=;
+	b=BOHPyxJvB4pTnMxOWavNyCbLPRZTghQpNlsDAFrV0ori2SZKOtEkL2YNEhVazgiO8OIlBc
+	MUtIUOnFac1Wcn1wLC/BuQ+rNkwS000qAglAgJWNmzJbFfDNLAcC2OO+wkK14e2gfzVl44
+	AvAQNbyZ4BfhRy2NskT8SCO8TBzTUsI=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-497-feXZCTpmMYyyLoK6yC6fHA-1; Thu, 12 Nov 2026 10:01:12 -0500
+X-MC-Unique: feXZCTpmMYyyLoK6yC6fHA-1
+X-Mimecast-MFC-AGG-ID: feXZCTpmMYyyLoK6yC6fHA_1794495671
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4ad3d35e899so35770655e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 07:01:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1794495636; x=1795100436; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=8yYqy1tuA0FyJjrVSCVgV+Doj8Jl7Ml/5bTTP3YOpXU=;
-        b=UNTUk5Phl6735h5yGynAgTS/6C2cJAMQ5iWpSsj5LGh9dtu6ZbUQ28l9PCUZyDWFS2
-         984cM+oMihbSSW0raUu6jnUzRcE4QjotUXIJukljUMS2LAKKCPb0itQ7GlX5XUb4E/Yk
-         SKuDu87H7pV4G1oTWB77pRyK19GkF9y0JTc2S4ofIz0Os8H+TLP9NJthH1O5IJX5AOL5
-         naVwG5XJzQSxQgYOJ2lKVnivL3+dtVsuXDcE1TqT4jw+WXUDMC3oSYgSdJYXWwcDBDg5
-         l0vhl/Ozl5n2wi4MF0827C8dfNJtX6U5VONtrUegzVnq2Lt0hBh42Q5KGK56Et30gRE6
-         3xZQ==
+        d=redhat.com; s=google; t=1794495671; x=1795100471; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=M/6u10agl+rdRWY13WawdsYLlQi9SJfLtYTamWTVA+8=;
+        b=RTr+R4YbUtPb0bJdv9nKHbt5s927vcuRHj8Qc+OgK1pDd+OkXz/XRTdRh+Lp+nae6T
+         l8lJ53T4GUVn9XOVe0bCKpyjw3CnwmmmXHp08IWNvpnkN1WmIOQnOrXGswdpYoBnfqCQ
+         y9gE7rnEsVVfnKIv64XUWDMmG6izvPpfn4bFNPpiC+7qjOELvlLNSzLS3gpb9Lq/um6S
+         O9f8JkDe7Wxx0Wh+ahSYpy3z8bupNQZI4JCTSBKci4+I5ulr0MP7RAQiXvnYM2O3UolY
+         85zasF1WCLyu6xoC8IR+3v+DI32L7sVan4s8dZ2r1WSI33icXbBNVYFWTfbbmw6GYvmh
+         pkQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794495636; x=1795100436;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1794495671; x=1795100471;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8yYqy1tuA0FyJjrVSCVgV+Doj8Jl7Ml/5bTTP3YOpXU=;
-        b=Jb9IbHl4FHSHtuD9c2V5LBx5xI0LokOGHVzymQRmi6aHraRzsar0u41TS8kSTLLea3
-         j5w1/37gS5BGUOL2R3KoZ8HBzFppIhj49unPlfLFfPnZy2LNM2F3BwDD16CVc44oMj+3
-         tm3bE72yvU3rX3lKLg4pO6+BTmo4+eX1J0Uhew6QDAuj82cZjXgy4bZTmaIkVbuFDFZ7
-         Sd2Pd8TXheLM9GY3NmlFpLMdVMm9p+Bl0F76c/FP9dpRwqFYPgGq7I/Mxm8hn5SEad4j
-         RnJnmLjwCh8xdQTz77vgf83QVxKy42jKvYzhpg3tjVZ88s2uE0z0eTds62p+4S4RxvYO
-         GCZQ==
-X-Forwarded-Encrypted: i=1; AL+hErEG9KTHLEWOGgu4nuZFX6ZgkbXzLJ8kzYosEY4r8SZHneUrDaf9a0wK30tNM5hVa/3I4urp7ISv0Wo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9fnvF/sz9+CWiu18wDqb9n6C6qb0hVKXGkg9SEzXG6yX7GO9MS
-	4RKH+aCAQo3y5/jJtEzPUQj4V1fi8eP0gACaW7EXlHAm8/QLCDH/aacBYSl3Ao167sA=
-X-Gm-Gg: AYBFou3fyBxtEt++buphN2Yyo0rEVaAg9w1Gyo3CHp5HRFYuTJEZ6XQY5Txp1H36s9N
-	45XAUSiDoR7xleckphXtmRERsQJsl1/o9sZa+LBj6FozOh2wItYusL8n8YwE8SJRURr6ZpZX6yW
-	pLkR9niDuGHEiD6S8XiOW2cpyUj+xrbwD6Ms1Wq0Ve08RbHiK6RnFaLk+CSNCbLwRTsH+3epZ9O
-	LFyPc8i0r2fsiUZrAaFoEsHrMloXN9JV3S4UpHQQAea4qpkT/OiN1SSK0J9sNLDnPLvc3rSMNY1
-	S7JOvSiNx5Tc3nd+9SaxItv5Ti5d3DDdKzRZgKmP69H4+LXhY7abVAGaTlMV20VrS+qXZnPWPtb
-	CT95n3wJcaZ5Lqd/5qF0MxJ5e7jr5CpCEN6QJoIsPpg+J+/C2MErCpnnafXQ6SCBP6cl8M6RBtc
-	gnDBt90Ok8UiKSPTCxRCnmLP5RCnaD4Mrjt3x4cK3MfvEhS8lC+Cl7sQGYrXNHNco4KE1imbI42
-	kJJmmOSh2+MzsSjMD/JgA70q06AgbZEDAmBSSo3nK8b8QuJ7PtrGz3NFmLOvIlTgxU8zg2k6W4M
-	j0yCmt+y5QQPvNk4Jgl+JNFzGvpOJL3kJMiupsbiGjyUnalyJXYTNbezRjz5FsoJTGhBm8vn8r8
-	MnOqRwEZK9qiH0F0rXl6Q9CM208Qx6pM=
-X-Received: by 2002:a05:6122:1782:b0:5c9:a7af:8178 with SMTP id 71dfb90a1353d-5ee1c2b2435mr2759606e0c.2.1794495636101;
-        Thu, 12 Nov 2026 07:00:36 -0800 (PST)
-Received: from localhost (64.167.245.35.bc.googleusercontent.com. [35.245.167.64])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee3243e30fsm81430e0c.9.2026.11.12.07.00.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2026 07:00:35 -0800 (PST)
+        bh=M/6u10agl+rdRWY13WawdsYLlQi9SJfLtYTamWTVA+8=;
+        b=VLn8OXtziOkf/VnUqOwqWHwjkfTdoXxb8H8ERJtaBt0icxXqjTwdzzFsz4GIjSIh+P
+         I/nY6JEiduS1tNlA1WwScBQTjt54ZpBdsFtfaklLbup5NtnSJKHBpLLhbeOoUKJiPPGp
+         rwzzU4Pd/rNqs+ZpRcUizJFZLLyAnfo+spuH4gc0azO1B4KoCQPxxvlnpE051jKkcDMc
+         aet8ZxzCAMYHJw+H0BpIGzy1ED9/Ct9uXJU6EUGHY/LpIff8VGN4roFU9wxkXocqwt4T
+         +4ADKTqQUx5sAmXg7MEgQNcBwfyFW34PunXRVowfODdBpKWQouHaFuHli6zivNBxgUIq
+         zw8A==
+X-Forwarded-Encrypted: i=1; AL+hErElOLJLDxChcMAJSdbP+yJEJhtVAENuVsu+tEJaAdPXHzBViBysW6b2IQ47nlak3EcLrmIWn2tYems=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+8OdF5BgwNeBEssYlwsNqNdr265Vo4EFDgcZOLgy+ZYlBnyOq+
+	D3sTpWKZICh9n1mK2kJWUYTzl3m9V7nETlq/4yFEGnEGAk4P0dfcvNvHxxO7kOhwVAXNaQUca2x
+	FGSHtU99j4RnO2Lmt1RmhXYWmHvGNgeQ8KYk6/T9Sy4d1J4RIv9NjaRNLtsgeVQ==
+X-Gm-Gg: AYBFou2tHqWvfk3bnn9mYHUQwBLqYNyxbolmdITEqizCCyJJHv46vA8WbpFs+9b723K
+	hAN8kltLcVjnM3/HR4B0Q8xro2SymKWf5W5wkZhzyLGMw1oXUVA8GnWDl3cYzLBVfS8mcPCyvHM
+	9tIrrEx4P40qzIchR9g48NOaEGNoKyNuISjmVR/Zsf98kFD7yEnXGRBzNzpSydpX1vscj83P6L+
+	4dHQQHtRheDrPT5z4QTUNgGVoIHgLDiCJE+AQSIzlwr0xLNViNjgG2O38fJpfMiYO0TP3jdgavl
+	lkyyqfgVpv/jjtRvrckt/1c4gQIUR10tybnO3hfnGe47g5DOjAk7R11r2fhiizX6iOt6J+kVWpC
+	e1RSo+AAHzoTR/n8EkXL5Bi7Uj/LywJD4/1EZUQUvrX3zFCCNBXpErnPl/3q1T84U
+X-Received: by 2002:a05:600c:6819:b0:4a2:167a:c946 with SMTP id 5b1f17b1804b1-4ba0935f880mr100717645e9.13.1794495670949;
+        Thu, 12 Nov 2026 07:01:10 -0800 (PST)
+X-Received: by 2002:a05:600c:6819:b0:4a2:167a:c946 with SMTP id 5b1f17b1804b1-4ba0935f880mr100717275e9.13.1794495670509;
+        Thu, 12 Nov 2026 07:01:10 -0800 (PST)
+Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ba08ddd467sm110908625e9.0.2026.11.12.07.01.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 07:01:09 -0800 (PST)
+Date: Thu, 12 Nov 2026 16:01:06 +0100
+From: Juri Lelli <juri.lelli@redhat.com>
+To: "Paul E. McKenney" <paulmck@kernel.org>
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
+	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
+	John Ogness <john.ogness@linutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	luca abeni <luca.abeni@santannapisa.it>,
+	Yuri Andriaccio <yurand2000@gmail.com>,
+	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
+	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Qais Yousef <qyousef@layalina.io>
+Subject: Re: [PATCH v2 0/7] sched: RT throttling cleanup and a bit of
+ documentation
+Message-ID: <avXUstjABxdTZaxM@jlelli-thinkpadt14gen4.remote.csb>
+References: <20261110-sched_dl-v2-0-cc9399f7aeb1@linutronix.de>
+ <c2bf89ce-b9de-43cf-839b-395d28b2275c@paulmck-laptop>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,117 +142,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Nov 2026 10:00:34 -0500
-Message-Id: <DMTBM1N2LO8K.2LXV0IVP9ZSI@soleen.com>
-Cc: "Alexander Graf" <graf@amazon.com>, "Andrew Morton"
- <akpm@linux-foundation.org>, "Chen Pei" <cp0613@linux.alibaba.com>, "George
- Guo" <guodongtai@kylinos.cn>, "Kexin Liu" <liukexin@kylinos.cn>, "Randy
- Dunlap" <rdunlap@infradead.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Sourabh Jain" <sourabhjain@linux.ibm.com>, <kexec@lists.infradead.org>,
- <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-mm@kvack.org>
-Subject: Re: [PATCH v3 5/5] kho: docs: update description of bootmem regions
-From: "Pasha Tatashin" <pasha.tatashin@soleen.com>
-To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>, "Jonathan Corbet"
- <corbet@lwn.net>, "Pasha Tatashin" <pasha.tatashin@soleen.com>, "Pratyush
- Yadav" <pratyush@kernel.org>
-X-Mailer: aerc 0.22.0-39-g5d7784875be2
-References: <20261112-kho-bootmem-sizing-v3-0-f0c8d00295d5@kernel.org>
- <20261112-kho-bootmem-sizing-v3-5-f0c8d00295d5@kernel.org>
-In-Reply-To: <20261112-kho-bootmem-sizing-v3-5-f0c8d00295d5@kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c2bf89ce-b9de-43cf-839b-395d28b2275c@paulmck-laptop>
 
-On Thu Nov 12, 2026 at 5:38 AM EST, Mike Rapoport (Microsoft) wrote:
-> The description of the boot memory regions does not mention the low
-> memory region and claims there is always a region per node plus a global
-> region, while the low memory and the global regions are not allocated
-> when they would be empty.
->
-> List all types of the boot memory regions and describe when they are not
-> allocated.
->
-> While on it, fix grammar and split the description of the regions size
-> and of the CMA usage into separate paragraphs.
->
-> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-> ---
->  Documentation/core-api/kho/index.rst | 31 ++++++++++++++++++++----------=
--
->  1 file changed, 20 insertions(+), 11 deletions(-)
->
-> diff --git a/Documentation/core-api/kho/index.rst b/Documentation/core-ap=
-i/kho/index.rst
-> index e78a2bbe2be1d..ce2bf9cf66514 100644
-> --- a/Documentation/core-api/kho/index.rst
-> +++ b/Documentation/core-api/kho/index.rst
-> @@ -52,17 +52,26 @@ allocations before during boot up to the initializati=
-on of the page allocator.
-> =20
->  We guarantee that we always have such regions through the boot memory re=
-gions:
->  On first boot KHO allocates several physically contiguous memory regions=
-. Since
-> -after kexec these regions will be used by early memory allocations, ther=
-e is a
-> -boot memory region per NUMA node plus a boot memory region to satisfy
-> -allocations requests that do not require particular NUMA node assignment=
-. By
-> -default, size of the boot memory region is calculated based on amount of=
- memory
-> -allocated during boot. The ``kho_bootmem`` kernel command line option ma=
-y be
-> -used to explicitly define size of the boot memory regions. The boot memo=
-ry
-> -regions are declared as CMA when page allocator is initialized so that t=
-heir
-> -memory can be used during system lifetime. CMA gives us the guarantee th=
-at no
-> -handover pages land in that region, because handover pages must be at a =
-static
-> -physical memory location and CMA enforces that only movable pages can be=
- located
-> -inside.
-> +after kexec these regions will be used by early memory allocations, ther=
-e are
-> +several types of such regions to ensure that all boot-time allocations w=
-ork:
-> +
-> +* a low memory region for allocations below ``ARCH_LOW_ADDRESS_LIMIT``
-> +* a region per NUMA node
-> +* a global region for allocations that do not require a particular NUMA =
-node
-> +
-> +Regions that would be empty are not allocated. For example, there is no =
-low
-> +memory region when ``ARCH_LOW_ADDRESS_LIMIT`` covers all memory, and the=
-re is
-> +no global region when ``CONFIG_NUMA`` is disabled.
-> +
-> +By default, the size of the boot memory regions is calculated based on t=
-he
-> +amount of memory allocated during boot. The ``kho_bootmem`` kernel comma=
-nd line
-> +option may be used to explicitly define the size of the boot memory regi=
-ons.
-> +
-> +The boot memory regions are declared as CMA when the page allocator is
-> +initialized so that their memory can be used during system lifetime. CMA=
- gives
-> +us the guarantee that no handover pages land in that region, because han=
-dover
-> +pages must be at a static physical memory location and CMA enforces that=
- only
-> +movable pages can be located inside.
-> =20
->  After KHO kexec, we ignore the ``kho_bootmem`` kernel command line optio=
-n and
->  instead reuse the exact same region that was originally allocated. This =
-allows
+Hello,
 
-Reviewed-by: Pasha Tatashin <pasha.tatashin@soleen.com>=20
+On 10/11/26 11:56, Paul E. McKenney wrote:
+> On Tue, Nov 10, 2026 at 06:34:42PM +0100, Sebastian Andrzej Siewior wrote:
+> > People used to disable the RT throttling mechanism by writing -1 to
+> > /proc/sys/kernel/sched_rt_runtime_us. Since v6.12 they can still do this
+> > but they don't disable RT throttling anymore. Instead this throttling
+> > mechanism has been taken over by the fair_server which can be configured
+> > via debugfs.
+> > This is not really documented by a hint appeared a few cycles later in
+> > Documentation/scheduler/sched-rt-group.rst. This can be found once you
+> > know what you are looking for because this document describes the RT
+> > group scheduling (CONFIG_RT_GROUP_SCHED). The fair_server is used even
+> > without it.
+> > The then there is global DL resource control which also shares this
+> > file proc file (which is stuck if CONFIG_RT_GROUP_SCHED is enabled).
+> 
+> Nice, thank you!
+> 
+> Unfortunately but unsurprisingly, this gets the same divide-by-zero
+> issue reported (belatedly) on the earlier series:
+> 
+> https://lore.kernel.org/all/e58e48c3-ac62-40cd-b5d3-2de87db12496@paulmck-laptop/
+> 
 
---=20
-Pasha
+I wonder if this fixes is
+
+https://lore.kernel.org/lkml/20261108185406.1549770-6-mathieu.desnoyers@efficios.com/
+
+Thanks,
+Juri
 
