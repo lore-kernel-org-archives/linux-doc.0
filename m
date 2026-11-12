@@ -1,87 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.140.110.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794483158;
-	b=jHsMiGs4OOGnS/GY9D63pE6S7E2YKcXidT2uRxVNDmh6xBD549s6mhoNdPSng/Pm/reS
-	 JDMjwe1dTHdNVRr1VVrbb/sAc90JHcvxS/W8dquispfaoOE2lG0w5GLH9rxCZIyMgRzZu
-	 t9oH4iuKOVyVuUMVx4tKr5thbo986Y1rMIgyENFuCqxHEavpFSdqycmJMXAWkXSfcZxeF
-	 dwt8piTHAuvGeF6IouEXsIMNeR3fRA1sekrvh2VOzu1Gt6wlkZeOk5+7ThktyqzHkJJWw
-	 +aZN739AUQoXWuMldi6k9/GhDQz1MVmT434PvQNWTc6gHVc+TVmLbQjagScygvw4KdA==
+	t=1794483440;
+	b=gY9k7Aa0eNtBO28O3FqYuuaDsL4FeTw1WGbzetUJphttaPtTVNirL+kzoi1tYg7smPlT
+	 9JT6oI9+jKKI69MQpIyN8BWeQBugFyDPh7zuP0u0W4dqbuyJFmJJ9y4KeB0NlzvIs0a5n
+	 vrtYHV6Bqnbsh3GTlykge6mXg2ZWrrhR6E7tL48xxOVTVb2sLgecbU1CzjSSc9z54LllF
+	 l//CHq1dxvVyGgI+r1C8ENX7k+JCMgMEQxM+dslhVjuB3R6JEpdfN0IlteYE5Mgg6i3nT
+	 UUedgp07lQVBIv2eJO3vjgeDhUB6JmFnKBuPRkIbODwKOSnPKPHN5Ap21oQUJI3QZug==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794483158;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=E30ohjkNEQQO5IQT4pDBP5MSNoM/lhLP9pcvjKk/Sew=;
-	b=pFKVhM8LsA7n+j1hHTSZrdJMhMMgil/dUIHsfxcauiybfBRjVWo/HQv1Pl+infWLsW0E
-	 JB+HchfMd6MsY+4nFGbfst+1iA7+L7Fc8Evjt5HatREfhf7afzt3qDpYVLRJF6yJr7yG4
-	 M86SU5TdfnNNK8osUvCKDo+t1i/NdHXFYeJj0TWoKwPRb+8t5/HiWxwcC4ROPSW6OY3Ru
-	 oG1TRlmFzhNsV0ECbHePEVEW/eUhyOhXQoBnJZgqHg25uzZt1RhaqmGE1FjTxeN/gJORf
-	 DtcalgnfWJ/4HR/gJBQtRko9BSq9nja+7w+O9WZp11/btVAHZSFRvAA80Pk15ukZ8zw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794483440;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:References:Content-Language:From:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=Pw4XPMCNw94/e6qgBxyGiO7Si6B6BDxB+dFAw5oBK48=;
+	b=reHBo9PeMVLJYp7bOs4h9WS55QjCxdyakTy4l1zp0ukw/kZd5XmOW/o2fdyY3rNBmyTV
+	 3jSjNPcS95r8zLaoibzXgCQIcvnJAJSxA7tUwS0HI2a4LR7upcJx1l9VDunP3RdK5tNg9
+	 ptttIheQ1YkSNOQAGAkQfWqlcBSGJ1y2vgeh/yYatPo0U/w5R4rAZEfpYV2Byj9OH41F2
+	 2jXiTFd2e2773yhtXZKF/TxF5HahiJRriyMXJWnf8V2j8VyOV09AFqpXW+1HjC4WCuQ7d
+	 oVvHMm/JPwcC2UqEiZ9nxDGFEeX8y7Oro+PtYwHtu2r53e5I+ocwgrw+kSUY83TVZJQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=gJ3auvYB;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=gwLsnWYD;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96AB5606A332;
-	Thu, 12 Nov 2026 11:32:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96AB5606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	dmarc=pass header.from=arm.com;
+	spf=pass smtp.mailfrom=arm.com;
+	dkim=pass header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=NO6Nmu+Z;
+	arc=none smtp.remote-ip=217.140.110.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D233F606A323;
+	Thu, 12 Nov 2026 11:37:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D233F606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=gJ3auvYB;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=gwLsnWYD
-Date: Thu, 12 Nov 2026 12:32:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794483154;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E30ohjkNEQQO5IQT4pDBP5MSNoM/lhLP9pcvjKk/Sew=;
-	b=gJ3auvYBsG3YbD8W8Ej/BMM/KtBvqmYRVkOTwlq2EbzZrAzCSgzS/Oqc1IoH38elxHmjVU
-	DxT3O6WlVy6FwvOzGN6nQNnOjHTxEZcKjVwmwha5dZhMQEMpTYYrpJdlFAePemRVc1nwmH
-	BgB5z1c716W9xroh9SPmVOundqzvqyEcgU83HY8yfNGJAj+xNDn3C/qQ8kjJ15rUCEWEtX
-	oHkFTTMEEpGuuPH1cYunw8eL+SnxS4yV1EjOYZiYVLsSK23l36YBZmzeXVh+b8H0ZUKf0M
-	amBij9kvvDJ66fEv1nicdvUD/vCB2zBHpsxucDoywaOwl8ZbUtwFDasIGKGc9g==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794483154;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=E30ohjkNEQQO5IQT4pDBP5MSNoM/lhLP9pcvjKk/Sew=;
-	b=gwLsnWYD7XGOUzElu7f+eFnHJXWRvaGcgZTEWak+pKXU9nXSHM9+DEfep0qYoAOBmOSjSy
-	VYmOxm4cKivkgrAQ==
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-To: Nicolas Schier <nsc@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>,
-	Julian Braha <julianbraha@gmail.com>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	Zbigniew =?utf-8?Q?J=C4=99drzejewski-Szmek?= <zbyszek@amutable.com>,
-	Daan De Meyer <daan.j.demeyer@gmail.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	linux-rt-devel@lists.linux.dev, debian-kernel@lists.debian.org,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 04/10] kconfig: Introduce checkconfig target
-Message-ID: <avWj0PDoPWu2IkgD@lx-t490>
-References: <20261106091922.7560-1-darwi@linutronix.de>
- <20261106091922.7560-5-darwi@linutronix.de>
- <3dd2bb0d-8486-4630-b496-e92e4ac37c29@gmail.com>
- <20261109003909.GB3429615@ax162>
- <avHIOS9NHwCCMITd@lx-t490>
- <avQNfFbeoMImmtre@derry.ads.avm.de>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.a=rsa-sha256 header.s=foss header.b=NO6Nmu+Z
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0D8BF153B;
+	Thu, 12 Nov 2026 03:37:16 -0800 (PST)
+Received: from [10.211.55.3] (unknown [10.57.14.230])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B919F3F632;
+	Thu, 12 Nov 2026 03:37:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1794483439; bh=vTwt6H25z0763sueGZiIZeSWDqKIPD9kv2oCMsZXnIs=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=NO6Nmu+Z7bKfxKpT++lUuenb1Jioyu/gghNRzlSC4VKoJZMPI0kqYWrr6GH2vE5I9
+	 mypbhw5P3w9MIGIDbhERl4o9J0m9U/bMeXpiKsWWjpA89BTaWgTB6cBuu6wonNArCT
+	 4dKXPmKNc0lixXzI0+f9sgbBUickWqMiMno8XXgI=
+Message-ID: <9e4852e4-0bcd-4cc2-8f80-367340fb4923@arm.com>
+Date: Thu, 12 Nov 2026 11:37:12 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -91,98 +53,62 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <avQNfFbeoMImmtre@derry.ads.avm.de>
+User-Agent: Thunderbird Daily
+Subject: Re: [PATCH v5 RESEND 2/7] fs/resctrl: Do not allocate a monitor
+ context when releasing limbo RMIDs
+To: Jinjie Ruan <ruanjinjie@huawei.com>, tony.luck@intel.com,
+ reinette.chatre@intel.com, Dave.Martin@arm.com, james.morse@arm.com,
+ babu.moger@amd.com, corbet@lwn.net, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, hpa@zytor.com, fenghuay@nvidia.com,
+ tan.shaopeng@fujitsu.com, will@kernel.org, gshan@redhat.com,
+ zengheng4@huawei.com, jic23@kernel.org, x86@kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20261110133938.3768632-1-ruanjinjie@huawei.com>
+ <20261110133938.3768632-3-ruanjinjie@huawei.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <20261110133938.3768632-3-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Nicolas,
+Hi Jinjie,
 
-On Wed, 11 Nov 2026, Nicolas Schier wrote:
->
-> On Mon, Nov 09, 2026 at 02:18:49PM +0100, Ahmed S. Darwish wrote:
-> >
-> > This is why one of the development rules at the top of the Python script,
-> > at patch 03/10, is:
-> >
-> >   The tool must not depend on being run inside the kernel source tree.
-> >   This simplifies invocation, testing and possible future packaging.
->
-> Then, please move the argument checking from Makefile to the script
-> itself.  Handling wrong arguments is good native feature for the script.
->
+On 10/11/2026 13:39, Jinjie Ruan wrote:
+> Busy RMIDs of a monitor domain are normally released by the limbo
+> handler once their cache occupancy drops below the threshold. When a
+> domain goes offline, its busy RMIDs are released without checking
+> occupancy, since the domain is going away and the RMIDs would otherwise
+> never return to the free list.
+> 
+> On the monitor domain offline path, __check_limbo() allocates the
+> monitor context that an occupancy check needs before it scans the busy
+> RMIDs, but without using it, and returns early when that allocation
+> fails. Then the caller destroys the domain's monitoring state, including
+> the bitmap that records which RMIDs are busy, so nothing can clear those
+> bits afterwards and the busy counts never reach zero. Those RMIDs never
+> return to the free list and, where the RMID depends on the CLOSID, the
+> dirty count of their CLOSID never decreases. The allocation can also
+> wait for a monitor to become free, which stalls the CPU offline path on
+> a context that is not going to be used.
+> 
+> Only MPAM systems are affected. An architecture that can always read an
+> RMID allocates nothing for the monitor context, so the allocation can
+> neither fail nor wait there.
+> 
+> Move the release of busy RMIDs into a separate function that does not
+> take a monitor context and leave the occupancy check to __check_limbo().
+> 
+> Fixes: e557999f80a5 ("x86/resctrl: Allow arch to allocate memory needed in resctrl_arch_rmid_read()")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> Reviewed-by: Reinette Chatre <reinette.chatre@intel.com>
+> Cc: James Morse <james.morse@arm.com>
+> Cc: Reinette Chatre <reinette.chatre@intel.com>
+> Cc: <stable@vger.kernel.org> # 7.1.x
 
-The script does its own argument checking, all through Python's native
-argparse mechanism:
 
-    $ ./tools/kconfig-checker/check.py check -h
-    usage: check.py check [-h] -c KCONFIG_FILE -r RULES [-o OVERLAY_FILE]
+Looks good to me.
 
-    options:
-      -h, --help            show this help message and exit
-      -c, --config KCONFIG_FILE
-                            .config file to be checked
-      -r, --rules RULES     rules file to check against
-      -o, --overlay OVERLAY_FILE
-                            file overlay over picked rules
+Reviewed-by: Ben Horgan <ben.horgan@arm.com>
 
-    $ ./tools/kconfig-checker/check.py check -r safety
-
-    usage: check.py check [-h] -c KCONFIG_FILE -r RULES [-o OVERLAY_FILE]
-
-    check.py check: error: argument -r/--rules: invalid choice: 'safety'
-    (choose from 'preempt_rt')
-
-And that's by design, as an independent tool that can be later packaged.
-
-Regarding the Makefile's own error handling, I'll touch upon that below.
-
-> As far as I have seen when skimming through the kconfig policy checker
-> code, it does not use any Kbuild variables.  So, if it is being placed
-> below tools/ and does not use Kbuild at all, and is expected to be run
-> w/o Linux tree context at all: why do we need an additional top-level
-> Makefile target for it at all (alongside of
-> 'make tools/kconfig-policy-checker')?
-
-The reason is the expected kernel configuration workflow, e.g.:
-
-    $ make defconfig			# Generate a default .config
-    $ make debug.config			# Add debug options to it
-    $ make menuconfig			# Manually customize it
-
-    $ make RULES=preempt_rt checkconfig	# Validate it
-    $ make menuconfig			# Follow checkconfig advice
-    $ make RULES=preempt_rt checkconfig	# Try again..
-
-and so on.
-
-So the "checkconfig" target fits that workflow, even when the checker
-itself does not depend on any Kbuild internals.
-
-The Makefile-side validation is also there to improve error handling for
-that workflow:
-
-    $ make checkconfig
-
-    Usage: make RULES=<profile> [OVERLAY=<overlay>] checkconfig
-    Available RULES: preempt_rt
-
-    make[2]: *** [scripts/kconfig/Makefile:138: checkconfig] Error 2
-
-Without it, the user just sees the lower-level script errors:
-
-    $ make checkconfig
-
-    usage: check.py check [-h] -c KCONFIG_FILE -r RULES [-o OVERLAY_FILE]
-    check.py check: error: argument -r/--rules: invalid choice: '' (choose from 'preempt_rt')
-
-Both error messages are correct, but the former informs the user, exactly,
-on how to call the Makefile target.  This matches the aforementioned kernel
-configuration workflow as well.
-
-I hope this clarifies things a bit.
-
-Thank you!
-
---
-Ahmed S. Darwish
-Linutronix GmbH
