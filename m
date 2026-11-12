@@ -1,79 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.220
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794467208;
-	b=i1IB+JwJAxZC7bRQDATZS4XFqSZP0ZVkvSnJ/HVSOm0TqZ5T9eVFXlDwTDAx+f37ZKks
-	 N7lNKVi7Gt2d6DMxGtdo1tHVVSesAPD2gLOGuxoBLGH/nIPejfVoq7OUX2iwyqlo7Fe2d
-	 d/WqIy/NjFFZHlT/Attos2tZvkKzzBEyvCWf6d1IftFafgmrrPLb+wDkCQEInK25iXDip
-	 WiLQTKzPvBkN4abpVulS/uvs0dtzhmqRVJI29xX8yaNeS/wBqPRkEFqjNqAm9ADLDDWLV
-	 SGHb3jO/W5F/YH6d1Ngwre9drP3gA2+t5JpOVlOm3WNisuTKRB7L3k7mfASkxxRf3kw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794467208;
-	h=DMARC-Filter:dkim-signature:Received:Received:Received:Received:From:
-	 To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
-	 X-ClientProxiedBy;
-	bh=wOgLppMITza0pnjiPtPVOh92L0e/zxieb1pVGYd6x98=;
-	b=a7G+IznoyIetH3EBephFqfc/7C3aTQyLBA0EcM0JB3KbY1Pwrz66KIiN4qhPQCZ72cTa
-	 4pZWU5s81LgnCAjMSw4d409T0n7iYf9gMAn/t8lczc6Lz7bjZoOIQDR7p0KjPqNW0/42I
-	 ZgcMgZbEjoVXGTps+gWC8oOGQndfv6pVA/wJbe/hQ89IkdMqXa/bohOTD8odEai/Opi7l
-	 zJUZ8TtLfaNLjeTMtbgAPNmmgG5UhrVNhF6DFlZBaRPXD5Kp4unNho7/d0Pg/7SI8IVUn
-	 tug7ZkBajViR4ebRABZ8DZuyCkT0Ni/i3hBZJG0T3hRdkgnV0dc4IgJxlPQSFThBxUw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=huawei.com;
-	spf=pass smtp.mailfrom=huawei.com;
-	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=xMOMxl99;
-	arc=none smtp.remote-ip=113.46.200.220
-Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.169
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794467232;
+	b=VUxb1xTraowuY2EV1usFvdFh170xlmwXpz3+75jM0joOAYgvl/yyDqXHpIE083B+ZT8g
+	 PJkuw6CyLNvAh6aulLAVtYK6DUkXCgBfcc04Mqb4zaI7fFmh8aUyhIrvj8C7Gvu0sT75W
+	 giDD4d1aH0N024QM74SJEa5jKpA9czCVpISxRGfEouwUZ7Nv8XuNG7rIbk7yJQsQPz6pR
+	 9FGLNIQ6TNhSzI5UAstnfCxGbYWU5NjmP4nl99W2NqwqHGgKiVRe0Ccaiw0D+q5VpikRR
+	 dpawwIv+b4Nm4GczNjHYGdqRrSQzPY5BqqMGkwOP2pfXuiJfl/Y5uBuSqcjZz0J8OwA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794467232;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=fKnVCHN7E/hSBh2v2WAaZgbrM1NIrcwDb5EE6y41Z7Q=;
+	b=VYw8hU8kdRL6lteC1kEQkQT6kgLVJoP2tm2juZn2+cK7uxyDqRb8oKDtP70hiLmVUIPF
+	 mi+AJDV6UGXK+gyTAnLekdZGDjiMpkt5/D0T/iczwcGyA97mVrtdUyj5wCUZz8UKADLY0
+	 pDy/+jw0AykzdsfPrg4X9NFD0vlJrXP3sKw1B2mcNYMlJsCZls82cdXLmdulFo90Ka0dV
+	 z+NOdeUtWAS0oz8sWOFY3GPXcDIk4MCQhYx4Pxh0fOI3ixNjGJgbOtcAeVlqb0Bqcdh9I
+	 kOzfhCB5R6Ref7sNdZgBYVr1MQ1jCgF+Xm1KleMIdLoYpHAzgyaM8NAsKhnHH8YY2Ew==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xc44pbNc;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.169
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D434606A339;
-	Thu, 12 Nov 2026 07:06:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0D434606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0D6606A327
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 07:07:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF0D6606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=xMOMxl99
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=wOgLppMITza0pnjiPtPVOh92L0e/zxieb1pVGYd6x98=;
-	b=xMOMxl99ja65ncnH94KpC4vbR9s8MBfQ1kb4Ufc2MX+aDQUhYfRpZBFAj6m4asiyn6JAlg90b
-	YcmeMbD9GPc5s1n8pChPEX8DcyzZTbl+/A/uo60uBpg8tx5NHibcAWiqzro0G3Jql+HYdDvTtLn
-	5eRxrLGaquYatlN+JanSGNQ=
-Received: from mail.maildlp.com (unknown [172.19.163.0])
-	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4jQBJh0c2Kz12LDK;
-	Thu, 12 Nov 2026 15:06:44 +0800 (CST)
-Received: from dggpemr100014.china.huawei.com (unknown [7.185.36.48])
-	by mail.maildlp.com (Postfix) with ESMTPS id AA37740537;
-	Thu, 12 Nov 2026 15:06:38 +0800 (CST)
-Received: from whupemq100015.china.huawei.com (7.152.185.230) by
- dggpemr100014.china.huawei.com (7.185.36.48) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Thu, 12 Nov 2026 15:06:38 +0800
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.220.94) by
- whupemq100015.china.huawei.com (7.152.185.230) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Thu, 12 Nov 2026 15:06:36 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Wu Di <wudi234@huawei.com>, Teng Peisen
-	<tengpeisen@huawei.com>, <netdev@vger.kernel.org>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
-	<horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei
-	<ioana.ciornei@nxp.com>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	Mohsin Bashir <mohsin.bashr@gmail.com>, Dimitri Daskalakis
-	<dimitri.daskalakis1@gmail.com>, Harshitha Ramamurthy
-	<hramamurthy@google.com>, Larysa Zaremba <larysa.zaremba@intel.com>, "Vadim
- Fedorenko" <vadim.fedorenko@linux.dev>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>
-Subject: [PATCH net-next v03 3/4] hinic3: fix some checkpatchs.
-Date: Thu, 12 Nov 2026 15:06:22 +0800
-Message-ID: <59ce18b47a2b268640831999b518ae662f86ff7f.1794467919.git.gongfan1@huawei.com>
-X-Mailer: git-send-email 2.50.1.windows.1
-In-Reply-To: <cover.1794467919.git.gongfan1@huawei.com>
-References: <cover.1794467919.git.gongfan1@huawei.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xc44pbNc
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-36d1b3b9974so136005eec.2
+        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 23:07:11 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794467231; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Af3x3oTnOdKMPAS4KQI0teuySJOAzNufoEgLdDhPwFEMYbjQwbZHhUecDpxjWwG5pq
+         aPsXnMuz1jxits0ES+fRZaq4d6fFqmY3Uk2e7Bz3bIkGdOYAvIGcbNHhrdTstDS6iu34
+         pq0bVFAeGMWXTtor87Gl2QC+5k8AFfZsMkJJjfLQ97Ar+dYdMqQwWdzZGyQNYxknUlIM
+         L+bqeFweqHV+CZRubGjhUjwlK+CFJvN7ChWz+BXTH9XZseDAYDyDH93K1ldYwdWIUhvr
+         WDMj+a/+oPLZ2Tf4AiueDprp8ENZ6/qPZVpwKVPyjBjGTFW3FU9avXlk6g68mEPSTwuN
+         2bqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=fKnVCHN7E/hSBh2v2WAaZgbrM1NIrcwDb5EE6y41Z7Q=;
+        fh=qoyM5ltLNzdPz/9tBgTk0O8I7sLfu28paXmQ4sbCSFc=;
+        b=hfhE2P6Uyuoi6hOkKDGJsUVWrhvC2tr+lJZtl1xp7m8TyqyuKdyZ1O4abNHmYPTzT+
+         uaJIOXHJLgsrdeOEEo2w/Y6WtsXPf3Wyo+c6rxUEBpvudSWdlkiTgk+jsPtYHPca1x5F
+         sUDj+j0eZJWrrwoqEa+v4Zl0QBbcjP+EGMb6xDYKPeL0XXsD7rS8rmhI/MgJ4FMGesDL
+         FJos7anUf/gc/sPNeHNISyw687glpDe4IdO7L5On6ov6k6DzpB9VYbLeUwSycY9h4Vzo
+         gZqRt9NfDK19EeSXP4F2ebiWytZ2hpHz0sm2nycTme81IluPuCFH3A8l/mkBF7NpCFsk
+         6qOw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794467231; x=1795072031; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fKnVCHN7E/hSBh2v2WAaZgbrM1NIrcwDb5EE6y41Z7Q=;
+        b=xc44pbNcxltUHGg4tunSUmN04e2U/jKsJUsnxPYcvA+qqm01NnKPXgtlnQekS7ByVq
+         4AtP7iHvVolgk7MNR4QfFlGkEmt+3sBlL6oSmEktDhFPu/wHAnGbFh0jsqXMaougHBpI
+         gHoW2ClvogVyVXvDiOeyl/DtSGsaERvHOwPNTFiQwuYZ3N87WzCUKI1ouIuw2rv1rSJu
+         ocHwePSnJq+Q8ldOoYCTJCmzWnVlmSFv49wORYfLbrRHdk5QrrM3JmrTCLlA9wX6en6t
+         KdeT0dTF/ux5bGGwY8xtfpaAQ0WlrEw0/9zk41gT10dn7W8jceJBbGr8FB+1KspVxMe7
+         9xnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794467231; x=1795072031;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fKnVCHN7E/hSBh2v2WAaZgbrM1NIrcwDb5EE6y41Z7Q=;
+        b=yhbGALcFGjuiH4Xhus82gzDt+d2kgmT7ZuhltDDc4UCJemptmYTr6RcnXGHRV3neDC
+         0kxS5EjWleKJ09KuTfrJsuUWgRlaR8Ry1+pkLqFKzbt5ECeT3VmxQNlNdKHLhjJAmIRY
+         nzak3cpdHLWXDMI7fCwG3z3j8QnjyCLoN7TRbB+WAKnHPgV34XhpU8oWj4YeSQ+HAxMD
+         FoS1NgjgrGr4Wva2H9ChSoq46ytwj0Pi1igBpZa7oXApglq+LFGx8DIwSOelDJhWrKIn
+         GJRu1UW7SWIfLznAPAilSeQuvccfBZ91hkl+sMi0UCGr7nq6HM522KQRt1+TdUGecFGh
+         yNCA==
+X-Forwarded-Encrypted: i=1; AL+hErHIHfYN82TmZDK25tIYXRaDW3JCqRelLHi/lpmT6X7slelHN++ULOLq9QP/WEFJ0jZoPOS95XJlT6U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8c6+kq/dsS4gPa15rRG6McTzg6afJzTcQbLMv5RI6YL7ZuTJW0
+	zeTpVUqCQt7HliI6CdL3NFBUGgdZQiCkTwIMfu7V4KnqN50km7Xb11r4E9j01cDN5WwSl1Czn/B
+	9QjbGNq/AlBi5z5hRYUNEoLojfTtj45c=
+X-Gm-Gg: AYBFou06E014diD8p0HIn52NOVycjOe/tJFDaq9fG6i3ZKZDU7nrRg7xva14LNxF9UW
+	m+OSjNy/3aCMBVJBTSUTLPNGy75zsvuTTF0MppHo6QPNyBmPrUqpHXVBDg0IigJuH3JacJUjIhi
+	vkFjEHT/XbybWWvULynuxYABnoZE5zYye/zMKZQbK3vegr0LpBknH/S6EJOeO1mHHJE7osaIufJ
+	mpUIZFstTNJM92eL5LtMogn4kSDW1PRfbcXvd5P/Kuq6+hqt68K8vy4HsxJFa5po8u0qUurClY1
+	PMiCFEGWOGTtbzxUUDzKgkJhaBCE+tjXZUHrf1ojPRoxE9soLd5ga1cKTNJS/mJbE78R6cj1UZZ
+	Ikxpb8vkTZdDwJM1T2uTAP0/DPkc4r9cHbOHYpS4qazAdQ6QR6jWpvyO5smHuLOlU85E3EQwQnN
+	VKPH0v1aojuBrQpyUQnpIAMoZlCve8okeijWYUQlFEnLQyBBrDKMgXdYZhxCsWesBUDXFKtrokS
+	fwUckTB12lFtq2/UH4ZzA6GfTtgu9JtPZSZaRA6ZwwEpfCsw300C8/vmTE9gHvESgLS6Xwat+Yy
+	g0xo8PK96Lbk4mvV
+X-Received: by 2002:a05:693c:20cd:20b0:375:f846:5b3f with SMTP id
+ 5a478bee46e88-3767fe8f34bmr7678043eec.0.1794467230848; Wed, 11 Nov 2026
+ 23:07:10 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,102 +107,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- whupemq100015.china.huawei.com (7.152.185.230)
+References: <20261111225940.1573565-1-tytso@mit.edu> <20261111225940.1573565-4-tytso@mit.edu>
+In-Reply-To: <20261111225940.1573565-4-tytso@mit.edu>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Thu, 12 Nov 2026 08:06:56 +0100
+X-Gm-Features: AclHuK-0Vjsbk82ppS8gYU_c-KZHXRP49X84VVchA17Y0XwPYJKcU9nKf-NQksU
+Message-ID: <CANiq72mNefHqXnfy_mh_kyRT0SfM8rLj1kRnc-Y-qmdaDq0nvw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/6] agents: add a skill to determine stable tags
+To: "Theodore Ts'o" <tytso@mit.edu>
+Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev, 
+	Sasha Levin <sashal@kernel.org>, Bradley Morgan <brads@mainlining.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Mark Brown <broonie@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Leon Romanovsky <leon@kernel.org>, Konstantin Ryabitsev <konstantin@linuxfoundation.org>, 
+	Thorsten Leemhuis <linux@leemhuis.info>, "Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>, 
+	Geert Uytterhoeven <geert@linux-m68k.org>, Dan Carpenter <error27@gmail.com>, 
+	Miguel Ojeda <ojeda@kernel.org>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+	Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Cleanup checkpatchs of lines exceeding 80 columns.
+On Thu, Nov 12, 2026 at 12:00=E2=80=AFAM Theodore Ts'o <tytso@mit.edu> wrot=
+e:
+>
+> +Read Documentation/process/stable-kernel-rules.rst. It says which change=
+s go
 
-Co-developed-by: Wu Di <wudi234@huawei.com>
-Signed-off-by: Wu Di <wudi234@huawei.com>
-Co-developed-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Teng Peisen <tengpeisen@huawei.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../huawei/hinic3/hinic3_netdev_ops.c         | 34 +++++++++++--------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+If the LLM is going to read the file, then I wonder if we should just
+clarify this (i.e. the list given below) in that document directly (as
+a guide, i.e. still acknowledging that the stable team decides in the
+end).
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-index d1fd91d97ccf..621d8b12e247 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-@@ -121,8 +121,9 @@ static void hinic3_destroy_num_qps(struct net_device *netdev)
- 	kfree(nic_dev->qps_msix_entries);
- }
- 
--static int hinic3_alloc_txrxq_resources(struct net_device *netdev,
--					struct hinic3_dyna_txrxq_params *q_params)
-+static int
-+hinic3_alloc_txrxq_resources(struct net_device *netdev,
-+			     struct hinic3_dyna_txrxq_params *q_params)
- {
- 	int err;
- 
-@@ -176,8 +177,9 @@ static int hinic3_alloc_txrxq_resources(struct net_device *netdev,
- 	return err;
- }
- 
--static void hinic3_free_txrxq_resources(struct net_device *netdev,
--					struct hinic3_dyna_txrxq_params *q_params)
-+static void
-+hinic3_free_txrxq_resources(struct net_device *netdev,
-+			    struct hinic3_dyna_txrxq_params *q_params)
- {
- 	hinic3_free_rxqs_res(netdev, q_params->num_qps, q_params->rq_depth,
- 			     q_params->rxqs_res);
-@@ -251,16 +253,17 @@ static void hinic3_remove_configure(struct net_device *netdev)
- 		hinic3_rss_uninit(netdev);
- }
- 
--static int hinic3_alloc_channel_resources(struct net_device *netdev,
--					  struct hinic3_dyna_qp_params *qp_params,
--					  struct hinic3_dyna_txrxq_params *trxq_params)
-+static int
-+hinic3_alloc_channel_resources(struct net_device *netdev,
-+			       struct hinic3_dyna_qp_params *qp_params,
-+			       struct hinic3_dyna_txrxq_params *q_params)
- {
- 	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
- 	int err;
- 
--	qp_params->num_qps = trxq_params->num_qps;
--	qp_params->sq_depth = trxq_params->sq_depth;
--	qp_params->rq_depth = trxq_params->rq_depth;
-+	qp_params->num_qps = q_params->num_qps;
-+	qp_params->sq_depth = q_params->sq_depth;
-+	qp_params->rq_depth = q_params->rq_depth;
- 
- 	err = hinic3_alloc_qps(nic_dev, qp_params);
- 	if (err) {
-@@ -268,7 +271,7 @@ static int hinic3_alloc_channel_resources(struct net_device *netdev,
- 		return err;
- 	}
- 
--	err = hinic3_alloc_txrxq_resources(netdev, trxq_params);
-+	err = hinic3_alloc_txrxq_resources(netdev, q_params);
- 	if (err) {
- 		netdev_err(netdev, "Failed to alloc txrxq resources\n");
- 		hinic3_free_qps(nic_dev, qp_params);
-@@ -278,13 +281,14 @@ static int hinic3_alloc_channel_resources(struct net_device *netdev,
- 	return 0;
- }
- 
--static void hinic3_free_channel_resources(struct net_device *netdev,
--					  struct hinic3_dyna_qp_params *qp_params,
--					  struct hinic3_dyna_txrxq_params *trxq_params)
-+static void
-+hinic3_free_channel_resources(struct net_device *netdev,
-+			      struct hinic3_dyna_qp_params *qp_params,
-+			      struct hinic3_dyna_txrxq_params *q_params)
- {
- 	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
- 
--	hinic3_free_txrxq_resources(netdev, trxq_params);
-+	hinic3_free_txrxq_resources(netdev, q_params);
- 	hinic3_free_qps(nic_dev, qp_params);
- }
- 
--- 
-2.43.0
+> +Judge a change by what it does, not by how its description labels it: a
+> +"cleanup" that releases a resource on an error path fixes a leak. In pra=
+ctice,
+> +the stable trees take:
 
+We are adding Rust soundness issues to `stable-kernel-rules.rst` [1],
+so if we are going to have this detailed list here, could we please
+add a bullet point somewhere in this list like:
+
+  - Fixes for Rust soundness issues.
+
+?
+
+Thanks!
+
+[1] https://lore.kernel.org/all/20261020163358.176088-1-ojeda@kernel.org/
+
+> +  the code it changes. Otherwise, if the Fixes tags are unresolved, so i=
+s the
+> +  stable decision.
+
+When I was reading this, I wondered if "unresolved" had a particular
+meaning here. I assume it is referring to the output of the call to
+`find-fixes` and how that affects the output of this one. Perhaps
+something like:
+
+    Otherwise, if the find-fixes skill cannot determine the Fixes tags,
+    the stable decision cannot be made either.
+
+is clearer, i.e. being a bit more explicit and using the same words as
+the last paragraph?
+
+I hope that helps!
+
+Cheers,
+Miguel
