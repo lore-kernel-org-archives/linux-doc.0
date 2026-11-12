@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.174
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794510569;
-	b=P1WB5mOy6OfZuGLxI6T69Ns92RRXAyI5mMfagSYZMtE2B0etFQhrBpG2WCEd1hr15rX3
-	 ThfO4e8uFDmb3wwH1PXh3IqUJI5ydlFdD8WbCpQ5r1orn1iDTNS4hCEBKWi0xHh1pp6qx
-	 Tev/vyrpIGYMg8AoxRDRFZ5fkSl5CtYre2VaGseCsUrXSq5tm8/UWxM/BHYDTZ1nISPlK
-	 6wTkPPy1Q7Db5NjMM6u44EeBmqzqZjAKlQbt5MRtTQWRNoTCD2RmR0jgxcTbUG9DsJORA
-	 Q3J18DHbBy34V6AINv45iHZ7+iCZMwh/roB3Yn4bMCCQw7KTzedFNbNDd02uSBIXsHA==
+	t=1794510570;
+	b=dWOfzWutKP2WVUCeaTEjUJ798OnyrvFDj0m61ZbiRZx7UMe2+1O4p2oxSZXbg6DgKBfm
+	 MDi39C1YDd0DzWlbHYCUFrCpSJuPoAC1sRq/UUkY1Fc0QvZmHnuf8N7OxH8GGDz8Lj7pn
+	 12yqgDn9eQ5QRVNEmw0LAPgKNrlh7+tpI+e/WJRWKNz/QcE72u9nL8CAVc4LhYda48NDO
+	 qFVj3S+sbt6q6WAf1UQA6uwyL64EURIz8Os7BsfIq0j0EdMbpZoWIWa+paFuTqRy7aJw7
+	 BSISbsL0rt4lRHlS+6cTqAfn6cttVxP4uomlpI79fNbG7tQl5dikwhrYCakQZ4NEBpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794510569;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794510570;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=MZNgkM904EAWrQX1/wn3079usEV+qyaStHRPZPAF7SI=;
-	b=rvnjgGj4Gs5kdlBlLm/yxKegrF1U4JrSuS8qKLRmeNPC1Zm4coNfm1PHTzVWDK/8OXq3
-	 jo/0ysZ6AwuY67QkOkOBcNWBmkijVJD1o7WqFXkts0C3w5k0qu6l2G55acU+dL/gfqWqJ
-	 sL/x1t31lZPy1/TAajf52QNt9RzIQYsfAjbpPk04S1JmoWVkcQZHDodwejPRnnyMOZ7fc
-	 q3jwGcV0imBbQTV7rRTybIhG5kBbvdxgpDESmCJIXwY1V2HJRmeZbACbOFBknTmC37h+A
-	 O4YxC1qmdOo28H+m+S79tFX1eyu/WeUe37c52bmx3xn7cOncxl538vODCjaJDgjxj/Q==
+	bh=qKiDNdcM5kB7oFfApEbRvc3EIzPQh/Mfzhj7PLGh4G8=;
+	b=2ZxFMx04qEBmAa9+eIiq6tljhvsVPGZq0/dVVRnhIajG8AqM5UJk2oP1jqEOFKfnqlbB
+	 6BPAf2T3JPu2vjbuuENLD95l6TDU6LKXHshM4fqvLIRGJ5X3ZouEndvrpXm510JDWC494
+	 53qw7vL/S6BuZtuh8D/ZyT8UlDNxRQVI1oLYu/p7X7z+Kkd3q+p8qNkMYRGAG4Vz7naDT
+	 s+dYG0r63F/YtPXOMUIrbh/Htm/Lyg9j2rXXZiFpFHprAEfbY2Qz7UQGWzUxf/zH/LcfM
+	 BnPR+YONwVzwrQUfqqYbWX7TyilCyi6MZEzUD2fv7i+00vk5buDpJWzJHM6SgOS5Mgw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aFOHzwr+;
-	arc=none smtp.remote-ip=74.125.82.174
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hz7JFhqq;
+	arc=none smtp.remote-ip=209.85.215.180
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED9B60A2610
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 19:09:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8ED9B60A2610
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44B160A2635
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 19:09:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E44B160A2635
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=aFOHzwr+
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-33fb4680717so10391eec.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 11:09:28 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=hz7JFhqq
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-ccca948203aso104503a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 11:09:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794510568; x=1795115368; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794510569; x=1795115369; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MZNgkM904EAWrQX1/wn3079usEV+qyaStHRPZPAF7SI=;
-        b=aFOHzwr+z8zfgGiL1j1rwCghO1Ql13ceA2/l19mnVX3+A4Z1VSMWWt+qtrXpIF9dVm
-         xP9qqXjBHwJLedf8HGLSfuB/Arq9IhZCgyOBld5Tcef2QNShcFLC3V2uc/ZrEQ8k4Vp+
-         EQ26nGWObftWoBoOYWBYTAI8XDKD7NkNvlIJ+S8rVSfHrfEPtAnw6awCBCZiwItIZu9p
-         c0dBFRKOkMbFSmWOgqvAjBtWp+yXa3E553xB7a7rZGeeyTEpOkGieqQoJLM80V/d4mza
-         TpEH5Ge3ToJQ355jUSj9/Oin+ERklDzkempk3wTPV0ZuXJ7KCDWwqRn/jOAf/FzS32Uq
-         jQiA==
+        bh=qKiDNdcM5kB7oFfApEbRvc3EIzPQh/Mfzhj7PLGh4G8=;
+        b=hz7JFhqq+xxhecYw17z9V5TBTrn4X4OolPiN9AOCXk+KWr4/jJtSGGE6DQ1+uICR5d
+         R5P+ifk6+aGQunoN+E+Fqu+TpRMw4PyBLknE9AGtmtgrnOGpeRLUGHyUqd18j25pick3
+         v0jlNLUk/zisOx0O+AujKoOSu1ztiaNkPTlZoDPLty40ZAXHxnm9GWOjv44BdtLlIHwx
+         ZJquGynG6nnCoE4bjvQGvM6O5edgW2FsZWaq6wP7iiw8Sid+M3jQV5tBsk/pJSCJfVBY
+         Khqnb+sIoIGIV1gDBZV//UcLBou/07dvUeXqK1HdZkw68N1gVZRO11p706UyK5wsKaHV
+         ukPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794510568; x=1795115368;
+        d=1e100.net; s=20260707; t=1794510569; x=1795115369;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MZNgkM904EAWrQX1/wn3079usEV+qyaStHRPZPAF7SI=;
-        b=HhrnFCGNbV4xJP5ZQE6rycubyGdrncWoVRAlnIEX+Bt3yq//rAgF/MBMWf68q830ft
-         wN27Z0jxnP6P9hXVfh9RVZqiwJt62TG2QpmBOcIgv2i68e0KqlWrNzlFc5MAMG6LgV7v
-         oQSt94tIyN4lyTmYoYjYqWL8cmUFqOXC9ddyKV+2fENO5GWxCj/f6F/u/pX813BHFEKc
-         FkN3NnE3yXM+tJon/4jEXOntb/Zlg6b+Mi+IL7XofDo8A/tBS4RDzP9f/9N0WJKCO8ye
-         1bXz21/ma5b5iXxxvYoBwT+DU1x8PG1E736dJCPHVuXzce2bo8olSi4AENyb1RSHvaPk
-         MAaA==
-X-Forwarded-Encrypted: i=1; AL+hErHIpiIkKKzzBLfs1Uc/jjkYC6Ndto1BcauFI2e6/SDTbJoD/sK9GaUYOAY3BbS+45PHTAb6LSF1XMw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z83URp924vfY7V65EztWpYp0ttpE4kckR4ATgRPFYnvRi0798iP
-	XX2AGzfAkw8wsNiBxQbQGznAqUtZ2PIIjXoaXOjQV4Idco1/mN4dJmcH
-X-Gm-Gg: AYBFou0s2I5xrMNyGIS1GvQ/GoOVTaa6RltRtDLU78ptFUjGhz06Qxyl/016tshLbL2
-	d2733Tv6UwP2RDYpuPJauz5DCrcTKlJcjDCMNeogMWzCICaUqz06Dv5EbnoyCkXChPRUNf+JMRe
-	OSfjXm4xdYhjxfInAm7eUEO3Ie4PFNoMcfl9yJRU4czA+SL4E2zcdxth00u8hw2J3suZ0XiRbms
-	D2dHE/HlMUhJcDGW4Alzm0CP8QsrrZVPyYLrIGHf+QLvlWY9HZMzGW2KCZYbS5grfY97a64hUVv
-	IVQb83ZXKs/nab2qyHfhwxCJoDLGQGw3fNrrPKEqJ/YK0fzBMt1aOQIIJF4Ed0/5sR//XyjJrJG
-	w43y++Ellbab3IGa/5iHJuIsSXnxdujv3biQwbH/7xnHs1XObhdYA2Uv2x5lgbaUiyfR9PV725U
-	PaSxK2tOozM4xMix2dfYQ8oBWPKqnP4MjPG6Kp9iIAKg2IBV4Xvl2PCw7A7EhT+4SkLJVQJMfoL
-	4Xr82KX5tS6yq/edA1WtL7Jj36xYxr1uBFFTPWlztSNs9l0K+BPUbtJpe1Jcac+ut9wNtBEoKFq
-	Q4v0bb0G
-X-Received: by 2002:a05:7301:fd09:b0:36d:4570:a32d with SMTP id 5a478bee46e88-37963953f0amr89550eec.2.1794510567383;
-        Thu, 12 Nov 2026 11:09:27 -0800 (PST)
+        bh=qKiDNdcM5kB7oFfApEbRvc3EIzPQh/Mfzhj7PLGh4G8=;
+        b=ZwxA67encSwO94vpaurVmRdM4zkJ3cAayy0kHe8DLSyd7TlMuVJtjOFSrDHhfX19vK
+         rdGVRzMRq3mc5CqW8xCcrdzW6uUk2s653+TiqOeXA15vnOk3BV+aetcU1MJmszw1YjZT
+         PJyD9poG/PQ9k94P9IgSoi/WZDXvKXE7bU6LCZ6YB6XngYRoT/LmZrj+rhLdNJDnU3iF
+         xwq3GdNwWnUi4VivEy82KGxHcbf8LKif+dFaqTZh6pBeaApIOXBtv/12F5nX2Hz0V30Z
+         ljbvMjaULKa1igh+6qvP8VhbQYURH5mbS6u7/XGuHwffXv8vhzb7FXkPI+TYarCuqlOI
+         n3ew==
+X-Forwarded-Encrypted: i=1; AL+hErEn57moAgO+PaMv0+NeqFUPkzA6jQ3Mx/iCljortfbuDETTVEZnQep9slsNKk087kuHZ//xcIAZIXg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8lNO59iLR21kAMO2pIMhrYATrX9/2JvWfLXxyRcY4Du2CUvWxU
+	msSzegF3Sp643Oiaj/MoN1wCv6UPlCE7bFe5xp/wnz77RXsWpeJ+b/Kc
+X-Gm-Gg: AYBFou0TY24b7Z+Cxgz0pCyzhe/toOWb1T/0bEW581R8rSBNO9gd1+1MR0KFRVDJKiV
+	js9NP8vRUeFwXpVsYvtDSI8FX2BuLvYHo/UA6xt8AuYjphc7+B7dxl6SVNRdvpPBgbtpBGbvSPJ
+	DXSV3PQZfc5ATG2bYKANL+NNC61FD8mICZPVBb7SOgQa+wLAWoNe6XhKVsvFRTurE5HhRdK/F+V
+	hJdnyPpu2SSc4Aqv74a0tb5yBFN4xqHr4kQPU6Gx66B5wqVTdtbYM2IItZ7FNafwhwrofXRwz1+
+	Ur+sScTYikUO2PfxeMNx7SIJBAUbOWO/uoO7enYu8ZTTnyYF/4wkqoqEXU9eWCQdQvDWm5JSqOI
+	O5RAL9t+/k4pqAI+nTjNUzP7MV2QE4XNcihnxi8q++6433JMu3oWY40i0FWYHvs0AmDmTkvSejy
+	lVyaNbVBS3R6Orlf06k2DoLbqOEbwOZHTwpBLwHSXJX4gbKe5mQYkEbTl9N7wdt6fUqciJOSqHM
+	+l6fRzdDS6FKnek+O2agS4k4gOZLwK8UtYtI2Lcw7gzWHSV5fDZ0JbNJ8R8sZc4F+9OKU9mGmst
+	gpRP4TFc+SRLvH77o9tLQ85Y4fxsnQ==
+X-Received: by 2002:a05:693c:41c7:20b0:371:ede8:3e9b with SMTP id 5a478bee46e88-379680cf32amr73747eec.36.1794510568954;
+        Thu, 12 Nov 2026 11:09:28 -0800 (PST)
 Received: from eldorado ([2600:8802:b00:1f88::287])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37956bad6casm395674eec.26.2026.11.12.11.09.26
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37956bad6casm395674eec.26.2026.11.12.11.09.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 11:09:26 -0800 (PST)
+        Thu, 12 Nov 2026 11:09:28 -0800 (PST)
 From: Florian Fainelli <f.fainelli@gmail.com>
 To: linux-mips@vger.kernel.org
 Cc: Florian Fainelli <f.fainelli@gmail.com>,
@@ -100,9 +100,9 @@ Cc: Florian Fainelli <f.fainelli@gmail.com>,
 	linux-kernel@vger.kernel.org (open list),
 	linux-perf-users@vger.kernel.org (open list:PERFORMANCE EVENTS SUBSYSTEM),
 	"Maciej W. Rozycki" <macro@orcam.me.uk>
-Subject: [PATCH 1/3] MIPS: SiByte: Wire up the CPU interrupt controller
-Date: Thu, 12 Nov 2026 11:09:14 -0800
-Message-ID: <20261112190916.3725141-2-f.fainelli@gmail.com>
+Subject: [PATCH 2/3] MIPS: perf: Add SB1 userspace callchain unwinding
+Date: Thu, 12 Nov 2026 11:09:15 -0800
+Message-ID: <20261112190916.3725141-3-f.fainelli@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261112190916.3725141-1-f.fainelli@gmail.com>
 References: <20261112190916.3725141-1-f.fainelli@gmail.com>
@@ -117,91 +117,166 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Initialize the MIPS CPU interrupt controller on SB1250 and BCM1480 so
-CPU-local interrupts have a configured irq_chip and handler. Reserve IRQs
-128 through 135 above both interrupt mapper ranges, and dispatch BCM1480
-IP7 through the CPU controller as SB1250 already does.
+Restore the userspace callchain capability formerly available through
+MIPS OProfile, exposing it through perf for SB1 and SB1A. Commit
+5f307491f3a0 ("MIPS: oprofile: Add callgraph support") introduced an
+in-kernel userspace prologue scanner, which disappeared with the removal
+of MIPS OProfile support in e258958945c6 ("arch: mips: Remove CONFIG_OPROFILE
+support"). The MIPS perf userspace callchain hook remained unimplemented.
 
-This provides the CPU-local IP7 interrupt needed by the SB1 performance
-counters without overlapping the SiByte interrupt mapper IRQ numbers.
+Follow the former OProfile approach of examining instructions before the
+sampled PC to find standard MIPS stack adjustments and saved return
+addresses. Bound each scan to 128 instructions, use nofault user reads,
+validate frame data and stack progress, and stop at the perf stack limit.
+Handle o32, n32 and n64 address widths and the actual sw/sd return-address
+slot widths, rather than relying on the kernel's unsigned long size.
+Allow the sampled leaf to use the live return-address register, and permit
+repeated return PCs when the stack advances so recursion is not truncated.
+
+This complements the existing MIPS DWARF callchain mechanism, enabled by
+1ddc96bd42da ("MIPS: kernel: Support extracting off-line stack traces from
+user-space with perf") and b5f184fbdb03 ("perf tools: Support MIPS unwinding
+and dwarf-regs"). With --call-graph dwarf, the kernel records user registers
+and a stack snapshot for the perf tool to unwind using DWARF information.
+The new walker instead produces PERF_SAMPLE_CALLCHAIN entries in the
+kernel for ordinary perf -g/--call-graph fp sampling, without requiring
+DWARF unwind information or a userspace unwinding library. It does not
+change or replace the DWARF path, which can handle frames beyond the
+standard prologues recognized by this best-effort scanner.
+
+Limit enablement to SB1 and SB1A, whose standard instruction encoding is
+handled here and which have neither MIPS16 nor microMIPS. Other MIPS CPU
+types retain their existing userspace callchain behavior. Nonstandard
+prologues, dynamic stack adjustments and signal trampolines can truncate
+chains.
 
 Signed-off-by: Florian Fainelli <f.fainelli@gmail.com>
 ---
- arch/mips/include/asm/mach-sibyte/irq.h | 10 ++++++++++
- arch/mips/sibyte/bcm1480/irq.c          |  7 ++++++-
- arch/mips/sibyte/sb1250/irq.c           |  3 +++
- 3 files changed, 19 insertions(+), 1 deletion(-)
- create mode 100644 arch/mips/include/asm/mach-sibyte/irq.h
+ arch/mips/kernel/perf_event.c | 106 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 102 insertions(+), 4 deletions(-)
 
-diff --git a/arch/mips/include/asm/mach-sibyte/irq.h b/arch/mips/include/asm/mach-sibyte/irq.h
-new file mode 100644
-index 000000000000..b7073830d2ec
---- /dev/null
-+++ b/arch/mips/include/asm/mach-sibyte/irq.h
-@@ -0,0 +1,10 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef __ASM_MACH_SIBYTE_IRQ_H
-+#define __ASM_MACH_SIBYTE_IRQ_H
+diff --git a/arch/mips/kernel/perf_event.c b/arch/mips/kernel/perf_event.c
+index 5d7a9c03903b..811ac8f03cab 100644
+--- a/arch/mips/kernel/perf_event.c
++++ b/arch/mips/kernel/perf_event.c
+@@ -13,15 +13,113 @@
+ 
+ #include <linux/perf_event.h>
+ #include <linux/sched/task_stack.h>
++#include <linux/uaccess.h>
+ 
++#include <asm/cpu-type.h>
++#include <asm/inst.h>
+ #include <asm/stacktrace.h>
+ 
+ /* Callchain handling code. */
+ 
+-/*
+- * Leave userspace callchain empty for now. When we find a way to trace
+- * the user stack callchains, we will add it here.
+- */
++struct sb1_user_frame {
++	unsigned long pc;
++	unsigned long sp;
++	unsigned long ra;
++};
 +
-+/* Keep CPU-local interrupts above both SiByte interrupt mapper ranges. */
-+#define MIPS_CPU_IRQ_BASE	128
++static unsigned long sb1_user_address(unsigned long addr)
++{
++	if (IS_ENABLED(CONFIG_64BIT) && test_thread_flag(TIF_32BIT_ADDR))
++		return (u32)addr;
++	return addr;
++}
 +
-+#include <asm/mach-generic/irq.h>
++/* Best-effort prologue unwinding, as provided by the former MIPS OProfile. */
++static bool sb1_unwind_user(struct sb1_user_frame *frame)
++{
++	unsigned long pc = frame->pc, caller = frame->ra;
++	unsigned int frame_size = 0, ra_size = 0, ra_offset = 0, n;
++	union mips_instruction insn;
 +
-+#endif
-diff --git a/arch/mips/sibyte/bcm1480/irq.c b/arch/mips/sibyte/bcm1480/irq.c
-index 4c18a2c755d2..5eff85a8659b 100644
---- a/arch/mips/sibyte/bcm1480/irq.c
-+++ b/arch/mips/sibyte/bcm1480/irq.c
-@@ -15,6 +15,7 @@
- #include <asm/irq_regs.h>
- #include <asm/signal.h>
- #include <asm/io.h>
-+#include <asm/irq_cpu.h>
- 
- #include <asm/sibyte/bcm1480_regs.h>
- #include <asm/sibyte/bcm1480_int.h>
-@@ -242,6 +243,8 @@ void __init arch_init_irq(void)
- 	unsigned int imask = STATUSF_IP4 | STATUSF_IP3 | STATUSF_IP2 |
- 		STATUSF_IP1 | STATUSF_IP0;
- 
-+	mips_cpu_irq_init();
++	/* SB1 has neither MIPS16 nor microMIPS instructions. */
++	if ((pc & 3) || (frame->sp & 3))
++		return false;
 +
- 	/* Default everything to IP2 */
- 	/* Start with _high registers which has no bit 0 interrupt source */
- 	for (i = 1; i < BCM1480_NR_IRQS_HALF; i++) {	/* was I0 */
-@@ -337,7 +340,9 @@ asmlinkage void plat_irq_dispatch(void)
- 
- 	pending = read_c0_cause() & read_c0_status();
- 
--	if (pending & CAUSEF_IP4)
-+	if (pending & CAUSEF_IP7)
-+		do_IRQ(MIPS_CPU_IRQ_BASE + 7);
-+	else if (pending & CAUSEF_IP4)
- 		do_IRQ(K_BCM1480_INT_TIMER_0 + cpu);
- #ifdef CONFIG_SMP
- 	else if (pending & CAUSEF_IP3)
-diff --git a/arch/mips/sibyte/sb1250/irq.c b/arch/mips/sibyte/sb1250/irq.c
-index 57943fe3ac03..2df115269f81 100644
---- a/arch/mips/sibyte/sb1250/irq.c
-+++ b/arch/mips/sibyte/sb1250/irq.c
-@@ -15,6 +15,7 @@
- #include <asm/signal.h>
- #include <asm/time.h>
- #include <asm/io.h>
-+#include <asm/irq_cpu.h>
- 
- #include <asm/sibyte/sb1250_regs.h>
- #include <asm/sibyte/sb1250_int.h>
-@@ -225,6 +226,8 @@ void __init arch_init_irq(void)
- 	unsigned int imask = STATUSF_IP4 | STATUSF_IP3 | STATUSF_IP2 |
- 		STATUSF_IP1 | STATUSF_IP0;
- 
-+	mips_cpu_irq_init();
++	for (n = 0; n < 128 && pc >= sizeof(insn); n++) {
++		pc -= sizeof(insn);
++		if (copy_from_user_nofault(&insn, (void __user *)pc, sizeof(insn)))
++			break;
++		if (insn.i_format.rs == 29 && insn.i_format.rt == 29 &&
++		    (insn.i_format.opcode == addiu_op ||
++		     insn.i_format.opcode == daddiu_op)) {
++			/* A positive adjustment belongs to an epilogue. */
++			if (insn.i_format.simmediate >= 0)
++				break;
++			frame_size = -insn.i_format.simmediate;
++			break;
++		}
++		if (insn.i_format.rs == 29 && insn.i_format.rt == 31 &&
++		    insn.i_format.simmediate >= 0) {
++			if (insn.i_format.opcode == sw_op)
++				ra_size = sizeof(u32);
++			else if (insn.i_format.opcode == sd_op)
++				ra_size = sizeof(u64);
++			else
++				continue;
++			ra_offset = insn.i_format.simmediate;
++		}
++		/* Do not scan into the preceding function through a return. */
++		if (insn.r_format.opcode == spec_op &&
++		    insn.r_format.func == jr_op)
++			break;
++	}
 +
- 	/* Default everything to IP2 */
- 	for (i = 0; i < SB1250_NR_IRQS; i++) {	/* was I0 */
- 		__raw_writeq(IMR_IP2_VAL,
++	if (ra_size) {
++		u64 ra64;
++		u32 ra32;
++		void __user *slot = (void __user *)(frame->sp + ra_offset);
++
++		if (!frame_size || ra_offset + ra_size > frame_size)
++			return false;
++		if (ra_size == sizeof(ra32)) {
++			if (copy_from_user_nofault(&ra32, slot, sizeof(ra32)))
++				return false;
++			caller = ra32;
++		} else {
++			if (copy_from_user_nofault(&ra64, slot, sizeof(ra64)))
++				return false;
++			caller = ra64;
++		}
++	}
++
++	caller = sb1_user_address(caller);
++	if (!caller || (caller == frame->pc && !frame_size) || (caller & 3) ||
++	    !access_ok((void __user *)caller, sizeof(insn)) ||
++	    frame->sp + frame_size < frame->sp)
++		return false;
++	frame->sp += frame_size;
++	frame->pc = caller;
++	/* Only the sampled leaf may use the live return-address register. */
++	frame->ra = 0;
++	return true;
++}
++
++void perf_callchain_user(struct perf_callchain_entry_ctx *entry,
++			 struct pt_regs *regs)
++{
++	struct sb1_user_frame frame = {
++		.pc = sb1_user_address(regs->cp0_epc),
++		.sp = sb1_user_address(regs->regs[29]),
++		.ra = sb1_user_address(regs->regs[31]),
++	};
++
++	if (current_cpu_type() != CPU_SB1 && current_cpu_type() != CPU_SB1A)
++		return;
++	do {
++		if (perf_callchain_store(entry, frame.pc))
++			break;
++	} while (sb1_unwind_user(&frame));
++}
+ 
+ static void save_raw_perf_callchain(struct perf_callchain_entry_ctx *entry,
+ 				    unsigned long reg29)
 -- 
 2.53.0
 
