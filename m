@@ -1,108 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.225.132
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794500097;
-	b=jXWHiNjYRe+eEPqAFr2No2A8yXZFHuhIoxZWto1njLeRsIfiCSYBrOGcRWx3ijiclzAR
-	 jOaIJiModNqmeZn/smDz+VvR5ZO45A7qlAaj0TV89UfFW//qgxI7W8/EhOhZupIdU4IRV
-	 xGMTY8tRRndHyeNHZdiIUua+qR4e58/QqRzQSduq1ZbB/6HNdl0WMCBzpVuldRV4nCpvk
-	 o5wlUYLYtECJ9tNnrplLH7+qF63kw7czmy3L+n8EqYMWccfytm3tr88RQHnldIk5v7vng
-	 iILA3hsa6Yaw+enyPSDI+eGLNT7DrthTUn1abIXLhJNMnUPofipeTNDLR7TzO9esIAQ==
+	t=1794500512;
+	b=l3ZoXACQ9j09vJbsKGkCIpztYYGlVPsAs18Nh0cCqBMRaMviU7yAkDzj+walb470PU1g
+	 Yy0IsUQJFSKrI0oFHswTPUrlxs6XpLk5bBX0xi8qpyWdpP5NEGRo328BaH5gI/rEK4Rf/
+	 94hgXUkIeVqKN61TE2UNj38amtgIEvLy/e5QAJpYs93xQu4H+9T4swSK9Ov75l3ALNXTc
+	 AXpDQ1aoOxDnRd3Qk1vrgYa7lPH4/43Ab107A58p4qHGuVdnTw1+KtMnEgakK3AAebFU1
+	 WPwEGC2Bd1eSbxTWA43Q61Mh6i8W4qe56JbU1MWpZKbMwOtnEjfGF9g4b+eJs7PIGjA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794500097;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 From:Subject:Cc:To:References:In-Reply-To:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=VFyW3FlcFVuCcTw1UrnIFaWy9gAZYFzgF43VrM5oqOQ=;
-	b=v61SpcXt6hH/ZT9Nf3S77jYo1jpE2bppNLX8ziomJ6H9qfIe8bOx1ji357S8rfVTai3R
-	 ePg9+TakPqT6a8NrZcAUh0lvyQbEM/MxD6OMrF8vEcU83k//ZTYampgIfqVuCN4pS3EDU
-	 ATNH7pTqUM7xh4Pa9/Bf1ifMCdoYuDpA3lEvCyLv2XeNqm+YppDKmnhIzTbR0g5hMvse9
-	 9bh3GgRpfAObEkVMJjpHn5CVv8/KHW/0sRalC/MM67+ojAR9jggI5LJn9vvetmXzn7uJ5
-	 Np6b8yGix1BaR6oL07Y/XMMb02a5kbYyG9p9Zo+vkNGeXsvmiARARijVpP/su+pq/pw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794500512;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=jvGNkEQXxpCGRnxugPg2OroUq4ixAzACPllCORFjj2w=;
+	b=F0+7LE8cMq1X6OAETc1PL6d1I5kfnTKPKLe4lCVIi0EGPH7w+FWUuwq7Q0rKTa2HBD8h
+	 VxB4Lyrz2iSQ3U/XPOI5A1IXJvyjQ8T8vw8YJngA67JkW40emq6RF1fLgQNllirmQ8B36
+	 LJNW19E9EZb1u28FUjFHqf4dsggozYUVGS276jUWFLI4WLvOHFgCMqtxQ748dq0MiRe4B
+	 bwUHSHaLBUNo855XD+YJ0B0Xq4fpSYhjp0JHLm/R4+tKsqrXvIeMfRNRvSlxWpyAGPV6A
+	 jKRcIov072wdG0tIEdHrinb4h8AjId7PuUxe/puVbYyu/YJ8SqJswy8YJa5tLZudtOg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=KMK6QB0C;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MwZumgfo;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eXwROFE+;
+	arc=none smtp.remote-ip=74.125.225.132
+Received: from mail-wm2-f4.google.com (mail-wm2-f4.google.com [74.125.225.132])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D077A606A32A
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:14:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D077A606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 955EF606A323
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:21:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 955EF606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=KMK6QB0C;
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MwZumgfo
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ACFaNqM1593451
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:14:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	VFyW3FlcFVuCcTw1UrnIFaWy9gAZYFzgF43VrM5oqOQ=; b=KMK6QB0C53FsJS4C
-	tFzPmI8KYZXPG9YLJzFIHsq2h7uTULHaITsbeYFUIXrtAyTo9VDxZNrFSqDkzJpq
-	mC8m8R/fymWFTkZR+zYJufGcFbmWp/MxWX76MlvAFLbG9FoP2f+z+rKCIxe+RYZp
-	fNg29Szh9iFitCyIbL9cy/C2Vl7m85c3g6TI51EIbHfLC9h8O0jJ6fgHrtpY4rGL
-	08kayBMDGukcYg/QNo/plpZ072zNL/DySCmPjrKsTCznHdBeN8UXVE0looqITHXV
-	CSjb2q9owW+uO5CsIU7QdGzYYy2A7CSYd9P6FRWnSeZKPdrXY2GcO5p65ofbSXCx
-	kI4SBw==
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hw0m8knaj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:14:56 +0000 (GMT)
-Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-99c3b473613so9018241.1
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 08:14:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=eXwROFE+
+Received: by mail-wm2-f4.google.com with SMTP id 5b1f17b1804b1-4a20fcb3e9aso4112915e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 08:21:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794500095; x=1795104895; darn=vger.kernel.org;
-        h=in-reply-to:references:to:cc:subject:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=VFyW3FlcFVuCcTw1UrnIFaWy9gAZYFzgF43VrM5oqOQ=;
-        b=MwZumgfoEOm5d26AKGeVF65ngzTwLKH5CVc8lCagWrkvFp+Laj1xFDiVulfoZ6aP6M
-         2bMP/gM3aFt/xrqyyrxmIaPowRezw+WFEg1Xj2rAtLAT5oYWhShXy01Hy4Q0hO57amq1
-         9Pm/1P1gME8FlVN3D0CwElj/dFC4Ts8OeSginsjNlPOm6dBJXBpM9PkQqQF0KPw+y2u0
-         tMnVJTK92rVjYrvtz8+6yrT9ErXXNdjiiPO2zOQx1dcqTeUvuE7CbXdbzir8PC82RRLM
-         w6zLnI0Ryk3lRoUKHTh38BdOX+GyjqUg4wAaUbMMyYc8XLQiXkM6jO+CbLw54WRyBkD4
-         gIQw==
+        d=gmail.com; s=20260707; t=1794500510; x=1795105310; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jvGNkEQXxpCGRnxugPg2OroUq4ixAzACPllCORFjj2w=;
+        b=eXwROFE+hg2htu4HuRIHEzizvRbOQ6hiaEWuBxRWFWrxLT65V2weXKbRZuAEie+pUQ
+         Os+sFbGNkpcgd/vblW/O0GCJldJFliHi3CSGtCfTHsMZcGhhVHVZD/aexg0++FzU2KHW
+         oTmCn+6c2AhTFXX3GmeSuKM44yttafHv0zZIoLw+suMhx6wtjrce+qE3BLyTH2XY4dvM
+         T3Z+u1vhBkTquvStFlarKzSMupg0x/bCnPAGk0DnPKHbEJ/LlN7T4c/Jh4FHJuNGKUuA
+         nhTwz9SnPT/bG5ub5K4jCGqMbDIzsNa+0/8YkPcA8sc7/hoNrq8QqcfUhvWApV3uSiaM
+         uQcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794500095; x=1795104895;
-        h=in-reply-to:references:to:cc:subject:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=VFyW3FlcFVuCcTw1UrnIFaWy9gAZYFzgF43VrM5oqOQ=;
-        b=BheEG+1+Kmi7pONe8GKertzXQKBUrDi8SP2DZADPn2twVokj3tO1gFDfh463H2kyyS
-         LNbRqR8T0MS2YhZKAaE9h+uN8yNWWtDtiWq4ANZtEmQtpYvuVr7qAfnotV9TDMoFcp89
-         Jn4P0wmpEjKh6pVt1fMSc891MeZ2PhtFDVn5n1TCjzVHk3toyl2eTbm/NAsKTdvD113s
-         g0o3EpGmitItLw9Tny86bsQ2CQ7dDo35DNp2ywvvL0yTxsCf3praIMvFzyBEGZ9FsnaM
-         vTw7T8w4KqDyL7tIU2TTIIAwSt4lEEuJ4bMKrPC3WCUq++8FXBA5Fe1IB3Nar9ydIxLG
-         8rVw==
-X-Forwarded-Encrypted: i=1; AL+hErH+KfGEET3sRXYZlq7hUAWZ2sexm3anwVPOQSqQptVnHN6A7PiMqcaUa+hMZNevZ+XEVfXY/Z1sgok=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8rBn/6dE1DIWJhhm+JSlivGnsmo0WbMCa2Au8H9OpMfgTvTeb+
-	RjjLbghG0icFxbmiK8Pd4nOHQI8JA37Wp/j62crhhprmzXRSLkOo3Q+bOEeBWLVKuRQ500cLG7e
-	Y5roSX65Cu1mNrxlnVG/wEeXXpURRbYBcOwo10vHN0tOnnR4TSG6hO5SME9MKIhQ=
-X-Gm-Gg: AYBFou091VfertbiYmwigIXANaGgxHOqdJ+WGeNqfiE34Pj3SESLHRqKW46nD66P/tU
-	tzF11utnED9IX6k6/8r0MWwI7X3cH32ArhIRiS40VdhjMqHHVng3wkZ7bo8CdR3Z6bvweA+T7cl
-	ksRAliWUbr2Ppeewl4XbczmL3ZN87ZVi2ENwkp5xeWjJ7+akDe04EvIBMMawyHLBGWWb61Qm/ZQ
-	R1h7yfqvC/QaFriG+Aa2uTYocyqVzRe+TFGy2FyiswGkiFeqjKU4/g8KqZ/YwtOIT7l5lmt4WQO
-	GamsdGI+hnQAR9rB9NONcQVGMlCM3mPseAkAhnfSpEhtjzgWFMvHiXTUCZXNoEYUIHTo0LSpc59
-	spF/2ij5ThePesA5J2zo+BNaoySdSEHFU/BZFQVjEmo3QkH2m2mOZAC/cNGcCQ5+2TVeMO/yQ5u
-	Y7xwofRjTVCEk=
-X-Received: by 2002:a67:e109:0:b0:7ae:c2ca:8e1 with SMTP id ada2fe7eead31-7d4fb25077cmr1920113137.11.1794500094871;
-        Thu, 12 Nov 2026 08:14:54 -0800 (PST)
-X-Received: by 2002:a67:e109:0:b0:7ae:c2ca:8e1 with SMTP id ada2fe7eead31-7d4fb25077cmr1920099137.11.1794500094134;
-        Thu, 12 Nov 2026 08:14:54 -0800 (PST)
-Received: from localhost (ip-86-49-245-11.bb.vodafone.cz. [86.49.245.11])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2842e6sm78783665e9.4.2026.11.12.08.14.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Nov 2026 08:14:53 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794500510; x=1795105310;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jvGNkEQXxpCGRnxugPg2OroUq4ixAzACPllCORFjj2w=;
+        b=cYNUFzHJZYbBGhmZ4y67JNr/pB5QtdDIIhX1Npxa0BTKhj5UMwAJQHs8umbc8GjZY+
+         ly1yvJuEVCKXpVBLxSGC+ZSLIj/cwwh24aYPOb0ETxiLAf+k2Aioj6EawejhUo8YtR7n
+         uaziWwCQvuVNNZDJKcRPMy1T0RWuTiPkFrWXUxKbzrNP3O6W3fwPmP4vP/if9qtebhpP
+         AhJnRiAbtrxdTpDBPS84+1KFXm09zLqicXOD5J1WqEkPDHbWEQM6+/ZD8jsY4YE14uFZ
+         4VhSjqREKKRXM5vwmuzMOp79VoRJlD4XXrdMjIYYA3xAXHST5tNpRywFlh4kS/XOrTtB
+         EERw==
+X-Forwarded-Encrypted: i=1; AL+hErEJ8AFoaJGQ+hc+Vkd8pe6DuFg9TZamGRqUjJg1cx1t3SAaNd1r7wHxHJN26872eu+pqNZlQBSAQCg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z98O57zN8Jr87jRrIt6o0pPybkryCc/4pL6QZy22ZI+RubGlhvQ
+	xDKaxKiYZJDoLmzcPMAuTF+ZaQWozicNM24Wx7VSasp+4/5X47H69mhJ
+X-Gm-Gg: AYBFou0iSQ4tpG46h+/QyEBVCUpkoPXlyA1ta69WuAqDdSwDkgdS1Pjnk59LsQB8STJ
+	nAwR6cn8eTGPncjP5t0eeTEDh4/2MnR9hsZQ/56lTJV3605hK8C+fkGI+rbJULJHcekSqs4f2CR
+	6vzvSDNDVBaqCyVs8/h6WqxdG4+IURmDEz2Rg+uJdwuxgyVnxqKkhS+Ssvphasc5wPB8CCzR01a
+	rjFy8qGKgesHFStjtLmTJN11LEqstl2ihqwSFtUoa97FQhD9BRDlPpvRo5zyIg9iWvWGwqbi4Mu
+	CvjloaXAeXnuA4aG4MRJz3v+AvXJsk5uizxGuc3dAmQfQpVcfJnwpsg2avcx+zubqwK9ojnu6UP
+	Kpe/6jxNCKjqm9/LsxAc2ZVSNiPMMAuqGVZ2PNStYyCM9Oq8fRF6fNrRD2+pgnUSwBFWamWMULL
+	i44qe7853G2v7lWKZeXZ79lPZh3FHGEBWUWsBZJmsKDE8vB+IHPPNBo3zf3z+jX/jmkzlAUvQBD
+	GsF1wuzw6oIaYdDrdAsTtO5XX9HNudMb7p5U24NU6np0WvAJ68iEJxCwM402akz8KQlz3iKKB8u
+	Lxpc/H3HJbG+RQcnTneVHENQ0b/2LCa+uQiD96EE/hAGslm/eMdIl3ZJp1hDce4MQN0cGMrYZA9
+	OAg==
+X-Received: by 2002:a05:600c:37c8:b0:4a1:88df:8a2a with SMTP id 5b1f17b1804b1-4bb4e28d48emr67944075e9.13.1794500509593;
+        Thu, 12 Nov 2026 08:21:49 -0800 (PST)
+Received: from localhost.localdomain ([196.178.27.147])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e28c882sm83116425e9.6.2026.11.12.08.21.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 08:21:49 -0800 (PST)
+From: mohamedalibouhaouala@gmail.com
+To: willy@infradead.org,
+	jack@suse.cz,
+	corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+Subject: [PATCH v2] docs: filesystems: update VFS locking documentation
+Date: Thu, 12 Nov 2026 17:21:29 +0100
+Message-ID: <20261112162129.77610-1-mohamedalibouhaouala@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261111160516.30458-1-mohamedalibouhaouala@gmail.com>
+References: <20261111160516.30458-1-mohamedalibouhaouala@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,270 +103,110 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 12 Nov 2026 17:14:50 +0100
-Message-Id: <DMTD6WT2DU30.AX3QK44UUYB3@oss.qualcomm.com>
-From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?=
- <radim.krcmar@oss.qualcomm.com>
-Subject: Re: [PATCH v11 1/5] riscv_cbqri: Add capacity controller core
-Cc: "Catalin Marinas" <catalin.marinas@arm.com>,
-        "Jonathan Cameron"
- <jic23@kernel.org>,
-        "Shaopeng Tan" <tan.shaopeng@jp.fujitsu.com>,
-        "Zeng
- Heng" <zengheng@picoheart.com>, <linux-kernel@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <x86@kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>
-To: "Drew Fustini" <fustini@kernel.org>,
-        "Adrien Ricciardi"
- <aricciardi@baylibre.com>,
-        "Alexandre Ghiti" <alex@ghiti.fr>,
-        "Albert Ou"
- <aou@eecs.berkeley.edu>,
-        "Atish Patra" <atish.patra@linux.dev>,
-        "Babu
- Moger" <babu.moger@amd.com>, "Ben Horgan" <ben.horgan@arm.com>,
-        "Borislav
- Petkov" <bp@alien8.de>,
-        "Chen Pei" <cp0613@linux.alibaba.com>,
-        "Conor
- Dooley" <conor.dooley@microchip.com>,
-        "Conor Dooley" <conor+dt@kernel.org>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Dave Martin"
- <Dave.Martin@arm.com>,
-        "Fenghua Yu" <fenghuay@nvidia.com>,
-        "Gong Shuai"
- <gong.shuai@sanechips.com.cn>,
-        "Gong Shuai" <gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>,
-        "James Morse" <james.morse@arm.com>,
-        =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>,
-        "Krzysztof Kozlowski"
- <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>,
-        "Liu Zhiwei"
- <zhiwei_liu@linux.alibaba.com>,
-        "Palmer Dabbelt" <palmer@dabbelt.com>,
-        "Paul Walmsley" <pjw@kernel.org>,
-        "Peter Newman" <peternewman@google.com>,
-        "Reinette Chatre" <reinette.chatre@intel.com>,
-        "Rob Herring"
- <robh@kernel.org>,
-        "Samuel Holland" <samuel.holland@sifive.com>,
-        "Sunil V
- L" <sunilvl@oss.qualcomm.com>,
-        "Tony Luck" <tony.luck@intel.com>, "Weiwei
- Li" <liwei1518@gmail.com>,
-        "yunhui cui" <cuiyunhui@bytedance.com>,
-        "Zhanpeng Zhang" <zhangzhanpeng.jasper@bytedance.com>
-References: <20261108-dfustini-atl-sc-cbqri-dt-v11-0-33a1bf0cf01c@kernel.org> <20261108-dfustini-atl-sc-cbqri-dt-v11-1-33a1bf0cf01c@kernel.org>
-In-Reply-To: <20261108-dfustini-atl-sc-cbqri-dt-v11-1-33a1bf0cf01c@kernel.org>
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDA2NCBTYWx0ZWRfX5OzuEvNoQlRU
- b+V9S4mEpo1QFqCS0AAmX5Pi3S427CoeeuGp8PMSHkJxafOxy043VUYiJ02yPOzLMkVHLTpd/D/
- OuSgMI884nNetm5jalGGpNGEdZwrp6c=
-X-Proofpoint-GUID: zQlT52MhThQQmN-5gijy5lerpaJz3pq1
-X-Proofpoint-ORIG-GUID: zQlT52MhThQQmN-5gijy5lerpaJz3pq1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDA2NCBTYWx0ZWRfX96e1QjoJSLMU
- H+zr8AE/8O1pB5gy26UdFf+KNj7+g5DanXPFwFx/zv5fkay2k45PSvxhmaZjmTz4zHnFcvF7TWr
- DrPkQe+PC5ggOG6Tc0Zj+svvEnYd4itWsCznc/u2xCIW53Khez7xblqdjhJJJQ/JvIWPg8QPNqC
- IFaTBxX1D0aWRj0/92p21P//9xF65wlbcESCrrCreUimnhaD6BBDAknIR94vG1VMIJyqx/qGUNR
- LpAy70BASMyM+/4rwCYb3k51uhgpDRWTi3slGMqNGfeMCw7WihQr8Cg2PYvfmGUc8mLAa4Bt3LQ
- t7Ds0/+CX/hJRXsolr/MrrEjXaxH9k1Wu8mJg1oDoIp2MNNVHhUFSFbMkctD8cj1Y/nEykIwc+a
- i2JLabkEe9f5s6uQ81h1vGgoSMzH8YQquZNnq8JGltiRoHBktzPHioXb5/GWPa11PbMcax3dgpp
- 7wCj04aspcIk0aJ+T2g==
-X-Authority-Analysis: v=2.4 cv=Q9dHcI2a c=1 sm=1 tr=0 ts=6af5e600 cx=c_pps
- a=KB4UBwrhAZV1kjiGHFQexw==:117 a=4CXLxsOAgPM/krjtHEZQyA==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M51BFTxLslgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=VwQbUJbxAAAA:8 a=IpJZQVW2AAAA:8 a=MPNzcpqd3dBX2N5RN88A:9 a=QEXdDO2ut3YA:10
- a=o1xkdb1NAhiiM49bd1HK:22 a=IawgGOuG5U0WyFbmm1f5:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-12_02,2026-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 phishscore=0 impostorscore=0 adultscore=0 bulkscore=0
- suspectscore=0 priorityscore=1501 spamscore=0 clxscore=1011
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611120064
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-2026-11-08T15:20:50-08:00, Drew Fustini <fustini@kernel.org>:
-> Add the core for RISC-V CBQRI capacity controllers: the register
-> layout, the capability probe, and the allocation operations that
-> program a capacity block mask for an RCID and read it back.
->
-> A discovery layer maps the register block and describes the controller
-> in a cbqri_controller_info descriptor. riscv_cbqri_register_cc() probes
-> the controller from that descriptor and adds it to the controller list,
-> which stays private to the core. The core owns the controller state
-> after registration, so nothing in it depends on how the controller was
-> discovered. The caller keeps the register mapping alive.
->
-> Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> Signed-off-by: Drew Fustini <fustini@kernel.org>
-> ---
-> diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devi=
-ces.c
-> +static u64 cbqri_readq(void __iomem *addr)
-> +{
-> +	return lo_hi_readq(addr);
-> +}
-> +
-> +static void cbqri_clear_cunits(struct cbqri_controller *ctrl)
-> +{
-> +	if (ctrl->cc.cunits) {
-> +		writel(0, ctrl->base + CBQRI_CC_CUNITS_OFF);
-> +		writel(0, ctrl->base + CBQRI_CC_CUNITS_OFF + 4);
+From: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
 
-nit: lo_hi_writeq?
+Update outdated VFS operation prototypes in locking.rst to
+match their current definitions.
 
-> +int cbqri_apply_cache_config(struct cbqri_controller *ctrl, u32 closid,
-> +			     const struct cbqri_cc_config *cfg)
-> +{
-> [...]
-> +	mutex_lock(&ctrl->lock);
-> [...]
-> +out:
-> +	mutex_unlock(&ctrl->lock);
-> +	return err;
+Add the missing d_prune and sync_inode_metadata callbacks,
+and correct the signatures of existing operations.
 
-nit: guard the mutex?
+Update the locking table to include sync_inode_metadata.
 
-> +static int cbqri_probe_feature(struct cbqri_controller *ctrl, int reg_of=
-fset,
-> +			       int operation, int *status, bool *access_type_supported)
-> +{
-> +	const u64 active_mask =3D CBQRI_CONTROL_REGISTERS_OP_MASK |
-> +				CBQRI_CONTROL_REGISTERS_AT_MASK |
-> +				CBQRI_CONTROL_REGISTERS_RCID_MASK;
-> +	u64 reg, saved_reg;
-> +	int at;
-> +
-> +	/*
-> +	 * Default the output to false so the status=3D=3D0 (feature not
-> +	 * implemented) path returns a deterministic value to the caller
-> +	 * rather than leaving an uninitialized bool.
-> +	 */
-> +	*access_type_supported =3D false;
-> +
-> +	/* Keep the initial register value to preserve the WPRI fields */
-> +	reg =3D cbqri_readq(ctrl->base + reg_offset);
-> +	saved_reg =3D reg;
-> +
-> +	/* Drain any in-flight firmware op before issuing our own write. */
-> +	if (cbqri_wait_busy_flag(ctrl, reg_offset, &saved_reg) < 0) {
-> +		pr_err("BUSY timeout before probe operation\n");
-> +		return -EIO;
-> +	}
-> +
-> +	/*
-> +	 * Execute the requested operation with all active fields
-> +	 * (OP/AT/RCID) zeroed except OP itself. Every bit not in
-> +	 * active_mask is WPRI and gets carried over from saved_reg.
-> +	 */
-> +	reg =3D (saved_reg & ~active_mask) |
-> +	      FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation);
-> +	writel(lower_32_bits(reg), ctrl->base + reg_offset);
-> +	if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-> +		pr_err_ratelimited("BUSY timeout during operation\n");
-> +		return -EIO;
-> +	}
-> +
-> +	/* Get the operation status */
-> +	*status =3D FIELD_GET(CBQRI_CONTROL_REGISTERS_STATUS_MASK, reg);
-> +
-> +	/*
-> +	 * Check for AT support if the register is implemented
-> +	 * (if not, the status value will remain 0)
-> +	 */
-> +	if (*status !=3D 0) {
-> +		/*
-> +		 * Re-issue operation with AT=3DCODE so the controller
-> +		 * latches AT=3DCODE on supported hardware (or resets it to 0
-> +		 * on hardware that doesn't). OP must be a defined CBQRI op
-> +		 * here. OP=3D0 is a no-op and would silently disable CDP.
+Signed-off-by: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+---
+v2:
+- Use the contributor's full name in the author and sign-off fields.
+ Documentation/filesystems/locking.rst | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
 
-OP=3D0 is a reserved for future standard use.
-(Hopefully just fails, but it could be worse if it gets implemented as
- something other than no-op.)
+diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
+index f7363ad770c7..a6a011858ada 100644
+--- a/Documentation/filesystems/locking.rst
++++ b/Documentation/filesystems/locking.rst
+@@ -26,6 +26,7 @@ prototypes::
+ 	int (*d_delete)(struct dentry *);
+ 	int (*d_init)(struct dentry *);
+ 	void (*d_release)(struct dentry *);
++	void (*d_prune)(struct dentry *);
+ 	void (*d_iput)(struct dentry *, struct inode *);
+ 	char *(*d_dname)(struct dentry *dentry, char *buffer, int buflen);
+ 	struct vfsmount *(*d_automount)(struct path *path);
+@@ -80,8 +81,8 @@ prototypes::
+ 	int (*getattr) (const struct mnt_idmap *, const struct path *, struct kstat *, u32, unsigned int);
+ 	ssize_t (*listxattr) (struct dentry *, char *, size_t);
+ 	int (*fiemap)(struct inode *, struct fiemap_extent_info *, u64 start, u64 len);
+-	void (*update_time)(struct inode *inode, enum fs_update_time type,
+-			    int flags);
++	int (*update_time)(struct inode *inode, enum fs_update_time type,
++			    unsigned int flags);
+ 	void (*sync_lazytime)(struct inode *inode);
+ 	int (*atomic_open)(struct inode *, struct dentry *,
+ 				struct file *, unsigned open_flag,
+@@ -173,6 +174,7 @@ prototypes::
+ 	void (*destroy_inode)(struct inode *);
+ 	void (*dirty_inode) (struct inode *, int flags);
+ 	int (*write_inode) (struct inode *, struct writeback_control *wbc);
++	int (*sync_inode_metadata)(struct inode *inode, struct writeback_control *wbc);
+ 	int (*drop_inode) (struct inode *);
+ 	void (*evict_inode) (struct inode *);
+ 	void (*put_super) (struct super_block *);
+@@ -196,6 +198,7 @@ free_inode:				called from RCU callback
+ destroy_inode:
+ dirty_inode:
+ write_inode:
++sync_inode_metadata:
+ drop_inode:				!!!inode->i_lock!!!
+ evict_inode:
+ put_super:		write
+@@ -255,7 +258,7 @@ prototypes::
+ 				loff_t pos, unsigned len, unsigned copied,
+ 				struct folio *folio, void *fsdata);
+ 	sector_t (*bmap)(struct address_space *, sector_t);
+-	void (*invalidate_folio) (struct folio *, size_t start, size_t len);
++	void (*invalidate_folio) (struct folio *, size_t offset, size_t len);
+ 	bool (*release_folio)(struct folio *, gfp_t);
+ 	void (*free_folio)(struct folio *);
+ 	int (*direct_IO)(struct kiocb *, struct iov_iter *iter);
+@@ -265,7 +268,7 @@ prototypes::
+ 	bool (*is_partially_uptodate)(struct folio *, size_t from, size_t count);
+ 	int (*error_remove_folio)(struct address_space *, struct folio *);
+ 	int (*swap_activate)(struct swap_info_struct *sis, struct file *f, sector_t *span)
+-	int (*swap_deactivate)(struct file *);
++	void (*swap_deactivate)(struct file *);
+ 
+ locking rules:
+ 	All except dirty_folio and free_folio may block
+@@ -455,14 +458,15 @@ prototypes::
+ 	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+ 	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
+ 	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
+-	int (*iopoll) (struct kiocb *kiocb, bool spin);
++	int (*iopoll)(struct kiocb *kiocb, struct io_comp_batch *,
++			unsigned int flags);
+ 	int (*iterate_shared) (struct file *, struct dir_context *);
+ 	__poll_t (*poll) (struct file *, struct poll_table_struct *);
+ 	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
+ 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+ 	int (*mmap) (struct file *, struct vm_area_struct *);
+ 	int (*open) (struct inode *, struct file *);
+-	int (*flush) (struct file *);
++	int (*flush) (struct file *, fl_owner_t id);
+ 	int (*release) (struct inode *, struct file *);
+ 	int (*fsync) (struct file *, loff_t start, loff_t end, int datasync);
+ 	int (*fasync) (int, struct file *, int);
+@@ -475,7 +479,7 @@ prototypes::
+ 			size_t, unsigned int);
+ 	ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *,
+ 			size_t, unsigned int);
+-	int (*setlease)(struct file *, long, struct file_lock **, void **);
++	int (*setlease)(struct file *, int, struct file_lease **, void **);
+ 	long (*fallocate)(struct file *, int, loff_t, loff_t);
+ 	void (*show_fdinfo)(struct seq_file *m, struct file *f);
+ 	unsigned (*mmap_capabilities)(struct file *);
+-- 
+2.43.0
 
-> +		 */
-> +		reg =3D (saved_reg & ~active_mask) |
-> +		      FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation) |
-> +		      FIELD_PREP(CBQRI_CONTROL_REGISTERS_AT_MASK,
-> +				 CBQRI_CONTROL_REGISTERS_AT_CODE);
-> +		writel(lower_32_bits(reg), ctrl->base + reg_offset);
-> +		if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-> +			pr_err("BUSY timeout setting AT field\n");
-> +			return -EIO;
-> +		}
-> +
-> +		/*
-> +		 * If the AT field value has been reset to zero,
-> +		 * then AT support is not present
-> +		 */
-> +		at =3D FIELD_GET(CBQRI_CONTROL_REGISTERS_AT_MASK, reg);
-
-I think it would be safer to also check the status field.
-
-I'm not too clear whether the spec actually allows returning 5 (invalid
-AT) when the AT is invalid, but an implementation that does that
-wouldn't surprise me.
-
-(For example when an implementation supports data AT and a custom AT, so
-code AT isn't supported, but AT in general is -- it could keep the
-failing code AT and just report the error.)
-
-> +		if (at =3D=3D CBQRI_CONTROL_REGISTERS_AT_CODE)
-> +			*access_type_supported =3D true;
-> +	}
-> +
-> +	/*
-> +	 * Restore the original register value.
-> +	 * Clear OP to avoid re-triggering the probe op.
-> +	 */
-> +	saved_reg &=3D ~CBQRI_CONTROL_REGISTERS_OP_MASK;
-> +	writel(lower_32_bits(saved_reg), ctrl->base + reg_offset);
-
-It would be better to do nothing than trigger an illegal OP.
-All our writes should modify the non-WPRI bits anyway, so restoring them
-does nothing.
-
-> +	if (cbqri_wait_busy_flag(ctrl, reg_offset, NULL) < 0) {
-> +		pr_err("BUSY timeout restoring register value\n");
-> +		return -EIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int cbqri_probe_cc(struct cbqri_controller *ctrl)
-> +{
-> [...]
-> +
-> +	/*
-> +	 * The driver programs the v1.0 register layout. Controllers that
-> +	 * report 0.x differ only in capability bits that read as zero, so
-> +	 * they are accepted. Anything newer than 1.0 may move fields.
-> +	 */
-> +	if (ver_major > 1 || (ver_major =3D=3D 1 && ver_minor > 0)) {
-
-I think we could accept ver_major =3D=3D 1 even with ver_minor > 0 since th=
-e
-minor specifications shouldn't be doing backward-incompatible changes.
-
-(If we fix the OP=3D0, we shouldn't be invoking any other behavior that
- might change.)
-
-I'd be more careful about accepting anything pre-1.0, since I would
-expect there was a breaking change in the spec somewhere, and we could
-program it incorrectly...  Do we even care about pre-1.0 hardware?
-
-> +		pr_warn("CC at %pa reports CBQRI version %d.%d, skipping\n",
-> +			&ctrl->addr, ver_major, ver_minor);
-> +		return -ENODEV;
-> +	}
-
-Thanks.
