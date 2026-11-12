@@ -1,71 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794492748;
-	b=KxC4y2GW3iYgtUrTPfzSP4FrOqvHNg57LpxS1P5hM0LhVEALH8Z7a96PjC8mrUiBusSY
-	 tqe75u0On2j2X+IyVDoKJ3V7hyO0sIfV8vumPqOUarzDs6OXK/Wxj61tA+MG6XUICzQF4
-	 EqHW7L9cbJ+LRiwI3RDmeEf5Z8YRY1v3KPKB/MW/GZDGVfjZEinaU/XhbpxjPUsT4kVT5
-	 rhs/UcHpH5zuMF8dPkOBFyMIe1PxETpH12vHFJtLDDH0cKR4Iku2OsgiL9WulpITJb0TP
-	 i6LUTgWmlDup4TQGO5JExDEqk4Q+GDaDQWCNsTiXvv2eqsidC+WhGV0qVVtsh2ZC67A==
+	t=1794492986;
+	b=ml642QbtciZCsTrWOxF9cNSIR3RX9LlfsWbWi2TNcVdk6yML6xtv5a/kVp9HRTDoVUQf
+	 cCpuceS8mZ1/aBvRPZSSgHYjR/UyHHEwQf0HIGmNMtzjUTKjWrXdqghgCFtie/A6B28/q
+	 SgNrF9Q2PjOre79ySucAOKwguMZfbwVnt5KTmGo5KK2eodk9AszqpkwPvowwqYD+3ay3e
+	 Md7G77hw18Wp/yya8WA6I/77d2tgXuo1o239ZEnAoCTOJ1QY1jtwkf0IL0Ot9Tbb2MeCp
+	 qvZTxhB31xCCRn8/88bFH2t2pePH2bhZWhOVgBYHlbS/r4KZsz4sE98GBhPArdyL6hQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794492748;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=LLgepSpmTFKlnz1y/yhLoyuPFm3/4g3SJxDL0aIX9Js=;
-	b=QU/lJYcSP2+a/lb0lI1JbWxexXoQA+qqUjxrXYg2T8oVwMjyyOPqqZS/5SUyV/gg9wjb
-	 kzg0e40O9TTn3ZWiV3FICWC0nfZ7mApXkbP9+Ncfl/F41eypk/rGUQkMPi6Iu9BWxdhRb
-	 LNGmpDAwDeFsXntRKCouHVx7hJYlCMTdd9oXtPsU23aZzfDrpJt6BS/6Ty3RrAEudXCiX
-	 AKreOxcPVCaXe3+JPvDnOUXe9l3YBFtrGB+eSk68xnAdoXv/38uKmsvx8IRpV53CGs65b
-	 xiPoRAb6PUPaEOX4PGhq5ASsL/xtzsidABShaMqemujZjnkxCQ3eaNJAZvDg0iXOI2g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794492986;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=q7oRBLeDwrt9uyhNlPp9kzD7zICpjE995RMRkocsOTU=;
+	b=rWKvJlwHfXdViEnwg4q8Hb0YLkejFM6Gb66OPh7HqiW7OhT5hBXwX2mk7aSVGZkg255M
+	 VRObXLJBO2wAe4VKFiRc/ysj2rQ3jpv+qldVJciYRryVsmF1Yetrn8mRRw95HT384Z1Y/
+	 eohsI6+s0sT3taSBNxdNCN4FnlmiwZsUHR59OtotauNZVIlkfSixsBoLYJOESDyQlG7zy
+	 vomJLRZbhWDQpcP3mtXe29FWj0bDw6RFaOo3rcKDmVdTwqGAzo9qET3CkMfWKIiQk5ILb
+	 GfeNq/uI8O/Eg17yVEdFJXIwjL7tEMKfnYNjzmInkqTjDm2soOoO9sXAGDVwCalHhnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BbUv2Bdg;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=FN2+87nO;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5154606A31C;
-	Thu, 12 Nov 2026 14:12:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85AFB60A2604;
+	Thu, 12 Nov 2026 14:16:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 85AFB60A2604
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BbUv2Bdg
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 310C31F00A05;
-	Thu, 12 Nov 2026 14:12:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794492748;
-	bh=LLgepSpmTFKlnz1y/yhLoyuPFm3/4g3SJxDL0aIX9Js=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=BbUv2BdguZCP3qKWTVs4X2hEbpYe5LftvnZVtHAJSag7IUmxIi1F3uLofwtRQodXa
-	 cHMylkh2Ehxhbu/lhSDiBE3UZ7Y4cPnWlvpvPjPmdNl92d+5DVryFIw2vGpVGQJOVt
-	 aOH3DcBHUTTb8OIHl6geEgQ8siBzrfZF4pddRQ4DYju0/EnBRGqS1PjHqK8gAqp32/
-	 USdzgTD+grb2FekH2CPFWpVcnmzH6yuIJc5F1HDHrOpWlSR3JEMkqXRcMWAVVwn4It
-	 hpVdE3pMIirn9HdaWMIwuKICKXMi2aVL7ljtZGPX2TTxykprori1a4MpTe+9NKOJHg
-	 S0RxDjO/5XTSg==
-Date: Thu, 12 Nov 2026 09:12:26 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Theodore Tso <tytso@mit.edu>, workflows@vger.kernel.org,
-	ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dan Carpenter <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
-	Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
-Subject: Re: [PATCH v5 0/6] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-Message-ID: <avXJSt_3DYx6aQsD@laps>
-References: <20261111225940.1573565-1-tytso@mit.edu>
- <9c5f5976-ebed-48f3-94ab-1121231af6e1@kernel.org>
- <avXCcPYM9VAP0JHf@mit.edu>
- <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=FN2+87nO
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0E9AF40920
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1794492978; bh=q7oRBLeDwrt9uyhNlPp9kzD7zICpjE995RMRkocsOTU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=FN2+87nOa57H3OWzebvwwf/8b7uHu/5Wzk0NwcN5Ouxd4YDqkKxzFHD2CSyzOJoaY
+	 REEcN+E9DhgSkf/reFW3Or81vZGtIMLz4KqqCgAv/X3iA+5kVgy2oYUZFCOpZrVvxz
+	 sSkoU/IdPlrkdEglnluN3GIafHtrpIxiFZb0fwsEtyadL8VUKt70K5LJX/sk18ZTSV
+	 IFd4aqFzXz8LS2cNrgeIEgn0c/TWLd0PO/wDH8zBnZ2TkWLrmklxVBwxL7JYeFROqg
+	 l3bwSN5Mgww4YrHCHkkzVKmtqioT4I3+XD+s0ZM5hlNTCuTu5VFqnDHgsgP4AmMsYq
+	 QwzdaV/2BnS8A==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0E9AF40920;
+	Thu, 12 Nov 2026 14:16:17 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>, linux-doc@vger.kernel.org
+Cc: danielmaraboo@gmail.com, skhan@linuxfoundation.org,
+ rdunlap@infradead.org, sashal@kernel.org, kees@kernel.org,
+ linux-kernel@vger.kernel.org, ic.gabrielribeiro@gmail.com
+Subject: Re: [PATCH v2] docs: translations: pt_BR: add init troubleshooting
+ guide
+In-Reply-To: <20261103033349.908133-1-ic.gabrielribeiro@gmail.com>
+References: <20261103033349.908133-1-ic.gabrielribeiro@gmail.com>
+Date: Thu, 12 Nov 2026 07:16:15 -0700
+Message-ID: <87tslm6spc.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,50 +69,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 12, 2026 at 02:49:09PM +0100, Krzysztof Kozlowski wrote:
->On 12/11/2026 14:46, Theodore Tso wrote:
->> On Thu, Nov 12, 2026 at 09:26:09AM -0500, Krzysztof Kozlowski wrote:
->>>
->>> All these are docs (even if you call them as a skill, it's the same),
->>> therefore they should be placed in Documentation, not in top-level. We
->>> should not create one documentation for humans and another for agents.
->>> It's just one documentation.
+Gabriel Ribeiro <ic.gabrielribeiro@gmail.com> writes:
 
-Right. The idea here is that agent skills will mostly refer to our existing
-Documentation/ and will only act as a glue layer to make agents behave better.
-
-Consider, for example, one of the most common feedback points we have to AI
-users: "make your commit message way less verbose". This is the type of things
-that would make sense as an agent-only instruction.
-
->> Skills aren't necessarily *just* documentation.  The skills
->> specification[1] also defines a structured location in the skill's
->> directory hierarchy for Python scripts or other executables.
+> Translate the init troubleshooting guide into Brazilian Portuguese
+> and link it from the pt_BR admin-guide index.
+> Signed-off-by: Gabriel Ribeiro <ic.gabrielribeiro@gmail.com>
+> ---
+> Changes in v2:
+> - Add a commit-message body.
+> - Match the punctuation in item 2 to the source.
+> - Translate "painless" as "o mais simples poss=C3=ADvel".
 >
->Specification is also documentation, just like for example specification
->for our ABI. It's also located in Documentation directory.
+>  .../translations/pt_BR/admin-guide/index.rst  |  6 +-
+>  .../translations/pt_BR/admin-guide/init.rst   | 58 +++++++++++++++++++
+>  2 files changed, 63 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/translations/pt_BR/admin-guide/init.rst
 
-One of the reasons to keep it out of Documentation/ was that it doesn't mesh
-with the infrastructure Documentation/ uses. For example, Documentation/ is all
-.rst, while the agents.md spec specifically calls out for markdown, and a very
-particular construction of that file.
+Applied, thanks.
 
->Agents supposedly "are just tools", thus just as sparse, smatch and
->compilers such tools do not get another top-level directory.
-
-I'm a bit confused by this... the original reasoning was the it doesn't really
-fit into either Documentation/ , scripts/, or tools/, so we just gave it it's
-own home. Why does it matter if it's a top-level dir or not?
-
-It's something we can always move around later - agents don't care where it
-lives as long as it's refered to by the main AGENTS.md, so if we later come to
-the conclusion that it makes sense to move it, for example, under scripts/,
-then we can easily do that.
-
--- 
-Thanks,
-Sasha
+jon
