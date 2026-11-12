@@ -1,47 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794471979;
-	b=uW85FW16gTbZ0x9yUyaf3Mqh/Fx79qQDkJ8hj/GeBTeZ+Se+5L+/YeFXsrMVkZYFQ1yc
-	 t4X6LLxIVgjI1Ys2PS5bDgj/1DG+zqmslRWkTZ3+wVK9swwSBDf0WwDTAv+ENjPcHjf6p
-	 /GBXRxGQ5pSLWJSJxAYnc0UT5tFk5kiaoCbp6L2MYHiY2TTUj8QjYxa4THT+inv+lsm4L
-	 EkDZvWh7/S0D+BA6wx1xpPBLY5UjfuqJcjHbPS51VWaJWhb+OtVIPwHtirL/eHCxgsPfO
-	 Cqf1U9Lt3Ic4TdY64bCg7Jw0x/87QpR7lIHFi+4Uw6G18t3PAvgt2foVgLnEu11ACyg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794471979;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=5h3741aVBUgMLcvMs4FsULmYyMwtRuaDKpHdJBi6xVE=;
-	b=wWQ443mIRfCW3ofZRZIZRso+5IWFtDncR/bVpYFWBjBxMZdVu/rXnprMPtESBArEX0ds
-	 G2CxzvxAlBrnK+Wjtih5diQAYEahA0yTY3KAqahYdBI0FP4rpZB/0dd6ptnPr7dYPaJku
-	 1uaK3yzLRgbmLxUnhJ2MNbjzWmQjfiKERSkwq8JWpYTY3UmSXlZZiXuARkDOdDLHQdfLn
-	 Uol31zGQz2Ej29rSWeGH9wy+9Ujnm+pw9+YK9mxemdb24afOrF4GSyKEdoy8k2yJkCcn1
-	 Fs/mVZKYo8kVL+CH+Tdxc5dSD5bRnyMdP62ULdcvmPUpYX0waCXv66IfleOxko73/MA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iSL29dCx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.51
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794472366;
+	b=rmcUVrRW034FGvSYu6I0eOk+ze4XT3oW3ohPF+SDBbcRlwUdqLiP0mDu/kCDM0EVB4jS
+	 iA2iqAhuAb5KnVgCkQfLD4MKQWs9CyMpepoo3a7o4khTP03PKlDi0Ii3uXk76jLhsZXi1
+	 s2bYaIKktSMPguhsw1CIqPvYpyrVedWkSkCabVtzs+ffq4UOAhozIZM+56WzUhWjBfCKq
+	 Y+ProTq8NzuGGMP2bG4Je+s/lKG837LSBX4/pX3EafOXPubDn1obsEusZsVWwap3SKRSh
+	 47quhfrVBz8STYHU3JGmE4eHEqFP7Nq4f4kCbAA18sT4Q4rynOWawFcNYbQ1gL4QRnA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794472366;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=0l9eWNYt+4OdoC01Aa/h4I10jx5l5dY/DXFWNFAegOg=;
+	b=sXERFQvKBj5w/PMmJdQku31bdT+iP5GS0X7lfvlZ/bmqyqL/Wh1aI6yr5Mf8UkAOu0qb
+	 cES7iQWE7d81gZ/uv4A6GxIIC3lDaSU1reBtOkUyv1xftj20trwxPyr8igk0ZzYIvQ0ei
+	 44QTUszCPtNJm/iU7QhTDMITYG6odEeSgjAc3oeSreAZjkV1DsIdac30vnuSvPIx7KaVR
+	 9/g1run9hnZD6CYR/MOuikxk+PPVdEjL/A/pKD4hEwMb3Xn6m40QsyL8qQInCZYvtnz8t
+	 LFEciJTuz3HWTOrMDa6VxDC5tfqzNKUeHqj3dC/jvObSjc9qf+odSQ4Axdi7EwXS22g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IjZZzhPX;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.51
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25C6606A32A;
-	Thu, 12 Nov 2026 08:26:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2466160A5BD7
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 08:32:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2466160A5BD7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iSL29dCx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4765E1F00A05;
-	Thu, 12 Nov 2026 08:26:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794471979;
-	bh=5h3741aVBUgMLcvMs4FsULmYyMwtRuaDKpHdJBi6xVE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=iSL29dCxPvP7MpEjriAk5jd1ZwxV+K6VQR+EI29eQhJxHrKxaW/AarTh3NhpywuD7
-	 qRv5pfvbC9Qhq9CJKYNSv4bqy6mL2cu8plaaLB4YG60VIYZyW6jMADaGIZmz2Zv8m+
-	 l+lHOVYPHnprs2K7RhZESTDTcgICKfJ1C3IvJl98I0TQq8x5anhM+Cy1YSciiMrKiH
-	 mnd51lnkiZGy74CahaycnJGBVJNgrpGubm4N7E8P9mp3BCygOVhqxHSxsMZad2qQoi
-	 aqxi3zKfsM7OuwvkT7ggOL3361y3NVxReYGS3BvOOCmsUTFuC0u9JSHisHg/OyA9qj
-	 F41zy6mwojMZw==
-Message-ID: <9c5f5976-ebed-48f3-94ab-1121231af6e1@kernel.org>
-Date: Thu, 12 Nov 2026 09:26:09 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=IjZZzhPX
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6b596afb4c5so4614285a12.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 00:32:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794472364; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CrY2tPZBZtmgVp6S1Wab2nEM30v4whA6ENTno0yEKuxICa1SnKoSefTbhJFYNHuL0D
+         VAzBf2k0yaS6Bz3lL9/2TCZ1i6kKkKEY1sG9Cj0NEsUjSVByttJ4f7es8S8SAVz6oUOB
+         APaPv3tmenKm4HCgWOMybmpKSHJGg//eA0pfuN1bneDRl34/3QOsRNtVnEOBuS65NK6U
+         zreVLP3+G3JnP2GwftM8XcnDOWs6TBSL4YKGnDD12zXlTw/zhAu2UJ4nxrmY8wCSS/9z
+         6Cse7O5K0H04ehFdqHQp9eI81eO/HGw4gRtbZdBXs6OHY5cDuHvyVA1/tLm+1hG0j2Su
+         ++Pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=0l9eWNYt+4OdoC01Aa/h4I10jx5l5dY/DXFWNFAegOg=;
+        fh=NGd7MaopBj8kh/my0zzD6XF3a8gtpn1ho4HBOQUa3jM=;
+        b=j6DEu4TFik9ZUuiGBO0b3t0Wdwj1pZBJfUCHXydZamWyrqcBtBEOMuIn5eCphEhbR0
+         rrkuow62gSkujCGBr3ZZr/cnGKeIM97KRdty5JRXCvOQ0f+a4wHBTmQ+RByQ/adRgaGN
+         b0VR5PKgDJ5aX1uOyD1YJBQ+RU1FwwTNWElnX0G/PRhJFE9hhno6/CJK+B1g/7IXyEx1
+         9v2H5wW1Lay23C6kFdWDGlCsij364OlN7nszgc0aHv26ACDPbgVi1RF1ikYJ+1bAwigg
+         HGi8wI9s6voFW+XWraxS9qohN14vstjjZnJXD/T7GCTkeiqRBhutDQ/5tiHUZzArx3nk
+         lN9w==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794472364; x=1795077164; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0l9eWNYt+4OdoC01Aa/h4I10jx5l5dY/DXFWNFAegOg=;
+        b=IjZZzhPXrQb+C82MzXH+yaFZMdw3I1fS6f+ZKPUlu4rKAv7YGY/A4npfbHZ01BDx4/
+         vehtR2RomeLqZqfjL08oP+6ImriXxgfvzxYVKbLJ5TeraSk7AGdN2BqZCr8Wfl8Y6rKb
+         hLv1UqaQKCKAPrnqdk/3nPwU63dOGY6TlaP1LNzhv3oNk0/OxVEzF2RdbLEzQ5w9cEX4
+         CDX3IJKXBPew0T49m9+pPKYVvmv1QcvsMgpSfZrVqfxCa7YIZusZzdVD8FqruquU+RON
+         bGCSzVs/dSbZYdxZLgr3yfjig8gMvd2nyMgu+eUgDB2zpv7w8KhcsyyzDz+XmXgXnOt1
+         V+Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794472364; x=1795077164;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0l9eWNYt+4OdoC01Aa/h4I10jx5l5dY/DXFWNFAegOg=;
+        b=MFfuEDjv5TKkjOrDJVcK3V9xkkBP+d5+j8s5CK1ksPnX0fFTzvw1dXpQia1AUmzWer
+         Ct0DT6QVqWykrQH98Iyc6PLxZBc8aXeFQssqyF5ZOCwG8NJtyirTQTfmI2dyOM3Z5v2I
+         4TEhzREmdqQ3C6iKX0IrrIdj7kb6vgdpt8aIm3twSehmJqb5rOHH4s3z4XQRJoy5nBOb
+         ig0Vivh6MqMqbDB0c+mmg/2zu237Q33IRNuEeqc/XEqw6lCjFDLADQoqJn34IrztW0+V
+         4nLd6zWz23aumwXU/xb3pG/AbkM6BOfVcs9vey4La+UKhf/OZkCkixrFV/+KpliulMJ2
+         B1Wg==
+X-Forwarded-Encrypted: i=1; AL+hErF/lzGedzYv+6v4vmzLNPYC2RUo4XsVx8EglUyncouM8ySxPSCZxmWHdqFPIR1s/iwBLXbm1GK7UHs=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8PbRefS+Qu1ZlUuV+/SlYkPtwInlfu3CSTHkrETXgTXItHOvuI
+	7YlT9Ek3GYEjyy6RmXB62rSqHbMRSYlVrKqszwTZ+oFhJ63mG0hVeUklYgnO5GYw7SuWObQ7xFv
+	yM1C+U54EUJuocw9oWez0vIi+DhI5PcM=
+X-Gm-Gg: AYBFou2hkjvoijEGNDDAI+nbE6fN5oHunL2JE5hUjuOy0WkHZJy0Ma4ihi/WAIDFXB2
+	7Qn3lNZE9eQIZl2v0GrluKgL558Yn/flftfqFxRAVot3XtaVwxNSFk68hTUn5v+XTsKUblTEplk
+	k3RhyMk+rHrrYiUZxGeaHUuIKhq0QCtwv0d1ZQL9w4CgRfPJqJpxG2WfYTxSyf1YoEMbNkqEZqS
+	Yv1b3u2oUqCbUG7vAfCO/R/ugxAIKfk/A+qUB00DOX6nrNYS5zuL8TE7F0kZeP7lMFwZL5+M9mr
+	H6i95i3hnhyjZUfHcA/tnJaaZ2FaUKENVEHWAJkfFscVsEkp9tfIhLZE17mAIpH12o2Q1goKAv8
+	VjVLFvsuA5tUPyl9EfIh1MUFKah2HhjdlTQSDh7P2Ntyxgp5S8D8HZPI0NP2fBrtAo3RCtAE=
+X-Received: by 2002:a05:6402:2711:b0:6b7:a357:375b with SMTP id
+ 4fb4d7f45d1cf-6b7a3573c70mr809364a12.40.1794472364208; Thu, 12 Nov 2026
+ 00:32:44 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,97 +104,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 0/6] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-To: Theodore Ts'o <tytso@mit.edu>, workflows@vger.kernel.org,
- ksummit@lists.linux.dev
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Leon Romanovsky <leon@kernel.org>,
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
- Thorsten Leemhuis <linux@leemhuis.info>, "Michael S. Tsirkin"
- <mst@redhat.com>, Kees Cook <kees@kernel.org>,
- Geert Uytterhoeven <geert@linux-m68k.org>, Dan Carpenter
- <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
- Alexei Starovoitov <alexei.starovoitov@gmail.com>,
- Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
- Bradley Morgan <brads@mainlining.org>, Sasha Levin <sashal@kernel.org>,
- stable@vger.kernel.org
-References: <20261111225940.1573565-1-tytso@mit.edu>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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
-In-Reply-To: <20261111225940.1573565-1-tytso@mit.edu>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20261110102039.1002605-1-bjorn@kernel.org> <20261110102039.1002605-2-bjorn@kernel.org>
+In-Reply-To: <20261110102039.1002605-2-bjorn@kernel.org>
+From: saeed bishara <saeed.bishara.os@gmail.com>
+Date: Thu, 12 Nov 2026 10:32:32 +0200
+X-Gm-Features: AclHuK_JmHtMGasdG1MlcgZSR9JInf5KlnPcivwlvNEZTX0IPHWZAk1Q01MwQ2M
+Message-ID: <CAHfVqdVYBbs8zu40nEaCDvGVNeXHe2DXh0dGxEcgL3kP8S8_HQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v1 01/11] net: Get skb fragment addresses through netmem
+To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, 
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, 
+	Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
+	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, 
+	bpf@vger.kernel.org, io-uring@vger.kernel.org, 
+	Mina Almasry <almasrymina@google.com>, 
+	"Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, 
+	Nikolay Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, 
+	Alexander Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/11/2026 23:59, Theodore Ts'o wrote:
-> This is an update of Sasha's v4 patchset with the following changes:
-> 
->    * Rebased to v7.4-rc2
->    * Removed references to Assisted-by: per the discussion at the
->      Maintainers Summit
->    * Addition of a new skill, writing-kunit-tests which I've been
->      using to add full KUnit test coverage for ext4.
-> 
-> I've been using the prompt against Gemini Pro; would appreciate
-> comments about how well it works (or doesn't) when used with Claude
-> Code.
-> 
-> Sasha, could you consider updating your patch series with this set?
-> I'll assume that you will send this to Linus, since the bulk of the
-> work is yours.  Thanks!!
+On Tue, Nov 10, 2026 at 12:27=E2=80=AFPM Bj=C3=B6rn T=C3=B6pel <bjorn@kerne=
+l.org> wrote:
+>
+> skb_frag_address() goes through struct page, so a net_iov never has an
+> address. Only unreadable memory should lack one: XDP and BPF read
+> fragments through this helper, and AF_XDP UMEM will back readable
+> net_iovs. netmem_address() also returns NULL, not a bogus pointer, for
+> an unmapped highmem page.
+Does this mean that skb_frag_address_safe() is practically identical
+to skb_frag_address()? I assume highmem page is the only case where
+non niov page isn't mapped.
+>
 
-All these are docs (even if you call them as a skill, it's the same),
-therefore they should be placed in Documentation, not in top-level. We
-should not create one documentation for humans and another for agents.
-It's just one documentation.
-
-Best regards,
-Krzysztof
+>   *
+> - * Returns: the address of the data within @frag. The page must already
+> - * be mapped.
+> + * Returns: the address of the data within @frag, or %NULL if the CPU ca=
+nnot
+> + * read it.
+"CPU cannot read" isn't accurate, I assume that in iouring case the
+buffer is mapped to userspace.
+>   */
