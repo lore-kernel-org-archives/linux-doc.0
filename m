@@ -1,83 +1,76 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794513767;
-	b=LlkqCQ78fzDj71k+s+pyhN/vzV+SVWZxoHlh+8ZcKZQAFvPmUZStB1qBjtnge3rUZ98B
-	 7Rfs4h2hGXkWVaPPGnWhQZZY4RxR0TDg09s9f7x1OrXEhjPQ36oVAwnwfpgkFx0GmPLk9
-	 x2+jOewCOVxT8fX/mzjxgACT3QngukcOACFsOr1nqfUUsB+nwxGRL2yYpMZ7HIOH9dtTc
-	 b/oAsvM3nYcS4sqKaXnx0GwvFuCy56TDnJ0pLQUfGXYDSIiJKKWoJlijouE+v2L68Lgl/
-	 kbYDugymdKaru7jXhpZ9PRryhHJlyxsOLCQH8IzdrTVZY5Trtr29hbiylJXdapjBWiw==
+	t=1794513832;
+	b=iqn3qs2yNwFjIXP8ocezaozZY63Db8QoGkoZxSyw3o4FYi2aEipI/Y9Auisn3f9L2pDF
+	 L+Ygd80gMVKzf2yCTHLw2n5fwuHczhln0nvuGG3E2rr1Ki2Htkef/CmQSomSvlNtXYrNA
+	 nOS/Vk2jnv3C1Lielvpv45mJVY9SmhYy1ZWLlq3bDqpqNysp10VjeIFzC0yVVLKXg5t5N
+	 HCldfVA2bbgWnBFhTy6Qw4NZ3zzbzLrdIMZT3JuTpBs3Xe2gxcjHg3c0pVi9tx9Dy0KqQ
+	 bwlgsNSM32rEXEzz8BtDJ7PRb+HonK5a16+hQbxPXXXLnoIP1hjFgpqhGPwDsqB0K3Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794513767;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=kRsJE9S/70yOGQSUq2MlgQujyTFrN9aLjM+eaSxSfek=;
-	b=IWHhX+mCtDDtzaD5+baXWoH94VbZ81GNtO+nlosxW3X2M0HP/Vb3UoA0OeKrUYalq6zZ
-	 +h6/mmZQZxIyKVItlko4ca5ecYmaIkn4PciQAkqcKDT9QJJZOKkm72L7uLIdJDzNIoY5z
-	 ZEcVytGheLpnW+oi2FGSSwxeIbpICwtCdG1g0pwpycwtZo/MLcuumGnjD004UcuPGmd6G
-	 4o5E6xr/dTNiFv8nb0EF+bk+VsY0uqUUZfl7v8OpqnRBU4hDj9IiTlzHHYrVl4kYYQR0k
-	 oIn5dbcOaK8UubZwQBxrD56gwF43xc8FckqVouP1AhdxgWZgQ5bSPY7DK/EjpNrEqrA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794513832;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=5gV/6C2AHmV+xeANCfCNQ0nPfep5V3gLCUrkMNmMk7o=;
+	b=tI4FYjdjQwCkUwUbvpcKLYNXgapMZgdEK8WGGmgb3LDt3jO9nZFB01u9yPBQJyt4rwU8
+	 W/MJFm72q0LaO2rI3B2bfPx1sTnFwbXvIJiuTMMWwhqe6qtvLSwIWt5g0KqvHob7VLooW
+	 jDfE1i9IRlscI5tDGWYJX0mE+tFLUU/aZdGfte9FeABjOqoEzrUnI5tlSnNyR4gfuwTPV
+	 x7+fcqdactIWv9c6IZPiAmITO53qk1B4f9KAwL93d7WhAnYiKM7AijHTIedupYmKsi1DJ
+	 gfKyIrTqE6JEMpT0/HSFAZM6o4A2p1SDFWM7TxWZzR2xivLMbmP4aegYhwEaL34CpUg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iXXCGePG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AOPa7Utz;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22510606A31C;
-	Thu, 12 Nov 2026 20:02:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F10606A31C;
+	Thu, 12 Nov 2026 20:03:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iXXCGePG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 291CB1F000C4;
-	Thu, 12 Nov 2026 20:02:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AOPa7Utz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBEC91F000C4;
+	Thu, 12 Nov 2026 20:03:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794513766;
-	bh=kRsJE9S/70yOGQSUq2MlgQujyTFrN9aLjM+eaSxSfek=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iXXCGePGQJ3YsqnugdvJXMJeGBJiscAo887Qwn5UOj9vmXdobRDyLCxWo3h9W9Fq4
-	 94i19MI8QPzHukPl5h1iWi54+DLQqqT898RHQTKI6y7CZhH9zUEF9kLAuR9lyGfyWe
-	 tKAx0FzHMGLnQvnQsKke6tQANKJiRlF49ClwlDCnTkvK2222ZhOBIhXDK/9z8+p4cQ
-	 2qA/d1iB+ohHdfWQfI6QQr+18k6BJ7ET6iVb6rf5pEI45dfw/+xM6HOV2c5TZalwiM
-	 GLeem4S6CP5EHu7MRNHVwtxl1bcHWzEGIv2pauBU8yj1aY+WEZ4/Hb/TveVAz4xHAg
-	 TaLmZB+wbwghg==
-Date: Thu, 12 Nov 2026 12:02:44 -0800
-From: Drew Fustini <fustini@kernel.org>
-To: Radim =?utf-8?B?S3LEjW3DocWZ?= <radim.krcmar@oss.qualcomm.com>
-Cc: Adrien Ricciardi <aricciardi@baylibre.com>,
-	Alexandre Ghiti <alex@ghiti.fr>, Albert Ou <aou@eecs.berkeley.edu>,
-	Atish Patra <atish.patra@linux.dev>,
-	Babu Moger <babu.moger@amd.com>, Ben Horgan <ben.horgan@arm.com>,
-	Borislav Petkov <bp@alien8.de>, Chen Pei <cp0613@linux.alibaba.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Dave Martin <Dave.Martin@arm.com>, Fenghua Yu <fenghuay@nvidia.com>,
-	Gong Shuai <gong.shuai@sanechips.com.cn>,
-	Gong Shuai <gsh517@gmail.com>, guo.wenjia23@zte.com.cn,
-	James Morse <james.morse@arm.com>,
-	Kornel =?utf-8?Q?Dul=C4=99ba?= <mindal@semihalf.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, liu.qingtao2@zte.com.cn,
-	Liu Zhiwei <zhiwei_liu@linux.alibaba.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
-	Peter Newman <peternewman@google.com>,
-	Reinette Chatre <reinette.chatre@intel.com>,
-	Rob Herring <robh@kernel.org>,
-	Samuel Holland <samuel.holland@sifive.com>,
-	Sunil V L <sunilvl@oss.qualcomm.com>,
-	Tony Luck <tony.luck@intel.com>, Weiwei Li <liwei1518@gmail.com>,
-	yunhui cui <cuiyunhui@bytedance.com>,
-	Zhanpeng Zhang <zhangzhanpeng.jasper@bytedance.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Shaopeng Tan <tan.shaopeng@jp.fujitsu.com>,
-	Zeng Heng <zengheng@picoheart.com>, linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org, x86@kernel.org,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v11 1/5] riscv_cbqri: Add capacity controller core
-Message-ID: <avYbZMGiLU6iSTj7@thelio>
-References: <20261108-dfustini-atl-sc-cbqri-dt-v11-0-33a1bf0cf01c@kernel.org>
- <20261108-dfustini-atl-sc-cbqri-dt-v11-1-33a1bf0cf01c@kernel.org>
- <DMTD6WT2DU30.AX3QK44UUYB3@oss.qualcomm.com>
+	s=k20260515; t=1794513831;
+	bh=5gV/6C2AHmV+xeANCfCNQ0nPfep5V3gLCUrkMNmMk7o=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=AOPa7Utzo8hGrUb1g8FR1eUscVISdpgMMukqb5E77PFz1A8oOG1n10ayV5uUs444j
+	 eJnxzADNKmBB3Vwh9EJ1Pe/3gv4rcKrb1JU+OhK2yEWVVomgQ6wUaxFZb047h7NHpL
+	 DIZgkt4JT09zQIeICTMmwEOyyFAn1dvBornsClCTI6h6Mpw/2H32Uc5lgJb3btjgKm
+	 ypPwalQ1RyZ1Vpw84/9q5qMgENrEb7R/NTCyXeBtfqiMVyzwcDyuhDhnfgdhZge+Tx
+	 9Q7K+DwerqtOhtHOleBO8z1GdZZTP9rcqgxaO7ycg70Jj0exD6Is3Kt76yEs/5/C2C
+	 2o8PEYlS22reg==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Stanislav Fomichev
+ <sdf@fomichev.me>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya
+ Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song
+ Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
+ <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai
+ <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org,
+ io-uring@vger.kernel.org, Mina Almasry <almasrymina@google.com>, "Mike
+ Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
+ <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
+ Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Stuart Clark
+ <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 11/11] eth: fbnic: Support AF_XDP page pool
+ zero copy
+In-Reply-To: <avWk5as19fvZoEJA@boxer>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-12-bjorn@kernel.org> <avWk5as19fvZoEJA@boxer>
+Date: Thu, 12 Nov 2026 21:03:48 +0100
+Message-ID: <87wlqhq0kb.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -88,206 +81,55 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DMTD6WT2DU30.AX3QK44UUYB3@oss.qualcomm.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Nov 12, 2026 at 05:14:50PM +0100, Radim Krčmář wrote:
+Maciej Fijalkowski <maciej.fijalkowski@intel.com> writes:
 
-Hi Radim, thanks for the review.
+> On Tue, Nov 10, 2026 at 11:20:32AM +0100, Bj=C3=B6rn T=C3=B6pel wrote:
 
-> 2026-11-08T15:20:50-08:00, Drew Fustini <fustini@kernel.org>:
-> > Add the core for RISC-V CBQRI capacity controllers: the register
-> > layout, the capability probe, and the allocation operations that
-> > program a capacity block mask for an RCID and read it back.
-> >
-> > A discovery layer maps the register block and describes the controller
-> > in a cbqri_controller_info descriptor. riscv_cbqri_register_cc() probes
-> > the controller from that descriptor and adds it to the controller list,
-> > which stays private to the core. The core owns the controller state
-> > after registration, so nothing in it depends on how the controller was
-> > discovered. The caller keeps the register mapping alive.
-> >
-> > Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
-> > Signed-off-by: Drew Fustini <fustini@kernel.org>
-> > ---
-> > diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devices.c
-> > +static u64 cbqri_readq(void __iomem *addr)
-> > +{
-> > +	return lo_hi_readq(addr);
-> > +}
-> > +
-> > +static void cbqri_clear_cunits(struct cbqri_controller *ctrl)
-> > +{
-> > +	if (ctrl->cc.cunits) {
-> > +		writel(0, ctrl->base + CBQRI_CC_CUNITS_OFF);
-> > +		writel(0, ctrl->base + CBQRI_CC_CUNITS_OFF + 4);
-> 
-> nit: lo_hi_writeq?
+>> @@ -538,6 +547,13 @@ static int fbnic_bpf(struct net_device *netdev, str=
+uct netdev_bpf *bpf)
+>>  {
+>>  	struct bpf_prog *prog =3D bpf->prog, *prev_prog;
+>>  	struct fbnic_net *fbn =3D netdev_priv(netdev);
+>> +	const struct xsk_rx_check *check;
+>> +
+>> +	if (bpf->command =3D=3D XDP_VALIDATE_XSK_POOL) {
+>
+> do you really need a separate command here? why not rely on existing
+> XDP_SETUP_XSK_POOL ?
+>
+> here it doesn't look like things being validated are something unique that
+> you could not check during XDP_SETUP_XSK_POOL and XDP_SETUP_PROG.
 
-Good idea, I'll switch to that.
+I'd like to keep it. XDP_SETUP_XSK_POOL means "set up driver ZC for this
+pool": the driver maps the UMEM and restarts its queue, and the core
+WARNs if it didn't map. A provider driver does neither; it only says yes
+or no, before the core maps and installs anything. The same question
+comes up on MTU and program changes of a bound device, with the new MTU
+or program, which XDP_SETUP_XSK_POOL can't carry. One command keeps that
+in one place, and v2 runs it from the core MTU path too, so a driver
+can't forget that case. This is only a burden for the core.
 
-> > +int cbqri_apply_cache_config(struct cbqri_controller *ctrl, u32 closid,
-> > +			     const struct cbqri_cc_config *cfg)
-> > +{
-> > [...]
-> > +	mutex_lock(&ctrl->lock);
-> > [...]
-> > +out:
-> > +	mutex_unlock(&ctrl->lock);
-> > +	return err;
-> 
-> nit: guard the mutex?
+> Overall, +400 lines for zc pp-based support...not sure what I was
+> expecting and I know we need Tx side implementation.
 
-Also a good idea, I'll switch for this function and also
-cbqri_read_cache_config().
+fbnic had no AF_XDP at all. Of patch 11, about 120 lines are TX and 58
+are docs; the rest is RX setup, refill and the checks. 08-10 add XDP
+redirect, netmem heads and whole buffers to fbnic, which aren't
+ZC-specific.
 
-> 
-> > +static int cbqri_probe_feature(struct cbqri_controller *ctrl, int reg_offset,
-> > +			       int operation, int *status, bool *access_type_supported)
-> > +{
-> > +	const u64 active_mask = CBQRI_CONTROL_REGISTERS_OP_MASK |
-> > +				CBQRI_CONTROL_REGISTERS_AT_MASK |
-> > +				CBQRI_CONTROL_REGISTERS_RCID_MASK;
-> > +	u64 reg, saved_reg;
-> > +	int at;
-> > +
-> > +	/*
-> > +	 * Default the output to false so the status==0 (feature not
-> > +	 * implemented) path returns a deterministic value to the caller
-> > +	 * rather than leaving an uninitialized bool.
-> > +	 */
-> > +	*access_type_supported = false;
-> > +
-> > +	/* Keep the initial register value to preserve the WPRI fields */
-> > +	reg = cbqri_readq(ctrl->base + reg_offset);
-> > +	saved_reg = reg;
-> > +
-> > +	/* Drain any in-flight firmware op before issuing our own write. */
-> > +	if (cbqri_wait_busy_flag(ctrl, reg_offset, &saved_reg) < 0) {
-> > +		pr_err("BUSY timeout before probe operation\n");
-> > +		return -EIO;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Execute the requested operation with all active fields
-> > +	 * (OP/AT/RCID) zeroed except OP itself. Every bit not in
-> > +	 * active_mask is WPRI and gets carried over from saved_reg.
-> > +	 */
-> > +	reg = (saved_reg & ~active_mask) |
-> > +	      FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation);
-> > +	writel(lower_32_bits(reg), ctrl->base + reg_offset);
-> > +	if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-> > +		pr_err_ratelimited("BUSY timeout during operation\n");
-> > +		return -EIO;
-> > +	}
-> > +
-> > +	/* Get the operation status */
-> > +	*status = FIELD_GET(CBQRI_CONTROL_REGISTERS_STATUS_MASK, reg);
-> > +
-> > +	/*
-> > +	 * Check for AT support if the register is implemented
-> > +	 * (if not, the status value will remain 0)
-> > +	 */
-> > +	if (*status != 0) {
-> > +		/*
-> > +		 * Re-issue operation with AT=CODE so the controller
-> > +		 * latches AT=CODE on supported hardware (or resets it to 0
-> > +		 * on hardware that doesn't). OP must be a defined CBQRI op
-> > +		 * here. OP=0 is a no-op and would silently disable CDP.
-> 
-> OP=0 is a reserved for future standard use.
-> (Hopefully just fails, but it could be worse if it gets implemented as
->  something other than no-op.)
+> However, I am wondering if better example for this change set would be the
+> driver that already supports pp *and* carries the separate ZC data path
+> (ekhm, see ice?). Then you could show case at least in diffstat how much
+> less work is needed for AF_XDP support.
 
-I'll reword and drop the incorrect statement that OP=0 is a no-op.
+ice RX is on page pool through libeth, but ice has no queue API, and
+libeth can't select a provider yet; that's also why ice can't do devmem
+or io_uring zcrx. The provider has no unaligned mode either, which ice
+supports. mlx5 or gve already have page pool RX, the queue API and their
+own ZC path, so one of those would show the deletion with less
+groundwork. I can do that as a follow-up.
 
-> 
-> > +		 */
-> > +		reg = (saved_reg & ~active_mask) |
-> > +		      FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation) |
-> > +		      FIELD_PREP(CBQRI_CONTROL_REGISTERS_AT_MASK,
-> > +				 CBQRI_CONTROL_REGISTERS_AT_CODE);
-> > +		writel(lower_32_bits(reg), ctrl->base + reg_offset);
-> > +		if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
-> > +			pr_err("BUSY timeout setting AT field\n");
-> > +			return -EIO;
-> > +		}
-> > +
-> > +		/*
-> > +		 * If the AT field value has been reset to zero,
-> > +		 * then AT support is not present
-> > +		 */
-> > +		at = FIELD_GET(CBQRI_CONTROL_REGISTERS_AT_MASK, reg);
-> 
-> I think it would be safer to also check the status field.
-> 
-> I'm not too clear whether the spec actually allows returning 5 (invalid
-> AT) when the AT is invalid, but an implementation that does that
-> wouldn't surprise me.
-> 
-> (For example when an implementation supports data AT and a custom AT, so
-> code AT isn't supported, but AT in general is -- it could keep the
-> failing code AT and just report the error.)
 
-That seems reasonable. I will change it to only report AT support when
-the AT field reads back as code with status = success.
-
-> > +		if (at == CBQRI_CONTROL_REGISTERS_AT_CODE)
-> > +			*access_type_supported = true;
-> > +	}
-> > +
-> > +	/*
-> > +	 * Restore the original register value.
-> > +	 * Clear OP to avoid re-triggering the probe op.
-> > +	 */
-> > +	saved_reg &= ~CBQRI_CONTROL_REGISTERS_OP_MASK;
-> > +	writel(lower_32_bits(saved_reg), ctrl->base + reg_offset);
-> 
-> It would be better to do nothing than trigger an illegal OP.
-> All our writes should modify the non-WPRI bits anyway, so restoring them
-> does nothing.
-
-I agree. I'll drop the restore write.
-
-> > +	if (cbqri_wait_busy_flag(ctrl, reg_offset, NULL) < 0) {
-> > +		pr_err("BUSY timeout restoring register value\n");
-> > +		return -EIO;
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int cbqri_probe_cc(struct cbqri_controller *ctrl)
-> > +{
-> > [...]
-> > +
-> > +	/*
-> > +	 * The driver programs the v1.0 register layout. Controllers that
-> > +	 * report 0.x differ only in capability bits that read as zero, so
-> > +	 * they are accepted. Anything newer than 1.0 may move fields.
-> > +	 */
-> > +	if (ver_major > 1 || (ver_major == 1 && ver_minor > 0)) {
-> 
-> I think we could accept ver_major == 1 even with ver_minor > 0 since the
-> minor specifications shouldn't be doing backward-incompatible changes.
-> 
-> (If we fix the OP=0, we shouldn't be invoking any other behavior that
->  might change.)
-
-Good point. I'll skip the ver_minor check and reject ver_major > 1.
-
-> I'd be more careful about accepting anything pre-1.0, since I would
-> expect there was a breaking change in the spec somewhere, and we could
-> program it incorrectly...  Do we even care about pre-1.0 hardware?
-
-I went through the tagged drafts in the riscv-cbqri repo, v0.9.1 through
-v1.0-rc3. The registers and encodings that this driver uses are the same
-in all of them. RPFX/P were added in bits that had been reserved.
-
-If I add that information to the comment, then would that be acceptable
-to you?
-
-Thanks,
-Drew
+Bj=C3=B6rn
