@@ -1,71 +1,108 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794500089;
-	b=Le0kztb0GVjq3OoFmvywW+FKzw/hkufC2pjRcYx1UO6McyzcXeGbYeuoAYIvPsummxts
-	 niNHbvYdkL7eaH8D5LCQHvBsxx24GqM4Z1xG4q3aX5lJhTj6p0Nehk8mriGmaLpbuouAY
-	 jHjaMqTiL9UgfyZkMMbUhRo46L+W5CF57uON7zvqU6XTFkYqDdm4Ldop0/XicXrDfbAsl
-	 ZxcUGttvstM38d4imOa+s04pfALz1j152ywi6qBf9N5MOopMkFnjcVwEuCTTCwpdU0vhX
-	 u/WlPsPptyk+qMwXcfIdYhjNPZ/PtDnbmLivc6BImS4X2H4Fns9wAqboFLnkKoV8Enw==
+	t=1794500097;
+	b=jXWHiNjYRe+eEPqAFr2No2A8yXZFHuhIoxZWto1njLeRsIfiCSYBrOGcRWx3ijiclzAR
+	 jOaIJiModNqmeZn/smDz+VvR5ZO45A7qlAaj0TV89UfFW//qgxI7W8/EhOhZupIdU4IRV
+	 xGMTY8tRRndHyeNHZdiIUua+qR4e58/QqRzQSduq1ZbB/6HNdl0WMCBzpVuldRV4nCpvk
+	 o5wlUYLYtECJ9tNnrplLH7+qF63kw7czmy3L+n8EqYMWccfytm3tr88RQHnldIk5v7vng
+	 iILA3hsa6Yaw+enyPSDI+eGLNT7DrthTUn1abIXLhJNMnUPofipeTNDLR7TzO9esIAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794500089;
-	h=DMARC-Filter:From:DKIM-Signature:DKIM-Signature:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=ukWikVJElZCBqR5bD/qtuuJkXnyU4/mK68AbGnGGZZg=;
-	b=XvJ1kurtIOD09IQtaAhz5rkJAAHWossDS/j2IYGfPMtWrfVLbYveYmtafEaUY8Qa3bs4
-	 yR7aX4x3Mwz11Xr+NJK+UVm44QkF3f+lGX50p51dj8ouepY/L4tuThU9ACajKxRAexbJw
-	 GQzgJebIBJWkipMm+I8Bdn83ansAkm2juXIL9/+FQXMhHc/KE26GGOOXLcTHEKMiZ94km
-	 TxqadgTfJk5O4WkBssdlTRROVZSN/y7yvp9YJOkUB45EjQxDw9lbmDr/rJ9xDAlUqwE7/
-	 3Fncarp8khD5DVdyHaMoKBlecQ9bvDLSzXogBWNuN2P5it0WWLWMHmrAACUiAe136mA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794500097;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:
+	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
+	 From:Subject:Cc:To:References:In-Reply-To:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=VFyW3FlcFVuCcTw1UrnIFaWy9gAZYFzgF43VrM5oqOQ=;
+	b=v61SpcXt6hH/ZT9Nf3S77jYo1jpE2bppNLX8ziomJ6H9qfIe8bOx1ji357S8rfVTai3R
+	 ePg9+TakPqT6a8NrZcAUh0lvyQbEM/MxD6OMrF8vEcU83k//ZTYampgIfqVuCN4pS3EDU
+	 ATNH7pTqUM7xh4Pa9/Bf1ifMCdoYuDpA3lEvCyLv2XeNqm+YppDKmnhIzTbR0g5hMvse9
+	 9bh3GgRpfAObEkVMJjpHn5CVv8/KHW/0sRalC/MM67+ojAR9jggI5LJn9vvetmXzn7uJ5
+	 Np6b8yGix1BaR6oL07Y/XMMb02a5kbYyG9p9Zo+vkNGeXsvmiARARijVpP/su+pq/pw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=ZoOyIESw;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=k5KUHA9a;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=KMK6QB0C;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MwZumgfo;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B136E606A31C;
-	Thu, 12 Nov 2026 16:14:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B136E606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D077A606A32A
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:14:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D077A606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=ZoOyIESw;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=k5KUHA9a
-From: Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794500084;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ukWikVJElZCBqR5bD/qtuuJkXnyU4/mK68AbGnGGZZg=;
-	b=ZoOyIESwyA8V7dXrKpBvb3fXCZECeVgwhEiygKHhajCOIn4x55M/kuEkAAreOKAxZtyeVw
-	GXasUq8HSWenyqrQvk7fALwZE8dgZ1WxxRQB22bfWuG7qPK370+QhJ6KB/mYaHMkC3uzRV
-	tGgR2WtQkxiCbDAGpEOVyeWj9If87P8qZUmzh8sp/PVTsOs2G2Ad+FaouFCdF4yU/vuCBs
-	ICEPErHGYLSwLYCvTadq/K4LU/pg7WRJnCDIrstwUSy/YkdG+CXvOYbQ4RdVIHQbmIG9lh
-	++Okg0V08AyoG6w5qs8ibXy1X+lr0mhyLm0aM6AnLZctyX90qlzjQot1c2g+cg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794500084;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ukWikVJElZCBqR5bD/qtuuJkXnyU4/mK68AbGnGGZZg=;
-	b=k5KUHA9ahaWTVMgiChBlgtjPgWV5EF/yG2cWbHAzdOna9Z+X1WQcRk3jsBCMBINZrvrYpW
-	hM5GWNAw0SPj0yDQ==
-To: tirthendu.sarkar@intel.com, Ingo Molnar <mingo@redhat.com>, Borislav
- Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org
-Cc: "H . Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
- Andy Shevchenko <andriy.shevchenko@intel.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] x86/time: Enable HPET under ACPI hardware-reduced mode
- with hpet=force
-In-Reply-To: <20261005075550.463089-1-tirthendu.sarkar@intel.com>
-References: <20261005075550.463089-1-tirthendu.sarkar@intel.com>
-Date: Thu, 12 Nov 2026 17:14:43 +0100
-Message-ID: <8733t6t4b0.ffs@fw13>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=KMK6QB0C;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=MwZumgfo
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ACFaNqM1593451
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:14:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	VFyW3FlcFVuCcTw1UrnIFaWy9gAZYFzgF43VrM5oqOQ=; b=KMK6QB0C53FsJS4C
+	tFzPmI8KYZXPG9YLJzFIHsq2h7uTULHaITsbeYFUIXrtAyTo9VDxZNrFSqDkzJpq
+	mC8m8R/fymWFTkZR+zYJufGcFbmWp/MxWX76MlvAFLbG9FoP2f+z+rKCIxe+RYZp
+	fNg29Szh9iFitCyIbL9cy/C2Vl7m85c3g6TI51EIbHfLC9h8O0jJ6fgHrtpY4rGL
+	08kayBMDGukcYg/QNo/plpZ072zNL/DySCmPjrKsTCznHdBeN8UXVE0looqITHXV
+	CSjb2q9owW+uO5CsIU7QdGzYYy2A7CSYd9P6FRWnSeZKPdrXY2GcO5p65ofbSXCx
+	kI4SBw==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hw0m8knaj-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 16:14:56 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-99c3b473613so9018241.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 08:14:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794500095; x=1795104895; darn=vger.kernel.org;
+        h=in-reply-to:references:to:cc:subject:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=VFyW3FlcFVuCcTw1UrnIFaWy9gAZYFzgF43VrM5oqOQ=;
+        b=MwZumgfoEOm5d26AKGeVF65ngzTwLKH5CVc8lCagWrkvFp+Laj1xFDiVulfoZ6aP6M
+         2bMP/gM3aFt/xrqyyrxmIaPowRezw+WFEg1Xj2rAtLAT5oYWhShXy01Hy4Q0hO57amq1
+         9Pm/1P1gME8FlVN3D0CwElj/dFC4Ts8OeSginsjNlPOm6dBJXBpM9PkQqQF0KPw+y2u0
+         tMnVJTK92rVjYrvtz8+6yrT9ErXXNdjiiPO2zOQx1dcqTeUvuE7CbXdbzir8PC82RRLM
+         w6zLnI0Ryk3lRoUKHTh38BdOX+GyjqUg4wAaUbMMyYc8XLQiXkM6jO+CbLw54WRyBkD4
+         gIQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794500095; x=1795104895;
+        h=in-reply-to:references:to:cc:subject:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VFyW3FlcFVuCcTw1UrnIFaWy9gAZYFzgF43VrM5oqOQ=;
+        b=BheEG+1+Kmi7pONe8GKertzXQKBUrDi8SP2DZADPn2twVokj3tO1gFDfh463H2kyyS
+         LNbRqR8T0MS2YhZKAaE9h+uN8yNWWtDtiWq4ANZtEmQtpYvuVr7qAfnotV9TDMoFcp89
+         Jn4P0wmpEjKh6pVt1fMSc891MeZ2PhtFDVn5n1TCjzVHk3toyl2eTbm/NAsKTdvD113s
+         g0o3EpGmitItLw9Tny86bsQ2CQ7dDo35DNp2ywvvL0yTxsCf3praIMvFzyBEGZ9FsnaM
+         vTw7T8w4KqDyL7tIU2TTIIAwSt4lEEuJ4bMKrPC3WCUq++8FXBA5Fe1IB3Nar9ydIxLG
+         8rVw==
+X-Forwarded-Encrypted: i=1; AL+hErH+KfGEET3sRXYZlq7hUAWZ2sexm3anwVPOQSqQptVnHN6A7PiMqcaUa+hMZNevZ+XEVfXY/Z1sgok=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8rBn/6dE1DIWJhhm+JSlivGnsmo0WbMCa2Au8H9OpMfgTvTeb+
+	RjjLbghG0icFxbmiK8Pd4nOHQI8JA37Wp/j62crhhprmzXRSLkOo3Q+bOEeBWLVKuRQ500cLG7e
+	Y5roSX65Cu1mNrxlnVG/wEeXXpURRbYBcOwo10vHN0tOnnR4TSG6hO5SME9MKIhQ=
+X-Gm-Gg: AYBFou091VfertbiYmwigIXANaGgxHOqdJ+WGeNqfiE34Pj3SESLHRqKW46nD66P/tU
+	tzF11utnED9IX6k6/8r0MWwI7X3cH32ArhIRiS40VdhjMqHHVng3wkZ7bo8CdR3Z6bvweA+T7cl
+	ksRAliWUbr2Ppeewl4XbczmL3ZN87ZVi2ENwkp5xeWjJ7+akDe04EvIBMMawyHLBGWWb61Qm/ZQ
+	R1h7yfqvC/QaFriG+Aa2uTYocyqVzRe+TFGy2FyiswGkiFeqjKU4/g8KqZ/YwtOIT7l5lmt4WQO
+	GamsdGI+hnQAR9rB9NONcQVGMlCM3mPseAkAhnfSpEhtjzgWFMvHiXTUCZXNoEYUIHTo0LSpc59
+	spF/2ij5ThePesA5J2zo+BNaoySdSEHFU/BZFQVjEmo3QkH2m2mOZAC/cNGcCQ5+2TVeMO/yQ5u
+	Y7xwofRjTVCEk=
+X-Received: by 2002:a67:e109:0:b0:7ae:c2ca:8e1 with SMTP id ada2fe7eead31-7d4fb25077cmr1920113137.11.1794500094871;
+        Thu, 12 Nov 2026 08:14:54 -0800 (PST)
+X-Received: by 2002:a67:e109:0:b0:7ae:c2ca:8e1 with SMTP id ada2fe7eead31-7d4fb25077cmr1920099137.11.1794500094134;
+        Thu, 12 Nov 2026 08:14:54 -0800 (PST)
+Received: from localhost (ip-86-49-245-11.bb.vodafone.cz. [86.49.245.11])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2842e6sm78783665e9.4.2026.11.12.08.14.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2026 08:14:53 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -74,57 +111,270 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 12 Nov 2026 17:14:50 +0100
+Message-Id: <DMTD6WT2DU30.AX3QK44UUYB3@oss.qualcomm.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?=
+ <radim.krcmar@oss.qualcomm.com>
+Subject: Re: [PATCH v11 1/5] riscv_cbqri: Add capacity controller core
+Cc: "Catalin Marinas" <catalin.marinas@arm.com>,
+        "Jonathan Cameron"
+ <jic23@kernel.org>,
+        "Shaopeng Tan" <tan.shaopeng@jp.fujitsu.com>,
+        "Zeng
+ Heng" <zengheng@picoheart.com>, <linux-kernel@vger.kernel.org>,
+        <linux-riscv@lists.infradead.org>, <x86@kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-doc@vger.kernel.org>
+To: "Drew Fustini" <fustini@kernel.org>,
+        "Adrien Ricciardi"
+ <aricciardi@baylibre.com>,
+        "Alexandre Ghiti" <alex@ghiti.fr>,
+        "Albert Ou"
+ <aou@eecs.berkeley.edu>,
+        "Atish Patra" <atish.patra@linux.dev>,
+        "Babu
+ Moger" <babu.moger@amd.com>, "Ben Horgan" <ben.horgan@arm.com>,
+        "Borislav
+ Petkov" <bp@alien8.de>,
+        "Chen Pei" <cp0613@linux.alibaba.com>,
+        "Conor
+ Dooley" <conor.dooley@microchip.com>,
+        "Conor Dooley" <conor+dt@kernel.org>,
+        "Dave Hansen" <dave.hansen@linux.intel.com>,
+        "Dave Martin"
+ <Dave.Martin@arm.com>,
+        "Fenghua Yu" <fenghuay@nvidia.com>,
+        "Gong Shuai"
+ <gong.shuai@sanechips.com.cn>,
+        "Gong Shuai" <gsh517@gmail.com>, <guo.wenjia23@zte.com.cn>,
+        "James Morse" <james.morse@arm.com>,
+        =?utf-8?q?Kornel_Dul=C4=99ba?= <mindal@semihalf.com>,
+        "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, <liu.qingtao2@zte.com.cn>,
+        "Liu Zhiwei"
+ <zhiwei_liu@linux.alibaba.com>,
+        "Palmer Dabbelt" <palmer@dabbelt.com>,
+        "Paul Walmsley" <pjw@kernel.org>,
+        "Peter Newman" <peternewman@google.com>,
+        "Reinette Chatre" <reinette.chatre@intel.com>,
+        "Rob Herring"
+ <robh@kernel.org>,
+        "Samuel Holland" <samuel.holland@sifive.com>,
+        "Sunil V
+ L" <sunilvl@oss.qualcomm.com>,
+        "Tony Luck" <tony.luck@intel.com>, "Weiwei
+ Li" <liwei1518@gmail.com>,
+        "yunhui cui" <cuiyunhui@bytedance.com>,
+        "Zhanpeng Zhang" <zhangzhanpeng.jasper@bytedance.com>
+References: <20261108-dfustini-atl-sc-cbqri-dt-v11-0-33a1bf0cf01c@kernel.org> <20261108-dfustini-atl-sc-cbqri-dt-v11-1-33a1bf0cf01c@kernel.org>
+In-Reply-To: <20261108-dfustini-atl-sc-cbqri-dt-v11-1-33a1bf0cf01c@kernel.org>
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDA2NCBTYWx0ZWRfX5OzuEvNoQlRU
+ b+V9S4mEpo1QFqCS0AAmX5Pi3S427CoeeuGp8PMSHkJxafOxy043VUYiJ02yPOzLMkVHLTpd/D/
+ OuSgMI884nNetm5jalGGpNGEdZwrp6c=
+X-Proofpoint-GUID: zQlT52MhThQQmN-5gijy5lerpaJz3pq1
+X-Proofpoint-ORIG-GUID: zQlT52MhThQQmN-5gijy5lerpaJz3pq1
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDA2NCBTYWx0ZWRfX96e1QjoJSLMU
+ H+zr8AE/8O1pB5gy26UdFf+KNj7+g5DanXPFwFx/zv5fkay2k45PSvxhmaZjmTz4zHnFcvF7TWr
+ DrPkQe+PC5ggOG6Tc0Zj+svvEnYd4itWsCznc/u2xCIW53Khez7xblqdjhJJJQ/JvIWPg8QPNqC
+ IFaTBxX1D0aWRj0/92p21P//9xF65wlbcESCrrCreUimnhaD6BBDAknIR94vG1VMIJyqx/qGUNR
+ LpAy70BASMyM+/4rwCYb3k51uhgpDRWTi3slGMqNGfeMCw7WihQr8Cg2PYvfmGUc8mLAa4Bt3LQ
+ t7Ds0/+CX/hJRXsolr/MrrEjXaxH9k1Wu8mJg1oDoIp2MNNVHhUFSFbMkctD8cj1Y/nEykIwc+a
+ i2JLabkEe9f5s6uQ81h1vGgoSMzH8YQquZNnq8JGltiRoHBktzPHioXb5/GWPa11PbMcax3dgpp
+ 7wCj04aspcIk0aJ+T2g==
+X-Authority-Analysis: v=2.4 cv=Q9dHcI2a c=1 sm=1 tr=0 ts=6af5e600 cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=4CXLxsOAgPM/krjtHEZQyA==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M51BFTxLslgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=VwQbUJbxAAAA:8 a=IpJZQVW2AAAA:8 a=MPNzcpqd3dBX2N5RN88A:9 a=QEXdDO2ut3YA:10
+ a=o1xkdb1NAhiiM49bd1HK:22 a=IawgGOuG5U0WyFbmm1f5:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-12_02,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ suspectscore=0 priorityscore=1501 spamscore=0 clxscore=1011
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611120064
 
-On Mon, Oct 05 2026 at 03:55, tirthendu.sarkar@intel.com wrote:
->  #include <asm/vsyscall.h>
->  #include <asm/x86_init.h>
-> @@ -72,6 +73,25 @@ static __init void x86_late_time_init(void)
->  	 */
->  	x86_init.irqs.intr_mode_select();
->  
+2026-11-08T15:20:50-08:00, Drew Fustini <fustini@kernel.org>:
+> Add the core for RISC-V CBQRI capacity controllers: the register
+> layout, the capability probe, and the allocation operations that
+> program a capacity block mask for an RCID and read it back.
+>
+> A discovery layer maps the register block and describes the controller
+> in a cbqri_controller_info descriptor. riscv_cbqri_register_cc() probes
+> the controller from that descriptor and adds it to the controller list,
+> which stays private to the core. The core owns the controller state
+> after registration, so nothing in it depends on how the controller was
+> discovered. The caller keeps the register mapping alive.
+>
+> Co-developed-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> Signed-off-by: Adrien Ricciardi <aricciardi@baylibre.com>
+> Signed-off-by: Drew Fustini <fustini@kernel.org>
+> ---
+> diff --git a/drivers/resctrl/cbqri_devices.c b/drivers/resctrl/cbqri_devi=
+ces.c
+> +static u64 cbqri_readq(void __iomem *addr)
+> +{
+> +	return lo_hi_readq(addr);
+> +}
+> +
+> +static void cbqri_clear_cunits(struct cbqri_controller *ctrl)
+> +{
+> +	if (ctrl->cc.cunits) {
+> +		writel(0, ctrl->base + CBQRI_CC_CUNITS_OFF);
+> +		writel(0, ctrl->base + CBQRI_CC_CUNITS_OFF + 4);
+
+nit: lo_hi_writeq?
+
+> +int cbqri_apply_cache_config(struct cbqri_controller *ctrl, u32 closid,
+> +			     const struct cbqri_cc_config *cfg)
+> +{
+> [...]
+> +	mutex_lock(&ctrl->lock);
+> [...]
+> +out:
+> +	mutex_unlock(&ctrl->lock);
+> +	return err;
+
+nit: guard the mutex?
+
+> +static int cbqri_probe_feature(struct cbqri_controller *ctrl, int reg_of=
+fset,
+> +			       int operation, int *status, bool *access_type_supported)
+> +{
+> +	const u64 active_mask =3D CBQRI_CONTROL_REGISTERS_OP_MASK |
+> +				CBQRI_CONTROL_REGISTERS_AT_MASK |
+> +				CBQRI_CONTROL_REGISTERS_RCID_MASK;
+> +	u64 reg, saved_reg;
+> +	int at;
+> +
 > +	/*
-> +	 * ACPI hardware-reduced mode unconditionally stubs .timer_init() to
-> +	 * a noop, on the assumption that no legacy timer exists. Some such
-> +	 * platforms do provide a real HPET, so let "hpet=force" give it a
-> +	 * chance to come up.
-
-These platforms must advertise the TSC/CPU frequency and must have a
-reliable TSC and a working APIC (deadline) timer.
-
-So why on earth would they need HPET enabled. Just because some hardware
-guy deciced that it's a brilliant idea to stick an HPET in such a SoC
-does not make it useful. Nothing uses it, so why do you want to enable
-it?
-
-> +_     * Only hpet_enable() is wanted here, not
-> +	 * hpet_time_init(): its PIT fallback and legacy timer interrupt have
-> +	 * no hardware behind them on such platforms, and registering a PIT
-> +	 * clockevent whose interrupt can never be delivered also fails the
-> +	 * local APIC timer's calibration cross-check, disabling that too.
-
-OMG. On a platform which advertises the TSC/CPU frequency the APIC is
-not calibrated by anything. It uses the firmware/CPUID provided
-frequencies. You try to support Frankenstein's hardware monster which
-does not exist in the real world.
-
-> +	 * This also covers hardware-reduced platforms that install their own
-> +	 * .timer_init() rather than being stubbed (e.g. Intel MID, which
-> +	 * sets up the local APIC timer only). None of them enable the HPET
-> +	 * themselves, so it cannot end up registered twice.
+> +	 * Default the output to false so the status=3D=3D0 (feature not
+> +	 * implemented) path returns a deterministic value to the caller
+> +	 * rather than leaving an uninitialized bool.
 > +	 */
-> +	if (IS_ENABLED(CONFIG_HPET_TIMER) && acpi_reduced_hardware() &&
-> +	    hpet_force_user)
-> +		hpet_enable();
+> +	*access_type_supported =3D false;
+> +
+> +	/* Keep the initial register value to preserve the WPRI fields */
+> +	reg =3D cbqri_readq(ctrl->base + reg_offset);
+> +	saved_reg =3D reg;
+> +
+> +	/* Drain any in-flight firmware op before issuing our own write. */
+> +	if (cbqri_wait_busy_flag(ctrl, reg_offset, &saved_reg) < 0) {
+> +		pr_err("BUSY timeout before probe operation\n");
+> +		return -EIO;
+> +	}
+> +
+> +	/*
+> +	 * Execute the requested operation with all active fields
+> +	 * (OP/AT/RCID) zeroed except OP itself. Every bit not in
+> +	 * active_mask is WPRI and gets carried over from saved_reg.
+> +	 */
+> +	reg =3D (saved_reg & ~active_mask) |
+> +	      FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation);
+> +	writel(lower_32_bits(reg), ctrl->base + reg_offset);
+> +	if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
+> +		pr_err_ratelimited("BUSY timeout during operation\n");
+> +		return -EIO;
+> +	}
+> +
+> +	/* Get the operation status */
+> +	*status =3D FIELD_GET(CBQRI_CONTROL_REGISTERS_STATUS_MASK, reg);
+> +
+> +	/*
+> +	 * Check for AT support if the register is implemented
+> +	 * (if not, the status value will remain 0)
+> +	 */
+> +	if (*status !=3D 0) {
+> +		/*
+> +		 * Re-issue operation with AT=3DCODE so the controller
+> +		 * latches AT=3DCODE on supported hardware (or resets it to 0
+> +		 * on hardware that doesn't). OP must be a defined CBQRI op
+> +		 * here. OP=3D0 is a no-op and would silently disable CDP.
 
-TBH, that's a horrible hack.
+OP=3D0 is a reserved for future standard use.
+(Hopefully just fails, but it could be worse if it gets implemented as
+ something other than no-op.)
 
-In the unexpected case that you can come up with a sensible and
-convincing rationale why enabling HPET on these platform is useful, then
-this has to be hidden in a reduced platform specific timer_init() and
-not glued into a random place.
+> +		 */
+> +		reg =3D (saved_reg & ~active_mask) |
+> +		      FIELD_PREP(CBQRI_CONTROL_REGISTERS_OP_MASK, operation) |
+> +		      FIELD_PREP(CBQRI_CONTROL_REGISTERS_AT_MASK,
+> +				 CBQRI_CONTROL_REGISTERS_AT_CODE);
+> +		writel(lower_32_bits(reg), ctrl->base + reg_offset);
+> +		if (cbqri_wait_busy_flag(ctrl, reg_offset, &reg) < 0) {
+> +			pr_err("BUSY timeout setting AT field\n");
+> +			return -EIO;
+> +		}
+> +
+> +		/*
+> +		 * If the AT field value has been reset to zero,
+> +		 * then AT support is not present
+> +		 */
+> +		at =3D FIELD_GET(CBQRI_CONTROL_REGISTERS_AT_MASK, reg);
 
-Thanks,
+I think it would be safer to also check the status field.
 
-        tglx
+I'm not too clear whether the spec actually allows returning 5 (invalid
+AT) when the AT is invalid, but an implementation that does that
+wouldn't surprise me.
+
+(For example when an implementation supports data AT and a custom AT, so
+code AT isn't supported, but AT in general is -- it could keep the
+failing code AT and just report the error.)
+
+> +		if (at =3D=3D CBQRI_CONTROL_REGISTERS_AT_CODE)
+> +			*access_type_supported =3D true;
+> +	}
+> +
+> +	/*
+> +	 * Restore the original register value.
+> +	 * Clear OP to avoid re-triggering the probe op.
+> +	 */
+> +	saved_reg &=3D ~CBQRI_CONTROL_REGISTERS_OP_MASK;
+> +	writel(lower_32_bits(saved_reg), ctrl->base + reg_offset);
+
+It would be better to do nothing than trigger an illegal OP.
+All our writes should modify the non-WPRI bits anyway, so restoring them
+does nothing.
+
+> +	if (cbqri_wait_busy_flag(ctrl, reg_offset, NULL) < 0) {
+> +		pr_err("BUSY timeout restoring register value\n");
+> +		return -EIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cbqri_probe_cc(struct cbqri_controller *ctrl)
+> +{
+> [...]
+> +
+> +	/*
+> +	 * The driver programs the v1.0 register layout. Controllers that
+> +	 * report 0.x differ only in capability bits that read as zero, so
+> +	 * they are accepted. Anything newer than 1.0 may move fields.
+> +	 */
+> +	if (ver_major > 1 || (ver_major =3D=3D 1 && ver_minor > 0)) {
+
+I think we could accept ver_major =3D=3D 1 even with ver_minor > 0 since th=
+e
+minor specifications shouldn't be doing backward-incompatible changes.
+
+(If we fix the OP=3D0, we shouldn't be invoking any other behavior that
+ might change.)
+
+I'd be more careful about accepting anything pre-1.0, since I would
+expect there was a breaking change in the spec somewhere, and we could
+program it incorrectly...  Do we even care about pre-1.0 hardware?
+
+> +		pr_warn("CC at %pa reports CBQRI version %d.%d, skipping\n",
+> +			&ctrl->addr, ver_major, ver_minor);
+> +		return -ENODEV;
+> +	}
+
+Thanks.
