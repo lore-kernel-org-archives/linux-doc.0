@@ -1,78 +1,71 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794492102;
-	b=MwwaQB0v/7wFtPiwP3JygMjcvD8v65VbUbNx+royAoHSEl0Zjn9bUgse+I90LW9M0G5H
-	 JEJHgnlQgMv0ulgYVb0i3GvXMAkwRc/IiXQp1H0qUf++cbjVJTtf5S4U4gmjX2lpOu3BY
-	 4tCXTNK1ua3GZa7iHBqGDV/sMx8CrVh3Fs10D2uVq8teoO656L1rboRQeK02zt8+u/yOc
-	 OqupVtyTAEUT25pflduE/evuBvFII7DDAvccyGSRspOoSr1Ae9+Q+BBaYuvlbBee98v9j
-	 yVXrQrhGlncDzfvTp0rjNOIq76apKX2PtIVDE2muMqI5pRo2NQnNDvfewb1HTHkbGSw==
+	t=1794492748;
+	b=KxC4y2GW3iYgtUrTPfzSP4FrOqvHNg57LpxS1P5hM0LhVEALH8Z7a96PjC8mrUiBusSY
+	 tqe75u0On2j2X+IyVDoKJ3V7hyO0sIfV8vumPqOUarzDs6OXK/Wxj61tA+MG6XUICzQF4
+	 EqHW7L9cbJ+LRiwI3RDmeEf5Z8YRY1v3KPKB/MW/GZDGVfjZEinaU/XhbpxjPUsT4kVT5
+	 rhs/UcHpH5zuMF8dPkOBFyMIe1PxETpH12vHFJtLDDH0cKR4Iku2OsgiL9WulpITJb0TP
+	 i6LUTgWmlDup4TQGO5JExDEqk4Q+GDaDQWCNsTiXvv2eqsidC+WhGV0qVVtsh2ZC67A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794492102;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=aBARur1dT4MWX+I/z1/h+o1yJLTVBc8hlb0hdIzvarw=;
-	b=WderqUk3eM3++J21ZoIeHZvjxItWtwrZhtojv5qW2NdagrxZY72e1x5qYm+VXwWkTBVF
-	 uFO5Bd5SpNH7FV/5JziXWspJmt9dU9yw672oy2k2Y2skIN4LER5AyT5zOUT3G0d/LXcTG
-	 w0D9f9sMadPAoZSIQf0Hx5/nNRHMBOG4u2O5bfQHIUD0mCNSbpF9AJouHnFShsEpGwrYk
-	 3dj71fn8KnOQde70WoOBYH12T54UTIxt4kXU8f+j58BBaVNNTbsw/VRW8+tegnZhywSQu
-	 zuYvkVNRZ8qcUZZIgqyfhoiKq3FCkyq6KWA9Cr6wLYbXAV2iLRsbCPo9EeA1/UFBGpg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794492748;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=LLgepSpmTFKlnz1y/yhLoyuPFm3/4g3SJxDL0aIX9Js=;
+	b=QU/lJYcSP2+a/lb0lI1JbWxexXoQA+qqUjxrXYg2T8oVwMjyyOPqqZS/5SUyV/gg9wjb
+	 kzg0e40O9TTn3ZWiV3FICWC0nfZ7mApXkbP9+Ncfl/F41eypk/rGUQkMPi6Iu9BWxdhRb
+	 LNGmpDAwDeFsXntRKCouHVx7hJYlCMTdd9oXtPsU23aZzfDrpJt6BS/6Ty3RrAEudXCiX
+	 AKreOxcPVCaXe3+JPvDnOUXe9l3YBFtrGB+eSk68xnAdoXv/38uKmsvx8IRpV53CGs65b
+	 xiPoRAb6PUPaEOX4PGhq5ASsL/xtzsidABShaMqemujZjnkxCQ3eaNJAZvDg0iXOI2g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bkJrwgFK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BbUv2Bdg;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FECE606AEAF;
-	Thu, 12 Nov 2026 14:01:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5154606A31C;
+	Thu, 12 Nov 2026 14:12:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bkJrwgFK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 458351F00A05;
-	Thu, 12 Nov 2026 14:01:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BbUv2Bdg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 310C31F00A05;
+	Thu, 12 Nov 2026 14:12:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794492102;
-	bh=aBARur1dT4MWX+I/z1/h+o1yJLTVBc8hlb0hdIzvarw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=bkJrwgFKZLz2eyZ08zR1vVS1gNY4lcsTVuOkKO5Zsi6J/MZG3VLrS6/SqAclPw5i/
-	 J9lPRoFaIuh+N72gjr/E9SBEKwkvmSKGhz4ux6exFmYwWinmRza2yHg0ThFnYJLujg
-	 21LXohipWNNThNQvznItQRLJldvnZFt85uHMd2TwqssMp19zdxjl/0ab65GF4n49w9
-	 gMmaFhDtk4gNQqhHcU5C4vhhDqpsVNVxhfel+TEX0vK1b9aFW8pXpgxBeT13jFVfbs
-	 NiKd0e1sAOAnlaqg+VAO0qh26QyBudCrQyLSo9rC9I+Pyg5mFyGfO10c5d61nOZAvy
-	 XXFGc1HLfcAyw==
-From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To: Stanislav Fomichev <sdf.kernel@gmail.com>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
- kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
- Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
- Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
- Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
- Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
- <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
- <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
- netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
- Mina Almasry <almasrymina@google.com>, "Mike Marciniszyn (Meta)"
- <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Nikolay
- Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Alexander
- Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
-Subject: Re: [PATCH net-next v1 02/11] net: Add memory provider capabilities
-In-Reply-To: <avTy21_cSnyMdbb5@devvm16445.scu0.facebook.com>
-References: <20261110102039.1002605-1-bjorn@kernel.org>
- <20261110102039.1002605-3-bjorn@kernel.org>
- <avOYe27x-AlxmyK9@devvm16445.scu0.facebook.com>
- <87mrrfa6c4.fsf@all.your.base.are.belong.to.us>
- <avTy21_cSnyMdbb5@devvm16445.scu0.facebook.com>
-Date: Thu, 12 Nov 2026 15:01:38 +0100
-Message-ID: <87cxsarvwd.fsf@all.your.base.are.belong.to.us>
+	s=k20260515; t=1794492748;
+	bh=LLgepSpmTFKlnz1y/yhLoyuPFm3/4g3SJxDL0aIX9Js=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=BbUv2BdguZCP3qKWTVs4X2hEbpYe5LftvnZVtHAJSag7IUmxIi1F3uLofwtRQodXa
+	 cHMylkh2Ehxhbu/lhSDiBE3UZ7Y4cPnWlvpvPjPmdNl92d+5DVryFIw2vGpVGQJOVt
+	 aOH3DcBHUTTb8OIHl6geEgQ8siBzrfZF4pddRQ4DYju0/EnBRGqS1PjHqK8gAqp32/
+	 USdzgTD+grb2FekH2CPFWpVcnmzH6yuIJc5F1HDHrOpWlSR3JEMkqXRcMWAVVwn4It
+	 hpVdE3pMIirn9HdaWMIwuKICKXMi2aVL7ljtZGPX2TTxykprori1a4MpTe+9NKOJHg
+	 S0RxDjO/5XTSg==
+Date: Thu, 12 Nov 2026 09:12:26 -0500
+From: Sasha Levin <sashal@kernel.org>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Theodore Tso <tytso@mit.edu>, workflows@vger.kernel.org,
+	ksummit@lists.linux.dev, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Mark Brown <broonie@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Leon Romanovsky <leon@kernel.org>,
+	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+	Thorsten Leemhuis <linux@leemhuis.info>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Dan Carpenter <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+	Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
+	Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v5 0/6] agents: add skills for Fixes tags, stable tags,
+ similar bugs, and commit messages
+Message-ID: <avXJSt_3DYx6aQsD@laps>
+References: <20261111225940.1573565-1-tytso@mit.edu>
+ <9c5f5976-ebed-48f3-94ab-1121231af6e1@kernel.org>
+ <avXCcPYM9VAP0JHf@mit.edu>
+ <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,51 +75,50 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org>
 
-Stanislav Fomichev <sdf.kernel@gmail.com> writes:
+On Thu, Nov 12, 2026 at 02:49:09PM +0100, Krzysztof Kozlowski wrote:
+>On 12/11/2026 14:46, Theodore Tso wrote:
+>> On Thu, Nov 12, 2026 at 09:26:09AM -0500, Krzysztof Kozlowski wrote:
+>>>
+>>> All these are docs (even if you call them as a skill, it's the same),
+>>> therefore they should be placed in Documentation, not in top-level. We
+>>> should not create one documentation for humans and another for agents.
+>>> It's just one documentation.
 
-> On 11/11, Bj=C3=B6rn T=C3=B6pel wrote:
->> Stanislav Fomichev <sdf.kernel@gmail.com> writes:
->> > On 11/10, Bj=C3=B6rn T=C3=B6pel wrote:
+Right. The idea here is that agent skills will mostly refer to our existing
+Documentation/ and will only act as a glue layer to make agents behave better.
 
->> >> +	if (static_branch_unlikely(&page_pool_mem_providers) &&
->> >> +	    WARN_ON_ONCE(!page_pool_supports_frag(pool)))
->> >> +		return 0;
->> >>  	if (WARN_ON(size > max_size))
->> >>  		return 0;
->> >>=20=20
->> >
->> > What's the deal with that? How do we get here?
->>=20
->> Hey! Thanks for taking a look at the series!
->>=20
->> An explicit frag call on a whole-buffer provider is a driver bug: UMEM
->> chunks can be smaller than a page, and RX gives the whole chunk to
->> userspace.
->>=20
->> But page_pool_alloc_netmem() also picks frags for small requests, so a
->> valid call can warn.
->>=20
->> I think it would be better to make it return a whole buffer and its
->> actual size. The WARN stays in the frag API, before taking a new buffer?
->> Wdyt?
+Consider, for example, one of the most common feedback points we have to AI
+users: "make your commit message way less verbose". This is the type of things
+that would make sense as an agent-only instruction.
+
+>> Skills aren't necessarily *just* documentation.  The skills
+>> specification[1] also defines a structured location in the skill's
+>> directory hierarchy for Python scripts or other executables.
 >
-> I see.. Idk, I'd still return 0 here, but without a warn. Not sure
-> we want a warn for any api misuse? Returning no netmem is gonna be enough
-> to debug things? As for the calls from page_pool_alloc_netmem, I'd also
-> handle it explicitly? if (size > max_size || !page_pool_supports_frag) ?
-> But no strong preference, up to you, was mostly trying to understand
-> what we are warning against here :-)
+>Specification is also documentation, just like for example specification
+>for our ABI. It's also located in Documentation directory.
 
-Yes, page_pool_alloc_netmem() gets the explicit check. Thanks!
+One of the reasons to keep it out of Documentation/ was that it doesn't mesh
+with the infrastructure Documentation/ uses. For example, Documentation/ is all
+.rst, while the agents.md spec specifically calls out for markdown, and a very
+particular construction of that file.
 
-For the frag API I'd keep a WARN_ON_ONCE, like the size check right
-below it. A silent 0 looks like an empty provider: the queue just
-stalls, and nothing points at the driver. With the helper fixed, only an
-explicit frag call on such a pool gets there... Wdyt? I'll probably take
-that route for v2.
+>Agents supposedly "are just tools", thus just as sparse, smatch and
+>compilers such tools do not get another top-level directory.
 
+I'm a bit confused by this... the original reasoning was the it doesn't really
+fit into either Documentation/ , scripts/, or tools/, so we just gave it it's
+own home. Why does it matter if it's a top-level dir or not?
 
-Bj=C3=B6rn
+It's something we can always move around later - agents don't care where it
+lives as long as it's refered to by the main AGENTS.md, so if we later come to
+the conclusion that it makes sense to move it, for example, under scripts/,
+then we can easily do that.
+
+-- 
+Thanks,
+Sasha
