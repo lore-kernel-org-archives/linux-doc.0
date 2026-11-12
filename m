@@ -1,107 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.145.42
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794512170;
-	b=eRefcspfem5cJEw6V5L6vyT2NsAhcWmq3sf9q8dlGGi/TNrIMM9t+WRo8jcgnwFPdKCe
-	 FIDjKlaw7GN8QuYBEkYrRMVP4hm7Q7MkfpYk3I4e1WHwWkbIWLO0QAyYa9LSmgbTQrk7x
-	 R1tLHJ45zvKF7QOlpniXiLjDYDkcOclBAstV2iT1faRFP6cC1B38NF05TwS6zKhNc4i8I
-	 bJggyBYic98DNSu+svcb//PsleGccg5asE8zHG+r43+wCVEUPMR2g8Q5WW/YhHiYVhpt7
-	 iJuUkeEpecl1b2Z+4/OGs+yi+fPkM2BXH/fmWQtJmU8w2BQer5qpz9mgFOzBeX5IEiw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794512170;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 X-Google-DKIM-Signature:X-Forwarded-Encrypted:X-Gm-Message-State:
-	 X-Gm-Gg:X-Received:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version;
-	bh=Q3u7I1yY3nJmuq+49fNnSVZ6NxAiKftF5EDGZUfjWaE=;
-	b=DJ5qNlGqd5VBDFX5c87TL+/OK1SMtoGG223PlXVcu5g/7va35gomFLys5sqPEwoiCWYN
-	 94UjFwsnO6v/oZqvA4n83tb3NQgN5E0B8KeJ/DOKXuh1HlIoWJkIK5OraMMv3TO8UBXh9
-	 iW36CzuqD8aFWbnOIGxFkYPT6kiwX1mZi/muy32aFECVBgpUcrjgYYCwQ7Bq9iFFh3DVU
-	 1DA+RbOHkPRY2vA23VcIK7p6gKZL009dqDWSuWbXpQTzBSKaxW8dfAxfPiM2E4iRJTc6e
-	 OLcARqnbbH52W15Uklpgkk4D4Eaw4ORz4loeAQbYIt7SAcED0sx84lfukWL8vIzXbUw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=meta.com;
-	spf=pass smtp.mailfrom=meta.com;
-	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=LU8nJzdq;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.145.42
-Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794513090;
+	b=o8q9FL1s4h0xv8rEm3XQyglIbyJepFFBKt6MwREZbZSNKZM0dD650mXtRYl8rDu8DhVU
+	 EuDv1hAA84BqRAU6/kUJd1PkknC2B7SYLKf66vww/RPhtuIbkLeAX70IORsgoSJlsudB1
+	 ciS/0oZcb2NZhZaIFhWy2hl5fn29ICgrpRjQIkXi+2Y9fXMnGFESIIzPsJPOAUw4UFXub
+	 nDRr7K4Bw1adg7U5TccPfBeVhyLO4Dbl7K21N55hNAwhkPSPN2sCQALIlAMGnAbN0S7PZ
+	 psAxdVWjr5T99fIEyU6X1R/gJISaJI1SQ9Y24rthGcNB10kR2qc/XsiYcrKCeyHUqTw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794513090;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=J5YHlMWLzixlGZAieAoDB/16KHmKEu6ecY+Dpg3o9Zs=;
+	b=vIJ0BzuOSSbqTGz2ArCxx6pF6s8836a06+cq7gvQMVKj4AXwlqq4PRZ38mR1jvtmTA9S
+	 IVqW94wRe8muk5rp3uHq6cLyeMPdzSRNaK+sZmRBzvuVVZncjwSyc3KtzQ4k1/j8l2Nob
+	 rbBHF7YOz5Zu/8SHNcajNi8QsEmEgzwdXCDJvENNcUDeXQOWOk41Zz6vXPPgfB/68fpvG
+	 Q0PDNMrH4NVzb2c0571u65HU4Oxb0SruNOJk2R8tmEOwmyNwi+iqaNQjSlvDv8K/2VTWe
+	 TRjzEbpOxHtaE9uEL/Vk1h/+3gOmJsxBdAbnqzA0Jytp3tNY4DD+kdYS1+hFM0EcH5w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YDNlhiDz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DB8E606A321
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 19:36:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7DB8E606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2CA606A327;
+	Thu, 12 Nov 2026 19:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=LU8nJzdq
-Received: from pps.filterd (m0528007.ppops.net [127.0.0.1])
-	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ACJOfl1705983
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 11:36:09 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
-	:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=pps82601-s2048-2026-q3; bh=Q3u7I1yY3nJ
-	muq+49fNnSVZ6NxAiKftF5EDGZUfjWaE=; b=LU8nJzdqTuFeXxiCts/Icr9sphO
-	9JwQ6qneW0n34BTZV0JOHdPmVmq6v/o8AAukNp0VfJtyC1BxJESUVBZnUPO6bTJz
-	heXDvu278xn0fp985Ow2X7KOpGQZ22QPNDE8ZkenXzSOzsL3mE+pV15Ld4NYN0ke
-	Z4xYE3FlOFj/3hNCfLYkNWEOgkL+E1fKr1d8mgMFhG4bM25au11LSDbP1ZpUQNkL
-	P4j6oE2OX8TxKs7kHuTuK5VSeUo2ZEx/0qtZHGl8RSf7BrtesxK08+eNxS3Ts9nr
-	J4HURg6r5rm/vNvQFI8Dm0i35N/VUkWCnNGSvZbKTT+YhzyAn8Y9jOOTXJQ==
-Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com [209.85.215.200])
-	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hwkk982q0-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 11:36:09 -0800 (PST)
-Received: by mail-pg1-f200.google.com with SMTP id 41be03b00d2f7-cd5ca3840c5so202844a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 11:36:09 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794512169; cv=none;
-        d=google.com; s=arc-20260327;
-        b=d4z5YwqqBsR7Uugi+fNjDsm1p765LrXJiOMA6R3c97iOIrV+2AlsIRyoRWMAZRvVus
-         ZEfxIic8VpkoUgTfAKWMLwTFKR32Tq9HuejtRodcR4qS915nUCT9mmZx7q4/YaqISsYU
-         +7BvOVZvrnbDO0uhm0rNnErCOVa6DyZZcnW+RlZfGhrnSYQGw1ic2qwLQMikG11mZTMd
-         I7X50Xd2xkFMsITv+V5F65I5Ft/oijwHatDKSwnQiA2sGuIATe94aLDshIjr92ikHSlm
-         fSfPWOuWYX962Auv4pxubVHAjflvVIr12eT+XqYe2BanskyEBgZYFnh69gYmczDvDseN
-         7iWw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version;
-        bh=Q3u7I1yY3nJmuq+49fNnSVZ6NxAiKftF5EDGZUfjWaE=;
-        fh=nsJWR7Ur8yU4gV3YRfcX2qPkLZP9tvXvjezQXPtfRhQ=;
-        b=n4I0yoHqjko+Dk22m9ivBZM58x1SkB5wA6yR2k6P/kivx8rkaeMGcASh2Id9mcH1yx
-         xiivJRrGEsrHMp0n/SkyPo/d6/9jcZEkMnuO2225ktXox07/3Uwwmh0HQLr5JUJ4nbiv
-         uuY70DDyXBOlfH1MY1EjrKsoOiAFngvsCMGGHCmysG5m5AdJOW4Z6f9SYZVhXJr4Sa/y
-         EuqcUsCyGG5MZNJTKZFxnQrD3pxgTCWMJA4cJrPiYYlQCshs8WQ7/ayd3laXrrKdSQOR
-         M8TtL1UK9D+2XK61saHFfOywtGjWHNUXs9wuyUIvwgjvZ4oWS6H0GAAde3Ekti66GcFS
-         uq8w==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794512169; x=1795116969;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Q3u7I1yY3nJmuq+49fNnSVZ6NxAiKftF5EDGZUfjWaE=;
-        b=zgsCww2McLUoZj61TmUV7A3W9B8L96CK5+LpYOLXQQRKZRAQe/1zpBzIXZwwY1wrv+
-         dvb/5WQOsK07QEWSI0YBzAAuXTVCPNy6QYjc2aLZEG/H5xXjRe5ZSHAqtZF4EE+qIj9w
-         fan3yyBzB8zq/jGbxDF1P+ZtIJie3VbT1Bxj0rH/9eZcxTcvrS4bcNefdwQ0jEoK4eDJ
-         bxTbbZx/2Rxn6kikmBU21iiNqFlYnidHuIS2uDSyQpKfodtTKiUDG2U419XWdSAuby56
-         I4M8Cw4Ecb0CwwCwRrV2ByEX9irvaYhw7lsYKIItLLq4JU3gsZbGvgo0iPJGBPJL0QRz
-         hqKw==
-X-Forwarded-Encrypted: i=1; AL+hErFPNqOS98r7UpBggCLX6AEimzanBLcVDq3W+TFg5wL5+7/TTHrrx7GK1kVhBtH0i+ITJyUSl90MQHI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ZEnDUHDyhRA2KsYDASmce2lgnxBG+D8uRSyCccJuUgaqPA1ne
-	2PpHOklL9gUiWQMlvkto8wsa9Ckd/GNG0Nup6ytmK9bwsmX/sYnwh3WI6OzALgw63ZtABGqigdl
-	yk6/SQP1TnD2AVSSW5J6dGxMp4VpDXHL7XEyXasQQVXiXrAOL2Mpk7qCNdNBYMXJz2X2gf0Bloj
-	3ek9usqhQsgYeMgAe1Ee0doSmLNOhraSj4bR4=
-X-Gm-Gg: AYBFou1L9v1RfPLoJXLQwtoNzqBGU6fgH+QK5EOM4Pktu7jIhUGkyzLI4xspgwE5/iF
-	rHjdDqvvCJcVOA+yx0F01pkFzDiEIdb5QCy3fhThzCeqs9fo/VUPOXlJIpBe2jSNYzVpb15nUec
-	KQHpP3z9wdVfL84bm+XjU5M3uG5qphZHrV8c2KaVGNfJDtAssqY+wjqF6Q+I0oJNsQ/YJ0Dr8RJ
-	bL8DbOdvylhoY2cPmGDpF4NRa5xOzok
-X-Received: by 2002:a05:6a21:798f:b0:3e2:2b76:bf40 with SMTP id adf61e73a8af0-3f7a6e9f331mr163989637.26.1794512169085;
-        Thu, 12 Nov 2026 11:36:09 -0800 (PST)
-X-Received: by 2002:a05:6a21:798f:b0:3e2:2b76:bf40 with SMTP id
- adf61e73a8af0-3f7a6e9f331mr163970637.26.1794512168673; Thu, 12 Nov 2026
- 11:36:08 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YDNlhiDz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C70A1F000C4;
+	Thu, 12 Nov 2026 19:51:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794513089;
+	bh=J5YHlMWLzixlGZAieAoDB/16KHmKEu6ecY+Dpg3o9Zs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=YDNlhiDztLYpch6dqmeK4d/fJdLblsXSh91VJXz40SJ9cUOTncJMi+qJXByJG/+kE
+	 +DYitf3rLVS32dgj1tn8IKs47A+pnKprk9/9BrxrwCSvn6rwbUljhsyuikM5ZgbpnS
+	 jxQOTmhsK4ZN745Lw4PuHRF6wxmjyiwpJPiGWK3Rp0SFDnnFfT6xOyR+smWuVpYfq4
+	 EJfhtaV71jhRmVTGE6yxPBTbuLt6sIuY0fdOesbRHjWE29sVf2l0KN5+0YUwWbI0qj
+	 5SsntQDys/KtKLuSKpYr/NDlDse0nrF6EKcwBRqsu7XS3XGtw47uH6XkSyRhgEs+cB
+	 cMqbgAb0je2iA==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Stanislav Fomichev
+ <sdf@fomichev.me>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya
+ Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song
+ Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
+ <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai
+ <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org,
+ io-uring@vger.kernel.org, Mina Almasry <almasrymina@google.com>, "Mike
+ Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
+ <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
+ Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Stuart Clark
+ <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 05/11] xsk: Install UMEM page pool providers
+ in the core
+In-Reply-To: <avXeswRldufJ8Nor@boxer>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-6-bjorn@kernel.org> <avWo1bY5MSN1XvHL@boxer>
+ <874idmrtq8.fsf@all.your.base.are.belong.to.us> <avXeswRldufJ8Nor@boxer>
+Date: Thu, 12 Nov 2026 20:51:26 +0100
+Message-ID: <87a4ndrfpd.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -111,55 +81,184 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261111005533.6436-1-toddfreed@meta.com> <DMSJJY9PLHSR.39PSNUXEC82J4@gmail.com>
-In-Reply-To: <DMSJJY9PLHSR.39PSNUXEC82J4@gmail.com>
-From: Todd Bert Freed <toddfreed@meta.com>
-Date: Thu, 12 Nov 2026 11:35:57 -0800
-X-Gm-Features: AclHuK-L78K4XX2ZOiQNpBmdIZKiLWCeJjgy0X9ZblQI3qzdXkkSafaXrEWKuy4
-Message-ID: <CADh2yMzE1ipKD7N4YBjb0oP1Ko-Z5J6uN4k4_kK=gosHyfsKWQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v1 00/15] psp: introduce socket-less associations
-To: Daniel Zahka <daniel.zahka@gmail.com>
-Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
-        bpf@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>,
-        Donald Hunter <donald.hunter@gmail.com>,
-        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
-        Jamal Hadi Salim <jhs@mojatatu.com>, Jiri Pirko <jiri@resnulli.us>,
-        John Fastabend <john.fastabend@gmail.com>, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-rdma@vger.kernel.org, Martin KaFai Lau <martin.lau@linux.dev>,
-        Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
-        Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
-        Wei Wang <weiwan@google.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDA3OCBTYWx0ZWRfX41kCiSS2zjGC
- 35/LO0aqY3IokPeZRir4tk/BmkEO71E0GLebxcGylREkpOC9jQVv2hB0MuY6sOQkrhyQNILsVK1
- em5uB0/l+DoHrouk6RzyjvE8XG6xJq0lLtVdHoGeRPO4OmVoR042GSaReiTDWitOS4Qd76to3mp
- 0G7E2fWv7B8jz7Ll7Wtugck8SgumVuafkq6Xs3+J/DnINwjgteHk6SJ8a/WPfnYuzdtw1dUBruX
- AvsG+3aJQw2a11BDnJ+09IgBDrW2NCFTNkw8Sf9URwSrkWADWCq8j/+G34nGBrNJoMDr5mGKgew
- CbCnwPZUDs4iyHSnjR8AMtrrP3E5pVkbA3Ia+blsd+i0nHevLMF2bTTx+Ea/rdhNT0Scol2Sjx4
- +4rBlNbwanDNdYOz9B4Nhlbn5sHk6m2bMhaJkQqoY5TK/ra8SFi8A6aCBGpR4hMnKCV/83/uOQF
- y+RXbo8Qakx1pcCCQbQ==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDA3OCBTYWx0ZWRfX9avIClXbidUu
- Xt5ZBflUlXVT/29PRYaqKuwaz0niqVLSiiPhOI+StEbdm19peqDgtlE0CD3S67kKZBy9eWhSfRO
- P++mXR2SCBnPip6UIWKrfTZ6ylvuw8E=
-X-Proofpoint-GUID: iupAKGYkgvJfPz4Wn3d9TjVfiiXtDAWY
-X-Proofpoint-ORIG-GUID: iupAKGYkgvJfPz4Wn3d9TjVfiiXtDAWY
-X-Authority-Analysis: v=2.4 cv=GrXXaU1C c=1 sm=1 tr=0 ts=6af61529 cx=c_pps
- a=oF/VQ+ItUULfLr/lQ2/icg==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=4h92JMTCafKA-fb_NiOh:22
- a=FSGtspZVazLKPRRdjFEA:9 a=QEXdDO2ut3YA:10 a=3WC7DwWrALyhR5TkjVHa:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-12_02,2026-11-11_03,2025-10-01_01
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-> Some of these can probably stand alone like the bpf decrypted, psp encap
-> helper, and timewait validation, and be submitted first to shorten the
-> series. That's just a suggestion though. If there are dependencies on
-> the main series you can ignore.
+Maciej Fijalkowski <maciej.fijalkowski@intel.com> writes:
 
-Ok, I will re-post 6, 7, and 8 as Fixes to net.
+> On Thu, Nov 12, 2026 at 03:48:31PM +0100, Bj=C3=B6rn T=C3=B6pel wrote:
+>> Maciej Fijalkowski <maciej.fijalkowski@intel.com> writes:
 
--Todd
+>> >> +/* Called with RTNL and the instance lock of @dev. On error, @pool->=
+pp stays
+>> >> + * set if an old page pool still owns chunks; copy mode must not tak=
+e the pool.
+>> >> + */
+>> >> +int xsk_pp_bind(struct xsk_buff_pool *pool, struct net_device *dev,
+>> >> +		u16 queue_id)
+>> >> +{
+>> >> +	struct pp_memory_provider_params mp =3D { .mp_ops =3D &xsk_pp_ops };
+>> >> +	struct device *dma_dev;
+>> >> +	struct xsk_pp *pp;
+>> >> +	int err;
+>> >> +
+>> >> +	if (queue_id >=3D dev->real_num_rx_queues || pool->unaligned)
+>> >> +		return -EOPNOTSUPP;
+>> >> +	if ((dev->xdp_features & NETDEV_XDP_ACT_XSK) !=3D NETDEV_XDP_ACT_XS=
+K ||
+>> >> +	    (xsk_pool_uses_sg(pool) && dev->xdp_zc_max_segs =3D=3D 1))
+>> >> +		return -EOPNOTSUPP;
+>> >
+>> > that is checked elsewhere, in xp_assign_dev() I assume.
+>>=20
+>> Ah, yes! I'll do the common checks first in xp_assign_dev(), and branch
+>> after.
+>>=20
+>> > Why there are skb mode checks?
+>>=20
+>> (Note to self: I need to make some details/designs more obvious in the
+>> cover!)
+>>=20
+>> Because the provider is turned on by the queue API at bind, not by an
+>> XDP program. This is a big difference. Once the socket is bound, the
+>> queue's page pool hands the device chunks from FILL, whatever program is
+>> attached: native, generic or none. A generic redirect would copy into a
+>> chunk taken from FILL behind the provider's back, and a provider pool
+>> doesn't have the heads that copy path needs. So 07 drops those
+>> redirects.
+>>=20
+>> The checks make that visible (I hope): with a generic program attached,
+>> bind falls back to copy mode, where generic XDP works, and attaching one
+>> to a provider queue fails instead of dropping everything.
+>
+> Might be a dumb question but couldn't you forbid generic xdp attach if you
+> detect zc socket active on netdev? Or can't you have some deferring
+> mechanism like other drivers do? Or is it now not possible as decision at
+> that other drivers is done early at napi and here you don't really have a
+> way to distinguish it?
+>
+> Another thought here - if user binds ZC socket and follows with generic
+> XDP prog, then i'd say something is wrong.
+>
+> You generally *need* native xdp prog for resource bringup. I don't see why
+> we have to worry that much about generic hook, which probably lacks real
+> world use cases (sorry if I offended someone actually using it) ?
+
+Not dumb, and that's what the attach check does: a generic program
+fails to attach while a provider socket is bound, and a bind with one
+attached falls back to copy mode. With those two, the drop in 07 can't
+trigger, so it goes, as I told Stan. I agree generic doesn't
+deserve more than that.
+
+And I'd rather not tie the bringup to a native program, as driver ZC
+does. That adds state: attach and detach would install and remove the
+provider, restart the queues and handle that failing half way, and
+whether a bound socket gets zero copy would depend on the program. Here
+a socket depends only on its allocator, set up at bind, and the program
+just picks the packets that go to it; the two are orthogonal.
+
+That also leaves room for a mode without an XDP program, steering flows
+to the queue like devmem and io_uring zcrx do ;-)
+
+>>=20
+>> Driver ZC is different: ice and i40e use the pool only while a native
+>> program is attached, so with a generic one the queue runs on normal
+>> buffers, and the copy is the only FILL user.
+>>=20
+>> > You sort of introduce totally separate control path and rx data path. =
+It
+>> > is hard for me to buy onto the management burden of all this new code =
+:(
+>> >
+>> > I believe we should break this up onto smaller chunks and don't try to
+>> > solve everything within a single set...or wil that not be possible?
+>>=20
+>> Separate from driver ZC, yes, but not new: the provider binds the way
+>> devmem and io_uring zcrx do, netif_mp_open_rxq() and a queue restart,
+>> and the driver keeps its normal page pool RX path, with no ZC RX loop of
+>> its own. The cost moves into the AF_XDP core, and xsk_pp.c is real code,
+>> I know.
+>>=20
+>> It can be split:
+>>=20
+>> 1. preparation, no new behaviour: netmem frag addresses, the page pool
+>>    caps, fbnic's redirect and netmem patches, the TX metadata fix;
+>> 2. the provider for single-buffer packets, with fbnic, without the copy
+>>    fallback or fbnic's shared header/payload pool;
+>> 3. multi-buffer.
+>>=20
+>> Not sure it would help much TBH.
+>
+> 1 as prep would be good, but I believe we were saying new ZC drivers are
+> supposed to include mbuf support from day 0. Otherwise it might be hard to
+> enforce this later.
+
+TBH I fail to see how moving 1 to a separate set would make it easier to
+review.
+
+>>=20
+>> The provider, its bind and the delivery need a driver to land, so 2 is
+>> the smallest set that does something. v2 also loses some things (but I'd
+>> like to keep the validate ndo_bpf), e.g. nr_pools and the duplicate
+>> checks. And I'm happy to look after xsk_pp.c. Would that work for you?
+>>=20
+>> >> +	if (dev_xdp_prog_id(dev, XDP_MODE_SKB))
+>> >> +		return -EOPNOTSUPP;
+>> >> +	if (!netif_all_mps_have_cap(dev, MP_CAP_READABLE))
+>> >> +		return -EBUSY;
+>> >> +
+>> >> +	err =3D xsk_pp_validate(dev, pool, dev->mtu, NULL, NULL);
+>> >> +	if (err)
+>> >> +		return err;
+>> >> +
+>> >> +	dma_dev =3D netdev_queue_get_dma_dev(dev, queue_id, NETDEV_QUEUE_TY=
+PE_RX);
+>> >> +	if (!dma_dev)
+>> >> +		return -EOPNOTSUPP;
+>> >> +
+>> >> +	err =3D xp_dma_map(pool, dma_dev, XSK_PP_DMA_ATTR, pool->umem->pgs,
+>> >> +			 pool->umem->npgs);
+>> >> +	if (err)
+>> >> +		return err;
+>> >
+>> > Couldn't we have this part common across drivers wanting to do ZC?
+>>=20
+>> It is: this is core code, and no provider driver maps UMEM itself;
+>> netdev_queue_get_dma_dev() gives the core the device, as for io_uring
+>> zcrx. Driver ZC could map in xp_assign_dev() too, but drivers differ in
+>> DMA device and attributes, so that's its own series.
+>
+> I meant existing drivers do this on their side, idea was to make it common
+> before your set so that you could reuse existing code.
+>
+> I am wondering what is the end goal here. If we would have enough of work
+> force (or tokens) and time and willpower, I assume we would have every
+> current xsk ZC driver converted to page_pool and finally orphan the
+> MEM_TYPE_XSK_BUFF_POOL.
+>
+> That might not happen, so I feel like I sound like a sentinel, but current
+> code can't just be abandonded. Hence all these asks for code reuse, etc.
+
+I'm not saying we're orphaning anything. I am trying to reuse as much as
+possible, but some parts does not fit. Like using xsk_buff_head -- the
+page_pool return netmems. Type type is PAGE_POOL, and driver typically
+use a stack allocated xdp_buff.
+
+The end goal is enable the XSK core, so that a netdev driver does not
+need to build a secondary shadow driver for XSK. Instead, driver
+supports the page pool + queue restart APIs, and you can then use XSK,
+devmem, and iouring zc with less code. Initially Rx, but we need a plan
+for Tx as well at some point.
+
+It would be awesome if over time we move from the existing "shadow
+driver" world, to page pool and the provider, and MEM_TYPE_XSK_BUFF_POOL
+goes once the last one has. Until then driver ZC keeps working as it
+does today, and v2 will have numbers for it. FWIW, I'll keep converting
+drivers too, not just land the core.
+
+The fact that Linux does not have a driver ABI, which IMO a strength, is
+just for work like this. We can clean up drivers, as the world change,
+without keeping old stuff around forever.
+
+
+Bj=C3=B6rn
