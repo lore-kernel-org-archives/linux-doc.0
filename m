@@ -1,55 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794473443;
-	b=hlt4fPl5faPZONew4U03b9CP/4UUg5ozn2HDnNdHo15O7f1hjuq0e62dNKx3FIzzTLbD
-	 emuI3xq14AmlNH1E+dT8p96HXprMYrXNzNAoHbZnefV2BSASlVUgiLSCJY9ZZQl2vCV06
-	 mtK8aT+aPq+3Ug5PZaNxdh8zY2ieXb7nwSSqoml8P185XNqO/Vd+Y8ziHpWDzG//fybC4
-	 7bWppn4l04qLftdfATg32VE6ysMsSbDpmhq2ArkYrLt25JICs774OjfkoOQKfbLCY3W2S
-	 5ul+EAFK3j8URJ8W0v0GUzck7RRcIZ/2t6JUrGewiuVkw9QcPWpt5bjJO0sc/VlqHBg==
+	t=1794473746;
+	b=w3z6ckOu+gmpxf2W5x54LsSLf/9cMgBbIqiQHltCzKa34/rV0h3XHrF/uQgOwLzw5Ep6
+	 NtDwFgHv+2+GdqQJCusV+0EOBsOugOC8+0lHA2Uopiy8opgr1W80R05kzfd4q0xQeCl8A
+	 jlItitg4hjUgY+59uh1YAe2o9iYxHG/3KIlJpUu7OB6+Sw8GH3/rIEnkpoR8mvl9BiLhl
+	 a1uzMXkn5EPjuVr0iD2CIEItZJCIOqp01C0y2d0WwU/YUhy0+0LtPWQ7JiQ5NMnwdYNFM
+	 g4bjLRLtQuC/L63iiyklgFMAuk3K7hI4mb4x/4blc1f9u2Mt3PgBPOg2eu+Fpj7vkhw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794473443;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794473746;
 	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
 	 X-MBO-RS-ID:X-MBO-RS-META;
-	bh=Jl6qvweGQpW+nbs6axEr2+kW3talX+zQg1ftatVYsHs=;
-	b=pRsj9AR8KACMD9OtMphPCCsf+GaboSOjBM61vXHMXOcpNjDwKfWx1JY/bbiDphJ41bfO
-	 Rq3/HJ+n8OVRKctlfeY3jMk+nOrtfVxql88456udubbqRPj3G50c4/+/LjEH9J4aZ93Y8
-	 S3vDNg66p35i362ZFGBsiQ+y1mfVN0cH5vSVnxNgiCYsn4wDEtxR7hjXtEAgrurZ74LfA
-	 eWR1wPOxBmEx8gcJwh548qQAPJUyTQWs9l6c9CMU3nEjX/SaPmE5jyJSZK8NdfR9E5gy4
-	 ftjLPw0jbvOpUawWnv0CuOZxwTE5H5jxof60V+fKotGTZ1uUbPSSE869XtJXYkGYTlg==
+	bh=TCu25d7YQ3auCIraQqdTamY0CRB+Uw4hfswgArnbkAw=;
+	b=MK+Twgh59teD21HJ33Qa1XvsliWsDVti28Ee3D5fLJzWSlyrUfvqs67JQ5OHCcFePDe/
+	 G7kOcj7PnrePDfFWG3h0kQ/ilWZr3PyIHcTD81+nyQ1ZVklKIMzIvfZTTyoSpcRCI2K9p
+	 il+anwtxYC2Dbz8rY40aME4DG8OIt5lNejX0BTq29DF8cuq3lGCKYyZRR71emU+GszIbp
+	 3/DZkF3YBq1d+LH7Oy3rKkJ1EK19qQ2XDZSs7T4FU2OyddggOvs8JMFURH/gWGSUemz4r
+	 UTT5im/o+M6mscYdPatMDrrClCoImHW/6/JmiEptRcnXZovEHsZVPfm4XyENvrkX34w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=mailbox.org;
 	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=o1+ctg3A;
-	arc=none smtp.remote-ip=80.241.56.151
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=JfGNihDJ;
+	arc=none smtp.remote-ip=80.241.56.171
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7165E606A323;
-	Thu, 12 Nov 2026 08:50:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7165E606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1900660A2634;
+	Thu, 12 Nov 2026 08:55:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1900660A2634
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=o1+ctg3A
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=JfGNihDJ
 Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jQDcZ3V5jz8scj;
-	Thu, 12 Nov 2026 09:50:38 +0100 (CET)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4jQDkP1PCwzMlYB;
+	Thu, 12 Nov 2026 09:55:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1794473438;
+	t=1794473741;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=Jl6qvweGQpW+nbs6axEr2+kW3talX+zQg1ftatVYsHs=;
-	b=o1+ctg3AI8mAuDCIAekF0xijzSx8q/PNpGDgu/XD/6NaMvyv9KWODOzBW5mwvew57Sau0T
-	5gQryaRnse9hE4/Su7IXk6oOgkOcDse6qI4B296/APurNYArbqRhwhxYqUENsPkqzqN2LB
-	1vip+Qz6qrT2YjWVstbOlvb+Gh9tmwOd3ECTq3CmUVjiIW514r0HavXPKndaXIzmxMxeRo
-	dDdmuHgEXeCJiUN7/RbZE9eM9ZfLlj2P0nql8qfpKkdgigIhDjVz1Uq2406c1jYd0BxmzC
-	0WM0Hz7M8y9I/ZVwdPBkD/0PELsbp9gPEYKmJ5W6Sllrz3QcwofCYR7il64/Tg==
+	bh=TCu25d7YQ3auCIraQqdTamY0CRB+Uw4hfswgArnbkAw=;
+	b=JfGNihDJUbIo6IwNSjFKk54fFoAD24w0db+eMuqJQtqtmn+f9yX1hx38J1TUxi8yIdfQjt
+	PkDcp08QKWcfd7cC6pvqP27TWCF5o34jYqeWAt7iUw59UEYf1VTNCrS4jaNe7DpLiMvzxz
+	YGYcUXn/LbG4ZS17hNnmUafTr9T3N8lrB9dlJMKPUVblKvsncUmjCqZPNnwICBbUfD4J4N
+	yPunYtH6YOaVnt7fGZI5DK7aP9cO8yX6t2BAdok5hXFvPLOzfHC3OXpCyzr1Ob+bLPfpHX
+	vmVh+kEe3K3NY56dcWvEIdf7ILFzYoCHvogO1TpbURuPHomRHNYpi4/3M/hQyA==
 From: Manuel Ebner <manuelebnerli@mailbox.org>
 To: Naveen N Rao <naveen@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
@@ -64,8 +64,8 @@ Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
 	linux-trace-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org
 Subject: [PATCH] docs, kprobes: Fix bracket
-Date: Thu, 12 Nov 2026 09:50:16 +0100
-Message-ID: <20261112085017.690228-1-manuelebnerli@mailbox.org>
+Date: Thu, 12 Nov 2026 09:55:11 +0100
+Message-ID: <20261112085511.690900-2-manuelebnerli@mailbox.org>
 X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,12 +77,12 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: ecb4fad61c4526f25ba
-X-MBO-RS-META: cpakoubau8wcpqht9m9798awgf3c1z4d
+X-MBO-RS-ID: 8812441d6ea7d1b9a2a
+X-MBO-RS-META: zqn69xhbtjwnhytddi4rf9edzixtpgre
 
 Remove needless ')'
 
-Fixing: a1dac767622c
+Fixes: a1dac767622c ("kprobes.txt: standardize document format")
 Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
 ---
  Documentation/trace/kprobes.rst | 2 +-
