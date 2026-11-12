@@ -1,68 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794493953;
-	b=zy85NMXa9yBfM/XROylWW3HTeSjo8FoYMB37XwX9HFX4Qtiocl2TbyvopBlcbKJQvBq0
-	 yC4FZqdfxpIjJE9/2sX0rxRDnb+mHoBPFsaC9e679s+qcY0vfnSLXUsJR6fThAYv0D0g0
-	 HrVUbzg2wMyTUAJJ8Geqm8dUiKNzI7pkWTu+JTzgqPP53Tk2yGmaz2T130G6/WPgYuQ2c
-	 IFPsGglfONi5dRizzJim23soXs9Ngx8hRAjXRutouYohYXuGpzyOkJozQofjbPT72vsAZ
-	 wX6ZzWHmUQU8xQnoeAsD96wDsXCV9qjHosJFfQf2dc3gop0UUBdvKS40A/gwm1Ehoew==
+	t=1794494055;
+	b=2LQ2XkiZVTS+KHTLLMPoUXpNL0fqNbf2cNYfLrE7oUstsSnyqPwMdwXo2GCWsJKM5DTT
+	 dJx8JLQAS3adp9CehgXYZyh+a2W3YvA7eJ2DKANkn+GtwxP+Nwu5GIeUFafn5OqxsmHPA
+	 noa9WVZvNyeU6qrLXFrvi5s/nrMZGzI8DSj3hm/ofDuPx1mFEuNEfZKwExJzdMg2KmDjk
+	 C7qx02nZcWkm4dWHDVhX23X++L0QszkHRrmq+Nz+Sgdw9lpXmvrO6VG3R7o54ayPOwPsu
+	 ykonSrY62itca1eMs2v7T1HdbhSYyk+o04gAu3eLiizfZCT0b6XU78zQaDYq/tlKMuw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794493953;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=SRsR6NpxjPS64bA39YhcsanfVCLNt8wtt6lU8BZ5cWE=;
-	b=D9uHXUwb0ZkF8/L+917PHvzORP4EdSsA5CHcscCUq+KiEkWQ7HRSUDtUEFK/uRmbhTX+
-	 UeacwXsO/X2JBwUYUb1zkUTobayEroI8QgLcErSBY1Ce1lyAtNFzQjn37q+M6FKE4Q1z0
-	 gxNfmkPYVqkjnP5BK/A9POs/jiV2HbxxZEUvCe6VciAgBFpbl1/0itakNHlyMdcF+WhuC
-	 nwiWhkIG8ngMctegIBSgcrqd/lMGwBIVX6zC5SCFAb3aqkdQhKyfz7vwAMMkNWuZGgdb/
-	 dncyQYbxhQY9MrhMHbTRXwdaN6istROD90Q2rN57OEzorKBz5J3B3lzySgocAaNBrlQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794494055;
+	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
+	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
+	bh=fEJo6vbvhz1XZl5tpxWvOSvlbS9UMk64Ct6jD/81+qc=;
+	b=wmPfWxpunDhtAMLEmXaIRYufimMhC+Rk2uuA/za1z0BycBwKLuf1PMNtMHotQLQipyff
+	 UnMl7iocRc0SYVBjkpmruNm7JL/MxlBXXlsHYYPY7HusEoyz2Sw/agExXkE+MC2JocObj
+	 I13oj4T2uLJa6rkrVi/u+slIs7sV303uVJxfudWT43/84wjag/3i9gdBnwzzRURVyZMyF
+	 EcEqRpaxsNwsvjJOP3CNJWsyRWBacCXnR6ah/+THJ3FWbX/7TznsXZIiN4JSMJKG3L1ty
+	 6PVh+gYmEuzT+gjk8uc9CTpHTHShSG9ccKrXVzAQDCin8inBbKQRZrP2uS7ChFOnLNg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lz9Obzzk;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lwn.net;
+	spf=pass smtp.mailfrom=lwn.net;
+	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=OnZtIQnz;
+	arc=none smtp.remote-ip=45.79.88.28
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9188A606A337;
-	Thu, 12 Nov 2026 14:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BCE606A327;
+	Thu, 12 Nov 2026 14:34:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 24BCE606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=lz9Obzzk
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E10E51F00A05;
-	Thu, 12 Nov 2026 14:32:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794493953;
-	bh=SRsR6NpxjPS64bA39YhcsanfVCLNt8wtt6lU8BZ5cWE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lz9ObzzkCRqsNKHqjCsSBDtdF7t0b6TL9jurXhMQ/f1cLZvy1IZIBXK7Xo/Kw9K/E
-	 soV05z14W5WCpRmBJpmq06BcGKBDI4LrxO3OffRbtoPBs/UiUBJ8K/Q8LELMohEXkT
-	 oWgjbWxEzPgKbE6yfCF7AZZW4x/kQS2W2qOoE4ijyhul2X/8Bd7zKk/561owsyZ9Nm
-	 XSeEsNez/zA6y6JpC0BMAhKh0plB5xcxYvZ5nfN1H5DT35kmbYI6WBJz/repoDbJiE
-	 SgaLBmSuN89KEJT0UlYfbLpJ9rLXBNQhqJt5hSMe8AaOseHutAob63YqgCtpDao8Mq
-	 2JHxg/TRmDhyg==
-Date: Thu, 12 Nov 2026 09:32:31 -0500
-From: Sasha Levin <sashal@kernel.org>
-To: Theodore Ts'o <tytso@mit.edu>
-Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Mark Brown <broonie@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
-	Thorsten Leemhuis <linux@leemhuis.info>,
-	"Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Dan Carpenter <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>,
-	Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
-	Bradley Morgan <brads@mainlining.org>, stable@vger.kernel.org
-Subject: Re: [PATCH v5 0/6] agents: add skills for Fixes tags, stable tags,
- similar bugs, and commit messages
-Message-ID: <avXN_5uoMggT8hDP@laps>
-References: <20261111225940.1573565-1-tytso@mit.edu>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=OnZtIQnz
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 83C8640B2D
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1794494054; bh=fEJo6vbvhz1XZl5tpxWvOSvlbS9UMk64Ct6jD/81+qc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OnZtIQnzzvr3Vo3hkdjhwAOPrLXCHAQDGrZT808UW1TvvrmopmjW0Mkp8d8z60+gD
+	 4N2bfmbpZqyjVhvkJPNRcV0aB1ZLNHwzlwC1hc8sKFCFSvsL1I5ONbu2YIluLemRKH
+	 JTwgoYN8QmbtN7L2aD32F0lnA+pWHbIr68q8cOF3uKpoXqD8fgxhpKysVADuVKm5B4
+	 jjVYHhG1M16t+L4mml6gAQodqzHjmRvJMJLZldy7H/+AMSk/qlKMNWMGd+gzbXqj1+
+	 c5+I1nlcLmuUU0WCqDemelgGp0aon169CO+rkXgjUCLakWGu9RDup9HO27MQHksLtv
+	 GXXFC3nZUzFDw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 83C8640B2D;
+	Thu, 12 Nov 2026 14:34:13 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Manuel Ebner <manuelebnerli@mailbox.org>, Shuah Khan
+ <skhan@linuxfoundation.org>
+Cc: Manuel Ebner <manuelebnerli@mailbox.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] Documentation: Add category of subsystem-apis
+In-Reply-To: <20261105181542.3071-2-manuelebnerli@mailbox.org>
+References: <20261105181542.3071-2-manuelebnerli@mailbox.org>
+Date: Thu, 12 Nov 2026 07:34:10 -0700
+Message-ID: <87ld6y6rvh.fsf@trenco.lwn.net>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -72,32 +67,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20261111225940.1573565-1-tytso@mit.edu>
+Content-Type: text/plain
 
-On Wed, Nov 11, 2026 at 05:59:32PM -0500, Theodore Ts'o wrote:
->This is an update of Sasha's v4 patchset with the following changes:
+Manuel Ebner <manuelebnerli@mailbox.org> writes:
+
+> Add Bus and Communication category to reduce number of items in
+> 'Other subsystems'.
 >
->   * Rebased to v7.4-rc2
->   * Removed references to Assisted-by: per the discussion at the
->     Maintainers Summit
->   * Addition of a new skill, writing-kunit-tests which I've been
->     using to add full KUnit test coverage for ext4.
->
->I've been using the prompt against Gemini Pro; would appreciate
->comments about how well it works (or doesn't) when used with Claude
->Code.
->
->Sasha, could you consider updating your patch series with this set?
->I'll assume that you will send this to Linus, since the bulk of the
->work is yours.  Thanks!!
+> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
+> ---
+>  Documentation/subsystem-apis.rst | 21 ++++++++++++++-------
+>  1 file changed, 14 insertions(+), 7 deletions(-)
 
-Yup, thanks!
+Applied, thanks.
 
-My plan is to respin this in a few weeks with any updates and feedback that we
-get, and send it as a PR for the next merge window.
-
--- 
-Thanks,
-Sasha
+jon
