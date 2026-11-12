@@ -1,66 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794494921;
-	b=CQhMMZWl9ifqsKffBgZoUddp9KaJWcOvX2M94BJdEDwgbIUZ9fP6GzJ8Cj1MQ4rlhe3B
-	 /bVq0At6TFKnzRHyaf/IUvnQLEh85pn0LqfdvDVb0rypjPxwDvvBbjpizu+C90j6aBVv9
-	 v0h9qJ6m10aB/+0kQS1im0S9G7/kgxdWfa/iThYi5DbsrdvfiwAtYLBOj3FK8KAuAEEmJ
-	 lllUgMwGzQK+M22FSHNXXr6NwfKIueozvyvu6cVSbUqIXKoJtQ2spkjhiG0mOF4S5vSPG
-	 RhmCn2jdAkzczxvKXWImZ1myxKOjiJKPwnQBhTjlXEtNiLkZI0Z5MMqorUy3D39BUQw==
+	t=1794495211;
+	b=Hy7dIJwjwQfOy1jzOZqUlrX22NwAQSHPvmeSi8c/pTYpPj+FYC4yzVK5OWu216JfSTpj
+	 xc5vPTceyvCuc9uPM3mfUKU2VpIy9pmkLCDroN5ZffU0or8YYTbwoHdfCuPyJSASbv1ya
+	 zb6oURAyMuzU5dE/8Ly/WUmSx9LIsMpER146kB13XXDuUQis0Zk0WDiungV0fG9Jr6Prp
+	 phy1n/1fmfOKDMdyWHJRCDma0U/a49P4WcKh3idq/qxMKiRKUL/GUBt5fmBgEmsplZ9Ae
+	 AYKu1057xnkLIU8Q/8kO06bpcvSPo68rNIFNNIdpNesQJSAbcsV6wa6COv2oHNdO8Bg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794494921;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=X8IIACO//pLnyNoft075EvxEI1VedbxVA+QpkQ+am14=;
-	b=5VSYSRq0eZUTHXRr8n5VILlHZ3hii67uOvwQLbRdp91Q7Z1GnpjaxAVOoknNeyrfLi7X
-	 AKaMnbWQL8QwYkylpRGwgHPW/uSILGyudwc3jVAlSyYrwXvHLQfQEGrLgaAXZ4eIWv28P
-	 o4ngacD5D1YcXR7/dOXhF+MJNiPOnR/B8JxI1VOUL04xLGTdda4OF9fwofXzmzNAk8/5B
-	 VveDPh3WSLSFyR2Bn0Th2FsQaOw2nG5P537ppjStIaKiYk4mcIXMdLHkfRsY94ABhi4n4
-	 +gIL9KVU2pOHngfdXPNZemsQ3yLERg7x8RLVvsvPaBITp/iR7AyMtiyNc/bL7n6yIGQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794495211;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=UBXnliURw1WYp3chrqS7sjRbFTt6XEXbMT1fDo9/1TM=;
+	b=k0WkBC8jp8SEp/9JQwXWc5wZ+xPP3RpSlE/VpRP80stzw0WLMQ8XTj9UyRl8qQ7CuEFi
+	 ZevJCAohyoJ+xmDseK77juG24UKmPD2MOhgWya/jhtLd0BfX5mmjhvMU1Hm7CQDqXB8Y2
+	 im9swdd4rStxRTU1ZK0/8/8ELR8TTUBWG3MrxLZrQyL4EemXoqs3of7I9MwTTVY5DipnQ
+	 wu1ZINpAq40qdW46tCbI5arTKS14Eh7QvpXpNhdsVD4taMUnFmutlPW8V2tMUeboF9amy
+	 Ahgu7bQa4dSeff7aaeZGinkqwY1dlppTjweG1Rq3dXTwpBKoUMAExea+Q412pYgm26Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Cb+A75Qg;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BSUSIwfp;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2D8B606A338;
-	Thu, 12 Nov 2026 14:48:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A2D8B606A338
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3AB5606A321;
+	Thu, 12 Nov 2026 14:53:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Cb+A75Qg
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3BB5940904
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1794494920; bh=X8IIACO//pLnyNoft075EvxEI1VedbxVA+QpkQ+am14=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Cb+A75QgnDGA5Wt7FdnL0DDTgTAx9jo/pf1OPq/TqEgx467iDTHTsK+PH0QolZggX
-	 SwiRZ9YnQYAcq8pnRrLQ5Hh+28FUyHddlQUO9wpLUYe1xXS2YXvAIUq4ev7uTiTh23
-	 nzQcDUKDtvjj1VPAnf9PKdX+U4hSxxiAVNnWNRIxiloVsS131nhpH1GgSaG2bkw7PE
-	 LxaZKMfYjVm6eU/X/Ab7kDUe6EW7TRBynKcmHo3GZakPiAxMmgMxFonFh4or23Mk2m
-	 fqOjbZI8A7HOJ6oXNwflT/OdU+HhZjVnCyR+nGRoejV/SKLvGCoHZkYuzgIcWCw0sU
-	 bRrsVh0jgW+MQ==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3BB5940904;
-	Thu, 12 Nov 2026 14:48:39 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, Andy
- Shevchenko <andriy.shevchenko@linux.intel.com>, Wolfram Sang
- <wsa+renesas@sang-engineering.com>
-Subject: Re: [PATCH v3] docs: submitting-patches: Clarify partial review tags
-In-Reply-To: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
-References: <20261110141429.149451-2-krzysztof.kozlowski@oss.qualcomm.com>
-Date: Thu, 12 Nov 2026 07:48:36 -0700
-Message-ID: <87cxsa6r7f.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BSUSIwfp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B67991F00A08;
+	Thu, 12 Nov 2026 14:53:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794495210;
+	bh=UBXnliURw1WYp3chrqS7sjRbFTt6XEXbMT1fDo9/1TM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=BSUSIwfpwBS95bhGX07VGZDkvg5eJbUBRjTovvFvuyyl9O4KKBkRLMpDjQWmkCCv2
+	 14m3/vbC/nnjlVkglV3QPl3riOJFD5UvK39YWhOEfVVmFRUJ6aRnkuKMGk2TlFeMjl
+	 fF/cbZbYAcderFGW12psD5gJtpIIDqGl1SFcnrBPY22izW2LGGLEjRj9nv2UFbNeja
+	 ikfgKQrbKaFPQxmwodBjYhUvcCNmek0dufRRAc0o9J9WdFqNM4qoL/zLgX4ZpXxN5U
+	 f9k4ZswwSCr/tGFWel0B7PdTbQGT86nnmEhWHpnSnsbHTQhx6EGPCoN97SjZQisZGn
+	 MibpFZab8bc+w==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Stanislav Fomichev <sdf.kernel@gmail.com>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
+ <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ Mina Almasry <almasrymina@google.com>, "Mike Marciniszyn (Meta)"
+ <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Nikolay
+ Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Alexander
+ Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 06/11] page_pool: Coordinate refill with
+ memory providers
+In-Reply-To: <avT2Fj5qjbJkArpg@devvm16445.scu0.facebook.com>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-7-bjorn@kernel.org>
+ <avOtxBw_grmuDJae@devvm16445.scu0.facebook.com>
+ <87tslnrwgt.fsf@all.your.base.are.belong.to.us>
+ <avT2Fj5qjbJkArpg@devvm16445.scu0.facebook.com>
+Date: Thu, 12 Nov 2026 15:53:27 +0100
+Message-ID: <87y0ayqexk.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,33 +83,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com> writes:
+Stanislav Fomichev <sdf.kernel@gmail.com> writes:
 
-> Refactoring of driver subsystems or some core driver parts often come
-> with change of the actual drivers.  If that happens within one patch,
-> people giving "Reviewed-by" tag only to piece of the patch, like one
-> driver, and ignoring the rest including the main concept of the patch,
-> are not really reviewing "the patch".
+> On 11/11, Bj=C3=B6rn T=C3=B6pel wrote:
+>> Stanislav Fomichev <sdf.kernel@gmail.com> writes:
+>>=20
+>> > On 11/10, Bj=C3=B6rn T=C3=B6pel wrote:
+>>=20
+>> >> diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_qu=
+eue.h
+>> >> index 989120cbf452..ca12cbf7b825 100644
+>> >> --- a/include/net/netdev_rx_queue.h
+>> >> +++ b/include/net/netdev_rx_queue.h
+>> >> @@ -33,6 +33,12 @@ struct netdev_rx_queue {
+>> >>  	struct pp_memory_provider_params mp_params;
+>> >>  	/* stamps the page pools of each queue allocation */
+>> >>  	u32				mp_gen;
+>> >> +	/* NAPI of the running queue, for memory provider wakeups. Set while
+>> >> +	 * mp_armed, and if the provider has a refill_done op. Written under
+>> >> +	 * the ops lock, read under RCU, see netif_mp_wake().
+>> >> +	 */
+>> >> +	struct napi_struct __rcu	*mp_napi;
+>> >> +	bool				mp_armed;
+>> >
+>> > The comment should explain why mp_napi !=3D napi? (I do not understand=
+ why)
+>>=20
+>> Fair. It's the same NAPI, with other rules. napi is the driver's
+>> association: read under the ops lock, and not cleared when the NAPI is
+>> deleted. Provider wakeups run without that lock, from socket syscalls
+>> and ->release_netmem().
+>>=20
+>> mp_napi is an RCU copy, set only while the device is up and the queue
+>> isn't restarting, for providers with ->refill_done(). netif_napi_del()
+>> clears it before its grace period. Setting it also schedules the NAPI
+>> once, which replays wakeups lost while the queue was stopped. I'll put
+>> that in the comment.
 >
-> As explained in the Submitting Patches document, the "Reviewer's
-> statement of oversight" is for patch as in "entire patch" meaning:
->
->   (a) I have carried out a technical review of this patch to
->       evaluate its appropriateness and readiness for inclusion into
->       the mainline kernel.
->
-> The sentence is explicit, exhaustive and complete, meaning it does not
-> allow implicit variations like: "this patch or part of this patch".
->
-> Reviewing pieces of the patch while ignoring the main part of it, is
-> much closer to Acknowledgment, thus Ack or at least "Reviewed-by" should
-> be followed by '# subpart' suffix.
->
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> And all this only to make sure that we are not recycling something from
+> the old pp into the new one? And reworking existing pointer to change/upd=
+ate
+> its lifetime is not gonna do it?
 
-Applied, thanks.
+No, it's how the provider wakes the queue when chunks show up: userspace
+posts FILL and calls {e,}poll() or sendto(), or an old page pool
+releases chunks after a restart. It replaces ndo_xsk_wakeup.
 
-jon
+But! I think that rxq->napi can do it: make it RCU, clear it when the
+NAPI is deleted, and have the driver poll the queue once after enabling
+its NAPI, as fbnic does. A wakeup that hits a stopped queue is then
+covered by that poll, so mp_napi and mp_armed go (and with them the
+error-path bugs Sashiko found...) I'll do that in v2.
+
+
+Bj=C3=B6rn
