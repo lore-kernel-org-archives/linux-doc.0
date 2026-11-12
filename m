@@ -1,54 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.153.30
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794511122;
-	b=RYTmXr3tm7eMf4bExNdH0P9nczqVlU4nEqoTmTz9bd4F5OZ/0H9pl9W/KZSsVj3q9IeY
-	 AWvbz0ocIndk8XMPQXi0iUCwEKhK3tM3Xwcng7bd2+cZV1mQxFvoTzmgRLYIpltWDgIZ/
-	 rXkszN1X5aF9nSx7dL4HbgxZWnKcf5LU7EsXpMFgE9GwyCbsp8M0x3PeorFundh6S0RXT
-	 sldJnWRPAliIOW2UZ8hJfSyQgUe4dyobOHXHXNzkt6WweDamPKK6YiFHXr3pNFwUjwlsA
-	 4+7/g3jcewIK/rju4nhPslE54vnwL4uZ4ZfShZyF0exWE6g+UkJgeiE4hhUmzZwd0iA==
+	t=1794511188;
+	b=cIJ1YaCyzlupO804MrEjJxHk6WIm+2GH5bO2f9eDZeKniDSaUWnO9gPybvWf6pj0M8kz
+	 yfU6nLNbMZDVj98yexgrtiyyeqlTWE6XFHLoHVjl8SAQrGJX0ltTbru0TSXbPH8zRwWV8
+	 21Eu2X06FhrJkwE2anXtf7RxZboDBDdT8ZfJbE6yLfAN59drqJMgVzmEFrDTEEoCyj+BO
+	 BdPsXj5P8EiVC5+NYJ/AQfFzrNBjrh5MOdu65Z2YAEskfJ7HdcUzZLfdkHw4Z8iT1c+eB
+	 kzzTXKdby2FFl2/UbDydECVXoMuUzE74jKnhb1ZrXtB+dax/Rwi+sBUOfFKCR3v79IA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794511122;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=IXexg50WmPwtfGt6g4HQnuTR66f0QjGX0HYreFyKgk8=;
-	b=xuQT2WH5A9pkEbUS9Eivj8yIQNDPthuoKzpJJFhcwEkppquFx6Gx1aUk2Zqw/UtH8QvZ
-	 wHhhtdpQVi+/VesCA3uskeDjRkl3yzSQScc19YI/lOMgwE7AdzRxfHsIvSBh9qUDwtVPu
-	 zsUWM6wouK5xb90Fe4tGzIZTmg/O/u74R9ArSUdvjLrNCxKJET45pz97NY6CVJl4Aw5/x
-	 J/NH5Hp65IQ2QjUyTvrp+xqcTuc1E01MivzAMoH5sVuOfJCHApKsrWJWy0Ybp2EVlLIwc
-	 gqwgskunUOFA2mVYsLpi1Y5VjHSoRvVDJ+GnGjgrHTaXkFoyC+6uh7qEPFvi1qprUAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794511188;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
+	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Originating-IP:X-Authority-Analysis:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version;
+	bh=a/3/vOknZNV5rMhfsRlvw02gGnblZnfFUGDt0wyzhjE=;
+	b=w8Ns7z30usfY+so0CfnjJleSgRqMc81Z5toqf6X55mEBYXozSc3Qo/BAPcb4J29ghE8c
+	 s98Du2JoeA3Ft+7d02waDSxStaxkNLfpNF1gk3XuoIVrdnRUFFmFVNY8W/XeZt8ZJpu/j
+	 WFfe+tMAFQ8kNxh2a3VdwbuRO9pwP3K2PzDlj52p3tFsjGEmnQae9kp7M7gC91PIFtJAJ
+	 06OHZtJgMegaRqLvNIszKwNIEnysXLSU04+SkNvc2HLLz1i6w7/RfCRAx+WgTqNzULUlg
+	 1IqT1jh8z4Vrk6q9KdDAZn7goj5tHtw4VbfPnvb2KD9TVEPp+vUQIDe13cpI7KCUWQw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mBerxBeQ;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=ReSOOSyy;
+	arc=none smtp.remote-ip=67.231.153.30
+Received: from mx0b-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCFFB606A31C;
-	Thu, 12 Nov 2026 19:18:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCFFB606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9498606A31C;
+	Thu, 12 Nov 2026 19:19:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D9498606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=mBerxBeQ
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=IXexg50WmPwtfGt6g4HQnuTR66f0QjGX0HYreFyKgk8=; b=mBerxBeQJnkwjlzlTDbN+kj3WM
-	jVZ3tair82aWMzz3qk4bpNKHWO94V1zNOy0+Dhq3LSdZhRfUGH7uD/iclRys16i9W2yOER3toc2s+
-	rU5TYF530d7Xw3Lvpya35OspbW+W7YUg6X406AIXh7V4+LHx5JZ4ZYZQp+egcfiSNiIz4MYr0LPET
-	DBOkUxvx8c37785YnZ05KRWu9ibuw7WY8NGsnmi9R/fkAvNXoFsqWu2tK1DwRP59O+XKYUu2ZS6kR
-	BIscE1U2DwqAD3rzlLjNDLcQRRFnREAtEVvDsjoMOhsBrxF0KQQWxPwBIFCzu4VED8+H6fz/jJ14F
-	4Hu+9oag==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRaJj-0000000AwDP-3EYQ;
-	Thu, 12 Nov 2026 19:18:39 +0000
-Message-ID: <85567abf-bf15-4cd8-a04d-d1238cb5fbd3@infradead.org>
-Date: Thu, 12 Nov 2026 11:18:38 -0800
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=ReSOOSyy
+Received: from pps.filterd (m0109332.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ACFapVR3401241;
+	Thu, 12 Nov 2026 11:19:16 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=a/3/vOknZNV
+	5rMhfsRlvw02gGnblZnfFUGDt0wyzhjE=; b=ReSOOSyylrPqQ7w5znHrlGE8xe5
+	SRq+nMfSWT9+K3w+QUWwgPFl18x3t8ZXFwVDYz8hzD0ukBdvnAXhHPR5hDNzXYia
+	aIihrOdNs5daQ8LmrSNo9p8y7iFxcu/fzoSy0jp185nK8K00p875CxDwNBZq9/aw
+	58lWmQWM2WF+Ob9S4vaoNqEAf8TT9oHqaT8YpssjLnJ1UvZJgkZMS12AM4FFfVSt
+	WSes2w+bUupqKzGdsWbVHyKtN8emlkxnK4XoHnSBxwkoSZkybMBfL3AooSUuDK+y
+	+Ry8GGkx3VTTUy+aemx2CdOtJi6eni9KrHkdFjhhR3AgWNK+/wjgKPnTc6A==
+Received: from mail.thefacebook.com ([163.114.134.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hvaudygk7-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Thu, 12 Nov 2026 11:19:16 -0800 (PST)
+Received: from localhost (2620:10d:c085:208::7cb7) by mail.thefacebook.com
+ (2620:10d:c08b:78::2ac9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Thu, 12 Nov
+ 2026 19:19:14 +0000
+Date: Thu, 12 Nov 2026 11:19:13 -0800
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+To: Michal Luczaj <mhal@rbox.co>
+CC: Stefano Garzarella <sgarzare@redhat.com>,
+        "David S. Miller"
+	<davem@davemloft.net>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Stefan Hajnoczi
+	<stefanha@redhat.com>,
+        "Michael S. Tsirkin" <mst@redhat.com>,
+        Jason Wang
+	<jasowangio@gmail.com>,
+        Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+        Eugenio
+ =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+        Shuah Khan
+	<shuah@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+        Donald Hunter
+	<donald.hunter@gmail.com>,
+        Eric Dumazet <edumazet@kernel.org>, <virtualization@lists.linux.dev>,
+        <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <linux-kselftest@vger.kernel.org>, <sargun@sargun.me>,
+        <jlinbox@meta.com>
+Subject: Re: [PATCH net-next v5 4/7] vsock: add a netlink command to assign
+ the g2h device to a netns
+Message-ID: <avYRMQww+ui4uPkz@devvm29614.prn0.facebook.com>
+References: <20261103-vsock-guest-ns-v5-0-48179b9b66b8@meta.com>
+ <20261103-vsock-guest-ns-v5-4-48179b9b66b8@meta.com>
+ <c34123f3-e006-4c25-b8d7-cdf0784926f4@rbox.co>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,68 +99,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/3] MIPS: perf: Add SB1 and SB1A performance counter
- support
-To: Florian Fainelli <f.fainelli@gmail.com>, linux-mips@vger.kernel.org
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@redhat.com>,
- Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, James Clark
- <james.clark@linaro.org>, Thomas Gleixner <tglx@kernel.org>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:PERFORMANCE EVENTS SUBSYSTEM" <linux-perf-users@vger.kernel.org>,
- "Maciej W. Rozycki" <macro@orcam.me.uk>
-References: <20261112190916.3725141-1-f.fainelli@gmail.com>
- <20261112190916.3725141-4-f.fainelli@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261112190916.3725141-4-f.fainelli@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <c34123f3-e006-4c25-b8d7-cdf0784926f4@rbox.co>
+X-Authority-Analysis: v=2.4 cv=AKwTwrWT c=1 sm=1 tr=0 ts=6af61134 cx=c_pps
+ a=CB4LiSf2rd0gKozIdrpkBw==:117 a=CB4LiSf2rd0gKozIdrpkBw==:17
+ a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=xtH7KyWI9dI7BmFOsl-x:22 a=VwQbUJbxAAAA:8
+ a=Bgyc4cfSFuLOcWupkI0A:9 a=CjuIK1q_8ugA:10 a=zZCYzV9kfG8A:10
+X-Proofpoint-GUID: _cVSF3NSQ_uvq6t-vYkVz_6cKrlEOdZl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEyMDA3NyBTYWx0ZWRfX3ZEYaRYhoxQ8
+ usrYrAigjaSSywUkrAML7m082FIZ9ahPa6osa/uLjGeURPOoNHW2DhRuRRqH8MO5qwe2ciVft8x
+ NzE7lxNSVPJe1XXp4Iu0HiPfj/GkiZbi02cvfDvuuS1vqU0Dny9tFRHJC3vtiINZYIGuWEUewzN
+ /pMtixzbQdUxfpN1rfc6nnBqAYW9q0Ky2ibw9EME0SEzeY7HcGeT2r5acmDJw0SBasnebv2sJlr
+ LOI44viL/MzNw28pNFndfNU3SA9UhdAjQ4D7hArvOtZ7qvUs5y1MXsC6daoxsnOk2WaxPJ26iKd
+ i8ii47IdwImq/MU8O5a30jphsmPyMdE6uBQGDiLehzjiXvuJyoYLckgbgQgywBSY8qgj+uq7rjL
+ mkuSU6j7uiGvjX7zfAwE6UzWaBPzhUdmmcIOGq/Rao8qXqZ9wDo1sRuegm/RrlJTdCtyMCNC/qg
+ DbgNkydXQ0fm7nWHtNQ==
+X-Proofpoint-ORIG-GUID: _cVSF3NSQ_uvq6t-vYkVz_6cKrlEOdZl
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEyMDA3NyBTYWx0ZWRfX0xgaferDqxVz
+ fMjqjg/jghUeB/xn0OclUvGqHgL1ZiEL1sSDvdnPbjicEh9BXwwcUZZaGmFvNK+/7wz5h2yn+we
+ AGI5UprcQ0+lFYfR17uH1zSuSF+OCBQ=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-12_02,2026-11-11_03,2025-10-01_01
 
-Hi,
-This has one 'make htmldocs' warning (see below).
-
-On 11/12/26 11:09 AM, Florian Fainelli wrote:
-
-> ---
->  Documentation/arch/mips/index.rst    |   1 +
->  Documentation/arch/mips/sb1-pmu.rst  | 162 ++++++++++++
->  arch/mips/kernel/perf_event_mipsxx.c | 373 ++++++++++++++++++++++++++-
->  include/linux/cpuhotplug.h           |   1 +
->  4 files changed, 526 insertions(+), 11 deletions(-)
->  create mode 100644 Documentation/arch/mips/sb1-pmu.rst
+On Thu, Nov 12, 2026 at 11:34:49AM +0100, Michal Luczaj wrote:
+> On 11/4/26 02:53, Bobby Eshleman wrote:
+> 
+> > +/* Avoid breaking the socket when another thread has changed its sock->state
+> > + * while we were asleep.
+> > + */
+> > +static void vsock_connect_close(struct socket *sock)
+> > +{
+> > +	sock->sk->sk_state = TCP_CLOSE;
+> > +	if (sock->state == SS_CONNECTING)
+> > +		sock->state = SS_UNCONNECTED;
+> > +}
+> > +
+> 
+> It'd be nice to have it as a separate commit. If I'm not mistaken, this
+> itself solved the vsock_connect() vs. transport reset
+> (vhost_vsock_reset_orphans(), virtio_vsock_reset_sock(),
+> vmci_transport_handle_detach()) races. And those were already reported a
+> couple of times, including a recent NIPA/Sashiko Severity-Medium[1].
+> 
+> [1]:
+> https://lore.kernel.org/netdev/179447093204.2199510.8895677421994612994@kernel.org/
+> 
+> thanks,
+> Michal
 > 
 
-> diff --git a/Documentation/arch/mips/sb1-pmu.rst b/Documentation/arch/mips/sb1-pmu.rst
-> new file mode 100644
-> index 000000000000..d589a6262c65
-> --- /dev/null
-> +++ b/Documentation/arch/mips/sb1-pmu.rst
-> @@ -0,0 +1,162 @@
+That's fair, will break out on its own.
 
-> +Counter selection and mode filtering
-> +-----------------------------------
-
-Documentation/arch/mips/sb1-pmu.rst:57: WARNING: Title underline too short.
-
-Counter selection and mode filtering
------------------------------------ [docutils]
-
-> +
-> +The ``counter`` format field selects a physical counter: 0 means automatic,
-> +and values 1 through 4 select physical counters 0 through 3.  A non-cycle
-> +event requesting physical counter 0 is rejected.  Automatic events may move
-> +to another eligible counter when a fixed-counter event is added, preserving
-> +their accumulated counts and sample periods.
-
-
--- 
-~Randy
-
+Thanks,
+Bobby
