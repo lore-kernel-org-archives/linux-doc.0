@@ -1,64 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=18.9.28.11
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794494207;
-	b=eSSQoYB+OZJQqDTTxpspLrl12g/sq9+zRe/PsUK9tOmikhx7kFPttOOTn09GdHJUaIPa
-	 ePR8xq/hZfa9yOS59wlHzEodd5MMbOdW7HNAB7WSSSO118CT3uDQA8NfXNF7b5OhdVlOd
-	 QDKxdzcgv1wlvUnVgc7Zghl7Jr8Gl8dsG6egJreAo8X/hHD3tHaNj4MEGKIAnd8daq0YR
-	 5J/w4+u45Qy6U68yv9+y1kcN2fkTv0l9yoksy5XV11aMi5Yc7WhChQOar3+vmt6ztty85
-	 +BBSaHf24Lc7WGqiKSyazajVRvpxEGpg01PYl29kAIwi0wh1oO4IcTDrSyzoq4YTUGQ==
+	t=1794494598;
+	b=yvHYbAnDqpBxrxwMz8UoRfOhjQAtHF42pfVrLFFcUb4zBYFaKRLXoqINn3dnaKdxcMgB
+	 06IZnlJWXszob+hQPky3ka/EuNgFKDgdQtHh5aW5jHI9fT5rE/Uql3R3dKPyQmYzRzBIP
+	 zDjkgtu8S4k3z0XV+byTRbfXPYQAnW1at6Ex8aUEM2pmBbpSAU8YUIhA155OD3KflRLSf
+	 xdYARK7yNMulsEXO7v0zGYIHVe8GWGJzmP+TepHP2Aav6UQvdW5pJ7gd7nnp17LGv1WuH
+	 RtKz6ykKjPH87hBHlz72lYl+M76zeQ2ujJRZTvfC6jA/XtJAS3YmHFYa6xNg/DJ593Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794494207;
-	h=DMARC-Filter:DKIM-Filter:DKIM-Signature:Received:From:To:Cc:Subject:
-	 In-Reply-To:References:Date:Message-ID:MIME-Version:Content-Type;
-	bh=qURwc0r5NDQy2lLQayYqs3VpyJ0zWpWXT5E/+vERTKk=;
-	b=CRCIzoRMPNFX6nu74A6YYIW25giMSUQIUOA8r95zu0/mnQD6IrMcINv6C7r/FTu0rVNs
-	 UALbfw0H2UTfC6oBHOLuKGh9SBQdm/1ECz4dK8u7KRyE6e6kQJA33MHW0JA98xz+1iU60
-	 dpqiXVhQJU+T494gx59s0juqrfJiQe6gkRlX28aLwF55LLVfk8RdrV4Ub6PWVv7wZTud6
-	 dyuiVsno7NBI7qPni2ED4coybVJ4bCa6/mVO4RqiI3GJ/gQLgcFEPLPv2jZASrJyIfDbA
-	 8LvakLX/jg5++L/l5URAJot6uZh/angqSwMOoTYz/oE8eKwcNxWzK4/3PwZ/ltKp7rA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794494598;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=doRR2hlsDqY4KYCxE3inoPjG+grnCS2sG965WCAyZas=;
+	b=M9vPygYp7U6CccHPDY6N3dzcJLs7/OIE0oif+de+3x5masPlaJfB+Cu7cKm8+8XE8vhk
+	 6XZbsdlZKM11DUQ/i/vhcNlOZT/88pndwBTR4DbacEKyGcLxVBHG22vU3XnVYiCOlVIH4
+	 oVHgsXx62DCxSVg2+fR/USt813yEUc2+81anqy9OVPmBNgjD+4iOy7HxeAbGmrLfY2cmp
+	 IyfxTAyQGvq91r2hjKwaWx6n1DLaF0nZiH099yckNWk5w8viOGagFIs7v2Qq3eLq1pDZe
+	 +o6fT3AW0gF/sB1HZymvRlPgp445sGXv8p4cbslSmvai5m2r62RT5Ql0m2S33ewioCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lwn.net;
-	spf=pass smtp.mailfrom=lwn.net;
-	dkim=pass header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Z9UdqpgW;
-	arc=none smtp.remote-ip=45.79.88.28
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=mit.edu;
+	spf=pass smtp.mailfrom=mit.edu;
+	dkim=pass header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=PCpUqHRW;
+	arc=none smtp.remote-ip=18.9.28.11
+Received: from outgoing.mit.edu (outgoing-auth-1.mit.edu [18.9.28.11])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AB44606B2C4;
-	Thu, 12 Nov 2026 14:36:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AB44606B2C4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54E79606A321
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 14:43:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 54E79606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mit.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mit.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.a=rsa-sha256 header.s=20201203 header.b=Z9UdqpgW
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 96A3840B2D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1794494206; bh=qURwc0r5NDQy2lLQayYqs3VpyJ0zWpWXT5E/+vERTKk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Z9UdqpgWeasiVqxwiL/COQngMLbEZSpE4AYSA6I+ApIp3l9jiNkTVjAbjqwg8JVtZ
-	 IBeT4m1lmC4XqpmoDDCR8rdofoOeuvpraHPoSLO+rc9Hc0MuX6iRi22APJqUslPBlR
-	 hUvKIeSNKSsoE9maKH2Pf3bqtaJqBEWVZqtOCJVBGPLz1b/XI+f0mjwukPHyuyTRy8
-	 B3A/SL8DSECIzLDWRwrq+d4m8SZ1lDlqBseeDt5wkRdfwkWiE8YALbppG0O50sF5LQ
-	 QqzWIkUWjmMurzl5FX7jg04pFyeZsHGxXErAiuRWdanNadapnQKso9eO59+CEbfXpj
-	 M6nK/QXkSH90A==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 96A3840B2D;
-	Thu, 12 Nov 2026 14:36:45 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Antonio Borneo <antonio.borneo@foss.st.com>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>
-Cc: Antonio Borneo <antonio.borneo@foss.st.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Vegard Nossum <vegard.nossum@oracle.com>,
- linux-stm32@st-md-mailman.stormreply.com
-Subject: Re: [PATCH] Documentation: .gitignore: exclude .renames.txt
-In-Reply-To: <20261105104132.566314-1-antonio.borneo@foss.st.com>
-References: <20261105104132.566314-1-antonio.borneo@foss.st.com>
-Date: Thu, 12 Nov 2026 07:36:42 -0700
-Message-ID: <87h5hm6rr9.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=mit.edu header.i=@mit.edu header.a=rsa-sha256 header.s=outgoing header.b=PCpUqHRW
+Received: from macsyma.thunk.org (pool-173-48-111-191.bstnma.fios.verizon.net [173.48.111.191])
+	(authenticated bits=0)
+        (User authenticated as tytso@ATHENA.MIT.EDU)
+	by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id 6ACEgZrS029468
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 12 Nov 2026 09:42:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing;
+	t=1794494561; bh=doRR2hlsDqY4KYCxE3inoPjG+grnCS2sG965WCAyZas=;
+	h=Date:From:Subject:Message-ID:MIME-Version:Content-Type;
+	b=PCpUqHRWzITexZeciyh8kmVbkihYGX8mwUkz4BDsbPPLX+qgXZSgK0siPFYDtsNvw
+	 vhi19YCkVdpN2IOIuCQkUbTABBSJH34jKgUk1v7pcRSM1aF+AI/t36ClaWCrfW2JJN
+	 FcvflnJ9GzeSyh+wHskHLh8VisHyED/GCv1zGigO8l7ebgLy4JiNG3DwOYnQyWrVta
+	 EQI9zCjNPdNU2JePDhpFJerpbV/T9UDaDhfs+O06B95xIv8USzHrU41itNr13pVwFh
+	 S4khQLaNAECVY8NIwKjwYoV0mGOMtac6jtKQmU3og6QNRrEW6ISyYhUHAEkjw/6H5q
+	 +6t7Ei0rd0G3g==
+Received: by macsyma.thunk.org (Postfix, from userid 15806)
+	id CC8FE26E540E; Thu, 12 Nov 2026 09:42:35 -0500 (EST)
+Date: Thu, 12 Nov 2026 09:42:35 -0500
+From: "Theodore Tso" <tytso@mit.edu>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: workflows@vger.kernel.org, ksummit@lists.linux.dev,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Randy Dunlap <rdunlap@infradead.org>, Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Leon Romanovsky <leon@kernel.org>,
+        Konstantin Ryabitsev <konstantin@linuxfoundation.org>,
+        Thorsten Leemhuis <linux@leemhuis.info>,
+        "Michael S. Tsirkin" <mst@redhat.com>, Kees Cook <kees@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Dan Carpenter <error27@gmail.com>, Miguel Ojeda <ojeda@kernel.org>,
+        Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+        Julia Lawall <julia.lawall@inria.fr>, SJ Park <sj@kernel.org>,
+        Bradley Morgan <brads@mainlining.org>, Sasha Levin <sashal@kernel.org>,
+        stable@vger.kernel.org
+Subject: Re: [PATCH v5 0/6] agents: add skills for Fixes tags, stable tags,
+ similar bugs, and commit messages
+Message-ID: <avXOSg4jOlzBY1r5@mit.edu>
+References: <20261111225940.1573565-1-tytso@mit.edu>
+ <9c5f5976-ebed-48f3-94ab-1121231af6e1@kernel.org>
+ <avXCcPYM9VAP0JHf@mit.edu>
+ <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,30 +85,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <31a56051-bd63-4a39-9cad-2c9afcd98340@kernel.org>
 
-Antonio Borneo <antonio.borneo@foss.st.com> writes:
+On Thu, Nov 12, 2026 at 02:49:09PM -0500, Krzysztof Kozlowski wrote:
+> 
+> Specification is also documentation, just like for example specification
+> for our ABI. It's also located in Documentation directory.
 
-> W=1 builds reported warnings regarding files being ignored:
-> 	Documentation/.renames.txt: warning: ignored by one of the .gitignore files
->
-> Exclude the file in .gitignore
->
-> Signed-off-by: Antonio Borneo <antonio.borneo@foss.st.com>
-> ---
->  Documentation/.gitignore | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/Documentation/.gitignore b/Documentation/.gitignore
-> index d6dc7c9b8e250..9c7247f9449b4 100644
-> --- a/Documentation/.gitignore
-> +++ b/Documentation/.gitignore
-> @@ -1,3 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
-> +!.renames.txt
->  output
->  *.pyc
+Source and header files can also contain documentation.  But we don't
+put them in the Documentation directory because they do not contain
+*exclusively* documentation.
 
-Applied, thanks.
+If the complaint is that it is visible when we run "ls", one
+compromise might be to put the skills in .agents/skills.  This is a
+cross-harness standard which is supported by some code harneses
+(Google Antigravity, Github Copilot, etc.).  Some harneses (including
+Claude Code, Opencode) don't, but people who use these harneses can
+solve it by installing their own symlink from .claude/skills,
+.opencode/skills, etc. to the right place.
 
-jon
+Cheers,
+
+						- Ted
