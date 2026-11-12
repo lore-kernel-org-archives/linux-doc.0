@@ -1,77 +1,119 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794496224;
-	b=snOZgEZSfH67YC3QbQJaqI6QaqQshkzrSwZOYAnixq4IbX+FQCQEC0RAaMHSuJLMZEX9
-	 kyV0aEXUiWKEyY/jfFlfSaGcuRifEGxKPP177ILqFMqZm3dkRCQFJXtkWFiK+9gxk1h8z
-	 f1btavPRMhxhiqW6Dp+t9bCEsK+vSshgX3SIfWtcefqulvAc7KW/j9Ck/ypK2Akc3Z3Df
-	 1JAIuHNYwpykwsAHyinONBkD/R1cbdyC3scodUQlnRa9qNJp79HntbxtWyVvrqexghbfy
-	 WEql4Z6w6+mWYOktv1i0g/UqWa8s8ZT8XqGsD9Zz7H9jaWCDHW8Y2xfTjaU8kTQQdLw==
+	t=1794496942;
+	b=UimD0PKwyDGhSmqjNkGCB2RYGgdiPRKjOApPYcLqGYJWBs1RjAWrq1GtF8cykUVTU7cb
+	 HZVjifF7rTHYF5cmZHy9vX7RCL/Y+yLwk3v7P3zAmZJwSe9SySuHhDpNCNqPy6DoSL6TL
+	 fv+PC943OM93T1TDnkLFVsXthG2CS01YRBDbNa+y8mz+ztAifjcJnSe7jQXVd6c6krg1D
+	 MOxBWVgE0lRBzrU//vEk8ohWUhuhwfKmL8QVNtiRYu29eDuS4/huuBKC/3B6GxiPDsxqJ
+	 D3k/kL131VflypdQLusxDi8eO7TnTMVZrFCpXNadejNj8Kni7GP55mHHE2DymomBZtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794496224;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=eCnP3f/5sYjDgXu5gjLcJGqvVbM8pnJiTnh+Y99hcQc=;
-	b=BjjtmEFPke+RJ9ALOm57CbBnucRcKJffAwfUBk8HBZfCfV+xe/ixYuPs52BlN17Os+nl
-	 NiFehmKb9RV020nj44tWe9Y/p+y8saUyZRAE2Oi6sG2wsYBVkrwBhVm3OlpG25PSFrezD
-	 bF7FKk0bK8gkEqSCPMVTAx+g6bOAF2D3j2Fas78XdVIEUxy/LK2mtMHkylpk46TPrKnol
-	 e7HwZFfmCKD/pOZ+8aNl+Wq73nVErMVrAmce9qIsHbTZKg4R5E09v/4Wc5qn27H7heW8N
-	 JBrTbK5Tl5W4eb9/3/a9BZG2cYNLihSxzSqrXDWC8nWt56Dcinrh+CI15yTcpvQqD8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794496942;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=E8QRxqca6MPKKmYjqBq9RkAfrZBWcYxQ/ymz9RyAO8Y=;
+	b=p06vvoTSy3UCq52mLyx3n3pjCPHVpePsEnXtQwYSBzEUJkMgkM/OoILu3GgZoLh5JIdc
+	 E7pWolTc+71JNs/79t9nG8a5jjuaZJCOftVki3bsfpqmpyTZ8qjOQVpLkGkIM42HmG3Qf
+	 njm8OUORDNkSRWldJAMLZyjUZ6V3r4hzZV4Z+l4e1T38wMTmEHu9dbPp4c0vva/mHrFts
+	 ufeXsy9JHzMNhXG3eMtMLLOhKRJVTU85qf6UBAcO2aj0WKuKxohVlqNYiPKLbqDXI33Q3
+	 r4hriGg7i+zHj/2mFdbkXjz82Xc9sZDj5jDbd5uJBNc55/1aqn02LsND4bOuU8e0vRg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FO5t0psT;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CFNCS1RQ;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6569E606A321;
-	Thu, 12 Nov 2026 15:10:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AE1460A5BE1
+	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 15:22:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9AE1460A5BE1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FO5t0psT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34B841F00A05;
-	Thu, 12 Nov 2026 15:10:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794496223;
-	bh=eCnP3f/5sYjDgXu5gjLcJGqvVbM8pnJiTnh+Y99hcQc=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=FO5t0psTMMZWTQWrqQmrvKX36gkiFfAvWR4ZiJcJQPFqWVcWeZ6he0Lnaz9j6IYXe
-	 OEhcfG3tlmlZ/fATPT5sFcQSt7MVxQJvfaGiDGWXbrugT/e9zrsByvjQuURudjIKql
-	 gtAG65W3qOmSeFUxExq7PhBgy3xrfs6MpgPQ2jKTx248VgzHeub57/eF3bpAJsts6c
-	 OGSCZc/p5egFjnMBgPqeFROyK9o1O2FzrbS6UGt8xstf9stnD3hpsFKzx85K9HsqhR
-	 kF8f7qvoEkDB6/QcIXpKjVxAjj4hT5qouLyrG2HDncrZTR16M4thCL4WmT+Fa9EI/F
-	 beW8/QL8AEP5Q==
-From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To: Stanislav Fomichev <sdf.kernel@gmail.com>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
- kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
- Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
- Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
- Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
- Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
- <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
- <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
- netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
- Mina Almasry <almasrymina@google.com>, "Mike Marciniszyn (Meta)"
- <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Nikolay
- Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Alexander
- Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
-Subject: Re: [PATCH net-next v1 07/11] xsk: Deliver provider chunks without
- copying
-In-Reply-To: <avT3vVT8iyKqyW8q@devvm16445.scu0.facebook.com>
-References: <20261110102039.1002605-1-bjorn@kernel.org>
- <20261110102039.1002605-8-bjorn@kernel.org>
- <avT3vVT8iyKqyW8q@devvm16445.scu0.facebook.com>
-Date: Thu, 12 Nov 2026 16:10:21 +0100
-Message-ID: <87qzgqqe5e.fsf@all.your.base.are.belong.to.us>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CFNCS1RQ
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso34765705e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 07:22:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794496940; x=1795101740; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=E8QRxqca6MPKKmYjqBq9RkAfrZBWcYxQ/ymz9RyAO8Y=;
+        b=CFNCS1RQhtbSxMwdv4RT7HaDOzw5D755nrRVwkL4k/OwRxOF9nDaPmGgbE6aBTSXWH
+         msk1dQ3pVIxMk4yUT4CG9M7TNrpwaoIvNpJ3/pm/e0iSCd4XEBJKI8p9xJEwtSIfutCC
+         stsi/5l34qljqB3RcnE4mIfJDNGptsv048CrwnBwOr0aEQYAk0b59wCbdRvQ6o8OL+fb
+         cvAtr7bg4Ikai7/soQQ6V0PODVJ4pPFSeLLwUnbQMGtni8xKfY3UKMvp3w+fEstsPVjc
+         i5FAdugW53dj2trdg9Fn6RkfhC18gt5RpmdSGsBIKL2h48wr0gH7pQH+a3qJOwITfh9h
+         SU1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794496940; x=1795101740;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=E8QRxqca6MPKKmYjqBq9RkAfrZBWcYxQ/ymz9RyAO8Y=;
+        b=jBbsFHlbzIzx+d8W8sEVD18+uQKIBGBZ67j6CG5MgeuSNOKyRD8MSWMFYlhFBPiFYN
+         fjfL6YkNs3gdnXoiD61fuUEnrBi44Bi3zbgxIuG5GUSmrCfYjuJu2e7Y6ycIrEqoR2Xm
+         eQWd/yiqVMwKXxpjNk2Nvs6KNwnzRFh6WVlCdHwS1WPqIRWGA+iViVQxFQXA5MEiLt+p
+         ushvtO/Idir9y3Th4WWpLF0Y6TRBEKCtS7lvLLgQyRItg0NgkX032m/M25uNA2O7lMzJ
+         +qpK3K5zv01KihjzfI6rvE5H88CX1JNlHUmXEFjnFwdLsy+rIZ6IjHGgHkIWY1l/uLAp
+         +NGA==
+X-Forwarded-Encrypted: i=1; AL+hErFzs5VNuKOgMKwmkj6Zn4Xtr+JziyZ2MuoLRmyEq0Oki2VRU0hLkH69s/bF/ltrz22iQT/YUyfPyl4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8gCa+OyT+9kYBxRMSAUxJghWG3Mfil0D+MqTwjeSBYR+sCdotV
+	7CdKUKMcbktx6TZiTpR8+hztSpvuJdaJHgmDGXDtpiAynPG8G8TILmEv
+X-Gm-Gg: AYBFou0lUM7iyPu/8deZlEwgHWGdpI24/T7ZS+Q6v2XBFpFOIfCflIVwsVVn/66vI6m
+	I6JP7a0uHDfgE7nH6Rb4UNgUwM4n4X/qSyjcBdh3NtFMb+46MytnIWbpPhjsz6l83LZn+QGUuJk
+	wuVE/F7X/7rsB0hmGnGkFPBew8mWeBHxMplTrfJy93k8dfWwI0PW66q25Xl9sZu2CCu2+s2JctK
+	9JNO7ma91/WsFFGwrLHBPGtuRGAZmdbFFMTcn9KQp8HAhhsfjoW4MoiW78jKtDGtCX+sAMfefv9
+	b1YM2hD6HfPuIcB3Ng5PyCJLMwW9oYHVy5Pf7rIUSZHPX5DnR5KSwvYgFhtvYDWWK7QLKY9uomI
+	VP0qVNqOSWZ/wjAe9zR7kf6rGoMIh7zksbQRWUnExjIIlpHmU+bm2lrGA7wj4rqNA1jBZAtZWZf
+	neWZ3vfkwxfS46NQZFZSbWbKfA2ID9WQDu1Vxa7OAhm1V1aY3b2FwBJoxiVDbq1CxBedAQglelR
+	/gKPybrLaizWlZCcDuEwMlgSvX1AhONrT58jnbeQAe2xfFXW74jkyxCDtJZb6x5CcbGQfcCzYxA
+	Jc4VqcWZ5qrmoRkpAAgfcAZSIpwKgkivK2NTJaJswQtNt+YBymGocJM=
+X-Received: by 2002:a05:600c:1c0d:b0:4a2:1e1:d55 with SMTP id 5b1f17b1804b1-4ba093a3cf9mr132094285e9.28.1794496939343;
+        Thu, 12 Nov 2026 07:22:19 -0800 (PST)
+Received: from ingenieria31.oficinasStQ.local ([79.117.0.220])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e252f7fsm84746205e9.2.2026.11.12.07.22.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 07:22:18 -0800 (PST)
+From: =?UTF-8?q?M=C3=A0xim=20Pedraza=20Padilla?= <maximpedraza@gmail.com>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+	Francesco Valla <francesco@valla.it>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Helge Deller <deller@gmx.de>,
+	Peter Jones <pjones@redhat.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Jocelyn Falempe <jfalempe@redhat.com>,
+	Sam Ravnborg <sam@ravnborg.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	dri-devel@lists.freedesktop.org,
+	devicetree@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-fbdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-embedded@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 00/15] Add splash DRM client
+Date: Thu, 12 Nov 2026 16:22:09 +0100
+Message-Id: <20261112152209.3297409-1-maximpedraza@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <066197a1-aa2b-455b-84d8-4e2215fad764@suse.de>
+References: <20261027135342.2003632-1-maximpedraza@gmail.com> <066197a1-aa2b-455b-84d8-4e2215fad764@suse.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,104 +123,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Stanislav Fomichev <sdf.kernel@gmail.com> writes:
+Hi Thomas, Javier, Francesco,
 
-> On 11/10, Bj=C3=B6rn T=C3=B6pel wrote:
+Thanks a lot for the reviews. I'm answering everything here in one go.
 
->> diff --git a/net/xdp/xsk.c b/net/xdp/xsk.c
->> index 113b0b08356d..b419c673e3f1 100644
->> --- a/net/xdp/xsk.c
->> +++ b/net/xdp/xsk.c
+On 11/11/26 14:52, Thomas Zimmermann wrote:
+> So shall we merge patches 1 to 6 and 8 first? You'd have something in
+> upstream already and not chase a moving target. From there, we can merge
+> the other features in the coming weeks.
 
->> @@ -453,8 +501,14 @@ static int xsk_rcv_check(struct xdp_sock *xs, struc=
-t xdp_buff *xdp, u32 len)
->>=20=20
->>  static void xsk_flush(struct xdp_sock *xs)
->>  {
->> +	struct xsk_pp *pp =3D xs->pool->pp;
->> +
->> +	if (pp)
->> +		xsk_pp_flush(pp);
->>  	xskq_prod_submit(xs->rx);
->> -	__xskq_cons_release(xs->pool->fq);
->> +	/* A provider releases FILL entries under its lock. */
->> +	if (!pp)
->> +		__xskq_cons_release(xs->pool->fq);
->>  	sock_def_readable(&xs->sk);
->
-> optional nit:
->
-> if (pp) {
-> 	pp_flush
-> 	prod_submit
-> } else {
-> 	prod_submit
-> 	cons_release
-> }
->
-> sock_def_readable
->
-> (hard to follow these scattered if(pp) checks :-( )
+Yes, that sounds great. v7 is ready and holds just those: patches 1 to 4,
+6 and 8 of v6, with the MAINTAINERS entry squashed into the patch that
+adds drm_splash.c, so six patches in all. The DT binding, the placement
+and rotation, and the connector orientation will follow as a separate
+series once this one is in.
 
-Sure, will do!
+What changes in v7 from your comments:
 
->
->>  }
->>=20=20
->> @@ -464,6 +518,11 @@ int xsk_generic_rcv(struct xdp_sock *xs, struct xdp=
-_buff *xdp)
->>  	int err;
->>=20=20
->>  	err =3D xsk_rcv_check(xs, xdp, len);
->> +	/* Only the NAPI of the queue feeds a memory provider socket. */
->> +	if (!err && xs->pool->pp) {
->> +		xs->rx_dropped++;
->> +		err =3D -EOPNOTSUPP;
->> +	}
->
-> This is confusing? Why even call xsk_rcv_check for pp case?
+- the Assisted-by tags are gone from every patch (Javier)
+- MAINTAINERS: I'm listed as M: and Francesco as R: (thanks, Francesco),
+  in the same patch as drm_splash.c
+- the firmware source is now DRM_SPLASH_SRC_FW, and the Kconfig options
+  DRM_CLIENT_SPLASH_SRC_FW and DRM_CLIENT_SPLASH_FW_NAME; the BMP decoder
+  keeps its name, since the BGRT goes through it too
+- the drm_splash_fw_load() stub returns 0
 
-Hmm! I think you're right here... this was a (is it bound) check. I
-might have been wrong in my reply to Maciej as well. I'll drop this.
+On the CONFIG_X86 around the BGRT check in patch 4: it comes from efifb,
+where efifb_bgrt_sanity_check() is x86 only too, and its comment says
+that all x86 firmwares centre the image horizontally. I haven't found
+that promised for other architectures, and there the check could reject
+a logo that is fine, so I'd rather keep it as efifb does. If you prefer
+it on every architecture, or gone, I'll change it.
 
->>  	if (!err) {
->>  		spin_lock_bh(&xs->pool->rx_lock);
->>  		err =3D __xsk_rcv(xs, xdp, len);
->> @@ -488,7 +547,26 @@ static int xsk_rcv(struct xdp_sock *xs, struct xdp_=
-buff *xdp)
->>  		return xsk_rcv_zc(xs, xdp, len);
->>  	}
->>=20=20
->> -	err =3D __xsk_rcv(xs, xdp, len);
->> +	if (!xs->pool->pp) {
->> +		err =3D __xsk_rcv(xs, xdp, len);
->> +	} else {
->
-> [..]
->
->> +		/* A CPUMAP program runs XDP on another CPU, not in NAPI. */
->> +		if (unlikely(!xdp_rxq_info_is_reg(xdp->rxq))) {
->> +			xs->rx_dropped++;
->> +			return -EINVAL;
->> +		}
->> +
->> +		err =3D xsk_pp_rcv_zc(xs->pool->pp, xs, xdp);
->> +		if (err !=3D -EXDEV)
->> +			return err;
->> +
->> +		/* Copy only packets of the queue, from its NAPI */
->> +		if (unlikely(!xsk_pp_queue_buf(xs->pool->pp, xdp))) {
->> +			xs->rx_dropped++;
->> +			return -EINVAL;
->> +		}
->> +		err =3D xsk_pp_rcv_copy(xs, xdp, len);
->
-> Move this into __xsk_rcv_pp ?
+The issue Sashiko found on v6 (a restore deferred while the device was
+suspended) is fixed in v7, together with a few more that a later Sashiko
+run found; the changelog of patch 4 lists them.
 
-Yes.
+About your Reviewed-by on patch 4: since v6 the work has changed quite a
+bit. Restore now leaves the commit to the work, a hotplug while userspace
+holds the display waits for the next restore as fbdev does, and
+unregister waits for the work before it looks for a pending firmware
+request. Shall I keep your tag, or drop it so you can look at the new
+version first? Whichever you prefer.
 
+I'll send v7 shortly.
 
-Bj=C3=B6rn
+Best regards,
+Màxim
