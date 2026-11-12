@@ -1,100 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794442653;
-	b=RHjU9UDLCCjlEtBov/H7f6wlgsJQ4DX19EZAO1Ceq1d4QhpjmSXp3EC5agzAen7NHlgk
-	 kHQVdDcnwJuB6CugJx4S4osay68ViftN7PGyX0q6RXW6/yaUox0zwUl0/hSvMksJnUjbs
-	 ueTsFhhpIoQPWiQfgzxerXgVbKSwPUesyIKk5O7qcPYgM+IvJqI64RoEwzK6XGabpm/gr
-	 9RQ0D4OnRiCn+GLCwpRdh8vvS5yP75mSTq1C2qZm6unok6qxImgzJQTwePeap2kcYkrsG
-	 6rLfWcihRU5NCBZ2Lf5aBdLAP+dskP5EpAAL2c4lOc5tRg7pzhDAgscChB2qRe6Binw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794442653;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=gmUxuFr1Scrtzy9jq6/XBAc+K/Jb1cYhpFQ7OvuHQow=;
-	b=xWA2BhEQoLzt/V1zXqzzQvYCaCTH4t866LPZd7XGX3cR1fRa3F24FVRI5CA3lcRDdW+V
-	 VbPB5hJI/OjZ28b9ShEqdee0wwxzeg9QaN+IE6XTFKDRCxufbYEyNLLfZVJ2AZuyVhlYh
-	 91XlzOl2qT4UK54qLvwGypppsp24aUUePojfdD4F6r7rj0Ezt45A3Gw/QymqqpawNdyt3
-	 aT9qvIDY8VlTiD/ZNpJq/eQ+a0SH96pCvjIkUOHqjR1aD7GeVRPHnISXPwOG73UtnRkBN
-	 DHys0sJupxh9xzncgGppwqZGZwiWRIyZITo8DUCS35vay7dEopnNQSA4HTGxcEKa7lQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=QY+9H4KB;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.51
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794443196;
+	b=PklsDSXcZi4Iov0N9wKWOQX+WQOpWHs66vmq3P2IOizzwVWskLA8wKt6nK4tzuHUhYi0
+	 cc6lOCjR6UoftxVOJ9gwAMhnI6akE0Txjx4ptQrGLWyA1l2aiM2ACIP0wcEUwLpEqDX1g
+	 dRuefcmVbfW0vyKyDTi2KzZGU0ISDYVKjdxnqiqr7RWXDVRQZOVuKdc3cNvkF455tJyGq
+	 Me7u5/P+klr076fId4c79s3EYtLSlDmoCW5aQ0sEivXU1ToFlTZxph2fEIz1703ZSHMJp
+	 7/0K9XICTxDTKPIYcyO1PYaD6+KTbX2/iRa+IaBBn9vPQ8CuxxY5L2U4HnyMrw+KLrg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794443196;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=3JaUIX8TvleTZ/eyRqexb46r9ox6QF7gVm6ONPKED1k=;
+	b=aWyKF62iMLG4F2S/ylNhExVD6FlI6yjMEBo53Fd9bv5mUrB+7YD+OZM1trSHOfT8IkjX
+	 k7GhAxfaGV+uhG8eJFIRlMGguffMqalfKQBP+EYw7wAgmGyk/M3+Hrxfb9MIg9ki32a+p
+	 LEuiVFI7lJ4O2SeMkCe5FYLSW+LNf06ed4NnThnc6AXvxB9xOhtWG5JOWizf4/giJDOJj
+	 DqlWYpvDk919Z9i/Booyreq+0Gj7MPhtczc8zNpD0vzg7yHuq7PQ6mtVMEloRtjpi1zyH
+	 NirrkhQQG7g5uAyEdEVaFwfy8m7YuvxqwdsOO/wQkHhfayumhJHVbOMiS8U0OpDCj4w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=infradead.org;
+	spf=pass smtp.mailfrom=infradead.org;
+	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rafqYhJO;
+	arc=none smtp.remote-ip=198.137.202.133
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB1A606A32A
-	for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 00:17:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAB1A606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDCCB606A31C;
+	Thu, 12 Nov 2026 00:26:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DDCCB606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=QY+9H4KB
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6b71ee00f0dso1715a12.1
-        for <linux-doc@vger.kernel.org>; Wed, 11 Nov 2026 16:17:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794442651; cv=none;
-        d=google.com; s=arc-20260327;
-        b=T+8+mS0Tr7pB6M7E5oO7A0ENy1Ru2aJAxBetp5rGn+MgkNGIxcILBMPJHaz6jitBYC
-         lQ6GKHKoj+j36Pv6vVTAdbjDQhPaz2ferBrazj6oKbFnNAebJnJs5H37YD/OHjXh0UIN
-         JLx/q/8kTySWhhyublmVJJSLvs/i2zeVZFc/qy4eHuUvglf2GIDphB29sV/rkWcFF2Ce
-         jwmvAc7HpmISBwDmV8D+8fvYC1KGuHUlGWZ01o059DIDCxJx0BMhmg3XH2IsTboRH4OP
-         5KUUSruuS2xoXHuCxv3XhR+Q1oBhf+cYqiAvchiS9MCcaGeAbOHY5uruTSBMPRO3W85o
-         ptmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=gmUxuFr1Scrtzy9jq6/XBAc+K/Jb1cYhpFQ7OvuHQow=;
-        fh=kIQwK+TX0YLCtBI+QtPU+4uqSCWd5pdcwLhoA3tpPoU=;
-        b=aZK+P8HIPUbGO9Jsh3/t9CDR0nSlr+sskTblwds4rhQAHmERDiEg0VIQiassZewFhL
-         hhOh7xtjSBhlKw4rnyf3hn7BVjfAJHfLJA8ITKf3nlD6PBsVoI8nLQM4Vhfg7F7xUJVk
-         HwSxG6ncXRs4i993kMZ1RlyHD/PVw5M/JVshP70zArsGbDZnb9FzxEnkOllJztinsqpO
-         PvUcHh7XS2rxbESNKN8PBBpI3GLsYb4JVuMMZwZgXoY1sv8faZYORM3AN5jfa1Hz1jP5
-         X/O66VHRcweg2ycFVDBFbcXBL66wCbVImZDnkwFj+yCOLLErqIe7vt1oaDyC9/PxA3vZ
-         o2Kw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794442651; x=1795047451; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gmUxuFr1Scrtzy9jq6/XBAc+K/Jb1cYhpFQ7OvuHQow=;
-        b=QY+9H4KBVMuRH6WseMYE10z/E6oHDTOxh8WTDUyV9c1OJB/L2GOFHpJ8jTAfTPyNx4
-         fnThIGMHJGQSj6hOU/X43MCGlvQdkiO64U45kfZ9SUWdV/nIBHN2yM8WjPL3ie/cE5CL
-         KfH81hSPqG3FwvK/mbyH0AKy8wh/batRMthVd52IT8+bfnWhQT7GUqM9nWa5zuL3ThA2
-         vyuaQMrfbHHFgxJvYpIprSsfvOxsGEFsy1XtwHw+8+fLUvC75LYsDziB7kDmd1lIZhDM
-         bd44g2vlfdilYjpd0y6qdWk/rMix5Y9GFOEv1PHFlj/tkpTWdZ1OlzmijfV4pNIibtQj
-         5FwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794442651; x=1795047451;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gmUxuFr1Scrtzy9jq6/XBAc+K/Jb1cYhpFQ7OvuHQow=;
-        b=yUe+8qFYe5bKJzKdMXGiFy3LMM/aAO/Kl2fzZSCmjT/JYVvFopGR4SctWd1akqtOwC
-         cZhy6fySv2hvbct/Rc0REpYcXlqS+C8kXwZCeXrA5ytaxPVm4WuzxTK4B3TmmmzVqjIS
-         0cqLlSEBtWccZksXWufj9R8tMZqOSX4nY6+ZefoLbK8jPphGXD2cecLnkco262mMBzRJ
-         R3OhrgQ4ymaBcHe10x9lyArukaGnbwfvVDooVdso/keISJ7fZqL2hDCGingnbmgncZ/A
-         dDPhhxc3ln23h4AqnziM2NdG/I+s2HnA6xUzTXV6u4nMpcUAOUwl1EdeplrQPHC0VmwM
-         jEKA==
-X-Forwarded-Encrypted: i=1; AL+hErH52mFRacmjYd7JzE/Aq/vYRUX4XTxFNIu2iMeDc+61l26zauXB9Ztd2qGQXYn5BX2NlH5ENJOYbIo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+FBV/1rVa92TQR6uEN1i6931o/FhUYHlwsaQMjcjOdqw9rdhBW
-	E1e3yWlB88sMTd+h4B3h5cixaZnHyO8LojF+LgXf5fa/DPaUjj7U4cFaTe+B/m92h8wDxjDhAxm
-	UN+SfGquz2P3nBrEiRDwJJFBjQ+pEOjeGPNdNeuYm
-X-Gm-Gg: AYBFou3694qdSskQ6WMmsyCOTmi6bUcYXdCLwjH+JdzNI5MNbcmFtAYMPLqThw3QaIq
-	knSYk8B4BailqGe2U+1N6Rwd6TDE64wItXB1b4crKC4z5o5gz50EutHDAvEYQGqilYQlZdy25mN
-	aUqYPLw4vyGjeTyrG/BmC9wcbBEa79+d+h8wG763ExRyAyl+JdVZI/Bc9aY5zU6kdqHdWCJ5Joi
-	RIPPs6BLFglP/Hn5WNnlzLHv93+K+8C0GgtwIpmW/mN+TNL4uuhkmPVcxYcRTOZKOGy76RRIuPF
-	7qoZkXPSUB+uPI8GKEkjMEtDhrbl7HD1bcPs5KS4C559pJSRidSPI6X2A+BW5sNRscyPAn5Xfzy
-	0B4/DcvHv3unPmXzfrYyy+2DRejpt42wRaXITGxyxoU+Z2E5dDVu8pO2S+O/IELEGQAlHf4ZB
-X-Received: by 2002:a05:6402:327:b0:6b1:bce6:1220 with SMTP id
- 4fb4d7f45d1cf-6b7a2a18aa4mr17979a12.12.1794442650687; Wed, 11 Nov 2026
- 16:17:30 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=rafqYhJO
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=3JaUIX8TvleTZ/eyRqexb46r9ox6QF7gVm6ONPKED1k=; b=rafqYhJOPOa4iyEQfoTvTZ4K6T
+	JVbDXCbUOkzGjrQC/xfo2SUILYVmHnv+jE1DpCEUr5UyyUxk3wCBssj1LE/zlM9WK6X0g2rkRthwf
+	yvfLdVgeFnsmpeZ63A8wNgZzMoPPVqhz+1cMNxhKwCoJxTwN7iPj5kz2Je+KnDPde5Np+p7Pg9+iO
+	EOyofX6A557DYr4wnLBnWDkTd7V0+fj6dLF6mYRJ39yinQRTOo/ezE2ND398UgI9HguHC9op42+ko
+	fsvSXzyYASfK+vM9pYCGI+HWF0RRni/yWCbKDFhSA+4aIBXHGZTApjFR6G3Fukte5JrpDtPvere0F
+	Tj8w+vCQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
+	id 1xRIe6-00000008Em9-1nv8;
+	Thu, 12 Nov 2026 00:26:30 +0000
+Message-ID: <a7b1d671-18b0-44e8-b112-ab66893b3bf4@infradead.org>
+Date: Wed, 11 Nov 2026 16:26:29 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -104,55 +58,86 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1794374897.git.zack.rusin@broadcom.com> <80b2f51ddabc3824b83da48fc0def984cf808965.1794374897.git.zack.rusin@broadcom.com>
-In-Reply-To: <80b2f51ddabc3824b83da48fc0def984cf808965.1794374897.git.zack.rusin@broadcom.com>
-From: Jim Mattson <jmattson@google.com>
-Date: Wed, 11 Nov 2026 16:17:17 -0800
-X-Gm-Features: AclHuK_V43cL9OcDFeVKDhORDjmYSlCIZPO3f49bHRt-Tpt3bJyQNBhejjxGgLw
-Message-ID: <CALMp9eQvP6hdxJ2-X5bhZHfaM5JCsvVJe07OkzTnnQhq73mW4w@mail.gmail.com>
-Subject: Re: [PATCH v3 05/12] KVM: x86: Add a unified VMware capability
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org, 
-	Doug Covelli <doug.covelli@broadcom.com>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap <rdunlap@infradead.org>, 
-	Shuah Khan <shuah@kernel.org>, Vitaly Kuznetsov <vkuznets@redhat.com>, 
-	David Woodhouse <dwmw2@infradead.org>, Paul Durrant <paul@xen.org>, Xin Li <xin@zytor.com>, 
-	Francesco Lavra <flavra@baylibre.com>, =?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bcm-kernel-feedback-list@broadcom.com, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] mm/zsmalloc: remove CONFIG_ZSMALLOC_STAT
+To: Xueyuan Chen <xueyuan.chen21@gmail.com>, Minchan Kim
+ <minchan@kernel.org>, Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
+ Alexander Gordeev <agordeev@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Sven Schnelle <svens@linux.ibm.com>, Helen Koike
+ <helen.fornazier@gmail.com>, Vignesh Raman <vignesh.raman@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-s390@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Nhat Pham <nphamcs@gmail.com>
+References: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Nov 10, 2026 at 10:05=E2=80=AFPM Zack Rusin <zack.rusin@broadcom.co=
-m> wrote:
->
-> Add KVM_CAP_X86_VMWARE, a VM capability that takes a mask of VMware
-> interfaces to enable, with KVM_VMWARE_ENABLE_BACKDOOR enabling the
-> I/O-port and pseudo-PMC backdoor.  KVM_CHECK_EXTENSION returns the
-> supported flags.  Track the flags per VM, and keep
-> enable_vmware_backdoor as the initial value of the backdoor flag.
->
-> The module parameter enables the backdoor for every VM on the host,
-> whichever VMM created it.  A per-VM flag lets VMMs enable it only where
-> it is wanted, and the module parameter keeps existing VMMs working.
->
-> Use one capability, so that the hypercall and nested-backdoor flags
-> added next share its validation and rules.  Accept flags only before
-> the first vCPU is created, because vCPU setup configures #GP and RDPMC
-> interception from them, and don't allow clearing them.  Limit the flags
-> to bits 0-30, as KVM_CHECK_EXTENSION returns an int.
->
-> Enabling the backdoor for an SEV guest still doesn't bypass the guest's
-> I/O permissions: KVM doesn't intercept #GP for SEV guests.
->
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Suggested-by: Sean Christopherson <seanjc@google.com>
-> Link: https://lore.kernel.org/r/c60b32a3-e699-4a8c-8d52-09b34c4d5269@redh=
-at.com
-> Link: https://lore.kernel.org/r/aAjrOgsooR4RYIJr@google.com
-> Link: https://lore.kernel.org/r/aAkgV3ja9NbDsrju@google.com
-> Link: https://lore.kernel.org/r/aIEkrc7Mdf2ia1Mm@google.com
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
- Reviewed-by: Jim Mattson <jmattson@google.com>
+
+
+On 11/11/26 4:41 AM, Xueyuan Chen wrote:
+> CONFIG_ZSMALLOC_STAT only controls the debugfs interface. The class
+> counters are updated regardless of this option.
+> 
+> Remove the CONFIG_ZSMALLOC_STAT guards and rely on the debugfs API
+> stubs when CONFIG_DEBUG_FS=n. Skip statistics setup silently when
+> debugfs is unavailable.
+> 
+> Remove the Kconfig entry and replace the existing CONFIG_ZSMALLOC_STAT
+> settings with CONFIG_DEBUG_FS=y. Update the English and Chinese
+> documentation to match, and clarify the pool name in the debugfs path.
+> 
+> Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> Reviewed-by: Nhat Pham <nphamcs@gmail.com>
+> Signed-off-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
+
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+> Drop CONFIG_ZSMALLOC_STAT instead of making the counters conditional. The
+> option only controls the debugfs interface, while the class counters are
+> updated unconditionally. Removing it simplifies the code.
+> 
+> Following Nhat's suggestion, remove CONFIG_ZSMALLOC_STAT and rely on
+> the existing debugfs API stubs when CONFIG_DEBUG_FS=n.
+> ---
+> Changes in v3:
+> - Squash the three patches into one (Nhat, Sergey).
+> - Add Nhat's Reviewed-by.
+> - Update the documentation wording.
+> - Link to v2: https://patch.msgid.link/20261109-zsmalloc_stat-v2-0-caee41684aba@gmail.com
+> 
+> Changes in v2:
+> - Drop CONFIG_ZSMALLOC_STAT instead of making the counters conditional.
+> - Update configuration files and documentation.
+> - Link to v1: https://patch.msgid.link/20261106-zsmalloc_stat-v1-1-b574f4714adf@gmail.com
+> ---
+>  Documentation/mm/zsmalloc.rst                    |  4 +--
+>  Documentation/translations/zh_CN/mm/zsmalloc.rst |  2 +-
+>  arch/s390/configs/debug_defconfig                |  2 +-
+>  arch/s390/configs/defconfig                      |  2 +-
+>  drivers/gpu/drm/ci/arm.config                    |  2 +-
+>  drivers/gpu/drm/ci/arm64.config                  |  2 +-
+>  drivers/gpu/drm/ci/x86_64.config                 |  2 +-
+>  mm/Kconfig                                       |  9 -------
+>  mm/zsmalloc.c                                    | 33 ++----------------------
+>  9 files changed, 10 insertions(+), 48 deletions(-)
+
+
+-- 
+~Randy
