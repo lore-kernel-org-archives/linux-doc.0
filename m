@@ -1,140 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794581323;
-	b=FxpYbNWuEhoMC1YZLhkqhyHVLjr7TUPjybq1vzs/5/hr0kzsGPPzM1m4kOA7ZFm3XoZ6
-	 FD764RJqd7uhljVdqjnhJtKQErsn7c9Kd3Pwe8nsCzlKznZ5uyf6N6yip3dmdvpTSxLzF
-	 wteGHqTCA99L+QBs5IvJb2wY9LbiH90w2imHcW6zG9HHwxcNdHlAXjK4AWxGqRN9fm02X
-	 HY+sUUig8DcrvbNB21YRMpXWo27UQM0G6OR6GZwhu5XOlJ6CjbBK8PUIfebAgvOj7XeQV
-	 8/p325m69twjJ+8xHYDEfcH2FtlGlDRgXecJ2tQ/yjtFQYnMiBbxc7QA/N5HNMGkyJQ==
+	t=1794582278;
+	b=qxIWwiVGh6P6CQB8WAym58yeWxM4hi36SJ2bL+Wb1Oku5S/fyQi8bJOzU/feAMbtzK2/
+	 GjA1ufnDYafoCGyAZbAtIi27J7gIRjyyvBZdQ62eyI1+/9iEH5HPRFGe1v/Db6622hXja
+	 H7SwkmY8/WerOG14dynG4gJDyW0JL5MxbGy1cYiV+ojtRDZQEQHE3TNKQW+sfwF8oQk11
+	 /QKCLAfWD6uZoBFnbEIYsfud+RfkD4xu38x2fyYPc0pWvdhbTqPHOt0NB3gkyDYlWC3St
+	 w0AgxM3xelT/zoaysOpIHGukhrHqIX6jlasbZkiEiPa44mXcZBKfqHpZn7fuzTuCGbg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794581323;
-	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
-	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
-	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=s980VbGVtwRk1EKpuniB7EiZ4GXO+PQXntiwlHmVNms=;
-	b=5REeg2d9SuJjY6noTBVHJTzUHd83ON/V8khBS43kgADHIiKEHOPmbWA8P7xTVn4lJNNE
-	 d0ypBROCFWQoAdU3snuGiNVjYlAcWzXS680s4AGvIs1PNtMKLzcecJLMMb4Wc50IBPqwk
-	 lozov0yS2X8esB01iN1k3MuZKEg8Jb9xvI2ZEd/Kq4ljdFTvz6eyT6RhDHmmN5z370FnT
-	 tkfuNCo5t09WAyCZrr4xw1DDbkbIpbyvvxPUWuBsxgZHmkpQ2Z1JZ5n/VVt73DpgvPn6i
-	 GF9emLKpKSKlSakdMvb3M6k6QYHS2RRA/OjXTU+Cty39/oLgXT4SyZ37X01LLjizxEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794582278;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=kbBjRgmT9qgWX9JcAIks0NFFYmbsdb28Bgdoa2Ns/l0=;
+	b=uot4mTVYhYRDI9Kh1XmuNLQ4KbDNWXcHBC6/4ymoIznU2NOQmzLjeto9s5TlNxjeP8Gf
+	 hivsBeSWaN6qaWX9OSm+65e16XVt2dc+ODDD+kvk5TUG7wIufaz4AnyIjdVl1MLyxKZq4
+	 tlmykKKj5uRlDYupMEoM/04Kfshto67tGa5Lb5H06vYIgWzmEnCXEkaGxF/Eh45osjsWQ
+	 gdwXgrFRK6ef7Jbq3h7m36lKKD+M2hNDJexIv095fUSJz63UXK+XU/2406x91g7nh5K0y
+	 9t00Mdp1c9gqrfm2jBlM4D5n6Bq+XmVPmP/tU6OmDCQJSb2g/fX3kv5bKUDc1QjP1Lg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=redhat.com;
-	spf=pass smtp.mailfrom=redhat.com;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EpLtYNW2;
-	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=IJ4ZjB+M;
-	arc=none smtp.remote-ip=170.10.133.124
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IrCrDKxV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8014606A333
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:48:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8014606A333
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0825606A32E
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 15:04:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=EpLtYNW2;
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=IJ4ZjB+M
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1794581321;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=s980VbGVtwRk1EKpuniB7EiZ4GXO+PQXntiwlHmVNms=;
-	b=EpLtYNW2Z/kcoTN2bpHJv99TNpPOEcmIAYs5DFNY/Z6vCHVuwMPZcQdPt/Yj6K6us4+9x0
-	nurPIp9pRlWAk3eD0Ej0jDaJ76Mz/b3WhLHfh2lVp2wreFiByW7Q+yAniV4IMBoHu/j4HB
-	0VRnnzrLM2j/BTvY4L3TE/ozsbalSqg=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-368-GEfOir6MOXG9n0tLdG3WCA-1; Fri, 13 Nov 2026 09:48:39 -0500
-X-MC-Unique: GEfOir6MOXG9n0tLdG3WCA-1
-X-Mimecast-MFC-AGG-ID: GEfOir6MOXG9n0tLdG3WCA_1794581318
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4a318cd95e8so7618545e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 06:48:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1794581318; x=1795186118; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=s980VbGVtwRk1EKpuniB7EiZ4GXO+PQXntiwlHmVNms=;
-        b=IJ4ZjB+M1HW0wkGSApBE2giAtVaZbWxA1nVfjBs6Bzk5fo/RrxHNXO8iCacUoQImlR
-         xAk0swVd4GT54XXNNzv0EvDuERIyISQokx1hLiQtpUeJghvCBthK/v0doYK2jTOG0xcg
-         tfxiQu1USplgJgH8L6GWLuqi4pxZpyVyabMuv1mwnUKhOo+GHwQu+Jir/W8W0SEMLEu+
-         7RNh4qatJgwXEBz+h6jQv/WVtDxZdaV2ZEq44bjfuoc0pRgN8U78wcETu6B5S7qIrPGf
-         UaWBHnGdexyOdgp2xV/AC1TXlPv7HPBpL/M77tG0PXnCoLFjdKSyMjoyXKAZs9hPyfQl
-         kUdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794581318; x=1795186118;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=s980VbGVtwRk1EKpuniB7EiZ4GXO+PQXntiwlHmVNms=;
-        b=m/I37NwjIcNGayuQoMgDSxZ2cqZGQ8qgnYvAYv5eZS4etVPNtuFfg4PvsI1xsbehWN
-         l8EzSrJrUH+EkCt05cP+D7oCl/hmJEbO/w7iLw6QpM+r03M8fUfwVrBVLNKPypM2HzD5
-         uqjVO/0W8vyxJuuu/7ePmLtnZYkZc9Xhg0yWLvjyTmnqfp9cm0UTMnNz1uSX0D0z1tZX
-         QQhOZzrxPB9Q3o10ws/CwlK/8oHFJZqCWMDtDiEk5xlpWWu9ZAaDbbe31oLn87AVuzPz
-         x7sHBo2BBcZkcXfBJGgAD4t1BuxqUPnGSI7cnKWee6+S2pS+PoyXuVe3lxHHAELuUvXD
-         KCuA==
-X-Forwarded-Encrypted: i=1; AL+hErHwHL6D1C+gms4momLexdoaldsG4/5cA9HNyuHXZ0ldXAjsQe0H2/ANdgNjk9G/9fytpQc7NhUy8T4=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9+yB49zY+vZMvuKSgkkEOYv25vALuK7GEk3h6y+VLl4eY47xvZ
-	XRj0uDkbzabhGWMzZDP5w2wZ7d2BuCvVUMyDb8OeiwgD5IiVGeWgdEiIvv1s9/qQvrPDPSKcCiT
-	yzdUIBpWJtoQe4b3J+JzTC4FMxKK9+BBHqjIExR3xxXQAF63/qQI5KxTwsk8OMw==
-X-Gm-Gg: AYBFou1lhmVbefemkTnN/ZWK5q7jExd+Z4kLRkzXG6I3g8DeJeYvSs0USPXV+RaCXto
-	ncDaNon4kA0jRGPhIiI5aHQLBlalzb7foJvIi6nXM2T0UF3vXsza2C3pBytuNEMA6+qJkONVwxT
-	4BabbaBTEFFv2a/f8hpUh2+Z1atQZGRJ+XJuPuC56mJ0A8JAG0JENYOL7V3jQmz/icmAykkp4vp
-	3TCyB5xjarsddqnrvwrPbO7jlz4w1Kk/DdpaEHpj5Tt297SmBgjLI8SxelX5Vo7fl/GPcaHPgmd
-	Iu0C7SrmyBCmL70PSXVOBedo8JqGWjfv80a2eRvhKFY5TjiijchwQITbzBS+vxeuh0qyVQhxCWt
-	mnDqRI+zJKGv9DSg0PRDEduyMkrZsyO8hSbiiR+b08eofoEo2P5mwm4KrLCUumdboLHwledTxmq
-	7zP5E=
-X-Received: by 2002:a05:600c:3acf:b0:4ba:4395:560f with SMTP id 5b1f17b1804b1-4bb55a70e39mr62402545e9.8.1794581318242;
-        Fri, 13 Nov 2026 06:48:38 -0800 (PST)
-X-Received: by 2002:a05:600c:3acf:b0:4ba:4395:560f with SMTP id 5b1f17b1804b1-4bb55a70e39mr62401905e9.8.1794581317838;
-        Fri, 13 Nov 2026 06:48:37 -0800 (PST)
-Received: from jlelli-thinkpadt14gen4.remote.csb ([151.29.158.90])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb55ace535sm68040475e9.6.2026.11.13.06.48.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 06:48:35 -0800 (PST)
-Date: Fri, 13 Nov 2026 15:48:32 +0100
-From: Juri Lelli <juri.lelli@redhat.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, cgroups@vger.kernel.org,
-	rcu@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	luca abeni <luca.abeni@santannapisa.it>,
-	Yuri Andriaccio <yurand2000@gmail.com>,
-	Yuri Andriaccio <yuri.andriaccio@santannapisa.it>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
-	Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Qais Yousef <qyousef@layalina.io>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: Re: [PATCH v3 1/8] sched/deadline: Reject debugfs dl_server writes
- for not-active CPUs.
-Message-ID: <avcjQMlVELcauQld@jlelli-thinkpadt14gen4.remote.csb>
-References: <20261113-sched_dl-v3-0-a76ffa1cdeee@linutronix.de>
- <20261113-sched_dl-v3-1-a76ffa1cdeee@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IrCrDKxV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A531D1F000CE
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 15:04:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794582278;
+	bh=kbBjRgmT9qgWX9JcAIks0NFFYmbsdb28Bgdoa2Ns/l0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=IrCrDKxV/9wVP7o1A7Uwwq7KjWFyRCJl3dAQ7/g7gWaijgrPjFRCRmhQlBLdWVcBH
+	 Y0JBHhUopPngdNXRgzXWeyCUbHm2ANpWsFzJs6UoBzYMjNJ9DuO58pg/jwr8b17Aee
+	 MqnJ7Fal6xcUQ6DroTmn7ezlWMbttYPwdkEbnbIMZZClr0LaaNjSyFXp+J/u7zUiEH
+	 X6kVqlDG+lBoaY0er8P3dIrFDfdGFRIOI+jmHy8D1rRS8/+xAdIjpZygXcULlQAbxi
+	 NxZykgby/i4t778qxSQH6v0jKBhX430t8ut1zBjsQpPQhGn83TTnDiuGmjaKqvwnw1
+	 D2VrlneApiEKg==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5c148d4dbfbso1584514e87.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:04:38 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErHbamqU66nA/wguQZCwQnyvXIxQfq9NgWNRuCsJXaCtwrhFEC2JO2PAIpiaDQRvf6fXM2wjaMa6EOA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9tnfBIArb7nJx5IWDDXGo0ZTbQSUEVEWQlBTByU1iRG/IJ16re
+	vqjaZZ6KvjpZknDM881gQH7nTsvQhuU9mTppjRZpLBMeiKyVuhsXcWaBJmDPL6NV7R5PlGnccHE
+	mgGCW99+8zq8rieaudDyWofQw8MoFIUI=
+X-Received: by 2002:a05:6512:3c9f:b0:5bf:d0d5:3b12 with SMTP id
+ 2adb3069b0e04-5c1709e535bmr1462462e87.42.1794582276836; Fri, 13 Nov 2026
+ 07:04:36 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -144,70 +59,331 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261113-sched_dl-v3-1-a76ffa1cdeee@linutronix.de>
+References: <20261111220803.3953790-1-sumitg@nvidia.com>
+In-Reply-To: <20261111220803.3953790-1-sumitg@nvidia.com>
+From: "Rafael J. Wysocki (Intel)" <rafael@kernel.org>
+Date: Fri, 13 Nov 2026 16:04:24 +0100
+X-Gmail-Original-Message-ID: <CAJZ5v0hJExw-TYyF-TtEeuZ9kw3v5cm=H3Q=vLLqQ51V0Xn8Mg@mail.gmail.com>
+X-Gm-Features: AclHuK_uNNKHpJk3ChlalQ1s4LPVs3H0vhMDhZKt2eCu7idDfJ7Nkp1Kg8j37kg
+Message-ID: <CAJZ5v0hJExw-TYyF-TtEeuZ9kw3v5cm=H3Q=vLLqQ51V0Xn8Mg@mail.gmail.com>
+Subject: Re: [PATCH v6] cpufreq: CPPC: Add autonomous mode boot parameter support
+To: Sumit Gupta <sumitg@nvidia.com>
+Cc: rafael@kernel.org, viresh.kumar@linaro.org, zhanjie9@hisilicon.com, 
+	zhenglifeng1@huawei.com, christian.loehle@arm.com, 
+	maciej.wieczor-retman@intel.com, pawel.chmielewski@intel.com, lenb@kernel.org, 
+	corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, 
+	linux-pm@vger.kernel.org, linux-acpi@vger.kernel.org, 
+	acpica-devel@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, treding@nvidia.com, 
+	jonathanh@nvidia.com, vsethi@nvidia.com, ksitaraman@nvidia.com, 
+	sanjayc@nvidia.com, mochs@nvidia.com, bbasu@nvidia.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-On 13/11/26 11:50, Sebastian Andrzej Siewior wrote:
-> sched_server_write_common() checks if the CPU is online before allowing
-> fair_server updates. This is important because updating the fair_server
-> runtime/ period will use dl_bw_cpus() will return only the number of
-> CPUs which are also marked active.
-> 
-> The CPU is marked active as the last step during CPU-hotplug. If the CPU
-> has been marked "online" but not yet "active" or is stuck between those
-> two states then any update of period/ runtime will lead to a divide-by-0
-> error.
-> 
-> Let sched_server_write_common() check of active CPUs instead of online.
-> Additonaly, let dl_server_apply_params() return an error if dl_bw_cpus()
-> return 0 CPUs to avoid the divide error.
-> 
-> Fixes: 4043f54984161 ("sched/deadline: Reject debugfs dl_server writes for offline CPUs")
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+On Wed, Nov 11, 2026 at 11:08=E2=80=AFPM Sumit Gupta <sumitg@nvidia.com> wr=
+ote:
+>
+> Configuring autonomous selection and Energy Performance Preference (EPP)
+> at every boot currently requires per-policy sysfs writes.
+>
+> Add the 'cppc_cpufreq.auto_sel_mode' boot parameter to enable autonomous
+> selection during policy initialization and optionally set EPP. In
+> autonomous mode, the platform selects the performance level within the
+> MIN and MAX limits, which the driver sets from the policy limits. The EPP
+> hint guides that selection.
+>
+> The parameter accepts:
+> - performance: enable autonomous selection and set EPP to 0x00
+> - balance_performance: enable it and set EPP to 0x80
+> - balance_power: enable it and set EPP to 0xc0
+> - power: enable it and set EPP to 0xff
+> - default_epp: enable it and preserve firmware EPP
+> - disabled: preserve the firmware configuration (default)
+>
+> Warn about unrecognized values and ignore them.
+>
+> Skip policies without autonomous-selection support. The driver enables
+> autonomous selection before writing EPP, as the platform may ignore EPP
+> while autonomous selection is disabled.
+>
+> Record successful writes so the existing online and resume paths reapply
+> the requested values. The offline and suspend paths restore the saved
+> firmware values, including during driver unload.
+>
+> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
 > ---
->  kernel/sched/deadline.c | 3 +++
->  kernel/sched/debug.c    | 2 +-
->  2 files changed, 4 insertions(+), 1 deletion(-)
-> 
-> diff --git a/kernel/sched/deadline.c b/kernel/sched/deadline.c
-> index dfae08625342e..10beb54281881 100644
-> --- a/kernel/sched/deadline.c
-> +++ b/kernel/sched/deadline.c
-> @@ -1920,6 +1920,9 @@ int dl_server_apply_params(struct sched_dl_entity *dl_se, u64 runtime, u64 perio
->  	cpus = dl_bw_cpus(cpu);
->  	cap = dl_bw_capacity(cpu);
->  
-> +	if (!cpus)
-> +		return -EBUSY;
+> This is based on the "Preserve OSPM-set registers" [1] and
+> "ospm_nominal_perf" [2] series, which are applied for 7.5.
+>
+> v5 -> v6:
+> - Split "Set CPPC Enable register in cpu_init" into a separate fix [3].
+> - Accept strings only (Pierre [4]).
+> - Move the setup into cppc_cpufreq_setup_auto_sel_mode() and check
+>   autonomous selection support first (Pierre [4]).
+> - Drop the last_governor check, as init() now runs only for a new
+>   policy (Pierre [4]).
+> - Drop the MIN/MAX seeding, Desired hint and policy->min/max override,
+>   as init() and the governor already set valid values (Pierre [4]).
+> - Apply the parameter at the end of init(), after the usual
+>   performance controls write.
+> - Save auto_sel and EPP through the saved-register code from [1]
+>   (Sashiko [5]).
+> - Drop the cppc_cpufreq_exit() loop that cleared auto_sel on all
+>   present CPUs (Pierre [4], Sashiko [5]).
+> - Enable autonomous selection before writing EPP.
+> - Set EPP also when firmware has already enabled autonomous selection.
+> - Add the balance_power (0xc0) and power (0xff) modes.
+> - Ignore an unrecognized value instead of treating it as disabled.
+>
+> v5: https://lore.kernel.org/lkml/20260623080652.3353386-1-sumitg@nvidia.c=
+om/
+> [1] https://lore.kernel.org/lkml/20261106193304.3347374-1-sumitg@nvidia.c=
+om/
+> [2] https://lore.kernel.org/lkml/20261109195400.3600561-1-sumitg@nvidia.c=
+om/
+> [3] https://lore.kernel.org/lkml/20261110101246.3665797-1-sumitg@nvidia.c=
+om/
+> [4] https://lore.kernel.org/lkml/f61f592a-bc9c-4a83-bde1-e999c8101c36@nvi=
+dia.com/
+> [5] https://sashiko.dev/#/patchset/20260623080652.3353386-1-sumitg@nvidia=
+.com
+>
+>  .../admin-guide/kernel-parameters.txt         |  26 ++++
+>  drivers/cpufreq/cppc_cpufreq.c                | 120 ++++++++++++++++++
+>  include/acpi/cppc_acpi.h                      |   2 +
+>  3 files changed, 148 insertions(+)
+>
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 0b3c140babd9..5714c0d30fce 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1015,6 +1015,32 @@ Kernel parameters
+>                         Format:
+>                         <first_slot>,<last_slot>,<port>,<enum_bit>[,<debu=
+g>]
+>
+> +       cppc_cpufreq.auto_sel_mode=3D
+> +                       [ACPI,CPU_FREQ] Enable ACPI CPPC autonomous perfo=
+rmance
+> +                       selection on all CPUs at boot. In autonomous mode=
+, the
+> +                       platform selects the performance level within the=
+ CPPC
+> +                       Minimum and Maximum Performance limits. The drive=
+r sets
+> +                       these limits from scaling_min_freq and scaling_ma=
+x_freq.
+> +                       The Energy Performance Preference (EPP) hint guid=
+es the
+> +                       platform toward performance (0x00) or energy effi=
+ciency
+> +                       (0xff).
+> +                       Requires the ACPI CPPC Autonomous Selection Enabl=
+e
+> +                       register. EPP is set only if the platform impleme=
+nts it.
+> +                       Format: <string>
+> +                         performance:
+> +                                 enable autonomous selection, set EPP to=
+ 0x00
+> +                         balance_performance:
+> +                                 enable autonomous selection, set EPP to=
+ 0x80
+> +                         balance_power:
+> +                                 enable autonomous selection, set EPP to=
+ 0xc0
+> +                         power:
+> +                                 enable autonomous selection, set EPP to=
+ 0xff
+> +                         default_epp:
+> +                                 enable autonomous selection, keep firmw=
+are EPP
+> +                         disabled:
+> +                                 keep the firmware configuration (defaul=
+t)
+> +                       An unrecognized value is ignored with a warning.
 > +
->  	if (__dl_overflow(dl_b, cap, old_bw, new_bw))
->  		return -EBUSY;
->  
-> diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-> index e6a3b516c703b..1545139e52443 100644
-> --- a/kernel/sched/debug.c
-> +++ b/kernel/sched/debug.c
-> @@ -410,7 +410,7 @@ static ssize_t sched_server_write_common(struct file *filp, const char __user *u
->  			return  -EINVAL;
->  		}
->  
-> -		if (!cpu_online(cpu_of(rq)))
-> +		if (!cpu_active(cpu_of(rq)))
->  			return -EBUSY;
+>         cpuidle.off=3D1   [CPU_IDLE]
+>                         disable the cpuidle sub-system
+>
+> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufre=
+q.c
+> index a62589c0674f..c9bed93cf0c9 100644
+> --- a/drivers/cpufreq/cppc_cpufreq.c
+> +++ b/drivers/cpufreq/cppc_cpufreq.c
+> @@ -238,6 +238,58 @@ static void cppc_cpufreq_apply_saved_regs(struct cpu=
+freq_policy *policy,
+>                                              saved_type);
+>  }
+>
+> +/* Autonomous Selection boot parameter modes */
+> +enum {
+> +       AUTO_SEL_MODE_DISABLED,
+> +       AUTO_SEL_MODE_PERFORMANCE,
+> +       AUTO_SEL_MODE_BALANCE_PERFORMANCE,
+> +       AUTO_SEL_MODE_BALANCE_POWER,
+> +       AUTO_SEL_MODE_POWER,
+> +       AUTO_SEL_MODE_DEFAULT_EPP,
+> +};
+> +
+> +static const char * const auto_sel_mode_names[] =3D {
+> +       [AUTO_SEL_MODE_DISABLED]                =3D "disabled",
+> +       [AUTO_SEL_MODE_PERFORMANCE]             =3D "performance",
+> +       [AUTO_SEL_MODE_BALANCE_PERFORMANCE]     =3D "balance_performance"=
+,
+> +       [AUTO_SEL_MODE_BALANCE_POWER]           =3D "balance_power",
+> +       [AUTO_SEL_MODE_POWER]                   =3D "power",
+> +       [AUTO_SEL_MODE_DEFAULT_EPP]             =3D "default_epp",
+> +};
+> +
+> +static int auto_sel_mode;
+> +
+> +static int auto_sel_mode_set(const char *val, const struct kernel_param =
+*kp)
+> +{
+> +       int *mode =3D kp->arg;
+> +       int ret;
+> +
+> +       ret =3D sysfs_match_string(auto_sel_mode_names, val);
+> +       if (ret < 0) {
+> +               pr_warn("Invalid auto_sel_mode \"%s\", ignoring it\n", va=
+l);
+> +               return 0;
+> +       }
+> +
+> +       *mode =3D ret;
+> +       return 0;
+> +}
+> +
+> +static int auto_sel_mode_get(char *buffer, const struct kernel_param *kp=
+)
+> +{
+> +       int *mode =3D kp->arg;
+> +
+> +       return sysfs_emit(buffer, "%s\n", auto_sel_mode_names[*mode]);
+> +}
+> +
+> +static const struct kernel_param_ops auto_sel_mode_ops =3D {
+> +       .set =3D auto_sel_mode_set,
+> +       .get =3D auto_sel_mode_get,
+> +};
+> +
+> +module_param_cb(auto_sel_mode, &auto_sel_mode_ops, &auto_sel_mode, 0444)=
+;
+> +MODULE_PARM_DESC(auto_sel_mode,
+> +                "Autonomous selection mode: performance, balance_perform=
+ance, balance_power, power, default_epp, disabled");
+> +
+>  #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
+>  static enum {
+>         FIE_UNSET =3D -1,
+> @@ -938,6 +990,72 @@ static u32 cppc_cpufreq_effective_nominal(struct cpu=
+freq_policy *policy)
+>         return (u32)ospm_nominal;
+>  }
+>
+> +/*
+> + * Apply the auto_sel_mode boot parameter in init(). Enable autonomous
+> + * selection unless it is already enabled. Then set EPP for the selected=
+ mode.
+> + *
+> + * Enable auto_sel before writing EPP, as the platform may ignore EPP wh=
+ile
+> + * autonomous selection is disabled. Save each value written, so that on=
+line()
+> + * and resume() write it again.
+> + */
+> +static void cppc_cpufreq_setup_auto_sel_mode(struct cpufreq_policy *poli=
+cy)
+> +{
+> +       struct cppc_policy_state *st =3D cppc_cpufreq_policy_state(policy=
+);
+> +       struct cppc_cpudata *cpu_data =3D policy->driver_data;
+> +       unsigned int cpu =3D policy->cpu;
+> +       u64 auto_sel, epp;
+> +       int ret;
+> +
+> +       if (auto_sel_mode =3D=3D AUTO_SEL_MODE_DISABLED)
+> +               return;
+> +
+> +       /* U64_MAX means the platform does not implement the register. */
+> +       auto_sel =3D st->regs[CPPC_SAVED_AUTO_SEL][CPPC_SAVED_FIRMWARE];
+> +       if (auto_sel =3D=3D U64_MAX) {
+> +               pr_info_once("Autonomous selection is not supported, igno=
+ring auto_sel_mode\n");
+> +               return;
+> +       }
+> +
+> +       if (!auto_sel) {
+> +               ret =3D cppc_set_auto_sel(cpu, true);
+> +               if (ret) {
+> +                       pr_warn("Failed to enable auto_sel for CPU%u (%d)=
+\n",
+> +                               cpu, ret);
+> +                       return;
+> +               }
+> +               cppc_cpufreq_save_requested(policy, CPPC_SAVED_AUTO_SEL, =
+true);
+> +       }
+> +       cpu_data->perf_ctrls.auto_sel =3D true;
+> +
+> +       switch (auto_sel_mode) {
+> +       case AUTO_SEL_MODE_PERFORMANCE:
+> +               epp =3D CPPC_EPP_PERFORMANCE_PREF;
+> +               break;
+> +       case AUTO_SEL_MODE_BALANCE_PERFORMANCE:
+> +               epp =3D CPPC_EPP_BALANCE_PERFORMANCE_PREF;
+> +               break;
+> +       case AUTO_SEL_MODE_BALANCE_POWER:
+> +               epp =3D CPPC_EPP_BALANCE_POWER_PREF;
+> +               break;
+> +       case AUTO_SEL_MODE_POWER:
+> +               epp =3D CPPC_EPP_ENERGY_EFFICIENCY_PREF;
+> +               break;
+> +       default:
+> +               /* default_epp keeps the EPP value set by firmware. */
+> +               return;
+> +       }
+> +
+> +       /* EPP is optional. */
+> +       ret =3D cppc_set_epp(cpu, epp);
+> +       if (ret) {
+> +               if (ret !=3D -EOPNOTSUPP)
+> +                       pr_warn("Failed to set EPP for CPU%u (%d)\n", cpu=
+, ret);
+> +               return;
+> +       }
+> +       cpu_data->perf_ctrls.energy_perf =3D epp;
+> +       cppc_cpufreq_save_requested(policy, CPPC_SAVED_EPP, epp);
+> +}
+> +
+>  static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
+>  {
+>         unsigned int cpu =3D policy->cpu;
+> @@ -1058,6 +1176,8 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_pol=
+icy *policy)
+>         }
+>         cpu_data->perf_limits_valid =3D true;
+>
+> +       cppc_cpufreq_setup_auto_sel_mode(policy);
+> +
+>         cppc_cpufreq_cpu_fie_init(policy);
+>         return 0;
+>
+> diff --git a/include/acpi/cppc_acpi.h b/include/acpi/cppc_acpi.h
+> index 2cec54b4d2e2..3d47c07f494b 100644
+> --- a/include/acpi/cppc_acpi.h
+> +++ b/include/acpi/cppc_acpi.h
+> @@ -42,6 +42,8 @@
+>  #define CPPC_AUTO_ACT_WINDOW_SIG_CARRY_THRESH 129
+>
+>  #define CPPC_EPP_PERFORMANCE_PREF              0x00
+> +#define CPPC_EPP_BALANCE_PERFORMANCE_PREF      0x80
+> +#define CPPC_EPP_BALANCE_POWER_PREF            0xC0
+>  #define CPPC_EPP_ENERGY_EFFICIENCY_PREF                0xFF
+>
+>  #define CPPC_PERF_LIMITED_DESIRED_EXCURSION    BIT(0)
+> --
 
-Mathieu's approach [1] looks safer to me. sched_cpu_deactivate() calls
-set_cpu_active(false) without rq->lock, so a write that passed the
-cpu_active() check can still be in flight until sched_set_rq_offline()
-(which the !cpus check then has to cover). On the online side,
-set_cpu_active(true) runs before the domains rebuild, so the check lets
-the write through against the def rd's accounting. rq->online is only
-changed under the rq->lock this write already holds.
-
-Thanks,
-Juri
-
-1 - 20261108185406.1549770-6-mathieu.desnoyers@efficios.com
-
+Applied as 7.5 material, thanks!
