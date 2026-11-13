@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794585359;
-	b=LlHFHbafk+caox+2824QDdIumkjHQMtapWeNJgOT2b/kUqLVUb0fYslep4RY2RNHtrZd
-	 ZWqyw4I4NIUl37yOmozTt8Dacrx5WVVODkVybyWoBvP94dGpWiS2pGDmnciZGf38hZ/yD
-	 QF78IhIgOVFioL34UhHcTjK3Hx0zQJlUbTJZ+jxg+xMTjnwPKe8xFU3gbtEL8TFW1IHWq
-	 EJUqLpwOHdm3k5VLG02Bevar0k5OIrvlLfQaEAY0ZOv7FWNMTRXdHHrkwUtY6kJhABzg4
-	 /y/UoUupUMEVIjiu7Kuop1rAxy2f56uDtcCzQNiwTsyRZHu1VIeE8TbqrZ2h+XjeqpA==
+	t=1794585363;
+	b=uJCrQ7KMhwf44AdrMqaEeOsl2ia6cgjtoB/gDlBo8lqxhv7MfQUlnneS1+nnNpLhoUT4
+	 x7WMqT4ut7Eq4G4biE6OLdGvfS7dDDG/1Ee+RfByHmnKavwQSwnDaPtGwe82VFvJS7ot2
+	 6/LHH2mwlUKVyKDgWHAWV6daKZxe5CudR4+BAoo59LezQRb++9LHSkmMrwAIqtWZBJ+Vi
+	 N+yrAzsydO7KQtyaEq58GteN2mjldGrOEWiv35C6+Ow4U28JL8P2/ZdLNmf8w69s9jyC5
+	 t3GhjZh9SUncPTLZW2ttJbb7OPEkBr/wJZNmFyNsuPEMYAF53mYIPY3tq/JyMndbH6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794585359;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794585363;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=zmnF/kKy5Wrp/bNacpeMudszRd8TJ6e7PGiKCMlvKU0=;
-	b=VUz8JNsnJffDpxccHCFRaMrwvLs1U0hsyDoXtcUB8CKUucKaZ9CRpNvUfCiN/ueMLlSZ
-	 CbNJO5wp/O5gd0ErHWWikFI4Ci8VO3o65XY7CiJfbOhWAVV8FO+Q+KSCw71MK/OYT4zIQ
-	 Wtk82C+N2nJPXLS8W4nMHvc2A6nD9YwwHOrfkbuMPPQu6DlAa48VTFQfA3/E/D3jRd1Qs
-	 JbJHMDZ2qWYo9h5GYDXuFv0ozSa4i8OKA45mst862Z8Ooz9lCkq8Pt7lp+YLGfKjxgFSu
-	 lHZ1XUkk2iXj/bqTilw7oEdVoD6FCpkksnkLYbopje2E4VCLvbHXyUyR1vrYcGdFMiA==
+	bh=SqSOMLlgNYqrdAahJUcBEY9hyvikJuhwkxWdK8FO/sU=;
+	b=KJtCh82QYS6uBtvJxzq7AkCql3H0HVVDS2klpapTU5Dj73qHpbLJ9DPFNdq26Yx+11Qe
+	 WzMckJSFZt0YSM8Um32OxA08Uyp+5IJcdoAJVuOz+l6wKZcZ1JyCYbQtKFR32TRQaAHJo
+	 PVqw+RzEVdHIfvkKJYWKbTTIytuDk4XNBitGcwQIr1rjNvCOmK3JuJODzpouUV2iWFGxQ
+	 wqVEnt9lMPP3Xx1nfMC3cQaZZjkremtOWwdViGCyYIHxcpY1HwgrFg0VidkaYR6B0gdqK
+	 Le/UHBvoQ/4ovROjJQGfwAMaNcDU2W+3WOHlDlGYEk7Hy2Fn9kS7FNO5PhdwUFtAXaw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=resnulli.us;
 	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=vtxciYmI;
-	arc=none smtp.remote-ip=209.85.218.53
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b="i1cN/i98";
+	arc=none smtp.remote-ip=209.85.218.43
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3838860A6F43
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 15:55:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3838860A6F43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AEDE60A6F70
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 15:56:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2AEDE60A6F70
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=vtxciYmI
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c505186727fso258419966b.3
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:55:58 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=i1cN/i98
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c4d21051042so252562066b.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:56:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1794585357; x=1795190157; darn=vger.kernel.org;
+        d=resnulli.us; s=google; t=1794585360; x=1795190160; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zmnF/kKy5Wrp/bNacpeMudszRd8TJ6e7PGiKCMlvKU0=;
-        b=vtxciYmI3XbyL+6FWXOzsSBZKp5WSwBXGvNkKy0cfALpSMnwfj+tafUfpEE6zL1XaW
-         BA4zYqKzQ+bPP8E9eaDUtIWZ1n7cgHdLgOWLgftT+3Jl3Ot1mYkzVwXtQzDqR/janNDV
-         emvynbEcQAOEBn9XeLFnlU+lzjL1rGTYDB4aE+ddoTjk2Tfv1Nbg8DoF1LqAt+nr2qDt
-         iBlsq+jnqypI+/dTIlb99J3asrAqIKdy4CdRVy6PEyGNeX1ifEhWfY9o0otIyZMYJKMB
-         vBZtVQJ81Lc2cFMi7ip6A52qZpu/uF1mVuxr8dLVxDanxP0kpHlO3DzWyiXIgAFQ2oSK
-         jVjA==
+        bh=SqSOMLlgNYqrdAahJUcBEY9hyvikJuhwkxWdK8FO/sU=;
+        b=i1cN/i98jfHXQVTMitG8989Rz8yPknv5VA6vlRKxBc+vRx7TKDnKnFuXLIZ0/D9wui
+         dLiUNXatpq4CN0+iWgDqnZlNg1r88Y3vxQQq6jVA7BiuaITfJTy9qX5uI39GuZk20s1t
+         JI1FyBFXmWJfmDTHevBqhIl7lanS9N/207SeZw8YFfo42X6owB1IfcBXhjzEy1mRcR6T
+         m9d1SW48IshRuhBEO7cpgn4VY+ZgJnnGxAKpKysj9+VTvbiKezXkgKb++CfZU+EfgJ8f
+         9sCHaYZTr3KdjPXRB2Y6cyHx9hJO4mCV4wAcKhGaIgcSpNDNPmCfLLSE8NVCUHFlvQGl
+         MlaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794585357; x=1795190157;
+        d=1e100.net; s=20260707; t=1794585360; x=1795190160;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zmnF/kKy5Wrp/bNacpeMudszRd8TJ6e7PGiKCMlvKU0=;
-        b=NVR6Rm+yls0UblsHYKcQ/N9udaC7oXnPXIQ4D33vUh7evAqeElFCcvX873Pwh91QRK
-         gKsVmfXy/pNhgmDJU845TgEwM/gWHMjE3R+lEzn1nNpuBTqHqBhASlnSxmhMDjN81CQT
-         rLd3iVFPmkV+uGap3FeMYmIRrUv9vDkC//MPTxFZ2UPyu9jw/qAYEDCwJ4ryhwAYpSfM
-         zX6WTML+X7XQJMm64uRvZ8JjQwrkKqje1Pb2M7T+5vpq1bVrEGCMsSPSt4ZhgMfgsDiU
-         Dq9aHR9kH8zANxw9br+dVEqgTfBuyPS4jChpmVkbAXDJm9wuAnzazFqUcsMfal4x7N9O
-         p8EA==
-X-Forwarded-Encrypted: i=1; AL+hErFzB4Xcumb8f9EURPyPR1i4qtSyASoN5W20W0uWqqzVeFuNZkI6FGfznjHNwtToSOBeE/xFO+/wx+M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z84ith8eBxGYfEUhUCTuuRx7fby26k81Sqd0pL6AUINQD4NVO4j
-	Bh4XFADeVa9ylGkR9jIB5UWqZ8viFnK3M+X+pTPMIPMac2paYHGIC9oOMgWBbF8oAD0=
-X-Gm-Gg: AYBFou2l9BDiVoyNImQ6GHS7cwvHBXx4OAeN4izhAzHa5D4BM7OAsmYQG+LvhJ1yswO
-	kuMLwSXMopsCMzqMg16JE4neAWtb33LH28EMSxjtv3TjR/MfGAUNDfgMqZ+5GIItyt/gDnITLzw
-	tDnP6wmDz46SIVN0DgIAck6Xj3Eg/RhiKCgeAtYkaU8o7whBEfNlgFLPvJFeTDSZoFs1TUczArn
-	qAyuqQDVP1yK5Lj3kzyC3I6P3V1eO0/NcaNm1M2ajM5Qttu8jM0hVpYgnU0/Qs+zVBYMp424QGr
-	DNP2m47OFpHNgYEEYy9y6bD9Jd1GS4ieXl/fHnmcMyL9OZV8dF4iUQG3pxge5++I3eNt+b3arQB
-	fm2OjibEN/9hvwxJNsTs1qZzXJ+67cR0q4ADOgFIeXmwK/4ia0eYlNHxWMN6P7K53CRG8fl1Bsa
-	2gr2c26H1TMeiNqUdxth1Ltz+oNBsiDaET8TVZs5DuGOcHMYHzkhVhtORlJoAF13X1bi8Yrq4Vv
-	M2lz6JkooFiOHd6ens66lDXT9M6QSWR62qGrmnBKTBqZPV80vgB3yLgeiXh6iETYrAlDllyB/Gf
-	lcMXEU3yAdr97GBOFsCpxVuF1Dw89jtq4ltko8zXoefQlnpeYBDWm+vcpX02Pg==
-X-Received: by 2002:a17:906:ee85:b0:c33:923b:ad66 with SMTP id a640c23a62f3a-c50963ce0c7mr240922566b.43.1794585356462;
-        Fri, 13 Nov 2026 07:55:56 -0800 (PST)
+        bh=SqSOMLlgNYqrdAahJUcBEY9hyvikJuhwkxWdK8FO/sU=;
+        b=2JwJqA78Xhfzys3e3KFAmwlitnkTFK3h3AONjU7Jbn0n8SqOzwl/TJp+5n+nvYH5Ds
+         jF0ZoHqKVXczziLAO4HpeFwzY7fybxnux8Kdn86pkOqX4V9cvKDbLBpFDMi5yON5EaGl
+         KFta1PC6+oj4CacsntFQ6VtwoogFn4WgPiHJtepPGQmJvgu1BP+XwJmfVFNCIHK9lloK
+         09O4kr1CCWKwW0z5i0HuTr3m9Y4/Vf5XK30tW1lN0Ped6X8cDla6mdUZFUCFtAANzB5+
+         nS1qo0AUbapMgydeYYXvD4fMrlKihqaG1/bx/VvXfTsiTQiIwpVMmmqXam9wR6+1UdGE
+         PJTw==
+X-Forwarded-Encrypted: i=1; AL+hErFPH09aGE/rIO+UQoiHBoAm7K1j92bXj9L+WxJDTkHl61ziswfXkyrACn9K08YLS370fCrpBZvNbRc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9HjP8Af5RKemk0aY9raYtaGkHYs27RMEVn5aoVxSHXWGZm79oE
+	dqOyRKLhgw7F/rUG25Sy35A6re500n81eQK1GgtJDQSkVm6gpRh8o5KCABGxpvQYtwg=
+X-Gm-Gg: AYBFou1mIUs5v2Mt1EOLQ+D+hnxO76iYFhw4vQLOdrqI2ImyXsOFwYfk0RjrrEFEnuH
+	PYpbnwzPVOzt81JoKfcL/ii0212B6xv+JFIFZURPG/kEB58HSyC2e2kD62zZ88s5/TNTKoIE+0v
+	/k5AYvbjl1y3q4G785CZFxHjE6Rhbnb2ZBzCMuGCs4p82RkIMAC+HXw+vMhlmf2+dgE3kHoS6+V
+	dT7sXoeZHZ8ajYrcrL4S9YHxPfvTOf79TfQnXzg+aE9JGp9NztTdQTUNhnrXrmZMBOzL7UpcvuO
+	Cgtro2/RyVT734t/R2b7cRmuteOyFaUdzNSZI/C8g8rpVgrtbDfe17hZJrxTjkgcnxo7MXvOdR1
+	KBVjRZKKJzfDVDX/qZ4GlzhXEDyczdYNdc1HC1qpgk6TDOzbyqbzxF057Ob87d/ueRtq9QHgGin
+	fSEOxR9ncsR3tz9gEKHbTwanCxuY99uR/4YSf3q+KN+jIO+IHX6/bNax09dZkvuYNfcaD2/gu7z
+	8LKMOxpTcmTkfAWcXyaaJtlRv2YwTuxjhfgiiYmn/sHJjXKIt/ITt2FziO210Z82pFaoeTvoVPh
+	C3LHjwNGrXW066ScfMZUGjoYBQaIdbzzXQwsVFie
+X-Received: by 2002:a17:906:ee85:b0:c4d:2895:e492 with SMTP id a640c23a62f3a-c509636a10dmr240061566b.21.1794585360413;
+        Fri, 13 Nov 2026 07:56:00 -0800 (PST)
 Received: from localhost ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b236d4sm115287166b.18.2026.11.13.07.55.54
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b7d1b7sm116345166b.74.2026.11.13.07.55.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 07:55:55 -0800 (PST)
+        Fri, 13 Nov 2026 07:55:59 -0800 (PST)
 From: Jiri Pirko <jiri@resnulli.us>
 To: linux-coco@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
@@ -115,9 +115,9 @@ Cc: linux-kernel@vger.kernel.org,
 	dave.jiang@intel.com,
 	nik.borisov@suse.com,
 	sergii.dmytruk@3mdeb.com
-Subject: [PATCH RFC v2 08/15] ctlv: Prepare message output handling
-Date: Fri, 13 Nov 2026 16:55:07 +0100
-Message-ID: <20261113155515.2510194-9-jiri@resnulli.us>
+Subject: [PATCH RFC v2 09/15] ctlv: Prepare VA blob handling
+Date: Fri, 13 Nov 2026 16:55:08 +0100
+Message-ID: <20261113155515.2510194-10-jiri@resnulli.us>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261113155515.2510194-1-jiri@resnulli.us>
 References: <20261113155515.2510194-1-jiri@resnulli.us>
@@ -134,618 +134,598 @@ Content-Transfer-Encoding: 8bit
 
 From: Jiri Pirko <jiri@nvidia.com>
 
-Add schema-aware reply construction, generated output accessors,
-operation errors and query fragment completion.
+Add task-bound VA blob resolution and CPU read/write access for CTLV
+families.
 
-Keep CONFIG_CTLV unwired until dispatch completes the module.
+The blob object can be compile-checked individually. CONFIG_CTLV remains
+unwired until operation dispatch completes the module.
 
 Assisted-by: Cursor: GPT-5.6 Sol
 Assisted-by: Cursor: Claude Opus 5.5
 Signed-off-by: Jiri Pirko <jiri@nvidia.com>
 ---
 RFC->RFCv2:
-- added ctlv_record_cancel()
+- released a context's blobs from any task
+- returned EOVERFLOW for a blob range that wraps
 - moved the function kernel-doc to the definitions
-- made the warning for a reply past its declared length a CTLV_ASSERT()
 - said TLV, type, record and field instead of attr
 - said record instead of nest, the root being one
+- added ctlv_blob_too_short() for an output blob too short
 - took the UAPI headers from include/uapi/ctlv/
 - moved to lib/ctlv/
 ---
- include/linux/ctlv.h        |  24 ++
- include/linux/ctlv_family.h |  41 ++++
+ include/linux/ctlv.h        |   9 +
+ include/linux/ctlv_family.h |  23 ++
  lib/ctlv/Makefile           |   2 +-
- lib/ctlv/builder.c          | 455 ++++++++++++++++++++++++++++++++++++
- lib/ctlv/builder.h          |  14 ++
- 5 files changed, 535 insertions(+), 1 deletion(-)
- create mode 100644 lib/ctlv/builder.c
- create mode 100644 lib/ctlv/builder.h
+ lib/ctlv/blob.c             | 421 ++++++++++++++++++++++++++++++++++++
+ lib/ctlv/blob.h             |  15 ++
+ lib/ctlv/internal.h         |   8 +
+ 6 files changed, 477 insertions(+), 1 deletion(-)
+ create mode 100644 lib/ctlv/blob.c
+ create mode 100644 lib/ctlv/blob.h
 
 diff --git a/include/linux/ctlv.h b/include/linux/ctlv.h
-index e151e32a0ffd..5b75550de678 100644
+index 5b75550de678..afb71cc643d3 100644
 --- a/include/linux/ctlv.h
 +++ b/include/linux/ctlv.h
-@@ -34,6 +34,8 @@ struct ctlv_schema_tree;
-  * @depth: record levels above this position, the root being zero
-  * @index_record_scope: schema scope used to read the members of @hdr, a record
-  * @index_scope: core-private schema scope containing this TLV
-+ * @progress: writing, whether the fragment had progressed before this record
-+ *	opened
-  *
-  * Fixed-size, so family code can put a child cursor on the stack.
-  * ctlv_record_start() opens at most CTLV_MAX_RECORD_DEPTH levels, which bounds
-@@ -52,6 +54,28 @@ struct ctlv_cursor {
- 	u32 depth;
- 	u32 index_record_scope;
- 	u32 index_scope;
-+	bool progress;
- };
+@@ -78,4 +78,13 @@ int ctlv_op_query_more(struct ctlv_op_ctx *ctx, u64 generation,
+ 		       u64 next_cursor);
+ int ctlv_op_query_done(struct ctlv_op_ctx *ctx, u64 generation);
  
-+void ctlv_record_end(struct ctlv_cursor *child);
-+void ctlv_record_cancel(struct ctlv_cursor *child);
++struct ctlv_blob;
 +
-+int ctlv_op_error(struct ctlv_op_ctx *ctx, int error, const char *message);
-+__printf(3, 4)
-+int ctlv_op_errorf(struct ctlv_op_ctx *ctx, int error, const char *fmt, ...);
-+
-+/*
-+ * The core retains no query state. A continuation repeats the request and
-+ * passes back the family's generation and nonzero cursor. It fails with
-+ * -ESTALE if the generation changed. Each fragment must complete a logical
-+ * leaf and return a cursor different from its input.
-+ *
-+ * ctlv_op_query_more() marks still-open records, whose cursors must stay live.
-+ */
-+u64 ctlv_op_query_generation(const struct ctlv_op_ctx *ctx);
-+u64 ctlv_op_query_cursor(const struct ctlv_op_ctx *ctx);
-+int ctlv_op_query_more(struct ctlv_op_ctx *ctx, u64 generation,
-+		       u64 next_cursor);
-+int ctlv_op_query_done(struct ctlv_op_ctx *ctx, u64 generation);
++int ctlv_blob_put(struct ctlv_blob *blob);
++u64 ctlv_blob_len(const struct ctlv_blob *blob);
++int ctlv_blob_read(struct ctlv_blob *blob, u64 offset, void *dst, size_t len);
++int ctlv_blob_write(struct ctlv_blob *blob, u64 offset, const void *src,
++		    size_t len);
++int ctlv_blob_too_short(struct ctlv_blob *blob, u64 len);
 +
  #endif /* _LINUX_CTLV_H */
 diff --git a/include/linux/ctlv_family.h b/include/linux/ctlv_family.h
-index ae8ed69df5ea..4d7d4fb65fec 100644
+index 4d7d4fb65fec..61ae5b7cec83 100644
 --- a/include/linux/ctlv_family.h
 +++ b/include/linux/ctlv_family.h
-@@ -441,6 +441,47 @@ bool ctlv_cursor_bool(const struct ctlv_cursor *cursor);
- const char *ctlv_cursor_string(const struct ctlv_cursor *cursor);
- const void *ctlv_cursor_binary(const struct ctlv_cursor *cursor, u32 *len);
+@@ -451,6 +451,8 @@ bool ctlv_put_binary(struct ctlv_cursor *record, u64 type, u8 kind,
+ bool ctlv_record_start(struct ctlv_cursor *record, struct ctlv_cursor *child,
+ 		       u64 type, u8 kind);
  
-+bool ctlv_put_u64(struct ctlv_cursor *record, u64 type, u8 kind, u64 value);
-+bool ctlv_put_s64(struct ctlv_cursor *record, u64 type, u8 kind, s64 value);
-+bool ctlv_put_bool(struct ctlv_cursor *record, u64 type, u8 kind, bool value);
-+bool ctlv_put_string(struct ctlv_cursor *record, u64 type, u8 kind,
-+		     const char *value);
-+bool ctlv_put_binary(struct ctlv_cursor *record, u64 type, u8 kind,
-+		     const void *value, u32 len);
-+bool ctlv_record_start(struct ctlv_cursor *record, struct ctlv_cursor *child,
-+		       u64 type, u8 kind);
-+
-+#define __CTLV_DEFINE_PUT(_name, _ctype, _put_fn, _type, _kind)	\
-+static inline bool _name##_put(struct ctlv_cursor *record,	\
-+			       _ctype value)			\
++struct ctlv_blob *ctlv_blob_resolve(struct ctlv_op_ctx *ctx,
++				    const struct ctlv_cursor *blob);
+ #define __CTLV_DEFINE_PUT(_name, _ctype, _put_fn, _type, _kind)	\
+ static inline bool _name##_put(struct ctlv_cursor *record,	\
+ 			       _ctype value)			\
+@@ -560,6 +562,17 @@ static inline void _name##_get(struct ctlv_cursor *inner,	\
+ 	ctlv_input_field(inner, record, _name##_ref());		\
+ }
+ 
++#define CTLV_IN_BLOB(_name)					\
++static inline struct ctlv_blob *				\
++_name##_resolve(struct ctlv_op_ctx *ctx,			\
++		const struct ctlv_cursor *record)		\
 +{								\
-+	return _put_fn(record, (_type), (_kind), value);	\
++	struct ctlv_cursor cursor;				\
++								\
++	ctlv_input_field(&cursor, record, _name##_ref());	\
++	return ctlv_blob_resolve(ctx, &cursor);			\
 +}
 +
-+#define CTLV_PUT_U64(_name, _type, _kind)			\
-+	__CTLV_DEFINE_PUT(_name, u64, ctlv_put_u64, _type, _kind)
-+#define CTLV_PUT_S64(_name, _type, _kind)			\
-+	__CTLV_DEFINE_PUT(_name, s64, ctlv_put_s64, _type, _kind)
-+#define CTLV_PUT_BOOL(_name, _type, _kind)			\
-+	__CTLV_DEFINE_PUT(_name, bool, ctlv_put_bool, _type, _kind)
-+#define CTLV_PUT_STRING(_name, _type, _kind)			\
-+	__CTLV_DEFINE_PUT(_name, const char *, ctlv_put_string,	\
-+			  _type, _kind)
-+
-+#define CTLV_PUT_BINARY(_name, _type, _kind)			\
-+static inline bool _name##_put(struct ctlv_cursor *record,	\
-+			       const void *value, u32 len)	\
-+{								\
-+	return ctlv_put_binary(record, (_type), (_kind), value, len); \
-+}
-+
-+#define CTLV_RECORD_START(_name, _type, _kind)			\
-+static inline bool _name##_start(struct ctlv_cursor *record,	\
-+				 struct ctlv_cursor *inner)	\
-+{								\
-+	return ctlv_record_start(record, inner, (_type), (_kind)); \
-+}
-+
- #define CTLV_IN_REF(_name, _type, _kind)			\
- static inline struct ctlv_input_ref _name##_ref(void)		\
+ #define CTLV_IN_EACH_U64(_name)					\
+ static inline u64 _name##_get(const struct ctlv_cursor *cursor)	\
  {								\
+@@ -604,4 +617,14 @@ _name##_get(const struct ctlv_cursor *cursor, u32 *len)		\
+ 	return ctlv_cursor_binary(cursor, len);			\
+ }
+ 
++#define CTLV_IN_EACH_BLOB(_name)				\
++static inline struct ctlv_blob *				\
++_name##_resolve(struct ctlv_op_ctx *ctx,			\
++		const struct ctlv_cursor *cursor)		\
++{								\
++	if (!ctlv_input_cursor(cursor, _name##_ref()))		\
++		return ERR_PTR(-EINVAL);			\
++	return ctlv_blob_resolve(ctx, cursor);			\
++}
++
+ #endif /* _LINUX_CTLV_FAMILY_H */
 diff --git a/lib/ctlv/Makefile b/lib/ctlv/Makefile
-index 3fd656835b8a..e1a22a199ef1 100644
+index e1a22a199ef1..4455062f83d7 100644
 --- a/lib/ctlv/Makefile
 +++ b/lib/ctlv/Makefile
 @@ -1,4 +1,4 @@
  # SPDX-License-Identifier: GPL-2.0
  obj-$(CONFIG_CTLV) += ctlv.o
  
--ctlv-y += blob_desc.o message.o schema.o
-+ctlv-y += blob_desc.o builder.o message.o schema.o
-diff --git a/lib/ctlv/builder.c b/lib/ctlv/builder.c
+-ctlv-y += blob_desc.o builder.o message.o schema.o
++ctlv-y += blob.o blob_desc.o builder.o message.o schema.o
+diff --git a/lib/ctlv/blob.c b/lib/ctlv/blob.c
 new file mode 100644
-index 000000000000..976e2f8d1aaa
+index 000000000000..14cbbc4bcab1
 --- /dev/null
-+++ b/lib/ctlv/builder.c
-@@ -0,0 +1,455 @@
++++ b/lib/ctlv/blob.c
+@@ -0,0 +1,421 @@
 +// SPDX-License-Identifier: GPL-2.0-only
 +/*
 + * Copyright (c) 2026, NVIDIA CORPORATION & AFFILIATES
 + *
-+ * Schema-aware reply construction and operation completion.
++ * Blob backing is acquired lazily in the submitting task and held until put.
 + */
 +#include <linux/align.h>
-+#include <linux/bug.h>
++#include <linux/atomic.h>
++#include <linux/bits.h>
++#include <linux/capability.h>
 +#include <linux/ctlv.h>
++#include <linux/err.h>
 +#include <linux/errno.h>
-+#include <linux/export.h>
-+#include <linux/stdarg.h>
-+#include <linux/string.h>
++#include <linux/highmem.h>
++#include <linux/limits.h>
++#include <linux/minmax.h>
++#include <linux/mm.h>
++#include <linux/mm_types.h>
++#include <linux/overflow.h>
++#include <linux/sched.h>
++#include <linux/sched/mm.h>
++#include <linux/sched/signal.h>
++#include <linux/slab.h>
 +#include <linux/types.h>
 +
 +#include <uapi/ctlv/ctlv.h>
 +#include <uapi/ctlv/ctlv_gen.h>
 +
-+#include "builder.h"
++#include "blob.h"
++#include "blob_desc.h"
 +#include "internal.h"
 +#include "message.h"
-+#include "schema.h"
 +
-+static void ctlv_message_output_frag_mark(struct ctlv_op_ctx *ctx);
-+
-+void ctlv_message_output_init(struct ctlv_msg *msg, struct ctlv_op_ctx *ctx, void *buf, size_t len,
-+			      const struct ctlv_schema_tree *tree)
-+{
-+	*msg = (struct ctlv_msg){
-+		.root = buf,
-+		.len = len,
-+		.tree = tree,
-+		.family = ctx->family,
-+		.ctx = ctx,
-+	};
-+	*msg->root = (struct ctlv_hdr){
-+		.len = sizeof(*msg->root),
-+		.flags = CTLV_HDR_F_RECORD,
-+		.type = CTLV_TYPE_ROOT,
-+	};
-+}
-+
-+/* The first thing that went wrong is what the op ends up failing with. */
-+static bool ctlv_message_output_poison(struct ctlv_cursor *record, int error)
-+{
-+	if (!record->msg->poison)
-+		record->msg->poison = error;
-+	return false;
-+}
-+
-+/* A poisoned message is refused silently: whatever poisoned it has warned. */
-+static bool ctlv_message_output_ready(struct ctlv_cursor *record)
-+{
-+	if (WARN_ON_ONCE(!record->msg || !record->hdr))
-+		return false;
-+	/* Also what refuses a cursor that reads a request. */
-+	if (WARN_ON_ONCE(!record->msg->ctx))
-+		return false;
-+	if (record->msg->poison)
-+		return false;
-+	if (WARN_ON_ONCE(record->msg->ctx->deepest != record))
-+		return ctlv_message_output_poison(record, -EINVAL);
-+	return true;
-+}
-+
-+/* What the schema places in this record under one type, as one schema kind. */
-+static const struct ctlv_node_schema *ctlv_message_output_member(struct ctlv_cursor *record,
-+								 u64 type, u8 kind,
-+								 struct ctlv_schema_pos *pos)
-+{
-+	const struct ctlv_node_schema *node;
-+
-+	if (!ctlv_message_output_ready(record))
-+		return NULL;
-+	if (WARN_ON_ONCE(!ctlv_schema_member(record->msg->family, record->tree,
-+					     record->node, type, pos))) {
-+		ctlv_message_output_poison(record, -EINVAL);
-+		return NULL;
-+	}
-+	node = &pos->tree->node_schemas[pos->node];
-+	if (WARN_ON_ONCE(node->kind != kind)) {
-+		ctlv_message_output_poison(record, -EINVAL);
-+		return NULL;
-+	}
-+	return node;
-+}
-+
-+/*
-+ * A query is offered whatever room its caller had, so running out ends a
-+ * fragment. Anything else wrote a message its own schema does not describe.
-+ */
-+static bool ctlv_message_output_full(struct ctlv_cursor *record)
-+{
-+	const struct ctlv_op_schema *op = record->msg->ctx->op->schema;
-+
-+	if (op->type == CTLV_OP_TYPE_QUERY)
-+		return false;
-+	CTLV_ASSERT(0);
-+	return ctlv_message_output_poison(record, -EMSGSIZE);
-+}
-+
-+/* What one cursor stands on, as the buffer this direction may change. */
-+static struct ctlv_hdr *ctlv_message_output_hdr(const struct ctlv_cursor *record)
-+{
-+	return (struct ctlv_hdr *)((u8 *)record->msg->root + record->start);
-+}
-+
-+/* The pad is written rather than left as it was: it belongs to the record. */
-+static struct ctlv_hdr *ctlv_message_output_write(struct ctlv_cursor *record, u64 type, u32 flags,
-+						  const void *payload, u32 payload_len)
-+{
-+	u32 len = sizeof(struct ctlv_hdr) + payload_len;
-+	size_t step = ALIGN((size_t)len, CTLV_ALIGNTO);
-+	struct ctlv_msg *msg = record->msg;
-+	struct ctlv_cursor *open;
-+	struct ctlv_hdr *hdr;
-+	size_t offset;
-+
-+	offset = record->start + ctlv_message_output_hdr(record)->len;
-+	if (offset + step > msg->len) {
-+		ctlv_message_output_full(record);
-+		return NULL;
-+	}
-+
-+	hdr = (struct ctlv_hdr *)((u8 *)msg->root + offset);
-+	*hdr = (struct ctlv_hdr){
-+		.len = len,
-+		.flags = flags,
-+		.type = type,
-+	};
-+	if (payload_len)
-+		memcpy(hdr + 1, payload, payload_len);
-+	memset((u8 *)hdr + len, 0, step - len);
-+	if (!(flags & CTLV_HDR_F_RECORD))
-+		msg->ctx->frag.progress = true;
-+
-+	/* Every record the TLV landed in is that much longer, the root too. */
-+	for (open = record; open; open = open->up)
-+		ctlv_message_output_hdr(open)->len += step;
-+	return hdr;
-+}
-+
-+/* The 64-bit payload that every integer, enum and flags field carries. */
-+static bool ctlv_message_put_scalar(struct ctlv_cursor *record, u64 type, u8 kind, u64 value)
-+{
-+	const struct ctlv_node_schema *node;
-+	struct ctlv_schema_pos pos;
-+
-+	node = ctlv_message_output_member(record, type, kind, &pos);
-+	if (!node)
-+		return false;
-+	/* A value outside what the field declares is one nothing may be told. */
-+	if (WARN_ON_ONCE(!ctlv_schema_value_ok(record->msg->family, node, value)))
-+		return ctlv_message_output_poison(record, -EINVAL);
-+	return ctlv_message_output_write(record, type, 0, &value, sizeof(value));
-+}
-+
-+bool ctlv_put_u64(struct ctlv_cursor *record, u64 type, u8 kind, u64 value)
-+{
-+	return ctlv_message_put_scalar(record, type, kind, value);
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_put_u64, "CTLV");
-+
-+bool ctlv_put_s64(struct ctlv_cursor *record, u64 type, u8 kind, s64 value)
-+{
-+	return ctlv_message_put_scalar(record, type, kind, value);
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_put_s64, "CTLV");
-+
-+bool ctlv_put_bool(struct ctlv_cursor *record, u64 type, u8 kind, bool value)
-+{
-+	u8 payload = value;
-+	struct ctlv_schema_pos pos;
-+
-+	if (!ctlv_message_output_member(record, type, kind, &pos))
-+		return false;
-+	return ctlv_message_output_write(record, type, 0, &payload, sizeof(payload));
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_put_bool, "CTLV");
-+
-+bool ctlv_put_string(struct ctlv_cursor *record, u64 type, u8 kind, const char *value)
-+{
-+	const struct ctlv_node_schema *node;
-+	struct ctlv_schema_pos pos;
-+	size_t len;
-+
-+	node = ctlv_message_output_member(record, type, kind, &pos);
-+	if (!node)
-+		return false;
-+	len = strnlen(value, (size_t)node->length.max_len + 1);
-+	if (WARN_ON_ONCE(len > node->length.max_len || !ctlv_schema_length_ok(node, len)))
-+		return ctlv_message_output_poison(record, -EINVAL);
-+	return ctlv_message_output_write(record, type, 0, value, len + 1);
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_put_string, "CTLV");
-+
-+bool ctlv_put_binary(struct ctlv_cursor *record, u64 type, u8 kind, const void *value, u32 len)
-+{
-+	const struct ctlv_node_schema *node;
-+	struct ctlv_schema_pos pos;
-+
-+	node = ctlv_message_output_member(record, type, kind, &pos);
-+	if (!node)
-+		return false;
-+	if (WARN_ON_ONCE(!ctlv_schema_length_ok(node, len)))
-+		return ctlv_message_output_poison(record, -EINVAL);
-+	return ctlv_message_output_write(record, type, 0, value, len);
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_put_binary, "CTLV");
-+
-+bool ctlv_record_start(struct ctlv_cursor *record, struct ctlv_cursor *child, u64 type, u8 kind)
-+{
-+	struct ctlv_schema_pos pos;
-+	struct ctlv_hdr *hdr;
-+
-+	*child = (struct ctlv_cursor){};
-+	if (!ctlv_message_output_member(record, type, kind, &pos))
-+		return false;
-+	/* Unreachable through any schema the generator would have accepted. */
-+	if (WARN_ON_ONCE(record->depth + 1 > CTLV_MAX_RECORD_DEPTH))
-+		return ctlv_message_output_poison(record, -EINVAL);
-+
-+	hdr = ctlv_message_output_write(record, type, CTLV_HDR_F_RECORD, NULL, 0);
-+	if (!hdr)
-+		return false;
-+
-+	*child = (struct ctlv_cursor){
-+		.msg = record->msg,
-+		.hdr = hdr,
-+		.up = record,
-+		.start = ctlv_message_offset(record->msg, hdr),
-+		.tree = pos.tree,
-+		.node = pos.node,
-+		.depth = record->depth + 1,
-+		.progress = record->msg->ctx->frag.progress,
-+	};
-+	record->msg->ctx->deepest = child;
-+	return true;
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_record_start, "CTLV");
-+
-+/* Only the innermost open record of an unpoisoned message can be closed. */
-+static struct ctlv_op_ctx *ctlv_message_output_closing(struct ctlv_cursor *child)
-+{
++struct ctlv_blob {
++	u64 len;
++	u8 direction;
++	u8 type;
++	/* Where the descriptor sat in the request, for error information. */
++	u32 tlv_offset;
++	u32 record_offset;
 +	struct ctlv_op_ctx *ctx;
++	struct list_head entry;
++	union {
++		struct {
++			struct mm_struct *mm;
++			struct page **pages;
++			unsigned long pages_count;
++			u32 start;
++		} va;
++	};
++};
 +
-+	if (WARN_ON_ONCE(!child->msg || !child->msg->ctx || !child->up))
-+		return NULL;
-+	ctx = child->msg->ctx;
-+	if (child->msg->poison)
-+		return NULL;
-+	if (WARN_ON_ONCE(ctx->deepest != child)) {
-+		ctlv_message_output_poison(child, -EINVAL);
-+		return NULL;
-+	}
-+	return ctx;
-+}
-+
-+/**
-+ * ctlv_record_end - Finish an output record.
-+ * @child: record cursor returned by a generated start helper
-+ */
-+void ctlv_record_end(struct ctlv_cursor *child)
++static bool ctlv_blob_readable(const struct ctlv_blob *blob)
 +{
-+	struct ctlv_op_ctx *ctx = ctlv_message_output_closing(child);
-+
-+	if (!ctx)
-+		return;
-+	if (ctlv_message_output_hdr(child)->len == sizeof(struct ctlv_hdr))
-+		ctx->frag.progress = true;
-+	ctx->deepest = child->up;
++	return blob->direction != CTLV_BLOB_DIRECTION_OUTPUT;
 +}
-+EXPORT_SYMBOL_NS_GPL(ctlv_record_end, "CTLV");
 +
-+/**
-+ * ctlv_record_cancel - Drop an output record and everything written into it.
-+ * @child: innermost open record cursor returned by a generated start helper
-+ *
-+ * For a query that ran out of room partway through a record: the fragment then
-+ * ends before it, and the next fragment writes it again.
-+ */
-+void ctlv_record_cancel(struct ctlv_cursor *child)
++static bool ctlv_blob_writable(const struct ctlv_blob *blob)
 +{
-+	struct ctlv_op_ctx *ctx = ctlv_message_output_closing(child);
-+	struct ctlv_cursor *open;
-+	u32 len;
-+
-+	if (!ctx)
-+		return;
-+	/* The record lengthened each one holding it by exactly its length. */
-+	len = ctlv_message_output_hdr(child)->len;
-+	for (open = child->up; open; open = open->up)
-+		ctlv_message_output_hdr(open)->len -= len;
-+	ctx->frag.progress = child->progress;
-+	ctx->deepest = child->up;
++	return blob->direction != CTLV_BLOB_DIRECTION_INPUT;
 +}
-+EXPORT_SYMBOL_NS_GPL(ctlv_record_cancel, "CTLV");
 +
-+static bool ctlv_op_error_valid(int error)
++static bool ctlv_blob_same_task(const struct ctlv_blob *blob)
 +{
-+	return !WARN_ON_ONCE(error >= 0 || error < -MAX_ERRNO);
++	return !blob->ctx || !blob->ctx->submitter || blob->ctx->submitter == current;
 +}
 +
-+/**
-+ * ctlv_op_error - Record an operation error message.
-+ * @ctx: operation context
-+ * @error: negative error to return
-+ * @message: message copied into the operation result
-+ *
-+ * Return: @error, or -EINVAL if @error is invalid.
-+ */
-+int ctlv_op_error(struct ctlv_op_ctx *ctx, int error, const char *message)
++static bool ctlv_blob_access_live(const struct ctlv_blob *blob)
 +{
-+	if (!ctlv_op_error_valid(error))
-+		return error < 0 && error >= -MAX_ERRNO ? error : -EINVAL;
-+	if (!ctx->error.message[0])
-+		strscpy(ctx->error.message, message, sizeof(ctx->error.message));
-+	return error;
++	return ctlv_blob_same_task(blob) && (!blob->ctx || blob->ctx->blobs_live);
 +}
-+EXPORT_SYMBOL_NS_GPL(ctlv_op_error, "CTLV");
-+
-+/**
-+ * ctlv_op_errorf - Format an operation error message.
-+ * @ctx: operation context
-+ * @error: negative error to return
-+ * @fmt: printf format and arguments
-+ *
-+ * Return: @error, or -EINVAL if @error is invalid.
-+ */
-+int ctlv_op_errorf(struct ctlv_op_ctx *ctx, int error, const char *fmt, ...)
-+{
-+	va_list args;
-+
-+	if (!ctlv_op_error_valid(error))
-+		return error < 0 && error >= -MAX_ERRNO ? error : -EINVAL;
-+	if (ctx->error.message[0])
-+		return error;
-+	va_start(args, fmt);
-+	vscnprintf(ctx->error.message, sizeof(ctx->error.message), fmt, args);
-+	va_end(args);
-+	return error;
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_op_errorf, "CTLV");
-+
-+/* Continuation is a query's, so asking about one anywhere else is a bug. */
-+static bool ctlv_op_is_query(const struct ctlv_op_ctx *ctx)
-+{
-+	return !WARN_ON_ONCE(ctx->op->schema->type != CTLV_OP_TYPE_QUERY);
-+}
-+
-+/**
-+ * ctlv_op_query_generation - Get a query continuation generation.
-+ * @ctx: query operation context
-+ *
-+ * Return: generation supplied by the previous fragment, or zero initially.
-+ */
-+u64 ctlv_op_query_generation(const struct ctlv_op_ctx *ctx)
-+{
-+	if (!ctlv_op_is_query(ctx))
-+		return 0;
-+	return ctx->frag.generation;
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_op_query_generation, "CTLV");
-+
-+/**
-+ * ctlv_op_query_cursor - Get a query continuation cursor.
-+ * @ctx: query operation context
-+ *
-+ * Return: cursor supplied by the previous fragment, or zero initially.
-+ */
-+u64 ctlv_op_query_cursor(const struct ctlv_op_ctx *ctx)
-+{
-+	if (!ctlv_op_is_query(ctx))
-+		return 0;
-+	return ctx->frag.cursor;
-+}
-+EXPORT_SYMBOL_NS_GPL(ctlv_op_query_cursor, "CTLV");
 +
 +/*
-+ * What both endings check: a query, one ending, and a generation that has not
-+ * moved under a continuation, which no fragment can be delivered across.
++ * Charged against RLIMIT_MEMLOCK of the address space the pages came from. A
++ * pin lasts one op, which is why it is not FOLL_LONGTERM.
 + */
-+static int ctlv_query_fragment_end(struct ctlv_op_ctx *ctx, u64 generation)
++static int ctlv_blob_pin_charge(struct mm_struct *mm, unsigned long pages_count)
 +{
-+	if (!ctlv_op_is_query(ctx))
-+		return -EINVAL;
-+	if (WARN_ON_ONCE(ctx->frag.answered))
-+		return -EINVAL;
-+	ctx->frag.answered = true;
-+	/* Whatever the builder gave up on has warned about it already. */
-+	if (ctx->output.poison)
-+		return ctx->output.poison;
-+	if (ctx->frag.cursor && generation != ctx->frag.generation) {
-+		ctx->error.reason = CTLV_VALIDATION_REASON_STALE_GENERATION;
-+		ctx->error.expected_generation = ctx->frag.generation;
-+		ctx->error.current_generation = generation;
-+		return -ESTALE;
++	unsigned long limit = rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
++
++	if (atomic64_add_return(pages_count, &mm->pinned_vm) > limit && !capable(CAP_IPC_LOCK)) {
++		atomic64_sub(pages_count, &mm->pinned_vm);
++		return -ENOMEM;
 +	}
-+	ctx->frag.reported = generation;
++	return 0;
++}
++
++static int ctlv_blob_va_range(u64 address, u64 len, unsigned long *first_page,
++			      unsigned long *pages_count)
++{
++	unsigned long first, last, span, count;
++	size_t bytes;
++	u64 end;
++
++	if (!len)
++		return -EINVAL;
++	if (check_add_overflow(address, len, &end))
++		return -EOVERFLOW;
++	if (end > TASK_SIZE)
++		return -EFAULT;
++
++	/* Bounded by an unsigned long above, so nothing below loses a bit. */
++	first = (unsigned long)address & PAGE_MASK;
++	last = ((unsigned long)end - 1) & PAGE_MASK;
++	if (check_sub_overflow(last, first, &span) ||
++	    check_add_overflow(span >> PAGE_SHIFT, 1UL, &count) ||
++	    check_mul_overflow(count, sizeof(struct page *), &bytes))
++		return -EOVERFLOW;
++
++	*first_page = first;
++	*pages_count = count;
++	return 0;
++}
++
++static int ctlv_blob_va_acquire(struct ctlv_blob *blob, u64 address)
++{
++	unsigned long pinned = 0, first, pages_count;
++	unsigned int gup_flags = 0;
++	struct page **pages;
++	int ret;
++
++	/* Before charging or allocating, both of which this sizes. */
++	ret = ctlv_blob_va_range(address, blob->len, &first, &pages_count);
++	if (ret)
++		return ret;
++
++	pages = kvmalloc_array(pages_count, sizeof(*pages), GFP_KERNEL_ACCOUNT);
++	if (!pages)
++		return -ENOMEM;
++
++	if (ctlv_blob_writable(blob))
++		gup_flags |= FOLL_WRITE;
++	ret = ctlv_blob_pin_charge(current->mm, pages_count);
++	if (ret)
++		goto err_free_pages;
++
++	while (pinned < pages_count) {
++		long got = pin_user_pages_fast(first + (pinned << PAGE_SHIFT),
++					       min_t(unsigned long, pages_count - pinned, INT_MAX),
++					       gup_flags, pages + pinned);
++
++		/* A short pin is progress; nothing pinned is the caller's. */
++		if (got <= 0) {
++			ret = got ? (int)got : -EFAULT;
++			goto err_unpin;
++		}
++		pinned += got;
++	}
++
++	/* Referenced, so the unpin is safe however far the submitter got. */
++	mmgrab(current->mm);
++	blob->va.start = offset_in_page(address);
++	blob->va.mm = current->mm;
++	blob->va.pages = pages;
++	blob->va.pages_count = pages_count;
++	return 0;
++
++	/* The pins taken, and the whole charge, which covered every page. */
++err_unpin:
++	unpin_user_pages(pages, pinned);
++	atomic64_sub(pages_count, &current->mm->pinned_vm);
++err_free_pages:
++	kvfree(pages);
++	return ret;
++}
++
++static void ctlv_blob_va_release(struct ctlv_blob *blob)
++{
++	/* Dirtied, so that what the kernel wrote survives the unpin. */
++	unpin_user_pages_dirty_lock(blob->va.pages, blob->va.pages_count, ctlv_blob_writable(blob));
++	atomic64_sub(blob->va.pages_count, &blob->va.mm->pinned_vm);
++	kvfree(blob->va.pages);
++	mmdrop(blob->va.mm);
++}
++
++static void ctlv_blob_va_copy(struct ctlv_blob *blob, u64 offset, void *buf, size_t len, bool write)
++{
++	u64 at = blob->va.start + offset;
++	unsigned long index = at >> PAGE_SHIFT;
++	u32 in_page = offset_in_page(at);
++	u8 *bytes = buf;
++
++	while (len) {
++		struct page *page = blob->va.pages[index++];
++		size_t step = min_t(size_t, len, PAGE_SIZE - in_page);
++
++		if (write)
++			memcpy_to_page(page, in_page, bytes, step);
++		else
++			memcpy_from_page(bytes, page, in_page, step);
++		bytes += step;
++		len -= step;
++		in_page = 0;
++	}
++}
++
++/**
++ * ctlv_blob_len - Get a resolved blob's length.
++ * @blob: resolved blob
++ *
++ * Return: blob length in bytes.
++ */
++u64 ctlv_blob_len(const struct ctlv_blob *blob)
++{
++	return blob->len;
++}
++EXPORT_SYMBOL_NS_GPL(ctlv_blob_len, "CTLV");
++
++/*
++ * The length, the direction and addressing from zero are all the family's own
++ * to know, so getting one wrong is a kernel bug rather than a caller's.
++ */
++static bool ctlv_blob_range_ok(struct ctlv_blob *blob, u64 offset, size_t len, bool write)
++{
++	u64 end;
++
++	if (WARN_ON_ONCE(write ? !ctlv_blob_writable(blob) : !ctlv_blob_readable(blob)))
++		return false;
++	if (WARN_ON_ONCE(!ctlv_blob_access_live(blob)))
++		return false;
++	if (WARN_ON_ONCE(check_add_overflow(offset, (u64)len, &end) || end > blob->len))
++		return false;
++	return true;
++}
++
++static int ctlv_blob_copy(struct ctlv_blob *blob, u64 offset, void *buf, size_t len, bool write)
++{
++	if (!ctlv_blob_range_ok(blob, offset, len, write))
++		return -EINVAL;
++	if (!len)
++		return 0;
++
++	switch (blob->type) {
++	case CTLV_BLOB_TYPE_VA:
++		ctlv_blob_va_copy(blob, offset, buf, len, write);
++		return 0;
++	default:
++		return -EINVAL;
++	}
++}
++
++/**
++ * ctlv_blob_read - Copy bytes from a resolved input blob.
++ * @blob: resolved blob
++ * @offset: byte offset
++ * @dst: destination buffer
++ * @len: number of bytes
++ *
++ * Return: 0, or a negative error.
++ */
++int ctlv_blob_read(struct ctlv_blob *blob, u64 offset, void *dst, size_t len)
++{
++	return ctlv_blob_copy(blob, offset, dst, len, false);
++}
++EXPORT_SYMBOL_NS_GPL(ctlv_blob_read, "CTLV");
++
++/**
++ * ctlv_blob_write - Copy bytes to a resolved output blob.
++ * @blob: resolved blob
++ * @offset: byte offset
++ * @src: source buffer
++ * @len: number of bytes
++ *
++ * Return: 0, or a negative error.
++ */
++int ctlv_blob_write(struct ctlv_blob *blob, u64 offset, const void *src, size_t len)
++{
++	return ctlv_blob_copy(blob, offset, (void *)src, len, true);
++}
++EXPORT_SYMBOL_NS_GPL(ctlv_blob_write, "CTLV");
++
++/* Any task can release: a VA blob unpins through the mm it pinned from. */
++static int ctlv_blob_release(struct ctlv_blob *blob)
++{
++	switch (blob->type) {
++	case CTLV_BLOB_TYPE_VA:
++		ctlv_blob_va_release(blob);
++		break;
++	}
++	if (blob->ctx) {
++		list_del(&blob->entry);
++		blob->ctx = NULL;
++	}
++	kfree(blob);
 +	return 0;
 +}
 +
 +/**
-+ * ctlv_op_query_more - Complete a query fragment with more data pending.
-+ * @ctx: query operation context
-+ * @generation: current data generation
-+ * @next_cursor: nonzero cursor for the next fragment
++ * ctlv_blob_put - Release a resolved blob.
++ * @blob: blob returned by a generated resolve helper
 + *
 + * Return: 0, or a negative error.
 + */
-+int ctlv_op_query_more(struct ctlv_op_ctx *ctx, u64 generation, u64 next_cursor)
++int ctlv_blob_put(struct ctlv_blob *blob)
 +{
-+	int ret = ctlv_query_fragment_end(ctx, generation);
-+
-+	if (!ret &&
-+	    WARN_ON_ONCE(!ctx->frag.progress || !next_cursor || next_cursor == ctx->frag.cursor))
-+		ret = -EINVAL;
-+	if (!ret) {
-+		ctlv_message_output_frag_mark(ctx);
-+		ctx->frag.next_cursor = next_cursor;
-+	}
-+	ctx->frag.result = ret;
-+	return ret;
++	if (!blob)
++		return 0;
++	if (WARN_ON_ONCE(!ctlv_blob_same_task(blob)))
++		return -EINVAL;
++	return ctlv_blob_release(blob);
 +}
-+EXPORT_SYMBOL_NS_GPL(ctlv_op_query_more, "CTLV");
++EXPORT_SYMBOL_NS_GPL(ctlv_blob_put, "CTLV");
++
++void ctlv_blob_context_init(struct ctlv_op_ctx *ctx)
++{
++	INIT_LIST_HEAD(&ctx->blobs);
++	ctx->blobs_live = true;
++	ctx->blob_error = 0;
++}
++
++void ctlv_blob_context_track(struct ctlv_blob *blob, struct ctlv_op_ctx *ctx)
++{
++	blob->ctx = ctx;
++	list_add_tail(&blob->entry, &ctx->blobs);
++}
++
++int ctlv_blob_context_finish(struct ctlv_op_ctx *ctx)
++{
++	ctx->blobs_live = false;
++	if (WARN_ON_ONCE(!list_empty(&ctx->blobs)) && !ctx->blob_error)
++		ctx->blob_error = -EINVAL;
++	while (!list_empty(&ctx->blobs)) {
++		struct ctlv_blob *blob = list_first_entry(&ctx->blobs, struct ctlv_blob, entry);
++
++		ctlv_blob_release(blob);
++	}
++	return ctx->blob_error;
++}
++
++/*
++ * Which of an op's blobs was the unusable one, in the shape validation would
++ * have used. The errno the family returns says what went wrong.
++ */
++static void ctlv_blob_context_fail(struct ctlv_op_ctx *ctx, u32 tlv_offset, u32 record_offset,
++				   u64 required_length)
++{
++	if (ctx->error.reason)
++		return;
++	ctx->error.reason = CTLV_VALIDATION_REASON_BAD_BLOB_DESCRIPTOR;
++	ctx->error.bad_tlv_offset = tlv_offset;
++	ctx->error.record_offset = record_offset;
++	ctx->error.required_length = required_length;
++}
 +
 +/**
-+ * ctlv_op_query_done - Complete the last query fragment.
-+ * @ctx: query operation context
-+ * @generation: current data generation
++ * ctlv_blob_too_short - Fail an op on an output blob too short for its data.
++ * @blob: resolved output blob
++ * @len: length the op needs @blob to have, more than it has
 + *
-+ * Return: 0, or a negative error.
++ * Reports @blob and @len in the op's error information, unless an earlier
++ * failure is reported there already, so that the caller can retry with a
++ * blob that long.
++ *
++ * Return: -EMSGSIZE, for the family to return.
 + */
-+int ctlv_op_query_done(struct ctlv_op_ctx *ctx, u64 generation)
++int ctlv_blob_too_short(struct ctlv_blob *blob, u64 len)
 +{
-+	int ret = ctlv_query_fragment_end(ctx, generation);
++	if (WARN_ON_ONCE(!ctlv_blob_writable(blob) || !blob->ctx || len <= blob->len))
++		return -EINVAL;
++	ctlv_blob_context_fail(blob->ctx, blob->tlv_offset, blob->record_offset, len);
++	return -EMSGSIZE;
++}
++EXPORT_SYMBOL_NS_GPL(ctlv_blob_too_short, "CTLV");
 +
-+	if (!ret && WARN_ON_ONCE(ctx->deepest != &ctx->output_root)) {
-+		/* A cursor of a frame that has returned is not followed. */
-+		ctx->deepest = &ctx->output_root;
-+		ret = -EINVAL;
++static struct ctlv_blob *ctlv_blob_acquire(const struct ctlv_blob_desc *desc, u8 direction)
++{
++	u64 address = desc->member[CTLV_BLOB_MEMBER_ADDRESS];
++	u64 len = desc->member[CTLV_BLOB_MEMBER_LENGTH];
++	struct ctlv_blob *blob;
++	int ret;
++
++	blob = kzalloc_obj(*blob, GFP_KERNEL_ACCOUNT);
++	if (!blob)
++		return ERR_PTR(-ENOMEM);
++	INIT_LIST_HEAD(&blob->entry);
++	blob->len = len;
++	blob->direction = direction;
++	blob->type = desc->member[CTLV_BLOB_MEMBER_TYPE];
++
++	ret = ctlv_blob_va_acquire(blob, address);
++	if (ret) {
++		kfree(blob);
++		return ERR_PTR(ret);
 +	}
-+	ctx->frag.result = ret;
-+	return ret;
++	return blob;
 +}
-+EXPORT_SYMBOL_NS_GPL(ctlv_op_query_done, "CTLV");
 +
-+static void ctlv_message_output_frag_mark(struct ctlv_op_ctx *ctx)
++struct ctlv_blob *ctlv_blob_resolve(struct ctlv_op_ctx *ctx, const struct ctlv_cursor *blob)
 +{
-+	struct ctlv_cursor *open;
++	const struct ctlv_hdr *bad = NULL;
++	const struct ctlv_node_schema *node;
++	u32 tlv_offset, record_offset;
++	struct ctlv_blob_desc desc;
++	struct ctlv_blob *acquired;
 +
-+	for (open = ctx->deepest; open; open = open->up)
-+		ctlv_message_output_hdr(open)->flags |= CTLV_HDR_F_FRAG_MORE;
-+	ctx->deepest = &ctx->output_root;
++	/* An absent blob, or a cursor from some other execution entirely. */
++	if (WARN_ON_ONCE(blob->msg != &ctx->request || !ctlv_cursor_ok(blob)))
++		return ERR_PTR(-EINVAL);
++	node = &blob->tree->node_schemas[blob->node];
++	if (WARN_ON_ONCE(node->kind != CTLV_SCHEMA_BLOB))
++		return ERR_PTR(-EINVAL);
++	if (WARN_ON_ONCE(!ctx->blobs_live || !ctx->submitter || ctx->submitter != current))
++		return ERR_PTR(-EINVAL);
++	/* Validated before the callback, so anything wrong with it is a bug. */
++	if (WARN_ON_ONCE(ctlv_blob_desc_read(blob->hdr, &desc, &bad) ||
++			 ctlv_blob_desc_check(&desc, node)))
++		return ERR_PTR(-EINVAL);
++
++	tlv_offset = ctlv_message_offset(blob->msg, blob->hdr);
++	record_offset = ctlv_message_offset(blob->msg, blob->parent);
++	acquired = ctlv_blob_acquire(&desc, node->blob.direction);
++	if (IS_ERR(acquired)) {
++		ctlv_blob_context_fail(ctx, tlv_offset, record_offset, 0);
++		return acquired;
++	}
++	acquired->tlv_offset = tlv_offset;
++	acquired->record_offset = record_offset;
++	ctlv_blob_context_track(acquired, ctx);
++	return acquired;
 +}
-diff --git a/lib/ctlv/builder.h b/lib/ctlv/builder.h
++EXPORT_SYMBOL_NS_GPL(ctlv_blob_resolve, "CTLV");
+diff --git a/lib/ctlv/blob.h b/lib/ctlv/blob.h
 new file mode 100644
-index 000000000000..744595ebd88e
+index 000000000000..bb7b933a1ced
 --- /dev/null
-+++ b/lib/ctlv/builder.h
-@@ -0,0 +1,14 @@
++++ b/lib/ctlv/blob.h
+@@ -0,0 +1,15 @@
 +/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _CTLV_BUILDER_H
-+#define _CTLV_BUILDER_H
++#ifndef _CTLV_BLOB_H
++#define _CTLV_BLOB_H
 +
 +#include <linux/types.h>
 +
-+struct ctlv_msg;
++struct ctlv_blob;
 +struct ctlv_op_ctx;
-+struct ctlv_schema_tree;
 +
-+void ctlv_message_output_init(struct ctlv_msg *msg, struct ctlv_op_ctx *ctx, void *buf, size_t len,
-+			      const struct ctlv_schema_tree *tree);
++void ctlv_blob_context_init(struct ctlv_op_ctx *ctx);
++void ctlv_blob_context_track(struct ctlv_blob *blob,
++			     struct ctlv_op_ctx *ctx);
++int ctlv_blob_context_finish(struct ctlv_op_ctx *ctx);
 +
-+#endif /* _CTLV_BUILDER_H */
++#endif /* _CTLV_BLOB_H */
+diff --git a/lib/ctlv/internal.h b/lib/ctlv/internal.h
+index 90d07d2638d3..1dbab9709261 100644
+--- a/lib/ctlv/internal.h
++++ b/lib/ctlv/internal.h
+@@ -9,6 +9,7 @@
+ 
+ #include <linux/bug.h>
+ #include <linux/ctlv_family.h>
++#include <linux/list.h>
+ #include <linux/types.h>
+ 
+ #include <uapi/ctlv/ctlv.h>
+@@ -22,6 +23,8 @@
+ #define CTLV_ASSERT(cond) BUILD_BUG_ON_INVALID(cond)
+ #endif
+ 
++struct task_struct;
++
+ #define CTLV_ERROR_MESSAGE_LEN 256
+ 
+ /* An op that is always enabled has no per-device availability state. */
+@@ -58,6 +61,8 @@ struct ctlv_query_fragment {
+ 
+ struct ctlv_op_ctx {
+ 	const struct ctlv_family *family;
++	/* Compared against current and never followed: identity, not a hold. */
++	const struct task_struct *submitter;
+ 	const struct ctlv_op_entry *op;
+ 
+ 	struct ctlv_msg request;
+@@ -68,6 +73,9 @@ struct ctlv_op_ctx {
+ 	struct ctlv_cursor *deepest;
+ 
+ 	struct ctlv_query_fragment frag;
++	struct list_head blobs;
++	bool blobs_live;
++	int blob_error;
+ 	struct ctlv_error error;
+ };
+ 
 -- 
 2.56.0
 
