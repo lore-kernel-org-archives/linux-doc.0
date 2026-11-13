@@ -1,99 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.45
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794567420;
-	b=jqle2lXatHQjoGLKofJA/s0XsegjJ2XrpyQeDs7hyph4/hIWMjdZpcKCmjygm2BNaTzT
-	 0ulsPKJIPCB0RHfmmvgn4/hoK77KZ7AdmzdqEIsLja5Iil42XGimyGDoyrqTsXsq4pfmB
-	 8abTxmryBEzo2LkN/8nrISNM+YV2Dnyz541WtTM7gHKHq/S9YrRbTc2QKXxAcD5nCgYsl
-	 DbapHhii6UHoT45FeTZiVvHHolLo2JtrwEcafuuTE3By5UOHMksqweQgKIn97rBbe9JWg
-	 JyYeBq1qPWJ6PDNBQw/RCd9H2CD8i5JVNsQOMA2FNHeljBlx3r6FXIyF/lAamyqB7Wg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794567420;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794568948;
+	b=A4tU74WAgAzGf/U0rO7fJ3Lz8jiZVbMp3YiYfWifWvFaEgDwalFc1KXdT/2SEFCH77LE
+	 sW4ddiwCemfmQUh4CkapGOkgGpTCmj0nCuscvvLGxVKlRj3BdgEaSjJJ3CHuoqVYQHDoi
+	 MhFhHwpfJritisBbrJm8z9ARjmG3I2Xn6Ek+Sie77jfI5bW9Cbua5/jCBqmzQFtr4WyC7
+	 m4kYvqIomCQppawutLY+n+Z5Mok8Rw8jzz/Rag2e4XUQI5daDIBJeaCuN7pUmbggkC93j
+	 q+7dPgnjIMqPZIWrZtJqthIGyv9lz9wiKrPhol9tlWtFZgGY3x634u8j1q4GEBWMVDw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794568948;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=h148AzK7ulcLWc0NU3jZpboHW5vO/KJ9aeMyUmTns1k=;
-	b=FltOZfYlLWJhJvqUbjTu+jqJ+uwgzejLcEUFsgmdffA1HKlMIAlUoXieeEe9GztxVMx1
-	 b1/opI1ArKsNW0hCaMgpp9CZeby9l6D+7ZHLqTnQ2cmbgafAs7uFaI0z64TKPeV5jo2uF
-	 z4L5UTX1IOPDw6caafOTQ+4xTOVy/BNmrXNZX7j1Y6GHP/jLcMBIEkuBTXWu/wGLyv5VP
-	 FoJh4i9gUHCjAB0Lp87cXeac4lGvg8kycgTS7MykvxtQwmZHbR/euSxskDhEGi1rYGok1
-	 uy+e2w+k795KSvQ1M8R7TQUHpRv1WCIwSG7SwOVcfghxgNustRCLaCpFoHsnSW6wp2Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oSSMMszi;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=jhZJPwyqkT2jXkPI1fAXCUzZovCR8gpp0OeWDLPOIpE=;
+	b=GnPJUWLuGRm1tniwDuay9YUxkwfLXgjutNyyoVeGxD0H3fkulkR+T2E+7pERXdzKOGP4
+	 8LcWTbUp2//0g07J/jeuiUdqeFkkuHO6oPTZJpxZbGM6IKgMxE4rBLP8vTG7XboQsccqX
+	 LcjX511+RD6XJvBKBJByybR0BlOqNkQWcOGRE7f7+iAg1i4oDl2ShisKWMkqLIyQ5zna+
+	 1JokiypZcavVUlc6d5dyb/Mrnxc801/9Z5U78vvQ2KS9vaXMr/cqpjoasQaQ4L7wxDOBU
+	 sVC1L00QcEf58EUDmYJB88FAv15rFB5AvLtZPQnoO+GsfUQ05LoSaII+MIHe0JbstJA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TcRryGPu;
+	arc=none smtp.remote-ip=74.125.82.171
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EEAC606A32A
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 10:57:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EEAC606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 003B0606A327
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 11:22:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 003B0606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oSSMMszi
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1a2af4c8d00so1319074c88.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 02:57:00 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794567419; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sv81nMycapa0VMPczTb/HQwGNyCSQzPbabR9v5jkK/7W6dog7QLuuKWUXBuO4sGbAZ
-         s2zNdPRaw0WkJD6T2zyOESB1cj1TtCrF0ED2C5Ip3IfPzOLjY2h5dj5cTWYTo9IM+XY5
-         OsfFRYRDxF3a53/CkT1cyZHalc3CKXFNLAe6/QWiTkDu1qQv3aotsFZxm/z6BhLn4PA0
-         gzDzgAUhQJpJPz2M5MYH7WZuh7J3YgTlt+gm1ccjpcCa1NhQ3VB8olGDv/PqpzhR1zJ8
-         mdCoffQc5N+KWcjAl2bIJLzrH6EFH60kzwPjv+nZ7ZqZg6gh9EUwKmKJzIXzuSQnmYTb
-         aacA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=h148AzK7ulcLWc0NU3jZpboHW5vO/KJ9aeMyUmTns1k=;
-        fh=TosBpfZdgjawMPRn+fN6q+kyqDL2RGhBpoDbpcBAKew=;
-        b=Qk+XHaPZzCw42BjD1Zkuvl3ib6W5GkQhZXc4+3JM5BQuk3r3XivzmGcIEpIYIAnrJF
-         mH8AyXYtbJjo3dJvGD4/8D+LVlEGdeits7y2o2WIJNtLm1KRc0/Cl7ValXrunV/hzgb/
-         EuKMKUf3duz55YIOEXI1QgI4kBRq6Bb+WasmW/MsnMItARZ3ibngHrDRS7L1kil9KpCF
-         gm4vzBpMiz8tn+Vg3/L17PHTAMtFUGR3/OUgZvYGtPvu2jRuZqni7/s4DbcU1dMzZU+V
-         V6GSF4IYtpQZVbPvxPlwMMmZfxscVoRZyyY3pb1p6gwSyFV3lf7OvStpFA0zhx5zkMRZ
-         34oA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TcRryGPu
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-36e2b1db9bfso92433eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 03:22:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794567419; x=1795172219; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=h148AzK7ulcLWc0NU3jZpboHW5vO/KJ9aeMyUmTns1k=;
-        b=oSSMMsziL7w6nW47/r8iQSeinVJ38aAA1LMs3FVdDbSdFpg/klmLvVGMa2XNtc/L++
-         qk+1oI4pOmoNAM2Sp+wJp6f1GzvqwIvaSPVHsRXkDEDmi0H/nyYKqQ5+xTUkwN/XJ1aB
-         lhIBS8TnoviuNl3qZk6EyysgPOPl1pH4Wefyh1koiZ0i5FTHW1jyvr5iBVxcRqCHFW0N
-         uN5FQLfq4Qc+wBBGzRMVFoydK7pIBrWo87Y3Ja9x0PV7XfOgqPtUwsSp/PkVZR1sU1cY
-         a0wVy4gycR3P98dRB726mwhv3llAloTH5tKnfwCYXAgxzrNSd6x7O+FrYd1nB4eNJsYs
-         Qgqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794567419; x=1795172219;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+        d=gmail.com; s=20260707; t=1794568946; x=1795173746; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=h148AzK7ulcLWc0NU3jZpboHW5vO/KJ9aeMyUmTns1k=;
-        b=QS8VVFiRVOddUYbThsWc3oZVnq6up+sKotw4XAFoZoYEaybSiHpimOC/RahTXqpRlr
-         g0f7g5Kg8joawvfhMRAy+wTuRmbfVdKhrt6auJs1sH/kYeDdYiJA6etFsLW/dQqwaexa
-         75nD4K8xwVB+QTJc/JDJ+FAv5XSKseDPqIpAwfJj5G0bYJgP9aaKhF0x8JYFDfu93eYS
-         JTBUqNmVCWMO6m9gAU5br0NSIQMHt8L+9azDUugX2OAfytPsW3DE1a1zC+wACedU3XdB
-         Mtj3y7YUlnC/Am9ZOxg2wLez3hzEZnY2cycK6VEA3J2rDrV/UJ7w0KIB7tOQK8c/WTI2
-         hvFA==
-X-Forwarded-Encrypted: i=1; AL+hErEUlgHfBp0SRAQgVJ2P7vpgQOqoxPIAfEJAr/E/aPJQ6TY+hlceeJiUQYao+ysmCIQ86KSz3Sph9Yk=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/GT2p0WwupWx7D6JLcmFGSmYWUbiZfSqbhLWx3pTS4v4wwhhLU
-	FjhKyJcR/cA2WFD1WwgLRCKTMUBlsMFy3EpEbixUs4grasvVkbqcqBOeNIo1qJ9HXob4XUzzVAU
-	PodBJq10DuXq23/Anj/Ms5u69U7pHKH4hxbs0aA8d
-X-Gm-Gg: AYBFou3uNfv8Y626jOmQjiSH6QBPCBuascEcyd9Pr95U3ir18FxRegqtvvEB+aoCehO
-	zgjWiG7jtAZ13fQoxx61mRV+7EB35ca3ln9+78tJV0WYT0QuFgQKRqBLR/OpDeEB1bwNGoXIIVV
-	4tUaWwHP4xHTyQjzUhU8tP0VfLMnNVAYhZSNOuLcojIvl4SYbNjMvxFPPY24Nbiy7cU9j/Xfja9
-	RwV2wqPu0mDqCkBE+q7WtD+iXu2/XAapV+gQaaOioxjcG5KuBlUAYNxcdD5o86cL21JZVtA2AUH
-	1ET2RRUJ9MmQju0l37tkrF6OxHA09MflXjj81tI8BMyELw9Firb0pOai54nezdNiqf05f5ui62z
-	SVu5jjjDtcpqmSgDNmdg1DJ8rarCfYNa/z0VBCWoh9qwlLIDVE1UY3VS4X+Jjz3DGnceG
-X-Received: by 2002:a05:701b:2810:b0:1af:2ba7:e44b with SMTP id
- a92af1059eb24-1b503068de7mr2114022c88.3.1794567418689; Fri, 13 Nov 2026
- 02:56:58 -0800 (PST)
+        bh=jhZJPwyqkT2jXkPI1fAXCUzZovCR8gpp0OeWDLPOIpE=;
+        b=TcRryGPun9xt9v6yNLv/QrrsnZ3lArbzuVg+YMM1Xvxvm4nPNKvf9iM8UZpR+hhEqG
+         Pt0Z2RrwngqQXOq6u+sTPuj0Xn3TZdtX5lP8TMVH93a2RwbcCA7iszJmFYT1rJ1hcDwh
+         ntqqVmNYdpndaogTVpyPlzxtSMP2dK4nVkVFSHqQI3XWi8QSz8wtV0lMcmM6OjPyh2+f
+         tmS9DSBvz7kpiFwcuT/P5SOHaXLN5q5djj3KJrkN1lUNvo4Xjnfsp72CpZyOwxml341w
+         iyYhqmRl1/Oc1zExdYDzjoXnlGoLIVbhlJE8YZVqK0PassS2K0620Fa86mYcSx1Lyvii
+         u5bA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794568946; x=1795173746;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=jhZJPwyqkT2jXkPI1fAXCUzZovCR8gpp0OeWDLPOIpE=;
+        b=vgoGvpupjvuL9FIww6uByqUua51anQNz4Rok8eHSoddLTn/TeYeGi3W+NGkwA3hjzi
+         45ggoQJfBL8O5yHs+AD4mbDDQM+G3PGGC88qB+emQnGQcaPZIYZ7WhNaPAD0GkL1+Mnc
+         6WcPWdfiBzkrlHoKOtuSFo05KF0tk+Kl0xA+HMizWt0D2k2HHWJDzQRbAKUOjd6GcP9V
+         62DkCfdYz0mdHpO8uaks5xTOcYK8cXz29AAGPW2RCfsL9l2UlYid0Z7gXoVi3yqbmxip
+         cr27nwCqSg9K90U+4IpFujTeoaaynimB71pSshAU0CEqitHVFeEgM+HmdlN2yNjDTAWr
+         H9AQ==
+X-Forwarded-Encrypted: i=1; AL+hErFkk3xM+JrUVrzgI9fLEBWeW3cTXO+e/uSgx+dMFH8oCCIW2Qer/dD90QNfShCrZ6lMbTqMgYLA8rk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+mmD2Hr0eXusRwPlNEw2k5g/lTISwmK/wpU/hcS5QoHtxXeqKI
+	UmcbIhTYd/RW6JOeouXbstLshjYFSBoqbZx7Uq6wEf3aytuSqE3kw9w/
+X-Gm-Gg: AYBFou0CE5YeJ6Ouo7JhiRBrTMcTxxacQywUNg9YJeuzWjvNSC131IdQWafrrVvI1Nj
+	WlKpBa/IN961DAVZNUXChNF4C6n7fGVHYWEZej6JEaDQ/TpAGakjflhuSuHfln3Qmj+9OpyA0RU
+	oRSNTUZ1l0T3dX+AyfgL1Fm61GDGeS0IY3fhqWD9/GWRzTmu5jiD7IgTIhoj1I24FPtTbMzCjEB
+	s00kQUpJwyqoqtc5Cxja/FE//jkmjwPcpYw58ZY2IK/dxIvT2zU5romeh7+NSlnOPiAxFnivbRm
+	ECorSGZYJxEa0hKs48vL4KFouS1PVDQ+rWLBRSc/HWjBTu8Tyl4dnG8wpXxRnEEV5zj2S462MRu
+	pFShwRCr8HtwNy1wjDTVT/JExS/RP7CIN883C2ONwzrvqaxF8pW7f3BwvYgR/Db/6D2DpDBYGS+
+	x/g6Sb6k0CeK6NPt6zsB6Mt5sjjoO+XyrwkqfYlX3TMppZ/3FC44sqo5I3Qk0IAgREjjne0Xai6
+	YNLEwDSpxh2VE/kQu7BsBJASvKUMNiOhTe1l3/T1uSAsow8p5iVfH8y1b+gfZtAefOJSKKOEZtm
+	agVbLahvu/3z21jFy+Xn7Hl9Vlai+ZlvTZVUrPkKT4ijk5Y/CfQXBdbX5meJnB82ITM=
+X-Received: by 2002:a05:7301:a0a:b0:36c:a1bc:6114 with SMTP id 5a478bee46e88-3796038259fmr2893772eec.0.1794568945402;
+        Fri, 13 Nov 2026 03:22:25 -0800 (PST)
+Received: from o6.lan ([2602:fce1:44f:115e::])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3795378c2fesm7133252eec.1.2026.11.13.03.22.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 03:22:24 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,70 +88,292 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1794506262.git.chris@chrisdown.name>
-In-Reply-To: <cover.1794506262.git.chris@chrisdown.name>
-From: Marco Elver <elver@google.com>
-Date: Fri, 13 Nov 2026 11:56:20 +0100
-X-Gm-Features: AclHuK8EymS8R4ke35k_Ts4zDwGVpBzqd0W1daXPPjdA8aiWj2M9LBxfbR3z3Fk
-Message-ID: <CANpmjNP0cWB_670hYj7p+Dd=do1qEu4XHeW+c7sTv-MXi0UBTg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/6] mm/slab: Support selecting slab hardening features
- at boot
-To: Chris Down <chris@chrisdown.name>
-Cc: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, 
-	GONG Ruiqi <gongruiqi@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org, 
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v3] mm/zsmalloc: remove CONFIG_ZSMALLOC_STAT
+From: Xueyuan Chen <xueyuan.chen21@gmail.com>
+To: Dongliang Mu <dzm91@hust.edu.cn>
+Cc: Xueyuan Chen <xueyuan.chen21@gmail.com>, 
+ Minchan Kim <minchan@kernel.org>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>, 
+ Yanteng Si <si.yanteng@linux.dev>, Heiko Carstens <hca@linux.ibm.com>, 
+ Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, 
+ Helen Koike <helen.fornazier@gmail.com>, 
+ Vignesh Raman <vignesh.raman@collabora.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Nhat Pham <nphamcs@gmail.com>
+In-Reply-To: <f9ee662a-4da0-4204-89ce-33704044c88c@hust.edu.cn>
+References: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
+ <f9ee662a-4da0-4204-89ce-33704044c88c@hust.edu.cn>
+Date: Fri, 13 Nov 2026 19:22:13 +0800
+Message-Id: <179456893350.2142163.5558519210108805249.b4-reply@b4>
+X-Mailer: b4 0.16.0
 
-On Fri, 13 Nov 2026 at 09:51, Chris Down <chris@chrisdown.name> wrote:
->
-> Slab hardening settings are currently all build time choices. This means
-> that, unfortunately, hosts with different requirements end up needing
-> separate kernel images. At Meta, for example, some hosts are built with
-> these options and the rest of the fleet isn't, and that's one of the
-> things that keeps those kernels apart.
->
-> This series does two things:
->
-> - SLAB_FREELIST_HARDENED and SLAB_FREELIST_RANDOM are cheap enough with
->   sheaves that it makes more sense to just enable them by default than
->   to make them switchable. With both on, system level benchmarks didn't
->   change measurably, only slowpath heavy microbenchmarks did [1].
->
-> - SLAB_BUCKETS and KMALLOC_PARTITION_CACHES cost memory (Harry measured
->   about 1 MiB and 18 MiB respectively after boot on a 64 CPU VM [2]), so
->   they get slab_buckets= and kmalloc_partition= boot parameters, which
->   default to on when the option is built in.
->
-> Whether those two should be folded into a single slab_hardening= is
-> still open [3].
+On 2026-11-13 10:12 +0800, Dongliang Mu wrote:
+> 
+> On 11/11/26 8:41 PM, Xueyuan Chen wrote:
+> > CONFIG_ZSMALLOC_STAT only controls the debugfs interface. The class
+> > counters are updated regardless of this option.
+> >
+> > Remove the CONFIG_ZSMALLOC_STAT guards and rely on the debugfs API
+> > stubs when CONFIG_DEBUG_FS=n. Skip statistics setup silently when
+> > debugfs is unavailable.
+> >
+> > Remove the Kconfig entry and replace the existing CONFIG_ZSMALLOC_STAT
+> > settings with CONFIG_DEBUG_FS=y. Update the English and Chinese
+> > documentation to match, and clarify the pool name in the debugfs path.
+> >
+> > Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> > Reviewed-by: Nhat Pham <nphamcs@gmail.com>
+> > Signed-off-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
+> 
+> |The documentation changes look good to me. Acked-by: Dongliang Mu 
+> <dzm91@hust.edu.cn> # Documentation|
+thanks!
+> 
+> > ---
+> > Drop CONFIG_ZSMALLOC_STAT instead of making the counters conditional. The
+> > option only controls the debugfs interface, while the class counters are
+> > updated unconditionally. Removing it simplifies the code.
+> >
+> > Following Nhat's suggestion, remove CONFIG_ZSMALLOC_STAT and rely on
+> > the existing debugfs API stubs when CONFIG_DEBUG_FS=n.
+> > ---
+> > Changes in v3:
+> > - Squash the three patches into one (Nhat, Sergey).
+> > - Add Nhat's Reviewed-by.
+> > - Update the documentation wording.
+> > - Link to v2: https://patch.msgid.link/20261109-zsmalloc_stat-v2-0-caee41684aba@gmail.com
+> >
+> > Changes in v2:
+> > - Drop CONFIG_ZSMALLOC_STAT instead of making the counters conditional.
+> > - Update configuration files and documentation.
+> > - Link to v1: https://patch.msgid.link/20261106-zsmalloc_stat-v1-1-b574f4714adf@gmail.com
+> > ---
+> >   Documentation/mm/zsmalloc.rst                    |  4 +--
+> >   Documentation/translations/zh_CN/mm/zsmalloc.rst |  2 +-
+> >   arch/s390/configs/debug_defconfig                |  2 +-
+> >   arch/s390/configs/defconfig                      |  2 +-
+> >   drivers/gpu/drm/ci/arm.config                    |  2 +-
+> >   drivers/gpu/drm/ci/arm64.config                  |  2 +-
+> >   drivers/gpu/drm/ci/x86_64.config                 |  2 +-
+> >   mm/Kconfig                                       |  9 -------
+> >   mm/zsmalloc.c                                    | 33 ++----------------------
+> >   9 files changed, 10 insertions(+), 48 deletions(-)
+> >
+> > diff --git a/Documentation/mm/zsmalloc.rst b/Documentation/mm/zsmalloc.rst
+> > index d2bbecd78e14..4c0786378dc3 100644
+> > --- a/Documentation/mm/zsmalloc.rst
+> > +++ b/Documentation/mm/zsmalloc.rst
+> > @@ -33,8 +33,8 @@ proper handle-based APIs.
+> >   stat
+> >   ====
+> >   
+> > -With CONFIG_ZSMALLOC_STAT, we could see zsmalloc internal information via
+> > -``/sys/kernel/debug/zsmalloc/<user name>``. Here is a sample of stat output::
+> > +With CONFIG_DEBUG_FS, we could see zsmalloc internal information via
+> > +``/sys/kernel/debug/zsmalloc/<pool-name>``. Here is a sample of stat output::
+> >   
+> >    # cat /sys/kernel/debug/zsmalloc/zram0/classes
+> >   
+> > diff --git a/Documentation/translations/zh_CN/mm/zsmalloc.rst b/Documentation/translations/zh_CN/mm/zsmalloc.rst
+> > index 4c8c9b1006a9..b555a07ac871 100644
+> > --- a/Documentation/translations/zh_CN/mm/zsmalloc.rst
+> > +++ b/Documentation/translations/zh_CN/mm/zsmalloc.rst
+> > @@ -32,7 +32,7 @@ zs_unmap_object()解除映射。
+> >   stat
+> >   ====
+> >   
+> > -通过CONFIG_ZSMALLOC_STAT，我们可以通过 ``/sys/kernel/debug/zsmalloc/<user name>``
+> > +启用CONFIG_DEBUG_FS，我们可以通过 ``/sys/kernel/debug/zsmalloc/<pool-name>``
+> >   看到zsmalloc内部信息。下面是一个统计输出的例子。::
+> >   
+> >    # cat /sys/kernel/debug/zsmalloc/zram0/classes
+> > diff --git a/arch/s390/configs/debug_defconfig b/arch/s390/configs/debug_defconfig
+> > index d44674b63715..83193ef8efb9 100644
+> > --- a/arch/s390/configs/debug_defconfig
+> > +++ b/arch/s390/configs/debug_defconfig
+> > @@ -100,7 +100,7 @@ CONFIG_UNIXWARE_DISKLABEL=y
+> >   CONFIG_IOSCHED_BFQ=y
+> >   CONFIG_BINFMT_MISC=m
+> >   CONFIG_ZSWAP=y
+> > -CONFIG_ZSMALLOC_STAT=y
+> > +CONFIG_DEBUG_FS=y
+> >   CONFIG_SLAB_BUCKETS=y
+> >   CONFIG_SLUB_STATS=y
+> >   # CONFIG_COMPAT_BRK is not set
+> > diff --git a/arch/s390/configs/defconfig b/arch/s390/configs/defconfig
+> > index e00e252d4694..694a309377d5 100644
+> > --- a/arch/s390/configs/defconfig
+> > +++ b/arch/s390/configs/defconfig
+> > @@ -94,7 +94,7 @@ CONFIG_UNIXWARE_DISKLABEL=y
+> >   CONFIG_IOSCHED_BFQ=y
+> >   CONFIG_BINFMT_MISC=m
+> >   CONFIG_ZSWAP=y
+> > -CONFIG_ZSMALLOC_STAT=y
+> > +CONFIG_DEBUG_FS=y
+> >   CONFIG_SLAB_BUCKETS=y
+> >   # CONFIG_COMPAT_BRK is not set
+> >   CONFIG_MEMORY_HOTPLUG=y
+> > diff --git a/drivers/gpu/drm/ci/arm.config b/drivers/gpu/drm/ci/arm.config
+> > index d7c51670da2f..fc0a8a4bfb18 100644
+> > --- a/drivers/gpu/drm/ci/arm.config
+> > +++ b/drivers/gpu/drm/ci/arm.config
+> > @@ -5,7 +5,7 @@ CONFIG_CRYPTO_ZSTD=y
+> >   CONFIG_ZRAM_MEMORY_TRACKING=y
+> >   CONFIG_ZRAM_WRITEBACK=y
+> >   CONFIG_ZRAM=y
+> > -CONFIG_ZSMALLOC_STAT=y
+> > +CONFIG_DEBUG_FS=y
+> >   
+> >   # abootimg with a 'dummy' rootfs fails with root=/dev/nfs
+> >   CONFIG_BLK_DEV_INITRD=n
+> > diff --git a/drivers/gpu/drm/ci/arm64.config b/drivers/gpu/drm/ci/arm64.config
+> > index c46125c1f80f..10b01b55a66d 100644
+> > --- a/drivers/gpu/drm/ci/arm64.config
+> > +++ b/drivers/gpu/drm/ci/arm64.config
+> > @@ -5,7 +5,7 @@ CONFIG_CRYPTO_ZSTD=y
+> >   CONFIG_ZRAM_MEMORY_TRACKING=y
+> >   CONFIG_ZRAM_WRITEBACK=y
+> >   CONFIG_ZRAM=y
+> > -CONFIG_ZSMALLOC_STAT=y
+> > +CONFIG_DEBUG_FS=y
+> >   
+> >   # abootimg with a 'dummy' rootfs fails with root=/dev/nfs
+> >   CONFIG_BLK_DEV_INITRD=n
+> > diff --git a/drivers/gpu/drm/ci/x86_64.config b/drivers/gpu/drm/ci/x86_64.config
+> > index 7ac98a78691e..8225b806dad8 100644
+> > --- a/drivers/gpu/drm/ci/x86_64.config
+> > +++ b/drivers/gpu/drm/ci/x86_64.config
+> > @@ -5,7 +5,7 @@ CONFIG_CRYPTO_ZSTD=y
+> >   CONFIG_ZRAM_MEMORY_TRACKING=y
+> >   CONFIG_ZRAM_WRITEBACK=y
+> >   CONFIG_ZRAM=y
+> > -CONFIG_ZSMALLOC_STAT=y
+> > +CONFIG_DEBUG_FS=y
+> >   
+> >   CONFIG_PWM=y
+> >   CONFIG_PM_DEVFREQ=y
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index afff1b25b543..4a77cda7f1d7 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -130,15 +130,6 @@ menu "Zsmalloc allocator options"
+> >   
+> >   comment "Zsmalloc is a common backend allocator for zswap & zram"
+> >   
+> > -config ZSMALLOC_STAT
+> > -	bool "Export zsmalloc statistics"
+> > -	select DEBUG_FS
+> > -	help
+> > -	  This option enables code in the zsmalloc to collect various
+> > -	  statistics about what's happening in zsmalloc and exports that
+> > -	  information to userspace via debugfs.
+> > -	  If unsure, say N.
+> > -
+> >   config ZSMALLOC_CHAIN_SIZE
+> >   	int "Maximum number of physical pages per-zspage"
+> >   	default 8
+> > diff --git a/mm/zsmalloc.c b/mm/zsmalloc.c
+> > index 7ef80e0da626..104ccf3aa170 100644
+> > --- a/mm/zsmalloc.c
+> > +++ b/mm/zsmalloc.c
+> > @@ -222,9 +222,7 @@ struct zs_size_stat {
+> >   	unsigned long objs[NR_CLASS_STAT_TYPES];
+> >   };
+> >   
+> > -#ifdef CONFIG_ZSMALLOC_STAT
+> >   static struct dentry *zs_stat_root;
+> > -#endif
+> >   
+> >   static size_t huge_class_size;
+> >   
+> > @@ -279,9 +277,7 @@ struct zs_pool {
+> >   	/* Compact classes */
+> >   	struct shrinker *shrinker;
+> >   
+> > -#ifdef CONFIG_ZSMALLOC_STAT
+> >   	struct dentry *stat_dentry;
+> > -#endif
+> >   #ifdef CONFIG_COMPACTION
+> >   	struct work_struct free_work;
+> >   #endif
+> > @@ -565,14 +561,10 @@ static inline unsigned long class_stat_read(struct size_class *class, int type)
+> >   	return class->stats.objs[type];
+> >   }
+> >   
+> > -#ifdef CONFIG_ZSMALLOC_STAT
+> > -
+> >   static void __init zs_stat_init(void)
+> >   {
+> > -	if (!debugfs_initialized()) {
+> > -		pr_warn("debugfs not available, stat dir not created\n");
+> > +	if (!debugfs_initialized())
+> >   		return;
+> > -	}
+> >   
+> >   	zs_stat_root = debugfs_create_dir("zsmalloc", NULL);
+> >   }
+> > @@ -650,10 +642,8 @@ DEFINE_SHOW_ATTRIBUTE(zs_stats_size);
+> >   
+> >   static void zs_pool_stat_create(struct zs_pool *pool, const char *name)
+> >   {
+> > -	if (!zs_stat_root) {
+> > -		pr_warn("no root stat dir, not creating <%s> stat dir\n", name);
+> > +	if (IS_ERR_OR_NULL(zs_stat_root))
+> >   		return;
+> > -	}
+> >   
+> >   	pool->stat_dentry = debugfs_create_dir(name, zs_stat_root);
+> >   
+> > @@ -666,25 +656,6 @@ static void zs_pool_stat_destroy(struct zs_pool *pool)
+> >   	debugfs_remove_recursive(pool->stat_dentry);
+> >   }
+> >   
+> > -#else /* CONFIG_ZSMALLOC_STAT */
+> > -static void __init zs_stat_init(void)
+> > -{
+> > -}
+> > -
+> > -static void __exit zs_stat_exit(void)
+> > -{
+> > -}
+> > -
+> > -static inline void zs_pool_stat_create(struct zs_pool *pool, const char *name)
+> > -{
+> > -}
+> > -
+> > -static inline void zs_pool_stat_destroy(struct zs_pool *pool)
+> > -{
+> > -}
+> > -#endif
+> > -
+> > -
+> >   /*
+> >    * For each size class, zspages are divided into different groups
+> >    * depending on their usage ratio. This function returns fullness
+> >
+> > ---
+> > base-commit: fa4ad798f6f681031775266044ba1b0cf3c670bd
+> >
+> > --
+> > Best regards,
+> > Xueyuan
+> 
+> 
 
-A coarse slab_hardening= option can easily be replaced by
-documentation. While less knobs is better, an intransparent coarse
-variant of slab_hardening= just makes the admin wonder "what does that
-actually to, and do I want it?". They still have to go and look up
-what it actually does, and at that point it doesn't add much value
-(alternative suggestion below).
 
-> > > light: "I'm willying to sacrifice _some_ memory and CPU for security"
-> > > full: "I'm willying to sacrifice more overhead for security
-
-Who will decide what is light and full? I think there just won't be
-any consensus reached.
-
-One thing that users may want is an "all off" option, similar to
-mitigations=off, should they wish to get max performance back with a
-single option. So you could consider slab_hardening=off. But at that
-point it may be more consistent to drop slab_buckets= and
-kmalloc_partition= in favor of arguments to slab_hardening=, such as
-slab_hardening=nobuckets,partition. This would mirror mitigations=,
-and should cater to the usecase of slab_hardening=off to get max
-performance with a single option.
-
-But I would not add options such as 'light', 'full'.
-
-Thanks,
--- Marco
