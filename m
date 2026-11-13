@@ -1,58 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794595009;
-	b=D1uGXLF6t2kn6ZDdG3vcgn+myp+9L2lq7NmgPZOlAbMGHkkLyNL76nR0qU9sxPENKZFk
-	 vs7vTVDpR1NCEkG4j5qK0pVIE7Egc3rseN7+gPb09CR5vxfFhIzfAToERxzeMoZVzrAX0
-	 oQVa268541yYUVcBsxRqf7IliHvMkBBgIvqdK51hG/g03sIMm5FBuLwko4AcUUh/yQeuM
-	 V2ry69mozq9f2tw+tK/zySHjp6VTx+A92ZLbJPJjzyepI7A2G0cEz3Td4UJzZQAJ3Rlci
-	 pkfbq80/N89e9Qa3gqUG7suzJ1PQ8kk0xCZw3JVA9b8PBaEC2pnJ8OaF9qATEuzj1ow==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794595009;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=jmkU0n0KGNaX67NEI1E6pDmmFAUmU35EaMfakgIfL60=;
-	b=DFcMiqyZZPjer6MutzEiVDgYeZ7tNNKIDjVRTRmJQRL6AJeoYaET3tN4cqmMbRPwI/mx
-	 tVkAHDGbfDQdempsUxn1SEXDJ9gqm5codaz2MdHQ8wotEv2Q9SE4G2Wa7DtOYCoUNvlqw
-	 xLq2iApTMu4t47zJgl73Y0MSU7fWKUXobI2fS1tgTphya+Os5j29hC9ykmaKjmbW1rciO
-	 /FpK09/aemZ+C4dY2+Ynw8Ef55NNN3LTP8WX2FHV7uqU8j1anqxvfkf5zwepYhmWUNdjc
-	 w+W23OOzbXEpERXBoQhvxNee8iNYrVOVoWO/0RcrzICXIN41hn90nsu0TOXjf10Fc6A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y5V33Lza;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794595342;
+	b=lYJLlSEiMi3WnOuQeng84uT/TGj50WouYr8Z3l43AY1PGfnCg9ZKGcZQhK1dLkbQRXK+
+	 2tVZVWtPcr/k3GbfqYXDqt0lQZhWJCigt+hWAjajJ0Yd0+Qeo2Zoov8fnmyX27cbgB3f7
+	 QLHe4wo1k4EZ2focSURGiqWspP8eXYZ8cRsle27kHn6NGmiIYGzYLrrv/xirS0FxJ/fJ7
+	 qSr3fgnZMP/id6ZWORu0Fzv7Gl8YMVAz5dN7MTza/EQfSzH3g7W5ZKh44vK5QRKzws0Ts
+	 KUtalqr0XwwbHg7/Ekwo7d4+sfADTUWwopqiTjasq+Km56TRG1zRY5RUlh4n2uGbBhg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794595342;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=nfTUaQhN0OQnkB88gXtyYSFFG+s4ApND6zHMc1XaeNU=;
+	b=OpLa1F1zBoEeilHl2xf37CJ8auDSDOo7CzQtdAGBGLS6lKwFSHdbYhql1kbSx8INctk5
+	 aTBSP/SVjDPT+KnfFdkL5c5QCTg0AheDLVnhvNgqkoCn9+TRebTjIYgpWclG6fDzLoM6u
+	 Z2gPpQUaZjES7vEzydQDgGzm5PBeylU2XUgCaCdT+F4c0zjTuyPZ6uPWmNGBpUHZoGxDe
+	 OZYuLIkTcrnIbM+q8H4L8AI4GRgbszGGtZdHiLu4OxOw592NJTpeNpiX4JlmYi/Rxz09v
+	 UpNnueT75cn7WgL0vGh5vNhW2GVY8PJRcZL9O8luglUukX6BGGKRDy8jUbnHGo4kArQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=pengutronix.de;
+	spf=pass smtp.mailfrom=pengutronix.de;
+	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=MtEE2Yui;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF1F606A331;
-	Fri, 13 Nov 2026 18:36:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39928606A330;
+	Fri, 13 Nov 2026 18:42:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 39928606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y5V33Lza
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 979881F000C4;
-	Fri, 13 Nov 2026 18:36:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794595009;
-	bh=jmkU0n0KGNaX67NEI1E6pDmmFAUmU35EaMfakgIfL60=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y5V33LzaOo0yZjlfI+RpIMkePLOEWMJvSVIc99TZ6biEuCehXTyteLbCL3MBrabuT
-	 IAfVZ38dyLQVENsHoBvTVdiCg0Kw+bSk9dumAnxJmtztoz1gmHhS5SsVaNtivmacY6
-	 ePunxP7ukPZJyth6eg3N9Bz6oPo3Du08RFixIMxlq7Vq5wo5yyvt5/2XxvBkKnwF0+
-	 vSCWEjjaVzM4ckNauVm1aOgkRuY2Xm0QVYakOTPpr1unqQeca2N2komHaNZj0pp8XF
-	 68FZkDxAHnjo19HPw9KFfkz0BXfG0NOLwyez2FiCZrGUDGB05d2eyhJWEDP4cqNifz
-	 waRawah3Vo0Lg==
-Date: Fri, 13 Nov 2026 18:36:47 +0000
-From: Harry Yoo <harry@kernel.org>
-To: Marco Elver <elver@google.com>
-Cc: Chris Down <chris@chrisdown.name>, Vlastimil Babka <vbabka@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Kees Cook <kees@kernel.org>, GONG Ruiqi <gongruiqi@huaweicloud.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org, linux-hardening@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, kernel-team@meta.com
-Subject: Re: [PATCH v3 0/6] mm/slab: Support selecting slab hardening
- features at boot
-Message-ID: <avdQEBP70kK8W7d0@thinkstation>
-References: <cover.1794506262.git.chris@chrisdown.name>
- <CANpmjNP0cWB_670hYj7p+Dd=do1qEu4XHeW+c7sTv-MXi0UBTg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=MtEE2Yui
+Received: from ptx.office.stw.pengutronix.de (ptx.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::109])
+	(Authenticated sender: relay-from-ptx.office.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 292F1200F1E;
+	Fri, 13 Nov 2026 19:42:15 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1794595335;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nfTUaQhN0OQnkB88gXtyYSFFG+s4ApND6zHMc1XaeNU=;
+	b=MtEE2Yuinh5cYgMSOvvYyCYGbW0wOFDU1OfY/PbFTqxJxNIJGnC+BQH4Jy3blBv8yVs7bi
+	MPegf9/emFj5QUbGPyFj1SF/E/n1+Gxdr0TfOB6f9zYmt56zALDLV+MrL3BmbsAMwUC9It
+	ZrdbPmCwwq5OIirSq03awncbOQFbxiear62YQPICZXylaaczrxIqE3FTb+B9HuzP5fd/Jo
+	iUHTm3NUhkxSU9HIrtEkM+y86DAxwYdUUmDeCLmRWfbAzWBVhTlRaBYY8u53B+ck3hTy/M
+	QNf8tEK5ByfYQ3AL2vv0wzDzrRFvbC4DrUMxrhGq4fV6XqGTVfLtSoOvMIkwFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1794595335;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nfTUaQhN0OQnkB88gXtyYSFFG+s4ApND6zHMc1XaeNU=;
+	b=Z2gcNITZ1VncHGXomqg3wMioAg2tJkkWg+eGdplofGEkhUIl51X0LI3Fmdgh4V4/yQl/bQ
+	NZPKUX+orlx7pFmYmXQQQvkCqacty3tcQVGck8yf5eqh9Y5ZjZLI8K9x+BJn0xlkchf8n0
+	kXd/vVRC4iDFpWEJf1FhgrftB64FIfjFjG4brdtTbN6rSk+hAzqWps38wJQPeBDbfs8UYi
+	+VM14YhsjvQYAb7juS+ejFcoFQXd5SRAbn6vv1KFBaPpVXFMFFlH40tQgqQiwAXA+I9FLN
+	wPwf1CcqRCHNJoyobkoBkBhETzueSW0u0CU5A/xKNTEUFSWY4t19vogOX1rs9g==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=relay-from-ptx.office.stw.pengutronix.de smtp.mailfrom=ore@pengutronix.de
+ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1794595335; a=rsa-sha256;
+	cv=none;
+	b=Uyyf1aXa3vF2PtUxhv1KcN0Q8B27UHokOKS1gOY5qB++dFws+boNfKMhJPet/g93GyxiZo
+	nao9DI1L0+dxbVbNsf0s5Sm9eON5kbV9Z0rKXXbbQt5jfzTlIqwpGPC0gR0sPQJ/9ijgUP
+	pjvY9Kk0JQ0g/C/Xnnoc0zlzge8HfzKUpzhy2RLV9hBMGqCMd+mpYCeqC6MpXNTioKvRVr
+	KMPb6auWYpdihRimPtNAWENGujnVtMerxzUaqZicD7i2kFrrSK+fU5TRfXakcVXvwTs9NE
+	I2SlokIoAQbmQm2HCker3Mr55CtpJITAtCWZo2KLGIwy/aNOdEo+1TMDb6c/kg==
+Received: by ptx.office.stw.pengutronix.de (Postfix, from userid 1058)
+	id F0A401C00E0; Fri, 13 Nov 2026 19:42:14 +0100 (CET)
+Date: Fri, 13 Nov 2026 19:42:14 +0100
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: James Hilliard <james.hilliard1@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v3 1/3] ethtool: add PHY receive frame and byte
+ totals
+Message-ID: <avdaBgWc5tpMhtqF@pengutronix.de>
+References: <20261109-submit-acx00-phy-stats-v1-v3-0-fbc6327c5be4@gmail.com>
+ <20261109-submit-acx00-phy-stats-v1-v3-1-fbc6327c5be4@gmail.com>
+ <348f19e7-120e-4b41-adab-be016c7a6083@lunn.ch>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,81 +99,100 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CANpmjNP0cWB_670hYj7p+Dd=do1qEu4XHeW+c7sTv-MXi0UBTg@mail.gmail.com>
+In-Reply-To: <348f19e7-120e-4b41-adab-be016c7a6083@lunn.ch>
 
-On Fri, Nov 13, 2026 at 11:56:20AM +0100, Marco Elver wrote:
-> On Fri, 13 Nov 2026 at 09:51, Chris Down <chris@chrisdown.name> wrote:
+On Tue, Nov 10, 2026 at 05:42:33PM +0100, Andrew Lunn wrote:
+> On Mon, Nov 09, 2026 at 07:48:32PM -0700, James Hilliard wrote:
+> > The generic PHY receive packet and byte counters describe successfully
+> > received traffic. Some PHYs instead count all received frames and bytes,
+> > including frames with errors. A frame error count cannot recover the
+> > number of successfully received bytes because damaged frames have
+> > different lengths.
 > >
-> > Slab hardening settings are currently all build time choices. This means
-> > that, unfortunately, hosts with different requirements end up needing
-> > separate kernel images. At Meta, for example, some hosts are built with
-> > these options and the rest of the fleet isn't, and that's one of the
-> > things that keeps those kernels apart.
+> > Add optional receive-total counters to ethtool_phy_stats and the phydev
+> > statistics group. Count frame bytes including the Ethernet header, padding
+> > and FCS, and excluding the preamble and start frame delimiter. These
+> > counters describe reception at the PHY, before MAC or host filtering.
 > >
-> > This series does two things:
+> > Append the new attributes so existing statistic IDs and their meanings
+> > remain unchanged. Publish the names through the existing statistics string
+> > set, and retain the unset-counter convention so drivers can report either
+> > set of counters independently.
 > >
-> > - SLAB_FREELIST_HARDENED and SLAB_FREELIST_RANDOM are cheap enough with
-> >   sheaves that it makes more sense to just enable them by default than
-> >   to make them switchable. With both on, system level benchmarks didn't
-> >   change measurably, only slowpath heavy microbenchmarks did [1].
+> > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
+> > ---
+> >  Documentation/networking/ethtool-netlink.rst | 16 +++++++++++++++-
+> >  include/linux/ethtool.h                      |  6 ++++++
+> >  include/uapi/linux/ethtool_netlink.h         |  2 ++
+> >  net/ethtool/stats.c                          |  8 +++++++-
+> >  4 files changed, 30 insertions(+), 2 deletions(-)
 > >
-> > - SLAB_BUCKETS and KMALLOC_PARTITION_CACHES cost memory (Harry measured
-> >   about 1 MiB and 18 MiB respectively after boot on a 64 CPU VM [2]), so
-> >   they get slab_buckets= and kmalloc_partition= boot parameters, which
-> >   default to on when the option is built in.
+> > diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+> > index eba226c79ec3..5528d0f7afdd 100644
+> > --- a/Documentation/networking/ethtool-netlink.rst
+> > +++ b/Documentation/networking/ethtool-netlink.rst
+> > @@ -1665,7 +1665,7 @@ the ``ETHTOOL_A_STATS_GROUPS`` bitset. Currently defined values are:
+> >   ETHTOOL_STATS_ETH_PHY  eth-phy  Basic IEEE 802.3 PHY statistics (30.3.2.1.*)
+> >   ETHTOOL_STATS_ETH_CTRL eth-ctrl Basic IEEE 802.3 MAC Ctrl statistics (30.3.3.*)
+> >   ETHTOOL_STATS_RMON     rmon     RMON (RFC 2819) statistics
+> > - ETHTOOL_STATS_PHY      phy      Additional PHY statistics, not defined by IEEE
+> > + ETHTOOL_STATS_PHY      phydev   Additional PHY statistics, not defined by IEEE
+> >   ====================== ======== ===============================================
 > >
-> > Whether those two should be folded into a single slab_hardening= is
-> > still open [3].
-> 
-> A coarse slab_hardening= option can easily be replaced by
-> documentation. While less knobs is better, an intransparent coarse
-> variant of slab_hardening= just makes the admin wonder "what does that
-> actually to, and do I want it?". They still have to go and look up
-> what it actually does, and at that point it doesn't add much value
-> (alternative suggestion below).
-> 
-> > > > light: "I'm willying to sacrifice _some_ memory and CPU for security"
-> > > > full: "I'm willying to sacrifice more overhead for security
-> 
-> Who will decide what is light and full? I think there just won't be
-> any consensus reached.
+> >  Each group should have a corresponding ``ETHTOOL_A_STATS_GRP`` in the reply.
+> > @@ -1683,6 +1683,20 @@ by ``ETHTOOL_A_STATS_GRP_SS_ID``. Complex statistics (such as RMON histogram
+> >  entries) are also listed inside ``ETHTOOL_A_STATS_GRP`` and do not have
+> >  a string defined in the string set.
+> >
+> > +The ``phydev`` group provides separate counters for successfully received
+> > +traffic and total received traffic.
+>
+> You need to be careful with naming here. This is a
+> kAPI. phydev/phylib/phylink are implementation details, a set of
+> helpers which some MAC drivers use to implement PHYs. But MAC driver
+> can implement PHYs in different ways, and don't need to use a phydev.
+>
+> ``ETHTOOL_A_STATS_PHY_RX_PKTS``
+> > +(``RxFrames``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES`` (``RxOctets``) count
+> > +successfully received frames and bytes. ``ETHTOOL_A_STATS_PHY_RX_PKTS_TOTAL``
+> > +(``RxFramesTotal``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES_TOTAL`` (``RxOctetsTotal``)
+> > +include frames with errors. The total byte count includes the Ethernet header,
+> > +padding and FCS, but excludes the preamble and start frame delimiter.
+>
+> And what would you call it when the counter does include the preamble
+> and start frame delimiter?
+>
+> Take a step back. Just because this PHY has these counters, do we need
+> to support them? And what happens when the next PHY comes along with
+> slightly different counters? Do we add them as well?
+>
+> It is vendor SDK syndrome. The hardware can do this, so lets expose
+> it.
+>
+> What is your use case here which justifies these specific counters.
 
-You're probably right.
+I have the same question. James, your answer mentions traffic monitoring
+and error diagnosis, but not a concrete problem on AC200/AC300 that these
+totals would help with. My guess is a receive problem that another driver
+for this PHY already works around.
 
-> One thing that users may want is an "all off" option, similar to
-> mitigations=off, should they wish to get max performance back with a
-> single option. So you could consider slab_hardening=off.
+Rockchip's vendor driver for the same PHY ID (RK630 and RV1106) reads the
+packet and CRC error counters from page 9, registers 0x1b/0x1c and
+0x1d/0x1e:
 
-slab_hardening=off sounds good to me.
+https://github.com/rockchip-linux/kernel/blob/eeb355823a794954737fd75820dfccdab4c57af6/drivers/net/phy/rk630phy.c#L430
 
-However this assumes "all on" is the right thing to do by default,
-but not enabling slab hardening is not as nearly critical as not
-enabling mitigations to CPU vulnerabilities, no?
+The vendor driver does not export them. It polls them to tune the
+receiver. If there is a signal but no link, it switches to a second
+analog setting and checks again. It switches settings in two more cases:
+too few frames arrive, or more than 15% of the frames have a CRC error.
+Its comments call this "Long network cable parameters". It also changes
+the RX detect threshold depending on the temperature.
 
-I'd rather mirror hardened_usercopy= instead of mitigations=off.
+Do you see a problem like this on your AC200/AC300 boards? If so, can
+you describe it? Then we can decide whether the driver should work
+around that problem.
 
-slab_hardening=on (turn on all slab hardening features)
-slab_hardening=off (turn off all slab hardening features)
-(Otherwise it is determined by CONFIG_*.)
-
-> But at that point it may be more consistent to drop slab_buckets= and
-> kmalloc_partition= in favor of arguments to slab_hardening=, such as
-> slab_hardening=nobuckets,partition. This would mirror mitigations=,
-> and should cater to the usecase of slab_hardening=off to get max
-> performance with a single option.
-
-I hope we don't reach this point, but more fine-grained control should
-be achivable if it is indeed required.
-
-> But I would not add options such as 'light', 'full'.
-
-Fair enough.
-
-> Thanks,
-> -- Marco
-
--- 
-Cheers,
-Harry / Hyeonggon
+Oleksij
