@@ -1,75 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.69
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794577851;
-	b=mf+0JkRsvdUDylIvYDe4kJIFvRbAEP1mTS9FolqLAr4F+T+U7vB75p1Gr7PeNK9gamAb
-	 P0Hdhoo9GZ7w3zdk4glbhuasVyjIfg4tGRHnlMeS3+U3KzNh6znwig/Wocft1T/2rAAR7
-	 ZIfZPUQLR/m5tt11LQ5DEGdNAR5M7CvxeUt6FKpJXOn+nUHl45Ok+9ijk+Lpl3MZRYF6I
-	 hIcE+aoRhY/CQPqLTW3M3G/yBC/eU15NGKN5tFoOAQUZLzNzhk6ICoOkaaGeBzpIaH0bi
-	 KCxws4reanvj42jfJ2jFglJQxRK1PFhRIjgjZcM8hIu7SozXogRI9BsvnFIUi6e0jlw==
+	t=1794577909;
+	b=sv7NNs1oEiqj3WA0NEcVKkf+EObWIkgWa84If82l/kgKHo3g8MBVdwRlIn5CsPM6Fv4b
+	 z3ojgLqnRbB/7HUubsEdMqlt9dEwfktsayk1RU+mLlEMkUEjBQ/09m3Z/zBuDnY9ObNYR
+	 ns1YlGlg4LQEVLJfbb8Dl+Mudz9oRffqT0TWoeQXpaV5J4/9EPZYwepVwjq+xOAz4FUli
+	 3cR6SC854AxmMEKVSdrCw/OjaB38Dmibe9HBjeztc5YFHakXh6iXidx3GTnVNTV/NuGMT
+	 un3VV8Ife8s8zXDWK5s8CxnvmifA6k1J4tLWNeaCzqUeR9pyEVRNDBHdO/+74uv3E1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794577851;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794577909;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=VsgiRDhCW6kUOuC4NPdpStyHzvYs15vX/Q4TGFl8uM8=;
-	b=TesqFBgoQLlM7lYZFcGX1WfSd5Iw8kpcBdxla/kTDDj2Zk0ZzH0l0W1QLsZx6CgL+Xjg
-	 mj8GyknwSfkFayHOPuwGg1JQtsSHFcI1mugyfN2Fi/KQ0z1CLnhI5S9E2a7i0SGA3nMnQ
-	 Jr79gwYSQiOuIWHoazr2S/bTiut6o6mlm0O+K80/tZYd2W2dO/ANuowm8zVsWid5+YpEC
-	 ha4+JUmL6wQ32ZZ4Z5Yd1V+I6n4dyJsXtiReSSSEDCnWUGJ7fTBHOFFYMz1e/RhkH/bLe
-	 8x2n+CLdpVO+l8vJIxXKb03e6MYr3krpAdCCH1k5DqE0IVWosjBvinWz1k05UF8zMCA==
+	bh=42M757uFT5De2Shdc7fUSbsmEvk3UICXAJs/eiBakI4=;
+	b=ZJdruBvgpDaZV8ASGxxblUoSUGfMpuHYelcpUH06ccfKz51D712fYqhWo5Ho48qwO0Rl
+	 CrSV0ICBTyALPF6uW87NBl5qLtY0ZytEc3HiJykAE6izJvUAVJSL+EH2E1aGXKyCYIaYZ
+	 NwB0V4YJYvvNv5z5/OokvTsPiTTHwHYUJa5HRHbTl98aWe07zsYEJYUuq0cn74v1BdM7A
+	 uxV3LxvWOZ0PLi6zqvOX3JYZt0P1b9dtijYP8FWkoF2IY+W0h/0Lxj15Z+jh9scwwWC+3
+	 YKUtXeHr1Z7KMK103Mf1GmHQc5q+eG5E43DVo5NwxUFY+d+901PPqWlPtQrT9vKh06g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b="As1/gTaC";
-	arc=none smtp.remote-ip=209.85.216.69
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iyYZiJ8j;
+	arc=none smtp.remote-ip=209.85.216.70
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A987C606A8AA
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 13:50:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A987C606A8AA
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB78606CA26
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 13:51:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FB78606CA26
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=As1/gTaC
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3b0f667a666so1366039a91.2
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 05:50:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iyYZiJ8j
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3b0a13ae043so1316200a91.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 05:51:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794577850; x=1795182650; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1794577909; x=1795182709; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=VsgiRDhCW6kUOuC4NPdpStyHzvYs15vX/Q4TGFl8uM8=;
-        b=As1/gTaCGV3WndjdCd4UVwjENbxbsrV2cHNKAd00yDrAI67AHKkq1V3cLPHpvj6Yuh
-         lRMLM6kCUTmwjyHbKqeJ8tF0tAEjOVO+GOhiLIKffMLpqbfyRaxZITOJYfwAm4+wN4M3
-         tkccJMqGQrJqOsbFi/59m/h9+H7mkIpxkjlCSNjXUljuXtVfh3DKP9U6hfCHPm6pcWj8
-         M4yqsKLcpN/oEhSD5tG3g+gtdtn+0R8PTI/aLVR9hoQk8d0tXHuzWGrJBLPFk/A3ijbS
-         nIhiamkiRukB6+dZauKmvJ9YqI4pqFGTqReinFfLJ7u8ficwkYqdUduyeMWl4DgLRsjh
-         4ueg==
+        bh=42M757uFT5De2Shdc7fUSbsmEvk3UICXAJs/eiBakI4=;
+        b=iyYZiJ8jcqBngMg2gOjYjAHJu9i7i3NjGZ32sbMgw2U6zE9Iu4JJc/3fs1BBFmKBym
+         TIuntcom/Sfh3JyDk3EnJT0Nbm27Ap95riyXzo/drUcLyTO8S5m98A8uJtl1bZzQGPSM
+         9Av30/QYjoYn0k6MhIvN/VbYAOYYffw7NVxeSaMbjQhG1ac6zo1rX0NwtG2zyhB+mHpw
+         sXOshidQuBG1WVI4U+H0YDdyXwwXcIN/dW7uwRtyt+rJHO7Xcl/os/JgVGXkqOhyCh2N
+         qgTY+deikiW7hYpqnUNjhCwdNHqGSIB1l2KAdLJ/nTbmQJoQi4XMPIB0p6Z6IoZAUTSJ
+         c4eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794577850; x=1795182650;
+        d=1e100.net; s=20260707; t=1794577909; x=1795182709;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=VsgiRDhCW6kUOuC4NPdpStyHzvYs15vX/Q4TGFl8uM8=;
-        b=csbGwIHRG+MMWf30UZaSgAkKKxaG27l2R+FX8B8gOPtFyT21sTGRWilfKdqYOawTo4
-         3VyPTKcXoz5u4HW/vMVFgw7tnruJzYskIz16xpKcDnkH3ZhqMWHob01kZd+OId4V+L+v
-         bFozH6PbJOccKi4ksjR+jNog6/IBCtbHaNWFLmw0q4WfMoP4XWbij8uatj1O/LGbkQ3b
-         TrIVJsuV6iV9BzB6RUJ6gPlZGpPrfPuVxUg6opb+XVmGrK2jWo5OlsgmY+WzzXTCqE+u
-         KbKCmP2519WxE7iQpmutJ7PHqDmkyB/wkjoOrw+Tg2y7Mr3sBJCiB34BwHH6aQ25Yh7y
-         2b6w==
-X-Forwarded-Encrypted: i=1; AL+hErHh6VuYFvBwzyXJfN1BllQ5NnK0pQMZE3hxXv4X7jdpq/Ixi1Ct1l+/2oXEoY3DeKmP7gYwLInf0mA=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+9vHmtGfQxw0Ui6bk83JiAwWJrgNiU6OzT91QXbKP4foYWglOw
-	ki5yuXf4rdq29uTnt/zLpxITrYBuME/YoPa76YUM5lpSkRrFQ/lJdJk8ovYslJK9LBg27s1lLJA
-	izwAEHA==
-X-Received: from pjbov12.prod.google.com ([2002:a17:90b:258c:b0:3b0:ac19:f886])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:48ce:b0:3ae:5572:c4e2
- with SMTP id 98e67ed59e1d1-3b1b0a4e8aemr2306804a91.57.1794577849633; Fri, 13
- Nov 2026 05:50:49 -0800 (PST)
-Date: Fri, 13 Nov 2026 05:47:02 -0800
-In-Reply-To: <20261008095935.1237325-1-shivansh.dhiman@amd.com>
+        bh=42M757uFT5De2Shdc7fUSbsmEvk3UICXAJs/eiBakI4=;
+        b=EEr/RgIS8JysBwT9BwOpfNBi+cJfnD3BwcubMm8+HGyiBlDTYWV+vXjZlWTdbI0eoZ
+         etQ3xvG2dr5Jem38LNXhf1Sw/2zaShDTPnvub1+BJSsNw6qbeKwY8hKzjZzfrDOymwmD
+         f7Jc/If5VUw0uUhy0a3Wx0JTtFroLcMRCcPGgTmCGuaMj1VBO3qdZzM+AkqdTPCxiXz0
+         D53ul2Oc0X4LgNacHB3HKDEXr+wYSbe8RSk2pfEZa+IlW+nVfHpOUV7CtLSBK63oAiTs
+         TEJ68YtXLJ06Weg8Hdhu1lCTxVEXpUed3Xr+DHWkz5Ky7jY3z3+aBIxrrMk8qzMJFwg/
+         BOJQ==
+X-Forwarded-Encrypted: i=1; AL+hErF7iDhkSAio7+RQ2rEEWmp7lZhoIW7zXUB5RZB7al/ZNplFGdv1SeKs8k6EaqM8T7UnpreefavE1DM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/iK12mFOPbVy7MYGf+PbLNdJSaD9Z3zD/A2jw1sJ9RZ0XYtBco
+	96PVNkUjufyywMqbUVoqYIkNbHQEO6zHItfr7q9tcuT4z5do8rf4VCKO4Be4TRRQ0YWt5+1/KIZ
+	9ryTk7A==
+X-Received: from pjbse4.prod.google.com ([2002:a17:90b:5184:b0:3ad:c8d8:70c3])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:c2cf:b0:3ac:74b3:a8f3
+ with SMTP id 98e67ed59e1d1-3b1b0ccec81mr2546508a91.44.1794577908610; Fri, 13
+ Nov 2026 05:51:48 -0800 (PST)
+Date: Fri, 13 Nov 2026 05:47:18 -0800
+In-Reply-To: <20261030210321.3019901-1-jmattson@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -79,28 +79,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 Mime-Version: 1.0
-References: <20261008095935.1237325-1-shivansh.dhiman@amd.com>
+References: <20261030210321.3019901-1-jmattson@google.com>
 X-Mailer: git-send-email 2.56.1.703.gf848ed807c-goog
-Message-ID: <179441836288.82026.13479268434351715518.b4-ty@b4>
-Subject: Re: [PATCH] Documentation: KVM: x86: Update nested live migration
- status on AMD
+Message-ID: <179441820842.80495.17224406535846671057.b4-ty@b4>
+Subject: Re: [PATCH] KVM: SVM: Stub out MSR_VM_CR to return VM_CR.LOCK and
+ ignore writes
 From: Sean Christopherson <seanjc@google.com>
-To: Sean Christopherson <seanjc@google.com>, pbonzini@redhat.com, 
-	Shivansh Dhiman <shivansh.dhiman@amd.com>
-Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net, 
-	skhan@linuxfoundation.org, rdunlap@infradead.org, nikunj.dadhania@amd.com
+To: Sean Christopherson <seanjc@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jim Mattson <jmattson@google.com>
+Cc: kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>
 Content-Type: text/plain; charset="utf-8"
 
-On Thu, 08 Oct 2026 09:59:35 +0000, Shivansh Dhiman wrote:
-> The "Live migration with nested KVM" section is stale for AMD systems
-> and needs an update.  Migrating an SVM L1 guest with a live L2 guest in
-> it works, and has been tested with Linux 7.2 and QEMU 11.1.0.  So,
-> replace the AMD-specific caveats accordingly.
+On Fri, 30 Oct 2026 14:03:21 -0700, Jim Mattson wrote:
+> Commit 4a810181c8bc ("KVM: SVM: Implement emulation of vm_cr msr") added
+> svm_set_vm_cr() and svm->nested.vm_cr_msr solely because Hyper-V wrote
+> to MSR_VM_CR when running under nested SVM [1]. At the time, Avi Kivity
+> noted that the MSR needed to be exposed to userspace for save/restore
+> [2], but it was never added to KVM_GET_MSR_INDEX_LIST.
+> 
+> Moreover, KVM's emulation of MSR_VM_CR does not actually wire up any of
+> its five defined bits (DPD, R_INIT, DIS_A20M, LOCK, SVMDIS) to their
+> architectural behaviors (not even checking VM_CR.SVMDIS on writes to
+> MSR_EFER), checks the wrong bit (SVMDIS instead of LOCK) when locking
+> bits 4:3, and never resets vm_cr_msr on vCPU reset/INIT.
+> 
+> [...]
 
-Applied to kvm-x86 misc, thanks!
+Applied to kvm-x86 svm, thanks!
 
-[1/1] Documentation: KVM: x86: Update nested live migration status on AMD
-      https://github.com/kvm-x86/linux/commit/a9dfce9b3fae
+[1/1] KVM: SVM: Stub out MSR_VM_CR to return VM_CR.LOCK and ignore writes
+      https://github.com/kvm-x86/linux/commit/27ddbc70c82a
 
 --
 https://github.com/kvm-x86/linux/tree/next
