@@ -1,102 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794609801;
-	b=g1eTx4MhUsLydH+aU7A3dzPW5DZWfebl6y1Hm3ng3L9sPu9O0vPJiylc2RAvdLJX8o5W
-	 slTg6fQPhW2zgeU6xYKd3gl6BGCUX4KFgBmmKBNNGyVYJaygW/qtH0rXh2k/zfcRy9QLN
-	 BWSmXjH0/2m9vJ+spLEoXq1jzUWlbxL4C7uWW6Tt5EHIHjdOYdB5Eaf8BIsJBEoxS0yn9
-	 AuGTj9coWEv97Eq6swgMYtrSngRY/x3VqcAOZho74fkueoNzMHzQgqXg2KzK4BGmPsrIw
-	 a6Wpx8Yyvw3CJI+rs2PxrKpGhOgTW+dkXh1LTs2eGsMjsZbmJzwiezchYoY1e8VABrA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794609801;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Dxs3zEoSbcXfyuXkzQruDQFVj4t8rdiDEgXMtvqtLxY=;
-	b=HxHG1MxzrWxf+GxuV1aEAOr+dpW7oCLkQF5iy5RpRFIlKFcko1g84hzNUjRiICPg6KCy
-	 ZYaAjAD39AVD0bKn+Mvg16A3jlTHxcz9hI3UIwmTAzPnMJXHPs+w6nR0n04an+arKwtYR
-	 vQRG6vQFE4G92EbhVOAosLHHodh3nREsKjWbpNFiac5anThnLFji92yOWnvB5+rysdRLS
-	 JjcSc/sZUgliiiDhq9sHJ9XriIWrGDM/EhPsWgSPKLl4T98ZVOxFLT4Bg9VH8sbcEuXnR
-	 yw6yCsqtAviecxBn90x081JQ+WwHYqTaEB6HplorwijMle+v1Ge20+HVy21PV5iTfYw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lXNS6fzM;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.222.44
-Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794610554;
+	b=fEqlrFhyMmReRur5+2plCN4woxzBSXgLRH/7LA+6AU/253DTWsVsrBgADUXCT1Yj/TO4
+	 cvC/DZsYsezERDGhwtCdNLAC8Vp6qMHtIu+kmOPDEkEiSA6EDZ+g5Hn/V4UW7btTTi6mG
+	 D0LJi9DIzwgBnl8yhFhCRktYI72NBsPp3OIcHxBwExILLsOrvd6Mt3deB34ojQXdowiZP
+	 dpIg2EULUSs+3KwvbcH01ZQxsshPrv6rOM9J4r8vlRlHRA0gm9rEguVX39G+puo0mCyr0
+	 sws7ZN7WIouQSAxnbG+C4IbVawE7jkmPxJK8msBBz3oCJ4z5rAPBA9xh3EVz8eHYlnw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794610554;
+	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
+	 In-Reply-To:References:Subject:From:To:Cc:Date;
+	bh=KN3BAQQz6V4aWs3TRbBIzGlNzQXPAP/3NN2RobaOAEE=;
+	b=zxCeSbP0hzMqacB75PoePZi38buWIDrC8WVxO99/B0g44g6sY+qEQ4yg/5ft9T/W2jtV
+	 X9/zjYchkYvFsTHaG5NwuOz6nu4i7vLFjX3O5yxH/+kyypiMf2xCRxjEbwcFVXhR9lA+f
+	 6B7NsTEhuFIAvlUBYkxQojbTN5V8RVzbx/8726pAhJGJpQzyceBG/pW6tHVZjebN6Hu9L
+	 6BxW5JGBZY5QwcEnelekz/5WATTvqLaK09szve7YsR/GoWpUAE/qkGiBJfslhwa4sRzgY
+	 T/IprHqfxCg9dm6+TLjDgbfFD6Yvx8/Pr0sMAUYhbQvUvX33+h+YnfeKHcpisTfnPaQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Zr/r1yff";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A6D606A548
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 22:43:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82A6D606A548
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA19606A890;
+	Fri, 13 Nov 2026 22:55:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=lXNS6fzM
-Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-980c4f5c921so385243241.2
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:43:20 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794609799; cv=none;
-        d=google.com; s=arc-20260327;
-        b=mdSfQgGF+pe+9QG13LGcYVKPZdukLCNN1TMGIVyLAPVZcJx95bjgK8J6yGLqLsXrsj
-         98lNu2mz760pvfGtCdvFmqxKd41tweztBPPgmiXacLfzpqLsMBdqIL/YGIniytSJEOA1
-         pTmRjy40h1OoLH8XggDGYRPQ4Z/XYc91dnK16mkI8WPCvqdmT3ZQbqFr8PHvQwZQp3Gz
-         IiHQYlxUszq8P7iPG+pK1cKRXNzKK2XQR6nD2ROzOInmT8PRnL41yG0JBQmByKNvszfS
-         ZWs1SM6jRp9T6JBDh57bhZcsyHorwKwXIJfajbTWjmYJFIH9UIAqTTuXgYwG77BTJvgY
-         9idQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Dxs3zEoSbcXfyuXkzQruDQFVj4t8rdiDEgXMtvqtLxY=;
-        fh=mT7HIKZBDQyPi2Qrc9qS9ZFwcD8nB8wP40iAW8+FChY=;
-        b=VSA1ueibZYeRSIufdE9hoWjr8ZxRMmIC1xCvQSwGiWNt58GSmKw8AuMMP06p/sFPqm
-         c586AJMFMjT9KwfIXk0N+Fk1v7OcySSZN3kx3iD99WX/TdB11DRMGYgkqI9afTzF4Kjr
-         AVNVGo+m4PudYefnFlLzWsPvnpoEHITeokA0X3Y9FmCs88LHxt+Gncj9FLXkZa/UoUDV
-         h3hiUtRFQ7zoOHut/9gn3XsVoXajW0FZrPuuTAmn4C5kN5yxsTD4KCEKkMASY7ogrLJ+
-         BvIFr0C0dbsYzrrtSGN1DCwtBXa36O7T9CgVg8X9ul5D2E5GR6mmZL4birLo8XEtL6bu
-         5WlA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794609799; x=1795214599; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Dxs3zEoSbcXfyuXkzQruDQFVj4t8rdiDEgXMtvqtLxY=;
-        b=lXNS6fzML+4ms8KRhgrDko+jDoeFLKoP7/8V9vvA0kngy5RONQDDaSWlykfzxvWBqy
-         ba3/RQkLsh5FJA7UziUKYswTcUoLp64Sprh1UKYouGqpRI4Zo52eTG9fTjA419TGXujq
-         ioxmWNLa+9j3Thyf7jRbQTEXHmqlt/zskzknrOjWG26iWAH1Jm868zz2hs9QpgTc4UMh
-         7aTNKsMd9Fd+lzUjNUj0iqIKUs2rHsbmTDUJJOhbyOKm8W+bzoO03dOKoulBUbuBt+Wm
-         PbaO0hG5DWySwdQCyKK6qRZ1lJwXcgfoAIi/koTLJVlNNaqY5YaC9c/u23zPaw4bZOv7
-         18Xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794609799; x=1795214599;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Dxs3zEoSbcXfyuXkzQruDQFVj4t8rdiDEgXMtvqtLxY=;
-        b=TYUaryPCZAKmybfxOt29IEZ3H382v3tgj6iUknJ1DoKU51lKHC7hRO7Z+aSIR0F5to
-         1OybjCM36MxaJIN120BI3v1iw79rt1hZ2rc+11MCNzA0CwQpLCoQp6ECmDiro/iMF4aW
-         j5cuOup8btMFj/LHHRwi2qK7is9Fq2evYQbXo2Hno3YMYFEA6DPQWcmp5ynD1rgX4HbG
-         YqtJCewg70SidgwUmqtcrHlFYPM5GqUcjF9wUre+E4CuJ+7j0BeADJn2zJjWWuJk1w02
-         b7XKACOhabRBqlHCLjaGU58yuacxuLxmkPt2x/TuHxAtJp4DyBCU4dZ1zXnmclG9FBba
-         wEjA==
-X-Forwarded-Encrypted: i=1; AL+hErEgtOuqIR4Dl3vIjv0XN5aeiJqMESHHId02OEXyll3e7Dg3WB8yH5Jd9AgdrbAlCgPYtVs000dKP9k=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8eQIh6F8MtPdtbH5VmgpBjKENcNUnlbW4j9Yl3JpGYkt9YVymY
-	twNisQKOCU/Ai6THpw1JJh+9nqAxDBQMtYbDU7H2pOf9AKoCjvtZn0/Mi4CCZACJz2j3LnmJGEj
-	TgxjILGKHQn9aEKH8/SK00hcyisH5rJk=
-X-Gm-Gg: AYBFou0Fe+G3SSr/+PbNMgyXNBREFPYMSyuhh6GPNWLN8L3HfWl2Dxs3IZ9bvhLZGcb
-	bwAIh9HDeoCAa7fNXoTjj8qM92Ernp9lMCo7CfAbZbedP+Pe7Kvq8gFMHcfOR4/76PkfO21H4j6
-	LRc3xCGWPm/NC3dRupPhKyMqn6u8bcX76WUEOkQLOjN/94t/hgqSaNGbMpkr6NX4AiOIJ8c6gJT
-	FAc1VrkAE9JEKA4KAmjUc+xlIgfgi/4HaQGIdqtm5NedSuBFyB2CGPjlKFEgn0OTrjw1cvzKQxH
-	Ae6W64j+AYxPeHIG5ex4vJ9RcIalffQypLU5SF1GqDeUnX0OskIsp+DItRqJKqlrCJGrU0IlTru
-	CJTlcWcRw38uUopjN88iXMipHjG2E4hAw78c7lCCi0mOHiYyPqd5tFTv6RUhnfBT14IksQ4xiB7
-	aycrF9gElvwIgBjxRE6Uaq/gE9+1LzKMMoLKXw/boyHXdYGJWsX0cqrs4c9O8q+NhCb4B/eYOGS
-	1Xpyk+3F9HotTk2MLt8KpaRBYtd1g==
-X-Received: by 2002:a05:6102:84c2:b0:7cc:ccb:ce5a with SMTP id
- ada2fe7eead31-7d64d89cdabmr1053049137.28.1794609799139; Fri, 13 Nov 2026
- 14:43:19 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zr/r1yff
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4053A1F000C4;
+	Fri, 13 Nov 2026 22:55:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794610554;
+	bh=KN3BAQQz6V4aWs3TRbBIzGlNzQXPAP/3NN2RobaOAEE=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=Zr/r1yffsWfgcq3GiAScelw76p+OkyQYD2uH4hI/pcXZT/7E7x2Do+HBZm7e8OFNx
+	 c1oIKY+cvZEYv2sTZiX8+jnO5YqRpoKeiMbazqRw1aa4yUaQNbK7Mb95zvfQKKK1ig
+	 mxTFsa/RQhH/hCyvaswWfMYIpbiYkjjf2EiN/QQuWlfHGZB+EWhPT+tIC3Q4Mu5j8o
+	 t3lv1MPLpzLCUm09+TGX/ieOrJzoVKxT/z452fFm5NUzwDYL01fzfKWTbIMccvSMuj
+	 9FGL0SOXawyhCSF1WGLngab9+y6SU5rYrE3XlyC8yaZy7Xut3XdxIC/7rV4CX8ZWVe
+	 haNQtCPugcyAw==
+Content-Type: multipart/mixed; boundary="===============8280819268335858825=="
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,158 +49,139 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261109-submit-acx00-phy-stats-v1-v3-0-fbc6327c5be4@gmail.com>
- <20261109-submit-acx00-phy-stats-v1-v3-1-fbc6327c5be4@gmail.com>
- <348f19e7-120e-4b41-adab-be016c7a6083@lunn.ch> <avdaBgWc5tpMhtqF@pengutronix.de>
-In-Reply-To: <avdaBgWc5tpMhtqF@pengutronix.de>
-From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 13 Nov 2026 15:43:08 -0700
-X-Gm-Features: AclHuK_y5r8zy20zeheg5z5NyDwRpxzoSdoNuCWdWvLU_7paTeMna_98mFT74a0
-Message-ID: <CADvTj4q+QuSOre_Z7Kq286fLqrLfTq26oBCarDzx=wrc7Zz_WQ@mail.gmail.com>
-Subject: Re: [PATCH net-next v3 1/3] ethtool: add PHY receive frame and byte totals
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
-	Russell King <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Message-Id: <2f27a1ffca14cd87a744c447c5fded67459c1497ebafe05350f4721ef994c3f0@mail.kernel.org>
+In-Reply-To: <20261113221248.3535369-14-wusamuel@google.com>
+References: <20261113221248.3535369-14-wusamuel@google.com>
+Subject: Re: [PATCH bpf-next v3 3/9] kallsyms: Add KALLSYMS_QUERY_BY_NAME ioctl to /proc/kallsyms
+From: bot+bpf-ci@kernel.org
+To: wusamuel@google.com,corbet@lwn.net,skhan@linuxfoundation.org,rdunlap@infradead.org,mcgrof@kernel.org,petr.pavlu@suse.com,da.gomez@kernel.org,samitolvanen@google.com,atomlin@atomlin.com,viro@zeniv.linux.org.uk,brauner@kernel.org,jack@suse.cz,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,martin.lau@linux.dev,song@kernel.org,yonghong.song@linux.dev,jolsa@kernel.org,emil@etsalapatis.com,ihor.solodrai@linux.dev,nathan@kernel.org,ndesaulniers@google.com,morbo@google.com,justinstitt@google.com
+Cc: akpm@linux-foundation.org,pmladek@suse.com,david.laight.linux@gmail.com,wusamuel@google.com,kernel-team@android.com,linux-kernel@vger.kernel.org,linux-fsdevel@vger.kernel.org,linux-doc@vger.kernel.org,linux-modules@vger.kernel.org,bpf@vger.kernel.org,linux-kselftest@vger.kernel.org,llvm@lists.linux.dev,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Fri, 13 Nov 2026 22:55:50 +0000 (UTC)
 
-On Fri, Nov 13, 2026 at 11:42=E2=80=AFAM Oleksij Rempel <o.rempel@pengutron=
-ix.de> wrote:
->
-> On Tue, Nov 10, 2026 at 05:42:33PM +0100, Andrew Lunn wrote:
-> > On Mon, Nov 09, 2026 at 07:48:32PM -0700, James Hilliard wrote:
-> > > The generic PHY receive packet and byte counters describe successfull=
-y
-> > > received traffic. Some PHYs instead count all received frames and byt=
-es,
-> > > including frames with errors. A frame error count cannot recover the
-> > > number of successfully received bytes because damaged frames have
-> > > different lengths.
-> > >
-> > > Add optional receive-total counters to ethtool_phy_stats and the phyd=
-ev
-> > > statistics group. Count frame bytes including the Ethernet header, pa=
-dding
-> > > and FCS, and excluding the preamble and start frame delimiter. These
-> > > counters describe reception at the PHY, before MAC or host filtering.
-> > >
-> > > Append the new attributes so existing statistic IDs and their meaning=
-s
-> > > remain unchanged. Publish the names through the existing statistics s=
-tring
-> > > set, and retain the unset-counter convention so drivers can report ei=
-ther
-> > > set of counters independently.
-> > >
-> > > Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
-> > > ---
-> > >  Documentation/networking/ethtool-netlink.rst | 16 +++++++++++++++-
-> > >  include/linux/ethtool.h                      |  6 ++++++
-> > >  include/uapi/linux/ethtool_netlink.h         |  2 ++
-> > >  net/ethtool/stats.c                          |  8 +++++++-
-> > >  4 files changed, 30 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/Documentation/networking/ethtool-netlink.rst b/Documenta=
-tion/networking/ethtool-netlink.rst
-> > > index eba226c79ec3..5528d0f7afdd 100644
-> > > --- a/Documentation/networking/ethtool-netlink.rst
-> > > +++ b/Documentation/networking/ethtool-netlink.rst
-> > > @@ -1665,7 +1665,7 @@ the ``ETHTOOL_A_STATS_GROUPS`` bitset. Currentl=
-y defined values are:
-> > >   ETHTOOL_STATS_ETH_PHY  eth-phy  Basic IEEE 802.3 PHY statistics (30=
-.3.2.1.*)
-> > >   ETHTOOL_STATS_ETH_CTRL eth-ctrl Basic IEEE 802.3 MAC Ctrl statistic=
-s (30.3.3.*)
-> > >   ETHTOOL_STATS_RMON     rmon     RMON (RFC 2819) statistics
-> > > - ETHTOOL_STATS_PHY      phy      Additional PHY statistics, not defi=
-ned by IEEE
-> > > + ETHTOOL_STATS_PHY      phydev   Additional PHY statistics, not defi=
-ned by IEEE
-> > >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =
-=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-> > >
-> > >  Each group should have a corresponding ``ETHTOOL_A_STATS_GRP`` in th=
-e reply.
-> > > @@ -1683,6 +1683,20 @@ by ``ETHTOOL_A_STATS_GRP_SS_ID``. Complex stat=
-istics (such as RMON histogram
-> > >  entries) are also listed inside ``ETHTOOL_A_STATS_GRP`` and do not h=
-ave
-> > >  a string defined in the string set.
-> > >
-> > > +The ``phydev`` group provides separate counters for successfully rec=
-eived
-> > > +traffic and total received traffic.
-> >
-> > You need to be careful with naming here. This is a
-> > kAPI. phydev/phylib/phylink are implementation details, a set of
-> > helpers which some MAC drivers use to implement PHYs. But MAC driver
-> > can implement PHYs in different ways, and don't need to use a phydev.
-> >
-> > ``ETHTOOL_A_STATS_PHY_RX_PKTS``
-> > > +(``RxFrames``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES`` (``RxOctets``) c=
-ount
-> > > +successfully received frames and bytes. ``ETHTOOL_A_STATS_PHY_RX_PKT=
-S_TOTAL``
-> > > +(``RxFramesTotal``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES_TOTAL`` (``Rx=
-OctetsTotal``)
-> > > +include frames with errors. The total byte count includes the Ethern=
-et header,
-> > > +padding and FCS, but excludes the preamble and start frame delimiter=
-.
-> >
-> > And what would you call it when the counter does include the preamble
-> > and start frame delimiter?
-> >
-> > Take a step back. Just because this PHY has these counters, do we need
-> > to support them? And what happens when the next PHY comes along with
-> > slightly different counters? Do we add them as well?
-> >
-> > It is vendor SDK syndrome. The hardware can do this, so lets expose
-> > it.
-> >
-> > What is your use case here which justifies these specific counters.
->
-> I have the same question. James, your answer mentions traffic monitoring
-> and error diagnosis, but not a concrete problem on AC200/AC300 that these
-> totals would help with. My guess is a receive problem that another driver
-> for this PHY already works around.
->
-> Rockchip's vendor driver for the same PHY ID (RK630 and RV1106) reads the
-> packet and CRC error counters from page 9, registers 0x1b/0x1c and
-> 0x1d/0x1e:
->
-> https://github.com/rockchip-linux/kernel/blob/eeb355823a794954737fd75820d=
-fccdab4c57af6/drivers/net/phy/rk630phy.c#L430
->
-> The vendor driver does not export them. It polls them to tune the
-> receiver. If there is a signal but no link, it switches to a second
-> analog setting and checks again. It switches settings in two more cases:
-> too few frames arrive, or more than 15% of the frames have a CRC error.
+--===============8280819268335858825==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Allwinner applies efuse-derived trim on both AC200 and AC300 alongside
-hard-coded PHY register settings. AC200 uses one fixed set of settings;
-AC300 selects between two sets using efuse bit 9. These are applied at
-initialization, rather than adjusted from live packet/error statistics.
+> kallsyms: Add KALLSYMS_QUERY_BY_NAME ioctl to /proc/kallsyms
 
-> Its comments call this "Long network cable parameters". It also changes
-> the RX detect threshold depending on the temperature.
->
-> Do you see a problem like this on your AC200/AC300 boards? If so, can
-> you describe it? Then we can decide whether the driver should work
-> around that problem.
+TL;DR:
+- KALLSYMS_QUERY_BY_NAME may scan BPF ksyms quadratically in one syscall with
+  no cond_resched(), possibly cancelling the speedup
+- module_filter may return -ENOENT for init symbols that the unfiltered query
+  finds via the ftrace section
 
-I haven't reproduced that problem or tested long cables and temperature
-extremes. Temporary register changes on AC200 confirmed that candidate
-tuning fields are writable, but not that their analog meanings match
-Rockchip's. Adaptive tuning could be relevant future work, but I don't
-yet have evidence that ACx00 needs the Rockchip workaround.
+> diff --git a/kernel/kallsyms.c b/kernel/kallsyms.c
+> --- a/kernel/kallsyms.c
+> +++ b/kernel/kallsyms.c
 
->
-> Oleksij
+[ ... ]
+
+> +static int kallsyms_find_name_other(unsigned int sec, unsigned int *idx,
+> +				    const struct kallsyms_name_query *q,
+> +				    struct kallsyms_sym_match *m)
+> +{
+
+[ ... ]
+
+> +	do {
+> +		if (sec == KSYM_SEC_BPF)
+> +			err = bpf_get_kallsym(*idx, &m->addr, &type, m->name);
+> +		else if (sec == KSYM_SEC_KPROBE)
+> +			err = kprobe_get_kallsym(*idx, &m->addr, &type, m->name);
+> +		else
+> +			err = ftrace_mod_get_kallsym(*idx, &m->addr, &type,
+> +						     m->name, m->modname,
+> +						     &exported);
+> +		if (!err && !strncmp(m->name, q->name, q->cmp_len))
+> +			return 0;
+> +		(*idx)++;
+> +	} while (!err);
+
+Is this loop quadratic in the number of BPF ksyms, with no reschedule point?
+
+bpf_get_kallsym() restarts from the list head on every call and walks
+forward to the index:
+
+    list_for_each_entry_rcu(ksym, &bpf_kallsyms, lnode) {
+        if (it++ != symnum)
+            continue;
+
+So one ioctl that scans the BPF section without a match does n(n+1)/2 list
+steps inside a single syscall.  Every exhaustive query gets there, since
+even a query whose matches are all in vmlinux or modules still scans the
+ftrace, BPF and kprobe sections on the call that returns -ENOENT.
+
+The uapi comment tells users to keep calling with pos + 1 until -ENOENT,
+and the libbpf user later in this series (822e9da9a9b7 "libbpf: Resolve
+typeless ksyms via KALLSYMS_QUERY_BY_NAME ioctl") does this twice per
+typeless extern, once for the exact name and once for the "<name>.llvm."
+prefix.
+
+With read() of /proc/kallsyms the same getter cost is spread across
+syscalls, because seq_read fills at most one seq_file buffer per call.  Here
+all of it lands in each call that reaches the BPF section.  On hosts with
+thousands of BPF programs and trampolines, does this cancel the speedup the
+commit message describes?
+
+On kernels without ARCH_HAS_PREEMPT_LAZY, or with ARCH_NO_PREEMPT, it is
+also a long run with no reschedule, whereas kallsyms_on_each_symbol() and
+kallsyms_on_each_match_symbol() in this file call cond_resched().
+
+Would a helper that walks bpf_kallsyms once from a start index be better,
+or at least a cond_resched() in this loop?  ftrace_mod_get_kallsym() has the
+same restart-from-the-beginning pattern, although its lists are usually
+small.
+
+[ ... ]
+
+> +	if (karg.module_filter) {
+> +		len = kallsyms_copy_str_from_user(bufs->module_filter,
+> +						  sizeof(bufs->module_filter),
+> +						  karg.module_filter);
+> +		if (len < 0)
+> +			return len;
+> +		if (!strcmp(bufs->module_filter, "vmlinux")) {
+> +			end_sec = KSYM_SEC_VMLINUX + 1;
+> +		} else {
+> +			first_sec = KSYM_SEC_MODULE;
+> +			end_sec = KSYM_SEC_MODULE + 1;
+> +			q.modname = bufs->module_filter;
+> +		}
+
+Can module_filter return -ENOENT for a symbol that the unfiltered query
+finds in the same module?
+
+When a module name is given, only KSYM_SEC_MODULE is searched.  But
+/proc/kallsyms also lists entries for a loaded module from the ftrace
+section.  ftrace_free_mem(), called from do_init_module() for the module's
+init text, runs allocate_ftrace_mod_map() when any ftrace_ops is registered,
+and ftrace_mod_get_kallsym() returns those entries with
+strscpy(module_name, mod_map->mod->name, ...).  They appear as, for example:
+
+    ffffffffc0a01000 T foo_init [foo]
+
+and remain until the module is unloaded, because ftrace_release_mod() frees
+the map then.  After init, mod->kallsyms has switched to core_kallsyms, so
+these init symbols are no longer in the module section.  That gives:
+
+    BY_NAME("foo_init", module_filter = NULL)  -> match, sym_module = "foo"
+    BY_NAME("foo_init", module_filter = "foo") -> -ENOENT
+
+The uapi comment says the ioctl finds a symbol "in the entries of
+/proc/kallsyms", so the filtered result does not look like the unfiltered
+result limited to [foo].  kallsyms_find_name_other() does not check
+q->modname for the ftrace section, so extending end_sec alone would not be
+enough.
+
+Should the filtered case also search KSYM_SEC_FTRACE and skip entries whose
+m->modname differs from q->modname, or should the uapi comment document that
+module_filter only covers the module's own symbol table?
+
+
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43520044354
+--===============8280819268335858825==--
