@@ -1,77 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794570013;
-	b=rnV2vjEVgxL185Xoieh8E6aSefHOWohSNT/vCInbCWparP+4hOObUsJvmegHQRlFvg5K
-	 44w6MnZchdqlyPEGnikhoK41yHr7yxUEjUsVybMD29ktTkB4WVwfPPnPega/VlAvcRznA
-	 /cHToY4gQChaP6Zef64+1WnfyWikkdmnBj1g7uGnhv700OYskPaCSnKr1d+qPKIPqZORt
-	 7+LrzUfH5l5v9GlJPDlcpa4B+EP8v+eyEJQ8ibMqhftGCHt0550th9A6jxhK7WtC52hvj
-	 olqhgFVG6cd0/uopctJGt4zBGdBOu7AX9AImK5aeHNAjr7D9qeTWaXJYBq4Iz7iBfsg==
+	t=1794571300;
+	b=5JUT0ujGINWdvAHua4S+fmzvMZ1Y5apXlLTYoy7/w0vKguwL23/R3cpGPWgglnNRCSTJ
+	 AMasiiFgsB2dy/HcMDgbU3NsuJnNxsxu/7YArqZTGcyyXULCezWGR0dyC8H6FoDuVgTin
+	 zpKm2ADpq4AjaBgDiPzBbU3U6XcPhHtzIXIIw4O9Fnd8FW0ckG/IUhHMZNbk7bpThqxPL
+	 k7iFa+BbDA+FJIoSBV/aOk+XsJXnudWBjCJD+cmeVTUzvQgK/wkfqTs7D6MQEjDjpT+N+
+	 /5cDkniMUyY/QO8nV6qB/THu9rUImyIUKtEnsQbcGX5tH+sdY747Mn/E/+QDXHjAZoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794570013;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=Sx4I5TQr/tJnq6LolN0jCNFUVlDYTPLN9V39idqWiWI=;
-	b=WX/MFLWlUyS+uTaNjAsfrX8EjIGNiy9kjvuspTY2YsgZ0Kudwh9/h8hJx0dc8K5t8I2S
-	 NCHcVNIZeM/XUwpgHX93mq6kjOBcwoOILsO1lw+1qL1qyU570NUCFuqG/VW+LjGVqtc0F
-	 yJnEnol8+vjXYHoGyVVBkwGacZSiIAv+ND5TR+aMjPUJIVon+D1IS7GuM09hj9hybM7iD
-	 uqgD4ZoFw26ULRbH1CV+zEQHokWaFJ/JSjhKKgCVdODcrPbdUyuMugrDyrxhx73g53xMv
-	 Mu29U3+mC1KXrhHVYNthsIe2x1DNpn1PveHrWm7oA5FNvt9nJvUTa0dAIvNmDO5Xgeg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794571300;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=kudVfvR8j8oKpMlnT4HRJXKZnsjg3IZPx8xqv9ln/aY=;
+	b=3N6Ih0d3eK7Ux9XLfqk68z+Hpb3SL4DO8U8FMxz061IhZVuFBlSusNEl/EQ8k9dNWkoY
+	 05ohyoNN9g74yn18OizdbIfYp9zXwznPHyuBFgFmWeDmU4H2TQ60F2DU6RgPU0yo4tfm+
+	 tmnZ+eDWeUqkHk2jGxUDDCZV5kBkjOLGs5LVA4kG+6VBe8La20gswl8k/cayVnFdFBT/J
+	 CD/9Zv8qcw8LgHD4qUvXZ+PL5G/fDofr86GvO3ayfa6kxAVmm8kc4n7L66Eknh2/uaZm2
+	 Mh0VVlO4fTWKb7Sh8Y7pyjinhbuJSeToODStrID/n3LEzz2mZfiSdejLeyfEIEeFF0Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kni5FwAo;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d+pL95pW;
+	arc=none smtp.remote-ip=74.125.82.182
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19F0606A31C;
-	Fri, 13 Nov 2026 11:40:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D4B606A8D3
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 12:01:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 72D4B606A8D3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kni5FwAo
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D7031F000C4;
-	Fri, 13 Nov 2026 11:40:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794570013;
-	bh=Sx4I5TQr/tJnq6LolN0jCNFUVlDYTPLN9V39idqWiWI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=kni5FwAouxMtDA8R93e8iSlDAJTDtGYbK21KGRib3SZb7xNDHAIlrTvOjQiLjB8re
-	 Bdjgg9FwAwSnAjo7uKXMBMbGIDlt8naewDQWpT29oKYLv/bKX2tedXO0+oEpEHjOXz
-	 4lEqG5kyTCVZXX8hC/HoqW6sF7e6gsamUhceqMNwPlJp6SGxvLnmS1I9cupMdAHCMd
-	 ymUC5jPHh+XJSEXKtvm+DyABf8fX5S4WK49awYlV6S0979oDIBQGQ3YKMcxGIywy96
-	 aGvXenv3zP7estPpkfzpogmvvux9Nt+iQk+zyF8vn/RDWyi2hW4NvoslCL7FUWl1Xy
-	 b5PM0oyvsnyDg==
-From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Stanislav Fomichev
- <sdf@fomichev.me>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
- kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
- Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
- <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
- Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
- Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
- Kartikeya
- Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song
- Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa
- <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai
- <ihor.solodrai@linux.dev>, netdev@vger.kernel.org, bpf@vger.kernel.org,
- io-uring@vger.kernel.org, Mina Almasry <almasrymina@google.com>, "Mike
- Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
- <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
- Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Stuart Clark
- <stuclar@meta.com>
-Subject: Re: [PATCH net-next v1 11/11] eth: fbnic: Support AF_XDP page pool
- zero copy
-In-Reply-To: <87wlqhq0kb.fsf@all.your.base.are.belong.to.us>
-References: <20261110102039.1002605-1-bjorn@kernel.org>
- <20261110102039.1002605-12-bjorn@kernel.org> <avWk5as19fvZoEJA@boxer>
- <87wlqhq0kb.fsf@all.your.base.are.belong.to.us>
-Date: Fri, 13 Nov 2026 12:40:09 +0100
-Message-ID: <87jymhot7q.fsf@all.your.base.are.belong.to.us>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=d+pL95pW
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-33c10faf6easo111009eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 04:01:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794571299; x=1795176099; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=kudVfvR8j8oKpMlnT4HRJXKZnsjg3IZPx8xqv9ln/aY=;
+        b=d+pL95pWTQ3jrjsxlqw989H+pRIcGJv3p+LmtTJBiGIde7CnsOXvSoqBApHnEmkY8W
+         CIHbYQSmM2kh35Pl3BlaLCxZsVNZ0fu5sfL8j8UFuehkrJgEFnYzZc/3eToNysPq+YfX
+         vmfJh2csbKkvlEQdIreMGP7eViXk2+5J/H98WxURJB66Z/B1NiyOgng86GIXSJhfsKHj
+         fQqXXta6cctfbhUb5bLPwttwNlXQzr2BDXsDxq7Oi37tkKMNlCKRK/fTjjo06N4N6/hF
+         OmS/OaWk0J2tj9/UAJeyq0nEXNwh8YKS68TtURAi0Otfyp++uyReuokYx+SdBU6zoRLx
+         rbzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794571299; x=1795176099;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kudVfvR8j8oKpMlnT4HRJXKZnsjg3IZPx8xqv9ln/aY=;
+        b=fzJKRQPCsL3fCtbgAXTO0a38QYGA/GOFXViYB7EeOsdSnFrHFPkkrhHfKPMZT8gjDy
+         vr4cd8TvXcUZ1KYWgWEduHae1Ahu0BG+W9eIT6DkD2yfqOkEv+6gWv5JwRkir0h2Zy5n
+         Di9AKaP8FFiU2x9MIm3n0SUNfxv6XKobETn6+UiG84su1i+Avs6LNGEN2t2tlIKIiBBs
+         tVu9ts3ETlG69RpL8Ip+nRJm6WvVI4xAV8Cd+zcGpdMUMyvBNSYDulfegvZqyCsZ0nfc
+         SYsgrGXl1oLOZrzFe/GA9twB1gAddlGrZpqQcHCIHVr4lBYrbVK9DGLufYi2bYS5OMew
+         OTeA==
+X-Forwarded-Encrypted: i=1; AL+hErH8hZl0GomNkx/LA00YcOVDlmvte91IdbsuVYxQyhgRZbBjF6EK7r45c9IgEQ3pKvYqFEKIWB0PGyk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9xqCICZlm1mmDuST/z3MnrpdN9nH5kHnjVE9vLQMrl719X0Fzn
+	yCfUQhopczI7BWCfB2XtT7G28BL+QaWGxArETdGlyp0ITb8RG78MfcBt
+X-Gm-Gg: AYBFou19B1SIt0xatCvYL6IjTd6FuNQDyYbFZ+bSxaoT5Z1CTZibXX1osptpveZsXiH
+	znyIK4tj+b3gp4nfaCSxBKAh4YrAQJWU11xkPQXilqSUzXHSm7ujFzd6zoGcgq+xh2+iyAOIuyC
+	VE1Pei55sXhtiC6y9NdDPctJF2X7fHcFulmrQwH5swCiRGrFONJhwM7EjPNftBT6geUHjcvd41o
+	CVCKNgZtkKMAQOE0YZHOTOOIOXEVxNVxE1Ha8155KxnRgGtUfYfPYxZtg5hf/g8hqDHgKg55QDE
+	4vJ/Zhm5VpAYeP9ANw7sLfzj1J6/ape+GyERRV97B5FVIuWfmZVPamjAGzIg7oVHMOrgYz+lDyY
+	OQMMcgQ3MGcbp9nfZ5i4tdrBj3Xq87W+15iJpBN1zVC3aZRO+iEea8HmlM6K1JC00qq+uAlATQ5
+	IEP+QN7WkfKLnKr9HoXXBEuakiKdR5ez5KBtkWA+cfPMmLeAuaxFtz7ucMddZWeHSNbbFsDwhh/
+	qVqFD1VC0REH3sR2f2DuO7HHv+f342boKaHPPGPwpA7A8E1WXgyYsTjgD2MAUp4ixb//D9lTHC9
+	6u+vv0z/vSPuuhSDOAfq0tcHNz2CYsDrsPbyZocKpUyzQdZ+qV2k5K20UMPkdtdeFGzTCS9ribT
+	I+pcy218D748v
+X-Received: by 2002:a05:701b:290a:b0:127:def:dd72 with SMTP id a92af1059eb24-1b5030f8a7dmr3059602c88.2.1794571299135;
+        Fri, 13 Nov 2026 04:01:39 -0800 (PST)
+Received: from o6.lan ([2602:fce1:44f:115e::])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50313d8f5sm11650418c88.3.2026.11.13.04.01.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 04:01:38 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,56 +89,67 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3] mm/zsmalloc: remove CONFIG_ZSMALLOC_STAT
+From: Xueyuan Chen <xueyuan.chen21@gmail.com>
+To: Sergey Senozhatsky <senozhatsky@chromium.org>
+Cc: Xueyuan Chen <xueyuan.chen21@gmail.com>, 
+ Minchan Kim <minchan@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>, 
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Alexander Gordeev <agordeev@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, 
+ Helen Koike <helen.fornazier@gmail.com>, 
+ Vignesh Raman <vignesh.raman@collabora.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Nhat Pham <nphamcs@gmail.com>
+In-Reply-To: <avZyo_hCRonuhXW6@google.com>
+References: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
+ <avZyo_hCRonuhXW6@google.com>
+Date: Fri, 13 Nov 2026 20:01:28 +0800
+Message-Id: <179457128804.2142163.14813125534208665209.b4-reply@b4>
+X-Mailer: b4 0.16.0
 
-Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org> writes:
+On 2026-11-13 11:19 +0900, Sergey Senozhatsky wrote:
+> On (26/11/11 20:41), Xueyuan Chen wrote:
+> [..]
+> > diff --git a/Documentation/mm/zsmalloc.rst b/Documentation/mm/zsmalloc.rst
+> > index d2bbecd78e14..4c0786378dc3 100644
+> > --- a/Documentation/mm/zsmalloc.rst
+> > +++ b/Documentation/mm/zsmalloc.rst
+> > @@ -33,8 +33,8 @@ proper handle-based APIs.
+> >  stat
+> >  ====
+> >  
+> > -With CONFIG_ZSMALLOC_STAT, we could see zsmalloc internal information via
+> > -``/sys/kernel/debug/zsmalloc/<user name>``. Here is a sample of stat output::
+> > +With CONFIG_DEBUG_FS, we could see zsmalloc internal information via
+> > +``/sys/kernel/debug/zsmalloc/<pool-name>``. Here is a sample of stat output::
+> 
+> While we are at it,
+> We use zramX throughout Documentation/admin-guide/blockdev/zram.rst
+> and in some other files as well.  So let's just replace user/pool name
+> with
+> 
+> 	/sys/kernel/debug/zsmalloc/zramX/classes
+Zswap has its own zsmalloc pool too. How about this?
 
-> Maciej Fijalkowski <maciej.fijalkowski@intel.com> writes:
->
->> On Tue, Nov 10, 2026 at 11:20:32AM +0100, Bj=C3=B6rn T=C3=B6pel wrote:
->
->>> @@ -538,6 +547,13 @@ static int fbnic_bpf(struct net_device *netdev, st=
-ruct netdev_bpf *bpf)
->>>  {
->>>  	struct bpf_prog *prog =3D bpf->prog, *prev_prog;
->>>  	struct fbnic_net *fbn =3D netdev_priv(netdev);
->>> +	const struct xsk_rx_check *check;
->>> +
->>> +	if (bpf->command =3D=3D XDP_VALIDATE_XSK_POOL) {
->>
->> do you really need a separate command here? why not rely on existing
->> XDP_SETUP_XSK_POOL ?
->>
->> here it doesn't look like things being validated are something unique th=
-at
->> you could not check during XDP_SETUP_XSK_POOL and XDP_SETUP_PROG.
->
-> I'd like to keep it. XDP_SETUP_XSK_POOL means "set up driver ZC for this
-> pool": the driver maps the UMEM and restarts its queue, and the core
-> WARNs if it didn't map. A provider driver does neither; it only says yes
-> or no, before the core maps and installs anything. The same question
-> comes up on MTU and program changes of a bound device, with the new MTU
-> or program, which XDP_SETUP_XSK_POOL can't carry. One command keeps that
-> in one place, and v2 runs it from the core MTU path too, so a driver
-> can't forget that case. This is only a burden for the core.
-
-Thinking more about it, maybe I can drop the callback altogether, by
-doing what devmem, io_uring zcrx and tcp-data-split already do: the core
-refuses a setup that can't work, instead of asking the driver.
-
-The driver only judges the chunk size and headroom, in
-ndo_validate_qcfg, which the queue API already calls when it installs
-the provider, with a new bit saying the buffers can't be split. A frame
-of up to the chunk size (minus headroom), then lands in one buffer, so
-the core checks the MTU itself, at bind and on MTU changes. And like
-tcp-data-split, a socket bound with XDP_USE_SG needs a frags XDP
-program: attaching a single-buffer program fails while one is bound, and
-the bind fails while one is attached.
-
-That drops XDP_VALIDATE_XSK_POOL and struct xsk_rx_check, and fbnic's
-MTU and program hooks with them. Not fully cooked in my head, but maybe?
-Wdyt?
+	/sys/kernel/debug/zsmalloc/{zramX,zswapX}/classes
+> 
+> Here and in the Chinese translation.
+> 
+> 
 
 
-Bj=C3=B6rn
