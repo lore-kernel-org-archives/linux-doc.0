@@ -1,74 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.197
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794608072;
-	b=fXsFuxhsAmkMkH1thcqPjfysvwQ0obegK1iYjwcdeLo67n199qAUUWHOF1DNWf64w5R5
-	 emI4kddWTcqAB58jQMEkKveO+b4oR3z6conIcOSzqzbKg1L2B0a6b5/XgWgp8Mdfihy94
-	 RYhMPV/M8w4czeBd9gVQTy7QuWt9UnoGYXqO1uOnCLvOX+sHsZzEnEI9+PJyxgUuQVzUp
-	 hO4iA/MgojtKgfa4be72FjNggGNbgkgoYMp38POCy8hLjfebNp/hdfN7syq3VoN0ZCQrp
-	 5+21jh4cpUdN2rVShv4cAzDyltWoWWkW/Xmx6u5OVu3fEBGk+NZ2xul5bZ7FWYSbWlw==
+	t=1794608079;
+	b=sQPLt8T3tfzMQFqCyFp1DKIduka7qPbeCYpcPfrnNs2nV38t8dFjOrh09tqkLOaIDkae
+	 EJNyrCdALGD3ss44UDM+bfrRAabhc7xKE8UqaKtQEzEKV6xdsmVEiUds72Txh47CsLNtI
+	 MOWNXXqfF+0tXMuPUT0FZ+rIrhnrmwIcW1UdTCZKirTEW5nrHJ3pHtBBptoIOrpmYp8F8
+	 V3WfrpDqvAWCZA+uEKBV03Fb3m/Ty2jjyiHQ5EYjUJuvYD5oksrpjALkLyg6WQ24AoDny
+	 DFbShqXeC4MDN88a34MBno/L1CpMXdYuHfAktiQwUyBCi1TWHdRkX/bSu1qxF9jxPZQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794608072;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794608079;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
 	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
 	 Content-Type;
-	bh=RQEzDvHEvvVvQ1qVVf3m8J9tQxy8VhbPqMNtOkf2W64=;
-	b=RyKi4puBHriCmIqEnarArSeVUNdq2887twJ84HEVO+jwbxuhfcn7s4xUxd+D4jlwc/TT
-	 /spLmG/nJ7j/5dXG5Osvhq5SrGSqOGA4d4NNpVAKxxq95SvRYRqGPOBWqu9tJhsKji9Eq
-	 nC8GXwK/3chFlBCzNR8v0kO/5bLm4ovoxcfST51dDHi7q7Cw9CcdlG1vqO1zb7nlpI9wL
-	 PDONG0TEi2cMg6QUESsRjMaw0I60O9BASCTVCIRHM7vPVQV63429mm7E9h5s/H6TECsHi
-	 aLBGcz+dddC98ogQsJO9W6jBTbIuHqcrK7wB9di3gRJiOXYIYmjGe0GPbS38miPjC6w==
+	bh=+E9yv9HQNupNSs8TG1/d516U+BHXkDhMB4q2L4QWy/Y=;
+	b=iVPtK+18OBc77nxQLViGcXFA2OUvd8XdF7hHcksXJ6+6gd01+Eqha191WK7ChIKosBMj
+	 r/CvxA5tqljzo8h+VanUYoVoSXEBRxfkFxQ91dgY6lOpNLBaHsJV+jBGF1Rxu2januH+0
+	 CI8Ao6bmvHZ7KndTxFOWXLQNT3WA/Bk+xYHNTsIwTAYRoxpOHnBUQm/H3CkZ/eOBAFN45
+	 cPNlHaE0QwUn9EYlNbyBcDvxITAgpnFFSFM9EddWOUJA485MXmtUBNsp9A0GEJHj3F5br
+	 DFanFw8d1Uyd7HOfw4N6SJS3OTMhTJyEbFMY7TLfaWhcI+p0r6ndGbKkqyJgqh7C9Jg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=google.com;
 	spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=kSTdm4cw;
-	arc=none smtp.remote-ip=74.125.82.199
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Ni2kHJAL;
+	arc=none smtp.remote-ip=74.125.82.197
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CEA606A885
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 22:14:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10CEA606A885
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CFE60A3815
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 22:14:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2CFE60A3815
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--wusamuel.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=kSTdm4cw
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-33713e5e6daso1357109eec.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:14:30 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Ni2kHJAL
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-378722fd4a3so1706634eec.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:14:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794608070; x=1795212870; darn=vger.kernel.org;
+        d=google.com; s=20260707; t=1794608076; x=1795212876; darn=vger.kernel.org;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=RQEzDvHEvvVvQ1qVVf3m8J9tQxy8VhbPqMNtOkf2W64=;
-        b=kSTdm4cwrtwVBcbeXSEgRVdC9FYi0CsFOhzjN9w9hezdy3TgKeC/BLev8OPkk1jDHv
-         3BptnIxicseeFTM8z5xNkFl1lzsMtR4VT9SPzQygsfINcbnN78Ktx1LDku/nBk/h4PSf
-         QHZIwS7H8xtfdJF7jq5o/ZTbgcO3QfTYvgn3oG8J1GpywjE5KbMfTQHVdUgz6fyOP8al
-         QzIB8KYUtJ0Xb/zBc1CZfIh6/WKKCdZcxs1kfSLR6gFTl5B5TCQLWU6UkHBQXlqM+j9y
-         csa6/LPUdjZYTxUtb1bUlQDxKKNYLMsorIk3BKfAFc9an4dj6VXsJDp//h4YDxOR9LfF
-         ZUKA==
+        bh=+E9yv9HQNupNSs8TG1/d516U+BHXkDhMB4q2L4QWy/Y=;
+        b=Ni2kHJALCX2uu3fkoy2msesS8r8UL8byTQxV6w5uxn30B/s9YwfuCqSzGgDRwDJVIK
+         Q1iV9M4RkDGp46f4wFQ/m7U0QHDvL6sIBb9lvGgfhsbmaMpNrDByYqdNx4y2TBPkA7OJ
+         MUlOaPEftPA07ssofhZHD7ZfQArIww5spFaSD7oFhUro3YbpcRjEpjoc5DKm2gK1//cA
+         j5dVdzz8MpcKM5JQWN7XQveWBBqy3QN7loPjV+AKJW6PX6/WADInz8Iqyl5ectmIZ6S/
+         cfCeCbpsMnJFhOza/DgUF9Z+EqfGBxlz1fGJQuRWvsU9eWIvx93lANjhK6pkI86JlNH5
+         EWGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794608070; x=1795212870;
+        d=1e100.net; s=20260707; t=1794608076; x=1795212876;
         h=content-type:cc:to:from:subject:message-id:references:mime-version
          :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=RQEzDvHEvvVvQ1qVVf3m8J9tQxy8VhbPqMNtOkf2W64=;
-        b=jD30dZMCOl8rM79SIZ0r7SJuJLA/2Zl2lm/WMoUlDBhpZ4IJ1lW6r5ZMEaxX5Fyr6C
-         3cOm5SRf7wA32u46RDdXJVWVGR8A/rx70GgZonKBhug8leVV5X/PkNLiXx7a2LuayCqT
-         X+yjDfWH5h7B/uo4BrRCifSfiQzw4e8VTUwOpKTWfLA3lnXEBsUqKtafexJtMESoUAcE
-         H3CPHffhaskx5AO0DEHXPzs3jKKph75QYj2+LBaNRDhcEHwDkpfyCXsC+Sdv/PDRaoTF
-         zWVFSB7v2HUIijp6YDuRF4TV9WRvdufF2tt5SDq5JFYbX9V1vLduItK0GaXDCL6f/3Mr
-         RisA==
-X-Forwarded-Encrypted: i=1; AL+hErHRsDVNZ6+szHhj8gmmBBnIfAFCSDQmGqR+ih22xsGmvl+PSXISbQzuhStbj67f3XWMDT7imZbhpP0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/TFCMFyw64r/r36nSzMku+X1EfS9uW7pK2t0jszWbo7xx8GhsZ
-	uHRx9eCrZbC+thfuEDa6uWTfAmNQO+4Mi+LagT4KBMdUgD1rDKoqkAiOXcbPIO5p66fQAnOKNhQ
-	M4HC3KBn/dKDIFw==
-X-Received: from dycnl13.prod.google.com ([2002:a05:7300:d10d:b0:36d:461b:fa1f])
+        bh=+E9yv9HQNupNSs8TG1/d516U+BHXkDhMB4q2L4QWy/Y=;
+        b=QIdrPtkZ5wrfRJABJnj6jUCxBNB5WyXlkdGQ0eu6Xxthbl9ykBgGwtASN1klDTsCzB
+         Hd5TXfQ5EWj4UcHhrjpqYvsxjHMSLrjdZzpbMMwjv+DE/lixjj7IQPHPNShqMuIgG562
+         y6lsg366khzz6WoBu4PWYtUYBeSrxDNZWiMHdGxu3hfIAONg2Th4MT0AAs0QD/AjKoQ9
+         FmE7yBlGZOAoL+NegvgvQqLdiG7w7dQrUSXJX+uNJGq2UkwHkPfeeXyUErNsZfvNbnLv
+         3SGP5S0x4+Jg16wIeIZqnB9jrlLUJlw29kdjcqiA5Nph2D5Cq5V8SXmvSOao2FaaaiSQ
+         eRrA==
+X-Forwarded-Encrypted: i=1; AL+hErHEpRp9k5KBA1uZAeJr0X5eb40PLnNS7UNot8K3tvWQ5ffnE+r7uREwHQus2EsKj1cEseqLGJ+VQuw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+xI+GDE08kTUUM/5NuaJ/i1u9WA0PBt3En9FkXFvpfbJ18LkWb
+	Q82PxdXHwl19VnTQ1S+KJpTERjKwIvi0yJF0nulbwTp6LC1ecyteSaCAhy/N8jpL8WHJ3MmdapW
+	GoJTKSH5+WKgBdA==
+X-Received: from dlai16.prod.google.com ([2002:a05:701b:2710:b0:1a3:c305:2584])
  (user=wusamuel job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:7300:fd0d:b0:36a:1f:9b74 with SMTP id 5a478bee46e88-37967ed53d3mr4702535eec.27.1794608069745;
- Fri, 13 Nov 2026 14:14:29 -0800 (PST)
-Date: Fri, 13 Nov 2026 14:12:51 -0800
+ 2002:a05:701b:4508:20b0:14d:c7ae:85dd with SMTP id a92af1059eb24-1b5030e658bmr3609738c88.7.1794608075632;
+ Fri, 13 Nov 2026 14:14:35 -0800 (PST)
+Date: Fri, 13 Nov 2026 14:12:52 -0800
 In-Reply-To: <20261113221248.3535369-11-wusamuel@google.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,21 +81,22 @@ Precedence: list
 Mime-Version: 1.0
 References: <20261113221248.3535369-11-wusamuel@google.com>
 X-Mailer: git-send-email 2.56.0.679.gc527c65306-goog
-Message-ID: <20261113221248.3535369-17-wusamuel@google.com>
-Subject: [PATCH bpf-next v3 6/9] tools: Copy KALLSYMS_QUERY_* definitions to linux/fs.h
+Message-ID: <20261113221248.3535369-18-wusamuel@google.com>
+Subject: [PATCH bpf-next v3 7/9] selftests/proc: Add KALLSYMS_QUERY_* ioctl tests
 From: Samuel Wu <wusamuel@google.com>
 To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
 	Randy Dunlap <rdunlap@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
 	Petr Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, 
 	Sami Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
 	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Ihor Solodrai <ihor.solodrai@linux.dev>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
 	Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, 
-	Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>
+	Emil Tsalapatis <emil@etsalapatis.com>, Nathan Chancellor <nathan@kernel.org>, 
+	Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
 	David Laight <david.laight.linux@gmail.com>, Samuel Wu <wusamuel@google.com>, 
 	kernel-team@android.com, linux-kernel@vger.kernel.org, 
@@ -104,79 +105,298 @@ Cc: Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>,
 	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 
-Copy the KALLSYMS_QUERY_* definitions from include/uapi/linux/fs.h for
-the proc selftests.
+Test KALLSYMS_QUERY_BY_NAME and KALLSYMS_QUERY_BY_ADDR against the
+/proc/kallsyms text: exact and prefix names, iteration with pos and
+retry after -ENAMETOOLONG, module_filter, vmlinux and module symbols,
+struct size extension, and invalid input. Skip if the ioctls are
+missing or addresses are hidden.
 
 Signed-off-by: Samuel Wu <wusamuel@google.com>
 ---
- tools/include/uapi/linux/fs.h | 56 +++++++++++++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ tools/testing/selftests/proc/.gitignore       |   1 +
+ tools/testing/selftests/proc/Makefile         |   1 +
+ .../selftests/proc/proc-kallsyms-query.c      | 248 ++++++++++++++++++
+ 3 files changed, 250 insertions(+)
+ create mode 100644 tools/testing/selftests/proc/proc-kallsyms-query.c
 
-diff --git a/tools/include/uapi/linux/fs.h b/tools/include/uapi/linux/fs.h
-index f0a26309b6d5..286e82c61189 100644
---- a/tools/include/uapi/linux/fs.h
-+++ b/tools/include/uapi/linux/fs.h
-@@ -567,4 +567,60 @@ struct procmap_query {
- 	__u64 build_id_addr;		/* in */
- };
+diff --git a/tools/testing/selftests/proc/.gitignore b/tools/testing/selftests/proc/.gitignore
+index 9c9735570abf..1762c28f524c 100644
+--- a/tools/testing/selftests/proc/.gitignore
++++ b/tools/testing/selftests/proc/.gitignore
+@@ -4,6 +4,7 @@
+ /fd-003-kthread
+ /proc-2-is-kthread
+ /proc-fsconfig-hidepid
++/proc-kallsyms-query
+ /proc-loadavg-001
+ /proc-maps-race
+ /proc-multiple-procfs
+diff --git a/tools/testing/selftests/proc/Makefile b/tools/testing/selftests/proc/Makefile
+index a7de2bb6d8be..dc3c28e6b83b 100644
+--- a/tools/testing/selftests/proc/Makefile
++++ b/tools/testing/selftests/proc/Makefile
+@@ -29,6 +29,7 @@ TEST_GEN_PROGS += setns-sysvipc
+ TEST_GEN_PROGS += thread-self
+ TEST_GEN_PROGS += proc-multiple-procfs
+ TEST_GEN_PROGS += proc-fsconfig-hidepid
++TEST_GEN_PROGS += proc-kallsyms-query
+ TEST_GEN_PROGS += proc-pidns
  
-+/* /proc/kallsyms ioctls. -EPERM if the opener cannot see kernel addresses. */
-+#define KALLSYMS_QUERY_BY_NAME	_IOC(_IOC_READ | _IOC_WRITE, PROCFS_IOCTL_MAGIC, 48, 0)
-+#define KALLSYMS_QUERY_BY_ADDR	_IOC(_IOC_READ | _IOC_WRITE, PROCFS_IOCTL_MAGIC, 49, 0)
+ include ../lib.mk
+diff --git a/tools/testing/selftests/proc/proc-kallsyms-query.c b/tools/testing/selftests/proc/proc-kallsyms-query.c
+new file mode 100644
+index 000000000000..7788cb0f30f8
+--- /dev/null
++++ b/tools/testing/selftests/proc/proc-kallsyms-query.c
+@@ -0,0 +1,248 @@
++// SPDX-License-Identifier: GPL-2.0-only
++/* Tests for the KALLSYMS_QUERY_* ioctls on /proc/kallsyms */
++#undef NDEBUG
++#include <assert.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++#include <string.h>
++#include <sys/ioctl.h>
++#include <unistd.h>
++#include <linux/fs.h>
 +
-+enum kallsyms_query_flags {
-+	/* Match query_name as a prefix. */
-+	KALLSYMS_QUERY_NAME_PREFIX = 0x01,
-+};
++#include "kselftest.h"
 +
-+/*
-+ * Symbol returned by a query. Each buffer pointer and its *_len must both be
-+ * set or both be 0. When set, the kernel sets *_len to the string size
-+ * including the NUL, even if the buffer is too small and the ioctl fails with
-+ * -ENAMETOOLONG. The module name of a vmlinux symbol is "".
-+ */
-+struct kallsyms_query_sym {
-+	__u64 sym_addr;		/* out - start address */
-+	__u64 sym_size;		/* out - bytes to next symbol, 0 if unknown */
-+	__u64 sym_name;		/* in - user ptr to name buffer, or 0 */
-+	__u64 sym_name_len;	/* in/out - buffer size / string size */
-+	__u64 sym_module;	/* in - user ptr to module name buffer, or 0 */
-+	__u64 sym_module_len;	/* in/out - buffer size / string size */
-+};
++#define PTR(p) ((__u64)(uintptr_t)(p))
++#define PREFIX "vfs_"
 +
-+/*
-+ * Find a symbol by exact name, or by prefix with KALLSYMS_QUERY_NAME_PREFIX,
-+ * in the entries of /proc/kallsyms, except undefined module symbols. vmlinux
-+ * matches come first. A module_filter of "vmlinux" selects the core kernel.
-+ *
-+ * Each call returns one match and sets pos to its position, even on
-+ * -ENAMETOOLONG. Start with pos 0 and use pos + 1 for the next match, until
-+ * -ENOENT. Use pos only with the same query. Matches can be skipped or
-+ * repeated if symbols change between calls.
-+ */
-+struct kallsyms_query_by_name {
-+	__u64 size;		/* in - sizeof(struct kallsyms_query_by_name) */
-+	__u64 query_flags;	/* in - enum kallsyms_query_flags */
-+	__u64 query_name;	/* in - user ptr to name or prefix */
-+	__u64 module_filter;	/* in - user ptr to loaded module name, or 0 */
-+	__u64 pos;		/* in/out - start position / match position */
-+	__u64 sym;		/* in - user ptr to struct kallsyms_query_sym */
-+	__u64 sym_struct_size;	/* in - sizeof(struct kallsyms_query_sym) */
-+};
++static char name_buf[512];
++static char mod_buf[64];
 +
-+/*
-+ * Find the /proc/kallsyms entry that covers query_addr, or return -ENOENT.
-+ * ftrace trampolines and kprobe pages are not resolved yet.
-+ */
-+struct kallsyms_query_by_addr {
-+	__u64 size;		/* in - sizeof(struct kallsyms_query_by_addr) */
-+	__u64 query_flags;	/* in - must be 0 */
-+	__u64 query_addr;	/* in - kernel address */
-+	__u64 sym;		/* in - user ptr to struct kallsyms_query_sym */
-+	__u64 sym_struct_size;	/* in - sizeof(struct kallsyms_query_sym) */
-+};
++/* Expected values, from the /proc/kallsyms text */
++static struct {
++	unsigned long long vfs_read_addr;
++	bool vfs_read_found;
++	unsigned int prefix_cnt;	/* vmlinux names with PREFIX */
++	unsigned long long mod_addr;	/* module text symbol, or 0 */
++	char mod[64];
++} ref;
 +
- #endif /* _UAPI_LINUX_FS_H */
++static void scan_text(void)
++{
++	FILE *f = fopen("/proc/kallsyms", "r");
++	unsigned long long addr;
++	char line[1024];
++	bool plain_name;
++	char name[513];
++	char mod[64];
++	bool vmlinux;
++	bool module;
++	bool text;
++	char type;
++	int n;
++
++	assert(f);
++	while (fgets(line, sizeof(line), f)) {
++		/* 3 fields for vmlinux, 4 if the line ends with [module] */
++		n = sscanf(line, "%llx %c %512s [%63[^]]]",
++			   &addr, &type, name, mod);
++		/* A longer name would be cut and parsed as vmlinux */
++		assert(n >= 3 && strlen(name) < sizeof(name) - 1);
++		vmlinux = n == 3;
++		module = n == 4 && strcmp(mod, "bpf") &&
++			 strncmp(mod, "__builtin__", strlen("__builtin__"));
++		text = type == 't' || type == 'T';
++		plain_name = name[0] != '.' && name[0] != '$';
++
++		if (vmlinux) {
++			if (!strncmp(name, PREFIX, strlen(PREFIX)))
++				ref.prefix_cnt++;
++			if (!ref.vfs_read_found && !strcmp(name, "vfs_read")) {
++				ref.vfs_read_addr = addr;
++				ref.vfs_read_found = true;
++			}
++		} else if (module && text && plain_name && !ref.mod_addr) {
++			ref.mod_addr = addr;
++			strcpy(ref.mod, mod);
++		}
++	}
++	fclose(f);
++}
++
++static struct kallsyms_query_sym bufs(size_t name_len, size_t mod_len)
++{
++	return (struct kallsyms_query_sym){
++		.sym_name = name_len ? PTR(name_buf) : 0,
++		.sym_name_len = name_len,
++		.sym_module = mod_len ? PTR(mod_buf) : 0,
++		.sym_module_len = mod_len,
++	};
++}
++
++static struct kallsyms_query_by_name name_q(const char *name, const char *mod,
++					    struct kallsyms_query_sym *sym)
++{
++	return (struct kallsyms_query_by_name){
++		.size = sizeof(struct kallsyms_query_by_name),
++		.query_name = PTR(name),
++		.module_filter = PTR(mod),
++		.sym = PTR(sym),
++		.sym_struct_size = sizeof(*sym),
++	};
++}
++
++static struct kallsyms_query_by_addr addr_q(unsigned long long addr,
++					    struct kallsyms_query_sym *sym)
++{
++	return (struct kallsyms_query_by_addr){
++		.size = sizeof(struct kallsyms_query_by_addr),
++		.query_addr = addr,
++		.sym = PTR(sym),
++		.sym_struct_size = sizeof(*sym),
++	};
++}
++
++static int by_name(int fd, void *q)
++{
++	return ioctl(fd, KALLSYMS_QUERY_BY_NAME, q) ? -errno : 0;
++}
++
++static int by_addr(int fd, void *q)
++{
++	return ioctl(fd, KALLSYMS_QUERY_BY_ADDR, q) ? -errno : 0;
++}
++
++int main(void)
++{
++	struct {
++		struct kallsyms_query_by_name q;
++		__u64 extra;
++	} qx = {};
++	struct {
++		struct kallsyms_query_sym s;
++		__u64 extra;
++	} sx = {};
++	struct kallsyms_query_by_addr qa;
++	struct kallsyms_query_by_name q;
++	struct kallsyms_query_sym sym;
++	unsigned int cnt = 0;
++	__u64 first_pos = 0;
++	char name[512];
++	__u64 size;
++	__u64 len;
++	int err;
++	int fd;
++
++	fd = open("/proc/kallsyms", O_RDONLY | O_CLOEXEC);
++	if (fd < 0)
++		ksft_exit_skip("open(/proc/kallsyms): %s\n", strerror(errno));
++	scan_text();
++	if (!ref.vfs_read_found)
++		ksft_exit_skip("vfs_read is not in /proc/kallsyms\n");
++
++	/* Exact name in vmlinux, with name and module buffers */
++	sym = bufs(sizeof(name_buf), sizeof(mod_buf));
++	q = name_q("vfs_read", "vmlinux", &sym);
++	err = by_name(fd, &q);
++	if (err == -ENOTTY)
++		ksft_exit_skip("KALLSYMS_QUERY_BY_NAME is not supported\n");
++	if (!ref.vfs_read_addr) {
++		qa = addr_q(0, &sym);
++		assert(err == -EPERM && by_addr(fd, &qa) == -EPERM);
++		ksft_exit_skip("kallsyms addresses are hidden\n");
++	}
++	assert(!err);
++	assert(sym.sym_addr == ref.vfs_read_addr && sym.sym_size > 0);
++	assert(!strcmp(name_buf, "vfs_read"));
++	assert(sym.sym_name_len == sizeof("vfs_read"));
++	assert(!mod_buf[0] && sym.sym_module_len == 1);
++	size = sym.sym_size;
++
++	/* Prefix: one match per call with pos + 1, until -ENOENT */
++	q = name_q(PREFIX, "vmlinux", &sym);
++	q.query_flags = KALLSYMS_QUERY_NAME_PREFIX;
++	sym = bufs(sizeof(name_buf), 0);
++	while (!(err = by_name(fd, &q))) {
++		assert(!strncmp(name_buf, PREFIX, strlen(PREFIX)));
++		if (!cnt++)
++			first_pos = q.pos;
++		sym = bufs(sizeof(name_buf), 0);
++		q.pos++;
++	}
++	assert(err == -ENOENT && cnt == ref.prefix_cnt);
++
++	/* -ENAMETOOLONG sets pos and both sizes; a retry succeeds */
++	sym = bufs(1, 2);
++	q.pos = 0;
++	assert(by_name(fd, &q) == -ENAMETOOLONG && q.pos == first_pos);
++	assert(sym.sym_module_len == 1);
++	len = sym.sym_name_len;
++	sym.sym_name_len = sizeof(name_buf);
++	assert(by_name(fd, &q) == 0 && q.pos == first_pos);
++	assert(sym.sym_name_len == len && strlen(name_buf) + 1 == len);
++
++	/* No match */
++	sym = bufs(0, 0);
++	q = name_q("__no_such_symbol__", NULL, &sym);
++	assert(by_name(fd, &q) == -ENOENT);
++
++	/* BY_ADDR inside vfs_read */
++	sym = bufs(sizeof(name_buf), 0);
++	qa = addr_q(ref.vfs_read_addr + 1, &sym);
++	assert(by_addr(fd, &qa) == 0 && !strcmp(name_buf, "vfs_read"));
++	assert(sym.sym_addr == ref.vfs_read_addr && sym.sym_size == size);
++
++	sym = bufs(0, 0);
++	qa = addr_q(~0ULL, &sym);
++	assert(by_addr(fd, &qa) == -ENOENT);
++
++	/* Module symbol: BY_ADDR and BY_NAME with module_filter agree */
++	if (ref.mod_addr) {
++		bool found = false;
++
++		sym = bufs(sizeof(name_buf), sizeof(mod_buf));
++		qa = addr_q(ref.mod_addr, &sym);
++		assert(by_addr(fd, &qa) == 0 && sym.sym_addr == ref.mod_addr);
++		assert(!strcmp(mod_buf, ref.mod));
++		strcpy(name, name_buf);
++		size = sym.sym_size;
++
++		q = name_q(name, ref.mod, &sym);
++		sym = bufs(0, sizeof(mod_buf));
++		while (!(err = by_name(fd, &q))) {
++			assert(!strcmp(mod_buf, ref.mod));
++			if (sym.sym_addr == ref.mod_addr) {
++				assert(sym.sym_size == size);
++				found = true;
++			}
++			sym = bufs(0, sizeof(mod_buf));
++			q.pos++;
++		}
++		assert(err == -ENOENT && found);
++	}
++
++	/* Larger structs with a zero tail are accepted */
++	qx.q = name_q("vfs_read", NULL, &sx.s);
++	qx.q.size = sizeof(qx);
++	qx.q.sym_struct_size = sizeof(sx);
++	assert(by_name(fd, &qx) == 0 && sx.s.sym_addr == ref.vfs_read_addr);
++
++	/* Unknown flags and mismatched buffer pointer/length */
++	sym = bufs(0, 0);
++	q = name_q("vfs_read", NULL, &sym);
++	q.query_flags = 1ULL << 63;
++	assert(by_name(fd, &q) == -EINVAL);
++	qa = addr_q(ref.vfs_read_addr, &sym);
++	qa.query_flags = 1;
++	assert(by_addr(fd, &qa) == -EINVAL);
++	sym = (struct kallsyms_query_sym){ .sym_name = PTR(name_buf) };
++	q = name_q("vfs_read", NULL, &sym);
++	assert(by_name(fd, &q) == -EINVAL);
++	sym = (struct kallsyms_query_sym){ .sym_module_len = sizeof(mod_buf) };
++	assert(by_name(fd, &q) == -EINVAL);
++
++	close(fd);
++	return 0;
++}
 -- 
 2.56.0.679.gc527c65306-goog
 
