@@ -1,90 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794590031;
-	b=BL/+YPyOa1MUvidGVudOJn+1WAkekSZFQeFR3bLHjuhEjfgkyS+Ws/KKcj1yuTHq6riy
-	 7uRFegKHUmo+pwUbD09epCRE05urFODpDX2v0ftK8Q9HCGiNZFa/gW5d5ZL3tLf+F3rmk
-	 XWg8wE7QNAYTZoFkc7eCwWCgiTqzBRU9PWPahKILcusW6GRJ3OTsxyQhh793DKSufBxBO
-	 0teVtzRNGozaVAbbwQYwAGMsu2Akm8T2JmgEWRocTJ86fLYhb2WMMDmIgZqlL93UeCeqU
-	 NHM7T4qz3ZH9yhhyVMvbwitA1vFUsHgDe0hkyFUUtOXOrAetQ0hwBtoGcQMFX5Cu7Og==
+	t=1794590032;
+	b=04LmEeqBpr/ZUgGa0BS2Jn0er4OdQQV+U8z/iqz98NLmEqI+E3fHyMSHO/AYBoqHqqEl
+	 bHSiLShVwj/RO4GmdxirGYpGWUwMl4Le9fSC9ntPQ4kmoLsIZhG+zEZIEjGWn9IhLfEtE
+	 omom7N2MMoZXFjt6d31ZS+v4lo4HUppKdfAWBL0IQyUeKYrYCkHWUYAdcU8M4nwsAcExA
+	 Hbz0g14dB28XJ06U0fI8hDVtod1nh9grmCfeLrIo7KEvdNappuDXZyjBqRy9J6f3jGdN3
+	 HhHqDNGBjDjOpc8/bQC2Bru0QJkt2TcfaGfq3Mha+CnHgi2o0VlGpneqCZrLgHkheIg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794590031;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794590032;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer;
-	bh=qCcEEZhb+6X/eOhEZOJf7Q7PZICUyrmwcXum+u7HmKU=;
-	b=t/QKtlWT9MDwoXTRKrTP1nN/Ugp6O2sbv2goCspPJ5eeIjiSMiQo3B4JJ6XOYuEnqWGh
-	 7uP1/s5CGI5HrP8XF3HN3jPQruHuTnL+XCCHFDNVRBvUK+0csbwcH/WrK+V90HFAtRbor
-	 xPakDuIw6xXMpA/u1P9mnF5PTS/0Vd5St7T828ubJKAJ5S4/99Wo5U5PjreVuD9+K5TFt
-	 mWhSJG+l16+tINzlTseKzc3kONi4Is2xobmGWYcDIEt3fCPz5jfkWASlmTfoN/I/LNgAU
-	 ki2Ax3Jfts2t+wc+nNzw9LB9fDVGy1ZyACVH0Y2lOgPN2ooO5ab8LMD/c9W3JOdWJ+g==
+	bh=IjsuiiTiR6xMqMwngFz60LZtzwpdR6j2h8dViSfDc6I=;
+	b=UTZrHi3DtUrqpsg6WevkKhRa2odPqo7IeTXKZwYMtYmQjkW0ZjWYmFFMwYTQ+aFaNsH7
+	 4bbT6tX0scCcKV4xy/n+UiDP/YDKtbcmOnP6+ApLRfvsQcWIn7G34pdW7rlX4orz7lWAx
+	 f2SROozES9U+0Dl6/heeKcYPRfTrZxBwNldomdfGS/C4ghy6PV7eAAvrMeJCTE6zcLIvn
+	 DyvZ1ii6kAOU6JfktMKMNXuJRJRctksN0PbFY8EBojFoKv7ygzRgoJSwNJqizMHtEKzAS
+	 EW5NKpOppMUzNWVTrCsYHJFTJmy9VPGGADZG/LAlJXEEEuDW6naQvGJ6Xdq77e+Fg5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="CKD/anro";
-	arc=none smtp.remote-ip=209.85.210.48
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ul3ip3DP;
+	arc=none smtp.remote-ip=209.85.160.43
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4522660A3816
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 17:13:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4522660A3816
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E736F60A5BC3
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 17:13:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E736F60A5BC3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CKD/anro
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-84a248254f4so1321347a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 09:13:50 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ul3ip3DP
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-4877837890fso1239605fac.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 09:13:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794590029; x=1795194829; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794590031; x=1795194831; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=qCcEEZhb+6X/eOhEZOJf7Q7PZICUyrmwcXum+u7HmKU=;
-        b=CKD/anrooXAdTesQ5AHoN/+Wi6tR8Oawe0LHd6426sI1K2mO4CfKcooXALBiCwfMi0
-         7fatyoeP+ALyXYlyV2F9x97jo69fNpLAEWOGnlE1fxsenB/CgAebftVlrjVJEa3ViFpj
-         x3Wtb7Ljq9WbosO4KRE4+Isi1ODihnJ7AfxWJQ+rxmZAlgIP61PgjC/YpANd96DDhn0O
-         JnPiBYxvy5mLS2Voj4kpE+YypdsC32S0RQbqEU/SIp/V7I8eAuQaG7+57/tmXggzGtbU
-         ZzVD+uJZTVu4s4uyGeISbxipdpjB2Ph3ZHDLtyuvZqAp/B12qB3WeRaWTIxj5sT46f9b
-         tXBg==
+        bh=IjsuiiTiR6xMqMwngFz60LZtzwpdR6j2h8dViSfDc6I=;
+        b=ul3ip3DPxFHlU0JH4+yG0ObUuN+sJTfO8I0uRNME7mhmAweqg7cOCzrfRyCIYxbEsc
+         bVe93Y7GaAxLBqg3P2mZXMI0F/K7iAAloPwa8n31Ze4DhV7N9F6xvKSuxJUOFRCCcozv
+         i2Ie9yZXiWlMom9oYSMHOYk55n1wbl6r1B3tNiv50RmHCfD0sdh+w9T1cqAMToDGsB/M
+         Uz60DdKD2v1qcJh0Nf2GcBqhOZwN/M9sbe/y5FjO2PY7d6yNIOgt56OvGZQrKifme6k+
+         ICO2+4EQdsP2qnPUqvdKgNqXFKf1/PdhwehuHykxLr5HNc6oDMGetRMda8F9Zha9h7ww
+         IncA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794590029; x=1795194829;
+        d=1e100.net; s=20260707; t=1794590031; x=1795194831;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=qCcEEZhb+6X/eOhEZOJf7Q7PZICUyrmwcXum+u7HmKU=;
-        b=Q6rCATSoQMqUl5KLPrR/TdWMnk1tpccE2ukzCRye46L3UKZmUyEgoF15+4kLELEN49
-         sl47WrsZ8yErO3b1bdzS7MXmLQp+gmNh49rSQhzciZGP3DvovcNcG+kKO8nALusKRCU/
-         WOYLh2QBab2y5XoGS1Ku+rm2iNs9fZJfcgvDOwXACAK8GUgwFJw5IkAezhG/ELxQAr5m
-         8pSSu2UW6FOVG/EqNDvNS5k+Unn7v5LREdDtrCzbIX5HPKwFVEBlJj/qkXgl7fadvMrP
-         s3+jjxZwfQ/6PL04JFIB554D0KtAOY91xOk5S7LhgYLgHsgkjIPjvF3bMP+a1T8aqohu
-         Sx6w==
-X-Forwarded-Encrypted: i=1; AL+hErFQz61EM1lBqigbmLAD/8UbuiCAUM4PWI5RVr/ynTqyKg5Z0gnAqzpTIxes6BUr+e2MZOO4V9Idf10=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9guMa4gOqtCOJ9XP7siuwr7VcXyq7j1joZLThz0aqT8bv3nyTe
-	UN0vQXyPKKFrsUmz/IXpK0yLLRQo3xOoKsAOqul5Wqf7g7V+ro175LAqV9JlBpgE
-X-Gm-Gg: AYBFou3so9YRZGXu1xK+/OgaHXpDJOyE2QHLAReXTNEclfuH5F4ldMoRKk4xmLmvNNh
-	BJdL/EH3Z6yFKjq/KSmf46yn9r4SQ4EMJdUpa26a0uSBo8QsImem9RfTq53P8JJZvmHeyHAwywU
-	AfMcDrDe6hl9Zm5oI/u4QXihdwpMTqzP2270W1d17I9Cy6THZGmbJy8gcSI3O8+hKK3czrHk2fn
-	eGvzGYebb8FE4CsSNDmmk9MBBrYRN6WrszSMbDmgcL8y68c02gBN7A+ezX+8+U2NrMF4j0KGbQv
-	x0rB1O/wGlepKKtPsSHhoZaC3PkLsKD85mmldO7k6xZM0cl36+buUHxVA1e/2OymWkHTRJ0AJ25
-	CGxibWDfrEBRNZIpR/h/mnnwZAs509sNwkShEP2G+2tBClYYAqK/CAFeu0gIrRqnhKrR/6LbZPe
-	OcdwRhVt0+o6CJcOEQC5X7wZqABbwbOdeLryY/sf/rYSIt4M4txM9kdVFHKIjBQ9e3Uie8bNjrl
-	DKgqzcgLb6rgF/RZYrrRrK+3co5BvXHfSOXLOG/8tCpjuDEhDJ07DOOl37Ki3fpXYitz5cFIgvM
-	jRYABzViaHZCjKYhwDiPhn3ib+GezRh5OPAGGJi96IQwe50lxKuTBjhnn8rczLKmpOGjuttTEpm
-	igMwdizk67KlMXCsKt4dGEIOg+WdNjEuilyM1z/BeMmFb0Z18+vzbqpXUkiHxzpDe3VQLZNWSwk
-	XN15sf19kV8m3ervKF/zv4cnd1hq4CL5UseUJv0jj2U62R2573kSZm
-X-Received: by 2002:a05:6808:4f25:b0:4c3:9892:96fe with SMTP id 5614622812f47-56e605b4ec0mr2987668b6e.3.1794590029081;
-        Fri, 13 Nov 2026 09:13:49 -0800 (PST)
+        bh=IjsuiiTiR6xMqMwngFz60LZtzwpdR6j2h8dViSfDc6I=;
+        b=kUmxsdBx2zr3H5SF4qyA/HpdXZb3HpqnGU4AcH5LiDH73lebG28M24t+jiTxUtCObq
+         80JM500sESfRDuQQn415K6jB87mr5yzhFON6Rq8TCAQLpfU3KbDzCCokdDPWJI0E6N49
+         ambY7SEMP4L97LtaGj51+t0iC8bxgy1tjWML5+4Ux7rylIPCTpkmdo99tgVuNtE9FIne
+         UM7EBPOjLWxzlxs7p0O5jFCl9t1Y+XpMEwa5Ny7YHyNHNAtzvQwOngYXUfrOy2W70dIT
+         ityfHSDja0asyOsAWMYEp9BarumyqJnu1YcGue782qMWBBQdTZalUAiq7WFdUmNTsztV
+         v4qA==
+X-Forwarded-Encrypted: i=1; AL+hErH8EyhIvERMyvQQc3xv/4rehxZbfvJD9S/Ltow0dhgOX7/YrkahEJHhcqCogPH/459LI+oXkBlX7C4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9r8vthEyxNKnyxSJbFWA/amuOpOKNtujpZA0WvVGKjSU/9QT03
+	Qcbhg7+LOxNsamnI24vk+hzCmTiph8pNqZ7jzSFnm3Sa4/2uljHIIeUi
+X-Gm-Gg: AYBFou20Sedkyd35NtQa3v3WlyrzQwmLfsVrOlLW1g+UePsu046/hSPYBvyJjbjL954
+	qr9edPA0Ixj4x3NmvtAeklLlAPdIo0YEWsKVRn/VPQ6qJWvezQGhEntTNvje5fSmxSwUJdc8UQN
+	8OWSdtrfjDOtyoO0qIO8XbSuUD9GzMxv6582ZVlQAmjRNWdrcQXPNTrIEitgGc2thjRsJQQL7jE
+	mkJgdpAAQ03ffy0ewA71OW3BVydtAF8TsRBc4QSPu39HoVABKOc1kDSPWToVa7jnuR1rJLxLYdZ
+	aQtu1BwQeA6gZLthtZf/ieyfZo+1NVBSf5/5lvnunUxKi66X1h5Lt0Q19MQbDSIqIsqunAHBEKZ
+	++Ko6JnPcx+2tRnNzO+VWF3HW1paEq33rJ3pJxxLx+bD0P36LmSbVAD3oC7MA+OpYeClV5U3W5h
+	UOAlCWD3hDTi+faJ4kWgy5QC8TrYJ0XRX9S2hfy0VS566/rGV8bRI+IGmNlBnOTKxN38pRJD4gg
+	ZzidslahhsGQcT5GZwfbpbFh61ji7VQwhPcMC7M+p8FA+5FLOGrqN0h5mXqUc+7Mb20l+kJjNGe
+	98xtWT3DdZIBhlECH5TB1X/lIvI1lpqDpaGH2hC+lK+NJhhPzB8jW1HHYQxWLuetmrIfCusBBnK
+	pKonYlfwpd1ch+J+KY+pKWSCVjTpzQ069nLoF+tg7S+hJfiz2z/utAKFjgru1xEpFljL6eL56V2
+	eRf0bsQRqHMfwgzmDlNkvguaZAt4w0oreqw8iYHPcL0HnVqGl4oeck
+X-Received: by 2002:a05:6808:30a2:b0:567:f627:67f9 with SMTP id 5614622812f47-56e60065b98mr2702702b6e.5.1794590030688;
+        Fri, 13 Nov 2026 09:13:50 -0800 (PST)
 Received: from [127.0.1.1] (174-29-1-49.hlrn.qwest.net. [174.29.1.49])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-56e7044690dsm2565805b6e.9.2026.11.13.09.13.47
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-56e7044690dsm2565805b6e.9.2026.11.13.09.13.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 09:13:48 -0800 (PST)
+        Fri, 13 Nov 2026 09:13:49 -0800 (PST)
 From: James Hilliard <james.hilliard1@gmail.com>
-Date: Fri, 13 Nov 2026 10:12:05 -0700
-Subject: [PATCH net-next v4 1/3] ethtool: add PHY receive frame and byte
- totals
+Date: Fri, 13 Nov 2026 10:12:06 -0700
+Subject: [PATCH net-next v4 2/3] net: phy: acx00: report receive statistics
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -96,7 +95,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-submit-acx00-phy-stats-v1-v4-1-986b8a4a1871@gmail.com>
+Message-Id: <20261113-submit-acx00-phy-stats-v1-v4-2-986b8a4a1871@gmail.com>
 References: <20261113-submit-acx00-phy-stats-v1-v4-0-986b8a4a1871@gmail.com>
 In-Reply-To: <20261113-submit-acx00-phy-stats-v1-v4-0-986b8a4a1871@gmail.com>
 To: Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
@@ -111,137 +110,331 @@ Cc: Oleksij Rempel <o.rempel@pengutronix.de>, netdev@vger.kernel.org,
  James Hilliard <james.hilliard1@gmail.com>
 X-Mailer: b4 0.15.2
 
-The generic PHY receive packet and byte counters describe successfully
-received traffic. Some PHYs instead count all received frames and bytes,
-including frames with errors. A frame error count cannot recover the
-number of successfully received bytes because damaged frames have
-different lengths.
+Expose receive frame and byte totals through the generic PHY statistics
+interface as rx_packets_total and rx_bytes_total, alongside CRC errors in
+rx_errors. The packet and byte counters include errored frames as well as
+successfully received traffic, so leave the successful-only fields unset.
 
-Add optional receive-total counters to ethtool_phy_stats and the phydev
-statistics group. Count frame bytes including the Ethernet header, padding
-and FCS, and excluding the preamble and start frame delimiter. These
-counters describe reception at the PHY, before MAC or host filtering.
-Clarify the same byte boundaries for the successful-only receive counter.
+Collect the free-running 32-bit counters through phylib's update_stats
+callback and accumulate wrap-adjusted deltas in 64-bit totals. Hardware
+measurements on AC200 and AC300 established a receive-byte modulus of
+4,000,000,000. The byte counts include Ethernet headers, padding and FCS,
+but exclude preamble and SFD. The packet and CRC-error counters wrap at
+2^32. Reject byte samples at or above the byte modulus before updating
+either the baseline or the totals.
 
-Append the new attributes so existing statistic IDs and their meanings
-remain unchanged. Publish the names through the existing statistics string
-set, and retain the unset-counter convention so drivers can report either
-set of counters independently. Correct the documented group name to
-phydev, matching the existing name exported by the kernel.
+Read the high half on either side of the low half to detect a carry.
+Limit each counter to three attempts so persistent inconsistency cannot
+retain the PHY, package-state and MDIO locks indefinitely. Skip an
+unstable snapshot and retry on the next poll: reporting a synthetic
+error through update_stats would make phylib take the link down.
+Keep incomplete samples distinct from MDIO errors so page-restoration
+failures still propagate.
+
+Serialize collection and reporting with the package-state mutex so reads
+cannot race reset or power-off, and the totals are safe on 32-bit systems.
+Commit a snapshot only after all counter reads, validation and page
+restoration succeed. The reporting callback returns cached totals without
+accessing MDIO.
+
+Take a best-effort final snapshot before suspend, but invalidate the
+baseline at entry to soft_reset: phylib may already have reset the PHY
+through BMCR or its reset signal. Sampling against the previous baseline
+then would count the cleared registers as a wrap. Invalidate it before
+power-off too, including failed power-off attempts.
+
+Start a new collection interval on resume, including when WoL kept the
+PHY powered while polling stopped. Also discard deltas spanning at least
+320 seconds, the minimum time for a full byte-counter cycle at 100 Mb/s.
+Measure that interval with boottime, including system sleep and register
+read duration, since the MDIO sleep path can bypass the PHY PM callbacks.
+Retain previously accumulated totals, but do not account for traffic in
+these unobserved intervals: complete counter cycles cannot be recovered
+from the endpoint values. An unusable initial snapshot is retried by the
+periodic collector without preventing initialization.
 
 Signed-off-by: James Hilliard <james.hilliard1@gmail.com>
 ---
- Documentation/networking/ethtool-netlink.rst | 16 +++++++++++++++-
- include/linux/ethtool.h                      | 10 +++++++++-
- include/uapi/linux/ethtool_netlink.h         |  2 ++
- net/ethtool/stats.c                          |  8 +++++++-
- 4 files changed, 33 insertions(+), 3 deletions(-)
+ drivers/net/phy/xpowers/acx00.c | 184 +++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 181 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
-index eba226c79ec3..40dd454d4ad3 100644
---- a/Documentation/networking/ethtool-netlink.rst
-+++ b/Documentation/networking/ethtool-netlink.rst
-@@ -1665,7 +1665,7 @@ the ``ETHTOOL_A_STATS_GROUPS`` bitset. Currently defined values are:
-  ETHTOOL_STATS_ETH_PHY  eth-phy  Basic IEEE 802.3 PHY statistics (30.3.2.1.*)
-  ETHTOOL_STATS_ETH_CTRL eth-ctrl Basic IEEE 802.3 MAC Ctrl statistics (30.3.3.*)
-  ETHTOOL_STATS_RMON     rmon     RMON (RFC 2819) statistics
-- ETHTOOL_STATS_PHY      phy      Additional PHY statistics, not defined by IEEE
-+ ETHTOOL_STATS_PHY      phydev   Additional PHY statistics, not defined by IEEE
-  ====================== ======== ===============================================
+diff --git a/drivers/net/phy/xpowers/acx00.c b/drivers/net/phy/xpowers/acx00.c
+index cee6c7ff0278..fb53bac12195 100644
+--- a/drivers/net/phy/xpowers/acx00.c
++++ b/drivers/net/phy/xpowers/acx00.c
+@@ -8,12 +8,14 @@
  
- Each group should have a corresponding ``ETHTOOL_A_STATS_GRP`` in the reply.
-@@ -1683,6 +1683,20 @@ by ``ETHTOOL_A_STATS_GRP_SS_ID``. Complex statistics (such as RMON histogram
- entries) are also listed inside ``ETHTOOL_A_STATS_GRP`` and do not have
- a string defined in the string set.
+ #include <linux/bitfield.h>
+ #include <linux/device.h>
++#include <linux/ethtool.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
+ #include <linux/nvmem-consumer.h>
+ #include <linux/of.h>
+ #include <linux/phy.h>
+ #include <linux/slab.h>
++#include <linux/timekeeping.h>
  
-+The ``phydev`` group provides separate counters for successfully received
-+traffic and total received traffic. ``ETHTOOL_A_STATS_PHY_RX_PKTS``
-+(``RxFrames``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES`` (``RxOctets``) count
-+successfully received frames and bytes. ``ETHTOOL_A_STATS_PHY_RX_PKTS_TOTAL``
-+(``RxFramesTotal``) and ``ETHTOOL_A_STATS_PHY_RX_BYTES_TOTAL`` (``RxOctetsTotal``)
-+include frames with errors. Both byte counters include the Ethernet header,
-+padding and FCS, but exclude the preamble and start frame delimiter. These
-+totals describe reception at the PHY, independently of subsequent filtering
-+or drops at the MAC or host.
+ #include "../phylib.h"
+ #include "acx00.h"
+@@ -31,6 +33,7 @@
+ #define ACX00_PAGE_2				2
+ #define ACX00_PAGE_6				6
+ #define ACX00_PAGE_8				8
++#define ACX00_PAGE_9				9
+ 
+ #define ACX00_PAGE0_GLOBAL_CONFIG_REG		0x13
+ #define ACX00_PAGE0_XMII_RX_CLOCK_INVERT	BIT(12)
+@@ -76,6 +79,32 @@
+ 	(ACX00_PAGE8_AUTO_CAL_TX_LEVEL_ADJUST_BYPASS | \
+ 	 ACX00_PAGE8_AUTO_CAL_LOW_CAL_OPAQUE_BITS)
+ 
++#define ACX00_PAGE9_RX_BYTES_HIGH_REG		0x19
++#define ACX00_PAGE9_RX_PACKETS_HIGH_REG		0x1b
++#define ACX00_PAGE9_RX_CRC_ERRORS_HIGH_REG	0x1d
 +
-+Each counter is optional. Drivers leave unsupported counters at
-+``ETHTOOL_STAT_NOT_SET``, and the kernel omits them from the reply. A PHY can
-+report total received traffic even when it cannot separate successful traffic.
++/*
++ * AC200 and AC300 hardware testing confirmed that the receive byte counter
++ * wraps at 4,000,000,000 rather than 2^32.
++ */
++#define ACX00_RX_BYTES_WRAP			4000000000ULL
++/* At 100 Mb/s, a full byte-counter cycle takes at least 320 seconds. */
++#define ACX00_STATS_MAX_INTERVAL_MS		(ACX00_RX_BYTES_WRAP * 8 / (SPEED_100 * 1000))
++#define ACX00_COUNTER_READ_ATTEMPTS		3
 +
- RMON "histogram" counters count number of packets within given size range.
- Because RFC does not specify the ranges beyond the standard 1518 MTU devices
- differ in definition of buckets. For this reason the definition of packet ranges
-diff --git a/include/linux/ethtool.h b/include/linux/ethtool.h
-index c3a41fbd5426..f3e0fac8fdfd 100644
---- a/include/linux/ethtool.h
-+++ b/include/linux/ethtool.h
-@@ -481,11 +481,17 @@ struct ethtool_eth_phy_stats {
- /**
-  * struct ethtool_phy_stats - PHY-level statistics counters
-  * @rx_packets: Total successfully received frames
-- * @rx_bytes: Total successfully received bytes
-+ * @rx_bytes: Total successfully received frame bytes. Includes the Ethernet
-+ *	header, padding and FCS, but excludes the preamble and start frame
-+ *	delimiter.
-  * @rx_errors: Total received frames with errors (e.g., CRC errors)
-  * @tx_packets: Total successfully transmitted frames
-  * @tx_bytes: Total successfully transmitted bytes
-  * @tx_errors: Total transmitted frames with errors
-+ * @rx_packets_total: Total received frames, including frames with errors
-+ * @rx_bytes_total: Total received frame bytes, including frames with errors.
-+ *	Includes the Ethernet header, padding and FCS, but excludes the preamble
-+ *	and start frame delimiter.
-  *
-  * This structure provides a standardized interface for reporting
-  * PHY-level statistics counters. It is designed to expose statistics
-@@ -499,6 +505,8 @@ struct ethtool_phy_stats {
- 	u64 tx_packets;
- 	u64 tx_bytes;
- 	u64 tx_errors;
-+	u64 rx_packets_total;
-+	u64 rx_bytes_total;
++enum acx00_ephy_stat {
++	ACX00_STAT_RX_BYTES,
++	ACX00_STAT_RX_PACKETS,
++	ACX00_STAT_RX_CRC_ERRORS,
++	ACX00_NUM_STATS,
++};
++
++static const u8 acx00_ephy_stat_regs[ACX00_NUM_STATS] = {
++	[ACX00_STAT_RX_BYTES] = ACX00_PAGE9_RX_BYTES_HIGH_REG,
++	[ACX00_STAT_RX_PACKETS] = ACX00_PAGE9_RX_PACKETS_HIGH_REG,
++	[ACX00_STAT_RX_CRC_ERRORS] = ACX00_PAGE9_RX_CRC_ERRORS_HIGH_REG,
++};
++
+ /*
+  * Another integration of this exact-ID PHY documents its digital vendor
+  * register map, which also matches the observed ACx00 reset values. The ACx00
+@@ -86,11 +115,16 @@
+ struct acx00_ephy_priv {
+ 	struct phy_device *phydev;
+ 	struct acx00_ephy_control *control;
+-	/* Serializes package state and multi-register power sequences. */
++	/* Serializes package state, power sequences and statistics. */
+ 	struct mutex state_lock;
+ 	bool is_ac300;
+ 	bool use_low_calibration_tuning;
+ 	bool xmii_rx_clock_inverted;
++	bool stats_active;
++	bool stats_valid;
++	ktime_t stats_start;
++	u32 stats_last[ACX00_NUM_STATS];
++	u64 stats[ACX00_NUM_STATS];
  };
  
- /* Basic IEEE 802.3 MAC Ctrl statistics (30.3.3.*), not otherwise exposed
-diff --git a/include/uapi/linux/ethtool_netlink.h b/include/uapi/linux/ethtool_netlink.h
-index fa5d645140a4..db26cff28f12 100644
---- a/include/uapi/linux/ethtool_netlink.h
-+++ b/include/uapi/linux/ethtool_netlink.h
-@@ -202,6 +202,8 @@ enum {
- 	ETHTOOL_A_STATS_PHY_TX_PKTS,
- 	ETHTOOL_A_STATS_PHY_TX_BYTES,
- 	ETHTOOL_A_STATS_PHY_TX_ERRORS,
-+	ETHTOOL_A_STATS_PHY_RX_PKTS_TOTAL,
-+	ETHTOOL_A_STATS_PHY_RX_BYTES_TOTAL,
- 
- 	/* add new constants above here */
- 	__ETHTOOL_A_STATS_PHY_CNT,
-diff --git a/net/ethtool/stats.c b/net/ethtool/stats.c
-index 9b0d8cb07675..b4c4bdd8fc4b 100644
---- a/net/ethtool/stats.c
-+++ b/net/ethtool/stats.c
-@@ -88,6 +88,8 @@ const char stats_phy_names[__ETHTOOL_A_STATS_PHY_CNT][ETH_GSTRING_LEN] = {
- 	[ETHTOOL_A_STATS_PHY_TX_PKTS]		= "TxFrames",
- 	[ETHTOOL_A_STATS_PHY_TX_BYTES]		= "TxOctets",
- 	[ETHTOOL_A_STATS_PHY_TX_ERRORS]		= "TxErrors",
-+	[ETHTOOL_A_STATS_PHY_RX_PKTS_TOTAL]	= "RxFramesTotal",
-+	[ETHTOOL_A_STATS_PHY_RX_BYTES_TOTAL]	= "RxOctetsTotal",
- };
- 
- const struct nla_policy ethnl_stats_get_policy[ETHTOOL_A_STATS_SRC + 1] = {
-@@ -295,7 +297,11 @@ static int stats_put_phydev_stats(struct sk_buff *skb,
- 	    stat_put(skb, ETHTOOL_A_STATS_PHY_TX_BYTES,
- 		     data->phydev_stats.tx_bytes) ||
- 	    stat_put(skb, ETHTOOL_A_STATS_PHY_TX_ERRORS,
--		     data->phydev_stats.tx_errors))
-+		     data->phydev_stats.tx_errors) ||
-+	    stat_put(skb, ETHTOOL_A_STATS_PHY_RX_PKTS_TOTAL,
-+		     data->phydev_stats.rx_packets_total) ||
-+	    stat_put(skb, ETHTOOL_A_STATS_PHY_RX_BYTES_TOTAL,
-+		     data->phydev_stats.rx_bytes_total))
- 		return -EMSGSIZE;
- 	return 0;
+ static int acx00_ephy_read_page(struct phy_device *phydev)
+@@ -110,6 +144,124 @@ static int acx00_ephy_write_page(struct phy_device *phydev, int page)
+ 			   FIELD_PREP(ACX00_PAGE_SELECT_MASK, page));
  }
+ 
++/* Return 0 on success, 1 for an unstable sample, or a negative MDIO error. */
++static int acx00_ephy_read_counter(struct phy_device *phydev, u8 reg, u32 *count)
++{
++	int high, low, check;
++	int i;
++
++	/* The free-running counter can carry while its two halves are read. */
++	for (i = 0; i < ACX00_COUNTER_READ_ATTEMPTS; i++) {
++		high = __phy_read(phydev, reg);
++		if (high < 0)
++			return high;
++		low = __phy_read(phydev, reg + 1);
++		if (low < 0)
++			return low;
++		check = __phy_read(phydev, reg);
++		if (check < 0)
++			return check;
++		if (high != check)
++			continue;
++
++		*count = (u32)high << 16 | low;
++		return 0;
++	}
++
++	return 1;
++}
++
++static int __acx00_ephy_update_stats(struct phy_device *phydev)
++{
++	struct acx00_ephy_priv *priv = phydev->priv;
++	u32 counts[ACX00_NUM_STATS];
++	ktime_t start;
++	int oldpage;
++	int ret;
++	int i;
++
++	lockdep_assert_held(&priv->state_lock);
++
++	if (!priv->stats_active)
++		return 0;
++
++	start = ktime_get_boottime();
++	oldpage = phy_select_page(phydev, ACX00_PAGE_9);
++	if (oldpage < 0)
++		return phy_restore_page(phydev, oldpage, oldpage);
++
++	for (i = 0; i < ACX00_NUM_STATS; i++) {
++		ret = acx00_ephy_read_counter(phydev, acx00_ephy_stat_regs[i],
++					      &counts[i]);
++		if (ret)
++			break;
++	}
++	ret = phy_restore_page(phydev, oldpage, ret);
++	if (ret < 0)
++		return ret;
++
++	/* Skip unusable samples without turning a statistics miss into a link error. */
++	if (ret || counts[ACX00_STAT_RX_BYTES] >= ACX00_RX_BYTES_WRAP)
++		return 0;
++
++	/* Include sleep and read time; complete unseen cycles cannot be recovered. */
++	if (priv->stats_valid &&
++	    ktime_ms_delta(ktime_get_boottime(), priv->stats_start) >=
++	    (s64)ACX00_STATS_MAX_INTERVAL_MS)
++		priv->stats_valid = false;
++
++	for (i = 0; i < ACX00_NUM_STATS; i++) {
++		u64 count = counts[i];
++
++		if (priv->stats_valid) {
++			if (count < priv->stats_last[i])
++				count += i == ACX00_STAT_RX_BYTES ?
++					ACX00_RX_BYTES_WRAP : BIT_ULL(32);
++			priv->stats[i] += count - priv->stats_last[i];
++		}
++		priv->stats_last[i] = counts[i];
++	}
++	priv->stats_valid = true;
++	priv->stats_start = start;
++
++	return 0;
++}
++
++static int acx00_ephy_update_stats(struct phy_device *phydev)
++{
++	struct acx00_ephy_priv *priv = phydev->priv;
++	int ret;
++
++	mutex_lock(&priv->state_lock);
++	ret = __acx00_ephy_update_stats(phydev);
++	mutex_unlock(&priv->state_lock);
++
++	return ret;
++}
++
++static void acx00_ephy_get_phy_stats(struct phy_device *phydev,
++				     struct ethtool_eth_phy_stats *eth_stats,
++				     struct ethtool_phy_stats *stats)
++{
++	struct acx00_ephy_priv *priv = phydev->priv;
++
++	mutex_lock(&priv->state_lock);
++	stats->rx_packets_total = priv->stats[ACX00_STAT_RX_PACKETS];
++	stats->rx_bytes_total = priv->stats[ACX00_STAT_RX_BYTES];
++	stats->rx_errors = priv->stats[ACX00_STAT_RX_CRC_ERRORS];
++	mutex_unlock(&priv->state_lock);
++}
++
++static void acx00_ephy_snapshot_stats(struct phy_device *phydev)
++{
++	int ret;
++
++	/* Statistics collection must not prevent reset or power management. */
++	ret = __acx00_ephy_update_stats(phydev);
++	if (ret)
++		phydev_dbg(phydev, "failed to snapshot statistics: %pe\n", ERR_PTR(ret));
++}
++
+ static int acx00_ephy_control_power_on(struct acx00_ephy_priv *priv)
+ {
+ 	lockdep_assert_held(&priv->state_lock);
+@@ -122,6 +274,10 @@ static int acx00_ephy_control_power_off(struct acx00_ephy_priv *priv)
+ {
+ 	lockdep_assert_held(&priv->state_lock);
+ 
++	/* Even a failed power-off can have reset the hardware counter. */
++	priv->stats_active = false;
++	priv->stats_valid = false;
++
+ 	return priv->control->power_off(priv->control);
+ }
+ 
+@@ -350,6 +506,10 @@ static int acx00_ephy_soft_reset(struct phy_device *phydev)
+ 
+ 	mutex_lock(&priv->state_lock);
+ 
++	/* phylib may already have reset the counters before calling us. */
++	priv->stats_active = false;
++	priv->stats_valid = false;
++
+ 	ret = acx00_ephy_set_interface(phydev);
+ 	if (ret)
+ 		goto out_power_off;
+@@ -475,10 +635,21 @@ static int __acx00_ephy_config_init(struct phy_device *phydev)
+ 
+ 	/* Restore the standard EEE policy retained by phylib across resets. */
+ 	ret = genphy_c45_an_config_eee_aneg(phydev);
+-	if (ret <= 0)
++	if (ret < 0)
+ 		return ret;
++	if (ret > 0) {
++		ret = genphy_restart_aneg(phydev);
++		if (ret)
++			return ret;
++	}
+ 
+-	return genphy_restart_aneg(phydev);
++	if (!priv->stats_active) {
++		/* Establish a new baseline after reset, retaining the software total. */
++		priv->stats_active = true;
++		acx00_ephy_snapshot_stats(phydev);
++	}
++
++	return 0;
+ }
+ 
+ static int acx00_ephy_config_init(struct phy_device *phydev)
+@@ -534,6 +705,9 @@ static int acx00_ephy_resume(struct phy_device *phydev)
+ 	int ret;
+ 
+ 	mutex_lock(&priv->state_lock);
++	/* WoL can keep the PHY counting while phylib polling is stopped. */
++	priv->stats_active = false;
++	priv->stats_valid = false;
+ 	ret = __acx00_ephy_power_on_and_resume(phydev);
+ 	mutex_unlock(&priv->state_lock);
+ 
+@@ -550,6 +724,8 @@ static int acx00_ephy_suspend(struct phy_device *phydev)
+ 	mutex_lock(&phydev->lock);
+ 	mutex_lock(&priv->state_lock);
+ 
++	acx00_ephy_snapshot_stats(phydev);
++
+ 	ret = genphy_suspend(phydev);
+ 	if (ret)
+ 		goto out_unlock;
+@@ -616,6 +792,8 @@ static struct phy_driver acx00_ephy_driver[] = {
+ 		.soft_reset = acx00_ephy_soft_reset,
+ 		.config_init = acx00_ephy_config_init,
+ 		.disable_autonomous_eee = acx00_ephy_disable_autonomous_eee,
++		.get_phy_stats = acx00_ephy_get_phy_stats,
++		.update_stats = acx00_ephy_update_stats,
+ 		.suspend = acx00_ephy_suspend,
+ 		.resume = acx00_ephy_resume,
+ 	},
 
 -- 
 2.53.0
