@@ -1,60 +1,124 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794599117;
-	b=P29H3kFf9e46iFxFAthpkNIx7gBpY+U7hVdlq2YpObowDAdg6rXUE2eLvFG0yh/VjrR3
-	 lqgICjc3hGr1+HhK80GsxtfoC8jFq9P7NfAaK1v51EbQRmDZ684575OM2dG205Dm4B1Y/
-	 RmFL962IQHNYYhPIJhgHqN5vF8srfeMbgouevhQiEwhj1C5YvehCEXmnwBXzFsCYcFvf5
-	 UtpW+ocqBQj8GRzEmhHNwAo2/TOtpt1T/t4KGSNoKRN/V/TNTkyB6CKjtmP6wAvMVY2mf
-	 J0DpjT+de3nkcb6XAOKMFTy/efEyGff9+lRnYov8WW+3OZATmV1VTPhcPO6R1kC9ZLw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794599117;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=wyLNsOH/NfmXDiIWwWvd8dNFPYU69yLrBJwif31FspI=;
-	b=oBGazfwN3NS+lfy+6CHQbBEDbtyStrc2N/PcHtOlwSIfvcuM5MvSpunawJUeDz7R6abL
-	 ofud0PRuGO57mlQ1zDERKazWVUjDTIMAGpekBw9DLWXq1/dAYWutoY1tZslDsZwlJnd1C
-	 sniGBfSbtdIzy9vM61J8m46nwIwF6np/s0RyQNJRE8/NcmHMAYfyV9isSktXsmFwvXW9M
-	 6tp0VFIjxeUb9GDQ6BKXI4h/w1eIgaxBklqq4NVmyTkBrc3eT72uqeFnY1GsVD4U7aMQ/
-	 VixAf6xnXhE54eHNTiqi3zecbubhFnytHwsM8dkGIbJfKpjej9L4IKx9k7pmIR6NyYQ==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=baOZPiNs;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.62
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794599283;
+	b=d4o0pUTGaomeJe6T2z80CaSboBs4qqIdgiTSEncDnYJ07wKgW7cT7J+Vi/cX+oG1mb+f
+	 S1dHaESoq7dr/lEalDS84IJmTZgScw1ekbQNRlWFjC8KRT8rEtG8UsPfUQZlX9UzpLxLf
+	 zkSxuRGqybRQYvQRF+1voaaopMtVYj4lL3paXc1LtdK9FHlDU4QuwAyve05pnh+3S/dh2
+	 lVw1iQrFWpCEo7TlO1X+52B6kTnQzwQFCV19if1RloFpqUBsBsNIJYALI8GL5TSESN4eh
+	 E4/crD55TucXYA1qSf4sdFyjINuOEL4qQy9eBEPgIgRJbyHSoMfxozU9RcW2lxwqoLQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794599283;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
+	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
+	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
+	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
+	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
+	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
+	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
+	 X-MS-Exchange-CrossTenant-Network-Message-Id:
+	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
+	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
+	 X-MS-Exchange-CrossTenant-FromEntityHeader:
+	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
+	 X-MS-Exchange-CrossTenant-UserPrincipalName:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
+	bh=jJRREDE/gASpesh5fonT49kFnWEoyi/XOKrST20kd6o=;
+	b=zX3f97dsiwDC5kS7X/ByKS6jaRmje8wNYsDo6EKz8WCdo5/asJ98geOCQBcEyEbOjzzi
+	 +L1HYwqVY83BgEcwQ4BdAnQfXfdsz+u82B2ceJ5WuCZ6Amnyy3QYtMhakEg6fL+FNx0AL
+	 GnlqOH64QwrxHD3s4tdRFCpPxGnj2V0f8/tkiPERKp07GwADSzOGZSiJX+j2wwXGjdMPM
+	 0gvhIf5hJS/jcIDCF7EUiYVxFQbKWvb7hYaOqb/zr8MJpxvn98gWDU86cD++GHeKl3GE6
+	 tKzRyV8M8oDSj9GGIAEm/N6Y17JqGflbuURm1T52gFXsKxIt9vzJogx5yutiwnX6WfA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=nvidia.com;
+	spf=fail smtp.mailfrom=nvidia.com;
+	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=OGhRV9xg;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.62
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010062.outbound.protection.outlook.com [40.93.198.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7C007606A331;
-	Fri, 13 Nov 2026 19:45:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F1B606A334;
+	Fri, 13 Nov 2026 19:48:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97F1B606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=baOZPiNs
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 9559D1F000C4;
-	Fri, 13 Nov 2026 19:45:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794599117;
-	bh=wyLNsOH/NfmXDiIWwWvd8dNFPYU69yLrBJwif31FspI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=baOZPiNsqTLTv798C7v6GBZsyDq1WtJnNEiYxCJ8ZNB1EwNZjksZY7aVnSXNXLILw
-	 T8CeYhU3rZ8p223/YUIvtAa5Y6mN5a1kObMxPF99c0po6EMrrGrS4yfCvuL/FXSeWa
-	 i0zugnAdWiFhb5X8wMfGIKt2mVf32uktgSlXIqV6eRPmG4ll2l20c5oOjNCdOvWhVU
-	 z12ZHtSGrfgzzRYiMYFTyPpjFRl7KOxYgmXgS4gEunF9DplNC/hpMMTtSgrPjc+uQj
-	 OHFLyy4JG7k1WWchHqgHX5T1tLHlDBEfsN57jZ2QHxvv0gnzecZvZ7DkFpvgXNwf3g
-	 ACgfdafcg1t2g==
-Date: Fri, 13 Nov 2026 21:45:13 +0200
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: Surendran Kanagaraj <surenkj@amazon.com>
-Cc: Peter Huewe <peterhuewe@gmx.de>, Jason Gunthorpe <jgg@ziepe.ca>,
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	Jonathan McDowell <noodles@earth.li>,
-	Breno Leitao <leitao@debian.org>, nh-open-source@amazon.com,
-	Alexander Graf <graf@amazon.de>,
-	Gunnar Kudrjavets <gunnarku@amazon.com>,
-	Josh Levinson <joshlev@amazon.com>
-Subject: Re: [RFC PATCH v3 1/8] tpm: Add a single table for all TPM wait
- limits
-Message-ID: <avdoybHEoRd0Fhie@kernel.org>
-References: <20261112163846.97654-1-surenkj@amazon.com>
- <20261112163846.97654-2-surenkj@amazon.com>
+	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=OGhRV9xg
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=sQ02zvCDZLtgWAz8RYFRPl+ci/Xfz50qWHOwlUpumHryMoqzix+M4rTLDhaeQ3yr7dEde9UJocl2qPzyzbq//dajUQ5e2vRrEHat3pzNXOgJ7BzbyKYFRJPFnO0I2yPxggt/gvijhpscg2ghuzeBB3wNh2JqQTJW/WI3m/4EtRu3u/bNQX6Py3oGdsevAl5mw7ffIsSfgJoq0jSoz4oZ4HYBvTDzidrxnRAhQ7GSY6soswdf2jXSj84rwD8MFllsmzWuFFRa3KNff2l9CFJ0MzDCSpw9S6z6FbJc0KGS2mf/r93zbD7uz1boW7bj+808Z7jKufYU7UESqrqEHEkchA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jJRREDE/gASpesh5fonT49kFnWEoyi/XOKrST20kd6o=;
+ b=X9bM4/gQjY39+RGxTwBXydq+Y/SQ2Q8AGvb9rxfkxc5VNfsfUuYas4eACj6d49ggiKUUPeSkqbdvjqWoLAKb1nxsW6ceigd3Atrplof0lM82W/hNIY8rfQsLAjRUde8/ggP9g6IKodtqNdHm8LEyWqD/ZQrG5PjmlKKU9yJgOTs+CQE3BtS/NUSEGC4gq4R7dDg/ynE19L8Xyke210QRbsc6ZDIF62VtRLlHL4df+5P9HAMabXirSnz7rJac4wENKZtZ7sEERxOHNGTIGh7QD6jewPCAZ5i04qaWNh7XO4vOfgna0jQptHphjfoufpraFsrc7ySU+sdZYFWvhxwmDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jJRREDE/gASpesh5fonT49kFnWEoyi/XOKrST20kd6o=;
+ b=OGhRV9xgJCtoMn7UTWrT4plw+pmZ0KNoATYCNz76McFa5pHDc/IV/a5KF4vucVgsrlI4nagdgIqZYForL0Uq9HaDC7yQrDjDCtLNiXLyMFgc6lk2pSYELrK1ZW4yUeXKjGtbs1LPdmRCp9jpqUyQF2iYu2V6CaF7RnDDf6SvAbzGEM02UmgQ1qubpriwGCyIrnr7HDlPvPw3mGSzbIg517b1a24dWQua6WxcbUIc9Z0i1sAL75u33McDq9NJAQzOlhBNIiqRwPR5ykceH8TGLX5k6bEHlRqMlcnXO8eiTd76qLn3lrV5l+3FIQrMYUhV2wiG9zg1DZwu+zDqCM1XLg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
+ by LV2PR12MB5896.namprd12.prod.outlook.com (2603:10b6:408:172::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Fri, 13 Nov
+ 2026 18:43:04 +0000
+Received: from LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
+ ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.007; Fri, 13 Nov 2026
+ 18:43:04 +0000
+From: Yury Norov <ynorov@nvidia.com>
+To: Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Shrikanth Hegde <sshegde@linux.ibm.com>
+Cc: Yury Norov <ynorov@nvidia.com>,
+	Yury Norov <yury.norov@gmail.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Alexander Gordeev <agordeev@linux.ibm.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Ben Segall <bsegall@google.com>,
+	Christian Borntraeger <borntraeger@linux.ibm.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Carstens <hca@linux.ibm.com>,
+	Ilya Leoshkevich <iii@linux.ibm.com>,
+	Johan Hovold <johan@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	K Prateek Nayak <kprateek.nayak@amd.com>,
+	Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
+	Mel Gorman <mgorman@suse.de>,
+	Mete Durlu <meted@linux.ibm.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Sven Schnelle <svens@linux.ibm.com>,
+	Valentin Schneider <vschneid@redhat.com>,
+	Vasily Gorbik <gor@linux.ibm.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-s390@vger.kernel.org
+Subject: [PATCH 3/7] virt: steal_governor: remove the minimum elapsed-time check
+Date: Fri, 13 Nov 2026 13:42:52 -0500
+Message-ID: <20261113184257.621707-4-ynorov@nvidia.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261113184257.621707-1-ynorov@nvidia.com>
+References: <20261113184257.621707-1-ynorov@nvidia.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR03CA0002.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::7) To LV3PR12MB9356.namprd12.prod.outlook.com
+ (2603:10b6:408:20c::21)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,597 +128,98 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261112163846.97654-2-surenkj@amazon.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|LV2PR12MB5896:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5ed1c0a9-632e-46f1-05fb-08df41b5f388
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|10070799003|10067099003|261021123027099003|56012099006|261022113327099003|261102123227099003|11063799006|261009223027099003|261021121427099003|261022075727099003|261026121527099003|18002099003|22082099003|6133799003;
+X-Microsoft-Antispam-Message-Info:
+	lokQqawQdvj+yKdowwQT1eTRO5/bx1GRFf3I0W4qIFWNqwfxL4KhkoUwhisRBPmuHksAwfXXsjO+Af25BNGD+IGdYP94lbXnhFfg+yVGSXZCxd5RNNLDngZltZMaYmEe9JEEI48UVfyK6aYzdn13cLgnFtUvBJ2eFs+kySaNmd+ffkPUf0yo+HERuRAGBQ45au8Af1eheiSa0HMxa6qAArutBR24J4/cTrXw72xbNcjKQ5i1MZvKCkdXLTv+8BHioIcO0iEZ5t9If0lvzNE2AtsH70gofRet5DBMm6shyO1kDCStf5UnRfr+kxL2NTi8N4TWhhZQqdD1kosf9Pnj16KauHgH+XYsEi4PdmHWUE2L5AvDo65ORKeGN+bEPVkTid1BNlm+zTzWEuf4DR4j/DB8VnnT3MpP411OInhacYvGZ+eAgcSqOGa0kis9d6RNVFRhnaS2U+zNRORhhAREsFwu20QkO1uWsCKImtlvFrvPk3XExl6GpRiyNI8hm9lMBmmuw/94x7N5QchdvYgJOBznXmlxxZmklcbTv6rZA2sOGuC1wy0i+lHOoQHIPUyNbhMdo2+ZvLMOJVILRLxCqZBlBCIWD3K0PK/7SbJx/kY1xbA0r9ScUeihvKeEazdBk2RqrJutqcNRg4FxjjkRFVc0VA6Q1oOzIZBiguN8i38=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(10070799003)(10067099003)(261021123027099003)(56012099006)(261022113327099003)(261102123227099003)(11063799006)(261009223027099003)(261021121427099003)(261022075727099003)(261026121527099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?isJzxuq209s3EE780cWU31LkOuMYbvb8uIM5m1yw2iFiXoEh3959GpO99mXg?=
+ =?us-ascii?Q?9BfeRqymgBbI9UIrRQLDMQP1x41GvSFqYB3s+EYqAd74IFpj/3xrEfRmXF0g?=
+ =?us-ascii?Q?4zMCGI53eIHylYSRvaBPZ8v9JtYWdaRlDkLfBJAC1DViM33yBNwuYZgsCyu4?=
+ =?us-ascii?Q?0RMVdPeFdC01ywxjHamZujP2/3QPRbOKBe/QAqxaIrVuL1mXY0Os0o9wK9sO?=
+ =?us-ascii?Q?kTS/DHrpZXLDBRqlmX1zzxLP0Uo05mzHA2tbeYf/2AY+5Qt1P3VUXyIUMZs9?=
+ =?us-ascii?Q?1a2r4eYQ2dNJCse0+zPL3YO44Fi4Lsnm8k1azGSW37G72WwifCFI8RHuUD8/?=
+ =?us-ascii?Q?+N3hbzTmXwIYViEBJE7ng2SXRRUutMN2r1iQS7SbjBGjX28CN88wAHQZhqIW?=
+ =?us-ascii?Q?e7RnNtOPgQ5h8gslpMi0Y2K5AMtOQWQzmlU7jbgh6qgRrO3OugfiG1dcOdPv?=
+ =?us-ascii?Q?IE0zIrXHfRtqFJQpNwrxiy4Qt+L1JAbkBtL+OuBg8J3ViVsyj8lwYtz+Wz8S?=
+ =?us-ascii?Q?OQkt6U3Wd8RE6f9UtmVjETvVi1vpjjvW4Z5dzfR7wWkBoNwY/RwOYeOYKrT6?=
+ =?us-ascii?Q?HuqcM1ApUBlKOgSeH6HAGhRcBiMO26Y8InctC7/BFDEFVd3UxxFf05I8auaw?=
+ =?us-ascii?Q?tGHNLi/4rjseeK1rk8kfWTEyG6iTllJj9DGsLPt/yaFlMMTyfKIGIzGpmXQf?=
+ =?us-ascii?Q?APxVZ5jmAKOtG5cH/ueY5q0kdga1TtiVOwW7xdNE3MI4m4xFZ1w5l+14bHdA?=
+ =?us-ascii?Q?016OCpCBrjT+bqlZiXAvfymzVgFSu0WZyspG0KUbXPAbi4yC+BCczHNQh3T7?=
+ =?us-ascii?Q?5bcH03JLQKKhiuZ5lZcJz0Q+d0NegBrPT041XnykJPv8QIVm1Rd1d0QhkZv6?=
+ =?us-ascii?Q?PH3Eh/lWQlIYe8r0LWLuBh+1rkA7RgLQ3LEulCts2duk0xXMeMTJ8o1aUhVF?=
+ =?us-ascii?Q?tOnDTPoJXNN8m07OI9KJuaEg1c6dG4i25idYtcokRGS0M06aw9s5TYqJU9su?=
+ =?us-ascii?Q?ZJb/Oyeeg4pkISO46oRN+B9ZGBSuJeY9N7u3hlZTtl1JLxAGLbZJxaJX8XEK?=
+ =?us-ascii?Q?UcWC8astan34EjaKh4tK6cVLbM1ZNXAZwLh6bRNpltD8+JozYmov29sZyILn?=
+ =?us-ascii?Q?m9w2WoYY0WQMaqLGyVGHXZr19mzeh891QQ3x0anIyoK9yJ+hRNofPdFCMULY?=
+ =?us-ascii?Q?P3oUCQxxWBgBCZBxT7ZgkId2qAortQil8lp68ioHeZNqEAEXKIqthFxKki1o?=
+ =?us-ascii?Q?nyxkdWATDcbwPjpL4IWq1rgcOXO4RIGMoP+dkBnWzDGv7wnvkt/HnILeCO5M?=
+ =?us-ascii?Q?bWE4g+Kc1xRJvSOIINE2uvvMBSSUgIvuIuoBNwG6HGqllyjmB5MCY6EO1acm?=
+ =?us-ascii?Q?VU4035m3HXonhjK5dDFyh1hJhBi6x9sUOdb/hil+WPwPtOobkq2yHnya2+mv?=
+ =?us-ascii?Q?KM25cejSbHLERZFtHR7TOrzM6L+UMCiyFzR4ebuUSv3C8tgbNuBt5j1z3LHk?=
+ =?us-ascii?Q?uMtRfRq3SwagnEa5QkykeqlCcR4fI3Ij3zmqaWuBQti86Kx5JgiAjIMPKThF?=
+ =?us-ascii?Q?tnY20SbLfRktzNFilBw2Px+fZXYy+kFVro9ohPfdhGxd6N9emXerUpjBbby3?=
+ =?us-ascii?Q?73kl1FZKGEzLeM1pvVctPCCG60aYmi4sAVHQ0Q9U64LJesEFf8J4yOZwQaDs?=
+ =?us-ascii?Q?b7v19V1+Xc3pFHP4Q3rWWQly55CW/TAYL8urknYXxsypy9hVOQIHSz1D8psL?=
+ =?us-ascii?Q?5LDoawDEzwpRguwnsyrIy7orteFtPAKj0rVXTgb66MjKVhY1c0+6?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5ed1c0a9-632e-46f1-05fb-08df41b5f388
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2026 18:43:04.1734
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NUTvQRuZZSm3DdNrBda3E9skHAEvgXfpeXBRpIMPJLwuGS7/nwyRxLrp93xlci5BCdcKDLlFJjnuGcHc7fdStA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5896
 
-On Thu, Nov 12, 2026 at 04:38:39PM +0000, Surendran Kanagaraj wrote:
-> Every TPM wait takes its limit from a different place. The interface
-> timeouts live in four jiffies fields, the TPM 1.x durations in an
-> array, the TPM 2.0 durations in a per-ordinal map and the retry bound
-> in a constant. A driver cannot see or adjust these values in one
-> place. Apart from few TPM1.x fixups, nothing bounds checks these values.
-> Also a driver can send a command before any timeout is set,
-> xen-tpmfront calls tpm_get_timeouts() from probe before anything has
-> set a timeout, so its TPM 1.x timeout query waits on the vTPM with a
-> TIMEOUT_C of zero.
-> 
-> Add struct tpm_limits with one entry per limit: the interface timeouts
-> TIMEOUT_A to TIMEOUT_D and the duration classes SHORT, MEDIUM, LONG,
-> LONG_LONG and DEFAULT. Each entry holds the value in microseconds, its
-> source (the defaults, the TPM or the driver) and whether validation
-> clamped it.
-> 
-> tpm_chip_alloc() fills the table with the larger of the TPM 1.x and
-> TPM 2.0 defaults, so a wait has a usable limit before the TPM is
-> queried. Once the family is known, tpm_limits_update() rebuilds the
-> table (next patch calls it from timing query) in a fixed order:
-> the family defaults, the values the TPM reported, the driver's new
-> ->adjust_limits() hook, then validation. Validation applies a floor
-> and a ceiling, keeps SHORT to LONG_LONG in increasing order and
-> keeps DEFAULT no shorter than LONG.
-> 
-> The hook sets values with tpm_limits_driver_set() or from a quirk
-> table through tpm_limits_apply_quirks(). tpm_poll_timeout() waits on
+The governor queues its worker with a sampling interval of at least
+100ms, so its one-millisecond elapsed-time check is redundant. The
+existing denominator clamp already prevents division by zero when
+calculating the steal ratio.
 
-OK, but ...
+This series adds a hook on hotplug events. It may trigger this error
+path pointlessly. Just drop it.
 
-I.e. I'm not fully following what is the diffence between these call
-paths.
+Signed-off-by: Yury Norov <ynorov@nvidia.com>
+---
+ drivers/virt/steal_governor.c | 6 ------
+ 1 file changed, 6 deletions(-)
 
-> a condition for a limit from the table. No limits are read from the
-> table yet. The following patches move them to it.
-> 
-> Signed-off-by: Surendran Kanagaraj <surenkj@amazon.com>
-> ---
->  drivers/char/tpm/Makefile     |   1 +
->  drivers/char/tpm/tpm-chip.c   |   1 +
->  drivers/char/tpm/tpm-limits.c | 368 ++++++++++++++++++++++++++++++++++
->  drivers/char/tpm/tpm.h        |  13 ++
->  include/linux/tpm.h           |  54 +++++
->  5 files changed, 437 insertions(+)
->  create mode 100644 drivers/char/tpm/tpm-limits.c
-> 
-> diff --git a/drivers/char/tpm/Makefile b/drivers/char/tpm/Makefile
-> index 5b5cdc0d32e4..92f469218e15 100644
-> --- a/drivers/char/tpm/Makefile
-> +++ b/drivers/char/tpm/Makefile
-> @@ -12,6 +12,7 @@ tpm-y += tpm2-cmd.o
->  tpm-y += tpmrm-dev.o
->  tpm-y += tpm2-space.o
->  tpm-y += tpm-sysfs.o
-> +tpm-y += tpm-limits.o
->  tpm-y += eventlog/common.o
->  tpm-y += eventlog/tpm1.o
->  tpm-y += eventlog/tpm2.o
-> diff --git a/drivers/char/tpm/tpm-chip.c b/drivers/char/tpm/tpm-chip.c
-> index 0be5dbfaa72e..11a050c43e10 100644
-> --- a/drivers/char/tpm/tpm-chip.c
-> +++ b/drivers/char/tpm/tpm-chip.c
-> @@ -319,6 +319,7 @@ struct tpm_chip *tpm_chip_alloc(struct device *pdev,
->  	}
->  
->  	chip->locality = -1;
-> +	tpm_limits_init(chip);
->  	return chip;
->  
->  out:
-> diff --git a/drivers/char/tpm/tpm-limits.c b/drivers/char/tpm/tpm-limits.c
-> new file mode 100644
-> index 000000000000..3fe5affa1522
-> --- /dev/null
-> +++ b/drivers/char/tpm/tpm-limits.c
-> @@ -0,0 +1,368 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Handles time limits for a TPM chip.
+diff --git a/drivers/virt/steal_governor.c b/drivers/virt/steal_governor.c
+index 99bebd3dee8c..26b6bcca27ed 100644
+--- a/drivers/virt/steal_governor.c
++++ b/drivers/virt/steal_governor.c
+@@ -216,11 +216,6 @@ static void steal_governor_loop(struct work_struct *work)
+ 	now = ktime_get();
+ 	delta_ns = ktime_to_ns(ktime_sub(now, sg_ctx.time));
+ 
+-	if (unlikely(delta_ns < NSEC_PER_MSEC)) {
+-		pr_err_ratelimited("work scheduled too soon delta_ns: %llu\n", delta_ns);
+-		goto requeue_work;
+-	}
+-
+ 	curr_steal = get_system_steal_time();
+ 	delta_steal = curr_steal > sg_ctx.steal ? curr_steal - sg_ctx.steal : 0;
+ 	sg_ctx.steal = curr_steal;
+@@ -249,7 +244,6 @@ static void steal_governor_loop(struct work_struct *work)
+ 		return;
+ 	}
+ 
+-requeue_work:
+ 	schedule_delayed_work(&sg_ctx.work, sg_ctx.delay);
+ }
+ 
+-- 
+2.53.0
 
-I'd extend this to just have brief description how this works. Just a
-high-level overview.
-
-> + */
-> +
-> +#include <linux/kernel.h>
-> +#include <linux/ktime.h>
-> +#include <linux/string.h>
-> +#include <linux/tpm_ptp.h>
-> +#include "tpm.h"
-> +
-> +/* Bounds for the limits */
-> +#define TPM_LIMIT_FLOOR_US	        (2 * TPM_POLL_DURATION_MAX_US)
-> +#define TPM_LIMIT_INTF_CEILING_US	(60 * USEC_PER_SEC)
-> +#define TPM_LIMIT_DURATION_CEILING_US	(30 * 60 * USEC_PER_SEC)
-> +
-> +#define TPM_POLL_START_US		100
-> +#define TPM_POLL_INTF_MAX_US		100
-> +#define TPM_POLL_DURATION_MAX_US	1000
-> +
-> +static const u32 tpm1_defaults[TPM_NR_LIMITS] = {
-> +	[TPM_LIMIT_A]		= TIS_SHORT_TIMEOUT * USEC_PER_MSEC,
-> +	[TPM_LIMIT_B]		= TIS_LONG_TIMEOUT * USEC_PER_MSEC,
-> +	[TPM_LIMIT_C]		= TIS_SHORT_TIMEOUT * USEC_PER_MSEC,
-> +	[TPM_LIMIT_D]		= TIS_SHORT_TIMEOUT * USEC_PER_MSEC,
-> +
-> +	[TPM_LIMIT_SHORT]	= 120 * USEC_PER_SEC,
-> +	[TPM_LIMIT_MEDIUM]	= 120 * USEC_PER_SEC,
-> +	[TPM_LIMIT_LONG]	= 120 * USEC_PER_SEC,
-> +	[TPM_LIMIT_LONG_LONG]	= 120 * USEC_PER_SEC,
-> +	[TPM_LIMIT_DEFAULT]	= 120 * USEC_PER_SEC,
-> +};
-> +
-> +static const u32 tpm2_defaults[TPM_NR_LIMITS] = {
-> +	[TPM_LIMIT_A]		= TPM2_TIMEOUT_A * USEC_PER_MSEC,
-> +	[TPM_LIMIT_B]		= TPM2_TIMEOUT_B * USEC_PER_MSEC,
-> +	[TPM_LIMIT_C]		= TPM2_TIMEOUT_C * USEC_PER_MSEC,
-> +	[TPM_LIMIT_D]		= TPM2_TIMEOUT_D * USEC_PER_MSEC,
-> +
-> +	[TPM_LIMIT_SHORT]	= 750 * USEC_PER_MSEC,
-> +	[TPM_LIMIT_MEDIUM]	= 2000 * USEC_PER_MSEC,
-> +	[TPM_LIMIT_LONG]	= 3000 * USEC_PER_MSEC,
-> +	[TPM_LIMIT_LONG_LONG]	= TPM2_DURATION_LONG_LONG * USEC_PER_MSEC,
-> +	[TPM_LIMIT_DEFAULT]	= TPM2_DURATION_DEFAULT * USEC_PER_MSEC,
-> +};
-> +
-> +static const char * const tpm_limit_names[TPM_NR_LIMITS] = {
-> +	[TPM_LIMIT_A]		= "timeout_a",
-> +	[TPM_LIMIT_B]		= "timeout_b",
-> +	[TPM_LIMIT_C]		= "timeout_c",
-> +	[TPM_LIMIT_D]		= "timeout_d",
-> +	[TPM_LIMIT_SHORT]	= "short",
-> +	[TPM_LIMIT_MEDIUM]	= "medium",
-> +	[TPM_LIMIT_LONG]	= "long",
-> +	[TPM_LIMIT_LONG_LONG]	= "long_long",
-> +	[TPM_LIMIT_DEFAULT]	= "default",
-> +};
-> +
-> +static const char * const tpm_limit_labels[TPM_NR_LIMITS] = {
-> +	[TPM_LIMIT_A]		= "TIMEOUT_A",
-> +	[TPM_LIMIT_B]		= "TIMEOUT_B",
-> +	[TPM_LIMIT_C]		= "TIMEOUT_C",
-> +	[TPM_LIMIT_D]		= "TIMEOUT_D",
-> +	[TPM_LIMIT_SHORT]	= "SHORT",
-> +	[TPM_LIMIT_MEDIUM]	= "MEDIUM",
-> +	[TPM_LIMIT_LONG]	= "LONG",
-> +	[TPM_LIMIT_LONG_LONG]	= "LONG_LONG",
-> +	[TPM_LIMIT_DEFAULT]	= "DEFAULT",
-> +};
-> +
-> +static const char * const tpm_limit_src_names[] = {
-> +	[TPM_LSRC_DEFAULT]	= "DEFAULT",
-> +	[TPM_LSRC_TPM]		= "TPM",
-> +	[TPM_LSRC_DRIVER]	= "DRIVER",
-> +};
-> +
-> +static u32 tpm_limits_default_us(enum tpm_family family, enum tpm_limit limit)
-> +{
-> +	switch (family) {
-> +	case TPM_FAMILY_1:
-> +		return tpm1_defaults[limit];
-> +	case TPM_FAMILY_2:
-> +		return tpm2_defaults[limit];
-> +	default:
-> +		return max(tpm1_defaults[limit], tpm2_defaults[limit]);
-> +	}
-> +}
-> +
-> +static u32 tpm_limits_ceiling_us(enum tpm_limit limit)
-> +{
-> +	if (TPM_LIMIT_INTF_MASK & BIT(limit))
-> +		return TPM_LIMIT_INTF_CEILING_US;
-> +
-> +	return TPM_LIMIT_DURATION_CEILING_US;
-> +}
-> +
-> +static void tpm_limits_store(struct tpm_limits *p, enum tpm_limit limit,
-> +			     u32 us, enum tpm_limit_src src, u32 flags)
-> +{
-> +	p->entry[limit].time_us = us;
-> +	p->entry[limit].src = src;
-> +	p->entry[limit].flags = flags;
-> +}
-> +
-> +static void tpm_limits_raise(struct tpm_limits *p, enum tpm_limit limit,
-> +			     u32 us)
-> +{
-> +	if (p->entry[limit].time_us < us) {
-> +		p->entry[limit].time_us = us;
-> +		p->entry[limit].flags |= TPM_LF_CLAMPED;
-> +	}
-> +}
-> +
-> +static void tpm_limits_stage_defaults(struct tpm_limits *p,
-> +				      enum tpm_family family)
-> +{
-> +	int limit;
-> +
-> +	memset(p, 0, sizeof(*p));
-> +	p->family = family;
-> +	for (limit = 0; limit < TPM_NR_LIMITS; limit++)
-> +		tpm_limits_store(p, limit,
-> +				 tpm_limits_default_us(family, limit),
-> +				 TPM_LSRC_DEFAULT, 0);
-> +}
-> +
-> +/* The values the TPM reported, in usecs; zero where it reported nothing. */
-> +static void tpm_limits_stage_reported(struct tpm_limits *p,
-> +				      const u32 *reported)
-> +{
-> +	int limit;
-> +
-> +	for (limit = 0; limit < TPM_NR_LIMITS; limit++) {
-> +		if (reported[limit])
-> +			tpm_limits_store(p, limit, reported[limit],
-> +					 TPM_LSRC_TPM, 0);
-> +	}
-> +}
-> +
-> +static void tpm_limits_stage_validate(struct tpm_limits *p)
-> +{
-> +	int limit;
-> +
-> +	for (limit = 0; limit < TPM_NR_LIMITS; limit++) {
-> +		struct tpm_limit_entry *e = &p->entry[limit];
-> +		u32 lo = TPM_LIMIT_FLOOR_US;
-> +		u32 hi = tpm_limits_ceiling_us(limit);
-> +
-> +		if (e->time_us < lo) {
-> +			e->time_us = lo;
-> +			e->flags |= TPM_LF_CLAMPED;
-> +		} else if (e->time_us > hi) {
-> +			e->time_us = hi;
-> +			e->flags |= TPM_LF_CLAMPED;
-> +		}
-> +	}
-> +
-> +	/*
-> +	 * Keep SHORT to LONG_LONG in increasing order, and DEFAULT no shorter
-> +	 * than LONG.
-> +	 */
-> +	for (limit = TPM_LIMIT_MEDIUM; limit <= TPM_LIMIT_LONG_LONG; limit++)
-> +		tpm_limits_raise(p, limit, p->entry[limit - 1].time_us);
-> +
-> +	tpm_limits_raise(p, TPM_LIMIT_DEFAULT,
-> +			 p->entry[TPM_LIMIT_LONG].time_us);
-> +}
-> +
-> +static void tpm_limits_commit(struct tpm_chip *chip,
-> +			      const struct tpm_limits *p)
-> +{
-> +	const struct tpm_limit_entry *e = p->entry;
-> +	int limit;
-> +
-> +	chip->limits = *p;
-> +
-> +	for (limit = 0; limit < TPM_NR_LIMITS; limit++)
-> +		dev_dbg(&chip->dev, "limit %s = %u us (%s%s)\n",
-> +			tpm_limit_names[limit], e[limit].time_us,
-> +			tpm_limit_src_names[e[limit].src],
-> +			e[limit].flags & TPM_LF_CLAMPED ? ", clamped" : "");
-> +}
-> +
-> +/**
-> + * tpm_limits_init() - set the boot limits of a new chip
-> + * @chip: the chip tpm_chip_alloc() is setting up
-> + *
-> + * The family is not known yet, so each limit gets the larger of the two
-> + * families' defaults before validation applies.
-> + * The driver's data is not attached yet, so its ->adjust_limits() hook first
-> + * runs from tpm_limits_update().
-> + */
-> +void tpm_limits_init(struct tpm_chip *chip)
-> +{
-> +	struct tpm_limits p;
-> +
-> +	tpm_limits_stage_defaults(&p, TPM_FAMILY_UNKNOWN);
-> +	tpm_limits_stage_validate(&p);
-> +	tpm_limits_commit(chip, &p);
-> +}
-> +
-> +/**
-> + * tpm_limits_update() - build the limits once the TPM family is known
-> + * @chip:	the TPM chip, started, with TPM_CHIP_FLAG_TPM2 set on TPM 2.0
-> + * @reported:	TPM_NR_LIMITS values in usecs, indexed by enum tpm_limit,
-> + *		zero where the TPM reported nothing; or NULL
-> + *
-> + * Runs the stages in order: the family defaults, @reported, the driver's
-> + * ->adjust_limits() hook, then validation. The hook may send commands, so
-> + * the chip must be started. Call it before the chip is registered or with
-> + * tpm_mutex held, so that no command sees half-built limits.
-> + */
-> +void tpm_limits_update(struct tpm_chip *chip, const u32 *reported)
-> +{
-> +	enum tpm_family family = chip->flags & TPM_CHIP_FLAG_TPM2 ?
-> +				 TPM_FAMILY_2 : TPM_FAMILY_1;
-> +	struct tpm_limits p;
-> +
-> +	tpm_limits_stage_defaults(&p, family);
-> +	if (reported)
-> +		tpm_limits_stage_reported(&p, reported);
-> +	if (chip->ops->adjust_limits)
-> +		chip->ops->adjust_limits(chip, &p);
-> +	tpm_limits_stage_validate(&p);
-> +	tpm_limits_commit(chip, &p);
-> +}
-> +
-> +/**
-> + * tpm_limits_driver_set() - set a limit from a driver's ->adjust_limits() hook
-> + * @p:		the limits the hook received
-> + * @limit:	the limit to set
-> + * @us:		the new value in microseconds
-> + *
-> + * Marks the driver as the source of @limit. Validation runs after the hook,
-> + * so the value can still be clamped.
-> + */
-> +void tpm_limits_driver_set(struct tpm_limits *p, enum tpm_limit limit, u32 us)
-> +{
-> +	if (WARN_ON_ONCE(limit >= TPM_NR_LIMITS))
-> +		return;
-> +
-> +	tpm_limits_store(p, limit, us, TPM_LSRC_DRIVER, 0);
-> +}
-> +EXPORT_SYMBOL_GPL(tpm_limits_driver_set);
-> +
-> +/**
-> + * tpm_limits_apply_quirks() - apply the first matching quirk entry
-> + * @p:		the limits the ->adjust_limits() hook received
-> + * @quirks:	the driver's quirk table
-> + * @n:		the number of entries in @quirks
-> + * @id:		the device identity to match, as the driver defines it
-> + *
-> + * Applies the first entry whose id is @id. Each non-zero value in the entry
-> + * is set as tpm_limits_driver_set() does.
-> + */
-> +void tpm_limits_apply_quirks(struct tpm_limits *p,
-> +			     const struct tpm_limits_quirk *quirks, size_t n,
-> +			     u32 id)
-> +{
-> +	size_t i;
-> +	int limit;
-> +
-> +	for (i = 0; i < n; i++) {
-> +		if (quirks[i].id != id)
-> +			continue;
-> +
-> +		for (limit = 0; limit < TPM_NR_LIMITS; limit++) {
-> +			if (quirks[i].time_us[limit])
-> +				tpm_limits_driver_set(p, limit,
-> +						      quirks[i].time_us[limit]);
-> +		}
-> +		return;
-> +	}
-> +}
-> +EXPORT_SYMBOL_GPL(tpm_limits_apply_quirks);
-> +
-> +static u32 tpm_limits_us(struct tpm_chip *chip, enum tpm_limit limit)
-> +{
-> +	if (!chip)
-> +		return tpm_limits_default_us(TPM_FAMILY_UNKNOWN, limit);
-> +
-> +	return chip->limits.entry[limit].time_us;
-> +}
-> +
-> +static int tpm_poll(struct tpm_chip *chip, u32 timeout_us,
-> +		    enum tpm_limit limit,
-> +		    bool (*cond)(struct tpm_chip *chip, void *arg), void *arg)
-> +{
-> +	ktime_t timeout = ktime_add_us(ktime_get(), timeout_us);
-> +	unsigned int max_us = TPM_POLL_INTF_MAX_US;
-> +	unsigned int delay = TPM_POLL_START_US;
-> +	const char *label = "fixed timeout";
-> +	const char *src = "CALLER";
-> +
-> +	might_sleep();
-> +
-> +	if (limit < TPM_NR_LIMITS && !(TPM_LIMIT_INTF_MASK & BIT(limit)))
-> +		max_us = TPM_POLL_DURATION_MAX_US;
-> +
-> +	for (;;) {
-> +		if (cond(chip, arg))
-> +			return 0;
-> +		if (ktime_after(ktime_get(), timeout))
-> +			break;
-> +
-> +		usleep_range(delay / 2, delay);
-> +		delay = min(delay * 2, max_us);
-> +	}
-> +
-> +	if (cond(chip, arg))
-> +		return 0;
-> +	if (!chip)
-> +		return -ETIME;
-> +
-> +	if (limit < TPM_NR_LIMITS) {
-> +		label = tpm_limit_labels[limit];
-> +		src = tpm_limit_src_names[chip->limits.entry[limit].src];
-> +	}
-> +	dev_warn_ratelimited(&chip->dev, "%s expired after %u us (source %s)\n",
-> +			     label, timeout_us, src);
-> +	return -ETIME;
-> +}
-> +
-> +/**
-> + * tpm_poll_timeout() - poll a condition until it holds or a limit passes
-> + * @chip:	the TPM chip, or NULL before tpm_chip_alloc()
-> + * @limit:	the limit that bounds the wait
-> + * @cond:	returns true once the wait is over
-> + * @arg:	passed to @cond
-> + *
-> + * Drivers pass an interface timeout, TPM_LIMIT_A to TPM_LIMIT_D, and the core
-> + * passes a command's execution limit. Without a chip, the larger of the two
-> + * families' defaults applies, @cond gets a NULL @chip and nothing is printed
-> + * on expiry. @cond is checked once more after the deadline, so a TPM that
-> + * finished while the caller was descheduled does not time out.
-> + *
-> + * Return: 0 once @cond holds, -ETIME if @limit passes first, or -EINVAL for
-> + * a limit out of range.
-> + */
-> +int tpm_poll_timeout(struct tpm_chip *chip, enum tpm_limit limit,
-> +		     bool (*cond)(struct tpm_chip *chip, void *arg), void *arg)
-> +{
-> +	if (WARN_ON_ONCE(limit >= TPM_NR_LIMITS))
-> +		return -EINVAL;
-> +
-> +	return tpm_poll(chip, tpm_limits_us(chip, limit), limit, cond, arg);
-> +}
-> +EXPORT_SYMBOL_GPL(tpm_poll_timeout);
-> +
-> +/**
-> + * tpm_poll_timeout_us() - poll a condition with a driver-chosen timeout
-> + * @chip:	the TPM chip, or NULL before tpm_chip_alloc()
-> + * @timeout_us:	the timeout in microseconds
-> + * @cond:	returns true once the wait is over
-> + * @arg:	passed to @cond
-> + *
-> + * For a wait no TCG spec names, such as a mailbox doorbell. Otherwise as
-> + * tpm_poll_timeout().
-> + *
-> + * Return: 0 once @cond holds, or -ETIME if @timeout_us passes first.
-> + */
-> +int tpm_poll_timeout_us(struct tpm_chip *chip, u32 timeout_us,
-> +			bool (*cond)(struct tpm_chip *chip, void *arg),
-> +			void *arg)
-> +{
-> +	return tpm_poll(chip, timeout_us, TPM_NR_LIMITS, cond, arg);
-> +}
-
-I did not check all the details but could this be reorganized into:
-
-1. __tpm_poll(): the same as tpm_poll() but exported and defined in
-   drivers/char/tpm.h.
-2. tpm_poll(): a single static inline function declared fully at
-   drivers/char/tpm.h
-
-__tpm_poll() would e.g., make a nicer trace point for a kprobe or
-kretprobe.
-
-
-> +EXPORT_SYMBOL_GPL(tpm_poll_timeout_us);
-> diff --git a/drivers/char/tpm/tpm.h b/drivers/char/tpm/tpm.h
-> index fa554c5ad80b..be88011f9618 100644
-> --- a/drivers/char/tpm/tpm.h
-> +++ b/drivers/char/tpm/tpm.h
-> @@ -75,6 +75,19 @@ ssize_t tpm1_getcap(struct tpm_chip *chip, u32 subcap_id, cap_t *cap,
->  int tpm1_get_random(struct tpm_chip *chip, u8 *out, size_t max);
->  int tpm1_get_pcr_allocation(struct tpm_chip *chip);
->  unsigned long tpm_calc_ordinal_duration(struct tpm_chip *chip, u32 ordinal);
-> +
-> +void tpm_limits_init(struct tpm_chip *chip);
-> +void tpm_limits_update(struct tpm_chip *chip, const u32 *reported);
-> +void tpm_limits_driver_set(struct tpm_limits *p, enum tpm_limit limit, u32 us);
-> +void tpm_limits_apply_quirks(struct tpm_limits *p,
-> +			     const struct tpm_limits_quirk *quirks, size_t n,
-> +			     u32 id);
-> +int tpm_poll_timeout(struct tpm_chip *chip, enum tpm_limit limit,
-> +		     bool (*cond)(struct tpm_chip *chip, void *arg), void *arg);
-> +int tpm_poll_timeout_us(struct tpm_chip *chip, u32 timeout_us,
-> +			bool (*cond)(struct tpm_chip *chip, void *arg),
-> +			void *arg);
-> +
->  int tpm_pm_suspend(struct device *dev);
->  int tpm_pm_resume(struct device *dev);
->  int tpm_class_shutdown(struct device *dev);
-> diff --git a/include/linux/tpm.h b/include/linux/tpm.h
-> index 0db277af45c3..5454d87f43ba 100644
-> --- a/include/linux/tpm.h
-> +++ b/include/linux/tpm.h
-> @@ -29,6 +29,7 @@
->  #include <linux/tpm_buf.h>
->  
->  struct tpm_chip;
-> +struct tpm_limits;
->  struct trusted_key_payload;
->  struct trusted_key_options;
->  /* opaque structure, holds auth session parameters like the session key */
-> @@ -52,6 +53,7 @@ struct tpm_class_ops {
->  				unsigned long *timeout_cap);
->  	void (*update_durations)(struct tpm_chip *chip,
->  				 unsigned long *duration_cap);
-> +	void (*adjust_limits)(struct tpm_chip *chip, struct tpm_limits *p);
->  	int (*go_idle)(struct tpm_chip *chip);
->  	int (*cmd_ready)(struct tpm_chip *chip);
->  	int (*request_locality)(struct tpm_chip *chip, int loc);
-> @@ -71,6 +73,56 @@ enum tpm_duration {
->  	TPM_NUM_DURATIONS = TPM_UNDEFINED,
->  };
->  
-> +enum tpm_limit {
-> +	/* Interface handshake timeouts */
-> +	TPM_LIMIT_A,
-> +	TPM_LIMIT_B,
-> +	TPM_LIMIT_C,
-> +	TPM_LIMIT_D,
-> +
-> +	/* Command duration classes */
-> +	TPM_LIMIT_SHORT,
-> +	TPM_LIMIT_MEDIUM,
-> +	TPM_LIMIT_LONG,
-> +	TPM_LIMIT_LONG_LONG,
-> +	TPM_LIMIT_DEFAULT,
-> +
-> +	TPM_NR_LIMITS,
-> +};
-> +
-> +#define TPM_LIMIT_INTF_MASK		GENMASK(TPM_LIMIT_D, TPM_LIMIT_A)
-> +
-> +enum tpm_family {
-> +	TPM_FAMILY_1,		/* TPM 1.1 and 1.2 */
-> +	TPM_FAMILY_2,
-> +	TPM_FAMILY_UNKNOWN,
-> +};
-> +
-> +enum tpm_limit_src {
-> +	TPM_LSRC_DEFAULT,	/* default values */
-> +	TPM_LSRC_TPM,		/* reported by the TPM */
-> +	TPM_LSRC_DRIVER,	/* set by the driver */
-> +};
-> +
-> +#define TPM_LF_CLAMPED		BIT(0)	/* limit validation replaced the value */
-> +
-> +struct tpm_limit_entry {
-> +	u32 time_us;
-> +	enum tpm_limit_src src;
-> +	u32 flags;		/* TPM_LF_* */
-> +};
-> +
-> +struct tpm_limits {
-> +	enum tpm_family family;
-> +	struct tpm_limit_entry entry[TPM_NR_LIMITS];
-> +};
-> +
-> +/* per-device overrides based on id the driver defines e.g. DID/VID */
-> +struct tpm_limits_quirk {
-> +	u32 id;				/* driver-defined device identity */
-> +	u32 time_us[TPM_NR_LIMITS];	/* 0 leaves the limit alone */
-> +};
-
-I think it would make more sense to fully initialize the database per
-device, if that is possible.
-
-It is a non-concern if two TPM drivers do some redundant work, as it
-is not a real-world production use case :-)
-
-I'm just wondering if this quirk/entry division.
-
-I.e. in my world view chip owns its limits (not e.g., tpm2_space).
-
-
-> +
->  #define TPM_PPI_VERSION_LEN		3
->  
->  struct tpm_space {
-> @@ -140,6 +192,8 @@ struct tpm_chip {
->  	unsigned long duration[TPM_NUM_DURATIONS]; /* jiffies */
->  	bool duration_adjusted;
->  
-> +	struct tpm_limits limits;
-> +
->  	struct dentry *bios_dir;
->  
->  	const struct attribute_group *groups[3 + TPM_MAX_HASHES];
-> -- 
-> 2.47.3
-> 
-
-This is a great starting point.
-
-Br, Jarkko.
