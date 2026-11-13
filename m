@@ -1,85 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794554423;
-	b=1LCEBRYuy7FtPNoaFDFKnIhNmsuZFpaE3Pl3nIok+ltZjVOMjfKB2QVLcx9NVHTNtRb5
-	 QaAZ1Dmx5XEwqpN7HT3EO3VicPQObmnP55ftkc8q+0jC4CJwg+8QDHdxcjKhUr0LFEgEc
-	 L/urD1pKfHmGjk3DzUmo3B/F7qENSP+xYnKkaUPa7nLNRsdjM/H0XMsgY17HaXUjYq8IJ
-	 ArDCERilmMlabqd+KDUKmBEqJ494J5HzkTUWh+qchJZwLgjwDn4UGvzLmvcCie9s9ftgC
-	 WlY7r3n07FAazM6b0hpayhgfCsdriCgW/4S4kTGM9eqfP2sjNNqqqgTfqmhq4Unlczw==
+	t=1794556057;
+	b=mwN2IdDntjmg/u0+6mwneDPhdJlxH6rSnZHOMU5Ra7jk1g7RXZMgLQPEUlsyxOQF6Nf/
+	 BGPZjkYE8ItRHi3vZ8a942U1EmRxTH+NfeQRlOaP3YzFpYFgVFXaDayOuz3k2iQb2pbii
+	 8+yy/HPY0YUCPzymG7hj3MEvj48xhzWkS9J++7HE94KJVOjEuEHtFRe6KI7A+V33hNW72
+	 q2xqsSAQCie+crwEo2l51yVRwwKv8+/ZG+m2sJSrudwxoFJnvrmaa7SA/j3PxHXmPoeRn
+	 rUkXUgBHGGnwomyccPTIUsedA90Q06F7RT0DmO74/FDU8m+WEpQ7oT62UWPTT62vD6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794554423;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=4ukC9+RmyKpMCoo2Ej2X50ZCe3RffRo8JS7sjMrz5b4=;
-	b=a10Gv4RosAiPjQ/jK7yjyF30uoPgwsPBoGvz9Fz6yTrAaSOlv+TXaj1+Ii9NYyvTkR1R
-	 dLMWo1DHW27dmluSzwkI09P8Wr7bcRxaNUGgXfVdR8MD7R26tNmIAB0lRJvnUjouh9EMU
-	 KO6qH9VyplG/aAICmTq6OYI8TVH20vfjDcuJh1iK7ZjiH/8fnKyfBi5FMrX0v8EWkGxwk
-	 9a11OjlVesh7mTmEz5P02rbhYdcIyUjOpCe8BWw4k/1UWxcTyiH+wsyzrfe3Jh1Nng2Yx
-	 V4c64YkYADx9CDqNtthAQIDb7zy7sQz4rKugvpUOr2J95WyIidtLEiHtREXUxQ5qysg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794556057;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Flag:
+	 X-Spam-Level:X-Spamd-Result:X-Spam-Score;
+	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
+	b=M3llCi9GMd3ac3e5swbUmKpjW3pQTQRq3pjr2i4JovKW+Fkj4IDIXCsNyo7EFBP0LL2l
+	 NuP1dfwiluX3ghRTbHHyUQBjCSxk1wxp3oX5Mo7A5bYdX5DbLU2Ddf+s4iWwNiOb/NI0n
+	 5AmxoWDxuAFt2ocyZ1HUyCEhpjMik/5LWO76GclyWK/k4h9S7m2wBLuvo2jexsXA2rYCy
+	 sPHzZZquk3xW4zX7pOvrdrnUtmrmiRyIayfzY1cs9HkdOm4zQBfbKrkVYiwIfj7OrPVUF
+	 k6cfpj4VOzjyF2r4QxHblojyvWM7RXsD8Nm8ylc1YJsz5RBdN5Iq7QZGrIfYXOP1k4w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=UI+4bgJh;
-	arc=none smtp.remote-ip=209.85.219.48
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VVLCARYy;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AuKjDqxq;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RIhze3kx;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ThgE3kc8;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF02606A323
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:20:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FF02606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ED2606A31C;
+	Fri, 13 Nov 2026 07:47:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22ED2606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=UI+4bgJh
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91c6ce60697so13335386d6.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 23:20:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794554421; x=1795159221; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=4ukC9+RmyKpMCoo2Ej2X50ZCe3RffRo8JS7sjMrz5b4=;
-        b=UI+4bgJhJNbQhv7pU4fivQjQTQX/aGehNq+O6Ule9LAPUv/kSn+3YzDkzwyt4xo/KE
-         FpX9HfqzRh+tmlh2VTaVA3asUfXtHtlE0JM9aPwNIMPqxB8GcjZm7uyxxGGajyQ6+1jW
-         Q7ie2diUq1P+2uyPtd41hNiWtCIgs9VWfCpBZyoQm/Y75/mhzlg5SEz4NbRTLVZNYMA8
-         ZVN8drMKsYzx5jyJv6iYsc5aw/JIYvGPg1xCesOhxeSz87YUpVgMXl9dAYzqwbX0Jp7w
-         R8E1X5RG+MSEQaNiTQDkjzrQeoswpV3AO66T2E+dCiN1dcN8HlW+CaFQJoMvaGU7fxYT
-         PVzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794554421; x=1795159221;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4ukC9+RmyKpMCoo2Ej2X50ZCe3RffRo8JS7sjMrz5b4=;
-        b=RA0MFa1UiiOlYNoaSpRMdLFwTDuD2myk/yrpMypZouIyQBOWJkjttVGP6v7oxv3Kvz
-         6lDIv2KStSJajSs2Zw8dyRsi7Ltv+jHeEx/t6HTc0NYv73tbnPuGQBhtM97oS9RooqqO
-         DQ33PgiF8CFeeoyWD2+4fNmt7K75hfnY0UOjQFQmHMBwjxnIfwZ+Vhy3mJ69DLfCctTY
-         JIO/n+/rS08dUTZDaloh6cXXHhTVh9nkq3v43G7H5DA/JH3xXq7gpvRzclAxB0E/vFAD
-         xiH8qX43WbSOSciI3pbXHeqZhc7IYNfhgHdyAYM6xUfYdpGh2cY9m496uxpIAo2Cmgl4
-         YPDQ==
-X-Forwarded-Encrypted: i=1; AL+hErFZGHiMlCKwp3BHzZeQUHdOewG+PIKN1MjigmkiuSsQcENbQdWJ4c23roZeIvCq0XZiS9KO4m3vWnw=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9ZOSUZxobdIjDWozvnY5Uw2kQIZX2k8scps7HQ6INZ30x23T4d
-	/NlV3zeF01DgqlW9Uu1uWLLD3j+7dCq6I+yBLYlJP+QceRQ9V5L4Vc58OHf6pZhvxpw=
-X-Gm-Gg: AYBFou3dEw3P2aKUq76DejjCkXup//Lr0YnAX9zs0Rfq/N24MUls/YUZgbskHSoP/2p
-	dfxvyeey4ygSzD18s1U0Ozke2QUpTRuBqYTaxfWY44cA8ZS4mXJPrO2/roG1AUoySX1J9KSOIhY
-	Hv2eybmeV892xggXwHfL+NZKAY4biFddjvvbRmcTEMdUEpUiB3i59j7G+LhWSeSMUeTl+y2jMX4
-	fqdSq7Edlps+CqCXebqzWNQxpBsfPxt4GOIKZH+a9VLHjvhFSBDaIHqagsOvNq38eFCrn8txjPj
-	NHYAI5b6cKRNUZVLsBOusUXtOfrEZfDTINjJmNENSnwsmhTorp8MfqRUjssXYArZr0S2a86WCH0
-	6dSUAFLzLEPl6JVwMnsGZuVNKNZ0gGcowt0PIXXqgbufcnzseAQTqA5s/F+C9ahQNMZUFSlO3XO
-	+R9YNprptmiTsCMi8D/kEcapSu1gfYtY/YF9hKWBofrRManRkomLXlxc6KDa72DZNd866IEqiBQ
-	5wR2f7llk8XIn5I1Iig7zOYjdG/bNp318TviGj3YPMmLr9/y8uQUuxcyfIfdoQkrTSfUQoVH0zD
-	YyfpuO++QrJ4rh/51o67m+itNtBByqkkRECidbLMhKC+CGWXGpwnZh6qsKv4L1kWLJ2FyOuY7cD
-	15lsPMKYfTMh5t8R+D1VRxQKbPYV1DQ==
-X-Received: by 2002:a05:6214:c46:b0:917:a1a7:6369 with SMTP id 6a1803df08f44-91f24198eaemr24969396d6.22.1794554421464;
-        Thu, 12 Nov 2026 23:20:21 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d614b4sm14297636d6.18.2026.11.12.23.20.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 23:20:20 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VVLCARYy;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AuKjDqxq;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RIhze3kx;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ThgE3kc8
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id C55142209D;
+	Fri, 13 Nov 2026 07:47:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794556055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
+	b=VVLCARYyo0bCvIfrwYne7U1sTXl5bYA269Hw8idWkxZ5Nhd0n2fiZQ9pboHC1yK8Fqb4C4
+	yGBteyDaNNJeI2VOF+nIsCxCkr6qOBTgK/xiRCebqVWWtwF2hyA8lhXU5UhE1gCOVxu8XY
+	NsVUuCIe25yt22tpUwRwYxsREOeYmJs=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794556055;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
+	b=AuKjDqxqLWlUqYZZQsTiQvCrZzelI18U2BIstuTn2g9VCwkZ9sPDnP5/WVZOVMAOF4C8Io
+	XxEuhRAZLZvddkAA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1794556053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
+	b=RIhze3kxPI60X8X7VYkDCKyK78xXuJqZQ/266urt/Ck9kJXQAZDit61DPwvbeqLr02sWyP
+	NeOyUmAB+OtO+ZY2SndJTN/hSuMKknj2bW2+DiWRrKgw+a41KaV8JEvhho+MsH85uTCoYR
+	lTlremIWvSp9XYpGsctQo2aLBBU6B/4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1794556053;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
+	b=ThgE3kc8SuI4Yo1gFiiNBYAPIZ2dxebG2HgFF6H6hJfy7lGAvrKBTFPAWAJgVKYHASJbkR
+	GrURjvN2Yf1Fw5AQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDD381344A;
+	Fri, 13 Nov 2026 07:47:32 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id mo9QHJTA9mruVgAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Fri, 13 Nov 2026 07:47:32 +0000
+Message-ID: <4762a951-5b37-4e7a-8569-f55a4683c912@suse.de>
+Date: Fri, 13 Nov 2026 08:47:32 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,97 +106,152 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [RFC v2 1/1] mm: add source selector to memory.reclaim
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: Li Zhe <lizhe.67@bytedance.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, gourry@gourry.net, 
- joshua.hahnjy@gmail.com, ljs@kernel.org, mhocko@suse.com, 
- muchun.song@linux.dev, rakie.kim@sk.com, roman.gushchin@linux.dev, 
- shakeel.butt@linux.dev, weixugc@google.com, ying.huang@linux.alibaba.com, 
- ziy@nvidia.com, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-mm@kvack.org
-In-Reply-To: <20261102070440.16262-2-lizhe.67@bytedance.com>
-References: <20261102070440.16262-1-lizhe.67@bytedance.com>
- <20261102070440.16262-2-lizhe.67@bytedance.com>
-Date: Fri, 13 Nov 2026 02:20:20 -0500
-Message-Id: <179455442014.482102.4069329165987986914.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 00/15] Add splash DRM client
+To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>
+Cc: Javier Martinez Canillas <javierm@redhat.com>,
+ Francesco Valla <francesco@valla.it>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
+ Peter Jones <pjones@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-embedded@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261027135342.2003632-1-maximpedraza@gmail.com>
+ <066197a1-aa2b-455b-84d8-4e2215fad764@suse.de>
+ <20261112152209.3297409-1-maximpedraza@gmail.com>
+Content-Language: en-US
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <20261112152209.3297409-1-maximpedraza@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spam-Flag: NO
+X-Spam-Level: 
+X-Spamd-Result: default: False [-11.79 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	XM_UA_NO_VERSION(0.01)[];
+	RCVD_TLS_ALL(0.00)[];
+	URIBL_BLOCKED(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[28];
+	TAGGED_RCPT(0.00)[dt];
+	MID_RHS_MATCH_FROM(0.00)[];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[redhat.com,valla.it,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lwn.net,gmx.de,amd.com,ravnborg.org,linaro.org,linuxfoundation.org,infradead.org,lists.freedesktop.org,vger.kernel.org];
+	FREEMAIL_TO(0.00)[gmail.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url]
+X-Spam-Score: -11.79
 
-On 2026-11-02 15:04 +0800, Li Zhe wrote:
-> +	Specifying a source value constrains where proactive reclaim applies
-> +	pressure. Currently only source=nodes:<nodelist> is supported. For
-> +	example::
-> +
-> +	  echo "1G source=nodes:0-1" > memory.reclaim
-> +
-> +	This reclaims memory of the target cgroup resident on nodes 0-1.
+Hi
 
-you buried the fact that you want to allow source=zswap in your cover
-letter. I was confused by nodes: was needed here until i re-read.
+Am 12.11.26 um 16:22 schrieb Màxim Pedraza Padilla:
+> Hi Thomas, Javier, Francesco,
+>
+> Thanks a lot for the reviews. I'm answering everything here in one go.
+>
+> On 11/11/26 14:52, Thomas Zimmermann wrote:
+>> So shall we merge patches 1 to 6 and 8 first? You'd have something in
+>> upstream already and not chase a moving target. From there, we can merge
+>> the other features in the coming weeks.
+> Yes, that sounds great. v7 is ready and holds just those: patches 1 to 4,
+> 6 and 8 of v6, with the MAINTAINERS entry squashed into the patch that
+> adds drm_splash.c, so six patches in all. The DT binding, the placement
+> and rotation, and the connector orientation will follow as a separate
+> series once this one is in.
+>
+> What changes in v7 from your comments:
+>
+> - the Assisted-by tags are gone from every patch (Javier)
+> - MAINTAINERS: I'm listed as M: and Francesco as R: (thanks, Francesco),
+>    in the same patch as drm_splash.c
+> - the firmware source is now DRM_SPLASH_SRC_FW, and the Kconfig options
+>    DRM_CLIENT_SPLASH_SRC_FW and DRM_CLIENT_SPLASH_FW_NAME; the BMP decoder
+>    keeps its name, since the BGRT goes through it too
+> - the drm_splash_fw_load() stub returns 0
+>
+> On the CONFIG_X86 around the BGRT check in patch 4: it comes from efifb,
+> where efifb_bgrt_sanity_check() is x86 only too, and its comment says
+> that all x86 firmwares centre the image horizontally. I haven't found
+> that promised for other architectures, and there the check could reject
+> a logo that is fine, so I'd rather keep it as efifb does. If you prefer
+> it on every architecture, or gone, I'll change it.
+>
+> The issue Sashiko found on v6 (a restore deferred while the device was
+> suspended) is fixed in v7, together with a few more that a later Sashiko
+> run found; the changelog of patch 4 lists them.
+>
+> About your Reviewed-by on patch 4: since v6 the work has changed quite a
+> bit. Restore now leaves the commit to the work, a hotplug while userspace
+> holds the display waits for the next restore as fbdev does, and
+> unregister waits for the work before it looks for a pending firmware
+> request. Shall I keep your tag, or drop it so you can look at the new
+> version first? Whichever you prefer.
 
-As Joshua mentioned, i don't think you need the separate cover letter,
-and I agree this is far too long for the proposed change.
+Keep the R-b. I intend to merge the next iteration. Any issues can then 
+still be sorted out. The splash screen has been waiting out of tree for 
+far too long.
 
----
+Best regards
+Thomas
 
-When I asked for testing, I wasn't concerned with the functionality,
-I was asking what problem this actually solves. performance? fairness?
-
-Shaping the distribution of memory is neat and clearly works, but why
-does userspace want this?
-
-The interface "lacking flexibility" is not a problem in and of itself.
-
-I CAN see why you might want to proactively shape what data is swapped.
-Let me give you an example:
-
----
-The global node reclaim interfaces allow us to put pressure on distinct
-nodes - which lets us shape which node is swapped from first.
-
-Example: node0-1=DRAM, node2-3:CXL
-
-  echo 1G > node2/reclaim   # swap from CXL
-  echo 1G > node3/reclaim   # swap from CXL
-  echo 1G > node0/reclaim   # demote to CXL
-  echo 1G > node1/reclaim   # demote to CXL
-
-But the memcg.reclaim interface only allows us to pressure the complete
-set of cpuset.mems nodes for that memcg
-
-  cat cpuset.mems           # 0-3
-  echo 1G > memory.reclaim  # makes progress from any of 0-3
-
-Presently, proactive reclaim iterates nodes in node or fallback order,
-meaning it attempts to make progress from the fastest node possible
-first - which attempts to demote by default.  If the lower nodes are
-full, this demotion will fail and we'll swap directly from the top tier,
-which is (presumably) warmer than the bottom tiers.
-
-Enable source-bound reclaim in the memory.reclaim interface so that user
-space can have the same control over memcg memory tiers that global
-proactive reclaim has.
-
-  echo 2G source=nodes:2-3 > memory.reclaim  # [z]swap from CXL
-  echo 2G source=nodes:0-1 > memory.reclaim  # demote to CXL
-
-This lets user proactive reclaim to target the coldest memory first
-rather than preferring to reclaim from node0 first and potentially
-swap out memory warmer than what is present on a CXL tier.
----
-
-With this, you might be able to demonstrate fewer refaults and less
-DRAM (node0) memory consumed by zswap. These are clear benefits.
-
-I would argue that memory.reclaim should operate this way anyway,
-and that would could make proactive reclaim do this by default, but
-I could see the policy bits in userland being useful as well
-
-Performance may not be the only reason you want this, but you need to
-help me understand what you're trying to accomplish.
+>
+> I'll send v7 shortly.
+>
+> Best regards,
+> Màxim
 
 -- 
-~Gregory
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
+
 
