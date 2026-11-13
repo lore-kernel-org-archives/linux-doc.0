@@ -1,88 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794596786;
-	b=FSx6BVLjldVsH2j3rAAnpgP3l3wZ3GwMrRcbaQDX3DysPbtHcUA6j0Mlt75Oy03C/oXR
-	 hprYgx2zcse/jVaCOjY7ExoyEkMquedgpkqQ+9FdpA9og93iXJBS/oUwphao0hElpvhqW
-	 UEsHXAMST35I0IHy0D0s65ALVF+z+DheT5BzneMnKMcKFugK4REUHShjcX1ctYtVbDsMD
-	 GdrycdPaIYbpCY7yPG+8VRc4vTxW4zIDk70mAYiYkhS0sbf2pS8XFIccR2oyC05uBxXr7
-	 rqydZboQ0LqwAKEJ7L+lRy5bQSZnKNGBH9pa7rOQWl3rpKKlLIFp+C3oSGH+ec/2ayA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794596786;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=P+hij2RJGRcms9m3f7cKiI6fQXltPcS0EJhEbBOodTE=;
-	b=GK31Nihr0bF3ZnlWiXfpewZQ8qDn03Kmrhpl5kLLuBYfkRLpAWbNZvbUGgzSyjVbfYaa
-	 1ZQxHYtMK9mflphvbb2I2Z6jeTelC9fWhBf55g6sMHeJeJ9X/fSGGRVn8PpACW8t4FiD8
-	 7NQZTA99vM69enxzg31RUhrtjvcIfJGlMnyD1Bt9yTKUMgb0k3yZMvZRZcrN3Y9P81WTN
-	 E3kbp5KMqaecqbkI2m/ySzn7k1FCAokbehW259n89WAuSirWLfdtBJ2maGOgL6OH441sV
-	 fPjEIftyCXBN/067ATpbXYG6bEI3wg9CkVl3lfaqzGYDHtJ9GJxJHPDe8/2m+BAbmnw==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oBFv0g16;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.153.30
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794596939;
+	b=QE3mvNUyiBuTjC4zVBq8aJoucU0LiQJ1EEr+ZWHaAPjGzx+Q2H58CfgFGQp+/rSJdbSx
+	 AEw336T8b33z86mIDeF1TNEyylwHKbAqYJpKp24O4qIox1FuFqvnvnSQJyTlWqcRrsP8R
+	 rvMtKdTLO0qg8fHQypBlSvs3kZycU9VFf72dMEZC5JJKQ/DOkvWHwDjec/ZsIHjT8oAde
+	 fHuHLHD64OKGG85uRbcRlbhIQIpeQRFs7JBufhTAFkEwGvOi2HfFWjr5pKnKe+PfA7lfx
+	 2CXH0uvr80gWmLDQpOP7IFsI8stGhGl+hCUrrQBjqoa7zWtCvrzQCqx+u5kN4eQYFrw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794596939;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 X-Google-DKIM-Signature:X-Forwarded-Encrypted:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Virus-Version;
+	bh=wMGf9TKkw2dAolbYMMRxX3h85UEtf4o2yarI4oY4daU=;
+	b=YHLmgCgTw+EysRughY82TL/HTShNvf0p/EbgpYxElWNT5cgJp7DneFnNsbsH74TFz8g9
+	 //cY4fdywsu/suzywhGRB2o8R/aRNY23ph7m1oJ5QXNBSJO/chsvfoIVVWm6L0nrNWK9d
+	 lr9yjEM1hf7uyEA8t8phW8SG4YkXw7auqx5m2QeKHBtpDFlVrAMm9Up1LsaylCRqy168F
+	 0BLBbVTYWJ95N4aMaPnWiEcyLoWWpveAV9mSxgLsk1KvhL57b45JH/yf5ALr5e9HSRJjg
+	 f/e25ougCyvF1WBNq3HlYknAPP0PG5ly4gCQOTE/VcjdsOZ5ulI/lUm28cG+k7mw0jA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=nOONlcMC;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=67.231.153.30
+Received: from mx0a-00082601.pphosted.com (mx0b-00082601.pphosted.com [67.231.153.30])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9417A606A327
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 19:06:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9417A606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC0B606A885
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 19:08:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6BC0B606A885
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oBFv0g16
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4bb55cda775so6387095e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 11:06:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794596784; x=1795201584; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=P+hij2RJGRcms9m3f7cKiI6fQXltPcS0EJhEbBOodTE=;
-        b=oBFv0g16ax/doGag1fbmlBD5jMji7uaIN0FWUNgHl88yM+BC8cWot96cm26a7D4VBt
-         MxfME/7i5AO9juEUrb2796+zt8pN0wd0Odl5f5gOA3bRYILMs6i13iz5IEcnK5CI3eXt
-         Z0uojPKR1+hx5hprkk8DAY8g3LRKWydTnKJoFNnXHoNX9xSkCZpUOVQO/kk14CALcfuH
-         0MIoJ04DZrcxRXfvU19S4lhAIyBLiXJkN1Wti5Chg+APdc+B4Mj5Kbma2S+NwGfkwKcg
-         muh2zVsxsojvRLbHtXORL6QDib5hGgJJ6e301LFE+SHnLDlXyOeLWwtyEbZqbmevGCd1
-         fYJQ==
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=nOONlcMC
+Received: from pps.filterd (m0001303.ppops.net [127.0.0.1])
+	by m0001303.ppops.net (8.18.1.11/8.18.1.11) with ESMTP id 6ADIwZWV437867
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 11:08:58 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=pps82601-s2048-2026-q3; bh=wMGf9TKkw2d
+	AolbYMMRxX3h85UEtf4o2yarI4oY4daU=; b=nOONlcMC8i4eL5z9MdkEXEZlwOx
+	Vrvx+jYuO0AU7xRzGRrS3LpEi73YXmUwnlC/dOM+wJ1ODaYOk7bl6zGXh9sfmJfw
+	MKNO6Sg6FOBmO6fyVJijB2yweyStubRKYP+YC5sRD+08HFJSgTDbMn2V2e8elqHY
+	cir6/wisuzYvGcarXU8Wim98GEnpbLytImhbK0UaDptgWMMAdVa2EzVnCL0Fdt4P
+	C8CwU6njpzc16OA1dki1A/QVsYaa2fr1OOoMTrn0yofhzM7HL6RF2Wow7f2tRuaJ
+	2PYNcqU0vefF9VfhQZZYt3fhB3NxmITWzERS0MJE8hSc3pgEiPS+lD+uMlQ==
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com [209.85.128.70])
+	by m0001303.ppops.net (PPS) with ESMTPS id 4hwh7ngs3y-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 11:08:58 -0800 (PST)
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-4a35e1d2dddso10753285e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 11:08:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794596937; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nQVWRwI3wtGxd+2tEsNpLr4PJ9qEIEs7jwzlf/1Mf4pUBN3Ub9Rm20RQo4XXVnYul8
+         WjFiFqbWCDllaJHFuuqYJlS9Lt+7KY7nIQlPeRAi+fRPyUhlsJNIxQ1ddRWM0myGxDQb
+         BfTlMaIDr/9X5ksfw1aBZfrOWRpj00C8jxm+2h9AobQD7CnkeooWI8NbTxlnpmhhCj74
+         S57f4Sj1j581/V5a4+mg/u8tJhuQUSBx6umpg+Rt3jArXDERtWG963TYc+Ek9lVrj74E
+         aszWVyBqPsks4341bjKhWQV1oXvoM9LGEJ/xuipT4awKw3XnS8V7W2HwI5B6D43UnB3X
+         rx5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version;
+        bh=wMGf9TKkw2dAolbYMMRxX3h85UEtf4o2yarI4oY4daU=;
+        fh=EVbG/xUkOVHVIQwg2K+SJUCJOG85UTpzz+riCsWE9fk=;
+        b=kLNgEiKrpGrI0AOasYWEKUHOuV50mcnq/TWd1L3ydI3Eb8Soc/B8lBKykY8eNX/f2e
+         auMlqJU22DQWkKaHzGu4Rx6csGVdJvCvi5LRSIV3xlralldcaZXl9BwkvnJAr926mWHf
+         nQRuNvP0hrvSX1Xyb4YuLkQGkJY/cjklkPme6teoCn+YvbxVFyy7MMHZ3qeVxPGz/1QW
+         3uMYqNk0zSzYPUREO/DBCCg4uzt0VkXRj6RP+qngBRdNecoLH5CXJuZE6zpyTUYFLRVv
+         5tvdZVI8uIj1X7KpscGovZdS2w84utueqWXjn5q1T0Dh0m2dW+h6HfCKIYfpGqCkHOey
+         j1iQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794596784; x=1795201584;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=P+hij2RJGRcms9m3f7cKiI6fQXltPcS0EJhEbBOodTE=;
-        b=bRSbm41TkvDqLvaNxO1reXmo2I6GYcQNeMfgQcPL5w7b5QM+6kYjuKMiUzxMF2NHcq
-         lg1oOLLI0n2IrIve8HWEflF7Su03HXzgKK44Qt/i1AP6n1ayzBtkcJwSBotk/7gUTSu0
-         kIeQEnQ1QwiDBb3E3I/Qy00hhfDvlGBdJ6SuSoSSOEtBYWFW7SF1fYkVHukHmG4S2avn
-         oVB7TMue5vnOni3yT3AHh9iWsaXm9irjC1lx/Z0KxxHp9JrHIrv3njkexZBipiEOezBE
-         3T7Z0JcH/KdF7HtYcYGbIOsPCD3hJNaYpxVMtTkPCuQGs2L4fzDRdN0QXW9b6D0pBOs8
-         q7MQ==
-X-Forwarded-Encrypted: i=1; AL+hErHvDa2eoysrywtd9LzJ0rPjkjdrGxCTZO3Qch+jXs86jyLzSw+YGwQmnjllblrDL4VaNDNQjHC5J70=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/KlMmAJj6N1iqo7iQx5QdDPTV3Oshqd1zoAtYQHAVKDvcYZLWe
-	M72Z8rmvW4ieHHbE2SUMOWSOz1h6jSEuWVkjjJeGdz/K+UWqvGO9jkld
-X-Gm-Gg: AYBFou1NpURkjt2TjOC7Nzj7UWzyp6IrE4F0hiOo4H1eRg/ifp83yleIbtgPhmyqYfz
-	A3YLv6rkzSMh0QqA3pcjxldTnn1TpCIOxFfh3Mb25QY1pl2pstqrBtpg51PNafuERZeQqFc2x2W
-	bi/GNeXZZXuI4bVePqZ5sHBVS34bKru7xIpOA636KQhrQu/skD+XJGTYIz16jVwF3Sws6PAv2t3
-	ExhJZbExOJxbq7tbTJfMQLHsG0scMWCyx9DySahozglBiYx3l9GYfumHnlxecY4vTKfYx10GNjs
-	ci5GJu+GmK3hWQpQvgO2YBNdtN4vGPULI+56+zEAP6tBH+/zNYIGNGVAQQuEPr2Qd9c88phwbA2
-	23Ph509JUiPq79TAgqm4wHNPg1s9Poc+OXIhWQqPENvPen8dnTHVDraafLWRlfVJrQB/1HICKdO
-	U2DHkHoZofpGHBB4JQoGF2eGwJTnPMu2AJr505sPcvIYFMlRnVXPCkaUlod9KebPhLZ9XCOeRQk
-	FDLZ3uOE6EqaPVjHChruam8C+ancmNj/UP07sihtvGNSVlblrsRhiCIxm36TLBSIO+hbotYZjP4
-	tHWqdtKHpJMVkLVytVcJkds4
-X-Received: by 2002:a05:600c:4e44:b0:4a2:180a:3417 with SMTP id 5b1f17b1804b1-4bb55c5f5admr66669225e9.1.1794596783524;
-        Fri, 13 Nov 2026 11:06:23 -0800 (PST)
-Received: from [192.168.1.22] ([83.231.69.9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb566220edsm112996755e9.0.2026.11.13.11.06.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 13 Nov 2026 11:06:23 -0800 (PST)
-Message-ID: <8f4ab543-66ec-4aeb-8cc8-5279c317008a@gmail.com>
-Date: Fri, 13 Nov 2026 20:06:21 +0100
+        d=1e100.net; s=20260707; t=1794596937; x=1795201737;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=wMGf9TKkw2dAolbYMMRxX3h85UEtf4o2yarI4oY4daU=;
+        b=T5wMCrVMBK5IPNA9FwA2uvNri7CJzj9a51BSb+VP1jDRQH2qlM1IaHVIXDgU8MoclL
+         8rxDGAizGRrO3svbtWA92ibuDPYC61oDqhSQ3hqxW7tF3Qj6DcwFkria9VfheF89nipr
+         /4ynbHdJAWSdSVH6OkL7XzSKioxynZcM6i3P0F++zcfoH1zY0YrUvggzfc8gLusJ9Ywo
+         9j+G9+0NdWtfjVLENTczjM4/mNHfJgCcl2bzxBj42A4NIqUPkqljfYggCQKXtZSUmy1D
+         e3gMJEQyxd5rxj4ji5FXrIEAn5lgnr4Ls0FU3znBxvmbbzb+ysYo0MRTx2BC4TYOg6OB
+         YNaA==
+X-Forwarded-Encrypted: i=1; AL+hErHo0XjgloLzWB6+Un1ZGvSGgDhjNFSU4DNnnLtlD0OgIpvR1BjmsLpGIBkDCbdCFb5hU62o3R/aisM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z88ASz+bRjE5fEM5CAf6oRD/W0fZu4cveVUEx5XJb0uGQRR3k5d
+	Jfa2C6OU5+r+0pR8ELSbrV4T3PU78zFzAZbqFO3bA01fkZpRMKcjVRfGhkwXVktyepn3s+op7p8
+	LCjjuLuXOo8SeObI7KoKjXaICYBxmF3MB1Qb5M748ekAdjVatayULMu2HjyS/CQwZB68kOoZf69
+	1wgMoijM8wtKdMvVkl3p57V1hRJstDgtE1A1s=
+X-Gm-Gg: AYBFou3kzvKyxc+YrPOX74xKzEV2DCEcy7qfZdcRr51XMc2z5INLlux37jNuJc57ryk
+	TGQc1UqpUIcffCoiGMie7NOucdW4Qg8lAFFg/uMVdcN6j90+4tggRAiRNBZp1nKtnh8Er+vStUX
+	jEt7JRMXjQyTBv044V662wOhmPuhnD/bu8mjn/ZAl8adwTJLaWAa07wn2RUYjKF5NaWqGw9hs83
+	bcoScnCrVacJjNIWmaX0qUafrKHql/xjyC6DmjtfuZoJpeHz1A=
+X-Received: by 2002:a05:600c:c172:b0:4bb:5f07:10d3 with SMTP id 5b1f17b1804b1-4bb5f071385mr25701255e9.21.1794596937145;
+        Fri, 13 Nov 2026 11:08:57 -0800 (PST)
+X-Received: by 2002:a05:600c:c172:b0:4bb:5f07:10d3 with SMTP id
+ 5b1f17b1804b1-4bb5f071385mr25700845e9.21.1794596936812; Fri, 13 Nov 2026
+ 11:08:56 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -92,183 +111,64 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/userfaultfd: document RWP behavior when the
- PTE is dropped
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Mike Rapoport
- <rppt@kernel.org>, David Hildenbrand <david@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Peter Xu <peterx@redhat.com>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Tal Zussman <tz2294@columbia.edu>,
- Linus Torvalds <torvalds@linux-foundation.org>
-References: <20261113112806.109578-1-azpijr@gmail.com>
- <avcCRLX7unFGeaHf@thinkstation>
-Content-Language: en-US
-From: "Jose A. Perez de Azpillaga" <azpijr@gmail.com>
-In-Reply-To: <avcCRLX7unFGeaHf@thinkstation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20261111005533.6436-1-toddfreed@meta.com> <CAM0EoMnPM54re5-WKyWgwyoz0cn1uGT6=E96OBG2-4m7M+kx7g@mail.gmail.com>
+ <CAM0EoMmrRrmPdXPKyiQgEHQSb=mq3uYfNc69hEKw+Rw1EQAzmw@mail.gmail.com>
+In-Reply-To: <CAM0EoMmrRrmPdXPKyiQgEHQSb=mq3uYfNc69hEKw+Rw1EQAzmw@mail.gmail.com>
+From: Todd Bert Freed <toddfreed@meta.com>
+Date: Fri, 13 Nov 2026 11:08:44 -0800
+X-Gm-Features: AclHuK-U0ThzUJNaBNSfjppeRsNnyfVDY_cTKL9afgrilY3k6R5ZNeb33jtLtAI
+Message-ID: <CADh2yMyJ7Fgtv2BAyNpKFkBC6YRC=Z7kOHSiBcH6kTqcriWL4A@mail.gmail.com>
+Subject: Re: [PATCH net-next v1 00/15] psp: introduce socket-less associations
+To: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        Andrew Lunn <andrew+netdev@lunn.ch>,
+        =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+        bpf@vger.kernel.org, Daniel Borkmann <daniel@iogearbox.net>,
+        Daniel Zahka <daniel.zahka@gmail.com>,
+        Donald Hunter <donald.hunter@gmail.com>,
+        Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+        Jiri Pirko <jiri@resnulli.us>,
+        John Fastabend <john.fastabend@gmail.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-rdma@vger.kernel.org, Martin KaFai Lau <martin.lau@linux.dev>,
+        Paolo Abeni <pabeni@redhat.com>, Saeed Mahameed <saeedm@nvidia.com>,
+        Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+        Wei Wang <weiwan@google.com>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTEzMDA3NiBTYWx0ZWRfX3uRUfuDqTWhy
+ 6i8qEKGm8wjinrA1C2fCxrQKB5Pl9pZ0qkRCpK9Vw2SpWWKcSJKYhVqEEgwIzdavFrSIlRnCOmI
+ uYNOtYILeA8yQrdQsNTTkQvYSpCAE4U=
+X-Proofpoint-GUID: J1i1lwOJN4l5jN-wPOdujDhQshr96CIm
+X-Proofpoint-ORIG-GUID: J1i1lwOJN4l5jN-wPOdujDhQshr96CIm
+X-Authority-Analysis: v=2.4 cv=R46WitRX c=1 sm=1 tr=0 ts=6af7604a cx=c_pps
+ a=Q4jRaax7EcWM5fECTC1wcQ==:117 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=7x6HtfJdh03M6CCDgxCd:22 a=_78whYxrdx1mplLwxq1U:22
+ a=c92rfblmAAAA:8 a=VabnemYjAAAA:8 a=V8I_lJ-4SMfPdcaXHV4A:9 a=QEXdDO2ut3YA:10
+ a=GvGzcOZaWPEFPQC_NcjD:22 a=gKebqoRLp9LExxC7YDUY:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTEzMDA3NiBTYWx0ZWRfX+mi7T7nspyZy
+ KKy/WNkioaAdKunQEstJCBP/yocxCBpiNgbTqixiO7tQ9okRYvW6nGejYE4nFBlgfvh+3F4KMRZ
+ bk8uoXA2a91+FxKoO23x7KlZMA00vVnqT6RG38ZEzF3S7Pw2QIxa4E5+mpBNtpcCsUKIoD0TP1B
+ n7iD/Na20mjvqnGclTVpvQ9NqIH6vFWQHi5CYIogj6F5DEaW6lPUEgMOEU1NWc9fyF5OdtL8JBe
+ 4EtjXowN1fAYQj9xdcRlFKAQFqn60XDTYXe6SjSz9yfbldanrfaykr0QxM3BAfcPdvYkmdFhoFL
+ uQsw59SjkKIa0u6MVYOxvzuzA7yh0DKHd7RswHUto2n+t1DJBWl39B54VuuKXEkl+mT642q4D/d
+ 9o/1uRznjj7IZVFLzb5QDVt3q1HyvbDLj4GQQhH1j0QOlEoQ+vuyFQ1WYUkTuNnSPiPtCggiNUy
+ zhQRj4W0fZmA5uS8fjA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-13_06,2026-11-11_03,2025-10-01_01
 
-On 11/13/26 1:44 PM, Kiryl Shutsemau wrote:
-> On Fri, Nov 13, 2026 at 12:27:42PM +0100, Jose A. Perez de Azpillaga wrote:
->> "Scope of protection" lists only the PTE drops requested by the user and
->> says the range has to be re-armed afterwards. On shmem the kernel drops
->> the PTE as well (page reclaim, collapse), and RWP has no marker by design:
->> the next access is a minor or a missing fault, and the user is expected to
->> register for those. Document this, together with the modes that sync and
->> async tracking need.
->>
->> The VMM example registers guest_mem with RWP and MISSING only, so a vCPU
->> write to an offset that is not mapped there can be lost during eviction.
->> Add MINOR to the registration and describe how the handler treats minor
->> faults.
->>
->> Link: https://lore.kernel.org/linux-mm/856cdf21-7982-475a-b244-a7ceff4eb6aa@kernel.org/
->> Link: https://lore.kernel.org/linux-mm/avWnaR7VVEGa7yNp@thinkstation/
->> Suggested-by: Tal Zussman <tz2294@columbia.edu>
->> Signed-off-by: Jose A. Perez de Azpillaga <azpijr@gmail.com>
->> ---
->> this is the first time I'm writing documentation, so I accept any
->> suggestions to improve it :) and I tried to follow the documentation's
->> own style.
->>
->>  Documentation/admin-guide/mm/userfaultfd.rst | 65 ++++++++++++++++----
->>  1 file changed, 53 insertions(+), 12 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
->> index 97daea83b7f1..19bdac668f93 100644
->> --- a/Documentation/admin-guide/mm/userfaultfd.rst
->> +++ b/Documentation/admin-guide/mm/userfaultfd.rst
->> @@ -384,17 +384,45 @@ normal missing path (``do_anonymous_page()``, ``do_swap_page()``,
->>  the population itself, co-register the range with
->>  ``UFFDIO_REGISTER_MODE_MISSING``.
->>  
->> -Protection is preserved across page reclaim: a page swapped out while
->> -RWP-protected carries the marker on its swap entry, and swap-in restores
->> -the PROT_NONE state so the first access after swap-in still faults. The
->> -same applies to pages temporarily replaced by migration entries.
->> -
->> -Operations that drop the PTE entirely — ``MADV_DONTNEED`` on anonymous
->> -memory, hole-punch on shmem, truncation of a file mapping — also drop the
->> -RWP marker: the next access re-populates the range without protection.
->> -Unlike WP (which persists via ``PTE_MARKER_UFFD_WP``), there is no
->> -persistent RWP marker today. The user needs to re-arm the range with
->> -``UFFDIO_RWPROTECT`` after any operation that explicitly frees PTEs.
->> +Protection of anonymous memory is preserved across page reclaim: a page
->> +swapped out while RWP-protected carries the marker on its swap entry, and
->> +swap-in restores the PROT_NONE state so the first access after swap-in
->> +still faults. The same applies to pages temporarily replaced by migration
->> +entries. Shmem is different: reclaiming a shmem page leaves the PTE empty
->> +rather than installing a swap entry, so the protection is dropped along
->> +with the PTE.
-> 
-> Migration is not anon-only: migration entries carry the uffd bit for
-> shmem and hugetlbfs too. Keep that sentence out of the anon part.
-> 
-> And please call it the uffd bit, not the marker. "Carries the marker"
-> next to "there is no persistent RWP marker" reads as a contradiction.
-> 
->> +Operations that drop the PTE entirely also drop the RWP protection. Some
->> +are requested by the user — ``MADV_DONTNEED``, hole-punch on shmem,
->> +truncation of a file mapping — and some are initiated by the kernel on
->> +shmem: page reclaim, and collapse into a huge page by khugepaged or
->> +``MADV_COLLAPSE``.
-> 
-> I would not list them. The list is not complete: splitting a PMD mapping
-> of a shmem THP drops it too. The next tool will find the path that is
-> missing and report it. State the rule instead: on shmem the kernel can
-> drop the PTE at any time while the page stays in the page cache or swap.
-> Reclaim and collapse are examples.
-> 
->> Unlike WP (which persists via ``PTE_MARKER_UFFD_WP``),
->> +there is no persistent RWP marker, and this is intentional: once the PTE is
->> +gone, the next access takes a page fault that userfaultfd can deliver, and
->> +that fault is the notification. Which fault it is depends on what happened
->> +to the page:
->> +
->> +- The page is still in the page cache or in swap: the access is a minor
->> +  fault, delivered if the range is co-registered with
->> +  ``UFFDIO_REGISTER_MODE_MINOR``.
->> +
->> +- The page is gone: the access is a missing fault, delivered if the range
->> +  is co-registered with ``UFFDIO_REGISTER_MODE_MISSING``.
->> +
->> +WP cannot use the same scheme — a minor fault would trap reads as well as
->> +writes — which is why it needs a marker.
->> +
->> +Without the matching mode the page is mapped back silently and without
->> +protection, so what to co-register depends on the tracking mode:
->> +
->> +- Sync mode: the access would be lost. Co-register shmem and hugetlbfs
->> +  ranges with ``UFFDIO_REGISTER_MODE_MINOR`` (and
->> +  ``UFFDIO_REGISTER_MODE_MISSING`` if the file can have holes), and
->> +  anonymous ranges, where minor faults are not available, with
->> +  ``UFFDIO_REGISTER_MODE_MISSING``.
->> +
->> +- Async mode: neither is needed. A page faulted back in is mapped without
->> +  the uffd bit, so ``PAGEMAP_SCAN`` reports it as accessed.
-> 
-> The registration is fixed, the mode is not. A context that switches to
-> sync with UFFDIO_SET_MODE, as the example does, needs the sync
-> registration. That has a cost in async mode: minor faults are always
-> synchronous, so "async -- no vCPU stalls" in step 1 is no longer true.
-> 
-> Getting it back would need MINOR to follow UFFDIO_SET_MODE: in async
-> mode, map the page and let the next scan report it as accessed. That
-> could be a future project if the stalls turn out to matter. For this
-> patch, just fix the comment.
-> 
->>  **Fault Handling:**
->>  
->> @@ -486,10 +514,16 @@ never traps on its own ::
->>      ioctl(uffd, UFFDIO_API, &api);
->>      if (!(api.features & UFFD_FEATURE_RWP))
->>          /* RWP unavailable on this kernel/arch -- fall back. */
->> +    /*
->> +     * MINOR: an offset in the page cache but not mapped in guest_mem
->> +     * would be mapped back without a fault, and a vCPU write between
->> +     * the pwrite() and the hole punch in step 4 would be lost.
->> +     */
-> 
-> Not yours, but the "if (!(api.features & UFFD_FEATURE_RWP))" has only a
-> comment as its body, so UFFDIO_REGISTER becomes the body. A second
-> comment between them makes that harder to see.
-> 
-> Adding {} around the body comment of the branch can help a bit.
-> 
->>      ioctl(uffd, UFFDIO_REGISTER, &(struct uffdio_register){
->>          .range = { guest_mem, guest_size },
->>          .mode = UFFDIO_REGISTER_MODE_RWP |
->> -                UFFDIO_REGISTER_MODE_MISSING,
->> +                UFFDIO_REGISTER_MODE_MISSING |
->> +                UFFDIO_REGISTER_MODE_MINOR,
->>      });
->>  
->>      /* Tracking loop */
->> @@ -550,6 +584,13 @@ progress. After ``fallocate()`` punches the page out and ``UFFDIO_WAKE``
->>  fires, the vCPU retries the access, faults as ``MISSING``, and the
->>  handler resolves it with ``UFFDIO_COPY`` from storage.
->>  
->> +The same holds for an offset being evicted that is not mapped in
->> +``guest_mem``, except that the vCPU blocks with a
->> +``UFFD_PAGEFAULT_FLAG_MINOR`` fault, which the handler leaves pending until
->> +the page has been punched out. Minor faults on any other offset are
->> +resolved with ``UFFDIO_CONTINUE``: the page is mapped without RWP
->> +protection, so the next scan reports it as accessed.
-> 
-> "Any other offset" is too broad. A cold offset that step 4 has not
-> reached yet will still be written out and punched. If the handler maps
-> it with UFFDIO_CONTINUE, a vCPU write between the pwrite() and the punch
-> is lost. That is the case MINOR was added for. A fault on any offset
-> this pass will evict has to wait until that offset is punched. The same
-> goes for RWP faults.
+> My bad - only one of the sashikos (gemini) responded. I suggest you
+> wait for the second one. I think it watches this gemini sashiko and
+> tries to come up with more clever findings.
 
-thanks for the review! I'll address all of it in v2 :)
+Ok, I will wait for that before posting v2. What is the best way to know
+if that has happened? This posting is from 3 days ago so I would have
+expected all the sashiko reviews to be complete by now. Let me know
+if I should adjust my expectation.
 
--- 
-cheers,
-jose a. p-a
+I think this is the right place to look
+
+https://sashiko.dev/#/patchset/20261111005533.6436-1-toddfreed%40meta.com
+
+-Todd
