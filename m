@@ -1,81 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794531474;
-	b=WtTOebMKDhnzXMePKf2/BTc7NJaAubW7L0nxi105bHDX4nGr0NFM2UXvwgvj4NBwe5BM
-	 5ZOJXtMfOIMHX1ftPpZBHHbcBGjnplkzsJEV5BsPZPmCQ+QXo6OQie2ygWO0Cmh6Ij7cK
-	 hA4H1NgXXP/j29d+oWIb1MG01JeaLkftC+6YGmVE9hJyE0fO8fbE5CB871QJwrXSXFZej
-	 PAa74QeBduLNbeGJaCP0itkoA6okHnT6MWLVk1n6fkz+bitp97g86VH1W1bmZIukwUrop
-	 m9+IvnOCdZrVbsYa9YG8L64StUDkPRJlMOt+D81H21Q9On/3lWgpGt2AtjaCfZ1O8vQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794531474;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=OcfSVkWao6pdjVtwXUlio7NDEQODdtBQ2I49ki3ouiQ=;
-	b=tmH/e8uyqO3pPcMQyij38fhC6k3pMEWN5BaaLG3JN4Tv6KZnsgBrzi00ZNwiootJlFMG
-	 mxtHLhk4Mln9R8brONXteI4y1Xnv9FwFrpAhq2rIyBCDoSeLvibANbiy6120ZNxwoRO4b
-	 J0VXPClW+BFI5j9SnGZ3eylmgOvstZEQB8hNAv5zFqICFCmoPUH1JjdZ11RhAe1LcBk9v
-	 o+LlcqnO8OzvO42iEj0vpOKFZMz0UULcwq4Cd/iOrSRwCb8JkUXNZ5yYZsyQIQW2n+IMQ
-	 Yo6zIdpZtH6tgfqsYumYZGO3amgCSD5CD7PVhcpEya3UlLsEE+xlcfz1NF+JPuuiUIg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yck2E+XZ;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794531700;
+	b=nUr94jr+7nf84jCrsJwyplQp2LkP5h73Bb2Tr93e7lwtcdCL+ZMwSqc3vpq2Qu0+/3By
+	 RVXMHTUOlQuRaqhxZnXzmEDAtWYrfxLoArDVOQy1u/rEoJwHB19ytrfXKoFpOpae5cbu8
+	 8fxetbIRL7TNSC8vmSj/W6IPtq9O0fsBrbVuIDIgFkvRIYI8aIZs4NKj/vw6hpemwcK4E
+	 tbJCdv5Atq9+FuVvHzms9//EdNyRQHyk88WzXYMbQjq0hK7BZCNQ5YhENU1k4igTN1KMX
+	 LgHmLqA7TNHi9falroQtyp06bSa5r0WQzD5aZCEiRcakx/vLVpklqJDlyTum3H8Soaw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794531700;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=xsqNy8x4lmXAXvHwF9gkwZoG25xYnfN0MsYpVbWeuyQ=;
+	b=bRNBK4lEhNIb0rT5fa6D5ETXgPnVAFIGrJLwnH5tddpPxwbSR0YOUmLlBYTpBdy9F7ye
+	 iZuViM2n8OqGRbNJBsi6WiycF+GqpybkbIscnLB6UjTSN635paqUtPwB4TDfl5PujbfWI
+	 fsOm49JSndRuiXiBN8E4MFS/yuZ+6RRH5jDHGJkWrbItgy7aNKeL6BkJ4ka/A9SEsPSUj
+	 dY2o3Wy0quXO6GLSguUVfCNphRT9qW3mgiPPa5JfFU3DqWm0Ol6CF8LKYmIl5fDtly+2j
+	 MRGjy/QTGz4WZ6dPVLKarYK1GqrP4HcM6WgV4fcWs7k8JUu/9go8o3/OyS8eb0QOqvA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=joelfernandes.org;
+	spf=pass smtp.mailfrom=joelfernandes.org;
+	dkim=pass header.d=joelfernandes.org header.i=@joelfernandes.org header.a=rsa-sha256 header.s=google header.b=G1jbsG+S;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7372F606A88C;
-	Fri, 13 Nov 2026 00:57:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B65606A32A
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 01:01:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07B65606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=joelfernandes.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Yck2E+XZ
-Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 0407F1F000C8;
-	Fri, 13 Nov 2026 00:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794531474;
-	bh=OcfSVkWao6pdjVtwXUlio7NDEQODdtBQ2I49ki3ouiQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Yck2E+XZD2a+MPTzefi/1pfLD6NZuHf1ey/lRUeQ4c/2CXFjhPHzuXygb+i6r6loR
-	 2roibeg6Yz163yZSofMKFawKBQrHXbKIlS2H14m4OpQL3axGmK5vKWF/2d0LhI0eLw
-	 XRU6Pxr+tVBzC0WYtQVsTNFth81OuNWMdOCl0VgU8EbnZy5Yk7Mlx6qbICQxjabAz1
-	 cukSQeSPOObOdiUGGxlx6ZAgUThKEJLHWD0OLspjeYoheEZhvMw+7yH0jtAvgMWv1x
-	 N+2nSUuz6qCEhcyF3MFcxkky2zKGBPAl2VE0snnH4u+Zs+tfrJ6xmbsN/g8Dbi1P0U
-	 g4IXYwF4W9Rpg==
-From: Joel Fernandes <jfern@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <jfern@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Andrea Parri <parri.andrea@gmail.com>,
-	Will Deacon <will@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	David Howells <dhowells@redhat.com>,
-	Jade Alglave <j.alglave@ucl.ac.uk>,
-	Luc Maranget <luc.maranget@inria.fr>,
-	Akira Yokosawa <akiyks@gmail.com>,
-	Daniel Lustig <dlustig@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: rcu@vger.kernel.org,
-	Kunwu Chan <kunwu.chan@gmail.com>,
-	linux-arch@vger.kernel.org,
-	lkmm@lists.linux.dev,
-	linux-doc@vger.kernel.org
-Subject: [PATCH for-v7.5 02/14] Documentation/litmus-tests: Add SRCU fastpath scan-before-anchor test
-Date: Thu, 12 Nov 2026 19:57:29 -0500
-Message-ID: <20261113005747.2977123-3-jfern@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261113005747.2977123-1-jfern@kernel.org>
-References: <20261113005747.2977123-1-jfern@kernel.org>
+	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.a=rsa-sha256 header.s=google header.b=G1jbsG+S
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so1943715e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 17:01:39 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794531698; cv=none;
+        d=google.com; s=arc-20260327;
+        b=XvBi0o5qld7I55eVU4q66V6xsEEIU01dPMCUCEIrrbTMskr5qRnlgcvKb1SeHemLOI
+         z12pAHAgQ3Iu9OEkmPlWYs2Mte/TQvceZY+dpJD7XsVCUzELQaAetED3zaTqMgB9+aey
+         wwetVzaRog3ebIzXv7BqBGxnuPd7RMSM7kHbcPAyj/a6ykBpeVTFl6wyQJjLSTcGs8m2
+         D35gAMhkbKm25gHTEB6UeVC6JwuIdlXPhZV3A3GKBWqbZtxgiQ7x5lvD/fEm5uZKwATS
+         DYumzxJ5LbKcVL44mrNnMdOpXni9Lug9uuAxW8RqdXgaYw3xBlD4ci3oXOGhfTvPOZ1L
+         lLUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=xsqNy8x4lmXAXvHwF9gkwZoG25xYnfN0MsYpVbWeuyQ=;
+        fh=jhh6ZapplbdsPCVKRhoEHt0tJaVbj2buXR/CK0tP0EA=;
+        b=jQ9NwJhuULDTsWSrm0FDgv7K1ZVwvnXWmQyBRCPMbQ3xAXvLZscaVZXPD3xA+ykyBG
+         7V+l4fFXZUcYICuiIyxIZGN7yAOIdojNbBOI8fNzWIInArvccnL3kgTGzNk35CmX0SXs
+         EMBMfMbIbltU+FmlFRA7W1QQc0BSBj3KLRmvqEln+T/iTmWgprdyfdIoIYPLolv1lbvZ
+         oGcHmEwlEk8/+XMw4fj0hJmjecO07DYMDRE+flc0mLreVCSJ5zjaOkUmxVpWcLa3s9K/
+         3ZWAPRnwzH87Eq88PTXIHE/J6EhoWeOgSEbBujND+L5WsWE2IlXsyn3xiBJY3VYe7IFj
+         GhXA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=joelfernandes.org; s=google; t=1794531698; x=1795136498; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=xsqNy8x4lmXAXvHwF9gkwZoG25xYnfN0MsYpVbWeuyQ=;
+        b=G1jbsG+SSau2XzDeW1OBYgcZTEKbYsSnIFjCz5jzxju2YOgwgfGuinOztdcmDgtqWf
+         gs2+QeCPNvtJ/fn1ygL0g7bEy34oR7Y0N3LEL4YlJ9fDk3GdFupL6jpH7jf55PP3vmfg
+         a2MC+9Pbb3enm3e5qIZT7H9J+PCKaYqIYCk1o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794531698; x=1795136498;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=xsqNy8x4lmXAXvHwF9gkwZoG25xYnfN0MsYpVbWeuyQ=;
+        b=rdp+94DT48eLYre7v9P8EVbF7bt5V04iMXjZlBBWsEWE4stXYyOmFzFxfLjpEHQ9tS
+         nLFHWwn0ou99/Yao7TGxMtxNmzOkkvvCCEJy5aAd81eDrIiNEcE1LCo4W2Ir5c8CdNLm
+         Tf5NxOif/gq7iImZawJJT1EEBd+HIbZmlWkNVv03PTotsTOOyD747FuP4QbbFsMz/i45
+         E/B37sQfJfDD9SF1jO1KHxLLc+piM5Gmb/WFgLmPrryVMdWi6v7LsJyyK35OZKFDeBFM
+         WV/0aMqQP5DIdrf3EASJW4rJAUtNjdiQwHrUKce3YPS7pY77+JrdwRP4sWKbxR63CqcX
+         +l0g==
+X-Forwarded-Encrypted: i=1; AL+hErGZo4L8VdO2phD2zqLru5CYFhRnfEwDZ7Yn75cj7aQ4c2Uy1zsL+KogKSmjPiRxj2fke4GSbgP7RFE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9wfqKvVX0lhq/J1cpH51psZAyKRhH/ZpCBGnUbvXga58DJkWrE
+	0lDFmZrVNqiccgWRaVuk8qaN+hYT9W40JBU4qsNalDs+PtGhl/cXAZASBaidSXmfIMa5+PPg5mu
+	zXpVu7tUHLfGybpc59uKIzV6l/mxUwj8B3il0ENcPIA==
+X-Gm-Gg: AYBFou33Y3jNAhOAtwf2dfx6VBw/q52mhU1E6MHYi8bKHLidSt+9mcgz3yBcnzlEnOG
+	IM/AU6DZEvXKeVWg5roGgS9q+lNcuA9RpAc1BXvGNJgyi+mu7Fvf6RHVgWvEYGWYIlW0WJaesAW
+	C4A3dOos8OgHvGzHzhaH5tDMt9JotUb6HHwuAygMoK/dke+eYHt5n+NAWAWx37yZL3y0DRUGjFG
+	HoUk0+yKz2Q0JCeDucEsSSzCWpsKbofiMyO4SI5z30PryxU8scalvcuvhye/mevU5VrscbgkvuM
+	TNTridVISvvqFF/ZmOUbfl2rS/iiD6NxvvM9Vekiy7uiWz/o7AHqu+N/cX9HIPzcFKCQrm0zBCz
+	RnUyO+aZt/af0ciOFluQsxG91IhfZ7WItv9a6joodQ4DqbDw86OT0vYminQs=
+X-Received: by 2002:a05:600c:8b8c:b0:4a2:1197:1de0 with SMTP id
+ 5b1f17b1804b1-4bb55a7a460mr17515855e9.19.1794531698338; Thu, 12 Nov 2026
+ 17:01:38 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -85,124 +101,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261113004946.2758197-1-jfern@kernel.org> <20261113004946.2758197-5-jfern@kernel.org>
+In-Reply-To: <20261113004946.2758197-5-jfern@kernel.org>
+From: Joel Fernandes <joel@joelfernandes.org>
+Date: Thu, 12 Nov 2026 20:01:25 -0500
+X-Gm-Features: AclHuK-BlMNbouTRIZA68HB056zVMIxCfaWWRZW7PBno_ghygL1wLUmiCANRO7s
+Message-ID: <CAEXW_YTY1rjYH8FwvLvc1JbOQYDuXTP7BEE0a6eoRfu+-ZC6-g@mail.gmail.com>
+Subject: Re: [PATCH for-v7.5 4/5] rcu-tasks: Use pr_debug() for callback
+ contend/collapse messages
+To: Joel Fernandes <jfern@kernel.org>
+Cc: linux-kernel@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>, 
+	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
+	Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>, 
+	Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
+	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, rcu@vger.kernel.org, 
+	Song Liu <song@kernel.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Kunwu Chan <kunwu.chan@gmail.com>
+On Thu, Nov 12, 2026 at 7:49=E2=80=AFPM Joel Fernandes <jfern@kernel.org> w=
+rote:
+>
+> From: Song Liu <song@kernel.org>
+>
+> Commit 5de907d24919 ("rcu-tasks: Disable callback contend/collapse
+> messages by default") added the rcupdate.rcu_task_collapse_debug module
+> parameter to gate the three pr_info() messages that report RCU Tasks
+> switching between CPU-0 and per-CPU callback queuing.
+>
+> The kernel already has a mechanism for debug-only messages that are off
+> by default: pr_debug().  Use pr_debug() for these messages, and remove
+> the rcu_task_collapse_debug module parameter, its documentation, and
+> its boot-time announcement.
+>
+> The messages stay off by default.  On CONFIG_DYNAMIC_DEBUG=3Dy kernels,
+> they can be enabled at boot with:
+>
+>   dyndbg=3D"file kernel/rcu/tasks.h +p"
+>
+> or at runtime with:
+>
+>   echo 'file kernel/rcu/tasks.h +p' > /proc/dynamic_debug/control
+>
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Song Liu <song@kernel.org>
+> Signed-off-by: Joel Fernandes <jfern@kernel.org>
 
-If the synchronize_srcu_atomic() fastpath instead places its lock scan
-before the grace-period anchor, the scan can miss a reader whose
-increment was already visible before the anchor.  That reader already
-existed when the grace period started, so completing the grace period
-without waiting for it would violate the SRCU grace-period guarantee.
+Btw, even though I included this in the 'for-7.5', I am planning to
+send it for 7.4-rc as we discussed, so please ignore it in this set.
 
-This litmus test models the reversed ordering, with the lock scan placed
-before the grace-period anchor.  "seq" models the grace-period anchor in
-->srcu_gp_seq and "ctr" models the per-CPU ->srcu_ctrs[].srcu_locks
-counter.  P0 scans the lock counter before writing the anchor, with an
-smp_mb() between them.  P1 models the reader-side counter increment.
-P2 models an observer that sees the reader's increment before seeing
-the anchor.
+thanks,
 
-The same outcome is allowed with this ordering, and herd7 reports
-"Sometimes".  The litmus-tests README is also updated to describe both
-SRCU fastpath tests.
-
-Tested with herd7 7.58 using linux-kernel.cfg.
-
-Signed-off-by: Kunwu Chan <kunwu.chan@gmail.com>
-Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
-Signed-off-by: Joel Fernandes <jfern@kernel.org>
----
- Documentation/litmus-tests/README             | 19 +++++++
- .../SRCU-fastpath-scan-before-anchor.litmus   | 52 +++++++++++++++++++
- 2 files changed, 71 insertions(+)
- create mode 100644 Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
-
-diff --git a/Documentation/litmus-tests/README b/Documentation/litmus-tests/README
-index 6c666f3422ea..4d4ec9c6f2cc 100644
---- a/Documentation/litmus-tests/README
-+++ b/Documentation/litmus-tests/README
-@@ -78,3 +78,22 @@ RCU+sync+read.litmus
- RCU+sync+free.litmus
-     Both the above litmus tests demonstrate the RCU grace period guarantee
-     that an RCU read-side critical section can never span a grace period.
-+
-+SRCU (/srcu directory)
-+----------------------
-+
-+SRCU-fastpath-anchor-before-scan.litmus
-+    This models the synchronize_srcu_atomic() fastpath with the
-+    grace-period anchor ordered before the lock-counter scan.  This
-+    ordering prevents readers that existed before the grace period
-+    from being missed by the scan.  See
-+    SRCU-fastpath-scan-before-anchor.litmus for the reversed
-+    ordering.
-+
-+SRCU-fastpath-scan-before-anchor.litmus
-+    This models the synchronize_srcu_atomic() fastpath with the
-+    lock-counter scan ordered before the grace-period anchor.  This
-+    permits the scan to miss readers that existed before the grace
-+    period, violating the SRCU grace-period guarantee.  See
-+    SRCU-fastpath-anchor-before-scan.litmus for the opposite
-+    ordering.
-diff --git a/Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus b/Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
-new file mode 100644
-index 000000000000..7df0641b5470
---- /dev/null
-+++ b/Documentation/litmus-tests/srcu/SRCU-fastpath-scan-before-anchor.litmus
-@@ -0,0 +1,52 @@
-+C SRCU-fastpath-scan-before-anchor
-+
-+(*
-+ * Result: Sometimes
-+ *
-+ * If the synchronize_srcu_atomic() fastpath instead places its lock
-+ * scan before the grace-period anchor, the scan can miss a reader whose
-+ * increment was already visible before the anchor.  That reader already
-+ * existed when the grace period started, so completing the grace period
-+ * without waiting for it would violate the SRCU grace-period guarantee.
-+ *
-+ * This litmus test models the reversed ordering, with the lock scan
-+ * placed before the grace-period anchor.  "seq" models the grace-period
-+ * anchor in ->srcu_gp_seq and "ctr" models the per-CPU
-+ * ->srcu_ctrs[].srcu_locks counter.  P0 scans the lock counter before
-+ * writing the anchor, with an smp_mb() between them.  P1 models the
-+ * reader-side counter increment.  P2 models an observer that sees the
-+ * reader's increment before seeing the anchor.
-+ *
-+ * The same outcome is allowed with this ordering, and herd7 reports
-+ * "Sometimes".  See SRCU-fastpath-anchor-before-scan.litmus for the
-+ * opposite ordering, which forbids this outcome.
-+ *)
-+
-+{}
-+
-+P0(int *seq, int *ctr)
-+{
-+	int r2;
-+
-+	r2 = READ_ONCE(*ctr);
-+	smp_mb();
-+	WRITE_ONCE(*seq, 1);
-+}
-+
-+P1(int *ctr)
-+{
-+	WRITE_ONCE(*ctr, 1);
-+}
-+
-+P2(int *seq, int *ctr)
-+{
-+	int r3;
-+	int r4;
-+
-+	r3 = READ_ONCE(*ctr);
-+	smp_mb();
-+	r4 = READ_ONCE(*seq);
-+}
-+
-+filter (0:r2 = 0)
-+exists (2:r3 = 1 /\ 2:r4 = 0)
--- 
-2.54.0
-
+Joel Fernandes
