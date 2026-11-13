@@ -1,93 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.36
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794553744;
-	b=UKHkfZi1Si3YaU+J8jri/xuT3UyyewYnEqLh+521orE6ORGxeuAjsUt2a8DySi28DL7X
-	 ShjostAlh34feOjPA6AW/QACRvTQf/CaJAvo5pUy/vbivm0WUaHFoi+rUF6EiPm4QU1Db
-	 3x66sTq39MLYSuhB+aoti0DDpFj0TaMcJtDBTJDx5pCOewHsZaItc0o2XHYGLEtScE/Gl
-	 XLBVENv6rgUti8N1TJQJnMxzCR/GBG4fBa1W5Jlz2lLi/q7FKhBpViu0KTzva7Bb/SOW/
-	 ll0KjmHyG6CHJ2cdosl4DrkzKyROblw3h7/NqwP5VJrm2qNFuPH/zTJ4ys/JcHQM63A==
+	t=1794554423;
+	b=1LCEBRYuy7FtPNoaFDFKnIhNmsuZFpaE3Pl3nIok+ltZjVOMjfKB2QVLcx9NVHTNtRb5
+	 QaAZ1Dmx5XEwqpN7HT3EO3VicPQObmnP55ftkc8q+0jC4CJwg+8QDHdxcjKhUr0LFEgEc
+	 L/urD1pKfHmGjk3DzUmo3B/F7qENSP+xYnKkaUPa7nLNRsdjM/H0XMsgY17HaXUjYq8IJ
+	 ArDCERilmMlabqd+KDUKmBEqJ494J5HzkTUWh+qchJZwLgjwDn4UGvzLmvcCie9s9ftgC
+	 WlY7r3n07FAazM6b0hpayhgfCsdriCgW/4S4kTGM9eqfP2sjNNqqqgTfqmhq4Unlczw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794553744;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=SYhdRBfbhOCrZODwMof2LJJutjMOsW3pk0k9wT+4x1s=;
-	b=Sfl74LcznC0y2bM96/T5WVHm3xvWRa7ADUMiuqgMxQSdN6bUhPQ/AYncX0ubLSDoJz68
-	 V8WWbnxL2VW6IWEVa0H8cr4Y+4WwZwCWhmrkXBl/C3lUYUjbXLwUeozbPN0c/EdnfrBnT
-	 BV4qgK9nIhx2odpceOvKatkVzM6i4dmYcM0WWXiaSdPUSx8a5caymwbi4nQM2y4wCAoT/
-	 BqYvU6wbVzO4UUcNQnSJl8eeQMAW2JSAuz2jxeNALZ2FVigAsbbLuE1QT3nR1al9J36+t
-	 +uOw8TPP9nEQG1Koy0LyczE9IGeIpN9xVw0X9/5lmNYcnuY6ldgyK5MgBnhHRnetY/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794554423;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=4ukC9+RmyKpMCoo2Ej2X50ZCe3RffRo8JS7sjMrz5b4=;
+	b=a10Gv4RosAiPjQ/jK7yjyF30uoPgwsPBoGvz9Fz6yTrAaSOlv+TXaj1+Ii9NYyvTkR1R
+	 dLMWo1DHW27dmluSzwkI09P8Wr7bcRxaNUGgXfVdR8MD7R26tNmIAB0lRJvnUjouh9EMU
+	 KO6qH9VyplG/aAICmTq6OYI8TVH20vfjDcuJh1iK7ZjiH/8fnKyfBi5FMrX0v8EWkGxwk
+	 9a11OjlVesh7mTmEz5P02rbhYdcIyUjOpCe8BWw4k/1UWxcTyiH+wsyzrfe3Jh1Nng2Yx
+	 V4c64YkYADx9CDqNtthAQIDb7zy7sQz4rKugvpUOr2J95WyIidtLEiHtREXUxQ5qysg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ih9I4ay6;
-	arc=none smtp.remote-ip=95.215.58.36
-Received: from mta1.migadu.com (out-36.mta1.migadu.com [95.215.58.36])
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=UI+4bgJh;
+	arc=none smtp.remote-ip=209.85.219.48
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D3C6606A888
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:09:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D3C6606A888
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FF02606A323
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:20:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FF02606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=ih9I4ay6
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=ePA00gWH1MMaJNHfq4j4NnI+p0p7J/Mr89Hwy2EXwkk=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794553741; v=1; x=1795158541;
- b=ih9I4ay6pugHf1ZtG7LXmd2hi+y1tBAXHtC2p5SLx0WqipipXVQ/e5zhWif0IHI/XAJOmv1R
- TmMC443IKltpaQIsebS52cfKO0QtKbK02x0Gta065tEJobXu8OWtbFGV485gLqqfnFQhMnBjO1h
- EnEdvlAw+4qKMmaYZVl8MG8w=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 60ee62a93959a5fb;
-	Fri, 13 Nov 2026 07:08:57 +0000
-X-Mizu-Trace-ID: 60ee62a93959a5fb
-X-Migadu-Flow: FLOW_OUT
-From: Mengmeng Zhao <mengmeng.zhao@linux.dev>
-To: Christoph Hellwig <hch@lst.de>,
-	Anuj Gupta <anuj1072538@gmail.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	christian.koenig@amd.com,
-	Philipp Stanner <phasta@kernel.org>,
-	Dan Williams <djbw@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	tytso@mit.edu,
-	Andreas Dilger <adilger.kernel@dilger.ca>,
-	Baokun Li <libaokun@linux.alibaba.com>,
-	Ojaswin Mujoo <ojaswin@linux.ibm.com>,
-	"Ritesh Harjani (IBM)" <ritesh.list@gmail.com>,
-	Zhang Yi <yi.zhang@huawei.com>,
-	asml.silence@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-block@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	nvdimm@lists.linux.dev,
-	linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Li Wang <liwang@kylinos.cn>,
-	Mengmeng Zhao <zhaomengmeng@kylinos.cn>
-Subject: [RFC PATCH v2 8/8] ext4: support dma-buf registered buffers for direct I/O
-Date: Fri, 13 Nov 2026 15:06:21 +0800
-Message-ID: <20261113070621.273953-9-mengmeng.zhao@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
-References: <20261113070621.273953-1-mengmeng.zhao@linux.dev>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=UI+4bgJh
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-91c6ce60697so13335386d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 23:20:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1794554421; x=1795159221; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=4ukC9+RmyKpMCoo2Ej2X50ZCe3RffRo8JS7sjMrz5b4=;
+        b=UI+4bgJhJNbQhv7pU4fivQjQTQX/aGehNq+O6Ule9LAPUv/kSn+3YzDkzwyt4xo/KE
+         FpX9HfqzRh+tmlh2VTaVA3asUfXtHtlE0JM9aPwNIMPqxB8GcjZm7uyxxGGajyQ6+1jW
+         Q7ie2diUq1P+2uyPtd41hNiWtCIgs9VWfCpBZyoQm/Y75/mhzlg5SEz4NbRTLVZNYMA8
+         ZVN8drMKsYzx5jyJv6iYsc5aw/JIYvGPg1xCesOhxeSz87YUpVgMXl9dAYzqwbX0Jp7w
+         R8E1X5RG+MSEQaNiTQDkjzrQeoswpV3AO66T2E+dCiN1dcN8HlW+CaFQJoMvaGU7fxYT
+         PVzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794554421; x=1795159221;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4ukC9+RmyKpMCoo2Ej2X50ZCe3RffRo8JS7sjMrz5b4=;
+        b=RA0MFa1UiiOlYNoaSpRMdLFwTDuD2myk/yrpMypZouIyQBOWJkjttVGP6v7oxv3Kvz
+         6lDIv2KStSJajSs2Zw8dyRsi7Ltv+jHeEx/t6HTc0NYv73tbnPuGQBhtM97oS9RooqqO
+         DQ33PgiF8CFeeoyWD2+4fNmt7K75hfnY0UOjQFQmHMBwjxnIfwZ+Vhy3mJ69DLfCctTY
+         JIO/n+/rS08dUTZDaloh6cXXHhTVh9nkq3v43G7H5DA/JH3xXq7gpvRzclAxB0E/vFAD
+         xiH8qX43WbSOSciI3pbXHeqZhc7IYNfhgHdyAYM6xUfYdpGh2cY9m496uxpIAo2Cmgl4
+         YPDQ==
+X-Forwarded-Encrypted: i=1; AL+hErFZGHiMlCKwp3BHzZeQUHdOewG+PIKN1MjigmkiuSsQcENbQdWJ4c23roZeIvCq0XZiS9KO4m3vWnw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9ZOSUZxobdIjDWozvnY5Uw2kQIZX2k8scps7HQ6INZ30x23T4d
+	/NlV3zeF01DgqlW9Uu1uWLLD3j+7dCq6I+yBLYlJP+QceRQ9V5L4Vc58OHf6pZhvxpw=
+X-Gm-Gg: AYBFou3dEw3P2aKUq76DejjCkXup//Lr0YnAX9zs0Rfq/N24MUls/YUZgbskHSoP/2p
+	dfxvyeey4ygSzD18s1U0Ozke2QUpTRuBqYTaxfWY44cA8ZS4mXJPrO2/roG1AUoySX1J9KSOIhY
+	Hv2eybmeV892xggXwHfL+NZKAY4biFddjvvbRmcTEMdUEpUiB3i59j7G+LhWSeSMUeTl+y2jMX4
+	fqdSq7Edlps+CqCXebqzWNQxpBsfPxt4GOIKZH+a9VLHjvhFSBDaIHqagsOvNq38eFCrn8txjPj
+	NHYAI5b6cKRNUZVLsBOusUXtOfrEZfDTINjJmNENSnwsmhTorp8MfqRUjssXYArZr0S2a86WCH0
+	6dSUAFLzLEPl6JVwMnsGZuVNKNZ0gGcowt0PIXXqgbufcnzseAQTqA5s/F+C9ahQNMZUFSlO3XO
+	+R9YNprptmiTsCMi8D/kEcapSu1gfYtY/YF9hKWBofrRManRkomLXlxc6KDa72DZNd866IEqiBQ
+	5wR2f7llk8XIn5I1Iig7zOYjdG/bNp318TviGj3YPMmLr9/y8uQUuxcyfIfdoQkrTSfUQoVH0zD
+	YyfpuO++QrJ4rh/51o67m+itNtBByqkkRECidbLMhKC+CGWXGpwnZh6qsKv4L1kWLJ2FyOuY7cD
+	15lsPMKYfTMh5t8R+D1VRxQKbPYV1DQ==
+X-Received: by 2002:a05:6214:c46:b0:917:a1a7:6369 with SMTP id 6a1803df08f44-91f24198eaemr24969396d6.22.1794554421464;
+        Thu, 12 Nov 2026 23:20:21 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d614b4sm14297636d6.18.2026.11.12.23.20.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 23:20:20 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -97,176 +89,97 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC v2 1/1] mm: add source selector to memory.reclaim
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: Li Zhe <lizhe.67@bytedance.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, gourry@gourry.net, 
+ joshua.hahnjy@gmail.com, ljs@kernel.org, mhocko@suse.com, 
+ muchun.song@linux.dev, rakie.kim@sk.com, roman.gushchin@linux.dev, 
+ shakeel.butt@linux.dev, weixugc@google.com, ying.huang@linux.alibaba.com, 
+ ziy@nvidia.com, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org
+In-Reply-To: <20261102070440.16262-2-lizhe.67@bytedance.com>
+References: <20261102070440.16262-1-lizhe.67@bytedance.com>
+ <20261102070440.16262-2-lizhe.67@bytedance.com>
+Date: Fri, 13 Nov 2026 02:20:20 -0500
+Message-Id: <179455442014.482102.4069329165987986914.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-From: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
+On 2026-11-02 15:04 +0800, Li Zhe wrote:
+> +	Specifying a source value constrains where proactive reclaim applies
+> +	pressure. Currently only source=nodes:<nodelist> is supported. For
+> +	example::
+> +
+> +	  echo "1G source=nodes:0-1" > memory.reclaim
+> +
+> +	This reclaims memory of the target cgroup resident on nodes 0-1.
 
-Advertise FMODE_CAN_DMABUF_IO for inodes that can support dma-buf I/O
-and implement ->init_dma_buf_io_ctx() by registering the buffer against
-the filesystem's block device.  The capability follows
-ext4_dio_alignment(), so an inode that can never do direct I/O -
-fs-verity, data=journal or inline data - is refused at open, and
-encrypted inodes are refused on the inode flag, which is set even
-without CONFIG_FS_ENCRYPTION.  The inode is rechecked at registration
-because DAX can be enabled after the file was opened.
+you buried the fact that you want to allow source=zswap in your cover
+letter. I was confused by nodes: was needed here until i re-read.
 
-A dma-buf iterator has no pages to copy from, so it must never reach the
-page cache.  ext4_buffered_read_iter() and ext4_buffered_write_iter() are
-the single sinks of the buffered fallbacks and refuse it there; a short
-direct I/O write still reports its progress, and the DAX write path
-refuses at its entry instead of after starting a journal handle.
+As Joshua mentioned, i don't think you need the separate cover letter,
+and I agree this is far too long for the proposed change.
 
-Signed-off-by: Mengmeng Zhao <zhaomengmeng@kylinos.cn>
-Signed-off-by: Li Wang <liwang@kylinos.cn>
 ---
- fs/ext4/ext4.h | 11 +++++++++++
- fs/ext4/file.c | 44 +++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 52 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ext4/ext4.h b/fs/ext4/ext4.h
-index f38fec3167fb..028b2e5ddc8b 100644
---- a/fs/ext4/ext4.h
-+++ b/fs/ext4/ext4.h
-@@ -4135,6 +4135,17 @@ static inline bool ext4_inode_can_atomic_write(struct inode *inode)
- 		EXT4_SB(inode->i_sb)->s_awu_min > 0;
- }
- 
-+/*
-+ * dma-buf I/O needs an inode that supports direct I/O without the page cache.
-+ * IS_ENCRYPTED() tests the inode flag, which is set even without
-+ * CONFIG_FS_ENCRYPTION.
-+ */
-+static inline bool ext4_inode_can_dmabuf_io(struct inode *inode)
-+{
-+	return !IS_DAX(inode) && !IS_ENCRYPTED(inode) &&
-+	       ext4_dio_alignment(inode) != 0;
-+}
-+
- extern int ext4_block_write_begin(handle_t *handle, struct folio *folio,
- 				  loff_t pos, unsigned len,
- 				  get_block_t *get_block);
-diff --git a/fs/ext4/file.c b/fs/ext4/file.c
-index 50d3c92709c8..5a8481637da5 100644
---- a/fs/ext4/file.c
-+++ b/fs/ext4/file.c
-@@ -30,6 +30,7 @@
- #include <linux/uio.h>
- #include <linux/mman.h>
- #include <linux/backing-dev.h>
-+#include <linux/blkdev.h>
- #include "ext4.h"
- #include "ext4_jbd2.h"
- #include "xattr.h"
-@@ -66,6 +67,15 @@ static bool ext4_should_use_dio(struct kiocb *iocb, struct iov_iter *iter)
- 	return IS_ALIGNED(iocb->ki_pos | iov_iter_alignment(iter), dio_align);
- }
- 
-+static ssize_t ext4_buffered_read_iter(struct kiocb *iocb, struct iov_iter *to)
-+{
-+	/* a dma-buf iterator has no pages for the page cache to copy into */
-+	if (iov_iter_is_dmabuf_map(to))
-+		return -EOPNOTSUPP;
-+
-+	return generic_file_read_iter(iocb, to);
-+}
-+
- static ssize_t ext4_dio_read_iter(struct kiocb *iocb, struct iov_iter *to)
- {
- 	ssize_t ret;
-@@ -88,7 +98,7 @@ static ssize_t ext4_dio_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 		 * taken.
- 		 */
- 		iocb->ki_flags &= ~IOCB_DIRECT;
--		return generic_file_read_iter(iocb, to);
-+		return ext4_buffered_read_iter(iocb, to);
- 	}
- 
- 	ret = iomap_dio_read_simple(iocb, to, ext4_iomap_begin);
-@@ -119,7 +129,7 @@ static ssize_t ext4_dax_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 	if (!IS_DAX(inode)) {
- 		inode_unlock_shared(inode);
- 		/* Fallback to buffered IO in case we cannot support DAX */
--		return generic_file_read_iter(iocb, to);
-+		return ext4_buffered_read_iter(iocb, to);
- 	}
- 	ret = dax_iomap_rw(iocb, to, &ext4_iomap_ops);
- 	inode_unlock_shared(inode);
-@@ -146,7 +156,7 @@ static ssize_t ext4_file_read_iter(struct kiocb *iocb, struct iov_iter *to)
- 	if (iocb->ki_flags & IOCB_DIRECT)
- 		return ext4_dio_read_iter(iocb, to);
- 
--	return generic_file_read_iter(iocb, to);
-+	return ext4_buffered_read_iter(iocb, to);
- }
- 
- static ssize_t ext4_file_splice_read(struct file *in, loff_t *ppos,
-@@ -354,6 +364,10 @@ static ssize_t ext4_buffered_write_iter(struct kiocb *iocb,
- 	if (iocb->ki_flags & IOCB_NOWAIT)
- 		return -EOPNOTSUPP;
- 
-+	/* a dma-buf iterator cannot be handled by buffered I/O */
-+	if (iov_iter_is_dmabuf_map(from))
-+		return -EOPNOTSUPP;
-+
- 	inode_lock(inode);
- 
- 	/*
-@@ -688,6 +702,10 @@ static ssize_t ext4_dio_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 		ssize_t err;
- 		loff_t endbyte;
- 
-+		/* a dma-buf iterator cannot fall back to buffered I/O */
-+		if (iov_iter_is_dmabuf_map(from))
-+			return ret;
-+
- 		/*
- 		 * There is no support for atomic writes on buffered-io yet,
- 		 * we should never fallback to buffered-io for DIO atomic
-@@ -731,6 +749,10 @@ ext4_dax_write_iter(struct kiocb *iocb, struct iov_iter *from)
- 	bool extend = false;
- 	struct inode *inode = file_inode(iocb->ki_filp);
- 
-+	/* a dma-buf iterator cannot be handled by DAX either */
-+	if (iov_iter_is_dmabuf_map(from))
-+		return -EOPNOTSUPP;
-+
- 	if (iocb->ki_flags & IOCB_NOWAIT) {
- 		if (!inode_trylock(inode))
- 			return -EAGAIN;
-@@ -1014,6 +1036,8 @@ static int ext4_file_open(struct inode *inode, struct file *filp)
- 		filp->f_mode |= FMODE_CAN_ATOMIC_WRITE;
- 
- 	filp->f_mode |= FMODE_NOWAIT | FMODE_CAN_ODIRECT;
-+	if (ext4_inode_can_dmabuf_io(inode))
-+		filp->f_mode |= FMODE_CAN_DMABUF_IO;
- 	return dquot_file_open(inode, filp);
- }
- 
-@@ -1050,10 +1074,24 @@ loff_t ext4_llseek(struct file *file, loff_t offset, int whence)
- 	return vfs_setpos(file, offset, maxbytes);
- }
- 
-+static int ext4_file_init_dma_buf_io_ctx(struct file *file,
-+					 struct dma_buf_io_ctx *ctx)
-+{
-+	struct inode *inode = file_inode(file);
-+
-+	/* DAX can be enabled after the file was opened */
-+	if (!ext4_inode_can_dmabuf_io(inode))
-+		return -EOPNOTSUPP;
-+
-+	/* all file data lives on s_bdev, which never changes for ext4 */
-+	return bdev_init_dma_buf_io_ctx(inode->i_sb->s_bdev, ctx);
-+}
-+
- const struct file_operations ext4_file_operations = {
- 	.llseek		= ext4_llseek,
- 	.read_iter	= ext4_file_read_iter,
- 	.write_iter	= ext4_file_write_iter,
-+	.init_dma_buf_io_ctx = ext4_file_init_dma_buf_io_ctx,
- 	.iopoll		= iocb_bio_iopoll,
- 	.unlocked_ioctl = ext4_ioctl,
- #ifdef CONFIG_COMPAT
+When I asked for testing, I wasn't concerned with the functionality,
+I was asking what problem this actually solves. performance? fairness?
+
+Shaping the distribution of memory is neat and clearly works, but why
+does userspace want this?
+
+The interface "lacking flexibility" is not a problem in and of itself.
+
+I CAN see why you might want to proactively shape what data is swapped.
+Let me give you an example:
+
+---
+The global node reclaim interfaces allow us to put pressure on distinct
+nodes - which lets us shape which node is swapped from first.
+
+Example: node0-1=DRAM, node2-3:CXL
+
+  echo 1G > node2/reclaim   # swap from CXL
+  echo 1G > node3/reclaim   # swap from CXL
+  echo 1G > node0/reclaim   # demote to CXL
+  echo 1G > node1/reclaim   # demote to CXL
+
+But the memcg.reclaim interface only allows us to pressure the complete
+set of cpuset.mems nodes for that memcg
+
+  cat cpuset.mems           # 0-3
+  echo 1G > memory.reclaim  # makes progress from any of 0-3
+
+Presently, proactive reclaim iterates nodes in node or fallback order,
+meaning it attempts to make progress from the fastest node possible
+first - which attempts to demote by default.  If the lower nodes are
+full, this demotion will fail and we'll swap directly from the top tier,
+which is (presumably) warmer than the bottom tiers.
+
+Enable source-bound reclaim in the memory.reclaim interface so that user
+space can have the same control over memcg memory tiers that global
+proactive reclaim has.
+
+  echo 2G source=nodes:2-3 > memory.reclaim  # [z]swap from CXL
+  echo 2G source=nodes:0-1 > memory.reclaim  # demote to CXL
+
+This lets user proactive reclaim to target the coldest memory first
+rather than preferring to reclaim from node0 first and potentially
+swap out memory warmer than what is present on a CXL tier.
+---
+
+With this, you might be able to demonstrate fewer refaults and less
+DRAM (node0) memory consumed by zswap. These are clear benefits.
+
+I would argue that memory.reclaim should operate this way anyway,
+and that would could make proactive reclaim do this by default, but
+I could see the policy bits in userland being useful as well
+
+Performance may not be the only reason you want this, but you need to
+help me understand what you're trying to accomplish.
+
 -- 
-2.43.0
+~Gregory
 
