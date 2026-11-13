@@ -1,46 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794610986;
-	b=lwGdiWi/oJtiZ0FcZ4b73V9ZpyYuhTZM89Y/KTSr0jhyXlIi1LXwYEpGhCATFMZVz+EY
-	 odYphaSsmuhEOvtIuVBF2fOd/XoZFskHOlD9SkG4gij4oBjgNXOYh6Q6aF7wIqqhqNNeA
-	 MCw9Akbyh+uQypWJtK8aO9UXL3OdKRJ6N4SS6U9YpUY1arNTwn6kQQ8XuS8JigqxZPYJU
-	 NijoeI2abCWUyTQSR9CsO2ZoTFGeJHbsjYgT9JGo+uCNxn4LdQ09xoVxsibY5c7MbMrPE
-	 MsIW2PWhDVFqMTODWOLIpCb/NWsGsU+rTonXUY59beFq96Ugv5cWSwsdRl1iMSot5PA==
+	t=1794612325;
+	b=jgSTl+qQ4GDtoWdBKPzPqpficx3P7twPoEz6BoACKB/12ryFfarepFbUPopgqYELgi2J
+	 xnuYw1tCtGraoJ/xpDilbwTJXzpN+tIh3YpcOienJcqWoZvEwN9QCOw6SLHRC7IxyzYgm
+	 25uBNrTOyzpWze8dDy98IVRfGZ22nclDk6LtexJX9JDjs0K28a9WPGX9YZJgHoYWIX3Qo
+	 iE/HGJ3ywD8stt4wxtAt5sWB3Fyp++Y0Qe65AGGFmoJVljXdETsw0GRzElvDNrg0eZV9b
+	 NZakjE349EUhbJkicXXj/zFmV6jPM+hVCvjGsuJSlFi8QwrCgc6wOfxzt9JxppLSBsw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794610986;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=BYjggfmjKlGIW84B14hnVbDiPTvVGE5h9oEWsyq3OhA=;
-	b=cmaRkE2P0+LBZIQ2VXjTbG35En7YBNhj4ueXGnDoRIVlWDXFpvE2JdK9Ar/VpJlNrdFI
-	 buauGYWWKA5LTipUy/lvva7ZVmSw0+7awfgLJ/H+Rb+zOA3U45AKX8NWl4OMXrvSLGky8
-	 hHaMN6zQQFtAppXQRxSI7Px+PEOGCXNMR3qDG87SjDUTZlmaQT3FhFp3eY5uOJziwEmvq
-	 AcxHZCd22/AKJ4iCRBeNE4Fg5RMB8p8RMsEus63Ww/oxmCvGw+043FK3PzuOoZ0kt+VMl
-	 XQr8wXdLRi0hIa84qP+PQkOQarm7+yMODapObY/f7pxWvNPyNZCW20GhfROXGjlEvtQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794612325;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=+ZI3gexBXpVYPbFMrALtqufJPetOQv+G/61FGO1yoek=;
+	b=lcxRNf14pNGWL8RtNlFid8jrsH506szgafXu+10V9qTlcth9fBdIhuT+tfW35iyIy9ru
+	 LUfZWdA8OhXww+DygWFyFJrVAVRtMI2pPeMrRPkPK39S01ENS6OhHykRTUzet4iIbhk6W
+	 T+bgLVfCGs9qtKIa+YFaBbNYuz7hpp38qtsBp6iZDrIDEj1vDEsvQR8MUhLY7CEbgDZxN
+	 HTj73LdJaetbK5wYdM1tGiR4npnxlHE1zPIpvFM2NTA3ZVoE7DnUCKrDh68c3LR5NzDXH
+	 Hnj1OK11bKJUYVXT99piqHEOlfY8u+NSwUVo0a+qWyDwf0V8tbr6wD0lLiD2521cmHQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=jAldKYUa;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SNrcmbeS;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49875606A8B4;
-	Fri, 13 Nov 2026 23:03:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21ED5606A88C;
+	Fri, 13 Nov 2026 23:25:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=jAldKYUa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70E031F000CA;
-	Fri, 13 Nov 2026 23:03:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1794610985;
-	bh=BYjggfmjKlGIW84B14hnVbDiPTvVGE5h9oEWsyq3OhA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=jAldKYUaS7GHU4f6IFTkZrIB0BQsJnm6E++ac3lkxEo5S92zCZyR8lZG1LE/+Zkfj
-	 4LuCT+1azYCJd/kMKPpHKxMrUIP+v00ZL+7b0fmtmew7kc6NG/wc1pNhlqdzmc8Eq7
-	 qAN4GsPgl99IxbijrUfoeGH1dUnCalb1knSgIkjw=
-From: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-Date: Fri, 13 Nov 2026 18:02:46 -0500
-Subject: [PATCH v3 2/2] docs: submitting-patches: make LKML a list of last
- resort again
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SNrcmbeS
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C1D771F000C4;
+	Fri, 13 Nov 2026 23:25:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794612324;
+	bh=+ZI3gexBXpVYPbFMrALtqufJPetOQv+G/61FGO1yoek=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=SNrcmbeSPbiBQQGlnAhoi4gcr1VPkhuaO8OU0bwsBCc9kslSU7A2to+s+YfMUxSUl
+	 I+cyOxIeqis9su0hFfaYll20UkyYLHOCdAMGgnHE6gAtc8XheMoqcSUAgRTsNtPmaQ
+	 RLpgqE0h47XOZCVw3TlQKdI3pMUg0f61GJOP3gfSVAXbkWF7rFk6jkS8jfufaCkgyX
+	 D6c14QdmZyyC1Z+2kGHLrSM73A0j1cNImU9zqyFFpPXHdaufgpIZ6c2lvZtbs5/5oh
+	 q498Y2Po4G74wnwU1IBd8vAkRMGJxCI7kFgA4pzaySbpMnMT9BD6XtzoiYKROh6KbN
+	 7Q/YLuFVmeNCw==
+Subject: Re: [PATCH net v7] kcm: reject TLS on attached TCP sockets
+From: netdev-bot+sashiko@kernel.org
+To: rjethwani@purestorage.com
+Cc: netdev@vger.kernel.org, stable@vger.kernel.org, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ ncardwell@google.com, kuniyu@google.com, john.fastabend@gmail.com,
+ sd@queasysnail.net, sagi@grimberg.me, hare@suse.de, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Fri, 13 Nov 2026 23:25:23 +0000
+Message-ID: <179461232334.2199510.12258955725199996955@kernel.org>
+In-Reply-To: <20261112232444.2865382-1-rjethwani@purestorage.com>
+References: <20261112232444.2865382-1-rjethwani@purestorage.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -50,70 +65,84 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261113-get-maintainer-the-rest-fallback-v3-2-36ee5a3e8d13@linuxfoundation.org>
-References: <20261113-get-maintainer-the-rest-fallback-v3-0-36ee5a3e8d13@linuxfoundation.org>
-In-Reply-To: <20261113-get-maintainer-the-rest-fallback-v3-0-36ee5a3e8d13@linuxfoundation.org>
-To: Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, users@kernel.org, 
- Federico Vaga <federico.vaga@vaga.pv.it>, Akira Yokosawa <akiyks@gmail.com>, 
- Carlos Bilbao <carlos.bilbao@kernel.org>, 
- Avadhut Naik <avadhut.naik@amd.com>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>, 
- workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
- Petr Pavlu <petr.pavlu@suse.com>, 
- Konstantin Ryabitsev <konstantin@linuxfoundation.org>
-X-Mailer: b4 0.17-dev-ce4c1
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1962;
- i=konstantin@linuxfoundation.org; h=from:subject:message-id;
- bh=nkdiQvp5Jj0ckO1qdttyQR3N/yfvZHdyh/6ZF5sauk4=;
- b=owGbwMvMwCW27YjM47CUmTmMp9WSGLK+T1cpmR2cUczyKl1McuL+S+za01cGMS38WqMwaZX0r
- JPelzk+dJSyMIhxMciKKbKU7YvdFFT40EMuvccUZg4rE8gQBi5OAZiIxw5GhlmHVrSzLr9RuOCK
- W81UA02FjTHn4q9NKmraJ9FZ056h18PI8FwmKa6y+GjRCtYLItz7eYw2v9cUVlw+3Stxj+GH+7e
- 2cQIA
-X-Developer-Key: i=konstantin@linuxfoundation.org; a=openpgp;
- fpr=DE0E66E32F1FDD0902666B96E63EDCA9329DD07E
 
-Commit 77167b966b7e ("docs: submitting-patches: clarify the role of
-LKML") changed the documentation to say that all patches should be sent
-to LKML by default, because get_maintainer.pl always suggested it.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Now that get_maintainer.pl only falls back to THE REST when no other
-matching section provides a mailing list, update the documentation to
-match: send patches to the subsystem-specific list, and use LKML only
-when there isn't one.
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
-Suggested-by: Petr Pavlu <petr.pavlu@suse.com>
-Signed-off-by: Konstantin Ryabitsev <konstantin@linuxfoundation.org>
----
- Documentation/process/submitting-patches.rst | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
-index f271d7413f72..85ba046d66fb 100644
---- a/Documentation/process/submitting-patches.rst
-+++ b/Documentation/process/submitting-patches.rst
-@@ -239,9 +239,12 @@ patches as arguments to scripts/get_maintainer.pl).  If you cannot find a
- maintainer for the subsystem you are working on, Andrew Morton
- (akpm@linux-foundation.org) serves as a maintainer of last resort.
- 
--linux-kernel@vger.kernel.org should be used by default for all patches, but the
--volume on that list has caused a number of developers to tune it out.  Please
--do not spam unrelated lists and unrelated people, though.
-+You should also normally choose at least one mailing list to receive a copy of
-+your patch set.  Look in the MAINTAINERS file for a subsystem-specific list;
-+your patch will probably get more attention there.
-+linux-kernel@vger.kernel.org functions as a list of last resort for patches
-+that do not have a subsystem-specific list.  Please do not spam unrelated lists
-+and unrelated people, though.
- 
- Many kernel-related lists are hosted at kernel.org; you can find a list
- of them at https://subspace.kernel.org.  There are kernel-related lists
+- [Medium] The Fixes: tag covers only one of the two defects the commit
+  message says it fixes.
+
+--
+
+kcm: reject TLS on attached TCP sockets
+
+This patch makes kcm_attach() reject TCP sockets that already have a ULP
+installed. It also makes tls_init() reject sockets attached to KCM, using
+a new kcm_attached flag in tcp_sock. The kcm_attach() type check now uses
+sk_is_tcp(), so raw sockets created with IPPROTO_TCP are rejected.
+
+Link: https://lore.kernel.org/netdev/3108e934-ec00-458b-8720-450554b35b55@linux.dev/
+
+> KCM calls read_sock() from its receive callback in atomic context. With
+> kTLS RX, this reaches tls_sw_read_sock(), which can sleep. KCM and TLS
+> also replace socket callbacks, so detaching KCM can discard TLS handlers.
+
+[ ... ]
+
+> Fixes: 662fbcec32f4 ("net/tls: implement ->read_sock()")
+> Cc: <stable@vger.kernel.org> # see backport requirement above
+
+[Severity: Medium]
+
+Does the Fixes: tag cover both of the problems described above?
+
+662fbcec32f4 added tls_sw_read_sock() as the read_sock op, which explains
+the sleep in atomic context. The callback replacement problem looks older.
+In the parent of 662fbcec32f4, neither kcm_attach() nor tls_init() checked
+for the other, so the two could already be stacked.
+
+If KCM is attached first and TLS_RX is enabled afterwards,
+tls_sw_strparser_arm() saves psock_data_ready and installs tls_data_ready:
+
+net/tls/tls_sw.c:tls_sw_strparser_arm() {
+    ...
+	rx_ctx->saved_data_ready = sk->sk_data_ready;
+	sk->sk_data_ready = tls_data_ready;
+    ...
+}
+
+On SIOCKCMUNATTACH, kcm_unattach() then writes the pre-KCM callback back
+over tls_data_ready:
+
+net/kcm/kcmsock.c:kcm_unattach() {
+    ...
+	WRITE_ONCE(csk->sk_data_ready, psock->save_data_ready);
+    ...
+}
+
+After that, TLS RX is no longer notified.
+
+Before 662fbcec32f4 the TLS_SW proto_ops also inherited read_sock from
+inet_stream_ops. So in either order, strp_read_sock() would call
+tcp_read_sock(). KCM's strparser would then take raw TLS ciphertext from
+the same receive queue that TLS parses.
+
+This seems to go back to c46234ebb4d1 ("tls: RX path for ktls"). Stable
+selection uses the Fixes: commit. Would LTS trees without 662fbcec32f4
+(6.1, and 5.15/5.10 while they are still maintained) skip this patch? On
+those trees an unprivileged user could still stack KCM and kTLS RX.
+
+Could the Fixes: tag point at c46234ebb4d1, or could the Cc: stable note
+say whether pre-6.6 trees are affected? Right now the note only mentions
+the 8cc3aef0cb198 dependency.
 
 -- 
-2.56.1
-
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261112232444.2865382-1-rjethwani%40purestorage.com
