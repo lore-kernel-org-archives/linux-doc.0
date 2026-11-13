@@ -1,99 +1,107 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794589547;
-	b=G8+QJI7xVFJsl4z77M77aCkYB9LbDdWtaNIY7YPjsjx3v8fbc1Dc59KyQKjQ5E7508Dv
-	 faXFiUKAXJKZ1a+daGfl4N/COP4EOplPtaNBRoYLsMEroJ4Psg0JzhGTAHm/09nSxP1c2
-	 Pm5IZta/+1WJSxfRvXXup7/TAzkUpLmwPoTJ2gPDWmtYw1knnQAYMX0y3Y+M8NQwHgNuT
-	 POVeqVgIHzGsZga9/zwndQumFffLE3r64ElkqyxKhjcQZU719moc7uSVx488CHipsejuL
-	 rqt4/mURcDdROCyvLqFXOxroFmiCbKg/FvvrJRzPJArRj9Gf6AGj3E0kfIofmX+L5dA==
+	t=1794589602;
+	b=aDX6DZ2fwQ1ZDueRR8rAM38cY1XwE1EZcjIf8w7XaiOAZZRQUNmlJNSnuBWdSij6QF1H
+	 dbVZE4D3fBuFTFd+LAsKj3VpCVkrH4KcY/yye9mGdVHVUDfeoEVtyUU5nhGrahWJbFW9T
+	 7ZzMzgdh9P/Uq+6VAZEUgolZl/+BUB/YCEpXQCYFONhqJn5ipgZOyWK7K46mQ32sKWioA
+	 X7iYOtWpYB1BQaRq9w3znWOpMAKAWFilLt3A/VcNGGZgtpaK/iwuq5Q3qAlR7kcg07Xpu
+	 oC3/hW4hal3tPyzdI58ZqHohmPDZ/RJxH4F2Ip+DOfTQkYYAw32GktAVhay24qVui2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794589547;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Sender:X-SRS-Rewrite;
-	bh=kD+k376dF5CzmJ+PBfXNBW4wFZFtiWBoTErzmU1dBPA=;
-	b=CpSjIEZg4QpX0ae6lm7hG281RvCRwsxWotphAp7aDSm8yLDpm1s6bwVP1Rf1SmgMgtlC
-	 i+yS7RndL1+rWapvglL5ow7OWXZezobOpWFNiCdX0zVuRbdFRhJjdICdVeCTyIxHvrSvz
-	 AooVGBV+EdFyAspZXXfnrK4GqAScZ7fsQc9hW6QiwO/QfeNUeKEsGyqtWTxidT0+thx8d
-	 VD72grCIdaOVABJgQNTDQVZfL+eZQABrFo7tXfqJ5TXZRS9jc6+WQ2lLoosvLdBpk6hTM
-	 umrZOnMw69jByRCjdY2Ys1XqQzl9dX9FJ6BFSEZ/hxmnqxbGK1gMRD5WdLmElV+os8Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794589602;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:
+	 To:Cc:References:Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=TmmnV/ymSMAI2Dol5zCaEFZv43vlX+d7yneKTBH5aJI=;
+	b=I/6e0AUOkAJr10oaamZRQmH+GBQmF40uj+fUCGuRaoyL5cOG4YeepYsI+oHQPIGkWjT1
+	 pAWVdZ4YFSmodDuR/D19C8TAGI1Mc3bxbNRTWQsDkAhtwdRQkTrM2wgcygW6eHPxSWhE+
+	 335kYDYW6pBDp5pKlmC9ns5ZrjfzcPxIPKPkO+r5U+MadbNiI8pGfaf7PaF7C7nZs8WrN
+	 WoLYPCNoFrN//Z9+DBz8Q/9yTTMb7gZdzaUE01so/SmOeZuP4M93uAJb5ruqDmtFQta7K
+	 5Uy0QyDImVjLtqDCFPY5fNIQkXUZvGgCPrnRnRyfsw3gf6qQ/KCXsADgJ6c6RQtIVtw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=H6dQNxeF;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=e2gHZ26b;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=OOFjBJ7Y;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF90C606A339;
-	Fri, 13 Nov 2026 17:05:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF90C606A339
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2653606A323
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 17:06:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2653606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=H6dQNxeF
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
-	Reply-To:Content-Type:Content-ID:Content-Description;
-	bh=kD+k376dF5CzmJ+PBfXNBW4wFZFtiWBoTErzmU1dBPA=; b=H6dQNxeFJndlqqSGqyGkw+GCgZ
-	vf9XCdOJShWEvU16qKisJ1fBnwiEhAFQ8L3KQdvmAZt3ZDDSAEsBgytpyXkFfNgETL51Lmkeksn5v
-	Wc/fWnMInNIQ/bJlrj2s0NFQqfbcTsi16aeikDo2wYoRQjNOuBxH79NRkz7asdCUbUkVnjoVDOFJ0
-	lPuWn8U4anItx4OOMl9s21msiqxLmq/2LPXAJrohHvtH0KmC2yB0tEwKox+9qOu2G2qNvl1vFeWQW
-	kvYcs1LAWG+NGyhL1HLB3QSphzR/CoYX4ffoW3cAd0m2yOMTL3nFrm4oNXGiqsEP6+XJf93DBSVXu
-	nktVJlpg==;
-Received: from [2001:8b0:10b:1::425] (helo=i7.infradead.org)
-	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRuiW-00000003oWI-0ox4;
-	Fri, 13 Nov 2026 17:05:36 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.99.5 #2 (Red Hat Linux))
-	id 1xRuiV-00000000KcV-4BNB;
-	Fri, 13 Nov 2026 17:05:35 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: kvm@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-hyperv@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Thara Gopinath <tgopinath@linux.microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Michael Kelley <mhklinux@outlook.com>,
-	Nicolas Saenz Julienne <nsaenz@amazon.com>,
-	Nikolas Wipper <nik.wipper@gmx.de>,
-	Mushahid Hussain <hmushi@amazon.co.uk>,
-	Sriram Nambakam <snambakam@linux.microsoft.com>,
-	Zack Rusin <zack.rusin@broadcom.com>,
-	Doug Covelli <doug.covelli@broadcom.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Paul Durrant <paul@xen.org>,
-	Xin Li <xin@zytor.com>,
-	Francesco Lavra <flavra@baylibre.com>,
-	=?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>,
-	Liran Alon <liran.alon@oracle.com>,
-	Arbel Moshe <arbel.moshe@oracle.com>,
-	David Woodhouse <dwmw@amazon.co.uk>
-Subject: [PATCH v2 4/4] KVM: selftests: Add Hyper-V hypercall forwarding test
-Date: Fri, 13 Nov 2026 10:05:35 -0700
-Message-ID: <20261113170535.79246-5-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261113170535.79246-1-dwmw2@infradead.org>
-References: <20261113170535.79246-1-dwmw2@infradead.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=e2gHZ26b;
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=OOFjBJ7Y
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794589600;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TmmnV/ymSMAI2Dol5zCaEFZv43vlX+d7yneKTBH5aJI=;
+	b=e2gHZ26bDcZVmjNnP5itMSUk0JgsqlVoufhv6xY8lYsxY1w3opJu7NVXsJL0AvdpI63mfY
+	ABeRWr3Z5VBwI85EXuKBY+LG3gX0iEyduiduJrFtDNQWcOkXykG9mnQavh7414TxRav0Te
+	t7zj0wuaEfaVh0tk0jA8CP6k7naMr3E=
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
+ [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-251-bAyG5ZaaOMqgkLbsaGJaBg-1; Fri, 13 Nov 2026 12:06:39 -0500
+X-MC-Unique: bAyG5ZaaOMqgkLbsaGJaBg-1
+X-Mimecast-MFC-AGG-ID: bAyG5ZaaOMqgkLbsaGJaBg_1794589598
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cdb96533adfso605522a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 09:06:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1794589598; x=1795194398; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TmmnV/ymSMAI2Dol5zCaEFZv43vlX+d7yneKTBH5aJI=;
+        b=OOFjBJ7YMq4qZZym2L56O8Gxc+U4X3QbgzGKfWibcMFiDZ0tfwPAUHnhQ4bO1SjIgu
+         pOWhuvO/+1sCPnRjlJgdQlehL6SFyEI4lIDw0ruzHs/TKNWtmAkZJ+s9ptgbUQcQWs2O
+         9sHSN1CnZR2YGhTIgcFRv7puOv44mvbAqxiZloxMpXbo3quJkU4dYC0FMSUjZ0evLBga
+         C5w2UvIQ3qjq12X1iP8V0qrglQcDnS0ZNQOeHoRcG/okIALq1cowt5orZz5SpqVjiX7G
+         NyOGKmReAP+rXuVUByoSx0skeYa6Dc9Rk6r17nzPgEX+dZPeB1j7iZsu+Ntsgt0iHMzP
+         8/Iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794589598; x=1795194398;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TmmnV/ymSMAI2Dol5zCaEFZv43vlX+d7yneKTBH5aJI=;
+        b=XE5tc6csuJzsh5PcXvYlfdzbWd9OcJ8yHFOnpWKD8JUuVz6Qhiu08oAIDDs9m4fu77
+         iaZCMRtWX8TW1IHqGpitYZvCcUPN/fQVgWa2FbhQCeZKNghm/iCJdCm+1v4uvPXsVKfz
+         QoNt2WWI2P5ud/gshoD3NNeHGH71hQzs0OFUCfoMOimMBJwuterppWeMK7dg120KXegX
+         lyBgmoWTIRaLbDUvAZPyX9TM0qprO9Wo+5YJLy4ama/gOpVmHEuIhKveoc5ChX0TX3Ut
+         8QY6woPZE9/R5u2env1gp83Tord6hd+0YxwvPpkb1RnEKphM50uYPLpvyzl1OEjOWnbK
+         BtdA==
+X-Forwarded-Encrypted: i=1; AL+hErHchVeBx2Q8PGpfRgw4R1CgV/gPI1KnS/JhUUMJ4wSoHLtOXWEDZBp6C5nDjVNTg/YdDEVHgJ2cL9U=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9tZl4hLunpmOvUE525ELxnkQoMN/mSh+gJZULGOcCJ1o1FmFix
+	UNH5wAnQdRnr/Fke1wI68uEgzAC/SPko5TKIsc99Dq+ygIGW7S5ydhD0k/sZLLknbz+E2yjhVbz
+	+YrLqS6yoBNFe7vB7f4WZ3Wxapqb1nKfS+nfmstkfcYMcK9MUBxGYej45CyY8PA==
+X-Gm-Gg: AYBFou2foTKreGocwApBJcvSag4CXE0Qe/hMPTUCehgu+PM4KhjStRmBvlbPqyp1a8c
+	VdecdH8lmLC+NWRcYiQ5cTSQ8QSAiqrp6206QmevT9TaMogz2g8Gy6qjkagkTd1NDRfRU0OSAJd
+	9Wd7hXzciKxtpkLa4ZD25EEgvvSfYpczsBJ+9UQKubMVY3samJgkBS/EAL0TVrkxCIX2jlpWg9Q
+	TKA7vK9rKeiiwjS4uJomFiLDvCv4Wnu51zxP6JVNiA3Ri1hpf52+3wiWB8+peUBjZJQRVBMyvA5
+	GeFe6/KVTHuf/yGjCG4irTnxG6+UKVqAytV5n6CAmoJGxgzklCy6raDgw/p+Ku0VsSFYyzcRQCa
+	SBxzUKULKH3JqWnTp68eX1kghH8UQG79kuo9LTD3PSbVYWYvWjmJHy0AuFQ7NZ7JUXdf+tkc=
+X-Received: by 2002:a17:90a:dfcf:b0:3ac:7556:8eda with SMTP id 98e67ed59e1d1-3b1b0a1b56fmr2668123a91.26.1794589598103;
+        Fri, 13 Nov 2026 09:06:38 -0800 (PST)
+X-Received: by 2002:a17:90a:dfcf:b0:3ac:7556:8eda with SMTP id 98e67ed59e1d1-3b1b0a1b56fmr2668105a91.26.1794589597671;
+        Fri, 13 Nov 2026 09:06:37 -0800 (PST)
+Received: from [192.168.1.102] ([117.245.168.128])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b3b110c0sm2247977a91.3.2026.11.13.09.06.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Nov 2026 09:06:37 -0800 (PST)
+Message-ID: <2bae83be-bb44-4541-bf1c-5861f73a7394@redhat.com>
+Date: Fri, 13 Nov 2026 22:36:30 +0530
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -103,394 +111,77 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: David Woodhouse <dwmw2@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/5] kho: reject zero bootmem scale
+To: "Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>
+Cc: Alexander Graf <graf@amazon.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Chen Pei <cp0613@linux.alibaba.com>, George Guo <guodongtai@kylinos.cn>,
+ Kexin Liu <liukexin@kylinos.cn>, Randy Dunlap <rdunlap@infradead.org>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Sourabh Jain <sourabhjain@linux.ibm.com>, kexec@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org
+References: <20261112-kho-bootmem-sizing-v3-0-f0c8d00295d5@kernel.org>
+ <20261112-kho-bootmem-sizing-v3-1-f0c8d00295d5@kernel.org>
+Content-Language: en-US
+From: Mukesh Pilaniya <mpilaniy@redhat.com>
+In-Reply-To: <20261112-kho-bootmem-sizing-v3-1-f0c8d00295d5@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: David Woodhouse <dwmw@amazon.co.uk>
 
-Cover KVM_CAP_HYPERV_FORWARD_HCALL and the completion cancel:
 
- - the feature mask reports forwarding, and rejects bits it does not
-   report;
- - with nothing enabled, an unknown hypercall fails in KVM;
- - with forwarding enabled, it exits to userspace in memory-based and
-   fast form with the control value and parameters, and the guest
-   sees the status userspace supplies (and, for the fast form, the XMM
-   output userspace writes through KVM_SET_FPU);
- - the result reaches the guest as the full 64-bit value userspace
-   wrote, bit 63 included;
- - a cancel with a queued #UD faults the hypercall, leaving RIP and
-   RAX untouched;
- - a cancel alone makes the same hypercall exit a second time, and
-   completing the second exit works;
- - the cancel fails with EBUSY at a hypercall-less ucall exit, whose
-   PIO completion is not cancellable, and leaves the vCPU's events
-   unchanged;
- - disabling everything restores the in-kernel failure.
+On 12/11/26 4:08 pm, Mike Rapoport (Microsoft) wrote:
+> kho_bootmem=0% sets bootmem_scale to 0, and then the bootmem areas are
+> sized using the explicit sizes that default to 0. KHO remains enabled,
+> but there is no usable bootmem to load the next kernel.
+> 
+> Reject zero scale the same way zero explicit sizes are rejected.
+> 
+> Fixes: 3dc92c311498 ("kexec: add Kexec HandOver (KHO) generation helpers")
+> Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+> ---
+>  kernel/liveupdate/kexec_handover.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/kernel/liveupdate/kexec_handover.c b/kernel/liveupdate/kexec_handover.c
+> index 6f1f55fe31819..b30ba686cb301 100644
+> --- a/kernel/liveupdate/kexec_handover.c
+> +++ b/kernel/liveupdate/kexec_handover.c
+> @@ -703,16 +703,22 @@ static int __init kho_parse_bootmem_size(char *p)
+>  	if (p[len - 1] == '%') {
+>  		/* unsigned int max is 4,294,967,295, 10 chars */
+>  		char s_scale[11] = {};
+> +		unsigned int scale;
+>  		int ret = 0;
+>  
+>  		if (len > ARRAY_SIZE(s_scale))
+>  			return -EINVAL;
+>  
+>  		memcpy(s_scale, p, len - 1);
+> -		ret = kstrtouint(s_scale, 10, &bootmem_scale);
+> -		if (!ret)
+> -			pr_notice("bootmem scale is %d%%\n", bootmem_scale);
+> -		return ret;
+> +		ret = kstrtouint(s_scale, 10, &scale);
+> +		if (ret)
+> +			return ret;
+> +		if (!scale)
+> +			return -EINVAL;
+Reviewed-by: Mukesh Pilaniya <mpilaniy@redhat.com>
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- tools/testing/selftests/kvm/Makefile.kvm      |   1 +
- .../selftests/kvm/x86/hyperv_forward_hcall.c  | 337 ++++++++++++++++++
- 2 files changed, 338 insertions(+)
- create mode 100644 tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
+> +
+> +		bootmem_scale = scale;
+> +		pr_notice("bootmem scale is %d%%\n", bootmem_scale);
+> +		return 0;
+>  	}
+>  
+>  	/* parse ll[KMG],mm[KMG],nn[KMG] */
+> 
 
-diff --git a/tools/testing/selftests/kvm/Makefile.kvm b/tools/testing/selftests/kvm/Makefile.kvm
-index 7a51ff975cfa..ca68943f99d4 100644
---- a/tools/testing/selftests/kvm/Makefile.kvm
-+++ b/tools/testing/selftests/kvm/Makefile.kvm
-@@ -89,6 +89,7 @@ TEST_GEN_PROGS_x86 += x86/hyperv_cpuid
- TEST_GEN_PROGS_x86 += x86/hyperv_evmcs
- TEST_GEN_PROGS_x86 += x86/hyperv_extended_hypercalls
- TEST_GEN_PROGS_x86 += x86/hyperv_features
-+TEST_GEN_PROGS_x86 += x86/hyperv_forward_hcall
- TEST_GEN_PROGS_x86 += x86/hyperv_ipi
- TEST_GEN_PROGS_x86 += x86/hyperv_svm_test
- TEST_GEN_PROGS_x86 += x86/hyperv_tlb_flush
-diff --git a/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
-new file mode 100644
-index 000000000000..4c290b6a1012
---- /dev/null
-+++ b/tools/testing/selftests/kvm/x86/hyperv_forward_hcall.c
-@@ -0,0 +1,337 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Test KVM_CAP_HYPERV_FORWARD_HCALL: the feature mask KVM reports and
-+ * accepts, Hyper-V hypercalls that KVM does not implement exiting to
-+ * userspace in memory-based and fast form, with userspace supplying the
-+ * result and the XMM output, and a pending completion cancelled through
-+ * KVM_SET_VCPU_EVENTS - alone, so that the guest re-executes the
-+ * hypercall, and together with a queued #UD, so that the hypercall
-+ * faults instead.
-+ */
-+#include "test_util.h"
-+#include "kvm_util.h"
-+#include "processor.h"
-+#include "hyperv.h"
-+
-+/* A hypercall code KVM does not implement (HvCallGetVpRegisters). */
-+#define HVCALL_TEST_CODE	0x50
-+
-+#define FAST_PARAM0		0x1122334455667788ULL
-+#define FAST_PARAM1		0x99aabbccddeeff00ULL
-+#define XMM_IN_MARKER		0x5157ca11c0ffee00ULL
-+#define XMM_OUT_MARKER		0x0de1ba5eba5eba11ULL
-+#define USERSPACE_STATUS	0x55AA
-+#define FULL_RESULT		(BIT_ULL(63) | USERSPACE_STATUS)
-+
-+enum {
-+	STAGE_DISABLED = 1,
-+	STAGE_MEMORY,
-+	STAGE_FAST,
-+	STAGE_RESULT_FULL,
-+	STAGE_CANCEL_UD,
-+	STAGE_CANCEL_RETRY,
-+	STAGE_AFTER_CANCEL,
-+	STAGE_REDISABLED,
-+};
-+
-+static void guest_code(gpa_t pgs_gpa)
-+{
-+	__sse128_u in, out;
-+	u64 status;
-+	u8 vector;
-+
-+	wrmsr(HV_X64_MSR_GUEST_OS_ID, HYPERV_LINUX_OS_ID);
-+	wrmsr(HV_X64_MSR_HYPERCALL, pgs_gpa);
-+
-+	/* Nothing enabled: KVM fails the call itself. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_HYPERCALL_CODE);
-+	GUEST_SYNC(STAGE_DISABLED);
-+
-+	/* Forwarding enabled: userspace supplies the status. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-+	GUEST_SYNC(STAGE_MEMORY);
-+
-+	/*
-+	 * Fast form: the register parameters and XMM0 reach userspace, and
-+	 * the XMM1 value userspace writes reaches the guest.
-+	 */
-+	in.as_u64[0] = XMM_IN_MARKER;
-+	in.as_u64[1] = XMM_IN_MARKER + 1;
-+	out.as_u64[0] = 0;
-+	out.as_u64[1] = 0;
-+	write_sse_reg(0, &in.vec);
-+	write_sse_reg(1, &out.vec);
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
-+				    FAST_PARAM0, FAST_PARAM1, &status);
-+	read_sse_reg(1, &out.vec);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-+	GUEST_ASSERT_EQ(out.as_u64[0], XMM_OUT_MARKER);
-+	GUEST_ASSERT_EQ(out.as_u64[1], XMM_OUT_MARKER + 1);
-+	GUEST_SYNC(STAGE_FAST);
-+
-+	/* The result reaches the guest as all 64 bits userspace wrote. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, FULL_RESULT);
-+	GUEST_SYNC(STAGE_RESULT_FULL);
-+
-+	/* Userspace cancels the completion and queues #UD: the call faults. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT_EQ(vector, UD_VECTOR);
-+	GUEST_SYNC(STAGE_CANCEL_UD);
-+
-+	/*
-+	 * Userspace cancels the completion without queueing anything: this
-+	 * one hypercall re-executes and exits to userspace a second time,
-+	 * which then completes it.
-+	 */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-+	GUEST_SYNC(STAGE_CANCEL_RETRY);
-+
-+	/* An ordinary completion still works after the cancels. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status, USERSPACE_STATUS);
-+	GUEST_SYNC(STAGE_AFTER_CANCEL);
-+
-+	/* Everything disabled again. */
-+	vector = __hyperv_hypercall(HVCALL_TEST_CODE, pgs_gpa + PAGE_SIZE,
-+				    pgs_gpa + 2 * PAGE_SIZE, &status);
-+	GUEST_ASSERT(!vector);
-+	GUEST_ASSERT_EQ(status & 0xffff, HV_STATUS_INVALID_HYPERCALL_CODE);
-+	GUEST_SYNC(STAGE_REDISABLED);
-+
-+	GUEST_DONE();
-+}
-+
-+static void check_hcall_exit(struct kvm_vcpu *vcpu, u64 expect_control,
-+			     u64 expect_in, u64 expect_out)
-+{
-+	struct kvm_run *run = vcpu->run;
-+
-+	TEST_ASSERT_EQ(run->exit_reason, KVM_EXIT_HYPERV);
-+	TEST_ASSERT_EQ(run->hyperv.type, KVM_EXIT_HYPERV_HCALL);
-+	TEST_ASSERT_EQ(run->hyperv.u.hcall.input, expect_control);
-+	TEST_ASSERT_EQ(run->hyperv.u.hcall.params[0], expect_in);
-+	TEST_ASSERT_EQ(run->hyperv.u.hcall.params[1], expect_out);
-+}
-+
-+/*
-+ * Cancel the pending hypercall completion, optionally queueing a #UD to
-+ * be delivered at the (unadvanced) hypercall instruction.  The cancel
-+ * must leave RIP and RAX alone.
-+ */
-+static void cancel_hcall(struct kvm_vcpu *vcpu, bool queue_ud)
-+{
-+	struct kvm_vcpu_events events;
-+	struct kvm_regs before, after;
-+
-+	vcpu_events_get(vcpu, &events);
-+	events.flags |= KVM_VCPUEVENT_CANCEL_HCALL;
-+	if (queue_ud) {
-+		events.flags |= KVM_VCPUEVENT_VALID_PAYLOAD;
-+		events.exception.pending = 1;
-+		events.exception.injected = 0;
-+		events.exception.nr = UD_VECTOR;
-+		events.exception.has_error_code = 0;
-+		events.exception_has_payload = 0;
-+	}
-+
-+	vcpu_regs_get(vcpu, &before);
-+	vcpu_events_set(vcpu, &events);
-+	vcpu_regs_get(vcpu, &after);
-+	TEST_ASSERT_EQ(before.rip, after.rip);
-+	TEST_ASSERT_EQ(before.rax, after.rax);
-+}
-+
-+/*
-+ * With no cancellable completion pending (nothing pending at all, or a
-+ * non-cancellable completion such as the ucall PIO's), the cancel must
-+ * fail with EBUSY and leave the vCPU's event state as
-+ * KVM_GET_VCPU_EVENTS reported it.
-+ */
-+static void check_cancel_refused(struct kvm_vcpu *vcpu)
-+{
-+	struct kvm_vcpu_events events, after;
-+	int r;
-+
-+	vcpu_events_get(vcpu, &events);
-+	events.flags |= KVM_VCPUEVENT_CANCEL_HCALL;
-+	r = __vcpu_ioctl(vcpu, KVM_SET_VCPU_EVENTS, &events);
-+	TEST_ASSERT(r == -1 && errno == EBUSY,
-+		    "Cancel with nothing to cancel: r = %d, errno = %d",
-+		    r, errno);
-+
-+	events.flags &= ~KVM_VCPUEVENT_CANCEL_HCALL;
-+	vcpu_events_get(vcpu, &after);
-+	TEST_ASSERT(!memcmp(&events, &after, sizeof(events)),
-+		    "Failed cancel changed the vCPU's events");
-+}
-+
-+static void handle_fast_hcall(struct kvm_vcpu *vcpu)
-+{
-+	struct kvm_fpu fpu;
-+
-+	check_hcall_exit(vcpu, HVCALL_TEST_CODE | HV_HYPERCALL_FAST_BIT,
-+			 FAST_PARAM0, FAST_PARAM1);
-+
-+	vcpu_fpu_get(vcpu, &fpu);
-+	TEST_ASSERT_EQ(*(u64 *)&fpu.xmm[0][0], XMM_IN_MARKER);
-+	TEST_ASSERT_EQ(*(u64 *)&fpu.xmm[0][8], XMM_IN_MARKER + 1);
-+	*(u64 *)&fpu.xmm[1][0] = XMM_OUT_MARKER;
-+	*(u64 *)&fpu.xmm[1][8] = XMM_OUT_MARKER + 1;
-+	vcpu_fpu_set(vcpu, &fpu);
-+
-+	vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+}
-+
-+static void test_feature_mask(struct kvm_vm *vm)
-+{
-+	u64 supported = kvm_check_cap(KVM_CAP_HYPERV_FORWARD_HCALL);
-+	int r;
-+
-+	TEST_ASSERT(supported & KVM_HYPERV_HCALL_FORWARD_UNKNOWN,
-+		    "KVM_HYPERV_HCALL_FORWARD_UNKNOWN not reported");
-+	r = __vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, BIT_ULL(63));
-+	TEST_ASSERT(r && errno == EINVAL,
-+		    "Enabling an undefined feature should fail with EINVAL");
-+
-+	/* Enabling nothing is allowed. */
-+	vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 0);
-+}
-+
-+int main(int argc, char *argv[])
-+{
-+	struct kvm_vcpu *vcpu;
-+	struct kvm_vm *vm;
-+	gva_t hcall_page;
-+	gpa_t hcall_gpa;
-+	struct ucall uc;
-+	int stage = STAGE_DISABLED;
-+	bool retried = false;
-+
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_HYPERV_FORWARD_HCALL));
-+	TEST_REQUIRE(kvm_check_cap(KVM_CAP_VCPU_EVENTS) &
-+		     KVM_VCPU_EVENTS_CANCEL_HCALL);
-+	TEST_REQUIRE(kvm_has_cap(KVM_CAP_EXCEPTION_PAYLOAD));
-+
-+	vm = vm_create_with_one_vcpu(&vcpu, guest_code);
-+	vcpu_set_hv_cpuid(vcpu);
-+	vm_enable_cap(vm, KVM_CAP_EXCEPTION_PAYLOAD, 1);
-+
-+	test_feature_mask(vm);
-+
-+	/* Hypercall page plus an input and an output page. */
-+	hcall_page = vm_alloc_pages(vm, 3);
-+	memset(addr_gva2hva(vm, hcall_page), 0x0, 3 * getpagesize());
-+	hcall_gpa = addr_gva2gpa(vm, hcall_page);
-+
-+	vcpu_args_set(vcpu, 1, hcall_gpa);
-+
-+	for (;;) {
-+		vcpu_run(vcpu);
-+
-+		if (vcpu->run->exit_reason == KVM_EXIT_HYPERV) {
-+			switch (stage) {
-+			case STAGE_MEMORY:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+				break;
-+			case STAGE_FAST:
-+				handle_fast_hcall(vcpu);
-+				break;
-+			case STAGE_RESULT_FULL:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				vcpu->run->hyperv.u.hcall.result = FULL_RESULT;
-+				break;
-+			case STAGE_CANCEL_UD:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				cancel_hcall(vcpu, true);
-+				/* Cancelled: the result must never reach the guest. */
-+				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+				break;
-+			case STAGE_CANCEL_RETRY:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				if (!retried) {
-+					/*
-+					 * Cancel with nothing queued: the same
-+					 * hypercall must exit a second time.
-+					 */
-+					cancel_hcall(vcpu, false);
-+					vcpu->run->hyperv.u.hcall.result = 0;
-+					retried = true;
-+				} else {
-+					vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+				}
-+				break;
-+			case STAGE_AFTER_CANCEL:
-+				check_hcall_exit(vcpu, HVCALL_TEST_CODE,
-+						 hcall_gpa + getpagesize(),
-+						 hcall_gpa + 2 * getpagesize());
-+				vcpu->run->hyperv.u.hcall.result = USERSPACE_STATUS;
-+				break;
-+			default:
-+				TEST_FAIL("Unexpected hypercall exit in stage %d", stage);
-+			}
-+			continue;
-+		}
-+
-+		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
-+
-+		switch (get_ucall(vcpu, &uc)) {
-+		case UCALL_SYNC:
-+			TEST_ASSERT_EQ(uc.args[1], stage);
-+			switch (stage) {
-+			case STAGE_DISABLED:
-+				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL,
-+					      KVM_HYPERV_HCALL_FORWARD_UNKNOWN);
-+				break;
-+			case STAGE_CANCEL_RETRY:
-+				/*
-+				 * The ucall PIO's own completion is pending
-+				 * here: not cancellable, even with the
-+				 * feature enabled.
-+				 */
-+				check_cancel_refused(vcpu);
-+				break;
-+			case STAGE_AFTER_CANCEL:
-+				vm_enable_cap(vm, KVM_CAP_HYPERV_FORWARD_HCALL, 0);
-+				break;
-+			}
-+			stage++;
-+			break;
-+		case UCALL_ABORT:
-+			REPORT_GUEST_ASSERT(uc);
-+		case UCALL_DONE:
-+			goto done;
-+		default:
-+			TEST_FAIL("Unhandled ucall: %ld", uc.cmd);
-+		}
-+	}
-+
-+done:
-+	TEST_ASSERT_EQ(stage, STAGE_REDISABLED + 1);
-+	kvm_vm_free(vm);
-+	return 0;
-+}
 -- 
-2.50.1
+Regards,
+Mukesh Pilaniya
 
