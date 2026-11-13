@@ -1,102 +1,131 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=170.10.129.124
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794574624;
-	b=p+kKjQ/MdUHQwTe0zTiG/XdxhFjmZ8aTI4wem7oqdVUuNHwMSFy0FbV/CWnGnriAXyvt
-	 VLlDaRn+/Ta1c8RCmQzRbBRklRFkFQAgiyYGNH3FSgnXdUvL+/+CBFIhAoPG9u1h+TSvu
-	 DNbRKE5VjePqgulqOf+IAYJrOXInS91Gr3f2rnAHdFb7VL/DDONOS0MHFkJZ4lGZANtIw
-	 JAQAADg5oLlU5Hvk9Hh2fgrwsRNsi3sySNiBG0sFIYNQnGkI5aoq18612F9wIyStxRfHG
-	 dT3oVaudjEGWZJ926s5s2eoau0w4N2Fv14j2HKx/GwE//oWjwCRxnQhduoXLncscYfQ==
+	t=1794575142;
+	b=z9T6w/m1WFXGmhbY4NECVg6a7H9WnLuC8kfNOa/yNMDJvD9N+4t85Jh+EyxmN9uNG9m5
+	 9pxlpAsufHLyAO+SmAfL3nccCfFhJKQmxiwj8WuxAXWxuJ/AII68c5jxV9Ns8EDLSJH9e
+	 Ij7HN73E3V0MUDyll9NrQiCfYYuSGZSNlb90n6cAWMzWSLdZyBU17ESULx6OFWUgGQ4SQ
+	 sZ1R6x4uKlWz47piwzQaCSSnS3j9rDunsgReFRw+aPAHUl084XQkj52qy6tfN8GxSScFy
+	 Kfca4ZCnTPDjuP7IHOahjor5hgwYARGS9pOMostBYwDlBbwY5ctdFi+5XmQhu2W5vpQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794574624;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=UFW11CE2+fUhenv8lk9VuUbA+Kdqs1KCmSCPY5Hz71g=;
-	b=XWpljiFcghJnZZEbu8cD6wyyKxaftmwFCb0xPCGvh3/b2C6KHLcRh/uMKIRSmNLuWc90
-	 em4upcl0gJz+9BZhUA1IiDPbkaOwf0+KfXVJcfnttp3O7Gs5Q9yOXkHeeyfqpwgfpxaAo
-	 B1NMPvM5JB9e/OXXueRbo93VzCf5KL2P4Q+mD509upjfrVvfgPCn8Rh5n9IHatE4tVTWt
-	 KlobOMwXjbKtw1Hbm1IGo0Th6jHhz+Zj0aWMVaB3DrARySFLBac4jJUuxWjuQbIRXvoqA
-	 mpXRr88sOM+gduuHq98qpgoYCKEnQNpJ9hfZaBenyXcp2OZDkAwaDz0SmbBz6ehUvBA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794575142;
+	h=DMARC-Filter:DKIM-Signature:Received:X-MC-Unique:
+	 X-Mimecast-MFC-AGG-ID:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 X-Received:Received:Date:From:To:Cc:Subject:Message-ID:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=v4TApKQ2t0hyQZxEXCOTGwfQDcbqzJhHn9ZrRsucxAk=;
+	b=0Ayh9ReNL1AQObFu6G79JX8HTv5oI747bTDQVNkB7BkMenrzWLaEkM0tk7+qTQmolW+Z
+	 4vtgTQlN/CxIZKbUufc9o89wb1tMipR5BCrES7MLCKwty1bW5C3wk0CMPALgudkFq9/Rp
+	 7Gt6XJEkdk+iFWypjCYMQsekxWoCO/PVDqD38Tw7sG81App61umRR1b24xNBv0+w/9PXl
+	 VPnq2vOigGOGtS+vF0GHpd1KwO/Tax1YOaZD/xpI4kUEZGyRLyfrqEGmNIK9tXvKfMhZH
+	 m6KkIORu6mgy7RpH2GNEchAwqpH6rvsJoAHt8Y8u5QFc/zRUSAz9P9Y3oa9WeXageIQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Nk9UrQAA;
-	arc=none smtp.remote-ip=209.85.214.180
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=redhat.com;
+	spf=pass smtp.mailfrom=redhat.com;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BW39gR3F;
+	dkim=pass header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=OBz9MajD;
+	arc=none smtp.remote-ip=170.10.129.124
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C9C606A32D
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 12:57:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 18C9C606A32D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A5AB606A8A9
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 13:05:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A5AB606A8A9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=Nk9UrQAA
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-2e987a2ba0cso4402135ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 04:57:03 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=mimecast20190719 header.b=BW39gR3F;
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.a=rsa-sha256 header.s=google header.b=OBz9MajD
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1794575141;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=v4TApKQ2t0hyQZxEXCOTGwfQDcbqzJhHn9ZrRsucxAk=;
+	b=BW39gR3Fg/kezsAVGKvDXsYxfzqF0QHATEwKDPkJqNqr/QWxfk+dcxVMEcu3YwNIOB2aqr
+	mkkDS9nWCasm/fFkT5l4ek15CNGfGKFiFAamdUDN2vQF/pMHjxRSrb+lPpqyGe+LBSUJqS
+	wugR76fjwkMTLCroYDR6WYQaj59gqJk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-295-pC0Sl-FAORagYL_MvIaQLA-1; Fri, 13 Nov 2026 08:05:39 -0500
+X-MC-Unique: pC0Sl-FAORagYL_MvIaQLA-1
+X-Mimecast-MFC-AGG-ID: pC0Sl-FAORagYL_MvIaQLA_1794575138
+Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-48e0389d6f9so514695f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 05:05:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794574623; x=1795179423; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=UFW11CE2+fUhenv8lk9VuUbA+Kdqs1KCmSCPY5Hz71g=;
-        b=Nk9UrQAAeFLsnTKMzVvAeSI0D9fVT5PKtZAKDEqUF+zGFyKb3SmRKoso44dE3HHAgU
-         vD5sB4msnfLkk6JeMGxTnp+lWRHZJ9oSlmRayqqSihctqh8rHZ0d9gHQLHCNgsA3+s7Y
-         PBKq5OY75McV+r+FJyKs91BW0gVEmraTuk3H5Om25ORN0woMdtxU3ZPEHzfDPSW84hlU
-         y/dSGTLU8yPSxYzXnvLLa0tOvgqGdyW43TLQnMVhwCdAs/UCbXAtdjntoDRIWQn6S/lS
-         +kupnnOI/PrEANESBoe3CQBxok3RcLkGdUV6DlVi2lV7TwhaPcgObjih1Y0axbDNUNHk
-         gLgQ==
+        d=redhat.com; s=google; t=1794575138; x=1795179938; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=v4TApKQ2t0hyQZxEXCOTGwfQDcbqzJhHn9ZrRsucxAk=;
+        b=OBz9MajDYVenCm8MUwg+HL9hyy/hjg7gXdoLfpQDTEBvcKFk4YaX7Tl44/rlnKnb5v
+         srBQjbdSbBWBZPcxn1PCvXeu/Ks6Gvy2Titlk2bQEM78XcpFYAgC/2KkHvwx0b1eMl16
+         fJqEP8wyrSh+PTfT8Q5vAzO/lPfDDbIdHdZPyVOUh5NF9jOK5LDk9hPIq/iH9JpeAkue
+         raBwYvhyGwVeeSEq4hAtrs8tbzv0KpfcO77sH0pmSsQulx+UF9ep+lWXV/u+w78kH28r
+         qz2J8dRVuL5lFl9EeQ8JjcRWpC9ounCRfBmSYjbhUwAFIjJ84CwdJl8oncnERZAetmJ2
+         932w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794574623; x=1795179423;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UFW11CE2+fUhenv8lk9VuUbA+Kdqs1KCmSCPY5Hz71g=;
-        b=0Kt86RNEiLfhPqYNNvLWAUFTLeF8mMG2vXCbs3FKIagylSiRHpJMTz07jqbIvldIno
-         jfqF9mV7DBj7RN+SOWaHUeC8JRL4W1bUhkdacbOmm4XettWEyQN0P5OWaX7GgOZuGKC4
-         +2JMO6bcV+2iaHjFwdJmR48Go3rcGq8JQwZKaAjebjuotVf6BAfGInbe/++7TYlJnzF6
-         0fLn/fZBjw2RJk5ggyEFCSD2QkWRKrxlNQ7d+2VxpEvXKrafRwI6PlwGxjUaABZTkzSb
-         hSzEjXHpCxP6CSj3NrQAJfgQp+NAyBLfylwRiUUUGmMcC3Bwc94kzC9vhA06fOraoLOm
-         wuCQ==
-X-Forwarded-Encrypted: i=1; AL+hErH5hQz7g9NPzRe5fNL0a9+dYHqr0lRz58UPaPuLdBDvu6v6h4rTpvYsfGCfzOhaKDkFVFgRhBJ1HDE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/wvunuNLmQ5Z+fZVOQMjl6TzL3R909w3n2C1nOFoDA/dFss6D/
-	0IqmLMiURTZMCCuoVd/EdhekN12BHzkheg4AxQvBKr6+xhHUUGM7wfsJ
-X-Gm-Gg: AYBFou2T1bhvYvUvZqCJWlWeoKxM7rK2+V/Iut+HTpjUonBeaq7nLVIiAUnNQ/qhxDl
-	WbkXuySMMqnSsilqVKuDxo1r9tLJk0MJVIlmYP/4MYB0g1VvkJr6Z1psF6V3QGXZlTa3vNzNIGq
-	CE1G3GQ1g/MJKffbdxwEJvGo1XETtqFWbScbvxFk2oWXzKiXP8i+cvnSZVzAJ5aZwErqmoG4Nk2
-	JTqAkslsqjVmvT8VPzR4dgc8h7JwnRDITJzMx5yLmQDNMfz9+ApzVuulUWqpRsaFBn5wLCGYsQz
-	jkOgpzD6dwNRRnNmDhoRL0BPcP60p8E6hk3zgi/o5gOqCz5HlD+d7AaEFeSkwRXKisrF5iGXX+Y
-	b464pyqFfuEcbfu6a801z6R7E8k5sayH4teo5w3R8HpH1o4E2zjh3KfXSboTFKRKVsmQCd/eJ47
-	clNlNgqiw185VAvKMZZkQsgMPsAVLEXr8YYUY2fNfPQoDBBxDD/RSHFBa/pMUFv6y2gxUgWkT2f
-	6Ka53/AuzaCEnfQBg5BoAmtq/Viczi49JVWr/vvEQQxFb5cJwawHv6xlzgc08yLL9flYsVQ5jYu
-	w02LHyd+YTFlQepV8qBTT/VKhJkNevd4cq7MtNGCCksQ+o8KuKN/yMg=
-X-Received: by 2002:a17:903:1844:b0:2ed:2104:9a6f with SMTP id d9443c01a7336-2ee0dac323cmr24731165ad.22.1794574623291;
-        Fri, 13 Nov 2026 04:57:03 -0800 (PST)
-Received: from localhost.localdomain ([223.167.122.23])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ee0f4acd77sm9593215ad.3.2026.11.13.04.56.55
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 13 Nov 2026 04:57:02 -0800 (PST)
-From: Chuang Wang <nashuiliang@gmail.com>
-To: 
-Cc: Chuang Wang <nashuiliang@gmail.com>,
+        d=1e100.net; s=20260707; t=1794575138; x=1795179938;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=v4TApKQ2t0hyQZxEXCOTGwfQDcbqzJhHn9ZrRsucxAk=;
+        b=I7Z6pAHGWklc56sohkQ+woXyp+e1eF8iuj139yW1wDR1u0sgZ0n8SYHoSSiIw/5RLK
+         rNSxis+efgtXMjwqOtXKwgAmdLJC9z2ZzQRR4kVeuN36u67hQS4i4wBhlQp28vK4rfnW
+         73vNR1x0CDHaKt7cZFHIU/tG/ls4ke1iLnJ956YoK5Bxa064rr5Z1MLyLQ5VYI/VMVzm
+         4t6aqn/EWnKp/4xMUXjJVvNj5a1uTOPs9bE3o2mxOD7ZZt/bqHQem6zUreFV3f9WFWcK
+         6OW8rYWChMvMo/XxWS5JwNnyrxkVr8CIl+BGuU5xFBaci9Z+6Ncadi+Vcy8O9BpMmTa/
+         bXww==
+X-Forwarded-Encrypted: i=1; AL+hErGeXnAbRvf0DvirXyc5PL675PSrnvGreNjekfQ4wfKozSlsJGBmHFrN28zIvgaiKy/fXn9hHiz0lLA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/nXfWN+TX+k58rJH8uZkiyggN9tIIpNWZQKaCwC4qYnU3mSUF/
+	1+OC0utKDEryZvjKKAbtm4abynopU+aQDYjK8qBxaiXWLZM83NWMbGjU6Rn0PqZq4q3ookglDr7
+	Qse9Ob5BIpjrQbpTKNIgCrZDFoKMx5dhmw1l/5JyGTQNhezUuJvdo5Ammqb5c3w==
+X-Gm-Gg: AYBFou2iJ48U5B5E670chTEP5m8exVhxNqj3HuoDgMDgxpiVljRekiXfSGQdsfYp/If
+	683fY3a9QnbcN7wevePHuiZc7Kscm17VBWgK6MCD2Iot954ZUr5lgYZgc22YNHCEoEeT8BS6kc+
+	IiRMZCff+BSbSJS2Y/o2t6VWSCPnlBqCiiSiajYKd2q+bX5lStnCUeMD1f0QGFaBGFmp19GWHiw
+	kUlIXajc/nfv7OPOn4u4TuzUcy9qAFbCzhWaxkPuBvHQEgVx1YpTBmc6lj93V2sk21SLnotCOUI
+	Ls05HuoPOGiC/Wwa7gTbsfUs1lpUIQmwbm+fj2qHSOL63tGsQIO9Yulhm4/7w/pMvEQLKxfXPyQ
+	pzD819hxHQrMGTkoX8Lu43VbDRFPEbIUU4FU2q7My/g==
+X-Received: by 2002:a05:600c:3487:b0:4a2:526b:d410 with SMTP id 5b1f17b1804b1-4bb55a4f1b4mr53874925e9.13.1794575137659;
+        Fri, 13 Nov 2026 05:05:37 -0800 (PST)
+X-Received: by 2002:a05:600c:3487:b0:4a2:526b:d410 with SMTP id 5b1f17b1804b1-4bb55a4f1b4mr53873365e9.13.1794575136910;
+        Fri, 13 Nov 2026 05:05:36 -0800 (PST)
+Received: from redhat.com ([2a0d:6fc0:1511:2900:ff37:b35c:a97:952d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb56680ea9sm39056695e9.0.2026.11.13.05.05.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 05:05:35 -0800 (PST)
+Date: Fri, 13 Nov 2026 08:05:30 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Sergio Lopez <slp@redhat.com>
+Cc: Stefano Garzarella <sgarzare@redhat.com>,
+	Bobby Eshleman <bobbyeshleman@meta.com>,
+	Alexei Starovoitov <ast@kernel.org>,
 	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
 	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	Bryan Tan <bryan-bt.tan@broadcom.com>,
+	Vishnu Dasa <vishnu.dasa@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Jason Wang <jasowangio@gmail.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+	Haiyang Zhang <haiyangz@microsoft.com>,
+	Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Stanislav Fomichev <sdf.kernel@gmail.com>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v13] net: reduce ARFS flow updates by checking LLC affinity
-Date: Fri, 13 Nov 2026 20:56:34 +0800
-Message-ID: <20261113125643.2255-1-nashuiliang@gmail.com>
-X-Mailer: git-send-email 2.50.1
+	Randy Dunlap <rdunlap@infradead.org>,
+	virtualization@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	bpf@vger.kernel.org, linux-hyperv@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH RFC v2 0/8] vsock: add datagram support to virtio and
+ vhost
+Message-ID: <20261113080506-mutt-send-email-mst@kernel.org>
+References: <20261113-vsock-dgram-support-v2-0-bacfc85b71ce@redhat.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,197 +135,134 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113-vsock-dgram-support-v2-0-bacfc85b71ce@redhat.com>
 
-When an application migrates to a different CPU, RFS records the new
-CPU in the global rps_sock_flow_table via rps_record_sock_flow().  On
-the next packet of a flow, get_rps_cpu() notices the change and calls
-set_rps_cpu() to update the per-queue flow entry.  With Accelerated
-RFS (ARFS), set_rps_cpu() also invokes the driver's ndo_rx_flow_steer()
-callback so that the NIC steers the flow to a queue close to the new
-CPU.
+On Fri, Nov 13, 2026 at 01:47:33PM +0100, Sergio Lopez wrote:
+> This RFC adds SOCK_DGRAM support to virtio-vsock and vhost-vsock through
+> the existing AF_VSOCK API. It is intended for guest and host services
+> that exchange independent requests, responses, or events and need message
+> boundaries and sender addresses without a stream connection or application
+> framing.
+> 
+> VIRTIO_VSOCK_F_DGRAM gates virtio traffic in both directions. Each virtio
+> send carries zero to 64 KiB of payload in one VIRTIO_VSOCK_TYPE_DGRAM
+> packet. On the RX virtqueue, the device may split a datagram across
+> page-sized guest buffers.
+> START and EOM delimit the message; the guest reassembles at most 64
+> fragments and 64 KiB before delivering it to a socket.
 
-Threads that migrate frequently trigger this on every migration.  For
-drivers like mlx5, each steering call serialises on an internal lock
-(arfs_lock), and under heavy load the contention on that lock can
-outweigh the benefit of the steering update itself.
+where do these limits come from? how does peer know not to send more?
 
-This patch introduces a cache-aware update strategy: the hardware
-steering update is skipped when the flow's previous target CPU and the
-new one share the same Last Level Cache (LLC), as cache locality for
-the application is preserved either way. The per-queue flow bookkeeping
-(rflow->cpu) is still updated, so RFS keeps steering packets to the CPU
-the application is running on. A new sysctl, net.core.arfs_llc_affinity,
-is added to toggle this feature (default: off).
+Thanks!
 
-Performance Test Results:
-The patch was tested in a K8s environment (AMD CPU 128*2, 16-core Pod
-with CPU pinning, mlx5 NIC) using brpc[1] echo_server and rpc_press.
-
-rpc_press Commands:
-
-  for i in {1..8}; do
-    ./rpc_press -proto=./echo.proto -method=example.EchoService.Echo
-    -server=<IP>:8000 -input='{"message":"hello"}'
-    -qps=0 -thread_num=512 -connection_type=pooled &
-  done
-
-Monitor mlx5e_rx_flow_steer frequency:
-
-  /usr/share/bcc/tools/funccount -i 1 mlx5e_rx_flow_steer
-
-Frequency of mlx5e_rx_flow_steer (via funccount[2]):
-
-  Before: ~200,000 counts/sec
-  After:       ~10 counts/sec (reduced by ~99%)
-
-[1] https://github.com/apache/brpc/
-[2] https://github.com/iovisor/bcc/blob/master/tools/funccount.py
-
-Signed-off-by: Chuang Wang <nashuiliang@gmail.com>
----
-v13 -> v12:
-- add rflow->filter != RPS_NO_FILTER check in set_rps_cpu, per Simon Horman
-v11 -> v12:
-- drop the comment block above the LLC check, per Jakub Kicinski
-- guard the arfs_llc_affinity declaration, definition and sysctl entry
-  with CONFIG_RFS_ACCEL
-- document the sysctl in Documentation/networking/scaling.rst, per Jakub Kicinski
-v10 -> v11:
-- rename the sysctl from net.core.rps_feat_llc_affinity to
-  net.core.arfs_llc_affinity, per Neal Cardwell
-v9 -> v10:
-- move the LLC check from rps_record_sock_flow() into set_rps_cpu(),
-  so that only the ARFS hardware steering is skipped while rflow->cpu
-  is still updated, per Eric Dumazet
-- drop the sock_rps_record_flow_hash()/sock_rps_record_flow() exports,
-  which are no longer needed
-v6 -> v9:
-- simplify code and fix errors in AI submissions, per Simon Horman
-v5 -> v6:
-- remove the multi-check 'old_val == new_val', per Xuan Zhuo
-- fix 'modpost: "sock_rps_record_flow_hash" [drivers/net/tun.ko]
-  undefined!', per kernel test robot
-- fix 'tcp.c:(.text+0x3e90): undefined reference to
-  `sock_rps_record_flow'', per kernel test robot
-v4 -> v5:
-- fix 'modpost: "rps_llc_check" [net/sctp/sctp.ko] undefined!', per
-  kernel test robot
-v3 -> v4:
-- add rps_llc_check, per Eric Dumazet
-v2 -> v3:
-- patch net -> net-next, per Jakub Kicinski
-v1 -> v2:
-- add rps_feat_llc_affinity; add brpc tests
- Documentation/networking/scaling.rst |  9 +++++++++
- include/net/rps.h                    |  4 ++++
- net/core/dev.c                       | 15 +++++++++++++--
- net/core/sysctl_net_core.c           |  9 +++++++++
- 4 files changed, 35 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/networking/scaling.rst b/Documentation/networking/scaling.rst
-index 6c9836000a8d..d85fe7a9e9bf 100644
---- a/Documentation/networking/scaling.rst
-+++ b/Documentation/networking/scaling.rst
-@@ -468,6 +468,15 @@ of CPU to queues is automatically deduced from the IRQ affinities
- configured for each receive queue by the driver, so no additional
- configuration should be necessary.
- 
-+When the flow's previous target CPU and the new target CPU share the
-+last level cache (LLC), the hardware steering update can be skipped,
-+since the application's cache locality is preserved either way. This
-+reduces contention on driver-internal locks when application threads
-+migrate frequently between CPUs sharing an LLC. The functionality
-+remains disabled until explicitly enabled through::
-+
-+  /proc/sys/net/core/arfs_llc_affinity
-+
- 
- Suggested Configuration
- ~~~~~~~~~~~~~~~~~~~~~~~
-diff --git a/include/net/rps.h b/include/net/rps.h
-index e33c6a2fa8bb..ff2f490a4e9a 100644
---- a/include/net/rps.h
-+++ b/include/net/rps.h
-@@ -13,6 +13,10 @@
- extern struct static_key_false rps_needed;
- extern struct static_key_false rfs_needed;
- 
-+#ifdef CONFIG_RFS_ACCEL
-+extern struct static_key_false arfs_llc_affinity;
-+#endif
-+
- /*
-  * This structure holds an RPS map which can be of variable length.  The
-  * map is an array of CPUs.
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 3b60b15e2175..6d3dd2d9ae82 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -5217,6 +5217,10 @@ EXPORT_SYMBOL(rps_needed);
- struct static_key_false rfs_needed __read_mostly;
- EXPORT_SYMBOL(rfs_needed);
- 
-+#ifdef CONFIG_RFS_ACCEL
-+struct static_key_false arfs_llc_affinity __read_mostly;
-+#endif
-+
- static u32 rfs_slot(u32 hash, rps_tag_ptr tag_ptr)
- {
- 	return hash_32(hash, rps_tag_to_log(tag_ptr));
-@@ -5254,7 +5258,7 @@ static bool rps_flow_is_active(struct rps_dev_flow *rflow,
- 
- static struct rps_dev_flow *
- set_rps_cpu(struct net_device *dev, struct sk_buff *skb,
--	    struct rps_dev_flow *rflow, u16 next_cpu, u32 hash)
-+	    struct rps_dev_flow *rflow, u16 old_cpu, u16 next_cpu, u32 hash)
- {
- 	if (next_cpu < nr_cpu_ids) {
- 		u32 head;
-@@ -5273,6 +5277,13 @@ set_rps_cpu(struct net_device *dev, struct sk_buff *skb,
- 		if (!skb_rx_queue_recorded(skb) || !dev->rx_cpu_rmap ||
- 		    !(dev->features & NETIF_F_NTUPLE))
- 			goto out;
-+
-+		if (static_branch_unlikely(&arfs_llc_affinity) &&
-+		    old_cpu < nr_cpu_ids && cpu_online(old_cpu) &&
-+		    cpus_share_cache(old_cpu, next_cpu) &&
-+		    READ_ONCE(rflow->filter) != RPS_NO_FILTER)
-+			goto out;
-+
- 		rxq_index = cpu_rmap_lookup_index(dev->rx_cpu_rmap, next_cpu);
- 		if (rxq_index == skb_get_rx_queue(skb))
- 			goto out;
-@@ -5402,8 +5413,8 @@ static int get_rps_cpu(struct net_device *dev, struct sk_buff *skb,
- 		    (tcpu >= nr_cpu_ids || !cpu_online(tcpu) ||
- 		     ((int)(READ_ONCE(per_cpu(softnet_data, tcpu).input_queue_head) -
- 		      rflow->last_qtail)) >= 0)) {
-+			rflow = set_rps_cpu(dev, skb, rflow, tcpu, next_cpu, hash);
- 			tcpu = next_cpu;
--			rflow = set_rps_cpu(dev, skb, rflow, next_cpu, hash);
- 		}
- 
- 		if (tcpu < nr_cpu_ids && cpu_online(tcpu)) {
-diff --git a/net/core/sysctl_net_core.c b/net/core/sysctl_net_core.c
-index 9226b96f2e89..64ae4c07f1b1 100644
---- a/net/core/sysctl_net_core.c
-+++ b/net/core/sysctl_net_core.c
-@@ -562,6 +562,15 @@ static struct ctl_table net_core_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= rps_sock_flow_sysctl
- 	},
-+#ifdef CONFIG_RFS_ACCEL
-+	{
-+		.procname	= "arfs_llc_affinity",
-+		.data		= &arfs_llc_affinity.key,
-+		.maxlen		= sizeof(arfs_llc_affinity.key),
-+		.mode		= 0644,
-+		.proc_handler	= proc_do_static_key
-+	},
-+#endif
- #endif
- #ifdef CONFIG_NET_FLOW_LIMIT
- 	{
--- 
-2.47.3
+> Invalid or
+> incomplete messages are discarded. Datagram delivery is best effort:
+> there are no peer credits, acknowledgements, or retransmissions. Send
+> admission uses the socket send-memory limit, and SIOCOUTQ reports charged
+> send memory.
+> 
+> Datagram sockets have a separate port space from stream and seqpacket
+> sockets. The latter two continue to share their port space. Datagram
+> routes are chosen per destination among guest-to-host, host-to-guest, and
+> loopback transports, with VMCI as a fallback. VMCI still owns its socket
+> handle when it is present; loopback works without a directional transport.
+> Hyper-V continues to reject datagram sockets.
+> 
+> Bobby Eshleman and Amery Hung explored this feature in their v6 series
+> and v7 work-in-progress branch. This series is a fresh implementation
+> against the current vsock code. It follows the separate datagram port
+> space, per-destination routing, and VMCI fallback requirements discussed
+> there. For guest receive buffers, it uses bounded fragmentation and
+> reassembly rather than full-message buffers or the earlier drop/error
+> queue approach:
+> 
+> https://lore.kernel.org/r/20240710212555.1617795-1-amery.hung@bytedance.com
+> https://github.com/ameryhung/linux/tree/vsock-dgram-v7
+> 
+> A corresponding virtio specification update has been drafted separately.
+> The wire format and feature negotiation still need specification review
+> before this series can be considered for merging.
+> 
+> The first patches expose the core port allocator and add datagram queue
+> reporting, then implement the common data path, guest and host feature
+> negotiation, routing, and RX fragmentation. The last patch extends
+> vsock_test with local and peer tests for message boundaries, routing,
+> connected peers, port sharing, queue accounting, and delayed reads.
+> 
+> Testing used QEMU with the F_DGRAM property patch below, an x86-64
+> KASAN/lockdep kernel, paired guest tests, and a nested Linux vhost-vsock
+> backend. The tested paths include 64 KiB messages, delayed-read bursts,
+> feature-disabled ingress, stream and seqpacket controls, and header-only
+> guest RX buffers. A temporary userspace backend still fails stream test
+> 21 on both the series base and tip; that case passes with Linux vhost.
+> Real VMCI and Hyper-V hardware were not exercised.
+> 
+> https://lists.gnu.org/archive/html/qemu-devel/2026-10/msg08074.html
+> 
+> Code was written and reviewed both manually and assisted by Codex
+> (GPT-6.1-Sol) and Claude (Opus 4.6).
+> 
+> Signed-off-by: Sergio Lopez <slp@redhat.com>
+> ---
+> Changes in v2:
+> - Keep guest RX buffers page-sized; add START/EOM framing and bounded
+>   datagram reassembly (thanks to Alexei Starovoitov and Bobby Eshleman).
+> - Preserve stream and seqpacket data when an RX buffer has no payload
+>   room.
+> - Separate datagram and connection-oriented port spaces, and share
+>   receive metadata and queueing (thanks to Alexei Starovoitov).
+> - Check negotiated support and destination CID on ingress, and require
+>   an exact connected peer CID and port (thanks to Sashiko AI bot).
+> - Select a capable route for each destination, retain VMCI as fallback,
+>   and support loopback-only sockets (thanks to Alexei Starovoitov).
+> - Preserve the connected peer address across temporary parent fallback
+>   (thanks to Sashiko AI bot).
+> - Use socket write-memory accounting for datagram SIOCOUTQ instead of
+>   separate transport counters (thanks to Alexei Starovoitov).
+> - Extend selftests for fragmentation, delayed reads, port sharing,
+>   connected peers, and capability-based skips; fix the test build and
+>   README entries (thanks to Alexei Starovoitov, Bobby Eshleman,
+>   and Sashiko AI bot).
+> - Link to v1: https://lore.kernel.org/r/20261028-vsock-dgram-support-v1-0-e457cf7cee78@sinrega.org
+> 
+> ---
+> Sergio Lopez (8):
+>       vsock: expose the core port allocator to transports
+>       vsock: report datagram receive and send queue state
+>       vsock/virtio: implement the datagram data path
+>       vsock/virtio: negotiate datagram support on the guest
+>       vhost/vsock: negotiate datagram support with guests
+>       vsock: allow datagrams to use directional transports
+>       vsock: fragment datagrams across receive buffers
+>       vsock: add datagram tests to vsock_test
+> 
+>  Documentation/admin-guide/sysctl/net.rst |    8 +-
+>  drivers/vhost/vsock.c                    |   51 +-
+>  include/linux/virtio_vsock.h             |    9 +-
+>  include/net/af_vsock.h                   |   30 +-
+>  include/uapi/linux/virtio_vsock.h        |   10 +
+>  net/vmw_vsock/af_vsock.c                 |  459 +++++++++++---
+>  net/vmw_vsock/hyperv_transport.c         |   11 +-
+>  net/vmw_vsock/virtio_transport.c         |  167 ++++-
+>  net/vmw_vsock/virtio_transport_common.c  |  164 ++++-
+>  net/vmw_vsock/vmci_transport.c           |  115 ++--
+>  net/vmw_vsock/vsock_bpf.c                |    3 +-
+>  net/vmw_vsock/vsock_loopback.c           |    2 +-
+>  tools/testing/vsock/Makefile             |    3 +-
+>  tools/testing/vsock/README               |   31 +-
+>  tools/testing/vsock/util.c               |   62 +-
+>  tools/testing/vsock/util.h               |   10 +
+>  tools/testing/vsock/vsock_test.c         |  175 +++++-
+>  tools/testing/vsock/vsock_test_dgram.c   | 1000 ++++++++++++++++++++++++++++++
+>  tools/testing/vsock/vsock_test_dgram.h   |   29 +
+>  19 files changed, 2066 insertions(+), 273 deletions(-)
+> ---
+> base-commit: 65ba8f34ec886ec72b2c07ddc8cf3d815c32869d
+> change-id: 20261027-vsock-dgram-support-683a4e0aebe7
+> 
+> Best regards,
+> -- 
+> Sergio Lopez <slp@redhat.com>
 
