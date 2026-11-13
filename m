@@ -1,64 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794579936;
-	b=dhvH3ZPXMQDNUW0Om4yldIgD3RKv4elie7cvJtEREI2meW7B7VEIErS3EwulOFAO4Bhs
-	 Iysywx3sqWk47SutlJLk0Ln2MSK//yP7nvnP1gN1Mr1vbaWWcKA8KNz9MpdTY2/qFZHpf
-	 7JCSFV2hye/EiZyLifRSFUzaDx6HrkRRvBhcVH1w/1mzabBLivgEgRuiIKyKZYbJUhkCV
-	 3/ai1IL15E+yiqcMl7od4ZcPwIDpJp7Ky5ZW8KjdiQ76qx/QEVglDpHf91iTTuqdnT+RE
-	 6pwy/P7GF2wPMLzst9+Sr9j57X9cLSWK976AGQL0AKVXeLMCwZpHK+cPQYQJjkjJzBw==
+	t=1794580499;
+	b=IifTHjAMW9YRYIj40SQN/lGf8PkWnKujIoL2HKdRvSeYC2DTP8xk3J8THOJGkgRVneHQ
+	 nnksk4/Er0x2ujKyUcsrOnRpd1OeaSSQdOq3AeGuDafdEbHDkpdK0Q6/y6DBKxZne2fOz
+	 bv4FQYff71AfcgpspzsScsUg4Njb3F+VRKsKR1l8Huqh6HgpAzgSREgxlIFmE5ZGcKb6j
+	 yiFCR1hPzWckHcTrxm9ZrayxsWnSesx48zXTcGowjUh4jxVQhgz6DMwALuGFdFr6CW2c/
+	 /wQhYExvPIwM96SqZgH0cfY0dqqkO4OCmGvditk4/ezqoh4epZaTaHqe0nN4LdZ/Vkg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794579936;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=iPdpKJXi8RfcmX40aTJs1ytH9Wi9hRg6/+LGPmxS/5M=;
-	b=ZtqaX/VKf++BkqZhnYatiFxF7YOghUCX4vOE2ctBSdeJLOWlFChuA/pC+4eEzfyxl+nY
-	 ayNig+leijz3lt1A39nmr4wTtsQZQK1WWUg7QE5T8WNASw3xbCBvEi/4h59k+/QKq7jvJ
-	 uhMAZlKkHC6G2PtapnVQu+VOdk7LsMPzkPmKjvENqshET7krdJ49bqWt7H+lXi7DNcyr2
-	 XSbBD5DYHx6v2QZMXGf25idiGJTsOgPv8bwSRDVVeewLCnbg8Eeb7XvQCyo74faUoYwck
-	 znm0UNCIbdxboo707kldqqsH3+tEkywhb+SffvoCOYbhl6n7n6vMDt+xEBeCZuuU6KQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794580499;
+	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=PF7x+WHFDlFjFzclJMmi7Uvb2yYXpjZa21XSXBNN68Y=;
+	b=rRVi5joi8CnOfjPlxhmUaPAw8CtVqyQ/I9xFtA6xhDLw/tEN1FlktrC2WtotK2kk++Gq
+	 GZtcOASgQ2sWtYtoOvSJGynez/E3Tcf803Dit0+x5M9OS+Szp0j4xWyjaVYsJQuhm1EKt
+	 wXqeahyQi6stxs+uhoTN3t9Ni4907sdkrQ6ruOKMcPnPfCtQ5NSN8sCWdgNKJ2681tdnA
+	 YsTj4xNwISSG0O7DUFY47QTrhIm3VDcJVJpB46akRGf7mOpiYbfnRTUadRlseCJS1g8v5
+	 3GifNk5FB4vV+Izbi+OIhwU6ssLyibC84BRCkpOl58oenxiMOuZF9KSxN7t7zg5Y7Qg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FgHsqs11;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zs+kdfNJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A3DA606A327;
-	Fri, 13 Nov 2026 14:25:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AA2606A8B2
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:34:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FgHsqs11
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEEEE1F000C4;
-	Fri, 13 Nov 2026 14:25:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zs+kdfNJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BAD1F000C4
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:34:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794579935;
-	bh=iPdpKJXi8RfcmX40aTJs1ytH9Wi9hRg6/+LGPmxS/5M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=FgHsqs11QfRipLad4Rw6gJ9/LIQUFB0kN2R02FuNVMWvPbey56DXGDHs7FK/sLPmY
-	 P9/7fJ/u2ggeVqM4bCB+U9WLZ9fH3EDJMkekRm2IFEWy09XSBsb8xje/OC6TDfM8hW
-	 06Kp8RDbuVJhzQ9gmjH3HWNIRZqNIS6s/3/TB6Ic6mrwARPEXuvdDwpjxgl71sSV7v
-	 bUK3GAwT6o+SLdeebJh+c5WGaVTldlfavWMwrwCBqFEG/qEXtii+C+DjGrQzXsOPai
-	 K7UtK1KRiF5fXXaDNoMrVifE7wNBtA6q/ehoIy77f3/5EHbY9AZRxpepofK54TB8BS
-	 cRfqGbFWscRng==
-Date: Fri, 13 Nov 2026 08:25:33 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Cc: David Lechner <dlechner@baylibre.com>, linux-pwm@vger.kernel.org,
-	Randy Dunlap <rdunlap@infradead.org>, linux@analog.com,
-	Jonathan Cameron <jic23@kernel.org>, linux-doc@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Olivier Moysan <olivier.moysan@foss.st.com>,
-	Jonathan Cameron <jonathan.cameron@oss.qualcomm.com>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	Andy Shevchenko <andy@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 03/10] dt-bindings: iio: frequency: add
- adi,ad9910-axi-backend
-Message-ID: <179457993302.748838.1907399146153848587.robh@kernel.org>
-References: <20261103-ad9910-backend-support-v3-0-0e9224ddf7b7@analog.com>
- <20261103-ad9910-backend-support-v3-3-0e9224ddf7b7@analog.com>
+	s=k20260515; t=1794580499;
+	bh=PF7x+WHFDlFjFzclJMmi7Uvb2yYXpjZa21XSXBNN68Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=Zs+kdfNJoLMkl/WkGe794yJ/6X4epq2Y0S9osHqwtoywyGWWo5acUIiHSXv04wbm7
+	 jT/Lpt5RBcdJ4H/5KDckMWd11BZlN7NY3J7Kg4iq8zkmjv3UmtVQtTTmcZMdsogjpK
+	 /1Ix/X/H1c1uvRoR9KuN41hX+QgC/q+/2BNBCz7ObiJCI0w4gNTmmxdBrBdzTVUyF7
+	 HnaUrlhe6B3NCHoXhN4Wqcuj0NTPB0p51y5t28+X1h+4dJZJZlYqqyXqKnErGu3tCE
+	 IT+KTIx9lAc5aSvhJMluLkZ+uS5+IzI807cN03nbgP9G38DTbnXDsJDnODPry9L/NQ
+	 3PZRqmJoROLXA==
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-703be215729so314360eaf.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 06:34:59 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErGa8e3cBBlDzd87qI2uKDB6nxu49GbDVrg5Cc6ZP1R/ESl3VIigAxAMgdrIrdQpa+AagAsKg01AAzI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9SRy1cUSlBRGPHcvT8cWn5cSvq9P96QxMmvD7H7q9bTZc5Lswo
+	699h3b5GGZAO6+NKV9CO/CD59GdOMaTDTR8/qLd+0iQFsIHBTqTApH3ff8GVjfJ3tNFPLMB9mjN
+	Mb7y+4qo+WQfsi/AK5Z6+yZQH01nhUwM=
+X-Received: by 2002:a05:6820:238b:b0:6f4:d9d4:3948 with SMTP id
+ 006d021491bc7-71ab50535a7mr1136848eaf.45.1794580497611; Fri, 13 Nov 2026
+ 06:34:57 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,27 +59,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261103-ad9910-backend-support-v3-3-0e9224ddf7b7@analog.com>
+References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com> <20261026-drm-panel-funcs-v1-22-5e3070a3478f@oss.qualcomm.com>
+In-Reply-To: <20261026-drm-panel-funcs-v1-22-5e3070a3478f@oss.qualcomm.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 13 Nov 2026 15:34:42 +0100
+X-Gmail-Original-Message-ID: <CAD++jLmME3b35ipG0N9agoe+5P1J6dsDiy3hoT9MJ9vyRwBA7A@mail.gmail.com>
+X-Gm-Features: AclHuK879_MUVY4wh3-oLFktJApN7IrvQSuSi80dujOkyN3zJSTWDVcOyRF70LI
+Message-ID: <CAD++jLmME3b35ipG0N9agoe+5P1J6dsDiy3hoT9MJ9vyRwBA7A@mail.gmail.com>
+Subject: Re: [PATCH 22/35] drm/panel: drop the orientation workaround from get_modes()
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Douglas Anderson <dianders@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Jessica Zhang <jesszhan0024@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
+	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
+	Alison Wang <alison.wang@nxp.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Yannick Fertre <yannick.fertre@foss.st.com>, 
+	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
+	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
+	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@kernel.org>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, 
+	Javier Martinez Canillas <javierm@redhat.com>, Igor Reznichenko <igor@reznichenko.net>, 
+	Michael Walle <mwalle@kernel.org>, Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
+	Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>, 
+	=?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
+	Purism Kernel Team <kernel@puri.sm>, Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
+	Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>, 
+	Michael Trimarchi <michael@amarulasolutions.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Casey Connolly <casey.connolly@linaro.org>, Michael Tretter <m.tretter@pengutronix.de>, 
+	Cristian Cozzolino <cristian_ci@protonmail.com>, Junjie Cao <junjie.cao@linux.dev>, 
+	Ryan Brue <ryanbrue.dev@gmail.com>, Nickolay Goppen <setotau@mainlining.org>, 
+	Stefan Mavrodiev <stefan@olimex.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
+	Robert Chiras <robert.chiras@nxp.com>, Alexander Koskovich <akoskovich@pm.me>, 
+	Markuss Broks <markuss.broks@gmail.com>, Artur Weber <aweber.kernel@gmail.com>, 
+	David Heidelberg <david@ixit.cz>, Dzmitry Sankouski <dsankouski@gmail.com>, 
+	Yedaya Katsman <yedaya.ka@gmail.com>, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, imx@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
+	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Oct 26, 2026 at 12:11=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
 
-On Tue, 03 Nov 2026 11:52:59 -0300, Rodrigo Alencar wrote:
-> Add bindings for the AD9910 AXI backend IP core. The FPGA IP core
-> interfaces with the data and control pins of the AD9910 DDS, streaming
-> data from memory via DMA into the 18-bit parallel data port (F[1:0] and
-> D[15:0] pins), which is clocked by the PDCLK output of the device. It
-> also drives the PROFILE[2:0] pins and the DRCTL pin, which controls the
-> slope direction of the digital ramp generator (DRG). The DRCTL pin is
-> driven by a PWM generator, so the IP core is described both as an IIO
-> backend and as a PWM provider.
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> ---
->  .../iio/frequency/adi,ad9910-axi-backend.yaml      | 74 ++++++++++++++++++++++
->  MAINTAINERS                                        |  1 +
->  2 files changed, 75 insertions(+)
-> 
+> Setting the orientation from get_modes() was a stopgap for the display
+> drivers not calling drm_connector_set_orientation_from_panel(). It is
+> also too late: by then the connector is registered and the property can
+> no longer be attached properly.
+>
+> drm_bridge_connector and the panel bridge set the orientation on their
+> own, and the drivers using a panel directly do it when creating the
+> connector now. The exceptions are sun6i_mipi_dsi, sti_dvo and the Tegra
+> DSI, which get the panel only after the DRM device has been registered.
+> None of the in-tree boards using them has a rotated panel.
+>
+> Assisted-by: LLM
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Makes sense.
+Acked-by: Linus Walleij <linusw@kernel.org>
 
+Yours,
+Linus Walleij
