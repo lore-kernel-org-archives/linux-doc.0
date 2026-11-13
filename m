@@ -1,79 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794567325;
-	b=udQLGVkoNCcmqs4czpYT07sG6oHVjTU802XZh/V5SBTRLAF6bkOlAd+qrkK6N91jL5XH
-	 jMmzmA3kCXAYCZ8eRLftwqkup6VKHXPeQaNBXJDnm62Jb+mRJpgk3cqsrF9V51Eywvb2d
-	 MR1TJ8jF753TqXtWL8NshyWfbCbWbV4RU4L+GBFyBNV8zp/x2rr5k918qrfyZMNxpj7w+
-	 xCwzsJj0RGTrVOBlEivaXo/smhw74rW+r9BFlN75zkUreqri6JS/i5ljeC0Zr9OHfKicm
-	 CNOE2AvqfucPlBgQ37UsbvhXFXk7NevgVUoXpkkENt+ItPNUwqsZL8pzsY0wrDP6iZw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794567325;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=dVD2sgjeIdy2wIdfd/QmoCMe4rJiJI4y+gjhCqqw+84=;
-	b=AfR64Wy6Ov75nnR9tmEi22km366vH9hmxXJW5T/ZTy4KlyiRAgSgKXyzG+4bkRrEteYq
-	 vnL5Dm+wWXgNlFqZn0WfhYf56ITHAFvR30ceuDEDeizV5+It7g/cEWw1TBvAGCkUUJq0h
-	 A9Ka5rv+aTjfEsGVtiZKgJLLgh8OwVK3sfsulIQ+xPLc4fElM7aaN6H3dCMyH7tNWB4Yo
-	 0rn5ZR8/YLDPy7lyW5B8LI1tyWFLKNxOP9eN1/PAysFWwhe6QjcoSnl+ct7fEoBCBiikp
-	 /o94u2y9X/sP9TMOwG/bNaFUqeCdK7Xm0zVKggfXWBWmlicJbr7zGff64FfDpt2xHeg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=PAZcnNUn;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="UF6Dopc/";
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.45
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794567420;
+	b=jqle2lXatHQjoGLKofJA/s0XsegjJ2XrpyQeDs7hyph4/hIWMjdZpcKCmjygm2BNaTzT
+	 0ulsPKJIPCB0RHfmmvgn4/hoK77KZ7AdmzdqEIsLja5Iil42XGimyGDoyrqTsXsq4pfmB
+	 8abTxmryBEzo2LkN/8nrISNM+YV2Dnyz541WtTM7gHKHq/S9YrRbTc2QKXxAcD5nCgYsl
+	 DbapHhii6UHoT45FeTZiVvHHolLo2JtrwEcafuuTE3By5UOHMksqweQgKIn97rBbe9JWg
+	 JyYeBq1qPWJ6PDNBQw/RCd9H2CD8i5JVNsQOMA2FNHeljBlx3r6FXIyF/lAamyqB7Wg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794567420;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=h148AzK7ulcLWc0NU3jZpboHW5vO/KJ9aeMyUmTns1k=;
+	b=FltOZfYlLWJhJvqUbjTu+jqJ+uwgzejLcEUFsgmdffA1HKlMIAlUoXieeEe9GztxVMx1
+	 b1/opI1ArKsNW0hCaMgpp9CZeby9l6D+7ZHLqTnQ2cmbgafAs7uFaI0z64TKPeV5jo2uF
+	 z4L5UTX1IOPDw6caafOTQ+4xTOVy/BNmrXNZX7j1Y6GHP/jLcMBIEkuBTXWu/wGLyv5VP
+	 FoJh4i9gUHCjAB0Lp87cXeac4lGvg8kycgTS7MykvxtQwmZHbR/euSxskDhEGi1rYGok1
+	 uy+e2w+k795KSvQ1M8R7TQUHpRv1WCIwSG7SwOVcfghxgNustRCLaCpFoHsnSW6wp2Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oSSMMszi;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.45
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3535606BDA8;
-	Fri, 13 Nov 2026 10:55:24 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3535606BDA8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EEAC606A32A
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 10:57:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EEAC606A32A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=PAZcnNUn;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=UF6Dopc/
-Date: Fri, 13 Nov 2026 11:55:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794567323;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVD2sgjeIdy2wIdfd/QmoCMe4rJiJI4y+gjhCqqw+84=;
-	b=PAZcnNUn9q2dQQtHfk6NotT8Q5KEWCdd6Ef64+esc8uiqJvLMtL3QctPC6ujTqe3Xn5kYN
-	YPtsqN1L0wIDpFlTHU9t2x6PY2X837x5kxuU7oW1QzCjfSXDj2UUXL/TIL5IWmmYCJ8DHK
-	+3r2aq2QhEiWWn90EQcwp0RKGR9RRM6GoT7+Zrv/p3PTzp7RxBq+6M1qc9NpbMG+ZJMmfL
-	u3DZX/Fqnz3gUs+OSJ8SHu93bGUbtfAXphCcgthxmQmAtXt1K8Y+E7AjI5Boswdg0Uqveo
-	AAv9/prh4ACCpLsZQHr7kWacKePQDEg2FamoOwUPIS8FyB1Hgfc93x1vbAZjJQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794567323;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=dVD2sgjeIdy2wIdfd/QmoCMe4rJiJI4y+gjhCqqw+84=;
-	b=UF6Dopc/ixvr1b8REKTtcZtOFBk/zFRwvYDANMwBDKZCzmat0FDQCbovwqH+QJdOfts/Nn
-	+xI0aamwYVls5TBQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: paulmck@kernel.org, rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 0/7] rcutorture: Rewrite RCU priority-boost test
- around a CPU-hungry reader
-Message-ID: <20261113105521.spnkuQ7u@linutronix.de>
-References: <20261111213826.2035045-1-joelagnelf@nvidia.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=oSSMMszi
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-1a2af4c8d00so1319074c88.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 02:57:00 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794567419; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sv81nMycapa0VMPczTb/HQwGNyCSQzPbabR9v5jkK/7W6dog7QLuuKWUXBuO4sGbAZ
+         s2zNdPRaw0WkJD6T2zyOESB1cj1TtCrF0ED2C5Ip3IfPzOLjY2h5dj5cTWYTo9IM+XY5
+         OsfFRYRDxF3a53/CkT1cyZHalc3CKXFNLAe6/QWiTkDu1qQv3aotsFZxm/z6BhLn4PA0
+         gzDzgAUhQJpJPz2M5MYH7WZuh7J3YgTlt+gm1ccjpcCa1NhQ3VB8olGDv/PqpzhR1zJ8
+         mdCoffQc5N+KWcjAl2bIJLzrH6EFH60kzwPjv+nZ7ZqZg6gh9EUwKmKJzIXzuSQnmYTb
+         aacA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=h148AzK7ulcLWc0NU3jZpboHW5vO/KJ9aeMyUmTns1k=;
+        fh=TosBpfZdgjawMPRn+fN6q+kyqDL2RGhBpoDbpcBAKew=;
+        b=Qk+XHaPZzCw42BjD1Zkuvl3ib6W5GkQhZXc4+3JM5BQuk3r3XivzmGcIEpIYIAnrJF
+         mH8AyXYtbJjo3dJvGD4/8D+LVlEGdeits7y2o2WIJNtLm1KRc0/Cl7ValXrunV/hzgb/
+         EuKMKUf3duz55YIOEXI1QgI4kBRq6Bb+WasmW/MsnMItARZ3ibngHrDRS7L1kil9KpCF
+         gm4vzBpMiz8tn+Vg3/L17PHTAMtFUGR3/OUgZvYGtPvu2jRuZqni7/s4DbcU1dMzZU+V
+         V6GSF4IYtpQZVbPvxPlwMMmZfxscVoRZyyY3pb1p6gwSyFV3lf7OvStpFA0zhx5zkMRZ
+         34oA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794567419; x=1795172219; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=h148AzK7ulcLWc0NU3jZpboHW5vO/KJ9aeMyUmTns1k=;
+        b=oSSMMsziL7w6nW47/r8iQSeinVJ38aAA1LMs3FVdDbSdFpg/klmLvVGMa2XNtc/L++
+         qk+1oI4pOmoNAM2Sp+wJp6f1GzvqwIvaSPVHsRXkDEDmi0H/nyYKqQ5+xTUkwN/XJ1aB
+         lhIBS8TnoviuNl3qZk6EyysgPOPl1pH4Wefyh1koiZ0i5FTHW1jyvr5iBVxcRqCHFW0N
+         uN5FQLfq4Qc+wBBGzRMVFoydK7pIBrWo87Y3Ja9x0PV7XfOgqPtUwsSp/PkVZR1sU1cY
+         a0wVy4gycR3P98dRB726mwhv3llAloTH5tKnfwCYXAgxzrNSd6x7O+FrYd1nB4eNJsYs
+         Qgqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794567419; x=1795172219;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=h148AzK7ulcLWc0NU3jZpboHW5vO/KJ9aeMyUmTns1k=;
+        b=QS8VVFiRVOddUYbThsWc3oZVnq6up+sKotw4XAFoZoYEaybSiHpimOC/RahTXqpRlr
+         g0f7g5Kg8joawvfhMRAy+wTuRmbfVdKhrt6auJs1sH/kYeDdYiJA6etFsLW/dQqwaexa
+         75nD4K8xwVB+QTJc/JDJ+FAv5XSKseDPqIpAwfJj5G0bYJgP9aaKhF0x8JYFDfu93eYS
+         JTBUqNmVCWMO6m9gAU5br0NSIQMHt8L+9azDUugX2OAfytPsW3DE1a1zC+wACedU3XdB
+         Mtj3y7YUlnC/Am9ZOxg2wLez3hzEZnY2cycK6VEA3J2rDrV/UJ7w0KIB7tOQK8c/WTI2
+         hvFA==
+X-Forwarded-Encrypted: i=1; AL+hErEUlgHfBp0SRAQgVJ2P7vpgQOqoxPIAfEJAr/E/aPJQ6TY+hlceeJiUQYao+ysmCIQ86KSz3Sph9Yk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/GT2p0WwupWx7D6JLcmFGSmYWUbiZfSqbhLWx3pTS4v4wwhhLU
+	FjhKyJcR/cA2WFD1WwgLRCKTMUBlsMFy3EpEbixUs4grasvVkbqcqBOeNIo1qJ9HXob4XUzzVAU
+	PodBJq10DuXq23/Anj/Ms5u69U7pHKH4hxbs0aA8d
+X-Gm-Gg: AYBFou3uNfv8Y626jOmQjiSH6QBPCBuascEcyd9Pr95U3ir18FxRegqtvvEB+aoCehO
+	zgjWiG7jtAZ13fQoxx61mRV+7EB35ca3ln9+78tJV0WYT0QuFgQKRqBLR/OpDeEB1bwNGoXIIVV
+	4tUaWwHP4xHTyQjzUhU8tP0VfLMnNVAYhZSNOuLcojIvl4SYbNjMvxFPPY24Nbiy7cU9j/Xfja9
+	RwV2wqPu0mDqCkBE+q7WtD+iXu2/XAapV+gQaaOioxjcG5KuBlUAYNxcdD5o86cL21JZVtA2AUH
+	1ET2RRUJ9MmQju0l37tkrF6OxHA09MflXjj81tI8BMyELw9Firb0pOai54nezdNiqf05f5ui62z
+	SVu5jjjDtcpqmSgDNmdg1DJ8rarCfYNa/z0VBCWoh9qwlLIDVE1UY3VS4X+Jjz3DGnceG
+X-Received: by 2002:a05:701b:2810:b0:1af:2ba7:e44b with SMTP id
+ a92af1059eb24-1b503068de7mr2114022c88.3.1794567418689; Fri, 13 Nov 2026
+ 02:56:58 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -83,16 +103,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261111213826.2035045-1-joelagnelf@nvidia.com>
+References: <cover.1794506262.git.chris@chrisdown.name>
+In-Reply-To: <cover.1794506262.git.chris@chrisdown.name>
+From: Marco Elver <elver@google.com>
+Date: Fri, 13 Nov 2026 11:56:20 +0100
+X-Gm-Features: AclHuK8EymS8R4ke35k_Ts4zDwGVpBzqd0W1daXPPjdA8aiWj2M9LBxfbR3z3Fk
+Message-ID: <CANpmjNP0cWB_670hYj7p+Dd=do1qEu4XHeW+c7sTv-MXi0UBTg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] mm/slab: Support selecting slab hardening features
+ at boot
+To: Chris Down <chris@chrisdown.name>
+Cc: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>, 
+	GONG Ruiqi <gongruiqi@huaweicloud.com>, Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org, 
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, kernel-team@meta.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-11-11 16:38:18 [-0500], Joel Fernandes wrote:
-> Related work: Sebastian's recent series on the DL fair_server taking over RT
-> throttling [1], with its RFC [2], also touches rcutorture's handling of RT
-> throttling. This patch should simplify or make those patches unnecessary.
+On Fri, 13 Nov 2026 at 09:51, Chris Down <chris@chrisdown.name> wrote:
+>
+> Slab hardening settings are currently all build time choices. This means
+> that, unfortunately, hosts with different requirements end up needing
+> separate kernel images. At Meta, for example, some hosts are built with
+> these options and the rest of the fleet isn't, and that's one of the
+> things that keeps those kernels apart.
+>
+> This series does two things:
+>
+> - SLAB_FREELIST_HARDENED and SLAB_FREELIST_RANDOM are cheap enough with
+>   sheaves that it makes more sense to just enable them by default than
+>   to make them switchable. With both on, system level benchmarks didn't
+>   change measurably, only slowpath heavy microbenchmarks did [1].
+>
+> - SLAB_BUCKETS and KMALLOC_PARTITION_CACHES cost memory (Harry measured
+>   about 1 MiB and 18 MiB respectively after boot on a 64 CPU VM [2]), so
+>   they get slab_buckets= and kmalloc_partition= boot parameters, which
+>   default to on when the option is built in.
+>
+> Whether those two should be folded into a single slab_hardening= is
+> still open [3].
 
-Let me look at this. If this works out then the disabling of the
-fair_server becomes no longer required which would be my favorite, too.
+A coarse slab_hardening= option can easily be replaced by
+documentation. While less knobs is better, an intransparent coarse
+variant of slab_hardening= just makes the admin wonder "what does that
+actually to, and do I want it?". They still have to go and look up
+what it actually does, and at that point it doesn't add much value
+(alternative suggestion below).
 
-Sebastian
+> > > light: "I'm willying to sacrifice _some_ memory and CPU for security"
+> > > full: "I'm willying to sacrifice more overhead for security
+
+Who will decide what is light and full? I think there just won't be
+any consensus reached.
+
+One thing that users may want is an "all off" option, similar to
+mitigations=off, should they wish to get max performance back with a
+single option. So you could consider slab_hardening=off. But at that
+point it may be more consistent to drop slab_buckets= and
+kmalloc_partition= in favor of arguments to slab_hardening=, such as
+slab_hardening=nobuckets,partition. This would mirror mitigations=,
+and should cater to the usecase of slab_hardening=off to get max
+performance with a single option.
+
+But I would not add options such as 'light', 'full'.
+
+Thanks,
+-- Marco
