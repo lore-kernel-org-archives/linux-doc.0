@@ -1,80 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=90.155.50.34
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794593791;
-	b=wGbl4aysKPISMjiol7mDlZjLdh80nRDULWuaSLWbBRBJmCEBlbJXHfuFIoFVnWLGDrdv
-	 El1JYPE7ss8rwRrywCZMz8M5sLRSUIRlg+Wmtm4SSZaOil0oHGewqfezf5x9/35fSZEKR
-	 icJahAk0W2TE7/bbjOvzgQT7fhTuUXH8ardKH4kTolr55oK5Merka6vgdHPZBpwgy9vHU
-	 qk7rSuwKSxETjWgNeoK3yTHTTdt3wAzQ50b5Ix3p65c8OfbiZz3HrbZHphAxR6Zq4Gshe
-	 8E+TzyKCk3FdfspnRSMdtrfcRES0rZPBDFn/VbjDz3FiEajzEQzjwAJOkjtYcaNIdBQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794593791;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:User-Agent:MIME-Version:
-	 X-SRS-Rewrite;
-	bh=cFSJJ0QBLS+4V7pmjf8IWax5Ur3cpjNCmc79i/EDqN8=;
-	b=k6M5Uh1q4Q5BBw8pSECw0onYabPExD9d5pyEQu2BDVtonjKlURazURieQiz3fHaiGEBl
-	 9m3oawI9uinEzM7Qz12pKOzKrJqAXUMKUEFz0ip3vLLJd5KNHkcYIFvr/ouNQOM1wbKrH
-	 4M6ncA1WKyEN1kH3fhYm/VT9/7EPU2mPOi0PMr7K2xeObKrzjdFRjC4kirEUpYmzzBLWl
-	 iQDCGIRZU9xM2ckky8a14258FI83qdPVfaMSdiH1r0vgW9ez11pT4Wndg+wdbiHK37YTF
-	 xv7zAtk1ZeahIimrDCvCtrQ8URGC4n6fHySXTXec20n6AesLcWZawChiD26FoFiFMOA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=none smtp.mailfrom=casper.srs.infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=ZpC+zsQY;
-	arc=none smtp.remote-ip=90.155.50.34
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794594107;
+	b=CmgmrnHdiKQtuWG695nyTL0UH+DfmeubEQESrFtoWAZ4UCcPvkpchR3Lx2389BxUifVt
+	 0A4UCuplJsVHrDsWrH2Gkv44im1bWIs73MIDzCjDtEe9gzuGOGStQ67kVcubIz7F/0WFp
+	 AEFxLTmMQd6k6NO51J1dT8XHU3NqWyUhBp8hQV16fXG6WYmwl9mJ5P/JjhUX20eIR+W21
+	 rBM3o2LdiPvbEIAIpgoAq94TtgpHQOCh2AndLehVaZYwy/gWx1iba5G5EyG3PXnmjK7wc
+	 4L2AWGGtI33Jf17Z23gcLToE/lQXof+6eEAwTDjRR/jvpgTFNwscujFAEh+Zc3DHByw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794594107;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=1MqvH0GCTmR5Cok9Sq1gDJXoWiZ+tIf/YPw2rtLSCz8=;
+	b=Aq/CjB8CaGsaPuqPMdzT/1Yln3PisFI2K0y8P0GNTnx1RJ48oDXxyHS88cNouaWPd+nd
+	 r+y1GKfqsOFIjsnryaX7fxZjmnW3CdXUpp/TWN/O+YefaKoDIQJDHpLvBj0Z8k3GLIWzj
+	 vM+uFU+MpleugJLWExda/mUPhPv01fpmYLnjadfVWK4a1JUPa20wKScr5KqL4jtt80/ae
+	 2RBeUqGaS60wpm4tja/N5UCt68CaDXxPdTxrVZP8PtfxveWFKUREZRmuKRpW2YsuiD0I/
+	 aR4AkYFzl5aL3nvszbQDUBWJhaS5TUdSP+SvpVL/bywkjVcni/LBBnLAFIx+pGe3T/g==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="aUdS/Vsr";
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FCF606A338;
+	Fri, 13 Nov 2026 18:21:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aUdS/Vsr
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794594107;
+	b=3oQWsGw6CLwgufQGvJOQ6BgtgBhhTsVw+xkFeNNzM1d6Q/bCQkn4+wZbAOGqqg19JK+T
+	 XvXRlaRZb3wTYycWaC/4NaqMm8dpW1ClzjqW9N42IhSjPTrsW2BPe0hVJMFL0ZSrh05vh
+	 gFQdXJxViqRN6Z17s5OvcLNz1Or0er6Jitxlqdw5v5krotBq6gXct95Q37YU2nVKClYFU
+	 UZ1L+fFHNc6Ztw3soD6v8GPANlJ20Qh1FaX+AndkpcUBsA0MFQESv7TsG4CnJfcDHppNP
+	 LgfDtYLNN4k+HyXeuLM6tAQtbTMl7VmCsqKK+y+OA1/C6dwY568cukipR8IU3ZCNzqA==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794594107;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=1MqvH0GCTmR5Cok9Sq1gDJXoWiZ+tIf/YPw2rtLSCz8=;
+	b=KHOwtSDhNRfRlkVotA/YLsgkpzXjynhlzb8R0O9ZpVX8hXKYlTvWK5nLNM7+dg3BVn2S
+	 wKBMkXLvztk2cbHWx/EgwxNCgjb4NBwSiu/Gv3N78VbMhUSF8u+Pt4VHuxaoz0mdeNbBI
+	 lapGirQa0vL7WNoJBJKkfGsbuTcbDi2eY85G1o9mZNYQ7wMHz21x+tv//9BKxkG5nZMVN
+	 tvGVkzlHjHscGyqdGHSKMw3246ZKL7q/MBoaRDQ3CYdW86yLO0PT446khrt0M8X3vPCJq
+	 McIMsXWAmRk+BAbZTNXPTkjcqqwpVeb4asa4EABuXYAuuE6qsnMLJyUsar+xWZkfqsw==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6D0D60A382C;
-	Fri, 13 Nov 2026 18:16:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6D0D60A382C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=casper.srs.infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=casper.20170209 header.b=ZpC+zsQY
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
-	In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=cFSJJ0QBLS+4V7pmjf8IWax5Ur3cpjNCmc79i/EDqN8=; b=ZpC+zsQY6RMkL2oexGq0Gm39F7
-	eAXx6LPweLYs3AhMLQLK9JYKmJduNBtaL3Gv72ggZcrY540zbZiY7PIaxrzH+Cj46hyOXyXrqpS4S
-	CLWw3TAknSxQFBSbgj+Wri+pwM31UDadyhSAFO6UKkq5zHAY9my4ltsS7r0PNZtUDVQSKu6sY+zgT
-	1ckDSZdiVYDzrWEaHYFT+V9hFhJiVbjtdElmQp1fUTMaTmL9XKV92Im+FBR9jWfBNid+jEyDgxdKh
-	wNHk8tIGRFElzxpnMI3tXLVL+dL51PntY1MMsEVtTzxqq0PRp+loZ9KwZlXH0ZyIHFqoOlGJm3Jqj
-	2dd48BUA==;
-Received: from 54-240-198-32.amazon.com ([54.240.198.32] helo=freeip.amazon.com)
-	by casper.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xRvp4-00000004ZGw-37yg;
-	Fri, 13 Nov 2026 18:16:27 +0000
-Message-ID: <ca9dffb64656a392965f95d35b9d13d829f34076.camel@infradead.org>
-Subject: Re: [PATCH v3 06/12] KVM: x86: Forward VMware hypercalls to
- userspace
-From: David Woodhouse <dwmw2@infradead.org>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, 	kvm@vger.kernel.org, Doug Covelli
- <doug.covelli@broadcom.com>, Thomas Gleixner	 <tglx@kernel.org>, Ingo
- Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,  Dave Hansen
- <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
- <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>, Randy Dunlap
- <rdunlap@infradead.org>, Shuah Khan <shuah@kernel.org>,  Vitaly Kuznetsov
- <vkuznets@redhat.com>, Paul Durrant <paul@xen.org>, Xin Li <xin@zytor.com>,
- Francesco Lavra	 <flavra@baylibre.com>, Radim
- =?UTF-8?Q?Kr=C4=8Dm=C3=A1=C5=99?=	 <rkrcmar@ventanamicro.com>,
- linux-doc@vger.kernel.org, 	linux-kselftest@vger.kernel.org,
- bcm-kernel-feedback-list@broadcom.com, 	linux-kernel@vger.kernel.org
-Date: Fri, 13 Nov 2026 11:16:20 -0700
-In-Reply-To: <CABQX2QNhRZP1Td_HQ6QpMzw-_TjqhbooipWYg3VTgTOq2_U9+w@mail.gmail.com>
-References: <cover.1794374897.git.zack.rusin@broadcom.com>
-	 <90467782be23b83fd3e9a6afe2f1d2149eaf9db9.1794374897.git.zack.rusin@broadcom.com>
-	 <876c4f4fc442116c9bff8abd8c34f99fcfa65531.camel@infradead.org>
-	 <CABQX2QNd7DehBsH-pGL=EJK4b5vC60PymL_YP27xDxGT6_6=uQ@mail.gmail.com>
-	 <1bae109338ab6ff1ff14eac811f7e86ced785b22.camel@infradead.org>
-	 <CABQX2QNhRZP1Td_HQ6QpMzw-_TjqhbooipWYg3VTgTOq2_U9+w@mail.gmail.com>
-Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
-	boundary="=-Hw+hWHuUyyHEhRnfc+6D"
-User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
+	by smtp.kernel.org (Postfix) with ESMTPS id BE4AC1F000C6;
+	Fri, 13 Nov 2026 18:21:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794594107;
+	bh=1MqvH0GCTmR5Cok9Sq1gDJXoWiZ+tIf/YPw2rtLSCz8=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=aUdS/VsrvswJn5Xtit2/FHQheiDTVuwthn4K0hBKnvf+waaK9ceGYSexjlcpczBq3
+	 RR390Ui6kwuOlVzuUxAr0qWgqk0za6cUOiessm0TpiGxXykwg3a5+rUyDWSKCXTi8a
+	 ZpZSrMfnUbH/41d5U0yjPt91wHMXochV9K0RLtZGAY7DmgZ7rh6++F2djMh2MYm4OM
+	 VtCl2XBrHlw2D2XjHgX9AcSIglVSsRoiv2aJLJUXsdRfUkgxKzfWqFrXoLPuW8SZIJ
+	 +bJiLQvTaNQ3qqRPxHu5Ux3x9HwQ/TTQ1HGShSpI8VDMkBFsiflz972eJsqO6N5nSj
+	 9RA1Tjtl6uw+w==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 3210C49A64;
+	Fri, 13 Nov 2026 18:21:45 +0000 (UTC)
+From: =?utf-8?q?Nicol=C3=A1s_Antinori_via_B4_Relay?= <devnull+nico.antinori.7.gmail.com@kernel.org>
+Date: Fri, 13 Nov 2026 15:20:55 -0300
+Subject: [PATCH v3 1/3] rust: kunit: add #[should_panic] support
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,207 +82,597 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261113-rust_kunit_v6_send-v3-1-0d7832c07166@gmail.com>
+References: <20261113-rust_kunit_v6_send-v3-0-0d7832c07166@gmail.com>
+In-Reply-To: <20261113-rust_kunit_v6_send-v3-0-0d7832c07166@gmail.com>
+To: Alice Ryhl <aliceryhl@google.com>, Benno Lossin <lossin@kernel.org>, 
+ Boqun Feng <boqun@kernel.org>, Brendan Higgins <brendan.higgins@linux.dev>, 
+ Daniel Almeida <daniel.almeida@collabora.com>, 
+ Danilo Krummrich <dakr@kernel.org>, David Gow <david@davidgow.net>, 
+ Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, 
+ =?utf-8?q?Onur_=C3=96zkan?= <work@onurozkan.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, 
+ Alexandre Courbot <acourbot@nvidia.com>, 
+ Andreas Hindborg <a.hindborg@kernel.org>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Burak Emir <burak.emir@gmail.com>, Rae Moar <raemoar63@gmail.com>, 
+ Tamir Duberstein <tamird@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
+ Yury Norov <yury.norov@gmail.com>, kunit-dev@googlegroups.com, 
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+ =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=21575;
+ i=nico.antinori.7@gmail.com; h=from:subject:message-id;
+ bh=I8o4512vX0eaMApbpis7jVFkvZfTEeS9yP2fJaCNGjQ=;
+ b=owGbwMvMwCV2QdXfwqNJ1YjxtFoSQ9b3ULOSYq+L2U537RXKV0b/EjjFt6xbm+PlHU57Jr1fy
+ c7up0w6SlkYxLgYZMUUWeZyvv9sbGteUS69KQhmDisTyBAGLk4BmAh7DsNfuQfyAkfD1/blrtQ8
+ VTQpQ4X9IeeRuq8z7k3dzhbFF5I+i+EPh3zzfqELVsFeu0wN5VysNgqGH7c9xiEWmp2n/Oqi5gZ
+ GAA==
+X-Developer-Key: i=nico.antinori.7@gmail.com; a=openpgp;
+ fpr=9D09EFF3333D3778771BB252D0254F3848822532
+X-Endpoint-Received: by B4 Relay for nico.antinori.7@gmail.com/default with
+ auth_id=1086
+X-Original-From: =?utf-8?q?Nicol=C3=A1s_Antinori?= <nico.antinori.7@gmail.com>
+Reply-To: nico.antinori.7@gmail.com
+Content-Transfer-Encoding: 8bit
+
+From: Nicolás Antinori <nico.antinori.7@gmail.com>
+
+KUnit tests in Rust are written using user-space like syntax. This patch
+adds support for the `#[should_panic]` attribute, enabling the user to
+test conditions that are expected to cause a panic and report the test
+as successful.
+
+Signed-off-by: Nicolás Antinori <nico.antinori.7@gmail.com>
+---
+ Documentation/rust/testing.rst |  8 ++++-
+ drivers/of/overlay_test.c      |  6 +++-
+ include/kunit/test.h           |  9 ++++-
+ lib/kunit/attributes.c         | 18 ++++++++++
+ lib/kunit/kunit-test.c         | 36 ++++++++++++++++----
+ lib/kunit/platform-test.c      |  6 +++-
+ lib/kunit/string-stream-test.c |  9 ++++-
+ lib/kunit/test.c               | 10 ++++--
+ rust/kernel/kunit.rs           | 32 ++++++++++++++++++
+ rust/kernel/lib.rs             | 43 +++++++++++++++++++++--
+ rust/macros/kunit.rs           | 77 +++++++++++++++++++++++++++++-------------
+ 11 files changed, 215 insertions(+), 39 deletions(-)
+
+diff --git a/Documentation/rust/testing.rst b/Documentation/rust/testing.rst
+index 73046523a9a27393648cb4aeaeb055b745357c6d..6a82ac5885cecfd2e12839c64fdbf50428502344 100644
+--- a/Documentation/rust/testing.rst
++++ b/Documentation/rust/testing.rst
+@@ -169,8 +169,14 @@ And if we run it, the kernel log would look like::
+ 	    ok 1 test_f
+ 	ok 1 rust_kernel_mymod
+ 
++To test code paths that are expected to produce a Rust panic, the
++``#[should_panic]`` attribute can be used. When this attribute is used, tests
++that produce a panic (either with ``panic!`` or an ``assert!``) will pass.
++
+ Like documentation tests, the ``assert!`` and ``assert_eq!`` macros are mapped
+-back to KUnit and do not panic. Similarly, the
++back to KUnit and do not panic. The exception is tests marked with
++``#[should_panic]``, which use the standard Rust ``assert!``/``assert_eq!``
++macros so that failed assertions are handled by the panic logic. Similarly, the
+ `? <https://doc.rust-lang.org/reference/expressions/operator-expr.html#the-question-mark-operator>`_
+ operator is supported, i.e. the test functions may return either nothing (i.e.
+ the unit type ``()``) or ``Result`` (i.e. any ``Result<T, E>``). For instance:
+diff --git a/drivers/of/overlay_test.c b/drivers/of/overlay_test.c
+index c787524c5a887cdf87e5acc98982733e02feb847..55df32ea1e5b947e23968afd17b0ed1ca9ed5088 100644
+--- a/drivers/of/overlay_test.c
++++ b/drivers/of/overlay_test.c
+@@ -63,6 +63,10 @@ static void of_overlay_apply_kunit_cleanup(struct kunit *test)
+ 	struct platform_device *pdev;
+ 	struct device *dev;
+ 	struct device_node *np;
++	struct kunit_attributes attr = {
++		.speed = KUNIT_SPEED_NORMAL,
++		.rust_should_panic = false,
++	};
+ 
+ 	of_root_kunit_skip(test);
+ 	if (!IS_ENABLED(CONFIG_OF_OVERLAY))
+@@ -70,7 +74,7 @@ static void of_overlay_apply_kunit_cleanup(struct kunit *test)
+ 	if (!IS_ENABLED(CONFIG_OF_EARLY_FLATTREE))
+ 		kunit_skip(test, "requires CONFIG_OF_EARLY_FLATTREE for root node");
+ 
+-	kunit_init_test(&fake, "fake test", NULL);
++	kunit_init_test(&fake, "fake test", NULL, &attr);
+ 	KUNIT_ASSERT_EQ(test, fake.status, KUNIT_SUCCESS);
+ 
+ 	KUNIT_ASSERT_EQ(test, 0,
+diff --git a/include/kunit/test.h b/include/kunit/test.h
+index 31d549578f8ec113bef9b5d72bc9355c07fce3c0..43c48a1b3684f5ca7ed237a7606a22d7d0c9fb31 100644
+--- a/include/kunit/test.h
++++ b/include/kunit/test.h
+@@ -83,6 +83,7 @@ enum kunit_speed {
+ /* Holds attributes for each test case and suite */
+ struct kunit_attributes {
+ 	enum kunit_speed speed;
++	bool rust_should_panic;
+ };
+ 
+ /**
+@@ -355,6 +356,9 @@ struct kunit {
+ 	char status_comment[KUNIT_STATUS_COMMENT_SIZE];
+ 	/* Saves the last seen test. Useful to help with faults. */
+ 	struct kunit_loc last_seen;
++
++	/* The attributes associated with the test */
++	struct kunit_attributes *attr;
+ };
+ 
+ static inline void kunit_set_failure(struct kunit *test)
+@@ -369,7 +373,10 @@ const char *kunit_filter_glob(void);
+ char *kunit_filter(void);
+ char *kunit_filter_action(void);
+ 
+-void kunit_init_test(struct kunit *test, const char *name, struct string_stream *log);
++void kunit_init_test(struct kunit *test,
++		     const char *name,
++		     struct string_stream *log,
++		     struct kunit_attributes *attr);
+ 
+ int kunit_run_tests(struct kunit_suite *suite);
+ 
+diff --git a/lib/kunit/attributes.c b/lib/kunit/attributes.c
+index 6d7a53af94a9acf3cf336409462059b972efeb22..8a9dc526b3cb2d363d42087f8666a03e9bc2bc4b 100644
+--- a/lib/kunit/attributes.c
++++ b/lib/kunit/attributes.c
+@@ -246,6 +246,16 @@ static void *attr_is_init_get(void *test_or_suite, bool is_test)
+ 		return ((void *) suite->is_init);
+ }
+ 
++static void *attr_rust_should_panic_get(void *test_or_suite, bool is_test)
++{
++	struct kunit_case *test = is_test ? test_or_suite : NULL;
++
++	if (test)
++		return ((void *) test->attr.rust_should_panic);
++	else
++		return ((void *) NULL);
++}
++
+ /* List of all Test Attributes */
+ 
+ static struct kunit_attr kunit_attr_list[] = {
+@@ -272,6 +282,14 @@ static struct kunit_attr kunit_attr_list[] = {
+ 		.filter = attr_bool_filter,
+ 		.attr_default = (void *)false,
+ 		.print = PRINT_SUITE,
++	},
++	{
++		.name = "rust_should_panic",
++		.get_attr = attr_rust_should_panic_get,
++		.to_string = attr_bool_to_string,
++		.filter = attr_bool_filter,
++		.attr_default = (void *)false,
++		.print = PRINT_NEVER,
+ 	}
+ };
+ 
+diff --git a/lib/kunit/kunit-test.c b/lib/kunit/kunit-test.c
+index 126e30879dad652d5b236aeb13d4406a4ddbab00..e2219e1e37501406ae7991895483fb28872f4339 100644
+--- a/lib/kunit/kunit-test.c
++++ b/lib/kunit/kunit-test.c
+@@ -186,7 +186,7 @@ static void kunit_resource_test_init_resources(struct kunit *test)
+ {
+ 	struct kunit_test_resource_context *ctx = test->priv;
+ 
+-	kunit_init_test(&ctx->test, "testing_test_init_test", NULL);
++	kunit_init_test(&ctx->test, "testing_test_init_test", NULL, ctx->test.attr);
+ 
+ 	KUNIT_EXPECT_TRUE(test, list_empty(&ctx->test.resources));
+ }
+@@ -539,12 +539,19 @@ static void kunit_resource_test_action_ordering(struct kunit *test)
+ static int kunit_resource_test_init(struct kunit *test)
+ {
+ 	struct kunit_test_resource_context *ctx = kzalloc_obj(*ctx);
++	struct kunit_attributes *ctx_test_attr;
+ 
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+ 
+ 	test->priv = ctx;
+ 
+-	kunit_init_test(&ctx->test, "test_test_context", NULL);
++	ctx_test_attr = kzalloc_obj(*ctx_test_attr, GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx_test_attr);
++
++	ctx_test_attr->speed = KUNIT_SPEED_NORMAL;
++	ctx_test_attr->rust_should_panic = false;
++
++	kunit_init_test(&ctx->test, "test_test_context", NULL, ctx_test_attr);
+ 
+ 	return 0;
+ }
+@@ -553,6 +560,7 @@ static void kunit_resource_test_exit(struct kunit *test)
+ {
+ 	struct kunit_test_resource_context *ctx = test->priv;
+ 
++	kfree(ctx->test.attr);
+ 	kunit_cleanup(&ctx->test);
+ 	kfree(ctx);
+ }
+@@ -666,8 +674,12 @@ static struct kunit_suite kunit_log_test_suite = {
+ static void kunit_status_set_failure_test(struct kunit *test)
+ {
+ 	struct kunit fake;
++	struct kunit_attributes attr = {
++		.speed = KUNIT_SPEED_NORMAL,
++		.rust_should_panic = false,
++	};
+ 
+-	kunit_init_test(&fake, "fake test", NULL);
++	kunit_init_test(&fake, "fake test", NULL, &attr);
+ 
+ 	KUNIT_EXPECT_EQ(test, fake.status, (enum kunit_status)KUNIT_SUCCESS);
+ 	kunit_set_failure(&fake);
+@@ -677,8 +689,12 @@ static void kunit_status_set_failure_test(struct kunit *test)
+ static void kunit_status_mark_skipped_test(struct kunit *test)
+ {
+ 	struct kunit fake;
++	struct kunit_attributes attr = {
++		.speed = KUNIT_SPEED_NORMAL,
++		.rust_should_panic = false,
++	};
+ 
+-	kunit_init_test(&fake, "fake test", NULL);
++	kunit_init_test(&fake, "fake test", NULL, &attr);
+ 
+ 	/* Before: Should be SUCCESS with no comment. */
+ 	KUNIT_EXPECT_EQ(test, fake.status, KUNIT_SUCCESS);
+@@ -715,8 +731,12 @@ static void kunit_current_test(struct kunit *test)
+ static void kunit_current_fail_test(struct kunit *test)
+ {
+ 	struct kunit fake;
++	struct kunit_attributes attr = {
++		.speed = KUNIT_SPEED_NORMAL,
++		.rust_should_panic = false,
++	};
+ 
+-	kunit_init_test(&fake, "fake test", NULL);
++	kunit_init_test(&fake, "fake test", NULL, &attr);
+ 	KUNIT_EXPECT_EQ(test, fake.status, KUNIT_SUCCESS);
+ 
+ 	/* Set current->kunit_test to fake test. */
+@@ -881,8 +901,12 @@ static void kunit_stub_test(struct kunit *test)
+ 		void *real_fn_addr;
+ 		void *replacement_addr;
+ 	} *stub_ctx;
++	struct kunit_attributes attr = {
++		.speed = KUNIT_SPEED_NORMAL,
++		.rust_should_panic = false,
++	};
+ 
+-	kunit_init_test(&fake_test, "kunit_stub_fake_test", NULL);
++	kunit_init_test(&fake_test, "kunit_stub_fake_test", NULL, &attr);
+ 	KUNIT_ASSERT_EQ(test, fake_test.status, KUNIT_SUCCESS);
+ 	KUNIT_ASSERT_EQ(test, list_count_nodes(&fake_test.resources), 0);
+ 
+diff --git a/lib/kunit/platform-test.c b/lib/kunit/platform-test.c
+index e3debb8fbcef36f22418310ae6a0c14be0859ce3..4e60079a8a0bc1a0de6954dab2c8ca09985e9dd9 100644
+--- a/lib/kunit/platform-test.c
++++ b/lib/kunit/platform-test.c
+@@ -71,8 +71,12 @@ static void kunit_platform_device_add_cleans_up(struct kunit *test)
+ 	const int id = -1;
+ 	struct kunit fake;
+ 	struct device *dev;
++	struct kunit_attributes attr = {
++		.speed = KUNIT_SPEED_NORMAL,
++		.rust_should_panic = false,
++	};
+ 
+-	kunit_init_test(&fake, "kunit_platform_device_add_fake_test", NULL);
++	kunit_init_test(&fake, "kunit_platform_device_add_fake_test", NULL, &attr);
+ 	KUNIT_ASSERT_EQ(test, fake.status, KUNIT_SUCCESS);
+ 
+ 	pdev = kunit_platform_device_alloc(&fake, name, id);
+diff --git a/lib/kunit/string-stream-test.c b/lib/kunit/string-stream-test.c
+index 7734e33156f9456eebfdca5b82972c010fb4e7df..3f43fb3dc144dfa3f7890ff9c47b08d7e9045e1e 100644
+--- a/lib/kunit/string-stream-test.c
++++ b/lib/kunit/string-stream-test.c
+@@ -122,11 +122,18 @@ static void string_stream_resource_free_test(struct kunit *test)
+ {
+ 	struct string_stream_test_priv *priv = test->priv;
+ 	struct kunit *fake_test;
++	struct kunit_attributes *fake_attr;
+ 
+ 	fake_test = kunit_kzalloc(test, sizeof(*fake_test), GFP_KERNEL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fake_test);
+ 
+-	kunit_init_test(fake_test, "string_stream_fake_test", NULL);
++	fake_attr = kunit_kzalloc(test, sizeof(*fake_attr), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fake_attr);
++
++	fake_attr->speed = KUNIT_SPEED_NORMAL;
++	fake_attr->rust_should_panic = false;
++
++	kunit_init_test(fake_test, "string_stream_fake_test", NULL, fake_attr);
+ 	fake_test->priv = priv;
+ 
+ 	/*
+diff --git a/lib/kunit/test.c b/lib/kunit/test.c
+index 09e3dabfac0c945b2608feb88c1b1d46fb807edc..0ef869385c435f2394db629301f62916b840064b 100644
+--- a/lib/kunit/test.c
++++ b/lib/kunit/test.c
+@@ -351,7 +351,10 @@ static void kunit_init_params(struct kunit *test)
+ 	test->params_array.elem_size = 0;
+ }
+ 
+-void kunit_init_test(struct kunit *test, const char *name, struct string_stream *log)
++void kunit_init_test(struct kunit *test,
++		     const char *name,
++		     struct string_stream *log,
++		     struct kunit_attributes *attributes)
+ {
+ 	spin_lock_init(&test->lock);
+ 	INIT_LIST_HEAD(&test->resources);
+@@ -359,6 +362,7 @@ void kunit_init_test(struct kunit *test, const char *name, struct string_stream
+ 	test->log = log;
+ 	if (test->log)
+ 		string_stream_clear(log);
++	test->attr = attributes;
+ 	test->status = KUNIT_SUCCESS;
+ 	test->status_comment[0] = '\0';
+ 	kunit_init_params(test);
+@@ -724,7 +728,7 @@ kunit_run_param_test(struct kunit_suite *suite, struct kunit_case *test_case,
+ 			.param_index = ++test->param_index,
+ 			.parent = test,
+ 		};
+-		kunit_init_test(&param_test, test_case->name, NULL);
++		kunit_init_test(&param_test, test_case->name, NULL, &test_case->attr);
+ 		param_test.log = test_case->log;
+ 		kunit_run_case_catch_errors(suite, test_case, &param_test);
+ 
+@@ -764,7 +768,7 @@ kunit_run_one_test(struct kunit_suite *suite, struct kunit_case *test_case,
+ 	struct kunit test = { .param_value = NULL, .param_index = 0 };
+ 	struct kunit_result_stats param_stats = { 0 };
+ 
+-	kunit_init_test(&test, test_case->name, test_case->log);
++	kunit_init_test(&test, test_case->name, test_case->log, &test_case->attr);
+ 	if (test_case->status == KUNIT_SKIPPED) {
+ 		/* Test marked as skip */
+ 		test.status = KUNIT_SKIPPED;
+diff --git a/rust/kernel/kunit.rs b/rust/kernel/kunit.rs
+index 25ff272d29b2b3f192a3968481c1d5417df4335b..be02b9e4ae70f4913a5074c512d4adf78e34335c 100644
+--- a/rust/kernel/kunit.rs
++++ b/rust/kernel/kunit.rs
+@@ -209,6 +209,7 @@ pub const fn kunit_case(
+         name: kernel::str::as_char_ptr_in_const_context(name),
+         attr: kernel::bindings::kunit_attributes {
+             speed: kernel::bindings::kunit_speed_KUNIT_SPEED_NORMAL,
++            rust_should_panic: false,
+         },
+         generate_params: None,
+         status: kernel::bindings::kunit_status_KUNIT_SUCCESS,
+@@ -284,6 +285,7 @@ macro_rules! kunit_unsafe_test_suite {
+                     exit: None,
+                     attr: ::kernel::bindings::kunit_attributes {
+                         speed: ::kernel::bindings::kunit_speed_KUNIT_SPEED_NORMAL,
++                        rust_should_panic: false,
+                     },
+                     status_comment: [0; 256usize],
+                     debugfs: ::core::ptr::null_mut(),
+@@ -335,8 +337,20 @@ pub fn in_kunit_test() -> bool {
+ #[cfg(CONFIG_RUST_KUNIT_SELFTEST)]
+ #[kunit_tests(rust_kernel_kunit)]
+ mod tests {
++    #![expect(clippy::assertions_on_constants, reason = "Testing failure behavior")]
++
+     use super::*;
+ 
++    struct TestStruct;
++
++    impl TestStruct {
++        // This assert does not get replaced with kunit_assert, since this is not a #[test]
++        // function.
++        pub(crate) fn escaped_assert() {
++            assert!(false);
++        }
++    }
++
+     #[test]
+     fn rust_test_kunit_example_test() {
+         assert_eq!(1 + 1, 2);
+@@ -347,6 +361,24 @@ fn rust_test_kunit_in_kunit_test() {
+         assert!(in_kunit_test());
+     }
+ 
++    #[test]
++    #[should_panic]
++    fn rust_test_kunit_panic_in_kunit_test() {
++        panic!("This test should panic and pass");
++    }
++
++    #[test]
++    #[should_panic]
++    fn rust_test_assert_false_success_with_should_panic() {
++        assert!(false)
++    }
++
++    #[test]
++    #[should_panic]
++    fn rust_test_should_panic_with_escaped_assert() {
++        TestStruct::escaped_assert();
++    }
++
+     #[test]
+     #[cfg(not(all()))]
+     fn rust_test_kunit_always_disabled_test() {
+diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+index 1ab41129d557a97c09b4fb1bfc6aadb4250156a7..ba9e1a07aab8cf1f91d44c09e3a8e2291781d32a 100644
+--- a/rust/kernel/lib.rs
++++ b/rust/kernel/lib.rs
+@@ -179,13 +179,52 @@ impl ModuleMetadata for LocalModule {
+ }
+ 
+ #[cfg(not(testlib))]
+-#[panic_handler]
+-fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
++#[inline]
++fn bug_on_panic(info: &core::panic::PanicInfo<'_>) -> ! {
+     pr_emerg!("{}\n", info);
+     // SAFETY: FFI call.
+     unsafe { bindings::BUG() };
+ }
+ 
++#[cfg(all(not(testlib), not(CONFIG_KUNIT = "y")))]
++#[panic_handler]
++fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
++    bug_on_panic(info);
++}
++
++#[cfg(all(not(testlib), CONFIG_KUNIT = "y"))]
++#[panic_handler]
++fn panic(info: &core::panic::PanicInfo<'_>) -> ! {
++    // SAFETY: This function is safe to call even if CONFIG_KUNIT=n. If a null pointer is returned,
++    // the panic is handled same as if CONFIG_KUNIT=n.
++    let kunit_test = unsafe { ::bindings::kunit_get_current_test() };
++    if kunit_test.is_null() {
++        bug_on_panic(info);
++    } else {
++        // SAFETY: We are in the else branch of kunit_test.is_null() condition, meaning that
++        // `::bindings::kunit_get_current_test()` returned a kunit struct successfully.
++        let test_attributes = unsafe { (*kunit_test).attr };
++        if test_attributes.is_null() {
++            use crate::str::CStrExt as _;
++            // SAFETY: Test name should be set by KUnit framework at this stage.
++            let test_str = unsafe { str::CStr::from_char_ptr((*kunit_test).name.cast()) };
++            pr_emerg!("Test case {} has no attributes\n", test_str);
++            bug_on_panic(info);
++        }
++        // SAFETY: We already tested that test_attributes.is_null() is false, meaning that it is
++        // safe to retrieve its attributes.
++        else if unsafe { (*test_attributes).rust_should_panic } {
++            // SAFETY: We are in the else branch of kunit_test.is_null() condition, meaning that
++            // `::bindings::kunit_get_current_test()` returned a kunit struct successfully.
++            unsafe {
++                bindings::__kunit_abort(kunit_test);
++            };
++        } else {
++            bug_on_panic(info);
++        }
++    }
++}
++
+ /// Produces a pointer to an object from a pointer to one of its fields.
+ ///
+ /// If you encounter a type mismatch due to the [`Opaque`] type, then use [`Opaque::cast_into`] or
+diff --git a/rust/macros/kunit.rs b/rust/macros/kunit.rs
+index e9152b9d51f9450b7e549e2e1629b5fc5f485a28..ac7495deab17d6579e3f213b7018516c9ca68425 100644
+--- a/rust/macros/kunit.rs
++++ b/rust/macros/kunit.rs
+@@ -106,25 +106,40 @@ pub(crate) fn kunit_tests(test_suite: Ident, mut module: ItemMod) -> Result<Toke
+             .cloned()
+             .collect();
+ 
+-        // Before the test, override usual `assert!` and `assert_eq!` macros with ones that call
+-        // KUnit instead.
++        let should_panic = f
++            .attrs
++            .extract_if(.., |attr| attr.path().is_ident("should_panic"))
++            .count()
++            > 0;
++
++        // Inside the test, override usual `assert!` and `assert_eq!` macros with ones that call
++        // KUnit instead unless the test should panic. For tests expected to panic, assertions are
++        // not overwritten so they can be handled by the Rust's panic handler.
+         let test_str = test.to_string();
+-        processed_items.push(parse_quote! {
+-            #[allow(unused)]
+-            macro_rules! assert {
+-                ($cond:expr $(,)?) => {{
+-                    kernel::kunit_assert!(#test_str, $cond);
+-                }}
+-            }
+-        });
+-        processed_items.push(parse_quote! {
+-            #[allow(unused)]
+-            macro_rules! assert_eq {
+-                ($left:expr, $right:expr $(,)?) => {{
+-                    kernel::kunit_assert_eq!(#test_str, $left, $right);
+-                }}
+-            }
+-        });
++        if !should_panic {
++            f.block.stmts.insert(
++                0,
++                parse_quote! {
++                    #[allow(unused)]
++                    macro_rules! assert {
++                        ($cond:expr $(,)?) => {{
++                            kernel::kunit_assert!(#test_str, $cond);
++                        }}
++                    }
++                },
++            );
++            f.block.stmts.insert(
++                0,
++                parse_quote! {
++                    #[allow(unused)]
++                    macro_rules! assert_eq {
++                        ($left:expr, $right:expr $(,)?) => {{
++                            kernel::kunit_assert_eq!(#test_str, $left, $right);
++                        }}
++                    }
++                },
++            );
++        }
+ 
+         // Add back the test item.
+         processed_items.push(Item::Fn(f));
+@@ -134,25 +149,41 @@ macro_rules! assert_eq {
+             &CString::new(test_str.as_str()).expect("identifier cannot contain NUL"),
+             test.span(),
+         );
++        let assertion = if should_panic {
++            quote!(
++                let _ = #test();
++                ::kernel::kunit::err(::kernel::prelude::fmt!(
++                    "    Expected {} to panic\n", #test_str
++                ));
++                (*_test).status = ::kernel::bindings::kunit_status_KUNIT_FAILURE;
++            )
++        } else {
++            quote!(
++                use ::kernel::kunit::is_test_result_ok;
++                kernel::kunit_assert!(#test_str, is_test_result_ok(#test()));
++            )
++        };
+         processed_items.push(parse_quote! {
+             unsafe extern "C" fn #kunit_wrapper_fn_name(_test: *mut ::kernel::bindings::kunit) {
+                 (*_test).status = ::kernel::bindings::kunit_status_KUNIT_SKIPPED;
+ 
++
+                 // Append any `cfg` attributes the user might have written on their tests so we
+                 // don't attempt to call them when they are `cfg`'d out. An extra `use` is used
+                 // here to reduce the length of the assert message.
+                 #(#cfg_attrs)*
+                 {
+                     (*_test).status = ::kernel::bindings::kunit_status_KUNIT_SUCCESS;
+-                    use ::kernel::kunit::is_test_result_ok;
+-                    assert!(is_test_result_ok(#test()));
++                    #assertion
+                 }
+             }
+         });
+ 
+-        test_cases.push(quote!(
+-            ::kernel::kunit::kunit_case(#test_cstr, #kunit_wrapper_fn_name)
+-        ));
++        test_cases.push(quote!({
++            let mut case = ::kernel::kunit::kunit_case(#test_cstr, #kunit_wrapper_fn_name);
++            case.attr.rust_should_panic = #should_panic;
++            case
++        }));
+     }
+ 
+     let num_tests_plus_1 = test_cases.len() + 1;
+
+-- 
+2.47.3
 
 
---=-Hw+hWHuUyyHEhRnfc+6D
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, 2026-11-13 at 01:33 -0500, Zack Rusin wrote:
-> On Thu, Nov 12, 2026 at 11:56=E2=80=AFPM David Woodhouse <dwmw2@infradead=
-.org> wrote:
-> >=20
-> > On Thu, 2026-11-12 at 20:05 -0500, Zack Rusin wrote:
-> > >=20
-> > > > And I wonder if the cleaner answer in both cases is just to give
-> > > > userspace a way to cancel the pending hypercall completion and use
-> > > > KVM_SET_VCPU_EVENTS instead of piling all this stuff into the hcall
-> > > > structs? It could even just be a KVM_VCPUEVENT_ flag to make it can=
-cel
-> > > > the hypercall completion?
-> > >=20
-> > > I agree that this would be cleaner, and if KVM grows such a flag,
-> > > VMware userspace could use it too.=C2=A0 But it's new API in
-> > > KVM_SET_VCPU_EVENTS, and we'd need to agree which completions it may
-> > > cancel: simply clearing the callback leaves pending I/O state behind
-> > > for PIO and MMIO, and KVM_EXIT_HYPERCALL also covers TDX completions
-> > > with different semantics.=C2=A0 So I'd rather not make this series de=
-pend
-> > > on it because it significantly increases its scope.
-> >=20
-> > I won't necessarily defend my suggestion above to the hilt on its
-> > technical merit, but I'll observe that as a counter-argument, yours
-> > *really* isn't a good one. We don't design a userspace ABI based on the
-> > fact that we're impatient.
->=20
-> I think that's a misreading of my concern: it wasn't impatience but
-> coupling the VMware series to a new cross-cutting semantic in
-> KVM_SET_VCPU_EVENTS.=C2=A0 The current approach is self-contained.=C2=A0 =
-The
-> exception fields were already in v2; Sean's only comment on that
-> struct was to move it into the x86 UAPI header.
-
-Fair.
-
-> > To your concern, I actually think we could get away with aborting *any*
-> > pending complete_userspace_io callback.
->=20
-> I'm not sure about that. I think simply dropping a PIO or MMIO
-> completion can leave pio.count or mmio_needed set, triggering WARNs in
-> KVM_RUN. Retrying an MMIO read can replay device side effects, while
-> dropping a split-write completion can abandon remaining fragments.
-> Also afaict for SEV-ES/SNP and TDX, KVM can't simply replay the
-> guest's VMGEXIT/TDCALL: RIP has already advanced.=C2=A0 Dropping the
-> completion can lose returned data or leave a multi-step request such
-> as SNP PSC unfinished.
->=20
-> > Userspace *already* needed to
-> > know about those=C2=B9 because it can't migrate while those are pending=
-;
-> > it has to do at least one more run, even if it's with the immediate_exi=
-t
-> > flag set.
->=20
-> True, but, again afaict, that rule exists because those completions
-> have to run, so I don't think it tells us they can be dropped.
->=20
-> > If it's deemed clearer, I'd also be OK with an explicit
-> > KVM_VCPUEVENT_CANCEL_HCALL which cancels *only* hypercalls. But I don't
-> > really see the point; userspace shouldn't be getting confused when it
-> > was actually some other kind of completion that was active anyway.
-> >=20
-> > =C2=B9 https://lore.kernel.org/all/20250111012450.1262638-1-seanjc@goog=
-le.com/
-> >=20
-> > Looks something like this in my Hyper-V hcall series (except I already
-> > shouted at the agent for stupid struct layout and made it go run pahole
-> > on everything it's working on).
->=20
-> FWIW, restricting cancellation to explicitly marked completions looks
-> good to me.=C2=A0 If Sean/Paolo prefer that, I'm happy to mark our
-> completion cancellable and drop our exception fields.
-
-I posted that as
-https://lore.kernel.org/kvm/20261113170535.79246-3-dwmw2@infradead.org/T/#u
-and caught both Paolo and Sean here at KVM Forum and both seem OK with
-it (although acquiescence when badgered at a conference doesn't
-necessarily translate to applying the patch... :)
-
---=-Hw+hWHuUyyHEhRnfc+6D
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCE8Ew
-ggWvMIIEl6ADAgECAhANkOKMSmGXhF5eMl0rsRhvMA0GCSqGSIb3DQEBDAUAMGUxCzAJBgNVBAYT
-AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
-BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBHMjAeFw0yNDAzMTMwMDAwMDBaFw0zNDAz
-MTIyMzU5NTlaMGIxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UE
-AxMxRGlnaUNlcnQgQXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTCCAiIw
-DQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAOfSIeC0vv1xPQ+dgSxbIIrkaru6skAWJYaGFzmv
-q4Kq+2wU2jxhcWlJg/JeP5jEkq/LM3pn5aaLao79j+XRmS7J1ZpJKUODJVoM4s9MQJhTMvo4qS5Z
-S64g6QR7Obkz3I1Lr3aWeSBmDDEyzue+NKtuWZ1Cxy3RdXo/w5HgRc3l2AercOM3Gt1XonTzEtTb
-Z/Hwc0Sn9Gz8RmGRK6Ka4hVDl8q/2l110KaV233Kh5etP0csXS8MIMdVRfRu3sc5hp13DG7lCKzK
-72a2GEpI8Wpl26G6I1/LMzz/98T+FqjTqxsdquk7Cj7m2vKGLW1BorpQH7WFGPdJQXJe1hfbfiZA
-CcVdCtl4nAacFacmsiArZBfX7AQGL7isvHUwwYFEtcApyGW4p2Lt+t8nvU0CANA6BHOpOz1xOP8W
-mAESbUriIjyuTUf3fJ9oDNCurVqhASMJCDaWI3lYX/QAoiAzt6akqbbZxo2ujW7mGGqc0KxqE2cs
-h2T79v7pC8aUtHBfwNrTR19GnZVxE0eQ7ViIQhR6mpSaUQFA9sG+cmD2G8TnCgYsLa0q8De6F61a
-CBevQGHNzrbZ3JAMneveYg/Jy1XxQHDRcvrMfWKe0jjcWbdKYlaGVPm5V1ILwYz7Yv5ewo3NUrxI
-GJiywe9qPhuJSDZs7VehTuI0FxGIsgKzVjgbAgMBAAGjggFcMIIBWDASBgNVHRMBAf8ECDAGAQH/
-AgEAMB0GA1UdDgQWBBT3m6JO05fF9DQPQw6Bhc6RkzKv+TAfBgNVHSMEGDAWgBTOw0q5mVXyuNtg
-v6l+vVa1lzan1jAOBgNVHQ8BAf8EBAMCAYYwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MHkGCCsGAQUFBwEBBG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMG
-CCsGAQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkSURS
-b290RzIuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-Q2VydEFzc3VyZWRJRFJvb3RHMi5jcmwwEQYDVR0gBAowCDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUA
-A4IBAQA+b8Uw53sDspdZgukU+qzLyyHkcjlxGGhHlP+zrmDLKm1wEFvCRS2pili3Hy67i8N4N5NU
-vw5Rg6kv3lxb9S9Rktxk43k+tvm68pl7OxQE55ZjVY87P0lUPGwEqOOwLLyH02ZQcsfq5p5LrOH9
-0JvmvZ1yy73HS+VpDAqOlytE0NSvTIRqFFkKQGQwfjvtql9YflujuNNvJztjBaHKYZsnNSg+J38o
-jYq4TP3pSg3UdVH0PncVjPQyqxC9xef5Xae92Kbkzol3x7Nel3A1bwAkalrDMspvTHvey6LfiBks
-FIqviTnoy7fgjaRAJgHS+RXx/cmuRd3rUAclSVVrYu8RMIIHAzCCBOugAwIBAgIQAzUotrsybJHx
-HTjKOIVdIDANBgkqhkiG9w0BAQsFADBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQs
-IEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQg
-MjAyNCBDQTEwHhcNMjYwNzE4MDAwMDAwWhcNMjgwMTA0MjM1OTU5WjAeMRwwGgYDVQQDDBNkd213
-MkBpbmZyYWRlYWQub3JnMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA2pYux73kdbYX
-sWF8f1u6DJP91qcqaZetsyfPkZk0B+MmXmAEv0kVes5n15V2mbDThOnpoPFly0UugQO9JYqLfrtD
-tKD5yL58fgrDB9Dw+LQikgrHafl6YSCds5AvUu/8hw2J6noKrcOLJpKlKn9Fl/4IB9Q3JIdLx5aa
-EtTqMalIPqHFOlgrJ7s+aua8xbB8YQ9ahqYBXWRJNv3P/2b1DYtdrz1oqZPE3CcB8Pc6Gf2a1Tcm
-6TAgtEx7Cf1BFcrsrMz7TWHmGQITieNb2r9UYWSc2Gp+GtYFNJCgT0JJXKUBIauPMKBLteYrL8Fo
-ff/uY44dC/mDWjdCP/5x0qelPQjlBvWdHL5zvBTOj06rJ0m3HNI/hnIcDh0Qu2j9reb9rLVcdym6
-bWmBM4uDEB8Zv9Ph0KTBFSy1IosyakuD1j1Os30EzjGfbi0EUXIvnOcYbTBAbM5UAzrxEHMhBvoX
-Pvnx+OyvjJmc9tWxTX6AcSz+m40esbT17URBeZS18afgieiikm5TynlUYP1LciR3hSgGVzvGXnKO
-02VDFR5itGWdRKZ2W5wIShNfWfhSa0D0K5UdIDt5Qc7sjzwK1Yb1sY5Tu0uA5mhIS82q1ov83uxB
-sFkriNnhGv/M1NCDVLBiOMsHu73qUM+yKmgKLwF9Hfn9WI25glbAMI4S5r3hYzcCAwEAAaOCAfcw
-ggHzMB8GA1UdIwQYMBaAFPebok7Tl8X0NA9DDoGFzpGTMq/5MB0GA1UdDgQWBBRcYhqbcGzn1jrT
-JOZaB8O7qllDpzAwBgNVHREEKTAngRNkd213MkBpbmZyYWRlYWQub3JngRBkYXZpZEB3b29kaG91
-LnNlMBQGA1UdIAQNMAswCQYHZ4EMAQUBAjAOBgNVHQ8BAf8EBAMCBeAwHQYDVR0lBBYwFAYIKwYB
-BQUHAwIGCCsGAQUFBwMEMIGpBgNVHR8EgaEwgZ4wTaBLoEmGR2h0dHA6Ly9jcmwzLmRpZ2ljZXJ0
-LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsME2gS6BJ
-hkdodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZT
-SEEzODQyMDI0Q0ExLmNybDCBjQYIKwYBBQUHAQEEgYAwfjAkBggrBgEFBQcwAYYYaHR0cDovL29j
-c3AuZGlnaWNlcnQuY29tMFYGCCsGAQUFBzAChkpodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20v
-RGlnaUNlcnRBc3N1cmVkRzJTTUlNRVJTQTQwOTZTSEEzODQyMDI0Q0ExLmNydDANBgkqhkiG9w0B
-AQsFAAOCAgEAocabrh1cPd5s3vY5rnlBVQSTc7zs2ZWs67dAIltR+05WELrYClVzzUhMs/LOJPlr
-EUo45UDDomXq38DxFepaPd9+iNLjXfn33EX/IG44j04lU/oF/Rg9VeQILkYLbCZ/x9wOjNHZc4SN
-ydY7Dhvf/sT5aBz88u7D5+azZJ7Qf1U57wYseCH1Mt0nDrtr5y19IJ8D9xJJ33RFL6vfpHZBBAQ8
-+3RqkKNxLoV2aFvQhxdhjNLDqTv3LjUIdicwPraN7JkxEu7CV2Lka7eRqJgkWL7SK0YmBjGpRafs
-+icP/ON5RCCKTTb6VlX8eTG2sJJfsFhvJNCCt6xexbWzWtIrfP7NvPBvwBB737AyEGBZkS5aNizT
-McURJGTv9UKvBh1LF/+tNhYtLvPCN7oecGzhCHht9jcwSkygTo3Y6YlK3QgOu+ncmiBbfeuwlLZ1
-LxbYvG6hgNqXv7u6YyADbYajAQJXJ2OQen39pm3Q/AQSyLYG+B8lDglWsM8tYXPlEdrYJcksGK6F
-nqIX6Bumn43rBooLJdiZp4WmfWdL2pxe+LxRDjprmqu1WprixDxULSTOKJZoqTlugs6y3Bc+if+s
-gHnBBtz9WQ6MtPHkh7zONDAFIKcBmv8OqPQCx0F3Wv3OEybwMpXx0OsKgK8wLldaX1pXcMuyDgTL
-Sqs0AV0OHUgwggcDMIIE66ADAgECAhADNSi2uzJskfEdOMo4hV0gMA0GCSqGSIb3DQEBCwUAMGIx
-CzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjE6MDgGA1UEAxMxRGlnaUNlcnQg
-QXNzdXJlZCBHMiBTTUlNRSBSU0E0MDk2IFNIQTM4NCAyMDI0IENBMTAeFw0yNjA3MTgwMDAwMDBa
-Fw0yODAxMDQyMzU5NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqG
-SIb3DQEBAQUAA4ICDwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZe
-YAS/SRV6zmfXlXaZsNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2z
-kC9S7/yHDYnqegqtw4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qG
-pgFdZEk2/c//ZvUNi12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41va
-v1RhZJzYan4a1gU0kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0c
-vnO8FM6PTqsnSbcc0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PW
-PU6zfQTOMZ9uLQRRci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXt
-REF5lLXxp+CJ6KKSblPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQr
-lR0gO3lBzuyPPArVhvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7Iq
-aAovAX0d+f1YjbmCVsAwjhLmveFjNwIDAQABo4IB9zCCAfMwHwYDVR0jBBgwFoAU95uiTtOXxfQ0
-D0MOgYXOkZMyr/kwHQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3
-bXcyQGluZnJhZGVhZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEC
-MA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwgakGA1UdHwSB
-oTCBnjBNoEugSYZHaHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZEcyU01J
-TUVSU0E0MDk2U0hBMzg0MjAyNENBMS5jcmwwTaBLoEmGR2h0dHA6Ly9jcmw0LmRpZ2ljZXJ0LmNv
-bS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNBNDA5NlNIQTM4NDIwMjRDQTEuY3JsMIGNBggrBgEF
-BQcBAQSBgDB+MCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wVgYIKwYBBQUH
-MAKGSmh0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRHMlNNSU1FUlNB
-NDA5NlNIQTM4NDIwMjRDQTEuY3J0MA0GCSqGSIb3DQEBCwUAA4ICAQChxpuuHVw93mze9jmueUFV
-BJNzvOzZlazrt0AiW1H7TlYQutgKVXPNSEyz8s4k+WsRSjjlQMOiZerfwPEV6lo9336I0uNd+ffc
-Rf8gbjiPTiVT+gX9GD1V5AguRgtsJn/H3A6M0dlzhI3J1jsOG9/+xPloHPzy7sPn5rNkntB/VTnv
-Bix4IfUy3ScOu2vnLX0gnwP3EknfdEUvq9+kdkEEBDz7dGqQo3EuhXZoW9CHF2GM0sOpO/cuNQh2
-JzA+to3smTES7sJXYuRrt5GomCRYvtIrRiYGMalFp+z6Jw/843lEIIpNNvpWVfx5Mbawkl+wWG8k
-0IK3rF7FtbNa0it8/s288G/AEHvfsDIQYFmRLlo2LNMxxREkZO/1Qq8GHUsX/602Fi0u88I3uh5w
-bOEIeG32NzBKTKBOjdjpiUrdCA676dyaIFt967CUtnUvFti8bqGA2pe/u7pjIANthqMBAlcnY5B6
-ff2mbdD8BBLItgb4HyUOCVawzy1hc+UR2tglySwYroWeohfoG6afjesGigsl2JmnhaZ9Z0vanF74
-vFEOOmuaq7VamuLEPFQtJM4olmipOW6CzrLcFz6J/6yAecEG3P1ZDoy08eSHvM40MAUgpwGa/w6o
-9ALHQXda/c4TJvAylfHQ6wqArzAuV1pfWldwy7IOBMtKqzQBXQ4dSDGCBCAwggQcAgEBMHYwYjEL
-MAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMTowOAYDVQQDEzFEaWdpQ2VydCBB
-c3N1cmVkIEcyIFNNSU1FIFJTQTQwOTYgU0hBMzg0IDIwMjQgQ0ExAhADNSi2uzJskfEdOMo4hV0g
-MA0GCWCGSAFlAwQCAQUAoIIBezAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJ
-BTEPFw0yNjExMTMxODE2MjBaMC8GCSqGSIb3DQEJBDEiBCDLCS2mRb5PlUqeCwH0UScfheq/uFEv
-+W+AS+xRcsWQ5DCBhQYJKwYBBAGCNxAEMXgwdjBiMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGln
-aUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFzc3VyZWQgRzIgU01JTUUgUlNBNDA5NiBT
-SEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAwgYcGCyqGSIb3DQEJEAILMXigdjBiMQsw
-CQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIEluYy4xOjA4BgNVBAMTMURpZ2lDZXJ0IEFz
-c3VyZWQgRzIgU01JTUUgUlNBNDA5NiBTSEEzODQgMjAyNCBDQTECEAM1KLa7MmyR8R04yjiFXSAw
-DQYJKoZIhvcNAQEBBQAEggIAYfzIeNy6pkaS+R5UrKi31CgN2hd/pXYX1V+VMlctQsTz6Zq304MJ
-kF645QWJhKEcrc4T0j5vrT+3D9u4uA7YAerAlxW27pQf5wFjdi2iwIt/Wl+YhX3vjO4dyJX/XSsR
-XaiG5BPng7IqM1tnNJoG/UEwNrzKeUFoXdMBuErMXfHquzwGsfnR+azNzbreL9dpaH2oJfgnCjiB
-TXOYXdACUOq3MB8cfm0qx89X8STE9ccvcGEhlTUB9sNOMZc9yQcpPBqKuxVyhAll9BHBasy6T18R
-U4hdmixKk/0H2ZQt/+KiRTzHc5brKY5QA+QH4nKQZEqjcC9B0SMLPjXubwk7llgaAcqFZRCfxmx3
-9AIOr/1kNBqNXpo8n1XyYu+m7e2yYkVbwsyM2BeNgJu2kW+5FczN0cYEEIvzUg01dwdnS2cFn5Yt
-Bdw/I5ccpr3Erd8EV4rKbyWtJb0SgaZAR8yQ34Y8eDfrk63279CzNg/JuBaOuEk84cnwSfVN8oBM
-+4mjpH7renQbv2Tu1amu7IYhDZhr7NbZ6SWWJ5jHrRJlWaCEOHob2OKebP95ErlZvx87WIBI6XuA
-OLWDkHhD0MOX8iCAzSSxnAbfQAoY3oAmTuIWorApeL1NjSn+7liV4+Y2SeTsa0qV1QuHraUdIKQH
-3efn0r2XoT1mkDx+qPB1UssAAAAAAAA=
-
-
---=-Hw+hWHuUyyHEhRnfc+6D--
