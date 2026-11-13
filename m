@@ -1,96 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.229.7
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794608567;
-	b=TNhjxHv4CHWsriidmyaRjFDjfHemgLgIfnJF6sr8X1WteUn0konf1dyvv4l0s7wrd9p/
-	 4XNBvHkfzLmU9g5gBJOZkfoPzMcb9nuz47XlLlBKy6FGByw9y2FX1+mmU5sCX8kd16KiX
-	 ItMxTTe6aK0MunKlkJeTvugTuohwfroq7cfYSViNlqo/ieBaiH1xApLVbQ/cVZimiq+Z5
-	 pnyl3fmate+Kyt0qXfkNgMMmfzo4UqEs7fZhvt35dw9AuLWudP5EXLQt7PeRFP/Hjgjt+
-	 V4WmQx80gF7ytdr3G1WOtPZUBW+zWOAGVzs6GHEqqG9mev0qTkAySeLZ8ULJdxQjbEA==
+	t=1794608591;
+	b=0c7gBzgbAqez4AFwTFOxooV6S37BFKijrx7TO8NI2u4VL1Sw8jldg1XEGiqywV7h41nH
+	 SrLMqZZA6QhdLd+c4BMpJc5Ov3EZB6MUHTdUF+AX/TYBSEWGfuXQpwxeH2zooR3vXpB9r
+	 p9cONrDRo7yxR9Qf/864G/Sfp4srKtJyxjMhVjDGxUMxPe+EBaBYccBroC8wIsw6nzeIf
+	 JnZPGS+dh4kho0oa1wa0enDEmhdeEekqBjwxmwg0Agf+zpvBrmedlLJzEEbBWglymY25Z
+	 dR01Uy2Nir9F7bS5OyFRUh16DPgVJvHXRQMJq5xMh6Hq0D2mfrocCL3IW5dazt3Z4uA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794608567;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794608591;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=PuWQ2BwaMw0F60EupC+5yCUtgb9A+hweuIMrIgnawM4=;
-	b=10KhDnbyhxCNt7gF/6+EdV1DcnEnWb/bD/iTa3A3lf4X7/+8UMU0+YwHjzYiI4gvc8so
-	 wiRCijl/JJSqzn3fPuXS6yTMAAvAl9Z2gh2oQum873yHHDO7zVW6QZ9750y/UriHT4k3k
-	 mrXpNkj9WJtzIo+c+8MFgIVXBwr3sxWCZXJNIfXnRqMSPe37wk23WkVA6mvabnyK0jNYl
-	 /znOyfiRmNttH+v/wz5MWEBx5dDl/F9BCfZVINHeVfFJJvgW8fWdodaAWjDkjrMFRPt5u
-	 R3nN7BErCrUeBqfdI4hIzxJYnNwoKt4nLqcFykg7oh/hqkZ2sL4xpt8g1eSZQQwIvzw==
+	 Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:References:
+	 MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=lt2oCclDDD+rP94lJg6vk9k+uikGlXnAQ4GsrH0NNrs=;
+	b=3mi41Xgb/nWAFqzWCKtEc6GuDXXjQLdds474b10r0ERmaQBDg6bKPVV6FFze/w+v7Bx3
+	 OR+Ts3fUzhtG9jPFmUYNPXa/qXASyudiBKpzp1Y2/9wdp3oF9jKBq/5UwlUDNPrzBLa9q
+	 xCyOHg95VapkDlwIoLMxFvj++GG1E/U/QVve1ttR+/j3jTAza/o3cA2Zb/NSx2Nyu0YsT
+	 4x5icCseEdN8XIqTD1GLhJrXR8VpDLUVVEViSMbAwd7momb+ZCI8xaExqBrQV8sib28VU
+	 yk+W7LxM2RnZ+3RzqV76MGmjGKIj1YKM2z1X8c92lbG296BpS+DIr2v1CSmTiuZ0wFg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kt0eGjZ6;
-	arc=none smtp.remote-ip=74.125.229.7
-Received: from mail-dy2-f7.google.com (mail-dy2-f7.google.com [74.125.229.7])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="TOU/u0fl";
+	arc=none smtp.remote-ip=209.85.128.171
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com [209.85.128.171])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB330606A889
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 22:22:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB330606A889
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2F94606A323
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 22:23:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2F94606A323
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=kt0eGjZ6
-Received: by mail-dy2-f7.google.com with SMTP id 5a478bee46e88-36c9b5c6faaso716664eec.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:22:46 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=TOU/u0fl
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-8b30ff12f84so11734237b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:23:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794608566; x=1795213366; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794608590; x=1795213390; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=PuWQ2BwaMw0F60EupC+5yCUtgb9A+hweuIMrIgnawM4=;
-        b=kt0eGjZ6lI9yQVuQ0WalkgZYGqnAu6quAkbn/YNnSaNNY4bDxmg7vWu5L/iCEKeRq1
-         BcHDv16Nly2AE2lgZ1szXyCbpA//4r+TIy7pmoIrIaWlaAuhxishgr/nf6iJy+MF8JHL
-         MnFiQ8swqhS0T9o7CW2+KpZh79x4DzoeNMIG6AbPH6bu90SMA4+yEXC9cAzM6enI8Y0J
-         2N0H9Y4xL4Kj41pYFL5pMsv1U33XLXGZlmtM3S4WLqvVUbDJ+yObSu0oCraJ4gIg+Qrv
-         xYsUdpVKLCo1UNmumy85tcug4O2Qi4xN+kSO2xy4WFG7/h6Nu2vesGAp6pwgnTMh6ALv
-         Nypw==
+         :references:mail-followup-to:message-id:subject:cc:to:from:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lt2oCclDDD+rP94lJg6vk9k+uikGlXnAQ4GsrH0NNrs=;
+        b=TOU/u0fld60SXTMHQ8NJNR5E7iMK1H95CJMxqo3iI4aprrgzcUP9gzLuxwA839Zlb8
+         SnXgHFBe0O5yJK6BWvYLu+1b5fpJAeWsRRorF9kWJp8+lXeGbAlj0ZZZZgz3ye3WfXMe
+         IujJVBgb81C7nuLpgUW93wSAwqHzFQZjtrDUOoOCcQvL8OmF2BlLJi15jntGcjClFYkk
+         4+1gNU8AgTdsKhgQ7ZlnPWHha/SQGa0paOyTaRWexyyr0+FkHaBNQfcLRAh4fu071kSX
+         lqoZAm58/sYDhsYjJB5aBzIIMYjkLR0rtXlHTlFROsZGfG1a8hzeU2ZuNmqdj3z3x9rn
+         hKkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794608566; x=1795213366;
+        d=1e100.net; s=20260707; t=1794608590; x=1795213390;
         h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PuWQ2BwaMw0F60EupC+5yCUtgb9A+hweuIMrIgnawM4=;
-        b=SNDrpU284ZbmyHOnTh/t1fiAjX++5O/tCsEgl0AVBhHme4li6yY7Opf4GElFvPuI+v
-         8qFKl/ECKcydMfiVdo7F9UjEXTXFDJldeO/vrAr6JR3P7FfeqFDnRp0WBAeQkNdmiY5x
-         nY4LbFoAsEPCoNCmT8ja4gxE1AwalsuZ/xafnFv3W/Ge+rwCxv5WU/KKK/Hll0i/vI9F
-         TvjzHryik9JIHxQaWooYcx0c1Ip9VQ9U5mrHk+orQIGpY+Fux9wwM55YotaWSIULuKhn
-         qi3/G7eEqlZI67ZApViMJ56XXKd1brD6MRv9m0PnsIZlADpAxnLt+p6sqokoIOr/Uh18
-         XnqQ==
-X-Forwarded-Encrypted: i=1; AL+hErFEiI5OF1gBRJpK/TpnFshh5FLAgaV+CYQTH1GQO0uZUzPryhkxPA1jylti1j3nV910kOl78DYVQQQ=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9+6S3tA0Fm6TYddCOhWI6mZu1qdITYNGDIHyRiDE4x1XJny6CR
-	MwkfYo2SmkUX2+ZeePaFFXRUtAU3LYLxcNGV6o4Psif9J7+F5ehBeZu/
-X-Gm-Gg: AYBFou0Jx+Q4LrNGnpNXB3E0m+6Rsu5ynL3RT/l1yC6+mgnnNmFQsCbq/bnA6pIaibc
-	n8kiwy9lo1df0ssFSICw2vM3eOJeSwQ1mw2pKhL7olrUHXeOVD5ujDuEM1KkWpcT/x/Mdl3kn+p
-	B9zN+96VnVOy9/QLJ3Sj0JomuxZys/5vUBU70e4pJr/wykOligMwo3a/ztLw24w8I2okHFAr4Qd
-	sUOvelg3J/Wz+59Qo36L5Kup03h5GtvBBjaftPJ1oHrjwzWjMq/rPV4tnxWEdiRNujqbdGdHYo6
-	3Qelp8vV/+Tl+EWLAPt8uNxYQ/exP69qAXilGc+Qor5DduxncVlNcmELyJZi2XgFoJus061LwoH
-	X41wGWj4uewj7+Wvniw8FknZC9h0PeGXUFz0w1nQanEklSwZI0wsynVFZzfIyp5nee22WTbU2UL
-	SF+FVvhuul4dK+bZuEwNvAvdIOkOso+lis+twYMO9ddqpqfrnnPDPsZGHG6J90TWveDfe67NLm+
-	H3e7fxI+7bO6L+R2PlhAGqHVMmlN9BDGaOW0HOrCZaAvbThcQ4c7roZgHrfVuX8ak+dxePkbyxf
-	aKsMRL9A7EDiRWso8w/DfhA=
-X-Received: by 2002:a05:7300:cf8c:b0:369:f70e:bd40 with SMTP id 5a478bee46e88-3796628f4c8mr3171439eec.16.1794608565735;
-        Fri, 13 Nov 2026 14:22:45 -0800 (PST)
-Received: from localhost ([2a03:2880:9ff:72::])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3795378d7e5sm10160338eec.3.2026.11.13.14.22.45
+         :references:mail-followup-to:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=lt2oCclDDD+rP94lJg6vk9k+uikGlXnAQ4GsrH0NNrs=;
+        b=Lc/7jJamV9HCrR1PR4eyi41fAjPZry2r7xdIEYxdBLV3X3dxlxz23m9Z8e32dhWDI8
+         dtTuKUDgWNMylGHTLu8oqHvjjfOCLqPtbB3hV3ihclb+Ebv/W0JOfjzrA7/bxuJXe/de
+         lJeaDZDg7psu+/upS7YY0tf7tiUIBK6pOl0G2mHTJz5uYeKGt7S9iWUPEgYL2TqOYrXg
+         gbbQ/qHjxnDG7wAQceKqAYIxb8i4nZRlTEoT+xc6/rgiMAE0YHHyu90jJuf7Rck6Ryr/
+         HzrPnHRMtGKNKNMq3bIgq5TOydfbW38MMrkSA8cD/Hq/I4n0Md8O/LvyvIWvMUrvxA4a
+         j9Gw==
+X-Forwarded-Encrypted: i=1; AL+hErH1nFlwrOMYcEYsNje/N2NrnHttb4/Xg3Lty1wzZZIEJ/ESwMpR0Tkv5nMGUtw90eAmDAyNSMp2yuM=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Mw5G326QKgrcCa0PXj7GXc8HMr1KvdiApDTCE3ImvDC/G+3FL
+	pGIQA4SbWaF0WD2iNrzNHVfcirgkK6WAu21N17+KumAZtYX2kJZ/e6QP
+X-Gm-Gg: AYBFou2cLldtHWcP7rYgTrNK4R/kbuvUuM5D//MApWkflaYtLT3TuEHS7NRb4KCjszv
+	Bcm2SL0TjXSlrg0q0vIS1SxGe8WdepTieSn1KBmHNAibRuf8wTpFa3K0JIwvX+nPLgxGpKu5o5g
+	refIiyhSk1aXmWeGPjBgP6aFfH/J/aeWbGUgQivSj6QTKHLoRDOrCnayfOlF7ZjMTm46nAJMdTx
+	ZrzG7nvRzAHZJWxPFaCnOfEups6dylG7zMJ9Xphp0BO02cdcSrIeuML07j26+MKWilIVeeBgPqr
+	8y+NvL+bUJavNrt1MZMO0vTRqioj5YULDJxoTy0Ff0dl9pv3lnn1fHx0N6hZnFghCKXFRW7aeVy
+	+c0kl0Fs4ema4OsOyDNVLTo0fAV1J0c2TeekzVrpnHm3fE9lw+serFVgG0tueRXcZYkC1mYkxTr
+	Xjipwis+IFLxpF5BhUy6bG1tB+H6OniGkMvDHEkTCuSoVcTPJSzSmeTvk5OJJH8jJXfigT9xc2o
+	6PpNxIzRSYez0EgtYb7G3y4XD00zsmgBW9/WtxiBOHDzG19zEMsXBCO2ndYYb0L+VSTCj5amka8
+	ZExjMFJJkfzK8B8zXKv9EoKzMNFiUthWYdHTCBnTjHWQZ1rjVL8HuOOdlyVpyL8TAhGL6mnmDxF
+	LoWbAiaM=
+X-Received: by 2002:a05:690c:89:b0:8b1:233d:7054 with SMTP id 00721157ae682-8b4aa2f48ffmr31548167b3.32.1794608589587;
+        Fri, 13 Nov 2026 14:23:09 -0800 (PST)
+Received: from localhost ([2a03:2880:10ff:41::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa7eeaf9sm31201657b3.4.2026.11.13.14.23.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 14:22:45 -0800 (PST)
-Date: Fri, 13 Nov 2026 14:22:41 -0800
-From: Stanislav Fomichev <sdf.kernel@gmail.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com, 
-	pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, jv@jvosburgh.net, 
-	haiyangz@microsoft.com, ast@kernel.org, hawk@kernel.org, john.fastabend@gmail.com, 
-	sdf@fomichev.me, bpf@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH net-next 0/5] net: make xdp config checks effective vs
- netif_xdp_propagate()
-Message-ID: <aveNqpUudFjo0jA9@devvm16445.scu0.facebook.com>
-References: <20261112235027.4072149-1-kuba@kernel.org>
+        Fri, 13 Nov 2026 14:23:09 -0800 (PST)
+Date: Fri, 13 Nov 2026 14:23:08 -0800
+From: Joshua Hahn <joshua.hahnjy@gmail.com>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Hugh Dickins <hughd@google.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Gregory Price <gourry@gourry.net>, Zi Yan <ziy@nvidia.com>, 
+	Rakie Kim <rakie.kim@sk.com>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm/mempolicy: merge adjacent shared policy ranges
+Message-ID: <aveNgfkmfZ2SMWK8@devbig011.atn3.facebook.com>
+Mail-Followup-To: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Hugh Dickins <hughd@google.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Gregory Price <gourry@gourry.net>, Zi Yan <ziy@nvidia.com>, Rakie Kim <rakie.kim@sk.com>, 
+	Ying Huang <ying.huang@linux.alibaba.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20261113-mempolicy_limit-v1-0-16688b2644dc@kernel.org>
+ <20261113-mempolicy_limit-v1-1-16688b2644dc@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -100,34 +114,66 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261112235027.4072149-1-kuba@kernel.org>
+In-Reply-To: <20261113-mempolicy_limit-v1-1-16688b2644dc@kernel.org>
 
-On 11/12, Jakub Kicinski wrote:
-> Bonding (and netvsc) try to auto-propagate XDP programs down
-> to their lower devices. These programs were installed directly
-> with .ndo_bpf and not recorded in struct net_device of the lowers.
-> This makes all the config checks for features incompatible with XDP
-> ineffective - HDS, memory providers etc. use dev_xdp_prog_count()
-> and do not call down to the driver to ask it whether it has XDP
-> installed.
+On Fri, Nov 13, 2026 at 10:36:12PM +0100, David Hildenbrand (Arm) wrote:
+> Shared policies can retain separate tree nodes for adjacent ranges with
+> identical policies. This can create unnecessary policy ranges especially
+> when individual VMAs cover individual file ranges, and user space sets
+> the policy on these VMAs independently.
 > 
-> Record the state appropriately. dev_xdp_prog_count() will now
-> "see" the propagated programs.
+> Extend the existing replacement handling to merge ranges with equal policy
+> at either boundary. The existing replacement loop will then remove the old
+> nodes and installs a single node for the combined range. This also avoids
+> splitting an existing node when setting the same policy on a subrange.
 > 
-> The issue was discovered when reworking HW-GRO and XDP interactions.
-> I was trying to make sure HW-GRO is reliably disabled with XDP,
-> and discovered we have a way to bypass all checks with bonding.
-> Not treating this as a fix since it's admin-only self-inflicted
-> damage that nobody is reporting being bothered by in real life.
-> 
-> Jakub Kicinski (5):
->   net: don't safety-check device features for XDP uninstall
->   net: move dev_xdp_set_link() and dev_xdp_set_prog() up
->   net: record XDP programs propagated to lower devices
->   selftests/bpf: check XDP attach on a nested bond slave
->   selftests/bpf: check replacing and detaching XDP on a bond through a
->     link
+> Extending either boundary rules out splitting an existing node, so the
+> allocation retry can only occur with the originally requested range.
 
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+Hi David,
+
+Independent of 2/2 I think this is a really great change. Thank you!
+Reviewed-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+
+> This change will make it easier to cap the number of shared policy
+> ranges per inode.
+> 
+> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> ---
+>  mm/mempolicy.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/mm/mempolicy.c b/mm/mempolicy.c
+> index 06b90903e8794..183bc3bd077cd 100644
+> --- a/mm/mempolicy.c
+> +++ b/mm/mempolicy.c
+> @@ -3208,6 +3208,23 @@ static int shared_policy_replace(struct shared_policy *sp, pgoff_t start,
+>  
+>  restart:
+>  	write_lock(&sp->lock);
+> +	if (new) {
+> +		/* Try to merge ranges with same policies. */
+> +		if (start) {
+> +			n = sp_lookup(sp, start - 1, start);
+> +			if (n && mpol_equal(n->policy, new->policy)) {
+> +				new->start = n->start;
+> +				start = new->start;
+> +			}
+> +		}
+> +		if (end != ULONG_MAX) {
+> +			n = sp_lookup(sp, end, end + 1);
+> +			if (n && mpol_equal(n->policy, new->policy)) {
+> +				new->end = n->end;
+> +				end = new->end;
+> +			}
+> +		}
+> +	}
+>  	n = sp_lookup(sp, start, end);
+>  	/* Take care of old policies in the same range. */
+>  	while (n && n->start < end) {
+> 
+> -- 
+> 2.43.0
+> 
