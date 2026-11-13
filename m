@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794549082;
-	b=1i17SV+U+w1+LA7yzwhWBvgPrE8IXrQNGAEKSj9heBmk5/rgy6xmBTt0Z1rXMiU7N8b5
-	 iYcbd7RDkaqEttgWY+SUSremTIGuKqKFKaE5SbJfmiygmmtQ0hANoJtuRXXqSBbN92jsA
-	 awA/btjr7obnZVw0wIGtmkat/N4YRzJWOtmrXRyXfYCZikdx5wHbYX+GxOQ0IySZLznQ5
-	 oDF679dxCu38zJ1RpAD/Qey5kfi05ZGbveMv5FstZmmYwJDEzgHKF3K4UbKClOYcNXYFT
-	 ANth4UOz4RHpwekSd164KGvRTp5wRWHXzK9cpIkd6jgLQwt6O6iF0iJSileDLeZ77xQ==
+	t=1794549083;
+	b=ob7fOAr5vkDUCK3rZipVVbYgz8iLiXNxTsr2i9D4XQxJbK5tL7YemkHqYubYpovm3jw4
+	 jnvgJyu4er5Ta85UfO7Tg5r8A/kkb3Px2tdZ5N80VPycc1sAdD+THCzYerrVa+azFG3BZ
+	 Gj2yDiSe6rikAJhJ4nuGu7qV3082N5VRxNFqGGMgTtUGUoHjRllEWnDNyunQ5Svicc4Go
+	 Og7Lk8jt+mKG8Ra/BjW3bHUfdhDA6n0SrEK622RRTFt5Lx01OcQLOu55UzF9d9jTOgLJH
+	 SvmsHGMhY5QGZMSFOOfk6/2eajxRvzrxgyDh2CUoHPDNcfO70beM0QZAPy5sEG8wPng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794549082;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794549083;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=4+gJpbdVYnZWcGwsu+QNNC0Ehog/4gvo/sFO8ZNB4Gk=;
-	b=s1yTt8GouGdUO+Nd0cYw6uDxU1gU3WGCF4n+wSvHohbWkETsrHgEF0NeyvIEEy5fSwat
-	 RJEYHoCBXVXYfFcdc/UyDyc4aeP3+XAJ4TvRpgowMP5n55IA8eL3NrZKm/BdGpOUgYCVM
-	 J+7ON0LxJtJNe/+4CtxRlyvrHARtETkNmfobMXQCX7eViV8clNFoB4O7G0HSqxtxOkno3
-	 Qn/5+gcm3INaWaCQ5iAkyTKMH1vhD8FM5t3Dv+/F39W5LsbGcTfeg0yAwqeyzOuqllmu5
-	 tCoMvXIQagBhWydElItkcO9Xu6T4FiEQOXIS0dFfmWJmaNqM6uU0xLWCSGaLS8rIjow==
+	bh=R07tQz7kn6oV2V7MKV8H83hgqF5e3GIkYvn5QQvp8os=;
+	b=3MYzzey8FK0egB/EPh/qtKSmFL6htM9diciNWbecF/dv3GTd/QryzFeRaZxnmFwiFQWC
+	 QhsB72hcXESXPgbFxy2A+Pk35+TJx1JAVpgmCaeBuceVHzHMf6lYyZ5JJY0ASIuPi8hL8
+	 dGpbi4kfzf0yn8uJbgD3Tnucx1/mwvCr3q8qMWKxuflBcLd+WjiSTn9Hkj/ymNZOad4gr
+	 pUre7osOQ1aJipQniEi8i4wRqUGT8nAB6y8JYtj2Y4gRKMiB/evczqMnSFS3A0Z4BakDG
+	 XHHwKQ1JM4QScr6yXkU9WU3B9u00HRcAoUb0O1/uD9nhq/X2Wf2DV+qf3Fsnt7/baBw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i4rg+ZxH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gW7R9epk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 251CA606A33A;
-	Fri, 13 Nov 2026 05:51:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 656C9606A889;
+	Fri, 13 Nov 2026 05:51:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i4rg+ZxH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1E291F000C6;
-	Fri, 13 Nov 2026 05:51:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gW7R9epk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58AB11F000C6;
+	Fri, 13 Nov 2026 05:51:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794549081;
-	bh=4+gJpbdVYnZWcGwsu+QNNC0Ehog/4gvo/sFO8ZNB4Gk=;
+	s=k20260515; t=1794549083;
+	bh=R07tQz7kn6oV2V7MKV8H83hgqF5e3GIkYvn5QQvp8os=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=i4rg+ZxH+vuNDlpV9PooTIGKopDu0K88b5ZE2XjT01qQD++0F9t9vDbuWKkjXzcqd
-	 VRpVXwTX7hs1l3QVcNpj8Tzd9WpCHTHXg1E1y++d/1jgFmYcFwyjU6yne9lG1w9ZZx
-	 MkGEo0Q3jVfnVAH7pV3HylRtHPqdV8RASKINTGcCxtLldv64RKiM/UTAUXXoz0tdQI
-	 oSNJcSG6TMzNE7Uq7qjc12wApFQHanHUZW3zD/TICcKzgrjU23bwQJVuKZWHz3yXCr
-	 Um02agI6g88SKHCSZLv3r3TxynoWvGu9DIUQ78B2cOge1Eprr9sCUbtTcyB9FwvFxN
-	 /DyBlxYkb37lw==
-Subject:
- Re: [PATCH net-next v3 2/3] net: phy: acx00: report receive statistics
+	b=gW7R9epkuJTQU64jlMgBZTrWqZjhMRaCwCjvfGxts8NZF7ApSLSRqOlBxfi/xiGXT
+	 Wg+TDzbYg01Ho9vSXoGu5Kf73zRvyQBTsaxQmLNgfEhWttgYaLyq8iV5B5jWFZjL66
+	 unQUyCIpRAVE+Xopqd7ZU7Mwnmmht3Rbk3RaEBS52TZxMSHl8SOT1m1ur8guE5EVS6
+	 OrSBnw/NH0WJjmRNQLloF0B2F2Hbi5FKzE3/KLNu2gKwwpEC1S6fBCfqLUsSQVBLi6
+	 MXkEd8TKxZCA5gSRgH6PsAvYRCQbCBfdfFU+Mpa8kSgVtYBIXbSzLuUBkegQInkZTo
+	 A1aE0FengMSEg==
+Subject: Re: [PATCH net-next v3 3/3] net: phy: dp83tg720: report inclusive RX
+ packet totals
 From: netdev-bot+sashiko@kernel.org
 To: james.hilliard1@gmail.com
 Cc: andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
@@ -49,11 +49,11 @@ Cc: andrew@lunn.ch, hkallweit1@gmail.com, linux@armlinux.org.uk,
  horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
  rdunlap@infradead.org, o.rempel@pengutronix.de, netdev@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Date: Fri, 13 Nov 2026 05:51:20 +0000
-Message-ID: <179454908057.2199510.9219088866030975682@kernel.org>
-In-Reply-To: <20261109-submit-acx00-phy-stats-v1-v3-2-fbc6327c5be4@gmail.com>
-References: <20261109-submit-acx00-phy-stats-v1-v3-2-fbc6327c5be4@gmail.com>
-X-sashiko-severity: Medium
+Date: Fri, 13 Nov 2026 05:51:21 +0000
+Message-ID: <179454908193.2199510.11384974363448482430@kernel.org>
+In-Reply-To: <20261109-submit-acx00-phy-stats-v1-v3-3-fbc6327c5be4@gmail.com>
+References: <20261109-submit-acx00-phy-stats-v1-v3-3-fbc6327c5be4@gmail.com>
+X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -66,196 +66,93 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Critical: 0 · High: 0 · Medium: 3 · Low: 0
+Low priority / nit picks for your consideration:
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+- [Low] The patch carries `Fixes: 677d895af1cc ("net: phy: dp83tg720: add
+  statistics support")`, which tells AUTOSEL/stable to backport it to…
 
-- [Medium] The receive-byte wrap modulus was measured on AC300 only, but
-  the driver applies it to AC200 as well.
-- [Medium] acx00_ephy_soft_reset() takes its 'final' statistics snapshot
-  on the assumption that the EPHY has not been reset yet, but phylib can…
-- [Medium] __acx00_ephy_update_stats() can only account for one hardware
-  rollover between two samples (lines 204-208).
+Pre-existing issues:
+- [Medium] After this patch, two TI PHY drivers with the same counter
+  layout map it to different uAPI attributes.
 
 --
 
-net: phy: acx00: report receive statistics
+net: phy: dp83tg720: report inclusive RX packet totals
 
-This patch reports the ACx00 EPHY receive frame, byte and CRC error
-counters through the generic PHY statistics interface. The 32-bit
-hardware counters are sampled from phylib's update_stats callback and
-added up as wrap-adjusted deltas in 64-bit software totals. The hardware
-baseline is invalidated around soft reset and power-off.
+This commit moves the accumulated PKT_STAT_4/PKT_STAT_5 RX packet count in
+dp83tg720_get_phy_stats() from rx_packets to rx_packets_total. The datasheet
+says the hardware counter includes errored packets. Userspace now sees it as
+RxFramesTotal instead of RxFrames in the ethtool phydev statistics group.
 
-> diff --git a/drivers/net/phy/xpowers/acx00.c b/drivers/net/phy/xpowers/acx00.c
-> index d19ba6d8069a4..9ab98f6174442 100644
-> --- a/drivers/net/phy/xpowers/acx00.c
-> +++ b/drivers/net/phy/xpowers/acx00.c
+Link: https://www.ti.com/lit/ds/symlink/dp83tg720s-q1.pdf
 
-[ ... ]
-
-> @@ -76,6 +78,30 @@
->  	(ACX00_PAGE8_AUTO_CAL_TX_LEVEL_ADJUST_BYPASS | \
->  	 ACX00_PAGE8_AUTO_CAL_LOW_CAL_OPAQUE_BITS)
+> diff --git a/drivers/net/phy/dp83tg720.c b/drivers/net/phy/dp83tg720.c
+> index 391c1d8688083..5824eff92937c 100644
+> --- a/drivers/net/phy/dp83tg720.c
+> +++ b/drivers/net/phy/dp83tg720.c
+> @@ -309,7 +309,7 @@ static void dp83tg720_get_phy_stats(struct phy_device *phydev,
 >  
-> +#define ACX00_PAGE9_RX_BYTES_HIGH_REG		0x19
-> +#define ACX00_PAGE9_RX_PACKETS_HIGH_REG		0x1b
-> +#define ACX00_PAGE9_RX_CRC_ERRORS_HIGH_REG	0x1d
-> +
-> +/*
-> + * AC300 hardware testing confirmed that the receive byte counter wraps at
-> + * 4,000,000,000 rather than 2^32.
-> + */
-> +#define ACX00_RX_BYTES_WRAP			4000000000ULL
+>  	stats->tx_packets = priv->stats.tx_pkt_cnt;
+>  	stats->tx_errors = priv->stats.tx_err_pkt_cnt;
+> -	stats->rx_packets = priv->stats.rx_pkt_cnt;
+> +	stats->rx_packets_total = priv->stats.rx_pkt_cnt;
+
+[Severity: Low]
+Can this be backported on its own, given the Fixes: tag?
+
+    Fixes: 677d895af1cc ("net: phy: dp83tg720: add statistics support")
+
+The rx_packets_total member of struct ethtool_phy_stats doesn't exist at
+the baseline. It comes from the earlier patch in this series, "ethtool: add
+PHY receive frame and byte totals". That patch also adds the kerneldoc, the
+ETHTOOL_A_STATS_PHY_RX_PKTS_TOTAL uAPI attribute and the "RxFramesTotal"
+string.
+
+Stable tooling will pick this up for kernels that contain 677d895af1cc.
+There it would either fail to build in dp83tg720_get_phy_stats() or bring
+a new uAPI attribute into stable. It would also change which phydev stats
+userspace sees for this PHY.
+
+Should the Fixes: tag be dropped? Alternatively, could the commit message
+state the dependency on the ethtool patch and say it isn't meant for
+stable alone?
 
 [Severity: Medium]
-This modulus was only measured on AC300. Does it also hold for AC200?
+This isn't a bug introduced by this patch, but it creates a difference
+between this driver and dp83td510.c, which still does this in
+dp83td510_get_phy_stats():
 
-The single "X-Powers AC200/AC300 EPHY" phy_driver entry installs
-acx00_ephy_update_stats() and acx00_ephy_get_phy_stats() for both
-packages. __acx00_ephy_update_stats() never checks priv->is_ac300.
-
-On AC200, every sample with a byte count at or above 4e9 is thrown
-away. The packet and CRC-error totals also do not advance for that poll:
-
-	if (ret || counts[ACX00_STAT_RX_BYTES] >= ACX00_RX_BYTES_WRAP)
-		return 0;
-
-Byte wraps are also folded modulo 4e9:
-
-		count += i == ACX00_STAT_RX_BYTES ?
-			ACX00_RX_BYTES_WRAP : BIT_ULL(32);
-
-Suppose the AC200 byte counter really wraps at 2^32. Wouldn't
-rx_bytes_total then lose 294,967,296 bytes per wrap? At 100 Mbit/s that
-is about every 5 to 6 minutes.
-
-Could the commit message and comment say whether AC200 was measured?
-Alternatively, could the byte statistic be limited to AC300?
-
-A related point: the commit message does not confirm that the hardware
-byte counter matches the rx_bytes_total definition from the preceding
-"ethtool: add PHY receive frame and byte totals" patch. That definition
-counts the Ethernet header, padding and FCS, and excludes the preamble
-and SFD. Has this been checked on hardware?
-
-[ ... ]
-
-> @@ -350,6 +493,10 @@ static int acx00_ephy_soft_reset(struct phy_device *phydev)
->  
->  	mutex_lock(&priv->state_lock);
->  
-> +	acx00_ephy_snapshot_stats(phydev);
-> +	priv->stats_active = false;
-> +	priv->stats_valid = false;
-> +
-
-[Severity: Medium]
-Can this snapshot run after the hardware has already been reset?
-
-For SIOCSMIIREG on MII_BMCR, phy_mii_ioctl() writes the value to the PHY
-first and only calls phy_init_hw() afterwards:
-
-drivers/net/phy/phy.c:phy_mii_ioctl() {
+drivers/net/phy/dp83td510.c:dp83td510_get_phy_stats() {
     ...
-		else
-			mdiobus_write(phydev->mdio.bus, prtad, devad, val);
-
-		if (prtad == phydev->mdio.addr &&
-		    devad == MII_BMCR &&
-		    val & BMCR_RESET)
-			return phy_init_hw(phydev);
+	stats->rx_packets = priv->stats.rx_pkt_cnt;
+	stats->rx_errors = priv->stats.rx_err_pkt_cnt;
     ...
 }
 
-phy_init_hw() then calls acx00_ephy_soft_reset(), which takes the
-snapshot while stats_valid is still true. If the reset cleared the page 9
-counters, they now read below stats_last[].
-__acx00_ephy_update_stats() counts that as one full wrap:
+Both drivers describe the registers the same way:
 
-			if (count < priv->stats_last[i])
-				count += i == ACX00_STAT_RX_BYTES ?
-					ACX00_RX_BYTES_WRAP : BIT_ULL(32);
+ * - DP83TD510E_PKT_STAT_4: Contains RX packet count bits [15:0].
+ * - DP83TD510E_PKT_STAT_5: Contains RX packet count bits [31:16].
+ * - DP83TD510E_PKT_STAT_6: Contains RX error packet count.
 
-For example, CRC errors dropping from 5 to 0 would add 4,294,967,291 to
-rx_errors. Bytes dropping from 1,000,000 to 0 would add 3,999,000,000 to
-rx_bytes_total. These are cumulative software totals, so the error would
-never go away.
+The update_stats code and the rx_pkt_cnt/rx_err_pkt_cnt fields are also
+the same. include/linux/ethtool.h documents rx_packets as "Total
+successfully received frames".
 
-phy_detach_internal() seems to have a similar path. With WoL enabled,
-phy_suspend() returns -EBUSY without calling acx00_ephy_suspend(), so
-stats_active and stats_valid stay true. phy_detach_internal() then
-asserts the reset GPIO with phy_device_reset(phydev, 1). On re-attach,
-phy_init_hw() deasserts it, and soft_reset then takes its snapshot
-against the old baseline.
+Does the DP83TD510E datasheet also define PKT_STAT_4/5 as a total that
+includes errored packets? If so, dp83td510 would report RxFrames with the
+same overcount this patch fixes for dp83tg720. Userspace would then see
+different meanings for RxFrames depending on which TI PHY is attached.
 
-The commit message says "Invalidate the hardware baseline before reset".
-For resets that the phylib core applies before soft_reset runs, isn't
-the old baseline still used after the reset?
+Should dp83td510_get_phy_stats() get the same change?
 
-[ ... ]
-
-> @@ -475,10 +622,21 @@ static int __acx00_ephy_config_init(struct phy_device *phydev)
->  
->  	/* Restore the standard EEE policy retained by phylib across resets. */
->  	ret = genphy_c45_an_config_eee_aneg(phydev);
-> -	if (ret <= 0)
-> +	if (ret < 0)
->  		return ret;
-> +	if (ret > 0) {
-> +		ret = genphy_restart_aneg(phydev);
-> +		if (ret)
-> +			return ret;
-> +	}
->  
-> -	return genphy_restart_aneg(phydev);
-> +	if (!priv->stats_active) {
-> +		/* Establish a new baseline after reset, retaining the software total. */
-> +		priv->stats_active = true;
-> +		acx00_ephy_snapshot_stats(phydev);
-> +	}
-> +
-> +	return 0;
+>  	stats->rx_errors = priv->stats.rx_err_pkt_cnt;
 >  }
-
-[Severity: Medium]
-Could keeping the live baseline here lose full byte-counter wraps?
-
-__acx00_ephy_update_stats() can account for at most one rollover between
-two samples. phylib only calls update_stats from the PHY_NOLINK and
-PHY_RUNNING states in _phy_state_machine(). After phy_stop(), nothing is
-sampled while the PHY is in PHY_HALTED.
-
-With WoL enabled, phy_suspend() skips drv->suspend:
-
-	if (phydev->wol_enabled && !(phydrv->flags & PHY_ALWAYS_CALL_SUSPEND))
-		return -EBUSY;
-
-So acx00_ephy_suspend() never takes a snapshot or clears stats_active.
-The PHY stays powered and keeps counting received traffic.
-
-On phy_start(), the resume path is:
-
-__phy_resume()
-  acx00_ephy_resume()
-    __acx00_ephy_power_on_and_resume()
-      __acx00_ephy_config_init()
-
-__acx00_ephy_config_init() sees stats_active == true and keeps the old
-baseline. The next poll then computes one delta covering the whole
-halted interval.
-
-At 100 Mbit/s the byte counter wraps about every 320 seconds. Wouldn't
-each extra full wrap during the unpolled interval be silently dropped
-from rx_bytes_total? That would leave the traffic received while halted
-counted modulo 4e9.
+>
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261109-submit-acx00-phy-stats-v1-v3-0-fbc6327c5be4%40gmail.com
