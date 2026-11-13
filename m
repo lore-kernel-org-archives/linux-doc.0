@@ -1,124 +1,114 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.36
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794599310;
-	b=tFQJfWawFGC5rxB+zbrQ2U9aJuH+De2mdfQ9UQa168cV+mNnDvSuUFxcOGzczK2/w5cO
-	 cp+BPEfiXe+Wb647IFFWkJ+YPjZ48xUQdn/HFeutF7n1tF8KKZSxavwvfXYng0kYJaFHI
-	 aTcxHCLZsovpoPB7y53QEgmiinR1dORq+t7KLYUIG8shFnoIdaT8g2TyX3Tzskls8l8aX
-	 CpbFBqCBoBxqt5sN6+fZk0eJMGag1BFCuHFa+evTd+Z1W6lX6EIf5TuFQERmFMj20VQKs
-	 dwnwlikYwBPiZqXeFX+EeZxVeGmNRmL0cwuk1YBGs1FP3UshMEGzD+xwvzByKI786Lg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794599310;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=0ljNFmecD8tIEjS7UBA3LjMgU27aEE4yNC2CJYwT3Zg=;
-	b=TaEgnyF8qOyvj3qg5cUjDkL0mXmgqPTU3Df9O2RC8AzGoEjiyhJxwNrHmlXnU4HRXTtv
-	 MIJHenyF1Ch8z2E9kF8YInBJS8YRXE+NkxCPFlqIgySIWmAakTC+yDRKA1d7qWQ8riK7y
-	 +Om2z6c1PM/Z1wOy2rIjpkEiu3wMkTlDQDXivALNRcUSSmXKcYK9X6g3Kh5uh5MQFZZmw
-	 /2ikpr4WuY+ILme+QgKmT37rp8rahjT8jPmGq4cb3o3/oOnwpA99xVM9o8sqtu91ygrdh
-	 nOPSBMj3DKwGSRUchI2EShz7kd1i9yCLzNL+4A/DeEwEeWNa7yE40hBQXNBefvuwIRw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=VpeelGdj;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.48.36
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012036.outbound.protection.outlook.com [52.101.48.36])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.41
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794599978;
+	b=2ilzC2+pkbVN0eBrL/qlFucBFEUu1gOBf1BWujzUxcDg8qiK1/Abst87PiqXehCQSaha
+	 DfQTyR3abulFInuuczVRU10j7LZ0HYdevmtP51N5wS4xSCeConIjThJ6U7lZYbL1hRQu4
+	 7ksGDSCspPHzftw+04kJD8fxl32S5Yzqi/t0GpKqWa8IOVSHbVEuYDc1/SgBS8pJgut3e
+	 Ctmcx1zAGshYFK72I116p1W7n1K8gOhOxZlB2mbwXXfzsraoBN3WM+wxjD+MDn7OVBYFp
+	 wugNuHBz6qi49idpNj5Qd9PHGTFFdEFvzdIKyeqNQuT2yI3OE9Y0TYv1I7U1Dqdh48g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794599978;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZZ2nZZ3s6y7qol6GLZvqI4xyT/lOQ3RMsv1KGP5S3jA=;
+	b=f0+WV2IGNBd+7H4ei3B9p6DI5EhcjCy11S/WyzV8mTGcjPKECCg3WFFbdRbhaxe16Fho
+	 BgCw1cBHIMLrBP0qwG2IedD53299mY/SQ9Gr6ByzvJAgjk+rypiCulZ9TThZWtS9yVPjI
+	 oXfiN9APiUdbKPVG0p37KxObblKyJHcRgdGUlkqDY5dyd6CcT6T6UU9tublgLo3oNp7TZ
+	 hr1sA+Mlf7i/V8nbJj1a0rZBYiK+hYdrhiD6J/HV0QqeRXiFMmwmGnfo3pKNVg4OROAkY
+	 CJfEg/Spkrrmp7DoRmz3/Jd0rOtFiD00CLUV7XhTq4ZcQmMuLNUApsB/h1QEJHH2uMg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Po3n9AZ5;
+	arc=none smtp.remote-ip=209.85.219.41
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45955606A890;
-	Fri, 13 Nov 2026 19:48:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45955606A890
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F282606B560
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 19:59:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0F282606B560
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=VpeelGdj
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lyAY5+tFXndmfifaRGAnNrEpdOoZ5upjXDZKO0OAi9BA8bKRVapzw9QMibUkn4m/UJ7bLJy7SaJVB4aitsmu/Jc0ffT7fx2a8w5vI6uRsPozWWqc9hyNeZS+j5BowkmE9CpRyM1EAtlU1FKePaKnTrto5gK/NpslTTqCDmoVfPCFhOKS5Aown5lUl73SYWiffdJY9eZ/qMpYfFCiUhh4QvGR1AzjHLAqdYCyMaelTgaRe4KvzvM3TST0iPjLZ8vfY45LVf4VABOjdthP51wfdd7zUIAfdUVqMW5O2QQOcX6pLv2b0wU8qoBswwde49iOSVdmQx8GVCDhptTVN7JsFQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ljNFmecD8tIEjS7UBA3LjMgU27aEE4yNC2CJYwT3Zg=;
- b=vvKBIwku9wQkERk3WWAvUTUrY06/9ZZ0nznMqJHXufSJ351LxmWm+tgK3ZgAJ267DBVqncRDdoBlV/PelHWhMkqQYCz+xiCdKSARiFDA8MAeIGpr2FhipwLNaEMNQb/8ss0VjiToKrrR7keztSSdPocrZnqhG2tryriHNUxJMdGzggWGQqDXtmFM0j2/Jp25HvUQvM8XFEOO0xIpm9FlEJruzzp1s+c0VF/2gMkuyTvYRN+z+M30BsRXMPBYL23M8AhyNeWzTxZZNXXBK6hZZFXHVsNnxGisVW/DFUtFfWoDdemKEbqPsRmd/wgX2BL8id18EvJzaSXlYFw7zIT2lQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ljNFmecD8tIEjS7UBA3LjMgU27aEE4yNC2CJYwT3Zg=;
- b=VpeelGdjHQnfqGfbgXJ+ea8DoSlqIZQL3k569jVW6PKnuOnRLUNyg0Up1nH3yu0sf+fmblafWZJ8Em7xA5184gXFXM7ZS7yzlK1GRJaWijtSOIDnNqKVjRwZfVy0a0IyqoD3DgIkVHr3gzhPIIvupmjXHVel7S2ypaNbtptpFLj/YiYcgZk+iEc9mYvGaGUWjMgTFXpmN3zlas4O6VbqVYsSEcj4MVvMXkyP9q+PTf27HTcw76UHpnuUphIRZti2Z9FcCwJ+ESdIXK0LcWA0tWi+M6ooQOUpGR52y8+tYAOhvfY/8JIA3dk479df+iJUZWP50UOkPVEQ5n30PfcBpg==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com (2603:10b6:408:20c::21)
- by LV2PR12MB5896.namprd12.prod.outlook.com (2603:10b6:408:172::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.592.11; Fri, 13 Nov
- 2026 18:43:01 +0000
-Received: from LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286]) by LV3PR12MB9356.namprd12.prod.outlook.com
- ([fe80::1c36:31b4:c420:6286%4]) with mapi id 15.21.0615.007; Fri, 13 Nov 2026
- 18:43:01 +0000
-From: Yury Norov <ynorov@nvidia.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Shrikanth Hegde <sshegde@linux.ibm.com>
-Cc: Yury Norov <ynorov@nvidia.com>,
-	Yury Norov <yury.norov@gmail.com>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Alexander Gordeev <agordeev@linux.ibm.com>,
-	Andrea Righi <arighi@nvidia.com>,
-	Ben Segall <bsegall@google.com>,
-	Christian Borntraeger <borntraeger@linux.ibm.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=Po3n9AZ5
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-91f30ff609eso6418716d6.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 11:59:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1794599977; x=1795204777; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZZ2nZZ3s6y7qol6GLZvqI4xyT/lOQ3RMsv1KGP5S3jA=;
+        b=Po3n9AZ5ukCVtyxupRbbfrpLGYxngRljlMmr6URQx5mXBtNOQmayJr515hpgVNj4sx
+         SfBF8u0oI8BRgh0FyosgUvP4tKwELgo4ewaKIi5JN8mRtCuCRmvkGWXjuAw/02iadmRA
+         uDnxdZ7AXUvdkY1hWsdsHvfshz1nH6EsEpR5OkjhwJvolkOQui9lyzTw24vhAEBxWDRt
+         KI1J+fFxELXn2bRApiz8FOoEpAjp37dDgQtZRNcDqm1xmiXUP7jrvFn6TT9BHVcob1x2
+         umNuZjQRMa9C79LylxXf/Ma826OY9RYwk2x+s7ONJ5FVSABT6CpUk/vzeFrO9xuYf9Ln
+         k9cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794599977; x=1795204777;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZZ2nZZ3s6y7qol6GLZvqI4xyT/lOQ3RMsv1KGP5S3jA=;
+        b=chWVRsn0xWkXBheukLLSRTf8wZfikERDc9JwgRpS3qD5vZ/2uANwKl2xfbOWf41IWA
+         4LRfxadwkkrsYo24+Jl2oYUCjnv/CrfNOPXjSewJoMORMDtjP0FCNmJZ24rwiDCbGZXI
+         dAPcmXtPOtD5mjwHYz1EAR7p5jZTi5q/x5D5a7q+b9s1iPA131Etgz6c81wdnOknyv/K
+         FrBjCB273nVn/2XaKdlX/iGRIpyTuvybjCdTP6oojrM03BQMF6pRSAMlTWc6w14LrlFk
+         2K4CDA32Ywn1EsbrZ9aQa6UHvZi6Fuy1h7riqNxLjqJOk7uH+1C80k5RpGChFMn5WzlW
+         +YNQ==
+X-Forwarded-Encrypted: i=1; AL+hErFRTT8CfLQ9VJSvZVmj3OJjfl9bbU/IXhxcJbhwk5ZyJD4RV6Qp3oiA9PGUVzKhUCqkKoWzTi/NKxc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/3c+E4ypLlhclCuqC2cr3BheHUFnZ08j1+p4RLWligIwlujIS3
+	dLLHRwXiDMEnQWIH2XYFm0ilrwq8GXFTxMjcKSDwcSWxCAO/9fAcB+gPq12wCK+ohZo=
+X-Gm-Gg: AYBFou0gACyylpj38/GcmdOCEWXQCsMdyHr2FY62wwpRiMmAjjwPgQiUFDE1uKYsSPv
+	ECzfJ8Khsov4t45Eaa3Qc1pfxcFEGFjaSsLEXyOnyoMrUyscvizb+HTNnETQuOV0UAeF4qiowCm
+	e78EJxs6KSBw4LBmlC2OgLFWRghaiLhXmf0jdS3K3btdSsxqKE/QVpn5cKOkiRvwSgPPozYtLSw
+	6UAyy+hmgFdSTFK3oRho9/DbuYBw6kvv+h1Cl/PD5aAhk83bGq/9LU9TmwaRyD88a4Go5YJR4EM
+	6wd+SPhZMXZazyhuAvxTuHRMIQJXEkGBruGV5s+2R8FN5lap9FUXm0I4oXbEPriiyGRaJ0DjYkf
+	Y+RcE0BtMJZ2oyWj1lIh1073I8LbFwWJTVrwitjM1RsBsa1EknDuRDjTwylBh4hzJ6Xrt9zr7uK
+	J6vVPmSCakrYPvGC3Wgq77Z4TRA42yE58CR3fdzHl6GUDXg1vhyWHflj3Autlt3m4mw3fVLByYR
+	YtwkdowYZf50qEM2S5i+rHBxzNXBGaKhZvBwKCtfyuajcXzEIG4/JI+jtaqmLHGDWoaAj3cHQt8
+	wS+Z5g==
+X-Received: by 2002:a05:6214:451e:b0:91e:8d6d:21c8 with SMTP id 6a1803df08f44-91f2423e922mr59090456d6.54.1794599976764;
+        Fri, 13 Nov 2026 11:59:36 -0800 (PST)
+Received: from ziepe.ca ([142.166.156.71])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db49c5sm27322246d6.41.2026.11.13.11.59.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 11:59:35 -0800 (PST)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xRxQs-00000001ekG-3813;
+	Fri, 13 Nov 2026 15:59:34 -0400
+Date: Fri, 13 Nov 2026 15:59:34 -0400
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Bjorn Helgaas <helgaas@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	"Joerg Roedel (AMD)" <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, iommu@lists.linux.dev,
+	Tushar Dave <tdave@nvidia.com>, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-rdma@vger.kernel.org, kvm@vger.kernel.org,
+	Chaitanya Kulkarni <kch@nvidia.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Carstens <hca@linux.ibm.com>,
-	Ilya Leoshkevich <iii@linux.ibm.com>,
-	Johan Hovold <johan@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@grdncc.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Mete Durlu <meted@linux.ibm.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Jens Axboe <axboe@kernel.dk>, Alex Williamson <alex@shazbot.org>,
+	Ankit Agrawal <ankita@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Sven Schnelle <svens@linux.ibm.com>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vasily Gorbik <gor@linux.ibm.com>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev,
-	linux-s390@vger.kernel.org
-Subject: [PATCH 1/7] cpumask: add reset_preferred_cpumask() helper
-Date: Fri, 13 Nov 2026 13:42:50 -0500
-Message-ID: <20261113184257.621707-2-ynorov@nvidia.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261113184257.621707-1-ynorov@nvidia.com>
-References: <20261113184257.621707-1-ynorov@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BL1PR13CA0293.namprd13.prod.outlook.com
- (2603:10b6:208:2bc::28) To LV3PR12MB9356.namprd12.prod.outlook.com
- (2603:10b6:408:20c::21)
+	Randy Dunlap <rdunlap@infradead.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v13 00/19] PCI/P2PDMA: Route peer-to-peer DMA by TLP class
+Message-ID: <20261113195934.GD2532299@ziepe.ca>
+References: <20261111121602.GQ8635@unreal>
+ <20261111224136.GA754433@bhelgaas>
+ <20261112092326.GU8635@unreal>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -128,138 +118,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR12MB9356:EE_|LV2PR12MB5896:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6a858855-bc80-4828-94a9-08df41b5f1c6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|23010399003|366016|1800799024|10070799003|10067099003|261022105027099003|261021123027099003|56012099006|261026140227099003|261028144727099003|261102123227099003|11063799006|261009223027099003|261021121427099003|261022075727099003|261026121527099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	OUZ2WSjbvMkYGOgdn38JWzwGKI+VvbsOkvwrXmyL/VnfmvkIU8t9qYQhjL6s+787D2Um7ndCrKgBn9Lb1BsSgX0BhASqESVolvaAszdl4Xulq1V3rrXWDrKkIXTY3AKZQWR+KNefPDR/z4kZ2BI/BjBRl1qGUG+g4AQM1rkl7SUF8RXpI0w13h2HX6v4dwgMWZX2SLYOF3PEHMPmSJSXU5B/qW+yt5igduyRvRYSj8OIWVFx8LkBG/NRwYRWigHOVe4LTocMYQGvenjyobNwfojwg9a9BrGeOsAF0EYbknpjEBh/k02obXWSro3j4qxuBrEooWypZ0+eoSVtEPhi1SbrcHyzCxtAMMeJjEkFkrdQFoxbRymEiXdiRUdBImrh7JPbtuYk7t49nf32hMqLUYpjdBI1elqp15XlR9J7ima9wbu+bjpMjORxUq8Lm3ZfA4VFZUYlTiJnlABDQD7HdE8WqaBJIlJDAT1a1Q1TWiKbFGRwOGYZznvEeixt/CezNs+DMT73XxkQbkHLZ4bReCc/mvC6Yrn1oEIRSwiSlGNoZtAPKewsb7DYIrDm+ea2Ce5Zc0vvi4yBxE9qAsIth5JDVgW8tvkElnmLzZqYTyc2Zi/woV2fLwfnVxLuPt8B/mccaBta6rOP2L3qJNudekVNiykPjXNJdKO/629QejQ=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR12MB9356.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(23010399003)(366016)(1800799024)(10070799003)(10067099003)(261022105027099003)(261021123027099003)(56012099006)(261026140227099003)(261028144727099003)(261102123227099003)(11063799006)(261009223027099003)(261021121427099003)(261022075727099003)(261026121527099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?RTDGzVUUt+20PfTFUNepYDiyE6BqzkJfWbJeGZMKfnM2yjyrkyvSFQ3VabtE?=
- =?us-ascii?Q?MwTbDvwIJy6CbGMxxzwCl8b3m1/lIJkzRls/SbWCTCiXmCqywKDMBQ572Zkk?=
- =?us-ascii?Q?VLg+NHzjGV53uNgmuBn40/HP4DVKfXopTeMvKyFv5yShknTUpuaRbO0RK5yn?=
- =?us-ascii?Q?bjrtSta2QDMdl+Jekb+4L3JPEzcI1YfG969Ge8kAOAdKPs2oumnoqTfbQ0lz?=
- =?us-ascii?Q?m6xmJmcbuaXN7dUJwxALpsgfmjfBn3FFq2hnRxusVZc0DId6yHFOK3IdCIQu?=
- =?us-ascii?Q?YkIKA3wLMmfGf/ioBti6Z+1U+cvQP3WjXpSdmcflJcQ2LkQBYwWHH/8a4mN1?=
- =?us-ascii?Q?uSLUoyF6ZExdWlbiA+l9xNVj4s4yy1TPkfKsUMklVxlvKeYTpumnPXTyIdLz?=
- =?us-ascii?Q?OTXUorJTZ9xOytxhhKgwTy3txg4EXaM1BoLqDKOyytp2LpapnyTf57+aQIw5?=
- =?us-ascii?Q?21daZnALV3+OTP1T6YXLtJ0SQR8DX5frbAUogUu5mTqsAeyWYEqJk6R4GBQN?=
- =?us-ascii?Q?KRMBXfKTh5z5A/sDINa88jPL4d9zzsojBHTk27hIiU8iosmTzhHP7QvHwmhL?=
- =?us-ascii?Q?W5/4AKFXvos9gxYr2KhxCB8woXi9IrK/F20OkpnFGRenf0r/99zS8GyszfO7?=
- =?us-ascii?Q?s/c+nU5LMdMHbbx675AelxvcgcCYjDrvzZmG7/x2Q8IyaIFp3QHWioAjxy25?=
- =?us-ascii?Q?fvXpBDZG98mVwZrpqWxvNPnK4+VMNIlEoalg7OTYZ/lxtN+TMVojdjuykBmK?=
- =?us-ascii?Q?AyMr7r9oCD75tWHLeAfz+iLi4kjFZpMoVWJtVE1+/1UydEFJ94QIssvJJ47a?=
- =?us-ascii?Q?Df4kjXSir/fzfDDLqbLXNHQl+uXouiTyctKcnpZgr3C/N4/HhWfVsBHlli6r?=
- =?us-ascii?Q?UTij1kyQU+n7i9/LZ4nUdEWflg6+9ECi3GHVNwWDGgrlNj2xVpS/pJ7NzPiC?=
- =?us-ascii?Q?0r4/Ut4IcDkiFlqO5dUXHqYUhd9nvCDKj9UwIjWtu1DgsK29wjSirPGTljZh?=
- =?us-ascii?Q?D1h8EIsWppYfssJ+ixRkxDGmOaVVcXylp2BAYFiQh3NTrloSr61wjNrMC39d?=
- =?us-ascii?Q?M84So3cKAft4MjMJlt/YYc0lYoGkoTTo+f4518MaittNAFAoI5SBqsNInhXW?=
- =?us-ascii?Q?RLbcKC2W00O3Ihyjjnm0kazDqvvkeIXaGLG67/Dpvo5PKA+qy9n1cs0ZJ/KZ?=
- =?us-ascii?Q?0URBfInInZ5DpI0EpceNundh7+acXqgrtn0Z4rrJ/pJ6nQUlJN7KUG7uge3T?=
- =?us-ascii?Q?GZJGWuHB7TQD+cBbagbanKrPv/hJda9hHg0qiNT4llhDZT83WuAyWGp/Ptbc?=
- =?us-ascii?Q?tbq5rav/5d4+fvBDtbGgQ2xzakdt85gS5N+T+xrmETO4AeVoy3Si5KD9nlqP?=
- =?us-ascii?Q?GO9MDWnVp+tKRihZa+0Q2hcnrnkhAdusberC4Qx1HK/Q0ueBTY1DDbkVTyJL?=
- =?us-ascii?Q?2Hm7WnqG+q+ONTtDKv9ZevPEkTXU1p9FxmDW7qbVNJ9hS80a613f0Wo6s1D0?=
- =?us-ascii?Q?V9R2AgCtAkFtD0Vsi2qyuCWWarh05uDwpGB+wQmmzOumNjQ+jkgMXkHNT2Yn?=
- =?us-ascii?Q?lkTI1sg26l5Zo3mXThdexc69uYRIBUnvD5kRMmhtKTSq+X2fAvQEX2nftm4Q?=
- =?us-ascii?Q?gPNqkihp+iAcHvAvSoS7iw6Ufndx2q0GjddEL9rbMwslOmMc/iSrIH6rSMxl?=
- =?us-ascii?Q?lj2cs+vQ//Jprl0x7xO6D+6KiVsIgLSTENIpOKLLXRj2aG4x3BjUqEs6Sh0B?=
- =?us-ascii?Q?CH5vUFMBgF1JmKFrXbFUl1u1vDvlgTgGlF64q5eWrlwKw30bSvNl?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a858855-bc80-4828-94a9-08df41b5f1c6
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR12MB9356.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Nov 2026 18:43:01.2514
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BCXkiM/XvfzbUxBzdUaskdt56daNkal/UkLL1UtqgBBxYEAPtO5TRu7BTFguBHijkN1mQnM8cJRVd4uNUxtpQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR12MB5896
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112092326.GU8635@unreal>
 
-This series adds more flexibility to control the 'preferred' status of
-CPUs. As a preparation, move the steal governor's preferred mask reset
-into cpumask.h to make it globally available.
+On Thu, Nov 12, 2026 at 11:23:26AM +0200, Leon Romanovsky wrote:
 
-While there, rename it to reset_preferred_cpumask().
+> > I guess one benefit of this series is that a path where P2P Completion
+> > Redirect is set used to mean that pci_p2pdma_map_type() would return
+> > PCI_P2PDMA_MAP_NOT_SUPPORTED (unless the RC was allow-listed), and now
+> > it might return PCI_P2PDMA_MAP_BUS_ADDR because if P2P Request
+> > Redirect is clear, Requests can be routed directly?
+> 
+> I'm not sure the first part (return PCI_P2PDMA_MAP_NOT_SUPPORTED) is correct,
+> since callers have so far ensured that P2P is supported before calling this
+> function. The second part is correct.
+> 
+> > 
+> > That sounds great as long as the Request uses Relaxed Ordering, so the
+> > Completion won't be affected by P2P Completion Redirect.  But devices
+> > aren't *required* to use RO even if enabled, and I'm doubtful that a
+> > non-RO Completion redirected to the RC is going to work.  So I don't
+> > understand how p2pdma.c can guarantee safety.
+> > 
+> > Translated Requests seems similar -- are we assuming that if ACS
+> > Direct Translated P2P is set and ATS Enable is set, the device
+> > *always* generates Translated Requests?
+> 
+> PCI spec allows "A Function is permitted to intermix translated
+> and untranslated requests" and p2p doesn't decide anything except
+> if routing is possible or not.
 
-Signed-off-by: Yury Norov <ynorov@nvidia.com>
----
- drivers/virt/steal_governor.c | 16 +++++-----------
- include/linux/cpumask.h       | 13 +++++++++++++
- 2 files changed, 18 insertions(+), 11 deletions(-)
+Both of these are basically the question we left open in the
+discussion with Christian.
 
-diff --git a/drivers/virt/steal_governor.c b/drivers/virt/steal_governor.c
-index 81e5089ba824..99bebd3dee8c 100644
---- a/drivers/virt/steal_governor.c
-+++ b/drivers/virt/steal_governor.c
-@@ -50,15 +50,6 @@ static struct steal_governor sg_ctx = {
- 	.low_threshold	=	200,	/* 2% */
- };
- 
--static void restore_preferred_to_active(void)
--{
--	int cpu;
--
--	guard(cpus_read_lock)();
--	for_each_cpu(cpu, cpu_active_mask)
--		set_cpu_preferred(cpu, true);
--}
--
- static int param_set_interval_ms(const char *val, const struct kernel_param *kp)
- {
- 	unsigned int interval;
-@@ -252,7 +243,9 @@ static void steal_governor_loop(struct work_struct *work)
- 	 * module restores to active if CPU hotplug breaks those assumptions.
- 	 */
- 	if (!preferred_cpus_valid()) {
--		restore_preferred_to_active();
-+		guard(cpus_read_lock)();
-+
-+		reset_preferred_cpumask();
- 		return;
- 	}
- 
-@@ -288,7 +281,8 @@ static int __init steal_governor_init(void)
- static void __exit steal_governor_exit(void)
- {
- 	disable_delayed_work_sync(&sg_ctx.work);
--	restore_preferred_to_active();
-+	guard(cpus_read_lock)();
-+	reset_preferred_cpumask();
- 	pr_info("disabled\n");
- }
- 
-diff --git a/include/linux/cpumask.h b/include/linux/cpumask.h
-index bf89bb3f30f6..b13d099474bc 100644
---- a/include/linux/cpumask.h
-+++ b/include/linux/cpumask.h
-@@ -1195,6 +1195,19 @@ void init_cpu_possible(const struct cpumask *src);
- #define set_cpu_preferred(cpu, preferred) do { } while (0)
- #endif
- 
-+/**
-+ * reset_preferred_cpumask - reset preferred CPUs to the active mask.
-+ *
-+ * Callers must serialize against CPU hotplug and other preferred cpumask
-+ * writers.
-+ */
-+static inline void reset_preferred_cpumask(void)
-+{
-+#ifdef CONFIG_PREFERRED_CPU
-+	cpumask_copy(&__cpu_preferred_mask, cpu_active_mask);
-+#endif
-+}
-+
- void set_cpu_online(unsigned int cpu, bool online);
- void set_cpu_possible(unsigned int cpu, bool possible);
- 
--- 
-2.53.0
+To use this new TLP specific API correctly the initiator needs to tell
+the API what kinds of TLPs it intends to generate, and ask if that set
+is OK.
 
+So you need to say 'I will use translated, I will use RO, I will use
+untranslated' because each of them can have different routing.
+
+NOT_SUPPORTED has to be returned if the modes the driver asks for
+don't have identical routing.
+
+I forget how this ended up when that got deferred, but that missing
+driver input is an important part of the puzzle.
+
+eg mlx5 knows exactly which of the three TLPs it is going to generate.
+
+Jason
