@@ -1,61 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.222
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794576677;
-	b=BVEZL6lS2suLjuvOGHYxeP5KYy5YApkeeHO01l3RIMS4VA0TI0DNnRCAwNVL0Fa5LlWa
-	 sJckAKqwwl3islc4uqTs2sTkKbnMCRRa7zUJrXamwLfraFKJJbOlplTXDxTLcVztg8XVT
-	 yichcXWPuXztPht5GmR9ZlezzwoVl3UXA4KPpfvuo/WzgwKo4UXo2gQcHnVSoEbY24r2E
-	 c+76hgShPT4+hX+EXchdJJWnWpUIZGlI7ZRS0bntuole5WpxH52GdBAXxe9UBCTMcJBdz
-	 juTLyk4mKd7yyNX8FsRgbBIiX+Rog0YNjJnP1qll2DtAB120qjGUODUmSGneftmrW9g==
+	t=1794577768;
+	b=EpROfBTR07dvdZIMvVTsG/EhU6zgeApPVybbU/cDzjrLiXtwJGzMNpXY/v5xsznn91HS
+	 e8PfSjQ5x2vMn7V6Nir4+9LcbrCopX1VUf6f+CC3ve06IB17hCe15l2D2Mw73MNF8JAkl
+	 3uDBuAt0lgRHwk1mRFmipW1IkxxEBnHsnG39RiGe360qOVcmNYVlefh3DObBf8LBmV2Dw
+	 x+hzZxGOZeQaSzJNEZ3xCY8kmcwOYyT2tAXCTq34vlmmhQKufHJjwfpvVQVdyYfAuQi++
+	 Fc+me7+V/erharGWuOQiMy0+8z01UDu6YBsDo/2HobEX5fTvfvFyeAFC6Np4BNKpJGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794576677;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Date:From:To:Cc:Subject:Message-ID:
-	 MIME-Version:Content-Type:Content-Disposition;
-	bh=cJAY5OQrs6Pw2OEjg7FwEm1+5mDzPWLusyAsuCUYgqE=;
-	b=GP3iCrPuccKLIbkNuy5S/FNHo3RlkuJnJK5YyxfZL+xBr9E1+Mcv+VT06AnbKg71/zrH
-	 OuI711druHdI/1Km55ZzBZNR20WluihxK/kSRouYH4xuKXHpi8yv7XoLs+dLA1per0zb5
-	 9qQXGEC7cTXP3PDbcZvlnuEkXfdwjGGidmrudObJG9Uq/enmxUlb9JOj/EUkPX7P0ZhaK
-	 RLOqhuxHcy7ehs58Ww1gmIo5dvgUwNdQqGygdn0dqGUPK8nJmU/iSFQ0scVrdyrhZo0cm
-	 jCZytA5sfww6Y4CAidCucxjuHDYbS1PBJ5vCfb9+fVRHVRlLX1ZRmPt3XwWyVkBCi9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794577768;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=3v73r32eIAJAgWPi1LsXT3feGTevyTVBk7sdUb/TcA8=;
+	b=39kisx0At2ySKjtxJw+VcjEJZmYGL6Z0bi1ScpfGy4Z8s23O2xFJ+tqs0KIo1pmlrhAu
+	 8YqaAmR/tziCFyfYKOo9tHuq/f357feYo1i4HGeDyszEpx8olYZ90tjrZL7xFDhrrtxwQ
+	 y7kUsSbR7D1XnwnMqBqtO6nTvNVihAepzblXR82cRzH0OCvRxJNlbpvtkmaI0jFOVtqMm
+	 aac2rFZaH8YwrduuFd8BiWw14kCkbIVV1N1/uiEEc/iwjFBKMAAo7VvW96BdayRjl8tRA
+	 62YApA6++7H72VucCbykm2uTEjMacQPG32odM7IO2X5QzZlPmv6+IbtOHf7al/p5afg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=wyuan.org;
-	spf=pass smtp.mailfrom=wyuan.org;
-	dkim=pass header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=EurrdjTv;
-	arc=none smtp.remote-ip=91.218.175.222
-Received: from mta0.migadu.com (out-222.mta0.migadu.com [91.218.175.222])
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iYprxckR;
+	arc=none smtp.remote-ip=209.85.216.71
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3474606A323
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 13:31:15 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E3474606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wyuan.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wyuan.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9F00606A33F
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 13:49:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E9F00606A33F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=wyuan.org header.i=@wyuan.org header.a=rsa-sha256 header.s=key1 header.b=EurrdjTv
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=rMeDPcgmHvjiYJzAI6lahmbPX4PzeAoJS02tDSc8JXw=;
- c=simple/simple; d=wyuan.org;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794576673; v=1; x=1795181473;
- b=EurrdjTvANhgr9/HhK5lHx6nwiGy8nm6FiEL81GitXNV8a7M7Xy5q+TaEt2xz54nTtzVO9pi
- y1g1QnbLAaQJryBKHxR4dAulBjL3a1mFnlCq0xlJXOD3BiPCrkieh5KetCwdfInQPbNIW0DoCqg
- Kg3/IIJfca6nDjVO5w/0hDbno26Pqlkp+S5/F9KPr0iF7KKWwDh5gqghXzpFKqT3Tk7JOE38i1V
- oWMY8EX8wzPRM7F5oWjhRdf7GiXkpmKdPCXh2XvAjlTLddsY/cxC5YEWAelycQgV8TJHGcisIv1
- JMHesk5yf94AN9La2KrbU+jLWQdOqdlaAFy/E1Efi6cBA==
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id f4aff71d7cd77d39;
-	Fri, 13 Nov 2026 13:31:13 +0000
-X-Mizu-Trace-ID: f4aff71d7cd77d39
-X-Migadu-Flow: FLOW_OUT
-Date: Fri, 13 Nov 2026 21:31:03 +0800
-From: Weijie Yuan <kernel@wyuan.org>
-To: linux-doc@vger.kernel.org
-Cc: Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Chen-Yu Yeh <chenyou910331@gmail.com>, Weijie Yuan <wy@wyuan.org>
-Subject: What's cooking in Chinese docs (Nov 2026, #04)
-Message-ID: <avcRFzlQQTOra-fr@wyuan.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=iYprxckR
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3ac8f449d1bso764952a91.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 05:49:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794577767; x=1795182567; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3v73r32eIAJAgWPi1LsXT3feGTevyTVBk7sdUb/TcA8=;
+        b=iYprxckRt6x0jveQ7KIO6R+oa6tFiYQfSlMcbZeYNkZElf1SB6bHrK9uNemcL5oERW
+         JhBhmjD7LEkzuwclSSGtFi8rLnFij9YqELQAndFPhuWI9gCQC10TQDtD8DoiOnpSH0j2
+         HVjFKRqbxI13gzT/MYxeD/jL8356LwhFULpVEx6CDY8d5wA1hfQQpOq6O4L8pqpiDPp6
+         HbI63zWl1Ozdh3NXXVXkDOnJO/DgRq1C2QmRF0R3mwzq5LUSDPowEpJb4meLFazbRWGf
+         Ez8ljTE+47qpn1tkWgbwYUJo1cThf1QiMHn3kI1ljYZOpvksMa5d85Mf4VwYBml1Ckrq
+         a5Gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794577767; x=1795182567;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3v73r32eIAJAgWPi1LsXT3feGTevyTVBk7sdUb/TcA8=;
+        b=iWI1d5ZDiqsDobKD7RG6H8C2WmW3/+XMa4MqMaUNE9KhWazkx+T0F9zF7BQrHc4c+k
+         EOC070pmKgdL6Kgo9tHE8OOYlODOVpIlKDb8mxT7CkE+grqIxVzlu328DSP/DMr0m7fg
+         +M00BuJp6/LQ9aOG4NpG0DXAu41X2nfceRcxH3njERW339o62anOxcsjZWRULoXfB3GG
+         ePOIaGH6wu6UQVKqBNBQUlQ8oijJmul4bzMUBrx9ctz1NktGD0VGMr3zYX2gkxQu3T2F
+         IpaHyjzLh6zF/NbcRCF57FPh82UzmJ4xM7mE/McqfQb6wlPx+BqGTLZIMqha5tp/JxL9
+         Yokg==
+X-Forwarded-Encrypted: i=1; AL+hErGdZ8GcKrXuLsScCvfi/oh53cAUgd29NSMupD2kdTdW8WEYYIBmcSantvOBsT1bVOrxoVK4fdL4tIQ=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/XLlZpTaKzLrUQzGgwCsPlt8U1Rhvoa6+fqe0X1LshcvT5SCee
+	4leGgNKsJYTpaefXEFRmt+q2qpduSWnzPxdq3TsBqBvZ3ywKbJv1aEzdOZKxyvBCpkRbpBWH+zb
+	FbSx2jw==
+X-Received: from pga12.prod.google.com ([2002:a05:6a02:4f8c:b0:cca:d82:9104])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:17c8:b0:3ac:7842:bd50
+ with SMTP id 98e67ed59e1d1-3b1b0a428admr2241920a91.15.1794577767011; Fri, 13
+ Nov 2026 05:49:27 -0800 (PST)
+Date: Fri, 13 Nov 2026 05:46:40 -0800
+In-Reply-To: <20260731150846.1728164-1-dmaluka@chromium.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,282 +78,41 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Here are the topics for Chinese docs waiting to be merged.
-
-Copies of the source code to Chinese documentation development tree live
-in here:
-
-    git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
-    https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs/linux.git
-
-Mirrors:
-
-    https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
-    https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
-
-Please report any mirror instability to linux-doc@vger.kernel.org
-
--------------------------------------------------------------------
-[Cooking]
-
-* Yikun Wei 2026-11-13
-  [PATCH] docs/zh_CN: Add deprecated translation
-
-  Needs review.
-  source: <20261113122844.24838-1-YikunWei@126.com>
-
-
-* Yikun Wei 2026-11-13
-  [PATCH] docs/zh_CN: Add contribution maturity model translation
-
-  Needs review.
-  source: <20261113112200.16790-1-YikunWei@126.com>
-
-
-* Xiongwei Song 2026-11-13
-  [PATCH 0/2] Add RCU docs Chinese translation
-  [PATCH 1/2] docs/zh_CN: Add RCU/index.rst translation
-  [PATCH 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese translation
-
-  Needs review.
-  source: <20261113013054.5662-1-xiongwei.song@linux.dev>
-
-
-* Weijie Yuan 2026-11-09
-  [PATCH v3 0/2] docs/zh_CN: update maintainer/configure-git.rst
-  [PATCH v3 1/2] docs/zh_CN: sync maintainer/configure-git with upstream
-  [PATCH v3 2/2] docs/zh_CN: improve maintainer/pull-requests translation
-
-  Needs review.
-  source: <20261109-configure-git-v3-0-d7807bb8e8c7@wyuan.org>
-
-
-* Dongliang Mu 2026-11-09
-  [PATCH v2 0/4] docs/zh_CN: translate AI-related process guides
-  [PATCH v2 1/4] docs/zh_CN: translate coding-assistants.rst
-  [PATCH v2 2/4] docs/zh_CN: translate generated-content.rst
-  [PATCH v2 3/4] docs/zh_CN: translate threat-model.rst
-  [PATCH v2 4/4] docs/zh_CN: link AI guide to translated documents
-
-  Reviewed by Weijie.
-  source: <cover.1794197977.git.dzm91@hust.edu.cn>
-
-
-* Dongliang Mu 2026-11-08
-  [PATCH] docs/zh_CN: add clang-format guide translation
-
-  Needs review.
-  source: <20261108070826.2000511-1-dzm91@hust.edu.cn>
-
-
-* Chen-Yu Yeh 2026-11-06
-  [PATCH 00/13] docs/zh_TW: process: add translations of 13 documents
-  [PATCH 01/13] docs/zh_TW: process: add researcher-guidelines.rst translation
-  [PATCH 02/13] docs/zh_TW: process: add cve.rst translation
-  [PATCH 03/13] docs/zh_TW: process: add applying-patches.rst translation
-  [PATCH 04/13] docs/zh_TW: process: add maintainer-pgp-guide.rst translation
-  [PATCH 05/13] docs/zh_TW: process: add changes.rst translation
-  [PATCH 06/13] docs/zh_TW: process: add handling-regressions.rst translation
-  [PATCH 07/13] docs/zh_TW: process: add deprecated.rst translation
-  [PATCH 08/13] docs/zh_TW: process: add kernel-docs.rst translation
-  [PATCH 09/13] docs/zh_TW: process: add maintainer-handbooks.rst translation
-  [PATCH 10/13] docs/zh_TW: process: add contribution-maturity-model.rst translation
-  [PATCH 11/13] docs/zh_TW: process: add conclave.rst translation
-  [PATCH 12/13] docs/zh_TW: process: add threat-model.rst translation
-  [PATCH 13/13] docs/zh_TW: process: add maintainers.rst translation
-
-  Expecting a reroll.
-  cf. <3bbce43f-476c-4a21-8da3-2be98a696e9c@hust.edu.cn>
-  source: <20261106113545.708896-1-chenyou910331@gmail.com>
-
-
-* Chen-Yu Yeh 2026-11-06
-  [PATCH 00/25] docs/zh_TW: process: resync translations with the English originals
-  [PATCH 01/25] docs/zh_TW: process: sync 1.Intro.rst with the English original
-  [PATCH 02/25] docs/zh_TW: process: sync 2.Process.rst with the English original
-  [PATCH 03/25] docs/zh_TW: process: sync 4.Coding.rst with the English original
-  [PATCH 04/25] docs/zh_TW: process: sync 5.Posting.rst with the English original
-  [PATCH 05/25] docs/zh_TW: process: sync 6.Followthrough.rst with the English original
-  [PATCH 06/25] docs/zh_TW: process: sync 7.AdvancedTopics.rst with the English original
-  [PATCH 07/25] docs/zh_TW: process: sync 8.Conclusion.rst with the English original
-  [PATCH 08/25] docs/zh_TW: process: sync code-of-conduct-interpretation.rst with the English original
-  [PATCH 09/25] docs/zh_TW: process: sync code-of-conduct.rst with the English original
-  [PATCH 10/25] docs/zh_TW: process: sync gdb-kernel-debugging.rst with the English original
-  [PATCH 11/25] docs/zh_TW: process: sync development-process.rst with the English original
-  [PATCH 12/25] docs/zh_TW: process: sync email-clients.rst with the English original
-  [PATCH 13/25] docs/zh_TW: process: sync kernel-driver-statement.rst with the English original
-  [PATCH 14/25] docs/zh_TW: process: sync kernel-enforcement-statement.rst with the English original
-  [PATCH 15/25] docs/zh_TW: process: sync management-style.rst with the English original
-  [PATCH 16/25] docs/zh_TW: process: sync security-bugs.rst with the English original
-  [PATCH 17/25] docs/zh_TW: process: sync volatile-considered-harmful.rst with the English original
-  [PATCH 18/25] docs/zh_TW: process: sync 3.Early-stage.rst with the English original
-  [PATCH 19/25] docs/zh_TW: process: sync coding-style.rst with the English original
-  [PATCH 20/25] docs/zh_TW: process: sync embargoed-hardware-issues.rst with the English original
-  [PATCH 21/25] docs/zh_TW: process: sync howto.rst with the English original
-  [PATCH 22/25] docs/zh_TW: process: sync license-rules.rst with the English original
-  [PATCH 23/25] docs/zh_TW: process: sync stable-api-nonsense.rst with the English original
-  [PATCH 24/25] docs/zh_TW: process: sync submit-checklist.rst with the English original
-  [PATCH 25/25] docs/zh_TW: process: sync submitting-patches.rst with the English original
-
-  Waiting for response.
-  source: <20261106113142.706783-1-chenyou910331@gmail.com>
-
-
-* Dongliang Mu 2026-10-29
-  [PATCH v3 0/9] docs/zh_CN: align translation paths and update guides
-  [PATCH v3 1/9] docs/zh_CN: update admin-guide/index.rst translation
-  [PATCH v3 2/9] docs/zh_CN: update admin-guide/README.rst translation
-  [PATCH v3 3/9] docs/zh_CN: add media administrator guide translations
-  [PATCH v3 4/9] docs/zh_CN: reorganize process debugging guides
-  [PATCH v3 5/9] docs/zh_CN: update magic-number to match upstream
-  [PATCH v3 6/9] docs/zh_CN: reorganize media driver API translations
-  [PATCH v3 7/9] docs/zh_CN: move GFS2 translations into filesystems/gfs2
-  [PATCH v3 8/9] docs/zh_CN: update networking/xfrm/xfrm_proc.rst translation
-  [PATCH v3 9/9] docs/zh_CN: remove stale Original fields from SCSI and IPE translations
-
-  Reviewed by Yanteng.
-  source: <20261029124429.294868-1-dzm91@hust.edu.cn>
-
-
-* Jiandong Qiu 2026-10-29
-  [PATCH v4 0/2] docs/zh_CN: update translation of doc-guide/sphinx.rst
-  [PATCH v4 1/2] docs/zh_CN: add process/changes.rst translation
-  [PATCH v4 2/2] docs/zh_CN: update sphinx.rst translation
-
-  Reviewed by Dongliang.
-  source: <cover.1793279600.git.qiujiandong1998@gmail.com>
-
-
-* Jiaming Ouyang 2026-10-28
-  [PATCH v4] docs/zh_CN: add Chinese translation for usb/ohci.rst
-
-  Expecting a reroll.
-  cf. <fcabf691-cca4-477d-b387-e50467a41408@hust.edu.cn>
-  source: <20261028072643.32250-1-jiamingouyang13@gmail.com>
-
-
-* Yao Yiqi 2026-10-22
-  [PATCH] docs/zh_CN: fix typos in admin-guide/README
-
-  Reviewed by Dongliang.
-  source: <20261022135949.361566-1-yyaqia@gmail.com>
-
-
-* Weijie Yuan 2026-10-21
-  [PATCH v3 0/2] docs/zh_CN: cleanup headers
-  [PATCH v3 1/2] docs/zh_CN: remove translator-related headers
-  [PATCH v3 2/2] docs/zh_CN: remove Translator field in header template
-
-  Partly reviewed by Dongliang with an extra question to Jon.
-  source: <cover.1792569583.git.wy@wyuan.org>
-
-
-* Yikun Wei 2026-10-20
-  [PATCH v3 0/5] docs/zh_CN: add fault-injection Chinese translations
-  [PATCH v3 1/5] docs/zh_CN: add fault-injection index Chinese translation
-  [PATCH v3 2/5] docs/zh_CN: add fault-injection Chinese translation
-  [PATCH v3 3/5] docs/zh_CN: add notifier-error-inject Chinese translation
-  [PATCH v3 4/5] docs/zh_CN: add nvme-fault-injection Chinese translation
-  [PATCH v3 5/5] docs/zh_CN: add provoke-crashes
-
-  Expecting a reroll. (thread broken)
-  cf. <6baba360-6ee2-4195-91e4-d22c97d3c146@hust.edu.cn>
-  source: <SI2PPFCA6543649A166AABA54D11A931F7DDD672@SI2PPFCA6543649.apcprd04.prod.outlook.com>
-
-
-* Weijie Yuan 2026-08-23
-  [PATCH v2 0/5] Update maintainer-pgp-guide.rst Chinese translation
-  [PATCH v2 1/5] docs/zh_CN: update maintainer-pgp-guide translation
-  [PATCH v2 2/5] docs/zh_CN: clarify free Nitrokey requirements
-  [PATCH v2 3/5] docs/zh_CN: update maintainer-pgp-guide kernel.org link
-  [PATCH v2 4/5] docs/zh_CN: add kernel.org trust repository reference
-  [PATCH v2 5/5] docs/zh_CN: remove empty proofreader field from maintainer PGP guide
-
-  Reviewed by Dongliang.
-  source: <20260823-maintainer-pgp-guide-v2-0-bea33b2ece54@wyuan.org>
-
-
-* Yan Zhu 2026-06-12
-  [PATCH 00/10] <cover.1781105672.git.zhuyan2015@qq.com>
-   # Msgid changed
-  [PATCH 00/10] docs/zh_CN: add LSM admin-guide Chinese translation
-                https://lore.kernel.org/linux-doc/tencent_001080DF135CEE2CD1B260EFA08E3CC71A09@qq.com/
-  [PATCH 01/10] docs/zh_CN: add LSM/index Chinese translation
-  [PATCH 02/10] docs/zh_CN: add LSM/apparmor Chinese translation
-  [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
-  [PATCH 04/10] docs/zh_CN: add LSM/SELinux Chinese translation
-  [PATCH 05/10] docs/zh_CN: add LSM/Smack Chinese translation
-  [PATCH 06/10] docs/zh_CN: add LSM/tomoyo Chinese translation
-  [PATCH 07/10] docs/zh_CN: add LSM/Yama Chinese translation
-  [PATCH 08/10] docs/zh_CN: add LSM/SafeSetID Chinese translation
-  [PATCH 09/10] docs/zh_CN: add LSM/ipe Chinese translation
-  [PATCH 10/10] docs/zh_CN: add LSM/landlock Chinese translation
-
-  Waiting for response.
-  cf. <895533d5-99d7-406e-acc2-1f8659075f91@hust.edu.cn>
-  cf. <440378d6-d72c-4edd-9159-582df02b49e6@hust.edu.cn>
-  cf. <e708b270-3adc-4c7e-a48d-9804faed6c44@hust.edu.cn>
-  source: <tencent_7080BF6BB8F05936649DDC091FFD8C45210A@qq.com>
-
--------------------------------------------------------------------
-[Queuing] #zh_TW
-
-Queuing for 7.5 merge window.
-Currently here: https://github.com/kernel-zh/linux-zh_TW.git docs-next
-If anyone has any objections, please let us know.
-
-* Weijie Yuan 2026-10-30
-  [PATCH v2] docs/zh_TW: drop unused enforcement statement label
-
-  Will be queued after Chen-Yu's two new series land.
-  source: <auQwssHcQiM09SDd@wyuan.org>
-
-
-* Chen-Yu Yeh 2026-09-29
-  [PATCH 0/3] docs/zh_TW: mark translations that are not kept in sync
-  [PATCH 1/3] docs/zh_TW: add a notice for translations not kept in sync
-  [PATCH 2/3] docs/zh_TW: mark translations outside the maintained set
-  [PATCH 3/3] docs/zh_TW: link filesystems/ and cpu-freq/ from the index
-
-  Acked by Weijie.
-  source: <20260929131142.266819-1-chenyou910331@gmail.com>
-
-
-* Chen-Yu Yeh 2026-09-29
-  [PATCH] docs/zh_TW: remove the unreachable plain-text translations Chen-Yu Yeh
-
-  Acked by Weijie.
-  source: <20260929131109.266535-1-chenyou910331@gmail.com>
-
-
-* Chen-Yu Yeh 2026-09-29
-  [PATCH 0/4] docs/zh_TW: relocate translations to follow the English layout
-  [PATCH 1/4] docs/zh_TW: move security-bugs to process/
-  [PATCH 2/4] docs/zh_TW: move magic-number to staging/
-  [PATCH 3/4] docs/zh_TW: move gdb-kernel-debugging to process/debugging/
-  [PATCH 4/4] docs/zh_TW: add missing :Original: fields
-
-  Reviewed by Weijie.
-  source: <20260929131020.266120-1-chenyou910331@gmail.com>
-
-
-* Chen-Yu Yeh 2026-09-29
-  [PATCH v2 0/7] docs/zh_TW: remove duplicated maintainer contact information
-  [PATCH v2 1/7] docs/zh_TW: process: remove maintainer contact information
-  [PATCH v2 2/7] docs/zh_TW: admin-guide: remove maintainer contact information
-  [PATCH v2 3/7] docs/zh_TW: arch: remove maintainer contact information
-  [PATCH v2 4/7] docs/zh_TW: dev-tools: remove maintainer contact information
-  [PATCH v2 5/7] docs/zh_TW: filesystems: remove maintainer contact information
-  [PATCH v2 6/7] docs/zh_TW: cpu-freq: remove maintainer contact information
-  [PATCH v2 7/7] docs/zh_TW: remove the last maintainer contact references
-
-  Acked by Weijie.
-  source: <20260929115956.229610-1-chenyou910331@gmail.com>
-
-PS. The copy of this report is here now:
-    https://github.com/kernel-zh/linux-zh_TW.git meta
+Mime-Version: 1.0
+References: <20260731150846.1728164-1-dmaluka@chromium.org>
+X-Mailer: git-send-email 2.56.1.703.gf848ed807c-goog
+Message-ID: <179441846682.83214.17243719876978660073.b4-ty@b4>
+Subject: Re: [PATCH v2 0/4] KVM: x86: Fix off-by-one in max_vcpu_ids bounds checks
+From: Sean Christopherson <seanjc@google.com>
+To: Sean Christopherson <seanjc@google.com>, Dmytro Maluka <dmaluka@chromium.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Mathias Krause <minipli@grsecurity.net>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Vineeth Pillai <vineeth@bitbyteword.org>, Chuanxiao Dong <chuanxiao.dong@intel.com>, 
+	Aashish Sharma <aashish@aashishsharma.net>, Grzegorz Jaszczyk <jaszczyk@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+
+On Fri, 31 Jul 2026 15:08:41 +0000, Dmytro Maluka wrote:
+> max_vcpu_ids and KVM_CAP_MAX_VCPU_ID are exclusive, i.e. the maximum
+> allowed vcpu_id value is max_vcpu_ids minus one, not max_vcpu_ids.
+> 
+> Fix the sanity checks for KVM_SET_BOOT_CPU_ID and KVM_CAP_MAX_VCPU_ID
+> and the selftests for them (added in series [1]) to fail when
+> bsp_vcpu_id is incorrectly set to max_vcpu_ids, not to a value below
+> max_vcpu_ids.
+> 
+> [...]
+
+Applied to kvm-x86 misc, thanks!
+
+[1/4] KVM: selftests: Fix treating KVM_CAP_MAX_VCPU_ID as inclusive
+      https://github.com/kvm-x86/linux/commit/9b04ebe5c085
+[2/4] KVM: x86: Fix off-by-one in max_vcpu_ids bounds checks
+      https://github.com/kvm-x86/linux/commit/c36d436e7335
+[3/4] KVM: selftests: Improve bsp_vcpu_id and max_vcpu_ids out-of-bound tests
+      https://github.com/kvm-x86/linux/commit/201aaeb1df8f
+[4/4] Documentation: KVM: Clarify that KVM_CAP_MAX_VCPU_ID is exclusive
+      https://github.com/kvm-x86/linux/commit/ea6d489ae6c2
+
+--
+https://github.com/kvm-x86/linux/tree/next
