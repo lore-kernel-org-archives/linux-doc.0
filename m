@@ -1,45 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794602085;
-	b=ab/WM84BTZ4U/9+LCCXwoGR7ts0YZaG8pMOyTpflwdHCsNT+8pRdqPS29GxQAiRYXTaD
-	 8Sa8Z6TyL7IRWSSvilSMcWNRRWfuVHxoPvLNZ4keJxKzDFBYLpxaNzUPzNRlnzSt5oNnm
-	 TI+zOPZ/nUF/s29c79L6vuOKg+2AsBx8aFqAYpFaP5+7UXEtXVu9SK2vHPJamYhHfneDo
-	 aaYBS2W/i3Jle5iIIpEY1fxYnRrZLDAS9e5T4DS46hS08wlNVXUzkNEmuhe1hKL8+IVtJ
-	 Ig8GfaXBYb1V3xaq9rnnSOPJ4vQfC5CqQ6jJwsk1d5HD0XJSBupJ0IOzcIcp923vOFA==
+	t=1794603329;
+	b=tmuPngmZIiaaLkyHOl3CrvYCMTjVD6Gc0k3qrydEZ8dngWGv6gCmWzQPWeUonWfZM1lm
+	 KZv8QahmWiPEa6QsZpJiAIO1zt3bjhYLndkGGFu5fsbQ/gaNzolfaDFg7bNfoWc3LyDAr
+	 iO3BT5SUmrsuG6GB/7sPgStXNzjdc8ChAzvJqXdNCcB75CxvrGeq8PNb4z0weYoogimQ9
+	 Y5gZQHSC0X0vH5/oh53pM8IFwx3mw18w4NVjyBLR6ZHYN2/lk7q/nLFqSdQV5U2IIdnzJ
+	 ERVjy7L/t5Jp6u5d2gUTvHRDJP0cqXLEoRm/P+lwTnhgLnJwUXSQ0a6owKlx5u57x7A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794602085;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794603329;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
 	 In-Reply-To;
-	bh=chagpPiOJxprpG/hdf86c1muJoBTZxJZoVzH/xjU+ZQ=;
-	b=O+2kzUhFGqASDrv8du45M1ftjzYSQblmJHSfufW3gz4ykTqctqzleq8MpuSZqVAvv+Oh
-	 XAAbWsyY3yk3zAvas6qw1uhxpmNbeL86ECGoh0lWhik04rwMFBS0KNrWNZBo3eX3jV3vl
-	 G1j8GO2PV7qvdMMhoIofxBwMzgzGNOUVD6Tzzs/L0nigv2FByeQT3jGhZy7lUzoiR+hMj
-	 f+BmMQmF7MdYVjJkKw/YqqCmky6RrJnGq9YQMMIByURpTYU8nMihGn66dl28aFT6WkZbt
-	 3zFyMfvEkJfeG1h6t/x493aDrGBbc4lvM7KFzoHAQEuU/fVgqqmg2SnuA0uz+wQmjBA==
+	bh=z8+Ts67/O281nCBcV7IfvsBb3ZpvM9se/ske5htY3Lw=;
+	b=kO8peqzYlCbqo4o8/Kvf4AqySuAgp66BI6gHrp5RW50qkiIZQco4HFj+4DS4dXOAfRPP
+	 VSz9aP6MVHpzcouwET13oW+gqpnRZ6hga+gYsSB4KiS3p9iGE8R5+SK0LxbalTcAYVdli
+	 OMRWUFLAUd5pPZSMcjYnqFS9CJeSkQygF17orICVCJrla/A9q5gSUn/n6v6qLQZb1GSZd
+	 w63nkPaMId2WLi5qDTuZ5oWU55zrZCihQ6rSNhJjVBNyjB5Tpi0NkO1I+lL2XNCxIhDSb
+	 fjpxMfPxXVTD5Ahkk0XfSDHoUEx/L87v/dipJEtJqHBT4m3fo4o5jhgM8rcS1Hq20Lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iHGOBo3W;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=OG7SCUsF;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA285606A339;
-	Fri, 13 Nov 2026 20:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C1AC606A333;
+	Fri, 13 Nov 2026 20:55:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1C1AC606A333
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iHGOBo3W
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0034A1F000C4;
-	Fri, 13 Nov 2026 20:34:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794602084;
-	bh=chagpPiOJxprpG/hdf86c1muJoBTZxJZoVzH/xjU+ZQ=;
-	h=Date:Cc:To:From:Subject:References:In-Reply-To;
-	b=iHGOBo3WPjRpMs838TxLT+hWWAHjljZd0PbM6Xf+MYGsCKozw+kX3KMTqnuXmXfOw
-	 nwP/85NARDRoVzjTo9RKGPhem7hitaJCHib2MnSNh3FkmHw1gaL1wWAqsijSJrZJou
-	 7xZKyDJNQzPSEQROIc3k3NWCdnIpt4bd9sPNrxvpOYZYQF+iZhKtE/rPVWI7oSDW5K
-	 gcBbnh630gh3YSbmB+0iKdlMuccPzviptphTPe4WdOobblJEANSqifzFox5CRmqTLj
-	 lmVfGI+Etaa/VuNazlF1vAjFE2ka4JGp2blVKGIEELiF7ihDujG+cw7FGgvsJL7iw1
-	 DgUpmTroewJUQ==
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=OG7SCUsF
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=z8+Ts67/O281nCBcV7IfvsBb3ZpvM9se/ske5htY3Lw=; b=OG7SCUsFRQ9UlsA0Km34RySyFV
+	5KNQqGF6UqJlEb07jcYP4+uRPRt2IJeoJeCuZk0SV3JCvnYraNdRVPDe+L/ab4AcmH+EQBWznYFLR
+	gNqrSZ4+aFNZZi3XJU+XriBljy6JpeqOQEKAjPrcTuu5ohSGBC34/6PVwWoJwTOXbxTA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xRyIj-00GMY9-4S; Fri, 13 Nov 2026 21:55:13 +0100
+Date: Fri, 13 Nov 2026 21:55:13 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: James Hilliard <james.hilliard1@gmail.com>
+Cc: Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v4 1/3] ethtool: add PHY receive frame and byte
+ totals
+Message-ID: <6dd40eca-5c17-47f5-893d-0d106f28ea06@lunn.ch>
+References: <20261113-submit-acx00-phy-stats-v1-v4-0-986b8a4a1871@gmail.com>
+ <20261113-submit-acx00-phy-stats-v1-v4-1-986b8a4a1871@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -48,95 +70,36 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 13 Nov 2026 21:34:31 +0100
-Message-Id: <DMUDCA92VZHT.2SU4452MMGWL@kernel.org>
-Cc: <jhubbard@nvidia.com>, <acourbot@nvidia.com>, <aliceryhl@google.com>,
- <ttabi@nvidia.com>, <gary@garyguo.net>, <nova-gpu@lists.linux.dev>,
- <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-To: "Vladislav Zaharov" <vladazaharova2018@gmail.com>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH v7 3/4] gpu: nova-core: gsp: retain the GSP-RM log
- buffers after unbind
-References: <20261113075317.934264-1-vladazaharova2018@gmail.com>
- <20261113075317.934264-4-vladazaharova2018@gmail.com>
-In-Reply-To: <20261113075317.934264-4-vladazaharova2018@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113-submit-acx00-phy-stats-v1-v4-1-986b8a4a1871@gmail.com>
 
-On Fri Nov 13, 2026 at 8:53 AM CET, Vladislav Zaharov wrote:
-> +    /// Returns the copies of the GSP-RM log buffers of GPUs that are no=
- longer bound.
-> +    pub(crate) fn retained_logs(&self) -> &Mutex<RetainedLogs> {
-> +        &self.retained_logs
-> +    }
+> Correct the documented group name to
+> phydev, matching the existing name exported by the kernel.
 
-NIT: Should be #[inline].
+> +++ b/Documentation/networking/ethtool-netlink.rst
+> @@ -1665,7 +1665,7 @@ the ``ETHTOOL_A_STATS_GROUPS`` bitset. Currently defined values are:
+>   ETHTOOL_STATS_ETH_PHY  eth-phy  Basic IEEE 802.3 PHY statistics (30.3.2.1.*)
+>   ETHTOOL_STATS_ETH_CTRL eth-ctrl Basic IEEE 802.3 MAC Ctrl statistics (30.3.3.*)
+>   ETHTOOL_STATS_RMON     rmon     RMON (RFC 2819) statistics
+> - ETHTOOL_STATS_PHY      phy      Additional PHY statistics, not defined by IEEE
+> + ETHTOOL_STATS_PHY      phydev   Additional PHY statistics, not defined by IEEE
+>   ====================== ======== ===============================================
+>  
+>  Each group should have a corresponding ``ETHTOOL_A_STATS_GRP`` in the reply.
 
-> +    /// Exposes copies of the buffers in their place, if `gsp_keep_logs`=
- is set.
-> +    fn retain(&self) -> Result {
-> +        if !crate::module_parameters::gsp_keep_logs.value() || !cfg!(CON=
-FIG_DEBUG_FS) {
-> +            return Ok(());
-> +        }
+This should be a patch of its own. That would of forced you to write a
+useful commit message, and i would not of needed to ask why it
+changed.
 
-This misses debugfs being disabled through the kernel command line with
-debugfs=3Doff.
+You want lots of small patches, with good commit messages, which are
+obviously correct.
 
-Usually, drivers should treat debugfs availability as opaque. The Rust
-abstraction keeps its backing data alive regardless of whether the entries =
-were
-created.
+I suggest you spend some time reviewing other developers patches. See
+it from the other side.
 
-Here, the copies serve no purpose without debugfs, so checking availability
-would have a concrete benefit. However, I don't think this case warrants
-exposing debugfs::initialized(), which could be abused easily and encourage
-unnecessary checks elsewhere.
+    Andrew
 
-Let's check only gsp_keep_logs.
-
-> +
-> +        let logs =3D RetainedLogBuffers {
-> +            name: CString::try_from_fmt(fmt!("{}", self.dev.name()))?,
-> +            loginit: self.loginit.snapshot()?,
-> +            logintr: self.logintr.snapshot()?,
-> +            logrm: self.logrm.snapshot()?,
-> +        };
-> +
-> +        if logs.loginit.is_empty() && logs.logintr.is_empty() && logs.lo=
-grm.is_empty() {
-> +            return Ok(());
-> +        }
-> +
-> +        // Allocate before an earlier copy is dropped, so that a failure=
- leaves that copy in place.
-> +        let scope =3D KBox::<debugfs::Scope<RetainedLogBuffers>>::new_un=
-init(GFP_KERNEL)?;
-> +        let data =3D NovaCoreModule::debugfs_data(self.dev);
-> +        let root =3D data.root();
-> +        let mut retained =3D data.retained_logs().lock();
-> +        retained.0.reserve(1, GFP_KERNEL)?;
-
-This shouldn't be necessary.
-
-> +
-> +        retained.remove(self.dev.name());
-> +
-> +        let scope =3D scope.write_pin_init(root.scope(logs, self.dev.nam=
-e(), |logs, dir| {
-> +            if !logs.loginit.is_empty() {
-> +                dir.read_binary_file(c"loginit", &logs.loginit);
-> +            }
-> +            if !logs.logintr.is_empty() {
-> +                dir.read_binary_file(c"logintr", &logs.logintr);
-> +            }
-> +            if !logs.logrm.is_empty() {
-> +                dir.read_binary_file(c"logrm", &logs.logrm);
-> +            }
-> +        }))?;
-> +
-> +        retained.0.push(scope, GFP_KERNEL)?;
-
-Please add a forwarding method for this.
+---
+pw-bot: cr
