@@ -1,47 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794567138;
-	b=b+psvOsEPBhJPXaIrrXAhVe0+VFwICiJDHC32wagZtI2lLFRSnRVHxkPxnvgf6ZGseGU
-	 Je5Qdv4x/Fub3tL0/LidhY8S6un6w7cW+CuY+0Hy7Jins2N4P7UkGsP7Qkd0NHEm7vcb5
-	 kwQTJko4oH9RxNSNGGjivv2umXU+c/QRQyhO/FbpCBC/9uePthAOVDWjvS1ErovN+ktHv
-	 At2dBDDT4knX3AVPtZwfBETxB3Es4GXEpm1IslksL0afNKalhJS/lX2AvrrtgREG94H6Q
-	 cLdFCG35goCDJymIyDnk1/uD+RGUzvfLub7SD+2DRXIL07/9Kq09kBLhlOQDfvKuiAw==
+	t=1794567325;
+	b=udQLGVkoNCcmqs4czpYT07sG6oHVjTU802XZh/V5SBTRLAF6bkOlAd+qrkK6N91jL5XH
+	 jMmzmA3kCXAYCZ8eRLftwqkup6VKHXPeQaNBXJDnm62Jb+mRJpgk3cqsrF9V51Eywvb2d
+	 MR1TJ8jF753TqXtWL8NshyWfbCbWbV4RU4L+GBFyBNV8zp/x2rr5k918qrfyZMNxpj7w+
+	 xCwzsJj0RGTrVOBlEivaXo/smhw74rW+r9BFlN75zkUreqri6JS/i5ljeC0Zr9OHfKicm
+	 CNOE2AvqfucPlBgQ37UsbvhXFXk7NevgVUoXpkkENt+ItPNUwqsZL8pzsY0wrDP6iZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794567138;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:References:From:Cc:Autocrypt:Organization:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=S6FBjO5gc3xn7ht6Zu9lU/nDDIjHwR2pe7on+zxgXbo=;
-	b=MPXFeKQLaJJSLKA8FLdKOJavtHEf1YSemawe9+1qVhqZO19fpPQg+mPsEUiQE4xakkvr
-	 yxpQ1T2rubOq3uih7dhaQXN/DqL2uQK+pItI9XmVfPxZG3dPejNU8EgX8hz12s1UUib28
-	 Xaxh6gp1YYAQYSjuDEC/W1nS0DBeKiyu23W1cr/Ei1Fc0pSk4jHwMLPkkqMAf1z8vtWO3
-	 dQMPXFCDjSYQtHmE9v2EVkgAar3waiIBRod0eR2kqrei+kPblo7/roz3Janexj3VeDrAi
-	 6DYSb8V/ErSNuE2ZLmExtVlsrj0uWkCsY/9rDL1UxJ78XUzt6qBdyRZr3rqWbGYXJUg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794567325;
+	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=dVD2sgjeIdy2wIdfd/QmoCMe4rJiJI4y+gjhCqqw+84=;
+	b=AfR64Wy6Ov75nnR9tmEi22km366vH9hmxXJW5T/ZTy4KlyiRAgSgKXyzG+4bkRrEteYq
+	 vnL5Dm+wWXgNlFqZn0WfhYf56ITHAFvR30ceuDEDeizV5+It7g/cEWw1TBvAGCkUUJq0h
+	 A9Ka5rv+aTjfEsGVtiZKgJLLgh8OwVK3sfsulIQ+xPLc4fElM7aaN6H3dCMyH7tNWB4Yo
+	 0rn5ZR8/YLDPy7lyW5B8LI1tyWFLKNxOP9eN1/PAysFWwhe6QjcoSnl+ct7fEoBCBiikp
+	 /o94u2y9X/sP9TMOwG/bNaFUqeCdK7Xm0zVKggfXWBWmlicJbr7zGff64FfDpt2xHeg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="LsDfByW/";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linutronix.de;
+	spf=pass smtp.mailfrom=linutronix.de;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=PAZcnNUn;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b="UF6Dopc/";
+	arc=none smtp.remote-ip=193.142.43.55
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C4F1606A33D;
-	Fri, 13 Nov 2026 10:52:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3535606BDA8;
+	Fri, 13 Nov 2026 10:55:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A3535606BDA8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LsDfByW/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 010C71F000C4;
-	Fri, 13 Nov 2026 10:52:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794567137;
-	bh=S6FBjO5gc3xn7ht6Zu9lU/nDDIjHwR2pe7on+zxgXbo=;
-	h=Date:Subject:To:References:From:Cc:In-Reply-To;
-	b=LsDfByW/6XkSMBcdvn7j1+BxQm/Eo8jJQkVcGqcCe3ms2ZVXI7EOrgn3gUPbqsNpc
-	 if2WCcMgw0tINi1wLlyaYQFkAkWBi/pOA0wp137yAQ1S+bNPkJWLJZFGF2Vj3GYLxi
-	 gurs/cZC70OATQBpxsu7oasdDe47Z9ZwPEgQxqkTlN71r0YvHgcuOJwW7Xek9UdmHw
-	 ssVt1630MgMRDdjQ9u1+kLRLjUJ59MY+f1hiNDDRAMOlH4/EziZrjsaWmXVKjtvXlA
-	 rcURG4c+cfr7/sl9SzvzIO2celWZ3kdT7eB7s1yURl1OS5F6iHWU6Bhs7NkIhNrdqa
-	 eQSZQa5stsH/g==
-Message-ID: <737e3c57-9aad-4081-ac75-f79cb2084349@kernel.org>
-Date: Fri, 13 Nov 2026 11:52:05 +0100
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=PAZcnNUn;
+	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=UF6Dopc/
+Date: Fri, 13 Nov 2026 11:55:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1794567323;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dVD2sgjeIdy2wIdfd/QmoCMe4rJiJI4y+gjhCqqw+84=;
+	b=PAZcnNUn9q2dQQtHfk6NotT8Q5KEWCdd6Ef64+esc8uiqJvLMtL3QctPC6ujTqe3Xn5kYN
+	YPtsqN1L0wIDpFlTHU9t2x6PY2X837x5kxuU7oW1QzCjfSXDj2UUXL/TIL5IWmmYCJ8DHK
+	+3r2aq2QhEiWWn90EQcwp0RKGR9RRM6GoT7+Zrv/p3PTzp7RxBq+6M1qc9NpbMG+ZJMmfL
+	u3DZX/Fqnz3gUs+OSJ8SHu93bGUbtfAXphCcgthxmQmAtXt1K8Y+E7AjI5Boswdg0Uqveo
+	AAv9/prh4ACCpLsZQHr7kWacKePQDEg2FamoOwUPIS8FyB1Hgfc93x1vbAZjJQ==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1794567323;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dVD2sgjeIdy2wIdfd/QmoCMe4rJiJI4y+gjhCqqw+84=;
+	b=UF6Dopc/ixvr1b8REKTtcZtOFBk/zFRwvYDANMwBDKZCzmat0FDQCbovwqH+QJdOfts/Nn
+	+xI0aamwYVls5TBQ==
+From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: paulmck@kernel.org, rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH RFC 0/7] rcutorture: Rewrite RCU priority-boost test
+ around a CPU-hungry reader
+Message-ID: <20261113105521.spnkuQ7u@linutronix.de>
+References: <20261111213826.2035045-1-joelagnelf@nvidia.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,102 +83,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [PATCH net-next v19 10/15] net: Document PCS subsystem
-Content-Language: fr
-To: Christian Marangi <ansuelsmth@gmail.com>
-References: <20261113003217.197757-1-ansuelsmth@gmail.com>
- <20261113003217.197757-11-ansuelsmth@gmail.com>
-From: Matthieu Baerts <matttbe@kernel.org>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Lorenzo Bianconi <lorenzo@kernel.org>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Philipp Zabel <p.zabel@pengutronix.de>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <ndesaulniers@google.com>, Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- llvm@lists.linux.dev
-Autocrypt: addr=matttbe@kernel.org; keydata=
- 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
- lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
-Organization: NGI0 Core
-In-Reply-To: <20261113003217.197757-11-ansuelsmth@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261111213826.2035045-1-joelagnelf@nvidia.com>
 
-Hi Christian,
+On 2026-11-11 16:38:18 [-0500], Joel Fernandes wrote:
+> Related work: Sebastian's recent series on the DL fair_server taking over RT
+> throttling [1], with its RFC [2], also touches rcutorture's handling of RT
+> throttling. This patch should simplify or make those patches unnecessary.
 
-Thank you for the patch.
+Let me look at this. If this works out then the disabling of the
+fair_server becomes no longer required which would be my favorite, too.
 
-On 13/11/2026 01:32, Christian Marangi wrote:
-> Add extensive documentation of the new PCS subsystem and the fwnode
-> implementation with producer/consumer API.
-> 
-> Also update the sfp-phylink migration guide.
-
-FYI, the Netdev CI seems to have issues with this patch when building
-the documentation, because a new warning is visible:
-
-
-/srv/nipa-builds-contest/testing/wt-doc-build/Documentation/networking/pcs.rst:3:
-WARNING: Duplicate C declaration, also defined at networking/kapi:486.
-
-When executing:
-
-  https://github.com/linux-netdev/nipa/blob/main/contest/tests/build-doc.sh
-
-Logs:
-
-  https://netdev-ctrl.bots.linux.dev/build/doc-build/results/909345/
-
-Cheers,
-Matt
+Sebastian
