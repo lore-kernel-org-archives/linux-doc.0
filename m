@@ -1,102 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794556057;
-	b=mwN2IdDntjmg/u0+6mwneDPhdJlxH6rSnZHOMU5Ra7jk1g7RXZMgLQPEUlsyxOQF6Nf/
-	 BGPZjkYE8ItRHi3vZ8a942U1EmRxTH+NfeQRlOaP3YzFpYFgVFXaDayOuz3k2iQb2pbii
-	 8+yy/HPY0YUCPzymG7hj3MEvj48xhzWkS9J++7HE94KJVOjEuEHtFRe6KI7A+V33hNW72
-	 q2xqsSAQCie+crwEo2l51yVRwwKv8+/ZG+m2sJSrudwxoFJnvrmaa7SA/j3PxHXmPoeRn
-	 rUkXUgBHGGnwomyccPTIUsedA90Q06F7RT0DmO74/FDU8m+WEpQ7oT62UWPTT62vD6g==
+	t=1794556411;
+	b=OHuVquz6IAE+DKC9yQfrQQOeTHtzyJANiwPgWIoo2cdFSw/uHgWCIjfiQc22rAiopGjN
+	 MGTHgFTDuRQdpOH6cXDLikATWc7s8g4Xp3kEJ+yWydMUYum/J842neRjM37CW9MbDerd6
+	 1CMdluSHPOyzMdIa3mDwJpYxvBDLzB5z/k0up9AxSfo5DdRkBXEo6g3a5OSElLRqzXfAA
+	 z5hLLm9ZWzP4Lycm576xzAdZ+hy855FH1NeXbqABrSOUryXarLER5kvucl7fdihRY8za9
+	 wXaQsTsZctIdGOskfpKv9c0fpJSzYxFr2hGxoB1J94yauue9+MWA9/smk9to3vVDOYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794556057;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Flag:
-	 X-Spam-Level:X-Spamd-Result:X-Spam-Score;
-	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
-	b=M3llCi9GMd3ac3e5swbUmKpjW3pQTQRq3pjr2i4JovKW+Fkj4IDIXCsNyo7EFBP0LL2l
-	 NuP1dfwiluX3ghRTbHHyUQBjCSxk1wxp3oX5Mo7A5bYdX5DbLU2Ddf+s4iWwNiOb/NI0n
-	 5AmxoWDxuAFt2ocyZ1HUyCEhpjMik/5LWO76GclyWK/k4h9S7m2wBLuvo2jexsXA2rYCy
-	 sPHzZZquk3xW4zX7pOvrdrnUtmrmiRyIayfzY1cs9HkdOm4zQBfbKrkVYiwIfj7OrPVUF
-	 k6cfpj4VOzjyF2r4QxHblojyvWM7RXsD8Nm8ylc1YJsz5RBdN5Iq7QZGrIfYXOP1k4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794556411;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=6ZUV6tRnKnS42LZFZBhlQJ+eFn/2hJ53H3jt9WrofAQ=;
+	b=F/ih3VIBdkaH3kNcTgWWUoYhVYuaB5HqnrojmEc8l9+q6xLzu5Rxe4oMPbAVzm9LYjAT
+	 Tb1P4CokoiStm4KJ8l2O6Uk939BEgcMO1Cc2DYHE7g/OS4iosPhib7sOhjGNL8rpIMHwp
+	 CoYqPx3v91hSUqH3Knx2bwNRjsXhIV4RqoF1aAlGaii+J6J56mcJzsuLSw6GwkXWUKg15
+	 +C0XoFRdueP0ZqCnvdPahmH1VSW9vuviRtexg5G2Mb/f69HM/W2aBkBzMjZ49Cc/RAaBZ
+	 wxv4eg22UVsRHz0acResmKee/uMI20k/cBfeKX2LVjvbmyG6YFx9pvsboVJ39uEf4gQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VVLCARYy;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AuKjDqxq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RIhze3kx;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ThgE3kc8;
-	arc=none smtp.remote-ip=195.135.223.130
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b="zCIeO/3t";
+	arc=none smtp.remote-ip=209.85.216.42
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22ED2606A31C;
-	Fri, 13 Nov 2026 07:47:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 22ED2606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13172606A321
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:53:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13172606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=VVLCARYy;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=AuKjDqxq;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=RIhze3kx;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=ThgE3kc8
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id C55142209D;
-	Fri, 13 Nov 2026 07:47:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794556055; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
-	b=VVLCARYyo0bCvIfrwYne7U1sTXl5bYA269Hw8idWkxZ5Nhd0n2fiZQ9pboHC1yK8Fqb4C4
-	yGBteyDaNNJeI2VOF+nIsCxCkr6qOBTgK/xiRCebqVWWtwF2hyA8lhXU5UhE1gCOVxu8XY
-	NsVUuCIe25yt22tpUwRwYxsREOeYmJs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794556055;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
-	b=AuKjDqxqLWlUqYZZQsTiQvCrZzelI18U2BIstuTn2g9VCwkZ9sPDnP5/WVZOVMAOF4C8Io
-	XxEuhRAZLZvddkAA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1794556053; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
-	b=RIhze3kxPI60X8X7VYkDCKyK78xXuJqZQ/266urt/Ck9kJXQAZDit61DPwvbeqLr02sWyP
-	NeOyUmAB+OtO+ZY2SndJTN/hSuMKknj2bW2+DiWRrKgw+a41KaV8JEvhho+MsH85uTCoYR
-	lTlremIWvSp9XYpGsctQo2aLBBU6B/4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1794556053;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=MwHir3QZIwd0vNmCrmrnyvlzq75jfEeSONQTA2qpmu4=;
-	b=ThgE3kc8SuI4Yo1gFiiNBYAPIZ2dxebG2HgFF6H6hJfy7lGAvrKBTFPAWAJgVKYHASJbkR
-	GrURjvN2Yf1Fw5AQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id BDD381344A;
-	Fri, 13 Nov 2026 07:47:32 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id mo9QHJTA9mruVgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Fri, 13 Nov 2026 07:47:32 +0000
-Message-ID: <4762a951-5b37-4e7a-8569-f55a4683c912@suse.de>
-Date: Fri, 13 Nov 2026 08:47:32 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=zCIeO/3t
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-3b16896b8ceso279643a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 23:53:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794556410; x=1795161210; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6ZUV6tRnKnS42LZFZBhlQJ+eFn/2hJ53H3jt9WrofAQ=;
+        b=zCIeO/3tWBtEJ+HcJurCtTcNKd+pFHTImuxVmC4c3rsK/s4V0ezP803UdCxi+9FBtH
+         yDtGJQSJ3Uc6T5ka2mtyvtL0ZxUbPBovEO/VpWbbP4yVdz04EvwUJSSqvirH6/1RXgkz
+         gQojcop/mmFaZ0iVSQWu/owve6UTY7ANo0DWhv2puKZzy/aKXDs0iYNnYzmvR1dM6ryW
+         rfaSRCT0AygKXfKpoMa+wqdCeAHeMlTZuUvU3hwNaK2rYldXCHxnW8nasUtJab0d2ER3
+         lpuWvqcmckzcc+eZi1zwMBixsIGtVNhZ/thglUmls2yoB31+eIgY4GUFgcFTeWtU3kUq
+         HL/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794556410; x=1795161210;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6ZUV6tRnKnS42LZFZBhlQJ+eFn/2hJ53H3jt9WrofAQ=;
+        b=KbMHR8m2Q63Dc6AzkV3e9qRo1rVKlvlaa4yJkOaef8ahkmSSaAmOR+Ozw7VNWjl8rO
+         F9Nk1IMtODA/KlILtWm+lDHcUkBhkLiXGZcmqzX7yAg9DW1spLkZAkx1+xYMNjnu9NB2
+         Uot7PSUzDpsCYNwoWwnp1tIwEx8Cd5eK1zMT3QznFmbNicpnG3dXK2mMbMaMIngJsDtJ
+         Lz2Q8j7oasTziXh1zrZMixLpoAqqXJKBJfAxcRVbk1z+3okSpNJy7iFXhot3j/N8u1FH
+         usERF8I4Fmg8KhODMy8WhvDugg5r952E5e84zD2/H5PIKaqlC4TiQsHoiJya7bm74imF
+         V9zg==
+X-Forwarded-Encrypted: i=1; AL+hErE7feoOOzeSmNOYd5nfbXcHO9YhqmA2aqZB+76yitB5UM7ksy0Y4tRe893cjsiwrdBhWMM+B0TjWak=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/JI41Y8KBERf6Ewj0sCLs6EN0R8EADu8mAca2duIEwoPM052qn
+	aRVdkjsaKa82/gJuelzhNPTrQ3/zemtu7ZV4SoJvjh4FTL3qwPyRRvEu
+X-Gm-Gg: AYBFou3PoP6skoVjuBrG+sIeXCfLUY+7iBU4ZaW7rJiYm212/fy9ELQbJfZIWj7IRM5
+	YCq0IYehZffq9E46F6dC/9Bs/jOgYim6/IXBmXSLIjckNRwAmcX8klvB2xRTkBW7uYTI6y3etVa
+	62tRcBO5kahe3Ixh6BAthbQDu3UEe0ptY6SuFGIRB4FpGZfRFDwhhMbLL6th2CiL1xoDEZt2Cui
+	HhFJmbEomHbRCL4kRLZUY4IP89IjE3hpo568SuBQ7pv/zMbjFTQwKQS0/HKvkEIKmS983L6owi9
+	kge6PXmu3npMibgQeu77RkWHG8pgW6ej2mFHNl5CZB5GcFwlzLofHNvnwNgUxaTvUPz697zB8IT
+	NqT6OS1SH+62gSMD7A10RseW6DkZdHZqsSV9tYjDiQwY97na+jgiYm3OuFzKajVfj327+InKWI6
+	dYKwvHSdZzALSFcigRSYm3o926mHjyWOF72LVhf4trAW1lA0q84Whalbq0eJVcsYjn1rwDwgJ6k
+	ou03XVJEm9EbryxGs2kDgfqbcauOEd88FkSPuNxXFxnI8iazfk3iWlsQ+reIFNpjZU+qciQTZO7
+	l0UkUfe2SY18DYplmyo5lwoA+DOOPQEkRAo=
+X-Received: by 2002:a17:90b:2e83:b0:3b0:a4d1:6d7a with SMTP id 98e67ed59e1d1-3b1b0a1f08cmr1423738a91.31.1794556410033;
+        Thu, 12 Nov 2026 23:53:30 -0800 (PST)
+Received: from localhost ([176.210.133.73])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b3b708adsm993234a91.4.2026.11.12.23.53.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 23:53:29 -0800 (PST)
+From: Vladislav Zaharov <vladazaharova2018@gmail.com>
+To: dakr@kernel.org,
+	jhubbard@nvidia.com
+Cc: acourbot@nvidia.com,
+	aliceryhl@google.com,
+	ttabi@nvidia.com,
+	gary@garyguo.net,
+	nova-gpu@lists.linux.dev,
+	dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	vladazaharova2018@gmail.com
+Subject: [PATCH v7 0/4] gpu: nova-core: retain the GSP-RM log buffers
+Date: Fri, 13 Nov 2026 14:53:13 +0700
+Message-ID: <20261113075317.934264-1-vladazaharova2018@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,152 +102,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 00/15] Add splash DRM client
-To: =?UTF-8?Q?M=C3=A0xim_Pedraza_Padilla?= <maximpedraza@gmail.com>
-Cc: Javier Martinez Canillas <javierm@redhat.com>,
- Francesco Valla <francesco@valla.it>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Helge Deller <deller@gmx.de>,
- Peter Jones <pjones@redhat.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Jocelyn Falempe <jfalempe@redhat.com>, Sam Ravnborg <sam@ravnborg.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, dri-devel@lists.freedesktop.org,
- devicetree@vger.kernel.org, linux-efi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-embedded@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261027135342.2003632-1-maximpedraza@gmail.com>
- <066197a1-aa2b-455b-84d8-4e2215fad764@suse.de>
- <20261112152209.3297409-1-maximpedraza@gmail.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20261112152209.3297409-1-maximpedraza@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Flag: NO
-X-Spam-Level: 
-X-Spamd-Result: default: False [-11.79 / 50.00];
-	SUSE_INTERNAL_BYPASS(-9.00)[];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	XM_UA_NO_VERSION(0.01)[];
-	RCVD_TLS_ALL(0.00)[];
-	URIBL_BLOCKED(0.00)[suse.com:url,imap1.dmz-prg2.suse.org:helo];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.de];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[28];
-	TAGGED_RCPT(0.00)[dt];
-	MID_RHS_MATCH_FROM(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	FREEMAIL_CC(0.00)[redhat.com,valla.it,linux.intel.com,kernel.org,gmail.com,ffwll.ch,lwn.net,gmx.de,amd.com,ravnborg.org,linaro.org,linuxfoundation.org,infradead.org,lists.freedesktop.org,vger.kernel.org];
-	FREEMAIL_TO(0.00)[gmail.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url]
-X-Spam-Score: -11.79
 
-Hi
+The GSP-RM log buffers are exposed through debugfs, but they go away
+when the GPU is unbound, including when probe() fails, which is when
+they are most useful.
 
-Am 12.11.26 um 16:22 schrieb Màxim Pedraza Padilla:
-> Hi Thomas, Javier, Francesco,
->
-> Thanks a lot for the reviews. I'm answering everything here in one go.
->
-> On 11/11/26 14:52, Thomas Zimmermann wrote:
->> So shall we merge patches 1 to 6 and 8 first? You'd have something in
->> upstream already and not chase a moving target. From there, we can merge
->> the other features in the coming weeks.
-> Yes, that sounds great. v7 is ready and holds just those: patches 1 to 4,
-> 6 and 8 of v6, with the MAINTAINERS entry squashed into the patch that
-> adds drm_splash.c, so six patches in all. The DT binding, the placement
-> and rotation, and the connector orientation will follow as a separate
-> series once this one is in.
->
-> What changes in v7 from your comments:
->
-> - the Assisted-by tags are gone from every patch (Javier)
-> - MAINTAINERS: I'm listed as M: and Francesco as R: (thanks, Francesco),
->    in the same patch as drm_splash.c
-> - the firmware source is now DRM_SPLASH_SRC_FW, and the Kconfig options
->    DRM_CLIENT_SPLASH_SRC_FW and DRM_CLIENT_SPLASH_FW_NAME; the BMP decoder
->    keeps its name, since the BGRT goes through it too
-> - the drm_splash_fw_load() stub returns 0
->
-> On the CONFIG_X86 around the BGRT check in patch 4: it comes from efifb,
-> where efifb_bgrt_sanity_check() is x86 only too, and its comment says
-> that all x86 firmwares centre the image horizontally. I haven't found
-> that promised for other architectures, and there the check could reject
-> a logo that is fine, so I'd rather keep it as efifb does. If you prefer
-> it on every architecture, or gone, I'll change it.
->
-> The issue Sashiko found on v6 (a restore deferred while the device was
-> suspended) is fixed in v7, together with a few more that a later Sashiko
-> run found; the changelog of patch 4 lists them.
->
-> About your Reviewed-by on patch 4: since v6 the work has changed quite a
-> bit. Restore now leaves the commit to the work, a hotplug while userspace
-> holds the display waits for the next restore as fbdev does, and
-> unregister waits for the work before it looks for a pending firmware
-> request. Shall I keep your tag, or drop it so you can look at the new
-> version first? Whichever you prefer.
+Patch 1 moves the debugfs root into the module data, which also fixes
+the root being leaked when the driver registration fails. Patch 2 moves
+the log buffer code into its own file. Patch 3 adds a gsp_keep_logs
+module parameter that keeps a copy of the buffers after unbind. Patch 4
+drops the completed item from todo.rst.
 
-Keep the R-b. I intend to merge the next iteration. Any issues can then 
-still be sorted out. The splash screen has been waiting out of tree for 
-far too long.
+Changes since v6:
+ - drop the "retained/" directory: the copies are exposed in the same
+   files as the live buffers, and are dropped when the GPU is bound
+   again (Danilo, John)
+ - split the code move out of the retain patch (Alexandre)
+ - move DebugfsData into debugfs.rs, make the accessor
+   NovaCoreModule::debugfs_data(), reword the comments around
+   DEBUGFS_DATA as invariants, add a Fixes: tag (Alexandre, Danilo)
+ - shorten the commit messages and comments (Alexandre)
+ - rebase onto current drm-rust-next
 
-Best regards
-Thomas
+The code and the commit messages were drafted with an LLM coding
+assistant and reviewed by me. Each patch builds on its own, and the
+series was tested on a GB203:
 
->
-> I'll send v7 shortly.
->
-> Best regards,
-> Màxim
+  - without gsp_keep_logs nothing changes;
+  - with gsp_keep_logs=1, <BDF>/{loginit,logintr,logrm} keep the full
+    64 KiB of each buffer after unbind, show the live buffers again
+    after the next bind, and a second unbind replaces the copies;
+  - with a failure injected after the GSP has booted, probe() fails
+    with -EINVAL and the logs of that attempt are still readable;
+  - with a failure injected into the driver registration, the module
+    fails to load and leaves no debugfs directory behind;
+  - 40 load/bind/unbind/unload cycles use no more memory with
+    gsp_keep_logs=1 than without it.
 
+v6: https://lore.kernel.org/nova-gpu/20261014154554.231015-1-vladazaharova2018@gmail.com/
+
+Vladislav Zaharov (4):
+  gpu: nova-core: move the debugfs root into the module data
+  gpu: nova-core: gsp: move the log buffers into their own file
+  gpu: nova-core: gsp: retain the GSP-RM log buffers after unbind
+  Documentation: nova: remove completed GSP log buffer task
+
+ Documentation/gpu/nova/core/todo.rst   |  12 --
+ drivers/gpu/nova-core/debugfs.rs       |  44 ++++++
+ drivers/gpu/nova-core/gsp.rs           | 100 +++---------
+ drivers/gpu/nova-core/gsp/logbuffer.rs | 204 +++++++++++++++++++++++++
+ drivers/gpu/nova-core/nova_core.rs     |  68 ++++++---
+ 5 files changed, 311 insertions(+), 117 deletions(-)
+ create mode 100644 drivers/gpu/nova-core/debugfs.rs
+ create mode 100644 drivers/gpu/nova-core/gsp/logbuffer.rs
+
+
+base-commit: 0ff9e5b9ff6736c37593cd7db89f4593ec4f8e86
 -- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Stefan Gaiser, Jochen Jaser, Abhinav Puri, (HRB 36809, AG Nürnberg)
-
+2.56.0
 
