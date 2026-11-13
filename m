@@ -1,54 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=204.191.154.188
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794533750;
-	b=ALlvrL/fbfjvmSZO2VK4iR4i/i/BBM8kbd9YNhX/0FKJB+E+a8zx1kRaIz4sZdy62Amp
-	 5b+WGEF87QQdF5aJVYRS1B184mcL2kqBgkhPneGScFyBNUlbn4WftJUF0U0egZKhx99K9
-	 Rc7PA7s5gXY1rSCOf4PCsrcASdj/BCED5InBCCTf4rzZ6GmFd9FoUKf8lxFhsn+5cRjSt
-	 08JrsiSjg2iR61852uxVEoRMs6QsfOFtO3GUtSdcF0s2uPrpuSouHG6arlan0ZnUGzbPA
-	 eU/mqQTNaPn7UQ4BFwU1FKbp460ZirzuLXL6hnOE4gtEJRJuWdc2v5QxknrDyDf4zAQ==
+	t=1794535413;
+	b=jyG+omOJ+RWOzwHF28Uh/mmrEkjmmjgeVRdZyVMvl3c/PJCHSQdq8ZpYSFLXS6L9UqWB
+	 rPLz20ILZ/pYa6Etj04TariTOlvUqsVskLyfQ+ONPGbgyRJhsQiz07vG1skEwWpLC68UG
+	 L6hWSSTnk0n5YocuXQY37jchFoV1iA93x08X3VfqE7pSRA8WIed6Wn+5HHypABxwhWzlf
+	 w4oD5Gs0BhJyRa9n22vPTBo8Unhlt/Mq5NmD2iVBCKtUVrBKB4V6Yfdy3/yE/Xm3lP3s3
+	 7cWEwY9fq/mJEkKOQ0+R+BcOqvFihvcaBYU4lvY//qUk6SLn3mawVm5bKm0JSsRVkxg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794533750;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=Y80tsRK+PbS/OQgpPYHw4t5IwacRfcv9sJ3mwn5iarE=;
-	b=YDNU+MbS+Zea3ntIZweaEmpZm6Trro7j9ajINQrGuCic3Pnp8cqXMg5LPyCVHyxF/xz6
-	 yppojoaIatBNPjF3nkyMGXRN0honddERSa1oXzizhDoPkI+LgkUoF0WvA7JF8dcIRO22j
-	 Zt7XEcoHR1Xtgvjp+DNN6NJhcYIkv0e/5sULqNRsAM+2Z0UAKmuEDnRUrbhu4CGPyKNQr
-	 B34J4ZR3rJ2+hVWlZdtcHqXZbHYiGwHoQzbnhqAGn5L6fAtu4JpkneRvL8nAOLBlXY0zu
-	 db7cU4JA2/zIlt3ecW8b4Ht+ufA7FzGb02NdS4MFbmwHkkr1gnChhaGbh9YJHERePZw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794535413;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:To:Cc:References:From:Content-Language:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-SA-Exim-Connect-IP:
+	 X-SA-Exim-Rcpt-To:X-SA-Exim-Mail-From:X-Spam-Checker-Version:
+	 X-Spam-Level:X-Spam-Status:Subject:X-SA-Exim-Version:
+	 X-SA-Exim-Scanned;
+	bh=WGp60iebrceeykw5z9ks0STNk2un0gKAwGb3SyzUjH0=;
+	b=Suc+o41ff4SBYEN1GYQqNnIsRaqK/Rv1c4NISzuRREnE9kHHgB8BCyWczArYI6o1sTGg
+	 2CufY4bURV9MrmnxKpyicUPOKwXB9WKKOCkJgJgI1sYTnrNkNOkwDSZtwMuOxsT2equxa
+	 Bychh8PODWb07XUXsO5cInLANuiYyecJEThUGYhfwc3F4Lk/iuAgkaE4QjyP4yJmIYtEA
+	 b96lzKazBC2cH6AEUKmUzhTi1M0Q0ExnDNAKgOVbc7894EadMTZy3xq7y2Henh8XYqlXv
+	 psZXJApU7DRylYoMGuM2lizgNOsCU5OWVv+DFn70kcUY9OAWQrEDQbcQk5G8NsDT0gA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mu629Aat;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=deltatee.com;
+	spf=pass smtp.mailfrom=deltatee.com;
+	dkim=pass header.d=deltatee.com header.i=@deltatee.com header.a=rsa-sha256 header.s=20200525 header.b=I1cJaawp;
+	arc=none smtp.remote-ip=204.191.154.188
+Received: from ale.deltatee.com (ale.deltatee.com [204.191.154.188])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF27606A323;
-	Fri, 13 Nov 2026 01:35:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6639606A321;
+	Fri, 13 Nov 2026 02:03:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B6639606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=deltatee.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=deltatee.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mu629Aat
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01A11F000C4;
-	Fri, 13 Nov 2026 01:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794533750;
-	bh=Y80tsRK+PbS/OQgpPYHw4t5IwacRfcv9sJ3mwn5iarE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Mu629AatxKn+3ea+NCIFuYDKuK8yRNS8niYI+AID3dh02eYbcxSxgKyWpINhbc9nH
-	 m9tsH4CYs6twvpUO1ZrNF+bD+IfDZ5E0Y8sClackuRW3ThLV0s4WAr8A9wuwx/6gaA
-	 O6q9NGdPvkOsJI/hX3huuu7QNRL/Epcb9+MRV2X1Cbva8sFlrte85wB5PLTpfdHnkM
-	 wN0u5uaxeQ3BZNpBVOywR2x7lZWzj+zU9S1wgYgLxN15O8qeYORlEjiB3QELWX32fF
-	 zsgo2wE3TtmI174kA01YneO/Sn//iR85CgW5U/nl/uCVT5HLW7aoS3V2dgleOvxio2
-	 Ei2z/SQQGUMmQ==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: Manuel Ebner <manuelebnerli@mailbox.org>
-Cc: Naveen N Rao <naveen@kernel.org>, "David S. Miller" <davem@davemloft.net>, Steven Rostedt <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs, kprobes: Fix bracket
-Date: Fri, 13 Nov 2026 10:35:45 +0900
-Message-ID: <undine-1794533745876605613-da001b387e6fb572@undined.local>
-X-Mailer: UndineD 0.1
-In-Reply-To: <20261112085511.690900-2-manuelebnerli@mailbox.org>
-References: <20261112085511.690900-2-manuelebnerli@mailbox.org>
+	dkim=pass (2048-bit key, unprotected) header.d=deltatee.com header.i=@deltatee.com header.a=rsa-sha256 header.s=20200525 header.b=I1cJaawp
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=deltatee.com; s=20200525; h=Subject:In-Reply-To:From:References:Cc:To:
+	MIME-Version:Date:Message-ID:content-disposition;
+	bh=WGp60iebrceeykw5z9ks0STNk2un0gKAwGb3SyzUjH0=; b=I1cJaawpaQh/eqik9UCP6jlcV+
+	+ff2nbpYP/YhCSCiPSviiivDaU1gSLMMWauYCgv5Oluq4obD8slgaHK48V5Jgj2/QAXFJajhUcXRH
+	WgH3787xsl1fWBLE/qO5uqxVUXAUMgzK6WuZyA5HknUUaekzaBrmb729wRbktI6WljU95iQA+YSWC
+	NlA0cONSDNFzMBE5+vxYyMnxyQ3IobzCgntDbcklSx8s7he2B/vXKl7sXJCP1vXJAOdbu/leNFdkZ
+	k1iX0hBRmB6dO93Kcb9vc15bSJy5YoVJGrUkuLMCB1cFB6+Znk6j4jtKNltZ9NRjHYq/qSqDj1iN4
+	sWecGjJA==;
+Received: from [104.157.31.28] (helo=[192.168.1.251])
+	by ale.deltatee.com with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.98.2)
+	(envelope-from <logang@deltatee.com>)
+	id 1xRgdP-00000002R98-2ZLr;
+	Thu, 12 Nov 2026 20:03:24 -0600
+Message-ID: <1a07c926-d710-4922-a4a1-be235df7c74c@deltatee.com>
+Date: Thu, 12 Nov 2026 20:02:53 -0600
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,36 +62,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+To: Ben Cressey <ben@cressey.dev>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pci@vger.kernel.org, =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?=
+ <kwilczynski@kernel.org>, Alex Williamson <alex@shazbot.org>,
+ Wei Wang <wei.w.wang@hotmail.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ "Anthony Vardaro (Anthropic)" <me@anthonyvardaro.com>
+References: <20261111-pci-idpath-selector-v2-1-83ea668e38f0@cressey.dev>
+From: Logan Gunthorpe <logang@deltatee.com>
+Content-Language: en-CA
+In-Reply-To: <20261111-pci-idpath-selector-v2-1-83ea668e38f0@cressey.dev>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 104.157.31.28
+X-SA-Exim-Rcpt-To: ben@cressey.dev, corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org, bhelgaas@google.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, kwilczynski@kernel.org, alex@shazbot.org, wei.w.wang@hotmail.com, jgg@ziepe.ca, me@anthonyvardaro.com
+X-SA-Exim-Mail-From: logang@deltatee.com
+X-Spam-Level: 
+Subject: Re: [PATCH v2] PCI: Add ID@path device format for pci= parameters
+X-SA-Exim-Version: 4.2.1 (built Sun, 23 Feb 2025 07:57:16 +0000)
+X-SA-Exim-Scanned: Yes (on ale.deltatee.com)
 
-On Thu, 12 Nov 2026 09:55:11 +0100, Manuel Ebner <manuelebnerli@mailbox.org> wrote:
-> Remove needless ')'
->
-> Fixes: a1dac767622c ("kprobes.txt: standardize document format")
-> Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
-Thanks, looks good to me.
 
-> ---
->  Documentation/trace/kprobes.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/trace/kprobes.rst b/Documentation/trace/kprobes.rst
-> index 19c04a91a6..91b76ed435 100644
-> --- a/Documentation/trace/kprobes.rst
-> +++ b/Documentation/trace/kprobes.rst
-> @@ -31,7 +31,7 @@ can trap at almost any kernel code address [1]_, specifying a handler
->  routine to be invoked when the breakpoint is hit.
->  
->  .. [1] some parts of the kernel code can not be trapped, see
-> -       :ref:`kprobes_blacklist`)
-> +       :ref:`kprobes_blacklist`
->  
->  There are currently two types of probes: kprobes, and kretprobes
->  (also called return probes).  A kprobe can be inserted on virtually
->
+On 2026-11-11 5:36 p.m., Ben Cressey wrote:
+> The <pci_dev> grammar shared by pci=resource_alignment=,
+> pci=disable_acs_redir= and pci=config_acs= names a device either by
+> address, with an optional path, or by ID. When one command line serves
+> more than one platform, neither form limits an entry to the intended
+> device: an address applies to whatever occupies it on each platform, and
+> an ID applies to every instance, such as all Downstream Ports of a
+> switch rather than the one that needs different ACS settings.
+> 
+> Accept pci:<vendor>:<device>[:<subvendor>:<subdevice>]@<path>, where
+> <path> is the address format, and match only when both halves match. An
+> entry written for one platform is then inert on another where that
+> address holds a different device. For example,
+> 
+>   pci=config_acs=xx111x1@pci:10b5:8749@0000:80:02.0/00.0/08.0
+> 
+> configures ACS on the Downstream Port at that path only if it is a
+> PEX 8749 port.
+> 
+> The path goes last since pci_dev_str_match_path() consumes up to the
+> next ';'. The IDs are compared first, and the path is parsed only for a
+> device that matches them. The <order>@ and <flags>@ prefixes of
+> resource_alignment and config_acs are stripped before
+> pci_dev_str_match() is called, so the callers are unchanged.
+> 
+> Suggested-by: Wei Wang <wei.w.wang@hotmail.com>
+> Signed-off-by: Ben Cressey <ben@cressey.dev>
+Looks pretty straightforward and the reasoning all makes sense to me.
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+Reviewed-by: Logan Gunthorpe <logang@deltatee.com>
+
