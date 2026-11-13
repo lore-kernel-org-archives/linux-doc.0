@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794586136;
-	b=iTSRlVm7s7kh80BDG/JeUrE8fn8fXF5FNhct0L+mu3TG0u2ziM5IUtHRb9TUf6Q5wm/h
-	 9/HjihHL9IOYfHNACxRK9aGF3AuQKfUfN58DsBU9ffxYJCBmGSBTx6wxli79aItf9tZWH
-	 A94wzaunrEfLdPSrGg1WMplwobOvRL4nDhDanUMPMRTHEitkEUDiblb6a38mJMBUpAKhH
-	 W7iACO3oKaHvyCw8jsO+YN2e1Nd8BDbs5qs3ZhZWIZO0aBc9yoQrWoaFvvdAEiuHB6kVE
-	 TqY68WxwBCIpUC0J4YnQ2Fqswm6lDZwIEXLEQ1/KfzwLql7W8IWtPS4jVQsSX2hAfuw==
+	t=1794586138;
+	b=c0H6z8GcPRkWR+yR0a4vySTfHoxyZ4zxfDmKFiD3KzeFUiPp3j+h0od0d5gXavx6jvtI
+	 8oWH0/EXPR9j/Rkm+5g8q2bD13xWDiysx7XA5cpK8RrlvtSG1KZKOdciwbXMge26ZjFNF
+	 Y3spXtqDC/3pX9+jJoUO966YRsLoQgEiBUHloqUuU/xutdFae2uVTP58PhnGaI4z9PQaL
+	 DDHy6KdffLH0Efz4bpZAWAWb8m7MbRRpjgSKYvrzP0DqmnC9oJLgQqKb+z/HNFAVH9tvb
+	 qOU9L3QOCVX87OC55ATRAXuES/3fimtAEkryiwvG59WpaFomMRbpYLkC3pmzg2rvzAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794586136;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794586138;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=CHva8CWvP7gwkMlzfMecnIUN3qeNv3ZRxSwpEsl3J0M=;
-	b=cJvV3Zwm7q4Y3+ZiCwqwTDAQMCy+E9pWec1pf3VlKLyzDgXVvD1GZ48aqw+YLNLAeWDa
-	 CLdu9lI3EkPaks2g3Mvg1E6fbl6TGxnD5u7bJcAoGUGn1Pc6QzhYPayyI0gwc/8M8jwbt
-	 f0WbU6GV+aX1lFg4dcE5uZiRMVZyMO0r4e4iGUhK+L/lq6P55p2RFboweEEk6EpeoRi0x
-	 ZmdaCu1WWSLRyqa64BRiXawg8n2gpGjNwu/42yTH2njXhqawk83LJWIFWV+UV9WpHGAdZ
-	 waNGP3B9j6kedGuXBRzfTQV2uI2kw+l7tWlQ38cP8w64gHFo82bVUUW/3gXeu6tGF7g==
+	bh=CR01M3l2+XdlJgIMFqnjdm+KWucPPsA6W4AAPFE8TbU=;
+	b=vQWEb4hIb5an1j4k/IKToonaBUCmju+yHc2mY1a1qgzckUxE93mEFuIFBmwSP/cL7Gvi
+	 XT0fT9vs55Tl/HARAlNRzGaKyyKG9DTV9r7Qbgu/nXNd2Zivn5L/3R/jNKy5jwW/BuEql
+	 8cdLxKPYejdB5pYifOkUiaJmvsCQhczUvucfIDogb3HXJC7RaTWkE8Zx9PThEOs3sRCfQ
+	 /ZUs4UIT0FW+X7bCgrTd9u9T28KGTL7/PMx2xxBRjaKWMm8dFk9qF695nmyvLDIjw+3ge
+	 4uwuBPVvZj1xiCtz0sPXzNM54TKdOlBqPb2Qu+OkdJyaHttpr6iWPoJKvV2Jm+tpw6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=resnulli.us;
 	spf=pass smtp.mailfrom=resnulli.us;
-	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=w9Nreo3B;
-	arc=none smtp.remote-ip=209.85.218.44
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	dkim=pass header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=UGQHklYD;
+	arc=none smtp.remote-ip=209.85.128.52
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DDFE606EBA5
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 16:08:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DDFE606EBA5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64643606EBA6
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 16:08:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64643606EBA6
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=w9Nreo3B
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c4395d31228so247486966b.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 08:08:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=resnulli.us header.i=@resnulli.us header.a=rsa-sha256 header.s=google header.b=UGQHklYD
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso15878045e9.3
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 08:08:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli.us; s=google; t=1794586133; x=1795190933; darn=vger.kernel.org;
+        d=resnulli.us; s=google; t=1794586137; x=1795190937; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CHva8CWvP7gwkMlzfMecnIUN3qeNv3ZRxSwpEsl3J0M=;
-        b=w9Nreo3BL/4o3QMJdEAdXXtqjn9YQoRGH0pe+0sf2eI8IPF0SCJ4+1ihTHTJMmxL1T
-         LEWrwjLj4sgHSIgW0oqaMNUcbxHl59TrKQ08cGbmqIHPWKB2LRIIy6IBjYIaPpbV84k4
-         J702vQQrLEum3G5pGVpof6Q4rTORM/+IQ5+b2LtgdIgAo2lQFj+/CZX+utgVSw4hRnuS
-         AIKWmojMcd1jDYgJCYuMGsnLC3w1Oibi/z80Em557fDj977A0BPvQM8rkaxzdZXNyxpU
-         lma/gnjfT8T+yNLLq/yW8/lAawN1E9NXl+cbDONTCX+FSY1jDPG/Xha0aiY0euVnaH+M
-         OqWw==
+        bh=CR01M3l2+XdlJgIMFqnjdm+KWucPPsA6W4AAPFE8TbU=;
+        b=UGQHklYDSzvPSNGEWzPMjIY8U1mfIOUygXuI2b4PdJIbBHPcsdmFcUGBe7cVxizxEy
+         E/dUBqQ21jfJvF6pAWstuH5inKuRBJqiIT5U1Se/LpvBeckx6CYvzlsqqGah65TL/UHA
+         DfGKmTwX2gdPzmEuaG4olwTmTlmeSNJ7eT71VayXJ6U0LX1/KXjFdwqeiDLQfTKcyRBd
+         PHmPdtM4bIs5I9bXMJDVwIs7jQZwNYeB018n0kLfjehpKceES2y7CFYG9qGorDpLcI1z
+         ci4/sx2z5etxpu4NIcUGz1rfkHwOo2ZUiVLq7NXFt3rbFGf7cCw/Pqb9XnMTdD8oUrBJ
+         KqRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794586133; x=1795190933;
+        d=1e100.net; s=20260707; t=1794586137; x=1795190937;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CHva8CWvP7gwkMlzfMecnIUN3qeNv3ZRxSwpEsl3J0M=;
-        b=EtRfoWd5lHTPlNk6nQdWqKx4WhaB6E03kP7FkTBY0bKBRRGyH46jrihGGHUZ/eUW0z
-         OSdtVl0bz9NVS8QR9cOCRcvV/rth/tOWFhhHGSCm+wtyN+IpZHeoheK7a12jZ2lcjyuN
-         NsdET0y9W+2UMcB6lhDOpHDJ8S8swvYTUEJO6rRfYVyoWrWexfGcOSrBuZ1jhYdA1sL0
-         bxoqXKqSTSAV3du5ishwri08Bc3xGYxfJOSuEfC6AkCH0aYngfgec9CxI70VbuPSs06X
-         2e0t7jLriXrOZf5sO+mIC1EXiyowwJe3nvjNXI8dcJz3hKaRfyRWzQZsNxf6s01NOSmO
-         lIIQ==
-X-Forwarded-Encrypted: i=1; AL+hErExT/UJDY4nPREhb2hmOjrZOdXqMgyIXUJte+LKE6mJToNxR6M+wGjkGUHbSGXZjFemUbtLVzWBxHE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+j1KVvjtHrNIbtCip49rZMU2nHmcTDWIoEGWm+b6RtLfD+9eqB
-	p85xkD8raPbgJ11hOQFoDZojfWHa7FdsEFlP1h11QE9TVdVEdovqY46ctO0LiQYcMsc=
-X-Gm-Gg: AYBFou0t4WvmZgDIouA+JX9wdhrN7l0iLiHubdTd/5qBdCtsHL3VQtKhaAzEyDUnE3r
-	nyVW3u8RCIcxu11eCeH6UV+vz50sysV2/I51BNCX3LORKgT9ddFTwE9abYkukuF9vbVQv0wYMAj
-	e/wSb+1HlBEsrp06/o84nKrgAfmJ3hovdxqGG+nq50VzUYFjUDQYop7nxkvE0XGKob23bWj/4yj
-	PgdxkT9TuGFBd3Fqn0xN2teh70S5bEmI9PVEmiU3yBn0+VZFL70UpyxygzqAENNCNWn1bxsFRJy
-	iRQHprM4K/EIMNQozx/zDw+CNJZy3jMyZFLPY6boal79pVJD7mr0pYS2jIHaWUtI2tC1gZ4aDxY
-	iTCiefXyxH9P6otA08ebiBpaw81iatRuzr80kFurnVRw7MTf7SYzQuukWH8KjdujxQivbTyF9lT
-	CBQEUVM2IFVEaPsUw0TRS08BoyG50BF0jImEGSNip92vPLtCY9fzM66xm+shtldKIZYzvkPm0KC
-	Mk+0qUMcv+hmpxBmjy7t9K/rKFZyBrVsXbeUluMpASAkq53hp3GdsK/CCk3HMZZjQzVKHBs69iJ
-	s0VfG90uca+U0Z9jEN+U+kt43///xT9PbUrLtHrR
-X-Received: by 2002:a17:906:f591:b0:c50:5e10:71ae with SMTP id a640c23a62f3a-c50963075f7mr289725966b.17.1794586133342;
-        Fri, 13 Nov 2026 08:08:53 -0800 (PST)
+        bh=CR01M3l2+XdlJgIMFqnjdm+KWucPPsA6W4AAPFE8TbU=;
+        b=YXfO7Tc7AWHi0Zvirw2+SXkwAHWqas9Yy4mSYZUwqxy9D3HThA5uvMrMImgx9e5Uze
+         VkOcK5X66iTxMOVDsDZz2O+yKXWQ4wRuJtyS+K6AocfK9aQBFunqWgO7/qy1R4jCDp6T
+         1Xh2WurZYLJ+ImLF/EUJkx5DD29JYwGf7S7r8/8Ob0k9IqYneBQa5PenzmhHVGi1tBBc
+         zJ6S3ofHCzWzGbk5d39fz+AFDJdrIQCCK3uQX2ZKR9sTLBaltRTNlTjQKCnv4yD2F47d
+         ujGw03UUCseeJ9N9NRk+h03QyXMNNq13WMIYSuWorqGu9MBcGU6aF4u/h7FNPL36ZLfD
+         5fxw==
+X-Forwarded-Encrypted: i=1; AL+hErHmTkHXrC+qr/44D8P09OrvxuYtmm7Lb7X7ZfX5IsI1TNu8GVc7kXRizjMzmeNum6iVskP2faJ5xTk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8C7DJEkq+u/HN2k+HmePKM2MUJyvLyk52nLZetWUQz/IFYsjhB
+	BCFBXCvV4lurcjVTMUaMRRumq7zSLoLlbcL9rmSvlywWn30hRHkYVFTxZwEmRaBtulw=
+X-Gm-Gg: AYBFou2BH/1mp/r0eeqaKNkTjuJJT7T7OcvAafbHH5yXePeFnCyuePQg3AO/HNEJzDG
+	/Ri9lP8syU95DfhelInhGl+SRujR5+YWfh1wDl/gW1hUhVT6nOYEefVC948Z5GOBJIjt4hPePAB
+	5N3IqyEGhhuth8ICdl0g796Y0lc/vrUmSuIObMoDpt03IrBK6owfe4Km6/AmU+g911kkSs55UkV
+	s1hOpi23ZlR8OEO9stgK2ZOcpniXTDAyAG/qPs+XldXLgq2Zf4t7FUuOSMEPtWpB1R64ze4XVzg
+	XyIyWwC/9iSlom815YNFYhdpC2YduNwa41z3vtPgdd0LRI1pvOX9BGhMxgpfFufrnTVBizkcehk
+	muCJ/MwJv80xEEPGbomhEW+HsHc0VHvH2mDjVvNTC5iXFiJhyTmAyxbrPsArojq3A6GKjVSN0J1
+	g9SkncKNA2H/t+iZrJp73VhbJwQUHXeLdpDEgGrCbARCdjppkYIM4ZuREwHze5SwmtPaUMDUclr
+	x4qfBhdQLGvT/tsvwabRZ60W97+pl2yE4DrrqH/tt5JWz0JR9sx3USChD8u0KbFOW7aoxsu12xj
+	OVMH9Bc+N37LOiXU8enfBhAV9RXh+lJ8le/7JjgT
+X-Received: by 2002:a05:600c:4313:b0:4a1:f377:5c68 with SMTP id 5b1f17b1804b1-4bb55a83305mr42502405e9.34.1794586136644;
+        Fri, 13 Nov 2026 08:08:56 -0800 (PST)
 Received: from localhost ([140.209.217.212])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c604ee47dsm5608032f8f.38.2026.11.13.08.08.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb55af2901sm68962095e9.13.2026.11.13.08.08.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 08:08:52 -0800 (PST)
+        Fri, 13 Nov 2026 08:08:56 -0800 (PST)
 From: Jiri Pirko <jiri@resnulli.us>
 To: linux-coco@lists.linux.dev
 Cc: linux-kernel@vger.kernel.org,
@@ -115,9 +115,9 @@ Cc: linux-kernel@vger.kernel.org,
 	dave.jiang@intel.com,
 	nik.borisov@suse.com,
 	sergii.dmytruk@3mdeb.com
-Subject: [PATCH RFC v2 3/9] attestation: Prepare provider and instance core
-Date: Fri, 13 Nov 2026 17:08:32 +0100
-Message-ID: <20261113160838.2512652-4-jiri@resnulli.us>
+Subject: [PATCH RFC v2 4/9] attestation: Prepare measurement registers
+Date: Fri, 13 Nov 2026 17:08:33 +0100
+Message-ID: <20261113160838.2512652-5-jiri@resnulli.us>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261113160838.2512652-1-jiri@resnulli.us>
 References: <20261113160838.2512652-1-jiri@resnulli.us>
@@ -134,807 +134,280 @@ Content-Transfer-Encoding: 8bit
 
 From: Jiri Pirko <jiri@nvidia.com>
 
-Add provider validation, instance registration and lifecycle management
-for the attestation family. Each instance is a device of the attestation
-class, with a node under /dev/attestation/, and embeds its CTLV
-instance and node.
+Add the fixed MRs from the provider descriptor, their lookup and MR
+extension, which advances an instance-wide MR generation.
 
-The provider descriptor is one immutable evidence and MR contract; MR
-state follows in the next patch. The core object can be compile-checked
-here. CONFIG_ATTESTATION remains unwired until the CTLV handlers land.
+The MR objects can be compile-checked here. CONFIG_ATTESTATION remains
+unwired until the CTLV operation handlers complete the module.
 
 Assisted-by: Cursor: GPT-5.6 Sol
 Assisted-by: Cursor: Claude Opus 5.5
 Signed-off-by: Jiri Pirko <jiri@nvidia.com>
 ---
 RFC->RFCv2:
-- gave attestation its own device, class and /dev/attestation/ nodes,
-  each a struct ctlv_device
-- dropped the goto from attestation_registry_insert()
-- noted that instance indexes are never reused
-- selected CRYPTO_HASH_INFO
-- selected CTLV instead of depending on it
-- kept each guard() on one line
-- dropped the journal from the Kconfig help
-- dropped read(), poll() and the event teardown
-- refused hash algorithms the hash-algo enum does not list
-- gave each evidence object a class and the formats it may have
-- dropped max_total_output_length
-- took each signed object's challenge lengths as a list, ascending
-  and disjoint
-- left the object count and challenge length limits to CTLV
-- added attestation_evidence_write(), for blobs of any length
-- let a request omit the challenge
-- separated the steps of the longer functions
-- took an MR's algorithms in any order, each once
-- let mr_extend get the digests of some of an MR's banks
-- required mr_read of a provider with MRs, as every MR can be read
-- said that an MR's extend cap is fixed
-- took the UAPI headers from include/uapi/ctlv/
-- named evidence objects by ID, and had the provider give each
-  result's format
+- kept the MR state in struct attestation_dev, which providers embed
+- dropped the MR journal and its notifications
+- counted MR changes in a plain MR generation
+- retitled from "Prepare measurement register journal"
+- used the helpers generated for the rewritten spec
+- let an extend carry values for some of an MR's banks
+- always provided mr-read with MRs
 ---
- MAINTAINERS                         |   1 +
- drivers/attestation/Kconfig         |  12 +
- drivers/attestation/Makefile        |   4 +
- drivers/attestation/core/core.c     | 429 ++++++++++++++++++++++++++++
- drivers/attestation/core/internal.h |  21 ++
- include/linux/attestation.h         | 240 ++++++++++++++++
- 6 files changed, 707 insertions(+)
- create mode 100644 drivers/attestation/Kconfig
- create mode 100644 drivers/attestation/Makefile
- create mode 100644 drivers/attestation/core/core.c
- create mode 100644 drivers/attestation/core/internal.h
- create mode 100644 include/linux/attestation.h
+ drivers/attestation/Makefile        |  2 +-
+ drivers/attestation/core/core.c     | 71 +++++++++++++++++++++++++++++
+ drivers/attestation/core/internal.h | 13 ++++++
+ drivers/attestation/core/mr.c       | 64 ++++++++++++++++++++++++++
+ include/linux/attestation.h         |  5 +-
+ 5 files changed, 153 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/attestation/core/mr.c
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0c1778e676ed..e57fc8bb9c1d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4441,6 +4441,7 @@ F:	Documentation/ctlv/abi/ctlv-attestation*
- F:	Documentation/ctlv/specs/ctlv-attestation*
- F:	Documentation/userspace-api/attestation*.rst
- F:	drivers/attestation/
-+F:	include/linux/attestation*
- F:	include/uapi/ctlv/ctlv_attestation*
- 
- ATTO EXPRESSSAS SAS/SATA RAID SCSI DRIVER
-diff --git a/drivers/attestation/Kconfig b/drivers/attestation/Kconfig
-new file mode 100644
-index 000000000000..a6bfb17dd480
---- /dev/null
-+++ b/drivers/attestation/Kconfig
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+menuconfig ATTESTATION
-+	tristate "Attestation"
-+	select CRYPTO_HASH_INFO
-+	select CTLV
-+	help
-+	  Provides a CTLV family for evidence and measurement registers.
-+
-+	  Providers register one instance for a physical or logical device and
-+	  translate the common operations to their native service.
-+
-+	  If you are unsure, say N.
 diff --git a/drivers/attestation/Makefile b/drivers/attestation/Makefile
-new file mode 100644
-index 000000000000..8a75558a7013
---- /dev/null
+index 8a75558a7013..28036586f5d8 100644
+--- a/drivers/attestation/Makefile
 +++ b/drivers/attestation/Makefile
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_ATTESTATION) += attestation.o
-+
-+attestation-y := core/core.o
+@@ -1,4 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+ obj-$(CONFIG_ATTESTATION) += attestation.o
+ 
+-attestation-y := core/core.o
++attestation-y := core/core.o core/mr.o
 diff --git a/drivers/attestation/core/core.c b/drivers/attestation/core/core.c
-new file mode 100644
-index 000000000000..587a0a9616b6
---- /dev/null
+index 587a0a9616b6..24abe0923306 100644
+--- a/drivers/attestation/core/core.c
 +++ b/drivers/attestation/core/core.c
-@@ -0,0 +1,429 @@
+@@ -213,6 +213,12 @@ bool attestation_registered(struct attestation_dev *att)
+ 	return registered;
+ }
+ 
++void attestation_mr_changed(struct attestation_dev *att)
++{
++	lockdep_assert_held(&att->lock);
++	att->mr_generation++;
++}
++
+ void attestation_stop(struct attestation_dev *att)
+ {
+ 	lockdep_assert_held(&att->lock);
+@@ -221,6 +227,38 @@ void attestation_stop(struct attestation_dev *att)
+ 	xa_unlock(&attestation_instances);
+ }
+ 
++static struct attestation_mr *attestation_mr_alloc(struct attestation_dev *att,
++						   const struct attestation_mr_props *props)
++{
++	struct attestation_mr *mr;
++	int ret;
++
++	ret = attestation_mr_props_validate(att->provider, props);
++	if (ret)
++		return ERR_PTR(ret);
++	if (xa_load(&att->mrs, props->id))
++		return ERR_PTR(-EEXIST);
++	mr = kzalloc_obj(*mr, GFP_KERNEL);
++	if (!mr)
++		return ERR_PTR(-ENOMEM);
++	mr->props = props;
++	ret = xa_insert(&att->mrs, props->id, mr, GFP_KERNEL);
++	if (ret) {
++		kfree(mr);
++		return ERR_PTR(ret);
++	}
++	return mr;
++}
++
++struct attestation_mr *attestation_mr_lookup_live(struct attestation_dev *att, unsigned int mr_id)
++{
++	struct attestation_mr *mr;
++
++	lockdep_assert_held(&att->lock);
++	mr = xa_load(&att->mrs, mr_id);
++	return mr ? mr : ERR_PTR(-ENOENT);
++}
++
+ /**
+  * attestation_evidence_write - Write an evidence object to its blob.
+  * @object: the requested object
+@@ -252,11 +290,41 @@ void attestation_provide_ops(struct attestation_dev *att)
+ 		ctlv_attestation_evidence_get_provide(ctlv);
+ 		ctlv_attestation_evidence_get_enable(ctlv);
+ 	}
++
++	if (provider->mrs_count) {
++		ctlv_attestation_mr_get_provide(ctlv);
++		ctlv_attestation_mr_read_provide(ctlv);
++		if (provider->mr_extend)
++			ctlv_attestation_mr_extend_provide(ctlv);
++	}
++}
++
++static int attestation_mrs_create(struct attestation_dev *att)
++{
++	const struct attestation_provider *provider = att->provider;
++	size_t index;
++
++	for (index = 0; index < provider->mrs_count; index++) {
++		struct attestation_mr *mr;
++
++		mr = attestation_mr_alloc(att, &provider->mrs[index]);
++		if (IS_ERR(mr))
++			return PTR_ERR(mr);
++	}
++	return 0;
+ }
+ 
+ /* Runs from the release, so it must not reach the provider's module. */
+ static void attestation_state_free(struct attestation_dev *att)
+ {
++	struct attestation_mr *mr;
++	unsigned long index;
++
++	xa_for_each(&att->mrs, index, mr) {
++		xa_erase(&att->mrs, index);
++		kfree(mr);
++	}
++	xa_destroy(&att->mrs);
+ 	mutex_destroy(&att->lock);
+ }
+ 
+@@ -338,11 +406,14 @@ struct attestation_dev *_attestation_alloc(struct device *parent,
+ 		return ERR_PTR(-ENOMEM);
+ 	att->provider = provider;
+ 	mutex_init(&att->lock);
++	xa_init(&att->mrs);
+ 
+ 	/* From here on, the release frees whatever was set up. */
+ 	ret = ctlv_device_init(&att->node, &attestation_class, parent, &att->ctlv);
+ 	if (!ret)
+ 		ret = ctlv_init(&att->ctlv, &att->node.dev, family, &attestation_ctlv_hooks);
++	if (!ret)
++		ret = attestation_mrs_create(att);
+ 	if (ret) {
+ 		put_device(&att->node.dev);
+ 		return ERR_PTR(ret);
+diff --git a/drivers/attestation/core/internal.h b/drivers/attestation/core/internal.h
+index f42bc3cd9a35..19c2ade5e6db 100644
+--- a/drivers/attestation/core/internal.h
++++ b/drivers/attestation/core/internal.h
+@@ -11,11 +11,24 @@
+ 
+ #define ATTESTATION_REGISTERED XA_MARK_1
+ 
++struct attestation_mr {
++	const struct attestation_mr_props *props;
++};
++
+ bool attestation_registered(struct attestation_dev *att);
+ void attestation_stop(struct attestation_dev *att);
++void attestation_mr_changed(struct attestation_dev *att);
+ 
+ int attestation_provider_validate(const struct attestation_provider *provider,
+ 				  const struct ctlv_family *family);
+ void attestation_provide_ops(struct attestation_dev *att);
+ 
++struct attestation_mr *attestation_mr_lookup_live(struct attestation_dev *att, unsigned int mr_id);
++int attestation_mr_values_validate(const struct attestation_mr_props *props,
++				   const struct attestation_digest_set *values, bool all_banks);
++int attestation_mr_extend_locked(struct attestation_dev *att, struct attestation_mr *mr,
++				 const struct attestation_digest_set *values);
++
++int attestation_mr_props_encode(struct ctlv_cursor *reply, const struct attestation_mr *mr);
++
+ #endif /* _ATTESTATION_INTERNAL_H */
+diff --git a/drivers/attestation/core/mr.c b/drivers/attestation/core/mr.c
+new file mode 100644
+index 000000000000..44a8c06df0c6
+--- /dev/null
++++ b/drivers/attestation/core/mr.c
+@@ -0,0 +1,64 @@
 +// SPDX-License-Identifier: GPL-2.0-only
-+#include <crypto/hash_info.h>
-+#include <linux/bitmap.h>
-+#include <linux/cleanup.h>
-+#include <linux/ctlv.h>
-+#include <linux/ctlv_device.h>
 +#include <linux/device.h>
-+#include <linux/err.h>
++#include <linux/errno.h>
 +#include <linux/limits.h>
-+#include <linux/module.h>
-+#include <linux/overflow.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
 +
 +#include "internal.h"
 +
-+#define ATTESTATION_MAX_DEVICES 4096
-+
-+static DEFINE_XARRAY(attestation_instances);
-+
-+static DEFINE_MUTEX(attestation_registry_lock);
-+/* Never reused, so a stale index cannot name a newer instance. */
-+static unsigned long attestation_next_index;
-+
-+/* A reply carries only what hash-algo in ctlv-attestation.yaml lists. */
-+static bool attestation_algorithm_valid(enum hash_algo algorithm)
++/* @values follow the banks' order, so each bank comes once at most. */
++int attestation_mr_values_validate(const struct attestation_mr_props *props,
++				   const struct attestation_digest_set *values, bool all_banks)
 +{
-+	return algorithm >= 0 && algorithm <= HASH_ALGO_SHA3_512 && hash_digest_size[algorithm] &&
-+	       hash_digest_size[algorithm] <= HASH_MAX_DIGESTSIZE;
-+}
++	size_t bank = 0, index;
 +
-+static int attestation_mr_props_validate(const struct attestation_provider *provider,
-+					 const struct attestation_mr_props *props)
-+{
-+	DECLARE_BITMAP(seen, HASH_ALGO__LAST) = {};
-+	size_t index;
-+
-+	if (!props || !props->name || !*props->name || strlen(props->name) > 128 ||
-+	    !props->algorithms || !props->algorithms_count || props->algorithms_count > 23)
++	if (!values || !values->values || !values->values_count ||
++	    (all_banks && values->values_count != props->algorithms_count))
 +		return -EINVAL;
-+	for (index = 0; index < props->algorithms_count; index++) {
-+		enum hash_algo algorithm = props->algorithms[index];
-+
-+		if (!attestation_algorithm_valid(algorithm) ||
-+		    __test_and_set_bit(algorithm, seen))
-+			return -EINVAL;
-+	}
-+	if (props->extendable && !provider->mr_extend)
-+		return -EINVAL;
-+	return 0;
-+}
-+
-+/* What device-get and evidence-get carry, as ctlv-attestation.yaml bounds it. */
-+#define ATTESTATION_EVIDENCE_OBJECTS_MAX 16
-+#define ATTESTATION_EVIDENCE_FORMATS_MAX 4
-+#define ATTESTATION_CHALLENGE_LENGTHS_MAX 8
-+#define ATTESTATION_CHALLENGE_MAX 4096
-+/* Moves with each value appended to evidence-format. */
-+#define ATTESTATION_EVIDENCE_FORMAT_LAST CTLV_ATTESTATION_EVIDENCE_FORMAT_CCEL
-+
-+static bool
-+attestation_challenge_lengths_valid(const struct attestation_evidence_supported_object *object)
-+{
-+	size_t index;
-+
-+	if (object->evidence_class != ATTESTATION_EVIDENCE_SIGNED)
-+		return !object->challenge_lengths_count;
-+	if (!object->challenge_lengths || !object->challenge_lengths_count ||
-+	    object->challenge_lengths_count > ATTESTATION_CHALLENGE_LENGTHS_MAX)
-+		return false;
-+	for (index = 0; index < object->challenge_lengths_count; index++) {
-+		const struct attestation_evidence_challenge_length *length =
-+			&object->challenge_lengths[index];
-+
-+		if (!length->min || length->min > length->max ||
-+		    length->max > ATTESTATION_CHALLENGE_MAX ||
-+		    (index && object->challenge_lengths[index - 1].max >= length->min))
-+			return false;
-+	}
-+	return true;
-+}
-+
-+static bool
-+attestation_formats_valid(const struct attestation_evidence_supported_object *object,
-+			  u32 vendor_max)
-+{
-+	size_t counts[2] = {}, index, prior;
-+
-+	if (!object->formats || !object->formats_count)
-+		return false;
-+	for (index = 0; index < object->formats_count; index++) {
-+		const struct attestation_evidence_format *format = &object->formats[index];
-+		u32 max = format->vendor ? vendor_max : ATTESTATION_EVIDENCE_FORMAT_LAST;
-+
-+		if (!format->value || format->value > max ||
-+		    ++counts[format->vendor] > ATTESTATION_EVIDENCE_FORMATS_MAX)
-+			return false;
-+		for (prior = 0; prior < index; prior++)
-+			if (object->formats[prior].vendor == format->vendor &&
-+			    object->formats[prior].value == format->value)
-+				return false;
-+	}
-+	return true;
-+}
-+
-+static int attestation_evidence_caps_validate(const struct attestation_provider *provider,
-+					      const struct ctlv_family *family)
-+{
-+	const struct attestation_evidence_caps *caps = provider->evidence_caps;
-+	size_t index;
-+	u32 vendor_max;
-+
-+	if (!caps)
-+		return provider->evidence_get ? -EINVAL : 0;
-+	if (!provider->evidence_get || !caps->objects || !caps->objects_count ||
-+	    caps->objects_count > ATTESTATION_EVIDENCE_OBJECTS_MAX)
-+		return -EINVAL;
-+
-+	vendor_max = ctlv_enum_ext_max(family, CTLV_FAMILY_ATTESTATION,
-+				       CTLV_ATTESTATION_ENUM_EXT_EVIDENCE_VENDOR_FORMAT);
-+	for (index = 0; index < caps->objects_count; index++) {
-+		const struct attestation_evidence_supported_object *object = &caps->objects[index];
-+
-+		if (object->evidence_class < ATTESTATION_EVIDENCE_SIGNED ||
-+		    object->evidence_class > ATTESTATION_EVIDENCE_EVENT_LOG ||
-+		    !attestation_formats_valid(object, vendor_max) ||
-+		    !attestation_challenge_lengths_valid(object) ||
-+		    !object->max_length || object->max_length > UINT_MAX)
++	for (index = 0; index < values->values_count; index++, bank++) {
++		while (bank < props->algorithms_count &&
++		       props->algorithms[bank] != values->values[index].algorithm)
++			bank++;
++		if (bank == props->algorithms_count)
 +			return -EINVAL;
 +	}
 +	return 0;
 +}
 +
-+int attestation_provider_validate(const struct attestation_provider *provider,
-+				  const struct ctlv_family *family)
++int attestation_mr_extend_locked(struct attestation_dev *att, struct attestation_mr *mr,
++				 const struct attestation_digest_set *values)
 +{
++	int ret;
++
++	lockdep_assert_held(&att->lock);
++	if (att->mr_generation == UINT_MAX) {
++		dev_warn(att->node.dev.parent,
++			 "attestation instance %u stopped: mr generation exhausted\n",
++			 att->index);
++		attestation_stop(att);
++		return -EOVERFLOW;
++	}
++	ret = att->provider->mr_extend(att, mr->props->id, values);
++	if (ret)
++		return ret;
++	attestation_mr_changed(att);
++	return 0;
++}
++
++int attestation_mr_props_encode(struct ctlv_cursor *reply, const struct attestation_mr *mr)
++{
++	u64 caps = 0;
 +	size_t index;
-+	int ret;
++	bool ok = true;
 +
-+	if (!provider)
-+		return -EINVAL;
-+	ret = attestation_evidence_caps_validate(provider, family);
-+	if (ret)
-+		return ret;
-+	if (!!provider->mrs != !!provider->mrs_count)
-+		return -EINVAL;
-+	if (provider->mrs_count && !provider->mr_read)
-+		return -EINVAL;
-+	if ((provider->mr_read || provider->mr_extend) && !provider->mrs_count)
-+		return -EINVAL;
-+	for (index = 0; index < provider->mrs_count; index++) {
-+		ret = attestation_mr_props_validate(provider, &provider->mrs[index]);
-+		if (ret)
-+			return ret;
-+	}
-+	return 0;
++	ok &= ctlv_attestation_mr_get_items_id_put(reply, mr->props->id);
++	ok &= ctlv_attestation_mr_desc_name_put(reply, mr->props->name);
++	for (index = 0; index < mr->props->algorithms_count; index++)
++		ok &= ctlv_attestation_mr_desc_supported_hash_algorithms_put(
++			reply, mr->props->algorithms[index]);
++	if (mr->props->has_register_index)
++		ok &= ctlv_attestation_mr_desc_register_index_put(reply, mr->props->register_index);
++	if (mr->props->extendable)
++		caps |= CTLV_ATTESTATION_MR_CAPS_EXTEND;
++	ok &= ctlv_attestation_mr_desc_caps_put(reply, caps);
++	return ok ? 0 : -EMSGSIZE;
 +}
-+
-+static bool attestation_parent_exists(struct device *parent)
-+{
-+	struct attestation_dev *att;
-+	unsigned long index;
-+
-+	xa_for_each(&attestation_instances, index, att)
-+		if (att->node.dev.parent == parent)
-+			return true;
-+	return false;
-+}
-+
-+static int attestation_registry_insert(struct attestation_dev *att)
-+{
-+	unsigned long index;
-+	void *old;
-+	int ret;
-+
-+	guard(mutex)(&attestation_registry_lock);
-+	if (attestation_next_index > UINT_MAX)
-+		return -ENOSPC;
-+	index = attestation_next_index;
-+	ret = xa_reserve(&attestation_instances, index, GFP_KERNEL);
-+	if (ret)
-+		return ret;
-+
-+	xa_lock(&attestation_instances);
-+	if (attestation_parent_exists(att->node.dev.parent)) {
-+		__xa_erase(&attestation_instances, index);
-+		ret = -EEXIST;
-+	} else {
-+		old = __xa_store(&attestation_instances, index, att, GFP_NOWAIT);
-+		ret = xa_err(old);
-+	}
-+	if (!ret) {
-+		att->index = index;
-+		attestation_next_index++;
-+	}
-+	xa_unlock(&attestation_instances);
-+	return ret;
-+}
-+
-+static void attestation_registry_remove(struct attestation_dev *att)
-+{
-+	xa_erase(&attestation_instances, att->index);
-+}
-+
-+bool attestation_registered(struct attestation_dev *att)
-+{
-+	bool registered;
-+
-+	lockdep_assert_held(&att->lock);
-+	xa_lock(&attestation_instances);
-+	registered = xa_get_mark(&attestation_instances, att->index, ATTESTATION_REGISTERED);
-+	xa_unlock(&attestation_instances);
-+	return registered;
-+}
-+
-+void attestation_stop(struct attestation_dev *att)
-+{
-+	lockdep_assert_held(&att->lock);
-+	xa_lock(&attestation_instances);
-+	__xa_clear_mark(&attestation_instances, att->index, ATTESTATION_REGISTERED);
-+	xa_unlock(&attestation_instances);
-+}
-+
-+/**
-+ * attestation_evidence_write - Write an evidence object to its blob.
-+ * @object: the requested object
-+ * @data: the object's bytes
-+ * @length: their length, at most the object's max_length
-+ *
-+ * A blob too short for the object fails the operation, and the caller is told
-+ * how long it has to be.
-+ *
-+ * Return: 0, -EMSGSIZE where the blob is too short, or another negative error.
-+ */
-+int attestation_evidence_write(const struct attestation_evidence_object_request *object,
-+			       const void *data, size_t length)
-+{
-+	if (length > object->supported_object->max_length)
-+		return -E2BIG;
-+	if (length > ctlv_blob_len(object->output))
-+		return ctlv_blob_too_short(object->output, length);
-+	return ctlv_blob_write(object->output, 0, data, length);
-+}
-+EXPORT_SYMBOL_NS_GPL(attestation_evidence_write, "ATTESTATION");
-+
-+void attestation_provide_ops(struct attestation_dev *att)
-+{
-+	const struct attestation_provider *provider = att->provider;
-+	struct ctlv *ctlv = &att->ctlv;
-+
-+	if (provider->evidence_caps) {
-+		ctlv_attestation_evidence_get_provide(ctlv);
-+		ctlv_attestation_evidence_get_enable(ctlv);
-+	}
-+}
-+
-+/* Runs from the release, so it must not reach the provider's module. */
-+static void attestation_state_free(struct attestation_dev *att)
-+{
-+	mutex_destroy(&att->lock);
-+}
-+
-+static int attestation_op_pre(struct ctlv *ctlv, struct ctlv_op_ctx *ctx)
-+{
-+	struct attestation_dev *att = attestation_from_ctlv(ctlv);
-+
-+	mutex_lock(&att->lock);
-+	if (!attestation_registered(att)) {
-+		mutex_unlock(&att->lock);
-+		return -ENODEV;
-+	}
-+	return 0;
-+}
-+
-+static void attestation_op_post(struct ctlv *ctlv, struct ctlv_op_ctx *ctx)
-+{
-+	mutex_unlock(&attestation_from_ctlv(ctlv)->lock);
-+}
-+
-+static const struct ctlv_hooks attestation_ctlv_hooks = {
-+	.pre = attestation_op_pre,
-+	.post = attestation_op_post,
-+};
-+
-+/* Kernel callers find a device by its mark, and are drained once it is gone. */
-+static void attestation_withdraw(struct attestation_dev *att)
-+{
-+	xa_lock(&attestation_instances);
-+	__xa_clear_mark(&attestation_instances, att->index, ATTESTATION_REGISTERED);
-+	xa_unlock(&attestation_instances);
-+}
-+
-+static char *attestation_devnode(const struct device *dev, umode_t *mode)
-+{
-+	return kasprintf(GFP_KERNEL, "attestation/%s", dev_name(dev));
-+}
-+
-+static void attestation_dev_release(struct device *dev)
-+{
-+	struct attestation_dev *att = container_of(dev, struct attestation_dev, node.dev);
-+
-+	attestation_state_free(att);
-+	ctlv_fini(&att->ctlv);
-+	ctlv_device_fini(&att->node);
-+	kfree(att);
-+}
-+
-+/*
-+ * The core registers the class, so an open holds the core module and not the
-+ * provider's, which may unload while readers remain.
-+ */
-+static struct ctlv_device_class attestation_class = {
-+	.class = {
-+		.name = "attestation",
-+		.dev_release = attestation_dev_release,
-+		.devnode = attestation_devnode,
-+	},
-+	.max_devices = ATTESTATION_MAX_DEVICES,
-+};
-+
-+struct attestation_dev *_attestation_alloc(struct device *parent,
-+					   const struct attestation_provider *provider,
-+					   const struct ctlv_family *family, size_t size,
-+					   size_t offset)
-+{
-+	struct attestation_dev *att;
-+	int ret;
-+
-+	if (!parent || WARN_ON_ONCE(offset || size < sizeof(*att)) ||
-+	    !ctlv_family_inherits(family, &ctlv_attestation_family))
-+		return ERR_PTR(-EINVAL);
-+	ret = attestation_provider_validate(provider, family);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	att = kzalloc(size, GFP_KERNEL);
-+	if (!att)
-+		return ERR_PTR(-ENOMEM);
-+	att->provider = provider;
-+	mutex_init(&att->lock);
-+
-+	/* From here on, the release frees whatever was set up. */
-+	ret = ctlv_device_init(&att->node, &attestation_class, parent, &att->ctlv);
-+	if (!ret)
-+		ret = ctlv_init(&att->ctlv, &att->node.dev, family, &attestation_ctlv_hooks);
-+	if (ret) {
-+		put_device(&att->node.dev);
-+		return ERR_PTR(ret);
-+	}
-+	attestation_provide_ops(att);
-+	return att;
-+}
-+EXPORT_SYMBOL_NS_GPL(_attestation_alloc, "ATTESTATION");
-+
-+/**
-+ * attestation_register - Make an allocated device reachable.
-+ * @att: device from attestation_alloc()
-+ *
-+ * Return: 0, or a negative errno with @att still to be put.
-+ */
-+int attestation_register(struct attestation_dev *att)
-+{
-+	int ret;
-+
-+	ret = attestation_registry_insert(att);
-+	if (ret)
-+		return ret;
-+	ctlv_publish(&att->ctlv);
-+	xa_lock(&attestation_instances);
-+	__xa_set_mark(&attestation_instances, att->index, ATTESTATION_REGISTERED);
-+	xa_unlock(&attestation_instances);
-+
-+	ret = ctlv_device_add(&att->node);
-+	if (ret)
-+		goto err_withdraw;
-+	return 0;
-+
-+err_withdraw:
-+	attestation_withdraw(att);
-+	ctlv_unpublish(&att->ctlv);
-+	attestation_registry_remove(att);
-+	return ret;
-+}
-+EXPORT_SYMBOL_NS_GPL(attestation_register, "ATTESTATION");
-+
-+/**
-+ * attestation_unregister - Cut a registered device off from every caller.
-+ * @att: registered device
-+ *
-+ * No provider callback runs once this returns, though open files may still
-+ * hold @att.
-+ */
-+void attestation_unregister(struct attestation_dev *att)
-+{
-+	/* No new opens, and no node to open. */
-+	ctlv_device_del(&att->node);
-+	attestation_withdraw(att);
-+	ctlv_unpublish(&att->ctlv);
-+	attestation_registry_remove(att);
-+}
-+EXPORT_SYMBOL_NS_GPL(attestation_unregister, "ATTESTATION");
-+
-+/**
-+ * attestation_put - Drop the reference attestation_alloc() returned.
-+ * @att: device
-+ */
-+void attestation_put(struct attestation_dev *att)
-+{
-+	put_device(&att->node.dev);
-+}
-+EXPORT_SYMBOL_NS_GPL(attestation_put, "ATTESTATION");
-+
-+static int __init attestation_module_init(void)
-+{
-+	return ctlv_device_class_register(&attestation_class);
-+}
-+
-+static void __exit attestation_module_exit(void)
-+{
-+	WARN_ON_ONCE(!xa_empty(&attestation_instances));
-+	xa_destroy(&attestation_instances);
-+	ctlv_device_class_unregister(&attestation_class);
-+}
-+
-+module_init(attestation_module_init);
-+module_exit(attestation_module_exit);
-+MODULE_DESCRIPTION("Attestation core");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("CTLV");
-diff --git a/drivers/attestation/core/internal.h b/drivers/attestation/core/internal.h
-new file mode 100644
-index 000000000000..f42bc3cd9a35
---- /dev/null
-+++ b/drivers/attestation/core/internal.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _ATTESTATION_INTERNAL_H
-+#define _ATTESTATION_INTERNAL_H
-+
-+#include <linux/attestation.h>
-+#include <linux/ctlv.h>
-+#include <linux/mutex.h>
-+#include <linux/xarray.h>
-+
-+#include "../generated/ctlv_attestation_gen.h"
-+
-+#define ATTESTATION_REGISTERED XA_MARK_1
-+
-+bool attestation_registered(struct attestation_dev *att);
-+void attestation_stop(struct attestation_dev *att);
-+
-+int attestation_provider_validate(const struct attestation_provider *provider,
-+				  const struct ctlv_family *family);
-+void attestation_provide_ops(struct attestation_dev *att);
-+
-+#endif /* _ATTESTATION_INTERNAL_H */
 diff --git a/include/linux/attestation.h b/include/linux/attestation.h
-new file mode 100644
-index 000000000000..29bb776bfb41
---- /dev/null
+index 29bb776bfb41..7745938092c7 100644
+--- a/include/linux/attestation.h
 +++ b/include/linux/attestation.h
-@@ -0,0 +1,240 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+#ifndef _LINUX_ATTESTATION_H
-+#define _LINUX_ATTESTATION_H
-+
-+#include <crypto/hash.h>
-+#include <linux/build_bug.h>
-+#include <linux/ctlv.h>
-+#include <linux/ctlv_device.h>
-+#include <linux/device.h>
-+#include <linux/mutex.h>
-+#include <linux/types.h>
-+
-+#include <uapi/ctlv/ctlv_attestation_gen.h>
-+#include <uapi/linux/hash_info.h>
-+
-+struct attestation_dev;
-+struct ctlv_blob;
-+struct ctlv_family;
-+
-+enum attestation_evidence_class {
-+	ATTESTATION_EVIDENCE_SIGNED = CTLV_ATTESTATION_EVIDENCE_CLASS_SIGNED,
-+	ATTESTATION_EVIDENCE_EVENT_LOG = CTLV_ATTESTATION_EVIDENCE_CLASS_EVENT_LOG,
-+};
-+
-+/**
-+ * struct attestation_digest - One MR digest.
-+ * @algorithm: hash algorithm
-+ * @data: digest bytes
-+ */
-+struct attestation_digest {
-+	enum hash_algo algorithm;
-+	u8 data[HASH_MAX_DIGESTSIZE];
-+};
-+
-+/**
-+ * struct attestation_digest_set - Digests for an MR's banks, in the MR's order.
-+ * @values_count: number of digests
-+ * @values: digest array
-+ */
-+struct attestation_digest_set {
-+	size_t values_count;
-+	struct attestation_digest *values;
-+};
-+
-+/**
-+ * struct attestation_mr_props - Immutable MR properties.
-+ * @id: provider-unique MR ID
-+ * @name: MR name
-+ * @algorithms: bank hash algorithms, each once, in the order replies list them
-+ * @algorithms_count: number of algorithms
-+ * @has_register_index: whether @register_index is valid
-+ * @register_index: native register index
-+ * @extendable: MR may be extended. Fixed: the provider instead refuses an
-+ *	extend the platform forbids at the time, e.g. -EPERM for a TPM locality.
-+ */
-+struct attestation_mr_props {
-+	unsigned int id;
-+	const char *name;
-+	const enum hash_algo *algorithms;
-+	size_t algorithms_count;
-+	bool has_register_index;
-+	unsigned int register_index;
-+	bool extendable;
-+};
-+
-+/**
-+ * struct attestation_evidence_format - The layout of an evidence object.
-+ * @vendor: @value is an evidence-vendor-format value the device's family
-+ *	gives, not an evidence-format one
-+ * @value: the value, such as CTLV_ATTESTATION_EVIDENCE_FORMAT_CCEL
-+ */
-+struct attestation_evidence_format {
-+	bool vendor;
-+	u32 value;
-+};
-+
-+/**
-+ * struct attestation_evidence_challenge_length - Challenge lengths taken.
-+ * @min: shortest challenge bytes, at least 1
-+ * @max: longest challenge bytes, @min for one exact length, at most 4096
-+ */
-+struct attestation_evidence_challenge_length {
-+	size_t min;
-+	size_t max;
-+};
-+
-+/**
-+ * struct attestation_evidence_supported_object - One evidence object.
-+ * @evidence_class: what the object is
-+ * @formats: the layouts it may have, at most four of each kind
-+ * @formats_count: number of formats
-+ * @challenge_lengths: a signed object's challenge lengths, ascending and
-+ *	disjoint; none for any other object
-+ * @challenge_lengths_count: number of challenge lengths, at most 8
-+ * @max_length: longest the object gets, in bytes
-+ * @binds_mrs: the object covers MR values, as they are or by a digest, so
-+ *	the reply carries mr-generation
-+ *
-+ * The object's index in the provider's objects is its ID.
-+ */
-+struct attestation_evidence_supported_object {
-+	enum attestation_evidence_class evidence_class;
-+	const struct attestation_evidence_format *formats;
-+	size_t formats_count;
-+	const struct attestation_evidence_challenge_length *challenge_lengths;
-+	size_t challenge_lengths_count;
-+	size_t max_length;
-+	bool binds_mrs;
-+};
-+
-+/**
-+ * struct attestation_evidence_caps - Immutable evidence capabilities.
-+ * @objects: supported evidence objects, at most 16
-+ * @objects_count: number of objects
-+ */
-+struct attestation_evidence_caps {
-+	const struct attestation_evidence_supported_object *objects;
-+	size_t objects_count;
-+};
-+
-+/**
-+ * struct attestation_evidence_object_request - One resolved output object.
-+ * @supported_object: the object requested
-+ * @output: resolved output blob
-+ */
-+struct attestation_evidence_object_request {
-+	const struct attestation_evidence_supported_object *supported_object;
-+	struct ctlv_blob *output;
-+};
-+
-+/**
-+ * struct attestation_evidence_request - Validated evidence request.
-+ * @challenge: challenge bytes, of a length every signed object requested
-+ *	takes, or NULL where the request names no signed object
-+ * @challenge_length: challenge length, 0 without a challenge
-+ * @objects: requested output objects
-+ * @objects_count: number of objects
-+ */
-+struct attestation_evidence_request {
-+	const u8 *challenge;
-+	size_t challenge_length;
-+	const struct attestation_evidence_object_request *objects;
-+	size_t objects_count;
-+};
-+
-+/**
-+ * struct attestation_evidence_object_result - What a provider made of one object.
-+ * @format: the layout it came in, one of the object's formats
-+ * @length: bytes written
-+ */
-+struct attestation_evidence_object_result {
-+	struct attestation_evidence_format format;
-+	size_t length;
-+};
-+
-+/**
-+ * struct attestation_evidence_result - Provider evidence result.
-+ * @objects: one for every requested object, in request order
-+ */
-+struct attestation_evidence_result {
-+	struct attestation_evidence_object_result *objects;
-+};
-+
-+/**
-+ * struct attestation_provider - Immutable provider operations and properties.
-+ * @evidence_get: produce requested evidence, each object written with
-+ *	attestation_evidence_write() and its result filled in
-+ * @mr_read: read one MR; every MR can be read, so required with @mrs
-+ * @mr_extend: extend the banks of one MR it gets digests for, leaving the
-+ *	others, or fail with -EOPNOTSUPP before changing any if it cannot
-+ * @evidence_caps: evidence capabilities, or NULL
-+ * @mrs: fixed MR properties
-+ * @mrs_count: number of fixed MRs
-+ */
-+struct attestation_provider {
-+	int (*evidence_get)(struct attestation_dev *att,
-+			    const struct attestation_evidence_request *request,
-+			    struct attestation_evidence_result *result);
-+	int (*mr_read)(struct attestation_dev *att, unsigned int mr_id,
-+		       struct attestation_digest_set *values);
-+	int (*mr_extend)(struct attestation_dev *att, unsigned int mr_id,
-+			 const struct attestation_digest_set *values);
-+	const struct attestation_evidence_caps *evidence_caps;
-+	const struct attestation_mr_props *mrs;
-+	size_t mrs_count;
-+};
-+
-+/**
-+ * struct attestation_dev - One attestation device.
-+ * @node: the device's node, whose release frees the driver's struct embedding
-+ *	this
-+ *
-+ * A driver embeds this first in its own struct, allocated by
-+ * attestation_alloc(), and reaches that struct with container_of().
-+ */
-+struct attestation_dev {
-+	struct ctlv_device node;
-+	/* private: */
-+	struct ctlv ctlv;
-+	const struct attestation_provider *provider;
-+	unsigned int index;
-+
-+	/* Mutable instance state. */
-+	struct mutex lock;
-+
-+};
-+
-+/* What a CTLV callback of a family inheriting ctlv-attestation was handed. */
-+static inline struct attestation_dev *attestation_from_ctlv(struct ctlv *ctlv)
-+{
-+	return container_of(ctlv, struct attestation_dev, ctlv);
-+}
-+
-+struct attestation_dev *_attestation_alloc(struct device *parent,
-+					   const struct attestation_provider *provider,
-+					   const struct ctlv_family *family, size_t size,
-+					   size_t offset);
-+
-+/**
-+ * attestation_alloc - Allocate a driver struct embedding an attestation device.
-+ * @parent: the device attested
-+ * @provider: provider operations and properties, which must outlive the device
-+ * @family: the driver's CTLV family, which inherits ctlv-attestation
-+ * @type: the driver's struct
-+ * @member: its struct attestation_dev, the first member
-+ *
-+ * Return: the driver's struct, released by attestation_put(), or an error
-+ * pointer.
-+ */
-+#define attestation_alloc(parent, provider, family, type, member)		\
-+	((type *)_attestation_alloc(parent, provider, family, sizeof(type),	\
-+				    offsetof(type, member)))
-+
-+int attestation_register(struct attestation_dev *att);
-+void attestation_unregister(struct attestation_dev *att);
-+void attestation_put(struct attestation_dev *att);
-+
-+int attestation_evidence_write(const struct attestation_evidence_object_request *object,
-+			       const void *data, size_t length);
-+#endif /* _LINUX_ATTESTATION_H */
+@@ -9,6 +9,7 @@
+ #include <linux/device.h>
+ #include <linux/mutex.h>
+ #include <linux/types.h>
++#include <linux/xarray.h>
+ 
+ #include <uapi/ctlv/ctlv_attestation_gen.h>
+ #include <uapi/linux/hash_info.h>
+@@ -200,9 +201,11 @@ struct attestation_dev {
+ 	const struct attestation_provider *provider;
+ 	unsigned int index;
+ 
+-	/* Mutable instance state. */
++	/* Mutable instance and MR state. */
+ 	struct mutex lock;
++	unsigned int mr_generation;
+ 
++	struct xarray mrs;
+ };
+ 
+ /* What a CTLV callback of a family inheriting ctlv-attestation was handed. */
 -- 
 2.56.0
 
