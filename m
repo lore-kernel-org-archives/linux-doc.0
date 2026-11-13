@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794556427;
-	b=lr1/nAx8IOWJMWo3lMtk7S+k9ifiENGCR+yBYQC2MxVPCc995T4dBcNWTkRhebEz2xQs
-	 LnYMTOlL1DP025u3JxBK/0Bv4G4LD62nhNWS4B912Ml1gsQKdvEHvbKQqw31SpJ5BTr9X
-	 +xZPMmLVvKwrKCTXJbKYZqGdbb/1WHucsaVuiT1wl9z13/DvJu75K9yOI4AmAA9DhSIzv
-	 wEJXxnrCAdvjpbqgKzqQu5NXfT2b0CN5yTiI0lp3ecz8A/AZ01XLPSvqIM3AjbvkShBId
-	 UuGl0gAFEARMZFWh7g0HHALAqDaL23hPgsUcxGCaBAHn1mfnEYR++kymN6FN5wm5upg==
+	t=1794556435;
+	b=u+odLNrEF7b5RFR45r3rVlxZI+A+CRT97kUMiaPLjH+K8NqjM6Jjj3bD/Aj4aWWOFSTu
+	 rnwlddwVBVtn2ONgNalrA9yx5jOIoMub6hfz53oVwyA6sZJcBT17ysMMdZ7L/4AUZU0W8
+	 b5Aoz0X9qOety6VmTSrghcMNuXD7PNeFe4q+7Mr21CyYdlE2nsnc6jIn22qwZpDHDSyiX
+	 d/rpZpRDbNxA2qPJkQwkAMF21T2x/IgEjBa6x/OPbQy5OGz0QCT5YluN+pRhs9rYj0Ubz
+	 LRr/SkW5UJ2FsXJptxEwGbNQKj0soXT6Sw+/bNhA6k0LwW5rVj8TCXrDx8cKOshMmpw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794556427;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794556435;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=MJx2VhkDwAThYqH3qA0MncZOWZgXmJc1U/NyauJfUPQ=;
-	b=tMqWyXeNQiWQDM/wvGuTKONdeiD2O65cvfM4QBCqcfPNnN9ege9X5TNW5jTjTj+2Tr+D
-	 rP8ApcRxxweRWSos2cEEHC09XrWZFCuOOYSM4fmB4tLFucKOUJeFPgaXDlhUoJjjF222g
-	 w8MuCy+nBMw5D6RhM5ct0WL2o1oLKqkjdMfQTeql3fsLjsigHS7nAXthd9udVJX5EG5Mg
-	 tlo6gKfygMyx1CJu9I1twgnsHF5eiLwKkwgZoaYxSsJBdK5o19qrumYHWj9fhtTpBc4KD
-	 X9KGfpoU+OgMARlGwdKySha/AgN4PcryUE8icJHvLnFBP/ESWiS/5IgjICHRK+0V08A==
+	bh=X+Bvqu0rC8t8WcE45Nw2eyzcpwuTeKWohLoDmF9rmcE=;
+	b=P07m4cgVPTrFRv/3pmkvXGQXwJXEg1kkbrSyIbMqEgTH/pg2owzCv8Z8jiovHdQ6l7BC
+	 hlpeHIfBV/JRi5zqY926j0XBR2vps/RHrQYinv252T0mPVZp/eTcF4HgZpCNahM+ObMDv
+	 HJrdznz9fGoX+qN2SUdUF8uTCkvnRHhRb1sD7RJsFclltx0SBobPh4hvspCcm9HSwLIOi
+	 YIF87JwsN3/ACTAK6xIJcVy3jOYXrs++YwQ8MVNbfwmsp7XQNm55xD89FAqmbb/0YAyJH
+	 HEziMVbGxgHVL2zc3TrLOwoqgAXa1OF6JCD252PM6h+Mcf+tNbkySKLB1TllFztljEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x8A8utfe;
-	arc=none smtp.remote-ip=209.85.216.43
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YyxK8T2v;
+	arc=none smtp.remote-ip=209.85.216.48
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4385D606A881
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:53:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4385D606A881
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3679606A88A
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:53:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D3679606A88A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x8A8utfe
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3b1535be329so623417a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 23:53:47 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=YyxK8T2v
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-3b0a519049aso1044542a91.1
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 23:53:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794556426; x=1795161226; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794556434; x=1795161234; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=MJx2VhkDwAThYqH3qA0MncZOWZgXmJc1U/NyauJfUPQ=;
-        b=x8A8utfebOaOZ7hPy8NWMGVS6LVpKJnmq/TC1yA3CZPVCHzu7V89dP5Mjx1MigBNKy
-         zLrSFHtEaqB9/yn2dw66xr8OgdaEQCtP8OXDG6ceSef3e5C7KRj5dd5nwr9I7cZyGreC
-         2t+MHbxr24g8/3oIlq+EMZfG2pmLbdP6aJDaYNGm11riYIqZrgI0/C1b/DbUW5gKm15F
-         aBFQBj6/joFof7itdYwss6AfK7IK3aGtZhVFY25GAQ/MJMEnJ/QUE3w+TFv8K9NTiG9a
-         xTJMAj8N4uuRsmQyl05hK71lV0/2Y+uU8Aq4xtQcuiTn3UPr/wszBnU3pfK4mc+PkfL6
-         /ilQ==
+        bh=X+Bvqu0rC8t8WcE45Nw2eyzcpwuTeKWohLoDmF9rmcE=;
+        b=YyxK8T2vTB3p42rkrl+kCbMeggF8/oiPkaxTWP9HyvVF9ITcq9RJ+1EnjPzM0M4fwI
+         MqJpgTw+sXvzZgs64CRuTCJHvYKPwcoUrCAX3U3DbPY5r3vQ/AbNU51lqC/Ykjyb3uWW
+         zhWE60DnZsZc2luvB6BSxHIIz4JyhN5vg964kJTR79ljbe2JcOSebBvI4WPNUF2daXya
+         Q/nU5Od4pO7sGQ5NH2J6RQychAN7nh1LUeaP6Vad1pjvWs7z6J1l+nxZjbwG85h7HfYA
+         r3PUeRAuyvdRE+RLEFSWyfL2d6jGuG2lQjlEBFd0ouNnHqpR9UJoe6G3+y647HDcSj2s
+         cv7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794556426; x=1795161226;
+        d=1e100.net; s=20260707; t=1794556434; x=1795161234;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MJx2VhkDwAThYqH3qA0MncZOWZgXmJc1U/NyauJfUPQ=;
-        b=To+7Vlge5RJRWPWmONpHGzAL2lXbEdgTQg4DhRlLWFa0aEURlDaJJnd3hMwo//NolZ
-         30M9DpWdHvZGseGeq8J5Kggx8t+lSIGYSClnKS63ZTWcAFkurLEvo/ltlk+jqW6ko/Fe
-         JlYnyiXN84Fipe6MkquipAqeKG26gweVat72h7InzwDudZWZ0heaQEFGs9xzOoDOdZkj
-         xqfCeBWf/OlmEdcz1ZS/sLv54cH87k4CQBYZChwwvnN293emJU9+msqFW986YiZIIzfw
-         T1aAFq7IZ/zo18yZL0lVMPaYL8mgntATHhSCnEjiuW7JMG3+fNFNAQDtTIqkU97lvRmT
-         dc2g==
-X-Forwarded-Encrypted: i=1; AL+hErERfRvgFmKsW86k0z0ViOOI/uCmjp1VTw4mA7OUK2XhJC6I1zbCAC1Arhmhoo6xiI1EXZcw2sj/t2M=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9QbxemI2QT0k4WC6WbbVSfpDhV68Y74J2HO8lyFtd0sCAzxyvg
-	BmV2OsZuZ8oHcPcuqnNTxmRUiTZTYTZBTml4QCgWCqJgn8ZEt6sS4B9l
-X-Gm-Gg: AYBFou1a0LnLM7gaD518LoVJMY/GZD0eq+ZXJyq26kW6W/iuPtVEVW3hqZ192v7cZsA
-	NcRdQOWWV4AZoFI7HwnbjE6c9CKpkiGqr2nNblnCoqngxMxQy4Ls9mtMKOjml84t9j6W8zF66Lt
-	bLNpYKLLCzadUg7mwAvMnHg8WINaTK73cvM191C6rMpBH4Z32K4By5wkdSfGjPQiPCoevww/kxY
-	andhZ79Aa09N3CuQkxLgS3M1Z14Ssc9xuO/uddy0mOjaJJKEZzZhhljA8FcXNddaAyhBTZgOp7R
-	ClEoDVkyVutcykotuWsmqvq8xUxgg2FfkHWMLemAUar7J/r6JuUMP7u4NwWpMNprIuCKDy/2lXP
-	iEqZrp3dDuKe47NDcuX/Ad6mhSzbx43xxglXgmMweY+5pkU9hU06M6ae864DlFr9EocZIsN9C+3
-	p3fZDXAYZf+Up/RmZ9OXvKObDEa3s8k9xlE8RaIbRwNf2UEOlOwW+W+jMnPHoyb0QNUT5ZKFTUH
-	P2fg8zkCV1QI38eE4mm6aQrgs+h5+o9KznaZ00HSQciVDaTtxuNJGLShtOMnye2ASEP/6YyZtoj
-	HWOeo40i95faSlaNQMoJja4ynyI3uakpzOI=
-X-Received: by 2002:a17:90b:1dc4:b0:3ab:b39f:41cd with SMTP id 98e67ed59e1d1-3b1b0b5e500mr1447942a91.60.1794556426358;
-        Thu, 12 Nov 2026 23:53:46 -0800 (PST)
+        bh=X+Bvqu0rC8t8WcE45Nw2eyzcpwuTeKWohLoDmF9rmcE=;
+        b=CejvEyAmfmO5sSl4EU1V4BL1McCOTJJNsZKNZo1/5QixAqoWHEIGNcae2c6/CgRVPr
+         h8jFeUffUQjeG3E2kdKz1F8pB2VKaLCPqwuFGeA8p2pw1PkxNebhBYTERdGXBB/c8iAj
+         xlPxxBU8hvDygNdBlbSBye05JZbdOCImG/Z4W7o+lTUMyAgWQZM89Ho0DbrVOII12GZf
+         1nKiMDeP+ib+mwWsWdpP7pNkxs/kYfk1cBCEmEcFgGWoCqGyCP/juwsvWvYLlpXjrdbt
+         mlWUWbuIqyGx9xFzERxB+/315x4MjVkAHPBF76xZjZtuNioE9qlCLKfH0arMroLfZE9p
+         Nx9w==
+X-Forwarded-Encrypted: i=1; AL+hErF9fHy7W2yvSf4Prv7MhwXV2IXhuVHtlGVIQD7SCA0zrhs6nTLmC67x4y+ZctrlIOXr1+KPC8RnRug=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/mVBuVly+TmxO2dan6kHAQdY8WVxsTqlHVeP7QwG2Fwi8VyeAH
+	deKmwpFXBcFrddOzbku6LmbAgUOxCdh8SOW4PohTgKlrB3jyv/bM3FJg
+X-Gm-Gg: AYBFou3Ia2ngtai69HLb9eX5t1VTlI2fOtf5TdGClPexoD4m77eyfm4ePwiMU2E9rhU
+	u345gz7TN1JHz6uurA87YSAn2lCn0Wpc81XeY1PwWXdij4MFP1B0YXQmtKKGp+VyWWEXZ3dMewG
+	foQQrQHFKPIsCr0ejz2UgE3NkldtSVB/Qq+qY1VsgwAqo3UuqVdrJfaGiszxNiVxnRBiT2KmEN8
+	SYqRF3c0AnPoP2H5yMpSfL756VeDwi5y+CB4j3g+eY89wlW949r3JEHJxwZsH96ouEblbvr/Vhy
+	68rm0WnsujgVqUKE9+5u6KXRH7z84Lp3d7keIBOIyHu2f9zq8WF/W9wDN3lqiNWUBGnz36AYVxC
+	lPsFOPZIIf4lZgW0ngiQy6beBIFrxATVhagFI+GTA6hUqSTMD/qapC5pl5Bg7qyMrrc5TtT0r70
+	vEMSjLRwrtZYvWvplJWoDWiA4yFu1JMruIbKCZr6+yVp2plA6YIDXtU7C3mfPrTiinUMeP0dkTj
+	2Qg1UrpNPm6jxmfosJ688VIVZFr0J726JFzCUW4MfEQ1X1lF/OnqRoAYsI928snP312Q4Ymkvlu
+	Q/pwFzltG+jOnWRarUqDjjkn3yMz/7wrfgk=
+X-Received: by 2002:a17:90a:f947:b0:3ad:ce24:acfa with SMTP id 98e67ed59e1d1-3b1b0b55384mr1522453a91.20.1794556434053;
+        Thu, 12 Nov 2026 23:53:54 -0800 (PST)
 Received: from localhost ([176.210.133.73])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b3b708adsm993234a91.4.2026.11.12.23.53.39
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b3b708adsm993234a91.4.2026.11.12.23.53.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 23:53:45 -0800 (PST)
+        Thu, 12 Nov 2026 23:53:53 -0800 (PST)
 From: Vladislav Zaharov <vladazaharova2018@gmail.com>
 To: dakr@kernel.org,
 	jhubbard@nvidia.com
@@ -90,9 +90,9 @@ Cc: acourbot@nvidia.com,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	vladazaharova2018@gmail.com
-Subject: [PATCH v7 2/4] gpu: nova-core: gsp: move the log buffers into their own file
-Date: Fri, 13 Nov 2026 14:53:15 +0700
-Message-ID: <20261113075317.934264-3-vladazaharova2018@gmail.com>
+Subject: [PATCH v7 3/4] gpu: nova-core: gsp: retain the GSP-RM log buffers after unbind
+Date: Fri, 13 Nov 2026 14:53:16 +0700
+Message-ID: <20261113075317.934264-4-vladazaharova2018@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261113075317.934264-1-vladazaharova2018@gmail.com>
 References: <20261113075317.934264-1-vladazaharova2018@gmail.com>
@@ -107,182 +107,346 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Move the GSP-RM log buffer code from gsp.rs into gsp/logbuffer.rs, ahead
-of extending it. No functional change.
+The GSP-RM log buffers are DMA allocations of the device, so their
+debugfs files go away when the GPU is unbound, including when probe()
+fails. That is when the logs are most needed.
+
+Add a gsp_keep_logs module parameter. When it is set, the buffers are
+copied into module memory when they are dropped, and the copies are
+exposed in the same files until the GPU is bound again or the module is
+unloaded.
 
 Signed-off-by: Vladislav Zaharov <vladazaharova2018@gmail.com>
 ---
- drivers/gpu/nova-core/gsp.rs           | 59 +++--------------------
- drivers/gpu/nova-core/gsp/logbuffer.rs | 65 ++++++++++++++++++++++++++
- 2 files changed, 72 insertions(+), 52 deletions(-)
- create mode 100644 drivers/gpu/nova-core/gsp/logbuffer.rs
+ drivers/gpu/nova-core/debugfs.rs       |  17 ++-
+ drivers/gpu/nova-core/gsp.rs           |  42 +++----
+ drivers/gpu/nova-core/gsp/logbuffer.rs | 149 ++++++++++++++++++++++++-
+ drivers/gpu/nova-core/nova_core.rs     |   6 +
+ 4 files changed, 182 insertions(+), 32 deletions(-)
 
+diff --git a/drivers/gpu/nova-core/debugfs.rs b/drivers/gpu/nova-core/debugfs.rs
+index 6c6ed129f0da..5ba5d42a8a7b 100644
+--- a/drivers/gpu/nova-core/debugfs.rs
++++ b/drivers/gpu/nova-core/debugfs.rs
+@@ -4,12 +4,21 @@
+ 
+ use kernel::{
+     debugfs,
+-    prelude::*, //
++    new_mutex,
++    prelude::*,
++    sync::Mutex, //
+ };
+ 
++use crate::gsp::RetainedLogs;
++
+ /// Debugfs data the module shares with every GPU it drives.
+ #[pin_data]
+ pub(crate) struct DebugfsData {
++    /// Copies of the GSP-RM log buffers of GPUs that are no longer bound.
++    ///
++    /// Declared before `root`, as the copies live below it.
++    #[pin]
++    retained_logs: Mutex<RetainedLogs>,
+     /// Root directory of the driver in debugfs.
+     root: debugfs::Dir,
+ }
+@@ -18,6 +27,7 @@ impl DebugfsData {
+     /// Creates the debugfs data of the module.
+     pub(crate) fn new() -> impl PinInit<Self> {
+         pin_init!(Self {
++            retained_logs <- new_mutex!(RetainedLogs::new()),
+             root: debugfs::Dir::new(c"nova-core"),
+         })
+     }
+@@ -26,4 +36,9 @@ pub(crate) fn new() -> impl PinInit<Self> {
+     pub(crate) fn root(&self) -> &debugfs::Dir {
+         &self.root
+     }
++
++    /// Returns the copies of the GSP-RM log buffers of GPUs that are no longer bound.
++    pub(crate) fn retained_logs(&self) -> &Mutex<RetainedLogs> {
++        &self.retained_logs
++    }
+ }
 diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index 79ee74a0a16f..43df95406d35 100644
+index 43df95406d35..43945f5c09c9 100644
 --- a/drivers/gpu/nova-core/gsp.rs
 +++ b/drivers/gpu/nova-core/gsp.rs
-@@ -12,11 +12,7 @@
-         CoherentView,
-         DmaAddress, //
-     },
--    io::{
--        io_project,
--        io_write,
--        Io, //
--    },
-+    io::io_write,
-     pci,
-     prelude::*, //
- };
-@@ -24,10 +20,16 @@
- pub(crate) mod cmdq;
- pub(crate) mod commands;
- mod fw;
-+mod logbuffer;
- mod nvkv;
+@@ -25,10 +25,8 @@
  mod regs;
  mod sequencer;
  
-+use logbuffer::{
-+    LogBuffer,
-+    LogBuffers, //
-+};
-+
+-use logbuffer::{
+-    LogBuffer,
+-    LogBuffers, //
+-};
++use logbuffer::LogBuffers;
++pub(crate) use logbuffer::RetainedLogs;
+ 
  pub(crate) use fw::{
      GspFmcBootParams,
-     GspFwWprMeta,
-@@ -78,10 +80,6 @@ pub(crate) fn dev(&self) -> &'gpu device::Device<device::Bound> {
-     }
- }
+@@ -124,9 +122,7 @@ pub(crate) fn new(
+         pin_init::pin_init_scope(move || {
+             let dev = pdev.as_ref();
  
--/// Number of GSP pages to use in a RM log buffer.
--const RM_LOG_BUFFER_NUM_PAGES: usize = 0x10;
--const LOG_BUFFER_SIZE: usize = RM_LOG_BUFFER_NUM_PAGES * GSP_PAGE_SIZE;
--
- /// Array of page table entries, as understood by the GSP bootloader.
- #[repr(C)]
- #[derive(FromBytes, IntoBytes)]
-@@ -102,49 +100,6 @@ fn init(view: CoherentView<'_, Self>, start: DmaAddress) -> Result<()> {
-     }
- }
+-            let loginit = LogBuffer::new(dev)?;
+-            let logintr = LogBuffer::new(dev)?;
+-            let logrm = LogBuffer::new(dev)?;
++            let log_buffers = LogBuffers::new(dev)?;
  
--/// The logging buffers are byte queues that contain encoded printf-like
--/// messages from GSP-RM.  They need to be decoded by a special application
--/// that can parse the buffers.
--///
--/// The 'loginit' buffer contains logs from early GSP-RM init and
--/// exception dumps.  The 'logrm' buffer contains the subsequent logs. Both are
--/// written to directly by GSP-RM and can be any multiple of GSP_PAGE_SIZE.
--///
--/// The physical address map for the log buffer is stored in the buffer
--/// itself, starting with offset 1. Offset 0 contains the "put" pointer (pp).
--/// Initially, pp is equal to 0. If the buffer has valid logging data in it,
--/// then pp points to index into the buffer where the next logging entry will
--/// be written. Therefore, the logging data is valid if:
--///   1 <= pp < sizeof(buffer)/sizeof(u64)
--struct LogBuffer<'a>(Coherent<'a, [u8; LOG_BUFFER_SIZE]>);
+             // Initialise the logging structures. The OpenRM equivalents are in:
+             // _kgspInitLibosLoggingStructures (allocates memory for buffers)
+@@ -141,29 +137,23 @@ pub(crate) fn new(
+                         GFP_KERNEL,
+                     )?;
+ 
+-                    libos.init_at(0, LibosMemoryRegionInitArgument::new("LOGINIT", &loginit.0))?;
+-                    libos.init_at(1, LibosMemoryRegionInitArgument::new("LOGINTR", &logintr.0))?;
+-                    libos.init_at(2, LibosMemoryRegionInitArgument::new("LOGRM", &logrm.0))?;
++                    libos.init_at(
++                        0,
++                        LibosMemoryRegionInitArgument::new("LOGINIT", &log_buffers.loginit.0),
++                    )?;
++                    libos.init_at(
++                        1,
++                        LibosMemoryRegionInitArgument::new("LOGINTR", &log_buffers.logintr.0),
++                    )?;
++                    libos.init_at(
++                        2,
++                        LibosMemoryRegionInitArgument::new("LOGRM", &log_buffers.logrm.0),
++                    )?;
+                     libos.init_at(3, LibosMemoryRegionInitArgument::new("RMARGS", rmargs))?;
+ 
+                     libos.into()
+                 },
+-                logs <- {
+-                    let log_buffers = LogBuffers {
+-                        loginit,
+-                        logintr,
+-                        logrm,
+-                    };
 -
--impl<'a> LogBuffer<'a> {
--    /// Creates a new `LogBuffer` mapped on `dev`.
--    fn new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
--        let obj = Self(Coherent::zeroed(dev, GFP_KERNEL)?);
+-                    let log_parent: &debugfs::Dir =
+-                        crate::NovaCoreModule::debugfs_data(dev).root();
 -
--        let start_addr = obj.0.dma_address();
--
--        let pte_view = io_project!(
--            obj.0,
--            [build: size_of::<u64>()..][build: ..RM_LOG_BUFFER_NUM_PAGES * size_of::<u64>()]
--        )
--        .try_cast::<PteArray<RM_LOG_BUFFER_NUM_PAGES>>()?;
--        PteArray::init(pte_view, start_addr)?;
--
--        Ok(obj)
--    }
--}
--
--struct LogBuffers<'a> {
--    /// Init log buffer.
--    loginit: LogBuffer<'a>,
--    /// Interrupts log buffer.
--    logintr: LogBuffer<'a>,
--    /// RM log buffer.
--    logrm: LogBuffer<'a>,
--}
--
- /// GSP runtime data.
- #[pin_data]
- pub(crate) struct Gsp<'gsp> {
+-                    log_parent.scope(log_buffers, dev.name(), |logs, dir| {
+-                        dir.read_binary_file(c"loginit", &logs.loginit.0);
+-                        dir.read_binary_file(c"logintr", &logs.logintr.0);
+-                        dir.read_binary_file(c"logrm", &logs.logrm.0);
+-                    })
+-                },
++                logs <- log_buffers.scope(),
+             }))
+         })
+     }
 diff --git a/drivers/gpu/nova-core/gsp/logbuffer.rs b/drivers/gpu/nova-core/gsp/logbuffer.rs
-new file mode 100644
-index 000000000000..1fb411ce6d01
---- /dev/null
+index 1fb411ce6d01..e1a613faace5 100644
+--- a/drivers/gpu/nova-core/gsp/logbuffer.rs
 +++ b/drivers/gpu/nova-core/gsp/logbuffer.rs
-@@ -0,0 +1,65 @@
-+// SPDX-License-Identifier: GPL-2.0
+@@ -2,19 +2,30 @@
+ 
+ //! GSP-RM log buffers.
+ 
++use core::convert::Infallible;
 +
-+//! GSP-RM log buffers.
-+
-+use kernel::{
-+    device,
-+    dma::Coherent,
-+    io::{
-+        io_project,
-+        Io, //
+ use kernel::{
++    debugfs,
+     device,
+     dma::Coherent,
+     io::{
+         io_project,
+         Io, //
+     },
+-    prelude::*, //
++    prelude::*,
++    str::CString,
++    sync::barrier::{
++        dma_mb,
++        Read, //
++    }, //
+ };
+ 
+-use crate::gsp::{
+-    PteArray,
+-    GSP_PAGE_SIZE, //
++use crate::{
++    gsp::{
++        PteArray,
++        GSP_PAGE_SIZE, //
 +    },
-+    prelude::*, //
-+};
++    NovaCoreModule, //
+ };
+ 
+ /// Number of GSP pages to use in a RM log buffer.
+@@ -39,7 +50,7 @@
+ 
+ impl<'a> LogBuffer<'a> {
+     /// Creates a new `LogBuffer` mapped on `dev`.
+-    pub(super) fn new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
++    fn new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
+         let obj = Self(Coherent::zeroed(dev, GFP_KERNEL)?);
+ 
+         let start_addr = obj.0.dma_address();
+@@ -53,9 +64,33 @@ pub(super) fn new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
+ 
+         Ok(obj)
+     }
 +
-+use crate::gsp::{
-+    PteArray,
-+    GSP_PAGE_SIZE, //
-+};
++    /// Copies the buffer, or returns an empty vector if the GSP never wrote to it.
++    fn snapshot(&self) -> Result<VVec<u8>> {
++        let put = io_project!(self.0, [build: ..size_of::<u64>()])
++            .try_cast::<u64>()?
++            .read_val();
++        if put == 0 {
++            return Ok(VVec::new());
++        }
 +
-+/// Number of GSP pages to use in a RM log buffer.
-+const RM_LOG_BUFFER_NUM_PAGES: usize = 0x10;
-+const LOG_BUFFER_SIZE: usize = RM_LOG_BUFFER_NUM_PAGES * GSP_PAGE_SIZE;
++        // ORDERING: LOAD->LOAD ordering needed to order the "put" read before the data read, as a
++        // GSP that failed to boot may still be writing.
++        dma_mb(Read);
 +
-+/// The logging buffers are byte queues that contain encoded printf-like
-+/// messages from GSP-RM.  They need to be decoded by a special application
-+/// that can parse the buffers.
-+///
-+/// The 'loginit' buffer contains logs from early GSP-RM init and
-+/// exception dumps.  The 'logrm' buffer contains the subsequent logs. Both are
-+/// written to directly by GSP-RM and can be any multiple of GSP_PAGE_SIZE.
-+///
-+/// The physical address map for the log buffer is stored in the buffer
-+/// itself, starting with offset 1. Offset 0 contains the "put" pointer (pp).
-+/// Initially, pp is equal to 0. If the buffer has valid logging data in it,
-+/// then pp points to index into the buffer where the next logging entry will
-+/// be written. Therefore, the logging data is valid if:
-+///   1 <= pp < sizeof(buffer)/sizeof(u64)
-+pub(super) struct LogBuffer<'a>(pub(super) Coherent<'a, [u8; LOG_BUFFER_SIZE]>);
++        let mut snapshot = VVec::zeroed(LOG_BUFFER_SIZE, GFP_KERNEL)?;
++        io_project!(self.0, [build: ..]).copy_to_slice(&mut snapshot);
 +
-+impl<'a> LogBuffer<'a> {
-+    /// Creates a new `LogBuffer` mapped on `dev`.
++        // The copy reads "put" again, unordered against the data, so keep the value read above.
++        snapshot[..size_of::<u64>()].copy_from_slice(&put.to_ne_bytes());
++
++        Ok(snapshot)
++    }
+ }
+ 
+ pub(super) struct LogBuffers<'a> {
++    /// Device the buffers belong to.
++    dev: &'a device::Device<device::Bound>,
+     /// Init log buffer.
+     pub(super) loginit: LogBuffer<'a>,
+     /// Interrupts log buffer.
+@@ -63,3 +98,107 @@ pub(super) struct LogBuffers<'a> {
+     /// RM log buffer.
+     pub(super) logrm: LogBuffer<'a>,
+ }
++
++impl<'a> LogBuffers<'a> {
++    /// Allocates the log buffers of `dev`.
 +    pub(super) fn new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
-+        let obj = Self(Coherent::zeroed(dev, GFP_KERNEL)?);
++        Ok(Self {
++            dev,
++            loginit: LogBuffer::new(dev)?,
++            logintr: LogBuffer::new(dev)?,
++            logrm: LogBuffer::new(dev)?,
++        })
++    }
 +
-+        let start_addr = obj.0.dma_address();
++    /// Exposes the buffers in debugfs, in a directory named after their device.
++    pub(super) fn scope(self) -> impl PinInit<debugfs::Scope<Self>, Infallible> + 'a {
++        let dev = self.dev;
++        let data = NovaCoreModule::debugfs_data(dev);
 +
-+        let pte_view = io_project!(
-+            obj.0,
-+            [build: size_of::<u64>()..][build: ..RM_LOG_BUFFER_NUM_PAGES * size_of::<u64>()]
-+        )
-+        .try_cast::<PteArray<RM_LOG_BUFFER_NUM_PAGES>>()?;
-+        PteArray::init(pte_view, start_addr)?;
++        // Retained copies of an earlier run use the same directory.
++        data.retained_logs().lock().remove(dev.name());
 +
-+        Ok(obj)
++        data.root().scope(self, dev.name(), |logs, dir| {
++            dir.read_binary_file(c"loginit", &logs.loginit.0);
++            dir.read_binary_file(c"logintr", &logs.logintr.0);
++            dir.read_binary_file(c"logrm", &logs.logrm.0);
++        })
++    }
++
++    /// Exposes copies of the buffers in their place, if `gsp_keep_logs` is set.
++    fn retain(&self) -> Result {
++        if !crate::module_parameters::gsp_keep_logs.value() || !cfg!(CONFIG_DEBUG_FS) {
++            return Ok(());
++        }
++
++        let logs = RetainedLogBuffers {
++            name: CString::try_from_fmt(fmt!("{}", self.dev.name()))?,
++            loginit: self.loginit.snapshot()?,
++            logintr: self.logintr.snapshot()?,
++            logrm: self.logrm.snapshot()?,
++        };
++
++        if logs.loginit.is_empty() && logs.logintr.is_empty() && logs.logrm.is_empty() {
++            return Ok(());
++        }
++
++        // Allocate before an earlier copy is dropped, so that a failure leaves that copy in place.
++        let scope = KBox::<debugfs::Scope<RetainedLogBuffers>>::new_uninit(GFP_KERNEL)?;
++        let data = NovaCoreModule::debugfs_data(self.dev);
++        let root = data.root();
++        let mut retained = data.retained_logs().lock();
++        retained.0.reserve(1, GFP_KERNEL)?;
++
++        retained.remove(self.dev.name());
++
++        let scope = scope.write_pin_init(root.scope(logs, self.dev.name(), |logs, dir| {
++            if !logs.loginit.is_empty() {
++                dir.read_binary_file(c"loginit", &logs.loginit);
++            }
++            if !logs.logintr.is_empty() {
++                dir.read_binary_file(c"logintr", &logs.logintr);
++            }
++            if !logs.logrm.is_empty() {
++                dir.read_binary_file(c"logrm", &logs.logrm);
++            }
++        }))?;
++
++        retained.0.push(scope, GFP_KERNEL)?;
++
++        Ok(())
 +    }
 +}
 +
-+pub(super) struct LogBuffers<'a> {
-+    /// Init log buffer.
-+    pub(super) loginit: LogBuffer<'a>,
-+    /// Interrupts log buffer.
-+    pub(super) logintr: LogBuffer<'a>,
-+    /// RM log buffer.
-+    pub(super) logrm: LogBuffer<'a>,
++impl Drop for LogBuffers<'_> {
++    fn drop(&mut self) {
++        if let Err(e) = self.retain() {
++            dev_warn!(self.dev, "failed to retain GSP-RM log buffers: {:?}\n", e);
++        }
++    }
 +}
++
++/// Copies of the log buffers of a GPU that is no longer bound.
++struct RetainedLogBuffers {
++    /// Name of the device, which also names the debugfs directory.
++    name: CString,
++    /// Init log buffer, empty if never written to.
++    loginit: VVec<u8>,
++    /// Interrupts log buffer, empty if never written to.
++    logintr: VVec<u8>,
++    /// RM log buffer, empty if never written to.
++    logrm: VVec<u8>,
++}
++
++/// Copies of the log buffers of all GPUs that are no longer bound.
++pub(crate) struct RetainedLogs(KVec<Pin<KBox<debugfs::Scope<RetainedLogBuffers>>>>);
++
++impl RetainedLogs {
++    pub(crate) const fn new() -> Self {
++        Self(KVec::new())
++    }
++
++    /// Drops the copies of the device named `name`, if any.
++    fn remove(&mut self, name: &CStr) {
++        self.0.retain(|gpu| *gpu.name != *name);
++    }
++}
+diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
+index f5d08de8a212..1671e260dfb4 100644
+--- a/drivers/gpu/nova-core/nova_core.rs
++++ b/drivers/gpu/nova-core/nova_core.rs
+@@ -91,6 +91,12 @@ fn init(module: &'static kernel::ThisModule) -> impl PinInit<Self, Error> {
+     description: "Nova Core GPU driver",
+     license: "GPL v2",
+     firmware: [],
++    params: {
++        gsp_keep_logs: bool {
++            default: false,
++            description: "Keep the GSP-RM log buffers in debugfs after their GPU is unbound",
++        },
++    },
+ }
+ 
+ kernel::module_firmware!(firmware::ModInfoBuilder);
 -- 
 2.56.0
 
