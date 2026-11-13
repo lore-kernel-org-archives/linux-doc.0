@@ -1,55 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794580499;
-	b=IifTHjAMW9YRYIj40SQN/lGf8PkWnKujIoL2HKdRvSeYC2DTP8xk3J8THOJGkgRVneHQ
-	 nnksk4/Er0x2ujKyUcsrOnRpd1OeaSSQdOq3AeGuDafdEbHDkpdK0Q6/y6DBKxZne2fOz
-	 bv4FQYff71AfcgpspzsScsUg4Njb3F+VRKsKR1l8Huqh6HgpAzgSREgxlIFmE5ZGcKb6j
-	 yiFCR1hPzWckHcTrxm9ZrayxsWnSesx48zXTcGowjUh4jxVQhgz6DMwALuGFdFr6CW2c/
-	 /wQhYExvPIwM96SqZgH0cfY0dqqkO4OCmGvditk4/ezqoh4epZaTaHqe0nN4LdZ/Vkg==
+	t=1794580945;
+	b=1PNL1vX/0AzVnHoW13eWYn4bXh1ivB0RS+W0O0kXbAyKBIUcFWxyKdbbSBn6EpiFVv03
+	 LrinqJzm6d8waGOUS1DogTCr5uK7hBAngdHnV4Kpc1ZtVfdzpBdy9zXujOg3rkDLRYJRS
+	 zRjAWlC3QZJV1A0y1EOkZ9BSH24GdzO2FKykw4ZQGOi62UCyTKYLAWxOI5KszDFcmvMpH
+	 8fxCDpAVyvjh+12rhglQlcHwex8jeFRQFyVN2d7gjiULBMXVo7uplV9wsT36XLKjKyZKG
+	 jWOuXuVCcughTInxYl44SCeIcdLGyN2HhgAOr84xqEEXskJMBM3gIJalUMZY/rC7Wmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794580499;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=PF7x+WHFDlFjFzclJMmi7Uvb2yYXpjZa21XSXBNN68Y=;
-	b=rRVi5joi8CnOfjPlxhmUaPAw8CtVqyQ/I9xFtA6xhDLw/tEN1FlktrC2WtotK2kk++Gq
-	 GZtcOASgQ2sWtYtoOvSJGynez/E3Tcf803Dit0+x5M9OS+Szp0j4xWyjaVYsJQuhm1EKt
-	 wXqeahyQi6stxs+uhoTN3t9Ni4907sdkrQ6ruOKMcPnPfCtQ5NSN8sCWdgNKJ2681tdnA
-	 YsTj4xNwISSG0O7DUFY47QTrhIm3VDcJVJpB46akRGf7mOpiYbfnRTUadRlseCJS1g8v5
-	 3GifNk5FB4vV+Izbi+OIhwU6ssLyibC84BRCkpOl58oenxiMOuZF9KSxN7t7zg5Y7Qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794580945;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=tw0RNCHx45b0sxvoNuphiQaKWihW8yBZX9bRA3H3IZQ=;
+	b=pwfW06p0RkJI2zLO/6IncmGcG34bjlQ83GsGqZzywT1z6qfF/xuZ6w42VS+Zrg8urZ58
+	 W1FShDV7PFWWu2f2vZWVSTHNKauGoQr4ft3BEBCtFqVWGKusnaGrQRyvosx1ZLncy8rTO
+	 bIIJqSQJC3SBa6q8qauzB4HvkD+GjTO1rve9syF1E83JVNE1SOpGtHuRFPUxTzWgBKTg2
+	 29DKQK8D0JDBcAZWBlK6q08IzNV+QexGOVV4euNd/RNUPA+4q/tzZgem1T15FN/7R7bbS
+	 3EhwmcDuRmZekdohBRwyrKursgnKfJyqgJHW+TxcVGEK5O0QggIjesZzsWf5ZZxGxsA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zs+kdfNJ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RZ1S8rzG;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AA2606A8B2
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:34:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id E16E7606A323;
+	Fri, 13 Nov 2026 14:42:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zs+kdfNJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71BAD1F000C4
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 14:34:59 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RZ1S8rzG
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 073611F000C4;
+	Fri, 13 Nov 2026 14:42:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794580499;
-	bh=PF7x+WHFDlFjFzclJMmi7Uvb2yYXpjZa21XSXBNN68Y=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=Zs+kdfNJoLMkl/WkGe794yJ/6X4epq2Y0S9osHqwtoywyGWWo5acUIiHSXv04wbm7
-	 jT/Lpt5RBcdJ4H/5KDckMWd11BZlN7NY3J7Kg4iq8zkmjv3UmtVQtTTmcZMdsogjpK
-	 /1Ix/X/H1c1uvRoR9KuN41hX+QgC/q+/2BNBCz7ObiJCI0w4gNTmmxdBrBdzTVUyF7
-	 HnaUrlhe6B3NCHoXhN4Wqcuj0NTPB0p51y5t28+X1h+4dJZJZlYqqyXqKnErGu3tCE
-	 IT+KTIx9lAc5aSvhJMluLkZ+uS5+IzI807cN03nbgP9G38DTbnXDsJDnODPry9L/NQ
-	 3PZRqmJoROLXA==
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-703be215729so314360eaf.1
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 06:34:59 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErGa8e3cBBlDzd87qI2uKDB6nxu49GbDVrg5Cc6ZP1R/ESl3VIigAxAMgdrIrdQpa+AagAsKg01AAzI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9SRy1cUSlBRGPHcvT8cWn5cSvq9P96QxMmvD7H7q9bTZc5Lswo
-	699h3b5GGZAO6+NKV9CO/CD59GdOMaTDTR8/qLd+0iQFsIHBTqTApH3ff8GVjfJ3tNFPLMB9mjN
-	Mb7y+4qo+WQfsi/AK5Z6+yZQH01nhUwM=
-X-Received: by 2002:a05:6820:238b:b0:6f4:d9d4:3948 with SMTP id
- 006d021491bc7-71ab50535a7mr1136848eaf.45.1794580497611; Fri, 13 Nov 2026
- 06:34:57 -0800 (PST)
+	s=k20260515; t=1794580944;
+	bh=tw0RNCHx45b0sxvoNuphiQaKWihW8yBZX9bRA3H3IZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RZ1S8rzG7ljUrsJLih0vleRn5hAOMU/eQr9oeb8ub2PX25P6xFCKYC5ovF9P57fEz
+	 pYZ7ApM+kxEPzH+d/ixDmnBcGxO/bdI+l4Etxa1XvDtlePeR4TW8GTY/w/80WUC9p6
+	 8hlJx2IGq1UvWRiLX18CycTdamgWMUDJYVe/LALSXj0UMYVMAE/qI3rVi8ZMpIHhBg
+	 Fy3CKQu7tovXdYly632+UV19l+5kyACeJSCK5k0oKe7ql+oTbuHeNPJWBNbndelIs1
+	 XAatk8VSdyzhLqd2lq4uTRmNQYIwzvfWAxaajmVTCEpCSe0hgshqXJIKwsMi0VDsR4
+	 HRezN2hQBdZdA==
+Date: Fri, 13 Nov 2026 16:42:20 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Peter Huewe <peterhuewe@gmx.de>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+	surenkj@amazon.com, noodles@meta.com, linux-doc@vger.kernel.org,
+	kernel-team@meta.com
+Subject: Re: [PATCH v3 1/2] tpm: Disable a TPM that stops responding
+Message-ID: <avchzL3uEXHbvNv_@kernel.org>
+References: <20261113-tpm_unresponsive-v3-0-8138c8e283b8@debian.org>
+ <20261113-tpm_unresponsive-v3-1-8138c8e283b8@debian.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,89 +62,89 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261026-drm-panel-funcs-v1-0-5e3070a3478f@oss.qualcomm.com> <20261026-drm-panel-funcs-v1-22-5e3070a3478f@oss.qualcomm.com>
-In-Reply-To: <20261026-drm-panel-funcs-v1-22-5e3070a3478f@oss.qualcomm.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 13 Nov 2026 15:34:42 +0100
-X-Gmail-Original-Message-ID: <CAD++jLmME3b35ipG0N9agoe+5P1J6dsDiy3hoT9MJ9vyRwBA7A@mail.gmail.com>
-X-Gm-Features: AclHuK879_MUVY4wh3-oLFktJApN7IrvQSuSi80dujOkyN3zJSTWDVcOyRF70LI
-Message-ID: <CAD++jLmME3b35ipG0N9agoe+5P1J6dsDiy3hoT9MJ9vyRwBA7A@mail.gmail.com>
-Subject: Re: [PATCH 22/35] drm/panel: drop the orientation workaround from get_modes()
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Douglas Anderson <dianders@chromium.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Jessica Zhang <jesszhan0024@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jyri Sarha <jyri.sarha@iki.fi>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Paul Cercueil <paul@crapouillou.net>, Marek Vasut <marex@denx.de>, Stefan Agner <stefan@agner.ch>, 
-	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Sandy Huang <hjc@rock-chips.com>, 
-	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
-	Andy Yan <andy.yan@rock-chips.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Inki Dae <inki.dae@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>, 
-	Kyungmin Park <kyungmin.park@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
-	Peter Griffin <peter.griffin@linaro.org>, Alim Akhtar <alim.akhtar@samsung.com>, 
-	Alison Wang <alison.wang@nxp.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Yannick Fertre <yannick.fertre@foss.st.com>, 
-	Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, 
-	Philippe Cornu <philippe.cornu@foss.st.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Chen-Yu Tsai <wens@kernel.org>, 
-	Samuel Holland <samuel@sholland.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Jagan Teki <jagan@amarulasolutions.com>, Ondrej Jirman <megi@xff.cz>, 
-	Javier Martinez Canillas <javierm@redhat.com>, Igor Reznichenko <igor@reznichenko.net>, 
-	Michael Walle <mwalle@kernel.org>, Dario Binacchi <dario.binacchi@amarulasolutions.com>, 
-	Jagan Teki <jagan@edgeble.ai>, Jianhua Lu <lujianhua000@gmail.com>, 
-	=?UTF-8?Q?Guido_G=C3=BCnther?= <agx@sigxcpu.org>, 
-	Purism Kernel Team <kernel@puri.sm>, Jerry Han <hanxu5@huaqin.corp-partner.google.com>, 
-	Joel Selvaraj <jo@jsfamily.in>, Icenowy Zheng <icenowy@aosc.io>, 
-	Michael Trimarchi <michael@amarulasolutions.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Casey Connolly <casey.connolly@linaro.org>, Michael Tretter <m.tretter@pengutronix.de>, 
-	Cristian Cozzolino <cristian_ci@protonmail.com>, Junjie Cao <junjie.cao@linux.dev>, 
-	Ryan Brue <ryanbrue.dev@gmail.com>, Nickolay Goppen <setotau@mainlining.org>, 
-	Stefan Mavrodiev <stefan@olimex.com>, Florian Fainelli <florian.fainelli@broadcom.com>, 
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
-	Robert Chiras <robert.chiras@nxp.com>, Alexander Koskovich <akoskovich@pm.me>, 
-	Markuss Broks <markuss.broks@gmail.com>, Artur Weber <aweber.kernel@gmail.com>, 
-	David Heidelberg <david@ixit.cz>, Dzmitry Sankouski <dsankouski@gmail.com>, 
-	Yedaya Katsman <yedaya.ka@gmail.com>, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-doc@vger.kernel.org, 
-	linux-samsung-soc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, 
-	linux-sunxi@lists.linux.dev, linux-tegra@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261113-tpm_unresponsive-v3-1-8138c8e283b8@debian.org>
 
-On Mon, Oct 26, 2026 at 12:11=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
+On Fri, Nov 13, 2026 at 02:38:58AM -0800, Breno Leitao wrote:
+> A TPM that stops responding fails each command only after the transport
+> timeout, and its callers keep sending more: the hwrng thread every 10
+> seconds forever, and userspace through /dev/tpmrm0. Each attempt holds
+> tpm_mutex for the whole timeout and logs an error:
+> 
+>   tpm tpm0: invalid TPM_STS.x 0xff, dumping stack for forensics
+>   tpm tpm0: tpm_try_transmit: send(): error -62
+>   tpm tpm0: tpm_try_transmit: send(): error -62
+>   ...
+> 
+> The core already stops using a TPM it cannot trust: tpm_try_get_ops()
+> fails with -EIO once TPM_CHIP_FLAG_DISABLE is set, which
+> tpm2_load_null() does when it cannot restore the null key. Set the same
+> flag once 60 commands in a row have timed out.
+> 
+> A completed command, whatever its TPM return code, resets the count.
+> Some TPMs stall for half a minute, time out a handful of commands, and
+> then recover, so a short streak must not disable them.
+> 
+> With only the hwrng retrying every 10 seconds, 60 timeouts take more
+> than ten minutes. A userspace poller gets there sooner, but each of its
+> commands still waits out the transport timeout.
+> 
+> The limit is the tpm.max_missed_responses boot parameter, so that slow
+> pre-production parts, such as FPGA prototypes, can raise it, or set it
+> to 0 to never disable the TPM. A disabled TPM stays disabled until the
+> driver is rebound or the machine reboots.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt |  8 ++++++++
+>  drivers/char/tpm/tpm-interface.c                | 14 ++++++++++++++
+>  include/linux/tpm.h                             |  1 +
+>  3 files changed, 23 insertions(+)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 1e8317483844d9..cedea8bd468aba 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -7682,6 +7682,14 @@ Kernel parameters
+>  			causing a major performance hit, and the space where
+>  			machines are deployed is by other means guarded.
+>  
+> +	tpm.max_missed_responses= [HW,TPM]
+> +			Number of commands in a row that may time out before
+> +			the TPM is disabled. It stays disabled until the
+> +			driver is rebound or the machine reboots. Set to 0
+> +			to never disable the TPM.
+> +			Format: <unsigned int>
+> +			Default: 60
+> +
+>  	tpm_crb_ffa.busy_timeout_ms= [ARM64,TPM]
+>  			Maximum time in milliseconds to retry sending a message
+>  			to the TPM service before giving up. This parameter controls
+> diff --git a/drivers/char/tpm/tpm-interface.c b/drivers/char/tpm/tpm-interface.c
+> index e0385b16616b46..977e205807033d 100644
+> --- a/drivers/char/tpm/tpm-interface.c
+> +++ b/drivers/char/tpm/tpm-interface.c
+> @@ -40,6 +40,11 @@ module_param_named(suspend_pcr, tpm_suspend_pcr, uint, 0644);
+>  MODULE_PARM_DESC(suspend_pcr,
+>  		 "PCR to use for dummy writes to facilitate flush on suspend.");
+>  
+> +static unsigned int tpm_max_missed_responses = 60;
 
-> Setting the orientation from get_modes() was a stopgap for the display
-> drivers not calling drm_connector_set_orientation_from_panel(). It is
-> also too late: by then the connector is registered and the property can
-> no longer be attached properly.
->
-> drm_bridge_connector and the panel bridge set the orientation on their
-> own, and the drivers using a panel directly do it when creating the
-> connector now. The exceptions are sun6i_mipi_dsi, sti_dvo and the Tegra
-> DSI, which get the panel only after the DRM device has been registered.
-> None of the in-tree boards using them has a rotated panel.
->
-> Assisted-by: LLM
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+This looks good but I started to think this number. I guess it is high
+because there's never reset-to-zero for chip->nr_missed_responses.
 
-Makes sense.
-Acked-by: Linus Walleij <linusw@kernel.org>
+I think three or four trials at most should be enough, and when there 
+is a successful transmission chip->nr_missed_responses should reset.
 
-Yours,
-Linus Walleij
+One thing that bothers me in the commit message is a piece of
+information that is missing: when does it start to return error?
+From the get go?
+
+I mean based on provided information one could presume that this
+could be also fixed at driver init by doing a few smoke tests
+and don't let it fully ever initialize.
+
+"A TPM that stops responding fails" is not very locked in scenario.
+
+Br, Jarkko
