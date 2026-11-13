@@ -1,97 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794531700;
-	b=nUr94jr+7nf84jCrsJwyplQp2LkP5h73Bb2Tr93e7lwtcdCL+ZMwSqc3vpq2Qu0+/3By
-	 RVXMHTUOlQuRaqhxZnXzmEDAtWYrfxLoArDVOQy1u/rEoJwHB19ytrfXKoFpOpae5cbu8
-	 8fxetbIRL7TNSC8vmSj/W6IPtq9O0fsBrbVuIDIgFkvRIYI8aIZs4NKj/vw6hpemwcK4E
-	 tbJCdv5Atq9+FuVvHzms9//EdNyRQHyk88WzXYMbQjq0hK7BZCNQ5YhENU1k4igTN1KMX
-	 LgHmLqA7TNHi9falroQtyp06bSa5r0WQzD5aZCEiRcakx/vLVpklqJDlyTum3H8Soaw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794531700;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.176
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794531724;
+	b=bvtzHQ6ccTm1OIXXN1rXFSBwgHqYeqA4w5IBRWXZOYM5Wc88XZ6KLpKKl0CVuM7eIxnu
+	 8UW7XaRgh1FQl6Fpk21MgF2XCv3a1thdgbFwGCGcCwablWgxRJ0dX13p7INLXHjtYt1ng
+	 ryZBATF5d6Ep7Nkb5WltUEEEx1hk8pdO0hxsJMzlDsVqg5iD6a+TbYA9QcAZz3iz1gxTw
+	 2DXRmDj6OCixM+NKgEqlvs3qv6bSK0cmYfV9fionb4xOkgQe8aEc+nXaY5FizsjGdVlQU
+	 jFdWnW7uWgbDB7sDJ2QbNHE2tSe+4fXJFzRHtl3aMqbhXGZrrPTkcn7BdVEKJhC6epQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794531724;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=xsqNy8x4lmXAXvHwF9gkwZoG25xYnfN0MsYpVbWeuyQ=;
-	b=bRNBK4lEhNIb0rT5fa6D5ETXgPnVAFIGrJLwnH5tddpPxwbSR0YOUmLlBYTpBdy9F7ye
-	 iZuViM2n8OqGRbNJBsi6WiycF+GqpybkbIscnLB6UjTSN635paqUtPwB4TDfl5PujbfWI
-	 fsOm49JSndRuiXiBN8E4MFS/yuZ+6RRH5jDHGJkWrbItgy7aNKeL6BkJ4ka/A9SEsPSUj
-	 dY2o3Wy0quXO6GLSguUVfCNphRT9qW3mgiPPa5JfFU3DqWm0Ol6CF8LKYmIl5fDtly+2j
-	 MRGjy/QTGz4WZ6dPVLKarYK1GqrP4HcM6WgV4fcWs7k8JUu/9go8o3/OyS8eb0QOqvA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=joelfernandes.org;
-	spf=pass smtp.mailfrom=joelfernandes.org;
-	dkim=pass header.d=joelfernandes.org header.i=@joelfernandes.org header.a=rsa-sha256 header.s=google header.b=G1jbsG+S;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.128.51
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=QuB4gRralS9yFslodv3QC7A77JieK5X8DdVq10Sbwss=;
+	b=JYo13d1lMSyJSdprUMy1qpEprEbr8f7HuOKNtQxeHblhAR9pBeRjlU0KtDXKSA76Inxu
+	 wn3TBdM9a/91NCotNAXR7GXLDo7g+LkHKy7lGgmGharTBXKc10n8CxGMuABYZxXA9HxES
+	 iY/3VbpDLypkYz9/7r2gZNYTYJrYoz/HhEgMhOQFhgbLAszOSjKGMxhoVhKbZezlHHPkR
+	 a52NdwBf7CctCcjnJHXVp6uf4ckpMGyw7dw+xUxbYLETJOk/17qJ39xXeQ35Kle7AUl1G
+	 u1iuFkZdzSIja42pt/TVsjVRv/0UHiqBQDSK5EoWlCaE9uOjr97xhYLHdFMx/FKRecg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rujr5uv4;
+	arc=none smtp.remote-ip=74.125.82.176
+Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B65606A32A
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 01:01:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 07B65606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=joelfernandes.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=joelfernandes.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36603606A330
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 01:02:04 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36603606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=joelfernandes.org header.i=@joelfernandes.org header.a=rsa-sha256 header.s=google header.b=G1jbsG+S
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a5036bbac7so1943715e9.3
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 17:01:39 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794531698; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XvBi0o5qld7I55eVU4q66V6xsEEIU01dPMCUCEIrrbTMskr5qRnlgcvKb1SeHemLOI
-         z12pAHAgQ3Iu9OEkmPlWYs2Mte/TQvceZY+dpJD7XsVCUzELQaAetED3zaTqMgB9+aey
-         wwetVzaRog3ebIzXv7BqBGxnuPd7RMSM7kHbcPAyj/a6ykBpeVTFl6wyQJjLSTcGs8m2
-         D35gAMhkbKm25gHTEB6UeVC6JwuIdlXPhZV3A3GKBWqbZtxgiQ7x5lvD/fEm5uZKwATS
-         DYumzxJ5LbKcVL44mrNnMdOpXni9Lug9uuAxW8RqdXgaYw3xBlD4ci3oXOGhfTvPOZ1L
-         lLUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=xsqNy8x4lmXAXvHwF9gkwZoG25xYnfN0MsYpVbWeuyQ=;
-        fh=jhh6ZapplbdsPCVKRhoEHt0tJaVbj2buXR/CK0tP0EA=;
-        b=jQ9NwJhuULDTsWSrm0FDgv7K1ZVwvnXWmQyBRCPMbQ3xAXvLZscaVZXPD3xA+ykyBG
-         7V+l4fFXZUcYICuiIyxIZGN7yAOIdojNbBOI8fNzWIInArvccnL3kgTGzNk35CmX0SXs
-         EMBMfMbIbltU+FmlFRA7W1QQc0BSBj3KLRmvqEln+T/iTmWgprdyfdIoIYPLolv1lbvZ
-         oGcHmEwlEk8/+XMw4fj0hJmjecO07DYMDRE+flc0mLreVCSJ5zjaOkUmxVpWcLa3s9K/
-         3ZWAPRnwzH87Eq88PTXIHE/J6EhoWeOgSEbBujND+L5WsWE2IlXsyn3xiBJY3VYe7IFj
-         GhXA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rujr5uv4
+Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-36e90071735so72769eec.0
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 17:02:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=joelfernandes.org; s=google; t=1794531698; x=1795136498; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=xsqNy8x4lmXAXvHwF9gkwZoG25xYnfN0MsYpVbWeuyQ=;
-        b=G1jbsG+SSau2XzDeW1OBYgcZTEKbYsSnIFjCz5jzxju2YOgwgfGuinOztdcmDgtqWf
-         gs2+QeCPNvtJ/fn1ygL0g7bEy34oR7Y0N3LEL4YlJ9fDk3GdFupL6jpH7jf55PP3vmfg
-         a2MC+9Pbb3enm3e5qIZT7H9J+PCKaYqIYCk1o=
+        d=gmail.com; s=20260707; t=1794531723; x=1795136523; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QuB4gRralS9yFslodv3QC7A77JieK5X8DdVq10Sbwss=;
+        b=rujr5uv4KHlwWU2yiG5TIjDlYxdpRT7n72g+1OQ3nBEPBHqnw9DubRlOabZkuOrKMh
+         RwfFkjuDDnX7TWjdUqMie9mWpjujh4a1Al5OR4HTAi7FRlpGGpH/Ny70IthtWL0BTMmQ
+         C8ZKswI8HOW0CBBj01MtiKKGiu2h27KGiS5u9NmZ0VftDPmEmCtk1pfybuWaKwfGGDQH
+         3on5gn2jm4O1IKNZ6D+xgFEOygeTUpXV/eeU/cWP5KZuvNsunYs3KLrD1k1XJGl7T4pu
+         0QyGlue/SdNYX6yT4haGJRiefjE6BE8b3PV+6JUF96BFNu3V7swh6kdDZygjonIOBur6
+         JtmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794531698; x=1795136498;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1794531723; x=1795136523;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xsqNy8x4lmXAXvHwF9gkwZoG25xYnfN0MsYpVbWeuyQ=;
-        b=rdp+94DT48eLYre7v9P8EVbF7bt5V04iMXjZlBBWsEWE4stXYyOmFzFxfLjpEHQ9tS
-         nLFHWwn0ou99/Yao7TGxMtxNmzOkkvvCCEJy5aAd81eDrIiNEcE1LCo4W2Ir5c8CdNLm
-         Tf5NxOif/gq7iImZawJJT1EEBd+HIbZmlWkNVv03PTotsTOOyD747FuP4QbbFsMz/i45
-         E/B37sQfJfDD9SF1jO1KHxLLc+piM5Gmb/WFgLmPrryVMdWi6v7LsJyyK35OZKFDeBFM
-         WV/0aMqQP5DIdrf3EASJW4rJAUtNjdiQwHrUKce3YPS7pY77+JrdwRP4sWKbxR63CqcX
-         +l0g==
-X-Forwarded-Encrypted: i=1; AL+hErGZo4L8VdO2phD2zqLru5CYFhRnfEwDZ7Yn75cj7aQ4c2Uy1zsL+KogKSmjPiRxj2fke4GSbgP7RFE=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9wfqKvVX0lhq/J1cpH51psZAyKRhH/ZpCBGnUbvXga58DJkWrE
-	0lDFmZrVNqiccgWRaVuk8qaN+hYT9W40JBU4qsNalDs+PtGhl/cXAZASBaidSXmfIMa5+PPg5mu
-	zXpVu7tUHLfGybpc59uKIzV6l/mxUwj8B3il0ENcPIA==
-X-Gm-Gg: AYBFou33Y3jNAhOAtwf2dfx6VBw/q52mhU1E6MHYi8bKHLidSt+9mcgz3yBcnzlEnOG
-	IM/AU6DZEvXKeVWg5roGgS9q+lNcuA9RpAc1BXvGNJgyi+mu7Fvf6RHVgWvEYGWYIlW0WJaesAW
-	C4A3dOos8OgHvGzHzhaH5tDMt9JotUb6HHwuAygMoK/dke+eYHt5n+NAWAWx37yZL3y0DRUGjFG
-	HoUk0+yKz2Q0JCeDucEsSSzCWpsKbofiMyO4SI5z30PryxU8scalvcuvhye/mevU5VrscbgkvuM
-	TNTridVISvvqFF/ZmOUbfl2rS/iiD6NxvvM9Vekiy7uiWz/o7AHqu+N/cX9HIPzcFKCQrm0zBCz
-	RnUyO+aZt/af0ciOFluQsxG91IhfZ7WItv9a6joodQ4DqbDw86OT0vYminQs=
-X-Received: by 2002:a05:600c:8b8c:b0:4a2:1197:1de0 with SMTP id
- 5b1f17b1804b1-4bb55a7a460mr17515855e9.19.1794531698338; Thu, 12 Nov 2026
- 17:01:38 -0800 (PST)
+        bh=QuB4gRralS9yFslodv3QC7A77JieK5X8DdVq10Sbwss=;
+        b=r3+jRS2NStb1RyRDmVvgLO/YdOuRKmMEWkMiVB7O6nGKHbE6R3aKfMj/ACO/s0gfpn
+         tEGFvKZ2rkGLUNGKdUnDQbUCnZ6tZLscU+2wRDZMbtKwGLebi6dlPsyyZDlQYugbiGCM
+         57nj8SFgyegGz37wVZsPdWM5KuPtK/kLcLMxj2HypY1K//BoW6ErGa4teEAjjXwvhFww
+         dGi+rQcKRTJY2JTugjxRLsObelr4xJ4KaawUQIyb7gDZYtvL1he5KiNJSsHKKOzM755E
+         VFJxSiUIiWjpUsWoOGpJGEjdWrekbXbPIzhNx0j0B0TW2Oo3/yGCjj1ApK0HqYcygn82
+         6IMQ==
+X-Forwarded-Encrypted: i=1; AL+hErGha7s/yn9EZQ2vloFl5+vr8xifjD9Ogm9mu6EmraVOObiy+Tc2subrUUbk/0toJXWPpXB9P03TuIc=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9Q2ZHpzE3OyT4sVd83wv9mkyujetF63fDIXIPnrf3sLjyPgACX
+	zsOqb7Y0ksNBkWAg7RY+N0cG/mQOsKdhQ4OLjJTDq4LcmvlHmicaKGrZ
+X-Gm-Gg: AYBFou07TI3fTDCjtsh18QL+ryAiG0UdUjQ09zr47BnAGMtK+FukjNsw85BtbwFMlWC
+	SUuDY5ubfGZ4AX9z0wIaYy/aNtBeXcsG4FpcHVHH4G4MdTQTaVBkCEAnirHEm11t25ZwfmwcvJ8
+	lO6fQjwRb6tS7z7DSPbBXp9iAJnrjmZDgsxEB/bD/wT5tPlmQEO61xnkXpdA2JLS+hukzzfl0fZ
+	kDROOYhqUNhY50LDa8Ux5I1FLshfHr5Rmb122jpypZVugXysaA3cd9qWOMo/qSFjaOZosL7U3ZU
+	3S5Kp3wjVok0Rh2GN0ZqMuO0MXBoHarKT86MvbmRt0Kk+4D22Nc2BWxhs5hvp5CVIeKd8A1fkMg
+	fDB4Hs28LvJDpKqGWdRx/bKCGUYB2+YXcITnYvx14ZsduU5E8kgjni+3irr2Ywa/Zwi3DYOfGhN
+	JLM6tq2TaLN1VvhMC/xfQH1pGCSS09Wvr3WxOk4qwC1GKc9xq1FlUa2L59paSJP/8zPjmwmBkt0
+	NpBiTm+tJM/pOBVwW0sxHUXuP5iW9yHtCdJkp89cjzJmEVPnGZHsoeJ28pCbrXCLpZnBOrpql8Q
+	qV+52KJPLDD7O8OOykcBpU5RkHl/q+f/m6OE9Oh9NLdWdhH+04pccZzC5TwmbZHmZHCzjcyUoSE
+	K4V/DnrJyogSv
+X-Received: by 2002:a05:7300:c00e:20b0:35e:d21c:f33e with SMTP id 5a478bee46e88-379651ecb3emr1356356eec.1.1794531722833;
+        Thu, 12 Nov 2026 17:02:02 -0800 (PST)
+Received: from o6.lan ([2602:fce1:44f:115e::])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-37955332ae7sm4453590eec.8.2026.11.12.17.01.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2026 17:02:02 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -101,57 +89,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261113004946.2758197-1-jfern@kernel.org> <20261113004946.2758197-5-jfern@kernel.org>
-In-Reply-To: <20261113004946.2758197-5-jfern@kernel.org>
-From: Joel Fernandes <joel@joelfernandes.org>
-Date: Thu, 12 Nov 2026 20:01:25 -0500
-X-Gm-Features: AclHuK-BlMNbouTRIZA68HB056zVMIxCfaWWRZW7PBno_ghygL1wLUmiCANRO7s
-Message-ID: <CAEXW_YTY1rjYH8FwvLvc1JbOQYDuXTP7BEE0a6eoRfu+-ZC6-g@mail.gmail.com>
-Subject: Re: [PATCH for-v7.5 4/5] rcu-tasks: Use pr_debug() for callback
- contend/collapse messages
-To: Joel Fernandes <jfern@kernel.org>
-Cc: linux-kernel@vger.kernel.org, "Paul E . McKenney" <paulmck@kernel.org>, 
-	Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
-	Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>, 
-	Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>, 
-	Zqiang <qiang.zhang@linux.dev>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, rcu@vger.kernel.org, 
-	Song Liu <song@kernel.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3] mm/zsmalloc: remove CONFIG_ZSMALLOC_STAT
+From: Xueyuan Chen <xueyuan.chen21@gmail.com>
+To: Alexander Gordeev <agordeev@linux.ibm.com>
+Cc: Xueyuan Chen <xueyuan.chen21@gmail.com>, 
+ Minchan Kim <minchan@kernel.org>, 
+ Sergey Senozhatsky <senozhatsky@chromium.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, Alex Shi <alexs@kernel.org>, 
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+ Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
+ Christian Borntraeger <borntraeger@linux.ibm.com>, 
+ Sven Schnelle <svens@linux.ibm.com>, 
+ Helen Koike <helen.fornazier@gmail.com>, 
+ Vignesh Raman <vignesh.raman@collabora.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-s390@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ Nhat Pham <nphamcs@gmail.com>
+In-Reply-To: <d812b71d-b7ec-496f-9404-add2282105a6-agordeev@linux.ibm.com>
+References: <20261111-zsmalloc_stat-v3-1-2d85ed51570e@gmail.com>
+ <d812b71d-b7ec-496f-9404-add2282105a6-agordeev@linux.ibm.com>
+Date: Fri, 13 Nov 2026 09:01:51 +0800
+Message-Id: <179453171134.2553194.3867422839676762696.b4-reply@b4>
+X-Mailer: b4 0.16.0
 
-On Thu, Nov 12, 2026 at 7:49=E2=80=AFPM Joel Fernandes <jfern@kernel.org> w=
-rote:
->
-> From: Song Liu <song@kernel.org>
->
-> Commit 5de907d24919 ("rcu-tasks: Disable callback contend/collapse
-> messages by default") added the rcupdate.rcu_task_collapse_debug module
-> parameter to gate the three pr_info() messages that report RCU Tasks
-> switching between CPU-0 and per-CPU callback queuing.
->
-> The kernel already has a mechanism for debug-only messages that are off
-> by default: pr_debug().  Use pr_debug() for these messages, and remove
-> the rcu_task_collapse_debug module parameter, its documentation, and
-> its boot-time announcement.
->
-> The messages stay off by default.  On CONFIG_DYNAMIC_DEBUG=3Dy kernels,
-> they can be enabled at boot with:
->
->   dyndbg=3D"file kernel/rcu/tasks.h +p"
->
-> or at runtime with:
->
->   echo 'file kernel/rcu/tasks.h +p' > /proc/dynamic_debug/control
->
-> Assisted-by: Claude:claude-opus-5
-> Signed-off-by: Song Liu <song@kernel.org>
-> Signed-off-by: Joel Fernandes <jfern@kernel.org>
+On 2026-11-12 13:29 +0100, Alexander Gordeev wrote:
+> On Wed, Nov 11, 2026 at 08:41:26PM +0800, Xueyuan Chen wrote:
+> > CONFIG_ZSMALLOC_STAT only controls the debugfs interface. The class
+> > counters are updated regardless of this option.
+> > 
+> > Remove the CONFIG_ZSMALLOC_STAT guards and rely on the debugfs API
+> > stubs when CONFIG_DEBUG_FS=n. Skip statistics setup silently when
+> > debugfs is unavailable.
+> > 
+> > Remove the Kconfig entry and replace the existing CONFIG_ZSMALLOC_STAT
+> > settings with CONFIG_DEBUG_FS=y. Update the English and Chinese
+> > documentation to match, and clarify the pool name in the debugfs path.
+> > 
+> > Suggested-by: Nhat Pham <nphamcs@gmail.com>
+> > Reviewed-by: Nhat Pham <nphamcs@gmail.com>
+> > Signed-off-by: Xueyuan Chen <xueyuan.chen21@gmail.com>
+> ...
+> >  arch/s390/configs/debug_defconfig                |  2 +-
+> >  arch/s390/configs/defconfig                      |  2 +-
+> ...
+> > diff --git a/arch/s390/configs/debug_defconfig b/arch/s390/configs/debug_defconfig
+> > index d44674b63715..83193ef8efb9 100644
+> > --- a/arch/s390/configs/debug_defconfig
+> > +++ b/arch/s390/configs/debug_defconfig
+> > @@ -100,7 +100,7 @@ CONFIG_UNIXWARE_DISKLABEL=y
+> >  CONFIG_IOSCHED_BFQ=y
+> >  CONFIG_BINFMT_MISC=m
+> >  CONFIG_ZSWAP=y
+> > -CONFIG_ZSMALLOC_STAT=y
+> > +CONFIG_DEBUG_FS=y
+> >  CONFIG_SLAB_BUCKETS=y
+> >  CONFIG_SLUB_STATS=y
+> >  # CONFIG_COMPAT_BRK is not set
+> > diff --git a/arch/s390/configs/defconfig b/arch/s390/configs/defconfig
+> > index e00e252d4694..694a309377d5 100644
+> > --- a/arch/s390/configs/defconfig
+> > +++ b/arch/s390/configs/defconfig
+> > @@ -94,7 +94,7 @@ CONFIG_UNIXWARE_DISKLABEL=y
+> >  CONFIG_IOSCHED_BFQ=y
+> >  CONFIG_BINFMT_MISC=m
+> >  CONFIG_ZSWAP=y
+> > -CONFIG_ZSMALLOC_STAT=y
+> > +CONFIG_DEBUG_FS=y
+> >  CONFIG_SLAB_BUCKETS=y
+> >  # CONFIG_COMPAT_BRK is not set
+> >  CONFIG_MEMORY_HOTPLUG=y
+> 
+> So DEBUG_FS is selected unconditionally? Please, drop this for s390.
+CONFIG_ZSMALLOC_STAT used to select DEBUG_FS, so I added
+CONFIG_DEBUG_FS=y to keep the stats available.
 
-Btw, even though I included this in the 'for-7.5', I am planning to
-send it for 7.4-rc as we discussed, so please ignore it in this set.
+OK, I'll drop those lines from the s390 defconfigs in v4.
+> 
+> > --  
+> > Best regards,
+> > Xueyuan
+> 
+> Thanks!
+> 
+> 
 
-thanks,
 
-Joel Fernandes
