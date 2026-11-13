@@ -1,61 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.119
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794558582;
-	b=G7g5MIX3JkLSxZIJ2Gu0H1u/msisN19+2Ejt7mVTjrNA+ikggShMWS34pYoJ2cUjXs1g
-	 I5xRzW3zK8FV23kn3Ifu7lgacazYD915Rjt8GRNgf9/xBABwj90AkTbVdwAhoQzrdFoxw
-	 wFztZp868K/zReidN4RCunzAaZQQ664Vm3ZbLHDWQfq6eBlrXzfI1Ttg3TEijzq3e5/QV
-	 gxkDCQNXZxUw4WJf+foTldbtcm+p1HijKvD9dQ2E0dOC+ztwc8d3We5+pCOU7hxofcRz8
-	 eMYXYFG/nytUEFIEj0tRmcr7FYRKrwL8TgW+/5ZMcW4HZsXalZXAQi/inajVTX5zpcQ==
+	t=1794558660;
+	b=WVJ2nQnBY/Srl32Gcn0K7Mnm52qeUu6c8rXMReEu6W9+XjFWMjwMZLjvv/AI8qDvJpA8
+	 r3XxLlGZEwooNsKW/Cax8U87Py38QgBL3Zg98+pORoWi96p3uPcwqWRz2mjqAryTEQqFv
+	 Ncz7pHiFElT95PzyILUaFv1sUgpZGCR/ieRwMutXAVp+0dM4RHMucbLqj2iYZzbYbj6Ro
+	 CJcUgk5nuo9PISCfCUoxqx821V6K+tDxJp/x1owG2Fz4vzTmToAHWziu0H9TBsmxEev65
+	 XQwlSElDw+RqofqBosSaGP1w7s5DBSn/k8qboV7MMpjGqb9CBCwtjZoQ/6EaMs6f8+A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794558582;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=1mYFa7xxgjAJeyPToTySUaczpeeUgBwhkLFQ6YEU7hQ=;
-	b=IAINUPwTsT5lVXfnwibigW1mDI1wquN2MYkukksbDqgoHXc5ILPz1oESO0563Oy0hJpN
-	 tNQR7XACVqMvTae653Qf5DeHyAi3hPWeNCEXn9t6GNqdZCLjWsv+9PSmT4wTtgHYNtZoW
-	 J04k0wEdxeIMQFLnAwTERCM1B/nY+ylnE5txhZZCK7JXkOJ/U10A+ToC+hFxuqamUlqgG
-	 QIHfTpqV0BTZ5UA9vSWBwTqUITIcBS2PY4KZr0l/3BfdPC6EvBAQmxnVEkrOFqNWJIplT
-	 qWH6Yy/NqQfli6u4oGbgSsTtffwwgxnSCJs4scVkYOStzRK9N3EJ4vm7sfD4WUsOVmw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794558660;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Message-ID:User-Agent;
+	bh=f61a/DEp6A2hm2rkE7XwudvGQ0m98AaZhEeJm5iO0+E=;
+	b=1W4/uhsjGMOlHzhCphjrAXtvZFRMrN5mMXZMqqb+1B5vs3p0lTuiG1V48i7mv5Tj4A4o
+	 RBnmE+Jri8ck2XSIVjFhL7sFZInfgj2jFqH3dUwlvuHRtg1KeySzlIcw6dLXTX+RHE/6m
+	 oPJb1SvyeGUArUfOqd0B5WOYOSRmPh0wutvQ/FoZtqXXiPN6kCpx9clmvbMFqybxgc/KC
+	 qhz+MphBujLzd8GOKBlaKDSt/tw5ctIi0xGZdoYofc+8xal4ncVR5wV1IKRvRaUqLdzia
+	 6VXH2pit+QJOx0XDIr/mbAlJ4lz9KinZCM5Xb7seqXPZFOOlmplSGcvkCPprtwv3Qng==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=1g4.org;
-	spf=pass smtp.mailfrom=1g4.org;
-	dkim=pass header.d=1g4.org header.i=@1g4.org header.a=rsa-sha256 header.s=protonmail header.b=Z4pVlkPr;
-	arc=none smtp.remote-ip=109.224.244.119
-Received: from mail-244119.protonmail.ch (mail-244119.protonmail.ch [109.224.244.119])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=sRaNMk2O;
+	arc=none smtp.remote-ip=209.85.214.179
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F9060A383B
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 08:29:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 03F9060A383B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=1g4.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1g4.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD43606A886
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 08:31:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DD43606A886
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=1g4.org header.i=@1g4.org header.a=rsa-sha256 header.s=protonmail header.b=Z4pVlkPr
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1g4.org;
-	s=protonmail; t=1794558573; x=1794817773;
-	bh=1mYFa7xxgjAJeyPToTySUaczpeeUgBwhkLFQ6YEU7hQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=Z4pVlkPru5cQylQgYvXMOr49LFb2OHKQRpwgqEsPQ8IYOcp5mY86PTpezXkfEXJIM
-	 TSWPAC6obDhtBNj8zBxGTMp4LunDoLDgHI8CkgfsnlwI90lWB9o6nf88ZWXy5JTsyJ
-	 oyg4WoL4zZxN7i4Q4dYHhxADPMk3sh+uRVhA6rIsjYPzgl+bzhDT/FttGFSsPYvf5B
-	 UZxLMtao3ZKqzEClyme06nK7cG5P1Vh00IoMUU72thYfI/lkBUMkmXeqLlIgi6RL8Y
-	 GlCImxsZ7xBP1myXhpZBT84h2pzXJ9nbLH4rhzSnwNydeyT9lMMQhmNIm9Y6BzKyC6
-	 E8DKtqW7gMFxg==
-Date: Fri, 13 Nov 2026 08:29:24 +0000
-To: Ding Meng <meng.ding@siemens.com>, "gerhard@engleder-embedded.com" <gerhard@engleder-embedded.com>
-From: Paul Moses <p@1g4.org>
-Cc: Jakub Kicinski <kuba@kernel.org>, netdev@vger.kernel.org, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Alexei Starovoitov <ast@kernel.org>, Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>, Richard Cochran <richardcochran@gmail.com>, florian.bezdeka@siemens.com, jan.kiszka@siemens.com, wq.wang@siemens.com, Jason Xing <kerneljasonxing@gmail.com>, Simon Horman <horms@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Martin KaFai Lau
-	<martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>, John Fastabend <john.fastabend@gmail.com>, Stanislav Fomichev <sdf@fomichev.me>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, intel-wired-lan@lists.osuosl.org, linux-trace-kernel@vger.kernel.org, bpf@vger.kernel.org
-Subject: Re: [PATCH] net: mark skb NAPI IDs independently of busy polling
-Message-ID: <Fhn2gT70aJ-2_eak73NBZYuXuKtVb64PoD8VQ9jwm-S-K0RhZilAg9iwSBJ0RlaiSrRvM1vPw1aHvGPjcktu9GmdBuvFk9244-q2IVOrFu0=@1g4.org>
-In-Reply-To: <4pqljild2fp6eotiicvwbwu2wfw66fzd4qamwt6utirdjxlaok@iiu2f3k7azrp>
-References: <20261105071706.7043-1-meng.ding@siemens.com> <20261110134539.12d860ef@kernel.org> <4pqljild2fp6eotiicvwbwu2wfw66fzd4qamwt6utirdjxlaok@iiu2f3k7azrp>
-Feedback-ID: 8253658:user:proton
-X-Pm-Message-ID: 8667dd8222532892df754a88db7395758801c657
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=sRaNMk2O
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2e99b1e5b4cso4164705ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 00:31:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1794558659; x=1795163459; darn=vger.kernel.org;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=f61a/DEp6A2hm2rkE7XwudvGQ0m98AaZhEeJm5iO0+E=;
+        b=sRaNMk2OSk/a6aWGOqOWrMugAMmZ1cinBvSaGXXuX6T5FudhFdHlZzEHowq/jIOZ4n
+         Jzw04d95113kezBuy2csxHVIWCaqzTBp5Wqjaxn+c/Pl36oVol3U8iwzvNWwqzlINMwY
+         dUj5skD3W8p1FyAHmxD4xgC6UJvK3jssafyMo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794558659; x=1795163459;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=f61a/DEp6A2hm2rkE7XwudvGQ0m98AaZhEeJm5iO0+E=;
+        b=GnDNlwFm5DRwiDplZuk83y+YyeRKk1tJNxRVRbF7jhdyXE4snt4WY1TF5FFcd20ZhR
+         U3BbIsmNbdrpfGuannlEekHMBaPjZAFQJ4sSpBrJxCSFuwV+VXioNLED8DMvoU8zbwUd
+         Nw3A5nyKBJed0BP5HzqCkJ4oalgllqAzYarJQLB/ufxqS0LGUGCWAVQ70d9f38Vo9wvf
+         Vi0n8htufsg8s+hnyiZZfc/bU6jz6EWh0z9XBouQ6aTRWNFXCXdrhJoZ3Ih+LrR1M+yR
+         Kqah17bRQNLKoxtwCj7Vxh1kCIWmqby1X9ZewcmvE4232bZ22UhFSnQaPuuwOoq8gtuj
+         bNZg==
+X-Forwarded-Encrypted: i=1; AL+hErEDTcvRw1UG0jAQ0rMskRPLdhAB/m7GxrM6XR1JdV8JbIh+ApZ45oDv5gvuxaXIRbX7SzUw4on5A48=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/1+uISqFze0uzPjaaEhZFhsYBNG4W9gsqmoszMp9NPl/Dfo34Q
+	4IfyjIG58zCI3Iyeg9KaUNBi+aMPBOf1j7ygkewCu8s1y0o9tf2PfMYgrPVCDV2DM64=
+X-Gm-Gg: AYBFou0D/TTjqKz+GPSePVa1VHH7Ozhoiv0g73lgqLwOs/tLg0PujH6jx4sc0eLFvOr
+	kh05i40Dcbf5eYU/NTR9QZksXBxlaJ/aGMzUYYkVdIVgsGrYUSPE258w/DzwA2KEGDdlB/nVfVn
+	uLyWjy8cQJhbrH6Pilf1Bbow5c+ITiovS6+P5EI8GhB1DSrzQDjd6DJKLMawxbF0+jgxQdgt+5H
+	xt20gmodZC6awJlkpdfQRqQ7ZeulzcUgm/O26losp5UvRlscRp2u8OTyk9kE1H/surtQ/FcuZ+H
+	yCJcjEub7X345zQugo6IDd9QGJtIdT+uZg2VuTughOcnUQVlWCDKk49r5U51nxWxGo8oFjLd39G
+	u8Ckgutb1VSneY2EtMtS98uxtUvycHDuHk9K6sn6xGjcNM1pZna4UMxmU16V+KrEUuBmPqyUT46
+	mG9EuJ+ZXI8Fnqk7ySmyou8ix1Y/P3pIsAUqCAvGWSJTHbZyhb24Zzfrkepf2KpOn5O950upzcN
+	bppUaf5FbBdU06K6SwyNRCza568ik4bh4oew/SdZqa245Bz+Xib8ioc3rxnfFGFEAoYYHNd5nXV
+	hy8Kuoza75JAgclfV4nfzIwoqpKy5GE6sVU5vrvkmPvzZRumug1cWJHFIflR6nsQSRFFtTf6Alr
+	dU0hdlHcxQ2cODUUx+Tief++jTdekqkLx2/+5yTlb0Hv/kjLhwD3bx6u1+I1z14E/Tk/FOU/3R0
+	dcXLuywe3yFLathwj1rsHWkdOtvldn+QhPHQosCy+6kflcEsPQ3RscfefXyak=
+X-Received: by 2002:a17:903:228e:b0:2e8:18ca:5f46 with SMTP id d9443c01a7336-2ee0da7bf97mr17781095ad.14.1794558659559;
+        Fri, 13 Nov 2026 00:30:59 -0800 (PST)
+Received: from [172.22.0.2] ([50.175.87.158])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ee0f868217sm6442615ad.52.2026.11.13.00.30.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 00:30:58 -0800 (PST)
+Date: Fri, 13 Nov 2026 00:30:53 -0800
+From: Chris Down <chris@chrisdown.name>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Mike Rapoport <rppt@kernel.org>, Pratyush Yadav <pratyush@kernel.org>, Breno Leitao <leitao@debian.org>, Alexander Graf <graf@amazon.com>, Baoquan He <baoquan.he@linux.dev>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, kexec@lists.infradead.org, linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 1/9] kho: Reclaim the metadata page left reserved after kexec
+In-Reply-To: <179443616043.2329176.17166425351392983946.b4-review@b4>
+References: <cover.1794383544.git.chris@chrisdown.name> <63ca64c004b296a998a3e531f8c0c4964916b70c.1794383544.git.chris@chrisdown.name> <179443616043.2329176.17166425351392983946.b4-review@b4>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -65,20 +94,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Message-ID: <20261113003053.1c951f5a678d35e3@chrisdown.name>
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
+Hi Pasha,
 
->=20
-> Then, drivers that use deferred timestamp conversion (e.g. igc, engleder)=
- must
-> specify a busy poll dependency if they want to obtain the original net
-> device upon consuming the skb. However, this dependency is far from
-> obvious, and annotating it for future features of this kind will be very
-> hard to discover.
+Pasha Tatashin writes:
+>> Fixes: 76aa46b9e404 ("kho: kexec-metadata: track previous kernel chain")
+>
+>Do we really need to apply this to stable? It behaves correctly, and
+>your patch performs a minor optimization by releasing a single page back
+>to the system.
 
-The "deferred timestamp conversion" was incomplete is what I'm saying.
+No, I don't think it's worth a backport, since it's only one page per boot.
+I'll drop the Fixes tag in v2.
 
-This started with 97dc7cd92ac6, 0abb62b68252 and 069b142f5819 were built up=
-on
-it, so maybe Gerhard should decide the path forward?
+Thanks for the review!
+
+Chris
