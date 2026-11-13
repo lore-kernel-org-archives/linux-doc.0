@@ -1,45 +1,69 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794530740;
-	b=M3IXdfIjFUfz2DWJbLSGlGJQa/Ad91ZAA47ZU2jvr2hnWlw9j53l0K3nnjskTM2vZCk4
-	 zTAglS/+8DnNf4eF9fN7G5DmLY0cWD4w7EwPsusg5N+q+QlfzefPO3JMsih64dE4EsVOK
-	 UeAvegwMhmXGSoHBzLe2Xp8ZC8PDTctEaTUGMzHFZgZS58oLTCEYn4ri2sf1h5ZbFNUf1
-	 jBcDj2ZcMKNeKRCYM8VNR/U9kcGrQ8WmTy+jmVBIu9Boa7s2wL1pIRCajfBLyf/4lgRts
-	 rF9wY0pnCXO+DE61G/0cDBmniM84EON/we+bBRbRh4r7UOPr+dzsQ6bZsxU4Eyp7dSA==
+	t=1794530997;
+	b=xianziwRT6ZTkWleokCzEzSe/LXJVyqkrKIVjonmC4+yOzReuYOWtvT0WgTmDCDw348O
+	 UOBgRLb1FUKFXSU3y/+ma7NfWoTx33WurLk3mv4iK0UPg6zPdG7oWTP3yMPwdygQfyBgn
+	 eHlPYLkll1XwdTvAPBhJ+PMSbBwsMcYonLwnmd1JG6uZgtPoIZVovWYiPZFxTxgtA9kuZ
+	 0F/XWg3r5L0b1yZE51UArYd9nf52Fqs2UwgpbUASeawdxj+R8o54Tl4P6P6beWUecJpjL
+	 6wjcJiGHwondU3vClRv676jxFRSRlLbH432+zl+WOxOoOQ/ME6y2auSBvfKrfJcEHuA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794530740;
-	h=Received:DKIM-Signature:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
-	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=Ew+mFBtkvyHaX4L3mOy9ZGheiU3yA4UH3r5Gz26alrc=;
-	b=i5roRZj1ywaJp6S4NhGGgN6Gvj00bYNcWkfxwv1F/tLNKeVGqS3M4ZScFygxPaOuc50h
-	 CwkV02wRhDlyAnlDI4qj4S5Fa8YwgUPm9l+9tiR2BqdUexcLTQVGNT6tn9gCFuxlJV0za
-	 5/xfcbD2AqqIB+ayxXUfv7b1htth8eIVkzLB8/cqmdeVWcwbCnV5WlZktfCr3Wh8x04G4
-	 BIUg7aB+IaUDLBYQlI12sBZsyh6KcFNM3SEA6aMzBr3GKrnoYlQ3cbWXZ0TSW8Hiz4i/E
-	 fQ33nlPFc4gXwhmhRk+BxfkZ5mUhwWxeFF4kxvFCcAc+v0MOKIKeewYnKUM7n91VZlw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794530997;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
+	bh=by4pnn7UUwtR1dcWkA5l3Hqdi+jnIaBieMR4UKUf5fA=;
+	b=1TsmuZB9mRz+joqnYkgFsPcyFm6NIoy223TbGu7yEiFjyJsDq7+skCdEDqtiMWC9oxtu
+	 giZQxPLNcYA8lPSasOEFG6Vl4GsBXdHqgWh3FMoXGhApNFZz7uErk8fR7C29vt+KM4DIM
+	 tmCPTfv0nRdD4LJKSW0S5EOcxDZ4J51jmxNkDs4iaYZOqmU4W7EakVXV86PngOrqjLnnB
+	 X9AW6FnI9ZVpJKRqQy5OGECAZlzfSJCYN42BFdL1cQOtLbQlyb1klDZHWvrHL3WheWyyy
+	 A2nmWA65Yw/dqiZr4DGeVocXH5Pp8zbAVQyvFcq3KtjZQqwo9tDVQiJ2imBX/2mXwuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OCYOcQ+V;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gk9kIc9Y;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3B61606A31C;
-	Fri, 13 Nov 2026 00:45:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 7A660606A89E;
+	Fri, 13 Nov 2026 00:49:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OCYOcQ+V
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98F651F000C5;
-	Fri, 13 Nov 2026 00:45:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Gk9kIc9Y
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id C7FB61F000C5;
+	Fri, 13 Nov 2026 00:49:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794530740;
-	bh=Ew+mFBtkvyHaX4L3mOy9ZGheiU3yA4UH3r5Gz26alrc=;
-	h=Subject:From:To:Cc:In-Reply-To:References:Date;
-	b=OCYOcQ+VJQ0nWkSSupczoGkT7Yef/ZfSiq9KKKyQnIDexKNJgpi8PmAoDrQpXwvgF
-	 6qalZHJqwbKu+eGep31ztL/IzaojTLv/BIGJh4UwGZqZAXHAqjUdujcwQiXFreIXfg
-	 mfpu2DJ+QT4B3Yz/4frgZfIkF81uSMb2m837Omy5cSRdcsI5YGLNwMNiOvVI1IPCQA
-	 ZudpZRRzGsWqSWFirrUD5fY21eMIxh00ELa+CqWgg0Mfiy5vtEF9gUmv/G9NO30mTT
-	 SsdTGagxzuZAqp/fu+KDtPTOGoYg6X1NSyOsboDl63tflr/TjxDzShQTooGNUXWfhw
-	 f5Sug0462K5Xw==
+	s=k20260515; t=1794530997;
+	bh=by4pnn7UUwtR1dcWkA5l3Hqdi+jnIaBieMR4UKUf5fA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=Gk9kIc9YfKPN1a+chXmm1fauIHMrlVr/P2bj4SxeKbeQkpToe7imgUW0S8uMk1a7w
+	 bV/yDZ8EXQW6RaIzZX/MxuCui/o9E6sCkoXw6s3z/UX58q8Uyu8f5PhKV8SuZnp6cR
+	 I2pSjyfpSzxP1n15wynJ0V/3p2+fj3DEwb9OZCg88lI3dngYBNk8Ddf/8s7AUX8kFC
+	 Flg4wSK0UreVnLr8/62GQbhtXO6CM8/thpq3FUPMQerebR9PS1kuYARBsyAt1fyRyJ
+	 wIeGD9w9CzmxMadKh6UjJhckeKjVTXFYfDVAvyyRJyq3LVhGEa9CTONB3GU1gWztmI
+	 K9Q9VUPOq64mA==
+From: Joel Fernandes <jfern@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <jfern@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: rcu@vger.kernel.org,
+	Song Liu <song@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH for-v7.5 4/5] rcu-tasks: Use pr_debug() for callback contend/collapse messages
+Date: Thu, 12 Nov 2026 19:49:43 -0500
+Message-ID: <20261113004946.2758197-5-jfern@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20261113004946.2758197-1-jfern@kernel.org>
+References: <20261113004946.2758197-1-jfern@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,98 +73,109 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH v2 02/20] kbuild: unify static coverage instrumentation
- as COVERAGE_PROFILE
-From: Nathan Chancellor <nathan@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Alexander Potapenko <glider@google.com>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Andrey Konovalov <andreyknvl@gmail.com>, Chuck Wolber <chuck@wolber.net>, 
- Dmitry Vyukov <dvyukov@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
- linux-kbuild@vger.kernel.org, Marco Elver <elver@google.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Peter Oberparleiter <oberpar@linux.ibm.com>, 
- Peter Zijlstra <peterz@infradead.org>, Randy Dunlap <rdunlap@infradead.org>, 
- Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
- workflows@vger.kernel.org, Konstantin Khorenko <khorenko@virtuozzo.com>
-In-Reply-To: <20261103015238.3780910-3-sashal@kernel.org>
-References: <20261103015238.3780910-1-sashal@kernel.org>
- <20261103015238.3780910-3-sashal@kernel.org>
-Date: Thu, 12 Nov 2026 17:45:18 -0700
-Message-Id: <179453071828.814257.7183190179491150551.b4-review@b4>
-X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2607; i=nathan@kernel.org;
- h=from:subject:message-id; bh=sUhiWgHmxEGxdGgWqPkGj9bsJrQRKZaRFqCuUxknUv4=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDFnfYpcmTbrfpm2V/6p3o29g7nazz+1FYskLUvXEjzwJf
- D+d9fivjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCRF2EM/6tDA6fL97xlNg33
- 8/Xj/X3j8GPn/JIl/3Zf1p/nmLjLYz0jw45ZG02E12t/XXF515q0tLg189g/uXvPs3ys4ZY/s6L
- EkxEA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Transfer-Encoding: 8bit
 
-> The gcov plumbing is written for a single coverage implementation: the
-> per-object and per-directory knobs are called GCOV_PROFILE, the flags
-> are CFLAGS_GCOV, and every dependency on "coverage instrumentation is
-> present" spells it as GCOV_KERNEL. Make this generic so that further
-> coverage implementations can share it instead of growing parallel
-> copies:
-> 
->  - The coverage implementation becomes a choice ("Code coverage
->    measurement"), with gcov as its only member besides "None" for now.
->    COVERAGE_KERNEL is set whenever one is selected. allyesconfig and
->    allmodconfig keep selecting gcov through a COMPILE_TEST default.
-> 
->  - GCOV_PROFILE_ALL becomes COVERAGE_PROFILE_ALL. The old symbol is
->    kept as a transitional one so that existing configurations keep
->    profiling the entire kernel.
-> 
->  - GCOV_PROFILE[_obj.o] becomes COVERAGE_PROFILE[_obj.o] tree-wide,
->    with unchanged precedence (object, then directory, then
->    COVERAGE_PROFILE_ALL). Out-of-tree modules that use GCOV_PROFILE
->    need the same rename.
-> 
->  - scripts/Makefile.gcov sets CFLAGS_COVERAGE instead of CFLAGS_GCOV.
-> 
->  - The per-subsystem opt-ins GCOV_PROFILE_{NETFILTER,IPSET,IPVS,RDS,
->    AMDGPU,URING,FTRACE} become COVERAGE_PROFILE_*, again with the old
->    names kept as transitional symbols. The rds selftest is updated.
-> 
->  - Dependencies that are about instrumented code rather than about
->    gcov (LTO, the KCFI integer normalization workaround, the longest
->    symbol KUnit test, the per-subsystem opt-ins and objtool's
->    --no-unreachable) now use COVERAGE_KERNEL.
-> 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+From: Song Liu <song@kernel.org>
 
-Reviewed-by: Nathan Chancellor <nathan@kernel.org>
+Commit 5de907d24919 ("rcu-tasks: Disable callback contend/collapse
+messages by default") added the rcupdate.rcu_task_collapse_debug module
+parameter to gate the three pr_info() messages that report RCU Tasks
+switching between CPU-0 and per-CPU callback queuing.
 
-Sashiko's comment around tools/testing/selftests/net/rds/config.sh seems
-relevant though.
+The kernel already has a mechanism for debug-only messages that are off
+by default: pr_debug().  Use pr_debug() for these messages, and remove
+the rcu_task_collapse_debug module parameter, its documentation, and
+its boot-time announcement.
 
-> [ ... 622 lines skipped ... ]
-> +config COVERAGE_PROFILE_ALL
-> +	bool "Profile entire kernel"
-> +	depends on !COMPILE_TEST
-> +	depends on GCOV_KERNEL && ARCH_HAS_GCOV_PROFILE_ALL
-> +	default GCOV_PROFILE_ALL
-> +	help
-> +	  This option activates coverage instrumentation for the entire kernel.
-> +
-> +	  If unsure, say N.
-> +
-> +	  Note that a kernel compiled with profiling flags will be significantly
-> +	  larger and run slower. Also be sure to exclude files from profiling
-> +	  which are not linked to the kernel image to prevent linker errors.
+The messages stay off by default.  On CONFIG_DYNAMIC_DEBUG=y kernels,
+they can be enabled at boot with:
 
-Can you remove this sentence either in this change or a prerequisite
-one? It is not needed after commit 9c2d1328f88a ("kbuild: provide
-reasonable defaults for tool coverage").
+  dyndbg="file kernel/rcu/tasks.h +p"
 
+or at runtime with:
+
+  echo 'file kernel/rcu/tasks.h +p' > /proc/dynamic_debug/control
+
+Assisted-by: Claude:claude-opus-5
+Signed-off-by: Song Liu <song@kernel.org>
+Signed-off-by: Joel Fernandes <jfern@kernel.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  7 -------
+ kernel/rcu/tasks.h                              | 15 +++------------
+ 2 files changed, 3 insertions(+), 19 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 0b3c140babd9..176648941aec 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6369,13 +6369,6 @@ Kernel parameters
+ 			period to instead use normal non-expedited
+ 			grace-period processing.
+ 
+-	rcupdate.rcu_task_collapse_debug= [KNL]
+-			Enable debugging prints that record when RCU Tasks
+-			and RCU Tasks Trace expand to per-CPU callback
+-			queuing and collapse back to CPU-0 queuing.
+-			This is default-disabled due to the fact that
+-			some workloads can make it quite noisy.
+-
+ 	rcupdate.rcu_task_collapse_lim= [KNL]
+ 			Set the maximum number of callbacks present
+ 			at the beginning of a grace period that allows
+diff --git a/kernel/rcu/tasks.h b/kernel/rcu/tasks.h
+index a59aa8b6ab05..0eec90464d64 100644
+--- a/kernel/rcu/tasks.h
++++ b/kernel/rcu/tasks.h
+@@ -178,8 +178,6 @@ static int rcu_task_contend_lim __read_mostly = 100;
+ module_param(rcu_task_contend_lim, int, 0444);
+ static int rcu_task_collapse_lim __read_mostly = 10;
+ module_param(rcu_task_collapse_lim, int, 0444);
+-static bool rcu_task_collapse_debug __read_mostly;
+-module_param(rcu_task_collapse_debug, bool, 0644);
+ static int rcu_task_lazy_lim __read_mostly = 32;
+ module_param(rcu_task_lazy_lim, int, 0444);
+ 
+@@ -392,8 +390,7 @@ static void call_rcu_tasks_generic(struct rcu_head *rhp, rcu_callback_t func,
+ 			WRITE_ONCE(rtp->percpu_enqueue_shift, 0);
+ 			WRITE_ONCE(rtp->percpu_dequeue_lim, rcu_task_cpu_ids);
+ 			smp_store_release(&rtp->percpu_enqueue_lim, rcu_task_cpu_ids);
+-			if (data_race(rcu_task_collapse_debug))
+-				pr_info("Switching %s to per-CPU callback queuing.\n", rtp->name);
++			pr_debug("Switching %s to per-CPU callback queuing.\n", rtp->name);
+ 		}
+ 		raw_spin_unlock_irqrestore(&rtp->cbs_gbl_lock, flags);
+ 	}
+@@ -514,9 +511,7 @@ static int rcu_tasks_need_gpcb(struct rcu_tasks *rtp)
+ 			smp_store_release(&rtp->percpu_enqueue_lim, 1);
+ 			rtp->percpu_dequeue_gpseq = get_state_synchronize_rcu();
+ 			gpdone = false;
+-			if (data_race(rcu_task_collapse_debug))
+-				pr_info("Starting switch %s to CPU-0 callback queuing.\n",
+-					rtp->name);
++			pr_debug("Starting switch %s to CPU-0 callback queuing.\n", rtp->name);
+ 		}
+ 		raw_spin_unlock_irqrestore(&rtp->cbs_gbl_lock, flags);
+ 	}
+@@ -524,9 +519,7 @@ static int rcu_tasks_need_gpcb(struct rcu_tasks *rtp)
+ 		raw_spin_lock_irqsave(&rtp->cbs_gbl_lock, flags);
+ 		if (rtp->percpu_enqueue_lim < rtp->percpu_dequeue_lim) {
+ 			WRITE_ONCE(rtp->percpu_dequeue_lim, 1);
+-			if (data_race(rcu_task_collapse_debug))
+-				pr_info("Completing switch %s to CPU-0 callback queuing.\n",
+-					rtp->name);
++			pr_debug("Completing switch %s to CPU-0 callback queuing.\n", rtp->name);
+ 		}
+ 		if (rtp->percpu_dequeue_lim == 1) {
+ 			for (cpu = rtp->percpu_dequeue_lim; cpu < rcu_task_cpu_ids; cpu++) {
+@@ -711,8 +704,6 @@ static void __init rcu_tasks_bootup_oddness(void)
+ 		pr_info("\tTasks-RCU CPU stall info multiplier clamped to %d (rcu_task_stall_info_mult).\n", rtsimc);
+ 		rcu_task_stall_info_mult = rtsimc;
+ 	}
+-	if (rcu_task_collapse_debug)
+-		pr_info("\tTasks-RCU callback contend/collapse debug enabled.\n");
+ #endif /* #ifdef CONFIG_TASKS_RCU */
+ #ifdef CONFIG_TASKS_RCU
+ 	pr_info("\tTrampoline variant of Tasks RCU enabled.\n");
 -- 
-Cheers,
-Nathan
+2.54.0
 
