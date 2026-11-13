@@ -1,79 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794561694;
-	b=i7HBiSf5g8sI0keKMyFUL/oH5CMDqEmFn/fZ5AkbateRA+otmdZ5jSxi3b9/BCmuVaLe
-	 9am5n1tVmwzIye3lp1SVtaWN2qxCTO93n8Hq366wu1mKpDa6oEZZ+Nb1FejdBf2jpMxGr
-	 ELj71dlbLt9UGVMhsYbV62/FRbPn/Qk4kskys1ttT1/bwOPDnoy8BOHirfFs2w9Uts09Y
-	 SFhCupfjzGReJNqbdMBGw0QAUBb6BL7BK96mBegicymV3Q8/eYv/Fpxo0EABgJCsBQt/7
-	 KNn2Q0b8Qi5G4FumUEOgw6xW+SJGQjWJ3hw7DUFGUAmNDyqmU2FXhu/23Yk6Vd+LYIQ==
+	t=1794561699;
+	b=aOJyOp3EwSelQL81F4IklyyuLwIENpio6lQQnaHi1II4CY+pnOamUyBSqPaqighikJ/5
+	 983DuN7jU8JJKgFStC4tU0Z5w9DRC6HW0hgzdBtzuut6v1JE1CLmZsPhZTwvEDZCYsHwD
+	 0UjGbr1Abg+LBzGg4GuhBsYnfJIpzF7hRliFICwpxUJyrf+DkNJ72LyuRTxGnHKA/bgBC
+	 3xZMdeMVusHIb7g5xHU0mA6XhGFdB3Ysbb2lFR8FP+iChRsfA3BN2dsrlCtAurX8hEhw6
+	 vVkRZ+5r43kih4SkI/NQcB/nOiiKxOUyf6kkY7mCNRgU4l6RzAwQvuhWoC8n0VImasA==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794561694;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794561699;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=DVebRu1v4OO4QL+7ku/WdY7B/huJ6M6Knj4iG74/0uc=;
-	b=suPzRNBxBgkzadACFnzrbE7sArpbanB1a29gT3W5E1O41MS1U7fq+/2+VLDithsOIfk6
-	 sHA2c7gGFIbS54kYtvWTVF1nd+gS7GZnGH1DmYQxTl8bPXvxbkqYedwUsMCu8rNbXjVke
-	 t53eL1cNQaOi4cjKYsr9lq/G3+BGcT87W1dwH57hzCXSo/m8EzuVMxLmbew1pr3ESiRCP
-	 vE5p0xN1ET/uc9A482o5M0XmA1QnAE79Yacx1oXdGrWu3De661y69q1sdfLnfY7K2yxtI
-	 MafdKjK9ZHL9hhEM57PWtZtwp5E2T1cN3hKhcd7ZZL/cP/BGlWRyJJmMXdcgA7Yt+zA==
+	bh=QLrx30i7el36agCFsnnbg5QgixV8UKR0zsMUS/E77Ls=;
+	b=CTzgCqYZcr7CzjSOfDJwl/4XeTKwtiXORTeE5dsHdo133HPVtwS/OpgSYH3jtdQ7+ZdW
+	 oEbZvbg+JsvHNUi1W3MAlDxlZ/2CXMZs4f8E79GIYRhZbcvnQovsXOAT5givDA3XA2zTB
+	 xfJGL4fJSXX+I+fbLVYLJxp75unb4RlFn6uLka2fVN6o3H3O9qbAHj+4KY9snf+SZeCDQ
+	 Xlr8Y9Eq0frpk2HyJDNRS3lW8dCqTfY1LyUNZlAxz8dLyIJbE1cwCqBhS3QMWc+QTWrBq
+	 DYczknKugQHDambp+nOsjUjfcwurysBpTMwOjDBqyHypcOyO/jrpWpPy2DV87zeRSAw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YGhXw4mE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ahjsqUhD;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C27606A31C;
-	Fri, 13 Nov 2026 09:21:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B250460A3833;
+	Fri, 13 Nov 2026 09:21:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YGhXw4mE
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ahjsqUhD
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794561693;
-	b=1NbGX/5KFofX0BoTNaI0K7Luh32KVf5j2G9VamAvG7exFy6THYaHDj36wwrMWn+QTAj+
-	 GaRmszuCCeDd+dx8NgfAepicoeWcG80UZK+X/KFDhLu422Z4Px6dXc4YKHXRX+oZGOCgy
-	 jfiUPb4BobOveJdr/+JaruJASH+Ym978vlH8f+dzqMAnu5eB1W/4IYEhXChucjCCBSj6c
-	 JOwYNTmLCH4/tYZgYhcriNvvSxR4BlRRbGVyP5RjYH7qpSHPueml13AP1b0sAyOzu81sD
-	 RqHJ1XpMuLxBSwuIhR+c463WkduokuZk3FpUN+ECcxCYceZBGcMzJfe0HIRfVQBJ5oA==
+	t=1794561699;
+	b=1du+RoulAXvDgDRKcQmAXR7ScwlUX5CXNDv7tp+F9UBaN8ivD9Q1AIQODU7rDYpn8hpH
+	 LiMlsGXE/v6qZ0s7LHHFMCmrF9+/K1yRjeh24KI84I3kybtIf5RbV5fVVjfG86v8RuEb+
+	 etUsGVB31Von7Munb+BjiDQBOeot4Z4IeNfthxflWc0zPdcGSawfmVjuqccq2M0doTQN3
+	 VRW/rO2+cgrXRidSG8EISxvpoksejAZ4iSTEjfr+4RmdDY6D6u1dNhxGMf5iohRi8R4Wx
+	 sl/M9vC91Z2VkHi1XvTkgmZHRgPD+9cTcx+XayG4ft5OfudIgF/ioSo+MOkv69SPC6A==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794561693;
+	c=relaxed/relaxed; t=1794561699;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=DVebRu1v4OO4QL+7ku/WdY7B/huJ6M6Knj4iG74/0uc=;
-	b=TZrQVyONGE5p/icGUbnI7jolBVjFlYq3y9gzfjIBlDWrynAA9SqZT9oYAobdHUbRgqoR
-	 anxfal/IM/DbzWcHAsxBrr+8gccvxOLNWhroMrZmKysMkdwJgHan0+5GD0c3a1EoKiyEd
-	 ETURuwtDvGbnAfYvbqxyqHddetuI2CCW/AzLub7vfKYWbAe9AjN8dZwwFPOki7giZKiwa
-	 1948KtbzL+0mIc2s8xUuTIHhuui5WFXWtPoR0v63t2SFTPcd2rSrRlzqFBYCDOXy8WFv7
-	 5nI2zPd0Xi3t665FohkKffOXrnnZ3lbBWPWGMC6HuTTXDxMJEwmg67k5/b3pR6HRojw==
+	bh=QLrx30i7el36agCFsnnbg5QgixV8UKR0zsMUS/E77Ls=;
+	b=PUi6gHV2ObeJgbdT67oZqJ4L7KfV3VhvLAm5x2I9G0/b5YGP6yFWpt3//VZS3l28Z4+E
+	 Uz4UFPHL49MXhswPUQaks1BSRf8UFb1BQ8J8nk60csYudRW5HdReQ0Nm8DvKOUgmVp6mC
+	 i6KiZJqr/p+78oA1hbra7wJInrC0HZpEgtypvvFYeI26qjG6007wPIqozu05xrp+KL3nA
+	 0eGgGPk6bWiZGi6MMUltj8coSS/Ps9gHn4dpJeb0P9vOtjCKndSeBthlobzO7IE24jXrl
+	 Zdzrm3SKxOQN9oECP0WJkCtkzYnC40WofQI0dBUtvJdUNl0nWxks56iEu+PxSD/TYbg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id D74D71F000C5;
-	Fri, 13 Nov 2026 09:21:32 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id A40ED1F000D0;
+	Fri, 13 Nov 2026 09:21:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794561693;
-	bh=DVebRu1v4OO4QL+7ku/WdY7B/huJ6M6Knj4iG74/0uc=;
+	s=k20260515; t=1794561699;
+	bh=QLrx30i7el36agCFsnnbg5QgixV8UKR0zsMUS/E77Ls=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=YGhXw4mEO8fWge3aTwOQESl/2GTqItmP4daWa7Bb4zoL6zp31pU78GEvw6AR/pgUB
-	 lnt4NWr0VpxP9TIPjtmDUbo67fby1SKuqj3uDhi3pqH9X4uCJAeXH5qQSUQWY5oZKG
-	 i5W69V+56mWt6DQW2OZGuZZUl9ANoz9wTP+swnpnj0rvPKkGVUWw0nxuE7Jikc06n7
-	 lyFh86kF2u5xoiJRMr20Y5nzwyofVO8PvaGn/DJF4mhm9UbRnlStVlXG5z1qPhA9Gl
-	 vT4JMQW3zNVN2H725k+x/KxeOqwxchb/yPO7Bww3JV6zNAZwJgPb/xIFPjXvj2w8fs
-	 zVCxRCVLEm5cA==
+	b=ahjsqUhD37aVA0SgBuOMPlKMbnpLvZJfIo8sf7GO7oDnrk9Fr0aJqAv+OLFLZMlWj
+	 HSSnV+O2n+3st0Rcr5kbXzJsPcJH9FGWf1lVH5QGJBDWHLRjBSz+CsznD1cYWvAxQ5
+	 kMi6q0DehVEowx7jYzB8JqxxjKBcNSpIUes4dLZ6o1HqeNYB5kNEqCT3P60GcyOPhw
+	 o2XxhfW10/gK9j2QYXuaaltRpw6OPbH7zHqEd0p0ImhFpRL9Y6rvCUBTPzaaNKwjn0
+	 2IggwsNOLNEPskN5H9+Azssl9p9mVaZonEf994H3Z8VLvv/NOIb/SF8fEhl3Cluzs6
+	 CC/ru1fq0e0RQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 65731476F6;
-	Fri, 13 Nov 2026 09:21:32 +0000 (UTC)
+	by lkml.kernel.org (Postfix) with ESMTP id 6B5B14773C;
+	Fri, 13 Nov 2026 09:21:33 +0000 (UTC)
 From: Joonho Lee via B4 Relay <devnull+mynameisjune111.gmail.com@kernel.org>
-Date: Fri, 13 Nov 2026 18:21:26 +0900
-Subject: [PATCH v33 02/18] ALSA: pcm: report partial progress under the
- stream lock
+Date: Fri, 13 Nov 2026 18:21:38 +0900
+Subject: [PATCH v33 14/18] docs: describe virtio-sound capture options
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,7 +83,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261113-fix-virtio-snd-recovery-final-v33-2-13a934ad5ece@gmail.com>
+Message-Id: <20261113-fix-virtio-snd-recovery-final-v33-14-13a934ad5ece@gmail.com>
 References: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
 In-Reply-To: <20261113-fix-virtio-snd-recovery-final-v33-0-13a934ad5ece@gmail.com>
 To: linux-sound@vger.kernel.org, 
@@ -96,11 +95,11 @@ Cc: tiwai@suse.com, perex@perex.cz, mst@redhat.com,
  linux-doc@vger.kernel.org, Takashi Iwai <tiwai@suse.de>, 
  Joonho Lee <mynameisjune111@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794561687; l=4346;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794561688; l=3396;
  i=mynameisjune111@gmail.com; s=default; h=from:subject:message-id;
- bh=HpylXpYeW9r250CjHH8kIzFSPpkw6sWYLTiZ2SJMKC4=;
- b=TI3bqMmDgfRFrYf8zWILf6C5OF3EEcIwmC8G/Coiwwo1uiQagrwJUT4wCI0yoQi/LW4beqr4O
- O0gmJyWyhxCAzMSLWqEsqrO9Y2Qk4Y1UKxo8vr6xzucz/bm1sCY2p7H
+ bh=/j7ES1eIZUqADxQE96uIPwum9kdULJfrWnt027v2s60=;
+ b=lZIAbbt3wKeCjvFvgpJs6RSAf3uLOUl6iy0IhW0OlWs6Q9zAJ6yoBuBEaoH09GUtGHcx0QvJc
+ OU1CZJ2Ti+yBggC7bM47Gfg3/tu5sWNt3tBn/tN18xvbS2hM2ZuKAaL
 X-Developer-Key: i=mynameisjune111@gmail.com; a=ed25519;
  pk=wqkZdvfcC8g8fDi6f0Y58LlaXIo+ubf6Y/9Lr9yhshc=
 X-Endpoint-Received: by B4 Relay for mynameisjune111@gmail.com/default with
@@ -111,106 +110,85 @@ Content-Transfer-Encoding: 7bit
 
 From: Joonho Lee <mynameisjune111@gmail.com>
 
-Allow a driver to publish subperiod progress under the PCM stream lock
-without generating a period timer notification. Use the ordinary pointer
-update, XRUN and wakeup path. Capture DRAINING can publish its final
-tail while playback and other inactive states retain their existing
-behavior.
+Document request-owned capture in the ALSA configuration guide. Describe
+`capture_packed_status` as default-off, reading a packed trailer after
+returned data while the fixed status scatterlist remains the default.
+Describe default-off `capture_pause_restart`: pause uses STOP and
+RELEASE, then resume uses PREPARE and START; disabled mode uses STOP and
+START while retaining the prepared stream.
 
-Handle capture DRAINING separately in the state update: a full buffer is
-still readable capture data, while progress beyond the buffer capacity
-is an overrun. Playback continues to finish draining when its buffer is
-empty.
-
-Refresh capture availability after the unlocked copy and application
-pointer commit while DRAINING. A final tail can arrive during the copy;
-subtracting only the copied frames from the earlier snapshot can
-otherwise finish draining with unread samples left in the ring.
+Note that on MMU systems request buffers are vmalloc-backed and
+page-rounded individually. They remain allocated from hw_params through
+hw_free, and capture data is copied into the ALSA ring.
 
 Assisted-by: LLM
 Signed-off-by: Joonho Lee <mynameisjune111@gmail.com>
 ---
- include/sound/pcm.h  |  1 +
- sound/core/pcm_lib.c | 40 +++++++++++++++++++++++++++++++++++++---
- 2 files changed, 38 insertions(+), 3 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt | 14 ++++++++++++++
+ Documentation/sound/alsa-configuration.rst      | 25 +++++++++++++++++++++++++
+ 2 files changed, 39 insertions(+)
 
-diff --git a/include/sound/pcm.h b/include/sound/pcm.h
-index 1cf511f8d880..965be5603729 100644
---- a/include/sound/pcm.h
-+++ b/include/sound/pcm.h
-@@ -1182,6 +1182,7 @@ static inline void snd_pcm_set_sync(struct snd_pcm_substream *substream)
- int snd_pcm_lib_ioctl(struct snd_pcm_substream *substream,
- 		      unsigned int cmd, void *arg);                      
- void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substream);
-+void snd_pcm_progress_under_stream_lock(struct snd_pcm_substream *substream);
- void snd_pcm_period_elapsed(struct snd_pcm_substream *substream);
- snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
- 				     void *buf, bool interleaved,
-diff --git a/sound/core/pcm_lib.c b/sound/core/pcm_lib.c
-index bb16738bb591..4fb581b03480 100644
---- a/sound/core/pcm_lib.c
-+++ b/sound/core/pcm_lib.c
-@@ -215,8 +215,14 @@ int snd_pcm_update_state(struct snd_pcm_substream *substream,
- 	if (avail > runtime->avail_max)
- 		runtime->avail_max = avail;
- 	if (runtime->state == SNDRV_PCM_STATE_DRAINING) {
--		if (avail >= runtime->buffer_size) {
--			snd_pcm_drain_done(substream);
-+		if (substream->stream == SNDRV_PCM_STREAM_PLAYBACK) {
-+			if (avail >= runtime->buffer_size) {
-+				snd_pcm_drain_done(substream);
-+				return -EPIPE;
-+			}
-+		} else if (avail > runtime->buffer_size) {
-+			/* A full capture buffer remains readable while draining. */
-+			__snd_pcm_xrun(substream);
- 			return -EPIPE;
- 		}
- 	} else {
-@@ -1918,6 +1924,30 @@ void snd_pcm_period_elapsed_under_stream_lock(struct snd_pcm_substream *substrea
- }
- EXPORT_SYMBOL(snd_pcm_period_elapsed_under_stream_lock);
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index e75344f4e0cd..ca3fd768b439 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -8344,6 +8344,20 @@ Kernel parameters
  
-+/**
-+ * snd_pcm_progress_under_stream_lock - Report progress without a period IRQ
-+ * @substream: PCM substream
-+ *
-+ * Context: PCM stream lock held, with no driver pointer or trigger locks held.
-+ * Updates the pointer and wakes readers for partial-period transfers. Capture
-+ * streams may report their final tail while DRAINING. Unlike a period
-+ * notification, this does not imply an elapsed period or tick the PCM timer.
-+ * The same pointer, trigger and timestamp callbacks may be invoked.
-+ */
-+void snd_pcm_progress_under_stream_lock(struct snd_pcm_substream *substream)
-+{
-+	if (PCM_RUNTIME_CHECK(substream))
-+		return;
-+	if (!snd_pcm_running(substream) &&
-+	    !(substream->stream == SNDRV_PCM_STREAM_CAPTURE &&
-+	      substream->runtime->state == SNDRV_PCM_STATE_DRAINING))
-+		return;
-+	snd_pcm_update_hw_ptr(substream);
-+	snd_kill_fasync(substream->runtime->fasync, SIGIO, POLL_IN);
-+}
-+EXPORT_SYMBOL_GPL(snd_pcm_progress_under_stream_lock);
+ 			Can be used multiple times for multiple devices.
+ 
++	virtio_snd.capture_packed_status= [HW,ALSA]
++			Read an explicitly enabled packed status trailer after
++			the returned capture data. The fixed status scatterlist is
++			used by default.
++			Format: <bool>
++			Default: false.
 +
++	virtio_snd.capture_pause_restart= [HW,ALSA]
++			Stop and release the stream when pausing capture. On
++			resume, send PREPARE and START. If disabled, pause uses
++			STOP and START while retaining the prepared stream.
++			Format: <bool>
++			Default: false.
 +
- /**
-  * snd_pcm_period_elapsed() - update the status of runtime for the next period by acquiring lock of
-  *			      PCM substream.
-@@ -2405,7 +2435,11 @@ snd_pcm_sframes_t __snd_pcm_lib_xfer(struct snd_pcm_substream *substream,
- 		offset += frames;
- 		size -= frames;
- 		xfer += frames;
--		avail -= frames;
-+		if (!is_playback &&
-+		    runtime->state == SNDRV_PCM_STATE_DRAINING)
-+			avail = snd_pcm_avail(substream);
-+		else
-+			avail -= frames;
- 		if (is_playback &&
- 		    runtime->state == SNDRV_PCM_STATE_PREPARED &&
- 		    snd_pcm_playback_hw_avail(runtime) >= (snd_pcm_sframes_t)runtime->start_threshold) {
+ 	vga=		[BOOT,X86-32] Select a particular video mode
+ 			See Documentation/arch/x86/boot.rst and
+ 			Documentation/admin-guide/svga.rst.
+diff --git a/Documentation/sound/alsa-configuration.rst b/Documentation/sound/alsa-configuration.rst
+index 689eccf6a592..0531a3e3129c 100644
+--- a/Documentation/sound/alsa-configuration.rst
++++ b/Documentation/sound/alsa-configuration.rst
+@@ -2537,6 +2537,31 @@ midi_devs
+ 
+ This module supports multiple cards.
+ 
++Module virtio-snd
++-----------------
++
++Virtio-sound capture receives data into a separate request buffer for each
++PCM period. The driver validates the responses and appends frame-aligned audio
++to the ALSA ring in request order. Valid short responses are retained. Empty
++responses are accepted only during bounded startup or for requests already in
++flight at STOP or PAUSE.
++
++capture_packed_status
++    Read an explicitly enabled packed status trailer after returned capture
++    data. The fixed status scatterlist is used by default.
++    (default = false)
++
++capture_pause_restart
++    Stop and release capture on pause. Resume with PREPARE and START. When
++    disabled, pause uses STOP and START while retaining the prepared stream.
++    (default = false)
++
++On MMU systems, the request buffers are vmalloc-backed and page-rounded
++individually. Allocator rounding can make total additional memory exceed the
++ALSA ring size, especially with small periods. The request buffers remain
++allocated from hw_params until hw_free.
++Captured audio is copied from each request buffer into the ALSA ring.
++
+ Module snd-virtuoso
+ -------------------
+ 
 
 -- 
 Git-157)
