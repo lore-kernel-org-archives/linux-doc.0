@@ -1,49 +1,102 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.231.112
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.129
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794559826;
-	b=dxP88rDR71yWVqr43kvupWwFSg2Ke9bnLWaQQ5X5ycbsS1th5Ofl5SjUAA5njmsqhuyb
-	 wjwzkyNwwIH381RoqKvuE4NO/kyORh755ALqmUQlQ+z97Acvj1SPGDJ9dh5fFs7SUWtzO
-	 hXoG/m+TtsLBsYYzddpBrcncpDGJQa4lZEGxo92qm8DM0I9QfPOemovPPjulhwlTaqyi7
-	 d3gm1pz9LrLh2Ht1lHm7lrzyVk+LMztDqq+QD/qkX2P/PDT/j90CFXAsZHvimoqXguVI8
-	 SdeO8SfwDQb7yN0I3aohcbQInJgW8TGFLg6CMOcVm0Ly690x/TiUH6XcxlMx7jnayDw==
+	t=1794559887;
+	b=Mel745DvOoNJh3wd86ulQWYboJfQGoQOUqjmdFRADNuES6BLBuCgZPKIgaJ4TbllLUGb
+	 9mX6uaucxnWyIkJZ8la/7ZTm0uYFCtXZ6pZ9B+SBWPp9F6kP/FCW73sy5Nnxh4SzzVhU7
+	 bKbEnp6G2aAwrxThKnD2Vjfr1ROeAJ1+Sr+yMgvqPWQZHfM8GO/UVbHdvhDCywa79sD2H
+	 qZoKr7yNbHIbSyBMMczjPhao+iRNt2g7+lafd8opliSxAyIezskCxwB/OPPfBXkZZE426
+	 F7YgcTRiu3h0N9OBg5R8vu0CDspe8iOEdflWx24SSqzNw8df9b6gXsULxHAik5ag8SQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794559826;
-	h=DMARC-Filter:DKIM-Signature:Date:Mime-Version:In-Reply-To:X-Mailer:
-	 To:Message-Id:Content-Transfer-Encoding:References:X-Original-From:
-	 Content-Type:Cc:Subject:X-Lms-Return-Path:From;
-	bh=BRtBrIkCJ4EaL32K9DlOPnqwkNfnHFCSjQCoKgoeAeI=;
-	b=vbvwxwECQWoacZFXI7rd4RETZNbF41upXX5VjWMEpoWouX0rgYeLM594SyoqmbfYaiwD
-	 rxExYvY2bHryBN8IJQwLyE+adEtIJGru+rEe2XaC6q5NvjVf+3PkM2zM5fQLvyyESeKbo
-	 v41/McERNPKoWEfbKE4XmExxcXtiu03fwNGSmlaNP5j1MSqzR28XHkh1GRPvgyA2FokhU
-	 1yrDkUeLo4Ed3cRFFb9HEvNgL3BO6oFrqI//rT6SsyWwAtzwZZOiUixcrkJJOlOu39Gtz
-	 khix+cqeKNsDr0olGjVEPcvaNAlzkEbuCbNOocchELFkwndHhK1N/WUbKMNiUeNUe/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794559887;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:Message-ID:From:Subject:To:Cc:MIME-Version:Content-Type:
+	 Content-Disposition:User-Agent;
+	bh=77Y95W/UaJg257+QBwzQ+4jh+bph1WESxo/Gei8xe2A=;
+	b=DnU6pt7rFPL90mEGa2JXoLCKJtFN/w/vuO3veAsqxd7P/cXvgYY3Uz5zeoUXu0L477Yu
+	 Hxkga2duGdrZ4u7zIzxIAig0sJc6dy5UByhLCoPycq9RUWH5iDLLwura7FU7ob5Jb+1uF
+	 b2tneY+QI97w5/wyr6sJneepxUDSqooalVjPNb0xBwj6TiJbEhJg+NiUSmGdfwHSxuyxa
+	 Up3Qqv9R+qlnQo78q+g9/nlYH4Jr4nRjeH4cJ/ypJD3XvBHDLianfIs7TOa4qxXQaVmTZ
+	 1pSoRfaFNnNP4m20b25z4wXfwKTZH4Lzj3tKIyDBD6TJdsvadBKxkaOuASP5LTXPuew==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=ohSvZADq;
-	arc=none smtp.remote-ip=209.127.231.112
-Received: from va-2-112.ptr.blmpb.com (va-2-112.ptr.blmpb.com [209.127.231.112])
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=brVck6GD;
+	arc=none smtp.remote-ip=74.125.227.129
+Received: from mail-pj2-f1.google.com (mail-pj2-f1.google.com [74.125.227.129])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F2C606B366
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 08:50:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51F2C606B366
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8094606A88B
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 08:51:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E8094606A88B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=ohSvZADq
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1794559823; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=BRtBrIkCJ4EaL32K9DlOPnqwkNfnHFCSjQCoKgoeAeI=;
- b=ohSvZADqWwkUbpue3+Py1p1OMG+qrQgWkWWP9sOK85C/eaDYLQ52nkmCN+PHYi52xYchrH
- AZwjEc1sqgAkqeF0Og2wPob3N1NPn5kG4CScI9FNQlzj/Kx0MkFaQWe1rO5CSilhf5NkZg
- hyGwPcpmdS2HzsPnjXxbXk4jqt8DkY6hx46oixmiiJEQEglE1kSxQsWevkC5YMwMiOzGrK
- mh7rJSlMfqFQDbF3AnK1mbM6+D4LdZ5cDdhd5PjgnEG1i4qrJ1OoVCtmK+CCsd09EGrXLf
- jhQX/xexR0UujW0YzkDyNXo3t221867BetuOvWOZz3mVxiVSA43xpZz/f+NQpA==
-Date: Fri, 13 Nov 2026 16:49:48 +0800
+	dkim=pass (1024-bit key) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=brVck6GD
+Received: by mail-pj2-f1.google.com with SMTP id 98e67ed59e1d1-3b10718b387so479706a91.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 00:51:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1794559886; x=1795164686; darn=vger.kernel.org;
+        h=user-agent:content-disposition:content-type:mime-version:cc:to
+         :subject:from:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=77Y95W/UaJg257+QBwzQ+4jh+bph1WESxo/Gei8xe2A=;
+        b=brVck6GDzg2l9Hd8ZDcj7od0ctXW1NWDQ5vZNcZ5RAm0ytXk7uT52keYCAc8GFvT6O
+         GSPdgCSfKoXH3VE87n3N6oGbCcW3OxvcNkSKdFIp1YMUORZjeuqOlgzSJTKq/tH76O0s
+         jGmzt6oEd1lV0VvBndnX0dNHhw2bU0tZhMa8E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794559886; x=1795164686;
+        h=user-agent:content-disposition:content-type:mime-version:cc:to
+         :subject:from:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=77Y95W/UaJg257+QBwzQ+4jh+bph1WESxo/Gei8xe2A=;
+        b=n1jMtUIPDyBOamoLCJqIPa25Xzy/dkWFwX25PB85iRfvk8nKuAK+iqLTAEm1S9zEGj
+         geqtbI4kDvlPCGOFTFpW6xQ9c/+oerG1HjbeMtXRaYSUXIcjZYUVMvuKi3fTkHqLuV7t
+         4UybERojcQkycez+TZFX9SR6rkMX6uNua4swks8fsYkjqYuc/DjoBpR7RiA0673Lt+Dl
+         F/CxVCHbZn6QgwYUny0fdUo7GdMms8ZRSKuNpZL0KYih8YnPh4FM+ND/NpactB01key/
+         7LQHXWnvTiSSe4JB8+Tf1Tf+u1PTlZCV5CEWYv55qR1NA9NVLW2nVQLBk7Nec9jKjSfB
+         y1jw==
+X-Forwarded-Encrypted: i=1; AL+hErFRaP3Kv7zGfeNx4FqLmJaS6GPX67ujIyU0C39wCc5/MIjcIWqEtqinax9cX5zCaGmTdmZajzjXFhI=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9gacDHBPC/e0x6l1y9M6xOPdtFeN6TEjSvJcm032Sn/O/d8HvU
+	V0bCMIHOn56l43txRAS+kfzl8Fg0njJJzjvfSNZxBo4ofrubFRhaqGw3TsUtgeVMnb0=
+X-Gm-Gg: AYBFou1AYSPPmO9ZQHDHjgnMkVYtIwtp5ynz0m0a0+uS2SntOIGeQ31y0EEw71SoFYn
+	ryI8VnpZdw0OwuL1KUap11aWaQjddgu0tgRCtenQF/NLL9QXQlKHIkrQkQK3lVPCLrHQKlL1Z16
+	rUis8y1qRl+WGjvtP6NQMlgGUyjJufUfulFJiKdsT2CiNarnvtkwPOtGienaG3iS6B5ZyV30CmQ
+	99CeYz/kgoGU3mVzv46RWjvcYBdp83FNNDTT74T2dzfj9SsRiV1MSipKWO+OGXBFTeSfy8639Ib
+	hSU8yTN+2m3VG+zUlB/VLoZho0E5hSkPwBuxhXg6kShGAk72Qu9SFH12ECqR3JwD8Cj+Ek24r1A
+	U8sqaDdNH6usQYHa3gKtrL9f8FhJ+pngYuHzcXHxzwHYIHMgGPG7SxaZBO5c6+WaVBy59/h2v8G
+	H88xZxVLyD2Lah7itl49/UMi9D6kAcU+fcRRgNEKQDXny1vOQfKFMjHnVss7HTCdxiojFrb+wEc
+	J1XP7v1qb+sf9I8nTjSk7uAaBl2K9qIN8E17U8xDISZ+fM5lol8GMPb6/cv69zttwhp8Y+Gr1uZ
+	JNr15hKUvU1L/JkLGxR1hpVSGmq2k+Rs1xrGsUgKOSmVjevza7+tY6423R36Tj80a0KfaVv3veT
+	Nt1NSm3bGnhpHbHLD2iVtsVCeVDGZDlhrQr1LRMfa3uDxwQ0AqOc9qQc/kOSZBgOx9/qgMva6ZE
+	xmF9wM9ur2QuelsWewbpe5QYcDD00LczCXH7THQI71+BMjcbsP9ZVFVnwKqRQ=
+X-Received: by 2002:a17:90b:53d0:b0:3ac:b2e6:317d with SMTP id 98e67ed59e1d1-3b1b0a10840mr1664527a91.35.1794559886175;
+        Fri, 13 Nov 2026 00:51:26 -0800 (PST)
+Received: from [172.22.0.2] ([50.175.87.158])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1aec63b9bsm3619209a91.12.2026.11.13.00.51.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2026 00:51:24 -0800 (PST)
+Date: Fri, 13 Nov 2026 00:51:22 -0800
+Message-ID: <cover.1794506262.git.chris@chrisdown.name>
+From: Chris Down <chris@chrisdown.name>
+Subject: [PATCH v3 0/6] mm/slab: Support selecting slab hardening features at boot
+To: Vlastimil Babka <vbabka@kernel.org>,
+    Harry Yoo <harry@kernel.org>,
+    Andrew Morton <akpm@linux-foundation.org>
+Cc: Hao Li <hao.li@linux.dev>,
+    Christoph Lameter <cl@gentwo.org>,
+    David Rientjes <rientjes@google.com>,
+    Roman Gushchin <roman.gushchin@linux.dev>,
+    Kees Cook <kees@kernel.org>,
+    Marco Elver <elver@google.com>,
+    GONG Ruiqi <gongruiqi@huaweicloud.com>,
+    Jonathan Corbet <corbet@lwn.net>,
+    linux-mm@kvack.org,
+    linux-hardening@vger.kernel.org,
+    linux-doc@vger.kernel.org,
+    linux-kernel@vger.kernel.org,
+    kernel-team@meta.com
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,126 +105,81 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-In-Reply-To: <179455442014.482102.4069329165987986914.b4-reply@b4>
-X-Mailer: git-send-email 2.45.2
-To: <gourry@gourry.net>
-Message-Id: <20261113084948.78661-1-lizhe.67@bytedance.com>
-Content-Transfer-Encoding: 7bit
-References: <179455442014.482102.4069329165987986914.b4-reply@b4>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Content-Type: text/plain; charset=UTF-8
-Cc: <akpm@linux-foundation.org>, <cgroups@vger.kernel.org>, 
-	<david@kernel.org>, <joshua.hahnjy@gmail.com>, 
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, 
-	<linux-mm@kvack.org>, <lizhe.67@bytedance.com>, <ljs@kernel.org>, 
-	<mhocko@suse.com>, <muchun.song@linux.dev>, <rakie.kim@sk.com>, 
-	<roman.gushchin@linux.dev>, <shakeel.butt@linux.dev>, 
-	<weixugc@google.com>, <ying.huang@linux.alibaba.com>, <ziy@nvidia.com>
-Subject: Re: [RFC v2 1/1] mm: add source selector to memory.reclaim
-X-Lms-Return-Path: <lba+26af6cf45+407931+vger.kernel.org+lizhe.67@bytedance.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-On Fri, 13 Nov 2026 02:20:20 -0500, gourry@gourry.net wrote:
+Slab hardening settings are currently all build time choices. This means
+that, unfortunately, hosts with different requirements end up needing
+separate kernel images. At Meta, for example, some hosts are built with
+these options and the rest of the fleet isn't, and that's one of the
+things that keeps those kernels apart.
 
-> > On 2026-11-02 15:04 +0800, Li Zhe wrote:
-> > +	Specifying a source value constrains where proactive reclaim applies
-> > +	pressure. Currently only source=nodes:<nodelist> is supported. For
-> > +	example::
-> > +
-> > +	  echo "1G source=nodes:0-1" > memory.reclaim
-> > +
-> > +	This reclaims memory of the target cgroup resident on nodes 0-1.
-> 
-> you buried the fact that you want to allow source=zswap in your cover
-> letter. I was confused by nodes: was needed here until i re-read.
-> 
-> As Joshua mentioned, i don't think you need the separate cover letter,
-> and I agree this is far too long for the proposed change.
+This series does two things:
 
-Agreed. The nodes: prefix was meant to keep source= a typed selector,
-but I made the motivation and possible future extensions too long and
-distracting. I will make v3 much clearer and shorter, and keep the focus
-on source=nodes.
+- SLAB_FREELIST_HARDENED and SLAB_FREELIST_RANDOM are cheap enough with
+  sheaves that it makes more sense to just enable them by default than
+  to make them switchable. With both on, system level benchmarks didn't
+  change measurably, only slowpath heavy microbenchmarks did [1].
 
-> ---
-> 
-> When I asked for testing, I wasn't concerned with the functionality,
-> I was asking what problem this actually solves. performance? fairness?
-> 
-> Shaping the distribution of memory is neat and clearly works, but why
-> does userspace want this?
-> 
-> The interface "lacking flexibility" is not a problem in and of itself.
+- SLAB_BUCKETS and KMALLOC_PARTITION_CACHES cost memory (Harry measured
+  about 1 MiB and 18 MiB respectively after boot on a 64 CPU VM [2]), so
+  they get slab_buckets= and kmalloc_partition= boot parameters, which
+  default to on when the option is built in.
 
-Thanks, this is a fair point. Sorry, I also made that earlier
-explanation too long, so let me summarize the intended use cases here:
+Whether those two should be folded into a single slab_hardening= is
+still open [3].
 
-https://lore.kernel.org/all/67fcd8db-269d-43f1-aea2-8c41165747d0@bytedance.com/
+v3:
 
-In short, performance, fairness and cost are all part of the goal. One
-target is mixed DRAM/CXL systems where user space keeps each memcg near
-its own DRAM/CXL resident ratio target, based on the workload's
-latency/throughput and cost requirements. Another target is the case you
-described below, where user space wants memcg-scoped reclaim to apply
-pressure to the desired tier first, rather than reclaiming from warmer
-memory on the top tier. This is especially useful when a memcg is close
-to its memory limit and user space wants charge-reducing reclaim to
-start from colder/lower-tier memory first.
+- Rebase onto slab/for-next.
+- Always build the slab_buckets and kmalloc_partition tests and skip them
+  at runtime when the option isn't built in, instead of leaving them out
+  with #ifdef (Kees).
+- Declare slab_buckets_enabled and kmalloc_partition_enabled in
+  mm/slab.h without any #if (Kees).
+- Drop the remaining #ifdefs around slab_buckets= and
+  kmalloc_partition=. Both are now always registered and ignored when
+  the option isn't built in (Kees).
+- Keep both flags as plain __ro_after_init bools rather than static
+  keys, since they're only read when caches are created and not on the
+  allocation path.
 
-> I CAN see why you might want to proactively shape what data is swapped.
-> Let me give you an example:
-> 
-> ---
-> The global node reclaim interfaces allow us to put pressure on distinct
-> nodes - which lets us shape which node is swapped from first.
-> 
-> Example: node0-1=DRAM, node2-3:CXL
-> 
->   echo 1G > node2/reclaim   # swap from CXL
->   echo 1G > node3/reclaim   # swap from CXL
->   echo 1G > node0/reclaim   # demote to CXL
->   echo 1G > node1/reclaim   # demote to CXL
-> 
-> But the memcg.reclaim interface only allows us to pressure the complete
-> set of cpuset.mems nodes for that memcg
-> 
->   cat cpuset.mems           # 0-3
->   echo 1G > memory.reclaim  # makes progress from any of 0-3
-> 
-> Presently, proactive reclaim iterates nodes in node or fallback order,
-> meaning it attempts to make progress from the fastest node possible
-> first - which attempts to demote by default.  If the lower nodes are
-> full, this demotion will fail and we'll swap directly from the top tier,
-> which is (presumably) warmer than the bottom tiers.
-> 
-> Enable source-bound reclaim in the memory.reclaim interface so that user
-> space can have the same control over memcg memory tiers that global
-> proactive reclaim has.
-> 
->   echo 2G source=nodes:2-3 > memory.reclaim  # [z]swap from CXL
->   echo 2G source=nodes:0-1 > memory.reclaim  # demote to CXL
-> 
-> This lets user proactive reclaim to target the coldest memory first
-> rather than preferring to reclaim from node0 first and potentially
-> swap out memory warmer than what is present on a CXL tier.
-> ---
-> 
-> With this, you might be able to demonstrate fewer refaults and less
-> DRAM (node0) memory consumed by zswap. These are clear benefits.
+v2:
 
-Thanks for the example. It makes the problem much easier to discuss. I
-will refer to it when reworking the v3 motivation, and will avoid
-framing the issue as a generic flexibility problem.
+- Make SLAB_FREELIST_HARDENED and SLAB_FREELIST_RANDOM default y instead
+  of adding boot parameters for them (Vlastimil).
+- Skip the memdup_user() part of the slab_buckets test on !MMU
+  (Sashiko).
+- Keep slab_buckets= and kmalloc_partition= separate for now. We can
+  discuss whether to merge them into slab_hardening= or similar, as
+  Harry suggested.
 
-> I would argue that memory.reclaim should operate this way anyway,
-> and that would could make proactive reclaim do this by default, but
-> I could see the policy bits in userland being useful as well
-> 
-> Performance may not be the only reason you want this, but you need to
-> help me understand what you're trying to accomplish.
+v2: https://lore.kernel.org/r/cover.1793253633.git.chris@chrisdown.name
+v1: https://lore.kernel.org/r/cover.1793086056.git.chris@chrisdown.name
 
-Thanks again for the review and suggestions.
+[1] https://lore.kernel.org/r/auITixAJMfLtfa7i@chrisdown.name
+[2] https://lore.kernel.org/r/179312451613.474906.1475329637924619088@kernel.org
+[3] https://lore.kernel.org/r/aud4gPOUzvHtLYnJ@thinkstation
 
-Thanks,
-Zhe
+Chris Down (6):
+  mm/slab: Enable SLAB_FREELIST_HARDENED by default
+  mm/slab: Enable SLAB_FREELIST_RANDOM by default
+  mm/slab: Support disabling SLAB_BUCKETS at boot
+  slub_kunit: Add a test for the slab_buckets boot parameter
+  mm/slab: Support disabling KMALLOC_PARTITION_CACHES at boot
+  slub_kunit: Add a test for the kmalloc_partition boot parameter
+
+ .../admin-guide/kernel-parameters.txt         | 15 ++++
+ lib/tests/slub_kunit.c                        | 85 +++++++++++++++++++
+ mm/Kconfig                                    | 11 +++
+ mm/slab.h                                     |  3 +
+ mm/slab_common.c                              | 52 ++++++++++--
+ 5 files changed, 157 insertions(+), 9 deletions(-)
+
+
+base-commit: ce6518e61e3b4bf4f97f7ac6204049b9eba7eb75
+-- 
+2.56.1
+
