@@ -1,102 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.178
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794560392;
-	b=nd+t2nJwn5Wk6IVpt1GNdZd2ccrNmcsiI3xOfsTWtnqAncCOxv6WPujFnUQQNOwS/tM0
-	 YaMP2euNCcncsqdtme9sfppsC0ipUzpkLPWjtuE8OLS0EjVEDFaAcDQjKqzgvpiE+QyG4
-	 wLhnSDf/zT0SUJ1m0bMmMEVd5UTPok5gjIRq6cTcZSI/ktQq4hOxFcFt5E+QQ7gpgo+9w
-	 UAmFmiRFtqHiMbq8NSBnjeLFeoMi7XnddqRjo7Mrpua2VsI5+YyIvlLv1Scqn7+vyjJDs
-	 4qTH86Ru+C6WYVRuXIp6575MkLyZm0eNaeZ8sVGVcwFmcZIlyKCsTEk1w/0aTFtPZ2g==
+	t=1794560926;
+	b=Fqfi0D1UlPDv9IH6sJevUMSrLt0sYtwYJyljnOhK4pKEhZDnrXWeX/CiU5YjBo6YUi1U
+	 HWfFG4kUC4co5XGS0o1HtifrE1ZXGEjRXxHHUNbtse+zgwaw7RCblZvFzryVZ9i5jFWEV
+	 AWvcAdSl19URFdLN/wmv5DEz28zfO39iHVlwvMqEkxJLyFYJqjPs5Iv/MyMdjR+mSi5C7
+	 /Ot+pMSFhqQEieYlEhQ1yYLUlKLHWp5vadyUXbYrYBAI9jx618r73S9Y+aQLv1MA7h+jm
+	 OCzuTndIocVS6bQsHxvsCy9Qrpnl+ZvjW/k/S8eae+P7i/hcCDWcEn6amYF4YQPv60Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794560392;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=7rNzRbJ/55BT46qZauMU9GkZ1yJMZW1L/iinWzPbSDs=;
-	b=Hn6ptlP/BZJ/e8FTRws8vdy6ruspNFQ0+pcGU2w+VBE/H4z3DvHgqLWqJztlC9Ek7bZu
-	 qdW+Caqq2VYsxkwXn+pzzmaHNuOHY2sCilkiAiFYgj68MTTUgVK295cT5P8FHzPdHivLl
-	 NFYd6G24WDl+EJdN9WKuqfdVISIHKb3VVVSi7esde1uAMFb2CLyqfAtd/Hc0enads99JK
-	 7JzFpAW6pDVzrsSIYfWQBIwPiAkQIkjGHeOdDoV1SxMUWun55Xgxg49xk/ssLTuRpiQJ1
-	 65+HOCqRzNDao+WYySQp50iqsbIf1NwJ51W7UR8vk2SLGlwu+QPhrqJCk59nkPUfEnQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794560926;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
+	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=M3J02I9fhxLNnztawYzUAlQ6QhBDBuVfwK+zFsDggxI=;
+	b=5Oek/wlbB0pqSdvC9//R2TF9iMKVo9EzoPn2/tUkO3FE4AMKhSy7sRe+4IIpXDDUTER1
+	 t4IYyDKNKYmCRLQOwvC17LuWAAk39TNUUN9c4Y5Yy54PJzzlw436mMDAdenPky6Hs9K2D
+	 Wi+Qyez429xdjWPhjWsLqv0sGK1+u80Tm8Gc3roe+3rlahVB7GQSqXjq1KpaJHizy2MOb
+	 KgRH3MCYpHizglEmom4PEgi9wWJ97vSfg1zv/0/0LP/9jW+qVCJRTjmIRbmobyKn8uMeQ
+	 KxMSt3MANH69geYD9K4vhhBkNvWdeuo5fIgdSoi6qkwImvjbnfX9PVUGfNv6cTZMn2Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=telaak.dev;
-	spf=pass smtp.mailfrom=gmail.com;
-	arc=none smtp.remote-ip=209.85.128.178
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KD5ni9Rf;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21D9C606A323
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 08:59:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21D9C606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=telaak.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-8b31261e8a9so5251377b3.0
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 00:59:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794560391; x=1795165191;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=7rNzRbJ/55BT46qZauMU9GkZ1yJMZW1L/iinWzPbSDs=;
-        b=jSsYq7w/Fte0Jbwd3ZgHjpkdPQj5zrctw3Ra3G5X+k+yQzsIM8liMC45gamUdpRI4t
-         5iryTRURqhtGVOELRtao1Q3ctAhSIPaF09AJJzYKd7sRDioGe4i6T0r3Vd/ZNhwbB155
-         X+M8Z9wvIokU42uf5Ew97QHYCcshtJA3p/Ml4+6lW1Oz064+18FjzrJZyURnTolbcsWG
-         ZcsrI6/6ceHxvMpq5YEZr7gE8W+jIkW0GlV2hlGnMO7OXSpQNVNto+Ghh7OZP3416+Yn
-         p22OafVXzj5uB55mILFiLSwi7QLmWekuevnzehe33/0UZqAgHmgUB1kRBOwaHScC+EHt
-         GZRQ==
-X-Forwarded-Encrypted: i=1; AL+hErFKuPxkndWcfY01C9GWyvPO3hBnkkh+eQrOhdSnEVJV1d+1nWt5dsC+F5MVv5iF/iIrZk9T2MsVCag=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+OkOVzclmWvSO/G1UxyKeebuZ/TLqS5/jlyAtPsD2uIw0UeYaI
-	ulO2XZnnyIcDbJUCTbDViSsMkgbGH+8lxZaQz+FIrjljX4cd4Abpb/p6
-X-Gm-Gg: AYBFou0b9vrNDiGqFzmVFmnziRxwFfLVDFbc5Ak44d/oELt6XQVFNJ3YN8TZPn+pdj3
-	tLHpSiI20EXZiEUKx0MPkM68ROgamRfSpe4YS6XD0LOwWPzwwsI9Y8JXynPDitJBa0LcAzRJk/m
-	c7LjPfxapb/ZJgnobawS3dtRkfZveu4cbPMk47jCengFlhsww9Eall3vlU2l/5uCGx/L5J20tCu
-	L72Yj/7g+Ux7Rj1QN5ia6+9A4iCJs/kOCXvI4jAOZ9vDhtg4rYchwKThKICTQRIOlPduu0m5G+Z
-	R502MGgXX6Lb80MJfQNDzDwD/zYSTAxUsKzR/dm27fV50fJR73jfPhKb7mxKHiXEAPecyerY+T+
-	pBXgnMNCgagmH9iZwgutAQla1oML/Tu02TFf43m10RHOvLnJmLAaXUK+g5hWzZtLzwNtEZdT3JT
-	sUcaV5Es/Nwr2HhflolOM4gJt2SM+niEZKElXp8mjj/e75qpj/24//oeh8qtznqx91L05fazDwk
-	qjj9eHaLk8e+wo1RxTNBecniiJCxHu/ovpnUSZQgqet+nEEAnrUqddIvpC43ueT3CMRrwj7ZZtc
-	v47LbtXCzNqVZXk22zRvkYnKuRjusu3SuqRBx+63ohgR+V/r/tsLin1sWXGlqoSEJrmq8Tgewsk
-	30scP9Fp6iVdfRLqNgTnvR9q8SG41bzdS
-X-Received: by 2002:a05:690c:386:b0:8b1:e7c:cdcb with SMTP id 00721157ae682-8b4aa2f2467mr15379307b3.23.1794560390743;
-        Fri, 13 Nov 2026 00:59:50 -0800 (PST)
-Received: from localhost.localdomain ([71.68.170.161])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa7ee70csm15720497b3.6.2026.11.13.00.59.48
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 13 Nov 2026 00:59:50 -0800 (PST)
-From: Joseph Telaak <joseph@telaak.dev>
-To: u.kleine-koenig@baylibre.com
-Cc: dri-devel@lists.freedesktop.org,
-	patrik.r.jakobsson@gmail.com,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	alessio.belle@imgtec.com,
-	luigi.santivetti@imgtec.com,
-	christian.koenig@amd.com,
-	thomas.hellstrom@linux.intel.com,
-	imagination@lists.freedesktop.org,
-	frank.binns@imgtec.com,
-	operatingsystemsdepression@gmail.com,
-	matthew.brost@intel.com,
-	dakr@kernel.org,
-	phasta@kernel.org,
-	sumit.semwal@linaro.org,
-	linux-media@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RFC 12/13] drm/powervr_sgx: Add the DRM driver, power management and debugging
-Date: Fri, 13 Nov 2026 03:59:47 -0500
-Message-ID: <20261113085947.62594-1-joseph@telaak.dev>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <avajebb1alBnAm8U@monoceros>
-References: <avajebb1alBnAm8U@monoceros>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2C3606A321;
+	Fri, 13 Nov 2026 09:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KD5ni9Rf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A80211F000C4;
+	Fri, 13 Nov 2026 09:08:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794560926;
+	bh=M3J02I9fhxLNnztawYzUAlQ6QhBDBuVfwK+zFsDggxI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date;
+	b=KD5ni9RfgR2oPiPnTxi9WLqFkN9jV0P/xl5AkArK9PZNzck6d6GSiqqcJLJ/1h143
+	 kjxcOQqn84Lfh85aDV87hexctxhF/nU0KHAKhGlqODU9EPG3GpscaiR8/OGM17Y3eE
+	 3JsA1PZQHTpuU+g/NR8TRSaE1KtmYUXa6QZ5/LRs9MNCOW4VEWTtlj41F3Emlca/ji
+	 QSTeQmwaIArDJNMwK5hgHd+szqeNvFaSZBmzERMWwJ0Ep/wRiO886k/Dii+Yrm78am
+	 jBbocMXOzmMr6FOUxxx9DdhnxLTzPGk3dhKjrv6HkbPkj7JDAR71qYfKrQSJOWyDMk
+	 gK4o4Jm5Ej1KQ==
+From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>, Jesper Dangaard
+ Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann
+ <daniel@iogearbox.net>, John Fastabend <john.fastabend@gmail.com>, Pavel
+ Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>, Andrii
+ Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar
+ Kartikeya Dwivedi <memxor@gmail.com>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Song Liu <song@kernel.org>, Yonghong Song
+ <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil Tsalapatis
+ <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>, Weiming Shi
+ <bestswngs@gmail.com>, Nikolay Aleksandrov <razor@blackwall.org>, David
+ Wei <dw@davidwei.uk>, Alexander Lobakin <aleksander.lobakin@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Stuart Clark
+ <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 01/11] net: Get skb fragment addresses
+ through netmem
+In-Reply-To: <CAHS8izPnmy4W6f3dWp2NCkmNYxtP8jKm5rxjvPbQc8VdFm0Wng@mail.gmail.com>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-2-bjorn@kernel.org>
+ <CAHS8izPnmy4W6f3dWp2NCkmNYxtP8jKm5rxjvPbQc8VdFm0Wng@mail.gmail.com>
+Date: Fri, 13 Nov 2026 10:08:42 +0100
+Message-ID: <87pkw9p085.fsf@all.your.base.are.belong.to.us>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -106,24 +81,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 13, 2026 at 07:23:36AM +0100, Uwe Kleine-König wrote:
-> On Thu, Nov 12, 2026 at 05:59:02PM -0500, Joseph Telaak wrote:
-> > +static const struct pci_device_id pvrsgx_pci_ids[] = {
-> > +     { PCI_VDEVICE(INTEL, 0x089b), 545 },    /* CE5300 family: SGX545 */
+Mina Almasry <almasrymina@google.com> writes:
+
+> On Tue, Nov 10, 2026 at 2:21=E2=80=AFAM Bj=C3=B6rn T=C3=B6pel <bjorn@kern=
+el.org> wrote:
+>>
+>> skb_frag_address() goes through struct page, so a net_iov never has an
+>> address. Only unreadable memory should lack one: XDP and BPF read
+>> fragments through this helper, and AF_XDP UMEM will back readable
+>> net_iovs. netmem_address() also returns NULL, not a bogus pointer, for
+>> an unmapped highmem page.
+>>
+>> Generic code needs the size of a net_iov to find its address, so keep
+>> it in struct net_iov_area instead of the devmem binding.
+>>
+>> Suggested-by: Mina Almasry <almasrymina@google.com>
+>> Suggested-by: Stanislav Fomichev <sdf@fomichev.me>
+>> Signed-off-by: Bj=C3=B6rn T=C3=B6pel <bjorn@kernel.org>
 >
-> Please make this
->
->         { PCI_VDEVICE(INTEL, 0x089b), .driver_data = 545 },     /* CE5300 family: SGX545 */
+> Are the changes for niov_shift some kind of rebase error? I don't see
+> how they're related. Otherwise changes LGTM.
 
-Will do in v2.
+Not a rebase error, but it's early. Nothing here reads it.
 
-> Don't include <linux/mod_devicetable.h>. of_device_id is already
-> provided by <linux/of.h> and also by <linux/platform_device.h> without
-> the useless dependencies that <linux/mod_devicetable.h> introduces.
+The generic code that needs it is net_iov_address() in patch 4; in this
+patch netmem_address() still returns NULL for every net_iov. I'll move
+it to patch 4.
 
-Thanks, I'll drop it in v2, and check the other files for the same.
 
-Joseph
+Bj=C3=B6rn
