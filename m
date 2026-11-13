@@ -1,78 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794601491;
-	b=pV4PPychRWnrbrYOmQ8rFAZNgNqNr5P6vniMxzQlCiR5EKPD+U828JUI3hmEWHUgHGKz
-	 ppbqYpXXyMomgoD2Cp/wpTeu0icpo45SON1J4Rqi3Y8ZNy+vT58p3if8bPjQ3L35HNN4p
-	 QX5uMUHxXBvRz+5zfolMJ+30+bIwBWpmJ1+MRPxwXvOUFnlEeeOXsFXUhnATcVTl40Li9
-	 whqqZrwnLa93NjGCn/MdY1FE7upN5C6rTavvL9UeICrNcFZYEy/jD7eamYjv/EwJQoCFB
-	 7JZxVw62t/ZEZClZn+a4sqCrILn40O91yiowDuQ4AN1M7HUM78NcWixXX1t35nI0hNw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794601491;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=3jxlHu/Qkmvc/bEfcrs7qqPpkOzcwu3mP0TbTJwJpIk=;
-	b=Sk3pL/psBaNx85g3G4BaMZn/8qhQg4gi47i6ViUylq0RGa29S+QYKjBRCya6yDWNORc8
-	 3UY2c4+GUR6XWgHLr/o5C1aODKnSD4ElsWUTr645X/fyqUq+MNAI/9Ln3vUd+OV9N3FuF
-	 Tgs9tQHkm6J0uk17Ga0H9EP1M1X/D+XzR/7rlNjc1q5l0LVg6kVTQ/rMHOM1eUaZX7e/a
-	 YfsnSunZ9myOaBtPZrwrzd2283R7qs8pLRgd+uIZ6EKcghpxbKwID04DH/1bVkbENUtbK
-	 aGclflZXJ6+ioFeEQ/UYv3QKxMgYo74c/QuhvG99hL0hC/UnhfbeoM49LGRkiVScbeQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gHDW6+0G;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794602085;
+	b=ab/WM84BTZ4U/9+LCCXwoGR7ts0YZaG8pMOyTpflwdHCsNT+8pRdqPS29GxQAiRYXTaD
+	 8Sa8Z6TyL7IRWSSvilSMcWNRRWfuVHxoPvLNZ4keJxKzDFBYLpxaNzUPzNRlnzSt5oNnm
+	 TI+zOPZ/nUF/s29c79L6vuOKg+2AsBx8aFqAYpFaP5+7UXEtXVu9SK2vHPJamYhHfneDo
+	 aaYBS2W/i3Jle5iIIpEY1fxYnRrZLDAS9e5T4DS46hS08wlNVXUzkNEmuhe1hKL8+IVtJ
+	 Ig8GfaXBYb1V3xaq9rnnSOPJ4vQfC5CqQ6jJwsk1d5HD0XJSBupJ0IOzcIcp923vOFA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794602085;
+	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
+	 Content-Type:Date:Message-Id:Cc:To:From:Subject:References:
+	 In-Reply-To;
+	bh=chagpPiOJxprpG/hdf86c1muJoBTZxJZoVzH/xjU+ZQ=;
+	b=O+2kzUhFGqASDrv8du45M1ftjzYSQblmJHSfufW3gz4ykTqctqzleq8MpuSZqVAvv+Oh
+	 XAAbWsyY3yk3zAvas6qw1uhxpmNbeL86ECGoh0lWhik04rwMFBS0KNrWNZBo3eX3jV3vl
+	 G1j8GO2PV7qvdMMhoIofxBwMzgzGNOUVD6Tzzs/L0nigv2FByeQT3jGhZy7lUzoiR+hMj
+	 f+BmMQmF7MdYVjJkKw/YqqCmky6RrJnGq9YQMMIByURpTYU8nMihGn66dl28aFT6WkZbt
+	 3zFyMfvEkJfeG1h6t/x493aDrGBbc4lvM7KFzoHAQEuU/fVgqqmg2SnuA0uz+wQmjBA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iHGOBo3W;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E96606A887;
-	Fri, 13 Nov 2026 20:24:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA285606A339;
+	Fri, 13 Nov 2026 20:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gHDW6+0G
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794601491;
-	b=mnms/OynJ+FQLYYtBDBm4Wv/l8nR3loMOQzqQ5+Rhpe/jPV6+3zn22ud6gER3SvMfDkS
-	 k+8NSwzQ1ad5OpG8VMA9osf8BTHhyFaAIaBjI9VgCCVrSskuQNiVGwU7pSEKYe4wENZGT
-	 2K14Z7sGVZupV/votx3dcz0bJc8ULnpW4LuIMI1Ks6jTXJW2CDn3S7BTzc2H8/Q4OnO91
-	 22ymOyh96Al3LQW10k6aO+t/g8pUN1ZlDxBJ2CSyV3hsBlEut0rFXJ4M7nxN8hWKCjb4S
-	 3JpENUaCySYaf9fStHHZp+Jn+Y6Ib+GCIXgyWk++AcBxJlFmRKIGji3z0E82i62E6hQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794601491;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=3jxlHu/Qkmvc/bEfcrs7qqPpkOzcwu3mP0TbTJwJpIk=;
-	b=PUNZsrLarZpUZs2fOXzXVsnniObtT5+kLfgZi5FDLD40qzpA4Gh1U0IIxDV6w4qK5FwC
-	 Slualx0YWMjlAgv5cqGnoP+q/f3uxxnoh+8IJdnB7bxpyznBaJQ0TQdpR3e1MSr6bWU7I
-	 r56UQNO00Zf9ZIMxqftV9OcjMQNk5C+y/DXzK7HqYO9u/AmhZ6s9aYSvv8iXzZX7cTE0N
-	 UNKjRVy/sNcIc/13k32zVtc1MlVEpxRdi0QOlT5JBYFm9kaubPXdRumCe7TCvKtqa2EFG
-	 2SfUV60pglsMjOXAvncuq37OTMg3uOxUzvPZC2D4z1seLs/8eqwx/vfC4Va1L66Ojlw==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 56CD91F000C5;
-	Fri, 13 Nov 2026 20:24:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iHGOBo3W
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0034A1F000C4;
+	Fri, 13 Nov 2026 20:34:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794601491;
-	bh=3jxlHu/Qkmvc/bEfcrs7qqPpkOzcwu3mP0TbTJwJpIk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=gHDW6+0GieEB/jDiywFzyDQphlbeyCo7GxJojYg5un32I+VbQXh6UItFPBJciCymi
-	 etQ1ZkZDRkRUOXcaSCGHDYL+jbDWquBq7G0L/b5uIZmy0eukLN8q4azGxD+L+jNlwY
-	 tSbrzu1WARaVggMhsUp39KSNfnTL8/KUbJhmfm72U/h5fpTB09sYjqXsYSS89+Tlpo
-	 1LnEw0H5AlAwiyAOBCiN1BWAalRzdT/aw8668d4uPnFdtwHzHFG9RdXzXTlGvMWRRT
-	 tyfZpw5L8mzkAnUUQxCtA+iBTdcv9GUBNv5/1X4UGLa/DifNCq1HR1OFRfaIelw1Rn
-	 VD7WBfVLTix9g==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 1622449AE0;
-	Fri, 13 Nov 2026 20:24:49 +0000 (UTC)
-From: Hugo Sales via B4 Relay <devnull+hugo.hsal.es@kernel.org>
-Date: Fri, 13 Nov 2026 20:24:52 +0000
-Subject: [PATCH v2 5/5] drm/amd/display: Test panel_power_savings commits
+	s=k20260515; t=1794602084;
+	bh=chagpPiOJxprpG/hdf86c1muJoBTZxJZoVzH/xjU+ZQ=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=iHGOBo3WPjRpMs838TxLT+hWWAHjljZd0PbM6Xf+MYGsCKozw+kX3KMTqnuXmXfOw
+	 nwP/85NARDRoVzjTo9RKGPhem7hitaJCHib2MnSNh3FkmHw1gaL1wWAqsijSJrZJou
+	 7xZKyDJNQzPSEQROIc3k3NWCdnIpt4bd9sPNrxvpOYZYQF+iZhKtE/rPVWI7oSDW5K
+	 gcBbnh630gh3YSbmB+0iKdlMuccPzviptphTPe4WdOobblJEANSqifzFox5CRmqTLj
+	 lmVfGI+Etaa/VuNazlF1vAjFE2ka4JGp2blVKGIEELiF7ihDujG+cw7FGgvsJL7iw1
+	 DgUpmTroewJUQ==
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -81,353 +48,95 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261113-abm-sysfs-commit-v2-5-5808d17a7e89@hsal.es>
-References: <20261113-abm-sysfs-commit-v2-0-5808d17a7e89@hsal.es>
-In-Reply-To: <20261113-abm-sysfs-commit-v2-0-5808d17a7e89@hsal.es>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>
-Cc: Mario Limonciello <mario.limonciello@amd.com>, Ray Wu <ray.wu@amd.com>, 
- Alex Hung <alex.hung@amd.com>, 
- Bhawanpreet Lakha <bhawanpreet.lakha@amd.com>, 
- Ivan Lipski <ivan.lipski@amd.com>, Chenyu Chen <chen-yu.chen@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Hugo Sales <hugo@hsal.es>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=12931; i=hugo@hsal.es;
- h=from:subject:message-id;
- bh=YpTAGTLXAp7SFOAVq0iSaKIiV7GZ186E+ZpVnsVE+Wk=;
- b=owJ4nJvAy8zAJVbLU7f+5A3TBYyn1ZIYsr4XCVh4/0jSzFGx+3p9qt/FXQsmNH2QTI14XLj95
- 6HlCjelix51lLIwiHExyIopsuje8GRgmTh5Zk7R8yUwc1iZQIYwcHEKwERKoxn+md55qlZWl7lo
- zdEAnWn185OP9G65kTetPrK2Zc76LQL1vgz/E+22cJ+MYw6+5PFnQ0LxyoPTuXK8pXzW+KsGZs0
- La87jAABTLUu6
-X-Developer-Key: i=hugo@hsal.es; a=openpgp;
- fpr=193D095149CF7E8737B39064D912B0DB205A91C1
-X-Endpoint-Received: by B4 Relay for hugo@hsal.es/default with auth_id=1417
-X-Original-From: Hugo Sales <hugo@hsal.es>
-Reply-To: hugo@hsal.es
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 13 Nov 2026 21:34:31 +0100
+Message-Id: <DMUDCA92VZHT.2SU4452MMGWL@kernel.org>
+Cc: <jhubbard@nvidia.com>, <acourbot@nvidia.com>, <aliceryhl@google.com>,
+ <ttabi@nvidia.com>, <gary@garyguo.net>, <nova-gpu@lists.linux.dev>,
+ <dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>
+To: "Vladislav Zaharov" <vladazaharova2018@gmail.com>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH v7 3/4] gpu: nova-core: gsp: retain the GSP-RM log
+ buffers after unbind
+References: <20261113075317.934264-1-vladazaharova2018@gmail.com>
+ <20261113075317.934264-4-vladazaharova2018@gmail.com>
+In-Reply-To: <20261113075317.934264-4-vladazaharova2018@gmail.com>
 
-From: Hugo Sales <hugo@hsal.es>
+On Fri Nov 13, 2026 at 8:53 AM CET, Vladislav Zaharov wrote:
+> +    /// Returns the copies of the GSP-RM log buffers of GPUs that are no=
+ longer bound.
+> +    pub(crate) fn retained_logs(&self) -> &Mutex<RetainedLogs> {
+> +        &self.retained_logs
+> +    }
 
-Add KUnit cases for a panel_power_savings write to a connector bound to a
-CRTC. With the CRTC on or off, the store commits a connector state that
-carries the level. When atomic check rejects the commit, the write returns
-the error and the connector keeps its old level. A write of the current
-level succeeds without a commit. The existing store tests also check that a
-write replaces the connector state, and that a forbidden write keeps the
-state and level. A forbidden write and a write of the current level leave a
-runtime-suspended GPU suspended. For the new cases, the pipe helper can
-route the connector to the CRTC, set whether the CRTC is active and take
-CRTC helper funcs
+NIT: Should be #[inline].
 
-The store checks the forbidden flag and the level again on the duplicated
-connector state. Those checks only fire when a commit changes the level
-between the first check and the commit's locks, which these tests can't
-set up
+> +    /// Exposes copies of the buffers in their place, if `gsp_keep_logs`=
+ is set.
+> +    fn retain(&self) -> Result {
+> +        if !crate::module_parameters::gsp_keep_logs.value() || !cfg!(CON=
+FIG_DEBUG_FS) {
+> +            return Ok(());
+> +        }
 
-Signed-off-by: Hugo Sales <hugo@hsal.es>
----
- .../amdgpu_dm/tests/amdgpu_dm_backlight_test.c     | 195 ++++++++++++++++++++-
- 1 file changed, 188 insertions(+), 7 deletions(-)
+This misses debugfs being disabled through the kernel command line with
+debugfs=3Doff.
 
-diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_backlight_test.c b/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_backlight_test.c
-index 5133c8f251f53..2484788946d54 100644
---- a/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_backlight_test.c
-+++ b/drivers/gpu/drm/amd/display/amdgpu_dm/tests/amdgpu_dm_backlight_test.c
-@@ -10,6 +10,7 @@
- #include <linux/pm_runtime.h>
- 
- #include <drm/drm_atomic_helper.h>
-+#include <drm/drm_atomic_uapi.h>
- #include <drm/drm_connector.h>
- #include <drm/drm_kunit_helpers.h>
- #include <drm/drm_managed.h>
-@@ -564,16 +565,43 @@ static const struct drm_connector_helper_funcs dm_test_pps_connector_helper_func
- 	.get_modes = dm_test_pps_get_modes,
- };
- 
-+static int dm_test_pps_crtc_atomic_check_fail(struct drm_crtc *crtc,
-+					      struct drm_atomic_commit *state)
-+{
-+	return -ENOSPC;
-+}
-+
-+static const struct drm_crtc_helper_funcs dm_test_pps_crtc_helper_funcs_fail = {
-+	.atomic_check = dm_test_pps_crtc_atomic_check_fail,
-+};
-+
-+/* The generic helpers accept a commit that allows a modeset it doesn't need */
-+static int dm_test_pps_crtc_atomic_check_no_modeset(struct drm_crtc *crtc,
-+						    struct drm_atomic_commit *state)
-+{
-+	return state->allow_modeset ? -EINVAL : 0;
-+}
-+
-+static const struct drm_crtc_helper_funcs dm_test_pps_crtc_helper_funcs_no_modeset = {
-+	.atomic_check = dm_test_pps_crtc_atomic_check_no_modeset,
-+};
-+
- /*
-  * Build a primary plane, a CRTC, an encoder and an eDP connector that the
-- * store can commit to. The KUnit device uses the generic atomic helpers, so a
-- * commit runs drm_atomic_helper_check() and drm_atomic_helper_commit() rather
-- * than the DM implementations
-+ * store can commit to. With @bound, the connector's current state is routed
-+ * to the CRTC, which is enabled and has @active as its active state. The KUnit
-+ * device uses the generic atomic helpers, so a commit runs
-+ * drm_atomic_helper_check() and drm_atomic_helper_commit() rather than the DM
-+ * implementations. A NULL @crtc_helper_funcs gives the KUnit helper's defaults
-  */
- static struct drm_connector *
--setup_panel_power_savings_pipe(struct kunit *test, struct device **device_out)
-+setup_panel_power_savings_pipe(struct kunit *test, struct device **device_out,
-+			       bool bound, bool active,
-+			       const struct drm_crtc_helper_funcs *crtc_helper_funcs)
- {
- 	struct amdgpu_dm_connector *aconnector;
-+	struct drm_display_mode *mode;
-+	struct drm_crtc_state *crtc_state;
- 	struct drm_connector *connector;
- 	struct drm_encoder *encoder;
- 	struct amdgpu_device *adev;
-@@ -589,7 +617,7 @@ setup_panel_power_savings_pipe(struct kunit *test, struct device **device_out)
- 							NULL, NULL, 0, NULL);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, primary);
- 	crtc = drm_kunit_helper_create_crtc(test, &adev->ddev, primary, NULL,
--					    NULL, NULL);
-+					    NULL, crtc_helper_funcs);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc);
- 
- 	encoder = drmm_kzalloc(&adev->ddev, sizeof(*encoder), GFP_KERNEL);
-@@ -610,6 +638,21 @@ setup_panel_power_savings_pipe(struct kunit *test, struct device **device_out)
- 	drm_mode_config_reset(&adev->ddev);
- 	KUNIT_ASSERT_NOT_NULL(test, connector->state);
- 
-+	if (bound) {
-+		/* A connector state bound to a CRTC holds a connector reference */
-+		connector->state->crtc = crtc;
-+		drm_connector_get(connector);
-+		connector->state->best_encoder = encoder;
-+		crtc_state = crtc->state;
-+		crtc_state->connector_mask = drm_connector_mask(connector);
-+		crtc_state->encoder_mask = drm_encoder_mask(encoder);
-+		crtc_state->enable = true;
-+		crtc_state->active = active;
-+		mode = drm_kunit_display_mode_from_cea_vic(test, &adev->ddev, 1);
-+		KUNIT_ASSERT_NOT_NULL(test, mode);
-+		KUNIT_ASSERT_EQ(test, drm_atomic_set_mode_for_crtc(crtc_state, mode), 0);
-+	}
-+
- 	device = kunit_kzalloc(test, sizeof(*device), GFP_KERNEL);
- 	KUNIT_ASSERT_NOT_NULL(test, device);
- 	dev_set_drvdata(device, connector);
-@@ -618,6 +661,35 @@ setup_panel_power_savings_pipe(struct kunit *test, struct device **device_out)
- 	return connector;
- }
- 
-+static void dm_test_pps_expect_no_pm_reference(struct kunit *test,
-+					       struct drm_connector *connector)
-+{
-+#ifdef CONFIG_PM
-+	KUNIT_EXPECT_EQ(test, atomic_read(&connector->dev->dev->power.usage_count), 0);
-+#endif
-+}
-+
-+static void dm_test_pps_runtime_suspend(struct kunit *test,
-+					struct drm_connector *connector)
-+{
-+#ifdef CONFIG_PM
-+	struct device *dev = connector->dev->dev;
-+
-+	pm_runtime_disable(dev);
-+	KUNIT_ASSERT_EQ(test, pm_runtime_set_suspended(dev), 0);
-+	pm_runtime_enable(dev);
-+#endif
-+}
-+
-+static void dm_test_pps_expect_still_suspended(struct kunit *test,
-+					       struct drm_connector *connector)
-+{
-+#ifdef CONFIG_PM
-+	KUNIT_EXPECT_TRUE(test, pm_runtime_suspended(connector->dev->dev));
-+#endif
-+	dm_test_pps_expect_no_pm_reference(test, connector);
-+}
-+
- static void dm_test_free_sysfs_buf(void *data)
- {
- 	free_page((unsigned long)data);
-@@ -678,18 +750,24 @@ static void dm_test_panel_power_savings_show_reports_level(struct kunit *test)
- /**
-  * dm_test_panel_power_savings_store_sets_disable - Test zero maps to disable
-  * @test: The KUnit test context
-+ *
-+ * With no CRTC on the connector, the store commits a connector state that
-+ * carries the disable sentinel
-  */
- static void dm_test_panel_power_savings_store_sets_disable(struct kunit *test)
- {
-+	struct drm_connector_state *old_state;
- 	struct drm_connector *connector;
- 	struct device *device;
- 	size_t count = strlen("0");
- 
--	connector = setup_panel_power_savings_pipe(test, &device);
-+	connector = setup_panel_power_savings_pipe(test, &device, false, false, NULL);
- 	to_dm_connector_state(connector->state)->abm_level = 2;
-+	old_state = connector->state;
- 
- 	KUNIT_EXPECT_EQ(test, panel_power_savings_store(device, NULL, "0", count),
- 			 (ssize_t)count);
-+	KUNIT_EXPECT_PTR_NE(test, connector->state, old_state);
- 	KUNIT_EXPECT_EQ(test, to_dm_connector_state(connector->state)->abm_level,
- 			ABM_LEVEL_IMMEDIATE_DISABLE);
- }
-@@ -697,6 +775,9 @@ static void dm_test_panel_power_savings_store_sets_disable(struct kunit *test)
- /**
-  * dm_test_panel_power_savings_store_forbidden - Test forbidden update
-  * @test: The KUnit test context
-+ *
-+ * Once the DRM master owns the level, the store fails without committing and
-+ * without waking the runtime-suspended GPU
-  */
- static void dm_test_panel_power_savings_store_forbidden(struct kunit *test)
- {
-@@ -704,11 +785,16 @@ static void dm_test_panel_power_savings_store_forbidden(struct kunit *test)
- 	struct drm_connector *connector;
- 	struct device *device;
- 
--	connector = setup_panel_power_savings_pipe(test, &device);
-+	connector = setup_panel_power_savings_pipe(test, &device, false, false, NULL);
- 	dm_state = to_dm_connector_state(connector->state);
- 	dm_state->abm_sysfs_forbidden = true;
-+	dm_state->abm_level = 2;
-+	dm_test_pps_runtime_suspend(test, connector);
- 
- 	KUNIT_EXPECT_EQ(test, panel_power_savings_store(device, NULL, "1", 1), -EBUSY);
-+	KUNIT_EXPECT_PTR_EQ(test, connector->state, &dm_state->base);
-+	KUNIT_EXPECT_EQ(test, dm_state->abm_level, 2);
-+	dm_test_pps_expect_still_suspended(test, connector);
- }
- 
- /**
-@@ -757,6 +843,98 @@ static void dm_test_panel_power_savings_store_rejects_out_of_range(struct kunit
- 	KUNIT_EXPECT_EQ(test, panel_power_savings_store(device, NULL, "5", 1), -EINVAL);
- }
- 
-+struct dm_pps_store_crtc_param {
-+	const char *name;
-+	bool active;
-+	const char *buf;
-+	int level;
-+};
-+
-+static const struct dm_pps_store_crtc_param dm_pps_store_crtc_params[] = {
-+	{ "inactive", false, "3", 3 },
-+	{ "active", true, "2", 2 },
-+};
-+
-+KUNIT_ARRAY_PARAM_DESC(dm_pps_store_crtc, dm_pps_store_crtc_params, name);
-+
-+/**
-+ * dm_test_panel_power_savings_store_crtc - Test store with the CRTC on or off
-+ * @test: The KUnit test context
-+ *
-+ * With the connector's CRTC enabled, active or not, the store commits a
-+ * connector state that carries the level, without allowing a modeset, and
-+ * drops its runtime PM reference
-+ */
-+static void dm_test_panel_power_savings_store_crtc(struct kunit *test)
-+{
-+	const struct dm_pps_store_crtc_param *param = test->param_value;
-+	struct drm_connector_state *old_state;
-+	struct drm_connector *connector;
-+	struct device *device;
-+
-+	connector = setup_panel_power_savings_pipe(test, &device, true, param->active,
-+						   &dm_test_pps_crtc_helper_funcs_no_modeset);
-+	old_state = connector->state;
-+
-+	KUNIT_EXPECT_EQ(test, panel_power_savings_store(device, NULL, param->buf, 1), 1);
-+	KUNIT_EXPECT_PTR_NE(test, connector->state, old_state);
-+	KUNIT_EXPECT_EQ(test, to_dm_connector_state(connector->state)->abm_level,
-+			param->level);
-+	KUNIT_EXPECT_FALSE(test, drm_atomic_crtc_needs_modeset(connector->state->crtc->state));
-+	dm_test_pps_expect_no_pm_reference(test, connector);
-+}
-+
-+/**
-+ * dm_test_panel_power_savings_store_commit_fails - Test store when the commit fails
-+ * @test: The KUnit test context
-+ *
-+ * When atomic check rejects the commit, the write returns the error, the
-+ * current connector state keeps the old level and the runtime PM reference is
-+ * dropped
-+ */
-+static void dm_test_panel_power_savings_store_commit_fails(struct kunit *test)
-+{
-+	struct drm_connector_state *old_state;
-+	struct drm_connector *connector;
-+	struct device *device;
-+
-+	connector = setup_panel_power_savings_pipe(test, &device, true, true,
-+						   &dm_test_pps_crtc_helper_funcs_fail);
-+	to_dm_connector_state(connector->state)->abm_level = 1;
-+	old_state = connector->state;
-+
-+	KUNIT_EXPECT_EQ(test, panel_power_savings_store(device, NULL, "4", 1), -ENOSPC);
-+	KUNIT_EXPECT_PTR_EQ(test, connector->state, old_state);
-+	KUNIT_EXPECT_EQ(test, to_dm_connector_state(connector->state)->abm_level, 1);
-+	dm_test_pps_expect_no_pm_reference(test, connector);
-+}
-+
-+/**
-+ * dm_test_panel_power_savings_store_same_level - Test store of the current level
-+ * @test: The KUnit test context
-+ *
-+ * Writing the level the connector already has succeeds without a commit, so
-+ * the connector keeps its state even though atomic check would fail, and the
-+ * runtime-suspended GPU stays suspended
-+ */
-+static void dm_test_panel_power_savings_store_same_level(struct kunit *test)
-+{
-+	struct drm_connector_state *old_state;
-+	struct drm_connector *connector;
-+	struct device *device;
-+
-+	connector = setup_panel_power_savings_pipe(test, &device, true, true,
-+						   &dm_test_pps_crtc_helper_funcs_fail);
-+	to_dm_connector_state(connector->state)->abm_level = 2;
-+	old_state = connector->state;
-+	dm_test_pps_runtime_suspend(test, connector);
-+
-+	KUNIT_EXPECT_EQ(test, panel_power_savings_store(device, NULL, "2", 1), 1);
-+	KUNIT_EXPECT_PTR_EQ(test, connector->state, old_state);
-+	KUNIT_EXPECT_EQ(test, to_dm_connector_state(connector->state)->abm_level, 2);
-+	dm_test_pps_expect_still_suspended(test, connector);
-+}
-+
- /* Tests for amdgpu_dm_backlight_get_device_index() */
- 
- /**
-@@ -2019,6 +2197,9 @@ static struct kunit_case dm_backlight_test_cases[] = {
- 	KUNIT_CASE(dm_test_panel_power_savings_store_forbidden),
- 	KUNIT_CASE(dm_test_panel_power_savings_store_rejects_invalid_text),
- 	KUNIT_CASE(dm_test_panel_power_savings_store_rejects_out_of_range),
-+	KUNIT_CASE_PARAM(dm_test_panel_power_savings_store_crtc, dm_pps_store_crtc_gen_params),
-+	KUNIT_CASE(dm_test_panel_power_savings_store_commit_fails),
-+	KUNIT_CASE(dm_test_panel_power_savings_store_same_level),
- 	/* amdgpu_dm_backlight_get_device_index */
- 	KUNIT_CASE(dm_test_backlight_device_index_matches_second),
- 	KUNIT_CASE(dm_test_backlight_device_index_missing_fallback),
+Usually, drivers should treat debugfs availability as opaque. The Rust
+abstraction keeps its backing data alive regardless of whether the entries =
+were
+created.
 
--- 
-2.56.0
+Here, the copies serve no purpose without debugfs, so checking availability
+would have a concrete benefit. However, I don't think this case warrants
+exposing debugfs::initialized(), which could be abused easily and encourage
+unnecessary checks elsewhere.
 
+Let's check only gsp_keep_logs.
 
+> +
+> +        let logs =3D RetainedLogBuffers {
+> +            name: CString::try_from_fmt(fmt!("{}", self.dev.name()))?,
+> +            loginit: self.loginit.snapshot()?,
+> +            logintr: self.logintr.snapshot()?,
+> +            logrm: self.logrm.snapshot()?,
+> +        };
+> +
+> +        if logs.loginit.is_empty() && logs.logintr.is_empty() && logs.lo=
+grm.is_empty() {
+> +            return Ok(());
+> +        }
+> +
+> +        // Allocate before an earlier copy is dropped, so that a failure=
+ leaves that copy in place.
+> +        let scope =3D KBox::<debugfs::Scope<RetainedLogBuffers>>::new_un=
+init(GFP_KERNEL)?;
+> +        let data =3D NovaCoreModule::debugfs_data(self.dev);
+> +        let root =3D data.root();
+> +        let mut retained =3D data.retained_logs().lock();
+> +        retained.0.reserve(1, GFP_KERNEL)?;
+
+This shouldn't be necessary.
+
+> +
+> +        retained.remove(self.dev.name());
+> +
+> +        let scope =3D scope.write_pin_init(root.scope(logs, self.dev.nam=
+e(), |logs, dir| {
+> +            if !logs.loginit.is_empty() {
+> +                dir.read_binary_file(c"loginit", &logs.loginit);
+> +            }
+> +            if !logs.logintr.is_empty() {
+> +                dir.read_binary_file(c"logintr", &logs.logintr);
+> +            }
+> +            if !logs.logrm.is_empty() {
+> +                dir.read_binary_file(c"logrm", &logs.logrm);
+> +            }
+> +        }))?;
+> +
+> +        retained.0.push(scope, GFP_KERNEL)?;
+
+Please add a forwarding method for this.
