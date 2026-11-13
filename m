@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.43
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794556419;
-	b=tM0HAbnIfkHO/FN7cFLCedyq0K2BuIFkIi0VgKiQRFT6E5UdD21X2YkEQjd6P5bKb0PL
-	 TrXVbRIc4nUqNf6n61zBJw0nIWytsZ4PJsV3FSJ7ip9o29zdr9+SFb+cbrV2Wqg5bgClg
-	 LfQnae5SCT4jgLtIWXxR/rHMGECK36TNdLDEh7EVaJBsNb0+aD7yNxLLAepvzSUI8ty3G
-	 p5Nnu6ftFeJZI8fApRxhQXRd90mzWB5inT6yaCSSgKfI78S1IatczL2ecS+v0lEfgpwtF
-	 yE+ImK0WyBKX6ZGK7LlCufh92eQOd2IVr1ilZTcOBiJ927h5J3sGzC7z3dkqgWX98Ow==
+	t=1794556427;
+	b=lr1/nAx8IOWJMWo3lMtk7S+k9ifiENGCR+yBYQC2MxVPCc995T4dBcNWTkRhebEz2xQs
+	 LnYMTOlL1DP025u3JxBK/0Bv4G4LD62nhNWS4B912Ml1gsQKdvEHvbKQqw31SpJ5BTr9X
+	 +xZPMmLVvKwrKCTXJbKYZqGdbb/1WHucsaVuiT1wl9z13/DvJu75K9yOI4AmAA9DhSIzv
+	 wEJXxnrCAdvjpbqgKzqQu5NXfT2b0CN5yTiI0lp3ecz8A/AZ01XLPSvqIM3AjbvkShBId
+	 UuGl0gAFEARMZFWh7g0HHALAqDaL23hPgsUcxGCaBAHn1mfnEYR++kymN6FN5wm5upg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794556419;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794556427;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=zwU7tBpZX44iULEudpXOZjxGHCjhyfh7bS2JLZeD11k=;
-	b=zOgOieiCPRuDGAA7acOOPjdUGhJpPBp1+oPei4HGYsThXbWngW6HFk+/ta0ThFjg01QM
-	 aPNgFJ9DMsKFVaR8HU76Dx9ca/eQfgMAB4JQB5SdeppKIvgjLk1SRohRf2E/b5c22Dknx
-	 2Y1deUnlc2sKtGXlxbU0an4p8dNcv4sCpwrfI/yZEIevWercGsHFbKZc/cgkFKHBW5JPG
-	 NCwIPUkUUefGgKF5B1PqGBuzvi+pwgIMgB5EGfJN/myeOk74K0r+neMTaE4/wIG3ea8xf
-	 +K7l5v88jnG8sYdD1ypeEH2P78XahzfmrN0DlR+fxHpc/dmSC9vPdnXGI7hZx51MUeg==
+	bh=MJx2VhkDwAThYqH3qA0MncZOWZgXmJc1U/NyauJfUPQ=;
+	b=tMqWyXeNQiWQDM/wvGuTKONdeiD2O65cvfM4QBCqcfPNnN9ege9X5TNW5jTjTj+2Tr+D
+	 rP8ApcRxxweRWSos2cEEHC09XrWZFCuOOYSM4fmB4tLFucKOUJeFPgaXDlhUoJjjF222g
+	 w8MuCy+nBMw5D6RhM5ct0WL2o1oLKqkjdMfQTeql3fsLjsigHS7nAXthd9udVJX5EG5Mg
+	 tlo6gKfygMyx1CJu9I1twgnsHF5eiLwKkwgZoaYxSsJBdK5o19qrumYHWj9fhtTpBc4KD
+	 X9KGfpoU+OgMARlGwdKySha/AgN4PcryUE8icJHvLnFBP/ESWiS/5IgjICHRK+0V08A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gwNtIWws;
-	arc=none smtp.remote-ip=209.85.216.51
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x8A8utfe;
+	arc=none smtp.remote-ip=209.85.216.43
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F02606A327
-	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:53:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 82F02606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4385D606A881
+	for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 07:53:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4385D606A881
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=gwNtIWws
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3b09a83d12aso993973a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 23:53:39 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=x8A8utfe
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3b1535be329so623417a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 12 Nov 2026 23:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794556419; x=1795161219; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1794556426; x=1795161226; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zwU7tBpZX44iULEudpXOZjxGHCjhyfh7bS2JLZeD11k=;
-        b=gwNtIWws1fr2f8biaLCpjpOSK5SwqS9fE7H6wLAlljtjMGzHVJS0FtWqg4zoedkQFe
-         2SE4xsjs/pElhKnORUj9FUjH+GZT0vhksN98zZ6YI+g4CZ93Ev0SCQ7jj9jEjEbUunAp
-         89AumG+msO3A8wiSQb+iWS6i521RVcKbdfRrnfmCAJj81+iIfCf73O9Bv44kj8ezolLD
-         GktfctL3fwPjuBY6vL1ZqrVyGakX+wNGcQdNTyiHL+4GcQnWNYqaJmNdvcNUXhcvpJur
-         6t23dxoWSB5WvKoGzCMooHkFJMy3DcIsS8pH1LBXW0NAp4j429nfNSXb+Hz31rgQJuCZ
-         f0mQ==
+        bh=MJx2VhkDwAThYqH3qA0MncZOWZgXmJc1U/NyauJfUPQ=;
+        b=x8A8utfebOaOZ7hPy8NWMGVS6LVpKJnmq/TC1yA3CZPVCHzu7V89dP5Mjx1MigBNKy
+         zLrSFHtEaqB9/yn2dw66xr8OgdaEQCtP8OXDG6ceSef3e5C7KRj5dd5nwr9I7cZyGreC
+         2t+MHbxr24g8/3oIlq+EMZfG2pmLbdP6aJDaYNGm11riYIqZrgI0/C1b/DbUW5gKm15F
+         aBFQBj6/joFof7itdYwss6AfK7IK3aGtZhVFY25GAQ/MJMEnJ/QUE3w+TFv8K9NTiG9a
+         xTJMAj8N4uuRsmQyl05hK71lV0/2Y+uU8Aq4xtQcuiTn3UPr/wszBnU3pfK4mc+PkfL6
+         /ilQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794556419; x=1795161219;
+        d=1e100.net; s=20260707; t=1794556426; x=1795161226;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zwU7tBpZX44iULEudpXOZjxGHCjhyfh7bS2JLZeD11k=;
-        b=CZwij8cKU1HK8ybnqs6KCCZbz/se4WDn/EcZJlXZPLbs+1KMZybNCYyl/5CyK3hZjb
-         iRTMvlDm93ydeVCxt2G2CVUXTmqxJWV8y/CqfXbvi2tS71tNfaumPOMSThVZOi8bFEvS
-         sOMCjJekxOy0KIiB9EDSm3BLuNxIc3qk/TH+3iQTOmu+HNDbZp7iOTxsKtjQ3g+GJ6AC
-         28NG8UESm3LkJhVKOmMJqnO8sjAir4TQTVQZkcdznNaB/c8zqUv4INSiYjHimVcN1suo
-         Z0K4OMXq2yEwfH5oUiY/Wh0Gd31bzXSr5CkTh09c32LeND4ja+qmyK8nUoc6RRd6mkNp
-         Zo4A==
-X-Forwarded-Encrypted: i=1; AL+hErE59gLi3GqN9YXlwCUQGCaatmJQWDF99gUIwTbOGez6COvxC+1ZFpCOAuDVsXomZGtHVz1oX8Sni0c=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8d4Em2u/OxdfZd1xQ2dSJ7mJaa82YVLtass7kv/8/UBJ5N+d3+
-	eAOFyjn4YVurak0WsBsqLbJ0bwgZ2zAl4rPuO4uEYBNhwTq7855alWj2
-X-Gm-Gg: AYBFou1TM6BVbc/AZAmLQhqzm9Ko4D7TtOKl2xwoxg04EcMr201ex59H7NM4nrLFTtg
-	NzCrX91eRQyZBRkagk06WJLhhtKTCwDsUlvYj4ECh7deAnA7/0/lg88adDYLyHvL+0sFcPQg36u
-	YHwRserS/F19GVcLyl2SlXuURN9JFKX5Zlx+UWTb7vYwdaOzEDhUgyef4Z3rGJMJEThXqwmN1d6
-	8DpvAQeVGhpnC8UPqAUcu5WHSZm5fjNFZDxWSQNd3oF1hpoNGX8P2Pxc+MQDS6mASea+1Wfvvy2
-	2Nx3WWQfWrNk5sVDj+RW9GGB2odcfg5M+wyj1NSULYqLxh3INoHpBpvqiwleEANd6o8I2nEzWtA
-	pYNsXfPg2NDaclyhnNpr885JuKHpr+gh6XdUHPVcYZf99rEhQUhpaNIF7OrnxAb0Vgw0901aQ2Q
-	edx4tjI1JP55lYtJ3/UbJSqycXe+pehZs2c160kAu4HNMi04eiiKFO5AyfOjBLFn4uyl4a4OOKt
-	r0JJdHheaQnrw/X5MXwO3Y6ttWekGzH5sqyQAO3JGnylIHIGj3sMC+zoItdVMjINfoZ8LqxR+Dr
-	NKXKu+oSm9+vyK1tPbX9qAG+Z5ZaE8jEuyoelqNLBrlo4YzPEiX8uFAM
-X-Received: by 2002:a17:90b:3808:b0:3a0:ca1d:b40d with SMTP id 98e67ed59e1d1-3b1b0d08ec9mr1691398a91.55.1794556418764;
-        Thu, 12 Nov 2026 23:53:38 -0800 (PST)
+        bh=MJx2VhkDwAThYqH3qA0MncZOWZgXmJc1U/NyauJfUPQ=;
+        b=To+7Vlge5RJRWPWmONpHGzAL2lXbEdgTQg4DhRlLWFa0aEURlDaJJnd3hMwo//NolZ
+         30M9DpWdHvZGseGeq8J5Kggx8t+lSIGYSClnKS63ZTWcAFkurLEvo/ltlk+jqW6ko/Fe
+         JlYnyiXN84Fipe6MkquipAqeKG26gweVat72h7InzwDudZWZ0heaQEFGs9xzOoDOdZkj
+         xqfCeBWf/OlmEdcz1ZS/sLv54cH87k4CQBYZChwwvnN293emJU9+msqFW986YiZIIzfw
+         T1aAFq7IZ/zo18yZL0lVMPaYL8mgntATHhSCnEjiuW7JMG3+fNFNAQDtTIqkU97lvRmT
+         dc2g==
+X-Forwarded-Encrypted: i=1; AL+hErERfRvgFmKsW86k0z0ViOOI/uCmjp1VTw4mA7OUK2XhJC6I1zbCAC1Arhmhoo6xiI1EXZcw2sj/t2M=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9QbxemI2QT0k4WC6WbbVSfpDhV68Y74J2HO8lyFtd0sCAzxyvg
+	BmV2OsZuZ8oHcPcuqnNTxmRUiTZTYTZBTml4QCgWCqJgn8ZEt6sS4B9l
+X-Gm-Gg: AYBFou1a0LnLM7gaD518LoVJMY/GZD0eq+ZXJyq26kW6W/iuPtVEVW3hqZ192v7cZsA
+	NcRdQOWWV4AZoFI7HwnbjE6c9CKpkiGqr2nNblnCoqngxMxQy4Ls9mtMKOjml84t9j6W8zF66Lt
+	bLNpYKLLCzadUg7mwAvMnHg8WINaTK73cvM191C6rMpBH4Z32K4By5wkdSfGjPQiPCoevww/kxY
+	andhZ79Aa09N3CuQkxLgS3M1Z14Ssc9xuO/uddy0mOjaJJKEZzZhhljA8FcXNddaAyhBTZgOp7R
+	ClEoDVkyVutcykotuWsmqvq8xUxgg2FfkHWMLemAUar7J/r6JuUMP7u4NwWpMNprIuCKDy/2lXP
+	iEqZrp3dDuKe47NDcuX/Ad6mhSzbx43xxglXgmMweY+5pkU9hU06M6ae864DlFr9EocZIsN9C+3
+	p3fZDXAYZf+Up/RmZ9OXvKObDEa3s8k9xlE8RaIbRwNf2UEOlOwW+W+jMnPHoyb0QNUT5ZKFTUH
+	P2fg8zkCV1QI38eE4mm6aQrgs+h5+o9KznaZ00HSQciVDaTtxuNJGLShtOMnye2ASEP/6YyZtoj
+	HWOeo40i95faSlaNQMoJja4ynyI3uakpzOI=
+X-Received: by 2002:a17:90b:1dc4:b0:3ab:b39f:41cd with SMTP id 98e67ed59e1d1-3b1b0b5e500mr1447942a91.60.1794556426358;
+        Thu, 12 Nov 2026 23:53:46 -0800 (PST)
 Received: from localhost ([176.210.133.73])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b3b708adsm993234a91.4.2026.11.12.23.53.30
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b1b3b708adsm993234a91.4.2026.11.12.23.53.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2026 23:53:38 -0800 (PST)
+        Thu, 12 Nov 2026 23:53:45 -0800 (PST)
 From: Vladislav Zaharov <vladazaharova2018@gmail.com>
 To: dakr@kernel.org,
 	jhubbard@nvidia.com
@@ -90,9 +90,9 @@ Cc: acourbot@nvidia.com,
 	linux-kernel@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	vladazaharova2018@gmail.com
-Subject: [PATCH v7 1/4] gpu: nova-core: move the debugfs root into the module data
-Date: Fri, 13 Nov 2026 14:53:14 +0700
-Message-ID: <20261113075317.934264-2-vladazaharova2018@gmail.com>
+Subject: [PATCH v7 2/4] gpu: nova-core: gsp: move the log buffers into their own file
+Date: Fri, 13 Nov 2026 14:53:15 +0700
+Message-ID: <20261113075317.934264-3-vladazaharova2018@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261113075317.934264-1-vladazaharova2018@gmail.com>
 References: <20261113075317.934264-1-vladazaharova2018@gmail.com>
@@ -107,182 +107,182 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The debugfs root lives in a static that is cleared by a guard field of
-the module data. The guard is built after the driver registration, so if
-the registration fails, the root is never removed and the next module
-load finds the name taken.
+Move the GSP-RM log buffer code from gsp.rs into gsp/logbuffer.rs, ahead
+of extending it. No functional change.
 
-Move the root into a DebugfsData owned by the module data, and keep only
-a pointer to it in the static, for devices that cannot reach the module
-data yet. If the registration fails, the root is dropped with the rest
-of the module data.
-
-Fixes: 09691f5d8070 ("gpu: nova-core: create debugfs root in module init")
 Signed-off-by: Vladislav Zaharov <vladazaharova2018@gmail.com>
 ---
- drivers/gpu/nova-core/debugfs.rs   | 29 ++++++++++++++
- drivers/gpu/nova-core/gsp.rs       | 11 +-----
- drivers/gpu/nova-core/nova_core.rs | 62 ++++++++++++++++++------------
- 3 files changed, 69 insertions(+), 33 deletions(-)
- create mode 100644 drivers/gpu/nova-core/debugfs.rs
+ drivers/gpu/nova-core/gsp.rs           | 59 +++--------------------
+ drivers/gpu/nova-core/gsp/logbuffer.rs | 65 ++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+), 52 deletions(-)
+ create mode 100644 drivers/gpu/nova-core/gsp/logbuffer.rs
 
-diff --git a/drivers/gpu/nova-core/debugfs.rs b/drivers/gpu/nova-core/debugfs.rs
+diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
+index 79ee74a0a16f..43df95406d35 100644
+--- a/drivers/gpu/nova-core/gsp.rs
++++ b/drivers/gpu/nova-core/gsp.rs
+@@ -12,11 +12,7 @@
+         CoherentView,
+         DmaAddress, //
+     },
+-    io::{
+-        io_project,
+-        io_write,
+-        Io, //
+-    },
++    io::io_write,
+     pci,
+     prelude::*, //
+ };
+@@ -24,10 +20,16 @@
+ pub(crate) mod cmdq;
+ pub(crate) mod commands;
+ mod fw;
++mod logbuffer;
+ mod nvkv;
+ mod regs;
+ mod sequencer;
+ 
++use logbuffer::{
++    LogBuffer,
++    LogBuffers, //
++};
++
+ pub(crate) use fw::{
+     GspFmcBootParams,
+     GspFwWprMeta,
+@@ -78,10 +80,6 @@ pub(crate) fn dev(&self) -> &'gpu device::Device<device::Bound> {
+     }
+ }
+ 
+-/// Number of GSP pages to use in a RM log buffer.
+-const RM_LOG_BUFFER_NUM_PAGES: usize = 0x10;
+-const LOG_BUFFER_SIZE: usize = RM_LOG_BUFFER_NUM_PAGES * GSP_PAGE_SIZE;
+-
+ /// Array of page table entries, as understood by the GSP bootloader.
+ #[repr(C)]
+ #[derive(FromBytes, IntoBytes)]
+@@ -102,49 +100,6 @@ fn init(view: CoherentView<'_, Self>, start: DmaAddress) -> Result<()> {
+     }
+ }
+ 
+-/// The logging buffers are byte queues that contain encoded printf-like
+-/// messages from GSP-RM.  They need to be decoded by a special application
+-/// that can parse the buffers.
+-///
+-/// The 'loginit' buffer contains logs from early GSP-RM init and
+-/// exception dumps.  The 'logrm' buffer contains the subsequent logs. Both are
+-/// written to directly by GSP-RM and can be any multiple of GSP_PAGE_SIZE.
+-///
+-/// The physical address map for the log buffer is stored in the buffer
+-/// itself, starting with offset 1. Offset 0 contains the "put" pointer (pp).
+-/// Initially, pp is equal to 0. If the buffer has valid logging data in it,
+-/// then pp points to index into the buffer where the next logging entry will
+-/// be written. Therefore, the logging data is valid if:
+-///   1 <= pp < sizeof(buffer)/sizeof(u64)
+-struct LogBuffer<'a>(Coherent<'a, [u8; LOG_BUFFER_SIZE]>);
+-
+-impl<'a> LogBuffer<'a> {
+-    /// Creates a new `LogBuffer` mapped on `dev`.
+-    fn new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
+-        let obj = Self(Coherent::zeroed(dev, GFP_KERNEL)?);
+-
+-        let start_addr = obj.0.dma_address();
+-
+-        let pte_view = io_project!(
+-            obj.0,
+-            [build: size_of::<u64>()..][build: ..RM_LOG_BUFFER_NUM_PAGES * size_of::<u64>()]
+-        )
+-        .try_cast::<PteArray<RM_LOG_BUFFER_NUM_PAGES>>()?;
+-        PteArray::init(pte_view, start_addr)?;
+-
+-        Ok(obj)
+-    }
+-}
+-
+-struct LogBuffers<'a> {
+-    /// Init log buffer.
+-    loginit: LogBuffer<'a>,
+-    /// Interrupts log buffer.
+-    logintr: LogBuffer<'a>,
+-    /// RM log buffer.
+-    logrm: LogBuffer<'a>,
+-}
+-
+ /// GSP runtime data.
+ #[pin_data]
+ pub(crate) struct Gsp<'gsp> {
+diff --git a/drivers/gpu/nova-core/gsp/logbuffer.rs b/drivers/gpu/nova-core/gsp/logbuffer.rs
 new file mode 100644
-index 000000000000..6c6ed129f0da
+index 000000000000..1fb411ce6d01
 --- /dev/null
-+++ b/drivers/gpu/nova-core/debugfs.rs
-@@ -0,0 +1,29 @@
++++ b/drivers/gpu/nova-core/gsp/logbuffer.rs
+@@ -0,0 +1,65 @@
 +// SPDX-License-Identifier: GPL-2.0
 +
-+//! Debugfs data shared by all GPUs of the driver.
++//! GSP-RM log buffers.
 +
 +use kernel::{
-+    debugfs,
++    device,
++    dma::Coherent,
++    io::{
++        io_project,
++        Io, //
++    },
 +    prelude::*, //
 +};
 +
-+/// Debugfs data the module shares with every GPU it drives.
-+#[pin_data]
-+pub(crate) struct DebugfsData {
-+    /// Root directory of the driver in debugfs.
-+    root: debugfs::Dir,
++use crate::gsp::{
++    PteArray,
++    GSP_PAGE_SIZE, //
++};
++
++/// Number of GSP pages to use in a RM log buffer.
++const RM_LOG_BUFFER_NUM_PAGES: usize = 0x10;
++const LOG_BUFFER_SIZE: usize = RM_LOG_BUFFER_NUM_PAGES * GSP_PAGE_SIZE;
++
++/// The logging buffers are byte queues that contain encoded printf-like
++/// messages from GSP-RM.  They need to be decoded by a special application
++/// that can parse the buffers.
++///
++/// The 'loginit' buffer contains logs from early GSP-RM init and
++/// exception dumps.  The 'logrm' buffer contains the subsequent logs. Both are
++/// written to directly by GSP-RM and can be any multiple of GSP_PAGE_SIZE.
++///
++/// The physical address map for the log buffer is stored in the buffer
++/// itself, starting with offset 1. Offset 0 contains the "put" pointer (pp).
++/// Initially, pp is equal to 0. If the buffer has valid logging data in it,
++/// then pp points to index into the buffer where the next logging entry will
++/// be written. Therefore, the logging data is valid if:
++///   1 <= pp < sizeof(buffer)/sizeof(u64)
++pub(super) struct LogBuffer<'a>(pub(super) Coherent<'a, [u8; LOG_BUFFER_SIZE]>);
++
++impl<'a> LogBuffer<'a> {
++    /// Creates a new `LogBuffer` mapped on `dev`.
++    pub(super) fn new(dev: &'a device::Device<device::Bound>) -> Result<Self> {
++        let obj = Self(Coherent::zeroed(dev, GFP_KERNEL)?);
++
++        let start_addr = obj.0.dma_address();
++
++        let pte_view = io_project!(
++            obj.0,
++            [build: size_of::<u64>()..][build: ..RM_LOG_BUFFER_NUM_PAGES * size_of::<u64>()]
++        )
++        .try_cast::<PteArray<RM_LOG_BUFFER_NUM_PAGES>>()?;
++        PteArray::init(pte_view, start_addr)?;
++
++        Ok(obj)
++    }
 +}
 +
-+impl DebugfsData {
-+    /// Creates the debugfs data of the module.
-+    pub(crate) fn new() -> impl PinInit<Self> {
-+        pin_init!(Self {
-+            root: debugfs::Dir::new(c"nova-core"),
-+        })
-+    }
-+
-+    /// Returns the root directory of the driver.
-+    pub(crate) fn root(&self) -> &debugfs::Dir {
-+        &self.root
-+    }
++pub(super) struct LogBuffers<'a> {
++    /// Init log buffer.
++    pub(super) loginit: LogBuffer<'a>,
++    /// Interrupts log buffer.
++    pub(super) logintr: LogBuffer<'a>,
++    /// RM log buffer.
++    pub(super) logrm: LogBuffer<'a>,
 +}
-diff --git a/drivers/gpu/nova-core/gsp.rs b/drivers/gpu/nova-core/gsp.rs
-index a4b832f6aec1..79ee74a0a16f 100644
---- a/drivers/gpu/nova-core/gsp.rs
-+++ b/drivers/gpu/nova-core/gsp.rs
-@@ -200,15 +200,8 @@ pub(crate) fn new(
-                         logrm,
-                     };
- 
--                    #[allow(static_mut_refs)]
--                    // SAFETY: `DEBUGFS_ROOT` is created before driver registration and cleared
--                    // after driver unregistration, so no probe() can race with its modification.
--                    //
--                    // PANIC: `DEBUGFS_ROOT` cannot be `None` here.  It is set before driver
--                    // registration and cleared after driver unregistration, so it is always
--                    // `Some` for the entire lifetime that probe() can be called.
--                    let log_parent: &debugfs::Dir = unsafe { crate::DEBUGFS_ROOT.as_ref() }
--                        .expect("DEBUGFS_ROOT not initialized");
-+                    let log_parent: &debugfs::Dir =
-+                        crate::NovaCoreModule::debugfs_data(dev).root();
- 
-                     log_parent.scope(log_buffers, dev.name(), |logs, dir| {
-                         dir.read_binary_file(c"loginit", &logs.loginit.0);
-diff --git a/drivers/gpu/nova-core/nova_core.rs b/drivers/gpu/nova-core/nova_core.rs
-index a8f6dc22057b..f5d08de8a212 100644
---- a/drivers/gpu/nova-core/nova_core.rs
-+++ b/drivers/gpu/nova-core/nova_core.rs
-@@ -3,7 +3,7 @@
- //! Nova Core GPU Driver
- 
- use kernel::{
--    debugfs,
-+    device,
-     driver::Registration,
-     pci,
-     prelude::*,
-@@ -11,6 +11,7 @@
- };
- 
- pub mod api;
-+mod debugfs;
- mod driver;
- mod falcon;
- mod fb;
-@@ -30,42 +31,55 @@
- mod vbios;
- mod vgpu;
- 
--pub(crate) const MODULE_NAME: &core::ffi::CStr = <LocalModule as kernel::ModuleMetadata>::NAME;
--
--// TODO: Move this into per-module data once that exists.
--static mut DEBUGFS_ROOT: Option<debugfs::Dir> = None;
-+use debugfs::DebugfsData;
- 
--/// Guard that clears `DEBUGFS_ROOT` when dropped.
--struct DebugfsRootGuard;
-+pub(crate) const MODULE_NAME: &core::ffi::CStr = <LocalModule as kernel::ModuleMetadata>::NAME;
- 
--impl Drop for DebugfsRootGuard {
--    fn drop(&mut self) {
--        // SAFETY: This guard is dropped after `_driver` (due to field order),
--        // so the driver is unregistered and no probe() can be running.
--        unsafe { DEBUGFS_ROOT = None };
--    }
--}
-+/// Pointer to the [`DebugfsData`] of the module.
-+///
-+/// A device currently has no way to reach the data of its module, so it goes through here.
-+///
-+/// # Invariants
-+///
-+/// - Only written once before the driver is registered.
-+/// - Points to a valid [`DebugfsData`] for as long as the driver is registered.
-+// TODO: Drop this once devices can reach the data of their module.
-+static mut DEBUGFS_DATA: *const DebugfsData = core::ptr::null();
- 
- #[pin_data]
- struct NovaCoreModule {
--    // Fields are dropped in declaration order, so `_driver` is dropped first,
--    // then `_debugfs_guard` clears `DEBUGFS_ROOT`.
-+    // Fields are dropped in declaration order. `_driver` must be dropped before `_debugfs` to
-+    // uphold the invariant of `DEBUGFS_DATA` that it remains valid for as long as the driver is
-+    // registered.
-     #[pin]
-     _driver: Registration<pci::Adapter<driver::NovaCoreDriver>>,
--    _debugfs_guard: DebugfsRootGuard,
-+    #[pin]
-+    _debugfs: DebugfsData,
-+}
-+
-+impl NovaCoreModule {
-+    /// Returns the debugfs data of the module.
-+    pub(crate) fn debugfs_data<'a>(_dev: &'a device::Device<device::Bound>) -> &'a DebugfsData {
-+        // SAFETY: `_dev` is bound, so the driver is registered. Per the invariants of
-+        // `DEBUGFS_DATA`, the pointer is thus valid and not being written to. The `'a` lifetime
-+        // ensures that the returned reference cannot outlive the bound device.
-+        unsafe { &*DEBUGFS_DATA }
-+    }
- }
- 
- impl InPlaceModule for NovaCoreModule {
-     fn init(module: &'static kernel::ThisModule) -> impl PinInit<Self, Error> {
--        let dir = debugfs::Dir::new(c"nova-core");
--
--        // SAFETY: We are the only driver code running during init, so there
--        // cannot be any concurrent access to `DEBUGFS_ROOT`.
--        unsafe { DEBUGFS_ROOT = Some(dir) };
--
-         try_pin_init!(Self {
-+            _debugfs <- DebugfsData::new(),
-+            _: {
-+                // SAFETY: The driver is not registered yet, meaning that no device can be probed
-+                // and thus nothing can access `DEBUGFS_DATA` concurrently.
-+                //
-+                // INVARIANT: `DEBUGFS_DATA` is written before the driver is registered below and
-+                // points to `_debugfs`, which is pinned and dropped after `_driver`.
-+                unsafe { DEBUGFS_DATA = &*_debugfs };
-+            },
-             _driver <- Registration::new(MODULE_NAME, module),
--            _debugfs_guard: DebugfsRootGuard,
-         })
-     }
- }
 -- 
 2.56.0
 
