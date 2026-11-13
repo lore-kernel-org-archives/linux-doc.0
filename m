@@ -1,80 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=193.142.43.55
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794587813;
-	b=JCcDw69rWV1ny1RAzcmlpqNdQJBkEtKULaXhpVik4goznQCMk1dt8CxCNagrDk5++38F
-	 Qj711XFmso2AgojTIOQT44H1py79psqTkUePPJafPrPK4Bn2IfR0yMZ+OZWbGmD/Ybedm
-	 x87Ldhj3JrEgZ25dqSno7kXP1ZSz9zM4HGcOw5mIxvEZsRL0nKydEGV7d7jXfRuZn6C3f
-	 YUyauXAV3NKu/E28wi8ySUt2sGz2mqCUccdqRd9WbQFmcBS9E/M0/IL6uKHd1Lo45G6SI
-	 LPqfMMxiGWsgslHFOH1+QiC+kabIFyMZHRfKIADlr5PIpMxr+4MMuEYZow2DaGP+7fg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794587813;
-	h=DMARC-Filter:Date:DKIM-Signature:DKIM-Signature:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=W0073ALJig0hMJYwab+InzC0jgWWQhNHsIl2BaOpc4k=;
-	b=VaSJqTiAc0D/pcskwlzUJibmoR3c3hqu19QcYLlZrnZqkEVUEGXe9EG8bKIchEC/uh6l
-	 Sl1LK6ycvIqCVQqFgovt30iXzwNnMzfLYrZBEJeXmREXeztZcVnEoU1UKAHl2oBZhReyL
-	 2YT9LQdBz/e6jwtnuYSX1c/MoLba+WZx7K30AvEkdfgBG2XCfbsvecXEa1OaeTzutoesk
-	 tVL5x7oQeUSZYMFK8sWW4h+/QeTtgalIyItvIOx7tEY3pXQbg4O9LK/A/qsUOJEQvjIl5
-	 ChtE4xAhQLZkDHJ3pHpTrV2pcStUITJ7wJkWYcb+wdf31xCnZRZBHFIOgPCyHaQ7Asg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linutronix.de;
-	spf=pass smtp.mailfrom=linutronix.de;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=R1GKYOCs;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=g4cNNxiP;
-	arc=none smtp.remote-ip=193.142.43.55
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794589170;
+	b=UYsyZ+CtKnhi9xbYcGeQ6P5OxO/KEkkNlNKMCGusvOVtNz72HlDeSwW9E0jM+qCi4kSI
+	 f8kzS/aatDBN/slp97T+v7ytG7sEPVsll8qAEg4iCDAWyOrZ6crgEoGlQ2mEMqIH7OPxt
+	 q9eiYZZLEx998SJLLY3XRQtTy8BpqPxN8p/1bYSNy1SkXJ3HtS+4NmYl5UcSQjfm6JY+r
+	 Yy318ZbyMSCgKowkug97xyddxsBWdfDnGC45WIibnXGbJqnGE603sM7qPpKAj7tKEH0zx
+	 gShodCBoerJDH4+vLpgxo8IHA1Wcr44OXrUc4VGZu26+vFW2cKhocKMo2FZ9BdUDmJg==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794589170;
+	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
+	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=KnWkvUMYFp0pJ5aAC9Vy89LT8XicYuU9hu1yqcU4TSM=;
+	b=JbePtu9KH2g16Jlr/aPP+BKOIxxneyOS7Lc9NHDOk2EzY/oZXjQpwS+yzDA9P6/EhWyF
+	 yj82UCAkItj7Qq8e6jutpsc9PzFOeQgkDe1iOrB5IWs11inmRqkPlIfDUiaBEldisNFyU
+	 BihbZd082Pr0ig/ktKlMTDh1/1LXcixvZWqV9bjDs5mSwVLfi6jeslaP6Zi6Q6b8J4Hqz
+	 u/SPQ1/gvkj5iXlViyLovMyjQypyA8LnvOwZJQkv0jxtw5Gi0bNuykDEGJuwqnykctTMv
+	 Or+5cFrCtc5BDettEG/MwIdh7rRmlODqp3FkVhBk//97VGobDzyJrO5de4TdsyHSPKQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZxDV2m0Z;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB468606A327;
+	Fri, 13 Nov 2026 16:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZxDV2m0Z
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1794589170;
+	b=MW9FxhfkZwlkVPHg90tipohUQuTYmDCZ/xbG4afdQ20T5yX5brl5PRlyl9GvmT3/Tg6i
+	 fierMNZMNwN9cRL28GSVRiYflQThyBAKhOWYZmaDuJ6srXYyTg3gFFT14auS3nXCbiawe
+	 7obXRyqYyzGpg6YfCb91X9Jtl00t5wZgOUvc4nPlWlS94z9BozFFPV3gBFm1Z4zMR4ZvL
+	 3JLwZrPnwISdkY4f50enNc+czczvrdihdoyYbTRRT2cS0q77MHsvlT2w5CI7NNYJjTQSr
+	 hl565x3WlkxeS86sN4gidlkTIIYHtKFutkJFK4fyp4hPJPpWuCRtwzjEARSkZN357xg==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1794589170;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=KnWkvUMYFp0pJ5aAC9Vy89LT8XicYuU9hu1yqcU4TSM=;
+	b=3ViBD9DjgMde3tNyvats/TA0OaSQ+ExMWa2hpEVNejjvtfcoX37dWQMF7FWbLz+RLx90
+	 e+3nC5UCdontrGz3987M3JJTb8Y4ebGmztUka5T5ret4SxRLlRoQOotS5Mc3qTGfgVj/t
+	 rHt3OQXRuh2DGYRYJa3ciJYtT4+ARpro13f0jFyxC+4n7JVEdU15LRvuIJSCOwCulCc2o
+	 C0XZLEcd6c+C9Y1KhGUrFfsOqcefGed0UTLb1dNfgo/Bt67lh76mM5dvVGcZsBqMmv3i2
+	 M9eC4dD2kiXeJRRxqKpiLJ/YBHl9lCCpfeH/rGTS7RVaXHtIJUSOa6UlF+yc0hlgftg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9FC606A323;
-	Fri, 13 Nov 2026 16:36:52 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7C9FC606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.a=rsa-sha256 header.s=2020 header.b=R1GKYOCs;
-	dkim=pass header.d=linutronix.de header.i=@linutronix.de header.a=ed25519-sha256 header.s=2020e header.b=g4cNNxiP
-Date: Fri, 13 Nov 2026 17:36:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1794587809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W0073ALJig0hMJYwab+InzC0jgWWQhNHsIl2BaOpc4k=;
-	b=R1GKYOCsZa5n9FFnsbM0LFknAZHzWH1x1tXSLHs8OH40lTClLpnJF0GLi4+JttsIpiFBNF
-	2IbiKrE+UgXAH0OEfDaawxZpbCBstl0oOBFdFv2LwtPVe/XC1xKqDziefyGXA9WSEozBlh
-	ONaUHy7IaQ+DA+p2D8/nmscDlHS3Vxv+PNr1IARDOm+iY6DvKOi91FK94ukS5XGhy2+lua
-	rmEagEaHKPlylq6iC6WKRrp095vNd9FPh/tQaIV/EOst89kYxqcb1Qv9/lgIAufnsCSMvf
-	ecoEo86jFdNY/YSSVWLjsKQd//+LCErac69kNuyfekUARj91f0yQ4NGcOOJquw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1794587809;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W0073ALJig0hMJYwab+InzC0jgWWQhNHsIl2BaOpc4k=;
-	b=g4cNNxiPjikLIqtG448C3HF4/MmQKqJMYOMCVFurPsXXcwvn0POibBP7qBawynCQxZUT8y
-	waDBRi8dBnS77fDg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: paulmck@kernel.org, rcu@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>, Davidlohr Bueso <dave@stgolabs.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH RFC 5/7] rcu: Add rcutree.boost_disable to disable
- priority boosting at runtime
-Message-ID: <20261113163647.OrW62pCV@linutronix.de>
-References: <20261111213826.2035045-1-joelagnelf@nvidia.com>
- <20261111213826.2035045-6-joelagnelf@nvidia.com>
+	by smtp.kernel.org (Postfix) with ESMTPS id 91B771F000C6;
+	Fri, 13 Nov 2026 16:59:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794589170;
+	bh=KnWkvUMYFp0pJ5aAC9Vy89LT8XicYuU9hu1yqcU4TSM=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
+	b=ZxDV2m0ZlCEp5n4MdUqpn4tHeA/vHv5uA9uCrdbv3F7BIbhyckh/HQ1xGeFp5WiMF
+	 bxswqNHeN7htGPRSC1gr8Ul7+3k4fCfEDQqeNWMLKMg5BbJBzAMco/+qHUlju9RVwk
+	 7STQ0D77E1OWQs+1MPy2Kt+U0YoPwKZwHEQ5oUrvbAn2x4/1LvNX7jspG9ZTf8Iwk3
+	 x8+PITSXfLT1IP4o8pmdOj6MMYhyEWDWOKzT1mZT5KOOeQUWSHocbmPKI34y/jVMQh
+	 KoQoXck0+zRjd14mrZtcC8GzeYb+qJNs2dWKXKempPKgikX/JHV4Cpw8iQE920wnON
+	 ZJdptFPxVbQ3g==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 05DB649A0E;
+	Fri, 13 Nov 2026 16:59:29 +0000 (UTC)
+From: Selvamani Rajagopal via B4 Relay <devnull+Selvamani.Rajagopal.onsemi.com@kernel.org>
+Date: Fri, 13 Nov 2026 08:59:20 -0800
+Subject: [PATCH net-next v11 01/14] dt-bindings: net: add onsemi's S2500
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -84,55 +82,187 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261111213826.2035045-6-joelagnelf@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261113-s2500-mac-phy-support-v11-1-7a186141952c@onsemi.com>
+References: <20261113-s2500-mac-phy-support-v11-0-7a186141952c@onsemi.com>
+In-Reply-To: <20261113-s2500-mac-phy-support-v11-0-7a186141952c@onsemi.com>
+To: Selva Rajagopal <selvamani.rajagopal@onsemi.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, 
+ Richard Cochran <richardcochran@gmail.com>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Eric Dumazet <edumazet@kernel.org>, 
+ Piergiorgio Beruto <piergiorgio.beruto@gmail.com>, 
+ Eric Dumazet <edumazet@kernel.org>
+Cc: Selva Rajagopal <Selvamani.Rajagopal@onsemi.com>, 
+ netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jerry Ray <jerry.ray@microchip.com>, 
+ Ciprian Regus <ciprian.regus@analog.com>, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1794589162; l=4324;
+ i=Selvamani.Rajagopal@onsemi.com; s=20260531; h=from:subject:message-id;
+ bh=ydl5QiaaznD+gOcse6AuYZUijr3nYJb8olhfZemEaIw=;
+ b=85QxYvRD1NilPv+Yuy8gY7rhiXRvHCPbUnzuUez98NgyJkHBE8JEiAct/AtmRWDDRo2/q1nlg
+ n/Dv02mm+MCAd1JxpA7sZWr+D2FlAlxs18A4ObU2glymP6WqXS+74jS
+X-Developer-Key: i=Selvamani.Rajagopal@onsemi.com; a=ed25519;
+ pk=5QRdM0HS/LGWWcUZZ9hVfZ+qbPQGZCumcTXOiN7Fyug=
+X-Endpoint-Received: by B4 Relay for
+ Selvamani.Rajagopal@onsemi.com/20260531 with auth_id=803
+X-Original-From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+Reply-To: Selvamani.Rajagopal@onsemi.com
+Content-Transfer-Encoding: 7bit
 
-On 2026-11-11 16:38:23 [-0500], Joel Fernandes wrote:
-> CONFIG_RCU_BOOST is now enabled automatically for preemptible RCU and
-> cannot be turned off, so rcutorture's BUSTED-BOOST scenario, which is
-> meant to show that rcutorture detects broken priority boosting, can no
-> longer break it.  Add a boot parameter that makes rcu_initiate_boost()
-> do nothing, giving that scenario a way to break boosting.
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-It has:
-|         depends on (RT_MUTEXES && PREEMPT_RCU && RCU_EXPERT) || PREEMPT_RT
-|         default y if PREEMPT_RT
+Add device tree binding for the onsemi S2500 IEEE 802.3cg
+compliant Ethernet transceiver device.
 
-which I read as always enable on PREEMPT_RT and on PREEMPT_RCU only with
-RCU_EXPERT enabled which off by default.
-But BUSTED-BOOST always enabled RCU_EXPERT which means it is always
-enabled. Hmm.
+S2500 has both Media Access Controller (MAC) and 10BASE-T1S
+Ethernet PHY. MAC implements 10 Mbps half duplex Ethernet
+MAC. Communication between the host and MAC-PHY is defined in
+OPEN Alliance 10BASE-T1x MACPHY Serial Interface document.
 
-> --- a/kernel/rcu/tree_plugin.h
-> +++ b/kernel/rcu/tree_plugin.h
-> @@ -1270,6 +1270,9 @@ static int rcu_boost_kthread(void *arg)
->  	return 0;
->  }
->  
-> +static bool boost_disable;
-> +module_param(boost_disable, bool, 0444);
-> +
->  /*
->   * Check to see if it is time to start boosting RCU readers that are
->   * blocking the current grace period, and, if so, tell the per-rcu_node
-> @@ -1284,7 +1287,7 @@ static void rcu_initiate_boost(struct rcu_node *rnp, unsigned long flags)
->  	__releases(rnp->lock)
->  {
->  	raw_lockdep_assert_held_rcu_node(rnp);
-> -	if (!rnp->boost_kthread_task ||
-> +	if (boost_disable || !rnp->boost_kthread_task ||
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
 
-Could you instead make this a parameter of rcutorture (and not rcu's)
-and then check it behind IS_ENABLED(CONFIG_RCU_TORTURE_TEST)?
-That way non-testing code does not have this additional read and the
-variable parameter and so on.
+---
+changes in v11
+  - No change
+changes in v10
+  - No change
+changes in v9
+  - No changes
+changes in v8
+  - Changed the interrupt type to level triggered
+  - Added reset-gpios entry that was recently supported.
+changes in v7
+  - Added the missing review tag
+  - Removed the word YAML from the commit message
+changes in v6
+  - Moved the signed off information to the right place.
+changes in v5
+  - no changes
+changes in v4:
+  - added spi-max-frequency as suggested by AI review
+  - changed interrupt to IRQ_TYPE_EDGE_FALLING as it is
+    being taken care in net (stable) branch
+changes in v3
+  - Removed URL link that failed verification
+changes in v2
+  - removed spi-max-frequency entry
+  - changed the compatible string to s2500
+changes in v1
+  - Added the first version of YAML file for onsemi MAC-PHY
+---
+ .../devicetree/bindings/net/onnn,s2500.yaml        | 71 ++++++++++++++++++++++
+ MAINTAINERS                                        |  6 ++
+ 2 files changed, 77 insertions(+)
 
-Maybe tell rcu_spawn_one_boost_kthread() not to populate the tread this
-thread in case.
+diff --git a/Documentation/devicetree/bindings/net/onnn,s2500.yaml b/Documentation/devicetree/bindings/net/onnn,s2500.yaml
+new file mode 100644
+index 000000000000..e1df674c0f1e
+--- /dev/null
++++ b/Documentation/devicetree/bindings/net/onnn,s2500.yaml
+@@ -0,0 +1,71 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/net/onnn,s2500.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: onsemi S2500 10BASE-T1S MACPHY Ethernet Controllers
++
++maintainers:
++  - Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
++
++description:
++  The S2500 combines a Media Access Controller (MAC) and an
++  Ethernet PHY to enable 10BASE-T1S networks. The Ethernet Media Access
++  Controller (MAC) module implements a 10 Mbps half duplex Ethernet MAC,
++  compatible with the IEEE 802.3 standard and a 10BASE-T1S physical layer
++  transceiver integrated into the S2500. The communication between
++  the host and the MAC-PHY is specified in the OPEN Alliance 10BASE-T1x
++  MACPHY Serial Interface (TC6).
++
++allOf:
++  - $ref: /schemas/net/ethernet-controller.yaml#
++  - $ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    const: onnn,s2500
++
++  reg:
++    maxItems: 1
++
++  interrupts:
++    description:
++      Interrupt from MAC-PHY asserted in the event of Receive Chunks
++      Available, Transmit Chunk Credits Available and Extended Status
++      Event.
++    maxItems: 1
++
++  reset-gpios:
++    description:
++      GPIO connected to the active-low RST_N pin of the MAC-PHY.
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 25000000
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - spi-max-frequency
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    spi {
++      #address-cells = <1>;
++      #size-cells = <0>;
++
++      ethernet@0 {
++        compatible = "onnn,s2500";
++        reg = <0>;
++        pinctrl-names = "default";
++        pinctrl-0 = <&eth0_pins>;
++        interrupt-parent = <&gpio>;
++        interrupts = <25 IRQ_TYPE_LEVEL_LOW>;
++        spi-max-frequency = <15000000>;
++      };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c583367c88bc..4a4c26694ba7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -21013,6 +21013,12 @@ S:	Supported
+ W:	http://www.onsemi.com
+ F:	drivers/net/phy/ncn*
+ 
++ONSEMI S2500 10BASE-T1S MACPHY ETHERNET DRIVER
++M:	Selvamani Rajagopal <selvamani.rajagopal@onsemi.com>
++L:	netdev@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/net/onnn,s2500.yaml
++
+ OP-TEE DRIVER
+ M:	Jens Wiklander <jenswi@kernel.org>
+ L:	op-tee@lists.trustedfirmware.org (moderated for non-subscribers)
 
->  	    (!rcu_preempt_blocked_readers_cgp(rnp) && !rnp->exp_tasks)) {
->  		raw_spin_unlock_irqrestore_rcu_node(rnp, flags);
->  		return;
+-- 
+2.43.0
 
-Sebastian
+
