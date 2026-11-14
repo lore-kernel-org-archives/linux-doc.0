@@ -1,82 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.181
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794675694;
-	b=vXHpWLJN8otDSQ0FijVBgwMW4xrNiwr+oxPW4FeqviSLWhCjVmhnZaAEQiRln964fSlJ
-	 YMCayCNGebvZx+x7uEXoiVy19OkKEoBzo6ixV4B+UcaB95XgmrkbeOrCynuAWZjak5U1c
-	 IZB20JfJscIPe/6xn2OET0v6D/DiN9gfY61MjgeUOCDjY3Ugmg1dXnKQuWrCKLbnjL/Ro
-	 Zo2b9vEB2b0P18DAT2VmpgSCdI0yXMPIDOodEhoP2FwLbGkuoZlf9MLP4nIyTyAzkoYaK
-	 oocwPbRXWPNQ6Mhpd/gN2KqGWQi2kkmZgsuQB/sKPc4rLc/ryhlkiFZZXtV6Sejm1ug==
+	t=1794675720;
+	b=M1ZIgW3auD1qcO+YZgOT1RFPSZuclY2KOZzqP769wVqHFIsHNzhm8kDeQ2+Ib+r6v0Xv
+	 xVW/i2Q0GgSdpxPrzCp1w3J1sagS/CDrCdpPQAPtFVWZ76gtZEreJJVv9aGqQnZqmIO8l
+	 bEDju+1bLtJyxcyBDjf/ThsZ/1Ey8QxbdNNWlj2V4HbeVAWLz5iHaU4AzyJetwEiQZjTD
+	 pujGkBnBJB5Lplop2fmUrX9Y7dDM/YPnIT8DAHRT2Pu6KVoktPcvf5FvATM5Rj3xX6QRc
+	 aAL510UU6j6Qo8mgZwW/GHt7bh2KjboXSMMzRsxNopH6u3e6lReXYFXElr1VVO0Ty3w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794675694;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794675720;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=Ep+n5rIbIBkWijYN/P8smm9x/IxlgV6O3xbPYJDU0As=;
-	b=CEpHhl8H0x3jRKxHa0TPyiPZlDanwFAZ+Fw2e6TyZODHT12hvCBWCngyBfn4vCk0eYLk
-	 k0B/4XKw2+hwyGh6/Ef6Si064XGuFDemAdZ03jKS+xnJ14Ns0iFbMvfPVZIsRpifslh2s
-	 c9d5wQELQbpFXmusaNZppWWPVLLZcD1CGb7pP29SUYMVlIn7tnNCeVZTvtIZTuDvabIey
-	 XOMLoXJ8pBjkVAu3d3dl6ZkP5rXwez8MMXmnLSBA5DHKX+3j7lnuoaPT9To8Wh4t29rhI
-	 CAQUKTj5T3S1CFms86AgdsByVAtH+muATNKXpyJYyODrR+dJNPIU9blJXTdmhU3TTRA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=FgLmcSw7DjbpN264BqldKH5klMuyQXGFQrNXp00hHzA=;
+	b=HNfav8/50D5GL9XAL02KjNo9CuqeR2q9MQZ96iTOemAj96V6kU663vN2gpZmE2yHrUwJ
+	 ihMAwTnc0h7jzGoPgpPBzfZz11oFgHYknJE4gEXpk90Vd6Vk36Fd9FYmKN5dIXdr9Mfpi
+	 1NGJBefD1O7a3P55cwg5IHjvp2qyCq5SaUXScojjfGpFnYqTaq/UKAM752py/TWwncrzg
+	 76uGWk1kpWBH9H2cluvNe9jNWD+8myyLi3Ff1mraUlzOjSab+o9St9kBYunDWc0iP1fa1
+	 fJgAOl04FYvHJzfhBZTJ330C86+77rUXRZmIDFGTGy70AlTL+BIabiiZhf5e9YfSpFQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CpNp+i54;
-	arc=none smtp.remote-ip=74.125.82.177
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uyhFkfCj;
+	arc=none smtp.remote-ip=74.125.82.181
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 858F6606A329
-	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 17:01:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 858F6606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEA1D606A333
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 17:01:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BEA1D606A333
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=CpNp+i54
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-36e99cf7bb3so2679239eec.0
-        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 09:01:34 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=uyhFkfCj
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-37628596783so3577252eec.1
+        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 09:01:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794675694; x=1795280494; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ep+n5rIbIBkWijYN/P8smm9x/IxlgV6O3xbPYJDU0As=;
-        b=CpNp+i54/v6tOHdyDxVQNdYBsB9xSD8IrZMj5lzcvealEleNlvsVZpKDskPYge19oz
-         wyW5fMmtJj4tccpwzgdZjRZJ4rcvlMvb+4XVXNE5hzFxijuoLQwPhKSmq1z1IZsVUajg
-         TmdXLTER3QqDCHqjr947KNxpwILpkOtzaWuCpCb6LDB//A6gNtNIDW495JeEibg+xlLp
-         Cl9Aij89Py2OCKzmRAmKLyPr+rPwYT6XCsrTbene1IBVP4SrVt4Z3FxHxkdyq6vnuEot
-         0uIohD1XJynwnL2Fm6M0jdakxFLhGmL+uhfYGG5RRISmiDXphXHz1JL5PTtUSD46sPex
-         WupQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794675694; x=1795280494;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794675719; x=1795280519; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Ep+n5rIbIBkWijYN/P8smm9x/IxlgV6O3xbPYJDU0As=;
-        b=1hwg9vcHtlvPz/4KGE8oJ6WVUxMt+4cWAyw5d7lEfdL9bWCCKSYWSIEXrGb41ewZAJ
-         vyLa5BiCWfvctb7oNZlZDuRBCd/p3ZN+f4TXCuQ/fwrRMruCKhigMwrHa2nypYt/VFeH
-         n6a/5vYW4ayew+DANg1ifQcWw/z454CYn9L9qN4816z5F0vmHWEASDyhwQo36F2yjEXj
-         mke9ibFsDfUaP4D9x3mNKnT0JM6vkGwgyIEdFv6iBk5Hpf/dJxAwDRNgm6Er6TChCEVy
-         InIpFYGCZlg80N6jV1AuCS7YP+mtksKKUZ7E6zfMsjTVbuieVZTUCb0LRn1tGZkdcj/c
-         Jjvg==
-X-Forwarded-Encrypted: i=1; AL+hErGdWXdoQQ1yRWJN9paZKgEjAkgEVo3xCTPgU0qyo622jBMUNNjoLD1RVlpKsK8p38NQ9H5rbtVa58U=@vger.kernel.org
-X-Gm-Message-State: APuU4Z89A1ymuGaUEAlwZdx0CTDENZDSnfBdIgXMgF9mEKY5WuOAkWWG
-	DwXqxCZUr5S83NMstwFYxtTKk1C+qW0SsiEXHYw7fkcI0AtCVAstVATR
-X-Gm-Gg: AYBFou3iWpdVav4I958B+acWVBZDKZZpBxjsHmJ1DJ7yPkKQFz+qQ3GRdT068wl8BZv
-	WgEA5aibbmcQQDiKzjtumXG9dMO1UO5ybK9gx/OYhSA/eZ6jsl4tw+jCLCCbecXcnjeCMhaUPIz
-	PeOM+hItBtNIvkm9f4vC7los77btVErNLFmaOZLrF46ZjTFOR7Hv3mA0/gaANehIYB8EE/ealAM
-	BLEWDr4Ta630g+oSePyr3xatvAsR0TSxktQcaWoAe5BTR09rSOydf/K2iq/FT3w2cZgUWKKJuH+
-	xBjW0bIxdGa0/ydmXtKjn6xmRbhx93xw250womZO6Zo060N/T2Qyhun3q3f4a6YjXT+zpm9Vmb8
-	oQPhhAS03YmxHv11PhdFXjX6YmFdCdRjl3o3KVqDewyWfClCMqoPLeawWeJ5Q25FXxNzxOysgQI
-	DhYUc9MIbdgczM+Mpn0mm5yNDKmRT/bEkis4qjca6i1f13+FL/If7SwU4HYd0pvMNyTl3SqVHkL
-	T59as4diioOa9lW5AElT19f2kXkhA8EBCCt96o8va0/JPc5qfoFG3i59hhpKRH+TaddKqh+e2Bw
-	IwG07CesTmDej8rQNpCPh/oRpJhYU1xW6bpemjXNhs4=
-X-Received: by 2002:a05:693c:808f:b0:351:29c8:643 with SMTP id 5a478bee46e88-379675fc97fmr5683571eec.18.1794675693304;
-        Sat, 14 Nov 2026 09:01:33 -0800 (PST)
+        bh=FgLmcSw7DjbpN264BqldKH5klMuyQXGFQrNXp00hHzA=;
+        b=uyhFkfCjuPWNaTUSZb+7Pt39iHkDpbSD/kPp0aQyJ8ktHUMZ6h8OMsQQkCiQX2VaK5
+         gqAVfl0CYdGk6TzezMRtPpodkH93rRRHnOQOy3/X4WfrQMOiveI2jodhyBAlEGu0wEVn
+         yRuIKWJyOxCkzS5POr10C0Uez94UN4VRmqrPbs7GOAQtGsMz0T92HeXrIhjoLwh/wrms
+         tXwsZcLvOx1EqO6X8y+Y+ejjyp5GcBFzwHKFkruA7Jtw7keuZNecJqVEc9FbOSkqpBr/
+         CiwD4nRtx/q58s1zcA7vrRO/pPz6y9mllfh64NNmwX7gU/t9HUj9WG9AJIQS94FlS4E0
+         u7IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794675719; x=1795280519;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FgLmcSw7DjbpN264BqldKH5klMuyQXGFQrNXp00hHzA=;
+        b=o9NlHv2TgzM2VECwp4bmfuWlqrvTXN072FMBLeLmBilTfn+f1W9m5HEsZs4yoEe/+g
+         Z19WY0VLz0rVvHlqYevg1ZZrJhP2rs7mRmMoMucsEEPnbb7mqt+abOHZbD6DKT9Y4ZD8
+         W4l1tzgj0fkrTm2CLcdFMr2+ia5CjwLzke3ghJWIREFEdSGTHSOouYRICvt1SwElehw8
+         Jnli3hBvNcxfNG0KbW0kkvOlV2/rLt4W+RKCXz+TjujyAC4/BvCrTIt1AHH4v0/6gEW6
+         TfN6Q8rpiPI/2jbVugdFsgvrvcqlG7HI8tVT4F87lkRP93iXQvpiUTLDN0kY84Ueq/Kt
+         rkRg==
+X-Forwarded-Encrypted: i=1; AL+hErHCz4dijCoVChjb8OYCfIZPv70/2vT5wwdvKauy3VfLACng8CGQJXi12rMrG+oQL+4lB2DPcddgDEY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/ws9+YgY9viMnnG6VbR5NTTbkcBG6b6JJzqZ95zTR1nn4v6Yv9
+	n/UKFWuBtHK8d6K4zNNI2BCin0a2DxipUGhnfoTGsbXYMQpKH2G+s25Vx5p17BYy
+X-Gm-Gg: AYBFou3/uKHE4NMg4V4Ndv/VtGtgje9DSHEadaGjVocqV3FFGo49UNcoFIWgkdWvsZg
+	Uh2ezOhg3dHbUJ9syGOK4pL5ZfpUhsjt+L5oDLdoh+Qbog/NF60wKYb6skVjZJ9FYkzBiKdEr9C
+	B0Sh2s/7QyacorrS5k/5wKAvJXXNZKgzubJHywJotpB3NxyQoeBKL1asEqVWk10B6KtfO3yzvLn
+	fD2FPGTwJoLTtzcFxFL2AnpckcRlP64SwelEto+rU/xb5YPTkTFqMISmSNKaSHg6ZiWUDg4mJnK
+	J7QuXq3vIioLNoG2yC82OAbtKYdeKJbLb+RMZx6VgjbWcuKyosLPuHvkA8R3v+ahFIFMCPd4ZZa
+	qo8AnfX6vjmjEKXZMBemFrQTGduGOu+a0477XJTSnI7uTsqR3ZPhJNr4J3FHyf/gWG+L49KbCYD
+	QvjK33Ab4H2Qp3e5PzBuQ7/0QF7DP5bTONnCWnk4Z0mdixdvtVpZ5FLgKLhlRW/kDt4E6ZLGGzf
+	JhV4Gafve3lMi5OvzIaTmmAKbQgSzuK+vencYeDD81Cma4+sRM+j13P/QCyPLOKm8s8pSf/vvYS
+	DIk46JK9U6jr8Cynrg5HdA8Fye5P1Y0rhGY1QCPIg1M=
+X-Received: by 2002:a05:693c:4152:10b0:36a:4a68:84e5 with SMTP id 5a478bee46e88-379659c6839mr6140556eec.8.1794675718555;
+        Sat, 14 Nov 2026 09:01:58 -0800 (PST)
 Received: from LAPTOP-G6J9COQB.lan ([182.253.124.115])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379563e6b6dsm31586761eec.21.2026.11.14.09.01.29
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379563e6b6dsm31586761eec.21.2026.11.14.09.01.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 09:01:32 -0800 (PST)
+        Sat, 14 Nov 2026 09:01:58 -0800 (PST)
 From: Ahmad Wicaksono <supersonix03@gmail.com>
 To: bpf@vger.kernel.org
 Cc: rhkrqnwk98@gmail.com,
@@ -93,10 +94,12 @@ Cc: rhkrqnwk98@gmail.com,
 	corbet@lwn.net,
 	linux-doc@vger.kernel.org,
 	Ahmad Wicaksono <supersonix03@gmail.com>
-Subject: [PATCH bpf-next 0/2] Documentation/bpf: Fix stale references in map docs
-Date: Sun, 15 Nov 2026 00:01:15 +0700
-Message-ID: <20261114170117.196552-1-supersonix03@gmail.com>
+Subject: [PATCH bpf-next 1/2] Documentation/bpf: Update sockmap docs for mutation restrictions
+Date: Sun, 15 Nov 2026 00:01:16 +0700
+Message-ID: <20261114170117.196552-2-supersonix03@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261114170117.196552-1-supersonix03@gmail.com>
+References: <20261114170117.196552-1-supersonix03@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -108,38 +111,75 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Two documentation fixes for the BPF map pages.
+Commit be39165224d0 ("bpf, sockmap: Disallow update and delete from tc,
+xdp, socket_filter and flow_dissector") dropped those program types from
+may_update_sockmap(), so tc, tc act, XDP, socket_filter and
+flow_dissector programs can no longer call bpf_map_update_elem() or
+bpf_map_delete_elem() on a sockmap or sockhash; the verifier now rejects
+them at load time with "cannot update sockmap in this context". The
+kernel-side sections of map_sockmap.rst did not mention this at all.
 
-Patch 1 records that since commit be39165224d0 ("bpf, sockmap: Disallow
-update and delete from tc, xdp, socket_filter and flow_dissector"), only
-BPF_TRACE_ITER tracing, sock_ops (delete only), sk_reuseport and
-sk_lookup programs may mutate a sockmap or sockhash; anything else is
-rejected with "cannot update sockmap in this context". The kernel-side
-sections of map_sockmap.rst did not mention this. It also drops the
-reference to progs/test_sockmap_update.c, removed by
-commit 5de7a6eaed89 ("selftests/bpf: Drop
-tc/xdp/flow_dissector/socket_filter sockmap mutation tests").
+Record which program types may still mutate these maps, and note that
+sock_ops programs may delete entries but have to use
+bpf_sock_map_update() or bpf_sock_hash_update() to add them.
 
-Patch 2 fixes two moved selftests paths: test_lpm_map.c, now
-map_tests/lpm_trie_map_basic_ops.c, and test_xdp_noinline.c, now under
-progs/.
+Also drop the reference to
+tools/testing/selftests/bpf/progs/test_sockmap_update.c and its link
+target. That file was removed by commit 5de7a6eaed89 ("selftests/bpf:
+Drop tc/xdp/flow_dissector/socket_filter sockmap mutation tests").
 
-Documentation only; no functional change.
+Signed-off-by: Ahmad Wicaksono <supersonix03@gmail.com>
+---
+ Documentation/bpf/map_sockmap.rst | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-Ahmad Wicaksono (2):
-  Documentation/bpf: Update sockmap docs for mutation restrictions
-  Documentation/bpf: Fix stale selftests file references
-
- Documentation/bpf/btf.rst          |  2 +-
- Documentation/bpf/map_lpm_trie.rst |  6 +++---
- Documentation/bpf/map_sockmap.rst  | 18 ++++++++++++++++--
- 3 files changed, 20 insertions(+), 6 deletions(-)
-
-checkpatch.pl --strict is clean. make SPHINXDIRS=bpf htmldocs gives
-identical warnings before and after. Documentation only, so nothing to
-run-test.
-
-base-commit: ca4181cacb0c6a5632018f1c94f29d9dbc0e9270
+diff --git a/Documentation/bpf/map_sockmap.rst b/Documentation/bpf/map_sockmap.rst
+index 2d630686a00..8bb6d74cf36 100644
+--- a/Documentation/bpf/map_sockmap.rst
++++ b/Documentation/bpf/map_sockmap.rst
+@@ -285,6 +285,16 @@ The flags argument can be one of the following:
+ 
+ Returns 0 on success, or a negative error in case of failure.
+ 
++.. note::
++	The verifier only accepts this helper on a sockmap or sockhash from
++	``BPF_PROG_TYPE_SK_REUSEPORT`` and ``BPF_PROG_TYPE_SK_LOOKUP``
++	programs, and from ``BPF_PROG_TYPE_TRACING`` programs attached as
++	``BPF_TRACE_ITER``. Other program types, such as tc, XDP,
++	socket_filter and flow_dissector, are rejected at load time with
++	"cannot update sockmap in this context". ``BPF_PROG_TYPE_SOCK_OPS``
++	programs must use ``bpf_sock_map_update()`` or
++	``bpf_sock_hash_update()`` instead.
++
+ bpf_map_delete_elem()
+ ^^^^^^^^^^^^^^^^^^^^^^
+ .. code-block:: c
+@@ -295,6 +305,12 @@ Delete a socket entry from a sockmap or a sockhash.
+ 
+ Returns	0 on success, or a negative error in case of failure.
+ 
++.. note::
++	The same program type restriction as for ``bpf_map_update_elem()``
++	applies, except that ``BPF_PROG_TYPE_SOCK_OPS`` programs may delete
++	entries. Other program types are rejected at load time with
++	"cannot update sockmap in this context".
++
+ User space
+ ----------
+ bpf_map_update_elem()
+@@ -349,7 +365,6 @@ Several examples of the use of sockmap APIs can be found in:
+ - `tools/testing/selftests/bpf/progs/sockmap_parse_prog.c`_
+ - `tools/testing/selftests/bpf/progs/sockmap_verdict_prog.c`_
+ - `tools/testing/selftests/bpf/progs/test_sockmap_listen.c`_
+-- `tools/testing/selftests/bpf/progs/test_sockmap_update.c`_
+ 
+ The following code snippet shows how to declare a sockmap.
+ 
+@@ -495,4 +510,3 @@ References
+ .. _`tools/testing/selftests/bpf/test_sockmap.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/test_sockmap.c
+ .. _`tools/testing/selftests/bpf/test_maps.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/test_maps.c
+ .. _`tools/testing/selftests/bpf/progs/test_sockmap_listen.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_listen.c
+-.. _`tools/testing/selftests/bpf/progs/test_sockmap_update.c`: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/testing/selftests/bpf/progs/test_sockmap_update.c
 -- 
 2.43.0
 
