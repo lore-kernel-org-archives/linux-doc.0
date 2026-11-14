@@ -1,71 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794697285;
-	b=XArXxG7sr7UTGWw8z+T/+hXUHmKjHeMjPl3xIHoFHiC9691r4rU11pB+7G6zID6yQFHN
-	 7bVgoZivNnzaHBM5RW62yll6mRFKF5yjVRaZuRZIZVQB43zlZIpxXxgGH3PuWloiPB8yw
-	 nDDw6f5yX6E2p8nFlnnW9I0ddlPxl0tGDLmeaNHdsXXi2hOxBddPA/AeWMkL5mlPRVsBG
-	 WU+5RA145zVClsn6eE3vmlTIq5PzGe17SNjvNBjyt/3ZATW9mTUTGPl2DJ8vktHgswDhP
-	 fg4IleTmPPSy1XSvgOZDZq5n++ocA6LTx0A/eo4xVEjMIoSlF5igyOf9pseClPpenfg==
+	t=1794697343;
+	b=e8O/NKljwmYCowbP1AdCBXMen/Fr4dbTsSY7zqhqgfk9Z33KyvMGYhPVNsLcptqUNafG
+	 6WY2HedB8K47OrTEwWHLdeGQGxSrOH2gJBGU5nHQfJNMPVwJ+zNkPNRuHk31TapuYglkL
+	 ZdWgyqT4I8qpC6JLmwIW0je4dUhFm0H0JtwqOZDYbDHJweZ3SNM6bXjsH7pZNX+BzUq6h
+	 zs/QBw1tY5+sV6rPcF9JoioWNsu3tTIDYzr8G0vuDGwwFLoPVHBpMw8X/dv60gv+QWQmo
+	 zyIDvRts6vj9eMm/KwPMa9IBnIAn6zI/P532hrqi3AxvV9egUHy7UW6ScEzGdJzD5Xg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794697285;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
-	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
-	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
-	bh=1NGwc1JPwDHdEiu0v8Lwn5lSdaGLpJu9/e3I5X4X/zU=;
-	b=bEM/gozjGS3rwYUz8FrGVstJzsWs/9dNwUKkXZlruyUJ3HVVfwGA/xGwNidpW4MFBolg
-	 fC0HxSTDeFIn14i7ZB1ChRj9+fbv/EW0BMAgVmayPtVLv4S8nXPLzsHB5TrsKm9VCMzkf
-	 3GJZnPu9RgeVzHuqxurvQwrjJ9Rc5CVNpnrkTyu268Dfy4KaqCRFV53nTPschWwPhapEh
-	 QGgmSVCWhVn7N5PSLHItE0RDjnaDQ8/39kZf2kqhQERkDZYoyXLPq14EDXY+l1uV6x+DV
-	 VI7GxbFCyxWwXm5fleVYwLO37n0C99qm/1Km36aDYl9FypkAvSvPfj4CxRcHv1gJttA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794697343;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:In-Reply-To:References:MIME-Version:
+	 Content-Type:Content-Disposition:Message-ID:User-Agent;
+	bh=ogoLg/UrKn4w2HbWGHqWFTtUp7LAKklTdIxHd1gOThQ=;
+	b=mBhVGbKGym9kRCp966b45OpgvJ+TN5g1IzTcdcYjY3jE4955q+LKwbJLN0V4mQMqMo7i
+	 puc4Q72hQknLzDXSmZNDqoItmWYR8vUh3ffJW3SZiisgahNCuKykq+64C/TvcUM3x5XPr
+	 MoRYBBsJwX0TpSelafdHVYPKCXjiq23T+qiR+H1n9trWCKqaRtJd9W5cinjPigWMzwOMs
+	 7cnKfDZ/fyjT8ezcMk8o7GRabEiVdTHaBkt+oSCH++GYu69ZFW2wVC7DDOD1RKdYMfMaM
+	 mrUeFR9x0eRbgNYoHCxc7Eyrh5JdO1n9OlPw5B1Kk38uYB+qme+KX5rIEe1J/uOvqTg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=aHpGYPrs;
-	arc=none smtp.remote-ip=44.202.169.35
-Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=chrisdown.name;
+	spf=pass smtp.mailfrom=chrisdown.name;
+	dkim=pass header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=MXuwAjHK;
+	arc=none smtp.remote-ip=74.125.82.54
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DCE4606A33E
-	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 23:01:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DCE4606A33E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DE78606A8AE
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 23:02:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3DE78606A8AE
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=chrisdown.name
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chrisdown.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=aHpGYPrs
-Received: from eig-obgw-5003b.ext.cloudfilter.net ([10.0.29.155])
-	by cmsmtp with ESMTPS
-	id SIbFxIEFf4vCDSMkJx1rwI; Sat, 14 Nov 2026 23:01:19 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id SMkIxAKUOSgq1SMkJxdLxT; Sat, 14 Nov 2026 23:01:19 +0000
-X-Authority-Analysis: v=2.4 cv=c8KrQQ9l c=1 sm=1 tr=0 ts=6af8e83f
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10 a=pGLkceISAAAA:8
- a=xdmuYzsaov-w2H670QYA:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=1NGwc1JPwDHdEiu0v8Lwn5lSdaGLpJu9/e3I5X4X/zU=; b=aHpGYPrsgUBs
-	hcNaeJwk1onR/GZJELL3k6+xL5vvG1aISq1h0/Umhkd12RxtXGyeXmsqAfqj3UfRDGJB1Qo7WU0xh
-	WtBRPWWPuortCXhAB1sswVT2eytTXSO4gxwKo+HdJaze3G7tpzPVpVx5NWxdLApe+BaqwW/GlcMoG
-	K37uupttpgB5nI9VR/4Q8jtomqyHkDUMcxqXZo2eV88B2vCgVrFFsGJhhDnTfmr1aDro8MiaAxX+t
-	LKxyJyF3J63T6TgiabS1eeWobNLZYE1RK8aq6/RQQdnxNhlrJnMbtvCYQZs52GM1IV63Xa07mIRFj
-	yF5oJrJlf/fWCG1N6l+VJw==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:60910)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xSMkI-00000003CdU-2pvm;
-	Sun, 15 Nov 2026 04:31:18 +0530
-Message-ID: <4d69d3e9-9e05-485d-87e2-428616cd5d9d@roeck-us.net>
-Date: Sat, 14 Nov 2026 15:01:17 -0800
+	dkim=pass (1024-bit key, unprotected) header.d=chrisdown.name header.i=@chrisdown.name header.a=rsa-sha256 header.s=google header.b=MXuwAjHK
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-14394530ec6so2703676c88.1
+        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 15:02:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chrisdown.name; s=google; t=1794697342; x=1795302142; darn=vger.kernel.org;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ogoLg/UrKn4w2HbWGHqWFTtUp7LAKklTdIxHd1gOThQ=;
+        b=MXuwAjHK3ryzzU4k/6N08wyMpBVAPV32D+CcCmN0rlUTaMDWUPzvLQ44/3LeLXDVWO
+         rx9Xe+dlKZo+KGL05nuM+m0vH/8d8L5wcr/8+J6ub5UL7V/kpCI1EyOufNKb6t5H8QQx
+         A0lVM1yUsLbvqpj/M6n5jiGzeYgdAEAJzNA0s=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794697342; x=1795302142;
+        h=user-agent:message-id:content-disposition:content-type:mime-version
+         :references:in-reply-to:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ogoLg/UrKn4w2HbWGHqWFTtUp7LAKklTdIxHd1gOThQ=;
+        b=HssSRSMU+cq9Lj8kGmWnD0e+NgCkfHo1175DgNaSGZ7TuwS+tkXzFIKFQWwO18rLeG
+         /avRKm/t82NFku6uI+SVl1D8MPGXGrJjECFt8YI9M4sRX04Xn8PXg2TL8pxKuJLzJJfr
+         ppUC7LQVYFfLFJK/8OI2rskFHDRLib+ViC05VzxGb/M5R+MFLc9UlyxxOtMMLPhrADSZ
+         0dEwlfkR5Z91rf+JjMsBoX8Filr6EeLf+BvQtceUY6FQTDEufJ1+TnYMHlCLTnHDKVxp
+         BXGdcQIcOzUXzWBYNJSOUGQhgHGjOzZKiCk1K2C1S8uc7/ajpnsQmTPBIG4eFxq6uSni
+         vAGw==
+X-Forwarded-Encrypted: i=1; AL+hErEIPfTzcG9Rw/wwsKWNiv4TjkOBbiyFb6H6Yr59m46RBSoVPK1b7NDeCAHhSMSz/HDEGpPscHlokE4=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/NdQQFiMiQhm7xGDxGunXTEYdjbrP180bwgsWH+loEhqb1TLpO
+	NYdgFEUyXsAk1ZPldm07MmyCJmwAyxrozu3INIuJdzBQyopVNhySrQlzo6Zb4o+2cP4=
+X-Gm-Gg: AYBFou1TbRYr2vl3jqmsFU1Ce8KDU/VI7AGoz+PRymD1fhVsiQqox5lMDl7k4N1yVqY
+	n5WPpYHRd2fRh+p0YljWSTNWdcWaEM1nhP+l/rI7/1jtdMFL6GX1TQ4qYkv0/NVhzx4hDtnhFo3
+	mWRLS48HpKRDXwRAp17/GrPIeX2ijm6FsTf13VNNmTL3qI6iaytP0RItxty53wSv4wamCL8b0lb
+	ccfJUOh6WvSI9uItnjdo+5sw1S2gmfUduxvsnkBp8wFPOV1DRGiCxWwuenY0JX2Q72stADSsJDG
+	XDQzSbgCIcKXaWskavQE5QxdZp5CDQrkooq8lS3JwMfhe/D+s3Df7noSc15M7wK6Ybzvht6acRz
+	5SWj0CB0DaxbQazRksxo9fU7+kCEtrCrhz+FB7i7ZiJpCmYtnGpXQpoBN2D7VUgmfhqxvdbiBXR
+	KHcqOpL1qmIc05PgKKWkIL82o2YcXag4tAePcSk+kO/SiAp/zCxVLvb+aDIfsJkviI+wCj79TOs
+	4Fp9QnhXWwsCVnUYqDaMvRYOFqvgMBoWQq6nFHvW3RKf/74szWBy3YQBjUoyXFZ9LiLFEpegQPk
+	hfXrdHP2+7CIKouL8tgdlwaSXhE1G9qlNrP40nj/qb88qM+GAsWbD1hzlcZU7fx7XUwpQl1iYO1
+	rIALu3L9pV/vYE4geofqfy65R6xyKdn7DI4bgbn1R7YVgpoeAOg1himnz0MsqLjMh3s/2ZGwsIN
+	dRFIawbpD5BUJEy0wDpV4le6uxxHEA5Weq/TYAeiEDdPVqeSrkdXzPePuatm8/lSnWK+F1iniUL
+	DLu6y0p61f6oHJb3GUlny9lhYcWvUqTfg==
+X-Received: by 2002:a05:701b:2810:b0:185:8c9f:de82 with SMTP id a92af1059eb24-1b503124f1amr5429567c88.33.1794697342110;
+        Sat, 14 Nov 2026 15:02:22 -0800 (PST)
+Received: from [172.18.0.3] ([216.139.163.93])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b505b5bf76sm15078205c88.10.2026.11.14.15.02.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 15:02:20 -0800 (PST)
+Date: Sat, 14 Nov 2026 15:02:01 -0800
+From: Chris Down <chris@chrisdown.name>
+To: Marco Elver <elver@google.com>
+Cc: Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+	kasan-dev@googlegroups.com, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH] kfence: Allow selecting static keys mode at boot
+In-Reply-To: <CANpmjNMunLgXHRqXgW3LnniCX50CLbLYsE3DpY7h=cuvu2vSkA@mail.gmail.com>
+References: <auA7FdubFEDVPB7v@chrisdown.name>
+	<CANpmjNMunLgXHRqXgW3LnniCX50CLbLYsE3DpY7h=cuvu2vSkA@mail.gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,124 +101,42 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/7] alpha: marvel: report environmental events without
- VERBOSE_MCHECK
-To: Matt Turner <mattst88@gmail.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Magnus Lindholm <linmag7@gmail.com>
-Cc: linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20261114-marvel-env-v1-0-890328e4b7e5@gmail.com>
- <20261114-marvel-env-v1-1-890328e4b7e5@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261114-marvel-env-v1-1-890328e4b7e5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xSMkI-00000003CdU-2pvm
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:60910
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 8
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfKbHbKxJA5QdDmiT5aeoEgx6r9kqBUj532P2IBRadtpaLRHK2NpGj54Lbxrk7LbhFZEdzwZAypQR9Cu/wJmxV19Nho4wPMs5s+LICb6wJQqTIqqF1jBD
- pwr0+S+i+R8TeKjh6Vpdurymf+uQRcVGQA2oJNvRbyWXNYh0itx6vYWyLr0vErnr4D5T0yDi8OWFgwD7yUOPw6vVaH/PZ4rofGKZrnRf5WeskXrF/v15E943
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Message-ID: <20261114150201.d428c3847d573be1@chrisdown.name>
+User-Agent: Mutt/2.4.3 (cc9e3943) (2026-10-09)
 
-On 11/14/26 09:39, Matt Turner wrote:
-> The service processors report temperature, fan, voltage and power supply
-> alarms as system event (0x680) logout frames. The frame is already
-> classified as reportable, but without CONFIG_VERBOSE_MCHECK only the
-> header line reaches the log, which does not say which sensor or what
-> happened. Print the subpackets unconditionally.
-> 
-> Assisted-by: Claude:claude-opus-5-5
+Hi Marco,
 
-For all patches: This is obsolete. Please base your patches on the latest
-kernel and ask the agent to follow AGENTS.md.
+Marco Elver writes:
+>On which systems have you found static keys to provide a significant
+>improvement? Can you share benchmarks?
 
-Thanks,
-Guenter
+I don't have numbers that show a significant improvement. To be clear,
+the hosts that use static keys have had it set that way since long
+before I started looking at this, so it may well just be cargo culted
+by now :-) Given that, I had a go at measuring the saving on its own.
+It's there, but it's small.
 
-> Signed-off-by: Matt Turner <mattst88@gmail.com>
-> ---
->   arch/alpha/kernel/err_marvel.c | 2 --
->   1 file changed, 2 deletions(-)
-> 
-> diff --git a/arch/alpha/kernel/err_marvel.c b/arch/alpha/kernel/err_marvel.c
-> index c0c0ccefc467..832567a3ccbb 100644
-> --- a/arch/alpha/kernel/err_marvel.c
-> +++ b/arch/alpha/kernel/err_marvel.c
-> @@ -24,7 +24,6 @@
->   static void
->   marvel_print_680_frame(struct ev7_lf_subpackets *lf_subpackets)
->   {
-> -#ifdef CONFIG_VERBOSE_MCHECK
->   	struct ev7_pal_environmental_subpacket *env;
->   	struct { int type; char *name; } ev_packets[] = {
->   		{ EL_TYPE__PAL__ENV__AMBIENT_TEMPERATURE,
-> @@ -62,7 +61,6 @@ marvel_print_680_frame(struct ev7_lf_subpackets *lf_subpackets)
->   		       env->unit_id,
->   		       env->condition);
->   	}
-> -#endif /* CONFIG_VERBOSE_MCHECK */
->   }
->   
->   static int
-> 
+ From a quick check I did in an 8 CPU x86 VM, a
+kmem_cache_alloc()/kmem_cache_free() pair takes 8.0ns in static keys
+mode, which is the same as with KFENCE off. With the dynamic branch it
+takes 8.4ns. A kmalloc()/kfree() pair takes 13.3ns in all three. Both
+are the same with either branch layout.
 
+So static keys saves about half a nanosecond per allocation at best, in
+a loop that does nothing else. At a million allocations a second on a
+CPU, that accounts for 0.05% of it.
+
+>IMHO, I was thinking of deleting the CONFIG_KFENCE_STATIC_KEYS mode,
+>because on most systems, it's not worth the complexity for the small
+>(if any) performance improvement anymore.
+
+I agree, and I think the numbers above are enough evidence for that.
+Deleting it is better than this patch, because all we want is one kernel
+across the fleet, and that gets us there with less code. I'm happy to
+send the removal, if you'd like.
+
+Thanks!
+
+Chris
