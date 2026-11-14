@@ -1,60 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794651826;
-	b=QE1PtGBmNPJ8dom7jAdPMxingRI+J+2Uq5odeLcwReXpXuyYmXfroNZnRG5Tc32ByKxO
-	 H0z+sNO82JnyKZ2d/Ca0z2BKzIcdteo4K+7L9vIN1O3/0UWVvaZRRGM7Sj0fnOgijvJGj
-	 FNSr8h16bm5nrmvAK9c7UiEqoaQxuV+nnyA4M2B8zmOdFpawhn3+8ifxgQN5jTdA1TF/t
-	 Puu30ZVZLx2/Iz/UTxIoiC3UXhbraEbK5cHOMEshfEmhYYWIkjD9wiZU6hTJ8mLtFr5ht
-	 M8QL4vI4M16SpO6qp2uz8ud8veOcVe06ma6i80iENjxBvnWjCNQ+BkdGXjVTINJ5Jcw==
+	t=1794652154;
+	b=hBLLkCrTfZzK3RWcagzn34HtynEIdirXAnu8StxqBw6aRJvPHtytElAaoIZ3EQDbpWJK
+	 HCrN4QCJMLDQqVy7XSdxxbP2B6iqECE2v5WqGwFw6hcH6NzLx8vOGwo9q5OJTLq/v9uJq
+	 bMT+FRzjqtSC8WhbORcCp+DHxPjLtwrq4WwyHOYGzwz2urS1dPQPM29WE7IvzvlkFV9i+
+	 Y0GCjQhkwiHotyxMQuSXG9AvSSf8OUSab3HUkRfGLuudQw681gTuC0/abQQqIBhp+uU56
+	 ahSb3XpGM/Wz3gQ8iIwLgnbnb8mHXptxkOiXkio4qRqhMFwUE0DKGI5jDokzohd3Kog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794651826;
-	h=DMARC-Filter:DKIM-Signature:Date:To:From:Cc:Subject:Message-ID:
-	 In-Reply-To:References:Feedback-ID:X-Pm-Message-ID:MIME-Version:
+	a=rsa-sha256; c=relaxed/relaxed; t=1794652154;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=7tBDhDuj3pwAMGa44s5n6XaQt4l2scdObxFiJdiwxyk=;
-	b=nopn0zebKXON0+LYr97tYulAR5KNh9uXn5H0vaD/fu3kUDx5cL/8CZB14ghY3hM0timr
-	 zB5HDElhaI8b6NDNC6+x8+7xrooGpPiyczKpUDiDunwLMy2MRd+WvaCFgzLIN4zFv1ojI
-	 y/ycMRiYdPRdDiBv4F8tKphhInRhJQw4ieLayOAc35jXWrhJGnv7mxy5S4GkUQzWrv/fY
-	 XB5AwnhPCP8CjFnPKctBx8fI10PnhIPojgUzHzFu7fJzuF86htYunYYb3zZLprnD2Jevn
-	 FbWKIq7MDZIsjl2fjiuPX24rupAKz0IB84DsOVj1FaQjdmCQxt+X9mGl0jykQEcGDAg==
+	bh=dcmfpT9IKALT3AMaYE02cIzt82rWcSY8cPriyi8AD/Y=;
+	b=PYsP9qhEIvwlMsiILtvosQGpsWfBS1yvNq44ln58M73O26VU4QjKzeqSBAVc81ARjMU4
+	 wols4sdDNaGO22mEaayzvf0FBwR28H2PeQFQPH6hMBa049v/bxxwmjYEnDuNeXrLNFwq4
+	 g53DA64e4XD4+RkjMVxRNW0/QJpV+IEz48zggGY0DLqh5iRjnRRSDLsCtqQa7KJVlv6EZ
+	 PZEpAKWDMlHfY7S/TpbpkPB7LG5ogdxTNBIXWKpjj4b2ZON3WLoWrz4guQ7jl7chbMbQf
+	 gFt+ImhY9gIJywrZhceviXonOXEmfCvKwfQrwXb9L9Mws5yBr06iktixrD6wdf8qNmA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=dsg.is;
-	spf=pass smtp.mailfrom=dsg.is;
-	dkim=pass header.d=dsg.is header.i=@dsg.is header.a=rsa-sha256 header.s=protonmail2 header.b=X1r02B11;
-	arc=none smtp.remote-ip=109.224.244.20
-Received: from mail-24420.protonmail.ch (mail-24420.protonmail.ch [109.224.244.20])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oP+CwZcV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CEB6606A8A1;
-	Sat, 14 Nov 2026 10:23:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CEB6606A8A1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=dsg.is
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dsg.is
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE554606A889;
+	Sat, 14 Nov 2026 10:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dsg.is header.i=@dsg.is header.a=rsa-sha256 header.s=protonmail2 header.b=X1r02B11
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dsg.is;
-	s=protonmail2; t=1794651822; x=1794911022;
-	bh=7tBDhDuj3pwAMGa44s5n6XaQt4l2scdObxFiJdiwxyk=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=X1r02B11dkeaDplxdweECPvGlKg1JM2xrhmHJDpjMrVJo7cUxguycD3CPt1VWKIkc
-	 +PuFadLvnD/Bgvjzn4J/fPv5wtl3JJpUkJuIfJWD8H0e3BKB6KYXkL+2z3WgKx5nWV
-	 1GXIDnHI8XHtl46b3Ys/OxTUjpnQ/DMKHJsCSGUxoKiZHTxmjFe5cSHbHeDuAidnHw
-	 ceCLJ8EIvByJ+7Dvfb5zd3llCMH0ZcTAvD55669OlaZ/4qZ1AjLvw/3gk3fCQL6ZxR
-	 SMMLIsO75prhQLLl0mavy33Mxtn45F16fWfbemsEmFnzP4i3JrYgpLZ1W0gQ2GdB8r
-	 bCbbn9GYd/mKQ==
-Date: Sat, 14 Nov 2026 10:23:39 +0000
-To: Guenter Roeck <linux@roeck-us.net>
-From: =?utf-8?Q?Dav=C3=AD=C3=B0_Steinn_Geirsson?= <david@dsg.is>
-Cc: Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org, =?utf-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] hwmon: (adt7475) Add thermal sensor and PWM provider support
-Message-ID: <yjB6Fbqe1FNgQm0q2QmXD6fKwCPWhZ-lnOVMD-gupg3DWK46gsVdy1CRR5PtE5ZuTjKBNyO3001YfjLfO8HzDcKy2SMiwDT3RfX2oZa_t4E=@dsg.is>
-In-Reply-To: <02d8986f-64ef-42ee-a440-7c66a48f5801@roeck-us.net>
-References: <20261114004110.328050-1-david@dsg.is> <02d8986f-64ef-42ee-a440-7c66a48f5801@roeck-us.net>
-Feedback-ID: 186389362:user:proton
-X-Pm-Message-ID: ec80071f00155534e877c41c043634fd5beb7cf4
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oP+CwZcV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B18271F000C4;
+	Sat, 14 Nov 2026 10:29:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794652154;
+	bh=dcmfpT9IKALT3AMaYE02cIzt82rWcSY8cPriyi8AD/Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=oP+CwZcVcFSC3QvevnrIzew+WDs8zC9DmXsnq2G/7H2yeFPN+RyqU+HU4xj5HwjQj
+	 vHdMlcxd4eI4x7z75kVK2ljbcLX5dRP+Zo6M3RaTut3u/mSirmLQSvVTq172Nn7bJb
+	 9eyl2HFHcPGjBIryaGA2CR++sko1J3Tibq7YUBL6wtT8my3PJ12O4clWPxPHXm54TY
+	 61O0Jh2IOAVsjHTJE6DNkMelf4Tg/LTPHJSBlWTmN9ctIQM+muyrA7qMEg8RbcISLw
+	 3DoKrxM7nVqnTprQqH5INM54aesKZ5kp8+VXvVyix1hqsAxyiDakU4b7I2z4bbjEZR
+	 yLVeoQgcZXtdA==
+Message-ID: <39b3b80c-54ca-4fee-9a56-bb2999705e2b@kernel.org>
+Date: Sat, 14 Nov 2026 11:29:04 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -64,44 +51,56 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] powerpc/configs: drop CONFIG_INPUT_YEALINK from
+ ppc6xx_defconfig
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Henk Vergonet <Henk.Vergonet@gmail.com>, Jiri Kosina <jikos@kernel.org>,
+ Benjamin Tissoires <bentiss@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Nicholas Piggin <npiggin@gmail.com>
+Cc: Oliver Neukum <oneukum@suse.com>, Martin Diehl <m-diehl@gmx.de>,
+ "Alfred E . Heggestad" <aeh@db.org>, Thomas Reitmayr <treitmayr@devbase.at>,
+ Slawomir Stepien <sst@poczta.fm>, Jie Wang <jie.wang@intel.com>,
+ Manuel Ebner <manuelebnerli@mailbox.org>,
+ Randy Dunlap <rdunlap@infradead.org>, usbb2k-api-dev@nongnu.org,
+ linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-doc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+References: <20261111215723.3802209-1-dmitry.torokhov@gmail.com>
+ <20261111215723.3802209-2-dmitry.torokhov@gmail.com>
+Content-Language: fr-FR
+From: "Christophe Leroy (CS GROUP)" <chleroy@kernel.org>
+In-Reply-To: <20261111215723.3802209-2-dmitry.torokhov@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Saturday, November 14th, 2026 at 1:03 AM, Guenter Roeck <linux@roeck-us.=
-net> wrote:
 
-> On 11/13/26 16:41, Dav=C3=AD=C3=B0 Steinn Geirsson wrote:
-> >
-> > This series lets boards use the temperature channels of the ADT7473,
-> > ADT7475, ADT7476 and ADT7490 as thermal zone sensors, and drive their
-> > PWM outputs with a PWM consumer such as pwm-fan. The kernel thermal
-> > framework can then control the fans. It follows the ADT7470 series [1],
-> > merged for v7.3.
-> >
->=20
-> I am getting flooded with patches, and I have no time to review them all.
->=20
-> Rule change: Functional changes for any hardware monitoring driver which
-> does not already implement it will have to include conversion to the
-> with_info hardware monitoring API.
 
-Thank you for taking the time to review, I appreciate it. I will address th=
-e items raised in the patch threads and submit a v2 once I've had time to r=
-e-validate on hardware.
+Le 11/11/2026 à 22:57, Dmitry Torokhov a écrit :
+> The yealink driver is obsolete and being removed. Drop its module
+> selection from ppc6xx_defconfig.
+> 
+> Signed-off-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-On the rule change, I'm not sure if this is meant for me? Patch 2/4 changes=
- the adt7475 driver to the with_info API. I will address the locking issue =
-you flagged in that thread, just wondering if there is a larger change bein=
-g requested here.
+Acked-by: Christophe Leroy (CS GROUP) <chleroy@kernel.org>
 
->=20
-> Thanks,
-> Guenter
->=20
 
-Best regards,
-Dav=C3=AD=C3=B0
 
-PS: Apologies if I'm making newbie mistakes here, this is my first hwmon pa=
-tch series. If I have to send future patch series, I will learn from the fe=
-edback received here, even if the clanker does not. :)
+> ---
+>   arch/powerpc/configs/ppc6xx_defconfig | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/arch/powerpc/configs/ppc6xx_defconfig b/arch/powerpc/configs/ppc6xx_defconfig
+> index 8aab229fb909..29acc77573d6 100644
+> --- a/arch/powerpc/configs/ppc6xx_defconfig
+> +++ b/arch/powerpc/configs/ppc6xx_defconfig
+> @@ -537,7 +537,6 @@ CONFIG_INPUT_PCSPKR=m
+>   CONFIG_INPUT_ATI_REMOTE2=m
+>   CONFIG_INPUT_KEYSPAN_REMOTE=m
+>   CONFIG_INPUT_POWERMATE=m
+> -CONFIG_INPUT_YEALINK=m
+>   CONFIG_INPUT_CM109=m
+>   CONFIG_INPUT_UINPUT=m
+>   CONFIG_SERIO_RAW=m
+
