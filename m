@@ -1,54 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.6
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794617052;
-	b=A0POuX0LZ895ZFahjqMn8DaiotjLq2rr5VFWNX6OtLEsnuWHUaGsJJjhSD0z6dsKHQFq
-	 HKUyG/+6C+4Qs+3kOsPn3IJpgXswhg1TGHY+ImSb0KwD9DDpmchsbmRng0A/8dZyrpqxg
-	 HgQ5FpZcH0KC2jrkWAlk17UQkeFW6QDWoxcnJ5TpJETIo/6I96oVzC02mMvUQOjshRo4s
-	 qPE7JKGhf6KwxTeBVHFrf8K+6DqIzk1p5NTAH5yhcJiRJZV2m9B+jEW4IUoYtuIWDChEO
-	 hAFhxsyLJ8ihRY5lz3s/1jtlArgY7xbiCzLrE+5xPdLy1GDbLDpoM1E62v5dfel/2WQ==
+	t=1794617746;
+	b=V0ObU7HMlF+KCsWpP7Ch0hnJ7wVYfJi4BcnGM7h/XcJUb7CfM9xfd3cATiHALqrJZzOY
+	 GrJIEoyGxi2r1HaQJ2dRh5Coq+5BxxXsS2j4RYNdw4urt0yDyQude0mBcQ+W9IVneug2w
+	 bLIrcMRXCvzrYukUyCyVoEaC51nfGbKK07vi50Jkcmstubyc/ZcL0BIu8RrJi9+XGtKeX
+	 JJPbPJRN5+TDnWte5w8yPQpCbJdpBRVYIVJnHMrpTGYOV567giEY0uUoRa4CeVMGb2m0E
+	 OoBmhszi3sg54gbQHyuFEuEMLHtwYJZgsSTqC+Zypv7ewbHfboB5WX2U63HMo6eBk8Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794617052;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:Content-Type:Mime-Version:Subject:From:
-	 In-Reply-To:Date:Cc:Content-Transfer-Encoding:Message-Id:References:
-	 To:X-Mailer;
-	bh=0xtAECFW3pXMdSq0lQxsNOUtdAywWPfdRsyXX2fdCbI=;
-	b=aykBhuOlMhD83xGv++QkJc1nSzMOvbglFZrlRTH+FCMWi2ZPMoOC3voCU8iFgiWqUUHv
-	 /nPTqkY4muJyYMEHogG5A7iE09M7hMJ9DHt4azVmORcpA6XGAfDYGZ8B9N+215AbqtIJw
-	 49Td/h7AYAjvzlowtl2bUvMsh8vmv2R7oBbK9PF3xCcG+e35B9FoP5mg5wHHd/V/H3T8w
-	 fzLwIZTjNyyQvLoH67wPUkvXjonogoc2xkevjfivs6B4LUj5sA4y53vgXr3zOy3J7Ee0h
-	 nof6q3JtWs8vxdhgjlrBVi8wTSec4gG7ou1PDC1R7w/WAHyg0RvC0TrHfUUiv24SzNg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794617746;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=NrrdTxEybjmQB4EMVQi/eTv+sihxtLG97d9QSISBCoU=;
+	b=1lzWrizCbqLmXE2Z6rWT0ALKJWEQuUhRx2x4p/7T7c8w7h+CyZ+yqlyjKyDk2oK8IFp/
+	 vlV1oU3TGY/EOYjsi212Qhx87ket+D9YliAyaF4WoZY2CO8XPCTsCiY/z1VDRVSO0m3KA
+	 gLIDhzZNJMG6XvI/YXGtEItNu/Vve3iGOdgM3fr45pTnyGOJ/CNO1hH8/+Sz+l4qdRsQT
+	 mXKJ6fnv3mQGvDOxlUmpJyKV2q+0Ltrm7J10e0ta71z6g/b04I19d7WnHJMx5RHJgHtUI
+	 r/CNvZnEYRh12LxkVtHZ0oXtyLRsos4syIqZk/F0mszqSiZ899W4hMExwNbkM93Qn0w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WjUSNxfM;
-	arc=none smtp.remote-ip=95.215.58.6
-Received: from mta1.migadu.com (out-6.mta1.migadu.com [95.215.58.6])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GTWX9usc;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF98606A327
-	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 00:44:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2DF98606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F60F606A336;
+	Sat, 14 Nov 2026 00:55:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=WjUSNxfM
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=0xtAECFW3pXMdSq0lQxsNOUtdAywWPfdRsyXX2fdCbI=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794617049; v=1; x=1795221849;
- b=WjUSNxfMy0hDfRyJzKb819Vr/dago8ZhjlqIKxCsU5Eh/iEOn0k+mzOYY5mGr8iMuoO0hh+Z
- K6oMia537VmqhKgK7nb3poZfl/2UCcThfNEtH191QPCFb2+U6W2hubc0GOWNCIPNBpfdwHU3AG3
- l3v7d6oflc98U/ClmRZcbGjo=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by mta12.migadu.com with ESMTPS id 5500ac1b1da158ed;
-	Sat, 14 Nov 2026 00:44:07 +0000
-X-Mizu-Trace-ID: 5500ac1b1da158ed
-X-Migadu-Flow: FLOW_OUT
-Content-Type: text/plain;
-	charset=us-ascii
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GTWX9usc
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C758D1F000C6;
+	Sat, 14 Nov 2026 00:55:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794617745;
+	bh=NrrdTxEybjmQB4EMVQi/eTv+sihxtLG97d9QSISBCoU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=GTWX9usc0Aq52mJ2vQsgDkynb4EKN5gF7uP4P+c6DVwV6X83Wx9JOeBl7cLAjjCUd
+	 NkDAa7X7B+T8xAQEXLmRCoERM26Ix/dGHOGkzNVob1jFw9DhuH70YnNKwgYs7Ext7X
+	 PacExLVFgCKw30BmCmyWUMcSZYTDzd8xJEDOAyARebAUWf4nBbHlZ+vK6sF1RguI/K
+	 2JazvmIy4QT939GGP+2A7wU749I2s854DehmbTV6zbEi9msAgsh0VyLGJ+YtW7+6I5
+	 3tlHUPiRoBrRZM7yZ97Bt/9UGIni9Fild8MKn2MQYFpwudN5aK9g7LitYOJPIe1NnC
+	 l+sqdaH3SVYJA==
+Date: Fri, 13 Nov 2026 16:55:41 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: "Nikhil P. Rao" <nikhil.rao@amd.com>
+Cc: Brett Creeley <brett.creeley@amd.com>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Abhijit
+ Gangurde <abhijit.gangurde@amd.com>, Allen Hubbe <allen.hubbe@amd.com>,
+ Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, Jiri
+ Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, Eric Joyner <eric.joyner@amd.com>, Arun Kumar
+ Prakash <ArunKumar.Prakash@amd.com>
+Subject: Re: [PATCH net-next v2 0/3] ionic: make the device command timeout
+ configurable
+Message-ID: <20261113165541.76879709@kernel.org>
+In-Reply-To: <20261105-b4-ionic-cmd-timeout-v2-0-35a9a2aa48b1@amd.com>
+References: <20261105-b4-ionic-cmd-timeout-v2-0-35a9a2aa48b1@amd.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,81 +67,23 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.200.71.1.16\))
-Subject: Re: [PATCH 00/15] mm/hugetlb: various fixes
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <835c18d0-bee3-41e8-aa46-05dc7c1ebc64@kernel.org>
-Date: Sat, 14 Nov 2026 08:43:44 +0800
-Cc: Oscar Salvador <osalvador@suse.de>,
- Naoya Horiguchi <nao.horiguchi@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Mel Gorman <mgorman@suse.de>,
- Andy Whitcroft <apw@canonical.com>,
- Miaohe Lin <linmiaohe@huawei.com>,
- Michal Hocko <mhocko@suse.com>,
- Rik van Riel <riel@surriel.com>,
- Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Dave Airlie <airlied@redhat.com>,
- Jason Gunthorpe <jgg@ziepe.ca>,
- Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>,
- Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Randy Dunlap <rdunlap@infradead.org>,
- Peter Xu <peterx@redhat.com>,
- Breno Leitao <leitao@debian.org>,
- Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>,
- Nick Piggin <npiggin@gmail.com>,
- Peter Zijlstra <peterz@infradead.org>,
- Heiko Carstens <hca@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Sven Schnelle <svens@linux.ibm.com>,
- Arnd Bergmann <arnd@arndb.de>,
- linux-mm@kvack.org,
- linux-kernel@vger.kernel.org,
- Gerd Hoffmann <kraxel@redhat.com>,
- linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org,
- linux-s390@vger.kernel.org,
- luojiajun <luojiajun3@huawei.com>,
- Josef Bacik <josef@toxicpanda.com>,
- stable@kernel.org,
- Chris Mason <mason@kernel.org>,
- Daehyeon Ko <4ncienth@gmail.com>,
- stable@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <6EDE76EC-0CD2-4C34-BD06-234E21C7BDEF@linux.dev>
-References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <835c18d0-bee3-41e8-aa46-05dc7c1ebc64@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-X-Mailer: Apple Mail (2.3901.200.71.1.16)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Thu, 5 Nov 2026 22:43:10 +0000 Nikhil P. Rao wrote:
+> ionic waits a fixed 5 seconds for device and admin queue commands, and
+> the RDMA driver gives its admin queue 2 seconds. Some commands can take
+> the firmware longer than that, for example while a PFC configuration
+> change flaps the links. The firmware is alive but slow, yet the
+> timed-out command and everything queued behind it fail, and an RDMA
+> admin queue timeout resets the RDMA LIF so that later verbs fail with
+> -ENODEV.
 
+This needs a respin after the HWMON series was merged.
 
-> On Nov 14, 2026, at 04:22, David Hildenbrand (Arm) <david@kernel.org> =
-wrote:
->=20
-> On 10/28/26 21:13, David Hildenbrand (Arm) wrote:
->> These fixes almost finished me.
->=20
-> Muchun, Oscar, should I respin with an un-rfc of patch #14?
-
-Sure, please.
-
-Thanks,
-Muchun
-
->=20
-> --=20
-> Cheers,
->=20
-> David
-
+Please respond to the AI feedback in a timely fashion (even if it's
+just a brief message like "all feedback already refuted in previous
+posting").
+-- 
+pw-bot: cr
