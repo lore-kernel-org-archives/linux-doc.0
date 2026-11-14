@@ -1,78 +1,109 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1794649033;
-	b=vqU+hk0l4+UE5yVZkREL7y1DjIM+khmzKlMyqh8O+Lu+rGT5mltmeF1Z1eXk9BMkB0pC
-	 CskUFQU9RyMKaS+nCcEE/V7/IxKjoF5PF59CaXPd7MJv1pxAvThL/883fOhBa/cMz/WAI
-	 lDVCGJHnaCGU+xiig+fi3xGBIEIwhBgX6i05mMDmxrqsF79wybLmADETQOjqjTsxLQsHK
-	 pLz4SZ4eysjTmW9T9293f7HPIActYZhL8JzGWvxebJDfEbU5dFRS1q9bnHCvX8XBLH6XF
-	 tKXVKzo86a/r/46RHAMaNKrLVATlBWcaFOwhbtPcQKxyBSCSsPuKlrZ38sDh5U+7QLA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794649033;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LVmatjt0Kpf1teZNpyx311evR/TYigEPlZv/+0j5x0Y=;
-	b=DDYc/akq30GzUd6eM4n2zCeyGywh4e9TdbqWrAeOnPWl1rQqg7NfLY6qC3B6Yc4bf1VJ
-	 UmXoF5dWf69cmdgt24F16zSJIv6hKsK8ioOGwfOi3Pyn9I8mCDRwJmHBG9hGikNzq4KDV
-	 cT6aiASxMivgj0B/tPBmlhoWQAaL2PDE+IL98vyJ3e7ooNI9tsCrCKuWrh47Z6TcCvup5
-	 5tYp4IFpO2bGO7ipby52zmgruiBJMpAAFy1/8ysOl3m8WrmtRb/N2MffsqgEKW1NFGkUu
-	 fCnUGWzvh6foRe2GTb1Q1aJlL2ZGeRcNwMSR6EvGbpqTe4ywlX44JyAybAVFeZh9AgQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VCSTWvGH;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266E5606A323;
-	Sat, 14 Nov 2026 09:37:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VCSTWvGH
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794649032;
-	b=qUAuv4brtcH8cHKz39ppAMs8tC6+zlcKkkN7i0SFUKQu9Sl4qgYMmyvo+QqwTli2KlUC
-	 xCJ5T/Xt+UWtQKzqbeUvYllt+MHK5sx8WRgtotXbUPps4VP4AJuwXeJe7tn3NfeuGFCzv
-	 L72qbjkwmubf47DZVUilFbx9kTuedo9Gi91YdC4Q8I6yU7PyLv1csLDRN/k4IKJh6Ttww
-	 rpU47t/P/NPAGeLRONoyCZdK5QPoa83HxIeE2ldV4vCRP1wgEG4yZ8tha7zLtcmXVcIKt
-	 LyERu+JZpBy+h9+Hqu9rB9ISJsUGtfNi6wqu31uwHyDSHOrDV4z2brcJ9Ul89uU1diQ==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794649032;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=LVmatjt0Kpf1teZNpyx311evR/TYigEPlZv/+0j5x0Y=;
-	b=nhUPlDm/m9Rvyvws/+ozS5HeI56fDFPNeWyLZlsRTtQpXIx7iwXYCiiXi7nw9AHwLoik
-	 IuHtYpg8y+sAU4i6iOTDBHRVlpI5w7SQQWObn1wXHrJo7Kqh4hW60uoXfhJwko7Is4b9v
-	 iI3RI+qxSWjMFfvwdug9l60JlnWZpU2HjGBBbuCM7RW4Ff/WQ+FaoLGBZszs4CsGPVH64
-	 8ZBp8k7UMbrw7LFFM6ahfqdJ3neQhd192Ob5lOH38CQOf4titeTOIWbx0Pxzje9KcI8CF
-	 dNdHUqHnK53fm5JA4oe6yuV5zVBib+fRxNIu/eudizwgVCWMWbVe4rZBFGTM1J3j/2w==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.47
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1794650456;
+	b=M4g72u0JR2nCFWW++OPtnrUa+fpqBU6LK0d2uIHlIkxLRAdKeZ9sxNPkbXAewKvOpBsR
+	 eo4pIMjU2OzXdkbI4m3WrEY7YoqWjcT3NR23mfxjWhXrCsJj/NLIrk0QvjTR737S7Sfrr
+	 rnUy5YhRLuFbeuef/ubsorHCcjC/DbsmIs0p14E7shXsrhvOX6+RACMVmp5sj9b/wKbAQ
+	 vBSJoodOb5Wi2SrOQgt9Q0izR5qy9t9kae4RfdGDlIaFXunjI37gQPa0axO8pOgxxqd3U
+	 koCm2E1QCDjh3pajBv2Y/HNlrLuHhDSBdfXVG4WhxliRUAAZ5lHOOKTq5ecq57EQBnw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794650456;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=fGzu6S+vtoROaIzcwoSP9XCnpNyUzhPrDB39oZSUVZM=;
+	b=kusMOeSFEDQt+ScOToYPtZrSwePcRLmXYFQyZQRYM02agi3qtwbHrdb0jhDuQOszJCXz
+	 QBx/aUt7UA/GlKJHTHFzXVhr1UqTeLRi7fGRbgHabkSHYvD2p098sitrWfeb8WON8pzYX
+	 Q0J1LpeEtvG9Rsqcy49DzhxMV9fYZtyfDILEGuCofGLiuAV3KwN/7KFs3kDIC9A0LmFl5
+	 rSViIPmEYCDAXbjSTV13ulVM041FZUuNIxFdY6WuG9emgIXpqtnggRShwlxZnjbCbSlzy
+	 bNxQBjviRkLNHLR9TAU+MGexzHKOCDrPFHoB7M3irYeRvX7UKhSI2kke7R4wYk7y65w==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=osyx.tech;
+	spf=none smtp.mailfrom=osyx.tech;
+	dkim=pass header.d=osyx-tech.20260707.gappssmtp.com header.i=@osyx-tech.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XPK4EC4T;
+	arc=none smtp.remote-ip=209.85.128.47
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 53E5F1F000C4;
-	Sat, 14 Nov 2026 09:37:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794649032;
-	bh=LVmatjt0Kpf1teZNpyx311evR/TYigEPlZv/+0j5x0Y=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=VCSTWvGHTh/0Hom/YWP39/gmX6A5ofRy/cVaDzDo71kn2esSmm2XdM+dDU56Axg47
-	 C4lgGgstfFDG9wpiHExHvfQ6hEfI7B6p+Tn+5mbMveo+Puj9IHr6b/LUmtsKdzy7Ww
-	 uX1PV1i6QntieUgfAu7yni0rMwqkwtmjPYbZJMIy2yW7pTVBzLXACvIePD8S8XwoZ3
-	 28SSq0QCT6ta4VR55Z4jROOMVSIMwYwgYMMhcSVJNlwMivCt0JfO9AHJgzN95lO6yU
-	 ejMvGBG2uXPwaaoV1YPuTC+b8z4g4ohnbZpdCXGmRx9ZrSh+KPG6ZQLbh+7ON1bzgZ
-	 XGl5KpxxXIE6g==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id A53C149D2F;
-	Sat, 14 Nov 2026 09:37:11 +0000 (UTC)
-From: Samuel Herdman via B4 Relay <devnull+lk.gzpc0.passmail.com@kernel.org>
-Date: Sat, 14 Nov 2026 20:37:11 +1100
-Subject: [PATCH] hwmon: (nct6683) Add customer ID for ASRock X600DC-ITX
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBFD3606A334
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 10:00:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBFD3606A334
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=osyx.tech
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=osyx.tech
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=osyx-tech.20260707.gappssmtp.com header.i=@osyx-tech.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XPK4EC4T
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a35d5d4a20so27269885e9.2
+        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 02:00:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=osyx-tech.20260707.gappssmtp.com; s=20260707; t=1794650454; x=1795255254; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fGzu6S+vtoROaIzcwoSP9XCnpNyUzhPrDB39oZSUVZM=;
+        b=XPK4EC4ThC+p5S3EY1c/dqFMgrPXJqEKK4Mi/JHTtKsIrNY/V/i0OuEzo9kgI/Dg5J
+         VXipTpQQxz5I1+yaUsgyMezGYuKaLPw8n2B3LujE8MK/fQVbVTFR+kZSUGb4mmUSjzdK
+         4NshmqpF8+feWuxuMf8DFNWHgZZtoIHmB5vUXX8QqRvu5niP2BS5lFLab+aoZNAw2G5F
+         VcWXrw741Dt1kmnm/lWeDuGiJXcCiCalC5GbKj0L7ZxMZhXTdC2cVElA8AZrEviwsEA+
+         gDzRdrl7rdEJjI9f4iqewZF7Fwo7mEgydZNKyJsQt9wm7VUXgrdvwevvVH1sT0J9954h
+         5P8A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794650454; x=1795255254;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=fGzu6S+vtoROaIzcwoSP9XCnpNyUzhPrDB39oZSUVZM=;
+        b=vtsIc32ia1Tgx+SyDrbDp/YVcFvgwdtPZd+tRzZHuVAWolKjdXa1fvtIcqj8GdC1dz
+         cThJCGugsnURd1A2DMt0VnnsDQen51XJeeomStrOvm+CqLwx/b9M3MmtXuXb/hyY/cf7
+         5i1rAo5hd0GU6caOWc85oNOV0O9Rz84QgShvcGee2zCSV15pG2+18LIy9VK1/iLcmEb2
+         9mKveFDIk7MjZFE5GJSwOiaSh/NgpXLbMAInNEG3k8IK/1w8OcTA8ZQUiMLcM54Snsjz
+         vY/NncoJ1btjUDBsdH67ECOHFdfzH6MUvmn8XcwlkWz4r7/t9XZTh79O2/vWznT2M+Co
+         fzMA==
+X-Forwarded-Encrypted: i=1; AL+hErGBj25pkfosZM6ehJSFYIdoYRBsGiC5fzPbCGTK2LyAS2J6tgudmYi4dh1AzO+yI7V1F7bKidTFAXA=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+h8oa5i5FjVoavnq6q4p97WaG3PxD8cR94TKE/o4+netraYUhD
+	XB814sKJ7QJO5Amn9zZ9J9T9pyByvv304H5MeksNMISEl9eqH/vMU77SZWU9aik6hacp
+X-Gm-Gg: AYBFou3x7ZPTA06zkQsV4AwEEmnBpdDKvmTwQ29jB8K6dd4bxt8Ccv5m/5eVOSci9qU
+	0TnBtjtYO2x4oitfoPEAKiOB8IP+Hp/ogu72fB7/C67B+vZGnw5myAO7QHqlkICWJwTAFdI6ziR
+	LIMJGlFLt9d6klP6qOWMRYxcvP2Iuh+5U+NVBw1tHL77B8FwGg9mLSgo3/iBZLpBd5pYC+jEYS8
+	J1kZZTRqdm2GGKU6CR9vAwcBLmM2PCQDE3oT+jP9FgxoLzVUrqH5gsvkjNWOIpxeWkSYpy0jeAx
+	OuN4dWhQXswkuizwM0hg/OHmhYy+0qeY8I53Q7aIa1eNz6cbNHC9YhxeD4I9gQQt/buwVzwV0oq
+	d0x0LjT4cpcNiWUy0HgtBTMV5g6XSSgeQZRqFwFdRTzMl1FOEtBHVZZUacw53as5/kajX49+WL5
+	cbJM+5g4ztxvOBxJz+crf1ZAuJsL/vPelSrTRtcx0SXSN/D6Zf/9pNpZWkzNb2wfHrU/d7CkJmt
+	zdNheO5L4PK2L/2PrQt5cYUfJizohVoYmxSimW0HJfTO0wpWVwjjA7OysKgsYMnDhOMEIJOSEla
+	ptpTVHyEAe4jvp5M5/emHUclZSYzE49l2w==
+X-Received: by 2002:a05:600c:1f96:b0:4ac:aae6:6401 with SMTP id 5b1f17b1804b1-4bb55a4d990mr111281695e9.12.1794650453934;
+        Sat, 14 Nov 2026 02:00:53 -0800 (PST)
+Received: from jp-linux.Home ([2001:8a0:f59c:a900:a084:d599:46a5:5c31])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c608d10b2sm16920053f8f.44.2026.11.14.02.00.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 02:00:53 -0800 (PST)
+From: =?UTF-8?q?Jo=C3=A3o=20Peixoto?= <jpeixoto@osyx.tech>
+To: gregkh@linuxfoundation.org,
+	will@kernel.org
+Cc: catalin.marinas@arm.com,
+	andrew.jones@linux.dev,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	krzk+dt@kernel.org,
+	robh@kernel.org,
+	conor+dt@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	jose@osyx.tech,
+	davidmcerdeira@osyx.tech,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v7 0/3] virt: bao: add Bao hypervisor IPC and I/O dispatcher drivers
+Date: Sat, 14 Nov 2026 10:00:46 +0000
+Message-ID: <cover.1794649714.git.jpeixoto@osyx.tech>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -82,110 +113,183 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261114-nct6683-asrock-x600dc-itx-v1-1-cbccf1a627fe@passmail.com>
-X-B4-Tracking: v=1; b=H4sIAMYr+GoC/yXMSw7CMAwA0atUXmMpbkr4XAWxaB0DBilFcUCRq
- t6dAMu3mFnAJKsYHLsFsrzVdE4NtOmAb2O6Cmpsht71gYgGTFxC2HscLc/8wBqci4xaKvpIu2l
- wh+i3Hlr/zHLR+nufzn/ba7oLl+8Q1vUDqnQOyX0AAAA=
-X-Change-ID: 20261114-nct6683-asrock-x600dc-itx-3d17b409d353
-To: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Johan Dahlin <jdahlin@gmail.com>, 
- Samuel Herdman <lk.gzpc0@passmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794649030; l=3221;
- i=lk.gzpc0@passmail.com; s=linux-kernel-email; h=from:subject:message-id;
- bh=r00174raxcwNDJ0unlfuiA9FEN/TRz6+o/AOvvcTaUE=;
- b=r/OEHth9ckNwibOkJ4agSSH0EI4C5VV6R/ALYCm8m8Mc4qhxhGiCaD8JxZVzYX7weoH7ZenUu
- DPTXBRBQ7lxA8ovEtGlACvNNRP4QcttEk0GCMTOxvzTvD2l1tH/7fdp
-X-Developer-Key: i=lk.gzpc0@passmail.com; a=ed25519;
- pk=tqivbAq+N5SMZTlmU8VfcD5yzezM4r5J8zXeFSl+KIE=
-X-Endpoint-Received: by B4 Relay for
- lk.gzpc0@passmail.com/linux-kernel-email with auth_id=1519
-X-Original-From: Samuel Herdman <lk.gzpc0@passmail.com>
-Reply-To: lk.gzpc0@passmail.com
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Samuel Herdman <lk.gzpc0@passmail.com>
+This series adds guest-side drivers for the Bao static-partitioning
+hypervisor: an IPC shared-memory driver, an I/O dispatcher that lets a
+backend guest service VirtIO I/O for frontend guests, their UAPI and a
+MAINTAINERS entry.
 
-The ASRock X600DC-ITX (BIOS 2.02) has an NCT6686D with customer ID
-0x165f, which the driver does not know, so it only binds with force=1:
+Bao is a lightweight static-partitioning hypervisor for embedded and
+safety-critical systems (https://github.com/bao-project).
 
-  nct6683: Found NCT6686D or compatible chip at 0x2e:0xa20
-  nct6683 nct6683.2592: Enabling support for unknown customer ID 0x165f
-  nct6683 nct6683.2592: NCT6686D EC firmware version 1.0 build 12/23/25
+- The IPC shared-memory driver lets Bao guests exchange data through a
+  shared-memory region split into a read and a write channel, exposed
+  as a misc character device (read(), write(), mmap()). The channels
+  are declared on the kernel command line.
+- The I/O dispatcher bridges Bao's Remote I/O mechanism to a userspace
+  VMM: the VMM creates each device model from /dev/bao, receives the
+  frontend's MMIO accesses and completes them, with ioeventfd/irqfd
+  support for the fast paths.
 
-The change:
+Changes since v6
+----------------
+The finding of the Sashiko review of v6 is addressed; it is in the I/O
+dispatcher, and patches 1 and 3 are unchanged.
+- The EPOLLHUP path of an irqfd marked it for shutdown and queued the
+  shutdown work outside any lock that deassign and the device-model
+  teardown take, so these could skip queueing it, flush and destroy the
+  workqueue and free the device model before the work was queued.
+  irqfds now follow KVM: an irqfd is active while it is on its device
+  model's list, and whichever path deactivates it (EPOLLHUP, deassign or
+  teardown) removes it from the list and queues its shutdown under the
+  same spinlock, so the flushes always wait for every shutdown. Queueing
+  the work unconditionally, as suggested, would instead let an EPOLLHUP
+  re-queue a shutdown that is already running and free the irqfd twice.
 
-Add the customer ID so the driver binds on this board without force=1,
-and add the board to the list of tested boards.
+Changes since v5
+----------------
+All findings of the Sashiko review of v5 are addressed. They are all in
+the I/O dispatcher; patches 1 and 3 are unchanged.
+- A device model is torn down in order: dispatching stops first, every
+  I/O client is stopped before any is destroyed (the ioeventfds are
+  released only once their thread is gone), then the queued, in-flight
+  and still pending requests are completed. The dispatcher is no longer
+  paused and resumed per client, which re-queued dispatch work during
+  teardown and issued hypercalls when BAO_IOCTL_CREATE_DM failed.
+- IO_CLIENT_ATTACH publishes a request only once it has been copied to
+  userspace, so a concurrent IO_REQUEST_COMPLETE cannot complete it
+  twice.
+- ioeventfds follow KVM: two of them conflict when a write could match
+  both, whatever eventfd they use; a request matches only the exact
+  length; reads, and writes that no ioeventfd matches, are handed to
+  the VMM instead of being answered or dropped by the kernel.
+- Matching a request against an I/O range rejects zero or oversized
+  access widths and wrap-around.
+- An irqfd consumes the eventfd counter when signaled, and deassigning
+  an unknown irqfd fails with -ENOENT.
+- The I/O dispatcher is 64-bit only: the Remote I/O fields did not fit
+  the RV32 hypercall registers.
+Also, requests already pending when a device model is created (a
+frontend that started first, a VMM that restarted) are picked up at
+creation instead of waiting for a notification that does not come
+again.
 
-Tests:
+Changes since v4
+----------------
+- BAO_IOCTL_CREATE_DM requires CAP_SYS_RAWIO, is refused under lockdown
+  and claims a non-RAM region with request_mem_region(), mirroring
+  /dev/mem. The notification line is checked against the interrupt
+  controller and requested exclusively, and its mapping is never
+  disposed, since it may be shared with whoever owns the line.
+- Requests that cannot be delivered are completed instead of stranded.
+  The requests handed to the VMM are tracked: a completion only
+  provides the value, and a VMM that exits leaves nothing behind.
+- ioeventfds and irqfds are bounded per device model, and a device
+  model id is bound to one file descriptor at a time.
+- RISC-V: the hypercall status is the SBI value (a1), and both drivers
+  depend on RISCV_SBI.
+- mmap goes through .mmap_prepare and only allows shared mappings;
+  .compat_ioctl is set; the IPC driver never unwinds a registered
+  device; bao_ipcshmem.channels= is documented in kernel-parameters.txt;
+  rebased on v7.4-rc1.
 
-- With force=1 the readings are plausible: the CPU temperature (AMD TSI
-  Addr 98h) is within a few degrees of k10temp's Tctl, VCC, VSB and
-  AVSB read 3.36 V, VBAT reads 3.2 V, and fan1 reads about 1450 RPM.
-- With the same change applied to v7.3.3 on this board, the driver
-  binds without force=1 and reports temperature and fan readings.
+Changes since v3
+----------------
+- No device tree (Krzysztof Kozlowski): the IPC channels are declared
+  on the kernel command line and, following drivers/virt/acrn, the VMM
+  creates each device model through /dev/bao (BAO_IOCTL_CREATE_DM),
+  which returns a per-device-model file descriptor.
+- No architecture code (Will Deacon): the hypercalls use
+  arm_smccc_hvc()/arm_smccc_1_2_hvc() and sbi_ecall() from a
+  driver-private header.
+- The "consolidate the IPC hypercall ID" patch is folded in (Andrew
+  Jones), and the ioctl type is 0xA7.
 
-The patch and this changelog were drafted with an AI coding assistant
-(Claude Code); I reviewed them and ran the tests above on my board.
+Testing
+-------
+Built on v7.4-rc1 with GCC 15 (W=1) for arm64, arm and riscv, at every
+commit, and with clang 21 (W=1) for arm64 and riscv. Run-time tested
+under Bao v2.0.0 on QEMU aarch64 virt and QEMU riscv64 virt with the
+bao-demos demos: the IPC driver exchanging messages in both directions
+between a Linux guest and a FreeRTOS guest, and the I/O dispatcher with
+a Linux backend serving console, network and block device models to a
+FreeRTOS guest and to Linux guests, including killing and restarting
+the VMMs, plus a userspace test of the /dev/bao error paths run next to
+the live VMMs, which now also races device-model teardown against
+eventfd close for the irqfds. The arm64 runs used a lockdep kernel.
+32-bit Arm is compile-tested only.
 
-Signed-off-by: Samuel Herdman <lk.gzpc0@passmail.com>
----
-This overlaps with Johan Dahlin's pending series "hwmon: (nct6683) Fan
-control and sensor names for ASRock NCT6686D boards" (v2, 11 Nov 2026).
-Its first patch also adds NCT6683_CUSTOMER_ID_ASROCK8 (0x164a) and a
-table row at the same spot, and its later patches key fan control on
-that macro. Whichever lands second needs its macro renumbered
-throughout; I'm happy to rebase on top of that series if preferred.
----
- Documentation/hwmon/nct6683.rst | 1 +
- drivers/hwmon/nct6683.c         | 3 +++
- 2 files changed, 4 insertions(+)
+Open items
+----------
+- RISC-V: the Bao SBI extension still uses the experimental extension
+  space (0x08000ba0), and the Remote I/O hypercall returns the request
+  in a2-a7, which does not follow the SBI calling convention (Andrew
+  Jones, v2). Changing that means a hypervisor ABI change (status in
+  a0/a1, request through shared memory); the RISC-V support is
+  experimental until then, or it can be split out of this series if
+  preferred.
+- Bao does not implement the SMCCC vendor-hypervisor UID call, so the
+  drivers cannot detect the hypervisor yet; adding it is planned on the
+  hypervisor side.
+- The notification line is a line of the interrupt controller the device
+  tree's root node points at through interrupt-parent; a guest whose
+  root node has none cannot use the I/O dispatcher yet.
 
-diff --git a/Documentation/hwmon/nct6683.rst b/Documentation/hwmon/nct6683.rst
-index 62da8fd01..e2e95a33e 100644
---- a/Documentation/hwmon/nct6683.rst
-+++ b/Documentation/hwmon/nct6683.rst
-@@ -97,6 +97,7 @@ ASRock X570			NCT6683D EC firmware version 1.0 build 06/28/19
- ASRock X670E			NCT6686D EC firmware version 1.0 build 05/19/22
- ASRock B650 Steel Legend WiFi	NCT6686D EC firmware version 1.0 build 11/09/23
- ASRock Z590 Taichi		NCT6686D EC firmware version 1.0 build 01/25/21
-+ASRock X600DC-ITX		NCT6686D EC firmware version 1.0 build 12/23/25
- MSI B550			NCT6687D EC firmware version 1.0 build 05/07/20
- MSI B550M			NCT6687D EC firmware version 1.0 build 05/07/20
- MSI B650			NCT6687D EC firmware version 0.0 build 09/27/22
-diff --git a/drivers/hwmon/nct6683.c b/drivers/hwmon/nct6683.c
-index de5b0194c..01784fa6a 100644
---- a/drivers/hwmon/nct6683.c
-+++ b/drivers/hwmon/nct6683.c
-@@ -209,6 +209,7 @@ superio_exit(int ioreg)
- #define NCT6683_CUSTOMER_ID_ASROCK5	0x1621
- #define NCT6683_CUSTOMER_ID_ASROCK6	0x1633
- #define NCT6683_CUSTOMER_ID_ASROCK7	0x163d
-+#define NCT6683_CUSTOMER_ID_ASROCK8	0x165f
- 
- #define NCT6683_REG_BUILD_YEAR		0x604
- #define NCT6683_REG_BUILD_MONTH		0x605
-@@ -1640,6 +1641,8 @@ static int nct6683_probe(struct platform_device *pdev)
- 		break;
- 	case NCT6683_CUSTOMER_ID_ASROCK7:
- 		break;
-+	case NCT6683_CUSTOMER_ID_ASROCK8:
-+		break;
- 	default:
- 		if (!force)
- 			return -ENODEV;
+v6: https://lore.kernel.org/all/cover.1794589639.git.jpeixoto@osyx.tech/
+v5: https://lore.kernel.org/all/cover.1794038390.git.jpeixoto@osyx.tech/
+v4: https://lore.kernel.org/all/cover.1790357735.git.jpeixoto@osyx.tech/
+v3: https://lore.kernel.org/all/cover.1786010512.git.jpeixoto@osyx.tech/
 
----
-base-commit: f9f5501d60c77c71f60bf5b273375e3777d66080
-change-id: 20261114-nct6683-asrock-x600dc-itx-3d17b409d353
+João Peixoto (3):
+  virt: bao: add IPC shared-memory driver
+  virt: bao: add I/O dispatcher driver
+  MAINTAINERS: add Bao hypervisor entry
 
-Best regards,
---  
-Samuel Herdman <lk.gzpc0@passmail.com>
+ .../admin-guide/kernel-parameters.txt         |  15 +
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ MAINTAINERS                                   |   8 +
+ drivers/virt/Kconfig                          |   2 +
+ drivers/virt/Makefile                         |   1 +
+ drivers/virt/bao/Kconfig                      |   5 +
+ drivers/virt/bao/Makefile                     |   4 +
+ drivers/virt/bao/bao_hypercall.h              | 210 ++++++++
+ drivers/virt/bao/io-dispatcher/Kconfig        |  20 +
+ drivers/virt/bao/io-dispatcher/Makefile       |   4 +
+ drivers/virt/bao/io-dispatcher/bao_drv.h      | 426 ++++++++++++++++
+ drivers/virt/bao/io-dispatcher/dm.c           | 460 +++++++++++++++++
+ drivers/virt/bao/io-dispatcher/driver.c       |  71 +++
+ drivers/virt/bao/io-dispatcher/intc.c         | 186 +++++++
+ drivers/virt/bao/io-dispatcher/io_client.c    | 475 ++++++++++++++++++
+ .../virt/bao/io-dispatcher/io_dispatcher.c    | 184 +++++++
+ drivers/virt/bao/io-dispatcher/ioeventfd.c    | 359 +++++++++++++
+ drivers/virt/bao/io-dispatcher/irqfd.c        | 350 +++++++++++++
+ drivers/virt/bao/ipcshmem/Kconfig             |  16 +
+ drivers/virt/bao/ipcshmem/Makefile            |   3 +
+ drivers/virt/bao/ipcshmem/ipcshmem.c          | 421 ++++++++++++++++
+ include/uapi/linux/bao.h                      | 126 +++++
+ 22 files changed, 3348 insertions(+)
+ create mode 100644 drivers/virt/bao/Kconfig
+ create mode 100644 drivers/virt/bao/Makefile
+ create mode 100644 drivers/virt/bao/bao_hypercall.h
+ create mode 100644 drivers/virt/bao/io-dispatcher/Kconfig
+ create mode 100644 drivers/virt/bao/io-dispatcher/Makefile
+ create mode 100644 drivers/virt/bao/io-dispatcher/bao_drv.h
+ create mode 100644 drivers/virt/bao/io-dispatcher/dm.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/driver.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/intc.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/io_client.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/io_dispatcher.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/ioeventfd.c
+ create mode 100644 drivers/virt/bao/io-dispatcher/irqfd.c
+ create mode 100644 drivers/virt/bao/ipcshmem/Kconfig
+ create mode 100644 drivers/virt/bao/ipcshmem/Makefile
+ create mode 100644 drivers/virt/bao/ipcshmem/ipcshmem.c
+ create mode 100644 include/uapi/linux/bao.h
 
+
+base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+-- 
+2.53.0
 
