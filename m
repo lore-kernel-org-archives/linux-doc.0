@@ -1,84 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794640236;
-	b=uoU9KnLITncOu+ckRQGUSXvjW0ag/lPzDQ1ut1vAEtxuU7nRSmKcwF6/PxHZTwZb7l7B
-	 1GuxCsRT2zvcFA2eAlZeGt8G9aj2klWnoJ39aiOYqWAcTVWAHJhwlYu8ECk/RGx80wcay
-	 peZLCBAG+wDKh3fmjg78Lsc7tnjEbhsPCy3P9dkAgCxwFBKPIHLsFS3vjaNnguVguzykX
-	 Yyy6lClLA4Y32BnA/krOej+masPqHlB+SDVV6FeNSuIdkY2RmCd9S1PjMHn4Tmqbk7clY
-	 Pgll+1jwgArKLT9PsWBqwRqb9ykJDCslYV50EC5CWoN/Utpk1Nw1UFVRx1r4hlJTe9w==
+	t=1794640237;
+	b=bvYdIpNWPZYNrDcb5VHgHjZ5mOmfG1NSJ05pI6nakPaXKXukxPCROF8wAiVViDzPr5u9
+	 MMfPlFqkxDvgfyo4Qr2iId53ywEJqKNAZyszaSD1UtF0IU4v51Hqt+s1LBqCZPphPcmHB
+	 UFfxL2GhhlWSkUKL1jnx5Vfxv8D+wM2uJrffo9Rd84B4ZXATU3gIcsVcN5xtX2+Yu39yz
+	 1/VXj9rx6VUsNvuqSJijDypwB5uFS1E4Qi7xZ97Zr7GHtgCmiuwO7I3kUjNJe6xcwyKHU
+	 R4i0sb/Dop/n/dr3iIINiW0s/k/uHyfpTsnrC3VXuK9nkuWvUoIA2J8qvxepC9vclcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794640236;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794640237;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=LMm4cY2G8/N+lvY6+YyUeSTrUdIgOLxyZozNrk1mUY8=;
-	b=Y8pPK40v20vKUB74s6CvlZbskGnLmMdjOf5vkzqzEWJrzbMUyfVCipRL0BqgVoYF6krG
-	 4lIKqfYnB5EtQfSA4TBNiT5THrJ4BKKdF1rHi+UjbgrRGmTgL1uFK890/tZMGfam2yfP9
-	 Hzk7X6Caatb3j5qBoPjBr7SV2L6AQBOcAhsDeq30J2WZGauT2TOjytcgh26mOXRoloFBA
-	 94ktLHnoBXsGN/HCAMaOCn/5n/bmpiZ9dvi87G/B0qtUwiLXGEgTe/a17SRGRGRzSamqc
-	 /dYkvcT2Ef76XTTjAqUYhssA8nNU1bXlP/lBLjzS+yyL+spIKEb7wr/G37Zs92N3ZrA==
+	bh=kuOKXOl2seY2nuHPa7QaSgImf7rgxxNJypl2yP4/rNE=;
+	b=pCHZSDdy5uef6kyRC7t8Sc1HUITEM8F7uyxr9LxiqlU9oYJ0sVkMmtuq8bHbYjw/dRZO
+	 gweNSllGDjvzvnDxrul2lodbvlekftJTprC9DUoSaROiIZzWAi5w+6JZyadoZKqBuJEty
+	 b8SYWa7NUgWMDbbwJGaxOAsHt1fcrbZK85U7yzJ6M5QiNIRfDNKExB72IMT8eZsp9PUHE
+	 SUUkOX5/DWS01sMHwekN+ewxCH/RNTqKhzo3hq8Iz/0DpVK1HlGtiSC7KJUs93OtEtXuc
+	 E73weqfe0SeYUMEYs+ipKixJC7RbZZs5QYBVcyXJrlW1VTQDDNskqB/tVtlooKci7Xw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=none header.from=gourry.net;
 	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=NrD2qtKj;
-	arc=none smtp.remote-ip=209.85.219.46
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=SHqBm5if;
+	arc=none smtp.remote-ip=209.85.219.50
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD5B606B41E
-	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 07:10:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EAD5B606B41E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BBD7606B42F
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 07:10:37 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9BBD7606B42F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=NrD2qtKj
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-91eb449364cso32558626d6.2
-        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 23:10:35 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=SHqBm5if
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-91ef011e338so29793396d6.1
+        for <linux-doc@vger.kernel.org>; Fri, 13 Nov 2026 23:10:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794640235; x=1795245035; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1794640237; x=1795245037; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=LMm4cY2G8/N+lvY6+YyUeSTrUdIgOLxyZozNrk1mUY8=;
-        b=NrD2qtKjeYgj8rGYN1fwIgSL20IT9bdCQHMOHTKrC9oC+X0gc2vtwbP/0pBFXO/NP0
-         HQOX69QwWq4MNb4Li8WvfWTySx3QpG8CmXSfXqHpUcRgG3oSbMC6WqjxDT/m562PtycD
-         KuRcCudGGIt3HNVFfi9LLJLq4QR7G6eDIkxjamWnnAZ3uR0790bOBXukHx5SFAIrogr3
-         rVV/a3g+hhDNs12AsnzkGTsK4afWNTRGDAIlhg0fF/5oN9rABG187RlzqBsqM/hs+ndi
-         B9r6nI/+MN40ZYs8ZXdDilJk4BzjEhxnTnlkpUl5Sv88KAYoSVQ/VQIkHc1QjmG5QWeY
-         nXbw==
+        bh=kuOKXOl2seY2nuHPa7QaSgImf7rgxxNJypl2yP4/rNE=;
+        b=SHqBm5ifuCi19eDdU6VNqfmX84OjLjh+oaxxPBrlTMKU80mySufaDtPUSv6TTq+zz3
+         +Co78G47v6fONadDGxWKcNGUQvCgSrwXJFg8TppF+aZFOOUhKhDRDlDN+xaZiBXJsiWL
+         7noGrim9jrxIISpyaZ75eU1EtKup7BugNNCXeDRghcA0y55HF5VFSXgx+LF7yGQw43gl
+         GLL3BdlC928/BgZG2pu06rv3+OF8ZRWEogeefHb19bWYkkkKNU3yHRNuGBA6IGU7rTay
+         OtcyhxTBnFmqdGbB+seDvJevG79lSnyMnw54BDiFQvk2elI7rbEALpd9fiaBlOif5Kem
+         3c0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794640235; x=1795245035;
+        d=1e100.net; s=20260707; t=1794640237; x=1795245037;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LMm4cY2G8/N+lvY6+YyUeSTrUdIgOLxyZozNrk1mUY8=;
-        b=xBC97fCr9zuUIWdLbmdsnr+xtNhUDBn89+KEmvxpS+lYNqJwC/kMBYwSdgrfklALTP
-         rihIAqt5B160Irx3C+aqzt+xcbv+MJmU0YqORFBBd7j6eRsDcydvehVj3dEUWFC4zbkz
-         4pVx6RCRPfu82lTuMqvvxpPD1RSj4Xa5ChlBZBwZ1vzURX9u6Y42gbn+ZoGPj09FYq7u
-         dclxgpawoJ6xpZ+eR+AkAinfIZGILZP0xVZIjWcbOwwrc1H/VaYfbLrKXlDmgUxmoQQB
-         rpW4/F/6++bWSdl+eRmQdY5BM7gAWLwgkFfUGDCTpdgt4ztoo+onLe+j5o8r1eCYjg3k
-         mLUQ==
-X-Forwarded-Encrypted: i=1; AL+hErFoHQbH10SDjVhAhPNAeJcVDzdxQZWevM6O4V2nb100bOff2nnJwGMe9PeuiBaJwA6A01q6uR5RZBs=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+gxTdz9ho51pi9IzCvGvVCLbDDJw9Os+/dBM/E8zv3X0Jt/Yu4
-	0d5iXa7paPMkn4pPxX1TQQMiWjnVhHJumelg4I0mM+z26YkDtM2xCwFZvoA7ImhLfOA=
-X-Gm-Gg: AYBFou33g3pgE/Y2plT/r7BEmkV9d4YoruH2SjD0TGQT8b6XFtuHpp0J/LVc2mbmfwq
-	2pRkwgNyWSoEEIg9ugHHNn/Jw/L2MtHFOyZgEwEtZt+/dudDeBr5t6TFWTfzMFMIgK1B2/uDYSN
-	rrfsuGBGIW/dP4lsg8gD0A5F5Bfr3D7HUxFSyjrGxH463UXsVgaWZUxx8tYJDEmKSRlnWpO13BM
-	ZaPBlE82tppkhOprrjyBO47F7cWEZJL34lg3Jc+8+rDxmZ6HkGFdFx2BbdBBO2OmCDSeds2Seic
-	SHf2tvcdmVV6vP+i6+mt4uyTOQXUIerPkp8ZrnBZjZQjMzk7chCdDVbLOqhOjkKtYvJt4zE+4pX
-	bJs5yJBZWl/tKqT1IzTxFmPZv30l8BMn8KUb4A+PRu5++5iKFdg5kDU6Kj+BdVOiiSNi1Bz2s9o
-	hRcN4cQDoVnjuJLYcC1Tp0ONG/niyWlEcAqpoKc3uTxzyrU1jOeAlfzTpNg9Zk5fEJ5eDFOoVR4
-	CrNQ2shCPLhbINa/8RujvrVuFrncqQ0BmBrfHqC0crgCNc7KEWQL0vSkb07HvZQN8zZFfaNlwC6
-	p4GzlcKGy/UpxRkDR3rKe/43Vhwt4d57soJlLBVCsDNrQv/9Ll+taM2xNNTYw6HIhITCAoLmU5V
-	KgW1YxiT7QybiCF4=
-X-Received: by 2002:a05:6214:1d2a:b0:91f:17be:7c90 with SMTP id 6a1803df08f44-91f2424c199mr78511936d6.55.1794640234508;
-        Fri, 13 Nov 2026 23:10:34 -0800 (PST)
+        bh=kuOKXOl2seY2nuHPa7QaSgImf7rgxxNJypl2yP4/rNE=;
+        b=OAlS2ix/6WmW0gnB2uCOJ45bUlnPOCNIGpNm6Y7R8mf19R9CTmK2McuzV97An1/NeX
+         kalhNLodsWkrWlRRaW351Io72ja7EV0BtL54WfOnlvwlM3iHk7VPSH4Dy6vLWqYulsdj
+         tUrBw7swE78/PC++lQm4f+HbWz68WqW2m6x2zhNuEdUFudtlQYIcpn1epgfF0wdbMFR2
+         xjpqZ5HvZhqKaOj+3HF6v/YNyeXANF1FZzTQY7CFQYuRyHbOua9RkowRmokI4uap70n8
+         KPA2KnR93EB0xHxRlJgSQ+ttnZuF4PY9CCM7M2axe77Pr/9FwmhHyo+laDPnO0R33Uut
+         A6kQ==
+X-Forwarded-Encrypted: i=1; AL+hErEv3iRZQWNkxDXek5i1o8ijtRY1qsxKB+CrXj2smkMS7coaeBzVVZc0Ci2WGRQVLz92ctX/WpeMtx0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9s/1qP4E3RDZKbVQGQQ5JQRRiRyQTrIQtyGEH+Z19h3yUNcmE7
+	hUXZZnz7ICMZ2vG6z2pQU6Wrn9DHRJz9qbk+YaMFdT/HVOIzy4WZC4CNoN8iMJQx5og=
+X-Gm-Gg: AYBFou01Sp4qjfdEMZ5GqItBXxpH1jHnPis0tsOGSHH2AsIiSVAtu6FcLxjS5F4rApa
+	S5npp5w6ZZr0T5cOziIt/1u/BXfjjVsYs69YqLPi/DRel14TLUi7VyCe8v0Fjc5hlux0hMEMoJr
+	XbksaDdbgzJY8McyDCnSTDLkHdsswmM/6qt4c/Szf2YKhuQs9DJiv+QKnRLg26Gki4eeAcLKzAw
+	PJpEzY9jny0ut3F+aqAIw7WVjUpXPndvk0UJrsniT72bTTPjnpCrBVNmbJG1KWcSRZpBnA4k0F2
+	2MetaX69U1pXwOXc5UVzye88M2/j1P8JcDeH6DJVujX81hKbK7X5vQUS3PedskFfMHUcmugmUFD
+	lxoCWC6DOJocc2LmIvG86hO3sSy+yL4wruzaSJwjmOCACmQo0RLtt0IUhj7PZoFxZsulpMSIdv1
+	9ecaZ0GdsOwuoSEne/G+YiPfA0+zMtfdhsjDxEYgtXh0rxYvpZUGoQDv59aiM54ez5cGbUsrULC
+	/a8nAiWQARCVvc+w6eC5VjcbrrnsWtjGnH9o/AnHijtoDn2is1mK6BtY/WurL76ydGQERs69Viu
+	OkFuLrrfm0zhqKSRqoltRqKTPkneAvecYQeQcQYT+OcJEwojx3UslWejCie8kE3XsAUBYM1aBVx
+	YVhcAnJFCLghpL90=
+X-Received: by 2002:a05:6214:3b85:b0:91c:15ce:66ce with SMTP id 6a1803df08f44-91f24194ac5mr80511276d6.11.1794640236685;
+        Fri, 13 Nov 2026 23:10:36 -0800 (PST)
 Received: from gourry-fedora-PF4VCD3F (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.32
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23db3a99sm37730986d6.40.2026.11.13.23.10.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 13 Nov 2026 23:10:34 -0800 (PST)
+        Fri, 13 Nov 2026 23:10:36 -0800 (PST)
 From: "Gregory Price (Meta)" <gourry@gourry.net>
 To: linux-mm@kvack.org
 Cc: linux-kernel@vger.kernel.org,
@@ -139,9 +139,9 @@ Cc: linux-kernel@vger.kernel.org,
 	byungchul@sk.com,
 	apopple@nvidia.com,
 	rientjes@google.com
-Subject: [PATCH 14/22] mm/page_alloc: count common memory nodes for kswapd recovery
-Date: Sat, 14 Nov 2026 02:09:51 -0500
-Message-ID: <20261114070959.3490008-15-gourry@gourry.net>
+Subject: [PATCH 15/22] mm/oom_kill: compare OOM constraints against common memory
+Date: Sat, 14 Nov 2026 02:09:52 -0500
+Message-ID: <20261114070959.3490008-16-gourry@gourry.net>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261114070959.3490008-1-gourry@gourry.net>
 References: <20261114070959.3490008-1-gourry@gourry.net>
@@ -156,33 +156,44 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When a zone recovers above its high watermark, free_frozen_page_commit()
-clears a hopeless kswapd state if more than one memory node exists,
-since allocations could then have fallen back to another node without
-triggering direct reclaim here.
-
-Only common memory provide fallbacks, so count N_MEMORY_COMMON nodes.
+Ordinary allocations reach only common-memory zonelists. Compare policy
+and cpuset constraints against N_MEMORY_COMMON, so nodes outside it
+neither make an otherwise global policy appear constrained nor inflate
+the constrained capacity.
 
 All memory is common at this point, so behavior is unchanged.
 
 Signed-off-by: Gregory Price (Meta) <gourry@gourry.net>
 ---
- mm/page_alloc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ mm/oom_kill.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 580feeb608b7a..6d98e213460a9 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -2949,7 +2949,7 @@ static bool free_frozen_page_commit(struct zone *zone,
- 		 * kswapd work again by resetting kswapd_failures.
- 		 */
- 		if (kswapd_test_hopeless(pgdat) &&
--		    num_node_state(N_MEMORY) > 1)
-+		    num_node_state(N_MEMORY_COMMON) > 1)
- 			kswapd_clear_hopeless(pgdat, KSWAPD_CLEAR_HOPELESS_PCP);
+diff --git a/mm/oom_kill.c b/mm/oom_kill.c
+index 5d48bd862c27b..1ec22bdad1fd4 100644
+--- a/mm/oom_kill.c
++++ b/mm/oom_kill.c
+@@ -274,9 +274,9 @@ static enum oom_constraint constrained_alloc(struct oom_control *oc)
+ 	 * get_page_from_freelist().
+ 	 */
+ 	if (oc->nodemask &&
+-	    !nodes_subset(node_states[N_MEMORY], *oc->nodemask)) {
++	    !nodes_subset(node_states[N_MEMORY_COMMON], *oc->nodemask)) {
+ 		oc->totalpages = total_swap_pages;
+-		for_each_node_mask(nid, *oc->nodemask)
++		for_each_node_mask_state(nid, *oc->nodemask, N_MEMORY_COMMON)
+ 			oc->totalpages += node_present_pages(nid);
+ 		return CONSTRAINT_MEMORY_POLICY;
  	}
- 	return ret;
+@@ -289,7 +289,8 @@ static enum oom_constraint constrained_alloc(struct oom_control *oc)
+ 
+ 	if (cpuset_limited) {
+ 		oc->totalpages = total_swap_pages;
+-		for_each_node_mask(nid, cpuset_current_mems_allowed)
++		for_each_node_mask_state(nid, cpuset_current_mems_allowed,
++					 N_MEMORY_COMMON)
+ 			oc->totalpages += node_present_pages(nid);
+ 		return CONSTRAINT_CPUSET;
+ 	}
 -- 
 2.53.1-Meta
 
