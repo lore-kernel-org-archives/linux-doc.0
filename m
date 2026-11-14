@@ -1,52 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794662882;
-	b=4tc0ecb/DkSbSKBOHx6yTlh360ywqaHr9ykUCUSNawI8IoPeHnHuzLicUbl0CPB5mj86
-	 nPAxTqV4G/1a3YM3IMpwuxU6wRxx7As0C2MmxnIcr+AadaLuSZVrwGoX1Ga0otKMG+Xtm
-	 YnP/gBCzy3Ww4OqjIEzAbi+vJADRQnVXzpXMmjLzIdl3mQj40J72cZpTMlnFx29nYOxva
-	 w1Vl8MnhceiW3MSO4hn+PEuRdxUDPRqDP9BEZp10BLGvkM4vjtaPbBckgLw++t2bRasBg
-	 CuEhYE19RnvNwDJ/QvnzAoyHlSNRvy3VWO9mXKnzbkXMTkJ2hLDv7ONvLjxUKHr2ZgQ==
+	t=1794663004;
+	b=mQfgQHmtrATTIF7WjujGlbz6Axalp2nwsvS0p8QWqzXo/YxJG6ZaKcL/1DAA1qJfxXJZ
+	 gE6Kfcl69pI9Z73t3scf6FvaJj8peHxF0kDwbDZ8x3bkJndAN1d69DdZcRv29LxAWdLSK
+	 C9UvEy+T+5VSAFEiDK/U+H4p30ikaisafiSdqWjnbJyzqA1sdDQFWxQg27SRT97NJgseb
+	 3qbZTPN5WlXZ4N0BHad20LWj3m/DqWvksoXq0aIcsmTsOqYbRpEXpfO3/CKw/PobgW7fW
+	 gLVWJOw2kKXZSu4jznDVVXQyXK4Zls/r+bvcfG55QKai063lu8cVXI1JR9F6iTYMyIQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794662882;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:MIME-Version:Date:Content-Type:
-	 Content-Transfer-Encoding:From:Message-ID:TLS-Required:Subject:To:
-	 In-Reply-To:References;
-	bh=gT8R01frXqoIJvl9RGVpwuWi3b4gIIdQyqgCn7ucTZU=;
-	b=W0tdSZ0xs5tgsCTvEzdVEc1b7FG+Z2Mha9KoSz3Bq26HCM+A2a80Icag19Df3Zw9DyWf
-	 dIAcmJY4597jiCOPOxFAGNbZS+DibpdB02tA6E6MzGj91dxAX0ACKuAH9kPdhtHJ7E/vh
-	 RHs+ycxtOttaSlz2Gf0/VV/g582SOElEVZkRhkZ6IGE/A6bE9yF8bJYpXWBsCKCX7blC5
-	 aFQyloQI1crPMD4Vj5r9y6eZxoRt9GUkLcGcML2gq9PWqr5fGp987LJLONXQTV+fvstai
-	 5565Kohk2UMQuliCUro+TVbiB9J2n46lN+P7uE6x44cG6CB/R6rJ/m+irLFRxVIaOqQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794663004;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=PS9TvDBXQVtQgMTEtAs1iIarDWFkdeN/XOLD113yD88=;
+	b=BPsf10eYewZKIq8gMYWmPRrPrypMHX7at7sjzgGzlYe0ArGCrEv9jg12SAvRoZIc72u2
+	 GLXk2CkYw2oTZrq9/uAzPIemgXKLnR3ff8pFzpUfeEQaWVwEn/Eh6bO7vZrIN3nQWFJV2
+	 7+80gnG4G044WRSE6LP3A6kuLFNpCyXe0wW5z0jd8RinyotZAQrafdX9+YldGXrbDMJ11
+	 o48GkSUSUW+uBADHzVpgB1E/m6Us7/Mz1g2Us2EaTgRU4ZIWx+N0sBtxqY5P56yHIcYUP
+	 eEGwEAPwgdd1nauOCl8VrdCIzfMG5+LIuodsEhi+z39nthmJFFkGLUZb+x/fbCftadg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.dev;
-	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=wBAQqr1U;
-	arc=none smtp.remote-ip=95.215.58.42
-Received: from mta1.migadu.com (out-42.mta1.migadu.com [95.215.58.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KvClaJWh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA93C606A323
-	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 13:28:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA93C606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 0B808606A32E;
+	Sat, 14 Nov 2026 13:30:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=wBAQqr1U
-X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=gT8R01frXqoIJvl9RGVpwuWi3b4gIIdQyqgCn7ucTZU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794662879; v=1; x=1795267679;
- b=wBAQqr1UDyU3stJVqU9DxG5eszmFIcq3qH+qxe9rHQHOh5WReHXL0sIEpiKTocxXHc/h852W
- Lv3v8ViWLsm8tfk8hsFZHv4fR78V47Jh8u7Es8iS50eMsSSsv83DbT+K8PeMZoV4iX9kMV5i5bk
- mE0u9rxlrzjmKBPSHY2Lj8Pw=
-X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 8b8a5b5b05980967;
-	Sat, 14 Nov 2026 13:27:59 +0000
-X-Mizu-Trace-ID: 8b8a5b5b05980967
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KvClaJWh
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 845251F000C4;
+	Sat, 14 Nov 2026 13:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794663003;
+	bh=PS9TvDBXQVtQgMTEtAs1iIarDWFkdeN/XOLD113yD88=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KvClaJWhSIR9vVBtdHnMtb2blz2H09Y2HN6qkcsTB0GLfMfnqmo9P+NULK/Wm/Jod
+	 4qMRvxTgpsQmtHy6TJamU4hWn2wdPPY1xC6qfU3S6neZEILxtkCGR2J1fjg+ghlLpX
+	 pH5RA3JZNcQl9BgNovLaeLJjBqmzUUmFtqWYQT/nZR1ucLhSQcEbtMLcU0tzVUoW2g
+	 Q9mfR0FyoOExlQh+yUesJqww3oUV8lA0KclamByohK2fIpK64Jj9VPHCWxdrLnNIce
+	 EDVT91anK4CzAShmeX8GINEgVHF/eU3WwmN56PZuuMVG5b/uhOliWO6MxChywNEuWU
+	 znmQ+Xu8NWckg==
+Date: Sat, 14 Nov 2026 15:29:59 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Surendran Kanagaraj <surenkj@amazon.com>
+Cc: corbet@lwn.net, graf@amazon.de, gunnarku@amazon.com, jgg@ziepe.ca,
+	joshlev@amazon.com, leitao@debian.org, linux-doc@vger.kernel.org,
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nh-open-source@amazon.com, noodles@earth.li, peterhuewe@gmx.de
+Subject: Re: [RFC PATCH v3 1/8] tpm: Add a single table for all TPM wait
+ limits
+Message-ID: <avhiV9fU1FbIC_ef@kernel.org>
+References: <20261112163846.97654-1-surenkj@amazon.com>
+ <20261112163846.97654-2-surenkj@amazon.com>
+ <avdoybHEoRd0Fhie@kernel.org>
+ <20261114091222.32721-1-surenkj@amazon.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -56,57 +62,21 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Sat, 14 Nov 2026 13:27:58 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: "Frank Wunderlich" <frank.wunderlich@linux.dev>
-Message-ID: <4427785e421caa5ceba5b64ceb7c7e4cfdb607ec@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH net-next v20 00/15] net: pcs: Introduce support for
- fwnode PCS
-To: "Christian Marangi" <ansuelsmth@gmail.com>, "Maxime Chevallier"
- <maxime.chevallier@bootlin.com>, "Andrew Lunn" <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, "Eric Dumazet"
- <edumazet@kernel.org>, "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni"
- <pabeni@redhat.com>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Simon Horman" <horms@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>, "Randy Dunlap"
- <rdunlap@infradead.org>, "Lorenzo Bianconi" <lorenzo@kernel.org>, "Heiner
- Kallweit" <hkallweit1@gmail.com>, "Russell King" <linux@armlinux.org.uk>,
- "Philipp Zabel" <p.zabel@pengutronix.de>, "Nathan Chancellor"
- <nathan@kernel.org>, "Nick Desaulniers" <ndesaulniers@google.com>, "Bill
- Wendling" <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- netdev@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- llvm@lists.linux.dev
-In-Reply-To: <20261114104426.235620-1-ansuelsmth@gmail.com>
-References: <20261114104426.235620-1-ansuelsmth@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261114091222.32721-1-surenkj@amazon.com>
 
-Am 14. November 2026 um 11:43 schrieb "Christian Marangi":
->=20
->=20This series introduce a most awaited feature that is correctly
-> provide PCS with fwnode without having to use specific export symbol
-> and additional handling of PCS in phylink.
->=20
->=20At times there were 2 different implementation (this and the one
-> from Sean) but Sean agreed that this can be picked and used in favor
-> of his implementation as long as his case with race condition is
-> correctly handled.
-Hi Christian
+On Sat, Nov 14, 2026 at 09:12:22AM +0000, Surendran Kanagaraj wrote:
+> Makes sense. The quirk table is just a convenience, a common table fmt
+> for drivers, and the chip still owns the table. Without it the driver
+> calls tpm_limits_driver_set() for each limit it changes. I am happy to
+> drop it in the next rev.
 
-Thank you very much for taking care of this!
+Yes as a general principle optimizing here "data redundancy" at the cost
+of more complex code does not pay off. 
 
-sorry for html mail (have not found setting to force to text in
-linux.dev webmailer - if someone knows it please tell me).
+> 
+> Thanks,
+> Surendran
 
-@netdev maintainers:
-is this now in shape enough to getting merged? or which part needs to be =
-changed?
-
-Some boards (e.g. mt7988a based) are stalled because not having network s=
-upport
-yet in last 2 LTS kernels due to this part is unclear/missing.
-
-regards Frank
+Br, Jarkko
