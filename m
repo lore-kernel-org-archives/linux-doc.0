@@ -1,146 +1,71 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794688048;
-	b=t3oou2PsGU8jT3NQxVuCiaK+SL6UP2xhiONBF6jnCfvthXS688Xt5iatE6MVydcaaiSq
-	 cLDNuLJpnhm2KeOlNeQVjjmMWStDBvC1SmUzrxEen3NWJfaV5UzIp5gGFdRMETi8M8VpE
-	 TpA3FruivRWOTFCD0XIccUxOaMFc5YvjwHydY29AfSQQHTGGWsKSEMjUoY1siXdtbv9cY
-	 Y4fS3sx4qq5wVa0aux/GtkzBEefwibGr8Wb6yX3QLnpuQPbyREdYxoKqfiirhMryc9klK
-	 3MGPMs9AJ969yyEhSEq9cQvvSr09B8jPtLM8qyhlhq+OE6j64pTWLRyI6S2VXqoC6+g==
+	t=1794688695;
+	b=glOQbvdIhuhTQQXnQEAYobfEe8CDYHNUX1WcB9xWtRcXHG6uvLrvmyLFRFuH+wM9ka3/
+	 bFIPZD9FJhsLLFiC7JcYFy1pztcHThmosSPtghzW9ytRzSiaW0tE4s9XgN7bGqpsgFUiY
+	 7mgQZ+02UMVdiu37GbI/DxCvPnLNxhah5rVECkCRo79QLUbZRq07dAveMCn9voc49ODoF
+	 cByrkL989SuBquyYjuAzwF7YIgSzhQJ4cn7QRMKv2gDk/PK43lon6G82jnTjORwzrmc2N
+	 +hp+KWUp7T6rEVBEecDfnIFdgReJhmASHVPweDNe3Lo6WZjycSwH4Jn7j0EfziFZNEg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794688048;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=/GQ2kS4zUGO1VrRdCGc0i8jbBEMqqC1y2L0YsldwfFs=;
-	b=pNsfH2HJm8QgGI4bt4NVldVW/wDfmMXjDvEJoD+z7Iw16frzwfwj22fxkJbEeDisMO3y
-	 ulgkamFPNeCdHv/dWpmdXfzfJoU3Yf/w2wVDC8/LOgKSzgvgUt18nDlYoBd79ttWv819T
-	 jDDTM63rQlnFQvFYCthzJDRPiY0Mt0A2CuoPuUB2D8AKxD14Y3irXk0wxYfw+UCcyVOGb
-	 i1E6ANBQ1XHW7TBh1eFRZDYtVWIqCyPthk8ZM7AylsQFqFfL0saF4zDq9P7t0jTDUl4/J
-	 G+BZewuJjaBgEtwNoW92qkbJI+Rq/0KpdcdgjF7WXBun4T/+0kPIyoHc8073JntRGsw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794688695;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=VCGyHVFKkAZjSSjza2g0FyrSSaFZoL8CQjsvctCPwdU=;
+	b=SYOZFO3vNHo7uEAbKhS5YDb7FCvoon2c56Et+NwQD10XFV7JtW+QOBQAqv1XVJhAbo3O
+	 vimXvCIT8R8bApUf54DoycYYqwT3acKIfRZwSygszbVbLgpolhKGWmuHUvBwcJ6YrmUIz
+	 iaXo6GNwAFSN54clWq9KrTyduX0F5vE/GFYrshGKjdWM7sVvlYe2O6SaurlPAkRXnEqFb
+	 uq3gGs39ZKG4EwQxFYE+dZtiocRleb0h5yu1L7poPlSqaRfB65m2fVZKEhBHAbXEk/YUF
+	 uAkhqCt823xZRmnbV+X3CtSwhovZAuZnIvId2J2+atzBGBNTSkQe0yxiuqyJuScKm0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XDIhocjh;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mo50OBvQ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174F8606FAE0;
-	Sat, 14 Nov 2026 20:27:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 174F8606FAE0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id 04204606A323;
+	Sat, 14 Nov 2026 20:38:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=XDIhocjh
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:
-	To:From:Sender:Reply-To:Content-ID:Content-Description;
-	bh=/GQ2kS4zUGO1VrRdCGc0i8jbBEMqqC1y2L0YsldwfFs=; b=XDIhocjhPJkOxDtRKRtKBhtH4K
-	d5+pqDbw+uhdymgukoin8yZ+SIycM+3Zy0tlygo/Ahh9V2dUz8am7v5F+s+OiHgrg8Z6MoFGWEnEj
-	F4En8Ab/mKUEIWPb+cNtmXyElhpAnx+TnO9Im2Eow2i+nqiNosKxRAi1SQbReU5LZrPynT4dcY8Lk
-	Thib/6BgIqJzI+6K/y8KD4ybDW6vSBxsArbMvKkNi/HLSIt3390x02r1bfV35x51xAJlxCNHKoU7C
-	Jcj7OJXmK4/hTJJRDAEHa7wka2ef1B/GfVa9DURHrADxvENRQDnmIT2OgPVAh7qGGcJ3nZksJ2bDP
-	bS0oBuOg==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSKLM-0000000Giga-33TB;
-	Sat, 14 Nov 2026 20:27:26 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	David Hildenbrand <david@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	linux-mm@kvack.org,
-	Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>,
-	linux-sound@vger.kernel.org,
-	Jens Axboe <axboe@kernel.dk>,
-	linux-block@vger.kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-bluetooth@vger.kernel.org,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Jason Wang <jasowangio@gmail.com>,
-	David Heidelberg <david@ixit.cz>,
-	oe-linux-nfc@lists.linux.dev,
-	Chas Williams <3chas3@gmail.com>,
-	linux-atm-general@lists.sourceforge.net,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	netdev@vger.kernel.org,
-	Helge Deller <deller@gmx.de>,
-	linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	MPT-FusionLinux.pdl@broadcom.com,
-	"James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-	"Martin K. Petersen" <mkp@kernel.org>,
-	linux-scsi@vger.kernel.org,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Zhihao Cheng <chengzhihao1@huawei.com>,
-	linux-mtd@lists.infradead.org,
-	Neill Kapron <nkapron@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	Juergen Gross <jgross@suse.com>,
-	Stefano Stabellini <sstabellini@kernel.org>,
-	xen-devel@lists.xenproject.org,
-	Hans de Goede <hansg@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	=?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	kvm@vger.kernel.org,
-	virtualization@lists.linux.dev,
-	Jan Kara <jack@suse.cz>,
-	linux-fsdevel@vger.kernel.org,
-	"Theodore Ts'o" <tytso@mit.edu>,
-	linux-ext4@vger.kernel.org,
-	Mike Marshall <hubcap@omnibond.com>,
-	devel@lists.orangefs.org,
-	Paulo Alcantara <pc@manguebit.org>,
-	Namjae Jeon <linkinjeon@kernel.org>,
-	linux-cifs@vger.kernel.org,
-	Jaegeuk Kim <jaegeuk@kernel.org>,
-	Chao Yu <chao@kernel.org>,
-	linux-f2fs-devel@lists.sourceforge.net,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	Tzung-Bi Shih <tzungbi@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	amd-gfx@lists.freedesktop.org,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	intel-gfx@lists.freedesktop.org,
-	Matthew Brost <matthew.brost@intel.com>,
-	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	intel-xe@lists.freedesktop.org
-Subject: [PATCH 12/12] docs: ioctl-number: update DRM entries
-Date: Sat, 14 Nov 2026 12:26:50 -0800
-Message-ID: <20261114202653.3113381-13-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261114202653.3113381-1-rdunlap@infradead.org>
-References: <20261114202653.3113381-1-rdunlap@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mo50OBvQ
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id D2D821F000C5;
+	Sat, 14 Nov 2026 20:38:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794688694;
+	bh=VCGyHVFKkAZjSSjza2g0FyrSSaFZoL8CQjsvctCPwdU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Mo50OBvQRqhFlR02xy+G+EOJimTN8jRGcoFd35TrMXjwhG2YWmx7/04mr9cysS4c9
+	 dd1oahQ4khkbcy91Z5MDWDTIHic/aHrMVJzY16vZOHoGwLin0WnJ22o4E9zUhDp+iY
+	 V4Lu+61LQuq98/FwJI+fhkDlB9z4DeYktS//vEq3oQ3RLm069RKChfUjXhl6F7AigE
+	 kOTUCLfPbx10pR2Ye2TLkdBCYMp6Z4NiPnVc0LuPQKot6BWT6NlVbMjmbGQri/gaUE
+	 ds5cAQudUsMWsnFk7eODuleFrw9fdh2CEMCX8nxbLl1f/t+kf2Zbm7lWQyLZcuvIlB
+	 u+O6rxj9sHSeg==
+Date: Sat, 14 Nov 2026 22:38:10 +0200
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: bot+bpf-ci@kernel.org
+Cc: dhowells@redhat.com, bpf@vger.kernel.org, dm-devel@lists.linux.dev,
+	fsverity@lists.linux.dev, keyrings@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-security-module@vger.kernel.org, agk@redhat.com,
+	agordeev@linux.ibm.com, ast@kernel.org, alexs@kernel.org,
+	anastasia.eskova@ibm.com, akpm@linux-foundation.org,
+	andrii@kernel.org, bmarzins@redhat.com, borntraeger@linux.ibm.com,
+	daniel@iogearbox.net, dzm91@hust.edu.cn, eddyz87@gmail.com,
+	emil@etsalapatis.com, ebiggers@kernel.org, ignat@linux.win,
+	hca@linux.ibm.com, ihor.solodrai@linux.dev,
+	James.Bottomley@hansenpartnership.com, jmorris@namei.org,
+	jolsa@kernel.org, corbet@lwn.net, memxor@gmail.com,
+	torvalds@linux-foundation.org, martin.lau@linux.dev,
+	snitzer@kernel.org, mpatocka@redhat.com, zohar@linux.ibm.com,
+	paul@paul-moore.com, oberpar@linux.ibm.com, rdunlap@infradead.org,
+	roberto.sassu@huawei.com, serge@hallyn.com,
+	skhan@linuxfoundation.org, song@kernel.org, svens@linux.ibm.com,
+	tytso@mit.edu, gor@linux.ibm.com, si.yanteng@linux.dev,
+	yonghong.song@linux.dev, martin.lau@kernel.org, mason@kernel.org
+Subject: Re: [PATCH v13 6/7] KEYS: Replace assoc_array with rhashtable
+Message-ID: <avjGskpYTWp_JGHd@kernel.org>
+References: <20261114193631.731615-7-jarkko@kernel.org>
+ <717a43d830b7a6544a51f3c227592eaadcd0afcf61ec9bf922ad517a280b8bfe@mail.kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -150,63 +75,28 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <717a43d830b7a6544a51f3c227592eaadcd0afcf61ec9bf922ad517a280b8bfe@mail.kernel.org>
 
-Update the list of files where DRM ioctls are defined.
+On Sat, Nov 14, 2026 at 08:24:27PM +0000, bot+bpf-ci@kernel.org wrote:
+> > + * The walk is RCU-protected, so the keyring's semaphore is not required.  A
+> > + * keyring modified concurrently may list a key twice or miss one, but it can
+> > + * never have a link freed under the walk.
+> 
+> Could the comment instead say that the caller holds the keyring's semaphore,
+> which keeps the list and the link count stable across the walk and the
+> length calculation, with RCU only keeping the walk itself memory-safe?
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-[Since having multiple maintainers trying to merge these would
-cause some conflicts, it would be more manageable for Jon to
-take all of these through the docs-next tree.]
+If I did not miss anything, this is the only remark.
 
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: dri-devel@lists.freedesktop.org
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>
-Cc: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
-Cc: Rodrigo Vivi <rodrigo.vivi@intel.com>
-Cc: Tvrtko Ursulin <tursulin@ursulin.net>
-Cc: intel-gfx@lists.freedesktop.org
-Cc: Matthew Brost <matthew.brost@intel.com>
-Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
-Cc: intel-xe@lists.freedesktop.org
+Hmm...
 
- Documentation/userspace-api/ioctl/ioctl-number.rst |    5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+I think this is enough prose to capture the preconditions:
 
---- linux-next-20261113.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ linux-next-20261113/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -98,6 +98,7 @@ Code  Seq#    Include File
- 0x1b  all                                                              InfiniBand Subsystem
-                                                                        <http://infiniband.sourceforge.net/>
- 0x20  all    drivers/cdrom/cm206.h
-+0x20  00-01  drivers/gpu/drm/amd/amdgpu/amdgpu_umr.h
- 0x22  all    scsi/sg.h
- 0x3E  00-0F  linux/counter.h                                           <mailto:linux-iio@vger.kernel.org>
- '!'   00-1F  uapi/linux/seccomp.h
-@@ -269,7 +270,7 @@ Code  Seq#    Include File
- 'c'   08     drivers/scsi/ch.c                                         conflict!
- 'c'   80-9F  arch/s390/include/asm/chsc.h                              conflict!
- 'c'   A0-AF  arch/x86/include/asm/msr.h conflict!
--'d'   00-FF  linux/char/drm/drm.h                                      conflict!
-+'d'   00-FF  drm/drm.h                                                 conflict!
- 'd'   02-40  pcmcia/ds.h                                               conflict!
- 'd'   F0-FF  linux/digi1.h
- 'e'   all    linux/digi1.h                                             conflict!
-@@ -293,6 +294,8 @@ Code  Seq#    Include File
-                                                                        <mailto:zapman@interlan.net>
- 'h'   00-1F  linux/hpet.h                                              conflict!
- 'h'   80-8F  fs/hfsplus/ioctl.c
-+'i'   00-02  drm/i915_drm.h
-+'i'   00-04  drm/xe_drm.h
- 'i'   00-3F  linux/i2o-dev.h                                           conflict!
- 'i'   0B-1F  linux/ipmi.h                                              conflict!
- 'i'   80-8F  linux/i8k.h
+	/*
+	 * The list and link count are stable across the walk as the caller
+	 * holds keyring->sem.
+	 */
+
+Br, Jarkko
