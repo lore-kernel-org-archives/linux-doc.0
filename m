@@ -1,64 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.236
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.246.68.102
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794647207;
-	b=BZjI5cYgl3s1GZOpcO5U62icnXNfiG++uTxZPQIGXR/wmZXLlNdzbmwTBEKRWkwDzGDp
-	 o2x3WfOo0w/LsdcLkNxm/5DhK7djKeJ088DgfPd1M570SQTicc1YpHrooyPw+rIRxoCH0
-	 GkvhoCtHARMKnZH2tv8NDXLrQOU3IbV+TUqpvWgRQLKyLpYLTmQImMlKdOxWb9XG0cDB+
-	 W3oEzFF94inCHonWh3LthB52fRNpyBAF/cZjt8763zr4A4APhm5tzNNrnmBKecpX6anSE
-	 7Uv8nTaMIR6ck55kTvI5bVfZf4P2s6r2TXtWtlNDTpffSmDJfl26i36GlQfh4IW5PrA==
+	t=1794647553;
+	b=a5UdPPQLUz5lXjpJoSq4NEkHe1DWqfr0Ve7Oy7sY9AvfXWhe6/3+SjIEPUzJK2UFd7m/
+	 iweROm5F63DRcWuIOm329k57TJEHEJQYlHEdcTeQDez+7wYVwgVYXoKzeVVal/l3dv4Ul
+	 DKld0Saa5r7FAxIgn9EaiRmGdjSc+vZcvuPiDQnriym0yvsmm8H4QYgySAHuYkal5kU1W
+	 3VDMJVYmwpDXW6PAKRYiMbsgCfrI9bKAFjRYVe8IB8RANJ1i6Jf3S8Zr5ltiHbw8cjcWF
+	 IKyBO/nUG+ks/ZBRXnOFnrW0LV1I0jzSJsW4bphRx0qCRbEBrOfhEeLdcRAEYyyQR7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794647207;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-XMRINFO:X-QQ-XMAILINFO:From:To:Cc:
-	 Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Date:
-	 X-Priority:Message-ID:X-QQ-MIME:X-Mailer:X-QQ-Mailer:X-QQ-mid;
-	bh=89bJHpkich3hGtKxUwZbiKaMsUywzBBIlLysOT4zJ6Y=;
-	b=FOFfHOodH7pRvIlSQxRyARtyoTz+9OYgSatLALAdm7QjMmdXvFXtkaIqPnJqjr1V5J/G
-	 2B2EUSzn677GQ+cCKh+VpriPrF4438ZxohxeoVYSs8OgUzjWBonQ7YNhjexewgJx2VRPq
-	 K32RZCXHnV0+QbTKuffB6DX1pgZFV4geuNMkvHs0c+6CETYL8BzdKUuLDtdHpktaxKwIa
-	 aPWKI3pIR8Pa7J+qKbQNP7K7IQ2EtLHdofGTQHdiFl0EuAOErSUPMyjVxqLn3MVs12AoA
-	 +UWBJUIWsZFAJkgXRLjbl7i7vdory3g6lADv6vf9sIG53O2X7WjEWZPM1rVIP/PzMAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794647553;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:Received:Received:X-Farcaster-Flow-ID:Received:Received:
+	 From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:X-Originating-IP:
+	 X-ClientProxiedBy;
+	bh=ewPtHXrv7EUANlzuM5mAXHrHQ84ZayQ1dYeaX0xwzDM=;
+	b=ZAODrCp2TxRgDZ5cKdrjt98ACGLygQhrmdKTBi0xG/42PhFgETpzWJqWhZCMcjybz4VF
+	 e7su/dh3vbRRMy8uEfVvyQIRCulWU0oyPdPaRSXqDBobMoY/X18JbiEu9JEQ6MIbKTubI
+	 YFKOdmAk3eIXk8OLswDC3m0LqZY2L1s6r8t9u/w1p6joWx4y5Z7jEYcCxYJ+cXtBh3cwV
+	 58gYGn86iWwtQ7HJdvl+lWTtOZKfobcGe//Wnomg9E8F9YPGsX5Jlbnb9iGD4EpzQz50z
+	 eHDTMDZ6r4iY0amQnQ6CMPYFcopDS7IjVRbEj40CUZ8WNoy9Wi0Ue6xb6uK0/6yXbBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=tYW+ijhV;
-	arc=none smtp.remote-ip=203.205.221.236
-Received: from out203-205-221-236.mail.qq.com (out203-205-221-236.mail.qq.com [203.205.221.236])
+	dmarc=pass header.from=amazon.com;
+	spf=pass smtp.mailfrom=amazon.com;
+	dkim=pass header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=loAHwaBJ;
+	arc=none smtp.remote-ip=44.246.68.102
+Received: from pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com [44.246.68.102])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EBF5606A882;
-	Sat, 14 Nov 2026 09:06:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EBF5606A882
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ED2A606A33A;
+	Sat, 14 Nov 2026 09:12:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9ED2A606A33A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=tYW+ijhV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794647198; bh=89bJHpkich3hGtKxUwZbiKaMsUywzBBIlLysOT4zJ6Y=;
-	h=From:To:Cc:Subject:Date;
-	b=tYW+ijhVllIWkJf92wpfhFXXtjnp9/ScJmNhdREQER1cjBzshoMur4Q8DoF/07zB2
-	 +ricHaWG9CZuDBtq2A/516loBu6HO56eT+QajTyjGLAuM8+0GwoRdVTSRnnwSbCQX1
-	 RvtwuvwBjbqay2UyzlQwqC5EH2NIBDE7vFepOcao=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-X-QQ-XMAILINFO: MdmyWVu0InhA0PQlinfSwl6AErPBSNhGfVWHqROTKqnv9PLktoKeo0c2UtLXff
-	 zYworFL+OCG8moJr4XIxIm93hdv4hc3S+dOSoPdyC4ZDy1rcW99nEDTEz1Q2IQUXusfQAjMtr1NMA
-	 6onP1hcWTqNUvU1IvqE60D+94aEHzyWsMoBaiZtXFa9vKQvYuhSLLSW8f1lwBZqD2pc6U1Nr67x8a
-	 jfEsg9dd0TTvCIJNTpvlN/dKvXC+YEcf5lG4RhL6dnO/p/VNgoZJ7/nuHktvdYb8GJZYa0KhZkX5H
-	 TUTTNjcBMajs1KJV+B3tBNo+06KKqnvs19calcfBpClUVcPC5BT2RCv2at+0R5+8JutVoBGBq3bs9
-	 nCLGjbHYJ3Z/CC1pce9r8W327z9bDVtb3eXHcFBMrV8IVfT209hVUp8338If3R42YNatRs8YSKYiH
-	 5ncZJBmST7kC9CW5i/oX4iG27oCPZSVE6RaxMNAMsLpteBLs89dLp1wSvMs8nU/F0Bqu4ViOCWI30
-	 2C5EDGhHwx4Fle5TN9+fzzAavCrDZTSseFWLeIg2ZaEnHAq3MFc8nt4UvdkJrNlmFDjKs1d8VQNLT
-	 OmX+0BB5xhYF3BF8n+e7klE4UMAyVm7D/l19HuaqyDsfoT3798/Rw1GUrNENnhtuLABb2P+3/w5a1
-	 IDyt7fOU6ksEaAQqvNMFDJ6TImpZ3LTnAFIpR1YGDH8byo9Pms6zZfesALcKPGmxNab0VqtWcLTG0
-	 5QtuYj7RnTNUQTU3utyMJ7DWP/Rt7F9nUeTVAHF6w+wFXUR0ki1vRMAUfE3LJcVklALRv8V9cy8cb
-	 /NabJswiV8DAPfkLjdkY7smC/mxwlACoi/at6b2XzQiRO3bRX6OSM6j0ThMpCSinlR7jb5JbRSCMs
-	 0VIJtXW8+C7YfMvFt/m9YFUdBcRBOW430l7RSzoeEzr890Y1X/+tPi8VQF15arVTOHsQdk+pPruV9
-	 CKftZoue1rAmKSxkhliaMsWLxmNU+pFraN91+tUG1ZhDazckgEifxPtWMlR5GgJ5nkPUo9W9sqDsQ
-	 7XqgMW+Y34jmSjMMuyBg/A8ukLXHg1ks6odVGELornfLSpFJGjk9bH5OBZIAf8uFJap0721JpOtE9
-	 zI3IblZP2ylt8Q==
-From: "=?utf-8?B?6Zey6YCb?=" <2368492046@qq.com>
-To: "=?utf-8?B?Y29yYmV0?=" <corbet@lwn.net>, "=?utf-8?B?bWNoZWhhYg==?=" <mchehab@kernel.org>
-Cc: "=?utf-8?B?d3k=?=" <wy@wyuan.org>, "=?utf-8?B?bGludXgtZG9j?=" <linux-doc@vger.kernel.org>, "=?utf-8?B?c2toYW4=?=" <skhan@linuxfoundation.org>, "=?utf-8?B?cmR1bmxhcA==?=" <rdunlap@infradead.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 4/4] docs: kernel-doc: import sys for YAML failure diagnostics
+	dkim=pass (2048-bit key, unprotected) header.d=amazon.com header.i=@amazon.com header.a=rsa-sha256 header.s=amazoncorp2 header.b=loAHwaBJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1794647552; x=1826183552;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ewPtHXrv7EUANlzuM5mAXHrHQ84ZayQ1dYeaX0xwzDM=;
+  b=loAHwaBJHr2XeOA0TtOzcyBzJLlXfgxj6uaa+1vbNAnoi80KwRuKk9Sn
+   aaNg6KZrM2Dhw0Gx1SDd/ZrD2ILGZ072X7uM50REw6f9k2ur3hpGUF0n5
+   UgFiGOxLzM7dMFWsQgyGUUMPlR73oiaWS3QFCyd5rZDM4FCuNLgcF3pQC
+   RRSnG40RiiGZVU+lfXra+xFmDRgsLD/QCRzq3U3vIYkyIanUo3cEcU9hS
+   3G6K1Dkam4fidI7krO3jy2vnnPgLuyITao7c3m+IMQo3KLhwFvi4y5CzI
+   Yz4OiWlxVYEu/B68KOp2rccYNhzL/YfOBrUQBdywwzMVsI0qsyxaJqO1A
+   Q==;
+X-CSE-ConnectionGUID: CN5O7v6lQ22t9bOeqTC4UA==
+X-CSE-MsgGUID: vd0zNEgXSrSDgAxymbcbtg==
+X-IronPort-AV: E=Sophos;i="6.27,213,1787011200"; 
+   d="scan'208";a="33904262"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-003.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2026 09:12:30 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [205.251.233.236:23248]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.34.255:2525] with esmtp (Farcaster)
+ id 2c4611d0-5f5e-43c3-8896-3f90b5ab17ff; Sat, 14 Nov 2026 09:12:29 +0000 (UTC)
+X-Farcaster-Flow-ID: 2c4611d0-5f5e-43c3-8896-3f90b5ab17ff
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.218) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Sat, 14 Nov 2026 09:12:29 +0000
+Received: from dev-dsk-surenkj-2b-416930d2.us-west-2.amazon.com (10.169.26.94)
+ by EX19D001UWA001.ant.amazon.com (10.13.138.214) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.56;
+ Sat, 14 Nov 2026 09:12:29 +0000
+From: Surendran Kanagaraj <surenkj@amazon.com>
+To: <jarkko@kernel.org>
+CC: <corbet@lwn.net>, <graf@amazon.de>, <gunnarku@amazon.com>, <jgg@ziepe.ca>,
+	<joshlev@amazon.com>, <leitao@debian.org>, <linux-doc@vger.kernel.org>,
+	<linux-integrity@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<nh-open-source@amazon.com>, <noodles@earth.li>, <peterhuewe@gmx.de>,
+	<surenkj@amazon.com>
+Subject: Re: [RFC PATCH v3 1/8] tpm: Add a single table for all TPM wait limits
+Date: Sat, 14 Nov 2026 09:12:22 +0000
+Message-ID: <20261114091222.32721-1-surenkj@amazon.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <avdoybHEoRd0Fhie@kernel.org>
+References: <20261112163846.97654-1-surenkj@amazon.com> <20261112163846.97654-2-surenkj@amazon.com> <avdoybHEoRd0Fhie@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -67,69 +86,107 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Sat, 14 Nov 2026 17:06:36 +0800
-X-Priority: 3
-Message-ID: <tencent_50889D4FAD577261C37393C80A483FA47906@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-X-QQ-mid: xmsezc52-0t1794647196t7xvdd1xz
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D031UWA001.ant.amazon.com (10.13.139.88) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-RnJvbTogeXVlaHVhLW1lbmcgPDIzNjg0OTIwNDZAcXEuY29tPgoKTWlzc2luZyBQeVlBTUwg
-YW5kIG5vbmV4aXN0ZW50IG91dHB1dCBkaXJlY3RvcmllcyByZWFjaCBzeXMuZXhpdCgpCndp
-dGhvdXQgaW1wb3J0aW5nIHN5cy4gVGhpcyByYWlzZXMgTmFtZUVycm9yIGluc3RlYWQgb2Yg
-cmVwb3J0aW5nCnRoZSBpbnRlbmRlZCBkaWFnbm9zdGljLgoKSW1wb3J0IHN5cyBhbmQgYWRk
-IENMSSB0ZXN0cyBmb3IgYm90aCBmYWlsdXJlcyBhbmQgc3VjY2Vzc2Z1bCBZQU1MCmdlbmVy
-YXRpb24uIFRoZSBtaXNzaW5nLWRlcGVuZGVuY3kgdGVzdCBkaXNhYmxlcyBzaXRlIHBhY2th
-Z2VzLgoKRml4ZXM6IGIzN2IzY2JiYjFmMSAoImRvY3M6IGFkZCBhIG5ldyBmaWxlIHRvIHdy
-aXRlIGtlcm5lbC1kb2Mgb3V0cHV0IHRvIGEgWUFNTCBmaWxlIikKClNpZ25lZC1vZmYtYnk6
-IHl1ZWh1YS1tZW5nIDwyMzY4NDkyMDQ2QHFxLmNvbT4KLS0tCkNoYW5nZXMgaW4gdjI6ClJl
-YmFzZSBvbnRvIGRvY3MtbmV4dDsgbm8gZnVuY3Rpb25hbCBjaGFuZ2UgZnJvbSB0aGUgc2ln
-bmVkIHYxLgoKIHRvb2xzL2xpYi9weXRob24va2RvYy9rZG9jX3lhbWxfZmlsZS5weSB8ICAx
-ICsKIHRvb2xzL3VuaXR0ZXN0cy90ZXN0X2tkb2NfeWFtbC5weSAgICAgICB8IDM3ICsrKysr
-KysrKysrKysrKysrKysrKysrKysKIDIgZmlsZXMgY2hhbmdlZCwgMzggaW5zZXJ0aW9ucygr
-KQogY3JlYXRlIG1vZGUgMTAwNjQ0IHRvb2xzL3VuaXR0ZXN0cy90ZXN0X2tkb2NfeWFtbC5w
-eQoKZGlmZiAtLWdpdCBhL3Rvb2xzL2xpYi9weXRob24va2RvYy9rZG9jX3lhbWxfZmlsZS5w
-eSBiL3Rvb2xzL2xpYi9weXRob24va2RvYy9rZG9jX3lhbWxfZmlsZS5weQppbmRleCAwYmUw
-MjBkNTAuLmViNWU1MWMzNiAxMDA2NDQKLS0tIGEvdG9vbHMvbGliL3B5dGhvbi9rZG9jL2tk
-b2NfeWFtbF9maWxlLnB5CisrKyBiL3Rvb2xzL2xpYi9weXRob24va2RvYy9rZG9jX3lhbWxf
-ZmlsZS5weQpAQCAtMyw2ICszLDcgQEAKICMgQ29weXJpZ2h0KGMpIDIwMjY6IE1hdXJvIENh
-cnZhbGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPi4KIAogaW1wb3J0IG9zCitpbXBv
-cnQgc3lzCiAKIGZyb20ga2RvYy5rZG9jX291dHB1dCBpbXBvcnQgTWFuRm9ybWF0LCBSZXN0
-Rm9ybWF0CiAKZGlmZiAtLWdpdCBhL3Rvb2xzL3VuaXR0ZXN0cy90ZXN0X2tkb2NfeWFtbC5w
-eSBiL3Rvb2xzL3VuaXR0ZXN0cy90ZXN0X2tkb2NfeWFtbC5weQpuZXcgZmlsZSBtb2RlIDEw
-MDY0NAppbmRleCAwMDAwMDAwMDAuLmUzOGRkZDEzMQotLS0gL2Rldi9udWxsCisrKyBiL3Rv
-b2xzL3VuaXR0ZXN0cy90ZXN0X2tkb2NfeWFtbC5weQpAQCAtMCwwICsxLDM3IEBACisjIFNQ
-RFgtTGljZW5zZS1JZGVudGlmaWVyOiBHUEwtMi4wCisiIiJSZWdyZXNzaW9uIHRlc3RzIGZv
-ciBrZXJuZWwtZG9jIFlBTUwgZ2VuZXJhdGlvbiBhbmQgZXJyb3IgaGFuZGxpbmcuIiIiCisK
-K2ltcG9ydCB5YW1sCisKK2Zyb20ga2RvY19jbGlfaGVscGVyIGltcG9ydCBLZXJuZWxEb2ND
-bGlUZXN0CisKKworY2xhc3MgVGVzdEtlcm5lbERvY1lhbWwoS2VybmVsRG9jQ2xpVGVzdCk6
-CisgICAgZGVmIHNldFVwKHNlbGYpOgorICAgICAgICBzdXBlcigpLnNldFVwKCkKKyAgICAg
-ICAgc2VsZi5pbnB1dCA9IHNlbGYuc291cmNlKCJleGFtcGxlLmMiLCAoCisgICAgICAgICAg
-ICAiLyoqXG4gKiBleGFtcGxlIC0gZG9jdW1lbnRlZCBmdW5jdGlvblxuICovXG4iCisgICAg
-ICAgICAgICAidm9pZCBleGFtcGxlKHZvaWQpIHt9XG4iCisgICAgICAgICkpCisKKyAgICBk
-ZWYgdGVzdF9taXNzaW5nX2RlcGVuZGVuY3koc2VsZik6CisgICAgICAgIHJlc3VsdCA9IHNl
-bGYucnVuX2tkb2MoIi0teWFtbCIsIHNlbGYuZGlyZWN0b3J5IC8gInRlc3QueWFtbCIsCisg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgc2VsZi5pbnB1dCwgbm9fc2l0ZT1UcnVl
-KQorICAgICAgICBzZWxmLmFzc2VydEVxdWFsKHJlc3VsdC5yZXR1cm5jb2RlLCAxKQorICAg
-ICAgICBzZWxmLmFzc2VydEluKCJ5YW1sIHBhY2thZ2Ugbm90IGF2YWlsYWJsZSIsIHJlc3Vs
-dC5zdGRlcnIpCisgICAgICAgIHNlbGYuYXNzZXJ0Tm90SW4oIlRyYWNlYmFjayIsIHJlc3Vs
-dC5zdGRlcnIpCisKKyAgICBkZWYgdGVzdF9taXNzaW5nX2RpcmVjdG9yeShzZWxmKToKKyAg
-ICAgICAgcmVzdWx0ID0gc2VsZi5ydW5fa2RvYygiLS15YW1sIiwgc2VsZi5kaXJlY3Rvcnkg
-LyAibWlzc2luZy90ZXN0LnlhbWwiLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-IHNlbGYuaW5wdXQpCisgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwocmVzdWx0LnJldHVybmNv
-ZGUsIDEpCisgICAgICAgIHNlbGYuYXNzZXJ0SW4oImRvZXNuJ3QgZXhpc3QiLCByZXN1bHQu
-c3RkZXJyKQorICAgICAgICBzZWxmLmFzc2VydE5vdEluKCJUcmFjZWJhY2siLCByZXN1bHQu
-c3RkZXJyKQorCisgICAgZGVmIHRlc3RfdmFsaWRfb3V0cHV0KHNlbGYpOgorICAgICAgICBv
-dXRwdXQgPSBzZWxmLmRpcmVjdG9yeSAvICJ0ZXN0LnlhbWwiCisgICAgICAgIHJlc3VsdCA9
-IHNlbGYucnVuX2tkb2MoIi0teWFtbCIsIG91dHB1dCwgc2VsZi5pbnB1dCkKKyAgICAgICAg
-c2VsZi5hc3NlcnRFcXVhbChyZXN1bHQucmV0dXJuY29kZSwgMCwgcmVzdWx0LnN0ZGVycikK
-KyAgICAgICAgZGF0YSA9IHlhbWwuc2FmZV9sb2FkKG91dHB1dC5yZWFkX3RleHQoZW5jb2Rp
-bmc9InV0Zi04IikpCisgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwobGVuKGRhdGFbInRlc3Rz
-Il0pLCAxKQorICAgICAgICBzZWxmLmFzc2VydEVxdWFsKGRhdGFbInRlc3RzIl1bMF1bIm5h
-bWUiXSwgImV4YW1wbGUiKQotLSAKMi41My4wLndpbmRvd3MuMgoK
+Hi Jarkko,
+Thanks for the review.
 
+On Fri, Nov 13, 2026 at 09:45:13PM +0200, Jarkko Sakkinen wrote:
+> On Thu, Nov 12, 2026 at 04:38:39PM +0000, Surendran Kanagaraj wrote:
+> > The hook sets values with tpm_limits_driver_set() or from a quirk
+> > table through tpm_limits_apply_quirks(). tpm_poll_timeout() waits on
+>
+> OK, but ...
+>
+> I.e. I'm not fully following what is the diffence between these call
+> paths.
+
+They are used from the same place. tpm_limits_update(), which is called
+from tpm*_get_timeouts(), builds the table. The driver hook
+->adjust_limits() runs from tpm_limits_update() and uses
+tpm_limits_apply_quirks() to apply the quirks. tpm_limits_apply_quirks()
+finds the matching quirk entry and calls tpm_limits_driver_set() to
+update the limit.
+
+tpm_limits_update(...)
+{
+    tpm_limits_stage_defaults(&p, family);
+    if (reported)
+        tpm_limits_stage_reported(&p, reported);
+    if (chip->ops->adjust_limits)
+        chip->ops->adjust_limits(chip, &p);
+    tpm_limits_stage_validate(&p);
+    tpm_limits_commit(chip, &p);
+}
+
+Hope this clarifies.
+
+> > +/*
+> > + * Handles time limits for a TPM chip.
+>
+> I'd extend this to just have brief description how this works. Just a
+> high-level overview.
+
+Ack. I will add a short overview in the next rev.
+
+> > +static int tpm_poll(struct tpm_chip *chip, u32 timeout_us,
+> > +		    enum tpm_limit limit,
+> > +		    bool (*cond)(struct tpm_chip *chip, void *arg), void *arg)
+> > [...]
+> > +int tpm_poll_timeout(struct tpm_chip *chip, enum tpm_limit limit,
+> > +		     bool (*cond)(struct tpm_chip *chip, void *arg), void *arg)
+> > +{
+> > +	if (WARN_ON_ONCE(limit >= TPM_NR_LIMITS))
+> > +		return -EINVAL;
+> > +
+> > +	return tpm_poll(chip, tpm_limits_us(chip, limit), limit, cond, arg);
+> > +}
+> > +EXPORT_SYMBOL_GPL(tpm_poll_timeout);
+> > [...]
+> > +int tpm_poll_timeout_us(struct tpm_chip *chip, u32 timeout_us,
+> > +			bool (*cond)(struct tpm_chip *chip, void *arg),
+> > +			void *arg)
+> > +{
+> > +	return tpm_poll(chip, timeout_us, TPM_NR_LIMITS, cond, arg);
+> > +}
+>
+> I did not check all the details but could this be reorganized into:
+>
+> 1. __tpm_poll(): the same as tpm_poll() but exported and defined in
+>    drivers/char/tpm.h.
+> 2. tpm_poll(): a single static inline function declared fully at
+>    drivers/char/tpm.h
+>
+> __tpm_poll() would e.g., make a nicer trace point for a kprobe or
+> kretprobe.
+
+Good point. __tpm_poll() then becomes the single kprobe point. Will do
+this in the next rev.
+
+> > +/* per-device overrides based on id the driver defines e.g. DID/VID */
+> > +struct tpm_limits_quirk {
+> > +	u32 id;				/* driver-defined device identity */
+> > +	u32 time_us[TPM_NR_LIMITS];	/* 0 leaves the limit alone */
+> > +};
+>
+> I think it would make more sense to fully initialize the database per
+> device, if that is possible.
+>
+> It is a non-concern if two TPM drivers do some redundant work, as it
+> is not a real-world production use case :-)
+>
+> I'm just wondering if this quirk/entry division.
+>
+> I.e. in my world view chip owns its limits (not e.g., tpm2_space).
+
+Makes sense. The quirk table is just a convenience, a common table fmt
+for drivers, and the chip still owns the table. Without it the driver
+calls tpm_limits_driver_set() for each limit it changes. I am happy to
+drop it in the next rev.
+
+Thanks,
+Surendran
