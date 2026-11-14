@@ -1,45 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.176
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794687872;
-	b=DaBsTS9NoolLlaq/Czkf8DGbFP3nk095ZADBUInrCPKMHZ82RdTXP1U9t8dZVCRzI37Y
-	 iF6EYIJKK0TQNaCd19GzVio3A+90jXZKk2k5U8bvpGJdtzcTk3Ezd7uLH0ARqpVrPRrw4
-	 musBWWFr0H13zKSueLY88WSOMUNe6Brk3Ahkazt8o5HphHDXpboVSI+SaZQuSubzA+olW
-	 JrfrlmSGx8fUutXuN3BKs9krVnuz0S3ibutNgKzd4NiGFpCocnWfilxzqH8YSZ65t3WZQ
-	 6h8rVgf/DX9xXg5svM9GpUMDPCervSF+mbEZfIsdq/nXUUQ+lMJ3WxdVTOrOqeu+ktA==
+	t=1794687951;
+	b=C02UKAq5vjNzjbYXTbpnLJiwOvuO9FkrL2LcNHMGKvNqvJUIawdPFHrLLIZTIVWwDsiZ
+	 QMWwz6PqExL7lxcVGmEQqQjsp+1JT6y6R6sCTOxgZHTON94Q8LCx0R+U1MdT8IsO+Xqey
+	 BXjc1Vzzz69ZPXgfVqrCzMjPPd5EGtk4xkUUIMk08mEQP59d+qyWwa0OL2nF7gmCyhUor
+	 K6+9Sj90ZeYDSTCdcz+ZuJEAuh84VPxNRTZtZ+TeEtw9DlB0mGLxjUx77n7RTYOFEdfJV
+	 F8FrMIoIOLeMDXA9K10kI3w82CMiT8ztJtO39wRekr7LHy/tcvlr//8vh5efCWggAPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794687872;
-	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
-	 In-Reply-To:References:Subject:From:To:Cc:Date;
-	bh=V9Oz70E155O9jInt6hTC5pYZasQgcnWNCVJSKndXa7k=;
-	b=XM+gSjmVvc1o6nNXIcrZ0D195COcDYLAZiWYV8XuZntC73DL+Mmu/4W5h8TfQYrxzJBL
-	 Ank682qqcLTPsA8Xq9PMcZ83ReHD2za2D0AdpuDm+L+CGcAh0lQGglXgYve9YwIjYSAge
-	 nWoTq1yPAStIveO+fmvrGDg5ifjd2TTPXwJSnEB+2qygm9zzWKqkyJXCsOdiSnB2PTpjs
-	 nK+rPmqx70zK4GcaEShgO7MrjKu2Y9jRJGbhELz+N+UByNP51iVkST0XpSFijC4/XNu/t
-	 npVcAUsGoK92jigSrnS8BRR69YftJJ9Q4kVkPxkUvf25T4IDDtWTuQRqPmfzdC/uM2w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794687951;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
+	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
+	bh=uhFgL5mQ4FmBEnWXxDB8G4YBTGpdQKsK7XBv176IhtY=;
+	b=ZJ9cVMucPuA8XAW68hN61LX3i+ucqb/XImLcDzCsbnT0mz4x4f+hi0597gWaVEyXeMMC
+	 9s2ZHeXYTLVzJ3XwqnjnwGirR8E9msleyjoXpMWgu3zUCrn6lSeUaE686X8UIPexfhqS0
+	 YLQa6S2PUxkrt7Bfhyfs935kJxr4jbbDl3RqO6xt1ZHWnDN8ZKt9AYrS/aGKjnhpL1aOb
+	 EfBcoxe0Y38ws/DtjD4ctnyI+qO7zS1s/aj7zOtA2v/Tg0s4i4vu2kzlPEB4pZdC799wP
+	 b5legK/sjAGtt3LdS42Z5ghrjv/8ihdzfLnNKST2OcUwFSVKInmWyoldYNzdPHAkP5g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=fail reason="signature verification failed" header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jjyAKqBD;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=gourry.net;
+	spf=pass smtp.mailfrom=gourry.net;
+	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=Umr5E+Um;
+	arc=none smtp.remote-ip=209.85.222.176
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2325E606A329;
-	Sat, 14 Nov 2026 20:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417DC606A881
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 20:25:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 417DC606A881
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jjyAKqBD
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 360D21F000C4;
-	Sat, 14 Nov 2026 20:24:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794687871;
-	bh=V9Oz70E155O9jInt6hTC5pYZasQgcnWNCVJSKndXa7k=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date;
-	b=jjyAKqBDcfwj3adWi8yNdPH+HlRifwnvumzIU4W0VCkulv16TycwN4NG2NMOzVuBa
-	 F8kZfYeoNSO1X73ZEEtPzIvcCcVg0fXWpqxl/ECrCSxl3abjRb4E1MaEdts1VS5JDf
-	 X3gcenvuxtT8Grm0f5iy95PvQIPr/MmvcWMTAa0Lrj2YLQ0EeFkpyrReIqDfLMCqPq
-	 sXPlSdQhkATWRwgtUR6FL7PR169AzBS6PV/QZV2LpdKJhusIIYNmoqItbOAgBizTcm
-	 /YMzVQf/1uAMwwQZo3IqIWPrR/hIxBWuJXk3oe1fDt+TFmZnQQyeYck8z+dDPX89s3
-	 AvRmJ3rlFmRQg==
-Content-Type: multipart/mixed; boundary="===============2241572966179256876=="
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=Umr5E+Um
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-949680e6d83so58795085a.3
+        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 12:25:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1794687950; x=1795292750; darn=vger.kernel.org;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=uhFgL5mQ4FmBEnWXxDB8G4YBTGpdQKsK7XBv176IhtY=;
+        b=Umr5E+UmqmQJUEtXniscPQJbti6YD2DHitWwub7Ht3Og9pJeig5ihXV2Z4T9u/CQar
+         ELecvn5Etdz2Cp5NYxT0dDCgI+3y3/csLjrjwcVOzDvq9Ixd4fJ2N/GTi/XLkUaTDgX1
+         i0ICXQzR7wbfXQB/GV7oZJuG3JWcxo605hw4EBuSlfDunXA0mUsNN1DLC3CPc8h6OrlV
+         AdD7yEtHYuI6saCYQnVwVFhNbkOuTy8TawCgHFcx84SLpC0DPVu+Gc5lA2eMkrpUB4IY
+         NWqX7nqtqf59Xs2h8IB2WJgW3S+bQjvcaGi34kiAmjO1HyPcFnDvoNJJQ6aA/sXkaY7i
+         R+VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794687950; x=1795292750;
+        h=message-id:date:references:in-reply-to:cc:to:from:subject
+         :content-transfer-encoding:content-type:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uhFgL5mQ4FmBEnWXxDB8G4YBTGpdQKsK7XBv176IhtY=;
+        b=btEdmhaQKqztCVBosXdAG9Mjh82cBR7Rb66ujw7MV2N+yM097ZO+zDtiol9j6BIc+R
+         blKzJpcV3aiF+4DEuW4iS8UkcCTOSNoX3Aafvu/lrXjOKKuYy0APDG6QMv24w+4FWq5H
+         O0n658EFAPHzk0cPResa8tOshDB2JxyQXqk4fwl2PfKwJLNw00yG9rFfRPuMYCNckn53
+         eTMm6o71SRGAn0eh+hL/Iwnx79nDXd08eZz1R8WgTosg2MMxQKKUJdJLxtAEPFEj+b+J
+         Qlpq4VnANjG16WY8iiYgmCvCt7mDCQFxKQ3sj/+zTQY+hyJE8ZyHcRTiIHSaQHXIAXyv
+         TFVg==
+X-Forwarded-Encrypted: i=1; AL+hErG4EM7zUe28ppiI6WX3/Of4Wcru02V/yD0sqK5QrMYUqsA9v3uTXOXfuZzvJF1OoHWV9LvSkeeFTkw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/FxcBdjOTbmnbjJJfEL1gaXiJrfRjdhdO1SWt+2vjxAG3CMgm8
+	jskTjwq/E+ab4OzdZivuNzR6YdUpQmX/qBf1zdV8z9a7oe5k5CB+2kkk2edie0cvhnw=
+X-Gm-Gg: AYBFou3mZGinOuLSyidtAMDQciC2ZnxVSYDs8jeZsddX1GaSavpnoDTaAQe3SquUhfO
+	EUDeAvZ4+I9rp/bhjy4IhVrnFoKsR0ASQ8iDD+c9RYFsPJyub92Q3lXvZcyLf0CdVgJWFU3bf6/
+	Cn8o2w085tCQnocFI3ek5v6WbO/+u8zet6QSC74fGqMmyMI45Ed3vedPTm5qDtZ1lS2ZTob/s4g
+	1ElLgc0lEQpzQoSSI6nvxPxcHz93fqM2wHh/aqS/IrlsqEE5Zu+QEwHY0z9NJ0LnGFloZA5q6mk
+	lzR0qM5Gj1xEVtsiu6N/4OZNDjbtkGudn4R7HDWWh9hkiZ1EtArG8ojAaFrRrmj5XGcba0Dx9EQ
+	9G3JTHCrEOF8OW3eclJz6DP7YhLIW1FZ53K7jUmKt5TcKoxxwTBzX1hTNZezi2egIYe8Fru3e83
+	K+uH3HQrrKs3bQTuF94Njj4ZC05Lqz5KDAC6UQX+RYpmKpXF5g4cnyLr082UD6I+f87CV+b4NWZ
+	v9izkmeVSDa1GuaeR7pX79tsBLRFAtelCX1nBDMNPrIXGSrhQB/CF8MzlFMje753H/mEeD/BRyo
+	ifY46yyw08IPl8PqxSl+SD8WhpSGSPM+FFPD5pklLKEINjafjMqrJIyqJvLTEY+D/Wh+n9R6hLt
+	AJdgteGA=
+X-Received: by 2002:a05:620a:4481:b0:93e:c12c:f11e with SMTP id af79cd13be357-9494bcd396cmr1068763285a.74.1794687950152;
+        Sat, 14 Nov 2026 12:25:50 -0800 (PST)
+Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d5f3e4sm50436436d6.16.2026.11.14.12.25.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 12:25:49 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -49,93 +89,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-Id: <717a43d830b7a6544a51f3c227592eaadcd0afcf61ec9bf922ad517a280b8bfe@mail.kernel.org>
-In-Reply-To: <20261114193631.731615-7-jarkko@kernel.org>
-References: <20261114193631.731615-7-jarkko@kernel.org>
-Subject: Re: [PATCH v13 6/7] KEYS: Replace assoc_array with rhashtable
-From: bot+bpf-ci@kernel.org
-To: jarkko@kernel.org,dhowells@redhat.com
-Cc: jarkko@kernel.org,bpf@vger.kernel.org,dm-devel@lists.linux.dev,fsverity@lists.linux.dev,keyrings@vger.kernel.org,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,linux-kselftest@vger.kernel.org,linux-security-module@vger.kernel.org,agk@redhat.com,agordeev@linux.ibm.com,ast@kernel.org,alexs@kernel.org,anastasia.eskova@ibm.com,akpm@linux-foundation.org,andrii@kernel.org,bmarzins@redhat.com,borntraeger@linux.ibm.com,daniel@iogearbox.net,dzm91@hust.edu.cn,eddyz87@gmail.com,emil@etsalapatis.com,ebiggers@kernel.org,ignat@linux.win,hca@linux.ibm.com,ihor.solodrai@linux.dev,James.Bottomley@HansenPartnership.com,jmorris@namei.org,jolsa@kernel.org,corbet@lwn.net,memxor@gmail.com,torvalds@linux-foundation.org,martin.lau@linux.dev,snitzer@kernel.org,mpatocka@redhat.com,zohar@linux.ibm.com,paul@paul-moore.com,oberpar@linux.ibm.com,rdunlap@infradead.org,roberto.sassu@huawei.com,serge@hallyn.com,skhan@linuxfoundation.org,song@kernel.org,svens@linux.ibm.com,tytso@mit.edu,gor@linux.ibm.com,
- si.yanteng@linux.dev,yonghong.song@linux.dev,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
-Date: Sat, 14 Nov 2026 20:24:27 +0000 (UTC)
-
---===============2241572966179256876==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 2/2] mm/mempolicy: limit shared policy ranges per inode
+From: "Gregory Price (Meta)" <gourry@gourry.net>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "Gregory Price (Meta)" <gourry@gourry.net>, 
+ Hugh Dickins <hughd@google.com>, 
+ Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>, 
+ Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
+ Ying Huang <ying.huang@linux.alibaba.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+ Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>, linux-mm@kvack.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <70740a32-92f5-4425-8676-68863f3e44c3@kernel.org>
+References: <20261113-mempolicy_limit-v1-0-16688b2644dc@kernel.org>
+ <20261113-mempolicy_limit-v1-2-16688b2644dc@kernel.org>
+ <179467808112.482102.13365594235443107281.b4-reply@b4>
+ <70740a32-92f5-4425-8676-68863f3e44c3@kernel.org>
+Date: Sat, 14 Nov 2026 15:25:48 -0500
+Message-Id: <179468794889.482102.14066028910704780583.b4-reply@b4>
+X-Mailer: b4 0.17-dev
 
-> KEYS: Replace assoc_array with rhashtable
+On 2026-11-14 21:16 +0100, David Hildenbrand (Arm) wrote:
+> On 11/14/26 18:41, Gregory Price (Meta) wrote:
+> > 
+> > Multi-task mappers were previously unlimited, but that seems like more
+> > of a nasty unintended corner case - not a real feature.
+> > 
+> > A single process is already limited on the number of vmas/policies based
+> > on `max_map_count`, so it seems natural to just use max_map_count
+> > directly, but I took a brief look at some distros and most seem to
+> > ship a raised `max_map_count` (>1 million) by default).
+> > 
+> > I tested that and even 1 million can cause a soft lockup.
+> > 
+> > Not sure there's an easy solution here, we might have to rework the shm
+> > policy locks.
+> 
+> Do you know a single valid use case that's not solved by patch #1 and would
+> trigger that many policies?
+> 
+> Ai was not able to come up with anything for me.
 
-TL;DR: Comment only, not a bug today: the new keyring_read() comment says no
-semaphore is needed and concurrent changes are possible, but the caller's
-semaphore prevents that. Suggests rewording it.
+Just want to make sure the bases are covered.
 
-> diff --git a/security/keys/keyring.c b/security/keys/keyring.c
-> --- a/security/keys/keyring.c
-> +++ b/security/keys/keyring.c
+If others are ok with this change, it doesn't look unreasonable to me.
 
-[ ... ]
+Although I'd wonder whether just using max_map_count's limit instead of
+adding a new toggle would just be cleaner and avoid adding a new uapi.
 
->  /*
->   * Read a list of key IDs from the keyring's contents in binary form
->   *
-> - * The keyring's semaphore is read-locked by the caller.  This prevents someone
-> - * from modifying it under us - which could cause us to read key IDs multiple
-> - * times.
-> + * The walk is RCU-protected, so the keyring's semaphore is not required.  A
-> + * keyring modified concurrently may list a key twice or miss one, but it can
-> + * never have a link freed under the walk.
->   */
->  static long keyring_read(const struct key *keyring,
->  			 char *buffer, size_t buflen)
+-- 
+~Gregory
 
-[ ... ]
-
-> +		ret = keyring_iterate(keyring, keyring_read_iterator, &ctx);
-> +		if (ret < 0)
->  			return ret;
-
-[ ... ]
-
-This isn't a bug today, but the new comment looks inaccurate.  It says the
-keyring's semaphore is not required and that a concurrent modification may
-list a key twice or miss one.
-
-keyring_read() walks the list under RCU, but the length it returns is
-computed separately afterwards:
-
-    ret = keyring_iterate(keyring, keyring_read_iterator, &ctx);
-    ...
-    ret = keyring_nr_links(keyring) * sizeof(key_serial_t);
-
-keyctl_read_key() allocates key_data with kvmalloc(), which is not zeroed,
-and when the returned length is <= buflen it does:
-
-    ret = __keyctl_read_key(key, key_data, key_data_len);
-    if (ret <= 0 || ret > buflen)
-        break;
-    ...
-    if (copy_to_user(buffer, key_data, ret))
-
-If a link were added between the walk and keyring_nr_links(), ret would
-cover more entries than were written, and the extra uninitialised bytes
-would be copied to userspace.
-
-Today this can't happen, because __keyctl_read_key() does
-down_read(&key->sem) (as does the s390 invalidate_keyring_keys()), and every
-writer of index->list and index->nr (__key_link_lock(), __key_move_lock(),
-__key_unlink_lock(), keyring_clear(), keyring_gc(), and key_revoke() via
-keyring_revoke()) holds the semaphore for write.  So the concurrent
-modification described by the comment does not occur.
-
-Could the comment instead say that the caller holds the keyring's semaphore,
-which keeps the list and the link count stable across the walk and the
-length calculation, with RCU only keeping the walk itself memory-safe?
-
-
----
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
-
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43634583011
---===============2241572966179256876==--
