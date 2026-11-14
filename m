@@ -1,54 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794687483;
-	b=pUp8hZB1lr3+3kKgJ4kamMcTEj8/6aojRkF8WkUakLE8ryhXNj9HawqCsSUWa4VL/8eE
-	 qmFaugEMYB/xNhChTUpKxzqEAIG9fp1+qjhc1JAu2KKdO0RVlW8BBGlBhFxLs7ZUAbDVA
-	 MbMzNCSTrwJWnajThTi44XRT1tXX9PVKs6Whfvi9INrsGmnMPQDhTsFxHWRoTOBVYkdJo
-	 84LpFqPWq3ZzWvioT//g3mjKbDCT1uhNNq2mxT29+7lNibMlSVzMTPQ3FvCpe4FMayfYP
-	 PaTmfZ8UvksdQPElOcd4zt8dbUlvwcwc4fiVClCebcVGmyaLagQ7khQrEs/WrRJZHjQ==
+	t=1794687872;
+	b=DaBsTS9NoolLlaq/Czkf8DGbFP3nk095ZADBUInrCPKMHZ82RdTXP1U9t8dZVCRzI37Y
+	 iF6EYIJKK0TQNaCd19GzVio3A+90jXZKk2k5U8bvpGJdtzcTk3Ezd7uLH0ARqpVrPRrw4
+	 musBWWFr0H13zKSueLY88WSOMUNe6Brk3Ahkazt8o5HphHDXpboVSI+SaZQuSubzA+olW
+	 JrfrlmSGx8fUutXuN3BKs9krVnuz0S3ibutNgKzd4NiGFpCocnWfilxzqH8YSZ65t3WZQ
+	 6h8rVgf/DX9xXg5svM9GpUMDPCervSF+mbEZfIsdq/nXUUQ+lMJ3WxdVTOrOqeu+ktA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794687483;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=LTurdTtk71EBG1bu2lzxcr6Y/jVSqjWyhTmHIUXsaMk=;
-	b=Cow8Oasgeyn+VZnPZlm9rggboYAS7JcT/0LY4/cN9VdFl7Kch1f1AFGqLFsahAoJ/non
-	 Ol8wZFlZPiWLyuK8cSIhwazVCT45Zv0/mxsZ4AKQiB4YdcNfjHTk2cUtGAaHdl2WxRDxk
-	 K03BVE65tnlhAvXf0Z7NQ+/k4nfbDzIrlITBZxb4qRuDBb6pxboeoBYZf0+SR/jTxRQXo
-	 doFcx9Niyt4iogxcXOJxcmm9u36OvQEXxPEA61X4Ihs4USoAEv0Bv/dhFm8ni4B2uw4pg
-	 Q6HRVZRvBpH9rFzhqTISfrPJrBT8Ykv7kFlO53Z8s5cMBeRGnVpiPRPEAiw0b24MKIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794687872;
+	h=Received:DKIM-Signature:Content-Type:MIME-Version:Message-Id:
+	 In-Reply-To:References:Subject:From:To:Cc:Date;
+	bh=V9Oz70E155O9jInt6hTC5pYZasQgcnWNCVJSKndXa7k=;
+	b=XM+gSjmVvc1o6nNXIcrZ0D195COcDYLAZiWYV8XuZntC73DL+Mmu/4W5h8TfQYrxzJBL
+	 Ank682qqcLTPsA8Xq9PMcZ83ReHD2za2D0AdpuDm+L+CGcAh0lQGglXgYve9YwIjYSAge
+	 nWoTq1yPAStIveO+fmvrGDg5ifjd2TTPXwJSnEB+2qygm9zzWKqkyJXCsOdiSnB2PTpjs
+	 nK+rPmqx70zK4GcaEShgO7MrjKu2Y9jRJGbhELz+N+UByNP51iVkST0XpSFijC4/XNu/t
+	 npVcAUsGoK92jigSrnS8BRR69YftJJ9Q4kVkPxkUvf25T4IDDtWTuQRqPmfzdC/uM2w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ry1xYHw2;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	dkim=fail reason="signature verification failed" header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jjyAKqBD;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF9D3606A323;
-	Sat, 14 Nov 2026 20:18:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AF9D3606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2325E606A329;
+	Sat, 14 Nov 2026 20:24:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=Ry1xYHw2
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=LTurdTtk71EBG1bu2lzxcr6Y/jVSqjWyhTmHIUXsaMk=; b=Ry1xYHw27ee+K6wDenvXwCCEyR
-	Mt424vj2WtQ3IOLnP7iz63coaelGGDN0EPGmYPML1+odrYJ7IHgNpdojBCL1ILD+vJjEZ5bDwAwOw
-	M1o0wweKJdxmp3jp5g6TfQu3NFbxaCwbuYTYz1ZDklRRpgbPx6r/uZF8rHYlvuSsx/nNxV2WbD6jf
-	h+IjeWl1JI/twpJsLDe3qjic6ubDycd6tQbShhFkjgX026IJI6vv1LDi78mjsQ6sz4YWI1TnK1lLq
-	rObn6a7YYHG827e9gyO7MaclFJwuFwEG7xkp0eMCXBqAdFgqxjIwWgbozDYvzK8ok/9Nb5yqP4PZC
-	MgedHuvQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xSKCH-0000000GiPK-0qHg;
-	Sat, 14 Nov 2026 20:18:01 +0000
-Message-ID: <2f7b7068-caf7-4e85-902e-9307be815ecb@infradead.org>
-Date: Sat, 14 Nov 2026 12:18:00 -0800
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jjyAKqBD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 360D21F000C4;
+	Sat, 14 Nov 2026 20:24:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794687871;
+	bh=V9Oz70E155O9jInt6hTC5pYZasQgcnWNCVJSKndXa7k=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date;
+	b=jjyAKqBDcfwj3adWi8yNdPH+HlRifwnvumzIU4W0VCkulv16TycwN4NG2NMOzVuBa
+	 F8kZfYeoNSO1X73ZEEtPzIvcCcVg0fXWpqxl/ECrCSxl3abjRb4E1MaEdts1VS5JDf
+	 X3gcenvuxtT8Grm0f5iy95PvQIPr/MmvcWMTAa0Lrj2YLQ0EeFkpyrReIqDfLMCqPq
+	 sXPlSdQhkATWRwgtUR6FL7PR169AzBS6PV/QZV2LpdKJhusIIYNmoqItbOAgBizTcm
+	 /YMzVQf/1uAMwwQZo3IqIWPrR/hIxBWuJXk3oe1fDt+TFmZnQQyeYck8z+dDPX89s3
+	 AvRmJ3rlFmRQg==
+Content-Type: multipart/mixed; boundary="===============2241572966179256876=="
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,78 +49,93 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] docs: kdoc: don't print warnings of stored entries
- twice
-To: prateekshitjaiswal73@gmail.com, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261114-kdoc-dup-warnings-v1-0-265f89bc3f9c@gmail.com>
- <20261114-kdoc-dup-warnings-v1-2-265f89bc3f9c@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261114-kdoc-dup-warnings-v1-2-265f89bc3f9c@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+Message-Id: <717a43d830b7a6544a51f3c227592eaadcd0afcf61ec9bf922ad517a280b8bfe@mail.kernel.org>
+In-Reply-To: <20261114193631.731615-7-jarkko@kernel.org>
+References: <20261114193631.731615-7-jarkko@kernel.org>
+Subject: Re: [PATCH v13 6/7] KEYS: Replace assoc_array with rhashtable
+From: bot+bpf-ci@kernel.org
+To: jarkko@kernel.org,dhowells@redhat.com
+Cc: jarkko@kernel.org,bpf@vger.kernel.org,dm-devel@lists.linux.dev,fsverity@lists.linux.dev,keyrings@vger.kernel.org,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,linux-kselftest@vger.kernel.org,linux-security-module@vger.kernel.org,agk@redhat.com,agordeev@linux.ibm.com,ast@kernel.org,alexs@kernel.org,anastasia.eskova@ibm.com,akpm@linux-foundation.org,andrii@kernel.org,bmarzins@redhat.com,borntraeger@linux.ibm.com,daniel@iogearbox.net,dzm91@hust.edu.cn,eddyz87@gmail.com,emil@etsalapatis.com,ebiggers@kernel.org,ignat@linux.win,hca@linux.ibm.com,ihor.solodrai@linux.dev,James.Bottomley@HansenPartnership.com,jmorris@namei.org,jolsa@kernel.org,corbet@lwn.net,memxor@gmail.com,torvalds@linux-foundation.org,martin.lau@linux.dev,snitzer@kernel.org,mpatocka@redhat.com,zohar@linux.ibm.com,paul@paul-moore.com,oberpar@linux.ibm.com,rdunlap@infradead.org,roberto.sassu@huawei.com,serge@hallyn.com,skhan@linuxfoundation.org,song@kernel.org,svens@linux.ibm.com,tytso@mit.edu,gor@linux.ibm.com,
+ si.yanteng@linux.dev,yonghong.song@linux.dev,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,mason@kernel.org,ihor.solodrai@linux.dev
+Date: Sat, 14 Nov 2026 20:24:27 +0000 (UTC)
+
+--===============2241572966179256876==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
+> KEYS: Replace assoc_array with rhashtable
+
+TL;DR: Comment only, not a bug today: the new keyring_read() comment says no
+semaphore is needed and concurrent changes are possible, but the caller's
+semaphore prevents that. Suggests rewording it.
+
+> diff --git a/security/keys/keyring.c b/security/keys/keyring.c
+> --- a/security/keys/keyring.c
+> +++ b/security/keys/keyring.c
+
+[ ... ]
+
+>  /*
+>   * Read a list of key IDs from the keyring's contents in binary form
+>   *
+> - * The keyring's semaphore is read-locked by the caller.  This prevents someone
+> - * from modifying it under us - which could cause us to read key IDs multiple
+> - * times.
+> + * The walk is RCU-protected, so the keyring's semaphore is not required.  A
+> + * keyring modified concurrently may list a key twice or miss one, but it can
+> + * never have a link freed under the walk.
+>   */
+>  static long keyring_read(const struct key *keyring,
+>  			 char *buffer, size_t buflen)
+
+[ ... ]
+
+> +		ret = keyring_iterate(keyring, keyring_read_iterator, &ctx);
+> +		if (ret < 0)
+>  			return ret;
+
+[ ... ]
+
+This isn't a bug today, but the new comment looks inaccurate.  It says the
+keyring's semaphore is not required and that a concurrent modification may
+list a key twice or miss one.
+
+keyring_read() walks the list under RCU, but the length it returns is
+computed separately afterwards:
+
+    ret = keyring_iterate(keyring, keyring_read_iterator, &ctx);
+    ...
+    ret = keyring_nr_links(keyring) * sizeof(key_serial_t);
+
+keyctl_read_key() allocates key_data with kvmalloc(), which is not zeroed,
+and when the returned length is <= buflen it does:
+
+    ret = __keyctl_read_key(key, key_data, key_data_len);
+    if (ret <= 0 || ret > buflen)
+        break;
+    ...
+    if (copy_to_user(buffer, key_data, ret))
+
+If a link were added between the walk and keyring_nr_links(), ret would
+cover more entries than were written, and the extra uninitialised bytes
+would be copied to userspace.
+
+Today this can't happen, because __keyctl_read_key() does
+down_read(&key->sem) (as does the s390 invalidate_keyring_keys()), and every
+writer of index->list and index->nr (__key_link_lock(), __key_move_lock(),
+__key_unlink_lock(), keyring_clear(), keyring_gc(), and key_revoke() via
+keyring_revoke()) holds the semaphore for write.  So the concurrent
+modification described by the comment does not occur.
+
+Could the comment instead say that the caller holds the keyring's semaphore,
+which keeps the list and the link count stable across the walk and the
+length calculation, with RCU only keeping the walk itself memory-safe?
 
 
-On 11/13/26 10:14 PM, Prateekshit Jaiswal via B4 Relay wrote:
-> From: Prateekshit Jaiswal <prateekshitjaiswal73@gmail.com>
-> 
-> Commit 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently
-> discarded") was meant to print warnings of entries that never reach
-> the output step. With no symbol filter, kernel-doc now prints the
-> warnings of every documented symbol twice:
-> 
->   $ ./scripts/kernel-doc -none -Wall drivers/gpu/drm/i915/display/intel_dkl_phy.c
->   Warning: drivers/gpu/drm/i915/display/intel_dkl_phy.c:47 No description found for return value of 'intel_dkl_phy_read'
->   Warning: drivers/gpu/drm/i915/display/intel_dkl_phy.c:47 No description found for return value of 'intel_dkl_phy_read'
-> 
-> The flush uses "self.entry not in self.entries" to tell stored entries
-> from discarded ones. output_declaration() stores a new KdocItem built
-> from the entry, never the KernelEntry itself, so that test is always
-> true. Every stored entry then warns once in the parser and once in the
-> output plugin.
-> 
-> Those parser-side prints also ignore the later symbol filter, so
-> "-function intel_dkl_phy_write" still warns about intel_dkl_phy_read().
-> Commit 292eca316321 ("docs: kdoc: fix logic to handle unissued
-> warnings") routes the flush through config.warning(), which increments
-> the warning count. -Werror then reports "2 warnings as errors" for a
-> single warning, and a -function run fails because of a different
-> symbol.
-> 
-> Mark the entry as stored in output_declaration(), flush warnings only
-> for entries that were not stored, and add tests for both cases. This
-> needs the previous patch. Without it, symbols selected with -function
-> or -export would lose their warnings.
-> 
-> Running "kernel-doc -none -Wall" over the 10320 .c and .h files with
-> kernel-doc comments, the output shrinks from 87900 to 49625 lines,
-> while the set of distinct lines stays the same.
-> 
-> The problem was found, and the fix and tests drafted, with the help of
-> an AI coding assistant (Claude Code); I have reviewed and tested the
-> result.
-> 
-> Fixes: 469c1c9eb6c9 ("kernel-doc: Issue warnings that were silently discarded")
-> Signed-off-by: Prateekshit Jaiswal <prateekshitjaiswal73@gmail.com>
+---
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-Thank you very much. I had complained about this issue.
-
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-This reduces a full "make W=1 mandocs" from 31341 lines down to
-21373 lines. That eliminates a LOT of noise/duplication when
-reviewing/looking at warnings.
-
-> ---
->  tools/lib/python/kdoc/kdoc_parser.py |  4 ++-
->  tools/unittests/test_kdoc_parser.py  | 55 ++++++++++++++++++++++++++++++++++++
->  2 files changed, 58 insertions(+), 1 deletion(-)
-
--- 
-~Randy
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/43634583011
+--===============2241572966179256876==--
