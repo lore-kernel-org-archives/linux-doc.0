@@ -1,86 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.47
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794680870;
-	b=bNFT7gbU4sS8j+CKH3UCDgIfhO+JsIaM/JKd5gQ7whrT28pNNb58mbBRJ7bQO2nIMGFw
-	 kd6V5hbv0scbf7O56JEcjLcByXSEAxpWBN/P/5zzaDr5twFCQ+hJwaRJGy1b37MI4iWjL
-	 Yz2EevwgRq930kCdO6bfRVf6b++HXr0+abTX1D8F0Vta8TUWe4sPlJKjUswcCgP8fPmBh
-	 B4PNnAkzJEtm5bkXZQcmsfkLW3apzauOANzTSV4E9CNEHAEKgDhaGmFWKSZrOtLWb34d+
-	 rJlZ0OoY0QKDnX8d7tT3RAEdc2rFBJsHn5BHbKzaHhy3/Rjvf3FQjYangq37opZzxuQ==
+	t=1794680872;
+	b=0hTexXKNYpcyfa+1+NGBPVSkS6HcyXM7Hdu4zlQWYi2bPJuiNf5l3hymN0cRiDfyJKiL
+	 XtZlj2Ca1V7SlZ6GMtQ46l/7RedlZ8/8uqOo6fgWbo9Xfn6z3M5mmDKRztahvkEqOJGtU
+	 44YyYbw0lwJGFZmVEr8Qe38oVoGYyt0OU9rdATC1yrWOsxue93ujx3UhYo4Izu9LrEUDh
+	 UdK55fPQfFSm8SGxHbDGO+Tx+7zT1mbOlM1yodZW7NGUA55pThN8sHWXCF62o9I/47TG1
+	 i7GTNYy0TQQbI6/90rIgXVuuRwFGTUWxXY0uhCE9K+OTTWe4eAmfkjSZiHmXoj+PkYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794680870;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794680872;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=821hPZ3mSrVkDru9zjRsyXQ6m5zbLDq4PwmJzq0vjp8=;
-	b=YAeTsGx0zezo5XmyJhCRnroI+77BdT22e+Bt+AsiGoX7BxqVdg0WJnB9PPyfVurCCwTj
-	 RxkHvWzXxeL5Um24oXfbVYRc2NsnVFDbbZZXZn85kENS3ZyywvrdZoJ+1cIIBQ1ntiJk3
-	 zt4iKyYdYyYy0+Fk0ZahEi3vMJLe7+XQGyTOpbceRxOGUXjVKzW4nEeMA9xcw1UShnHg8
-	 9t1s48IATPhRC7/1r15A69a3J8+zktDDipXvmGTX4jUjGupKq4tCMTBL6szxKYA0mUOLy
-	 BijOJhG1rq7BNKR9stnCUscdovRWxbZFJE6vv7YhBXbaVzZ4hITsrJnmHRWnjY5bNkA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=COpZlkF3gjNsbleKennDYj+Fmu6LFoVwH+euJBJfJOY=;
+	b=AxcjziBFpNfI2fGSwqJVMlH7RHh4HrVLB4dNkMvfXjTVQ89zGGkN7OWISWgZHAnLGXav
+	 cSAQ6klWg1wsx9DmqSscu25cEWrAnj7DPNVg1kjCzznSI825h/xII/J+CtAY/bj8kUJS8
+	 PYAQdrrc9/cCliGYHzfywxSO9m6TLzjlJzFq7O6KX4c06N0m+d5KjNQ1ZJKFD6qpnBCk7
+	 gwf0MP82MyRiaFBAf/uVi6wLnWkl0fp1eCiaOxLpxwSHOM42w/ZsvL4mDUeG+oXhAaB0D
+	 A5Ooj7vpLsaaOeQxwHRKZbNKvIeTt4T2uB8hUvvt7TAb2MMFJ5NmBYXmMIW5IVKVDbw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=bairaktaris.de;
 	spf=pass smtp.mailfrom=bairaktaris.de;
-	dkim=pass header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=ez3H+WVb;
-	arc=none smtp.remote-ip=209.85.218.48
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	dkim=pass header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=u1ahjrHa;
+	arc=none smtp.remote-ip=209.85.218.47
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F1C606A330
-	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 18:27:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02F1C606A330
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F834606A895
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 18:27:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F834606A895
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=ez3H+WVb
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c50604721c8so397661466b.3
-        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 10:27:48 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=u1ahjrHa
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c50cc7540b7so11029766b.0
+        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 10:27:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bairaktaris.de; s=google; t=1794680867; x=1795285667; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=821hPZ3mSrVkDru9zjRsyXQ6m5zbLDq4PwmJzq0vjp8=;
-        b=ez3H+WVb8N6kuW9DSLlXuva7AGxWZhqKOmf3bTmNJDi15V1K+XpPiqn6V3wnMJ+z3N
-         DzTmTMxOpPKMtqA7m6sFzIVGrnsIAwRXMsGoD+ctZ1mUNaqCpcHfTX6ISVopadsOmS1Y
-         dI4TZ5U0q0AmUZXHAhjAjKh+et3IsiEX+asKYbfP0RSUUyXOqZmBRTpM1SFqoJyZb+dD
-         +g4scdis7G/SsRvmAROVwigJRQrXtsff6692FBvdeC1pmSKAA0CjlTVllh+LdX2AWD0l
-         XgQrBIk9Rrt7/rxndra2MG1WboVkfpi3iiKakjiYIh/7/mv0nKFLH9qVf16/AhcHP5Of
-         BcGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794680867; x=1795285667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=bairaktaris.de; s=google; t=1794680870; x=1795285670; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=821hPZ3mSrVkDru9zjRsyXQ6m5zbLDq4PwmJzq0vjp8=;
-        b=hGRjVl16TuvmMTR7IHf6pI3D2WkdwMoUrKaQOlMJaqcJHDboxY9j4OpuWhq9q/XoMJ
-         bWwFrDSQ+OsSUYnzbkWdvFQLXyWGE9ABpDTJNOt6AhkJwlXBNPOaf6+uxBlNTUNtiPgt
-         XyX+6mQDUY4V/+1gViPU+OhdfJ9TdKDfqltcXu4YPAcGLuMojQTOvXjo6IjeqUSOYFc6
-         HC4Z5TCWxWFJme2XG7QRXQcdAkX9vjMOyRemlolHNAuh/Zhe73F8rKVL18GXSSyN+A7T
-         dlyZe57YIjHKHnDhPh1fdeEL3R1fAEvce+Z7FL/yF4b7/MmU26092xiJXktt32SZvW3B
-         RyFA==
-X-Forwarded-Encrypted: i=1; AL+hErE+8SxrvB4mQ9GWqmK489mupdeRYCzI+fPJkfJoRJBJ9wAn5m/SYnzXqGbgyewPCIhhZJmYQqnVEYg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z8FIvlM+SLQXVm+y3S/R3D8uR7iac/0X1sRTJVELgO16VWvjjP3
-	ldgcbS/2M9Q2lCjf7DMva8BIXAMailLrfKMJ05rZUtW8VemKU4pL88bwomMV+HVOWQ==
-X-Gm-Gg: AYBFou03G144aNAWzUkBuDxT8pt7R4D+n4AulgH+OnR47uYx19qTLAx7dhVKQBv9ZSC
-	+kCbv8EdAWJJAQIbu17t21buG6P6DRaKyUd4zW/VEzTqN96NX+cmFFbl/lrf2vC9yELD/0XEBOm
-	9uMNW0jDh3hm09daqJjDZQn0rbPKY2q/yFGGRhuyUmI65OeAzWnCipASZl5H+gPeHfDjKSL/bkY
-	SxTexurIJFulKgfyFG/roCk3weA/t5DoH3hIBU64AbHGynIG2w9RyzZ6lkObsZgg/LMioad9sQl
-	h8m2Ujo8n3ne9KD2yHuPqk9uen10GD41PVW/ENe2jM94lwFRWR6PkC6MDdpUjf20RuyStLSeFtL
-	dt/jYvksBG/jDthQTtoK3+BtzVZtmldDFqHjiJ1OvH/J1XsrQiTeEYfMoxXB1XtgtIIsoO5g2bP
-	5B5udOEv9BTe7jM1h77SrTuOpI8QiDv+uQbXHiTBQgAVcbP2ckV3x+YkYQ/TOVFxd438kV0Y+DI
-	YIkZ+JMEKNeDGdfMWLgFuiVOLDNsHwk3LWJ8S8X+SzwMWaUgaIb8pwVHCrwmAClw0O8zuxIZjs3
-	a3QdBbttDYBis8NhrAIFwirCPlbake7V0Etzxoj8vyxNwvpBNonLqrm456N4BojuaGKHzq7SFUD
-	ehmSYS2+AaatxK2eqT6I5dZBAyZoYRK7Ughrw3WEF8T1b81eFanPMZga/q2AaH8JlH+H28hCPmn
-	f6VvqkIzrT86o0/k46fEgonnXbgZIzeFmWxvZKRPbAztKF0tmoe4OFOoMvdOMaJ3HLj1gtczNSW
-	BRnIJrOkbmYtJvtwGmAwAGn9pKKqHwhhl5Y5ShAEpB7CKvz+nlNphEr7jlAhrTMTndFRjshMI1/
-	mvc=
-X-Received: by 2002:a17:907:86a6:b0:c4d:4be1:4197 with SMTP id a640c23a62f3a-c5096410ca0mr549445066b.41.1794680867320;
-        Sat, 14 Nov 2026 10:27:47 -0800 (PST)
+        bh=COpZlkF3gjNsbleKennDYj+Fmu6LFoVwH+euJBJfJOY=;
+        b=u1ahjrHa4S10vwFHPp1YcfCzotsvWJ6wsT46BsGRopHXst2ygrEwQhtTPt0JmMxOwi
+         Jp6fzNbsLPDoaSvVc7BTnyuqGCTz30vGlb9gh5w90VrPa4tpIuLkFOCx+mNb7DkDxFaL
+         KIaO2j7tH5pb1t3EBb+yHIwuBKfeOxjFPcVVlVR048Xvq0dov7DPDrcWspBWn7LKz3GT
+         eCfieLZlG3IQ2tpk/VC9nMEqa/6ijt2+T3n5YZJttlmr6b2bF6YJ1epTfewEBsHVCcWc
+         hWRzRdGyfnusjN6nmxxMoOCPM8G96Tj5MvKU7C07RpIksijy4LvH59BR6wHXj+DcLz0h
+         NzNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794680870; x=1795285670;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=COpZlkF3gjNsbleKennDYj+Fmu6LFoVwH+euJBJfJOY=;
+        b=zzTxGbzitgT1kFXCtIExMug/wQlyRAn50DyMv1DBb6tKk3evDezv+ZBBXEIqhPDNoI
+         d2usF08LaFRTxJ34ft8nCuYd2RAWD6z6wBSki3lKky759V2031au1YlhDZslhyJQJqas
+         MnG/zYgvETttV+379e7uqSryV+OdD7oluUL8TohZV2OKSMZRIsMdtOXIiPOhHO9685us
+         rtuw9iriHIMdKe1p0pDCBm/RmEi7PPNcIJ0HuvtaER7vfV0W6HgOQ2DIoy29CatydqyG
+         kGqxoGMxalxx6KaKrQdxbCKwn9DSscgi81Vn5KDpXKhuoYAI4pqtUkqxLSReCjl8l+gU
+         Gn9g==
+X-Forwarded-Encrypted: i=1; AL+hErEbZRi8MzYHlnjLt0yg8UtFuI8wy+X7AfjHv6oc03K8KgweJy59L49656yShZ0ctxfy//PsbX3TjVE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8KAit+40BY5CNSClkI6pA5WicOscHu8Wi8ZRkjcTgNQsMQyM/6
+	cT+efXdrsWtQ6SchLhAjHuaO/T/teEHzuJrFxyObnNYjRLpWFSgz85fldmtrK2ndIA==
+X-Gm-Gg: AYBFou1TpIWx+/a5xbN81Ey7UduItswXke9KOk2Cfhhc8nLWJLaxIvc6G02gtqud5R4
+	BM9J5MZd3/hvk+xWs02JXhDi98R5essEyCbmxpGrtkCWkYZqndcUbEGOD61MgyEsIvRCWb/PBhX
+	h277spLnUKeDfwDBT82NJ6sUniLEX9gkO1wmcZkxmEjtv6277kH+0QWXPPCKN9PCXcyFU+jrQMj
+	mYSxLbVq9OcC/4SmZ7G/BbYSHauNO1SYeFCPFiKIeYMtB3DqvSoIKeIiBc95qfj2kCBn6sIMY+b
+	z8Vx/7BvSb2sP38pD6HckpHVJ8lxmug2lPy3IBDxoEb1EEJXEvW9ayGmhpOQgD+8C9kwLUHkrkz
+	4FqZpSeOySj3bdHYUOMhPNESjxjGQVrHNKy2gqiXhUbeqEuQyySBGJ3WfKnGvrUIVwAf6luCw80
+	FdG1N+zHv/5GDOnkyuwuxHgCzCeQTSD0yzCQULtXBY+FKu+hFFKyHCB5aYslYS93WNVzNFR7k/a
+	1NJlo9mYh8gboDdp7M9vdeZIHNPOzP62lKLDMJuxtVjnFTtruKgXcDZBhJ/C556sa7ScmPqUMOh
+	MKgfkjF2piqy+XC+4RWfQ21LQ1u/1WkeF9G3uZoTv9yjibVMwdmmHbaeLGl+hV12xaIkuCs+sNN
+	5zcza29zMRG5wruvs2p3kI1kHZr2ve7heapDrw8kky808FyxyRY/dE8UOG3tPql0OxU5o9ApO/j
+	tKEcPnNBvCVBb//014rckbArbvLfi+2HUElh+z1GcZVkp/ibdAPgPtSb1deTRjfWTnUesv0Bhfc
+	WXjV2bLyNEgHfOViPVTCJvAghXXSM5Mw+ifIDKvD8DOAUWWcFL9asZOWWuBslAEu3XXeqyyI++l
+	rPM=
+X-Received: by 2002:a17:907:ea93:b0:c41:4c20:5a80 with SMTP id a640c23a62f3a-c50963bdb9bmr585583166b.44.1794680869556;
+        Sat, 14 Nov 2026 10:27:49 -0800 (PST)
 Received: from Desktop.fritz.box ([185.181.130.189])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b56df7sm245554366b.47.2026.11.14.10.27.46
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b56df7sm245554366b.47.2026.11.14.10.27.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 10:27:46 -0800 (PST)
+        Sat, 14 Nov 2026 10:27:49 -0800 (PST)
 From: Julius Bairaktaris <julius@bairaktaris.de>
 To: netdev@vger.kernel.org
 Cc: davem@davemloft.net,
@@ -124,10 +125,12 @@ Cc: davem@davemloft.net,
 	linux-doc@vger.kernel.org,
 	linux-kselftest@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH net v2 0/2] net: keep the TCP fixed-ID flags on the header they describe
-Date: Sat, 14 Nov 2026 19:27:43 +0100
-Message-ID: <cover.1794139176.git.julius@bairaktaris.de>
+Subject: [PATCH net v2 1/2] net: keep the TCP fixed-ID flags on the header they describe
+Date: Sat, 14 Nov 2026 19:27:44 +0100
+Message-ID: <f7d096c63c6a0b7a23a4dcea9a3de0915a48ac56.1794139176.git.julius@bairaktaris.de>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <cover.1794139176.git.julius@bairaktaris.de>
+References: <cover.1794139176.git.julius@bairaktaris.de>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -139,89 +142,198 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-GRO sets SKB_GSO_TCP_FIXEDID for a TCP packet whose IPv4 IDs do not
-change. Since commit 3271f19bf7b9 ("net: gso: restore ids of outer ip
-headers correctly") the flag describes the outermost header and
-SKB_GSO_TCP_FIXEDID_INNER the inner one, so every path that adds or
-removes a header would have to move the flags. None does, and a TCP
-stream that GRO merged and that crosses a tunnel boundary is segmented
-with the fixed-ID state of the wrong header.
+Commit 3271f19bf7b9 ("net: gso: restore ids of outer ip headers
+correctly") made SKB_GSO_TCP_FIXEDID describe the outermost IPv4 header
+and added SKB_GSO_TCP_FIXEDID_INNER for the inner header of an
+encapsulated packet. Every path that adds or removes a header then has to
+move the flags, and none does. A TCP stream that GRO merged with fixed
+IDs and that is forwarded into an IPIP tunnel, or into an ESP tunnel mode
+SA with crypto offload, is segmented with one outer ID for all segments
+and with incrementing inner IDs. Decapsulation leaves the state of the
+removed outer header on the new outer one, and the inner header of a GRE
+or UDP tunnel, which segmentation reads at encap_level 0, gets the state
+of the outer header.
 
-Patch 1 lets SKB_GSO_TCP_FIXEDID describe the innermost header again and
-replaces the inner flag with SKB_GSO_TCP_FIXEDID_OUTER, as Alexei
-suggested in review of v1. Patch 2 adds a selftest.
+Let SKB_GSO_TCP_FIXEDID describe the innermost IPv4 header again, as it
+did before that commit, and replace SKB_GSO_TCP_FIXEDID_INNER with
+SKB_GSO_TCP_FIXEDID_OUTER for the outer header of an encapsulated
+packet. A new outer header then has no flag and gets incrementing IDs,
+so encapsulation needs no change, and decapsulation clears the outer
+flag in iptunnel_pull_offloads() and bpf_skb_net_shrink(). Convert mlx5
+and sfc, the two drivers that use the inner flag.
 
-Tested in QEMU (KVM, KASAN and lockdep) with the selftest, 18 cases,
-400 segments each:
-- net (30c71476d842), 2 of 2 runs: 6 cases fail. Fixed inner IDs
-  increment after IPIP over IPv4 and IPv6 and after the ESP tunnel (390
-  of 400 segments carry an inner ID the sender did not use), the outer
-  IDs repeat after GRE and VXLAN over IPv4 (10 distinct outer IDs for 400
-  segments), and a VXLAN stream with fixed outer IDs keeps that state
-  after decapsulation into IPIP (10 distinct outer IDs).
-- this series, 2 of 2 runs: 18 of 18 pass, no KASAN or lockdep report.
+Fixes: 3271f19bf7b9 ("net: gso: restore ids of outer ip headers correctly")
+Suggested-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Signed-off-by: Julius Bairaktaris <julius@bairaktaris.de>
+---
+ Documentation/networking/segmentation-offloads.rst |  4 ++--
+ drivers/net/ethernet/mellanox/mlx5/core/en_rx.c    |  8 ++------
+ drivers/net/ethernet/sfc/ef100_tx.c                | 12 +++---------
+ include/linux/netdevice.h                          |  2 +-
+ include/linux/skbuff.h                             |  4 +++-
+ include/net/ip_tunnels.h                           |  1 +
+ net/core/filter.c                                  |  1 +
+ net/ipv4/af_inet.c                                 |  8 +++++---
+ net/ipv4/tcp_offload.c                             |  6 ++++--
+ 9 files changed, 22 insertions(+), 24 deletions(-)
 
-With a tunnel inside a tunnel, such as GRE traffic that GRO merged and
-that is routed into an IPIP tunnel without decapsulation, two flags still
-describe three IPv4 headers: the new outermost header takes
-SKB_GSO_TCP_FIXEDID_OUTER of the header below it, as it takes
-SKB_GSO_TCP_FIXEDID on net. This series does not change that case; it
-gets a separate fix.
-
-Changes in v2:
-- Keep SKB_GSO_TCP_FIXEDID on the innermost header and describe the
-  outer header with SKB_GSO_TCP_FIXEDID_OUTER instead of moving the
-  flag on encapsulation and decapsulation (Alexei). Encapsulation then
-  needs no change, which also covers ESP tunnel mode with crypto
-  offload, missed in v1 (Alexei, Sashiko), the Geneve GRO hint path,
-  which sets skb->encapsulation again after iptunnel_pull_offloads()
-  (Sashiko), and BPF encapsulation followed by an L3-only decapsulation
-  (Sashiko). FOU, which pulls the offloads twice, clears the outer flag
-  twice.
-- Keep the encap_level reset in gre_gso_segment() and
-  __skb_udp_tunnel_segment(): v1 undid commit 5197f3499c47 ("net: Reset
-  encap_level to avoid resetting features on inner IP headers"), which
-  with remote checksum offload masks NETIF_F_HW_CSUM out of the inner
-  features on devices without it in hw_enc_features (Alexei, Sashiko).
-- Drop the segment routing changes: the outer header there is IPv6
-  (Alexei). This also drops the read of hdr->nexthdr after
-  iptunnel_pull_offloads() in ipv6_srh_rcv() that Sashiko reported as a
-  use-after-free; ipv6_srh_rcv() is unchanged.
-- Convert mlx5 and sfc to the outer flag (Alexei).
-- Selftest: add an ESP tunnel mode case offloaded to netdevsim; check
-  the inner ID values, not only how many distinct IDs arrive; skip the
-  decap cases when the IPIP device cannot be created; fail a case whose
-  receiver reports no result; keep IPv6 link-local traffic off the
-  tunnels, whose tx_packets decide the GRO skip; remove the temporary
-  file on exit; sort the Makefile entry; wrap lines at 80 columns
-  (Sashiko, NIPA).
-- v1: https://lore.kernel.org/netdev/cover.1792857378.git.julius@bairaktaris.de/
-
-I used Claude (Anthropic) to help write these patches.
-
-Julius Bairaktaris (2):
-  net: keep the TCP fixed-ID flags on the header they describe
-  selftests: net: check TCP IP IDs across tunnels after GRO and GSO
-
- .../networking/segmentation-offloads.rst      |   4 +-
- .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   8 +-
- drivers/net/ethernet/sfc/ef100_tx.c           |  12 +-
- include/linux/netdevice.h                     |   2 +-
- include/linux/skbuff.h                        |   4 +-
- include/net/ip_tunnels.h                      |   1 +
- net/core/filter.c                             |   1 +
- net/ipv4/af_inet.c                            |   8 +-
- net/ipv4/tcp_offload.c                        |   6 +-
- tools/testing/selftests/net/.gitignore        |   1 +
- tools/testing/selftests/net/Makefile          |   2 +
- tools/testing/selftests/net/tcp_fixedid.c     | 411 ++++++++++++++++++
- tools/testing/selftests/net/tcp_fixedid.sh    | 400 +++++++++++++++++
- 13 files changed, 836 insertions(+), 24 deletions(-)
- create mode 100644 tools/testing/selftests/net/tcp_fixedid.c
- create mode 100755 tools/testing/selftests/net/tcp_fixedid.sh
-
-
-base-commit: 30c71476d842b094651bd7712f6c8ee8716147d0
+diff --git a/Documentation/networking/segmentation-offloads.rst b/Documentation/networking/segmentation-offloads.rst
+index 25a8b7eca847a..0f20bb643145d 100644
+--- a/Documentation/networking/segmentation-offloads.rst
++++ b/Documentation/networking/segmentation-offloads.rst
+@@ -49,8 +49,8 @@ The default behavior is to increment the IP ID with every segment.  If the
+ GSO type SKB_GSO_TCP_FIXEDID is specified then we will not increment the IP
+ ID and all segments will use the same IP ID.
+ 
+-For encapsulated packets, SKB_GSO_TCP_FIXEDID refers only to the outer header.
+-SKB_GSO_TCP_FIXEDID_INNER can be used to specify the same for the inner header.
++For encapsulated packets, SKB_GSO_TCP_FIXEDID refers only to the inner header.
++SKB_GSO_TCP_FIXEDID_OUTER can be used to specify the same for the outer header.
+ Any combination of these two GSO types is allowed.
+ 
+ If a device has NETIF_F_TSO_MANGLEID set then the IP ID can be ignored when
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
+index 22fea4739a2c9..b804a759710e0 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_rx.c
+@@ -1175,12 +1175,8 @@ static void mlx5e_shampo_update_ipv4_tcp_hdr(struct mlx5e_rq *rq, struct iphdr *
+ 	tcp->check = ~tcp_v4_check(skb->len - tcp_off, ipv4->saddr,
+ 				   ipv4->daddr, 0);
+ 	skb_shinfo(skb)->gso_type |= SKB_GSO_TCPV4;
+-	if (ntohs(ipv4->id) == rq->hw_gro_data->second_ip_id) {
+-		bool encap = rq->hw_gro_data->fk.control.flags & FLOW_DIS_ENCAPSULATION;
+-
+-		skb_shinfo(skb)->gso_type |= encap ? SKB_GSO_TCP_FIXEDID_INNER :
+-						     SKB_GSO_TCP_FIXEDID;
+-	}
++	if (ntohs(ipv4->id) == rq->hw_gro_data->second_ip_id)
++		skb_shinfo(skb)->gso_type |= SKB_GSO_TCP_FIXEDID;
+ 
+ 	skb->csum_start = (unsigned char *)tcp - skb->head;
+ 	skb->csum_offset = offsetof(struct tcphdr, check);
+diff --git a/drivers/net/ethernet/sfc/ef100_tx.c b/drivers/net/ethernet/sfc/ef100_tx.c
+index 03005757c060d..162cfa54f2d04 100644
+--- a/drivers/net/ethernet/sfc/ef100_tx.c
++++ b/drivers/net/ethernet/sfc/ef100_tx.c
+@@ -201,16 +201,10 @@ static void ef100_make_tso_desc(struct efx_nic *efx,
+ 	bool outer_csum;
+ 	u32 paylen;
+ 
+-	if (encap) {
+-		if (skb_shinfo(skb)->gso_type & SKB_GSO_TCP_FIXEDID_INNER)
+-			mangleid = ESE_GZ_TX_DESC_IP4_ID_NO_OP;
+-		if (skb_shinfo(skb)->gso_type & SKB_GSO_TCP_FIXEDID)
+-			mangleid_outer = ESE_GZ_TX_DESC_IP4_ID_NO_OP;
+-	} else {
+-		if (skb_shinfo(skb)->gso_type & SKB_GSO_TCP_FIXEDID)
+-			mangleid = ESE_GZ_TX_DESC_IP4_ID_NO_OP;
++	if (skb_shinfo(skb)->gso_type & SKB_GSO_TCP_FIXEDID)
++		mangleid = ESE_GZ_TX_DESC_IP4_ID_NO_OP;
++	if (!encap || (skb_shinfo(skb)->gso_type & SKB_GSO_TCP_FIXEDID_OUTER))
+ 		mangleid_outer = ESE_GZ_TX_DESC_IP4_ID_NO_OP;
+-	}
+ 
+ 	if (efx->net_dev->features & NETIF_F_HW_VLAN_CTAG_TX)
+ 		vlan_enable = skb_vlan_tag_present(skb);
+diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+index 435be7880d7e5..7ecf0f9c5f655 100644
+--- a/include/linux/netdevice.h
++++ b/include/linux/netdevice.h
+@@ -5536,7 +5536,7 @@ static inline bool net_gso_ok(netdev_features_t features, int gso_type)
+ {
+ 	netdev_features_t feature;
+ 
+-	if (gso_type & (SKB_GSO_TCP_FIXEDID | SKB_GSO_TCP_FIXEDID_INNER))
++	if (gso_type & (SKB_GSO_TCP_FIXEDID | SKB_GSO_TCP_FIXEDID_OUTER))
+ 		gso_type |= __SKB_GSO_TCP_FIXEDID;
+ 
+ 	feature = ((netdev_features_t)gso_type << NETIF_F_GSO_SHIFT) & NETIF_F_GSO_MASK;
+diff --git a/include/linux/skbuff.h b/include/linux/skbuff.h
+index 6787fcf6ac3e4..6eb913ebc7d53 100644
+--- a/include/linux/skbuff.h
++++ b/include/linux/skbuff.h
+@@ -716,9 +716,11 @@ enum {
+ 
+ 	/* These indirectly map onto the same netdev feature.
+ 	 * If NETIF_F_TSO_MANGLEID is set it may mangle both inner and outer IDs.
++	 * SKB_GSO_TCP_FIXEDID stays with the innermost IPv4 header, so there is
++	 * nothing to do on encapsulation. Decapsulation clears the outer flag.
+ 	 */
+ 	SKB_GSO_TCP_FIXEDID = 1 << 30,
+-	SKB_GSO_TCP_FIXEDID_INNER = 1 << 31,
++	SKB_GSO_TCP_FIXEDID_OUTER = 1 << 31,
+ };
+ 
+ #if BITS_PER_LONG > 32
+diff --git a/include/net/ip_tunnels.h b/include/net/ip_tunnels.h
+index 5cccf4c0e6913..a8e1cd7021fcf 100644
+--- a/include/net/ip_tunnels.h
++++ b/include/net/ip_tunnels.h
+@@ -667,6 +667,7 @@ static inline int iptunnel_pull_offloads(struct sk_buff *skb)
+ 			return err;
+ 		skb_shinfo(skb)->gso_type &= ~(NETIF_F_GSO_ENCAP_ALL >>
+ 					       NETIF_F_GSO_SHIFT);
++		skb_shinfo(skb)->gso_type &= ~SKB_GSO_TCP_FIXEDID_OUTER;
+ 	}
+ 
+ 	skb->encapsulation = 0;
+diff --git a/net/core/filter.c b/net/core/filter.c
+index 52e6ea6d50455..340b2e64d818e 100644
+--- a/net/core/filter.c
++++ b/net/core/filter.c
+@@ -3867,6 +3867,7 @@ static int bpf_skb_net_shrink(struct sk_buff *skb, u32 off, u32 len_diff,
+ 		/* Clear encapsulation flag only when no tunnel GSO flags remain */
+ 		if (flags & (BPF_F_ADJ_ROOM_DECAP_L4_MASK |
+ 			     BPF_F_ADJ_ROOM_DECAP_IPXIP_MASK)) {
++			shinfo->gso_type &= ~SKB_GSO_TCP_FIXEDID_OUTER;
+ 			if (!(shinfo->gso_type & (SKB_GSO_UDP_TUNNEL |
+ 						  SKB_GSO_UDP_TUNNEL_CSUM |
+ 						  SKB_GSO_GRE |
+diff --git a/net/ipv4/af_inet.c b/net/ipv4/af_inet.c
+index 7677b0343abd4..d5769a5fdc314 100644
+--- a/net/ipv4/af_inet.c
++++ b/net/ipv4/af_inet.c
+@@ -1402,10 +1402,12 @@ struct sk_buff *inet_gso_segment(struct sk_buff *skb,
+ 
+ 	segs = ERR_PTR(-EPROTONOSUPPORT);
+ 
+-	fixedid = !!(skb_shinfo(skb)->gso_type & (SKB_GSO_TCP_FIXEDID << encap));
+-
+-	if (!skb->encapsulation || encap)
++	if (!skb->encapsulation || encap) {
+ 		udpfrag = !!(skb_shinfo(skb)->gso_type & SKB_GSO_UDP);
++		fixedid = !!(skb_shinfo(skb)->gso_type & SKB_GSO_TCP_FIXEDID);
++	} else {
++		fixedid = !!(skb_shinfo(skb)->gso_type & SKB_GSO_TCP_FIXEDID_OUTER);
++	}
+ 
+ 	ops = rcu_dereference(inet_offloads[proto]);
+ 	if (likely(ops && ops->callbacks.gso_segment)) {
+diff --git a/net/ipv4/tcp_offload.c b/net/ipv4/tcp_offload.c
+index b84fcd07c7230..79190044f6fe9 100644
+--- a/net/ipv4/tcp_offload.c
++++ b/net/ipv4/tcp_offload.c
+@@ -459,6 +459,7 @@ INDIRECT_CALLABLE_SCOPE int tcp4_gro_complete(struct sk_buff *skb, int thoff)
+ {
+ 	const u16 offset = NAPI_GRO_CB(skb)->network_offsets[skb->encapsulation];
+ 	const struct iphdr *iph = (struct iphdr *)(skb->data + offset);
++	const u8 fixedid = NAPI_GRO_CB(skb)->ip_fixedid;
+ 	struct tcphdr *th = tcp_hdr(skb);
+ 
+ 	if (unlikely(NAPI_GRO_CB(skb)->is_flist)) {
+@@ -473,9 +474,10 @@ INDIRECT_CALLABLE_SCOPE int tcp4_gro_complete(struct sk_buff *skb, int thoff)
+ 	th->check = ~tcp_v4_check(skb->len - thoff, iph->saddr,
+ 				  iph->daddr, 0);
+ 
+-	BUILD_BUG_ON(SKB_GSO_TCP_FIXEDID << 1 != SKB_GSO_TCP_FIXEDID_INNER);
++	/* Bit 0 of ip_fixedid is the outermost header, bit 1 is the inner one. */
+ 	skb_shinfo(skb)->gso_type |= SKB_GSO_TCPV4 |
+-			(NAPI_GRO_CB(skb)->ip_fixedid * SKB_GSO_TCP_FIXEDID);
++		(((fixedid >> skb->encapsulation) & 1) * SKB_GSO_TCP_FIXEDID) |
++		((fixedid & skb->encapsulation) * SKB_GSO_TCP_FIXEDID_OUTER);
+ 
+ 	tcp_gro_complete(skb);
+ 	return 0;
 -- 
 2.53.0
 
