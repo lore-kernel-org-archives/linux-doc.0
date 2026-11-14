@@ -1,85 +1,133 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794679203;
-	b=FWcFJ/jW0zFhCcEhssruB+VYfhe14b97Zxhdjy+RJk6FOZLrFvSO7sUSFOncfiWPU4bM
-	 Wo8sVorC9fIdBV007vy/FNor2kYzMNfSbnC731NQHumyIkdyCIj2aTPrCgy8LZjHeG2TB
-	 Mj7hKUtecue+2/YlSBks/ev+bG70v4u9PBzFbGzQ/OFos0LztMGDW/gwec+AQYxCyctHH
-	 9MdBl1dzc5RiUPIvOgAypxhSU9OBIMOrkMYios02IdBpNPGrQePV1KMR1Tkmskl9+q8Tr
-	 V2bshG0y7ThysDFmev31vB8BGRE2kPelGoWNABJUCh2wtcTOXj2r0SnqODAokHzv3Yw==
+	t=1794680870;
+	b=bNFT7gbU4sS8j+CKH3UCDgIfhO+JsIaM/JKd5gQ7whrT28pNNb58mbBRJ7bQO2nIMGFw
+	 kd6V5hbv0scbf7O56JEcjLcByXSEAxpWBN/P/5zzaDr5twFCQ+hJwaRJGy1b37MI4iWjL
+	 Yz2EevwgRq930kCdO6bfRVf6b++HXr0+abTX1D8F0Vta8TUWe4sPlJKjUswcCgP8fPmBh
+	 B4PNnAkzJEtm5bkXZQcmsfkLW3apzauOANzTSV4E9CNEHAEKgDhaGmFWKSZrOtLWb34d+
+	 rJlZ0OoY0QKDnX8d7tT3RAEdc2rFBJsHn5BHbKzaHhy3/Rjvf3FQjYangq37opZzxuQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794679203;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794680870;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:Subject:From:To:
-	 Cc:In-Reply-To:References:Date:Message-Id:X-Mailer;
-	bh=/31rYS+RTknGml0ZJpQj3HlEE/4E8Z8X4z83aN0X9Bw=;
-	b=mjXPIkx/U46B+D/AeMWH3DIZx4r7+XBzrOMt4yQy+CQIu80LOWEawJwmaaXVMpStNOSj
-	 gxsnW3RX7GcnMsjqdgQyCciyLvGhV2AsAu24x4g84pCezByrXLBmXh0kTo5Jq8Y2cPQlM
-	 yXujzBDc0qC/PZ3gnh7RtI5KwuxS/bqFuMeREqU5UgLj+eFP7BK2RGP49Oinj8KB1TNOt
-	 BFbucyR+k4DYhvRgLBCARpX9CKIZrh8rsUsyNbpxHEOojosJ+oACy9cs0UtMAdCKMl7s5
-	 MH9VaXizLAv9akVXFwkcZlzMLeHST5Bwydyhj9xNQsg1r7lGqvGK05826YIinSWDWug==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=821hPZ3mSrVkDru9zjRsyXQ6m5zbLDq4PwmJzq0vjp8=;
+	b=YAeTsGx0zezo5XmyJhCRnroI+77BdT22e+Bt+AsiGoX7BxqVdg0WJnB9PPyfVurCCwTj
+	 RxkHvWzXxeL5Um24oXfbVYRc2NsnVFDbbZZXZn85kENS3ZyywvrdZoJ+1cIIBQ1ntiJk3
+	 zt4iKyYdYyYy0+Fk0ZahEi3vMJLe7+XQGyTOpbceRxOGUXjVKzW4nEeMA9xcw1UShnHg8
+	 9t1s48IATPhRC7/1r15A69a3J8+zktDDipXvmGTX4jUjGupKq4tCMTBL6szxKYA0mUOLy
+	 BijOJhG1rq7BNKR9stnCUscdovRWxbZFJE6vv7YhBXbaVzZ4hITsrJnmHRWnjY5bNkA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=gourry.net;
-	spf=pass smtp.mailfrom=gourry.net;
-	dkim=pass header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=eFKbHIse;
-	arc=none smtp.remote-ip=209.85.160.175
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+	dmarc=pass header.from=bairaktaris.de;
+	spf=pass smtp.mailfrom=bairaktaris.de;
+	dkim=pass header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=ez3H+WVb;
+	arc=none smtp.remote-ip=209.85.218.48
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A499A606A337
-	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 18:00:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A499A606A337
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F1C606A330
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 18:27:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 02F1C606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bairaktaris.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bairaktaris.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.a=rsa-sha256 header.s=google header.b=eFKbHIse
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-536c8f958d7so13233291cf.1
-        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 10:00:02 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=bairaktaris.de header.i=@bairaktaris.de header.a=rsa-sha256 header.s=google header.b=ez3H+WVb
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c50604721c8so397661466b.3
+        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 10:27:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1794679201; x=1795284001; darn=vger.kernel.org;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/31rYS+RTknGml0ZJpQj3HlEE/4E8Z8X4z83aN0X9Bw=;
-        b=eFKbHIse9b3So+Vb3z6hrfoJA1N2APapW8mJ7i2EFoMQRcCmR+NEEgUdKI9HHlj6g6
-         Lva+HFJGVODnzNDRNQ+kDEtaU7zXTePFpo7lP+deuTueXmIt+iXaC6tkikE3WZqSyD4/
-         s39ceJW0dwEtp3SE2Cf69EpD8SYIs20fFyDyUgK80HH1ohgJY9z7DyatSQKVEei4Xx/d
-         X+tZ1YmB2pwLKGkFEIsQFc1hTkqCMc+47X3aKK7sXdz8cOg8BO+SGJspPb4MLlbIxd88
-         tXYXZsOosNho23tqr7Cnv55MLiM4vDx5E/RqMitrGguCOVxxzjwXmoyF2uzTPb2VmuTv
-         KQLg==
+        d=bairaktaris.de; s=google; t=1794680867; x=1795285667; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=821hPZ3mSrVkDru9zjRsyXQ6m5zbLDq4PwmJzq0vjp8=;
+        b=ez3H+WVb8N6kuW9DSLlXuva7AGxWZhqKOmf3bTmNJDi15V1K+XpPiqn6V3wnMJ+z3N
+         DzTmTMxOpPKMtqA7m6sFzIVGrnsIAwRXMsGoD+ctZ1mUNaqCpcHfTX6ISVopadsOmS1Y
+         dI4TZ5U0q0AmUZXHAhjAjKh+et3IsiEX+asKYbfP0RSUUyXOqZmBRTpM1SFqoJyZb+dD
+         +g4scdis7G/SsRvmAROVwigJRQrXtsff6692FBvdeC1pmSKAA0CjlTVllh+LdX2AWD0l
+         XgQrBIk9Rrt7/rxndra2MG1WboVkfpi3iiKakjiYIh/7/mv0nKFLH9qVf16/AhcHP5Of
+         BcGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794679201; x=1795284001;
-        h=message-id:date:references:in-reply-to:cc:to:from:subject
-         :content-transfer-encoding:content-type:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/31rYS+RTknGml0ZJpQj3HlEE/4E8Z8X4z83aN0X9Bw=;
-        b=baKiFSDW7JFLZ7EWmegO48RkDitbIQcA0LPzPA4sfNvK+9i1zXvXuM/XBzXGqARJGT
-         B54iI+NFNCCrT7iqt3CUrZZnRZ495YOmvJQRrl5lgB8In/TcEJypO4qU8tkGUzOhue0j
-         mXRQhEI0OtYAxtFb+EbZNBDkuxSQvc6KAmKmHhm5SIVVmDwBHkXa14qfkNKfHVMSOSFJ
-         aQwdrmt+m5gB8SVOuseHvUKjwyu6KI0bp/4ZyK7PJWf0rfnADUGgNlrXwx87RhmBlXem
-         gw06+ymilc4XGtiAyF4p1+3wFdBYvq3AdNenAmICYlPN9nfnA3RyboH/thZaiqPBl613
-         Eatg==
-X-Forwarded-Encrypted: i=1; AL+hErF0SDT3mlx9y8pfEtY/CunMa7lmktzffcT5aKOYk7GDH2ReQvwHe2uxwfdOciQu/LE6huAQtefRGV0=@vger.kernel.org
-X-Gm-Message-State: APuU4Z90XWBgaXKYZ5cVdnxkrIn8g3whID1de3n/kGzmuCNmAnesP/T0
-	HPhiAXlLSEndt2cmxaWVFmKAg5F48I8lvQUzn1BlG+W0oD8d8DTQ80g+GXg8g77GwdI=
-X-Gm-Gg: AYBFou2LzCIxTDVrFkcaXFR6gUQBmguQe9e5A9Hll+80cGWgiIHMMm5HGH5MvcrOwVr
-	3ppbu877HLwTLgYUmBKM9fdr9lJejxKk04U6ZlNv54H5R2uXeJn/ZQdEH4TrNjTU2LDYVACCNHk
-	EJnZhcgX4MOmlmG/BoitZPR6aqNfPyrMKUI99kRgmHQ9baOoxHfPS6xNut0TEBgABQ4G8gnWKzR
-	VqExKGN+j1cmXuNFba6tbVgK1Oc2Lritb2hixf94LZJi1S2T5KmpEFFoR9DhWgwvVbNlsU7GT6d
-	AtvWueMPD4g43jbnm3tTbZcYjeAxmc3KLevkSCTm5V/pIizxvtoi88fjCqD5On3gWE2SGQ0wRZ3
-	NMKT58TxzA5PY/fAd3RSliEP8PIyOvUGAM2ByN92Xej+yzGRyZZNcQJnkdomFNbjZdHdQxr1WLS
-	JFrKSg7Gy+i058qQtiyxl5niXfDhise4PbjnXtOKzMLn6OOIz9RQ+0Vr0dgpEIjZd4PYuP5F0P1
-	zK65Jpc0sWtZPAQm65Ii7+3exI6nTWAEVeRmksmV+mccdO2ilOALT+B76TbEdnUcOlMiQBAGBuo
-	4W68znWDN+LzaDwvxbCBC51LyDeyA9u1QAmIwee+lkw0s1z+PnEcnNfvrqHy0dMZ0m7jR6pT7z+
-	fxIlSQI0=
-X-Received: by 2002:a05:622a:349:b0:55c:abad:a72c with SMTP id d75a77b69052e-55cc6d16ad3mr26820281cf.56.1794679201165;
-        Sat, 14 Nov 2026 10:00:01 -0800 (PST)
-Received: from [192.168.50.231] (pool-71-191-145-202.washdc.fios.verizon.net. [71.191.145.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d614b4sm47945926d6.18.2026.11.14.09.59.59
+        d=1e100.net; s=20260707; t=1794680867; x=1795285667;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=821hPZ3mSrVkDru9zjRsyXQ6m5zbLDq4PwmJzq0vjp8=;
+        b=hGRjVl16TuvmMTR7IHf6pI3D2WkdwMoUrKaQOlMJaqcJHDboxY9j4OpuWhq9q/XoMJ
+         bWwFrDSQ+OsSUYnzbkWdvFQLXyWGE9ABpDTJNOt6AhkJwlXBNPOaf6+uxBlNTUNtiPgt
+         XyX+6mQDUY4V/+1gViPU+OhdfJ9TdKDfqltcXu4YPAcGLuMojQTOvXjo6IjeqUSOYFc6
+         HC4Z5TCWxWFJme2XG7QRXQcdAkX9vjMOyRemlolHNAuh/Zhe73F8rKVL18GXSSyN+A7T
+         dlyZe57YIjHKHnDhPh1fdeEL3R1fAEvce+Z7FL/yF4b7/MmU26092xiJXktt32SZvW3B
+         RyFA==
+X-Forwarded-Encrypted: i=1; AL+hErE+8SxrvB4mQ9GWqmK489mupdeRYCzI+fPJkfJoRJBJ9wAn5m/SYnzXqGbgyewPCIhhZJmYQqnVEYg=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8FIvlM+SLQXVm+y3S/R3D8uR7iac/0X1sRTJVELgO16VWvjjP3
+	ldgcbS/2M9Q2lCjf7DMva8BIXAMailLrfKMJ05rZUtW8VemKU4pL88bwomMV+HVOWQ==
+X-Gm-Gg: AYBFou03G144aNAWzUkBuDxT8pt7R4D+n4AulgH+OnR47uYx19qTLAx7dhVKQBv9ZSC
+	+kCbv8EdAWJJAQIbu17t21buG6P6DRaKyUd4zW/VEzTqN96NX+cmFFbl/lrf2vC9yELD/0XEBOm
+	9uMNW0jDh3hm09daqJjDZQn0rbPKY2q/yFGGRhuyUmI65OeAzWnCipASZl5H+gPeHfDjKSL/bkY
+	SxTexurIJFulKgfyFG/roCk3weA/t5DoH3hIBU64AbHGynIG2w9RyzZ6lkObsZgg/LMioad9sQl
+	h8m2Ujo8n3ne9KD2yHuPqk9uen10GD41PVW/ENe2jM94lwFRWR6PkC6MDdpUjf20RuyStLSeFtL
+	dt/jYvksBG/jDthQTtoK3+BtzVZtmldDFqHjiJ1OvH/J1XsrQiTeEYfMoxXB1XtgtIIsoO5g2bP
+	5B5udOEv9BTe7jM1h77SrTuOpI8QiDv+uQbXHiTBQgAVcbP2ckV3x+YkYQ/TOVFxd438kV0Y+DI
+	YIkZ+JMEKNeDGdfMWLgFuiVOLDNsHwk3LWJ8S8X+SzwMWaUgaIb8pwVHCrwmAClw0O8zuxIZjs3
+	a3QdBbttDYBis8NhrAIFwirCPlbake7V0Etzxoj8vyxNwvpBNonLqrm456N4BojuaGKHzq7SFUD
+	ehmSYS2+AaatxK2eqT6I5dZBAyZoYRK7Ughrw3WEF8T1b81eFanPMZga/q2AaH8JlH+H28hCPmn
+	f6VvqkIzrT86o0/k46fEgonnXbgZIzeFmWxvZKRPbAztKF0tmoe4OFOoMvdOMaJ3HLj1gtczNSW
+	BRnIJrOkbmYtJvtwGmAwAGn9pKKqHwhhl5Y5ShAEpB7CKvz+nlNphEr7jlAhrTMTndFRjshMI1/
+	mvc=
+X-Received: by 2002:a17:907:86a6:b0:c4d:4be1:4197 with SMTP id a640c23a62f3a-c5096410ca0mr549445066b.41.1794680867320;
+        Sat, 14 Nov 2026 10:27:47 -0800 (PST)
+Received: from Desktop.fritz.box ([185.181.130.189])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b56df7sm245554366b.47.2026.11.14.10.27.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 10:00:00 -0800 (PST)
+        Sat, 14 Nov 2026 10:27:46 -0800 (PST)
+From: Julius Bairaktaris <julius@bairaktaris.de>
+To: netdev@vger.kernel.org
+Cc: davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	andrew+netdev@lunn.ch,
+	dsahern@kernel.org,
+	idosch@nvidia.com,
+	ncardwell@google.com,
+	kuniyu@google.com,
+	richardbgobert@gmail.com,
+	willemb@google.com,
+	ecree.xilinx@gmail.com,
+	linux-net-drivers@amd.com,
+	saeedm@nvidia.com,
+	tariqt@nvidia.com,
+	mbloch@nvidia.com,
+	leon@kernel.org,
+	linux-rdma@vger.kernel.org,
+	alexei.starovoitov@gmail.com,
+	ast@kernel.org,
+	daniel@iogearbox.net,
+	john.fastabend@gmail.com,
+	sdf@fomichev.me,
+	martin.lau@linux.dev,
+	andrii@kernel.org,
+	eddyz87@gmail.com,
+	memxor@gmail.com,
+	song@kernel.org,
+	yonghong.song@linux.dev,
+	jolsa@kernel.org,
+	emil@etsalapatis.com,
+	ihor.solodrai@linux.dev,
+	corbet@lwn.net,
+	rdunlap@infradead.org,
+	skhan@linuxfoundation.org,
+	shuah@kernel.org,
+	bpf@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net v2 0/2] net: keep the TCP fixed-ID flags on the header they describe
+Date: Sat, 14 Nov 2026 19:27:43 +0100
+Message-ID: <cover.1794139176.git.julius@bairaktaris.de>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -89,122 +137,91 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Subject: Re: [PATCH 13/15] mm/hugetlb: fix reservation leak on min_size=
- mounts
-From: "Gregory Price (Meta)" <gourry@gourry.net>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- Naoya Horiguchi <nao.horiguchi@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Mel Gorman <mgorman@suse.de>, 
- Andy Whitcroft <apw@canonical.com>, Miaohe Lin <linmiaohe@huawei.com>, 
- Michal Hocko <mhocko@suse.com>, Rik van Riel <riel@surriel.com>, 
- Hugh Dickins <hughd@google.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Vivek Kasireddy <vivek.kasireddy@intel.com>, 
- Dave Airlie <airlied@redhat.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
- Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <liam@infradead.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Randy Dunlap <rdunlap@infradead.org>, Peter Xu <peterx@redhat.com>, 
- Breno Leitao <leitao@debian.org>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Peter Zijlstra <peterz@infradead.org>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Sven Schnelle <svens@linux.ibm.com>, Arnd Bergmann <arnd@arndb.de>, 
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- Gerd Hoffmann <kraxel@redhat.com>, linux-doc@vger.kernel.org, 
- linux-arch@vger.kernel.org, linux-s390@vger.kernel.org, 
- Chris Mason <mason@kernel.org>, stable@vger.kernel.org
-In-Reply-To: <20261028-fixes_hugetlb-v1-13-a0a033db180f@kernel.org>
-References: <20261028-fixes_hugetlb-v1-0-a0a033db180f@kernel.org>
- <20261028-fixes_hugetlb-v1-13-a0a033db180f@kernel.org>
-Date: Sat, 14 Nov 2026 12:59:59 -0500
-Message-Id: <179467919954.482102.5381456550239958011.b4-reply@b4>
-X-Mailer: b4 0.17-dev
+Content-Transfer-Encoding: 8bit
 
-On 2026-10-28 21:13 +0100, David Hildenbrand (Arm) wrote:
-> From: Chris Mason <mason@kernel.org>
-> 
-> Failed allocations for CoW mappings can leak reservations on hugetlbfs
-> mounts with min_size= and no size=. The leaked reservations survive
-> unmount.
-> 
-> HPG_restore_reserve makes free_huge_folio() restore the global
-> reservation without returning it to the subpool. This assumes the
-> reserve map holds the reservation. However, a CoW mapping may have no
-> reserve map, or the map may already account for another folio at the
-> same index.
-> 
-> Commit 58db7c5fbe7d ("mm/hugetlb: fix avoid_reserve to allow taking
-> folio from subpool") allowed owner CoW allocations to consume subpool
-> reservations. Commit 51e1de00acdb ("mm/hugetlb: simplify
-> vma_has_reserves()") later extended this to CoW mappings without a
-> reserve map.
-> 
-> For example, with a subpool minimum of one page and a
-> MAP_PRIVATE|MAP_NORESERVE mapping:
-> 
->                                       subpool       global
->                                       rsv_hpages    resv_huge_pages
->   1. Mount                             1             1
->   2. Allocate using subpool reserve    0             0
->   3. Free on error with flag set       0             1
->   4. Allocate without a reservation    0             1
->   5. Free and return to subpool        1             2
-> 
-> Call folio_clear_hugetlb_restore_reserve() for CoW mappings when
-> map_chg != MAP_CHG_REUSE, meaning no reserve-map reservation was consumed.
-> This lets free_huge_folio() return subpool reservations to the subpool
-> on error.
-> 
-> Do not set the flag again if region-cache allocation fails during
-> rollback: that would undo the flag clearing and skip returning the
-> reservation to the subpool. This also fixes the older case where setting
-> the flag invents a reservation for an unreserved allocation for a CoW
-> mapping.
-> 
-> The doc still mentions PagePrivate at various places: future work should
-> clean that up.
-> 
-> Fix generated by an LLM and sent by Chris Mason in private.
-> 
-> Fixes: 846be08578ed ("mm/hugetlb: expand restore_reserve_on_error functionality")
-> Fixes: 58db7c5fbe7d ("mm/hugetlb: fix avoid_reserve to allow taking folio from subpool")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chris Mason <mason@kernel.org>
-> [ david: simplify comments and improve description; updated Fixes ]
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+GRO sets SKB_GSO_TCP_FIXEDID for a TCP packet whose IPv4 IDs do not
+change. Since commit 3271f19bf7b9 ("net: gso: restore ids of outer ip
+headers correctly") the flag describes the outermost header and
+SKB_GSO_TCP_FIXEDID_INNER the inner one, so every path that adds or
+removes a header would have to move the flags. None does, and a TCP
+stream that GRO merged and that crosses a tunnel boundary is segmented
+with the fixed-ID state of the wrong header.
 
-Commit message is still hard to read :| (or maybe HugeTLB is just awful
-and no amount of massaging the message will ever help this).
+Patch 1 lets SKB_GSO_TCP_FIXEDID describe the innermost header again and
+replaces the inner flag with SKB_GSO_TCP_FIXEDID_OUTER, as Alexei
+suggested in review of v1. Patch 2 adds a selftest.
 
-Maybe note - this is an accounting error only, the pages do not leak.
+Tested in QEMU (KVM, KASAN and lockdep) with the selftest, 18 cases,
+400 segments each:
+- net (30c71476d842), 2 of 2 runs: 6 cases fail. Fixed inner IDs
+  increment after IPIP over IPv4 and IPv6 and after the ESP tunnel (390
+  of 400 segments carry an inner ID the sender did not use), the outer
+  IDs repeat after GRE and VXLAN over IPv4 (10 distinct outer IDs for 400
+  segments), and a VXLAN stream with fixed outer IDs keeps that state
+  after decapsulation into IPIP (10 distinct outer IDs).
+- this series, 2 of 2 runs: 18 of 18 pass, no KASAN or lockdep report.
 
-Was able to reproduce the issue with a UFFDIO_COPY the provides an invalid
-invalid source address (src=0).
+With a tunnel inside a tunnel, such as GRE traffic that GRO merged and
+that is routed into an IPIP tunnel without decapsulation, two flags still
+describe three IPv4 headers: the new outermost header takes
+SKB_GSO_TCP_FIXEDID_OUTER of the header below it, as it takes
+SKB_GSO_TCP_FIXEDID on net. This series does not change that case; it
+gets a separate fix.
 
-1. Create the pool and mapping (hugetlbfs w/ pagesize=2M,min_size=2M)
-2. invalid UFFDIO_COPY  (kernel allocates, fails the, rolls back)
-3. Close uffd, cause a normal fault
-4. Unmap and truncate the file
-5. Remove the file and unmount
+Changes in v2:
+- Keep SKB_GSO_TCP_FIXEDID on the innermost header and describe the
+  outer header with SKB_GSO_TCP_FIXEDID_OUTER instead of moving the
+  flag on encapsulation and decapsulation (Alexei). Encapsulation then
+  needs no change, which also covers ESP tunnel mode with crypto
+  offload, missed in v1 (Alexei, Sashiko), the Geneve GRO hint path,
+  which sets skb->encapsulation again after iptunnel_pull_offloads()
+  (Sashiko), and BPF encapsulation followed by an L3-only decapsulation
+  (Sashiko). FOU, which pulls the offloads twice, clears the outer flag
+  twice.
+- Keep the encap_level reset in gre_gso_segment() and
+  __skb_udp_tunnel_segment(): v1 undid commit 5197f3499c47 ("net: Reset
+  encap_level to avoid resetting features on inner IP headers"), which
+  with remote checksum offload masks NETIF_F_HW_CSUM out of the inner
+  features on devices without it in hw_enc_features (Alexei, Sashiko).
+- Drop the segment routing changes: the outer header there is IPv6
+  (Alexei). This also drops the read of hdr->nexthdr after
+  iptunnel_pull_offloads() in ipv6_srh_rcv() that Sashiko reported as a
+  use-after-free; ipv6_srh_rcv() is unchanged.
+- Convert mlx5 and sfc to the outer flag (Alexei).
+- Selftest: add an ESP tunnel mode case offloaded to netdevsim; check
+  the inner ID values, not only how many distinct IDs arrive; skip the
+  decap cases when the IPIP device cannot be created; fail a case whose
+  receiver reports no result; keep IPv6 link-local traffic off the
+  tunnels, whose tx_packets decide the GRO skip; remove the temporary
+  file on exit; sort the Makefile entry; wrap lines at 80 columns
+  (Sashiko, NIPA).
+- v1: https://lore.kernel.org/netdev/cover.1792857378.git.julius@bairaktaris.de/
 
-                  Base                    Patch
-step 2:  total=2 free=2 rsvd=1     total=2 free=2 rsvd=1
-step 3:	 total=2 free=2 rsvd=2     total=2 free=2 rsvd=1*
-step 5:  total=2 free=2 rsvd=1     total=2 free=2 rsvd=0*
+I used Claude (Anthropic) to help write these patches.
 
-Result looks correct to me.
-The code hurts my brain but looks reasonable.
+Julius Bairaktaris (2):
+  net: keep the TCP fixed-ID flags on the header they describe
+  selftests: net: check TCP IP IDs across tunnels after GRO and GSO
 
-Tested-by: Gregory Price (Meta) <gourry@gourry.net>
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+ .../networking/segmentation-offloads.rst      |   4 +-
+ .../net/ethernet/mellanox/mlx5/core/en_rx.c   |   8 +-
+ drivers/net/ethernet/sfc/ef100_tx.c           |  12 +-
+ include/linux/netdevice.h                     |   2 +-
+ include/linux/skbuff.h                        |   4 +-
+ include/net/ip_tunnels.h                      |   1 +
+ net/core/filter.c                             |   1 +
+ net/ipv4/af_inet.c                            |   8 +-
+ net/ipv4/tcp_offload.c                        |   6 +-
+ tools/testing/selftests/net/.gitignore        |   1 +
+ tools/testing/selftests/net/Makefile          |   2 +
+ tools/testing/selftests/net/tcp_fixedid.c     | 411 ++++++++++++++++++
+ tools/testing/selftests/net/tcp_fixedid.sh    | 400 +++++++++++++++++
+ 13 files changed, 836 insertions(+), 24 deletions(-)
+ create mode 100644 tools/testing/selftests/net/tcp_fixedid.c
+ create mode 100755 tools/testing/selftests/net/tcp_fixedid.sh
 
+
+base-commit: 30c71476d842b094651bd7712f6c8ee8716147d0
 -- 
-~Gregory
+2.53.0
 
