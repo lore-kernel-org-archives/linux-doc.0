@@ -1,54 +1,72 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=35.89.44.39
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794636138;
-	b=Ri861IRGNZekHSo00+yvZkymOJMLgQ2SpEgENZd8RCWCxRtG8240aKqOd3D/2OXBOLHe
-	 V5qIiGUgcrDXFgx/3s9zV+jYMGByeEsxN5FWgk0DW7q/f0lLlDrtCLiH3ZVK0+S+CIxgS
-	 S0MU+L9jwDt+7etR1Eh3PHs6kj4Y+2Tm9E6t0z5yaJs+pIKjsTS9Qw8YNPDaztIdr1jzh
-	 Gh4DK0xuIMH7NH9hbK5poP9eFpDEvLHedfOAHJhS6fpUtbgxCRtrxSOjFTDZseQ2Ym4Ho
-	 XI4CUw1rr3fGNxrv2I5c3hkpIz0j2uhGQX/QZ0RF5hCSiqxS4flbfzJn6CfkgIodhBw==
+	t=1794636478;
+	b=gj0afhLQM4e5inS3k5oZl5Bx95GXyHL6H9OjztOWz7EAm1VkJC6x4j4t2z3lAtMOt2n8
+	 qF1FnpIz6A1dV+0fUgOytMHAqV9eLdxsYXeAk4RxbBbDu9S8VkePpBeBinrzjLAkjeTFe
+	 2XkzmfAFynJNTs75varsmpV9oxTiq6FHZEJLyRC1kTaB5DdfQYu7D9IisyFCFzyeqw/4D
+	 GuAR382rILQGCgzwnoi/2Rk5RFIybga3+JkXlRsTGz/Sl6Z4DO9gNxK1s+9bpqd4QDsGj
+	 pNsV3Zl5HR/k898iI52Xa652qKZCmp1YfF8e9HBi+Wrn4tRFecimdj2QlS80WFufgAQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794636138;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=cSnX/lDPO84uhZYL3He4tA7vIj3wFfw46jJJRk/azek=;
-	b=oQbULYFs07mRRvXqkQat0Ey2lay4WWCJQPTe4xZZSzf5aAps4crejfAi+I2MNyWlFSWG
-	 Qz9/BVsD7KoIZciX1tBbyJuUj3ntYr2SSjdFYz4HQ/ZJEdNIaFarL3uGdc8Ra5RVOj+Ue
-	 5pSf+BqdA3/6qLaHU8vCZh3kuYShBUmtJhNWxaAco1ip+xs4r/IcBaVB4TWBAWH74YT4s
-	 w+GV/+/Jqd/6jEzgagZYev/TyTSgIySHrYK5rup06i++oXKCAsT//AV3UmEawBVMwlC+o
-	 dOPDUoAtF5jdbHin+/UDx7dguW7GByQcX/r1whjDpwhVGOIhSzI6wR4lyewWzilY/Qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794636478;
+	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
+	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
+	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
+	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
+	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
+	bh=k3ZCL0yCo4qHj48CZf0oSTVriUNmB/9T1OWuLfWgT+A=;
+	b=JPHuhfD26PNqc1LSTdS5UxT6N0U0z87MZ+DVC6q78rsMsNVrSg4i2eno03V+Zjvn+7JL
+	 lspWpmCMAhPiEhnYNOwOI7no0aKz9AIK1jpT0eenBxewtFf6gKrU4OEjk5PRs47ZfZQ4N
+	 0eaZtNe15KHBM/m4tQ2zAeYAWsQzU3Nl1XAEniL7/l43MBgUB5u2jEP0DJLriumkGJ/TU
+	 VludGq9Qrlt1qO/FLhC4xomxR8B+8fHpRYItz4y93vjoHE/FdehJTrocOLP3q3gxu60L7
+	 2Vl4FQz2V3auV/a9RvEHF30jk66Fdjw6RbLsAsPmOnE2cwf2gtea5RYcb6AuRzo162w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=infradead.org;
-	spf=pass smtp.mailfrom=infradead.org;
-	dkim=pass header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=lO44GlAL;
-	arc=none smtp.remote-ip=198.137.202.133
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=roeck-us.net;
+	spf=fail smtp.mailfrom=roeck-us.net;
+	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=GgKRxHaR;
+	arc=none smtp.remote-ip=35.89.44.39
+Received: from omta40.uswest2.a.cloudfilter.net (omta40.uswest2.a.cloudfilter.net [35.89.44.39])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EB41606A32E;
-	Sat, 14 Nov 2026 06:02:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3EB41606A32E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7230606A327
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 06:07:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7230606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.a=rsa-sha256 header.s=bombadil.20210309 header.b=lO44GlAL
+	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=GgKRxHaR
+Received: from eig-obgw-5002b.ext.cloudfilter.net ([10.0.29.226])
+	by cmsmtp with ESMTPS
+	id RejXxWl3lyb4YS6vdxdsJb; Sat, 14 Nov 2026 06:07:57 +0000
+Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
+	by cmsmtp with ESMTPS
+	id S6vcxa1bUb2qJS6vcxX77h; Sat, 14 Nov 2026 06:07:57 +0000
+X-Authority-Analysis: v=2.4 cv=A7tsP7WG c=1 sm=1 tr=0 ts=6af7fabd
+ a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
+ a=es2n6eTOkizK-jv9RXAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=KPbNTLLc3YvdawN95zVk:22
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=cSnX/lDPO84uhZYL3He4tA7vIj3wFfw46jJJRk/azek=; b=lO44GlAL8BpSDnM8BNoovadxIu
-	kAYTKzZ2GcRv8ke2DTiZBmoU8qAc9Gmf/kd3E55EyYB2xCW6TtsbGISk42BrLz331ClG0UoQfZvn+
-	4auvUXT6EE2wAtpNt8mx6uL+OVlAFX+fTawjVAJZxyHVjUn9BzTjiIs1hm21tGhKnZj73IbrCX0G4
-	D28d6zQjJvDtpRQ0PjQfLELliQgEE2D7uVpZT/YOVjexkLTIa9KFmRP6K4sTw0f/E/CigGQbzAYxi
-	GlMfGlYzO1qGiM2mYHWhI/bySErpwvOu1vASJlj0GqJoA3qcaymyhMisJYSOPowGF5FVFyo9drTOM
-	43TEQRbg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.100.1 #2 (Red Hat Linux))
-	id 1xS6q7-0000000FWJ8-3fe1;
-	Sat, 14 Nov 2026 06:02:15 +0000
-Message-ID: <aabdb561-881a-4824-9d85-860528a99099@infradead.org>
-Date: Fri, 13 Nov 2026 22:02:15 -0800
+	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
+	List-Archive; bh=k3ZCL0yCo4qHj48CZf0oSTVriUNmB/9T1OWuLfWgT+A=; b=GgKRxHaRUvpE
+	t/K0+v/IzLzOOUM96+WP3ldu1tItVw2qvgHmNQK3b5o9Gms+UO5B8ZeIl34cTLtqKonzeTCyaNN7Z
+	rO/Q9Dk7jOL1yEl/4j0Rq7II69GZupndSzh+IVTYg8rNO99lUJvSzjS6jMPqajiaZMwiacvqcjf7z
+	yWFoioAeMM1U++vE4TzjVle5zP5JksqTcpRuDQFLEgpzVdSEvxGw8M9hbqBKYFj/6CWClRWbAnc1V
+	+ACwAd8t/UhW5sa838BURlJ5J/cKGGyQFUvPXQ443iUi1ypeYlJ42GuhWWNzcIItW3tL3r7y90ymt
+	2UjWFVsC6ykeNEROFZoR0w==;
+Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:37708)
+	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <linux@roeck-us.net>)
+	id 1xS6va-000000048T3-2uJj;
+	Sat, 14 Nov 2026 11:37:54 +0530
+Message-ID: <d28f392e-82ea-44d6-83e5-9593b341a722@roeck-us.net>
+Date: Fri, 13 Nov 2026 22:07:53 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,77 +77,107 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Docs/mm/damon/design: replace "same to" with "same as"
-To: Enze Li <lienze@kylinos.cn>, sj@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org
-Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org
-References: <20261114055436.5546-1-lienze@kylinos.cn>
+Subject: Re: [PATCH 2/4] hwmon: (adt7475) Convert to
+ hwmon_device_register_with_info()
+To: =?UTF-8?Q?Dav=C3=AD=C3=B0_Steinn_Geirsson?= <david@dsg.is>,
+ Jean Delvare <jdelvare@suse.com>, linux-hwmon@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
+ linux-pwm@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261114004110.328050-1-david@dsg.is>
+ <20261114004110.328050-3-david@dsg.is>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20261114055436.5546-1-lienze@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20261114004110.328050-3-david@dsg.is>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - roeck-us.net
+X-BWhitelist: no
+X-Source-IP: 108.223.40.66
+X-Source-L: No
+X-Exim-ID: 1xS6va-000000048T3-2uJj
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:37708
+X-Source-Auth: guenter@roeck-us.net
+X-Email-Count: 2
+X-Org: HG=direseller_whb_net_legacy;ORG=directi;
+X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfOV2/b5WsaG/cu0pUBtd9MKo3NVdn2A71dAyXmU2u0U8v9y7ZXkS8DMq8059r+KFJDqsfY/Kf00A1o/Ibd/N48jhSzV8IGWLPhlEd/C5i6DCtbJqYQtB
+ WNdDQ2kIiInAfht6Sc0xKdJrRGuO+xiualCHJL3xdHXTjsvO6Qh8gcxnxWX/NyCbK8nkSzDgbOFM64F20ZR1ZwcM4jdRdY+5+C4mUNnGG9H6EnBpEpxgfAZQ
 
-
-
-On 11/13/26 9:54 PM, Enze Li wrote:
-> "same to" is not idiomatic; it should be "the same as" or "same as".
-> This doc has six such usages.  Fix all of them at once for consistency.
+On 11/13/26 16:41, Davíð Steinn Geirsson wrote:
+> Convert the driver from hwmon_device_register_with_groups() to
+> hwmon_device_register_with_info(). The standard voltage, temperature,
+> fan and PWM attributes move to hwmon_ops. The chip-specific attributes
+> stay driver-defined and are passed as extra groups: the automatic fan
+> control points, temperature smoothing, PWM stall disable,
+> pwm_use_point2_pwm_at_crit and the VID attributes.
 > 
-> Signed-off-by: Enze Li <lienze@kylinos.cn>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
-
-> ---
->  Documentation/mm/damon/design.rst | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
+> The driver keeps data->lock, although the hwmon core serialises the
+> hwmon_ops callbacks. The attributes in the extra groups run outside that
+> serialisation, and they share the register cache and its periodic update
+> with the hwmon_ops callbacks. They do not take hwmon_lock() instead, to
+> keep this conversion free of locking changes.
 > 
-> diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
-> index b676be697158..6284b9005443 100644
-> --- a/Documentation/mm/damon/design.rst
-> +++ b/Documentation/mm/damon/design.rst
-> @@ -292,17 +292,17 @@ DAMON :ref:`context <damon_design_execution_model_and_data_structures>`.  The
->  registration is made by specifying a probe per attribute.  Each of the probes
->  specifies a rule to determine if a given memory region has the related
->  attribute.  The rule is constructed with multiple filters.  The filters work
-> -same to :ref:`DAMOS filters <damon_design_damos_filters>` except the supported
-> -filter types.  Currently below filter types are supported.
-> +the same as :ref:`DAMOS filters <damon_design_damos_filters>` except the
-> +supported filter types.  Currently below filter types are supported.
->  
-> -- ``anon``: Same to that for DAMOS filters.
-> -- ``memcg``: Same to that for DAMOS filters.
-> +- ``anon``: Same as that for DAMOS filters.
-> +- ``memcg``: Same as that for DAMOS filters.
->  - ``pgidle_unset``: Matches if the page for the memory is marked as not
->    access-idle.
->  - ``pgidle_set``: Matches if the page for the memory is marked as access-idle.
->  - ``hugepage_size``: Matches if the page for the memory is a part of a hugepage
->    of a given size range.
-> -- ``active``: Same to that for DAMOS filters.
-> +- ``active``: Same as that for DAMOS filters.
->  
->  If such probes are registered, DAMON executes the probes for each region's
->  sampling memory when it does the access :ref:`sampling
-> @@ -706,7 +706,7 @@ There are two such tuning algorithms that users can select as they need.
->  The goal can be specified with six parameters, namely ``target_metric``,
->  ``complement``, ``target_value``, ``current_value``, ``nid`` and ``path``.  The
->  auto-tuning mechanism tries to make ``current_value`` of ``complement``-ed
-> -``target_metric`` be same to ``target_value``.
-> +``target_metric`` be the same as ``target_value``.
->  
->  - ``user_input``: User-provided value.  Users could use any metric that they
->    have interest in for the value.  User space main workload's latency or
-> @@ -736,7 +736,7 @@ auto-tuning mechanism tries to make ``current_value`` of ``complement``-ed
->  
->  ``complement`` is a boolean parameter that determines whether to use
->  complemented value of the target metric.  For example, if ``complement`` is set
-> -and target metric is ``active_mem_bp``, it is effectively same to
-> +and target metric is ``active_mem_bp``, it is effectively the same as
->  ``inactive_mem_bp``.  ``complement`` is no-op when the target metric type is
->  ``user_input``.  For the metric type, the user should be able to emit
->  complemented metric values on their own.
 
--- 
-~Randy
+I disagree here. If you don't want to change the locks to use the hwmon
+subsystem lock in this patch, add another patch to change the code to
+use it. The subsystem lock was not introduced to be ignored.
+
+Thanks,
+Guenter
+
