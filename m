@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794760843;
-	b=i6mLpVa5Zu9JrqoLuHQVoEqEnvUx445WAcGdiqx4ic47hinzWnVSmVqanfwzhBaVMy63
-	 zXJrJKxzpBWw+dreHlm6ah0QFhkpHZy1UDASZatCQZ/cMH0tt6M0WOwtXa8paXvZzPvbV
-	 jc71pFbzQ2O9BnHeATkRZ8dmz9uGk2gioKOZZxo2zJUbb0ypqpreFEEffQAFxNGuF4cGQ
-	 kKDZ0ATLmAX9Ruw9KWXnuYhxeBLDY/XkJWe5vjlY0fYu3EY8hR2765GlWC0dvC1tvuD5O
-	 +fsaUOxq49Es2Av3asrKa6t98calYeIhHWOEWCWLgch4GK9wp3qD2ri5v9ARr2xBCjw==
+	t=1794761938;
+	b=gOiog8J4XuB2hjV/K6YFNbXcdyhUnElEaqsCPBI3p6GeevjMouGSGiJuQn7+MH2T8mZd
+	 VqI/tyl74+9z6dd24dGfN3ailIyDwHZdEHiTFjzFGgipMKF+qV5k5GIZO10fP67+Lxq6o
+	 XMcmFkoLkh5lpBAP3m9eSbLvMn5KNuaP69gAVbCKAROWpe75ad8DO34PXryRTz0C3VMWa
+	 CRnzmv8JHBKUUO+J9yA7dcS4ALvsNs+vDprw7fy5fyTCHJQsK2ePdAZwSUGolHx1EFHPj
+	 roJ4pTVO+Kj+mcrWtAc3tKIAIM6KLFETP8oc/XV7eRi7swSPrYmS/a5NHIZKv5QAPog==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794760843;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794761938;
 	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
 	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=u+CDFH8zAL7wgGtbRFmlbP0nitp9kr0fmBISA0T1p0A=;
-	b=NHVtwjlwDHBM2PMCFdPj53l8z6SyS66HMlrAOPq5w6Q0o9ZmCnkzeoVULEMlH0cB97rU
-	 YLmRjFGQCPJAzZgiSSPmDLYjrwpbZXhc14t7Dr00nYOtWASsaIhsTJHCRpFsdvLDnALx/
-	 t3LH/DkvPi0GEgFB4bl3Veq8x4YLmbUoLHT5GqBIzOth3Qi7HH2fWQYZa3q2xB4o/6jwY
-	 bHp2B49POP65ZuP7f92E5jsKpoCbdkmR3rsuns763+b24tK4exgJEx/Qk0pw6sMUTZqy2
-	 hNEb8hPDUOc4uAb7zUUzXIbK570h7JaWPdJRhd32XgKrkoMByLZDeCB+Ysm77BUpgkQ==
+	bh=7icfoIT+Mng+FLAG3S5PMcuwQv7cbo7W5CDYKdjKwU4=;
+	b=uhGkRhQ0X5gGVVF4M3f/wQ0+JdJMr7ntoxErF6nQrPxWrENsdM/TdaQ9xu2QZsBcHzLU
+	 hWvzG5sxYssZCZll1/KB82X02FAFAwHMfYtfL9/ZR4gWGaNCDpgbyh7VjVcD+kBvTjok7
+	 MTm+aOpzZP6iLLuuhJfdi8nPxVCPs3RXe1M7V0bfUztW9WB3uHYYaA8D8taqaZz6wJL+S
+	 mLV9CHK4cHBJ8lSqv6Qzhq4PWGsULBOecTqYWN1dIDROykVXsGRaE3CeyoAXksA8v/hcD
+	 Tlf5JGRrGWdefrMzIwaueRXPteGYEb9/dyqbKw3/4lqvxl8CZ0eumOisAMXLVL5BxYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GASWgN6s;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GoWFHZsl;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19267606A31E;
-	Sun, 15 Nov 2026 16:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08485606A31D;
+	Sun, 15 Nov 2026 16:58:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GASWgN6s
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AE3F1F000C4;
-	Sun, 15 Nov 2026 16:40:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GoWFHZsl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC631F000C4;
+	Sun, 15 Nov 2026 16:58:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794760842;
-	bh=u+CDFH8zAL7wgGtbRFmlbP0nitp9kr0fmBISA0T1p0A=;
+	s=k20260515; t=1794761937;
+	bh=7icfoIT+Mng+FLAG3S5PMcuwQv7cbo7W5CDYKdjKwU4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GASWgN6st+wThFR8ljMWn0jEpKoCDnhja450JTeo/R52YP0MLytxoNmV5cCvcwFpO
-	 JpE5FnY1kNm97xMfTGykI5yGxYtWDDFjIm15LEjqlDGhvmZh2eJ3TquPNtIDDq/BAi
-	 X4bD4X048/7zuo6GgfJkiuJHDMSIABShwEXV1M7k6R4gb6s+iGH3d+J3SIJOG1L7sT
-	 SiZr9qLaL8+P/xG2NUj6qSbK61OKoW48tV1kP2lKTbvz4t2Fb1YYZlkox6ATxmUyD1
-	 oU0e1C67qKhAA4bn8q7rMG7KTyHWc7CRCyhAOUKTU4ibLX+sWl0gLHT52wcHlioswV
-	 joWoQcgy8kgoA==
-Message-ID: <76fc4555-b458-491b-ba2c-ec030879dafe@kernel.org>
-Date: Sun, 15 Nov 2026 17:40:31 +0100
+	b=GoWFHZslNnHYuGjrh/bx7l/8F07iyWDyej/GltR19PHb0krwpgQZnzQ/w29MU9yvY
+	 9N/ydZSw/qY2tK5FaOYCK1ORBjMwxhvWBnuouItS4XKDkbn9gWaeGjF+XgXMKjfDRb
+	 yRjP08VgPpWhb821Sp+uoP9Td3foxZ3vOKkFT2wkHSIOuMW3DhfBOncL7YGvQAJ7mS
+	 moyJ26SpKW7UvwaxAzqtXI2cUraP21SQ9Ax6dJRbxzUvfCguVEowEmmIQeonLglFpU
+	 MQxnJgWY8X4ntDgBifkx9ExXqmq/oX+Iv0Gpat2G+lyO4H7GjhcZ2VGKcIIaDnB2Ev
+	 itbJF0Q8f6G0Q==
+Message-ID: <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
+Date: Sun, 15 Nov 2026 17:58:23 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -52,24 +52,63 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] mm/mempolicy: limit shared policy ranges per inode
-To: "Gregory Price (Meta)" <gourry@gourry.net>
-Cc: Hugh Dickins <hughd@google.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>, Zi Yan <ziy@nvidia.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20261113-mempolicy_limit-v1-0-16688b2644dc@kernel.org>
- <20261113-mempolicy_limit-v1-2-16688b2644dc@kernel.org>
- <179467808112.482102.13365594235443107281.b4-reply@b4>
- <70740a32-92f5-4425-8676-68863f3e44c3@kernel.org>
- <179468794889.482102.14066028910704780583.b4-reply@b4>
+Subject: Re: [PATCH 01/12] docs: ioctl-number: update MM entries
+To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
+ Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
+ linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>,
+ Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
+ Marcel Holtmann <marcel@holtmann.org>,
+ Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+ linux-bluetooth@vger.kernel.org,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+ oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
+ linux-atm-general@lists.sourceforge.net,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ MPT-FusionLinux.pdl@broadcom.com,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org,
+ Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ Juergen Gross <jgross@suse.com>, Stefano Stabellini
+ <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
+ Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ "Michael S. Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Sean Christopherson <seanjc@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+ virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
+ linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+ linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+ devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
+ Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
+ Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+ linux-f2fs-devel@lists.sourceforge.net,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
+ Matthew Brost <matthew.brost@intel.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ intel-xe@lists.freedesktop.org
+References: <20261114202653.3113381-1-rdunlap@infradead.org>
+ <20261114202653.3113381-2-rdunlap@infradead.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -116,47 +155,16 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <179468794889.482102.14066028910704780583.b4-reply@b4>
+In-Reply-To: <20261114202653.3113381-2-rdunlap@infradead.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/14/26 21:25, Gregory Price (Meta) wrote:
-> On 2026-11-14 21:16 +0100, David Hildenbrand (Arm) wrote:
->> On 11/14/26 18:41, Gregory Price (Meta) wrote:
->>>
->>> Multi-task mappers were previously unlimited, but that seems like more
->>> of a nasty unintended corner case - not a real feature.
->>>
->>> A single process is already limited on the number of vmas/policies based
->>> on `max_map_count`, so it seems natural to just use max_map_count
->>> directly, but I took a brief look at some distros and most seem to
->>> ship a raised `max_map_count` (>1 million) by default).
->>>
->>> I tested that and even 1 million can cause a soft lockup.
->>>
->>> Not sure there's an easy solution here, we might have to rework the shm
->>> policy locks.
->>
->> Do you know a single valid use case that's not solved by patch #1 and would
->> trigger that many policies?
->>
->> Ai was not able to come up with anything for me.
-> 
-> Just want to make sure the bases are covered.
-> 
+On 11/14/26 21:26, Randy Dunlap wrote:
+> Add ioctl number entries for test_hmm_uapi and gup_test.
 
-Yes, and I'd be very happy to learn about use cases.
-
-Maybe we can let this stay in -next for a while before moving forward with this?
-
-> If others are ok with this change, it doesn't look unreasonable to me.
-> 
-> Although I'd wonder whether just using max_map_count's limit instead of
-> adding a new toggle would just be cleaner and avoid adding a new uapi.
-
-I considered it but discarded that. Having 1mil on Fedora et al is not
-particularly helpful. Both are related but, in practice, completely separate
-concepts.
+Just curious, why do we care about uapi for test interfaces that never see the
+light of day in production kernels and their sole purpose is to go a long a
+dedicated selftest?
 
 -- 
 Cheers,
