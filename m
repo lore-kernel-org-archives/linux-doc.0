@@ -1,67 +1,62 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794770243;
-	b=JPQ3p0F4pfHRJXHyge2ZhsjM+2fJNNXvohqq5saBeoGvU9iRpKbXtFgbWLhHlA3SxZH7
-	 Hi5ygeuaBBbFb5JFw3tdiaD4q3WnZ7pgV/SAPJVJMOHxMc8ypWSgavo11kdzr7Drj8XVL
-	 pPjYq3wnrOpDbn3yNykNmno+pRUJ9phYkzClZs5E3zWmNwEcV5Lc59y9ysnjKcyWvSQMY
-	 JQkKeewKH8s4uQZSmjHDN8q/I306/VC/GX4aqKVegfjMCv5zlX0zuI9l6WejuND7ZzxDI
-	 J9rK+59nrRWsIKXvib/a1oXdnDofTSqtjLDRrCSbAI5I27NwwSXxL7O5TpNC+8QLHNA==
+	t=1794770524;
+	b=1/afN4O+YnzH3DhsWuSkON/Bz9McuVtMQTVK415+vwCxFCB1AitcMfG72pRq7Tls/RaO
+	 qUU5bw8BpC7QWeIazZzjSmpcYzkIJ7+4icb7/HvxkKTjZ7eMLwdDPyC2oZvcHpYbsePAQ
+	 M856kvUoDTXnVjZywm4AAjxuDVAkVltJRnOIoGZLJhwvtdgpnTS02fXEDmS01omHOz1cv
+	 EHsloJCnvl2RYQQ2rbGXAZZFF+1QTKl/MgDC/DgHlIhgx0/Y5tn/PnqWfdnEmIzyzzumm
+	 oW1qNQti/DI93aBVJkYmtLypWAyLQwaW7Dq3H9uKu9gYsadTDFP/wyNeMufUHErZ1Hw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794770243;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:In-Reply-To:References:
-	 Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=syiaQMJ04df2CAPDd9TxgmwagOaCksS43FztMaZSoj4=;
-	b=YI9DW0o84/btgXhcFZC57hmxJfpLJ3uUOz0d10lR3SoNfKVikJylVoTxgADjGgBFwtat
-	 v5jr5alAwc9YhCs25HAwJUWQdQQJ6ud+Uh6p8LaiEXjRONHo+WKOySObDUp9Om7akayAS
-	 q7jZksPe3KAJaUNSqu3Kl38PiFFVJrMYojpaPduqXh++/c/AJTwFphhSgw07Bafsls9tF
-	 xNOJxnogng7KVh5pMIfTxJLbgPcqpXKphda0RYPkqHQB1oekLTvvoltIO2i7/c36qPi0P
-	 +JBhi19AhhX5YbKS5AGsmM+YPUsG7v+if3ArWRZJ1NjQbBcC0U1LNxmi7RyI9c7nh3w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794770524;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=TIMpcp5q0yTDtJcCpdNxmcyuVAuHnxRcCai9kzJu3Mg=;
+	b=SUv0IDl9F4Jp9AaasVpk137YD6Wbrz9K4n6Q/xPIAjxi+lB7IlZVnRfzvfrfe7SwAbO9
+	 XxX5JTM9bNDVvkpYz3os1SbebvoUr9vGmj2g7Qq9ENWDfgpvN3WVXt94I3ir/+ku6nYwm
+	 TmciVHLa12f6qd0Q++sp605Iy36gJPmS+fAaoBFK0A1N0mfT0KxmtwLK6RD56XX7Gk9Td
+	 OFIbgY2c1pKcTzs+T+ZvqsyOetaDW6KePmarzssTQ12+vVZrXxYRfDneK9yvDuuYdF9vX
+	 OIjoNDcImptjZDL2IcthyodwuHYYsSplFRVJE2bjIRiNUMUVrGT4hPYv82jl3DFUiHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NQ2RTQiU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYkZvG7T;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203CB606A323;
-	Sun, 15 Nov 2026 19:17:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1852D606A329;
+	Sun, 15 Nov 2026 19:22:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NQ2RTQiU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBBF11F000C4;
-	Sun, 15 Nov 2026 19:17:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YYkZvG7T
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 877A31F000C4;
+	Sun, 15 Nov 2026 19:21:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794770242;
-	bh=syiaQMJ04df2CAPDd9TxgmwagOaCksS43FztMaZSoj4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date;
-	b=NQ2RTQiUkooIEv2aFmxn0mSejwHAVan7OoLwkXp7+EqL2JE0uyg24oNE/w8/BPWGU
-	 hOkEUqIcDLeoy6OECB08uAAAqUGy6jJbvGmrZQE1k0fPw5aiUyeVkPyTKP6ZLr8hhJ
-	 znImMXQFXrHoaun4DzvCTiTsjpny2ultaPf0sLdeCuE6xqS0qb+FGZLDa7+wyuAKiv
-	 NuTb3IfidJO8ZktYh+I8f6+utWgwo5Mv+YUTMcv9JSMRBm9cDgointBeyQ2h166T9t
-	 a1q+nUh0ZUqUIJQX914bGraPwGIETtkpad3nVgRfq6u6rtlguO+PxFoX7biiqEnA0U
-	 BPqgK4+7YLhXA==
-From: =?utf-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-To: netdev-bot+sashiko@kernel.org
-Cc: magnus.karlsson@intel.com, maciej.fijalkowski@intel.com,
- sdf@fomichev.me, davem@davemloft.net, edumazet@kernel.org,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, rdunlap@infradead.org, alexanderduyck@fb.com,
- kernel-team@meta.com, andrew+netdev@lunn.ch, hawk@kernel.org,
- ilias.apalodimas@linaro.org, ast@kernel.org, daniel@iogearbox.net,
- john.fastabend@gmail.com, asml.silence@gmail.com, axboe@kernel.dk,
- andrii@kernel.org, eddyz87@gmail.com, memxor@gmail.com,
- martin.lau@linux.dev, song@kernel.org, yonghong.song@linux.dev,
- jolsa@kernel.org, emil@etsalapatis.com, ihor.solodrai@linux.dev,
- netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org,
- almasrymina@google.com, mike.marciniszyn@gmail.com, bestswngs@gmail.com,
- razor@blackwall.org, dw@davidwei.uk, aleksander.lobakin@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, stuclar@meta.com
-Subject: Re: [PATCH net-next v1 06/11] page_pool: Coordinate refill with
- memory providers
-In-Reply-To: <179443689325.2199510.6016244708978672874@kernel.org>
-References: <20261110102039.1002605-7-bjorn@kernel.org>
- <179443689325.2199510.6016244708978672874@kernel.org>
-Date: Sun, 15 Nov 2026 20:17:19 +0100
-Message-ID: <87ld6thpkw.fsf@all.your.base.are.belong.to.us>
+	s=k20260515; t=1794770523;
+	bh=TIMpcp5q0yTDtJcCpdNxmcyuVAuHnxRcCai9kzJu3Mg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=YYkZvG7TDza6ISUNrA5UxvkwMkMaTYDOKtlTjJFwt5WNutN24VaxlsSYmqhTVY9li
+	 mIZTkFQTGnBegqSkt7a9Ipe9CeKF14uY8FAe0wFb0LP22FzQ67JY+dckJsIF+yidHR
+	 SlTuALfyn43kZRzSCEvulKt5vwiT2jphAkIg9eZwP7a32TCNO212ENSsJz4QQtyUZj
+	 1uKDAouRdv8wY7F0SKuAiAd48ic38IeJ+YXUSFfSTn1IENOSTLTqYFK9EJ/6mtwox+
+	 84H0dI6au4UnWReLyQSXq7WX9642Fp1ZeDtPe87f1hFUOQ5oASWAQ6wHAa68wYrhKu
+	 nF6Tbtja0p8lQ==
+Date: Sun, 15 Nov 2026 21:21:56 +0200
+From: Mike Rapoport <rppt@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pratyush Yadav <pratyush@kernel.org>
+Cc: Alexander Graf <graf@amazon.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Chen Pei <cp0613@linux.alibaba.com>,
+	George Guo <guodongtai@kylinos.cn>, Kexin Liu <liukexin@kylinos.cn>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sourabh Jain <sourabhjain@linux.ibm.com>, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, "Jose A. Perez de Azpillaga" <azpijr@gmail.com>,
+	Mukesh Pilaniya <mpilaniy@redhat.com>
+Subject: Re: [PATCH v3 0/5] kho: fix bootmem sizing
+Message-ID: <avoGVI3Ja6ZgRBL6@kernel.org>
+References: <20261112-kho-bootmem-sizing-v3-0-f0c8d00295d5@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -71,45 +66,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261112-kho-bootmem-sizing-v3-0-f0c8d00295d5@kernel.org>
 
-netdev-bot+sashiko@kernel.org writes:
+On Thu, Nov 12, 2026 at 12:38:52PM +0200, Mike Rapoport (Microsoft) wrote:
+> There were several reports about issues with KHO bootmem sizing.
+> 
+> The bootmem areas are sized from overlapping views of the memory reserved
+> in memblock, so on NUMA systems memory allocated on a node is accounted
+> twice and with CONFIG_NUMA=n the lowmem and the global areas are accounted
+> once again in the area of node 0. Besides, the lowmem and the global areas
+> are reserved even when they are empty.
+> 
+> ---
+> Mike Rapoport (Microsoft) (5):
+>       kho: reject zero bootmem scale
+>       kho: walk bootmem areas in address order
+>       kho: skip zero-sized lowmem and global bootmem areas
+>       kho: fix bootmem sizing
+>       kho: docs: update description of bootmem regions
+> 
+>  Documentation/core-api/kho/index.rst |  31 +++--
+>  kernel/liveupdate/kexec_handover.c   | 225 +++++++++++++++++++++--------------
+>  2 files changed, 158 insertions(+), 98 deletions(-)
+> ---
+> base-commit: 6628e7d4c6b25c8d18f1345e3a20d21829aae7e4
+> change-id: 20261103-kho-bootmem-sizing-5d6aed47a243
 
-[...]
+I took this version to the liveupdate tree.
 
-> Should netif_mp_napi_del() also clear rxq->napi when it matches, or
-> should netif_mp_update_napi() only publish a NAPI that is still
-> listed? If drivers are expected to clear the association themselves,
-> could netmem.rst item 8 say so?
-
-The first. v2 drops mp_napi, so wakeups use rxq->napi itself, under RCU,
-and the core clears it when the NAPI is deleted.
-
-[...]
-
-> Should the documented contract require that, or should the core handle
-> the disabled-NAPI case itself?
-
-The contract. fbnic polls the vector right after napi_enable()
-(FBNIC_INTR_SET), so the queue refills once, from the reuse stack or
-FILL, and refill_done marks it starved again if both are empty. A wakeup
-lost on a stopped queue doesn't matter then. v2 documents that a driver
-polls the queue once after enabling its NAPI.
-
-> Could uses_need_wakeup be cached in struct xsk_pp when it is created, or
-> read only after pp->fq is confirmed under pp->lock?
-
-Same root cause as the failed removal in 05, and the same fix. The pool
-then stays until the queue DMA has stopped, and no refill runs after
-that.
-
-> Should the error path arm from the configuration that is running
-> again, or should __netif_mp_open_rxq() and __netif_mp_close_rxq() call
-> netif_mp_update_napi() once they have settled rxq->mp_params?
-
-Neither is needed -- with mp_napi and mp_armed gone in v2, there is no
-wakeup target to arm from the wrong configuration.
-
-
-Bj=C3=B6rn
+-- 
+Sincerely yours,
+Mike.
