@@ -1,47 +1,48 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794761938;
-	b=gOiog8J4XuB2hjV/K6YFNbXcdyhUnElEaqsCPBI3p6GeevjMouGSGiJuQn7+MH2T8mZd
-	 VqI/tyl74+9z6dd24dGfN3ailIyDwHZdEHiTFjzFGgipMKF+qV5k5GIZO10fP67+Lxq6o
-	 XMcmFkoLkh5lpBAP3m9eSbLvMn5KNuaP69gAVbCKAROWpe75ad8DO34PXryRTz0C3VMWa
-	 CRnzmv8JHBKUUO+J9yA7dcS4ALvsNs+vDprw7fy5fyTCHJQsK2ePdAZwSUGolHx1EFHPj
-	 roJ4pTVO+Kj+mcrWtAc3tKIAIM6KLFETP8oc/XV7eRi7swSPrYmS/a5NHIZKv5QAPog==
+	t=1794764189;
+	b=uu4ji08gIxTnRnOelHJlv/ItPxrJZmqcPRneuHJaqZ9I/N9o9AHWgTuTrlIk7jRnj+Ji
+	 eCc/AbqyahLUd5ZwMcQNVzUwOXr7mxdQVWljCvBRGP88CpkHkmJVUOL0/k16glNcPf32/
+	 dtxDsL5zA/HONDofMm6d2U4SjjZAkBt0XoAMsjwj0E+NKGjdRd1yYrK/H/lsuahM6OdAo
+	 46HM5ZDEO7YhoDCZw/jE9D5ZbcWQr3PUGx6eDQc9jK5H8pmY9lsMxtNjuLFGi68eE8Q89
+	 0Jq7M6AVHVVo8U7l0Uj+TfnTwu/5LDtfe6hQINnxpbuT4SJjD3AXvV7MpuBtqi5+aFw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794761938;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=7icfoIT+Mng+FLAG3S5PMcuwQv7cbo7W5CDYKdjKwU4=;
-	b=uhGkRhQ0X5gGVVF4M3f/wQ0+JdJMr7ntoxErF6nQrPxWrENsdM/TdaQ9xu2QZsBcHzLU
-	 hWvzG5sxYssZCZll1/KB82X02FAFAwHMfYtfL9/ZR4gWGaNCDpgbyh7VjVcD+kBvTjok7
-	 MTm+aOpzZP6iLLuuhJfdi8nPxVCPs3RXe1M7V0bfUztW9WB3uHYYaA8D8taqaZz6wJL+S
-	 mLV9CHK4cHBJ8lSqv6Qzhq4PWGsULBOecTqYWN1dIDROykVXsGRaE3CeyoAXksA8v/hcD
-	 Tlf5JGRrGWdefrMzIwaueRXPteGYEb9/dyqbKw3/4lqvxl8CZ0eumOisAMXLVL5BxYA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794764189;
+	h=Received:DKIM-Signature:Received:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=ZNxBLwL1MTdrlSOZCD9Lz65uR+T2S5Ys3KIjD8/xcQE=;
+	b=n25k2BJgKW/hCjk5uKVbTnUeAUlmidSlLcb2bnyGlDmhRq34J6LM0rSk/u3baiKIeB6+
+	 kao3ItppEbFFenY2hVJr71GSJxQO2bs7Dqb8zDUfz5nhhvC2ofqUjyjFT1PSJoFWJiG5c
+	 7ZuDOyJg1gGGuIWxJhtxE/Lkk3eyXJNaJNWyq+gIgvyq5kPwMZa/3gRmkj56gc33FisSJ
+	 YieJLNGCZtKL2bARqo/Iu4/vf8TKJ6DDj9uREUg46PHei1rd9cc9E0rZ7FAtFSajgedwt
+	 N0JTalxRwgrr3IBZb3SamVFGcjRcIqZEYPH4ku7o8NhnmcQkICooElgMrDlsn49ENgA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GoWFHZsl;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YSvGmKed;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08485606A31D;
-	Sun, 15 Nov 2026 16:58:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DC28606A32C;
+	Sun, 15 Nov 2026 17:36:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GoWFHZsl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC631F000C4;
-	Sun, 15 Nov 2026 16:58:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YSvGmKed
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B1541F000C5;
+	Sun, 15 Nov 2026 17:36:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794761937;
-	bh=7icfoIT+Mng+FLAG3S5PMcuwQv7cbo7W5CDYKdjKwU4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GoWFHZslNnHYuGjrh/bx7l/8F07iyWDyej/GltR19PHb0krwpgQZnzQ/w29MU9yvY
-	 9N/ydZSw/qY2tK5FaOYCK1ORBjMwxhvWBnuouItS4XKDkbn9gWaeGjF+XgXMKjfDRb
-	 yRjP08VgPpWhb821Sp+uoP9Td3foxZ3vOKkFT2wkHSIOuMW3DhfBOncL7YGvQAJ7mS
-	 moyJ26SpKW7UvwaxAzqtXI2cUraP21SQ9Ax6dJRbxzUvfCguVEowEmmIQeonLglFpU
-	 MQxnJgWY8X4ntDgBifkx9ExXqmq/oX+Iv0Gpat2G+lyO4H7GjhcZ2VGKcIIaDnB2Ev
-	 itbJF0Q8f6G0Q==
-Message-ID: <f37ccd71-8e1d-4dd4-b11a-e22b9e617dea@kernel.org>
-Date: Sun, 15 Nov 2026 17:58:23 +0100
+	s=k20260515; t=1794764188;
+	bh=ZNxBLwL1MTdrlSOZCD9Lz65uR+T2S5Ys3KIjD8/xcQE=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=YSvGmKedafXo+3bw0HKmZQOY5NCQ2dgb80DnAhHJID9R8d6/H8xhXMz0/1O8R0A3O
+	 rrsULScmfDP1YsdJxh4HR0mLDlOGv/Gejl0hBTexrieA1cszZIDZs7gjrdcXNGqo3H
+	 Ez/nE7Whrynb62VSZMwd3ZXdowf5r7eapCMqaJt1Ey13oBUkQawveaG9d/I7brDiX4
+	 RaSVqHvJbj3bdeD3uG8akp0q9+tad7LXXYs567PQMJqD5D37tx3eG7ffPUKvXFEnLM
+	 tvxBTYC7yyvDYTHJsgTbD37ADfo5cLyKHDJk/+B7+KNtXe71TBa66QK4Ie/J/ITN7h
+	 Hg/7XjrLoRRKA==
+Received: from traversing.sirena.org.uk (localhost [IPv6:::1])
+	by traversing.sirena.org.uk (Postfix) with ESMTP id 78E373386D12;
+	Sun, 15 Nov 2026 17:36:16 +0000 (GMT)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,122 +52,95 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/12] docs: ioctl-number: update MM entries
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leonro@nvidia.com>,
- linux-mm@kvack.org, Jaroslav Kysela <perex@perex.cz>,
- Takashi Iwai <tiwai@suse.com>, linux-sound@vger.kernel.org,
- Jens Axboe <axboe@kernel.dk>, linux-block@vger.kernel.org,
- Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- linux-bluetooth@vger.kernel.org,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
- oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
- linux-atm-general@lists.sourceforge.net,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- MPT-FusionLinux.pdl@broadcom.com,
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
- Miquel Raynal <miquel.raynal@bootlin.com>,
- Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
- Zhihao Cheng <chengzhihao1@huawei.com>, linux-mtd@lists.infradead.org,
- Neill Kapron <nkapron@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- Juergen Gross <jgross@suse.com>, Stefano Stabellini
- <sstabellini@kernel.org>, xen-devel@lists.xenproject.org,
- Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- "Michael S. Tsirkin" <mst@redhat.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
- <eperezma@redhat.com>, Sean Christopherson <seanjc@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
- linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
- linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
- devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
- Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
- Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
- linux-f2fs-devel@lists.sourceforge.net,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- Tzung-Bi Shih <tzungbi@kernel.org>, Benson Leung <bleung@chromium.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- amd-gfx@lists.freedesktop.org, Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, intel-gfx@lists.freedesktop.org,
- Matthew Brost <matthew.brost@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- intel-xe@lists.freedesktop.org
-References: <20261114202653.3113381-1-rdunlap@infradead.org>
- <20261114202653.3113381-2-rdunlap@infradead.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20261114202653.3113381-2-rdunlap@infradead.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC PATCH 02/23] ASoC: soc-pcm: add multi_direction_codecs
+ link flag
+From: Mark Brown <broonie@kernel.org>
+To: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Alexey Klimov <alexey.klimov@linaro.org>, 
+ Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org, 
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+In-Reply-To: <20261023171433.820092-3-srinivas.kandagatla@oss.qualcomm.com>
+References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261023171433.820092-3-srinivas.kandagatla@oss.qualcomm.com>
+Date: Sun, 15 Nov 2026 17:36:09 +0000
+Message-Id: <179476416982.140154.13934302514044276070.b4-review@b4>
+X-Mailer: b4 0.17-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2538; i=broonie@kernel.org;
+ h=from:subject:message-id; bh=ssM48ABLW3PnYt4pn6N3J/DP47/v9YtfUwCY0ptG2rQ=;
+ b=owGbwMvMwCWm/754w+YLFp2Mp9WSGLJ+vu1fdoiZhZH7Zs6FR8xvrt3cxfD7F6vJdDV9yd2NN
+ TeFkww9O0pZGMS4GGTFFFnisrhf1pe8XsN3cGEbzBxWJpAhDFycAjCRrEBGhkuPUv+/7T244rLJ
+ nwMF7+IW7ZrHbzT/upBERUyEhe29x6KMDNu2zbHSfy4uaCNgyrKhJ0Ao7I90idiUlMVPM+wuLLy
+ 0mB0A
+X-Developer-Key: i=broonie@kernel.org; a=openpgp;
+ fpr=3F2568AAC26998F9E813A1C5C3F436CA30F5D8EB
 
-On 11/14/26 21:26, Randy Dunlap wrote:
-> Add ioctl number entries for test_hmm_uapi and gup_test.
+> Speaker protection needs the amplifiers' V/I sense capture running
+> whenever the speakers play. Putting the capture codec DAIs on the
+> playback BE link ties the two together, but the core skips codec DAIs
+> whose direction does not match the substream.
 
-Just curious, why do we care about uapi for test interfaces that never see the
-light of day in production kernels and their sole purpose is to go a long a
-dedicated selftest?
+> Add a multi_direction_codecs link flag. When set, the core also calls
+> .hw_params and .hw_free on codec DAIs of the other direction, with the
+> substream direction switched to theirs for the call under pcm_mutex,
+> and sends the matching stream events so their widgets power up and
+> down. An optional multi_direction_params_fixup callback lets the
+> machine driver set the parameters for those DAIs. Links without the
+> flag are unchanged.
+
+> +3. Optionally calls ``.multi_direction_params_fixup`` so the machine
+> +   driver can rewrite rate/format/channels on a per-codec copy of the
+
+Probably worth mentioning the ordering with regard to other fixups.
+
+> @@ -986,6 +986,9 @@ static int __soc_pcm_prepare(struct snd_soc_pcm_runtime *rtd,
+>  
+>  	snd_soc_dapm_stream_event(rtd, substream->stream,
+>  			SND_SOC_DAPM_STREAM_START);
+> +	if (rtd->dai_link->multi_direction_codecs)
+> +		snd_soc_dapm_stream_event(rtd, substream->stream ^ 1,
+> +				SND_SOC_DAPM_STREAM_START);
+
+This will update every DAI, including CPU DAIs.  That will mean that a
+CPU DAI could be flagged as actively capturing due to playback or vice
+versa.
+
+> +static int soc_pcm_dai_hw_params_at_stream(struct snd_soc_dai *dai,
+> +					   struct snd_pcm_substream *substream,
+> +					   struct snd_pcm_hw_params *params,
+> +					   int stream)
+> +{
+> +	int saved_stream = substream->stream;
+> +	int ret;
+> +
+> +	if (stream == saved_stream)
+> +		return snd_soc_dai_hw_params(dai, substream, params);
+> +
+> +	substream->stream = stream;
+> +	ret = snd_soc_dai_hw_params(dai, substream, params);
+
+We flipped stream but nothing else, if hw_params checks things in the
+substream->runtime things will get confused.  Usually everything is just
+checking params though.
+
+> @@ -1061,9 +1117,20 @@ static int soc_pcm_hw_clean(struct snd_soc_pcm_runtime *rtd,
+>  	snd_soc_pcm_component_hw_free(substream, rollback);
+>  
+>  	/* now free hw params for the DAIs  */
+> -	for_each_rtd_dais(rtd, i, dai)
+> -		if (snd_soc_dai_stream_valid(dai, substream->stream))
+> -			snd_soc_dai_hw_free(dai, substream, rollback);
+> +	for_each_rtd_dais(rtd, i, dai) {
+
+This has flipping that __soc_pcm_hw_params() doesn't unless I'm
+something?
 
 -- 
-Cheers,
-
-David
+Mark Brown <broonie@kernel.org>
