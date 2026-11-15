@@ -1,64 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794712711;
-	b=hgS+IDOlJXL5Hix7t9EoF09ACEKUpv3GbSxk5lRnyBt2jdfXHRIjJGwbGhBojMHqEWGD
-	 3ITyf5Fr6RMWP3PD2Z/usNMQS3m2BLPNUByrJawVgJID4R1GTADThukM0bT/SCIgA5C5h
-	 DoSle/i6vfxeVEns3XYgGS9/YFa/kAPXNkHcqoXMMer+7CgtXpTQjZiM3Yawxmh7t+R4Q
-	 6jkDxlEJt7L3xeBL4fDQz/L/YN4hy9dse0OHwloXR7KNu0VSnpkidn4SSq5fbFjd2le7H
-	 YAdog5xnTEhVV3+BgUxpPM9oQZcOYG7ihU0u5GmnEs0JIoXmYjTaSFxQ2gaUzudrM5g==
+	t=1794714195;
+	b=NCOivRy+LBInRI/ad19TMDgt75xu8E4TOnicqrE4C5s9OpBX6vVxUX+kUC2Q91WBhB2J
+	 5XcSSvgDZQMfohbbILxtyn8SL7/DVJrW2WpjkYUKWDOeWWOnzPwviRjpmI2s6iOyp8MHK
+	 4j9vJINsyZIgR6YQJ7Tw5vqeBVRr8lrgJjdYekrURhbRtY648T6GAUW+RIBCp2wM5as/+
+	 G8NbAqPI7bFDXTKaF/KiWkKhyeDodLsf6RPwTalCChg6Kg2GoIAcpNKVDSMHJ0u0k6Rbh
+	 1kGF0VY71YY5Ogou9pKRT0GgSmTeEBoPpR+IAeRSY7y+I00B8HibWAkhmO4C/FDOUtw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794712711;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=NaBBC8TVav3SriqgseLu10PdzgsqTGxGU+07qISdAEI=;
-	b=wHK915eVcfpR3p+nzQ9q9T1yPNVpG7FS+rk4N5T2nCgwk75hlzcqVevbijDsJewwlgqX
-	 0PI4YD7RKEhpmBIBXKgyyxG437NJWX7of4Vl+/VNt7WDrjpXjFZcqxAj91OOKbywKzUQJ
-	 6Ao8xSR7ZufFCEh6hJSfQATvGd8lixwvlO93TekU8/qS/LQARfoyepE+F6cA0KoSdKHJH
-	 jSGE54vmQCmDE23KGxx0u2A9QBFZRDXg3vA2wjZqKq7a0Hf1qhZ8myqdhy80KhgvSpWAw
-	 F+Qpx4hbQpb5GuCrOz0AUlW63sv58GzM8kV64ER+vvXzhbfMlnHPj5nONbcbZu3SBEQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794714195;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=8sd5W1JdYo8w0tNXiF4fIZJlkVDZY/GgHJRyTPWq0uU=;
+	b=hCx6YkrakG1wHLl9gvL/qZYj4iWN5x0KExVpzqtVP5OEcXcW7MqBedfr6ebzxKwhvacG
+	 kHue8pzYgUw5706Wyw4XivxnSaY0xmKxg0lkC+yA+kcB+H4eUBHc/MsqFNTRonoIlu8+I
+	 q+dq75AGz43x4gQWtAvnUU9Fx7XvNg/AE5x37tkrjzJKW05/BS1/nbO8zRpJUym2N+9eO
+	 +t6mx59egAsz+BHu6Or9CgE8CPIs+TgMQnsCe/luL9E1ZNKZxlAr1bfM/VL6CbBZqX3Oa
+	 9YvvYv95HBcQJ40ShrEcFqvmTXNeJNpWbXhVldouhumqYntPERCMtIyc20MNz4C8Ffw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dLQBFP2F;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SwdJJtAV;
+	arc=none smtp.remote-ip=74.125.82.41
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC8BF606A897;
-	Sun, 15 Nov 2026 03:18:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7D33606A323
+	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 03:43:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A7D33606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dLQBFP2F
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49B481F000C5;
-	Sun, 15 Nov 2026 03:18:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794712711;
-	bh=NaBBC8TVav3SriqgseLu10PdzgsqTGxGU+07qISdAEI=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=dLQBFP2Fjo571CIuWkJQKywIpqWUt5KJwH9SHqGkuC4Up3dRv1/PCH5Ir635cYSoL
-	 TkF+D+OB/gATihebRlEIw3wo5+vSU+jKTNx6wU/d+ZBIbFrr8T9nMRbqb/ZqzLaQIM
-	 wc8FWcKrfH4CqsyExAqHjrhpK4sf/jX1/kUqdXdj5zQArqaTAojLVL0Rnae5MB4yxq
-	 ncQORahGse0YnSpFo+2kjgHe5jTFgweL+CT5lYCqex0nBG0FfzLEd28nqRf3ZUOc28
-	 oKkJQkFB7WrLoC8MdC815IRRnvEILv2eB+Lv2ZKDhG1O/5d5Phh/aLpNeDo8l6S9k7
-	 99xJHOTG95qtg==
-Subject: Re: [PATCH net-next v1 14/15] selftests: tc-testing: add tests for
- the psp action
-From: netdev-bot+sashiko@kernel.org
-To: toddfreed@meta.com
-Cc: netdev@vger.kernel.org, davem@davemloft.net, andrew+netdev@lunn.ch,
- bjorn@kernel.org, bpf@vger.kernel.org, daniel@iogearbox.net,
- daniel.zahka@gmail.com, donald.hunter@gmail.com, edumazet@kernel.org,
- kuba@kernel.org, jhs@mojatatu.com, jiri@resnulli.us, john.fastabend@gmail.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
- martin.lau@linux.dev, pabeni@redhat.com, saeedm@nvidia.com, horms@kernel.org,
- tariqt@nvidia.com, weiwan@google.com, willemdebruijn.kernel@gmail.com
-Date: Sun, 15 Nov 2026 03:18:29 +0000
-Message-ID: <179471270988.2199510.16269189548996714226@kernel.org>
-In-Reply-To: <20261111005533.6436-15-toddfreed@meta.com>
-References: <20261111005533.6436-15-toddfreed@meta.com>
-X-sashiko-severity: Low
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=SwdJJtAV
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-1b3a05f8b5bso2846564c88.1
+        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 19:43:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794714194; x=1795318994; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8sd5W1JdYo8w0tNXiF4fIZJlkVDZY/GgHJRyTPWq0uU=;
+        b=SwdJJtAV9qSngxJ9aTeT9AHzyJNlgnvyEmtEc+yto1YwGhkHMqCs2QsCzox1y5FCOE
+         v1YMx+Xq1OPHG6m9DymLUoIm18YkzumdXUmq6rdjyAG5bY3R4qtnoUjMK1q1rQZbGnPc
+         8gCKGkPAMUzi2MccJE73MJMBF0ExmJQz40oBkt5LiW74IzOxZHg7rlyJ9IgCF5Ua8Pui
+         p3SxpaY/DOT7YgraJ4fQejCssm8IhS3WgIqnDXL/tPlgPd8vEjtHpJKYcnoLwb2sojxC
+         NFkyNKIQyra/qW5R1cD46TKVoveP3MF8Kfu69wKkiQu/XhU0M0IKxI8MFrFcL/lO79Xw
+         QFww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794714194; x=1795318994;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8sd5W1JdYo8w0tNXiF4fIZJlkVDZY/GgHJRyTPWq0uU=;
+        b=AMAm8fwrd7EEh6ZoIx+c862wdf+brTK08zY8YZm/P8g4WEsTftIhv3jf7Y6NUjQJQ9
+         R0q48jDzbWOF7HGHIUqqVcVeHBfD19oGvIzBC/Ff0F0n02tXfb+FjcY3dH4sb5l6CrmW
+         oSTx/D+WNzxi1AKl8KUKfY6HEGt4abbFQW4LhjP4TW/QjnCJRz7CReRI8tsfjTnKmWWw
+         4knVB7ov2E2AjKaInZCBqgbEnuZOec8KQuHg5tDDQsFB/+z+F8LSOUGF/WuB2WU9e7Qi
+         5iDxH1eThFaa4gvalNthISZ8AoaRKVMxxceYgsijhKjiqFMrWOqV1M6LGmfqqfTgEl86
+         9HCA==
+X-Forwarded-Encrypted: i=1; AL+hErFJKLjAEr1wgBY+LARDCaJcIIf+9C2oqW0YO7u2uZ02jiegG025dnPUUj1CF0mYwgC4awZ+ru8qvik=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+fWGo3A8YfBT2qmNF32fMc0Y+TocG64FOcXWiTmm5xEptywfjL
+	TcyZnlcUcWvQ3LtCpmuItOlsLffUipWJj0E/E0BopFgCVHHncyqYpKe4y9uEMLVV
+X-Gm-Gg: AYBFou2Wito0AXFjZqxaS1P8WKOqSMYZq3tRmBUBwZYNS8hkHBUHUKf3Dd3IwA1idZc
+	hAZfAEU94IQjhIGQ1eAdNmg9T0Il2Xi0mPcm3GPGtCMHutxXJlWo69Zv/dt2Vt3a13NwBDdDmT+
+	Eo4YNgIZwXN4VcFIKioafar/qjnzMo/8aFiUyu6tKXW6uctRJNRM1ZYJz5NSSV+0fPaUNxT1qNI
+	3XpG36zxZVpgmY9WYiNLsnl81ZV7QD0rjyRDV/AwMADbxqb4bNE0N4aqE9XehRMLBmRlnH6PGcZ
+	gHkXBNLLJB91xaZ7Ttx+DP8wUcw2kJ2OdsN0bAuOLRDFAUhQSMvyVZESKmrl9o69X1y7NTmI0Gz
+	XzeKhwTeHeyUhOgFLVYX9+RSouT4uWhPuvdNAiuoDGBP4EcEIIEeWXe/pkmWmvLBBcNLDTEQ3jp
+	wezqQer9C4+v58QEkbCFiYhzvrX4/zMYnXaHVU5X2/1Fsjx8c32C0TZ1WrspVoy5jVPpElXN7k6
+	v0ALG2avq/lB0PUsST5WLFOvSRF+wT1e7ydBi1tCvn1QuPoxyQWvCgNJ2eaLoWz7hN+EaWRmGjn
+	9DCRoY3cqbyZ3dRpT19JNWmYooiHd2LQ8U3gbibw0A7yN1C6SK9YJgAXvwTv2A==
+X-Received: by 2002:a05:7022:ea4f:b0:150:c9c5:1ce4 with SMTP id a92af1059eb24-1b50302f893mr5718380c88.6.1794714193197;
+        Sat, 14 Nov 2026 19:43:13 -0800 (PST)
+Received: from yunyun.localdomain ([156.239.236.78])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379508762a5sm21023917eec.0.2026.11.14.19.43.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 14 Nov 2026 19:43:12 -0800 (PST)
+From: "Yaoze Wang (Yunyun)" <wangyaoze999@gmail.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev
+Cc: dzm91@hust.edu.cn,
+	corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Yaoze Wang (Yunyun)" <wangyaoze999@gmail.com>
+Subject: [PATCH] docs/zh_CN: Add i3c Chinese translation
+Date: Sun, 15 Nov 2026 11:43:07 +0800
+Message-ID: <20261115034307.15-1-wangyaoze999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,126 +99,308 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found more severe
-issue(s) in other patches of this series. This mail is only an FYI, in case
-you want to address the nit picks below when you respin.
+Translate .../driver-api/i3c/index.rst, protocol.rst,
+device-driver-api.rst and master-driver-api.rst into Chinese.
 
-Low priority / nit picks for your consideration:
+Update the translation through commit 395107a7c91a ("docs:
+driver-api: fix spelling of "buses".")
 
-- [Low] Tests 2d50 ("Add psp action without encap or decap"), cab5 ("Add
-  psp encap action without assoc, with index") and 0c17 ("Reject psp…
-- [Low] Tests a744 ("Add flower psp_spi filter with psp decap") and 4e1f
-  ("Add flower psp_spi, psp_ver and psp_dev filter with psp decap") in…
+Signed-off-by: Yaoze Wang (Yunyun) <wangyaoze999@gmail.com>
+---
+ .../driver-api/i3c/device-driver-api.rst      |  17 ++
+ .../zh_CN/driver-api/i3c/index.rst            |  19 ++
+ .../driver-api/i3c/master-driver-api.rst      |  17 ++
+ .../zh_CN/driver-api/i3c/protocol.rst         | 183 ++++++++++++++++++
+ .../translations/zh_CN/driver-api/index.rst   |   2 +-
+ 5 files changed, 237 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/translations/zh_CN/driver-api/i3c/device-driver-api.rst
+ create mode 100644 Documentation/translations/zh_CN/driver-api/i3c/index.rst
+ create mode 100644 Documentation/translations/zh_CN/driver-api/i3c/master-driver-api.rst
+ create mode 100644 Documentation/translations/zh_CN/driver-api/i3c/protocol.rst
 
---
-
-selftests: tc-testing: add tests for the psp action
-
-This adds tdc tests for the psp tc action. They add, replace, delete and
-flush decap actions, and check that invalid encap/decap configurations are
-rejected. It also adds flower filter tests for psp_spi, psp_ver and
-psp_dev, and enables CONFIG_INET_PSP and CONFIG_NET_ACT_PSP in the
-tc-testing config.
-
-> diff --git a/tools/testing/selftests/tc-testing/tc-tests/actions/psp.json b/tools/testing/selftests/tc-testing/tc-tests/actions/psp.json
-> new file mode 100644
-> index 0000000000000..990e8bd1ce9a0
-> --- /dev/null
-> +++ b/tools/testing/selftests/tc-testing/tc-tests/actions/psp.json
-> @@ -0,0 +1,459 @@
-
-[ ... ]
-
-> +    {
-> +        "id": "2d50",
-> +        "name": "Add psp action without encap or decap",
-
-[ ... ]
-
-> +        "cmdUnderTest": "$TC actions add action psp index 12",
-> +        "expExitCode": "255",
-> +        "verifyCmd": "$TC actions list action psp",
-> +        "matchPattern": "action order [0-9]+: psp",
-> +        "matchCount": "0",
-
-[Severity: Low]
-Does this test reach the kernel check it is named after?
-
-The test passes if the command exits with 255 and no psp action is listed
-afterwards. tc actions add also exits with 255 when tc's own parser refuses
-the arguments, before any netlink request is sent. In iproute2,
-tc_action_modify() returns -1 for a parse_action() failure and for an
-rtnl_talk() failure alike.
-
-If the psp parser in tc requires encap or decap, this test would pass
-without ever reaching this check:
-
-net/sched/act_psp.c:tcf_psp_init() {
-    ...
-	if (NL_REQ_ATTR_CHECK(extack, nla, tb, TCA_PSP_ACTION)) {
-		NL_SET_ERR_MSG(extack, "Missing PSP action, encap or decap");
-    ...
-}
-
-The same question applies to two other tests:
-
-- cab5 ("Add psp encap action without assoc, with index") and the
-  "Missing PSP association ID" check in the encap case.
-- 0c17 ("Reject psp decap action with an assoc") and the "decap takes no
-  PSP association" check in the decap case.
-
-In each case the test would still pass if the kernel branch were removed.
-
-The flower tests b58d and 2f96 avoid this by expecting exit code 2.
-tc filter add returns 2 only on an rtnl_talk() error and returns 1 on a
-parse failure. The action tests have no such check.
-
-Would it make sense to match the extack text instead? For example, a
-verifyCmd could rerun the command with stderr captured and grep for the
-kernel message.
-
-[ ... ]
-
-> +    {
-> +        "id": "a744",
-> +        "name": "Add flower psp_spi filter with psp decap",
-
-[ ... ]
-
-> +        "dependsOn": "$TC filter add flower help 2>&1 | grep -q psp_spi",
-
-[ ... ]
-
-> +        "cmdUnderTest": "$TC filter add dev $DEV1 ingress protocol ip pref 1 flower psp_spi 0x1234 action psp decap",
-> +        "expExitCode": "0",
-
-[Severity: Low]
-Should this dependsOn also check for the psp action?
-
-The command uses "action psp decap", but the probe only checks that flower
-knows psp_spi. The action tests earlier in this file probe for the action
-like this:
-
-    $TC actions add action psp help 2>&1 | grep -q decap
-
-run_one_test() in tdc.py uses only the probe's return code to decide
-whether to skip a test. Suppose tc has the flower psp_* keys but not the
-psp action. This test would then run instead of being skipped. tc would
-fall back to its noact parser, reject the action, and the test would be
-reported as a failure.
-
-The commit message says:
-
-    The tests need a tc with the psp action and the flower psp_* keys; they
-    skip without it (dependsOn).
-
-Test 4e1f ("Add flower psp_spi, psp_ver and psp_dev filter with psp decap")
-has the same issue.
-
-Could both probes be chained with && for these two tests?
-
-[ ... ]
-
+diff --git a/Documentation/translations/zh_CN/driver-api/i3c/device-driver-api.rst b/Documentation/translations/zh_CN/driver-api/i3c/device-driver-api.rst
+new file mode 100644
+index 000000000..eedf61d1a
+--- /dev/null
++++ b/Documentation/translations/zh_CN/driver-api/i3c/device-driver-api.rst
+@@ -0,0 +1,17 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/driver-api/i3c/device-driver-api.rst
++
++:翻译:
++
++ Yaoze Wang (Yunyun) <yunyun@caellab.com>
++
++================
++I3C 设备驱动 API
++================
++
++.. kernel-doc:: include/linux/i3c/device.h
++
++.. kernel-doc:: drivers/i3c/device.c
+diff --git a/Documentation/translations/zh_CN/driver-api/i3c/index.rst b/Documentation/translations/zh_CN/driver-api/i3c/index.rst
+new file mode 100644
+index 000000000..5113e1a99
+--- /dev/null
++++ b/Documentation/translations/zh_CN/driver-api/i3c/index.rst
+@@ -0,0 +1,19 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/driver-api/i3c/index.rst
++
++:翻译:
++
++ Yaoze Wang (Yunyun) <yunyun@caellab.com>
++
++==========
++I3C 子系统
++==========
++
++.. toctree::
++
++   protocol
++   device-driver-api
++   master-driver-api
+diff --git a/Documentation/translations/zh_CN/driver-api/i3c/master-driver-api.rst b/Documentation/translations/zh_CN/driver-api/i3c/master-driver-api.rst
+new file mode 100644
+index 000000000..4006650e6
+--- /dev/null
++++ b/Documentation/translations/zh_CN/driver-api/i3c/master-driver-api.rst
+@@ -0,0 +1,17 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/driver-api/i3c/master-driver-api.rst
++
++:翻译:
++
++ Yaoze Wang (Yunyun) <yunyun@caellab.com>
++
++====================
++I3C 主控制器驱动 API
++====================
++
++.. kernel-doc:: drivers/i3c/master.c
++
++.. kernel-doc:: include/linux/i3c/master.h
+diff --git a/Documentation/translations/zh_CN/driver-api/i3c/protocol.rst b/Documentation/translations/zh_CN/driver-api/i3c/protocol.rst
+new file mode 100644
+index 000000000..3a1b2ebcc
+--- /dev/null
++++ b/Documentation/translations/zh_CN/driver-api/i3c/protocol.rst
+@@ -0,0 +1,183 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++.. include:: ../../disclaimer-zh_CN.rst
++
++:Original: Documentation/driver-api/i3c/protocol.rst
++
++:翻译:
++
++ Yaoze Wang (Yunyun) <yunyun@caellab.com>
++
++========
++I3C 协议
++========
++
++免责声明
++========
++
++本章重点关注与软件开发人员相关的内容。至于所有与硬件相关的内容（例如数据
++在总线上如何传输、冲突如何避免等），请参阅 I3C 规范。
++
++本文档只是对 I3C 协议及其概念的简要介绍。如果需要更多信息，请
++参阅 MIPI I3C 规范（可在此处下载
++https://resources.mipi.org/mipi-i3c-v1-download）。
++
++简介
++====
++
++I3C（读作 'eye-three-see'）是由 MIPI 标准化的协议，目的是克服 I2C 的局限
++（速度有限、中断需要额外的外部信号、无法自动检测总线上连接的设备等），同时
++保持低功耗。
++
++I3C 总线
++========
++
++一条 I3C 总线由若干 I3C 设备构成，也可能包含一些 I2C 设备，但这里先只讨论
++I3C 设备。
++
++I3C 总线上的 I3C 设备可以扮演以下角色之一：
++
++* 主设备（Master）：该设备掌控总线。它负责发起事务，或者决定谁可以在总线上
++  发送（I3C 中允许从设备产生事件，见下文）。
++* 从设备（Slave）：该设备作为从设备工作，不能向总线上的另一个从设备发送帧。
++  如果主设备允许，它仍可以主动向主设备发送事件。
++
++I3C 是多主协议，因此一条总线上可能存在多个主设备，但在任一时刻只能有一个
++设备充当主设备。主设备要获得总线所有权，必须遵循特定的流程。
++
++I3C 总线上的每个设备都必须分配一个动态地址才能通信。在此之前，设备只应响应
++有限的一组命令。如果设备有静态地址（也称为传统 I2C 地址），它可以响应 I2C
++传输。
++
++除了这些每设备地址之外，协议还定义了一个广播地址，用于寻址总线上的所有设备。
++
++一旦为设备分配了动态地址，与该设备的任何直接通信都将使用该地址。需要注意的
++是，即使已经分配了动态地址，设备仍应处理广播消息。
++
++I3C 设备发现
++============
++
++I3C 协议定义了一种机制，用于自动发现总线上存在的设备、它们的能力以及它们
++提供的功能。在这方面，I3C 更接近 USB 这样的可发现总线，而不是 I2C 或 SPI。
++
++这种发现机制称为 DAA（动态地址分配，Dynamic Address Assignment），因为它
++不仅发现设备，还为它们分配动态地址。
++
++在 DAA 期间，每个 I3C 设备会上报三项重要信息：
++
++* BCR：总线特性寄存器（Bus Characteristic Register）。这个 8 位寄存器描述
++  设备与总线相关的能力
++* DCR：设备特性寄存器（Device Characteristic Register）。这个 8 位寄存器
++  描述设备提供的功能
++* Provisioned ID（预配置 ID）：一个 48 位唯一标识符。在同一条总线上不应出现
++  Provisioned ID 冲突，否则发现机制可能失败。
++
++I3C 从设备事件
++==============
++
++I3C 协议允许从设备自行产生事件，从而允许它们临时接管总线。
++
++这种机制称为 IBI（带内中断，In Band Interrupts）。顾名思义，它允许设备在
++没有外部信号的情况下产生中断。
++
++在 DAA 期间，总线上的每个设备都会被分配一个地址，这个地址将作为优先级标识，
++用于在两个不同设备同时于总线上产生中断时决定谁获胜（动态地址越小，优先级
++越高）。
++
++主设备可以根据需要禁止中断。这种禁止请求可以广播（对所有设备生效），也可以
++发送给特定设备。
++
++I3C 热加入
++==========
++
++热加入（Hot-Join）机制类似于 USB 热插拔。该机制允许从设备在主设备完成总线
++初始化之后加入总线。
++
++这涵盖以下使用场景：
++
++* 总线探测时设备未上电
++* 设备通过扩展板热插拔到总线上
++
++该机制依赖从设备事件来通知主设备：有新设备加入了总线，正在等待动态地址。
++
++随后主设备可以自行决定如何处理该请求：忽略它，或者为该从设备分配动态地址。
++
++I3C 传输类型
++============
++
++如果略去 SMBus（它只是对访问 I2C 设备寄存器方式的一种标准化），那么 I2C 只有
++一种传输类型。
++
++I3C 除了为向后兼容 I2C 设备而保留的 I2C 传输之外，还定义了 3 种不同的传输
++类别。
++
++I3C CCC 命令
++------------
++
++CCC（通用命令码，Common Command Code）命令用于所有与总线管理相关的事务，
++以及若干设备共有的一切特性。
++
++CCC 命令包含一个 8 位的 CCC ID，用于描述所执行的命令。该 ID 的最高位
++（bit7）指定这是广播命令（bit7 = 0）还是单播命令（bit7 = 1）。
++
++命令 ID 之后可以跟随一个负载。取决于具体命令，该负载要么由发送命令的主设备
++发送（写 CCC 命令），要么由接收命令的从设备发送（读 CCC 命令）。当然，读
++访问只适用于单播命令。
++注意，向特定设备发送 CCC 命令时，设备地址放在负载的第一个字节中。
++
++负载长度不会显式地在总线上传递，应当从 CCC ID 中解析出来。
++
++注意，厂商可以使用一段专用的 CCC ID 范围来定义自己的命令
++（0x61-0x7f 和 0xe0-0xef）。
++
++I3C 私有 SDR 传输
++-----------------
++
++私有 SDR（单数据速率，Single Data Rate）传输用于设备特有、且不需要高传输
++速率的一切事务。
++
++它相当于 I3C 世界中的 I2C 传输。每次传输都会携带设备地址（DAA 期间分配的
++动态地址）、一个负载和一个方向。
++
++与 I2C 的唯一区别是传输速度快得多（典型时钟频率为 12.5MHz）。
++
++I3C HDR 命令
++------------
++
++HDR 命令用于设备特有、且需要高传输速率的一切事务。
++
++HDR 命令首先附带的是 HDR 模式。I3C 规范目前定义了 3 种不同的模式（详情请
++参阅规范）：
++
++* HDR-DDR：双数据速率（Double Data Rate）模式
++* HDR-TSP：纯三进制符号（Ternary Symbol Pure）。只能用于没有 I2C 设备的
++  总线
++* HDR-TSL：传统三进制符号（Ternary Symbol Legacy）。可用于带有 I2C 设备
++  的总线
++
++发送 HDR 命令时，整条总线必须进入 HDR 模式，这通过一条广播 CCC 命令完成。
++一旦总线进入特定的 HDR 模式，主设备便发送 HDR 命令。一条 HDR 命令由以下
++部分组成：
++
++* 一个 16 位的命令字（大端序）
++* N 个 16 位的数据字（大端序）
++
++这些字可能会被特定的前导码/后导码包裹，具体取决于所选的 HDR 模式，详情见
++规范。
++
++16 位命令字由以下部分组成：
++
++* bit[15]：方向位，读为 1，写为 0
++* bit[14:8]：命令码。标识所执行的命令、数据字的数量及其含义
++* bit[7:1]：该命令所寻址设备的 I3C 地址
++* bit[0]：保留位/奇偶校验位
++
++与 I2C 设备的向后兼容性
++=======================
++
++I3C 协议在设计上向后兼容 I2C 设备。这种向后兼容性允许在同一条总线上混接 I2C
++和 I3C 设备；不过，为了真正高效，I2C 设备应配备 50 ns 的尖峰滤波器。
++
++I2C 设备无法像 I3C 设备那样被自动发现，必须通过静态声明添加。为了让主设备
++了解这些设备的能力（包括总线相关限制和功能两方面），软件必须提供一些信息，
++这通过 LVR（传统 I2C 虚拟寄存器，Legacy I2C Virtual Register）完成。
+diff --git a/Documentation/translations/zh_CN/driver-api/index.rst b/Documentation/translations/zh_CN/driver-api/index.rst
+index 4050a2fb5..00dab29c4 100644
+--- a/Documentation/translations/zh_CN/driver-api/index.rst
++++ b/Documentation/translations/zh_CN/driver-api/index.rst
+@@ -22,6 +22,7 @@ Linux驱动实现者的API指南
+    :maxdepth: 2
+ 
+    gpio/index
++   i3c/index
+    io_ordering
+    phy/index
+ 
+@@ -54,7 +55,6 @@ Todolist:
+ *   i2c
+ *   ipmb
+ *   ipmi
+-*   i3c/index
+ *   interconnect
+ *   devfreq
+ *   hsi
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261111005533.6436-1-toddfreed%40meta.com
+2.43.0
+
