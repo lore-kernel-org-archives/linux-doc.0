@@ -1,75 +1,74 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.70
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794777522;
-	b=Q5M4EfEGk2oJ/nihG3QaAAbkMci7nfCmfjOXD1NJOKcUs+daFpRUhvcUa4+4GoEqeQvB
-	 lQEfmf0b6iMLRIppUdDkkWEFB310ezMgo8nPLAstNOoPQJiZCZKlyxZMq8OhevhoGzbtr
-	 2lID9oEpa9i68egXZwah3yqbiYEX/+FC0qmeRuFVqfM8sf04XmIjGeeEJy3b3mpphUuXF
-	 0bnPMHgvCjKcyv7biPhcVdw6E1/2pnDbgn4L7xkvChniKM8S2ga0cnfGjSHrwnfsyD1XI
-	 E0vUbcHJShs2jycnTBgek9NJHNOAiwvCzM3VOmwGiXwebbvLFwKO30vVK7R32G8GMwA==
+	t=1794778018;
+	b=fmmN2RZ0+wGpcVL/bolvc6Xl+h76UeVdFoldwQZrHEQxx6n7XMOWtJTmu49Pkridx81K
+	 V0//OZnjTomVbimbtZTjURGK5y4sf7qYAZB1UzdfywZzCnFhz3taqz+OHxDz61OL08kvv
+	 R4sMDX0TaANzplfzgdfmTJv1m5lRnx/sNuWnoVwvDR22RGevqxgduZ18iMawlVD+HEq1W
+	 gqHlWuxjojNvKwR6HF6NC7oBIvMJkh1YLjZNpYEwW/pZClv6KcQMZGekSKgcfElAvzhAb
+	 lWRLNtWia7tyVdQDzE07bwT8m+w8woYk/tDbXyKmlW4mqMMIKtzCFVf+SDnu6cvo0qg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794777522;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=q5iSJg23I/t5s7cgSYKq2DalQ5gBF4qJzBvJDEt0/lY=;
-	b=A24O1vdTXwHTBeXh6ISv36tAIhGtDlqOJbqw1xqDaAsOeFg8XP0uAC7kCtXZpfE6UdNt
-	 u8mJnPcTUnIUeMA/YeeuiNh1jtZnfVR7jipZ4Giyuf1+Brh3YxqW2xi+YHTg8llu7qagk
-	 55SkW7lzEl5mYtzwM7JY7AUFsRDzlCfFImFszrE+fxWQyIPxGFa8hVN7conKvMkcStuW3
-	 zdi4BQuBGCLUeLzcib8RCBChLz9XA6NGMnOfLTzHm2URXBoDb8ee2y4yl5A60AEiaVHGH
-	 bZoKPzyjGgs2zMwekb+IGi+j4LcGHeGYufWM3lSak0QVsahcK6pn6MjvlEPQL9JkjVg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794778018;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:Message-ID:Subject:From:To:Content-Type;
+	bh=Nwu6vL4nnJhyf28I3Hp9RT6yqlvZkPwzRk4lPxIAvmQ=;
+	b=aQ7EWZHbrBlLBtRhESlNrXbZaUyUGlzY0iHhjS+1NPQk0lw4BBRtsgotyuXlTTFpshsj
+	 sUOaXFC7g9qUI81Bke69X/phJtgCfAnLWI5FYihfJFuDCNb2HVk4QpGVLLMkGnh6TwG3N
+	 K31vZgawl6VER20Xf7D1/+H8l5vIyxgLCTwuu/6CrtDXC1aQ44p5oOlvfWKGKX0vneEj0
+	 xe2uFKfVP72fmmf/p9GQ7FmRlqR8iTlhlf0pT7g4ScvC8dNfFIyiHI2qmMLJHD8J0feFp
+	 tIySXfIRqoJqvnsrhAdB+DRQdnrc/YmoI2pHPz9mlT5hAHPy1Pant1Hlc7QGBO8BKvg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UtD7pwMy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hWAteIYt;
+	arc=none smtp.remote-ip=209.85.218.70
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com [209.85.218.70])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA860606A323;
-	Sun, 15 Nov 2026 21:18:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69191606A329
+	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 21:26:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 69191606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tarunsahu.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UtD7pwMy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43BF51F000C4;
-	Sun, 15 Nov 2026 21:18:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794777522;
-	bh=q5iSJg23I/t5s7cgSYKq2DalQ5gBF4qJzBvJDEt0/lY=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=UtD7pwMyR5SxiDxtCKmp9a2QJlTQP2tilz9oUgQfWQMw4RoPgBSPc30BdzTC7hWyO
-	 Dz+mZcWIay2QujraHaA8j/S1TVUnVUuzlYVnn9C5aGfXQ+IvPqO2qaKUIaciJWwIZO
-	 3DRjrk9bzlm49h0FIjGfKr2QDjIVCxmvlTzCpMFShNPRNWla8VuXSH9IjVEUfvO1NF
-	 8rGFPqXJBg1TnaCkqezW22OdtvU0slXiZ6W+shZHcaoO2Y2/PK3IoPdohQ+ayNCEmO
-	 MitpO6bq+eePkAsluXJ8Xyok+6aHDW5SBqCeCx618Tu9iKxBEf9iTEWMUB4gBVbwiG
-	 uQTwJ7x5R7wHg==
-Date: Sun, 15 Nov 2026 13:18:40 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
-Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
- <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
- Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, Andrew Lunn
- <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, Ilias
- Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov
- <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
- <john.fastabend@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>, Jens
- Axboe <axboe@kernel.dk>, Andrii Nakryiko <andrii@kernel.org>, Eduard
- Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil
- Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
- netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org, Mina
- Almasry <almasrymina@google.com>, "Mike Marciniszyn (Meta)"
- <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Nikolay
- Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Alexander
- Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
-Subject: Re: [PATCH net-next v1 02/11] net: Add memory provider capabilities
-Message-ID: <20261115131840.55b03578@kernel.org>
-In-Reply-To: <20261110102039.1002605-3-bjorn@kernel.org>
-References: <20261110102039.1002605-1-bjorn@kernel.org>
-	<20261110102039.1002605-3-bjorn@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=hWAteIYt
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-c50547b4992so210161966b.3
+        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 13:26:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1794778016; x=1795382816; darn=vger.kernel.org;
+        h=content-type:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Nwu6vL4nnJhyf28I3Hp9RT6yqlvZkPwzRk4lPxIAvmQ=;
+        b=hWAteIYtvjbr4pgr1FdtepfuwZdmJPP3uv3vfCM9OyjEy6liBMXxN6ZgyLpgTH7Fd0
+         VZTBP8jaCtsA2mroH+cQLnLoCPrUjJZ0ypMHvNZ/6xpNZD7oJ/trT/Hvu7AcVvTwUWVO
+         Fd7ekI244XQYWqbu3iQtdhdyn0P2M/5LDloZjIlbq6eETBFUNYUApcnMa26EIpxWYlNf
+         R0u4sKMygkbPoJo+MvYL0+Pv1EZ8LKLBT1qcDYTK3OHhjh3oEBZVa5pB9PHSyOMJZ0iC
+         vBYzYBzptLDV5FL0Ot7oM4r9BcTJiYGi7vUDoZzVvPZ6h2ktUBJBUgGzQJzP6VW3kQGo
+         nSQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794778016; x=1795382816;
+        h=content-type:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Nwu6vL4nnJhyf28I3Hp9RT6yqlvZkPwzRk4lPxIAvmQ=;
+        b=KVC6ziMhr11U9GbQgbpElrveCn96rvt6SKWPWitMujd7E2I/dHF9WGoA3gcZLq1a48
+         7wQdP3IrMO1iMK2bxhm6WUeU6qL93xwJ4XtgKeuxRw/DalXYRtK+YN/8NoWL20WsftYl
+         sEIs9NQTvHVJvrRmT2vPISzrJOtlCOSydRvZS0k2Bk8UiOM+ZaOmw0CDbM6liuvrQty2
+         Z8hVN/Qc71LIeSf4vMvvvp+gNPimSnlYgM316Ve+l9M1v0jcmMlfXxfi+bcvMZ4XH/vk
+         1QS4Emt4bZPh1iswpXRkz+XdSlGA1KJCytwiLR5NShjFpmlMfV1GB7jaHSI/f5PsDa+U
+         1QrQ==
+X-Forwarded-Encrypted: i=1; AL+hErEtv3KtTyC9w67wd+9xHMid2cXWw81WMiCaZLOetOn4AwZ2dDkjqzK7kdYyXqDj1SOcv360/GIyukw=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8gbAGM7EK1P1QGlVckcSwZ2w/vhAKept8MB0JZ1ivtoRbNr7L0
+	bGYwlJF0t8ryONV5CvSDkuvZFetSSW9i4jgY6M+OARiS4H5m2inMtj6KAWsdBxSLr1wro39sm5X
+	LH4ko0S+VRd08G4qx7A==
+X-Received: from ejgh12.prod.google.com ([2002:a17:906:3c0c:b0:c33:b3b5:5260])
+ (user=tarunsahu job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:1b2a:b0:c41:285a:46a9 with SMTP id a640c23a62f3a-c5096847651mr661397666b.46.1794778015420;
+ Sun, 15 Nov 2026 13:26:55 -0800 (PST)
+Date: Sun, 15 Nov 2026 21:26:54 +0000
+In-Reply-To: <20261025174017.3870481-1-pasha.tatashin@soleen.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -78,44 +77,190 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+References: <20261025174017.3870481-1-pasha.tatashin@soleen.com>
+Message-ID: <9huzzev9n5up.fsf@tarunix.c.googlers.com>
+Subject: Re: [PATCH v2 0/9] kho: add read-only Kexec Handover mode
+From: tarunsahu@google.com
+To: Pasha Tatashin <pasha.tatashin@soleen.com>, linux-kselftest@vger.kernel.org, 
+	rppt@kernel.org, kuba@kernel.org, enelsonmoore@gmail.com, bp@alien8.de, 
+	shuah@kernel.org, david@kernel.org, akpm@linux-foundation.org, 
+	linux-mm@kvack.org, ljs@kernel.org, mhocko@suse.com, 
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, vbabka@kernel.org, 
+	dapeng1.mi@linux.intel.com, linux-kernel@vger.kernel.org, corbet@lwn.net, 
+	surenb@google.com, kexec@lists.infradead.org, pratyush@kernel.org, 
+	rdunlap@infradead.org, elver@google.com, graf@amazon.com, 
+	lirongqing@baidu.com, liam@infradead.org, jlayton@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 10 Nov 2026 11:20:23 +0100 Bj=C3=B6rn T=C3=B6pel wrote:
-> diff --git a/include/net/page_pool/memory_provider.h b/include/net/page_p=
-ool/memory_provider.h
-> index bceb5f7740e2..4417e54a0f81 100644
-> --- a/include/net/page_pool/memory_provider.h
-> +++ b/include/net/page_pool/memory_provider.h
-> @@ -19,6 +19,18 @@ struct sk_buff;
->   * Per-provider custom logic must be delegated to memory_provider_ops ra=
-ther
->   * than handled directly in page_pool core code.
->   */
-> +
-> +/**
-> + * enum mp_caps - memory provider capabilities
-> + * @MP_CAP_READABLE: The CPU can access provider memory. It may back hea=
-der
-> + *	page pools, and XDP programs may run on it.
 
-Being readable is the normal state for memory.
-We should be marking mps as unreadable, not as readable?
+IIUC, this series will be pciked after the kho feature flags [1]
+Should it be rebased on top of [1]?
 
-> @@ -1070,6 +1095,9 @@ netmem_ref page_pool_alloc_frag_netmem(struct page_=
-pool *pool,
->  	unsigned int max_size =3D PAGE_SIZE << pool->p.order;
->  	netmem_ref netmem =3D pool->frag_page;
-> =20
-> +	if (static_branch_unlikely(&page_pool_mem_providers) &&
-> +	    WARN_ON_ONCE(!page_pool_supports_frag(pool)))
-> +		return 0;
+[1]: https://lore.kernel.org/all/20261110050202.529473-1-tarunsahu@google.com/
 
-Shouldn't we return a full page if we can't frag?
-Fragmentation breaks up a page into smaller units,
-it should be legal to simply return a full page if
-fragmentation is not supported for the provider.
+~Tarun
 
->  	if (WARN_ON(size > max_size))
->  		return 0;
+Pasha Tatashin <pasha.tatashin@soleen.com> writes:
+
+> This series introduces a read-only Kexec Handover mode, enabled at boot
+> via 'kho_ro=<pa>' pointing to the physical address of the KHO FDT.
+>
+> In standard KHO, the outgoing kernel shuts down or serializes all
+> devices into LUO state, releases machine control, and passes the KHO
+> FDT physical address through the kexec_file_load() reboot path to the
+> next kernel, which becomes the sole "Machine Owner" (MO), initializes
+> struct pages for preserved folios during early boot, and reclaims KHO
+> metadata and preserved pages back into the page allocator as they are
+> restored.
+>
+> In the "Linux Caretaker" (LC) model (as well as inspection kernels or
+> firmware), a minimal LC kernel runs concurrently on dedicated CPUs
+> offlined from the MO scheduler while MO is still active or undergoing a
+> standard KHO-preserved kexec reboot (Live Update). LC is given
+> read-only access to KHO so a minimal VMM inside LC can keep VMs
+> responsive (<30ms VM blackout time) by servicing software-only, fully
+> virtualized devices (such as virtio-console, pvpanic, virtio-rng, etc.)
+> that do not require host hardware interrupts or global machine state,
+> while leaving the preserved KHO tree intact for the incoming MO kernel
+> to retrieve normally once it boots.
+>
+> LC is never MO: it has no PCI support, does not handle device
+> interrupts, and is booted inside a small LUO-preserved memfd region
+> (e.g., ~128MB of RAM on a host with terabytes of memory). Because LC's
+> direct map only covers its own small memory footprint (both for
+> isolation and to avoid struct page overhead for host memory), the KHO
+> FDT, radix tree, and preserved memory all reside outside of LC's direct
+> map. Furthermore, because LC is configured and launched from userspace
+> while MO is still running rather than through a kexec reboot handoff
+> from a shutting-down kernel, userspace reads the KHO FDT physical
+> address from /sys/kernel/debug/kho/out/fdt_phys and explicitly passes
+> 'kho_ro=<pa>' on LC's kernel command line.
+>
+> Both CONFIG_KEXEC_HANDOVER and CONFIG_KEXEC_HANDOVER_READONLY can be
+> compiled into the same kernel image, with the active mode selected at
+> boot via the kernel command line ('kho=on' vs 'kho_ro=<pa>'; passing
+> 'kho_ro=<pa>' disables regular KHO).
+>
+> Overview of the series:
+> - Patch 1 exposes the physical address of the outgoing KHO FDT via
+>   /sys/kernel/debug/kho/out/fdt_phys so userspace tooling can pass it
+>   to a 'kho_ro=<pa>' kernel.
+> - Patch 2 moves the shared radix-tree key encoding, indexing, leaf
+>   lookup (kho_radix_find_leaf()), FDT validation, and
+>   kho_retrieve_subtree() helpers into a shared
+>   kernel/liveupdate/kexec_handover_common.c compilation unit with
+>   declarations in kernel/liveupdate/kexec_handover_internal.h, while
+>   also checking that fdt_totalsize(fdt) does not exceed PAGE_SIZE in
+>   kho_check_fdt() and using get_unaligned() for 64-bit FDT property
+>   reads in kho_retrieve_subtree().
+> - Patch 3 hardens kho_restore_vmalloc() and factors out shared vmalloc
+>   helpers by introducing kho_vmalloc_validate() and kho_vmalloc_walk()
+>   in kernel/liveupdate/kexec_handover_common.c to validate the
+>   preservation metadata header and walk the chunk list.
+> - Patch 4 avoids modifying ser->next and bs->head_pa in kho_block_add()
+>   and kho_block_set_shrink_one() when operating on an incoming block
+>   set, as the chain is already linked and incoming blocks must not be
+>   modified in KHO read-only mode.
+> - Patch 5 adds CONFIG_KEXEC_HANDOVER_READONLY and
+>   kernel/liveupdate/kexec_handover_ro.c. When booted with
+>   'kho_ro=<pa>', the KHO FDT is mapped and validated once in an
+>   early_initcall, and radix-tree nodes, leaves, and folio/vmalloc
+>   mappings are cached on first visit in a unified RCU-protected hash
+>   table for the lifetime of the read-only KHO kernel, providing
+>   kho_is_ro(), kho_ro_lookup_folio_order(), kho_ro_map_folio(), and
+>   kho_ro_map_vmalloc().
+> - Patch 6 wires read-only KHO mode into KHO core (kho_populate(),
+>   kho_memory_init(), and kho_retrieve_subtree()).
+> - Patch 7 updates kho_block to map incoming serialized blocks read-only
+>   via kho_ro_map_folio() in read-only KHO mode.
+> - Patches 8 and 9 extend test_kho and tools/testing/selftests/kho/vmtest.sh
+>   to build a single kernel with both CONFIG_KEXEC_HANDOVER=y and
+>   CONFIG_KEXEC_HANDOVER_READONLY=y and test both standard KHO and
+>   read-only KHO handover when preserved memory lies outside the boot
+>   kernel's initial memory range on x86_64 and arm64.
+>
+> This series is based on liveupdate/next commit 27be83a12b24 ("Merge
+> branch 'lu-pci-preservation' into next").
+>
+> Changelog:
+> v2:
+> - Expand the cover letter with the LC architecture, explaining why
+>   'kho_ro=<pa>' takes the FDT physical address on the command line and
+>   describing the expected users of the read-only KHO APIs (Suggested by
+>   Mike Rapoport).
+> - Patch 2 (Suggested by Mike Rapoport):
+>   - Move the shared radix-tree, FDT, and subtree retrieval helpers into
+>     a dedicated kernel/liveupdate/kexec_handover_common.c file instead
+>     of static inline functions in
+>     kernel/liveupdate/kexec_handover_internal.h, and factor out
+>     kho_radix_find_leaf() for radix leaf lookup.
+>   - Check that fdt_totalsize(fdt) does not exceed PAGE_SIZE in
+>     kho_check_fdt(), drop the "setup: " log prefix from FDT validation
+>     warnings, and use get_unaligned() when reading 64-bit FDT properties
+>     in kho_retrieve_subtree().
+> - Patch 3:
+>   - Move kho_flags_to_vmalloc() to kexec_handover_common.c alongside
+>     kho_vmalloc_validate() and add a shared kho_vmalloc_walk() chunk
+>     walker used by both kho_restore_vmalloc() and kho_ro_map_vmalloc().
+> - Patches 5 and 6:
+>   - Allow CONFIG_KEXEC_HANDOVER and CONFIG_KEXEC_HANDOVER_READONLY to be
+>     compiled into the same kernel image and select the active mode via
+>     the kernel command line ('kho_ro=<pa>' forces regular KHO disabled).
+>   - Split the KHO core integration (kho_populate(), kho_memory_init(),
+>     and kho_retrieve_subtree()) into a separate patch (Patch 6) so
+>     Patch 5 only introduces the read-only KHO backend.
+>   - Map and validate the KHO FDT and preserved-memory-map root once in
+>     an early_initcall so kho_ro_get_fdt() and kho_retrieve_subtree() do
+>     not sleep or map lazily.
+>   - Replace kho_ro_restore_vmalloc() (which allocated RAM and copied
+>     pages) with kho_ro_map_vmalloc() to map preserved kho_vmalloc
+>     regions read-only in place using kho_vmalloc_walk().
+>   - Cache radix-tree node, leaf, folio, and vmalloc mappings in a
+>     unified RCU-protected hash table (kho_ro_map_ht) keyed by address,
+>     size, and protection for the lifetime of the read-only KHO kernel,
+>     and drop kho_ro_unmap().
+> - Patch 9:
+>   - Build the kernel and initrd only once in vmtest.sh with both
+>     CONFIG_KEXEC_HANDOVER=y and CONFIG_KEXEC_HANDOVER_READONLY=y
+>     enabled, running both the standard KHO test and the read-only KHO
+>     test on the same kernel image.
+> Link: https://lore.kernel.org/all/20261019021111.990394-1-pasha.tatashin@soleen.com/ # v1
+>
+> Pasha Tatashin (9):
+>   kho: expose physical address of outgoing FDT
+>   kho: move radix tree and FDT helpers to common file
+>   kho: validate preservation metadata in kho_restore_vmalloc()
+>   kho: do not modify incoming serialized blocks
+>   kho: add read-only Kexec Handover mode
+>   kho: support read-only KHO mode in KHO core
+>   kho: support read-only KHO mode in kho_block
+>   kho: test: support read-only KHO mode in test_kho
+>   selftests: kho: add read-only KHO test to vmtest.sh
+>
+>  .../admin-guide/kernel-parameters.txt         |   8 +
+>  Documentation/admin-guide/mm/kho.rst          |   3 +
+>  Documentation/core-api/kho/index.rst          |   6 +
+>  include/linux/kexec_handover.h                |  44 +-
+>  kernel/liveupdate/Kconfig                     |  10 +
+>  kernel/liveupdate/Makefile                    |   3 +-
+>  kernel/liveupdate/kexec_handover.c            | 284 +++---------
+>  kernel/liveupdate/kexec_handover_common.c     | 298 ++++++++++++
+>  kernel/liveupdate/kexec_handover_debugfs.c    |  22 +-
+>  kernel/liveupdate/kexec_handover_internal.h   |  47 +-
+>  kernel/liveupdate/kexec_handover_ro.c         | 429 ++++++++++++++++++
+>  kernel/liveupdate/kho_block.c                 |  78 +++-
+>  lib/Kconfig.debug                             |   2 +-
+>  lib/test_kho.c                                |  71 ++-
+>  tools/testing/selftests/kho/arm64.conf        |   1 +
+>  tools/testing/selftests/kho/init.c            |  38 +-
+>  tools/testing/selftests/kho/vmtest.sh         |  65 ++-
+>  tools/testing/selftests/kho/x86.conf          |   1 +
+>  18 files changed, 1121 insertions(+), 289 deletions(-)
+>  create mode 100644 kernel/liveupdate/kexec_handover_common.c
+>  create mode 100644 kernel/liveupdate/kexec_handover_ro.c
+>
+>
+> base-commit: 27be83a12b246b6b3783e7d3ac5c378ff7520f25
+> -- 
+> 2.56.0.307.g5fe7bd680c-goog
