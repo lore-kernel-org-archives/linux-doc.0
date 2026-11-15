@@ -1,64 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.226.149.38
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794782566;
-	b=Hqn0ce6i46LRVEnvC8myR+xm3plq5RvMUcppNUmog8P4g1nyXLiItAQQOi3KrRQCFa45
-	 9U4wKcqwxbfRbzThbzGQG8bWIPCB3WoqoEMvkKx0/pa5G6DFxoNzw1OckSaj309rlNKj+
-	 WI5iD03TjtR8RysHSjy+/d09akNfR/l9B13VjE1xt1qaomVxZkAbcWmPIK+agHIJEuARw
-	 eRXt5jpWblmfmEVASQ6RTl2AeU+klrPSsQ7iLSYekOs6MWUV4V9aLEdvd9V7q67IC9TYg
-	 DYlxa40V185Fzn3Cs5QcPrxm//dvvEgnqEgDvaSmV38dwlviIQ9FovU0JmpnDQjczDA==
+	t=1794784251;
+	b=ZjNMIBgSv6zkbQmAovgI8DcjlNBYQ8ZQVlvN4VKnrWUUIShC3FbQ4NpFzvNWXC55U14m
+	 T0yS09MYKKaELq0IeouCVy5SJLY7BDrzJGHIRid/qbAa+dHk0+GJOI4CyPqXGof9zdHxq
+	 KuFC0APJ/c9KqTQiZdTBO3JqK6Z0JKr5hwBW0Niahll3LiPCb/Ihdb3iJZlKZrq+LqXgI
+	 1ujaRhjehWoX/nAVH8O77yTICqz1tgU9hw8ujeTJo4Z86mSI+s1UgsRALuwTuyybL2+pj
+	 zu4852j53TwO0hLHc4GkTfXS34z5soGOCt/oG9h7nNd7APtv0qraCc7JP7bhP9lpUbg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794782566;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:X-Patch-Reply:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=HWNQezm7qiydS+vQaHkitAC+iC5yiaIdb2/keFM0doQ=;
-	b=PxhltjyUW0CHVU/o0TbMmnt3iAa9jVdzC+AQOoyXFBnC3AjoRzm+Q3VwipDyuYTqrLeX
-	 xaV3B1C7L4R/6z0jsIJm7rniDaSrnUMh/hkdPg2v9Pm1jj/uEZsQ8Pe/dunaAvuaQlWQ1
-	 aKvGBlnGmErJ+4cXgeiJZydSP4uOobwtkWNGIJlg0DoubrAIt6VS85pEzWTYRXp6eQmO2
-	 VUSVa9ens5/NseVOGGguIeqEghcwsHroUhyUDs0kVyijhD+5R2vk8mp2Xkoo78XiqQPVG
-	 PjXfYiN2SYh6N2Q/IIlBph2eiyxAasvBerrmojKa1cIw/Q3lUUpVQUCTEEYqC2jqp7w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794784251;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:From:Subject:To:Cc:References:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=Y2c4GuntC+J+u1XdIe8/YlwOw+mNu6OQYE3WM0aA4Sw=;
+	b=J3Dt2odrs8KBvmp4J5tEnBrpOnT3+QuVEmJTZdEs0SXlcZXSotg1qJQ/ditSegV8R21F
+	 J51KvqPv5wRwver+QtUKcj8Ljq7BNSaQLjImElC2pUFwpCwzXyHjNZ55rqiFL/Y/60kCd
+	 fyYqTCPNPV5iKg/ziczGOlA1Xr6IbzjnwJ5hCGZrbQQlIL53ONJQqOUBD+hCTyRxP6bw4
+	 Qow/v3D0CbL7rV3TRn7MjVuaOyQDPHLobOlCeh94fe1sZHBrGHsj+YP7RK0j7jSbHkx13
+	 fiyZsne+ZtsvR8hx33yUTXjEhazImVq2j9AtfmFK1vCVtZeBGBxTINTH6YmriWlxHmw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fmn3QQly;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=rbox.co;
+	spf=pass smtp.mailfrom=rbox.co;
+	dkim=pass header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=Y5kqtfjb;
+	arc=none smtp.remote-ip=185.226.149.38
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80940606A331;
-	Sun, 15 Nov 2026 22:42:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD002606A31F;
+	Sun, 15 Nov 2026 23:10:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CD002606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fmn3QQly
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54EC1F000C5;
-	Sun, 15 Nov 2026 22:42:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794782566;
-	bh=HWNQezm7qiydS+vQaHkitAC+iC5yiaIdb2/keFM0doQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=fmn3QQly2We+17+W+XKakioLjkdgvsXQRlDaJvcOcwk8L7mSvWegmKsy67KEEokAE
-	 ybsSrc7qxZIW+zA4ZW5C5AgnP77anhlfu5GjxL1YxE0bRT/A0jSmzD9tWtr8RRZ0y7
-	 FYL3R3OSc4ZPcGhgIlaBuKXQx5X3i9mIXQ8phtNDcKjsLokVEDKcffm+q/3xmhL7kO
-	 YZzpggbPILKPGszDZdwSXSmkrR9knRzv45ZO/PbJvRc++f9I4zd3Db9xhMyY1NmmL3
-	 UDwuayA9vyi+qQwKvHZwyFD1I5qVqCqrcyQFkWefoIRjIzWFsjP/JybVfFbXceCTEW
-	 nsC+hA5u8kFIQ==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Vladislav Zaharov <vladazaharova2018@gmail.com>
-Cc: dakr@kernel.org,
-	jhubbard@nvidia.com,
-	acourbot@nvidia.com,
-	aliceryhl@google.com,
-	ttabi@nvidia.com,
-	gary@garyguo.net,
-	nova-gpu@lists.linux.dev,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 0/4] gpu: nova-core: retain the GSP-RM log buffers
-Date: Sun, 15 Nov 2026 23:42:36 +0100
-Message-ID: <20261115224236.65017-1-dakr@kernel.org>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261114044304.245684-1-vladazaharova2018@gmail.com>
-References: <20261114044304.245684-1-vladazaharova2018@gmail.com>
-X-Patch-Reply: applied
+	dkim=pass (2048-bit key, unprotected) header.d=rbox.co header.i=@rbox.co header.a=rsa-sha256 header.s=selector1 header.b=Y5kqtfjb
+Received: from mailtransmit03.runbox ([10.9.9.163] helo=aibo.runbox.com)
+	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <mhal@rbox.co>)
+	id 1xSjMb-00FK8o-Mj; Mon, 16 Nov 2026 00:10:21 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
+	s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
+	Cc:To:Subject:From:MIME-Version:Date:Message-ID;
+	bh=Y2c4GuntC+J+u1XdIe8/YlwOw+mNu6OQYE3WM0aA4Sw=; b=Y5kqtfjbJEBZsunJyvYzYSuOKJ
+	x4GqsvQFHvgz6aMwDH35pjfmNTCxYUppfB+rnK63mUjpLQWszSGSzqnWenkREZ98QWq0quF1sByHE
+	ZlzY9j6508J9K+z3CGvJvjvCdIzjVKa3UoLSnstBqpQQ8BI7ggksAIB/AsGYhWiB2s1S+46SThI5s
+	HeuMc00fyAyAt83o3Qd3TJnKjU6o7Or5v+fBiLyGEeZ1j5sb3tSOVFUqwp8o0WuoWjqiqFzqOrbKh
+	AeQo30VTE0YXV9+3O8kohQd3lf1omZmHB94dTmmsdwlvARbC2IEyq0fDDMRMctSMFZh+enWO9CUxW
+	zu2hz7oQ==;
+Received: from [10.9.9.74] (helo=submission03.runbox)
+	by mailtransmit03.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <mhal@rbox.co>)
+	id 1xSjMN-0001t3-8N; Mon, 16 Nov 2026 00:10:07 +0100
+Received: by submission03.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.95)
+	id 1xSjML-000piU-I1;
+	Mon, 16 Nov 2026 00:10:05 +0100
+Message-ID: <e8f1736e-3f13-4f92-ad69-8b166c41e68a@rbox.co>
+Date: Mon, 16 Nov 2026 00:10:03 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -68,32 +66,63 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Michal Luczaj <mhal@rbox.co>
+Subject: Re: [PATCH bpf-next v3 0/8] bpf, sockmap: Restrict iter-context
+ sockmap updates to sockmap iterators
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>, Shuah Khan <shuah@kernel.org>,
+ John Fastabend <john.fastabend@gmail.com>, Eric Dumazet
+ <edumazet@kernel.org>, Kuniyuki Iwashima <kuniyu@google.com>,
+ Paolo Abeni <pabeni@redhat.com>, Willem de Bruijn <willemb@google.com>,
+ Jakub Sitnicki <jakub@cloudflare.com>, Jiayuan Chen
+ <jiayuan.chen@linux.dev>, "David S. Miller" <davem@davemloft.net>,
+ Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Stanislav Fomichev <sdf@fomichev.me>
+Cc: bpf@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Sashiko <sashiko-bot@kernel.org>
+References: <20261107-sockmap-update-limit-iter-v3-0-7c0bad1ad036@rbox.co>
+ <DMV5NLOEYFGF.C7ITHCRCNA7P@gmail.com>
+Content-Language: pl-PL, en-GB
+In-Reply-To: <DMV5NLOEYFGF.C7ITHCRCNA7P@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Sat, 14 Nov 2026 11:43:00 +0700, Vladislav Zaharov wrote:
-> [PATCH v8 0/4] gpu: nova-core: retain the GSP-RM log buffers
+On 11/14/26 19:45, Alexei Starovoitov wrote:
+> On Sat Nov 7, 2026 at 5:58 PM UTC, Michal Luczaj wrote:
+>> Follow-up to Sashiko's report [1] and the decision to restrict which
+>> iterator may perform sockmap updates [2]. Series started short: remove
+>> about-to-be-stale test, restrict updates, add a negative test. Then it
+>> expanded: mark bpf_iter__sockmap::sk as PTR_TRUSTED, restrict
+>> bpf_sock_destroy() callers to iter/{tcp,udp}, few little tweaks.
+>>
+>> [1]: https://msgid.link/20260626205814.BAC3C1F000E9@smtp.kernel.org
+>> [2]: https://msgid.link/87echn2fhd.fsf@cloudflare.com
+>>
+>> Signed-off-by: Michal Luczaj <mhal@rbox.co>
+>> ---
+>> Changes in v3:
+>> - Drop RFC prefix
+>> - Update bpf_iter_reg::feature docs
+>> - Fix tcp_request_sock BTF build error
+>> - Restrict allowed callers of bpf_sock_destroy() to iter/{tcp,udp} (Alexei)
+>> - Link to v2: https://patch.msgid.link/20261102-sockmap-update-limit-iter-v2-0-e96a63c43b39@rbox.co
+> 
+> Sorry for the delay. Applied.
 
-Applied, thanks!
+No problem, thanks.
 
-  Branch: drm-rust-next
-  Tree:   https://gitlab.freedesktop.org/drm/rust/kernel.git
+To follow up on bpf_iter__unix::unix_sk, looks like there's a single helper
+that will become unusable from iter/unix (once plain-PTR_TO_BTF_ID is
+gone): bpf_get_socket_cookie(). PTR_TRUSTED then?
 
-[1/4] gpu: nova-core: move the debugfs root into the module data
-      commit: b9a34b6ac2f7
-[2/4] gpu: nova-core: gsp: move the log buffers into their own file
-      commit: 35d780c3c9c7
-[3/4] gpu: nova-core: gsp: retain the GSP-RM log buffers after unbind
-      commit: 27b10da20729
+Michal
 
-      [ s/scope()/into_debugfs_scope()/; drop unnecessary explicit Infallible
-        from into_debugfs_scope()'s return type. - Danilo ]
-
-[4/4] Documentation: nova: remove completed GSP log buffer task
-      commit: 8045d0e7d208
-
-The patches will appear in the next linux-next integration (typically within 24
-hours on weekdays).
-
-The patches are queued up for the upcoming merge window for the next major
-kernel release.
