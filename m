@@ -1,62 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794776120;
-	b=RxDE8TH8KH3aqTlN0LOH0nxuK7Q6svTXStFRzS60y1Aookd2eAY4rCk0xUKE8q1185Vh
-	 RpM/gOnjVNhNaZGuT0gZoy60hX25uoKQtLHE6g8TOijivXNXYS+9E1CwUa78KqbXjMI2m
-	 sLQX4i3iTznbaxLfBczmr4xkloeYe3NiUmI1Lqg6u2nMfAcmqtcQjogyuHLUzBKPxdUWx
-	 slSPIe136N6/cZ9csQml+WTp8PID5zbWc6UsOVGhBBIZ5WBjqq9WK9IJlgbfbFkuVQf44
-	 f85tFigrIwZlqL/Z9zCrE3RichFqJsyshMDQvQE2Gbp9HduiLL8pThL90oFB0GQ374w==
+	t=1794776630;
+	b=IlblfKiKyZFVqBWQN5kTj3Do9DsgBj++BXM7DHoEOBZZ0h+y9JYwkieJzZ715eVrEdjg
+	 F2SPR8LIDWNYHw9nr2dxC24PzfdOy8/8g25vfcdR+CxE3r8XfWSqRnb+z1yWERNpBEFIz
+	 7E4teXM0SprWRaf0Txu/FbDkrvzymX4jUui53n2/aRScQu7uumgTTho7aFvfkas8Of/MI
+	 dzMAlW3VYkXffLBJ+x7AHNi1/KvL6JqrLK2Q930dV7xUoZC4ItW3Uey/I3Dw1b5qYAX9M
+	 RVq4jtAOJbg67o5kZejzdnhylO5w1rXdUen4ZAH/Mf5JpR7gDWxZUQ2iOUvQC/SdbEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794776120;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=52d/RCwDfD/DgbGrt4TUXt6ka8m/3NLeYGrtNO6HoqY=;
-	b=VlnwcdS8qv76ZvB6CTXMKxe7UlzpFYEl3F+rTWYw3FjdRm3NoltziLqIw4Z+bMdKd3E1
-	 akpe3cSTBobdhned8Dn+MRq49w7OppfWBqDP94xNa1Fxj9FeXukbi8l9hLSiHm2YQbfDo
-	 4dAxZpwqRfZ/6JYyhHoOoalrQ8WmCtH+NpL+JhUjCbDUvydNU9ki4W7JNFOrgthDGpw9d
-	 YOdTBIg1uSt0kkZEFXDBBwDQBK3MvHxzzTqOMyF1XJJvJEIfYlaXCOlDJpvM40c6mrVSQ
-	 trwpo1ypb2kA2hv0fL3mQBq35xfXd1TaHn+cJ13NjWrd0uVmgw83of3ffzL5lKelJgg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794776630;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
+	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=+93V4N6Lq0YxOVjH6mwP1Fn2op2t3h1wY2olnwPC/y0=;
+	b=BDjbNUI0gqzXncQjgw4ISX0ps7RMuZlnMFkfW5Z8Y4Q9Caoz1RwrfqWHDAaPw6IkxSaD
+	 6mRTT2Nw+PQyejwf01MBFgEdBYZgZokaHRFVoX2Xq80a/QaPq8S7tousvEhZMUwHAacOs
+	 i25Akg9R1WeQlS/1RgPU0Rv9y9T9ny5pa7i8ZkGGllMmQyg1hl/IArBSXMbSYVYeGffxW
+	 xmBXbQiHOeiu8ZOFeohAviJ37224j715Awste2i94OZr/ZhMygIatjQ7gAgI8+2/Rj99H
+	 Y9VauNPgVN5nKnvSFFMKP0ijdad1H99m8czVdveUVr3JjuPTeYnS114PtQFhH7hSKcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GfkGcQAA;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=agbTALtS;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=iPxwGchk;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4FE2606A32F;
-	Sun, 15 Nov 2026 20:55:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFA4606A337
+	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 21:03:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DEFA4606A337
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GfkGcQAA
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4342F1F000C4;
-	Sun, 15 Nov 2026 20:55:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794776120;
-	bh=52d/RCwDfD/DgbGrt4TUXt6ka8m/3NLeYGrtNO6HoqY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=GfkGcQAA1lblP0vFE18llod9rgiJgby6+DewN9r52r9T2qVLRlusFD2na9MaXyzCx
-	 0JCStUgLSKo5/jbQtgZKnNOvbugHkSjSP33tmhRkEFpKTQXyQCG4bgqQTra5I9VC53
-	 zFuTuW+z5ic6VK61ybqjl5SBqyiFy6DuSyrMscIRHTVlAvijG9Na+l1K87Tk38GVAE
-	 R3/ouO/zf7NpjMs5qtaPHv0CUAMRihvf/kyHu2wC/bMIOvncd0mHvYQiDhAcjFDNnx
-	 DNdan1AeCtrOlHqR2L0T10jvVkj+RSFeFyU3tl6pUO3wBl5bLnU/uq7ig0jxqf37oY
-	 gOsDlHcep9vsQ==
-From: SJ Park <sj@kernel.org>
-To: SJ Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [RFC PATCH 00/27] mm/damon: let users report their data attribute findings
-Date: Sun, 15 Nov 2026 12:55:12 -0800
-Message-ID: <20261115205513.99979-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261115202849.99134-1-sj@kernel.org>
-References: 
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=agbTALtS;
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=iPxwGchk
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AFIRQxr865361
+	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 21:03:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	+93V4N6Lq0YxOVjH6mwP1Fn2op2t3h1wY2olnwPC/y0=; b=agbTALtSR3gbxxEc
+	VRvNU4DCIKPvGpMO7CugpH6Uadyx5npRYj8FJv9vBKO3NQTl5CvPYcXjWOUWbMtn
+	Axq//AERbURr5exipw8deW1dUK01/D42GkdVxJS2Nkny28LtZ/iUX2aGPbBe8bh5
+	Qc3z7A61AmHeExvu24i9LhT76E3P2XSEn7fvlGqNphWMFnSJlJZxR1bOa3ueo5/y
+	mqaBgVCB1XM+jyxY8d+ZCvsX3uMQjKQc5aUlSUqnfXdYbQORz4AhR4vDn633F8v1
+	Di9+nyS3qXAOiDfm+1q+7TEhvVQfqqp/xC1mQCkjYzV3PxH0izjh5Fwp2peOwvuK
+	/ZmTEA==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhm8unv0-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 21:03:48 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f5844cb60so541607885a.0
+        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 13:03:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1794776628; x=1795381428; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+93V4N6Lq0YxOVjH6mwP1Fn2op2t3h1wY2olnwPC/y0=;
+        b=iPxwGchkict8FNXwwuxijS6mEqQTHVXY6RJbzUuKeRhQsgIRnuf+Q8z1Ps0ehae76F
+         2WrKMbo5XE2Zk5TFmWPqsWR1/sbQoyEpMxyKJlByUZbegFzbcs01l4Oet32guZuoAeGS
+         wc5UQgf2NIt/0tHqSoBBxFusNDaqBcJ1bEKmRmziHSFb3LDD6Pv9sl9TSCfOqLsjjiWz
+         ALY6KiCTV+U+ZJEOjnmKjWknc8EvwHcR1+CpSU4uCv+KtvBU2Y1hlqdxBu30ivZ2N6JD
+         rQheTgYrTIu3HFLjypxROjQ7unNiz1wrWw4BqUKJg/dxo5yvK0f8URn8aIt+hSmfiJev
+         enaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794776628; x=1795381428;
+        h=content-transfer-encoding:content-type:in-reply-to:content-language
+         :from:references:cc:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+93V4N6Lq0YxOVjH6mwP1Fn2op2t3h1wY2olnwPC/y0=;
+        b=Fks0OIaRmEwEWtFJDin6J7mqI93/+nXgmLAzIfNYitQCqnrQYyvO2N5KlMW/XOVHOW
+         gLjFr5K4npB3R3zZC2e82yAlEbrf7hSRGEoH7I/+KdCVsZc+aJQw0LbQlAtaLsxwivv6
+         /hfOI31uS5YaG3Qckvl91Fl6wySH1OcRVxaLZjfuhhjCWfOEbcnJLtSRWFX1tclhjlCK
+         yVXCh/whWgjEtDbAKFGfs69i7u6UhUHfUYTrrc2xn8hdyXQ0azIR9Hyo3t+jwGI1uTHJ
+         C32BzcvS30a8IZMM0eq65VOOhmQg+R5yBJFNO5M+GHmg95al0aYw+jZ1eBQwgg2pxzuo
+         QO7A==
+X-Forwarded-Encrypted: i=1; AL+hErElTwC9xTFKE8ixnqinN5CveVs+udbxk5VnxSlfSHyHF+HN12BdP3ygqCHQGoHZGX4WRIUZy1KWcTY=@vger.kernel.org
+X-Gm-Message-State: APuU4Z9FJZ/Ien19ynkxJLZNdypt+r2lYrRQi9fJLFJiqLXyedNZ2gW4
+	9HwWZKhtvEc5+0yomIb11MrXVabeerbcTlsmNuxavEhu9heqtGZwgQCPYoB7oCdvSzL/k325yLe
+	hERKhw9Ihh3HTOHYP7jg1sQXR/R7gI7iN/TVZKxXiF2YDZ6SvikyPzoc4iVUQOdM=
+X-Gm-Gg: AYBFou0RMRUIBDDG+Ff4RiqsepPVAZH+kCLCn7QI5jOyQo3bwFEWfNAJwyZm8QVhmyA
+	EGeJmW/CkGeXgl8ms39n/szlt+7zTlDp0yN66tUDWq99kIno4G6Upr6P4RcLfwc/sed3+7y6mFm
+	4JAFElLNWeXEodBPif61kqrkf9dydk1LSP930P0uEkM5Tt7f6rOKd8PI66H83UB7DoKIJEtaYnw
+	RYX8ZfmWKs5q7Z056Y3tnNJZD4CWw09TVnTgPv21GqdHz5ksdfd4S5fb8aUFqYHcfLfr+oNJZSj
+	mlb69443vXXC44sLAUDJTh+Ps7iNtqop2T7Q3Hc2Sez0yKkLWpxedDS+mUPUHaeZHWaQOC01z3d
+	+78WSv/e+0FK7BIEVHGJSpwXEf9l/VHwiz2ySK7bRhoJON2V9yC/h9sdET1Gc2RUrNCsVGVz22P
+	gN
+X-Received: by 2002:a05:620a:40d2:b0:949:671a:cc77 with SMTP id af79cd13be357-949671ace50mr733615985a.1.1794776628083;
+        Sun, 15 Nov 2026 13:03:48 -0800 (PST)
+X-Received: by 2002:a05:620a:40d2:b0:949:671a:cc77 with SMTP id af79cd13be357-949671ace50mr733611885a.1.1794776627637;
+        Sun, 15 Nov 2026 13:03:47 -0800 (PST)
+Received: from [172.22.9.204] ([217.110.90.56])
+        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-49c5d03b104sm18917479f8f.6.2026.11.15.13.03.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 15 Nov 2026 13:03:46 -0800 (PST)
+Message-ID: <ea0f1a60-b2d4-4d3a-a7a0-767f4132f8be@oss.qualcomm.com>
+Date: Sun, 15 Nov 2026 21:03:45 +0000
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -66,32 +115,90 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 20/23] ASoC: qcom: x1e80100: carry WSA VI feedback on
+ the WSA Playback BE link
+To: Mark Brown <broonie@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Alexey Klimov <alexey.klimov@linaro.org>,
+        Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
+ <20261023171433.820092-21-srinivas.kandagatla@oss.qualcomm.com>
+ <179476416983.140154.148298781294201106.b4-review@b4>
+From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
+Content-Language: en-US
+In-Reply-To: <179476416983.140154.148298781294201106.b4-review@b4>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=ItKL47/g c=1 sm=1 tr=0 ts=6afa1e34 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=hzUeyGCwRGS7WCfWEAyTKw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=eRThcyuUgiMSaGfv38QA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE1MDA4MyBTYWx0ZWRfX5mFdQz9T+kD6
+ vRa3Uex6ft3RHkEqK8T1vhiq6GXVws3Osz5Dh0NEBdpphCQYKPS1MKgCHbwUPDsEz6lolTrKgVk
+ ERD4YRXSpjA9+8wC8rURbuGn4b60KyE=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE1MDA4MyBTYWx0ZWRfX6gajYlZ/hwUx
+ DI6YKEiJC0aO+Z0lMUfPWPX1/pJ5Kzct3jPH2b80Bqg7iBJMunFoAoaxgLptjXyClvSlc2JTUvp
+ z9WjV001LVAcYFKlDeb/+f3A9QAVswbae5iavSBkYfm+FV8caKnqfKqoG2CUQrGnU5ITBWii3lU
+ STqxYnbbYUZlPDa+hgvQBn0Z6n62Ziea09kaRT1GhJZYtsfbX2x+g2GeeDQQDNNr67Gkm7IMeYC
+ +XyAYqADvelbnhgsjAqoRno2jtQmlok/qPV6NIAYYc6mD5GPgouF7GXA5TJY9GB/KgIuhaDYT2o
+ DR9saXdZkKpfT0OgikcXjzy8R1gCd2CUlXAuQSFyTaVJo4NJGSZa9o94YUZHNvvPSluOWL/d7bY
+ WWd85+OVThZHeWxOoDmf8ga1RxHhvJFJO95SE/c4vIc3zy9Ht86dfJY3VzgK9dnv6b6ukoBtDrK
+ izNXvl0SbK3/xEjlciQ==
+X-Proofpoint-ORIG-GUID: rZZ3KdSxPtWOzahllmHaMY1ax7quBnRA
+X-Proofpoint-GUID: rZZ3KdSxPtWOzahllmHaMY1ax7quBnRA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-15_06,2026-11-11_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 spamscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 phishscore=0 impostorscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
+ definitions=main-2611150083
 
-On Sun, 15 Nov 2026 12:28:18 -0800 SJ Park <sj@kernel.org> wrote:
-
-> TL;DR
-> =====
+On 11/15/26 5:36 PM, Mark Brown wrote:
+>> Speaker protection needs the WSA V/I sense capture running whenever the
+>> speakers play.
+>>
+>> Set multi_direction_codecs on the WSA Playback link so it can carry the
+>> VI codec DAIs, with a params fixup for their 8 kHz, 32-bit format. The
+>> core's capture stream events for such links power the VI widgets.
+>> Nothing changes until the DT adds the VI DAIs to the link.
 > 
-> Build a system for letting DAMON-external entities report their data
-> attribute findings to DAMON.  Let users report their data attribute
-> findings to DAMON using the report system.
+>> +/* VI codec DAIs on the WSA playback link run at 8 kHz, S32_LE */
+>> +static int x1e80100_wsa_vi_params_fixup(struct snd_soc_pcm_runtime *rtd,
+>> +					struct snd_pcm_hw_params *params,
+>> +					int stream)
+>> +{
+>> +	struct snd_interval *rate =
+>> +		hw_param_interval(params, SNDRV_PCM_HW_PARAM_RATE);
+>> +	struct snd_mask *fmt =
+>> +		hw_param_mask(params, SNDRV_PCM_HW_PARAM_FORMAT);
+>> +
+>> +	if (stream != SNDRV_PCM_STREAM_CAPTURE)
+>> +		return 0;
+>> +
+>> +	rate->min = rate->max = 8000;
+>> +	snd_mask_none(fmt);
+>> +	snd_mask_set_format(fmt, SNDRV_PCM_FORMAT_S32_LE);
+>> +	return 0;
+>> +}
 > 
-[...]
-> Ongoing and Future Works
-> ========================
+> Shouldn't this also limit channels so we don't get something wider from
+> playback?
+vi has min max of 2 channels, so its fixed in v2.
+
+--srini
 > 
-> This is a part of the "beyond page table accessed-bit DAMON extension"
-> project milestone 2.  This patch series provides the initial and
-> essential part of the data attribute report system.
 
-I forgot adding a link for the project.  Please refer to this thread [1] for
-more details, plans and status of the project.
-
-[1] https://lore.kernel.org/20260525225208.1179-1-sj@kernel.org
-
-
-Thanks,
-SJ
-
-[...]
