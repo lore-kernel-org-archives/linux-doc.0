@@ -1,55 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794731056;
-	b=nZd5NY/TsSZ+KKSsCOrRWkdA1LXJzVSspl9VIhHo4TBzfBNXWjGSXxH69dSx8m4W48Ok
-	 yQ7p3UYMqBwuJQ4CjcG56BOVO4GaxDM/bTzcEUSxm8k0dmMnEzB4oLOKaCFfdI7s6NPFb
-	 OyGTXiM0WZn6gVIVhU7fUgtu3y6BoaraLlgBZzrlh4CXaAEaA2W7ChKLHD8SrTKRFWTcl
-	 3Cf2OP0ynTTDW7RNcDW8w92aSaeXAq/kn0ID73rQZhpAYKTxS35NO8J1YClC994WWxEAk
-	 6GYnkqYr2ic+EisnumYVz4x9+nRhP+GDdiASYkyBhoB8lsEYi6fpQZNxg/nNPdGvYeg==
+	t=1794732484;
+	b=MC9vsDtKng6s4PWGe2W1GHMP/Ym1nFMv9D17wM5EpE4sbjW/7pC475ZMAQNB1kBmis+p
+	 OJMbj4ceSj/oqLL6pS+fEjVxD8DwVwkNlC+ePKe0IzvxMyivqDnA1Gv8BG/wT30yEHeAR
+	 Xwr3t8khXnu09aQXS/+7Ky3k+0YQW9lWe/+mYaPIA6/Nqx/rG/ycWpgJjH2uXVzz05EiZ
+	 tuH6fxVJDupYTbimFk7sbghZ7tWavhUiFs/95AJcmATeepl3J+hKfryrpbr4oHFScpu8T
+	 dQZ96GnHuEo5cf11OAsFP9lkYRBM75J5JewyHURdXKWpH7pAY1llCCaKqlfUbzt4rHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794731056;
-	h=Received:DKIM-Signature:Received:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
-	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
-	 Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Hq186HcHzYDaq7zOMRjbrOqIIwfSHvf8FBnXTnHKzXM=;
-	b=BvhsJeAcdqu3FjX277JqVE5kix8uy0zPBsrw4JD8X6dDXjBvZP+2tmHo4jJEwLQksYp3
-	 KSx+ATurkTOZ6iLHAraKnH3mK5epNJmJNeeBwKEViSaPqHbs0OMmjRCjviStahJVucDL2
-	 S9JZOP+CNQm0hV2qWz1jrJ15GWsc2WOr4kQMBJWSk5aWQ146OEHu6RttXg9F41coi8W/+
-	 D3uAi82H04F5TFnHBRkozRQZJWaC3/K6gjwg5Ds4cRmWY58Pj3VjEsl2bRjJj9MORj3GE
-	 xGcrILLTWrzrCMiVbP1LhjTQ5vm7UqDNEgkwzuIaeAdep0HeaJ1Bio9jmRTrIQyf6FQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794732484;
+	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=uPPg0EzF0XkV3FTMCRiVAvj2KrnUFtGRJ3oRND3vRZM=;
+	b=JOGkSSfRdrWLgYMPVu+PbwFa819we/aVTE5bwkh3/UmIkt8AY+4lexzgOv030lpjBIwr
+	 1ll/8AdO4q2n+9PruHm/FmkWWi3GghgO+To/BXFGsQaUOGwgEXVEDNiU+Lhk04GVlK8z4
+	 r/MDvt1tHL4EQ3lmHE5QgbO0OJeDHu7l5pDluQjnEhj8JP42LmlINTc50Gg9/1M0J3ute
+	 KlKC34hpBExyatQBSvxOk6uEw5Zx4DdPSTHZqjMH1tPxYWI9fTMVcyQAdKeLEo8maX36W
+	 3OZ0LDh62kp7HzmuyVE0wV0RwHbakD7QA7QXNAaLQgpgItt9KV2/a/2D/lv7v5qTgOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EQ8gElEn;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=corp.free.fr;
+	spf=pass smtp.mailfrom=corp.free.fr;
+	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b="hGMo/JPZ";
+	arc=none smtp.remote-ip=212.27.60.169
+Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9EC606A33D
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 08:24:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD277606A327;
+	Sun, 15 Nov 2026 08:48:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD277606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EQ8gElEn
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 815751F000C4
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 08:24:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794731055;
-	bh=Hq186HcHzYDaq7zOMRjbrOqIIwfSHvf8FBnXTnHKzXM=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=EQ8gElEn+s4NqzNS5KqWN3kSvI6ph+XLoMLW4SuYbcAC77irL5Rw71hMl13khtfUC
-	 w/gIGMyyc+vrbb7oLdzYstdCjZfP9/gMb9wiiQKElbVXKIKfIVdst8L0/+kydgakjs
-	 qXw08gATlgXosPffII6Y1uup1yPUH+oOmv6+5B414pvzBSbaY3KWV4vtkrtB48mABm
-	 CwE2LQA/C5nsXoPliB+lWKfZsFLgBQop65lbqrGoj/L3yqoFkcilsUandcT3MTiLyg
-	 iXLECPul4Vq06LWyyG3MokQoMrqwKQ1QuQpv3zWbTGjiOr0RgfupJLBjp2yFcHqPfX
-	 E8T7MWklGOt1Q==
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-6d68de53053so1511047eaf.0
-        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 00:24:15 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErHIqvQA+RM5kZbvohPFVq7zfXUJgczcW5vkZ+5BXKLLFCk8O1Xbf59Aa4SY7qXUOEia17jWrwASFIU=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+1riSqt85scXlpqDOHF8cQEsHRfPed+P4deMsVYUkaLyIjouNH
-	NN8hRrP9RsccKzl6K92gs84egFD9+X1mGXC3zDQQZf7p0fMdWLIltL0Az4FYZm/2kom99g+dreJ
-	+jfDI1u0Z1Ppe7LI4aaQCrDwMMVkh+Go=
-X-Received: by 2002:a05:6820:a70c:10b0:71a:eea9:8173 with SMTP id
- 006d021491bc7-71aeea9868fmr74562eaf.85.1794731054847; Sun, 15 Nov 2026
- 00:24:14 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=hGMo/JPZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
+	t=1794732474; bh=5uvVqzK9P8/E9voTDvHAYhseKqu/N7Z++XtENzAy8bU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hGMo/JPZdze1z9fdRrRQZlUK+MI+GtaZzrBmpYzilOo88fi2nMw3VWkS0dfWsM2yO
+	 GhPpv7EwlHuzVdlwmWl2s1dyApHzgR/qpEP2v2320Uobbiibp3Q+rUfWyFqepcgGsZ
+	 LU6xxj4Mj2Z015MxYgwF/CiyXA8aqholFHvkzKRztYcrn8hcga6nhU8R3LSl226RdI
+	 5hwdeU2FF9v+TIV8c8Dvea/2M7NAl1PCyTT404YipVKxdgX8uT/0fjKojXIyBlIxtg
+	 DZmLyGufJ7QqQDv4nTa4zej3Mz7GuV/Hz116Oo6XMAe66bB73zIqTtqY+rJ9xe19wu
+	 b1hJq0mhsH2+g==
+Received: from [0.0.0.0] (unknown [213.228.1.188])
+	by rcs.proxad.net (Postfix) with ESMTPSA id 0584944C0202;
+	Sun, 15 Nov 2026 09:47:52 +0100 (CET)
+Message-ID: <8c5a16d1-5307-450f-9f83-911c871321c5@corp.free.fr>
+Date: Sun, 15 Nov 2026 09:47:52 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -59,137 +56,99 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <cover.1794672619.git.x-professor@outlook.com>
-In-Reply-To: <cover.1794672619.git.x-professor@outlook.com>
-From: Eric Dumazet <edumazet@kernel.org>
-Date: Sun, 15 Nov 2026 09:24:04 +0100
-X-Gmail-Original-Message-ID: <CAL4WiirENP_SBccpu3qq51f6u4E7BwFoadEARZctwm0CGNCusg@mail.gmail.com>
-X-Gm-Features: AclHuK-t99I7UXoH9TmlU6O0jB4ekfdvLqJegkYIbqioWircJJ73o_0Q7EGKhbQ
-Message-ID: <CAL4WiirENP_SBccpu3qq51f6u4E7BwFoadEARZctwm0CGNCusg@mail.gmail.com>
-Subject: Re: [PATCH net v2 0/2] tcp/mptcp: prevent blackhole timeout
- arithmetic wraparound
-To: Yingjie Wang <x-professor@outlook.com>
-Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "mptcp@lists.linux.dev" <mptcp@lists.linux.dev>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "corbet@lwn.net" <corbet@lwn.net>, 
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "rdunlap@infradead.org" <rdunlap@infradead.org>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "ncardwell@google.com" <ncardwell@google.com>, 
-	"gang.yan@linux.dev" <gang.yan@linux.dev>, "kuniyu@google.com" <kuniyu@google.com>, 
-	"davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org" <kuba@kernel.org>, 
-	"pabeni@redhat.com" <pabeni@redhat.com>, "horms@kernel.org" <horms@kernel.org>, 
-	"matttbe@kernel.org" <matttbe@kernel.org>, "martineau@kernel.org" <martineau@kernel.org>, 
-	"geliang@kernel.org" <geliang@kernel.org>, "ycheng@google.com" <ycheng@google.com>, 
-	"weiwan@google.com" <weiwan@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 02/10] cxgb4: flower: refuse a tunnel key wider
+ than the VNI
+To: netdev-bot+sashiko@kernel.org
+Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
+ jhs@mojatatu.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, michael.chan@broadcom.com,
+ pavan.chebbi@broadcom.com, bharat@chelsio.com, donald.hunter@gmail.com,
+ corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
+ dsahern@kernel.org, idosch@nvidia.com, shuah@kernel.org,
+ netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ oss-drivers@corigine.com
+References: <20261109131039.959438-3-acassen@corp.free.fr>
+ <179442431962.2199510.14986379471426017@kernel.org>
+Content-Language: en-US
+From: Alexandre Cassen <acassen@corp.free.fr>
+In-Reply-To: <179442431962.2199510.14986379471426017@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Le sam. 14 nov. 2026 =C3=A0 17:12, Yingjie Wang <x-professor@outlook.com> a=
- =C3=A9crit :
->
-> The TCP Fast Open and MPTCP blackhole handlers multiply writable timeout
-> sysctl values before adding the result to a jiffies timestamp. The
-> multiplication is performed in 32-bit unsigned arithmetic, so a large
-> value can wrap into a short delay even on a 64-bit kernel.
->
-> With HZ=3D1000, a timeout of 6912213 seconds and the maximum multiplier o=
-f
-> 64 should produce 442,381,632,000 jiffies, but the current calculations
-> truncate the result to 512 jiffies. Both patches compute the delay in u64
-> and cap it at MAX_JIFFY_OFFSET before adding it to the saved timestamp.
->
-> The issues were found using a static analysis tool. In the v1 arithmetic
-> A/B tests, loopback reproducers induced 12 blackholes, waited 1.2 seconds=
-,
-> and then made a new connection:
->
->   TFO:   base probe 1.026 s, TCPFastOpenActiveFail +1;
->          fixed probe 0.000 s, TCPFastOpenActiveFail +0.
->   MPTCP: base probe 3.087 s, MPCapableSYNTXDisabled +0;
->          fixed probe 0.000 s, MPCapableSYNTXDisabled +1.
->
-> The TFO counter records another failed active Fast Open attempt. The
-> MPTCP counter records a connection that skips MP_CAPABLE and falls back t=
-o
-> TCP while active MPTCP is disabled.
->
-> Changes since v1:
->
-> - Add a reasonable upper bound for the TCP Fast Open sysctl, as requested
->   by Kuniyuki Iwashima. This version proposes one day (86400 seconds),
->   using the existing IPv4 one_day_secs bound, and documents that limit.
->   Keep the existing MPTCP sysctl input range.
+On 11/11/26 20:11, netdev-bot+sashiko@kernel.org wrote:
+> [Severity: Low]
+> The commit message says the truncation can already be hit today. Should
+> this carry a Fixes: tag, and possibly go through net?
 
-The one day limit, the u64 computation and the clamp look fine to me
-for the TCP side: with HZ=3D1000, 64 * 86400 * HZ still does not fit in
-32 bits, and 32-bit kernels need the interval to stay below 2^31 jiffies
-for time_before().
+v2 adds the tag, with matching ones on the nfp and mlx5 patches. The 
+series stays on net-next. The bug needs a key that no VNI can carry, the 
+rest of the series depends on these checks.
 
-Why is MPTCP left alone? Kuniyuki's remark applies equally to
-net.mptcp.blackhole_timeout: nobody needs a multi-day initial timeout
-there either. I will let MPTCP maintainers decide, but having the two
-sysctls behave differently looks odd.
 
-> - Clarify that the multiplier is limited to 64 and the final delay is
->   separately capped for safe jiffies comparisons on 32-bit systems,
->   addressing Gang Yan's comment. Keep the READ_ONCE/WRITE_ONCE pairing
->   annotations next to the timestamp reads.
-> - Identify the original runtime results as v1 evidence in both commits.
+> [Severity: Medium]
+> Does this check cover the case the commit message describes? It only
+> looks at match.key->keyid. The hazard named in the changelog is a mask
+> that only covers bits above 23.
 
-Please do not do that. The changelog of each patch should describe the
-problem and the fix. Version history and test notes ("In the v1
-arithmetic-only test...", "On the v2 kernel...") belong in the cover
-letter or after the --- marker, not in the commit message.
+No. v2 also refuses a mask that leaves no VNI bit.
 
-> - Retain Gang Yan's Reviewed-by tag on the unchanged MPTCP arithmetic fix=
-.
->
-> v1: https://lore.kernel.org/r/cover.1794325665.git.x-professor@outlook.co=
-m
->
-> On the final v2 x86-64 HZ=3D1000 kernel, TCP accepts 86400 and rejects 86=
-401;
-> MPTCP still accepts 86401 and INT_MAX. Boundary tests also cover zero,
-> negative and oversized values, failed-write preservation, defaults, and
-> network namespace isolation. The large timeout used in the v1 TFO test
-> is now rejected by the TCP sysctl limit.
->
-> The MPTCP blackhole test was rerun on this v2 kernel: all 12 clients
-> completed, and the probe used TCP fallback directly (0.000 s,
-> MPCapableSYNTXDisabled +1). The full x86-64 kernel build and affected
-> object builds on x86-64 and i386 passed. The upstream TCP and MPTCP
-> selftest suites were not run. Full allyesconfig/allmodconfig W=3D1 builds
-> stopped at warnings promoted to
-> errors in unchanged lockdep, coda, and x86 callthunks code;
-> the affected objects passed W=3D1 KCFLAGS=3D-Werror in both configuration=
-s.
->
-> The patches are independent and have separate Fixes tags.
 
-About the Fixes/stable tags:
+> [Severity: Medium]
+> This is a pre-existing issue and was not introduced by this patch. It
+> causes the same symptom the commit message names ("The rule would match
+> any traffic its other keys allow"), but it depends on the firmware
+> configuration.
+> 
+> validate_filter() in cxgb4_filter.c checks encap_vld only against fconf
+> VNIC_ID_F and the chip version:
+> 
+> 	    unsupported(fconf, VNIC_ID_F, fs->val.encap_vld,
+> 			fs->mask.encap_vld) ||
+>      ...
+> 	if (fs->val.encap_vld &&
+> 	    CHELSIO_CHIP_VERSION(adapter->params.chip) < CHELSIO_T6)
+> 		return -EOPNOTSUPP;
+> 
+> It never checks that iconf (TP_INGRESS_CONFIG) has USE_ENC_IDX_F set.
+> 
+> In __cxgb4_set_filter(), the VNI is programmed only in the USE_ENC_IDX_F
+> branch:
+> 
+> 	iconf = adapter->params.tp.ingress_config;
+> 	if (iconf & VNIC_F) {
+> 		f->fs.val.ovlan = (fs->val.pf << 13) | fs->val.vf;
+> 		f->fs.mask.ovlan = (fs->mask.pf << 13) | fs->mask.vf;
+> 		f->fs.val.ovlan_vld = fs->val.pfvf_vld;
+> 		f->fs.mask.ovlan_vld = fs->mask.pfvf_vld;
+> 	} else if (iconf & USE_ENC_IDX_F) {
+> 		if (f->fs.val.encap_vld) {
+> 			...
+> 			ret = t4_alloc_encap_mac_filt(adapter, pi->viid,
+> 			...
+> 
+> If iconf has VNIC_F, ovlan_vld is overwritten with pfvf_vld, which is 0
+> for a flower rule. If iconf has neither bit, nothing is programmed.
+> 
+> set_filter_wr() has no VNI field, so tunnel information reaches hardware
+> only through ovlan/ovlan_vld. In both cases the FW_FILTER_WR is sent
+> without any VNI constraint.
+> 
+> On a T6 with such a firmware config, could a rule like "flower skip_sw
+> enc_key_id 5 action drop" be reported as offloaded with a VNI match, but
+> drop all ingress traffic on the port that matches its other keys?
+> 
+> Flower doesn't reach the hash filter path for these rules, since
+> is_filter_exact_match() returns false when fs->mask.encap_vld is set.
+> 
+> One possible fix would be for validate_filter() to reject encap_vld
+> unless (iconf & USE_ENC_IDX_F).
 
-This needs an admin to set a timeout nobody would use, and the only
-consequence is that active TFO (or MPTCP) is retried sooner than
-requested.
 
-Also patch 1 now makes the TCP sysctl reject values that were accepted
-before. I do not think we want that in stable trees.
+This predates the series. I can't test cxgb4 or its firmware 
+configurations, I leave it to the cxgb4 maintainers.
 
-Please drop the Cc: stable and target net-next.
+pw-bot: cr
 
-Thanks.
-
->
-> Yingjie Wang (2):
->   tcp: avoid wrapping Fast Open blackhole timeout
->   mptcp: avoid wrapping blackhole timeout
->
->  Documentation/networking/ip-sysctl.rst |  1 +
->  net/ipv4/sysctl_net_ipv4.c             |  1 +
->  net/ipv4/tcp_fastopen.c                | 12 +++++++++---
->  net/mptcp/ctrl.c                       | 12 +++++++++---
->  4 files changed, 20 insertions(+), 6 deletions(-)
->
->
-> base-commit: 30c71476d842b094651bd7712f6c8ee8716147d0
-> --
-> 2.43.0
->
