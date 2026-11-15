@@ -1,52 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794735467;
-	b=ZCf8bFv0UYgoS/teNUreHSA4WKv/cnLpiGo5S7ho9OZnprXPuQRpw/giTcAY5PM299Hi
-	 Z/UYUowi3vmzsutpUBMUlF0AOJV+DymNiSLMarrUlLFb1CZwe9d2/3lU/Hjkd7o+pIIji
-	 JyP6JHePRSFl23Mb2krv9pwuhNgZ+WjjMnAn/oALISknNJ4RpNlpJowHrn2JsBTuWrXvw
-	 odEef7SpiBjZ8QwKZOUsB1Q7dDGmwS5h4Od7UfHcxiMwTRyuS0Wak7pCArH3LFIS5+APZ
-	 atiulscz/aTwYgI/VCkWRd23k2ylX0sC0MYP3Tu6RvAzslGOzN+2diZeflrnGprbV2A==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794735467;
-	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=I2b7PP+El7I26h/5mkAj6vNbRpq7BbwaQUvnfhFQyqs=;
-	b=fg1pcg05g1X5FE/b87dOGhV2lYOwaytmQLn3Vx5x3fT2h7S9bjKqLcYvE01wXMN8w17x
-	 jz45IoxuK0cHN9+fU9KMVwmV3AxHtGUWX+hjOXKWfMmmzJZlJ5wp927prYunBtQ1TTI5t
-	 O54+ZSMSixlYXM4+4mFFYB8YqRBFGb5OXlkFKOTuNU+k1lVWeF7ED36dBAjyrKCqSCbop
-	 5MJZ9JYH84k0gdkMdCO3d3kQNph81ZIvuHIUu7uytzuV9JwGHUCVji26IOTy7hZ5jmt6w
-	 pUcIh3og3IQPcIJYRNOQQCcd85oiP87+lSDus1A74CU0XJ3WaCmuqyGPHFbVzNWtIng==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=corp.free.fr;
-	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=HejNnmMY;
-	arc=none smtp.remote-ip=212.27.60.169
-Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1794736046;
+	b=TzGRc6aQyHAKF2moHCGC2xi5/b2HBxBfhS8Ktf5ZOwWdptVMJmmKTezzctss05DVRT/E
+	 +/7n7YMl1irdgxQwytzkfY6GiaDrNE+nGIiKNKN9zKe6MvOIHsQN4vedR7vSnsT7pVMMR
+	 FBCpjzhQhN1rQ68ph7ZmvBMDU/qWt2QphKUQDA9ZuZi3DQL6iBiI0bp13TC6gpMAQswGE
+	 sYAVit23t2yoSqb3+wqRhEqz3zN3JZQFVnExRnDwo3y2DKT1t5yrrAMR0/6OUPnTz8XWp
+	 ym7tPkJ52VcT6fowsiqfm177IEmyK20LJSoAnhAEIRkm8RaBMluSwewtvi+WOrNwEsQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794736046;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=VfHEYcb2rNE2iyrm94zQquEkhGNgVZsRO7MYguIDjP8=;
+	b=M2eR5546XBDETlVl6M2tKKi8pxAlVzLHNSQSO/Ekjx5LeuiOhO9dEH9cR0QZ3DdhCY0L
+	 0oE8lI9CArf6wo2RxNv1P3GUJe2Wgix6xx3PMeh+pZn7bDAouJ2nUspjEjMdxEgydZGjO
+	 hN8wy3trW9HcIqNO2pAbuwLdt4AUWBXM/hBLRpjVyEuvhbrB0tW2NQF1VoEBuuGeYMZQj
+	 M4BHg4XNrUZx2gc4oKbra3/lEY6/Xkv0c7QukPoEDb7n0ucq1CTlibE+GIn5ZqsC4NkL9
+	 Ty8lpoJO7HK4PDxuiaI0pK5oGNCB0nqSU6DINxzXyvCFTeg9hVE5adFzy0fmeK4s/+A==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ULcSl0tj;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.208.42
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A45606A31A;
-	Sun, 15 Nov 2026 09:37:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3A45606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B88606A31F
+	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 09:47:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 53B88606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=HejNnmMY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1794735465; bh=l9YAYkprJ5X1/VsW+JPN2Olt0TJob6Ww2LOpepA/seA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HejNnmMY3O4kM8ejz8rccgQvRjPlPkA3uSaCoC07hp34tIoiXYO3tGs0MrVE3560q
-	 /0RtMGniBOUwy5inKkqObH0bOxRkE8A18zZR7zVZKrcF8YQ3muHAom1f0Oav5SaYsD
-	 /Zxqt964Q9YJQzz89CmhoFPVZkVJ5nHKpY7OyM1IRsUvtRO9EkK2ADFiMJNvR37gcg
-	 clnsEGz/qCFis1IN9O9rTUTC3zzW4UuQcJ+9PSTy5+0rPj0BocFfv5q7wqDWD3sCo7
-	 Y5ZS31sWmXqpe+RDhUv/gOjsKG9ptZLMkHN7m/HzaSksJULgVebk/GSfjLvIbdBqFR
-	 seubAGutxNn9A==
-Received: from [0.0.0.0] (unknown [213.228.1.188])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 67DD544C0736;
-	Sun, 15 Nov 2026 10:37:43 +0100 (CET)
-Message-ID: <0c42ad09-0aef-4e98-80b2-43cac04adfb7@corp.free.fr>
-Date: Sun, 15 Nov 2026 10:37:42 +0100
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ULcSl0tj
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6b6f42095bcso3597197a12.3
+        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 01:47:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794736045; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CUKzf7TTp5NER8ttAAIJvkQ+xPFYiScmdkvKWoACQPUwqFT4BFu1HSLBtd5hTGyptg
+         vkcmgCi66e8pDQwrYyQ4bNX1Lg5nqmE9ogRhZzhT4iq7Iwr30/tNwDlHbwc5QZ2AVA+L
+         ilF0V7VJJuPtcLkJw19j2xpLan3Ym5+gDB8GuVFDqk2If6yfZ5S42nHk0CaIVUyydWVU
+         h5+A4c7YUelAyPMMttIlmpUHg+w4HTq2bjORSShxsy9WUoywycNgcftngoUZeAFOEcev
+         V3XEeIOTMGCs5OZoP5GTTqIt+FG9fY2breuUWdUL9ibviHa3QheJVpyh5IbnniF5C4El
+         P/sw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=VfHEYcb2rNE2iyrm94zQquEkhGNgVZsRO7MYguIDjP8=;
+        fh=UsvB0tjIgjzSLpSG43UEH2mUYzWBwVMcYctqHoVNqW0=;
+        b=iC8IerCPhbCoJ5fkpBcTqnFaEyvq6NxLCBuwsLzhyCg2xwkP/jscXN/suD3YjaPICS
+         YXYQ8ofxG9fz85TXjHNoa3dTMTdly7wUos13qtPQ1uLS2dhnmmbNtukWGS71XRMs5dr+
+         1h0sKpFmlHewmXGypJhHGJckcjA54QOgsWMHdk+Ym55BaPGBVAez5qbZkqZlj4I+1RlG
+         qzJYf1/NL+7e1TMOeJrBqz8eK8ufTKpXnZcpnxgoUPCbQNC1b82T8/wO7Zgkii/FR4y9
+         RzMyFwq9teIbIAQhQbovEZbORbh1LhHvl2+zfO7fbPSVKZ8QXvLFKLZOuSy9Nk4Egq4i
+         zKIg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794736045; x=1795340845; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=VfHEYcb2rNE2iyrm94zQquEkhGNgVZsRO7MYguIDjP8=;
+        b=ULcSl0tjXJEeZizN5NqOx7g1xOkL5/p3DgK9rLhn5627DhSN4mIwoV9SIny66Hap9q
+         AQpN0gv4ZOs66D+BkwP264e+8bLRMf1Iq5chGtVz5+sOu68ZGxQjSCVPowfA0dy7ca5A
+         JlJOfHn2aNQSa/jenvTLj3+qk3LhHZEnWvERYhDUcIzvGioqHC5TPLu32QoNpgxDZgon
+         KNHSnjfV25+rIf7/4I2NEIr5MFM9xH23Zh6pV4bOZXDLbjINyX1dgB1+OyJIy8R09gRB
+         ZEXxKFcY7SWTMGuHOgXLda+qhot3falzJyzaM8YnS2Av7PPg0p4tlzK0Sc718MjYdLsm
+         dZvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794736045; x=1795340845;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VfHEYcb2rNE2iyrm94zQquEkhGNgVZsRO7MYguIDjP8=;
+        b=G6pZdnFmcc6Uo/cVjvacJzZqUn94t+JsIGGR/gcq0pVB4aFPqdzYa5ywGjjs1xib3d
+         X4bRBTD6kkmtDadGeRkiWDCUT8lSI6n0oa4PuVkUq4desrLkfXFIF9eniRfq7TwcPl1u
+         S99J9J2VsJJRGHuT+Pmu0eO/qPqwTrYj9aQpGLdDygnSw/CP+i0hZZBDo2E+7drxbtUx
+         AqAn0kYvTQDBGHDY6bRh1LQWIP7ESfJfEJVJSl3Mhdkx5qofJ3iOUGkPpNGtzYM9HpZ3
+         CEBaWOG9fXLnojtRqhl805Xk5q8CvFbz7vCGG6ffk/EerN4ImPoxpLd93XBSDDCWq6u/
+         f1Nw==
+X-Forwarded-Encrypted: i=1; AL+hErFFjZJi5lmNaq66Tn/TBeewcjBe7Hdl9hiLpBaSl2P9d2ZnsQco3oeqi2VzJoAG5lJtdKF9wCHwbRk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z81qb839TvTCHkfj9Lq/9C+K7uE5nXMKIAcecVMxD6Im3dmyNwJ
+	BCfofSAypc5PCxAaXVBaBI2rDEsRnV/KEmM1LSbmB38QsufFnMQiuBFjSGkwp9idv4Zfn5hC+c+
+	bsEj/lhVPikM82ahoNnCQVz8ULLXsKNk=
+X-Gm-Gg: AYBFou0Vq/bfz118DfEN9vDQyaMiLH9E4szlJ9nnlmZ2ssPxvm0Fwr2yGOI694L210g
+	0OMUJEzpoQDoTC1eHI9/nkBT4VVbJo6rlMzrJn+erp7JPnxSAvQ1mGzapJHK9TS3CVCgX0Vc4ZK
+	yTg1nXNXuvWwEegAehzH7Y9o6TiSob3HR6rJh7beIZh2L8HtlaLXpcdahzbTznsf5B0au/5Bquq
+	8A9t7ZUW9nMpOFXfIRPH1Brhz9+J84N/VS3ShkYYX57k/6jqX/wZ/IfwUokqeO+70DwS5AhQpak
+	1WflGQiWS24CEGMWEq7xukkKLQt87dQNldx5zBw1mibE+dShYVfeTZDCcXb+vrWc8uHswL8CFZf
+	nEOci8mtPDNFxkUojUfjT4AI0RTpKcNd253r2wNodySiMHNCwflBjw4iV6CibFRrT3xRVaxVvgG
+	clvLxliIbgXRZVTjUoUn+rBUc=
+X-Received: by 2002:a05:6402:4010:b0:6b7:f9e0:a5bd with SMTP id
+ 4fb4d7f45d1cf-6b7f9e0a75bmr1572741a12.23.1794736044483; Sun, 15 Nov 2026
+ 01:47:24 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -56,91 +105,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 10/10] docs: networking: describe tunnel key
- partitioning in TC queue filtering
-To: netdev-bot+sashiko@kernel.org
-Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
- jhs@mojatatu.com, jiri@resnulli.us, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
- pabeni@redhat.com, horms@kernel.org, michael.chan@broadcom.com,
- pavan.chebbi@broadcom.com, bharat@chelsio.com, donald.hunter@gmail.com,
- corbet@lwn.net, skhan@linuxfoundation.org, rdunlap@infradead.org,
- dsahern@kernel.org, idosch@nvidia.com, shuah@kernel.org,
- netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- oss-drivers@corigine.com
-References: <20261109131039.959438-11-acassen@corp.free.fr>
- <179442433615.2199510.11200298531505956799@kernel.org>
-Content-Language: en-US
-From: Alexandre Cassen <acassen@corp.free.fr>
-In-Reply-To: <179442433615.2199510.11200298531505956799@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20261114-marvel-env-v1-0-890328e4b7e5@gmail.com>
+ <20261114-marvel-env-v1-5-890328e4b7e5@gmail.com> <e8ffe364-5c98-4987-b6bd-c263122aeae8@roeck-us.net>
+ <CAEdQ38GEckm8oU9pmg_t-_EC85brP4ghWAE4tYBNEvF+gcqMKA@mail.gmail.com> <3f6d66cf-8a1a-4074-a234-dfe571622aee@roeck-us.net>
+In-Reply-To: <3f6d66cf-8a1a-4074-a234-dfe571622aee@roeck-us.net>
+From: Magnus Lindholm <linmag7@gmail.com>
+Date: Sun, 15 Nov 2026 10:47:12 +0100
+X-Gm-Features: AclHuK-agHSxMvaTLWSNegaTGKIV9gehw4JdNQIbbkxCi9Nu8UmTXM9oBoYmDgc
+Message-ID: <CA+=Fv5SAtweSW61Y_N5_k0ukEektque1gY41LKSjbO0R_4JRnw@mail.gmail.com>
+Subject: Re: [PATCH 5/7] hwmon: Add driver for Marvel AlphaServer
+ environmental sensors
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Matt Turner <mattst88@gmail.com>, Richard Henderson <richard.henderson@linaro.org>, 
+	linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
+On Sun, Nov 15, 2026 at 4:46=E2=80=AFAM Guenter Roeck <linux@roeck-us.net> =
+wrote:
+>
+> On 11/14/26 18:50, Matt Turner wrote:
+> ...
+> >>> +``in[0-*]_alarm``           Sensor is in the warning or fault state
+> >>
+> >> Which one is it ? Is it distinct ? A "fault" means
+> >> that the hardware is broken/defective. An alarm means that
+> >> the voltage is too high or too low. A faulty channel
+> >> should not be reported as alarm but as fault.
+> >
+> > It is always the voltage being out of range: Warning is the reading
+> > outside the warning limits (5% from nominal), Failure outside the
+> > failure limits (10%). Both are reported as in_alarm in v2. The limits
+> > are not in the console's packet, so they are not exported.
+> >
+>
+> This could be reported as inX_max_alarm and inX_crit_alarm.
+>
 
-On 11/11/26 20:12, netdev-bot+sashiko@kernel.org wrote:
-> [Severity: Low]
-> 
-> The commit message says this documents "what enc_key_id means on a physical
-> port of mlx5". Should this paragraph also list the limits the driver
-> enforces? As written, the driver can refuse the GTP-U example above, and
-> small variations of it, for reasons the document does not mention.
+Only if the direction is known. "Outside" covers both, and in_crit is
+the critical max (Documentation/hwmon/sysfs-interface.rst, in_crit vs
+in_lcrit), so an undervoltage would read as too high. Matt, if the first
+threshold in the packet is the nominal, as the comment in 5/7 says,
+comparing in_input against it would pick min/lcrit or max/crit;
+otherwise in_alarm alone is the safe choice.
 
-v2 names the tunnel ports that select the key. The driver refuses the 
-other cases with an extack message that says why. The document doesn't 
-repeat each driver limit.
-
-
-> [Severity: Low]
-> 
-> Is "Without it the filter stays in software" accurate for the queue_mapping
-> filters this document describes? Leaving out skip_sw does not seem to
-> install a software only filter.
-> 
-> If skip_sw is removed only from the filter, tcf_action_init() rejects the
-> skip_sw action:
-> 
-> net/sched/act_api.c:tcf_action_init() {
->      ...
-> 				if ((tc_act_skip_sw(act->tcfa_flags) && !skip_sw) ||
-> 				    (tc_act_skip_hw(act->tcfa_flags) && !skip_hw)) {
-> 					NL_SET_ERR_MSG(extack,
-> 						       "Mismatch between action and filter offload flags");
-> 					err = -EINVAL;
-> 					goto err;
-> 				}
->      ...
-> }
-> 
-> If skip_sw is removed from the action, tcf_skbedit_init() refuses ingress
-> queue_mapping:
-> 
-> net/sched/act_skbedit.c:tcf_skbedit_init() {
->      ...
-> 		if (is_tcf_skbedit_ingress(act_flags) &&
-> 		    !(act_flags & TCA_ACT_FLAGS_SKIP_SW)) {
-> 			NL_SET_ERR_MSG_MOD(extack, "\"queue_mapping\" option on receive side is hardware only, use skip_sw");
-> 			return -EOPNOTSUPP;
-> 		}
->      ...
-> }
-> 
-> The filter level skip_sw is not merged into the flags that the action init
-> sees, so this happens whatever the filter flags are. Both failures happen
-> before mlx5e_tc_tun_parse_outer_key() runs.
-> 
-> The "stays in software, reads key zero" behavior only seems to apply to
-> actions that can run in software, such as drop, mirred or mark. The text
-> looks like it was carried over from the commit message of "net/mlx5e: TC,
-> match the tunnel key without a tunnel device", which describes generic
-> actions.
-> 
-> Could this sentence say that the queue_mapping request is refused instead?
-
-It isn't accurate. v2 drops the sentence and says that only the hardware 
-can match the key.
-
-
-
+Magnus
