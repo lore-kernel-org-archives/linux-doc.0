@@ -1,101 +1,245 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.143
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794701733;
-	b=qf1i+De/DBGrkJi3XdlzOv8b9G61JNb6Sl0DcMdl+af9iXNtNquQs54gsZ/xmnNi6Axx
-	 jVFTR9U1F0e6kECSTxuXbmBi7YsSUObUYEbARpjrZZTaZ+WpHFvbB6848FeKLgyBqEiwU
-	 u+oTSsSvQ4GentGg6pvvzVxrhihQXSAoYdPrSK8AeHyEMgIjv/ARGbnP7ZdZzTD7Kxzb7
-	 DRYWxo5ifHTRN457qFsiyuuq4ItegB9CRGuyDnxO5d3pvLCKPwmBYgKiKZULsl/Y5LHkS
-	 gOuyH+RfNzgNLStqLHsaul4wTzWEntUniSVE7gf7YB9A/bJvkqU6PkU5jSbS8Lh2EYA==
+	t=1794705611;
+	b=lMPvum8YIWEyG44cmOJVRX8krrxDSizlPM/uxnT1hVXaJZzLJhwinENtp5/Wss85vSyo
+	 DJEFfTOTAua3bDW1xzy9BO5bveUuExnRUBuKCeEl7BwrBBdRwHJES7vrpdjJz4Aq7xzjd
+	 jXkvNuEDXeYoxRxiL8sS+w9FdSUNYcTrWdhEbbEI0MdgrCGz9GgujezqVn3iJpaFRqm7K
+	 P9tQxif17shGuSfX/Lj/KTM1RTaWdstymhQbBeFTsCBVe0p72f2D0/RdfDNGLYnZIhhiJ
+	 zmrxQzZNhLYRPT7OCSJB6yIaQJqcT1gpcdbs+ME/euZHmk7khRnLKbVfiHP645XGvTA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794701733;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=xqr6MyIodV9h4/OO0jWOPYjNv1F5SYtqgxsNyjc0I/0=;
-	b=gaKiNzMsdJm5/tPOlVOlq2b2y7WxQJoidkZHj4ZSEnC2QijVijtFZcDDUBUKKuEkDAst
-	 MMy9Frxn6LsLig5qlO5EC0UeCRrh/HFrp8G8OJPmOmnd9Jxt4LqVUegW/9a29gCnSGvF2
-	 Apz4vWXV54td1jWNcxdEmbWOz4J0VvHVgdfqlh0ZnZVwJK8RghYbDMplmGoa0DnPzs6LM
-	 CkM7hRSLiX4aI91QPuypgqioVcGIPUMlETJIJy/5ozpt1MuLHmi9j6ue9GxLid/5Pi486
-	 6/d24W9Q9TiKLRPXMxc4k+DEFeVFbPnaHRmK1FE00pp8KzBweBZqLcIgkSwMCSNzT/Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794705611;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:Mail-Followup-To:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=QIES4zNTDxRjCnYHiHcWq6p6uX7fK/EWYh7I/zXroHQ=;
+	b=FeX94SNrTTRmxoFB0K0dwpa+cchkWp20fyhyzSCq7c7ZBO7rDRqALoJ4VJY/d5LuZ02n
+	 gtLieBCmzy9aX5DDznI2JPbX71YzTgqVFIDF+ooJy5i/YkunlyiLApd/MByerGyhJGoo2
+	 NjXR+Q+pbGVqCGJ4l7IxweipkGwVENC+w/SOB2bO9Ul/ycpshPt89dfO6NC5G6ULCt6p+
+	 sQAdQS7NZkF7OuhZPdwAyA54petwRF4wAL8Rytc3394YPbCl7fE7+n5bED5tBNCQeQ815
+	 C+lIy9HL020pkuxKPVV3wa1q8UZBKkgXtQ6L5vwCle5q3qDEU5KOFcW1oHwqi5vx23Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vAvdXk+N;
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=sakamocchi.jp;
+	spf=pass smtp.mailfrom=sakamocchi.jp;
+	dkim=pass header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm3 header.b="pjuVmr/L";
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=syy3aDEc;
+	arc=none smtp.remote-ip=103.168.172.143
+Received: from flow-a8-smtp.messagingengine.com (flow-a8-smtp.messagingengine.com [103.168.172.143])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FEE2606A32C
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 00:15:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FEE2606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98C0E606A32F
+	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 01:20:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 98C0E606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sakamocchi.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sakamocchi.jp
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vAvdXk+N
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb5b8ef642so11340105e9.1
-        for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 16:15:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794701731; x=1795306531; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xqr6MyIodV9h4/OO0jWOPYjNv1F5SYtqgxsNyjc0I/0=;
-        b=vAvdXk+Nsm2uO9FB7pApMcnR2H7ccHnIpr6ZjueivXGHNOX+I/Mb0rvAauTeSD3PuT
-         /laJalAJdiJJyACEiISutFQTQmnai/UVcGTLnyvQApS8Ijrjz0xUfVdr1BxdOFNv/U6m
-         gJA9Hq+Jglp/CLmlPrWjA7sF3zcngwrvGNsrH0ts1V8sTXZvKcFTVXZ59oUkH+84q1Xc
-         +PRK4Ayf6zhbiCt/JfbwWhO+fQP92y1NfPMT+oBCaCwr/aCgsU2ItYBmnHXaiMGGXh9Z
-         lgKBme69JS7jyNS1gnuZALUXe/mVZguGZOI87wHoymZGn1TSRDwLHKsUwiTXA5hwQ0xW
-         dxXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794701731; x=1795306531;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xqr6MyIodV9h4/OO0jWOPYjNv1F5SYtqgxsNyjc0I/0=;
-        b=u8MkVGM+Q0VgnX9hnvVVD9uH9716CmNfFteaiClsSv6XJleM8q7IEN5X7XdvjfFx9q
-         5wc0vvY0INQsDWNsl8uOcJH/zvLn//fyvJkWPLy1WAL+VNn0LJl4wZeyDLK5NQccbzRI
-         sAIIr6cgS4/FbgQXuxALt1z3MbmIhnKEL1jmxDOBrbzVG2rsL9s/fwgkWwEoRPrmIzHL
-         10EpFmXVP/a0bbo7pCNG6XxknMNFnDY1LsR3jLGi1tRQBz9ncWoBZtZt/tPXQnTjrgjr
-         9MXPg2x/4LlW/buAJJPwRwl4NVsmGvgZ4OAExB3AM+b6Y+e8X3Irp26Ri2fuETdksXkP
-         MHWw==
-X-Forwarded-Encrypted: i=1; AL+hErFJdx8tPfZD6NM9NPBMHPj5ZPW8Ha+nw4kUYLXoSxUnQwwD+VueSZ7icPfRsbCDcpvf8N01b+Ov9fg=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9DwHNFnjrBrWSKfTSvkE++vls7Cv8B6kVI0Vuwy9FODdXHcrhI
-	Y6VpJz9Qp0sx/yOlDeXqfZkH3NlJWryBsXcP3msehjUJkRgH19EV7ert
-X-Gm-Gg: AYBFou3/LKpBHOxHSncEdyCgTIsbEB4iY8r0Kd17eO9eNcUGHUko3+CDUuqtPKRA/04
-	00qAfKZdVnGNFb2HL21z0eeKzBqKBixC07BCRkwq3XD9016reGbD9KR6HVREmMhHZL6ZCoWq8NS
-	1KIkGy5Ofx91FwspIZlQHWgX2So6PwIFws8G6lp+3D/9fpWWDBC4ugEutaACm6LEBUcSBIHG8gO
-	ndy56moxNSz2uZjNGDw6PDjgnfjXnECBOeFW+Y7dZ3mFgChEQnbsw1BO39IOyai5ELJu/YOXW//
-	rAC8ZaCYg1JvW7nHdK/FA1gm5txm0w+FtpkWurIDKy6NzpSIzXqdkRsVPpgibPx4LtNn2vB8Lcg
-	4ldTEfaYqjOy0/h0InEzLZEXiid7O94JMD4C1UG8SCZyZ8CUG1plGy/MHD/O5Pok0l5YT64hymJ
-	ZIg1mNyaQ917NwD5UR1abBzXk56FkFnidJV2rox52Lg98MAVyq6NP2tRIYuqXURHBSePbWI+1qA
-	WI9uqucB1QNV2p5zBnrj1cjv2VXytdA3xG8ezpMksAk6Oh0qUgRE/oYYMPTmEh+YrUa7aOsnYDS
-	J8dsYMZqLIAoRh/IwbuA4wdLaYEJEP3y+2ZTQQGadvrSzh3AgM65z0mjhmdtGNM9uZhHTl4p0fL
-	rYrj9T1vnwPM=
-X-Received: by 2002:a05:600c:c16d:b0:4ba:495c:2f5d with SMTP id 5b1f17b1804b1-4bb55a3e3f0mr132213105e9.9.1794701730929;
-        Sat, 14 Nov 2026 16:15:30 -0800 (PST)
-Received: from mohamedali-HP-EliteBook-840-G8-Notebook-PC.. ([197.18.115.238])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb55ae4414sm177925125e9.9.2026.11.14.16.15.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Nov 2026 16:15:29 -0800 (PST)
-From: mohamedalibouhaouala@gmail.com
-To: willy@infradead.org,
-	jack@suse.cz,
-	corbet@lwn.net
-Cc: skhan@linuxfoundation.org,
-	rdunlap@infradead.org,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
-Subject: [PATCH v3 1/1] docs: filesystems: update VFS locking documentation
-Date: Sun, 15 Nov 2026 01:13:34 +0100
-Message-ID: <20261115001334.23026-2-mohamedalibouhaouala@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261115001334.23026-1-mohamedalibouhaouala@gmail.com>
-References: <20261114235426.20408-1-mohamedalibouhaouala@gmail.com>
- <20261115001334.23026-1-mohamedalibouhaouala@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=sakamocchi.jp header.i=@sakamocchi.jp header.a=rsa-sha256 header.s=fm3 header.b=pjuVmr/L;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=syy3aDEc
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailflow.phl.internal (Postfix) with ESMTP id 7AE4B1381C98
+	for <linux-doc@vger.kernel.org>; Sat, 14 Nov 2026 20:20:09 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Sat, 14 Nov 2026 20:20:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sakamocchi.jp;
+	 h=cc:cc:content-type:content-type:date:date:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to; s=fm3; t=1794705609; x=
+	1794712809; bh=QIES4zNTDxRjCnYHiHcWq6p6uX7fK/EWYh7I/zXroHQ=; b=p
+	juVmr/LC7nCJ0SQ2rWUhRQGDMnlVGg/71zflyfizaeCefqOj8Wyp1bv5cUdTgRb8
+	7XUxKSQFA4h5chwE1lADu0vrwg8OhHP6GoQHRhO7+gqlPzaI30gfxszAJ8iBZnAq
+	w6LhtavpJKSJHCgIMJ9jaiAQhtgloSfAXiebl32YH12R4n49k4Dhf+Y8W3pLV4v+
+	Lk6DFTk8SpQ9jSXzpScexBSvyhdEJDbrQwMC0927YExgznJjfLZe0flh8fHQL7IO
+	vj78LH6slSiU2T+/dLzxP/iDcsVNxx1fb6S0NI/BKneEKfRIjGfp58LmRDVhLSom
+	qjpjx4Q11TfgHJQJAHUUA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1794705609; x=1794712809; bh=QIES4zNTDxRjCnYHiHcWq6p6uX7fK/EWYh7
+	I/zXroHQ=; b=syy3aDEccFqwMWi7OqQgN+5WtM3ZAfMLRFvK6Ty6zA65HPirgvN
+	ilcYb0Q1wBWUsxvkCfegkY1pzVtpHUOC6WAP6pTtbZPWcSU2JRmZq5bj3XtaI5mJ
+	5KZK4MCZjfikGyCw8udPD79DzKX657SNeo8VKm+NBs1zDN72HR3ZemlLBm38jus1
+	WDdVI20E7k3nTziG5v/jPkof/xTKUHTBh7LLvCto0jlE2c4pmQs/fxRRAq0SyBeZ
+	lruY2Ddh8f3CbRk7/EsENeVrGkeN2qYTfTHHssLqQwRRARUN/edAoqWV9ygwuEYm
+	jIS3U35+DcIoM5H/MAq31DLvDAGEUQlNvVA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=sakamocchi.jp a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794705609; d=sakamocchi.jp;
+	mf=PG8tdGFrYXNoaUBzYWthbW9jY2hpLmpwPg==;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm3:rsa-sha256:Ig224SWU3JbNEKw9mzPQqsYJ+34e919dMauwKMuOKDjOv9n
+	/6lYqJnZvA4sZHTo2/beAfZRdDy8MSOYZ8empfWm+LdzDGttZDTLy5OWokmFw7yP
+	J08I5XtHhtH2H5Ixka/b3RnnUs4Z2v5lkObUD3xBldkCNnRWKib/KwoIXY02mnpl
+	XFX3of/A4iQOUVLTTkprR8KBb5yOhVeEv3fMzjVPFFQnPwBaTTo8k5A2yv74QSkd
+	fc0PrVHsPo8hNWbRDLPxQWT+BFAcuGkV1QGUsZ7QxFRFN0lWG+5tyRpFdc9ySqlM
+	mYGGRgLqcbZB2Su/xEElR8x0m4sFp96/bQ0vBWg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=13;
+	hn=cc,content-disposition,content-type,date,feedback-id,from,
+	in-reply-to,mail-followup-to,message-id,mime-version,references,
+	subject,to;
+Message-Instance: m=1; h=sha256:ntV32t7KOIfGMot6swX3CNi9IkfeqivW9U6qBDwCqc8=:4RP5xhIBVdE4nHZvdVXdOxDGDwEwdGMsIHWUj8/gqfI=;
+X-ME-Sender: <xms:xQj5aiop4gg9dsJ6_Vn6u45zXMYueatHm6sTqNkrPjF6p_uliIn0fA>
+    <xme:xQj5ao-c0CruU-TGxTE7NFYZSaEuQncLSSmM997vVUnXnDFfvxt3Mt5vMRNmSfmhf
+    34fKN--fbmH87piFvayMBFAxnjq6WHAkHe46t3SFxeylFtFg6aPnx9A>
+X-ME-Received: <xmr:xQj5atXGMWjP8faJlCtXj9RrVZeBW-gqDucCpC0ZXa191cT5jnWReGYw_Z8rYiOMsAtlcaNqIM8bDcRsKH9aHiPzWCfQ_w>
+X-ME-Proxy-Cause: dmFkZTGQstm6GOmXFdPQXDqZqAYG7aQouPeZUHJ4IBXrRYWFH6lFNnMWIuGsSOCFSsBuXW
+    LbDJxfVrfV3cl+wc1JM2qA4EvGILGxXqZILW7GfZPYDe6vWDeehuWas6PsFLq2rp3ZCMLK
+    vb2ZkQs61G65smsTsr3W8fx/U8N5II0Wva1plTCgHg5UpMnhi5PWu1EQKVr47yDlfh1UvS
+    LYKjU/U9x7MTbsMHbdhB5rWUTX8pbvj9eAIRg5DGXYvFzZokg4/nvH5yq0IUoDc8xEYNrb
+    hSXdXqov4GW1obuCd3P9CA8Y5vszeSouSKwogVvelkFQGttmZKq/NF5ipA4vDPXyrU1Xrm
+    Zrz3WElYlhVCDcPNRnAGrD/gNAj1b7M9bHXUiJrCqgmTebsAx0cfPWnZGZ3/j9Ea2UWcPj
+    qqJZ67js4v5NriJFPwSb5fBisbBQrZL2hM4YjWQCJ9uoloExIgLFI0L7sZA853RBWP4ncp
+    DBuj0o8Fkgdi7cJEPrTBBMdPRnMErqVngCb+aWeUA0zKt+uaR6UB1bg9ZicNV0ayYa37yt
+    I8T18lqRGBzHHbPK9Mrtu/1JSrYmpYKqgKJaY1owBZ4nprZ++3QPl5fwcLNIPsiGvSmzop
+    Zbr1xrRPLyP5mMh+v5LgBzIwywaOGj2L4LIDZM+0lWqxfhjtWj2WgxvXglrg
+X-ME-Proxy: <xmx:xQj5avAwgflb4ksIG5XRwHT6xxt96MMxRO3omUvuEt-3k_ppqJzgYw>
+    <xmx:xQj5aka9rFrx7_oeihBM0qdilVdSsLFNvKaV60FpVwOaq7EoVM3bNQ>
+    <xmx:xQj5ak3AzNFqwOx2mTfPhYibu1bQ_UDkW9NgFtUhfBWBcyXvs0uL4A>
+    <xmx:xQj5aoGo_8KYcqvEjpNAxM_sotiXZsyQPcuJ_BoRuwGjdfls4pLNfg>
+    <xmx:yQj5amBDENmX5NhRabHbZy5mqP0Iv6_jzPBpOZyadDNP-V1uD_qCKZw->
+Feedback-ID: ie8e14432:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 14 Nov 2026 20:19:47 -0500 (EST)
+Date: Sun, 15 Nov 2026 10:19:45 +0900
+From: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
+	linux-atm-general@lists.sourceforge.net,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	MPT-FusionLinux.pdl@broadcom.com,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+Subject: Re: [PATCH 02/12] docs: ioctl-number: update sound entries
+Message-ID: <20261115011945.GA238787@sakamocchi.jp>
+Mail-Followup-To: Randy Dunlap <rdunlap@infradead.org>,
+	linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+	David Hildenbrand <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>, linux-mm@kvack.org,
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+	linux-sound@vger.kernel.org, Jens Axboe <axboe@kernel.dk>,
+	linux-block@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
+	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
+	linux-bluetooth@vger.kernel.org,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Jason Wang <jasowangio@gmail.com>, David Heidelberg <david@ixit.cz>,
+	oe-linux-nfc@lists.linux.dev, Chas Williams <3chas3@gmail.com>,
+	linux-atm-general@lists.sourceforge.net,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	netdev@vger.kernel.org, Helge Deller <deller@gmx.de>,
+	linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	MPT-FusionLinux.pdl@broadcom.com,
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
+	"Martin K. Petersen" <mkp@kernel.org>, linux-scsi@vger.kernel.org,
+	Miquel Raynal <miquel.raynal@bootlin.com>,
+	Richard Weinberger <richard@nod.at>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Zhihao Cheng <chengzhihao1@huawei.com>,
+	linux-mtd@lists.infradead.org, Neill Kapron <nkapron@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, Juergen Gross <jgross@suse.com>,
+	Stefano Stabellini <sstabellini@kernel.org>,
+	xen-devel@lists.xenproject.org, Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
+	virtualization@lists.linux.dev, Jan Kara <jack@suse.cz>,
+	linux-fsdevel@vger.kernel.org, Theodore Ts'o <tytso@mit.edu>,
+	linux-ext4@vger.kernel.org, Mike Marshall <hubcap@omnibond.com>,
+	devel@lists.orangefs.org, Paulo Alcantara <pc@manguebit.org>,
+	Namjae Jeon <linkinjeon@kernel.org>, linux-cifs@vger.kernel.org,
+	Jaegeuk Kim <jaegeuk@kernel.org>, Chao Yu <chao@kernel.org>,
+	linux-f2fs-devel@lists.sourceforge.net,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	Benson Leung <bleung@chromium.org>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	amd-gfx@lists.freedesktop.org,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	intel-gfx@lists.freedesktop.org,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	intel-xe@lists.freedesktop.org
+References: <20261114202653.3113381-1-rdunlap@infradead.org>
+ <20261114202653.3113381-3-rdunlap@infradead.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -105,108 +249,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261114202653.3113381-3-rdunlap@infradead.org>
 
-From: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
+Hi,
 
-Update outdated VFS operation prototypes in locking.rst to
-match their current definitions.
+On Sat, Nov 14, 2026 at 12:26:40PM -0800, Randy Dunlap wrote:
+> Update the list of files where sound ioctls are defined and update
+> the ranges of function numbers that are used.
+> 
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
+> [Since having multiple maintainers trying to merge these would
+> cause some conflicts, it would be more manageable for Jon to
+> take all of these through the docs-next tree.]
+> 
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>
+> Cc: linux-doc@vger.kernel.org
+> Cc: Jaroslav Kysela <perex@perex.cz>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: linux-sound@vger.kernel.org
+> 
+>  Documentation/userspace-api/ioctl/ioctl-number.rst |   12 +++++++++--
+>  1 file changed, 10 insertions(+), 2 deletions(-)
+> 
+> --- linux-next-20261111.orig/Documentation/userspace-api/ioctl/ioctl-number.rst
+> +++ linux-next-20261111/Documentation/userspace-api/ioctl/ioctl-number.rst
+> ...(snip)...
+> @@ -168,7 +174,7 @@ Code  Seq#    Include File
+>  'H'   C0-DF  net/bluetooth/cmtp/cmtp.h                                 conflict!
+>  'H'   C0-DF  net/bluetooth/bnep/bnep.h                                 conflict!
+>  'H'   F1     linux/hid-roccat.h                                        <mailto:erazor_de@users.sourceforge.net>
+> -'H'   F8-FA  sound/firewire.h
+> +'H'   F8-FE  sound/firewire.h                                          conflict!
+> ...(snip)...
 
-Add the missing d_prune and sync_inode_metadata callbacks,
-and correct the signatures of existing operations.
+I overlooked this entry when inserting the additional ioctl commands in
+the following commits:
 
-Update the locking table to include sync_inode_metadata.
+* 90e8ac5c9d446 ("ALSA: firewire-tascam: add new hwdep ioctl command to get state image")
+* 58b62ab702591 ("ALSA: firewire-motu: add ioctl command to read cached hardware meter")
+* ca15a09ccc5bd ("ALSA: firewire-motu: add ioctl command to read cached parameters in register DSP model")
 
-Reviewed-by: Jan Kara <jack@suse.cz>
-Signed-off-by: Mohamed Ali Bouhaouala <mohamedalibouhaouala@gmail.com>
----
- Documentation/filesystems/locking.rst | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+Thank you for catching and correcting this.
 
-diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
-index f7363ad770c7..a6a011858ada 100644
---- a/Documentation/filesystems/locking.rst
-+++ b/Documentation/filesystems/locking.rst
-@@ -26,6 +26,7 @@ prototypes::
- 	int (*d_delete)(struct dentry *);
- 	int (*d_init)(struct dentry *);
- 	void (*d_release)(struct dentry *);
-+	void (*d_prune)(struct dentry *);
- 	void (*d_iput)(struct dentry *, struct inode *);
- 	char *(*d_dname)(struct dentry *dentry, char *buffer, int buflen);
- 	struct vfsmount *(*d_automount)(struct path *path);
-@@ -80,8 +81,8 @@ prototypes::
- 	int (*getattr) (const struct mnt_idmap *, const struct path *, struct kstat *, u32, unsigned int);
- 	ssize_t (*listxattr) (struct dentry *, char *, size_t);
- 	int (*fiemap)(struct inode *, struct fiemap_extent_info *, u64 start, u64 len);
--	void (*update_time)(struct inode *inode, enum fs_update_time type,
--			    int flags);
-+	int (*update_time)(struct inode *inode, enum fs_update_time type,
-+			    unsigned int flags);
- 	void (*sync_lazytime)(struct inode *inode);
- 	int (*atomic_open)(struct inode *, struct dentry *,
- 				struct file *, unsigned open_flag,
-@@ -173,6 +174,7 @@ prototypes::
- 	void (*destroy_inode)(struct inode *);
- 	void (*dirty_inode) (struct inode *, int flags);
- 	int (*write_inode) (struct inode *, struct writeback_control *wbc);
-+	int (*sync_inode_metadata)(struct inode *inode, struct writeback_control *wbc);
- 	int (*drop_inode) (struct inode *);
- 	void (*evict_inode) (struct inode *);
- 	void (*put_super) (struct super_block *);
-@@ -196,6 +198,7 @@ free_inode:				called from RCU callback
- destroy_inode:
- dirty_inode:
- write_inode:
-+sync_inode_metadata:
- drop_inode:				!!!inode->i_lock!!!
- evict_inode:
- put_super:		write
-@@ -255,7 +258,7 @@ prototypes::
- 				loff_t pos, unsigned len, unsigned copied,
- 				struct folio *folio, void *fsdata);
- 	sector_t (*bmap)(struct address_space *, sector_t);
--	void (*invalidate_folio) (struct folio *, size_t start, size_t len);
-+	void (*invalidate_folio) (struct folio *, size_t offset, size_t len);
- 	bool (*release_folio)(struct folio *, gfp_t);
- 	void (*free_folio)(struct folio *);
- 	int (*direct_IO)(struct kiocb *, struct iov_iter *iter);
-@@ -265,7 +268,7 @@ prototypes::
- 	bool (*is_partially_uptodate)(struct folio *, size_t from, size_t count);
- 	int (*error_remove_folio)(struct address_space *, struct folio *);
- 	int (*swap_activate)(struct swap_info_struct *sis, struct file *f, sector_t *span)
--	int (*swap_deactivate)(struct file *);
-+	void (*swap_deactivate)(struct file *);
- 
- locking rules:
- 	All except dirty_folio and free_folio may block
-@@ -455,14 +458,15 @@ prototypes::
- 	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
- 	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
- 	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
--	int (*iopoll) (struct kiocb *kiocb, bool spin);
-+	int (*iopoll)(struct kiocb *kiocb, struct io_comp_batch *,
-+			unsigned int flags);
- 	int (*iterate_shared) (struct file *, struct dir_context *);
- 	__poll_t (*poll) (struct file *, struct poll_table_struct *);
- 	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
- 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
- 	int (*mmap) (struct file *, struct vm_area_struct *);
- 	int (*open) (struct inode *, struct file *);
--	int (*flush) (struct file *);
-+	int (*flush) (struct file *, fl_owner_t id);
- 	int (*release) (struct inode *, struct file *);
- 	int (*fsync) (struct file *, loff_t start, loff_t end, int datasync);
- 	int (*fasync) (int, struct file *, int);
-@@ -475,7 +479,7 @@ prototypes::
- 			size_t, unsigned int);
- 	ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *,
- 			size_t, unsigned int);
--	int (*setlease)(struct file *, long, struct file_lock **, void **);
-+	int (*setlease)(struct file *, int, struct file_lease **, void **);
- 	long (*fallocate)(struct file *, int, loff_t, loff_t);
- 	void (*show_fdinfo)(struct seq_file *m, struct file *f);
- 	unsigned (*mmap_capabilities)(struct file *);
--- 
-2.43.0
+Reviewed-by: Takashi Sakamoto <o-takashi@sakamocchi.jp>
 
+
+Thanks
+
+Takashi Sakamoto
