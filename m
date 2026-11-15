@@ -1,110 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=67.231.145.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794780480;
-	b=PaQUtqTjstBEJJN+krQVDN1pKY7vM3Kv/I+EvAdhLU3G/902Dn3TaMEcNdKnEYtiKMbz
-	 AA0rlGHZYv4CtMICgQvP6RCRsNYDQq2rDRL/EHUt0xMbeJz469ojbCYNO4SLcD9nb3PD6
-	 2tp7i4NS9dq9G7q2CE8AoyDPL+udhjuec713XFdiINpwT9Sj7dVROZ8E8Huw1Dm3qy3Ss
-	 lTopqRtoy1yZ7STgfn/M1MINl07YqlPwnx0mnzb8ut8QqquROE8LyGgoZ+bGIu9aqGaqA
-	 QHFerfVwxo1exjwi2pgsoiI7Hy514tEDTFtktJLws6CS6cJnw57ZeZzgUCyC4Gb2/5A==
+	t=1794781898;
+	b=ywMWznv/fmyqqPnEgN6r8Axtmx3u1k2eMPxB6yYcWxWNvEhoabyheABSlE9zkHbgYx/M
+	 lCXHbISjCxsfJ4Bt2ewltsJrbA/NJnOhK2B2Hw1Lfrjb58E/px5gFDsoqt8wNXO/IREIO
+	 RW3gTdP5iip5iQ4MYvwF/KqvpmS57U1HhGHV3aX7a2H4uCbz9q61qgvZ5PTRdRZLBh7oJ
+	 nc1Mh+UCOIQ8nZONiFemGh6DGx1Ps1TAMZa1VVy1q7UfCW41o+EVrdhv5yHpRUKnCin78
+	 SkMnTf48iiZ0WU+Rv3GjtyFIRiBGh6iLmxc+KWiIXYNBSAX7CvvCEle9UAy9+FjIo2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794780480;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:From:To:Cc:References:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
-	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=k9dCgqBsP1JDVCF0pQxP8lz2vqJjfqt5PSS8hR4Mu/I=;
-	b=tTe2b3bWNzfU71CKXcA8W7ty89w0Y1mZ1rMx+By2cBKPTYS4sXrM8FPiy1U2OcCAD427
-	 cDz35c+BoR8kQkUuCckJKV6BHkOX3hsLhNYDkdKb7OLcpNeL5KDgDL7z3rKmcLQbimUzD
-	 mFa/kinW1JvlA635FonoCp397eGOEtX3uPPSIhYIbVpf3T/2LNP5iNE35O8D0He+aAup6
-	 PT0OCJhXc/N7Ndjh2Of9nwg2ynrJMPrci+gYFQQpMgPsRY450Jm9dbwfJKFrqYZ8tjDNI
-	 1dsfi89XkpCn9ZK4/bJ0A45H1xwngf9Voac3OmL6alvjemzIin/vpLlN8r+WGvj5b6A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794781898;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Date:From:To:
+	 CC:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To:
+	 X-Originating-IP:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version;
+	bh=ykt8FTUNX1/fdxCk4A4DHYN7Y2tblUILl4FGUFZzAXY=;
+	b=03a5KAE2CN0t5oTwV80OaJ9MaMDUZ1/taIWbJgGW0HLIELIjyMX/bvNjwLFaFfYf/GFj
+	 6i3YG1uyIvw1BTCYNr4oXg5Pnlcajo++j4J2bVEh8GIXi1EVy8vcptJQKkxpjRbphRgAZ
+	 XxdBEcu/eHInIxE9GwrRk7n78hj8s+Q8shvL3VB1mCnnQnU78PJtOE4jeDXFFYGXTHwsr
+	 47bmRibCCi5sEacfYV3SL3EGeCD5aTMMssFr6HmkorQxRqDtg9+d4m2SkSQzFAHoitDIG
+	 oR6chvl6P3B78gtmOaIWVHBOttplJ6MVrR+bX+UorBBYpT59gXU9CPjgUgSOQYPTpsg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cKU4jBb1;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=cwMlpBdj;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dmarc=pass header.from=meta.com;
+	spf=pass smtp.mailfrom=meta.com;
+	dkim=pass header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=SJ1mxSb+;
+	arc=none smtp.remote-ip=67.231.145.42
+Received: from mx0a-00082601.pphosted.com (mx0a-00082601.pphosted.com [67.231.145.42])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11E7A606A332
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 22:08:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 11E7A606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0DF606A323;
+	Sun, 15 Nov 2026 22:31:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3E0DF606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=meta.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=meta.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=cKU4jBb1;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=cwMlpBdj
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AFLltop3829556
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 22:07:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	k9dCgqBsP1JDVCF0pQxP8lz2vqJjfqt5PSS8hR4Mu/I=; b=cKU4jBb1oLOwttr/
-	x+PM/xgG4ULXw75e8nVkQtD4VZzNqylIGqUp3nRwM2qXuZQq3TQVpklLE8pDkI6J
-	qFCN4F1i29jd30aKeAUAYZhlTqoGR5jUs/9Q1VIjMzqc8k/rbiueb5Soj4Fih6lz
-	EODjcHq9QnuRk0dAHzcUaDUtWEwOr62PyLbjSZgBfmPO1MUPHcNSwnnSIM1LKzjQ
-	BTdxvficyIc3w3j79Q6qs2d9gfpzqbzbFlm/OcwIcQ4f8vqI4S/7KnkaeRYhG0yh
-	TJHKw9ln7huNRG6Qwv1SpLqTMdNX8IR4HL6kwbqN6Ar+H4TigrzLLaq0YbKWMAXG
-	5jbM/Q==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hxhhjuy1k-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 22:07:59 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-934963b2bc0so567294085a.3
-        for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 14:07:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1794780478; x=1795385278; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=k9dCgqBsP1JDVCF0pQxP8lz2vqJjfqt5PSS8hR4Mu/I=;
-        b=cwMlpBdjKKbckSpfK9lRkulNcgARW/rozdeQ0ZtTFCbnsQwe+ko5dx5br12kCcJvEZ
-         EGw1vQ2BNEuo/8Z23F5j6LSgTfUfy/rXTewT2hGclNaTQFQSOkygrv57a4ZhOWNlqodz
-         eOEIS+8Kbem47IxV6IKO+0uQIA1UGgrZRpSFdo6FSMI7kMfJqmLM3GOS2YsB08ELntmA
-         TGE4IJ6QQVjyE69ERKrxVKzHLVt6wpS+h57bSlM0QaTGwAvk8fEzeHgHnjo4PXkLx3eV
-         oGwNXhmQ2mx6XytFYXdYhTRmEzPFMhgmHmzxVnGIX7LBfeDsv5+DqvEFS6oJkJldJJH4
-         q1wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794780478; x=1795385278;
-        h=content-transfer-encoding:content-type:in-reply-to:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=k9dCgqBsP1JDVCF0pQxP8lz2vqJjfqt5PSS8hR4Mu/I=;
-        b=UKWYcaIgNg36pKSnEGM2VllZ2Lrh8c5ptRDBsDiNTCVeNuJWBmzDyOdzd88pZVI/4S
-         tzmuNRUiCuJHbbW8Qrv3Ud5PAtUYMfmVuc8tAyL7YeE14qWahvrO63iKqsj3cVNlVLZ6
-         L/FJOrLB2zkGZit19pPmnDEhlwnuISA/raRRmGKWBZV7rMwvcXMkmZ5TwmxMMQWAGQGd
-         6XdiFo2T95eMC1wmfPPpFoJiMl57hSeCb/Oq0yQFfRLr+sT7D3/EuLJoGxTFh3ehA/ix
-         TzEhj6RINgbYMGKnAfSYD9MDYXdOL3tsBeJRV12rpNCF3D5ciPFWZpL5QXk9Q/OFI9/j
-         ka2A==
-X-Forwarded-Encrypted: i=1; AL+hErEZI4tiW3/CvQn36XUFQKuTzP/LAVGn1T4yCuqB3EfieZ3aNAEiyjgAoJ9wzUdKGO2RYEoGFKuhUbM=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/ycHvIoEJYURGk2ifPWIU3I0Vh0LkKovQIHm2uMMtpYkhbzDBS
-	SlnVo0TqqkL9Jt7tXAgetgs1TJlLM0r0I4P7nStbtsAPQmB13gDlpaQ9WNqIbd2o/mh3DZLm1gd
-	UM4j+tpoKyNKJ7Y3AYycMO81GhKHVWUpF+FVkBzNJX8Vnt9FrB2q6yr9iEahP5a0=
-X-Gm-Gg: AYBFou1P64enXS2ltQxJ3FcsACkELWqRk1+V/mlglCI+spARLLaoMqGQ8amaJTDlnV4
-	DUpiqyOWiM/mUF4rX7eJf8+FAZorcQtiYDwCZfxpP3qgftkQVwsr3NJclQHfA3po+5DBIjoXCrS
-	bVgwVxU3bncU5Oh5CJ09ySstVgj9rP98PBbeaSSAqCk7Jhu7uy05Lq5zR+Ep4DGA3n9TrEJ3Mxw
-	Q6Ia84Jcz8p/TTBzJOuXmxvlbO0bIpZ2h0g7qHlk7QzaB0KAJlNd4lN6w/q1uNj+ZoaROcXLJCF
-	Aty7ZQkuDEmGjcXD4VxlP3G2CYczQcwacoHLHZcHKpSExtm6o3AMiqmBVH74T3ChJjdfT6canEf
-	CH1zrCd7vcLgxdjEi2RYqEL/FoYZqcF4X8hzlOwwtUIdzlexsg/Lwji5FSNlMGSHwfq14lkTlez
-	98
-X-Received: by 2002:a05:620a:618e:b0:949:816f:cff1 with SMTP id af79cd13be357-949816fd194mr51589385a.7.1794780478250;
-        Sun, 15 Nov 2026 14:07:58 -0800 (PST)
-X-Received: by 2002:a05:620a:618e:b0:949:816f:cff1 with SMTP id af79cd13be357-949816fd194mr51586885a.7.1794780477782;
-        Sun, 15 Nov 2026 14:07:57 -0800 (PST)
-Received: from [172.22.9.204] ([217.110.90.56])
-        by smtp.googlemail.com with ESMTPSA id ffacd0b85a97d-49c608cf46dsm19639489f8f.43.2026.11.15.14.07.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Nov 2026 14:07:56 -0800 (PST)
-Message-ID: <65e3d2b5-a48d-4ef4-ae89-68a15ae7466c@oss.qualcomm.com>
-Date: Sun, 15 Nov 2026 22:07:55 +0000
+	dkim=pass (2048-bit key) header.d=meta.com header.i=@meta.com header.a=rsa-sha256 header.s=pps82601-s2048-2026-q3 header.b=SJ1mxSb+
+Received: from pps.filterd (m0109333.ppops.net [127.0.0.1])
+	by mx0a-00082601.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AFLmgRp538015;
+	Sun, 15 Nov 2026 14:31:16 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=meta.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	pps82601-s2048-2026-q3; bh=ykt8FTUNX1/fdxCk4A4DHYN7Y2tblUILl4FGU
+	FZzAXY=; b=SJ1mxSb+jBspwpZ+RoOy/Lr5CS/7QRNeo6OhUzjml3l34B3DOQryV
+	YTrD7iaqc9bgjeOvKGchb/xXrv6VyJK/Gnz553rSSAdGLesUpyD5Iz2tjzkhAy3E
+	AiQphbyhg194wLcmkgxeLVgI8XyXEp9YyBcP0aAXzVQgJQUXnKZErZIoGmaclPQE
+	xGshwi14J+WZvgkcMRCwpNXSsDFUyFSi8i6x4g5eKeCkVNk/jhnHQntZSJqtPYaC
+	tvixv1d5+1mVFqDxanbVp8+94a3/32sOffAJJp0HYLsn4xOrSypZSbsV/oTIJabd
+	VFAOlvk4X4FxeeglzrPDyjhY9FIx+7AUA==
+Received: from maileast.thefacebook.com ([163.114.135.16])
+	by mx0a-00082601.pphosted.com (PPS) with ESMTPS id 4hxmj45x9v-2
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sun, 15 Nov 2026 14:31:15 -0800 (PST)
+Received: from localhost (2620:10d:c0a8:fe::f072) by mail.thefacebook.com
+ (2620:10d:c0a9:6f::8fd4) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.2562.56; Sun, 15 Nov
+ 2026 22:31:14 +0000
+Date: Sun, 15 Nov 2026 14:31:13 -0800
+From: Bobby Eshleman <bobbyeshleman@meta.com>
+To: <netdev-bot+sashiko@kernel.org>
+CC: <sgarzare@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
+        <pabeni@redhat.com>, <horms@kernel.org>, <corbet@lwn.net>,
+        <skhan@linuxfoundation.org>, <stefanha@redhat.com>, <mst@redhat.com>,
+        <jasowangio@gmail.com>, <xuanzhuo@linux.alibaba.com>,
+        <eperezma@redhat.com>, <shuah@kernel.org>, <rdunlap@infradead.org>,
+        <donald.hunter@gmail.com>, <edumazet@kernel.org>,
+        <georgezhang@vmware.com>, <acking@vmware.com>, <dtor@vmware.com>,
+        <virtualization@lists.linux.dev>, <netdev@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        <kvm@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <sargun@sargun.me>, <jlinbox@meta.com>
+Subject: Re: [PATCH net-next v6 5/8] vsock: add a netlink command to assign
+ the g2h device to a netns
+Message-ID: <avoysWTR++rTKfKL@devvm29614.prn0.facebook.com>
+References: <20261113-vsock-guest-ns-v6-5-3737ce4673c0@meta.com>
+ <179471528940.2199510.18137700517588437955@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -114,70 +85,130 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 00/23] ASoC: qcom: AudioReach Active speaker
- protection for WSA884x
-From: Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>
-To: Fabian Renn-Giles <fabian@fielding.dev>
-Cc: Mark Brown <broonie@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Alexey Klimov <alexey.klimov@linaro.org>,
-        Ravi Hothi <ravi.hothi@oss.qualcomm.com>, linux-sound@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261023171433.820092-1-srinivas.kandagatla@oss.qualcomm.com>
- <20261028163152.26892-1-fabian@fielding.dev>
- <110e1d54-347f-4186-bbe1-6aa03aa8ff3f@oss.qualcomm.com>
-Content-Language: en-US
-In-Reply-To: <110e1d54-347f-4186-bbe1-6aa03aa8ff3f@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE1MDA4OCBTYWx0ZWRfX4JLGEHmrlMX1
- HsyRvWImezoHvmZvV8pFdcoaAk0aSRjDacUHMjz8GD3YcVYZ3V5hJLeEKttnPmT853sXfVQk2y0
- hseazhNn3eCS/DXGSdJEU4h6o9NYykLSL0+RBkRTdQxOCAFyGQiXo5Ao88LpXpq5bEAJh1evdX+
- +VBpEHEgvLVkfy8UH78E+1U/KUaTNU7ByFFErjNzSbkDTNouJIpYzmfsamM3FmYEBSSakO1Mobu
- fxR0GzUltekTN0ZTcZFtDicTjjd5oojUEyx/uJ1Tq8kRJjEv0FMIRCHzQlcoY8seoWPG5juGIjX
- +vDrVRJSFZ4Sl5Y4K95kJN6CbNTGddJic+5tu/yx+VLylb6epgxT4vccFnPoD6UnQXjE1hkpSe2
- bttFDZ57i1M9zE0A3Yjp2HL7knal1kKskTezaCIbym49OoXO+BXL7k9cR5D60W8jH1nD0K9kjNw
- 3l2IClSLn58Z3fwMCng==
-X-Proofpoint-ORIG-GUID: v5V_5XMXlsKg0r-rKEewtIMsxOCY0Y-Z
-X-Proofpoint-GUID: v5V_5XMXlsKg0r-rKEewtIMsxOCY0Y-Z
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE1MDA4OCBTYWx0ZWRfX5WwIEdJ/JLxd
- D7oRYkGW4N12f/1xv40TUz53GiOXkuAor1ZK+VDw+/2JTY2R8jps3ls0x/63RzjIz37oUrnqMh9
- bCjap6p1kXvD3o149BAKTcBwT2wa4sk=
-X-Authority-Analysis: v=2.4 cv=X9rHu2Te c=1 sm=1 tr=0 ts=6afa2d3f cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=hzUeyGCwRGS7WCfWEAyTKw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=2dS5UIqEM45N3m7Sd7gA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <179471528940.2199510.18137700517588437955@kernel.org>
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE1MDA4OSBTYWx0ZWRfX+ZQB0ppP8ScL
+ 5zEoQ8ohV0T1CuBY5u/tqmj8DzX5Ljagf1soUB7AVYidkRKRsqhQDkRRZp+pVhEMtjBS5jfK7P+
+ ZeO7st34x107s/XRqb/3LcQol9zeezk=
+X-Proofpoint-ORIG-GUID: DnfmZE2Va31yL9pMIgnnC5detjkL3Jk6
+X-Proofpoint-GUID: DnfmZE2Va31yL9pMIgnnC5detjkL3Jk6
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE1MDA4OSBTYWx0ZWRfX0OsD6yWxMwIx
+ 0eZPLstlNAs7lKlPNceGqzSKTDjDVlTQ8eyUjLvERfU+AVrymQITadzDMNe6//+ObxP4VVoDsDi
+ PtfEjV5VvmmKEO4UOE1nDpJKK7pde2D2jZcbeeQKi7FhIJbhCt1Zn96tR09NcwGm0DrG79aUI2w
+ 7waXvI2nBWmzsmdvP5m6fUzi7e3AEmTbPRlkkM71iU3BQgwiFM7HvNnj/FbQxMrsWfSzRWxnyYl
+ RmIoL8BgU+5gLMYoTLNjeqpjs4r9t4zqlQEtiuRu48++m8CutKsrxmTLLDA412TrOZTRGeO/9qu
+ tWqdZPESNn+B8cvuFQMHhjqGoRus/Z9jPR7eMtzSatOkjYmg/TBUTQ1pwPhlVuVRqoVWo1a5Ykt
+ ZpDhImJHp4PlMvxMImAYZlfqBSypP+uKOi3oo55f5oAk3IstOyhBmlaRPMHE8us4htBgO9vLvxr
+ DalggzfOW7SMsENxYvA==
+X-Authority-Analysis: v=2.4 cv=Vp+2kO2n c=1 sm=1 tr=0 ts=6afa32b3 cx=c_pps
+ a=MfjaFnPeirRr97d5FC5oHw==:117 a=MfjaFnPeirRr97d5FC5oHw==:17
+ a=8nJEP1OIZ-IA:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=7x6HtfJdh03M6CCDgxCd:22 a=tpM8CJlwf7uhpglF1g9U:22 a=VwQbUJbxAAAA:8
+ a=9R54UkLUAAAA:8 a=VabnemYjAAAA:8 a=RAyg9Hr4hlSmefgnMj4A:9 a=3ZKOabzyN94A:10
+ a=wPNLvfGTeEIA:10 a=YTcpBFlVQWkNscrzJ_Dz:22 a=gKebqoRLp9LExxC7YDUY:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-15_07,2026-11-11_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- adultscore=0 malwarescore=0 lowpriorityscore=0 suspectscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611150088
 
-On 10/28/26 9:56 PM, Srinivas Kandagatla wrote:
+On Sun, Nov 15, 2026 at 04:01:29AM +0000, netdev-bot+sashiko@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found more severe
+> issue(s) in other patches of this series. This mail is only an FYI, in case
+> you want to address the nit picks below when you respin.
 > 
-@Fabian,
-> My Next target is X1 T14s Gen6 platform, I have not tried it yet, but am
-> hoping that it should work.
+> Low priority / nit picks for your consideration:
 > 
-> I will keep you posted.
-
-I have now managed to test it on T14s Gen6, no changes to these patches
-to get it working only thing that I changed is dt and tplg files.
-
-thanks,
-Srini
+> - [Low] The new `vsock` generic netlink family defines `dev-netns-set`
+>   (VSOCK_CMD_DEV_NETNS_SET) as a do-request with no reply.
 > 
->> The function allocates
+> --
+> 
+> vsock: add a netlink command to assign the g2h device to a netns
+> 
+> This patch adds a vsock generic netlink family. VSOCK_CMD_DEV_NETNS_SET
+> moves the guest's G2H vsock device into a given network namespace, and
+> VSOCK_CMD_DEV_NETNS_GET reports the assignment as an nsid relative to
+> the caller. Connected sockets that can no longer reach the device are
+> closed with ECONNRESET, and an assignment that would cause a CID
+> collision is refused.
+> 
+> Link: https://lore.kernel.org/all/20200427142518.uwssa6dtasrp3bfc@steredhat/
+> 
+> > diff --git a/Documentation/netlink/specs/vsock.yaml b/Documentation/netlink/specs/vsock.yaml
+> > new file mode 100644
+> > index 0000000000000..f260ee88b1402
+> > --- /dev/null
+> > +++ b/Documentation/netlink/specs/vsock.yaml
+> 
+> [ ... ]
+> 
+> > +operations:
+> > +  list:
+> > +    -
+> > +      name: dev-netns-set
+> > +      doc: |
+> > +        Set the network namespace of the guest's vsock device.
+> 
+> [ ... ]
+> 
+> > +        The assignment holds a reference on the namespace.
+> > +      attribute-set: vsock
+> > +      flags: [admin-perm]
+> > +      do:
+> > +        request:
+> > +          attributes:
+> > +            - netns-fd
+> > +            - netns-pid
+> 
+> [Severity: Low]
+> This isn't a bug, but should dev-netns-set have a reply block here?
+> 
+> The spec gives dev-netns-set a request and no reply. As a result,
+> vsock_nl_dev_netns_set_doit() only returns an errno and the caller gets a
+> bare ACK.
+> 
+> The netlink guidance for new families says every operation should reply
+> with a full message that identifies the resulting object. It also says
+> that once a command only ACKs, the ACK-only behaviour becomes uAPI and
+> cannot be changed later.
+> 
+> The v3 revision replied with netns-id. The v5 changelog says the reply
+> was dropped at Stefano's request, so this looks deliberate. Since this
+> family has not been released yet, could that decision be checked once
+> more?
+> 
+> A netns-id reply would tell the caller where the device ended up,
+> relative to its own namespace, without a second dev-netns-get request.
 
+Actually, now that we're taking a netns-fd/netns-pid, the reply makes
+sense because it can be something besides the current netns.
+
+pw-bot: cr
+
+-Bobby
+
+> 
+> > diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+> > index 37abde1ca26cd..d4d88c8cf142f 100644
+> > --- a/net/vmw_vsock/af_vsock.c
+> > +++ b/net/vmw_vsock/af_vsock.c
+> 
+> [ ... ]
+> 
+> > +int vsock_nl_dev_netns_set_doit(struct sk_buff *skb, struct genl_info *info)
+> > +{
+> 
+> [ ... ]
+> 
+> > +	err = vsock_g2h_net_assign(net, info->extack);
+> > +	put_net(net);
+> > +
+> > +	return err;
+> > +}
+> 
+> This is where a reply would be built, for example by reusing
+> vsock_nl_dev_netns_fill() as vsock_nl_dev_netns_get_doit() does.
+> 
+> -- 
+> Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261113-vsock-guest-ns-v6-0-3737ce4673c0%40meta.com
