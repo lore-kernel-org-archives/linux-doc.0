@@ -1,67 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.210
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.87
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794756041;
-	b=R6Tr7bf+f6Bh7cno5ChjLMx/Wz43aS942WuteO163JRUk/ntGUf6jb1680YoV9/rMIc1
-	 O5BFReG5ATwvgBVrjOkHbU4FwmTWBEai7cmE0m7PzGAUCjIIf4PhlSP1y/1ybM2OxgVmR
-	 pfV4HX+33cpLbJpkwd5VGKwC4H9Y5GCPSoQzvIbfQVVFj38Knhxzx5gVSK24PLznv+uR4
-	 58RkWsqnRavlrjv4IPjiLU1QYNH8RabxpfHK+HFe3iHx1LsQFFeiTTSnfoM6bZyKm/Hd1
-	 4f+2gxAqYnCfTzLAGJqp7SBN/djXFG3aDf9pPXqVoTp/JaFKhNbpX1XPUkKUum0dBOQ==
+	t=1794756047;
+	b=yiCwEvXMk1uGqZ1WzT/2btg+vUbYf3m+4m75edDitHJcvQSc9aeTy642dZDN58j1xKZB
+	 EKJx4XbdB8W5Kzu/Or63mth+ovZ5q2xB+PW09pQlEe2scNfklOqv8Jsw8q4G5qQemOe+c
+	 bAUNJvW6jiu8p6qup8IOaC3Fg08M1RRLhA8NfRsNycE2GvdGe1pZDTKbn0CEATtLckuCJ
+	 buKbQSBsOFFat5Tayh9xgQg4sFga8yv37lqz9Og+nZmjBMEViZMS40cJLYkB5bmBcxRo3
+	 Ba4cA/JSn0P1RO3IJSPSgIWNpC8mVP17wCH+eXbFOabnhpb4RZzzlIsHgXrcUTg0HRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794756041;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794756047;
 	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
 	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=UQp8VX9JypZ6E6O1OqUQjFmFxUx8YP9qAGPt+56zDhY=;
-	b=nSSKI16V9PQxYkWeXzf3KpgnKCvIy0w8O1I+r6GbLIg8pCzzcfNVxmExlm3i8iGEzKyt
-	 DkiojAKayqFuTC7SPTXMZYWlS6Vfpjvbq5XEwpNA5Fa0sPoqNiqt/MLJZ4MjlRYLHayRp
-	 mVSmL0ylPmm/fSM/Aw97Dl0+D4noVQAfzT29TuryAMn4N9WICFYN7o2Y+XlZotTXt+Bel
-	 ywTf+tN/2YoQ/XyW1sKIrrbLKw+iH9bCMTIO2TCr/AOT3HzBBPddaPs/p4WUen0dCxG2c
-	 SYCfZuTD3zSQKjSrVxdbcqg128bV4fp0SP3D0Vmdji7gw/eZOfe8zuhfdFDIDPXWFBw==
+	bh=5K9LmwVu9oORjjSCeF/aiuH8N36KFvnRHm/K+VIXTic=;
+	b=j1Mo6nTakEHbdRqHQh84uxT6/UpsSLj8glFQiIeDHAY60pfhlY9I5aJMB0/MEwyNUMDY
+	 2CADGV0Lgpq40calKoR0FM6+mksuLDSNt+pG8gJvjZvaTzWb0eMDlu08GjabRq+aY/rsQ
+	 3jcnbxXvlY6b0UPZlsGQHXGqfXZKlWdUotoMfjeKMHUs5Ipu8a3RWpsIQx82k3j4tMoaW
+	 ouLlBzVpfCx0eayTmN7L/Wdcjp5ruVZoDWqhAUACVv2m24omGS0Pk780pxyyEDP/PgiS3
+	 z1Go/fcTY2TD4AK10MnEXZbxBNicWj4u9c+0OQtsMZPamPP1dLdFLdkimxKSWcbU0Kw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=qq.com;
 	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=oqOExLhh;
-	arc=none smtp.remote-ip=162.62.57.210
-Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=Z7MLmBZW;
+	arc=none smtp.remote-ip=162.62.57.87
+Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA083606A323;
-	Sun, 15 Nov 2026 15:20:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA083606A323
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CE20606A330;
+	Sun, 15 Nov 2026 15:20:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7CE20606A330
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=oqOExLhh
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=Z7MLmBZW
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1794756035; bh=UQp8VX9JypZ6E6O1OqUQjFmFxUx8YP9qAGPt+56zDhY=;
+	t=1794756042; bh=5K9LmwVu9oORjjSCeF/aiuH8N36KFvnRHm/K+VIXTic=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=oqOExLhhY7XFS/QhrCO1xEznq+HPjmayWkQTagfCnhIaTP/Tv73ISoXYgSZpKHX74
-	 kBLh84l5qlzaOiweGZkcu4Kxv56E4u+agOkp/S4mPECNCBXXhYij8psPI5KXgVKUqL
-	 mpsfXiGtyEWPJXglD17mOyYJt4J3WC48uZIhTzNk=
+	b=Z7MLmBZWuzW2CymVK/KTfxQ5gfhpnuqGZIeHx9mc2cwrsVmpq7A9rbQN+zArpryux
+	 Zgq1qvXdcLuepWg6YnPkKPl1mUDenl13xYM1tDdzVIdeftdA+/7C2yg/VV0ciNQhiK
+	 IgrIxvjT7DVVdmxPXkScL97GSyoBvJdxh8a9I1ek=
 Received: from 172-1-1-128.lightspeed.hstntx.sbcglobal.net.localdomain ([163.125.232.4])
 	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
 	id 5169F010; Sun, 15 Nov 2026 23:20:22 +0800
-X-QQ-mid: xmsmtpt1794756031t4kmq65o6
-Message-ID: <tencent_BC47EB63600886EF052E8C967659A9775108@qq.com>
-X-QQ-XMAILINFO: MKuia7bJYsehC6R58VatiaReU0MeyRveEe1K5pBBEXDSI5KU8nUVvoJsJeQfh7
-	 2S0Yjywwnfb7yTEBvgetTRwBix/+jU+tdOlD7wxGo7QsIcV+Igraj1LoYkYuEafym5Y6cUnXy79I
-	 v18Cmvl83GCuKPRyg8rq67l7g33k9/bQXH4+3hkEJlNCIFgoHTVOLx7bpH3Z30UchjgITYz/n35+
-	 oPGObt9IzaiB4jR4vEbEQOuRojXIyjEjODQ3dllA/VzyK7VZMEmw4ofRSR08+aMUHwlztw5YwsSy
-	 6RdIY3azECJ06YGb7SDmkwz7MQOe6DscGEULefLD3QMoskdJJHfUbww7wx2GTU6MephOFiayxUkl
-	 EWqblYmBbwN95ZoonIhyUpB2gyJxee8cXL9HleDt4Rick0N6sMfJsq+S3fHcjbUtMW8zjhGV9vyd
-	 Y4GUPvcJgm6W5UwnvUgiWlvghEimKEHrXOChq4VPnDJgyvKmWLRvW7sLEYV+OuFaA/9c7V3ain29
-	 5fN9gjZwLF6MJEPwWDi3RTJqBjTUcbvsHNxdPXmfDjIRM0eXxs5+E1Z5jBH9ny4lYhGgqihttevt
-	 LXLE4cFm55gW4UzC592wUTl0z+NAsMH6MInjuDznFymGwjRbnmRI8/grAw16mmTLIT6Fec0c88dy
-	 1Drt6oovbF3XOdOkCW0NOa4TO+mtu/6f34y5hLlSGifJINyaEJ+YzfT5JWhGbXtA18GjUkPhBcXX
-	 A8Aa5qBNVRnmZmKkYW2b3tX7T/bqF4T1SPgkkydjTXLjvFWSc0fp9AkVIcipqurndPjn+x07SIsX
-	 lYFAbh2pKiL6kiiMJpdUoEiPDJiqLRoE6m3UEBS5IlCtcaM25GJTY8bD2eaJH6i+HUUfjw7srNSx
-	 61JTq/YpcBrnCD6xcJPwpz6PGBpAlNSNf5PZFrB16YVXBT+FAIiAtpeEE+4XAMTmxSQepr7pH/qZ
-	 xfETClRBCfjXFIEsG+Tvz++IjJtQz82QqAShdmnshzBgi1R2EWdFlV8fVXFobuf0TNsg7XmFj6er
-	 qJOMRQJEgoOv71POwt89Ep1zXkMIR4/W+1GKqTbyqx7ti1nh3VTX3fEa1u1o0dwShihpgJlm1jhg
-	 CnDHd/sRzF1Y7pwh6/X1zSnsZ16o3JgFVcW/VY3XgCsLl2PPKBozLy/qeohcvRvzTPf0EVsrvFAT
-	 N9rzkU8BfE/cMyL5Y3ixj79ML+IwGPlyiRJDMuyuQ5w+p1dw==
-X-QQ-XMRINFO: Nq+8W0+stu50tPAe92KXseR0ZZmBTk3gLg==
+X-QQ-mid: xmsmtpt1794756039tmehij9ds
+Message-ID: <tencent_B2BC8FB9485A6E6645DDD11CED8F6123F80A@qq.com>
+X-QQ-XMAILINFO: M7+MjJVZrEreRkFS8clb8G41ichGlRewkTxuP4NZNbC/KdYOMMiA9/DouScTFM
+	 QkYNizgs+UMnUB63S1exQYAdxn+ORCjMD570pz5U7/vhH+6s+CpTaCO+M20WnI98WNpP2bGY4Y+h
+	 J8+1rs95tXhstOdjGcb1+aVwJiqIyoTuBvWhn8PNhqEnyY1SunThjALvHRL5OrHsL5mqEQBLGyzp
+	 JzEBHRdFNPkThWH+XVRasOk5fl4QnP7f75L/UtbDjjD/7U55cryWmtJif+kvI5f25Lq0zAMZaG4a
+	 eolcRNgmYVy7TF9vFLC0WLGvdhvr8jTtSM1+OXfKUVipdFkUCj7k6y/LATnb8nDgWkd6z4ujsw4Q
+	 zSVft0Mc0M5H5F1aQj7pxLWLW2xCs+PL4YB2/GdfkU8jgm1wZe/Aug8PlL+kmpLkNjC/c4vA/GVE
+	 FBOLOkljHpt1O+ioDO3Avhzd8dgoGOxn9ZfLs+fZUEObXyn0cvKMk+R79Fjp3vYiGBJqw8oWqAc/
+	 b82ezc5Qlvwaj4nNa3eoyhkRxcKnTfRBCX4zARWZD064F13fXD+q8OrQGF8vL6JwU3orDi8yrPsg
+	 yY6WcKrY3tfvx+MqlVN2CVtwnrurO5e9YBZXWS5CpHR0lE6rKWr7t4xMRB35zGCV1RhYPidevkn4
+	 D+F8gd5xxKEdiX7E1S2QfrRPyaSu0I3cslEM6oDbqCbCiYEx2Z3yHLhI5l5ixU5sFbvMvy0QQLH8
+	 CGYSoAj+3Ppq23Z9PqY7BIJD7zRf0/fx/ttVHqfhgkwPsXhN4mjNNoAVnqpcJDcQe2BJHhIagtkr
+	 lBl8taBQ7AsvADFRsuSTcfCkQ+FxtR+y6lioiYFP8IyCwTSln4AGWMvqgcxlHrE6OYi0ft8zIile
+	 sjOb2a5VEM8Z492AeK3+SWrO9GNKEmUnYl/jory6U6GujOcDuDhMal/kuShEB7uUgd7pVe99mKrc
+	 /OYQndVt8qy3fqPHLGXmnfB22rD7Ljt7cp9KHvKXaMFkLxwyLl9ycNYcJaKvFmssKtqg/X5L5Qh3
+	 4s/8fFevPYrsqLrFL9STywa8RKEdenZWBusTFMRWMGQX9O16eSLNPV7BS22/xAXM0s1XZwOB0x93
+	 pfqqp4WIIdOY5lv3Ow6ivy1DIdtyZ6xFyCoPFQAXf+v3zA9TEws12aQ3Xi1Vwk9rcmye94xHlIdb
+	 WpXpg9yapEe73lfAxomBY70l4iDk7KLB94EMc=
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
 From: Yan Zhu <zhuyan2015@qq.com>
 To: alexs@kernel.org,
 	si.yanteng@linux.dev,
@@ -73,9 +73,9 @@ Cc: dzm91@hust.edu.cn,
 	zhuyan2015@qq.com,
 	linux-doc@vger.kernel.org,
 	linux-security-module@vger.kernel.org
-Subject: [PATCH 03/10] docs/zh_CN: add LSM/LoadPin Chinese translation
-Date: Sun, 15 Nov 2026 23:19:59 +0800
-X-OQ-MSGID: <20261115152026.69082-3-zhuyan2015@qq.com>
+Subject: [PATCH 08/10] docs/zh_CN: add LSM/SafeSetID Chinese translation
+Date: Sun, 15 Nov 2026 23:20:04 +0800
+X-OQ-MSGID: <20261115152026.69082-8-zhuyan2015@qq.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1781105672.git.zhuyan2015@qq.com>
 References: <cover.1781105672.git.zhuyan2015@qq.com>
@@ -91,57 +91,106 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Translate Documentation/admin-guide/LSM/LoadPin.rst into Chinese.
+Translate Documentation/admin-guide/LSM/SafeSetID.rst into Chinese.
 
-Update the translation through commit 0860b72d535f
-("security/loadpin: Update the changing interface in the source code.")
+Update the translation through commit c34921670736
+("Documentation: Fix admin-guide typos")
 
 Assisted-by: Claude:deepseek-4-pro
 Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
 ---
- .../zh_CN/admin-guide/LSM/LoadPin.rst         | 33 +++++++++++++++++++
- 1 file changed, 33 insertions(+)
- create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
+ .../zh_CN/admin-guide/LSM/SafeSetID.rst       | 82 +++++++++++++++++++
+ 1 file changed, 82 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst
 
-diff --git a/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
+diff --git a/Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst b/Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst
 new file mode 100644
-index 000000000000..d75a06f515f6
+index 000000000000..3f96df3ed776
 --- /dev/null
-+++ b/Documentation/translations/zh_CN/admin-guide/LSM/LoadPin.rst
-@@ -0,0 +1,33 @@
++++ b/Documentation/translations/zh_CN/admin-guide/LSM/SafeSetID.rst
+@@ -0,0 +1,82 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +.. include:: ../../disclaimer-zh_CN.rst
 +
-+:Original: Documentation/admin-guide/LSM/LoadPin.rst
++:Original: Documentation/admin-guide/LSM/SafeSetID.rst
 +:翻译:
 + 朱岩 Yan Zhu <zhuyan2015@qq.com>
 +
 +
-+=======
-+LoadPin
-+=======
++=========
++SafeSetID
++=========
 +
-+LoadPin 是一种 Linux 安全模块（LSM），保证所有内核加载的文件（模块、固件等）
-+均来自同一文件系统，并且该文件系统应当以只读设备（如 dm-verity 或 CDROM）为后
-+端存储。这使得在拥有经过验证和/或不可更改的文件系统的系统上，能够在不对每个文
-+件单独签名的前提下，强制模块和固件的加载限制。
++SafeSetID 是一个 LSM 模块，用于对 setid 系列系统调用进行门控，限制 UID/GID
++的转变只能在系统范围的白名单中批准的 UID/GID 之间进行。这些限制还禁止给定的
++UID/GID 获得与 ``CAP_SET{U/G}ID`` 关联的辅助特权，例如允许用户设置用户命名空
++间的 UID/GID 映射。
 +
-+该 LSM 在编译时通过 ``CONFIG_SECURITY_LOADPIN`` 进行选择，并且可以在启动时通
-+过内核命令行参数 ``loadpin.enforce`` 进行控制。默认情况下该功能是启用的，亦可
-+在启动时通过 ``loadpin.enforce=0`` 将其关闭。
++背景
++====
++在缺少文件能力的情况下，需要切换到其他用户的进程必须具备 ``CAP_SETUID`` 权限。
++``CAP_SETUID`` 只授予以 root 身份运行的程序或显式获得 ``CAP_SETUID`` 运行时
++能力的非 root 程序。相较于文件能力，通常更推荐使用 Linux 运行时能力，因为使
++用文件能力以提升的权限运行程序会带来潜在的安全风险——任何拥有该文件访问权限的
++用户都可以通过 ``exec()`` 运行该程序来获得提升的特权。
 +
-+LoadPin 会在检测到首个文件被加载时开始生效。如果承载该文件系统的块设备不是只
-+读的，系统会创建一个 sysctl 条目 ``/proc/sys/kernel/loadpin/enabled`` 用于切
-+换锁定功能。可写的文件系统意味着锁定功能亦可被修改，但通过 sysctl 可以在可
-+写文件系统上便捷地进行测试。
++虽然可以通过为完整的 ``CAP_SET{U/G}ID`` 能力给进程树授予权限来实现，但这与在
++非 root 用户下运行进程树的目标相冲突。尤其 ``CAP_SETUID`` 允许切换到系统上任
++何用户，包括 root，这在很多场景中过于强大。实际中多数程序仅调用 ``setuid()``
++降低特权，而非提升特权。Linux 并未提供通用机制限制用户通过 ``setuid()`` 能切
++换到的 UID 范围，除非允许其切换到系统上任意用户。SafeSetID LSM 正是为了解决
++这一问题。
 +
-+也可以使用内核命令行参数 ``loadpin.exclude`` 将特定文件类型从 LoadPin 中排除。
-+默认情况下所有文件均被包含，但可以通过
-+``loadpin.exclude=kernel-module,kexec-image`` 等方式排除相应类型。这允许在使
-+用 ``CONFIG_MODULE_SIG``、``CONFIG_KEXEC_VERIFY_SIG`` 等机制对内核模块和内核
-+镜像进行校验的同时，仍然利用 LoadPin 保护其他内核加载文件的完整性。有效文件类
-+型的完整列表可在 ``include/linux/kernel_read_file.h`` 中的
-+``kernel_read_file_str`` 找到。
++主要使用场景是允许非 root 程序在不拥有完整 ``CAP_SETUID`` 能力的情况下，安全
++地切换到其他非受信任的 UID。该非 root 程序仍需 ``CAP_SETUID`` 才能执行任何转
++变，但SafeSetID 施加的额外限制，使其成为 ``CAP_SETUID`` 的“安全版”，防止其进
++行未授权操作（如切换到 UID 0 或创建/进入新的用户命名空间）。这为系统服务提供
++基于UID 的沙箱化提供了可能，而无需在大量非 root 程序上分配完整的
++``CAP_SETUID``。
++
++其他已考虑的方案
++================
++
++在用户空间解决此问题
++--------------------
++可以通过在用户空间完全移除 setid 能力并使用特权帮助程序来完成进程的 UID/GID
++转换。然而，这会影响大量与进程生成相关的语义，如 ``fork()`` 后不立即
++``exec()`` 的行为、父进程自定义环境变量或命令行参数、以及文件句柄跨
++``fork()/exec()`` 的继承等。因此，此类方案对依赖特定进程生成语义的现有项目
++支持度较低。
++
++使用用户命名空间
++----------------
++另一种思路是在独立的用户命名空间中运行进程树，并在该命名空间内授予 setid 能力。
++这样，进程可以在自己的命名空间内自由切换 UID/GID，但只能映射到系统范围白名单
++中的 UID/GID。遗憾的是，用户命名空间往往需要与其他命名空间配合使用，例如网络
++或 PID 命名空间，否则会导致失去 ``CAP_NET_ADMIN`` 等关键能力，限制了实际可用
++性。
++
++使用已有 LSM
++------------
++当前树中没有任何其他 LSM 能够对 setid 转换进行门控，也没有实现
++``security_task_fix_setuid`` 钩子。SELinux 对此钩子声明：
++"由于setuid仅影响当前进程，并且由于SELinux的权限控制不基于Linux标识属性。
++因此，SELinux不需要控制此操作。"
++
++使用方法
++========
++SafeSetID 在 ``securityfs`` 中通过写入 ``safesetid/uid_allowlist_policy``
++与 ``safesetid/gid_allowlist_policy`` 文件来配置策略。策略的格式为
++``<UID>:<UID>`` 或 ``<GID>:<GID>``（使用十进制数字），并以换行符结束，例如
++``123:456\n``。写入空字符串 ``""`` 可清空策略。为特定 UID/GID 配置策略后，将
++阻止该 UID/GID 获得 ``CAP_SET{U/G}ID`` 相关的辅助特权，例如设置用户命名空间
++UID/GID 映射。
++
++GID 策略与 ``setgroups()``
++==========================
++在 v5.9 中已加入对 ``CAP_SETGID`` 限制的支持，与之前对 ``CAP_SETUID`` 的处理
++相同。然而，为了兼容用户空间常见的沙箱化代码规范，目前允许具有 ``CAP_SETGID``
++限制的进程调用任意 ``setgroups()``。这意味着在这些 ``setgroups()`` 限制策略
++检查代码就位之前，**当前的 GID 策略并未提供任何有意义的安全保障**。
++``setgroups()`` 的限制将在未来版本中加入策略检查代码后真正生效，该代码将依赖
++于 v5.9 中加入的 GID 策略配置代码。
 -- 
 2.43.0
 
