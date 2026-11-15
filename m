@@ -1,71 +1,66 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=44.202.169.35
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794714417;
-	b=K3uaivTOmjHW4vbyiIaal+3VAZJCdzp2P6jSmn63qe2REXkGjgNAyPeHuwBQyZMNSCv/
-	 1UE8O/qdhkLkQeQwnLoEqO49I/MAbBjVeQlyrINm7qI5Gyf4o4yfMyfFIGyvV78W8vJtw
-	 fFs9LpqUsPoYa1khsjYFCw+IZkJkwXRpmHVsX8gwlcBIPVe1tWebF5/SV01+I3MCafVg8
-	 6ZzxIDtZmqfy7ngED2klkuKK/50ulW568M9VZNXbNszRccJreMfyQluq58z6kym7h079f
-	 7jAjcIvujqgwfkNMtySRGTdry4a2VwTxasg/BW6oJhaVZSeTMB4YnVR5SuWFiqN2CRw==
+	t=1794715289;
+	b=BBHue7iK2nUndbXk9HPCuUb3+cLsBnZPX5mb2a0Ft/ZyJuR7BPV3sRl/6riJ7GYhVf8m
+	 X9TG4TSbUILDOjzgHlHtlJx+o4XdNnaYQvm4l73ogWEk6pv2eP77l1wbihVibpJuCkZs5
+	 aVrTwj38ComoW3J/Yezavluw3NlPH65ll4lia4ZrjKl1A65+XBzX7rP0ZWlXIiDwEaWWK
+	 ni9K2qpdC/kG/cY+OwZ/H0lfWqVzMHsZeJirG/k1y9LDptGH3Zkhyq4VvVeZgDCU5tHgQ
+	 dA5HgHwEFQVogh2ifCYPeexvjEOeNcMFgR+qGsiSTdcPzalzNW67j17d5aGXeJmFRxA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794714417;
-	h=DMARC-Filter:Received:Received:X-Authority-Analysis:DKIM-Signature:
-	 Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
-	 References:Content-Language:From:Autocrypt:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-AntiAbuse:X-AntiAbuse:X-AntiAbuse:
-	 X-AntiAbuse:X-AntiAbuse:X-BWhitelist:X-Source-IP:X-Source-L:X-Exim-ID:
-	 X-Source:X-Source-Args:X-Source-Dir:X-Source-Sender:X-Source-Auth:
-	 X-Email-Count:X-Org:X-Source-Cap:X-Local-Domain:X-CMAE-Envelope;
-	bh=a59LCBhRE1d9bXmOZ7i0Prcj6qHWyazOhlcg1JcydFs=;
-	b=ZTfvv//w0CZrOAqQiO4x0mjBpPBMI1GxBj/UeishS6R2o4oJhm8cgFPVmOUInbaRjBvj
-	 MOllLSsneXUGcSBW+yEW1CRU+x0CXEsaUlzdy0IG2lp6CTLkur9hspC+rCfM6qNtOH8La
-	 IUVWAFWn7NFI/VSH/hwY43JO6At2NAwPSlVK3xqWgzQcxYVw6t0gSyJd3SdziLHB04HsV
-	 dcLN/AF6o36xUv4sgtqkXJ497K/1XrrVzZt41GgYaJfSHnXf6mAH7ly4Mxj8jVbvy5ffT
-	 jXLg55Lj41LfFPh38w4CW7DElcvyckeTVuFKSKTTX6dOctyJIXazolMXDJq+/Jn5HgQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794715289;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=j1ISAF+2u8ez95maVgyjSaDntsJ2s5Xsb6THdeRbXZg=;
+	b=pew0KYpyZEu4UBFhJAFI3Cku3/d4T38N9J+m2U0CG9zZ8RZl4gdn0zluscNqjl6YBo9A
+	 uBkGwjQ6mCV9tUgdVVJuEvfmlP1ip1KyzijL75mnpEj6Ht9p/b6u2n1THOZQ2LTOmy7Ms
+	 SgpwAHRgNRzCyNvSoEE8nkR0QLhjG3X/1ciSyPKD7mH7rdrgD8yR2YLjjFtqeQaEmwsET
+	 FFLSJXeHrzM2y6T3/eTJv0zUgxCMvDIMGULbuFxtgY0OYXjSWaaE5hzLDDyqxXyHPnwDj
+	 OQo0H9UliXTeGeA69a9sHA7kVnQuetVAJ7+bKq1+KIxl6ixLm5o1AgiBEeM7jvFCgqw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=roeck-us.net;
-	spf=fail smtp.mailfrom=roeck-us.net;
-	dkim=pass header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=AuKAC+Sk;
-	arc=none smtp.remote-ip=44.202.169.35
-Received: from omta036.useast.a.cloudfilter.net (omta036.useast.a.cloudfilter.net [44.202.169.35])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mmavcgbE;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FC6606A327
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 03:46:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61FC6606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD226606A323;
+	Sun, 15 Nov 2026 04:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=roeck-us.net header.i=@roeck-us.net header.a=rsa-sha256 header.s=default header.b=AuKAC+Sk
-Received: from eig-obgw-6001b.ext.cloudfilter.net ([10.0.30.143])
-	by cmsmtp with ESMTPS
-	id S8Y1xGisM4vCDSRCix2hU8; Sun, 15 Nov 2026 03:46:56 +0000
-Received: from 162-215-252-36.unifiedlayer.com ([208.91.199.152])
-	by cmsmtp with ESMTPS
-	id SRChxtNrCdRrRSRChx1ypd; Sun, 15 Nov 2026 03:46:56 +0000
-X-Authority-Analysis: v=2.4 cv=LOhmQIW9 c=1 sm=1 tr=0 ts=6af92b30
- a=QNED+QcLUkoL9qulTODnwA==:117 a=2cfIYNtKkjgZNaOwnGXpGw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=M0FbrtG7MMAA:10
- a=jIWYvuuSJCPT6OUaZJ0A:9 a=QEXdDO2ut3YA:10 a=KPbNTLLc3YvdawN95zVk:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=roeck-us.net; s=default; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Unsubscribe-Post:List-Subscribe:List-Post:List-Owner:
-	List-Archive; bh=a59LCBhRE1d9bXmOZ7i0Prcj6qHWyazOhlcg1JcydFs=; b=AuKAC+SkTESO
-	5QXjdOA/fknzd/KhwdAgHqwsz3cNZCyZH/TCa1lMIOZQ9aryKUO48nNAwWn4/uVZA2yB8LcQYl6Ag
-	bvaUV6I4KVxCJ2JgawGietfmn7uNxCUctVetTC64qGkg9W68TuLIhBgsFsXOR3KRsmDJ6B92SSOYo
-	6Lm+i4kDGX/lmsGi7UCi8Ttv/TUnzI+jdLrsSsKJrTP0o59XgJF+ueu+m/5DBlsVvJ0USn0Kvf5+v
-	WAXXtyF4Mx6E9U9GKgwRJ6PZbGli/pCzTUd7vfLPt0whcvsLyCAGskPsUe7YseO1xgazV7Mi4+ygw
-	Y8D9gP3pXV45aicJe1ywyQ==;
-Received: from 108-223-40-66.lightspeed.sntcca.sbcglobal.net ([108.223.40.66]:46110)
-	by bh-25.webhostbox.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.100.1)
-	(envelope-from <linux@roeck-us.net>)
-	id 1xSRCh-00000000wN7-1XXL;
-	Sun, 15 Nov 2026 09:16:55 +0530
-Message-ID: <3f6d66cf-8a1a-4074-a234-dfe571622aee@roeck-us.net>
-Date: Sat, 14 Nov 2026 19:46:53 -0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mmavcgbE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B13711F000C4;
+	Sun, 15 Nov 2026 04:01:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794715289;
+	bh=j1ISAF+2u8ez95maVgyjSaDntsJ2s5Xsb6THdeRbXZg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=mmavcgbEee9aOC7CN1peIR/Na4uAZMQx4BQk27w8pV3LYcoq60Dwi0ur8g490Pnzy
+	 UDOyQCtSFNDJlIzylZTAQc/xqI4O3l1HX/7zB5OcoizJaE2YLFXyrVW5hWyJH6xkyZ
+	 HdjxZHlYPlUAjc+spSz3gVLqioNhYEM895auwabSH04ocBAk620BJKR8cuIt6fsD8t
+	 lDUYHL+ZTnbuNYD0mq6SY7ychxVXqwN0Y60g4ShG1omCuVoy1bTJnFMVxvsZEl6T+D
+	 LaoeSiZG6v8IFpDAM2UD6zyB71lwJfcypOPtz7krSSuRzippdAwSAKv6/TRdVYBCmu
+	 UXs+Dk1O7N+JQ==
+Subject: Re: [PATCH net-next v6 1/8] vsock: only undo SS_CONNECTING when
+ connect() fails
+From: netdev-bot+sashiko@kernel.org
+To: bobbyeshleman@meta.com
+Cc: sgarzare@redhat.com, davem@davemloft.net, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, stefanha@redhat.com, mst@redhat.com,
+ jasowangio@gmail.com, xuanzhuo@linux.alibaba.com, eperezma@redhat.com,
+ shuah@kernel.org, rdunlap@infradead.org, donald.hunter@gmail.com,
+ edumazet@kernel.org, georgezhang@vmware.com, acking@vmware.com,
+ dtor@vmware.com, virtualization@lists.linux.dev, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvm@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, sargun@sargun.me, jlinbox@meta.com,
+ bobbyeshleman@gmail.com
+Date: Sun, 15 Nov 2026 04:01:27 +0000
+Message-ID: <179471528724.2199510.7407342828719727367@kernel.org>
+In-Reply-To: <20261113-vsock-guest-ns-v6-1-3737ce4673c0@meta.com>
+References: <20261113-vsock-guest-ns-v6-1-3737ce4673c0@meta.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -75,104 +70,235 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/7] hwmon: Add driver for Marvel AlphaServer
- environmental sensors
-To: Matt Turner <mattst88@gmail.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Magnus Lindholm <linmag7@gmail.com>, linux-alpha@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20261114-marvel-env-v1-0-890328e4b7e5@gmail.com>
- <20261114-marvel-env-v1-5-890328e4b7e5@gmail.com>
- <e8ffe364-5c98-4987-b6bd-c263122aeae8@roeck-us.net>
- <CAEdQ38GEckm8oU9pmg_t-_EC85brP4ghWAE4tYBNEvF+gcqMKA@mail.gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <CAEdQ38GEckm8oU9pmg_t-_EC85brP4ghWAE4tYBNEvF+gcqMKA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - bh-25.webhostbox.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - roeck-us.net
-X-BWhitelist: no
-X-Source-IP: 108.223.40.66
-X-Source-L: No
-X-Exim-ID: 1xSRCh-00000000wN7-1XXL
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: 108-223-40-66.lightspeed.sntcca.sbcglobal.net [108.223.40.66]:46110
-X-Source-Auth: guenter@roeck-us.net
-X-Email-Count: 1
-X-Org: HG=direseller_whb_net_legacy;ORG=directi;
-X-Source-Cap: cm9lY2s7YWN0aXZzdG07YmgtMjUud2ViaG9zdGJveC5uZXQ=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfOCux8C4Ig6yW3GGW0gEC7EZiM8SbJOMneBr8yRRtuUwgSMD0hvaHT43NOJ7eKNJhpxDNJFEcYprkZ7GbpY8AJ08u6VMS1MF7EWTIFQmyvQ3G3B1KhPA
- qY041TfTNYx8izx0cBYnRTkb7PqbVc+QEKjL5rTrHqS4dhg1GH8afmk0x4qKaFZkiEvvNyyZHvJo1ak9/hPiUjK9Jgrh7O4SFrXQR0fDw95t0pQ1S2wzkMmM
 
-On 11/14/26 18:50, Matt Turner wrote:
-...
->>> +``in[0-*]_alarm``           Sensor is in the warning or fault state
->>
->> Which one is it ? Is it distinct ? A "fault" means
->> that the hardware is broken/defective. An alarm means that
->> the voltage is too high or too low. A faulty channel
->> should not be reported as alarm but as fault.
-> 
-> It is always the voltage being out of range: Warning is the reading
-> outside the warning limits (5% from nominal), Failure outside the
-> failure limits (10%). Both are reported as in_alarm in v2. The limits
-> are not in the console's packet, so they are not exported.
-> 
+Thank you for your contribution! Sashiko AI review found 4 potential
+issue(s) to consider.
 
-This could be reported as inX_max_alarm and inX_crit_alarm.
+Critical: 0 · High: 0 · Medium: 1 · Low: 3
 
-Thanks,
-Guenter
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
+- [Medium] vsock: vsock_connect() fails on SS_CONNECTED sockets reset to
+  TCP_CLOSE
+- [Low] The commit message understates what the fix closes.
+- [Low] The commit message names vhost_vsock_reset_orphans() and
+  vmci_transport_handle_detach() as examples where 'connect() gets the…
+- [Low] vsock_connect_close() resets sock->state only when it is exactly
+  SS_CONNECTING.
+
+--
+
+vsock: only undo SS_CONNECTING when connect() fails
+
+This patch adds vsock_connect_close(). The helper sets sk_state to
+TCP_CLOSE, and it moves sock->state back to SS_UNCONNECTED only if the
+state is still SS_CONNECTING. It replaces the open-coded resets in the
+signal/timeout and sk_err failure paths of vsock_connect(), so a socket
+that got connected and then reset stays SS_CONNECTED.
+
+Link: https://lore.kernel.org/netdev/179447093204.2199510.8895677421994612994@kernel.org/
+
+> vsock_connect() sleeps with the socket unlocked. Meanwhile the transport
+> can complete the handshake, setting sock->state to SS_CONNECTED, and then
+> reset the connection, e.g. in vhost_vsock_reset_orphans(),
+> virtio_vsock_reset_sock() or vmci_transport_handle_detach(). When
+> connect() gets the lock back, it finds sk_err set and moves the socket
+> back to SS_UNCONNECTED.
+
+[Severity: Low]
+Do vhost_vsock_reset_orphans() and vmci_transport_handle_detach() really
+reach connect() through the sk_err path described here?
+
+vhost_vsock_reset_orphans() in drivers/vhost/vsock.c writes:
+
+	sk->sk_state = SS_UNCONNECTED;
+	sk->sk_err = ECONNRESET;
+
+SS_UNCONNECTED is 1, which is the same value as TCP_ESTABLISHED. When
+vsock_connect() takes the lock again, this check runs first:
+
+	if (sk->sk_state == TCP_ESTABLISHED ||
+	    sk->sk_state == TCP_CLOSING) {
+		err = 0;
+		goto out_wait;
+	}
+
+So connect() returns 0 and never gets to the sk_err handling.
+
+vmci_transport_handle_detach() in net/vmw_vsock/vmci_transport.c sets
+sk_err only when the socket is still in TCP_SYN_SENT:
+
+	if (sk->sk_state == TCP_SYN_SENT) {
+		...
+		sk->sk_state = TCP_CLOSE;
+		sk->sk_err = ECONNRESET;
+		sk_error_report(sk);
+		return;
+	}
+	sk->sk_state = TCP_CLOSE;
+
+An already established socket only gets TCP_CLOSE. connect() then keeps
+sleeping, because the wait loop runs while sk_err == 0. It reaches
+vsock_connect_close() through the signal/timeout branch, not through
+sock_error().
+
+Only virtio_vsock_reset_sock() seems to match the mechanism described.
+The code change still covers both paths, because the helper is used in
+both branches. Could the examples in the changelog be corrected?
+
+> Userspace can then connect() the socket again,
+> and a connect() to a CID on another transport makes
+> vsock_assign_transport() release the transport the socket was connected
+> on.
+
+[Severity: Low]
+Should the changelog also describe the same-transport case? This patch
+seems to close that one too.
+
+virtio_vsock_reset_sock() sets sk_err but does not call
+vsock_remove_connected(), so the socket stays linked in
+vsock_connected_table. Before this patch, a second connect() to a CID
+served by the same transport hits this in vsock_assign_transport():
+
+	if (vsk->transport && vsk->transport == new_transport) {
+		ret = 0;
+		goto err;
+	}
+
+That skips release(), sk_state goes back to TCP_SYN_SENT and a new
+REQUEST is sent. When the RESPONSE arrives, the connected-table insert
+runs again:
+
+	vsock_insert_connected()
+	  __vsock_insert_connected()
+	    sock_hold(&vsk->sk);
+	    list_add(&vsk->connected_table, list);
+
+The node it adds is already linked. That looks like connected-table list
+corruption plus an unbalanced socket reference.
+
+The changelog also does not say why releasing the transport the socket was
+connected on is harmful. Stating these consequences would help stable
+backporters and security triage judge the impact.
+
+> diff --git a/net/vmw_vsock/af_vsock.c b/net/vmw_vsock/af_vsock.c
+> index 483af15a5109e..dc81cd47f099d 100644
+> --- a/net/vmw_vsock/af_vsock.c
+> +++ b/net/vmw_vsock/af_vsock.c
+> @@ -1703,6 +1703,16 @@ static void vsock_connect_timeout(struct work_struct *work)
+>  	sock_put(sk);
+>  }
+>  
+> +/* Avoid breaking the socket when another thread has changed its sock->state
+> + * while we were asleep.
+> + */
+> +static void vsock_connect_close(struct socket *sock)
+> +{
+> +	sock->sk->sk_state = TCP_CLOSE;
+> +	if (sock->state == SS_CONNECTING)
+> +		sock->state = SS_UNCONNECTED;
+
+[Severity: Medium]
+Does the rest of vsock_connect() need to recognize SS_CONNECTED now?
+
+With this patch the failure paths can run on a socket whose
+sock->state is SS_CONNECTED. The wait loop and the signal/timeout
+branch still only treat TCP_ESTABLISHED and TCP_CLOSING as success:
+
+	while (sk->sk_state != TCP_ESTABLISHED &&
+	       sk->sk_state != TCP_CLOSING && sk->sk_err == 0) {
+
+Suppose the handshake completes while connect() sleeps, and the
+socket is then moved to TCP_CLOSE with sk_err == 0. The loop keeps
+sleeping. vmci_transport_handle_detach() does that for an established
+socket, since it only sets sk_err in TCP_SYN_SENT. With virtio,
+virtio_vsock_reset_sock() sets ECONNRESET, but another thread can
+clear it with getsockopt(SO_ERROR) before connect() takes the lock
+again. connect() then waits for the whole connect_timeout, or until a
+signal arrives, and ends up in this branch.
+
+Here vsock_connect_close() now leaves the socket SS_CONNECTED, yet
+vsock_transport_cancel_pkt() is still called right after it. For
+virtio this reaches virtio_transport_purge_skbs(), which drops every
+skb queued for this vsk, not only the OP_REQUEST mentioned in the
+comment.
+
+If a concurrent sendmsg() queued OP_RW skbs while the socket was
+TCP_ESTABLISHED, virtio_transport_get_credit() already added them to
+vvs->bytes_unsent. Purging them without
+virtio_transport_consume_skb_sent() seems to leave bytes_unsent
+non-zero for good. SIOCOUTQ then reports stale data, and
+vsock_linger() waits out the full SO_LINGER time on close().
+
+The caller also gets -ETIMEDOUT or -EINTR for a socket that now
+reports SS_CONNECTED. If the error is -ERESTARTSYS, the restarted
+connect() fails with -EISCONN.
+
+The long wait and the vsock_transport_cancel_pkt() call predate this
+patch. But this patch is what decides that such a socket stays
+SS_CONNECTED, so the rest of vsock_connect() should probably agree
+with it. Should the loop also stop when sock->state is no longer
+SS_CONNECTING? And should an already connected socket skip
+vsock_transport_cancel_pkt() and return sock_error() (or 0) instead?
+
+[Severity: Low]
+Can this leave a socket that never connected stuck in SS_DISCONNECTING?
+
+Consider a blocking connect() racing with shutdown():
+
+Thread A                          Thread B
+vsock_connect()
+  sock->state = SS_CONNECTING
+  release_sock(sk)
+  schedule_timeout()
+                                  vsock_shutdown()
+                                    sock->state = SS_DISCONNECTING;
+  lock_sock(sk)
+  timeout, signal or sk_err
+  vsock_connect_close()
+    sk_state = TCP_CLOSE
+    sock->state stays SS_DISCONNECTING
+
+After this, every later connect() fails here:
+
+	case SS_DISCONNECTING:
+		err = -EINVAL;
+		goto out;
+
+vsock_listen() also fails its sock->state != SS_UNCONNECTED check.
+Before the patch, this socket was reset to SS_UNCONNECTED.
+
+The non-blocking path still resets unconditionally in
+vsock_connect_timeout():
+
+	if (sk->sk_state == TCP_SYN_SENT &&
+	    (sk->sk_shutdown != SHUTDOWN_MASK)) {
+		sk->sk_state = TCP_CLOSE;
+		sk->sk_socket->state = SS_UNCONNECTED;
+
+So the same sequence, shutdown during connect followed by a timeout, now
+leaves a different sock->state depending on whether connect() was
+blocking.
+
+The comment above the signal/timeout branch in vsock_connect() also
+still says:
+
+	/* If connection was _not_ established and a signal/timeout came
+	 * to be, we want the socket's state reset. User space may want
+	 * to retry, so we keep the binding and the transport assigned.
+	 */
+
+That no longer always holds.
+
+The exact SS_CONNECTING check is needed so that a socket that was
+connected and then shut down is not reset. Should the never-connected
+case be documented, or made consistent with vsock_connect_timeout()?
+
+[ ... ]
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261113-vsock-guest-ns-v6-0-3737ce4673c0%40meta.com
