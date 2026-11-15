@@ -1,66 +1,76 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794776695;
-	b=gvMQIANI37Wr9cxez4qGjMQCjBCzZYrXcGAoJN/ORtCcANjiUCXC47nRAP7KvtdsvEDC
-	 G/B2h5RxOFxyeuGlnLm+LRyZY9oV4F6RyE4k0mF7v783a4jufUphF/10+Q5GVvXw3fFaP
-	 k9RVGENFvlHsHTmnaaV4CdF8aAeMwNp+GVUmbCop6Bx+aj/6STTeHpxJM90LeysmPiwmJ
-	 x8xU55SaBN8fNS2kdEsCTrHCKNR8d7TTRGNSfeWzFE4NfhwUfRRI66vmL1QuumMJj1CXe
-	 F8NEzi7+gGNrNciiGKMPFC9wZGG5AE8Scr4zrji/3rnLAidVr0UHQ/XJSzIe8jgDdpw==
+	t=1794777197;
+	b=NOyjRReX7YEdzr7wrXnM+flIT0lcvlcJSBtCT9lZA49nm/BGjhPaNSsay79P2B6xmJsL
+	 ZXWWgumQAtY5lUI86Z/cfEy+bG2ISwintdjtlbjTxURIIBI/fLfMWVcBrWcDNaBBhgKqG
+	 b/ZwN4zd3S5Tx4+oapkSh2W8W7e80oHdVISTM4ST0rxDLd5GWH2/AiwNKb3Om8PJu3FFw
+	 UOT5GRBDLySlWoTE/Gvc2WqyyoyKffUYUNi61lHJA5PR/FFzgDm8t1Y3vrQ5omKR7RcYG
+	 SltN3XBZsTHcDgI7H94KRR97h6UITMYcb0mteaXkzWPa9EYTphzpAaz7teCUlU7OXgg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794776695;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-MBO-RS-ID:X-MBO-RS-META;
-	bh=DykgM5NE4WdLFCVY94RfUrWegvpeMHFMFL7zj7//kZY=;
-	b=i5bn4SnnNmPKyviH+qjEUlMC+nkxafst5TYk6W4pbsdf76+ZAVLuIQ5DQ5BxW54Shnix
-	 fmRojVOKz+Dfc1ImDVr1t40pejP/zhzBcKq7iM0zV/Ce17rGlHEamuV9sMbwnkgbnS/zW
-	 SxBtgY8WSGbMkPbEdvyHHRCkESGboM2+2IA4hS9FHmz12/jPARjiYG8jTiF95xaFcx+z+
-	 EssKs2tsdysFit3AV/3k1ye0YHvTx31pICTEuWwStTao2GOlpuL36t+J4HHLVdnwN1APm
-	 RY0VtegRbqe1Mt/X2zSHLvUVytMdtq3PJg+hMUWrmZhxiRWwSr9VyBNaQIzTDw3X4Ng==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794777197;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=Dl2GSKLNZwxHnys/gmOepf+Z7DTsWvB68DYjsGWZv64=;
+	b=TxPDETuG8JRheq5bumrsFf2WzyLiwwd86kG0CGR/OoqwIOyE18In8FvwHd+mkGAMeDHt
+	 YhhBwpsPGbvsWwr4cH8QF7+SxpmwaP4FUC3hyCj/phgD1n1+bqlW6gGRSd0KqwHlGN4lC
+	 5vt606VRmodnERqi/V83HziHSBN20N7XeIquwLpQpDBxc6jVMUn9C2yQBVsn96JWBaAQ6
+	 Dkm7m69gyX4Av0pCiTyOYhmQfO3VlfFuxzlWyMRljfI1YYwrEKUrhoML1CHsaSqa5GAjZ
+	 riyvEsqvNRqXqpUKjTbUdgq8BYfmU3XfMUjzO08EMJqPyGEugFs/bfCGZElSaaJfV/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=bxPqqgrh;
-	arc=none smtp.remote-ip=80.241.56.161
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GS99ENSk;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2E2606A332;
-	Sun, 15 Nov 2026 21:04:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B2E2606A332
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E568B606A31F;
+	Sun, 15 Nov 2026 21:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=bxPqqgrh
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4jSNmL6GXDzKmKZ;
-	Sun, 15 Nov 2026 22:04:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1794776690;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=DykgM5NE4WdLFCVY94RfUrWegvpeMHFMFL7zj7//kZY=;
-	b=bxPqqgrh3O4NiaOx5bDtdk9uM3cutMTSwniGOFbKzfkoPvXAHKfw/posdGWJNaLfwI1EYV
-	lrCZceSzcH+UU02aKQcTa+vIRrEI8odb7/cm6j4lq252rS7IMgABYzn3UtHBkdOc5fcrpL
-	xqDNCz5AW3e82ivV8NRI+C0EHP1xr1P130aF+zDl4LiC53bIsZ6Qahnw0NR9rKu7OSCPi7
-	Tz4iMDJz6sXWFXIrxEeCIHHXXhRzJaoOZmTAqzSoMQWk0S/Wodo5a85vnjuknvz1xpRO6e
-	3phIhas5wVCG/iiEV9QJXmDXn8kmK0YtPypdfl4auj7VoV4v3Yw0XXLCHFMaXA==
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>
-Cc: Manuel Ebner <manuelebnerli@mailbox.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs: doc-guide: improve language
-Date: Sun, 15 Nov 2026 22:04:23 +0100
-Message-ID: <20261115210423.1089716-2-manuelebnerli@mailbox.org>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GS99ENSk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D9511F000C4;
+	Sun, 15 Nov 2026 21:13:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794777196;
+	bh=Dl2GSKLNZwxHnys/gmOepf+Z7DTsWvB68DYjsGWZv64=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=GS99ENSkyF3TPKalnRsitjk9MfxxCoI6uu2CrsWuj6OXs2LGrdDdsTtemrKU81oTS
+	 NQz61UnwJFhSzPQx45UBtUCU4SHKf9nYerW8/f0vMoe4Nnc0PqiDPZ6GkUmC8WfdEr
+	 81svY8FiHAcrkEj9C1GqS0Y+SS20Rz6IEPoAbbjdiVpqAFlGrVvJXGcD5WO8EKnA+x
+	 aORjlLA0gh6XEt6NUM0wUGse7rdtOVrYDdvQCgqJBfwtLeYGvawNqjgaOBHHR7rTya
+	 Uj3Y8dY+wyYgPhRcmdYuNHbD31nus/Dx1xO68JCpIEI/mZzl1dYaqUpZosbs3C3yT1
+	 1tvvicofqqg6A==
+Date: Sun, 15 Nov 2026 13:13:14 -0800
+From: Jakub Kicinski <kuba@kernel.org>
+To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>
+Cc: Magnus Karlsson <magnus.karlsson@intel.com>, Maciej Fijalkowski
+ <maciej.fijalkowski@intel.com>, Stanislav Fomichev <sdf@fomichev.me>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+ <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, Andrew Lunn
+ <andrew+netdev@lunn.ch>, Jesper Dangaard Brouer <hawk@kernel.org>, Ilias
+ Apalodimas <ilias.apalodimas@linaro.org>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, John Fastabend
+ <john.fastabend@gmail.com>, Pavel Begunkov <asml.silence@gmail.com>, Jens
+ Axboe <axboe@kernel.dk>, Andrii Nakryiko <andrii@kernel.org>, Eduard
+ Zingerman <eddyz87@gmail.com>, Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>, Emil
+ Tsalapatis <emil@etsalapatis.com>, Ihor Solodrai <ihor.solodrai@linux.dev>,
+ netdev@vger.kernel.org, bpf@vger.kernel.org, io-uring@vger.kernel.org, Mina
+ Almasry <almasrymina@google.com>, "Mike Marciniszyn (Meta)"
+ <mike.marciniszyn@gmail.com>, Weiming Shi <bestswngs@gmail.com>, Nikolay
+ Aleksandrov <razor@blackwall.org>, David Wei <dw@davidwei.uk>, Alexander
+ Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
+Subject: Re: [PATCH net-next v1 01/11] net: Get skb fragment addresses
+ through netmem
+Message-ID: <20261115131314.2d3ab96f@kernel.org>
+In-Reply-To: <20261110102039.1002605-2-bjorn@kernel.org>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+	<20261110102039.1002605-2-bjorn@kernel.org>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -70,36 +80,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: dda047f22aaeb684f0a
-X-MBO-RS-META: cdo3g9kenkbd8xbexsfdai3qzo5tdi9e
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-There is no 'kernel process' thus change to 'kernel contribution process'.
+On Tue, 10 Nov 2026 11:20:22 +0100 Bj=C3=B6rn T=C3=B6pel wrote:
+> skb_frag_address() goes through struct page, so a net_iov never has an
+> address. Only unreadable memory should lack one: XDP and BPF read
+> fragments through this helper, and AF_XDP UMEM will back readable
+> net_iovs. netmem_address() also returns NULL, not a bogus pointer, for
+> an unmapped highmem page.
+>=20
+> Generic code needs the size of a net_iov to find its address, so keep
+> it in struct net_iov_area instead of the devmem binding.
 
-Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
----
- Documentation/doc-guide/contributing.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/doc-guide/contributing.rst
-index f8047e6331..0f0804f82d 100644
---- a/Documentation/doc-guide/contributing.rst
-+++ b/Documentation/doc-guide/contributing.rst
-@@ -14,10 +14,10 @@ it needs to be to support a project of this size and importance.
- 
- This guide is for contributors who would like to improve that situation.
- Kernel documentation improvements can be made by developers at a variety of
--skill levels; they are a relatively easy way to learn the kernel process in
--general and find a place in the community.  The bulk of what follows is the
--documentation maintainer's list of tasks that most urgently need to be
--done.
-+skill levels; they are a relatively easy way to learn the kernel contribution
-+process in general and find a place in the community.  The bulk of what
-+follows is the documentation maintainer's list of tasks that most urgently
-+need to be done.
- 
- The documentation TODO list
- ---------------------------
--- 
-2.56.0
-
+IIRC netmem is supposed to be used for frags and memory CPU never needs
+to access. This patch looks odd. I haven't read the rest of the series
+yet but at the very least commit message should explain why this
+aberration is needed / correct.
