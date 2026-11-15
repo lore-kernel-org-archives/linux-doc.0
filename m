@@ -1,47 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794712704;
-	b=lKcK5XmvB6ObZk+hjtkFSyN/2rO+bK0Y6PJpYQ21lekmPQn3B+1MCS7NGxDqQ4fVhuXG
-	 CjByBhResrN4ICUM22QArbH4hSGh7ogCzAq5CBG2qe4fi6t1GkGzZdBdSY5CfAcNCHmdN
-	 07rsB190WCrh+jIXHF9jzOkdUwt9nSSbQjUabgc9a56OfcEF+DleuD0/RJ+VZ1GdswX6W
-	 eonjdwC9hkIdQMVJaL4Cbt+GjqtZaPxB7SLpg17803ZUpoaTjOLp1HzUD6YyGDJ2rQQm5
-	 4M0xNPJfPoEyvtSDb26sOAocXWR8Nro5KW6bcUtKnpSXB0TUqP9PsgXkG2KzGf3/Ejg==
+	t=1794712700;
+	b=VSIeqzXaerIUgKs4koW0KuQd4hSN7tjLXlc4yzh7R7ywdMaW4bstUDryUhoawEFB5ayy
+	 0TwADB8Oa+yQ0VyJFuzSwtBUMtFPUCbAeZIixY9+7EHjjeGNhNj9JORLQKMCjit/lt523
+	 Oqyde0uyI6Z9ho/Ji84Z2uBhKfwMXwhMqmCpPkg0XArh30eo9xLfHlpzuFOcIGd9Ljvjs
+	 DIcmjq00M4o+c/ejTWXoZoCGJYikfozKnNWgZc6Z7QgoMt1Z8JAEYDmO9q6LCfY0a0SYC
+	 9/x+LWA/vgYXQMkzD6Gp70x8mphkmJC7awXHKJEAAhW/mDxVf0M6fqKNDq238jSLJfw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794712704;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794712700;
 	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
 	 In-Reply-To:References:X-sashiko-severity:Content-Type:
 	 Content-Transfer-Encoding:MIME-Version;
-	bh=sXM91livLE5Zk7S7Dfg6Y9lrZXf4Fd/4eAz8t9MEIm8=;
-	b=2P2w9Okd4THanSjs274HsBVD/ZU9uhP4bfoTwSeoV1CUKNr6YLIrtPhoK/+dXCAdTVKj
-	 8hYVrHpiSrdLQ6O4BT7MwZm5I56bHHhWOP0zbUMG/vokqdW7bYWQfO3ga/hIJbUWl0DT5
-	 m+5x3Bwz5W92YY/U3V58eH+ogmL6SaUvXaBJXxgFGWezX6cDQnDVfQcLs6tXboq91Sy2b
-	 1jCLyJY/uBs6YqmmVKAgvThfiNE+NvdMeO+iSMMf5GA3GaSy2lnWEZmvawAFshMdbfMYr
-	 4Fy4E41AeXnSbVOvz63jGNDw3FKKMy/MDFfeZwt4LhHiGQBoApOksFmpHC/U0gzETWg==
+	bh=zXhT4wOx359GCKUldLkyI3j/qzjMrXPTXW8JlCEpECQ=;
+	b=Eol24FyELDC6xi+pyWdFZb3SPL4pvu1zup7pZ15Kt015uR2EwdYdoYlhwGgrKGuBDsjZ
+	 Uq2QWpdlBA9PFk6ZaQy78ocYOLSTwslHQCPdpW2DyhrFeVLhkCAxbZoFiv1RWQoF0a+At
+	 CZcIFmI7qhcY479CVzt2xtfw5REuNxAWInuYaeNZVfz3VC3xWJvpQZf6hTPs0zQWrxp48
+	 Ohxu0e2Y4eaps21XW+agurIsCJE7ozZxgnA9svYFNwRbeaIFyqyQpoVAuD5/tuin9UqP7
+	 xDqjruh2/ilslsi+Z43BbU5w/rHsgyo5ICw2Cb605LpCR43LW9cdproHg3XV7vrdtjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fWQJbWfT;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GZNf2Hla;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B8E160A380F;
-	Sun, 15 Nov 2026 03:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAA1A606A32D;
+	Sun, 15 Nov 2026 03:18:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fWQJbWfT
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 215341F000C4;
-	Sun, 15 Nov 2026 03:18:23 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GZNf2Hla
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 616B01F000CE;
+	Sun, 15 Nov 2026 03:18:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794712704;
-	bh=sXM91livLE5Zk7S7Dfg6Y9lrZXf4Fd/4eAz8t9MEIm8=;
+	s=k20260515; t=1794712700;
+	bh=zXhT4wOx359GCKUldLkyI3j/qzjMrXPTXW8JlCEpECQ=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=fWQJbWfTzXJTI68Gmqq6o5l+FKTYFql6yb608yBx6OPusDJ343mZmEMnyQ0dl7ZtM
-	 JZQGqJo7tKbQFfgjY62+AvN76PqlIMce5pF/jnp4wyW9tQY8LLqrd7DOa4RvJGkmP0
-	 0QET56NfDPahoetP5kcPqh5upHHc3slkNNXxQaN6U3ihuoBAFJ12cukdQzHdXQjCl9
-	 geEMCrssWPG1CA6nTmXamzYfTy9UeBjb/Ek0VtmdzXsAyckpDSVc1Q9vlfEp52aesd
-	 Ai5abYGjRQbCYSvHq0noZAUhgra2CDIr+zhgazOM0Di+4+PEiIN2ws39KKQm59zMx1
-	 uDJLALkLZ/5VA==
-Subject: Re: [PATCH net-next v1 08/15] psp: only give time-wait sockets of psp
- connections a validator
+	b=GZNf2HlaLZlCdc46wskxNqEXZk1in6HzCTrmFtIEhE6q3JzCo0VNIMLrWGmOdKlcN
+	 CsDUiIAsYE7iG3+hgx4l7d2Iv/ZNlW7se9fyf1cwfzbFiFSNbDmLhJFdZdd+i4Eftr
+	 Ie6vTQLSPBEFj0LNRngGCFY0HfWGgeI2ksB9eOxV42VeB2dnF3idKPH6RbNf/VeKIS
+	 av+yGB9oND6omGJNsayRsiy9qHvl4zgEdT6OxOnj77HYKh4+MzvEfj0oDKK1RqEMWj
+	 7ElIO4UukMSVv5YPLgPTuOegSuKAk21UDdtFhQUJc9MCJ7TTNDvOF0boVBuaTGC5Oz
+	 o/8nGgcTyRc4Q==
+Subject: Re: [PATCH net-next v1 06/15] net/sched: act_mirred: don't send
+ decrypted skbs from egress to ingress
 From: netdev-bot+sashiko@kernel.org
 To: toddfreed@meta.com
 Cc: netdev@vger.kernel.org, davem@davemloft.net, andrew+netdev@lunn.ch,
@@ -52,11 +52,11 @@ Cc: netdev@vger.kernel.org, davem@davemloft.net, andrew+netdev@lunn.ch,
  linux-kselftest@vger.kernel.org, linux-rdma@vger.kernel.org,
  martin.lau@linux.dev, pabeni@redhat.com, saeedm@nvidia.com, horms@kernel.org,
  tariqt@nvidia.com, weiwan@google.com, willemdebruijn.kernel@gmail.com
-Date: Sun, 15 Nov 2026 03:18:22 +0000
-Message-ID: <179471270271.2199510.4403404984222798506@kernel.org>
-In-Reply-To: <20261111005533.6436-9-toddfreed@meta.com>
-References: <20261111005533.6436-9-toddfreed@meta.com>
-X-sashiko-severity: High
+Date: Sun, 15 Nov 2026 03:18:18 +0000
+Message-ID: <179471269893.2199510.10845713252529893412@kernel.org>
+In-Reply-To: <20261111005533.6436-7-toddfreed@meta.com>
+References: <20261111005533.6436-7-toddfreed@meta.com>
+X-sashiko-severity: Low
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -69,111 +69,72 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 0
+Low priority / nit picks for your consideration:
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [High] psp_twsk_init() (net/psp/psp_sock.c) now sets
-  tw->tw_validate_xmit_skb = psp_validate_xmit whenever the full socket…
+- [Low] This patch adds the egress-to-ingress decrypted check only in
+  tcf_mirred_to_dev() (net/sched/act_mirred.c:291-292).
 
 --
 
-psp: only give time-wait sockets of psp connections a validator
+net/sched: act_mirred: don't send decrypted skbs from egress to ingress
 
-This commit changes psp_twsk_init() so that tw_validate_xmit_skb is set
-only when the full socket has a psp association, not on every tcp
-time-wait socket. It prepares for the upcoming tc psp action, which
-treats a socket that has a validator as having its own encryption
-offload.
+This commit stops tcf_mirred_to_dev() from sending skbs that have
+skb->decrypted set from egress to ingress. On transmit the bit asks the
+device to encrypt the packet, and on receive it means the device already
+decrypted it. Redirected skbs are dropped and mirrored skbs are not copied.
 
-> diff --git a/net/psp/psp_sock.c b/net/psp/psp_sock.c
-> index 609b06c7af65b..664955bfb4fdb 100644
-> --- a/net/psp/psp_sock.c
-> +++ b/net/psp/psp_sock.c
-> @@ -330,10 +330,14 @@ void psp_twsk_init(struct inet_timewait_sock *tw, const struct sock *sk)
->  {
->  	struct psp_assoc *pas = psp_sk_assoc(sk);
+> diff --git a/net/sched/act_mirred.c b/net/sched/act_mirred.c
+> index 1c98e4d81ebe6..52c3eeab381ae 100644
+> --- a/net/sched/act_mirred.c
+> +++ b/net/sched/act_mirred.c
+> @@ -285,6 +285,12 @@ static int tcf_mirred_to_dev(struct sk_buff *skb, struct tcf_mirred *m,
+>  		goto err_cant_do;
+>  	}
 >  
-> -	if (pas)
-> +	if (pas) {
->  		refcount_inc(&pas->refcnt);
-> +		/* Only for PSP connections: a validator makes the socket
-> +		 * look like it has an encryption offload of its own
-> +		 */
-> +		tw->tw_validate_xmit_skb = psp_validate_xmit;
+> +	/* On transmit, decrypted asks the device to encrypt the packet. Sent
+> +	 * to ingress, the packet would read as decrypted by the device.
+> +	 */
+> +	if (unlikely(want_ingress && !at_ingress && skb_is_decrypted(skb)))
+> +		goto err_cant_do;
 
-[Severity: High]
-Should this also check pas->tx.spi? As written, an Rx-only association
-(pas->tx.spi == 0) also gets the validator here.
+[Severity: Low]
+At this point in the series, is mirred the only egress to ingress path
+that needs this check?
 
-On a full socket, the validator is installed only after a Tx key is set,
-in psp_sock_set_tx_key():
+A tc egress BPF program can still call bpf_redirect() or
+bpf_clone_redirect() with BPF_F_INGRESS. That skb goes through:
 
-    WRITE_ONCE(sk->sk_validate_xmit_skb, psp_validate_xmit);
+skb_do_redirect() / bpf_clone_redirect()
+  __bpf_redirect()
+    __bpf_redirect_common() / __bpf_redirect_no_mac()
+      __bpf_rx_skb()
+        ____dev_forward_skb()
+          skb_scrub_packet()
 
-psp_sock_assoc_set_rx() publishes sk->psp_assoc but never sets
-sk->sk_validate_xmit_skb. A connection that did rx-assoc but never
-tx-assoc therefore has no validator while it is a full socket. It gains
-one when it enters TIME_WAIT.
+skb_scrub_packet() drops the dst but does not clear skb->decrypted. A
+kTLS or PSP offload socket skb would therefore reach ingress looking as
+if the device had decrypted it. The socket-less PSP case can't happen yet,
+because act_psp only arrives later in the series.
 
-Other places that decide whether a connection is PSP-encrypted test
-pas && pas->tx.spi. These include psp_reply_set_decrypted() in this same
-file:
+The next patch in the series, "bpf: don't redirect decrypted skbs from
+egress to ingress", seems to close this gap. It adds a matching check at
+the top of __bpf_redirect() in net/core/filter.c:
 
-    if (pas && pas->tx.spi)
-        skb->decrypted = 1;
+	if (unlikely((flags & BPF_F_INGRESS) && !skb_at_tc_ingress(skb) &&
+		     skb_is_decrypted(skb))) {
+		kfree_skb(skb);
+		return -EINVAL;
+	}
 
-and also psp_enqueue_set_decrypted() and psp_sk_overhead() in
-include/net/psp/functions.h.
+BPF_F_PEER without BPF_F_EGRESS already drops anything that is not at tc
+ingress. So the gap only exists at this intermediate commit.
 
-With the act_psp patch later in the series, tcf_psp_sk_offload() returns
-true for a TIME_WAIT socket that has a tw_validate_xmit_skb:
-
-    return sk_is_inet(sk) && sk->sk_state == TCP_TIME_WAIT &&
-           inet_twsk(sk)->tw_validate_xmit_skb;
-
-tcf_psp_act() then drops the packet with SKB_DROP_REASON_PSP_OUTPUT. In
-addition, sk_validate_xmit_skb() in net/core/dev.c drops skbs carrying a
-PSP metadata dst when the time-wait socket has a validator.
-
-TIME_WAIT replies get skb->sk = tw through skb_set_owner_edemux() from
-ip_send_unicast_reply() and tcp_v6_send_response(). The resulting
-sequence looks like this:
-
-  psp_sock_assoc_set_rx()       sk->psp_assoc set, tx.spi == 0, no validator
-  connection closes
-  psp_twsk_init()               tw_validate_xmit_skb set since pas != NULL
-  TW ACK/RST reply, skb->sk = tw
-  tcf_psp_act() ENCAP
-    tcf_psp_sk_offload()        true -> TC_ACT_SHOT
-
-So an egress psp encap rule that covers such a connection encapsulates
-its packets while the socket is full. Once the socket is in TIME_WAIT,
-the same rule drops its ACK and RST replies. Is this the inconsistency
-the commit message describes? It seems to remain for Rx-only
-associations.
-
-An Rx-only socket has no Tx offload of its own.
-Documentation/networking/psp.rst lists Tx as plain text in the Rx PSP
-state.
-
-Would gating on pas && pas->tx.spi, as psp_reply_set_decrypted() does,
-match the full-socket rule? Copying the validator only when
-sk->sk_validate_xmit_skb == psp_validate_xmit would be another option.
-
-> +	}
->  	rcu_assign_pointer(tw->psp_assoc, pas);
-> -	tw->tw_validate_xmit_skb = psp_validate_xmit;
->  }
-
-[ ... ]
+Would it be worth saying in this commit message that the BPF redirect path
+is handled in the following patch?
 
 -- 
 Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261111005533.6436-1-toddfreed%40meta.com
