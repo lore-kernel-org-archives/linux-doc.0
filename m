@@ -1,52 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=212.27.60.169
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794732484;
-	b=MC9vsDtKng6s4PWGe2W1GHMP/Ym1nFMv9D17wM5EpE4sbjW/7pC475ZMAQNB1kBmis+p
-	 OJMbj4ceSj/oqLL6pS+fEjVxD8DwVwkNlC+ePKe0IzvxMyivqDnA1Gv8BG/wT30yEHeAR
-	 Xwr3t8khXnu09aQXS/+7Ky3k+0YQW9lWe/+mYaPIA6/Nqx/rG/ycWpgJjH2uXVzz05EiZ
-	 tuH6fxVJDupYTbimFk7sbghZ7tWavhUiFs/95AJcmATeepl3J+hKfryrpbr4oHFScpu8T
-	 dQZ96GnHuEo5cf11OAsFP9lkYRBM75J5JewyHURdXKWpH7pAY1llCCaKqlfUbzt4rHA==
+	t=1794733567;
+	b=eZhe5fKn2zK/GwVVIaCmaIQD9ASAKAjmNiV/phW4X0pWuu2mMZmglOuPFawjhcQNva3O
+	 Fr7zd3SPXPhyAl8xyysh91/ZzyAbSrzdQGptsRFCr78u1deDkzhV4j8YOmuzUqZqkIdJ3
+	 OHDZZ5todVBzHRRv787PHwFRpMFHVfNhCzoWxTH4EOVj1MqjTwco1/FBU5V3gXk7zzWZ5
+	 4j8FqNI2583XRbXbU/Bc03xq6LoDBXCfRgFFvXanGcX0ZyD3NknNQ691FEVWrInTSRMEX
+	 yh3rZWDHnHQlXs8TmiDet/gw/qgGQ8VXVyMHZ7/Irm8YpOJ78EnRMvoLNeDlWVsoYKA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794732484;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794733567;
 	h=DMARC-Filter:DKIM-Signature:Received:Message-ID:Date:MIME-Version:
 	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding;
-	bh=uPPg0EzF0XkV3FTMCRiVAvj2KrnUFtGRJ3oRND3vRZM=;
-	b=JOGkSSfRdrWLgYMPVu+PbwFa819we/aVTE5bwkh3/UmIkt8AY+4lexzgOv030lpjBIwr
-	 1ll/8AdO4q2n+9PruHm/FmkWWi3GghgO+To/BXFGsQaUOGwgEXVEDNiU+Lhk04GVlK8z4
-	 r/MDvt1tHL4EQ3lmHE5QgbO0OJeDHu7l5pDluQjnEhj8JP42LmlINTc50Gg9/1M0J3ute
-	 KlKC34hpBExyatQBSvxOk6uEw5Zx4DdPSTHZqjMH1tPxYWI9fTMVcyQAdKeLEo8maX36W
-	 3OZ0LDh62kp7HzmuyVE0wV0RwHbakD7QA7QXNAaLQgpgItt9KV2/a/2D/lv7v5qTgOQ==
+	bh=ACgMyAp+PVuoyaP7vV3K9eaa7uolKbG2QsFYyIeRFH8=;
+	b=zKhOlLojYzosS/7anXSIvX159nFtZxn4+Zh+qMWGClpNPuFDPiZW2MX21YgosBIh3qo+
+	 Rq3UdLG7c12GtDUG6FGU1KysqeOZJ1+wRRpnYxr7RcUcyMhsc5l+jFYegWY/45jNVSzu5
+	 vddq6VG9KAYyZq2ECvAVwc9h/Re6jtHNC9Q+wF0PNrNSU4r09OE33UMejIVlXY3+MNCrt
+	 A017KMeU10QtULgDQO4hRXfwfDKFs3WQQWPkPGZJCea6orRLwBuVzOTMAXghLKXYo1dDS
+	 hBQ2gLuTQ8W+EhsasGcK2wInWhf8upVWiwYjlUC91K+nwytQpisv/50ZPmTBYv3X9dQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=corp.free.fr;
 	spf=pass smtp.mailfrom=corp.free.fr;
-	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b="hGMo/JPZ";
+	dkim=pass header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=hqS4o0fy;
 	arc=none smtp.remote-ip=212.27.60.169
 Received: from rcs.proxad.net (rcs.proxad.net [212.27.60.169])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD277606A327;
-	Sun, 15 Nov 2026 08:48:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DD277606A327
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EABE606A31A;
+	Sun, 15 Nov 2026 09:06:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8EABE606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=corp.free.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=hGMo/JPZ
+	dkim=pass (2048-bit key) header.d=corp.free.fr header.i=@corp.free.fr header.a=rsa-sha256 header.s=rcs header.b=hqS4o0fy
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=corp.free.fr; s=rcs;
-	t=1794732474; bh=5uvVqzK9P8/E9voTDvHAYhseKqu/N7Z++XtENzAy8bU=;
+	t=1794733564; bh=imesrF7DpucA94oI4NcLSjSMEoFs1fSO+z/B8tR2Jh0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hGMo/JPZdze1z9fdRrRQZlUK+MI+GtaZzrBmpYzilOo88fi2nMw3VWkS0dfWsM2yO
-	 GhPpv7EwlHuzVdlwmWl2s1dyApHzgR/qpEP2v2320Uobbiibp3Q+rUfWyFqepcgGsZ
-	 LU6xxj4Mj2Z015MxYgwF/CiyXA8aqholFHvkzKRztYcrn8hcga6nhU8R3LSl226RdI
-	 5hwdeU2FF9v+TIV8c8Dvea/2M7NAl1PCyTT404YipVKxdgX8uT/0fjKojXIyBlIxtg
-	 DZmLyGufJ7QqQDv4nTa4zej3Mz7GuV/Hz116Oo6XMAe66bB73zIqTtqY+rJ9xe19wu
-	 b1hJq0mhsH2+g==
+	b=hqS4o0fyma/0I0FJO991ng2V9zwNR4GujN2O6PsXv94veBGFkY9t1VPVsmb52WMEI
+	 w/zzgtmzm1Ju+b6refDVK2dHhSWTDBDeOBIxZsXcAAUp/AsTbCHd07YBZPnSliFOux
+	 BOS/swYihouO94j0ZxL4Q1oE4UYpAiBrxcAD1Jd0BHM4WbEa7ElMaQYCiT3LfZE/TZ
+	 x+m8gqWpVqem5pSd72lB6rokJyYynGB4P5WMqEyLsa7gJ+rOEOrrRT5gGxhHrgEmTA
+	 S5tZSLENmBQVOsWRwel/Zrz4pUpSi/vZJZkMrEC4V2Gqi1WqkiTbGlKTUHTEKK+fUY
+	 k+g6zBC/d9o0Q==
 Received: from [0.0.0.0] (unknown [213.228.1.188])
-	by rcs.proxad.net (Postfix) with ESMTPSA id 0584944C0202;
-	Sun, 15 Nov 2026 09:47:52 +0100 (CET)
-Message-ID: <8c5a16d1-5307-450f-9f83-911c871321c5@corp.free.fr>
-Date: Sun, 15 Nov 2026 09:47:52 +0100
+	by rcs.proxad.net (Postfix) with ESMTPSA id A81C544C0933;
+	Sun, 15 Nov 2026 10:06:02 +0100 (CET)
+Message-ID: <3c188745-3c7e-4105-be09-60a8f9d435e9@corp.free.fr>
+Date: Sun, 15 Nov 2026 10:06:02 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -57,7 +57,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 02/10] cxgb4: flower: refuse a tunnel key wider
+Subject: Re: [PATCH net-next 03/10] nfp: flower: refuse a tunnel key wider
  than the VNI
 To: netdev-bot+sashiko@kernel.org
 Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
@@ -70,85 +70,64 @@ Cc: saeedm@nvidia.com, leon@kernel.org, tariqt@nvidia.com, mbloch@nvidia.com,
  netdev@vger.kernel.org, linux-rdma@vger.kernel.org,
  linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
  oss-drivers@corigine.com
-References: <20261109131039.959438-3-acassen@corp.free.fr>
- <179442431962.2199510.14986379471426017@kernel.org>
+References: <20261109131039.959438-4-acassen@corp.free.fr>
+ <179442432180.2199510.17732935950535223359@kernel.org>
 Content-Language: en-US
 From: Alexandre Cassen <acassen@corp.free.fr>
-In-Reply-To: <179442431962.2199510.14986379471426017@kernel.org>
+In-Reply-To: <179442432180.2199510.17732935950535223359@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 11/11/26 20:11, netdev-bot+sashiko@kernel.org wrote:
+
+
+On 11/11/26 20:12, netdev-bot+sashiko@kernel.org wrote:
 > [Severity: Low]
-> The commit message says the truncation can already be hit today. Should
-> this carry a Fixes: tag, and possibly go through net?
-
-v2 adds the tag, with matching ones on the nfp and mlx5 patches. The 
-series stays on net-next. The bug needs a key that no VNI can carry, the 
-rest of the series depends on these checks.
-
-
-> [Severity: Medium]
-> Does this check cover the case the commit message describes? It only
-> looks at match.key->keyid. The hazard named in the changelog is a mask
-> that only covers bits above 23.
-
-No. v2 also refuses a mask that leaves no VNI bit.
-
-
-> [Severity: Medium]
-> This is a pre-existing issue and was not introduced by this patch. It
-> causes the same symptom the commit message names ("The rule would match
-> any traffic its other keys allow"), but it depends on the firmware
-> configuration.
+> The commit message says "An exact key above bit 23 already selects the
+> wrong VNI", so this check also fixes a bug that exists today. Should the
+> patch carry a Fixes: tag and a stable Cc so that stable trees get it too?
 > 
-> validate_filter() in cxgb4_filter.c checks encap_vld only against fconf
-> VNIC_ID_F and the chip version:
+> Before cls_flower accepts an enc_key_id mask, fl_set_key() passes
+> TCA_FLOWER_UNSPEC as the mask attribute. That means any enc_key_id that is
+> present always gets an exact mask:
 > 
-> 	    unsupported(fconf, VNIC_ID_F, fs->val.encap_vld,
-> 			fs->mask.encap_vld) ||
+> net/sched/cls_flower.c:fl_set_key() {
 >      ...
-> 	if (fs->val.encap_vld &&
-> 	    CHELSIO_CHIP_VERSION(adapter->params.chip) < CHELSIO_T6)
-> 		return -EOPNOTSUPP;
+> 	fl_set_key_val(tb, &key->enc_key_id.keyid, TCA_FLOWER_KEY_ENC_KEY_ID,
+> 		       &mask->enc_key_id.keyid, TCA_FLOWER_UNSPEC,
+> 		       sizeof(key->enc_key_id.keyid));
+>      ...
+> }
 > 
-> It never checks that iconf (TP_INGRESS_CONFIG) has USE_ENC_IDX_F set.
+> nfp_flower_compile_tun_udp_key() then shifts the key and the mask left by
+> NFP_FL_TUN_VNI_OFFSET (8), which throws away bits 24-31:
 > 
-> In __cxgb4_set_filter(), the VNI is programmed only in the USE_ENC_IDX_F
-> branch:
+> drivers/net/ethernet/netronome/nfp/flower/match.c:nfp_flower_compile_tun_udp_key() {
+>      ...
+> 		vni = be32_to_cpu((match.key->keyid & match.mask->keyid)) <<
+> 		      NFP_FL_TUN_VNI_OFFSET;
+> 		*key |= cpu_to_be32(vni);
+> 		vni = be32_to_cpu(match.mask->keyid) << NFP_FL_TUN_VNI_OFFSET;
+> 		*key_msk |= cpu_to_be32(vni);
+>      ...
+> }
 > 
-> 	iconf = adapter->params.tp.ingress_config;
-> 	if (iconf & VNIC_F) {
-> 		f->fs.val.ovlan = (fs->val.pf << 13) | fs->val.vf;
-> 		f->fs.mask.ovlan = (fs->mask.pf << 13) | fs->mask.vf;
-> 		f->fs.val.ovlan_vld = fs->val.pfvf_vld;
-> 		f->fs.mask.ovlan_vld = fs->mask.pfvf_vld;
-> 	} else if (iconf & USE_ENC_IDX_F) {
-> 		if (f->fs.val.encap_vld) {
-> 			...
-> 			ret = t4_alloc_encap_mac_filt(adapter, pi->viid,
-> 			...
+> So on current and stable kernels, a VXLAN or GENEVE rule with enc_key_id
+> 0x01000005 gets programmed into the NIC as VNI 5 with mask 0xffffff00. The
+> hardware then matches VNI 5 traffic. In software the rule never matches,
+> because VXLAN and GENEVE tunnel ids are only 24 bits wide.
 > 
-> If iconf has VNIC_F, ovlan_vld is overwritten with pfvf_vld, which is 0
-> for a flower rule. If iconf has neither bit, nothing is programmed.
-> 
-> set_filter_wr() has no VNI field, so tunnel information reaches hardware
-> only through ovlan/ovlan_vld. In both cases the FW_FILTER_WR is sent
-> without any VNI constraint.
-> 
-> On a T6 with such a firmware config, could a rule like "flower skip_sw
-> enc_key_id 5 action drop" be reported as offloaded with a VNI match, but
-> drop all ingress traffic on the port that matches its other keys?
-> 
-> Flower doesn't reach the hash filter path for these rules, since
-> is_filter_exact_match() returns false when fs->mask.encap_vld is set.
-> 
-> One possible fix would be for validate_filter() to reject encap_vld
-> unless (iconf & USE_ENC_IDX_F).
+> The Fixes: tag would need to point at the commit that first added
+> VXLAN/GENEVE VNI matching to nfp flower. Commit 77a5f73a8b33 ("nfp: flower:
+> move udp tunnel key match compilation to helper function") only moved this
+> code and says it makes no functional change, so the original commit is
+> older than that one.
+
+v2 adds Fixes tags for 611aec101ab7 ("nfp: compile flower vxlan tunnel 
+metadata match fields") and bedeca15afd8 ("nfp: flower: compile Geneve 
+match fields"). Both predate 77a5f73a8b33.
+
+The series stays on net-next, with no stable Cc. The bug needs a key 
+that no VNI can carry, the rest of the series depends on these checks.
 
 
-This predates the series. I can't test cxgb4 or its firmware 
-configurations, I leave it to the cxgb4 maintainers.
-
-pw-bot: cr
 
