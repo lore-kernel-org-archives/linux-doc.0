@@ -1,131 +1,41 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.76.78.106
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794844785;
-	b=aTE3ufaFls8kBXVpuCgGWxC4eIq/uMuMcltlPduhoLkO50ebeWKoUrQjvoK+2M3gygSo
-	 5f8Yw+bYTVOjtyE82QPZ4oTBGez1WjbsaJ3ZvnQdwhFwer2KxGVG1iBTWvvE7yQrtqGuW
-	 kyAQWzU/YgoTny1o8qovEWzKVRnrOc+QXGpXL2B2EMPAR65OaBpaWHVcPugDZBerHOTRu
-	 jU7cBqvk7JNsOYn3Rm0ZUFTiICQY+g1cQhgPAZF+kuEoQzBwex8x/ttPWYbEHeV7WVBJ6
-	 Sg94ANRUtkvv7+WUN27Ir4CC6VvqVZ1lodvfCUuBRZNef1lmKzMd+vsPUK7w5rIIAdQ==
+	t=1794845027;
+	b=s4Nb8xAFDMVWWzAQPkbljNXKgtR0FfX05EkZR8k9IU0HofH+yHlOUaXQgluI0fx3w1Oz
+	 LNFSvvVvC8WJD9obEOtxO3IwFv9W2r6STU8O/16jqkeqKToATfzmzlQZgz/cnsOPg/676
+	 LXzRR9tpm3THQmopwQxwYWCao8jlhkFkzMTCQpy+cU0Qd6GbDx7NqN4ZbQBLyIM2RCcOi
+	 2yJHko3B3x5Nkm20ufdPazjEfuUfDpob1Qn+tSwQWHy299XI7//k/u+yPFTde7rEP8Qki
+	 m+0/72EW8wOJeK1k7ou9Eztggvy48XqoLSYo5ns6CR3fYy7sjLPeYfGuRBg4YDW95iw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794844785;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=8zt6BKnr5OMQnoN+jLF5J5ZxUIjEZ6DGHzLguvsf5vs=;
-	b=ORBC4Nz6w/okyCVGb3aqtUJjB8H2vv6psraqZvBHauP5/U0udlsjRCYmfebWM0ZCXxEx
-	 KzU5EWRRTDlp2kK5k84ZFn/Avfq9sCaYE8DjW4CeUWvxpvGh0vJMrpR26i2DDqAKPNKE2
-	 y+v+cyj26ieaBlp8DcsR+9qn8c5kcieNIYHXMm9tYEuCD1iNWhUzLu2QdiHPflHFNY3hU
-	 BbEKnCnHyZC7WPSQ5ZJi4XPdnchEtgC/1qsGOQI09+EsbLCFIFyGWwWKCYj4C8SFYXYMz
-	 WM4dSxDl0IKt0cQ6F5i5wS1t7TDkZDeZfONxPrRgiTTf1xqDW7n7AbdMl+tmjObG73g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794845027;
+	h=DMARC-Filter:Received:Received:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=hpS6M900ZrqbYNnwn6CCN4oJpj/TVPdsd/1y1XqUQaI=;
+	b=LxUQS+kQdEFdYLYLdUQSIoTioyQC4CRr+D2aCKgfU3Heo0jGhLXBy63qZgLRkXLescnd
+	 UxmA4VCulrJqaAfeuj7aBO1SZzLpwfNlfw9A13Hz9rzysbIUzcf+xPE+/u1USrqMjOL2e
+	 5EE51HrUdfwwOearuRLe2ynsI6fZR+v8IgLu7RYnMrmf8JTQ6VNW/5zMf/MnZIIJm9z3a
+	 5YzWYPAne04OPTCxNPNJygb1x5gzJmwNlXD6O7yhKr3RlTLzI0jpfIIu4kuG3Qzx9yjPk
+	 vidbCVyZLC7TYDYgQ2OFcoXfxo9ZR04rWEA0drg7fQLZc2aWnxz2y9d+j1res2e7yag==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=ziepe.ca;
-	spf=pass smtp.mailfrom=ziepe.ca;
-	dkim=pass header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b="T4EaFVj/";
-	arc=none smtp.remote-ip=209.85.219.46
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0538D606A32C
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 15:59:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0538D606A32C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.a=rsa-sha256 header.s=google header.b=T4EaFVj/
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-91ea16d8072so36765166d6.2
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 07:59:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1794844784; x=1795449584; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8zt6BKnr5OMQnoN+jLF5J5ZxUIjEZ6DGHzLguvsf5vs=;
-        b=T4EaFVj/Db2Oh0QQIN6fEsneaLWasSmYdaomNevHcWQV9XfC0eku9uiWRA8yiTc/gq
-         beN2zhlEBUDpPwvlJXNnJXYG7SLeGP2RUl/CIxz8vHb+CRPGvwOGP84P37zc/ASqwdCv
-         a2ZImH/j9PEIljcRTrH9YjQx1m9XzvHX9w4v1GGAYhpr16oDLUf0JwGEJPe+tOCosZjE
-         d53ULE5uBklWCIuWvycUfx9hIvJ8w6anXEcNacgC3MbLl4k/Apkhq6kLpk0rmKpAkcTv
-         Trqjo9GQ8ASe6EH/m27mrq6sK/GeD3Uc4wVkpatMXBaBSojYeEkRpq+DgrGx3awVmJv/
-         hg9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794844784; x=1795449584;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8zt6BKnr5OMQnoN+jLF5J5ZxUIjEZ6DGHzLguvsf5vs=;
-        b=2qZvrEdcYd9Owgvhfauq3YEfr1MB4oaIiTAyOiYwqJsjeFeKd3zP7fiAX6Qa+5iV6F
-         pBEHSiQYiORVAnd7+XC6gUuEkrOUlLeq75dvWx/RXBYrjMgO/gv8b2nq3SwBFmAlqYMt
-         M0hhc5WD8qBAP8+V+1fOmM+bbgkEOBoUAZAOB4yl1IrzB5k7dwRaQsmqlg05g+BGPzbK
-         voL7C0oUTpvW8woul2oi3cPNrHOok7d7DHw8rIPOku7RAU3vioV2uFMSNupqgQnFR2Ye
-         HDfaokzoBtzqQ45InYaP4WDffENPzrGEuvebBlIAFO6sPDVPpkbkmjvEhLqT6yFNs5Qu
-         +PLg==
-X-Forwarded-Encrypted: i=1; AL+hErE8UJI7u0ERxuI2V8HXXa6gnvjfcFlAwF61bFloOtCRBTfAkEhxWSkJUSEpBsXUuRi7BDl+EUXA9yY=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+K3rNU3Zvw86aYzqNHcj2dMdo5PKgVIBbS4W1AWnjNeli6mvak
-	RVPo866nYimOP7BRDLDnHZKN1NI3gT1pgZVkUlozEemTZ9T9wIfKv/4mfbEz9sUHQAM=
-X-Gm-Gg: AZFdTZconsgZ1Sj5S6JYR+5s5RBVMGY8lzQfwDv7BjBBMj12epE/Or0Z+eLRv2LQWqx
-	usCWX1VfRBKZzBmexvzCs2n0ybICRP39yjqDrOjfOjyJmfcb0DVFeGSAzbeYNv3isEVu8gLesY8
-	4Hppa4lGzIBj9GNcvFJOIXqxeT/D3IK9gIUN0IO2tIFQ5rUgm+kvljRJx2C1+YBiY39gAkQ7NZI
-	cIqYJLPbIc/+VdScJQh4bX9g93niav5KAUEPSXBgdPz4XZ2nPBChST1vRjzxXsIu7cwzyb6u5B7
-	z4ogevfGAU3AVEfzWU2oBnEVcejLgGk+sSYt7eu2evze60SnLS+IIayiVZUPgX3YYG79e4UlWWH
-	Eudy9S+xlnp0nHkLsP2wi1qzF133LUriEhj1hz73A7prAQYo+sErSto5f0X+UrFF9pSFhMAx8Vn
-	2JlGynygh/kSttRV8MTWx+Nspkf040rRKpj+9BkEfAqa52Lk3JJ/+9eqnPlHYInEkQnjl8zre3y
-	GfAq+dTy5WPHRTMBgXEtY7MWhw7LOxtasdEn8nxBRxvUsThKsBm82Etyl4JHgZnwLWSAvtHeBDA
-	430w9Q==
-X-Received: by 2002:a05:6214:2467:b0:91c:7f1f:2c9e with SMTP id 6a1803df08f44-91f24209db6mr171122396d6.55.1794844783992;
-        Mon, 16 Nov 2026 07:59:43 -0800 (PST)
-Received: from ziepe.ca ([142.166.156.71])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91f23d93f10sm87735096d6.30.2026.11.16.07.59.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 07:59:43 -0800 (PST)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1xSz7O-00000009eOI-3Mx3;
-	Mon, 16 Nov 2026 11:59:42 -0400
-Date: Mon, 16 Nov 2026 11:59:42 -0400
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev
-Subject: Re: [PATCH 17/17] PCI: Replace untrusted state with device trust
-Message-ID: <20261116155942.GA2299285@ziepe.ca>
-References: <20261105-device-trust-core-v1-0-1e536825b4eb@nvidia.com>
- <20261105-device-trust-core-v1-17-1e536825b4eb@nvidia.com>
- <yq5amrr8yldi.fsf@kernel.org>
- <20261116132046.GI2532299@ziepe.ca>
- <yq5aa4n8ydsk.fsf@kernel.org>
+	dmarc=none header.from=hust.edu.cn;
+	spf=pass smtp.mailfrom=hust.edu.cn;
+	arc=none smtp.remote-ip=13.76.78.106
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9415606A322
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 16:03:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A9415606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.52])
+	by app2 (Coremail) with UTF8SMTP id IQEQrMBWfcVbKftqrIkbAA--.39274S2;
+	Tue, 17 Nov 2026 00:03:40 +0800 (CST)
+Received: from [100.81.40.43] (unknown [10.12.191.55])
+	by gateway (Coremail) with SMTP id _____wAH0slWKftqmMkcAA--.6011S2;
+	Tue, 17 Nov 2026 00:03:36 +0800 (CST)
+Message-ID: <8663b8ae-9bc7-46ab-ad12-c9ed97a8096a@hust.edu.cn>
+Date: Tue, 17 Nov 2026 00:03:34 +0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -135,26 +45,123 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <yq5aa4n8ydsk.fsf@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: What's cooking in Chinese docs (Nov 2026, #04)
+To: Weijie Yuan <wy@wyuan.org>
+Cc: Weijie Yuan <kernel@wyuan.org>, linux-doc@vger.kernel.org,
+ Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+ Chen-Yu Yeh <chenyou910331@gmail.com>
+References: <avcRFzlQQTOra-fr@wyuan.org>
+ <b930b5f3-8571-42a6-a8d4-433ace854f3f@hust.edu.cn>
+ <avsgnLlkyQZ2U7d7@wyuan.org>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <avsgnLlkyQZ2U7d7@wyuan.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:IQEQrMBWfcVbKftqrIkbAA--.39274S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw1UWF1UXF4xWFyUWw17Jrb_yoW5CFW3pF
+	WfKFn7GF18Xr18Ar1Iga18CF1IqF1rG343Xr15G3WfArn0yry0qF1jkrWFga4qvrykCF45
+	tw17Zr9agryDZFDanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUmlb7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
+	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
+	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
+	x4A2jsIE14v26r4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8JVW8Jr1ln4kS14v26r
+	1Y6r17M2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY02Avz4vE-syl42xK82IYc2Ij64
+	vIr41l42xK82IY6x8ErcxFaVAv8VW8uFyUJr1UMxC20s026xCaFVCjc4AY6r1j6r4UMxCI
+	bckI1I0E14v26r126r1DMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJVW8
+	JbIYCTnIWIevJa73UjIFyTuYvjxUV9N3UUUUU
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On Mon, Nov 16, 2026 at 09:22:11PM +0530, Aneesh Kumar K.V wrote:
-> > Once you turn on TDISP you effectively activate DMA, just like turning
-> > on the IOMMU.
-> 
-> We considered two options for doing this:
-> 
-> 1. Via the ->accept() callback in pci_tsm_ops.
-> 2. Via pci_dma_configure(), based on a combination of device trust and device acceptance.
-> 
-> If I understand correctly, you are suggesting that we stick with the
-> former?
 
-It should still be done in #2, just with nothing to do with device
-trust.
+On 11/16/26 11:26 PM, Weijie Yuan wrote:
+> On Mon, Nov 16, 2026 at 11:07:34PM +0800, Dongliang Mu wrote:
+>> On 11/13/26 9:31 PM, Weijie Yuan wrote:
+>>> Here are the topics for Chinese docs waiting to be merged.
+>>>
+>>> Copies of the source code to Chinese documentation development tree live
+>>> in here:
+>>>
+>>>       git://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
+>>>       https://git.kernel.org/pub/scm/linux/kernel/git/alexs/linux.git
+>>>       https://kernel.googlesource.com/pub/scm/linux/kernel/git/alexs/linux.git
+>>>
+>>> Mirrors:
+>>>
+>>>       https://mirrors.hust.edu.cn/git/kernel-doc-zh.git
+>>>       https://mirror.nju.edu.cn/git/kernel-doc-zh.git (experimental)
+>>>
+>>> Please report any mirror instability to linux-doc@vger.kernel.org
+>>>
+>>> -------------------------------------------------------------------
+>>> [Cooking]
+>>>
+>>> * Yikun Wei 2026-11-13
+>>>     [PATCH] docs/zh_CN: Add deprecated translation
+>>>
+>>>     Needs review.
+>>>     source: <20261113122844.24838-1-YikunWei@126.com>
+>>>
+>>>
+>>> * Yikun Wei 2026-11-13
+>>>     [PATCH] docs/zh_CN: Add contribution maturity model translation
+>>>
+>>>     Needs review.
+>>>     source: <20261113112200.16790-1-YikunWei@126.com>
+>>>
+>>>
+>>> * Xiongwei Song 2026-11-13
+>>>     [PATCH 0/2] Add RCU docs Chinese translation
+>>>     [PATCH 1/2] docs/zh_CN: Add RCU/index.rst translation
+>>>     [PATCH 2/2] docs/zh_CN: Add RCU/whatisRCU.rst Chinese translation
+>>>
+>>>     Needs review.
+>>>     source: <20261113013054.5662-1-xiongwei.song@linux.dev>
+>>>
+>>>
+>>> * Weijie Yuan 2026-11-09
+>>>     [PATCH v3 0/2] docs/zh_CN: update maintainer/configure-git.rst
+>>>     [PATCH v3 1/2] docs/zh_CN: sync maintainer/configure-git with upstream
+>>>     [PATCH v3 2/2] docs/zh_CN: improve maintainer/pull-requests translation
+>>>
+>>>     Needs review.
+>>>     source: <20261109-configure-git-v3-0-d7807bb8e8c7@wyuan.org>
+>> The above four patch/patchset are reviewed. New contributors still need to
+>> pay more attention to how-to.rst.
+> Oh btw, once this patch from Konstantin is merged, we'll only have the
+> linux-doc list, and no more LKML:
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-nonmm-hotfixes-unstable&id=24e311b72f31fddbbb1e2f6fc3232f3ac523d929
+>
+> Therefore our free Sashiko review will stop soon because linux-doc is
+> not registered in Sashiko.
+>
+> I noticed that support for triggering reviews based on specific file
+> paths, without enabling them for the entire linux-doc mailing list,
+> seems to have landed on Sashiko´s main branch, but isn't in the latest
+> release yet. If folks would appreciate an extra pair of eyes, I'll take
+> another look and kindly ask Roman to enable it for us.
 
-You can't run a TDISP run device at all if DMA_ENABLE is not done,
-there is no half step here so it has nothing to do with device trust.
+Just do it. No lost, but more issues with another round of review.
 
-Jason
+
+>   I'll do that
+> after this weekend's CLK conference. What do you think?
+
+If you are in Hangzhou at the weekend, maybe we can have a talk there.
+
+I will go to Hangzhou this weekend since my student will have a talk in 
+the ebpf subsystem of CLK conference.
+
+Dongliang Mu
+
+
+>
+> Thanks.
+
