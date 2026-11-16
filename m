@@ -1,47 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.155
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794848121;
-	b=m8KQoh+AZRG/gYCXXREejqbV0kE6F84WdBqIYXv5Tgq2dVRGOauv1oqRTVWVymltes3J
-	 Ngs3MI7S4mGHmChSy8g6XlVAQzIRMMAhNhq/Tx6yQMN8ABrQ2y4EazWtobrSswD5iqPy2
-	 /QDkUPy6uAe40TVeHAdSLMlh38PpPM2b1fcZIOjOLHA5MXzfwWsbdACzXkXzqG9N1lxc2
-	 KkE7uaNM4n+2KTTJkySzfFP1W/mVzJP38plBxjFQDo3W24EYh83wpAOHPm8LFiCIgELOP
-	 t6EkUqWYiOBdEp7s4O8Qe8KaYiS6ls/amddI58vUDYAP5Kz4l/VvF+Pso8ruCoC4v+w==
+	t=1794848219;
+	b=T4ak9i2AIrdNAZSpj30vdzNIWoDPOD73h4Z1IiK2QVXPS2T/myJR3oN9iUpohFgLHmN3
+	 SJv4iDM0ho11kj80lTINZ6J+BQmekRo5qWykNgKoMwFZuGa5Wy+HvZqrVApof1sLKVPxb
+	 g7piYFph95tArBYJU5r2f0ao/MayZ4SR/bzJqXmJKBOsCJiob+UANovtFkYPp0o3735aR
+	 TcCJtizzjbgyDYjaZBRucp1EuVWx3ZSAdtALUaVR/NNKhr2ZEuxKnpwMzog/jar77BUdf
+	 6yqhA/usbr1oIKc7QzDkbyLdPn336WyBVCSv3o5QwMmvHxm5FCW+hLucuTN6q0fMpUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794848121;
-	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:Content-Language:To:Cc:References:From:Autocrypt:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=8rZOm9cyO9/o+jh32Sv8L1QuooKEur+vb0oVWZZU+ZU=;
-	b=kmQgGw0SSSvDvm1g0RUHwbTqwrnJqVUJc8smzgHRuZOvbSPff5MM9M5SsPsioGSt4z6u
-	 OyixQIWja5K2/pYwJx7b7YKf34ryQ6HCHzdX+pt1r9KBbH131ktFIicO2scWIOQnQXYSk
-	 ugod3DaHB58uGv7R2hOyvCafW1slhkEDLD/+lSdQVgOrX2bCqT6NtKljPR+qSSxF3207I
-	 Z9Rtwt/zqTBmwcIBeI5RyFUza8NtSJ8sXFLKk/smbb5oyjBw1SW5lkoXv7l7iI4n87kpF
-	 4Zw2e9iyaAyN1cVQk6je8JymOkBji5VaOGbhewA366nV80UdVuksqEqrTqtMU6WR7NQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794848219;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=wLnbZve+OkQ6YTZYC3Sz6BV0QtHRhOr4tbKex2cYIK8=;
+	b=AX/F84hFzf+IGI8RwD5BVSnoW9Dt59swpycLOU4lhasZiGEK8VkqHGKkprl68yTDgl1W
+	 z2lhwOsdhutSplIaXLxvduUQPcDAmS04i1lL05nluz+kAxv7jWcQstMYg/XgE5msF20Nz
+	 Ge/7n1kuBjkWtYI8RJm4J1oSCQSgEgr2NcKtUKRv9u9muZtKmH0CGlvwrlyodHTZGxCWN
+	 Q9DYA4tZCU9yHpo8ROQJaBcVzdAFTKkPLxbGicWOF/cv5gpFvqsQda24JHkRSnEYB8Ebx
+	 kWPvVBuf/Tn+KxJwlMw6US0RUusfAWcxGAXR40jG9d8hVmM5c18b7HCSvUTH90fbbLw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kWP9t9GW;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=squebb.ca;
+	spf=pass smtp.mailfrom=squebb.ca;
+	dkim=pass header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm1 header.b=aGL5EJju;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=R3m5vGF3;
+	arc=none smtp.remote-ip=103.168.172.155
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EDC2606A33B;
-	Mon, 16 Nov 2026 16:55:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3668606A89E
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 16:56:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org F3668606A89E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kWP9t9GW
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81DCA1F000C9;
-	Mon, 16 Nov 2026 16:55:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794848121;
-	bh=8rZOm9cyO9/o+jh32Sv8L1QuooKEur+vb0oVWZZU+ZU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kWP9t9GWCos5WxA/8KiAvu/sE8CPjNex6w0Ru8Q8v8Ip7RAYzqA2897SZQeZ5QGLD
-	 xYdYlmsIDi2gxlN/OAma8mu0rKgphAhZm1zFqBVEAZn4xcCKt4gv9y/VuMMFe2Pqqp
-	 UzWr8iiBZ66BO8r5pCgm9Fd871j/xXaH+EhAQ9Xs25ia7p2cjSd+rECkZYEOqD2mWm
-	 Fsun+U99Gt90g5ktgNz7zD54HwS0QRrhM1qlEfd75tBHYL0PQkX2mvcNROMBu9Hhg7
-	 PoAOHIR9iSfIYVNhLslCbaUgRGeOh2A5L4Iz4gKewxF9b9NfcXiYwwkydsh1hgdfxd
-	 SzMeDGQjP/evw==
-Message-ID: <8b6e489a-eb73-4b2a-ac65-dfadc8c73bfc@kernel.org>
-Date: Mon, 16 Nov 2026 17:55:16 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm1 header.b=aGL5EJju;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm3 header.b=R3m5vGF3
+Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id E8FAD140007D
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:56:54 -0500 (EST)
+Received: from stl-imap-02 ([10.204.2.93])
+  by stl-compute-04.internal (MEProxy); Mon, 16 Nov 2026 11:56:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1794848212;
+	 x=1794934612; bh=wLnbZve+OkQ6YTZYC3Sz6BV0QtHRhOr4tbKex2cYIK8=; b=
+	aGL5EJjuXY0h3pFz+NyD9p32tUni6iGra9sn1pMcpPPK7EmuSRb+Ne7qGwqh/drL
+	r73vW5+dzlIaO5788fI1C2YTfFFG1Kjt65l31KRbqRod3qus1MeH1kBA1gehKLZj
+	+odEhAMOue/xfMiRQToyn/NyOAjgQo/RbC1D8zqlxpkmmbi+5eF8N3KT10DvM8tb
+	vrDJtFD4mCwcGtavZ6wTlFStSvRs5LHiXj3CO9Vzat/QS/hJAhNFMgtSPzaGTp5d
+	kn+SpIeMuLDMMPPseQCnKSbyaztAj+RKRy6gPdTxYnbPOrcHiFWfNKi6S5AQXYea
+	PXXlVbPAaZI5eK53eVk+Rg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794848212; x=
+	1794934612; bh=wLnbZve+OkQ6YTZYC3Sz6BV0QtHRhOr4tbKex2cYIK8=; b=R
+	3m5vGF3KgG5HzTbG7DFA99ackUgmBGNzYGibdcfYXlR8zaXdWpK17QDmMecpYcrl
+	yMXwaIGctqwXi4kOPvvwqLbz02KrrfAY5yUL0JTLliKscgMIJJY2S/NTmHRt2G0F
+	6zep/wW6XH811eu3twEFZDoDy4jna3/gifu3r2Ith8FYKwSFEj4ed9p4NnvNGbzK
+	n4HucR5MY3bOwCgNfNhLwfbQN72dlml7ohmcLf2GWrR7WRnPLFeCmQgWRprJof8t
+	GrU6cwJjAhOUvOxHnsn1Lk4hbGQr9vnIB8lGFU9lZUXiAf97LgSTWtND4eBhaPJ7
+	53HIIaYom3GmJ9NeCTyxQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=squebb.ca a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794848212; d=squebb.ca;
+	mf=PG1wZWFyc29uLWxlbm92b0BzcXVlYmIuY2E+;
+	rt=PGxpbnV4LWRvY0B2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm1:rsa-sha256:Q3XUe2Fc7UNdcDBLLElj5/OBuQwDdE2deLhEsnZzenwHPEp
+	NDpSMDw5THGUHXUMT0SDxAFM3cwBEdNP2IHulxDLze/ANtF52Na4Sjnx3PMDpMFJ
+	h4aFMFS6DISd6CO+C/D4gvfHtRw2a7PAqCD7WzPkvaBwbfHg4Owez55VV8Gb5Seh
+	LvOCUQ83XHau4uvI64XeoBEJQt6Lj8AML1q8RpALtK6x+0IuebL0Tmibz5zwPeC2
+	WukQo6kC67IxKHfituWHpTzLLK2iUqZkg5Q9cufVSyz4sYMpWtT7FA6cAEjVcxn4
+	C6yKoiiAvpMS5N4NzwkPZM0YAsfvLICpr2KOxMw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:ZkQMNJ1Vs2ffPX930/yb7Jv06SjiQPVkwN60EMvYOHw=:qZIwAzne+fEx/iaHFoTI8JjWFpBebSGFSQAX4LGGZpA=;
+X-ME-Sender: <xms:0zX7aidpbdaAAd4tSA7rVyPEAIdj9MyS43Icn11Y9Y30RhDdKR034A>
+    <xme:0zX7anCjkTZhiYI9ImamJ8rsX_QfLWfYuUtKaSoddIRKpJ4ES0BMy8kFeHUQa1UW7
+    mFgdJwixiMBaK77-phmJAzcNdxGRiwJkKAb7_prGgL6nPH0TzpjBHH7>
+X-ME-Proxy-Cause: dmFkZTEK4AwU3c7juGKDHnx3zstPI90UpZcPrDZ0ExSyvnG3qx1og7rZvj7ku4Mq4p460d
+    rQBBIQwFPH1qz45g6rFdlsEY4C043TlqybR7XoyoDPrq52rCMohdjbxc9Gx+rkTBQNC8KF
+    y4ynly08ugcGvufv8WJhZvqfE6vvaHUp8wd05Dz7Ktf9sq1nBGajHzs5UV0C8ZpHO5NaWK
+    XM/cY4bsgTqSozWDCy0yXQJ6xjlDsusnmQ8ilfB9YtKGtlCcuobJvi6U+0gwsIdUyCfICY
+    0PkQ5qKRYwyF7Fz1euQLewEi1G+dO05gs+mcVCbeydGmyE3+VmThsJJu6OMnbv6fpdpCY3
+    f0nGBl7Sl97Rd+ixz6cJN33SeBVBirEHNjb528cMvTGuuSa7bz4MGWpn5wANp1ZOANdEmq
+    enGwKdauZtc4wXmbjY/5wrftCgz9iHuZLvLarSe9YaUX6RDskGJmpx91fe4Ke6z8FN6gpz
+    N7D44TbEgp+onJ+zAtkYcbqKytzQCepss4lSaU0P2wTSblf+0QOz2zX+t1Hr9N51UD9SDM
+    UULvS8R9sWAHspbgpuWp7/Vu+k+qSqH9LXxKaTvFQcIF6ZFYndS7tfY61E19r2fwECQ/Xj
+    Yzwn+eIN7JA63/lQqwzKMQayku8tiT3n+uORvwbGqEBsiwyG3clp8/CbuJ2A
+X-ME-Proxy: <xmx:0zX7apKhsGQIt3U4e-dtJ125Vf7p6f2Y0KA6BkifNkkmixycE1l6dw>
+    <xmx:0zX7apuKcQGSLKfI8EjH3G1ChlCX7KwgPuAx7cuR0BOy7bgH-MKA3Q>
+    <xmx:0zX7au3FoxHKi9NZinAWo6Qglrvd6dBA3dIacEcurT2Xs8_NADDgNw>
+    <xmx:0zX7ahPFxeVsvBGT7R-G1X5fh9V-AdJS3hKe4ECqwoGpIRqlPlpErg>
+    <xmx:1DX7anttEkKVRBlsUdUazWEvt3ejOArFUznSzfxmveNKsY2aoA1PdCJ2>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.stl.internal (Postfix, from userid 501)
+	id 3149E2C00085; Mon, 16 Nov 2026 11:56:51 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -51,146 +115,592 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/6] mm/slab: Support selecting slab hardening features
- at boot
-Content-Language: en-US
-To: Chris Down <chris@chrisdown.name>, Harry Yoo <harry@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>,
- David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Kees Cook <kees@kernel.org>,
- Marco Elver <elver@google.com>, GONG Ruiqi <gongruiqi@huaweicloud.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-mm@kvack.org,
- linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, kernel-team@meta.com
-References: <cover.1794506262.git.chris@chrisdown.name>
-From: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Autocrypt: addr=vbabka@kernel.org; keydata=
- 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
-In-Reply-To: <cover.1794506262.git.chris@chrisdown.name>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: AxqS-XYwZQCk
+Date: Mon, 16 Nov 2026 11:56:31 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Alan Pluto" <alanpluto@163.com>,
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>
+Cc: "Derek J . Clark" <derekjohn.clark@gmail.com>, "Rong Zhang" <i@rong.moe>,
+ "Armin Wolf" <W_Armin@gmx.de>, "Hans de Goede" <hansg@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, skhan@linuxfoundation.org,
+ "Randy Dunlap" <rdunlap@infradead.org>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-api@vger.kernel.org
+Message-Id: <85830240-1444-4e88-9d2c-97e3d39ae4b2@app.fastmail.com>
+In-Reply-To: <20261116040532.154928-1-alanpluto@163.com>
+References: <20261116040532.154928-1-alanpluto@163.com>
+Subject: Re: [PATCH] platform/x86: lenovo-wmi-other: Add raw GetDataByPackage interface
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
-On 11/13/26 09:51, Chris Down wrote:
-> Slab hardening settings are currently all build time choices. This means
-> that, unfortunately, hosts with different requirements end up needing
-> separate kernel images. At Meta, for example, some hosts are built with
-> these options and the rest of the fleet isn't, and that's one of the
-> things that keeps those kernels apart.
-> 
-> This series does two things:
-> 
-> - SLAB_FREELIST_HARDENED and SLAB_FREELIST_RANDOM are cheap enough with
->   sheaves that it makes more sense to just enable them by default than
->   to make them switchable. With both on, system level benchmarks didn't
->   change measurably, only slowpath heavy microbenchmarks did [1].
-> 
-> - SLAB_BUCKETS and KMALLOC_PARTITION_CACHES cost memory (Harry measured
->   about 1 MiB and 18 MiB respectively after boot on a 64 CPU VM [2]), so
->   they get slab_buckets= and kmalloc_partition= boot parameters, which
->   default to on when the option is built in.
+Hi Alan,
 
-I'm not thrilled about the "default to on". We usually do these features
-opt-in. Now our distro kernel would likely need to have these "disable this"
-options in the default command line, with documentation to remove it for a
-hardened setup.
+On Sun, Nov 15, 2026, at 11:05 PM, Alan Pluto wrote:
+> Expose Lenovo Other Mode WMI GetDataByPackage, method 99, through a
+> root-only character device so userspace can access the raw firmware
+> interface. And document the interface.
+>
+> The upstream driver was build-tested with W=1 and checked with Sparse.
+> A backport using the five-argument wmidev_invoke_method() interface
+> was tested on Ubuntu 7.0.0-42 with Lenovo hardware. The upstream 7.4
+> driver has not been tested on hardware.
+>
+> Signed-off-by: Alan Pluto <alanpluto@163.com>
+> ---
+>  Documentation/ABI/testing/dev-tac             |  49 +++
+>  .../wmi/devices/lenovo-wmi-other.rst          |   8 +
+>  MAINTAINERS                                   |   1 +
+>  drivers/platform/x86/lenovo/wmi-other.c       | 325 ++++++++++++++++++
+>  4 files changed, 383 insertions(+)
+>  create mode 100644 Documentation/ABI/testing/dev-tac
+>
+> diff --git a/Documentation/ABI/testing/dev-tac 
+> b/Documentation/ABI/testing/dev-tac
+> new file mode 100644
+> index 00000000000..a8be8e95e2d
+> --- /dev/null
+> +++ b/Documentation/ABI/testing/dev-tac
+> @@ -0,0 +1,49 @@
+> +What:           /dev/tac[0-9]*
+> +Date:           November 2026
+> +Contact:        platform-driver-x86@vger.kernel.org
+> +Description:
+> +                Lenovo Other Mode WMI GetDataByPackage (method 99).
+> +                Each firmware WMI instance gets a misc character 
+> device with
+> +                mode 0600. Numbering follows allocation order, not 
+> necessarily
+> +                the firmware instance number. Registration does not 
+> probe
+> +                support for method 99. The parent is the bound WMI 
+> device.
+> +
+> +                Open with O_RDWR. One write submits one complete 
+> request of
+> +                1..100 raw bytes; shorter requests are padded with 
+> zeroes to
+> +                100 bytes. Empty and oversized writes fail with EINVAL 
+> without
+> +                calling firmware. Successful writes return the full 
+> submitted
+> +                length and execute two identical WMI calls for the BIOS
+> +                duplicate-call workaround. Request pairs through this
+> +                interface are serialized; calls made by other driver
+> +                interfaces are not covered by this serialization.
+> +                Evaluation failures abort the pair; the driver does not
+> +                automatically retry.
+> +
+> +                Each open file description owns its response. A write 
+> while
+> +                that response remains unread fails with EBUSY, 
+> including after
+> +                partial reads. A new open cannot read another open's 
+> response.
+> +                Descriptors shared by dup/fork share the same 
+> transaction;
+> +                applications must coordinate the complete write/read 
+> sequence.
+> +
+> +                Read returns little-endian u32 DataSize followed by 
+> exactly
+> +                DataSize data bytes. Response storage is erased when 
+> fully
+> +                read or closed. Further reads return EOF until a new 
+> successful
+> +                write. Before a successful write, or after a failed 
+> firmware
+> +                evaluation, reads return ENODATA. A zero-length read 
+> returns
+> +                zero without consuming data.
+> +
+> +                Requests are synchronous even with O_NONBLOCK. Seeking 
+> and
+> +                positional I/O are not supported. There is no ioctl 
+> interface.
+> +                A removed WMI device causes nonempty reads and valid 
+> writes
+> +                on existing descriptors to fail with ENODEV.
+> +
+> +                Firmware evaluation failures map to EIO. WMI 
+> marshalling
+> +                failures return the error reported by the WMI 
+> subsystem.
+> +                A truncated response or invalid DataSize maps to 
+> EPROTO.
+> +                Bad userspace memory maps to EFAULT. Failure does not 
+> imply
+> +                firmware had no side effects; never blindly resubmit 
+> commands.
+> +                Interrupted waits can return EINTR before firmware 
+> evaluation.
+> +
+> +                The WMI subsystem converts returned ACPI objects to a 
+> buffer.
+> +                This raw firmware interface may change device state. 
+> Use only
+> +                commands whose behavior and side effects are 
+> understood.
+> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst 
+> b/Documentation/wmi/devices/lenovo-wmi-other.rst
+> index 011054d64ea..ec85fdeeb7a 100644
+> --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
+> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
+> @@ -33,6 +33,10 @@ under the following path:
+> 
+>  Additionally, this driver also exports attributes to HWMON.
+> 
+> +The driver also exposes GetDataByPackage (method 99) through a raw character
+> +device for each WMI instance. See Documentation/ABI/testing/dev-tac for the
+> +request and response format and its access restrictions.
+> +
+>  LENOVO_CAPABILITY_DATA_00
+>  -------------------------
+> 
+> @@ -109,6 +113,10 @@ WMI interface description
+>  The WMI interface description can be decoded from the embedded binary 
+> MOF (bmof)
+>  data using the `bmfdec <https://github.com/pali/bmfdec>`_ utility:
+> 
+> +The example below describes an older firmware revision and specifies a
+> +40-byte maximum input for GetDataByPackage. Newer firmware uses a 100-byte
+> +input, which is the size used by the raw interface described above.
+> +
+>  ::
+> 
+>    [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), 
+> Description("LENOVO_OTHER_METHOD class"), 
+> guid("{dc2a8805-3a8c-41ba-a6f7-092e0089cd3b}")]
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 981eb3fdbef..84b1545f525 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15168,6 +15168,7 @@ M:	Derek J. Clark <derekjohn.clark@gmail.com>
+>  M:	Rong Zhang <i@rong.moe>
+>  L:	platform-driver-x86@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/ABI/testing/dev-tac
+>  F:	Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>  F:	Documentation/wmi/devices/lenovo-wmi-other.rst
+>  F:	drivers/platform/x86/lenovo/*
+> diff --git a/drivers/platform/x86/lenovo/wmi-other.c 
+> b/drivers/platform/x86/lenovo/wmi-other.c
+> index bd64e7b4466..c15b3a2a758 100644
+> --- a/drivers/platform/x86/lenovo/wmi-other.c
+> +++ b/drivers/platform/x86/lenovo/wmi-other.c
+> @@ -34,16 +34,23 @@
+>  #include <linux/device.h>
+>  #include <linux/export.h>
+>  #include <linux/firmware_attributes.h>
+> +#include <linux/fs.h>
+>  #include <linux/gfp_types.h>
+>  #include <linux/hwmon.h>
+>  #include <linux/idr.h>
+>  #include <linux/kdev_t.h>
+>  #include <linux/kobject.h>
+> +#include <linux/kref.h>
+>  #include <linux/limits.h>
+> +#include <linux/miscdevice.h>
+>  #include <linux/module.h>
+> +#include <linux/mutex.h>
+>  #include <linux/platform_profile.h>
+>  #include <linux/power_supply.h>
+> +#include <linux/slab.h>
+>  #include <linux/types.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/unaligned.h>
+>  #include <linux/wmi.h>
+> 
+>  #include <acpi/battery.h>
+> @@ -91,6 +98,9 @@ enum lwmi_feature_id_psu {
+>  #define LWMI_FEATURE_VALUE_GET 17
+>  #define LWMI_FEATURE_VALUE_SET 18
+> 
+> +#define LWMI_DATA_PACKAGE_GET 99
+> +#define LWMI_DATA_PACKAGE_INPUT_MAX 100
+> +
+>  #define LWMI_FAN_ID_BASE 1
+>  #define LWMI_FAN_NR 4
+>  #define LWMI_FAN_ID(x) ((x) + LWMI_FAN_ID_BASE)
+> @@ -115,6 +125,27 @@ enum lwmi_feature_id_psu {
+> 
+>  static DEFINE_IDA(lwmi_om_ida);
+> 
+> +static DEFINE_IDA(lwmi_tac_ida);
+> +static DEFINE_MUTEX(lwmi_tac_lock);
+> +
+> +struct lwmi_tac {
+> +	struct miscdevice misc;
+> +	struct kref ref;
+> +	struct wmi_device *wdev;
+> +	u8 instance;
+> +	int id;
+> +};
+> +
+> +struct lwmi_tac_file {
+> +	struct lwmi_tac *tac;
+> +	/* Protects the per-open response and its position. */
+> +	struct mutex lock;
+> +	void *result;
+> +	size_t result_len;
+> +	loff_t position;
+> +	bool completed;
+> +};
+> +
+>  enum attribute_property {
+>  	DEFAULT_VAL,
+>  	MAX_VAL,
+> @@ -1609,6 +1640,295 @@ static void lwmi_om_fw_attr_remove(struct 
+> lwmi_om_priv *priv)
+>  	priv->ida_id = -EIDRM;
+>  }
+> 
+> +/**
+> + * lwmi_tac_free() - Free an unregistered endpoint after its last close
+> + * @ref: Reference belonging to the endpoint.
+> + */
+> +static void lwmi_tac_free(struct kref *ref)
+> +{
+> +	struct lwmi_tac *tac = container_of(ref, struct lwmi_tac, ref);
+> +
+> +	ida_free(&lwmi_tac_ida, tac->id);
+> +	kfree(tac->misc.name);
+> +	kfree(tac);
+> +}
+> +
+> +/**
+> + * lwmi_tac_open() - Allocate independent response state for an open 
+> file
+> + * @inode: Character device inode.
+> + * @file: File initially pointing to the registered miscdevice.
+> + *
+> + * The misc core serializes open against deregistration, so the 
+> registration
+> + * reference remains valid while the file acquires its own reference.
+> + *
+> + * Return: 0 on success, or -ENOMEM.
+> + */
+> +static int lwmi_tac_open(struct inode *inode, struct file *file)
+> +{
+> +	struct lwmi_tac *tac = container_of(file->private_data, struct 
+> lwmi_tac, misc);
+> +	struct lwmi_tac_file *state;
+> +
+> +	state = kzalloc_obj(*state);
+> +	if (!state)
+> +		return -ENOMEM;
+> +	mutex_init(&state->lock);
+> +	state->tac = tac;
+> +	kref_get(&tac->ref);
+> +	file->private_data = state;
+> +	return stream_open(inode, file);
+> +}
+> +
+> +/**
+> + * lwmi_tac_release() - Erase the response and drop the endpoint 
+> reference
+> + * @inode: Character device inode.
+> + * @file: File holding the endpoint state.
+> + *
+> + * Return: 0.
+> + */
+> +static int lwmi_tac_release(struct inode *inode, struct file *file)
+> +{
+> +	struct lwmi_tac_file *state = file->private_data;
+> +
+> +	kfree_sensitive(state->result);
+> +	mutex_destroy(&state->lock);
+> +	kref_put(&state->tac->ref, lwmi_tac_free);
+> +	kfree(state);
+> +	return 0;
+> +}
+> +
+> +/**
+> + * lwmi_tac_invoke() - Execute GetDataByPackage and retain the response
+> + * @state: Open file whose response buffer is empty.
+> + * @data: Zero-padded 100-byte input buffer.
+> + *
+> + * The caller holds state->lock and lwmi_tac_lock. The latter 
+> serializes call
+> + * pairs across instances and keeps the WMI device valid during 
+> evaluation.
+> + *
+> + * Return: 0 on success, or a negative error code.
+> + */
+> +static int lwmi_tac_invoke(struct lwmi_tac_file *state, u8 *data)
+> +{
+> +	struct lwmi_tac *tac = state->tac;
+> +	struct wmi_buffer input = { .length = LWMI_DATA_PACKAGE_INPUT_MAX, 
+> .data = data };
+> +	struct wmi_buffer output;
+> +	u32 data_size;
+> +	int ret;
+> +
+> +	if (!tac->wdev)
+> +		return -ENODEV;
+> +	/*
+> +	 * Duplicated call required to match BIOS workaround for behavior
+> +	 * seen when WMI accessed via scripting on other OS.
+> +	 */
+> +	for (unsigned int call = 0; call < 2; call++) {
+> +		ret = wmidev_invoke_method(tac->wdev, tac->instance,
+> +					   LWMI_DATA_PACKAGE_GET, &input, &output, 0);
+> +		if (ret)
+> +			return ret;
+> +		if (!call)
+> +			kfree_sensitive(output.data);
+> +	}
+> +	/* Validate DataSize before preserving the complete firmware 
+> response. */
+> +	if (output.length < sizeof(__le32)) {
+> +		ret = -EPROTO;
+> +		goto free_output;
+> +	}
+> +	data_size = get_unaligned_le32(output.data);
+> +	if (data_size > output.length - sizeof(__le32)) {
+> +		ret = -EPROTO;
+> +		goto free_output;
+> +	}
+> +	/* Transfer ownership without another allocation after firmware ran. 
+> */
+> +	state->result = output.data;
+> +	state->result_len = sizeof(__le32) + data_size;
+> +	state->position = 0;
+> +	state->completed = true;
+> +	return 0;
+> +free_output:
+> +	kfree_sensitive(output.data);
+> +	return ret;
+> +}
+> +
+> +/**
+> + * lwmi_tac_write() - Submit one complete TAC request
+> + * @file: Open TAC endpoint with independent response state.
+> + * @buffer: Userspace input bytes.
+> + * @count: Input size, from 1 to 100 bytes.
+> + * @ppos: Unused; TAC is a nonseekable request/response stream.
+> + *
+> + * Short inputs are zero-padded. An unread response must be consumed 
+> before
+> + * submitting another request. A failed firmware call is never retried 
+> here.
+> + *
+> + * Return: @count on success, or a negative error code.
+> + */
+> +static ssize_t lwmi_tac_write(struct file *file, const char __user 
+> *buffer,
+> +			      size_t count, loff_t *ppos)
+> +{
+> +	struct lwmi_tac_file *state = file->private_data;
+> +	u8 input[LWMI_DATA_PACKAGE_INPUT_MAX] = {};
+> +	int ret;
+> +
+> +	if (!count || count > sizeof(input))
+> +		return -EINVAL;
+> +	if (copy_from_user(input, buffer, count)) {
+> +		ret = -EFAULT;
+> +		goto clear_input;
+> +	}
+> +	ret = mutex_lock_interruptible(&state->lock);
+> +	if (ret)
+> +		goto clear_input;
+> +	ret = mutex_lock_interruptible(&lwmi_tac_lock);
+> +	if (ret)
+> +		goto unlock;
+> +	if (!state->tac->wdev) {
+> +		ret = -ENODEV;
+> +	} else if (state->result) {
+> +		ret = -EBUSY;
+> +	} else {
+> +		state->completed = false;
+> +		ret = lwmi_tac_invoke(state, input);
+> +	}
+> +	mutex_unlock(&lwmi_tac_lock);
+> +unlock:
+> +	mutex_unlock(&state->lock);
+> +clear_input:
+> +	memzero_explicit(input, sizeof(input));
+> +	if (ret)
+> +		return ret;
+> +	return count;
+> +}
+> +
+> +/**
+> + * lwmi_tac_read() - Read only this open file's firmware response
+> + * @file: Open TAC endpoint.
+> + * @buffer: Userspace destination.
+> + * @count: Maximum number of bytes to return.
+> + * @ppos: Unused; the response position is protected by state->lock.
+> + *
+> + * Responses contain little-endian u32 DataSize followed by Data. 
+> Partial
+> + * reads advance the response position. Consuming the result erases its
+> + * storage immediately; subsequent reads return EOF until another 
+> write.
+> + *
+> + * Return: Bytes read, 0 at EOF or for zero @count, or a negative 
+> error code.
+> + */
+> +static ssize_t lwmi_tac_read(struct file *file, char __user *buffer,
+> +			     size_t count, loff_t *ppos)
+> +{
+> +	struct lwmi_tac_file *state = file->private_data;
+> +	ssize_t ret;
+> +
+> +	if (!count)
+> +		return 0;
+> +	ret = mutex_lock_interruptible(&state->lock);
+> +	if (ret)
+> +		return ret;
+> +	ret = mutex_lock_interruptible(&lwmi_tac_lock);
+> +	if (ret)
+> +		goto unlock;
+> +	if (!state->tac->wdev)
+> +		ret = -ENODEV;
+> +	mutex_unlock(&lwmi_tac_lock);
+> +	if (ret) {
+> +		kfree_sensitive(state->result);
+> +		state->result = NULL;
+> +		goto unlock;
+> +	}
+> +	if (!state->completed) {
+> +		ret = -ENODATA;
+> +		goto unlock;
+> +	}
+> +	if (!state->result)
+> +		goto unlock;
+> +	ret = simple_read_from_buffer(buffer, count, &state->position,
+> +				      state->result, state->result_len);
+> +	if (state->position == (loff_t)state->result_len) {
+> +		kfree_sensitive(state->result);
+> +		state->result = NULL;
+> +	}
+> +unlock:
+> +	mutex_unlock(&state->lock);
+> +	return ret;
+> +}
+> +
+> +static const struct file_operations lwmi_tac_fops = {
+> +	.owner = THIS_MODULE,
+> +	.open = lwmi_tac_open,
+> +	.release = lwmi_tac_release,
+> +	.read = lwmi_tac_read,
+> +	.write = lwmi_tac_write,
+> +};
+> +
+> +/**
+> + * lwmi_tac_remove() - Unregister an endpoint and block further 
+> firmware calls
+> + * @data: Endpoint registered as a device-managed cleanup action.
+> + *
+> + * Stop new opens before waiting for an in-flight call pair. Existing 
+> files
+> + * retain the endpoint state, but their subsequent reads/writes return 
+> -ENODEV.
+> + */
+> +static void lwmi_tac_remove(void *data)
+> +{
+> +	struct lwmi_tac *tac = data;
+> +
+> +	misc_deregister(&tac->misc);
+> +	mutex_lock(&lwmi_tac_lock);
+> +	tac->wdev = NULL;
+> +	mutex_unlock(&lwmi_tac_lock);
+> +	kref_put(&tac->ref, lwmi_tac_free);
+> +}
+> +
+> +/**
+> + * lwmi_tac_add() - Register TAC endpoints independently of capability 
+> data
+> + * @wdev: Bound Lenovo Other Mode WMI device.
+> + *
+> + * No capability describes method 99, so registration does not probe 
+> firmware
+> + * support. Each firmware instance gets an endpoint; unsupported 
+> method calls
+> + * are reported to userspace when requested.
+> + *
+> + * Return: 0 on success, or a negative error code. Device-managed 
+> cleanup
+> + * unregisters earlier endpoints if a later registration or probe step 
+> fails.
+> + */
+> +static int lwmi_tac_add(struct wmi_device *wdev)
+> +{
+> +	unsigned int instances = wmidev_instance_count(wdev);
+> +	int ret;
+> +
+> +	for (unsigned int instance = 0; instance < instances; instance++) {
+> +		struct lwmi_tac *tac;
+> +
+> +		tac = kzalloc_obj(*tac);
+> +		if (!tac)
+> +			return -ENOMEM;
+> +		ret = ida_alloc(&lwmi_tac_ida, GFP_KERNEL);
+> +		if (ret < 0) {
+> +			kfree(tac);
+> +			return ret;
+> +		}
+> +		tac->id = ret;
+> +		kref_init(&tac->ref);
+> +		tac->wdev = wdev;
+> +		tac->instance = instance;
+> +		tac->misc.minor = MISC_DYNAMIC_MINOR;
+> +		tac->misc.name = kasprintf(GFP_KERNEL, "tac%d", tac->id);
+> +		tac->misc.fops = &lwmi_tac_fops;
+> +		tac->misc.parent = &wdev->dev;
+> +		tac->misc.mode = 0600;
+> +		if (!tac->misc.name) {
+> +			kref_put(&tac->ref, lwmi_tac_free);
+> +			return -ENOMEM;
+> +		}
+> +		ret = misc_register(&tac->misc);
+> +		if (ret) {
+> +			kref_put(&tac->ref, lwmi_tac_free);
+> +			return ret;
+> +		}
+> +		/* Unregister before the WMI device and its managed state disappear. 
+> */
+> +		ret = devm_add_action_or_reset(&wdev->dev, lwmi_tac_remove, tac);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	return 0;
+> +}
+> +
+>  /* ======== Self (master: lenovo-wmi-other) ======== */
+> 
+>  /**
+> @@ -1693,6 +2013,7 @@ static int lwmi_other_probe(struct wmi_device 
+> *wdev, const void *context)
+>  {
+>  	struct component_match *master_match = NULL;
+>  	struct lwmi_om_priv *priv;
+> +	int ret;
+> 
+>  	priv = devm_kzalloc_obj(&wdev->dev, *priv);
+>  	if (!priv)
+> @@ -1708,6 +2029,10 @@ static int lwmi_other_probe(struct wmi_device 
+> *wdev, const void *context)
+>  	if (IS_ERR(master_match))
+>  		return PTR_ERR(master_match);
+> 
+> +	ret = lwmi_tac_add(wdev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	return component_master_add_with_match(&wdev->dev, &lwmi_om_master_ops,
+>  					       master_match);
+>  }
+>
+> base-commit: 5680519168f65666d2c03cc6ed8fe2b7052aee12
+> -- 
+> 2.53.0
 
-But yeah doing it opt-in, the hardened setups would now have to start
-passing the extra params to enable this, even if until now enabling the
-config option was enough. Also not great, but we can argue they are still
-the minority?
+Are you working within Lenovo? I looked up what this method does and details in the spec I have are very limited, but I was wondering if you're working on one of the new products?
 
-Of course there's always the possibility of adding another _DEFAUT_ON
-configs. Not great either. Sigh.
+If so, please ping me on my work address. You should be able to look me (Mark Pearson) up - or reach out to the Linux preload team. I think it would be good to discuss what is being done here.
 
-> Whether those two should be folded into a single slab_hardening= is
-> still open [3].
-> 
-> v3:
-> 
-> - Rebase onto slab/for-next.
-> - Always build the slab_buckets and kmalloc_partition tests and skip them
->   at runtime when the option isn't built in, instead of leaving them out
->   with #ifdef (Kees).
-> - Declare slab_buckets_enabled and kmalloc_partition_enabled in
->   mm/slab.h without any #if (Kees).
-> - Drop the remaining #ifdefs around slab_buckets= and
->   kmalloc_partition=. Both are now always registered and ignored when
->   the option isn't built in (Kees).
-> - Keep both flags as plain __ro_after_init bools rather than static
->   keys, since they're only read when caches are created and not on the
->   allocation path.
-> 
-> v2:
-> 
-> - Make SLAB_FREELIST_HARDENED and SLAB_FREELIST_RANDOM default y instead
->   of adding boot parameters for them (Vlastimil).
-> - Skip the memdup_user() part of the slab_buckets test on !MMU
->   (Sashiko).
-> - Keep slab_buckets= and kmalloc_partition= separate for now. We can
->   discuss whether to merge them into slab_hardening= or similar, as
->   Harry suggested.
-> 
-> v2: https://lore.kernel.org/r/cover.1793253633.git.chris@chrisdown.name
-> v1: https://lore.kernel.org/r/cover.1793086056.git.chris@chrisdown.name
-> 
-> [1] https://lore.kernel.org/r/auITixAJMfLtfa7i@chrisdown.name
-> [2] https://lore.kernel.org/r/179312451613.474906.1475329637924619088@kernel.org
-> [3] https://lore.kernel.org/r/aud4gPOUzvHtLYnJ@thinkstation
-> 
-> Chris Down (6):
->   mm/slab: Enable SLAB_FREELIST_HARDENED by default
->   mm/slab: Enable SLAB_FREELIST_RANDOM by default
->   mm/slab: Support disabling SLAB_BUCKETS at boot
->   slub_kunit: Add a test for the slab_buckets boot parameter
->   mm/slab: Support disabling KMALLOC_PARTITION_CACHES at boot
->   slub_kunit: Add a test for the kmalloc_partition boot parameter
-> 
->  .../admin-guide/kernel-parameters.txt         | 15 ++++
->  lib/tests/slub_kunit.c                        | 85 +++++++++++++++++++
->  mm/Kconfig                                    | 11 +++
->  mm/slab.h                                     |  3 +
->  mm/slab_common.c                              | 52 ++++++++++--
->  5 files changed, 157 insertions(+), 9 deletions(-)
-> 
-> 
-> base-commit: ce6518e61e3b4bf4f97f7ac6204049b9eba7eb75
+If you're not from within Lenovo please let me know how/why you're using this interface. I would rather go and discuss with the FW team to confirm what is being exposed first, before we enable it blindly.
 
+Thanks
+Mark
