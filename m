@@ -1,94 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=113.46.200.224
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794830192;
-	b=lK9Z2APytGpn//auQ3AX+qizeiHELNJeuIHJaVLvuytjkLslkGimxprN3ywC8tIiqRk/
-	 XxwNZjeM2xKZLj6699cfRjijjdX0hRx1pkKo+ie7133IRpM1G0U3N3HEfKCZaupdkWsPM
-	 ld8t26NvyY6isxJOV1T/2++RyRDnS9UxHbrR6xGkXlPQwjO8sek7PIlRuBNEKAMyJui4q
-	 ymBM2wH+3dnEQTIb0LEcoavshMT8M6WgPFq7kNhwbNENjrau23EH7LZ9ogQc6av0oarIS
-	 Qx9kwDRy8xRyx8e5X6M8vxNZ+xtF3kIqMlrjEjInrK6mSpPhF8fyQkpihJhYKqOWKFg==
+	t=1794830197;
+	b=SiHoAWsrszsNUoGKrcoOXLuhj+B6bbN6vMEt5mKBBoLE7y7sHAFenOqldn5FkCmuLML3
+	 pMVH/lnbT5Lzn1R2pETRw3qz3D7ceJnZ8JlbpPh2CSTCNmw1yn8jG1ah30gUdSuk7LlgU
+	 iwWSN6U7YSbWFu1NSCefn5ONUGSxYVRtQvQXxpxuEUZiVtWBcGzN03H4szHlHcNY+/VG4
+	 nrWwyDnGqzA+YZox5RAHrwD1Z/oiKW1OZqX8JaOzoRCJRrtDwogBaKwlkJtQqMGyYEBkU
+	 RJ4e8L06KgqRkLOQEJga9Q0HIUw3f47A86t4mDQ5ay76DdRLA8tdstkgtc3vKGkMZGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794830192;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=jNDxoGnIcRvOyibd/pFO5Bv8+74WZgqVukiut0XEvWo=;
-	b=claOSwFQSexZy1xCcAALQ/IYJy0vGeK5F+6CZTBx0Y41zAgVwUckoBLXSiDIf3uXcbHW
-	 1kyjNitZMRDp/431twzTcYPyU/Fll7liGdjLQVjIzqr9Jk4Ojrz0gkDeZgnn5dMsymdVp
-	 jJtTsdD+3jU1I4+1nkjDBDPkHTGBLYxLc8SC8QJDBZyqJjqESvgOKgy4OuHDIXZfKucz9
-	 e9BZCgwDqrnYuKtWLg7DJCk6VpKE39+X2EeqXURzYQFoYjFgxvpre9nkKYp+RRrpVaGnI
-	 uuOIISlu/qbhSCCHcvLbWc0+WMricbtItLd6Qb2aMeDp9rMtLE4Tqt3glp/3E8ETiTA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794830197;
+	h=DMARC-Filter:dkim-signature:Received:Received:Received:Subject:To:CC:
+	 References:From:Message-ID:Date:User-Agent:MIME-Version:In-Reply-To:
+	 Content-Type:Content-Language:Content-Transfer-Encoding:
+	 X-Originating-IP:X-ClientProxiedBy;
+	bh=GeVXqqtOBRanGI741BAYhJK/fg1GAPjaiJ5K9yFk9wM=;
+	b=X4UNphJ/NQjLUC3Wpz6meA/6RIkEWAqzYD3ffNORPOpHM16QdkPiAUo/JvtuT4IBy+zK
+	 HAfnH0sNLziaS4CkvDZtLnV4j5QUgOf8n9mKEF6PW+9HoKuEbT7CvxnF+9E+PB7n0wc7V
+	 eJ+3FeOLYk045ds6P6XlmZVZ/FQVPWVJZtvd+v285GsTQOQZhTl1XNm9l2FC5aJ8pewfA
+	 3P8nNS2AJ2UwDxB25trMA+1rB0dpZpFq6VeDnXnOI2H5n1KkClHWU7rKSwyvxzWmIbrfQ
+	 Iv3Yz9tl6f67av/432KiT+YMWizQkRYK7cWSbC/NZGvEaMr5n9sf4tCm4kIzGM6uE9g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W2eSeKl8;
-	arc=none smtp.remote-ip=209.85.128.179
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=huawei.com;
+	spf=pass smtp.mailfrom=huawei.com;
+	dkim=pass header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=6jI6RStq;
+	arc=none smtp.remote-ip=113.46.200.224
+Received: from canpmsgout09.his.huawei.com (canpmsgout09.his.huawei.com [113.46.200.224])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE812606A32A
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:56:31 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AE812606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB845606A323;
+	Mon, 16 Nov 2026 11:56:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AB845606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=W2eSeKl8
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-8b4d86f5328so4426747b3.0
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 03:56:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794830191; x=1795434991; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jNDxoGnIcRvOyibd/pFO5Bv8+74WZgqVukiut0XEvWo=;
-        b=W2eSeKl8C91krRQ03F7mfRaP7G8g3z4yguKBsjX8xOBoSgFV53UWoZXe5K7NZLHtpj
-         1ARWMWF0sZpOyL5nd7zhXn2v6ogKq566B0QxjpyhOozME37KiXHlfrT9dwi2OQ8WqK78
-         JHoBxuULcYM7Xma39GpHUPCG2qoD4pc7u4R8lHc5SOE8NPa0t+oHE2/NK0J0OPQ7RNtS
-         0F+7XGzxpl73qiG29HbpNJiq8XnisxprBSFqyk5S0/w6Ppi6qDeJxtZxD8sFwlvCRadb
-         ZIPGCX7Bu3gt8u64Txiq1obsXQJJ3tuMTUA4TwgMdpxCRya8x5KUYcMMO1qTfT4p22Y7
-         +8Ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794830191; x=1795434991;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jNDxoGnIcRvOyibd/pFO5Bv8+74WZgqVukiut0XEvWo=;
-        b=rWJDzqqjQIa+JtjaFf6Lc4wpRu9lFBMcG9zi6Vsb0JJjZQT+blPlYQy8t15M0D3Omr
-         JbsXTIPMrTsX16wFHs7WpxWQmJFMvsGmgHte9ehBlavCid4ETRcfKJnpi2nU/QTzArCR
-         itkvG5bspL+m9U2QXITt5JxGIdQUVgows6rrgPRRe2fSOLYl2F+psRD15wOsND+ftl+K
-         PlReO2Y4D6p4LbXG10qav5PQK6VWzrrgi9goNeHw5uDqcFLYQX26UsyC784g5lDEh4u3
-         vpvD3kSkqFbF+1HHJ/lXybRlKmn87DIVkJlysKj3jfy9x09mbFvu0QNkXgLy762u7XIb
-         yCZw==
-X-Gm-Message-State: APuU4Z/n+qqlw0ZMyv+eUpp3b90CEYC7UsEU5rUCLYQzFc1mDJiaUkk7
-	6fl2wzIR9ZrBZQsYdsJCisvfA8TyPYkUq1Iv8DeKwPYixYKh2HvBxD6RQ2wWZ/3JpET6Lw==
-X-Gm-Gg: AZFdTZcI1PwXRTNQEG5osD05ZD2loBgqTCeLAR5HrqmoUhvqbVPAv8LukIJijawToOQ
-	4PdeKTw4uN754w5hTyKba/WaY8z7JK/B2qyFb0q4njXkvpKOK/Nizql9iMFf5AAD9a4vEu19SJr
-	xfMi+nzTA8brv7gzUdlvc5V6JGU0LQVVEqWrt5HxSxhWzdk4dw901JRuoILQHgA26IEJAkKBV/A
-	uqD0/bHm0zuomslmgGFcvNjRBgkeHeV+w+2l3BKw9tr4iERHlljLYo6GBvPv3p8T3cpVrTq4YaT
-	spPV7mAEzSBiJO/bimyWb0JovyAtlQrO38tCtVtzY/R1Gh09LBaB4Hvn+e6+MSJzFJeNQEnoWWJ
-	W3Uz5KWVWFHT4c1Drtlu/tNT/u7voVrwcm56K6JgTe0dQBNQd6AFpTgy2H884sYAqlsxCQbFUve
-	NolBreIuo2qytmf/0Vtkk54DjbJPKBPwm/NJsNmYytdwX+77VZAkyhswrQrJePgde4+Uz4iN/MS
-	rPnSjdSwJjkloy7M6QT4FuuHDKN6s0DszFUXVfznstCaDFnkLPkXFLydxo+zwQ7IS9Oub5oNFqY
-	FyQcxt9AgWp8bR9+bEjOnHaERJC5W6bgYgNSCIt4HL59REA6qwEGlW9qBRcUznuONcpEwbJBtvI
-	VvacGch9yQacSrgRUnbeSDPRX+QN3mFxpWJ0VFugsHQcBlmblbfiTEiKzmCXuju34nfArhdK75k
-	TcpamiQGdp4BY=
-X-Received: by 2002:a05:690c:315:b0:8b4:d66a:2018 with SMTP id 00721157ae682-8b4d66a298fmr17293387b3.68.1794830190670;
-        Mon, 16 Nov 2026 03:56:30 -0800 (PST)
-Received: from Daniel ([187.45.177.21])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8b4aa9dc1c9sm84198817b3.36.2026.11.16.03.56.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 03:56:30 -0800 (PST)
-From: Daniel Pereira <danielmaraboo@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Subject: [PATCH v1 3/3] docs: translations: pt_BR: use "branch" instead of "ramo"
-Date: Mon, 16 Nov 2026 08:56:05 -0300
-Message-ID: <20261116115605.174735-4-danielmaraboo@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261116115605.174735-1-danielmaraboo@gmail.com>
-References: <20261116115605.174735-1-danielmaraboo@gmail.com>
+	dkim=pass (1024-bit key, unprotected) header.d=huawei.com header.i=@huawei.com header.a=rsa-sha256 header.s=dkim header.b=6jI6RStq
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=GeVXqqtOBRanGI741BAYhJK/fg1GAPjaiJ5K9yFk9wM=;
+	b=6jI6RStqoCtlvQpe4IYTr3xlXv3TnYB2PW2fNNOWwVLG28g9WsqWYNxCahxVcveX3PWQ0OIWf
+	OyarOUpcQmFb1UTa/vsBsjrhJboksjzWcNvt7LeAi68MEoF5/Ezhx3bbUvFY7eb9NuW1IB/sOSz
+	Qp+hzZ9QZwTJ3AYuPZQbuQI=
+Received: from mail.maildlp.com (unknown [172.19.163.200])
+	by canpmsgout09.his.huawei.com (SkyGuard) with ESMTPS id 4jSmXr6Vqpz1cyPf;
+	Mon, 16 Nov 2026 19:56:12 +0800 (CST)
+Received: from whupemo200006.china.huawei.com (unknown [7.152.185.252])
+	by mail.maildlp.com (Postfix) with ESMTPS id 8BAEC4055B;
+	Mon, 16 Nov 2026 19:56:31 +0800 (CST)
+Received: from [10.174.178.219] (10.174.178.219) by
+ whupemo200006.china.huawei.com (7.152.185.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 16 Nov 2026 19:56:29 +0800
+Subject: Re: [PATCH 5/7] KVM: Fix comments that refer to non-existent
+ identifiers
+To: Fuad Tabba <fuad.tabba@linux.dev>
+CC: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson
+	<seanjc@google.com>, <kvm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Christian
+ Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank
+	<frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, Huacai
+ Chen <chenhuacai@kernel.org>, <linux-mips@vger.kernel.org>, Will Deacon
+	<will@kernel.org>, Fuad Tabba <tabba@google.com>
+References: <20261111085448.1130701-1-fuad.tabba@linux.dev>
+ <20261111085448.1130701-6-fuad.tabba@linux.dev>
+From: Zenghui Yu <yuzenghui@huawei.com>
+Message-ID: <4fb0e902-32c6-727f-7aaa-e1a7381dbe15@huawei.com>
+Date: Mon, 16 Nov 2026 19:56:27 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -98,83 +77,48 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261111085448.1130701-6-fuad.tabba@linux.dev>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ whupemo200006.china.huawei.com (7.152.185.252)
 
-Replace "ramo(s)" with "branch(es)" in howto, cve and
-embargoed-hardware-issues. The text mixed both terms, even in one
-phrase ("ramos (branches)").
+On 2026/11/11 16:54, Fuad Tabba wrote:
+> Comments in the generic KVM code and its headers refer to functions,
+> structures, fields, capabilities and Kconfig symbols that have been
+> misspelled or renamed. Use the current names.
+> 
+> Signed-off-by: Fuad Tabba <fuad.tabba@linux.dev>
+> ---
+>  include/linux/kvm_dirty_ring.h | 2 +-
+>  include/linux/kvm_host.h       | 4 ++--
+>  include/linux/kvm_irqfd.h      | 4 ++--
+>  include/uapi/linux/kvm.h       | 2 +-
+>  virt/kvm/binary_stats.c        | 2 +-
+>  virt/kvm/eventfd.c             | 2 +-
+>  virt/kvm/kvm_main.c            | 2 +-
+>  7 files changed, 9 insertions(+), 9 deletions(-)
+> 
+> diff --git a/include/linux/kvm_dirty_ring.h b/include/linux/kvm_dirty_ring.h
+> index eb10d87adf7d5..8679ba17bd1ff 100644
+> --- a/include/linux/kvm_dirty_ring.h
+> +++ b/include/linux/kvm_dirty_ring.h
+> @@ -29,7 +29,7 @@ struct kvm_dirty_ring {
+>  
+>  #ifndef CONFIG_HAVE_KVM_DIRTY_RING
+>  /*
+> - * If CONFIG_HAVE_HVM_DIRTY_RING not defined, kvm_dirty_ring.o should
+> + * If CONFIG_HAVE_KVM_DIRTY_RING not defined, kvm_dirty_ring.o should
+>   * not be included as well, so define these nop functions for the arch.
+>   */
 
-coding-style keeps "ramo": there it means a branch of an if/else.
+The comment looks a bit obscure. We can rewrite it as
 
-Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
----
- Documentation/translations/pt_BR/process/cve.rst          | 2 +-
- .../pt_BR/process/embargoed-hardware-issues.rst           | 4 ++--
- Documentation/translations/pt_BR/process/howto.rst        | 8 ++++----
- 3 files changed, 7 insertions(+), 7 deletions(-)
+" If CONFIG_HAVE_KVM_DIRTY_RING is not defined, dirty_ring.o will not be
+  built either, so define these nop functions for the arch. "
 
-diff --git a/Documentation/translations/pt_BR/process/cve.rst b/Documentation/translations/pt_BR/process/cve.rst
-index 83977eda3..a3e93d1b4 100644
---- a/Documentation/translations/pt_BR/process/cve.rst
-+++ b/Documentation/translations/pt_BR/process/cve.rst
-@@ -64,7 +64,7 @@ atribuído a partir de seu lote de identificadores reservados.
- 
- Nenhum CVE será atribuído para qualquer problema encontrado em uma versão do
- kernel que atualmente não esteja sendo mantida ativamente pela equipe de kernel
--Stable/LTS. Uma lista dos ramos de kernel atualmente suportados pode ser
-+Stable/LTS. Uma lista dos branches de kernel atualmente suportados pode ser
- encontrada em https://kernel.org/releases.html
- 
- Contestações de CVEs atribuídos
-diff --git a/Documentation/translations/pt_BR/process/embargoed-hardware-issues.rst b/Documentation/translations/pt_BR/process/embargoed-hardware-issues.rst
-index 2d13b335b..baccae30d 100644
---- a/Documentation/translations/pt_BR/process/embargoed-hardware-issues.rst
-+++ b/Documentation/translations/pt_BR/process/embargoed-hardware-issues.rst
-@@ -191,8 +191,8 @@ problemas de segurança de hardware no passado.
- A lista de e-mail opera da mesma forma que o desenvolvimento normal do Linux.
- Os patches são publicados, discutidos, revisados e, se aprovados, aplicados a
- um repositório git não público que é acessível apenas aos desenvolvedores
--participantes por meio de uma conexão segura. O repositório contém o ramo
--(branch) principal de desenvolvimento contra o kernel mainline e ramos de
-+participantes por meio de uma conexão segura. O repositório contém o branch
-+principal de desenvolvimento contra o kernel mainline e branches de
- retroporte (backport) para versões estáveis do kernel conforme necessário.
- 
- A equipe de resposta inicial identificará outros especialistas da comunidade
-diff --git a/Documentation/translations/pt_BR/process/howto.rst b/Documentation/translations/pt_BR/process/howto.rst
-index db263f89e..712edc339 100644
---- a/Documentation/translations/pt_BR/process/howto.rst
-+++ b/Documentation/translations/pt_BR/process/howto.rst
-@@ -170,7 +170,7 @@ que são de leitura obrigatória:
- 
-   :ref:`Documentation/translations/pt_BR/process/applying-patches.rst <pt_BR_applying_patches>`
-     Uma boa introdução descrevendo exatamente o que é um patch e como
--    aplicá-lo aos diferentes ramos (branches) de desenvolvimento do kernel.
-+    aplicá-lo aos diferentes branches de desenvolvimento do kernel.
- 
- O kernel também possui um grande número de documentos que podem ser
- gerados automaticamente a partir do próprio código-fonte ou de
-@@ -243,8 +243,8 @@ O processo de desenvolvimento
- -----------------------------
- 
- O processo de desenvolvimento do kernel Linux consiste atualmente em algumas
--"branches" (ramos) principais diferentes e muitos ramos de subsistemas
--específicos. Esses diferentes ramos são:
-+branches principais diferentes e muitos branches de subsistemas
-+específicos. Esses diferentes branches são:
- 
-   - Árvore principal (mainline) do Linus
-   - Várias árvores estáveis com múltiplos números de versão principal
-@@ -298,7 +298,7 @@ lançamento principal da árvore mainline. Cada lançamento em uma série
- estável principal incrementa a terceira parte do número da versão,
- mantendo as duas primeiras partes iguais.
- 
--Este é o ramo recomendado para usuários que desejam o kernel estável
-+Este é o branch recomendado para usuários que desejam o kernel estável
- mais recente e não estão interessados em ajudar a testar versões de
- desenvolvimento ou experimentais.
- 
--- 
-2.56.0
+And personally I tend to remove it :-)
 
+Thanks,
+Zenghui
