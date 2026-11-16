@@ -1,84 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794851578;
-	b=nzRJyZQ+S43mxkoH6o5Jw9sqVdwXTwi3ZLbd8Kc2xkdl0YdzjfunPzencYOsrpI0qSlP
-	 5KkN2X/NIMyBCU5lDj/NdqJy9tMcdHoyPHhuYrBXiGZ74Flm070X9iZzvHdbvtdhb96uy
-	 hMi5wGbSyh8PhhjbyjU5AAh0BnZ+fLfPwsIL2vb9LPqlayYYD1Bll8KpYERJeoDCSxcqf
-	 PaZo7twshq/h/AMmnsFscWj+LHRC7MyT1NRZr2ZqFm1gtd5h7ON/7jFZH/JZQQJE73hxr
-	 2w/bPPwD2J/ygWIobNzA6zITAKx0s8E9CqFrYdfivR9I2nkVcrfz4iKGbQF2LE7weLA==
+	t=1794852098;
+	b=h3SZKy1TP0F4teyBs2VBxSzaCe1KCI90RcJa/8DRD/FmPyzVALos1mDStok0UPSfNLkQ
+	 neYPeGCpGEbpqtDIx/ryubnU7qrOQReg1jjKpYaxlkCjfj+fJgbL6N5OYJhM5DydPKiWn
+	 gKDHdn8brEK469Qjmbd8mrSTNZdzy/3EcqG8bF80K8NdO68hKy/FjGMPW5xJKFBMQICEa
+	 gctYr5ODPqF3wphPenQHZOOK9cjulPB99lk6q86T0U6KXoFwcrJJf8aYVwgWQ+d7x3bRs
+	 ZupgRTdd1gFedVUvhJOu4D9z24ZT4Z+Rh7AA+aXsoHV1lV9MflJ1KjgWn/Swc34uy2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794851578;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Message-Id:
-	 Cc:Subject:From:To:X-Mailer:References:In-Reply-To;
-	bh=ZVha1LQJ+ZYa0pasaO7rOjBg6mtWgNhixYpeavUGJvw=;
-	b=k9/8YR1knP5vvGtzQ0KWEWIO/IIznj08Ag3NZwwE28cgpuVrjlY3GCWyZv+HUDUxkHe/
-	 MQ4X7j10lOJvzSByAeplbzklHTUAz5gEK+60FSd+R1vbHW/u/iWRCIIj/UtzuIi9uOKZY
-	 ud7PbwwpZoPQ1LJlMUAJSLKoDpstYJq6Adjmgki0c6MLloW0mlyf2DFEBndyzAFJcOSqx
-	 VPBGNBPuvKY1Kx5YTrSGrj3lYDi7VzCP8fYqQnkROVirxq0wA6IiFPoHFxG38dSGstjTn
-	 tBR068/eEKArztzdNNT0IWP473k97TnQtpLddUSEW1Hr2d+bRzdceTQ1LAxLd88ux0w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794852098;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:User-Agent;
+	bh=6bHNbn+AnrGcdiIjb4Ht7xasuv47Ac5iq3Lki+QWU7A=;
+	b=SPdd9clW82h3qgiT836Df68N45FgRLxAYwN8+kX2f+AGbpKee4A6iHrdd/zLvzv/5AWp
+	 EdsbqaZFqiT6uh6HL54BMSqTOC5/Sc+uHw+rFQUywRsRgPrHYD+df3d5Gm7VW2+6Km1mh
+	 M7hXcwyD9WjgxO5jMoMS3PwvRDBRBAI/IrFAOG6liSPvMx+oCLni0LJbnatqMEVWn3uyx
+	 X59jiXMw5m1y8Qjs566Q83WBu7bni/OfhpNbWfYA6LCaPZXmUiNkWRGCENhBgespG8gj8
+	 te6YUjKY4pmvf7IOpIzqAN++raLTkIuJQzBKb0dSBcrPpk94StM9cTB32Hj85+F5STA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=google.com;
-	spf=pass smtp.mailfrom=google.com;
-	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Mr0MWBAM;
-	arc=none smtp.remote-ip=209.85.214.172
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I37liP1F;
+	arc=none smtp.remote-ip=198.175.65.21
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AA0606A884
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 17:52:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 14AA0606A884
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D1D606A33F
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 18:01:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A8D1D606A33F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Mr0MWBAM
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2ee2072d1e7so10615665ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 09:52:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20260707; t=1794851577; x=1795456377; darn=vger.kernel.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=ZVha1LQJ+ZYa0pasaO7rOjBg6mtWgNhixYpeavUGJvw=;
-        b=Mr0MWBAM4MLlHJMOKb/4Z6+dOhVz5cE+GMuRUduu9EHxuwhijBh3tXy8WJrkhaD0vh
-         PYAoy9x9sShYaRayE53yartClLeXdWk62a//vvYlSd2zLiJvKMc9TXh7Mof3XZRTu0rx
-         GxoGIFqRYzrwZ+dbFPfJk7TnrE7kr2+1NPV9kZnPO9acPHImQGPyrlGzUI/V+O9rL+lS
-         rW57l05EwtNh4ZKXuPgI4wU7DkeDNQM3yk0RZSB8ysyrRk6y/+Fsb3SJKn/X/NOmQar9
-         V386QxKbhvhnCZ98vZnrwlnUF9YPDTCdsBALgZVykIgXLyQJuXY30X/5rtUP6x7EcqzI
-         KKdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794851577; x=1795456377;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZVha1LQJ+ZYa0pasaO7rOjBg6mtWgNhixYpeavUGJvw=;
-        b=SED3S1wIPUm0N4OvScoSi16Kt/gW1mfterDscUaNQ0ZM1F1aVIjoOoDBtObdURuQk3
-         5flh2fK/7ZrEbgURsORHL5+YnYSPJd+z8jxCqiHdxDOqb3P9zCv+MFBVz1yMD59ttxUk
-         aHD3wI4E87pM7uAdS4RbM24JKNl9tIJTVqEY+YJKvHwn0WgnxLU9ZXJnquPQHYUeqz5L
-         KnrtFvbxdIScL/JeIyfOMl7PTzlu2156uQ2bE4aPDAQeb8iQV7an5WDM0jHSJFwBhk+y
-         dkSbAUJn5He5pgrQ2LPzZxjJ7ebhtdWgwNhyVJvm/mvleIRhd9HwELk7o1MqZvnD91x0
-         y6FQ==
-X-Forwarded-Encrypted: i=1; AL+hErFNasc6iFOVnVmIOTqDUQ5j2bPPmbFRQEfJGofqbZI0ShrGmH3a0tC79qSB2egQZxl8DtCysLewCZI=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+n9rT1tdL7kxBXsZjIOYdkTrZWCQiBUTaiYVsgHK9PJuT9V5cY
-	nS2h6HUcavY9xND3DtRg/2U9Mu6/mIkofctdKO3nTHsCpJEfNHFL+VldMVsH9Byiog==
-X-Gm-Gg: AZFdTZcywxxfHZjz7GX2wHFAkgT4458j67uPSgla+uxanyDfuKa/QoaZHekLxNP2Wdx
-	2IdCA9fbVXP/3I0XDuP05JvcPEm0pW9zJNuLtij1FkDoV4FdQT9XxL6swCXS3xUgFCq/YvfFxhn
-	k7IvP+J4f+dSzDZEHehnLYL+zGbz+APQZak8+TIRo5fSC2aOVIaM+t/QZoDaRQdSAl/lXO9nNTk
-	Wa7ygFCRT/XmmNvU9CWLkcyyDhyzfOaI5WAgjN997Qswp45f8P5jI2b8fOICEGGXuDl94SU1r7s
-	VERUrEd49JTxfjdPyNrbJCPr0rFEkWI0pE1Sqd1NpmsF52XT+K1opVY2ZVJC9Ndy8bs+H45VbnV
-	gNkTHAKoApE6IABsyTHL2Ze8nlFzG++EcV9mNqZ+rY3KnegEzMlT+YV9ABLI+AK91Tk14Nn0axv
-	Xgp+wuc+QGby3upSFuB/lclXFD9lcUZ6kC5CHtLArL6mfcYM3L9h6DJ0GxHhSdiFDp+iGHyBOkf
-	eUkaxb+JdDDO0UoYXgVrN8ggY6nWMCeOymMPm/99VLRuAbLkBaTwlbyiTTy6nt5MXPHwU/nNS7+
-	DB1i9L29BEBTbF9fO5CWUjRafnFr9lPJ6RI+05/d5+5kIXEWjrexfyk+Hft/t3G0
-X-Received: by 2002:a17:90b:4c0c:b0:3a0:516d:9f87 with SMTP id 98e67ed59e1d1-3b1b0a1f01cmr12343648a91.13.1794851576505;
-        Mon, 16 Nov 2026 09:52:56 -0800 (PST)
-Received: from localhost (33.79.127.34.bc.googleusercontent.com. [34.127.79.33])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b3ac296b5fsm224574a91.8.2026.11.16.09.52.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 09:52:55 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=I37liP1F
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794852097; x=1826388097;
+  h=date:from:to:cc:subject:message-id;
+  bh=Bg5KF6+w4I+oh0aPQlU7TVcauuHaFzXGt0EAR5oTkWg=;
+  b=I37liP1Fs0u5RYysPepew9Ql8oPIrdQQEdHvsJOhB5Qhv2k85zo/NkFc
+   jdzCXnlL8Hk5LaANrRfE+A64Hj7zMtltTeganOQsQ3dCSZKQ+X9mK1h9Z
+   nJNpXzwT/QMDfU2A0JZpsP3cd2nKDiOHZK+8VjoQ5NeurNo2avDGy87qo
+   2Jr0+MgwCw8XVl/Gm/+M5AKABVRvnpjcixy23RhvI10sEFJJidmGrIWXQ
+   vS9wcP0f/AM6e9BXLL1HxPe95rfEvSw7yPP7OQ0cqC0jJJR6ym1Ely8FG
+   WfjSD5H/90AfOVBLnN5wO3xStJJkI9Zfyk7EMrW5C0fX6ohpIMG3gYCs7
+   w==;
+X-CSE-ConnectionGUID: 4wV8Ufw1Twa1Z4mYxkxUmw==
+X-CSE-MsgGUID: atDIqWVaRT6T00NVrFTinA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11968"; a="3676526"
+X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
+   d="scan'208";a="3676526"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2026 10:01:36 -0800
+X-CSE-ConnectionGUID: Z73Ks279RpG/76Q/XeAxsA==
+X-CSE-MsgGUID: 7DtGVnf3Saes/RgnsGWDFw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,217,1787036400"; 
+   d="scan'208";a="11328297"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa012.fm.intel.com with ESMTP; 16 Nov 2026 10:01:34 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xT11H-000000019Bo-2nNl;
+	Mon, 16 Nov 2026 18:01:31 +0000
+Date: Tue, 17 Nov 2026 02:00:44 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+ linux-doc@vger.kernel.org
+Subject: [cornelisnetworks:for-upstream_20261115-1518 35/35] Warning:
+ drivers/infiniband/hw/hfi2/bulksvc_user.c:1291 This comment starts with
+ '/**', but isn't a kernel-doc comment. Refer to
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202611170154.glIRRQ3t-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -87,256 +82,179 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 16 Nov 2026 09:52:54 -0800
-Message-Id: <DMWTS6IPSI2R.3EJQC130JYVW3@google.com>
-Cc: <cjia@nvidia.com>, <kjaju@nvidia.com>, <vsethi@nvidia.com>,
- <zhiw@nvidia.com>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
- <linux-cxl@vger.kernel.org>, <linux-pci@vger.kernel.org>,
- <linux-kselftest@vger.kernel.org>, <linux-hardening@vger.kernel.org>
-Subject: Re: [PATCH v6 31/31] selftests/vfio: Add CXL Type-2 passthrough
- tests
-From: "David Matlack" <dmatlack@google.com>
-To: <mhonap@nvidia.com>, <alex@shazbot.org>, <jgg@ziepe.ca>,
- <ankita@nvidia.com>, <jic23@kernel.org>, <dave.jiang@intel.com>,
- <alejandro.lucero-palau@amd.com>, <smadhavan@nvidia.com>, <corbet@lwn.net>,
- <skhan@linuxfoundation.org>, <dave@stgolabs.net>,
- <alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
- <iweiny@kernel.org>, <ming.li@zohomail.com>, <yishaih@nvidia.com>,
- <skolothumtho@nvidia.com>, <kevin.tian@intel.com>, <bhelgaas@google.com>,
- <dmatlack@google.com>, <kees@kernel.org>, <gustavoars@kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20261016161839.2765592-1-mhonap@nvidia.com>
- <20261016161839.2765592-32-mhonap@nvidia.com>
-In-Reply-To: <20261016161839.2765592-32-mhonap@nvidia.com>
 
-On Fri Oct 16, 2026 at 9:18 AM PDT, mhonap wrote:
-> Exercise the vfio-cxl contract on a bound Type-2 device: the CXL
-> device-info flag and the two vendor-type regions, the HDM memory mmap
-> (including a 2 MB huge fault), the read-only trapped decoder region
-> against the live host-committed decoder, and the guest's DVSEC reset
-> doorbell and manual HDM discovery.
+Hi Dennis,
 
-I tried running this test in a VM with the emulated cxl-type2 device
-from your QEMU RFC [1], on an x86 q35 machine with intel-iommu. Out of
-the box the device binds as plain vfio-pci and the fixture skips
-everything. v6 now requires that the host can do CPU cache invalidation
-for CXL Reset, and cpu_cache_has_invalidate_memregion() returns false in
-a VM (x86 refuses it under a hypervisor, and arm64 has no cache
-maintenance provider in a guest).
+First bad commit (maybe != root cause):
 
-The QEMU RFC reports 19/19 passing in an Arm guest, but that was against
-v5, which didn't have this requirement. How did you run the v6 version
-of this test without hardware? Did you use something like
-CONFIG_CXL_REGION_INVALIDATION_TEST? That option only covers region
-management in drivers/cxl/core/region.c, and depends on CXL_REGION, so
-it doesn't help here.
+tree:   https://github.com/cornelisnetworks/linux.git for-upstream_20261115-1518
+head:   16b51e7cd1a98a98348c7b3d5824a3507c8132fa
+commit: 16b51e7cd1a98a98348c7b3d5824a3507c8132fa [35/35] RDMA/hfi2: Add tracepoints and enable hfi2 driver build
+config: arm64-allmodconfig (https://download.01.org/0day-ci/archive/20261117/202611170154.glIRRQ3t-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project ca14e3d05c4e63d6e8103945c86b958ed2f55d5f)
+rustc: rustc 1.96.0 (ac68faa20 2026-05-25)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261117/202611170154.glIRRQ3t-lkp@intel.com/reproduce)
 
-I added a local test-only bypass (a CONFIG_CXL_RESET_INVALIDATION_TEST
-that skips the invalidation in cxl_reset_check() and
-cxl_hdm_quiesce_prepare()/cxl_hdm_ranges_invalidate()), I get 26 passes
-and 1 skip (pm_d3hot_restores_decoder, since cxl-type2 has no PM
-capability in QEMU). I think something like that belongs in the
-cxl_reset series. Otherwise this test can only be run by people with
-real Type-2 hardware.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611170154.glIRRQ3t-lkp@intel.com/
 
-[1] https://lore.kernel.org/linux-cxl/20261106035911.1280066-1-mhonap@nvidi=
-a.com/
+All error/warnings (new ones prefixed by >>):
 
-> Check that the decoder register region reads fail with EIO while Memory
-> Space is disabled, and that the decoder reads back committed and HDM
-> access works after low power entry and exit.
+>> drivers/infiniband/hw/hfi2/bulksvc.c:1205:44: error: use of undeclared identifier 'HFI_RVT_WQ_PERCPU'
+    1205 |                             (svc->num_lanes == 1 ? WQ_UNBOUND : HFI_RVT_WQ_PERCPU);
+         |                                                                 ^~~~~~~~~~~~~~~~~
+   1 error generated.
+--
+>> drivers/infiniband/hw/hfi2/bulksvc_verbs.c:2214:6: warning: variable 'err_rc' set but not used [-Wunused-but-set-variable]
+    2214 |         int err_rc = 0;
+         |             ^
+   drivers/infiniband/hw/hfi2/bulksvc_verbs.c:2458:6: warning: variable 'err_rc' set but not used [-Wunused-but-set-variable]
+    2458 |         int err_rc = 0;
+         |             ^
+   2 warnings generated.
+--
+>> drivers/infiniband/hw/hfi2/dms_roce.c:562:13: warning: unused variable 'roce_pio_movdir64b' [-Wunused-variable]
+     562 | static bool roce_pio_movdir64b;
+         |             ^~~~~~~~~~~~~~~~~~
+   1 warning generated.
+--
+>> drivers/infiniband/hw/hfi2/chip.c:6483:28: warning: variable 'extended_vl' set but not used [-Wunused-but-set-variable]
+    6483 |         unsigned int qpns_per_vl, extended_vl, ctxt, i, qpn, n, m;
+         |                                   ^
+   1 warning generated.
+--
+>> drivers/infiniband/hw/hfi2/eth_ethtool.c:1050:12: error: no member named 'ptp_clock' in 'struct ether_device'
+    1050 |         if (edev->ptp_clock) {
+         |             ~~~~  ^
+   drivers/infiniband/hw/hfi2/eth_ethtool.c:1051:43: error: no member named 'ptp_clock' in 'struct ether_device'
+    1051 |                 info->phc_index = ptp_clock_index(edev->ptp_clock);
+         |                                                   ~~~~  ^
+   2 errors generated.
+--
+>> drivers/infiniband/hw/hfi2/eth_main.c:214:10: error: call to undeclared function 'cne_ptp_get_ts_config'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     214 |                 return cne_ptp_get_ts_config(ndev, req);
+         |                        ^
+   drivers/infiniband/hw/hfi2/eth_main.c:214:10: note: did you mean 'cne_get_vf_config'?
+   drivers/infiniband/hw/hfi2/eth_main.h:345:5: note: 'cne_get_vf_config' declared here
+     345 | int cne_get_vf_config(struct net_device *ndev, int vf, struct ifla_vf_info *ivf);
+         |     ^
+>> drivers/infiniband/hw/hfi2/eth_main.c:216:10: error: call to undeclared function 'cne_ptp_set_ts_config'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+     216 |                 return cne_ptp_set_ts_config(ndev, req);
+         |                        ^
+   2 errors generated.
+--
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:227:23: error: no member named 'ptp_config' in 'struct ether_device'
+     227 |                 if (READ_ONCE(edev->ptp_config.tx_type) == HWTSTAMP_TX_ON &&
+         |                               ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:228:40: error: no member named 'ptp_in_progress' in 'struct ether_device'
+     228 |                     !test_and_set_bit_lock(1, &edev->ptp_in_progress)) {
+         |                                                ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:230:21: error: no member named 'ptp_tx_skb' in 'struct ether_device'
+     230 |                         WRITE_ONCE(edev->ptp_tx_skb, skb_get(skb));
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:231:21: error: no member named 'ptp_tx_start' in 'struct ether_device'
+     231 |                         WRITE_ONCE(edev->ptp_tx_start, get_jiffies_64());
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:231:21: error: no member named 'ptp_tx_start' in 'struct ether_device'
+     231 |                         WRITE_ONCE(edev->ptp_tx_start, get_jiffies_64());
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:231:21: error: no member named 'ptp_tx_start' in 'struct ether_device'
+     231 |                         WRITE_ONCE(edev->ptp_tx_start, get_jiffies_64());
+         |                                    ~~~~  ^
+>> drivers/infiniband/hw/hfi2/eth_tx.c:231:21: error: no member named 'ptp_tx_start' in 'struct ether_device'
+     231 |                         WRITE_ONCE(edev->ptp_tx_start, get_jiffies_64());
+         |                                    ~~~~  ^
+   fatal error: too many errors emitted, stopping now [-ferror-limit=]
+   20 errors generated.
+--
+>> drivers/infiniband/hw/hfi2/vf2pf.c:472:6: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+     472 |         int ret;
+         |             ^
+   1 warning generated.
+--
+>> drivers/infiniband/hw/hfi2/rvt_qp.c:2507:6: warning: variable 'j' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
+    2507 |         if (unlikely(num_sge > max_sge))
+         |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:77:22: note: expanded from macro 'unlikely'
+      77 | # define unlikely(x)    __builtin_expect(!!(x), 0)
+         |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/infiniband/hw/hfi2/rvt_qp.c:2526:9: note: uninitialized use occurs here
+    2526 |         while (j) {
+         |                ^
+   drivers/infiniband/hw/hfi2/rvt_qp.c:2507:2: note: remove the 'if' if its condition is always false
+    2507 |         if (unlikely(num_sge > max_sge))
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2508 |                 goto bad_lkey;
+         |                 ~~~~~~~~~~~~~
+   drivers/infiniband/hw/hfi2/rvt_qp.c:2495:10: note: initialize the variable 'j' to silence this warning
+    2495 |         int i, j, ret;
+         |                 ^
+         |                  = 0
+   1 warning generated.
+--
+>> Warning: drivers/infiniband/hw/hfi2/eth_sriov.c:74 function parameter 'ivf' not described in 'cne_get_vf_config'
+>> Warning: drivers/infiniband/hw/hfi2/eth_sriov.c:74 function parameter 'ivf' not described in 'cne_get_vf_config'
+--
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:207 Incorrect use of kernel-doc format:  * hfi2_roce_resolve_ah - resolve L2/L3 addressing from a RoCE AH
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 function parameter 'dd' not described in 'hfi2_roce_resolve_ah'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 function parameter 'ah' not described in 'hfi2_roce_resolve_ah'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 function parameter 'udp_sport' not described in 'hfi2_roce_resolve_ah'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 function parameter 'addr' not described in 'hfi2_roce_resolve_ah'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:217 expecting prototype for hfi2_roce_modify_qp(). Prototype was for hfi2_roce_resolve_ah() instead
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'rdi' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'qp' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'pmtu' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'rdi' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'qp' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'attr' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:716 function parameter 'qp' not described in 'hfi2_roce_do_send_from_rvt'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'rdi' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'qp' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:655 function parameter 'pmtu' not described in 'hfi2_roce_mtu_from_qp'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'rdi' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'qp' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:668 function parameter 'attr' not described in 'hfi2_roce_get_pmtu_from_attr'
+>> Warning: drivers/infiniband/hw/hfi2/roce_verbs.c:716 function parameter 'qp' not described in 'hfi2_roce_do_send_from_rvt'
+..
 
-The series says a Type-2 device loses its committed HDM decoder in D3hot
-and D3cold (patches 17 and 30), but the emulated cxl-type2 device in
-your QEMU RFC has no PM capability, so on it these tests never take the
-decoder restore path in vfio_cxl_power_up(). Please make the emulated
-device behave the same way as the real hardware across D3hot (PM
-capability, No_Soft_Reset, and whether the decoder is lost), so that the
-selftest exercises the same vfio-cxl code paths in a VM as it does on
-hardware.
-
-To help get that right: what does lspci -vv show for the PM capability
-of the device you tested with (NoSoftRst+ or NoSoftRst-), and did you
-observe the decoder actually being lost?
-
-> Add a partial-mmap path to the vfio selftest library so the trapped
-> component BAR maps its sparse ranges, and an __iommu_map_file() helper fo=
-r
-> the dma-buf mapping.
-
-Please split the library changes into separate commits ahead of the
-test: __iommu_map_file(), the sparse mmap support in vfio_pci_bar_map(),
-and each of the new libvfio helpers suggested below. That way each one
-can be reviewed on its own, and the final commit only adds the test, its
-Makefile entry, and the MAINTAINERS line.
-
-This series is already quite long (31 patches), and with the library
-changes split out the selftest changes will grow to several patches.
-Consider sending all the VFIO selftests patches as a separate series
-that depends on this one.
-
-> +/* Return the sparse-mmap capability in @info, or NULL if the region has=
- none. */
-> +static struct vfio_region_info_cap_sparse_mmap *
-> +vfio_pci_sparse_mmap_cap(struct vfio_region_info *info)
-> +{
-> +	struct vfio_info_cap_header *hdr;
-> +	u32 offset;
-> +
-> +	if (!(info->flags & VFIO_REGION_INFO_FLAG_CAPS))
-> +		return NULL;
-> +
-> +	for (offset =3D info->cap_offset; offset; offset =3D hdr->next) {
-> +		hdr =3D (void *)info + offset;
-> +		if (hdr->id =3D=3D VFIO_REGION_INFO_CAP_SPARSE_MMAP)
-> +			return (struct vfio_region_info_cap_sparse_mmap *)hdr;
-> +	}
-> +
-> +	return NULL;
-> +}
-
-This walks the region info capability chain looking for one ID, which is
-the same thing find_region_cap() does in the test. Please add one
-generic libvfio helper that looks up a region info capability by ID, and
-use it in both places.
-
-> + * Usage: ./vfio_cxl_type2_test <BDF>  (or export VFIO_SELFTESTS_BDF=3D<=
-BDF>).
-> + * The device must be bound to vfio-pci with the vfio-cxl module availab=
-le.
-
-Please document how to run this test in more detail: the hardware
-requirements, how to set up the emulated QEMU device, and the kernel
-config needed (VFIO_CXL, IOMMUFD, any test-only bypass), so others can
-reproduce your results.
-
-> +/* vfio-pci region-offset packing is kernel-internal, not UAPI; define l=
-ocally. */
-> +#ifndef VFIO_PCI_OFFSET_SHIFT
-> +#define VFIO_PCI_OFFSET_SHIFT		40
-> +#endif
-> +#ifndef VFIO_PCI_INDEX_TO_OFFSET
-> +#define VFIO_PCI_INDEX_TO_OFFSET(i)	((uint64_t)(i) << VFIO_PCI_OFFSET_SH=
-IFT)
-> +#endif
-
-As the comment says, this is kernel-internal and not uAPI, so the test
-shouldn't depend on it. Please use vfio_region_info.offset from
-VFIO_DEVICE_GET_REGION_INFO instead, as comp_bar_sparse_mmap already
-does for the BAR. Better yet, use region access helpers in libvfio that
-take a region index and apply the offset internally (see below), so the
-test never computes region offsets itself.
-
-> +/* Find a CXL region by subtype; returns the region index or -1, @buf le=
-ft holding its info. */
-> +static int find_cxl_region(int fd, uint32_t nregions, uint32_t subtype,
-> +			   void *buf, size_t bufsz)
-> +{
-> +	uint32_t i;
-> +
-> +	for (i =3D 0; i < nregions; i++) {
-> +		struct vfio_region_info *ri =3D buf;
-> +		const struct vfio_region_info_cap_type *t;
-> +		const struct vfio_info_cap_header *hdr;
-> +
-> +		memset(buf, 0, bufsz);
-> +		ri->argsz =3D bufsz;
-> +		ri->index =3D i;
-> +		if (ioctl(fd, VFIO_DEVICE_GET_REGION_INFO, ri))
-> +			continue;
-
-This is a generic lookup of a region by type and subtype. Only the CXL
-vendor ID is specific. Please make it a libvfio helper (e.g.
-vfio_pci_find_region(device, type, subtype)) built on the existing
-region info code in libvfio.
-
-More generally, please replace the raw ioctl() calls throughout the test
-with libvfio helpers: VFIO_DEVICE_GET_INFO, VFIO_DEVICE_GET_REGION_INFO,
-and VFIO_DEVICE_FEATURE for DMA_BUF and LOW_POWER_ENTRY/EXIT. Please
-follow the existing convention, e.g. __vfio_pci_device_reset() and
-vfio_pci_device_reset(): a double-underscore variant that returns -errno
-for the tests that expect failures or skip when something isn't
-supported, and a plain variant that asserts success.
-
-> +/* Walk the PCI extended capability list for the CXL Device DVSEC. */
-> +static uint16_t find_cxl_dvsec(struct vfio_pci_device *dev)
-> +{
-
-Same here, the extended capability walk and the DVSEC match aren't
-CXL-specific. Please consider vfio_pci_find_ext_capability() and
-vfio_pci_find_dvsec(device, vendor, id) helpers in libvfio, with the
-test passing in the CXL IDs.
-
-> +/* Read config space from sysfs, which is the hardware, not the vfio vie=
-w. */
-> +static int sysfs_config_read(uint32_t off, void *buf, size_t len)
-> +{
-> +	char path[128];
-> +	ssize_t n;
-> +	int fd;
-> +
-> +	snprintf(path, sizeof(path), "/sys/bus/pci/devices/%s/config",
-> +		 device_bdf);
-> +	fd =3D open(path, O_RDONLY);
-> +	if (fd < 0)
-> +		return -errno;
-> +	n =3D pread(fd, buf, len, off);
-> +	close(fd);
-> +	return n =3D=3D (ssize_t)len ? 0 : -EIO;
-> +}
-
-This and sysfs_config() further down do the same thing. Please replace
-both with one sysfs config access helper in lib/sysfs.c, modeled after
-the existing vfio config helpers: a sysfs_config_access(bdf, write,
-offset, size, data) core with sysfs_config_read{b,w,l}() and
-sysfs_config_write{b,w,l}() wrappers that assert on failure, like
-vfio_pci_config_access() and vfio_pci_config_read{b,w,l}().
-
-Taking the BDF as a parameter also gets helpers off the device_bdf
-global. Please only use device_bdf where the device is opened
-(FIXTURE_SETUP() and close_restores_open_time_command). Everywhere else
-can use self->dev->bdf.
-
-> +/* The trapped block starts at the HDM decoder registers; CTRL 0 reads b=
-ack. */
-> +TEST_F(vfio_cxl, comp_regs_hdm_read)
-> +{
-> +	uint64_t ctrl =3D self->comp_off + CXL_HDM_DECODER0_CTRL_OFFSET(0);
-> +	uint32_t val =3D 0;
-> +
-> +	ASSERT_GE(self->comp_size, CXL_HDM_DECODER0_CTRL_OFFSET(0) + 4);
-> +	ASSERT_EQ((ssize_t)sizeof(val),
-> +		  pread(self->dev->fd, &val, sizeof(val), ctrl));
-> +}
-
-Please add region access helpers to libvfio instead of open-coding
-pread()/pwrite()/mmap() on the device fd, which this test does in about
-50 places. Something modeled on the config space helpers:
-__vfio_pci_region_access(device, index, write, offset, size, data)
-returning the number of bytes or -errno, vfio_pci_region_access()
-asserting success, and typed vfio_pci_region_read{b,w,l,q}() and
-vfio_pci_region_write{b,w,l,q}() wrappers. Then this becomes:
-
-	val =3D vfio_pci_region_readl(self->dev, self->comp_idx,
-				    CXL_HDM_DECODER0_CTRL_OFFSET(0));
-
-The double-underscore variant covers the expected failures, like
-comp_regs_read_needs_memory and the unaligned and out of range tests.
-vfio_pci_config_access() could become a wrapper around the same code
-using VFIO_PCI_CONFIG_REGION_INDEX. libvfio would need to cache the
-region info for all regions, not just config space and the BARs, so it
-can apply the offset reported by VFIO_DEVICE_GET_REGION_INFO.
-
-Similarly, __vfio_pci_region_mmap() and vfio_pci_region_mmap() could
-cover the HDM region mappings and the expected mmap failures over the
-decoder block, and vfio_pci_bar_map() could be built on them.
-
-> +/* Find a standard capability through the vfio config view. */
-> +static uint8_t find_std_cap(struct vfio_pci_device *dev, uint8_t id)
-
-Please make this a libvfio helper too, e.g.
-vfio_pci_find_capability(device, cap_id).
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
