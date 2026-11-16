@@ -1,11 +1,11 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.99
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.228
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1794867993;
-	b=wE1unVrxOWphd6TVAk58LdcxtQ4T350KRfVGffaHq4Heq9rA4sSuH4jNUQ154Y5zMfat
-	 IPT3ticwnpydHFQiccvr6d+WXgfj9pE+8ll1rgUFVc3bTSvEeEkT6qDekbHbUHg3GXeaY
-	 mnIKR1ZWHwQjX7SIuFHm5NsJl0rdGjKraVaNBeOAGYWOpNfCDD3Vo3yBq36mgjt9Z/kBB
-	 oGbuALg2ds2nW501GPAD2wMkzRtIBnS9QyqwRPnIJNDPLOrCyww8B6FNRFvSWJezl9RjS
-	 l+4ptyDC4zmtNUMIcHlxN6KD4bm55xcEzlxi/gAZ+6mfSwCw2jdOe4IWrNJnawLLJQw==
+	b=C3Tdg61mjHIpK1WXQb0CvaBkpq2xUUUWi+6oS9s1RXqe2m7GgIU0LZplYmq0o1cQKBXe
+	 i++EiG4oBgsxOER2/839NabK+dftQgcFoGAoCuGTyt9iVVbVhm5Yo+wcNjIMap4c8XJhv
+	 cjlaCCnCu5Q79npG1IyYWI10rMGwvi7kTcxSirTLu7VswkmNfuyhHYWx0HaXpoPeGENwY
+	 Z/gwciBmxwjXhuCjE1e0mDCa3kxr4RXqeLIkng6CFC602nIhzOwYx9Ua0wIvR+cULMyEw
+	 4zwJVdHOchYTsAW0hdwFWGsDVmozIH4BzyFBV7xJJXsNY8Gj0YKBiBU+kXJAKBpyf1g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794867993;
 	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
@@ -14,85 +14,85 @@ ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	 X-Received:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-DetectorID-Processed;
-	bh=SwgKM/LUsmyzVGglaupm2j1ixL7nRDboOcNVB38JNgg=;
-	b=HleIP+4cvooEEsbdggiDNB0DG6N1vJgrX6Az8iVdYnJuFcQeK6m+66DHEdT/kNT3OKD6
-	 e5xCcx5uNqH8ZWlmOZRTAqM3leyayn3K8+8XkH0EBe0lf9MvgQf2y6/BVZ1RD8XVNA/jZ
-	 jX0At9wQLfCFGcIX9N58gAjHCHZzf5/GoFjxFai7I0nSEIUCpisSkJdtyXGl7c5TCibSS
-	 nSTYMMvdCeAs2ZBkWsH/cQBLcsqlA8iOJtMaS0JZkhXWENafV/Rwo5XFyvD0+PwOJ6d1D
-	 3r9mgvoanVUkgPNqzesudhnZykLv62bsQdv+lYiPGZNYhVjd8IGkurs99pTh9WcWGQQ==
+	bh=cVMKW7fB8h0SnQR2hp0PSgoEdY8qiS0OoOpSG4SZZnE=;
+	b=VnmUUxh/rQnTgVsFyX/Je3C6gmopIiqTJoRFLKWoKfpoTW7t0lqpyM0P1uiyOyRP5NYv
+	 iEIeKFjvt1zrmUPt4r5NAX71JEmAFV9wxxiKns5CL2xhC7FzdavlFfBogwexORBzy0+ET
+	 zLNaNOTt2ZXkwzDMG4yYHSzxCM7lGAknf1mU+TRqAPa7MIe9ReZlAFx++06G28WfuEcOH
+	 wLigBNjjdIZdlM/0ROljwaXfHdLpKHI9WiUFxIC12ra+CfOEu7laYOo15z0uUUdKcl50Z
+	 +kFdZ7WQjt7kabz5th5J4H8bZdQto34d+A55qbJPZJCVcxMadVPLNwLVosTiumF0Ocg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=broadcom.com;
 	spf=fail smtp.mailfrom=broadcom.com;
-	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=ZXVYLoBe;
-	arc=none smtp.remote-ip=209.85.216.99
-Received: from mail-pj1-f99.google.com (mail-pj1-f99.google.com [209.85.216.99])
+	dkim=pass header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=GDdgrtPS;
+	arc=none smtp.remote-ip=209.85.215.228
+Received: from mail-pg1-f228.google.com (mail-pg1-f228.google.com [209.85.215.228])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E0D7606A88B
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 22:26:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9E0D7606A88B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58F6E606A33B
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 22:26:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 58F6E606A33B
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=ZXVYLoBe
-Received: by mail-pj1-f99.google.com with SMTP id 98e67ed59e1d1-3b09c07b3d2so2526237a91.3
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 14:26:32 -0800 (PST)
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.a=rsa-sha256 header.s=google header.b=GDdgrtPS
+Received: by mail-pg1-f228.google.com with SMTP id 41be03b00d2f7-cd6028ff33fso2210095a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 14:26:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1794867992; x=1795472792;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:dkim-signature:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=SwgKM/LUsmyzVGglaupm2j1ixL7nRDboOcNVB38JNgg=;
-        b=ibPwIDyGyhYHT0HUeSE33Stae1/g3yM0zt3Exc7HG0yA0ejbluHmgeZpeDil/aB9Bp
-         dHQ8HFtu9PG6Orkucbi/7uA8R0U1Q+yJyrUVoGWRsED07WWCWh7bmjy1QAxwfRLb7lLc
-         rJmAoqLocsiE2TYNhKbRGUD/+J7OkfBkgLXtEaC2f15Kqeul0FO+mI534ozlp2qiwRgO
-         mgGCFYbrtZXfWdExEjRYm6Nfo3TAAo8UfXKtbzDfrHB4wIfNXfc8DLboGQ2E5IydMsg0
-         gseKheSV/qyHHUEeCa3DYlQ4fzM456cwLH0q4UT1g9AJEjgbpXT/ektkACQ7SpLJW4Nh
-         hnNQ==
-X-Forwarded-Encrypted: i=1; AL+hErGf1Ru14YE75c2AQvc6cgVLJVPWSV3PLtxRKYTiN3mmv8bgOw3KkKzqCgw38P0mURhq08FGxOfhoxo=@vger.kernel.org
-X-Gm-Message-State: APuU4Z9YCQQrKu+EOuN3TZHbvZINhlVcbPfKzuElf+YYBlX2fkiboXjI
-	4KjI61A/s2aIkDTEradEJ4LL/5i2xVNkgzNBhfhvJSeYVNwqP5mxLzdhThfDi+bx8mJ3NGp9kE0
-	CuEuI8Vr3deIhEIUAJpf4xkidez1JrqvO/MZ4fknXVFPEOZdPf37Xj5W8v6mUTbjY9nqXvkmZvE
-	qiF5I5ECSvPFY646qe2CgkSn3GTrW/B9F9ZAfW+bPIXPQ31HoQF1jivPdHaKbH7V/+yodwFlBSY
-	B9X3wteLrt79REEFZRn
-X-Gm-Gg: AZFdTZe3ECRTK/ufTdLUbKXLLJkeFFKRYnsvajHAvTT68vyMfxwPHoGqi5bTvjVcfNB
-	jbvhRuDxTvF9MGthhfkuvxsDpQEeJqkEcekDxAfHfbJwqEUvGuGQeSauFNRjD8bEOGYzXdzZ7al
-	oWF9NrYCO+pZvATAYruZQBRyzjIdLTIoB1AvQsCTFK7hfjeXQohIju6gcN7kxQzA3VA7ND1FPX9
-	eUVQhDs6+HqW8xaSRNrAaROhIIMdN5rU7l+PjTO3rnQDx/JZ6l0TgXBvZzspTS2cP/klFtwazk1
-	pOm34jIP0/u9ls+DGBSEJAlA3EizT/pwxVu5n3Kfr3OjEQV+rrizQu3YQaIy+KgBa2vzNAeqH6p
-	AfMlTDCBS+AiAYJ4y1Sxen3gC5WavFqyyyfsXFMduxYgDob3fX79xQjGgIop2alelknGAOCKUZS
-	Aw6/u8QLxf4zQdQLzE7aLcfdf3W1sPgPG6LqnCrEugSj0=
-X-Received: by 2002:a17:90b:3d87:b0:3ad:5c64:c7ae with SMTP id 98e67ed59e1d1-3b1b0ca547cmr11286278a91.57.1794867991868;
-        Mon, 16 Nov 2026 14:26:31 -0800 (PST)
-Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-123.dlp.protect.broadcom.com. [144.49.247.123])
-        by smtp-relay.gmail.com with ESMTPS id d9443c01a7336-2efd7b09a47sm315115ad.41.2026.11.16.14.26.29
+        bh=cVMKW7fB8h0SnQR2hp0PSgoEdY8qiS0OoOpSG4SZZnE=;
+        b=dxK0pfslznGxGMf8UnxaePV0h9fr5Ns5S6xJPkNDskDG0tSZV+dptMgmRXcs4LrabZ
+         hCLefAHpws7r+UVqN9Hxo4gSDk009t5NOiKW5TI7K1NH23WKdW8jtSbIWFtuMo9/qt2T
+         DYQlIQTUHybefgqKer7kJDeJyLT8AbFZko4wLnv/BZh0fh5kWGVdNFaMBs2KGZVfAbpq
+         cZDxLZuRf2XulqkkOiOQ1ycBOI2vt6Lf69d6GcZiGS6qcUJsQfDwSMC7M/iIcyzw6NpW
+         MFDhdlu+rA88bcTWq5vHlVt2i4XlLtM8eUTtghqWHBNyBQpzST14sSqMrlaOVcy1Wx1i
+         QWcg==
+X-Forwarded-Encrypted: i=1; AL+hErGXvS9Ql1pgBt3DWCQpA9hFOvKoD3HvNZFo+/dUg0KWzrHFueQA0H11IYeJ9i5SRJUqFAC6XGGgaGk=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/ahmWoiVHrQMG82ko3xYD0ZIJmZnAloLhwZ/XrIWIx7C5PvIgq
+	mK5qnmfb3IqpNxROtNyGjUI7VqoSSdFFuvi0iCps90w3qpaijpAExfhC2KP0NmDii3iEJBzogrU
+	C/F9TB54XTDpmEt6m02ts+74VhJ2F1mUOViQA/V3Wr+xooB4M6kmoIW5HaUdyhIN2LiOKfK13q6
+	PzUFcgh4fIDyQYgrbxj1wR1chKpST3uQOteg5hEo4OGS6LMsK//kWsFqq14ZidDjN59n+YvRta5
+	v6Hy9GW5jsmqsuZi7Rc
+X-Gm-Gg: AZFdTZdlOrYUwH2TNUJAYOwXf6bI6pu3YucwYhtMOcBSsA/dTU9IDawH/487XnrOy8B
+	LeUsSeFjffcEpEGDxBE+BC4e8r4eRzWxjdifMGmy/FonKRAngO2nssbUFWNfcFhfefN4sWmuvEb
+	4euAn9ng20iNgFVfetcAWFT7mclC5KKjOrixKoMkJcNNTaj5fhVcJUBroMBcMQ6AtizffTqA2x1
+	98R7Fwr0XSY8PrNbgsStG27i3yp0Agt/ztSzdONPw+jlSfYj4a0IDmiyPqSs+mXy9KRASjPKoGZ
+	Z2ZOSPsKaWK7ztdaMVL7JqczJqWHZAI6M70XQP+0KEDxuLf1v3Xk7v+KEq/Q5PDcjslzc8VCpy4
+	jFmdeawuE98oMALcEmu1HiB2e0/0iYzouLZxK5m2hTxEw9xdrRJI5LvFGnzE2P8IciXBUs7zTBK
+	IiEYPjWr6X9lW+T77C/oQ9XMr1FSxos7DDw9Wk3T1h
+X-Received: by 2002:a17:90b:49:b0:3ac:bfa7:b079 with SMTP id 98e67ed59e1d1-3b1b081bbd8mr11010033a91.7.1794867992135;
+        Mon, 16 Nov 2026 14:26:32 -0800 (PST)
+Received: from smtp-us-east1-p01-i01-si01.dlp.protect.broadcom.com (address-144-49-247-28.dlp.protect.broadcom.com. [144.49.247.28])
+        by smtp-relay.gmail.com with ESMTPS id 98e67ed59e1d1-3b1b25dd0d5sm5573544a91.0.2026.11.16.14.26.31
         for <linux-doc@vger.kernel.org>
         (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Mon, 16 Nov 2026 14:26:31 -0800 (PST)
+        Mon, 16 Nov 2026 14:26:32 -0800 (PST)
 X-Relaying-Domain: broadcom.com
 X-CFilter-Loop: Reflected
-Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-1af203073e0so3533213c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 14:26:29 -0800 (PST)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-36ecd5db581so4942971eec.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 14:26:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1794867988; x=1795472788; darn=vger.kernel.org;
+        d=broadcom.com; s=google; t=1794867990; x=1795472790; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SwgKM/LUsmyzVGglaupm2j1ixL7nRDboOcNVB38JNgg=;
-        b=ZXVYLoBeyjKuwDQQHfurKC/93+dEugF/FYFfNiIwPyyiWcQZ3lc4Z49np2Y8lLqFJa
-         x14+TMrqyNZ6Ljz0yqlI39wpihU5gR1eq+/T7ksrIVVe+S6b2fKwf17Df5d8L9tmqYPA
-         sJZUfmYkx53VWsG9RFS0ITZvAs3EWrL8Y36nE=
-X-Forwarded-Encrypted: i=1; AL+hErFC0GAZyltNuoZWcsiSC+8pwM0RO1tc7Ub2OGcIeUvb4zka+KDZkfN2sMNNtjntSF4XbghwC4pCwO4=@vger.kernel.org
-X-Received: by 2002:a05:7022:7e86:b0:1b3:8814:8383 with SMTP id a92af1059eb24-1b5030e77efmr10964767c88.9.1794867988136;
-        Mon, 16 Nov 2026 14:26:28 -0800 (PST)
-X-Received: by 2002:a05:7022:7e86:b0:1b3:8814:8383 with SMTP id a92af1059eb24-1b5030e77efmr10964713c88.9.1794867987246;
-        Mon, 16 Nov 2026 14:26:27 -0800 (PST)
+        bh=cVMKW7fB8h0SnQR2hp0PSgoEdY8qiS0OoOpSG4SZZnE=;
+        b=GDdgrtPSd1A//IcT5eYJN7ELhJmZHj6CaZY8PbDuGhKTQ/Ny1TPsXW3dBR1RqTY/q3
+         SppgckwO4LBEoMHB0cJEDUXFPEI9d91o1JTXPSogva4ccX8/g5wDzIecehf05QtV3P6F
+         X0cVF3ubcRC0or/0ACDYXFYOHMrwDWmo57mTA=
+X-Forwarded-Encrypted: i=1; AL+hErFkdKCAGZflmeT0ARGewgU0KOy+ZMCMuAo/dFdHA1PsAm93+y5/4KQgL3Az4AaeluDXCypnp1CD/kk=@vger.kernel.org
+X-Received: by 2002:a05:7300:7952:b0:381:3b6:6c3d with SMTP id 5a478bee46e88-38103b682f6mr849618eec.35.1794867990156;
+        Mon, 16 Nov 2026 14:26:30 -0800 (PST)
+X-Received: by 2002:a05:7300:7952:b0:381:3b6:6c3d with SMTP id 5a478bee46e88-38103b682f6mr849591eec.35.1794867989331;
+        Mon, 16 Nov 2026 14:26:29 -0800 (PST)
 Received: from fainelli-desktop.igp.broadcom.net ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379560f5e06sm50176624eec.19.2026.11.16.14.26.25
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379560f5e06sm50176624eec.19.2026.11.16.14.26.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2026 14:26:26 -0800 (PST)
+        Mon, 16 Nov 2026 14:26:28 -0800 (PST)
 From: Florian Fainelli <florian.fainelli@broadcom.com>
 To: netdev@vger.kernel.org
 Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
@@ -118,9 +118,9 @@ Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
 	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
 	netfilter-devel@vger.kernel.org (open list:NETFILTER),
 	coreteam@netfilter.org (open list:NETFILTER)
-Subject: [PATCH net-next 2/9] netfilter: flowtable: reject non-host IPv4 packets before lookup
-Date: Mon, 16 Nov 2026 14:25:12 -0800
-Message-ID: <20261116222519.1416501-3-florian.fainelli@broadcom.com>
+Subject: [PATCH net-next 3/9] netfilter: flowtable: retain offload ownership until deletion completes
+Date: Mon, 16 Nov 2026 14:25:13 -0800
+Message-ID: <20261116222519.1416501-4-florian.fainelli@broadcom.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261116222519.1416501-1-florian.fainelli@broadcom.com>
 References: <20261116222519.1416501-1-florian.fainelli@broadcom.com>
@@ -136,43 +136,249 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-DetectorID-Processed: b00c1d49-9d2e-4205-b15f-d015386d3d5e
 
-The IPv4 forwarding path rejects frames whose packet type is not
-PACKET_HOST, but an installed flowtable tuple bypasses that check. A
-packet addressed to an unrelated, broadcast or multicast destination MAC
-can therefore be forwarded if its IPv4 transport tuple matches a flow.
+Teardown clears IPS_OFFLOAD before asynchronous hardware deletion and
+hash removal. A new packet can therefore create a replacement flow on
+the same conntrack while the old owner still exists. Repeated teardown
+can clear the replacement's IPS_OFFLOAD, and the old hardware delete
+worker can clear its IPS_HW_OFFLOAD after a new hardware rule was
+installed.
 
-Return to the normal stack before the flow lookup for non-host packets.
-This preserves the IPv4 input path's forwarding decision.
+The FA route-change reproducer observed four fresh hardware rows but
+only one of two connections still carrying HW_OFFLOAD. Two deterministic
+KUnit cases also fail before this change: repeated notification releases
+a new claim, and hardware retirement admits a new claim before deletion
+finishes.
 
-Reproduced on BCM53012 using an active UDP NAT tuple: classic forwarding
-dropped the unrelated unicast destination MAC while software flowtable
-forwarding transmitted it. Boundary tests cover TCP/UDP, both NAT
-initiators and unicast, broadcast and multicast MACs.
+Release IPS_OFFLOAD after both hash entries have been removed. For
+hardware flows, GC reaches this point only after hardware deletion is
+complete. NF_FLOW_TEARDOWN immediately excludes the old software fast
+path. Packets reaching software still use normal conntrack and
+forwarding; TCP state and timeout repair run at first teardown. Hardware
+deletion may remain pending. Holding the admission bit prevents
+overlapping owners.
 
-Implementation, tests and changelog prepared with OpenAI Codex assistance.
+The delayed release is observable: conntrack dumps may temporarily
+report OFFLOAD or HW_OFFLOAD and omit TCP state after a FIN or RST has
+returned to the slow path. The status covers ownership pending cleanup
+during the GC and asynchronous delete interval, rather than guaranteeing
+acceleration. This trades transient reporting for correct ownership
+serialization and prevents an old cleanup from clearing its
+replacement's status. Document the interval and use packet
+captures/counters to identify the packet path.
 
-Fixes: 97add9f0d66d ("netfilter: flow table support for IPv4")
+Include the private lifetime tests and their KUnit configuration here,
+independently of the FA series. They cover real hash removal, deferred
+hardware retirement, late RCU notification and balanced conntrack
+references. The nf_flow_table.config configuration runs these two cases
+on its own.
 
-Signed-off-by: FLorian Fainelli <florian.fainelli@broadcom.com>
+Fixes: e5eaac2beb54 ("netfilter: flowtable: fix TCP flow teardown")
+
+Signed-off-by: Florian Fainelli <florian.fainelli@broadcom.com>
 ---
- net/netfilter/nf_flow_table_ip.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ Documentation/networking/nf_flowtable.rst     | 13 +++
+ MAINTAINERS                                   |  1 +
+ net/netfilter/Kconfig                         | 10 +++
+ net/netfilter/nf_flow_table_core.c            |  9 +-
+ net/netfilter/nf_flow_table_core_test.c       | 86 +++++++++++++++++++
+ .../kunit/configs/nf_flow_table.config        |  9 ++
+ 6 files changed, 127 insertions(+), 1 deletion(-)
+ create mode 100644 net/netfilter/nf_flow_table_core_test.c
+ create mode 100644 tools/testing/kunit/configs/nf_flow_table.config
 
-diff --git a/net/netfilter/nf_flow_table_ip.c b/net/netfilter/nf_flow_table_ip.c
-index 19cafae748ab..98bade1b8299 100644
---- a/net/netfilter/nf_flow_table_ip.c
-+++ b/net/netfilter/nf_flow_table_ip.c
-@@ -911,6 +911,10 @@ nf_flow_offload_ip_hook(void *priv, struct sk_buff *skb,
- 	};
- 	int ret;
+diff --git a/Documentation/networking/nf_flowtable.rst b/Documentation/networking/nf_flowtable.rst
+index d757c21c10f2..b9b444435775 100644
+--- a/Documentation/networking/nf_flowtable.rst
++++ b/Documentation/networking/nf_flowtable.rst
+@@ -205,6 +205,19 @@ refers to the software offload mode, so there is a distinction between [OFFLOAD]
+ which refers to the software flowtable fastpath and [HW_OFFLOAD] which refers
+ to the hardware offload datapath being used by the flow.
  
-+	/* The ingress hook runs before IPv4 rejects non-host Ethernet frames. */
-+	if (unlikely(skb->pkt_type != PACKET_HOST))
-+		return NF_ACCEPT;
++During teardown, software fastpath lookups immediately stop matching the
++flow. Packets reaching software follow the classic forwarding path, while
++hardware deletion may still be pending. The OFFLOAD status
++bit remains set until hash removal and asynchronous hardware deletion are
++complete, preventing a new owner from racing the old owner's cleanup. As a
++result, conntrack dumps can temporarily retain [OFFLOAD] or [HW_OFFLOAD]
++and omit the TCP state after a FIN or RST has returned to the slow path.
++TCP state and timeout repair still run at first teardown. The transient
++status describes ownership pending cleanup, rather than guaranteeing that
++packets are still accelerated. It clears when garbage collection finishes
++the deletion; packet captures and forwarding counters identify the actual
++forwarding path during that interval.
 +
- 	if (!nf_flow_skb_encap_protocol(&ctx, skb))
- 		return NF_ACCEPT;
+ The flowtable hardware offload infrastructure also supports for the DSA
+ (Distributed Switch Architecture).
  
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c583367c88bc..56212dbc9a0d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19396,6 +19396,7 @@ F:	net/*/netfilter.c
+ F:	net/*/netfilter/
+ F:	net/bridge/br_netfilter*.c
+ F:	net/netfilter/
++F:	tools/testing/kunit/configs/nf_flow_table.config
+ F:	tools/testing/selftests/net/netfilter/
+ 
+ NETRONIX EMBEDDED CONTROLLER
+diff --git a/net/netfilter/Kconfig b/net/netfilter/Kconfig
+index 09874c26fd13..f565f87b3a6c 100644
+--- a/net/netfilter/Kconfig
++++ b/net/netfilter/Kconfig
+@@ -718,6 +718,16 @@ config NF_FLOW_TABLE
+ 
+ 	  To compile it as a module, choose M here.
+ 
++config NF_FLOW_TABLE_KUNIT_TEST
++	bool "KUnit tests for flowtable ownership" if !KUNIT_ALL_TESTS
++	depends on KUNIT=y && NF_FLOW_TABLE
++	default KUNIT_ALL_TESTS
++	help
++	  Test conntrack offload ownership during flowtable teardown.
++	  Require hash and asynchronous hardware deletion before re-enrolment.
++	  Verify that late notifications cannot release a replacement owner.
++	  These private tests are embedded in the flowtable core.
++
+ config NF_FLOW_TABLE_PROCFS
+ 	bool "Supply flow table statistics in procfs"
+ 	depends on NF_FLOW_TABLE
+diff --git a/net/netfilter/nf_flow_table_core.c b/net/netfilter/nf_flow_table_core.c
+index 2aa2647ed9df..4c82097cd50b 100644
+--- a/net/netfilter/nf_flow_table_core.c
++++ b/net/netfilter/nf_flow_table_core.c
+@@ -393,12 +393,15 @@ static void flow_offload_del(struct nf_flowtable *flow_table,
+ 	rhashtable_remove_fast(&flow_table->rhashtable,
+ 			       &flow->tuplehash[FLOW_OFFLOAD_DIR_REPLY].node,
+ 			       nf_flow_offload_rhash_params);
++	/* Release admission only after both hashes and async hardware state
++	 * have gone. An older owner must not clear its replacement's status.
++	 */
++	clear_bit_unlock(IPS_OFFLOAD_BIT, &flow->ct->status);
+ 	flow_offload_free(flow);
+ }
+ 
+ void flow_offload_teardown(struct flow_offload *flow)
+ {
+-	clear_bit(IPS_OFFLOAD_BIT, &flow->ct->status);
+ 	if (!test_and_set_bit(NF_FLOW_TEARDOWN, &flow->flags))
+ 		flow_offload_fixup_ct(flow);
+ }
+@@ -876,3 +879,7 @@ module_exit(nf_flow_table_module_exit);
+ MODULE_LICENSE("GPL");
+ MODULE_AUTHOR("Pablo Neira Ayuso <pablo@netfilter.org>");
+ MODULE_DESCRIPTION("Netfilter flow table module");
++
++#if IS_ENABLED(CONFIG_NF_FLOW_TABLE_KUNIT_TEST)
++#include "nf_flow_table_core_test.c"
++#endif
+diff --git a/net/netfilter/nf_flow_table_core_test.c b/net/netfilter/nf_flow_table_core_test.c
+new file mode 100644
+index 000000000000..378a1c60b50b
+--- /dev/null
++++ b/net/netfilter/nf_flow_table_core_test.c
+@@ -0,0 +1,86 @@
++// SPDX-License-Identifier: GPL-2.0-only
++#include <kunit/test.h>
++
++static void nf_flow_test_teardown_repeat(struct kunit *test)
++{
++	struct flow_offload flow = {};
++	struct nf_conn *ct;
++
++	ct = kunit_kzalloc(test, sizeof(*ct), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, ct);
++	ct->tuplehash[0].tuple.dst.protonum = IPPROTO_ICMP;
++	flow.ct = ct;
++	set_bit(IPS_OFFLOAD_BIT, &ct->status);
++	flow_offload_teardown(&flow);
++	KUNIT_EXPECT_TRUE(test, test_bit(IPS_OFFLOAD_BIT, &ct->status));
++	clear_bit(IPS_OFFLOAD_BIT, &ct->status);
++	/* A late notification for this retired flow cannot clear a new claim. */
++	set_bit(IPS_OFFLOAD_BIT, &ct->status);
++	flow_offload_teardown(&flow);
++	KUNIT_EXPECT_TRUE(test, test_bit(IPS_OFFLOAD_BIT, &ct->status));
++}
++
++static void nf_flow_test_hardware_retirement(struct kunit *test)
++{
++	struct nf_flowtable table = {};
++	struct flow_offload *flow;
++	struct nf_conn *ct;
++	unsigned int dir;
++	int err;
++
++	ct = kunit_kzalloc(test, sizeof(*ct), GFP_KERNEL);
++	KUNIT_ASSERT_NOT_NULL(test, ct);
++	err = rhashtable_init(&table.rhashtable, &nf_flow_offload_rhash_params);
++	KUNIT_ASSERT_EQ(test, err, 0);
++	flow = kzalloc_obj(*flow);
++	if (!flow) {
++		rhashtable_destroy(&table.rhashtable);
++		KUNIT_FAIL(test, "flow allocation failed");
++		return;
++	}
++	ct->tuplehash[0].tuple.dst.protonum = IPPROTO_ICMP;
++	refcount_set(&ct->ct_general.use, 2);
++	flow->ct = ct;
++	set_bit(NF_FLOW_HW, &flow->flags);
++	set_bit(IPS_OFFLOAD_BIT, &ct->status);
++	set_bit(IPS_HW_OFFLOAD_BIT, &ct->status);
++	for (dir = 0; dir < FLOW_OFFLOAD_DIR_MAX; dir++) {
++		flow->tuplehash[dir].tuple.src_port = htons(10000 + dir);
++		err = rhashtable_insert_fast(&table.rhashtable,
++					     &flow->tuplehash[dir].node,
++					     nf_flow_offload_rhash_params);
++		KUNIT_EXPECT_EQ(test, err, 0);
++	}
++	flow_offload_teardown(flow);
++	/* nft_flow_offload must not admit another owner during async DESTROY. */
++	KUNIT_EXPECT_TRUE(test, test_and_set_bit(IPS_OFFLOAD_BIT, &ct->status));
++	flow_offload_teardown(flow);
++	KUNIT_EXPECT_TRUE(test, test_bit(IPS_OFFLOAD_BIT, &ct->status));
++	/* Model completed hardware deletion before the GC removes the hashes. */
++	clear_bit(IPS_HW_OFFLOAD_BIT, &ct->status);
++	set_bit(NF_FLOW_HW_DEAD, &flow->flags);
++	rcu_read_lock();
++	flow_offload_del(&table, flow);
++	KUNIT_EXPECT_FALSE(test, test_bit(IPS_OFFLOAD_BIT, &ct->status));
++	/* Re-enrolment is safe now; an old RCU reader still cannot undo it. */
++	set_bit(IPS_OFFLOAD_BIT, &ct->status);
++	flow_offload_teardown(flow);
++	KUNIT_EXPECT_TRUE(test, test_bit(IPS_OFFLOAD_BIT, &ct->status));
++	rcu_read_unlock();
++	rcu_barrier();
++	KUNIT_EXPECT_EQ(test, refcount_read(&ct->ct_general.use), 1);
++	rhashtable_destroy(&table.rhashtable);
++}
++
++static struct kunit_case nf_flow_lifetime_cases[] = {
++	KUNIT_CASE(nf_flow_test_teardown_repeat),
++	KUNIT_CASE(nf_flow_test_hardware_retirement),
++	{}
++};
++
++static struct kunit_suite nf_flow_lifetime_suite = {
++	.name = "nf-flow-lifetime",
++	.test_cases = nf_flow_lifetime_cases,
++};
++
++kunit_test_suite(nf_flow_lifetime_suite);
+diff --git a/tools/testing/kunit/configs/nf_flow_table.config b/tools/testing/kunit/configs/nf_flow_table.config
+new file mode 100644
+index 000000000000..7f2aa55190c2
+--- /dev/null
++++ b/tools/testing/kunit/configs/nf_flow_table.config
+@@ -0,0 +1,9 @@
++CONFIG_KUNIT=y
++CONFIG_NET=y
++CONFIG_INET=y
++CONFIG_NETFILTER=y
++CONFIG_NETFILTER_INGRESS=y
++CONFIG_NF_CONNTRACK=y
++CONFIG_NF_TABLES=y
++CONFIG_NF_FLOW_TABLE=y
++CONFIG_NF_FLOW_TABLE_KUNIT_TEST=y
 -- 
 2.53.0
 
