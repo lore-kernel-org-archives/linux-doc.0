@@ -1,77 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.222
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794786414;
-	b=t8frTvcWJsyEVFnaO6OlaykaaOPryZW88stZEHFkaJI3VI6VFLyHT+5NGBtjcIc88TM0
-	 tZAPZjxNNbtGM962gIz8efEHzl0QPQnr4qwuXs4MkG4JIFgc+BUup55AOjxwd0PF8LQ87
-	 sWzoU25JjuxLCdi7BPen2Emv3u2LETRGGUlsRx9vsTbMd4xTVxugbWAgd3Uofvq/RmQQ3
-	 R7Y5hYid/YKTx/aq9/8+/41kHZGGWwPZ1IC4E4fm1Xm2jPxltn057v2UOu/ZBLStwu3d5
-	 KQnVZBozcYyxA9/gd9q6gh6WOXZt87HDqi3U/zH6fP8plgVaADJEQTZCV78zQP3HfEw==
+	t=1794788288;
+	b=cDVnqDY0ikXkGb4O4u0dESIbS01cw17B92RgCk33L+zsCzLcalo2hlO+2KkdJmn5JrlU
+	 5DiIbTfD/pw3bjfsOIunSCz3QcsdGPmhUEm7EaNo71iNKkd9c/eDQsMLpxj2Fsf7MtKjE
+	 +tatz23fqy2gIMUcNT6RlCvD8H5W5AJGRzC46CXDHhG0Z5NuHXs8lvZZffksvjrK2hodn
+	 VQReSYUT6VzTfQfeiE6ArsePb3EHbJLGfmSDIjdVvF75+oFOahe+6RCZ6C2v42nGYolsA
+	 yCzO6e0qvnIyXX5Eg0Eje/GsWat77dPT3c7MSiuJH9wgXWPGZHzjM24xkgXHVJlWeYA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794786414;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:User-Agent;
-	bh=ePUowuBb0DdqfYiegRy2ETDVG3POlwYyegshLEywBOI=;
-	b=XsmibFL7/7TP/wgZ7yP/CtKJhJJT8A7vHVcmpZnP+YU9E9RZUB8Nyn8pAPy5Sayvb5R8
-	 aB5pz9k+/CFWnUHBFt7s2mR4LSNDRV7IWF8pm80loT8NynTgyqfatsKNjghdNX7vk3XAs
-	 Bynu9ax7pSaz/WPZMYVYFhkBuIMEb9JRv0/TyiDRoEoRoeSQFD7Ck1PJ+WChMa8/0KlVE
-	 GCIdOLDPEgVOqT0sOuXK2wCbLqvlzz6dc4woQkw0dGPDM39MFY3zecTwWKFDqJu32volS
-	 ekD4tD1jUQEMQoVW90af2NE8ej+h9KA7RXlytYcj28AR/klhz/Lkx/3en8C02KH3tdw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794788288;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Subject:Date:Message-Id:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:X-B4-Tracking:To:
+	 Cc:X-Mailer;
+	bh=bEVsen0Z4XKtG98sBbUiY6hiqLLLzzqtV9NIpCrXVCY=;
+	b=Ane/T4Msnew79n6eDPCwN8Os8ltXntY/GI2CNvcAs3lLgEOh9wSb+iriW4T/unDAWpM1
+	 rzvLWsn+XM64K+e++m6unxNV5r4//FnTrRG62u+AUi402IH8nBhBXqkRm096OxJhn59X8
+	 DAqeZ3eKyK+yv56UQwZy1jbHMZFuzM1a+TzuQJCNWl72QnPknmNmuQL1FF2F/TtXQ1lIh
+	 d2b9C5aNnVF2fTF3nDeaY9Npxj/SASnN9DhLPrfRnQHLhYkeyZpySzJdiWCyf9HfTBD2t
+	 QKLXfZ3BJ5gPmW52+K7gePOsL6uw3GnmVT7oTpxqg5RHgseiZjiQf2WsXxFOJjCm6wA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O26j4NoW;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Outz9IDc;
+	arc=none smtp.remote-ip=91.218.175.222
+Received: from mta0.migadu.com (out-222.mta0.migadu.com [91.218.175.222])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDC8606A323
-	for <linux-doc@vger.kernel.org>; Sun, 15 Nov 2026 23:46:50 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BDC8606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF9B606A32F
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 00:18:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ADF9B606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=O26j4NoW
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1794786411; x=1826322411;
-  h=date:from:to:cc:subject:message-id;
-  bh=6kie41xxi1Gn+QaFsyUgxjSE9NoeHofFVhI08Nqm4LY=;
-  b=O26j4NoWwwynC/raSfnTOVP+OPCdnQptTmvbvyPU3ZtqQMQXWa5x0kEB
-   NuVvp4v5LYc2iHxNINhrDFTwX/SIQuwpmjTj285LobBbw4plkloITWkRq
-   rj3BuiRxOv+hISr/269N5piK3DC0xjD4kiiLyY6rcazQf6BbNdeF3SuhY
-   Mf4s5LZcOKbRTzV4+h1+MpxoFK6psilaDVsb0d0QJ4lOJzWXIegKFcvR9
-   JB2qy/4lDWE0oCqUPnlHy6oymVhF7W8IIPU2rn81KjYVQohTP0xod1+iJ
-   EVcZ4DJFzaxkv4AqSoB/oBvHtFhIwQVYAl5i857RLR8+QJr/bc4wQ+g+O
-   A==;
-X-CSE-ConnectionGUID: UUlPRyTuTZ6d4KCqRz5uYQ==
-X-CSE-MsgGUID: 8NWXcFCMQ2OE1tZ/0SwjOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3423678"
-X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="3423678"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 15:46:51 -0800
-X-CSE-ConnectionGUID: tnpXwqabQyeZDPp8rJofLw==
-X-CSE-MsgGUID: bwrIcH9YQ0SCE+Aesj3Umw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,215,1787036400"; 
-   d="scan'208";a="9326619"
-Received: from igk-lkp-server01.igk.intel.com (HELO 1073a420ae3a) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 15 Nov 2026 15:46:49 -0800
-Received: from kbuild by 1073a420ae3a with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xSjvq-000000002Vj-3tAh;
-	Sun, 15 Nov 2026 23:46:46 +0000
-Date: Mon, 16 Nov 2026 00:46:44 +0100
-From: kernel test robot <lkp@intel.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [sashal-linus-next:linus-next 46/46] htmldocs: Warning:
- merge-report.html references a file that doesn't exist:
- Documentation/core-api/assoc_array.rst
-Message-ID: <202611160011.kjg0BMbW-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=Outz9IDc
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=LUmjHTjauelHCTImcnlLJ9hln9wqDY9gHPAu5bGOtwM=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794788284; v=1; x=1795393084;
+ b=Outz9IDcDuGE5hqx4zXYEqSTTzJQ34NOd8UC6hLRnWRc5baxtWGGR45Z6gFfympS42DOTh4M
+ 7vbj8p7UQyoA9K+6YMmegC0RcR/ZHyJtI+nP5bwJ6aRxi3nhouMEI9Z1314JnAugnxTSJ1ALhB+
+ VKoKTrgm93zxma0UbxchG/+E=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 413efdc466c6c190;
+	Mon, 16 Nov 2026 00:18:04 +0000
+X-Mizu-Trace-ID: 413efdc466c6c190
+X-Migadu-Flow: FLOW_OUT
+From: Qiliang Yuan <qiliang.yuan@linux.dev>
+Subject: [PATCH RFC 00/18] scsi: target: Add target_core_uring, an io_uring
+ based user backstore
+Date: Sun, 15 Nov 2026 19:17:53 -0500
+Message-Id: <20261115-feat-target-core-uring-v1-0-28cdc137eac6@linux.dev>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -80,35 +60,107 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALJL+moC/x3MsQqDMBCH8VeRmz3wLHHoKvQBukqHYP5Jb4nlk
+ oogvntDx9/wfScVmKLQvTvJsGvRLTdI39H69jmBNTTTOIyTiDiO8JWrt4TK62bgr2lOHOTmJES
+ 4CKEWfwxRj/94oedjptd1/QCN/mLTbQAAAA==
+To: "Martin K. Petersen" <mkp@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, 
+ target-devel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Jens Axboe <axboe@kernel.dk>, 
+ io-uring@vger.kernel.org, Mike Christie <michael.christie@oracle.com>, 
+ Bodo Stroesser <bostroesser@gmail.com>, Ming Lei <tom.leiming@gmail.com>, 
+ Qiliang Yuan <qiliang.yuan@linux.dev>
+X-Mailer: b4 0.13.0
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linus-next.git linus-next
-head:   8655c5c695f6fb347dd1a025b9d4e7a7a4a0e0f0
-commit: 8655c5c695f6fb347dd1a025b9d4e7a7a4a0e0f0 [46/46] Add merge report for 2026-11-15 (20 interventions)
-compiler: clang version 22.1.8 (https://github.com/llvm/llvm-project ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)
-docutils: docutils (Docutils 0.23, Python 3.13.5, on linux)
-sphinx: sphinx-build 9.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20261116/202611160011.kjg0BMbW-lkp@intel.com/reproduce)
+TCM/USER is how a userspace process serves a LIO device, for instance
+to export distributed storage over iSCSI or vhost-scsi. All commands of
+a device go through one command ring under one mutex, the data of each
+command is copied into and out of a shared data area, and the server
+has to parse every SCSI CDB itself.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611160011.kjg0BMbW-lkp@intel.com/
+This series adds target_core_uring, a second user backstore next to
+TCM/USER, built the way ublk is:
 
-All warnings (new ones prefixed by >>):
+- The kernel emulates the SCSI commands. The server only sees reads,
+  writes, flushes, UNMAP and WRITE SAME as an operation, an offset and a
+  length.
+- A device has several queues. Each queue is served through io_uring
+  commands on its own ring, with no lock shared between queues.
+- Data is copied once, with pread()/pwrite() on the character device, or
+  not at all when the server registers the pages of a command as an
+  io_uring fixed buffer.
 
-   Warning: Documentation/translations/zh_CN/networking/xfrm_proc.rst references a file that doesn't exist: Documentation/networking/xfrm_proc.rst
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/arm/xen/enlighten.c references a file that doesn't exist: Documentation/devicetree/bindings/arm/xen.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
->> Warning: merge-report.html references a file that doesn't exist: Documentation/core-api/assoc_array.rst
->> Warning: merge-report.html references a file that doesn't exist: Documentation/core-api/assoc_array.rst
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+Patches 1-4 create the device, its queues and the character device.
+Patches 5-8 pass reads and writes to the server. Patches 9-11 handle a
+server that exits or hangs, and aborts. Patches 12-14 add flush, UNMAP
+and WRITE SAME, patch 15 adds fixed buffers. Patches 16-18 add a small
+server, a selftest and the documentation.
 
+Not covered yet: protection information, and a way for existing
+tcmu-runner handlers to move over without changes, as they implement
+SCSI rather than block commands.
+
+Exporting a 2 GiB device through tcm_loop to fio (io_uring, direct I/O,
+iodepth 32 for 4k and 8 for 1M, 6 seconds per job) on a 32 CPU VM, with
+TCM/USER and a single-threaded handler, then with this series, 32 queues
+and one server thread per queue. Both servers keep the data in memory.
+A single job is slower; the gain comes with concurrency and with large
+I/O. Three alternating runs (median, min-max in parentheses):
+
+  workload               TCM/USER (MB/s)   uring (MB/s)          change
+  4k randread, 1 job      426 (409-463)      369 (366-384)         -13%
+  4k randread, 4 jobs    1165 (1072-1253)   1524 (1413-1541)       +31%
+  4k randread, 16 jobs    920 (916-1162)    6193 (5845-6222)      +574%
+  4k randwrite, 16 jobs   793 (711-886)     5701 (5257-5706)      +619%
+  1M read, 4 jobs        6019 (5857-6047)  49460 (46706-57997)    +722%
+  1M write, 4 jobs       2791 (2649-2907)  26692 (25958-27560)    +856%
+
+Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
+---
+Qiliang Yuan (18):
+      scsi: target: uring: Introduce an io_uring based user backstore
+      scsi: target: uring: Allocate per-queue command descriptors
+      scsi: target: uring: Create a character device per backstore device
+      scsi: target: uring: Map the command descriptors into the server
+      scsi: target: uring: Queue commands until a server fetches them
+      scsi: target: uring: Hand commands out through TCMUR_IO_FETCH
+      scsi: target: uring: Complete commands with TCMUR_IO_COMMIT_AND_FETCH
+      scsi: target: uring: Copy command data with pread() and pwrite()
+      scsi: target: uring: Fail in-flight commands when the server exits
+      scsi: target: uring: Time out commands the server does not complete
+      scsi: target: uring: Drop aborted commands that are still queued
+      scsi: target: uring: Support SYNCHRONIZE CACHE
+      scsi: target: uring: Implement UNMAP
+      scsi: target: uring: Handle WRITE SAME
+      scsi: target: uring: Register command data as io_uring fixed buffers
+      selftests: target_core_uring: Add a minimal server
+      selftests: target_core_uring: Test a device exported through tcm_loop
+      Documentation: target: Describe the uring backstore
+
+ Documentation/target/index.rst                     |    1 +
+ Documentation/target/tcm-uring.rst                 |   84 ++
+ MAINTAINERS                                        |    2 +
+ drivers/target/Kconfig                             |   10 +
+ drivers/target/Makefile                            |    1 +
+ drivers/target/target_core_uring.c                 | 1126 ++++++++++++++++++++
+ include/uapi/linux/target_core_uring.h             |  126 +++
+ tools/testing/selftests/Makefile                   |    1 +
+ .../testing/selftests/target_core_uring/.gitignore |    1 +
+ tools/testing/selftests/target_core_uring/Makefile |    8 +
+ tools/testing/selftests/target_core_uring/config   |    5 +
+ .../selftests/target_core_uring/tcmur_server.c     |  310 ++++++
+ .../selftests/target_core_uring/tcmur_test.sh      |  137 +++
+ 13 files changed, 1812 insertions(+)
+---
+base-commit: 23c62304dde29abe92013d85910d03a77dada35d
+change-id: 20261115-feat-target-core-uring-d1351dfe5fe1
+
+Best regards,
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Qiliang Yuan <qiliang.yuan@linux.dev>
+
