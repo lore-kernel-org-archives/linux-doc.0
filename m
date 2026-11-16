@@ -1,49 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794854804;
-	b=O0C82aFD1yAjysl7pomqH4NV44Q+XztruFDNhaHCxyZMD9BwGFbb2UtjjQsvcLFM0k7M
-	 q409BXCc88PplTPeEfuBVKJGJ8Hj/tqimoUEOTjabHMw5K1WnVB0VJ2HbcGZoqX9R7pfH
-	 GxI5WEKjArfw/H5ZM6HYbFcPP3pVDiZ3Qyr/S8YSWdrhhSMfSZfGnmqevYHvI7OIki6Zm
-	 Gpi6uYHoqU5A2bEDB9JmV2/Gk4El9jgsrRs+Y/57BeLBOVhWXQ3/478Eu/YmbVKAUhMCK
-	 YRV2h2DVXDU0wWL2BweoS8IAifF+xckpugqFpf+IXo53rgMlYxKM/SvCsxnxBwnYDfQ==
+	t=1794854942;
+	b=XCMb0p8XLmImOKXr6H/prcKGeq6GAx2gB9s89M7dBJCzG6CpYuZXwr39QHmrFphnkfOC
+	 gtTCxxbwb22hA+bnvyaecL68faOwCN0gVapm4Jn8ZRlyKMLHUns64xN3bZaNp+NsYTHNY
+	 Pj0zg3UESK3K9URMRoSrdG5XlfgDevihguA3ahcFqhaqbutVez82M5+SRof6LxTPTeMq5
+	 btJOl1N8PyOsgGMeKQkNCu08ZPTzPwAhmPHJNZkRL0BspbOsNJd/CpxWtrRkd3EhBxyK4
+	 UDWpnVanpF1Uzib5Fx+vZviO9MWZfposflmG+Mk7XWGpZ+tBJqnhPY4/W0N35RZRBCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794854804;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding:X-Spam-Status:
-	 X-Spam-Checker-Version;
-	bh=2YUoAQtat16PZh3hSCS4+DqmjjlkhuzhPF22RNobT8o=;
-	b=zhE3G7H7lMDhplDrhp2nvc+m0WKPoMOJBeXnahO0KyyIa0io0u5dPKD/CnayE8bAsoVJ
-	 v43SzwVQfzVhvJ9bEjCHJyk0Xvdt5VUFjo71kt6PcpDLpV+hbBE9Vuq7tqNSvlbf4HNtQ
-	 sXEfds472n5MGAZJNceK/+dPlLS91HJTN9aly2GRfF06ouYT7+8uaf8OJVkS9dVyMx+UF
-	 I2Hm0xr3asVqTYxJfKpMI/sAvRBn6FmXTd43G5MlvhpLQe2jiNyU2T4cnSsXTGsCLA9XR
-	 l/zJvCQPSQ6jzgk3DEZ+0T8h23jsVXbDJua+YxP0VmSrq2XGBmiOPk5BCs6pjR0uGdA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794854942;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=j3G1ywiLrx0DaX6rFe9rFmmqvrfjRGltmL0+DsTi2zI=;
+	b=M7+GmFiuY5vslWuP3BI4ohwWmKPzK0YzTGVHn+vbn069pAoDXZx6bkbra2MYc2zS3pUg
+	 XmlnhUVKOyoGi5/HBNe7fKaBGvfDQo958VLMGcB3T3Y1piYjbTzDOYw05k4c7k7++mxZB
+	 6c0MFJLcuijq+EmHhsEt5U+sU53umocpmt/WN6tSI10G2rciMz/tGYp6RUp2j60dOs9S/
+	 FlO+QD3UdKH/dsvuG6Yb9OXZtbYKUJyCdSIMaBkUdUufwk71nT+vl6i4HBHzg293pPeP+
+	 mLKG9lJwYskyqZnpn+WwIw7jJUGERrMQJuy43VvTMcYovc+Xp+J83RM9BcvXP7ARacw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.microsoft.com;
-	spf=pass smtp.mailfrom=linux.microsoft.com;
-	dkim=pass header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b="ar/HfkpK";
-	arc=none smtp.remote-ip=13.77.154.182
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40AE3606A887;
-	Mon, 16 Nov 2026 18:46:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40AE3606A887
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ti7O2lyS;
+	arc=none smtp.remote-ip=74.125.82.53
+Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60C32606A880
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 18:49:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 60C32606A880
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.a=rsa-sha256 header.s=default header.b=ar/HfkpK
-Received: from [10.4.158.9] (unknown [4.194.122.136])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 7265820B7168;
-	Mon, 16 Nov 2026 10:46:22 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 7265820B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1794854797;
-	bh=2YUoAQtat16PZh3hSCS4+DqmjjlkhuzhPF22RNobT8o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ar/HfkpK8k1ZfyLEAMEdfVEdj4XWJ+1H1H5p4+N5kRMVF/qjNy+qJg4OAdqfB9iv6
-	 /GyMsdSGwvn/F858ycbweBk71Yc8fOyK+s49/97ZsaR0580NPH4BYdq2zfYt3tar5I
-	 jrG1L0wqQBpLEjYOex+EamkH/5FPwfT+dGzxHjes=
-Message-ID: <193e4130-9c2f-4a0f-b218-f5fcf0b3d508@linux.microsoft.com>
-Date: Mon, 16 Nov 2026 10:46:25 -0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ti7O2lyS
+Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1b3beeaf6f9so4478852c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 10:49:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794854940; x=1795459740; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=j3G1ywiLrx0DaX6rFe9rFmmqvrfjRGltmL0+DsTi2zI=;
+        b=ti7O2lySHCTLXENn+2qZUo5FRBVZlA0I6T2IOZpmIwwxcnkaSSreB0i9zTCN3jr+Fy
+         cR6eIpnV+OSt/fkY0MdDkn5VfLZG9F/VEzhWw8o9EZQp8IKM2ZVLyFHUlwQDObWYmXMh
+         J2fSx+Xb8aCLffsT9MBsqq+sqwmc8ZRDCnrWwXLYZnhi6VhV6qiwZADb8n88jfZxJ5g7
+         TlN+FxjpLI7YL/k1S8nuYl/7S6iXA0widaEItDoGCZlnNnHJ5aSWvmlkvPusNZm5AnZ0
+         3cnpm0J81lfiY1qXqlBTFSAxXAcFo8u569ov+vf1GkTBpfjxxBS6tzS2mRroKEiJrbYi
+         kayQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794854940; x=1795459740;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=j3G1ywiLrx0DaX6rFe9rFmmqvrfjRGltmL0+DsTi2zI=;
+        b=24ZJLNJAq7DUnQVuvmLYgTlyEkqAde08F/RGOP8aM6+RNxjF2FDxIwadbLcxc/zkME
+         nUH602OQmksmezx26cFCdExhqpd9FaK3XmAb0EW7VuseKMdH7dpHmoZrVjKHq3ql0qvP
+         aM+f70a5xkCXwORLKxJB0/VtbyjYYx4DeMjVwiltuNBzgwpnwtJ+mxzfFYJStukmbR2e
+         BXwSytZkdCycAkw1DiqAKQN5Fi7DlQH6b1ptoCox5m80I2FPPQz2X0Yfkabm8Pl3eGI1
+         aibYCUtCq50QNNGLhcnAinlLEakGASI/iSO1JMUQf2KYKqJZTAx229lfnb1hrt7ci94L
+         TPfQ==
+X-Forwarded-Encrypted: i=1; AL+hErEpEElh5p1CBiE3ZJrsI1GLOxjZCUBhgEN5Qoe3gcjyxMMK/BRNbZ3RRSkAngWLGvU5U8kjs7T1TfE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z927R/g2Bm5ItH+xsI2b3dXdbUV/cGeJLyT6uG4NzkwUSlwTgHF
+	1Z1J/XUj26BI2DBGmfMHz934nZWlzxezR5/N1FkeSFY5GwInyBaDhtLO
+X-Gm-Gg: AYBFou2TyHaeqccOkggMwbfy/2FbHa/byM0qHZDQTrfuukjF2tmkFtvH2mWaRG7L7Xc
+	XqRufxNFtIRGlybMsZH/8m5uiHsphEppcJB0AKHH4MCrcxgJaZNLt+Z9Fy5QDTdxdJnyAlKNJ/z
+	Vo/ph1Bx0sH/3leux5E3EF157BjUCWKAXhhAU1aHKhMnoikRcWYDUcheg97IZwXVm495KdJD19T
+	dLzMo/YHVJz/kPjWXDyBC4jKuTMRB29VsmVfF2AotgzJutxKh/fkDk4w6em7e6ZWTDCem2ss/Bm
+	jbXa2tBlmDy0w0q+rsbYXCcfgquS6AgZbbmxGdc1lDbGl7nT1vBMjHhlQII+796qLvbTJ4Avn6m
+	Dd7wxmjchgUZFZRJZYhTVLhn2JKom7fVzPyCJ2mOZVxI8tG7MKF+vS5Ttavwdn4W/vssDoJQuCQ
+	u4RNSNHO2WJ1/ahXKO8BvEqJf/o/Gg6ulkO+O7aHjYH5smUHu61UhJT8we3jXMw2nzT/TOq33yB
+	ccNRE5PpZ7apic0rKQCHdp4pVcsoUkLd0Zrh7Utj31XGnLdj43cuDtwpf94PWT9sZCWcqkxpPFr
+	8DcSBULMyreiIH6D04PyrJe1BhEK6T2wA+FKpslzBElK/UOpKQNs2BrKRO9vEkOIErBdMlAdwoY
+	tZRbTVAGae11PLo2YQrfj/nmGVm3EKTyLd6H4xA==
+X-Received: by 2002:a05:7022:b902:b0:1b2:4cc7:7db2 with SMTP id a92af1059eb24-1b503175e5dmr10752909c88.47.1794854940305;
+        Mon, 16 Nov 2026 10:49:00 -0800 (PST)
+Received: from ?IPV6:2a03:83e0:1151:15:c24:4ad9:f660:1904? ([2620:10d:c090:500::7:3f76])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b50309b27dsm33383125c88.2.2026.11.16.10.48.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Nov 2026 10:48:59 -0800 (PST)
+Message-ID: <6303b161-0f35-47ee-ab70-ebd4e802ae09@gmail.com>
+Date: Mon, 16 Nov 2026 10:48:53 -0800
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -54,442 +94,329 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 18/19] PCI: Replace untrusted state with device trust
-To: Leon Romanovsky <leon@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Andrew Lunn <andrew@lunn.ch>,
- Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, "David S. Miller" <davem@davemloft.net>,
+Subject: Re: [PATCH net-next v1 11/11] eth: fbnic: Support AF_XDP page pool
+ zero copy
+To: =?UTF-8?B?QmrDtnJuIFTDtnBlbA==?= <bjorn@kernel.org>,
+ Magnus Karlsson <magnus.karlsson@intel.com>,
+ Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Johannes Berg <johannes@sipsolutions.net>, Jonathan Corbet <corbet@lwn.net>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Bjorn Helgaas <bhelgaas@google.com>,
- "Joerg Roedel (AMD)" <joro@8bytes.org>,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
- Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
- Robin Murphy <robin.murphy@arm.com>, David Woodhouse <dwmw2@infradead.org>,
- Lu Baolu <baolu.lu@linux.intel.com>, Johan Hovold <johan@kernel.org>,
- Eric Dumazet <edumazet@kernel.org>, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
- Nipun Gupta <nipun.gupta@amd.com>, Nikhil Agarwal <nikhil.agarwal@amd.com>,
- Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>
-Cc: linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
- linux-input@vger.kernel.org, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pci@vger.kernel.org, iommu@lists.linux.dev,
- Jason Gunthorpe <jgg@ziepe.ca>
-References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
- <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+ <rdunlap@infradead.org>, Alexander Duyck <alexanderduyck@fb.com>,
+ kernel-team@meta.com, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Pavel Begunkov <asml.silence@gmail.com>, Jens Axboe <axboe@kernel.dk>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Kumar Kartikeya Dwivedi <memxor@gmail.com>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>, Jiri Olsa <jolsa@kernel.org>,
+ Emil Tsalapatis <emil@etsalapatis.com>,
+ Ihor Solodrai <ihor.solodrai@linux.dev>, netdev@vger.kernel.org,
+ bpf@vger.kernel.org, io-uring@vger.kernel.org,
+ Mina Almasry <almasrymina@google.com>
+Cc: "Mike Marciniszyn (Meta)" <mike.marciniszyn@gmail.com>,
+ Weiming Shi <bestswngs@gmail.com>, Nikolay Aleksandrov
+ <razor@blackwall.org>, David Wei <dw@davidwei.uk>,
+ Alexander Lobakin <aleksander.lobakin@intel.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Stuart Clark <stuclar@meta.com>
+References: <20261110102039.1002605-1-bjorn@kernel.org>
+ <20261110102039.1002605-12-bjorn@kernel.org>
 Content-Language: en-US
-From: Kameron Carr <kameroncarr@linux.microsoft.com>
-In-Reply-To: <20261109-device-trust-core-v2-18-3b12d9a9f861@nvidia.com>
+From: Dimitri Daskalakis <dimitri.daskalakis1@gmail.com>
+In-Reply-To: <20261110102039.1002605-12-bjorn@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 11/8/2026 11:33 PM, Leon Romanovsky wrote:
-> From: Leon Romanovsky <leonro@nvidia.com>
+On 11/10/26 2:20 AM, Björn Töpel wrote:
+> Header and payload rings share one provider page pool, so refills even
+> them out, and a short pool does not starve one of them. Payload
+> buffers start at chunk offset 0, and the UMEM headroom rules require
+> headroom only in the first buffer. A chunk is one 4 KiB device page,
+> also with larger kernel pages, so rings fed by the provider post one
+> descriptor per chunk.
 > 
-> Convert the PCI specific untrusted to use the common device trust
-> level. Adversarial means the same thing untrusted does.
-> 
-> PCI discovery keeps the logic that set untrusted: it looks for removable
-> PCI devices with arch_pci_dev_is_removable() and defaults them to an
-> adversarial policy. Treat a disabled policy the same way when choosing
-> the IOMMU domain. Do not record the ATS capability of such a device, as
-> pci_ats_supported() rejected untrusted ones. Let the Intel write-buffer
-> quirk apply, as it only adds flushing.
-> 
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
-> ---
->  drivers/iommu/amd/iommu.c   |  3 +--
->  drivers/iommu/dma-iommu.c   | 14 +++++---------
->  drivers/iommu/intel/iommu.c | 17 +++++------------
->  drivers/iommu/iommu.c       | 17 +++++++++--------
->  drivers/pci/ats.c           |  4 ++--
->  drivers/pci/pci.c           |  5 +++--
->  drivers/pci/probe.c         | 22 +++++++++++-----------
->  drivers/pci/quirks.c        |  7 ++++---
->  include/linux/device.h      |  5 +++++
->  include/linux/pci.h         | 30 ++++++++++++++++++++++--------
->  10 files changed, 67 insertions(+), 57 deletions(-)
-> 
-> diff --git a/drivers/iommu/amd/iommu.c b/drivers/iommu/amd/iommu.c
-> index 960e1dc05ec69..e358bbb1f2baa 100644
-> --- a/drivers/iommu/amd/iommu.c
-> +++ b/drivers/iommu/amd/iommu.c
-> @@ -3401,8 +3401,7 @@ static int amd_iommu_def_domain_type(struct device *dev)
->  	if (!dev_is_pci(dev))
->  		return 0;
+[...]
+>  	qt->sub0.page_pool = pp;
+> +	fbnic_bdq_set_page_size(&qt->sub0, xsk ? rx_page_size : PAGE_SIZE);
+>  	qt->hdr_max = 0;
+>  	if (!page_pool_supports_frag(pp))
+> -		qt->hdr_max = fbnic_whole_hdr_max(FBNIC_RX_HROOM);
+> +		qt->hdr_max = fbnic_whole_hdr_max(qt->rx_hroom);
+>  	if (netif_rxq_has_unreadable_mp(fbn->netdev, rxq_idx)) {
+>  		pp_params.order = get_order(rx_page_size);
+>  		pp_params.max_len = rx_page_size;
+>  		pp_params.flags |= PP_FLAG_ALLOW_UNREADABLE_NETMEM;
+>  		pp_params.dma_dir = DMA_FROM_DEVICE;
 >  
-> -	/* Always use DMA domain for untrusted device */
-> -	if (to_pci_dev(dev)->untrusted)
-> +	if (pci_dev_default_is_restricted(to_pci_dev(dev)))
->  		return IOMMU_DOMAIN_DMA;
+> +		pp = page_pool_create(&pp_params);
+> +		if (IS_ERR(pp))
+> +			goto err_destroy_sub0;
+> +	} else if (xsk && !xsk_pool_uses_sg(xsk)) {
+> +		pp_params.flags &= ~PP_FLAG_MEM_PROVIDER;
+> +		pp_params.rx_roles = 0;
+> +		pp_params.max_len = PAGE_SIZE;
+> +		rx_page_size = PAGE_SIZE;
+> +
+>  		pp = page_pool_create(&pp_params);
+>  		if (IS_ERR(pp))
+>  			goto err_destroy_sub0;
+
+Maybe I'm misunderstanding, but why is it necessary to create a new page pool for
+sub1 if !sg? All frames should be sent to sub0, and the buffers in sub1 should sit idle.
+
+> @@ -1709,6 +1967,7 @@ fbnic_alloc_qt_page_pools(struct fbnic_net *fbn, struct fbnic_q_triad *qt,
+>  		page_pool_get(pp);
+>  	}
+>  	qt->sub1.page_pool = pp;
+> +	fbnic_bdq_set_page_size(&qt->sub1, rx_page_size);
 >  
->  	/* Apply device specific quirks */
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 78742aeba932d..a48fb511bfe6f 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -589,16 +589,11 @@ static int iova_reserve_iommu_regions(struct device *dev,
->  	return ret;
+>  	return 0;
+>  
+> @@ -1717,16 +1976,6 @@ fbnic_alloc_qt_page_pools(struct fbnic_net *fbn, struct fbnic_q_triad *qt,
+>  	return PTR_ERR(pp);
 >  }
 >  
-> -static bool dev_is_untrusted(struct device *dev)
+> -static u8 fbnic_bdq_page_shift(u32 page_size)
 > -{
-> -	return dev_is_pci(dev) && to_pci_dev(dev)->untrusted;
+> -	return ilog2(page_size / FBNIC_BD_PAGE_SIZE);
 > -}
 > -
->  static bool dev_use_swiotlb(struct device *dev, size_t size,
->  			    enum dma_data_direction dir)
->  {
->  	return IS_ENABLED(CONFIG_SWIOTLB) &&
-> -		(dev_is_untrusted(dev) ||
-> +		(device_is_adversarial(dev) ||
->  		 dma_kmalloc_needs_bounce(dev, size, dir));
->  }
->  
-> @@ -611,7 +606,7 @@ static bool dev_use_sg_swiotlb(struct device *dev, struct scatterlist *sg,
->  	if (!IS_ENABLED(CONFIG_SWIOTLB))
->  		return false;
->  
-> -	if (dev_is_untrusted(dev))
-> +	if (device_is_adversarial(dev))
->  		return true;
->  
->  	/*
-> @@ -1189,7 +1184,8 @@ static phys_addr_t iommu_dma_map_swiotlb(struct device *dev, phys_addr_t phys,
->  	 * swiotlb_tbl_map_single() has initialized the bounce buffer proper to
->  	 * the contents of the original memory buffer.
->  	 */
-> -	if (phys != (phys_addr_t)DMA_MAPPING_ERROR && dev_is_untrusted(dev)) {
-> +	if (phys != (phys_addr_t)DMA_MAPPING_ERROR &&
-> +	    device_is_adversarial(dev)) {
->  		size_t start, virt = (size_t)phys_to_virt(phys);
->  
->  		/* Pre-padding */
-> @@ -1790,7 +1786,7 @@ size_t iommu_dma_max_opt_mapping_size(void)
->  
->  size_t iommu_dma_max_mapping_size(struct device *dev)
->  {
-> -	if (dev_is_untrusted(dev))
-> +	if (device_is_adversarial(dev))
->  		return swiotlb_max_mapping_size(dev);
->  
->  	return SIZE_MAX;
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index 5a2e705a2f2e0..66942a91b992f 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -2624,8 +2624,8 @@ static void __init platform_optin_force_iommu(void)
->  		return;
->  
->  	/*
-> -	 * If Intel-IOMMU is disabled by default, we will apply identity
-> -	 * map for all devices except those marked as being untrusted.
-> +	 * If Intel-IOMMU is disabled by default, an external device could
-> +	 * otherwise receive an identity map despite its adversarial policy.
->  	 */
->  	if (dmar_policy_off()) {
->  		pr_info("Intel-IOMMU force enabled due to platform opt in\n");
-> @@ -3629,16 +3629,12 @@ static bool intel_iommu_is_attach_deferred(struct device *dev)
->  	return translation_pre_enabled(info->iommu) && !info->domain;
->  }
->  
-> -/*
-> - * Check that the device does not live on an external facing PCI port that is
-> - * marked as untrusted. Such devices should not be able to apply quirks and
-> - * thus not be able to bypass the IOMMU restrictions.
-> - */
-> +/* Bypass quirks must not prevent later adversarial operation. */
->  static bool risky_device(struct pci_dev *pdev)
->  {
-> -	if (pdev->untrusted) {
-> +	if (pci_dev_default_is_restricted(pdev)) {
->  		pci_info(pdev,
-> -			 "Skipping IOMMU quirk for dev [%04X:%04X] on untrusted PCI link\n",
-> +			 "Skipping IOMMU quirk due to trust policy [%04X:%04X]\n",
->  			 pdev->vendor, pdev->device);
->  		pci_info(pdev, "Please check with your BIOS/Platform vendor about this\n");
->  		return true;
-> @@ -4124,9 +4120,6 @@ DECLARE_PCI_FIXUP_HEADER(PCI_VENDOR_ID_INTEL, 0x163D, quirk_iommu_igfx);
->  
->  static void quirk_iommu_rwbf(struct pci_dev *dev)
->  {
-> -	if (risky_device(dev))
-> -		return;
+> -static void fbnic_bdq_set_page_size(struct fbnic_ring *bdq, u32 page_size)
+> -{
+> -	bdq->bd_page_shift = fbnic_bdq_page_shift(page_size);
+> -}
 > -
->  	/*
->  	 * Mobile 4 Series Chipset neglects to set RWBF capability,
->  	 * but needs it. Same seems to hold for the desktop versions.
-> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-> index b486b8bbd1fcd..8be2a246d4903 100644
-> --- a/drivers/iommu/iommu.c
-> +++ b/drivers/iommu/iommu.c
-> @@ -1879,7 +1879,7 @@ static int iommu_get_def_domain_type(struct iommu_group *group,
->  static int iommu_get_default_domain_type(struct iommu_group *group,
->  					 int target_type)
+>  static void fbnic_ring_init(struct fbnic_ring *ring, u32 __iomem *doorbell,
+>  			    int q_idx, u8 flags)
 >  {
-> -	struct device *untrusted = NULL;
-> +	struct device *restricted = NULL;
->  	struct group_device *gdev;
->  	int driver_type = 0;
+> @@ -1830,7 +2079,8 @@ static int fbnic_alloc_napi_vector(struct fbnic_dev *fbd, struct fbnic_net *fbn,
+>  		if (xdp_count > 0) {
+>  			unsigned int xdp_idx = FBNIC_MAX_TXQS + rxq_idx;
 >  
-> @@ -1901,14 +1901,15 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
->  		driver_type = iommu_get_def_domain_type(group, gdev->dev,
->  							driver_type);
+> -			fbnic_ring_init(&qt->sub1, db, xdp_idx, flags);
+> +			fbnic_ring_init(&qt->sub1, db, xdp_idx,
+> +					flags | FBNIC_RING_F_XDP);
+>  			fbn->tx[xdp_idx] = &qt->sub1;
+>  			xdp_count--;
+>  		} else {
+> @@ -1977,6 +2227,9 @@ static int fbnic_alloc_tx_ring_buffer(struct fbnic_ring *txr)
+>  {
+>  	size_t size = array_size(sizeof(*txr->tx_buf), txr->size_mask + 1);
 >  
-> -		if (dev_is_pci(gdev->dev) && to_pci_dev(gdev->dev)->untrusted) {
-> +		if (dev_is_pci(gdev->dev) &&
-> +		    pci_dev_default_is_restricted(to_pci_dev(gdev->dev))) {
->  			/*
-> -			 * No ARM32 using systems will set untrusted, it cannot
-> -			 * work.
-> +			 * No ARM32 using systems select a restricted trust
-> +			 * policy; it cannot work.
->  			 */
->  			if (WARN_ON(IS_ENABLED(CONFIG_ARM_DMA_USE_IOMMU)))
->  				return -1;
-> -			untrusted = gdev->dev;
-> +			restricted = gdev->dev;
->  		}
+> +	if (txr->flags & FBNIC_RING_F_XDP)
+> +		size = array_size(sizeof(*txr->xdp_buf), txr->size_mask + 1);
+> +
+>  	txr->tx_buf = kvzalloc(size, GFP_KERNEL | __GFP_NOWARN);
+>  
+>  	return txr->tx_buf ? 0 : -ENOMEM;
+> @@ -2126,20 +2379,19 @@ static int fbnic_alloc_tx_qt_resources(struct fbnic_net *fbn,
+>  	return err;
+>  }
+>  
+> -static int fbnic_alloc_rx_qt_resources(struct fbnic_net *fbn,
+> -				       struct fbnic_napi_vector *nv,
+> -				       struct fbnic_q_triad *qt,
+> -				       u32 rx_page_size)
+> +static int
+> +fbnic_alloc_rx_qt_resources(struct fbnic_net *fbn,
+> +			    struct fbnic_napi_vector *nv,
+> +			    struct fbnic_q_triad *qt,
+> +			    const struct netdev_queue_config *qcfg)
+>  {
+>  	struct device *dev = fbn->netdev->dev.parent;
+>  	int err;
+>  
+> -	err = fbnic_alloc_qt_page_pools(fbn, qt, qt->cmpl.q_idx, rx_page_size);
+> +	err = fbnic_alloc_qt_page_pools(fbn, qt, qt->cmpl.q_idx, qcfg);
+>  	if (err)
+>  		return err;
+>  
+> -	fbnic_bdq_set_page_size(&qt->sub1, rx_page_size);
+> -
+>  	err = xdp_rxq_info_reg(&qt->xdp_rxq, fbn->netdev, qt->cmpl.q_idx,
+>  			       nv->napi.napi_id);
+>  	if (err)
+> @@ -2203,8 +2455,7 @@ static int fbnic_alloc_nv_resources(struct fbnic_net *fbn,
+>  		struct netdev_queue_config qcfg;
+>  
+>  		netdev_queue_config(fbn->netdev, nv->qt[i].cmpl.q_idx, &qcfg);
+> -		err = fbnic_alloc_rx_qt_resources(fbn, nv, &nv->qt[i],
+> -						  qcfg.rx_page_size);
+> +		err = fbnic_alloc_rx_qt_resources(fbn, nv, &nv->qt[i], &qcfg);
+>  		if (err)
+>  			goto free_qt_resources;
+>  	}
+> @@ -2598,9 +2849,8 @@ static void fbnic_nv_fill(struct fbnic_napi_vector *nv)
+>  	for (j = 0, t = nv->txt_count; j < nv->rxt_count; j++, t++) {
+>  		struct fbnic_q_triad *qt = &nv->qt[t];
+>  
+> -		/* Populate the header and payload BDQs */
+> -		fbnic_fill_bdq(&qt->sub0);
+> -		fbnic_fill_bdq(&qt->sub1);
+> +		/* Populate the header and payload BDQs; NAPI retries */
+> +		fbnic_fill_bdqs(qt);
+>  	}
+>  }
+>  
+> @@ -2736,14 +2986,20 @@ static void fbnic_config_drop_mode_rcq(struct fbnic_napi_vector *nv,
+>  				       struct fbnic_ring *rcq, bool tx_pause,
+>  				       bool hdr_split)
+>  {
+> +	struct fbnic_q_triad *qt = container_of_const(rcq, struct fbnic_q_triad,
+> +						     cmpl);
+>  	struct fbnic_net *fbn = netdev_priv(nv->napi.dev);
+> -	u32 drop_mode, rcq_ctl;
+> +	u32 drop_mode, hroom, rcq_ctl;
+> +
+> +	/* The device aligns the maximum value up to FBNIC_RX_HROOM_MAX. */
+> +	hroom = min_t(u32, qt->rx_hroom,
+> +		      FIELD_MAX(FBNIC_QUEUE_RDE_CTL0_MIN_HROOM_MASK));
+>  
+>  	drop_mode = fbnic_drop_mode(fbn, tx_pause);
+>  
+>  	/* Specify packet layout */
+>  	rcq_ctl = FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_DROP_MODE_MASK, drop_mode) |
+> -	    FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_HROOM_MASK, FBNIC_RX_HROOM) |
+> +	    FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_HROOM_MASK, hroom) |
+>  	    FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_MIN_TROOM_MASK, FBNIC_RX_TROOM) |
+>  	    FIELD_PREP(FBNIC_QUEUE_RDE_CTL0_EN_HDR_SPLIT, hdr_split);
+>  
+> @@ -3028,8 +3284,7 @@ static int fbnic_queue_mem_alloc(struct net_device *dev,
+>  	struct fbnic_napi_vector *nv;
+>  
+>  	if (!netif_running(dev))
+> -		return fbnic_alloc_qt_page_pools(fbn, qt, idx,
+> -						 qcfg->rx_page_size);
+> +		return fbnic_alloc_qt_page_pools(fbn, qt, idx, qcfg);
+>  
+>  	/* A failed PCIe recovery or resume can leave the datapath torn down
+>  	 * while netif_running() is still true.  This ndo runs before
+> @@ -3049,7 +3304,7 @@ static int fbnic_queue_mem_alloc(struct net_device *dev,
+>  	fbnic_ring_init(&qt->cmpl, real->cmpl.doorbell, real->cmpl.q_idx,
+>  			real->cmpl.flags);
+>  
+> -	return fbnic_alloc_rx_qt_resources(fbn, nv, qt, qcfg->rx_page_size);
+> +	return fbnic_alloc_rx_qt_resources(fbn, nv, qt, qcfg);
+>  }
+>  
+>  static void fbnic_default_qcfg(struct net_device *dev,
+> @@ -3086,6 +3341,14 @@ static int fbnic_validate_qcfg(struct net_device *dev,
+>  		return -EINVAL;
 >  	}
 >  
-> @@ -1924,11 +1925,11 @@ static int iommu_get_default_domain_type(struct iommu_group *group,
->  			driver_type = IOMMU_DOMAIN_IDENTITY;
->  	}
+> +	if (qcfg->rx_headroom &&
+> +	    (qcfg->rx_headroom < XDP_PACKET_HEADROOM ||
+> +	     qcfg->rx_headroom > FBNIC_RX_HROOM_MAX ||
+> +	     !IS_ALIGNED(qcfg->rx_headroom, FBNIC_RX_HDR_ALIGN))) {
+> +		NL_SET_ERR_MSG_MOD(extack, "rx_headroom is not supported");
+> +		return -EINVAL;
+> +	}
+> +
+>  	/* Payload fragments occupy multiples of FBNIC_RX_PAYLD_ALIGN bytes.
+>  	 * Keep at least one reference in the bias until fbnic_clean_bdq()
+>  	 * observes a completion from a subsequent allocation.
+> @@ -3216,5 +3479,6 @@ const struct netdev_queue_mgmt_ops fbnic_queue_mgmt_ops = {
+>  	.ndo_queue_stop		= fbnic_queue_stop,
+>  	.ndo_default_qcfg	= fbnic_default_qcfg,
+>  	.ndo_validate_qcfg	= fbnic_validate_qcfg,
+> -	.supported_params	= QCFG_RX_PAGE_SIZE,
+> +	.supported_params	= QCFG_RX_PAGE_SIZE | QCFG_RX_HEADROOM,
+> +	.xsk_page_pool		= true,
+>  };
+> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_txrx.h b/drivers/net/ethernet/meta/fbnic/fbnic_txrx.h
+> index 3077d9bbd587..b4baaa914585 100644
+> --- a/drivers/net/ethernet/meta/fbnic/fbnic_txrx.h
+> +++ b/drivers/net/ethernet/meta/fbnic/fbnic_txrx.h
+> @@ -14,7 +14,11 @@
 >  
-> -	if (untrusted) {
-> +	if (restricted) {
->  		if (driver_type && driver_type != IOMMU_DOMAIN_DMA) {
->  			dev_err_ratelimited(
-> -				untrusted,
-> -				"Device is not trusted, but driver is overriding group %u to %s, refusing to probe.\n",
-> +				restricted,
-> +				"Device trust policy restricts DMA, but driver is overriding group %u to %s, refusing to probe.\n",
->  				group->id, iommu_domain_type_str(driver_type));
->  			return -1;
->  		}
-> diff --git a/drivers/pci/ats.c b/drivers/pci/ats.c
-> index 9cb23780093dd..c8c96acc26343 100644
-> --- a/drivers/pci/ats.c
-> +++ b/drivers/pci/ats.c
-> @@ -21,7 +21,7 @@ void pci_ats_init(struct pci_dev *dev)
->  {
->  	int pos;
+>  #include "fbnic_csr.h"
 >  
-> -	if (pci_ats_disabled())
-> +	if (pci_ats_disabled() || pci_dev_default_is_restricted(dev))
->  		return;
+> +struct bpf_prog;
+>  struct fbnic_net;
+> +struct netlink_ext_ack;
+> +struct xsk_buff_pool;
+> +struct xsk_rx_check;
 >  
->  	pos = pci_find_ext_capability(dev, PCI_EXT_CAP_ID_ATS);
-> @@ -40,7 +40,7 @@ void pci_ats_init(struct pci_dev *dev)
+>  /* Guarantee we have space needed for storing the buffer
+>   * To store the buffer we need:
+> @@ -36,6 +40,8 @@ struct fbnic_net;
 >   */
->  bool pci_ats_supported(struct pci_dev *dev)
->  {
-> -	if (!dev->ats_cap || dev->untrusted)
-> +	if (!dev->ats_cap)
->  		return false;
+>  #define FBNIC_MAX_RX_PKT_DESC	7
+>  #define FBNIC_RX_DESC_MIN	roundup_pow_of_two(FBNIC_MAX_RX_PKT_DESC * 2)
+> +/* All descriptors of a packet but the two metadata ones */
+> +#define FBNIC_MAX_RX_BUFS	(FBNIC_MAX_RX_PKT_DESC - 2)
 >  
->  	if (dev->is_virtfn)
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index 7c6f2aba81443..b08adba03f96b 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -1016,8 +1016,9 @@ static void pci_std_enable_acs(struct pci_dev *dev, struct pci_acs *caps)
->  	/* Upstream Forwarding */
->  	caps->ctrl |= (dev->acs_capabilities & PCI_ACS_UF);
+>  #define FBNIC_MAX_TXQS			128u
+>  #define FBNIC_MAX_RXQS			128u
+> @@ -66,6 +72,9 @@ struct fbnic_net;
+>  	(ALIGN(FBNIC_RX_TROOM + FBNIC_RX_HROOM_PAD, 128) - FBNIC_RX_TROOM)
+>  #define FBNIC_RX_PAD			0
+>  #define FBNIC_RX_HDR_ALIGN		128
+> +#define FBNIC_RX_HROOM_MAX \
+> +	ALIGN(FIELD_MAX(FBNIC_QUEUE_RDE_CTL0_MIN_HROOM_MASK), \
+> +	      FBNIC_RX_HDR_ALIGN)
+>  #define FBNIC_RX_PAYLD_ALIGN		128
+>  #define FBNIC_RX_PAYLD_OFFSET		0
+>  #define FBNIC_RX_PAYLD_PG_CL		0
+> @@ -73,6 +82,7 @@ struct fbnic_net;
+>  #define FBNIC_RING_F_DISABLED		BIT(0)
+>  #define FBNIC_RING_F_CTX		BIT(1)
+>  #define FBNIC_RING_F_STATS		BIT(2)	/* Ring's stats may be used */
+> +#define FBNIC_RING_F_XDP		BIT(3)	/* XDP TX ring */
 >  
-> -	/* Enable Translation Blocking for external devices and noats */
-> -	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
-> +	/* Enable Translation Blocking when ATS is unavailable or restricted. */
-> +	if (pci_ats_disabled() || dev->external_facing ||
-> +	    !pci_dev_ats_permitted(dev))
->  		caps->ctrl |= (dev->acs_capabilities & PCI_ACS_TB);
->  }
+>  #define FBNIC_HDS_THRESH_MAX \
+>  	(4096 - FBNIC_RX_HROOM - FBNIC_RX_TROOM - FBNIC_RX_PAD)
+> @@ -121,12 +131,18 @@ struct fbnic_rx_buf {
+>  	long pagecnt_bias;
+>  };
 >  
-> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
-> index 5b6960bbb35bc..607569c31b5b9 100644
-> --- a/drivers/pci/probe.c
-> +++ b/drivers/pci/probe.c
-> @@ -1738,24 +1738,24 @@ static void set_pcie_cxl(struct pci_dev *dev)
->  
->  }
->  
-> -static void set_pcie_untrusted(struct pci_dev *dev)
-> +static void pci_set_default_trust_policy(struct pci_dev *dev)
->  {
-> -	struct pci_dev *parent = pci_upstream_bridge(dev);
-> +	struct pci_dev *parent = pci_physfn(dev);
+> +/* XDP TX ring entry: an XDP_TX buffer, or an AF_XDP TX descriptor */
+> +struct fbnic_xdp_tx_buf {
+> +	netmem_ref netmem;
+> +	struct xsk_buff_pool *xsk;
+> +};
 > +
-> +	if (parent == dev)
-> +		parent = pci_upstream_bridge(dev);
+>  struct fbnic_ring {
+>  	/* Pointer to buffer specific info */
+>  	union {
+>  		struct fbnic_pkt_buff *pkt;	/* RCQ */
+>  		struct fbnic_rx_buf *rx_buf;	/* BDQ */
+> -		netmem_ref *tx_netmem;		/* TWQ1 */
+> +		struct fbnic_xdp_tx_buf *xdp_buf; /* TWQ1 */
+>  		void **tx_buf;			/* TWQ */
+>  		void *buffer;			/* Generic pointer */
+>  	};
+> @@ -167,6 +183,10 @@ struct fbnic_q_triad {
+>  	struct fbnic_ring sub0, sub1, cmpl;
+>  	struct xdp_rxq_info xdp_rxq;
+>  	u16 hdr_max;	/* Header bytes for whole header buffers, or 0 */
+> +	u16 rx_hroom;	/* Headroom before a header */
+> +	u16 rx_hdr_first; /* Offset of the first header in a buffer */
+> +	u16 rx_frame_off; /* Offset of the frame in a header buffer */
+> +	struct xsk_buff_pool *xsk_pool;	/* AF_XDP pool of an RX queue */
+>  };
 >  
->  	if (!parent)
->  		return;
-
-Hi Leon,
-
-The default policy here works for physical hierarchies, but there's no
-opportunity for a paravirtual host bridge to participate in the trust
-resolution when the host bridge driver itself knows the appropriate
-trust level for a device.
-
-Could we add an optional host bridge callback?
-
-    struct pci_host_bridge {
-        ...
-        int (*trust_resolve)(struct pci_host_bridge *bridge,
-                     struct pci_dev *dev,
-                     const struct device_driver *drv,
-                     enum device_trust_policy policy,
-                     enum device_trust_level *level);
-    };
-
-An implementation of trust_resolve() in pci_bus_type could default to
-calling the hook and fall back to the current default policy when the
-host bridge does not provide a callback.
-
-My scenario is pci-hyperv in a confidential VM with a paravisor. The
-paravisor is inside the guest's trust boundary and owns TDISP. It locks,
-attests and accepts the device, then answers a VMBus query describing
-which BAR ranges are private and whether the device's DMA may target
-private memory. Before a driver can bind pci-hyperv has to:
-
-  - query the paravisor,
-  - refuse to operate the device if the query failed or if the response
-    is invalid,
-  - decide whether the device may operate.
-
-The modular host bridge driver in this scenario needs a hook to be able
-to participate in trust resolution.
-
-I'm also looking for the right place to setup MMIO and configure DMA
-in my scenario. Let me know if you have guidance.
-
---
-Regards,
-Kameron
-
-
-> -	/*
-> -	 * If the upstream bridge is untrusted we treat this device as
-> -	 * untrusted as well.
-> -	 */
-> -	if (parent->untrusted) {
-> -		dev->untrusted = true;
-> +
-> +	if (device_policy_is_adversarial(&parent->dev)) {
-> +		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARY;
->  		return;
->  	}
+>  struct fbnic_napi_vector {
+> @@ -178,6 +198,7 @@ struct fbnic_napi_vector {
+>  	u16 v_idx;
+>  	u8 txt_count;
+>  	u8 rxt_count;
+> +	u8 xsk_tx_next;		/* RX queue that sends socket TX first */
 >  
->  	if (arch_pci_dev_is_removable(dev)) {
-> -		pci_dbg(dev, "marking as untrusted\n");
-> -		dev->untrusted = true;
-> +		pci_dbg(dev, "setting adversarial trust policy\n");
-> +		dev->dev.trust_policy = DEVICE_TRUST_POLICY_ADVERSARY;
->  	}
->  }
+>  	struct fbnic_q_triad qt[];
+>  };
+> @@ -203,6 +224,8 @@ void fbnic_aggregate_ring_tx_counters(struct fbnic_net *fbn,
+>  void fbnic_aggregate_ring_xdp_counters(struct fbnic_net *fbn,
+>  				       struct fbnic_ring *xdpr);
 >  
-> @@ -2082,7 +2082,7 @@ int pci_setup_device(struct pci_dev *dev)
->  
->  	set_pcie_cxl(dev);
->  
-> -	set_pcie_untrusted(dev);
-> +	pci_set_default_trust_policy(dev);
->  	device_trust_init(&dev->dev);
->  
->  	/* "Unknown power state" */
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index 7f1f47ea2ee41..9ed3e7660bab2 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -5525,8 +5525,8 @@ static void pci_quirk_enable_intel_rp_mpc_acs(struct pci_dev *dev)
->   * Currently this quirk does the equivalent of
->   * PCI_ACS_SV | PCI_ACS_RR | PCI_ACS_CR | PCI_ACS_UF
->   *
-> - * TODO: This quirk also needs to do equivalent of PCI_ACS_TB,
-> - * if dev->external_facing || dev->untrusted
-> + * TODO: This quirk also needs to do the equivalent of PCI_ACS_TB when the
-> + * device is external-facing or ATS is restricted by trust policy.
->   */
->  static int pci_quirk_enable_intel_pch_acs(struct pci_dev *dev)
->  {
-> @@ -5567,7 +5567,8 @@ static int pci_quirk_enable_intel_spt_pch_acs(struct pci_dev *dev)
->  	ctrl |= (cap & PCI_ACS_CR);
->  	ctrl |= (cap & PCI_ACS_UF);
->  
-> -	if (pci_ats_disabled() || dev->external_facing || dev->untrusted)
-> +	if (pci_ats_disabled() || dev->external_facing ||
-> +	    !pci_dev_ats_permitted(dev))
->  		ctrl |= (cap & PCI_ACS_TB);
->  
->  	pci_write_config_dword(dev, pos + INTEL_SPT_ACS_CTRL, ctrl);
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index e3e7457cd50f4..770c3040fd2b9 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -933,6 +933,11 @@ static inline bool device_iommu_mapped(struct device *dev)
->  	return (dev->iommu_group != NULL);
->  }
->  
-> +static inline bool device_policy_is_adversarial(const struct device *dev)
-> +{
-> +	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_ADVERSARY;
-> +}
-> +
->  static inline bool device_policy_is_disabled(const struct device *dev)
->  {
->  	return READ_ONCE(dev->trust_policy) == DEVICE_TRUST_POLICY_DISABLED;
-> diff --git a/include/linux/pci.h b/include/linux/pci.h
-> index aa3765a20a96c..087c63b177c85 100644
-> --- a/include/linux/pci.h
-> +++ b/include/linux/pci.h
-> @@ -490,14 +490,6 @@ struct pci_dev {
->  	unsigned int	shpc_managed:1;		/* SHPC owned by shpchp */
->  	unsigned int	is_thunderbolt:1;	/* Thunderbolt controller */
->  	unsigned int	is_cxl:1;               /* Compute Express Link (CXL) */
-> -	/*
-> -	 * Devices marked being untrusted are the ones that can potentially
-> -	 * execute DMA attacks and similar. They are typically connected
-> -	 * through external ports such as Thunderbolt but not limited to
-> -	 * that. When an IOMMU is enabled they should be getting full
-> -	 * mappings to make sure they cannot access arbitrary memory.
-> -	 */
-> -	unsigned int	untrusted:1;
->  	/*
->  	 * Info from the platform, e.g., ACPI or device tree, may mark a
->  	 * device as "external-facing".  An external-facing device is
-> @@ -616,6 +608,28 @@ static inline struct pci_dev *to_pci_dev(const struct device *dev)
->  {
->  	return container_of(dev, struct pci_dev, dev);
->  }
-> +
-> +static inline bool
-> +pci_dev_default_is_restricted(const struct pci_dev *pdev)
-> +{
-> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
-> +
-> +	return policy == DEVICE_TRUST_POLICY_DISABLED ||
-> +	       policy == DEVICE_TRUST_POLICY_ADVERSARY;
-> +}
-> +
-> +static inline bool pci_dev_ats_permitted(const struct pci_dev *pdev)
-> +{
-> +	enum device_trust_level level = device_get_trust_level(&pdev->dev);
-> +	enum device_trust_policy policy = READ_ONCE(pdev->dev.trust_policy);
-> +
-> +	if (level == DEVICE_TRUST_DISABLED)
-> +		return policy != DEVICE_TRUST_POLICY_ADVERSARY &&
-> +		       policy != DEVICE_TRUST_POLICY_DISABLED;
-> +
-> +	return level == DEVICE_TRUST_FULL;
-> +}
-> +
->  #define for_each_pci_dev(d) while ((d = pci_get_device(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
->  #define for_each_pci_dev_reverse(d) \
->  	while ((d = pci_get_device_reverse(PCI_ANY_ID, PCI_ANY_ID, d)) != NULL)
-> 
+> +int fbnic_xsk_validate(const struct xsk_rx_check *check,
+> +		       struct bpf_prog *prog, struct netlink_ext_ack *extack);
+>  int fbnic_alloc_napi_vectors(struct fbnic_net *fbn);
+>  void fbnic_free_napi_vectors(struct fbnic_net *fbn);
+>  int fbnic_alloc_resources(struct fbnic_net *fbn);
+
