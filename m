@@ -1,78 +1,78 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1794837668;
-	b=xFx5XxIIYtqanldgClrdu84UWueJSYckO3zwA43YVHqu/Q1gmjwXhKT3Szi6M08rDiHf
-	 q0RINOjrEH5Qe18S8ZYCJaRANLj3c/qX6849fIOoaQMA0PvgicgRJXQ0dubb+MV/+FuCi
-	 LuNU4d+P2JOCxrwlPeI1XuOsIAPCH/Hadd64Fkdie6CD3NWnJBPSx58PIq7xhRmKDNlNS
-	 LJcC87qrhkp3HwhR+E/BOaYmDQPdIu97N01fKAcEBDm3b9qgLcIg57yAhENEb7A8zO94Q
-	 pr1zS1AaU8aKw8vSJ5EbAxsbv1sjlelRa7h5P2aO39Uxby1xiv35tsoQ3F8lbBrhOsw==
+	b=4DCZOZ9wcgy/5NNPkBwbVaIXp4154el/io33cQmu2lezhtZ5Z7mc6HSVCUHK+oI1ulC/
+	 jZLoddM6igxX2jcDSW22FYxhwrHFjM8ktE6yHTFxXsJXwXyZT/lL0l927a3eDRwts452H
+	 pq+8z5obEO3wqc8iROxZFt/4fd+QZujzA2NI9UQoHyq5CNVuEXqqSLQQOSzn2xOlaPV2Y
+	 tfJpZubJr73mQvrZ84FlQ6XTeLQ0RcfUIOME6XWIa6auJI1kR8yrvOIPWo2J1cAZn05D3
+	 32uL3l+GzHIIOxiwUhF5mTGJsLb2EIJ+DsgJ8pTZKbX9TnKjdXwhCh1yWK4bGUYaBIg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1794837668;
 	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
 	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=kcHezJuhx6nMG5FQREdfYfPWtGjzRQB4kn3JrXnJa88=;
-	b=d1HiA7Y4C5ZrAWX7do2Wr4epUJALCjdYdybln2ihySq7usNQwjS507PtccnAdYom8QEw
-	 lQkWduushTvR7QcpFaaBDFFJ0ssLAbvPiug14TKTSl7CjctruqNnQl2yljL/R78Vxd9d5
-	 BmV3MAe8UmUMDA+vMx/1W/qfbJC/682TmgohuJodu3b5/6JbQr0hRussI6Ngm1qdbhODj
-	 GyJyw/rvqNdxTAcZRD6a1ri4V6T3ZrMlivDXEsl0J/bznUr/9YEcf1UEdTKG/J/zOyPZ3
-	 li7XKVHsDo9ApZwf4UM9PlRsbuXEKN8WpvfYAUYeiymi0LQI3o90Vm8lptcia7V9Yew==
+	bh=8UBujBnVXI6o6jlvZslDznmNtQX3JL0l1TsE7k+wIo0=;
+	b=ExjDfmNo7vAj2FrsEPSfKNW6mDdxp1NB727UaSsUzm4TiA8tAbttLeUJHm+spkYM0Dns
+	 5jvFyTwFN46oMesUiEnAVGstQnGowfA34j/yi33Qsh/CcN1rTNcotJpM983chNbxt9TWd
+	 c8Rbm1/bHIviaOKmitUf/ZE4C9Ek2rCyztQhrAxeBPm1FQpsLEeXRhKcRFJT9aR9YWfuz
+	 A97eUoJFeijwMrM8aovM4AHGl0MvZImWgcg6RNWKLBQFC/IzHy6ee73LIyItDG7YkZ/nS
+	 YEcJyJ1XSaznXXbwdGqao/8H4373CfAR9KhCJQIklVbYyDl9GmkqO3tUjc0qyIH42VQ==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IFIq4R84;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EUzfT6kR;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 342EC606A893;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7773C606A898;
 	Mon, 16 Nov 2026 14:01:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IFIq4R84
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EUzfT6kR
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
 	t=1794837668;
-	b=NNLEcgjabX2eqwDtnjBKTSYpwO+SzjYv+x8yN7908y4jal5RfkRvpNDnpO5zk+k3nrP1
-	 REwRrxqz37lLtiT6Smrb5hZuIRsanLoEi+Qwy+B8JxiZ5GgFQzYHMKUyH5Mib/kyEGWf6
-	 osy78vqqueqKO0bYVdXxUkUY0h+zCoZ6E6sEus9LioFZ33OCeIKXeWBYGwDnQRSvjrnDq
-	 YUHMLKqwe6AEqgmkb4i5B4KFVec2gDVNy3IOP6QITOxBtKro5RK1yadBnzbbS0tUHt9pq
-	 5tuzdvv/E5GXS9U/LkMYpn7emVbdU3/7w1MppTKbt9+gwwqtE2jBUrt05BZiORpEBvA==
+	b=hdlrar287MS4t4r1LjKTeL8McvZ/Fp5lS+J0JN7GhpCUwvyQZqOwMUGE3O/6akwwb3fj
+	 YyK+6yf0gIxIOJ2Ld464nWyvv8sF4SZy0RMYoUOYiyaohQqlBn6ahRTsB8oj4pEijM0v4
+	 74DvRH3GdqyJzUbnve4I69X+DZvDwUiYczWWjNc4NElHTkqwQd3utgXJJlSH2a+AxUAc8
+	 dRU9VJoLVUbcZAOvByI6Y/iPZIL5BYK3P6qMIH4HExi3d4I+nWk1975DGAGudLbjZq9d8
+	 GdcypXKrkhXBmyK/TckHOuBgo9t7XeKAeAMlFRkqoEb7dTpy1UjlGveEUMDAPRV4nPQ==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
 	c=relaxed/relaxed; t=1794837668;
 	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
 	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=kcHezJuhx6nMG5FQREdfYfPWtGjzRQB4kn3JrXnJa88=;
-	b=mHacP51W/OqdqQh59ocaj+CblVMlZrUAAHEe55D8MWs2AaWnFcRIjrqEy8gAPdlBcsBe
-	 XVa7NmWs4mWpXH1/pxDUHlBU284j11Cwvt1AihSY1ogBBSjesL0NoB9VrrF518/M51qM0
-	 YcLkCD5NmC0ZUYi9FRJihu8x+EBBP5ZH8cjxTVDhAgCXYlcLyRNAQhdVFbm3BwxH/UKMH
-	 MJt7ueGJcU50yznKbhH7GbvKiixb0HNW61B5FXrTlTbYeJYQinXtXcd2lTAu1sr5F4InB
-	 YU9LvgfNlM/oI+gyRgPnUxkQFEHHrAi3OXtQdbGUi4A79bngLkhqI6eBMyAZ2ATWEgg==
+	bh=8UBujBnVXI6o6jlvZslDznmNtQX3JL0l1TsE7k+wIo0=;
+	b=nfqdxIoC01tWx+hFqfMiemh/d7nDQI0T2FpF2fCgYLQ0lNi5d3J7o1sB3c/cOXVz2S4l
+	 xsF8FHwiyjjFGfmSxJ34LyNSS0HZzdVqpsv3/OUDFk/gNWG0LdR7ZL6vHlTEqWpW2ShnK
+	 gULcPbysC8LUIpflCu/eDucnjNLns+GYKUdgqc3X7/qPCHLe6sKp4aOdz6y64lMyG8XHr
+	 pIS/qkGipxdmKDcCYgIGIjJ1PMReT8vCCc9G8nv3jdrWzNumeA/+LRbZlF1P/l1zgcQwS
+	 HC3E3jk+xljaL9DZ65FsngMmzUQJ8X21W4BTLQ/sMKMjbuv2F4euKvSh+y174KuGgeg==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 1FAF11F000CD;
+	by smtp.kernel.org (Postfix) with ESMTPS id 374301F000CF;
 	Mon, 16 Nov 2026 14:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1794837668;
-	bh=kcHezJuhx6nMG5FQREdfYfPWtGjzRQB4kn3JrXnJa88=;
+	bh=8UBujBnVXI6o6jlvZslDznmNtQX3JL0l1TsE7k+wIo0=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=IFIq4R84WB1LQ/o/OzPQly00aYwRGIxykmnvFSKUgUWxYtcSqRNFNRBvpwrhUX4hR
-	 Z3RDMnL6nxvF7nb/PbKyddbXWcP4bPk+puzkwBJMkvBvCBgWFs3UlyyIM+bQ1tGLs0
-	 lkpPXak+DEhC0TvYNtAj9KhEUrjIIDBJlcLmLCOd5eOxz9Mf/TboHnT3NhVLkWVGao
-	 PB9OjYYGGWw2DrnhEY/f4kAtHPq+Ecl7KcEl1S7jY1tltBl6ZNdTiLKscnPFz7T7S4
-	 syQsEOPjUSFwuT5QsjcDEtXKui4Q88FLdsQd4Bk2RhmiYc3KLCfBX43wIQ983Os/xm
-	 Vk+P4yffT4Icw==
+	b=EUzfT6kR02RIeKFHnBRuMsFGjHCeZO8F8k9UFj6zva+EMj0X+hFYYk1ELd8RSo/WF
+	 hwaVL+3xIZYAaBYRj3TSSSudY3QRLNeWfOp/DpoQVLhWMBL0YQQIhyabAEoeha+wcK
+	 2k4OctnQxqGa8TgTMSpDKcGu+PI8LUX9Dit6M4frYjd6yCdMMyuVoPuiIWny9o4eI3
+	 9R+k9Y9LjMmaNAQb5IKpcGv9fpW+OvYPojidiy10a3xC2dTXDsLVupaXdBzgh3pVrh
+	 IfaJ/7D5Iww6xB+a7zBjVYKaejIG1R5jWOI3/pu6/eEe4x8IzDPDptTplRLiWn2YFv
+	 TZlvxbEH9WDKQ==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 9B1E14A4A7;
+	by lkml.kernel.org (Postfix) with ESMTP id B26A04A4B8;
 	Mon, 16 Nov 2026 14:01:04 +0000 (UTC)
 From: Hugo Sales via B4 Relay <devnull+hugo.hsal.es@kernel.org>
-Date: Mon, 16 Nov 2026 14:01:04 +0000
-Subject: [PATCH v3 2/6] drm/amd/display: Add the CRTC's planes when the ABM
+Date: Mon, 16 Nov 2026 14:01:05 +0000
+Subject: [PATCH v3 3/6] drm/amd/display: Don't force a modeset when the ABM
  level changes
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,7 +84,7 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261116-abm-sysfs-commit-v3-2-7a3d84a5328e@hsal.es>
+Message-Id: <20261116-abm-sysfs-commit-v3-3-7a3d84a5328e@hsal.es>
 References: <20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es>
 In-Reply-To: <20261116-abm-sysfs-commit-v3-0-7a3d84a5328e@hsal.es>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -106,13 +106,13 @@ Cc: Mario Limonciello <mario.limonciello@amd.com>, Ray Wu <ray.wu@amd.com>,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Hugo Sales <hugo@hsal.es>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2571; i=hugo@hsal.es;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4516; i=hugo@hsal.es;
  h=from:subject:message-id;
- bh=qEE0S9PbkvyPum4bGl1VMgQGUMbMKntSfo2X6VR25RU=;
- b=owJ4nJvAy8zAJVbLU7f+5A3TBYyn1ZIYsn7zzL8b2R3Z9DqkuuSfSMa5K2p3l/+ZnPRA/IiV2
- r2VpZ+jVPU6SlkYxLgYZMUUWXRveDKwTJw8M6fo+RKYOaxMIEMYuDgFYCKXbBn+qSzicZ//LPpJ
- 4mvPFcek79awlLNnLf2vPUG+3q2NQ3DRNkaGyZYTS1uOlXW63Jr/jkVzhe+fi9MUrj6eWxVgqLa
- p32QXKwA1Lkup
+ bh=nTN2YLHV+ve8v1xZQdklVKDNGY+K7ZshEneUQgf4siY=;
+ b=owJ4nJvAy8zAJVbLU7f+5A3TBYyn1ZIYsn7zzPdo0k5N1XwUv1ok9yFv37XpfzImXd/yWvvE6
+ rd5U08zeE7pKGVhEONikBVTZNG94cnAMnHyzJyi50tg5rAygQxh4OIUgIncT2b4X3Sl2bP4oEDa
+ jpybF+3aX300OWbos2zFbv0Eh+rLE+YvFmNk+KTUP3m3z/yimNP39GKXqei8DiidcGWKz0Xn/KP
+ vdab4sAEAYsZNtg==
 X-Developer-Key: i=hugo@hsal.es; a=openpgp;
  fpr=193D095149CF7E8737B39064D912B0DB205A91C1
 X-Endpoint-Received: by B4 Relay for hugo@hsal.es/default with auth_id=1417
@@ -122,62 +122,96 @@ Content-Transfer-Encoding: 7bit
 
 From: Hugo Sales <hugo@hsal.es>
 
-An upcoming patch stops a change of the connector's ABM level from
-forcing a modeset. The modeset adds every plane on the CRTC to the
-commit. Without it, a commit that changes only the level carries the
-planes the CRTC check pulls in, which with VRR active is the primary
-plane alone. DC then updates the stream with that one surface and drops
-an active overlay plane until the next flip
+An upcoming patch commits panel_power_savings writes from the kernel
+without a modeset. amdgpu_dm_atomic_check() sets connectors_changed on the
+CRTC when the connector's ABM level changes, so that commit would fail
+with -EINVAL
 
-Add the CRTC's planes when the level changes, as atomic check already
-does for color management and VRR changes
+The flag came in with commit c5892a102182 ("drm/amd/display: Fix dmesg
+warning from setting abm level"), which also added the CRTC to the commit.
+Setting the level alone left the CRTC out, so no stream update reached DC.
+Adding the CRTC is enough for that. Since commit b05e2c5e81f9
+("drm/amd/display: Update ABM crtc state on non-modeset"),
+dm_update_crtc_state() copies the level from the connector to the CRTC
+state on the non-modeset path, and the commit tail sends a changed level
+as stream_update.abm_level. Sending the level doesn't need the planes in
+the commit. The commit tail walks the connectors and takes the surfaces
+from the stream status in DC
 
+The modeset also put every plane on the CRTC in the commit, which kept DC
+from dropping an overlay when VRR is active. "drm/amd/display: Add the
+CRTC's planes when the ABM level changes" keeps them there
+
+This applies to every commit that changes the level. A compositor that
+sets the "adaptive backlight modulation" KMS property no longer gets a
+modeset either
+
+The forced modeset also took the panel out of PSR or Panel Replay before
+the level reached DC. The non-modeset path relies on "drm/amd/display:
+Leave self-refresh before an ABM level update" for that, so it has to be
+applied first
+
+Keep the flag for scaling changes, which move the stream's source and
+destination rectangles
+
+David Weber <weber.aulendorf@gmail.com> sent the same change to the
+condition in August
+
+Link: https://lore.kernel.org/amd-gfx/20260813112634.11455-3-weber.aulendorf@gmail.com/
 Signed-off-by: Hugo Sales <hugo@hsal.es>
 ---
-This was reported on v2 [1]. On my laptop (GV301QH, DCN 2.1), with v2
-and VRR active, a panel_power_savings write took the overlay off the
-screen. The DTN log went from four pipes, primary and overlay each split
-over two, to the two primary ones, and a flip of both planes brought the
-overlay back. With VRR off, the overlay stayed. With this patch, it
-stayed with VRR on too, and all four pipes were still there after the
-write
+This needs "drm/amd/display: Leave self-refresh before an ABM level
+update" [1] applied first. Without it, a level change on the
+non-modeset path reaches DC while PSR or Panel Replay is active
 
-This only covers commits that change the ABM level. From my reading,
-other commits that add the CRTC but no planes, like a change of the HDR
-metadata, can drop an overlay the same way while VRR is active. That
-needs a fix in the CRTC check that pulls in only the primary plane, which
-I'll send as a separate series
+[1] https://lore.kernel.org/r/20261113-amdgpu-psr-abm-update-next-v2-0-27ce790856ea@hsal.es
 
-[1] https://lore.kernel.org/all/sashiko-outbox-213691@kernel.org/
+Upstream, a level already reaches DC this way when a compositor commits
+the connector after a panel_power_savings write. The store has already
+written the level into the current connector state, so the old and new
+connector states match and atomic check doesn't ask for a modeset. Only
+the CRTC state, which still holds the old level, sees the change. With
+this series, the hardware tests in the cover letter apply every level this
+way
+
+When a commit changes the level and also has planes on that CRTC, for
+example a compositor that sets the property and flips in the same
+commit, upstream sends the level to DC twice: from the connector loop in
+the commit tail and from amdgpu_dm_commit_planes(). The same already
+happens upstream after a panel_power_savings write, when the
+compositor's next commit has both the connector and planes. [1] sends it
+from the connector loop only
+
+If a level change through the KMS property should still force a modeset,
+the store could flag its own commits instead. It would set a flag in
+dm_connector_state that atomic check reads to skip connectors_changed.
+duplicate_state wouldn't copy the flag, so it only lasts for that one
+commit. I think it's simpler to treat the change the same way whoever made
+it, but I can send that version
+
+Scaling has been in the same check since commit 3c6d1aeb4342
+("drm/amd/display: Fix set scaling doesn's work"). From my reading the
+non-modeset path handles it too, as a src/dst stream update, but it
+changes the scaler ratio and I can't tell whether DC needs the full
+validation for that. Could it go as well?
 ---
- drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-index dfbc384fbbdb4..cf75450066451 100644
+index cf75450066451..caef3857eec18 100644
 --- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 +++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
-@@ -6307,6 +6307,20 @@ STATIC_IFN_KUNIT int amdgpu_dm_atomic_check(struct drm_device *dev,
- 		if (dm_old_con_state->abm_level != dm_new_con_state->abm_level ||
- 		    dm_old_con_state->scaling != dm_new_con_state->scaling)
- 			new_crtc_state->connectors_changed = true;
-+
-+		/*
-+		 * With VRR active, the CRTC check adds only the primary plane,
-+		 * and DC would drop any other plane from the stream
-+		 */
-+		if (dm_old_con_state->abm_level != dm_new_con_state->abm_level) {
-+			ret = drm_atomic_add_affected_planes(state, new_con_state->crtc);
-+			if (ret) {
-+				drm_dbg_atomic(dev,
-+					       "drm_atomic_add_affected_planes() failed: %pe\n",
-+					       ERR_PTR(ret));
-+				goto fail;
-+			}
-+		}
- 	}
+@@ -6304,8 +6304,7 @@ STATIC_IFN_KUNIT int amdgpu_dm_atomic_check(struct drm_device *dev,
+ 			goto fail;
+ 		}
  
- 	if (dc_resource_is_dsc_encoding_supported(dc)) {
+-		if (dm_old_con_state->abm_level != dm_new_con_state->abm_level ||
+-		    dm_old_con_state->scaling != dm_new_con_state->scaling)
++		if (dm_old_con_state->scaling != dm_new_con_state->scaling)
+ 			new_crtc_state->connectors_changed = true;
+ 
+ 		/*
 
 -- 
 2.56.0
