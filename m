@@ -1,69 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.61
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794821909;
-	b=mDNjGx1608Ho6CJeK/taI6f/xqc2RI0aaTqhrrEuTMa7bGXQ8qBBUj5vnSt/Vo5xluol
-	 tmjaKiX5nYV14QBYsLJUVm+PGAdns2MD4pjxSjbGNsidZf0F4x+Fj+kCU8W9x3iGlr1HB
-	 7aRdQXjMyqvbGHIEwWGm0NGQTbL19302k0seKAF8P6ejnOGmS3nAgFntdMYpFoCuIX9lE
-	 WPqouLXxgAOGKCfCdzoNPC/TFRymIa8Cx+UEtkfDkUFg/Y7hRvuHM+jx+Ju7gcDjtL1aK
-	 ciErwujW//jNeO0v02B2MdjXyItiOw4SQEJoIc72qkjLwGpH/5pSJBJUc/QZyAD4FGA==
+	t=1794823033;
+	b=CudVRpAjf28v1gC1btNg5TNrMPCPluibO07BQLX9Uvf3q9tFSN8rO6+ri37cwlilDl19
+	 fH/PXvOn/J3jHbxBHzjf70jKOhOnOQCugVTlQWggW27ffdWHrlP5iB9nMWkItc5cXirh2
+	 ab+CSuomIN6tUE+sgVCybPqDA3LL183tmZpNmD7pZAvOBGRMwRmPO0D94NRTDTyGgHId+
+	 58QY9GN29/0FEHhZc5TXW/mTR2naoSeZdaKjipHXfW6/1603j1ASkE/jwld+QlBs6MxUO
+	 iNAoO9eaDBDlQvyv6Ptya0ckNh1AY0YUo29wHZYgyOvScW8BLIfOOveJuifQZsEltBQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794821909;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version:X-MBO-RS-ID:X-MBO-RS-META;
-	bh=TdayhSyZh6vGn33Vc/U0o8gSJexg4CB/0stotZ00Gco=;
-	b=GxsmRxXwHXpX3jMcyLQHd7giTISOU2UBtZVcYn8FU6MDq80hHmsxynZ9cYA3GJoxPCg5
-	 u0G3lysmhDK/YySuz8fD58xQip3Chf96SbKJrvo6w1D+Eh+WqjcC4T004043ZoGEty61J
-	 ir3sMKOVoSt/M1QNRhAFhoGyMGwfawoyElU6EfssoQ5mbhh43ivoRefJyjN7dsbmyFFXu
-	 K0Uz/i7F90OzhOYGDhkEU4QyrCMaStOflPTnHivEP4GFhXD+4mrSFUqMF7F8mlhkWdSKd
-	 ioshXTKCtJJhdGXymwNjasrvNlGF/5eJfy0MH/LpH0XAFjVwrTgel7ZCBmaeOzVoEAQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794823033;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Received:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Received:MIME-Version:References:In-Reply-To:
+	 From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:Message-ID:
+	 Subject:To:Cc:Content-Type;
+	bh=I3+Y3topNYRnSbwR28B8ZoCVuIdcjYVT77tTzbCq1BY=;
+	b=SGcUJSd5XCMZo4osp89IKgvZkwKjJe6nNE+27RDvMHTr1f6Ns7Tz4Oata3hD1fp46CU7
+	 IZtMKaR0FCIhH1wV+3qx2yIujyPb0X2OBPIXqn+lUt1PnUsSSZ1LXTOb4vIAKN+SHxhVO
+	 W+4MLFP2yUtIw1UbFmFPimRH7gQX8qNYAys1aq5JgrH5SSbf/jU0b7wGm5XCdt8Mez76Q
+	 EEU6ZvR5cDT7iddKIjPAxjn+VRzSxR0VHrCBR2W1g3hCO1epwEWZn2oo3niAb8z3K5TNW
+	 GzwgWZMjT/kv8iGG2QP9TOVBJR2SjRu9ek4snb60D/cmMOAn5mfYOjjiWRhx/608dZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=NL3aj6k7;
-	arc=none smtp.remote-ip=80.241.56.161
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=linux.dev;
+	spf=pass smtp.mailfrom=linux.dev;
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=mIEa8V8B;
+	arc=none smtp.remote-ip=91.218.175.61
+Received: from mta0.migadu.com (out-61.mta0.migadu.com [91.218.175.61])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33242606A329;
-	Mon, 16 Nov 2026 09:38:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 33242606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75A7E606A331
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 09:57:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75A7E606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=NL3aj6k7
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4jSjTl4tdfzKm6j;
-	Mon, 16 Nov 2026 10:38:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1794821899;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=TdayhSyZh6vGn33Vc/U0o8gSJexg4CB/0stotZ00Gco=;
-	b=NL3aj6k7IxOi/t++Gv0KJlHa1bM2usFwmgmUE84EjF7X8NSXNx2d8XGUqninLi4MriG/Ej
-	JxMmGvHJCqY8KbxxUZXMkSlbERjnOrqbwLSHQsxIDGUWfeuhDBzgJeuquvcfCecAbutUzD
-	XXzKhJU7wSxhPKvjobVhc4UmRZDqXqzjYmbqCYLZ4SbexUCYJ5he42c1E8canf31evwDtC
-	BwjOtYK6O5/JssNm6VO8f+VwJBVZXkTekdYMt0fISqjMyNxSNdIkIWjqqJdo/rXF9F/Loe
-	hVS463NWrNf4n197rLV3L2WPa+ITU2yRsHxNwFuktU+pIbQcsdbXyJkvbqSHTA==
-Message-ID: <32a4976792275c8ee903ca99728bae12bb3b9be3.camel@mailbox.org>
-Subject: Re: [PATCH] docs: doc-guide: add hint to review patch
-From: Manuel Ebner <manuelebnerli@mailbox.org>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 16 Nov 2026 10:38:16 +0100
-In-Reply-To: <87ik1x3zwg.fsf@trenco.lwn.net>
-References: <20261116082209.1100175-2-manuelebnerli@mailbox.org>
-	 <87ik1x3zwg.fsf@trenco.lwn.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.1 (3.62.1-1.fc45) 
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=mIEa8V8B
+X-Envelope-To: linux-doc@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=0M/7xDonC715x6+9O5Xr/LSHzL87I9czc2uSQmfZOqY=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1794823030; v=1; x=1795427830;
+ b=mIEa8V8BULDEnZwbMezqqzI07KCN0zKeDZXL4FJMoz7e3dR22Bme/utuM2G1t+HUt4xs5PtE
+ rMZtx5sS9s7IkhGSfQsU6wHOjg2m1tNUVTBCjyJAo5sgn+DQM+SJMdA9yV5L9Nt7sx7mrqOtaCM
+ Z1FdH4W/U2kesabiU/A1A+cU=
+X-Envelope-To: linux-doc@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 7dbeea6bfe98ab01;
+	Mon, 16 Nov 2026 09:57:10 +0000
+X-Mizu-Trace-ID: 7dbeea6bfe98ab01
+X-Migadu-Flow: FLOW_OUT
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5be58ad9600so7319e87.0
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 01:57:06 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErEdzPCvmWKapzfAago7cVrYSf/nHhe3RrcPh7rbDMx5yYLYx5xxvcvlNg7tcu1BNHSj/vLOo+lyzoE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/lQn0zoumjRNP1g29TNaG3aedYSGecfB74WrOeqYTSua88ZRHl
+	NsKkP8/LLS+4lfH8/rO5gmddAIU79qHCx02SMICfAgVkx7K2mbj5Mq+cyWwVlteHQfB9OnjBFlg
+	1C+v3p7e5VxUp/aH45V5vrUXe6lZp3ZCCHcKeRzI6
+X-Received: by 2002:a05:6512:1244:b0:5c1:4bd2:df42 with SMTP id
+ 2adb3069b0e04-5c17e452300mr150202e87.12.1794823025609; Mon, 16 Nov 2026
+ 01:57:05 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -73,49 +66,40 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MBO-RS-ID: 870eb5400e0e90f9b56
-X-MBO-RS-META: 4eonf97s57hihiejnw6w3ndz4yrai5b3
+References: <20261111085448.1130701-1-fuad.tabba@linux.dev>
+ <20261111085448.1130701-2-fuad.tabba@linux.dev> <f2f36f67-a993-735e-39d3-70e22ce6c87f@huawei.com>
+In-Reply-To: <f2f36f67-a993-735e-39d3-70e22ce6c87f@huawei.com>
+From: Fuad Tabba <fuad.tabba@linux.dev>
+Date: Mon, 16 Nov 2026 09:56:29 +0000
+X-Gmail-Original-Message-ID: <CA+EHjTzVCi6y7FJPjnaY=xR1c+EEMTk=uSU5M2=jiXrMpoEhag@mail.gmail.com>
+X-Gm-Features: Aa3M54oK9gpHPc0L5YRcoRoBDe4bteAeLTEBUq9FrNTkoJZSiv4ya5-nPjY7kqk
+Message-ID: <CA+EHjTzVCi6y7FJPjnaY=xR1c+EEMTk=uSU5M2=jiXrMpoEhag@mail.gmail.com>
+Subject: Re: [PATCH 1/7] Documentation: KVM: Fix references to non-existent identifiers
+To: Zenghui Yu <yuzenghui@huawei.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, kvm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Jonathan Corbet <corbet@lwn.net>, Christian Borntraeger <borntraeger@linux.ibm.com>, 
+	Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda <imbrenda@linux.ibm.com>, 
+	Huacai Chen <chenhuacai@kernel.org>, linux-mips@vger.kernel.org, 
+	Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 2026-11-16 at 02:10 -0700, Jonathan Corbet wrote:
-> Manuel Ebner <manuelebnerli@mailbox.org> writes:
->=20
-> > For the case of a duplicate patch, review the other patch instead of
-> > sending own patch.
-> >=20
-> > Signed-off-by: Manuel Ebner <manuelebnerli@mailbox.org>
-> > ---
-> > =C2=A0Documentation/doc-guide/contributing.rst | 4 +++-
-> > =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/doc-guide/contributing.rst b/Documentation/d=
-oc-guide/contributing.rst
-> > index 46a44b39d6..ee2f896a21 100644
-> > --- a/Documentation/doc-guide/contributing.rst
-> > +++ b/Documentation/doc-guide/contributing.rst
-> > @@ -129,7 +129,9 @@ looked like this::
-> > =C2=A0The entire process only took a few minutes.=C2=A0 Of course, I th=
-en found that
-> > =C2=A0somebody else had fixed it in a separate tree, highlighting anoth=
-er lesson:
-> > =C2=A0always check linux-next to see if a problem has been fixed before=
- you dig
-> > -into it.
-> > +into it.=C2=A0 If the other patch isn't applied yet it's good to give =
-it a
-> > +'Reviewed-by:' tag to help it get applied.=C2=A0 This way your effort =
-is not in
-> > +vain.
->=20
-> Should we perhaps be explicit and say that the person involved should
-> actually review the patch?
+On Mon, 16 Nov 2026 at 09:32, Zenghui Yu <yuzenghui@huawei.com> wrote:
+[...]> >    * ``KVM_STATS_TYPE_LINEAR_HIST``
+> >      The statistic is reported as a linear histogram. The number of
+> >      buckets is specified by the ``size`` field. The size of buckets is specified
+> > -    by the ``hist_param`` field. The range of the Nth bucket (1 <= N < ``size``)
+> > -    is [``hist_param``*(N-1), ``hist_param``*N), while the range of the last
+> > -    bucket is [``hist_param``*(``size``-1), +INF). (+INF means positive infinity
+> > -    value.)
+> > +    by the ``bucket_size`` field. The range of the Nth bucket
+> > +    (1 <= N < ``size``) is [``bucket_size``*(N-1), ``bucket_size``*N), while
+> > +    the range of the last bucket is [``bucket_size``*(``size``-1), +INF).
+> > +    (+INF means positive infinity value.)
+>
+> Could we fix the broken reST while we're at it? I mean
 
-Makes sense. I'll change it to:
+Will do in v2.
 
-into it.  If the other patch isn't applied yet it's good to review it and
-state that by replying with the 'Reviewed-by:' tag.  This helps getting the
-patch applied, so your effort is not in vain after all.
-
-Thanks
- Manuel
->=20
-> jon
+Thanks,
+/fuad
