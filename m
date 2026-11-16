@@ -1,86 +1,47 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794832061;
-	b=oBoUlboc2QAKK2OXt71E8nlMMaffvHT1bg9XA6MsfylNi7KgF3w6VeXD0+1DtcV2D37k
-	 X4IBGoBpE0bU2U0CGULTOX8vUlfFXo9/QJWqNx6/GmzD83kL36IZQKok+zqrAIC69SP2d
-	 16ZU9FML2fq2hP4qE6T9fhuV6pzYhzZhB6Y/ldZtLrLAbuaYQoMz1HEZq4aMz+/EKRYRG
-	 OgR1S6H3iIy3aEA3F5sJPtLXI3Bl92dSmwslyjW0h2iFlBPSxg48eZkjuISlg4sxiP486
-	 +mxvKawIY6saKBQ/V7NY0rGc4gfMyJ4+agoWFsusOKeH0c0JSM9sn+w8Qm69AQDobxg==
+	t=1794832166;
+	b=C6GHegEWJdphTI4FsM8x2andEdd/kAPZq7F2j8UNuXDzvJ9movyi1OqUihb7BHHmosTC
+	 Gb6xZF2bzYnGzNkUwY57E8zla9/tjWrEW6DbvHNS08Z7YwuYxefykiWzzi6t5ILSoBHyr
+	 f7xIgxaqGjzvdacPTbFWUcs02qVa7PK/xXS7l801B+L0poOr46c/3Yc4R80myjNnVxmK6
+	 TlL0MW8NIjnxtwvjYS1QBmXZy7TsgsNs6GsYmQYJSqHoUxq9wkC47HeXI5pZbwkMdGnkG
+	 VGYSNcylBdv/xml2Khq5Yd49iObEoe1do0IGdxhXZQ2CE7gvhxSawdbxTCfiq+S/ozg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794832061;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=wuf/Vb21lAKIWx5bIMQ7gAQDptG7l3Y/m/xV4mQ2rWs=;
-	b=e4oaMBotb5n/8h+rcirX3H74E9CVxNx9ZBkP1O1BFS22wBKKp2hr0SU9u96k6ahayhK8
-	 Esd2ETWrLOkT7fhpXwGySd8y/A8MEjm9J3UQaICnPl/4cneNqLffSAad5HW9n4SWPVugH
-	 Fed1UI9mDVb933lfe/yjNXfykDKhAyeWKVhiad91876UUk/xh9T65osDU9vI3fIwBr6Vs
-	 lvZIb4zGHKgXzeKfJKUi9KE9QTmfAhjsCUf1rP4oGpF3O/CGUjdzcFqyA30vSswx9WD3s
-	 kQ6RtyoT6dYBsQj2wIDzL5jcSpGVJPuNN/NOjbG5hATzgAhj+oWgqkujLSDm75f1zDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794832166;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:Content-Language:To:Cc:References:From:Autocrypt:Organization:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=8lfPLp5TsXisntpYB62MidRhzh2xJrWLldHNeL5CnQ0=;
+	b=fnW3vG80xqYyyS2iylLh2mxyxfgFDB2Jh7ZZHT4oQ6YxcE4+MiLz/dKhWjMjDIJsK0/1
+	 gtsxjTzc40XF0nt9uXLVDR3rrltMTKa5GgMHO2ugNcqESlruHeCEPfnXwn/5E7Fqoz6HO
+	 C6j+WOhhm+KcMTr8df3Cn/ylZKdEFdw02fFWQztuZB2AonXg3Mr4klpQdh2DHo5tfeOJe
+	 7UwYEinaG98GBnlsrRLtaVSqJkAJuMayL3hkCZv+EHQrvpK+1mbwRDJMNoMESredN+v94
+	 /2yhNZ7khgtOL0qa8r/QdhwYonoZW2rceAhg18foa6MteL9p5Iqwh7ItuildPQcigZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WUogbiZ9;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UE+d2nl1;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DB9E606A31C;
-	Mon, 16 Nov 2026 12:27:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14089606A31C;
+	Mon, 16 Nov 2026 12:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WUogbiZ9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE9EA1F000C4;
-	Mon, 16 Nov 2026 12:27:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UE+d2nl1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F7891F000C4;
+	Mon, 16 Nov 2026 12:29:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794832060;
-	bh=wuf/Vb21lAKIWx5bIMQ7gAQDptG7l3Y/m/xV4mQ2rWs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WUogbiZ9t9BJObRmhrxViyzM4DGbGCmdWU+/J509gYJyRcdNJqmvKcp/LNe2UB2Rz
-	 0DQXi+ux8crszv2ki8laXp/UrNNxVXcFFr4Q3hIGMcvsEezkaLulNItc8mPYn6GXfe
-	 Y9wkoN9KmMwSPc3TN3NhdHrOKfTZwDqEv6xsqeL1QTjvZpgIVECXvvOpSwzLXLu2C4
-	 UOnZ1gU/GEz06RPdx3Cv+dW1/R7Te7qGMzGucBd4Yl5lDnQt1Ytn2jqIqj48xRjqGw
-	 kUidydPVFHybinuOJj7J4/beXvQjyP4vFINKWCnzqOlbVXIIwXzobkoHreU29LfZ8h
-	 vmWM2c8JsAHYw==
-Date: Mon, 16 Nov 2026 14:27:36 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	"Joerg Roedel (AMD)" <joro@8bytes.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Vasant Hegde <vasant.hegde@amd.com>, Will Deacon <will@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	David Woodhouse <dwmw2@infradead.org>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Johan Hovold <johan@kernel.org>, Eric Dumazet <edumazet@kernel.org>,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	Nipun Gupta <nipun.gupta@amd.com>,
-	Nikhil Agarwal <nikhil.agarwal@amd.com>,
-	Pieter Jansen van Vuuren <pieter.jansen-van-vuuren@amd.com>,
-	linux-kernel@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-input@vger.kernel.org, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-bluetooth@vger.kernel.org, linux-acpi@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-pci@vger.kernel.org,
-	iommu@lists.linux.dev, Jason Gunthorpe <jgg@ziepe.ca>,
-	Alexey Kardashevskiy <aik@amd.com>
-Subject: Re: [PATCH v2 11/19] driver core: Introduce a generic device trust
- level
-Message-ID: <20261116122736.GL11319@unreal>
-References: <20261109-device-trust-core-v2-0-3b12d9a9f861@nvidia.com>
- <20261109-device-trust-core-v2-11-3b12d9a9f861@nvidia.com>
- <de5772b3-c340-4822-a49a-1434ece1b144@ozlabs.ru>
+	s=k20260515; t=1794832165;
+	bh=8lfPLp5TsXisntpYB62MidRhzh2xJrWLldHNeL5CnQ0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=UE+d2nl1xi6laQEmxqVBp1nbZvKivGZcX3T+WcUMQEyhPX9vydA/kPqnjWR7x4o8S
+	 6FbvMdQm89jWMAJaXEOMlaXP9U32npYEzs58NCczfW06r67tMRnHsC7ugrJQTVEyp3
+	 MGAx9AXzTGBbh6O1Fbf9TbqUkpgios7I7QK4RGZCI+AYhfzQjIvKik9eKIIOi4VG/e
+	 Pj2kD5TLt7Oi7S8Wef289Pj2nGM5ACzT1uQKIvlLb27AlYnzUP9sP6PpUi42va2Fbr
+	 TybgYldR63kCqaF9SVJ14lUVxJaqs0syNdKyKpR2dh0Dwt7hpi6u9WXGOpPUUclBgo
+	 qgrFA/QtkAaXw==
+Message-ID: <9af16bc6-f44a-4585-8d19-6be3f637a12e@kernel.org>
+Date: Mon, 16 Nov 2026 13:29:17 +0100
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -90,82 +51,129 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <de5772b3-c340-4822-a49a-1434ece1b144@ozlabs.ru>
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [PATCH net v2 0/2] tcp/mptcp: prevent blackhole timeout
+ arithmetic wraparound
+Content-Language: fr
+To: Eric Dumazet <edumazet@kernel.org>, Yingjie Wang <x-professor@outlook.com>
+Cc: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "mptcp@lists.linux.dev" <mptcp@lists.linux.dev>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+ "rdunlap@infradead.org" <rdunlap@infradead.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "ncardwell@google.com" <ncardwell@google.com>,
+ "gang.yan@linux.dev" <gang.yan@linux.dev>,
+ "kuniyu@google.com" <kuniyu@google.com>,
+ "davem@davemloft.net" <davem@davemloft.net>,
+ "kuba@kernel.org" <kuba@kernel.org>, "pabeni@redhat.com"
+ <pabeni@redhat.com>, "horms@kernel.org" <horms@kernel.org>,
+ "martineau@kernel.org" <martineau@kernel.org>,
+ "geliang@kernel.org" <geliang@kernel.org>,
+ "ycheng@google.com" <ycheng@google.com>,
+ "weiwan@google.com" <weiwan@google.com>
+References: <cover.1794672619.git.x-professor@outlook.com>
+ <CAL4WiirENP_SBccpu3qq51f6u4E7BwFoadEARZctwm0CGNCusg@mail.gmail.com>
+From: Matthieu Baerts <matttbe@kernel.org>
+Autocrypt: addr=matttbe@kernel.org; keydata=
+ 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
+ lzVbFe7fduHbABmYz9cefQpO7wDE/Q==
+Organization: NGI0 Core
+In-Reply-To: <CAL4WiirENP_SBccpu3qq51f6u4E7BwFoadEARZctwm0CGNCusg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Nov 13, 2026 at 10:30:23PM +1100, Alexey Kardashevskiy wrote:
-> On 9/11/26 18:33, Leon Romanovsky wrote:
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> > 
-> > Device setup needs a common operating policy before driver probing or DMA
-> > configuration. Userspace must be able to hold devices disabled until it
-> > authorizes them.
-> > 
-> > Add generic trust admission with an immutable global boot policy. Restrict
-> > the compatibility attachment API to explicit global full policy and full
-> > operation, checking admission before probe. Keep the operating level
-> > stable until teardown and retain normal locked admission for other callers.
-> > 
-> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+Hi Eric, Yingjie,
 
-<...>
-
-> >   #define to_driver(obj) container_of(obj, struct driver_private, kobj)
-> > +enum device_trust_state {
-> > +	DEVICE_TRUST_SELECTABLE,
-> > +	DEVICE_TRUST_WAITING,
+On 15/11/2026 09:24, Eric Dumazet wrote:
+> Le sam. 14 nov. 2026 à 17:12, Yingjie Wang <x-professor@outlook.com> a écrit :
+>>
+>> The TCP Fast Open and MPTCP blackhole handlers multiply writable timeout
+>> sysctl values before adding the result to a jiffies timestamp. The
+>> multiplication is performed in 32-bit unsigned arithmetic, so a large
+>> value can wrap into a short delay even on a 64-bit kernel.
+>>
+>> With HZ=1000, a timeout of 6912213 seconds and the maximum multiplier of
+>> 64 should produce 442,381,632,000 jiffies, but the current calculations
+>> truncate the result to 512 jiffies. Both patches compute the delay in u64
+>> and cap it at MAX_JIFFY_OFFSET before adding it to the saved timestamp.
+>>
+>> The issues were found using a static analysis tool. In the v1 arithmetic
+>> A/B tests, loopback reproducers induced 12 blackholes, waited 1.2 seconds,
+>> and then made a new connection:
+>>
+>>   TFO:   base probe 1.026 s, TCPFastOpenActiveFail +1;
+>>          fixed probe 0.000 s, TCPFastOpenActiveFail +0.
+>>   MPTCP: base probe 3.087 s, MPCapableSYNTXDisabled +0;
+>>          fixed probe 0.000 s, MPCapableSYNTXDisabled +1.
+>>
+>> The TFO counter records another failed active Fast Open attempt. The
+>> MPTCP counter records a connection that skips MP_CAPABLE and falls back to
+>> TCP while active MPTCP is disabled.
+>>
+>> Changes since v1:
+>>
+>> - Add a reasonable upper bound for the TCP Fast Open sysctl, as requested
+>>   by Kuniyuki Iwashima. This version proposes one day (86400 seconds),
+>>   using the existing IPv4 one_day_secs bound, and documents that limit.
+>>   Keep the existing MPTCP sysctl input range.
 > 
-> What is the exact difference between these? "Waiting" is waiting for what?
-
-This is internal device trust state which is not visible to the users.
-In this state driver is not yet allowed to be bound, but once will be
-approved, the driver will be able to continue.
-
-The difference between DEVICE_TRUST_WAITING and DEVICE_TRUST_SELECTABLE
-is what happens when you choose a policy: SELECTABLE allows further changes
-before admission, while choosing adversary or full from WAITING immediately
-locks that choice.
-
+> The one day limit, the u64 computation and the clamp look fine to me
+> for the TCP side: with HZ=1000, 64 * 86400 * HZ still does not fit in
+> 32 bits, and 32-bit kernels need the interval to stay below 2^31 jiffies
+> for time_before().
 > 
-> > +	DEVICE_TRUST_AUTHORIZED,
-> > +	DEVICE_TRUST_COMMITTED,
-> 
-> And exact difference between these two? Some documentation would be great.
-> 
-> dev->trust_policy is how we want the device to operate.
+> Why is MPTCP left alone? Kuniyuki's remark applies equally to
+> net.mptcp.blackhole_timeout: nobody needs a multi-day initial timeout
+> there either. I will let MPTCP maintainers decide, but having the two
+> sysctls behave differently looks odd.
 
-Yes
+I agree with Eric: these two "blackhole" sysctl knobs are similar, and
+the behaviour shouldn't differentiate then.
 
-> dev->p->trust_state is where the device is on its way to that final policy.
+Cheers,
+Matt
+-- 
+Sponsored by the NGI0 Core fund.
 
-Partially, it is not only takes into account authorization (where the
-device on its way), but also commitment (what is possible to do).
-
-<...>
-
-> > +static int __device_trust_prepare(struct device *dev,
-> > +				  const struct device_driver *drv, bool full_only)
-> > +{
-> > +	enum device_trust_policy policy;
-> > +	enum device_trust_level level;
-> > +	int ret;
-> > +
-> > +	policy = dev->trust_policy;
-> > +
-> > +	if (policy == DEVICE_TRUST_POLICY_DISABLED)
-> > +		return -EPERM;
-> > +	if (dev->bus && dev->bus->trust_resolve) {
-> > +		ret = dev->bus->trust_resolve(dev, drv, policy, &level);
-> > +		if (ret)
-> > +			return ret;
-> > +	} else {
-> > +		level = policy == DEVICE_TRUST_POLICY_ADVERSARY ?
-> > +			DEVICE_TRUST_ADVERSARY : DEVICE_TRUST_FULL;
-> > +	}
-> > +	if (level == DEVICE_TRUST_DISABLED)
-> > +		return -EPERM;
-> 
-> This check can go right after trust_resolve() above. Thanks,
-
-Right, thanks
