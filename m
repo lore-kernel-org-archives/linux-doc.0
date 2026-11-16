@@ -1,57 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794857695;
-	b=uxwYx+7W0JDAVdgH/R+UtAGQgGsNm0tcOdmjKsZnhgNAJpUlX0wIp2L+qCV12XJoDutY
-	 bcqv/qRasj/vJzwGXsyK3y3wwsk6haMmUp3oArsqM+mGrNZ1OP2KY0Oz5u4L1zqFoQMOL
-	 pzmxNYEtGhq7iSu5oKKgyYk4/bwEWYBNZ9uGPWTmjl19q/hFvSZItcavcoO2Ue16GAJXm
-	 roxQyizBrMy1jAmi3w95X9JEsd9zGMkU7Nfomj+Z5XuAT4FqqSzh+uVeE/hrN+KXaMoPP
-	 bw2+LuLvyRoovgyXe9eW52HJDjAqgCeP2eHJo5uk3M58pJH6GY8OYSReuxUMGZBqPmg==
+	t=1794857811;
+	b=wVipegeFRMhkS2CMfYi6aj716hC2dg+3rJ0zAgFNsytr2iWuwchpkvHZdtE+2XkMvbvL
+	 VkZnGgL3dPDkjytsFiOv9eeXemno8ksI2bLGN+yFcHfD3wZhD91GJjfy1mEKaUKKt786E
+	 80GF0NCsG1F29BVD13Gq5YK842qzHBLCl9QE1jM8rqelL7xtW42IBB5GePGhKBY9h3eO+
+	 mwUaXmv3xTKSZo38pZTTUDtJQhT4cq0zkV0jlkpz1ZgLQ7ShyDXEf3R/34FCAyWyb7him
+	 7+WjxoLKIVMjGoYO6zmiHOdBl/5Ul3sIeJqdep1ChFAbBnjBf05x3ODurMFVtVV1HHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794857695;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
-	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=CXg+h8pMvpj+OaybWO/NHX/EsF/d+HTAXg8O372Bn5Q=;
-	b=BsjtaO7wopivLtvPNCb+2xU9X3hRg8AvRvRmYVIii3LeEPuEmwgdr5d3I5v6smcAcYqi
-	 3rBECngmg1Zkt9LWLY17CfjyhMrYAid2rgmhtfluCm2WGLo4s66T7SX6FHLFE1MtqaZIC
-	 ET+wdM6iTd1XiaYFLXquiY0V1NSUymZrC7I+32O1znE5dgqDasUtqHJeb2ggc/VM8/h5x
-	 Bl+lPpJmH3TC9UjFkfSIDhjvs8549KoAoCEGRu1jdNE1TWJU9Om28NqLMn63Fb7SxNl+7
-	 7n+agt7a/fxUZe2GxT+sbyxajKTJlQKWk498FIXqstz0MyMbmhUTeWzbvfIw2fY9ZKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794857811;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type;
+	bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
+	b=ntommHl7WUOTfMHRqDe+9g5uL7FDHYl4BI4EbXucZdBWk+MGkggu5Oq+H15kkTo6bEJ3
+	 V5JK2j31SjIPnSQYyIHBxfJnsjA4mvA28vBYukQhuvYfLWOVvAtuMMzkuDzx498nQUXx7
+	 mjqA9pNYpSeVYF3ohgCRKTd1jDcRx7aWeoW+P8e0CvzpMl0J3tebIeB/FYgAdjM12zFcb
+	 Jgh60TxSY0nw0rEnLXwRzS+/KzhpjCwQsSRVsKZjzvrHWmJF5gEviThUPrhIHUpO3d8zH
+	 ySRXZU380vMZQFWyRBqbxnRWEz9eLJ/gzY1w4k7TRJlRnWhceBOzCMkWvdUlv2EZZnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=nFvc5Go9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=none header.from=linux-foundation.org;
+	spf=pass smtp.mailfrom=linuxfoundation.org;
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=JE0F9thh;
+	arc=none smtp.remote-ip=209.85.218.46
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1929F606A31C;
-	Mon, 16 Nov 2026 19:34:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0C6606A322
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 19:36:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D0C6606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=nFvc5Go9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EA0F1F000C4;
-	Mon, 16 Nov 2026 19:34:54 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=JE0F9thh
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c4d2b741ed9so624125266b.2
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:36:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux-foundation.org; s=korg; t=1794857694;
-	bh=CXg+h8pMvpj+OaybWO/NHX/EsF/d+HTAXg8O372Bn5Q=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=nFvc5Go9dk7FyggSClN3ZBh0+9fg1Ea4ROZnCknN4whFd0KgrQjtNvKrO8+Uqcse7
-	 XfA32sPo+VquEGFY5C4i1tOZvIEBZXEMi2KaeeRMh826b4w97ILcVs/4cwfgy8tWnu
-	 hK7J3XuqOSL8g8k/GXbJ+gGi8RpUQolR7AGXHUCs=
-Date: Mon, 16 Nov 2026 11:34:53 -0800
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Theodore Ts'o <tytso@mit.edu>,
- Willy Tarreau <w@1wt.eu>, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, David Hildenbrand
- <david@kernel.org>
-Subject: Re: [PATCH] docs: submitting-patches: ask bug fixes for their
- user-visible impact
-Message-Id: <20261116113453.013103c694ad966c56ddeb31@linux-foundation.org>
-In-Reply-To: <20261116191436.188098-1-sashal@kernel.org>
-References: <20261116191436.188098-1-sashal@kernel.org>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+        d=linux-foundation.org; s=google; t=1794857810; x=1795462610; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
+        b=JE0F9thh/y7UOTJSKLxzXKX12imABePPMOEs6ZIqDpMCHKNnzFR2d8+uI2rH3zTxFb
+         3+zn+/+ytydiFugyyWX5j1XDjGVg1yc1fDfTMFBxntmN74IYqLR7d+xqVvxZddj565v1
+         pu0IKYOb0XbsknnypjIZaGJErbXCCh3Lfw1vo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794857810; x=1795462610;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=nh4pWMvkRsPEst/kCwIp1wxFa2k7tAfx6b5lfGN0krQ=;
+        b=wKcK8IopvbEkfJYP8LK51CNR22atX6Cvg+8sUzsysmhNB4rxa3gEd9dGL8efzpxbqz
+         1ZALfgcQJf62tASiRWTs/yIJR+TRVMQECYmYVT4ZinwupztQq5Id+QZ0xugL8/hlhbIs
+         bN4qZBtMNadYGOEvAvl7zthXv0g1imtWvoeUQ3ebBKNu0XjL5RbPx6OQvvbQxp3IdVVA
+         A8ympgA9BPDYgFJdEZ4nmo82CS8hyHWsRmZZKa2L0JadO5P01Ww4A2tFX7tJtot50GBH
+         l4uGlbwC+Kdbb9JEOfhU4sq57J40ZhvWu6tSrp3QlxKYdrWf7BnhVI/3CyBQfqf4aS42
+         5GBA==
+X-Forwarded-Encrypted: i=1; AL+hErGZ59xHWvVrjZmksdAa7Kw87fd3TiXDDSPYBmHUjWn5ArRURu2n8XrW7dRSLd/PsrHX2idnIU4G1qE=@vger.kernel.org
+X-Gm-Message-State: APuU4Z/I+rrLYqVIurFIHAduj3BsSLDhIY9AejZGGPz2DnUOUmUHSTl8
+	DlO6zp12V/QG8vuZzyQQu0dcE9n6LcAp/2Y2haaLYpkRi9bhphUo/xxS+6sFiN5C7xHcP+qHvxN
+	dw/C1T8hWaw==
+X-Gm-Gg: AYBFou3F8Dhd5OKJ0rnBj2e/Qws8oxdZRCxsOcHKmFp8ieKI+LKvRH4oZSim2RmRxYS
+	95eYNi6bgEI+e87Qu32WrNGRCM2L10+dvEdhw1bugN40QLuFcxFTORr+WlCDP98UQCqiKmzcIRS
+	wwTyZhvQaUu8RMFAKSkZ4L/TIALJLRxhLmjsnWAuWCEjQChRyuDSDTEfkmrqSRRwQAV8viVGlGg
+	OSp2DIzZ5f0Ve2tR6YMSorGqY/UDFIpMkBUS72h+H/J6E4pqW1c49smKO5ULbT5iBILWq8ok5GI
+	MBaOyAFEkPRQn3cQhtPcADwGZiNZu+Aj9mba9pYtKf2HwMY0CTEGXON5irThwJEwilChsTbI3wS
+	E1e1zAUawU0dCLux1jTdEme6MJ3e9M9jgoaILr3b3O/MhhCJSunAyHUzxLE3arcIN1UhaampELC
+	56QLm5zyfTNPiL1gO/3mudJgCPlCfbAKZMKyszkFD0KUq6prKNrdhFVLLO9RfC512FdPzdvsvDK
+	PdfMkHBgF+HO03OW9TviP5G+eR8lMS+eLqIaTfBTHZWjvR4xEWOHeoeIS4eyyhpVkL8CiijzJYw
+	emX/ZPHn8hT5laShdoxt/WQWDtcq8sdT7As2A5In7TVZdPXvtIabA38IZQRFUGxfChxeUpBOvK1
+	GJI61
+X-Received: by 2002:a17:907:3e8b:b0:c29:f5d8:9c78 with SMTP id a640c23a62f3a-c50964101demr914519566b.39.1794857809850;
+        Mon, 16 Nov 2026 11:36:49 -0800 (PST)
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c50e9b2b5fasm92810366b.35.2026.11.16.11.36.49
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Nov 2026 11:36:49 -0800 (PST)
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c50ac25cdd4so373219966b.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:36:49 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AL+hErFvdJtY3UidWjFhZ9fG/WLtZ/3cKRmEneoeQGWwJ87gCe72hwKPQrzCNkFfzcBSmiWRIVeUvyrbycs=@vger.kernel.org
+X-Received: by 2002:a17:907:d86:b0:c50:4b6e:329 with SMTP id
+ a640c23a62f3a-c5096372173mr926077766b.15.1794857808907; Mon, 16 Nov 2026
+ 11:36:48 -0800 (PST)
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -60,54 +93,61 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+References: <20261025164719.1831477-1-sashal@kernel.org> <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
+In-Reply-To: <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 16 Nov 2026 11:36:32 -0800
+X-Gmail-Original-Message-ID: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
+X-Gm-Features: AclHuK9wFvPLbk2hT2Jt-YCf9KvKeXcURMdq1CAih03odFDrPYf2QaCfvYcr5qU
+Message-ID: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
+Subject: Re: [GIT PULL] Kernel API specification framework for v7.4
+To: Sasha Levin <levinsasha928@gmail.com>
+Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Mark Brown <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 16 Nov 2026 14:14:36 -0500 Sasha Levin <sashal@kernel.org> wrote:
+On Mon, 16 Nov 2026 at 10:14, Sasha Levin <levinsasha928@gmail.com> wrote:
+>
+> Ping?
 
-> "Describe your changes" already asks for the user-visible impact of a
-> change, but changelogs for fixes still tend to say what the code does,
-> why that's wrong and what the patch changes, and stop there. Whoever
-> has to decide if the fix needs backporting is left to work out what
-> the bug does to a running system.
-> 
-> Say what that means for a bug fix: describe the worst a user can see
-> and what it takes to trigger it, say so if the bug was never seen to
-> happen, and say so if it has no visible effect at all. Give the
-> paragraph a label so people can be pointed at it.
-> 
-> Coding assistants are told to commit a fix with a message that
-> describes the problem and the solution. Add the user-visible impact to
-> that list and point them at the section.
+So honestly, I really don't like it. I don't think *any* of this
+should be inside the kernel. I don't think the in-kernel side helps at
+all: the comments are too big, nobody will read them, and the whole -
+and only - real use of them would be outside validation, not at
+run-time.
 
-Thanks.  Hopefully this will reduce my outbound nagmails.
+IOW, I see only downsides to polluting the kernel source code with
+comments that aren't useful to humans.
 
-Acked-by: Andrew Morton <akpm@linux-foundation.org>
+If this was a spec that is maintained in some automated format - not
+in C comments in source files that aren't useful as comments anyway
+purely inside something like tools/kernel-api/ (or Documentation, or
+even an outside repository entirely), together with the scripts to
+then validate it, that would be one thing.
 
-> +For a bug fix, this means saying what the bug does to a running system:
-> +the worst that a user can see, and what it takes to trigger it.  An
-> +account of what the code does wrong is not a substitute, as it leaves
-> +every reader to work the consequences out again.  If the bug was found
-> +by review or by a tool and has never been seen to happen, say so.  If
-> +it has no effect that a user could notice, say that too.  Maintainers
-> +and the people looking after stable trees decide from this whether the
-> +fix needs to be backported.
+But polluting source code with huge comments that aren't for humans is
+right out. Particularly when it clearly is a "first step" and the
+intent is to make those comments bigger and more extended in the
+future.
 
-However, I fear that in these times this isn't strong enough.
+And I see *no* upside to any /sys/kernel/debug/kapi interface. Nobody
+cares, and any excuse to make it dynamic ("We might update the API in
+the future") is actually the complete opposite of the whole point of a
+stable API and not something I want to make easier or support in any
+way what-so-ever.
 
-The question used to be "will this bug impact real-world people doing
-real-world things".
+So all of the in-kernel side to me looks like actively detrimental to
+the whole idea.
 
-That's an insufficient question to be asking now.  An additional
-question is "can this bug permit a sufficiently motivated, well funded
-and LLM-using Bad Actor to cause problems".
+What I think *can* work is an external spec that is written so that
+tools (read: AI) can actually then verify it against kernel sources,
+and that can be used to also drive automated testing. But putting any
+of it inside the kernel is bad.
 
-Real-world people's real-world workloads don't use an LLM-written
-exploit to set 16 CPUs hammering away at an LLM-detected kernel race
-for an hour.
-
-So those fantastically-hard-to-hit bugs have become things which we
-(and those whom we serve) care about more than we used to.
-
-Maybe this doc addresses that elsewhere, tl;dr ;)
+                  Linus
