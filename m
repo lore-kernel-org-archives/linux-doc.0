@@ -1,69 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794804012;
-	b=QGYpzKFxOJO9XPTU6+z5LSzp6QyTzq+ZNRHwRUzOHAFRrc/KMwx2XOGigF+nbEd+vmxO
-	 g6RheCA82Vwf8UddMyuge24NLCPMpVsWHHAzln4e+LDFNt5hYrmLaYrimuDyVOtcPycbs
-	 2HOYVhP2UO9Z2T4L4FlCfKxVOEtXMoN7zOgQA/Sheo+gPXkCgw+m2bFB+f9tNxeUoSE1v
-	 cCnDIA4mhqCWrvBGNxMoE7wEan4VEVgQAxffix9hOWgdmAStu8m9qQYAJvILTj9/UZZpx
-	 YMbk9Rg6VPkv08oefE5uhtnPClmUAJQ7kcUitfveAVK8jDed/vIIMbnWb29mx6zzqog==
+	t=1794804230;
+	b=pT98eBXQ9oUehp6ee8pW23U5kvExwAQh5XgTzJ3jwUk9fsMF4Un0DlL15sSJaXdKsWyx
+	 5JRDXq8hslgrTO0uvRsHprC/NkXWRuNhncDfDBT5Rtp7kGzCfdlzphepWegb1eOAaNSgY
+	 MUH3E/kJWmYevsLus/LHhBHZkNAFsYcFgHWG2t2yRTgMcCcflWlDvkz9aOcoL1SfD/ZtF
+	 v25IUDYv/Ji8BVddABb5oW60aUgnVt002Nw3o2eiFar7iF8lVjxMKVct8QzmV9i+h2r6g
+	 O+SMj/BMWCyJBiZEL9HVaAcYX9D5U8qiPdiXMQdfPRpFYbCDP4s11esWAzxC6f1ErJg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794804012;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=sWwEw+N/tUMf8KTGvE0p0U9rt4hRa07tRtC2pDcX9QQ=;
-	b=Ab1VB3LMP2cEzdeM9C0nrHwqeWLNbOTduVcCLnkEJjnTR2Wsqnrl5OSre8BKfU02rCmc
-	 N3/4wutyRe7tJih24GtzwOM60N1m7Bsr+sP2FU7i/vHugBjzCInrRPvywdkBUlwc4/Lun
-	 3XRPQzLsF+M7kDYvkVK4+HtUb4CL4SdRzUB7EjhcHWo/gB2KCR5xYfRZGX/fpMFmsVviU
-	 pgaai2gS5TriQ8y5yRRxG8lRM5BRNZ6uQ8avSwx2xAllSLTHhWD2kFBj2ro9edF5w970Y
-	 m0/wgS7+kRqS9zhMXc7Fth/FBHNtpdqga5s9G4HX8ayPd/EGOX8OmiXrQ37wpseVhtg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794804230;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=RUI0JHvfgidgz/0eQOLWkGRn+KPexmQv3YIIFpeyEXM=;
+	b=2q6p8FMEdXuoxR2pRqUhil3r5bBJNuLaCHwfGWkorMKq85CNFv11lQjbQHmfDmhMSbOH
+	 /v5ODQb4iDGJGby4N0Fcs0K4TVEIZOyFuiRrg0M9cWZxePBY2SvQxcV/a2FHT6ipSVgu1
+	 EKBpT7ftoECKbxGSbm3X86pvtyVyJrYuNfrENO++NOAPKLISKexFP1J8YpzmmyAS/8iym
+	 BJ5iRw5V58mPkcX6ytvQmNZMfrud6eilO8GuR7FXB5uGR70q0GtLE7Lk1Uwf/HQ8JzZWA
+	 5GzQJRYsF+MVt323+VH9WY+adg/Q5W6cvj5kw5nr6sy2EAYaF2XGKTQJ1qw2nAeZ1OQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XJ5kSQXC;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H8gOFG4w;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45797606A31C;
-	Mon, 16 Nov 2026 04:40:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 45797606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195B8606A321;
+	Mon, 16 Nov 2026 04:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XJ5kSQXC
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=sWwEw+N/tUMf8KTGvE0p0U9rt4hRa07tRtC2pDcX9QQ=; b=XJ
-	5kSQXCKrLHcytOzsrzR5/7W53+c0Bl9pbocsQlnrp/tuWm9v4XLcr+sA+MerGFYwCDogdU1Y0tELH
-	uyqlvS8WX6VVuP1GRwDF59wa2/ujjheRl3i6BH5O5+DoFYgRbkPx8+QKmbgbILX4Ub5J/6qbKpWbU
-	J6XIxPjOoTassmQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xSoVX-00Gnxf-Uc; Mon, 16 Nov 2026 05:39:55 +0100
-Date: Mon, 16 Nov 2026 05:39:55 +0100
-From: Andrew Lunn <andrew@lunn.ch>
-To: James Hilliard <james.hilliard1@gmail.com>
-Cc: Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Oleksij Rempel <o.rempel@pengutronix.de>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v5 2/3] ethtool: add a PHY receive byte total
-Message-ID: <d3f2dc1c-9daf-4b5f-903b-657ae3f32647@lunn.ch>
-References: <20261115-submit-acx00-phy-stats-v1-v5-0-ed81a7f54373@gmail.com>
- <20261115-submit-acx00-phy-stats-v1-v5-2-ed81a7f54373@gmail.com>
- <37e4b9b8-d381-448f-a2b3-b92d7bd9033d@lunn.ch>
- <CADvTj4qh8Pvss+xEwcjshodwv-yN6haP-9aaeRXg1ydSu5ibVg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H8gOFG4w
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 023AA1F000C4;
+	Mon, 16 Nov 2026 04:43:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794804229;
+	bh=RUI0JHvfgidgz/0eQOLWkGRn+KPexmQv3YIIFpeyEXM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=H8gOFG4wEUhu06Pfx+ndVWDohjDi5LQHia7PsiK6VVKhg+Iq/hMUBXR4YCqe2ZPGs
+	 a6VdWHGiA/OXnCl6tgJ6BvSnr+jTYa2DnU+l4ZUWneHY+JUooEbsnQxZFthctzgfGB
+	 txuqRCnCLUsGcuLHF4KABoc3b6K7+uGsIWBczLPiihD0gETnWr1ez9qM+Xr0sSILOO
+	 1Y3jt6BBuaHJYOBbvEpV5dqCP1RLHUGsm+63jqWzoaimH4CG3bLKn7WmiHiveyAaCI
+	 UXJghr+ikcwtSSInUm8K11wlWMr03iBS98qJ/nZ/IXzsEmKkh/JpQxZTIXh7gGuCxi
+	 0UX+/sVmMXQDQ==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH v19 08/11] tracing/wprobe: Add set_wprobe and clear_wprobe event triggers
+Date: Mon, 16 Nov 2026 13:43:45 +0900
+Message-ID: <undine-1794804225555740397-c2e0363b3e35f8a3@undined.local>
+X-Mailer: UndineD 0.1
+In-Reply-To: <179101402530.22872.12892814568115529973.stgit@devnote2>
+References: <179101393469.22872.5895666191299551553.stgit@devnote2> <179101402530.22872.12892814568115529973.stgit@devnote2>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -74,32 +59,36 @@ List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADvTj4qh8Pvss+xEwcjshodwv-yN6haP-9aaeRXg1ydSu5ibVg@mail.gmail.com>
 
-On Sun, Nov 15, 2026 at 09:12:35PM -0700, James Hilliard wrote:
-> On Sun, Nov 15, 2026 at 8:25 AM Andrew Lunn <andrew@lunn.ch> wrote:
-> >
-> > On Sun, Nov 15, 2026 at 12:45:46AM -0700, James Hilliard wrote:
-> >
-> > > The generic PHY receive-byte counter describes successfully received
-> > > traffic. Some PHYs instead count bytes in all received frames,
-> > > including frames with errors.
-> 
-> That restriction comes from the current kernel-doc definition of
-> ethtool_phy_stats.rx_bytes: "Total successfully received bytes".
+On Sat,  3 Oct 2026 16:53:45 +0900, Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
 
-Yes, i found this.
+> diff --git a/kernel/trace/trace_wprobe.c b/kernel/trace/trace_wprobe.c
+> --- a/kernel/trace/trace_wprobe.c
+> +++ b/kernel/trace/trace_wprobe.c
+> @@ -767,9 +928,632 @@ static int trace_wprobe_show(struct seq_file *m, struct dyn_event *ev)
+> +		 * mode so that if the user did not explicitly enable this
+> +		 * event, __ftrace_event_enable_disable() unregisters it.
+> +		 */
+> +		set_bit(EVENT_FILE_FL_SOFT_DISABLED_BIT, &wprobe_data->file->flags);
 
-> Should we instead clarify the existing rx_bytes definition to include
-> errored traffic and use it for ACx00, dropping rx_bytes_total? That
-> would leave the existing packet counters unchanged.
+It seems I should not touch this, because when a wprobe has set_wprobe and
+clear_wprobe triggers, and remove clear_wprobe trigger after hitting
+set_wprobe trigger, this unconditionally soft disables it.
 
-What do you mean by errored traffic?
 
-Think about it.
+> +		/* Remove the SOFT_MODE flag */
+> +		trace_event_enable_disable(wprobe_data->file, 0, 1);
+> +		trace_event_put_ref(wprobe_data->file->event_call);
 
-If you don't have a MAC, you don't have FCS.
+`trace_event_put_ref()` is called here before `trigger_data_free(data)`
+schedules RCU/tracepoint synchronization via `trigger_kthread`. When
+`wprobe_trigger_free()` is called from `clear_event_triggers()` (which does
+not call `tracepoint_synchronize_unregister()` synchronously), dropping the
+target event reference here allows `wprobe_data->tw` to be freed while an
+in-flight tracepoint is still executing `wprobe_trigger()`.
+This put-ref should be done in data->private_data_free().
 
-	Andrew
+Thanks,
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
