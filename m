@@ -1,59 +1,126 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.127.230.112
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794827147;
-	b=1axhghtwzfUZg42cFIgJ6ZuGAkGcbS6u3uotwmjBj8yx9l9Zda9kJfARX8krSw0nGVYU
-	 lqF2BH7GFUtseUSeWK/zKngzMuUNMOsRWMyc7nKgi/5d65jhLEOICSJhB0+wk/wjyksxo
-	 Xp9E/80uYzfGLSvEeOoOseGssGzXWQtviytwk2Rg2bDxrC+OaxgpAVSJYuRHCo3rxTF8u
-	 w9x7mu07yZshK4yJjg+ISWMxLB1Eia/ON+LpZDd0Wq0HsqvlP0DIBPfyP6a6ZnwUDFkaS
-	 ucEJECQlAwuESiWhpe7Nu9jR1o5zAPcw9zVySNA3vCBdjPE+DGFyPDrHUjfPrnXqOHQ==
+	t=1794827346;
+	b=incu4fTg3CxFTwePXdoIqqVfMlaEmCjf5wiEeWRUxiS+F1HkTfNJXkK1Z9SaiybH2fc5
+	 qBJnTP7oQytnStSfK/7UcKWJcPbc4DwGNg9NQdOaw/Ss8lTrSABg98JmdBEsMHhb9ZeNq
+	 7xoJQ7AI0FjgcWaKEze6byfEydn9d9TwQV06RFUZghETbCXsIUm29NNUxL6wPWt3HPh8Q
+	 J5vHRi2JXr09wXIERzBHJnYKewTSm11vQ6Vvho4BLDEkKrYdtmluyodSL3I+lYbF6/DuF
+	 roD3VCrCgEKee6IRCz3mlouxwE8P4E0ju11SJUK/W0ucnvBOPH4w+FEgD4tKnt/T3zA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794827147;
-	h=DMARC-Filter:DKIM-Signature:To:From:X-Lms-Return-Path:
-	 X-Original-From:Cc:Mime-Version:X-Mailer:Content-Transfer-Encoding:
-	 Subject:Date:Message-Id:Content-Type;
-	bh=C4ywSkJsWV8hlNQvfAA7CBUzypleCa5Ls4MfcbDg+g0=;
-	b=cbiJD2L6LJvyuv0njpY4LbFvzB2oS1QqsG1F3AI/2MTPPg84qaJiBX88ltLlPFxykr0j
-	 2VRwNgqKC07vlGNayPS7G7n+T4RqwE/tcXus5q3dAnF84nACpYevCIlG4f5lOXZADwHhT
-	 6rBk6wtIdmBOpfqgUQ52IBV+BluXb2gkDVsr1L4EKMeB63Fpsl3njnsYG3wnDTAeD/Lmt
-	 Td0jhI4BolIcYN8vc6TnaxuZtch0y7rrkZv4EPuQv3VdlJx73LRHK1+VkxDVqtR2BJ8TJ
-	 +hYdhZD7eWigGKRBCrKd0+Z1JyMkfuwj7V9Y+tOTHnTUUxDGzM6QSApIPQ73h2XKBVg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794827346;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 X-Developer-Signature:X-Developer-Key:Content-Transfer-Encoding;
+	bh=vrxK8BHa7Tpi5p5VONtpcoo9vzYtSGzKykWTFXCQG5k=;
+	b=0SueERsfFC+KE19ilSoKN8bOsNRlYBfLPY76LEf9mUHhfg1bLvy+kdIPF0fZaNHtjkZZ
+	 OYgQesdAVrlabvIDLe2KdG2AWnjMgGEO+q1EnFBpNbtjaq6DHsQ4ZjKrGL13W/Yv+9MYK
+	 lf5lq/qj3t0Lk4g1nwkmJf74u4DgumQ4nGhi7RBSnNDJe5Fijk4UFc04lQT+2PUO0hXDh
+	 +JMv0AtGN6Z5BUBjEToPypIlNKucRWp+RlhjcY+9EyuQee/KVEadnnLYmYaEt6UhG1VBH
+	 BKntNMkq4T1f94OTpls0MP3HTSDm6NTmvLh5E6X84MDHM0ltD8wAteF3/VpvP8X5qlg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bytedance.com;
-	spf=pass smtp.mailfrom=bytedance.com;
-	dkim=pass header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=BEnmhypO;
-	arc=none smtp.remote-ip=209.127.230.112
-Received: from va-1-112.ptr.blmpb.com (va-1-112.ptr.blmpb.com [209.127.230.112])
+	dmarc=pass header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=LMZr1uKW;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBAC8606A336
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:05:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBAC8606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=bytedance.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bytedance.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46107606C13B
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:09:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46107606C13B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bytedance.com header.i=@bytedance.com header.a=rsa-sha256 header.s=2212171451 header.b=BEnmhypO
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=2212171451; d=bytedance.com; t=1794827140; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=C4ywSkJsWV8hlNQvfAA7CBUzypleCa5Ls4MfcbDg+g0=;
- b=BEnmhypOpsh8uhkP7ys8vGEhOgri2TNsfrE/klF/J3zgBfdFWBR1RoQu42PMcb9bnnpB8s
- 9PDQ14h/LDSmfFvg2FA9yzjNQVvcuJfNYMRFDA5KtVQ4DOcu2wT5dHXL/XNuQiWcMgGB7M
- Krzsl60SL5rtx+9Hm6yJEqVYyZSOx02uOQpARx3gqFff+I4bu9SPJQ0vKOHgnrswnUm+93
- 6faG3mCXqPosxFuz1kTtSzWCrNjUQrR8mwkBB9wYS6jaT/Hyz3KwTR7VkpLCLpYm27fXE4
- bWk5VHCMWckw0V7R8XLkXhbxMyDbP2ROXsQjO/gMR9uqEpP18R3qQGVKJKtHDA==
-To: <joshua.hahnjy@gmail.com>, <akpm@linux-foundation.org>, 
-	<david@kernel.org>, <gourry@gourry.net>, <hannes@cmpxchg.org>, 
-	<ljs@kernel.org>, <mhocko@suse.com>, <muchun.song@linux.dev>, 
-	<rakie.kim@sk.com>, <roman.gushchin@linux.dev>, <shakeel.butt@linux.dev>, 
-	<weixugc@google.com>, <ying.huang@linux.alibaba.com>, <ziy@nvidia.com>
-From: "Li Zhe" <lizhe.67@bytedance.com>
-X-Lms-Return-Path: <lba+26afae383+37f419+vger.kernel.org+lizhe.67@bytedance.com>
-X-Original-From: Li Zhe <lizhe.67@bytedance.com>
-Cc: <cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>, 
-	"Li Zhe" <lizhe.67@bytedance.com>
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=LMZr1uKW
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-490d59c3f0aso1277381f8f.1
+        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 03:09:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1794827344; x=1795432144; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vrxK8BHa7Tpi5p5VONtpcoo9vzYtSGzKykWTFXCQG5k=;
+        b=LMZr1uKWAKiPz/Vtz3m54P+/P85Xgxy8OB6QQaMNznqNFT5ybBS7NmrY9v0o5gtx+g
+         KHhwTM5uL/uKC1A0m5yG8R2qq3CxuHFFGNllvk7PHXM1W/+VSS2FUO0/l7vXKwvi2GiI
+         zNCITWRJGRXya3aizSpagzCq6qDSXnnMN2QsVuRmLcnkLu98J0ZCV0GfbJx7PhyqeLiY
+         K203bgsAZllVV0NAzYeTfu/V3BBbFg7ugl3SOiLVF8CYRDtnNtz3t3mzztdhfaQiljig
+         /n+s33Y2M3i2shjiqtlU0c3mxuJTTrBp89SZaJDKjJcroGpUkVbOZgn3BrW6jotK3PeN
+         y8/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794827344; x=1795432144;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vrxK8BHa7Tpi5p5VONtpcoo9vzYtSGzKykWTFXCQG5k=;
+        b=Mmt2eTAqMkWQHmEf+6ohAcE0GcWrVjliAjhMx8BRAE9rg0qlsdYfhqwbDYEnBzyQez
+         9DTdXZGYmjiseLEnPfhv6wfIV7v1GgLu6axnMEPwhhb5iBl3XPu5SiFX7YqNFcUzeZxk
+         6VbQVVS8kRoWOfTyJXvJFxOj3wBGx8QD3fxgcwSo3G6++5VvbTaW1YLit41vPdk0UZbD
+         EkoV7O1H15PA6I1coCiLYj27vYSyLbWFXxc0jdpC25jtJAv9oASc8REuV/A4j5YDzsTS
+         Ed2zkhlqgfVYhehr0bv+75Bfd6LUnRLnbxBkLC7nmnyObdvk70AMSVzA3m8BRaIJJhvu
+         3Fgg==
+X-Forwarded-Encrypted: i=1; AL+hErESQxRq5GgYVaQeGrp5T4RvNnwaWgSSL2a9F2/Lw3Nj9XJ1+j8j+Xf7la7pryvS58OztS96euo7hy0=@vger.kernel.org
+X-Gm-Message-State: APuU4Z8/chcXP4OiHE9iCsQcc9YDQolPNXsZYlw2myr7Hn0YVh81ju+0
+	mucc/K2m/qJrL+rjT1Fc+bdkBUrjKx8m3WcopUQqxy0X1OX/1oyrVPfZ9fytxRNpp6I=
+X-Gm-Gg: AZFdTZdsYmfM6n+C1+gRiZjgWlBtMeL28yd/rbwQEesQAsJVJ5QuH1Pp4YVRJP/tNAk
+	BLmJIu3voWpwIGH2z4+8neg/eyZ2hYsjZiR5nUphfye69TTsj+q7T3DIfQiPEl/2XNeuvXRujBU
+	8uk+xcyr8sPlKoWu+6eZB1cIjBDlgYq2rZG1bnZdAj2j3PM8UoGa8lxhPNqklvi5iYTZoWMXwDk
+	C6PjFgRfszsoRHlL41D3R25bzYyblKy3fU/Prfe7jmR+lJ1LssFjH+TYzmiw+4gK7xhZtq/O8hh
+	vYbk9npQfRv9P0t+jUu03ZcMmK5BY0hkRu58oL+LgCFjlFSMxH12BGwM9OmP7xDIzwlXrFjRKkw
+	zBhtxmQWErR27J5KMIJxESNK46H4/Rs+4OwmSdZc2SCtS5zsARV58st68koEW6M6qoMKz51uhLT
+	piIMmWtJ0r/Ny+d3bfhuZEXJZ59GQzYMyqZ2TG+kY3JphYW7HEgNKA4cN15tHCT4C+hZOe6rVMz
+	TcpGKokp0FaKU7gR/x7BArblduhzHt7HD12PmMg5ScIiAflAQGadvqV8ln2hfV1mOO8JDCtKb0F
+	+aA0JvsYjM4nF//7SXs4idgbO9QaoZKosnS8iMZYrwrYHTZRw6B5TLPr/1fbZoWUjrEml9nKKzW
+	EKyWsa80qUWzPXnTT
+X-Received: by 2002:a05:6000:2408:b0:490:6327:96da with SMTP id ffacd0b85a97d-49c6b788747mr29898191f8f.0.1794827343493;
+        Mon, 16 Nov 2026 03:09:03 -0800 (PST)
+Received: from localhost (p200300f65f19a9042c263c0c153a4e28.dip0.t-ipconnect.de. [2003:f6:5f19:a904:2c26:3c0c:153a:4e28])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-49c5d03b10fsm24202375f8f.1.2026.11.16.03.09.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 03:09:02 -0800 (PST)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	"Mike Rapoport (Microsoft)" <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Karl Mehltretter <kmehltretter@gmail.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Marco Elver <elver@google.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+	Jeff Layton <jlayton@kernel.org>,
+	Bradley Morgan <brads@mainlining.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Petr Mladek <pmladek@suse.com>,
+	Pnina Feder <pnina.feder@mobileye.com>,
+	Mete Durlu <meted@linux.ibm.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Rio <rioo.tsukatsukii@gmail.com>,
+	Feng Tang <feng.tang@linux.alibaba.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org,
+	Mark Brown <broonie@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Alex Williamson <alex@shazbot.org>
+Subject: [PATCH] driver core: Disable driver overriding by default
+Date: Mon, 16 Nov 2026 12:08:52 +0100
+Message-ID: <20261116110853.3418077-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.3
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,307 +129,347 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.45.2
-Content-Transfer-Encoding: 7bit
-Subject: [PATCH v3] mm: add source selector to memory.reclaim
-Date: Mon, 16 Nov 2026 19:04:59 +0800
-Message-Id: <20261116110459.11048-1-lizhe.67@bytedance.com>
+MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14253; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=sqFm6ESjdybLkCEghtjL2OJfYqUeydfVlCoinB4e6MY=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBq+uRF/48exftyFahrWCtmmAi/MRPmusy2FL3Jd Xk3QPIdrIeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCavrkRQAKCRCPgPtYfRL+ TmzpCACjwTIAF9xxChcvU9VNraL3Y2V4WoPBm/JBjd3tl4yYpPIP/6oP2kh1aaLlUabLcl8RggZ mZEB8ip2E5Uk8CFq5D8UWlt069dcwA2lQ93oIP+1An2pKKuiTYlgWniXudm5ZRJQPxypnd9vYWz Ha6m/HjH1OwralE0uY3jLD8GFB0RfLQnahIHEiU/E53eTfV86sIdnztFz53UyuLxx1yfZHJCi8e ji3kE/lWEUST9x8lnVxanYFDt1Ue+wyerLMQpur35we4te629nx1VzdEb9qNUFs8AsbFCRJ9Kzf Eye+O7EF5OKM402Nkrvy0dWJ4WHp/vRwUanXDSevgh1Bnv3n
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-memory.reclaim can apply proactive reclaim to a memcg, but it cannot
-target source nodes the way global node reclaim can. Proactive memcg
-reclaim follows a fast-to-slow fallback order, which attempts demotion
-before reclaiming from slower tiers.
+Driver overriding is useful only in a very limited set of situations
+and then only with very few drivers that are designed to support that.
 
-As a result, a memcg controller cannot decide whether reclaim should
-start from DRAM or from a slower tier. For a cgroup that is close to OOM
-and needs charge reduction, or for a controller trying to shape a
-workload's DRAM/CXL resident distribution, the default policy may spend
-reclaim effort on the wrong source tier.
+Disallow matching via driver_override unless the driver explicitly
+allows it or the safe guard is disabled using the
+"allow_driver_override=1" kernel parameter.
 
-Add source=nodes:<nodelist> to memory.reclaim. The selector only chooses
-the resident source nodes where the existing memcg reclaim path applies
-pressure. It does not select demotion targets, force demotion, force
-eviction, promote pages, or change completion accounting. Leaving source
-unspecified preserves existing behavior.
+There are many drivers that don't expect to be force-bound and often
+doing it anyhow results in a NULL pointer exception. To make debugging
+such cases easier, add a new taint if such a forced match happens.
 
-With this, userspace can build the policy it needs on top of existing
-kernel reclaim behavior:
+Implementation detail: device_match_driver_override() isn't a static
+inline any more. It grew a certain complexity (e.g. a pr_info()) and so
+was made a regular exported function.
 
-1. start reclaim from lower-tier nodes to reduce the cgroup's memory
-   usage more directly;
-2. steer reclaim toward over-represented nodes to shape a workload's
-   DRAM/CXL resident distribution; and
-3. reclaim from lower-tier nodes first so later top-tier reclaim has
-   room for demotion.
-
-Example: nodes 0-2=DRAM, node3=CXL
-
-  echo 1G > memory.reclaim # progress from nodes 0-3
-  echo "1G source=nodes:3" > memory.reclaim # reclaim from CXL
-  echo "1G source=nodes:0-2" > memory.reclaim # usually demote to CXL
-
-The typed source= form also leaves room for future source selectors
-without changing the ABI introduced here.
-
-Tested in a CXL setup with nodes 0-2 as DRAM and node 3 as CXL. A
-userspace controller steered eight cgroups toward a 50:50 DRAM:CXL
-resident ratio while a background workload created reclaim and demotion
-pressure. With source=nodes, all eight cgroups ended with 45%-55% of
-their memory on DRAM. Under the same pressure, the plain memory.reclaim
-baseline left the worst cgroup far away from the target range.
-
-Signed-off-by: Li Zhe <lizhe.67@bytedance.com>
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
 ---
-v2: https://lore.kernel.org/all/20261102070440.16262-1-lizhe.67@bytedance.com/#t
-v1: https://lore.kernel.org/all/20261019141401.11927-1-lizhe.67@bytedance.com/
+Hello,
 
-Changes since v2:
-- Dropped the separate cover letter and shortened/refocused the commit
-  message, as suggested by Joshua Hahn and Gregory Price.
-- Added an eight-cgroup CXL test summary under background
-  reclaim/demotion pressure, as suggested by Joshua Hahn.
+this is a rebase to current next of the series
+https://lore.kernel.org/all/cover.1790612298.git.u.kleine-koenig@baylibre.com/
+. It combines the functionality of former patches #2 and #3 (#1 was a
+fix that was already applied). I also addressed sashiko's comments. I think
+this matches what most people want in the previous discussion.
 
----
- Documentation/admin-guide/cgroup-v2.rst | 11 ++++++
- mm/bpf_memcontrol.c                     |  3 +-
- mm/internal.h                           |  3 +-
- mm/memcontrol-v1.c                      |  6 ++-
- mm/memcontrol.c                         | 11 ++++--
- mm/vmscan.c                             | 49 +++++++++++++++++++++++--
- 6 files changed, 72 insertions(+), 11 deletions(-)
+As the rebase wasn't trivial and I merged the two patches, I didn't
+apply the review tags I already received for v3.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 9e3c67b02ae2..992f9bdc46a1 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1458,6 +1458,7 @@ The following nested keys are defined.
+If this patch is accepted, a number of drivers that are supposed to be
+force-bound need to get their .support_driver_override property set. I'm
+aware of the following:
+
+ - spidev_spi_driver in drivers/spi/spidev.c
+ - stub_driver in drivers/pci/pci-stub.c
+ - uio_dmem_genirq in drivers/uio/uio_dmem_genirq.c
+ - uio_pci_driver in drivers/uio/uio_pci_generic.c
+ - uio_pdrv_genirq in drivers/uio/uio_pdrv_genirq.c
+ - vfio_amba_driver in drivers/vfio/platform/vfio_amba.c
+ - vfio_ccw_sch_driver in drivers/s390/cio/vfio_ccw_drv.c
+ - vfio_pci_driver in drivers/vfio/pci/vfio_pci.c
+ - vfio_platform_driver in drivers/vfio/platform/vfio_platform.c
+
+This is not needed for the userspace i2c driver.
+
+As the flag to set is only introduced in this patch and assuming this
+patch is accepted, I suggest to create an immutable branch for it to
+allow setting the needed flags in driver trees. Alternatively let all
+these go together via a single tree or branch.
+
+Best regards
+Uwe
+
+ .../admin-guide/kernel-parameters.txt         |  6 +++
+ Documentation/admin-guide/tainted-kernels.rst | 54 ++++++++++---------
+ drivers/base/bus.c                            | 50 +++++++++++++++++
+ include/linux/device.h                        | 19 +------
+ include/linux/device/driver.h                 |  2 +
+ include/linux/panic.h                         |  3 +-
+ include/trace/events/module.h                 |  3 +-
+ kernel/panic.c                                |  3 +-
+ tools/debugging/kernel-chktaint               |  9 ++++
+ 9 files changed, 104 insertions(+), 45 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 85804cfe7ef6..aabc97feef9b 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -424,6 +424,12 @@ Kernel parameters
+ 			do not want to use tracing_snapshot_alloc() as it needs
+ 			to be done where GFP_KERNEL allocations are allowed.
  
- 	  ==========            ================================
- 	  swappiness            Swappiness value to reclaim with
-+	  source                Source to apply reclaim pressure to
- 	  ==========            ================================
- 
- 	Specifying a swappiness value instructs the kernel to perform
-@@ -1468,6 +1469,16 @@ The following nested keys are defined.
- 	The valid range for swappiness is [0-200, max], setting
- 	swappiness=max exclusively reclaims anonymous memory.
- 
-+	Specifying a source value constrains where proactive reclaim applies
-+	pressure. Currently only source=nodes:<nodelist> is supported. For
-+	example::
++	allow_driver_override=
++			When set to 1 allow matching drivers without
++			.support_driver_override = true to devices using
++			driver_override. This is a dangerous operation in
++			general allowing root to oops the kernel.
 +
-+	  echo "1G source=nodes:0-1" > memory.reclaim
-+
-+	This applies proactive reclaim pressure to memory of the target cgroup
-+	resident on nodes 0-1. It does not constrain demotion targets and does
-+	not change memory.reclaim completion accounting.
-+
-   memory.peak
- 	A read-write single value file which exists on non-root cgroups.
+ 	allow_mismatched_32bit_el0 [ARM64,EARLY]
+ 			Allow execve() of 32-bit applications and setting of the
+ 			PER_LINUX32 personality on systems where only a strict
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index fcb8b9734548..e6bab575ccef 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -74,35 +74,36 @@ a particular type of taint. It's best to leave that to the aforementioned
+ script, but if you need something quick you can use this shell command to check
+ which bits are set::
  
-diff --git a/mm/bpf_memcontrol.c b/mm/bpf_memcontrol.c
-index d8f579c28560..7d98f55a044f 100644
---- a/mm/bpf_memcontrol.c
-+++ b/mm/bpf_memcontrol.c
-@@ -201,7 +201,8 @@ __bpf_kfunc long bpf_proactive_reclaim(struct mem_cgroup *memcg,
- 	nr_reclaimed = try_to_free_mem_cgroup_pages(memcg, nr_pages, GFP_KERNEL,
- 						    MEMCG_RECLAIM_MAY_SWAP |
- 						    MEMCG_RECLAIM_PROACTIVE,
--						    swappiness == -1 ? NULL : &swappiness);
-+						    swappiness == -1 ? NULL : &swappiness,
-+						    NULL);
+-	$ for i in $(seq 0 19); do echo $i $(($(cat /proc/sys/kernel/tainted)>>$i&1));done
++	$ for i in $(seq 0 20); do echo $i $(($(cat /proc/sys/kernel/tainted)>>$i&1));done
  
- 	return nr_reclaimed * PAGE_SIZE;
+ Table for decoding tainted state
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-===  ===  ======  ========================================================
+-Bit  Log  Number  Reason that got the kernel tainted
+-===  ===  ======  ========================================================
+-  0  G/P       1  proprietary module was loaded
+-  1  _/F       2  module was force loaded
+-  2  _/S       4  kernel running on an out of specification system
+-  3  _/R       8  module was force unloaded
+-  4  _/M      16  processor reported a Machine Check Exception (MCE)
+-  5  _/B      32  bad page referenced or some unexpected page flags
+-  6  _/U      64  taint requested by userspace application
+-  7  _/D     128  kernel died recently, i.e. there was an OOPS or BUG
+-  8  _/A     256  ACPI table overridden by user
+-  9  _/W     512  kernel issued warning
+- 10  _/C    1024  staging driver was loaded
+- 11  _/I    2048  workaround for bug in platform firmware applied
+- 12  _/O    4096  externally-built ("out-of-tree") module was loaded
+- 13  _/E    8192  unsigned module was loaded
+- 14  _/L   16384  soft lockup occurred
+- 15  _/K   32768  kernel has been live patched
+- 16  _/X   65536  auxiliary taint, defined for and used by distros
+- 17  _/T  131072  kernel was built with the struct randomization plugin
+- 18  _/N  262144  an in-kernel test has been run
+- 19  _/J  524288  userspace used a mutating debug operation in fwctl
+-===  ===  ======  ========================================================
++===  ===  =======  ========================================================
++Bit  Log   Number  Reason that got the kernel tainted
++===  ===  =======  ========================================================
++  0  G/P        1  proprietary module was loaded
++  1  _/F        2  module was force loaded
++  2  _/S        4  kernel running on an out of specification system
++  3  _/R        8  module was force unloaded
++  4  _/M       16  processor reported a Machine Check Exception (MCE)
++  5  _/B       32  bad page referenced or some unexpected page flags
++  6  _/U       64  taint requested by userspace application
++  7  _/D      128  kernel died recently, i.e. there was an OOPS or BUG
++  8  _/A      256  ACPI table overridden by user
++  9  _/W      512  kernel issued warning
++ 10  _/C     1024  staging driver was loaded
++ 11  _/I     2048  workaround for bug in platform firmware applied
++ 12  _/O     4096  externally-built ("out-of-tree") module was loaded
++ 13  _/E     8192  unsigned module was loaded
++ 14  _/L    16384  soft lockup occurred
++ 15  _/K    32768  kernel has been live patched
++ 16  _/X    65536  auxiliary taint, defined for and used by distros
++ 17  _/T   131072  kernel was built with the struct randomization plugin
++ 18  _/N   262144  an in-kernel test has been run
++ 19  _/J   524288  userspace used a mutating debug operation in fwctl
++ 20  _/Z  1048576  a driver was forced on a non-matching device
++===  ===  =======  ========================================================
+ 
+ Note: The character ``_`` is representing a blank in this table to make reading
+ easier.
+@@ -189,3 +190,6 @@ More detailed explanation for tainting
+  19) ``J`` if userspace opened /dev/fwctl/* and performed a FWTCL_RPC_DEBUG_WRITE
+      to use the devices debugging features. Device debugging features could
+      cause the device to malfunction in undefined ways.
++
++ 20) ``Z`` if a device was matched using the `driver_override` sysfs property
++     to a driver that didn't explicitly allow that.
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index 396097fdb316..5344b20488fd 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -603,6 +603,56 @@ int bus_add_device(struct device *dev)
+ 	return error;
  }
-diff --git a/mm/internal.h b/mm/internal.h
-index e3f92883bf23..ff24a58d47e8 100644
---- a/mm/internal.h
-+++ b/mm/internal.h
-@@ -83,7 +83,8 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
- 					   unsigned long nr_pages,
- 					   gfp_t gfp_mask,
- 					   unsigned int reclaim_options,
--					   int *swappiness);
-+					   int *swappiness,
-+					   const nodemask_t *source_nodes);
  
- #ifdef CONFIG_NUMA
- extern int sysctl_min_unmapped_ratio;
-diff --git a/mm/memcontrol-v1.c b/mm/memcontrol-v1.c
-index b7f286888507..74aa06fee76a 100644
---- a/mm/memcontrol-v1.c
-+++ b/mm/memcontrol-v1.c
-@@ -1464,7 +1464,8 @@ static int mem_cgroup_resize_max(struct mem_cgroup *memcg,
- 		}
- 
- 		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
--				memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP, NULL)) {
-+				memsw ? 0 : MEMCG_RECLAIM_MAY_SWAP,
-+				NULL, NULL)) {
- 			ret = -EBUSY;
- 			break;
- 		}
-@@ -1500,7 +1501,8 @@ static int mem_cgroup_force_empty(struct mem_cgroup *memcg)
- 			break;
- 
- 		if (!try_to_free_mem_cgroup_pages(memcg, 1, GFP_KERNEL,
--						  MEMCG_RECLAIM_MAY_SWAP, NULL))
-+						  MEMCG_RECLAIM_MAY_SWAP,
-+						  NULL, NULL))
- 			nr_retries--;
- 	}
- 
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index 84f4a8fd4d16..116c6853c9ba 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -2444,7 +2444,7 @@ static unsigned long reclaim_high(struct mem_cgroup *memcg,
- 		nr_reclaimed += try_to_free_mem_cgroup_pages(memcg, nr_pages,
- 							gfp_mask,
- 							MEMCG_RECLAIM_MAY_SWAP,
--							NULL);
-+							NULL, NULL);
- 		psi_memstall_leave(&pflags);
- 	} while ((memcg = parent_mem_cgroup(memcg)) &&
- 		 !mem_cgroup_is_root(memcg));
-@@ -2774,7 +2774,8 @@ static int try_charge_memcg(struct mem_cgroup *memcg, gfp_t gfp_mask,
- 
- 	psi_memstall_enter(&pflags);
- 	nr_reclaimed = try_to_free_mem_cgroup_pages(mem_over_limit, nr_pages,
--						    gfp_mask, reclaim_options, NULL);
-+						    gfp_mask, reclaim_options,
-+						    NULL, NULL);
- 	psi_memstall_leave(&pflags);
- 
- 	if (mem_cgroup_margin(mem_over_limit) >= nr_pages)
-@@ -5001,7 +5002,8 @@ static ssize_t memory_high_write(struct kernfs_open_file *of,
- 		}
- 
- 		reclaimed = try_to_free_mem_cgroup_pages(memcg, nr_pages - high,
--					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP, NULL);
-+					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
-+					NULL, NULL);
- 
- 		if (!reclaimed && !nr_retries--)
- 			break;
-@@ -5060,7 +5062,8 @@ static ssize_t memory_max_write(struct kernfs_open_file *of,
- 
- 		if (nr_reclaims) {
- 			if (!try_to_free_mem_cgroup_pages(memcg, nr_pages - max,
--					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP, NULL))
-+					GFP_KERNEL, MEMCG_RECLAIM_MAY_SWAP,
-+					NULL, NULL))
- 				nr_reclaims--;
- 			continue;
- 		}
-diff --git a/mm/vmscan.c b/mm/vmscan.c
-index 6a1af9b92349..15e2e5710468 100644
---- a/mm/vmscan.c
-+++ b/mm/vmscan.c
-@@ -7013,12 +7013,14 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
- 					   unsigned long nr_pages,
- 					   gfp_t gfp_mask,
- 					   unsigned int reclaim_options,
--					   int *swappiness)
-+					   int *swappiness,
-+					   const nodemask_t *source_nodes)
- {
- 	unsigned long nr_reclaimed;
- 	unsigned int noreclaim_flag;
- 	struct scan_control sc = {
- 		.nr_to_reclaim = max(nr_pages, SWAP_CLUSTER_MAX),
-+		.nodemask = source_nodes,
- 		.proactive_swappiness = swappiness,
- 		.gfp_mask = (current_gfp_context(gfp_mask) & GFP_RECLAIM_MASK) |
- 				(GFP_HIGHUSER_MOVABLE & ~GFP_RECLAIM_MASK),
-@@ -7054,7 +7056,8 @@ unsigned long try_to_free_mem_cgroup_pages(struct mem_cgroup *memcg,
- 					   unsigned long nr_pages,
- 					   gfp_t gfp_mask,
- 					   unsigned int reclaim_options,
--					   int *swappiness)
-+					   int *swappiness,
-+					   const nodemask_t *source_nodes)
- {
- 	return 0;
- }
-@@ -8098,20 +8101,51 @@ static unsigned long __node_reclaim(struct pglist_data *pgdat,
- enum {
- 	MEMORY_RECLAIM_SWAPPINESS = 0,
- 	MEMORY_RECLAIM_SWAPPINESS_MAX,
-+	MEMORY_RECLAIM_SOURCE,
- 	MEMORY_RECLAIM_NULL,
- };
- static const match_table_t tokens = {
- 	{ MEMORY_RECLAIM_SWAPPINESS, "swappiness=%d"},
- 	{ MEMORY_RECLAIM_SWAPPINESS_MAX, "swappiness=max"},
-+	{ MEMORY_RECLAIM_SOURCE, "source=%s"},
- 	{ MEMORY_RECLAIM_NULL, NULL },
- };
- 
-+#define MEMORY_RECLAIM_SOURCE_NODES	"nodes:"
-+#define MEMORY_RECLAIM_SOURCE_NODES_LEN	(sizeof(MEMORY_RECLAIM_SOURCE_NODES) - 1)
++static bool __read_mostly allow_driver_override;
 +
-+static int parse_memory_reclaim_source(const char *source,
-+				       nodemask_t *source_nodes)
++static int __init allow_driver_override_setup(char *str)
 +{
-+	const char *nodes;
++	if (!str || kstrtobool(str, &allow_driver_override) < 0)
++		allow_driver_override = true;
 +
-+	if (strncmp(source, MEMORY_RECLAIM_SOURCE_NODES,
-+		    MEMORY_RECLAIM_SOURCE_NODES_LEN))
-+		return -EINVAL;
-+
-+	nodes = source + MEMORY_RECLAIM_SOURCE_NODES_LEN;
-+	if (!*nodes)
-+		return -EINVAL;
-+
-+	nodes_clear(*source_nodes);
-+	if (nodelist_parse(nodes, *source_nodes))
-+		return -EINVAL;
-+
-+	nodes_and(*source_nodes, *source_nodes, node_states[N_MEMORY]);
-+	if (nodes_empty(*source_nodes))
-+		return -EINVAL;
-+
-+	return 0;
++	return 1;
 +}
++__setup("allow_driver_override=", allow_driver_override_setup);
 +
- int user_proactive_reclaim(char *buf,
- 			   struct mem_cgroup *memcg, pg_data_t *pgdat)
++/**
++ * device_match_driver_override() - Match a driver against the device's driver_override.
++ * @dev: device to check
++ * @drv: driver to match against
++ *
++ * Returns > 0 if a driver override is set and matches the given driver, 0 if a
++ * driver override is set but does not match, or < 0 if a driver override is not
++ * set at all.
++ */
++int device_match_driver_override(struct device *dev,
++				 const struct device_driver *drv)
++{
++	guard(spinlock)(&dev->driver_override.lock);
++	if (dev->driver_override.name) {
++		int ret = !strcmp(dev->driver_override.name, drv->name);
++
++		if (ret > 0 && !drv->support_driver_override) {
++			if (allow_driver_override) {
++				add_taint_module(drv->owner,
++						 TAINT_DRIVER_OVERRIDE, LOCKDEP_STILL_OK);
++			} else {
++				/*
++				 * If you hit this warning and you need to
++				 * quickly workaround this check, boot with
++				 * allow_driver_override=1 on the kernel
++				 * commandline. The right fix is to set the
++				 * driver's .support_driver_override property.
++				 */
++				dev_warn(dev, "Suppressed driver override binding to %s.\n", drv->name);
++				return -1;
++			}
++		}
++
++		return ret;
++	}
++	return -1;
++}
++EXPORT_SYMBOL_GPL(device_match_driver_override);
++
+ static void __bus_probe_device(struct device *dev)
  {
- 	unsigned int nr_retries = MAX_RECLAIM_RETRIES;
- 	unsigned long nr_to_reclaim, nr_reclaimed = 0;
- 	int swappiness = -1;
-+	nodemask_t source_nodes;
-+	const nodemask_t *source_nodemask = NULL;
- 	char *old_buf, *start;
- 	substring_t args[MAX_OPT_ARGS];
- 	gfp_t gfp_mask = GFP_KERNEL;
-@@ -8142,6 +8176,14 @@ int user_proactive_reclaim(char *buf,
- 		case MEMORY_RECLAIM_SWAPPINESS_MAX:
- 			swappiness = SWAPPINESS_ANON_ONLY;
- 			break;
-+		case MEMORY_RECLAIM_SOURCE:
-+			if (!memcg || source_nodemask)
-+				return -EINVAL;
-+			if (parse_memory_reclaim_source(args[0].from,
-+							&source_nodes))
-+				return -EINVAL;
-+			source_nodemask = &source_nodes;
-+			break;
- 		default:
- 			return -EINVAL;
- 		}
-@@ -8181,7 +8223,8 @@ int user_proactive_reclaim(char *buf,
- 			reclaimed = try_to_free_mem_cgroup_pages(memcg,
- 						 batch_size, gfp_mask,
- 						 reclaim_options,
--						 swappiness == -1 ? NULL : &swappiness);
-+						 swappiness == -1 ? NULL : &swappiness,
-+						 source_nodemask);
- 		} else {
- 			struct scan_control sc = {
- 				.gfp_mask = current_gfp_context(gfp_mask),
+ 	struct subsys_private *sp = bus_to_subsys(dev->bus);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 6b082c638d45..05413c1a9454 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -907,23 +907,8 @@ static inline bool device_has_driver_override(struct device *dev)
+ 	return !!dev->driver_override.name;
+ }
+ 
+-/**
+- * device_match_driver_override() - Match a driver against the device's driver_override.
+- * @dev: device to check
+- * @drv: driver to match against
+- *
+- * Returns > 0 if a driver override is set and matches the given driver, 0 if a
+- * driver override is set but does not match, or < 0 if a driver override is not
+- * set at all.
+- */
+-static inline int device_match_driver_override(struct device *dev,
+-					       const struct device_driver *drv)
+-{
+-	guard(spinlock)(&dev->driver_override.lock);
+-	if (dev->driver_override.name)
+-		return !strcmp(dev->driver_override.name, drv->name);
+-	return -1;
+-}
++int device_match_driver_override(struct device *dev,
++				 const struct device_driver *drv);
+ 
+ /**
+  * device_iommu_mapped - Returns true when the device DMA is translated
+diff --git a/include/linux/device/driver.h b/include/linux/device/driver.h
+index 29fbc01ef06f..0153cfcbe1b9 100644
+--- a/include/linux/device/driver.h
++++ b/include/linux/device/driver.h
+@@ -56,6 +56,7 @@ enum probe_type {
+  * @bus:	The bus which the device of this driver belongs to.
+  * @owner:	The module owner.
+  * @mod_name:	Used for built-in modules.
++ * @support_driver_override: driver_override only works if this is true.
+  * @suppress_bind_attrs: Disables bind/unbind via sysfs.
+  * @probe_type:	Type of the probe (synchronous or asynchronous) to use.
+  * @of_match_table: The open firmware table.
+@@ -104,6 +105,7 @@ struct device_driver {
+ 	struct module		*owner;
+ 	const char		*mod_name;	/* used for built-in modules */
+ 
++	bool support_driver_override;
+ 	bool suppress_bind_attrs;	/* disables bind/unbind via sysfs */
+ 	enum probe_type probe_type;
+ 
+diff --git a/include/linux/panic.h b/include/linux/panic.h
+index 17e61b61c45f..009232511cc7 100644
+--- a/include/linux/panic.h
++++ b/include/linux/panic.h
+@@ -89,7 +89,8 @@ static inline void set_arch_panic_timeout(int timeout, int arch_default_timeout)
+ #define TAINT_RANDSTRUCT		17
+ #define TAINT_TEST			18
+ #define TAINT_FWCTL			19
+-#define TAINT_FLAGS_COUNT		20
++#define TAINT_DRIVER_OVERRIDE		20
++#define TAINT_FLAGS_COUNT		21
+ #define TAINT_FLAGS_MAX			((1UL << TAINT_FLAGS_COUNT) - 1)
+ 
+ struct taint_flag {
+diff --git a/include/trace/events/module.h b/include/trace/events/module.h
+index e5a006be9dc6..d54ce3c7572b 100644
+--- a/include/trace/events/module.h
++++ b/include/trace/events/module.h
+@@ -26,7 +26,8 @@ struct module;
+ 	{ (1UL << TAINT_OOT_MODULE),		"O" },		\
+ 	{ (1UL << TAINT_FORCED_MODULE),		"F" },		\
+ 	{ (1UL << TAINT_CRAP),			"C" },		\
+-	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" })
++	{ (1UL << TAINT_UNSIGNED_MODULE),	"E" },		\
++	{ (1UL << TAINT_DRIVER_OVERRIDE),	"Z" })
+ 
+ TRACE_EVENT(module_load,
+ 
+diff --git a/kernel/panic.c b/kernel/panic.c
+index 91e48d33b7db..81ea9ef9afb0 100644
+--- a/kernel/panic.c
++++ b/kernel/panic.c
+@@ -825,6 +825,7 @@ const struct taint_flag taint_flags[TAINT_FLAGS_COUNT] = {
+ 	TAINT_FLAG(RANDSTRUCT,			'T', ' '),
+ 	TAINT_FLAG(TEST,			'N', ' '),
+ 	TAINT_FLAG(FWCTL,			'J', ' '),
++	TAINT_FLAG(DRIVER_OVERRIDE,		'Z', ' '),
+ };
+ 
+ #undef TAINT_FLAG
+@@ -861,7 +862,7 @@ static void print_tainted_seq(struct seq_buf *s, bool verbose)
+  * exact size is allocated dynamically; the initial buffer remains
+  * as a fallback if allocation fails.
+  *
+- * The verbose taint string currently requires up to 327 characters.
++ * The verbose taint string currently requires up to 348 characters.
+  */
+ #define INIT_TAINT_BUF_MAX 350
+ 
+diff --git a/tools/debugging/kernel-chktaint b/tools/debugging/kernel-chktaint
+index e1571c04afb5..56215e0f5112 100755
+--- a/tools/debugging/kernel-chktaint
++++ b/tools/debugging/kernel-chktaint
+@@ -211,6 +211,15 @@ else
+ 	addout "J"
+ 	echo " * fwctl's mutating debug interface was used (#19)"
+ fi
++
++T=`expr $T / 2`
++if [ `expr $T % 2` -eq 0 ]; then
++	addout " "
++else
++	addout "Z"
++	echo " * A device was matched using driver_override to a driver not supporting that (#20)"
++fi
++
+ echo "Raw taint value as int/string: $taint/'$out'"
+ 
+ # report on any tainted loadable modules
+
+base-commit: 84abb955b1015477aa11a96e2f3ac1b938b77f48
 -- 
-2.20.1
+2.56.0.rc1
+
