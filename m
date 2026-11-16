@@ -1,54 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.16
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794804230;
-	b=pT98eBXQ9oUehp6ee8pW23U5kvExwAQh5XgTzJ3jwUk9fsMF4Un0DlL15sSJaXdKsWyx
-	 5JRDXq8hslgrTO0uvRsHprC/NkXWRuNhncDfDBT5Rtp7kGzCfdlzphepWegb1eOAaNSgY
-	 MUH3E/kJWmYevsLus/LHhBHZkNAFsYcFgHWG2t2yRTgMcCcflWlDvkz9aOcoL1SfD/ZtF
-	 v25IUDYv/Ji8BVddABb5oW60aUgnVt002Nw3o2eiFar7iF8lVjxMKVct8QzmV9i+h2r6g
-	 O+SMj/BMWCyJBiZEL9HVaAcYX9D5U8qiPdiXMQdfPRpFYbCDP4s11esWAzxC6f1ErJg==
+	t=1794804530;
+	b=UIv97Qa0solyWgDXD3A4eulKcXtRrN0Mt+UCuM1Y9WIADnrnuY8n0zOkjLC98i/KObSF
+	 vaVm1JiY/FigVNHpkzc89pvAYOAcjw6oykaT8FtduvAAGYg2kyJCkfEUgreEjEyPPmFhQ
+	 E5tHPxr20HCMFp2huFe+5zUdvraLY+WFH/VbVfoC40XkNPGlTyDwVwIxTPx1n60IgUfp3
+	 7JIb/UsndaZn9P61MbZ99NrAPEuaZrPClRlsSM70UCgIMufaKxB8K38RicSOgEaEd7Wic
+	 skS6iirzFUbcv+xQSJP22N2Z3DsrRPwGz9H157MwIAI2/rGrBskgI75YrLzqP7CfHYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794804230;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=RUI0JHvfgidgz/0eQOLWkGRn+KPexmQv3YIIFpeyEXM=;
-	b=2q6p8FMEdXuoxR2pRqUhil3r5bBJNuLaCHwfGWkorMKq85CNFv11lQjbQHmfDmhMSbOH
-	 /v5ODQb4iDGJGby4N0Fcs0K4TVEIZOyFuiRrg0M9cWZxePBY2SvQxcV/a2FHT6ipSVgu1
-	 EKBpT7ftoECKbxGSbm3X86pvtyVyJrYuNfrENO++NOAPKLISKexFP1J8YpzmmyAS/8iym
-	 BJ5iRw5V58mPkcX6ytvQmNZMfrud6eilO8GuR7FXB5uGR70q0GtLE7Lk1Uwf/HQ8JzZWA
-	 5GzQJRYsF+MVt323+VH9WY+adg/Q5W6cvj5kw5nr6sy2EAYaF2XGKTQJ1qw2nAeZ1OQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794804530;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=4+bF1PXdM9i12hwxUlirMfiz4q0u6ZQpW494Zdzq3Q8=;
+	b=3g1k9aH/tecnSuZaluA5HyvLJlOzAVsfGUXz2akcVUwnF0A4cMJr0wwLAx1luq2JMkUi
+	 qvfbhJOJ3hAlvBEjd1zYXaVvgjixPvcP09OrRXNms+lXrvncK+DLRnoEWATZl2UiWTThL
+	 WSP+/vvSM3GLWSrBCgw6p4Ft65rVdjCv0lC67heJYvb2Sx4aCZ5JiXygSNYGFDR3vQEDA
+	 1Wi/DCbAWsgYK8/W02YgYyFEtK7Hu47GurFWVllAguzUg70lH2ZJ0bijdFPywUmQ8Rjn5
+	 2m0K0ZmJMDtKmzkoZluDf+Akq34CbaBeDB48K0GnkX6pZcOr7JF/bqa4HT2xAqqArsQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H8gOFG4w;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VmQ19CXE;
+	arc=none smtp.remote-ip=198.175.65.16
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 195B8606A321;
-	Mon, 16 Nov 2026 04:43:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EA6F606A31C;
+	Mon, 16 Nov 2026 04:48:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1EA6F606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H8gOFG4w
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 023AA1F000C4;
-	Mon, 16 Nov 2026 04:43:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794804229;
-	bh=RUI0JHvfgidgz/0eQOLWkGRn+KPexmQv3YIIFpeyEXM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=H8gOFG4wEUhu06Pfx+ndVWDohjDi5LQHia7PsiK6VVKhg+Iq/hMUBXR4YCqe2ZPGs
-	 a6VdWHGiA/OXnCl6tgJ6BvSnr+jTYa2DnU+l4ZUWneHY+JUooEbsnQxZFthctzgfGB
-	 txuqRCnCLUsGcuLHF4KABoc3b6K7+uGsIWBczLPiihD0gETnWr1ez9qM+Xr0sSILOO
-	 1Y3jt6BBuaHJYOBbvEpV5dqCP1RLHUGsm+63jqWzoaimH4CG3bLKn7WmiHiveyAaCI
-	 UXJghr+ikcwtSSInUm8K11wlWMr03iBS98qJ/nZ/IXzsEmKkh/JpQxZTIXh7gGuCxi
-	 0UX+/sVmMXQDQ==
-From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>, Peter Zijlstra <peterz@infradead.org>, Ingo Molnar <mingo@kernel.org>, Jinchao Wang <wangjinchao600@gmail.com>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Thomas Gleixner <tglx@linutronix.de>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-perf-users@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH v19 08/11] tracing/wprobe: Add set_wprobe and clear_wprobe event triggers
-Date: Mon, 16 Nov 2026 13:43:45 +0900
-Message-ID: <undine-1794804225555740397-c2e0363b3e35f8a3@undined.local>
-X-Mailer: UndineD 0.1
-In-Reply-To: <179101402530.22872.12892814568115529973.stgit@devnote2>
-References: <179101393469.22872.5895666191299551553.stgit@devnote2> <179101402530.22872.12892814568115529973.stgit@devnote2>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=VmQ19CXE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1794804530; x=1826340530;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jBip4E2/xRX2TRtB/jshEtf0db72k3wz/T8VBbLeJ4g=;
+  b=VmQ19CXESMkHgWncgkBOviJcvF2HJn23x2wIRvS9HH/ifvcDg+Hf3NMF
+   0VaJu0R+Unv7DDuSVzWhlwNGlca9G4eSeFSZhpl+xKVrF+Zjwe6iz0Rpf
+   QxwnQpm6do4fil4rtqQjDLDbX2RNFRlNcwVXMDiOoFLHYWo++s5+tb4mx
+   CmrxuXlwimqjpIVN5w62smWVeJUQ5hD3Iv7LpTkXtrKEmyHOQJlaIQvNb
+   TMaDEsYk7NeigtX0fGgU8IrKBNT6OYcOPEAzR/7Nlv2U2IN3De3WwxsXc
+   HFxeOcZCiWg6Jz9VguibsBzro5/7uk6qP7/UfRZo7E/SUk2JTvUi++drn
+   Q==;
+X-CSE-ConnectionGUID: GHX7I7dxRWmBOM2UmIOvbA==
+X-CSE-MsgGUID: UItC521dTS2ET4dEV2TRkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11967"; a="3518298"
+X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
+   d="scan'208";a="3518298"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2026 20:48:49 -0800
+X-CSE-ConnectionGUID: VuhJD+lmSleff1kF0eSD3g==
+X-CSE-MsgGUID: rBi3O6LXSwKZ45yb2JguoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,216,1787036400"; 
+   d="scan'208";a="9284633"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 15 Nov 2026 20:48:47 -0800
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xSoe4-000000017qi-1AK4;
+	Mon, 16 Nov 2026 04:48:44 +0000
+Date: Mon, 16 Nov 2026 12:47:45 +0800
+From: kernel test robot <lkp@intel.com>
+To: Matt Turner <mattst88@gmail.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Magnus Lindholm <linmag7@gmail.com>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: oe-kbuild-all@lists.linux.dev, linux-alpha@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, Matt Turner <mattst88@gmail.com>
+Subject: Re: [PATCH 5/7] hwmon: Add driver for Marvel AlphaServer
+ environmental sensors
+Message-ID: <202611161243.v8EOeTtt-lkp@intel.com>
+References: <20261114-marvel-env-v1-5-890328e4b7e5@gmail.com>
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -58,37 +87,37 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261114-marvel-env-v1-5-890328e4b7e5@gmail.com>
 
-On Sat,  3 Oct 2026 16:53:45 +0900, Masami Hiramatsu (Google) <mhiramat@kernel.org> wrote:
+Hi Matt,
 
-> diff --git a/kernel/trace/trace_wprobe.c b/kernel/trace/trace_wprobe.c
-> --- a/kernel/trace/trace_wprobe.c
-> +++ b/kernel/trace/trace_wprobe.c
-> @@ -767,9 +928,632 @@ static int trace_wprobe_show(struct seq_file *m, struct dyn_event *ev)
-> +		 * mode so that if the user did not explicitly enable this
-> +		 * event, __ftrace_event_enable_disable() unregisters it.
-> +		 */
-> +		set_bit(EVENT_FILE_FL_SOFT_DISABLED_BIT, &wprobe_data->file->flags);
+kernel test robot noticed the following build errors:
 
-It seems I should not touch this, because when a wprobe has set_wprobe and
-clear_wprobe triggers, and remove clear_wprobe trigger after hitting
-set_wprobe trigger, this unconditionally soft disables it.
+[auto build test ERROR on 0b4cadbe7c39d830dec35c4a2655483de0dae568]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Matt-Turner/alpha-marvel-report-environmental-events-without-VERBOSE_MCHECK/20261114-123947
+base:   0b4cadbe7c39d830dec35c4a2655483de0dae568
+patch link:    https://lore.kernel.org/r/20261114-marvel-env-v1-5-890328e4b7e5%40gmail.com
+patch subject: [PATCH 5/7] hwmon: Add driver for Marvel AlphaServer environmental sensors
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20261116/202611161243.v8EOeTtt-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 16.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261116/202611161243.v8EOeTtt-lkp@intel.com/reproduce)
 
-> +		/* Remove the SOFT_MODE flag */
-> +		trace_event_enable_disable(wprobe_data->file, 0, 1);
-> +		trace_event_put_ref(wprobe_data->file->event_call);
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202611161243.v8EOeTtt-lkp@intel.com/
 
-`trace_event_put_ref()` is called here before `trigger_data_free(data)`
-schedules RCU/tracepoint synchronization via `trigger_kthread`. When
-`wprobe_trigger_free()` is called from `clear_event_triggers()` (which does
-not call `tracepoint_synchronize_unregister()` synchronously), dropping the
-target event reference here allows `wprobe_data->tw` to be freed while an
-in-flight tracepoint is still executing `wprobe_trigger()`.
-This put-ref should be done in data->private_data_free().
+All errors (new ones prefixed by >>):
 
-Thanks,
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
+   `.exit.text' referenced in section `.init.text' of fs/nfs/blocklayout/blocklayout.o: defined in discarded section `.exit.text' of fs/nfs/blocklayout/blocklayout.o
+   `.exit.text' referenced in section `.init.text' of fs/nfs/blocklayout/blocklayout.o: defined in discarded section `.exit.text' of fs/nfs/blocklayout/blocklayout.o
+   alpha-linux-ld: drivers/hwmon/marvel-env.o: in function `marvel_env_refresh':
+>> (.text+0x528): undefined reference to `marvel_cfgtree_partial_update'
+>> alpha-linux-ld: (.text+0x52c): undefined reference to `marvel_cfgtree_partial_update'
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
