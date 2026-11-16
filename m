@@ -1,90 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794858124;
-	b=CbiFTsmSa19c7cVAU1pKhYk9G7DxCf6F40zpPGWAyPX1O/a6sTWfyS9zkRU7IIA1Rti4
-	 yBua48qSgqlhwsZmdhEj+unfvGfKT060LISIwfPeGzlUIwUPjsG2gpVNpNDUU0a1fcFAa
-	 QjhrFyRTWhgdHx8/XCbZFZuOjErWh/DJ44GrwHLx8vPEJcLz0U1yM/PKS1n2h1gGYFDMI
-	 v0r2ayG1h3Z0ZK/tsJgZO5//1ZzoQddVzMYJxq0vhfsLpUeDwMAicKHBBjtiva4DDIS/p
-	 DKo2HuMg6ulwXoXfKfn49LHhUBcPObmMUsdPOiciwBqhEZRJns/nw1zOpEaR1AuKUPw==
+	t=1794858281;
+	b=gXXYuHdgAHlmZ8rSLK0aNjBS+vSLMrQWXDmJRgZl76LK/WTXQeXoQvoCSaUQSqBpV8z6
+	 PSKb28czcWJXmaO7aJqqJ1U49NV0hoMiILhEx9YMXS4w71PuS0/tsc6Ui3rcXryfq7UdP
+	 pF8Y9zSE1HuLDksPmoOOl+YstCJZ2e4PZJOgAWdbVE2L6NtJGQlPD5JVZAj+qGKyxkQZZ
+	 z/guwSpQnQPBAYXNyom3/5FRDCbY4/3m1ll5Rzib1al0iEnrbXENXcKIJiARhhz2vXuw9
+	 1ZGHkG2QHmkioDoWSPGdT+zI18QbQ/MfGw8VwuOTbaDMYWmHWohLH/7bNBOsSN1nx2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794858124;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Received:X-Forwarded-Encrypted:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gmail-Original-Message-ID:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type;
-	bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
-	b=I8t9ijyobDSPZipej2uIEfMy2zOI6VL0Il9Yo4RdeqBEkGVKaREzIQMHLLCDCxJ0C7Sx
-	 7fiUVEIz8lTQ0dPrqIU3pFfb4h5OGm6F3YXDdAaUzT8LejfQ0bV2D7Q+hoXPX1d+iAevJ
-	 0k6a8eTE9+Ywywl+Ibx4k5PZh9mbPkTYD3Gltq0vpXjqfDzUNiDsZAKaUwPdxkOfWVU1U
-	 Y77LyCDAcr4tENrr0TrzEFAEolp/PJvJcsUcQ6XnHU5VEgbIJIKGEKn41HDaybYWtSQmG
-	 3hQkaL0Hk7TR3cYtS2zOWVdeSPTd/uZ99332dVK0Qw1ukMNHuaWD+1f6AH217q/yrHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1794858281;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=i1vlZC4rlK1lJETL7MgudvHOPWJ9hjZNLkiNbIOMUN4=;
+	b=0xz2QUCLS9GpcTULOXGMLYO+ZCogLY9NFZe4xQNSGdefxVkGLHV2ld9y5v20xe3x/4cZ
+	 AfIIokxzzgXYFdjYMif8EoUZjdh1bOQQW0A3es3MdwNl6cbs7vmP9RGHzhyuqYX3ZIxwS
+	 3Lu8/yu59raVKipU63pDMggvitOmTMBD7PdjJySosDTEOA+CD8uxnIhvwxsogofeiIAYn
+	 GAXctIMd/lbxOOZH6byGzlce33V/Q+tOj1778qKWa5DOfpE3URwkQ3Zsrly4V+TA4w6LF
+	 x37r0JbqddSyDjrMnM2IAMsF0tae+l7aTW1q/fxcnh/1ZQklusGLm1uHWEkGOVhEgAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=linux-foundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=eoWff0YO;
-	arc=none smtp.remote-ip=209.85.218.43
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RmzJEpHI;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5922B606A32F
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 19:42:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5922B606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with UTF8SMTPS id E7A59606A322;
+	Mon, 16 Nov 2026 19:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=google header.b=eoWff0YO
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c50e9408873so130669366b.0
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:42:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google; t=1794858122; x=1795462922; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
-        b=eoWff0YOlKIoIHjF1NQtRoRnm8FUpD+Y+ES0aboA/2ep5x5Zghx7qc5wWe3xqvFIq5
-         tLFABPvvov/AaKN+xXjGw9J7GLBZRa0WfosWqmjeG3+hmpXmqdMIfACR+fKVNwT0aPdR
-         3bVvEL53CTKRlo0pUJynlr8GV8cVqYdq2rZXU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794858122; x=1795462922;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=SoqAqmuXv97PmZGFBFFCczoznG+kfpt1kIToyl4KM94=;
-        b=Wv5ahwNGHpzxlhq+gVDNt3MTcrUXeNbeHCEGQYEqgfr9xH/7f/q0jQvT8mwPrnx9Uj
-         26poPgXNxWwXRYOuxlZzv3qDn5bkLRhwmwKBcQ0Okgj3EPlhIxlTBezUNRzOroIXOD2t
-         eyyUylQdMVL7mKwmH8WhjevlOSoP31DU1l4meoTr5Mycyij5CemJ2yMuY8We9W8w46uk
-         H2tp/xDId1+O5qzhplBhvl+G592+js3OUfskKMK8T0aLOjTLdQkUPQpAeyWENFk43F6y
-         L/BZd1XhPRjxKQ8Xtqjdpao5M6P7gURFulZvPLL7g4Nezu1GoVt5TcwI685KOrHbEo4h
-         i0Hw==
-X-Forwarded-Encrypted: i=1; AL+hErHqcsVSBkGGtQIKx+pNUTfVUy5tt0geboUDrgrSJatasMfMcWBYF+bNKmL27hvCQinxpX9HFsJ+t48=@vger.kernel.org
-X-Gm-Message-State: APuU4Z+N8J53lIErHuk2tDO8mMAk19cYtBnEwk6fWD3rLHg2DvsnLrAz
-	2rEFxAif5bcqeVbXewhDzCQHaa5hBmCrXWSc2Y/csv0VIZDSpjfkuu1USYHe6O/0QxPOFf8WgFT
-	HM3EE4IL46Q==
-X-Gm-Gg: AYBFou3ZjU5ND41+fxSsgyPJDxXgHIphFiPz9RDjjrExXSk+WjPspy7h+b7T8gKxyYL
-	+0BkrhhtU9s79M8U5Y7unsbq8oxDM+A3gMNxe1o6ac0K21yruaqj44QtndhjwFWUGYBYxHafuCR
-	rpqgI2mqyw8HBa2i7C5BJcqJ2u8x0sSdzNabTvBuyyh85oROpPyaNJgQJxyDHR77jaZ6QIIGiza
-	HhxP30zmsQ0aeQyHJjnxcj3l1zDjzpHyEmdlXm6YD6Z0LV7OdoHJ6DQVuzBzN5OQonptNOiNbeJ
-	/3ZT2VGMlftDfKxhhzkFry10K3ELCOzCTDpxbnoYtFNuvXarw+0TKqpw9Y+7Wu+O5JuMDw1OhXm
-	47NP6/ep4sgRUqpEgyvaZK4kAe69OL+CvpGu6hjDOvDctMo3y+EZ8LeFnI9iT4fowceCGrGtGsQ
-	0FaeU0LTLmuEb2ejdBymoE9KFm5LepQWmi05M0Kd7zWI74ldAsp8gXnEV+ZvTel0+qtvAZ7IGsx
-	CV6TXdL0w12PXs95hvNTo+0MtNXvuwiR75PjhsmJ2sgP2fUEhoEfmRbUUoaio/DVCg8JPjpkIWx
-	N2t+jt8kFxx0vcDaHCUs1YqsrryqnpFQgbSLnKylQPtMq47Ece0ADzbBuSdIy1LwvL1iOz8CvA/
-	01bOpNTjbfsbK+jq5V1r2EzQq
-X-Received: by 2002:a17:906:4785:b0:c2e:6a4f:a88b with SMTP id a640c23a62f3a-c5095dbb6efmr844387866b.0.1794858121737;
-        Mon, 16 Nov 2026 11:42:01 -0800 (PST)
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com. [209.85.218.45])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b4289csm461960266b.37.2026.11.16.11.42.01
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2026 11:42:01 -0800 (PST)
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-c4d427836e9so513741966b.1
-        for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 11:42:01 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AL+hErE0YwHXSqNgL6ybjGPiWrsweOCH56ye6GVezG2J/KAb8WTmRYdwGmY3pdBnkmyK/YBKNLv7RDePuAU=@vger.kernel.org
-X-Received: by 2002:a17:907:60cb:b0:c4c:d6a3:f4bb with SMTP id
- a640c23a62f3a-c509634503cmr1008394466b.10.1794858120895; Mon, 16 Nov 2026
- 11:42:00 -0800 (PST)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RmzJEpHI
+Received: by smtp.kernel.org (Postfix) with UTF8SMTPSA id 4E3281F000C4;
+	Mon, 16 Nov 2026 19:44:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1794858280;
+	bh=i1vlZC4rlK1lJETL7MgudvHOPWJ9hjZNLkiNbIOMUN4=;
+	h=From:To:Cc:Subject:Date;
+	b=RmzJEpHIrcpenSyFIRTDgQ6kDmJbN/Ocq5054bBjuTDmywfw6Nh1a3pxtQB+kXzhc
+	 t59q4KCWlmSsMhOCNDbHe8pWw2E540XAUyRnybRpbuVfKMzyW+slOopJh0zHAV7mOF
+	 ElHof3SyIAISCYSdhYRApTVsRBcmGTVwNdTKKSjoBqjeIZqQ1pvkXb9Pp1Cykq317J
+	 Hk+S3XD+uoakWMbcFRqsZv065fizosVu/hB+9cGvyos8m15RJ8MlGhAEgP/erWKdVK
+	 NnFWjB6Uzx00m2MpSnLeCv/XObU5ivyOwksXcUQp0jfHw+E4Utbl1vbz9UNaFz/vIq
+	 UeOTjKf2BQjGA==
+From: Joel Fernandes <jfern@kernel.org>
+To: paulmck@kernel.org,
+	rcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Frederic Weisbecker <frederic@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Joel Fernandes <jfern@kernel.org>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Uladzislau Rezki <urezki@gmail.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Davidlohr Bueso <dave@stgolabs.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH v2 0/7] rcutorture: Rewrite RCU priority-boost test around a CPU-hungry reader
+Date: Mon, 16 Nov 2026 14:44:31 -0500
+Message-ID: <20261116194438.306618-1-jfern@kernel.org>
+X-Mailer: git-send-email 2.54.0
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -94,48 +72,61 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-doc+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261025164719.1831477-1-sashal@kernel.org> <CA+1xoqcxAsRij1j10TyhNX9JXNXNkdWO3sMaVRXCqYdEXi45fg@mail.gmail.com>
- <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
-In-Reply-To: <CAHk-=wgCX4=ZSPALxR7VHKKAKipU1nD_Am-Q-0z1SRKxr-VRRQ@mail.gmail.com>
-From: Linus Torvalds <torvalds@linux-foundation.org>
-Date: Mon, 16 Nov 2026 11:41:44 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wg-5cWvYgmnE2WH4yys8tB5AwwRQU6kW0r5VoRYBLT7TA@mail.gmail.com>
-X-Gm-Features: AclHuK-GW-sq_aqp10QbcNSLO7AtIlmoHSb6NWDtJ770GEzenoCICUrGbvxqol4
-Message-ID: <CAHk-=wg-5cWvYgmnE2WH4yys8tB5AwwRQU6kW0r5VoRYBLT7TA@mail.gmail.com>
-Subject: Re: [GIT PULL] Kernel API specification framework for v7.4
-To: Sasha Levin <levinsasha928@gmail.com>
-Cc: Sasha Levin <sashal@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-api@vger.kernel.org, linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Christian Brauner <brauner@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Mark Brown <broonie@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Mon, 16 Nov 2026 at 11:36, Linus Torvalds
-<torvalds@linux-foundation.org> wrote:
->
-> And I see *no* upside to any /sys/kernel/debug/kapi interface
+Hi,
 
-And yes, the documentation calls this part "human-readable". Nobody
-cares. No sane human ever reads and compares specs. We shouldn't
-expect humans to do that, and we should not design *any* of this
-around "humans will check it". Completely pointless.
+This is v2 of the series that rewrites rcutorture's RCU priority-boost test
+around a CPU-hungry reader, so that it neither depends on disabling RT
+throttling nor infers boost failure from a grace period merely taking too
+long.  The approach is unchanged, see the v1 cover letter for the full
+description:
 
-I think the specs should be purely for automated checking, and I
-suspect any initial spec should probably even be *generated* by tools.
-Because the kernel API is not something that has ever been designed
-"by spec".
+  v1: https://lore.kernel.org/all/20261111213826.2035045-1-joelagnelf@nvidia.com/
 
-The kernel API has grown over time, and pretending anything else would
-make the whole project be just a fever dream. We are *NEVER* going to
-change the API _to_ some spec. The spec needs to match reality, we're
-not changing reality to match a spec.
+Changes since v1 (all from Sebastian's review, thanks!):
 
-Then, once such a "spec matches reality" has been generated, that spec
-can then be used to check changes. But neither of those phases are
-ever going to involve any humans, because competent humans have better
-things to do.
+ - 1/7: Use kthread_run_on_cpu() for the reader thread.  Range-check
+   test_boost_reader_ms in rcu_torture_init(), clamping it to between
+   1 ms and test_boost_duration.  Use div64_ul() when printing the
+   reader's CPU time.
+ - 2/7: Replaced by Sebastian's patch [1], which also removes the
+   sysctl_sched_rt_runtime declaration from rcu.h. 
+ - 3/7: Drop the sched/sysctl.h include that crept in through a bad fold,
+   and also remove rcu_check_boost_fail(), which has no callers left.
+ - 4/7-7/7: Unchanged, other than the rebase.
+ - Rebased onto the current rcu/next.
 
-           Linus
+Testing: kvm.sh with --duration 30 and --cpus set to all CPUs, on x86 (32
+CPUs) and arm64 (80 Neoverse-N1 cores).  Boost failures / boost intervals:
+
+  Scenario      x86           arm64
+  TREE03        0 / 220       0 / 217
+  BUSTED-BOOST  247 / 252     250 / 251    (expected, boosting disabled)
+
+[1] https://lore.kernel.org/all/20261113-sched_dl-v3-3-a76ffa1cdeee@linutronix.de/
+
+Joel Fernandes (6):
+  rcutorture: Rewrite RCU priority-boost test around a CPU-hungry reader
+  rcutorture: Remove unused check_boost_failed hook
+  doc: Document rcutorture.test_boost_reader_ms
+  rcu: Add rcutree.boost_disable to disable priority boosting at runtime
+  doc: Document rcutree.boost_disable
+  rcutorture: Make BUSTED-BOOST disable RCU priority boosting
+
+Sebastian Andrzej Siewior (1):
+  rcutorture: Don't try to disable to RT throttling.
+
+ .../admin-guide/kernel-parameters.txt         |  14 ++
+ kernel/rcu/rcu.h                              |   4 -
+ kernel/rcu/rcutorture.c                       | 197 +++++++++---------
+ kernel/rcu/tree_plugin.h                      |   5 +-
+ kernel/rcu/tree_stall.h                       |  57 -----
+ .../rcutorture/configs/rcu/BUSTED-BOOST.boot  |   1 +
+ 6 files changed, 120 insertions(+), 158 deletions(-)
+
+
+base-commit: e97b821f72876c4760bddc79f0858155e012da8b
+-- 
+2.54.0
+
