@@ -1,56 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.184
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1794788370;
-	b=mlKJfxJx31oJCsjvo68eDuYrasXs0T2jjBb34dv8a6zmnCUYqLuWJhxrF4kY3b/wXS5T
-	 UFmhMXgRhUvfKabGbHolHEndE2XQy0qExoemnB2OBiyVOpWMB0m0S8ffx75gNEmPHWNgu
-	 pdnsG/RtRRbyM+HnTTeD0UMMS2ZlBwoM0U1xH/EobsXb+59qIBez2w9CqRLNgTeAiavzv
-	 RC9+iV6Tj5mcm7WjG6gjQw+qsU0BEOxf03zlcLsHGnpZS/IYH0Npz+jPHN2WeHpJ4D6Ba
-	 fS0ZahTgMz3mRMStQ4K4yDYmrsIsa6DPtUDs573FKv90ZcRGYBABWLOLejRiFcRdJTw==
+	t=1794788381;
+	b=1+j2nv6bebbTQfRMYPhFu/sxbGbZXdEP5qtW/wDEv33qAWGarkREWJYsLJT48p2ut7xj
+	 Wq3V4CV7zP/XKlfflebiLL+i+lS2AWdgJawFITJdXS1MfHrKH9rCyCN4UNjScbGHgDznC
+	 jfWPxBfHIJO6Ijbb6KSV/oIuAqPzPB/IBpOGRx/389gygWQqbifWk0llWUWmTdBSG5Yw3
+	 mPO6zr/hen9QXQHzgdsgx+v2plXdnWEMKLPT5O18uSd0Vx5C6soVy875H9efIGWWVuqt5
+	 KDnBEzOA9GgsArDSa+KQ2xytebRKKqHiVdl6PJLvNbU+VxcwBZlVl/DIBUnf6IjGmng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1794788370;
+	a=rsa-sha256; c=relaxed/relaxed; t=1794788381;
 	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
 	 X-Mizu-Trace-ID:X-Migadu-Flow:From:Date:Subject:MIME-Version:
 	 Content-Type:Content-Transfer-Encoding:Message-Id:References:
 	 In-Reply-To:To:Cc:X-Mailer;
-	bh=nhnHtLieQMdo/OcyKxpaCFLTNFcPVZQRcEluKyBdufo=;
-	b=PVoUT85LMt338jPWW1FUfvWi/4OwY5Wf6sfhgfq5I4ncWQrC8HTlW5XRr47YLEOQGzP/
-	 D+Cm0bC6THvBqOguT7S6/3sNhymaXwagAY7e6zqHmG0mC4JMEJKA5ppFtehEJeGlVyUP2
-	 0c+HWrdXY+5G9tSZ0MUAXJM+G8nZCINoQfBWiIUIUUjT4fY/2DR+BeAga7lOO8qWAhlUJ
-	 g6nODujhfDc1RLAoM+Ve2UqVcJ54hmIgkmuLLyhpEaG9v0tV55wI4RT5uEMHuKeEh2824
-	 Gu25WzN/wMODAOs+bwSoURqXR7IwkegCwNxbG0UpJtNnHntOnBiGEXjjZN9rzrjzDig==
+	bh=YWNWzU+sAi4YSRb/iVqUcJ9Q9hOUWI/RmfSUeN1egCY=;
+	b=SmqWKqUpuNQ30TgffP+qYrQSYM5wxgvj+VblkVBic37UUcNfAm0OG0aiRDWKn5ZHHAm+
+	 aBO/ov0o824+qw4Lq2fpytzmAzUZYEBKmEP6YWXPS5GXQhGahP+zfvOS2QtmDme54WJMt
+	 qzkWR9v/jhTe+B28Dc3wmYBw65BQpWAYvqH3TNS59Ji21DhDSY3xk6ipJcleA/QBWLg9K
+	 71MyxQeI6n/Hl+tfj6ggpTeE6r17TX7kmQB4UCcih5z6bH5RWfiyt6gPH+mU4gBckDaZW
+	 lcT4pfb2dr3Oz4EvlgPBmGGa5lxQZ4+fDP1+Lovc68UcQv6iCMxsTTHx9NO0Dtmgfpg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.dev;
 	spf=pass smtp.mailfrom=linux.dev;
-	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=duLJ6bqq;
-	arc=none smtp.remote-ip=95.215.58.184
-Received: from mta1.migadu.com (out-184.mta1.migadu.com [95.215.58.184])
+	dkim=pass header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=F49pYo7g;
+	arc=none smtp.remote-ip=91.218.175.41
+Received: from mta0.migadu.com (out-41.mta0.migadu.com [91.218.175.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43E03606A337
-	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 00:19:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 43E03606A337
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DE3A606A332
+	for <linux-doc@vger.kernel.org>; Mon, 16 Nov 2026 00:19:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5DE3A606A332
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=duLJ6bqq
+	dkim=pass (1024-bit key, unprotected) header.d=linux.dev header.i=@linux.dev header.a=rsa-sha256 header.s=key1 header.b=F49pYo7g
 X-Envelope-To: linux-doc@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=GE0AmWzzUkTntY8b3KCGh9uV2eo1z/UgLx990fOkw7c=;
+DKIM-Signature: a=rsa-sha256; bh=0FWeIS8U8U2Ah43sIfGLQVftVHXgr5aFNYqRFVAa/bc=;
  c=simple/simple; d=linux.dev;
  h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1794788368; v=1; x=1795393168;
- b=duLJ6bqqAim6rotM3f+vgw8STJSF5W/XrYx0D5tloRenWdzJv9k3zC9oyG0UMcDhDUKt6PQ6
- bkRJmrIisLoS75xrTPhUdxtdHePv9tZyrEli9e4v5zYKyq64iuxcoijwEoGUEy4Bx/3LT3m/yy3
- yEdraU59edDItWh0dBvvRuhc=
+ t=1794788378; v=1; x=1795393178;
+ b=F49pYo7g9XflLiD2uRIc7vPKmHg6r8bOlVnUy+Pj0jI3Ru3rggZU3A0VIu6mdOozLcI7j7HT
+ 7/gmh3oJAtdXMtSQRMSZns3n6aZELw2pWE8cj4YS04KZWy8Q4ogj7w8Y+z/G9uYE+6Cn+tf4i0x
+ 9i0uxMlE1Wk33Nys9eMvREiI=
 X-Envelope-To: linux-doc@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 9651313902837610;
-	Mon, 16 Nov 2026 00:19:28 +0000
-X-Mizu-Trace-ID: 9651313902837610
+Received: by smtp.migadu.com with ESMTPS id 1cce60d9ce0f2eee;
+	Mon, 16 Nov 2026 00:19:38 +0000
+X-Mizu-Trace-ID: 1cce60d9ce0f2eee
 X-Migadu-Flow: FLOW_OUT
 From: Qiliang Yuan <qiliang.yuan@linux.dev>
-Date: Sun, 15 Nov 2026 19:18:04 -0500
-Subject: [PATCH RFC 11/18] scsi: target: uring: Drop aborted commands that
- are still queued
+Date: Sun, 15 Nov 2026 19:18:05 -0500
+Subject: [PATCH RFC 12/18] scsi: target: uring: Support SYNCHRONIZE CACHE
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Post: <mailto:linux-doc@vger.kernel.org>
@@ -62,7 +61,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261115-feat-target-core-uring-v1-11-28cdc137eac6@linux.dev>
+Message-Id: <20261115-feat-target-core-uring-v1-12-28cdc137eac6@linux.dev>
 References: <20261115-feat-target-core-uring-v1-0-28cdc137eac6@linux.dev>
 In-Reply-To: <20261115-feat-target-core-uring-v1-0-28cdc137eac6@linux.dev>
 To: "Martin K. Petersen" <mkp@kernel.org>, Shuah Khan <shuah@kernel.org>, 
@@ -76,89 +75,72 @@ Cc: linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
  Qiliang Yuan <qiliang.yuan@linux.dev>
 X-Mailer: b4 0.13.0
 
-When a command is aborted, the core waits for the backstore to complete
-it.
+target_core_uring only passes reads and writes to the server.
 
-A target_core_uring command that no server has fetched only completes
-when it times out, which delays the abort by up to cmd_time_out.
+A server that caches writes has no way to learn that the initiator
+wants them on stable storage.
 
-Implement tmr_notify() and complete the aborted commands that are still
-on a pending list with TASK ABORTED status. Track them through
-se_cmd->priv, which is set only while a command is pending.
+Add TCMUR_OP_FLUSH and send it for SYNCHRONIZE CACHE. The descriptor
+carries the range to flush; a zero length means up to the end of the
+device.
 
 Signed-off-by: Qiliang Yuan <qiliang.yuan@linux.dev>
 ---
- drivers/target/target_core_uring.c | 29 +++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+ drivers/target/target_core_uring.c     | 14 +++++++++++++-
+ include/uapi/linux/target_core_uring.h |  1 +
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/target/target_core_uring.c b/drivers/target/target_core_uring.c
-index 0f83bdc55e06a..629419a4c8f46 100644
+index 629419a4c8f46..f39bf7bf36d0f 100644
 --- a/drivers/target/target_core_uring.c
 +++ b/drivers/target/target_core_uring.c
-@@ -175,6 +175,7 @@ static void tcmur_io_start(struct tcmur_queue *q, struct tcmur_io *io,
- {
- 	lockdep_assert_held(&q->lock);
+@@ -237,7 +237,8 @@ static sense_reason_t tcmur_submit(struct se_cmd *se_cmd, u32 op, u64 offset,
+ 	tcmd->desc.op = op;
+ 	tcmd->desc.offset = offset;
+ 	tcmd->desc.len = len;
+-	tcmd->desc.data_len = se_cmd->data_length;
++	if (sgl)
++		tcmd->desc.data_len = se_cmd->data_length;
+ 	if (op == TCMUR_OP_WRITE && (se_cmd->se_cmd_flags & SCF_FUA))
+ 		tcmd->desc.flags |= TCMUR_IO_F_FUA;
  
-+	tcmd->se_cmd->priv = NULL;
- 	io->cmd = tcmd;
- 	io->owned = true;
- 	q->descs[io - q->ios] = tcmd->desc;
-@@ -207,6 +208,7 @@ static void tcmur_queue_cmd(struct tcmur_dev *udev, struct tcmur_cmd *tcmd)
- 		io->ucmd = NULL;
- 		tcmur_io_start(q, io, tcmd);
- 	} else {
-+		tcmd->se_cmd->priv = tcmd;
- 		list_add_tail(&tcmd->node, &q->pending);
- 	}
- 	spin_unlock(&q->lock);
-@@ -255,6 +257,31 @@ static sense_reason_t tcmur_execute_rw(struct se_cmd *se_cmd,
+@@ -257,6 +258,16 @@ static sense_reason_t tcmur_execute_rw(struct se_cmd *se_cmd,
  			    se_cmd->data_length, sgl, sgl_nents);
  }
  
-+static void tcmur_tmr_notify(struct se_device *dev, enum tcm_tmreq_table tmf,
-+			     struct list_head *aborted_cmds)
++static sense_reason_t tcmur_execute_sync_cache(struct se_cmd *se_cmd)
 +{
-+	struct tcmur_dev *udev = TCMUR_DEV(dev);
-+	struct tcmur_cmd *tcmd;
-+	struct tcmur_queue *q;
-+	struct se_cmd *se_cmd;
++	u32 block_size = se_cmd->se_dev->dev_attrib.block_size;
 +
-+	/* Drop the aborted commands that no server has picked up yet */
-+	list_for_each_entry(se_cmd, aborted_cmds, state_list) {
-+		q = tcmur_cmd_queue(udev, se_cmd);
-+
-+		spin_lock(&q->lock);
-+		tcmd = se_cmd->priv;
-+		if (tcmd) {
-+			se_cmd->priv = NULL;
-+			list_del(&tcmd->node);
-+		}
-+		spin_unlock(&q->lock);
-+
-+		if (tcmd)
-+			tcmur_cmd_end(tcmd, SAM_STAT_TASK_ABORTED);
-+	}
++	/* Pass a zero length to flush up to the end of the device */
++	return tcmur_submit(se_cmd, TCMUR_OP_FLUSH,
++			    se_cmd->t_task_lba * block_size,
++			    se_cmd->data_length, NULL, 0);
 +}
 +
- static void tcmur_timeout_work(struct work_struct *work)
+ static void tcmur_tmr_notify(struct se_device *dev, enum tcm_tmreq_table tmf,
+ 			     struct list_head *aborted_cmds)
  {
- 	struct tcmur_dev *udev = container_of(work, struct tcmur_dev,
-@@ -278,6 +305,7 @@ static void tcmur_timeout_work(struct work_struct *work)
- 				rearm = true;
- 				break;
- 			}
-+			tcmd->se_cmd->priv = NULL;
- 			list_move_tail(&tcmd->node, &expired);
- 		}
- 		for (j = 0; j < udev->queue_depth; j++) {
-@@ -920,6 +948,7 @@ static const struct target_backend_ops tcmur_ops = {
- 	.destroy_device		= tcmur_destroy_device,
- 	.free_device		= tcmur_free_device,
- 	.parse_cdb		= tcmur_parse_cdb,
-+	.tmr_notify		= tcmur_tmr_notify,
- 	.set_configfs_dev_params = tcmur_set_configfs_dev_params,
- 	.show_configfs_dev_params = tcmur_show_configfs_dev_params,
- 	.get_device_type	= sbc_get_device_type,
+@@ -929,6 +940,7 @@ static sector_t tcmur_get_blocks(struct se_device *dev)
+ 
+ static struct exec_cmd_ops tcmur_exec_cmd_ops = {
+ 	.execute_rw		= tcmur_execute_rw,
++	.execute_sync_cache	= tcmur_execute_sync_cache,
+ };
+ 
+ static sense_reason_t tcmur_parse_cdb(struct se_cmd *se_cmd)
+diff --git a/include/uapi/linux/target_core_uring.h b/include/uapi/linux/target_core_uring.h
+index 8b95be853753c..a1d8ae47ebf7d 100644
+--- a/include/uapi/linux/target_core_uring.h
++++ b/include/uapi/linux/target_core_uring.h
+@@ -67,6 +67,7 @@ struct tcmur_io_cmd {
+ enum tcmur_io_op {
+ 	TCMUR_OP_READ,
+ 	TCMUR_OP_WRITE,
++	TCMUR_OP_FLUSH,
+ };
+ 
+ /* Put the write on stable storage before completing it */
 
 -- 
 2.43.0
